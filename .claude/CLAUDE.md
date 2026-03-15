@@ -4,11 +4,11 @@ This repository is a formalization of a mathematics textbook using the FormalFro
 
 ## How to Work
 
-1. Read `PLAN.md` for the full pipeline description
-2. Check `PROGRESS.md` to see what stages are complete
+1. Read the most recent file in `progress/` (sorted alphabetically) — this is your onboarding document
+2. Read `PLAN.md` for the full pipeline description and stage details
 3. Work on the next incomplete stage
-4. After completing a stage, update `PROGRESS.md` with status, date, and notes
-5. For item-level progress, update `progress/items.json`
+4. For item-level progress, update `progress/items.json`
+5. At the end of every turn, write `progress/<UTC-timestamp>.md` with Accomplished, Current frontier, Overall project progress, Next step, and Blockers
 
 ## Key Principles
 
@@ -19,10 +19,10 @@ Push sorries earlier. State the theorem first, sorry the proof, then fill in. Do
 Use `sorry` placeholders with comments explaining what's needed. Never use `True` as a placeholder for propositions — it hides the actual requirements and will need a full refactor to fix.
 
 ### Discussion Blobs Are First-Class
-During structure analysis (Stage 1.4), unstructured text between numbered items must be identified and tracked just like theorems and definitions. These discussion paragraphs carry context that proofs depend on. Every byte of the book must belong to exactly one blob.
+During structure analysis (Stage 1.5), unstructured text between numbered items must be identified and tracked just like theorems and definitions. These discussion paragraphs carry context that proofs depend on. Every byte of the book must belong to exactly one blob.
 
 ### Conservative Dependencies
-Initially assume each item depends on everything before it. This is safe. We trim to actual dependencies later (Stage 3.4) once proofs exist.
+Initially assume each item depends on everything before it. This is safe. We trim to actual dependencies later (Stage 3.3) once proofs exist.
 
 ## When Stuck
 
@@ -41,7 +41,7 @@ Aristotle is an automated theorem prover. Escalate to it when Claude can't prove
 
 - A proof is beyond Claude's ability after multiple attempts
 - Standard mathematical proofs (calculus, algebra, analysis) that follow well-known patterns
-- Batch proving: after Stage 3.2 scaffolding, submit all sorry'd theorems
+- Batch proving: after Stage 3.1 scaffolding, submit all sorry'd theorems
 
 ### When NOT to use Aristotle
 
@@ -95,10 +95,66 @@ Query the extracted JSON for nodes where:
 
 These nodes are ready for formalization. Status updates are automatic — removing a `sorry` and recompiling updates the extraction output.
 
+## PR Workflow
+
+### Submitting PRs
+
+When you complete work on a formalization item, create a PR and immediately enable auto-merge so it merges to `main` without human intervention once CI passes:
+
+```bash
+gh pr create --title "Formalize <ItemID>" --body "..."
+PR_NUM=$(gh pr view --json number --jq .number)
+gh pr merge "$PR_NUM" --auto --squash
+```
+
+### Merging ready PRs (start of every planning cycle)
+
+**Before selecting new work**, merge all open PRs that are mergeable and have no failing CI checks. This unblocks downstream agents waiting on `main`.
+
+```bash
+gh pr list --state open \
+  --json number,mergeable,statusCheckRollup \
+  --jq '.[] | select(
+    .mergeable == "MERGEABLE" and
+    (.statusCheckRollup | all(.conclusion != "FAILURE" and .conclusion != "CANCELLED"))
+  ) | .number' \
+| xargs -I{} gh pr merge {} --squash --delete-branch
+```
+
+Never skip this step. Downstream agents are blocked on `main` until merged PRs land.
+
 ## Progress Tracking
 
-- Stage-level: `PROGRESS.md`
+- **Per-turn handoff files:** `progress/YYYY-MM-DDTHH-MM-SSZ.md` (UTC timestamp)
+- Stage-level summary: `PROGRESS.md` (optional, human-facing)
 - Item-level: `progress/items.json`
 - Blueprint status: automatic via LeanArchitect (sorry detection)
 - Do NOT modify `PLAN.md` — it is the reference plan
 - Blockers and discussion: GitHub issues
+
+### Writing a progress file (mandatory at end of every turn)
+
+At the end of every turn, before handing off, write `progress/<UTC-timestamp>.md` using this template:
+
+```markdown
+## Accomplished
+<!-- What was done this turn -->
+
+## Current frontier
+<!-- Where work stopped -->
+
+## Overall project progress
+<!-- High-level status (which stages are complete, how many items formalized, etc.) -->
+
+## Next step
+<!-- Concrete recommendation for the next agent -->
+
+## Blockers
+<!-- Anything blocking forward progress; empty if none -->
+```
+
+Use the current UTC time as the filename (e.g., `progress/2026-03-15T14-30-00Z.md`). Any commits made during the turn should mention the progress file in the commit message.
+
+### Starting a turn (mandatory)
+
+At the start of every turn, read the most recent file in `progress/` (sorted alphabetically = chronologically). This is your primary onboarding document. Then read `PLAN.md` for stage details as needed. If `progress/` contains only `progress/0000-init.md` (or no handoff file), the repo is freshly initialized — proceed with Stage 1.1.
