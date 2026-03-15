@@ -1,0 +1,533 @@
+[
+  {
+    "id": "Chapter7/Introduction",
+    "type": "introduction",
+    "title": "Chapter 7: Introduction to categories",
+    "start_page": "181",
+    "end_page": "181",
+    "start_line": 1,
+    "end_line": 4
+  },
+  {
+    "id": "Chapter7/Introduction_7.1",
+    "type": "introduction",
+    "title": "Section 7.1: The definition of a category",
+    "start_page": "181",
+    "end_page": "181",
+    "start_line": 5,
+    "end_line": 12
+  },
+  {
+    "id": "Chapter7/Definition7.1.1",
+    "type": "definition",
+    "title": "Category",
+    "start_page": "181",
+    "end_page": "182",
+    "start_line": 13,
+    "end_line": 14
+  },
+  {
+    "id": "Chapter7/Remark7.1.2",
+    "type": "remark",
+    "title": "Notation X in C",
+    "start_page": "182",
+    "end_page": "182",
+    "start_line": 15,
+    "end_line": 16
+  },
+  {
+    "id": "Chapter7/Example7.1.3",
+    "type": "example",
+    "title": "Examples of categories",
+    "start_page": "182",
+    "end_page": "182",
+    "start_line": 17,
+    "end_line": 28
+  },
+  {
+    "id": "Chapter7/Discussion_after_Example7.1.3",
+    "type": "discussion",
+    "title": "Sets vs classes; locally small categories",
+    "start_page": "182",
+    "end_page": "183",
+    "start_line": 29,
+    "end_line": 2
+  },
+  {
+    "id": "Chapter7/Definition7.1.4",
+    "type": "definition",
+    "title": "Full subcategory",
+    "start_page": "183",
+    "end_page": "183",
+    "start_line": 3,
+    "end_line": 4
+  },
+  {
+    "id": "Chapter7/Example7.1.5",
+    "type": "example",
+    "title": "AbelianGroups as full subcategory of Groups",
+    "start_page": "183",
+    "end_page": "183",
+    "start_line": 5,
+    "end_line": 6
+  },
+  {
+    "id": "Chapter7/Discussion_after_Example7.1.5",
+    "type": "discussion",
+    "title": "Enriched categories",
+    "start_page": "183",
+    "end_page": "183",
+    "start_line": 7,
+    "end_line": 8
+  },
+  {
+    "id": "Chapter7/Example7.1.6",
+    "type": "example",
+    "title": "Rep(A) enriched over k-vector spaces",
+    "start_page": "183",
+    "end_page": "183",
+    "start_line": 9,
+    "end_line": 10
+  },
+  {
+    "id": "Chapter7/Introduction_7.2",
+    "type": "introduction",
+    "title": "Section 7.2: Functors",
+    "start_page": "183",
+    "end_page": "183",
+    "start_line": 11,
+    "end_line": 14
+  },
+  {
+    "id": "Chapter7/Definition7.2.1",
+    "type": "definition",
+    "title": "Functor",
+    "start_page": "183",
+    "end_page": "184",
+    "start_line": 15,
+    "end_line": 2
+  },
+  {
+    "id": "Chapter7/Discussion_after_Definition7.2.1",
+    "type": "discussion",
+    "title": "Composition of functors and identity functor",
+    "start_page": "184",
+    "end_page": "184",
+    "start_line": 3,
+    "end_line": 4
+  },
+  {
+    "id": "Chapter7/Example7.2.2",
+    "type": "example",
+    "title": "Examples of functors",
+    "start_page": "184",
+    "end_page": "184",
+    "start_line": 5,
+    "end_line": 25
+  },
+  {
+    "id": "Chapter7/Introduction_7.3",
+    "type": "introduction",
+    "title": "Section 7.3: Morphisms of functors",
+    "start_page": "185",
+    "end_page": "185",
+    "start_line": 1,
+    "end_line": 4
+  },
+  {
+    "id": "Chapter7/Definition7.3.1",
+    "type": "definition",
+    "title": "Natural transformation",
+    "start_page": "185",
+    "end_page": "185",
+    "start_line": 5,
+    "end_line": 8
+  },
+  {
+    "id": "Chapter7/Example7.3.2",
+    "type": "example",
+    "title": "Examples of natural transformations",
+    "start_page": "185",
+    "end_page": "185",
+    "start_line": 9,
+    "end_line": 15
+  },
+  {
+    "id": "Chapter7/Introduction_7.4",
+    "type": "introduction",
+    "title": "Section 7.4: Equivalence of categories",
+    "start_page": "186",
+    "end_page": "186",
+    "start_line": 1,
+    "end_line": 13
+  },
+  {
+    "id": "Chapter7/Definition7.4.1",
+    "type": "definition",
+    "title": "Equivalence of categories",
+    "start_page": "187",
+    "end_page": "187",
+    "start_line": 1,
+    "end_line": 4
+  },
+  {
+    "id": "Chapter7/Discussion_after_Definition7.4.1",
+    "type": "discussion",
+    "title": "Examples of equivalent categories",
+    "start_page": "187",
+    "end_page": "187",
+    "start_line": 5,
+    "end_line": 14
+  },
+  {
+    "id": "Chapter7/Introduction_7.5",
+    "type": "introduction",
+    "title": "Section 7.5: Representable functors",
+    "start_page": "187",
+    "end_page": "187",
+    "start_line": 15,
+    "end_line": 22
+  },
+  {
+    "id": "Chapter7/Lemma7.5.1",
+    "type": "lemma",
+    "title": "Yoneda Lemma",
+    "start_page": "187",
+    "end_page": "188",
+    "start_line": 23,
+    "end_line": 4
+  },
+  {
+    "id": "Chapter7/Remark7.5.2",
+    "type": "remark",
+    "title": "Representable functors for enriched categories",
+    "start_page": "188",
+    "end_page": "188",
+    "start_line": 5,
+    "end_line": 6
+  },
+  {
+    "id": "Chapter7/Example7.5.3",
+    "type": "example",
+    "title": "Forgetful functor as representable functor",
+    "start_page": "188",
+    "end_page": "188",
+    "start_line": 7,
+    "end_line": 8
+  },
+  {
+    "id": "Chapter7/Introduction_7.6",
+    "type": "introduction",
+    "title": "Section 7.6: Adjoint functors",
+    "start_page": "188",
+    "end_page": "188",
+    "start_line": 9,
+    "end_line": 12
+  },
+  {
+    "id": "Chapter7/Definition7.6.1",
+    "type": "definition",
+    "title": "Adjoint functors",
+    "start_page": "188",
+    "end_page": "188",
+    "start_line": 13,
+    "end_line": 14
+  },
+  {
+    "id": "Chapter7/Discussion_after_Definition7.6.1",
+    "type": "discussion",
+    "title": "Uniqueness of adjoints and analogy with linear algebra",
+    "start_page": "188",
+    "end_page": "189",
+    "start_line": 15,
+    "end_line": 21
+  },
+  {
+    "id": "Chapter7/Remark7.6.2",
+    "type": "remark",
+    "title": "Motivation for adjoint functor terminology",
+    "start_page": "189",
+    "end_page": "189",
+    "start_line": 22,
+    "end_line": 22
+  },
+  {
+    "id": "Chapter7/Example7.6.3",
+    "type": "example",
+    "title": "Examples of adjoint functors",
+    "start_page": "190",
+    "end_page": "190",
+    "start_line": 1,
+    "end_line": 10
+  },
+  {
+    "id": "Chapter7/Discussion_after_Example7.6.3",
+    "type": "discussion",
+    "title": "Ubiquity of adjoint functors",
+    "start_page": "190",
+    "end_page": "190",
+    "start_line": 11,
+    "end_line": 12
+  },
+  {
+    "id": "Chapter7/Introduction_7.7",
+    "type": "introduction",
+    "title": "Section 7.7: Abelian categories",
+    "start_page": "190",
+    "end_page": "190",
+    "start_line": 13,
+    "end_line": 16
+  },
+  {
+    "id": "Chapter7/Definition7.7.1",
+    "type": "definition",
+    "title": "Abelian category",
+    "start_page": "190",
+    "end_page": "190",
+    "start_line": 17,
+    "end_line": 17
+  },
+  {
+    "id": "Chapter7/Example7.7.2",
+    "type": "example",
+    "title": "Module categories as abelian categories",
+    "start_page": "191",
+    "end_page": "191",
+    "start_line": 1,
+    "end_line": 2
+  },
+  {
+    "id": "Chapter7/Problem7.7.3",
+    "type": "exercise",
+    "title": "Finitely generated modules over finitely generated commutative ring",
+    "start_page": "191",
+    "end_page": "191",
+    "start_line": 3,
+    "end_line": 6
+  },
+  {
+    "id": "Chapter7/Discussion_after_Problem7.7.3",
+    "type": "discussion",
+    "title": "Properties of abelian categories",
+    "start_page": "191",
+    "end_page": "191",
+    "start_line": 7,
+    "end_line": 8
+  },
+  {
+    "id": "Chapter7/Remark7.7.4",
+    "type": "remark",
+    "title": "Drawbacks of Definition 7.7.1; Morita equivalence",
+    "start_page": "191",
+    "end_page": "191",
+    "start_line": 9,
+    "end_line": 10
+  },
+  {
+    "id": "Chapter7/Discussion_after_Remark7.7.4",
+    "type": "discussion",
+    "title": "k-linear abelian categories",
+    "start_page": "191",
+    "end_page": "191",
+    "start_line": 11,
+    "end_line": 12
+  },
+  {
+    "id": "Chapter7/Introduction_7.8",
+    "type": "introduction",
+    "title": "Section 7.8: Complexes and cohomology",
+    "start_page": "191",
+    "end_page": "191",
+    "start_line": 13,
+    "end_line": 14
+  },
+  {
+    "id": "Chapter7/Definition7.8.1",
+    "type": "definition",
+    "title": "Complex, differentials, cohomology, exact sequence",
+    "start_page": "191",
+    "end_page": "192",
+    "start_line": 15,
+    "end_line": 2
+  },
+  {
+    "id": "Chapter7/Discussion_after_Definition7.8.1",
+    "type": "discussion",
+    "title": "Morphisms of complexes, cocycles, coboundaries, bounded complexes",
+    "start_page": "192",
+    "end_page": "192",
+    "start_line": 3,
+    "end_line": 12
+  },
+  {
+    "id": "Chapter7/Definition7.8.2",
+    "type": "definition",
+    "title": "Short exact sequence",
+    "start_page": "192",
+    "end_page": "192",
+    "start_line": 13,
+    "end_line": 20
+  },
+  {
+    "id": "Chapter7/Example7.8.3",
+    "type": "example",
+    "title": "Split exact sequence",
+    "start_page": "192",
+    "end_page": "192",
+    "start_line": 21,
+    "end_line": 21
+  },
+  {
+    "id": "Chapter7/Exercise7.8.4",
+    "type": "exercise",
+    "title": "Exact sequences of vector spaces split",
+    "start_page": "193",
+    "end_page": "193",
+    "start_line": 1,
+    "end_line": 8
+  },
+  {
+    "id": "Chapter7/Problem7.8.5",
+    "type": "exercise",
+    "title": "Long exact sequence of cohomology",
+    "start_page": "193",
+    "end_page": "193",
+    "start_line": 9,
+    "end_line": 20
+  },
+  {
+    "id": "Chapter7/Definition7.8.6",
+    "type": "definition",
+    "title": "Connecting homomorphism and long exact sequence",
+    "start_page": "193",
+    "end_page": "193",
+    "start_line": 21,
+    "end_line": 22
+  },
+  {
+    "id": "Chapter7/Problem7.8.7",
+    "type": "exercise",
+    "title": "Tensor product of complexes and Künneth formula",
+    "start_page": "193",
+    "end_page": "194",
+    "start_line": 23,
+    "end_line": 18
+  },
+  {
+    "id": "Chapter7/Introduction_7.9",
+    "type": "introduction",
+    "title": "Section 7.9: Exact functors",
+    "start_page": "194",
+    "end_page": "194",
+    "start_line": 19,
+    "end_line": 20
+  },
+  {
+    "id": "Chapter7/Definition7.9.1",
+    "type": "definition",
+    "title": "Additive and k-linear functor",
+    "start_page": "194",
+    "end_page": "194",
+    "start_line": 21,
+    "end_line": 22
+  },
+  {
+    "id": "Chapter7/Discussion_after_Definition7.9.1",
+    "type": "discussion",
+    "title": "Additive functors preserve direct sums",
+    "start_page": "194",
+    "end_page": "194",
+    "start_line": 23,
+    "end_line": 24
+  },
+  {
+    "id": "Chapter7/Example7.9.2",
+    "type": "example",
+    "title": "Ind, Res, Hom as additive k-linear functors",
+    "start_page": "194",
+    "end_page": "194",
+    "start_line": 25,
+    "end_line": 26
+  },
+  {
+    "id": "Chapter7/Definition7.9.3",
+    "type": "definition",
+    "title": "Left exact, right exact, and exact functor",
+    "start_page": "194",
+    "end_page": "194",
+    "start_line": 27,
+    "end_line": 51
+  },
+  {
+    "id": "Chapter7/Definition7.9.4",
+    "type": "definition",
+    "title": "Semisimple abelian category",
+    "start_page": "195",
+    "end_page": "195",
+    "start_line": 1,
+    "end_line": 8
+  },
+  {
+    "id": "Chapter7/Example7.9.5",
+    "type": "example",
+    "title": "Representations of finite groups as semisimple category",
+    "start_page": "195",
+    "end_page": "195",
+    "start_line": 9,
+    "end_line": 10
+  },
+  {
+    "id": "Chapter7/Discussion_after_Example7.9.5",
+    "type": "discussion",
+    "title": "Additive functors on semisimple categories are exact",
+    "start_page": "195",
+    "end_page": "195",
+    "start_line": 11,
+    "end_line": 12
+  },
+  {
+    "id": "Chapter7/Example7.9.6",
+    "type": "example",
+    "title": "Exactness properties of Ind, Res, Hom, tensor product",
+    "start_page": "195",
+    "end_page": "195",
+    "start_line": 13,
+    "end_line": 24
+  },
+  {
+    "id": "Chapter7/Exercise7.9.7",
+    "type": "exercise",
+    "title": "Adjoint functors: F right exact, G left exact",
+    "start_page": "195",
+    "end_page": "195",
+    "start_line": 25,
+    "end_line": 26
+  },
+  {
+    "id": "Chapter7/Exercise7.9.8",
+    "type": "exercise",
+    "title": "Reflection functors as adjoint pair",
+    "start_page": "195",
+    "end_page": "195",
+    "start_line": 27,
+    "end_line": 29
+  },
+  {
+    "id": "Chapter7/Introduction_7.10",
+    "type": "introduction",
+    "title": "Section 7.10: Historical interlude: Eilenberg, Mac Lane, and general abstract nonsense",
+    "start_page": "196",
+    "end_page": "196",
+    "start_line": 1,
+    "end_line": 2
+  },
+  {
+    "id": "Chapter7/Discussion_7.10",
+    "type": "discussion",
+    "title": "Eilenberg, Mac Lane, and general abstract nonsense",
+    "start_page": "196",
+    "end_page": "204",
+    "start_line": 3,
+    "end_line": 3
+  }
+]
