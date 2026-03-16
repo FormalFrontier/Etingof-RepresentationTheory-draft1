@@ -1,0 +1,23 @@
+# References: Filtration of a representation
+
+## Mathlib Coverage (partial)
+
+- `CompositionSeries`
+
+Mathlib has `CompositionSeries` for Jordan-Hölder filtrations. General filtrations (ascending chain of submodules) can be modeled as `ℕ →o Submodule R M` but there's no dedicated `Filtration` type for modules.
+
+## External Sources (definition gap)
+
+- **[natural_language]** Assem, Simson, Skowroński, Vol. 1 — Section I.4 (composition series and filtrations)
+  Filtrations as ascending chains of submodules; connection to composition series and Jordan-Hölder
+- **[natural_language]** Lang, 'Algebra' — Chapter III, Section 4
+  Standard treatment of module filtrations in a graduate algebra textbook
+
+## External Dependencies
+
+- **Rings and ideals: definition of rings, two-sided ideals, quotient rings, nilpotent ideals, Jacobson radical** (undergraduate_prerequisite)
+  Mathlib (exact): `Ring`, `Ideal`, `Ideal.Quotient`, `IsNilpotent`, `Ideal.jacobson`
+  Complete ring theory. `IsNilpotent` for elements; nilpotent ideals expressible as `∀ x ∈ I, IsNilpotent x` or via `I ^ n = ⊥`. Jacobson radical via `Ideal.jacobson`.
+- **Nilpotent ideals and nilpotency: a nilpotent ideal I satisfies I^n = 0 for some n; properties of nilpotent elements in algebras** (folklore)
+  Mathlib (partial): `IsNilpotent`, `Ideal.jacobson`
+  `IsNilpotent` for elements. Nilpotent ideals can be expressed as `I ^ n = ⊥`. The Jacobson radical contains all nilpotent ideals. Some connecting lemmas may need to be proved.
