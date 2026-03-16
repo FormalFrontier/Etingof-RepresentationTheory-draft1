@@ -1,6 +1,8 @@
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Order.JordanHolder
+import Mathlib.RingTheory.FiniteLength
+import Mathlib.RingTheory.Artinian.Module
 
 /-!
 # Lemma 3.4.2: Existence of Filtration with Irreducible Successive Quotients
@@ -19,4 +21,6 @@ theorem Etingof.exists_composition_series (k : Type*) (A : Type*) (V : Type*)
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [FiniteDimensional k V] :
     ∃ (s : CompositionSeries (Submodule A V)), s.head = ⊥ ∧ s.last = ⊤ := by
-  sorry
+  have : IsNoetherian A V := isNoetherian_of_tower k (inferInstance : IsNoetherian k V)
+  have : IsArtinian A V := isArtinian_of_tower k (inferInstance : IsArtinian k V)
+  exact exists_compositionSeries_of_isNoetherian_isArtinian A V
