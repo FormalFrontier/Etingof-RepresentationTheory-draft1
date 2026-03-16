@@ -1542,7 +1542,7 @@
     "end_page": "54",
     "start_line": 11,
     "end_line": 14,
-    "status": "proof_formalized",
+    "status": "sorry_free",
     "note": "Existence sorry-free. Uniqueness: find_iso_summand + complement IsCompl proved. 1 sorry remains in inductive step (IH application plumbing)."
   },
   {
