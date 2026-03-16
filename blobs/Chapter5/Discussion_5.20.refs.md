@@ -1,0 +1,9 @@
+# References: Hermann Weyl at the intersection of limitation and freedom
+
+## External Dependencies
+
+- **Topological groups and Lie groups: continuous group homomorphisms, examples (GL_n(R), SO(n), U(n))** (undergraduate_prerequisite)
+  Mathlib (partial): `IsTopologicalGroup`, `ContinuousMonoidHom`, `GroupTopology`
+  Topological groups via `IsTopologicalGroup`. Continuous homomorphisms via `ContinuousMonoidHom`. However, Lie groups as smooth manifolds with group structure are NOT in Mathlib. The book uses Lie groups informally; the topological group API suffices for most needs.
+- **Schur-Weyl duality: the commuting actions of GL(V) and S_n on V^{⊗n} give a double centralizer relationship** (external_result)
+  Schur-Weyl duality is NOT in Mathlib. The ingredients (representations, symmetric group, tensor products) exist, but the double centralizer theorem and Schur-Weyl duality are absent.
