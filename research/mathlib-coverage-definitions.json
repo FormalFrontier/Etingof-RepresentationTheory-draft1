@@ -1,0 +1,591 @@
+{
+  "metadata": {
+    "generated": "2026-03-16",
+    "mathlib_version": "v4.28.0",
+    "total_definitions": 83,
+    "source": "progress/items.json definition-type items"
+  },
+  "definitions": [
+    {
+      "id": "Chapter2/Definition2.2.1",
+      "title": "Associative algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Algebra"],
+      "notes": "Mathlib's `Algebra R A` typeclass models an associative R-algebra. Over a field k, `Algebra k A` with `Ring A` gives exactly an associative k-algebra."
+    },
+    {
+      "id": "Chapter2/Definition2.2.2",
+      "title": "Unit in an associative algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Algebra", "One"],
+      "notes": "Mathlib algebras are unital by default (`Ring A` includes `One A`). The unit is built into the `Ring` structure."
+    },
+    {
+      "id": "Chapter2/Definition2.2.5",
+      "title": "Commutative algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CommRing", "Algebra"],
+      "notes": "`Algebra k A` with `CommRing A` gives a commutative k-algebra."
+    },
+    {
+      "id": "Chapter2/Definition2.2.6",
+      "title": "Homomorphism of algebras",
+      "match_quality": "exact",
+      "mathlib_declarations": ["AlgHom", "AlgEquiv"],
+      "notes": "`AlgHom R A B` (notation `A →ₐ[R] B`) is exactly a homomorphism of R-algebras. `AlgEquiv` for isomorphisms."
+    },
+    {
+      "id": "Chapter2/Definition2.3.1",
+      "title": "Representation of an algebra (left A-module)",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Module"],
+      "notes": "A left A-module is `Module A V`. For representation-theoretic context, `Representation k G V` exists for group representations. For algebra representations, `Module A V` is the standard approach."
+    },
+    {
+      "id": "Chapter2/Definition2.3.4",
+      "title": "Subrepresentation",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Submodule"],
+      "notes": "`Submodule A V` is the type of A-submodules of V, i.e., subrepresentations."
+    },
+    {
+      "id": "Chapter2/Definition2.3.5",
+      "title": "Irreducible (simple) representation",
+      "match_quality": "exact",
+      "mathlib_declarations": ["IsSimpleModule"],
+      "notes": "`IsSimpleModule R M` asserts that the module M has exactly two submodules (⊥ and ⊤), i.e., is irreducible/simple."
+    },
+    {
+      "id": "Chapter2/Definition2.3.6",
+      "title": "Homomorphism (intertwining operator) of representations",
+      "match_quality": "exact",
+      "mathlib_declarations": ["LinearMap", "Module.End"],
+      "notes": "`LinearMap` (notation `M →ₗ[R] N`) is an R-module homomorphism. For group representations, `Representation.linHom` and related constructions exist."
+    },
+    {
+      "id": "Chapter2/Definition2.3.7",
+      "title": "Direct sum of representations",
+      "match_quality": "exact",
+      "mathlib_declarations": ["DirectSum", "Module.directSum"],
+      "notes": "`DirectSum ι M` gives the direct sum of a family of modules. Binary direct sum via `M × N` with product module structure."
+    },
+    {
+      "id": "Chapter2/Definition2.3.8",
+      "title": "Indecomposable representation",
+      "match_quality": "partial",
+      "mathlib_declarations": ["Indecomposable"],
+      "notes": "Mathlib has `Indecomposable` for order theory. For modules, indecomposability (not expressible as direct sum of proper submodules) may need to be defined using `IsNontrivial` and non-existence of complementary submodule pairs. Partial coverage."
+    },
+    {
+      "id": "Chapter2/Definition2.7.3",
+      "title": "Faithful representation",
+      "match_quality": "exact",
+      "mathlib_declarations": ["FaithfulSMul"],
+      "notes": "`FaithfulSMul A V` asserts that the action is faithful, i.e., the representation map A → End(V) is injective."
+    },
+    {
+      "id": "Chapter2/Definition2.8.1",
+      "title": "Quiver",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Quiver"],
+      "notes": "`Quiver V` is a typeclass providing `Hom : V → V → Sort*`. Mathlib's quiver is exactly a directed graph (possibly with self-loops and multiple edges)."
+    },
+    {
+      "id": "Chapter2/Definition2.8.3",
+      "title": "Representation of a quiver",
+      "match_quality": "partial",
+      "mathlib_declarations": ["Representation", "CategoryTheory.Functor"],
+      "notes": "Mathlib has `Representation k G V` for group representations. Quiver representations can be modeled as functors from the free category on the quiver to `ModuleCat k`. Specific quiver representation API exists but naming may vary."
+    },
+    {
+      "id": "Chapter2/Definition2.8.4",
+      "title": "Path algebra of a quiver",
+      "match_quality": "partial",
+      "mathlib_declarations": ["Quiver.Path"],
+      "notes": "Mathlib has `Quiver.Path` (composable sequences of arrows) and path categories. The full path algebra as a k-algebra may need construction from `FreeAlgebra` or `MonoidAlgebra` over the path monoid. Partial coverage."
+    },
+    {
+      "id": "Chapter2/Definition2.8.8",
+      "title": "Subrepresentation of a quiver representation",
+      "match_quality": "partial",
+      "mathlib_declarations": [],
+      "notes": "Subrepresentations of quiver representations would be subfunctors. Mathlib has general subfunctor infrastructure but specific quiver subrepresentation support is limited."
+    },
+    {
+      "id": "Chapter2/Definition2.8.9",
+      "title": "Direct sum of quiver representations",
+      "match_quality": "partial",
+      "mathlib_declarations": [],
+      "notes": "Direct sums of functors exist in general category theory. Specific quiver representation direct sums may need construction."
+    },
+    {
+      "id": "Chapter2/Definition2.8.10",
+      "title": "Homomorphism of quiver representations",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CategoryTheory.NatTrans"],
+      "notes": "Morphisms of quiver representations are natural transformations. Mathlib has `NatTrans` but specific quiver representation morphism API may be limited."
+    },
+    {
+      "id": "Chapter2/Definition2.9.1",
+      "title": "Lie algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["LieAlgebra", "LieRing"],
+      "notes": "`LieAlgebra R L` with `LieRing L` gives a Lie algebra over R. The Jacobi identity is built into `LieRing`."
+    },
+    {
+      "id": "Chapter2/Definition2.9.6",
+      "title": "Homomorphism of Lie algebras",
+      "match_quality": "exact",
+      "mathlib_declarations": ["LieHom"],
+      "notes": "`LieHom R L₁ L₂` (notation `L₁ →ₗ⁅R⁆ L₂`) is a Lie algebra homomorphism."
+    },
+    {
+      "id": "Chapter2/Definition2.9.7",
+      "title": "Representation of a Lie algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["LieModule"],
+      "notes": "`LieModule R L M` gives a Lie algebra representation (Lie module structure on M)."
+    },
+    {
+      "id": "Chapter2/Definition2.9.9",
+      "title": "Universal enveloping algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["UniversalEnvelopingAlgebra"],
+      "notes": "`UniversalEnvelopingAlgebra R L` is the universal enveloping algebra of a Lie algebra L over R."
+    },
+    {
+      "id": "Chapter2/Definition2.11.1",
+      "title": "Tensor product of vector spaces",
+      "match_quality": "exact",
+      "mathlib_declarations": ["TensorProduct"],
+      "notes": "`TensorProduct R M N` (notation `M ⊗[R] N`) is the tensor product of R-modules M and N."
+    },
+    {
+      "id": "Chapter2/Definition2.12.1",
+      "title": "Symmetric algebra, exterior algebra, and universal enveloping algebra (coordinate-free)",
+      "match_quality": "exact",
+      "mathlib_declarations": ["SymmetricAlgebra", "ExteriorAlgebra", "UniversalEnvelopingAlgebra"],
+      "notes": "All three are in Mathlib: `SymmetricAlgebra R M`, `ExteriorAlgebra R M`, and `UniversalEnvelopingAlgebra R L`."
+    },
+    {
+      "id": "Chapter2/Definition2.14.1",
+      "title": "Tensor product of Lie algebra representations",
+      "match_quality": "exact",
+      "mathlib_declarations": ["TensorProduct", "LieModule"],
+      "notes": "Mathlib has both `TensorProduct` and `LieModule`. The Lie module structure on tensor products (via the Leibniz rule) may exist under `Mathlib.Algebra.Lie.TensorProduct` or similar. Exact instance name needs verification."
+    },
+    {
+      "id": "Chapter2/Definition2.14.2",
+      "title": "Dual representation of a Lie algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Module.Dual", "LieModule"],
+      "notes": "The dual of a Lie module uses `Module.Dual R M` with the contragredient Lie action. Mathlib has `LieModule.dualLieModule` or equivalent constructions."
+    },
+    {
+      "id": "Chapter3/Definition3.1.1",
+      "title": "Semisimple (completely reducible) representation",
+      "match_quality": "exact",
+      "mathlib_declarations": ["IsSemisimpleModule"],
+      "notes": "`IsSemisimpleModule R M` asserts that every submodule has a complement, i.e., M is completely reducible."
+    },
+    {
+      "id": "Chapter3/Definition3.3.2",
+      "title": "Dual representation",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Module.Dual", "Representation.dual"],
+      "notes": "`Module.Dual R M` is the dual vector space. For group representations, `Representation.dual` gives the contragredient."
+    },
+    {
+      "id": "Chapter3/Definition3.4.1",
+      "title": "Filtration of a representation",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CompositionSeries"],
+      "notes": "Mathlib has `CompositionSeries` for Jordan-Hölder filtrations. General filtrations (ascending chain of submodules) can be modeled as `ℕ →o Submodule R M` but there's no dedicated `Filtration` type for modules."
+    },
+    {
+      "id": "Chapter3/Definition3.5.1",
+      "title": "Radical of a finite dimensional algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Ideal.jacobson"],
+      "notes": "The Jacobson radical is `Ideal.jacobson ⊥` (intersection of all maximal left ideals). For finite dimensional algebras this equals the radical."
+    },
+    {
+      "id": "Chapter3/Definition3.5.7",
+      "title": "Semisimple algebra",
+      "match_quality": "exact",
+      "mathlib_declarations": ["IsSemisimpleRing"],
+      "notes": "`IsSemisimpleRing A` asserts that A is a semisimple ring (every module is semisimple)."
+    },
+    {
+      "id": "Chapter4/Definition4.6.1",
+      "title": "Unitary representation",
+      "match_quality": "partial",
+      "mathlib_declarations": ["UnitaryGroup"],
+      "notes": "Mathlib has `UnitaryGroup` and inner product spaces, but a dedicated `UnitaryRepresentation` (representation preserving an inner product) type is not available. Can be modeled using `Representation` plus a compatibility condition with `InnerProductSpace`."
+    },
+    {
+      "id": "Chapter4/Definition4.10.1",
+      "title": "Frobenius determinant (group determinant)",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The group determinant (determinant of the matrix X_G with entries x_{g_i g_j}) is not in Mathlib. Needs to be defined from scratch using `Matrix.det` and group algebra structure."
+    },
+    {
+      "id": "Chapter5/Definition5.1.1",
+      "title": "Complex, real, and quaternionic type of irreducible representations",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The classification of irreducible representations into complex/real/quaternionic types (based on V ≅ V* and existence of invariant bilinear forms) is not in Mathlib. Needs to be defined from scratch."
+    },
+    {
+      "id": "Chapter5/Definition5.1.4",
+      "title": "Frobenius-Schur indicator",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The Frobenius-Schur indicator (0 for complex type, 1 for real, -1 for quaternionic) is not in Mathlib. Needs to be defined from scratch."
+    },
+    {
+      "id": "Chapter5/Definition5.2.1",
+      "title": "Algebraic number and algebraic integer via monic polynomials",
+      "match_quality": "exact",
+      "mathlib_declarations": ["IsAlgebraic", "IsIntegral"],
+      "notes": "`IsAlgebraic R x` (x is a root of a nonzero polynomial over R) and `IsIntegral R x` (x is a root of a monic polynomial over R) exactly match these definitions."
+    },
+    {
+      "id": "Chapter5/Definition5.2.2",
+      "title": "Algebraic number and algebraic integer via eigenvalues of matrices",
+      "match_quality": "partial",
+      "mathlib_declarations": ["IsAlgebraic", "IsIntegral", "Matrix.IsAlgClosed.exists_eigenvalue"],
+      "notes": "The characterization via eigenvalues of integer matrices is a theorem (equivalence), not a separate definition in Mathlib. The definitions exist but the eigenvalue characterization may need proof."
+    },
+    {
+      "id": "Chapter5/Definition5.4.1",
+      "title": "Solvable group",
+      "match_quality": "exact",
+      "mathlib_declarations": ["IsSolvable"],
+      "notes": "`IsSolvable G` asserts that G is solvable (derived series terminates at 1)."
+    },
+    {
+      "id": "Chapter5/Definition5.7.1",
+      "title": "Virtual representation and its character",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Virtual representations (formal differences of representations, elements of the representation ring/Grothendieck group) are not in Mathlib. The representation ring `RepresentationRing` would need to be constructed as a Grothendieck group."
+    },
+    {
+      "id": "Chapter5/Definition5.8.1",
+      "title": "Induced representation Ind_H^G V",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Representation", "MonoidAlgebra", "TensorProduct"],
+      "notes": "Mathlib has `Representation k G V` for group representations and `MonoidAlgebra k G` for group algebras. The induced representation `Ind_H^G V = k[G] ⊗[k[H]] V` can be constructed from these components. A dedicated `Representation.induced` may not exist but the building blocks are available."
+    },
+    {
+      "id": "Chapter5/Definition5.12.1",
+      "title": "Partition, Young diagram, Young tableau, row and column subgroups",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Nat.Partition", "YoungDiagram", "SemistandardYoungTableau"],
+      "notes": "`Nat.Partition` for partitions, `YoungDiagram` for Young diagrams, `SemistandardYoungTableau` and `StandardYoungTableau` for tableaux. Row and column subgroups may need custom definition."
+    },
+    {
+      "id": "Chapter5/Definition5.14.2",
+      "title": "Kostka numbers K_{mu,lambda}",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Kostka numbers (number of semistandard Young tableaux of shape λ and weight μ) are not in Mathlib. Needs definition using `SemistandardYoungTableau`."
+    },
+    {
+      "id": "Chapter5/Definition5.23.1",
+      "title": "Algebraic (rational, polynomial) representation of GL(V)",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Polynomial/algebraic representations of GL(V) (where matrix coefficients are polynomial functions) are not in Mathlib. Needs to be defined from scratch."
+    },
+    {
+      "id": "Chapter6/Definition6.1.4",
+      "title": "Dynkin diagram",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CoxeterMatrix"],
+      "notes": "Mathlib has `CoxeterMatrix` and `CoxeterSystem` for Coxeter-Dynkin data. The specific `DynkinDiagram` inductive type may not exist; instead Dynkin types are encoded via their Cartan/Coxeter matrices. Partial coverage — the classification of positive-definite graphs as Dynkin diagrams would need custom work."
+    },
+    {
+      "id": "Chapter6/Definition6.4.1",
+      "title": "Cartan matrix",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CoxeterMatrix"],
+      "notes": "Cartan matrices can be derived from Coxeter matrices via `CoxeterMatrix`. The specific `cartanMatrix` function for Dynkin diagrams may need custom construction from the Coxeter data."
+    },
+    {
+      "id": "Chapter6/Definition6.4.3",
+      "title": "Root",
+      "match_quality": "partial",
+      "mathlib_declarations": ["RootPairing"],
+      "notes": "Mathlib has `RootPairing` which formalizes root systems abstractly. Individual roots are elements of the root pairing. The book's definition of roots of a quiver's quadratic form is more elementary and specific."
+    },
+    {
+      "id": "Chapter6/Definition6.4.5",
+      "title": "Simple roots",
+      "match_quality": "partial",
+      "mathlib_declarations": ["RootPairing"],
+      "notes": "Mathlib's `RootPairing` has simple roots via the indexing. The book's context (simple roots of quiver root systems) is more specialized."
+    },
+    {
+      "id": "Chapter6/Definition6.4.7",
+      "title": "Positive and negative roots",
+      "match_quality": "partial",
+      "mathlib_declarations": ["RootPairing"],
+      "notes": "Mathlib has positive root concepts via `RootPairing`. The book's definition (in terms of quiver dimension vectors) is more elementary and may need adaptation."
+    },
+    {
+      "id": "Chapter6/Definition6.4.10",
+      "title": "Reflection and simple reflections",
+      "match_quality": "exact",
+      "mathlib_declarations": ["RootPairing.reflection"],
+      "notes": "Mathlib has reflections in the context of root pairings via `RootPairing.reflection` and Weyl group elements."
+    },
+    {
+      "id": "Chapter6/Definition6.5.1",
+      "title": "Dimension vector",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The dimension vector of a quiver representation (assigning dim(V_i) to each vertex i) is not in Mathlib. Needs to be defined as a function from vertices to ℕ."
+    },
+    {
+      "id": "Chapter6/Definition6.6.1",
+      "title": "Sink and source",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Sink (vertex with all edges incoming) and source (all edges outgoing) for quivers are not defined in Mathlib. Need custom definitions."
+    },
+    {
+      "id": "Chapter6/Definition6.6.2",
+      "title": "Reversed quiver at a vertex",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The operation of reversing all edges at a single vertex of a quiver is not in Mathlib. Mathlib has `Quiver.reverse` for reversing all edges but not vertex-local reversal."
+    },
+    {
+      "id": "Chapter6/Definition6.6.3",
+      "title": "Reflection functor F_i^+",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Bernstein-Gelfand-Ponomarev reflection functors for quiver representations are not in Mathlib. Need to be defined from scratch."
+    },
+    {
+      "id": "Chapter6/Definition6.6.4",
+      "title": "Reflection functor F_i^-",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The dual reflection functor F_i^- (for sources) is not in Mathlib. Needs to be defined from scratch alongside F_i^+."
+    },
+    {
+      "id": "Chapter6/Definition6.7.1",
+      "title": "Coxeter element",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CoxeterSystem"],
+      "notes": "Mathlib has `CoxeterSystem` and `CoxeterGroup`. The Coxeter element (product of all simple reflections) as a specific element may need explicit construction."
+    },
+    {
+      "id": "Chapter7/Definition7.1.1",
+      "title": "Category",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Category"],
+      "notes": "`CategoryTheory.Category C` is exactly the standard definition of a category."
+    },
+    {
+      "id": "Chapter7/Definition7.1.4",
+      "title": "Full subcategory",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.InducedCategory", "CategoryTheory.Functor.Full"],
+      "notes": "`InducedCategory D F` gives a category on a type C induced by a function F : C → D. A full subcategory is modeled by combining `InducedCategory` with `Functor.Full` (the property that the functor on Hom sets is surjective)."
+    },
+    {
+      "id": "Chapter7/Definition7.2.1",
+      "title": "Functor",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Functor"],
+      "notes": "`CategoryTheory.Functor C D` is a functor from C to D."
+    },
+    {
+      "id": "Chapter7/Definition7.3.1",
+      "title": "Natural transformation",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.NatTrans"],
+      "notes": "`CategoryTheory.NatTrans F G` is a natural transformation from functor F to functor G."
+    },
+    {
+      "id": "Chapter7/Definition7.4.1",
+      "title": "Equivalence of categories",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Equivalence"],
+      "notes": "`CategoryTheory.Equivalence C D` is an equivalence of categories."
+    },
+    {
+      "id": "Chapter7/Definition7.6.1",
+      "title": "Adjoint functors",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Adjunction"],
+      "notes": "`CategoryTheory.Adjunction F G` is an adjunction between functors F and G."
+    },
+    {
+      "id": "Chapter7/Definition7.7.1",
+      "title": "Abelian category",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Abelian"],
+      "notes": "`CategoryTheory.Abelian C` asserts that C is an abelian category."
+    },
+    {
+      "id": "Chapter7/Definition7.8.1",
+      "title": "Complex, differentials, cohomology, exact sequence",
+      "match_quality": "exact",
+      "mathlib_declarations": ["HomologicalComplex", "HomologicalComplex.homology"],
+      "notes": "`HomologicalComplex C c` for chain/cochain complexes, with `homology` functor. Exact sequences via `CategoryTheory.Exact`."
+    },
+    {
+      "id": "Chapter7/Definition7.8.2",
+      "title": "Short exact sequence",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.ShortExact", "CategoryTheory.ShortComplex"],
+      "notes": "`ShortComplex C` and `ShortExact` model short exact sequences in abelian categories."
+    },
+    {
+      "id": "Chapter7/Definition7.8.6",
+      "title": "Connecting homomorphism and long exact sequence",
+      "match_quality": "exact",
+      "mathlib_declarations": ["HomologicalComplex.snakeInput"],
+      "notes": "Mathlib has the snake lemma and connecting homomorphisms for deriving long exact sequences from short exact sequences of complexes."
+    },
+    {
+      "id": "Chapter7/Definition7.9.1",
+      "title": "Additive and k-linear functor",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Functor.Additive", "CategoryTheory.Functor.Linear"],
+      "notes": "`Functor.Additive F` for additive functors, `Functor.Linear R F` for R-linear functors."
+    },
+    {
+      "id": "Chapter7/Definition7.9.3",
+      "title": "Left exact, right exact, and exact functor",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Functor.PreservesFiniteLimits", "CategoryTheory.Functor.PreservesFiniteColimits"],
+      "notes": "Left exact = preserves finite limits (`PreservesFiniteLimits`), right exact = preserves finite colimits (`PreservesFiniteColimits`). Exact = both."
+    },
+    {
+      "id": "Chapter7/Definition7.9.4",
+      "title": "Semisimple abelian category",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CategoryTheory.Abelian"],
+      "notes": "Mathlib has abelian categories but does not have a dedicated `IsSemisimple` predicate for categories (every object is semisimple). For module categories, `IsSemisimpleRing` implies the category is semisimple."
+    },
+    {
+      "id": "Chapter8/Definition8.1.2",
+      "title": "Projective module",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Module.Projective"],
+      "notes": "`Module.Projective R M` asserts that M is a projective R-module."
+    },
+    {
+      "id": "Chapter8/Definition8.1.6",
+      "title": "Injective module",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Module.Injective"],
+      "notes": "`Module.Injective R M` asserts that M is an injective R-module."
+    },
+    {
+      "id": "Chapter8/Definition8.1.8",
+      "title": "Projective and injective objects in abelian categories",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.Projective", "CategoryTheory.Injective"],
+      "notes": "`CategoryTheory.Projective X` and `CategoryTheory.Injective X` for objects in categories with enough projectives/injectives."
+    },
+    {
+      "id": "Chapter8/Definition8.2.1",
+      "title": "Projective resolution",
+      "match_quality": "exact",
+      "mathlib_declarations": ["CategoryTheory.ProjectiveResolution"],
+      "notes": "`CategoryTheory.ProjectiveResolution X` is a projective resolution of X in an abelian category."
+    },
+    {
+      "id": "Chapter8/Definition8.2.3",
+      "title": "Tor functors",
+      "match_quality": "partial",
+      "mathlib_declarations": ["Tor"],
+      "notes": "Mathlib has `Tor` in `Mathlib.Algebra.Homology.DerivedCategory.Basic` but the API may be limited. The derived functor construction exists but concrete Tor computations may need work."
+    },
+    {
+      "id": "Chapter8/Definition8.2.4",
+      "title": "Ext functors",
+      "match_quality": "exact",
+      "mathlib_declarations": ["Ext"],
+      "notes": "Mathlib has `Ext R M N` for Ext groups, defined via derived functors of Hom."
+    },
+    {
+      "id": "Chapter9/Definition9.1.2",
+      "title": "Complete system of orthogonal idempotents",
+      "match_quality": "partial",
+      "mathlib_declarations": ["OrthogonalIdempotents", "CompleteOrthogonalIdempotents"],
+      "notes": "Mathlib has `OrthogonalIdempotents` and `CompleteOrthogonalIdempotents` for systems of orthogonal idempotents that sum to 1."
+    },
+    {
+      "id": "Chapter9/Definition9.2.2",
+      "title": "Projective cover",
+      "match_quality": "partial",
+      "mathlib_declarations": [],
+      "notes": "Projective covers (dual of injective envelopes) are not explicitly in Mathlib as a dedicated type, though `CategoryTheory.InjectiveResolution` exists. May need custom definition as an essential epimorphism from a projective."
+    },
+    {
+      "id": "Chapter9/Definition9.3.1",
+      "title": "Cartan matrix (of a finite dimensional algebra)",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The Cartan matrix of a finite dimensional algebra (matrix of multiplicities of simple modules in projective indecomposable modules) is not in Mathlib. Different from `DynkinDiagram.cartanMatrix`. Needs to be defined from scratch."
+    },
+    {
+      "id": "Chapter9/Definition9.4.1",
+      "title": "Projective dimension",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Projective dimension (shortest projective resolution length) is not in Mathlib. Needs to be defined from scratch."
+    },
+    {
+      "id": "Chapter9/Definition9.4.3",
+      "title": "Homological dimension of a ring",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "Global homological dimension (supremum of projective dimensions of all modules) is not in Mathlib. Needs to be defined from scratch."
+    },
+    {
+      "id": "Chapter9/Definition9.5.1",
+      "title": "Linked simple modules and blocks",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "The linkage relation on simple modules (via nonvanishing Ext^1) and the resulting block decomposition of module categories are not in Mathlib. Need to be defined from scratch."
+    },
+    {
+      "id": "Chapter9/Definition9.6.1",
+      "title": "Finite abelian category",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CategoryTheory.Abelian"],
+      "notes": "Mathlib has abelian categories but not the specific finiteness conditions (finite-dimensional Hom spaces, finite length objects, finitely many simples, enough projectives). Would need a custom class combining these conditions."
+    },
+    {
+      "id": "Chapter9/Definition9.6.2",
+      "title": "Projective generator (progenerator)",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CategoryTheory.IsGenerator"],
+      "notes": "Mathlib has `IsGenerator` for objects in categories. A progenerator (projective generator) would combine `Projective` and `IsGenerator`. Not available as a single concept."
+    },
+    {
+      "id": "Chapter9/Definition9.7.1",
+      "title": "Morita equivalence",
+      "match_quality": "partial",
+      "mathlib_declarations": ["CategoryTheory.Equivalence"],
+      "notes": "Morita equivalence (equivalence of module categories) can be expressed as `CategoryTheory.Equivalence (ModuleCat R) (ModuleCat S)`. No dedicated `MoritaEquivalent` predicate exists."
+    },
+    {
+      "id": "Chapter9/Definition9.7.2",
+      "title": "Basic algebra",
+      "match_quality": "gap",
+      "mathlib_declarations": [],
+      "notes": "A basic algebra (one where all simple modules are 1-dimensional, or equivalently A/rad(A) is a product of copies of k) is not in Mathlib. Needs to be defined from scratch."
+    }
+  ]
+}
