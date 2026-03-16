@@ -1,4 +1,21 @@
-import Mathlib
+import EtingofRepresentationTheory.Chapter9.Proposition9_1_1
+import EtingofRepresentationTheory.Chapter9.Definition9_1_2
+import EtingofRepresentationTheory.Chapter9.Corollary9_1_3
+import EtingofRepresentationTheory.Chapter9.Theorem9_2_1
+import EtingofRepresentationTheory.Chapter9.Definition9_2_2
+import EtingofRepresentationTheory.Chapter9.Proposition9_2_3
+import EtingofRepresentationTheory.Chapter9.Definition9_3_1
+import EtingofRepresentationTheory.Chapter9.Definition9_4_1
+import EtingofRepresentationTheory.Chapter9.Definition9_4_3
+import EtingofRepresentationTheory.Chapter9.Example9_4_4
+import EtingofRepresentationTheory.Chapter9.Definition9_5_1
+import EtingofRepresentationTheory.Chapter9.Example9_5_2
+import EtingofRepresentationTheory.Chapter9.Definition9_6_1
+import EtingofRepresentationTheory.Chapter9.Definition9_6_2
+import EtingofRepresentationTheory.Chapter9.Theorem9_6_4
+import EtingofRepresentationTheory.Chapter9.Definition9_7_1
+import EtingofRepresentationTheory.Chapter9.Definition9_7_2
+import EtingofRepresentationTheory.Chapter9.Corollary9_7_3
 
 /-!
 # Chapter 9: Structure of Finite-Dimensional Algebras
