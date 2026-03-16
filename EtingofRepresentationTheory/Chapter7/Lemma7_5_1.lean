@@ -25,4 +25,9 @@ This is `CategoryTheory.yoneda.obj` and `CategoryTheory.Yoneda.isIso` in Mathlib
 theorem Etingof.yoneda_lemma {C : Type*} [Category C]
     (X Y : C) (φ : yoneda.obj X ≅ yoneda.obj Y) :
     ∃! (a : X ≅ Y), yoneda.map a.hom = φ.hom := by
-  sorry
+  refine ⟨Yoneda.fullyFaithful.preimageIso φ, ?_, ?_⟩
+  · exact Yoneda.fullyFaithful.map_preimage φ.hom
+  · intro b hb
+    apply Yoneda.fullyFaithful.isoEquiv.injective
+    ext1
+    exact hb.trans (Yoneda.fullyFaithful.map_preimage φ.hom).symm
