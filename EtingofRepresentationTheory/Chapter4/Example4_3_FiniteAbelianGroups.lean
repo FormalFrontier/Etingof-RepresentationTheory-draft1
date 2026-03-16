@@ -27,4 +27,4 @@ theorem Etingof.Example4_3_FiniteAbelianGroups
     -- The MonoidAlgebra module structure would need to be derived from a Representation
     (hirr : IsSimpleModule k V) :
     Module.finrank k V = 1 := by
-  sorry
+  exact isSimpleModule_iff_finrank_eq_one.mp hirr
