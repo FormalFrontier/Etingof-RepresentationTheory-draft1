@@ -2134,7 +2134,7 @@
     "end_page": "78",
     "start_line": 19,
     "end_line": 22,
-    "status": "proof_formalized"
+    "status": "sorry_free"
   },
   {
     "id": "Chapter4/Discussion_proof_Theorem4.10.2",
