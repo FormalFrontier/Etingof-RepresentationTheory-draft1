@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
+import EtingofRepresentationTheory.Infrastructure.RegularCharacter
 import EtingofRepresentationTheory.Chapter2
 import EtingofRepresentationTheory.Chapter3
 import EtingofRepresentationTheory.Chapter4
