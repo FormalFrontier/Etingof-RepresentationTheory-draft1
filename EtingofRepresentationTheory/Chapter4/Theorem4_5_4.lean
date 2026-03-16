@@ -298,7 +298,23 @@ theorem sum_character_prod_eq_of_complete
     (g h : G) :
     ∑ i, (V i).character g * (V i).character h =
     ∑ i, (W i).character g * (W i).character h := by
-  sorry
+  -- Build σ : Fin n → Fin n with V i ≅ W (σ i)
+  have hσ : ∀ i, ∃ j, Nonempty (V i ≅ W j) := fun i => hWsurj (V i) (hV i)
+  choose σ hσ using hσ
+  -- σ is injective
+  have hσ_inj : Function.Injective σ := by
+    intro i i' heq
+    obtain ⟨f⟩ := hσ i
+    obtain ⟨f'⟩ := hσ i'
+    rw [heq] at f
+    exact hVinj i i' ⟨f.trans f'.symm⟩
+  -- σ is bijective (injective on finite type)
+  let e := Equiv.ofBijective σ (Finite.injective_iff_bijective.mp hσ_inj)
+  -- Character invariance under isomorphism
+  have hchar : ∀ i, (V i).character = (W (σ i)).character := by
+    intro i; obtain ⟨f⟩ := hσ i; exact FDRep.char_iso f
+  conv_lhs => arg 2; ext i; rw [hchar i]
+  exact Equiv.sum_comp e (fun j => (W j).character g * (W j).character h)
 
 /-- `D.columnFDRep` forms a complete system of non-isomorphic irreducible
 representations. -/
@@ -306,8 +322,8 @@ theorem IrrepDecomp.columnFDRep_is_complete
     (D : IrrepDecomp k G) :
     (∀ i, Simple (D.columnFDRep i)) ∧
     (∀ i j, Nonempty ((D.columnFDRep i) ≅ (D.columnFDRep j)) → i = j) ∧
-    (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ D.columnFDRep i)) := by
-  sorry
+    (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ D.columnFDRep i)) :=
+  ⟨D.columnFDRep_simple, D.columnFDRep_injective, D.columnFDRep_surjective⟩
 
 end ColumnOrthogonality
 
