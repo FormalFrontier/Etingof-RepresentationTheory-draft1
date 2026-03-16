@@ -205,9 +205,11 @@ Read the text linearly, noting every internal reference:
 - **Structural declarations:** "This chapter depends only on Chapters 1 and 2", "We assume familiarity with Chapter 3"
 - **Implicit dependencies:** Uses a concept or definition from earlier without citing it
 
-**Initial assumption:** Each item depends on everything that comes before it in the book, unless the text clearly states otherwise (e.g., "this chapter is independent of chapters 4-6"). This is conservative and correct. We will trim dependencies later in Stage 3.3 once we have actual proofs.
+**Initial assumption:** List only **direct** dependencies — do not store transitive closure. The conservative default is a **linear chain**: each item directly depends only on its immediate predecessor in book order. For example, if items are A, B, C in order: B depends on `["A"]` and C depends on `["B"]` — not `["A", "B"]`. If the text explicitly states independence (e.g., "this chapter does not use Chapter 3"), trim accordingly. We will replace this chain with actual direct dependencies in Stage 3.3.
 
-**Output:** `dependencies/internal.json` — a mapping from each item ID to a list of item IDs it depends on.
+**File size check:** `internal.json` should have approximately N entries of 0–1 elements each (for N items). If entries grow with item count (e.g., item 100 has 99 entries), you have stored transitive closure — regenerate with direct dependencies only.
+
+**Output:** `dependencies/internal.json` — a mapping from each item ID to a list of item IDs it **directly** depends on.
 
 **Verify:** Every reference target exists in `items.json`.
 
@@ -226,7 +228,7 @@ Categorize each:
 
 Combine `items.json`, `dependencies/internal.json`, and `dependencies/external.json` into a preliminary blueprint.
 
-This is a DAG of what needs to be formalized and in what order. Because we conservatively assumed sequential dependencies, the initial DAG will be nearly linear. That is fine — it will be refined in Stage 3.3.
+This is a DAG of what needs to be formalized and in what order. Because the initial dependencies form a linear chain (each item depends only on its immediate predecessor), the initial DAG is a single path. That is fine — it will be refined in Stage 3.3.
 
 #### Blueprint tooling
 
