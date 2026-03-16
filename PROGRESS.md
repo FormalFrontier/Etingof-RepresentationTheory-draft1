@@ -58,9 +58,20 @@ Progress is recorded here as stages from PLAN.md are completed.
 - **Notes:** All 52 gap/partial items have identified external sources (87 entries, 66 high-usefulness). Primary formal source: MathComp. No uncovered gaps.
 
 ## Stage 2.6: Readiness Report
-- **Status:** Not started
-- **Notes:** Issue #484 unclaimed. Human checkpoint — approval required before Phase 3.
+- **Status:** Complete
+- **Date:** 2026-03-16
+- **Notes:** Readiness report compiled (#498). Reviewed and validated (#512). Risk assessments calibrated for all chapters.
 
 ## Stage 2.7: Reference Attachment
+- **Status:** Complete
+- **Date:** 2026-03-16
+- **Notes:** Stage 2.7 tooling built (#505). .refs.md companion files generated for all items (#515). Output reviewed and validated (#529).
+
+## Stage 3.1: Scaffolding
+- **Status:** Complete
+- **Date:** 2026-03-16
+- **Notes:** All 8 chapters (2–9) scaffolded: 231 Lean files, ~249 sorry placeholders. Module structure established (#535). Chapter 2 reviewed (#539). Remaining chapter reviews pending (#531, #541, #542, #543). Three scaffolding patterns: Mathlib alias, custom definition, sorry'd statement.
+
+## Stage 3.2: Proof Filling
 - **Status:** Not started
-- **Notes:** Blocked on Stage 2.6 human approval.
+- **Notes:** Blocked on scaffolding reviews. Ready to begin once reviews complete — prioritize Mathlib-heavy chapters (7, 8) first.
