@@ -159,14 +159,14 @@ private lemma tracial_of_end_eq_scalar_trace {k V : Type*}
 /-- For semisimple A with complete set of irreducibles, the combined representation map
 A → ∏ End(Vᵢ) is injective. The kernel annihilates every simple module, hence every
 submodule of the semisimple left regular representation, hence is zero. -/
-private lemma rep_map_injective_of_semisimple {k : Type*} {A : Type*}
+private lemma rep_map_injective_of_semisimple.{v} {k : Type*} {A : Type v}
     [Field k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     [IsSemisimpleRing A]
     {ι : Type*} [Fintype ι]
     (V : ι → Type*) [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)]
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
-    (h_complete : ∀ (W : Type*) [AddCommGroup W] [Module k W] [Module A W]
+    (h_complete : ∀ (W : Type v) [AddCommGroup W] [Module k W] [Module A W]
       [IsScalarTower k A W] [FiniteDimensional k W] [IsSimpleModule A W],
       ∃ i, Nonempty (W ≃ₗ[A] V i)) :
     Function.Injective
@@ -184,16 +184,29 @@ private lemma rep_map_injective_of_semisimple {k : Type*} {A : Type*}
     show (a₁ - a₂) • v = 0
     rw [sub_smul]
     exact sub_eq_zero.mpr hv
-  -- The left ideal A·b is nonzero (since 1 * b = b ≠ 0)
-  -- A is semisimple ⟹ A·b contains a simple submodule S
-  -- S ≅ V_j for some j (by h_complete)
-  -- b acts on S by left multiplication: for s ∈ S, b • s = b * s
-  -- Through S ≅ V_j, b acts as 0 ⟹ b * s = 0 for all s ∈ S
-  -- In particular, Ab is in the kernel of left multiplication by b
-  -- Repeating: every simple submodule of A is annihilated by b
-  -- Since sSup{simples} = ⊤ (semisimple), b * x = 0 for all x ∈ A
-  -- Taking x = 1: b = 0, contradiction
-  sorry
+  -- b is in every maximal left ideal (coatom), hence in Ring.jacobson A = ⊥
+  suffices hb_zero : b = 0 from absurd hb_zero hb
+  have hb_jac : b ∈ Ring.jacobson A := by
+    change b ∈ Module.jacobson A A
+    rw [Module.jacobson, Submodule.mem_sInf]
+    intro m hm
+    -- m is a coatom, so A/m is a simple A-module
+    haveI : IsSimpleModule A (A ⧸ m) := isSimpleModule_iff_isCoatom.mpr hm
+    -- By h_complete, A/m ≃ₗ[A] V_j for some j
+    have ⟨j, ⟨φ⟩⟩ := h_complete (A ⧸ m)
+    -- b ∈ m iff mk b = 0 in A/m
+    rw [← Submodule.Quotient.mk_eq_zero]
+    -- φ is injective, so it suffices to show φ(mk b) = 0
+    apply φ.injective
+    simp only [map_zero]
+    -- mk b = b • mk 1 in the A-module A/m (since mkQ is A-linear)
+    have hmk : (Submodule.Quotient.mk (p := m) b : A ⧸ m) =
+        b • (Submodule.Quotient.mk (p := m) (1 : A) : A ⧸ m) := by
+      change m.mkQ b = b • m.mkQ 1
+      rw [← map_smul, smul_eq_mul, mul_one]
+    rw [hmk, map_smul]
+    exact hb_act j _
+  rwa [IsSemisimpleRing.jacobson_eq_bot, Submodule.mem_bot] at hb_jac
 
 end helpers
 
@@ -202,7 +215,7 @@ open Module in
 linear functionals (those f with f(ab) = f(ba)), hence form a basis of (A/[A,A])*.
 Combined with part (i), this gives a basis.
 Etingof Theorem 3.6.2(ii). -/
-theorem Etingof.characters_basis_semisimple (k : Type*) (A : Type*)
+theorem Etingof.characters_basis_semisimple.{v} (k : Type*) (A : Type v)
     [Field k] [IsAlgClosed k] [Ring A] [Algebra k A] [FiniteDimensional k A]
     [IsSemisimpleRing A]
     {ι : Type*} [Fintype ι]
@@ -210,7 +223,7 @@ theorem Etingof.characters_basis_semisimple (k : Type*) (A : Type*)
     [∀ i, Module A (V i)] [∀ i, IsScalarTower k A (V i)]
     [∀ i, FiniteDimensional k (V i)] [∀ i, IsSimpleModule A (V i)]
     (h_noniso : ∀ i j, i ≠ j → IsEmpty (V i ≃ₗ[A] V j))
-    (h_complete : ∀ (W : Type*) [AddCommGroup W] [Module k W] [Module A W]
+    (h_complete : ∀ (W : Type v) [AddCommGroup W] [Module k W] [Module A W]
       [IsScalarTower k A W] [FiniteDimensional k W] [IsSimpleModule A W],
       ∃ i, Nonempty (W ≃ₗ[A] V i)) :
     ∀ f : Dual k A, (∀ a b : A, f (a * b) = f (b * a)) →
