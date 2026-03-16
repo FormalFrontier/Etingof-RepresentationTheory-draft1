@@ -1812,7 +1812,7 @@
     "end_page": "64",
     "start_line": 15,
     "end_line": 16,
-    "status": "proof_formalized"
+    "status": "sorry_free"
   },
   {
     "id": "Chapter4/Introduction_4.3",
