@@ -1,4 +1,12 @@
-import Mathlib
+import EtingofRepresentationTheory.Chapter8.Theorem8_1_1
+import EtingofRepresentationTheory.Chapter8.Definition8_1_2
+import EtingofRepresentationTheory.Chapter8.Theorem8_1_5
+import EtingofRepresentationTheory.Chapter8.Definition8_1_6
+import EtingofRepresentationTheory.Chapter8.Example8_1_7
+import EtingofRepresentationTheory.Chapter8.Definition8_1_8
+import EtingofRepresentationTheory.Chapter8.Definition8_2_1
+import EtingofRepresentationTheory.Chapter8.Definition8_2_3
+import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 
 /-!
 # Chapter 8: Homological Algebra
