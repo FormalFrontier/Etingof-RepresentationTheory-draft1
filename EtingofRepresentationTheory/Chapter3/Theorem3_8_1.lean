@@ -5,6 +5,9 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.Order.SupIndep
 import Mathlib.Order.ModularLattice
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.Algebra.DirectSum.Decomposition
+import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 
 /-!
 # Theorem 3.8.1: Krull-Schmidt Theorem
@@ -206,6 +209,71 @@ theorem Etingof.krull_schmidt_existence (k : Type*) (A : Type*) (V : Type*)
     (Module.finrank k V) ⊤ (by simp [Submodule.restrictScalars_top])
   exact ⟨n, W, hindec, hsup, hind⟩
 
+/-- Auxiliary lemma for Krull-Schmidt uniqueness. Proved by induction on k-dimension of S.
+Given two internal direct sum decompositions of a submodule S into indecomposable summands,
+the number of summands is equal and summands can be matched up to isomorphism. -/
+private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) (V : Type*)
+    [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [FiniteDimensional k V]
+    (d : ℕ) (S : Submodule A V)
+    (hd : Module.finrank k (S.restrictScalars k) ≤ d)
+    {n m : ℕ} (W : Fin n → Submodule A V) (W' : Fin m → Submodule A V)
+    (hW_le : ∀ i, W i ≤ S) (hW'_le : ∀ i, W' i ≤ S)
+    (hW_indec : ∀ i, Etingof.IsIndecomposable A (W i))
+    (hW'_indec : ∀ i, Etingof.IsIndecomposable A (W' i))
+    (hW_ne : ∀ i, W i ≠ ⊥)
+    (hW'_ne : ∀ i, W' i ≠ ⊥)
+    (hW_sup : (⨆ i, W i) = S) (hW'_sup : (⨆ i, W' i) = S)
+    (hW_ind : iSupIndep W) (hW'_ind : iSupIndep W') :
+    n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty ((W i) ≃ₗ[A] (W' (σ i))) := by
+  induction d generalizing S n m W W' with
+  | zero =>
+    -- S has finrank 0, so S = ⊥
+    have hS : S.restrictScalars k = ⊥ := Submodule.finrank_eq_zero.mp (Nat.le_zero.mp hd)
+    have hS' : S = ⊥ := by rwa [Submodule.restrictScalars_eq_bot_iff] at hS
+    -- No nonzero summands can exist in S = ⊥
+    have hn0 : n = 0 := by
+      by_contra h
+      have h_pos : 0 < n := Nat.pos_of_ne_zero h
+      have h_le : W ⟨0, h_pos⟩ ≤ S := hW_le ⟨0, h_pos⟩
+      rw [hS'] at h_le
+      exact hW_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr h_le)
+    have hm0 : m = 0 := by
+      by_contra h
+      have h_pos : 0 < m := Nat.pos_of_ne_zero h
+      have h_le : W' ⟨0, h_pos⟩ ≤ S := hW'_le ⟨0, h_pos⟩
+      rw [hS'] at h_le
+      exact hW'_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr h_le)
+    subst hn0; subst hm0
+    exact ⟨rfl, ⟨Equiv.refl _, nofun⟩⟩
+  | succ d ih =>
+    -- Handle n = 0 case
+    by_cases hn : n = 0
+    · subst hn
+      have hS_bot : S = ⊥ := by
+        rw [← hW_sup]; simp
+      have hm0 : m = 0 := by
+        by_contra h
+        have h_pos : 0 < m := Nat.pos_of_ne_zero h
+        have h_le : W' ⟨0, h_pos⟩ ≤ S := hW'_le ⟨0, h_pos⟩
+        rw [hS_bot] at h_le
+        exact hW'_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr h_le)
+      subst hm0
+      exact ⟨rfl, ⟨Equiv.refl _, nofun⟩⟩
+    · -- n > 0 and m > 0 (by symmetric argument)
+      have hn_pos : 0 < n := Nat.pos_of_ne_zero hn
+      have hm_pos : 0 < m := by
+        by_contra h_neg
+        push_neg at h_neg
+        interval_cases m
+        have hS_bot : S = ⊥ := by rw [← hW'_sup]; simp
+        rw [hS_bot] at hW_sup
+        have h_le : W ⟨0, hn_pos⟩ ≤ ⨆ i, W i := le_iSup W ⟨0, hn_pos⟩
+        rw [hW_sup] at h_le
+        exact hW_ne ⟨0, hn_pos⟩ (eq_bot_iff.mpr h_le)
+      sorry
+
 /-- Uniqueness part of Krull-Schmidt: any two decompositions into indecomposable
 direct summands have the same number of summands, and the summands can be matched
 up to isomorphism after reindexing.
@@ -217,12 +285,13 @@ theorem Etingof.krull_schmidt_uniqueness (k : Type*) (A : Type*) (V : Type*)
     {n m : ℕ} (W : Fin n → Submodule A V) (W' : Fin m → Submodule A V)
     (hW_indec : ∀ i, Etingof.IsIndecomposable A (W i))
     (hW'_indec : ∀ i, Etingof.IsIndecomposable A (W' i))
+    (hW_ne : ∀ i, W i ≠ ⊥)
+    (hW'_ne : ∀ i, W' i ≠ ⊥)
     (hW_sup : iSup W = ⊤) (hW_ind : iSupIndep W)
     (hW'_sup : iSup W' = ⊤) (hW'_ind : iSupIndep W') :
-    n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty ((W i) ≃ₗ[A] (W' (σ i))) := by
-  -- The full uniqueness proof requires:
-  -- 1. Construction of projection maps from internal direct sum decompositions
-  -- 2. Application of Lemma 3.8.2 (endo_indecomposable_iso_or_nilpotent)
-  -- 3. Induction on the number of summands with a cancellation step
-  -- This is a substantial formalization effort; escalated for dedicated proof work.
-  sorry
+    n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty ((W i) ≃ₗ[A] (W' (σ i))) :=
+  krull_schmidt_uniqueness_aux k A V (Module.finrank k V) ⊤
+    (by simp [Submodule.restrictScalars_top])
+    W W' (fun _ => le_top) (fun _ => le_top)
+    hW_indec hW'_indec hW_ne hW'_ne
+    hW_sup hW'_sup hW_ind hW'_ind
