@@ -1,4 +1,5 @@
 import Mathlib.RingTheory.Idempotents
+import Mathlib.RingTheory.Nilpotent.Basic
 
 /-!
 # Proposition 9.1.1: Lifting of idempotents from quotient by nilpotent ideal
@@ -42,16 +43,66 @@ by an element of 1 + I. (Etingof Proposition 9.1.1(ii))
 This is a stronger result than uniqueness — in the non-commutative case, two lifted
 idempotents need not be equal but are always conjugate.
 
-**Proof strategy** (not yet formalized):
-- Base case (I² = 0): Set d = e₁ - e₂ ∈ I with d² = 0. The conjugating unit is
-  u = 1 - e₁ - e₂ + 2·e₂·e₁ with inverse v = 1 - e₁ - e₂ + 2·e₁·e₂.
-  Key identities (from d² = 0): e₁·e₂·e₁ = e₁, e₂·e₁·e₂ = e₂, u·v = v·u = 1,
-  u·e₁ = e₂·u = e₂·e₁, and u - 1 ∈ I.
-- General case: induction on nilpotency degree n. Factor through A → A/I^⌈n/2⌉ → A/I
-  and compose conjugating units from successive liftings. -/
+The conjugating unit is `u = 1 + (2e₂ - 1)(e₁ - e₂)`, which lies in `1 + I` since
+`e₁ - e₂ ∈ I`. It is a unit because `(2e₂ - 1)(e₁ - e₂) ∈ I` and `I` is nilpotent.
+The key identity `u·e₁ = e₂·u` follows from pure idempotent algebra. -/
 theorem Etingof.idempotent_lifting_conjugate {A : Type*} [Ring A]
     (I : Ideal A) [I.IsTwoSided] (hI : IsNilpotent I)
     (e₁ e₂ : A) (h₁ : IsIdempotentElem e₁) (h₂ : IsIdempotentElem e₂)
     (h_eq : Ideal.Quotient.mk I e₁ = Ideal.Quotient.mk I e₂) :
     ∃ u : Aˣ, (↑u - 1 : A) ∈ I ∧ ↑u * e₁ * ↑u⁻¹ = e₂ := by
-  sorry
+  -- e₁ - e₂ ∈ I from equal quotient images
+  have hdiff : e₁ - e₂ ∈ I := by
+    have : Ideal.Quotient.mk I (e₁ - e₂) = 0 := by
+      rw [map_sub, sub_eq_zero]
+      exact h_eq
+    rwa [Ideal.Quotient.eq_zero_iff_mem] at this
+  -- s = (2e₂ - 1)(e₁ - e₂) ∈ I
+  set s := (2 * e₂ - 1) * (e₁ - e₂) with hs_def
+  have hs_mem : s ∈ I := I.mul_mem_left _ hdiff
+  -- s is nilpotent: s ∈ I, so s^n ∈ I^n = ⊥
+  obtain ⟨n, hn⟩ := hI
+  have hs_nil : IsNilpotent s := by
+    refine ⟨n, ?_⟩
+    have h_mem := Ideal.pow_mem_pow hs_mem n
+    simp only [hn] at h_mem
+    simpa using h_mem
+  -- 1 + s is a unit
+  obtain ⟨u, hu⟩ := IsNilpotent.isUnit_one_add hs_nil
+  refine ⟨u, ?_, ?_⟩
+  · -- u - 1 = s ∈ I
+    rw [show (↑u : A) = 1 + s from hu, add_sub_cancel_left]
+    exact hs_mem
+  · -- u * e₁ * u⁻¹ = e₂, via (1+s)*e₁ = e₂*(1+s)
+    -- Key identity 1: (1+s)*e₁ = e₂*e₁
+    have hleft : (1 + s) * e₁ = e₂ * e₁ := by
+      suffices h : s * e₁ = e₂ * e₁ - e₁ by rw [add_mul, one_mul, h]; abel
+      -- s * e₁ = (2e₂-1)*(e₁-e₂)*e₁ = (2e₂-1)*(e₁ - e₂*e₁) = e₂*e₁ - e₁
+      have h_de : (e₁ - e₂) * e₁ = e₁ - e₂ * e₁ := by rw [sub_mul, h₁.eq]
+      calc s * e₁
+          = (2 * e₂ - 1) * ((e₁ - e₂) * e₁) := by rw [hs_def, mul_assoc]
+        _ = (2 * e₂ - 1) * (e₁ - e₂ * e₁) := by rw [h_de]
+        _ = (2 * e₂) * (e₁ - e₂ * e₁) - (e₁ - e₂ * e₁) := by rw [sub_mul, one_mul]
+        _ = ((2 * e₂) * e₁ - (2 * e₂) * (e₂ * e₁)) - (e₁ - e₂ * e₁) := by rw [mul_sub]
+        _ = ((2 * e₂) * e₁ - 2 * (e₂ * (e₂ * e₁))) - (e₁ - e₂ * e₁) := by
+            rw [mul_assoc (2 : A) e₂ (e₂ * e₁)]
+        _ = ((2 * e₂) * e₁ - 2 * (e₂ * e₁)) - (e₁ - e₂ * e₁) := by
+            rw [← mul_assoc e₂ e₂ e₁, h₂.eq]
+        _ = e₂ * e₁ - e₁ := by rw [mul_assoc (2 : A) e₂ e₁]; abel
+    -- Key identity 2: e₂*(1+s) = e₂*e₁
+    have hright : e₂ * (1 + s) = e₂ * e₁ := by
+      rw [mul_add, mul_one, hs_def, ← mul_assoc e₂]
+      -- Goal: e₂ + e₂ * (2 * e₂ - 1) * (e₁ - e₂) = e₂ * e₁
+      -- e₂ * (2e₂ - 1) = e₂
+      have h5 : e₂ * (2 * e₂ - 1) = e₂ := by
+        rw [mul_sub, mul_one, show (2 : A) * e₂ = e₂ + e₂ from two_mul e₂,
+            mul_add, h₂.eq]
+        abel
+      rw [h5, mul_sub, h₂.eq]
+      -- Goal: e₂ + (e₂ * e₁ - e₂) = e₂ * e₁
+      abel
+    -- (1+s)*e₁ = e₂*(1+s), so u*e₁*u⁻¹ = e₂
+    have hcomm : ↑u * e₁ = e₂ * ↑u := by rw [hu, hleft, ← hright]
+    calc (↑u : A) * e₁ * ↑u⁻¹
+        = e₂ * ↑u * ↑u⁻¹ := by rw [hcomm]
+      _ = e₂ := by rw [mul_assoc]; simp
