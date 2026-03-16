@@ -1,6 +1,9 @@
 import Mathlib.RingTheory.Jacobson.Radical
 import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
+import Mathlib.RingTheory.Nilpotent.Lemmas
+import Mathlib.RingTheory.KrullDimension.Basic
+import Mathlib.RingTheory.Polynomial.Ideal
 import Mathlib.LinearAlgebra.Matrix.Block
 
 /-!
@@ -12,17 +15,6 @@ import Mathlib.LinearAlgebra.Matrix.Block
 2. Let A be the algebra of upper triangular n × n matrices. The irreducible representations
    are Vᵢ, i = 1, …, n, which are 1-dimensional, and any matrix x acts by xᵢᵢ. So Rad(A)
    is the ideal of strictly upper triangular matrices.
-
-## Proof strategy for 3.5.6(1)
-
-k[x]/(xⁿ) is a local ring: the evaluation map ev₀ : k[x]/(xⁿ) → k (sending x̄ ↦ 0)
-has kernel (x̄), and every element outside (x̄) is a unit (of the form c + nilpotent where
-c ∈ k×, using `IsNilpotent.isUnit_add_left_of_commute`). Therefore:
-- `IsLocalRing (AdjoinRoot (X^n))` with `maximalIdeal = Ideal.span {root}`
-- `Ring.jacobson = maximalIdeal` by `IsLocalRing.ringJacobson_eq_maximalIdeal`
-
-Key Mathlib ingredients: `AdjoinRoot.lift`, `Polynomial.X_dvd_iff`, `Polynomial.X_dvd_sub_C`,
-`IsNilpotent.isUnit_add_left_of_commute`, `IsLocalRing.ringJacobson_eq_maximalIdeal`.
 -/
 
 open Polynomial
@@ -32,14 +24,39 @@ Etingof Example 3.5.6(1). -/
 theorem Etingof.radical_truncated_polynomial (k : Type*) [Field k] (n : ℕ) (hn : 0 < n) :
     Ring.jacobson (AdjoinRoot (X ^ n : k[X])) =
       Ideal.span {AdjoinRoot.root (X ^ n : k[X])} := by
-  -- Proof outline:
-  -- 1. Define ev₀ := AdjoinRoot.lift (RingHom.id k) 0 : AdjoinRoot (X^n) →+* k
-  -- 2. Show root is nilpotent (root^n = 0 from mk_self)
-  -- 3. Show A is local: for any a, ev₀(a) ≠ 0 implies a is a unit
-  --    (a = algebraMap(ev₀(a)) + nilpotent, use isUnit_add_left_of_commute)
-  -- 4. Show maximalIdeal = Ideal.span {root} = ker(ev₀)
-  -- 5. Apply ringJacobson_eq_maximalIdeal
-  sorry
+  set f := (X ^ n : k[X])
+  set A := AdjoinRoot f
+  set r := AdjoinRoot.root f
+  -- Define the evaluation-at-zero map
+  have heval : f.eval₂ (RingHom.id k) 0 = 0 := by simp [f, eval₂_pow, eval₂_X, zero_pow hn.ne']
+  set ev₀ : A →+* k := AdjoinRoot.lift (RingHom.id k) 0 heval
+  -- Direction ≥: root is nilpotent → root ∈ nilradical ≤ jacobson
+  have hr_nil : IsNilpotent r := ⟨n, by
+    change (AdjoinRoot.mk f X) ^ n = 0
+    rw [← map_pow, AdjoinRoot.mk_self]⟩
+  have h_ge : Ideal.span {r} ≤ Ring.jacobson A := by
+    rw [Ideal.span_le]
+    intro x hx
+    simp only [Set.mem_singleton_iff] at hx
+    subst hx
+    exact nilradical_le_jacobson A (mem_nilradical.mpr hr_nil)
+  -- Direction ≤: Ideal.span {r} is maximal, so jacobson ≤ it
+  have hmax : (Ideal.span {r}).IsMaximal := by
+    have hev_surj : Function.Surjective ev₀ := by
+      intro c; exact ⟨AdjoinRoot.of f c, AdjoinRoot.lift_of heval⟩
+    suffices hker : RingHom.ker ev₀ = Ideal.span {r} from
+      hker ▸ RingHom.ker_isMaximal_of_surjective ev₀ hev_surj
+    change RingHom.ker (Ideal.Quotient.lift _ _ _) = _
+    rw [Ideal.ker_quotient_lift]
+    have hker_eval : RingHom.ker (Polynomial.eval₂RingHom (RingHom.id k) (0 : k)) =
+        Ideal.span {X - C 0} := by
+      change RingHom.ker (evalRingHom 0) = _
+      exact ker_evalRingHom 0
+    rw [hker_eval]
+    simp only [map_zero, sub_zero]
+    rw [Ideal.map_span, Set.image_singleton]
+    rfl
+  exact le_antisymm (Ring.jacobson_le_of_isMaximal (Ideal.span {r})) h_ge
 
 /-- The subalgebra of upper triangular matrices in Mₙ(k). -/
 def Etingof.upperTriangularSubalgebra (k : Type*) [Field k] (n : ℕ) :
@@ -64,10 +81,49 @@ def Etingof.upperTriangularSubalgebra (k : Type*) [Field k] (n : ℕ) :
     intro h
     exact absurd (h ▸ hij) (lt_irrefl _)
 
+/-- The ideal of strictly upper triangular matrices within the upper triangular subalgebra. -/
+def Etingof.strictlyUpperTriangularIdeal (k : Type*) [Field k] (n : ℕ) :
+    Ideal (↥(Etingof.upperTriangularSubalgebra k n)) where
+  carrier := {M | ∀ i j, j ≤ i → (M : Matrix (Fin n) (Fin n) k) i j = 0}
+  add_mem' {a b} ha hb i j hij := by simp [ha i j hij, hb i j hij]
+  zero_mem' _ _ _ := by simp
+  smul_mem' c x hx i j hij := by
+    have : (c • x).val = (c : Matrix (Fin n) (Fin n) k) * (x : Matrix (Fin n) (Fin n) k) := rfl
+    rw [this, Matrix.mul_apply]
+    apply Finset.sum_eq_zero
+    intro l _
+    by_cases hli : i ≤ l
+    · simp [hx l j (le_trans hij hli)]
+    · push_neg at hli
+      simp [c.2 i l hli]
+
+instance Etingof.strictlyUpperTriangularIdeal.isTwoSided (k : Type*) [Field k] (n : ℕ) :
+    (Etingof.strictlyUpperTriangularIdeal k n).IsTwoSided where
+  mul_mem_of_left b ha i j hij := by
+    have hmul : ∀ (a b : ↥(Etingof.upperTriangularSubalgebra k n)),
+        (a * b).val = (a : Matrix (Fin n) (Fin n) k) * (b : Matrix (Fin n) (Fin n) k) :=
+      fun _ _ => rfl
+    rw [hmul]
+    simp only [Matrix.mul_apply]
+    apply Finset.sum_eq_zero
+    intro l _
+    by_cases hli : l ≤ i
+    · simp [ha i l hli]
+    · push_neg at hli
+      simp [b.2 l j (lt_of_le_of_lt hij hli)]
+
 /-- The radical of the algebra of upper triangular n × n matrices is the ideal of strictly
 upper triangular matrices. Etingof Example 3.5.6(2). -/
 theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
-    Ring.jacobson (Etingof.upperTriangularSubalgebra k n) =
-      Ideal.comap (Etingof.upperTriangularSubalgebra k n).val
-        (Ideal.span {M : Matrix (Fin n) (Fin n) k | ∀ i j, j ≤ i → M i j = 0}) := by
+    Ring.jacobson (↥(Etingof.upperTriangularSubalgebra k n)) =
+      Etingof.strictlyUpperTriangularIdeal k n := by
+  -- Proof strategy:
+  -- ≤: For each i : Fin n, define diagExtract_i : R →+* k by M ↦ M_{ii}.
+  --    This is surjective, so ker(diagExtract_i) is maximal.
+  --    jacobson ≤ ker(diagExtract_i) for each i.
+  --    ∩_i ker(diagExtract_i) = {M | M_{ii} = 0 ∀i} ∩ upper_tri = strictly upper triangular.
+  -- ≥: I is nilpotent (I^n = 0, since multiplying n strictly upper triangular matrices
+  --    shifts entries up by n rows, yielding 0). For x ∈ I and any y, x*y ∈ I (left ideal),
+  --    so x*y is nilpotent, hence 1 + x*y is a unit (IsNilpotent.isUnit_one_sub applied
+  --    to -(x*y)). By Ideal.mem_jacobson_iff, x ∈ jacobson.
   sorry
