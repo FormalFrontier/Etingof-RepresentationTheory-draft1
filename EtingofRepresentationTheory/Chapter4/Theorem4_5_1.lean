@@ -32,7 +32,7 @@ theorem Etingof.Theorem4_5_1_i
     (V W : FDRep k G) :
     ⅟(Fintype.card G : k) • ∑ g : G, V.character g * W.character g⁻¹ =
     Module.finrank k (W ⟶ V) := by
-  sorry
+  exact scalar_product_char_eq_finrank_equivariant W V
 
 open scoped Classical in
 /-- First orthogonality relation, part (ii): for irreducible representations, the inner
@@ -44,4 +44,4 @@ theorem Etingof.Theorem4_5_1_ii
     (V W : FDRep k G) [Simple V] [Simple W] :
     ⅟(Fintype.card G : k) • ∑ g : G, V.character g * W.character g⁻¹ =
     if Nonempty (V ≅ W) then (1 : k) else (0 : k) := by
-  sorry
+  exact char_orthonormal V W
