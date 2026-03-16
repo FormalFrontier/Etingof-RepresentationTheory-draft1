@@ -19,4 +19,4 @@ theorem Etingof.semisimple_algebra_equiv (k : Type*) (A : Type*)
     [Field k] [Ring A] [Algebra k A] [FiniteDimensional k A] :
     -- (1) ↔ (5): Rad(A) = 0 iff A is completely reducible as a representation of itself
     IsSemisimpleRing A ↔ IsSemisimpleModule A A := by
-  sorry
+  exact Iff.rfl

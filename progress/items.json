@@ -1377,7 +1377,8 @@
     "start_page": "49",
     "end_page": "50",
     "start_line": 21,
-    "end_line": 4
+    "end_line": 4,
+    "status": "sorry_free"
   },
   {
     "id": "Chapter3/Theorem3.5.4",
@@ -1423,7 +1424,8 @@
     "start_page": "51",
     "end_page": "52",
     "start_line": 11,
-    "end_line": 2
+    "end_line": 2,
+    "status": "sorry_free"
   },
   {
     "id": "Chapter3/Introduction_to_3.6",
