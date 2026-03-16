@@ -4803,8 +4803,7 @@
     "end_page": "192",
     "start_line": 21,
     "end_line": 21,
-    "status": "scaffolded",
-    "needs_statement": true
+    "status": "sorry_free"
   },
   {
     "id": "Chapter7/Exercise7.8.4",
@@ -4901,7 +4900,7 @@
     "end_page": "195",
     "start_line": 1,
     "end_line": 8,
-    "status": "scaffolded"
+    "status": "sorry_free"
   },
   {
     "id": "Chapter7/Example7.9.5",
