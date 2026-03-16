@@ -102,6 +102,95 @@ theorem IrrepDecomp.sum_sq_eq_card [NeZero (Nat.card G : k)]
   rw [finrank_pi_matrix] at hiso
   omega
 
+/-! ### Helper lemmas for FDRep connection -/
+
+/-- Column vectors `Fin n → k` form a simple module over `Matrix (Fin n) (Fin n) k`.
+For any nonzero vector `w`, the orbit `Mat_n(k) · w` spans all of `k^n`. -/
+instance Matrix.instIsSimpleModule {k : Type*} [Field k] (n : ℕ) [NeZero n] :
+    IsSimpleModule (Matrix (Fin n) (Fin n) k) (Fin n → k) where
+  eq_bot_or_eq_top m := by
+    by_cases hm : m = ⊥
+    · left; exact hm
+    · right; rw [Submodule.eq_top_iff']
+      intro v
+      obtain ⟨w, hw, hwne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hm
+      obtain ⟨i, hi⟩ : ∃ i, w i ≠ 0 := by
+        by_contra h; push_neg at h; exact hwne (funext h)
+      -- For any target v, construct M with M.mulVec w = v
+      let M : Matrix (Fin n) (Fin n) k := fun j l => if l = i then v j * (w i)⁻¹ else 0
+      have : M.mulVec w = v := by
+        ext j; simp only [Matrix.mulVec, M, dotProduct]; simp [mul_assoc, inv_mul_cancel₀ hi]
+      rw [← this]; exact m.smul_mem M hw
+
+/-- If `f : R →+* S` is surjective and `M` is a simple `S`-module, then `M` is a simple
+`R`-module via `Module.compHom`. R-submodules equal S-submodules since every S-scalar
+is in the image of `f`. -/
+lemma IsSimpleModule.compHom {R S M : Type*} [Ring R] [Ring S] [AddCommGroup M] [Module S M]
+    (f : R →+* S) (hf : Function.Surjective f) [hM : IsSimpleModule S M] :
+    @IsSimpleModule R _ M _ (Module.compHom M f) := by
+  letI : Module R M := Module.compHom M f
+  have key : ∀ m : Submodule R M, m = ⊥ ∨ m = ⊤ := by
+    intro m
+    let m' : Submodule S M := {
+      toAddSubmonoid := m.toAddSubmonoid
+      smul_mem' := fun s x hx => by obtain ⟨r, rfl⟩ := hf s; exact m.smul_mem r hx
+    }
+    have hcarrier : ∀ x, x ∈ m' ↔ x ∈ m := fun _ => Iff.rfl
+    cases hM.eq_bot_or_eq_top m' with
+    | inl h =>
+      left; ext x; constructor
+      · intro hx; have := (hcarrier x).mpr hx; rw [h] at this; simpa using this
+      · intro hx; simp at hx; rw [hx]; exact m.zero_mem'
+    | inr h =>
+      right; ext x; constructor
+      · intro _; exact Submodule.mem_top
+      · intro _; exact (hcarrier x).mp (h ▸ Submodule.mem_top)
+  haveI : Nontrivial (Submodule R M) := by
+    refine ⟨⟨⊥, ⊤, ?_⟩⟩
+    intro h
+    obtain ⟨a, b, hab⟩ := @IsSimpleModule.nontrivial S _ M _ _ hM
+    have ha : a ∈ (⊥ : Submodule R M) := by rw [h]; exact trivial
+    have hb : b ∈ (⊥ : Submodule R M) := by rw [h]; exact trivial
+    simp at ha hb; exact hab (ha ▸ hb.symm)
+  exact { eq_bot_or_eq_top := key }
+
+/-! ### Column vector representations -/
+
+/-- The projection ring homomorphism from `k[G]` to the i-th matrix factor
+of the Wedderburn-Artin decomposition. -/
+noncomputable def IrrepDecomp.projRingHom [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) :
+    MonoidAlgebra k G →+* Matrix (Fin (D.d i)) (Fin (D.d i)) k :=
+  (Pi.evalRingHom (fun i => Matrix (Fin (D.d i)) (Fin (D.d i)) k) i).comp
+    D.iso.toRingEquiv.toRingHom
+
+/-- The projection to the i-th factor is surjective (since `D.iso` is an isomorphism). -/
+lemma IrrepDecomp.projRingHom_surjective [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) :
+    Function.Surjective (D.projRingHom i) := by
+  intro M
+  exact ⟨D.iso.symm (Pi.single i M), by simp [projRingHom, Pi.evalRingHom, Pi.single]⟩
+
+/-- The column vector representation: `G` acts on `Fin (D.d i) → k` via the i-th matrix factor
+of the Wedderburn-Artin decomposition. -/
+noncomputable def IrrepDecomp.columnRep [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) :
+    Representation k G (Fin (D.d i) → k) where
+  toFun g := Matrix.mulVecLin (D.projRingHom i (MonoidAlgebra.of k G g))
+  map_one' := by rw [map_one, map_one, Matrix.mulVecLin_one]; rfl
+  map_mul' g h := by rw [map_mul, map_mul, Matrix.mulVecLin_mul]; rfl
+
+/-- The column vector FDRep: the i-th irreducible representation of G. -/
+noncomputable def IrrepDecomp.columnFDRep [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) : FDRep k G :=
+  FDRep.of (D.columnRep i)
+
+/-- The dimension of the i-th column vector representation equals `D.d i`. -/
+lemma IrrepDecomp.finrank_columnFDRep [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) :
+    Module.finrank k (D.columnFDRep i) = D.d i := by
+  simp [columnFDRep, FDRep.of]
+
 /-! ### Connection to FDRep -/
 
 /-- The number of Wedderburn-Artin components equals the number of isomorphism classes
@@ -118,7 +207,19 @@ theorem IrrepDecomp.n_eq_card_simples [NeZero (Nat.card G : k)]
       (∀ i, Simple (V i)) ∧
       (∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) ∧
       (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) := by
-  sorry
+  refine ⟨D.columnFDRep, ?_, ?_, ?_⟩
+  -- Simplicity: each columnFDRep is simple
+  -- Proved helpers: Matrix.instIsSimpleModule, IsSimpleModule.compHom, projRingHom_surjective
+  -- Missing link: connecting IsSimpleModule k[G] to Simple (FDRep k G)
+  · intro i; sorry
+  -- Injectivity: non-isomorphic for distinct indices
+  -- Key idea: if V_i ≅ V_j then dim(V_i) = dim(V_j) AND the k[G]-module structures
+  -- factor through different matrix blocks, so annihilator ideals differ
+  · intro i j hij; sorry
+  -- Surjectivity: every simple FDRep is isomorphic to some columnFDRep
+  -- Key idea: a simple FDRep gives a simple k[G]-module, which must be one of the
+  -- column vector modules (classification of simples over semisimple algebras)
+  · intro W hW; sorry
 
 /-- Each dimension `d i` in the Wedderburn-Artin decomposition equals the
 `Module.finrank k` of the corresponding irreducible representation. -/
