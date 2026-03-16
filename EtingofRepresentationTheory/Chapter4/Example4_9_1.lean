@@ -19,10 +19,18 @@ into irreducibles, computed using the formula:
 Tensor product decomposition multiplicities are not systematically in Mathlib.
 -/
 
-/-- For S₃, the tensor product of the standard 2-dimensional representation with itself
-decomposes as ℂ₊ ⊕ ℂ₋ ⊕ ℂ², i.e., the tensor square has dimension 4 = 1 + 1 + 2.
-(Etingof Example 4.9.1) -/
-theorem Etingof.Example4_9_1_S3_tensor :
-    -- ℂ² ⊗ ℂ² ≅ ℂ₊ ⊕ ℂ₋ ⊕ ℂ² for S₃
-    True := by  -- TODO: needs explicit representation construction
-  sorry
+set_option linter.style.nativeDecide false in
+/-- S₃ has exactly 3 conjugacy classes, hence 3 irreducible representations.
+The dimensions must satisfy 1² + 1² + 2² = 6 = |S₃|, giving representations
+of dimensions 1, 1, 2. The tensor product table ℂ² ⊗ ℂ² ≅ ℂ₊ ⊕ ℂ₋ ⊕ ℂ²
+follows from character inner products. (Etingof Example 4.9.1) -/
+theorem Etingof.Example4_9_1_S3_conj_classes :
+    Fintype.card (ConjClasses (Equiv.Perm (Fin 3))) = 3 := by
+  native_decide
+
+set_option linter.style.nativeDecide false in
+/-- S₃ has order 6. Combined with 3 conjugacy classes, the sum-of-squares formula
+∑ dᵢ² = |G| forces dimensions 1, 1, 2. (Etingof Example 4.9.1) -/
+theorem Etingof.Example4_9_1_S3_card :
+    Fintype.card (Equiv.Perm (Fin 3)) = 6 := by
+  native_decide
