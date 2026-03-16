@@ -97,10 +97,57 @@ def Etingof.upperTriangularSubalgebra (k : Type*) [Field k] (n : ℕ) :
     intro h
     exact absurd (h ▸ hij) (lt_irrefl _)
 
+/-- The ideal of strictly upper triangular matrices within the upper triangular subalgebra. -/
+def Etingof.strictlyUpperTriangularIdeal (k : Type*) [Field k] (n : ℕ) :
+    Ideal (↥(Etingof.upperTriangularSubalgebra k n)) where
+  carrier := {M | ∀ i j, j ≤ i → (M : Matrix (Fin n) (Fin n) k) i j = 0}
+  add_mem' {a b} ha hb i j hij := by simp [ha i j hij, hb i j hij]
+  zero_mem' _ _ _ := by simp
+  smul_mem' c x hx i j hij := by
+    -- smul for subalgebra is multiplication: c • x = c * x
+    -- Need: (c * x).val i j = 0
+    have : (c • x).val = (c : Matrix (Fin n) (Fin n) k) * (x : Matrix (Fin n) (Fin n) k) := by
+      rfl
+    rw [this, Matrix.mul_apply]
+    apply Finset.sum_eq_zero
+    intro l _
+    by_cases hli : i ≤ l
+    · -- i ≤ l, so j ≤ i ≤ l, hence x l j = 0 (strictly upper triangular)
+      simp [hx l j (le_trans hij hli)]
+    · -- l < i, so c i l = 0 (c is upper triangular)
+      push_neg at hli
+      simp [c.2 i l hli]
+
 /-- The radical of the algebra of upper triangular n × n matrices is the ideal of strictly
 upper triangular matrices. Etingof Example 3.5.6(2). -/
+instance Etingof.strictlyUpperTriangularIdeal.isTwoSided (k : Type*) [Field k] (n : ℕ) :
+    (Etingof.strictlyUpperTriangularIdeal k n).IsTwoSided where
+  -- mul_mem_of_left {a} (b) : a ∈ I → a * b ∈ I
+  -- 'ha' is the proof that the implicit element (in I) is strictly upper triangular
+  -- We prove (element_in_I * b) is strictly upper triangular
+  mul_mem_of_left b ha i j hij := by
+    have hmul : ∀ (a b : ↥(Etingof.upperTriangularSubalgebra k n)),
+        (a * b).val = (a : Matrix (Fin n) (Fin n) k) * (b : Matrix (Fin n) (Fin n) k) := fun _ _ => rfl
+    rw [hmul]
+    simp only [Matrix.mul_apply]
+    apply Finset.sum_eq_zero
+    intro l _
+    by_cases hli : l ≤ i
+    · -- l ≤ i: the I-element has zero at (i, l) since l ≤ i
+      simp [ha i l hli]
+    · -- l > i ≥ j, so j < l: b has zero at (l, j) since b is upper triangular
+      push_neg at hli
+      simp [b.2 l j (lt_of_le_of_lt hij hli)]
+
 theorem Etingof.radical_upper_triangular (k : Type*) [Field k] (n : ℕ) :
-    Ring.jacobson (Etingof.upperTriangularSubalgebra k n) =
-      Ideal.comap (Etingof.upperTriangularSubalgebra k n).val
-        (Ideal.span {M : Matrix (Fin n) (Fin n) k | ∀ i j, j ≤ i → M i j = 0}) := by
+    Ring.jacobson (↥(Etingof.upperTriangularSubalgebra k n)) =
+      Etingof.strictlyUpperTriangularIdeal k n := by
+  -- Proof sketch:
+  -- ≤: For each i : Fin n, the diagonal extraction map M ↦ M_{ii} is a surjective
+  --    ring homomorphism to k, so its kernel is maximal. The intersection of these
+  --    kernels is the strictly upper triangular ideal. Since jacobson ≤ each maximal
+  --    ideal, jacobson ≤ their intersection.
+  -- ≥: The strictly upper triangular ideal I is nilpotent (I^n = 0). For x ∈ I and
+  --    any y, xy ∈ I (two-sided), so xy is nilpotent, hence 1 + xy is a unit.
+  --    By mem_jacobson_bot characterization, x ∈ jacobson.
   sorry
