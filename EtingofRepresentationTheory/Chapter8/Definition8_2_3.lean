@@ -1,4 +1,4 @@
-import Mathlib.Algebra.Homology.DerivedCategory.Basic
+import Mathlib.CategoryTheory.Monoidal.Tor
 
 /-!
 # Definition 8.2.3: Tor functors
@@ -10,15 +10,18 @@ induced by the resolution P•.
 
 ## Mathlib correspondence
 
-Mathlib has `Tor` defined as a derived functor of the tensor product. The API may be
-limited for concrete computations.
-
-## Formalization note
-
-The definition uses derived category machinery. The sorry'd statement stands in for the
-full construction pending further Mathlib API development for Tor.
+This is `CategoryTheory.Tor n` in Mathlib, defined as the left derived functors of the
+tensor product. For the module category `ModuleCat R` over a commutative ring R,
+`Tor n` gives the classical Tor functors. The definition requires the category to be
+monoidal, abelian, monoidal-preadditive, and to have projective resolutions.
 -/
 
-/-- The Tor functors, defined as derived functors of the tensor product.
-(Etingof Definition 8.2.3) -/
-theorem Etingof.Definition_8_2_3 : (sorry : Prop) := sorry
+open CategoryTheory in
+/-- The Tor functors, defined as derived functors of the tensor product, in the sense of
+Etingof Definition 8.2.3. In Mathlib, this is `CategoryTheory.Tor C n`, the left derived
+functors of `tensoringLeft`. -/
+noncomputable abbrev Etingof.Tor (C : Type*) [Category C]
+    [MonoidalCategory C] [Abelian C]
+    [MonoidalPreadditive C] [HasProjectiveResolutions C]
+    (n : Nat) : C ⥤ C ⥤ C :=
+  CategoryTheory.Tor C n
