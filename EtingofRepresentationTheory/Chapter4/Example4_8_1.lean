@@ -21,12 +21,19 @@ Character tables are not systematically formalized in Mathlib. This is primarily
 a computational example.
 -/
 
-/-- The character of the 2-dimensional representation of Q₈ at the identity is 2.
+set_option linter.style.nativeDecide false in
+/-- Q₈ has exactly 5 conjugacy classes, hence 5 irreducible representations.
 (Etingof Example 4.8.1) -/
-theorem Etingof.Example4_8_1_Q8_char_id :
-    -- dim of 2D irrep of Q₈ is 2
-    True := by  -- TODO: needs explicit Q₈ representation construction
-  sorry
+theorem Etingof.Example4_8_1_Q8_conj_classes :
+    Fintype.card (ConjClasses (QuaternionGroup 2)) = 5 := by
+  native_decide
+
+set_option linter.style.nativeDecide false in
+/-- Q₈ has order 8. Combined with 5 conjugacy classes and the sum-of-squares formula
+∑ dᵢ² = |G|, the only solution is dimensions 1,1,1,1,2. (Etingof Example 4.8.1) -/
+theorem Etingof.Example4_8_1_Q8_card :
+    Fintype.card (QuaternionGroup 2) = 8 := by
+  native_decide
 
 set_option linter.style.nativeDecide false in
 /-- A₅ has exactly 5 conjugacy classes. (Etingof Example 4.8.1) -/
