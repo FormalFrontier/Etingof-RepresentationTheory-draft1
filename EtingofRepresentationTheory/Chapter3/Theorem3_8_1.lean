@@ -519,13 +519,29 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
         have h_le : W ⟨0, hn_pos⟩ ≤ ⊤ := le_top
         rw [hV0] at h_le
         exact hW_ne ⟨0, hn_pos⟩ (eq_bot_iff.mpr h_le)
-      -- Step 1: Find j₀ such that W 0 ≅ W' j₀
-      obtain ⟨j₀, hj₀_iso⟩ := krull_schmidt_find_iso_summand k A V W W'
+      -- Step 1: Find j₀ such that W 0 ≅ W' j₀, with complement property
+      obtain ⟨j₀, hj₀_iso, hIsCompl_j₀_C⟩ := krull_schmidt_find_iso_summand k A V W W'
         hW_indec hW'_indec hW_ne hW'_ne hW_sup hW_ind hW'_sup hW'_ind hn_pos hm_pos
-      -- The remaining proof requires:
-      -- Step 2: Show complements are isomorphic
-      -- Step 3: Transport decompositions to the complement and apply IH
-      -- Step 4: Combine the matching for index 0 with the IH matching
+      set C := ⨆ i, ⨆ (_ : i ≠ (⟨0, hn_pos⟩ : Fin n)), W i
+      set D := ⨆ j, ⨆ (_ : j ≠ j₀), W' j
+      -- Step 2: IsCompl (W' j₀) D from the second decomposition
+      have hIsCompl_j₀_D : IsCompl (W' j₀) D := by
+        exact ⟨hW'_ind j₀, codisjoint_iff.mpr (top_le_iff.mp (by
+          rw [← hW'_sup]; exact iSup_le fun j => by
+            rcases eq_or_ne j j₀ with rfl | h
+            · exact le_sup_left
+            · exact le_sup_of_le_right (le_biSup _ h)))⟩
+      -- Step 3: C ≃ₗ[A] D (both are complements of W' j₀)
+      obtain ⟨eCD⟩ := isCompl_equiv_of_isCompl hIsCompl_j₀_C hIsCompl_j₀_D
+      -- Step 4: Apply IH to C
+      -- C has dimension < V (since W 0 ≠ ⊥ and V = W 0 ⊕ C)
+      -- C has decomposition W_i (i = 1, ..., n-1) from the first decomposition
+      -- C ≃ D has decomposition W'_j (j ≠ j₀) from the second decomposition
+      -- By IH applied to C with these two decompositions:
+      --   n - 1 = m - 1 and matching permutation
+      -- The IH is quantified over all types, so we apply it to ↥C
+      -- This requires a lot of setup (transporting decompositions, finrank bounds)
+      -- which is purely technical
       sorry
 
 /-- Uniqueness part of Krull-Schmidt: any two decompositions into indecomposable
