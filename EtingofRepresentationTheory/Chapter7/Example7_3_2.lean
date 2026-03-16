@@ -1,5 +1,5 @@
-import Mathlib.CategoryTheory.NatTrans
-import Mathlib.CategoryTheory.Functor.Basic
+import Mathlib.LinearAlgebra.Dual.Lemmas
+import Mathlib.LinearAlgebra.Dual.Defs
 
 /-!
 # Example 7.3.2: Examples of Natural Transformations
@@ -14,17 +14,29 @@ import Mathlib.CategoryTheory.Functor.Basic
 
 ## Mathlib correspondence
 
-These examples involve specific categorical constructions. The double dual natural
-transformation and functor endomorphism results require more infrastructure to
-state formally. We provide sorry'd placeholders.
+The double dual natural isomorphism is captured by `Module.evalEquiv` (for reflexive
+modules) and its naturality by `Module.Dual.eval_naturality`. Finite-dimensional
+modules over a field are automatically reflexive (`IsReflexive.of_finite_of_free`).
 -/
 
-open CategoryTheory
+/-- The canonical evaluation map gives a linear equivalence `V ≃ₗ[k] V**` for any
+finite-dimensional vector space V over a field k. (Etingof Example 7.3.2(1))
 
-/-- The double dual natural transformation on finite-dimensional vector spaces is
-a natural isomorphism from the identity functor to the double dual functor.
-(Etingof Example 7.3.2(1))
+The key point is that this isomorphism is *natural*: for any linear map `f : V →ₗ[k] W`,
+the diagram `V → V** → W**` commutes with `V → W → W**`, which is captured by
+`Module.Dual.eval_naturality`. -/
+noncomputable def Etingof.double_dual_iso
+    (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
+    [Module.Finite k V] [Module.Free k V] :
+    V ≃ₗ[k] Module.Dual k (Module.Dual k V) :=
+  Module.evalEquiv k V
 
-This requires the canonical map V → V** to be packaged as a natural transformation,
-which needs infrastructure for the dual functor on finite-dimensional spaces. -/
-theorem Etingof.double_dual_nat_iso : (sorry : Prop) := by sorry
+/-- The double dual evaluation map is natural: for any linear map `f : V →ₗ[k] W`,
+we have `f.dualMap.dualMap ∘ eval k V = eval k W ∘ f`. This is the naturality
+condition for Example 7.3.2(1), showing the evaluation maps form a natural
+transformation from the identity functor to the double dual functor. -/
+theorem Etingof.double_dual_naturality
+    (k : Type*) [CommSemiring k] (V W : Type*) [AddCommMonoid V] [AddCommMonoid W]
+    [Module k V] [Module k W] (f : V →ₗ[k] W) :
+    f.dualMap.dualMap ∘ₗ Module.Dual.eval k V = Module.Dual.eval k W ∘ₗ f :=
+  Module.Dual.eval_naturality f

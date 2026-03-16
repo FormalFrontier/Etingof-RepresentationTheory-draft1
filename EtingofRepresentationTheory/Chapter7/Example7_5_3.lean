@@ -1,5 +1,5 @@
-import Mathlib.CategoryTheory.Yoneda
 import Mathlib.Algebra.Category.ModuleCat.Basic
+import Mathlib.Algebra.Module.Equiv.Basic
 
 /-!
 # Example 7.5.3: Representable Forgetful Functor
@@ -13,14 +13,16 @@ the forgetful functor is in general not representable.
 
 ## Mathlib correspondence
 
-The forgetful functor `ModuleCat A → Type*` being representable by A (the regular
-representation) is a standard fact. Mathlib has `ModuleCat.representable` infrastructure.
+The core equivalence `Hom_R(R, M) ≃ M` is `LinearMap.ringLmapEquivSelf` in Mathlib,
+which says the forgetful functor from R-modules to types is representable by R.
 -/
 
-open CategoryTheory
-
-/-- The forgetful functor from A-mod to Type is representable by the free module A.
+/-- The forgetful functor from R-mod to Type is representable by the free module R.
 (Etingof Example 7.5.3)
 
-The representing object is A itself (the regular representation). -/
-theorem Etingof.forgetful_representable : (sorry : Prop) := by sorry
+The representing object is R itself (the regular representation): the map `f ↦ f(1)`
+gives an equivalence `Hom_R(R, M) ≃ M` for any R-module M. -/
+noncomputable def Etingof.forgetful_representable
+    (R : Type*) [Semiring R] (M : Type*) [AddCommMonoid M] [Module R M] :
+    (R →ₗ[R] M) ≃ₗ[ℕ] M :=
+  LinearMap.ringLmapEquivSelf R ℕ M
