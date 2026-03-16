@@ -209,69 +209,234 @@ theorem Etingof.krull_schmidt_existence (k : Type*) (A : Type*) (V : Type*)
     (Module.finrank k V) ⊤ (by simp [Submodule.restrictScalars_top])
   exact ⟨n, W, hindec, hsup, hind⟩
 
-/-- Auxiliary lemma for Krull-Schmidt uniqueness. Proved by induction on k-dimension of S.
-Given two internal direct sum decompositions of a submodule S into indecomposable summands,
-the number of summands is equal and summands can be matched up to isomorphism. -/
-private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) (V : Type*)
+/-- Key step for Krull-Schmidt uniqueness: given an indecomposable direct summand W₀ in one
+decomposition, find a matching indecomposable summand W'_{j₀} in another decomposition
+that is isomorphic to W₀ via the projection map.
+
+The proof uses Lemma 3.8.2: the projection from V onto W₀ restricts to endomorphisms of W₀
+that sum to the identity. Since W₀ is indecomposable, by 3.8.2(ii) not all can be nilpotent,
+so by 3.8.2(i) at least one is an isomorphism. -/
+private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
     [Field k] [Ring A] [Algebra k A]
     [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [FiniteDimensional k V]
-    (d : ℕ) (S : Submodule A V)
-    (hd : Module.finrank k (S.restrictScalars k) ≤ d)
     {n m : ℕ} (W : Fin n → Submodule A V) (W' : Fin m → Submodule A V)
-    (hW_le : ∀ i, W i ≤ S) (hW'_le : ∀ i, W' i ≤ S)
     (hW_indec : ∀ i, Etingof.IsIndecomposable A (W i))
     (hW'_indec : ∀ i, Etingof.IsIndecomposable A (W' i))
     (hW_ne : ∀ i, W i ≠ ⊥)
     (hW'_ne : ∀ i, W' i ≠ ⊥)
-    (hW_sup : (⨆ i, W i) = S) (hW'_sup : (⨆ i, W' i) = S)
-    (hW_ind : iSupIndep W) (hW'_ind : iSupIndep W') :
+    (hW_sup : iSup W = ⊤) (hW_ind : iSupIndep W)
+    (hW'_sup : iSup W' = ⊤) (hW'_ind : iSupIndep W')
+    (hn_pos : 0 < n) (hm_pos : 0 < m) :
+    ∃ j : Fin m, Nonempty ((W ⟨0, hn_pos⟩) ≃ₗ[A] (W' j)) := by
+  set i₀ : Fin n := ⟨0, hn_pos⟩
+  -- Build internal direct sum structures
+  have hIntW : DirectSum.IsInternal W :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top W).mpr ⟨hW_ind, hW_sup⟩
+  have hIntW' : DirectSum.IsInternal W' :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top W').mpr ⟨hW'_ind, hW'_sup⟩
+  -- Get the decomposition equivalences
+  set eW := LinearEquiv.ofBijective (DirectSum.coeLinearMap W) hIntW with eW_def
+  set eW' := LinearEquiv.ofBijective (DirectSum.coeLinearMap W') hIntW' with eW'_def
+  -- Define projection V → W i₀ using the first decomposition
+  set π₀ : V →ₗ[A] ↥(W i₀) := (DirectSum.component A (Fin n) (fun i => ↥(W i)) i₀).comp eW.symm.toLinearMap
+  -- Define projection V → W' j using the second decomposition
+  set π' : ∀ j : Fin m, V →ₗ[A] ↥(W' j) :=
+    fun j => (DirectSum.component A (Fin m) (fun j => ↥(W' j)) j).comp eW'.symm.toLinearMap
+  -- For each j, define the endomorphism f_j : W i₀ → W i₀
+  -- f_j = π₀ ∘ (W' j).subtype ∘ π'_j ∘ (W i₀).subtype
+  set f : Fin m → Module.End A ↥(W i₀) :=
+    fun j => (π₀.comp ((W' j).subtype.comp ((π' j).comp (W i₀).subtype)))
+  -- Key claim: ∑ j, f j = id on W i₀
+  -- Proof: π₀ ∘ ι₀ = id (projection-section), ∑ j, ι'_j ∘ π'_j = id_V (reconstruction)
+  have hπ₀_ι₀ : π₀.comp (W i₀).subtype = LinearMap.id := by
+    ext ⟨y, hy⟩
+    simp only [π₀, LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.id_apply]
+    exact congrArg Subtype.val (hIntW.ofBijective_coeLinearMap_same ⟨y, hy⟩)
+  have hrecon : ∀ v : V, ∑ j : Fin m, ((W' j).subtype ((π' j) v) : V) = v := by
+    intro v
+    -- π' j v = component j (eW'.symm v) = (eW'.symm v) j
+    have hπ'_eq : ∀ j, π' j v = (eW'.symm v) j := fun j => rfl
+    simp_rw [hπ'_eq]
+    -- Now need: ∑ j, ι_j ((eW'.symm v) j) = v
+    suffices h : ∀ (d : DirectSum (Fin m) (fun j => ↥(W' j))),
+        (∑ j : Fin m, ((W' j).subtype (d j) : V)) = (DirectSum.coeLinearMap W') d by
+      rw [h]; exact eW'.apply_symm_apply v
+    intro d
+    induction d using DirectSum.induction_on with
+    | zero => simp
+    | of i x =>
+      simp only [DirectSum.coeLinearMap_of]
+      rw [Finset.sum_eq_single i]
+      · simp [DirectSum.of_eq_same]
+      · intro j _ hji; simp [DirectSum.of_eq_of_ne _ _ _ hji]
+      · intro hi; exact absurd (Finset.mem_univ i) hi
+    | add x y hx hy =>
+      simp only [map_add]
+      simp_rw [show ∀ j : Fin m, (x + y) j = x j + y j from fun j => rfl,
+        map_add, Finset.sum_add_distrib, hx, hy]
+  have hf_sum : ∑ j, f j = LinearMap.id := by
+    ext ⟨x, hx⟩
+    simp only [f, LinearMap.sum_apply, LinearMap.comp_apply, LinearMap.id_apply]
+    -- Goal: ∑ j, π₀(ι'_j(π'_j(ι₀ ⟨x,hx⟩))) = ⟨x, hx⟩
+    -- Factor out π₀ from the sum
+    have h1 : (∑ j : Fin m, π₀ ((W' j).subtype ((π' j) ((W i₀).subtype ⟨x, hx⟩)))) =
+        π₀ (∑ j : Fin m, ((W' j).subtype ((π' j) x) : V)) := by
+      rw [map_sum]; rfl
+    rw [h1, hrecon x]
+    have := LinearMap.congr_fun hπ₀_ι₀ ⟨x, hx⟩
+    simp only [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.id_apply] at this
+    exact congrArg Subtype.val this
+  -- W i₀ is indecomposable and nontrivial
+  have hW0_indec := hW_indec i₀
+  have hW0_ne := hW_ne i₀
+  -- Finite-dimensionality for submodules
+  haveI : FiniteDimensional k ↥(W i₀) :=
+    Module.Finite.of_injective ((W i₀).subtype.restrictScalars k) Subtype.val_injective
+  -- Since ∑ f_j = id and id is not nilpotent (W i₀ ≠ 0), not all f_j are nilpotent
+  have hW0_nontrivial : Nontrivial ↥(W i₀) :=
+    Submodule.nontrivial_iff_ne_bot.mpr (hW_ne i₀)
+  have hid_not_nilp : ¬ IsNilpotent (LinearMap.id : Module.End A ↥(W i₀)) := by
+    rintro ⟨p, hp⟩
+    simp at hp
+    -- hp : LinearMap.id = 0
+    obtain ⟨a, b, hab⟩ := hW0_nontrivial
+    have h1 := LinearMap.congr_fun hp a
+    have h2 := LinearMap.congr_fun hp b
+    simp at h1 h2
+    exact hab (h1.trans h2.symm)
+  -- By Lemma 3.8.2(ii), not all f j are nilpotent
+  have hf_not_all_nilp : ¬ ∀ j, IsNilpotent (f j) := by
+    intro hall
+    have := Etingof.sum_nilpotent_endo_indecomposable k A ↥(W i₀) hW0_indec f hall
+    rw [hf_sum] at this
+    exact hid_not_nilp this
+  -- So there exists j₀ with f j₀ not nilpotent
+  push_neg at hf_not_all_nilp
+  obtain ⟨j₀, hj₀⟩ := hf_not_all_nilp
+  -- By Lemma 3.8.2(i), f j₀ is bijective
+  have hj₀_bij : Function.Bijective (f j₀) := by
+    have := Etingof.endo_indecomposable_iso_or_nilpotent k A ↥(W i₀) hW0_indec (f j₀)
+    tauto
+  -- f j₀ = α ∘ β where α : W' j₀ → W i₀ and β : W i₀ → W' j₀
+  set α : ↥(W' j₀) →ₗ[A] ↥(W i₀) := π₀.comp (W' j₀).subtype
+  set β : ↥(W i₀) →ₗ[A] ↥(W' j₀) := (π' j₀).comp (W i₀).subtype
+  have hf_eq : f j₀ = α.comp β := rfl
+  -- Consider φ = β ∘ α : W' j₀ → W' j₀ (endomorphism of indecomposable W' j₀)
+  set φ : Module.End A ↥(W' j₀) := β.comp α
+  -- φ is not nilpotent: if (β ∘ α)^p = 0 then (α ∘ β)^(p+1) = α ∘ (β ∘ α)^p ∘ β = 0,
+  -- contradicting f j₀ bijective
+  have hφ_not_nilp : ¬ IsNilpotent φ := by
+    intro ⟨p, hp⟩
+    -- Key identity: (α ∘ β)^n ∘ α = α ∘ (β ∘ α)^n  (by induction)
+    have key : ∀ (q : ℕ) (y : ↥(W' j₀)),
+        ((α.comp β) ^ q) (α y) = α (((β.comp α) ^ q) y) := by
+      intro q; induction q with
+      | zero => intro y; simp
+      | succ q ih =>
+        intro y
+        -- (α∘β)^(q+1)(α y) = (α∘β)^q((α∘β)(α y)) = (α∘β)^q(α(β(α y)))
+        -- = α((β∘α)^q(β(α y))) = α((β∘α)^(q+1) y)
+        simp only [pow_succ, Module.End.mul_eq_comp, LinearMap.comp_apply]
+        exact ih (β (α y))
+    have hf_pow : (f j₀) ^ (p + 1) = 0 := by
+      rw [hf_eq]
+      refine LinearMap.ext fun x => ?_
+      simp only [LinearMap.zero_apply, pow_succ, Module.End.mul_eq_comp, LinearMap.comp_apply]
+      rw [key p (β x), show ((β.comp α) ^ p) (β x) = 0 from LinearMap.congr_fun hp (β x)]
+      simp
+    have hf_unit : IsUnit (f j₀) := (Module.End.isUnit_iff _).mpr hj₀_bij
+    exact not_isUnit_zero (hf_pow ▸ hf_unit.pow (p + 1))
+  -- By Lemma 3.8.2(i), φ is bijective
+  have hW'_indec_j₀ := hW'_indec j₀
+  haveI : FiniteDimensional k ↥(W' j₀) :=
+    Module.Finite.of_injective ((W' j₀).subtype.restrictScalars k) Subtype.val_injective
+  have hφ_bij : Function.Bijective φ := by
+    have := Etingof.endo_indecomposable_iso_or_nilpotent k A ↥(W' j₀) hW'_indec_j₀ φ
+    tauto
+  -- φ = β ∘ α bijective implies α injective
+  have hα_inj : Function.Injective α := by
+    intro a b h; exact hφ_bij.1 (show β (α a) = β (α b) by rw [h])
+  -- α surjective from f j₀ = α ∘ β surjective
+  have hα_surj : Function.Surjective α := by
+    intro y; obtain ⟨x, hx⟩ := hj₀_bij.2 y
+    rw [hf_eq] at hx; simp only [LinearMap.comp_apply] at hx
+    exact ⟨β x, hx⟩
+  exact ⟨j₀, ⟨(LinearEquiv.ofBijective α ⟨hα_inj, hα_surj⟩).symm⟩⟩
+
+/-- Complement replacement lemma: if W₀ and W'_{j₀} are isomorphic direct summands
+(via the projection map) in two decompositions of V, then the complements are isomorphic.
+Specifically, (⨆ i ≠ 0, W i) ≃ₗ[A] (⨆ j ≠ j₀, W' j) as A-modules, and both
+inherit internal decompositions from the original decompositions. -/
+private lemma krull_schmidt_complement_iso (k : Type*) (A : Type*) (V : Type*)
+    [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [FiniteDimensional k V]
+    {n m : ℕ} (W : Fin n → Submodule A V) (W' : Fin m → Submodule A V)
+    (hW_sup : iSup W = ⊤) (hW_ind : iSupIndep W)
+    (hW'_sup : iSup W' = ⊤) (hW'_ind : iSupIndep W')
+    (hn_pos : 0 < n) (j₀ : Fin m)
+    (hiso : Nonempty ((W ⟨0, hn_pos⟩) ≃ₗ[A] (W' j₀))) :
+    let C : Submodule A V := ⨆ i, ⨆ (_ : i ≠ (⟨0, hn_pos⟩ : Fin n)), W i
+    let D : Submodule A V := ⨆ j, ⨆ (_ : j ≠ j₀), W' j
+    Nonempty (C ≃ₗ[A] D) := by
+  sorry
+
+/-- Auxiliary lemma for Krull-Schmidt uniqueness. Proved by induction on k-dimension.
+Universally quantifies over the module type so the IH applies to the complement. -/
+private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ring A] [Algebra k A]
+    (d : ℕ) : ∀ (V : Type*) [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [FiniteDimensional k V], Module.finrank k V ≤ d →
+    ∀ {n m : ℕ} (W : Fin n → Submodule A V) (W' : Fin m → Submodule A V),
+    (∀ i, Etingof.IsIndecomposable A (W i)) →
+    (∀ i, Etingof.IsIndecomposable A (W' i)) →
+    (∀ i, W i ≠ ⊥) → (∀ i, W' i ≠ ⊥) →
+    iSup W = ⊤ → iSup W' = ⊤ → iSupIndep W → iSupIndep W' →
     n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty ((W i) ≃ₗ[A] (W' (σ i))) := by
-  induction d generalizing S n m W W' with
+  induction d with
   | zero =>
-    -- S has finrank 0, so S = ⊥
-    have hS : S.restrictScalars k = ⊥ := Submodule.finrank_eq_zero.mp (Nat.le_zero.mp hd)
-    have hS' : S = ⊥ := by rwa [Submodule.restrictScalars_eq_bot_iff] at hS
-    -- No nonzero summands can exist in S = ⊥
+    intro V _ _ _ _ _ hd n m W W' _ _ hW_ne hW'_ne hW_sup hW'_sup _ _
+    have hV : Module.finrank k V = 0 := Nat.le_zero.mp hd
+    haveI : Subsingleton V := Module.finrank_zero_iff.mp hV
     have hn0 : n = 0 := by
       by_contra h
-      have h_pos : 0 < n := Nat.pos_of_ne_zero h
-      have h_le : W ⟨0, h_pos⟩ ≤ S := hW_le ⟨0, h_pos⟩
-      rw [hS'] at h_le
-      exact hW_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr h_le)
+      exact hW_ne ⟨0, Nat.pos_of_ne_zero h⟩ Submodule.eq_bot_of_subsingleton
     have hm0 : m = 0 := by
       by_contra h
-      have h_pos : 0 < m := Nat.pos_of_ne_zero h
-      have h_le : W' ⟨0, h_pos⟩ ≤ S := hW'_le ⟨0, h_pos⟩
-      rw [hS'] at h_le
-      exact hW'_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr h_le)
+      exact hW'_ne ⟨0, Nat.pos_of_ne_zero h⟩ Submodule.eq_bot_of_subsingleton
     subst hn0; subst hm0
     exact ⟨rfl, ⟨Equiv.refl _, nofun⟩⟩
   | succ d ih =>
+    intro V _ _ _ _ _ hd n m W W' hW_indec hW'_indec hW_ne hW'_ne hW_sup hW'_sup hW_ind hW'_ind
     -- Handle n = 0 case
     by_cases hn : n = 0
     · subst hn
-      have hS_bot : S = ⊥ := by
-        rw [← hW_sup]; simp
       have hm0 : m = 0 := by
         by_contra h
         have h_pos : 0 < m := Nat.pos_of_ne_zero h
-        have h_le : W' ⟨0, h_pos⟩ ≤ S := hW'_le ⟨0, h_pos⟩
-        rw [hS_bot] at h_le
-        exact hW'_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr h_le)
+        have : W' ⟨0, h_pos⟩ ≤ ⊤ := le_top
+        have hV0 : (⊤ : Submodule A V) = ⊥ := by rw [← hW_sup]; simp
+        rw [hV0] at this
+        exact hW'_ne ⟨0, h_pos⟩ (eq_bot_iff.mpr this)
       subst hm0
       exact ⟨rfl, ⟨Equiv.refl _, nofun⟩⟩
-    · -- n > 0 and m > 0 (by symmetric argument)
+    · -- n > 0 and m > 0
       have hn_pos : 0 < n := Nat.pos_of_ne_zero hn
       have hm_pos : 0 < m := by
         by_contra h_neg
         push_neg at h_neg
         interval_cases m
-        have hS_bot : S = ⊥ := by rw [← hW'_sup]; simp
-        rw [hS_bot] at hW_sup
-        have h_le : W ⟨0, hn_pos⟩ ≤ ⨆ i, W i := le_iSup W ⟨0, hn_pos⟩
-        rw [hW_sup] at h_le
+        have hV0 : (⊤ : Submodule A V) = ⊥ := by rw [← hW'_sup]; simp
+        have h_le : W ⟨0, hn_pos⟩ ≤ ⊤ := le_top
+        rw [hV0] at h_le
         exact hW_ne ⟨0, hn_pos⟩ (eq_bot_iff.mpr h_le)
+      -- Step 1: Find j₀ such that W 0 ≅ W' j₀
+      obtain ⟨j₀, hj₀_iso⟩ := krull_schmidt_find_iso_summand k A V W W'
+        hW_indec hW'_indec hW_ne hW'_ne hW_sup hW_ind hW'_sup hW'_ind hn_pos hm_pos
+      -- The remaining proof requires:
+      -- Step 2: Show complements are isomorphic
+      -- Step 3: Transport decompositions to the complement and apply IH
+      -- Step 4: Combine the matching for index 0 with the IH matching
       sorry
 
 /-- Uniqueness part of Krull-Schmidt: any two decompositions into indecomposable
@@ -290,8 +455,5 @@ theorem Etingof.krull_schmidt_uniqueness (k : Type*) (A : Type*) (V : Type*)
     (hW_sup : iSup W = ⊤) (hW_ind : iSupIndep W)
     (hW'_sup : iSup W' = ⊤) (hW'_ind : iSupIndep W') :
     n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty ((W i) ≃ₗ[A] (W' (σ i))) :=
-  krull_schmidt_uniqueness_aux k A V (Module.finrank k V) ⊤
-    (by simp [Submodule.restrictScalars_top])
-    W W' (fun _ => le_top) (fun _ => le_top)
-    hW_indec hW'_indec hW_ne hW'_ne
-    hW_sup hW'_sup hW_ind hW'_ind
+  krull_schmidt_uniqueness_aux k A (Module.finrank k V) V le_rfl
+    W W' hW_indec hW'_indec hW_ne hW'_ne hW_sup hW'_sup hW_ind hW'_ind
