@@ -542,7 +542,267 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
       -- The IH is quantified over all types, so we apply it to ↥C
       -- This requires a lot of setup (transporting decompositions, finrank bounds)
       -- which is purely technical
-      sorry
+      -- === Step 4: Apply IH to the complement C ===
+      set i₀ : Fin n := ⟨0, hn_pos⟩
+      have hIsCompl_W0_C : IsCompl (W i₀) C :=
+        ⟨hW_ind i₀, codisjoint_iff.mpr
+          (top_le_iff.mp (hW_sup ▸ iSup_le fun i =>
+            (eq_or_ne i i₀).elim (· ▸ le_sup_left)
+              (fun h => le_sup_of_le_right (le_biSup _ h))))⟩
+      haveI : FiniteDimensional k ↥C :=
+        Module.Finite.of_injective
+          (C.subtype.restrictScalars k) Subtype.val_injective
+      haveI : FiniteDimensional k ↥D :=
+        Module.Finite.of_injective
+          (D.subtype.restrictScalars k) Subtype.val_injective
+      have hC_dim : Module.finrank k ↥C ≤ d := by
+        have hC_lt : C < ⊤ := lt_top_iff_ne_top.mpr fun h =>
+          hW_ne i₀ (by
+            have := hIsCompl_W0_C.disjoint.eq_bot
+            rw [h, inf_top_eq] at this; exact this)
+        have h1 : Module.finrank k ↥C < Module.finrank k V := by
+          calc Module.finrank k ↥C
+              < Module.finrank k ↥(⊤ : Submodule A V) :=
+                Submodule.finrank_lt_finrank_of_lt
+                  ((Submodule.restrictScalars_lt (S := k)).mpr hC_lt)
+            _ = Module.finrank k V := finrank_top k V
+        omega
+      have hW_le_C : ∀ i, i ≠ i₀ → W i ≤ C :=
+        fun i hi => le_biSup _ hi
+      have hW'_le_D : ∀ j, j ≠ j₀ → W' j ≤ D :=
+        fun j hj => le_biSup _ hj
+      -- Indexing maps
+      let succMap : Fin (n - 1) → Fin n :=
+        fun i => ⟨i.val + 1, by omega⟩
+      have succMap_inj : Function.Injective succMap :=
+        fun a b h => Fin.ext (by simp only [succMap, Fin.mk.injEq] at h; omega)
+      have succMap_ne : ∀ i, succMap i ≠ i₀ :=
+        fun i h => by simp only [succMap, i₀, Fin.mk.injEq] at h; omega
+      have succMap_surj :
+          ∀ i : Fin n, i ≠ i₀ → ∃ j, succMap j = i := by
+        intro ⟨i, hi⟩ hne
+        have hine : i ≠ 0 := fun h => hne (Fin.ext h)
+        exact ⟨⟨i - 1, by omega⟩, Fin.ext (by simp [succMap]; omega)⟩
+      let skipJ₀ : Fin (m - 1) → Fin m := fun i =>
+        if i.val < j₀.val then ⟨i.val, by omega⟩
+        else ⟨i.val + 1, by omega⟩
+      have skipJ₀_inj : Function.Injective skipJ₀ := by
+        intro a b h
+        simp only [skipJ₀] at h
+        ext
+        split_ifs at h with h1 h2 h2
+        · exact Fin.mk.inj h
+        · exfalso; have := Fin.mk.inj h; omega
+        · exfalso; have := Fin.mk.inj h; omega
+        · have := Fin.mk.inj h; omega
+      have skipJ₀_ne : ∀ i, skipJ₀ i ≠ j₀ := by
+        intro i h
+        simp only [skipJ₀] at h
+        split_ifs at h with h1
+        · exact absurd (Fin.mk.inj h).symm (by omega)
+        · exact absurd (Fin.mk.inj h).symm (by omega)
+      have skipJ₀_surj :
+          ∀ j : Fin m, j ≠ j₀ → ∃ i, skipJ₀ i = j := by
+        intro j hjne
+        have hjne_val : j.val ≠ j₀.val := fun h => hjne (Fin.ext h)
+        by_cases h : j.val < j₀.val
+        · exact ⟨⟨j.val, by omega⟩, Fin.ext (by simp [skipJ₀, h])⟩
+        · refine ⟨⟨j.val - 1, by omega⟩, Fin.ext ?_⟩
+          simp only [skipJ₀]
+          have hj_ge : ¬(j.val - 1 < j₀.val) := by omega
+          simp [hj_ge]; omega
+      -- Define decompositions of ↥C
+      let WC : Fin (n - 1) → Submodule A ↥C :=
+        fun i => (W (succMap i)).comap C.subtype
+      let W'D : Fin (m - 1) → Submodule A ↥D :=
+        fun i => (W' (skipJ₀ i)).comap D.subtype
+      let W'C : Fin (m - 1) → Submodule A ↥C :=
+        fun i => (W'D i).map eCD.symm.toLinearMap
+      -- Prove all 8 IH hypotheses for WC
+      have hWC_indec : ∀ i, Etingof.IsIndecomposable A (WC i) := by
+        intro i ⟨P, Q, hP, hQ, hSup, hInf⟩
+        have e := Submodule.comapSubtypeEquivOfLe (hW_le_C _ (succMap_ne i))
+        exact (hW_indec (succMap i))
+          ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
+           fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
+           fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
+           by rw [← Submodule.map_sup, hSup, Submodule.map_top]
+              exact LinearMap.range_eq_top.mpr e.surjective,
+           by rw [← Submodule.map_inf e.toLinearMap e.injective, hInf, Submodule.map_bot]⟩
+      have hWC_ne : ∀ i, WC i ≠ ⊥ := by
+        intro i h; apply hW_ne (succMap i)
+        have : Submodule.map C.subtype (WC i) = W (succMap i) :=
+          by rw [Submodule.map_comap_subtype, inf_eq_right.mpr (hW_le_C _ (succMap_ne i))]
+        rw [← this, h, Submodule.map_bot]
+      have hWC_sup : iSup WC = ⊤ := by
+        have hC_eq : C = ⨆ i, W (succMap i) := by
+          rw [show C = ⨆ i, ⨆ (_ : i ≠ i₀), W i from rfl]
+          apply le_antisymm
+          · exact iSup₂_le fun i hi => by
+              obtain ⟨j, hj⟩ := succMap_surj i hi
+              exact hj ▸ le_iSup (fun i => W (succMap i)) j
+          · exact iSup_le fun i => le_biSup W (succMap_ne i)
+        rw [eq_top_iff]; intro ⟨x, hxC⟩ _
+        -- We use: ⨆ i, map f (S i) = map f (⨆ S) for subtype
+        -- then comap_iSup_map_of_injective
+        have key : (⨆ i, (WC i).map C.subtype).comap C.subtype = iSup WC :=
+          Submodule.comap_iSup_map_of_injective Subtype.val_injective WC
+        rw [← key, Submodule.mem_comap]
+        change x ∈ ⨆ i, (WC i).map C.subtype
+        -- WC i = (W (succMap i)).comap C.subtype, so map C.subtype (WC i) = W (succMap i) ⊓ C
+        -- but since W (succMap i) ≤ C, this is W (succMap i)
+        have h_map : ∀ i, (WC i).map C.subtype = W (succMap i) := fun i => by
+          change (Submodule.map C.subtype ((W (succMap i)).comap C.subtype)) = W (succMap i)
+          rw [Submodule.map_comap_subtype, inf_eq_right.mpr (hW_le_C _ (succMap_ne i))]
+        simp_rw [h_map]; rw [← hC_eq]; exact hxC
+      have hWC_ind : iSupIndep WC := by
+        intro i; rw [disjoint_iff, eq_bot_iff]
+        intro ⟨x, hxC⟩ ⟨hxi, hxrest⟩
+        suffices x = (0 : V) by exact Subtype.val_injective this
+        have hx1 : x ∈ W (succMap i) := hxi
+        have hx2 : x ∈ ⨆ j, ⨆ (_ : j ≠ i), W (succMap j) :=
+          (iSup₂_le fun j hj => Submodule.comap_mono (le_biSup (W ∘ succMap) hj) :
+            ⨆ j, ⨆ (_ : j ≠ i), WC j ≤
+              (⨆ j, ⨆ (_ : j ≠ i), W (succMap j)).comap C.subtype) hxrest
+        exact (Submodule.mem_bot A).mp
+          (disjoint_iff.mp ((hW_ind.comp succMap_inj) i) ▸
+            (⟨hx1, hx2⟩ : x ∈ W (succMap i) ⊓ _))
+      -- W'D properties (analogous)
+      have hW'D_indec : ∀ i, Etingof.IsIndecomposable A (W'D i) := by
+        intro i ⟨P, Q, hP, hQ, hSup, hInf⟩
+        have e := Submodule.comapSubtypeEquivOfLe (hW'_le_D _ (skipJ₀_ne i))
+        exact (hW'_indec (skipJ₀ i))
+          ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
+           fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
+           fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
+           by rw [← Submodule.map_sup, hSup, Submodule.map_top]
+              exact LinearMap.range_eq_top.mpr e.surjective,
+           by rw [← Submodule.map_inf e.toLinearMap e.injective, hInf, Submodule.map_bot]⟩
+      have hW'D_ne : ∀ i, W'D i ≠ ⊥ := by
+        intro i h; apply hW'_ne (skipJ₀ i)
+        have : Submodule.map D.subtype (W'D i) = W' (skipJ₀ i) :=
+          by rw [Submodule.map_comap_subtype, inf_eq_right.mpr (hW'_le_D _ (skipJ₀_ne i))]
+        rw [← this, h, Submodule.map_bot]
+      have hW'D_sup : iSup W'D = ⊤ := by
+        have hD_eq : D = ⨆ i, W' (skipJ₀ i) := by
+          rw [show D = ⨆ j, ⨆ (_ : j ≠ j₀), W' j from rfl]
+          apply le_antisymm
+          · exact iSup₂_le fun j hj => by
+              obtain ⟨i, hi⟩ := skipJ₀_surj j hj
+              exact hi ▸ le_iSup (fun i => W' (skipJ₀ i)) i
+          · exact iSup_le fun i => le_biSup W' (skipJ₀_ne i)
+        rw [eq_top_iff]; intro ⟨x, hxD⟩ _
+        have key : (⨆ i, (W'D i).map D.subtype).comap D.subtype = iSup W'D :=
+          Submodule.comap_iSup_map_of_injective Subtype.val_injective W'D
+        rw [← key, Submodule.mem_comap]
+        change x ∈ ⨆ i, (W'D i).map D.subtype
+        have h_map : ∀ i, (W'D i).map D.subtype = W' (skipJ₀ i) := fun i => by
+          change (Submodule.map D.subtype ((W' (skipJ₀ i)).comap D.subtype)) = W' (skipJ₀ i)
+          rw [Submodule.map_comap_subtype, inf_eq_right.mpr (hW'_le_D _ (skipJ₀_ne i))]
+        simp_rw [h_map]; rw [← hD_eq]; exact hxD
+      have hW'D_ind : iSupIndep W'D := by
+        intro i; rw [disjoint_iff, eq_bot_iff]
+        intro ⟨x, hxD⟩ ⟨hxi, hxrest⟩
+        suffices x = (0 : V) by exact Subtype.val_injective this
+        have hx1 : x ∈ W' (skipJ₀ i) := hxi
+        have hx2 : x ∈ ⨆ j, ⨆ (_ : j ≠ i), W' (skipJ₀ j) :=
+          (iSup₂_le fun j hj => Submodule.comap_mono (le_biSup (W' ∘ skipJ₀) hj) :
+            ⨆ j, ⨆ (_ : j ≠ i), W'D j ≤
+              (⨆ j, ⨆ (_ : j ≠ i), W' (skipJ₀ j)).comap D.subtype) hxrest
+        exact (Submodule.mem_bot A).mp
+          (disjoint_iff.mp ((hW'_ind.comp skipJ₀_inj) i) ▸
+            (⟨hx1, hx2⟩ : x ∈ W' (skipJ₀ i) ⊓ _))
+      -- W'C properties (via eCD.symm transfer from W'D)
+      have hW'C_indec : ∀ i, Etingof.IsIndecomposable A (W'C i) := by
+        intro i
+        -- W'C i = (W'D i).comap eCD (propositionally)
+        have hcomap_eq : W'C i = (W'D i).comap (eCD : ↥C →ₗ[A] ↥D) := by
+          change (W'D i).map eCD.symm.toLinearMap = (W'D i).comap (eCD : ↥C →ₗ[A] ↥D)
+          rw [Submodule.comap_equiv_eq_map_symm]
+        -- Build equivalence W'C i ≃ₗ W'D i using ▸ to cast
+        have e : ↥(W'C i) ≃ₗ[A] ↥(W'D i) :=
+          hcomap_eq ▸ LinearEquiv.ofSubmodule' eCD (W'D i)
+        intro ⟨P, Q, hP, hQ, hSup, hInf⟩
+        exact (hW'D_indec i)
+          ⟨P.map e.toLinearMap, Q.map e.toLinearMap,
+           fun h => hP (by rwa [Submodule.map_eq_bot_iff] at h),
+           fun h => hQ (by rwa [Submodule.map_eq_bot_iff] at h),
+           by rw [← Submodule.map_sup, hSup, Submodule.map_top]
+              exact LinearMap.range_eq_top.mpr e.surjective,
+           by rw [← Submodule.map_inf e.toLinearMap e.injective, hInf, Submodule.map_bot]⟩
+      have hW'C_ne : ∀ i, W'C i ≠ ⊥ := by
+        intro i h; apply hW'D_ne i
+        rwa [show W'C i = (W'D i).map eCD.symm.toLinearMap from rfl,
+          Submodule.map_eq_bot_iff] at h
+      have hW'C_sup : iSup W'C = ⊤ := by
+        have : iSup W'C = iSup (fun i => (W'D i).map eCD.symm.toLinearMap) := rfl
+        rw [this, ← Submodule.map_iSup, hW'D_sup, Submodule.map_top]
+        exact LinearMap.range_eq_top.mpr eCD.symm.surjective
+      have hW'C_ind : iSupIndep W'C := by
+        intro i; rw [disjoint_iff]
+        have h_eq : ∀ j, W'C j = (W'D j).map eCD.symm.toLinearMap := fun _ => rfl
+        simp_rw [h_eq, ← Submodule.map_iSup,
+          ← Submodule.map_inf _ eCD.symm.injective,
+          disjoint_iff.mp (hW'D_ind i), Submodule.map_bot]
+      -- Apply IH
+      obtain ⟨hnm_pred, σ', hσ'⟩ := ih ↥C hC_dim WC W'C
+        hWC_indec hW'C_indec hWC_ne hW'C_ne
+        hWC_sup hW'C_sup hWC_ind hW'C_ind
+      have hnm : n = m := by omega
+      subst hnm
+      refine ⟨rfl, ?_⟩
+      -- Construct σ : Fin n ≃ Fin n
+      -- Use dite so the else branch has ¬(i.val = 0) available for omega
+      let σ_fun : Fin n → Fin n := fun i =>
+        if h : i.val = 0 then j₀
+        else skipJ₀ (σ' ⟨i.val - 1, by omega⟩)
+      have σ_inj : Function.Injective σ_fun := by
+        intro a b hab
+        simp only [σ_fun] at hab
+        split_ifs at hab with h1 h2
+        · exact Fin.ext (by omega)
+        · exfalso; exact skipJ₀_ne _ hab.symm
+        · exfalso; exact skipJ₀_ne _ hab
+        · exact Fin.ext (by
+            have h3 := skipJ₀_inj hab
+            have h4 := σ'.injective h3
+            simp only [Fin.mk.injEq] at h4; omega)
+      have σ_surj : Function.Surjective σ_fun := by
+        intro j
+        by_cases hj : j = j₀
+        · exact ⟨⟨0, hn_pos⟩, by simp [σ_fun, hj]⟩
+        · obtain ⟨i, hi⟩ := skipJ₀_surj j hj
+          obtain ⟨k, hk⟩ := σ'.surjective i
+          refine ⟨⟨k.val + 1, by omega⟩, ?_⟩
+          simp only [σ_fun, show ¬((k.val + 1 : ℕ) = 0) from by omega,
+            show k.val + 1 - 1 = k.val from by omega, dite_false]
+          rw [show (⟨k.val, by omega⟩ : Fin (n - 1)) = k
+            from Fin.ext rfl, hk, hi]
+      refine ⟨Equiv.ofBijective σ_fun ⟨σ_inj, σ_surj⟩, fun i => ?_⟩
+      simp only [Equiv.ofBijective_apply]
+      by_cases h : (i : ℕ) = 0
+      · have hσ_eq : σ_fun i = j₀ := dif_pos h
+        rw [hσ_eq]
+        have hi : i = i₀ := Fin.ext h
+        subst hi; exact hj₀_iso
+      · set idx : Fin (n - 1) := ⟨i.val - 1, by omega⟩
+        have hσ_eq : σ_fun i = skipJ₀ (σ' idx) := dif_neg h
+        rw [hσ_eq]
+        obtain ⟨eIH⟩ := hσ' idx
+        have hSucc : succMap idx = i :=
+          Fin.ext (by simp [succMap, idx]; omega)
+        -- Chain: W i ≃ WC idx ≃ W'C (σ' idx) ≃ W'D (σ' idx) ≃ W' (skipJ₀ (σ' idx))
+        have e1 : ↥(W i) ≃ₗ[A] ↥(WC idx) := by
+          rw [show W i = W (succMap idx) from by rw [hSucc]]
+          exact (Submodule.comapSubtypeEquivOfLe (hW_le_C _ (succMap_ne idx))).symm
+        have hcomap : W'C (σ' idx) = (W'D (σ' idx)).comap (eCD : ↥C →ₗ[A] ↥D) := by
+          change (W'D (σ' idx)).map eCD.symm.toLinearMap = _
+          rw [Submodule.comap_equiv_eq_map_symm]
+        have e2 : ↥(W'C (σ' idx)) ≃ₗ[A] ↥(W' (skipJ₀ (σ' idx))) := by
+          rw [hcomap]
+          exact (LinearEquiv.ofSubmodule' eCD (W'D (σ' idx))).trans
+            (Submodule.comapSubtypeEquivOfLe (hW'_le_D _ (skipJ₀_ne (σ' idx))))
+        exact ⟨e1.trans (eIH.trans e2)⟩
 
 /-- Uniqueness part of Krull-Schmidt: any two decompositions into indecomposable
 direct summands have the same number of summands, and the summands can be matched
