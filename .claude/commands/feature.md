@@ -20,6 +20,17 @@ cycle described in the project's CLAUDE.md.
 After each coherent chunk of changes, build, test, and commit following the
 project's conventions. Each commit must compile and pass tests.
 
+### Phase 3 Formalization
+
+When working on Lean formalization items, read the `lean-formalization` skill
+for the translate/scaffold/prove workflow, tactic selection, and Aristotle
+escalation protocol. Key points:
+
+- **One tactic at a time** — check diagnostics after each step
+- **Verify Mathlib declarations exist** before using them (`#check`)
+- **Escalate to Aristotle** after 2-3 serious failed proof attempts
+- **Never commit `admit`** — only use in temporary Aristotle submission files
+
 ## Reflect
 
 Run `/reflect` before finishing.

@@ -103,4 +103,56 @@ Before starting content work in a new phase, verify that:
 Issue granularity should match the phase:
 - **Phase 1**: 5-15 pages per issue (transcription), 1 chapter per issue (structure analysis)
 - **Phase 2**: 1 chapter per issue (dependency analysis), 1 issue for cross-chapter validation
-- **Phase 3**: 3-10 items per issue (formalization), grouped by dependency cluster
+- **Phase 3**: 1-5 items per issue (formalization), grouped by dependency cluster and difficulty
+
+## Phase 3: Formalization-Specific Coordination
+
+### Dependency DAG Traversal
+
+Phase 3 work must respect the dependency DAG — you can't formalize an item until its dependencies are sorry-free.
+
+**Finding ready work:**
+1. Query `progress/items.json` for items with status `statement_formalized`
+2. Check each item's dependencies in `dependencies/internal.json`
+3. An item is "ready" when all its direct dependencies have status `sorry_free`
+4. Prefer items with many dependents (unblocks more downstream work)
+
+**Planners should:**
+- Group ready items by dependency cluster (items that share dependencies)
+- Never plan work on items whose dependencies aren't sorry-free
+- Front-load foundational definitions (Chapter 1-2) — everything depends on them
+- Track the formalization frontier: the boundary between sorry-free and sorry'd items
+
+### Aristotle Coordination
+
+Aristotle adds a new dimension to coordination: async proof attempts running in parallel with Claude agents.
+
+**Constraints:**
+- Max 5 concurrent Aristotle projects
+- Deduplication: check `sent_to_aristotle` status before submitting
+- One submission per item at a time
+
+**Planner patterns:**
+- After Stage 3.1 scaffolding, plan an "Aristotle batch submission" issue
+- Plan periodic "Aristotle result harvesting" issues to check and incorporate results
+- Don't plan Claude work on items already sent to Aristotle (wait for result)
+
+**Worker patterns:**
+- Before starting an item, check if Aristotle already solved it
+- If you escalate to Aristotle mid-work, commit what you have, mark the PR partial
+- Record the Aristotle project ID in `progress/items.json` immediately
+
+### Merge Order Matters
+
+In formalization, merge order affects what's available to downstream agents:
+- Definition PRs should merge before theorem PRs that use them
+- If two PRs touch the same import chain, they will conflict
+- Enable auto-merge and keep PRs small (1-5 items) to minimize conflicts
+
+### Formalization Anti-Patterns
+
+1. **Working on items with unmet dependencies** — wastes time, proof will need to change when dependencies are formalized
+2. **Submitting the same theorem to both Claude and Aristotle simultaneously** — wasteful duplication
+3. **Large PRs touching many items** — high conflict risk with parallel agents
+4. **Changing definition signatures after dependents exist** — cascading breakage across all agents
+5. **Not checking `.refs.md` before starting** — may miss that Mathlib already has the result

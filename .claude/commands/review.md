@@ -39,11 +39,12 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
-**Data validation** (Phase 2+):
-- Verify JSON outputs against schemas (`scripts/validate_*.py`)
-- Spot-check blob content against source pages
-- Cross-validate chapter boundaries and item coverage
-- Check dependency completeness (are all references captured?)
+**Formalization quality** (Phase 3):
+- Does the formalized statement match the book's natural language?
+- Are Mathlib declarations correctly referenced (not fabricated)?
+- Is the proof approach reasonable (not overly long or using `native_decide` on large terms)?
+- Are there remaining `sorry` or `admit` that should have been resolved?
+- See the `lean-formalization` skill for detailed review patterns
 
 ## Updating Skills
 
