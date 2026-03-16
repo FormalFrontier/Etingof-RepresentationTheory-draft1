@@ -316,6 +316,39 @@ private lemma IrrepDecomp.isoToLinearEquiv_equivariant [NeZero (Nat.card G : k)]
 
 /-! ### Connection to FDRep -/
 
+/-- Column FDReps are simple. -/
+theorem IrrepDecomp.columnFDRep_simple [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) : Simple (D.columnFDRep i) :=
+  FDRep.simple_of_isSimpleModule_asModule (D.columnRep i)
+
+/-- Column FDReps are pairwise non-isomorphic. -/
+theorem IrrepDecomp.columnFDRep_injective [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i j : Fin D.n)
+    (h : Nonempty ((D.columnFDRep i) ≅ (D.columnFDRep j))) : i = j := by
+  obtain ⟨f⟩ := h
+  by_contra hij
+  let φ := FDRep.isoToLinearEquiv f
+  have hext := equivariant_ext D i j φ.toLinearMap
+    (D.isoToLinearEquiv_equivariant i j f)
+  let e := D.iso.symm (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k))
+  have h_ei : D.projRingHom i e = 1 := by
+    simp [e, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update]
+  have h_ej : D.projRingHom j e = 0 := by
+    simp [e, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update, Ne.symm hij]
+  have hzero : ∀ v : Fin (D.d i) → k, φ.toLinearMap v = 0 := by
+    intro v; have := hext e v; rw [h_ei, h_ej] at this
+    simp [Matrix.one_mulVec, Matrix.zero_mulVec] at this; exact this
+  haveI := D.d_pos i
+  have hne : (fun (_ : Fin (D.d i)) => (1 : k)) ≠ 0 := by
+    intro h; exact one_ne_zero (congr_fun h ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
+  exact hne (φ.injective ((hzero _).trans (map_zero φ.toLinearMap).symm))
+
+/-- Every simple FDRep is isomorphic to some column FDRep (Wedderburn surjectivity). -/
+theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (W : FDRep k G) (hW : Simple W) :
+    ∃ i, Nonempty (W ≅ D.columnFDRep i) := by
+  sorry
+
 /-- The number of Wedderburn-Artin components equals the number of isomorphism classes
 of simple `FDRep k G` objects. -/
 theorem IrrepDecomp.n_eq_card_simples [NeZero (Nat.card G : k)]
@@ -323,29 +356,8 @@ theorem IrrepDecomp.n_eq_card_simples [NeZero (Nat.card G : k)]
     ∃ (V : Fin D.n → FDRep k G),
       (∀ i, Simple (V i)) ∧
       (∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) ∧
-      (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) := by
-  refine ⟨D.columnFDRep, ?_, ?_, ?_⟩
-  · intro i
-    exact FDRep.simple_of_isSimpleModule_asModule (D.columnRep i)
-  · -- Injectivity: central idempotent argument
-    intro i j ⟨f⟩
-    by_contra hij
-    let φ := FDRep.isoToLinearEquiv f
-    have hext := equivariant_ext D i j φ.toLinearMap
-      (D.isoToLinearEquiv_equivariant i j f)
-    let e := D.iso.symm (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k))
-    have h_ei : D.projRingHom i e = 1 := by
-      simp [e, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update]
-    have h_ej : D.projRingHom j e = 0 := by
-      simp [e, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update, Ne.symm hij]
-    have hzero : ∀ v : Fin (D.d i) → k, φ.toLinearMap v = 0 := by
-      intro v; have := hext e v; rw [h_ei, h_ej] at this
-      simp [Matrix.one_mulVec, Matrix.zero_mulVec] at this; exact this
-    haveI := D.d_pos i
-    have hne : (fun (_ : Fin (D.d i)) => (1 : k)) ≠ 0 := by
-      intro h; exact one_ne_zero (congr_fun h ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
-    exact hne (φ.injective ((hzero _).trans (map_zero φ.toLinearMap).symm))
-  · intro W hW; sorry
+      (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) :=
+  ⟨D.columnFDRep, D.columnFDRep_simple, D.columnFDRep_injective, D.columnFDRep_surjective⟩
 
 /-- Each dimension `d i` in the Wedderburn-Artin decomposition equals the
 `Module.finrank k` of the corresponding irreducible representation. -/
