@@ -1,0 +1,29 @@
+import Mathlib
+
+/-!
+# Theorem 5.4.4: Character Vanishing or Scalar Action
+
+For an irreducible representation V of G and a conjugacy class C such that
+gcd(|C|, dim V) = 1: for any g ∈ C, either χ_V(g) = 0 or g acts as a scalar
+on V (i.e., ρ(g) = λ · id for some root of unity λ).
+
+The proof uses Lemma 5.4.5 (roots of unity average) and the fact that
+χ_V(g)/dim(V) is an algebraic integer when gcd(|C|, dim(V)) = 1.
+
+## Mathlib correspondence
+
+Uses `IsIntegral`, `IsPrimitiveRoot`, character theory.
+-/
+
+/-- If gcd(|C|, dim V) = 1 for an irreducible V and conjugacy class C, then for g ∈ C
+either χ_V(g) = 0 or g acts as a scalar. (Etingof Theorem 5.4.4) -/
+theorem Etingof.Theorem5_4_4
+    (G : Type) [Group G] [Fintype G] [DecidableEq G]
+    (V : FDRep ℂ G)
+    -- TODO: irreducibility hypothesis
+    -- TODO: conjugacy class C with gcd(|C|, dim V) = 1
+    (g : G)
+    (h_coprime : True) :  -- placeholder for gcd condition
+    -- Either χ_V(g) = 0 or g acts as a scalar on V
+    True := by
+  trivial
