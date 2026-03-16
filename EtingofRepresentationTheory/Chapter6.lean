@@ -16,6 +16,28 @@ import EtingofRepresentationTheory.Chapter6.Definition6_4_10
 import EtingofRepresentationTheory.Chapter6.Definition6_5_1
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
 
-/-!
-# Chapter 6: Quiver Representations
--/
+-- Section 6.6: Reflection Functors
+import EtingofRepresentationTheory.Chapter6.Definition6_6_1
+import EtingofRepresentationTheory.Chapter6.Definition6_6_2
+import EtingofRepresentationTheory.Chapter6.Definition6_6_3
+import EtingofRepresentationTheory.Chapter6.Definition6_6_4
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_6
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_7
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
+
+-- Section 6.7: Coxeter Elements
+import EtingofRepresentationTheory.Chapter6.Definition6_7_1
+import EtingofRepresentationTheory.Chapter6.Lemma6_7_2
+
+-- Section 6.8: Gabriel's Theorem
+import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
+import EtingofRepresentationTheory.Chapter6.Corollary6_8_2
+import EtingofRepresentationTheory.Chapter6.Corollary6_8_3
+import EtingofRepresentationTheory.Chapter6.Corollary6_8_4
+import EtingofRepresentationTheory.Chapter6.Example6_8_5
+
+-- Section 6.9: Problems
+import EtingofRepresentationTheory.Chapter6.Problem6_9_1
+
+/-! # Chapter 6: Quiver Representations -/
