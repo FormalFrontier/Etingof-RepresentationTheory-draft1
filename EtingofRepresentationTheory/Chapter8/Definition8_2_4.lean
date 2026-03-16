@@ -10,16 +10,16 @@ induced by the resolution P•.
 
 ## Mathlib correspondence
 
-This is `Abelian.Ext X Y n` in Mathlib, defined via derived categories. For the module
-category `ModuleCat R`, `Abelian.Ext M N n` gives the classical Ext groups.
-
-## Formalization note
-
-Mathlib defines Ext in the general abelian category setting using `SmallShiftedHom` in the
-derived category. The module-specific Ext is obtained by specializing to `ModuleCat R`.
+This is `CategoryTheory.Abelian.Ext X Y n` in Mathlib, defined via shifted morphisms in the
+derived category. For the module category `ModuleCat R`, `Abelian.Ext M N n` gives the
+classical Ext groups. The definition requires `HasExt C`, which asserts that the relevant
+localized shifted hom types are small.
 -/
 
 /-- The Ext functors, defined as derived functors of Hom, in the sense of
-Etingof Definition 8.2.4. In Mathlib, this is `Abelian.Ext` for objects in an abelian
-category, specialized to `ModuleCat R` for modules. -/
-theorem Etingof.Definition_8_2_4 : (sorry : Prop) := sorry
+Etingof Definition 8.2.4. In Mathlib, this is `CategoryTheory.Abelian.Ext` for objects in
+an abelian category with `HasExt`, specialized to `ModuleCat R` for modules. -/
+noncomputable abbrev Etingof.Ext {C : Type*} [CategoryTheory.Category C]
+    [CategoryTheory.Abelian C] [CategoryTheory.HasExt C]
+    (M N : C) (n : ℕ) : Type _ :=
+  CategoryTheory.Abelian.Ext M N n
