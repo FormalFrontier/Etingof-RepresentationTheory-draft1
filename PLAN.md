@@ -283,7 +283,7 @@ Prepare a human-readable report summarizing:
 
 **Output:** `READINESS.md`
 
-**This is a human review checkpoint.** Orchestrators should pause here and wait for a human to review the readiness report and give approval before proceeding to formalization.
+**Note:** This report is informational — do not pause for human review. Write the report and immediately continue to Stage 2.7.
 
 ### Stage 2.7: Reference Attachment
 
