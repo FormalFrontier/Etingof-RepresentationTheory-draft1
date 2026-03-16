@@ -5,11 +5,27 @@ items as GitHub issues, then exit. You do NOT execute any code changes.
 
 ## Step 1: Orient
 
-1. `git fetch origin main`
+1. `git fetch origin master`
 2. `coordination orient` — see open issues (claimed and unclaimed), PRs, attention items
 3. Read the last 5 files in `progress/` (sorted by filename) to understand recent work
 4. Read the project's roadmap document to understand current phase
 5. Record quality metrics as described in the project's CLAUDE.md
+
+## Step 1b: Check for human oversight directives
+
+Before creating any new work, check for open `human-oversight` issues:
+```
+gh issue list --label human-oversight --state open --json number,title,labels \
+    --jq '.[] | select(.labels | all(.name != "has-pr")) | "#\(.number) \(.title)"'
+```
+
+These are direct instructions from the project owner. Treat them as highest priority:
+- **Do not create issues that overlap with or supersede a `human-oversight` issue**
+- **Do not close `human-oversight` issues** — only the owner closes them
+- **Do not add `replan` to `human-oversight` issues** — they stay open until done
+- If a `human-oversight` issue is already claimed, continue to Step 2 (workers are on it)
+- If unclaimed, prioritise creating any supporting infrastructure issues first, then exit
+  — the next worker will claim the directive itself
 
 ## Step 2: Understand existing plans
 
@@ -37,7 +53,15 @@ unclaimed queue composition — if dominated by one type, choose a different typ
 
 Priority order for **feature** work:
 1. PRs needing attention (merge conflicts, failing CI)
-2. Next deliverable from the project's roadmap
+2. Aristotle result harvesting (if items are in `sent_to_aristotle` status)
+3. Next deliverable from the project's roadmap
+
+**Phase 3 formalization planning:**
+- Check `progress/items.json` for ready items (dependencies sorry-free)
+- Group items by dependency cluster and difficulty level
+- Never mix hard theorems (may need Aristotle) with easy definitions in one issue
+- Front-load foundational definitions (Chapters 1-2) — everything depends on them
+- See the `parallel-agent-coordination` skill for DAG traversal patterns
 
 **Summarize trigger**: Create a summarize issue (if none is already open) when
 10+ PRs have merged since the last summarize issue closed, or PR titles suggest
