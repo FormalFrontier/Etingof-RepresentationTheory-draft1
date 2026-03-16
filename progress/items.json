@@ -1338,7 +1338,8 @@
     "start_page": "49",
     "end_page": "49",
     "start_line": 9,
-    "end_line": 12
+    "end_line": 12,
+    "status": "sorry_free"
   },
   {
     "id": "Chapter3/Introduction_to_3.5",
@@ -1401,7 +1402,8 @@
     "start_page": "51",
     "end_page": "51",
     "start_line": 5,
-    "end_line": 8
+    "end_line": 8,
+    "status": "scaffolded"
   },
   {
     "id": "Chapter3/Definition3.5.7",
