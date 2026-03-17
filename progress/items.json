@@ -2995,9 +2995,9 @@
     "end_page": "115",
     "start_line": 5,
     "end_line": 8,
-    "status": "proof_formalized",
+    "status": "sorry_free",
     "needs_statement": false,
-    "notes": "Statement formalized, algebraic proof complete. Only pigeonhole_transposition (combinatorial lemma) remains as sorry."
+    "notes": "Fully proved. pigeonhole_transposition proved via column fiber decomposition + double counting identity."
   },
   {
     "id": "Chapter5/Lemma5.13.3",
