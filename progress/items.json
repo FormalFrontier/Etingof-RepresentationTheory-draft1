@@ -4201,7 +4201,7 @@
     "end_page": "168",
     "start_line": 21,
     "end_line": 35,
-    "status": "statement_formalized"
+    "status": "proof_formalized"
   },
   {
     "id": "Chapter6/Definition6.6.3_maps",
@@ -4220,7 +4220,7 @@
     "end_page": "169",
     "start_line": 3,
     "end_line": 26,
-    "status": "statement_formalized"
+    "status": "proof_formalized"
   },
   {
     "id": "Chapter6/Proposition6.6.5",
