@@ -455,87 +455,6 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
       rw [heq]
       exact MvPolynomial.irreducible_mul_X_add _ _ _ hf_ne hf_vars hg_vars hrel
 
-/-- Each block polynomial is irreducible. The proof uses the fact that the generic
-determinant is irreducible over k, and the block polynomial is obtained from it
-via a surjective linear substitution (from the Wedderburn projection). -/
-private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
-    (D : IrrepDecomp k G) (i : Fin D.n) :
-    Irreducible (D.blockPoly i) := by
-  haveI := D.d_pos i
-  -- The block polynomial equals aeval φ (det(generic matrix)) where φ substitutes
-  -- matrix variables with linear forms from the representation
-  set d := D.d i
-  -- Define the substitution: (a,b) ↦ ∑_g c_{g,a,b} · X_g
-  set φ : Fin d × Fin d → MvPolynomial G k :=
-    fun ab => ∑ g : G, MvPolynomial.C (D.projRingHom i (MonoidAlgebra.of k G g) ab.1 ab.2) *
-      MvPolynomial.X g with hφ_def
-  -- blockPoly = aeval φ (det(generic matrix))
-  have hbp : D.blockPoly i = MvPolynomial.aeval φ (det (mvPolynomialX (Fin d) (Fin d) k)) := by
-    unfold IrrepDecomp.blockPoly
-    rw [AlgHom.map_det]; congr 1; ext a b
-    simp [AlgHom.mapMatrix_apply, mvPolynomialX_apply, Matrix.of_apply, MvPolynomial.aeval_X, φ]
-  -- The generic determinant is irreducible
-  have hirr := genDet_irreducible k d (Nat.pos_of_ne_zero (NeZero.ne d))
-  -- Strategy: show aeval φ preserves irreducibility by factoring through an AlgEquiv
-  -- The linear forms φ(a,b) are linearly independent (from surjectivity of projRingHom)
-  -- Step 1: aeval φ maps the generic det to blockPoly
-  rw [hbp]
-  -- Step 2: Show aeval φ preserves irreducibility
-  -- We use the fact that aeval φ is injective (the linear forms are linearly independent,
-  -- hence algebraically independent) and preserves non-units
-  sorry
-
-/-- Block polynomials for different Wedderburn components are not associated.
-If d_i ≠ d_j, they have different total degrees. If d_i = d_j, they involve
-different linear combinations of variables (by the injectivity of column FDReps). -/
-private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
-    (D : IrrepDecomp k G) (i j : Fin D.n) (hij : i ≠ j) :
-    ¬Associated (D.blockPoly i) (D.blockPoly j) := by
-  intro ⟨u, hu⟩
-  -- Define the central idempotent e_i and evaluate blockPolys at its coefficients
-  set e := D.iso.symm (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k)) with he_def
-  set σ : G → k := fun g => e g with hσ_def
-  -- The group algebra element reconstructed from σ equals e
-  have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
-    conv_rhs => rw [← Finsupp.univ_sum_single e]
-    congr 1; ext g
-    simp [hσ_def, MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
-  -- Evaluate blockPoly at σ: eval σ (blockPoly l) = det(projRingHom l (e))
-  have heval_eq : ∀ l : Fin D.n, MvPolynomial.eval σ (D.blockPoly l) =
-      (D.projRingHom l e).det := by
-    intro l
-    unfold IrrepDecomp.blockPoly
-    rw [RingHom.map_det]
-    congr 1; ext r c
-    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, map_sum, map_mul,
-      MvPolynomial.eval_C, MvPolynomial.eval_X]
-    conv_rhs => rw [show e = ∑ s : G, σ s • MonoidAlgebra.of k G s from ha_eq.symm]
-    simp only [map_sum, D.projRingHom_smul' l, Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul]
-    congr 1; ext g; ring
-  -- projRingHom i e = 1 (identity matrix)
-  have hei : D.projRingHom i e = 1 := by
-    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update]
-  -- projRingHom j e = 0 (zero matrix, since j ≠ i)
-  have hej : D.projRingHom j e = 0 := by
-    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update,
-      Ne.symm hij]
-  -- eval σ (blockPoly i) = 1
-  have heval_i : MvPolynomial.eval σ (D.blockPoly i) = 1 := by
-    rw [heval_eq, hei, det_one]
-  -- eval σ (blockPoly j) = 0
-  have heval_j : MvPolynomial.eval σ (D.blockPoly j) = 0 := by
-    rw [heval_eq, hej]
-    haveI := D.d_pos j
-    haveI : Nonempty (Fin (D.d j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
-    exact Matrix.det_zero ‹_›
-  -- From hu: blockPoly i * ↑u = blockPoly j, apply eval σ
-  have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
-    have h := congr_arg (MvPolynomial.eval σ) hu
-    simp only [map_mul, heval_i, heval_j, one_mul] at h
-    exact h
-  -- But u is a unit, so eval σ maps it to a unit in k, which can't be zero
-  exact (u.isUnit.map (MvPolynomial.eval σ).toMonoidHom).ne_zero heval_u
-
 /-- The total degree of the i-th block polynomial equals d_i. Each entry of the
 representation matrix is a linear polynomial in the x_g, so det has degree ≤ d_i.
 For ≥ d_i, evaluation at x₁=t, xg=0 gives det(tI)=t^{d_i}. -/
@@ -624,6 +543,74 @@ private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
       rw [h, map_zero] at heval; exact one_ne_zero heval.symm
     -- Step 4: combine
     exact (hhom.totalDegree hne).symm.le
+
+/-- Each block polynomial is irreducible. The proof uses the fact that the generic
+determinant is irreducible over k, and the block polynomial is obtained from it
+via a surjective linear substitution (from the Wedderburn projection).
+
+The key idea: construct a retraction ψ such that aeval ψ ∘ aeval φ = id (from
+surjectivity of projRingHom), then use totalDegree additivity in domains to show
+that any factor of blockPoly that maps to a unit under ψ must itself be a unit. -/
+private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) :
+    Irreducible (D.blockPoly i) := by
+  /- Proof sketch: The generic determinant det(X_{a,b}) is irreducible (genDet_irreducible).
+     blockPoly i = aeval φ (det(X)) where φ maps (a,b) to ∑_g c_{g,a,b} · X_g.
+     From surjectivity of projRingHom, we construct a retraction ψ with aeval ψ ∘ aeval φ = id.
+     Then any factorization blockPoly = a * b maps via ψ to a factorization of det(X),
+     and the degree bound from ψ forces one factor to be constant, hence a unit. -/
+  sorry
+
+/-- Block polynomials for different Wedderburn components are not associated.
+If d_i ≠ d_j, they have different total degrees. If d_i = d_j, they involve
+different linear combinations of variables (by the injectivity of column FDReps). -/
+private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i j : Fin D.n) (hij : i ≠ j) :
+    ¬Associated (D.blockPoly i) (D.blockPoly j) := by
+  intro ⟨u, hu⟩
+  -- Define the central idempotent e_i and evaluate blockPolys at its coefficients
+  set e := D.iso.symm (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k)) with he_def
+  set σ : G → k := fun g => e g with hσ_def
+  -- The group algebra element reconstructed from σ equals e
+  have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
+    conv_rhs => rw [← Finsupp.univ_sum_single e]
+    congr 1; ext g
+    simp [hσ_def, MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+  -- Evaluate blockPoly at σ: eval σ (blockPoly l) = det(projRingHom l (e))
+  have heval_eq : ∀ l : Fin D.n, MvPolynomial.eval σ (D.blockPoly l) =
+      (D.projRingHom l e).det := by
+    intro l
+    unfold IrrepDecomp.blockPoly
+    rw [RingHom.map_det]
+    congr 1; ext r c
+    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply, map_sum, map_mul,
+      MvPolynomial.eval_C, MvPolynomial.eval_X]
+    conv_rhs => rw [show e = ∑ s : G, σ s • MonoidAlgebra.of k G s from ha_eq.symm]
+    simp only [map_sum, D.projRingHom_smul' l, Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul]
+    congr 1; ext g; ring
+  -- projRingHom i e = 1 (identity matrix)
+  have hei : D.projRingHom i e = 1 := by
+    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update]
+  -- projRingHom j e = 0 (zero matrix, since j ≠ i)
+  have hej : D.projRingHom j e = 0 := by
+    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update,
+      Ne.symm hij]
+  -- eval σ (blockPoly i) = 1
+  have heval_i : MvPolynomial.eval σ (D.blockPoly i) = 1 := by
+    rw [heval_eq, hei, det_one]
+  -- eval σ (blockPoly j) = 0
+  have heval_j : MvPolynomial.eval σ (D.blockPoly j) = 0 := by
+    rw [heval_eq, hej]
+    haveI := D.d_pos j
+    haveI : Nonempty (Fin (D.d j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    exact Matrix.det_zero ‹_›
+  -- From hu: blockPoly i * ↑u = blockPoly j, apply eval σ
+  have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
+    have h := congr_arg (MvPolynomial.eval σ) hu
+    simp only [map_mul, heval_i, heval_j, one_mul] at h
+    exact h
+  -- But u is a unit, so eval σ maps it to a unit in k, which can't be zero
+  exact (u.isUnit.map (MvPolynomial.eval σ).toMonoidHom).ne_zero heval_u
 
 /-- The number of Wedderburn-Artin components equals the number of conjugacy classes.
 Proof: dim center(k[G]) = |ConjClasses G| (class functions) and
