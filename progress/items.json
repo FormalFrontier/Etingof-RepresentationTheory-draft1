@@ -4361,8 +4361,9 @@
     "end_page": "175",
     "start_line": 31,
     "end_line": 46,
-    "status": "statement_formalized",
-    "needs_statement": true
+    "status": "sorry_free",
+    "needs_statement": true,
+    "sorry_free": true
   },
   {
     "id": "Chapter6/Corollary6.8.3",
