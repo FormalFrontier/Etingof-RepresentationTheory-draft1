@@ -196,3 +196,98 @@ theorem sum_dim_character_eq_zero [Fintype G] [IsAlgClosed k] [NeZero (Nat.card 
     ∑ i, (D.d i : k) * (D.columnFDRep i).character g :=
     Finset.sum_equiv τ_equiv (fun _ => by simp) (fun _ _ => rfl)
   rw [this]; exact h_col
+
+/-! ### Dimension nonzero in k
+
+In a Wedderburn decomposition `k[G] ≅ ∏ Mat(d_i, k)`, each block dimension `d_i`
+is nonzero when cast to `k` (assuming `char(k) ∤ |G|`). This follows from the
+nondegeneracy of the identity-coefficient functional on `k[G]`.
+-/
+
+/-- The "regular trace" of `γ ∈ k[G]` — the trace of left multiplication by `γ` —
+equals `|G| * γ(1)`, where `γ(1)` is the coefficient of the identity element. -/
+private theorem regTrace_eq_card_mul [Fintype G]
+    (γ : MonoidAlgebra k G) :
+    LinearMap.trace k (MonoidAlgebra k G) (LinearMap.mulLeft k γ) =
+      (Fintype.card G : k) * γ 1 := by
+  classical
+  -- Both sides are linear in γ; suffices to check on basis {single g 1}.
+  -- Use the existing regularCharacter_eq which computes trace of ofMulAction.
+  -- Both sides are linear in γ. Define the two linear maps and show they agree on basis.
+  -- LHS: γ ↦ trace(mulLeft γ), which is (trace ∘ₗ lmul).toLinearMap
+  -- RHS: γ ↦ |G| * γ(1) = |G| • lapply 1
+  suffices h_eq :
+      (LinearMap.trace k (MonoidAlgebra k G)).comp
+        (Algebra.lmul k (MonoidAlgebra k G)).toLinearMap =
+      (Fintype.card G : k) • (Finsupp.lapply (1 : G) : MonoidAlgebra k G →ₗ[k] k) by
+    exact LinearMap.ext_iff.mp h_eq γ
+  apply (Finsupp.basisSingleOne (ι := G) (R := k)).ext
+  intro g
+  simp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply,
+    LinearMap.smul_apply, smul_eq_mul, Finsupp.lapply_apply]
+  -- LHS: trace(lmul(single g 1)) = trace(mulLeft(single g 1))
+  change LinearMap.trace k (MonoidAlgebra k G) (LinearMap.mulLeft k _) = _
+  have := regularCharacter_eq (k := k) g
+  rw [ofMulAction_eq_mulLeft] at this
+  simp only [Finsupp.coe_basisSingleOne, Finsupp.single_apply]
+  convert this using 1
+  split_ifs <;> ring
+
+/-- In a Wedderburn decomposition of `k[G]`, each block dimension `d_i` is nonzero in `k`.
+This is proved via the nondegeneracy of the coefficient-at-identity form on `k[G]`:
+if `d_i = 0` in `k`, the central idempotent for block `i` would be annihilated by
+all elements under this form, contradicting its nonzero-ness. -/
+theorem IrrepDecomp.d_cast_ne_zero [Fintype G] [IsAlgClosed k]
+    [Invertible (Fintype.card G : k)] [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (i : Fin D.n) :
+    (D.d i : k) ≠ 0 := by
+  classical
+  intro hd_zero
+  -- Central idempotent for block i
+  set e : MonoidAlgebra k G := D.iso.symm (Pi.single i 1) with he_def
+  -- e ≠ 0
+  have he_ne : e ≠ 0 := by
+    intro h
+    have h1 : Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k) = 0 :=
+      D.iso.symm.injective (h.trans (map_zero _).symm)
+    haveI := D.d_pos i
+    haveI : Nonempty (Fin (D.d i)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    exact one_ne_zero ((Pi.single_eq_same i 1).symm.trans (congr_fun h1 i))
+  -- For any β, compute regTrace(e * β) two ways to show (e * β)(1) = 0.
+  have he_ann : ∀ β : MonoidAlgebra k G, (e * β) 1 = 0 := by
+    intro β
+    -- Way 1: via Wedderburn decomposition
+    have hiso : D.iso (e * β) = Pi.single i (D.projRingHom i β) := by
+      show D.iso (D.iso.symm (Pi.single i 1) * β) = _
+      rw [map_mul, AlgEquiv.apply_symm_apply]
+      funext j
+      simp only [Pi.mul_apply]
+      by_cases hj : j = i
+      · subst hj
+        rw [Pi.single_eq_same, Pi.single_eq_same, one_mul]
+        rfl
+      · rw [Pi.single_eq_of_ne hj, Pi.single_eq_of_ne hj, zero_mul]
+    have hrt_wd : LinearMap.trace k (MonoidAlgebra k G) (LinearMap.mulLeft k (e * β)) =
+        (D.d i : k) * Matrix.trace (D.projRingHom i β) := by
+      conv_lhs => rw [trace_mulLeft_algEquiv D.iso (e * β)]
+      rw [trace_mulLeft_pi]
+      -- Goal: ∑ j, d_j * tr(D.iso(e*β) j) = d_i * tr(π_i(β))
+      have h_zero : ∀ j, j ≠ i → (D.iso (e * β)) j = 0 := fun j hj => by
+        rw [hiso]; exact Pi.single_eq_of_ne hj _
+      have h_same : (D.iso (e * β)) i = D.projRingHom i β := by
+        rw [hiso]; exact Pi.single_eq_same i _
+      rw [Finset.sum_eq_single i
+        (fun j _ hj => by rw [h_zero j hj]; simp)
+        (fun h => absurd (Finset.mem_univ i) h), h_same]
+    -- Way 2: via regular character formula
+    have hrt_reg := regTrace_eq_card_mul (e * β)
+    -- Combine: |G| * (e*β)(1) = d_i * tr(π_i(β)) = 0
+    rw [hrt_wd, hd_zero, zero_mul] at hrt_reg
+    exact (mul_eq_zero.mp hrt_reg.symm).resolve_left (Invertible.ne_zero _)
+  -- Contradiction: e ≠ 0 means ∃ g with e(g) ≠ 0
+  obtain ⟨g, hg⟩ := Finsupp.support_nonempty_iff.mpr he_ne
+  rw [Finsupp.mem_support_iff] at hg
+  -- But (e * single g⁻¹ 1)(1) = e(g) ≠ 0
+  have : (e * MonoidAlgebra.single g⁻¹ (1 : k)) (1 : G) = e g := by
+    rw [MonoidAlgebra.mul_single_apply, inv_inv, one_mul, mul_one]
+  exact hg (this ▸ he_ann _)
