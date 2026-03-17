@@ -2963,8 +2963,8 @@
     "end_page": "114",
     "start_line": 15,
     "end_line": 23,
-    "status": "scaffolded",
-    "needs_statement": true
+    "status": "statement_formalized",
+    "needs_statement": false
   },
   {
     "id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",

@@ -101,6 +101,21 @@ noncomputable def ColumnSubgroup (n : ℕ) (la : Nat.Partition n) :
     rw [show σ (σ⁻¹ k) = k from σ.apply_symm_apply k] at h
     exact h.symm
 
+/-- The row symmetrizer a_λ = ∑_{g ∈ P_λ} g in the group algebra ℂ[S_n].
+(Etingof Definition 5.12.1) -/
+noncomputable def RowSymmetrizer (n : ℕ) (la : Nat.Partition n) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  haveI : DecidablePred (· ∈ RowSubgroup n la) := Classical.decPred _
+  ∑ g : (RowSubgroup n la), MonoidAlgebra.of ℂ _ g.val
+
+/-- The column antisymmetrizer b_λ = ∑_{g ∈ Q_λ} sign(g) · g in the group algebra ℂ[S_n].
+(Etingof Definition 5.12.1) -/
+noncomputable def ColumnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
+    MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
+  haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
+  ∑ g : (ColumnSubgroup n la),
+    ((↑(Equiv.Perm.sign g.val) : ℤ) : ℂ) • MonoidAlgebra.of ℂ _ g.val
+
 /-- The Young symmetrizer c_λ = a_λ · b_λ in the group algebra ℂ[S_n].
 (Etingof Definition 5.12.1)
 
@@ -108,11 +123,6 @@ Here a_λ = ∑_{g ∈ P_λ} g and b_λ = ∑_{g ∈ Q_λ} sign(g) · g,
 where P_λ is the row subgroup and Q_λ is the column subgroup. -/
 noncomputable def YoungSymmetrizer (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
-  haveI : DecidablePred (· ∈ RowSubgroup n la) := Classical.decPred _
-  haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
-  let a := ∑ g : (RowSubgroup n la), MonoidAlgebra.of ℂ _ g.val
-  let b := ∑ g : (ColumnSubgroup n la),
-    ((↑(Equiv.Perm.sign g.val) : ℤ) : ℂ) • MonoidAlgebra.of ℂ _ g.val
-  a * b
+  RowSymmetrizer n la * ColumnAntisymmetrizer n la
 
 end Etingof
