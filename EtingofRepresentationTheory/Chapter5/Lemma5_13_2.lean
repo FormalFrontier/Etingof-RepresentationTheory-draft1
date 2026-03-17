@@ -76,6 +76,220 @@ private lemma col_exists_earlier_row (parts : List ℕ) (hSorted : parts.Sorted 
     · exact List.pairwise_iff_getElem.mp hSorted r' r hr' hr hlt
   omega
 
+/-! ## Helper lemmas for the pigeonhole counting argument -/
+
+private theorem sortedParts_sum {n : ℕ} (la : Nat.Partition n) :
+    la.sortedParts.sum = n := by
+  have h := la.parts_sum
+  have hsort : (la.sortedParts : Multiset ℕ) = la.parts := la.parts.sort_eq (· ≥ ·)
+  have : la.sortedParts.sum = la.parts.sum := by rw [← Multiset.sum_coe, hsort]
+  omega
+
+private theorem sortedParts_pos (la : Nat.Partition n) :
+    ∀ x ∈ la.sortedParts, 0 < x := fun x hx =>
+  la.parts_pos ((Multiset.mem_sort _).mp hx)
+
+private theorem sortedParts_sorted (la : Nat.Partition n) :
+    la.sortedParts.Pairwise (· ≥ ·) := la.parts.pairwise_sort (· ≥ ·)
+
+/-- rowOfPos characterization: position j is in the first k rows iff j < take(k).sum. -/
+private theorem rowOfPos_lt_iff (parts : List ℕ) (j k : ℕ) (hj : j < parts.sum) :
+    Etingof.rowOfPos parts j < k ↔ j < (parts.take k).sum := by
+  induction parts generalizing j k with
+  | nil => simp at hj
+  | cons p ps ih =>
+    cases k with
+    | zero =>
+      simp only [List.take_zero, List.sum_nil, Etingof.rowOfPos]
+      split_ifs with h <;> omega
+    | succ k =>
+      simp only [List.take_succ_cons, List.sum_cons, Etingof.rowOfPos]
+      split_ifs with h
+      · omega
+      · have hj' : j - p < ps.sum := by simp [List.sum_cons] at hj; omega
+        have := ih (j - p) k hj'
+        omega
+
+/-- rowOfPos is bounded by parts.length for valid positions. -/
+private theorem rowOfPos_lt_length (parts : List ℕ) (j : ℕ) (hj : j < parts.sum) :
+    Etingof.rowOfPos parts j < parts.length := by
+  induction parts generalizing j with
+  | nil => simp at hj
+  | cons p ps ih =>
+    simp only [Etingof.rowOfPos, List.length_cons]
+    split_ifs with h
+    · omega
+    · have := ih (j - p) (by simp [List.sum_cons] at hj; omega); omega
+
+/-- colOfPos gives a value less than the row width (getElem version). -/
+private theorem colOfPos_lt_getElem (parts : List ℕ) (j : ℕ) (hj : j < parts.sum) :
+    Etingof.colOfPos parts j < parts[Etingof.rowOfPos parts j]'(rowOfPos_lt_length parts j hj) := by
+  have h := Etingof.colOfPos_lt_getD parts j hj
+  simp [List.getD] at h
+  rw [List.getElem?_eq_getElem (rowOfPos_lt_length parts j hj)] at h
+  simpa using h
+
+/-- colOfPos is bounded by headD 0 for sorted descending parts. -/
+private theorem colOfPos_lt_headD (parts : List ℕ) (j : ℕ) (hj : j < parts.sum)
+    (hSorted : parts.Pairwise (· ≥ ·)) :
+    Etingof.colOfPos parts j < parts.headD 0 := by
+  induction parts generalizing j with
+  | nil => simp at hj
+  | cons p ps ih =>
+    simp only [List.headD, Etingof.colOfPos]
+    split_ifs with h
+    · exact h
+    · have hj' : j - p < ps.sum := by simp [List.sum_cons] at hj; omega
+      have hps_sorted := List.Pairwise.tail hSorted
+      calc Etingof.colOfPos ps (j - p) < ps.headD 0 := ih (j - p) hj' hps_sorted
+      _ ≤ p := by
+        cases ps with
+        | nil => simp [List.headD]
+        | cons q qs =>
+          simp [List.headD]
+          exact (List.pairwise_cons.mp hSorted).1 q (by simp)
+
+/-- Column height: number of rows with width > c. -/
+private def colHeight (parts : List ℕ) (c : ℕ) : ℕ := (parts.filter (· > c)).length
+
+private theorem colHeight_eq_zero_of_ge_headD (parts : List ℕ) (c : ℕ)
+    (hSorted : parts.Pairwise (· ≥ ·)) (hc : parts.headD 0 ≤ c) :
+    colHeight parts c = 0 := by
+  simp only [colHeight]; apply List.length_eq_zero_iff.mpr
+  apply List.filter_eq_nil_iff.mpr
+  intro x hx; simp only [decide_eq_true_eq, not_lt]
+  cases parts with
+  | nil => simp at hx
+  | cons p ps =>
+    simp [List.headD] at hc
+    rcases List.mem_cons.mp hx with rfl | hm
+    · omega
+    · exact le_trans (List.rel_of_pairwise_cons hSorted hm) hc
+
+private theorem colHeight_cons_gt {p : ℕ} {ps : List ℕ} {c : ℕ} (h : c < p) :
+    colHeight (p :: ps) c = 1 + colHeight ps c := by
+  simp [colHeight, List.filter, show p > c from h]; omega
+
+/-- For sorted descending parts, if parts[r] > c then r < colHeight(parts, c). -/
+private theorem row_lt_colHeight_of_gt (parts : List ℕ) (r c : ℕ)
+    (hSorted : parts.Pairwise (· ≥ ·))
+    (hr : r < parts.length) (hgt : parts[r] > c) :
+    r < colHeight parts c := by
+  induction parts generalizing r with
+  | nil => simp at hr
+  | cons p ps ih =>
+    have hps_sorted : ps.Pairwise (· ≥ ·) := List.Pairwise.tail hSorted
+    have hp_gt : p > c := by
+      cases r with
+      | zero => simpa using hgt
+      | succ r' =>
+        simp only [List.length_cons] at hr; simp only [List.getElem_cons_succ] at hgt
+        exact lt_of_lt_of_le hgt
+          (List.rel_of_pairwise_cons hSorted (List.getElem_mem (by omega)))
+    simp only [colHeight, List.filter, show decide (p > c) = true from by simp [hp_gt],
+      List.length_cons]
+    cases r with
+    | zero => omega
+    | succ r' =>
+      simp only [List.length_cons] at hr; simp only [List.getElem_cons_succ] at hgt
+      exact Nat.succ_lt_succ (ih r' hps_sorted (by omega) hgt)
+
+/-- Double counting identity: Σ_{c < headD} min(k, colHeight(parts, c)) = take(k).sum. -/
+private theorem sum_min_colHeight (parts : List ℕ) (k : ℕ)
+    (hSorted : parts.Pairwise (· ≥ ·)) :
+    ∑ c ∈ Finset.range (parts.headD 0),
+      min k (colHeight parts c) = (parts.take k).sum := by
+  induction parts generalizing k with
+  | nil => simp [colHeight]
+  | cons p ps ih =>
+    cases k with
+    | zero => simp
+    | succ k =>
+      simp only [List.headD, List.take_succ_cons, List.sum_cons]
+      have hstep : ∀ c ∈ Finset.range p, min (k + 1) (colHeight (p :: ps) c) =
+          1 + min k (colHeight ps c) := by
+        intro c hc; rw [Finset.mem_range] at hc; rw [colHeight_cons_gt hc]; omega
+      rw [Finset.sum_congr rfl hstep, Finset.sum_add_distrib, Finset.sum_const,
+        Finset.card_range, smul_eq_mul, mul_one]
+      have hps_sorted : ps.Pairwise (· ≥ ·) := List.Pairwise.tail hSorted
+      rw [← ih k hps_sorted]; congr 1
+      have hle : ps.headD 0 ≤ p := by
+        cases ps with
+        | nil => simp [List.headD]
+        | cons q qs =>
+          simp [List.headD]; exact (List.pairwise_cons.mp hSorted).1 q (by simp)
+      rw [← Finset.sum_sdiff (Finset.range_mono hle)]
+      suffices h : ∑ c ∈ Finset.range p \ Finset.range (ps.headD 0),
+          min k (colHeight ps c) = 0 by omega
+      apply Finset.sum_eq_zero
+      intro c hc
+      rw [Finset.mem_sdiff, Finset.mem_range, Finset.mem_range] at hc
+      rw [colHeight_eq_zero_of_ge_headD ps c hps_sorted (by omega)]; simp
+
+/-- Cardinality of {i : Fin n | i.val < m} is m. -/
+private theorem card_filter_val_lt (n m : ℕ) (hm : m ≤ n) :
+    ((Finset.univ : Finset (Fin n)).filter (fun i => i.val < m)).card = m := by
+  have hs_eq : (Finset.univ : Finset (Fin n)).filter (fun i => i.val < m) =
+      Finset.image (fun j : Fin m => (⟨j.val, by omega⟩ : Fin n)) Finset.univ := by
+    ext ⟨i, hi⟩
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_image, Fin.exists_iff]
+    constructor
+    · intro h; exact ⟨i, by omega, by simp⟩
+    · rintro ⟨j, hj, heq⟩; simp at heq; omega
+  rw [hs_eq, Finset.card_image_of_injective _ (fun a b h => by ext; simp at h; exact h),
+    Finset.card_fin]
+
+/-- The number of positions in the first k rows equals take(k).sum. -/
+private theorem card_first_k_rows (la : Nat.Partition n) (k : ℕ) :
+    ((Finset.univ : Finset (Fin n)).filter (fun i =>
+      Etingof.rowOfPos la.sortedParts i.val < k)).card =
+    (la.sortedParts.take k).sum := by
+  have hconv : (Finset.univ : Finset (Fin n)).filter (fun i =>
+      Etingof.rowOfPos la.sortedParts i.val < k) =
+    (Finset.univ : Finset (Fin n)).filter (fun i =>
+      i.val < (la.sortedParts.take k).sum) := by
+    ext i; simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    exact rowOfPos_lt_iff la.sortedParts i.val k (by rw [sortedParts_sum]; exact i.isLt)
+  rw [hconv]
+  exact card_filter_val_lt n _ (by
+    have h1 : (la.sortedParts.take k).sum ≤ la.sortedParts.sum :=
+      List.Sublist.sum_le_sum (List.take_sublist k la.sortedParts) (fun _ _ => Nat.zero_le _)
+    have h2 := sortedParts_sum la
+    omega)
+
+/-- Lists with all positive elements and equal partial sums are equal. -/
+private theorem list_eq_of_take_sum_eq {l₁ l₂ : List ℕ}
+    (hpos₁ : ∀ x ∈ l₁, 0 < x) (hpos₂ : ∀ x ∈ l₂, 0 < x)
+    (h : ∀ k, (l₁.take k).sum = (l₂.take k).sum) : l₁ = l₂ := by
+  have hlen : l₁.length = l₂.length := by
+    by_contra hne
+    wlog hlt : l₁.length < l₂.length with H
+    · exact H hpos₂ hpos₁ (fun k => (h k).symm) (by omega) (by omega)
+    have hstep := h (l₁.length + 1)
+    rw [List.take_of_length_le (by omega : l₁.length ≤ l₁.length + 1)] at hstep
+    rw [List.take_succ_eq_append_getElem hlt] at hstep
+    simp only [List.sum_append, List.sum_cons, List.sum_nil] at hstep
+    have hk := h l₁.length
+    rw [List.take_length] at hk
+    have := hpos₂ l₂[l₁.length] (List.getElem_mem (by omega))
+    omega
+  apply List.ext_getElem hlen
+  intro i h₁ h₂
+  have hk := h (i + 1); have hk' := h i
+  rw [List.take_succ_eq_append_getElem h₁, List.sum_append, List.sum_cons, List.sum_nil] at hk
+  rw [List.take_succ_eq_append_getElem h₂, List.sum_append, List.sum_cons, List.sum_nil] at hk
+  omega
+
+/-- Partitions with equal partial sums of sorted parts are equal. -/
+private theorem partition_eq_of_partial_sums (la mu : Nat.Partition n)
+    (h : ∀ k, (la.sortedParts.take k).sum = (mu.sortedParts.take k).sum) :
+    la = mu := by
+  apply Nat.Partition.ext
+  have h1 : (la.sortedParts : Multiset ℕ) = la.parts := la.parts.sort_eq (· ≥ ·)
+  have h2 : (mu.sortedParts : Multiset ℕ) = mu.parts := mu.parts.sort_eq (· ≥ ·)
+  rw [← h1, ← h2]
+  exact congrArg _ (list_eq_of_take_sum_eq (sortedParts_pos la) (sortedParts_pos mu) h)
+
 namespace Etingof
 
 /-- A swap of two elements in the same row belongs to the row subgroup. -/
@@ -133,13 +347,71 @@ theorem pigeonhole_transposition (n : ℕ) (la mu : Nat.Partition n)
   push_neg at h_no
   obtain ⟨hdom_ge, hne⟩ := hdom
   apply hne
-  -- From h_no (no collision): within each row of la, the column map is injective.
-  -- This forces S_R(la) ≤ S_R(mu) for all R (counting argument), hence la = mu.
-  -- The counting uses: each row of la contributes distinct column values,
-  -- and each column of mu (being sorted descending) fills consecutive rows from 0.
-  -- Combined with dominance S_R(la) ≥ S_R(mu), we get equal partial sums,
-  -- hence equal sorted parts, hence equal partitions.
-  sorry
+  -- From h_no: within each row of la, the column-in-mu map is injective.
+  -- Combined with dominance, this forces equal partial sums, hence equal partitions.
+  apply partition_eq_of_partial_sums la mu
+  intro k
+  apply le_antisymm
+  · -- Reverse dominance: (la.take k).sum ≤ (mu.take k).sum via counting argument
+    rw [← sum_min_colHeight mu.sortedParts k (sortedParts_sorted mu)]
+    rw [← card_first_k_rows la k]
+    -- Decompose S_k by column value g(i) = colOfPos(mu, σ⁻¹(i))
+    set g := fun (i : Fin n) => colOfPos mu.sortedParts (σ⁻¹ i).val
+    set S_k := (Finset.univ : Finset (Fin n)).filter (fun i =>
+      rowOfPos la.sortedParts i.val < k)
+    set T := Finset.range (mu.sortedParts.headD 0)
+    have hmaps : Set.MapsTo g ↑S_k ↑T := fun i hi => by
+      rw [Finset.mem_coe, Finset.mem_filter] at hi; rw [Finset.mem_coe, Finset.mem_range]
+      exact colOfPos_lt_headD mu.sortedParts _ (by rw [sortedParts_sum]; exact (σ⁻¹ i).isLt)
+        (sortedParts_sorted mu)
+    rw [Finset.card_eq_sum_card_fiberwise hmaps]
+    apply Finset.sum_le_sum; intro c _
+    -- Each fiber {i ∈ S_k : g(i) = c} has card ≤ min(k, colHeight(mu, c))
+    have hfilt_eq : S_k.filter (fun i => g i = c) =
+        Finset.univ.filter (fun i : Fin n =>
+          rowOfPos la.sortedParts i.val < k ∧
+          colOfPos mu.sortedParts (σ⁻¹ i).val = c) := by
+      ext i; simp [S_k, g, Finset.mem_filter]
+    rw [hfilt_eq]
+    set F := Finset.univ.filter (fun i : Fin n =>
+      rowOfPos la.sortedParts i.val < k ∧
+      colOfPos mu.sortedParts (σ⁻¹ i).val = c)
+    apply Nat.le_min.mpr; constructor
+    · -- Bound 1: ≤ k (distinct row values via injection into Finset.range k)
+      have hmaps1 : Set.MapsTo (fun i : Fin n => rowOfPos la.sortedParts i.val) ↑F ↑(Finset.range k) := by
+        intro i hi
+        rw [Finset.mem_coe, Finset.mem_filter] at hi
+        exact Finset.mem_range.mpr hi.2.1
+      have hinj1 : Set.InjOn (fun i : Fin n => rowOfPos la.sortedParts i.val) ↑F := by
+        intro i hi j hj heq
+        rw [Finset.mem_coe, Finset.mem_filter] at hi hj
+        by_contra hne; exact h_no i j hne heq (by rw [hi.2.2, hj.2.2])
+      have h1 := Finset.card_le_card_of_injOn _ hmaps1 hinj1
+      rw [Finset.card_range] at h1; exact h1
+    · -- Bound 2: ≤ colHeight(mu, c) (inject σ⁻¹ into column c of mu)
+      have hmaps2 : Set.MapsTo (fun i : Fin n => rowOfPos mu.sortedParts (σ⁻¹ i).val)
+          ↑F ↑(Finset.range (colHeight mu.sortedParts c)) := by
+        intro i hi
+        rw [Finset.mem_coe, Finset.mem_filter] at hi
+        rw [Finset.mem_coe, Finset.mem_range]
+        have hv : (σ⁻¹ i).val < mu.sortedParts.sum := by rw [sortedParts_sum]; exact (σ⁻¹ i).isLt
+        have hrow := rowOfPos_lt_length mu.sortedParts _ hv
+        have hcol := colOfPos_lt_getElem mu.sortedParts _ hv
+        rw [hi.2.2] at hcol
+        exact row_lt_colHeight_of_gt mu.sortedParts _ c (sortedParts_sorted mu) hrow (by omega)
+      have hinj2 : Set.InjOn (fun i : Fin n => rowOfPos mu.sortedParts (σ⁻¹ i).val) ↑F := by
+        intro i hi j hj heq
+        rw [Finset.mem_coe, Finset.mem_filter] at hi hj
+        have hcol_eq : colOfPos mu.sortedParts (σ⁻¹ i).val =
+            colOfPos mu.sortedParts (σ⁻¹ j).val := by rw [hi.2.2, hj.2.2]
+        have hval_eq := rowOfPos_colOfPos_injective mu.sortedParts _ _
+          (by rw [sortedParts_sum]; exact (σ⁻¹ i).isLt)
+          (by rw [sortedParts_sum]; exact (σ⁻¹ j).isLt) heq hcol_eq
+        exact σ.symm.injective (Fin.ext hval_eq)
+      have h2 := Finset.card_le_card_of_injOn _ hmaps2 hinj2
+      rw [Finset.card_range] at h2; exact h2
+  · -- Forward dominance (given)
+    exact hdom_ge k
 
 /-- For a basis element of(σ): if λ strictly dominates μ, then a_λ · of(σ) · b_μ = 0. -/
 theorem basis_vanishing (n : ℕ) (la mu : Nat.Partition n)
