@@ -392,14 +392,63 @@ private lemma range_sum_eq_top_or_arms_zero {k : Type*} [Field k] (ρ : D₄Rep 
       exact this
     exact hR this
 
+-- Helper: a "clean" decomposition where each range lies in one summand.
+-- If V = p ⊕ q and each range(Aᵢ) ≤ p or ≤ q, then p = ⊥ or q = ⊥.
+private lemma decomp_of_ranges_split {k : Type*} [Field k] (ρ : D₄Rep k)
+    (hind : ρ.Indecomposable)
+    (p q : Submodule k ρ.V) (hpq : IsCompl p q)
+    (h₁ : LinearMap.range ρ.A₁ ≤ p ∨ LinearMap.range ρ.A₁ ≤ q)
+    (h₂ : LinearMap.range ρ.A₂ ≤ p ∨ LinearMap.range ρ.A₂ ≤ q)
+    (h₃ : LinearMap.range ρ.A₃ ≤ p ∨ LinearMap.range ρ.A₃ ≤ q) :
+    p = ⊥ ∨ q = ⊥ := by
+  -- For each arm: if range ≤ p, use (⊤, ⊥); if range ≤ q, use (⊥, ⊤)
+  -- Construct compatible decomposition per arm
+  have arm₁ : ∃ (p₁ q₁ : Submodule k ρ.V₁), IsCompl p₁ q₁ ∧
+      (∀ x ∈ p₁, ρ.A₁ x ∈ p) ∧ (∀ x ∈ q₁, ρ.A₁ x ∈ q) := by
+    rcases h₁ with h | h
+    · exact ⟨⊤, ⊥, isCompl_top_bot,
+        fun x _ => h (LinearMap.mem_range.mpr ⟨x, rfl⟩),
+        fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _⟩
+    · exact ⟨⊥, ⊤, isCompl_bot_top,
+        fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _,
+        fun x _ => h (LinearMap.mem_range.mpr ⟨x, rfl⟩)⟩
+  have arm₂ : ∃ (p₂ q₂ : Submodule k ρ.V₂), IsCompl p₂ q₂ ∧
+      (∀ x ∈ p₂, ρ.A₂ x ∈ p) ∧ (∀ x ∈ q₂, ρ.A₂ x ∈ q) := by
+    rcases h₂ with h | h
+    · exact ⟨⊤, ⊥, isCompl_top_bot,
+        fun x _ => h (LinearMap.mem_range.mpr ⟨x, rfl⟩),
+        fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _⟩
+    · exact ⟨⊥, ⊤, isCompl_bot_top,
+        fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _,
+        fun x _ => h (LinearMap.mem_range.mpr ⟨x, rfl⟩)⟩
+  have arm₃ : ∃ (p₃ q₃ : Submodule k ρ.V₃), IsCompl p₃ q₃ ∧
+      (∀ x ∈ p₃, ρ.A₃ x ∈ p) ∧ (∀ x ∈ q₃, ρ.A₃ x ∈ q) := by
+    rcases h₃ with h | h
+    · exact ⟨⊤, ⊥, isCompl_top_bot,
+        fun x _ => h (LinearMap.mem_range.mpr ⟨x, rfl⟩),
+        fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _⟩
+    · exact ⟨⊥, ⊤, isCompl_bot_top,
+        fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _,
+        fun x _ => h (LinearMap.mem_range.mpr ⟨x, rfl⟩)⟩
+  obtain ⟨p₁, q₁, hc₁, hp₁, hq₁⟩ := arm₁
+  obtain ⟨p₂, q₂, hc₂, hp₂, hq₂⟩ := arm₂
+  obtain ⟨p₃, q₃, hc₃, hp₃, hq₃⟩ := arm₃
+  have := hind.2 p q p₁ q₁ p₂ q₂ p₃ q₃ hpq hc₁ hc₂ hc₃ hp₁ hq₁ hp₂ hq₂ hp₃ hq₃
+  rcases this with ⟨hp, _, _, _⟩ | ⟨hq, _, _, _⟩
+  · left; exact hp
+  · right; exact hq
+
+-- dim V ≥ 3, all injective, range sum = ⊤ → decomposable
+private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
+    (hind : ρ.Indecomposable)
+    (hA₁ : LinearMap.ker ρ.A₁ = ⊥) (hA₂ : LinearMap.ker ρ.A₂ = ⊥)
+    (hA₃ : LinearMap.ker ρ.A₃ = ⊥)
+    (hR : LinearMap.range ρ.A₁ ⊔ LinearMap.range ρ.A₂ ⊔ LinearMap.range ρ.A₃ = ⊤)
+    (hV : Module.finrank k ρ.V ≥ 3) : False := by
+  sorry
+
 -- Helper: if dim V ≥ 2, all injective, range sum = ⊤, indecomposable,
 -- then dim V = 2 and all dim Vᵢ = 1.
--- This is the core of the triple of subspaces classification.
--- The proof constructs explicit decompositions for each forbidden dimension configuration:
--- - If some arm is zero → remaining arm(s) surjective → any nontrivial V = p ⊕ q works
--- - If some dim Vᵢ ≥ 2 → range is large enough to find compatible splitting
--- - If dim V ≥ 3 → three subspaces in a 3+ dim space always admit compatible splitting
--- - If dim V = 2 with some dᵢ = 0 → two complementary ranges give a decomposition
 private lemma classification_injective_dim_bound {k : Type*} [Field k] (ρ : D₄Rep k)
     (hind : ρ.Indecomposable)
     (hA₁ : LinearMap.ker ρ.A₁ = ⊥) (hA₂ : LinearMap.ker ρ.A₂ = ⊥)
@@ -408,6 +457,21 @@ private lemma classification_injective_dim_bound {k : Type*} [Field k] (ρ : D�
     (hV : Module.finrank k ρ.V ≥ 2) :
     Module.finrank k ρ.V = 2 ∧ Module.finrank k ρ.V₁ = 1 ∧
     Module.finrank k ρ.V₂ = 1 ∧ Module.finrank k ρ.V₃ = 1 := by
+  have hinj₁ := LinearMap.ker_eq_bot.mp hA₁
+  have hinj₂ := LinearMap.ker_eq_bot.mp hA₂
+  have hinj₃ := LinearMap.ker_eq_bot.mp hA₃
+  have hle₁ := LinearMap.finrank_le_finrank_of_injective hinj₁
+  have hle₂ := LinearMap.finrank_le_finrank_of_injective hinj₂
+  have hle₃ := LinearMap.finrank_le_finrank_of_injective hinj₃
+  -- dim V ≤ 2 (dim V ≥ 3 is impossible for indecomposable reps)
+  have hV_le : Module.finrank k ρ.V ≤ 2 := by
+    by_contra h; push_neg at h
+    exact decomp_dim_ge_three ρ hind hA₁ hA₂ hA₃ hR (by omega)
+  have hV_eq : Module.finrank k ρ.V = 2 := by omega
+  -- All arm dims ≤ 1 (arm dim ≥ 2 means Aᵢ surjective, leading to decomposable)
+  -- and ≥ 1 (arm dim = 0 with one of the other arms leads to decomposable)
+  -- Combined: all arm dims = 1
+  -- This uses decomp_of_ranges_split for various configurations
   sorry
 
 -- The main classification for the all-injective case
