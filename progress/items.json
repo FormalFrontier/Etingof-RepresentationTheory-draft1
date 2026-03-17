@@ -5320,8 +5320,12 @@
     "end_page": "215",
     "start_line": 13,
     "end_line": 27,
-    "status": "statement_formalized",
-    "needs_statement": false
+    "status": "sent_to_aristotle",
+    "needs_statement": false,
+    "aristotle_projects": [
+      "c85faf0e-cf25-4c97-a416-8498d2f2e256",
+      "61b8d35b-75ea-4643-b996-ff86195ab1e5"
+    ]
   },
   {
     "id": "Chapter9/Introduction_9.3",
