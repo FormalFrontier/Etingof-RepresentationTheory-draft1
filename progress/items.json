@@ -5580,8 +5580,12 @@
     "end_page": "220",
     "start_line": 17,
     "end_line": 19,
-    "status": "statement_formalized",
-    "needs_statement": true
+    "status": "sent_to_aristotle",
+    "needs_statement": true,
+    "aristotle_projects": {
+      "Corollary_9_7_3_i": "cab9a52c-0010-419a-9e17-d795ef5117e1",
+      "Corollary_9_7_3_i_unique": "9ef767fa-bd2d-4ffc-ad36-7f977d14527c"
+    }
   },
   {
     "id": "Backmatter/ReferencesHistorical",
