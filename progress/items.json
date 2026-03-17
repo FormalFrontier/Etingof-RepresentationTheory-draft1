@@ -5533,13 +5533,13 @@
     "end_page": "219",
     "start_line": 7,
     "end_line": 10,
-    "status": "sent_to_aristotle",
+    "status": "attention_needed",
     "needs_statement": true,
     "aristotle_project_ids": [
       "111e10f2-88cc-4569-af7a-6105308e2cf1",
       "2fb64b51-4528-4419-9c64-e0c4685881bf"
     ],
-    "notes": "Faithful proved. Full (111e10f2) and EssSurj (2fb64b51) submitted to Aristotle with self-contained files (inlined IsFiniteAbelianCategory and IsProgenerator definitions)."
+    "notes": "Faithful and Full proved. EssSurj remains sorry: the formalized statement targets ModuleCat (all modules) but Etingof means finite-dimensional modules only. May need formalization redesign. Aristotle submissions: Full 111e10f2 (no longer needed), EssSurj 2fb64b51 (likely false as stated)."
   },
   {
     "id": "Chapter9/Problem9.6.5",
