@@ -1784,8 +1784,8 @@
     "end_page": "64",
     "start_line": 23,
     "end_line": 8,
-    "status": "proof_formalized",
-    "notes": "1 sorry remains: hd_ne (d_i : k) \u2260 0 needs Frobenius dimension theorem"
+    "status": "sorry_free",
+    "notes": "All sorries resolved. hd_ne proved via trace nondegeneracy (IrrepDecomp.d_cast_ne_zero)."
   },
   {
     "id": "Chapter4/Corollary4.2.2",

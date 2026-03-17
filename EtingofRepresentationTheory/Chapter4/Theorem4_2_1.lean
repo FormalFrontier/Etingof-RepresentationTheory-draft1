@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Infrastructure.ColumnRepSimple
+import EtingofRepresentationTheory.Infrastructure.RegularCharacter
 
 /-!
 # Theorem 4.2.1: Characters Form a Basis of Class Functions
@@ -164,13 +165,7 @@ private lemma classFunction_eq_zero_of_orthogonal_simples
   simp only [Matrix.trace_smul, Matrix.trace_one, Fintype.card_fin, smul_eq_mul] at htrace
   -- c * (D.d i : k) = 0, need (D.d i : k) ≠ 0
   -- This follows from d_i | |G| (dimension divisibility theorem) and Invertible (|G| : k)
-  have hd_ne : (D.d i : k) ≠ 0 := by
-    -- Requires: d_i | |G| (Frobenius dimension theorem) + Invertible (|G| : k) ⇒ (d_i : k) ≠ 0.
-    -- The divisibility d_i | |G| follows from the theory of algebraic integers and characters
-    -- (Etingof Theorem 5.3.1). With d_i | |G| and char(k) ∤ |G|, the cast is nonzero.
-    -- Alternatively: the left-regular trace form on k[G] is non-degenerate (since Invertible |G|),
-    -- and under Wedderburn it decomposes as ∑ d_i · tr_i, so each d_i must be nonzero in k.
-    sorry
+  have hd_ne : (D.d i : k) ≠ 0 := D.d_cast_ne_zero i
   have hc_zero : c = 0 := (mul_eq_zero.mp htrace).resolve_right hd_ne
   rw [hc, hc_zero, zero_smul]
 
