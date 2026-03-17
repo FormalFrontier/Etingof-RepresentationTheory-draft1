@@ -1,5 +1,9 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import Mathlib.RingTheory.Artinian.Ring
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
+import Mathlib.RingTheory.SimpleModule.InjectiveProjective
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
 
 /-!
 # Example 9.5.2: Blocks of specific algebras
@@ -24,10 +28,37 @@ open CategoryTheory
 theorem Etingof.semisimple_blocks_singleton
     (R : Type u) [Ring R] [Small.{v} R] [IsSemisimpleRing R]
     (X Y : ModuleCat.{v} R)
-    (hX : IsSimpleModule R X) (hY : IsSimpleModule R Y)
+    (_hX : IsSimpleModule R X) (_hY : IsSimpleModule R Y)
     (hlinked : Etingof.AreLinked R X Y) :
     Nonempty (X ≅ Y) := by
-  sorry
+  -- For semisimple R, all modules are projective, so Ext¹ is subsingleton
+  -- (hence not nontrivial). This makes ExtAdjacent vacuously false.
+  -- The only way modules can be linked is via isomorphism.
+  have not_adj : ∀ (A B : ModuleCat.{v} R), ¬ Etingof.ExtAdjacent R A B := by
+    intro A B h
+    rcases h with h | h
+    · haveI : Module.Projective R A := Module.projective_of_isSemisimpleRing R A
+      haveI := Abelian.Ext.subsingleton_of_projective A B 0
+      exact not_nontrivial _ h
+    · haveI : Module.Projective R B := Module.projective_of_isSemisimpleRing R B
+      haveI := Abelian.Ext.subsingleton_of_projective B A 0
+      exact not_nontrivial _ h
+  -- With ExtAdjacent empty, the only base relation is isomorphism.
+  -- Induct on EqvGen to extract the isomorphism.
+  clear _hX _hY
+  induction hlinked with
+  | rel _ _ h =>
+    rcases h with h | h
+    · exact absurd h (not_adj _ _)
+    · exact h
+  | refl => exact ⟨Iso.refl _⟩
+  | symm _ _ _ ih =>
+    obtain ⟨e⟩ := ih
+    exact ⟨e.symm⟩
+  | trans _ _ _ _ _ ih₁ ih₂ =>
+    obtain ⟨e₁⟩ := ih₁
+    obtain ⟨e₂⟩ := ih₂
+    exact ⟨e₁ ≪≫ e₂⟩
 
 /-- For a commutative local artinian ring, there is only one simple module (up to
 isomorphism), so all modules belong to a single block.
@@ -37,4 +68,17 @@ theorem Etingof.local_artinian_single_block
     (X Y : ModuleCat.{v} R)
     (hX : IsSimpleModule R X) (hY : IsSimpleModule R Y) :
     Etingof.AreLinked R X Y := by
-  sorry
+  -- For a commutative local ring, the unique maximal ideal is IsLocalRing.maximalIdeal R.
+  -- Every simple module is isomorphic to R/m. So X ≅ R/m ≅ Y.
+  obtain ⟨I, hI, ⟨eX⟩⟩ := isSimpleModule_iff_quot_maximal.mp hX
+  obtain ⟨J, hJ, ⟨eY⟩⟩ := isSimpleModule_iff_quot_maximal.mp hY
+  have hIm : I = IsLocalRing.maximalIdeal R := IsLocalRing.eq_maximalIdeal hI
+  have hJm : J = IsLocalRing.maximalIdeal R := IsLocalRing.eq_maximalIdeal hJ
+  subst hIm; subst hJm
+  -- Now eX : X ≃ₗ[R] R ⧸ m and eY : Y ≃ₗ[R] R ⧸ m, so X ≅ Y
+  have e : X ≃ₗ[R] Y := eX.trans eY.symm
+  exact Etingof.areLinked_of_iso R
+    { hom := ModuleCat.ofHom e.toLinearMap
+      inv := ModuleCat.ofHom e.symm.toLinearMap
+      hom_inv_id := by ext x; exact e.symm_apply_apply x
+      inv_hom_id := by ext x; exact e.apply_symm_apply x }
