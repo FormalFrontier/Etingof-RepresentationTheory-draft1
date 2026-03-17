@@ -3154,8 +3154,9 @@
     "end_page": "119",
     "start_line": 22,
     "end_line": 26,
-    "status": "scaffolded",
-    "needs_statement": true
+    "status": "sent_to_aristotle",
+    "needs_statement": false,
+    "aristotle_project_id": "ca2097ca-a0df-4333-801f-853e50ea72ec"
   },
   {
     "id": "Chapter5/Discussion_footnote_5.15",
