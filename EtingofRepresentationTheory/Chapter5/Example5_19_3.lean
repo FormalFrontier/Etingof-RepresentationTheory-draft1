@@ -201,8 +201,8 @@ power ⋀[k]^n V.
 The GL(V)-action on ∧ⁿV is given by g · (v₁ ∧ ... ∧ vₙ) = (gv₁) ∧ ... ∧ (gvₙ).
 (Etingof Example 5.19.3) -/
 theorem Example5_19_3_exterior
-    {k : Type*} [Field k] [IsAlgClosed k]
-    {V : Type*} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    {k : Type} [Field k] [CharZero k]
+    {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
     (n : ℕ) :
     Nonempty (symAntisymmetric k V n ≃ₗ[k] ⋀[k]^n V) := by
   sorry
