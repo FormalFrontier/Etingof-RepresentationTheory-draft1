@@ -24,7 +24,43 @@ variable (G : Type) [Group G] [Fintype G] [DecidableEq G]
 
 /-- Character values of representations of finite groups are algebraic integers. -/
 private lemma character_isIntegral (V : FDRep ℂ G) (g : G) :
-    IsIntegral ℤ (V.character g) := by sorry
+    IsIntegral ℤ (V.character g) := by
+  -- Character = trace of ρ(g), which equals the sum of eigenvalues (roots of charpoly)
+  -- Each eigenvalue satisfies λ^|G| = 1, hence is integral over ℤ
+  let b := Module.Free.chooseBasis ℂ V
+  set M := LinearMap.toMatrix b b (V.ρ g) with hM_def
+  set n := Fintype.card G
+  -- character = matrix trace = sum of charpoly roots
+  have htrace : V.character g = M.trace :=
+    LinearMap.trace_eq_matrix_trace ℂ b _
+  rw [htrace, Matrix.trace_eq_sum_roots_charpoly M]
+  -- Each root of the charpoly is integral over ℤ
+  apply IsIntegral.multiset_sum
+  intro r hr
+  have hr_root : M.charpoly.IsRoot r :=
+    (Polynomial.mem_roots M.charpoly_monic.ne_zero).mp hr
+  -- M^n = 1 since g^n = 1 in a finite group
+  have hρ_pow : (V.ρ g) ^ n = 1 := by rw [← map_pow, pow_card_eq_one, map_one]
+  have hMn : M ^ n = 1 := by
+    rw [hM_def, LinearMap.toMatrix_pow, hρ_pow, LinearMap.toMatrix_one]
+  -- Derive Nonempty and Nontrivial from the existence of a root
+  haveI : Nonempty (Module.Free.ChooseBasisIndex ℂ V) := by
+    by_contra h
+    rw [not_nonempty_iff] at h
+    have : M.charpoly = 1 := by simp [Matrix.charpoly, Matrix.det_isEmpty]
+    simp [this] at hr
+  -- r^n = 1 via spectrum
+  have h_spec : r ∈ spectrum ℂ M :=
+    Matrix.mem_spectrum_iff_isRoot_charpoly.mpr hr_root
+  have h_pow : r ^ n ∈ spectrum ℂ (M ^ n) :=
+    spectrum.pow_mem_pow M n h_spec
+  rw [hMn, spectrum.one_eq] at h_pow
+  have hrn : r ^ n = 1 := Set.mem_singleton_iff.mp h_pow
+  -- r is integral: root of the monic polynomial X^n - 1 over ℤ
+  refine ⟨Polynomial.X ^ n - 1,
+    Polynomial.monic_X_pow_sub_C 1 Fintype.card_pos.ne', ?_⟩
+  simp only [Polynomial.aeval_def, Polynomial.eval₂_sub, Polynomial.eval₂_pow,
+    Polynomial.eval₂_X, Polynomial.eval₂_one, hrn, sub_self]
 
 /-- The trivial representation character at any g is 1. -/
 private lemma trivial_character_eq_one (g : G) :
@@ -35,7 +71,14 @@ private lemma trivial_character_eq_one (g : G) :
 /-- The trivial FDRep is simple. -/
 private lemma trivialFDRep_simple :
     Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
-  sorry
+  haveI : NeZero (Nat.card G : ℂ) := by
+    rw [Nat.card_eq_fintype_card]
+    exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
+  haveI : IsSimpleModule (MonoidAlgebra ℂ G)
+      (Representation.trivial ℂ G ℂ).asModule := by
+    rw [isSimpleModule_iff]
+    exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+  infer_instance
 
 /-- Scalar action on dim ≥ 2 irrep contradicts simplicity. -/
 private lemma scalar_contradicts_simplicity [IsSimpleGroup G]
