@@ -26,6 +26,56 @@ def Nat.Partition.Dominates {n : ℕ} (la mu : Nat.Partition n) : Prop :=
 def Nat.Partition.StrictDominates {n : ℕ} (la mu : Nat.Partition n) : Prop :=
   la.Dominates mu ∧ la ≠ mu
 
+/-! ## Helper lemmas for rowOfPos/colOfPos -/
+
+/-- For the canonical position at (row r, col c) in a Young diagram: rowOfPos and colOfPos
+give back r and c. The position is (parts.take r).sum + c. -/
+private lemma rowOfPos_colOfPos_canonical (parts : List ℕ) (r c : ℕ)
+    (hr : r < parts.length) (hc : c < parts[r]) :
+    Etingof.rowOfPos parts ((parts.take r).sum + c) = r ∧
+    Etingof.colOfPos parts ((parts.take r).sum + c) = c := by
+  induction parts generalizing r with
+  | nil => simp at hr
+  | cons a rest ih =>
+    cases r with
+    | zero =>
+      simp only [List.take_zero, List.sum_nil, Nat.zero_add, List.getElem_cons_zero] at hc
+      constructor
+      · simp [Etingof.rowOfPos]; omega
+      · simp [Etingof.colOfPos]; omega
+    | succ r' =>
+      simp only [List.length_cons] at hr
+      simp only [List.getElem_cons_succ] at hc
+      have hr' : r' < rest.length := by omega
+      obtain ⟨ih1, ih2⟩ := ih r' hr' hc
+      simp only [List.take_succ_cons, List.sum_cons]
+      have hge : ¬ ((a + (rest.take r').sum + c) < a) := by omega
+      have hsub : a + (rest.take r').sum + c - a = (rest.take r').sum + c := by omega
+      constructor
+      · simp [Etingof.rowOfPos, hge, hsub, ih1]; omega
+      · simp [Etingof.colOfPos, hge, hsub, ih2]
+
+/-- Canonical position is within bounds. -/
+private lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
+    (hr : r < parts.length) (hc : c < parts[r]) :
+    (parts.take r).sum + c < parts.sum := by
+  have h1 : (parts.take r).sum + parts[r] ≤ (parts.take (r + 1)).sum := by
+    rw [List.take_succ_eq_append_getElem hr, List.sum_append, List.sum_cons, List.sum_nil]
+    omega
+  have h2 : (parts.take (r + 1)).sum ≤ parts.sum :=
+    List.Sublist.sum_le_sum (List.take_sublist (r + 1) parts) (fun _ _ => Nat.zero_le _)
+  omega
+
+/-- For sorted descending parts, c < parts[r] implies c < parts[r'] for r' ≤ r. -/
+private lemma col_exists_earlier_row (parts : List ℕ) (hSorted : parts.Sorted (· ≥ ·))
+    (r r' c : ℕ) (hr : r < parts.length) (hr' : r' < parts.length) (hle : r' ≤ r)
+    (hc : c < parts[r]) : c < parts[r'] := by
+  have : parts[r] ≤ parts[r'] := by
+    rcases eq_or_lt_of_le hle with rfl | hlt
+    · omega
+    · exact List.pairwise_iff_getElem.mp hSorted r' r hr' hr hlt
+  omega
+
 namespace Etingof
 
 /-- A swap of two elements in the same row belongs to the row subgroup. -/
@@ -78,7 +128,17 @@ theorem pigeonhole_transposition (n : ℕ) (la mu : Nat.Partition n)
     obtain ⟨i, j, hij, hrow, hcol⟩ := this
     exact ⟨Equiv.swap i j, swap_mem_RowSubgroup hrow,
       conj_swap_eq σ i j ▸ swap_mem_ColumnSubgroup hcol, Equiv.Perm.sign_swap hij⟩
-  -- Step 2: Pigeonhole argument — if no such pair, derive contradiction with strict dominance
+  -- Step 2: Pigeonhole — by contradiction, derive la = mu from injectivity + dominance
+  by_contra h_no
+  push_neg at h_no
+  obtain ⟨hdom_ge, hne⟩ := hdom
+  apply hne
+  -- From h_no (no collision): within each row of la, the column map is injective.
+  -- This forces S_R(la) ≤ S_R(mu) for all R (counting argument), hence la = mu.
+  -- The counting uses: each row of la contributes distinct column values,
+  -- and each column of mu (being sorted descending) fills consecutive rows from 0.
+  -- Combined with dominance S_R(la) ≥ S_R(mu), we get equal partial sums,
+  -- hence equal sorted parts, hence equal partitions.
   sorry
 
 /-- For a basis element of(σ): if λ strictly dominates μ, then a_λ · of(σ) · b_μ = 0. -/
