@@ -63,11 +63,6 @@ a milestone.
 15+ PRs have merged since the last meditate issue closed, or multiple progress
 entries mention the same kind of struggle.
 
-**Review/housekeeping trigger**: Create a review issue (if none is already open)
-when 10+ PRs have merged since the last review issue closed. Deliverables:
-Aristotle result polling, items.json staleness audit, stale PR triage. See the
-parallel-agent-coordination skill's "Housekeeping Cadence" section for details.
-
 ## Step 4: Write the plan
 
 Design work items, each scoped to complete well within a single context window.
@@ -126,6 +121,19 @@ For each issue, write the plan body to `plans/<UUID-prefix>-N.md`, then post:
 ```
 coordination plan --label <feature|review|summarize|meditate> "title" < plans/<UUID-prefix>-N.md
 ```
+
+**If you created zero new issues** but open issues still exist (claimed,
+unclaimed, blocked, or with open PRs), signal that the planning queue is
+saturated and the project is winding down:
+
+```
+coordination nothing-to-plan
+```
+
+This decrements `min_queue` by 1 (so planning is re-triggered less eagerly)
+and decrements the target agent count by 1 (graceful pool wind-down). Use
+this when all remaining work is already in-flight or blocked, and you simply
+have nothing new to add right now.
 
 **If you created zero new issues** and all of the following are true, signal
 that control should return to the human:
