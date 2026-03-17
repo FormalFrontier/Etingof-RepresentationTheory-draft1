@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter6.Definition6_5_1
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_6
 import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
+import Mathlib.LinearAlgebra.Dimension.Free
 
 /-!
 # Corollary 6.8.3: Dimension Vector Determines Indecomposable Representation
@@ -21,7 +22,143 @@ representations (one for each positive root).
 
 Requires Theorem 6.8.1, reflection functor invertibility (Proposition 6.6.6),
 and quiver representation isomorphism. Not in Mathlib.
+
+## Proof decomposition
+
+The proof requires bridging integer-level dimension vector reflections (Theorem 6.8.1)
+with representation-level reflection functors. The key missing infrastructure:
+
+1. `simpleAt_iso`: Simple representations at the same vertex are isomorphic
+2. `reflectionFunctors_reduce_to_simple`: Iterated reflection functors reduce an
+   indecomposable representation to a simple one, following the reflection sequence
+   from Theorem 6.8.1
+3. Connecting the integer dimension vector to `Module.finrank` at each vertex
 -/
+
+open scoped Matrix
+
+section SimpleAtIso
+
+/-- Two representations that are simple at the same vertex are isomorphic.
+
+If ρ₁ and ρ₂ are both simple at vertex p (meaning finrank 1 at p and finrank 0
+elsewhere), then they are isomorphic as quiver representations.
+
+The proof constructs pointwise linear equivalences:
+- At p: both spaces are 1-dimensional, so a linear equivalence exists
+- At j ≠ p: both spaces are 0-dimensional, so they are both trivial
+
+Naturality follows because for any edge e : a ⟶ b, at least one of a, b differs
+from p (assuming no self-loops, which holds for Dynkin quivers), making both
+sides of the naturality square zero. -/
+private lemma Etingof.simpleAt_iso
+    {k : Type*} [Field k]
+    {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
+    (ρ₁ ρ₂ : Etingof.QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
+    [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
+    (p : Q)
+    (h₁ : ρ₁.IsSimpleAt p)
+    (h₂ : ρ₂.IsSimpleAt p) :
+    Nonempty (Etingof.QuiverRepresentation.Iso ρ₁ ρ₂) := by
+  -- Construct pointwise linear equivalences using equal finranks
+  have hdim : ∀ v, Module.finrank k (ρ₁.obj v) = Module.finrank k (ρ₂.obj v) := by
+    intro v
+    by_cases hv : v = p
+    · subst hv; rw [h₁.1, h₂.1]
+    · rw [h₁.2 v hv, h₂.2 v hv]
+  -- Build the isomorphism
+  refine ⟨⟨fun v => LinearEquiv.ofFinrankEq _ _ (hdim v), fun {a b} e x => ?_⟩⟩
+  -- Naturality: for edge e : a ⟶ b, show equiv(ρ₁.map e x) = ρ₂.map e (equiv x)
+  -- If a ≠ p, then ρ₁.obj a has finrank 0, so it's subsingleton, x = 0
+  -- If b ≠ p, then both sides land in a subsingleton space
+  by_cases ha : a = p <;> by_cases hb : b = p
+  · -- a = p, b = p: self-loop case
+    -- For Dynkin quivers there are no self-loops; this case requires
+    -- connecting the quiver Q to the Dynkin diagram hypothesis.
+    sorry
+  · -- a = p, b ≠ p: target space is zero-dimensional (subsingleton)
+    haveI : Subsingleton (ρ₂.obj b) := by
+      have hfr := h₂.2 b hb
+      exact Module.subsingleton_of_rank_zero
+        (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
+    exact Subsingleton.elim _ _
+  · -- a ≠ p, b = p: source space is zero-dimensional (subsingleton)
+    haveI : Subsingleton (ρ₁.obj a) := by
+      have hfr := h₁.2 a ha
+      exact Module.subsingleton_of_rank_zero
+        (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
+    have : x = 0 := Subsingleton.elim _ _
+    subst this
+    simp [map_zero]
+  · -- a ≠ p, b ≠ p: both sides in subsingleton space
+    haveI : Subsingleton (ρ₂.obj b) := by
+      have hfr := h₂.2 b hb
+      exact Module.subsingleton_of_rank_zero
+        (by rw [← @Module.finrank_eq_rank k]; exact_mod_cast hfr)
+    exact Subsingleton.elim _ _
+
+/-- An indecomposable representation whose dimension vector equals a simple root
+is simple at the corresponding vertex.
+
+If ρ is indecomposable and has finrank 1 at vertex p and finrank 0 at all other
+vertices, then ρ.IsSimpleAt p. This is immediate from the definition. -/
+private lemma Etingof.indecomposable_simpleRoot_isSimpleAt
+    {k : Type*} [Field k]
+    {Q : Type*} [DecidableEq Q] [Quiver Q]
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (p : Q)
+    (hdim_p : Module.finrank k (ρ.obj p) = 1)
+    (hdim_other : ∀ j, j ≠ p → Module.finrank k (ρ.obj j) = 0) :
+    ρ.IsSimpleAt p :=
+  ⟨hdim_p, hdim_other⟩
+
+end SimpleAtIso
+
+section ReflectionFunctorChain
+
+/-- Iterated reflection functors reduce an indecomposable representation to a simple
+representation, following the reflection sequence from Theorem 6.8.1.
+
+Given an indecomposable representation ρ with dimension vector d, and the sequence
+of vertices from Theorem 6.8.1 that reduces d to a simple root αₚ via iterated
+simple reflections, applying the corresponding sequence of reflection functors to ρ
+produces a representation isomorphic to the simple representation at vertex p,
+and ρ can be recovered (up to isomorphism) by applying the inverse functors.
+
+More precisely: if F_{i₁}⁺ ∘ ⋯ ∘ F_{iₖ}⁺ reduces ρ to a simple representation,
+then ρ ≅ F_{iₖ}⁻ ∘ ⋯ ∘ F_{i₁}⁻ applied to that simple representation.
+
+This lemma encapsulates the entire reflection functor chain argument:
+1. At each step, Proposition 6.6.5 ensures surjectivity/injectivity
+2. The dimension vector changes by the corresponding simple reflection
+3. At the end, the representation is simple at vertex p
+4. Proposition 6.6.6 provides the inverse functors to recover ρ
+
+This requires significant infrastructure not yet formalized:
+- Connecting integer-level simple reflections to representation-level reflection functors
+- Showing reflection functors change dimension vectors by simple reflections
+- Iterated application of reflection functors (each step changes the quiver)
+- Preserving indecomposability through the functor chain -/
+private lemma Etingof.reflectionFunctors_reduce_and_recover
+    {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hDynkin : Etingof.IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : Quiver (Fin n)}
+    (ρ₁ ρ₂ : @Etingof.QuiverRepresentation k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
+    [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
+    (h₁ : ρ₁.IsIndecomposable)
+    (h₂ : ρ₂.IsIndecomposable)
+    (hdim : ∀ v, Module.finrank k (ρ₁.obj v) = Module.finrank k (ρ₂.obj v))
+    (vertices : List (Fin n)) (p : Fin n)
+    (hreflect : Etingof.iteratedSimpleReflection n (Etingof.cartanMatrix n adj) vertices
+        (fun v => (Module.finrank k (ρ₁.obj v) : ℤ)) = Etingof.simpleRoot n p) :
+    Nonempty (@Etingof.QuiverRepresentation.Iso k _ (Fin n) Q ρ₁ ρ₂) :=
+  sorry
+
+end ReflectionFunctorChain
 
 /-- Indecomposable representations of a Dynkin quiver are determined (up to isomorphism)
 by their dimension vectors.
@@ -41,5 +178,26 @@ theorem Etingof.Corollary6_8_3
     (h₁ : ρ₁.IsIndecomposable)
     (h₂ : ρ₂.IsIndecomposable)
     (hdim : ∀ v, Module.finrank k (ρ₁.obj v) = Module.finrank k (ρ₂.obj v)) :
-    Nonempty (@Etingof.QuiverRepresentation.Iso k _ (Fin n) Q ρ₁ ρ₂) :=
-  sorry
+    Nonempty (@Etingof.QuiverRepresentation.Iso k _ (Fin n) Q ρ₁ ρ₂) := by
+  -- Step 1: Extract the dimension vector as an integer-valued function
+  let d : Fin n → ℤ := fun v => (Module.finrank k (ρ₁.obj v) : ℤ)
+  -- Step 2: The dimension vector is non-negative
+  have hd_pos : ∀ i, 0 ≤ d i := fun i => Int.natCast_nonneg _
+  -- Step 3: The dimension vector is nonzero (since ρ₁ is indecomposable, some space is nontrivial)
+  have hd_nonzero : d ≠ 0 := by
+    obtain ⟨⟨v, hv⟩, _⟩ := h₁
+    intro h
+    have : d v = 0 := congr_fun h v
+    simp only [d, Int.natCast_eq_zero] at this
+    rw [Module.finrank_eq_zero_iff_of_free (R := k)] at this
+    exact not_nontrivial_iff_subsingleton.mpr this hv
+  -- Step 4: The dimension vector is a positive root (B(d,d) = 2)
+  -- This requires showing that the dimension vector of an indecomposable representation
+  -- satisfies the root condition. This is part of Gabriel's theorem infrastructure.
+  have hd_root : dotProduct d ((Etingof.cartanMatrix n adj).mulVec d) = 2 := by
+    sorry
+  -- Step 5: By Theorem 6.8.1, there exists a sequence of reflections reducing d to a simple root
+  obtain ⟨vertices, p, hreflect⟩ := Etingof.Theorem6_8_1 hDynkin d hd_pos hd_nonzero hd_root
+  -- Step 6: Use the reflection functor chain to show ρ₁ ≅ ρ₂
+  exact Etingof.reflectionFunctors_reduce_and_recover hDynkin ρ₁ ρ₂ h₁ h₂ hdim
+    vertices p hreflect
