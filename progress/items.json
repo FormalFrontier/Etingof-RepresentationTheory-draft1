@@ -3352,8 +3352,14 @@
     "end_page": "124",
     "start_line": 5,
     "end_line": 16,
-    "status": "statement_formalized",
-    "needs_statement": false
+    "status": "sent_to_aristotle",
+    "needs_statement": false,
+    "aristotle_project_ids": {
+      "centralizers": "57b10208-f490-4577-959c-cb7548c34bcd",
+      "semisimple": "pending_rate_limited",
+      "decomposition": "pending_rate_limited"
+    },
+    "notes": "Centralizers (part i) submitted to Aristotle. Parts ii and iii blocked by Aristotle 5-project rate limit. Self-contained submission files prepared but need resubmission when slots free up."
   },
   {
     "id": "Chapter5/Introduction_5.19",
