@@ -2117,9 +2117,8 @@
     "end_page": "78",
     "start_line": 11,
     "end_line": 16,
-    "status": "sent_to_aristotle",
-    "aristotle_project_id": "ba650a37-fee3-4cde-ba20-f75855f8a10a",
-    "notes": "n_eq_card_conjClasses proved; blockPoly_irreducible has 1 sorry, sent to Aristotle"
+    "status": "sorry_free",
+    "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument"
   },
   {
     "id": "Chapter4/Discussion_before_Lemma4.10.3",
