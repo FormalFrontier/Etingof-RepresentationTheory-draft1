@@ -3979,8 +3979,8 @@
     "end_page": "163",
     "start_line": 15,
     "end_line": 74,
-    "status": "scaffolded",
-    "needs_statement": true
+    "status": "statement_formalized",
+    "needs_statement": false
   },
   {
     "id": "Chapter6/Discussion_after_Example6.3.1",
