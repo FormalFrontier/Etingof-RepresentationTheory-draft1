@@ -70,18 +70,40 @@ structure Etingof.QuiverRepresentation.Iso
   naturality : ∀ {a b : Q} (e : a ⟶ b) (x : ρ₁.obj a),
     (equivAt b) (ρ₁.mapLinear e x) = ρ₂.mapLinear e ((equivAt a) x)
 
+/-- The double reversal at vertex i recovers the original quiver instance.
+This enables transporting representations from (Q̄ᵢ)̄ᵢ back to Q. -/
+@[ext]
+private theorem Quiver.ext' {V : Type*} {inst₁ inst₂ : Quiver V}
+    (h : ∀ a b, @Quiver.Hom V inst₁ a b = @Quiver.Hom V inst₂ a b) :
+    inst₁ = inst₂ := by
+  cases inst₁; cases inst₂
+  congr 1; funext a b; exact h a b
+
+private theorem Etingof.reversedAtVertex_twice
+    (Q : Type*) [DecidableEq Q] [inst : Quiver Q] (i : Q) :
+    @Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i = inst := by
+  apply Quiver.ext'
+  intro a b
+  change @Etingof.ReversedAtVertexHom Q _ (Etingof.reversedAtVertex Q i) i a b = (a ⟶ b)
+  unfold Etingof.ReversedAtVertexHom
+  -- First level of split on a = i, b = i gives branches with @Hom Q (reversedAtVertex Q i) ...
+  split_ifs with ha hb hb
+  all_goals (simp only [Etingof.reversedAtVertex, Etingof.ReversedAtVertexHom])
+  -- Now each branch reduces to if-then-else on i,a,b equalities.
+  -- Some branches are impossible (¬True from i=i), others need subst before rfl.
+  all_goals (split_ifs <;> first | rfl | subst_vars <;> rfl | exact absurd rfl ‹_›)
+
 /-- Transport a representation from the double-reversed quiver (Q̄ᵢ)̄ᵢ back to Q.
 
-Reversing all arrows at vertex i twice recovers the original quiver: at each pair
-(a, b), the double-reversed arrow type `(Q̄ᵢ)̄ᵢ(a, b)` is canonically equivalent to
-`Q(a, b)`. This transport uses that identification to convert vertex spaces and maps. -/
+Reversing all arrows at vertex i twice recovers the original quiver. Vertex spaces
+are unchanged; maps are transported through the canonical arrow identification. -/
 noncomputable def Etingof.QuiverRepresentation.transportReversedTwice
     {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q}
     (ρ : @Etingof.QuiverRepresentation k Q _
       (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i)) :
     Etingof.QuiverRepresentation k Q :=
-  sorry
+  Etingof.reversedAtVertex_twice Q i ▸ ρ
 
 end Iso
 
