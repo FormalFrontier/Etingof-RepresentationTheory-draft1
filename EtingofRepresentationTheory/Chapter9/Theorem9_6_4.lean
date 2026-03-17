@@ -142,8 +142,11 @@ instance Etingof.IsProgenerator.full_preadditiveCoyonedaObj
     rw [← Preadditive.sum_comp, biproduct.total, Category.id_comp]
   rw [this]
 
--- Essential surjectivity of Hom(P, -): every End(P)^op-module arises as Hom(P, X)
--- Essential surjectivity of Hom(P, -): every End(P)^op-module arises as Hom(P, X)
+-- Essential surjectivity of Hom(P, -): every End(P)^op-module arises as Hom(P, X).
+-- NOTE: As stated, this maps into `ModuleCat (End P)ᵐᵒᵖ` (all modules), but Etingof's
+-- theorem is about finite-dimensional modules. The full module category has no standalone
+-- type in Mathlib. This sorry may require a formalization redesign (e.g., restricting the
+-- target to finitely generated modules) rather than a direct proof.
 -- Escalated to Aristotle: project 2fb64b51-4528-4419-9c64-e0c4685881bf
 instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObj
     {C : Type u} [Category.{v} C]
