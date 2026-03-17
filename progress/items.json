@@ -5412,7 +5412,7 @@
     "end_page": "218",
     "start_line": 5,
     "end_line": 6,
-    "status": "proof_formalized",
+    "status": "sorry_free",
     "needs_statement": false
   },
   {
