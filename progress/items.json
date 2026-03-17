@@ -3316,7 +3316,7 @@
     "end_page": "123",
     "start_line": 5,
     "end_line": 14,
-    "status": "scaffolded",
+    "status": "statement_formalized",
     "needs_statement": true
   },
   {
@@ -3327,7 +3327,7 @@
     "end_page": "123",
     "start_line": 15,
     "end_line": 35,
-    "status": "scaffolded",
+    "status": "statement_formalized",
     "needs_statement": true
   },
   {
