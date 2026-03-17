@@ -509,6 +509,56 @@ When a proof requires FDRep categorical machinery that's blocked by `.hom` plumb
 2. Check if Mathlib has the needed lemmas at the `LinearMap` / `Matrix` level
 3. If yes, build the proof there — it's usually cleaner than the categorical version
 
+## Helper Lemma Extraction Pattern
+
+When a proof is too complex for a single session, extract helper lemmas into separate declarations. This pattern was critical for Theorem 4.10.2 (block polynomial irreducibility) and the Young symmetrizer chain (5.13.1-5.13.4).
+
+### When to Extract
+
+- A proof attempt reveals a non-trivial subgoal that's independently meaningful
+- The same fact is needed by 2+ proofs (e.g., `pigeonhole_transposition` used by both 5.13.1 and 5.13.2)
+- A proof exceeds ~50 lines of tactics — break it up
+
+### How to Extract
+
+1. **State the helper as a separate `lemma`** in the same file, above the main theorem
+2. **Use `sorry` for the helper's proof** — this lets you test the main theorem's proof structure immediately
+3. **Commit the main theorem using the sorry'd helper** — this is valuable progress even if the helper is hard
+4. **Work on the helper separately** (or escalate to Aristotle)
+
+```lean
+-- Helper extracted from complex proof
+lemma helper_fact (n : ℕ) (h : n > 0) : some_property n := sorry
+
+-- Main theorem uses the helper
+theorem main_result : conclusion := by
+  have h := helper_fact n hn
+  exact ...
+```
+
+### Multi-PR Proof Chains
+
+Complex theorems may span multiple PRs. This is expected and desirable:
+- **PR 1**: State theorem + helpers, prove the algebraic frame, sorry the hard core
+- **PR 2**: Prove helper lemmas (or receive Aristotle results)
+- **PR 3**: Close the last sorry
+
+Each PR must compile. Label intermediate PRs with the item ID so reviewers can track the chain.
+
+## Chapter Closure Tactics
+
+When a chapter is within 1-3 items of 100% completion, prioritize closing it. Chapter closures have outsized value:
+- Psychological milestone for the project
+- Eliminates an entire category from the work queue
+- Proves the formalization approach works end-to-end for that chapter
+
+**Identifying closure candidates:**
+1. Check `items.json` for chapters with high completion percentage
+2. Look for items where all dependencies are sorry-free
+3. Prefer the easiest remaining item to close the chapter first
+
+**Evidence:** Ch3 closed via Jordan-Hölder (#831), Ch4 via block polynomial (#812). Both were chain-completion efforts that required focused multi-session work but had outsized impact on project morale and metrics.
+
 ## Common Failure Modes
 
 From Phase 2 review patterns and Stage 3.2 proof experience (50+ merged PRs):
