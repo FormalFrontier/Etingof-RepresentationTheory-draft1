@@ -50,19 +50,26 @@ noncomputable def Etingof.reflectionFunctorPlus
   -- φ : ⊕_{j→i} ρ_j → ρ_i, the sum of representation maps for arrows into i
   let φ : DirectSum (Etingof.ArrowsInto V i) (fun a => ρ.obj a.1) →ₗ[k] ρ.obj i :=
     DirectSum.toModule k (Etingof.ArrowsInto V i) (ρ.obj i) (fun a => ρ.mapLinear a.2)
-  -- The obj field: ker φ at vertex i, ρ.obj v elsewhere.
-  -- The Module instance and mapLinear involve type-level if/else causing
-  -- Lean's typeclass diamond issues with AddCommMonoid/Module.
-  -- These are sorry'd; the mathematical structure is captured by obj.
   refine @Etingof.QuiverRepresentation.mk k V _ (Etingof.reversedAtVertex V i)
     (fun v => if v = i then ↥(LinearMap.ker φ) else ρ.obj v)
     (fun v => by dsimp only; split <;> infer_instance)
     (fun v => by exact sorry)
     (fun {a b} (e : Etingof.ReversedAtVertexHom V i a b) => by
-      dsimp only
-      -- Case split on whether a and b equal i:
-      -- Case a ≠ i, b ≠ i: arrow is (a ⟶ b) in Q, map is ρ.mapLinear e
-      -- Case a = i, b ≠ i: reversed arrow (b ⟶ i), map is ker φ ↪ ⊕ →ₗ proj_b
-      -- Case a ≠ i, b = i: arrow is (i ⟶ a) in Q; i is a sink, so vacuous
-      -- Case a = i, b = i: arrow is (i ⟶ i) in Q; i is a sink, so vacuous
-      exact sorry)
+      change Etingof.ReversedAtVertexHom V i a b at e
+      unfold Etingof.ReversedAtVertexHom at e
+      by_cases ha : a = i
+      · by_cases hb : b = i
+        · -- a = i, b = i: self-loop; vacuous since i is a sink
+          simp only [ha, hb] at e; exact ((hi i).false e).elim
+        · -- a = i, b ≠ i: reversed arrow, ker φ ↪ ⊕ → proj_b
+          simp only [ha, hb, ite_true, ite_false] at e
+          exact Eq.mpr sorry
+            ((DirectSum.component k (Etingof.ArrowsInto V i)
+              (fun x => ρ.obj x.1) ⟨b, e⟩).comp
+              (LinearMap.ker φ).subtype)
+      · by_cases hb : b = i
+        · -- a ≠ i, b = i: arrow i → a, vacuous since i is a sink
+          simp only [ha, hb] at e; exact ((hi a).false e).elim
+        · -- a ≠ i, b ≠ i: unchanged arrow
+          simp only [ha, hb] at e
+          exact Eq.mpr sorry (ρ.mapLinear e))
