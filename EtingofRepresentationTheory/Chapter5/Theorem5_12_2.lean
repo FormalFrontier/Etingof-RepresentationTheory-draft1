@@ -54,11 +54,58 @@ private lemma sandwich_scalar (n : ℕ) (la : Nat.Partition n) :
     ColumnAntisymmetrizer n la := by simp only [mul_assoc]
   rw [this, hℓ]; simp only [YoungSymmetrizer, mul_assoc]
 
-/-- c_λ² ≠ 0. This is needed for the irreducibility proof: if c_λ² = 0 then
-the Specht module would be zero (since c_λ² = α • c_λ implies α = 0 implies c_λ = 0).
-The proof requires showing that the scalar α in Lemma 5.13.3 is nonzero. -/
+/-- The trace of left multiplication by a MonoidAlgebra element in the regular
+representation equals |G| times the coefficient of the identity element. -/
+private lemma trace_lmul_monoidAlgebra
+    {G : Type*} [Group G] [Fintype G]
+    (a : MonoidAlgebra ℂ G) :
+    LinearMap.trace ℂ (MonoidAlgebra ℂ G) (Algebra.lmul ℂ _ a) =
+      Fintype.card G • a 1 := by
+  classical
+  rw [LinearMap.trace_eq_matrix_trace ℂ (MonoidAlgebra.basis G ℂ)]
+  simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply,
+    MonoidAlgebra.basis_apply]
+  -- b.repr = id for MonoidAlgebra.basis, and lmul a x = a * x
+  have : ∀ g : G, ((MonoidAlgebra.basis G ℂ).repr
+    (Algebra.lmul ℂ (MonoidAlgebra ℂ G) a (MonoidAlgebra.single g 1))) g = a 1 := by
+    intro g
+    -- repr is identity for this basis; lmul a x = a * x
+    change (a * MonoidAlgebra.single g 1 : G →₀ ℂ) g = (a : G →₀ ℂ) 1
+    rw [MonoidAlgebra.mul_single_apply, mul_inv_cancel, mul_one]
+  simp only [this, Finset.sum_const, Finset.card_univ]
+
+/-- The coefficient of the identity permutation in the Young symmetrizer is 1.
+This uses the fact that P_λ ∩ Q_λ = {id}: only the pair (id, id) in P × Q
+maps to the identity permutation. -/
+private lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
+    (YoungSymmetrizer n la : A' n) 1 = 1 := by
+  -- c_λ(1) = (a_λ · b_λ)(1), use mul_single to expand
+  -- Strategy: show (RowSym * ColAnti)(1) = 1
+  -- by showing RowSym applied at identity gives the coefficient
+  sorry
+
+/-- c_λ² ≠ 0. Proved via the trace argument: if c_λ² = 0 then left multiplication
+L_{c_λ} is nilpotent, so its trace is 0. But Tr(L_{c_λ}) = n! · c_λ(e) = n! ≠ 0. -/
 private lemma young_symmetrizer_sq_ne_zero (n : ℕ) (la : Nat.Partition n) :
-    YoungSymmetrizer n la * YoungSymmetrizer n la ≠ 0 := by sorry
+    YoungSymmetrizer n la * YoungSymmetrizer n la ≠ 0 := by
+  set c := YoungSymmetrizer n la
+  intro h_sq_zero
+  -- Left multiplication by c is nilpotent (L_c² = L_{c²} = 0)
+  set L : A' n →ₗ[ℂ] A' n := LinearMap.mulLeft ℂ c
+  have h_nilp : IsNilpotent L := by
+    refine ⟨2, LinearMap.ext fun x => ?_⟩
+    change L (L x) = 0
+    simp only [L, LinearMap.mulLeft_apply, ← mul_assoc, h_sq_zero, zero_mul]
+  -- Trace of nilpotent is nilpotent in ℂ, hence 0
+  have h_tr_nilp := LinearMap.isNilpotent_trace_of_isNilpotent h_nilp
+  have h_tr_zero : LinearMap.trace ℂ (A' n) L = 0 :=
+    isNilpotent_iff_eq_zero.mp h_tr_nilp
+  -- But L = Algebra.lmul ℂ _ c, so trace = n! · c(e) = n! ≠ 0
+  have hL : L = Algebra.lmul ℂ (A' n) c := rfl
+  rw [hL, trace_lmul_monoidAlgebra, youngSymmetrizer_identity_coeff] at h_tr_zero
+  simp only [nsmul_eq_mul, mul_one] at h_tr_zero
+  have : (Fintype.card (G' n) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_pos.ne'
+  exact this h_tr_zero
 
 /-- The Specht module V_λ is an irreducible (simple) left ℂ[S_n]-module.
 (Etingof Theorem 5.12.2, part 1)
@@ -179,7 +226,7 @@ theorem Theorem5_12_2_distinct
   have h1 : c * (ψ ⟨c, hc_mem⟩ : A' n) = 0 := hvanish (ψ ⟨c, hc_mem⟩)
   -- But c * ψ(c) = ψ(c * c) by linearity
   have h2 : c * (ψ ⟨c, hc_mem⟩ : A' n) = (ψ ⟨c * c, hc_sq_mem⟩ : A' n) := by
-    show (c • ψ ⟨c, hc_mem⟩ : V).val = (ψ ⟨c * c, hc_sq_mem⟩ : V).val
+    change (c • ψ ⟨c, hc_mem⟩ : V).val = (ψ ⟨c * c, hc_sq_mem⟩ : V).val
     congr 1
     rw [← ψ.map_smul]; rfl
   -- So ψ(c²) = 0, hence c² = 0 (ψ injective), contradiction
