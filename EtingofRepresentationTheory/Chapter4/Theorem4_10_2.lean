@@ -223,7 +223,52 @@ different linear combinations of variables (by the injectivity of column FDReps)
 private lemma IrrepDecomp.blockPoly_not_associated [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i j : Fin D.n) (hij : i ≠ j) :
     ¬Associated (D.blockPoly i) (D.blockPoly j) := by
-  sorry
+  intro ⟨u, hu⟩
+  -- Define the central idempotent e_i and evaluate blockPolys at its coefficients
+  set e := D.iso.symm (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) k)) with he_def
+  set σ : G → k := fun g => e g with hσ_def
+  -- The group algebra element reconstructed from σ equals e
+  have ha_eq : ∑ g : G, σ g • MonoidAlgebra.of k G g = e := by
+    ext h
+    simp only [hσ_def, Finsupp.smul_apply, MonoidAlgebra.of_apply,
+      Finsupp.single_apply, mul_ite, mul_one, mul_zero,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+  -- Evaluate blockPoly at σ: eval σ (blockPoly l) = det(projRingHom l (e))
+  have heval_eq : ∀ l : Fin D.n, MvPolynomial.eval σ (D.blockPoly l) =
+      (D.projRingHom l e).det := by
+    intro l
+    unfold IrrepDecomp.blockPoly
+    rw [RingHom.map_det]
+    congr 1; ext r c
+    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, of_apply, map_sum, map_mul,
+      MvPolynomial.eval_C, MvPolynomial.eval_X]
+    rw [show σ = fun g => (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) g from by
+      rw [ha_eq]]
+    simp only [map_sum, D.projRingHom_smul' l, Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul,
+      Finsupp.finset_sum_apply, MonoidAlgebra.of_apply, Finsupp.single_apply]
+    apply Finset.sum_congr rfl; intro g _; ring
+  -- projRingHom i e = 1 (identity matrix)
+  have hei : D.projRingHom i e = 1 := by
+    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update]
+  -- projRingHom j e = 0 (zero matrix, since j ≠ i)
+  have hej : D.projRingHom j e = 0 := by
+    simp [he_def, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single, Function.update,
+      Ne.symm hij]
+  -- eval σ (blockPoly i) = 1
+  have heval_i : MvPolynomial.eval σ (D.blockPoly i) = 1 := by
+    rw [heval_eq, hei, det_one]
+  -- eval σ (blockPoly j) = 0
+  have heval_j : MvPolynomial.eval σ (D.blockPoly j) = 0 := by
+    rw [heval_eq, hej]
+    haveI : Nonempty (Fin (D.d j)) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩⟩
+    exact Matrix.det_zero (Fin (D.d j)) k
+  -- From hu: blockPoly i * ↑u = blockPoly j, apply eval σ
+  have heval_u : MvPolynomial.eval σ (↑u : MvPolynomial G k) = 0 := by
+    have h := congr_arg (MvPolynomial.eval σ) hu
+    simp only [map_mul, heval_i, heval_j, one_mul] at h
+    exact h
+  -- But u is a unit, so eval σ maps it to a unit in k, which can't be zero
+  exact (u.isUnit.map (MvPolynomial.eval σ).toRingHom.toMonoidHom).ne_zero heval_u
 
 /-- The total degree of the i-th block polynomial equals d_i. Each entry of the
 representation matrix is a linear polynomial in the x_g, so det has degree ≤ d_i.
