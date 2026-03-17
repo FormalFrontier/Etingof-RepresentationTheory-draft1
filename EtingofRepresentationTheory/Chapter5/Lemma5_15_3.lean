@@ -30,7 +30,7 @@ theorem Etingof.Lemma5_15_3
       (Matrix.of (fun i j : Fin N => (z i - y j)⁻¹)).det =
     (∏ i : Fin N, ∏ j ∈ Ioi i, (z j - z i)) *
     (∏ i : Fin N, ∏ j ∈ Ioi i, (y i - y j)) := by
-  -- Proof by Aristotle (Harmonic)
+  -- Proof via Cauchy determinant identity
   have h_cauchy : Matrix.det (Matrix.of (fun i j => 1 / ((z i) - (y j)))) = (∏ i, ∏ j ∈ Finset.Ioi i, ((z j) - (z i))) * (∏ i, ∏ j ∈ Finset.Ioi i, ((y i) - (y j))) / (∏ i, ∏ j, ((z i) - (y j))) := by
     have h_cauchy_det : ∀ (N : ℕ) (z y : Fin N → ℂ), (∀ i j, z i ≠ y j) → Matrix.det (Matrix.of (fun i j => 1 / ((z i) - (y j)))) = (∏ i, ∏ j ∈ Finset.Ioi i, ((z j) - (z i))) * (∏ i, ∏ j ∈ Finset.Ioi i, ((y i) - (y j))) / (∏ i, ∏ j, ((z i) - (y j))) := by
       intro N z y hzy;

@@ -103,7 +103,7 @@ theorem Etingof.compositionFactorMultiplicity_eraseLast
       @ite ℕ (Nonempty ((↥(s.last) ⧸
           (s.eraseLast.last).comap (s.last).subtype) ≃ₗ[A] S))
         (Classical.dec _) 1 0 := by
-  -- Proof by Aristotle (Harmonic)
+  -- Proof by induction on composition series length
   unfold Etingof.compositionFactorMultiplicity;
   rw [ Finset.card_filter, Finset.card_filter ];
   rcases s with ⟨ ⟨ l, hl ⟩ ⟩ ; aesop;

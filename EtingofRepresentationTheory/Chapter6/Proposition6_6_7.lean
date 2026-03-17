@@ -205,7 +205,7 @@ theorem Etingof.Proposition6_6_7_sink
       -- (since W_k(i) ⊆ ker(φ) ⊆ ⊕V_j, and if ⊕W_k(j) = 0 then W_k(i) = 0).
       --
       -- BLOCKED: The dependent type issues with Decidable.rec in reflectionFunctorPlus
-      -- make the construction extremely painful to formalize. Escalated to Aristotle.
+      -- make the construction extremely painful to formalize.
       sorry
 
 /-- Reflection functors preserve indecomposability at a source:

@@ -59,7 +59,6 @@ instance Etingof.IsProgenerator.faithful_preadditiveCoyonedaObj
     Etingof.IsProgenerator.isSeparator
 
 -- Fullness of Hom(P, -) when P is a projective separator in an abelian category
--- Escalated to Aristotle: project 111e10f2-88cc-4569-af7a-6105308e2cf1
 set_option synthInstance.maxHeartbeats 40000 in
 -- IsFiniteAbelianCategory provides Preadditive indirectly; extra heartbeats for Projective resolution
 instance Etingof.IsProgenerator.full_preadditiveCoyonedaObj
@@ -147,7 +146,6 @@ instance Etingof.IsProgenerator.full_preadditiveCoyonedaObj
 -- theorem is about finite-dimensional modules. The full module category has no standalone
 -- type in Mathlib. This sorry may require a formalization redesign (e.g., restricting the
 -- target to finitely generated modules) rather than a direct proof.
--- Escalated to Aristotle: project 2fb64b51-4528-4419-9c64-e0c4685881bf
 instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObj
     {C : Type u} [Category.{v} C]
     [Etingof.IsFiniteAbelianCategory C]
