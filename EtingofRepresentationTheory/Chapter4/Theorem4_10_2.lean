@@ -544,22 +544,205 @@ private lemma IrrepDecomp.blockPoly_totalDegree [NeZero (Nat.card G : k)]
     -- Step 4: combine
     exact (hhom.totalDegree hne).symm.le
 
-/-- Each block polynomial is irreducible. The proof uses the fact that the generic
-determinant is irreducible over k, and the block polynomial is obtained from it
-via a surjective linear substitution (from the Wedderburn projection).
+/-- The total degree of `aeval f p` is at most `totalDegree p` when each `f s` has
+total degree at most 1 (i.e., each substitution is a linear polynomial). -/
+private lemma totalDegree_aeval_le_of_deg_le_one
+    {σ τ : Type*} [DecidableEq τ] {k' : Type*} [CommSemiring k']
+    {f : σ → MvPolynomial τ k'} (hf : ∀ s, (f s).totalDegree ≤ 1)
+    (p : MvPolynomial σ k') :
+    (MvPolynomial.aeval f p).totalDegree ≤ p.totalDegree := by
+  -- Decompose p into sum of monomial terms
+  conv_lhs => rw [← MvPolynomial.support_sum_monomial_coeff p]
+  rw [map_sum]
+  apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+  apply Finset.sup_le; intro d hd
+  -- Each term: aeval f (monomial d (coeff d p)) = algebraMap (coeff d p) * ∏ s, f(s)^d(s)
+  rw [MvPolynomial.aeval_monomial]
+  simp only [MvPolynomial.algebraMap_eq]
+  calc (MvPolynomial.C (MvPolynomial.coeff d p) *
+        d.prod fun i k => f i ^ k).totalDegree
+      ≤ (MvPolynomial.C (MvPolynomial.coeff d p)).totalDegree +
+        (d.prod fun i k => f i ^ k).totalDegree :=
+          MvPolynomial.totalDegree_mul _ _
+    _ ≤ 0 + (d.prod fun i k => f i ^ k).totalDegree := by
+          simp [MvPolynomial.totalDegree_C]
+    _ = (d.prod fun i k => f i ^ k).totalDegree := by ring
+    _ = (∏ s ∈ d.support, f s ^ d s).totalDegree := by rfl
+    _ ≤ ∑ s ∈ d.support, (f s ^ d s).totalDegree :=
+          MvPolynomial.totalDegree_finset_prod _ _
+    _ ≤ ∑ s ∈ d.support, d s := by
+          apply Finset.sum_le_sum; intro s _
+          calc (f s ^ d s).totalDegree
+              ≤ d s * (f s).totalDegree := MvPolynomial.totalDegree_pow _ _
+            _ ≤ d s * 1 := Nat.mul_le_mul_left _ (hf s)
+            _ = d s := mul_one _
+    _ = d.sum fun _ n => n := by rfl
+    _ ≤ p.totalDegree := MvPolynomial.le_totalDegree hd
 
-The key idea: construct a retraction ψ such that aeval ψ ∘ aeval φ = id (from
-surjectivity of projRingHom), then use totalDegree additivity in domains to show
-that any factor of blockPoly that maps to a unit under ψ must itself be a unit. -/
 private lemma IrrepDecomp.blockPoly_irreducible [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
     Irreducible (D.blockPoly i) := by
-  /- Proof sketch: The generic determinant det(X_{a,b}) is irreducible (genDet_irreducible).
-     blockPoly i = aeval φ (det(X)) where φ maps (a,b) to ∑_g c_{g,a,b} · X_g.
-     From surjectivity of projRingHom, we construct a retraction ψ with aeval ψ ∘ aeval φ = id.
-     Then any factorization blockPoly = a * b maps via ψ to a factorization of det(X),
-     and the degree bound from ψ forces one factor to be constant, hence a unit. -/
-  sorry
+  haveI := D.d_pos i
+  -- Abbreviations
+  set di := D.d i with hdi_def
+  -- The generic determinant is irreducible
+  have hirr_gen := genDet_irreducible k di (Nat.pos_of_ne_zero (NeZero.ne _))
+  set genD := det (mvPolynomialX (Fin di) (Fin di) k) with hgenD_def
+  -- Define φ: substitution from matrix vars to group vars
+  let φ : Fin di × Fin di → MvPolynomial G k :=
+    fun ⟨a, b⟩ => ∑ g : G, C (D.projRingHom i (MonoidAlgebra.of k G g) a b) * X g
+  -- blockPoly = aeval φ (genDet)
+  have hbp : D.blockPoly i = MvPolynomial.aeval φ genD := by
+    unfold blockPoly; rw [AlgHom.map_det]; congr 1; ext a b
+    simp only [AlgHom.mapMatrix_apply, Matrix.map_apply, mvPolynomialX_apply,
+      MvPolynomial.aeval_X]; rfl
+  -- Build retraction ψ using surjectivity of projRingHom
+  -- For each matrix unit E_{a,b}, its preimage under projRingHom
+  let sect : Fin di → Fin di → MonoidAlgebra k G :=
+    fun a b => D.iso.symm (Pi.single i (Matrix.single a b 1))
+  have hsect : ∀ a b, D.projRingHom i (sect a b) = Matrix.single a b 1 := by
+    intro a b; simp [sect, IrrepDecomp.projRingHom, Pi.evalRingHom, Pi.single]
+  -- Define ψ: substitution from group vars to matrix vars
+  let ψ : G → MvPolynomial (Fin di × Fin di) k :=
+    fun g => ∑ a : Fin di, ∑ b : Fin di,
+      C ((sect a b : MonoidAlgebra k G) g) * X (a, b)
+  -- Each ψ(g) has totalDegree ≤ 1
+  have hψ_deg : ∀ g : G, (ψ g).totalDegree ≤ 1 := by
+    intro g
+    apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+    apply Finset.sup_le; intro a _
+    apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+    apply Finset.sup_le; intro b _
+    calc (C ((sect a b : MonoidAlgebra k G) g) * X (a, b)).totalDegree
+        ≤ (C _).totalDegree + (X (a, b)).totalDegree := MvPolynomial.totalDegree_mul _ _
+      _ = 0 + 1 := by rw [MvPolynomial.totalDegree_C, MvPolynomial.totalDegree_X]
+      _ = 1 := by ring
+  -- Key: aeval ψ (φ(a,b)) = X(a,b)  for all (a,b)
+  have hretract : ∀ v : Fin di × Fin di, MvPolynomial.aeval ψ (φ v) = X v := by
+    intro ⟨a, b⟩
+    simp only [φ, map_sum, map_mul, MvPolynomial.aeval_C, MvPolynomial.aeval_X,
+      MvPolynomial.algebraMap_eq]
+    -- Goal: ∑ g, C(proj(g)(a,b)) * ψ(g) = X(a,b)
+    -- Establish the key coefficient identity
+    have hcoeff : ∀ r c, ∑ g : G, D.projRingHom i (MonoidAlgebra.of k G g) a b *
+        (sect r c : MonoidAlgebra k G) g =
+        (D.projRingHom i (sect r c)) a b := by
+      intro r c
+      have hsrc : sect r c = ∑ g : G, (sect r c) g • MonoidAlgebra.of k G g := by
+        have : ∀ g, (sect r c) g • MonoidAlgebra.of k G g =
+            Finsupp.single g ((sect r c) g) := by
+          intro g; simp [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+        simp_rw [this]; exact (Finsupp.univ_sum_single _).symm
+      conv_rhs => rw [hsrc]
+      rw [map_sum]; simp_rw [D.projRingHom_smul' i]
+      simp only [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul, mul_comm]
+    -- Unfold ψ, distribute, swap sums
+    simp only [ψ]
+    simp_rw [Finset.mul_sum, ← mul_assoc, ← MvPolynomial.C_mul]
+    rw [Finset.sum_comm]
+    conv_lhs => arg 2; ext r; rw [Finset.sum_comm]
+    -- Goal: ∑ r, ∑ y, ∑ x, C(proj(x)(a,b) * sect(r,y)(x)) * X(r,y) = X(a,b)
+    -- Factor out X(r,y) and collect C using map_sum
+    simp_rw [← Finset.sum_mul, ← map_sum]
+    -- Now: ∑ r, ∑ y, C(∑ x, proj(x)(a,b) * sect(r,y)(x)) * X(r,y) = X(a,b)
+    simp_rw [hcoeff, hsect, Matrix.single_apply]
+    rw [Finset.sum_eq_single a _ (fun h => absurd (Finset.mem_univ _) h),
+      Finset.sum_eq_single b _ (fun h => absurd (Finset.mem_univ _) h)]
+    · simp [if_pos rfl]
+    · intro c _ hc; simp [hc]
+    · intro r _ hr
+      apply Finset.sum_eq_zero; intro c _
+      simp [hr]
+  -- From hretract: (aeval ψ) ∘ (aeval φ) = id
+  have hid : ∀ p : MvPolynomial (Fin di × Fin di) k,
+      MvPolynomial.aeval ψ (MvPolynomial.aeval φ p) = p := by
+    intro p
+    have h : (MvPolynomial.aeval ψ).comp (MvPolynomial.aeval φ) =
+        AlgHom.id k _ := by
+      apply MvPolynomial.algHom_ext; intro v
+      simp only [AlgHom.comp_apply, MvPolynomial.aeval_X, AlgHom.id_apply]
+      exact hretract v
+    show ((MvPolynomial.aeval ψ).comp (MvPolynomial.aeval φ)) p = p
+    rw [h]; rfl
+  -- Each φ(a,b) also has totalDegree ≤ 1
+  have hφ_deg : ∀ v : Fin di × Fin di, (φ v).totalDegree ≤ 1 := by
+    intro ⟨a, b⟩
+    apply (MvPolynomial.totalDegree_finset_sum _ _).trans
+    apply Finset.sup_le; intro g _
+    calc (C (D.projRingHom i (MonoidAlgebra.of k G g) a b) * X g).totalDegree
+        ≤ (C _).totalDegree + (X g).totalDegree := MvPolynomial.totalDegree_mul _ _
+      _ = 0 + 1 := by rw [MvPolynomial.totalDegree_C, MvPolynomial.totalDegree_X]
+      _ = 1 := by ring
+  -- totalDegree(genD) = di
+  have htd_genD : genD.totalDegree = di := by
+    apply le_antisymm
+    · -- ≤: genD = aeval ψ blockPoly, apply aeval bound
+      calc genD.totalDegree
+          = (MvPolynomial.aeval ψ (MvPolynomial.aeval φ genD)).totalDegree := by rw [hid]
+        _ ≤ (MvPolynomial.aeval φ genD).totalDegree :=
+              totalDegree_aeval_le_of_deg_le_one hψ_deg _
+        _ = (D.blockPoly i).totalDegree := by rw [← hbp]
+        _ = di := D.blockPoly_totalDegree i
+    · -- ≥: blockPoly = aeval φ genD, apply aeval bound
+      calc di = (D.blockPoly i).totalDegree := (D.blockPoly_totalDegree i).symm
+        _ = (MvPolynomial.aeval φ genD).totalDegree := by rw [← hbp]
+        _ ≤ genD.totalDegree := totalDegree_aeval_le_of_deg_le_one hφ_deg _
+  -- blockPoly is nonzero (from blockPoly_totalDegree)
+  have hbp_ne : D.blockPoly i ≠ 0 := by
+    intro h; have := D.blockPoly_totalDegree i
+    rw [h, MvPolynomial.totalDegree_zero] at this
+    exact absurd this.symm (Nat.pos_of_ne_zero (NeZero.ne _)).ne'
+  -- Prove irreducibility
+  constructor
+  · -- Not a unit: totalDegree > 0, but units have totalDegree = 0
+    intro h
+    have htd := D.blockPoly_totalDegree i
+    have hunit_td := (MvPolynomial.isUnit_iff_totalDegree_of_isReduced.mp h).2
+    have hdi_pos : 0 < di := Nat.pos_of_ne_zero (NeZero.ne _)
+    omega
+  · -- If blockPoly = a * b, one is a unit
+    intro a b hab
+    have ha : a ≠ 0 := left_ne_zero_of_mul (hab ▸ hbp_ne)
+    have hb : b ≠ 0 := right_ne_zero_of_mul (hab ▸ hbp_ne)
+    -- Apply aeval ψ: genDet = ψ(a) * ψ(b)
+    have hfact : genD = MvPolynomial.aeval ψ a * MvPolynomial.aeval ψ b := by
+      have h1 := congr_arg (MvPolynomial.aeval ψ) (hbp ▸ hab)
+      rwa [map_mul, hid] at h1
+    -- totalDegree(a) + totalDegree(b) = di
+    have htd_ab : a.totalDegree + b.totalDegree = di := by
+      rw [← MvPolynomial.totalDegree_mul_of_isDomain ha hb, ← hab,
+        D.blockPoly_totalDegree]
+    -- Helper: if ψ maps one factor to a unit, the other factor has degree di
+    -- genDet is irreducible, so one factor is a unit
+    rcases hirr_gen.isUnit_or_isUnit hfact with hunit | hunit
+    · -- ψ(a) is a unit → totalDegree(a) = 0 → a is a unit
+      left
+      have htd_ψa : (MvPolynomial.aeval ψ a).totalDegree = 0 :=
+        (MvPolynomial.isUnit_iff_totalDegree_of_isReduced.mp hunit).2
+      have hψb_ne : MvPolynomial.aeval ψ b ≠ 0 := by
+        intro h; rw [h, mul_zero] at hfact; exact hirr_gen.ne_zero hfact
+      have htd_ψb : (MvPolynomial.aeval ψ b).totalDegree = di := by
+        have := MvPolynomial.totalDegree_mul_of_isDomain hunit.ne_zero hψb_ne
+        rw [← hfact, htd_genD] at this; omega
+      have : a.totalDegree = 0 := by
+        have := totalDegree_aeval_le_of_deg_le_one hψ_deg b; omega
+      rw [MvPolynomial.totalDegree_eq_zero_iff_eq_C.mp this] at ha ⊢
+      have : a.coeff 0 ≠ 0 := by rwa [ne_eq, MvPolynomial.C_eq_zero] at ha
+      exact this.isUnit.map MvPolynomial.C
+    · -- ψ(b) is a unit → totalDegree(b) = 0 → b is a unit
+      right
+      have htd_ψb : (MvPolynomial.aeval ψ b).totalDegree = 0 :=
+        (MvPolynomial.isUnit_iff_totalDegree_of_isReduced.mp hunit).2
+      have hψa_ne : MvPolynomial.aeval ψ a ≠ 0 := by
+        intro h; rw [h, zero_mul] at hfact; exact hirr_gen.ne_zero hfact
+      have htd_ψa : (MvPolynomial.aeval ψ a).totalDegree = di := by
+        have := MvPolynomial.totalDegree_mul_of_isDomain hψa_ne hunit.ne_zero
+        rw [← hfact, htd_genD] at this; omega
+      have : b.totalDegree = 0 := by
+        have := totalDegree_aeval_le_of_deg_le_one hψ_deg a; omega
+      rw [MvPolynomial.totalDegree_eq_zero_iff_eq_C.mp this] at hb ⊢
+      have : b.coeff 0 ≠ 0 := by rwa [ne_eq, MvPolynomial.C_eq_zero] at hb
+      exact this.isUnit.map MvPolynomial.C
 
 /-- Block polynomials for different Wedderburn components are not associated.
 If d_i ≠ d_j, they have different total degrees. If d_i = d_j, they involve
