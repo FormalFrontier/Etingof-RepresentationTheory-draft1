@@ -5309,8 +5309,8 @@
     "end_page": "215",
     "start_line": 13,
     "end_line": 27,
-    "status": "scaffolded",
-    "needs_statement": true
+    "status": "statement_formalized",
+    "needs_statement": false
   },
   {
     "id": "Chapter9/Introduction_9.3",
