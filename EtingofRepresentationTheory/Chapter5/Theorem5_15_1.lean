@@ -7,10 +7,10 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_12_2
 
 The character of the Specht module V_λ evaluated at conjugacy class C_i is:
 
-  χ_{V_λ}(C_i) = coefficient of x^{λ+ρ} in Δ(x) · ∏_{m≥1} H_m(x)^{i_m}
+  χ_{V_λ}(C_i) = coefficient of x^{λ+ρ} in Δ(x) · ∏_{m≥1} p_m(x)^{i_m}
 
 where ρ = (n-1, n-2, ..., 1, 0), Δ(x) = ∏_{i<j} (xⱼ - xᵢ) is the
-Vandermonde determinant, and H_m are complete homogeneous symmetric polynomials.
+Vandermonde determinant, and p_m are power sum symmetric polynomials.
 
 ## Formalization approach
 
@@ -22,11 +22,11 @@ The formula relates three objects:
 1. The LHS: trace of the S_n-action on the Specht module (left ideal of ℂ[S_n])
 2. The Vandermonde factor Δ(x), which accounts for the antisymmetrization in
    the Young symmetrizer
-3. The symmetric polynomial product from Theorem 5.14.3, shifted by ρ
+3. The power sum polynomial product from Theorem 5.14.3, shifted by ρ
 
 ## Mathlib correspondence
 
-- `MvPolynomial.hsymm`: complete homogeneous symmetric polynomials
+- `MvPolynomial.psum`: power sum symmetric polynomials p_m = Σᵢ xᵢᵐ
 - `MvPolynomial.X`: polynomial variables
 - `MvPolynomial.coeff`: coefficient extraction
 - `LinearMap.trace`: trace of a linear endomorphism
@@ -60,8 +60,8 @@ noncomputable def spechtModuleCharacter (n : ℕ) (la : Nat.Partition n)
 
 /-- **Theorem 5.15.1** (Frobenius character formula): The character of the Specht module
 V_λ at a permutation σ with cycle type i = (i₁, i₂, ...) equals the coefficient
-of x^{λ+ρ} in Δ(x) · ∏_{m≥1} H_m(x)^{i_m}, where Δ is the Vandermonde polynomial,
-ρ = (n-1, ..., 1, 0), and H_m is the complete homogeneous symmetric polynomial.
+of x^{λ+ρ} in Δ(x) · ∏_{m≥1} p_m(x)^{i_m}, where Δ is the Vandermonde polynomial,
+ρ = (n-1, ..., 1, 0), and p_m is the power sum symmetric polynomial.
 (Etingof Theorem 5.15.1) -/
 theorem Theorem5_15_1
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
