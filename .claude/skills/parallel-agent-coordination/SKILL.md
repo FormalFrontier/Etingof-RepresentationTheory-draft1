@@ -1,6 +1,6 @@
 # Parallel Agent Coordination Skill
 
-Patterns for effective multi-agent work on FormalFrontier book repositories. Derived from Phases 1-2 experience (5+ concurrent agents, 140+ PRs, 578 items).
+Patterns for effective multi-agent work on FormalFrontier book repositories. Derived from Phases 1-3 experience (5+ concurrent agents, 160+ PRs, 583 items, 14 proof waves).
 
 ## Issue Design
 
@@ -179,7 +179,7 @@ In formalization, merge order affects what's available to downstream agents:
 3. **Changing definition signatures after dependents exist** — cascading breakage across all agents
 4. **Not checking `.refs.md` before starting** — may miss that Mathlib already has the result
 
-## Lessons from Stage 3.2 Proof Wave (30 PRs)
+## Lessons from Stage 3.2 Proof Waves (90+ PRs, 14 waves)
 
 ### Cross-Validation Must Be Planned Upfront
 
@@ -223,17 +223,23 @@ When creating proof issues, planners should classify items by expected tractabil
 - Direct Mathlib API applications (alias + `inferInstance`)
 - Trace-based arguments (group algebra elements)
 - Symmetrization / Reynolds operator arguments in characteristic zero
+- Strong induction on coordinate sums / dimension vectors (root system proofs)
+- Bilinear form preservation via `ring` + linearity lemmas
 
 **Medium success rate (1 per issue, budget full context window):**
 - Multi-step algebraic proofs requiring 3+ Mathlib lemmas
 - Inductive arguments on natural numbers or partitions
 - Proofs requiring `Finset.sum` manipulation and reindexing
+- Aristotle proof adaptations (v4.24 → v4.28 API changes, ~10-20 fixes per proof)
+- Non-commutative Hom space arguments (require manual k-linear equivalences)
 
 **Low success rate (flag in issue, expect sorry):**
 - Anything involving `ExteriorAlgebra` ↔ `PiTensorProduct` bridging
 - Proofs requiring `QuiverRepresentation` infrastructure beyond concrete constructions
 - Deep symmetric function theory (hook length formula, RSK correspondence)
 - Dependent type issues with `if`-branching in structure fields
+- Items depending on opaque `sorry : FDRep` placeholders (SchurModule, orbit method)
+- Proofs requiring Aristotle with project-local imports (need re-submission as self-contained)
 
 **Planner action:** For low-success items, set difficulty to 3/3 and include an explicit note: "This may require sorry. Budget the full context window for a single attempt. If blocked after 2 serious attempts, sorry and move on."
 
@@ -280,4 +286,30 @@ print(f'Proof backlog: {backlog} items')
 "
 ```
 
-**As of Wave 11:** Backlog is 43 items (188/583 sorry-free, 32.2%) — planners should create mostly proof issues. Statement formalization is largely complete for Chapters 5-6.
+**As of Wave 14:** 191/583 sorry-free (32.8%), 109 sorry occurrences across 41 files. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch5 is the bottleneck (65 sorries, 22 files). Planners should create mostly proof issues. Statement formalization is largely complete.
+
+### Stalling Detection and Response
+
+**Pattern (waves 12-14):** 16 claimed issues without PRs after 24h. This indicates agents hitting items that resist standard tactics — the "easy wins are done" phase.
+
+**Planner response when stalling is detected:**
+1. Run `coordination release-stale-claims` more aggressively (reduce threshold to 2h for hard items)
+2. Check if stalled items share a common blocker (e.g., opaque SchurModule placeholder blocking a cluster)
+3. If a common blocker exists, create an infrastructure issue to resolve it before re-planning the blocked items
+4. Reclassify stalled items: bump difficulty rating, add "This stalled in a previous attempt" to the issue body
+5. Consider splitting stalled items into smaller sub-issues (e.g., "prove part (i) only" instead of full theorem)
+
+### PR Supersession Tracking
+
+**Problem (waves 12-14):** PR #926 (Definition 6.6.4) was closed as "superseded" by the owner, but no replacement PR was created. Agent 6416121a wasted a turn discovering the closure, and the definition had to be re-implemented independently.
+
+**Rule:** When closing a PR as superseded:
+1. Comment on the closed PR linking to the replacement (or noting it needs one)
+2. If no replacement exists yet, create a new feature issue for the item
+3. Remove `has-pr` label from the associated issue and add `replan`
+
+**Planner check:** During orientation, scan for recently closed PRs without replacement:
+```bash
+gh pr list --state closed --limit 20 --json number,title,closedAt,body \
+  --jq '.[] | select(.closedAt > "2026-03-17") | "\(.number) \(.title)"'
+```
