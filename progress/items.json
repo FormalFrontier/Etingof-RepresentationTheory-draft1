@@ -4276,7 +4276,8 @@
     "start_line": 1,
     "end_line": 2,
     "status": "proof_partial",
-    "needs_statement": true
+    "needs_statement": true,
+    "notes": "Part (a) finiteness sorry-free. Part (b) sorry-free. Part (c) still sorry (needs reflection functors)."
   },
   {
     "id": "Chapter6/Section6.6_heading",
