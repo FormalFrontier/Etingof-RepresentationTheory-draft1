@@ -1,6 +1,7 @@
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Algebra.RingQuot
 import Mathlib.LinearAlgebra.Basis.VectorSpace
+import Mathlib.Algebra.Algebra.Subalgebra.Lattice
 
 /-!
 # Proposition 2.7.1: Basis for the Weyl Algebra
@@ -10,9 +11,7 @@ import Mathlib.LinearAlgebra.Basis.VectorSpace
 
 ## Mathlib correspondence
 
-No direct match. The Weyl algebra is not formalized in Mathlib. The proof uses representation
-theory: linear independence is shown by constructing a faithful representation on
-t^a k[a][t, t⁻¹] where x acts by multiplication by t and y acts by d/dt.
+No direct match. The Weyl algebra is not formalized in Mathlib.
 
 ## Formalization note
 
@@ -58,6 +57,158 @@ noncomputable def WeylAlgebra.y : WeylAlgebra k := WeylAlgebra.mk k (weylY k)
 noncomputable def WeylAlgebra.monomial (i j : ℕ) : WeylAlgebra k :=
   WeylAlgebra.x k ^ i * WeylAlgebra.y k ^ j
 
+/-- The fundamental commutation relation in the Weyl algebra: `yx = xy + 1`. -/
+lemma WeylAlgebra.yx_eq :
+    WeylAlgebra.y k * WeylAlgebra.x k = WeylAlgebra.x k * WeylAlgebra.y k + 1 := by
+  have h := RingQuot.mkAlgHom_rel k
+    (show WeylAlgebraRel k (weylY k * weylX k) (weylX k * weylY k + 1) from ⟨rfl, rfl⟩)
+  simp only [map_mul, map_add, map_one] at h
+  exact h
+
+private noncomputable abbrev MonS : Submodule k (WeylAlgebra k) :=
+  Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2))
+
+private lemma monomial_mem (i j : ℕ) : WeylAlgebra.monomial k i j ∈ MonS k :=
+  Submodule.subset_span ⟨(i, j), rfl⟩
+
+-- Left mult by x preserves span
+private lemma x_mul_mem {a : WeylAlgebra k} (ha : a ∈ MonS k) :
+    WeylAlgebra.x k * a ∈ MonS k := by
+  apply Submodule.span_induction
+    (p := fun a (_ : a ∈ MonS k) => WeylAlgebra.x k * a ∈ MonS k)
+  · intro z hz
+    obtain ⟨⟨i, j⟩, rfl⟩ := hz
+    have : WeylAlgebra.x k * WeylAlgebra.monomial k i j = WeylAlgebra.monomial k (i + 1) j := by
+      simp only [WeylAlgebra.monomial, pow_succ', mul_assoc]
+    rw [this]; exact monomial_mem k (i + 1) j
+  · rw [mul_zero]; exact (MonS k).zero_mem
+  · intro _ _ _ _ ha hb; rw [mul_add]; exact (MonS k).add_mem ha hb
+  · intro c _ _ ha; rw [mul_smul_comm]; exact (MonS k).smul_mem c ha
+  · exact ha
+
+-- Right mult by y preserves span
+private lemma mul_y_mem {a : WeylAlgebra k} (ha : a ∈ MonS k) :
+    a * WeylAlgebra.y k ∈ MonS k := by
+  apply Submodule.span_induction
+    (p := fun a (_ : a ∈ MonS k) => a * WeylAlgebra.y k ∈ MonS k)
+  · intro z hz
+    obtain ⟨⟨i, j⟩, rfl⟩ := hz
+    have : WeylAlgebra.monomial k i j * WeylAlgebra.y k = WeylAlgebra.monomial k i (j + 1) := by
+      simp only [WeylAlgebra.monomial, pow_succ, mul_assoc]
+    rw [this]; exact monomial_mem k i (j + 1)
+  · rw [zero_mul]; exact (MonS k).zero_mem
+  · intro _ _ _ _ ha hb; rw [add_mul]; exact (MonS k).add_mem ha hb
+  · intro c _ _ ha; rw [smul_mul_assoc]; exact (MonS k).smul_mem c ha
+  · exact ha
+
+-- Key: monomial * x is in span (by induction on j using commutation)
+private lemma monomial_mul_x_mem (i j : ℕ) :
+    WeylAlgebra.monomial k i j * WeylAlgebra.x k ∈ MonS k := by
+  induction j with
+  | zero =>
+    have : WeylAlgebra.monomial k i 0 * WeylAlgebra.x k = WeylAlgebra.monomial k (i + 1) 0 := by
+      simp only [WeylAlgebra.monomial, pow_zero, mul_one, pow_succ]
+    rw [this]; exact monomial_mem k (i + 1) 0
+  | succ n ih =>
+    -- x^i * y^(n+1) * x = x^i * y^n * y * x = x^i * y^n * (xy + 1)
+    -- = (x^i * y^n * x) * y + x^i * y^n
+    have key : WeylAlgebra.monomial k i (n + 1) * WeylAlgebra.x k =
+        WeylAlgebra.monomial k i n * WeylAlgebra.x k * WeylAlgebra.y k +
+        WeylAlgebra.monomial k i n := by
+      simp only [WeylAlgebra.monomial, pow_succ, mul_assoc]
+      rw [WeylAlgebra.yx_eq k, mul_add, mul_one, mul_add]
+    rw [key]
+    exact (MonS k).add_mem (mul_y_mem k ih) (monomial_mem k i n)
+
+-- Right mult by x preserves span
+private lemma mul_x_mem {a : WeylAlgebra k} (ha : a ∈ MonS k) :
+    a * WeylAlgebra.x k ∈ MonS k := by
+  apply Submodule.span_induction
+    (p := fun a (_ : a ∈ MonS k) => a * WeylAlgebra.x k ∈ MonS k)
+  · intro z hz
+    obtain ⟨⟨i, j⟩, rfl⟩ := hz
+    exact monomial_mul_x_mem k i j
+  · rw [zero_mul]; exact (MonS k).zero_mem
+  · intro _ _ _ _ ha hb; rw [add_mul]; exact (MonS k).add_mem ha hb
+  · intro c _ _ ha; rw [smul_mul_assoc]; exact (MonS k).smul_mem c ha
+  · exact ha
+
+-- Key: y * monomial is in span (by induction on i using commutation)
+private lemma y_mul_monomial_mem (i j : ℕ) :
+    WeylAlgebra.y k * WeylAlgebra.monomial k i j ∈ MonS k := by
+  induction i with
+  | zero =>
+    have : WeylAlgebra.y k * WeylAlgebra.monomial k 0 j = WeylAlgebra.monomial k 0 (j + 1) := by
+      simp only [WeylAlgebra.monomial, pow_zero, one_mul, pow_succ']
+    rw [this]; exact monomial_mem k 0 (j + 1)
+  | succ n ih =>
+    -- y * x^(n+1) * y^j = (yx) * x^n * y^j = (xy + 1) * x^n * y^j
+    -- = x * (y * x^n * y^j) + x^n * y^j
+    have key : WeylAlgebra.y k * WeylAlgebra.monomial k (n + 1) j =
+        WeylAlgebra.x k * (WeylAlgebra.y k * WeylAlgebra.monomial k n j) +
+        WeylAlgebra.monomial k n j := by
+      simp only [WeylAlgebra.monomial, pow_succ', mul_assoc]
+      rw [← mul_assoc (WeylAlgebra.y k) (WeylAlgebra.x k),
+          WeylAlgebra.yx_eq k, add_mul, one_mul, mul_assoc]
+    rw [key]
+    exact (MonS k).add_mem (x_mul_mem k ih) (monomial_mem k n j)
+
+-- Left mult by y preserves span
+private lemma y_mul_mem {a : WeylAlgebra k} (ha : a ∈ MonS k) :
+    WeylAlgebra.y k * a ∈ MonS k := by
+  apply Submodule.span_induction
+    (p := fun a (_ : a ∈ MonS k) => WeylAlgebra.y k * a ∈ MonS k)
+  · intro z hz
+    obtain ⟨⟨i, j⟩, rfl⟩ := hz
+    exact y_mul_monomial_mem k i j
+  · rw [mul_zero]; exact (MonS k).zero_mem
+  · intro _ _ _ _ ha hb; rw [mul_add]; exact (MonS k).add_mem ha hb
+  · intro c _ _ ha; rw [mul_smul_comm]; exact (MonS k).smul_mem c ha
+  · exact ha
+
+-- Product of two span elements is in span
+private lemma mul_mem_span {a b : WeylAlgebra k} (ha : a ∈ MonS k) (hb : b ∈ MonS k) :
+    a * b ∈ MonS k := by
+  apply Submodule.span_induction
+    (p := fun b (_ : b ∈ MonS k) => a * b ∈ MonS k)
+  · intro z hz
+    obtain ⟨⟨p, q⟩, rfl⟩ := hz
+    simp only [WeylAlgebra.monomial, ← mul_assoc]
+    -- First: a * x^p ∈ MonS k
+    have haxp : a * WeylAlgebra.x k ^ p ∈ MonS k := by
+      induction p with
+      | zero => simpa [pow_zero] using ha
+      | succ m ih => rw [pow_succ, ← mul_assoc]; exact mul_x_mem k ih
+    -- Then: a * x^p * y^q ∈ MonS k
+    induction q with
+    | zero => simpa [pow_zero] using haxp
+    | succ m ih => rw [pow_succ, ← mul_assoc]; exact mul_y_mem k ih
+  · rw [mul_zero]; exact (MonS k).zero_mem
+  · intro _ _ _ _ hx hy; rw [mul_add]; exact (MonS k).add_mem hx hy
+  · intro c _ _ hx; rw [mul_smul_comm]; exact (MonS k).smul_mem c hx
+  · exact hb
+
+-- Spanning: the standard monomials span the Weyl algebra
+private lemma spanning :
+    ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2)) := by
+  intro w _
+  obtain ⟨a, rfl⟩ := RingQuot.mkAlgHom_surjective k (WeylAlgebraRel k) w
+  have ha : a ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k : WeylGen → _)) := by
+    rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
+  induction ha using Algebra.adjoin_induction with
+  | mem x hx =>
+    obtain ⟨i, rfl⟩ := hx
+    fin_cases i
+    · convert monomial_mem k 1 0 using 1
+      simp [WeylAlgebra.monomial, WeylAlgebra.x, WeylAlgebra.mk]
+    · convert monomial_mem k 0 1 using 1
+      simp [WeylAlgebra.monomial, WeylAlgebra.y, WeylAlgebra.mk]
+  | algebraMap r =>
+    convert (MonS k).smul_mem r (monomial_mem k 0 0) using 1
+    simp [WeylAlgebra.monomial, Algebra.algebraMap_eq_smul_one]
+  | add x y _ _ ihx ihy => rw [map_add]; exact (MonS k).add_mem (ihx trivial) (ihy trivial)
+  | mul x y _ _ ihx ihy => rw [map_mul]; exact mul_mem_span k (ihx trivial) (ihy trivial)
+
 /-- **Proposition 2.7.1 (i)**: The standard monomials `{xⁱyʲ : i, j ≥ 0}` form a basis
 for the Weyl algebra `A` over `k`.
 
@@ -66,6 +217,6 @@ is a basis for the Weyl algebra as a `k`-module. -/
 theorem Proposition_2_7_1 :
     LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) ∧
     ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2)) := by
-  sorry
+  exact ⟨sorry, spanning k⟩
 
 end Etingof
