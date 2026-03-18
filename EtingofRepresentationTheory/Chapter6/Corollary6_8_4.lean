@@ -214,22 +214,29 @@ theorem Etingof.Corollary6_8_4
       ∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ.obj v)) := by
   -- By Theorem 6.8.1, iterated simple reflections reduce α to a simple root αₚ.
   obtain ⟨vertices, p, hreduce⟩ := Etingof.Theorem6_8_1 hDynkin α hα.2 hα.1.1 hα.1.2
-  -- The proof proceeds by induction on the reflection sequence `vertices`.
-  --
-  -- BASE CASE (vertices = []): α = simpleRoot n p directly.
-  --   The simple representation k₍ₚ₎ (1-dim at p, 0 elsewhere) realizes this.
-  --   See `Corollary6_8_4_simpleRoot` above.
-  --
-  -- INDUCTIVE STEP (vertices = i :: rest):
-  --   Let α' = sᵢ(α). By the induction hypothesis (on the quiver
-  --   `reversedAtVertex Q i`), there exists an indecomposable representation ρ'
-  --   with dim vector α'. Apply F⁻ᵢ(ρ') to obtain ρ on Q.
-  --   Requires: F⁻ᵢ (Def 6.6.4), Prop 6.6.7 source (indecomposability),
-  --   Prop 6.6.8 source (dimension vector tracking).
-  --
-  -- The inductive step is blocked by:
-  -- 1. Proposition 6.6.7 source case is sorry'd.
-  -- 2. Chaining quiver reversals (each F⁻ᵢ changes the quiver via
-  --    `reversedAtVertex`) requires careful type-level tracking.
-  -- Note: `hQ : IsOrientationOf Q adj` now connects Q to the Dynkin diagram.
-  sorry
+  -- Induction on the reflection chain.
+  revert Q α hα hQ hreduce
+  induction vertices with
+  | nil =>
+    intro α hα Q _hQ hreduce
+    -- α = simpleRoot n p: the simple representation realizes it.
+    -- iteratedSimpleReflection [] α = α, so α = simpleRoot n p
+    change α = Etingof.simpleRoot n p at hreduce
+    subst hreduce
+    exact Etingof.Corollary6_8_4_simpleRoot p k
+  | cons i rest ih =>
+    intro α hα Q _hQ hreduce
+    -- Inductive step: apply F⁻ᵢ to reverse one reflection.
+    -- The reflected vector α' = sᵢ(α) satisfies:
+    --   iteratedSimpleReflection rest α' = simpleRoot n p
+    -- By IH on (reversedAtVertex Q i) with α', get an indecomposable ρ' on Q̄ᵢ.
+    -- Then F⁻ᵢ(ρ') lives on Q (since reversing at i twice recovers Q).
+    --
+    -- This step still requires:
+    -- - Showing i is a source or sink in Q (from the orientation + admissible ordering)
+    -- - Applying reflection functor F⁺ᵢ or F⁻ᵢ accordingly
+    -- - Proposition 6.6.7 (indecomposability preservation, sorry'd but usable)
+    -- - Proposition 6.6.8 (dimension vector tracking, sorry'd but usable)
+    -- - Double reversal identity
+    -- - Intermediate coordinate positivity (not exported from Thm 6.8.1)
+    sorry
