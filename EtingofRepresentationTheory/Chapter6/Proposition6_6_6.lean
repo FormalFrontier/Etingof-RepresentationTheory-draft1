@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter6.Definition6_6_3
 import EtingofRepresentationTheory.Chapter6.Definition6_6_4
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
+import Mathlib.LinearAlgebra.Isomorphisms
 
 /-!
 # Proposition 6.6.6: Inverse Relationship of Reflection Functors
@@ -113,8 +114,159 @@ private noncomputable def Etingof.QuiverRepresentation.transport_iso
     @Etingof.QuiverRepresentation.Iso k _ Q inst₂ (h ▸ ρ₁) (h ▸ ρ₂) := by
   subst h; exact iso
 
+/-- Key lemma: to prove `Nonempty (Iso (h ▸ ρ₁) ρ₂)` on `inst₂`,
+it suffices to prove `Nonempty (Iso ρ₁ (h.symm ▸ ρ₂))` on `inst₁`.
+This allows working on a single quiver instance after `subst`. -/
+private theorem Etingof.QuiverRepresentation.Iso.transport_nonempty
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q]
+    {inst₁ inst₂ : Quiver Q} (h : inst₁ = inst₂)
+    {ρ₁ : @Etingof.QuiverRepresentation k Q _ inst₁}
+    {ρ₂ : @Etingof.QuiverRepresentation k Q _ inst₂}
+    (iso : Nonempty (@Etingof.QuiverRepresentation.Iso k _ Q inst₁ ρ₁ (h.symm ▸ ρ₂))) :
+    Nonempty (@Etingof.QuiverRepresentation.Iso k _ Q inst₂ (h ▸ ρ₁) ρ₂) := by
+  subst h; exact iso
+
+/-- A cross-quiver isomorphism: linear equivalences at each vertex between
+representations on potentially different (but equal) quiver instances.
+Uses `@` notation throughout to avoid synthesis check issues.
+Converts to a standard Iso via `subst`. -/
+private noncomputable def Etingof.QuiverRepresentation.crossIsoToIso
+    {k : Type*} [CommSemiring k] {Q : Type*}
+    {inst₁ inst₂ : Quiver Q} (h : inst₁ = inst₂)
+    {ρ₁ : @Etingof.QuiverRepresentation k Q _ inst₁}
+    {ρ₂ : @Etingof.QuiverRepresentation k Q _ inst₂}
+    (equivAt : ∀ v : Q,
+      @Etingof.QuiverRepresentation.obj k Q _ inst₁ ρ₁ v ≃ₗ[k]
+      @Etingof.QuiverRepresentation.obj k Q _ inst₂ ρ₂ v)
+    (naturality : ∀ {a b : Q} (e : @Quiver.Hom Q inst₂ a b)
+      (x : @Etingof.QuiverRepresentation.obj k Q _ inst₁ ρ₁ a),
+      (equivAt b)
+        (@Etingof.QuiverRepresentation.mapLinear k Q _ inst₁ ρ₁ a b (h.symm ▸ e) x) =
+      @Etingof.QuiverRepresentation.mapLinear k Q _ inst₂ ρ₂ a b e ((equivAt a) x)) :
+    Nonempty (@Etingof.QuiverRepresentation.Iso k _ Q inst₂ (h ▸ ρ₁) ρ₂) := by
+  subst h; exact ⟨⟨equivAt, naturality⟩⟩
+
 end Iso
 
+section Helpers
+
+/-- The obj of a ▸-transported representation is unchanged at each vertex. -/
+private theorem Etingof.QuiverRepresentation.obj_transport
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q]
+    {inst₁ inst₂ : Quiver Q} (h : inst₁ = inst₂)
+    (ρ : @Etingof.QuiverRepresentation k Q _ inst₁) (v : Q) :
+    @Etingof.QuiverRepresentation.obj k Q _ inst₂ (h ▸ ρ) v =
+    @Etingof.QuiverRepresentation.obj k Q _ inst₁ ρ v := by
+  subst h; rfl
+
+/-- At a vertex v ≠ i, the reflection functor F⁺ᵢ leaves the space unchanged. -/
+private theorem Etingof.reflFunctorPlus_obj_ne
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q) (v : Q) (hv : v ≠ i) :
+    @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) v = ρ.obj v := by
+  unfold Etingof.reflectionFunctorPlus
+  simp only
+  match hd : (‹DecidableEq Q› v i) with
+  | .isTrue hvi => exact absurd hvi hv
+  | .isFalse _ => rw [hd]
+
+/-- At vertex i, the reflection functor F⁺ᵢ gives the kernel of the sink map. -/
+private theorem Etingof.reflFunctorPlus_obj_eq
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q) :
+    @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) i = ↥(ρ.sinkMap i).ker := by
+  unfold Etingof.reflectionFunctorPlus
+  simp only
+  match hd : (‹DecidableEq Q› i i) with
+  | .isTrue _ => rw [hd]
+  | .isFalse hii => exact absurd rfl hii
+
+/-- At a vertex v ≠ i, the reflection functor F⁻ᵢ leaves the space unchanged. -/
+private theorem Etingof.reflFunctorMinus_obj_ne
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [Fintype (Etingof.ArrowsOutOf Q i)]
+    (v : Q) (hv : v ≠ i) :
+    @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorMinus Q i hi ρ) v = ρ.obj v := by
+  unfold Etingof.reflectionFunctorMinus
+  simp only
+  match hd : (‹DecidableEq Q› v i) with
+  | .isTrue hvi => exact absurd hvi hv
+  | .isFalse _ => rw [hd]
+
+/-- At v ≠ i, F⁻(F⁺(V)).obj v ≃ₗ[k] ρ.obj v. Both sides reduce to ρ.obj v
+through the Decidable.casesOn in the reflection functor definitions. -/
+private noncomputable def Etingof.equivAt_ne_sink
+    {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [Fintype (@Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i)]
+    (v : Q) (hv : v ≠ i) :
+    @Etingof.QuiverRepresentation.obj k Q _
+      (@Etingof.reversedAtVertex Q _ (@Etingof.reversedAtVertex Q _ inst i) i)
+      (@Etingof.reflectionFunctorMinus k _ Q _
+        (@Etingof.reversedAtVertex Q _ inst i) i
+        (@Etingof.isSink_reversedAtVertex_isSource Q _ inst i hi)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) _) v ≃ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _ inst ρ v := by
+  unfold Etingof.reflectionFunctorMinus
+  simp only
+  match hd1 : (‹DecidableEq Q› v i) with
+  | .isTrue hvi => exact absurd hvi hv
+  | .isFalse _ =>
+    rw [hd1]; dsimp only []
+    -- After reducing F⁻, goal becomes F⁺(V).obj v ≃ₗ[k] ρ.obj v
+    -- Unfold F⁺ and reduce similarly
+    unfold Etingof.reflectionFunctorPlus
+    simp only
+    match hd2 : (‹DecidableEq Q› v i) with
+    | .isTrue hvi => exact absurd hvi hv
+    | .isFalse _ => rw [hd2]
+
+set_option maxHeartbeats 800000 in
+/-- At vertex i, F⁻(F⁺(V)).obj i ≃ₗ[k] ρ.obj i when the sink map is surjective.
+
+F⁺ᵢ(V).obj i = ker(φ) where φ = sinkMap. Then F⁻ᵢ produces the cokernel
+of the source map at i, which is the inclusion ker(φ) ↪ ⊕V_j.
+So F⁻(F⁺(V)).obj i = (⊕V_j) / ker(φ) ≅ V_i by the first isomorphism theorem. -/
+private noncomputable def Etingof.equivAt_eq_sink
+    {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    [Fintype (@Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i)]
+    (hsurj : Function.Surjective (ρ.sinkMap i)) :
+    @Etingof.QuiverRepresentation.obj k Q _
+      (@Etingof.reversedAtVertex Q _ (@Etingof.reversedAtVertex Q _ inst i) i)
+      (@Etingof.reflectionFunctorMinus k _ Q _
+        (@Etingof.reversedAtVertex Q _ inst i) i
+        (@Etingof.isSink_reversedAtVertex_isSource Q _ inst i hi)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) _) i ≃ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _ inst ρ i := by
+  -- Upgrade to AddCommGroup (needed for quotient module)
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfField (k := k)
+  -- Reduce F⁻ at vertex i (isTrue branch)
+  unfold Etingof.reflectionFunctorMinus
+  simp only
+  match hd1 : (‹DecidableEq Q› i i) with
+  | .isFalse hii => exact absurd rfl hii
+  | .isTrue _ =>
+    -- The rw would fail on dependent types, so use sorry for now
+    -- The mathematical content is:
+    -- LHS reduces to (⊕V_j) ⧸ range(ker(φ) ↪ ⊕V_j) where φ = sinkMap
+    -- This is isomorphic to (⊕V_j) / ker(φ) ≅ V_i by first isomorphism theorem
+    -- (quotKerEquivOfSurjective)
+    sorry
+
+end Helpers
+
+set_option maxHeartbeats 800000 in
 /-- If φ is surjective at a sink, then applying F⁻ᵢ after F⁺ᵢ recovers V
 up to isomorphism of representations.
 
@@ -138,20 +290,25 @@ theorem Etingof.Proposition6_6_6_sink
           (Etingof.isSink_reversedAtVertex_isSource hi)
           (Etingof.reflectionFunctorPlus Q i hi ρ) _))
       ρ) := by
-  -- Mathematical argument:
-  -- F⁺ᵢ(V)_j = V_j for j ≠ i, F⁺ᵢ(V)_i = ker(φ)
-  -- F⁻ᵢ(F⁺ᵢ(V))_j = V_j for j ≠ i, F⁻ᵢ(F⁺ᵢ(V))_i = coker(ker(φ) ↪ ⊕V_j)
-  -- By the first isomorphism theorem: ⊕V_j / ker(φ) ≅ im(φ) = V_i (since φ surjective)
-  --
-  -- Technical blocker: `transportReversedTwice` uses `▸` (Eq.mpr) which creates opaque
-  -- terms. Building the Iso requires relating `(h ▸ ρ_dr).obj v` to `ρ.obj v`, but
-  -- the Eq.mpr prevents definitional reduction, and propositional transport triggers
-  -- Lean 4's synthesis check when two different Quiver instances are in scope.
-  -- Infrastructure for a potential resolution (transport_iso, reversedAtVertex_twice,
-  -- `{}` field annotations for instAddCommMonoid/instModule) is in place.
-  -- A full resolution likely requires making the Quiver parameter of
-  -- QuiverRepresentation explicit (not instance) to avoid the synthesis check.
-  sorry
+  -- Use crossIsoToIso: construct linear equivs at each vertex between
+  -- F⁻(F⁺(V)) (on instDR) and ρ (on inst), using @ to avoid synthesis checks.
+  let instR := @Etingof.reversedAtVertex Q _ inst i
+  let instDR := @Etingof.reversedAtVertex Q _ instR i
+  let ρ_plus := @Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ
+  let ρ_dr := @Etingof.reflectionFunctorMinus k _ Q _ instR i
+      (@Etingof.isSink_reversedAtVertex_isSource Q _ inst i hi) ρ_plus _
+  exact Etingof.QuiverRepresentation.crossIsoToIso
+    (@Etingof.reversedAtVertex_twice Q _ inst i)
+    (fun v => by
+      by_cases hv : v = i
+      · -- v = i: first isomorphism theorem
+        cases hv
+        exact @Etingof.equivAt_eq_sink k _ Q _ inst i hi ρ _ _ _ hsurj
+      · -- v ≠ i: both sides reduce to ρ.obj v
+        exact @Etingof.equivAt_ne_sink k _ Q _ inst i hi ρ _ v hv)
+    (fun {a b} e x => by
+      -- naturality: the diagram commutes
+      sorry)
 
 /-- If ψ is injective at a source, then applying F⁺ᵢ after F⁻ᵢ recovers V
 up to isomorphism of representations.
@@ -176,11 +333,5 @@ theorem Etingof.Proposition6_6_6_source
           (Etingof.isSource_reversedAtVertex_isSink hi)
           (Etingof.reflectionFunctorMinus Q i hi ρ)))
       ρ) := by
-  -- Mathematical argument (dual of sink case):
-  -- F⁻ᵢ(V)_j = V_j for j ≠ i, F⁻ᵢ(V)_i = coker(ψ) = ⊕V_j / im(ψ)
-  -- F⁺ᵢ(F⁻ᵢ(V))_j = V_j for j ≠ i, F⁺ᵢ(F⁻ᵢ(V))_i = ker(⊕V_j → coker(ψ))
-  -- When ψ is injective: 0 → V_i →ψ ⊕V_j → coker(ψ) → 0 is exact
-  -- So ker(⊕V_j → coker(ψ)) = im(ψ) ≅ V_i
-  --
-  -- Same technical blocker as the sink case.
+  -- Dual of the sink case. Uses ker/range duality instead of quotient/kernel.
   sorry
