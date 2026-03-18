@@ -546,7 +546,7 @@
     "end_line": 16,
     "status": "proof_partial",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: Has Aristotle proof needing v4.24\u2192v4.28 adaptation. Active claimed issue #989. Leave for that agent."
+    "notes": "Spanning half proved (standard monomials span the Weyl algebra). LinearIndependent still sorry. Issue #989."
   },
   {
     "id": "Chapter2/Remark2.7.2",
