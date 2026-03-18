@@ -341,6 +341,18 @@ Status updates are tracked in `progress/items.json`. Non-formal nodes (discussio
 - Use a `blocked` label for items waiting on dependencies
 - Agents should not work on items whose dependencies aren't yet formalized (unless they are willing to sorry the dependencies and work top-down)
 
+#### Escalation policy: the `blocked` label
+
+**`blocked` means blocked on another issue in *this* repository** — never on missing
+external infrastructure. This project is responsible for formalizing the book in full.
+
+Before applying `blocked`:
+1. **Decompose** the problem into sub-tasks, create issues for each, link with
+   `- [ ] depends on #X`, then mark the original blocked on those issues.
+2. **If you can't decompose**, research the informal literature first (textbooks,
+   surveys, lecture notes) to find a proof strategy, then decompose.
+3. **If a result isn't in Mathlib**, prove it here — that's just more work, not a blocker.
+
 #### Triage
 
 Specialized triage agents should periodically review open issues for:
