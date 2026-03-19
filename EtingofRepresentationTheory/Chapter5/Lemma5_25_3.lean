@@ -236,6 +236,18 @@ private lemma Etingof.charW₁_one :
   simp only [Matrix.GeneralLinearGroup.coe_one, Matrix.one_apply]
   norm_num
 
+private lemma Etingof.dimension_arith_identity
+    (q : ℂ) (hq : q ≠ 0) (hq1 : q - 1 ≠ 0) (hqp1 : q + 1 ≠ 0) :
+    q * (q⁻¹ * ((q - 1) ^ 2)⁻¹ * ((q ^ 2 - 1) * (q ^ 2 - q))) -
+    q⁻¹ * ((q - 1) ^ 2)⁻¹ * ((q ^ 2 - 1) * (q ^ 2 - q)) -
+    (q ^ 2 - 1)⁻¹ * ((q ^ 2 - 1) * (q ^ 2 - q)) = q - 1 := by
+  have hq2m1 : q ^ 2 - 1 ≠ 0 := by
+    have : q ^ 2 - 1 = (q - 1) * (q + 1) := by ring
+    rw [this]; exact mul_ne_zero hq1 hqp1
+  have hqm1sq : (q - 1) ^ 2 ≠ 0 := pow_ne_zero 2 hq1
+  field_simp [hq, hq1, hqp1, hq2m1, hqm1sq]
+  ring
+
 theorem Etingof.Lemma5_25_3_dimension
     [Fintype (GL2 p n)]
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
@@ -266,47 +278,71 @@ theorem Etingof.Lemma5_25_3_dimension
     --   = 1/(q(q-1)) - 1/((q-1)(q+1))  = ((q+1) - q) / (q(q-1)(q+1)) = 1/(q(q-1)(q+1))
     -- Then 1/(q(q-1)(q+1)) * q(q-1)²(q+1) = q-1. ✓
     -- This needs |GL₂| = q(q²-1)(q-1) and |K| = q²-1
-    -- Now the goal is arithmetic with cardinalities.
-    haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-    haveI : Fintype (GL2 p n) := Fintype.ofFinite _
-    haveI : Fintype ↥(GL2.ellipticSubgroup p n) := Fintype.ofFinite _
-    -- Set variables for readability
-    set q := (Fintype.card (GaloisField p n) : ℂ) with hq_def
-    set G := (Fintype.card (GL2 p n) : ℂ) with hG_def
-    set Kc := (Fintype.card ↥(GL2.ellipticSubgroup p n) : ℂ) with hKc_def
-    -- Need: q * (q⁻¹ * (q-1)²⁻¹ * G) - q⁻¹ * (q-1)²⁻¹ * G - Kc⁻¹ * G = p^n - 1
-    -- Establish q = p^n
+    -- Convert all Fintype.card to Nat.card to avoid Fintype instance mismatches
+    simp only [← Nat.card_eq_fintype_card]
     have hn_ne : n ≠ 0 := by omega
-    have hq_val : (Fintype.card (GaloisField p n) : ℕ) = p ^ n := by
-      rw [← Nat.card_eq_fintype_card]
-      exact GaloisField.card p n hn_ne
-    -- q > 0 and q - 1 > 0 (as naturals)
-    have hq_pos : 0 < Fintype.card (GaloisField p n) := Fintype.card_pos
-    have hq1 : 1 < Fintype.card (GaloisField p n) := by
+    have hq_val : Nat.card (GaloisField p n) = p ^ n := GaloisField.card p n hn_ne
+    have hq1 : 1 < Nat.card (GaloisField p n) := by
       rw [hq_val]; exact Nat.one_lt_pow hn_ne hp.out.one_lt
-    -- q ≠ 0 and (q-1) ≠ 0 in ℂ
-    have hqC : q ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
-    have hq1C : q - 1 ≠ 0 := by
-      simp only [hq_def, Ne, sub_eq_zero]
-      exact_mod_cast Nat.ne_of_gt hq1
-    -- |GL₂(𝔽_q)| = ∏ i : Fin 2, (q² - q^i) = (q²-1)(q²-q)
-    -- |K| relates to 𝔽_{q²}× (need injectivity of fieldExtEmbed)
-    -- Kc ≠ 0
-    have hKc_pos : 0 < Fintype.card ↥(GL2.ellipticSubgroup p n) := Fintype.card_pos
-    have hKcC : Kc ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
-    -- The key equation after field_simp:
-    -- q * G / (q * (q-1)²) - G / (q * (q-1)²) - G / Kc = q - 1
-    -- i.e. (q-1) * G / (q * (q-1)²) - G / Kc = q - 1
-    -- i.e. G / (q * (q-1)) - G / Kc = q - 1
-    -- With G = q(q-1)²(q+1) and Kc = q²-1 = (q-1)(q+1):
-    -- q(q-1)²(q+1) / (q(q-1)) - q(q-1)²(q+1) / ((q-1)(q+1)) = q - 1
-    -- (q-1)(q+1) - q(q-1) = (q-1)(q+1-q) = q-1 ✓
-    -- Establish G = q(q-1)²(q+1) via card_GL_field
-    -- Establish Kc = q²-1 (|K| = |𝔽_{q²}×| since fieldExtEmbed is injective)
-    -- Then field_simp and ring
-    -- These cardinality computations are non-trivial infrastructure;
-    -- Aristotle has been submitted for this proof.
-    sorry
+    -- GL₂ cardinality (card_GL_field uses Fintype.card for q, convert to Nat.card)
+    have hG : Nat.card (GL2 p n) =
+        (Nat.card (GaloisField p n) ^ 2 - 1) *
+        (Nat.card (GaloisField p n) ^ 2 - Nat.card (GaloisField p n)) := by
+      haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+      have := @Matrix.card_GL_field (GaloisField p n) _ _ 2
+      simp only [Fin.prod_univ_two, Fin.val_zero, Fin.val_one, pow_zero, pow_one,
+                  ← Nat.card_eq_fintype_card] at this
+      exact this
+    -- Elliptic subgroup cardinality: |K| = |𝔽_{q²}×| = q² - 1
+    have hK : Nat.card ↥(GL2.ellipticSubgroup p n) =
+        Nat.card (GaloisField p n) ^ 2 - 1 := by
+      -- K = fieldExtEmbed.range
+      change Nat.card ↥(GL2.fieldExtEmbed p n).range = _
+      -- fieldExtEmbed is injective (leftMulMatrix is injective as AlgHom from a field)
+      have hinj : Function.Injective (GL2.fieldExtEmbed p n) := by
+        intro a b hab
+        unfold GL2.fieldExtEmbed at hab
+        simp only [dif_neg hn_ne] at hab
+        have hval := congr_arg (fun g => g.val) hab
+        have := RingHom.injective
+          (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
+          (GaloisField p (2 * n)) (finrank_galoisField_ext p n hn_ne))).toRingHom
+        exact Units.ext (this hval)
+      -- |range| = |domain| since injective
+      have : (GL2.fieldExtEmbed p n).range.carrier = Set.range (GL2.fieldExtEmbed p n) :=
+        MonoidHom.coe_range _
+      rw [show Nat.card ↥(GL2.fieldExtEmbed p n).range =
+        Nat.card ↥(Set.range (GL2.fieldExtEmbed p n)) from by
+        congr 1]
+      rw [Nat.card_range_of_injective hinj]
+      -- |𝔽_{q²}ˣ| = |𝔽_{q²}| - 1 = p^(2n) - 1 = (p^n)² - 1 = q² - 1
+      rw [Nat.card_units]
+      rw [GaloisField.card p (2 * n) (Nat.mul_ne_zero two_ne_zero hn_ne)]
+      rw [hq_val]; ring_nf
+    -- Substitute q = p^n throughout (now the goal uses Nat.card)
+    rw [hq_val] at hG hK ⊢
+    -- Substitute G and K cardinalities
+    rw [hG, hK]
+    -- Now the goal is purely in terms of p, n as ℕ with casts to ℂ
+    -- Convert ℕ subtractions and prove with field_simp + ring
+    have h1 : 1 ≤ p ^ n := by omega
+    have h2 : 1 ≤ (p ^ n) ^ 2 := by nlinarith
+    have h3 : p ^ n ≤ (p ^ n) ^ 2 := by nlinarith
+    simp only [Nat.cast_sub h1, Nat.cast_mul, Nat.cast_sub h2, Nat.cast_sub h3, Nat.cast_pow,
+               Nat.cast_one]
+    -- Now all ℕ casts are gone, everything is in (↑p : ℂ)^n
+    -- Nonzero conditions for field_simp
+    have hpn_ne : (↑p : ℂ) ^ n ≠ 0 := by
+      exact_mod_cast show (p ^ n : ℕ) ≠ 0 by omega
+    have hpn1_ne : (↑p : ℂ) ^ n - 1 ≠ 0 := by
+      intro h
+      have : (p ^ n : ℕ) = 1 := by exact_mod_cast sub_eq_zero.mp h
+      omega
+    have hpnp1_ne : (↑p : ℂ) ^ n + 1 ≠ 0 := by
+      have : (↑(p ^ n + 1) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
+      push_cast [Nat.cast_pow] at this; exact this
+    -- Apply the standalone arithmetic identity
+    exact dimension_arith_identity _ hpn_ne hpn1_ne hpnp1_ne
   · -- Part 2: q - 1 > 0
     have hp_pos := hp.out.pos
     have h1 : 1 < p ^ n := by
