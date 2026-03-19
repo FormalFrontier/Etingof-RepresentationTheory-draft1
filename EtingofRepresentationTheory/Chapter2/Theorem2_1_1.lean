@@ -1,9 +1,11 @@
-import Mathlib.Algebra.Lie.Classical
 import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Algebra.Lie.Sl2
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
+import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import EtingofRepresentationTheory.Chapter2.Sl2Defs
+import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!
 # Theorem 2.1.1: Classification of irreducible representations of U(sl(2))
@@ -34,11 +36,9 @@ finite-dimensional Lie module over sl(2, ℂ) has a complemented lattice of Lie 
 -/
 
 open scoped Matrix
+open LieModule Module
 
 namespace Etingof
-
-/-- The Lie algebra sl(2, ℂ), the traceless 2×2 complex matrices. -/
-abbrev sl2 : LieSubalgebra ℂ (Matrix (Fin 2) (Fin 2) ℂ) := LieAlgebra.SpecialLinear.sl (Fin 2) ℂ
 
 /-- Part (i): For each positive integer d, there is exactly one irreducible representation
 of sl(2, ℂ) of dimension d, up to isomorphism.
@@ -53,7 +53,21 @@ theorem Theorem_2_1_1_i (d : ℕ+) :
        [AddCommGroup W] [Module ℂ W] [LieRingModule sl2 W] [LieModule ℂ sl2 W],
        Module.finrank ℂ V = d → LieModule.IsIrreducible ℂ sl2 V →
        Module.finrank ℂ W = d → LieModule.IsIrreducible ℂ sl2 W →
-       Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W)) := sorry
+       Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W)) := by
+  constructor
+  · -- Existence: use the d-dimensional representation from Sl2Irrep
+    have hd : NeZero (d : ℕ) := ⟨PNat.ne_zero d⟩
+    exact ⟨Fin d → ℂ, inferInstance, inferInstance,
+      Sl2Irrep.irrepLieRingModule d, Sl2Irrep.irrepLieModule d,
+      Sl2Irrep.irrep_finrank d, Sl2Irrep.irrep_isIrreducible d⟩
+  · -- Uniqueness: any two irreducible sl(2)-representations of the same dimension
+    -- are isomorphic. This requires highest weight theory for sl(2).
+    -- The standard proof constructs a primitive vector (highest weight vector) in each
+    -- irreducible module, shows its weight equals d-1, and builds an explicit isomorphism
+    -- mapping f^k(v₀) to f^k(w₀). This infrastructure (existence of primitive vectors
+    -- in arbitrary irreducible modules, weight-dimension correspondence, and isomorphism
+    -- construction) is not yet available in Mathlib.
+    sorry
 
 /-- Part (ii): Any finite-dimensional representation of sl(2, ℂ) is completely reducible.
 Every Lie submodule has a complementary Lie submodule, i.e., the lattice of Lie submodules
@@ -62,6 +76,11 @@ decomposes as a direct sum of irreducible representations.
 (Etingof Theorem 2.1.1(ii)) -/
 theorem Theorem_2_1_1_ii (V : Type*) [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule sl2 V] [LieModule ℂ sl2 V] :
-    ComplementedLattice (LieSubmodule ℂ sl2 V) := sorry
+    ComplementedLattice (LieSubmodule ℂ sl2 V) :=
+  -- Complete reducibility for sl(2) follows from Weyl's theorem: every finite-dimensional
+  -- representation of a semisimple Lie algebra over a field of characteristic zero is
+  -- completely reducible. sl(2) is simple hence semisimple. Weyl's theorem is not yet
+  -- in Mathlib.
+  sorry
 
 end Etingof

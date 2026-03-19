@@ -3161,9 +3161,9 @@
     "end_page": "116",
     "start_line": 13,
     "end_line": 14,
-    "status": "partially_proved",
+    "status": "proved",
     "needs_statement": false,
-    "notes": "Vanishing part (Proposition5_14_1_vanishing) proved. Diagonal part (Proposition5_14_1_diagonal: dim Hom = 1) still sorry."
+    "notes": "Both vanishing and diagonal parts fully proved (0 sorries in file)."
   },
   {
     "id": "Chapter5/Definition5.14.2",
@@ -3202,8 +3202,10 @@
     "end_page": "118",
     "start_line": 1,
     "end_line": 9,
-    "status": "proof_partial",
-    "needs_statement": true
+    "status": "sent_to_aristotle",
+    "needs_statement": true,
+    "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
+    "notes": "fixedCosets_eq_card_colorings sorry remaining. Submitted to Aristotle. Main theorem proved modulo this helper."
   },
   {
     "id": "Chapter5/Introduction_5.15",
@@ -3389,7 +3391,7 @@
     "end_line": 2,
     "status": "proof_partial",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: All 3 parts have sorry. Active claimed issue #1002 working on part (i) adaptation from Aristotle proof. Parts (ii) and (iii) need separate work."
+    "notes": "Part (i) proved via Jacobson density theorem. Parts (ii) and (iii) still sorry."
   },
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.2",
@@ -3409,7 +3411,8 @@
     "start_line": 5,
     "end_line": 14,
     "status": "proof_partial",
-    "needs_statement": true
+    "needs_statement": true,
+    "notes": "(\u2287) direction fully proved. (\u2286) direction blocked: requires Schur-Weyl duality / first fundamental theorem of invariant theory, not in Mathlib. 1 sorry remains."
   },
   {
     "id": "Chapter5/Lemma5.18.3",
@@ -3560,9 +3563,9 @@
     "end_page": "132",
     "start_line": 1,
     "end_line": 14,
-    "status": "partially_proved",
-    "needs_statement": true,
-    "notes": "Proposition5_21_2_geometric proved (no sorry). Proposition5_21_2_dimension sorry (requires L H\u00f4pital limit formalization)."
+    "status": "sorry_free",
+    "needs_statement": false,
+    "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161)."
   },
   {
     "id": "Chapter5/Introduction_5.22",
@@ -3734,7 +3737,7 @@
     "end_page": "138",
     "start_line": 37,
     "end_line": 20,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "needs_statement": false
   },
   {
@@ -4425,7 +4428,7 @@
     "end_page": "174",
     "start_line": 21,
     "end_line": 26,
-    "status": "proof_partial",
+    "status": "sorry_free",
     "needs_statement": true
   },
   {
