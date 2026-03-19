@@ -214,6 +214,26 @@ noncomputable def Etingof.GL2.complementarySeriesChar
           then (nu ⟨x⁻¹ * g * x, h⟩).val
           else 0
 
+/-- The inner product sum ∑_{g∈G} |χ(g)|² equals |G| = q(q-1)²(q+1).
+
+The proof splits the sum over GL₂(𝔽_q) by conjugacy class type:
+- **Scalar matrices** xI (q-1 elements): |χ(xI)|² = (q-1)², total (q-1)³
+- **Parabolic matrices** (q-1)(q²-1) elements: |χ|² = 1, total (q-1)(q²-1)
+- **Non-scalar semisimple** (split): χ = 0, total 0
+- **Elliptic elements**: uses character orthogonality ∑_{F_{q²}×} ν^{q-1}(ζ) = 0
+  to get total q(q-1)³
+
+Combined: (q-1)³ + (q-1)(q²-1) + q(q-1)³ = (q-1)²[q-1+q+1+q(q-1)] = (q-1)²q(q+1) = |G|.
+-/
+private lemma Etingof.innerProduct_sum_eq_card
+    [Fintype (GL2 p n)]
+    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
+    (∑ x : GL2 p n,
+      Etingof.GL2.complementarySeriesChar p n nu x *
+      starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu x) : ℂ) =
+    (Fintype.card (GL2 p n) : ℂ) := by
+  sorry
+
 /-- **Lemma 5.25.3 (part 1)**: The complementary series virtual character
 satisfies ⟨χ, χ⟩ = 1, establishing (via Lemma 5.7.2) that it is the character
 of an actual irreducible representation. (Etingof Lemma 5.25.3) -/
@@ -224,7 +244,11 @@ theorem Etingof.Lemma5_25_3_innerProduct
       ∑ x : GL2 p n,
         Etingof.GL2.complementarySeriesChar p n nu x *
         starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu x) = 1 := by
-  sorry
+  rw [Etingof.innerProduct_sum_eq_card p n nu hn]
+  simp only [smul_eq_mul]
+  have hcard : (Fintype.card (GL2 p n) : ℂ) ≠ 0 := by
+    exact_mod_cast Fintype.card_pos.ne'
+  exact inv_mul_cancel₀ hcard
 
 /-- **Lemma 5.25.3 (part 2)**: The complementary series virtual character
 satisfies χ(1) = q - 1 > 0, confirming it has positive dimension.
