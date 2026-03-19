@@ -133,7 +133,7 @@ private lemma of_mul_cla_coset_indep (n : ℕ) (la : Nat.Partition n)
   rw [QuotientGroup.eq] at h
   -- h : g⁻¹ * g' ∈ RowSubgroup, need g'⁻¹ * g ∈ RowSubgroup
   have h' : g'⁻¹ * g ∈ RowSubgroup n la := by
-    have := (RowSubgroup n la).inv_mem h; simp [mul_inv_rev] at this; exact this
+    have := (RowSubgroup n la).inv_mem h; simp only [mul_inv_rev, inv_inv] at this; exact this
   have hof : MonoidAlgebra.of ℂ (G' n) g =
       MonoidAlgebra.of ℂ (G' n) g' * MonoidAlgebra.of ℂ (G' n) (g'⁻¹ * g) := by
     rw [← (MonoidAlgebra.of ℂ (G' n)).map_mul]; congr 1; group
@@ -174,7 +174,86 @@ private lemma pla_fixed_is_scalar_of_cla (n : ℕ) (la : Nat.Partition n)
 This is the canonical map sending the identity coset to c_la. -/
 private lemma exists_nonzero_equivariant_map (n : ℕ) (la : Nat.Partition n) :
     ∃ f : PermutationModule n la →ₗ[SymGroupAlgebra n] ↥(SpechtModule n la), f ≠ 0 := by
-  sorry
+  set cla_val := YoungSymmetrizer n la
+  -- v(q) = of(out q) * c_la ∈ SpechtModule
+  have h_mem : ∀ q : Q n la,
+      MonoidAlgebra.of ℂ (G' n) (Quotient.out q) * cla_val ∈ SpechtModule n la :=
+    fun q => Submodule.smul_mem _ _ (Submodule.subset_span rfl)
+  set v : Q n la → ↥(SpechtModule n la) := fun q => ⟨_, h_mem q⟩
+  -- ℂ-linear map via linearCombination: phi_C(single q d) = d • v(q)
+  set phi_C := Finsupp.linearCombination ℂ v
+  -- Key: of(g) • v(q) = v(g • q) at subtype level
+  have h_of_v : ∀ (g : G' n) (q : Q n la),
+      (MonoidAlgebra.of ℂ (G' n) g : SymGroupAlgebra n) • v q = v (g • q) := by
+    intro g q
+    apply Subtype.ext
+    change MonoidAlgebra.of ℂ (G' n) g * (↑(v q)) = ↑(v (g • q))
+    simp only [v]
+    rw [← mul_assoc, ← (MonoidAlgebra.of ℂ (G' n)).map_mul]
+    exact of_mul_cla_coset_indep n la _ _ (by
+      have h1 : (QuotientGroup.mk (g * Quotient.out q) : Q n la) = g • q := by
+        rw [show g * Quotient.out q = g • Quotient.out q from (smul_eq_mul g _).symm,
+          MulAction.Quotient.mk_smul_out]
+      rw [h1]; exact (Quotient.out_eq (g • q)).symm)
+  -- Equivariance: phi_C(r • x) = r • phi_C(x) for r : SymGroupAlgebra n
+  have h_equiv : ∀ (r : SymGroupAlgebra n) (x : PermutationModule n la),
+      phi_C (r • x) = r • phi_C x := by
+    intro r x
+    induction r using MonoidAlgebra.induction_on with
+    | hM g =>
+      -- Case: r = of(g), a single group element
+      induction x using Finsupp.induction_linear with
+      | zero => simp [smul_zero]
+      | add u w hu hw =>
+          rw [smul_add, map_add, hu, hw, ← smul_add]
+          congr 1; exact (map_add phi_C u w).symm
+      | single q d =>
+        rw [of_smul_single]
+        simp only [phi_C, Finsupp.linearCombination_single]
+        -- Goal: d • v(g • q) = of(g) • (d • v q)
+        rw [← h_of_v g q, smul_comm]
+    | hadd a b ha hb => rw [add_smul, map_add, ha, hb, add_smul]
+    | hsmul c r0 hr0 =>
+      -- (c • r0) • x: unfold via permMod_smul_eq
+      have h1 : (c • r0) • x = c • (r0 • x) := by
+        simp only [permMod_smul_eq, map_smul, LinearMap.smul_apply]
+      have h2 : (c • r0) • phi_C x = c • (r0 • phi_C x) := by
+        apply Subtype.ext
+        change (c • r0) * ↑(phi_C x) = c • (r0 * ↑(phi_C x))
+        rw [smul_mul_assoc]
+      rw [h1, phi_C.map_smul, hr0, h2]
+  -- Package as SymGroupAlgebra-linear map
+  refine ⟨{ toFun := phi_C, map_add' := phi_C.map_add', map_smul' := h_equiv }, ?_⟩
+  -- Show nonzero: phi maps single (mk 1) 1 to v(mk 1) = ⟨cla, ...⟩ ≠ 0
+  intro h_zero
+  -- Extract: phi_C applied to basis element = 0
+  have h_app : phi_C (Finsupp.single (QuotientGroup.mk (1 : G' n)) (1 : ℂ)) = 0 :=
+    congrFun (congrArg DFunLike.coe h_zero)
+      (Finsupp.single (QuotientGroup.mk (1 : G' n)) (1 : ℂ))
+  simp only [phi_C, Finsupp.linearCombination_single, one_smul] at h_app
+  -- h_app : v (mk 1) = 0, so of(out(mk 1)) * cla = 0
+  have h_val := congrArg Subtype.val h_app
+  simp only [v, ZeroMemClass.coe_zero] at h_val
+  -- out(mk 1) ∈ RowSubgroup, so of(out(mk 1)) * cla = cla
+  have h_out_mem : Quotient.out (QuotientGroup.mk (1 : G' n) : Q n la) ∈ RowSubgroup n la := by
+    have h := Quotient.out_eq (QuotientGroup.mk (1 : G' n) : Q n la)
+    rw [QuotientGroup.eq] at h
+    -- h : 1⁻¹ * out(...) ∈ RowSubgroup, i.e. out(...) ∈ RowSubgroup
+    simpa using h
+  rw [of_row_mul_youngSymmetrizer n la _ h_out_mem] at h_val
+  -- cla = YoungSymmetrizer n la = 0, contradicts IsSimpleModule (nontrivial)
+  have : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
+    Theorem5_12_2_irreducible n la
+  have h_nt := IsSimpleModule.nontrivial (R := SymGroupAlgebra n) (M := ↥(SpechtModule n la))
+  obtain ⟨⟨a, ha⟩, ⟨b, hb⟩, hab⟩ := h_nt
+  apply hab
+  apply Subtype.ext
+  -- a, b ∈ SpechtModule = span {cla} = span {0} = ⊥
+  have ha' := Submodule.mem_span_singleton.mp ha
+  have hb' := Submodule.mem_span_singleton.mp hb
+  obtain ⟨ra, rfl⟩ := ha'
+  obtain ⟨rb, rfl⟩ := hb'
+  simp [h_val]
 
 end
 
@@ -281,7 +360,7 @@ theorem Proposition5_14_1_diagonal
     rw [eq_comm, ← sub_eq_zero]
     apply hf_det
     apply Subtype.ext
-    show (f e : SymGroupAlgebra n) - (cf / c0) • (phi0 e : SymGroupAlgebra n) = 0
+    change (f e : SymGroupAlgebra n) - (cf / c0) • (phi0 e : SymGroupAlgebra n) = 0
     rw [hcf, hc0, smul_smul, div_mul_cancel₀ cf hc0_ne, sub_self]
 
 end Etingof
