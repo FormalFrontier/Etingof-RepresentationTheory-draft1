@@ -150,7 +150,22 @@ instance Etingof.IsProgenerator.finite_hom_module
     [Etingof.IsFiniteAbelianCategory C]
     {P : C} [hp : Etingof.IsProgenerator P] (X : C) :
     Module.Finite (End P)ᵐᵒᵖ (P ⟶ X) := by
-  sorry
+  -- From progenerator: get epi π : P^n ↠ X
+  obtain ⟨n, hbp, π, hπ⟩ := hp.epiFromBiproduct X
+  haveI : HasBiproduct (fun _ : Fin n => P) := hbp
+  haveI : Projective P := hp.toProjective
+  -- Post-composition with π gives (End P)ᵒᵖ-linear surjection Hom(P, P^n) → Hom(P, X)
+  -- This is exactly (preadditiveCoyonedaObj P).map π
+  let φ : (P ⟶ biproduct (fun _ : Fin n => P)) →ₗ[(End P)ᵐᵒᵖ] (P ⟶ X) :=
+    ((preadditiveCoyonedaObj P).map π).hom
+  have hφ_surj : Function.Surjective φ := by
+    intro f
+    exact ⟨Projective.factorThru f π, Projective.factorThru_comp f π⟩
+  -- Source: Hom(P, P^n) ≅ (End P)^n as (End P)ᵒᵖ-module, hence f.g.
+  -- We show Module.Finite for the source via the biproduct components
+  haveI : Module.Finite (End P)ᵐᵒᵖ (P ⟶ biproduct (fun _ : Fin n => P)) := by
+    sorry -- Hom(P, P^n) ≅ (End P)^n is f.g.
+  exact Module.Finite.of_surjective φ hφ_surj
 
 /-- The restricted Coyoneda functor landing in finitely generated modules.
 When P is a progenerator, Hom(P, X) is finitely generated for all X, so the
