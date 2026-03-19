@@ -746,11 +746,17 @@ The project alternates between **breadth phases** (statement formalization) and 
 - **Expected metrics:** Higher items/PR ratio, sorry count declining
 - **Planners should create 80%+ proof issues** during this phase
 
-### Current Status (as of Wave 16)
-The project has ~193/583 items sorry-free (33.1%). This is solidly in a **depth phase** — planners should create 80%+ proof issues. Statement formalization is mostly complete for Chapters 5-6; the remaining backlog is proof-heavy.
+### Current Status (as of Wave 17)
+The project has ~193/583 items sorry-free (33.1%), with 104 remaining sorries across 39 files. This is solidly in a **depth phase** — planners should create 80%+ proof issues. Statement formalization is mostly complete for Chapters 5-6; the remaining backlog is proof-heavy.
 
-**Chapter status:** Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch5 is the bottleneck (63/104 remaining sorries — 61% of all remaining). Gabriel's theorem chain (Ch6) is progressing with Theorem 6.8.1 (linchpin) proven; reflection functor infrastructure (#1097) blocks 4/7 remaining items. Ch9 has 9 sorries across 4 files.
+**Chapter status:** Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch5 is the bottleneck (63/104 remaining sorries — 61% of all remaining). Gabriel's theorem chain (Ch6) is progressing with Theorem 6.8.1 (linchpin) proven; reflection functor infrastructure (#1097) blocks 3 remaining Gabriel chain items. Ch9 has 9 sorries across 4 files.
 
-**Velocity trend:** Declining as remaining items are harder. Stale claim triage (#1096) released 14 claimed issues in wave 15 — agents were hitting items that resist standard tactics. The easy wins are done.
+**Wave 17 highlights:**
+- 20 PRs merged (largest merge wave)
+- Queue health review (#1154) released 13 stale claims — agents terminated without committing
+- Key proofs merged: Sl2Irrep irreducibility (#1155), Proposition 5.25.1 commutator (#1152), schurPoly + alternant identity (#1148), Lemma 5.18.3 symmetric power span (#1139)
+- Remaining high-value targets: `exists_young_symmetrizer_nontrivial` (#1156, difficulty 3/3) completes the Specht module classification; Proposition 5.21.2 dimension formula (#1046, difficulty 2-3)
 
-**Key velocity insight from waves 9-16:** Statement formalization runs ~5x faster than proof completion. A single breadth session can formalize 10+ statements, but a proof session typically completes 1-3 proofs. Difficulty 3/3 items have a ~30% single-session success rate — agents should budget accordingly and commit partial progress early.
+**Velocity trend:** Declining as remaining items are harder. Two stale claim triages (#1096, #1154) released 27 claimed issues across waves 15-17 — a recurring pattern of agents hitting items that resist standard tactics. The easy wins are done.
+
+**Key velocity insight from waves 9-17:** Statement formalization runs ~5x faster than proof completion. A single breadth session can formalize 10+ statements, but a proof session typically completes 1-3 proofs. Difficulty 3/3 items have a ~30% single-session success rate — agents should budget accordingly and commit partial progress early. **Agents that don't commit intermediate work produce zero value** — 13 stale claims in wave 17 represent hours of lost compute.
