@@ -415,6 +415,20 @@ private noncomputable def Etingof.equivAt_eq_sink
           (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst) a).comp
           (@Etingof.QuiverRepresentation.mapLinear k Q _ instR ρ' i a.fst a.snd)).range =
         LinearMap.ker Φ := by
+      -- BLOCKED: Proving range(source_map) = ker(Φ) requires a
+      -- reflFunctorPlus_mapLinear_eq_ne API lemma that reduces the
+      -- Decidable.casesOn in the mapLinear definition for the (a=i, b≠i) case.
+      -- The Decidable.casesOn-based definitions resist unfolding/rewriting
+      -- due to dependent type issues with the motive.
+      --
+      -- Forward direction: range(source_map) ≤ ker(Φ)
+      --   Φ(source_map v) = ∑_a Φ_component a (ρ'.mapLinear a.snd v)
+      --     = sinkMap(subtype(equivAt_eq v)) = 0 since v ∈ ker(sinkMap)
+      --   Needs: reflFunctorPlus_mapLinear_eq_ne to unfold ρ'.mapLinear a.snd
+      --
+      -- Reverse direction: ker(Φ) ≤ range(source_map)
+      --   If Φ(x) = 0, then sinkMap(reindex(x)) = 0, so reindex(x) ∈ ker(sinkMap),
+      --   and x = source_map(equivAt_eq.symm(reindex(x)))
       sorry
     -- Compose quotEquivOfEq with quotKerEquivOfSurjective
     exact (Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦsurj)
