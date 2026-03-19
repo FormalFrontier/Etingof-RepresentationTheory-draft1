@@ -59,6 +59,144 @@ noncomputable def Etingof.Q₂Rep_E (n : ℕ) (hn : 0 < n) (eigenval : ℂ) : Q�
     if i = j then eigenval else if i.val = j.val + 1 then 1 else 0)
   B := LinearMap.id
 
+namespace Etingof
+
+/-- The nilpotent part of the E_{n,λ} Jordan block, explicitly typed as an endomorphism. -/
+noncomputable def Q₂Rep_E_nilpPart (n : ℕ) (hn : 0 < n) (eigenval : ℂ) :
+    Module.End ℂ (EuclideanSpace ℂ (Fin n)) :=
+  (Q₂Rep_E n hn eigenval).A - eigenval • LinearMap.id
+
+-- The nilpotent part (A - λ·id) is nilpotent
+lemma jordanNilp_isNilpotent (n : ℕ) (hn : 0 < n) (eigenval : ℂ) :
+    IsNilpotent (Q₂Rep_E_nilpPart n hn eigenval) := by
+  -- Define the shift matrix N_mat (1s on the subdiagonal)
+  set N_mat : Matrix (Fin n) (Fin n) ℂ :=
+    Matrix.of fun (i j : Fin n) => if i.val = j.val + 1 then (1 : ℂ) else 0
+  -- Step 1: Q₂Rep_E_nilpPart = toEuclideanLin N_mat
+  have hN_eq : Q₂Rep_E_nilpPart n hn eigenval = Matrix.toEuclideanLin N_mat := by
+    unfold Q₂Rep_E_nilpPart Q₂Rep_E
+    simp only
+    rw [show (eigenval • LinearMap.id : Module.End ℂ (EuclideanSpace ℂ (Fin n))) =
+      Matrix.toEuclideanLin (eigenval • 1) from by
+        rw [map_smul, Matrix.toLpLin_one]]
+    rw [← map_sub]
+    congr 1
+    ext i j
+    simp only [Matrix.sub_apply, Matrix.of_apply, Matrix.smul_apply, Matrix.one_apply,
+      smul_eq_mul, N_mat]
+    by_cases hij : i = j
+    · subst hij; simp [show ¬(i.val = i.val + 1) from by omega]
+    · have hij' : ¬(i : ℕ) = (j : ℕ) := fun h => hij (Fin.ext h)
+      simp [hij, hij']
+  -- Step 2: N_mat is nilpotent via characteristic polynomial
+  have hN_nilp : IsNilpotent N_mat := by
+    -- Reindex by Fin.revPerm gives an upper triangular matrix with zero diagonal
+    have hchar : N_mat.charpoly = Polynomial.X ^ n := by
+      -- Reindex by Fin.revPerm to make it upper triangular
+      have hbt : (Matrix.reindex Fin.revPerm Fin.revPerm N_mat).BlockTriangular id := by
+        intro i j (hij : j < i)
+        simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Fin.revPerm_symm,
+          Fin.revPerm_apply, N_mat, Matrix.of_apply]
+        rw [if_neg]; intro h; have := Fin.rev_lt_rev.mpr hij; omega
+      have hdiag : ∀ i : Fin n,
+          (Matrix.reindex Fin.revPerm Fin.revPerm N_mat) i i = 0 := by
+        intro i
+        simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Fin.revPerm_symm,
+          Fin.revPerm_apply, N_mat, Matrix.of_apply, if_neg (by omega : ¬(Fin.rev i).val = (Fin.rev i).val + 1)]
+      have hchar' := Matrix.charpoly_of_upperTriangular _ hbt
+      simp only [hdiag, map_zero, sub_zero, Finset.prod_const, Finset.card_univ,
+        Fintype.card_fin] at hchar'
+      rwa [Matrix.charpoly_reindex] at hchar'
+    -- From charpoly = X^n and Cayley-Hamilton
+    have := Matrix.aeval_self_charpoly N_mat
+    rw [hchar, map_pow, Polynomial.aeval_X] at this
+    exact ⟨n, this⟩
+  -- Step 3: Transfer nilpotency from matrix to linear map
+  rw [hN_eq]
+  obtain ⟨k, hk⟩ := hN_nilp
+  exact ⟨k, by rw [← Matrix.toLpLin_pow, hk, map_zero]⟩
+
+-- ker(A - λ·id) has finrank ≤ 1
+lemma jordanNilp_ker_finrank_le_one (n : ℕ) (hn : 0 < n) (eigenval : ℂ) :
+    Module.finrank ℂ (LinearMap.ker (Q₂Rep_E_nilpPart n hn eigenval)) ≤ 1 := by
+  -- N corresponds to the shift matrix
+  set N_mat : Matrix (Fin n) (Fin n) ℂ :=
+    Matrix.of fun (i j : Fin n) => if i.val = j.val + 1 then (1 : ℂ) else 0
+  have hN_eq : Q₂Rep_E_nilpPart n hn eigenval = Matrix.toEuclideanLin N_mat := by
+    unfold Q₂Rep_E_nilpPart Q₂Rep_E; simp only
+    rw [show (eigenval • LinearMap.id : Module.End ℂ (EuclideanSpace ℂ (Fin n))) =
+      Matrix.toEuclideanLin (eigenval • 1) from by rw [map_smul, Matrix.toLpLin_one]]
+    rw [← map_sub]; congr 1; ext i j
+    simp only [Matrix.sub_apply, Matrix.of_apply, Matrix.smul_apply, Matrix.one_apply,
+      smul_eq_mul, N_mat]
+    by_cases hij : i = j
+    · subst hij; simp [show ¬(i.val = i.val + 1) from by omega]
+    · have hij' : ¬(i : ℕ) = (j : ℕ) := fun h => hij (Fin.ext h)
+      simp [hij, hij']
+  rw [hN_eq]
+  -- Use rank-nullity: finrank(range) + finrank(ker) = n
+  -- Show finrank(ker) ≤ 1 by showing finrank(range) ≥ n-1
+  -- Strategy: N is surjective onto a codim-1 subspace
+  -- Alternatively: use finrank_le_one with explicit generator
+  -- Key fact: N v = 0 implies v is determined by one coordinate
+  -- The map N = toEuclideanLin N_mat satisfies:
+  --   (ofLp (N v)) ⟨i+1, _⟩ = (ofLp v) ⟨i, _⟩
+  -- So if N v = 0, then v ⟨i, _⟩ = 0 for all i < n-1
+  -- Hence every kernel element is a multiple of e_{n-1}
+  -- Showing finrank ≤ 1 via rank-nullity and matrix rank
+  -- e_{n-1} is in the kernel (last column of N_mat is zero)
+  set last : Fin n := ⟨n - 1, by omega⟩
+  have h_in_ker : EuclideanSpace.single last (1 : ℂ) ∈
+      LinearMap.ker (Matrix.toEuclideanLin N_mat) := by
+    rw [LinearMap.mem_ker]
+    -- toEuclideanLin N_mat (single last 1) = toLp (N_mat *ᵥ Pi.single last 1) = toLp (col last)
+    show Matrix.toLpLin 2 2 N_mat (EuclideanSpace.single last 1) = 0
+    rw [EuclideanSpace.single, Matrix.toLpLin_toLp, Matrix.toLin'_apply,
+      Matrix.mulVec_single_one]
+    ext i
+    simp only [PiLp.toLp_apply, Matrix.col_apply, Pi.zero_apply, PiLp.zero_apply, N_mat,
+      Matrix.of_apply]
+    rw [if_neg (show ¬(i.val = last.val + 1) from by simp [last]; omega)]
+  -- Every kernel element is a scalar multiple of e_{n-1}
+  apply finrank_le_one (R := ℂ) (v := ⟨EuclideanSpace.single last 1, h_in_ker⟩)
+  intro ⟨w, hw⟩
+  rw [LinearMap.mem_ker] at hw
+  -- Extract: (N_mat *ᵥ ofLp w) = 0
+  have hv' : Matrix.toLin' N_mat (WithLp.ofLp w) = 0 := by
+    have : Matrix.toLpLin 2 2 N_mat w = 0 := hw
+    rw [Matrix.toLpLin_apply] at this
+    exact (WithLp.toLp_injective 2).eq_iff.mp this
+  -- For j < n-1: the (j+1)-th coordinate of N·(ofLp w) = (ofLp w) j
+  have hw_zero : ∀ (j : Fin n), j.val < n - 1 → w j = 0 := by
+    intro j hj
+    have row := congr_fun hv' ⟨j.val + 1, by omega⟩
+    simp only [Pi.zero_apply] at row
+    -- toLin' at index (j+1) = mulVec at index (j+1) = ∑_k N_mat_{j+1,k} * w_k
+    rw [show (Matrix.toLin' N_mat (WithLp.ofLp w)) ⟨j.val + 1, by omega⟩ =
+        ∑ k : Fin n, N_mat ⟨j.val + 1, by omega⟩ k * WithLp.ofLp w k from rfl] at row
+    -- Only term k=j is nonzero in the sum
+    rw [show (∑ k : Fin n, N_mat ⟨j.val + 1, by omega⟩ k * WithLp.ofLp w k) =
+        WithLp.ofLp w j from by
+      rw [Finset.sum_eq_single j]
+      · simp [N_mat, Matrix.of_apply]
+      · intro k _ hkj
+        simp only [N_mat, Matrix.of_apply,
+          if_neg (show ¬(j.val + 1 = k.val + 1) from by
+            intro h; exact hkj (Fin.ext (by omega)))]
+        ring
+      · intro h; exact absurd (Finset.mem_univ j) h] at row
+    exact row
+  -- Now: w = (w last) • single last 1
+  refine ⟨w last, Subtype.ext ?_⟩
+  ext j
+  simp only [Submodule.coe_smul_of_tower, EuclideanSpace.single_apply, smul_eq_mul]
+  by_cases hj : j = last
+  · subst hj; simp
+  · simp only [hj, ite_false, mul_zero]
+    exact hw_zero j (by rcases j with ⟨jv, hjv⟩; simp [last] at hj ⊢; omega)
+
+end Etingof
+
 /-- The E_{n,λ} family is indecomposable. Key argument: since B = Id, any compatible
 decomposition V = V₁ ⊕ V₂, W = W₁ ⊕ W₂ forces W₁ = V₁ and W₂ = V₂ (via dimension
 counting from B mapping W₁ into V₁ and W₂ into V₂). Then A = J_n(λ) must preserve
@@ -97,11 +235,88 @@ theorem Etingof.Q₂Rep_E_indecomposable (n : ℕ) (hn : 0 < n) (eigenval : ℂ)
       rw [hq0, add_zero] at hpq; rwa [← hpq]
     have hpWeq : pW = pV := le_antisymm hpWpV (aux pV qV pW qW hcV hcW hpWpV hqWqV)
     have hqWeq : qW = qV := le_antisymm hqWqV (aux qV pV qW pW hcV.symm hcW.symm hqWqV hpWpV)
-    -- Now A preserves both pV and qV (using hApV, hAqV with pW = pV, qW = qV)
-    -- The Jordan block J_n(λ) has no nontrivial invariant direct sum decomposition
-    -- This follows from ker(A - λI) being 1-dimensional (spanned by e₁)
-    -- TODO: Prove Jordan block indecomposability
-    sorry
+    -- Substitute pW = pV and qW = qV into goal
+    rw [hpWeq, hqWeq]; simp only [and_self]
+    -- Goal: pV = ⊥ ∨ qV = ⊥. Prove by contradiction.
+    by_contra h; push_neg at h; obtain ⟨hpV_ne, hqV_ne⟩ := h
+    -- A preserves pV and qV (substituting pW = pV, qW = qV)
+    have hApV' : ∀ x ∈ pV, (Etingof.Q₂Rep_E n hn eigenval).A x ∈ pV :=
+      fun x hx => hpWeq ▸ hApV x hx
+    have hAqV' : ∀ x ∈ qV, (Etingof.Q₂Rep_E n hn eigenval).A x ∈ qV :=
+      fun x hx => hqWeq ▸ hAqV x hx
+    -- Set N = A - eigenval • id (the nilpotent part), explicitly as endomorphism
+    set N : Module.End ℂ (EuclideanSpace ℂ (Fin n)) :=
+      Etingof.Q₂Rep_E_nilpPart n hn eigenval with hN_def
+    -- N preserves pV and qV
+    have hNpV : ∀ x ∈ pV, N x ∈ pV := by
+      intro x hx
+      simp only [hN_def, Etingof.Q₂Rep_E_nilpPart,
+        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply]
+      exact pV.sub_mem (hApV' x hx) (pV.smul_mem _ hx)
+    have hNqV : ∀ x ∈ qV, N x ∈ qV := by
+      intro x hx
+      simp only [hN_def, Etingof.Q₂Rep_E_nilpPart,
+        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply]
+      exact qV.sub_mem (hAqV' x hx) (qV.smul_mem _ hx)
+    -- N is nilpotent: N^m = 0 for some m
+    obtain ⟨m, hm⟩ := Etingof.jordanNilp_isNilpotent n hn eigenval
+    -- N^k preserves pV for all k
+    have hNpow_pV : ∀ (k : ℕ) (x : EuclideanSpace ℂ (Fin n)), x ∈ pV → (N ^ k) x ∈ pV := by
+      intro k; induction k with
+      | zero => intro x hx; simpa
+      | succ k ih =>
+        intro x hx; rw [pow_succ, Module.End.mul_apply]; exact ih _ (hNpV x hx)
+    have hNpow_qV : ∀ (k : ℕ) (x : EuclideanSpace ℂ (Fin n)), x ∈ qV → (N ^ k) x ∈ qV := by
+      intro k; induction k with
+      | zero => intro x hx; simpa
+      | succ k ih =>
+        intro x hx; rw [pow_succ, Module.End.mul_apply]; exact ih _ (hNqV x hx)
+    -- Find nonzero elements in ker(N) ∩ pV and ker(N) ∩ qV using Nat.find
+    have find_ker_element : ∀ (S : Submodule ℂ (EuclideanSpace ℂ (Fin n))),
+        S ≠ ⊥ → (∀ (k : ℕ) (x : EuclideanSpace ℂ (Fin n)), x ∈ S → (N ^ k) x ∈ S) →
+        ∃ w, w ∈ S ∧ w ∈ LinearMap.ker N ∧ w ≠ 0 := by
+      intro S hS hpow
+      rw [Submodule.ne_bot_iff] at hS
+      obtain ⟨v, hv, hv_ne⟩ := hS
+      have hex : ∃ k, (N ^ k) v = 0 := ⟨m, by
+        have : (N ^ m) = 0 := hm
+        simp [this]⟩
+      have hk₀_spec : (N ^ Nat.find hex) v = 0 := Nat.find_spec hex
+      have hk₀_pos : 0 < Nat.find hex := by
+        rcases Nat.eq_zero_or_pos (Nat.find hex) with h | h
+        · exfalso; simp [h] at hk₀_spec; exact hv_ne hk₀_spec
+        · exact h
+      have hpred : (N ^ (Nat.find hex - 1)) v ≠ 0 :=
+        Nat.find_min hex (by omega)
+      refine ⟨(N ^ (Nat.find hex - 1)) v, hpow _ v hv, ?_, hpred⟩
+      rw [LinearMap.mem_ker, ← Module.End.mul_apply, ← pow_succ',
+        show Nat.find hex - 1 + 1 = Nat.find hex from by omega]
+      exact hk₀_spec
+    obtain ⟨u, hu_pV, hu_ker, hu_ne⟩ := find_ker_element pV hpV_ne hNpow_pV
+    obtain ⟨w, hw_qV, hw_ker, hw_ne⟩ := find_ker_element qV hqV_ne hNpow_qV
+    -- ker(N) has finrank ≤ 1
+    have hker_dim := Etingof.jordanNilp_ker_finrank_le_one n hn eigenval
+    -- From finrank ≤ 1: ker(N) is principal, generated by some g
+    rw [Submodule.finrank_le_one_iff_isPrincipal] at hker_dim
+    obtain ⟨g, hg⟩ := hker_dim.principal
+    -- u and w are both in ker(N) = span{g}
+    have hu_span : u ∈ LinearMap.ker N := hu_ker
+    have hw_span : w ∈ LinearMap.ker N := hw_ker
+    rw [hg] at hu_span hw_span
+    rw [Submodule.mem_span_singleton] at hu_span hw_span
+    obtain ⟨a, ha⟩ := hu_span  -- a • g = u
+    obtain ⟨b, hb⟩ := hw_span  -- b • g = w
+    have ha_ne : a ≠ 0 := by intro h; rw [h, zero_smul] at ha; exact hu_ne ha.symm
+    have hb_ne : b ≠ 0 := by intro h; rw [h, zero_smul] at hb; exact hw_ne hb.symm
+    -- w = b • g = (b * a⁻¹) • (a • g) = (b * a⁻¹) • u
+    have hw_eq : w = (b * a⁻¹) • u := by
+      rw [show u = a • g from ha.symm, show w = b • g from hb.symm, smul_smul]
+      congr 1; field_simp
+    -- (b * a⁻¹) • u ∈ pV (since u ∈ pV), so w ∈ pV ⊓ qV = ⊥
+    have hw_pV : w ∈ pV := hw_eq ▸ pV.smul_mem _ hu_pV
+    have : w ∈ pV ⊓ qV := Submodule.mem_inf.mpr ⟨hw_pV, hw_qV⟩
+    rw [hcV.disjoint.eq_bot] at this
+    exact hw_ne this
 
 /-- **Problem 6.9.1(a), Family H_n (Etingof)**: For n ≥ 1, V = ℂⁿ with basis vᵢ,
 W = ℂⁿ⁻¹ with basis wᵢ. A sends vᵢ ↦ wᵢ (i < n) and vₙ ↦ 0.
