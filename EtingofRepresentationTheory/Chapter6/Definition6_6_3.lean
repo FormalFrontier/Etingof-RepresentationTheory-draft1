@@ -73,27 +73,41 @@ noncomputable def Etingof.reflectionFunctorPlus
     (fun v => acmAt v (dp v))
     (fun v => modAt v (dp v))
     (fun {a b} (e : Etingof.ReversedAtVertexHom V i a b) => by
-      -- Use inst a i / inst b i (same Decidable instance as obj/AddCommMonoid/Module fields)
-      -- to ensure match reduces consistently across all fields.
+      -- Goal: objAt a (inst a i) →ₗ[k] objAt b (inst b i)
+      -- We use @Decidable.casesOn with EXPLICIT motives that parameterize
+      -- both the arrow type (@ite ... da ...) and objAt by the same variable da.
+      -- This ensures all ite/casesOn reduce together in each branch.
       change objAt a (inst a i) →ₗ[k] objAt b (inst b i)
       change @Etingof.ReversedAtVertexHom V inst _ i a b at e
       unfold Etingof.ReversedAtVertexHom at e
       revert e
-      -- Use match (not generalize+cases) for better definitional reduction
-      exact match inst a i, inst b i with
-      | .isTrue ha, .isTrue hb =>
-          -- a = i, b = i: vacuous since i is a sink
-          fun e => ((hi b).false (show i ⟶ b from ha ▸ e)).elim
-      | .isTrue ha, .isFalse _ =>
-          -- a = i, b ≠ i: reversed arrow, ker φ ↪ ⊕ → proj_b
-          fun e => (DirectSum.component k (Etingof.ArrowsInto V i)
-            (fun x => ρ.obj x.1) ⟨b, ha ▸ e⟩).comp (LinearMap.ker φ).subtype
-      | .isFalse _, .isTrue hb =>
-          -- a ≠ i, b = i: vacuous since i is a sink
-          fun e => ((hi a).false (hb ▸ e)).elim
-      | .isFalse _, .isFalse _ =>
-          -- a ≠ i, b ≠ i: unchanged arrow
-          fun e => ρ.mapLinear e)
+      -- Use nested @Decidable.casesOn with explicit motives that parameterize
+      -- BOTH the arrow type and objAt by the same variable (da/db).
+      -- Using Decidable.casesOn (not ite) for the arrow type ensures
+      -- the bound variable da appears in the compiled motive, enabling
+      -- definitional reduction when the proof matches on inst a i.
+      let arrowAt (da : Decidable (a = i)) (db : Decidable (b = i)) : Type _ :=
+        @Decidable.casesOn _ (fun _ => Type _) da
+          (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
+            (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)))
+          (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
+            (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)))
+      exact @Decidable.casesOn (a = i)
+        (fun da => arrowAt da (inst b i) → objAt a da →ₗ[k] objAt b (inst b i))
+        (inst a i)
+        (fun ha_ne => @Decidable.casesOn (b = i)
+          (fun db => arrowAt (.isFalse ha_ne) db → ρ.obj a →ₗ[k] objAt b db)
+          (inst b i)
+          (fun _hb_ne => fun e => ρ.mapLinear e)
+          (fun hb_eq => fun e => ((hi a).false e).elim))
+        (fun ha_eq => @Decidable.casesOn (b = i)
+          (fun db => arrowAt (.isTrue ha_eq) db → objAt a (.isTrue ha_eq) →ₗ[k] objAt b db)
+          (inst b i)
+          (fun _hb_ne => fun e =>
+            (DirectSum.component k (Etingof.ArrowsInto V i)
+              (fun x => ρ.obj x.1) ⟨b, e⟩).comp (LinearMap.ker φ).subtype)
+          (fun hb_eq => fun e =>
+            ((hi b).false (ha_eq ▸ e)).elim)))
 
 section ReflectionFunctorPlusAPI
 
@@ -178,7 +192,7 @@ def Etingof.reversedArrow_ne_ne
   | .isFalse _, .isTrue h => absurd h hb
   | .isFalse _, .isFalse _ => fun e => e
 
-set_option maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 -- reason: unfolding reflectionFunctorPlus + equivAt_ne + match reduction
 /-- At non-sink vertices (a ≠ i, b ≠ i), the F⁺ᵢ map equals the original ρ map,
 after transport through the equivAt_ne equivalences.
@@ -200,9 +214,20 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
         (Etingof.reflectionFunctorPlus Q i hi ρ) a b e w) =
     ρ.mapLinear (Etingof.reversedArrow_ne_ne ha hb e)
       ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a ha) w) := by
-  -- BLOCKED: The tactic-mode `change + unfold + match` inside reflectionFunctorPlus
-  -- creates Eq.mpr wrappers that prevent rfl after unfolding. Fixing this requires
-  -- refactoring reflectionFunctorPlus to use pure term-mode case analysis.
-  sorry
+  have h_da : inst a i = .isFalse ha := by
+    cases inst a i with
+    | isTrue h => exact absurd h ha
+    | isFalse _ => rfl
+  have h_db : inst b i = .isFalse hb := by
+    cases inst b i with
+    | isTrue h => exact absurd h hb
+    | isFalse _ => rfl
+  revert e w
+  unfold Etingof.reflFunctorPlus_equivAt_ne Etingof.reversedArrow_ne_ne
+    Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_da, h_db]
+  intro e w
+  rfl
 
 end ReflectionFunctorPlusAPI
