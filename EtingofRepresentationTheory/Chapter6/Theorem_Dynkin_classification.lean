@@ -184,13 +184,160 @@ private lemma pathQF_le_zero_imp : ∀ (m : ℕ) (x : ℕ → ℤ),
     · exact hx0
     · exact ih (fun j => x (j + 1)) htail i (by omega)
 
+/-- The Cartan matrix of A_{k+2} restricted to {1,...,k+1} equals that of A_{k+1}. -/
+private lemma cartan_An_succ (k : ℕ) (i j : Fin (k + 1)) :
+    (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
+      DynkinType.adj (.A (k + 2) (by omega))) (Fin.succ i) (Fin.succ j) =
+    (2 • (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ) -
+      DynkinType.adj (.A (k + 1) (by omega))) i j := by
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
+    Fin.val_succ, Fin.ext_iff]
+  split_ifs <;> omega
+
+/-- Cartan matrix entry C(0, succ(succ j)) = 0 for A_{k+2}. -/
+private lemma cartan_An_zero_ge2 (k : ℕ) (j : Fin k) :
+    (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
+      DynkinType.adj (.A (k + 2) (by omega))) 0 (Fin.succ (Fin.succ j)) = 0 := by
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
+    Fin.val_zero, Fin.val_succ, Fin.ext_iff]
+  split_ifs <;> simp_all <;> omega
+
+/-- Cartan matrix entry C(succ i, 0) for A_{k+2}. -/
+private lemma cartan_An_succ_zero (k : ℕ) (i : Fin (k + 1)) :
+    (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
+      DynkinType.adj (.A (k + 2) (by omega))) (Fin.succ i) 0 =
+    if (i : ℕ) = 0 then -1 else 0 := by
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, DynkinType.adj,
+    Fin.val_zero, Fin.val_succ, Fin.ext_iff]
+  split_ifs <;> simp_all <;> omega
+
+/-- The A_n quadratic form satisfies a recurrence: peeling off vertex 0. -/
+private lemma An_dotProduct_recurrence (k : ℕ) (x : Fin (k + 2) → ℤ) :
+    dotProduct x ((2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
+      DynkinType.adj (.A (k + 2) (by omega))).mulVec x) =
+    2 * (x 0) ^ 2 - 2 * x 0 * x ⟨1, by omega⟩ +
+    dotProduct (x ∘ Fin.succ) ((2 • (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ) -
+      DynkinType.adj (.A (k + 1) (by omega))).mulVec (x ∘ Fin.succ)) := by
+  set C := (2 • (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) ℤ) -
+    DynkinType.adj (.A (k + 2) (by omega)))
+  set C' := (2 • (1 : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ) -
+    DynkinType.adj (.A (k + 1) (by omega)))
+  -- Step 1: Split dotProduct at i = 0
+  rw [show dotProduct x (C.mulVec x) =
+      x 0 * (C.mulVec x) 0 + ∑ i : Fin (k + 1), x (Fin.succ i) * (C.mulVec x) (Fin.succ i) from
+    Fin.sum_univ_succ (f := fun i => x i * (C.mulVec x) i)]
+  -- Step 2: Compute (C.mulVec x) 0 = 2*x(0) - x(1)
+  have hmv0 : (C.mulVec x) 0 = 2 * x 0 - x ⟨1, by omega⟩ := by
+    change ∑ j, C 0 j * x j = _
+    rw [Fin.sum_univ_succ]
+    -- First term is C 0 0 * x 0 = 2 * x 0
+    have hC00 : C 0 0 = 2 := by
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+        DynkinType.adj, Fin.val_zero, Fin.ext_iff]
+      split_ifs <;> simp_all <;> omega
+    -- Remaining sum: split off j=0 in Fin (k+1)
+    rw [Fin.sum_univ_succ (f := fun j : Fin (k + 1) => C 0 (Fin.succ j) * x (Fin.succ j))]
+    -- Second term: C 0 (succ 0) = C 0 1 = -1
+    have hC01 : C 0 (Fin.succ (0 : Fin (k + 1))) = -1 := by
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+        DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
+      split_ifs <;> simp_all <;> omega
+    -- Remaining sum: C 0 (succ (succ j)) = 0 for all j
+    have hrest : ∑ i : Fin k, C 0 (Fin.succ (Fin.succ i)) * x (Fin.succ (Fin.succ i)) = 0 := by
+      apply Finset.sum_eq_zero; intro j _; rw [show C 0 (Fin.succ (Fin.succ j)) = 0 from cartan_An_zero_ge2 k j, zero_mul]
+    rw [hC00, hC01, hrest]
+    have : x (Fin.succ (0 : Fin (k + 1))) = x ⟨1, by omega⟩ := by congr 1
+    rw [this]; ring
+  rw [hmv0]
+  -- Step 3: Decompose (C.mulVec x)(succ i) = C(succ i, 0)*x(0) + (C'.mulVec (x∘succ))(i)
+  have hmv_succ : ∀ i : Fin (k + 1), (C.mulVec x) (Fin.succ i) =
+      C (Fin.succ i) 0 * x 0 + (C'.mulVec (x ∘ Fin.succ)) i := by
+    intro i
+    change ∑ j, C (Fin.succ i) j * x j = _
+    rw [Fin.sum_univ_succ]
+    change C (Fin.succ i) 0 * x 0 + ∑ j : Fin (k + 1), C (Fin.succ i) (Fin.succ j) *
+      x (Fin.succ j) = _
+    congr 1
+    change _ = ∑ j, C' i j * (x ∘ Fin.succ) j
+    apply Finset.sum_congr rfl; intro j _
+    simp only [Function.comp, C, C']
+    rw [cartan_An_succ]
+  simp_rw [hmv_succ]
+  -- Step 4: Expand x(succ i) * (C(succ i,0)*x(0) + (C'.mulVec x')(i))
+  simp only [mul_add, Finset.sum_add_distrib]
+  -- Step 5: Evaluate ∑ x(succ i) * C(succ i, 0) * x(0)
+  -- C(succ i, 0) = -1 if i=0, else 0
+  have hsum_C0 : ∑ i : Fin (k + 1), x (Fin.succ i) * (C (Fin.succ i) 0 * x 0) =
+      -(x ⟨1, by omega⟩ * x 0) := by
+    -- Split off i = 0
+    rw [Fin.sum_univ_succ]
+    -- i = 0 term: C(succ 0, 0) = C(1, 0) = -1
+    have hC10 : C (Fin.succ (0 : Fin (k + 1))) 0 = -1 := by
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+        DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
+      split_ifs <;> simp_all <;> omega
+    rw [hC10]
+    -- Remaining terms: C(succ(succ j), 0) = 0 for all j
+    have hrest : ∀ j : Fin k, C (Fin.succ (Fin.succ j)) 0 = 0 := by
+      intro j
+      simp only [C, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+        DynkinType.adj, Fin.val_succ, Fin.val_zero, Fin.ext_iff]
+      split_ifs <;> simp_all <;> omega
+    have : ∑ j : Fin k, x (Fin.succ (Fin.succ j)) *
+        (C (Fin.succ (Fin.succ j)) 0 * x 0) = 0 := by
+      apply Finset.sum_eq_zero; intro j _; rw [hrest]; ring
+    rw [this, add_zero]
+    have : x (Fin.succ (0 : Fin (k + 1))) = x ⟨1, by omega⟩ := by congr 1
+    rw [this]; ring
+  rw [hsum_C0]
+  -- Step 6: The remaining sum is dotProduct (x∘succ) (C'.mulVec (x∘succ))
+  -- ∑ x(succ i) * (C'.mulVec (x∘succ))(i) = dotProduct (x∘succ) (C'.mulVec (x∘succ))
+  rw [show ∑ i : Fin (k + 1), x (Fin.succ i) * (C'.mulVec (x ∘ Fin.succ)) i =
+    dotProduct (x ∘ Fin.succ) (C'.mulVec (x ∘ Fin.succ)) from rfl]
+  ring
+
 /-- pathQF relates to the dotProduct form: pathQF n (x ∘ Fin.val) = xᵀ(2I-adj)x.
-    We prove this by showing both sides satisfy the same recurrence. -/
+    We prove this by induction on n. -/
 private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) :
     pathQF n (fun i => if h : i < n then x ⟨i, h⟩ else 0) =
     dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
       DynkinType.adj (.A n hn)).mulVec x) := by
-  sorry
+  obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
+  induction m with
+  | zero =>
+    -- n = 1: both sides = 2*(x 0)^2
+    simp only [pathQF, show (0 : ℕ) < 1 from by omega, dite_true]
+    simp only [dotProduct, mulVec]
+    simp only [show Finset.univ (α := Fin (0 + 1)) = {0} from rfl, Finset.sum_singleton]
+    have hmat : (2 • (1 : Matrix (Fin (0 + 1)) (Fin (0 + 1)) ℤ) -
+        DynkinType.adj (.A (0 + 1) (by omega))) 0 0 = 2 := by
+      simp [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.ofNat_apply,
+        smul_eq_mul, DynkinType.adj, Fin.ext_iff, Fin.val_zero]
+    rw [hmat]; ring
+  | succ k ih =>
+    -- n = k + 2
+    set ext_x : ℕ → ℤ := fun i => if h : i < k + 2 then x ⟨i, h⟩ else 0
+    show pathQF (k + 2) ext_x = _
+    simp only [pathQF]
+    -- ext_x 0 = x 0, ext_x 1 = x ⟨1, _⟩
+    have hx0 : ext_x 0 = x 0 := by simp [ext_x]
+    have hx1 : ext_x 1 = x ⟨1, by omega⟩ := by
+      simp [ext_x, show (1 : ℕ) < k + 2 from by omega]
+    rw [hx0, hx1]
+    -- The shifted function matches the IH form with x' j = x ⟨j+1, _⟩
+    set x' : Fin (k + 1) → ℤ := fun j => x ⟨j.val + 1, by omega⟩
+    have hshift : (fun i => ext_x (i + 1)) =
+        fun i => if h : i < k + 1 then x' ⟨i, h⟩ else 0 := by
+      ext i; simp only [ext_x, x']
+      by_cases hi : i < k + 1
+      · simp [hi, show i + 1 < k + 2 from by omega]
+      · simp [hi, show ¬(i + 1 < k + 2) from by omega]
+    rw [hshift, ih (by omega) x']
+    -- Use the recurrence
+    rw [An_dotProduct_recurrence k x]
+    -- x' and x ∘ Fin.succ are the same function
+    have hx'_eq : x' = x ∘ Fin.succ := by ext j; simp [x', Function.comp, Fin.succ]
+    rw [hx'_eq]
 
 /-- Positive definiteness for A_n Cartan form. -/
 private lemma An_posDef (n : ℕ) (hn : 1 ≤ n) :
