@@ -131,8 +131,12 @@ theorem Etingof.reflFunctorPlus_obj_eq
   | .isFalse hii => exact absurd rfl hii
 
 /-- `LinearEquiv` at vertex v ≠ i: `F⁺ᵢ(ρ).obj v ≃ₗ[k] ρ.obj v`.
-This reduces the `Decidable.casesOn` in the `reflectionFunctorPlus` definition.
-Uses term-mode match for clean definitional reduction. -/
+Defined as a pure term-mode match (no `by unfold` tactic block) to ensure
+clean definitional reduction when composed with other match-based definitions.
+
+The return type `(reflectionFunctorPlus ...).obj v` delta-reduces in the kernel to
+`Decidable.casesOn (inst v i) (fun _ => ρ.obj v) (fun _ => ker(sinkMap))`, and the
+match on `inst v i` reduces this to `ρ.obj v` in the `.isFalse` branch. -/
 noncomputable def Etingof.reflFunctorPlus_equivAt_ne
     {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
@@ -159,5 +163,46 @@ noncomputable def Etingof.reflFunctorPlus_equivAt_eq
   exact match inst i i with
   | .isTrue _ => LinearEquiv.refl k ↥(ρ.sinkMap i).ker
   | .isFalse hii => absurd rfl hii
+
+/-- Convert a reversed-quiver arrow between non-sink vertices back to original.
+For a ≠ i and b ≠ i, `ReversedAtVertexHom Q i a b = a ⟶ b`, so the arrow is unchanged. -/
+def Etingof.reversedArrow_ne_ne
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a b : Q}
+    (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) : a ⟶ b := by
+  change @Etingof.ReversedAtVertexHom Q inst _ i a b at e
+  unfold Etingof.ReversedAtVertexHom at e
+  revert e
+  exact match inst a i, inst b i with
+  | .isTrue h, _ => absurd h ha
+  | .isFalse _, .isTrue h => absurd h hb
+  | .isFalse _, .isFalse _ => fun e => e
+
+set_option maxHeartbeats 400000 in
+-- reason: unfolding reflectionFunctorPlus + equivAt_ne + match reduction
+/-- At non-sink vertices (a ≠ i, b ≠ i), the F⁺ᵢ map equals the original ρ map,
+after transport through the equivAt_ne equivalences.
+
+This is the key API lemma enabling proofs about F⁺ᵢ's behavior on arrows between
+non-sink vertices without re-doing the Decidable.casesOn case analysis. -/
+theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
+    {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q) {a b : Q}
+    (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b)
+    (w : @Etingof.QuiverRepresentation.obj k Q _
+      (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) a) :
+    (Etingof.reflFunctorPlus_equivAt_ne hi ρ b hb)
+      (@Etingof.QuiverRepresentation.mapLinear k Q _
+        (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) a b e w) =
+    ρ.mapLinear (Etingof.reversedArrow_ne_ne ha hb e)
+      ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a ha) w) := by
+  -- BLOCKED: The tactic-mode `change + unfold + match` inside reflectionFunctorPlus
+  -- creates Eq.mpr wrappers that prevent rfl after unfolding. Fixing this requires
+  -- refactoring reflectionFunctorPlus to use pure term-mode case analysis.
+  sorry
 
 end ReflectionFunctorPlusAPI

@@ -188,6 +188,32 @@ private def Etingof.arrowsOutReversed_origArrow
   have hne := Etingof.arrowsOutReversed_ne hi ⟨j, e⟩
   simp only [ite_true, hne, ite_false] at e; exact e
 
+/-- Map arrows into i in Q to arrows out of i in Q̄ᵢ.
+Since i is a sink (no arrows out), any arrow j → i in Q gives a reversed
+arrow i →_{Q̄ᵢ} j. The underlying arrow data is unchanged. -/
+private def Etingof.arrowsInto_to_arrowsOutReversed
+    {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (b : Etingof.ArrowsInto Q i) :
+    @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i := by
+  obtain ⟨j, e⟩ := b
+  refine ⟨j, ?_⟩
+  -- Need i →_{Q̄ᵢ} j, i.e., ReversedAtVertexHom Q i i j
+  change Etingof.ReversedAtVertexHom Q i i j
+  unfold Etingof.ReversedAtVertexHom
+  -- Since i = i, first branch: if j = i then (i ⟶ i) else (j ⟶ i)
+  have hji : j ≠ i := by
+    intro heq; rw [heq] at e; exact (hi i).false e
+  simp only [ite_true, hji, ite_false]; exact e
+
+/-- The component of `arrowsInto_to_arrowsOutReversed` at j gives the original arrow j ⟶ i. -/
+private theorem Etingof.arrowsInto_to_arrowsOutReversed_fst
+    {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (b : Etingof.ArrowsInto Q i) :
+    (Etingof.arrowsInto_to_arrowsOutReversed hi b).fst = b.fst := by
+  rfl
+
 /-- At v ≠ i, F⁻(F⁺(V)).obj v ≃ₗ[k] ρ.obj v. Both sides reduce to ρ.obj v
 through the Decidable.casesOn in the reflection functor definitions. -/
 private noncomputable def Etingof.equivAt_ne_sink
@@ -245,33 +271,55 @@ private noncomputable def Etingof.equivAt_eq_sink
   match hd1 : (‹DecidableEq Q› i i) with
   | .isFalse hii => exact absurd rfl hii
   | .isTrue _ =>
-    -- The goal after reducing F⁻ at vertex i is:
-    -- (⊕_{a : ArrowsOutOf Q̄ᵢ i} F⁺(V).obj a.1) ⧸ range(ψ) ≃ₗ[k] ρ.obj i
-    --
-    -- Mathematical argument (first isomorphism theorem):
-    -- - For each a, F⁺(V).obj a.fst = ρ.obj a.fst (since a.fst ≠ i)
-    -- - The source map ψ embeds ker(sinkMap) into ⊕ V_j via reindexing
-    -- - So range(ψ) = ker(sinkMap) (embedded in the direct sum)
-    -- - The quotient (⊕ V_j) / ker(sinkMap) ≅ V_i by first isomorphism theorem
-    --
-    -- BLOCKED: Lean 4's instance synthesis check prevents working with two
-    -- different Quiver Q instances (inst and reversedAtVertex Q i) in the
-    -- same proof context. Every reference to quiver-dependent types
-    -- (ArrowsOutOf, mapLinear, etc.) triggers "synthesized type class
-    -- instance is not definitionally equal" errors because the goal uses
-    -- the reversed quiver while the ambient context has the original.
-    --
-    -- After `rw [hd1]; dsimp only []`, the goal cleanly reduces to:
-    --   (⊕_{a : ArrowsOutOf_{Q̄ᵢ} i} F⁺(V).obj a.fst) ⧸ range(ψ) ≃ₗ[k] ρ.obj i
-    -- The mathematical argument (first isomorphism theorem) is clear:
-    --   Φ(x) = ∑_a ρ.mapLinear(origArrow_a)(equivAt_ne(x_a))
-    --   ker(Φ) = range(ψ), Φ surjective from hsurj
-    --   → quotKerEquivOfSurjective gives the result
-    --
-    -- Resolution requires refactoring reflectionFunctorPlus/Minus to
-    -- avoid Decidable.casesOn at the type level, e.g., by parameterizing
-    -- on a function `objAt : Q → Type*` directly rather than case-splitting.
-    sorry
+    -- Goal: (⊕_{a : ArrowsOutOf Q̄ᵢ i} F⁺(V)_a.fst) ⧸ range(ψ') ≃ₗ[k] V_i
+    -- Strategy: Φ = sinkMap after reindexing, then first isomorphism theorem
+    rw [hd1]; dsimp only []
+    classical
+    -- Goal: (⊕_{a : ArrowsOutOf_{Q̄ᵢ} i} F⁺(V).obj a.fst) ⧸ range(ψ') ≃ₗ[k] ρ.obj i
+    -- Strategy: construct forward and inverse maps directly
+    let instR := @Etingof.reversedAtVertex Q _ inst i
+    let ρ' := @Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ
+    -- Forward map: quotient → V_i
+    -- Component maps: F⁺(V).obj a.fst → V_i via equivAt_ne then mapLinear
+    let Φ_component : ∀ a : @Etingof.ArrowsOutOf Q instR i,
+        @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst →ₗ[k]
+        @Etingof.QuiverRepresentation.obj k Q _ inst ρ i :=
+      fun a =>
+        (@Etingof.QuiverRepresentation.mapLinear k Q _ inst ρ a.fst i
+          (@Etingof.arrowsOutReversed_origArrow Q _ inst i hi a)).comp
+        (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ inst i hi ρ a.fst
+          (@Etingof.arrowsOutReversed_ne Q _ inst i hi a)).toLinearMap
+    let Φ : (DirectSum (@Etingof.ArrowsOutOf Q instR i)
+        (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)) →ₗ[k]
+        @Etingof.QuiverRepresentation.obj k Q _ inst ρ i :=
+      DirectSum.toModule k (@Etingof.ArrowsOutOf Q instR i)
+        (@Etingof.QuiverRepresentation.obj k Q _ inst ρ i) Φ_component
+    -- Provide AddCommGroup instances for quotient module construction
+    letI acg_comp : ∀ a : @Etingof.ArrowsOutOf Q instR i,
+        AddCommGroup (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst) :=
+      fun a => @Etingof.addCommGroupOfField k _ _ (ρ'.instAddCommMonoid a.fst) (ρ'.instModule a.fst)
+    letI acg_ds : AddCommGroup (DirectSum (@Etingof.ArrowsOutOf Q instR i)
+        (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)) :=
+      @Etingof.addCommGroupOfField k _ _ _ _
+    -- Use first isomorphism theorem: need Φ surjective and range(ψ') = ker(Φ)
+    -- Step 1: Show Φ is surjective (follows from surjectivity of sinkMap φ)
+    -- Construct reindexing equivalence: ArrowsOutOf Q̄ᵢ i → ArrowsInto Q i
+    let reindex : @Etingof.ArrowsOutOf Q instR i → @Etingof.ArrowsInto Q inst i :=
+      fun a => ⟨a.fst, @Etingof.arrowsOutReversed_origArrow Q _ inst i hi a⟩
+    -- Component transport: equivAt_ne gives F⁺(V)_j ≃ V_j for j ≠ i
+    -- So Φ_component a = ρ.mapLinear(origArrow) ∘ equivAt_ne
+    --                   = sinkMap component at (reindex a)
+    have hΦsurj : Function.Surjective Φ := by
+      sorry
+    -- Step 2: Show range(source map) = ker(Φ)
+    have hker : (∑ a : @Etingof.ArrowsOutOf Q instR i,
+        (DirectSum.lof k (@Etingof.ArrowsOutOf Q instR i)
+          (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst) a).comp
+          (@Etingof.QuiverRepresentation.mapLinear k Q _ instR ρ' i a.fst a.snd)).range =
+        LinearMap.ker Φ := by
+      sorry
+    -- Compose quotEquivOfEq with quotKerEquivOfSurjective
+    exact (Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦsurj)
 
 end Helpers
 
