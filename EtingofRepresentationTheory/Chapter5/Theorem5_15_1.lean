@@ -341,9 +341,52 @@ for distinct partitions are non-isomorphic, their isotypic components are distin
 (when nonzero) and hence disjoint. -/
 private theorem isotypicComponent_disjoint_of_ne (n : ℕ) (mu : Nat.Partition n)
     (nu₁ nu₂ : Nat.Partition n) (hne : nu₁ ≠ nu₂) :
-    Disjoint (isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu₁))
-             (isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu₂)) := by
-  sorry
+    Disjoint
+      (isotypicComponent (SymGroupAlgebra n)
+        (PermutationModule n mu) (SpechtModule n nu₁))
+      (isotypicComponent (SymGroupAlgebra n)
+        (PermutationModule n mu) (SpechtModule n nu₂)) := by
+  -- The intersection is a submodule of the semisimple PermutationModule,
+  -- hence semisimple. If nonzero, it contains a simple submodule S.
+  -- S ≤ isotypicComponent for nu₁ implies S ≃ SpechtModule nu₁.
+  -- S ≤ isotypicComponent for nu₂ implies S ≃ SpechtModule nu₂.
+  -- But SpechtModule nu₁ ≇ SpechtModule nu₂, contradiction.
+  rw [disjoint_iff]
+  set I := isotypicComponent (SymGroupAlgebra n)
+    (PermutationModule n mu) (SpechtModule n nu₁) ⊓
+    isotypicComponent (SymGroupAlgebra n)
+    (PermutationModule n mu) (SpechtModule n nu₂)
+  -- I is a submodule of a semisimple module, hence semisimple
+  haveI : IsSemisimpleModule (SymGroupAlgebra n) I :=
+    IsSemisimpleModule.of_injective
+      (Submodule.inclusion inf_le_left) (Submodule.inclusion_injective _)
+  -- Either I = ⊥ or I contains a simple submodule
+  rcases IsSemisimpleModule.eq_bot_or_exists_simple_le I with h | ⟨S, hS_le, hS_simple⟩
+  · exact h
+  · exfalso
+    -- S ≤ I ≤ isotypicComponent for nu₁
+    have hS_le₁ : S ≤ isotypicComponent (SymGroupAlgebra n)
+        (PermutationModule n mu) (SpechtModule n nu₁) :=
+      hS_le.trans inf_le_left
+    -- S ≤ I ≤ isotypicComponent for nu₂
+    have hS_le₂ : S ≤ isotypicComponent (SymGroupAlgebra n)
+        (PermutationModule n mu) (SpechtModule n nu₂) :=
+      hS_le.trans inf_le_right
+    -- By IsIsotypicOfType, S ≃ SpechtModule nu₁
+    haveI := hS_simple
+    haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu₁) :=
+      Theorem5_12_2_irreducible n nu₁
+    haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n nu₂) :=
+      Theorem5_12_2_irreducible n nu₂
+    have h₁ := isIsotypicOfType_submodule_iff.mp
+      (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n)
+        (PermutationModule n mu) (SpechtModule n nu₁)) S hS_le₁
+    have h₂ := isIsotypicOfType_submodule_iff.mp
+      (IsIsotypicOfType.isotypicComponent (SymGroupAlgebra n)
+        (PermutationModule n mu) (SpechtModule n nu₂)) S hS_le₂
+    obtain ⟨e₁⟩ := h₁
+    obtain ⟨e₂⟩ := h₂
+    exact (spechtModule_noniso n nu₁ nu₂ hne).false (e₁.symm.trans e₂)
 
 /-- The isotypic components indexed by partitions span the entire module (as `SymGroupAlgebra n`-submodules).
 This follows from the classification: every simple `SymGroupAlgebra n`-module is isomorphic to
@@ -419,6 +462,30 @@ instance permModuleIsotypicComponent_free (n : ℕ) (mu nu : Nat.Partition n) :
     Module.Free ℂ (permModuleIsotypicComponent n mu nu) :=
   inferInstance
 
+/-- The isotypic component for `V_ν` in `U_μ` is isomorphic (as `ℂ`-vector space)
+to `Fin m → V_ν` where `m = spechtMultiplicity n mu nu`. This is the structural
+decomposition of the isotypic component as a direct sum of copies of the simple module. -/
+theorem isotypicComponent_linearEquiv_fun (n : ℕ) (mu nu : Nat.Partition n) :
+    Nonempty (↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
+      (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) := by
+  sorry
+
+/-- On the isotypic component `V_ν^{⊕m}`, any `SymGroupAlgebra n`-endomorphism acts
+diagonally: the same endomorphism on each copy. In particular, for the permutation
+action `σ`, the restricted endomorphism is conjugate (via the isotypic decomposition)
+to the diagonal map `(σ|_{V_ν}, ..., σ|_{V_ν})`.
+
+This gives: `trace(σ|_{C_ν}) = m · trace(σ|_{V_ν})`. -/
+theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n))
+    (e : ↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
+      (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) :
+    LinearMap.trace ℂ _ ((permModuleEndomorphism n mu σ).restrict
+      (permModuleEndomorphism_mapsTo_isotypic n mu σ nu)) =
+    (spechtMultiplicity n mu nu : ℂ) * LinearMap.trace ℂ _
+      (spechtModuleAction n nu σ) := by
+  sorry
+
 /-- The trace of `σ` restricted to the isotypic component of type `V_ν` equals
 `m(μ,ν) · χ_{V_ν}(σ)` where `m(μ,ν) = spechtMultiplicity n mu nu`.
 
@@ -431,7 +498,10 @@ theorem trace_isotypic_eq_mult_character (n : ℕ) (mu nu : Nat.Partition n)
     LinearMap.trace ℂ _ ((permModuleEndomorphism n mu σ).restrict
       (permModuleEndomorphism_mapsTo_isotypic n mu σ nu)) =
     (spechtMultiplicity n mu nu : ℂ) * spechtModuleCharacter n nu σ := by
-  sorry
+  obtain ⟨e⟩ := isotypicComponent_linearEquiv_fun n mu nu
+  rw [trace_isotypic_eq_mult_trace n mu nu σ e]
+  -- spechtModuleCharacter = trace of spechtModuleAction by definition
+  rfl
 
 /-! ### Young's Rule (character decomposition)
 
