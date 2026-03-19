@@ -697,6 +697,20 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 **Status:** Documented in detail above (Type-Level If/Else Diamond Issue). The workaround is to sorry the `instModule` field. Don't attempt to solve the diamond — it requires a structural refactor.
 
+## Section Variable Gotchas for Test Files
+
+When prototyping lemmas in `/tmp/test_*.lean` before integrating into a section:
+
+1. **Explicit section variables become explicit parameters.** If the section has `variable (n : ℕ)` (explicit), the generated lemma takes `n` as its first explicit argument. Calling `my_lemma hn` passes `hn` as `n`, not as the hypothesis. Fix: pass `n` explicitly too: `my_lemma n hn`.
+
+2. **`Finset.univ.card` vs `Fintype.card`.** Inside a section, `Finset.card_erase_of_mem` produces `Finset.univ.card - 1`, not `Fintype.card (Fin n) - 1`. You need an extra `Finset.card_univ` rewrite step that isn't needed in standalone files.
+
+3. **`Finset.mem_erase` normalization differs.** In-section, `simp [Finset.mem_erase, Finset.mem_univ]` may produce `¬x = i ∧ True` (needing `and_true`) instead of the clean `x ≠ i` you get standalone. Use `by_cases` instead of `split_ifs` when the condition form is uncertain.
+
+4. **`subst` eliminates the substituted variable.** After `obtain ⟨i, hi⟩` and then `intro hxi; subst hxi` where `hxi : x = i`, the variable `i` may be eliminated. Subsequent `have : i ∈ ...` fails. Fix: use `intro hxi` without `subst` and pass `hxi` directly.
+
+**Best practice:** Always build the actual file after integrating test code. Don't assume a standalone test guarantees in-section success.
+
 ## Common Failure Modes
 
 From Phase 2 review patterns and Stage 3.2 proof experience (90+ merged PRs through wave 14):
