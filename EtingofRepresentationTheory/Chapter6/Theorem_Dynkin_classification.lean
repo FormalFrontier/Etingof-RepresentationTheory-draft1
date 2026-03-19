@@ -1211,16 +1211,39 @@ private lemma subgraph_contradiction {n m : ℕ} {adj : Matrix (Fin n) (Fin n) �
   -- w(j) = 0 for j ∉ image(φ)
   have hw_zero : ∀ j, (∀ i, φ i ≠ j) → w j = 0 := by
     intro j hj; simp only [w, show ¬∃ i, φ i = j from fun ⟨i, hi⟩ => hj i hi, dite_false]
+  -- Helper: reindex sums from Fin n to Fin m since w vanishes outside image(φ)
+  have sum_reindex : ∀ g : Fin n → ℤ, ∑ a : Fin n, w a * g a = ∑ i : Fin m, v i * g (φ i) := by
+    intro g
+    -- Split sum into image(φ) and its complement
+    set S := Finset.univ.image φ with hS_def
+    have hsplit := Finset.sum_filter_add_sum_filter_not (s := Finset.univ)
+      (p := fun a => a ∈ S) (f := fun a => w a * g a)
+    rw [← hsplit]
+    -- Complement sum is 0 (w vanishes outside image)
+    have hcomp : ∑ a ∈ Finset.univ.filter (fun a => a ∉ S), w a * g a = 0 := by
+      apply Finset.sum_eq_zero; intro a ha
+      have ha' : a ∉ S := (Finset.mem_filter.mp ha).2
+      have : w a = 0 := hw_zero a fun i hi =>
+        ha' (Finset.mem_image.mpr ⟨i, Finset.mem_univ _, hi⟩)
+      rw [this, zero_mul]
+    rw [hcomp, add_zero]
+    -- The image sum equals the reindexed sum via Finset.sum_image
+    have hfilter_eq : Finset.univ.filter (· ∈ S) = S := by
+      ext a; simp [S, Finset.mem_image]
+    rw [hfilter_eq]
+    rw [Finset.sum_image (fun i _ j _ h => φ.injective h)]
+    apply Finset.sum_congr rfl; intro i _
+    rw [hw_phi]
   have hle : dotProduct w ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec w) ≤
       dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) := by
-    -- Proof outline:
-    -- 1. Reindex B_adj(w,w) to sum over Fin m × Fin m (w vanishes outside image(φ))
-    --    B_adj(w,w) = Σ_{i,j:Fin m} (2δ_{i,j} - adj(φ(i),φ(j))) · v(i) · v(j)
-    -- 2. Compare term-by-term with B_sub(v,v):
-    --    Difference = Σ_{i,j} (adj_sub(i,j) - adj(φ(i),φ(j))) · v(i) · v(j)
-    -- 3. Each term ≤ 0 because:
-    --    - v(i)·v(j) ≥ 0 (all non-negative)
-    --    - adj(φ(i),φ(j)) ≥ adj_sub(i,j) (from hembed for adj_sub=1; adj ≥ 0 otherwise)
+    -- Proof strategy (sum reindexing + term-by-term comparison):
+    -- Step 1: Since w vanishes outside image(φ), reindex B_adj(w,w) as:
+    --   B_adj(w,w) = Σ_{i,j:Fin m} (2δ_{i,j} - adj(φ i, φ j)) · v(i) · v(j)
+    -- (Use sum_reindex twice, once for outer and once for inner sum, plus φ.injective for δ)
+    -- Step 2: Compare term-by-term with B_sub(v,v):
+    --   Each difference term is (adj_sub(i,j) - adj(φ i, φ j)) · v(i) · v(j) ≤ 0
+    --   because v(i)·v(j) ≥ 0 and adj(φ i, φ j) ≥ adj_sub(i,j)
+    --   (adj_sub = 1 → adj(φ) = 1 by hembed; adj_sub = 0 → adj(φ) ≥ 0)
     sorry
   linarith [hpos w hw_ne]
 
