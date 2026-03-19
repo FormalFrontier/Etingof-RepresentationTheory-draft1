@@ -9,6 +9,7 @@ import Mathlib.RingTheory.SimpleModule.WedderburnArtin
 import Mathlib.RingTheory.Idempotents
 import Mathlib.RingTheory.HopkinsLevitzki
 import Mathlib.FieldTheory.IsAlgClosed.Basic
+import Mathlib.RingTheory.SimpleModule.IsAlgClosed
 
 /-!
 # Theorem 9.2.1: Classification of indecomposable projective modules
@@ -61,6 +62,36 @@ The proof of Theorem 9.2.1(i) proceeds by:
 -/
 
 namespace Etingof.Theorem921
+
+section MatrixIdempotents
+
+variable {R : Type*} [CommSemiring R]
+
+/-- The diagonal matrix E₁₁ = Matrix.single 0 0 1 is idempotent in Mat_n(R). -/
+lemma matrix_single_zero_isIdempotentElem {ι : Type*} [DecidableEq ι] [Fintype ι]
+    (i₀ : ι) :
+    IsIdempotentElem (Matrix.single i₀ i₀ (1 : R)) := by
+  unfold IsIdempotentElem
+  rw [Matrix.single_mul_single_same]
+  simp
+
+/-- In a product of semirings, the family `i ↦ Pi.single i (e i)` where each `e i`
+is idempotent gives orthogonal idempotents. -/
+lemma orthogonalIdempotents_pi_single {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (S : ι → Type*) [∀ i, Semiring (S i)]
+    (e : ∀ i, S i) (he : ∀ i, IsIdempotentElem (e i)) :
+    OrthogonalIdempotents (fun i => (Pi.single i (e i) : ∀ j, S j)) := by
+  constructor
+  · intro i
+    simp only [IsIdempotentElem, ← Pi.single_mul]
+    congr 1; exact he i
+  · intro i j hij
+    ext l
+    by_cases hi : i = l
+    · subst hi; simp [hij]
+    · simp [hi]
+
+end MatrixIdempotents
 
 /-- The k-linear endomorphism `m ↦ a • m` on an A-module M. -/
 noncomputable def smulEnd (M : Type*) [AddCommGroup M] [Module A M] [Module k M]
@@ -115,10 +146,110 @@ lemma exists_orthogonal_idempotents_for_simples
   -- Step 2: Jacobson radical annihilates simple modules
   have hann : ∀ i, Ring.jacobson A ≤ Module.annihilator A (M i) :=
     fun i => IsSemisimpleModule.jacobson_le_annihilator A (M i)
-  -- Step 3-6: Construction of orthogonal idempotents with rank-1 action
-  -- This requires the full Wedderburn-Artin decomposition of A/Rad(A) ≅ ∏ End_k(M_i),
-  -- extracting E₁₁ diagonal idempotents from each block, and lifting via Corollary 9.1.3.
-  -- The rank-1 property uses IsAlgClosed to ensure End_A(M_i) = k.
+  -- Step 3: Construct orthogonal idempotents ebar in A/J with the rank property
+  -- This is the core construction using Wedderburn-Artin decomposition of A/J.
+  -- A/J is semisimple and finite-dimensional over algebraically closed k, so
+  -- A/J ≅ ∏ Mat_{dᵢ}(k). Each simple A-module (with J acting as 0) corresponds
+  -- to exactly one block. Picking E₁₁ in each block gives orthogonal idempotents
+  -- with rank-1 action on the corresponding simple module.
+  -- The smulRange is computed using the A-action, but since J ≤ ann(Mⱼ),
+  -- the action of a ∈ A on Mⱼ depends only on the image of a in A/J.
+  -- Key fact: elements in the same coset of A/J act identically on simple modules
+  have hsmul_eq : ∀ (a a' : A) (j : ι) (m : M j),
+      Ideal.Quotient.mk (Ring.jacobson A) a = Ideal.Quotient.mk (Ring.jacobson A) a' →
+      a • m = a' • m := by
+    intro a a' j m hq
+    have hmem : a - a' ∈ Ring.jacobson A := Ideal.Quotient.eq.mp hq
+    have h0 := Module.mem_annihilator.mp (hann j hmem) m
+    rwa [sub_smul, sub_eq_zero] at h0
+  -- Corollary: smulRange depends only on the A/J-image
+  have hsmulRange_eq : ∀ (a a' : A) (j : ι),
+      Ideal.Quotient.mk (Ring.jacobson A) a = Ideal.Quotient.mk (Ring.jacobson A) a' →
+      smulRange (k := k) (A := A) (M j) a = smulRange (k := k) (A := A) (M j) a' := by
+    intro a a' j hq
+    have : smulEnd (k := k) (A := A) (M j) a = smulEnd (k := k) (A := A) (M j) a' := by
+      ext m; exact hsmul_eq a a' j m hq
+    simp only [smulRange, this]
+  -- Step 3: Construct orthogonal idempotents in A/J with rank property,
+  -- then lift to A. The rank property is stated in terms of the A-action,
+  -- but depends only on the A/J-image (by hsmulRange_eq).
+  --
+  -- We use `suffices` to separate the WA-based construction from the lifting.
+  let π := Ideal.Quotient.mk (Ring.jacobson A)
+  suffices ∃ (ebar : ι → A ⧸ Ring.jacobson A),
+      OrthogonalIdempotents ebar ∧
+      ∀ i j (a : A), π a = ebar i →
+        Module.finrank k (smulRange (k := k) (A := A) (M j) a) =
+          if i = j then 1 else 0 by
+    -- Unpack the construction in A/J
+    obtain ⟨ebar, hebar_orth, hebar_rank⟩ := this
+    -- Kernel of π = J is nilpotent (A is semiprimary)
+    have hker : ∀ x ∈ RingHom.ker π, IsNilpotent x := by
+      intro x hx
+      rw [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem] at hx
+      obtain ⟨n, hn⟩ := hnil
+      exact ⟨n, by
+        have := Ideal.pow_mem_pow hx n
+        rw [hn] at this
+        exact Ideal.mem_bot.mp this⟩
+    -- All ebar_i are in range of π (π is surjective)
+    have hebar_range : ∀ i, ebar i ∈ π.range :=
+      fun i => Ideal.Quotient.mk_surjective (ebar i)
+    -- Lift orthogonal idempotents from A/J to A
+    obtain ⟨e, he_orth, he_lift⟩ :=
+      OrthogonalIdempotents.lift_of_isNilpotent_ker π hker hebar_orth hebar_range
+    -- The lifted idempotents satisfy all properties
+    refine ⟨e, he_orth.idem, fun i j hij => he_orth.ortho hij, fun i j => ?_⟩
+    -- Rank property: π(e i) = ebar i, so smulRange for e i = smulRange for ebar i
+    exact hebar_rank i j (e i) (congr_fun he_lift i)
+  -- Now prove: ∃ orthogonal idempotents in A/J with the rank-1 action property.
+  -- Step A: Wedderburn-Artin decomposition of A/J
+  haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
+  obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
+  -- Step B: Block-module correspondence (sorry'd)
+  -- For each simple A-module M_i (with J acting as 0), there is a unique WA block σ(i)
+  -- such that the σ(i)-th block acts nontrivially on M_i. Non-isomorphic modules map
+  -- to different blocks (σ is injective).
+  -- Additionally, the rank-1 property holds: E₁₁ in the σ(i)-th block acts on M_j
+  -- with rank δ_{ij} (via the A-action, using J ≤ ann(M_j) so the action factors
+  -- through A/J ≅ ∏ Mat(k)).
+  --
+  -- This requires infrastructure not currently available:
+  -- (i) Module structure on M_j over A/J (from J ≤ ann(M_j)) — available via
+  --     Module.IsTorsionBySet.module from Mathlib
+  -- (ii) Module structure over the product ∏ Mat_{dⱼ}(k) via the WA equivalence
+  -- (iii) Classification of simple modules over ∏ Mat_{dⱼ}(k): each simple module
+  --       is concentrated in one block, and Mat_n(k) has a unique simple module
+  -- (iv) E₁₁ acts on the standard representation with rank 1
+  -- (v) Non-isomorphic A-simples correspond to different blocks
+  suffices ∃ (σ : ι → Fin n),
+      Function.Injective σ ∧
+      ∀ i j (a : A), π a = WA.symm
+          (Pi.single (σ i)
+            (Matrix.single (0 : Fin (d (σ i))) 0 (1 : k))) →
+        Module.finrank k (smulRange (k := k) (A := A) (M j) a) =
+          if i = j then 1 else 0 by
+    -- Given σ, construct the orthogonal idempotents
+    obtain ⟨σ, hσ_inj, hσ_rank⟩ := this
+    -- Define ebar_i = WA⁻¹(Pi.single (σ i) (E₁₁ in block σ(i)))
+    let ebar : ι → A ⧸ Ring.jacobson A := fun i =>
+      WA.symm (Pi.single (σ i) (Matrix.single (0 : Fin (d (σ i))) 0 (1 : k)))
+    refine ⟨ebar, ?_, fun i j a ha => hσ_rank i j a ha⟩
+    -- Prove OrthogonalIdempotents ebar
+    -- Transport from the product through WA⁻¹
+    have horth_prod : OrthogonalIdempotents
+        (fun i => (Pi.single (σ i) (Matrix.single (0 : Fin (d (σ i))) 0 (1 : k)) :
+          ∀ l, Matrix (Fin (d l)) (Fin (d l)) k)) := by
+      have h_base := orthogonalIdempotents_pi_single
+        (fun l => Matrix (Fin (d l)) (Fin (d l)) k)
+        (fun l => Matrix.single (0 : Fin (d l)) 0 (1 : k))
+        (fun l => matrix_single_zero_isIdempotentElem (0 : Fin (d l)))
+      exact h_base.embedding ⟨σ, hσ_inj⟩
+    -- Map through WA⁻¹ (ring homomorphism)
+    have := horth_prod.map WA.symm.toRingEquiv.toRingHom
+    convert this using 1
+  -- Now only need to prove: ∃ injective σ with the rank property
   sorry
 
 /-- The left ideal A·e for an idempotent e is a projective A-module.
