@@ -1,4 +1,6 @@
 -- Section 2.1: Overview and Classification Theorems
+import EtingofRepresentationTheory.Chapter2.Sl2Defs
+import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 

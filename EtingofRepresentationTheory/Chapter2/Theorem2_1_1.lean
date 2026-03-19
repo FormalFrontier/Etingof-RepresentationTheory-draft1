@@ -1,9 +1,10 @@
-import Mathlib.Algebra.Lie.Classical
 import Mathlib.Algebra.Lie.Semisimple.Defs
 import Mathlib.Algebra.Lie.Sl2
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
+import EtingofRepresentationTheory.Chapter2.Sl2Defs
+import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!
 # Theorem 2.1.1: Classification of irreducible representations of U(sl(2))
@@ -37,9 +38,6 @@ open scoped Matrix
 
 namespace Etingof
 
-/-- The Lie algebra sl(2, ℂ), the traceless 2×2 complex matrices. -/
-abbrev sl2 : LieSubalgebra ℂ (Matrix (Fin 2) (Fin 2) ℂ) := LieAlgebra.SpecialLinear.sl (Fin 2) ℂ
-
 /-- Part (i): For each positive integer d, there is exactly one irreducible representation
 of sl(2, ℂ) of dimension d, up to isomorphism.
 (Etingof Theorem 2.1.1(i)) -/
@@ -53,7 +51,17 @@ theorem Theorem_2_1_1_i (d : ℕ+) :
        [AddCommGroup W] [Module ℂ W] [LieRingModule sl2 W] [LieModule ℂ sl2 W],
        Module.finrank ℂ V = d → LieModule.IsIrreducible ℂ sl2 V →
        Module.finrank ℂ W = d → LieModule.IsIrreducible ℂ sl2 W →
-       Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W)) := sorry
+       Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W)) := by
+  constructor
+  · -- Existence: use the d-dimensional representation from Sl2Irrep
+    have hd : NeZero (d : ℕ) := ⟨PNat.ne_zero d⟩
+    exact ⟨Fin d → ℂ, inferInstance, inferInstance,
+      Sl2Irrep.irrepLieRingModule d, Sl2Irrep.irrepLieModule d,
+      Sl2Irrep.irrep_finrank d, Sl2Irrep.irrep_isIrreducible d⟩
+  · -- Uniqueness: any two irreducible sl(2)-representations of the same dimension
+    -- are isomorphic. This requires highest weight theory for sl(2), which is not
+    -- yet in Mathlib.
+    sorry
 
 /-- Part (ii): Any finite-dimensional representation of sl(2, ℂ) is completely reducible.
 Every Lie submodule has a complementary Lie submodule, i.e., the lattice of Lie submodules
