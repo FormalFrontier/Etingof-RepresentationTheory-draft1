@@ -65,6 +65,27 @@ The proof of Theorem 9.2.1(i) proceeds by:
 
 namespace Etingof.Theorem921
 
+/-- Over a simple artinian ring, any two simple modules are isomorphic.
+This follows from `IsSimpleRing.isIsotypic`: all simple submodules of any module
+are isomorphic, applied to the direct product M × N. -/
+theorem IsSimpleRing.nonempty_linearEquiv_of_isSimpleModule
+    {R : Type*} [Ring R] [IsSimpleRing R] [IsArtinianRing R]
+    {M N : Type*} [AddCommGroup M] [Module R M] [IsSimpleModule R M]
+    [AddCommGroup N] [Module R N] [IsSimpleModule R N] :
+    Nonempty (M ≃ₗ[R] N) := by
+  -- Embed M and N as simple submodules of M × N
+  let eM := LinearEquiv.ofInjective (LinearMap.inl R M N) LinearMap.inl_injective
+  let eN := LinearEquiv.ofInjective (LinearMap.inr R M N) LinearMap.inr_injective
+  haveI : IsSimpleModule R (LinearMap.range (LinearMap.inl R M N)) :=
+    IsSimpleModule.congr eM.symm
+  haveI : IsSimpleModule R (LinearMap.range (LinearMap.inr R M N)) :=
+    IsSimpleModule.congr eN.symm
+  -- By isIsotypic, all simple submodules of M × N are isomorphic
+  have hiso := IsSimpleRing.isIsotypic R (M × N)
+    (LinearMap.range (LinearMap.inl R M N))
+  obtain ⟨f⟩ := hiso (LinearMap.range (LinearMap.inr R M N))
+  exact ⟨eM.trans (f.symm.trans eN.symm)⟩
+
 section MatrixIdempotents
 
 variable {R : Type*} [CommSemiring R]
@@ -491,15 +512,13 @@ lemma exists_orthogonal_idempotents_for_simples
   have hσ_inj : Function.Injective σ := by
     intro i j hij
     apply hM i j
-    -- σ(i) = σ(j) = l. Both M_i and M_j have c_l acting as identity and other blocks
-    -- acting as 0. The A-action on both factors through block l of the WA decomposition.
-    -- Since Mat_{d_l}(k) is a simple ring, all its simple modules are isomorphic
-    -- (IsSimpleRing.isIsotypic). So M_i ≅ M_j as A-modules.
-    --
-    -- To formalize: construct Module (Mat_{d_l}(k)) (M_i) manually (Pi.single l is
-    -- not a ring hom, so Module.compHom doesn't apply), show it's simple, use
-    -- exists_linearEquiv_ideal + IsSimpleRing.isIsotypic to get Mat-isomorphism,
-    -- then show it's A-linear (since A acts through block l on both modules).
+    -- Strategy: Both M_i and M_j are simple A-modules annihilated by Rad(A).
+    -- Since σ(i) = σ(j), both live in the same block l of A/Rad(A) ≅ ∏ Mat_{d_l}(k).
+    -- Construct Module (Mat_{d_l}(k)) structures on both via the block action
+    -- (Pi.single l mat lifts to an element whose action on M_p uses hc_identity/hc_zero).
+    -- Mat_{d_l}(k) is simple + artinian, so by IsSimpleRing.nonempty_linearEquiv_of_isSimpleModule,
+    -- M_i ≃ M_j as Mat-modules. The A-linearity follows since the A-action factors through
+    -- the block. See IsSimpleRing.nonempty_linearEquiv_of_isSimpleModule helper lemma above.
     sorry
   -- Sub-lemma: rank property
   have hrank : ∀ i j (a : A), π a = WA.symm
