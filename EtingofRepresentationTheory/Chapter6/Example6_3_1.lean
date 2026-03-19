@@ -460,8 +460,8 @@ private lemma comap_isCompl_of_surj_inj {k : Type*} [Field k]
     obtain ⟨x₁, hx₁⟩ := hA_surj' yp
     obtain ⟨x₂, hx₂⟩ := hA_surj' yq
     have : x = x₁ + x₂ := hA_inj (by rw [map_add, hx₁, hx₂, heq])
-    exact ⟨x₁, by change A x₁ ∈ p; rw [hx₁]; exact hyp,
-           x₂, by change A x₂ ∈ q; rw [hx₂]; exact hyq, this.symm⟩
+    exact ⟨x₁, by rw [show A x₁ = yp from hx₁]; exact hyp,
+           x₂, by rw [show A x₂ = yq from hx₂]; exact hyq, this.symm⟩
 
 -- Two distinct 1-dim submodules in a 2-dim space are complementary.
 private lemma isCompl_of_finrank_one_ne {k : Type*} [Field k]
@@ -601,6 +601,295 @@ private lemma build_arm_decomp {k : Type*} [Field k]
   · exact ⟨⊥, ⊤, isCompl_bot_top,
       fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _,
       fun x _ => hle (LinearMap.mem_range.mpr ⟨x, rfl⟩)⟩
+
+private lemma arm_isCompl_aux {k : Type*} [Field k] {W : Type*} [AddCommGroup W] [Module k W]
+    {V' : Type*} [AddCommGroup V'] [Module k V'] [FiniteDimensional k V']
+    (p q : Submodule k W) (hpq : IsCompl p q)
+    (A : V' →ₗ[k] W) (hA_inj : Function.Injective A)
+    (R : Submodule k W) (hR_eq : LinearMap.range A = R)
+    (hR_split : ∀ x ∈ R, ∃ a ∈ R, ∃ b ∈ R, a ∈ p ∧ b ∈ q ∧ a + b = x) :
+    IsCompl (Submodule.comap A p) (Submodule.comap A q) ∧
+      (∀ x ∈ Submodule.comap A p, A x ∈ p) ∧
+      (∀ x ∈ Submodule.comap A q, A x ∈ q) := by
+  refine ⟨⟨?_, ?_⟩, fun x hx => hx, fun x hx => hx⟩
+  · rw [Submodule.disjoint_def]
+    intro x hxp hxq
+    have : A x ∈ p ⊓ q := ⟨hxp, hxq⟩
+    rw [hpq.inf_eq_bot, Submodule.mem_bot] at this
+    exact hA_inj (this.trans (map_zero _).symm)
+  · rw [codisjoint_iff, Submodule.eq_top_iff']
+    intro x
+    have hAx_mem : A x ∈ R := hR_eq ▸ LinearMap.mem_range.mpr ⟨x, rfl⟩
+    obtain ⟨a, ha_R, b, hb_R, ha_p, hb_q, hab⟩ := hR_split (A x) hAx_mem
+    obtain ⟨a', rfl⟩ := LinearMap.mem_range.mp (hR_eq ▸ ha_R)
+    obtain ⟨b', rfl⟩ := LinearMap.mem_range.mp (hR_eq ▸ hb_R)
+    have : x = a' + b' := hA_inj (by rw [map_add, hab])
+    rw [this]
+    exact Submodule.add_mem_sup (Submodule.mem_comap.mpr ha_p) (Submodule.mem_comap.mpr hb_q)
+
+-- When all pairwise intersections are trivial and each Rᵢ ≤ Rⱼ ⊔ Rₖ,
+-- dim V = 2n with n ≥ 2 and the rep decomposes (graph of isomorphism argument).
+private lemma decomp_all_pairwise_compl {k : Type*} [Field k] (ρ : D₄Rep k)
+    (hind : ρ.Indecomposable)
+    (hA₁ : LinearMap.ker ρ.A₁ = ⊥) (hA₂ : LinearMap.ker ρ.A₂ = ⊥)
+    (hA₃ : LinearMap.ker ρ.A₃ = ⊥)
+    (hR : LinearMap.range ρ.A₁ ⊔ LinearMap.range ρ.A₂ ⊔ LinearMap.range ρ.A₃ = ⊤)
+    (hV : Module.finrank k ρ.V ≥ 3)
+    (h₁₂ : LinearMap.range ρ.A₁ ⊓ LinearMap.range ρ.A₂ = ⊥)
+    (h₁₃ : LinearMap.range ρ.A₁ ⊓ LinearMap.range ρ.A₃ = ⊥)
+    (h₂₃ : LinearMap.range ρ.A₂ ⊓ LinearMap.range ρ.A₃ = ⊥)
+    (hR1_le : LinearMap.range ρ.A₁ ≤ LinearMap.range ρ.A₂ ⊔ LinearMap.range ρ.A₃)
+    (hR2_le : LinearMap.range ρ.A₂ ≤ LinearMap.range ρ.A₁ ⊔ LinearMap.range ρ.A₃)
+    (hR3_le : LinearMap.range ρ.A₃ ≤ LinearMap.range ρ.A₁ ⊔ LinearMap.range ρ.A₂) :
+    False := by
+  set R₁ := LinearMap.range ρ.A₁
+  set R₂ := LinearMap.range ρ.A₂
+  set R₃ := LinearMap.range ρ.A₃
+  have hinj₁ := LinearMap.ker_eq_bot.mp hA₁
+  have hinj₂ := LinearMap.ker_eq_bot.mp hA₂
+  have hinj₃ := LinearMap.ker_eq_bot.mp hA₃
+  -- All pairwise IsCompl
+  have h12_top : R₁ ⊔ R₂ = ⊤ :=
+    eq_top_iff.mpr (hR ▸ sup_le le_rfl (hR3_le.trans le_rfl))
+  have hc12 : IsCompl R₁ R₂ := IsCompl.of_eq (disjoint_iff.mp (disjoint_iff.mpr h₁₂)) h12_top
+  have h13_top : R₁ ⊔ R₃ = ⊤ := by
+    have h1 : R₁ ⊔ R₂ ≤ R₁ ⊔ R₃ := sup_le le_sup_left hR2_le
+    exact eq_top_iff.mpr (hR ▸ (sup_le_sup_right h1 _).trans
+      (by rw [sup_assoc, sup_idem] : (R₁ ⊔ R₃) ⊔ R₃ ≤ R₁ ⊔ R₃))
+  have hc13 : IsCompl R₁ R₃ :=
+    IsCompl.of_eq (disjoint_iff.mp (disjoint_iff.mpr h₁₃)) h13_top
+  have h23_top : R₂ ⊔ R₃ = ⊤ := by
+    have h1 : R₁ ⊔ R₂ ≤ R₂ ⊔ R₃ := sup_le hR1_le le_sup_left
+    exact eq_top_iff.mpr (hR ▸ (sup_le_sup_right h1 _).trans
+      (by rw [sup_assoc, sup_idem] : (R₂ ⊔ R₃) ⊔ R₃ ≤ R₂ ⊔ R₃))
+  have hc23 : IsCompl R₂ R₃ :=
+    IsCompl.of_eq (disjoint_iff.mp (disjoint_iff.mpr h₂₃)) h23_top
+  -- dim V = 2n, n = dim R₁ = dim R₂ = dim R₃ ≥ 2
+  have hdim12 := Submodule.finrank_add_eq_of_isCompl hc12
+  have hdim13 := Submodule.finrank_add_eq_of_isCompl hc13
+  have hdim23 := Submodule.finrank_add_eq_of_isCompl hc23
+  have hfr₁ := LinearMap.finrank_range_of_inj hinj₁
+  have hfr₂ := LinearMap.finrank_range_of_inj hinj₂
+  have hfr₃ := LinearMap.finrank_range_of_inj hinj₃
+  have hn_ge : Module.finrank k ↥R₁ ≥ 2 := by omega
+  -- Projections from V = R₁ ⊕ R₂
+  let π₁ := Submodule.linearProjOfIsCompl R₁ R₂ hc12
+  let π₂ := Submodule.linearProjOfIsCompl R₂ R₁ hc12.symm
+  -- Key property: v = R₁.subtype(π₁ v) + R₂.subtype(π₂ v)
+  have decomp_v : ∀ v : ρ.V,
+      v = R₁.subtype (π₁ v) + R₂.subtype (π₂ v) :=
+    fun v => (Submodule.IsCompl.projection_add_projection_eq_self hc12 v).symm
+  -- Helper: for v ∈ R₁, π₁(v) = ⟨v, _⟩ and π₂(v) = 0
+  have π₁_on_R₁ : ∀ (v : ↥R₁), π₁ (R₁.subtype v) = v :=
+    Submodule.linearProjOfIsCompl_apply_left hc12
+  have π₂_on_R₁ : ∀ (v : ↥R₁), π₂ (R₁.subtype v) = 0 := fun v => by
+    have : R₁.subtype v ∈ LinearMap.ker π₂ := by
+      rw [Submodule.linearProjOfIsCompl_ker hc12.symm]; exact v.2
+    exact LinearMap.mem_ker.mp this
+  -- Helper: for v ∈ R₂, π₁(v) = 0 and π₂(v) = ⟨v, _⟩
+  have π₁_on_R₂ : ∀ (v : ↥R₂), π₁ (R₂.subtype v) = 0 := fun v => by
+    have : R₂.subtype v ∈ LinearMap.ker π₁ := by
+      rw [Submodule.linearProjOfIsCompl_ker hc12]; exact v.2
+    exact LinearMap.mem_ker.mp this
+  have π₂_on_R₂ : ∀ (v : ↥R₂), π₂ (R₂.subtype v) = v :=
+    Submodule.linearProjOfIsCompl_apply_left hc12.symm
+  -- π₁ ∘ ι₃ : R₃ → R₁ is injective
+  have hπ₁ι₃_inj : Function.Injective (π₁.comp R₃.subtype) := by
+    intro ⟨a, ha⟩ ⟨b, hb⟩ heq
+    ext
+    have h_diff_R3 : a - b ∈ R₃ := R₃.sub_mem ha hb
+    have h_ker : a - b ∈ LinearMap.ker π₁ := by
+      rw [LinearMap.mem_ker, map_sub, sub_eq_zero]
+      exact heq
+    rw [Submodule.linearProjOfIsCompl_ker hc12] at h_ker
+    have : a - b ∈ R₂ ⊓ R₃ := ⟨h_ker, h_diff_R3⟩
+    rw [h₂₃] at this; exact sub_eq_zero.mp ((Submodule.mem_bot k).mp this)
+  have hdim_eq3_1 : Module.finrank k ↥R₃ = Module.finrank k ↥R₁ := by omega
+  let e₁ : ↥R₃ ≃ₗ[k] ↥R₁ := LinearEquiv.ofInjectiveOfFinrankEq
+    (π₁.comp R₃.subtype) hπ₁ι₃_inj hdim_eq3_1
+  -- π₂ ∘ ι₃ : R₃ → R₂ is injective
+  have hπ₂ι₃_inj : Function.Injective (π₂.comp R₃.subtype) := by
+    intro ⟨a, ha⟩ ⟨b, hb⟩ heq
+    ext
+    have h_diff_R3 : a - b ∈ R₃ := R₃.sub_mem ha hb
+    have h_ker : a - b ∈ LinearMap.ker π₂ := by
+      rw [LinearMap.mem_ker, map_sub, sub_eq_zero]
+      exact heq
+    rw [Submodule.linearProjOfIsCompl_ker hc12.symm] at h_ker
+    have : a - b ∈ R₁ ⊓ R₃ := ⟨h_ker, h_diff_R3⟩
+    rw [h₁₃] at this; exact sub_eq_zero.mp ((Submodule.mem_bot k).mp this)
+  have hdim_eq3_2 : Module.finrank k ↥R₃ = Module.finrank k ↥R₂ := by omega
+  let e₂ : ↥R₃ ≃ₗ[k] ↥R₂ := LinearEquiv.ofInjectiveOfFinrankEq
+    (π₂.comp R₃.subtype) hπ₂ι₃_inj hdim_eq3_2
+  -- Graph iso A : R₁ ≃ R₂
+  let A_iso : ↥R₁ ≃ₗ[k] ↥R₂ := e₁.symm.trans e₂
+  -- Choose proper nonzero W ≤ R₁ (dim R₁ ≥ 2)
+  have hR₁_ne : R₁ ≠ ⊥ := by intro h; rw [h, finrank_bot] at hn_ge; omega
+  have hR₁_nt : Nontrivial ↥R₁ := by
+    obtain ⟨v, hvm, hv⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hR₁_ne
+    exact ⟨⟨⟨v, hvm⟩, 0, fun h => hv (congr_arg Subtype.val h)⟩⟩
+  obtain ⟨w, hw_ne⟩ := exists_ne (0 : ↥R₁)
+  let W : Submodule k ↥R₁ := Submodule.span k {w}
+  have hW_ne : W ≠ ⊥ := by
+    intro h; exact hw_ne (Submodule.span_singleton_eq_bot.mp h)
+  obtain ⟨W', hWc⟩ := Submodule.exists_isCompl W
+  have hW'_ne : W' ≠ ⊥ := by
+    intro h; have := Submodule.finrank_add_eq_of_isCompl hWc
+    rw [h, finrank_bot, add_zero, finrank_span_singleton hw_ne] at this; omega
+  -- AW = A(W), AW' = A(W')
+  let AW : Submodule k ↥R₂ := Submodule.map A_iso.toLinearMap W
+  let AW' : Submodule k ↥R₂ := Submodule.map A_iso.toLinearMap W'
+  have hAW_isCompl : IsCompl AW AW' := by
+    constructor
+    · rw [disjoint_iff, Submodule.eq_bot_iff]
+      intro x ⟨hx1, hx2⟩
+      obtain ⟨a, ha, rfl⟩ := Submodule.mem_map.mp hx1
+      obtain ⟨b, hb, heq⟩ := Submodule.mem_map.mp hx2
+      have hab : a = b := A_iso.injective (by exact_mod_cast heq.symm)
+      subst hab
+      have : a ∈ W ⊓ W' := ⟨ha, hb⟩
+      rw [hWc.inf_eq_bot, Submodule.mem_bot] at this
+      simp [this]
+    · rw [codisjoint_iff, ← Submodule.map_sup, hWc.sup_eq_top,
+        Submodule.map_top, LinearMap.range_eq_top.mpr A_iso.surjective]
+  -- Membership helpers for p and q
+  have mem_p_of : ∀ v : ρ.V, π₁ v ∈ W → π₂ v ∈ AW → v ∈
+      (Submodule.comap π₁ W ⊓ Submodule.comap π₂ AW : Submodule k ρ.V) :=
+    fun v h1 h2 => ⟨Submodule.mem_comap.mpr h1, Submodule.mem_comap.mpr h2⟩
+  have mem_q_of : ∀ v : ρ.V, π₁ v ∈ W' → π₂ v ∈ AW' → v ∈
+      (Submodule.comap π₁ W' ⊓ Submodule.comap π₂ AW' : Submodule k ρ.V) :=
+    fun v h1 h2 => ⟨Submodule.mem_comap.mpr h1, Submodule.mem_comap.mpr h2⟩
+  -- Central decomposition: p, q defined by projections
+  let p := Submodule.comap π₁ W ⊓ Submodule.comap π₂ AW
+  let q := Submodule.comap π₁ W' ⊓ Submodule.comap π₂ AW'
+  -- p ≠ ⊥: R₁.subtype w ∈ p
+  have hp_ne : p ≠ ⊥ := by
+    intro h
+    have : R₁.subtype w ∈ p :=
+      mem_p_of _ (by rw [π₁_on_R₁]; exact Submodule.mem_span_singleton_self w)
+        (by rw [π₂_on_R₁]; exact AW.zero_mem)
+    rw [h] at this
+    exact hw_ne (by ext; exact (Submodule.mem_bot k).mp this)
+  -- q ≠ ⊥
+  have hq_ne : q ≠ ⊥ := by
+    intro h
+    obtain ⟨w', hw'_mem, hw'_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW'_ne
+    have : R₁.subtype w' ∈ q :=
+      mem_q_of _ (by rw [π₁_on_R₁]; exact hw'_mem) (by rw [π₂_on_R₁]; exact AW'.zero_mem)
+    rw [h] at this
+    exact hw'_ne (by ext; exact (Submodule.mem_bot k).mp this)
+  -- IsCompl p q
+  have hpq : IsCompl p q := by
+    constructor
+    · rw [disjoint_iff, Submodule.eq_bot_iff]
+      intro v hv
+      -- v ∈ p ⊓ q means v ∈ p and v ∈ q
+      -- p = comap π₁ W ⊓ comap π₂ AW, q = comap π₁ W' ⊓ comap π₂ AW'
+      have hvp := (Submodule.mem_inf.mp hv).1
+      have hvq := (Submodule.mem_inf.mp hv).2
+      have hv1 : π₁ v ∈ W := (Submodule.mem_inf.mp hvp).1
+      have hv2 : π₂ v ∈ AW := (Submodule.mem_inf.mp hvp).2
+      have hv3 : π₁ v ∈ W' := (Submodule.mem_inf.mp hvq).1
+      have hv4 : π₂ v ∈ AW' := (Submodule.mem_inf.mp hvq).2
+      have h1 : π₁ v ∈ W ⊓ W' := ⟨hv1, hv3⟩
+      rw [hWc.inf_eq_bot, Submodule.mem_bot] at h1
+      have h2 : π₂ v ∈ AW ⊓ AW' := ⟨hv2, hv4⟩
+      rw [hAW_isCompl.inf_eq_bot, Submodule.mem_bot] at h2
+      have := decomp_v v
+      rw [h1, h2, map_zero, map_zero, add_zero] at this
+      exact this
+    · rw [codisjoint_iff, Submodule.eq_top_iff']
+      intro v
+      obtain ⟨w₁, hw₁, w₁', hw₁', hww⟩ := Submodule.mem_sup.mp
+        (show π₁ v ∈ W ⊔ W' from hWc.sup_eq_top ▸ Submodule.mem_top)
+      obtain ⟨a₁, ha₁, a₁', ha₁', haa⟩ := Submodule.mem_sup.mp
+        (show π₂ v ∈ AW ⊔ AW' from hAW_isCompl.sup_eq_top ▸ Submodule.mem_top)
+      have hvp : R₁.subtype w₁ + R₂.subtype a₁ ∈ p :=
+        mem_p_of _ (by rw [map_add, π₁_on_R₁, π₁_on_R₂, add_zero]; exact hw₁)
+          (by rw [map_add, π₂_on_R₁, π₂_on_R₂, zero_add]; exact ha₁)
+      have hvq : R₁.subtype w₁' + R₂.subtype a₁' ∈ q :=
+        mem_q_of _ (by rw [map_add, π₁_on_R₁, π₁_on_R₂, add_zero]; exact hw₁')
+          (by rw [map_add, π₂_on_R₁, π₂_on_R₂, zero_add]; exact ha₁')
+      have hsum : R₁.subtype w₁ + R₂.subtype a₁ +
+          (R₁.subtype w₁' + R₂.subtype a₁') = v := by
+        rw [decomp_v v, ← hww, ← haa, map_add, map_add]; abel
+      exact Submodule.mem_sup.mpr ⟨_, hvp, _, hvq, hsum⟩
+  -- Helper: construct arm decomposition via range splitting
+  -- arm_isCompl is now a top-level lemma (arm_isCompl_aux) for universe polymorphism
+  -- Range splitting helper for R₁/R₂ submodules
+  have range_split_R₁ : ∀ x ∈ R₁, ∃ a ∈ R₁, ∃ b ∈ R₁,
+      a ∈ p ∧ b ∈ q ∧ a + b = x := by
+    intro x hx
+    obtain ⟨w₁, hw₁, w₁', hw₁', hww⟩ := Submodule.mem_sup.mp
+      (show (⟨x, hx⟩ : ↥R₁) ∈ W ⊔ W' from hWc.sup_eq_top ▸ Submodule.mem_top)
+    refine ⟨R₁.subtype w₁, w₁.2, R₁.subtype w₁', w₁'.2,
+      mem_p_of _ (by rw [π₁_on_R₁]; exact hw₁) (by rw [π₂_on_R₁]; exact AW.zero_mem),
+      mem_q_of _ (by rw [π₁_on_R₁]; exact hw₁') (by rw [π₂_on_R₁]; exact AW'.zero_mem), ?_⟩
+    have heq : (⟨x, hx⟩ : ↥R₁) = w₁ + w₁' := by
+      ext; simpa using (congr_arg Subtype.val hww).symm
+    calc R₁.subtype w₁ + R₁.subtype w₁' = R₁.subtype (w₁ + w₁') := (map_add _ _ _).symm
+      _ = R₁.subtype ⟨x, hx⟩ := by rw [← heq]
+      _ = x := rfl
+  have range_split_R₂ : ∀ x ∈ R₂, ∃ a ∈ R₂, ∃ b ∈ R₂,
+      a ∈ p ∧ b ∈ q ∧ a + b = x := by
+    intro x hx
+    obtain ⟨a₁, ha₁, a₁', ha₁', haa⟩ := Submodule.mem_sup.mp
+      (show (⟨x, hx⟩ : ↥R₂) ∈ AW ⊔ AW' from hAW_isCompl.sup_eq_top ▸ Submodule.mem_top)
+    refine ⟨R₂.subtype a₁, a₁.2, R₂.subtype a₁', a₁'.2,
+      mem_p_of _ (by rw [π₁_on_R₂]; exact W.zero_mem) (by rw [π₂_on_R₂]; exact ha₁),
+      mem_q_of _ (by rw [π₁_on_R₂]; exact W'.zero_mem) (by rw [π₂_on_R₂]; exact ha₁'), ?_⟩
+    have heq : (⟨x, hx⟩ : ↥R₂) = a₁ + a₁' := by
+      ext; simpa using (congr_arg Subtype.val haa).symm
+    calc R₂.subtype a₁ + R₂.subtype a₁' = R₂.subtype (a₁ + a₁') := (map_add _ _ _).symm
+      _ = R₂.subtype ⟨x, hx⟩ := by rw [← heq]
+      _ = x := rfl
+  -- Range splitting for R₃: v ∈ p iff π₁(v) ∈ W (since π₂ = A_iso ∘ π₁ on R₃)
+  have range_split_R₃ : ∀ x ∈ R₃, ∃ a ∈ R₃, ∃ b ∈ R₃,
+      a ∈ p ∧ b ∈ q ∧ a + b = x := by
+    intro x hx
+    obtain ⟨w₁, hw₁, w₁', hw₁', hww⟩ := Submodule.mem_sup.mp
+      (show π₁ x ∈ W ⊔ W' from hWc.sup_eq_top ▸ Submodule.mem_top)
+    let v₁ := e₁.symm w₁
+    let v₁' := e₁.symm w₁'
+    -- e₁ maps v₁ to w₁
+    have he₁_v₁ : (π₁.comp R₃.subtype) v₁ = w₁ := by
+      change (π₁.comp R₃.subtype) (e₁.symm w₁) = w₁
+      simp [e₁, LinearEquiv.ofInjectiveOfFinrankEq]
+    have he₁_v₁' : (π₁.comp R₃.subtype) v₁' = w₁' := by
+      change (π₁.comp R₃.subtype) (e₁.symm w₁') = w₁'
+      simp [e₁, LinearEquiv.ofInjectiveOfFinrankEq]
+    -- π₂(ι₃(v₁)) = A_iso(w₁) (since A_iso = e₁⁻¹ ∘ e₂, e₂ = π₂ ∘ ι₃)
+    have hπ₂_v₁ : π₂ (R₃.subtype v₁) = A_iso w₁ := by
+      change (π₂.comp R₃.subtype) (e₁.symm w₁) =
+        (e₁.symm.trans e₂) w₁
+      simp [e₁, e₂, LinearEquiv.ofInjectiveOfFinrankEq, LinearEquiv.trans_apply]
+    have hπ₂_v₁' : π₂ (R₃.subtype v₁') = A_iso w₁' := by
+      change (π₂.comp R₃.subtype) (e₁.symm w₁') =
+        (e₁.symm.trans e₂) w₁'
+      simp [e₁, e₂, LinearEquiv.ofInjectiveOfFinrankEq, LinearEquiv.trans_apply]
+    have hv₁_p : (v₁ : ρ.V) ∈ p :=
+      mem_p_of _ (by change (π₁.comp R₃.subtype) v₁ ∈ W; rw [he₁_v₁]; exact hw₁)
+        (by change π₂ (R₃.subtype v₁) ∈ AW; rw [hπ₂_v₁]; exact Submodule.mem_map_of_mem hw₁)
+    have hv₁'_q : (v₁' : ρ.V) ∈ q :=
+      mem_q_of _ (by change (π₁.comp R₃.subtype) v₁' ∈ W'; rw [he₁_v₁']; exact hw₁')
+        (by change π₂ (R₃.subtype v₁') ∈ AW'; rw [hπ₂_v₁']; exact Submodule.mem_map_of_mem hw₁')
+    have hsum : (v₁ : ρ.V) + (v₁' : ρ.V) = x := by
+      have key : v₁ + v₁' = (⟨x, hx⟩ : ↥R₃) := by
+        apply hπ₁ι₃_inj
+        show (π₁.comp R₃.subtype) (v₁ + v₁') = (π₁.comp R₃.subtype) ⟨x, hx⟩
+        rw [map_add, he₁_v₁, he₁_v₁']
+        ext; simpa using congr_arg Subtype.val hww
+      exact congr_arg Subtype.val key
+    exact ⟨v₁, v₁.2, v₁', v₁'.2, hv₁_p, hv₁'_q, hsum⟩
+  -- Build arm decompositions
+  obtain ⟨hc₁, hp₁, hq₁⟩ := arm_isCompl_aux p q hpq ρ.A₁ hinj₁ R₁ rfl range_split_R₁
+  obtain ⟨hc₂, hp₂, hq₂⟩ := arm_isCompl_aux p q hpq ρ.A₂ hinj₂ R₂ rfl range_split_R₂
+  obtain ⟨hc₃, hp₃, hq₃⟩ := arm_isCompl_aux p q hpq ρ.A₃ hinj₃ R₃ rfl range_split_R₃
+  -- Apply indecomposability to get contradiction
+  rcases hind.2 p q _ _ _ _ _ _ hpq hc₁ hc₂ hc₃ hp₁ hq₁ hp₂ hq₂ hp₃ hq₃
+    with ⟨h, _, _, _⟩ | ⟨h, _, _, _⟩
+  · exact hp_ne h
+  · exact hq_ne h
 
 -- dim V ≥ 3, all injective, range sum = ⊤ → contradicts indecomposability
 private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
@@ -776,8 +1065,43 @@ private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
                 exact case3 hR₃_12 this h₁₂
                   (fun p q hpq hp hq ha hb hc => mk_absurd p q hpq hp hq hb hc ha)
               · -- All Rᵢ ⊓ (Rⱼ ⊔ Rₖ) ≠ ⊥, all pairwise = ⊥.
-                -- This is the hard case requiring projection-based decomposition.
-                sorry
+                -- Split: some Rᵢ ⊄ Rⱼ ⊔ Rₖ (use span_absurd) vs all contained.
+                -- Helper: if Rᵢ ⊄ Rⱼ ⊔ Rₖ, find w ∈ Rᵢ \ (Rⱼ ⊔ Rₖ) and use span_absurd
+                have not_le_absurd :
+                    ∀ (Ra Rb Rc : Submodule k ρ.V),
+                      ¬ Ra ≤ Rb ⊔ Rc →
+                      (∀ (w : ρ.V), w ≠ 0 → ∀ (q : Submodule k ρ.V),
+                        IsCompl (Submodule.span k {w}) q →
+                        (Submodule.span k {w} ≤ Ra ∨ Ra ≤ q) →
+                        (Submodule.span k {w} ≤ Rb ∨ Rb ≤ q) →
+                        (Submodule.span k {w} ≤ Rc ∨ Rc ≤ q) →
+                        False) →
+                      False := by
+                  intro Ra Rb Rc hle absurd_fn
+                  have ⟨w, hw_in, hw_not⟩ : ∃ w, w ∈ Ra ∧ w ∉ (Rb ⊔ Rc : Submodule k ρ.V) := by
+                    by_contra h; push_neg at h; exact hle h
+                  have hw_ne : w ≠ 0 := fun h => hw_not (h ▸ (Rb ⊔ Rc).zero_mem)
+                  have hdisj : Disjoint (Rb ⊔ Rc) (Submodule.span k {w}) :=
+                    (Submodule.disjoint_span_singleton' hw_ne).mpr hw_not
+                  obtain ⟨q, hpq, hle'⟩ := exists_isCompl_containing _ (Rb ⊔ Rc) hdisj
+                  exact absurd_fn w hw_ne q hpq
+                    (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_in)))
+                    (Or.inr (le_sup_left.trans hle'))
+                    (Or.inr (le_sup_right.trans hle'))
+                by_cases hR1_le : R₁ ≤ R₂ ⊔ R₃
+                · by_cases hR2_le : R₂ ≤ R₁ ⊔ R₃
+                  · by_cases hR3_le : R₃ ≤ R₁ ⊔ R₂
+                    · -- SUBCASE B: all Rᵢ ≤ Rⱼ ⊔ Rₖ
+                      -- This gives IsCompl for all pairs, dim V = 2n, n ≥ 2.
+                      -- The representation decomposes (graph of iso argument).
+                      exact decomp_all_pairwise_compl ρ hind hA₁ hA₂ hA₃ hR hV
+                        h₁₂ h₁₃ h₂₃ hR1_le hR2_le hR3_le
+                    · exact not_le_absurd R₃ R₁ R₂ hR3_le
+                        (fun w hw q hpq h3 h1 h2 => span_absurd w hw q hpq h1 h2 h3)
+                  · exact not_le_absurd R₂ R₁ R₃ hR2_le
+                      (fun w hw q hpq h2 h1 h3 => span_absurd w hw q hpq h1 h2 h3)
+                · exact not_le_absurd R₁ R₂ R₃ hR1_le
+                    (fun w hw q hpq h1 h2 h3 => span_absurd w hw q hpq h1 h2 h3)
 
 -- Helper: if A₁ is bijective in a D₄ rep and p ⊕ q = V with other ranges split,
 -- then p = ⊥ or q = ⊥.
