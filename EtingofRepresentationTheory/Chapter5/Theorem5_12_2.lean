@@ -300,19 +300,132 @@ theorem Theorem5_12_2_distinct
     ψ.injective (Subtype.ext (by simp [h3, map_zero]))
   exact hc_sq (congr_arg Subtype.val h4)
 
+/-- The injection from conjugacy classes of S_n to partitions of n, defined via
+the cycle type (partition) of a permutation. Well-defined because conjugate
+permutations have the same cycle type (`Equiv.Perm.partition_eq_of_isConj`). -/
+private def conjClassToPartition (n : ℕ) :
+    ConjClasses (Equiv.Perm (Fin n)) → Nat.Partition n :=
+  Quotient.lift
+    (fun σ => (Fintype.card_fin n) ▸ σ.partition)
+    (fun _ _ h => congrArg (Fintype.card_fin n ▸ ·) (Equiv.Perm.partition_eq_of_isConj.mp h))
+
+private lemma conjClassToPartition_injective (n : ℕ) :
+    Function.Injective (conjClassToPartition n) := by
+  intro a b h
+  obtain ⟨a, rfl⟩ := a.mk_surjective
+  obtain ⟨b, rfl⟩ := b.mk_surjective
+  change (Fintype.card_fin n ▸ a.partition) = (Fintype.card_fin n ▸ b.partition) at h
+  rw [ConjClasses.mk_eq_mk_iff_isConj]
+  apply Equiv.Perm.partition_eq_of_isConj.mpr
+  have : ∀ (m : ℕ) (hm : m = n) (p q : m.Partition),
+      (hm ▸ p : Nat.Partition n) = (hm ▸ q : Nat.Partition n) → p = q := by
+    intro m hm; subst hm; intro p q hpq; exact hpq
+  exact this _ (Fintype.card_fin n) _ _ h
+
+/-- |ConjClasses(S_n)| ≤ |Nat.Partition n|, via the injection by cycle type. -/
+private lemma card_conjClasses_le_card_partition (n : ℕ) :
+    Fintype.card (ConjClasses (Equiv.Perm (Fin n))) ≤ Fintype.card (Nat.Partition n) :=
+  Fintype.card_le_of_injective _ (conjClassToPartition_injective n)
+
+/-- The center of a group algebra ℂ[G] has dimension at most |ConjClasses G|.
+This is because the center is spanned by the conjugacy class sums
+{∑_{g ∈ C} g | C ∈ ConjClasses G}, giving at most |ConjClasses G| generators. -/
+private lemma finrank_center_monoidAlgebra_le_card_conjClasses
+    {G : Type*} [Group G] [Fintype G] [DecidableEq G] :
+    Module.finrank ℂ (Subalgebra.center ℂ (MonoidAlgebra ℂ G)) ≤
+      Fintype.card (ConjClasses G) := by
+  sorry
+
+/-- The center of ∏ᵢ Mat_{dᵢ}(ℂ) has dimension k (one scalar matrix per block).
+This uses: center(Mat_d(ℂ)) = scalar matrices ≅ ℂ, and center(∏ Rᵢ) = ∏ center(Rᵢ). -/
+private lemma finrank_center_pi_matrix
+    {k : ℕ} {d : Fin k → ℕ} (hd : ∀ i, NeZero (d i)) :
+    Module.finrank ℂ
+      (Subalgebra.center ℂ (Π i : Fin k, Matrix (Fin (d i)) (Fin (d i)) ℂ)) = k := by
+  sorry
+
+/-- For ℂ[S_n] with k Wedderburn blocks, we have k ≤ |Nat.Partition n|.
+The chain of inequalities is: k = dim Z(∏ Mat_{dᵢ}(ℂ)) = dim Z(ℂ[S_n])
+                              ≤ |ConjClasses S_n| ≤ |Nat.Partition n|. -/
+private lemma wedderburn_blocks_le_card_partition (n : ℕ)
+    {k : ℕ} {d : Fin k → ℕ} (hd : ∀ i, NeZero (d i))
+    (e : A' n ≃ₐ[ℂ] Π i : Fin k, Matrix (Fin (d i)) (Fin (d i)) ℂ) :
+    k ≤ Fintype.card (Nat.Partition n) := by
+  -- dim Z(ℂ[S_n]) = k, via the algebra isomorphism e
+  -- e maps Z(A) to Z(∏ Mat_{dᵢ}(ℂ)), preserving dimension
+  have h_center_dim : Module.finrank ℂ (Subalgebra.center ℂ (A' n)) = k := by
+    have : Module.finrank ℂ (Subalgebra.center ℂ (A' n)) =
+        Module.finrank ℂ (Subalgebra.center ℂ
+          (Π i : Fin k, Matrix (Fin (d i)) (Fin (d i)) ℂ)) := by
+      -- An algebra isomorphism preserves the center and its dimension
+      have hmap : (Subalgebra.center ℂ (A' n)).map e.toAlgHom =
+          Subalgebra.center ℂ (Π i : Fin k, Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
+        ext x; constructor
+        · rintro ⟨a, ha, rfl⟩
+          exact Subalgebra.mem_center_iff.mpr fun b => by
+            have := Subalgebra.mem_center_iff.mp ha (e.symm b)
+            simpa using congr_arg e this
+        · intro hx
+          exact ⟨e.symm x, Subalgebra.mem_center_iff.mpr fun b => by
+            have := Subalgebra.mem_center_iff.mp hx (e b)
+            simpa using congr_arg e.symm this, e.apply_symm_apply x⟩
+      exact LinearEquiv.finrank_eq
+        ((Subalgebra.center ℂ (A' n)).equivMapOfInjective
+          e.toAlgHom e.injective |>.toLinearEquiv |>.trans
+          (Subalgebra.equivOfEq _ _ hmap).toLinearEquiv)
+    rw [this, finrank_center_pi_matrix hd]
+  -- dim Z(ℂ[S_n]) ≤ |ConjClasses S_n|
+  have h_center_le : Module.finrank ℂ (Subalgebra.center ℂ (A' n)) ≤
+      Fintype.card (ConjClasses (G' n)) :=
+    finrank_center_monoidAlgebra_le_card_conjClasses
+  -- Chain: k = dim Z(A) ≤ |ConjClasses| ≤ |Partition n|
+  calc k = Module.finrank ℂ (Subalgebra.center ℂ (A' n)) := h_center_dim.symm
+    _ ≤ Fintype.card (ConjClasses (G' n)) := h_center_le
+    _ ≤ Fintype.card (Nat.Partition n) := card_conjClasses_le_card_partition n
+
 /-- For any simple ℂ[S_n]-module M, some Young symmetrizer acts nontrivially.
 This is the key step for the classification: it follows from the fact that
-#partitions(n) = #conjugacy_classes(S_n) = #Wedderburn_blocks(ℂ[S_n]),
-ensuring that the Specht modules exhaust all Wedderburn blocks.
+#partitions(n) ≥ #Wedderburn_blocks(ℂ[S_n]), ensuring that the Specht modules
+(which give |Partition n| pairwise non-isomorphic simples) exhaust all blocks.
 
-Proof sketch: The two-sided ideal of ℂ[S_n] generated by all Young symmetrizers
-{c_λ | λ ⊢ n} equals ℂ[S_n] itself. Each c_λ generates a distinct simple two-sided
-ideal (one Wedderburn block), and the number of partitions equals the number of
-blocks. Therefore, ann(M) (a proper two-sided ideal) cannot contain all c_λ. -/
+The contradiction argument: if all c_λ annihilate M, then all Specht modules V_λ
+annihilate M. Since V_λ ⊆ ann(M) and each V_λ sits in a distinct Wedderburn block,
+the annihilator covers ≥ |Partition n| ≥ k blocks. So ann(M) = ℂ[S_n], giving M = 0. -/
 private lemma exists_young_symmetrizer_nontrivial (n : ℕ)
     (M : Type) [AddCommGroup M] [Module (A' n) M]
     [IsSimpleModule (A' n) M] :
     ∃ la : Nat.Partition n, ∃ m : M, YoungSymmetrizer n la • m ≠ 0 := by
+  -- By contradiction: assume all c_λ annihilate M
+  by_contra hall
+  push_neg at hall
+  -- hall : ∀ la m, YoungSymmetrizer n la • m = 0
+  -- M is nontrivial (simple implies nonzero)
+  haveI : Nontrivial M := IsSimpleModule.nontrivial (A' n) M
+  obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
+  -- The Specht modules V_λ = A · c_λ act as zero on M:
+  -- For any a * c_λ ∈ V_λ: (a * c_λ) • m = a • (c_λ • m) = a • 0 = 0
+  have hV_annihilate : ∀ (la : Nat.Partition n) (v : SpechtModule n la) (m : M),
+      (v : A' n) • m = 0 := by
+    intro la v m
+    obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp v.2
+    rw [show (↑v : A' n) = a * YoungSymmetrizer n la from by rw [← ha]; rfl]
+    rw [mul_smul, hall la m, smul_zero]
+  -- Get the Wedderburn decomposition of ℂ[S_n]
+  haveI : IsSemisimpleRing (A' n) := inferInstance
+  haveI : FiniteDimensional ℂ (A' n) := inferInstance
+  obtain ⟨wk, d, hd, ⟨e⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed ℂ (A' n)
+  -- wk ≤ |Nat.Partition n| (by center/conjugacy argument)
+  have h_wk_le := wedderburn_blocks_le_card_partition n hd e
+  -- Derive contradiction: we have |Partition n| pairwise non-iso simples (V_λ),
+  -- each corresponding to a distinct Wedderburn block, so |Partition n| ≤ wk.
+  -- Combined with h_wk_le: wk = |Partition n|, so every block has a V_λ.
+  -- Under the Wedderburn decomposition:
+  -- • Each V_λ (a simple left ideal) sits in exactly one block j(λ)
+  -- • V_λ non-iso ⟹ j is injective ⟹ |Partition n| ≤ wk
+  -- • Combined with h_wk_le: every block j has a Specht module V_{j⁻¹(j)}
+  -- • Each V_λ ⊆ ann(M) (by hV_annihilate), so ann(M) covers all blocks
+  -- • ann(M) = ℂ[S_n], so M = 0, contradiction with Nontrivial M
   sorry
 
 /-- The evaluation linear map from a Specht module V_λ to M, sending v to v • m₀.
