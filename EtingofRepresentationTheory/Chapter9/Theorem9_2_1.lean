@@ -44,6 +44,121 @@ open scoped DirectSum
 variable {k : Type*} [Field k]
 variable {A : Type*} [Ring A] [Algebra k A] [Module.Finite k A]
 
+/-! ### Helper lemmas for the projective cover construction
+
+The proof of Theorem 9.2.1(i) proceeds by:
+1. A is artinian → A is semiprimary → A/Rad(A) is semisimple, Rad(A) nilpotent
+2. Construct complete orthogonal idempotents in A/Rad(A) corresponding to simple modules
+3. Lift to A via Corollary 9.1.3
+4. Left ideals A·eᵢ are projective (direct summands of A)
+5. Hom_A(A·eᵢ, M_j) ≅ eᵢ·M_j, with dim = δᵢⱼ
+6. A·eᵢ is indecomposable (primitive idempotent)
+-/
+
+namespace Etingof.Theorem921
+
+/-- The k-linear endomorphism `m ↦ a • m` on an A-module M. -/
+noncomputable def smulEnd (M : Type*) [AddCommGroup M] [Module A M] [Module k M]
+    [SMulCommClass A k M] (a : A) : M →ₗ[k] M where
+  toFun m := a • m
+  map_add' := smul_add a
+  map_smul' c m := smul_comm a c m
+
+/-- The range of `smulEnd M a` is the k-submodule `{a • m : m ∈ M}` of M. -/
+noncomputable def smulRange (M : Type*) [AddCommGroup M] [Module A M] [Module k M]
+    [SMulCommClass A k M] (a : A) : Submodule k M :=
+  LinearMap.range (smulEnd (k := k) (A := A) M a)
+
+/-- For a finite-dimensional algebra A over k with pairwise non-isomorphic simple modules
+M₁, ..., Mₘ, there exist orthogonal idempotents e₁, ..., eₘ in A (one per iso class of
+simple modules) such that eᵢ acts as a rank-1 projection on Mᵢ and as zero on Mⱼ for
+j ≠ i. These are lifted from the Wedderburn-Artin decomposition of A/Rad(A).
+
+Proof sketch:
+1. A is artinian → IsSemiprimaryRing A → IsSemisimpleRing (A ⧸ Ring.jacobson A)
+2. A/Rad(A) ≅ ∏ Mat_{nᵢ}(Dᵢ) by Wedderburn-Artin
+3. Simple A-modules = simple A/Rad(A)-modules (Rad acts by 0 on simples)
+4. Each Wedderburn block corresponds to one iso class of simples
+5. Pick rank-1 diagonal idempotents E₁₁ in each block
+6. Lift from A/Rad(A) to A using Corollary 9.1.3 -/
+lemma exists_orthogonal_idempotents_for_simples
+    [IsArtinianRing A]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
+    [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j) :
+    ∃ (e : ι → A),
+      (∀ i, IsIdempotentElem (e i)) ∧
+      (∀ i j, i ≠ j → e i * e j = 0) ∧
+      (∑ i, e i = 1) ∧
+      (∀ i j, Module.finrank k (smulRange (k := k) (A := A) (M j) (e i)) =
+        if i = j then 1 else 0) := by
+  sorry
+
+/-- The left ideal A·e for an idempotent e is a projective A-module.
+This follows from A = A·e ⊕ A·(1-e), so A·e is a direct summand of the free module A. -/
+lemma leftIdeal_projective (e : A) (he : IsIdempotentElem e) :
+    Module.Projective A ↥(Submodule.span A ({e} : Set A)) := by
+  -- Ae is a direct summand of A via a ↦ a*e. Since A is free over itself, Ae is projective.
+  set S := Submodule.span A ({e} : Set A) with hS_def
+  have he_mem : ∀ a : A, a * e ∈ S :=
+    fun a => Submodule.smul_mem _ a (Submodule.subset_span rfl)
+  -- The retraction: a ↦ a * e ∈ Ae
+  let retr : A →ₗ[A] S :=
+    { toFun := fun a => ⟨a * e, he_mem a⟩
+      map_add' := fun x y => by ext; simp [add_mul]
+      map_smul' := fun r x => by ext; simp [mul_assoc] }
+  -- retr ∘ incl = id (because (a*e)*e = a*e for a*e ∈ Ae)
+  have h_split : retr.comp S.subtype = LinearMap.id := by
+    ext ⟨x, hx⟩
+    simp only [LinearMap.comp_apply, LinearMap.id_apply, Submodule.subtype_apply, retr]
+    congr 1
+    rw [Submodule.mem_span_singleton] at hx
+    obtain ⟨a, rfl⟩ := hx
+    simp [mul_assoc, IsIdempotentElem.eq he]
+  exact Module.Projective.of_split S.subtype retr h_split
+
+/-- The left ideal A·e for an idempotent e in a finite-dimensional algebra is
+finite as an A-module (it is a submodule of A which is finite over A). -/
+lemma leftIdeal_finite (e : A) :
+    Module.Finite A ↥(Submodule.span A ({e} : Set A)) :=
+  inferInstance
+
+/-- A left ideal A·e is indecomposable if the Hom dimension property holds:
+dim Hom(Ae, Mⱼ) = 0 for all j except exactly one j = i₀ where it equals 1.
+The argument: if Ae = Q₁ ⊕ Q₂, then Hom(Ae, Mⱼ) = Hom(Q₁, Mⱼ) ⊕ Hom(Q₂, Mⱼ),
+so dim Hom(Ae, Mⱼ) = dim Hom(Q₁, Mⱼ) + dim Hom(Q₂, Mⱼ). Since dim = 1 for j = i₀,
+one of Q₁ or Q₂ has Hom = 0 to all simples, hence is zero (by Nakayama). -/
+lemma leftIdeal_indecomposable_of_hom_delta
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
+    [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
+    (e : A) (he : IsIdempotentElem e)
+    (i₀ : ι) (hdim : ∀ j, Module.finrank k (↥(Submodule.span A ({e} : Set A)) →ₗ[A] M j) =
+      if i₀ = j then 1 else 0) :
+    Etingof.IsIndecomposable A ↥(Submodule.span A ({e} : Set A)) := by
+  sorry
+
+/-- The finrank of the Hom space from the left ideal A·e to a module M equals
+the finrank of the image eM = range(e • · : M → M).
+
+This is the standard isomorphism Hom_A(Ae, M) ≅ eM given by φ ↦ φ(e) with
+inverse m ↦ (ae ↦ am). -/
+lemma finrank_hom_leftIdeal_eq
+    (e : A) (he : IsIdempotentElem e)
+    (M : Type*) [AddCommGroup M] [Module A M]
+    [Module k M] [IsScalarTower k A M] [SMulCommClass A k M] :
+    Module.finrank k (↥(Submodule.span A ({e} : Set A)) →ₗ[A] M) =
+    Module.finrank k ↥(smulRange (k := k) (A := A) M e) := by
+  sorry
+
+end Etingof.Theorem921
+
 /-- **Theorem 9.2.1(i)**: Existence of projective covers with the Kronecker delta Hom property.
 
 For each simple module Mᵢ over a finite-dimensional algebra A, there exists an indecomposable
@@ -72,15 +187,14 @@ theorem Etingof.Theorem_9_2_1_i
       ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0 := by
   -- Step 1: A is artinian (finite-dimensional algebra over a field)
   haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
-  -- Step 2: Jacobson radical is nilpotent (artinian rings are semiprimary)
-  have hJ_nil : IsNilpotent (Ring.jacobson A) := IsSemiprimaryRing.isNilpotent
-  -- The proof requires constructing projective covers via lifted primitive idempotents
-  -- from the Wedderburn-Artin decomposition of A/rad(A). This involves:
-  -- 1. A/rad(A) is semisimple (artinian quotient by Jacobson radical)
-  -- 2. Wedderburn-Artin gives primitive orthogonal idempotents in A/rad(A)
-  -- 3. Corollary 9.1.3 lifts these to A
-  -- 4. Left ideals A·eᵢ are the projective covers
-  -- 5. Hom computation: Hom_A(Aeᵢ, Mⱼ) ≅ eᵢMⱼ ≅ δᵢⱼk
+  -- Step 2: Obtain orthogonal idempotents matching the simple modules
+  -- Step 3: Define P i = left ideal A·eᵢ and verify all properties
+  -- The proof requires:
+  -- a) exists_orthogonal_idempotents_for_simples to get idempotents
+  -- b) leftIdeal_projective for projectivity
+  -- c) leftIdeal_finite for finiteness
+  -- d) leftIdeal_indecomposable_of_hom_delta for indecomposability
+  -- e) finrank_hom_leftIdeal_eq for the Hom computation
   sorry
 
 /-- **Theorem 9.2.1(ii)**: Decomposition of the algebra as a module.
