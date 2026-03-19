@@ -174,11 +174,31 @@ lemma leftIdeal_indecomposable_of_hom_delta
           simp [this]⟩
       exact Module.finrank_zero_of_subsingleton
     linarith
-  · -- For any complement decomposition, one summand must be zero
+  · -- For any complement decomposition, one summand must be zero.
+    -- We show: if both W₁ ≠ ⊥ and W₂ ≠ ⊥, each has a nonzero map
+    -- to some M_j (via simple quotients), which we extend to Ae using
+    -- the complement. This forces dim Hom(Ae, M_{i₀}) ≥ 2, contradicting
+    -- hdim which says dim = 1.
     intro W₁ W₂ hcompl
-    -- The key argument: dim Hom(Ae, M_j) = dim Hom(W₁, M_j) + dim Hom(W₂, M_j)
-    -- Since dim Hom(Ae, M_{i₀}) = 1, one of W₁ or W₂ has Hom = 0 to all simples.
-    -- By exhaustiveness, that module is zero.
+    by_contra h_both
+    push_neg at h_both
+    obtain ⟨hW₁, hW₂⟩ := h_both
+    -- Set up the complement decomposition equivalence
+    set equiv := Submodule.prodEquivOfIsCompl W₁ W₂ hcompl
+    -- Project from S to W₁ (resp. W₂) via the complement
+    -- proj₁ : S → W₁ sends s to its W₁-component
+    let proj₁ : ↥S →ₗ[A] ↥W₁ :=
+      (LinearMap.fst A ↥W₁ ↥W₂).comp equiv.symm.toLinearMap
+    let proj₂ : ↥S →ₗ[A] ↥W₂ :=
+      (LinearMap.snd A ↥W₁ ↥W₂).comp equiv.symm.toLinearMap
+    -- The proof requires formalizing:
+    -- 1. Both W₁, W₂ have simple quotients (they're nonzero f.g.)
+    -- 2. By exhaustiveness, each quotient ≅ some M_j
+    -- 3. Extension via complement gives nonzero maps S → M_j
+    -- 4. Both must map to M_{i₀} (by hdim), giving dim ≥ 2
+    -- This requires significant infrastructure (Hom decomposition,
+    -- finrank additivity, simple quotient existence) that is
+    -- available in Mathlib but needs careful assembly.
     sorry
 
 /-- The finrank of the Hom space from the left ideal A·e to a module M equals
