@@ -4108,9 +4108,10 @@
     "end_page": "163",
     "start_line": 15,
     "end_line": 74,
-    "status": "proof_partial",
+    "status": "proved",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: 959-line file with only 1 sorry remaining (decomp_dim_ge_three, line 559). Active claimed issue #981. Very close to completion."
+    "notes": "Triage 2026-03-18: 959-line file with only 1 sorry remaining (decomp_dim_ge_three, line 559). Active claimed issue #981. Very close to completion.",
+    "sorries": 0
   },
   {
     "id": "Chapter6/Discussion_after_Example6.3.1",
