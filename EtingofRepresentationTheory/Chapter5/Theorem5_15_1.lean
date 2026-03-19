@@ -133,7 +133,7 @@ theorem coeff_vandermonde_mul (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
     (α : Fin n →₀ ℕ) :
     MvPolynomial.coeff α (vandermondePoly n * P) =
       ∑ π : Equiv.Perm (Fin n),
-        (Equiv.Perm.sign π : ℤ) • (if h : permExponent n π ≤ α
+        (Equiv.Perm.sign π : ℤ) • (if _ : permExponent n π ≤ α
           then (MvPolynomial.coeff (α - permExponent n π) P : ℂ) else 0) := by
   -- Expand Vandermonde as alternating sum, distribute multiplication, extract coefficients
   rw [vandermondePoly_eq_sum_sign_monomial]
@@ -151,17 +151,101 @@ theorem permModuleCharacter_eq_coeff (n : ℕ) (la : Nat.Partition n)
       MvPolynomial.coeff (Nat.Partition.toFinsupp la) (cycleTypePsumProduct n σ) :=
   Theorem5_14_3 n la σ
 
+/-! ### Symmetric polynomial infrastructure for the Frobenius formula -/
+
+/-- Symmetric polynomials are closed under `pow`. -/
+private theorem MvPolynomial.IsSymmetric.pow {σ : Type*} {R : Type*} [CommSemiring R]
+    {P : MvPolynomial σ R} (hP : P.IsSymmetric) (k : ℕ) : (P ^ k).IsSymmetric := by
+  induction k with
+  | zero => simp [MvPolynomial.IsSymmetric.one]
+  | succ k ih => rw [pow_succ]; exact ih.mul hP
+
+/-- A multiset product of symmetric polynomials is symmetric. -/
+private theorem multiset_prod_isSymmetric {σ : Type*} {R : Type*} [CommSemiring R]
+    (s : Multiset (MvPolynomial σ R)) (hs : ∀ p ∈ s, MvPolynomial.IsSymmetric p) :
+    (s.prod).IsSymmetric := by
+  induction s using Multiset.induction with
+  | empty => simp [MvPolynomial.IsSymmetric.one]
+  | cons a s ih =>
+    rw [Multiset.prod_cons]
+    exact (hs a (Multiset.mem_cons_self a s)).mul
+      (ih (fun p hp => hs p (Multiset.mem_cons_of_mem hp)))
+
+/-- The product of power sum symmetric polynomials is symmetric. Since `psum m` is
+symmetric for each m (Mathlib: `psum_isSymmetric`), any product of power sums is
+also symmetric. The `cycleTypePsumProduct` is exactly such a product. -/
+theorem cycleTypePsumProduct_isSymmetric (n : ℕ) (σ : Equiv.Perm (Fin n)) :
+    (cycleTypePsumProduct n σ).IsSymmetric := by
+  unfold cycleTypePsumProduct
+  apply MvPolynomial.IsSymmetric.mul
+  · exact multiset_prod_isSymmetric _ (fun p hp => by
+      rw [Multiset.mem_map] at hp
+      obtain ⟨m, _, rfl⟩ := hp
+      exact MvPolynomial.psum_isSymmetric (Fin n) ℂ m)
+  · exact MvPolynomial.IsSymmetric.pow (MvPolynomial.psum_isSymmetric (Fin n) ℂ 1) _
+
+/-- For a symmetric polynomial, coefficients are invariant under permutation of
+the exponent vector. This follows from `rename σ P = P` for symmetric P and
+the coefficient extraction formula `coeff_rename_mapDomain`. -/
+theorem symmetric_coeff_mapDomain_perm {n : ℕ}
+    (P : MvPolynomial (Fin n) ℂ) (hP : P.IsSymmetric)
+    (d : Fin n →₀ ℕ) (σ : Equiv.Perm (Fin n)) :
+    P.coeff (d.mapDomain σ) = P.coeff d := by
+  conv_lhs => rw [← hP σ]
+  exact MvPolynomial.coeff_rename_mapDomain σ σ.injective P d
+
+/-! ### Young's Rule (character decomposition)
+
+The Frobenius character formula requires **Young's Rule**, which states that
+the permutation module U_μ decomposes as:
+
+  U_μ ≅ ⊕_ν K_{ν,μ} · V_ν
+
+where K_{ν,μ} are the **Kostka numbers** (the number of semistandard Young tableaux
+of shape ν with content μ), and V_ν is the Specht module.
+
+In terms of characters:
+
+  χ_{U_μ}(σ) = Σ_ν K_{ν,μ} · χ_{V_ν}(σ)
+
+**Proof dependencies:**
+1. **Maschke's theorem** (in Mathlib): ℂ[S_n]-modules are semisimple → U_μ = ⊕ V_ν^{⊕m_ν}
+2. **Schur's lemma** (in Mathlib): m_ν = dim Hom(U_μ, V_ν)
+3. **Proposition 5.14.1** (proved): Hom(U_μ, V_ν) = 0 when μ > ν, dim = 1 when μ = ν
+4. **Kostka number interpretation**: m_ν = K_{ν,μ} (requires connecting Hom-space dimension
+   to semistandard Young tableaux count)
+
+**What's missing**: The bridge from "dim Hom = K_{ν,μ}" to the character identity. This requires
+formalizing the semisimple decomposition in terms of characters and connecting multiplicities
+to Hom-space dimensions. The infrastructure exists in Mathlib (`IsSemisimpleModule`,
+`isotypicComponent`) but the specific application to ℂ[S_n] representations and the
+connection to Kostka numbers has not been formalized.
+
+Once Young's Rule is proved as characters, the Frobenius formula follows by:
+1. Substituting χ_{U_μ} = Σ_ν K_{ν,μ} χ_{V_ν} into the alternating sum
+2. Using K_{ν,ν} = 1, K_{ν,μ} = 0 for μ < ν (upper triangularity)
+3. The alternating sum Σ_π sign(π) K_{ν, sort(λ+ρ-π(ρ))} = δ_{ν,λ}
+   (inverse of upper-triangular matrix with 1s on diagonal)
+-/
+
 /-- **Key representation-theoretic step**: The alternating sum
-  Σ_π sign(π) · χ_{U_{λ+ρ-π(exponent)}}
-equals the Specht module character χ_{V_λ}.
+  Σ_π sign(π) · coeff(x^{λ+ρ-π(ρ)}, ∏ p_m^{i_m})
+equals the Specht module character χ_{V_λ}(σ).
 
-This is the core of the Frobenius formula proof. It requires:
-1. The decomposition U_μ = Σ_ν K_{νμ} V_ν (Kostka numbers)
-2. K_{μμ} = 1 and K_{νμ} = 0 unless ν dominates μ
-3. The alternating sum with signs collapses due to upper-triangularity
+This is the core of the Frobenius formula proof and requires Young's Rule
+(decomposition of permutation modules into Specht modules via Kostka numbers)
+plus the alternating sum cancellation identity. See the detailed proof strategy
+in the module docstring above.
 
-This is the deepest part of the proof and requires infrastructure not currently
-available in Mathlib (Kostka number theory, Young's rule). -/
+**Blocked on**: Young's Rule character identity — the decomposition
+  χ_{U_μ} = Σ_ν K_{ν,μ} · χ_{V_ν}
+requires connecting Mathlib's semisimple module infrastructure to the specific
+representation theory of S_n. Key Mathlib components:
+- `IsSemisimpleModule k[G] V` (Maschke's theorem)
+- `isotypicComponent` (decomposition into isotypic components)
+- `Theorem5_12_2_irreducible` (V_λ is simple)
+- `Proposition5_14_1_vanishing/diagonal` (Hom-space dimensions)
+-/
 theorem spechtCharacter_eq_alternating_sum_permCharacter
     (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     spechtModuleCharacter n la σ =
