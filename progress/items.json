@@ -4532,8 +4532,9 @@
     "end_page": "178",
     "start_line": 31,
     "end_line": 14,
-    "status": "proof_partial",
-    "needs_statement": true
+    "status": "sent_to_aristotle",
+    "needs_statement": true,
+    "aristotle_project_id": "581a0892-7d5e-479d-96e3-bf41dcba6dd5"
   },
   {
     "id": "Chapter6/Problem6.9.2",

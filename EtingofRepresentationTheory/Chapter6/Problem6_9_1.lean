@@ -426,7 +426,10 @@ theorem Etingof.Problem6_9_1 (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable) :
      Module.finrank ℂ ρ.W = Module.finrank ℂ ρ.V + 1) := by
   by_cases hAB : IsNilpotent (ρ.A.comp ρ.B)
   · -- Nilpotent case: AB nilpotent → |dim V - dim W| ≤ 1
-    -- This requires the chain/Jordan structure argument for nilpotent Q₂ reps
+    -- Requires proving that the nilpotent operator X(v,w) = (Bw,Av) on V × W
+    -- has a chain basis compatible with the V ⊕ W decomposition (Problem 6.9.1(c)).
+    -- For indecomposable reps, this forces a single chain, giving |dim V - dim W| ≤ 1.
+    -- Submitted to Aristotle: project 581a0892-7d5e-479d-96e3-bf41dcba6dd5
     sorry
   · -- Non-nilpotent case: Fitting decomposition → dim V = dim W
     left
