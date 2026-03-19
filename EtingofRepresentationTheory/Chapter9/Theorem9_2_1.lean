@@ -7,6 +7,7 @@ import Mathlib.RingTheory.Artinian.Module
 import Mathlib.RingTheory.Jacobson.Semiprimary
 import Mathlib.RingTheory.SimpleModule.WedderburnArtin
 import Mathlib.RingTheory.Idempotents
+import Mathlib.RingTheory.HopkinsLevitzki
 
 /-!
 # Theorem 9.2.1: Classification of indecomposable projective modules
@@ -145,12 +146,12 @@ is isomorphic to some Mⱼ in the family. -/
 lemma leftIdeal_indecomposable_of_hom_delta
     [IsArtinianRing A]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
     [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
     [∀ i, SMulCommClass A k (M i)]
     [∀ i, IsSimpleModule A (M i)]
     (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
-    (hM_exhaustive : ∀ (S : Type*) [AddCommGroup S] [Module A S]
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S]
       [IsSimpleModule A S], ∃ i, Nonempty (S ≃ₗ[A] M i))
     (e : A) (he : IsIdempotentElem e)
     (i₀ : ι) (hdim : ∀ j, Module.finrank k
@@ -191,15 +192,181 @@ lemma leftIdeal_indecomposable_of_hom_delta
       (LinearMap.fst A ↥W₁ ↥W₂).comp equiv.symm.toLinearMap
     let proj₂ : ↥S →ₗ[A] ↥W₂ :=
       (LinearMap.snd A ↥W₁ ↥W₂).comp equiv.symm.toLinearMap
-    -- The proof requires formalizing:
-    -- 1. Both W₁, W₂ have simple quotients (they're nonzero f.g.)
-    -- 2. By exhaustiveness, each quotient ≅ some M_j
-    -- 3. Extension via complement gives nonzero maps S → M_j
-    -- 4. Both must map to M_{i₀} (by hdim), giving dim ≥ 2
-    -- This requires significant infrastructure (Hom decomposition,
-    -- finrank additivity, simple quotient existence) that is
-    -- available in Mathlib but needs careful assembly.
-    sorry
+    -- Simple modules over a finite-dimensional algebra are finite-dimensional
+    -- (they're quotients of A as a k-module, since A·v = M for any nonzero v)
+    have hM_fin : ∀ j, Module.Finite k (M j) := by
+      intro j
+      haveI : Nontrivial (M j) := @IsSimpleModule.nontrivial A _ (M j) _ _ _
+      obtain ⟨v, hv⟩ := exists_ne (0 : M j)
+      -- The map a ↦ a • v is a k-linear surjection from A to M j
+      let φ : A →ₗ[k] M j := (LinearMap.toSpanSingleton A (M j) v).restrictScalars k
+      have hφ_surj : Function.Surjective φ := by
+        intro m
+        -- Range of φ, viewed as an A-submodule, is nonzero (contains v = 1 • v)
+        -- By simplicity, it equals all of M j
+        have hrange : LinearMap.range (LinearMap.toSpanSingleton A (M j) v) = ⊤ := by
+          rcases IsSimpleOrder.eq_bot_or_eq_top
+            (LinearMap.range (LinearMap.toSpanSingleton A (M j) v)) with h | h
+          · exfalso
+            have hmem : v ∈ LinearMap.range (LinearMap.toSpanSingleton A (M j) v) := by
+              exact ⟨1, one_smul A v⟩
+            rw [h] at hmem
+            simp [Submodule.mem_bot] at hmem
+            exact hv hmem
+          · exact h
+        exact LinearMap.range_eq_top.mp hrange m
+      exact Module.Finite.of_surjective φ hφ_surj
+    -- Setup: noetherian instances for submodules
+    haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+    haveI : IsNoetherianRing A := inferInstance
+    haveI : IsNoetherian A ↥S := isNoetherian_submodule' S
+    haveI : IsNoetherian A ↥W₁ := isNoetherian_submodule' W₁
+    haveI : IsNoetherian A ↥W₂ := isNoetherian_submodule' W₂
+    haveI hW₁_nt : Nontrivial ↥W₁ := W₁.nontrivial_iff_ne_bot.mpr hW₁
+    haveI hW₂_nt : Nontrivial ↥W₂ := W₂.nontrivial_iff_ne_bot.mpr hW₂
+    -- Get coatoms (maximal proper submodules) — exist since modules are finite/noetherian
+    obtain ⟨N₁, hN₁⟩ := IsCoatomic.exists_coatom (α := Submodule A ↥W₁)
+    obtain ⟨N₂, hN₂⟩ := IsCoatomic.exists_coatom (α := Submodule A ↥W₂)
+    -- The quotients W₁/N₁ and W₂/N₂ are simple modules
+    haveI hsimp₁ : IsSimpleModule A (↥W₁ ⧸ N₁) := isSimpleModule_iff_isCoatom.mpr hN₁
+    haveI hsimp₂ : IsSimpleModule A (↥W₂ ⧸ N₂) := isSimpleModule_iff_isCoatom.mpr hN₂
+    -- By exhaustiveness, each simple quotient ≅ some M_j
+    obtain ⟨j₁, ⟨iso₁⟩⟩ := hM_exhaustive (↥W₁ ⧸ N₁)
+    obtain ⟨j₂, ⟨iso₂⟩⟩ := hM_exhaustive (↥W₂ ⧸ N₂)
+    -- Build nonzero maps S → M_j: compose proj → quotient → iso
+    let f₁ : ↥S →ₗ[A] M j₁ :=
+      iso₁.toLinearMap.comp (N₁.mkQ.comp proj₁)
+    let f₂ : ↥S →ₗ[A] M j₂ :=
+      iso₂.toLinearMap.comp (N₂.mkQ.comp proj₂)
+    -- f₁ is nonzero: proj₁ is surjective onto W₁, and mkQ ∘ iso₁ is nonzero
+    -- Helper: proj₁ ∘ equiv is fst (proj₁ (equiv (w₁, w₂)) = w₁)
+    have hproj₁_equiv : ∀ (w₁ : ↥W₁) (w₂ : ↥W₂), proj₁ (equiv (w₁, w₂)) = w₁ := by
+      intro w₁ w₂
+      show (LinearMap.fst A ↥W₁ ↥W₂) (equiv.symm (equiv (w₁, w₂))) = w₁
+      rw [equiv.symm_apply_apply]; rfl
+    have hproj₂_equiv : ∀ (w₁ : ↥W₁) (w₂ : ↥W₂), proj₂ (equiv (w₁, w₂)) = w₂ := by
+      intro w₁ w₂
+      show (LinearMap.snd A ↥W₁ ↥W₂) (equiv.symm (equiv (w₁, w₂))) = w₂
+      rw [equiv.symm_apply_apply]; rfl
+    -- f₁ is nonzero
+    have hf₁_ne : f₁ ≠ 0 := by
+      intro hf
+      apply hN₁.1  -- N₁ ≠ ⊤
+      rw [Submodule.eq_top_iff']
+      intro w
+      rw [← Submodule.Quotient.mk_eq_zero]
+      have h1 : f₁ (equiv (w, 0)) = 0 := by simp [hf]
+      simp only [f₁, LinearMap.comp_apply, hproj₁_equiv] at h1
+      -- h1 : ↑iso₁ (N₁.mkQ w) = 0, want: N₁.mkQ w = 0
+      -- ↑iso₁ is the coercion to LinearMap; convert to equiv application
+      change iso₁ (N₁.mkQ w) = 0 at h1
+      exact iso₁.map_eq_zero_iff.mp h1
+    -- f₂ is nonzero
+    have hf₂_ne : f₂ ≠ 0 := by
+      intro hf
+      apply hN₂.1
+      rw [Submodule.eq_top_iff']
+      intro w
+      rw [← Submodule.Quotient.mk_eq_zero]
+      have h1 : f₂ (equiv (0, w)) = 0 := by simp [hf]
+      simp only [f₂, LinearMap.comp_apply, hproj₂_equiv] at h1
+      change iso₂ (N₂.mkQ w) = 0 at h1
+      exact iso₂.map_eq_zero_iff.mp h1
+    -- j₁ = i₀ and j₂ = i₀: if not, finrank = 0, meaning the Hom space is trivial
+    -- (requires Module.Finite k for the Hom spaces, which follows from
+    -- simple modules being finite-dimensional quotients of A)
+    -- The Hom spaces are finite-dimensional over k (A-linear maps from a f.d. module
+    -- to a f.d. module form a finite-dimensional k-vector space, being a subspace of
+    -- the k-linear Hom space)
+    have hHom_fin : ∀ j, Module.Finite k (↥S →ₗ[A] M j) := by
+      intro j
+      haveI := hM_fin j
+      -- S is finite over k (submodule of finite-dimensional A)
+      haveI : Module.Finite k ↥S :=
+        Module.Finite.of_injective (S.subtype.restrictScalars k) Subtype.val_injective
+      -- The A-linear Hom space embeds k-linearly into the k-linear Hom space
+      exact Module.Finite.of_injective
+        (LinearMap.restrictScalarsₗ k A (↥S) (M j) k)
+        (LinearMap.restrictScalars_injective k)
+    have hj₁ : j₁ = i₀ := by
+      by_contra h
+      apply hf₁_ne
+      have h0 : Module.finrank k (↥S →ₗ[A] M j₁) = 0 := by
+        rw [hdim j₁, if_neg (Ne.symm h)]
+      haveI := hHom_fin j₁
+      rw [Module.finrank_eq_zero_iff] at h0
+      obtain ⟨a, ha_ne, ha_smul⟩ := h0 f₁
+      calc f₁ = (1 : k) • f₁ := (one_smul k f₁).symm
+        _ = (a⁻¹ * a) • f₁ := by rw [inv_mul_cancel₀ ha_ne]
+        _ = a⁻¹ • (a • f₁) := by rw [smul_smul]
+        _ = a⁻¹ • 0 := by rw [ha_smul]
+        _ = 0 := smul_zero _
+    have hj₂ : j₂ = i₀ := by
+      by_contra h
+      apply hf₂_ne
+      have h0 : Module.finrank k (↥S →ₗ[A] M j₂) = 0 := by
+        rw [hdim j₂, if_neg (Ne.symm h)]
+      haveI := hHom_fin j₂
+      rw [Module.finrank_eq_zero_iff] at h0
+      obtain ⟨a, ha_ne, ha_smul⟩ := h0 f₂
+      calc f₂ = (1 : k) • f₂ := (one_smul k f₂).symm
+        _ = (a⁻¹ * a) • f₂ := by rw [inv_mul_cancel₀ ha_ne]
+        _ = a⁻¹ • (a • f₂) := by rw [smul_smul]
+        _ = a⁻¹ • 0 := by rw [ha_smul]
+        _ = 0 := smul_zero _
+    -- Now both f₁, f₂ : S →ₗ[A] M i₀ are nonzero.
+    -- f₁ kills W₂ (factors through proj₁ which kills W₂),
+    -- f₂ kills W₁ (factors through proj₂ which kills W₁).
+    -- These are linearly independent, giving finrank ≥ 2, contradicting hdim = 1.
+    -- f₁ kills W₂ (factors through proj₁ which kills W₂)
+    have hf₁_W₂ : ∀ (w₂ : ↥W₂), f₁ (equiv (0, w₂)) = 0 := by
+      intro w₂
+      simp only [f₁, LinearMap.comp_apply, hproj₁_equiv]
+      simp [map_zero]
+    -- f₂ kills W₁ (factors through proj₂ which kills W₁)
+    have hf₂_W₁ : ∀ (w₁ : ↥W₁), f₂ (equiv (w₁, 0)) = 0 := by
+      intro w₁
+      simp only [f₂, LinearMap.comp_apply, hproj₂_equiv]
+      simp [map_zero]
+    -- Cast f₂ into the same Hom space as f₁ using j₂ = j₁ (= i₀)
+    -- Then show linear independence in Hom(S, M j₁) and get finrank ≥ 2,
+    -- contradicting hdim j₁ = 1.
+    have hj₁₂ : j₁ = j₂ := hj₁.trans hj₂.symm
+    -- f₂ cast to the same type as f₁
+    let f₂' : ↥S →ₗ[A] M j₁ := hj₁₂ ▸ f₂
+    have hf₂'_ne : f₂' ≠ 0 := by
+      intro h; apply hf₂_ne; simp only [f₂'] at h; exact hj₁₂ ▸ h
+    have hf₂'_W₁ : ∀ (w₁ : ↥W₁), f₂' (equiv (w₁, 0)) = 0 := by
+      intro w₁; simp only [f₂']; subst hj₁₂; exact hf₂_W₁ w₁
+    -- f₁ and f₂' are linearly independent
+    haveI := hHom_fin j₁
+    have h_li : LinearIndependent k ![f₁, f₂'] := by
+      rw [linearIndependent_fin2]
+      refine ⟨?_, ?_⟩
+      · -- Need ![f₁, f₂'] 1 ≠ 0, i.e., f₂' ≠ 0
+        simp only [Matrix.cons_val_one, Matrix.head_cons]
+        exact hf₂'_ne
+      · intro a ha
+        -- ha : a • f₂' = f₁
+        simp only [Matrix.cons_val_one, Matrix.head_cons,
+                    Matrix.cons_val_zero] at ha
+        -- f₁ = a • f₂'. f₁ kills W₂, so a • f₂' kills W₂ too.
+        -- f₂' kills W₁. So for any s = equiv(w₁, w₂):
+        -- f₁(s) = f₁(w₁,0) + f₁(0,w₂) = a•f₂'(w₁,0) + 0 = 0 + 0 = 0
+        exfalso; apply hf₁_ne; ext s
+        obtain ⟨⟨w₁, w₂⟩, rfl⟩ := equiv.surjective s
+        have h1 := hf₁_W₂ w₂
+        have h2 := hf₂'_W₁ w₁
+        have : f₁ (equiv (w₁, w₂)) = f₁ (equiv (w₁, 0)) + f₁ (equiv (0, w₂)) := by
+          rw [← map_add, ← equiv.map_add]; congr 1; simp [Prod.add_def]
+        simp only [LinearMap.zero_apply]
+        rw [this, h1, add_zero, ← ha, LinearMap.smul_apply, h2, smul_zero]
+    have h_card : Fintype.card (Fin 2) ≤ Module.finrank k (↥S →ₗ[A] M j₁) :=
+      h_li.fintype_card_le_finrank
+    simp at h_card
+    have h1 := hdim j₁
+    rw [if_pos hj₁.symm] at h1
+    omega
 
 /-- The finrank of the Hom space from the left ideal A·e to a module M equals
 the finrank of the image eM = range(e • · : M → M).
@@ -281,12 +448,12 @@ projective A-module, together with a proof that dim_k Hom_A(P i, M j) = if i = j
 (Etingof Theorem 9.2.1(i)) -/
 theorem Etingof.Theorem_9_2_1_i
     {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
     [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
     [∀ i, SMulCommClass A k (M i)]
     [∀ i, IsSimpleModule A (M i)]
     (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
-    (hM_exhaustive : ∀ (S : Type*) [AddCommGroup S] [Module A S]
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S]
       [IsSimpleModule A S], ∃ i, Nonempty (S ≃ₗ[A] M i)) :
     ∃ (P : ι → Type uA)
       (_ : ∀ i, AddCommGroup (P i))
@@ -333,12 +500,12 @@ as an A-module to the direct sum over `i` of `(finrank k (M i))` copies of `P i`
 (Etingof Theorem 9.2.1(ii)) -/
 theorem Etingof.Theorem_9_2_1_ii
     {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
     [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
     [∀ i, SMulCommClass A k (M i)]
     [∀ i, IsSimpleModule A (M i)]
     (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
-    (hM_exhaustive : ∀ (S : Type*) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
       ∃ i, Nonempty (S ≃ₗ[A] M i))
     (P : ι → Type*) [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
     [∀ i, Module k (P i)] [∀ i, IsScalarTower k A (P i)]
@@ -358,12 +525,12 @@ so by Krull–Schmidt it must be isomorphic to one of them.
 (Etingof Theorem 9.2.1(iii)) -/
 theorem Etingof.Theorem_9_2_1_iii
     {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
     [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
     [∀ i, SMulCommClass A k (M i)]
     [∀ i, IsSimpleModule A (M i)]
     (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
-    (hM_exhaustive : ∀ (S : Type*) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
       ∃ i, Nonempty (S ≃ₗ[A] M i))
     (P : ι → Type*) [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
     [∀ i, Module k (P i)] [∀ i, IsScalarTower k A (P i)]
