@@ -347,11 +347,17 @@ Status updates are tracked in `progress/items.json`. Non-formal nodes (discussio
 external infrastructure. This project is responsible for formalizing the book in full.
 
 Before applying `blocked`:
-1. **Decompose** the problem into sub-tasks, create issues for each, link with
-   `- [ ] depends on #X`, then mark the original blocked on those issues.
-2. **If you can't decompose**, research the informal literature first (textbooks,
+1. **Read the book's proof** in the blob file (`blobs/<Chapter>/<Item>.md`). Identify
+   which earlier results the proof cites — these are your actual dependencies. Check
+   whether those earlier items exist in the project and whether they have sorries.
+2. **Decompose** the problem into sub-tasks matching the book's proof structure, create
+   issues for each, link with `- [ ] depends on #X`, then mark the original blocked on
+   those issues.
+3. **If you can't decompose**, research the informal literature first (textbooks,
    surveys, lecture notes) to find a proof strategy, then decompose.
-3. **If a result isn't in Mathlib**, prove it here — that's just more work, not a blocker.
+4. **If a result isn't in Mathlib**, prove it here — that's just more work, not a blocker.
+   The book's proof almost certainly uses results from earlier in the book, not results
+   that require novel Mathlib infrastructure.
 
 #### Triage
 
@@ -363,6 +369,9 @@ Specialized triage agents should periodically review open issues for:
 
 #### Formalization guidance
 
+- **Read the book's proof first (mandatory).** Before attempting any proof, read the blob file (`blobs/<Chapter>/<Item>.md`) for the theorem you're proving. The book contains the proof strategy — follow it. Do not invent your own proof approach from mathematical knowledge. The book's approach is chosen to build on earlier results in the book, which are the results available to you.
+- **Follow the book's dependency chain.** If the book says "the result follows from Lemma X.Y.Z", find that lemma in the project. If it has a sorry, your theorem depends on it — record that dependency and either work on the lemma first or sorry your proof with a comment citing the dependency. Never conclude that a proof is "blocked on missing Mathlib infrastructure" when the book's proof uses an earlier result from the same book.
+- **"Not in Mathlib" is not a blocker.** This project exists to formalize what isn't in Mathlib. If the book's proof requires a result that isn't in Mathlib, check whether it's an earlier item in the book (it usually is). If it genuinely requires external mathematics not covered by the book or Mathlib, prove it here — that's just more work, not a blocker. Only after exhausting the book's own proof path and checking the informal literature should you consider filing an infrastructure issue.
 - **Push sorries earlier:** Work top-down. State the theorem, sorry the proof, then work on filling in the sorry. Don't waste time on helper lemmas until you know they're needed.
 - **Spec-driven development:** Use sorry placeholders with comments explaining what's needed, not `True` or other cheats.
 - **Pre-formalization:** For complex items, first translate the natural language blob into a pedantic, detailed version with careful references to every fact used, before attempting formalization.
