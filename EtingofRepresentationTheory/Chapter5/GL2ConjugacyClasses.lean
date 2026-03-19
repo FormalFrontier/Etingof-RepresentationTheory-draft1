@@ -145,8 +145,7 @@ theorem GL2.conjugacyClass_unique (g : GL2' p n) :
              fun hss => GL2.isSplitSemisimple_not_isElliptic g hss h⟩⟩
 
 /-- The four predicates form a decidable partition: every element satisfies exactly one. -/
-theorem GL2.conjugacyClass_partition [Fintype (GaloisField p n)]
-    [DecidableEq (GaloisField p n)] (g : GL2' p n) :
+theorem GL2.conjugacyClass_partition (g : GL2' p n) :
     (GL2.IsScalar g ∧ ¬GL2.IsParabolic g ∧ ¬GL2.IsSplitSemisimple g ∧ ¬GL2.IsElliptic g) ∨
     (GL2.IsParabolic g ∧ ¬GL2.IsScalar g ∧ ¬GL2.IsSplitSemisimple g ∧ ¬GL2.IsElliptic g) ∨
     (GL2.IsSplitSemisimple g ∧ ¬GL2.IsScalar g ∧ ¬GL2.IsParabolic g ∧ ¬GL2.IsElliptic g) ∨
