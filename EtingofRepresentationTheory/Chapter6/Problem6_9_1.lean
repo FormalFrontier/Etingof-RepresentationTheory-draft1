@@ -1,5 +1,36 @@
 import Mathlib
 
+open Matrix in
+/-- The k-th power of the shift matrix has entry 1 at position (i, j) iff i = j + k. -/
+private lemma shift_matrix_pow_entry {n : ℕ} (S : Matrix (Fin n) (Fin n) ℂ)
+    (hS : ∀ (a b : Fin n), S a b = if a.val = b.val + 1 then 1 else 0)
+    (k : ℕ) : ∀ (i j : Fin n),
+    (S ^ k) i j = if i.val = j.val + k then 1 else 0 := by
+  induction k with
+  | zero =>
+    intro i j
+    simp only [pow_zero, one_apply, Nat.add_zero, Fin.ext_iff]
+  | succ k ih =>
+    intro i j
+    rw [pow_succ', mul_apply]
+    simp_rw [hS, ih]
+    split_ifs with h
+    · have hm : j.val + k < n := by omega
+      rw [Finset.sum_eq_single ⟨j.val + k, hm⟩]
+      · simp [show i.val = (j.val + k) + 1 from by omega]
+      · intro m _ hne
+        simp only [mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul]
+        split_ifs with h1 h2
+        · exact absurd (Fin.ext (by omega)) hne
+        all_goals rfl
+      · simp
+    · apply Finset.sum_eq_zero
+      intro m _
+      simp only [mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul]
+      split_ifs with h1 h2
+      · exact absurd (by omega : i.val = j.val + (k + 1)) h
+      all_goals rfl
+
 /-!
 # Problem 6.9.1: Classification of Indecomposable Representations of Q₂
 
@@ -97,11 +128,135 @@ theorem Etingof.Q₂Rep_E_indecomposable (n : ℕ) (hn : 0 < n) (eigenval : ℂ)
       rw [hq0, add_zero] at hpq; rwa [← hpq]
     have hpWeq : pW = pV := le_antisymm hpWpV (aux pV qV pW qW hcV hcW hpWpV hqWqV)
     have hqWeq : qW = qV := le_antisymm hqWqV (aux qV pV qW pW hcV.symm hcW.symm hqWqV hpWpV)
-    -- Now A preserves both pV and qV (using hApV, hAqV with pW = pV, qW = qV)
-    -- The Jordan block J_n(λ) has no nontrivial invariant direct sum decomposition
-    -- This follows from ker(A - λI) being 1-dimensional (spanned by e₁)
-    -- TODO: Prove Jordan block indecomposability
-    sorry
+    -- Suffices to show pV = ⊥ ∨ qV = ⊥ (since pW = pV and qW = qV)
+    suffices pV = ⊥ ∨ qV = ⊥ by
+      rcases this with h | h
+      · left; exact ⟨h, hpWeq ▸ h⟩
+      · right; exact ⟨h, hqWeq ▸ h⟩
+    -- By contradiction: assume both subspaces are nonzero
+    by_contra h_both
+    push_neg at h_both
+    obtain ⟨hpV_ne, hqV_ne⟩ := h_both
+    -- Define the nilpotent part N = A - eigenval • id (the shift matrix)
+    set N : Module.End ℂ (EuclideanSpace ℂ (Fin n)) :=
+      (Etingof.Q₂Rep_E n hn eigenval).A - eigenval • LinearMap.id with hN_def
+    -- A preserves pV and qV (using pW = pV, qW = qV)
+    have hA_pV : ∀ x ∈ pV, (Etingof.Q₂Rep_E n hn eigenval).A x ∈ pV :=
+      fun x hx => hpWeq ▸ hApV x hx
+    have hA_qV : ∀ x ∈ qV, (Etingof.Q₂Rep_E n hn eigenval).A x ∈ qV :=
+      fun x hx => hqWeq ▸ hAqV x hx
+    -- N preserves pV and qV (since A does and scalar maps preserve submodules)
+    have hN_pV : ∀ x ∈ pV, N x ∈ pV := fun x hx =>
+      pV.sub_mem (hA_pV x hx) (pV.smul_mem eigenval hx)
+    have hN_qV : ∀ x ∈ qV, N x ∈ qV := fun x hx =>
+      qV.sub_mem (hA_qV x hx) (qV.smul_mem eigenval hx)
+    -- N is nilpotent: the shift matrix satisfies N^n = 0
+    -- Strategy: N = toEuclideanLin(S) where S is the shift matrix, and S^n = 0
+    set S := Matrix.of fun (a b : Fin n) =>
+      if a.val = b.val + 1 then (1 : ℂ) else 0 with hS_def
+    have hS_entry : ∀ (a b : Fin n), S a b = if a.val = b.val + 1 then 1 else 0 := by
+      intro a b; simp [S, Matrix.of_apply]
+    have hN_eq : N = Matrix.toEuclideanLin S := by
+      -- N = toEuclideanLin(J) - eigenval • id
+      --   = toEuclideanLin(J - eigenval • 1) = toEuclideanLin(S)
+      -- First show J - eigenval • 1 = S as matrices
+      set J := Matrix.of fun (i j : Fin n) =>
+        if i = j then eigenval else if i.val = j.val + 1 then (1 : ℂ) else 0 with hJ_def
+      have hmat : J - eigenval • (1 : Matrix (Fin n) (Fin n) ℂ) = S := by
+        ext i j
+        simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+          Matrix.of_apply, S, J]
+        by_cases h1 : i = j
+        · subst h1; simp
+        · simp only [h1, ↓reduceIte, mul_zero, sub_zero]
+      -- Now lift to linear maps via toEuclideanLin
+      -- toEuclideanLin(J - eigenval • 1) = toEuclideanLin(J) - eigenval • toEuclideanLin(1)
+      --   = toEuclideanLin(J) - eigenval • id = N
+      have h1 : Matrix.toEuclideanLin S = Matrix.toEuclideanLin J -
+          Matrix.toEuclideanLin (eigenval • (1 : Matrix (Fin n) (Fin n) ℂ)) := by
+        rw [← map_sub, hmat]
+      rw [h1, map_smul, Matrix.toLpLin_one]
+      simp [N, Q₂Rep_E, J]
+    have hS_pow : S ^ n = 0 := by
+      ext i j
+      rw [shift_matrix_pow_entry S hS_entry]
+      simp only [Matrix.zero_apply]
+      split_ifs with h
+      · exact absurd h (by omega)
+      · rfl
+    have hN_nilp : IsNilpotent N :=
+      ⟨n, by rw [hN_eq, ← Matrix.toLpLin_pow 2, hS_pow, map_zero]⟩
+    -- N^{n-1} ≠ 0: the shift by n-1 sends e₀ to e_{n-1}
+    have hN_pow_ne : N ^ (n - 1) ≠ 0 := by
+      rw [hN_eq, ← Matrix.toLpLin_pow 2]
+      intro h
+      have hS_pow_ne : S ^ (n - 1) = 0 :=
+        (Matrix.toEuclideanLin).injective (by rw [h, map_zero])
+      have h0 := congr_fun (congr_fun hS_pow_ne ⟨n - 1, by omega⟩) ⟨0, hn⟩
+      simp only [Matrix.zero_apply] at h0
+      rw [shift_matrix_pow_entry S hS_entry _ ⟨n - 1, by omega⟩ ⟨0, hn⟩] at h0
+      simp [Fin.val_mk] at h0
+    -- Since pV ≠ ⊤ and qV ≠ ⊤ (from the complement being nonzero)
+    have hpV_ne_top : pV ≠ ⊤ := by
+      intro h
+      apply hqV_ne
+      have hd := hcV.disjoint.eq_bot
+      rwa [h, top_inf_eq] at hd
+    have hqV_ne_top : qV ≠ ⊤ := by
+      intro h
+      apply hpV_ne
+      have hd := hcV.disjoint.eq_bot
+      rwa [h, inf_top_eq] at hd
+    -- finrank(pV) < n and finrank(qV) < n
+    have hdim_pV : Module.finrank ℂ pV < n := by
+      calc Module.finrank ℂ ↥pV
+          < Module.finrank ℂ (EuclideanSpace ℂ (Fin n)) := Submodule.finrank_lt hpV_ne_top
+        _ = n := finrank_euclideanSpace_fin
+    have hdim_qV : Module.finrank ℂ qV < n := by
+      calc Module.finrank ℂ ↥qV
+          < Module.finrank ℂ (EuclideanSpace ℂ (Fin n)) := Submodule.finrank_lt hqV_ne_top
+        _ = n := finrank_euclideanSpace_fin
+    -- Helper: N^{n-1} kills any proper N-invariant submodule
+    -- Proof: restrict N to S, it's nilpotent, Cayley-Hamilton gives (N|_S)^d = 0 where
+    -- d = finrank S < n, so N^{n-1} = N^{n-1-d} ∘ N^d = 0 on S.
+    have hN_kills_sub : ∀ (S : Submodule ℂ (EuclideanSpace ℂ (Fin n))),
+        (hS : ∀ x ∈ S, N x ∈ S) → Module.finrank ℂ S < n →
+        ∀ v ∈ S, (N ^ (n - 1)) v = 0 := by
+      intro S hS hdimS v hv
+      -- N restricted to S is nilpotent
+      have hnil_S : IsNilpotent (N.restrict hS) := by
+        obtain ⟨k, hk⟩ := hN_nilp
+        exact ⟨k, LinearMap.ext fun ⟨m, hm⟩ => by
+          rw [Module.End.pow_restrict, LinearMap.restrict_apply, LinearMap.zero_apply]
+          exact Subtype.ext (show (N ^ k) m = 0 by
+            exact LinearMap.congr_fun hk m)⟩
+      -- By Cayley-Hamilton, (N.restrict)^{finrank S} = 0
+      have hpow_S : (N.restrict hS) ^ Module.finrank ℂ ↥S = 0 := by
+        have hchar := (LinearMap.isNilpotent_iff_charpoly (N.restrict hS)).mp hnil_S
+        have hCH := LinearMap.aeval_self_charpoly (N.restrict hS)
+        rw [hchar, Polynomial.aeval_X_pow] at hCH
+        exact hCH
+      -- So N^{finrank S} kills S
+      have hkill : (N ^ Module.finrank ℂ ↥S) v = 0 := by
+        have h := LinearMap.congr_fun hpow_S ⟨v, hv⟩
+        rw [Module.End.pow_restrict, LinearMap.restrict_apply, LinearMap.zero_apply] at h
+        exact congr_arg Subtype.val h
+      -- N^{n-1} = N^{n-1-d} ∘ N^d where d = finrank S ≤ n-1
+      rw [show n - 1 = (n - 1 - Module.finrank ℂ ↥S) + Module.finrank ℂ ↥S from by omega,
+          pow_add, Module.End.mul_apply, hkill, map_zero]
+    have hN_kills_pV : ∀ v ∈ pV, (N ^ (n - 1)) v = 0 :=
+      hN_kills_sub pV hN_pV hdim_pV
+    have hN_kills_qV : ∀ v ∈ qV, (N ^ (n - 1)) v = 0 :=
+      hN_kills_sub qV hN_qV hdim_qV
+    -- Since V = pV + qV (from IsCompl), N^{n-1} = 0 on all of V
+    have hN_pow_zero : N ^ (n - 1) = 0 := by
+      ext v
+      simp only [LinearMap.zero_apply]
+      have : v ∈ (⊤ : Submodule ℂ _) := Submodule.mem_top
+      rw [← hcV.codisjoint.eq_top] at this
+      obtain ⟨p, hp, q, hq, hpq⟩ := Submodule.mem_sup.mp this
+      rw [← hpq, map_add, hN_kills_pV p hp, hN_kills_qV q hq, add_zero]
+    exact absurd hN_pow_zero hN_pow_ne
 
 /-- **Problem 6.9.1(a), Family H_n (Etingof)**: For n ≥ 1, V = ℂⁿ with basis vᵢ,
 W = ℂⁿ⁻¹ with basis wᵢ. A sends vᵢ ↦ wᵢ (i < n) and vₙ ↦ 0.
