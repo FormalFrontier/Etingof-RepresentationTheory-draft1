@@ -31,11 +31,10 @@ theorem Etingof.isSink_reversedAtVertex_isSource
   constructor
   intro e
   change Etingof.ReversedAtVertexHom Q i j i at e
-  unfold Etingof.ReversedAtVertexHom at e
   by_cases hj : j = i
-  · simp only [hj, ite_true] at e
-    exact (hi i).false e
-  · simp only [hj, ite_false, ite_true] at e
+  · rw [Etingof.ReversedAtVertexHom_eq_eq hj rfl] at e
+    rw [hj] at e; exact (hi i).false e
+  · rw [Etingof.ReversedAtVertexHom_ne_eq hj rfl] at e
     exact (hi j).false e
 
 /-- A source in Q becomes a sink in the reversed quiver Q̄ᵢ.
@@ -49,11 +48,10 @@ theorem Etingof.isSource_reversedAtVertex_isSink
   constructor
   intro e
   change Etingof.ReversedAtVertexHom Q i i j at e
-  unfold Etingof.ReversedAtVertexHom at e
   by_cases hj : j = i
-  · simp only [hj, ite_true] at e
-    exact (hi i).false e
-  · simp only [ite_true, hj, ite_false] at e
+  · rw [Etingof.ReversedAtVertexHom_eq_eq rfl hj] at e
+    rw [hj] at e; exact (hi i).false e
+  · rw [Etingof.ReversedAtVertexHom_eq_ne rfl hj] at e
     exact (hi j).false e
 
 end Reversal
@@ -86,10 +84,31 @@ private theorem Etingof.reversedAtVertex_twice
   apply Quiver.ext'
   intro a b
   change @Etingof.ReversedAtVertexHom Q _ (Etingof.reversedAtVertex Q i) i a b = (a ⟶ b)
-  unfold Etingof.ReversedAtVertexHom
-  split_ifs with ha hb hb
-  all_goals (simp only [Etingof.reversedAtVertex, Etingof.ReversedAtVertexHom])
-  all_goals (split_ifs <;> first | rfl | subst_vars <;> rfl | exact absurd rfl ‹_›)
+  -- Two-layer reduction: outer ReversedAtVertexHom uses reversed quiver,
+  -- inner uses original quiver. Use `trans` + `change` to bridge.
+  by_cases ha : a = i <;> by_cases hb : b = i
+  · -- a = i, b = i
+    trans @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b
+    · exact @Etingof.ReversedAtVertexHom_eq_eq Q _ (Etingof.reversedAtVertex Q i) i a b ha hb
+    · change Etingof.ReversedAtVertexHom Q i a b = (a ⟶ b)
+      exact Etingof.ReversedAtVertexHom_eq_eq ha hb
+  · -- a = i, b ≠ i: outer gives reversed (b ⟶ i in reversed quiver)
+    trans @Quiver.Hom Q (Etingof.reversedAtVertex Q i) b i
+    · exact @Etingof.ReversedAtVertexHom_eq_ne Q _ (Etingof.reversedAtVertex Q i) i a b ha hb
+    · change Etingof.ReversedAtVertexHom Q i b i = (a ⟶ b)
+      rw [Etingof.ReversedAtVertexHom_ne_eq hb rfl]
+      exact congrArg (· ⟶ b) ha.symm
+  · -- a ≠ i, b = i: outer gives reversed (i ⟶ a in reversed quiver)
+    trans @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i a
+    · exact @Etingof.ReversedAtVertexHom_ne_eq Q _ (Etingof.reversedAtVertex Q i) i a b ha hb
+    · change Etingof.ReversedAtVertexHom Q i i a = (a ⟶ b)
+      rw [Etingof.ReversedAtVertexHom_eq_ne rfl ha]
+      exact congrArg (a ⟶ ·) hb.symm
+  · -- a ≠ i, b ≠ i: outer gives unchanged (a ⟶ b in reversed quiver)
+    trans @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b
+    · exact @Etingof.ReversedAtVertexHom_ne_ne Q _ (Etingof.reversedAtVertex Q i) i a b ha hb
+    · change Etingof.ReversedAtVertexHom Q i a b = (a ⟶ b)
+      exact Etingof.ReversedAtVertexHom_ne_ne ha hb
 
 /-- Transport a representation from the double-reversed quiver (Q̄ᵢ)̄ᵢ back to Q.
 
@@ -172,9 +191,9 @@ private theorem Etingof.arrowsOutReversed_ne
     (a : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i) : a.fst ≠ i := by
   obtain ⟨j, e⟩ := a
   change Etingof.ReversedAtVertexHom Q i i j at e
-  unfold Etingof.ReversedAtVertexHom at e
   by_cases hj : j = i
-  · simp only [hj, ite_true] at e; exact ((hi i).false e).elim
+  · rw [Etingof.ReversedAtVertexHom_eq_eq rfl hj] at e
+    rw [hj] at e; exact ((hi i).false e).elim
   · exact hj
 
 /-- Extract the original arrow j →_Q i from a reversed arrow i →_{Q̄ᵢ} j. -/
@@ -184,9 +203,8 @@ private def Etingof.arrowsOutReversed_origArrow
     (a : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i) : a.fst ⟶ i := by
   obtain ⟨j, e⟩ := a
   change Etingof.ReversedAtVertexHom Q i i j at e
-  unfold Etingof.ReversedAtVertexHom at e
   have hne := Etingof.arrowsOutReversed_ne hi ⟨j, e⟩
-  simp only [ite_true, hne, ite_false] at e; exact e
+  rw [Etingof.ReversedAtVertexHom_eq_ne rfl hne] at e; exact e
 
 /-- Map arrows into i in Q to arrows out of i in Q̄ᵢ.
 Since i is a sink (no arrows out), any arrow j → i in Q gives a reversed
@@ -200,11 +218,9 @@ private def Etingof.arrowsInto_to_arrowsOutReversed
   refine ⟨j, ?_⟩
   -- Need i →_{Q̄ᵢ} j, i.e., ReversedAtVertexHom Q i i j
   change Etingof.ReversedAtVertexHom Q i i j
-  unfold Etingof.ReversedAtVertexHom
-  -- Since i = i, first branch: if j = i then (i ⟶ i) else (j ⟶ i)
   have hji : j ≠ i := by
     intro heq; rw [heq] at e; exact (hi i).false e
-  simp only [ite_true, hji, ite_false]; exact e
+  rw [Etingof.ReversedAtVertexHom_eq_ne rfl hji]; exact e
 
 /-- The component of `arrowsInto_to_arrowsOutReversed` at j gives the original arrow j ⟶ i. -/
 private theorem Etingof.arrowsInto_to_arrowsOutReversed_fst

@@ -106,18 +106,17 @@ noncomputable def Etingof.reflectionFunctorMinus
     (fun v => acmAt v (dp v))
     (fun v => modAt v (dp v))
     (fun {a b} (e : Etingof.ReversedAtVertexHom V i a b) => by
-      change Etingof.ReversedAtVertexHom V i a b at e
-      unfold Etingof.ReversedAtVertexHom at e
       by_cases ha : a = i
       · by_cases hb : b = i
         · -- a = i, b = i: self-loop; vacuous since i is a source (no arrows into i)
-          simp only [ha, hb] at e; exact ((hi i).false e).elim
+          rw [Etingof.ReversedAtVertexHom_eq_eq ha hb] at e
+          exact ((hi a).false (hb ▸ e)).elim
         · -- a = i, b ≠ i: arrow b → i in Q; vacuous since i is a source
-          simp only [ha, hb, ite_true, ite_false] at e
+          rw [Etingof.ReversedAtVertexHom_eq_ne ha hb] at e
           exact ((hi b).false e).elim
       · by_cases hb : b = i
         · -- a ≠ i, b = i: reversed arrow (i ⟶ a in Q), map is ρ_a → ⊕ → coker(ψ)
-          simp only [ha, hb, ite_false, ite_true] at e
+          rw [Etingof.ReversedAtVertexHom_ne_eq ha hb] at e
           -- Beta-reduce and generalize to make Decidable.casesOn reduce
           change objAt a (dp a) →ₗ[k] objAt b (dp b)
           revert e
@@ -133,7 +132,7 @@ noncomputable def Etingof.reflectionFunctorMinus
                 (DirectSum.lof k (Etingof.ArrowsOutOf V i)
                   (fun a => ρ.obj a.1) ⟨a, e⟩)
         · -- a ≠ i, b ≠ i: unchanged arrow
-          simp only [ha, hb] at e
+          rw [Etingof.ReversedAtVertexHom_ne_ne ha hb] at e
           change objAt a (dp a) →ₗ[k] objAt b (dp b)
           revert e
           generalize dp a = da; generalize dp b = db
@@ -193,9 +192,8 @@ theorem Etingof.arrowsIntoReversed_ne
   obtain ⟨j, e⟩ := a
   intro heq; dsimp only at heq
   change Etingof.ReversedAtVertexHom Q i j i at e
-  unfold Etingof.ReversedAtVertexHom at e
-  rw [heq] at e
-  simp only [ite_true] at e; exact (hi i).false e
+  rw [Etingof.ReversedAtVertexHom_eq_eq heq rfl] at e
+  exact (hi j).false (show j ⟶ i from e)
 
 /-- Extract the original arrow i →_Q j from a reversed arrow j →_{Q̄ᵢ} i.
 When i is a source, `ReversedAtVertexHom Q i j i` with j ≠ i is just `i ⟶ j` in Q. -/
@@ -205,8 +203,7 @@ def Etingof.arrowsIntoReversed_origArrow
     (a : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) : i ⟶ a.fst := by
   obtain ⟨j, e⟩ := a
   change Etingof.ReversedAtVertexHom Q i j i at e
-  unfold Etingof.ReversedAtVertexHom at e
   have hne := Etingof.arrowsIntoReversed_ne hi ⟨j, e⟩
-  simp only [hne, ite_false, ite_true] at e; exact e
+  rw [Etingof.ReversedAtVertexHom_ne_eq hne rfl] at e; exact e
 
 end ReflectionFunctorMinusAPI
