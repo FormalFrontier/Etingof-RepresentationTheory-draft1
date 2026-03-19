@@ -15,12 +15,7 @@ def Etingof.positiveRoots (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) :
     Set (Fin n → ℤ) :=
   {x | Etingof.IsRoot n adj x ∧ ∀ i, 0 ≤ x i}
 
-/-- The number of positive roots for Aₙ is n(n+1)/2.
-(Etingof Example 6.4.9(1)) -/
-theorem Etingof.Example_6_4_9_An (n : ℕ) (hn : 1 ≤ n) :
-    (Etingof.positiveRoots n (Etingof.DynkinType.A n hn).adj).Finite ∧
-    Set.ncard (Etingof.positiveRoots n (Etingof.DynkinType.A n hn).adj) =
-      n * (n + 1) / 2 := sorry -- see An_result below; needs An_bound + An_count
+-- Etingof.Example_6_4_9_An is proved after the section (see An_result)
 
 /-- The number of positive roots for Dₙ is n(n-1).
 (Etingof Example 6.4.9(2)) -/
@@ -695,11 +690,308 @@ private lemma An_bound (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ)
             show x i < 2; rw [show i = ⟨i.val, by omega⟩ from Fin.ext rfl]; linarith
           · rw [show i = ⟨m, by omega⟩ from Fin.ext (by omega), hxm_val]; omega
 
+/-- The interval indicator vector: 1 on [a, b], 0 elsewhere. -/
+private def ivec (n : ℕ) (a b : ℕ) : Fin n → Fin 2 :=
+  fun i => if a ≤ i.val ∧ i.val ≤ b then 1 else 0
+
+/-- Interval indicators are in rootCountFinset. -/
+private lemma ivec_mem : ∀ (n : ℕ) (hn : 1 ≤ n) (a b : ℕ) (hab : a ≤ b) (hb : b < n),
+    ivec n a b ∈ rootCountFinset n (Etingof.DynkinType.A n hn).adj 2 := by
+  intro n; induction n with
+  | zero => intro hn; omega
+  | succ m ih =>
+    intro hn a b hab hb
+    simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ, true_and,
+      Bool.and_eq_true, decide_eq_true_eq]
+    constructor
+    · -- nonzero: position a has value 1
+      intro h; have : (fun i : Fin (m + 1) => ((ivec (m + 1) a b) i : ℤ)) = 0 := by
+        ext i; have := congr_fun h i; simp at this; exact_mod_cast this
+      have : ((ivec (m + 1) a b) ⟨a, by omega⟩ : ℤ) = 0 := by
+        have := congr_fun this ⟨a, by omega⟩; simpa using this
+      simp [ivec, hab] at this
+    · -- q = 2: by induction using peel
+      by_cases hm : m = 0
+      · subst hm; have : a = 0 := by omega; have : b = 0 := by omega; subst_vars
+        simp [dotProduct, mulVec, Etingof.DynkinType.adj, Matrix.sub_apply,
+          Matrix.smul_apply, Matrix.one_apply, ivec,
+          Finset.sum_fin_eq_sum_range, Finset.sum_range_succ, Finset.sum_range_zero]
+        norm_num
+      · have hm1 : 1 ≤ m := by omega
+        rw [An_qform_peel m hm1]
+        by_cases hbm : b < m
+        · -- interval doesn't reach last: v(m) = 0
+          have : ((ivec (m + 1) a b) ⟨m, by omega⟩ : ℤ) = 0 := by
+            simp [ivec, show ¬(m ≤ b) from by omega]
+          simp only [this, mul_zero, sub_zero]
+          have hmem := ih hm1 a b hab hbm
+          simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ, true_and,
+            Bool.and_eq_true, decide_eq_true_eq] at hmem
+          convert hmem.2 using 2
+          ext i; show ((ivec (m + 1) a b) ⟨i.val, by omega⟩ : ℤ) = ((ivec m a b) i : ℤ)
+          congr 1; simp [ivec]; constructor <;> intro h <;> exact h
+        · have hbm_eq : b = m := by omega; subst hbm_eq
+          by_cases ham : a = m
+          · -- single element at m: v = (0,...,0,1)
+            subst ham
+            have hvm : ((ivec (m + 1) m m) ⟨m, by omega⟩ : ℤ) = 1 := by simp [ivec]
+            have hvm1 : ((ivec (m + 1) m m) ⟨m - 1, by omega⟩ : ℤ) = 0 := by
+              simp [ivec]; intro h; omega
+            rw [hvm, hvm1]; ring_nf
+            suffices dotProduct (fun i : Fin m => ((ivec (m + 1) m m) ⟨i.val, by omega⟩ : ℤ))
+              ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - (Etingof.DynkinType.A m hm1).adj).mulVec
+                (fun i : Fin m => ((ivec (m + 1) m m) ⟨i.val, by omega⟩ : ℤ))) = 0 by linarith
+            have : (fun i : Fin m => ((ivec (m + 1) m m) ⟨i.val, by omega⟩ : ℤ)) = 0 := by
+              ext i; simp [ivec]; intro h; omega
+            rw [this]; simp [dotProduct, mulVec]
+          · -- interval [a, m] with a < m
+            have ham' : a < m := by omega
+            have hvm : ((ivec (m + 1) a m) ⟨m, by omega⟩ : ℤ) = 1 := by simp [ivec, hab]
+            have hvm1 : ((ivec (m + 1) a m) ⟨m - 1, by omega⟩ : ℤ) = 1 := by
+              simp [ivec]; constructor <;> omega
+            rw [hvm, hvm1]; ring_nf
+            -- q_m(ivec(m, a, m-1)) = 2 by IH
+            have hmem := ih hm1 a (m - 1) (by omega) (by omega)
+            simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ, true_and,
+              Bool.and_eq_true, decide_eq_true_eq] at hmem
+            convert hmem.2 using 2
+            ext i; show ((ivec (m + 1) a m) ⟨i.val, by omega⟩ : ℤ) = ((ivec m a (m - 1)) i : ℤ)
+            congr 1; simp [ivec]; constructor
+            · intro ⟨h1, h2⟩; exact ⟨h1, by omega⟩
+            · intro ⟨h1, h2⟩; exact ⟨h1, by omega⟩
+
+/-- The interval indicator map is injective on valid pairs. -/
+private lemma ivec_injective (n : ℕ) (a₁ b₁ a₂ b₂ : ℕ)
+    (h₁ : a₁ ≤ b₁) (hb₁ : b₁ < n) (h₂ : a₂ ≤ b₂) (hb₂ : b₂ < n)
+    (heq : ivec n a₁ b₁ = ivec n a₂ b₂) : a₁ = a₂ ∧ b₁ = b₂ := by
+  have key : ∀ (a b : ℕ) (_ : a ≤ b) (hb : b < n) (j : ℕ) (hj : j < n),
+      (ivec n a b ⟨j, hj⟩ = 1) ↔ (a ≤ j ∧ j ≤ b) := by
+    intro a b _ _ j _
+    simp only [ivec]
+    split_ifs with h <;> simp_all [Fin.ext_iff]
+  constructor
+  · by_contra hne
+    rcases Nat.lt_or_gt_of_ne hne with hlt | hlt
+    · have := (key a₂ b₂ h₂ hb₂ a₁ (by omega)).mp
+        ((congr_fun heq ⟨a₁, by omega⟩).symm ▸ (key a₁ b₁ h₁ hb₁ a₁ (by omega)).mpr ⟨le_refl _, h₁⟩)
+      omega
+    · have := (key a₁ b₁ h₁ hb₁ a₂ (by omega)).mp
+        ((congr_fun heq ⟨a₂, by omega⟩) ▸ (key a₂ b₂ h₂ hb₂ a₂ (by omega)).mpr ⟨le_refl _, h₂⟩)
+      omega
+  · by_contra hne
+    rcases Nat.lt_or_gt_of_ne hne with hlt | hlt
+    · have := (key a₂ b₂ h₂ hb₂ b₁ (by omega)).mp
+        ((congr_fun heq ⟨b₁, by omega⟩).symm ▸ (key a₁ b₁ h₁ hb₁ b₁ (by omega)).mpr ⟨h₁, le_refl _⟩)
+      omega
+    · have := (key a₁ b₁ h₁ hb₁ b₂ (by omega)).mp
+        ((congr_fun heq ⟨b₂, by omega⟩) ▸ (key a₂ b₂ h₂ hb₂ b₂ (by omega)).mpr ⟨h₂, le_refl _⟩)
+      omega
+
+/-- Every element of rootCountFinset is an interval indicator. -/
+private lemma root_is_ivec : ∀ (n : ℕ) (hn : 1 ≤ n) (v : Fin n → Fin 2),
+    v ∈ rootCountFinset n (Etingof.DynkinType.A n hn).adj 2 →
+    ∃ a b : ℕ, a ≤ b ∧ b < n ∧ v = ivec n a b := by
+  intro n
+  induction n with
+  | zero => intro hn; omega
+  | succ m ih =>
+    intro hn v hv
+    simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ, true_and,
+      Bool.and_eq_true, decide_eq_true_eq] at hv
+    obtain ⟨hne, hq⟩ := hv
+    -- Extract the last coordinate value
+    have hvm_bound : (v ⟨m, by omega⟩ : ℕ) < 2 := (v ⟨m, by omega⟩).isLt
+    -- v takes values in Fin 2, so each coordinate is 0 or 1
+    by_cases hm : m = 0
+    · -- n = 1: only root is [1]
+      subst hm
+      refine ⟨0, 0, le_refl _, by omega, ?_⟩
+      ext i; fin_cases i
+      simp only [ivec, Fin.val_zero, le_refl, true_and, Nat.zero_le, and_self, ite_true]
+      have : (v 0 : ℤ) ≠ 0 := by
+        intro h0; apply hne; ext i; fin_cases i; exact_mod_cast h0
+      have : (v 0 : ℕ) < 2 := (v 0).isLt
+      have : (v 0 : ℕ) ≠ 0 := by
+        intro h; apply hne; ext i; fin_cases i; exact Fin.ext (by simpa using h)
+      exact Fin.ext (by omega)
+    · have hm1 : 1 ≤ m := by omega
+      -- Set up restriction to first m coordinates
+      set v' : Fin m → Fin 2 := fun i => v ⟨i.val, by omega⟩ with hv'_def
+      -- Use peel decomposition
+      have hpeel := An_qform_peel m hm1 (fun i => ((v i : ℤ)))
+      rw [hpeel] at hq
+      set x' := fun i : Fin m => (v ⟨i.val, by omega⟩ : ℤ) with hx'_def
+      set qm := dotProduct x' ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+          (Etingof.DynkinType.A m hm1).adj).mulVec x') with hqm_def
+      -- qm ≥ 0 from An_qform_ge_endpoints
+      have hge := An_qform_ge_endpoints m hm1 x'
+      have hqm_nonneg : qm ≥ 0 := by
+        linarith [sq_nonneg (x' ⟨0, by omega⟩), sq_nonneg (x' ⟨m - 1, by omega⟩)]
+      -- v(m) is 0 or 1
+      by_cases hvm0 : v ⟨m, by omega⟩ = 0
+      · -- v(m) = 0: qm = 2, v' is a root, use IH
+        have hvm_int : (v ⟨m, by omega⟩ : ℤ) = 0 := by simp [hvm0]
+        have hqm2 : qm = 2 := by linarith
+        have hne' : (fun i : Fin m => (v' i : ℤ)) ≠ 0 := by
+          intro h; apply hne; ext i
+          by_cases hi : i.val < m
+          · have := congr_fun h ⟨i.val, hi⟩
+            simp [Pi.zero_apply] at this
+            exact Fin.ext (by exact_mod_cast this)
+          · have : i = ⟨m, by omega⟩ := Fin.ext (by omega)
+            rw [this]; exact hvm0
+        have hv'_mem : v' ∈ rootCountFinset m (Etingof.DynkinType.A m hm1).adj 2 := by
+          simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ, true_and,
+            Bool.and_eq_true, decide_eq_true_eq]
+          exact ⟨hne', by convert hqm2⟩
+        obtain ⟨a, b, hab, hbm, hv'eq⟩ := ih hm1 v' hv'_mem
+        refine ⟨a, b, hab, by omega, ?_⟩
+        ext i
+        by_cases hi : i.val < m
+        · have := congr_fun hv'eq ⟨i.val, hi⟩
+          simp [hv'_def] at this
+          show v i = ivec (m + 1) a b i
+          simp [ivec] at this ⊢
+          rw [show (v ⟨i.val, by omega⟩ = v i) from congr_arg v (Fin.ext rfl)] at this
+          convert this using 2
+          constructor
+          · intro ⟨h1, h2⟩; exact ⟨h1, by omega⟩
+          · intro ⟨h1, h2⟩; exact ⟨h1, h2⟩
+        · have : i = ⟨m, by omega⟩ := Fin.ext (by omega)
+          rw [this, hvm0]; simp [ivec]; intro h; omega
+      · -- v(m) = 1
+        have hvm1 : v ⟨m, by omega⟩ = 1 := by
+          have := (v ⟨m, by omega⟩).isLt; interval_cases (v ⟨m, by omega⟩) <;> simp_all
+        have hvm_int : (v ⟨m, by omega⟩ : ℤ) = 1 := by simp [hvm1]
+        -- Check v(m-1)
+        by_cases hvm1_0 : v ⟨m - 1, by omega⟩ = 0
+        · -- v(m-1) = 0: qm + 2 - 0 = 2, so qm = 0
+          have hvm1_int : (v ⟨m - 1, by omega⟩ : ℤ) = 0 := by simp [hvm1_0]
+          have hqm0 : qm = 0 := by
+            have : x' ⟨m - 1, by omega⟩ = (v ⟨m - 1, by omega⟩ : ℤ) := rfl
+            linarith
+          -- qm = 0 and x' ≥ 0 → x' = 0 by An_qform_zero
+          have hpos' : ∀ i, 0 ≤ x' i := by
+            intro i; simp [hx'_def]; exact Int.natCast_nonneg _
+          have hx'_zero := An_qform_zero m hm1 x' hpos' (by linarith)
+          -- So v is 0 everywhere except position m → ivec(m+1, m, m)
+          refine ⟨m, m, le_refl _, by omega, ?_⟩
+          ext i
+          by_cases hi : i.val < m
+          · have hxi : (v ⟨i.val, by omega⟩ : ℤ) = 0 := by
+              have := congr_fun hx'_zero ⟨i.val, hi⟩
+              simp [Pi.zero_apply, hx'_def] at this; exact this
+            show v i = ivec (m + 1) m m i
+            have : ivec (m + 1) m m i = 0 := by simp [ivec, show ¬(m ≤ i.val) from by omega]
+            rw [this]
+            rw [show i = ⟨i.val, by omega⟩ from Fin.ext rfl]
+            exact Fin.ext (by exact_mod_cast hxi)
+          · have : i = ⟨m, by omega⟩ := Fin.ext (by omega)
+            rw [this, hvm1]; simp [ivec]
+        · -- v(m-1) = 1: qm + 2 - 2 = 2, so qm = 2
+          have hvm1_1 : v ⟨m - 1, by omega⟩ = 1 := by
+            have := (v ⟨m - 1, by omega⟩).isLt
+            interval_cases (v ⟨m - 1, by omega⟩) <;> simp_all
+          have hvm1_int : (v ⟨m - 1, by omega⟩ : ℤ) = 1 := by simp [hvm1_1]
+          have hqm2 : qm = 2 := by
+            have : x' ⟨m - 1, by omega⟩ = (v ⟨m - 1, by omega⟩ : ℤ) := rfl
+            linarith
+          -- v' is a root, use IH
+          have hne' : (fun i : Fin m => (v' i : ℤ)) ≠ 0 := by
+            intro h
+            have := congr_fun h ⟨m - 1, by omega⟩
+            simp [Pi.zero_apply, hv'_def] at this
+            rw [hvm1_1] at this; simp at this
+          have hv'_mem : v' ∈ rootCountFinset m (Etingof.DynkinType.A m hm1).adj 2 := by
+            simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ, true_and,
+              Bool.and_eq_true, decide_eq_true_eq]
+            exact ⟨hne', by convert hqm2⟩
+          obtain ⟨a, b, hab, hbm, hv'eq⟩ := ih hm1 v' hv'_mem
+          -- v' = ivec(m, a, b) and v'(m-1) = 1, so m-1 ∈ [a,b], hence b ≥ m-1
+          -- Since b < m, b = m-1
+          have hb_eq : b = m - 1 := by
+            have : v' ⟨m - 1, by omega⟩ = ivec m a b ⟨m - 1, by omega⟩ := by
+              have := congr_fun hv'eq ⟨m - 1, by omega⟩; exact this
+            simp [hv'_def, hvm1_1, ivec] at this
+            omega
+          subst hb_eq
+          refine ⟨a, m, hab.trans (by omega), by omega, ?_⟩
+          ext i
+          by_cases hi : i.val < m
+          · have := congr_fun hv'eq ⟨i.val, hi⟩
+            simp [hv'_def] at this
+            show v i = ivec (m + 1) a m i
+            simp [ivec] at this ⊢
+            rw [show v ⟨i.val, by omega⟩ = v i from congr_arg v (Fin.ext rfl)] at this
+            convert this using 2
+            constructor
+            · intro ⟨h1, h2⟩; exact ⟨h1, by omega⟩
+            · intro ⟨h1, h2⟩; exact ⟨h1, h2⟩
+          · have : i = ⟨m, by omega⟩ := Fin.ext (by omega)
+            rw [this, hvm1]; simp [ivec, hab.trans (by omega : m - 1 ≤ m)]
+
+/-- Number of pairs (a, b) with a ≤ b in Fin n is n(n+1)/2. -/
+private lemma pair_count (n : ℕ) :
+    ((Finset.univ : Finset (Fin n × Fin n)).filter (fun p => p.1 ≤ p.2)).card =
+    n * (n + 1) / 2 := by
+  -- Use symmetry: |{a ≤ b}| + |{a > b}| = n², |{a > b}| = |{a < b}|,
+  -- |{a ≤ b}| = |{a < b}| + |{a = b}| = |{a > b}| + n
+  -- So 2|{a ≤ b}| = n² + n, |{a ≤ b}| = n(n+1)/2
+  set S := (Finset.univ : Finset (Fin n × Fin n))
+  set Sle := S.filter (fun p => p.1 ≤ p.2)
+  set Sgt := S.filter (fun p => ¬(p.1 ≤ p.2))
+  have htotal : Sle.card + Sgt.card = n * n := by
+    rw [Finset.filter_card_add_filter_neg_card_eq_card]
+    simp [Finset.card_univ, Fintype.card_prod, Fintype.card_fin]
+  -- |{a > b}| = |{b < a}| via swap
+  have hswap : Sgt.card = (S.filter (fun p => p.2 < p.1)).card := by
+    congr 1; ext ⟨a, b⟩; simp [Sgt, not_le]
+  -- |{b < a}| ≤ |{a ≤ b}| - need |{b < a}| = |{a ≤ b}| - n
+  -- Actually: |{a ≤ b}| = |{a < b}| + |diag| and |{a < b}| = |{b < a}| (by swap)
+  set Slt := S.filter (fun p => p.1 < p.2)
+  set Seq := S.filter (fun p => p.1 = p.2)
+  have hle_split : Sle.card = Slt.card + Seq.card := by
+    rw [← Finset.card_union_of_disjoint]
+    · congr 1; ext ⟨a, b⟩; simp [Sle, Slt, Seq]; omega
+    · exact Finset.disjoint_filter.mpr (fun ⟨a, b⟩ _ h1 h2 => by simp_all; omega)
+  have hdiag : Seq.card = n := by
+    convert_to (Finset.univ.image (fun a : Fin n => (a, a))).card = n
+    · congr 1; ext ⟨a, b⟩; simp [Seq, Finset.mem_image, Prod.ext_iff]
+    · rw [Finset.card_image_of_injective _ (fun a₁ a₂ h => by simpa using h)]; simp
+  have hlt_swap : Slt.card = Sgt.card := by
+    apply Finset.card_nbij (fun (p : Fin n × Fin n) _ => (p.2, p.1))
+    · intro ⟨a, b⟩ hp; simp [Slt, Sgt] at hp ⊢; omega
+    · intro ⟨a₁, b₁⟩ _ ⟨a₂, b₂⟩ _ h; simpa [Prod.ext_iff] using h
+    · intro ⟨a, b⟩ hp; simp [Sgt, not_le] at hp
+      exact ⟨(b, a), by simp [Slt, hp], by ext <;> rfl⟩
+  -- Now: Sle = Slt + n, Slt = Sgt, Sle + Sgt = n²
+  -- So Sle + (Sle - n) = n², 2*Sle = n² + n
+  omega
+
 /-- The count of rootCountFinset for A_n with bound 2 equals n(n+1)/2. -/
 private lemma An_count (n : ℕ) (hn : 1 ≤ n) :
     (rootCountFinset n (Etingof.DynkinType.A n hn).adj 2).card =
       n * (n + 1) / 2 := by
-  sorry
+  have heq : rootCountFinset n (Etingof.DynkinType.A n hn).adj 2 =
+      ((Finset.univ : Finset (Fin n × Fin n)).filter (fun p => p.1 ≤ p.2)).image
+        (fun p => ivec n p.1.val p.2.val) := by
+    ext v; constructor
+    · intro hv
+      obtain ⟨a, b, hab, hbn, hveq⟩ := root_is_ivec n hn v hv
+      exact Finset.mem_image.mpr ⟨(⟨a, by omega⟩, ⟨b, by omega⟩),
+        Finset.mem_filter.mpr ⟨Finset.mem_univ _, by simpa using hab⟩, hveq.symm⟩
+    · intro hv
+      obtain ⟨⟨a, b⟩, hp, hveq⟩ := Finset.mem_image.mp hv
+      have hab := (Finset.mem_filter.mp hp).2
+      rw [← hveq]; exact ivec_mem n hn a.val b.val (by simpa using hab) b.isLt
+  rw [heq, Finset.card_image_of_injOn (fun ⟨a₁, b₁⟩ h₁ ⟨a₂, b₂⟩ h₂ heq => by
+    have hab₁ := (Finset.mem_filter.mp h₁).2
+    have hab₂ := (Finset.mem_filter.mp h₂).2
+    obtain ⟨ha, hb⟩ := ivec_injective n a₁.val b₁.val a₂.val b₂.val
+      (by simpa using hab₁) b₁.isLt (by simpa using hab₂) b₂.isLt
+      (by simpa [Prod.mk.injEq] using heq)
+    exact Prod.ext (Fin.ext ha) (Fin.ext hb))]
+  exact pair_count n
 
 lemma An_result (n : ℕ) (hn : 1 ≤ n) :
     (Etingof.positiveRoots n (Etingof.DynkinType.A n hn).adj).Finite ∧
@@ -709,3 +1001,11 @@ lemma An_result (n : ℕ) (hn : 1 ≤ n) :
   exact ⟨hfin, hcard ▸ An_count n hn⟩
 
 end ETypeRootCounts
+
+/-- The number of positive roots for Aₙ is n(n+1)/2.
+(Etingof Example 6.4.9(1)) -/
+theorem Etingof.Example_6_4_9_An (n : ℕ) (hn : 1 ≤ n) :
+    (Etingof.positiveRoots n (Etingof.DynkinType.A n hn).adj).Finite ∧
+    Set.ncard (Etingof.positiveRoots n (Etingof.DynkinType.A n hn).adj) =
+      n * (n + 1) / 2 :=
+  An_result n hn
