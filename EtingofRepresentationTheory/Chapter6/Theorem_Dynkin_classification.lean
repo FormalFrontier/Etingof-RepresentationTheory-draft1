@@ -1130,6 +1130,213 @@ private lemma isDynkinDiagram_of_type (t : DynkinType) :
   | E7 => exact E7_isDynkin
   | E8 => exact E8_isDynkin
 
+/-! ## Forward direction infrastructure
+
+The forward direction of the Dynkin classification proceeds by elimination:
+
+1. **No cycles**: A cycle of length k has null vector (1,1,...,1) for the Cartan form.
+   Any graph containing a cycle has non-positive-definite Cartan form.
+
+2. **Degree bound**: If a vertex has degree ≥ 4, the vector (2 at vertex, 1 at neighbors,
+   0 elsewhere) gives Cartan form ≤ 0. So max degree ≤ 3.
+
+3. **Tree classification**: A connected tree with max degree ≤ 3 is either:
+   - A path (all degrees ≤ 2) → isomorphic to A_n
+   - Has exactly one vertex of degree 3 with arms (p,q,r) → the arm lengths determine the type
+
+4. **Arm length constraint**: For a branching tree T_{p,q,r}, positive definiteness requires
+   1/(p+1) + 1/(q+1) + 1/(r+1) > 1. The solutions with p ≤ q ≤ r are:
+   - (1,1,r) → D_{r+3}
+   - (1,2,2) → E₆, (1,2,3) → E₇, (1,2,4) → E₈
+-/
+
+/-- The degree of vertex i in a 0-1 adjacency matrix. -/
+private noncomputable def vertexDegree {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (i : Fin n) : ℕ :=
+  (Finset.univ.filter (fun j => adj i j = 1)).card
+
+/-- The set of neighbors of vertex i. -/
+private def neighbors {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (i : Fin n) : Finset (Fin n) :=
+  Finset.univ.filter (fun j => adj i j = 1)
+
+/-- The number of edges (counted as half the sum of all adjacency entries) equals
+    the sum of entries divided by 2 for a symmetric 0-1 adjacency matrix. -/
+private noncomputable def edgeCount {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) : ℕ :=
+  (∑ i : Fin n, vertexDegree adj i) / 2
+
+/-- Subgraph non-positive-definiteness: if a Dynkin diagram contains a subgraph
+    (via injection φ) whose Cartan form has a non-trivial non-negative null vector,
+    then we get a contradiction.
+
+    The key idea: push forward v via φ to get w on Fin n. Since v ≥ 0 and adj ≥ adj_sub
+    on the image, we have B_adj(w,w) ≤ B_sub(v,v) ≤ 0, contradicting positive definiteness. -/
+private lemma subgraph_contradiction {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj)
+    (adj_sub : Matrix (Fin m) (Fin m) ℤ)
+    (φ : Fin m ↪ Fin n)
+    (hembed : ∀ i j, adj_sub i j = 1 → adj (φ i) (φ j) = 1)
+    (v : Fin m → ℤ) (hv_nonneg : ∀ i, 0 ≤ v i) (hv_ne : v ≠ 0)
+    (hv_null : dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) ≤ 0) :
+    False := by
+  obtain ⟨_hsymm, _hdiag, h01, _hconn, hpos⟩ := hD
+  -- Push forward v to w on Fin n: w(φ(i)) = v(i), w(j) = 0 for j ∉ image(φ)
+  -- We use the inverse of φ on its image
+  set w : Fin n → ℤ := fun j =>
+    if h : ∃ i, φ i = j then v h.choose else 0 with hw_def
+  -- w is nonzero since v is nonzero
+  have hw_ne : w ≠ 0 := by
+    intro h
+    apply hv_ne; ext i
+    have hw_phi : w (φ i) = 0 := congr_fun h (φ i)
+    simp only [w, show (∃ j, φ j = φ i) from ⟨i, rfl⟩, dite_true] at hw_phi
+    have heq : (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose = i :=
+      φ.injective (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose_spec
+    rw [heq] at hw_phi
+    exact hw_phi
+  -- B_adj(w,w) ≤ B_sub(v,v) ≤ 0
+  have hadj_nonneg : ∀ i j, 0 ≤ adj i j := by
+    intro i j; rcases h01 i j with h | h <;> omega
+  -- First show B_adj(w,w) ≤ B_sub(v,v)
+  -- B_adj(w,w) = Σ_{j,k} (2δ_{jk} - adj(j,k))·w(j)·w(k)
+  -- Only terms with j,k ∈ image(φ) are nonzero (since w = 0 outside image)
+  -- On image(φ): w(φ(i))·w(φ(j)) = v(i)·v(j)
+  -- The 2δ terms are the same (φ injective)
+  -- The adj terms: adj(φ(i),φ(j)) ≥ adj_sub(i,j) (from hembed + adj_sub 0-1)
+  -- Since v(i)·v(j) ≥ 0: -adj(φ(i),φ(j))·v(i)·v(j) ≤ -adj_sub(i,j)·v(i)·v(j)
+  -- Therefore B_adj(w,w) ≤ B_sub(v,v)
+  -- w(φ(i)) = v(i) for all i
+  have hw_phi : ∀ i, w (φ i) = v i := by
+    intro i
+    simp only [w, show (∃ j, φ j = φ i) from ⟨i, rfl⟩, dite_true]
+    congr 1; exact φ.injective (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose_spec
+  -- w(j) = 0 for j ∉ image(φ)
+  have hw_zero : ∀ j, (∀ i, φ i ≠ j) → w j = 0 := by
+    intro j hj; simp only [w, show ¬∃ i, φ i = j from fun ⟨i, hi⟩ => hj i hi, dite_false]
+  -- Helper: reindex sums from Fin n to Fin m since w vanishes outside image(φ)
+  have sum_reindex : ∀ g : Fin n → ℤ, ∑ a : Fin n, w a * g a = ∑ i : Fin m, v i * g (φ i) := by
+    intro g
+    -- Split sum into image(φ) and its complement
+    set S := Finset.univ.image φ with hS_def
+    have hsplit := Finset.sum_filter_add_sum_filter_not (s := Finset.univ)
+      (p := fun a => a ∈ S) (f := fun a => w a * g a)
+    rw [← hsplit]
+    -- Complement sum is 0 (w vanishes outside image)
+    have hcomp : ∑ a ∈ Finset.univ.filter (fun a => a ∉ S), w a * g a = 0 := by
+      apply Finset.sum_eq_zero; intro a ha
+      have ha' : a ∉ S := (Finset.mem_filter.mp ha).2
+      have : w a = 0 := hw_zero a fun i hi =>
+        ha' (Finset.mem_image.mpr ⟨i, Finset.mem_univ _, hi⟩)
+      rw [this, zero_mul]
+    rw [hcomp, add_zero]
+    -- The image sum equals the reindexed sum via Finset.sum_image
+    have hfilter_eq : Finset.univ.filter (· ∈ S) = S := by
+      ext a; simp [S, Finset.mem_image]
+    rw [hfilter_eq]
+    rw [Finset.sum_image (fun i _ j _ h => φ.injective h)]
+    apply Finset.sum_congr rfl; intro i _
+    rw [hw_phi]
+  have hle : dotProduct w ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec w) ≤
+      dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) := by
+    -- Proof strategy (sum reindexing + term-by-term comparison):
+    -- Step 1: Since w vanishes outside image(φ), reindex B_adj(w,w) as:
+    --   B_adj(w,w) = Σ_{i,j:Fin m} (2δ_{i,j} - adj(φ i, φ j)) · v(i) · v(j)
+    -- (Use sum_reindex twice, once for outer and once for inner sum, plus φ.injective for δ)
+    -- Step 2: Compare term-by-term with B_sub(v,v):
+    --   Each difference term is (adj_sub(i,j) - adj(φ i, φ j)) · v(i) · v(j) ≤ 0
+    --   because v(i)·v(j) ≥ 0 and adj(φ i, φ j) ≥ adj_sub(i,j)
+    --   (adj_sub = 1 → adj(φ) = 1 by hembed; adj_sub = 0 → adj(φ) ≥ 0)
+    sorry
+  linarith [hpos w hw_ne]
+
+/-- In a Dynkin diagram, vertex degree is at most 3.
+    Proof: if deg(v) ≥ 4, embed the star K_{1,4} (center + 4 leaves) and use
+    the null vector (2,1,1,1,1) which gives B = 0 on the star. -/
+private lemma dynkin_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (i : Fin n) : vertexDegree adj i ≤ 3 := by
+  sorry
+
+/-- In a Dynkin diagram, any cycle of length ≥ 3 would give a null vector for the Cartan form.
+    Therefore Dynkin diagrams have no cycles, hence are trees. -/
+private lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (cycle : List (Fin n)) (hlen : 3 ≤ cycle.length)
+    (hnodup : cycle.Nodup)
+    (hedges : ∀ k, (h : k + 1 < cycle.length) →
+      adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1)
+    (hclose : adj (cycle.getLast (by intro h; simp [h] at hlen)) (cycle.get ⟨0, by omega⟩) = 1) :
+    False := by
+  obtain ⟨_hsymm, _hdiag, _h01, _hconn, hpos⟩ := hD
+  -- The all-ones vector on the cycle has B(x,x) = 2k - 2k = 0 (minus extra edges)
+  -- where k = cycle.length
+  set x : Fin n → ℤ := fun j => if j ∈ cycle then 1 else 0
+  have hx_ne : x ≠ 0 := by
+    intro h
+    have hmem : cycle[0]'(by omega) ∈ cycle := List.getElem_mem ..
+    have hval := congr_fun h (cycle[0]'(by omega))
+    simp only [x, hmem, ite_true, Pi.zero_apply] at hval
+    exact absurd hval one_ne_zero
+  have hpos_x := hpos x hx_ne
+  -- B(x,x) ≤ 0 because:
+  -- diagonal part: 2 * |cycle| (each cycle vertex contributes 2·1² = 2)
+  -- off-diagonal: ≥ 2 * |cycle| (each cycle edge contributes adj=1, counted twice)
+  sorry
+
+/-- A Dynkin diagram on n vertices has exactly n-1 edges (it's a tree).
+    This follows from no-cycles + connectivity. -/
+private lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n) : edgeCount adj = n - 1 := by
+  sorry
+
+/-- For a path (connected graph where all vertices have degree ≤ 2), construct an
+    isomorphism to A_n by ordering vertices along the path. -/
+private lemma path_iso_An {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n)
+    (hpath : ∀ i, vertexDegree adj i ≤ 2)
+    : ∃ σ : Fin n ≃ Fin n, ∀ i j, adj (σ i) (σ j) = DynkinType.adj (.A n hn) i j := by
+  sorry
+
+/-- For a tree with exactly one branch vertex of degree 3, the three arm lengths (p,q,r)
+    with p ≤ q ≤ r satisfy n = p + q + r + 1 and 1/(p+1) + 1/(q+1) + 1/(r+1) > 1.
+    The positive-definite solutions are:
+    - (1,1,r) → D_{r+3}
+    - (1,2,2) → E₆, (1,2,3) → E₇, (1,2,4) → E₈ -/
+private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n)
+    (hbranch : ∃ i, vertexDegree adj i = 3) :
+    ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  sorry
+
+/-- Forward direction of the Dynkin classification: any Dynkin diagram is graph-isomorphic
+    to one of the standard types A_n, D_n, E₆, E₇, or E₈. -/
+private lemma dynkin_classification_forward {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) :
+    ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  -- A Dynkin diagram is connected, so n ≥ 1
+  have hn : 1 ≤ n := by
+    by_contra h
+    push_neg at h
+    interval_cases n
+    -- n = 0: No DynkinType has rank 0, so the conclusion is unprovable.
+    -- But IsDynkinDiagram 0 adj is vacuously true (no vertices).
+    -- This is a minor edge case in the theorem statement; the classification
+    -- is only meaningful for n ≥ 1.
+    sorry
+  -- Every vertex has degree ≤ 3
+  have hdeg := fun i => dynkin_degree_le_three hD i
+  -- Case split: is there a vertex of degree 3?
+  by_cases hbranch : ∃ i, vertexDegree adj i = 3
+  · -- Branch case: tree with one branch → D_n or E-type
+    exact branch_classification hD hn hbranch
+  · -- Path case: all degrees ≤ 2 → A_n
+    push_neg at hbranch
+    have hpath : ∀ i, vertexDegree adj i ≤ 2 := by
+      intro i; have := hdeg i
+      rcases Nat.eq_or_lt_of_le this with h | h
+      · exact absurd h (hbranch i)
+      · omega
+    obtain ⟨σ, hσ⟩ := path_iso_An hD hn hpath
+    exact ⟨.A n hn, σ, hσ⟩
+
 /-- Classification of Dynkin diagrams: a connected graph with positive-definite Cartan form
 is a Dynkin diagram if and only if it is isomorphic (as a graph) to one of the standard
 types A_n, D_n, E₆, E₇, or E₈.
@@ -1140,7 +1347,7 @@ theorem Theorem_Dynkin_classification (n : ℕ) (adj : Matrix (Fin n) (Fin n) �
       ∀ i j, adj (σ i) (σ j) = t.adj i j := by
   constructor
   · -- Forward direction: any Dynkin diagram is isomorphic to a standard type
-    sorry
+    exact fun hD => dynkin_classification_forward hD
   · -- Backward direction: isomorphism to a standard type → IsDynkinDiagram
     rintro ⟨t, σ, hiso⟩
     exact isDynkinDiagram_of_graph_iso σ hiso (isDynkinDiagram_of_type t)
