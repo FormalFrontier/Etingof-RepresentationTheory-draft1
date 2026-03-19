@@ -23,7 +23,6 @@ Run this checklist before writing a single tactic. Skipping it has caused agents
 1. **Check Known Dead-Ends.** Scan the "Known Dead-Ends" section below. If your proof requires any of these patterns, sorry it immediately and move on:
    - ExteriorAlgebra ↔ PiTensorProduct bridging
    - `if`-branching `obj` fields in QuiverRepresentation-like structures
-   - Direct Aristotle proof integration (needs adaptation PR first)
 
 2. **Search for existing definitions.** Before defining any concept, search the codebase:
    ```bash
@@ -698,22 +697,6 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 **Status:** Documented in detail above (Type-Level If/Else Diamond Issue). The workaround is to sorry the `instModule` field. Don't attempt to solve the diamond — it requires a structural refactor.
 
-### Aristotle Version Mismatch (v4.24 → v4.28)
-
-**Problem:** Aristotle proofs are generated against Lean v4.24 / Mathlib v4.24, but this project runs v4.28. Completed proofs arrive with 10-20+ API change errors: renamed tactics, changed signatures, moved lemmas.
-
-**What fails:** Direct integration of Aristotle proofs — they won't compile without systematic adaptation work (renamed lemmas, changed API signatures, moved declarations).
-
-**Status:** Affects all Aristotle submissions. Proposition 2.7.1 had 19 errors; Theorem 5.18.1(i) similar. **Adaptation is a separate feature issue**, not inline fixup work. When creating issues for Aristotle adaptations, tag them explicitly as "adapt Aristotle proof" so agents know the work type.
-
-### Aristotle Import Isolation
-
-**Problem:** Aristotle cannot resolve project-local imports (`EtingofRepresentationTheory.*`). Proofs that depend on project-specific definitions fail at submission time.
-
-**What fails:** Theorem 5.17.1, Proposition 6.6.7 failed due to project-local imports. Re-submission with inlined definitions or `--context-folder` is needed.
-
-**Status:** Not a dead-end but a persistent friction source. Workaround: submit self-contained files to Aristotle, or use `--context-folder` to provide project context.
-
 ## Common Failure Modes
 
 From Phase 2 review patterns and Stage 3.2 proof experience (90+ merged PRs through wave 14):
@@ -728,7 +711,7 @@ From Phase 2 review patterns and Stage 3.2 proof experience (90+ merged PRs thro
 8. **Universe level mismatches.** Representation theory proofs sometimes need explicit universe annotations (`.{v}`) especially when working with Jacobson radical or maximal ideal APIs. If type unification fails mysteriously, try adding explicit universe parameters.
 9. **Sinking entire context windows on known dead-ends.** Before starting a proof, check the "Known Dead-Ends" section above. If the proof requires bridging `ExteriorAlgebra` ↔ `PiTensorProduct` or resolving the `if`-branching diamond, sorry it immediately and move on. Multiple agents have confirmed these are blocked on missing infrastructure.
 10. **Opaque placeholder accumulation.** Defining key structures as `sorry : FDRep k G` (e.g., `SchurModule k N lam`) creates downstream dependency chains that block entire proof clusters. When you must sorry a definition, prefer making the carrier type concrete and sorry-ing only specific operations/instances (see "Never sorry a Type" above). Each opaque placeholder blocks all items that depend on it.
-11. **Aristotle proof integration without adaptation.** Aristotle proofs target v4.24 but the project runs v4.28. Never try to integrate an Aristotle proof directly — it needs systematic API adaptation first (renamed lemmas, changed signatures). See "Known Dead-Ends" for details.
+
 
 ## Breadth-vs-Depth Phase Awareness
 

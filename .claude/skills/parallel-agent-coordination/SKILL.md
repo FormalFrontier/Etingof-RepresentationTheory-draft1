@@ -230,7 +230,7 @@ When creating proof issues, planners should classify items by expected tractabil
 - Multi-step algebraic proofs requiring 3+ Mathlib lemmas
 - Inductive arguments on natural numbers or partitions
 - Proofs requiring `Finset.sum` manipulation and reindexing
-- Aristotle proof adaptations (v4.24 → v4.28 API changes, ~10-20 fixes per proof)
+
 - Non-commutative Hom space arguments (require manual k-linear equivalences)
 
 **Low success rate (flag in issue, expect sorry):**
@@ -239,7 +239,7 @@ When creating proof issues, planners should classify items by expected tractabil
 - Deep symmetric function theory (hook length formula, RSK correspondence)
 - Dependent type issues with `if`-branching in structure fields
 - Items depending on opaque `sorry : FDRep` placeholders (SchurModule, orbit method)
-- Proofs requiring Aristotle with project-local imports (need re-submission as self-contained)
+
 
 **Planner action:** For low-success items, set difficulty to 3/3 and include an explicit note: "This may require sorry. Budget the full context window for a single attempt. If blocked after 2 serious attempts, sorry and move on."
 
