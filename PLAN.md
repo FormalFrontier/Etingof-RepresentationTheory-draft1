@@ -356,8 +356,8 @@ Before applying `blocked`:
 3. **If you can't decompose**, research the informal literature first (textbooks,
    surveys, lecture notes) to find a proof strategy, then decompose.
 4. **If a result isn't in Mathlib**, prove it here — that's just more work, not a blocker.
-   The book's proof almost certainly uses results from earlier in the book, not results
-   that require novel Mathlib infrastructure.
+   The book's proof almost certainly uses results from earlier in the book. Check there
+   first.
 
 #### Triage
 
