@@ -336,7 +336,120 @@ private lemma finrank_center_monoidAlgebra_le_card_conjClasses
     {G : Type*} [Group G] [Fintype G] [DecidableEq G] :
     Module.finrank ℂ (Subalgebra.center ℂ (MonoidAlgebra ℂ G)) ≤
       Fintype.card (ConjClasses G) := by
-  sorry
+  -- Define conjugacy class sums as elements of the center
+  -- classSum C = ∑_{g ∈ C} single g 1
+  set center := Subalgebra.center ℂ (MonoidAlgebra ℂ G)
+  -- For each conjugacy class, define its class sum
+  have hclassSum_mem : ∀ C : ConjClasses G,
+      (∑ g ∈ (ConjClasses.carrier C).toFinset, MonoidAlgebra.single g (1 : ℂ)) ∈ center := by
+    intro C
+    rw [Subalgebra.mem_center_iff]
+    intro b
+    set S := ∑ h ∈ (ConjClasses.carrier C).toFinset, MonoidAlgebra.single h (1 : ℂ)
+    -- Reduce to checking commutativity with single g r
+    suffices hsingle : ∀ (g : G) (r : ℂ),
+        MonoidAlgebra.single g r * S = S * MonoidAlgebra.single g r by
+      induction b using Finsupp.induction_linear with
+      | zero => simp
+      | add _ _ h₁ h₂ => simp only [add_mul, mul_add, h₁, h₂]
+      | single g r => exact hsingle g r
+    intro g r
+    simp only [S, Finset.mul_sum, Finset.sum_mul, MonoidAlgebra.single_mul_single, mul_one, one_mul]
+    -- LHS: ∑_{h ∈ C} single (g * h) r
+    -- RHS: ∑_{h ∈ C} single (h * g) r
+    -- Reindex LHS via conjugation: h ↦ g * h * g⁻¹
+    -- g * h = (g * h * g⁻¹) * g, so the bijection h ↦ g * h * g⁻¹ transforms LHS to RHS
+    refine Finset.sum_nbij (fun h => g * h * g⁻¹) ?_ ?_ ?_ ?_
+    -- Maps into C.carrier
+    · intro h hh
+      simp only [Set.mem_toFinset] at hh ⊢
+      rw [ConjClasses.mem_carrier_iff_mk_eq] at hh ⊢
+      rw [← hh, ConjClasses.mk_eq_mk_iff_isConj, isConj_iff]
+      exact ⟨g⁻¹, by group⟩
+    -- Injective
+    · intro h₁ _ h₂ _ heq
+      exact mul_left_cancel (a := g) (mul_right_cancel (b := g⁻¹) heq)
+    -- Surjective
+    · intro h' hh'
+      refine ⟨g⁻¹ * h' * g, ?_, by group⟩
+      rw [Finset.mem_coe] at hh' ⊢
+      rw [Set.mem_toFinset] at hh' ⊢
+      rw [ConjClasses.mem_carrier_iff_mk_eq] at hh' ⊢
+      rw [← hh', ConjClasses.mk_eq_mk_iff_isConj, isConj_iff]
+      exact ⟨g, by group⟩
+    -- Value correspondence: single (g * h) r = single ((g * h * g⁻¹) * g) r
+    · intro h _
+      congr 1; group
+  -- Define the spanning family
+  let v : ConjClasses G → center := fun C => ⟨_, hclassSum_mem C⟩
+  -- Show the class sums span the center
+  -- Center elements are constant on conjugacy classes
+  have hconst : ∀ (f : ↥center) (g h : G), f.1 (h * g * h⁻¹) = f.1 g := by
+    intro ⟨f, hf⟩ g h
+    have hmem := Subalgebra.mem_center_iff.mp hf (MonoidAlgebra.single h 1)
+    have key := congrArg (fun (a : G →₀ ℂ) => a (h * g)) hmem
+    simp only [MonoidAlgebra.single_mul_apply, MonoidAlgebra.mul_single_apply,
+      inv_mul_cancel_left, mul_one, one_mul] at key
+    exact key.symm
+  -- Disjointness of conjugacy class carrier finsets
+  have hdisj : ∀ C₁ ∈ (Finset.univ : Finset (ConjClasses G)),
+      ∀ C₂ ∈ Finset.univ, C₁ ≠ C₂ →
+      Disjoint (C₁.carrier.toFinset) (C₂.carrier.toFinset) := by
+    intro C₁ _ C₂ _ hne
+    rw [Finset.disjoint_left]
+    intro g hg₁ hg₂
+    exact hne ((Set.mem_toFinset.mp hg₁ |> ConjClasses.mem_carrier_iff_mk_eq.mp).symm.trans
+      (Set.mem_toFinset.mp hg₂ |> ConjClasses.mem_carrier_iff_mk_eq.mp))
+  -- Union of conjugacy class carriers = univ
+  have huniv : Finset.biUnion Finset.univ
+      (fun C : ConjClasses G => C.carrier.toFinset) = Finset.univ := by
+    ext g; simp [ConjClasses.mem_carrier_iff_mk_eq]
+  have hspan : Submodule.span ℂ (Set.range v) = ⊤ := by
+    rw [eq_top_iff]
+    intro ⟨f, hf⟩ _
+    -- Show ⟨f, hf⟩ = ∑_C f(out C) • v(C)
+    rw [show (⟨f, hf⟩ : ↥center) = ∑ C : ConjClasses G, f (Quotient.out C) • v C from ?_]
+    · exact Submodule.sum_mem _ fun C _ =>
+        Submodule.smul_mem _ _ (Submodule.subset_span ⟨C, rfl⟩)
+    · -- Prove the decomposition equality
+      apply Subtype.ext
+      show f = (∑ C : ConjClasses G, f (Quotient.out C) • v C).val
+      -- Push coercions through the sum
+      have hval : (∑ C : ConjClasses G, f (Quotient.out C) • v C).val =
+          ∑ C : ConjClasses G, f (Quotient.out C) •
+            (∑ g ∈ C.carrier.toFinset, MonoidAlgebra.single g (1 : ℂ)) := by
+        simp [v]
+      rw [hval]
+      -- Goal: f = ∑_C f(out C) • ∑_{g ∈ C} single g 1
+      -- = ∑_C ∑_{g ∈ C} single g (f(out C))
+      -- Step 1: Distribute scalar into sum
+      have hstep1 : ∀ C : ConjClasses G,
+          f (Quotient.out C) • ∑ g ∈ C.carrier.toFinset,
+            MonoidAlgebra.single g (1 : ℂ) =
+          ∑ g ∈ C.carrier.toFinset, MonoidAlgebra.single g (f (Quotient.out C)) := by
+        intro C; rw [Finset.smul_sum]
+        exact Finset.sum_congr rfl fun g _ => by
+          rw [Finsupp.smul_single', mul_one]
+      simp_rw [hstep1]
+      -- Step 2: Replace f(out C) with f(g)
+      have hstep2 : ∀ C : ConjClasses G,
+          (∑ g ∈ C.carrier.toFinset, MonoidAlgebra.single g (f (Quotient.out C))) =
+          ∑ g ∈ C.carrier.toFinset, MonoidAlgebra.single g (f g) := by
+        intro C; refine Finset.sum_congr rfl fun g hg => ?_
+        congr 1
+        rw [Set.mem_toFinset, ConjClasses.mem_carrier_iff_mk_eq] at hg
+        obtain ⟨c, hc⟩ := isConj_iff.mp (ConjClasses.mk_eq_mk_iff_isConj.mp
+          (hg.trans (Quotient.out_eq C).symm))
+        rw [← hc]; exact hconst ⟨f, hf⟩ g c
+      simp_rw [hstep2]
+      -- Step 3: Regroup ∑_C ∑_{g ∈ C} = ∑_{g ∈ univ} = f
+      rw [← Finset.sum_biUnion hdisj, huniv]
+      -- Goal: f = ∑ g ∈ univ, single g (f g)
+      ext x
+      show f x = (∑ g : G, (Finsupp.single g (f g) : G →₀ ℂ)) x
+      rw [Finsupp.finset_sum_apply]
+      simp [Finsupp.single_apply]
+  exact finrank_le_of_span_eq_top hspan
 
 /-- The center of ∏ᵢ Mat_{dᵢ}(ℂ) has dimension k (one scalar matrix per block).
 This uses: center(Mat_d(ℂ)) = scalar matrices ≅ ℂ, and center(∏ Rᵢ) = ∏ center(Rᵢ). -/
