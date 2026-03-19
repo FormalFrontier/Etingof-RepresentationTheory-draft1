@@ -1163,25 +1163,72 @@ private def neighbors {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (i : Fin n) :
 private noncomputable def edgeCount {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) : ℕ :=
   (∑ i : Fin n, vertexDegree adj i) / 2
 
+/-- Subgraph non-positive-definiteness: if a Dynkin diagram contains a subgraph
+    (via injection φ) whose Cartan form has a non-trivial non-negative null vector,
+    then we get a contradiction.
+
+    The key idea: push forward v via φ to get w on Fin n. Since v ≥ 0 and adj ≥ adj_sub
+    on the image, we have B_adj(w,w) ≤ B_sub(v,v) ≤ 0, contradicting positive definiteness. -/
+private lemma subgraph_contradiction {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj)
+    (adj_sub : Matrix (Fin m) (Fin m) ℤ)
+    (φ : Fin m ↪ Fin n)
+    (hembed : ∀ i j, adj_sub i j = 1 → adj (φ i) (φ j) = 1)
+    (v : Fin m → ℤ) (hv_nonneg : ∀ i, 0 ≤ v i) (hv_ne : v ≠ 0)
+    (hv_null : dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) ≤ 0) :
+    False := by
+  obtain ⟨_hsymm, _hdiag, h01, _hconn, hpos⟩ := hD
+  -- Push forward v to w on Fin n: w(φ(i)) = v(i), w(j) = 0 for j ∉ image(φ)
+  -- We use the inverse of φ on its image
+  set w : Fin n → ℤ := fun j =>
+    if h : ∃ i, φ i = j then v h.choose else 0 with hw_def
+  -- w is nonzero since v is nonzero
+  have hw_ne : w ≠ 0 := by
+    intro h
+    apply hv_ne; ext i
+    have hw_phi : w (φ i) = 0 := congr_fun h (φ i)
+    simp only [w, show (∃ j, φ j = φ i) from ⟨i, rfl⟩, dite_true] at hw_phi
+    have heq : (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose = i :=
+      φ.injective (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose_spec
+    rw [heq] at hw_phi
+    exact hw_phi
+  -- B_adj(w,w) ≤ B_sub(v,v) ≤ 0
+  have hadj_nonneg : ∀ i j, 0 ≤ adj i j := by
+    intro i j; rcases h01 i j with h | h <;> omega
+  -- First show B_adj(w,w) ≤ B_sub(v,v)
+  -- B_adj(w,w) = Σ_{j,k} (2δ_{jk} - adj(j,k))·w(j)·w(k)
+  -- Only terms with j,k ∈ image(φ) are nonzero (since w = 0 outside image)
+  -- On image(φ): w(φ(i))·w(φ(j)) = v(i)·v(j)
+  -- The 2δ terms are the same (φ injective)
+  -- The adj terms: adj(φ(i),φ(j)) ≥ adj_sub(i,j) (from hembed + adj_sub 0-1)
+  -- Since v(i)·v(j) ≥ 0: -adj(φ(i),φ(j))·v(i)·v(j) ≤ -adj_sub(i,j)·v(i)·v(j)
+  -- Therefore B_adj(w,w) ≤ B_sub(v,v)
+  -- w(φ(i)) = v(i) for all i
+  have hw_phi : ∀ i, w (φ i) = v i := by
+    intro i
+    simp only [w, show (∃ j, φ j = φ i) from ⟨i, rfl⟩, dite_true]
+    congr 1; exact φ.injective (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose_spec
+  -- w(j) = 0 for j ∉ image(φ)
+  have hw_zero : ∀ j, (∀ i, φ i ≠ j) → w j = 0 := by
+    intro j hj; simp only [w, show ¬∃ i, φ i = j from fun ⟨i, hi⟩ => hj i hi, dite_false]
+  have hle : dotProduct w ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec w) ≤
+      dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) := by
+    -- Proof outline:
+    -- 1. Reindex B_adj(w,w) to sum over Fin m × Fin m (w vanishes outside image(φ))
+    --    B_adj(w,w) = Σ_{i,j:Fin m} (2δ_{i,j} - adj(φ(i),φ(j))) · v(i) · v(j)
+    -- 2. Compare term-by-term with B_sub(v,v):
+    --    Difference = Σ_{i,j} (adj_sub(i,j) - adj(φ(i),φ(j))) · v(i) · v(j)
+    -- 3. Each term ≤ 0 because:
+    --    - v(i)·v(j) ≥ 0 (all non-negative)
+    --    - adj(φ(i),φ(j)) ≥ adj_sub(i,j) (from hembed for adj_sub=1; adj ≥ 0 otherwise)
+    sorry
+  linarith [hpos w hw_ne]
+
 /-- In a Dynkin diagram, vertex degree is at most 3.
-    Proof: if deg(v) ≥ 4, the vector x with x(v)=2, x(neighbor)=1, x(other)=0
-    gives B(x,x) = 8 - 2·deg(v) ≤ 0, contradicting positive definiteness. -/
+    Proof: if deg(v) ≥ 4, embed the star K_{1,4} (center + 4 leaves) and use
+    the null vector (2,1,1,1,1) which gives B = 0 on the star. -/
 private lemma dynkin_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (i : Fin n) : vertexDegree adj i ≤ 3 := by
-  obtain ⟨hsymm, hdiag, h01, _hconn, hpos⟩ := hD
-  by_contra hge4
-  push_neg at hge4
-  -- Construct the test vector: 2 at i, 1 at each neighbor, 0 elsewhere
-  set N := neighbors adj i
-  set x : Fin n → ℤ := fun j => if j = i then 2 else if j ∈ N then 1 else 0
-  have hx_ne : x ≠ 0 := by
-    intro h; have := congr_fun h i; simp [x] at this
-  have hpos_x := hpos x hx_ne
-  -- B(x,x) = 2·Σ x(j)² - Σ adj(j,k)·x(j)·x(k)
-  --         = 2·(4 + deg) - (≥ 4·deg + non-neg)
-  --         ≤ 8 + 2·deg - 4·deg = 8 - 2·deg ≤ 0 for deg ≥ 4
-  -- The detailed computation is: the test vector gives B ≤ 0,
-  -- contradicting positive definiteness.
   sorry
 
 /-- In a Dynkin diagram, any cycle of length ≥ 3 would give a null vector for the Cartan form.
