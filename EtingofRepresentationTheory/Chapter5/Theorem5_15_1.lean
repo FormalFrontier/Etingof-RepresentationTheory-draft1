@@ -24,12 +24,32 @@ The formula relates three objects:
    the Young symmetrizer
 3. The power sum polynomial product from Theorem 5.14.3, shifted by ρ
 
+## Proof structure
+
+The proof follows Etingof's argument (Discussion after Theorem 5.15.1):
+
+1. **Vandermonde expansion**: Δ(x) = Σ_{π ∈ S_n} sign(π) · x^{permuted ρ}
+   This is the determinant expansion of the Vandermonde matrix.
+
+2. **Coefficient extraction**: Multiplying the expansion by ∏ p_m^{i_m} and
+   extracting x^{λ+ρ} gives an alternating sum of permutation module characters
+   (via Theorem 5.14.3).
+
+3. **Upper-triangularity**: Define θ_λ as the RHS. The book shows
+   θ_λ = Σ_{μ ≥ λ} L_{μλ} χ_{V_μ} with L_{λλ} = 1, via decomposition of
+   permutation modules U_μ = Σ_ν K_{νμ} V_ν (Kostka numbers).
+
+4. **Induction on dominance order**: Since the Specht module characters {χ_{V_μ}}
+   form a basis of class functions, upper-triangularity with L_{λλ} = 1 forces
+   θ_λ = χ_{V_λ}.
+
 ## Mathlib correspondence
 
 - `MvPolynomial.psum`: power sum symmetric polynomials p_m = Σᵢ xᵢᵐ
 - `MvPolynomial.X`: polynomial variables
 - `MvPolynomial.coeff`: coefficient extraction
 - `LinearMap.trace`: trace of a linear endomorphism
+- `Matrix.det_vandermonde`: det of Vandermonde matrix = ∏_{i<j} (v_j - v_i)
 -/
 
 namespace Etingof
@@ -59,6 +79,88 @@ noncomputable def spechtModuleCharacter (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) : ℂ :=
   LinearMap.trace ℂ _ (spechtModuleAction n la σ)
 
+/-! ## Intermediate lemmas for the Frobenius character formula -/
+
+noncomputable section
+
+/-- The exponent vector from the Vandermonde determinant expansion for permutation π:
+the monomial ∏_i X_{π(i)}^i has exponent (π⁻¹(j)).val at variable j.
+Equivalently, permExponent n π = fun j ↦ (π⁻¹ j).val. -/
+def permExponent (n : ℕ) (π : Equiv.Perm (Fin n)) : Fin n →₀ ℕ :=
+  Finsupp.equivFunOnFinite.symm (fun j => (π⁻¹ j).val)
+
+/-- The Vandermonde polynomial expands as an alternating sum of monomials:
+Δ(x) = Σ_{π ∈ S_n} sign(π) · x^{(π(0), π(1), ..., π(n-1))}.
+This is the determinant expansion of the Vandermonde matrix det(xᵢ^j)_{i,j}.
+
+Proof idea: vandermondePoly n = det(Matrix.vandermonde (MvPolynomial.X · )),
+and the determinant expands as Σ_π sign(π) ∏_i X_i^{π(i)}. -/
+theorem vandermondePoly_eq_sum_sign_monomial (n : ℕ) :
+    vandermondePoly n =
+      ∑ π : Equiv.Perm (Fin n),
+        (Equiv.Perm.sign π : ℤ) • MvPolynomial.monomial (permExponent n π) (1 : ℂ) := by
+  -- vandermondePoly n = det(vandermonde(X)) by Matrix.det_vandermonde
+  -- det_apply expands as Σ_π sign(π) ∏_i M(π i, i)
+  -- (vandermonde X)(σ i, i) = X_{σ(i)}^i, reindex j = σ(i) gives X_j^{(σ⁻¹ j).val}
+  -- Then ∏_j X_j^{f(j)} = monomial f 1 by prod_X_pow_eq_monomial
+  sorry
+
+/-- Coefficient of x^{α+e} in (monomial e c) · P equals c · coeff(x^α, P).
+This is the shift property of polynomial multiplication by a monomial. -/
+theorem coeff_monomial_mul_shift {n : ℕ} (e α : Fin n →₀ ℕ) (c : ℂ)
+    (P : MvPolynomial (Fin n) ℂ) :
+    MvPolynomial.coeff (α + e) (MvPolynomial.monomial e c * P) =
+      c * MvPolynomial.coeff α P := by
+  rw [mul_comm, MvPolynomial.coeff_mul_monomial]; ring
+
+/-- The coefficient of x^{λ+ρ} in Δ·P equals an alternating sum of shifted coefficients.
+This combines the Vandermonde expansion with the coefficient shift property. -/
+theorem coeff_vandermonde_mul (n : ℕ) (P : MvPolynomial (Fin n) ℂ)
+    (α : Fin n →₀ ℕ) :
+    MvPolynomial.coeff α (vandermondePoly n * P) =
+      ∑ π : Equiv.Perm (Fin n),
+        (Equiv.Perm.sign π : ℤ) • (if h : permExponent n π ≤ α
+          then (MvPolynomial.coeff (α - permExponent n π) P : ℂ) else 0) := by
+  -- Expand Vandermonde as alternating sum, distribute multiplication, extract coefficients
+  rw [vandermondePoly_eq_sum_sign_monomial]
+  simp only [Finset.sum_mul, smul_mul_assoc, MvPolynomial.coeff_sum]
+  congr 1; ext π
+  -- Goal: coeff α (sign π • (monomial ... 1 * P)) = sign π • (if ... then ... else 0)
+  rw [MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial_mul', one_mul]
+  simp only [dite_eq_ite]
+
+/-- The permutation module character χ_{U_μ} at σ as a natural number cast to ℂ,
+extracted from Theorem 5.14.3. -/
+theorem permModuleCharacter_eq_coeff (n : ℕ) (la : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n)) :
+    (permModuleCharacter n la σ : ℂ) =
+      MvPolynomial.coeff (Nat.Partition.toFinsupp la) (cycleTypePsumProduct n σ) :=
+  Theorem5_14_3 n la σ
+
+/-- **Key representation-theoretic step**: The alternating sum
+  Σ_π sign(π) · χ_{U_{λ+ρ-π(exponent)}}
+equals the Specht module character χ_{V_λ}.
+
+This is the core of the Frobenius formula proof. It requires:
+1. The decomposition U_μ = Σ_ν K_{νμ} V_ν (Kostka numbers)
+2. K_{μμ} = 1 and K_{νμ} = 0 unless ν dominates μ
+3. The alternating sum with signs collapses due to upper-triangularity
+
+This is the deepest part of the proof and requires infrastructure not currently
+available in Mathlib (Kostka number theory, Young's rule). -/
+theorem spechtCharacter_eq_alternating_sum_permCharacter
+    (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    spechtModuleCharacter n la σ =
+      ∑ π : Equiv.Perm (Fin n),
+        (Equiv.Perm.sign π : ℤ) • (if h : permExponent n π ≤
+            Nat.Partition.toFinsupp la + rhoShift n
+          then (MvPolynomial.coeff
+            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+            (cycleTypePsumProduct n σ) : ℂ) else 0) := by
+  sorry
+
+end
+
 /-- **Theorem 5.15.1** (Frobenius character formula): The character of the Specht module
 V_λ at a permutation σ with cycle type i = (i₁, i₂, ...) equals the coefficient
 of x^{λ+ρ} in Δ(x) · ∏_{m≥1} p_m(x)^{i_m}, where Δ is the Vandermonde polynomial,
@@ -69,6 +171,7 @@ theorem Theorem5_15_1
     spechtModuleCharacter n la σ =
       MvPolynomial.coeff (Nat.Partition.toFinsupp la + rhoShift n)
         (vandermondePoly n * cycleTypePsumProduct n σ) := by
-  sorry
+  rw [spechtCharacter_eq_alternating_sum_permCharacter,
+      coeff_vandermonde_mul]
 
 end Etingof
