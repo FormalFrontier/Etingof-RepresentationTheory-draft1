@@ -230,4 +230,61 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
   intro e w
   rfl
 
+/-- Convert a reversed-quiver arrow from i to b ≠ i back to the original b ⟶ i.
+For a = i and b ≠ i, `ReversedAtVertexHom Q i i b = b ⟶ i`. -/
+def Etingof.reversedArrow_eq_ne
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i b : Q}
+    (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) : b ⟶ i := by
+  change @Etingof.ReversedAtVertexHom Q inst _ i i b at e
+  unfold Etingof.ReversedAtVertexHom at e
+  revert e
+  exact match inst i i, inst b i with
+  | .isFalse h, _ => absurd rfl h
+  | .isTrue _, .isTrue h => absurd h hb
+  | .isTrue _, .isFalse _ => fun e => e
+
+set_option maxHeartbeats 1600000 in
+-- reason: unfolding reflectionFunctorPlus + equivAt_eq/ne + match reduction
+/-- At the sink vertex going to a non-sink vertex (a = i, b ≠ i), the F⁺ᵢ map
+sends an element of ker(sinkMap) to the b-component of its inclusion in ⊕V_j.
+
+After transport through equivAt_eq and equivAt_ne, this says:
+  equivAt_ne (mapLinear e w) = component ⟨b, reversedArrow_eq_ne e⟩ (subtype (equivAt_eq w))
+
+This is the key API lemma for the case a = i, b ≠ i. -/
+theorem Etingof.reflFunctorPlus_mapLinear_eq_ne
+    {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q) {b : Q}
+    (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b)
+    (w : @Etingof.QuiverRepresentation.obj k Q _
+      (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) i) :
+    (Etingof.reflFunctorPlus_equivAt_ne hi ρ b hb)
+      (@Etingof.QuiverRepresentation.mapLinear k Q _
+        (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) i b e w) =
+    (DirectSum.component k (Etingof.ArrowsInto Q i) (fun x => ρ.obj x.1)
+      ⟨b, Etingof.reversedArrow_eq_ne hb e⟩)
+      ((ρ.sinkMap i).ker.subtype
+        ((Etingof.reflFunctorPlus_equivAt_eq hi ρ) w)) := by
+  have h_da : inst i i = .isTrue rfl := by
+    cases inst i i with
+    | isTrue _ => rfl
+    | isFalse h => exact absurd rfl h
+  have h_db : inst b i = .isFalse hb := by
+    cases inst b i with
+    | isTrue h => exact absurd h hb
+    | isFalse _ => rfl
+  revert e w
+  unfold Etingof.reflFunctorPlus_equivAt_ne Etingof.reflFunctorPlus_equivAt_eq
+    Etingof.reversedArrow_eq_ne
+    Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_da, h_db]
+  intro e w
+  rfl
+
 end ReflectionFunctorPlusAPI
