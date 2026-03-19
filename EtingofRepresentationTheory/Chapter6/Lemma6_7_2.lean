@@ -80,6 +80,26 @@ private theorem simpleReflection_apply_ne
   unfold simpleReflection rootReflection
   simp [Pi.sub_apply, hij]
 
+/-- Simple reflection at i changes coordinate i: sᵢ(v)ᵢ = vᵢ - (Av)ᵢ. -/
+private theorem simpleReflection_apply_self
+    (hDynkin : IsDynkinDiagram n adj) (v : Fin n → ℤ)
+    (i : Fin n) :
+    simpleReflection n (cartanMatrix n adj) i v i =
+    v i - (cartanMatrix n adj).mulVec v i := by
+  set A := cartanMatrix n adj
+  have hAsymm := dynkin_cartan_symm hDynkin
+  have symm : ∀ j, A j i = A i j :=
+    fun j => congr_fun (congr_fun hAsymm i) j
+  have key : dotProduct v (A.mulVec (Pi.single i 1)) =
+      (A.mulVec v) i := by
+    simp only [dotProduct, Matrix.mulVec, Pi.single_apply,
+      mul_ite, mul_one, mul_zero,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+    exact Finset.sum_congr rfl fun j _ => by rw [symm j]; ring
+  simp only [simpleReflection, rootReflection, Pi.sub_apply,
+    Pi.smul_apply, Pi.single_apply, mul_one, key,
+    ite_true, smul_eq_mul]
+
 /-- The coxeterAction is the result of applying simple reflections in sequence.
     We express it as a fold over the list of Fin n indices. -/
 private theorem coxeterAction_eq_fold (v : Fin n → ℤ) :
@@ -298,23 +318,169 @@ private theorem coxeterAction_sum_range
   | succ k ih =>
     rw [Finset.sum_range_succ, Finset.sum_range_succ, coxeterAction_add, ih]
 
+/-- Intermediate state after applying reflections n-1, n-2, ..., n-m
+to v. w(0) = v, w(m+1) = s_{n-1-m}(w(m)), w(n) = c(v). -/
+private def intermediateState
+    (A : Matrix (Fin n) (Fin n) ℤ) (v : Fin n → ℤ) : ℕ → Fin n → ℤ
+  | 0 => v
+  | m + 1 =>
+    if h : m < n then
+      simpleReflection n A ⟨n - 1 - m, by omega⟩
+        (intermediateState A v m)
+    else intermediateState A v m
+
+private lemma intermediateState_succ
+    (A : Matrix (Fin n) (Fin n) ℤ) (v : Fin n → ℤ) (m : ℕ)
+    (hm : m < n) :
+    intermediateState A v (m + 1) =
+    simpleReflection n A ⟨n - 1 - m, by omega⟩
+      (intermediateState A v m) :=
+  dif_pos hm
+
+/-- Reflections at index > j don't affect coordinate j. -/
+private lemma intermediateState_coord_low
+    (A : Matrix (Fin n) (Fin n) ℤ) (v : Fin n → ℤ) (m : ℕ)
+    (j : Fin n) (hj : j.val < n - m) :
+    intermediateState A v m j = v j := by
+  induction m with
+  | zero => rfl
+  | succ m ih =>
+    rw [intermediateState_succ A v m (by omega)]
+    have hne : j ≠ ⟨n - 1 - m, by omega⟩ := by
+      intro heq; simp [Fin.ext_iff] at heq; omega
+    simp only [simpleReflection, rootReflection, Pi.sub_apply,
+      Pi.smul_apply, Pi.single_apply, hne, ite_false, smul_zero, sub_zero]
+    exact ih (by omega)
+
+set_option maxHeartbeats 800000 in
+-- intermediateState recursion needs many heartbeats to unfold
+/-- For m ≤ n, intermediateState m equals the foldr of the last m reflections. -/
+private lemma intermediateState_eq_drop_foldr
+    (A : Matrix (Fin n) (Fin n) ℤ) (v : Fin n → ℤ) (m : ℕ) (hm : m ≤ n) :
+    intermediateState A v m =
+    ((List.ofFn (fun i : Fin n => simpleReflection n A i)).drop (n - m)).foldr
+      (· ∘ ·) id v := by
+  induction m with
+  | zero =>
+    simp only [intermediateState]
+    have : n - 0 = n := by omega
+    rw [this]
+    have hdrop : (List.ofFn (fun i : Fin n => simpleReflection n A i)).drop n = [] :=
+      List.drop_eq_nil_of_le (by simp [List.length_ofFn])
+    simp [hdrop]
+  | succ k ih =>
+    rw [intermediateState_succ A v k (by omega), ih (by omega)]
+    have hidx : n - (k + 1) < (List.ofFn (fun i : Fin n => simpleReflection n A i)).length :=
+      by simp [List.length_ofFn]; omega
+    have hdrop := List.drop_eq_getElem_cons hidx
+    conv_rhs => rw [hdrop, List.foldr_cons, Function.comp_apply]
+    have hstep : n - (k + 1) + 1 = n - k := by omega
+    rw [hstep]
+    have heq : (⟨n - 1 - k, by omega⟩ : Fin n) = ⟨n - (k + 1), by omega⟩ :=
+      Fin.ext (show n - 1 - k = n - (k + 1) by omega)
+    rw [heq]
+    simp [List.getElem_ofFn]
+
+/-- intermediateState n = coxeterAction. -/
+private lemma intermediateState_full
+    (v : Fin n → ℤ) :
+    intermediateState (cartanMatrix n adj) v n =
+    coxeterAction n adj v := by
+  unfold coxeterAction
+  rw [intermediateState_eq_drop_foldr _ v n le_rfl]
+  simp
+
+/-- Coordinate j is stable from step m₁ to m₂ when j is not the index
+of any reflection applied between those steps. -/
+private lemma intermediateState_coord_stable
+    (A : Matrix (Fin n) (Fin n) ℤ) (v : Fin n → ℤ)
+    (m₁ m₂ : ℕ) (hle : m₁ ≤ m₂) (hm₂ : m₂ ≤ n)
+    (j : Fin n) (hj : j.val ≥ n - m₁) :
+    intermediateState A v m₂ j = intermediateState A v m₁ j := by
+  induction m₂ with
+  | zero => simp [Nat.le_zero.mp hle]
+  | succ p ih =>
+    by_cases hp : m₁ = p + 1
+    · rw [hp]
+    · have hple : m₁ ≤ p := by omega
+      rw [intermediateState_succ A v p (by omega)]
+      have hne : j ≠ ⟨n - 1 - p, by omega⟩ := by
+        intro heq; simp [Fin.ext_iff] at heq; omega
+      simp only [simpleReflection, rootReflection, Pi.sub_apply,
+        Pi.smul_apply, Pi.single_apply, hne, ite_false, smul_zero, sub_zero]
+      exact ih hple (by omega)
+
+set_option maxHeartbeats 800000 in
+-- telescoping argument requires many heartbeats for unfolding
 /-- Key lemma: The Coxeter element has no nonzero fixed point.
 
 If c(v) = v, then since c = s₀ ∘ s₁ ∘ ... ∘ sₙ₋₁ and each sᵢ only modifies
 coordinate i, applying these in sequence and getting back v requires each sᵢ
 to fix the intermediate vector. This means (A·v)ᵢ = 0 for all i, so A·v = 0.
-But A is positive definite, so v = 0.
-
-The proof proceeds by induction: sₙ₋₁ is applied first to v and only modifies
-coordinate n-1. Since no subsequent reflection touches coordinate n-1, the
-final result at coord n-1 equals sₙ₋₁(v)(n-1). For c(v) = v, this must equal
-v(n-1), forcing sₙ₋₁(v) = v. Then sₙ₋₂ acts on v (not some intermediate),
-and the same argument gives sₙ₋₂(v) = v, etc. -/
+But A is positive definite, so v = 0. -/
 private theorem coxeterAction_no_fixed_point
     (hDynkin : IsDynkinDiagram n adj) (v : Fin n → ℤ)
     (hfixed : coxeterAction n adj v = v) :
     v = 0 := by
-  sorry
+  set A := cartanMatrix n adj with hA_def
+  -- Show Av = 0, then positive definiteness gives v = 0
+  suffices hAv : A.mulVec v = 0 by
+    by_contra hv
+    have hpos := hDynkin.2.2.2.2 v hv
+    rw [show A = (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) from rfl] at hAv
+    rw [hAv, dotProduct_zero] at hpos
+    exact lt_irrefl 0 hpos
+  have hfull : intermediateState A v n = v := by
+    rw [intermediateState_full]; exact hfixed
+  -- Helper: dotProduct v (A.mulVec eᵢ) = (A.mulVec v) i (by A-symmetry)
+  have hcoeff : ∀ i : Fin n,
+      dotProduct v (A.mulVec (Pi.single i 1)) = (A.mulVec v) i := by
+    intro i
+    simp only [dotProduct, Matrix.mulVec, Pi.single_apply,
+      mul_ite, mul_one, mul_zero,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+    apply Finset.sum_congr rfl; intro p _
+    have h := congr_fun (congr_fun (dynkin_cartan_symm hDynkin) i) p
+    simp only [Matrix.transpose_apply] at h
+    change A p i = A i p at h
+    rw [h, mul_comm]
+  -- Helper: if (Av)_i = 0 then s_i(v) = v
+  have hrefl_id : ∀ i : Fin n, (A.mulVec v) i = 0 →
+      simpleReflection n A i v = v := by
+    intro i hi
+    change v - dotProduct v (A.mulVec (Pi.single i 1)) • Pi.single i 1 = v
+    rw [hcoeff i, hi, zero_smul, sub_zero]
+  -- Prove all intermediateState A v m = v by induction on m
+  suffices hall : ∀ m, m ≤ n → intermediateState A v m = v by
+    ext k; simp only [Pi.zero_apply]
+    have hstep := intermediateState_succ A v (n - 1 - k.val) (by omega)
+    rw [hall (n - 1 - k.val) (by omega),
+      hall (n - 1 - k.val + 1) (by omega)] at hstep
+    have hfin_eq : (⟨n - 1 - (n - 1 - k.val), by omega⟩ : Fin n) = k :=
+      Fin.ext (show n - 1 - (n - 1 - k.val) = k.val by omega)
+    rw [hfin_eq] at hstep
+    have hself := simpleReflection_apply_self hDynkin v k
+    have : v k = simpleReflection n A k v k := congr_fun hstep k
+    rw [hself] at this; linarith
+  intro m hm
+  induction m with
+  | zero => rfl
+  | succ m ih =>
+    rw [intermediateState_succ A v m (by omega), ih (by omega)]
+    set j : Fin n := ⟨n - 1 - m, by omega⟩
+    have hstable : intermediateState A v n j =
+        intermediateState A v (m + 1) j :=
+      intermediateState_coord_stable A v (m + 1) n (by omega) le_rfl j
+        (by simp [j]; omega)
+    rw [hfull] at hstable
+    have hAv_j : (A.mulVec v) j = 0 := by
+      have heval : intermediateState A v (m + 1) j =
+          simpleReflection n A j (intermediateState A v m) j := by
+        rw [intermediateState_succ A v m (by omega)]
+      rw [ih (by omega)] at heval
+      rw [simpleReflection_apply_self hDynkin v j] at heval
+      linarith [hstable]
+    exact hrefl_id j hAv_j
 
 end CoxeterHelpers
 
