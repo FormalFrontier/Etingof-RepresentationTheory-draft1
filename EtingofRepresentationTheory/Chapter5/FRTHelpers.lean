@@ -227,6 +227,70 @@ theorem card_standardYoungTableau_mul_zero (la : Nat.Partition 0) :
 
 /-! ## Sub-lemmas for the inductive step -/
 
+/-- Cell membership in the SYT sense is equivalent to Young diagram membership. -/
+private lemma sytCell_iff_mem_toYoungDiagram {n : ℕ} (la : Nat.Partition n)
+    (c : ℕ × ℕ) :
+    (c.1 < la.sortedParts.length ∧ c.2 < la.sortedParts.getD c.1 0) ↔
+    c ∈ la.toYoungDiagram.cells := by
+  simp only [Nat.Partition.toYoungDiagram, Nat.Partition.sortedParts,
+    YoungDiagram.mem_cells, YoungDiagram.mem_ofRowLens]
+  constructor
+  · rintro ⟨h1, h2⟩
+    refine ⟨h1, ?_⟩
+    have heq := List.getD_eq_getElem _ 0 h1
+    omega
+  · rintro ⟨h1, h2⟩
+    refine ⟨h1, ?_⟩
+    have heq := List.getD_eq_getElem _ 0 h1
+    omega
+
+/-- Equivalence between SYT cells and Young diagram cells for a partition. -/
+private noncomputable def sytCellEquiv {n : ℕ} (la : Nat.Partition n) :
+    { c : ℕ × ℕ // c.1 < la.sortedParts.length ∧ c.2 < la.sortedParts.getD c.1 0 } ≃
+    { c : ℕ × ℕ // c ∈ la.toYoungDiagram.cells } where
+  toFun := fun ⟨c, h⟩ => ⟨c, (sytCell_iff_mem_toYoungDiagram la c).mp h⟩
+  invFun := fun ⟨c, h⟩ => ⟨c, (sytCell_iff_mem_toYoungDiagram la c).mpr h⟩
+  left_inv := fun ⟨_, _⟩ => by simp
+  right_inv := fun ⟨_, _⟩ => by simp
+
+/-- In any SYT of shape λ ⊢ (n+1), the cell containing the maximum value n
+is an outer corner of the Young diagram. -/
+private lemma syt_maxCell_isOuterCorner {n : ℕ} {la : Nat.Partition (n + 1)}
+    (f : { c : ℕ × ℕ // c.1 < la.sortedParts.length ∧
+      c.2 < la.sortedParts.getD c.1 0 } → Fin (n + 1))
+    (hbij : Function.Bijective f)
+    (hrow : ∀ c₁ c₂, c₁.val.1 = c₂.val.1 → c₁.val.2 < c₂.val.2 → f c₁ < f c₂)
+    (hcol : ∀ c₁ c₂, c₁.val.2 = c₂.val.2 → c₁.val.1 < c₂.val.1 → f c₁ < f c₂)
+    (c₀ : { c : ℕ × ℕ // c.1 < la.sortedParts.length ∧
+      c.2 < la.sortedParts.getD c.1 0 })
+    (hc₀ : f c₀ = Fin.last n) :
+    la.toYoungDiagram.IsOuterCorner c₀.val.1 c₀.val.2 := by
+  refine ⟨(sytCell_iff_mem_toYoungDiagram la c₀.val).mp c₀.property, ?_, ?_⟩
+  · -- (c₀.1 + 1, c₀.2) ∉ cells: if it were, the cell below would have f > n, impossible
+    intro hmem
+    have hmem' := (sytCell_iff_mem_toYoungDiagram la (c₀.val.1 + 1, c₀.val.2)).mpr hmem
+    have h := hcol c₀ ⟨(c₀.val.1 + 1, c₀.val.2), hmem'⟩ rfl
+      (show c₀.val.1 < c₀.val.1 + 1 by omega)
+    rw [hc₀] at h
+    exact absurd h (not_lt.mpr (Fin.le_last _))
+  · -- (c₀.1, c₀.2 + 1) ∉ cells: if it were, the cell to the right would have f > n, impossible
+    intro hmem
+    have hmem' := (sytCell_iff_mem_toYoungDiagram la (c₀.val.1, c₀.val.2 + 1)).mpr hmem
+    have h := hrow c₀ ⟨(c₀.val.1, c₀.val.2 + 1), hmem'⟩ rfl
+      (show c₀.val.2 < c₀.val.2 + 1 by omega)
+    rw [hc₀] at h
+    exact absurd h (not_lt.mpr (Fin.le_last _))
+
+/-- The branching bijection: every SYT of shape λ ⊢ (n+1) corresponds to
+a choice of outer corner (where the max value sits) and an SYT of the
+reduced shape λ\c ⊢ n. -/
+private noncomputable def sytBranchingEquiv (n : ℕ) (la : Nat.Partition (n + 1)) :
+    StandardYoungTableau (n + 1) la ≃
+    (c : la.toYoungDiagram.outerCorners) ×
+      StandardYoungTableau n (la.removeOuterCorner c.val
+        (YoungDiagram.mem_outerCorners.mp c.property)) := by
+  sorry
+
 /-- Branching rule: the number of SYT of shape λ (partition of n+1) equals the
 sum over outer corners c of the number of SYT of shape λ\c (partition of n).
 
@@ -238,10 +302,8 @@ theorem syt_branching_rule (n : ℕ) (la : Nat.Partition (n + 1)) :
         Nat.card (StandardYoungTableau n
           (la.removeOuterCorner c.val
             (YoungDiagram.mem_outerCorners.mp c.property)))) := by
-  -- Requires constructing the branching bijection:
-  -- SYT(n+1, λ) ≃ Σ_{c ∈ outerCorners} SYT(n, λ\c)
-  -- via "remove the cell containing the largest entry n+1"
-  sorry
+  rw [Nat.card_congr (sytBranchingEquiv n la), Nat.card_sigma]
+  rfl
 
 /-- Hook length product identity: for the inductive step, we need that
 multiplying the branching count by the hook product and using the IH gives (n+1)!.
