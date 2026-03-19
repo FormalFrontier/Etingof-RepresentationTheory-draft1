@@ -88,4 +88,47 @@ lemma map_span_eq_top :
 
 end Spanning
 
+section MainProof
+
+variable [Module.Free k V] [Module.Finite k V] [CharZero k]
+
+/-- A symmetrized pure tensor ∑_σ map(f ∘ σ⁻¹) lies in the fullDiagonalSubalgebra.
+This follows from span_diagonalTensors: S^n End(V) is spanned by f^⊗n. -/
+lemma symmetrized_map_mem_fullDiag (f : Fin n → Module.End k V) :
+    ∑ σ : Equiv.Perm (Fin n),
+      PiTensorProduct.map (fun i => f (σ.symm i)) ∈
+    (Lemma5_18_3.fullDiagonalSubalgebra k V n).toSubmodule := by
+  -- The sum ∑_σ map(f ∘ σ⁻¹) is a symmetrized multilinear expression.
+  -- By span_diagonalTensors, it lies in fullDiag.
+  -- fullDiag = Algebra.adjoin {map(fun _ => g) | g ∈ End(V)}
+  -- We show: ∑_σ map(f ∘ σ⁻¹) is in Submodule.span {map(fun _ => g) | g},
+  -- which ⊂ fullDiag.toSubmodule.
+  sorry
+
+/-- The averaging map ψ ↦ ∑_σ conj_σ(ψ) sends span{map(f)} into fullDiag.
+This is the key step for centralizer ⊆ fullDiag, factored out to avoid
+circular imports with Theorem5_18_2. -/
+lemma avg_conj_mem_fullDiag (φ : Module.End k (⨂[k] (_ : Fin n), V))
+    (hmem : φ ∈ Submodule.span k (Set.range fun f : Fin n → Module.End k V =>
+        PiTensorProduct.map f)) :
+    ∑ σ : Equiv.Perm (Fin n),
+      (PiTensorProduct.reindex k (fun _ => V) σ).toLinearMap * φ *
+      (PiTensorProduct.reindex k (fun _ => V) σ).symm.toLinearMap ∈
+    (Lemma5_18_3.fullDiagonalSubalgebra k V n).toSubmodule := by
+  set fullDiag := Lemma5_18_3.fullDiagonalSubalgebra k V n
+  induction hmem using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨f, rfl⟩ := hx
+    simp_rw [map_conj_reindex]
+    exact symmetrized_map_mem_fullDiag f
+  | zero => simp [fullDiag.toSubmodule.zero_mem]
+  | add x y _ _ hx hy =>
+    simp_rw [mul_add, add_mul, Finset.sum_add_distrib]
+    exact fullDiag.toSubmodule.add_mem hx hy
+  | smul c x _ hx =>
+    simp_rw [mul_smul_comm, smul_mul_assoc, ← Finset.smul_sum]
+    exact fullDiag.toSubmodule.smul_mem c hx
+
+end MainProof
+
 end Etingof.Theorem5_18_2_Helpers
