@@ -170,6 +170,12 @@ private lemma pla_fixed_is_scalar_of_cla (n : ℕ) (la : Nat.Partition n)
   refine ⟨ℓ (x * RowSymmetrizer n la) * (Fintype.card (RowSubgroup n la) : ℂ)⁻¹, ?_⟩
   rw [mul_comm, ← smul_smul, ← h_sandwich, smul_smul, inv_mul_cancel₀ h_card_ne, one_smul]
 
+/-- There exists a nonzero equivariant map U_la -> V_la.
+This is the canonical map sending the identity coset to c_la. -/
+private lemma exists_nonzero_equivariant_map (n : ℕ) (la : Nat.Partition n) :
+    ∃ f : PermutationModule n la →ₗ[SymGroupAlgebra n] ↥(SpechtModule n la), f ≠ 0 := by
+  sorry
+
 end
 
 /-! ## Proposition 5.14.1 -/
@@ -253,11 +259,29 @@ theorem Proposition5_14_1_diagonal
     intro p hp
     rw [← f.map_smul]; congr 1
     rw [of_smul_single, rowSubgroup_fixes_identity n la p hp]
-  -- Step 3: Any two maps f, g satisfy g = α • f for some scalar
-  -- (both f(e).val and g(e).val are scalar multiples of c_la,
-  --  so they differ by a scalar, and since U_la is cyclic, the maps differ by that scalar)
-  -- Step 4: Construct a nonzero equivariant map (the canonical map)
-  -- and show everything is a scalar multiple
-  sorry
+  -- Step 3: Get a nonzero map phi0
+  obtain ⟨phi0, hphi0_ne⟩ := exists_nonzero_equivariant_map n la
+  -- Step 4: phi0(e) ≠ 0 (otherwise phi0 = 0 by hf_det)
+  have hphi0_e_ne : phi0 e ≠ 0 := by
+    intro h; exact hphi0_ne (hf_det phi0 h)
+  -- Step 5: Show finrank = 1 using finrank_eq_one
+  obtain ⟨c0, hc0⟩ := hf_scalar phi0
+  -- c0 ≠ 0 (since phi0(e) ≠ 0)
+  have hc0_ne : c0 ≠ 0 := by
+    intro hc0z
+    rw [hc0z, zero_smul] at hc0
+    exact hphi0_e_ne (Subtype.ext hc0)
+  apply finrank_eq_one phi0
+  · exact hphi0_ne
+  · intro f
+    obtain ⟨cf, hcf⟩ := hf_scalar f
+    -- f(e).val = cf • c_la, phi0(e).val = c0 • c_la
+    -- So (cf / c0) • phi0(e).val = cf • c_la = f(e).val
+    refine ⟨cf / c0, ?_⟩
+    rw [eq_comm, ← sub_eq_zero]
+    apply hf_det
+    apply Subtype.ext
+    show (f e : SymGroupAlgebra n) - (cf / c0) • (phi0 e : SymGroupAlgebra n) = 0
+    rw [hcf, hc0, smul_smul, div_mul_cancel₀ cf hc0_ne, sub_self]
 
 end Etingof
