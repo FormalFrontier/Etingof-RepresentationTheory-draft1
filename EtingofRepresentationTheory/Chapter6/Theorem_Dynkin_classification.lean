@@ -313,7 +313,7 @@ private lemma pathQF_eq_dotProduct (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ) 
         DynkinType.adj (.A (0 + 1) (by omega))) 0 0 = 2 := by
       simp [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.ofNat_apply,
         smul_eq_mul, DynkinType.adj, Fin.ext_iff, Fin.val_zero]
-    rw [hmat]; ring
+    rw [hmat]; simp [Fin.ext_iff]; ring
   | succ k ih =>
     -- n = k + 2
     set ext_x : ℕ → ℤ := fun i => if h : i < k + 2 then x ⟨i, h⟩ else 0
