@@ -37,6 +37,6 @@ covers P₁, …, Pₙ, the Cartan matrix is the `n × n` matrix with entries
 The multiplicity function `jhMultiplicity i j` is taken as a parameter. By Proposition
 9.2.3, this equals `dim_k Hom_A(Pᵢ, Pⱼ)` when the algebra is finite-dimensional over
 an algebraically closed field. -/
-def Etingof.cartanMatrix {n : ℕ} (jhMultiplicity : Fin n → Fin n → ℕ) :
+def Etingof.algebraCartanMatrix {n : ℕ} (jhMultiplicity : Fin n → Fin n → ℕ) :
     Matrix (Fin n) (Fin n) ℕ :=
   Matrix.of jhMultiplicity
