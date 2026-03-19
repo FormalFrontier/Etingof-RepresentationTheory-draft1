@@ -329,11 +329,27 @@ theorem permModule_isotypic_isInternal (n : ℕ) (mu : Nat.Partition n) :
 /-- The permutation action `σ` on `U_μ` maps each isotypic component to itself.
 This is because `σ` acts as a `ℂ[S_n]`-module endomorphism (left multiplication
 by `of(σ)`), and isotypic components are fully invariant. -/
+private lemma permModuleEndomorphism_eq_smul (n : ℕ) (mu : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n)) (v : PermutationModule n mu) :
+    permModuleEndomorphism n mu σ v =
+      (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • v := by
+  simp only [permMod_smul_eq', permModuleEndomorphism]
+  -- Both sides are Finsupp.lmapDomain ℂ ℂ (σ • ·) v
+  -- rep.asAlgebraHom (of σ) = representation σ = lmapDomain (σ • ·)
+  change Finsupp.lmapDomain ℂ ℂ (fun q => σ • q) v =
+    (Representation.ofMulAction ℂ (G_n n) (Q_n n mu)).asAlgebraHom
+      (MonoidAlgebra.of ℂ _ σ) v
+  simp [Representation.asAlgebraHom_single, Representation.ofMulAction_single]
+  rfl
+
 theorem permModuleEndomorphism_mapsTo_isotypic (n : ℕ) (mu : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (nu : Nat.Partition n) :
     Set.MapsTo (permModuleEndomorphism n mu σ)
       (permModuleIsotypicComponent n mu nu) (permModuleIsotypicComponent n mu nu) := by
-  sorry
+  intro v hv
+  rw [permModuleEndomorphism_eq_smul]
+  exact (isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu)
+    (SpechtModule n nu)).smul_mem _ hv
 
 /-- Each isotypic component of a finite-dimensional module is finite-dimensional. -/
 instance permModuleIsotypicComponent_finite (n : ℕ) (mu nu : Nat.Partition n) :
