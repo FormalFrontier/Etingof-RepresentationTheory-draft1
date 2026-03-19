@@ -133,6 +133,29 @@ noncomputable def symGroupImage :
   Algebra.adjoin k (Set.range fun (σ : Equiv.Perm (Fin n)) =>
     (PiTensorProduct.reindex k (fun _ => V) σ).toLinearMap)
 
+omit [Module.Finite k V] in
+/-- The diagonal Lie action of b ∈ gl(V) commutes with permutation of tensor factors. -/
+private lemma diagonalLieAction_commutes_reindex (b : Module.End k V)
+    (σ : Equiv.Perm (Fin n)) :
+    diagonalLieAction k V n b *
+      (PiTensorProduct.reindex k (fun _ : Fin n => V) σ).toLinearMap =
+    (PiTensorProduct.reindex k (fun _ : Fin n => V) σ).toLinearMap *
+      diagonalLieAction k V n b := by
+  simp only [diagonalLieAction, LieHom.coe_mk]
+  rw [Finset.sum_mul, Finset.mul_sum]
+  apply Finset.sum_nbij σ.symm
+  · exact fun _ _ => Finset.mem_univ _
+  · exact σ.symm.injective.injOn
+  · exact fun i _ => ⟨σ i, by simp, σ.symm_apply_apply i⟩
+  · intro i _
+    rw [Module.End.mul_eq_comp, Module.End.mul_eq_comp]
+    -- Goal: map(δᵢ b) ∘ₗ reindex σ = reindex σ ∘ₗ map(δ_{σ⁻¹ i} b)
+    -- map_comp_reindex_eq with f = δ_{σ⁻¹ i} b gives the result
+    -- since (δ_{σ⁻¹ i} b)(σ⁻¹ j) = δᵢ b j by injectivity
+    rw [← PiTensorProduct.map_comp_reindex_eq]
+    congr 1; congr 1; funext j
+    simp
+
 /-- The centralizer of ℂ[S_n] acting on V^⊗n is the image of U(gl(V)).
 
 The centralizer End_{ℂ[S_n]}(V^⊗n) — the subalgebra of End(V^⊗n) commuting
@@ -145,6 +168,65 @@ theorem centralizer_eq_universalEnvelopingImage :
     Subalgebra.centralizer k
       (symGroupImage k V n : Set (Module.End k (TnsPow k V n))) =
     (universalEnvelopingToEnd k V n).range := by
-  sorry
+  apply le_antisymm
+  · -- (⊆) centralizer ≤ range: requires double centralizer theorem
+    sorry
+  · -- (⊇) range ≤ centralizer: image of U(gl(V)) commutes with S_n action
+    -- Flip: equivalently, symGroupImage ≤ centralizer(range)
+    rw [Subalgebra.le_centralizer_iff]
+    -- symGroupImage is adjoin of generators, use adjoin_le
+    apply Algebra.adjoin_le
+    rintro _ ⟨σ, rfl⟩
+    rw [SetLike.mem_coe, Subalgebra.mem_centralizer_iff]
+    intro x hx
+    obtain ⟨y, rfl⟩ := (universalEnvelopingToEnd k V n).mem_range.mp hx
+    -- Show: reindex σ commutes with universalEnvelopingToEnd y
+    -- Use hom_ext: conjugation by reindex σ fixes universalEnvelopingToEnd
+    set e := PiTensorProduct.reindex k (fun _ : Fin n => V) σ
+    -- Key: conjAlgEquiv e composed with universalEnvelopingToEnd equals
+    -- universalEnvelopingToEnd (they agree on ι by the helper lemma)
+    have hext : (e.conjAlgEquiv k).toAlgHom.comp
+        (universalEnvelopingToEnd k V n) =
+        universalEnvelopingToEnd k V n := by
+      apply UniversalEnvelopingAlgebra.hom_ext; ext1 b
+      simp only [LieHom.comp_apply, AlgHom.toLieHom_apply,
+        AlgHom.comp_apply, AlgEquiv.toAlgHom_eq_coe,
+        AlgHom.coe_coe, LinearEquiv.conjAlgEquiv_apply,
+        universalEnvelopingToEnd,
+        UniversalEnvelopingAlgebra.lift_ι_apply]
+      -- Goal: e ∘ₗ diag b ∘ₗ e.symm = diag b
+      -- From helper: diag b * ↑e = ↑e * diag b (commutation)
+      have h := diagonalLieAction_commutes_reindex k V n b σ
+      -- In Module.End mul terms:
+      -- (↑e * diag b) * ↑e.symm = diag b * (↑e * ↑e.symm) = diag b
+      have he_inv : (↑e : Module.End k (TnsPow k V n)) *
+          ↑e.symm = 1 := by
+        ext v; simp [Module.End.mul_eq_comp]
+      -- conjAlgEquiv e (diag b) = ↑e * diag b * ↑e.symm
+      -- But ∘ₗ is the same as * in Module.End
+      change ↑e * diagonalLieAction k V n b * ↑e.symm =
+        diagonalLieAction k V n b
+      rw [h.symm, mul_assoc, he_inv, mul_one]
+    -- Extract: conjAlgEquiv e (universalEnvelopingToEnd y) =
+    --   universalEnvelopingToEnd y
+    have key := AlgHom.congr_fun hext y
+    simp only [AlgHom.comp_apply, AlgEquiv.toAlgHom_eq_coe,
+      AlgHom.coe_coe, LinearEquiv.conjAlgEquiv_apply] at key
+    -- key : ↑e * universalEnvelopingToEnd y * ↑e.symm =
+    --        universalEnvelopingToEnd y
+    -- Derive commutation: ↑e * f = f * ↑e
+    -- Convert key to * notation: ↑e * f * ↑e.symm = f
+    have key_mul : (↑e : Module.End k (TnsPow k V n)) *
+        (universalEnvelopingToEnd k V n) y * ↑e.symm =
+        (universalEnvelopingToEnd k V n) y := by
+      simp only [Module.End.mul_eq_comp]; exact key
+    have he_inv : (↑e.symm : Module.End k (TnsPow k V n)) *
+        ↑e = 1 := by
+      ext v; simp [Module.End.mul_eq_comp]
+    -- Multiply key_mul on right by ↑e: ↑e * f * ↑e.symm * ↑e = f * ↑e
+    -- Use assoc: ↑e * f * (↑e.symm * ↑e) = f * ↑e, then he_inv
+    have := congr_arg (· * (↑e : Module.End k _)) key_mul
+    simp only [mul_assoc, he_inv, mul_one] at this
+    exact this.symm
 
 end Etingof.Theorem5_18_2
