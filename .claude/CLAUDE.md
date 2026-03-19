@@ -32,8 +32,7 @@ Store only **direct** dependencies. The conservative default is a linear chain: 
 
 If the book's proof says "by Lemma X.Y.Z" or "the result follows from [earlier result]":
 1. Find that earlier result in the project (search `blobs/` and the Lean files)
-2. Check whether it's already proved or still has a sorry
-3. If it has a sorry, your theorem depends on it — sorry your proof with a comment citing the dependency (e.g., `-- Requires Lemma5_18_3 part ii, currently sorry`). Do **not** go work on that dependency yourself — it's a separate work item for another agent.
+2. Use it in your proof — even if it still has a `sorry`, Lean accepts it as an axiom, so you can build on it. A sorry'd dependency is not a blocker; it's exactly how top-down development works.
 
 **Never say "not in Mathlib" without first checking the book.** The book's proofs build on earlier results in the book. Those results are what you should be using — not searching Mathlib for advanced infrastructure like Schur functors or Schur-Weyl duality when the book uses an elementary lemma from the previous page.
 
