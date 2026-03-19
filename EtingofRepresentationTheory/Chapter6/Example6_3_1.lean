@@ -549,14 +549,235 @@ private lemma decomp_general {k : Type*} [Field k] (ρ : D₄Rep k)
   · left; exact hp
   · right; exact hq
 
--- dim V ≥ 3, all injective, range sum = ⊤ → decomposable
+-- When p ≤ range A and A is injective, comap A p and comap A q are complementary.
+private lemma comap_isCompl_of_inj_le {k : Type*} [Field k]
+    {V₁ V : Type*} [AddCommGroup V₁] [Module k V₁] [AddCommGroup V] [Module k V]
+    [FiniteDimensional k V₁] [FiniteDimensional k V]
+    (A : V₁ →ₗ[k] V) (hA_inj : Function.Injective A)
+    (p q : Submodule k V) (hpq : IsCompl p q) (hle : p ≤ LinearMap.range A) :
+    IsCompl (Submodule.comap A p) (Submodule.comap A q) := by
+  constructor
+  · rw [Submodule.disjoint_def]
+    intro x hxp hxq
+    have : A x ∈ p ⊓ q := ⟨hxp, hxq⟩
+    rw [hpq.inf_eq_bot, Submodule.mem_bot] at this
+    exact hA_inj (this.trans (map_zero _).symm)
+  · rw [codisjoint_iff]; ext x
+    simp only [Submodule.mem_sup, Submodule.mem_comap, Submodule.mem_top, iff_true]
+    obtain ⟨yp, hyp, yq, hyq, heq⟩ := Submodule.mem_sup.mp
+      (show A x ∈ p ⊔ q from hpq.sup_eq_top ▸ Submodule.mem_top)
+    have hAx : A x ∈ LinearMap.range A := LinearMap.mem_range.mpr ⟨x, rfl⟩
+    have hyp_range : yp ∈ LinearMap.range A := hle hyp
+    have hyq_range : yq ∈ LinearMap.range A := by
+      have hsub : A x - yp ∈ LinearMap.range A := (LinearMap.range A).sub_mem hAx hyp_range
+      rwa [show A x - yp = yq from by rw [← heq]; abel] at hsub
+    obtain ⟨x₁, hx₁⟩ := LinearMap.mem_range.mp hyp_range
+    obtain ⟨x₂, hx₂⟩ := LinearMap.mem_range.mp hyq_range
+    have : x = x₁ + x₂ := hA_inj (by rw [map_add, hx₁, hx₂, heq])
+    exact ⟨x₁, show A x₁ ∈ p from hx₁ ▸ hyp,
+           x₂, show A x₂ ∈ q from hx₂ ▸ hyq, this.symm⟩
+
+-- Find a complement of p containing S, given Disjoint S p.
+-- This is a wrapper around Disjoint.exists_isCompl from Mathlib.
+private lemma exists_isCompl_containing {k : Type*} [Field k]
+    {V : Type*} [AddCommGroup V] [Module k V]
+    (p S : Submodule k V) (hdisj : Disjoint S p) :
+    ∃ q : Submodule k V, IsCompl p q ∧ S ≤ q := by
+  obtain ⟨q, hSq, hqp⟩ := hdisj.exists_isCompl
+  exact ⟨q, hqp.symm, hSq⟩
+
+private lemma build_arm_decomp {k : Type*} [Field k]
+    {V W : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    [AddCommGroup W] [Module k W] [FiniteDimensional k W]
+    (A : W →ₗ[k] V) (hA_inj : Function.Injective A)
+    (p q : Submodule k V) (hpq : IsCompl p q)
+    (hcond : p ≤ LinearMap.range A ∨ LinearMap.range A ≤ q) :
+    ∃ (pW qW : Submodule k W), IsCompl pW qW ∧
+      (∀ x ∈ pW, A x ∈ p) ∧ (∀ x ∈ qW, A x ∈ q) := by
+  rcases hcond with hle | hle
+  · exact ⟨Submodule.comap A p, Submodule.comap A q,
+      comap_isCompl_of_inj_le A hA_inj p q hpq hle,
+      fun x hx => hx, fun x hx => hx⟩
+  · exact ⟨⊥, ⊤, isCompl_bot_top,
+      fun x hx => by rw [(Submodule.mem_bot (R := k)).mp hx, map_zero]; exact zero_mem _,
+      fun x _ => hle (LinearMap.mem_range.mpr ⟨x, rfl⟩)⟩
+
+-- dim V ≥ 3, all injective, range sum = ⊤ → contradicts indecomposability
 private lemma decomp_dim_ge_three {k : Type*} [Field k] (ρ : D₄Rep k)
     (hind : ρ.Indecomposable)
     (hA₁ : LinearMap.ker ρ.A₁ = ⊥) (hA₂ : LinearMap.ker ρ.A₂ = ⊥)
     (hA₃ : LinearMap.ker ρ.A₃ = ⊥)
     (hR : LinearMap.range ρ.A₁ ⊔ LinearMap.range ρ.A₂ ⊔ LinearMap.range ρ.A₃ = ⊤)
     (hV : Module.finrank k ρ.V ≥ 3) : False := by
-  sorry
+  have hinj₁ := LinearMap.ker_eq_bot.mp hA₁
+  have hinj₂ := LinearMap.ker_eq_bot.mp hA₂
+  have hinj₃ := LinearMap.ker_eq_bot.mp hA₃
+  haveI : Nontrivial ρ.V := Module.nontrivial_of_finrank_pos (R := k) (by omega)
+  -- Helper: given nontrivial IsCompl p q with each arm either p ≤ Rᵢ or Rᵢ ≤ q,
+  -- derive False from indecomposability.
+  have mk_absurd : ∀ (p q : Submodule k ρ.V), IsCompl p q →
+      p ≠ ⊥ → q ≠ ⊥ →
+      (p ≤ LinearMap.range ρ.A₁ ∨ LinearMap.range ρ.A₁ ≤ q) →
+      (p ≤ LinearMap.range ρ.A₂ ∨ LinearMap.range ρ.A₂ ≤ q) →
+      (p ≤ LinearMap.range ρ.A₃ ∨ LinearMap.range ρ.A₃ ≤ q) →
+      False := by
+    intro p q hpq hp_ne hq_ne h1 h2 h3
+    obtain ⟨p₁, q₁, hc₁, hp₁, hq₁⟩ := build_arm_decomp ρ.A₁ hinj₁ p q hpq h1
+    obtain ⟨p₂, q₂, hc₂, hp₂, hq₂⟩ := build_arm_decomp ρ.A₂ hinj₂ p q hpq h2
+    obtain ⟨p₃, q₃, hc₃, hp₃, hq₃⟩ := build_arm_decomp ρ.A₃ hinj₃ p q hpq h3
+    rcases hind.2 p q p₁ q₁ p₂ q₂ p₃ q₃ hpq hc₁ hc₂ hc₃ hp₁ hq₁ hp₂ hq₂ hp₃ hq₃
+      with ⟨h, _, _, _⟩ | ⟨h, _, _, _⟩
+    · exact hp_ne h
+    · exact hq_ne h
+  -- Helper: use a 1-dim span to derive contradiction via mk_absurd.
+  have span_absurd : ∀ (w : ρ.V) (_ : w ≠ 0) (q : Submodule k ρ.V)
+      (hpq : IsCompl (Submodule.span k {w}) q),
+      (Submodule.span k {w} ≤ LinearMap.range ρ.A₁ ∨ LinearMap.range ρ.A₁ ≤ q) →
+      (Submodule.span k {w} ≤ LinearMap.range ρ.A₂ ∨ LinearMap.range ρ.A₂ ≤ q) →
+      (Submodule.span k {w} ≤ LinearMap.range ρ.A₃ ∨ LinearMap.range ρ.A₃ ≤ q) →
+      False := by
+    intro w hw q hpq h1 h2 h3
+    have hp_dim := finrank_span_singleton (K := k) hw
+    have hp_ne : Submodule.span k {w} ≠ ⊥ := by
+      intro h; exact hw (Submodule.span_singleton_eq_bot.mp h)
+    have hq_ne : q ≠ ⊥ := by
+      intro h; have := Submodule.finrank_add_eq_of_isCompl hpq
+      rw [h, finrank_bot, add_zero, hp_dim] at this; omega
+    exact mk_absurd _ q hpq hp_ne hq_ne h1 h2 h3
+  -- Abbreviations for readability (used in comments only; proofs use full names)
+  set R₁ := LinearMap.range ρ.A₁
+  set R₂ := LinearMap.range ρ.A₂
+  set R₃ := LinearMap.range ρ.A₃
+  -- Case 1: R₁ ⊓ R₂ ⊓ R₃ ≠ ⊥
+  by_cases h_triple : R₁ ⊓ R₂ ⊓ R₃ ≠ ⊥
+  · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h_triple
+    rw [Submodule.mem_inf, Submodule.mem_inf] at hw_mem
+    obtain ⟨q, hpq⟩ := Submodule.exists_isCompl (Submodule.span k {w})
+    exact span_absurd w hw_ne q hpq
+      (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1.1)))
+      (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1.2)))
+      (Or.inl (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.2)))
+  · push_neg at h_triple
+    -- Case 2: Some Rᵢ ⊓ Rⱼ ≠ ⊥ (with triple intersection = ⊥)
+    by_cases h₁₂ : R₁ ⊓ R₂ ≠ ⊥
+    · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h₁₂
+      rw [Submodule.mem_inf] at hw_mem
+      have hp1 := Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1)
+      have hp2 := Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.2)
+      have hdisj : Disjoint R₃ (Submodule.span k {w}) := by
+        rw [disjoint_comm, disjoint_iff]
+        exact le_bot_iff.mp (le_trans (inf_le_inf_right R₃ (le_inf hp1 hp2)) h_triple.le)
+      obtain ⟨q, hpq, h3q⟩ := exists_isCompl_containing _ R₃ hdisj
+      exact span_absurd w hw_ne q hpq (Or.inl hp1) (Or.inl hp2) (Or.inr h3q)
+    · push_neg at h₁₂
+      by_cases h₁₃ : R₁ ⊓ R₃ ≠ ⊥
+      · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h₁₃
+        rw [Submodule.mem_inf] at hw_mem
+        have hp1 := Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1)
+        have hp3 := Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.2)
+        have h132 : R₁ ⊓ R₃ ⊓ R₂ = ⊥ := by
+          convert h_triple using 1; ac_rfl
+        have hdisj : Disjoint R₂ (Submodule.span k {w}) := by
+          rw [disjoint_comm, disjoint_iff]
+          exact le_bot_iff.mp (le_trans (inf_le_inf_right R₂ (le_inf hp1 hp3)) h132.le)
+        obtain ⟨q, hpq, h2q⟩ := exists_isCompl_containing _ R₂ hdisj
+        exact span_absurd w hw_ne q hpq (Or.inl hp1) (Or.inr h2q) (Or.inl hp3)
+      · push_neg at h₁₃
+        by_cases h₂₃ : R₂ ⊓ R₃ ≠ ⊥
+        · obtain ⟨w, hw_mem, hw_ne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h₂₃
+          rw [Submodule.mem_inf] at hw_mem
+          have hp2 := Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.1)
+          have hp3 := Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hw_mem.2)
+          have h231 : R₂ ⊓ R₃ ⊓ R₁ = ⊥ := by
+            convert h_triple using 1; ac_rfl
+          have hdisj : Disjoint R₁ (Submodule.span k {w}) := by
+            rw [disjoint_comm, disjoint_iff]
+            exact le_bot_iff.mp (le_trans (inf_le_inf_right R₁ (le_inf hp2 hp3)) h231.le)
+          obtain ⟨q, hpq, h1q⟩ := exists_isCompl_containing _ R₁ hdisj
+          exact span_absurd w hw_ne q hpq (Or.inr h1q) (Or.inl hp2) (Or.inl hp3)
+        · push_neg at h₂₃
+          -- Case 3: All pairwise = ⊥. Try one-vs-two splits.
+          -- Helper: given Disjoint Rᵢ (Rⱼ ⊔ Rₖ) with Rᵢ ⊔ Rⱼ ⊔ Rₖ = ⊤,
+          -- derive False by finding nontrivial IsCompl.
+          have case3 : ∀ {Ra Rb Rc : Submodule k ρ.V},
+              Disjoint Ra (Rb ⊔ Rc) → Ra ⊔ (Rb ⊔ Rc) = ⊤ →
+              Rb ⊓ Rc = ⊥ →
+              (∀ p q : Submodule k ρ.V, IsCompl p q → p ≠ ⊥ → q ≠ ⊥ →
+                (p ≤ Ra ∨ Ra ≤ q) → (p ≤ Rb ∨ Rb ≤ q) →
+                (p ≤ Rc ∨ Rc ≤ q) → False) →
+              False := by
+            intro Ra Rb Rc hdisj hcod hjk absurd_fn
+            have hpq : IsCompl Ra (Rb ⊔ Rc) := ⟨hdisj, codisjoint_iff.mpr hcod⟩
+            by_cases haz : Ra = ⊥
+            · -- Ra = ⊥, Rb ⊔ Rc = ⊤
+              have htop : Rb ⊔ Rc = ⊤ := by rwa [haz, bot_sup_eq] at hcod
+              by_cases hbz : Rb = ⊥
+              · -- Rb = ⊥, Rc = ⊤
+                have hctop : Rc = ⊤ := by rwa [hbz, bot_sup_eq] at htop
+                obtain ⟨v, hv⟩ := exists_ne (0 : ρ.V)
+                obtain ⟨q, hpq'⟩ := Submodule.exists_isCompl (Submodule.span k {v})
+                have hp_ne : Submodule.span k {v} ≠ ⊥ := by
+                  intro h; exact hv (Submodule.span_singleton_eq_bot.mp h)
+                have hq_ne : q ≠ ⊥ := by
+                  intro h; have := Submodule.finrank_add_eq_of_isCompl hpq'
+                  rw [h, finrank_bot, add_zero, finrank_span_singleton hv] at this; omega
+                exact absurd_fn _ q hpq' hp_ne hq_ne
+                  (Or.inr (haz ▸ bot_le)) (Or.inr (hbz ▸ bot_le))
+                  (Or.inl (hctop ▸ le_top))
+              · by_cases hcz : Rc = ⊥
+                · -- Rc = ⊥, Rb = ⊤
+                  have hbtop : Rb = ⊤ := by rwa [hcz, sup_bot_eq] at htop
+                  obtain ⟨v, hv⟩ := exists_ne (0 : ρ.V)
+                  obtain ⟨q, hpq'⟩ := Submodule.exists_isCompl (Submodule.span k {v})
+                  have hp_ne : Submodule.span k {v} ≠ ⊥ := by
+                    intro h; exact hv (Submodule.span_singleton_eq_bot.mp h)
+                  have hq_ne : q ≠ ⊥ := by
+                    intro h; have := Submodule.finrank_add_eq_of_isCompl hpq'
+                    rw [h, finrank_bot, add_zero, finrank_span_singleton hv] at this; omega
+                  exact absurd_fn _ q hpq' hp_ne hq_ne
+                    (Or.inr (haz ▸ bot_le)) (Or.inl (hbtop ▸ le_top))
+                    (Or.inr (hcz ▸ bot_le))
+                · -- Both Rb, Rc nontrivial. IsCompl Rb Rc.
+                  have hbc : IsCompl Rb Rc :=
+                    ⟨disjoint_iff.mpr hjk, codisjoint_iff.mpr htop⟩
+                  exact absurd_fn Rb Rc hbc hbz hcz
+                    (Or.inr (haz ▸ bot_le)) (Or.inl le_rfl) (Or.inr le_rfl)
+            · -- Ra ≠ ⊥
+              by_cases hqz : Rb ⊔ Rc = ⊥
+              · -- Rb = Rc = ⊥, Ra = ⊤
+                have hbz : Rb = ⊥ := le_bot_iff.mp (by rw [← hqz]; exact le_sup_left)
+                have hcz : Rc = ⊥ := le_bot_iff.mp (by rw [← hqz]; exact le_sup_right)
+                have hatop : Ra = ⊤ := by rwa [hqz, sup_bot_eq] at hcod
+                obtain ⟨v, hv⟩ := exists_ne (0 : ρ.V)
+                obtain ⟨q, hpq'⟩ := Submodule.exists_isCompl (Submodule.span k {v})
+                have hp_ne : Submodule.span k {v} ≠ ⊥ := by
+                  intro h; exact hv (Submodule.span_singleton_eq_bot.mp h)
+                have hq_ne : q ≠ ⊥ := by
+                  intro h; have := Submodule.finrank_add_eq_of_isCompl hpq'
+                  rw [h, finrank_bot, add_zero, finrank_span_singleton hv] at this; omega
+                exact absurd_fn _ q hpq' hp_ne hq_ne
+                  (Or.inl (hatop ▸ le_top)) (Or.inr (hbz ▸ bot_le))
+                  (Or.inr (hcz ▸ bot_le))
+              · exact absurd_fn Ra (Rb ⊔ Rc) hpq haz hqz
+                  (Or.inl le_rfl) (Or.inr le_sup_left) (Or.inr le_sup_right)
+          by_cases hR₁_23 : Disjoint R₁ (R₂ ⊔ R₃)
+          · have : R₁ ⊔ (R₂ ⊔ R₃) = ⊤ := by rw [← sup_assoc]; exact hR
+            exact case3 hR₁_23 this h₂₃ mk_absurd
+          · by_cases hR₂_13 : Disjoint R₂ (R₁ ⊔ R₃)
+            · have : R₂ ⊔ (R₁ ⊔ R₃) = ⊤ := by
+                have := hR; rw [show R₁ ⊔ R₂ ⊔ R₃ = R₂ ⊔ (R₁ ⊔ R₃) from by
+                  simp only [sup_comm, sup_left_comm]] at this; exact this
+              exact case3 hR₂_13 this h₁₃
+                (fun p q hpq hp hq ha hb hc => mk_absurd p q hpq hp hq hb ha hc)
+            · by_cases hR₃_12 : Disjoint R₃ (R₁ ⊔ R₂)
+              · have : R₃ ⊔ (R₁ ⊔ R₂) = ⊤ := by
+                  have := hR; rw [show R₁ ⊔ R₂ ⊔ R₃ = R₃ ⊔ (R₁ ⊔ R₂) from by
+                    simp only [sup_comm, sup_left_comm]] at this; exact this
+                exact case3 hR₃_12 this h₁₂
+                  (fun p q hpq hp hq ha hb hc => mk_absurd p q hpq hp hq hb hc ha)
+              · -- All Rᵢ ⊓ (Rⱼ ⊔ Rₖ) ≠ ⊥, all pairwise = ⊥.
+                -- This is the hard case requiring projection-based decomposition.
+                sorry
 
 -- Helper: if A₁ is bijective in a D₄ rep and p ⊕ q = V with other ranges split,
 -- then p = ⊥ or q = ⊥.
