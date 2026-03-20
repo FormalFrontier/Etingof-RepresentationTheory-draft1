@@ -967,6 +967,111 @@ lemma YoungDiagram.hookWalkWeight_not_mem
     (c : ℕ × ℕ) : μ.hookWalkWeight i j c = 0 := by
   rw [YoungDiagram.hookWalkWeight, dif_neg h]
 
+/-- The two image sets in hookCellsExcl are disjoint (row cells vs column cells). -/
+private lemma YoungDiagram.hookCellsExcl_disjoint (μ : YoungDiagram) (i j : ℕ) :
+    Disjoint
+      ((Finset.Ico (j + 1) (μ.rowLen i)).image (fun b' => (i, b')))
+      ((Finset.Ico (i + 1) (μ.colLen j)).image (fun a' => (a', j))) := by
+  rw [Finset.disjoint_left]
+  intro x hx1 hx2
+  simp only [Finset.mem_image, Finset.mem_Ico] at hx1 hx2
+  obtain ⟨b', ⟨_, _⟩, rfl⟩ := hx1
+  obtain ⟨a', ⟨ha'_lo, _⟩, h_eq⟩ := hx2
+  simp only [Prod.mk.injEq] at h_eq
+  omega
+
+/-- The image map b' ↦ (i, b') is injective. -/
+private lemma YoungDiagram.row_image_injective (i : ℕ) :
+    Function.Injective (fun b' => (i, b') : ℕ → ℕ × ℕ) := by
+  intro a b h; simp only [Prod.mk.injEq] at h; exact h.2
+
+/-- The image map a' ↦ (a', j) is injective. -/
+private lemma YoungDiagram.col_image_injective (j : ℕ) :
+    Function.Injective (fun a' => (a', j) : ℕ → ℕ × ℕ) := by
+  intro a b h; simp only [Prod.mk.injEq] at h; exact h.1
+
+/-- The number of hook cells excluding (i,j) equals hookLength(i,j) - 1. -/
+lemma YoungDiagram.card_hookCellsExcl
+    {μ : YoungDiagram} {i j : ℕ} (hmem : (i, j) ∈ μ.cells) :
+    (μ.hookCellsExcl i j).card = μ.hookLength i j - 1 := by
+  unfold hookCellsExcl
+  rw [Finset.card_union_of_disjoint (hookCellsExcl_disjoint μ i j)]
+  rw [Finset.card_image_of_injective _ (row_image_injective i)]
+  rw [Finset.card_image_of_injective _ (col_image_injective j)]
+  simp only [Nat.card_Ico]
+  unfold YoungDiagram.hookLength
+  have hrl : j < μ.rowLen i := YoungDiagram.mem_iff_lt_rowLen.mp hmem
+  have hcl : i < μ.colLen j := YoungDiagram.mem_iff_lt_colLen.mp hmem
+  omega
+
+/-- Row completeness: ∑_{c ∈ outerCorners} w(u, c) = 1 for any cell u ∈ μ.
+This says the hook walk weight is a probability distribution over corners. -/
+lemma YoungDiagram.hookWalkWeight_row_sum
+    {μ : YoungDiagram} {i j : ℕ} (hmem : (i, j) ∈ μ.cells) :
+    μ.outerCorners.attach.sum (fun c =>
+      μ.hookWalkWeight i j c.val) = 1 := by
+  -- Well-founded induction on hookLength
+  suffices ∀ n, ∀ {i j : ℕ}, (i, j) ∈ μ.cells → μ.hookLength i j = n →
+      μ.outerCorners.attach.sum (fun c => μ.hookWalkWeight i j c.val) = 1 from
+    this _ hmem rfl
+  intro n
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
+    intro i j hmem hlen
+    by_cases hone : n = 1
+    · -- Corner case: hookLength = 1, so (i,j) is an outer corner
+      subst hone
+      have hoc := (Etingof.YoungDiagram.hookLength_eq_one_iff_outerCorner hmem).mp hlen
+      have hmem_oc : (i, j) ∈ μ.outerCorners := YoungDiagram.mem_outerCorners.mpr hoc
+      have hsum : ∀ c ∈ μ.outerCorners.attach,
+          μ.hookWalkWeight i j c.val =
+            if c.val = (i, j) then 1 else 0 := by
+        intro ⟨c, hc⟩ _
+        by_cases heq : c = (i, j)
+        · subst heq; simp [hookWalkWeight_corner hoc]
+        · rw [if_neg heq]; exact hookWalkWeight_ne_corner hoc (Ne.symm heq)
+      rw [Finset.sum_congr rfl hsum]
+      refine (Finset.sum_eq_single ⟨(i, j), hmem_oc⟩ ?_ ?_).trans (if_pos rfl)
+      · intro ⟨c, hc⟩ _ hne
+        exact if_neg (by intro h; exact hne (Subtype.ext h))
+      · intro h; exact absurd (Finset.mem_attach _ _) h
+    · -- Recursive case: hookLength > 1
+      have hpos := YoungDiagram.hookLength_pos μ i j hmem
+      have hgt1 : 1 < n := by omega
+      have hone' : μ.hookLength i j ≠ 1 := by omega
+      -- Each summand unfolds to the recursive formula
+      have hunfold : ∀ c ∈ μ.outerCorners.attach,
+          μ.hookWalkWeight i j c.val =
+            ((μ.hookCellsExcl i j).attach.sum fun ⟨v, hv⟩ =>
+              μ.hookWalkWeight v.1 v.2 c.val) /
+              (μ.hookLength i j - 1 : ℚ) := by
+        intro c _
+        rw [hookWalkWeight, dif_pos hmem, if_neg hone']
+      rw [Finset.sum_congr rfl hunfold]
+      rw [← Finset.sum_div]
+      rw [Finset.sum_comm]
+      -- Apply IH: each ∑_c w(v,c) = 1
+      have hih : ∀ v ∈ (μ.hookCellsExcl i j).attach,
+          μ.outerCorners.attach.sum (fun c =>
+            μ.hookWalkWeight v.val.1 v.val.2 c.val) = 1 := by
+        intro ⟨v, hv⟩ _
+        have hlt := hookLength_lt_of_hookCellsExcl hmem hv
+        have hmem_v : v ∈ μ.cells := by
+          simp only [hookCellsExcl, Finset.mem_union, Finset.mem_image,
+            Finset.mem_Ico] at hv
+          rcases hv with ⟨b', ⟨_, hhi⟩, rfl⟩ | ⟨a', ⟨_, hhi⟩, rfl⟩
+          · exact YoungDiagram.mem_iff_lt_rowLen.mpr hhi
+          · exact YoungDiagram.mem_iff_lt_colLen.mpr hhi
+        exact ih _ (hlen ▸ hlt) hmem_v rfl
+      simp only [Finset.sum_congr rfl hih, Finset.sum_const, Nat.smul_one_eq_cast,
+        Finset.card_attach]
+      rw [card_hookCellsExcl hmem, hlen]
+      have hne : (n : ℚ) - 1 ≠ 0 := by
+        have : (1 : ℚ) < n := by exact_mod_cast hgt1
+        linarith
+      rw [Nat.cast_sub (by omega : 1 ≤ n)]
+      exact div_self hne
+
 namespace Etingof
 
 noncomputable section
