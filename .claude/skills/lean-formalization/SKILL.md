@@ -24,6 +24,8 @@ Run this checklist before writing a single tactic. Skipping it has caused agents
    - ExteriorAlgebra ↔ PiTensorProduct bridging
    - `if`-branching `obj` fields in QuiverRepresentation-like structures
    - `Decidable.casesOn` map compatibility in `reflectionFunctorPlus` proofs
+   - `reflFunctorPlus_mapLinear_ne_ne` / `reflFunctorMinus_mapLinear_ne_ne` API (missing; needed for reflection functor naturality in the ne/ne case, blocked by dependent type transport through nested Decidable.casesOn — see Prop6_6_6 and Prop6_6_7)
+   - Definition-level `sorry : Type` for `AlgIrrepGL` (requires concrete Schur module + determinant twist implementation; 9 sorries in Theorem5_23_2 depend on this)
 
 2. **Search for existing definitions.** Before defining any concept, search the codebase:
    ```bash
@@ -544,6 +546,31 @@ When a chapter is within 1-3 items of 100% completion, prioritize closing it. Ch
 3. Prefer the easiest remaining item to close the chapter first
 
 **Evidence:** Ch3 closed via Jordan-Hölder (#831), Ch4 via block polynomial (#812). Both were chain-completion efforts that required focused multi-session work but had outsized impact on project morale and metrics.
+
+## Endgame Priorities (Wave 24+)
+
+With 81 sorries remaining across 27 files (35.3% sorry-free), the remaining work is concentrated in hard items. Priority tiers for the endgame:
+
+**Tier 1 — Most Tractable (attempt first):**
+- Ch2 Theorem2_1_1 (Casimir eigenspace decomposition, 1 sorry) — infrastructure recently merged (#1512, #1522)
+- Ch5 FRTHelpers induction step (1 sorry) — straightforward completion
+- Ch6 Dn_count (root count, 1 sorry) — claimed, in progress
+
+**Tier 2 — Medium Effort (infrastructure exists or nearly ready):**
+- Ch5 Lemma5_25_3 elliptic sum (2 sorries) — blocked on normalizer (#1517), but well-decomposed
+- Ch9 Corollary9_7_3 (3 sorries) — partially unblocked (#1509 merged), needs Morita structural (#1510 replan)
+- Ch5 Theorem5_15_1 (2 sorries) — hook length formula, hardest rearrangement sorries
+
+**Tier 3 — High Effort (needs new infrastructure):**
+- Ch6 Proposition6_6_6/6_6_7 (7 sorries) — blocked on Decidable.casesOn type transport (known dead-end)
+- Ch9 Theorem9_2_1 parts ii+iii (6 sorries) — needs block-module correspondence + Nakayama
+- Ch5 Theorem5_23_2 (9 sorries) — needs concrete AlgIrrepGL definition
+
+**Tier 4 — Major theorems, need full strategy:**
+- Ch5 Theorem5_25_2 principal series (5 sorries) — irreducibility/classification
+- Ch6 Dynkin classification (6 sorries) — combinatorial + algebraic case analysis
+
+**Key endgame insight:** Ch2 closure is within reach (3 sorries, 2 files). Closing Ch2 would bring 6/10 chapters to 100%. This is the highest-value target for chapter closure.
 
 ## Type-Level If/Else Diamond Issue
 
