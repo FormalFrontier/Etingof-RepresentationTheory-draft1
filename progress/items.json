@@ -3717,7 +3717,8 @@
     "start_line": 21,
     "end_line": 27,
     "status": "statement_formalized",
-    "needs_statement": false
+    "needs_statement": false,
+    "sorry_free": true
   },
   {
     "id": "Chapter5/Corollary5.19.2",
