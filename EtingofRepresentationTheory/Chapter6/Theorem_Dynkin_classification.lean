@@ -1470,12 +1470,6 @@ private lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     linarith [hdeg2 i]
   exact subgraph_contradiction ⟨hsymm, _hdiag, h01, _hconn, hpos⟩ adj_sub φ hembed v hv_nonneg hv_ne hv_null
 
-/-- A Dynkin diagram on n vertices has exactly n-1 edges (it's a tree).
-    This follows from no-cycles + connectivity. -/
-private lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
-    (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n) : edgeCount adj = n - 1 := by
-  sorry
-
 /-- For a 0-1 adjacency matrix, the sum of row entries equals the vertex degree. -/
 private lemma adj_sum_eq_degree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1) (a : Fin n) :
@@ -1485,6 +1479,100 @@ private lemma adj_sum_eq_degree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       ∑ b : Fin n, (if adj a b = 1 then (1 : ℤ) else 0) from
     Finset.sum_congr rfl (fun b _ => by rcases h01 a b with h | h <;> simp [h])]
   simp [Finset.sum_boole]
+
+/-- A Dynkin diagram on n vertices has exactly n-1 edges (it's a tree).
+    This follows from no-cycles + connectivity. -/
+private lemma list_path_reachable {n : ℕ} (G : SimpleGraph (Fin n))
+    (path : List (Fin n)) (u v : Fin n)
+    (hhead : path.head? = some u) (hlast : path.getLast? = some v)
+    (hedges : ∀ k, (h : k + 1 < path.length) →
+      G.Adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩)) :
+    G.Reachable u v := by
+  induction path generalizing u v with
+  | nil => exact absurd hhead (by simp)
+  | cons a rest ih =>
+    have ha : a = u := by simpa using hhead
+    cases rest with
+    | nil =>
+      have hv : a = v := by simpa using hlast
+      rw [← ha, hv]
+    | cons b rest' =>
+      have hadj : G.Adj a b := hedges 0 (by simp)
+      rw [← ha]
+      exact hadj.reachable.trans <| ih b v (by simp)
+        (by simpa [List.getLast?_cons_cons] using hlast)
+        (fun k hk => hedges (k + 1) (by simp at hk ⊢; omega))
+
+private lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n) : edgeCount adj = n - 1 := by
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
+  -- Define the SimpleGraph corresponding to the adjacency matrix
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := fun {i j} h => by change adj j i = 1; rw [hsymm.apply i j]; exact h
+      loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
+  letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  -- Show G is connected
+  have hG_conn : G.Connected := by
+    haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+    exact ⟨fun u v => by
+      obtain ⟨path, hhead, hlast, hedges⟩ := hconn u v
+      exact list_path_reachable G path u v hhead hlast hedges⟩
+  -- Upper bound: edgeCount ≤ n - 1 from positive definiteness
+  have h_upper : edgeCount adj ≤ n - 1 := by
+    -- B(1,...,1) > 0 implies ∑ deg < 2n
+    set x : Fin n → ℤ := fun _ => 1
+    have hx_ne : x ≠ 0 := by intro h; have := congr_fun h ⟨0, by omega⟩; simp [x] at this
+    -- mulVec decomposition (same pattern as dynkin_has_endpoint)
+    have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) a =
+        2 * x a - ∑ b, adj a b * x b := by
+      intro a; simp only [mulVec, dotProduct]
+      rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
+          ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
+        Finset.sum_congr rfl (fun b _ => by
+          simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+      rw [Finset.sum_sub_distrib]
+      congr 1
+      rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
+          ∑ b, if a = b then 2 * x b else 0 from
+        Finset.sum_congr rfl (fun b _ => by
+          simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+      simp [Finset.sum_ite_eq']
+    -- B(1,...,1) = ∑_a (2 - deg(a))
+    have hBpos := hpos x hx_ne
+    simp only [dotProduct, show ∀ b, x b = (1 : ℤ) from fun _ => rfl, one_mul,
+      mulVec_eq, mul_one] at hBpos
+    -- hBpos : 0 < ∑ a, (2 - ∑ b, adj a b)
+    -- This means ∑ deg < 2n
+    have hsum_lt : ∑ i : Fin n, vertexDegree adj i < 2 * n := by
+      have hsum_ineq : (0 : ℤ) < ∑ a : Fin n, (2 - ∑ b, adj a b) := hBpos
+      have : (↑(∑ i : Fin n, vertexDegree adj i) : ℤ) < 2 * ↑n := by
+        have h1 : ∑ a : Fin n, (2 - ∑ b : Fin n, adj a b) =
+            2 * ↑n - ∑ a, ∑ b, adj a b := by
+          rw [Finset.sum_sub_distrib]; simp [Finset.card_fin]; ring
+        have h2 : (∑ i : Fin n, (vertexDegree adj i : ℤ)) = ∑ i, ∑ j, adj i j := by
+          congr 1; ext i; exact (adj_sum_eq_degree h01 i).symm
+        push_cast; linarith
+      exact_mod_cast this
+    unfold edgeCount; omega
+  -- Lower bound: n - 1 ≤ edgeCount from connectivity
+  have h_lower : n - 1 ≤ edgeCount adj := by
+    have h1 := hG_conn.card_vert_le_card_edgeSet_add_one
+    rw [Nat.card_fin] at h1
+    -- Relate Nat.card G.edgeSet to edgeCount
+    have hdeg_eq : ∀ v, G.degree v = vertexDegree adj v := by
+      intro v; simp only [SimpleGraph.degree, SimpleGraph.neighborFinset,
+        SimpleGraph.neighborSet, Set.toFinset_setOf]
+      congr 1
+    have h_sum : ∑ v, G.degree v = ∑ v, vertexDegree adj v := by
+      congr 1; ext v; exact hdeg_eq v
+    have h_handshake := G.sum_degrees_eq_twice_card_edges
+    have h_eq : G.edgeFinset.card = edgeCount adj := by
+      unfold edgeCount; rw [← h_sum, h_handshake]; omega
+    rw [show Nat.card G.edgeSet = edgeCount adj from by
+      rw [Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card]; exact h_eq] at h1
+    omega
+  omega
 
 /-- In a Dynkin diagram with all degrees ≤ 2, there exists a vertex of degree ≤ 1 (endpoint).
     Proof: if all degrees = 2 then the all-ones vector has B(x,x) = 0, contradicting pos-def. -/
