@@ -83,6 +83,40 @@ theorem exists_isCoatom_submodule
   · exact absurd h bot_ne_top
   · exact ⟨N, hN_coatom⟩
 
+/-- Any nontrivial f.g. module Q over an artinian ring with an exhaustive family of simples M_i
+has a nonzero A-linear map to some M_{j₀}. The quotient Q/N by a coatom N is simple,
+hence isomorphic to some M_{j₀}, and the composition Q → Q/N ≅ M_{j₀} is nonzero.
+This is the key step in Theorem 9.2.1(iii) that does NOT need #1487. -/
+theorem exists_nonzero_hom_to_simple
+    {R : Type u} [Ring R] [IsArtinianRing R]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type v) [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)]
+    [∀ i, IsSimpleModule R (M i)]
+    (hM_exhaustive : ∀ (S : Type v) [AddCommGroup S] [Module R S] [IsSimpleModule R S],
+      ∃ i, Nonempty (S ≃ₗ[R] M i))
+    {Q : Type v} [AddCommGroup Q] [Module R Q] [Module.Finite R Q] [Nontrivial Q] :
+    ∃ (j₀ : ι) (f : Q →ₗ[R] M j₀), f ≠ 0 := by
+  -- Q has a maximal submodule N (coatom), giving a simple quotient Q/N
+  obtain ⟨N, hN_coatom⟩ := exists_isCoatom_submodule (R := R) (M := Q)
+  -- Q/N is simple (coatom ↔ simple quotient)
+  haveI : IsSimpleModule R (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  -- Q/N is isomorphic to some M_{j₀}
+  obtain ⟨j₀, ⟨e⟩⟩ := hM_exhaustive (Q ⧸ N)
+  -- The composition Q → Q/N ≅ M_{j₀} is nonzero
+  refine ⟨j₀, e.toLinearMap.comp N.mkQ, ?_⟩
+  intro h
+  -- If the composition is zero, then the image of mkQ in M_{j₀} is zero for all q
+  have hzero : ∀ q : Q, e (N.mkQ q) = 0 := fun q => by
+    have := LinearMap.congr_fun h q
+    simpa using this
+  -- This means mkQ = 0 (e is injective)
+  have hmkQ : ∀ q : Q, N.mkQ q = 0 := fun q => by
+    have := hzero q; rwa [map_eq_zero_iff e e.injective] at this
+  -- mkQ q = 0 means q ∈ N for all q, i.e., N = ⊤
+  exact hN_coatom.1 (Submodule.eq_top_iff'.mpr fun q => by
+    specialize hmkQ q
+    rwa [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hmkQ)
+
 /-- Over a simple artinian ring, any two simple modules are isomorphic.
 This follows from `IsSimpleRing.isIsotypic`: all simple submodules of any module
 are isomorphic, applied to the direct product M × N. -/
