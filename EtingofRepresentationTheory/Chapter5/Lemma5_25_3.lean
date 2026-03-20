@@ -253,14 +253,44 @@ private lemma Etingof.normSq_complementaryChar_parabolic
     starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
   sorry
 
-/-- A quadratic polynomial a*x² + b*x + c over a field with a ≠ 0 and discriminant
-b² - 4ac ≠ 0 being a square has exactly 2 roots. -/
+/-- A quadratic polynomial a*x² + b*x + c over a field of char ≠ 2 with a ≠ 0 and
+discriminant b² - 4ac ≠ 0 being a square has exactly 2 roots. -/
 private lemma Etingof.quadratic_two_roots
-    {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F] [NeZero (2 : F)]
     (a b c : F) (ha : a ≠ 0) (hdisc_ne : b ^ 2 - 4 * a * c ≠ 0)
     (hdisc_sq : IsSquare (b ^ 2 - 4 * a * c)) :
     (Finset.univ.filter fun x : F => a * x ^ 2 + b * x + c = 0).card = 2 := by
-  sorry
+  -- Get the square root of the discriminant
+  obtain ⟨s, hs⟩ := hdisc_sq
+  -- hs : b ^ 2 - 4 * a * c = s * s (IsSquare gives s * s form)
+  have hs' : discrim a b c = s * s := by
+    simp only [discrim]; exact hs
+  have hs_ne : s ≠ 0 := by
+    intro h; rw [h, mul_zero] at hs; exact hdisc_ne hs
+  -- The two roots
+  set r₁ := (-b + s) / (2 * a)
+  set r₂ := (-b - s) / (2 * a)
+  -- They are distinct
+  have h2a : (2 * a) ≠ (0 : F) := mul_ne_zero (NeZero.ne 2) ha
+  have hr_ne : r₁ ≠ r₂ := by
+    intro h
+    have h1 : (-b + s) / (2 * a) = (-b - s) / (2 * a) := h
+    rw [div_eq_div_iff h2a h2a] at h1
+    -- h1 : (-b + s) * (2 * a) = (-b - s) * (2 * a)
+    have h2 := mul_right_cancel₀ h2a h1
+    -- h2 : -b + s = -b - s
+    have : 2 * s = 0 := by linear_combination h2
+    rcases mul_eq_zero.mp this with h | h
+    · exact absurd h (NeZero.ne 2)
+    · exact hs_ne h
+  -- The filter equals {r₁, r₂}
+  have hfilter : Finset.univ.filter (fun x : F => a * x ^ 2 + b * x + c = 0) = {r₁, r₂} := by
+    ext x
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert,
+      Finset.mem_singleton]
+    rw [show a * x ^ 2 + b * x + c = a * (x * x) + b * x + c by ring]
+    rw [quadratic_eq_zero_iff ha hs']
+  rw [hfilter, Finset.card_pair hr_ne]
 
 /-- A linear equation a*x + b = 0 with a ≠ 0 has exactly 1 root. -/
 private lemma Etingof.linear_one_root
