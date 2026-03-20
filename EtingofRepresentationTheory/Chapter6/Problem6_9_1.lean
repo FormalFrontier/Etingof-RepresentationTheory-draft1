@@ -504,17 +504,56 @@ private lemma Q₂Rep.ker_B_sub_range_A (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposa
   exact ρ.decomp_of_ker_B_not_range_A hρ hV_pos w
     (fun h0 => by simp [h0] at h) (LinearMap.mem_ker.mp hw) h
 
+/-- The operator X(v,w) = (Bw, Av) on V × W has 1-dimensional kernel when ρ is indecomposable,
+AB is nilpotent, and both V and W are nontrivial.
+
+ker X = ker A × ker B (as sets), so dim(ker X) = dim(ker A) + dim(ker B).
+The claim dim(ker X) = 1 means the nilpotent operator X has a single Jordan block
+on V ⊕ W (the cyclic case). This is equivalent to the structure theorem for
+finitely generated modules over k[X]/(X^N): an indecomposable module is cyclic.
+
+The proof (following Problem 6.9.1(c) of Etingof):
+- X is nilpotent (proved in `Problem6_9_1c`)
+- X admits a chain basis compatible with V ⊕ W (each chain generator ∈ V or ∈ W)
+- Indecomposability of ρ implies X has exactly one chain (single Jordan block)
+- Therefore dim(ker X) = 1
+
+The chain compatibility claim (generators can be chosen in V or W) uses the off-diagonal
+structure of X. The single-chain deduction uses: if X had ≥ 2 chains, the V and W
+components of each chain form sub-representations, giving a nontrivial decomposition.
+
+This requires the structure theorem for modules over k[X]/(X^N), not yet in Mathlib. -/
+private lemma ker_sum_eq_one (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
+    (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (hV_pos : 0 < Module.finrank ℂ ρ.V)
+    (hW_pos : 0 < Module.finrank ℂ ρ.W) :
+    Module.finrank ℂ (LinearMap.ker ρ.A) + Module.finrank ℂ (LinearMap.ker ρ.B) = 1 := by
+  sorry
+
+/-- From `ker_sum_eq_one`: exactly one of A, B is injective and the other has
+1-dimensional kernel. -/
+private lemma exactly_one_injective (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
+    (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (hV_pos : 0 < Module.finrank ℂ ρ.V)
+    (hW_pos : 0 < Module.finrank ℂ ρ.W) :
+    (LinearMap.ker ρ.A = ⊥ ∧ Module.finrank ℂ (LinearMap.ker ρ.B) = 1) ∨
+    (LinearMap.ker ρ.B = ⊥ ∧ Module.finrank ℂ (LinearMap.ker ρ.A) = 1) := by
+  have h := ker_sum_eq_one ρ hρ hAB hV_pos hW_pos
+  rcases Nat.eq_zero_or_pos (Module.finrank ℂ (LinearMap.ker ρ.A)) with hA | hA
+  · left
+    exact ⟨Submodule.finrank_eq_zero.mp hA, by omega⟩
+  · right
+    have hB : Module.finrank ℂ (LinearMap.ker ρ.B) = 0 := by omega
+    exact ⟨Submodule.finrank_eq_zero.mp hB, by omega⟩
+
 /-- Main nilpotent case: AB nilpotent + indecomposable + both dims > 0 → |dim V - dim W| ≤ 1.
 
-The proof strategy (from the book, Problem 6.9.1(c)):
-1. We showed ker A ⊆ range B and ker B ⊆ range A (via decomp_of_ker_A/B_not_range lemmas).
-2. The operator X(v,w) = (Bw, Av) on V ⊕ W is nilpotent.
-3. Indecomposability implies X has a single Jordan block, so dim(ker X) = 1.
-4. Since ker X = ker A × ker B, exactly one of nullity A, nullity B is 1 and the other is 0.
-5. If nullity A = 0 (A injective): dim V ≤ dim W, and rank B = dim W - 1, so dim W - 1 ≤ dim V.
-6. If nullity B = 0 (B injective): symmetrically dim W ≤ dim V and dim V - 1 ≤ dim W.
-
-Step 3 requires Jordan chain decomposition for nilpotent operators, which is not yet in Mathlib. -/
+Uses `exactly_one_injective` to get that exactly one of A, B is injective with the other
+having 1-dimensional kernel, then derives the dimension bound via rank-nullity:
+- If A injective (nullity B = 1): dim V = rank A ≤ dim W, and
+  rank B = dim W - 1 ≤ dim V, so dim V ≤ dim W ≤ dim V + 1.
+- If B injective (nullity A = 1): symmetric argument gives
+  dim W ≤ dim V ≤ dim W + 1. -/
 private theorem Problem6_9_1_nilpotent_main (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (hV_pos : 0 < Module.finrank ℂ ρ.V)
@@ -522,13 +561,39 @@ private theorem Problem6_9_1_nilpotent_main (ρ : Q₂Rep ℂ) (hρ : ρ.Indecom
     (Module.finrank ℂ ρ.V = Module.finrank ℂ ρ.W ∨
      Module.finrank ℂ ρ.V = Module.finrank ℂ ρ.W + 1 ∨
      Module.finrank ℂ ρ.W = Module.finrank ℂ ρ.V + 1) := by
-  -- Established: ker A ⊆ range B, ker B ⊆ range A
-  have _hkA := ρ.ker_A_sub_range_B hρ hAB hV_pos hW_pos
-  have _hkB := ρ.ker_B_sub_range_A hρ hAB hV_pos hW_pos
-  -- The dimension bound follows from: indecomposable ⟹ X has single Jordan block ⟹
-  -- nullity A + nullity B = 1 ⟹ |dim V - dim W| ≤ 1.
-  -- This requires Jordan chain decomposition for nilpotent operators (not in Mathlib).
-  sorry
+  have hkA := ρ.ker_A_sub_range_B hρ hAB hV_pos hW_pos
+  have hkB := ρ.ker_B_sub_range_A hρ hAB hV_pos hW_pos
+  rcases exactly_one_injective ρ hρ hAB hV_pos hW_pos with ⟨hkA_bot, hkB_dim⟩ | ⟨hkB_bot, hkA_dim⟩
+  · -- Case 1: A injective, nullity B = 1
+    -- rank A = dim V (A injective), rank A ≤ dim W → dim V ≤ dim W
+    have hV_le_W : Module.finrank ℂ ρ.V ≤ Module.finrank ℂ ρ.W := by
+      have h_rA : Module.finrank ℂ (LinearMap.range ρ.A) = Module.finrank ℂ ρ.V := by
+        have := LinearMap.finrank_range_add_finrank_ker ρ.A
+        rw [hkA_bot, finrank_bot] at this; omega
+      calc Module.finrank ℂ ρ.V
+          = Module.finrank ℂ (LinearMap.range ρ.A) := h_rA.symm
+        _ ≤ Module.finrank ℂ ρ.W := Submodule.finrank_le _
+    -- rank B ≤ dim V and rank B = dim W - 1 → dim W ≤ dim V + 1
+    have hW_le_V1 : Module.finrank ℂ ρ.W ≤ Module.finrank ℂ ρ.V + 1 := by
+      have h1 := LinearMap.finrank_range_add_finrank_ker ρ.B
+      have h2 : Module.finrank ℂ (LinearMap.range ρ.B) ≤ Module.finrank ℂ ρ.V :=
+        Submodule.finrank_le _
+      rw [hkB_dim] at h1; omega
+    omega
+  · -- Case 2: B injective, nullity A = 1 (symmetric)
+    have hW_le_V : Module.finrank ℂ ρ.W ≤ Module.finrank ℂ ρ.V := by
+      have h_rB : Module.finrank ℂ (LinearMap.range ρ.B) = Module.finrank ℂ ρ.W := by
+        have := LinearMap.finrank_range_add_finrank_ker ρ.B
+        rw [hkB_bot, finrank_bot] at this; omega
+      calc Module.finrank ℂ ρ.W
+          = Module.finrank ℂ (LinearMap.range ρ.B) := h_rB.symm
+        _ ≤ Module.finrank ℂ ρ.V := Submodule.finrank_le _
+    have hV_le_W1 : Module.finrank ℂ ρ.V ≤ Module.finrank ℂ ρ.W + 1 := by
+      have h1 := LinearMap.finrank_range_add_finrank_ker ρ.A
+      have h2 : Module.finrank ℂ (LinearMap.range ρ.A) ≤ Module.finrank ℂ ρ.W :=
+        Submodule.finrank_le _
+      rw [hkA_dim] at h1; omega
+    omega
 
 /-- **Problem 6.9.1(a) (Etingof)**: The four families E_{n,λ}, E_{n,∞}, H_n, K_n
 (as defined above) are indecomposable and pairwise nonisomorphic. Moreover, these
