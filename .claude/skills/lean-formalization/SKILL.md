@@ -84,6 +84,13 @@ Follow the global CLAUDE.md proof rules strictly:
 4. **Stop at first error.** Don't continue writing tactics after an error.
 5. **Hardest case first.** For case splits, sorry the easy cases and focus on the hard one.
 
+### Private Abbreviation Gotcha
+
+Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` for the same underlying type. When using lemmas across files, `rw`/`simp`/`show` may fail because the elaborator sees different abbreviation names. Workarounds:
+- Use `have h := lemma_from_other_file ...` then `rw [h]` (let unification handle it)
+- Use `change` instead of `show` when the target uses a different abbreviation
+- For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
