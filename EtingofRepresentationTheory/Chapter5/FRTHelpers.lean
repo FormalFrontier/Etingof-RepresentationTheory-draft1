@@ -898,6 +898,79 @@ private lemma YoungDiagram.hookLength_eq_one_iff_outerCorner
       omega
   · exact fun hc => YoungDiagram.hookLength_outerCorner hc
 
+end -- noncomputable section
+
+end Etingof
+
+/-! ## Hook walk weight function (GNW) -/
+
+/-- The hook cells of (i,j) in μ, excluding (i,j) itself: all cells in the same row
+to the right and in the same column below. -/
+def YoungDiagram.hookCellsExcl (μ : YoungDiagram) (i j : ℕ) :
+    Finset (ℕ × ℕ) :=
+  ((Finset.Ico (j + 1) (μ.rowLen i)).image (fun b' => (i, b'))) ∪
+  ((Finset.Ico (i + 1) (μ.colLen j)).image (fun a' => (a', j)))
+
+/-- Every cell in the hook (excluding the cell itself) has strictly smaller hook length. -/
+private lemma YoungDiagram.hookLength_lt_of_hookCellsExcl
+    {μ : YoungDiagram} {i j : ℕ} (hmem : (i, j) ∈ μ.cells)
+    {v : ℕ × ℕ} (hv : v ∈ μ.hookCellsExcl i j) :
+    μ.hookLength v.1 v.2 < μ.hookLength i j := by
+  simp only [YoungDiagram.hookCellsExcl, Finset.mem_union, Finset.mem_image,
+    Finset.mem_Ico] at hv
+  rcases hv with ⟨b', ⟨hlo, hhi⟩, rfl⟩ | ⟨a', ⟨hlo, hhi⟩, rfl⟩
+  · exact Etingof.YoungDiagram.hookLength_lt_of_right hmem
+      (YoungDiagram.mem_iff_lt_rowLen.mpr hhi) (by omega)
+  · exact Etingof.YoungDiagram.hookLength_lt_of_down hmem
+      (YoungDiagram.mem_iff_lt_colLen.mpr hhi) (by omega)
+
+/-- The hook walk weight function w(μ, (i,j), c) for the Greene–Nijenhuis–Wilf proof.
+
+For a cell (i,j) ∈ μ.cells and a corner c:
+- If hookLength(i,j) = 1 (i.e., (i,j) is a corner): w = δ((i,j), c)
+- Otherwise: w = (1/(h-1)) × ∑_{v ∈ hook(i,j)\{(i,j)}} w(v, c)
+
+Termination: hookLength strictly decreases along hook walk steps. -/
+noncomputable def YoungDiagram.hookWalkWeight
+    (μ : YoungDiagram) (i j : ℕ) (c : ℕ × ℕ) : ℚ :=
+  if hmem : (i, j) ∈ μ.cells then
+    if μ.hookLength i j = 1 then
+      if (i, j) = c then 1 else 0
+    else
+      ((μ.hookCellsExcl i j).attach.sum fun ⟨v, hv⟩ =>
+        have : μ.hookLength v.1 v.2 < μ.hookLength i j :=
+          YoungDiagram.hookLength_lt_of_hookCellsExcl hmem hv
+        YoungDiagram.hookWalkWeight μ v.1 v.2 c) /
+        (μ.hookLength i j - 1 : ℚ)
+  else 0
+termination_by μ.hookLength i j
+
+/-- At a corner cell, the hook walk weight is 1 if it's the target corner, 0 otherwise. -/
+lemma YoungDiagram.hookWalkWeight_corner
+    {μ : YoungDiagram} {i j : ℕ}
+    (hc : μ.IsOuterCorner i j) :
+    μ.hookWalkWeight i j (i, j) = 1 := by
+  unfold YoungDiagram.hookWalkWeight
+  rw [dif_pos hc.1, if_pos (Etingof.YoungDiagram.hookLength_outerCorner hc), if_pos rfl]
+
+/-- At a corner cell different from the target, the hook walk weight is 0. -/
+lemma YoungDiagram.hookWalkWeight_ne_corner
+    {μ : YoungDiagram} {i j i' j' : ℕ}
+    (hc : μ.IsOuterCorner i j) (hne : (i, j) ≠ (i', j')) :
+    μ.hookWalkWeight i j (i', j') = 0 := by
+  unfold YoungDiagram.hookWalkWeight
+  rw [dif_pos hc.1, if_pos (Etingof.YoungDiagram.hookLength_outerCorner hc), if_neg hne]
+
+/-- The hook walk weight is 0 for cells not in the diagram. -/
+lemma YoungDiagram.hookWalkWeight_not_mem
+    {μ : YoungDiagram} {i j : ℕ} (h : (i, j) ∉ μ.cells)
+    (c : ℕ × ℕ) : μ.hookWalkWeight i j c = 0 := by
+  rw [YoungDiagram.hookWalkWeight, dif_neg h]
+
+namespace Etingof
+
+noncomputable section
+
 /-- The hook quotient identity: ∑_{c ∈ outerCorners} HP(μ)/HP(μ\c) = |μ|.
 
 This is a deep combinatorial identity. The proof uses the Greene–Nijenhuis–Wilf
