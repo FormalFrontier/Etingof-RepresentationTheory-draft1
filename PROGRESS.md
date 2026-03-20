@@ -75,5 +75,5 @@ Progress is recorded here as stages from PLAN.md are completed.
 ## Stage 3.2: Proof Filling
 - **Status:** In progress
 - **Date started:** 2026-03-16
-- **Latest update:** 2026-03-20 (audit #1463)
-- **Notes:** 205/583 items sorry_free in items.json (35.2%). 83 sorry occurrences across 29 files. ~340 PRs merged across twenty-three proof waves. Four chapters at 100% formal completion: Ch3, Ch4, Ch7, Ch8. Chapter-level sorry breakdown: Ch2: 3 sorries in 2 files, Ch5: 45 sorries in 15 files, Ch6: 27 sorries in 9 files, Ch9: 8 sorries in 3 files. Wave 23 (15 PRs) consolidated wave 22's gains: Example6_4_9_An.lean became sorry-free, Proposition 6.6.6 reduced to 4 sorries, Lemma 5.25.3 down to 1 sorry, GL2 conjugacy class work completed. See `progress/summaries/wave-23-summary.md` for full details.
+- **Latest update:** 2026-03-20 (wave 24 review #1469)
+- **Notes:** 205/583 items sorry_free in items.json (35.2%). 91 sorry occurrences across 29 files. ~346 PRs merged across twenty-four proof waves. Four chapters at 100% formal completion: Ch3, Ch4, Ch7, Ch8. Chapter-level sorry breakdown: Ch2: 3 sorries in 2 files, Ch5: 45 sorries in 15 files, Ch6: 35 sorries in 10 files, Ch9: 8 sorries in 3 files. Wave 24 highlights: branch_classification infrastructure (Dynkin D_n/E-type), induced_normSq_sum_elliptic decomposition, Prop6_6_7 dead code cleanup. Sorry count rose from 83→91 due to proof decomposition (new sub-lemmas with sorry, net progress). Two files exceed 1000 lines: Theorem_Dynkin_classification.lean (2454), Lemma5_25_3.lean (2375).
