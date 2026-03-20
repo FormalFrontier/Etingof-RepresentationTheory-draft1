@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_2_2
 import EtingofRepresentationTheory.Chapter9.Corollary9_1_3
+import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.Algebra.Module.Projective
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.RingTheory.Artinian.Module
@@ -1270,6 +1272,140 @@ theorem Etingof.Theorem_9_2_1_i
       (k := k) M hM hM_exhaustive (e i) (he_idem i) i
       (hdim_hom i),
     hdim_hom⟩
+
+/-! ### Local endomorphism ring and uniqueness of indecomposable projectives
+
+For an indecomposable finitely generated module P over a finite-dimensional algebra,
+End_A(P) is a local ring (Fitting's lemma + nilpotent sum closure). This gives
+the key isomorphism lemma for projective covers.
+-/
+
+section LocalEndomorphismRing
+
+variable {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+
+/-- The endomorphism ring of an indecomposable finite-dimensional module is local.
+This follows from Fitting's lemma: every endomorphism is either bijective (= unit) or
+nilpotent, and the sum of nilpotent endomorphisms is nilpotent (Lemma 3.8.2). -/
+theorem Etingof.IsIndecomposable.isLocalRing_end
+    {W : Type*} [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    [FiniteDimensional k W] (hW : Etingof.IsIndecomposable A W) :
+    IsLocalRing (Module.End A W) where
+  exists_pair_ne := by
+    haveI := hW.1
+    exact ⟨1, 0, one_ne_zero⟩
+  isUnit_or_isUnit_of_add_one := by
+    intro a b hab
+    rcases Etingof.endo_indecomposable_iso_or_nilpotent k A W hW a with ha | ha
+    · left; exact (Module.End.isUnit_iff a).mpr ha
+    · right
+      have hb : b = 1 - a := eq_sub_of_add_eq' hab
+      rw [hb]; exact ha.isUnit_one_sub
+
+/-- An endomorphism of an indecomposable module whose range is contained in a proper
+submodule must be nilpotent (not bijective). -/
+theorem Etingof.endo_nilpotent_of_range_le_proper
+    {W : Type*} [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    [FiniteDimensional k W] (hW : Etingof.IsIndecomposable A W)
+    (θ : W →ₗ[A] W) (N : Submodule A W) (hN : N ≠ ⊤) (hθ : LinearMap.range θ ≤ N) :
+    IsNilpotent θ := by
+  rcases Etingof.endo_indecomposable_iso_or_nilpotent k A W hW θ with hbij | hnil
+  · exfalso
+    have hrange : LinearMap.range θ = ⊤ :=
+      LinearMap.range_eq_top.mpr hbij.2
+    exact hN (top_le_iff.mp (hrange ▸ hθ))
+  · exact hnil
+
+/-- Two indecomposable finitely generated projective modules with nonzero Hom to the
+same simple module are isomorphic.
+
+**Proof using Fitting's lemma (avoids Nakayama/unique maximal submodule):**
+1. Both P, P' surject onto M (nonzero map to simple = surjective).
+2. By projectivity, get f: P → P' and g: P' → P with ψ ∘ f = φ and φ ∘ g = ψ.
+3. Then φ ∘ (g ∘ f - id) = 0, so range(g ∘ f - id) ≤ ker(φ).
+4. ker(φ) is proper. By Fitting, g ∘ f - id is nilpotent, so g ∘ f is a unit.
+5. Similarly f ∘ g is a unit.
+6. f is bijective → P ≅ P'. -/
+theorem Etingof.indecomposable_projective_iso_of_hom
+    {P : Type*} [AddCommGroup P] [Module A P] [Module k P] [IsScalarTower k A P]
+    [FiniteDimensional k P] [Module.Projective A P]
+    (hP : Etingof.IsIndecomposable A P)
+    {P' : Type*} [AddCommGroup P'] [Module A P'] [Module k P'] [IsScalarTower k A P']
+    [FiniteDimensional k P'] [Module.Projective A P']
+    (hP' : Etingof.IsIndecomposable A P')
+    {M : Type*} [AddCommGroup M] [Module A M] [IsSimpleModule A M]
+    (φ : P →ₗ[A] M) (hφ : φ ≠ 0) (ψ : P' →ₗ[A] M) (hψ : ψ ≠ 0) :
+    Nonempty (P ≃ₗ[A] P') := by
+  -- Step 1: φ and ψ are surjective (nonzero map to simple module)
+  have hφ_surj : Function.Surjective φ := by
+    rw [← LinearMap.range_eq_top]
+    exact (eq_bot_or_eq_top (LinearMap.range φ)).resolve_left
+      (LinearMap.range_eq_bot.not.mpr hφ)
+  have hψ_surj : Function.Surjective ψ := by
+    rw [← LinearMap.range_eq_top]
+    exact (eq_bot_or_eq_top (LinearMap.range ψ)).resolve_left
+      (LinearMap.range_eq_bot.not.mpr hψ)
+  -- Step 2: Lift φ through ψ and ψ through φ using projectivity
+  obtain ⟨f, hf⟩ := Module.projective_lifting_property ψ φ hψ_surj
+  obtain ⟨g, hg⟩ := Module.projective_lifting_property φ ψ hφ_surj
+  -- Step 3: g ∘ f - id has range in ker(φ) because φ ∘ (g ∘ f) = φ
+  have hgf_range : LinearMap.range (g.comp f - LinearMap.id) ≤ LinearMap.ker φ := by
+    intro y hy
+    rw [LinearMap.mem_ker]
+    obtain ⟨x, hx⟩ := LinearMap.mem_range.mp hy
+    rw [← hx]
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.id_apply]
+    have h1 : φ (g (f x)) = ψ (f x) := LinearMap.congr_fun hg (f x)
+    have h2 : ψ (f x) = φ x := LinearMap.congr_fun hf x
+    rw [map_sub, h1, h2, sub_self]
+  -- ker(φ) is proper because φ ≠ 0
+  have hker_proper : LinearMap.ker φ ≠ ⊤ := by
+    intro h; exact hφ (LinearMap.ker_eq_top.mp h)
+  -- Step 4: By Fitting, g ∘ f - id is nilpotent, so g ∘ f is a unit
+  have hgf_nilp : IsNilpotent (g.comp f - LinearMap.id) :=
+    Etingof.endo_nilpotent_of_range_le_proper (k := k) hP _ _ hker_proper hgf_range
+  have hgf_unit : IsUnit (g.comp f) := by
+    -- g ∘ f = 1 - (-(g ∘ f - 1))
+    have heq : g.comp f = LinearMap.id - (-(g.comp f - LinearMap.id)) := by
+      simp only [neg_sub, sub_sub_cancel]
+    rw [heq]; exact hgf_nilp.neg.isUnit_one_sub
+  -- Step 5: Similarly, f ∘ g - id has range in ker(ψ), so f ∘ g is a unit
+  have hfg_range : LinearMap.range (f.comp g - LinearMap.id) ≤ LinearMap.ker ψ := by
+    intro y hy
+    rw [LinearMap.mem_ker]
+    obtain ⟨x, hx⟩ := LinearMap.mem_range.mp hy
+    rw [← hx]
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.id_apply]
+    have h1 : ψ (f (g x)) = φ (g x) := LinearMap.congr_fun hf (g x)
+    have h2 : φ (g x) = ψ x := LinearMap.congr_fun hg x
+    rw [map_sub, h1, h2, sub_self]
+  have hker_proper' : LinearMap.ker ψ ≠ ⊤ := by
+    intro h; exact hψ (LinearMap.ker_eq_top.mp h)
+  have hfg_nilp : IsNilpotent (f.comp g - LinearMap.id) :=
+    Etingof.endo_nilpotent_of_range_le_proper (k := k) hP' _ _ hker_proper' hfg_range
+  have hfg_unit : IsUnit (f.comp g) := by
+    have heq : f.comp g = LinearMap.id - (-(f.comp g - LinearMap.id)) := by
+      simp only [neg_sub, sub_sub_cancel]
+    rw [heq]; exact hfg_nilp.neg.isUnit_one_sub
+  -- Step 6: f is bijective
+  have hgf_bij : Function.Bijective (g.comp f) :=
+    (Module.End.isUnit_iff _).mp hgf_unit
+  have hfg_bij : Function.Bijective (f.comp g) :=
+    (Module.End.isUnit_iff _).mp hfg_unit
+  have f_inj : Function.Injective f := by
+    intro x y hxy
+    have : (g.comp f) x = (g.comp f) y := by
+      simp only [LinearMap.comp_apply]; exact congr_arg g hxy
+    exact hgf_bij.1 this
+  have f_surj : Function.Surjective f := by
+    intro y
+    obtain ⟨z, hz⟩ := hfg_bij.2 y
+    exact ⟨g z, by
+      have : f (g z) = (f.comp g) z := rfl
+      rw [this, hz]⟩
+  exact ⟨LinearEquiv.ofBijective f ⟨f_inj, f_surj⟩⟩
+
+end LocalEndomorphismRing
 
 /-- **Theorem 9.2.1(ii)**: Decomposition of the algebra as a module.
 
