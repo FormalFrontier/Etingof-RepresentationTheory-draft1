@@ -358,6 +358,50 @@ private lemma Etingof.charW₁_splitSemisimple
     simp only [h01, ite_false, Nat.add_zero]
     push_cast; ring
 
+/-- A quadratic polynomial a*x² + b*x + c with a ≠ 0 and non-square discriminant
+has no roots. If it had a root r, then a*x² + b*x + c = a*(x-r)*(x-s) for some s,
+so disc = a²*(r-s)², which is a square — contradiction. -/
+private lemma Etingof.quadratic_no_roots
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+    (a b c : F) (_ha : a ≠ 0) (hdisc : ¬IsSquare (b ^ 2 - 4 * a * c)) :
+    (Finset.univ.filter fun x : F => a * x ^ 2 + b * x + c = 0).card = 0 := by
+  rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+  intro x _ hroot
+  exact hdisc ⟨2 * a * x + b, by linear_combination -4 * a * hroot⟩
+
+/-- On elliptic elements, charW₁ = -1 (no fixed points on P¹).
+An elliptic element has non-square discriminant, so:
+- M₀₁ ≠ 0 (otherwise disc = (M₀₀-M₁₁)², always a square)
+- The fixed-point quadratic M₀₁t² + (M₀₀-M₁₁)t - M₁₀ = 0 has discriminant = disc(g),
+  which is non-square, so it has no roots (by `quadratic_no_roots`)
+- The point at infinity [0:1] is not fixed (since M₀₁ ≠ 0)
+- Total fixed points = 0, so charW₁ = 0 - 1 = -1. -/
+private lemma Etingof.charW₁_elliptic
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    (g : GL2 p n) (hg : GL2.IsElliptic (p := p) (n := n) g) :
+    Etingof.GL2.charW₁ p n g = -1 := by
+  simp only [Etingof.GL2.charW₁]
+  set M := (g : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  -- M₀₁ ≠ 0 for elliptic elements (otherwise disc = (M₀₀-M₁₁)², a square)
+  have h01 : M 0 1 ≠ 0 := by
+    intro h
+    apply hg  -- hg : ¬IsSquare (GL2.disc g)
+    have hdisc : GL2.disc g = (M 0 0 - M 1 1) ^ 2 := by
+      simp only [GL2.disc_eq, show g.val 0 1 = M 0 1 from rfl, h]; ring
+    rw [hdisc]; exact IsSquare.sq _
+  -- The fixed-point quadratic has disc = GL2.disc(g), which is non-square
+  have hfilt : (Finset.univ.filter fun t : GaloisField p n =>
+      M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t - M 1 0 = 0) =
+      (Finset.univ.filter fun t : GaloisField p n =>
+      M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t + (-(M 1 0)) = 0) := by
+    congr 1; ext t; show _ - _ = 0 ↔ _ + (-_) = 0; rw [sub_eq_add_neg]
+  have hconv : (M 0 0 - M 1 1) ^ 2 - 4 * M 0 1 * (-(M 1 0)) =
+      (M 0 0 - M 1 1) ^ 2 + 4 * (M 0 1) * (M 1 0) := by ring
+  have hdisc : ¬IsSquare ((M 0 0 - M 1 1) ^ 2 - 4 * M 0 1 * (-(M 1 0))) := by
+    rw [hconv]; exact hg
+  rw [hfilt, Etingof.quadratic_no_roots _ _ _ h01 hdisc]
+  simp only [h01, ite_false, Nat.add_zero, Nat.cast_zero, zero_sub]
+
 /-- The discriminant is a conjugation invariant: disc(x⁻¹gx) = disc(g).
 This follows from disc = tr² - 4·det and both tr and det being similarity invariants. -/
 private lemma Etingof.disc_eq_tr_det (M : Matrix (Fin 2) (Fin 2) (GaloisField p n)) :
@@ -550,6 +594,36 @@ private lemma Etingof.ellipticSubgroup_disc (hp2 : p ≠ 2) (k : GL2 p n)
       have hs_frob : s ^ (p ^ n : ℕ) = -s := Etingof.frob_diff_neg p n hn ↑α
       exact Etingof.not_isSquare_of_antisymmetric_root p n hp2 hn d s hd hs hs_frob
 
+/-- On elliptic elements, charVα₁ = 0 (no conjugate is upper triangular).
+If x⁻¹gx were upper triangular, its (1,0) entry would be 0, making
+disc(x⁻¹gx) = (M₀₀-M₁₁)², a perfect square. But disc(x⁻¹gx) = disc(g)
+(conjugation invariant) and disc(g) is non-square (g is elliptic). -/
+private lemma Etingof.charVα₁_elliptic
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    [Fintype (GL2 p n)]
+    (alpha : (GaloisField p n)ˣ →* ℂˣ)
+    (g : GL2 p n) (hg : GL2.IsElliptic (p := p) (n := n) g) :
+    Etingof.GL2.charVα₁ p n alpha g = 0 := by
+  unfold Etingof.GL2.charVα₁
+  simp only [mul_eq_zero]
+  right
+  apply Finset.sum_eq_zero
+  intro x _
+  -- No conjugate of an elliptic element is upper triangular
+  set conj := (x⁻¹ * g * x : GL2 p n)
+  set Mc := (conj : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  have hM10 : ¬(Mc 1 0 = 0) := by
+    intro h10
+    apply hg
+    -- disc(x⁻¹gx) = (M₀₀-M₁₁)² when M₁₀ = 0
+    rw [← Etingof.disc_conj_eq p n g x]
+    have hdisc_sq : GL2.disc conj = (Mc 0 0 - Mc 1 1) ^ 2 := by
+      simp only [GL2.disc_eq]
+      change (Mc 0 0 - Mc 1 1) ^ 2 + 4 * Mc 0 1 * Mc 1 0 = _
+      rw [h10]; ring
+    rw [hdisc_sq]; exact IsSquare.sq _
+  simp only [hM10, ite_false]
+
 private lemma Etingof.induced_char_splitSemisimple_eq_zero
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
@@ -622,9 +696,50 @@ private lemma Etingof.sum_nontrivial_char_eq_zero
   · exact absurd (sub_eq_zero.mp h) hne
   · exact h
 
+open Classical in
+/-- On elliptic elements, the complementary series character simplifies to
+just the negated induced character: χ(g) = -(|K|⁻¹ ∑ x, ν(x⁻¹gx)).
+This is because charW₁(g) = -1 and charVα₁(g) = 0 for elliptic g,
+so χ(g) = (-1)·0 - 0 - Ind = -Ind. -/
+private lemma Etingof.complementarySeriesChar_elliptic_eq
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    [Fintype (GL2 p n)]
+    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
+    (g : GL2 p n) (hg : GL2.IsElliptic (p := p) (n := n) g) :
+    Etingof.GL2.complementarySeriesChar p n nu g =
+    -((Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ)⁻¹ *
+        ∑ x : GL2 p n,
+          if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+          then (nu ⟨x⁻¹ * g * x, h⟩).val
+          else 0) := by
+  unfold Etingof.GL2.complementarySeriesChar
+  set alpha := nu.comp (Etingof.GL2.scalarToElliptic p n)
+  have hW : Etingof.GL2.charW₁ p n g = -1 := Etingof.charW₁_elliptic p n g hg
+  have hV : Etingof.GL2.charVα₁ p n alpha g = 0 := Etingof.charVα₁_elliptic p n alpha g hg
+  rw [hW, hV]
+  ring
+
 /-- The elliptic contribution to ∑ |χ|² equals q(q-1)³.
-Uses that |χ(ζ)|² = |ν(ζ) + ν^q(ζ)|² and character orthogonality
-∑_{ζ∈F_{q²}×} ν^{q-1}(ζ) = 0 when ν^q ≠ ν. -/
+
+The proof decomposes into three steps:
+
+**Step 1 (Conjugacy class decomposition)**: The sum over elliptic elements of
+GL₂(𝔽_q) rewrites as (q(q-1)/2) times the sum over non-scalar elements of K.
+This uses: (a) χ is a class function (all three components — charW₁, charVα₁,
+induced character — are conjugation-invariant), (b) each elliptic conjugacy class
+has |G|/|C_G(ζ)| = |G|/|K| = q(q-1) elements, (c) ζ ~ ζ^q identifies pairs.
+
+**Step 2 (Character values on K)**: For non-scalar ζ ∈ K:
+- charW₁(ζ) = -1 (0 fixed points on P¹ for elliptic elements)
+- charVα₁(ζ) = 0 (no conjugate of elliptic ζ is upper triangular)
+- Ind_K^G ℂ_ν(ζ) = ν(ζ) + ν^q(ζ) (Frobenius formula; normalizer N_G(K)/K ≅ Gal(F_{q²}/F_q))
+So χ(ζ) = -(ν(ζ) + ν^q(ζ)) and |χ(ζ)|² = 2 + ν^{q-1}(ζ) + ν^{1-q}(ζ).
+
+**Step 3 (Character orthogonality)**: Since ν^q ≠ ν, the character ν^{q-1}
+is nontrivial on F_{q²}× ≅ K, so ∑_K ν^{q-1} = 0 (by `sum_nontrivial_char_eq_zero`).
+On F_q× ⊂ K, ν^{q-1} = 1 (since x^q = x for x ∈ F_q×), so ∑_{F_q×} ν^{q-1} = q-1.
+Therefore ∑_{K\F_q×} ν^{q-1} = -(q-1), and similarly for ν^{1-q}.
+Total: 2q(q-1) - 2(q-1) = 2(q-1)². Assembly: q(q-1)/2 · 2(q-1)² = q(q-1)³. -/
 private lemma Etingof.elliptic_contribution
     [Fintype (GL2 p n)] [Fintype (GaloisField p n)]
     [DecidableEq (GaloisField p n)]
