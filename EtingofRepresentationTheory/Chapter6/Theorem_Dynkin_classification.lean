@@ -2136,6 +2136,115 @@ private lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) �
     sorry
   linarith [hpos x hx_ne]
 
+/-- In a Dynkin diagram on 4 vertices with a degree-3 vertex v, the graph is a star:
+    v is adjacent to all other vertices, and all other vertices have degree 1. -/
+private lemma star_adj_of_deg3_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
+    (hD : IsDynkinDiagram 4 adj) (v : Fin 4) (hv : vertexDegree adj v = 3) :
+    ∀ i j : Fin 4, adj i j = if (i = v) = (j = v) then 0 else 1 := by
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  -- v is adjacent to all non-v: neighbor set = univ \ {v}
+  have hadj_v : ∀ j, j ≠ v → adj v j = 1 := by
+    intro j hj
+    have hsub : Finset.univ.filter (fun j => adj v j = 1) ⊆ Finset.univ.erase v := by
+      intro x hx; simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
+      exact Finset.mem_erase.mpr ⟨fun h => by rw [h] at hx; linarith [hdiag v], Finset.mem_univ _⟩
+    have hcard : (Finset.univ.erase v).card ≤ (Finset.univ.filter (fun j => adj v j = 1)).card := by
+      rw [Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, Fintype.card_fin]
+      unfold vertexDegree at hv; omega
+    have heq := Finset.eq_of_subset_of_card_le hsub hcard
+    have hmem : j ∈ Finset.univ.erase v := Finset.mem_erase.mpr ⟨hj, Finset.mem_univ _⟩
+    rw [← heq] at hmem
+    exact (Finset.mem_filter.mp hmem).2
+  -- Non-v vertices are not adjacent to each other (edge count argument)
+  have hno_edge : ∀ i j : Fin 4, i ≠ v → j ≠ v → i ≠ j → adj i j = 0 := by
+    intro i j hi hj hij
+    rcases h01 i j with h | h
+    · exact h
+    · -- If adj i j = 1, then subgraph {v, i, j} has too many edges for a tree
+      exfalso
+      have hedge := dynkin_edge_count hD (by omega)
+      unfold edgeCount at hedge
+      have hdeg_i : 2 ≤ vertexDegree adj i := by
+        change 2 ≤ (Finset.univ.filter (fun k => adj i k = 1)).card
+        have hv_mem : v ∈ Finset.univ.filter (fun k => adj i k = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, hsymm.apply i v ▸ hadj_v i hi⟩
+        have hj_mem : j ∈ Finset.univ.filter (fun k => adj i k = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩
+        have hne : v ≠ j := Ne.symm hj
+        exact Finset.one_lt_card.mpr ⟨v, hv_mem, j, hj_mem, hne⟩
+      have hdeg_j : 2 ≤ vertexDegree adj j := by
+        change 2 ≤ (Finset.univ.filter (fun k => adj j k = 1)).card
+        have hv_mem : v ∈ Finset.univ.filter (fun k => adj j k = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, hsymm.apply j v ▸ hadj_v j hj⟩
+        have hi_mem : i ∈ Finset.univ.filter (fun k => adj j k = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, hsymm.apply j i ▸ h⟩
+        have hne : v ≠ i := Ne.symm hi
+        exact Finset.one_lt_card.mpr ⟨v, hv_mem, i, hi_mem, hne⟩
+      have hsum_ge : 8 ≤ ∑ k : Fin 4, vertexDegree adj k := by
+        have hv_sum := Finset.add_sum_erase Finset.univ (fun k => vertexDegree adj k) (Finset.mem_univ v)
+        have hi_sum := Finset.add_sum_erase (Finset.univ.erase v) (fun k => vertexDegree adj k)
+          (Finset.mem_erase.mpr ⟨hi, Finset.mem_univ i⟩)
+        have hj_mem : j ∈ (Finset.univ.erase v).erase i :=
+          Finset.mem_erase.mpr ⟨hij.symm, Finset.mem_erase.mpr ⟨hj, Finset.mem_univ j⟩⟩
+        have hj_sum := Finset.add_sum_erase ((Finset.univ.erase v).erase i) (fun k => vertexDegree adj k) hj_mem
+        have hrest_ge : ∀ k ∈ ((Finset.univ.erase v).erase i).erase j, 1 ≤ vertexDegree adj k := by
+          intro k hk
+          have hkv : k ≠ v := (Finset.mem_erase.mp (Finset.mem_erase.mp (Finset.mem_erase.mp hk).2).2).1
+          change 1 ≤ (Finset.univ.filter (fun m => adj k m = 1)).card
+          exact Finset.one_le_card.mpr ⟨v, Finset.mem_filter.mpr
+            ⟨Finset.mem_univ _, hsymm.apply k v ▸ hadj_v k hkv⟩⟩
+        have hrest_nonempty : (((Finset.univ.erase v).erase i).erase j).Nonempty := by
+          rw [Finset.nonempty_iff_ne_empty]; intro h
+          have := Finset.card_eq_zero.mpr h
+          simp [Finset.card_erase_of_mem, hj_mem,
+            Finset.mem_erase.mpr ⟨hi, Finset.mem_univ i⟩] at this
+        obtain ⟨k, hk⟩ := hrest_nonempty
+        have hk_le := Finset.single_le_sum (fun x _ => Nat.zero_le (vertexDegree adj x)) hk
+        linarith [hrest_ge k hk]
+      omega
+  -- Now derive the star adjacency
+  intro i j
+  by_cases hiv : i = v <;> by_cases hjv : j = v
+  · -- i = v, j = v: adj v v = 0
+    have : (i = v) = (j = v) := by simp [hiv, hjv]
+    simp only [this, ite_true, hiv, hjv, hdiag]
+  · -- i = v, j ≠ v: adj v j = 1
+    simp only [hiv, hjv, eq_self_iff_true, ite_false]; exact hadj_v j hjv
+  · -- i ≠ v, j = v: adj i v = 1
+    simp only [hjv, eq_self_iff_true, eq_true, hiv, ite_false]
+    exact hsymm.apply i v ▸ hadj_v i hiv
+  · -- Neither i nor j is v: adj i j = 0
+    have : (i = v) = (j = v) := by rw [eq_false hiv, eq_false hjv]
+    simp only [this, ite_true]
+    by_cases hij : i = j
+    · simp [hij, hdiag]
+    · exact hno_edge i j hiv hjv hij
+
+/-- For n = 4, a Dynkin diagram with a degree-3 vertex is isomorphic to D₄. -/
+private lemma branch_classification_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
+    (hD : IsDynkinDiagram 4 adj) (v : Fin 4) (hv : vertexDegree adj v = 3) :
+    ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin 4,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  have hstar := star_adj_of_deg3_n4 hD v hv
+  -- D₄ has branch at vertex 1, and its adjacency is also a star centered at 1
+  -- Isomorphism: swap vertex 1 with v
+  set σ : Fin 4 ≃ Fin 4 := Equiv.swap (⟨1, by omega⟩ : Fin 4) v
+  refine ⟨.D 4 (by omega), σ, fun i j => ?_⟩
+  -- i j : Fin (DynkinType.D 4 _).rank which is definitionally Fin 4
+  have hi := i.isLt; have hj := j.isLt
+  change _ < 4 at hi hj
+  change adj (σ ⟨i.val, by omega⟩) (σ ⟨j.val, by omega⟩) = _
+  rw [hstar]
+  have hσ_eq_v : ∀ x : Fin 4, σ x = v ↔ x = ⟨1, by omega⟩ := by
+    intro x; constructor
+    · intro h; exact σ.injective (h.trans (Equiv.swap_apply_left _ _).symm)
+    · intro h; subst h; exact Equiv.swap_apply_left _ _
+  simp only [hσ_eq_v]
+  simp only [DynkinType.adj, DynkinType.rank, Fin.ext_iff]
+  split_ifs with h <;> simp_all <;> omega
+
 /-- A tree with a degree-3 vertex (branch) and all degrees ≤ 3 has exactly one such vertex,
     three arms of lengths p ≤ q ≤ r with n = p + q + r + 1, and is uniquely determined
     (up to graph isomorphism) by its arm lengths. Given the arm-length constraint from
@@ -2146,268 +2255,245 @@ private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adj i j := by
   obtain ⟨v, hv⟩ := hbranch
-  -- Step 1: Get a leaf neighbor of v
-  obtain ⟨u, hu_adj, hu_deg⟩ := branch_has_leaf_neighbor hD v hv
-  obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
-  have hu_ne : u ≠ v := by
-    intro h; subst h; rw [hdiag] at hu_adj; omega
-  -- u has exactly one neighbor, which is v
-  have hu_unique : ∀ w, adj u w = 1 → w = v := by
-    intro w hw
-    by_contra hne_w
-    have : 2 ≤ vertexDegree adj u := by
-      change 2 ≤ (Finset.univ.filter (fun j => adj u j = 1)).card
-      have hv_mem : v ∈ Finset.univ.filter (fun j => adj u j = 1) :=
-        Finset.mem_filter.mpr ⟨Finset.mem_univ _, hsymm.apply u v ▸ hu_adj⟩
-      have hw_mem : w ∈ Finset.univ.filter (fun j => adj u j = 1) :=
-        Finset.mem_filter.mpr ⟨Finset.mem_univ _, hw⟩
-      calc 2 = ({v, w} : Finset _).card := by rw [Finset.card_pair (Ne.symm hne_w)]
-        _ ≤ _ := Finset.card_le_card (fun x hx => by
-          simp only [Finset.mem_insert, Finset.mem_singleton] at hx
-          rcases hx with rfl | rfl; exact hv_mem; exact hw_mem)
+  -- n ≥ 4: branch vertex v has 3 distinct neighbors, needing at least 4 vertices
+  have hn4 : 4 ≤ n := by
+    obtain ⟨_, hdiag, _, _, _⟩ := hD
+    by_contra h; push_neg at h
+    have : (Finset.univ.filter (fun j => adj v j = 1)).card ≤
+        (Finset.univ.erase v).card := by
+      apply Finset.card_le_card
+      intro x hx; simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
+      exact Finset.mem_erase.mpr ⟨fun h' => by subst h'; linarith [hdiag x], Finset.mem_univ _⟩
+    simp [Finset.card_erase_of_mem] at this
+    change vertexDegree adj v ≤ n - 1 at this
     omega
-  -- Step 2: Remove u to get reduced graph adj' on Fin (n-1)
-  -- Need n ≥ 2 (v and u are distinct vertices)
-  have hn2 : 2 ≤ n := by
-    by_contra h; push_neg at h; interval_cases n
-    · exact absurd (show v = u from Subsingleton.elim v u) (Ne.symm hu_ne)
-  -- Write n = k + 1
-  obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
-  have hk1 : 1 ≤ k := by omega
-  set adj' : Matrix (Fin k) (Fin k) ℤ :=
-    fun i j => adj (u.succAbove i) (u.succAbove j) with hadj'_def
-  -- adj' is a Dynkin diagram (same proof pattern as in path_walk_construction)
-  have hD' : IsDynkinDiagram k adj' := by
-    refine ⟨?_, ?_, ?_, ?_, ?_⟩
-    · exact Matrix.IsSymm.ext (fun i j => hsymm.apply _ _)
-    · intro i; exact hdiag _
-    · intro i j; exact h01 _ _
-    · -- Connectivity: removing a leaf preserves connectivity
-      let G : SimpleGraph (Fin (k + 1)) :=
-        { Adj := fun i j => adj i j = 1
-          symm := fun {i j} (h : adj i j = 1) => (hsymm.apply i j).trans h
-          loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
-      haveI : DecidableRel G.Adj :=
-        fun i j => show Decidable (adj i j = 1) from inferInstance
-      have hG_conn : G.Connected := by
-        constructor
-        intro a b
-        obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
-        exact list_path_reachable G path a b hhead hlast (fun k hk => hedges k hk)
-      have hG_deg : G.degree u = 1 := by
-        unfold SimpleGraph.degree
-        have heq : G.neighborFinset u = Finset.univ.filter (adj u · = 1) := by
-          ext j; simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter,
-            Finset.mem_univ, true_and]; exact ⟨fun h => h, fun h => h⟩
-        rw [heq]; unfold vertexDegree at hu_deg; convert hu_deg
-      have hG' := hG_conn.induce_compl_singleton_of_degree_eq_one hG_deg
-      intro a b
-      have ha_ne : u.succAbove a ≠ u := Fin.succAbove_ne u a
-      have hb_ne : u.succAbove b ≠ u := Fin.succAbove_ne u b
-      have ha_mem : u.succAbove a ∈ ({u}ᶜ : Set (Fin (k + 1))) :=
-        Set.mem_compl_singleton_iff.mpr ha_ne
-      have hb_mem : u.succAbove b ∈ ({u}ᶜ : Set (Fin (k + 1))) :=
-        Set.mem_compl_singleton_iff.mpr hb_ne
-      obtain ⟨walk⟩ := hG'.preconnected ⟨u.succAbove a, ha_mem⟩ ⟨u.succAbove b, hb_mem⟩
-      let toFink : ↥({u}ᶜ : Set (Fin (k + 1))) → Fin k :=
-        fun ⟨x, hx⟩ => (Fin.exists_succAbove_eq
-          (Set.mem_compl_singleton_iff.mp hx)).choose
-      have htoFink_spec : ∀ (x : ↥({u}ᶜ : Set (Fin (k + 1)))),
-          u.succAbove (toFink x) = x.val :=
-        fun ⟨x, hx⟩ => (Fin.exists_succAbove_eq
-          (Set.mem_compl_singleton_iff.mp hx)).choose_spec
-      have htoFink_adj : ∀ (x y : ↥({u}ᶜ : Set (Fin (k + 1)))),
-          (G.induce ({u}ᶜ : Set _)).Adj x y →
-          adj' (toFink x) (toFink y) = 1 := by
-        intro x y hadj_xy
-        simp only [hadj'_def, SimpleGraph.induce_adj] at hadj_xy ⊢
-        rw [htoFink_spec x, htoFink_spec y]; exact hadj_xy
-      suffices h_walk : ∀ (a b : ↥({u}ᶜ : Set (Fin (k+1))))
-          (w' : (G.induce ({u}ᶜ : Set _)).Walk a b),
-        ∃ path : List (Fin k),
-          path.head? = some (toFink a) ∧
-          path.getLast? = some (toFink b) ∧
-          ∀ m, (hm : m + 1 < path.length) →
-            adj' (path.get ⟨m, by omega⟩) (path.get ⟨m + 1, hm⟩) = 1 by
-        obtain ⟨path, hhead, hlast, hedges⟩ := h_walk _ _ walk
-        refine ⟨path, ?_, ?_, hedges⟩
-        · convert hhead using 2
-          exact (Fin.succAbove_right_injective
-            (htoFink_spec ⟨u.succAbove a, ha_mem⟩)).symm
-        · convert hlast using 2
-          exact (Fin.succAbove_right_injective
-            (htoFink_spec ⟨u.succAbove b, hb_mem⟩)).symm
-      intro a b w'
-      induction w' with
-      | nil =>
-        exact ⟨[toFink _], rfl, rfl, fun m hm => absurd hm (by simp)⟩
-      | @cons c d _ hadj_edge rest ih =>
-        obtain ⟨path_rest, hhead_rest, hlast_rest, hedges_rest⟩ := ih
-        refine ⟨toFink c :: path_rest, by simp, ?_, ?_⟩
-        · cases path_rest with
-          | nil => simp at hhead_rest hlast_rest ⊢
-          | cons y ys => simp only [List.getLast?_cons_cons]; exact hlast_rest
-        · intro m hm
-          match m with
-          | 0 =>
-            simp only [List.get_eq_getElem, List.getElem_cons_zero,
-              List.getElem_cons_succ]
-            have h0 : 0 < path_rest.length := by
-              simp only [List.length_cons] at hm; omega
-            have hd_eq : path_rest[0] = toFink d := by
-              cases path_rest with
-              | nil => simp at h0
-              | cons y ys =>
-                simp only [List.head?, Option.some.injEq] at hhead_rest
-                simp only [List.getElem_cons_zero]; exact hhead_rest
-            rw [hd_eq]; exact htoFink_adj c d hadj_edge
-          | m' + 1 =>
-            simp only [List.get_eq_getElem, List.getElem_cons_succ]
-            exact hedges_rest m' (by simp only [List.length_cons] at hm; omega)
-    · -- Positive definiteness: principal submatrix of pos-def
-      intro x hx
-      set x' : Fin (k + 1) → ℤ := fun a =>
-        if h : a = u then 0 else x (Fin.exists_succAbove_eq h).choose
-      have hx'_u : x' u = 0 := by simp [x']
-      have hx'_sa : ∀ i, x' (u.succAbove i) = x i := by
-        intro i; simp only [x']
-        rw [dif_neg (Fin.succAbove_ne u i)]; congr 1
-        exact Fin.succAbove_right_injective
-          (Fin.exists_succAbove_eq (Fin.succAbove_ne u i)).choose_spec
-      have hx'_ne : x' ≠ 0 := by
-        intro heq; apply hx; ext b
-        have := congr_fun heq (u.succAbove b)
-        rw [hx'_sa, Pi.zero_apply] at this; exact this
-      have hB_eq : dotProduct x' ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x') =
-          dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj').mulVec x) := by
-        simp only [dotProduct, mulVec]
-        conv_lhs => rw [Fin.sum_univ_succAbove _ u]
-        simp only [hx'_u, zero_mul, zero_add]
-        congr 1; ext i; rw [hx'_sa]; congr 1
-        conv_lhs => rw [Fin.sum_univ_succAbove _ u]
-        simp only [hx'_u, mul_zero, zero_add]
-        congr 1; ext j; rw [hx'_sa]; congr 1
-        simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, hadj'_def,
-          Fin.succAbove_right_inj]
-      linarith [hpos x' hx'_ne]
-  -- Step 3: All degrees ≤ 2 in adj' (unique branch + leaf removal)
-  have hpath' : ∀ i, vertexDegree adj' i ≤ 2 := by
-    intro i
-    -- In adj', vertex degrees are:
-    -- v' (preimage of v): degree = 3 - 1 = 2 (lost edge to u)
-    -- others: degree unchanged from adj, ≤ 2 (no other vertex has degree 3)
-    unfold vertexDegree
-    have h_image : ((Finset.univ.filter (fun j : Fin k => adj' i j = 1)).image u.succAbove)
-        ⊆ Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1) := by
-      intro x hx
-      simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢
-      obtain ⟨y, hy, rfl⟩ := hx; exact hy
-    have h_card := Finset.card_le_card h_image
-    rw [Finset.card_image_of_injective _ Fin.succAbove_right_injective] at h_card
-    -- Degree in adj ≤ 3 for all vertices
-    have hD_full : IsDynkinDiagram (k + 1) adj := ⟨hsymm, hdiag, h01, hconn, hpos⟩
-    have hdeg_le3 := dynkin_degree_le_three hD_full (u.succAbove i)
-    unfold vertexDegree at hdeg_le3
-    -- If degree in adj = 3, then u.succAbove i = v (unique branch)
-    by_cases hdeg3 : (Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1)).card = 3
-    · -- This vertex has degree 3 in adj, so it must be v
-      have hvi : u.succAbove i = v :=
-        dynkin_unique_degree_three hD_full (u.succAbove i) v (by unfold vertexDegree; exact hdeg3) hv
-      -- In adj', v' loses the edge to u, so degree ≤ 2
-      -- adj' neighbors of i are a subset of adj neighbors of v minus u
-      have h_image2 : ((Finset.univ.filter (fun j : Fin k => adj' i j = 1)).image u.succAbove)
-          ⊆ (Finset.univ.filter (fun j : Fin (k + 1) => adj v j = 1)).erase u := by
-        intro x hx
-        simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and] at hx
-        obtain ⟨y, hy, rfl⟩ := hx
-        refine Finset.mem_erase.mpr ⟨Fin.succAbove_ne u y, ?_⟩
-        refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, ?_⟩
-        rw [← hvi]; exact hy
-      have h_card2 := Finset.card_le_card h_image2
-      rw [Finset.card_image_of_injective _ Fin.succAbove_right_injective] at h_card2
-      have hu_mem : u ∈ Finset.univ.filter (fun j : Fin (k + 1) => adj v j = 1) :=
-        Finset.mem_filter.mpr ⟨Finset.mem_univ _, hu_adj⟩
-      rw [Finset.card_erase_of_mem hu_mem] at h_card2
-      -- hv : vertexDegree adj v = 3, so #{j | adj v j = 1} = 3
-      have hv3 : (Finset.univ.filter (fun j : Fin (k + 1) => adj v j = 1)).card = 3 := hv
+  -- Base case: n = 4
+  by_cases hn4e : n = 4
+  · subst hn4e; exact branch_classification_n4 hD v hv
+  · -- Inductive case: n ≥ 5
+    have hn5 : 5 ≤ n := by omega
+    obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
+    -- Step 1: Get a leaf neighbor of v
+    obtain ⟨u, hu_adj, hu_deg⟩ := branch_has_leaf_neighbor hD v hv
+    have hu_ne : u ≠ v := by
+      intro h; subst h; rw [hdiag] at hu_adj; omega
+    -- u has exactly one neighbor, which is v
+    have hu_unique : ∀ w, adj u w = 1 → w = v := by
+      intro w hw
+      by_contra hne_w
+      have : 2 ≤ vertexDegree adj u := by
+        change 2 ≤ (Finset.univ.filter (fun j => adj u j = 1)).card
+        have hv_mem : v ∈ Finset.univ.filter (fun j => adj u j = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, hsymm.apply u v ▸ hu_adj⟩
+        have hw_mem : w ∈ Finset.univ.filter (fun j => adj u j = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, hw⟩
+        calc 2 = ({v, w} : Finset _).card := by rw [Finset.card_pair (Ne.symm hne_w)]
+          _ ≤ _ := Finset.card_le_card (fun x hx => by
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+            rcases hx with rfl | rfl; exact hv_mem; exact hw_mem)
       omega
-    · -- Degree in adj ≤ 2
-      have : (Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1)).card ≤ 2 := by
+    -- Step 2: Remove u to get reduced graph adj' on Fin (n-1)
+    have hn2 : 2 ≤ n := by omega
+    obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
+    have hk1 : 1 ≤ k := by omega
+    set adj' : Matrix (Fin k) (Fin k) ℤ :=
+      fun i j => adj (u.succAbove i) (u.succAbove j) with hadj'_def
+    -- adj' is a Dynkin diagram (same proof pattern as in path_walk_construction)
+    have hD' : IsDynkinDiagram k adj' := by
+      refine ⟨?_, ?_, ?_, ?_, ?_⟩
+      · exact Matrix.IsSymm.ext (fun i j => hsymm.apply _ _)
+      · intro i; exact hdiag _
+      · intro i j; exact h01 _ _
+      · -- Connectivity: removing a leaf preserves connectivity
+        let G : SimpleGraph (Fin (k + 1)) :=
+          { Adj := fun i j => adj i j = 1
+            symm := fun {i j} (h : adj i j = 1) => (hsymm.apply i j).trans h
+            loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
+        haveI : DecidableRel G.Adj :=
+          fun i j => show Decidable (adj i j = 1) from inferInstance
+        have hG_conn : G.Connected := by
+          constructor
+          intro a b
+          obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
+          exact list_path_reachable G path a b hhead hlast (fun k hk => hedges k hk)
+        have hG_deg : G.degree u = 1 := by
+          unfold SimpleGraph.degree
+          have heq : G.neighborFinset u = Finset.univ.filter (adj u · = 1) := by
+            ext j; simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter,
+              Finset.mem_univ, true_and]; exact ⟨fun h => h, fun h => h⟩
+          rw [heq]; unfold vertexDegree at hu_deg; convert hu_deg
+        have hG' := hG_conn.induce_compl_singleton_of_degree_eq_one hG_deg
+        intro a b
+        have ha_ne : u.succAbove a ≠ u := Fin.succAbove_ne u a
+        have hb_ne : u.succAbove b ≠ u := Fin.succAbove_ne u b
+        have ha_mem : u.succAbove a ∈ ({u}ᶜ : Set (Fin (k + 1))) :=
+          Set.mem_compl_singleton_iff.mpr ha_ne
+        have hb_mem : u.succAbove b ∈ ({u}ᶜ : Set (Fin (k + 1))) :=
+          Set.mem_compl_singleton_iff.mpr hb_ne
+        obtain ⟨walk⟩ := hG'.preconnected ⟨u.succAbove a, ha_mem⟩ ⟨u.succAbove b, hb_mem⟩
+        let toFink : ↥({u}ᶜ : Set (Fin (k + 1))) → Fin k :=
+          fun ⟨x, hx⟩ => (Fin.exists_succAbove_eq
+            (Set.mem_compl_singleton_iff.mp hx)).choose
+        have htoFink_spec : ∀ (x : ↥({u}ᶜ : Set (Fin (k + 1)))),
+            u.succAbove (toFink x) = x.val :=
+          fun ⟨x, hx⟩ => (Fin.exists_succAbove_eq
+            (Set.mem_compl_singleton_iff.mp hx)).choose_spec
+        have htoFink_adj : ∀ (x y : ↥({u}ᶜ : Set (Fin (k + 1)))),
+            (G.induce ({u}ᶜ : Set _)).Adj x y →
+            adj' (toFink x) (toFink y) = 1 := by
+          intro x y hadj_xy
+          simp only [hadj'_def, SimpleGraph.induce_adj] at hadj_xy ⊢
+          rw [htoFink_spec x, htoFink_spec y]; exact hadj_xy
+        suffices h_walk : ∀ (a b : ↥({u}ᶜ : Set (Fin (k+1))))
+            (w' : (G.induce ({u}ᶜ : Set _)).Walk a b),
+          ∃ path : List (Fin k),
+            path.head? = some (toFink a) ∧
+            path.getLast? = some (toFink b) ∧
+            ∀ m, (hm : m + 1 < path.length) →
+              adj' (path.get ⟨m, by omega⟩) (path.get ⟨m + 1, hm⟩) = 1 by
+          obtain ⟨path, hhead, hlast, hedges⟩ := h_walk _ _ walk
+          refine ⟨path, ?_, ?_, hedges⟩
+          · convert hhead using 2
+            exact (Fin.succAbove_right_injective
+              (htoFink_spec ⟨u.succAbove a, ha_mem⟩)).symm
+          · convert hlast using 2
+            exact (Fin.succAbove_right_injective
+              (htoFink_spec ⟨u.succAbove b, hb_mem⟩)).symm
+        intro a b w'
+        induction w' with
+        | nil =>
+          exact ⟨[toFink _], rfl, rfl, fun m hm => absurd hm (by simp)⟩
+        | @cons c d _ hadj_edge rest ih =>
+          obtain ⟨path_rest, hhead_rest, hlast_rest, hedges_rest⟩ := ih
+          refine ⟨toFink c :: path_rest, by simp, ?_, ?_⟩
+          · cases path_rest with
+            | nil => simp at hhead_rest hlast_rest ⊢
+            | cons y ys => simp only [List.getLast?_cons_cons]; exact hlast_rest
+          · intro m hm
+            match m with
+            | 0 =>
+              simp only [List.get_eq_getElem, List.getElem_cons_zero,
+                List.getElem_cons_succ]
+              have h0 : 0 < path_rest.length := by
+                simp only [List.length_cons] at hm; omega
+              have hd_eq : path_rest[0] = toFink d := by
+                cases path_rest with
+                | nil => simp at h0
+                | cons y ys =>
+                  simp only [List.head?, Option.some.injEq] at hhead_rest
+                  simp only [List.getElem_cons_zero]; exact hhead_rest
+              rw [hd_eq]; exact htoFink_adj c d hadj_edge
+            | m' + 1 =>
+              simp only [List.get_eq_getElem, List.getElem_cons_succ]
+              exact hedges_rest m' (by simp only [List.length_cons] at hm; omega)
+      · -- Positive definiteness: principal submatrix of pos-def
+        intro x hx
+        set x' : Fin (k + 1) → ℤ := fun a =>
+          if h : a = u then 0 else x (Fin.exists_succAbove_eq h).choose
+        have hx'_u : x' u = 0 := by simp [x']
+        have hx'_sa : ∀ i, x' (u.succAbove i) = x i := by
+          intro i; simp only [x']
+          rw [dif_neg (Fin.succAbove_ne u i)]; congr 1
+          exact Fin.succAbove_right_injective
+            (Fin.exists_succAbove_eq (Fin.succAbove_ne u i)).choose_spec
+        have hx'_ne : x' ≠ 0 := by
+          intro heq; apply hx; ext b
+          have := congr_fun heq (u.succAbove b)
+          rw [hx'_sa, Pi.zero_apply] at this; exact this
+        have hB_eq : dotProduct x' ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x') =
+            dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj').mulVec x) := by
+          simp only [dotProduct, mulVec]
+          conv_lhs => rw [Fin.sum_univ_succAbove _ u]
+          simp only [hx'_u, zero_mul, zero_add]
+          congr 1; ext i; rw [hx'_sa]; congr 1
+          conv_lhs => rw [Fin.sum_univ_succAbove _ u]
+          simp only [hx'_u, mul_zero, zero_add]
+          congr 1; ext j; rw [hx'_sa]; congr 1
+          simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, hadj'_def,
+            Fin.succAbove_right_inj]
+        linarith [hpos x' hx'_ne]
+    -- Step 3: All degrees ≤ 2 in adj' (unique branch + leaf removal)
+    have hpath' : ∀ i, vertexDegree adj' i ≤ 2 := by
+      intro i
+      unfold vertexDegree
+      have h_image : ((Finset.univ.filter (fun j : Fin k => adj' i j = 1)).image u.succAbove)
+          ⊆ Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1) := by
+        intro x hx
+        simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢
+        obtain ⟨y, hy, rfl⟩ := hx; exact hy
+      have h_card := Finset.card_le_card h_image
+      rw [Finset.card_image_of_injective _ Fin.succAbove_right_injective] at h_card
+      have hD_full : IsDynkinDiagram (k + 1) adj := ⟨hsymm, hdiag, h01, hconn, hpos⟩
+      have hdeg_le3 := dynkin_degree_le_three hD_full (u.succAbove i)
+      unfold vertexDegree at hdeg_le3
+      by_cases hdeg3 : (Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1)).card = 3
+      · have hvi : u.succAbove i = v :=
+          dynkin_unique_degree_three hD_full (u.succAbove i) v (by unfold vertexDegree; exact hdeg3) hv
+        have h_image2 : ((Finset.univ.filter (fun j : Fin k => adj' i j = 1)).image u.succAbove)
+            ⊆ (Finset.univ.filter (fun j : Fin (k + 1) => adj v j = 1)).erase u := by
+          intro x hx
+          simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and] at hx
+          obtain ⟨y, hy, rfl⟩ := hx
+          refine Finset.mem_erase.mpr ⟨Fin.succAbove_ne u y, ?_⟩
+          refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, ?_⟩
+          rw [← hvi]; exact hy
+        have h_card2 := Finset.card_le_card h_image2
+        rw [Finset.card_image_of_injective _ Fin.succAbove_right_injective] at h_card2
+        have hu_mem : u ∈ Finset.univ.filter (fun j : Fin (k + 1) => adj v j = 1) :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, hu_adj⟩
+        rw [Finset.card_erase_of_mem hu_mem] at h_card2
+        have hv3 : (Finset.univ.filter (fun j : Fin (k + 1) => adj v j = 1)).card = 3 := hv
         omega
-      linarith
-  -- Step 4: Find an endpoint and apply path_walk_construction
-  obtain ⟨v₀', hv₀'_deg⟩ := dynkin_has_endpoint hD' hk1 hpath'
-  obtain ⟨σ', hσ'0, hσ'_fwd, hσ'_only⟩ :=
-    path_walk_construction hD' hk1 hpath' v₀' hv₀'_deg
-  -- Step 5: Find v's position in the path
-  -- v ≠ u so v has a preimage v' under u.succAbove
-  have hv_ne_u : v ≠ u := Ne.symm hu_ne
-  obtain ⟨v', hv'⟩ := Fin.exists_succAbove_eq hv_ne_u
-  -- v's position in the path ordering
-  set bfin := σ'.symm v' with hbfin_def
-  set b := bfin.val with hb_def
-  -- b < k (index in Fin k)
-  have hb_lt : b < k := bfin.isLt
-  -- v is at position b: σ' maps position b to v'
-  have hσ'_b : σ' bfin = v' := σ'.apply_symm_apply v'
-  -- v has degree 2 in adj' (was 3 in adj, lost edge to u)
-  -- This means v is an interior vertex of the path, so b ≥ 1 and b ≤ k-2
-  have hv'_deg2 : vertexDegree adj' v' = 2 := by
-    -- v' maps to v via succAbove. v had degree 3 in adj.
-    -- In adj', v' lost the edge to u, so degree = 3 - 1 = 2.
-    -- Upper bound from hpath': vertexDegree adj' v' ≤ 2
-    -- Lower bound: v had 3 neighbors {u, w₁, w₂} in adj.
-    -- w₁, w₂ ≠ u map to neighbors of v' in adj' via succAbove⁻¹.
-    sorry
-  have hb_pos : 0 < b := by
-    by_contra h; push_neg at h; have hb0 : b = 0 := by omega
-    -- If b = 0, σ'⁻¹(v') has index 0, so σ'(⟨0,_⟩) = v', meaning v' = v₀'
-    have hv'_eq : v' = v₀' := by
-      have hbf0 : bfin = ⟨0, by omega⟩ := Fin.ext hb0
-      have h1 : σ' bfin = v' := hσ'_b
-      rw [hbf0] at h1
-      exact h1.symm.trans hσ'0
-    linarith [hv'_eq ▸ hv₀'_deg]
-  have hb_lt_k1 : b < k - 1 := by
-    by_contra h; push_neg at h; have hbk : b = k - 1 := by omega
-    -- If b = k-1, v' is the last vertex of the path → degree ≤ 1
-    -- But v' has degree 2. This is a contradiction.
-    -- The last vertex of a path has degree ≤ 1.
-    sorry
-  -- Set up arm lengths
-  set p := 1 with hp_def
-  set q := min b (k - 1 - b) with hq_def
-  set r := max b (k - 1 - b) with hr_def
-  have hp1 : 1 ≤ p := le_refl 1
-  have hpq : p ≤ q := by
-    simp only [p, q]; exact Nat.one_le_iff_ne_zero.mpr (by omega)
-  have hqr : q ≤ r := by simp only [q, r]; omega
-  have hn_eq : k + 1 = p + q + r + 1 := by
-    simp only [p, q, r, min_def, max_def]
-    split_ifs <;> omega
-  -- Derive the reciprocal-sum constraint from positive definiteness
-  -- If 1/(p+1) + 1/(q+1) + 1/(r+1) ≤ 1, the T_{p,q,r} tree has a null vector
-  -- This gives the integer constraint for arm_length_solutions
-  have hrecip : (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1) >
-                (p + 1) * (q + 1) * (r + 1) := by
-    sorry -- Derived from positive definiteness of the Cartan form
-  -- Apply arm_length_solutions
-  rcases arm_length_solutions p q r hp1 hpq hqr hrecip with
-    ⟨_, hq1⟩ | ⟨_, hq2, hr2⟩ | ⟨_, hq2, hr3⟩ | ⟨_, hq2, hr4⟩
-  · -- Case (1, 1, r): D_{r+3} type, n = k+1 ≥ 4
-    have h4_le : 4 ≤ k + 1 := by omega
-    -- Construct σ extending σ' with u mapped to position k (= n-1)
-    -- σ maps: 0..k-2 via the path (possibly reversed), k-1 and k to the two short arms
-    -- The branch vertex v is at position k-2 in D_{k+1} adjacency
-    -- This requires careful construction based on v's position b in the path
-    sorry
-  · -- Case (1, 2, 2): E₆, k+1 = 6
-    -- Construct σ from σ' (path of 5 vertices) + u
-    -- Branch at position 2 in E₆ adjacency
-    sorry
-  · -- Case (1, 2, 3): E₇, k+1 = 7
-    sorry
-  · -- Case (1, 2, 4): E₈, k+1 = 8
+      · have : (Finset.univ.filter (fun j : Fin (k + 1) => adj (u.succAbove i) j = 1)).card ≤ 2 := by
+          omega
+        linarith
+    -- Step 4: Find an endpoint and apply path_walk_construction
+    obtain ⟨v₀', hv₀'_deg⟩ := dynkin_has_endpoint hD' hk1 hpath'
+    obtain ⟨σ', hσ'0, hσ'_fwd, hσ'_only⟩ :=
+      path_walk_construction hD' hk1 hpath' v₀' hv₀'_deg
+    -- Step 5: Find v's position in the path
+    have hv_ne_u : v ≠ u := Ne.symm hu_ne
+    obtain ⟨v', hv'⟩ := Fin.exists_succAbove_eq hv_ne_u
+    set bfin := σ'.symm v' with hbfin_def
+    set b := bfin.val with hb_def
+    have hb_lt : b < k := bfin.isLt
+    have hσ'_b : σ' bfin = v' := σ'.apply_symm_apply v'
+    have hv'_deg2 : vertexDegree adj' v' = 2 := by
+      sorry
+    have hb_pos : 0 < b := by
+      by_contra h; push_neg at h; have hb0 : b = 0 := by omega
+      have hv'_eq : v' = v₀' := by
+        have hbf0 : bfin = ⟨0, by omega⟩ := Fin.ext hb0
+        have h1 : σ' bfin = v' := hσ'_b
+        rw [hbf0] at h1
+        exact h1.symm.trans hσ'0
+      linarith [hv'_eq ▸ hv₀'_deg]
+    have hb_lt_k1 : b < k - 1 := by
+      by_contra h; push_neg at h; have hbk : b = k - 1 := by omega
+      sorry
+    -- Set up arm lengths
+    set p := 1 with hp_def
+    set q := min b (k - 1 - b) with hq_def
+    set r := max b (k - 1 - b) with hr_def
+    have hp1 : 1 ≤ p := le_refl 1
+    have hpq : p ≤ q := by
+      simp only [p, q]; exact Nat.one_le_iff_ne_zero.mpr (by omega)
+    have hqr : q ≤ r := by simp only [q, r]; omega
+    have hn_eq : k + 1 = p + q + r + 1 := by
+      simp only [p, q, r, min_def, max_def]
+      split_ifs <;> omega
+    have hrecip : (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1) >
+                  (p + 1) * (q + 1) * (r + 1) := by
+      sorry -- Derived from positive definiteness of the Cartan form
+    rcases arm_length_solutions p q r hp1 hpq hqr hrecip with
+      ⟨_, hq1⟩ | ⟨_, hq2, hr2⟩ | ⟨_, hq2, hr3⟩ | ⟨_, hq2, hr4⟩
+    · -- Case (1, 1, r): D_{r+3} type
+      sorry
+    · -- Case (1, 2, 2): E₆
+      sorry
+    · -- Case (1, 2, 3): E₇
+      sorry
+    · -- Case (1, 2, 4): E₈
     sorry
 
 /-- Forward direction of the Dynkin classification: any Dynkin diagram on n ≥ 1 vertices
