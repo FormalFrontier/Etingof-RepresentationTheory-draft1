@@ -286,7 +286,13 @@ print(f'Proof backlog: {backlog} items')
 "
 ```
 
-**As of Wave 20:** ~195+/583 sorry-free (~33.5%), ~70 sorry occurrences across 29 files. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch5 is the bottleneck (~48/70 sorries — ~69% of all remaining). Ch6 has ~34 sorries (Dynkin/reflection functor work progressing). Planners should create mostly proof issues. Statement formalization is complete.
+**As of Wave 24:** 206/583 sorry-free (35.3%), 81 sorry occurrences across 27 files. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch5 remains the bottleneck (~40 sorries across 14 files). Ch6 has ~23 sorries across 8 files (Dynkin/reflection functor work progressing). Ch9 has ~12 sorries across 3 files. Ch2 has ~3 sorries across 2 files. Planners should create mostly proof issues. Statement formalization is complete.
+
+**Endgame characteristics (Wave 24+):** Remaining sorries are concentrated in difficulty 3-4 items. The "easy wins" are exhausted. Key blockers are:
+- **Decidable.casesOn type transport** (Ch6 reflection functors, ~7 sorries)
+- **Definition-level sorries** requiring concrete implementations (Theorem5_23_2 AlgIrrepGL, ~9 sorries)
+- **Infrastructure dependencies** (normalizer theory for Lemma5_25_3, Morita structural for Corollary9_7_3)
+- **Major standalone theorems** (Theorem9_2_1 parts ii+iii, Theorem5_25_2 principal series)
 
 ### Stalling Detection and Response
 
