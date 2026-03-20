@@ -523,12 +523,62 @@ structure of X. The single-chain deduction uses: if X had ≥ 2 chains, the V an
 components of each chain form sub-representations, giving a nontrivial decomposition.
 
 This requires the structure theorem for modules over k[X]/(X^N), not yet in Mathlib. -/
+private lemma ker_sum_ge_one (ρ : Q₂Rep ℂ)
+    (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (hV_pos : 0 < Module.finrank ℂ ρ.V)
+    (hW_pos : 0 < Module.finrank ℂ ρ.W) :
+    1 ≤ Module.finrank ℂ (LinearMap.ker ρ.A) + Module.finrank ℂ (LinearMap.ker ρ.B) := by
+  -- AB nilpotent on W (dim W > 0) implies ker(AB) ≠ ⊥
+  -- Then take w ∈ ker(AB) \ {0}: Bw ∈ ker A. If Bw ≠ 0 → ker A ≠ ⊥; else w ∈ ker B.
+  rw [Nat.one_le_iff_ne_zero]
+  intro h
+  have hA : Module.finrank ℂ (LinearMap.ker ρ.A) = 0 := by omega
+  have hB : Module.finrank ℂ (LinearMap.ker ρ.B) = 0 := by omega
+  rw [Submodule.finrank_eq_zero] at hA hB
+  -- A is injective and B is injective
+  have hA_inj : Function.Injective ρ.A := LinearMap.ker_eq_bot.mp hA
+  have hB_inj : Function.Injective ρ.B := LinearMap.ker_eq_bot.mp hB
+  -- AB injective → AB not nilpotent (contradiction with dim W > 0)
+  have hAB_inj : Function.Injective (ρ.A.comp ρ.B) := hA_inj.comp hB_inj
+  obtain ⟨N, hN⟩ := hAB
+  have hW_ntriv : Nontrivial ρ.W := Module.finrank_pos_iff.mp hW_pos
+  obtain ⟨w, hw⟩ := exists_ne (0 : ρ.W)
+  have : (ρ.A.comp ρ.B) ^ N = 0 := hN
+  have hw0 : ((ρ.A.comp ρ.B) ^ N) w = 0 := by rw [hN, LinearMap.zero_apply]
+  -- But (AB)^N is injective (composition of injective maps)
+  -- (AB)^N w = 0 but w ≠ 0 contradicts AB injective
+  -- Use: if AB injective and (AB)^N = 0, then N = 0 or W = 0
+  -- Prove: ker((AB)^n) = ⊥ for all n (by induction, using AB injective)
+  suffices ∀ n, LinearMap.ker ((ρ.A.comp ρ.B) ^ n) = ⊥ by
+    have hmem := LinearMap.mem_ker.mpr hw0
+    rw [this N] at hmem
+    exact hw ((Submodule.mem_bot ℂ).mp hmem)
+  intro n; induction n with
+  | zero => simp only [pow_zero, LinearMap.ker_eq_bot]; exact fun _ _ h => h
+  | succ n ih =>
+    rw [LinearMap.ker_eq_bot]
+    intro x y hxy
+    rw [pow_succ', Module.End.mul_apply, Module.End.mul_apply] at hxy
+    exact LinearMap.ker_eq_bot.mp ih (hAB_inj hxy)
+
+/-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0, both kernels cannot be
+simultaneously nontrivial. This, combined with `ker_sum_ge_one`, gives the sum = 1.
+
+Requires: the structure theorem for modules over k[X]/(X^N) (nilpotent
+Jordan chain decomposition) which is not yet in Mathlib. -/
+private lemma ker_sum_le_one (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
+    (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (hV_pos : 0 < Module.finrank ℂ ρ.V)
+    (hW_pos : 0 < Module.finrank ℂ ρ.W) :
+    Module.finrank ℂ (LinearMap.ker ρ.A) + Module.finrank ℂ (LinearMap.ker ρ.B) ≤ 1 := by
+  sorry
+
 private lemma ker_sum_eq_one (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (hV_pos : 0 < Module.finrank ℂ ρ.V)
     (hW_pos : 0 < Module.finrank ℂ ρ.W) :
     Module.finrank ℂ (LinearMap.ker ρ.A) + Module.finrank ℂ (LinearMap.ker ρ.B) = 1 := by
-  sorry
+  exact le_antisymm (ker_sum_le_one ρ hρ hAB hV_pos hW_pos) (ker_sum_ge_one ρ hAB hV_pos hW_pos)
 
 /-- From `ker_sum_eq_one`: exactly one of A, B is injective and the other has
 1-dimensional kernel. -/
