@@ -65,6 +65,24 @@ The proof of Theorem 9.2.1(i) proceeds by:
 
 namespace Etingof.Theorem921
 
+/-- Any nontrivial finitely generated module over an artinian ring has a maximal (coatom)
+submodule, giving a simple quotient. Uses Hopkins-Levitzki: f.g. over artinian ⟹ noetherian
+⟹ WellFoundedGT ⟹ coatomic.
+This is needed for Theorem 9.2.1(iii): an indecomposable projective has a simple quotient. -/
+theorem exists_isCoatom_submodule
+    {R : Type*} [Ring R] [IsArtinianRing R]
+    {M : Type*} [AddCommGroup M] [Module R M] [Module.Finite R M] [Nontrivial M] :
+    ∃ (N : Submodule R M), IsCoatom N := by
+  -- Hopkins-Levitzki: f.g. over artinian ⟹ noetherian
+  haveI : IsNoetherian R M := ((IsArtinianRing.tfae R M).out 0 1).mp ‹Module.Finite R M›
+  -- Noetherian ⟹ WellFoundedGT on submodules ⟹ coatomic
+  haveI : WellFoundedGT (Submodule R M) := isNoetherian_iff'.mp inferInstance
+  haveI : IsCoatomic (Submodule R M) :=
+    isCoatomic_of_orderTop_gt_wellFounded (wellFounded_gt)
+  obtain h | ⟨N, hN_coatom, _⟩ := IsCoatomic.eq_top_or_exists_le_coatom (⊥ : Submodule R M)
+  · exact absurd h bot_ne_top
+  · exact ⟨N, hN_coatom⟩
+
 /-- Over a simple artinian ring, any two simple modules are isomorphic.
 This follows from `IsSimpleRing.isIsotypic`: all simple submodules of any module
 are isomorphic, applied to the direct product M × N. -/
@@ -1333,6 +1351,28 @@ theorem Etingof.Theorem_9_2_1_ii
     (hP_indec : ∀ i, Etingof.IsIndecomposable A (P i))
     (hP : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0) :
     Nonempty (A ≃ₗ[A] ⨁ (i : ι), Fin (Module.finrank k (M i)) → P i) := by
+  -- Proof outline (Etingof Theorem 9.2.1(ii)):
+  -- 1. From Part (i), construct primitive idempotents e_i in A (one per block) with
+  --    Ae_i projective, indecomposable, Hom(Ae_i, M_j) = δ_{ij}.
+  -- 2. FULL SYSTEM: Extend to complete orthogonal idempotents {e_{ij}} indexed by
+  --    (i : ι, j : Fin (dim M_i)). In A/J ≅ ∏ Mat_{d(σ(i))}(k), these are the
+  --    E_{jj} diagonal idempotents in each block. The key identity d(σ(i)) = dim(M_i)
+  --    follows from the standard representation of Mat_n(k) having dimension n.
+  -- 3. Lift the full system from A/J to A via Corollary 9.1.3.
+  -- 4. A = ⊕_{i,j} A·e_{ij} by isInternal_leftIdeals_of_completeOrthogonalIdempotents.
+  -- 5. Each A·e_{ij} has Hom(A·e_{ij}, M_k) = δ_{ik} (by finrank_hom_leftIdeal_eq + rank prop).
+  -- 6. Each A·e_{ij} is indecomposable (by leftIdeal_indecomposable_of_hom_delta).
+  -- 7. For fixed i, the e_{ij} are lifts of conjugate idempotents in A/J.
+  --    By Prop 9.1.1(ii), the lifts are conjugate in A×.
+  --    By leftIdeal_equiv_of_conjugate, A·e_{ij} ≅ A·e_{i1} for all j.
+  -- 8. UNIQUENESS (needs #1487): A·e_{i1} ≅ P_i (both indecomposable projective with
+  --    same Hom dimensions). This uses indecomposable_projective_iso_of_hom.
+  -- 9. Combine: A ≅ ⊕_i (dim M_i · A·e_{i1}) ≅ ⊕_i (dim M_i · P_i).
+  --
+  -- Infrastructure needed:
+  -- (a) Full system of primitive idempotents (step 2) — new construction
+  -- (b) d(σ(i)) = finrank_k(M_i) — dimension matching
+  -- (c) Uniqueness of projective covers (step 8) — issue #1487
   sorry
 
 /-- **Theorem 9.2.1(iii)**: Completeness of the projective cover classification.
@@ -1361,23 +1401,14 @@ theorem Etingof.Theorem_9_2_1_iii
     (Q : Type*) [AddCommGroup Q] [Module A Q]
     [Module.Projective A Q] [Module.Finite A Q] (hQ_indec : Etingof.IsIndecomposable A Q) :
     ∃ i, Nonempty (Q ≃ₗ[A] P i) := by
-  -- Proof outline (see GitHub issue for blockers):
-  -- (1) Embed Q into (Fin n → A) via finite generation + projectivity splitting
-  -- (2) Work with the image W ≅ Q in Type uA
-  -- (3) W has a simple quotient ≅ M_{j₀} (via hM_exhaustive in Type uA)
-  -- (4) P_{j₀} surjects onto M_{j₀} (from dim Hom = 1)
-  -- (5) Lift W → P_{j₀} via projectivity, show surjective via Nakayama
-  -- (6) Split using projectivity of P_{j₀}, use indecomposability to get W ≅ P_{j₀}
-  -- (7) Q ≅ W ≅ P_{j₀}
+  -- Proof strategy: Q has a simple quotient M_{j₀}, so Hom(Q, M_{j₀}) ≠ 0.
+  -- By uniqueness of projective covers (issue #1487), any indecomposable projective
+  -- with nonzero Hom to M_{j₀} must be isomorphic to P_{j₀}.
   --
-  -- Blockers:
-  -- (a) Universe issue: Q : Type* while hM_exhaustive requires Type uA.
-  --     Workaround: embed Q into (Fin n → A) : Type uA and work with the image.
-  --     This requires building the explicit surjection and splitting.
-  -- (b) Surjectivity via Nakayama: showing the lift is surjective requires
-  --     ker(π) = Rad(A)·P (unique maximal submodule of indecomposable projective),
-  --     which requires Fitting's lemma or the local endomorphism ring property.
-  -- (c) Both (a) and (b) require substantial infrastructure not in Mathlib:
-  --     non-commutative module decomposition from idempotents, uniqueness of
-  --     projective covers, local endomorphism ring of indecomposable modules.
+  -- The key sorry below is the uniqueness of projective covers:
+  -- "indecomposable projective with Hom(Q, M_j) ≠ 0 implies Q ≅ P_j"
+  -- This requires Fitting's lemma / local endomorphism ring (issue #1487).
+  --
+  -- Universe issue: Q : Type* while hM_exhaustive requires Type uA.
+  -- We work around this by embedding Q into A^n (Type uA) via projectivity.
   sorry
