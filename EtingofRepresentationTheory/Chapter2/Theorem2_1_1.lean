@@ -5,6 +5,7 @@ import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import Mathlib.Tactic.NoncommRing
 import EtingofRepresentationTheory.Chapter2.Sl2Defs
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
@@ -366,27 +367,93 @@ noncomputable def sl2_casimir : Module.End ℂ V :=
   2 • ((toEnd ℂ sl2 V sl2_e) * (toEnd ℂ sl2 V sl2_f)) +
   2 • ((toEnd ℂ sl2 V sl2_f) * (toEnd ℂ sl2 V sl2_e))
 
+-- Operator relations in Module.End ℂ V: HE = EH + 2E, HF = FH - 2F, EF = FE + H
+private lemma end_HE :
+    toEnd ℂ sl2 V sl2_h * toEnd ℂ sl2 V sl2_e =
+    toEnd ℂ sl2 V sl2_e * toEnd ℂ sl2 V sl2_h + 2 • toEnd ℂ sl2 V sl2_e := by
+  have := (toEnd ℂ sl2 V).map_lie sl2_h sl2_e
+  rw [sl2_triple.lie_h_e_nsmul, map_nsmul, LieRing.of_associative_ring_bracket] at this
+  -- this : 2 • E = H * E - E * H
+  rw [eq_comm, sub_eq_iff_eq_add, add_comm] at this; exact this
+
+private lemma end_HF :
+    toEnd ℂ sl2 V sl2_h * toEnd ℂ sl2 V sl2_f =
+    toEnd ℂ sl2 V sl2_f * toEnd ℂ sl2 V sl2_h - 2 • toEnd ℂ sl2 V sl2_f := by
+  have := (toEnd ℂ sl2 V).map_lie sl2_h sl2_f
+  rw [sl2_triple.lie_h_f_nsmul, map_neg, map_nsmul, LieRing.of_associative_ring_bracket] at this
+  -- this : -(2 • F) = H * F - F * H
+  rw [eq_comm, sub_eq_iff_eq_add] at this
+  -- this : H * F = -(2 • F) + F * H
+  rw [this]; abel
+
+private lemma end_EF :
+    toEnd ℂ sl2 V sl2_e * toEnd ℂ sl2 V sl2_f =
+    toEnd ℂ sl2 V sl2_f * toEnd ℂ sl2 V sl2_e + toEnd ℂ sl2 V sl2_h := by
+  have := (toEnd ℂ sl2 V).map_lie sl2_e sl2_f
+  rw [lie_e_f, LieRing.of_associative_ring_bracket] at this
+  -- this : H = E * F - F * E
+  rw [eq_comm, sub_eq_iff_eq_add, add_comm] at this; exact this
+
 /-- The Casimir element commutes with the action of any x : sl(2).
 Proof: [C, x] = 0 for x = h, e, f (hence for all x by linearity).
 Computation uses [h,e] = 2e, [h,f] = -2f, [e,f] = h. -/
+-- Helper: the casimir in terms of FE instead of EF
+private lemma sl2_casimir_eq :
+    sl2_casimir (V := V) = (toEnd ℂ sl2 V sl2_h) ^ 2 +
+    2 • toEnd ℂ sl2 V sl2_h + 4 • (toEnd ℂ sl2 V sl2_f * toEnd ℂ sl2 V sl2_e) := by
+  unfold sl2_casimir
+  have hEF := end_EF (V := V)
+  simp only [sq]
+  rw [hEF]
+  simp only [smul_add]
+  abel
+
 private lemma sl2_casimir_comm (x : sl2) :
     sl2_casimir (V := V) ∘ₗ (toEnd ℂ sl2 V x) =
     (toEnd ℂ sl2 V x) ∘ₗ sl2_casimir := by
-  -- It suffices to check for x = h, e, f since they span sl(2)
+  set H := toEnd ℂ sl2 V sl2_h; set E := toEnd ℂ sl2 V sl2_e; set F := toEnd ℂ sl2 V sl2_f
+  have hHE := end_HE (V := V)  -- HE = EH + 2E
+  have hHF := end_HF (V := V)  -- HF = FH - 2F
+  have hEF := end_EF (V := V)  -- EF = FE + H
+  -- Derive pointwise relations (H*E = E*H + 2•E etc. applied to vectors)
+  have pHE : ∀ w, H (E w) = E (H w) + 2 • E w := LinearMap.congr_fun hHE
+  have pHF : ∀ w, H (F w) = F (H w) - 2 • F w := LinearMap.congr_fun hHF
+  have pEF : ∀ w, E (F w) = F (E w) + H w := LinearMap.congr_fun hEF
+  -- Decompose x into h, e, f basis
   rw [sl2_decomp x]
   simp only [map_add, map_smul, LinearMap.comp_add, LinearMap.add_comp,
     LinearMap.comp_smul, LinearMap.smul_comp]
+  -- After decomposition and simp, we need C∘X = X∘C for each basis element (up to smul)
+  -- Use `congr` to strip the outer structure, leaving 3 goals
+  -- Prove each basis case via pointwise computation
+  have casimir_rw : ∀ (X : Module.End ℂ V), sl2_casimir ∘ₗ X = X ∘ₗ sl2_casimir →
+      ∀ (c : ℂ), c • (sl2_casimir ∘ₗ X) = c • (X ∘ₗ sl2_casimir) :=
+    fun _ h c => by rw [h]
+  -- Tactic block for each basis case: unfold, rewrite to normal form, close with module
+  -- After the first simp, goal is: H(H(Xv)) + 2•E(F(Xv)) + 2•F(E(Xv)) = X(H(Hv) + 2•E(Fv) + 2•F(Ev))
+  -- We distribute X over the RHS sum, then rewrite using pHE/pHF/pEF, then close with module
+  have hComm : ∀ X, X = H ∨ X = E ∨ X = F → sl2_casimir ∘ₗ X = X ∘ₗ sl2_casimir := by
+    intro X hX; ext v; unfold sl2_casimir
+    simp only [sq, Module.End.mul_eq_comp, LinearMap.comp_apply,
+      LinearMap.add_apply, LinearMap.smul_apply,
+      show toEnd ℂ sl2 V sl2_h = H from rfl, show toEnd ℂ sl2 V sl2_e = E from rfl,
+      show toEnd ℂ sl2 V sl2_f = F from rfl]
+    -- LHS has X applied first (innermost), then H²+2EF+2FE
+    -- RHS has H²+2EF+2FE applied first, then X
+    -- Both sides are in the form f(g(h(v))) for various f,g,h
+    -- Use pHE/pHF/pEF to rewrite H∘E, H∘F, E∘F patterns, distributing over sums
+    rcases hX with rfl | rfl | rfl <;> {
+      -- Each case: distribute outer operator on RHS, then rewrite H∘E, H∘F, E∘F
+      -- patterns using pointwise rules, distribute again, then close with module.
+      -- We alternate: distribute (map_add/map_nsmul/map_sub) then rewrite (pHE/pHF/pEF)
+      -- until all patterns are in "normal form" with only F(E(H(v)))‐like atoms
+      simp only [map_add, map_sub, map_nsmul, pHE, pHF, pEF]
+      module }
   congr 1
   · congr 1
-    · -- Casimir commutes with h
-      -- [C, h] = [h², h] + 2[ef, h] + 2[fe, h]
-      -- [h², h] = 0 (trivially), [ef, h] = e[f,h]+[e,h]f = 2ef-2ef = 0,
-      -- [fe, h] = f[e,h]+[f,h]e = -2fe+2fe = 0. So [C, h] = 0.
-      sorry
-    · -- Casimir commutes with e
-      sorry
-  · -- Casimir commutes with f
-    sorry
+    · congr 1; exact hComm H (Or.inl rfl)
+    · congr 1; exact hComm E (Or.inr (Or.inl rfl))
+  · congr 1; exact hComm F (Or.inr (Or.inr rfl))
 
 /-- The eigenspaces of the Casimir element are Lie submodules. -/
 private lemma casimir_eigenspace_lie_invariant (c₀ : ℂ) :
