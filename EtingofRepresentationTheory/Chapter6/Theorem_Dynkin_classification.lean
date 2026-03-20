@@ -1387,7 +1387,28 @@ private lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     split_ifs with h
     · -- adj_sub = 1: show adj(cycle[i], cycle[j]) ≥ 1
       -- The cycle edges map to graph edges via hedges and hclose'
-      sorry
+      show 1 ≤ adj (cycle.get i) (cycle.get j)
+      rcases h with h_fwd | h_bwd | ⟨h0, hlast⟩ | ⟨h0, hlast⟩
+      · -- i + 1 = j: consecutive forward edge
+        have : adj (cycle.get ⟨i.val, by omega⟩) (cycle.get ⟨i.val + 1, by omega⟩) = 1 :=
+          hedges i.val (by omega)
+        have heqi : (⟨i.val, by omega⟩ : Fin m) = i := by ext; rfl
+        have heqj : (⟨i.val + 1, by omega⟩ : Fin m) = j := by ext; exact h_fwd
+        rw [heqi, heqj] at this; linarith
+      · -- j + 1 = i: consecutive backward edge (use symmetry)
+        have : adj (cycle.get ⟨j.val, by omega⟩) (cycle.get ⟨j.val + 1, by omega⟩) = 1 :=
+          hedges j.val (by omega)
+        have heqj : (⟨j.val, by omega⟩ : Fin m) = j := by ext; rfl
+        have heqi : (⟨j.val + 1, by omega⟩ : Fin m) = i := by ext; exact h_bwd
+        rw [heqj, heqi] at this; rw [hsymm.apply]; linarith
+      · -- i = 0, j = m-1: closing edge (backward)
+        have heqi : i = ⟨0, by omega⟩ := by ext; exact h0
+        have heqj : j = ⟨m - 1, by omega⟩ := by ext; exact hlast
+        rw [heqi, heqj]; rw [hsymm.apply]; linarith
+      · -- j = 0, i = m-1: closing edge (forward)
+        have heqi : i = ⟨m - 1, by omega⟩ := by ext; exact hlast
+        have heqj : j = ⟨0, by omega⟩ := by ext; exact h0
+        rw [heqi, heqj]; linarith
     · -- adj_sub = 0: trivially 0 ≤ adj(...)
       have : adj (φ i) (φ j) = 0 ∨ adj (φ i) (φ j) = 1 := h01 (φ i) (φ j)
       show 0 ≤ adj (φ i) (φ j)
@@ -1399,7 +1420,62 @@ private lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     intro h; have := congr_fun h ⟨0, by omega⟩; simp [v] at this
   -- B_sub(v,v) ≤ 0: each vertex has degree 2 in the cycle, so B(1,...,1) = 0
   have hv_null : dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) ≤ 0 := by
-    sorry
+    -- B(v,v) = Σ_a (2 - Σ_b adj_sub(a,b)) for v = 1 everywhere
+    -- Each cycle vertex has exactly 2 neighbors, so B(v,v) = 0
+    -- Expand B(v,v) = Σ_a Σ_b (2*δ_{ab} - adj_sub(a,b))
+    -- = 2*m - Σ_a Σ_b adj_sub(a,b) = 2*m - 2*(number of edges) = 2*m - 2*m = 0
+    simp only [dotProduct, mulVec, Matrix.sub_apply, Matrix.smul_apply,
+      Matrix.one_apply, smul_eq_mul, v]
+    simp only [one_mul, mul_one]
+    -- Goal: Σ_a Σ_b (2*δ_{ab} - adj_sub(a,b)) ≤ 0
+    -- Rewrite as 2*m - Σ_a Σ_b adj_sub(a,b)
+    have hdiag : ∑ a : Fin m, ∑ b : Fin m, (2 * if a = b then (1 : ℤ) else 0) = 2 * m := by
+      simp [Finset.sum_ite_eq']; ring
+    -- Each row: Σ_b (2*δ_{ab} - adj_sub(a,b)) = 2 - Σ_b adj_sub(a,b)
+    -- In cycle, each vertex has ≥ 2 neighbors, so each term ≤ 0
+    apply Finset.sum_nonpos
+    intro a _
+    -- Show Σ_b adj_sub(a,b) ≥ 2
+    have hrow : ∑ b : Fin m, adj_sub a b ≥ 2 := by
+      simp only [adj_sub]
+      -- Forward neighbor
+      set fwd : Fin m := if h : a.val + 1 < m then ⟨a.val + 1, h⟩ else ⟨0, by omega⟩
+      -- Backward neighbor
+      set bwd : Fin m := if h : 0 < a.val then ⟨a.val - 1, by omega⟩ else ⟨m - 1, by omega⟩
+      have hfwd_cond : (a.val + 1 = fwd.val) ∨ (fwd.val + 1 = a.val) ∨
+          (a.val = 0 ∧ fwd.val = m - 1) ∨ (fwd.val = 0 ∧ a.val = m - 1) := by
+        simp only [fwd]; split_ifs with h <;> simp <;> omega
+      have hbwd_cond : (a.val + 1 = bwd.val) ∨ (bwd.val + 1 = a.val) ∨
+          (a.val = 0 ∧ bwd.val = m - 1) ∨ (bwd.val = 0 ∧ a.val = m - 1) := by
+        simp only [bwd]; split_ifs with h <;> simp <;> omega
+      have hne : fwd ≠ bwd := by
+        simp only [fwd, bwd, Fin.ext_iff]; split_ifs <;> simp <;> omega
+      calc (2 : ℤ) = ∑ b ∈ ({fwd, bwd} : Finset (Fin m)), (1 : ℤ) := by
+            simp [Finset.sum_pair hne]
+        _ ≤ ∑ b ∈ ({fwd, bwd} : Finset (Fin m)),
+            (if (a.val + 1 = b.val) ∨ (b.val + 1 = a.val) ∨
+                (a.val = 0 ∧ b.val = m - 1) ∨ (b.val = 0 ∧ a.val = m - 1)
+             then (1 : ℤ) else 0) := by
+            apply Finset.sum_le_sum; intro b hb
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hb
+            rcases hb with rfl | rfl
+            · simp [hfwd_cond]
+            · simp [hbwd_cond]
+        _ ≤ ∑ b : Fin m,
+            (if (a.val + 1 = b.val) ∨ (b.val + 1 = a.val) ∨
+                (a.val = 0 ∧ b.val = m - 1) ∨ (b.val = 0 ∧ a.val = m - 1)
+             then (1 : ℤ) else 0) := by
+            apply Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
+            intro b _ _; split_ifs <;> omega
+    -- Convert smul to numbers and simplify
+    have : ∀ b : Fin m, (2 • (if a = b then (1 : ℤ) else 0)) = if a = b then 2 else 0 := by
+      intro b; split_ifs <;> simp
+    simp_rw [this]
+    linarith [show (∑ b : Fin m, (if a = b then (2 : ℤ) else 0)) = 2 from by
+      simp [Finset.sum_ite_eq'],
+      show ∑ b : Fin m, ((if a = b then (2 : ℤ) else 0) - adj_sub a b) =
+        (∑ b, (if a = b then (2 : ℤ) else 0)) - ∑ b, adj_sub a b from by
+        rw [Finset.sum_sub_distrib]]
   exact subgraph_contradiction ⟨hsymm, _hdiag, h01, _hconn, hpos⟩ adj_sub φ hembed v hv_nonneg hv_ne hv_null
 
 /-- A Dynkin diagram on n vertices has exactly n-1 edges (it's a tree).
