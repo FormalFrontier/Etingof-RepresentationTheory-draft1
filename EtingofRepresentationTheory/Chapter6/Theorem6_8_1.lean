@@ -40,7 +40,7 @@ open Finset Matrix
 
 variable {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
 
-private lemma cartanMatrix_isSymm (hadj : adj.IsSymm) :
+lemma cartanMatrix_isSymm (hadj : adj.IsSymm) :
     (cartanMatrix n adj).IsSymm := by
   show (cartanMatrix n adj)ᵀ = cartanMatrix n adj
   unfold cartanMatrix
@@ -82,7 +82,7 @@ private lemma simpleReflection_sum {A : Matrix (Fin n) (Fin n) ℤ}
   ring
 
 /-- Reflection preserves the bilinear form B(d,d). -/
-private lemma simpleReflection_preserves_B
+lemma simpleReflection_preserves_B
     (hDynkin : IsDynkinDiagram n adj) (v : Fin n → ℤ) (i : Fin n) :
     dotProduct (simpleReflection n (cartanMatrix n adj) i v)
       ((cartanMatrix n adj).mulVec (simpleReflection n (cartanMatrix n adj) i v)) =
@@ -123,7 +123,7 @@ private lemma simpleReflection_preserves_B
   ring
 
 /-- If d ≥ 0 and (Ad)_k ≤ d_k, then s_k(d) ≥ 0. -/
-private lemma simpleReflection_nonneg {A : Matrix (Fin n) (Fin n) ℤ}
+lemma simpleReflection_nonneg {A : Matrix (Fin n) (Fin n) ℤ}
     (hA : A.IsSymm) (d : Fin n → ℤ) (k : Fin n)
     (hd_pos : ∀ i, 0 ≤ d i) (hk : (A.mulVec d) k ≤ d k) :
     ∀ i, 0 ≤ simpleReflection n A k d i := by
@@ -133,7 +133,7 @@ private lemma simpleReflection_nonneg {A : Matrix (Fin n) (Fin n) ℤ}
   · rw [simpleReflection_apply_ne d k i h]; exact hd_pos i
 
 /-- If B(v,v) = 2 with positive definite Cartan matrix, then s_k(v) ≠ 0. -/
-private lemma simpleReflection_nonzero
+lemma simpleReflection_nonzero
     (hDynkin : IsDynkinDiagram n adj) (v : Fin n → ℤ) (k : Fin n)
     (hv_root : dotProduct v ((cartanMatrix n adj).mulVec v) = 2) :
     simpleReflection n (cartanMatrix n adj) k v ≠ 0 := by
@@ -259,7 +259,7 @@ private lemma exists_good_vertex
     rw [show (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) = A from rfl] at hpos
     linarith
 
-private lemma iteratedSimpleReflection_cons (A : Matrix (Fin n) (Fin n) ℤ)
+lemma iteratedSimpleReflection_cons (A : Matrix (Fin n) (Fin n) ℤ)
     (k : Fin n) (vertices : List (Fin n)) (v : Fin n → ℤ) :
     iteratedSimpleReflection n A (k :: vertices) v =
     iteratedSimpleReflection n A vertices (simpleReflection n A k v) := by
