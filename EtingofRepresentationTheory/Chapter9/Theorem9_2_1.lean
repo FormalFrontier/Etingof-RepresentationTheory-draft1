@@ -1308,6 +1308,95 @@ lemma finrank_hom_leftIdeal_eq
 
 end Etingof.Theorem921
 
+/-! ### Uniqueness of indecomposable projective covers
+
+For an indecomposable finitely generated module P over a finite-dimensional algebra,
+End_A(P) is a local ring (Fitting's lemma). This gives the key isomorphism lemma:
+two indecomposable projectives with nonzero Hom to the same simple module are isomorphic.
+-/
+
+/-- An endomorphism of an indecomposable module whose range is contained in a proper
+submodule must be nilpotent (not bijective). -/
+theorem Etingof.endo_nilpotent_of_range_le_proper
+    {W : Type*} [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    [FiniteDimensional k W] (hW : Etingof.IsIndecomposable A W)
+    (θ : W →ₗ[A] W) (N : Submodule A W) (hN : N ≠ ⊤)
+    (hθ : LinearMap.range θ ≤ N) :
+    IsNilpotent θ := by
+  rcases Etingof.endo_indecomposable_iso_or_nilpotent k A W hW θ with hbij | hnil
+  · exact absurd (top_le_iff.mp (LinearMap.range_eq_top.mpr hbij.2 ▸ hθ)) hN
+  · exact hnil
+
+/-- Two indecomposable finitely generated projective modules with nonzero Hom to the
+same simple module are isomorphic.
+
+**Proof:** Both surject onto M (nonzero to simple = surjective). Lift each surjection
+through the other by projectivity: f: P → P', g: P' → P with ψ∘f = φ, φ∘g = ψ.
+Then g∘f - id maps into ker(φ) (proper), so nilpotent by Fitting. Thus g∘f is a unit.
+Similarly f∘g. Hence f is bijective. -/
+theorem Etingof.indecomposable_projective_iso_of_hom
+    {P : Type*} [AddCommGroup P] [Module A P] [Module k P] [IsScalarTower k A P]
+    [FiniteDimensional k P] [Module.Projective A P]
+    (hP : Etingof.IsIndecomposable A P)
+    {P' : Type*} [AddCommGroup P'] [Module A P'] [Module k P'] [IsScalarTower k A P']
+    [FiniteDimensional k P'] [Module.Projective A P']
+    (hP' : Etingof.IsIndecomposable A P')
+    {M : Type*} [AddCommGroup M] [Module A M] [IsSimpleModule A M]
+    (φ : P →ₗ[A] M) (hφ : φ ≠ 0) (ψ : P' →ₗ[A] M) (hψ : ψ ≠ 0) :
+    Nonempty (P ≃ₗ[A] P') := by
+  -- Step 1: φ and ψ are surjective
+  have hφ_surj : Function.Surjective φ := by
+    rw [← LinearMap.range_eq_top]
+    exact (eq_bot_or_eq_top (LinearMap.range φ)).resolve_left
+      (LinearMap.range_eq_bot.not.mpr hφ)
+  have hψ_surj : Function.Surjective ψ := by
+    rw [← LinearMap.range_eq_top]
+    exact (eq_bot_or_eq_top (LinearMap.range ψ)).resolve_left
+      (LinearMap.range_eq_bot.not.mpr hψ)
+  -- Step 2: Lift φ through ψ and ψ through φ
+  obtain ⟨f, hf⟩ := Module.projective_lifting_property ψ φ hψ_surj
+  obtain ⟨g, hg⟩ := Module.projective_lifting_property φ ψ hφ_surj
+  -- hf : ψ ∘ₗ f = φ, hg : φ ∘ₗ g = ψ
+  -- Step 3: g ∘ f - id has range in ker(φ), which is proper
+  have hker_proper : LinearMap.ker φ ≠ ⊤ :=
+    fun h => hφ (LinearMap.ker_eq_top.mp h)
+  have hgf_range_le : LinearMap.range (g.comp f - LinearMap.id) ≤ LinearMap.ker φ := by
+    intro y hy
+    rw [LinearMap.mem_ker]
+    obtain ⟨x, hx⟩ := LinearMap.mem_range.mp hy
+    rw [← hx]
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.id_apply, map_sub]
+    rw [show φ (g (f x)) = ψ (f x) from LinearMap.congr_fun hg (f x),
+        show ψ (f x) = φ x from LinearMap.congr_fun hf x, sub_self]
+  -- Step 4: By Fitting, g∘f - id is nilpotent, so g∘f is a unit
+  have hgf_nilp : IsNilpotent (g.comp f - LinearMap.id) :=
+    Etingof.endo_nilpotent_of_range_le_proper (k := k) hP _ _ hker_proper hgf_range_le
+  have hgf_unit : IsUnit (g.comp f) := by
+    have : g.comp f = LinearMap.id - (-(g.comp f - LinearMap.id)) := by simp [sub_sub_cancel]
+    rw [this]; exact hgf_nilp.neg.isUnit_one_sub
+  -- Step 5: Similarly f∘g - id has range in ker(ψ)
+  have hker_proper' : LinearMap.ker ψ ≠ ⊤ :=
+    fun h => hψ (LinearMap.ker_eq_top.mp h)
+  have hfg_range_le : LinearMap.range (f.comp g - LinearMap.id) ≤ LinearMap.ker ψ := by
+    intro y hy
+    rw [LinearMap.mem_ker]
+    obtain ⟨x, hx⟩ := LinearMap.mem_range.mp hy
+    rw [← hx]
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.id_apply, map_sub]
+    rw [show ψ (f (g x)) = φ (g x) from LinearMap.congr_fun hf (g x),
+        show φ (g x) = ψ x from LinearMap.congr_fun hg x, sub_self]
+  have hfg_nilp : IsNilpotent (f.comp g - LinearMap.id) :=
+    Etingof.endo_nilpotent_of_range_le_proper (k := k) hP' _ _ hker_proper' hfg_range_le
+  have hfg_unit : IsUnit (f.comp g) := by
+    have : f.comp g = LinearMap.id - (-(f.comp g - LinearMap.id)) := by simp [sub_sub_cancel]
+    rw [this]; exact hfg_nilp.neg.isUnit_one_sub
+  -- Step 6: f is bijective
+  have hgf_bij := (Module.End.isUnit_iff _).mp hgf_unit
+  have hfg_bij := (Module.End.isUnit_iff _).mp hfg_unit
+  exact ⟨LinearEquiv.ofBijective f
+    ⟨fun x y hxy => hgf_bij.1 (congr_arg g hxy),
+     fun y => let ⟨z, hz⟩ := hfg_bij.2 y; ⟨g z, hz⟩⟩⟩
+
 /-- **Theorem 9.2.1(i)**: Existence of projective covers with the Kronecker delta Hom property.
 
 For each simple module Mᵢ over a finite-dimensional algebra A, there exists an indecomposable
