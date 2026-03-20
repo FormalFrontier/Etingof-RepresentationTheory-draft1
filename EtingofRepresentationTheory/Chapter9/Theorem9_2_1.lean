@@ -1267,4 +1267,23 @@ theorem Etingof.Theorem_9_2_1_iii
     (Q : Type*) [AddCommGroup Q] [Module A Q]
     [Module.Projective A Q] [Module.Finite A Q] (hQ_indec : Etingof.IsIndecomposable A Q) :
     ∃ i, Nonempty (Q ≃ₗ[A] P i) := by
+  -- Proof outline (see GitHub issue for blockers):
+  -- (1) Embed Q into (Fin n → A) via finite generation + projectivity splitting
+  -- (2) Work with the image W ≅ Q in Type uA
+  -- (3) W has a simple quotient ≅ M_{j₀} (via hM_exhaustive in Type uA)
+  -- (4) P_{j₀} surjects onto M_{j₀} (from dim Hom = 1)
+  -- (5) Lift W → P_{j₀} via projectivity, show surjective via Nakayama
+  -- (6) Split using projectivity of P_{j₀}, use indecomposability to get W ≅ P_{j₀}
+  -- (7) Q ≅ W ≅ P_{j₀}
+  --
+  -- Blockers:
+  -- (a) Universe issue: Q : Type* while hM_exhaustive requires Type uA.
+  --     Workaround: embed Q into (Fin n → A) : Type uA and work with the image.
+  --     This requires building the explicit surjection and splitting.
+  -- (b) Surjectivity via Nakayama: showing the lift is surjective requires
+  --     ker(π) = Rad(A)·P (unique maximal submodule of indecomposable projective),
+  --     which requires Fitting's lemma or the local endomorphism ring property.
+  -- (c) Both (a) and (b) require substantial infrastructure not in Mathlib:
+  --     non-commutative module decomposition from idempotents, uniqueness of
+  --     projective covers, local endomorphism ring of indecomposable modules.
   sorry
