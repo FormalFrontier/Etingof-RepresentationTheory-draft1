@@ -6,14 +6,226 @@ namespace Etingof
 
 open Matrix Finset
 
+/-- If two vertices of a Dynkin diagram both have degree 3, they must be the same vertex.
+    Proof: if v ≠ w both have degree 3, define x on Fin n by putting 2 on all vertices
+    of the unique v-to-w path and 1 on the extra neighbors of v and w (not on the path).
+    Then B(x,x) = 0, contradicting positive definiteness. -/
 private lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v w : Fin n)
     (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by
-  -- The null vector argument: path vertices get weight 2, extra neighbors get weight 1.
-  -- B(x,x) = 2·Σxᵢ² - 2·Σ_{edges} xᵢxⱼ = 0 for this vector.
-  -- Each path vertex i has 2xᵢ = Σⱼ aᵢⱼxⱼ (deg 3 vertices: 2+1+1=4=2·2,
-  -- deg 2 interior: 2+2=4=2·2). Each extra neighbor i has 2xᵢ=2=Σⱼ aᵢⱼxⱼ (adj to v or w).
-  sorry
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
+  by_contra hvw
+  -- Build SimpleGraph and get a simple path from v to w
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := fun {i j} h => by change adj j i = 1; rw [hsymm.apply i j]; exact h
+      loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
+  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  haveI : Nonempty (Fin n) := ⟨v⟩
+  have hG_conn : G.Connected :=
+    ⟨fun u w' => by
+      obtain ⟨path, hhead, hlast, hedges⟩ := hconn u w'
+      exact list_path_reachable G path u w' hhead hlast hedges⟩
+  obtain ⟨walk⟩ := hG_conn.preconnected v w
+  set pw := (walk.toPath : G.Walk v w) with hpw_def
+  have hpw_path : pw.IsPath := (walk.toPath).property
+  set L := pw.length with hL_def
+  have hL_pos : 0 < L := by
+    rw [Nat.pos_iff_ne_zero]; intro hL0; apply hvw
+    have hL0' : pw.length = 0 := by omega
+    have h1 := pw.getVert_length
+    rw [hL0'] at h1
+    rw [← pw.getVert_zero]; exact h1
+  -- Support properties
+  set supp := pw.support.toFinset with hsupp_def
+  have hv_in : v ∈ supp := List.mem_toFinset.mpr pw.start_mem_support
+  have hw_in : w ∈ supp := List.mem_toFinset.mpr pw.end_mem_support
+  have hgv_in : ∀ m, m ≤ L → pw.getVert m ∈ supp :=
+    fun m _ => List.mem_toFinset.mpr (pw.getVert_mem_support m)
+  have hgv_adj : ∀ m, m < L → adj (pw.getVert m) (pw.getVert (m + 1)) = 1 :=
+    fun m hm => pw.adj_getVert_succ hm
+  have hgv_inj : ∀ m₁ m₂, m₁ ≤ L → m₂ ≤ L → pw.getVert m₁ = pw.getVert m₂ →
+      m₁ = m₂ :=
+    fun m₁ m₂ h₁ h₂ heq => hpw_path.getVert_injOn h₁ h₂ heq
+  -- Define x: 2 on path, 1 on non-path neighbors of v/w, 0 else
+  set x : Fin n → ℤ := fun i =>
+    if i ∈ supp then 2
+    else if adj v i = 1 ∨ adj w i = 1 then 1
+    else 0 with hx_def
+  have hx_ne : x ≠ 0 := by
+    intro h; have hv0 := congr_fun h v
+    change (if v ∈ supp then 2
+      else if adj v v = 1 ∨ adj w v = 1 then 1 else 0) = 0 at hv0
+    rw [if_pos hv_in] at hv0; exact absurd hv0 (by omega)
+  have hx_nonneg : ∀ i, 0 ≤ x i := fun i => by simp only [x]; split_ifs <;> omega
+  have hadj_nonneg : ∀ a b, 0 ≤ adj a b * x b := fun a b =>
+    mul_nonneg (by rcases h01 a b with h | h <;> omega) (hx_nonneg b)
+  -- mulVec decomposition
+  have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) a =
+      2 * x a - ∑ b, adj a b * x b := by
+    intro a; simp only [mulVec, dotProduct]
+    rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
+        ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
+      Finset.sum_congr rfl (fun b _ => by
+        simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+    rw [Finset.sum_sub_distrib]
+    congr 1
+    rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
+        ∑ b, if a = b then 2 * x b else 0 from
+      Finset.sum_congr rfl (fun b _ => by
+        simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+    simp [Finset.sum_ite_eq']
+  have adj_sum_lb : ∀ (a b₁ b₂ : Fin n), b₁ ≠ b₂ →
+      adj a b₁ = 1 → adj a b₂ = 1 →
+      adj a b₁ * x b₁ + adj a b₂ * x b₂ ≤ ∑ b, adj a b * x b := by
+    intro a b₁ b₂ hne hab₁ hab₂
+    calc adj a b₁ * x b₁ + adj a b₂ * x b₂ =
+        ∑ b ∈ ({b₁, b₂} : Finset _), adj a b * x b := by
+          rw [Finset.sum_pair hne]
+      _ ≤ ∑ b, adj a b * x b :=
+          Finset.sum_le_univ_sum_of_nonneg (fun b => hadj_nonneg a b)
+  have adj_sum_lb1 : ∀ (a b₁ : Fin n),
+      adj a b₁ = 1 → adj a b₁ * x b₁ ≤ ∑ b, adj a b * x b := by
+    intro a b₁ hab₁
+    calc adj a b₁ * x b₁ = ∑ b ∈ ({b₁} : Finset _), adj a b * x b := by simp
+      _ ≤ ∑ b, adj a b * x b :=
+          Finset.sum_le_univ_sum_of_nonneg (fun b => hadj_nonneg a b)
+  -- adj_sum ≥ 4 for v or w: degree-3 vertex with a known path neighbor
+  have v_adj_sum_ge4 : ∀ (p1 : Fin n), adj v p1 = 1 → p1 ∈ supp →
+      4 ≤ ∑ b, adj v b * x b := by
+    intro p1 hp1_adj hp1_supp
+    set N := Finset.univ.filter (fun j => adj v j = 1) with hN_def
+    have hN_card : N.card = 3 := by
+      simp only [hN_def]; delta vertexDegree at hv; convert hv
+    have hp1_N : p1 ∈ N := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hp1_adj⟩
+    have hN_erase : (N.erase p1).card = 2 := by
+      rw [Finset.card_erase_of_mem hp1_N]; omega
+    have hN_le : ∑ j ∈ N, adj v j * x j ≤ ∑ b, adj v b * x b :=
+      Finset.sum_le_univ_sum_of_nonneg (fun b => hadj_nonneg v b)
+    have hN_sum : ∑ j ∈ N, adj v j * x j = adj v p1 * x p1 +
+        ∑ j ∈ N.erase p1, adj v j * x j :=
+      (Finset.add_sum_erase N _ hp1_N).symm
+    have hxp1 : x p1 = 2 := by
+      change (if p1 ∈ supp then 2 else _) = 2
+      rw [if_pos hp1_supp]
+    -- Each j ∈ N has adj(v,j) = 1, so x(j) ≥ 1
+    have hN_min : ∀ j ∈ N.erase p1, 1 ≤ adj v j * x j := by
+      intro j hj
+      have hadj_j := (Finset.mem_filter.mp (Finset.mem_of_mem_erase hj)).2
+      rw [hadj_j, one_mul]
+      change 1 ≤ (if j ∈ supp then 2
+        else if adj v j = 1 ∨ adj w j = 1 then 1 else 0)
+      split_ifs with h1 h2
+      · omega
+      · omega
+      · exact absurd (Or.inl hadj_j) h2
+    -- 2 + sum of at least 2 terms each ≥ 1
+    have hsum_ge : 2 ≤ ∑ j ∈ N.erase p1, adj v j * x j := by
+      calc 2 = ∑ _ ∈ N.erase p1, (1 : ℤ) := by
+            rw [Finset.sum_const]; simp [hN_erase]
+        _ ≤ ∑ j ∈ N.erase p1, adj v j * x j :=
+          Finset.sum_le_sum hN_min
+    nlinarith [hp1_adj, hxp1]
+  have w_adj_sum_ge4 : ∀ (p1 : Fin n), adj w p1 = 1 → p1 ∈ supp →
+      4 ≤ ∑ b, adj w b * x b := by
+    intro p1 hp1_adj hp1_supp
+    set N := Finset.univ.filter (fun j => adj w j = 1) with hN_def
+    have hN_card : N.card = 3 := by
+      simp only [hN_def]; delta vertexDegree at hw; convert hw
+    have hp1_N : p1 ∈ N := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hp1_adj⟩
+    have hN_erase : (N.erase p1).card = 2 := by
+      rw [Finset.card_erase_of_mem hp1_N]; omega
+    have hN_le : ∑ j ∈ N, adj w j * x j ≤ ∑ b, adj w b * x b :=
+      Finset.sum_le_univ_sum_of_nonneg (fun b => hadj_nonneg w b)
+    have hN_sum : ∑ j ∈ N, adj w j * x j = adj w p1 * x p1 +
+        ∑ j ∈ N.erase p1, adj w j * x j :=
+      (Finset.add_sum_erase N _ hp1_N).symm
+    have hxp1 : x p1 = 2 := by
+      change (if p1 ∈ supp then 2 else _) = 2
+      rw [if_pos hp1_supp]
+    have hN_min : ∀ j ∈ N.erase p1, 1 ≤ adj w j * x j := by
+      intro j hj
+      have hadj_j := (Finset.mem_filter.mp (Finset.mem_of_mem_erase hj)).2
+      rw [hadj_j, one_mul]
+      change 1 ≤ (if j ∈ supp then 2
+        else if adj v j = 1 ∨ adj w j = 1 then 1 else 0)
+      split_ifs with h1 h2
+      · omega
+      · omega
+      · exact absurd (Or.inr hadj_j) h2
+    have hsum_ge : 2 ≤ ∑ j ∈ N.erase p1, adj w j * x j := by
+      calc 2 = ∑ _ ∈ N.erase p1, (1 : ℤ) := by
+            rw [Finset.sum_const]; simp [hN_erase]
+        _ ≤ ∑ j ∈ N.erase p1, adj w j * x j :=
+          Finset.sum_le_sum hN_min
+    nlinarith [hp1_adj, hxp1]
+  -- B(x,x) ≤ 0
+  have hB_le : dotProduct x ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) ≤ 0 := by
+    apply Finset.sum_nonpos; intro a _
+    rw [mulVec_eq]
+    by_cases ha_S : a ∈ supp
+    · -- a is on the path, x a = 2
+      have hxa : x a = 2 := by simp [x, ha_S]
+      rw [hxa]
+      -- Find index of a in the support
+      have ha_mem : a ∈ pw.support := List.mem_toFinset.mp ha_S
+      obtain ⟨idx, hidx_lt, hidx_eq⟩ := List.mem_iff_getElem.mp ha_mem
+      rw [pw.length_support] at hidx_lt
+      have hidx_le : idx ≤ L := by omega
+      have ha_gv : pw.getVert idx = a := by
+        rw [pw.getVert_eq_support_getElem hidx_le]; exact hidx_eq
+      by_cases hidx0 : idx = 0
+      · -- a = v (start of path)
+        have hav : a = v := by rw [← ha_gv, hidx0, pw.getVert_zero]
+        rw [hav]
+        have h01 := hgv_adj 0 hL_pos
+        rw [pw.getVert_zero] at h01
+        nlinarith [v_adj_sum_ge4 (pw.getVert 1) h01 (hgv_in 1 (by omega))]
+      · by_cases hidxL : idx = L
+        · -- a = w (end of path)
+          have haw : a = w := by
+            rw [← ha_gv, hidxL]; exact pw.getVert_length
+          rw [haw]
+          have hp_adj : adj w (pw.getVert (L - 1)) = 1 := by
+            have := hgv_adj (L - 1) (by omega)
+            rw [show L - 1 + 1 = L from by omega] at this
+            rwa [pw.getVert_length, hsymm.apply] at this
+          nlinarith [w_adj_sum_ge4 (pw.getVert (L - 1)) hp_adj
+            (hgv_in (L - 1) (by omega))]
+        · -- Interior path vertex: two distinct path neighbors
+          have h0 : 0 < idx := by omega
+          have hL' : idx < L := by omega
+          have hpred := hgv_adj (idx - 1) (by omega)
+          rw [show idx - 1 + 1 = idx from by omega] at hpred
+          have hsucc := hgv_adj idx hL'
+          rw [ha_gv] at hpred hsucc
+          have hpred' : adj a (pw.getVert (idx - 1)) = 1 := by
+            rw [hsymm.apply]; exact hpred
+          have hne : pw.getVert (idx - 1) ≠ pw.getVert (idx + 1) := by
+            intro heq
+            exact absurd (hgv_inj (idx - 1) (idx + 1) (by omega)
+              (by omega) heq) (by omega)
+          have hpred_x : x (pw.getVert (idx - 1)) = 2 := by
+            simp [x, hgv_in (idx - 1) (by omega)]
+          have hsucc_x : x (pw.getVert (idx + 1)) = 2 := by
+            simp [x, hgv_in (idx + 1) (by omega)]
+          nlinarith [adj_sum_lb a _ _ hne hpred' hsucc,
+            hpred_x, hsucc_x]
+    · -- a not on path
+      by_cases ha_adj : adj v a = 1 ∨ adj w a = 1
+      · have hxa : x a = 1 := by
+          simp only [x, if_neg ha_S, if_pos ha_adj]
+        rw [hxa]
+        rcases ha_adj with hva | hwa
+        · have hav : adj a v = 1 := by rw [hsymm.apply]; exact hva
+          have hxv : x v = 2 := by simp [hx_def, hv_in]
+          nlinarith [adj_sum_lb1 a v hav]
+        · have haw : adj a w = 1 := by rw [hsymm.apply]; exact hwa
+          have hxw : x w = 2 := by simp [hx_def, hw_in]
+          nlinarith [adj_sum_lb1 a w haw]
+      · have : x a = 0 := by simp [x, ha_S, ha_adj]
+        rw [this]; simp
+  linarith [hpos x hx_ne]
 
 /-- In a Dynkin diagram with a degree-3 branch vertex v, at least one of v's
     neighbors is a leaf (degree 1). Proof: if all 3 neighbors had degree ≥ 2,
@@ -435,7 +647,44 @@ private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     have hb_lt : b < k := bfin.isLt
     have hσ'_b : σ' bfin = v' := σ'.apply_symm_apply v'
     have hv'_deg2 : vertexDegree adj' v' = 2 := by
-      sorry
+      apply le_antisymm (hpath' v')
+      unfold vertexDegree
+      set Nv := Finset.univ.filter (fun j => adj v j = 1) with hNv_def
+      have hNv_card : Nv.card = 3 := hv
+      have hu_mem : u ∈ Nv :=
+        Finset.mem_filter.mpr ⟨Finset.mem_univ _, hsymm.apply v u ▸ hu_adj⟩
+      have hNv_erase : (Nv.erase u).card = 2 := by
+        rw [Finset.card_erase_of_mem hu_mem]; omega
+      suffices h : 2 ≤ (Finset.univ.filter (fun j : Fin k => adj' v' j = 1)).card from h
+      have h_image : ∀ w ∈ Nv.erase u, ∃ w' : Fin k,
+          u.succAbove w' = w ∧ adj' v' w' = 1 := by
+        intro w hw
+        have hw_mem : w ∈ Nv := Finset.mem_of_mem_erase hw
+        have hw_ne : w ≠ u := Finset.ne_of_mem_erase hw
+        obtain ⟨w', hw'⟩ := Fin.exists_succAbove_eq hw_ne
+        refine ⟨w', hw', ?_⟩
+        show adj (u.succAbove v') (u.succAbove w') = 1
+        rw [hv', hw']
+        exact (Finset.mem_filter.mp hw_mem).2
+      obtain ⟨a₁, a₂, ha_ne, ha_cover⟩ :=
+        Finset.card_eq_two.mp hNv_erase
+      have ha₁_mem : a₁ ∈ Nv.erase u := ha_cover ▸ Finset.mem_insert_self _ _
+      have ha₂_mem : a₂ ∈ Nv.erase u :=
+        ha_cover ▸ Finset.mem_insert.mpr (Or.inr (Finset.mem_singleton_self _))
+      obtain ⟨w₁, hw₁_eq, hw₁_adj⟩ := h_image a₁ ha₁_mem
+      obtain ⟨w₂, hw₂_eq, hw₂_adj⟩ := h_image a₂ ha₂_mem
+      have hne : w₁ ≠ w₂ := by
+        intro h; apply ha_ne
+        have := congr_arg u.succAbove h
+        rw [hw₁_eq, hw₂_eq] at this; exact this
+      calc 2 = ({w₁, w₂} : Finset _).card := (Finset.card_pair hne).symm
+        _ ≤ (Finset.univ.filter (fun j : Fin k => adj' v' j = 1)).card :=
+          Finset.card_le_card (fun x hx => by
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+            exact Finset.mem_filter.mpr ⟨Finset.mem_univ _,
+              by rcases hx with rfl | rfl
+                 · exact hw₁_adj
+                 · exact hw₂_adj⟩)
     have hb_pos : 0 < b := by
       by_contra h; push_neg at h; have hb0 : b = 0 := by omega
       have hv'_eq : v' = v₀' := by
@@ -446,7 +695,26 @@ private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       linarith [hv'_eq ▸ hv₀'_deg]
     have hb_lt_k1 : b < k - 1 := by
       by_contra h; push_neg at h; have hbk : b = k - 1 := by omega
-      sorry
+      have hdeg_le1 : vertexDegree adj' v' ≤ 1 := by
+        unfold vertexDegree
+        suffices h : (Finset.univ.filter
+            (fun j : Fin k => adj' v' j = 1)).card ≤ 1 from h
+        rw [show (1 : ℕ) = ({σ' ⟨k - 2, by omega⟩} : Finset _).card from by simp]
+        apply Finset.card_le_card
+        intro w hw
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hw
+        simp only [Finset.mem_singleton]
+        set wfin := σ'.symm w
+        have hw_eq : σ' wfin = w := σ'.apply_symm_apply w
+        rw [← hσ'_b, ← hw_eq] at hw
+        have := hσ'_only bfin wfin hw
+        rcases this with h1 | h2
+        · exfalso; have := wfin.isLt
+          change b + 1 = wfin.val at h1; omega
+        · rw [← hw_eq]; congr 1
+          apply Fin.ext; change wfin.val = k - 2
+          change wfin.val + 1 = b at h2; omega
+      linarith
     -- Set up arm lengths
     set p := 1 with hp_def
     set q := min b (k - 1 - b) with hq_def
