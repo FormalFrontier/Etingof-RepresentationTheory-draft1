@@ -258,7 +258,7 @@ is an outer corner of the Young diagram. -/
 private lemma syt_maxCell_isOuterCorner {n : ℕ} {la : Nat.Partition (n + 1)}
     (f : { c : ℕ × ℕ // c.1 < la.sortedParts.length ∧
       c.2 < la.sortedParts.getD c.1 0 } → Fin (n + 1))
-    (hbij : Function.Bijective f)
+    (_hbij : Function.Bijective f)
     (hrow : ∀ c₁ c₂, c₁.val.1 = c₂.val.1 → c₁.val.2 < c₂.val.2 → f c₁ < f c₂)
     (hcol : ∀ c₁ c₂, c₁.val.2 = c₂.val.2 → c₁.val.1 < c₂.val.1 → f c₁ < f c₂)
     (c₀ : { c : ℕ × ℕ // c.1 < la.sortedParts.length ∧
