@@ -719,27 +719,49 @@ private lemma Etingof.complementarySeriesChar_elliptic_eq
   rw [hW, hV]
   ring
 
+open Classical in
+/-- The sum of |Ind_K^G ν|² over elliptic elements equals q(q-1)³.
+
+This encapsulates the three hardest steps of the elliptic contribution proof:
+
+1. **Conjugacy class decomposition**: The sum over elliptic GL₂ elements rewrites as
+   (q(q-1)/2) times the sum over non-scalar elements of K = 𝔽_{q²}×.
+   Uses orbit-stabilizer: each elliptic conjugacy class has q(q-1) elements,
+   and Frobenius pairing (ζ ~ ζ^q) halves the representative count.
+
+2. **Induced character on K**: For non-scalar ζ ∈ K, the Frobenius character formula
+   gives Ind_K^G ν(ζ) = ν(ζ) + ν^q(ζ), since N_G(K)/K ≅ Gal(𝔽_{q²}/𝔽_q).
+   Hence |Ind(ζ)|² = 2 + ν^{q-1}(ζ) + ν^{1-q}(ζ) (using |ν(ζ)| = 1).
+
+3. **Character orthogonality**: ∑_K ν^{q-1} = 0 (by `sum_nontrivial_char_eq_zero`
+   since ν^q ≠ ν). On 𝔽_q× ⊂ K, ν^{q-1} = 1, so ∑_{K\𝔽_q×} ν^{q-1} = -(q-1).
+   Total: q(q-1)/2 · [2·q(q-1) - 2(q-1)] = q(q-1)/2 · 2(q-1)² = q(q-1)³. -/
+private lemma Etingof.induced_normSq_sum_elliptic
+    [Fintype (GL2 p n)] [Fintype (GaloisField p n)]
+    [DecidableEq (GaloisField p n)]
+    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : n ≠ 0) :
+    ∑ g ∈ Finset.univ.filter (fun g : GL2 p n => GL2.IsElliptic (p := p) (n := n) g),
+      ((Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ)⁻¹ *
+        ∑ x : GL2 p n,
+          if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+          then (nu ⟨x⁻¹ * g * x, h⟩).val
+          else 0) *
+      starRingEnd ℂ ((Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ)⁻¹ *
+        ∑ x : GL2 p n,
+          if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+          then (nu ⟨x⁻¹ * g * x, h⟩).val
+          else 0) =
+    (Fintype.card (GaloisField p n) : ℂ) *
+    ((Fintype.card (GaloisField p n) : ℂ) - 1) ^ 3 := by
+  sorry
+
+open Classical in
 /-- The elliptic contribution to ∑ |χ|² equals q(q-1)³.
 
-The proof decomposes into three steps:
-
-**Step 1 (Conjugacy class decomposition)**: The sum over elliptic elements of
-GL₂(𝔽_q) rewrites as (q(q-1)/2) times the sum over non-scalar elements of K.
-This uses: (a) χ is a class function (all three components — charW₁, charVα₁,
-induced character — are conjugation-invariant), (b) each elliptic conjugacy class
-has |G|/|C_G(ζ)| = |G|/|K| = q(q-1) elements, (c) ζ ~ ζ^q identifies pairs.
-
-**Step 2 (Character values on K)**: For non-scalar ζ ∈ K:
-- charW₁(ζ) = -1 (0 fixed points on P¹ for elliptic elements)
-- charVα₁(ζ) = 0 (no conjugate of elliptic ζ is upper triangular)
-- Ind_K^G ℂ_ν(ζ) = ν(ζ) + ν^q(ζ) (Frobenius formula; normalizer N_G(K)/K ≅ Gal(F_{q²}/F_q))
-So χ(ζ) = -(ν(ζ) + ν^q(ζ)) and |χ(ζ)|² = 2 + ν^{q-1}(ζ) + ν^{1-q}(ζ).
-
-**Step 3 (Character orthogonality)**: Since ν^q ≠ ν, the character ν^{q-1}
-is nontrivial on F_{q²}× ≅ K, so ∑_K ν^{q-1} = 0 (by `sum_nontrivial_char_eq_zero`).
-On F_q× ⊂ K, ν^{q-1} = 1 (since x^q = x for x ∈ F_q×), so ∑_{F_q×} ν^{q-1} = q-1.
-Therefore ∑_{K\F_q×} ν^{q-1} = -(q-1), and similarly for ν^{1-q}.
-Total: 2q(q-1) - 2(q-1) = 2(q-1)². Assembly: q(q-1)/2 · 2(q-1)² = q(q-1)³. -/
+For elliptic g, χ(g) = -Ind_K^G ν(g) (by `complementarySeriesChar_elliptic_eq`),
+so |χ(g)|² = |Ind(g)|². The sum of |Ind|² over elliptic elements equals q(q-1)³
+by conjugacy class decomposition and character orthogonality
+(see `induced_normSq_sum_elliptic`). -/
 private lemma Etingof.elliptic_contribution
     [Fintype (GL2 p n)] [Fintype (GaloisField p n)]
     [DecidableEq (GaloisField p n)]
@@ -749,7 +771,26 @@ private lemma Etingof.elliptic_contribution
       starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) =
     (Fintype.card (GaloisField p n) : ℂ) *
     ((Fintype.card (GaloisField p n) : ℂ) - 1) ^ 3 := by
-  sorry
+  -- Step 1: Rewrite each |χ(g)|² = |Ind(g)|² using complementarySeriesChar_elliptic_eq
+  have hconv : ∀ g ∈ Finset.univ.filter
+      (fun g : GL2 p n => GL2.IsElliptic (p := p) (n := n) g),
+      Etingof.GL2.complementarySeriesChar p n nu g *
+      starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) =
+      ((Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ)⁻¹ *
+        ∑ x : GL2 p n,
+          if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+          then (nu ⟨x⁻¹ * g * x, h⟩).val else 0) *
+      starRingEnd ℂ ((Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ)⁻¹ *
+        ∑ x : GL2 p n,
+          if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+          then (nu ⟨x⁻¹ * g * x, h⟩).val else 0) := by
+    intro g hg
+    rw [Finset.mem_filter] at hg
+    rw [Etingof.complementarySeriesChar_elliptic_eq p n nu g hg.2]
+    simp only [map_neg, neg_mul, mul_neg, neg_neg]
+  rw [Finset.sum_congr rfl hconv]
+  -- Step 2: Apply the helper for the induced character norm-squared sum
+  exact Etingof.induced_normSq_sum_elliptic p n nu hn
 
 /-- Arithmetic identity: contributions from scalar, parabolic, and elliptic conjugacy classes
 sum to |GL₂(𝔽_q)|. Specifically:
