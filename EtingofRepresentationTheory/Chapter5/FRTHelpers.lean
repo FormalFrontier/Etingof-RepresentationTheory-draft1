@@ -1171,7 +1171,20 @@ private lemma YoungDiagram.hookCellsExcl_mem_cells
 /-- Column identity (Property 2 of GNW hook walk).
 
 For each outer corner c, the sum of hook walk weights over all cells
-equals HP(μ)/HP(μ\c). This is the hard direction of the GNW proof. -/
+equals HP(μ)/HP(μ\c). This is the hard direction of the GNW proof.
+
+Available infrastructure:
+- `hookWalkWeight_corner`: w(c,c) = 1
+- `hookWalkWeight_other_corner`: w(c', c) = 0 for corners c' ≠ c
+- `hookWalkWeight_unfold_noncorner`: recursive unfolding for h > 1
+- `hookRatio_arm_leg_decomp`: RHS = ∏_{arm} h/(h-1) × ∏_{leg} h/(h-1)
+- `hookWalkWeight_row_sum`: Property 1 (∑_c w(u,c) = 1)
+- `hookRatio_eq_prod_div`: RHS as product of per-cell ratios
+
+Potential proof strategies:
+1. Induction on |μ.cells| with careful corner-removal commutation
+2. Double counting via Fubini after establishing a per-cell ratio identity
+3. Direct algebraic manipulation of the arm-leg product form -/
 theorem YoungDiagram.hookWalkWeight_col_sum
     (μ : YoungDiagram) {i j : ℕ} (hc : μ.IsOuterCorner i j) :
     μ.cells.sum (fun u => μ.hookWalkWeight u.1 u.2 (i, j)) =
