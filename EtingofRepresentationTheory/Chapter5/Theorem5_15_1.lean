@@ -270,7 +270,6 @@ theorem permModuleCharacter_eq_trace (n : ℕ) (la : Nat.Partition n)
     fun v => rfl
   simp only [hb, hr, Finsupp.mapDomain_single, Finsupp.single_apply,
     Finset.sum_boole]
-  push_cast
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   simp [MulAction.mem_fixedBy]
 
