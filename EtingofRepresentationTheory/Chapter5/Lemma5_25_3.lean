@@ -1103,18 +1103,96 @@ private lemma Etingof.complementaryChar_parabolic_val
   rw [hW, hInd, ha]
   ring
 
-private lemma Etingof.normSq_complementaryChar_parabolic
-    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
-    [Fintype (GL2 p n)]
-    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
-    (g : GL2 p n) (hg : GL2.IsParabolic (p := p) (n := n) g) :
-    Etingof.GL2.complementarySeriesChar p n nu g *
-    starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
-  obtain ⟨a, ha⟩ := Etingof.complementaryChar_parabolic_val p n nu g hg
-  set alpha := nu.comp (Etingof.GL2.scalarToElliptic p n)
-  rw [ha]
-  simp only [map_neg, neg_mul, mul_neg, neg_neg]
-  exact Etingof.normSq_monoidHom_val_eq_one alpha a
+/-- For an upper-triangular conjugate of a disc=0 element, the diagonal entries are equal. -/
+private lemma Etingof.upper_tri_conj_diag_eq
+    (g x : GL2 p n)
+    (hdisc : GL2.disc g = 0) (hut : (x⁻¹ * g * x).val 1 0 = 0) :
+    (x⁻¹ * g * x).val 0 0 = (x⁻¹ * g * x).val 1 1 := by
+  have hdisc_conj : GL2.disc (x⁻¹ * g * x : GL2 p n) = 0 := by
+    rw [Etingof.disc_conj_eq p n g x]; exact hdisc
+  simp only [GL2.disc_eq] at hdisc_conj
+  rw [hut, mul_zero, add_zero] at hdisc_conj
+  exact sub_eq_zero.mp (pow_eq_zero_iff (by omega : 2 ≠ 0) |>.mp hdisc_conj)
+
+/-- For an upper-triangular conjugate of a disc=0 invertible element, the (0,0) entry is nonzero. -/
+private lemma Etingof.upper_tri_conj_diag_ne_zero
+    (g x : GL2 p n)
+    (hdisc : GL2.disc g = 0) (hut : (x⁻¹ * g * x).val 1 0 = 0) :
+    (x⁻¹ * g * x).val 0 0 ≠ 0 := by
+  intro h
+  have heq := Etingof.upper_tri_conj_diag_eq p n g x hdisc hut
+  -- det(x⁻¹gx) = det(g) by conjugation invariance
+  have hval : (x⁻¹ * g * x).val = x.val⁻¹ * g.val * x.val := by simp [Units.val_mul]
+  have hdet_eq : Matrix.det g.val = Matrix.det (x⁻¹ * g * x).val := by
+    rw [show (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val from by simp [Units.val_mul]]
+    exact (Matrix.det_units_conj' x g.val).symm
+  -- det(x⁻¹gx) = M₀₀·M₁₁ - M₀₁·0 = 0·0 = 0
+  have hdet_zero : Matrix.det (x⁻¹ * g * x).val = 0 := by
+    rw [Matrix.det_fin_two]
+    rw [hut, mul_zero, sub_zero, h, zero_mul]
+  -- But g is a unit ⇒ det(g) ≠ 0
+  have hg_unit : IsUnit g.val := g.isUnit
+  rw [Matrix.isUnit_iff_isUnit_det] at hg_unit
+  exact hg_unit.ne_zero (hdet_eq.trans hdet_zero)
+
+/-- For an upper-triangular conjugate of a disc=0 element, M₀₀² = det(g). -/
+private lemma Etingof.upper_tri_conj_00_sq_eq_det
+    (g x : GL2 p n)
+    (hdisc : GL2.disc g = 0) (hut : (x⁻¹ * g * x).val 1 0 = 0) :
+    (x⁻¹ * g * x).val 0 0 ^ 2 = Matrix.det g.val := by
+  have heq := Etingof.upper_tri_conj_diag_eq p n g x hdisc hut
+  -- det(x⁻¹gx) = M₀₀ · M₁₁ - M₀₁ · 0 = M₀₀ · M₀₀ = M₀₀²
+  have hdet_conj : Matrix.det (x⁻¹ * g * x).val = (x⁻¹ * g * x).val 0 0 ^ 2 := by
+    rw [Matrix.det_fin_two, hut, mul_zero, sub_zero, heq, sq]
+  -- det(x⁻¹gx) = det(g) by conjugation invariance
+  have hdet_eq : Matrix.det (x⁻¹ * g * x).val = Matrix.det g.val := by
+    rw [show (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val from by simp [Units.val_mul]]
+    exact Matrix.det_units_conj' x g.val
+  rw [← hdet_conj, hdet_eq]
+
+/-- For an upper-triangular conjugate of a disc=0 element, 2 · M₀₀ = tr(g).
+In characteristic ≠ 2, this uniquely determines M₀₀ = tr(g)/2. -/
+private lemma Etingof.upper_tri_conj_00_trace
+    (g x : GL2 p n)
+    (hdisc : GL2.disc g = 0) (hut : (x⁻¹ * g * x).val 1 0 = 0) :
+    2 * (x⁻¹ * g * x).val 0 0 = Matrix.trace g.val := by
+  have heq := Etingof.upper_tri_conj_diag_eq p n g x hdisc hut
+  have hval : (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val := by simp [Units.val_mul]
+  -- trace(x⁻¹gx) = trace(g)
+  have htr : (x⁻¹ * g * x).val 0 0 + (x⁻¹ * g * x).val 1 1 =
+      g.val 0 0 + g.val 1 1 := by
+    have := Matrix.trace_units_conj' x g.val
+    simp only [Matrix.trace_fin_two] at this
+    rw [hval]; exact this
+  -- htr: M₀₀ + M₁₁ = g₀₀ + g₁₁, heq: M₀₀ = M₁₁
+  -- Want: 2 * M₀₀ = g₀₀ + g₁₁
+  simp only [Matrix.trace_fin_two]
+  linear_combination htr + heq
+
+/-- In characteristic ≠ 2, all upper-triangular conjugates of a disc=0 element
+have the same (0,0) entry: tr(g)/2. -/
+private lemma Etingof.upper_tri_conj_00_unique
+    (hp2 : p ≠ 2)
+    (g x y : GL2 p n)
+    (hdisc : GL2.disc g = 0)
+    (hut_x : (x⁻¹ * g * x).val 1 0 = 0)
+    (hut_y : (y⁻¹ * g * y).val 1 0 = 0) :
+    (x⁻¹ * g * x).val 0 0 = (y⁻¹ * g * y).val 0 0 := by
+  have h2 : (2 : GaloisField p n) ≠ 0 := by
+    intro h
+    -- GaloisField p n has characteristic p (inherited from ZMod p via algebra)
+    have hchar2 : CharP (GaloisField p n) 2 :=
+      (CharP.charP_iff_prime_eq_zero (by decide)).mpr h
+    have hp_char : CharP (GaloisField p n) p := by
+      haveI : Algebra (ZMod p) (GaloisField p n) := inferInstance
+      exact charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
+    have := CharP.eq (GaloisField p n) hp_char hchar2
+    exact hp2 this
+  have hx := Etingof.upper_tri_conj_00_trace p n g x hdisc hut_x
+  have hy := Etingof.upper_tri_conj_00_trace p n g y hdisc hut_y
+  have : 2 * (x⁻¹ * g * x).val 0 0 = 2 * (y⁻¹ * g * y).val 0 0 := by
+    rw [hx, hy]
+  exact mul_left_cancel₀ h2 this
 
 /-- A quadratic polynomial a*x² + b*x + c over a field of char ≠ 2 with a ≠ 0 and
 discriminant b² - 4ac ≠ 0 being a square has exactly 2 roots. -/
@@ -1508,6 +1586,20 @@ private lemma Etingof.parabolic_conj_not_in_ellipticSubgroup
     have hconj_scalar' : GL2.IsScalar (p := p) (n := n) (x⁻¹ * g * x) := hα ▸ hconj_scalar
     exact hnotscalar (Etingof.conj_isScalar p n g x hconj_scalar')
 
+private lemma Etingof.normSq_complementaryChar_parabolic
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
+    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
+    (g : GL2 p n) (hg : GL2.IsParabolic (p := p) (n := n) g) :
+    Etingof.GL2.complementarySeriesChar p n nu g *
+    starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
+  obtain ⟨a, ha⟩ := Etingof.complementaryChar_parabolic_val p n nu g hg
+  set alpha := nu.comp (Etingof.GL2.scalarToElliptic p n)
+  rw [ha]
+  simp only [map_neg, neg_mul, mul_neg, neg_neg]
+  exact Etingof.normSq_monoidHom_val_eq_one alpha a
+
 /-- On elliptic elements, charVα₁ = 0 (no conjugate is upper triangular).
 If x⁻¹gx were upper triangular, its (1,0) entry would be 0, making
 disc(x⁻¹gx) = (M₀₀-M₁₁)², a perfect square. But disc(x⁻¹gx) = disc(g)
@@ -1769,7 +1861,7 @@ private lemma Etingof.innerProduct_sum_eq_card
     have hval : ∀ g ∈ Finset.univ.filter (fun g => GL2.IsParabolic (p := p) (n := n) g),
         f g = 1 := fun g hg => by
       rw [Finset.mem_filter] at hg
-      exact Etingof.normSq_complementaryChar_parabolic p n nu g hg.2
+      exact Etingof.normSq_complementaryChar_parabolic p n hp2 nu g hg.2
     rw [Finset.sum_congr rfl hval, Finset.sum_const, GL2.card_isParabolic hp2 hn_ne, nsmul_eq_mul,
       mul_one]
     have h1 : 1 ≤ q := by omega
