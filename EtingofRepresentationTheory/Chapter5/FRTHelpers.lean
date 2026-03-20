@@ -821,6 +821,107 @@ private lemma YoungDiagram.hookRatio_eq_prod_div
   push_cast
   rw [Finset.prod_div_distrib]
 
+/-- Empty diagram has no outer corners. -/
+private lemma YoungDiagram.outerCorners_eq_empty_of_cells_eq_empty
+    {μ : YoungDiagram} (h : μ.cells = ∅) : μ.outerCorners = ∅ := by
+  simp only [outerCorners, h]
+  simp
+
+/-- If c₀ and c are distinct outer corners of μ, then c remains
+an outer corner of μ after removing c₀. -/
+private lemma YoungDiagram.IsOuterCorner.persist_removeCorner
+    {μ : YoungDiagram} {i₀ j₀ i j : ℕ}
+    (hc₀ : μ.IsOuterCorner i₀ j₀) (hc : μ.IsOuterCorner i j)
+    (hne : (i, j) ≠ (i₀, j₀)) :
+    (μ.removeCorner i₀ j₀ hc₀).IsOuterCorner i j := by
+  refine ⟨(mem_removeCorner_iff hc₀).mpr ⟨hc.1, hne⟩, ?_, ?_⟩
+  · -- (i+1, j) ∉ removeCorner: it's not in μ (since (i,j) is outer corner)
+    intro hmem
+    have : (i + 1, j) ∈ μ.cells := by
+      rw [removeCorner] at hmem
+      exact (Finset.mem_erase.mp hmem).2
+    exact hc.2.1 this
+  · -- (i, j+1) ∉ removeCorner: it's not in μ (since (i,j) is outer corner)
+    intro hmem
+    have : (i, j + 1) ∈ μ.cells := by
+      rw [removeCorner] at hmem
+      exact (Finset.mem_erase.mp hmem).2
+    exact hc.2.2 this
+
+/-- Corners of μ other than c₀ remain corners in μ \ c₀. -/
+private lemma YoungDiagram.outerCorner_of_removeCorner
+    {μ : YoungDiagram} {i₀ j₀ : ℕ}
+    (hc₀ : μ.IsOuterCorner i₀ j₀)
+    {c : ℕ × ℕ} (hc_oc : c ∈ μ.outerCorners) (hne : c ≠ (i₀, j₀)) :
+    c ∈ (μ.removeCorner i₀ j₀ hc₀).outerCorners := by
+  have hc := YoungDiagram.mem_outerCorners.mp hc_oc
+  exact YoungDiagram.mem_outerCorners.mpr
+    (YoungDiagram.IsOuterCorner.persist_removeCorner hc₀ hc hne)
+
+/-- Hook length strictly decreases when moving right within a row. -/
+private lemma YoungDiagram.hookLength_lt_of_right
+    {μ : YoungDiagram} {a b b' : ℕ}
+    (hb : (a, b) ∈ μ.cells) (hb' : (a, b') ∈ μ.cells)
+    (hlt : b < b') :
+    μ.hookLength a b' < μ.hookLength a b := by
+  have h1 := YoungDiagram.hookLength_pos μ a b hb
+  have h2 := YoungDiagram.hookLength_pos μ a b' hb'
+  unfold YoungDiagram.hookLength at h1 h2 ⊢
+  have hcb' : b' < μ.colLen b' := YoungDiagram.mem_iff_lt_colLen.mp hb'
+  have hanti := μ.colLen_anti (Nat.le_of_lt hlt)
+  omega
+
+/-- Hook length strictly decreases when moving down within a column. -/
+private lemma YoungDiagram.hookLength_lt_of_down
+    {μ : YoungDiagram} {a a' b : ℕ}
+    (ha : (a, b) ∈ μ.cells) (ha' : (a', b) ∈ μ.cells)
+    (hlt : a < a') :
+    μ.hookLength a' b < μ.hookLength a b := by
+  have h1 := YoungDiagram.hookLength_pos μ a b ha
+  have h2 := YoungDiagram.hookLength_pos μ a' b ha'
+  unfold YoungDiagram.hookLength at h1 h2 ⊢
+  have hra : b < μ.rowLen a := YoungDiagram.mem_iff_lt_rowLen.mp ha
+  have hra' : b < μ.rowLen a' := YoungDiagram.mem_iff_lt_rowLen.mp ha'
+  have hanti := μ.rowLen_anti (Nat.le_of_lt hlt)
+  omega
+
+/-- Hook length at an outer corner is exactly 1.
+(This strengthens hookLength_outerCorner: h = 1 iff it's an outer corner.) -/
+private lemma YoungDiagram.hookLength_eq_one_iff_outerCorner
+    {μ : YoungDiagram} {i j : ℕ} (h : (i, j) ∈ μ.cells) :
+    μ.hookLength i j = 1 ↔ μ.IsOuterCorner i j := by
+  constructor
+  · intro heq
+    refine ⟨h, ?_, ?_⟩
+    · intro hmem
+      have h1 := YoungDiagram.hookLength_lt_of_down h hmem (Nat.lt_succ_of_le le_rfl)
+      have h2 := YoungDiagram.hookLength_pos μ (i + 1) j hmem
+      omega
+    · intro hmem
+      have h1 := YoungDiagram.hookLength_lt_of_right h hmem (Nat.lt_succ_of_le le_rfl)
+      have h2 := YoungDiagram.hookLength_pos μ i (j + 1) hmem
+      omega
+  · exact fun hc => YoungDiagram.hookLength_outerCorner hc
+
+/-- The hook quotient identity: ∑_{c ∈ outerCorners} HP(μ)/HP(μ\c) = |μ|.
+
+This is a deep combinatorial identity. The proof uses the Greene–Nijenhuis–Wilf
+hook walk argument: define a weight function w(u,c) for each cell u and corner c
+such that ∑_c w(u,c) = 1 (rows sum to 1) and ∑_u w(u,c) = HP(μ)/HP(μ\c)
+(columns give the hook ratio). Then swap sums: n = ∑_u 1 = ∑_c HP/HP(μ\c).
+
+The weight function is defined by the hook walk: from cell u, at each step
+pick uniformly from the h(u)-1 other cells in hook(u), recurse.
+w(u,c) = (1/(h(u)-1)) × ∑_{v ∈ hook(u)\{u}} w(v,c) for non-corners.
+w(u,c) = δ(u,c) for corners (where h(u) = 1).
+
+Infrastructure needed:
+- hookLength_lt_of_right/down: hook lengths strictly decrease along walks
+- hookWalkWeight definition by WF recursion on hookLength
+- Property 1: ∑_c w(u,c) = 1 (by induction on hookLength)
+- Property 2: ∑_u w(u,c) = HP(μ)/HP(μ\c) (the hard GNW lemma)
+- Fubini: swap the finite double sum
+-/
 private lemma YoungDiagram.hook_quotient_identity_yd
     (μ : YoungDiagram) :
     μ.outerCorners.attach.sum (fun c =>
