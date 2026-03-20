@@ -1517,12 +1517,95 @@ private theorem sum_fin_subset_le_sum_top (n : ℕ) (S : Finset (Fin n))
     (k : ℕ) (hk : k ≤ n) (hcard : S.card = k) :
     S.sum (fun j => (j.val : ℤ)) ≤
     ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) := by
-  -- Complement argument: any m-subset has sum ≥ 0+1+...+(m-1)
-  -- So ∑(univ\S) ≥ 0+1+...+(n-k-1) = ∑(univ\top_k)
-  -- And ∑S = total - ∑(univ\S) ≤ total - ∑(univ\top_k) = ∑top_k
-  -- The i-th element of Finset.sort gives s_i ≥ i (by induction on nodup sorted list)
-  -- Then ∑ s_i ≥ ∑ i
-  sorry
+  -- Strategy: complement argument. sum(S) + sum(Sᶜ) = sum(univ).
+  -- Any m-element subset of Fin n has val-sum ≥ 0+1+...+(m-1).
+  -- So sum(Sᶜ) ≥ 0+1+...+(n-k-1), hence sum(S) ≤ sum(univ) - that = sum(top k).
+  -- Strengthened induction: if all elements of T have val ≥ b, then sum ≥ ∑_{i<m} (b+i).
+  suffices hmin : ∀ (T : Finset (Fin n)) (m b : ℕ), T.card = m →
+      (∀ j ∈ T, b ≤ j.val) →
+      ∑ i ∈ Finset.range m, ((b + i : ℕ) : ℤ) ≤ T.sum (fun j => (j.val : ℤ)) by
+    -- Apply to complement with b = 0
+    have hSc_card : (Finset.univ \ S).card = n - k := by
+      rw [Finset.card_sdiff_of_subset (Finset.subset_univ S), Finset.card_univ,
+        Fintype.card_fin, hcard]
+    have hSc_lb := hmin _ _ 0 hSc_card (fun j _ => Nat.zero_le _)
+    simp at hSc_lb
+    have huniv : Finset.univ.sum (fun j : Fin n => (j.val : ℤ)) =
+        ∑ i ∈ Finset.range n, (i : ℤ) := by
+      rw [← Fin.sum_univ_eq_sum_range]
+    have hS_eq : S.sum (fun j => (j.val : ℤ)) =
+        Finset.univ.sum (fun j : Fin n => (j.val : ℤ)) -
+        (Finset.univ \ S).sum (fun j => (j.val : ℤ)) := by
+      have := Finset.sum_sdiff (f := fun j : Fin n => (j.val : ℤ)) (Finset.subset_univ S)
+      linarith
+    rw [hS_eq, huniv]
+    suffices hrhs : ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) =
+        ∑ i ∈ Finset.range n, (i : ℤ) - ∑ i ∈ Finset.range (n - k), (i : ℤ) by
+      linarith
+    have : ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) =
+        ∑ i ∈ Finset.range k, ((n : ℤ) - 1 - i) := by
+      apply Finset.sum_congr rfl; intro i hi
+      simp at hi; push_cast; omega
+    rw [this]
+    rw [Finset.sum_sub_distrib]
+    simp only [Finset.sum_const, Finset.card_range, nsmul_eq_mul]
+    -- Goal: ↑k * (↑n - 1) - ∑ i in range k, ↑i = ∑ i in range n, ↑i - ∑ i in range (n-k), ↑i
+    -- Use Gauss formula: ∑ i in range m, (i : ℤ) = m * (m - 1) / 2
+    -- All sums are over ℤ, but with Nat values. Use omega on the Nat level.
+    -- Actually ∑ i in range m, (i : ℤ) is hard for omega. Let's use linarith with Gauss.
+    have gauss : ∀ p : ℕ, 2 * ∑ i ∈ Finset.range p, (i : ℤ) = (p : ℤ) * ((p : ℤ) - 1) := by
+      intro p; induction p with
+      | zero => simp
+      | succ p ih => rw [Finset.sum_range_succ]; push_cast; linarith
+    have g1 := gauss k; have g2 := gauss n; have g3 := gauss (n - k)
+    -- Substitute ↑(n - k) = ↑n - ↑k in g3
+    have hnk : ((n - k : ℕ) : ℤ) = (n : ℤ) - k := by omega
+    rw [hnk] at g3
+    -- Now g3 : 2 * ∑ i ∈ range (n-k), ↑i = (↑n - ↑k) * (↑n - ↑k - 1)
+    nlinarith
+  -- Proof of hmin by induction on m
+  intro T m b hT hb
+  induction m generalizing T b with
+  | zero =>
+    rw [Finset.card_eq_zero.mp hT]; simp
+  | succ m ih =>
+    have hT_nonempty : T.Nonempty := Finset.card_pos.mp (hT ▸ Nat.succ_pos m)
+    obtain ⟨t_min, ht_min_mem, ht_min_le⟩ :=
+      T.exists_min_image (fun j : Fin n => j.val) hT_nonempty
+    set T' := T.erase t_min
+    have hT'_card : T'.card = m := by
+      rw [Finset.card_erase_of_mem ht_min_mem, hT]; rfl
+    -- Every j ∈ T' has j.val ≥ t_min.val + 1
+    have hT'_lb : ∀ j ∈ T', t_min.val + 1 ≤ j.val := by
+      intro j hj
+      have hj_mem : j ∈ T := Finset.mem_of_mem_erase hj
+      have hj_ne : j ≠ t_min := Finset.ne_of_mem_erase hj
+      exact Nat.lt_of_le_of_ne (ht_min_le j hj_mem) (fun h => hj_ne (Fin.ext h).symm)
+    -- Apply ih to T' with b' = t_min.val + 1
+    have hih := ih T' (t_min.val + 1) hT'_card hT'_lb
+    -- sum(T) = t_min.val + sum(T')
+    have hsum_split : T.sum (fun j => (j.val : ℤ)) =
+        (t_min.val : ℤ) + T'.sum (fun j => (j.val : ℤ)) := by
+      rw [← Finset.add_sum_erase _ _ ht_min_mem]
+    rw [hsum_split, Finset.sum_range_succ']
+    -- LHS of goal: ∑ i < m+1, (b+i) = (b+0) + ∑ i < m, (b+1+i)
+    -- which matches t_min.val + sum(T') via hih
+    push_cast
+    have hb_le : (b : ℤ) ≤ t_min.val := Int.ofNat_le.mpr (hb t_min ht_min_mem)
+    -- Normalize hih to use separate Int casts
+    have hih' : ∑ i ∈ Finset.range m, ((t_min.val : ℤ) + 1 + i) ≤
+        T'.sum (fun j => (j.val : ℤ)) := by
+      refine le_trans ?_ hih
+      apply Finset.sum_le_sum; intro i _; push_cast; omega
+    -- The goal after push_cast is:
+    -- ∑ x ∈ range m, (↑b + (↑x + 1)) + (↑b + 0) ≤ ↑t_min.val + sum(T')
+    -- Rewrite to a cleaner form
+    change ∑ x ∈ Finset.range m, ((b : ℤ) + (↑x + 1)) + ((b : ℤ) + 0) ≤
+        (t_min.val : ℤ) + T'.sum (fun j => (j.val : ℤ))
+    have h1 : ∑ x ∈ Finset.range m, ((b : ℤ) + (↑x + 1)) ≤
+        ∑ x ∈ Finset.range m, ((t_min.val : ℤ) + 1 + ↑x) :=
+      Finset.sum_le_sum (fun i _ => by linarith)
+    linarith [hih']
 
 /-- Partial sums of rhoShift dominate partial sums of permExponent:
 ∑_{i<k} ρ(i) ≥ ∑_{i<k} e_π(i) for all k. This is because ρ picks the top k
