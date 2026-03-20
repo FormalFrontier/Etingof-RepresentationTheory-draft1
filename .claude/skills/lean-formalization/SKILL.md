@@ -55,6 +55,7 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 - Don't invent type classes. If Mathlib doesn't have a concept, use a `structure` or `def` with explicit fields.
 - Don't use `True` as a placeholder for propositions — it compiles but hides the real requirement.
 - Check that universe levels are consistent. Representation theory often needs `Type*` not `Type`.
+- **WF-recursive definitions** (`termination_by`): Don't use `rw [f]` or `simp [f]` to unfold — they fail on WF-recursive functions. Instead, prove a separate `have` using `unfold f` (works inside `conv` blocks), or extract a standalone unfolding lemma.
 
 ### 2. Scaffold: Set Up the Proof Structure
 
@@ -123,7 +124,7 @@ Mathlib.LinearAlgebra.TensorProduct.Basic
 Mathlib.GroupTheory.GroupAction.Basic
 ```
 
-**When Mathlib doesn't have it:** Check the `.refs.md` file for the item. If coverage is "gap", you need to build the definition from scratch. State it clearly, add a comment `-- not in Mathlib as of v4.28`, and use sorry for the proof.
+**When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
 ## Scaffolding Anti-Patterns
 
