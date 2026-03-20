@@ -938,7 +938,140 @@ private lemma Etingof.charVα₁_parabolic_upperTri
   -- For x with (x⁻¹gx)₁₀ = 0: x.val 1 0 = 0 (by parabolic_upperTri_count)
   -- and conversely, any upper-tri invertible x gives upper-tri conjugate
   -- Count of upper-tri GL₂ = (q-1)²·q = borelCard
-  sorry
+  -- Step 1: The filter set equals {x : GL₂ | x₁₀ = 0}
+  have hfilt_eq : (Finset.univ.filter fun x : GL2 p n => (x⁻¹ * g * x : GL2 p n).val 1 0 = 0) =
+      (Finset.univ.filter fun x : GL2 p n => x.val 1 0 = 0) := by
+    ext x; simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    constructor
+    · exact Etingof.parabolic_upperTri_count p n g hg h10 x
+    · -- Converse: if x₁₀ = 0 and g₁₀ = 0, then (x⁻¹gx)₁₀ = 0
+      intro hx10
+      -- From x * x⁻¹ = 1, entry (1,0): x₁₀ * (x⁻¹)₀₀ + x₁₁ * (x⁻¹)₁₀ = 0
+      have hxxinv : x.val * x⁻¹.val = 1 := by
+        rw [← Units.val_mul]; simp
+      have h10_eq : (x.val * x⁻¹.val) 1 0 = (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 := by
+        rw [hxxinv]
+      simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] at h10_eq
+      -- h10_eq: x₁₀ * (x⁻¹)₀₀ + x₁₁ * (x⁻¹)₁₀ = 0
+      have hxinv10 : x⁻¹.val 1 0 = 0 := by
+        simp only [hx10, zero_mul, zero_add, Fin.isValue, Matrix.one_apply,
+          one_ne_zero, ite_false] at h10_eq
+        -- h10_eq : x.val 1 1 * x⁻¹.val 1 0 = 0
+        -- x₁₁ ≠ 0 since det(x) ≠ 0 and x₁₀ = 0
+        have hdet_ne : Matrix.det x.val ≠ 0 := by
+          intro hdet0
+          have hiu := x.isUnit
+          rw [Matrix.isUnit_iff_isUnit_det] at hiu
+          exact hiu.ne_zero hdet0
+        have hdet' : x.val 0 0 * x.val 1 1 ≠ 0 := by
+          rw [Matrix.det_fin_two] at hdet_ne
+          rwa [hx10, mul_zero, sub_zero] at hdet_ne
+        have hx11_ne : x.val 1 1 ≠ 0 := right_ne_zero_of_mul hdet'
+        exact (mul_eq_zero.mp h10_eq).resolve_left hx11_ne
+      -- Now compute (x⁻¹ * g * x).val 1 0
+      have hmul : (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val := by simp [Units.val_mul]
+      rw [show (x⁻¹ * g * x : GL2 p n).val 1 0 = (x⁻¹.val * g.val * x.val) 1 0 from by
+        simp [Units.val_mul]]
+      simp only [Matrix.mul_apply, Fin.sum_univ_two]
+      rw [hxinv10, h10, hx10]
+      ring
+  rw [hfilt_eq]
+  -- Step 2: Count {x : GL₂ | x₁₀ = 0} = (q-1)²·q
+  -- Upper-tri invertible = x₀₀ ≠ 0, x₁₁ ≠ 0, x₀₁ arbitrary
+  -- This has cardinality (q-1) · q · (q-1) = (q-1)²·q = borelCard
+  -- Goal: borelCard⁻¹ * (↑(filter card) * ↑(alpha ...)) = ↑(alpha ...)
+  -- Suffices: borelCard⁻¹ * borelCard = 1, i.e. filter card = borelCard as ℕ
+  -- Then rearrange: borelCard⁻¹ * borelCard * α = 1 * α = α
+  -- First show borelCard ≠ 0 (need q ≥ 2)
+  set q := Fintype.card (GaloisField p n) with hq_def
+  have hq_ge : 1 < q := Fintype.one_lt_card
+  have hq_pos : 0 < q := by omega
+  have hq1_pos : 0 < q - 1 := by omega
+  -- borelCard as ℕ
+  set bc_nat := (q - 1) ^ 2 * q with hbc_nat_def
+  have hbc_nat_pos : 0 < bc_nat := by positivity
+  have hbc_ne_zero : (bc_nat : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
+  -- Show filter card = bc_nat
+  suffices hcard : (Finset.univ.filter fun x : GL2 p n => x.val 1 0 = 0).card = bc_nat by
+    rw [hcard]
+    -- Goal: borelCard⁻¹ * ((bc_nat : ℂ) * α(...)) = α(...)
+    rw [show borelCard = (bc_nat : ℂ) from rfl]
+    rw [inv_mul_cancel_left₀ hbc_ne_zero]
+  -- Build bijection: {x : GL₂ | x₁₀ = 0} ≃ F_q× × F_q × F_q×
+  -- Forward: x ↦ (x₀₀, x₀₁, x₁₁) where x₀₀, x₁₁ are units
+  -- Backward: (w, u, z) ↦ [[w, u], [0, z]] ∈ GL₂
+  -- Helper: for x ∈ GL₂ with x₁₀ = 0, det = x₀₀*x₁₁ ≠ 0
+  have hdet_entries (x : GL2 p n) (hx : x.val 1 0 = 0) :
+      x.val 0 0 * x.val 1 1 ≠ 0 := by
+    have hiu := x.isUnit
+    rw [Matrix.isUnit_iff_isUnit_det] at hiu
+    have hdet_ne := hiu.ne_zero
+    rw [Matrix.det_fin_two, hx, mul_zero, sub_zero] at hdet_ne
+    exact hdet_ne
+  set S := Finset.univ.filter (fun x : GL2 p n => x.val 1 0 = 0) with hS_def
+  -- Count via surjection from F_q× × F_q × F_q×
+  set T := (Finset.univ : Finset ((GaloisField p n)ˣ × GaloisField p n × (GaloisField p n)ˣ))
+  have hTcard : T.card = bc_nat := by
+    rw [hbc_nat_def]
+    change Fintype.card ((GaloisField p n)ˣ × GaloisField p n × (GaloisField p n)ˣ) =
+      (q - 1) ^ 2 * q
+    rw [Fintype.card_prod, Fintype.card_prod, Fintype.card_units, ← hq_def]
+    -- Goal: (q - 1) * (q * (q - 1)) = (q - 1) ^ 2 * q
+    nlinarith [sq_nonneg (q - 1), hq1_pos]
+  rw [← hTcard]
+  -- Define forward map
+  let fwd : (x : GL2 p n) → x ∈ S → (GaloisField p n)ˣ × GaloisField p n × (GaloisField p n)ˣ :=
+    fun x hxS =>
+      let hx := (Finset.mem_filter.mp hxS).2
+      (Units.mk0 (x.val 0 0) (left_ne_zero_of_mul (hdet_entries x hx)),
+       x.val 0 1,
+       Units.mk0 (x.val 1 1) (right_ne_zero_of_mul (hdet_entries x hx)))
+  apply Finset.card_bij fwd
+  · -- fwd maps into T
+    intro x _; exact Finset.mem_univ _
+  · -- fwd is injective
+    intro x₁ hx₁ x₂ hx₂ heq
+    have hx10_1 := (Finset.mem_filter.mp hx₁).2
+    have hx10_2 := (Finset.mem_filter.mp hx₂).2
+    have h00 : x₁.val 0 0 = x₂.val 0 0 := by
+      have := congr_arg (fun t : (GaloisField p n)ˣ × GaloisField p n × (GaloisField p n)ˣ =>
+        (t.1 : GaloisField p n)) heq
+      simpa [fwd] using this
+    have h01 : x₁.val 0 1 = x₂.val 0 1 := by
+      have := congr_arg (fun t : (GaloisField p n)ˣ × GaloisField p n × (GaloisField p n)ˣ =>
+        t.2.1) heq
+      simpa [fwd] using this
+    have h11 : x₁.val 1 1 = x₂.val 1 1 := by
+      have := congr_arg (fun t : (GaloisField p n)ˣ × GaloisField p n × (GaloisField p n)ˣ =>
+        (t.2.2 : GaloisField p n)) heq
+      simpa [fwd] using this
+    exact Matrix.GeneralLinearGroup.ext fun i j => by
+      fin_cases i <;> fin_cases j <;> simp_all
+  · -- fwd is surjective: for (w, u, z) build [[w, u], [0, z]]
+    intro ⟨w, u, z⟩ _
+    have hdet : Matrix.det !![↑w, u; (0 : GaloisField p n), ↑z] ≠ 0 := by
+      simp [Matrix.det_fin_two, w.ne_zero, z.ne_zero]
+    set mat := !![↑w, u; (0 : GaloisField p n), ↑z]
+    set M := Matrix.GeneralLinearGroup.mkOfDetNeZero mat hdet
+    have hMval : M.val = mat := by
+      simp [M, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+            Matrix.unitOfDetInvertible]
+    have hM10 : M.val 1 0 = 0 := by
+      rw [hMval]; simp [mat, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_fin_const]
+    have hM00 : M.val 0 0 = ↑w := by
+      rw [hMval]; simp [mat, Matrix.cons_val_zero, Matrix.vecHead]
+    have hM01 : M.val 0 1 = u := by
+      rw [hMval]; simp [mat, Matrix.cons_val_zero, Matrix.cons_val_one,
+            Matrix.vecHead, Matrix.vecTail]
+    have hM11 : M.val 1 1 = ↑z := by
+      rw [hMval]; simp [mat, Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+    have hMS : M ∈ S := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hM10⟩
+    refine ⟨M, hMS, ?_⟩
+    simp only [fwd]
+    refine Prod.ext ?_ (Prod.ext ?_ ?_)
+    · exact Units.ext hM00
+    · exact hM01
+    · exact Units.ext hM11
 
 /-- For parabolic g, charVα₁(g) = α(a) for some unit a (the repeated eigenvalue).
 
@@ -956,20 +1089,124 @@ private lemma Etingof.charVα₁_parabolic
   · -- Already upper-triangular, apply charVα₁_parabolic_upperTri
     exact ⟨Units.mk0 (g.val 0 0) (Etingof.parabolic_diag_ne_zero p n g hg h10),
            Etingof.charVα₁_parabolic_upperTri p n alpha g hg h10⟩
-  · -- g₁₀ ≠ 0: conjugate to make it upper-triangular.
-    -- The eigenvector for eigenvalue λ = g₀₀ + g₁₀⁻¹*(some expression) gives
-    -- a change of basis matrix y such that (y⁻¹gy)₁₀ = 0.
-    -- Since disc(g) = 0: (g₀₀ - g₁₁)² = -4·g₀₁·g₁₀.
-    -- The eigenvalue is λ = (g₀₀ + g₁₁)/2 (both eigenvalues equal).
-    -- Column [[1], [(λ - g₀₀)/g₀₁]] ... or just [[g₀₁], [λ - g₀₀]] if g₀₁ ≠ 0
-    -- Or since g₁₀ ≠ 0, the vector [[(g₁₁ - g₀₀)/(2*g₁₀)], [1]] is an eigenvector.
-    -- But over char 2, "divide by 2" doesn't work.
-    -- Simpler: since g₁₀ ≠ 0, just conjugate by [[1,0],[c,1]] for suitable c.
-    -- After conjugation by y = [[1,0],[c,1]]:
-    -- (y⁻¹gy)₁₀ = c*(g₀₀ - g₁₁) + g₁₀ + c²*g₀₁
-    -- Wait, need to find c such that this is 0.
-    -- For now, sorry the triangularization.
-    sorry
+  · -- g₁₀ ≠ 0: conjugate to make it upper-triangular, then apply the upper-tri case.
+    -- Use charVα₁_conj to transfer: charVα₁(g) = charVα₁(y⁻¹gy) for any y.
+    -- Construct y such that (y⁻¹gy)₁₀ = 0.
+    obtain ⟨hdisc, hnotscalar⟩ := hg
+    have hdisc' : (g.val 0 0 - g.val 1 1) ^ 2 + 4 * g.val 0 1 * g.val 1 0 = 0 := by
+      rwa [← GL2.disc_eq]
+    -- Case split on g₀₁
+    by_cases h01 : g.val 0 1 = 0
+    · -- g₀₁ = 0: disc = (g₀₀-g₁₁)² = 0, so g₀₀ = g₁₁. Use swap matrix [[0,1],[1,0]].
+      have h00_eq_11 : g.val 0 0 = g.val 1 1 := by
+        have : (g.val 0 0 - g.val 1 1) ^ 2 = 0 := by rw [h01] at hdisc'; linear_combination hdisc'
+        exact sub_eq_zero.mp (pow_eq_zero_iff (by omega : 2 ≠ 0) |>.mp this)
+      -- Construct the swap matrix y = [[0,1],[1,0]]
+      have hdet_swap : Matrix.det !![(0 : GaloisField p n), 1; 1, 0] ≠ 0 := by
+        simp [Matrix.det_fin_two]
+      set y := Matrix.GeneralLinearGroup.mkOfDetNeZero
+        !![(0 : GaloisField p n), 1; 1, 0] hdet_swap
+      have hyval : y.val = !![(0 : GaloisField p n), 1; 1, 0] := by
+        simp [y, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+              Matrix.unitOfDetInvertible]
+      -- Compute (y⁻¹gy)₁₀: For swap, y⁻¹gy swaps rows/cols, giving [[g₁₁,g₁₀],[g₀₁,g₀₀]]
+      -- So (y⁻¹gy)₁₀ = g₀₁ = 0
+      set g' := y⁻¹ * g * y with hg'_def
+      have hg'10 : g'.val 1 0 = 0 := by
+        -- Use y * g' = g * y (since g' = y⁻¹gy)
+        have hconj : y * g' = g * y := by rw [hg'_def]; group
+        -- Extract entries of y
+        have hy00 : y.val 0 0 = 0 := by rw [hyval]; simp [Matrix.cons_val_zero, Matrix.vecHead]
+        have hy01 : y.val 0 1 = 1 := by
+          rw [hyval]; simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+        have hy10 : y.val 1 0 = 1 := by
+          rw [hyval]; simp [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_fin_const]
+        have hy11 : y.val 1 1 = 0 := by
+          rw [hyval]; simp [Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+        -- Compare (0,0) entries: y₀₀*g'₀₀ + y₀₁*g'₁₀ = g₀₀*y₀₀ + g₀₁*y₁₀
+        have hmul_eq : y.val * g'.val = g.val * y.val := by
+          rw [← Units.val_mul, ← Units.val_mul]; exact congrArg _ hconj
+        have h_eq00 : (y.val * g'.val) 0 0 = (g.val * y.val) 0 0 := by rw [hmul_eq]
+        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10, hy11] at h_eq00
+        simp only [zero_mul, zero_add, one_mul, mul_zero, mul_one] at h_eq00
+        -- h_eq00: g'₁₀ = g₀₁ = 0
+        rw [h01] at h_eq00; exact h_eq00
+      -- g' is parabolic
+      have hg'_parabolic : GL2.IsParabolic (p := p) (n := n) g' := by
+        refine ⟨?_, fun hscalar => hnotscalar (Etingof.conj_isScalar p n g y hscalar)⟩
+        rw [show GL2.disc g' = GL2.disc g from Etingof.disc_conj_eq p n g y]
+        exact hdisc
+      -- Apply upper-tri result to g'
+      have ha' := Etingof.charVα₁_parabolic_upperTri p n alpha g' hg'_parabolic hg'10
+      -- charVα₁(g) = charVα₁(y⁻¹gy) = charVα₁(g')
+      have hconj_inv := (Etingof.charVα₁_conj p n alpha g y).symm
+      rw [show y⁻¹ * g * y = g' from rfl] at hconj_inv
+      exact ⟨_, hconj_inv.trans ha'⟩
+    · -- g₀₁ ≠ 0: use y = [[1,0],[c,1]] where c is the root of the quadratic
+      -- g₁₀ + c*(g₁₁ - g₀₀) - c²*g₀₁ = 0
+      -- Rewrite as: (-g₀₁)*c² + (g₁₁ - g₀₀)*c + g₁₀ = 0
+      -- Discriminant: (g₁₁ - g₀₀)² - 4*(-g₀₁)*g₁₀ = (g₁₁-g₀₀)² + 4*g₀₁*g₁₀
+      --            = (g₀₀-g₁₁)² + 4*g₀₁*g₁₀ = disc(g) = 0
+      -- So by quadratic_one_root_zero_disc, there's exactly one root c₀
+      have hneg01 : -g.val 0 1 ≠ 0 := neg_ne_zero.mpr h01
+      have hqdisc : (g.val 1 1 - g.val 0 0) ^ 2 - 4 * (-g.val 0 1) * g.val 1 0 = 0 := by
+        linear_combination hdisc'
+      have hone_root := Etingof.quadratic_one_root_zero_disc
+        (-g.val 0 1) (g.val 1 1 - g.val 0 0) (g.val 1 0) hneg01 hqdisc
+      -- Extract a root c₀
+      have hroot_exists : ∃ c₀ : GaloisField p n,
+          -g.val 0 1 * c₀ ^ 2 + (g.val 1 1 - g.val 0 0) * c₀ + g.val 1 0 = 0 := by
+        by_contra hall
+        push_neg at hall
+        have : (Finset.univ.filter fun x => -g.val 0 1 * x ^ 2 +
+          (g.val 1 1 - g.val 0 0) * x + g.val 1 0 = 0).card = 0 := by
+          rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+          intro t _; exact hall t
+        omega
+      obtain ⟨c₀, hc₀⟩ := hroot_exists
+      -- Construct y = [[1,0],[c₀,1]] with det = 1
+      have hdet_y : Matrix.det !![(1 : GaloisField p n), 0; c₀, 1] ≠ 0 := by
+        simp [Matrix.det_fin_two]
+      set y := Matrix.GeneralLinearGroup.mkOfDetNeZero
+        !![(1 : GaloisField p n), 0; c₀, 1] hdet_y
+      have hyval : y.val = !![(1 : GaloisField p n), 0; c₀, 1] := by
+        simp [y, Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+              Matrix.unitOfDetInvertible]
+      -- Extract entries of y
+      have hy00 : y.val 0 0 = 1 := by rw [hyval]; simp [Matrix.cons_val_zero, Matrix.vecHead]
+      have hy01 : y.val 0 1 = 0 := by
+        rw [hyval]; simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]
+      have hy10 : y.val 1 0 = c₀ := by
+        rw [hyval]; simp [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_fin_const]
+      have hy11 : y.val 1 1 = 1 := by
+        rw [hyval]; simp [Matrix.cons_val_one, Matrix.vecTail, Matrix.vecHead]
+      set g' := y⁻¹ * g * y with hg'_def
+      -- Show (g')₁₀ = 0 using y * g' = g * y, entry (1,0)
+      have hg'10 : g'.val 1 0 = 0 := by
+        -- y * g' = g * y
+        have hconj : y * g' = g * y := by rw [hg'_def]; group
+        have hmul_eq : y.val * g'.val = g.val * y.val := by
+          rw [← Units.val_mul, ← Units.val_mul]; exact congrArg _ hconj
+        -- Entry (1,0)
+        have h_eq10 : (y.val * g'.val) 1 0 = (g.val * y.val) 1 0 := by rw [hmul_eq]
+        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10, hy11] at h_eq10
+        simp only [one_mul, zero_mul, add_zero, mul_zero, mul_one] at h_eq10
+        -- Entry (0,0)
+        have h_eq00 : (y.val * g'.val) 0 0 = (g.val * y.val) 0 0 := by rw [hmul_eq]
+        simp only [Matrix.mul_apply, Fin.sum_univ_two, hy00, hy01, hy10, hy11] at h_eq00
+        simp only [one_mul, zero_mul, add_zero, mul_zero, mul_one] at h_eq00
+        -- From h_eq10 and h_eq00 and hc₀, derive g'₁₀ = 0
+        linear_combination h_eq10 - c₀ * h_eq00 + hc₀
+      -- g' is parabolic
+      have hg'_parabolic : GL2.IsParabolic (p := p) (n := n) g' := by
+        refine ⟨?_, fun hscalar => hnotscalar (Etingof.conj_isScalar p n g y hscalar)⟩
+        rw [show GL2.disc g' = GL2.disc g from Etingof.disc_conj_eq p n g y]
+        exact hdisc
+      -- Apply upper-tri result
+      have ha' := Etingof.charVα₁_parabolic_upperTri p n alpha g' hg'_parabolic hg'10
+      have hconj_inv := (Etingof.charVα₁_conj p n alpha g y).symm
+      rw [show y⁻¹ * g * y = g' from rfl] at hconj_inv
+      exact ⟨_, hconj_inv.trans ha'⟩
 
 open Classical in
 /-- On parabolic g, the complementary series character equals -α(eigenvalue).
