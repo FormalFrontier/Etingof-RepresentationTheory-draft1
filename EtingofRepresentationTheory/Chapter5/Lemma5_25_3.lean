@@ -439,11 +439,72 @@ private lemma Etingof.normSq_complementaryChar_scalar
     simp only [q, G, Kc, B, map_sub, map_mul, map_inv₀, Complex.conj_natCast,
       Complex.conj_ofNat, map_one, map_pow]
   rw [hreal]
-  -- Need to substitute |G| = (q²-1)(q²-q), |K| = q²-1, |B| = (q-1)²q
-  -- Then coefficient = (q-1)/((q-1)²q) · (q²-1)(q²-q) - (q²-1)⁻¹ · (q²-1)(q²-q)
-  --                  = (q+1)(q-1) - q(q-1) = q-1
-  -- So (q-1)² follows from scalar_coeff_eq
-  sorry
+  -- Show the coefficient = q-1 by substituting cardinality values
+  suffices h : (q - 1) * B⁻¹ * G - Kc⁻¹ * G = q - 1 by
+    rw [h]; ring
+  -- Get cardinality facts
+  have hq1 : 1 < Fintype.card (GaloisField p n) := by
+    rw [← Nat.card_eq_fintype_card, GaloisField.card p n hn]
+    exact Nat.one_lt_pow hn hp.out.one_lt
+  -- B = (q-1)²·q as ℕ cast
+  have hB_val : B = (q - 1) ^ 2 * q := by
+    simp only [B, q]
+    have h1 : 1 ≤ Fintype.card (GaloisField p n) := by omega
+    push_cast [Nat.cast_sub h1]; ring
+  -- Use the main theorem to get G and Kc values
+  -- G = (q²-1)(q²-q): use Matrix.card_GL_field
+  have hGL := @Matrix.card_GL_field (GaloisField p n) _ _ 2
+  simp only [Fin.prod_univ_two, Fin.val_zero, Fin.val_one, pow_zero, pow_one] at hGL
+  -- hGL: Nat.card GL = (card F - 1) * (card F ^ 2 - card F)
+  have hcard_F := Fintype.card (GaloisField p n)
+  -- Convert to Fintype.card
+  have hGL' : Fintype.card (GL2 p n) =
+      (Fintype.card (GaloisField p n) ^ 2 - 1) *
+      (Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n)) := by
+    rw [← Nat.card_eq_fintype_card]; exact hGL
+  have hG_val : G = (q ^ 2 - 1) * (q ^ 2 - q) := by
+    simp only [G, q]
+    have h1 : 1 ≤ Fintype.card (GaloisField p n) ^ 2 := by nlinarith
+    have h2 : Fintype.card (GaloisField p n) ≤ Fintype.card (GaloisField p n) ^ 2 := by nlinarith
+    rw [hGL']
+    push_cast [Nat.cast_sub h1, Nat.cast_sub h2]; ring
+  -- Kc = q² - 1: use card of elliptic subgroup
+  have hinj : Function.Injective (GL2.fieldExtEmbed p n) := by
+    intro a b hab
+    unfold GL2.fieldExtEmbed at hab
+    simp only [dif_neg hn] at hab
+    exact Units.ext (RingHom.injective
+      (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
+      (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom
+      (congr_arg (fun g => g.val) hab))
+  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  have hKc_nat : Fintype.card ↥(GL2.ellipticSubgroup p n) =
+      Fintype.card (GaloisField p (2 * n))ˣ := by
+    -- Use Nat.card to avoid Fintype instance issues
+    rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
+    change Nat.card ↥(GL2.fieldExtEmbed p n).range = _
+    exact Nat.card_congr ((GL2.fieldExtEmbed p n).ofInjective hinj).symm.toEquiv
+  have hKc_val : Kc = q ^ 2 - 1 := by
+    simp only [Kc, q]
+    rw [hKc_nat, Fintype.card_units,
+      ← Nat.card_eq_fintype_card,
+      GaloisField.card p (2 * n) (Nat.mul_ne_zero two_ne_zero hn)]
+    have h1 : 1 ≤ p ^ (2 * n) := Nat.one_le_pow _ _ hp.out.pos
+    push_cast [Nat.cast_sub h1]
+    rw [← Nat.card_eq_fintype_card, GaloisField.card p n hn]
+    push_cast; ring
+  -- Nonzero conditions
+  have hq_ne : q ≠ 0 := by
+    simp only [q]; exact_mod_cast show (Fintype.card (GaloisField p n) : ℕ) ≠ 0 by omega
+  have hq1_ne : q - 1 ≠ 0 := by
+    simp only [q]; rw [sub_ne_zero]
+    exact_mod_cast show Fintype.card (GaloisField p n) ≠ 1 by omega
+  have hq_plus_1 : q + 1 ≠ 0 := by
+    simp only [q]
+    exact_mod_cast show (Fintype.card (GaloisField p n) + 1 : ℕ) ≠ 0 by omega
+  -- Substitute and apply scalar_coeff_eq
+  rw [hG_val, hKc_val, hB_val]
+  exact Etingof.scalar_coeff_eq q hq_ne hq1_ne hq_plus_1
 
 /-- On parabolic matrices, |χ|² = 1 (since χ = -α(x) and |α(x)| = 1). -/
 private lemma Etingof.normSq_complementaryChar_parabolic
