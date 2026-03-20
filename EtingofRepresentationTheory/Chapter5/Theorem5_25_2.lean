@@ -144,9 +144,9 @@ private lemma Etingof.GL2.complementW_mem_of_mul
     change f (↑b * g * h) = Etingof.GL2.borelCharValue p n mu mu b * f (g * h)
     rw [mul_assoc]; exact hf.1 b (g * h)
   · -- Augmentation = 0: ∑_g f(gh) · μ(det g)⁻¹ = 0
-    -- Proof: reindex g ↦ gh to get (∑_g' f(g')·μ(det g')⁻¹) · μ(det h) = 0 · μ(det h)
-    -- The sum reindexing is a standard calculation
-    exact sorry
+    -- By reindexing g ↦ gh in the sum and using det multiplicativity,
+    -- this equals μ(det h) · (∑_g f(g) · μ(det g)⁻¹) = μ(det h) · 0 = 0
+    sorry
 
 /-- The complement W_μ as a representation via right translation. -/
 private def Etingof.GL2.complementWRep
