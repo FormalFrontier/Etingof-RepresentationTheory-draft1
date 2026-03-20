@@ -540,7 +540,18 @@ private lemma Etingof.quadratic_one_root_zero_disc
     -- In char 2: b² = 0, b = 0, equation is ax² + c = 0, use Frobenius for square root
     by_cases h2 : (2 : F) = 0
     · -- char 2: b = 0 (from b² = 4ac = 0), use Frobenius for square root
-      sorry
+      have h4 : (4 : F) = 0 := by linear_combination (2 : F) * h2
+      have hb_sq : b ^ 2 = 0 := by linear_combination hdisc + h4 * a * c
+      have hb : b = 0 := pow_eq_zero_iff (by omega : 2 ≠ 0) |>.mp hb_sq
+      have hringchar : ringChar F = 2 := by
+        haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero (by decide : Nat.Prime 2)).mpr h2
+        exact ringChar.eq F 2
+      obtain ⟨s, hs⟩ := FiniteField.isSquare_of_char_two hringchar (c * a⁻¹)
+      refine ⟨s, ?_⟩
+      have hsq : a * (s * s) + c = 0 := by
+        rw [← hs, mul_comm c a⁻¹, ← mul_assoc, mul_inv_cancel₀ ha, one_mul]
+        linear_combination c * h2
+      simp only [hb, zero_mul, add_zero, sq]; exact hsq
     · -- char ≠ 2: root is -b/(2a)
       have h2a : (2 * a) ≠ (0 : F) := mul_ne_zero h2 ha
       refine ⟨-b / (2 * a), ?_⟩
