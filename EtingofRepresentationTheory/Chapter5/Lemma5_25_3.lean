@@ -510,10 +510,125 @@ private lemma Etingof.normSq_complementaryChar_scalar
 private lemma Etingof.normSq_complementaryChar_parabolic
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (g : GL2 p n) (hg : GL2.IsParabolic (p := p) (n := n) g) :
     Etingof.GL2.complementarySeriesChar p n nu g *
     starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
+  classical
+  set alpha := nu.comp (GL2.scalarToElliptic p n)
+  -- For parabolic g, charW₁(g) = 0 (exactly 1 fixed point on P¹, minus 1 = 0)
+  have hW : Etingof.GL2.charW₁ p n g = 0 := by
+    obtain ⟨hdisc, hns⟩ := hg
+    simp only [GL2.charW₁]
+    -- disc = 0: (g₀₀ - g₁₁)² + 4·g₀₁·g₁₀ = 0
+    simp only [GL2.disc_eq] at hdisc
+    -- Case split on g₀₁
+    by_cases h01 : g.val 0 1 = 0
+    · -- Case g₀₁ = 0: disc = (g₀₀-g₁₁)² = 0, so g₀₀ = g₁₁
+      -- Not scalar means g₁₀ ≠ 0
+      have h00_eq_11 : g.val 0 0 = g.val 1 1 := by
+        have hd := hdisc
+        simp only [h01, mul_zero, zero_mul, add_zero] at hd
+        exact sub_eq_zero.mp (pow_eq_zero_iff (n := 2) (by norm_num) |>.mp hd)
+      have h10_ne : g.val 1 0 ≠ 0 := by
+        intro h10
+        exact hns ⟨h01, h10, h00_eq_11⟩
+      -- Fixed affine points: equation is 0·t² + 0·t - g₁₀ = 0, i.e., -g₁₀ = 0
+      -- No solutions since g₁₀ ≠ 0
+      have hfilt : (Finset.univ.filter fun t : GaloisField p n =>
+          g.val 0 1 * t ^ 2 + (g.val 0 0 - g.val 1 1) * t - g.val 1 0 = 0) = ∅ := by
+        rw [Finset.filter_eq_empty_iff]
+        intro t _
+        simp [h01, h00_eq_11, h10_ne]
+      rw [hfilt, Finset.card_empty, h01, if_pos rfl]
+      simp
+    · -- Case g₀₁ ≠ 0: quadratic g₀₁·t² + (g₀₀-g₁₁)·t - g₁₀ = 0
+      -- Discriminant = (g₀₀-g₁₁)² + 4·g₀₁·g₁₀ = 0 (double root)
+      -- Exactly 1 solution (double root counts once in a finite field filter)
+      -- Point at infinity not fixed (g₀₁ ≠ 0)
+      have hfilt_card : (Finset.univ.filter fun t : GaloisField p n =>
+          g.val 0 1 * t ^ 2 + (g.val 0 0 - g.val 1 1) * t - g.val 1 0 = 0).card = 1 := by
+        -- Since p ≠ 2, we have 2 ≠ 0 in GaloisField p n
+        -- p ≠ 2, so 2 ≠ 0 in GaloisField p n (which has characteristic p)
+        have h2ne : (2 : GaloisField p n) ≠ 0 := by
+          intro h2; apply hp2
+          have h2' : (Nat.cast 2 : GaloisField p n) = 0 := h2
+          rw [CharP.cast_eq_zero_iff (GaloisField p n) p 2] at h2'
+          exact Nat.le_antisymm (Nat.le_of_dvd (by omega) h2') hp.out.two_le
+        set a := g.val 0 1 with ha_def
+        set b := g.val 0 0 - g.val 1 1 with hb_def
+        -- disc = b² + 4·a·g₁₀ = 0, so 4·a·g₁₀ = -b²
+        have hdisc' : b ^ 2 + 4 * a * g.val 1 0 = 0 := by
+          rw [ha_def, hb_def]; exact hdisc
+        -- The unique root is r = -b / (2a)
+        set r := -b / (2 * a) with hr_def
+        have h2a_ne : (2 : GaloisField p n) * a ≠ 0 :=
+          mul_ne_zero h2ne h01
+        -- Key identity: a·t² + b·t - g₁₀ = a · (t - r)²
+        -- Proof: a(t-r)² = a(t² - 2rt + r²) = at² + bt + b²/(4a)
+        -- And b²/(4a) = -g₁₀ from disc = 0
+        have hfactor : ∀ t : GaloisField p n,
+            a * t ^ 2 + b * t - g.val 1 0 = a * (t - r) ^ 2 := by
+          -- From disc = 0: b² + 4ag₁₀ = 0
+          -- Equivalently: 4a(at² + bt - g₁₀) = (2at + b)² for all t
+          -- So at² + bt - g₁₀ = (2at+b)²/(4a) = a·((2at+b)/(2a))² = a·(t+b/(2a))²
+          intro t
+          -- Multiply both sides by 4a to clear denominators
+          suffices h : 4 * a * (a * t ^ 2 + b * t - g.val 1 0) =
+              4 * a * (a * (t - r) ^ 2) by
+            exact mul_left_cancel₀ (mul_ne_zero (by
+              rw [show (4 : GaloisField p n) = 2 * 2 from by ring]
+              exact mul_ne_zero h2ne h2ne) h01) h
+          -- 4a·(at² + bt - g₁₀) = (2at+b)² since b²+4ag₁₀ = 0
+          have hmul : ∀ t, 4 * a * (a * t ^ 2 + b * t - g.val 1 0) =
+              (2 * a * t + b) ^ 2 := by
+            intro t; linear_combination (4 * a ^ 2 * t ^ 2 + 4 * a * b * t) * 1 +
+              (-1) * hdisc'
+          -- 4a · a · (t-r)² = (2a(t-r))² = (2at - 2ar)² = (2at+b)²
+          -- since r = -b/(2a), 2ar = -b, 2at-2ar = 2at+b
+          have hmul2 : ∀ t, 4 * a * (a * (t - r) ^ 2) =
+              (2 * a * t + b) ^ 2 := by
+            intro t; rw [hr_def]; field_simp; ring
+          rw [show 4 * a * (a * t ^ 2 + b * t - g.val 1 0) =
+              4 * a * (a * (t - r) ^ 2) from by rw [hmul t, hmul2 t]]
+        -- The filter equals {r}
+        have hfilter_eq : (Finset.univ.filter fun t : GaloisField p n =>
+            a * t ^ 2 + b * t - g.val 1 0 = 0) = {r} := by
+          ext t; simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+            Finset.mem_singleton]
+          rw [hfactor t]
+          constructor
+          · intro ht
+            have := mul_eq_zero.mp ht
+            rcases this with ha_zero | hsq
+            · exact absurd ha_zero h01
+            · rwa [sq_eq_zero_iff, sub_eq_zero] at hsq
+          · intro ht; rw [ht, sub_self, sq, mul_zero, mul_zero]
+        rw [hfilter_eq]
+        exact Finset.card_singleton r
+      rw [hfilt_card, if_neg h01]
+      simp
+  -- The induced representation vanishes on parabolic elements
+  -- (no conjugate of a parabolic element lies in the elliptic subgroup)
+  -- The induced representation vanishes on parabolic elements:
+  -- no conjugate of a parabolic element lies in K (the elliptic subgroup).
+  -- Proof sketch: conjugation preserves disc. Parabolic has disc = 0, not scalar.
+  -- K elements with disc = 0 are scalar (from F_q× ⊂ F_{q²}×). Contradiction.
+  -- Note: the infrastructure lemmas (disc_conj_eq, ellipticSubgroup_disc) are
+  -- defined later in this file and would need to be moved before this proof.
+  have hind : ∀ x : GL2 p n,
+      (if h : x⁻¹ * g * x ∈ GL2.ellipticSubgroup p n
+       then (nu ⟨x⁻¹ * g * x, h⟩).val else 0) = 0 := by
+    sorry
+  unfold GL2.complementarySeriesChar
+  rw [hW, zero_mul, zero_sub]
+  simp only [hind, Finset.sum_const_zero, mul_zero, sub_zero]
+  -- Goal should be: -charVα₁(...) g * conj(-charVα₁(...) g) = 1
+  rw [show (-GL2.charVα₁ p n (nu.comp (GL2.scalarToElliptic p n)) g) =
+      -(GL2.charVα₁ p n (nu.comp (GL2.scalarToElliptic p n)) g) from rfl,
+    map_neg, neg_mul_neg]
+  -- Now need: charVα₁(g) * conj(charVα₁(g)) = 1 for parabolic g
   sorry
 
 /-- A quadratic polynomial a*x² + b*x + c over a field of char ≠ 2 with a ≠ 0 and
@@ -1119,7 +1234,7 @@ private lemma Etingof.innerProduct_sum_eq_card
     have hval : ∀ g ∈ Finset.univ.filter (fun g => GL2.IsParabolic (p := p) (n := n) g),
         f g = 1 := fun g hg => by
       rw [Finset.mem_filter] at hg
-      exact Etingof.normSq_complementaryChar_parabolic p n nu g hg.2
+      exact Etingof.normSq_complementaryChar_parabolic p n hp2 nu g hg.2
     rw [Finset.sum_congr rfl hval, Finset.sum_const, GL2.card_isParabolic hp2 hn_ne, nsmul_eq_mul,
       mul_one]
     have h1 : 1 ≤ q := by omega
