@@ -29,6 +29,10 @@ private abbrev GL2.mat (g : GL2' p n) : Matrix (Fin 2) (Fin 2) (GaloisField p n)
 noncomputable def GL2.disc (g : GL2' p n) : GaloisField p n :=
   (GL2.mat g 0 0 - GL2.mat g 1 1) ^ 2 + 4 * GL2.mat g 0 1 * GL2.mat g 1 0
 
+/-- The discriminant expressed in terms of public matrix entries. -/
+@[simp] lemma GL2.disc_eq (g : GL2' p n) :
+    GL2.disc g = (g.val 0 0 - g.val 1 1) ^ 2 + 4 * g.val 0 1 * g.val 1 0 := rfl
+
 /-- A GL₂ element is **scalar** if it is a scalar matrix xI. -/
 def GL2.IsScalar (g : GL2' p n) : Prop :=
   GL2.mat g 0 1 = 0 ∧ GL2.mat g 1 0 = 0 ∧ GL2.mat g 0 0 = GL2.mat g 1 1
@@ -44,6 +48,9 @@ def GL2.IsSplitSemisimple (g : GL2' p n) : Prop :=
 /-- A GL₂ element is **elliptic** if its discriminant is a non-square. -/
 def GL2.IsElliptic (g : GL2' p n) : Prop :=
   ¬IsSquare (GL2.disc g)
+
+@[simp] lemma GL2.isScalar_iff (g : GL2' p n) :
+    GL2.IsScalar g ↔ g.val 0 1 = 0 ∧ g.val 1 0 = 0 ∧ g.val 0 0 = g.val 1 1 := Iff.rfl
 
 noncomputable instance [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     (g : GL2' p n) : Decidable (GL2.IsScalar g) := by

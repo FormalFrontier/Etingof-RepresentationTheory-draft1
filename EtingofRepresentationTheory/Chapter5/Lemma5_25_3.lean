@@ -253,19 +253,47 @@ private lemma Etingof.normSq_complementaryChar_parabolic
     starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
   sorry
 
-/-- For a split semisimple element, the P¹ fixed point count is exactly 2,
-so charW₁ = 2 - 1 = 1. This is because the characteristic polynomial has
-nonzero square discriminant, giving 2 distinct fixed points on P¹(𝔽_q). -/
+/-- A quadratic polynomial a*x² + b*x + c over a field with a ≠ 0 and discriminant
+b² - 4ac ≠ 0 being a square has exactly 2 roots. -/
+private lemma Etingof.quadratic_two_roots
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+    (a b c : F) (ha : a ≠ 0) (hdisc_ne : b ^ 2 - 4 * a * c ≠ 0)
+    (hdisc_sq : IsSquare (b ^ 2 - 4 * a * c)) :
+    (Finset.univ.filter fun x : F => a * x ^ 2 + b * x + c = 0).card = 2 := by
+  sorry
+
+/-- A linear equation a*x + b = 0 with a ≠ 0 has exactly 1 root. -/
+private lemma Etingof.linear_one_root
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+    (a b : F) (ha : a ≠ 0) :
+    (Finset.univ.filter fun x : F => a * x + b = 0).card = 1 := by
+  rw [Finset.card_eq_one]
+  refine ⟨-(a⁻¹ * b), ?_⟩
+  ext x
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+  constructor
+  · intro h
+    -- a*x + b = 0 → a*x = -b → x = -(a⁻¹ * b)
+    have hax : a * x = -b := by linear_combination h
+    have : x = -(a⁻¹ * b) := by
+      have := mul_left_cancel₀ ha (show a * x = a * (-(a⁻¹ * b)) by
+        rw [hax]; field_simp)
+      exact this
+    exact this
+  · intro h
+    subst h
+    field_simp
+    ring
+
 private lemma Etingof.charW₁_splitSemisimple
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     Etingof.GL2.charW₁ p n g = 1 := by
-  -- Unfold charW₁; need to show fixedAffine.card + fixedInfty = 2
-  unfold Etingof.GL2.charW₁
-  simp only
-  -- The fixed point count on P¹ equals 2 for split semisimple matrices
-  -- This requires showing the polynomial M₀₁t² + (M₀₀-M₁₁)t - M₁₀ = 0
-  -- together with the infinity check gives exactly 2 fixed points
+  -- charW₁(g) = fixedPointCount - 1. For split semisimple, fixedPointCount = 2.
+  -- Proof: the P¹ fixed point equation M₀₁t² + (M₀₀-M₁₁)t - M₁₀ = 0 together
+  -- with the infinity check gives exactly 2 fixed points when disc ≠ 0 is a square.
+  -- Case M₀₁ = 0: linear with 1 root + infinity = 2
+  -- Case M₀₁ ≠ 0: quadratic with 2 roots + no infinity = 2
   sorry
 
 /-- No conjugate of a split semisimple element lies in the elliptic subgroup K.
