@@ -162,6 +162,53 @@ private lemma An_qform_zero : ∀ (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ),
         simp only [hx'] at this
         omega
 
+/-- No nonneg vector with q = 4, x_0 = 0, x_{m-1} = 2 exists for A_m. -/
+private lemma An_qform_no_double : ∀ (m : ℕ) (hm : 1 ≤ m) (x : Fin m → ℤ),
+    (∀ i, 0 ≤ x i) →
+    x ⟨0, by omega⟩ = 0 →
+    x ⟨m - 1, by omega⟩ = 2 →
+    dotProduct x ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+      (Etingof.DynkinType.A m hm).adj).mulVec x) ≠ 4 := by
+  intro m
+  induction m with
+  | zero => intro hm; omega
+  | succ k ih =>
+    intro hk x hpos hx0 hxk hq
+    by_cases hk0 : k = 0
+    · -- m = 1: q(x) = 2x₀² = 0, not 4
+      subst hk0
+      simp only [dotProduct, mulVec, Etingof.DynkinType.adj, Matrix.sub_apply,
+        Matrix.smul_apply, Matrix.one_apply,
+        Finset.sum_fin_eq_sum_range, Finset.sum_range_succ, Finset.sum_range_zero] at hq
+      norm_num at hq; linarith [hx0]
+    · -- m ≥ 2: peel and cascade
+      have hk1 : 1 ≤ k := by omega
+      rw [An_qform_peel k hk1 x] at hq
+      set x' := fun i : Fin k => x ⟨i.val, by omega⟩
+      have hpos' : ∀ i, 0 ≤ x' i := fun i => hpos ⟨i.val, by omega⟩
+      have hge := An_qform_ge_endpoints k hk1 x'
+      set r := dotProduct x' ((2 • (1 : Matrix (Fin k) (Fin k) ℤ) -
+          (Etingof.DynkinType.A k hk1).adj).mulVec x')
+      -- x_{k} = x_{m-1} = 2 (since m = k+1, m-1 = k)
+      have hxk_val : x ⟨k, by omega⟩ = 2 := by
+        have := hxk; simp only [show k + 1 - 1 = k from by omega] at this; exact this
+      -- r = 4·x_{k-1} - 4 from the peel equation
+      have hr_eq : r = 4 * x ⟨k - 1, by omega⟩ - 4 := by nlinarith [hxk_val]
+      -- x'_0 = x_0 = 0
+      have hx'0 : x' ⟨0, by omega⟩ = 0 := hx0
+      -- r ≥ x'_0² + x'_{k-1}² = 0 + x_{k-1}²
+      -- So x_{k-1}² ≤ 4·x_{k-1} - 4, (x_{k-1} - 2)² ≤ 0, x_{k-1} = 2
+      have hxk1_sq : x ⟨k - 1, by omega⟩ ^ 2 ≤ 4 * x ⟨k - 1, by omega⟩ - 4 := by
+        have : x ⟨(Fin.mk (k - 1) (by omega) : Fin k).val, by omega⟩ =
+            x ⟨k - 1, by omega⟩ := rfl
+        nlinarith [sq_nonneg (x ⟨0, by omega⟩)]
+      have hxk1_val : x ⟨k - 1, by omega⟩ = 2 := by
+        nlinarith [sq_nonneg (x ⟨k - 1, by omega⟩ - 2), hpos ⟨k - 1, by omega⟩]
+      have hr4 : r = 4 := by nlinarith [hxk1_val]
+      -- x'_{k-1} = x_{k-1} = 2
+      have hx'k1 : x' ⟨k - 1, by omega⟩ = 2 := hxk1_val
+      exact ih hk1 x' hpos' hx'0 hx'k1 hr4
+
 /-- All positive roots of A_n have each coordinate < 2. -/
 private lemma An_bound (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ)
     (hr : Etingof.IsRoot n (Etingof.DynkinType.A n hn).adj x)
@@ -211,13 +258,131 @@ private lemma An_bound (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ)
         · exact ih hm1 x' hroot' hpos' hroot'.2 hroot'.1 ⟨j, hjm⟩
         · have : j = m := by omega
           subst this; simp [hxm0]
-      · -- x_m ≥ 1: needs proof restructuring after Lean update
-        -- Old proof's `linarith` at `r ≤ 2` no longer works; needs case split on x_{m-1}
-        sorry
+      · -- x_m ≥ 1: endpoint bound gives x_m = 1, then case split on x_{m-1}
+        have hxm_pos : x ⟨m, by omega⟩ ≥ 1 := by omega
+        have hkey : x ⟨0, by omega⟩ ^ 2 +
+            (x ⟨m - 1, by omega⟩ - x ⟨m, by omega⟩) ^ 2 +
+            x ⟨m, by omega⟩ ^ 2 ≤ 2 := by nlinarith
+        have hxm1 : x ⟨m, by omega⟩ = 1 := by
+          nlinarith [sq_nonneg (x ⟨0, by omega⟩),
+            sq_nonneg (x ⟨m - 1, by omega⟩ - x ⟨m, by omega⟩)]
+        have hr_eq : r = 2 * x ⟨m - 1, by omega⟩ := by nlinarith [hxm1]
+        -- x_{m-1} ≤ 1 (if x_{m-1} = 2, An_qform_no_double gives contradiction)
+        have hm1_le1 : x ⟨m - 1, by omega⟩ ≤ 1 := by
+          by_contra h; push_neg at h
+          have hle2 : x ⟨m - 1, by omega⟩ ≤ 2 := by
+            nlinarith [sq_nonneg (x ⟨m - 1, by omega⟩ - 2),
+              sq_nonneg (x ⟨0, by omega⟩)]
+          have hval2 : x ⟨m - 1, by omega⟩ = 2 := by omega
+          have hx0 : x ⟨0, by omega⟩ = 0 := by
+            nlinarith [sq_nonneg (x ⟨0, by omega⟩), hval2]
+          have hr4 : r = 4 := by nlinarith [hval2]
+          exact An_qform_no_double m hm1 x' hpos' hx0
+            (show x' ⟨m - 1, by omega⟩ = 2 from hval2) (hr_def ▸ hr4)
+        intro ⟨j, hj⟩
+        by_cases hjm : j = m
+        · subst hjm; simp [hxm1]
+        · have hjm' : j < m := by omega
+          by_cases hxm1_val : x ⟨m - 1, by omega⟩ = 0
+          · -- r = 0, x' = 0 by An_qform_zero
+            have hr0 : r = 0 := by nlinarith
+            have hx'z := An_qform_zero m hm1 x' hpos' (hr_def ▸ hr0)
+            have : x ⟨j, by omega⟩ = 0 := by
+              have := congr_fun hx'z ⟨j, hjm'⟩
+              simp [Pi.zero_apply] at this; exact this
+            omega
+          · -- x_{m-1} = 1, r = 2, x' is a root
+            have hm1pos := hp ⟨m - 1, by omega⟩
+            have hval1 : x ⟨m - 1, by omega⟩ = 1 := by omega
+            have hr2 : r = 2 := by nlinarith [hval1]
+            have hne' : x' ≠ 0 := by
+              intro heq
+              have : r = 0 := by
+                simp only [hr_def, heq, dotProduct, mulVec, Pi.zero_apply,
+                  mul_zero, Finset.sum_const_zero]
+              linarith
+            have hroot' : Etingof.IsRoot m
+                (Etingof.DynkinType.A m hm1).adj x' :=
+              ⟨hne', hr2 ▸ hr_def ▸ rfl⟩
+            exact ih hm1 x' hroot' hpos' hroot'.2 hroot'.1 ⟨j, hjm'⟩
 
 /-- The interval indicator vector: 1 on [a, b], 0 elsewhere. -/
 private def ivec (n : ℕ) (a b : ℕ) : Fin n → Fin 2 :=
   fun i => if a ≤ i.val ∧ i.val ≤ b then 1 else 0
+
+/-- The quadratic form of an interval indicator always equals 2. -/
+private lemma An_ivec_qform_eq : ∀ (n : ℕ) (hn : 1 ≤ n)
+    (a b : ℕ) (hab : a ≤ b) (hb : b < n),
+    dotProduct (fun i : Fin n => ((ivec n a b i : Fin 2) : ℤ))
+      ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
+        (Etingof.DynkinType.A n hn).adj).mulVec
+        (fun i => ((ivec n a b i : Fin 2) : ℤ))) = 2 := by
+  intro n; induction n with
+  | zero => intro hn; omega
+  | succ m ih =>
+    intro hn a b hab hb
+    by_cases hm0 : m = 0
+    · subst hm0
+      have ha0 : a = 0 := by omega
+      have hb0 : b = 0 := by omega
+      subst ha0; subst hb0
+      simp only [dotProduct, mulVec, Etingof.DynkinType.adj,
+        Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+        Finset.sum_fin_eq_sum_range, Finset.sum_range_succ,
+        Finset.sum_range_zero, ivec]
+      norm_num
+    · have hm1 : 1 ≤ m := by omega
+      -- Set up the ℤ-valued function
+      set xi : Fin (m + 1) → ℤ := fun i => ((ivec (m + 1) a b i : Fin 2) : ℤ)
+        with hxi_def
+      -- Use peel decomposition
+      show dotProduct xi ((2 • (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) ℤ) -
+        (Etingof.DynkinType.A (m + 1) hn).adj).mulVec xi) = 2
+      rw [An_qform_peel m hm1 xi]
+      -- Compute values at key positions
+      have hxi_val : ∀ (j : ℕ) (hj : j < m + 1),
+          xi ⟨j, hj⟩ = if a ≤ j ∧ j ≤ b then 1 else 0 := by
+        intro j hj; simp [hxi_def, ivec]; split_ifs <;> simp
+      -- Restriction to Fin m is ivec with capped b
+      set b' := min b (m - 1) with hb'_def
+      have hxi_res_eq : (fun i : Fin m => xi ⟨i.val, by omega⟩) =
+          fun i : Fin m => ((ivec m a b' i : Fin 2) : ℤ) := by
+        ext ⟨j, hj⟩
+        simp only [hxi_def, ivec, hb'_def]
+        split_ifs with h1 h2 h2
+        · simp
+        · exfalso; apply h2; exact ⟨h1.1, by omega⟩
+        · exfalso; apply h1; exact ⟨h2.1, by omega⟩
+        · simp
+      by_cases hbm : b < m
+      · -- b < m: x_m = 0, peel term vanishes
+        have hm_val : xi ⟨m, by omega⟩ = 0 := by
+          rw [hxi_val]; simp; omega
+        have hb'_eq : b' = b := by simp [hb'_def]; omega
+        rw [hm_val]; ring_nf; rw [hxi_res_eq, hb'_eq]
+        exact ih hm1 a b hab hbm
+      · -- b ≥ m: b = m
+        have hbm' : b = m := by omega
+        have hm_val : xi ⟨m, by omega⟩ = 1 := by
+          rw [hxi_val]; simp; omega
+        by_cases ham : a = m
+        · -- Singleton at m: x_{m-1} = 0, restriction is zero
+          have hm1_val : xi ⟨m - 1, by omega⟩ = 0 := by
+            rw [hxi_val]; simp; omega
+          have hres0 :
+              (fun i : Fin m => xi ⟨i.val, by omega⟩) = 0 := by
+            ext ⟨j, hj⟩
+            simp [hxi_def, ivec, Pi.zero_apply]; omega
+          rw [hm_val, hm1_val, hres0]
+          simp [dotProduct, mulVec, Pi.zero_apply,
+            Finset.sum_const_zero]
+        · -- a < m: x_{m-1} = 1, peel gives q_m + 2 - 2 = q_m
+          have hm1_val : xi ⟨m - 1, by omega⟩ = 1 := by
+            rw [hxi_val]; simp; omega
+          have hb'_eq : b' = m - 1 := by
+            simp [hb'_def]; omega
+          rw [hm_val, hm1_val]; ring_nf; rw [hxi_res_eq, hb'_eq]
+          exact ih hm1 a (m - 1) (by omega) (by omega)
 
 /-- Interval indicators are in rootCountFinset. -/
 private lemma ivec_mem : ∀ (n : ℕ) (hn : 1 ≤ n) (a b : ℕ) (hab : a ≤ b) (hb : b < n),
@@ -238,8 +403,8 @@ private lemma ivec_mem : ∀ (n : ℕ) (hn : 1 ≤ n) (a b : ℕ) (hab : a ≤ b
       have : ((ivec (m + 1) a b) ⟨a, by omega⟩ : ℤ) = 0 := by
         have := congr_fun this ⟨a, by omega⟩; simpa using this
       simp [ivec, hab] at this
-    · -- q = 2: by induction using peel (needs tactic updates after Lean upgrade)
-      sorry
+    · -- q = 2: prove by An_ivec_qform_eq helper
+      exact An_ivec_qform_eq (m + 1) hn a b hab hb
 
 /-- The interval indicator map is injective on valid pairs. -/
 private lemma ivec_injective (n : ℕ) (a₁ b₁ a₂ b₂ : ℕ)
@@ -278,19 +443,210 @@ private lemma ivec_injective (n : ℕ) (a₁ b₁ a₂ b₂ : ℕ)
       have := (key a₁ b₁ h₁ hb₁ b₂ (by omega)).mp h1
       have := (key a₂ b₂ h₂ hb₂ b₁ (by omega)).mp h2; omega
 
+/-- Helper: a Fin 2 value is either 0 or 1. -/
+private lemma fin2_eq_zero_or_one (x : Fin 2) : x = 0 ∨ x = 1 := by
+  rcases x with ⟨v, hv⟩; interval_cases v <;> simp [Fin.ext_iff]
+
+/-- Helper: cast Fin 2 to ℤ is 0 or 1. -/
+private lemma fin2_cast_cases (x : Fin 2) : (x : ℤ) = 0 ∨ (x : ℤ) = 1 := by
+  rcases fin2_eq_zero_or_one x with h | h <;> simp [h]
+
 /-- Every element of rootCountFinset is an interval indicator. -/
 private lemma root_is_ivec : ∀ (n : ℕ) (hn : 1 ≤ n) (v : Fin n → Fin 2),
     v ∈ rootCountFinset n (Etingof.DynkinType.A n hn).adj 2 →
     ∃ a b : ℕ, a ≤ b ∧ b < n ∧ v = ivec n a b := by
-  -- Needs tactic updates after Lean upgrade (interval_cases, mod_cast, show patterns)
-  sorry
+  intro n; induction n with
+  | zero => intro hn; omega
+  | succ m ih =>
+    intro hn v hv
+    simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ,
+      true_and, Bool.and_eq_true, decide_eq_true_eq] at hv
+    obtain ⟨hne, hq⟩ := hv
+    -- Helper: convert v to ℤ and use peel
+    set x : Fin (m + 1) → ℤ := fun i => (v i : ℤ) with hx_def
+    set v' : Fin m → Fin 2 := fun i => v ⟨i.val, by omega⟩ with hv'_def
+    by_cases hm0 : m = 0
+    · -- n = 1: v 0 must be 1
+      subst hm0
+      have hv0 : v 0 = 1 := by
+        rcases fin2_eq_zero_or_one (v 0) with h | h
+        · exfalso; apply hne; ext i; fin_cases i; simp [hx_def, h]
+        · exact h
+      refine ⟨0, 0, le_refl _, by omega, funext fun i => ?_⟩
+      have : i = 0 := by ext; omega
+      subst this; simp [ivec, hv0]
+    · have hm1 : 1 ≤ m := by omega
+      -- Peel the quadratic form
+      have hq_peel : dotProduct (fun i : Fin m => (v' i : ℤ))
+          ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+            (Etingof.DynkinType.A m hm1).adj).mulVec
+            (fun i : Fin m => (v' i : ℤ))) +
+          2 * (v ⟨m, by omega⟩ : ℤ) ^ 2 -
+          2 * (v ⟨m - 1, by omega⟩ : ℤ) * (v ⟨m, by omega⟩ : ℤ) = 2 := by
+        have := An_qform_peel m hm1 x
+        simp only [hx_def] at this
+        rw [this] at hq; convert hq using 2 <;> rfl
+      -- Helper to build rootCountFinset membership for v'
+      have mk_mem : ∀ (hne' : v' ≠ 0),
+          dotProduct (fun i : Fin m => (v' i : ℤ))
+            ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+              (Etingof.DynkinType.A m hm1).adj).mulVec
+              (fun i : Fin m => (v' i : ℤ))) = 2 →
+          v' ∈ rootCountFinset m (Etingof.DynkinType.A m hm1).adj 2 := by
+        intro hne' hq'
+        simp only [rootCountFinset, Finset.mem_filter, Finset.mem_univ,
+          true_and, Bool.and_eq_true, decide_eq_true_eq]
+        constructor
+        · intro h; apply hne'; funext i
+          have := congr_fun h i
+          simp [Pi.zero_apply] at this
+          exact_mod_cast this
+        · convert hq' using 1
+      -- Case split on v_m
+      rcases fin2_eq_zero_or_one (v ⟨m, by omega⟩) with hvm0 | hvm1
+      · -- v_m = 0: q_m(v') = 2
+        have hvm_z : (v ⟨m, by omega⟩ : ℤ) = 0 := by simp [hvm0]
+        have hq' : dotProduct (fun i : Fin m => (v' i : ℤ))
+            ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+              (Etingof.DynkinType.A m hm1).adj).mulVec
+              (fun i : Fin m => (v' i : ℤ))) = 2 := by
+          have := hq_peel; rw [hvm_z] at this; linarith
+        have hne' : v' ≠ 0 := by
+          intro h; apply hne; funext ⟨i, hi⟩
+          simp only [hx_def, Pi.zero_apply]
+          by_cases him : i < m
+          · have h1 : v' ⟨i, him⟩ = 0 := congr_fun h ⟨i, him⟩
+            simp only [hv'_def] at h1; simp [h1]
+          · have him' : i = m := by omega
+            subst him'; simp [hvm0]
+        obtain ⟨a, b, hab, hbm, hveq⟩ := ih hm1 v' (mk_mem hne' hq')
+        refine ⟨a, b, hab, by omega, funext fun ⟨i, hi⟩ => ?_⟩
+        simp only [ivec]
+        by_cases him : i < m
+        · have := congr_fun hveq ⟨i, him⟩
+          simp only [ivec, hv'_def] at this; exact this
+        · have h_neg : ¬(a ≤ i ∧ i ≤ b) := by omega
+          simp only [h_neg, ite_false]
+          have heq : i = m := by omega
+          show v ⟨i, hi⟩ = 0
+          convert hvm0 using 2; exact Fin.ext (by omega)
+      · -- v_m = 1
+        have hvm_z : (v ⟨m, by omega⟩ : ℤ) = 1 := by simp [hvm1]
+        rcases fin2_eq_zero_or_one (v ⟨m - 1, by omega⟩) with hprev0 | hprev1
+        · -- v_{m-1} = 0: q_m(v') = 0, so v' = 0
+          have hprev_z : (v ⟨m - 1, by omega⟩ : ℤ) = 0 := by simp [hprev0]
+          have hq0 : dotProduct (fun i : Fin m => (v' i : ℤ))
+              ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+                (Etingof.DynkinType.A m hm1).adj).mulVec
+                (fun i : Fin m => (v' i : ℤ))) = 0 := by
+            have := hq_peel; rw [hvm_z, hprev_z] at this; linarith
+          have hv'z := An_qform_zero m hm1 (fun i => (v' i : ℤ))
+            (fun i => by positivity) hq0
+          -- v' = 0 means all coords before m are 0
+          have hv'_zero : ∀ i : Fin m, v' i = 0 := by
+            intro i; have := congr_fun hv'z i
+            simp [Pi.zero_apply] at this
+            exact_mod_cast this
+          refine ⟨m, m, le_refl _, by omega, funext fun ⟨i, hi⟩ => ?_⟩
+          simp only [ivec]
+          by_cases him : i = m
+          · simp only [him, le_refl, and_self, ite_true]; exact hvm1
+          · have hilm : i < m := by omega
+            have h1 := hv'_zero ⟨i, hilm⟩
+            simp only [hv'_def] at h1
+            have : ¬(m ≤ i) := by omega
+            simp [this, h1]
+        · -- v_{m-1} = 1: q_m(v') = 2, v' is a root
+          have hprev_z : (v ⟨m - 1, by omega⟩ : ℤ) = 1 := by simp [hprev1]
+          have hq' : dotProduct (fun i : Fin m => (v' i : ℤ))
+              ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+                (Etingof.DynkinType.A m hm1).adj).mulVec
+                (fun i : Fin m => (v' i : ℤ))) = 2 := by
+            have := hq_peel; rw [hvm_z, hprev_z] at this; linarith
+          have hne' : v' ≠ 0 := by
+            intro h
+            have h1 := congr_fun h ⟨m - 1, by omega⟩
+            simp only [hv'_def, Pi.zero_apply] at h1
+            rw [hprev1] at h1; exact absurd h1 (by decide)
+          obtain ⟨a, b, hab, hbm, hveq⟩ := ih hm1 v' (mk_mem hne' hq')
+          -- b = m - 1 (since v'_{m-1} = 1 = ivec value at m-1)
+          have hb_eq : b = m - 1 := by
+            have h1 := congr_fun hveq ⟨m - 1, by omega⟩
+            simp only [ivec, hv'_def] at h1
+            by_contra hne_b
+            have hcond : ¬(a ≤ m - 1 ∧ m - 1 ≤ b) := by omega
+            simp only [hcond, ite_false] at h1
+            rw [hprev1] at h1; exact absurd h1 (by decide)
+          refine ⟨a, m, by omega, by omega, funext fun ⟨i, hi⟩ => ?_⟩
+          simp only [ivec]
+          by_cases him : i = m
+          · have : a ≤ i ∧ i ≤ m := by omega
+            simp only [this, ite_true]
+            show v ⟨i, hi⟩ = 1
+            convert hvm1 using 2; exact Fin.ext (by omega)
+          · have hilm : i < m := by omega
+            have h1 := congr_fun hveq ⟨i, hilm⟩
+            simp only [ivec, hv'_def] at h1
+            have key : (a ≤ i ∧ i ≤ m) ↔ (a ≤ i ∧ i ≤ b) := by
+              constructor
+              · intro ⟨ha, hle⟩; exact ⟨ha, by omega⟩
+              · intro ⟨ha, hle⟩; exact ⟨ha, by omega⟩
+            simp only [key]; exact h1
 
 /-- Number of pairs (a, b) with a ≤ b in Fin n is n(n+1)/2. -/
 private lemma pair_count (n : ℕ) :
-    ((Finset.univ : Finset (Fin n × Fin n)).filter (fun p => p.1 ≤ p.2)).card =
+    ((Finset.univ : Finset (Fin n × Fin n)).filter
+      (fun p => p.1 ≤ p.2)).card =
     n * (n + 1) / 2 := by
-  -- Needs tactic updates after Lean upgrade (card_bij API change, omega with division)
-  sorry
+  -- Prove: 2 * card = n * (n+1), then divide
+  suffices h : 2 * ((Finset.univ : Finset (Fin n × Fin n)).filter
+      (fun p => p.1 ≤ p.2)).card = n * (n + 1) by omega
+  induction n with
+  | zero => simp
+  | succ m ih =>
+    -- Split by whether b = m
+    have key : (Finset.univ.filter
+        (fun p : Fin (m + 1) × Fin (m + 1) => p.1 ≤ p.2)) =
+      ((Finset.univ.filter (fun p : Fin m × Fin m =>
+          p.1 ≤ p.2)).image (fun p =>
+          (Fin.castSucc p.1, Fin.castSucc p.2))) ∪
+      ((Finset.univ : Finset (Fin (m + 1))).image
+          (fun a => (a, Fin.last m))) := by
+      ext ⟨a, b⟩
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+        Finset.mem_union, Finset.mem_image, Prod.mk.injEq]
+      constructor
+      · intro hab
+        by_cases hbm : b = Fin.last m
+        · right; exact ⟨a, rfl, hbm.symm⟩
+        · left
+          have hblt : b.val < m := by
+            simp [Fin.last, Fin.ext_iff] at hbm; omega
+          refine ⟨(⟨a.val, by omega⟩, ⟨b.val, hblt⟩), ?_, ?_⟩
+          · simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+            simpa using hab
+          · constructor <;> exact Fin.ext rfl
+      · rintro (⟨⟨a', b'⟩, hmem, ha, hb⟩ | ⟨a', ha', hb'⟩)
+        · simp only [Finset.mem_filter, Finset.mem_univ,
+            true_and] at hmem
+          rw [← ha, ← hb]; simpa using hmem
+        · rw [← ha', ← hb']; exact Fin.le_last a'
+    rw [key, Finset.card_union_of_disjoint]
+    · rw [Finset.card_image_of_injective _ (by
+        intro ⟨a₁, b₁⟩ ⟨a₂, b₂⟩ h
+        simp [Prod.mk.injEq, Fin.castSucc_inj] at h
+        exact Prod.ext h.1 h.2)]
+      rw [Finset.card_image_of_injective _ (by
+        intro a₁ a₂ h; simpa using h)]
+      simp [Finset.card_fin]; linarith
+    · rw [Finset.disjoint_left]
+      intro ⟨a, b⟩ h1 h2
+      simp only [Finset.mem_image, Prod.mk.injEq,
+        Finset.mem_filter, Finset.mem_univ, true_and] at h1 h2
+      obtain ⟨⟨a', b'⟩, _, _, hb⟩ := h1
+      obtain ⟨_, _, hb'⟩ := h2
+      rw [← hb] at hb'
+      exact absurd hb'.symm (Fin.castSucc_ne_last b')
 
 /-- The count of rootCountFinset for A_n with bound 2 equals n(n+1)/2. -/
 private lemma An_count (n : ℕ) (hn : 1 ≤ n) :
