@@ -1270,6 +1270,25 @@ private theorem finsuppToPartition_toFinsupp {n : ℕ} (la : Nat.Partition n)
       exact (List.mem_replicate.mp (Multiset.mem_coe.mp hx)).2)
   rw [hfsp, hfrep, add_zero]
 
+/-- For π ≠ rev and permExponent n π ≤ la.toFinsupp + rhoShift n, the sorted partition
+`finsuppToPartition(la + ρ - e_π)` strictly dominates `la`.
+
+This follows from the rearrangement inequality: since `la + ρ` is strictly decreasing
+and `ρ` is the uniquely matched decreasing permutation of `{0,...,n-1}`, subtracting
+any other permutation `e_π ≠ ρ` produces a vector whose sorted version has strictly
+larger initial partial sums. -/
+private theorem sorted_shifted_strict_dominates {n : ℕ}
+    (la : Nat.Partition n)
+    (π : Equiv.Perm (Fin n))
+    (hπ : π ≠ Fin.revPerm)
+    (hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n) :
+    Nat.Partition.StrictDominates
+      (finsuppToPartition
+        (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+        (sum_shifted_sub_permExponent la π hle))
+      la := by
+  sorry
+
 /-- The alternating Kostka identity: the alternating sum of Kostka numbers over
 Vandermonde permutations equals sign(rev) times the Kronecker delta.
 
@@ -1322,8 +1341,7 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
             (finsuppToPartition
               (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
               (sum_shifted_sub_permExponent la π hle))
-            la := by
-          sorry -- requires majorization/rearrangement inequality argument
+            la := sorted_shifted_strict_dominates la π hπ hle
         rw [spechtMultiplicity_vanishing n _ la hdom]
         simp
       · simp [dif_neg hle]
