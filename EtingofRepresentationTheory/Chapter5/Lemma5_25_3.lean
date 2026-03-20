@@ -316,8 +316,14 @@ private lemma Etingof.linear_one_root
 
 private lemma Etingof.charW₁_splitSemisimple
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    (hp2 : p ≠ 2)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     Etingof.GL2.charW₁ p n g = 1 := by
+  haveI : NeZero (2 : GaloisField p n) := by
+    constructor; intro h2; apply hp2
+    have h2' : (Nat.cast 2 : GaloisField p n) = 0 := h2
+    rw [CharP.cast_eq_zero_iff (GaloisField p n) p 2] at h2'
+    exact Nat.le_antisymm (Nat.le_of_dvd (by omega) h2') hp.out.two_le
   simp only [Etingof.GL2.charW₁]
   set M := (g : Matrix (Fin 2) (Fin 2) (GaloisField p n))
   obtain ⟨hdisc_ne, hdisc_sq⟩ := hg
@@ -348,21 +354,7 @@ private lemma Etingof.charW₁_splitSemisimple
       rw [hconv]; exact hdisc_ne
     have hdisc_sq' : IsSquare ((M 0 0 - M 1 1) ^ 2 - 4 * M 0 1 * (-(M 1 0))) := by
       rw [hconv]; exact hdisc_sq
-    have hcard : (Finset.univ.filter fun t : GaloisField p n =>
-        M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t + (-(M 1 0)) = 0).card = 2 := by
-      by_cases hp2 : p = 2
-      · -- Char 2 case: disc = (M₀₀-M₁₁)² since 4=0, and the Artin-Schreier equation
-        -- M₀₁·t² + (M₀₀-M₁₁)·t + (-M₁₀) has 2 roots iff trace condition holds
-        sorry
-      · -- Char ≠ 2: use quadratic formula
-        have : NeZero (2 : GaloisField p n) := by
-          constructor; intro h2; apply hp2
-          have h2' : (Nat.cast 2 : GaloisField p n) = 0 := h2
-          rw [CharP.cast_eq_zero_iff (GaloisField p n) p 2] at h2'
-          -- h2' : p ∣ 2, with p prime, so p = 2
-          exact Nat.le_antisymm (Nat.le_of_dvd (by omega) h2') hp.out.two_le
-        exact Etingof.quadratic_two_roots _ _ _ h01 hdisc_ne' hdisc_sq'
-    rw [hfilt, hcard]
+    rw [hfilt, Etingof.quadratic_two_roots _ _ _ h01 hdisc_ne' hdisc_sq']
     simp only [h01, ite_false, Nat.add_zero]
     push_cast; ring
 
@@ -397,7 +389,7 @@ private lemma Etingof.disc_conj_eq (g x : GL2 p n) :
 
 /-- Elements of K (elliptic subgroup) are either scalar or have non-square discriminant (elliptic).
 This means no element of K is split semisimple or parabolic-non-scalar. -/
-private lemma Etingof.ellipticSubgroup_disc (k : GL2 p n)
+private lemma Etingof.ellipticSubgroup_disc (hp2 : p ≠ 2) (k : GL2 p n)
     (hk : k ∈ Etingof.GL2.ellipticSubgroup p n) :
     GL2.disc k = 0 ∨ ¬IsSquare (GL2.disc k) := by
   sorry
@@ -405,15 +397,14 @@ private lemma Etingof.ellipticSubgroup_disc (k : GL2 p n)
 private lemma Etingof.induced_char_splitSemisimple_eq_zero
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) := by
   intro x hcontra
-  -- disc is a conjugation invariant
   have hdisc_eq : GL2.disc (x⁻¹ * g * x : GL2 p n) = GL2.disc g :=
     Etingof.disc_conj_eq p n g x
-  -- Elements of K are scalar (disc=0) or elliptic (disc not square)
-  have hK := Etingof.ellipticSubgroup_disc p n (x⁻¹ * g * x) hcontra
+  have hK := Etingof.ellipticSubgroup_disc p n hp2 (x⁻¹ * g * x) hcontra
   -- g is split semisimple: disc ≠ 0 and IsSquare
   obtain ⟨hdisc_ne, hdisc_sq⟩ := hg
   rw [hdisc_eq] at hK
@@ -429,13 +420,14 @@ induced character sum is 0 (no conjugate lies in K). -/
 private lemma Etingof.complementaryChar_splitSemisimple_eq_zero
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     Etingof.GL2.complementarySeriesChar p n nu g = 0 := by
   unfold Etingof.GL2.complementarySeriesChar
-  have h1 : Etingof.GL2.charW₁ p n g = 1 := Etingof.charW₁_splitSemisimple p n g hg
+  have h1 : Etingof.GL2.charW₁ p n g = 1 := Etingof.charW₁_splitSemisimple p n hp2 g hg
   have h2 : ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) :=
-    Etingof.induced_char_splitSemisimple_eq_zero p n nu g hg
+    Etingof.induced_char_splitSemisimple_eq_zero p n hp2 nu g hg
   -- The induced character sum is zero because each term is zero
   have h3 : ∑ x : GL2 p n,
       (if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
@@ -510,6 +502,7 @@ Combined: (q-1)³ + (q-1)(q²-1) + q(q-1)³ = (q-1)²[q-1+q+1+q(q-1)] = (q-1)²q
 private lemma Etingof.innerProduct_sum_eq_card
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
     (∑ x : GL2 p n,
       Etingof.GL2.complementarySeriesChar p n nu x *
@@ -561,7 +554,7 @@ private lemma Etingof.innerProduct_sum_eq_card
   have h_split : ∑ g ∈ Finset.univ.filter (fun g => GL2.IsSplitSemisimple g), f g = 0 := by
     apply Finset.sum_eq_zero; intro g hg
     rw [Finset.mem_filter] at hg
-    have h0 : χ g = 0 := Etingof.complementaryChar_splitSemisimple_eq_zero p n nu g hg.2
+    have h0 : χ g = 0 := Etingof.complementaryChar_splitSemisimple_eq_zero p n hp2 nu g hg.2
     change χ g * starRingEnd ℂ (χ g) = 0
     rw [h0, map_zero, mul_zero]
   -- Elliptic: total = q(q-1)³
@@ -581,12 +574,13 @@ of an actual irreducible representation. (Etingof Lemma 5.25.3) -/
 theorem Etingof.Lemma5_25_3_innerProduct
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
     (Fintype.card (GL2 p n) : ℂ)⁻¹ •
       ∑ x : GL2 p n,
         Etingof.GL2.complementarySeriesChar p n nu x *
         starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu x) = 1 := by
-  rw [Etingof.innerProduct_sum_eq_card p n nu hn]
+  rw [Etingof.innerProduct_sum_eq_card p n hp2 nu hn]
   simp only [smul_eq_mul]
   have hcard : (Fintype.card (GL2 p n) : ℂ) ≠ 0 := by
     exact_mod_cast Fintype.card_pos.ne'
