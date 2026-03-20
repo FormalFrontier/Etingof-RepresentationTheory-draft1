@@ -2142,14 +2142,44 @@ private lemma Etingof.nonscalar_char_sum
         ¬GL2.IsElliptic (p := p) (n := n) (k : GL2 p n) →
         (1 : ℂ) + ψ k = 2 := by
       intro k hne; rw [h_scalar_psi_one k hne]; norm_num
-    -- Count of non-elliptic K elements = |F_q×| = q - 1
-    -- For now, sorry this counting argument
+    -- Each non-elliptic contributes 2, elliptic contributes 0
+    -- So sum = 2 * |{k ∈ K : ¬IsElliptic k}| = 2 * (q - 1)
+    -- since non-elliptic K elements ↔ F_q× (scalar matrices)
     sorry
   -- Step 5: Combine
   rw [hdecomp, h_full_sum, h_scalar_sum]
-  -- |K| - 2(q-1) = (q-1)²
-  -- |K| = q² - 1
-  sorry
+  -- |K| - 2(q-1) = (q-1)²  where |K| = q² - 1
+  haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+  set q := Fintype.card (GaloisField p n) with hq_def
+  have hq_pos : 1 < q := by
+    rw [hq_def, ← Nat.card_eq_fintype_card, GaloisField.card p n hn]
+    exact Nat.one_lt_pow hn hp.out.one_lt
+  have hinj : Function.Injective (Etingof.GL2.fieldExtEmbed p n) := by
+    intro a b hab
+    unfold GL2.fieldExtEmbed at hab
+    simp only [dif_neg hn] at hab
+    exact Units.ext (RingHom.injective
+      (Algebra.leftMulMatrix (Module.finBasisOfFinrankEq (GaloisField p n)
+      (GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn))).toRingHom
+      (congr_arg (fun g => g.val) hab))
+  have hKc_units : Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) =
+      Fintype.card (GaloisField p (2 * n))ˣ := by
+    rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
+    change Nat.card ↥(Etingof.GL2.fieldExtEmbed p n).range = _
+    exact Nat.card_congr ((Etingof.GL2.fieldExtEmbed p n).ofInjective hinj).symm.toEquiv
+  have hq_pn : q = p ^ n := by
+    rw [hq_def, ← Nat.card_eq_fintype_card, GaloisField.card p n hn]
+  have hKc_nat : Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) = q ^ 2 - 1 := by
+    rw [hKc_units, Fintype.card_units,
+      ← Nat.card_eq_fintype_card,
+      GaloisField.card p (2 * n) (Nat.mul_ne_zero two_ne_zero hn)]
+    congr 1
+    rw [hq_pn, show 2 * n = n * 2 from by ring, pow_mul]
+  have h1 : 1 ≤ q ^ 2 := by nlinarith
+  have hKc_C : (Fintype.card ↥(Etingof.GL2.ellipticSubgroup p n) : ℂ) =
+      (q : ℂ) ^ 2 - 1 := by
+    rw [hKc_nat]; push_cast [Nat.cast_sub h1]; ring
+  rw [hKc_C]; ring
 
 -- The algebraic core: change of variables and normalizer evaluation.
 -- The sum over elliptic elements rewrites via (g,x,y) -> (k,x,z) as
