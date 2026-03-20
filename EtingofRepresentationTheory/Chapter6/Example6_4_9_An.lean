@@ -452,10 +452,58 @@ private lemma root_is_ivec : ∀ (n : ℕ) (hn : 1 ≤ n) (v : Fin n → Fin 2),
 
 /-- Number of pairs (a, b) with a ≤ b in Fin n is n(n+1)/2. -/
 private lemma pair_count (n : ℕ) :
-    ((Finset.univ : Finset (Fin n × Fin n)).filter (fun p => p.1 ≤ p.2)).card =
+    ((Finset.univ : Finset (Fin n × Fin n)).filter
+      (fun p => p.1 ≤ p.2)).card =
     n * (n + 1) / 2 := by
-  -- Needs tactic updates after Lean upgrade (card_bij API change, omega with division)
-  sorry
+  -- Prove: 2 * card = n * (n+1), then divide
+  suffices h : 2 * ((Finset.univ : Finset (Fin n × Fin n)).filter
+      (fun p => p.1 ≤ p.2)).card = n * (n + 1) by omega
+  induction n with
+  | zero => simp
+  | succ m ih =>
+    -- Split by whether b = m
+    have key : (Finset.univ.filter
+        (fun p : Fin (m + 1) × Fin (m + 1) => p.1 ≤ p.2)) =
+      ((Finset.univ.filter (fun p : Fin m × Fin m =>
+          p.1 ≤ p.2)).image (fun p =>
+          (Fin.castSucc p.1, Fin.castSucc p.2))) ∪
+      ((Finset.univ : Finset (Fin (m + 1))).image
+          (fun a => (a, Fin.last m))) := by
+      ext ⟨a, b⟩
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+        Finset.mem_union, Finset.mem_image, Prod.mk.injEq]
+      constructor
+      · intro hab
+        by_cases hbm : b = Fin.last m
+        · right; exact ⟨a, rfl, hbm.symm⟩
+        · left
+          have hblt : b.val < m := by
+            simp [Fin.last, Fin.ext_iff] at hbm; omega
+          refine ⟨(⟨a.val, by omega⟩, ⟨b.val, hblt⟩), ?_, ?_⟩
+          · simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+            simpa using hab
+          · constructor <;> exact Fin.ext rfl
+      · rintro (⟨⟨a', b'⟩, hmem, ha, hb⟩ | ⟨a', ha', hb'⟩)
+        · simp only [Finset.mem_filter, Finset.mem_univ,
+            true_and] at hmem
+          rw [← ha, ← hb]; simpa using hmem
+        · rw [← ha', ← hb']; exact Fin.le_last a'
+    rw [key, Finset.card_union_of_disjoint]
+    · rw [Finset.card_image_of_injective _ (by
+        intro ⟨a₁, b₁⟩ ⟨a₂, b₂⟩ h
+        simp [Prod.mk.injEq, Fin.castSucc_inj] at h
+        exact Prod.ext h.1 h.2)]
+      rw [Finset.card_image_of_injective _ (by
+        intro a₁ a₂ h; simpa using h)]
+      simp [Finset.card_fin]; linarith
+    · rw [Finset.disjoint_left]
+      intro ⟨a, b⟩ h1 h2
+      simp only [Finset.mem_image, Prod.mk.injEq,
+        Finset.mem_filter, Finset.mem_univ, true_and] at h1 h2
+      obtain ⟨⟨a', b'⟩, _, _, hb⟩ := h1
+      obtain ⟨_, _, hb'⟩ := h2
+      rw [← hb] at hb'
+      exact absurd hb'.symm (Fin.castSucc_ne_last b')
 
 /-- The count of rootCountFinset for A_n with bound 2 equals n(n+1)/2. -/
 private lemma An_count (n : ℕ) (hn : 1 ≤ n) :
