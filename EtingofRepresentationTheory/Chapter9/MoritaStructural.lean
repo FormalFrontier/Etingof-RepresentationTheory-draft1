@@ -58,7 +58,53 @@ theorem simple_of_equivalence {C : Type u} [Category.{v} C]
     [HasZeroMorphisms C] [HasZeroMorphisms D]
     (F : C ≌ D) (X : C) [Simple X] :
     Simple (F.functor.obj X) := by
-  sorry
+  constructor
+  intro Y g hMono
+  -- Build a mono into X by applying F.inverse and composing with the unit
+  let g' : F.inverse.obj Y ⟶ X := F.inverse.map g ≫ (F.unitIso.app X).inv
+  -- g' is mono: F.inverse.map g is mono (right adjoint preserves mono),
+  -- and (F.unitIso.app X).inv is iso hence mono
+  haveI : Mono (F.inverse.map g) := by
+    haveI : F.inverse.PreservesMonomorphisms :=
+      CategoryTheory.Functor.preservesMonomorphisms_of_adjunction F.toAdjunction
+    exact F.inverse.map_mono g
+  haveI : Mono g' := mono_comp (F.inverse.map g) (F.unitIso.app X).inv
+  -- By simplicity of X: IsIso g' ↔ g' ≠ 0
+  have hSimp := Simple.mono_isIso_iff_nonzero g'
+  constructor
+  · -- IsIso g → g ≠ 0
+    intro hIso h0
+    -- g' = F.inverse.map 0 ≫ _ = 0 ≫ _ = 0
+    have hg'_zero : g' = 0 := by
+      simp only [g', h0, Functor.map_zero, zero_comp]
+    -- g' = 0 implies ¬ IsIso g'
+    have := hSimp.mp
+    -- But g' is also iso (F.inverse preserves iso, and unit is iso)
+    haveI : IsIso (F.inverse.map g) := by
+      haveI := hIso
+      exact Functor.map_isIso F.inverse g
+    haveI : IsIso g' := IsIso.comp_isIso
+    exact absurd hg'_zero (hSimp.mp ‹IsIso g'›)
+  · -- g ≠ 0 → IsIso g
+    intro hne
+    -- g' ≠ 0 (because F.inverse is faithful, g ≠ 0 implies F.inverse.map g ≠ 0)
+    have hg'_ne : g' ≠ 0 := by
+      intro h0
+      apply hne
+      -- g' = F.inverse.map g ≫ unit.inv = 0
+      -- So F.inverse.map g = 0 (compose with unit.hom on right)
+      have h_inv_zero := congr_arg (· ≫ (F.unitIso.app X).hom) h0
+      simp [g', Category.assoc] at h_inv_zero
+      -- F.inverse.map g = 0 implies g = 0 by faithfulness
+      exact F.inverse.map_injective (by rw [h_inv_zero, Functor.map_zero])
+    -- By simplicity, g' is iso
+    haveI : IsIso g' := hSimp.mpr hg'_ne
+    -- F.inverse.map g = g' ≫ unit.hom, which is iso
+    have : F.inverse.map g = g' ≫ (F.unitIso.app X).hom := by
+      simp [g', Category.assoc]
+    haveI : IsIso (F.inverse.map g) := by rw [this]; exact IsIso.comp_isIso
+    -- F reflects isos (it's an equivalence), so g is iso
+    exact isIso_of_reflects_iso g F.inverse
 
 /-! ## Morita structural theorem -/
 
