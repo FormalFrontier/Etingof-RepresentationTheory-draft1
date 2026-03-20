@@ -226,17 +226,51 @@ theorem Etingof.Corollary6_8_4
     exact Etingof.Corollary6_8_4_simpleRoot p k
   | cons i rest ih =>
     intro α hα Q _hQ hreduce
-    -- Inductive step: apply F⁻ᵢ to reverse one reflection.
-    -- The reflected vector α' = sᵢ(α) satisfies:
-    --   iteratedSimpleReflection rest α' = simpleRoot n p
-    -- By IH on (reversedAtVertex Q i) with α', get an indecomposable ρ' on Q̄ᵢ.
-    -- Then F⁻ᵢ(ρ') lives on Q (since reversing at i twice recovers Q).
-    --
-    -- This step still requires:
-    -- - Showing i is a source or sink in Q (from the orientation + admissible ordering)
-    -- - Applying reflection functor F⁺ᵢ or F⁻ᵢ accordingly
-    -- - Proposition 6.6.7 (indecomposability preservation, sorry'd but usable)
-    -- - Proposition 6.6.8 (dimension vector tracking, sorry'd but usable)
-    -- - Double reversal identity
-    -- - Intermediate coordinate positivity (not exported from Thm 6.8.1)
+    -- Step 1: Unfold iteratedSimpleReflection for the cons step.
+    -- (i :: rest).foldl f α = rest.foldl f (f α i), so the chain reduces to
+    -- applying the remaining reflections to sᵢ(α).
+    set A := Etingof.cartanMatrix n adj with hA_def
+    set α' := Etingof.simpleReflection n A i α with hα'_def
+    have hstep : Etingof.iteratedSimpleReflection n A rest α' =
+        Etingof.simpleRoot n p := by
+      rwa [← Etingof.iteratedSimpleReflection_cons]
+    -- Step 2: α' is a root (nonzero with B(α',α') = 2).
+    -- Simple reflections preserve the bilinear form and nonzero-ness.
+    have hα'_nonzero : α' ≠ 0 :=
+      Etingof.simpleReflection_nonzero hDynkin α i hα.1.2
+    have hα'_B : dotProduct α' (A.mulVec α') = 2 :=
+      (Etingof.simpleReflection_preserves_B hDynkin α i).trans hα.1.2
+    have hα'_isRoot : Etingof.IsRoot n adj α' := ⟨hα'_nonzero, hα'_B⟩
+    -- Step 3: α' has non-negative coordinates.
+    -- This requires that vertex i is a "good vertex" for α, meaning
+    -- 0 < (Aα)_i ≤ α_i. Theorem 6.8.1's proof constructs its vertex list by
+    -- repeatedly finding such good vertices via exists_good_vertex, but this
+    -- property is not currently exported from the theorem statement.
+    -- TODO: Strengthen Theorem 6.8.1 to export the good vertex property,
+    -- then use Etingof.simpleReflection_nonneg to close this goal.
+    have hα'_nonneg : ∀ j, 0 ≤ α' j := by sorry
+    have hα'_pos : Etingof.IsPositiveRoot n adj α' := ⟨hα'_isRoot, hα'_nonneg⟩
+    -- Step 4: The reversed quiver Q' = reversedAtVertex Q i is an orientation of adj.
+    -- Reversing arrows at one vertex of an oriented graph preserves the orientation
+    -- property: non-edges still have no arrows, each edge still has exactly one
+    -- direction (just flipped for edges involving i), and no two-way arrows.
+    let Q' := @Etingof.reversedAtVertex (Fin n) _ Q i
+    have hQ' : Etingof.IsOrientationOf Q' adj := by
+      -- Case analysis on (a = i?) and (b = i?) for each of the three conditions.
+      -- For each case, use ReversedAtVertexHom API lemmas to reduce Q'.Hom to Q.Hom
+      -- with appropriate index permutation, plus adj symmetry (hDynkin.1).
+      sorry
+    -- Step 5: By IH, get an indecomposable ρ' on Q' with dimension vector α'.
+    obtain ⟨ρ', hfree', hfinite', hindec', hdim'⟩ := ih α' hα'_pos hQ' hstep
+    -- Step 6: Construct ρ on Q from ρ' on Q' via reflection functor at i.
+    -- The full argument requires:
+    -- (a) Determine if i is a sink or source in Q' (it should be, since all arrows
+    --     at i in Q' are the reversal of those in Q, and the admissible ordering
+    --     from the book ensures i was a sink/source in Q).
+    -- (b) Apply F⁺ᵢ (if i is sink in Q') or F⁻ᵢ (if source) to ρ'.
+    -- (c) Double reversal identity: reversedAtVertex (reversedAtVertex Q i) i = Q,
+    --     so the resulting representation lives on Q.
+    -- (d) Proposition 6.6.7: the reflection functor preserves indecomposability
+    --     (or gives zero, but α ≠ 0 rules out zero).
+    -- (e) Proposition 6.6.8: dimension vector d(F±ᵢ(ρ')) = sᵢ(d(ρ')) = sᵢ(α') = α.
     sorry
