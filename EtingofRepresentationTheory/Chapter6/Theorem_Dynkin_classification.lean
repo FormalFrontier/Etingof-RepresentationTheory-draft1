@@ -1386,8 +1386,31 @@ private lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     intro i j; simp only [adj_sub, φ]
     split_ifs with h
     · -- adj_sub = 1: show adj(cycle[i], cycle[j]) ≥ 1
-      -- The cycle edges map to graph edges via hedges and hclose'
-      sorry
+      show 1 ≤ adj (cycle.get i) (cycle.get j)
+      suffices adj (cycle.get i) (cycle.get j) = 1 by omega
+      rcases h with h | h | ⟨hi, hj⟩ | ⟨hj, hi⟩
+      · -- i.val + 1 = j.val: consecutive vertices
+        have key := hedges i.val (by omega)
+        have : cycle.get j = cycle.get (⟨i.val + 1, by omega⟩ : Fin m) :=
+          congrArg cycle.get (Fin.ext h.symm)
+        rw [this]; exact key
+      · -- j.val + 1 = i.val: reverse consecutive
+        have key := hedges j.val (by omega)
+        have : cycle.get i = cycle.get (⟨j.val + 1, by omega⟩ : Fin m) :=
+          congrArg cycle.get (Fin.ext h.symm)
+        rw [hsymm.apply, this]; exact key
+      · -- i = 0, j = m-1: closing edge (reversed)
+        have h1 : cycle.get i = cycle.get (⟨0, by omega⟩ : Fin m) :=
+          congrArg cycle.get (Fin.ext hi)
+        have h2 : cycle.get j = cycle.get (⟨m - 1, by omega⟩ : Fin m) :=
+          congrArg cycle.get (Fin.ext hj)
+        rw [hsymm.apply, h1, h2]; exact hclose'
+      · -- j = 0, i = m-1: closing edge
+        have h1 : cycle.get i = cycle.get (⟨m - 1, by omega⟩ : Fin m) :=
+          congrArg cycle.get (Fin.ext hi)
+        have h2 : cycle.get j = cycle.get (⟨0, by omega⟩ : Fin m) :=
+          congrArg cycle.get (Fin.ext hj)
+        rw [h1, h2]; exact hclose'
     · -- adj_sub = 0: trivially 0 ≤ adj(...)
       have : adj (φ i) (φ j) = 0 ∨ adj (φ i) (φ j) = 1 := h01 (φ i) (φ j)
       show 0 ≤ adj (φ i) (φ j)
@@ -1398,8 +1421,53 @@ private lemma dynkin_no_cycle {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   have hv_ne : v ≠ 0 := by
     intro h; have := congr_fun h ⟨0, by omega⟩; simp [v] at this
   -- B_sub(v,v) ≤ 0: each vertex has degree 2 in the cycle, so B(1,...,1) = 0
+  -- Each vertex in a cycle has exactly 2 neighbors, so B(1,...,1) = Σ(2-2) = 0
+  have hdeg2 : ∀ i : Fin m, ∑ j : Fin m, adj_sub i j = 2 := by
+    intro i
+    -- adj_sub i j = 1 iff j is a cycle-neighbor of i; each vertex has exactly 2 neighbors
+    -- The condition (from adj_sub definition) uses i.val and j.val (ℕ comparisons)
+    -- After simp [adj_sub], the sum has if-then-else over ℕ conditions
+    have h01_sub : ∀ j, adj_sub i j = 0 ∨ adj_sub i j = 1 := by
+      intro j; simp only [adj_sub]; split_ifs <;> omega
+    -- Convert to cardinality of the neighbor set
+    rw [show ∑ j, adj_sub i j = ↑(Finset.univ.filter (fun j : Fin m => adj_sub i j = 1)).card from by
+      rw [show ∑ j, adj_sub i j = ∑ j, if adj_sub i j = 1 then (1 : ℤ) else 0 from
+        Finset.sum_congr rfl (fun j _ => by rcases h01_sub j with h | h <;> simp [h])]
+      push_cast; simp [Finset.sum_boole]]
+    -- Show the neighbor set has exactly 2 elements
+    -- Define the two neighbors
+    set nxt : Fin m := ⟨if i.val + 1 < m then i.val + 1 else 0, by split_ifs <;> omega⟩
+    set prv : Fin m := ⟨if i.val = 0 then m - 1 else i.val - 1, by split_ifs <;> omega⟩
+    have hne : nxt ≠ prv := by
+      simp only [nxt, prv, ne_eq, Fin.ext_iff, Fin.val_mk]; split_ifs <;> omega
+    suffices Finset.univ.filter (fun j : Fin m => adj_sub i j = 1) = {nxt, prv} by
+      rw [this, Finset.card_pair hne]; norm_cast
+    ext j; simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert,
+      Finset.mem_singleton]
+    constructor
+    · -- adj_sub i j = 1 → j = nxt ∨ j = prv
+      intro h; simp only [adj_sub] at h
+      split_ifs at h with hcond
+      · rcases hcond with hc | hc | ⟨hc1, hc2⟩ | ⟨hc1, hc2⟩
+        · left; exact Fin.ext (by simp only [nxt, Fin.val_mk]; split_ifs <;> omega)
+        · right; exact Fin.ext (by simp only [prv, Fin.val_mk]; split_ifs <;> omega)
+        · right; exact Fin.ext (by simp only [prv, Fin.val_mk]; split_ifs <;> omega)
+        · left; exact Fin.ext (by simp only [nxt, Fin.val_mk]; split_ifs <;> omega)
+      · omega -- h : 0 = 1 contradiction
+    · -- j = nxt ∨ j = prv → adj_sub i j = 1
+      rintro (hj | hj) <;> subst hj <;> simp only [adj_sub, nxt, prv, Fin.val_mk] <;>
+        split_ifs <;> omega
   have hv_null : dotProduct v ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v) ≤ 0 := by
-    sorry
+    suffices h0 : (2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj_sub).mulVec v = 0 by
+      rw [h0]; simp [dotProduct]
+    ext i; simp only [mulVec, dotProduct, v, mul_one, Matrix.sub_apply, Matrix.smul_apply,
+      Matrix.one_apply, Pi.zero_apply]
+    -- Convert nsmul to concrete ℤ values
+    simp_rw [show ∀ j : Fin m, (2 : ℕ) • (if i = j then (1 : ℤ) else 0) =
+      if i = j then (2 : ℤ) else 0 from fun j => by split_ifs <;> simp]
+    rw [Finset.sum_sub_distrib]
+    simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true]
+    linarith [hdeg2 i]
   exact subgraph_contradiction ⟨hsymm, _hdiag, h01, _hconn, hpos⟩ adj_sub φ hembed v hv_nonneg hv_ne hv_null
 
 /-- A Dynkin diagram on n vertices has exactly n-1 edges (it's a tree).
