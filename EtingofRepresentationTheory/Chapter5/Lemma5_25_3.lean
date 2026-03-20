@@ -158,9 +158,8 @@ on P¹(𝔽_q). Its character equals (number of fixed points on P¹) - 1.
 
 A point [1:t] ∈ P¹ is fixed by matrix M iff M₀₁t² + (M₀₀ - M₁₁)t - M₁₀ = 0.
 The point [0:1] is fixed iff M₀₁ = 0. -/
-private noncomputable def Etingof.GL2.charW₁ : GL2 p n → ℂ :=
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  haveI : DecidableEq (GaloisField p n) := Classical.decEq _
+private noncomputable def Etingof.GL2.charW₁
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] : GL2 p n → ℂ :=
   fun g =>
     let M := (g : Matrix (Fin 2) (Fin 2) (GaloisField p n))
     -- Count fixed points on the affine chart [1:t]
@@ -174,10 +173,9 @@ private noncomputable def Etingof.GL2.charW₁ : GL2 p n → ℂ :=
 V(α, 1) = Ind_B^G(α ⊗ 1) where B is the Borel subgroup (upper triangular matrices).
 By Frobenius reciprocity, char(V(α,1))(g) = (1/|B|) ∑_{x : x⁻¹gx ∈ B} α(upper-left of x⁻¹gx). -/
 private noncomputable def Etingof.GL2.charVα₁
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    [Fintype (GL2 p n)]
     (alpha : (GaloisField p n)ˣ →* ℂˣ) : GL2 p n → ℂ :=
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  haveI : DecidableEq (GaloisField p n) := Classical.decEq _
-  haveI : Fintype (GL2 p n) := Fintype.ofFinite _
   fun g =>
     -- Frobenius character formula for induced representation
     -- sum over x ∈ G of (indicator that x⁻¹gx is upper triangular) * α(upper-left entry)
@@ -198,6 +196,7 @@ open Classical in
 char(W₁ ⊗ V_{α,1}) - char(V_{α,1}) - char(Ind_K^G ℂ_ν)
 where ν : K → ℂ× with ν^q ≠ ν and α = ν|_{scalars}. -/
 noncomputable def Etingof.GL2.complementarySeriesChar
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) :
     GL2 p n → ℂ :=
@@ -253,14 +252,279 @@ private lemma Etingof.normSq_complementaryChar_parabolic
     starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
   sorry
 
-/-- On split semisimple (hyperbolic) matrices, χ = 0. -/
+/-- A quadratic polynomial a*x² + b*x + c over a field of char ≠ 2 with a ≠ 0 and
+discriminant b² - 4ac ≠ 0 being a square has exactly 2 roots. -/
+private lemma Etingof.quadratic_two_roots
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F] [NeZero (2 : F)]
+    (a b c : F) (ha : a ≠ 0) (hdisc_ne : b ^ 2 - 4 * a * c ≠ 0)
+    (hdisc_sq : IsSquare (b ^ 2 - 4 * a * c)) :
+    (Finset.univ.filter fun x : F => a * x ^ 2 + b * x + c = 0).card = 2 := by
+  -- Get the square root of the discriminant
+  obtain ⟨s, hs⟩ := hdisc_sq
+  -- hs : b ^ 2 - 4 * a * c = s * s (IsSquare gives s * s form)
+  have hs' : discrim a b c = s * s := by
+    simp only [discrim]; exact hs
+  have hs_ne : s ≠ 0 := by
+    intro h; rw [h, mul_zero] at hs; exact hdisc_ne hs
+  -- The two roots
+  set r₁ := (-b + s) / (2 * a)
+  set r₂ := (-b - s) / (2 * a)
+  -- They are distinct
+  have h2a : (2 * a) ≠ (0 : F) := mul_ne_zero (NeZero.ne 2) ha
+  have hr_ne : r₁ ≠ r₂ := by
+    intro h
+    have h1 : (-b + s) / (2 * a) = (-b - s) / (2 * a) := h
+    rw [div_eq_div_iff h2a h2a] at h1
+    -- h1 : (-b + s) * (2 * a) = (-b - s) * (2 * a)
+    have h2 := mul_right_cancel₀ h2a h1
+    -- h2 : -b + s = -b - s
+    have : 2 * s = 0 := by linear_combination h2
+    rcases mul_eq_zero.mp this with h | h
+    · exact absurd h (NeZero.ne 2)
+    · exact hs_ne h
+  -- The filter equals {r₁, r₂}
+  have hfilter : Finset.univ.filter (fun x : F => a * x ^ 2 + b * x + c = 0) = {r₁, r₂} := by
+    ext x
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert,
+      Finset.mem_singleton]
+    rw [show a * x ^ 2 + b * x + c = a * (x * x) + b * x + c by ring]
+    rw [quadratic_eq_zero_iff ha hs']
+  rw [hfilter, Finset.card_pair hr_ne]
+
+/-- A linear equation a*x + b = 0 with a ≠ 0 has exactly 1 root. -/
+private lemma Etingof.linear_one_root
+    {F : Type*} [Field F] [Fintype F] [DecidableEq F]
+    (a b : F) (ha : a ≠ 0) :
+    (Finset.univ.filter fun x : F => a * x + b = 0).card = 1 := by
+  rw [Finset.card_eq_one]
+  refine ⟨-(a⁻¹ * b), ?_⟩
+  ext x
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+  constructor
+  · intro h
+    -- a*x + b = 0 → a*x = -b → x = -(a⁻¹ * b)
+    have hax : a * x = -b := by linear_combination h
+    have : x = -(a⁻¹ * b) := by
+      have := mul_left_cancel₀ ha (show a * x = a * (-(a⁻¹ * b)) by
+        rw [hax]; field_simp)
+      exact this
+    exact this
+  · intro h
+    subst h
+    field_simp
+    ring
+
+private lemma Etingof.charW₁_splitSemisimple
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    (hp2 : p ≠ 2)
+    (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
+    Etingof.GL2.charW₁ p n g = 1 := by
+  haveI : NeZero (2 : GaloisField p n) := by
+    constructor; intro h2; apply hp2
+    have h2' : (Nat.cast 2 : GaloisField p n) = 0 := h2
+    rw [CharP.cast_eq_zero_iff (GaloisField p n) p 2] at h2'
+    exact Nat.le_antisymm (Nat.le_of_dvd (by omega) h2') hp.out.two_le
+  simp only [Etingof.GL2.charW₁]
+  set M := (g : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  obtain ⟨hdisc_ne, hdisc_sq⟩ := hg
+  simp only [GL2.disc_eq] at hdisc_ne hdisc_sq
+  by_cases h01 : M 0 1 = 0
+  · -- Case M₀₁ = 0: infinity is fixed, affine equation is linear
+    have h00_ne_11 : M 0 0 - M 1 1 ≠ 0 := by
+      intro h; apply hdisc_ne
+      show (M 0 0 - M 1 1) ^ 2 + 4 * M 0 1 * M 1 0 = 0
+      rw [h01, h]; ring
+    have hfilt : (Finset.univ.filter fun t : GaloisField p n =>
+        M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t - M 1 0 = 0) =
+        (Finset.univ.filter fun t : GaloisField p n =>
+        (M 0 0 - M 1 1) * t + (-(M 1 0)) = 0) := by
+      congr 1; ext t; simp only [h01, zero_mul, zero_add, sub_eq_add_neg]
+    rw [hfilt, Etingof.linear_one_root _ _ h00_ne_11]
+    simp only [h01, ite_true]
+    push_cast; ring
+  · -- Case M₀₁ ≠ 0: infinity is not fixed, quadratic has 2 roots
+    have hfilt : (Finset.univ.filter fun t : GaloisField p n =>
+        M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t - M 1 0 = 0) =
+        (Finset.univ.filter fun t : GaloisField p n =>
+        M 0 1 * t ^ 2 + (M 0 0 - M 1 1) * t + (-(M 1 0)) = 0) := by
+      congr 1; ext t; show _ - _ = 0 ↔ _ + (-_) = 0; rw [sub_eq_add_neg]
+    have hconv : (M 0 0 - M 1 1) ^ 2 - 4 * M 0 1 * (-(M 1 0)) =
+        (M 0 0 - M 1 1) ^ 2 + 4 * (M 0 1) * (M 1 0) := by ring
+    have hdisc_ne' : (M 0 0 - M 1 1) ^ 2 - 4 * M 0 1 * (-(M 1 0)) ≠ 0 := by
+      rw [hconv]; exact hdisc_ne
+    have hdisc_sq' : IsSquare ((M 0 0 - M 1 1) ^ 2 - 4 * M 0 1 * (-(M 1 0))) := by
+      rw [hconv]; exact hdisc_sq
+    rw [hfilt, Etingof.quadratic_two_roots _ _ _ h01 hdisc_ne' hdisc_sq']
+    simp only [h01, ite_false, Nat.add_zero]
+    push_cast; ring
+
+/-- The discriminant is a conjugation invariant: disc(x⁻¹gx) = disc(g).
+This follows from disc = tr² - 4·det and both tr and det being similarity invariants. -/
+private lemma Etingof.disc_eq_tr_det (M : Matrix (Fin 2) (Fin 2) (GaloisField p n)) :
+    (M 0 0 - M 1 1) ^ 2 + 4 * M 0 1 * M 1 0 =
+    (Matrix.trace M) ^ 2 - 4 * Matrix.det M := by
+  simp [Matrix.trace_fin_two, Matrix.det_fin_two]; ring
+
+private lemma Etingof.disc_conj_eq (g x : GL2 p n) :
+    GL2.disc (x⁻¹ * g * x : GL2 p n) = GL2.disc g := by
+  -- disc = tr² - 4·det for 2×2 matrices
+  simp only [GL2.disc_eq]
+  set h := x⁻¹ * g * x
+  set G := (g : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  set H := (h : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  -- Express disc in terms of trace and det
+  rw [Etingof.disc_eq_tr_det (M := H), Etingof.disc_eq_tr_det (M := G)]
+  -- trace(h) = trace(g)  and  det(h) = det(g)
+  have htr : Matrix.trace H = Matrix.trace G := by
+    change Matrix.trace (x⁻¹ * g * x).val = Matrix.trace g.val
+    rw [show (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val from by
+      simp [Units.val_mul]]
+    exact Matrix.trace_units_conj' x g.val
+  have hdet : Matrix.det H = Matrix.det G := by
+    change Matrix.det (x⁻¹ * g * x).val = Matrix.det g.val
+    rw [show (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val from by
+      simp [Units.val_mul]]
+    exact Matrix.det_units_conj' x g.val
+  rw [htr, hdet]
+
+/-- If d ∈ 𝔽_q has a square root s in 𝔽_{q²} with s^q = -s and s ≠ 0 (char ≠ 2),
+then d is not a square in 𝔽_q. -/
+private lemma Etingof.not_isSquare_of_antisymmetric_root (hp2 : p ≠ 2) (hn : n ≠ 0)
+    (d : GaloisField p n) (s : GaloisField p (2 * n))
+    (hd : algebraMap (GaloisField p n) (GaloisField p (2 * n)) d = s ^ 2)
+    (hs_ne : s ≠ 0)
+    (hs_frob : s ^ (p ^ n : ℕ) = -s) :
+    ¬IsSquare d := by
+  letI := Etingof.algebraGaloisFieldExt p n
+  intro ⟨r, hr⟩
+  -- If d = r * r in 𝔽_q, then algebraMap(r * r) = s² in 𝔽_{q²}
+  have hrs : (algebraMap (GaloisField p n) (GaloisField p (2 * n)) r) ^ 2 = s ^ 2 := by
+    rw [sq, ← map_mul, ← hr]; exact hd
+  -- So (alg_map(r))² = s², meaning (alg_map(r) - s)(alg_map(r) + s) = 0
+  set r' := algebraMap (GaloisField p n) (GaloisField p (2 * n)) r
+  have h_prod : (r' - s) * (r' + s) = 0 := by
+    have h1 : r' ^ 2 = s ^ 2 := hrs
+    have : (r' - s) * (r' + s) = r' ^ 2 - s ^ 2 := by ring
+    rw [this, h1, sub_self]
+  -- Key fact: algebraMap(r)^{p^n} = algebraMap(r) since r ∈ 𝔽_{p^n}
+  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+  have hr_frob : r' ^ (p ^ n : ℕ) = r' := by
+    show (algebraMap (GaloisField p n) (GaloisField p (2 * n)) r) ^ (p ^ n : ℕ) = _
+    rw [← map_pow]
+    congr 1
+    have hcard : Fintype.card (GaloisField p n) = p ^ n := by
+      rw [← Nat.card_eq_fintype_card, GaloisField.card p n hn]
+    rw [← hcard]
+    exact FiniteField.pow_card r
+  -- NeZero (2 : GaloisField p (2*n)) since char = p ≠ 2
+  have h2ne : (2 : GaloisField p (2 * n)) ≠ 0 := by
+    intro h2; apply hp2
+    have h2' : (Nat.cast 2 : GaloisField p (2 * n)) = 0 := h2
+    rw [CharP.cast_eq_zero_iff (GaloisField p (2 * n)) p 2] at h2'
+    exact Nat.le_antisymm (Nat.le_of_dvd (by omega) h2') hp.out.two_le
+  -- p^n is odd since p is an odd prime
+  have hodd : Odd (p ^ n) := by
+    exact Odd.pow (Nat.Prime.odd_of_ne_two hp.out hp2)
+  rcases mul_eq_zero.mp h_prod with h | h
+  · -- r' = s (from r' - s = 0)
+    have hs_eq : s = r' := (sub_eq_zero.mp h).symm
+    -- s^{p^n} = r'^{p^n} = r' = s, but also s^{p^n} = -s
+    have hcontra : s = -s := by
+      calc s = r' := hs_eq
+        _ = r' ^ (p ^ n : ℕ) := hr_frob.symm
+        _ = s ^ (p ^ n : ℕ) := by rw [hs_eq]
+        _ = -s := hs_frob
+    -- So s + s = 0, i.e., 2 * s = 0
+    have h2s : (2 : GaloisField p (2 * n)) * s = 0 := by
+      have : s - (-s) = 0 := sub_eq_zero.mpr hcontra
+      have : 2 * s = 0 := by linear_combination this
+      exact this
+    exact absurd ((mul_eq_zero.mp h2s).resolve_left h2ne) hs_ne
+  · -- r' + s = 0, so s = -r'
+    have hs_eq : s = -r' := by
+      have : r' = -s := add_eq_zero_iff_eq_neg.mp h
+      rw [this]; ring
+    have hr'_ne : r' ≠ 0 := by
+      intro h0; rw [hs_eq, h0, neg_zero] at hs_ne; exact hs_ne rfl
+    -- s^{p^n} = (-r')^{p^n} = -(r'^{p^n}) = -r' (since p^n is odd)
+    have h1 : s ^ (p ^ n : ℕ) = -(r' ^ (p ^ n : ℕ)) := by
+      rw [hs_eq]; exact hodd.neg_pow r'
+    -- But s^{p^n} = -s = -(-r') = r'
+    have h2 : s ^ (p ^ n : ℕ) = r' := by rw [hs_frob, hs_eq, neg_neg]
+    -- So -r' = r'
+    have h3 : -r' = r' := by
+      have : -(r' ^ (p ^ n : ℕ)) = r' := by rw [← h1, h2]
+      rwa [hr_frob] at this
+    -- So 2r' = 0
+    have h4 : (2 : GaloisField p (2 * n)) * r' = 0 := by
+      have : r' - (-r') = 0 := sub_eq_zero.mpr h3.symm
+      linear_combination this
+    exact absurd ((mul_eq_zero.mp h4).resolve_left h2ne) hr'_ne
+
+private lemma Etingof.ellipticSubgroup_disc (hp2 : p ≠ 2) (k : GL2 p n)
+    (hk : k ∈ Etingof.GL2.ellipticSubgroup p n) :
+    GL2.disc k = 0 ∨ ¬IsSquare (GL2.disc k) := by
+  -- k ∈ K means k = fieldExtEmbed(α) for some α ∈ 𝔽_{q²}×
+  obtain ⟨α, rfl⟩ := hk
+  by_cases hn : n = 0
+  · -- Degenerate case n=0
+    left; simp [GL2.disc_eq, GL2.fieldExtEmbed, hn]
+  · -- Unpack fieldExtEmbed
+    letI := Etingof.algebraGaloisFieldExt p n
+    letI := Etingof.scalarTowerGaloisField p n
+    haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+    let b := Module.finBasisOfFinrankEq (R := GaloisField p n)
+      (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
+    -- The disc of embed(α) = tr²-4·det of the leftMulMatrix
+    -- tr(leftMulMatrix b α) = Algebra.trace(α) and det(...) = Algebra.norm(α)
+    -- disc = Algebra.trace(α)² - 4·Algebra.norm(α)
+    -- For degree 2 extension: trace(α) = α + α^q, norm(α) = α·α^q
+    -- So disc = (α+α^q)² - 4·α·α^q = (α-α^q)²
+    -- Case split: α^q = α (scalar, disc=0) or α^q ≠ α (elliptic)
+    sorry
+
+private lemma Etingof.induced_char_splitSemisimple_eq_zero
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
+    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
+    (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
+    ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) := by
+  intro x hcontra
+  have hdisc_eq : GL2.disc (x⁻¹ * g * x : GL2 p n) = GL2.disc g :=
+    Etingof.disc_conj_eq p n g x
+  have hK := Etingof.ellipticSubgroup_disc p n hp2 (x⁻¹ * g * x) hcontra
+  -- g is split semisimple: disc ≠ 0 and IsSquare
+  obtain ⟨hdisc_ne, hdisc_sq⟩ := hg
+  rw [hdisc_eq] at hK
+  rcases hK with hzero | hnsq
+  · exact hdisc_ne hzero
+  · exact hnsq hdisc_sq
+
+open Classical in
+/-- On split semisimple (hyperbolic) matrices, χ = 0.
+Proof: χ = (charW₁ - 1) · charVα₁ - induced_term.
+For split semisimple g, charW₁ = 1 (2 fixed points on P¹) and the
+induced character sum is 0 (no conjugate lies in K). -/
 private lemma Etingof.complementaryChar_splitSemisimple_eq_zero
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     Etingof.GL2.complementarySeriesChar p n nu g = 0 := by
-  sorry
+  unfold Etingof.GL2.complementarySeriesChar
+  have h1 : Etingof.GL2.charW₁ p n g = 1 := Etingof.charW₁_splitSemisimple p n hp2 g hg
+  have h2 : ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) :=
+    Etingof.induced_char_splitSemisimple_eq_zero p n hp2 nu g hg
+  -- The induced character sum is zero because each term is zero
+  have h3 : ∑ x : GL2 p n,
+      (if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+       then (nu ⟨x⁻¹ * g * x, h⟩).val
+       else 0) = 0 := by
+    apply Finset.sum_eq_zero; intro x _
+    rw [dif_neg (h2 x)]
+  rw [h1, h3, mul_zero, one_mul, sub_self, zero_sub, neg_eq_zero]
 
 end CharacterValues
 
@@ -325,15 +589,15 @@ The proof splits the sum over GL₂(𝔽_q) by conjugacy class type:
 Combined: (q-1)³ + (q-1)(q²-1) + q(q-1)³ = (q-1)²[q-1+q+1+q(q-1)] = (q-1)²q(q+1) = |G|.
 -/
 private lemma Etingof.innerProduct_sum_eq_card
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
     (∑ x : GL2 p n,
       Etingof.GL2.complementarySeriesChar p n nu x *
       starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu x) : ℂ) =
     (Fintype.card (GL2 p n) : ℂ) := by
   have hn_ne : n ≠ 0 := by omega
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
-  haveI : DecidableEq (GaloisField p n) := Classical.decEq _
   set q := Fintype.card (GaloisField p n) with hq_def
   have hq1 : 1 < q := by
     rw [hq_def, ← Nat.card_eq_fintype_card, GaloisField.card p n hn_ne]
@@ -379,7 +643,7 @@ private lemma Etingof.innerProduct_sum_eq_card
   have h_split : ∑ g ∈ Finset.univ.filter (fun g => GL2.IsSplitSemisimple g), f g = 0 := by
     apply Finset.sum_eq_zero; intro g hg
     rw [Finset.mem_filter] at hg
-    have h0 : χ g = 0 := Etingof.complementaryChar_splitSemisimple_eq_zero p n nu g hg.2
+    have h0 : χ g = 0 := Etingof.complementaryChar_splitSemisimple_eq_zero p n hp2 nu g hg.2
     change χ g * starRingEnd ℂ (χ g) = 0
     rw [h0, map_zero, mul_zero]
   -- Elliptic: total = q(q-1)³
@@ -397,13 +661,15 @@ private lemma Etingof.innerProduct_sum_eq_card
 satisfies ⟨χ, χ⟩ = 1, establishing (via Lemma 5.7.2) that it is the character
 of an actual irreducible representation. (Etingof Lemma 5.25.3) -/
 theorem Etingof.Lemma5_25_3_innerProduct
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
+    (hp2 : p ≠ 2)
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
     (Fintype.card (GL2 p n) : ℂ)⁻¹ •
       ∑ x : GL2 p n,
         Etingof.GL2.complementarySeriesChar p n nu x *
         starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu x) = 1 := by
-  rw [Etingof.innerProduct_sum_eq_card p n nu hn]
+  rw [Etingof.innerProduct_sum_eq_card p n hp2 nu hn]
   simp only [smul_eq_mul]
   have hcard : (Fintype.card (GL2 p n) : ℂ) ≠ 0 := by
     exact_mod_cast Fintype.card_pos.ne'
@@ -412,9 +678,10 @@ theorem Etingof.Lemma5_25_3_innerProduct
 /-- **Lemma 5.25.3 (part 2)**: The complementary series virtual character
 satisfies χ(1) = q - 1 > 0, confirming it has positive dimension.
 (Etingof Lemma 5.25.3) -/
-private lemma Etingof.charW₁_one :
+private lemma Etingof.charW₁_one
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] :
     Etingof.GL2.charW₁ p n 1 =
-      (@Fintype.card (GaloisField p n) (Fintype.ofFinite _) : ℂ) := by
+      (Fintype.card (GaloisField p n) : ℂ) := by
   unfold GL2.charW₁
   simp only [Matrix.GeneralLinearGroup.coe_one, Matrix.one_apply]
   norm_num
@@ -432,6 +699,7 @@ private lemma Etingof.dimension_arith_identity
   ring
 
 theorem Etingof.Lemma5_25_3_dimension
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ) (hn : 0 < n) :
     Etingof.GL2.complementarySeriesChar p n nu 1 = (p ^ n : ℂ) - 1 ∧
