@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter5.Theorem5_18_1
 
 /-!
 # Theorem 5.18.4: Schur-Weyl Duality
@@ -33,6 +34,14 @@ variable (k : Type*) [Field k]
 /-- The n-th tensor power V^⊗n as a type. -/
 abbrev TensorPower := ⨂[k] (_ : Fin n), V
 
+/-- The tensor power of a finite-dimensional module is finite-dimensional.
+This follows from the fact that if V has a finite basis, then V⊗ⁿ has a
+basis indexed by n-tuples of basis elements. -/
+instance tensorPower_finite : Module.Finite k (TensorPower k V n) := by
+  haveI : Module.Free k V := Module.Free.of_divisionRing k V
+  let b := Module.Free.chooseBasis k V
+  exact Module.Finite.of_basis (Basis.piTensorProduct (fun _ : Fin n => b))
+
 /-- The symmetric group action on V^⊗n by permuting tensor factors.
 Given σ ∈ S_n, this sends v₁ ⊗ ... ⊗ vₙ to v_{σ⁻¹(1)} ⊗ ... ⊗ v_{σ⁻¹(n)}.
 This is a linear equivalence, hence an element of End_k(V^⊗n). -/
@@ -59,6 +68,75 @@ noncomputable def diagonalActionImage :
   Algebra.adjoin k (Set.range fun (f : Module.End k V) =>
     PiTensorProduct.map (fun _ => f))
 
+/-- Permutation and diagonal operators commute:
+(reindex σ) ∘ (map f) = (map f) ∘ (reindex σ). -/
+theorem symGroupAction_comm_diagonalAction (σ : Equiv.Perm (Fin n)) (f : Module.End k V) :
+    (symGroupAction k V n σ).toLinearMap ∘ₗ PiTensorProduct.map (fun _ => f) =
+    PiTensorProduct.map (fun _ => f) ∘ₗ (symGroupAction k V n σ).toLinearMap := by
+  unfold symGroupAction
+  apply LinearMap.ext
+  intro x
+  show (PiTensorProduct.reindex k (fun _ => V) σ) (PiTensorProduct.map (fun _ => f) x) =
+    PiTensorProduct.map (fun _ => f) ((PiTensorProduct.reindex k (fun _ => V) σ) x)
+  exact (PiTensorProduct.map_reindex (fun (_ : Fin n) => f) σ x).symm
+
+/-- Permutation operators commute with diagonal operators:
+for σ ∈ Sₙ and f ∈ End(V), σ ∘ f⊗ⁿ = f⊗ⁿ ∘ σ on V⊗ⁿ.
+This gives symGroupImage ⊆ centralizer(diagonalActionImage). -/
+theorem symGroupImage_le_centralizer_diagonalActionImage :
+    symGroupImage k V n ≤ Subalgebra.centralizer k
+      (diagonalActionImage k V n :
+        Set (Module.End k (TensorPower k V n))) := by
+  unfold symGroupImage
+  apply Algebra.adjoin_le
+  rintro x ⟨σ, rfl⟩
+  simp only [SetLike.mem_coe, Subalgebra.mem_centralizer_iff]
+  intro y hy
+  unfold diagonalActionImage at hy
+  have hcomm : ∀ g ∈ Set.range (fun (f : Module.End k V) =>
+      PiTensorProduct.map (R := k) (fun (_ : Fin n) => f)),
+      Commute (↑(symGroupAction k V n σ) : Module.End k (TensorPower k V n)) g := by
+    rintro g ⟨f, rfl⟩
+    exact symGroupAction_comm_diagonalAction k V n σ f
+  exact (Algebra.commute_of_mem_adjoin_of_forall_mem_commute hy hcomm).symm.eq
+
+/-- Diagonal operators commute with permutation operators:
+diagonalActionImage ⊆ centralizer(symGroupImage). -/
+theorem diagonalActionImage_le_centralizer_symGroupImage :
+    diagonalActionImage k V n ≤ Subalgebra.centralizer k
+      (symGroupImage k V n :
+        Set (Module.End k (TensorPower k V n))) := by
+  rw [Subalgebra.le_centralizer_iff]
+  exact symGroupImage_le_centralizer_diagonalActionImage k V n
+
+/-- The image of k[Sₙ] in End(V⊗ⁿ) is a semisimple ring.
+This follows from Maschke's theorem: the group algebra k[G] is
+semisimple when char(k) does not divide |G| (in char 0, always). -/
+instance symGroupImage_isSemisimpleRing
+    [CharZero k] :
+    IsSemisimpleRing (symGroupImage k V n) := by
+  sorry
+
+/-- V⊗ⁿ is a faithful module over symGroupImage when n ≤ dim V.
+Distinct permutations produce distinct operators on V⊗ⁿ when
+there are enough linearly independent vectors. -/
+theorem symGroupImage_faithfulSMul
+    (hN : n ≤ Module.finrank k V) :
+    FaithfulSMul (symGroupImage k V n) (TensorPower k V n) := by
+  sorry
+
+/-- The centralizer of the symmetric group image equals the diagonal
+action image. This is the key content of Schur-Weyl duality:
+every endomorphism of V⊗ⁿ commuting with all permutations is
+a polynomial in diagonal operators. -/
+theorem centralizer_symGroupImage_eq_diagonalActionImage
+    (hN : n ≤ Module.finrank k V) :
+    Subalgebra.centralizer k
+      (symGroupImage k V n :
+        Set (Module.End k (TensorPower k V n))) =
+    diagonalActionImage k V n := by
+  sorry
+
 /-- Schur-Weyl duality, part (i): The images of k[S_n] and End_k(V)
 in End(V^⊗n) are mutual centralizers.
 
@@ -66,6 +144,7 @@ Specifically, symGroupImage = centralizer(diagonalActionImage) and
 diagonalActionImage = centralizer(symGroupImage).
 (Etingof Theorem 5.18.4, part i) -/
 theorem Theorem5_18_4_centralizers
+    [CharZero k]
     (hN : n ≤ Module.finrank k V) :
     symGroupImage k V n = Subalgebra.centralizer k
       (diagonalActionImage k V n :
@@ -73,7 +152,17 @@ theorem Theorem5_18_4_centralizers
     ∧ diagonalActionImage k V n = Subalgebra.centralizer k
       (symGroupImage k V n :
         Set (Module.End k (TensorPower k V n))) := by
-  sorry
+  have h_cent := centralizer_symGroupImage_eq_diagonalActionImage k V n hN
+  constructor
+  · -- symGroupImage = centralizer(diagonalActionImage)
+    -- By double centralizer theorem: centralizer(centralizer(symGroupImage)) = symGroupImage
+    -- Since centralizer(symGroupImage) = diagonalActionImage, this gives the result
+    haveI := symGroupImage_isSemisimpleRing k V n
+    haveI := symGroupImage_faithfulSMul k V n hN
+    rw [← h_cent]
+    exact (Theorem5_18_1_double_centralizer k (TensorPower k V n) (symGroupImage k V n)).symm
+  · -- diagonalActionImage = centralizer(symGroupImage)
+    exact h_cent.symm
 
 /-- Schur-Weyl duality, part (ii): The symmetric group and diagonal
 action subalgebras of End(V^⊗n) are both semisimple.
