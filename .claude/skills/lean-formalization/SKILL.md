@@ -810,6 +810,15 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 **Workaround for API lemma application:** When proofs have local `let instR := reversedAtVertex Q i` bindings, Lean's type class synthesis finds `instR` for `[Quiver Q]` instead of the registered `inst`, causing "synthesized type class instance is not definitionally equal" errors when applying API lemmas. **Fix**: Extract the computation as a separate top-level theorem (outside the proof) where `instR` doesn't exist as a local binding. Use explicit `@`-prefixed terms with `Etingof.reversedAtVertex Q _ inst i` to control instance resolution. See `Φ_comp_source_eq_zero` in Proposition6_6_6.lean and `reflFunctorPlus_mapLinear_eq_ne` in Definition6_6_3.lean for examples of this pattern.
 
+## Omega Scope in Anonymous Functions
+
+`by omega` inside `fun x => ⟨x, by omega⟩` does NOT see hypotheses from the enclosing tactic block. If you need an outer hypothesis `hk : k ≤ n` to close `i < n`, either:
+- Bind it first: `have hkn := hk` before the lambda, then `by omega` can find it
+- Use explicit proof terms: `fun i => ⟨i, lt_of_lt_of_le i.isLt hk⟩`
+- Use API lemmas that avoid the need: e.g., `Finset.mem_range.mp hm` instead of `by omega`
+
+This is a Lean elaboration limitation: anonymous function bodies open a fresh tactic state that doesn't inherit the caller's local context.
+
 ## Common Failure Modes
 
 ### Explicit Bijection Construction (Counting Proofs)
