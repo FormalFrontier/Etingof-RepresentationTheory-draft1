@@ -1701,9 +1701,122 @@ private lemma path_walk_construction {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ
         · intro i; exact hdiag _
         · intro i j; exact h01 _ _
         · -- Connectivity: removing a leaf preserves connectivity
-          -- For any u, w in V\{v₀}, path u → v₁ in V\{v₀} exists,
-          -- so u → v₁ → w works.
-          sorry
+          -- Build SimpleGraph from adj
+          let G : SimpleGraph (Fin (k + 1)) :=
+            { Adj := fun i j => adj i j = 1
+              symm := fun {i j} (h : adj i j = 1) => (hsymm.apply i j).trans h
+              loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
+          haveI : DecidableRel G.Adj :=
+            fun i j => show Decidable (adj i j = 1) from inferInstance
+          -- G is connected
+          have hG_conn : G.Connected := by
+            constructor
+            · intro u v
+              obtain ⟨path, hhead, hlast, hedges⟩ := hconn u v
+              suffices h : ∀ (l : List (Fin (k + 1))) (a b : Fin (k + 1)),
+                  l.head? = some a → l.getLast? = some b →
+                  (∀ m, (hm : m + 1 < l.length) →
+                    adj (l.get ⟨m, by omega⟩) (l.get ⟨m + 1, hm⟩) = 1) →
+                  G.Reachable a b from h path u v hhead hlast hedges
+              intro l; induction l with
+              | nil => intro a _ ha; simp at ha
+              | cons x t ih =>
+                intro a b ha hb hedges'
+                simp at ha; subst ha
+                cases t with
+                | nil => simp at hb; subst hb; exact SimpleGraph.Reachable.refl _
+                | cons y s =>
+                  have hxy : G.Adj x y := hedges' 0 (by simp)
+                  exact hxy.reachable.trans
+                    (ih y b (by simp) hb (fun m hm => hedges' (m + 1)
+                      (by simp only [List.length_cons] at hm ⊢; omega)))
+          -- G has degree 1 at v₀
+          have hG_deg : G.degree v₀ = 1 := by
+            unfold SimpleGraph.degree
+            have heq : G.neighborFinset v₀ = Finset.univ.filter (adj v₀ · = 1) := by
+              ext j
+              simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter,
+                Finset.mem_univ, true_and]
+              exact ⟨fun h => h, fun h => h⟩
+            rw [heq]; unfold vertexDegree at hv₀_deg1; convert hv₀_deg1
+          -- Apply Mathlib: removing v₀ preserves connectivity
+          have hG' := hG_conn.induce_compl_singleton_of_degree_eq_one hG_deg
+          -- Convert: G.induce {v₀}ᶜ connectivity → adj' connectivity
+          intro u w
+          have hu_ne : v₀.succAbove u ≠ v₀ := Fin.succAbove_ne v₀ u
+          have hw_ne : v₀.succAbove w ≠ v₀ := Fin.succAbove_ne v₀ w
+          have hu_mem : v₀.succAbove u ∈ ({v₀}ᶜ : Set (Fin (k + 1))) :=
+            Set.mem_compl_singleton_iff.mpr hu_ne
+          have hw_mem : v₀.succAbove w ∈ ({v₀}ᶜ : Set (Fin (k + 1))) :=
+            Set.mem_compl_singleton_iff.mpr hw_ne
+          obtain ⟨walk⟩ := hG'.preconnected ⟨v₀.succAbove u, hu_mem⟩ ⟨v₀.succAbove w, hw_mem⟩
+          -- Convert walk to List (Fin k) path by induction on the walk
+          -- Helper: map vertex in {v₀}ᶜ to Fin k via succAbove inverse
+          let toFink : ↥({v₀}ᶜ : Set (Fin (k + 1))) → Fin k :=
+            fun ⟨v, hv⟩ => (Fin.exists_succAbove_eq
+              (Set.mem_compl_singleton_iff.mp hv)).choose
+          have htoFink_spec : ∀ (x : ↥({v₀}ᶜ : Set (Fin (k + 1)))),
+              v₀.succAbove (toFink x) = x.val :=
+            fun ⟨v, hv⟩ => (Fin.exists_succAbove_eq
+              (Set.mem_compl_singleton_iff.mp hv)).choose_spec
+          have htoFink_adj : ∀ (x y : ↥({v₀}ᶜ : Set (Fin (k + 1)))),
+              (G.induce ({v₀}ᶜ : Set _)).Adj x y →
+              adj' (toFink x) (toFink y) = 1 := by
+            intro x y hadj_xy
+            simp only [hadj'_def, SimpleGraph.induce_adj] at hadj_xy ⊢
+            rw [htoFink_spec x, htoFink_spec y]; exact hadj_xy
+          -- Build path by induction on the walk
+          suffices h_walk : ∀ (a b : ↥({v₀}ᶜ : Set (Fin (k+1))))
+              (w' : (G.induce ({v₀}ᶜ : Set _)).Walk a b),
+            ∃ path : List (Fin k),
+              path.head? = some (toFink a) ∧
+              path.getLast? = some (toFink b) ∧
+              ∀ m, (hm : m + 1 < path.length) →
+                adj' (path.get ⟨m, by omega⟩) (path.get ⟨m + 1, hm⟩) = 1 by
+            obtain ⟨path, hhead, hlast, hedges⟩ := h_walk _ _ walk
+            refine ⟨path, ?_, ?_, hedges⟩
+            · convert hhead using 2
+              exact (Fin.succAbove_right_injective
+                (htoFink_spec ⟨v₀.succAbove u, hu_mem⟩)).symm
+            · convert hlast using 2
+              exact (Fin.succAbove_right_injective
+                (htoFink_spec ⟨v₀.succAbove w, hw_mem⟩)).symm
+          intro a b w'
+          induction w' with
+          | nil =>
+            exact ⟨[toFink _], rfl, rfl, fun m hm => absurd hm (by simp)⟩
+          | @cons c d _ hadj_edge rest ih =>
+            obtain ⟨path_rest, hhead_rest, hlast_rest, hedges_rest⟩ := ih
+            refine ⟨toFink c :: path_rest, by simp, ?_, ?_⟩
+            · -- getLast?
+              cases path_rest with
+              | nil =>
+                simp at hhead_rest hlast_rest ⊢
+              | cons y ys =>
+                simp only [List.getLast?_cons_cons]
+                exact hlast_rest
+            · -- Consecutive adjacency
+              intro m hm
+              match m with
+              | 0 =>
+                simp only [List.get_eq_getElem, List.getElem_cons_zero,
+                  List.getElem_cons_succ]
+                -- Goal: adj' (toFink c) path_rest[0] = 1
+                -- path_rest is nonempty and path_rest[0] = toFink d
+                have h0 : 0 < path_rest.length := by
+                  simp only [List.length_cons] at hm; omega
+                have hd_eq : path_rest[0] = toFink d := by
+                  cases path_rest with
+                  | nil => simp at h0
+                  | cons y ys =>
+                    simp only [List.head?, Option.some.injEq] at hhead_rest
+                    simp only [List.getElem_cons_zero]
+                    exact hhead_rest
+                rw [hd_eq]
+                exact htoFink_adj c d hadj_edge
+              | m' + 1 =>
+                simp only [List.get_eq_getElem, List.getElem_cons_succ]
+                exact hedges_rest m' (by simp only [List.length_cons] at hm; omega)
         · -- Positive definiteness: principal submatrix of pos-def
           intro x hx
           set x' : Fin (k + 1) → ℤ := fun a =>
@@ -1773,17 +1886,76 @@ private lemma path_walk_construction {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ
       obtain ⟨σ', hσ'0, hσ'_fwd, hσ'_only⟩ := ih hD' (by omega) hpath' v₁' hv₁'_deg
       -- Construct σ : Fin (k+1) ≃ Fin (k+1) from σ' by prepending v₀
       -- σ(0) = v₀, σ(i+1) = v₀.succAbove(σ'(i))
-      -- Proof sketch:
-      -- Define f(0) = v₀, f(i+1) = succAbove(σ'(i)).
-      -- Injective: f(0) = v₀ ∉ range(succAbove); succAbove ∘ σ' injective.
-      -- Bijective by finite injective ↔ bijective.
-      -- σ(0) = v₀: by definition.
-      -- Consecutive adjacency: f(0)→f(1) = v₀→v₁ uses hv₁_adj;
-      --   f(i+1)→f(i+2) uses adj' = adj on succAbove images + hσ'_fwd.
-      -- Non-adjacency: f(0)↔f(j+1) forces succAbove(σ'(j)) = v₁,
-      --   hence σ'(j) = v₁' = σ'(0), so j = 0.
-      --   f(i+1)↔f(j+1) uses hσ'_only.
-      sorry
+      set f : Fin (k + 1) → Fin (k + 1) :=
+        Fin.cons v₀ (v₀.succAbove ∘ σ')
+      have hf0 : f (0 : Fin (k + 1)) = v₀ := by simp [f]
+      have hf_succ : ∀ i : Fin k, f i.succ = v₀.succAbove (σ' i) := by
+        intro i; simp [f]
+      have hf_inj : Function.Injective f := by
+        intro a b hab
+        rcases Fin.eq_zero_or_eq_succ a with ha | ⟨a', rfl⟩
+        · rcases Fin.eq_zero_or_eq_succ b with hb | ⟨b', rfl⟩
+          · exact ha.trans hb.symm
+          · simp only [ha, f, Fin.cons_zero, Fin.cons_succ, Function.comp_apply] at hab
+            exact absurd hab.symm (Fin.succAbove_ne v₀ _)
+        · rcases Fin.eq_zero_or_eq_succ b with hb | ⟨b', rfl⟩
+          · simp only [hb, f, Fin.cons_zero, Fin.cons_succ, Function.comp_apply] at hab
+            exact absurd hab (Fin.succAbove_ne v₀ _)
+          · simp only [f, Fin.cons_succ, Function.comp_apply] at hab
+            exact congr_arg _ (σ'.injective (Fin.succAbove_right_injective hab))
+      set σ : Fin (k + 1) ≃ Fin (k + 1) :=
+        Equiv.ofBijective f (Finite.injective_iff_bijective.mp hf_inj)
+      refine ⟨σ, ?_, ?_, ?_⟩
+      · -- σ(0) = v₀
+        exact hf0
+      · -- Consecutive adjacency: adj(σ(m))(σ(m+1)) = 1
+        intro m hm
+        change adj (f m) (f ⟨m.val + 1, hm⟩) = 1
+        rcases Fin.eq_zero_or_eq_succ m with hm0 | ⟨m', rfl⟩
+        · -- m = 0: adj(v₀)(succAbove(σ'(0))) = adj(v₀)(v₁)
+          subst hm0
+          simp only [f, Fin.cons_zero]
+          conv_lhs => rw [show (⟨(0 : Fin (k + 1)).val + 1, hm⟩ : Fin (k + 1)) =
+            (⟨0, by omega⟩ : Fin k).succ from by ext; simp]
+          simp only [Fin.cons_succ, Function.comp_apply, hσ'0, hv₁']
+          exact hv₁_adj
+        · -- m = m'+1: adj(succAbove(σ'(m')))(succAbove(σ'(m'+1)))
+          simp only [f, Fin.cons_succ, Function.comp_apply]
+          have hm'_lt : m'.val + 1 < k := by
+            have : m'.succ.val = m'.val + 1 := rfl; omega
+          have : (⟨m'.succ.val + 1, hm⟩ : Fin (k + 1)) =
+              (⟨m'.val + 1, hm'_lt⟩ : Fin k).succ := by exact Fin.ext rfl
+          conv_lhs => rw [this]
+          simp only [Fin.cons_succ, Function.comp_apply]
+          exact hσ'_fwd m' (by omega)
+      · -- Non-adjacency: adj(σ(i))(σ(j)) = 1 → i+1=j ∨ j+1=i
+        intro i j hadj_ij
+        change adj (f i) (f j) = 1 at hadj_ij
+        rcases Fin.eq_zero_or_eq_succ i with hi | ⟨i', rfl⟩
+        · -- i = 0: adj(v₀)(f j) = 1, so f j = v₁
+          rcases Fin.eq_zero_or_eq_succ j with hj | ⟨j', rfl⟩
+          · -- j = 0: adj(v₀)(v₀) = 0 ≠ 1, contradiction
+            simp only [hi, hj, f, Fin.cons_zero, hdiag] at hadj_ij
+            omega
+          · -- j = j'+1: adj(v₀)(succAbove(σ'(j'))) = 1
+            simp only [hi, f, Fin.cons_zero, Fin.cons_succ, Function.comp_apply] at hadj_ij
+            have : v₀.succAbove (σ' j') = v₁ := hv₁_unique _ hadj_ij
+            have : σ' j' = v₁' := Fin.succAbove_right_injective (this.trans hv₁'.symm)
+            have : j' = ⟨0, by omega⟩ := σ'.injective (this.trans hσ'0.symm)
+            left; subst hi; simp [this]
+        · rcases Fin.eq_zero_or_eq_succ j with hj | ⟨j', rfl⟩
+          · -- j = 0: adj(succAbove(σ'(i')))(v₀) = 1
+            simp only [hj, f, Fin.cons_zero, Fin.cons_succ, Function.comp_apply] at hadj_ij
+            have : v₀.succAbove (σ' i') = v₁ :=
+              hv₁_unique _ ((hsymm.apply _ _).trans hadj_ij)
+            have : σ' i' = v₁' := Fin.succAbove_right_injective (this.trans hv₁'.symm)
+            have : i' = ⟨0, by omega⟩ := σ'.injective (this.trans hσ'0.symm)
+            right; subst hj; simp [this]
+          · -- Both ≥ 1: use hσ'_only
+            simp only [f, Fin.cons_succ, Function.comp_apply] at hadj_ij
+            rcases hσ'_only i' j' hadj_ij with h | h
+            · left; simp [Fin.val_succ]; omega
+            · right; simp [Fin.val_succ]; omega
 
 private lemma path_iso_An {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n)
