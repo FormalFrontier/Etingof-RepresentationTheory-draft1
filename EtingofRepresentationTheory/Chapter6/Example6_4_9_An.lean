@@ -310,6 +310,80 @@ private lemma An_bound (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ)
 private def ivec (n : ℕ) (a b : ℕ) : Fin n → Fin 2 :=
   fun i => if a ≤ i.val ∧ i.val ≤ b then 1 else 0
 
+/-- The quadratic form of an interval indicator always equals 2. -/
+private lemma An_ivec_qform_eq : ∀ (n : ℕ) (hn : 1 ≤ n)
+    (a b : ℕ) (hab : a ≤ b) (hb : b < n),
+    dotProduct (fun i : Fin n => ((ivec n a b i : Fin 2) : ℤ))
+      ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
+        (Etingof.DynkinType.A n hn).adj).mulVec
+        (fun i => ((ivec n a b i : Fin 2) : ℤ))) = 2 := by
+  intro n; induction n with
+  | zero => intro hn; omega
+  | succ m ih =>
+    intro hn a b hab hb
+    by_cases hm0 : m = 0
+    · subst hm0
+      have ha0 : a = 0 := by omega
+      have hb0 : b = 0 := by omega
+      subst ha0; subst hb0
+      simp only [dotProduct, mulVec, Etingof.DynkinType.adj,
+        Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+        Finset.sum_fin_eq_sum_range, Finset.sum_range_succ,
+        Finset.sum_range_zero, ivec]
+      norm_num
+    · have hm1 : 1 ≤ m := by omega
+      -- Set up the ℤ-valued function
+      set xi : Fin (m + 1) → ℤ := fun i => ((ivec (m + 1) a b i : Fin 2) : ℤ)
+        with hxi_def
+      -- Use peel decomposition
+      show dotProduct xi ((2 • (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) ℤ) -
+        (Etingof.DynkinType.A (m + 1) hn).adj).mulVec xi) = 2
+      rw [An_qform_peel m hm1 xi]
+      -- Compute values at key positions
+      have hxi_val : ∀ (j : ℕ) (hj : j < m + 1),
+          xi ⟨j, hj⟩ = if a ≤ j ∧ j ≤ b then 1 else 0 := by
+        intro j hj; simp [hxi_def, ivec]; split_ifs <;> simp
+      -- Restriction to Fin m is ivec with capped b
+      set b' := min b (m - 1) with hb'_def
+      have hxi_res_eq : (fun i : Fin m => xi ⟨i.val, by omega⟩) =
+          fun i : Fin m => ((ivec m a b' i : Fin 2) : ℤ) := by
+        ext ⟨j, hj⟩
+        simp only [hxi_def, ivec, hb'_def]
+        split_ifs with h1 h2 h2
+        · simp
+        · exfalso; apply h2; exact ⟨h1.1, by omega⟩
+        · exfalso; apply h1; exact ⟨h2.1, by omega⟩
+        · simp
+      by_cases hbm : b < m
+      · -- b < m: x_m = 0, peel term vanishes
+        have hm_val : xi ⟨m, by omega⟩ = 0 := by
+          rw [hxi_val]; simp; omega
+        have hb'_eq : b' = b := by simp [hb'_def]; omega
+        rw [hm_val]; ring_nf; rw [hxi_res_eq, hb'_eq]
+        exact ih hm1 a b hab hbm
+      · -- b ≥ m: b = m
+        have hbm' : b = m := by omega
+        have hm_val : xi ⟨m, by omega⟩ = 1 := by
+          rw [hxi_val]; simp; omega
+        by_cases ham : a = m
+        · -- Singleton at m: x_{m-1} = 0, restriction is zero
+          have hm1_val : xi ⟨m - 1, by omega⟩ = 0 := by
+            rw [hxi_val]; simp; omega
+          have hres0 :
+              (fun i : Fin m => xi ⟨i.val, by omega⟩) = 0 := by
+            ext ⟨j, hj⟩
+            simp [hxi_def, ivec, Pi.zero_apply]; omega
+          rw [hm_val, hm1_val, hres0]
+          simp [dotProduct, mulVec, Pi.zero_apply,
+            Finset.sum_const_zero]
+        · -- a < m: x_{m-1} = 1, peel gives q_m + 2 - 2 = q_m
+          have hm1_val : xi ⟨m - 1, by omega⟩ = 1 := by
+            rw [hxi_val]; simp; omega
+          have hb'_eq : b' = m - 1 := by
+            simp [hb'_def]; omega
+          rw [hm_val, hm1_val]; ring_nf; rw [hxi_res_eq, hb'_eq]
+          exact ih hm1 a (m - 1) (by omega) (by omega)
+
 /-- Interval indicators are in rootCountFinset. -/
 private lemma ivec_mem : ∀ (n : ℕ) (hn : 1 ≤ n) (a b : ℕ) (hab : a ≤ b) (hb : b < n),
     ivec n a b ∈ rootCountFinset n (Etingof.DynkinType.A n hn).adj 2 := by
@@ -329,8 +403,8 @@ private lemma ivec_mem : ∀ (n : ℕ) (hn : 1 ≤ n) (a b : ℕ) (hab : a ≤ b
       have : ((ivec (m + 1) a b) ⟨a, by omega⟩ : ℤ) = 0 := by
         have := congr_fun this ⟨a, by omega⟩; simpa using this
       simp [ivec, hab] at this
-    · -- q = 2: by induction using peel (needs tactic updates after Lean upgrade)
-      sorry
+    · -- q = 2: prove by An_ivec_qform_eq helper
+      exact An_ivec_qform_eq (m + 1) hn a b hab hb
 
 /-- The interval indicator map is injective on valid pairs. -/
 private lemma ivec_injective (n : ℕ) (a₁ b₁ a₂ b₂ : ℕ)
