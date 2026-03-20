@@ -366,16 +366,60 @@ private lemma Etingof.charW₁_splitSemisimple
     simp only [h01, ite_false, Nat.add_zero]
     push_cast; ring
 
-/-- No conjugate of a split semisimple element lies in the elliptic subgroup K.
-This is because K \ {scalars} consists of elements with eigenvalues in 𝔽_{q²} \ 𝔽_q,
-while split semisimple elements have distinct eigenvalues in 𝔽_q. -/
+/-- The discriminant is a conjugation invariant: disc(x⁻¹gx) = disc(g).
+This follows from disc = tr² - 4·det and both tr and det being similarity invariants. -/
+private lemma Etingof.disc_eq_tr_det (M : Matrix (Fin 2) (Fin 2) (GaloisField p n)) :
+    (M 0 0 - M 1 1) ^ 2 + 4 * M 0 1 * M 1 0 =
+    (Matrix.trace M) ^ 2 - 4 * Matrix.det M := by
+  simp [Matrix.trace_fin_two, Matrix.det_fin_two]; ring
+
+private lemma Etingof.disc_conj_eq (g x : GL2 p n) :
+    GL2.disc (x⁻¹ * g * x : GL2 p n) = GL2.disc g := by
+  -- disc = tr² - 4·det for 2×2 matrices
+  simp only [GL2.disc_eq]
+  set h := x⁻¹ * g * x
+  set G := (g : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  set H := (h : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  -- Express disc in terms of trace and det
+  rw [Etingof.disc_eq_tr_det (M := H), Etingof.disc_eq_tr_det (M := G)]
+  -- trace(h) = trace(g)  and  det(h) = det(g)
+  have htr : Matrix.trace H = Matrix.trace G := by
+    change Matrix.trace (x⁻¹ * g * x).val = Matrix.trace g.val
+    rw [show (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val from by
+      simp [Units.val_mul]]
+    exact Matrix.trace_units_conj' x g.val
+  have hdet : Matrix.det H = Matrix.det G := by
+    change Matrix.det (x⁻¹ * g * x).val = Matrix.det g.val
+    rw [show (x⁻¹ * g * x).val = x⁻¹.val * g.val * x.val from by
+      simp [Units.val_mul]]
+    exact Matrix.det_units_conj' x g.val
+  rw [htr, hdet]
+
+/-- Elements of K (elliptic subgroup) are either scalar or have non-square discriminant (elliptic).
+This means no element of K is split semisimple or parabolic-non-scalar. -/
+private lemma Etingof.ellipticSubgroup_disc (k : GL2 p n)
+    (hk : k ∈ Etingof.GL2.ellipticSubgroup p n) :
+    GL2.disc k = 0 ∨ ¬IsSquare (GL2.disc k) := by
+  sorry
+
 private lemma Etingof.induced_char_splitSemisimple_eq_zero
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) := by
-  sorry
+  intro x hcontra
+  -- disc is a conjugation invariant
+  have hdisc_eq : GL2.disc (x⁻¹ * g * x : GL2 p n) = GL2.disc g :=
+    Etingof.disc_conj_eq p n g x
+  -- Elements of K are scalar (disc=0) or elliptic (disc not square)
+  have hK := Etingof.ellipticSubgroup_disc p n (x⁻¹ * g * x) hcontra
+  -- g is split semisimple: disc ≠ 0 and IsSquare
+  obtain ⟨hdisc_ne, hdisc_sq⟩ := hg
+  rw [hdisc_eq] at hK
+  rcases hK with hzero | hnsq
+  · exact hdisc_ne hzero
+  · exact hnsq hdisc_sq
 
 open Classical in
 /-- On split semisimple (hyperbolic) matrices, χ = 0.
