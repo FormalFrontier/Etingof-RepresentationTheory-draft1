@@ -840,7 +840,7 @@ to the diagonal map `(σ|_{V_ν}, ..., σ|_{V_ν})`.
 This gives: `trace(σ|_{C_ν}) = m · trace(σ|_{V_ν})`. -/
 theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
     (σ : Equiv.Perm (Fin n))
-    (e : ↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
+    (_e : ↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
       (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) :
     LinearMap.trace ℂ _ ((permModuleEndomorphism n mu σ).restrict
       (permModuleEndomorphism_mapsTo_isotypic n mu σ nu)) =
