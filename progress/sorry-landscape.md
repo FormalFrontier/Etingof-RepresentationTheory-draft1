@@ -1,125 +1,111 @@
-# Sorry Landscape Analysis — Wave 24
+# Sorry Landscape Analysis — Wave 26
 
-Generated 2026-03-20 by meditate session (issue #1474).
+Generated 2026-03-20 by summarize session (issue #1520).
 
 ## Summary
 
-**84 sorries** across 29 files. Down from 91 at wave 23 (7 eliminated).
+**71 sorries** across 27 files. Down from 95 at wave 25 (-24, largest single-wave reduction).
 
 | Tier | Count | % | Description |
 |------|-------|---|-------------|
-| Tier 1 — Achievable | 8 | 10% | Standard math, Mathlib APIs exist, needs effort |
-| Tier 2 — Hard but tractable | 14 | 17% | Non-trivial proofs, novel approaches needed |
-| Tier 3 — Blocked on infrastructure | ~50 | 60% | Missing Mathlib or project infrastructure |
-| Unclassified / mixed | ~12 | 14% | Arithmetic or partial-progress items |
+| Tier 1 — Achievable | 4 | 6% | Standard math, Mathlib APIs exist, needs effort |
+| Tier 2 — Hard but tractable | 17 | 24% | Non-trivial proofs, novel approaches needed |
+| Tier 3 — Blocked on infrastructure | ~38 | 53% | Missing Mathlib or project infrastructure |
+| Tier 4 — Deep blockers | ~12 | 17% | SchurModule, Clifford theory, major missing infrastructure |
 
 ## Chapter Breakdown
 
-| Chapter | Sorries | Files | Notes |
-|---------|---------|-------|-------|
-| Ch2 | 3 | 2 | Burnside, Schur |
-| Ch5 | 45 | 14 | SchurModule, polytabloids, Mackey machine |
-| Ch6 | 27 | 10 | Reflection functors, Dynkin, Gabriel |
-| Ch9 | 9 | 3 | Krull-Schmidt, projective covers |
+| Chapter | Sorries | Files | Delta from Wave 25 |
+|---------|---------|-------|---------------------|
+| Ch2 | 2 | 2 | -5 |
+| Ch5 | 42 | 13 | -7 |
+| Ch6 | 20 | 9 | -9 |
+| Ch9 | 7 | 3 | -3 |
 
 Ch3, Ch4, Ch7, Ch8 are 100% sorry-free.
 
-## Tier 1 — Achievable (8 sorries)
+## Tier 1 — Achievable (4 sorries)
 
-These can be closed with standard techniques in 1-2 agent sessions each.
-
-### Example6_4_9_Dn — 7 sorries
+### Example6_4_9_Dn — 1 sorry
 **File:** `Chapter6/Example6_4_9_Dn.lean`
-**Nature:** Arithmetic root-counting for D_n Dynkin diagrams. Explicit finite computations (cardinality of positive roots, verification of root system properties).
-**Approach:** `decide`, `omega`, `norm_num`, explicit `Fin` enumeration. Similar patterns already succeeded for A_n root counting.
+**Nature:** D_n root count = n*(n-1). Issue #1498 claimed.
+**Approach:** Arithmetic computation, `omega`/`norm_num`.
 
-### Problem6_9_1 `ker_sum_le_one` — 1 sorry
-**File:** `Chapter6/Problem6_9_1.lean` (line ~573)
-**Nature:** If ρ is indecomposable Q₂-rep with AB nilpotent and both dims > 0, then dim(ker A) + dim(ker B) ≤ 1.
-**Approach:** The proof infrastructure (ker_sum_ge_one, ker_A_sub_range_B, ker_B_sub_range_A) is already built. Needs rank-nullity argument showing dim(ker A) = 1 forces dim(ker B) ≤ 0 (contradiction with hypothesis) or both = 1 then decomposability contradiction. Tractable but requires ~100 lines of careful linear algebra.
+### Theorem2_1_1 — 1 sorry
+**File:** `Chapter2/Theorem2_1_1.lean` (line ~530)
+**Nature:** sl(2) complete reducibility via Casimir eigenspace decomposition. Issue #1489 unclaimed, dependency #1519 resolved.
+**Approach:** Strong induction on dim V. Casimir eigenspaces are Lie submodules (casimir_comm proved). Each eigenspace decomposes by induction.
 
-## Tier 2 — Hard but Tractable (14 sorries)
+### Theorem5_26_1 — 1 sorry
+**File:** `Chapter5/Theorem5_26_1.lean`
+**Nature:** Artin's theorem direction.
+**Approach:** Standard character theory argument.
 
-Each requires significant effort but has a clear mathematical path.
+### Corollary5_19_2 — 1 sorry
+**File:** `Chapter5/Corollary5_19_2.lean`
+**Nature:** Schur-Weyl decomposition as S_n × GL(V) rep.
+**Approach:** Follows from Proposition5_19_1 (now sorry-free) and Theorem5_18_4.
 
-### Theorem5_15_1 — rearrangement inequality completion (~2 sorries)
-**File:** `Chapter5/Theorem5_15_1.lean`
-**Nature:** Remaining cases of rearrangement inequality for symmetric group representations.
-**Approach:** Structure already proved; needs case completion.
+## Tier 2 — Hard but Tractable (17 sorries)
 
-### Theorem5_18_1 — Schur-Weyl dimension formula (~2 sorries)
-**File:** `Chapter5/Theorem5_18_1.lean`
-**Nature:** Dimension formula relating symmetric group and GL representations.
-**Approach:** Requires connecting polytabloid basis cardinality to dimension. Hard but well-specified.
+### Theorem5_15_1 — 2 sorries
+Majorization argument and alternating sum cancellation. Issue #1446 unclaimed.
 
-### Proposition5_19_1 — character formula (~1 sorry)
-**File:** `Chapter5/Proposition5_19_1.lean`
-**Nature:** Character computation for specific representations.
-**Approach:** Needs careful Mathlib character API usage.
+### Lemma5_25_3 — 2 sorries
+Elliptic norm-squared sum. Blocked on normalizer theory (#1517, #1518).
 
-### Proposition5_21_1 — decomposition (~2 sorries)
-**File:** `Chapter5/Proposition5_21_1.lean`
-**Nature:** Decomposition of tensor product representations.
+### Theorem_Dynkin_classification — 6 sorries
+n≥5 arm extraction and exceptional types. Substantial but well-defined.
 
-### Lemma5_25_3 — hook quotient identity (~2 sorries)
-**File:** `Chapter5/Lemma5_25_3.lean`
-**Nature:** Combinatorial identity for hook lengths. Decomposed into sub-issues (#1383-#1386).
-**Approach:** Sub-issues are well-specified; needs patient combinatorial work.
+### Proposition6_6_6 — 4 sorries
+Reflection functor round-trip. Issue #1401 claimed (long-running).
 
-### FRTHelpers — Frobenius reciprocity (~2 sorries)
-**File:** `Chapter5/FRTHelpers.lean`
-**Nature:** Helper lemmas for Frobenius reciprocity theorem.
+### Problem6_9_1 — 1 sorry
+Nilpotent case dimension constraint. Issue #1191 claimed (long-running).
 
-### Theorem_Dynkin_classification — (~1 sorry)
-**File:** `Chapter6/Theorem_Dynkin_classification.lean`
-**Nature:** Completing the Dynkin classification proof.
-**Approach:** Skeleton exists; needs case completion for exceptional types.
+### Proposition5_21_1 — 2 sorries
+Character expansion in terms of Schur polynomials.
 
-### PolytabloidBasis — (~2 sorries)
-**File:** `Chapter5/PolytabloidBasis.lean`
-**Nature:** Proving polytabloids form a basis for Specht modules.
+## Tier 3 — Blocked on Infrastructure (~38 sorries)
 
-## Tier 3 — Blocked on Infrastructure (~50 sorries)
+### Blocker Cluster 1: SchurModule & Characters (Ch5, ~20 sorries)
+**Files:** Theorem5_23_2 (9), Theorem5_22_1 (3), Proposition5_22_2 (2), PolytabloidBasis (4), FRTHelpers (1), Corollary5_19_2 (1)
+**Missing:** Concrete SchurModule definition. Everything downstream blocked.
 
-These require major infrastructure that doesn't exist in Mathlib or this project.
+### Blocker Cluster 2: Schur-Weyl Tensor Decomposition (Ch5, ~5 sorries)
+**Files:** Theorem5_18_4 (5)
+**Missing:** Tensor space decomposition V^⊗n = ⊕ V_λ ⊗ L_λ. Mutual centralizers proved (#1505); dimension formula and decomposition remain.
 
-### Blocker Cluster 1: Schur Modules & Characters (Ch5, ~15 sorries)
-**Files:** AlgIrrepGL, SchurModule-related files
-**Missing:** `SchurModule k N lam` is sorry'd as `sorry : FDRep k (GL (Fin N) k)`. Every downstream proof (Peter-Weyl for GL(V), Frobenius formula, character orthogonality for GL) is blocked.
-**Unblocking path:** Define SchurModule concretely via polytabloid quotient of tensor power, prove it carries a GL action. Estimated: 500+ lines.
+### Blocker Cluster 3: Gabriel's Theorem (Ch6, ~6 sorries)
+**Files:** Corollary6_8_3 (2), Corollary6_8_4 (1), Proposition6_6_7 (2), Theorem6_5_2 (1)
+**Missing:** Reflection functor round-trip (#1401), Decidable.casesOn opacity issues.
 
-### Blocker Cluster 2: Schur-Weyl Duality (Ch5, ~8 sorries)
-**Files:** Theorem5_18_1, related
-**Missing:** The double centralizer theorem for S_n acting on V^⊗n vs GL(V) acting on V^⊗n. Requires both SchurModule and the centralizer algebra identification.
-**Unblocking path:** After SchurModule exists, prove the image of k[S_n] in End(V^⊗n) equals the centralizer of GL(V). Estimated: 300+ lines.
+### Blocker Cluster 4: Finite-Dimensional Algebras (Ch9, ~7 sorries)
+**Files:** Theorem9_2_1 (3), Corollary9_7_3 (3), Example9_4_4 (1)
+**Missing:** Krull-Schmidt theorem, Morita structural theorem (#1510).
 
-### Blocker Cluster 3: Gabriel's Theorem (Ch6, ~10 sorries)
-**Files:** Theorem6_6_2, Proposition6_6_6, Proposition6_6_7, Corollary6_6_8
-**Missing:** Reflection functor round-trip isomorphism (F⁻F⁺V ≅ V) blocked by Decidable.casesOn opacity. Gabriel's theorem (quiver has finitely many indecomposables iff underlying graph is Dynkin) depends on this.
-**Unblocking path:** Refactor `reversedArrow_eq_ne` in Definition6_6_3.lean to use `cast` instead of `match`. Estimated: 200+ lines of refactoring.
+## Tier 4 — Deep Blockers (~12 sorries)
 
-### Blocker Cluster 4: Krull-Schmidt Theorem (Ch9, ~9 sorries)
-**Files:** Theorem9_2_1 (parts ii, iii), related
-**Missing:** Unique decomposition into indecomposables. Not in Mathlib. Part (i) is fully proved, but parts (ii) "A = ⊕ dim(M_i) P_i" and (iii) "any indecomposable projective ≅ some P_i" both require Krull-Schmidt.
-**Unblocking path:** Prove Krull-Schmidt for Artinian modules with local endomorphism rings. Estimated: 400+ lines.
+### Mackey Machine (Ch5, 5 sorries)
+**File:** Theorem5_27_1
+**Missing:** Clifford theory infrastructure (semidirect product orbit method). No path without ~500 lines of new theory.
 
-### Blocker Cluster 5: Mackey Machine (Ch5, ~5 sorries)
-**Files:** Theorem5_27_1
-**Missing:** Semidirect product orbit method for constructing irreducible representations. Requires Clifford theory (restriction to normal subgroup, orbit stabilizer).
-**Unblocking path:** Build Clifford theory infrastructure from scratch. Estimated: 500+ lines.
+### GL₂(𝔽_q) Classification (Ch5, 5 sorries)
+**File:** Theorem5_25_2
+**Missing:** Principal series defs added (#1507), but irreducibility proofs and classification require substantial GL₂ representation theory.
 
-### Blocker Cluster 6: Complete Reducibility Extensions (Ch2, ~3 sorries)
-**Files:** Burnside theorem, Schur's lemma extensions
-**Missing:** Certain extensions of complete reducibility results.
+### Gabriel's Theorem Classification (Ch2, 1 sorry)
+**File:** Theorem2_1_2
+**Missing:** Full Gabriel's theorem depends on the Gabriel's theorem cluster in Ch6.
 
 ## Strategic Recommendations
 
-1. **Highest ROI:** Tier 1 sorries (8 total). The D_n root counting (7 sorries) is purely mechanical and could be knocked out in a single session. Problem6_9_1 needs careful but straightforward linear algebra.
+1. **Highest ROI:** Tier 1 (4 sorries). Theorem2_1_1_ii (#1489) is freshly unblocked and achievable. Example6_4_9_Dn (#1498) already claimed.
 
-2. **Biggest unblock:** Refactoring Definition6_6_3.lean to eliminate Decidable.casesOn opacity would unblock ~10 Tier 3 sorries in the Gabriel's theorem cluster. This is the single highest-leverage infrastructure change.
+2. **Biggest unblock:** Normalizer theory (#1517) unblocks #1518 → Lemma5_25_3 (2 sorries). Morita theorem (#1510) unblocks Ch9 chain.
 
-3. **SchurModule is the mega-blocker:** ~23 sorries (27% of all remaining) are transitively blocked on a concrete SchurModule definition. This is the project's critical path but requires the most new infrastructure.
+3. **Long-running claims need attention:** #1191, #1386, #1401 have been claimed across 3+ waves. Consider decomposition or replan.
 
-4. **Krull-Schmidt is self-contained:** The 9 Ch9 sorries could be unblocked by proving Krull-Schmidt independently. This is a well-defined project (~400 lines) with no dependencies on other blockers.
+4. **SchurModule remains the mega-blocker:** ~20 sorries (28% of remaining) transitively blocked. This is the project's critical path but the largest infrastructure gap.
 
-5. **Velocity is declining** as expected — remaining items are genuinely harder. The project should prioritize Tier 1 and the Definition6_6_3 refactor before attempting Tier 3 blockers.
+5. **The endgame is infrastructure-gated:** Of 71 remaining sorries, only ~21 (Tier 1+2) are approachable without new infrastructure. The project needs strategic infrastructure investment to make further progress.
