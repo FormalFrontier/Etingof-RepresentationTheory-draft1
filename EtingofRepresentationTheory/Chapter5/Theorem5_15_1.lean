@@ -768,20 +768,16 @@ decomposition of the isotypic component as a direct sum of copies of the simple 
 theorem isotypicComponent_linearEquiv_fun (n : ℕ) (mu nu : Nat.Partition n) :
     Nonempty (↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
       (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) := by
-  -- Step 1: IsIsotypicOfType.linearEquiv_fun gives C_R ≃ₗ[A] Fin m' → V_ν for some m'.
-  -- Step 2: Restrict scalars to get C_R ≃ₗ[ℂ] Fin m' → V_ν.
-  -- Step 3: Show m' = spechtMultiplicity. This requires:
-  --   (a) finrank ℂ (U_μ →ₗ[A] V_ν) = finrank ℂ (C_R →ₗ[A] V_ν)
-  --       (restriction to isotypic component is iso on Hom spaces, by Schur:
-  --       bijective_or_eq_zero shows maps from non-ν simple summands to V_ν are zero)
-  --   (b) finrank ℂ (C_R →ₗ[A] V_ν) = m' * finrank ℂ (V_ν →ₗ[A] V_ν)
-  --       (Hom from Fin m' → V_ν decomposes via LinearMap.single/proj)
-  --   (c) finrank ℂ (V_ν →ₗ[A] V_ν) = 1
-  --       (Schur's lemma for algebraically closed fields: End_A(V_ν) is a
-  --       finite-dimensional division ℂ-algebra, so ℂ itself by
-  --       IsAlgClosed.algebraMap_bijective_of_isIntegral)
-  -- None of (a)-(c) exists in Mathlib in module-theoretic form (only categorical).
-  sorry
+  have hiso := isotypicComponent_isIsotypicOfType n mu nu
+  haveI : Module.Finite ℂ
+      (↥(isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu))) :=
+    permModuleIsotypicComponent_finite n mu nu
+  haveI : Module.Finite (SymGroupAlgebra n)
+      (isotypicComponent (SymGroupAlgebra n) (PermutationModule n mu) (SpechtModule n nu)) :=
+    Module.Finite.of_restrictScalars_finite ℂ _ _
+  obtain ⟨k, ⟨e_R⟩⟩ := hiso.linearEquiv_fun
+  rw [← multiplicity_eq_spechtMultiplicity n mu nu k e_R]
+  exact ⟨e_R.restrictScalars ℂ⟩
 
 /-- The trace of a "diagonal" endomorphism on a pi type `Fin m → V` that applies the same
 linear map `f` componentwise equals `m * trace f`. -/
@@ -807,29 +803,15 @@ private theorem trace_pi_diagonal {m : ℕ} {V : Type*}
   rw [LinearMap.trace_eq_matrix_trace ℂ pb g, LinearMap.trace_eq_matrix_trace ℂ b f]
   -- Both sides are sums of diagonal matrix entries
   simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply]
-  -- LHS = ∑ ⟨i,j⟩, (pb.repr (g (pb ⟨i,j⟩))) ⟨i,j⟩
-  -- g (pb ⟨i,j⟩) = g (Pi.single i (b j)) = Pi.single i (f (b j))
-  -- pb.repr (Pi.single i (f (b j))) ⟨i,j⟩ = (b.repr (f (b j))) j
-  -- So LHS = ∑ i, ∑ j, (b.repr (f (b j))) j = m * (∑ j, ...)
-  -- pb ⟨i,j⟩ = Pi.single i (b j), so g (pb ⟨i,j⟩) = Pi.single i (f (b j))
-  -- pb.repr (Pi.single i (f (b j))) ⟨i',j'⟩ = (b.repr (f (b j) component i')) j'
-  -- At ⟨i,j⟩: = (b.repr (f (b j))) j
   conv_lhs =>
     arg 2; ext p
     rw [show pb (p) = Pi.single p.1 (b p.2) from Pi.basis_apply _ p]
   simp only [hg_single]
-  -- Each diagonal entry (pb.repr (Pi.single i (f (b j)))) (i, j) = (b.repr (f (b j))) j
-  -- because pb.repr is Pi.basis_repr (rfl) and Pi.single_eq_same
   have hrepr : ∀ (i : Fin m) (j : Module.Free.ChooseBasisIndex ℂ V),
       (pb.repr (Pi.single i (f (b j)))) ⟨i, j⟩ = (b.repr (f (b j))) j := by
     intro i j
-    -- pb.repr unfolds via Pi.basis_repr to b.repr ((Pi.single i (f (b j))) i) j
     simp [pb, Pi.basis_repr, Pi.single_eq_same]
   simp_rw [hrepr]
-  -- LHS = ∑ (i, j) : Fin m × ι, (b.repr (f (b j))) j
-  -- Since the sum doesn't depend on i, = m * ∑ j, ...
-  -- Sum factors: x.snd doesn't depend on x.fst
-  -- The index type is Σ _ : Fin m, ι (sigma, not product)
   simp_rw [Fintype.sum_sigma, Finset.sum_const, Finset.card_fin, nsmul_eq_mul]
 
 /-- On the isotypic component `V_ν^{⊕m}`, any `SymGroupAlgebra n`-endomorphism acts
@@ -840,7 +822,7 @@ to the diagonal map `(σ|_{V_ν}, ..., σ|_{V_ν})`.
 This gives: `trace(σ|_{C_ν}) = m · trace(σ|_{V_ν})`. -/
 theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
     (σ : Equiv.Perm (Fin n))
-    (e : ↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
+    (_e : ↥(permModuleIsotypicComponent n mu nu) ≃ₗ[ℂ]
       (Fin (spechtMultiplicity n mu nu) → ↥(SpechtModule n nu))) :
     LinearMap.trace ℂ _ ((permModuleEndomorphism n mu σ).restrict
       (permModuleEndomorphism_mapsTo_isotypic n mu σ nu)) =
@@ -925,7 +907,7 @@ theorem trace_isotypic_eq_mult_trace (n : ℕ) (mu nu : Nat.Partition n)
       spechtMultiplicity n mu nu * Module.finrank ℂ ↥(SpechtModule n nu) := by
     rw [show (Module.finrank ℂ ↥C_R) =
         Module.finrank ℂ ↥(permModuleIsotypicComponent n mu nu) from rfl,
-      LinearEquiv.finrank_eq e, Module.finrank_pi_fintype, Finset.sum_const, Finset.card_fin,
+      LinearEquiv.finrank_eq _e, Module.finrank_pi_fintype, Finset.sum_const, Finset.card_fin,
       smul_eq_mul]
   -- Specht modules are nonzero simple modules, so finrank > 0
   haveI : Nontrivial ↥(SpechtModule n nu) :=
