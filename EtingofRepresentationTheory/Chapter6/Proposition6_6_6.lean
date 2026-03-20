@@ -255,19 +255,22 @@ private theorem Etingof.reversedArrow_eq_ne_eq_cast_def
     (e : Etingof.ReversedAtVertexHom Q i i j) :
     Etingof.reversedArrow_eq_ne hj e =
     cast (Etingof.ReversedAtVertexHom_at_first_def hj) e := by
-  -- Both functions transport e : ReversedAtVertexHom Q i i j to j ⟶ i.
-  -- They are extensionally equal but defined differently (match vs cast).
-  -- The generalize/rw/cases tactics all fail because inst i i appears in
-  -- dependent type positions that prevent motive construction.
-  -- Use proof irrelevance: both cast proofs give the same result.
-  have : cast (Etingof.ReversedAtVertexHom_at_first_def hj) e =
-         cast Etingof.ReversedAtVertexHom_at_first e :=
-    congrArg (fun h => cast h e) (Subsingleton.elim _ _)
-  rw [this]
-  -- Now need: reversedArrow_eq_ne hj e = cast ReversedAtVertexHom_at_first e
-  -- BLOCKER: ReversedAtVertexHom_at_first is a theorem (opaque), so cast can't reduce.
-  -- reversedArrow_eq_ne uses match on inst i i / inst j i which also can't reduce.
-  sorry
+  -- Both functions case-split on inst i i and inst j i.
+  -- Fix the Decidable values, then revert e and rw to reduce both sides.
+  have h_ii : inst i i = .isTrue rfl := by
+    match inst i i with
+    | .isTrue _ => rfl
+    | .isFalse h => exact absurd rfl h
+  have h_ji : inst j i = .isFalse hj := by
+    match inst j i with
+    | .isFalse _ => rfl
+    | .isTrue h => exact absurd h hj
+  revert e
+  unfold Etingof.reversedArrow_eq_ne Etingof.ReversedAtVertexHom_at_first_def
+    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_ii, h_ji]
+  intro e; rfl
 
 /-- Round-trip: extracting the original arrow from a converted ArrowsInto
 gives back the original arrow. -/
