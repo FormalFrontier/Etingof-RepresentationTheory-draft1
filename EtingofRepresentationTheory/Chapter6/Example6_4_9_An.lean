@@ -162,6 +162,53 @@ private lemma An_qform_zero : ∀ (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ),
         simp only [hx'] at this
         omega
 
+/-- No nonneg vector with q = 4, x_0 = 0, x_{m-1} = 2 exists for A_m. -/
+private lemma An_qform_no_double : ∀ (m : ℕ) (hm : 1 ≤ m) (x : Fin m → ℤ),
+    (∀ i, 0 ≤ x i) →
+    x ⟨0, by omega⟩ = 0 →
+    x ⟨m - 1, by omega⟩ = 2 →
+    dotProduct x ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
+      (Etingof.DynkinType.A m hm).adj).mulVec x) ≠ 4 := by
+  intro m
+  induction m with
+  | zero => intro hm; omega
+  | succ k ih =>
+    intro hk x hpos hx0 hxk hq
+    by_cases hk0 : k = 0
+    · -- m = 1: q(x) = 2x₀² = 0, not 4
+      subst hk0
+      simp only [dotProduct, mulVec, Etingof.DynkinType.adj, Matrix.sub_apply,
+        Matrix.smul_apply, Matrix.one_apply,
+        Finset.sum_fin_eq_sum_range, Finset.sum_range_succ, Finset.sum_range_zero] at hq
+      norm_num at hq; linarith [hx0]
+    · -- m ≥ 2: peel and cascade
+      have hk1 : 1 ≤ k := by omega
+      rw [An_qform_peel k hk1 x] at hq
+      set x' := fun i : Fin k => x ⟨i.val, by omega⟩
+      have hpos' : ∀ i, 0 ≤ x' i := fun i => hpos ⟨i.val, by omega⟩
+      have hge := An_qform_ge_endpoints k hk1 x'
+      set r := dotProduct x' ((2 • (1 : Matrix (Fin k) (Fin k) ℤ) -
+          (Etingof.DynkinType.A k hk1).adj).mulVec x')
+      -- x_{k} = x_{m-1} = 2 (since m = k+1, m-1 = k)
+      have hxk_val : x ⟨k, by omega⟩ = 2 := by
+        have := hxk; simp only [show k + 1 - 1 = k from by omega] at this; exact this
+      -- r = 4·x_{k-1} - 4 from the peel equation
+      have hr_eq : r = 4 * x ⟨k - 1, by omega⟩ - 4 := by nlinarith [hxk_val]
+      -- x'_0 = x_0 = 0
+      have hx'0 : x' ⟨0, by omega⟩ = 0 := hx0
+      -- r ≥ x'_0² + x'_{k-1}² = 0 + x_{k-1}²
+      -- So x_{k-1}² ≤ 4·x_{k-1} - 4, (x_{k-1} - 2)² ≤ 0, x_{k-1} = 2
+      have hxk1_sq : x ⟨k - 1, by omega⟩ ^ 2 ≤ 4 * x ⟨k - 1, by omega⟩ - 4 := by
+        have : x ⟨(Fin.mk (k - 1) (by omega) : Fin k).val, by omega⟩ =
+            x ⟨k - 1, by omega⟩ := rfl
+        nlinarith [sq_nonneg (x ⟨0, by omega⟩)]
+      have hxk1_val : x ⟨k - 1, by omega⟩ = 2 := by
+        nlinarith [sq_nonneg (x ⟨k - 1, by omega⟩ - 2), hpos ⟨k - 1, by omega⟩]
+      have hr4 : r = 4 := by nlinarith [hxk1_val]
+      -- x'_{k-1} = x_{k-1} = 2
+      have hx'k1 : x' ⟨k - 1, by omega⟩ = 2 := hxk1_val
+      exact ih hk1 x' hpos' hx'0 hx'k1 hr4
+
 /-- All positive roots of A_n have each coordinate < 2. -/
 private lemma An_bound (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ)
     (hr : Etingof.IsRoot n (Etingof.DynkinType.A n hn).adj x)
@@ -211,9 +258,53 @@ private lemma An_bound (n : ℕ) (hn : 1 ≤ n) (x : Fin n → ℤ)
         · exact ih hm1 x' hroot' hpos' hroot'.2 hroot'.1 ⟨j, hjm⟩
         · have : j = m := by omega
           subst this; simp [hxm0]
-      · -- x_m ≥ 1: needs proof restructuring after Lean update
-        -- Old proof's `linarith` at `r ≤ 2` no longer works; needs case split on x_{m-1}
-        sorry
+      · -- x_m ≥ 1: endpoint bound gives x_m = 1, then case split on x_{m-1}
+        have hxm_pos : x ⟨m, by omega⟩ ≥ 1 := by omega
+        have hkey : x ⟨0, by omega⟩ ^ 2 +
+            (x ⟨m - 1, by omega⟩ - x ⟨m, by omega⟩) ^ 2 +
+            x ⟨m, by omega⟩ ^ 2 ≤ 2 := by nlinarith
+        have hxm1 : x ⟨m, by omega⟩ = 1 := by
+          nlinarith [sq_nonneg (x ⟨0, by omega⟩),
+            sq_nonneg (x ⟨m - 1, by omega⟩ - x ⟨m, by omega⟩)]
+        have hr_eq : r = 2 * x ⟨m - 1, by omega⟩ := by nlinarith [hxm1]
+        -- x_{m-1} ≤ 1 (if x_{m-1} = 2, An_qform_no_double gives contradiction)
+        have hm1_le1 : x ⟨m - 1, by omega⟩ ≤ 1 := by
+          by_contra h; push_neg at h
+          have hle2 : x ⟨m - 1, by omega⟩ ≤ 2 := by
+            nlinarith [sq_nonneg (x ⟨m - 1, by omega⟩ - 2),
+              sq_nonneg (x ⟨0, by omega⟩)]
+          have hval2 : x ⟨m - 1, by omega⟩ = 2 := by omega
+          have hx0 : x ⟨0, by omega⟩ = 0 := by
+            nlinarith [sq_nonneg (x ⟨0, by omega⟩), hval2]
+          have hr4 : r = 4 := by nlinarith [hval2]
+          exact An_qform_no_double m hm1 x' hpos' hx0
+            (show x' ⟨m - 1, by omega⟩ = 2 from hval2) (hr_def ▸ hr4)
+        intro ⟨j, hj⟩
+        by_cases hjm : j = m
+        · subst hjm; simp [hxm1]
+        · have hjm' : j < m := by omega
+          by_cases hxm1_val : x ⟨m - 1, by omega⟩ = 0
+          · -- r = 0, x' = 0 by An_qform_zero
+            have hr0 : r = 0 := by nlinarith
+            have hx'z := An_qform_zero m hm1 x' hpos' (hr_def ▸ hr0)
+            have : x ⟨j, by omega⟩ = 0 := by
+              have := congr_fun hx'z ⟨j, hjm'⟩
+              simp [Pi.zero_apply] at this; exact this
+            omega
+          · -- x_{m-1} = 1, r = 2, x' is a root
+            have hm1pos := hp ⟨m - 1, by omega⟩
+            have hval1 : x ⟨m - 1, by omega⟩ = 1 := by omega
+            have hr2 : r = 2 := by nlinarith [hval1]
+            have hne' : x' ≠ 0 := by
+              intro heq
+              have : r = 0 := by
+                simp only [hr_def, heq, dotProduct, mulVec, Pi.zero_apply,
+                  mul_zero, Finset.sum_const_zero]
+              linarith
+            have hroot' : Etingof.IsRoot m
+                (Etingof.DynkinType.A m hm1).adj x' :=
+              ⟨hne', hr2 ▸ hr_def ▸ rfl⟩
+            exact ih hm1 x' hroot' hpos' hroot'.2 hroot'.1 ⟨j, hjm'⟩
 
 /-- The interval indicator vector: 1 on [a, b], 0 elsewhere. -/
 private def ivec (n : ℕ) (a b : ℕ) : Fin n → Fin 2 :=
