@@ -253,14 +253,55 @@ private lemma Etingof.normSq_complementaryChar_parabolic
     starRingEnd ℂ (Etingof.GL2.complementarySeriesChar p n nu g) = 1 := by
   sorry
 
-/-- On split semisimple (hyperbolic) matrices, χ = 0. -/
+/-- For a split semisimple element, the P¹ fixed point count is exactly 2,
+so charW₁ = 2 - 1 = 1. This is because the characteristic polynomial has
+nonzero square discriminant, giving 2 distinct fixed points on P¹(𝔽_q). -/
+private lemma Etingof.charW₁_splitSemisimple
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
+    Etingof.GL2.charW₁ p n g = 1 := by
+  -- Unfold charW₁; need to show fixedAffine.card + fixedInfty = 2
+  unfold Etingof.GL2.charW₁
+  simp only
+  -- The fixed point count on P¹ equals 2 for split semisimple matrices
+  -- This requires showing the polynomial M₀₁t² + (M₀₀-M₁₁)t - M₁₀ = 0
+  -- together with the infinity check gives exactly 2 fixed points
+  sorry
+
+/-- No conjugate of a split semisimple element lies in the elliptic subgroup K.
+This is because K \ {scalars} consists of elements with eigenvalues in 𝔽_{q²} \ 𝔽_q,
+while split semisimple elements have distinct eigenvalues in 𝔽_q. -/
+private lemma Etingof.induced_char_splitSemisimple_eq_zero
+    [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
+    [Fintype (GL2 p n)]
+    (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
+    (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
+    ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) := by
+  sorry
+
+open Classical in
+/-- On split semisimple (hyperbolic) matrices, χ = 0.
+Proof: χ = (charW₁ - 1) · charVα₁ - induced_term.
+For split semisimple g, charW₁ = 1 (2 fixed points on P¹) and the
+induced character sum is 0 (no conjugate lies in K). -/
 private lemma Etingof.complementaryChar_splitSemisimple_eq_zero
     [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)]
     [Fintype (GL2 p n)]
     (nu : (Etingof.GL2.ellipticSubgroup p n) →* ℂˣ)
     (g : GL2 p n) (hg : GL2.IsSplitSemisimple (p := p) (n := n) g) :
     Etingof.GL2.complementarySeriesChar p n nu g = 0 := by
-  sorry
+  unfold Etingof.GL2.complementarySeriesChar
+  have h1 : Etingof.GL2.charW₁ p n g = 1 := Etingof.charW₁_splitSemisimple p n g hg
+  have h2 : ∀ x : GL2 p n, ¬(x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n) :=
+    Etingof.induced_char_splitSemisimple_eq_zero p n nu g hg
+  -- The induced character sum is zero because each term is zero
+  have h3 : ∑ x : GL2 p n,
+      (if h : x⁻¹ * g * x ∈ Etingof.GL2.ellipticSubgroup p n
+       then (nu ⟨x⁻¹ * g * x, h⟩).val
+       else 0) = 0 := by
+    apply Finset.sum_eq_zero; intro x _
+    rw [dif_neg (h2 x)]
+  rw [h1, h3, mul_zero, one_mul, sub_self, zero_sub, neg_eq_zero]
 
 end CharacterValues
 
