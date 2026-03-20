@@ -97,18 +97,29 @@ private lemma Dn_adj_succ_succ (m : ℕ) (hm : 4 ≤ m) (i j : Fin m) :
 private lemma Dn_adj_zero_succ (m : ℕ) (hm : 4 ≤ m) (j : Fin m) :
     (Etingof.DynkinType.D (m + 1) (by omega)).adj (⟨0, by omega⟩ : Fin (m + 1)) j.succ =
     if j.val = 0 then 1 else 0 := by
-  sorry
+  simp only [Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+  have hj := j.isLt
+  congr 1; apply propext; constructor
+  · rintro ((⟨h1, h2⟩ | ⟨h3, h4⟩) | (⟨h5, h6⟩ | ⟨h7, h8⟩)) <;> omega
+  · intro h; left; left; exact ⟨by omega, by omega⟩
 
 /-- Vertex 0 in D_{m+1} has no self-loop. -/
 private lemma Dn_adj_zero_zero (m : ℕ) (hm : 4 ≤ m) :
     (Etingof.DynkinType.D (m + 1) (by omega)).adj (⟨0, by omega⟩ : Fin (m + 1)) (⟨0, by omega⟩ : Fin (m + 1)) = 0 := by
-  sorry
+  simp only [Etingof.DynkinType.adj, Fin.val_mk]
+  have : ¬(((0 + 1 = 0 ∧ (0 : ℕ) ≤ m + 1 - 2) ∨ (0 + 1 = 0 ∧ (0 : ℕ) ≤ m + 1 - 2)) ∨
+    ((0 = m + 1 - 3 ∧ (0 : ℕ) = m + 1 - 1) ∨ (0 = m + 1 - 3 ∧ (0 : ℕ) = m + 1 - 1))) := by omega
+  rw [if_neg this]
 
 /-- adj(succ i, 0) in D_{m+1} equals adj(0, succ i) by symmetry. -/
 private lemma Dn_adj_succ_zero (m : ℕ) (hm : 4 ≤ m) (i : Fin m) :
     (Etingof.DynkinType.D (m + 1) (by omega)).adj i.succ (⟨0, by omega⟩ : Fin (m + 1)) =
     if i.val = 0 then 1 else 0 := by
-  sorry
+  simp only [Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+  have hi := i.isLt
+  congr 1; apply propext; constructor
+  · rintro ((⟨h1, h2⟩ | ⟨h3, h4⟩) | (⟨h5, h6⟩ | ⟨h7, h8⟩)) <;> omega
+  · intro h; left; right; exact ⟨by omega, by omega⟩
 
 /-- The Cartan matrix of D_{m+1} at (succ i, succ j) matches D_m at (i, j). -/
 private lemma Dn_cartan_succ_succ (m : ℕ) (hm : 4 ≤ m) (i j : Fin m) :
@@ -116,27 +127,41 @@ private lemma Dn_cartan_succ_succ (m : ℕ) (hm : 4 ≤ m) (i j : Fin m) :
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) i.succ j.succ =
     (2 • (1 : Matrix (Fin m) (Fin m) ℤ) -
       (Etingof.DynkinType.D m hm).adj) i j := by
-  sorry
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul,
+    Dn_adj_succ_succ m hm i j, show (i.succ : Fin (m + 1)) = j.succ ↔ i = j from Fin.succ_inj]
 
 /-- The Cartan matrix of D_{m+1} at (0, succ j). -/
 private lemma Dn_cartan_zero_succ (m : ℕ) (hm : 4 ≤ m) (j : Fin m) :
     (2 • (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) ℤ) -
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) 0 j.succ =
     if j.val = 0 then -1 else 0 := by
-  sorry
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+    Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+  have hj := j.isLt
+  have : ¬((0 : Fin (m + 1)) = j.succ) := (Fin.succ_ne_zero j).symm
+  rw [if_neg this]; simp
+  split_ifs <;> omega
 
 /-- The Cartan matrix of D_{m+1} at (succ i, 0). -/
 private lemma Dn_cartan_succ_zero (m : ℕ) (hm : 4 ≤ m) (i : Fin m) :
     (2 • (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) ℤ) -
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) i.succ 0 =
     if i.val = 0 then -1 else 0 := by
-  sorry
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+    Etingof.DynkinType.adj, Fin.val_succ, Fin.val_mk]
+  have hi := i.isLt
+  have : ¬((i.succ : Fin (m + 1)) = 0) := Fin.succ_ne_zero i
+  rw [if_neg this]; simp
+  split_ifs <;> omega
 
 /-- The Cartan matrix of D_{m+1} at (0, 0) is 2. -/
 private lemma Dn_cartan_zero_zero (m : ℕ) (hm : 4 ≤ m) :
     (2 • (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) ℤ) -
       (Etingof.DynkinType.D (m + 1) (by omega)).adj) 0 0 = 2 := by
-  sorry
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply]
+  have h := Dn_adj_zero_zero m hm
+  rw [show (⟨0, by omega⟩ : Fin (m + 1)) = (0 : Fin (m + 1)) from rfl] at h
+  rw [h]; norm_num
 
 /-- The D_{m+1} quadratic form decomposes as D_m on the tail plus 2x₀(x₀ - x₁). -/
 private lemma Dn_qform_peel (m : ℕ) (hm : 4 ≤ m) (x : Fin (m + 1) → ℤ) :
