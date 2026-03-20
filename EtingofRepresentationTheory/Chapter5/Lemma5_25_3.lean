@@ -469,11 +469,18 @@ private lemma Etingof.ellipticSubgroup_disc (hp2 : p ≠ 2) (k : GL2 p n)
   by_cases hn : n = 0
   · -- Degenerate case n=0
     left; simp [GL2.disc_eq, GL2.fieldExtEmbed, hn]
-  · -- Main case: disc = tr² - 4·det = (Algebra.trace α)² - 4·(Algebra.norm α)
-    -- = (α + α^q)² - 4·α^(q+1) = (α - α^q)²
-    -- If α ∈ 𝔽_q: α = α^q, so disc = 0
-    -- If α ∉ 𝔽_q: α ≠ α^q, so α - α^q ≠ 0, and (α-α^q)^q = -(α-α^q) in char ≠ 2
-    --   This means (α-α^q)² ∈ 𝔽_q but not a square in 𝔽_q
+  · -- Unpack fieldExtEmbed
+    letI := Etingof.algebraGaloisFieldExt p n
+    letI := Etingof.scalarTowerGaloisField p n
+    haveI := Etingof.finiteDimensionalGaloisFieldExt p n
+    let b := Module.finBasisOfFinrankEq (R := GaloisField p n)
+      (M := GaloisField p (2 * n)) (Etingof.finrank_galoisField_ext p n hn)
+    -- The disc of embed(α) = tr²-4·det of the leftMulMatrix
+    -- tr(leftMulMatrix b α) = Algebra.trace(α) and det(...) = Algebra.norm(α)
+    -- disc = Algebra.trace(α)² - 4·Algebra.norm(α)
+    -- For degree 2 extension: trace(α) = α + α^q, norm(α) = α·α^q
+    -- So disc = (α+α^q)² - 4·α·α^q = (α-α^q)²
+    -- Case split: α^q = α (scalar, disc=0) or α^q ≠ α (elliptic)
     sorry
 
 private lemma Etingof.induced_char_splitSemisimple_eq_zero
