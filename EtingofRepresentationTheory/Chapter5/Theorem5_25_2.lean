@@ -223,11 +223,43 @@ section Theorem5_25_2
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ) (hn : 0 < n)
 
+/-- Helper: inner product ⟨χ_{V(χ₁,χ₂)}, χ_{V(χ₁,χ₂)}⟩ = 1 when χ₁ ≠ χ₂.
+Uses the Frobenius trace formula evaluated on each conjugacy class of GL₂(𝔽_q)
+and the vanishing of ∑_{z ∈ 𝔽_q×} (χ₁/χ₂)(z) for χ₁ ≠ χ₂. -/
+private lemma Etingof.GL2.principalSeries_simple_of_ne
+    (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2) :
+    Simple (Etingof.GL2.principalSeries p n chi1 chi2) := by
+  sorry
+
 /-- **Theorem 5.25.2 (1)**: If χ₁ ≠ χ₂, the principal series representation
 V(χ₁, χ₂) is irreducible. (Etingof Theorem 5.25.2) -/
 theorem Etingof.Theorem5_25_2_part1
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) (hne : chi1 ≠ chi2) :
-    Simple (Etingof.GL2.principalSeries p n chi1 chi2) := by
+    Simple (Etingof.GL2.principalSeries p n chi1 chi2) :=
+  Etingof.GL2.principalSeries_simple_of_ne p n chi1 chi2 hne
+
+/-- Helper: V(μ,μ) decomposes as ℂ_μ ⊕ W_μ in FDRep.
+The augmentation functional provides the ℂ_μ summand, and W_μ = ker(augmentation)
+is the complement. -/
+private lemma Etingof.GL2.principalSeries_decomp
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Nonempty (Etingof.GL2.principalSeries p n mu mu ≅
+      Etingof.GL2.detChar p n mu ⊞ Etingof.GL2.complementW p n mu) := by
+  sorry
+
+/-- Helper: W_μ is irreducible. Uses ⟨χ_{V(μ,μ)}, χ_{V(μ,μ)}⟩ = 2 and the
+fact that ℂ_μ is a 1-dimensional constituent, so W_μ must be the other
+irreducible summand. -/
+private lemma Etingof.GL2.complementW_simple
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Simple (Etingof.GL2.complementW p n mu) := by
+  sorry
+
+/-- Helper: dim W_μ = q = p^n. Since dim V(μ,μ) = [G:B] = q+1 and
+dim ℂ_μ = 1, we get dim W_μ = q. -/
+private lemma Etingof.GL2.complementW_finrank
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Module.finrank ℂ (Etingof.GL2.complementW p n mu).V = p ^ n := by
   sorry
 
 /-- **Theorem 5.25.2 (2)**: If χ₁ = χ₂ = μ, then V(μ, μ) ≅ ℂ_μ ⊕ W_μ where
@@ -237,7 +269,18 @@ theorem Etingof.Theorem5_25_2_part2
     (Nonempty (Etingof.GL2.principalSeries p n mu mu ≅
       Etingof.GL2.detChar p n mu ⊞ Etingof.GL2.complementW p n mu)) ∧
     Simple (Etingof.GL2.complementW p n mu) ∧
-    Module.finrank ℂ (Etingof.GL2.complementW p n mu).V = p ^ n := by
+    Module.finrank ℂ (Etingof.GL2.complementW p n mu).V = p ^ n :=
+  ⟨Etingof.GL2.principalSeries_decomp p n mu,
+   Etingof.GL2.complementW_simple p n mu,
+   Etingof.GL2.complementW_finrank p n mu⟩
+
+/-- Helper: the character of W_μ on diagonal matrices determines μ.
+If W_μ ≅ W_ν as representations, then their characters agree on all elements,
+and evaluation on diagonal matrices diag(x, 1) recovers μ(x). -/
+private lemma Etingof.GL2.complementW_iso_implies_eq
+    (mu nu : (GaloisField p n)ˣ →* ℂˣ)
+    (iso : Etingof.GL2.complementW p n mu ≅ Etingof.GL2.complementW p n nu) :
+    mu = nu := by
   sorry
 
 /-- **Theorem 5.25.2 (3a)**: W_μ ≅ W_ν if and only if μ = ν.
@@ -246,7 +289,11 @@ theorem Etingof.Theorem5_25_2_part3a
     (mu nu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (Etingof.GL2.complementW p n mu ≅ Etingof.GL2.complementW p n nu) ↔
     mu = nu := by
-  sorry
+  constructor
+  · rintro ⟨iso⟩
+    exact Etingof.GL2.complementW_iso_implies_eq p n mu nu iso
+  · rintro rfl
+    exact ⟨Iso.refl _⟩
 
 /-- **Theorem 5.25.2 (3b)**: V(χ₁, χ₂) ≅ V(χ'₁, χ'₂) if and only if
 {χ₁, χ₂} = {χ'₁, χ'₂} (as sets). (Etingof Theorem 5.25.2) -/
