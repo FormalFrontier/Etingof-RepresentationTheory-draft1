@@ -365,6 +365,38 @@ lemma Etingof.GL2.normalizer_contains_frobeniusCoset [Fintype (GaloisField p n)]
   exact Etingof.GL2.ellipticSubgroup_mem_normalizer p n k hk _
     (Etingof.GL2.frobeniusMatrix_normalizes p n hn k' hk')
 
+/-- Scalar matrices commute with everything, so conjugation preserves non-scalarity. -/
+private lemma GL2.isScalar_of_conj_isScalar (z g : GL2 p n)
+    (h : GL2.IsScalar (p := p) (n := n) (z⁻¹ * g * z)) :
+    GL2.IsScalar (p := p) (n := n) g := by
+  rw [GL2.isScalar_iff] at h ⊢
+  obtain ⟨h01, h10, h00_eq_h11⟩ := h
+  -- z⁻¹gz = cI where c = (z⁻¹gz)₀₀. So g = z(cI)z⁻¹ = c(zz⁻¹) = cI.
+  set c := (z⁻¹ * g * z).val 0 0
+  have hscalar : (z⁻¹ * g * z).val = c • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) := by
+    ext i j; fin_cases i <;> fin_cases j <;> simp [c, h01, h10, h00_eq_h11]
+  -- g = z * (z⁻¹gz) * z⁻¹
+  have hrecover : g = z * (z⁻¹ * g * z) * z⁻¹ := by group
+  have hg_val : g.val = c • 1 := by
+    have := congr_arg Units.val hrecover
+    simp only [Units.val_mul] at this
+    rw [this]
+    -- Goal: z.val * (z⁻¹.val * g.val * z.val) * z⁻¹.val = c • 1
+    -- Replace z⁻¹.val * g.val * z.val with (z⁻¹ * g * z).val
+    conv_lhs => rw [show (z⁻¹).val * g.val * z.val = (z⁻¹ * g * z).val from by
+      simp [Units.val_mul]]
+    rw [hscalar, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one]
+    have hzz : z.val * (z⁻¹).val = 1 :=
+      show (z * z⁻¹).val = (1 : GL2 p n).val from congr_arg Units.val (mul_inv_cancel z)
+    rw [hzz]
+  constructor
+  · have := congr_fun (congr_fun hg_val 0) 1; simp at this; exact this
+  constructor
+  · have := congr_fun (congr_fun hg_val 1) 0; simp at this; exact this
+  · have h0 := congr_fun (congr_fun hg_val 0) 0
+    have h1 := congr_fun (congr_fun hg_val 1) 1
+    simp at h0 h1; rw [h0, h1]
+
 /-- For non-scalar k ∈ K, if z⁻¹kz ∈ K then z normalizes K. -/
 lemma Etingof.GL2.conj_mem_implies_normalizer (hn : n ≠ 0)
     (hp2 : p ≠ 2)
@@ -372,7 +404,36 @@ lemma Etingof.GL2.conj_mem_implies_normalizer (hn : n ≠ 0)
     (hk_ns : ¬GL2.IsScalar (p := p) (n := n) k)
     (z : GL2 p n) (hz : z⁻¹ * k * z ∈ Etingof.GL2.ellipticSubgroup p n) :
     Etingof.GL2.isInNormalizer p n z := by
-  sorry
+  intro k' hk'
+  -- z⁻¹k'z commutes with z⁻¹kz (since K is abelian and z⁻¹kz ∈ K)
+  have hcomm : z⁻¹ * k' * z * (z⁻¹ * k * z) = z⁻¹ * k * z * (z⁻¹ * k' * z) := by
+    -- k and k' commute (both in K, which is abelian)
+    obtain ⟨α, rfl⟩ := hk_mem
+    obtain ⟨β, rfl⟩ := hk'
+    -- Both sides simplify using z * z⁻¹ = 1 in the middle
+    have : z⁻¹ * Etingof.GL2.fieldExtEmbed p n β * z *
+      (z⁻¹ * Etingof.GL2.fieldExtEmbed p n α * z) =
+      z⁻¹ * (Etingof.GL2.fieldExtEmbed p n β *
+      Etingof.GL2.fieldExtEmbed p n α) * z := by group
+    have : z⁻¹ * Etingof.GL2.fieldExtEmbed p n α * z *
+      (z⁻¹ * Etingof.GL2.fieldExtEmbed p n β * z) =
+      z⁻¹ * (Etingof.GL2.fieldExtEmbed p n α *
+      Etingof.GL2.fieldExtEmbed p n β) * z := by group
+    rw [show z⁻¹ * Etingof.GL2.fieldExtEmbed p n β * z *
+      (z⁻¹ * Etingof.GL2.fieldExtEmbed p n α * z) =
+      z⁻¹ * (Etingof.GL2.fieldExtEmbed p n β *
+      Etingof.GL2.fieldExtEmbed p n α) * z from by group,
+      show z⁻¹ * Etingof.GL2.fieldExtEmbed p n α * z *
+      (z⁻¹ * Etingof.GL2.fieldExtEmbed p n β * z) =
+      z⁻¹ * (Etingof.GL2.fieldExtEmbed p n α *
+      Etingof.GL2.fieldExtEmbed p n β) * z from by group,
+      ← map_mul, ← map_mul, mul_comm β α]
+  -- z⁻¹kz is non-scalar (since k is non-scalar)
+  have hns : ¬GL2.IsScalar (p := p) (n := n) (z⁻¹ * k * z) :=
+    fun h => hk_ns (GL2.isScalar_of_conj_isScalar p n z k h)
+  -- By centralizer_nonscalar_elliptic, z⁻¹k'z ∈ K
+  exact Etingof.centralizer_nonscalar_elliptic p n hn
+    (z⁻¹ * k * z) hz hns (z⁻¹ * k' * z) hcomm
 
 /-- The cardinality of the normalizer: |N_{GL₂}(K)| = 2|K|. -/
 lemma Etingof.GL2.normalizer_card (hn : n ≠ 0) (hp2 : p ≠ 2)
