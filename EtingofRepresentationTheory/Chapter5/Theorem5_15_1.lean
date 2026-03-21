@@ -2106,6 +2106,12 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
     -- (Σ_π sign(π) m(sort(la+ρ-e_π), nu) = 0 requires genuine cancellation,
     -- not just term-by-term vanishing)
     simp only [if_neg hla_nu, smul_zero]
+    -- Goal: ∑ π, sign(π) • (spechtMultiplicity ... nu) = 0
+    -- This is the hardest part of the Frobenius character formula.
+    -- Book proof: θ_λ = ∑_{μ≥λ} L_{μλ} χ_μ with L_{λλ}=1. Then ||θ_λ||² = ∑_μ L²_{μλ} ≥ 1.
+    -- But ||θ_λ||² ≤ 1 (from Vandermonde determinant/alternating character identity).
+    -- So L_{μλ} = 0 for μ ≠ λ, i.e., θ_λ = χ_λ.
+    -- Requires: character norm computation infrastructure.
     sorry
 
 /-! ### Frobenius formula: alternating sum identity
