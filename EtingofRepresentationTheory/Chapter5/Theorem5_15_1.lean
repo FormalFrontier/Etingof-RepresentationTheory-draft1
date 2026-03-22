@@ -2041,23 +2041,113 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
       omega
     exact rev_of_permExponent_eq_rhoShift π hpe
 
+/-- The alternating Kostka sum L_{νλ} as an integer:
+L_{νλ} = ∑_π sign(π) · K(sort(λ+ρ-π(ρ)), ν).
+
+This is the same as the ℂ-valued sum in `alternating_kostka_eq_delta`,
+but valued in ℤ to enable the norm-squared integer arithmetic argument. -/
+private noncomputable def alternatingKostkaInt {n : ℕ}
+    (la nu : Nat.Partition n) : ℤ :=
+  ∑ π : Equiv.Perm (Fin n),
+    (Equiv.Perm.sign π : ℤ) *
+      if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+      then (spechtMultiplicity n
+        (finsuppToPartition
+          (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+          (sum_shifted_sub_permExponent la π h))
+        nu : ℤ)
+      else 0
+
+/-- The ℂ-valued alternating Kostka sum equals the cast of the ℤ version. -/
+private theorem alternatingKostka_eq_cast {n : ℕ} (la nu : Nat.Partition n) :
+    (∑ π : Equiv.Perm (Fin n),
+      (Equiv.Perm.sign π : ℤ) •
+        (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+         then ((spechtMultiplicity n
+           (finsuppToPartition
+             (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+             (sum_shifted_sub_permExponent la π h))
+           nu : ℕ) : ℂ)
+         else (0 : ℂ))) = (alternatingKostkaInt la nu : ℂ) := by
+  simp only [alternatingKostkaInt, Int.cast_sum, Int.cast_mul]
+  congr 1; ext π
+  rw [zsmul_eq_mul]
+  congr 1
+  split <;> simp
+
+/-- The diagonal alternating Kostka sum: L_{λλ} = sign(rev).
+
+Only the rev permutation contributes: for π ≠ rev, sort(λ+ρ-π(ρ)) strictly
+dominates λ, so K(sort(λ+ρ-π(ρ)), λ) = 0. For π = rev, λ+ρ-ρ = λ, so
+K(λ, λ) = 1, giving sign(rev) · 1 = sign(rev). -/
+private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
+    alternatingKostkaInt la la = Equiv.Perm.sign (Fin.revPerm (n := n)) := by
+  unfold alternatingKostkaInt
+  set rev := Fin.revPerm (n := n)
+  rw [← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ rev)]
+  -- rev term
+  have hrev_le : permExponent n rev ≤ Nat.Partition.toFinsupp la + rhoShift n :=
+    permExponent_revPerm n ▸ rhoShift_le_toFinsupp_add_rhoShift la
+  simp only [dif_pos hrev_le]
+  have hsub : Nat.Partition.toFinsupp la + rhoShift n - permExponent n rev =
+      Nat.Partition.toFinsupp la := by
+    rw [permExponent_revPerm]; exact toFinsupp_add_rhoShift_sub_rhoShift la
+  -- Non-rev terms vanish
+  have hrest : ∑ π ∈ Finset.univ.erase rev,
+      (Equiv.Perm.sign π : ℤ) *
+        (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+        then (spechtMultiplicity n
+          (finsuppToPartition
+            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+            (sum_shifted_sub_permExponent la π h))
+          la : ℤ)
+        else 0) = 0 := by
+    apply Finset.sum_eq_zero
+    intro π hπ
+    rw [Finset.mem_erase] at hπ
+    by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+    · simp only [dif_pos hle]
+      have hdom := sorted_shifted_strict_dominates la π hπ.1 hle
+      rw [spechtMultiplicity_vanishing n _ la hdom]
+      simp
+    · simp [dif_neg hle]
+  rw [hrest, add_zero]
+  -- rev term: sign(rev) * K(la, la) = sign(rev) * 1 = sign(rev)
+  suffices ∀ (v : Fin n →₀ ℕ) (_ : v = Nat.Partition.toFinsupp la)
+      (hsum : ∑ i, v i = n),
+      (Equiv.Perm.sign rev : ℤ) *
+        (spechtMultiplicity n (finsuppToPartition v hsum) la : ℤ) =
+      (Equiv.Perm.sign rev : ℤ) by
+    exact this _ hsub _
+  intro v hv hsum
+  subst hv
+  rw [finsuppToPartition_toFinsupp, spechtMultiplicity_diagonal]
+  simp
+
+/-- **Norm-squared identity for the alternating Kostka matrix:**
+∑_ν L²_{νλ} = 1, where L_{νλ} = ∑_π sign(π) · K(sort(λ+ρ-π(ρ)), ν).
+
+**Proof strategy** (Etingof, Theorem 5.15.1):
+By character orthonormality (⟨χ_ν, χ_μ⟩ = δ_{νμ}, Mathlib `FDRep.char_orthonormal`)
+and the expansion θ_λ = ∑_ν L_{νλ} χ_ν (from Young's Rule), we get
+⟨θ_λ, θ_λ⟩ = ∑_ν L²_{νλ}. Then Vandermonde coefficient orthogonality
+(the S_n-orbits of λ+ρ for distinct partitions λ are disjoint) gives
+⟨θ_λ, θ_λ⟩ = 1.
+
+**Infrastructure needed** to close this sorry:
+1. Bridge `spechtModuleCharacter` to `FDRep.character` (construct FDRep from SpechtModule)
+2. Apply Mathlib's `FDRep.char_orthonormal` to get character orthonormality
+3. Prove Vandermonde coefficient orthogonality: (1/n!) ∑_σ |[x^{λ+ρ}](Δ·P_σ)|² = 1 -/
+private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n) :
+    ∑ nu : Nat.Partition n, alternatingKostkaInt la nu ^ 2 = 1 := by
+  sorry
+
 /-- The hard case of the alternating Kostka identity: when ν strictly dominates λ
 (i.e., ν > λ in the dominance order), the alternating sum ∑_π sign(π) · K(sort(λ+ρ-e_π), ν)
 vanishes by genuine cancellation (not term-by-term vanishing).
 
-Book proof strategy (Etingof, Theorem 5.15.1):
-1. Define θ_λ = sign(rev) · coeff(x^{λ+ρ}, Δ·P). Then θ_λ = ∑_ν L_{νλ} χ_ν
-   where L_{νλ} = ∑_π sign(π) K(sort(λ+ρ-e_π), ν).
-2. L_{λλ} = 1 (proved in the la = nu case above).
-3. L_{νλ} = 0 for ν not dominating λ (proved in the easy sub-case).
-4. ⟨θ_λ, θ_λ⟩ = 1 (Vandermonde orthogonality: the monomials x^{σ(λ+ρ)} for
-   different partitions λ give non-overlapping orbits under S_n).
-5. By character orthonormality: ⟨θ_λ, θ_λ⟩ = ∑_ν L²_{νλ} ≥ L²_{λλ} = 1.
-6. Steps 4+5 force L_{νλ} = 0 for all ν ≠ λ.
-
-This requires: character inner product infrastructure, connection between θ_λ
-inner products and polynomial coefficient orthogonality, and the fact that
-{λ+ρ | λ ∈ Par(n)} gives disjoint S_n-orbits of monomials. -/
+**Proof**: By the norm-squared identity `∑_ν L²_{νλ} = 1` and the diagonal identity
+`L_{λλ} = sign(rev)` (so L²_{λλ} = 1), each L² ≥ 0 forces L_{νλ} = 0 for ν ≠ λ. -/
 private theorem alternating_kostka_eq_zero_of_strict_dom {n : ℕ}
     (la nu : Nat.Partition n)
     (hne : la ≠ nu)
@@ -2071,7 +2161,32 @@ private theorem alternating_kostka_eq_zero_of_strict_dom {n : ℕ}
              (sum_shifted_sub_permExponent la π h))
            nu : ℕ) : ℂ)
          else (0 : ℂ))) = 0 := by
-  sorry
+  rw [alternatingKostka_eq_cast]
+  suffices h : alternatingKostkaInt la nu = 0 by simp [h]
+  -- The norm-squared identity: ∑_ν L²_{νλ} = 1
+  have h_norm := alternatingKostka_norm_sq_eq_one la
+  -- The diagonal identity: L_{λλ} = sign(rev), so L²_{λλ} = 1
+  have h_diag := alternatingKostka_diag la
+  have h_diag_sq : alternatingKostkaInt la la ^ 2 = 1 := by
+    rw [h_diag]
+    rcases Int.isUnit_iff.mp (Units.isUnit (Equiv.Perm.sign (Fin.revPerm (n := n)))) with h | h <;>
+      simp [h]
+  -- Split: L²_{λλ} + ∑_{ν≠λ} L²_ν = 1
+  have hsplit : alternatingKostkaInt la la ^ 2 +
+      ∑ x ∈ Finset.univ.erase la, alternatingKostkaInt la x ^ 2 =
+      ∑ nu : Nat.Partition n, alternatingKostkaInt la nu ^ 2 :=
+    Finset.add_sum_erase _ (fun nu => alternatingKostkaInt la nu ^ 2) (Finset.mem_univ la)
+  -- So ∑_{ν≠λ} L²_ν = 0
+  have hrest : ∑ x ∈ Finset.univ.erase la, alternatingKostkaInt la x ^ 2 = 0 := by
+    linarith
+  -- Each L²_ν = 0 for ν ≠ λ (sum of non-negatives = 0)
+  have hmem : nu ∈ Finset.univ.erase la :=
+    Finset.mem_erase.mpr ⟨Ne.symm hne, Finset.mem_univ _⟩
+  have hnu_sq : alternatingKostkaInt la nu ^ 2 = 0 := by
+    have h1 := Finset.single_le_sum (fun x _ => sq_nonneg (alternatingKostkaInt la x)) hmem
+    have h2 := sq_nonneg (alternatingKostkaInt la nu)
+    omega
+  exact sq_eq_zero_iff.mp hnu_sq
 
 /-- The alternating Kostka identity: the alternating sum of Kostka numbers over
 Vandermonde permutations equals sign(rev) times the Kronecker delta.
