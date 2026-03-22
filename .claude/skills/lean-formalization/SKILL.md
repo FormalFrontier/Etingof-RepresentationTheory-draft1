@@ -948,6 +948,12 @@ When proving cardinality results or counting arguments, prefer explicit bijectio
 
 This pattern proved GL2 conjugacy class cardinalities (disc=0 split into g01=0 and g01≠0 cases) and the `invColorEquivMC` equivalence (σ-invariant colorings ↔ monochromatic colorings). It works well because Lean's `Equiv` API is rich and `simp` handles most round-trip goals.
 
+**Avoid `Finset.univ.image f` + `Finset.card_image_of_injective` for cardinality proofs.**
+This approach requires `DecidableEq` on the codomain, causes elaboration issues with
+`fin_cases` (producing unreduced `σ ^ ↑((fun i ↦ i) ⟨0, ⋯⟩)` terms), and anonymous
+constructor matching in `Finset.mem_image` existentials is fragile. Instead use
+`Fintype.card_congr` with an explicit `Equiv`, or `Finset.card_union_of_disjoint`.
+
 ### Well-Founded Recursion on Natural Measures
 
 For recursive definitions where termination isn't structural:
