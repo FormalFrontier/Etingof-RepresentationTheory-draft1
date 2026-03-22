@@ -512,6 +512,18 @@ private lemma Etingof.GL2.frobeniusMatrix_not_in_elliptic (hn : n ≠ 0)
   have hgt : p ^ (2 * n) > p ^ n := by nlinarith
   exact absurd (Nat.le_of_dvd (by omega) hdvd) (by omega)
 
+/-- Every element of the normalizer N_{GL₂}(K) is in K or in the Frobenius coset σK.
+This uses the trace/det argument: if g normalizes K and maps a non-scalar k = embed(α)
+to embed(β), then tr(embed(β)) = tr(embed(α)) and det(embed(β)) = det(embed(α)),
+so β satisfies the same minimal polynomial as α, giving β ∈ {α, α^q}. -/
+private lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2)
+    [Fintype (GaloisField p n)]
+    (g : GL2 p n) (hg : Etingof.GL2.isInNormalizer p n g) :
+    g ∈ Etingof.GL2.ellipticSubgroup p n ∨
+    ∃ α : (GaloisField p (2 * n))ˣ,
+      g = Etingof.GL2.frobeniusMatrix p n * Etingof.GL2.fieldExtEmbed p n α := by
+  sorry
+
 /-- The cardinality of the normalizer: |N_{GL₂}(K)| = 2|K|. -/
 lemma Etingof.GL2.normalizer_card (hn : n ≠ 0) (hp2 : p ≠ 2)
     [Fintype (GL2 p n)] [Fintype (Etingof.GL2.ellipticSubgroup p n)]
