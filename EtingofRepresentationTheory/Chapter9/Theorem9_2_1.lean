@@ -1503,6 +1503,194 @@ theorem Etingof.indecomposable_projective_iso_of_hom
 
 end LocalEndomorphismRing
 
+section CompleteSystem
+
+/-! ### Complete orthogonal idempotent system
+
+The full double-indexed system of orthogonal idempotents {e_{ij}} needed for
+Theorem 9.2.1(ii). This extends `exists_orthogonal_idempotents_for_simples`
+(which only constructs one E₁₁ per block) to the complete system of all
+diagonal matrix units E_{jj} across all blocks.
+-/
+
+/-- Diagonal matrix units in a matrix ring form complete orthogonal idempotents.
+For `Mat_n(R)`, the family `j ↦ Matrix.single j j 1` satisfies `∑ E_{jj} = I`
+and `E_{jj} * E_{kk} = δ_{jk} E_{jj}`. -/
+lemma Etingof.Theorem921.completeOrthogonalIdempotents_matrix_single
+    {R : Type*} [CommSemiring R] {n : ℕ} :
+    CompleteOrthogonalIdempotents
+      (fun j : Fin n => Matrix.single j j (1 : R)) := by
+  refine CompleteOrthogonalIdempotents.iff_ortho_complete.mpr ⟨fun j k' hjk => ?_, ?_⟩
+  · show Matrix.single j j 1 * Matrix.single k' k' 1 = 0
+    ext r s
+    simp only [Matrix.mul_apply, Matrix.single_apply, Matrix.zero_apply]
+    apply Finset.sum_eq_zero; intro x _
+    by_cases hxj : j = r ∧ j = x <;> by_cases hxk : k' = x ∧ k' = s
+    · exact absurd (hxj.2.trans hxk.1.symm) hjk
+    all_goals simp_all
+  · -- Completeness: ∑ E_{jj} = I
+    -- ∑ Matrix.single j j 1 = diagonal (fun _ => 1) = 1
+    sorry
+
+/-- Diagonal matrix units in a product of matrix rings form complete orthogonal idempotents
+indexed by the sigma type `Σ l, Fin (d l)`. The idempotent at `(l, j)` is
+`Pi.single l (Matrix.single j j 1)`. -/
+lemma Etingof.Theorem921.completeOrthogonalIdempotents_pi_matrix
+    {n : ℕ} {d : Fin n → ℕ}
+    {R : Type*} [CommSemiring R] :
+    CompleteOrthogonalIdempotents
+      (fun (p : Σ l : Fin n, Fin (d l)) =>
+        (Pi.single p.1 (Matrix.single p.2 p.2 (1 : R)) :
+          ∀ l, Matrix (Fin (d l)) (Fin (d l)) R)) := by
+  sorry
+
+/-- **Full system of complete orthogonal idempotents for Theorem 9.2.1(ii).**
+
+Constructs `finrank k (M i)` orthogonal idempotents for each simple module class `i`,
+forming a complete system in `A` that lifts the Wedderburn-Artin diagonal matrix units
+from `A/Rad(A)`.
+
+The construction:
+1. Decompose `A/J ≅ ∏ Mat_{d_l}(k)` (Wedderburn-Artin)
+2. In the product ring, diagonal matrix units `E_{jj}^l` form complete orthogonal idempotents
+3. Lift to `A` via Corollary 9.1.3
+4. Establish `σ : ι ≃ Fin n` (block assignment, bijective by exhaustiveness)
+5. Prove `d(σ(i)) = finrank k (M i)` (dimension matching)
+6. Reindex from `Σ l, Fin (d l)` to `Σ i, Fin (finrank k (M i))` -/
+lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
+    [IsAlgClosed k] [IsArtinianRing A]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
+    [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
+      ∃ i, Nonempty (S ≃ₗ[A] M i)) :
+    ∃ (e : (Σ i : ι, Fin (Module.finrank k (M i))) → A),
+      CompleteOrthogonalIdempotents e ∧
+      ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))) (j : ι),
+        Module.finrank k (smulRange (k := k) (A := A) (M j) (e p)) =
+          if p.fst = j then 1 else 0 := by
+  -- Step 1: A is semiprimary
+  haveI : IsSemiprimaryRing A := inferInstance
+  haveI hss : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
+  have hnil := IsSemiprimaryRing.isNilpotent (R := A)
+  -- Step 2: Jacobson radical annihilates simple modules
+  have hann : ∀ i, Ring.jacobson A ≤ Module.annihilator A (M i) :=
+    fun i => IsSemisimpleModule.jacobson_le_annihilator A (M i)
+  -- Step 3: WA decomposition
+  let π := Ideal.Quotient.mk (Ring.jacobson A)
+  haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
+  obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
+  -- Step 4: Elements in same coset of A/J act identically on simples
+  have hsmul_eq : ∀ (a a' : A) (j : ι) (m : M j),
+      π a = π a' → a • m = a' • m := by
+    intro a a' j m hq
+    have hmem : a - a' ∈ Ring.jacobson A := Ideal.Quotient.eq.mp hq
+    have h0 := Module.mem_annihilator.mp (hann j hmem) m
+    rwa [sub_smul, sub_eq_zero] at h0
+  have hsmulRange_eq : ∀ (a a' : A) (j : ι),
+      π a = π a' → smulRange (k := k) (A := A) (M j) a = smulRange (k := k) (A := A) (M j) a' := by
+    intro a a' j hq
+    have : smulEnd (k := k) (A := A) (M j) a = smulEnd (k := k) (A := A) (M j) a' := by
+      ext m; exact hsmul_eq a a' j m hq
+    simp only [smulRange, this]
+  -- Step 5: Construct COI in A/J, indexed by Σ l, Fin (d l)
+  let ebar : (Σ l : Fin n, Fin (d l)) → A ⧸ Ring.jacobson A :=
+    fun p => WA.symm (Pi.single p.1 (Matrix.single p.2 p.2 (1 : k)))
+  have hebar_coi : CompleteOrthogonalIdempotents ebar := by
+    have h := completeOrthogonalIdempotents_pi_matrix (R := k) (n := n) (d := d)
+    exact h.map WA.symm.toRingEquiv.toRingHom
+  -- Step 6: Lift to A
+  have hker : ∀ x ∈ RingHom.ker π, IsNilpotent x := by
+    intro x hx
+    rw [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem] at hx
+    obtain ⟨m, hm⟩ := hnil
+    exact ⟨m, by
+      have := Ideal.pow_mem_pow hx m
+      rw [hm] at this
+      exact Ideal.mem_bot.mp this⟩
+  have hebar_range : ∀ p, ebar p ∈ π.range :=
+    fun p => Ideal.Quotient.mk_surjective (ebar p)
+  obtain ⟨e_raw, he_raw_coi, he_raw_lift⟩ :=
+    CompleteOrthogonalIdempotents.lift_of_isNilpotent_ker π hker hebar_coi hebar_range
+  -- e_raw : (Σ l, Fin (d l)) → A is a COI system in A lifting ebar
+  -- Step 7: Block assignment σ and rank property
+  -- This follows the same infrastructure as exists_orthogonal_idempotents_for_simples.
+  -- We establish:
+  -- (a) Block assignment σ : ι → Fin n (injective, mapping simples to WA blocks)
+  -- (b) σ is surjective (using hM_exhaustive)
+  -- (c) Dimension matching: d(σ(i)) = finrank k (M i)
+  -- (d) Rank property: finrank k (smulRange M_j (e_raw (l, k))) = δ_{σ(j), l}
+  --
+  -- The proofs of (a) and (d) are structurally identical to
+  -- exists_orthogonal_idempotents_for_simples (replacing E₁₁ with E_{jj}).
+  -- Parts (b) and (c) are new and use hM_exhaustive.
+  suffices h_block :
+      ∃ (σ : ι → Fin n),
+        Function.Bijective σ ∧
+        (∀ i, d (σ i) = Module.finrank k (M i)) ∧
+        (∀ (p : Σ l : Fin n, Fin (d l)) (j : ι),
+          Module.finrank k (smulRange (k := k) (A := A) (M j) (e_raw p)) =
+            if σ j = p.fst then 1 else 0) by
+    -- Step 8: Reindex from Σ l, Fin (d l) to Σ i, Fin (finrank k (M i))
+    obtain ⟨σ, hσ_bij, hd_eq, hrank⟩ := h_block
+    let σ_equiv : ι ≃ Fin n := Equiv.ofBijective σ hσ_bij
+    -- Build reindexing equivalence (Σ i, Fin (dim M_i)) ≃ (Σ l, Fin (d l))
+    -- Build reindexing equivalence using σ bijection + dimension matching
+    -- (Σ i : ι, Fin (dim M_i)) ≃ (Σ l : Fin n, Fin (d l))
+    -- via (i, j) ↦ (σ i, cast j) and (l, k) ↦ (σ⁻¹ l, cast k)
+    let e : (Σ i : ι, Fin (Module.finrank k (M i))) → A :=
+      fun p => e_raw ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩
+    -- CompleteOrthogonalIdempotents: e is COI because it's e_raw ∘ (injective reindexing)
+    -- and e_raw is COI on the full sigma type. The reindexing is σ-bijective + dim-matching.
+    have he_coi : CompleteOrthogonalIdempotents e := by
+      -- e is e_raw ∘ reindex where reindex is a bijection
+      let reindex : (Σ i : ι, Fin (Module.finrank k (M i))) → (Σ l : Fin n, Fin (d l)) :=
+        fun p => ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩
+      have hreindex_bij : Function.Bijective reindex := by
+        constructor
+        · rintro ⟨i₁, j₁⟩ ⟨i₂, j₂⟩ h
+          simp only [reindex, Sigma.mk.injEq] at h
+          obtain ⟨hi, hj⟩ := h
+          have hi' := hσ_bij.1 hi
+          subst hi'
+          simp at hj
+          exact Sigma.ext rfl (heq_of_eq hj)
+        · rintro ⟨l, j⟩
+          have hl : σ (σ_equiv.symm l) = l := σ_equiv.apply_symm_apply l
+          have hdl : d l = Module.finrank k (M (σ_equiv.symm l)) := by
+            have := hd_eq (σ_equiv.symm l); rwa [hl] at this
+          refine ⟨⟨σ_equiv.symm l, finCongr hdl j⟩, ?_⟩
+          simp only [reindex, Sigma.mk.injEq]
+          refine ⟨hl, ?_⟩
+          have hdl2 : d (σ (σ_equiv.symm l)) = d l := by rw [hl]
+          rw [Fin.heq_ext_iff hdl2]
+          simp [finCongr]
+      let reindex_equiv := Equiv.ofBijective reindex hreindex_bij
+      have hcomp : e = e_raw ∘ reindex_equiv := funext fun ⟨i, j⟩ => rfl
+      rw [hcomp]
+      have hortho := (OrthogonalIdempotents.equiv reindex_equiv).mpr
+        he_raw_coi.toOrthogonalIdempotents
+      exact ⟨hortho,
+        by simp [Equiv.sum_comp reindex_equiv, he_raw_coi.complete]⟩
+    refine ⟨e, he_coi, fun p j => ?_⟩
+    -- Rank property: finrank k (smulRange M_j (e p)) = δ_{p.1, j}
+    show Module.finrank k (smulRange (k := k) (A := A) (M j)
+      (e_raw ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩)) =
+      if p.fst = j then 1 else 0
+    -- Use hrank with q = (σ p.1, cast p.2)
+    have := hrank ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩ j
+    rw [this]
+    -- Now: (if σ j = σ p.fst then 1 else 0) = (if p.fst = j then 1 else 0)
+    congr 1; exact propext ⟨fun h => (hσ_bij.1 h).symm, fun h => congrArg σ h.symm⟩
+  -- Step 9: Prove the block assignment, bijectivity, dimension matching, and rank property
+  sorry
+
+end CompleteSystem
+
 /-- **Theorem 9.2.1(ii)**: Decomposition of the algebra as a module.
 
 The algebra A, viewed as a left module over itself, decomposes as A ≅ ⊕ᵢ (dim Mᵢ) · Pᵢ.
@@ -1637,12 +1825,8 @@ theorem Etingof.Theorem_9_2_1_ii
           (fun _ => P i))
     -- Compose all four equivalences
     exact ⟨decomp.trans (dsIso.trans (sigCurry.trans piEquiv))⟩
-  -- Now prove the suffices: construct the complete orthogonal idempotents.
-  -- This requires the full Wedderburn-Artin construction with diagonal matrix units,
-  -- dimension matching d(σ(i)) = finrank k (M i), and lifting.
-  -- The construction follows the same pattern as exists_orthogonal_idempotents_for_simples
-  -- but extends from single E₁₁ to all diagonal E_{jj}'s.
-  sorry
+  -- Apply the full COI construction lemma
+  exact Theorem921.exists_complete_orthogonal_idempotents_for_simples M hM hM_exhaustive
 
 /-- **Theorem 9.2.1(iii)**: Completeness of the projective cover classification.
 
