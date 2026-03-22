@@ -563,14 +563,64 @@ private lemma Etingof.GL2.frobenius_root_of_basefield_poly (hn : n ≠ 0)
 
 /-- A degree-2 polynomial has at most 2 roots: any root equals one of two known distinct roots. -/
 private lemma Etingof.GL2.root_dichotomy_of_deg_two
-    {R F : Type*} [CommRing R] [Field F] [Algebra R F]
+    {R F : Type*} [Field R] [Field F] [Algebra R F]
     (P : Polynomial R) (hdeg : P.natDegree = 2)
     (a b c : F) (ha : Polynomial.aeval a P = 0) (hb : Polynomial.aeval b P = 0)
     (hc : Polynomial.aeval c P = 0) (hab : a ≠ b) :
     c = a ∨ c = b := by
-  -- A degree-2 polynomial over a field has at most 2 roots.
-  -- Map to F[X], apply Polynomial.card_roots_le_degree.
-  sorry
+  -- Map P to F[X]; the mapped polynomial Q has the same degree
+  set Q := P.map (algebraMap R F) with hQ_def
+  have hdQ : Q.natDegree = 2 := by rw [hQ_def, Polynomial.natDegree_map]; exact hdeg
+  have hQ_ne : Q ≠ 0 := by intro h; rw [h, Polynomial.natDegree_zero] at hdQ; omega
+  -- a, b, c are roots of Q
+  have ha' : Q.IsRoot a := by
+    simp only [Polynomial.IsRoot, hQ_def, Polynomial.eval_map, ← Polynomial.aeval_def]; exact ha
+  have hb' : Q.IsRoot b := by
+    simp only [Polynomial.IsRoot, hQ_def, Polynomial.eval_map, ← Polynomial.aeval_def]; exact hb
+  have hc' : Q.IsRoot c := by
+    simp only [Polynomial.IsRoot, hQ_def, Polynomial.eval_map, ← Polynomial.aeval_def]; exact hc
+  -- (X - a) and (X - b) divide Q and are coprime (since a ≠ b)
+  have hda : (Polynomial.X - Polynomial.C a) ∣ Q := Polynomial.dvd_iff_isRoot.mpr ha'
+  have hdb : (Polynomial.X - Polynomial.C b) ∣ Q := Polynomial.dvd_iff_isRoot.mpr hb'
+  have hcop : IsCoprime (Polynomial.X - Polynomial.C a : Polynomial F)
+      (Polynomial.X - Polynomial.C b) :=
+    Polynomial.isCoprime_X_sub_C_of_isUnit_sub (sub_ne_zero.mpr hab).isUnit
+  -- So (X - a)(X - b) | Q
+  obtain ⟨r, hr⟩ := hcop.mul_dvd hda hdb
+  -- r must be a nonzero constant since deg Q = deg (X-a)(X-b) = 2
+  have hr_ne : r ≠ 0 := right_ne_zero_of_mul (hr ▸ hQ_ne)
+  have hprod_ne : (Polynomial.X - Polynomial.C a) *
+      (Polynomial.X - Polynomial.C b : Polynomial F) ≠ 0 :=
+    mul_ne_zero (Polynomial.X_sub_C_ne_zero a) (Polynomial.X_sub_C_ne_zero b)
+  have hr_deg : r.natDegree = 0 := by
+    have hprod_deg : ((Polynomial.X - Polynomial.C a) *
+        (Polynomial.X - Polynomial.C b) : Polynomial F).natDegree = 2 := by
+      rw [Polynomial.natDegree_mul (Polynomial.X_sub_C_ne_zero a) (Polynomial.X_sub_C_ne_zero b)]
+      simp [Polynomial.natDegree_X_sub_C]
+    by_contra h
+    have : Q.natDegree ≥ 3 := by
+      rw [hr, Polynomial.natDegree_mul hprod_ne hr_ne, hprod_deg]; omega
+    omega
+  -- Evaluate Q at c: (c - a) * (c - b) * r(c) = 0
+  have heval : (c - a) * (c - b) * r.eval c = 0 := by
+    have := hc'
+    rw [Polynomial.IsRoot, hr, Polynomial.eval_mul, Polynomial.eval_mul,
+      Polynomial.eval_sub, Polynomial.eval_X, Polynomial.eval_C,
+      Polynomial.eval_sub, Polynomial.eval_X, Polynomial.eval_C] at this
+    exact this
+  -- r(c) ≠ 0 since r is a nonzero constant
+  have hr_eval_ne : r.eval c ≠ 0 := by
+    have hk := Polynomial.eq_C_of_natDegree_eq_zero hr_deg
+    rw [hk, Polynomial.eval_C]
+    intro h; exact hr_ne (by rw [hk, h, map_zero])
+  -- So (c - a) * (c - b) = 0, hence c = a or c = b
+  have hab0 : (c - a) * (c - b) = 0 := by
+    rcases mul_eq_zero.mp heval with h | h
+    · exact h
+    · exact absurd h hr_eval_ne
+  rcases mul_eq_zero.mp hab0 with h | h
+  · left; exact sub_eq_zero.mp h
+  · right; exact sub_eq_zero.mp h
 
 set_option maxHeartbeats 1600000 in
 /-- Every element of the normalizer N_{GL₂}(K) is in K or in the Frobenius coset σK. -/
@@ -623,6 +673,21 @@ private lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2
   -- Step 6: α₀ ≠ α₀^q (non-scalar ↔ α₀ ∉ F_q)
   have hne : (α₀ : GaloisField p (2 * n)) ≠ (α₀ : GaloisField p (2 * n)) ^ q := by
     -- α₀^q = α₀ would mean α₀ ∈ F_q, making embed(α₀) scalar, contradicting hα₀_ns
+    intro heq
+    apply hα₀_ns
+    -- heq means Frobenius fixes α₀, so α₀ ∈ F_q
+    -- Use frobeniusAlgEquivOfAlgebraic: φ(α₀) = α₀^q = α₀
+    -- So α₀ is in the fixed field = range(algebraMap F_q F_{q²})
+    have hφ_fix : (FiniteField.frobeniusAlgEquivOfAlgebraic
+        (GaloisField p n) (GaloisField p (2 * n))) (↑α₀) = ↑α₀ := by
+      rw [show (FiniteField.frobeniusAlgEquivOfAlgebraic
+        (GaloisField p n) (GaloisField p (2 * n))) (↑α₀) = (↑α₀) ^ q from
+        congrFun (FiniteField.coe_frobeniusAlgEquivOfAlgebraic _ _) _]
+      exact heq.symm
+    -- α₀ is in the fixed subfield = range of algebraMap
+    have ⟨c, hc⟩ := (FiniteField.frobeniusAlgEquivOfAlgebraic
+        (GaloisField p n) (GaloisField p (2 * n))).toAlgHom.mem_range_of_fixedBy_frobenius
+        (↑α₀) hφ_fix
     sorry
   -- Step 7: β ∈ {α₀, α₀^q} by root dichotomy
   have hβ_dichotomy : (β : GaloisField p (2 * n)) = ↑α₀ ∨
