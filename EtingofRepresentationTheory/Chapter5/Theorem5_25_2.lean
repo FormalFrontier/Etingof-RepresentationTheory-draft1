@@ -530,10 +530,60 @@ private noncomputable def Etingof.GL2.detCharEmbedding
     simp only [smul_eq_mul, mul_one, one_mul, map_mul, Units.val_mul]; ring
 
 /-- ℂ_μ is a simple (1-dimensional) representation. -/
+private def Etingof.GL2.detCharRep
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Representation ℂ (GL2 p n) ℂ where
+  toFun g := ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • LinearMap.id
+  map_one' := by ext; simp
+  map_mul' a b := by
+    apply LinearMap.ext; intro x
+    change ((mu (Matrix.GeneralLinearGroup.det (a * b)) : ℂˣ) : ℂ) * x =
+      ((mu (Matrix.GeneralLinearGroup.det a) : ℂˣ) : ℂ) *
+      (((mu (Matrix.GeneralLinearGroup.det b) : ℂˣ) : ℂ) * x)
+    rw [map_mul, map_mul, Units.val_mul, mul_assoc]
+
+private lemma Etingof.GL2.detChar_eq_of
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.detChar p n mu = FDRep.of (Etingof.GL2.detCharRep p n mu) := rfl
+
+private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] [Category D]
+    [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
+    (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms] (X : C)
+    [Simple (F.obj X)] : Simple X where
+  mono_isIso_iff_nonzero {Y} f := by
+    intro
+    constructor
+    · intro hiso
+      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
+        (by rw [h]; simp)
+    · intro hne
+      haveI : Mono (F.map f) := inferInstance
+      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+        (fun h => hne (F.map_injective (by rwa [F.map_zero])))
+      exact isIso_of_fully_faithful F f
+
 private lemma Etingof.GL2.detChar_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (Etingof.GL2.detChar p n mu) := by
-  sorry
+  haveI : NeZero (Nat.card (GL2 p n) : ℂ) :=
+    ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  rw [Etingof.GL2.detChar_eq_of]
+  let ρ := Etingof.GL2.detCharRep p n mu
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule := by
+    rw [isSimpleModule_iff]
+    exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+  haveI : Simple (ModuleCat.of (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule) :=
+    simple_of_isSimpleModule
+  let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := GL2 p n)
+  haveI : Simple
+      (E.functor.obj ((forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))).obj
+        (FDRep.of ρ))) := by
+    change Simple (ModuleCat.of (MonoidAlgebra ℂ (GL2 p n)) ρ.asModule)
+    infer_instance
+  haveI : Simple ((forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))).obj (FDRep.of ρ)) :=
+    simple_of_full_faithful_preservesMono' E.functor _
+  exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ (GL2 p n)) (Rep ℂ (GL2 p n))) _
 
 /-- The embedding ℂ_μ ↪ V(μ,μ) is nonzero. -/
 private lemma Etingof.GL2.detCharEmbedding_ne_zero
