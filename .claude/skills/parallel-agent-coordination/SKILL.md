@@ -286,16 +286,19 @@ print(f'Proof backlog: {backlog} items')
 "
 ```
 
-**As of Wave 29:** ~562/583 items sorry-free (96.4%), ~58 sorry occurrences across ~26 files. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch2 reduced to ~1 sorry. Ch5 remains the bottleneck (~30 sorries). Ch6 has ~15 sorries (Coxeter infrastructure and Prop6_6_6 progressing). Ch9 has ~8 sorries. Statement formalization is complete.
+**As of Wave 30:** ~562/583 items sorry-free (96.4%), ~66 sorry occurrences across 24 files. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch2 has 2 sorries. Ch5 remains the bottleneck (~36 sorries, but Theorem5_26_1 now sorry-free). Ch6 has ~19 sorries (Theorem_Dynkin_classification now sorry-free, CoxeterInfrastructure progressing). Ch9 has ~6 sorries. Statement formalization is complete.
 
-**Wave 28-29 completions:** Theorem2_1_1 (sl(2) complete reducibility), GL2NormalizerInfra (sorry-free), FDRep bridge (spechtModuleFDRep_simple), admissibleOrdering_exists (Coxeter), Problem6_9_1 4/5 cases, Prop6_6_6 5→2 sorries.
+**Wave 29-30 completions (19 PRs, #1620–#1658):** Theorem_Dynkin_classification (fully sorry-free via reciprocal inequality + tree_branch_iso), Theorem5_26_1 (Artin's theorem fully sorry-free via character orthogonality), nilpotent_nontrivial_decomp (sorry-free), elliptic_sum_algebraic_core (sorry-free), principalSeries infrastructure (detChar_simple/mono/ne_zero, IsSplitMono approach structured), Prop6_6_6 3→2 sorries, complementW_finrank infrastructure decomposed.
 
-**Endgame characteristics (Wave 29+):** Remaining sorries concentrated in:
-- **SchurModule cluster (~20 sorries, ~33%):** Mega-blocker, concrete definition needed
-- **Gabriel chain (~8 sorries):** Partially unblocked by Prop6_6_6 and admissible ordering progress
+**Note:** Sorry count increased 61→66 due to healthy decomposition — opaque sorries replaced by well-scoped sub-sorries (e.g., complementW_finrank added 8 helper sorries, decomp_of_ker_sum_ge_two added dimension argument sub-sorries).
+
+**Endgame characteristics (Wave 30+):** Remaining sorries concentrated in:
+- **SchurModule cluster (~20 sorries, ~30%):** Mega-blocker, concrete definition needed
+- **Theorem5_25_2 principal series (~11 sorries):** IsSplitMono infrastructure ready, cokernel identification is the gap
+- **Gabriel chain (~8 sorries):** CoxeterInfrastructure foundations built, type-changing iteration is the key remaining piece
 - **Mackey/Clifford (~5 sorries):** Deep blocker, no Mathlib infrastructure
-- **Morita/Ch9 (~8 sorries):** Infrastructure gaps
-- **Primary value-creation pattern:** Sorry-to-helper extraction and single-sorry item completion. Wave 28-29 proved that single-sorry items are the highest-ROI targets — most completions were single-sorry items.
+- **Morita/Ch9 (~6 sorries):** Infrastructure gaps
+- **Primary value-creation pattern:** Character orthogonality and IsSplitMono decomposition are the most reliable proof strategies. Decomposition into sub-sorries remains the dominant value-creation pattern. Single-sorry items continue to be highest-ROI targets.
 
 ### Stalling Detection and Response
 
