@@ -40,7 +40,7 @@ with representation-level reflection functors. The key missing infrastructure:
 
 open scoped Matrix
 
-section OrientationHelpers
+section Helpers
 
 /-- A Dynkin quiver (orientation of a Dynkin diagram) has no self-loops at any vertex.
 This follows because `IsDynkinDiagram` requires `adj i i = 0` and `IsOrientationOf`
@@ -54,7 +54,7 @@ private lemma Etingof.noSelfLoop_of_dynkin_orientation
     IsEmpty (@Quiver.Hom (Fin n) Q p p) :=
   hOrient.1 p p (by rw [hDynkin.2.1 p]; omega)
 
-end OrientationHelpers
+end Helpers
 
 section SimpleAtIso
 
