@@ -934,6 +934,17 @@ theorem Etingof.Proposition6_6_6_sink
         subst ha; exact ((hi b).false e).elim
       · by_cases hb : b = i
         · -- a ≠ i, b = i: arrow a → i, involves equivAt_eq_sink at target
+          subst hb
+          simp only [dite_true, dif_neg ha, LinearEquiv.trans_apply]
+          -- Goal: equivAt_eq_sink(ρ_dr.mapLinear(h.symm ▸ e)(x)) =
+          --   ρ.mapLinear(e)(reflFunctorPlus_equivAt_ne(a)(reflFunctorMinus_equivAt_ne(a)(x)))
+          -- The F⁻ mapLinear at (a≠i, b=i) sends via mkQ ∘ lof into the cokernel,
+          -- and equivAt_eq_sink maps the cokernel to ρ.obj i via
+          -- (quotEquivOfEq).trans(quotKerEquivOfSurjective Φ).
+          -- Proving this requires:
+          -- 1. A reflFunctorMinus_mapLinear_ne_eq API lemma
+          -- 2. Showing equivAt_eq_sink(mkQ(lof(w))) = Φ(lof(w)) via quotient API
+          -- 3. Showing Φ_component matches ρ.mapLinear via arrow reindexing
           sorry
         · -- a ≠ i, b ≠ i: use API lemmas compositionally
           simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
