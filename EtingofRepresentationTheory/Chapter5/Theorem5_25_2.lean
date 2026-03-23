@@ -310,7 +310,15 @@ private lemma Etingof.GL2.principalSeries_eval_injective
     (hf : ∀ i : Option (GaloisField p n),
       (f : GL2 p n → ℂ) (Etingof.GL2.cosetRep p n i) = 0) :
     f = 0 := by
-  sorry
+  ext g
+  -- Decompose g = b * rep(idx(g))
+  obtain ⟨b, hbg⟩ := Etingof.GL2.mem_coset_of_cosetIndex p n g
+  -- Use covariance: f(g) = f(b * rep(i)) = χ(b) * f(rep(i)) = χ(b) * 0 = 0
+  have hcov := f.prop b (Etingof.GL2.cosetRep p n (Etingof.GL2.cosetIndex p n g))
+  rw [← hbg] at hcov
+  rw [show (f : GL2 p n → ℂ) g = (f.val g) from rfl, hcov,
+      hf (Etingof.GL2.cosetIndex p n g), mul_zero]
+  simp
 
 /-- For any values on coset representatives, there exists a covariant function realizing them. -/
 private lemma Etingof.GL2.principalSeries_eval_surjective
@@ -318,6 +326,24 @@ private lemma Etingof.GL2.principalSeries_eval_surjective
     (c : Option (GaloisField p n) → ℂ) :
     ∃ f : ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2),
       ∀ i, (f : GL2 p n → ℂ) (Etingof.GL2.cosetRep p n i) = c i := by
+  sorry
+
+/-- Evaluation at coset reps restricted to complementW is injective into GaloisField → ℂ.
+    Key: if f(rep(some t)) = 0 for all t AND aug(f) = 0, then f(rep(none)) = 0 too. -/
+private lemma Etingof.GL2.complementW_eval_injective
+    (mu : (GaloisField p n)ˣ →* ℂˣ)
+    (f : ↥(Etingof.GL2.complementWSubmodule p n mu))
+    (hf : ∀ t : GaloisField p n,
+      (f : GL2 p n → ℂ) (Etingof.GL2.cosetRep p n (some t)) = 0) :
+    f = 0 := by
+  sorry
+
+/-- Evaluation at "some" coset reps from complementW is surjective onto GaloisField → ℂ. -/
+private lemma Etingof.GL2.complementW_eval_surjective
+    (mu : (GaloisField p n)ˣ →* ℂˣ)
+    (c : GaloisField p n → ℂ) :
+    ∃ f : ↥(Etingof.GL2.complementWSubmodule p n mu),
+      ∀ t, (f : GL2 p n → ℂ) (Etingof.GL2.cosetRep p n (some t)) = c t := by
   sorry
 
 /-- dim V(χ₁,χ₂) = [G:B] = p^n + 1. -/
