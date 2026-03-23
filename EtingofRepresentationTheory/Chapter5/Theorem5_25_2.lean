@@ -1438,23 +1438,6 @@ private lemma Etingof.GL2.detChar_eq_of
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Etingof.GL2.detChar p n mu = FDRep.of (Etingof.GL2.detCharRep p n mu) := rfl
 
-private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] [Category D]
-    [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
-    (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms] (X : C)
-    [Simple (F.obj X)] : Simple X where
-  mono_isIso_iff_nonzero {Y} f := by
-    intro
-    constructor
-    · intro hiso
-      haveI : IsIso (F.map f) := Functor.map_isIso F f
-      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
-        (by rw [h]; simp)
-    · intro hne
-      haveI : Mono (F.map f) := inferInstance
-      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
-        (fun h => hne (F.map_injective (by rwa [F.map_zero])))
-      exact isIso_of_fully_faithful F f
-
 private lemma Etingof.GL2.detChar_simple
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Simple (Etingof.GL2.detChar p n mu) := by
