@@ -286,14 +286,16 @@ print(f'Proof backlog: {backlog} items')
 "
 ```
 
-**As of Wave 27:** 560/583 items sorry-free (96.1%), 75 sorry occurrences across 28 files. 237/265 Lean files (89%) are sorry-free. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch5 remains the bottleneck (~41 sorries across 12 files). Ch6 has ~23 sorries across 8 files. Ch9 has ~5 sorries across 4 files. Ch2 has ~3 sorries across 2 files. Infrastructure files hold ~3 sorries. Statement formalization is complete.
+**As of Wave 29:** ~562/583 items sorry-free (96.4%), ~58 sorry occurrences across ~26 files. Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch2 reduced to ~1 sorry. Ch5 remains the bottleneck (~30 sorries). Ch6 has ~15 sorries (Coxeter infrastructure and Prop6_6_6 progressing). Ch9 has ~8 sorries. Statement formalization is complete.
 
-**Endgame characteristics (Wave 27+):** Remaining sorries fall into 4 tiers (see `progress/sorry-landscape.md`):
-- **Tier 1 (2 sorries):** Achievable with existing infrastructure (Theorem2_1_1, Theorem5_15_1)
-- **Tier 2 (16 sorries):** Hard but tractable (Dynkin classification, Prop6_6_6 partial, GL₂ normalizer)
-- **Tier 3 (~40 sorries):** Blocked on infrastructure (SchurModule ~20, Gabriel chain ~10, Ch9 chain 5)
-- **Tier 4 (~17 sorries):** Deep blockers (Mackey machine, GL₂ residual, Clifford theory)
-- **Primary value-creation pattern:** Sorry-to-helper extraction. Multiple theorem files now have complete proof terms with sorry only in isolated helpers. This is the dominant successful strategy.
+**Wave 28-29 completions:** Theorem2_1_1 (sl(2) complete reducibility), GL2NormalizerInfra (sorry-free), FDRep bridge (spechtModuleFDRep_simple), admissibleOrdering_exists (Coxeter), Problem6_9_1 4/5 cases, Prop6_6_6 5→2 sorries.
+
+**Endgame characteristics (Wave 29+):** Remaining sorries concentrated in:
+- **SchurModule cluster (~20 sorries, ~33%):** Mega-blocker, concrete definition needed
+- **Gabriel chain (~8 sorries):** Partially unblocked by Prop6_6_6 and admissible ordering progress
+- **Mackey/Clifford (~5 sorries):** Deep blocker, no Mathlib infrastructure
+- **Morita/Ch9 (~8 sorries):** Infrastructure gaps
+- **Primary value-creation pattern:** Sorry-to-helper extraction and single-sorry item completion. Wave 28-29 proved that single-sorry items are the highest-ROI targets — most completions were single-sorry items.
 
 ### Stalling Detection and Response
 
