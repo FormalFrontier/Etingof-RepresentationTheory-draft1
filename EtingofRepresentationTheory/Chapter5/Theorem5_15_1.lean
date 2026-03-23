@@ -108,19 +108,87 @@ theorem spechtModuleFDRep_character (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
     (spechtModuleFDRep n la).character σ = spechtModuleCharacter n la σ := rfl
 
-/-- The Specht module FDRep is simple (irreducible).
+section spechtSimple
+open CategoryTheory
 
-The proof requires bridging `IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la)` (from
-`Theorem5_12_2_irreducible`) to `Simple (FDRep.of (spechtModuleRep n la))`. The bridge goes
-through showing `IsSimpleModule (MonoidAlgebra ℂ G) (spechtModuleRep n la).asModule` (the
-`asModule` and `Submodule.module` SMul instances agree extensionally: both act by left
-multiplication in the group algebra), then using `Rep.equivalenceModuleMonoidAlgebra` and
-the full-faithful forgetful functor `FDRep → Rep` to lift to categorical `Simple`.
+/-- A full faithful functor preserving monomorphisms reflects Simple objects. -/
+private lemma reflect_simple_of_full_faithful {C D : Type*}
+    [Category C] [Category D]
+    [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
+    (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms] (X : C)
+    [Simple (F.obj X)] : Simple X where
+  mono_isIso_iff_nonzero {Y} f := by
+    intro
+    constructor
+    · intro hiso
+      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
+        (by rw [h]; simp)
+    · intro hne
+      haveI : Mono (F.map f) := inferInstance
+      haveI : IsIso (F.map f) :=
+        (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+        (fun h => hne (F.map_injective (by rwa [F.map_zero])))
+      exact isIso_of_fully_faithful F f
 
-See `IrreducibleEnumeration.lean` for the same pattern used with `columnRep`. -/
 noncomputable instance spechtModuleFDRep_simple (n : ℕ) (la : Nat.Partition n) :
-    CategoryTheory.Simple (spechtModuleFDRep n la) := by
-  sorry
+    Simple (spechtModuleFDRep n la) := by
+  haveI hsimple := Theorem5_12_2_irreducible n la
+  -- Step 1: Show the asModule scalar action agrees with the submodule action
+  have smul_eq : ∀ (a : SymGroupAlgebra n) (v : (spechtModuleRep n la).asModule),
+      a • v = (show ↥(SpechtModule n la) from a • (show ↥(SpechtModule n la) from v)) := by
+    intro a v
+    induction a using MonoidAlgebra.induction_on with
+    | hM g =>
+      show MonoidAlgebra.single g 1 • v = _
+      rw [Representation.single_smul]
+      simp only [one_smul, Representation.asModuleEquiv]
+      simp [spechtModuleRep, spechtModuleAction]
+      rfl
+    | hadd x y hx hy =>
+      simp only [add_smul]; rw [hx, hy]
+    | hsmul r x hx =>
+      simp only [smul_assoc]; rw [hx]
+  -- Step 2: Transfer IsSimpleModule from SpechtModule to asModule
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
+      (spechtModuleRep n la).asModule := by
+    haveI : Nontrivial (spechtModuleRep n la).asModule := hsimple.nontrivial
+    refine { eq_bot_or_eq_top := fun m => ?_ }
+    let m' : Submodule (SymGroupAlgebra n) (SpechtModule n la) :=
+      { carrier := m.carrier
+        add_mem' := m.add_mem'
+        zero_mem' := m.zero_mem'
+        smul_mem' := fun a v hv => by
+          have := m.smul_mem a hv; rwa [smul_eq] at this }
+    cases hsimple.eq_bot_or_eq_top m' with
+    | inl h =>
+      left; ext x; simp only [Submodule.mem_bot]
+      exact ⟨fun hx => by
+        have : x ∈ m'.carrier := hx
+        rw [h] at this; exact this,
+      fun hx => by rw [hx]; exact m.zero_mem⟩
+    | inr h =>
+      right; ext x; simp only [Submodule.mem_top, iff_true]
+      have : x ∈ m'.carrier := by rw [h]; exact Submodule.mem_top
+      exact this
+  -- Step 3: Lift to categorical Simple via Rep.equivalenceModuleMonoidAlgebra
+  let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := Equiv.Perm (Fin n))
+  haveI : Simple (E.functor.obj ((forget₂
+      (FDRep ℂ (Equiv.Perm (Fin n))) (Rep ℂ (Equiv.Perm (Fin n)))).obj
+      (spechtModuleFDRep n la))) := by
+    change Simple
+      (ModuleCat.of (MonoidAlgebra ℂ (Equiv.Perm (Fin n)))
+        (spechtModuleRep n la).asModule)
+    exact simple_of_isSimpleModule
+  haveI : Simple ((forget₂
+      (FDRep ℂ (Equiv.Perm (Fin n))) (Rep ℂ (Equiv.Perm (Fin n)))).obj
+      (spechtModuleFDRep n la)) :=
+    reflect_simple_of_full_faithful E.functor _
+  exact reflect_simple_of_full_faithful
+    (forget₂ (FDRep ℂ (Equiv.Perm (Fin n)))
+      (Rep ℂ (Equiv.Perm (Fin n)))) _
+
+end spechtSimple
 
 /-! ## Intermediate lemmas for the Frobenius character formula -/
 
