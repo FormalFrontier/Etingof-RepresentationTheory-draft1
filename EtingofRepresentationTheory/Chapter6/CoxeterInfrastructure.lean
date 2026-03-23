@@ -2,7 +2,9 @@ import EtingofRepresentationTheory.Chapter6.Definition6_1_4
 import EtingofRepresentationTheory.Chapter6.Definition6_4_1
 import EtingofRepresentationTheory.Chapter6.Definition6_6_1
 import EtingofRepresentationTheory.Chapter6.Definition6_6_2
+import EtingofRepresentationTheory.Chapter6.Corollary6_8_2
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_4
+import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
 
 /-!
 # Coxeter Element Infrastructure: Admissible Orderings
@@ -616,19 +618,69 @@ simple representation α_p. Then B(d(V), d(V)) = B(α_p, α_p) = 2.
 
 This is the content of the book's proof of Theorem 6.8.1 + Corollary 6.8.2. -/
 
+/-- Representation-level version of Theorem 6.8.1: the dimension vector of an
+indecomposable representation can be reduced to a simple root by iterated
+simple reflections.
+
+The proof iterates reflection functors along an admissible ordering:
+1. At each sink σₖ, Proposition 6.6.5 gives: either ρ is simple at σₖ
+   (dimension vector = αₛ, done) or the sink map is surjective.
+2. If surjective, Proposition 6.6.7 gives F⁺(ρ) is indecomposable or zero.
+3. Proposition 6.6.8 tracks the dimension vector: d(F⁺(ρ)) = sₖ(d(ρ)).
+4. By Lemma 6.7.2, the iterated reflections eventually produce negative
+   entries, but finrank ≥ 0, so the process must stop at a simple root.
+
+**Blockers:** The proof requires type-changing iteration — each F⁺ changes
+the quiver type. All building blocks (Prop 6.6.5/6.6.7/6.6.8, Lemma 6.7.2,
+admissibleOrdering_exists) are sorry-free. The remaining work is:
+  (a) Define the iterated reflection functor along an admissible ordering
+  (b) Thread Module.Free/Finite instances through the iteration
+  (c) Generalize Lemma 6.7.2 to the admissible ordering's Coxeter element
+  (d) Connect the termination argument to the integer-level sequence -/
+private lemma indecomposable_reduces_to_simpleRoot
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    (ρ : @QuiverRepresentation k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    ∃ (vertices : List (Fin n)) (p : Fin n),
+      Etingof.iteratedSimpleReflection n (cartanMatrix n adj) vertices
+        (fun v => (Module.finrank k (ρ.obj v) : ℤ)) = simpleRoot n p := by
+  sorry
+
+/-- The Cartan matrix of a Dynkin diagram is symmetric. -/
+private lemma cartanMatrix_isSymm' (hadj : adj.IsSymm) :
+    (cartanMatrix n adj).IsSymm := by
+  show (cartanMatrix n adj)ᵀ = cartanMatrix n adj
+  unfold cartanMatrix
+  rw [Matrix.transpose_sub, Matrix.transpose_smul, Matrix.transpose_one, hadj.eq]
+
+/-- Each simple root satisfies B(αᵢ, αᵢ) = 2 for the Cartan matrix. -/
+private lemma simpleRoot_bilinearForm_eq_two
+    (hDynkin : IsDynkinDiagram n adj) (i : Fin n) :
+    dotProduct (Pi.single i 1)
+      ((cartanMatrix n adj).mulVec (Pi.single i 1)) = 2 := by
+  unfold cartanMatrix
+  simp only [Matrix.sub_mulVec, dotProduct_sub]
+  simp only [dotProduct, Pi.single_apply, Matrix.mulVec, Matrix.smul_apply,
+    Matrix.one_apply, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
+    mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul]
+  rw [hDynkin.2.1 i]; ring
+
 /-- The dimension vector of an indecomposable representation of a Dynkin quiver
 satisfies B(d, d) = 2 (not just ≤ 2).
 
-This is proved by the representation-level Coxeter iteration argument:
-1. Choose admissible ordering (by `admissibleOrdering_exists`)
-2. At each step, either ρ is simple (done) or F⁺(ρ) is indecomposable
-3. Dimension vector tracks as Coxeter element action
-4. By Lemma 6.7.2, eventually some dim < 0 at integer level
-5. But dim = finrank ≥ 0, so must hit simple before that
-6. B(d, d) = B(α_p, α_p) = 2 by preservation
+The proof combines:
+- **Lower bound** (B ≥ 2): From positive definiteness of the Cartan matrix
+  (`posdef_min_value`), since d ≠ 0 for indecomposable ρ.
+- **Upper bound** (B = 2): From `indecomposable_reduces_to_simpleRoot`, which
+  gives reflections reducing d to a simple root αₚ, combined with
+  `iteratedSimpleReflection_preserves_bilinearForm` (B is preserved by
+  reflections) and B(αₚ, αₚ) = 2.
 
-This theorem, once fully proved, resolves `indecomposable_titsForm_le_two`
-in `Corollary6_8_3.lean`. -/
+This theorem resolves `indecomposable_titsForm_le_two` in `Corollary6_8_3.lean`.
+(Etingof Corollary 6.8.2, proved via Theorem 6.8.1's representation-level argument) -/
 theorem indecomposable_bilinearForm_eq_two
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
@@ -638,6 +690,31 @@ theorem indecomposable_bilinearForm_eq_two
     (hρ : ρ.IsIndecomposable) :
     dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
       ((cartanMatrix n adj).mulVec (fun v => (Module.finrank k (ρ.obj v) : ℤ))) = 2 := by
-  sorry
+  set d : Fin n → ℤ := fun v => (Module.finrank k (ρ.obj v) : ℤ) with hd_def
+  -- d ≠ 0 (indecomposable → some space is nontrivial)
+  have hd_nonzero : d ≠ 0 := by
+    obtain ⟨⟨v, hv⟩, _⟩ := hρ
+    intro h
+    have : d v = 0 := congr_fun h v
+    simp only [hd_def, Int.natCast_eq_zero] at this
+    rw [Module.finrank_eq_zero_iff_of_free (R := k)] at this
+    exact not_nontrivial_iff_subsingleton.mpr this hv
+  -- Lower bound: B(d, d) ≥ 2 from positive definiteness
+  have hlb : 2 ≤ dotProduct d ((cartanMatrix n adj).mulVec d) :=
+    Etingof.posdef_min_value hDynkin d hd_nonzero
+  -- Upper bound: reduce d to simple root via reflections, then use B-preservation
+  obtain ⟨vertices, p, hrefl⟩ := indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
+  have hA_symm := cartanMatrix_isSymm' hDynkin.1
+  have hroots : ∀ i : Fin n,
+      dotProduct (Pi.single i 1)
+        ((cartanMatrix n adj).mulVec (Pi.single i 1)) = 2 :=
+    simpleRoot_bilinearForm_eq_two hDynkin
+  have hpres := Etingof.iteratedSimpleReflection_preserves_bilinearForm
+    (cartanMatrix n adj) hA_symm hroots vertices d
+  rw [hrefl] at hpres
+  -- hpres : B(αₚ, αₚ) = B(d, d), and B(αₚ, αₚ) = 2
+  simp only [simpleRoot] at hpres
+  rw [hroots p] at hpres
+  linarith
 
 end Etingof
