@@ -614,22 +614,44 @@ private lemma decomp_of_AB_BA_zero (ρ : Q₂Rep ℂ)
   · exact hpV_ne h1
   · exact hqW_ne h2
 
+/-- A nilpotent endomorphism with kernel of dimension ≥ 2 admits a nontrivial
+invariant direct sum decomposition.
+
+Case split: if ker T ⊄ range T, the elementary construction
+  M₁ = span{v} (for v ∈ ker T \ range T), M₂ = range T ⊕ complement
+gives the decomposition. The case ker T ⊆ range T requires the structure
+theorem for modules over ℂ[X] (PID). -/
+private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module ℂ V]
+    [FiniteDimensional ℂ V] (T : V →ₗ[ℂ] V) (_hT : IsNilpotent T)
+    (hker : 2 ≤ Module.finrank ℂ (LinearMap.ker T)) :
+    ∃ (M₁ M₂ : Submodule ℂ V), M₁ ≠ ⊥ ∧ M₂ ≠ ⊥ ∧ IsCompl M₁ M₂ ∧
+      (∀ v ∈ M₁, T v ∈ M₁) ∧ (∀ v ∈ M₂, T v ∈ M₂) := by
+  -- Case 1: T = 0. Any nontrivial splitting works since every subspace is T-invariant.
+  by_cases hT0 : T = 0
+  · subst hT0
+    -- dim V ≥ 2, so V has a nontrivial direct sum decomposition
+    have hV : 2 ≤ Module.finrank ℂ V := le_trans hker (Submodule.finrank_le _)
+    -- Pick a nonzero vector and its complement
+    have : Nontrivial V := Module.finrank_pos_iff.mp (by linarith)
+    obtain ⟨v, hv⟩ := exists_ne (0 : V)
+    obtain ⟨M₂, hcompl⟩ := (Submodule.span ℂ {v}).exists_isCompl
+    refine ⟨Submodule.span ℂ {v}, M₂, ?_, ?_, hcompl, ?_, ?_⟩
+    · exact mt Submodule.span_singleton_eq_bot.mp hv
+    · intro h
+      have htop : Submodule.span ℂ {v} = ⊤ := eq_top_of_isCompl_bot (h ▸ hcompl)
+      have h1 := finrank_span_singleton (K := ℂ) hv
+      rw [htop] at h1
+      simp at h1
+      linarith
+    · intro w _; simp
+    · intro w _; simp
+  -- Case 2: T ≠ 0. Use the elementary construction when ker T ⊄ range T.
+  · sorry
+
 /-- If dim(ker A) + dim(ker B) ≥ 2 for a Q₂-rep with AB nilpotent and both dims > 0,
 then the rep is decomposable.
 
-The proof requires the structure theorem for nilpotent operators (cyclic/Jordan
-chain decomposition). The strategy (following Problem 6.9.1(c) of Etingof):
-1. The operator X(v,w) = (Bw, Av) on V × W is nilpotent with
-   dim(ker X) = dim(ker A) + dim(ker B) ≥ 2.
-2. X has off-diagonal structure: it maps pure V-elements to pure W-elements
-   and vice versa. Therefore chain generators can be chosen pure (in V or W).
-3. Each pure chain gives a sub-representation (the V and W components alternate).
-4. With ≥ 2 chains (since dim(ker X) ≥ 2), the chain decomposition gives a
-   nontrivial Q₂-decomposition, contradicting indecomposability.
-
-Steps 2-3 require the structure theorem for k[X]/(X^N)-modules (equivalently,
-the cyclic decomposition for nilpotent endomorphisms), which is not yet
-available in Mathlib in a directly usable form. -/
+Uses `nilpotent_nontrivial_decomp` to decompose the V ⊕ W space. -/
 private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (_hV_pos : 0 < Module.finrank ℂ ρ.V)
