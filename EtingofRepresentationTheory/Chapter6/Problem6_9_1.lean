@@ -664,8 +664,176 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
       · -- T-invariance of range T
         intro v hv
         exact ⟨v, rfl⟩
-    · -- Case 2b: ker T ∩ range T ≠ 0. Requires PID structure theorem.
-      sorry
+    · -- Case 2b: ker T ∩ range T ≠ 0.
+      -- Sub-case split: is there v ∈ ker T \ range T?
+      by_cases hkR : LinearMap.ker T ≤ LinearMap.range T
+      · -- Case 2b-ii: ker T ⊆ range T. Use PID structure theorem.
+        -- View V as an X-torsion ℂ[X]-module via AEval'.
+        open Polynomial in
+        have htors : Module.IsTorsion' (Module.AEval' (R := ℂ) T)
+            (Submonoid.powers (X : ℂ[X])) := by
+          obtain ⟨n, hn⟩ := _hT
+          intro m
+          refine ⟨⟨X ^ n, n, rfl⟩, ?_⟩
+          set v := (Module.AEval'.of (R := ℂ) T).symm m
+          have hm : m = Module.AEval'.of T v := (LinearEquiv.apply_symm_apply _ m).symm
+          rw [hm, Submonoid.smul_def, Module.AEval'.X_pow_smul_of,
+            LinearEquiv.map_eq_zero_iff]
+          show (T ^ n) v = 0
+          simp [hn]
+        -- Apply PID structure theorem: AEval' T ≅ ⨁ (i : Fin d) ℂ[X]/(X^kᵢ)
+        open Polynomial in
+        obtain ⟨d, k, ⟨e⟩⟩ := Module.torsion_by_prime_power_decomposition
+          Polynomial.irreducible_X htors
+        -- d ≥ 2: each summand contributes 1 to dim(ker T), and dim(ker T) ≥ 2
+        have hd : 2 ≤ d := by
+          by_contra hd_lt
+          push_neg at hd_lt
+          interval_cases d
+          · -- d = 0: direct sum is trivial, V = 0, contradicts dim(ker T) ≥ 2
+            have hsub : Subsingleton V := by
+              constructor
+              intro a b
+              have ha : e (Module.AEval'.of (R := ℂ) T a) = 0 :=
+                DFinsupp.ext (fun i => Fin.elim0 i)
+              have hb : e (Module.AEval'.of (R := ℂ) T b) = 0 :=
+                DFinsupp.ext (fun i => Fin.elim0 i)
+              have := e.injective (ha.trans hb.symm)
+              exact (Module.AEval'.of (R := ℂ) T).injective this
+            haveI := hsub
+            have : Module.finrank ℂ V = 0 := Module.finrank_zero_of_subsingleton
+            have := Submodule.finrank_le (LinearMap.ker T)
+            omega
+          · -- d = 1: AEval' T ≅ ℂ[X]/(X^k₀), ker T ≅ ker X on quotient, dim = 1
+            sorry
+        -- Split the direct sum: summand 0 vs the rest
+        -- Define ℂ[X]-submodules of AEval' T via the isomorphism e
+        let N : Fin d → Type := fun i => ℂ[X] ⧸ Ideal.span {(X : ℂ[X]) ^ k i}
+        let j₀ : Fin d := ⟨0, by omega⟩
+        -- P₁, P₂ are complementary in the direct sum
+        let DS := DirectSum (Fin d) N
+        let P₁ : Submodule ℂ[X] DS :=
+          LinearMap.range (DirectSum.lof ℂ[X] (Fin d) N j₀)
+        let P₂ : Submodule ℂ[X] DS :=
+          LinearMap.ker (DirectSum.component ℂ[X] (Fin d) N j₀)
+        have hP : IsCompl P₁ P₂ := by
+          constructor
+          · rw [Submodule.disjoint_def]
+            intro w hw₁ hw₂
+            obtain ⟨y, rfl⟩ := LinearMap.mem_range.mp hw₁
+            have := LinearMap.mem_ker.mp hw₂
+            rw [DirectSum.component.lof_self] at this
+            simp [this]
+          · rw [codisjoint_iff, Submodule.eq_top_iff']
+            intro w
+            have hw : w = DirectSum.lof ℂ[X] (Fin d) N j₀
+                (DirectSum.component ℂ[X] (Fin d) N j₀ w) +
+              (w - DirectSum.lof ℂ[X] (Fin d) N j₀
+                (DirectSum.component ℂ[X] (Fin d) N j₀ w)) := by abel
+            rw [hw]
+            apply Submodule.add_mem_sup
+            · exact LinearMap.mem_range.mpr ⟨_, rfl⟩
+            · rw [LinearMap.mem_ker, map_sub, DirectSum.component.lof_self, sub_self]
+        -- Transfer IsCompl through the order isomorphism induced by e.symm
+        let oe := Submodule.orderIsoMapComap e.symm
+        have hScompl : IsCompl (oe P₁) (oe P₂) := oe.isCompl hP
+        -- S₁ = oe P₁, S₂ = oe P₂ as ℂ[X]-submodules
+        let S₁ := oe P₁
+        let S₂ := oe P₂
+        -- Use these as ℂ-submodules of V (AEval' T = V as a type)
+        refine ⟨S₁.restrictScalars ℂ, S₂.restrictScalars ℂ, ?_, ?_, ?_, ?_, ?_⟩
+        · -- S₁ ≠ ⊥
+          sorry
+        · -- S₂ ≠ ⊥
+          sorry
+        · -- IsCompl S₁ S₂ as ℂ-submodules
+          constructor
+          · rw [Submodule.disjoint_def]
+            intro w hw₁ hw₂
+            exact Submodule.disjoint_def.mp hScompl.disjoint w hw₁ hw₂
+          · rw [codisjoint_iff, Submodule.eq_top_iff']
+            intro w
+            have := Submodule.eq_top_iff'.mp hScompl.codisjoint.eq_top
+              (Module.AEval'.of (R := ℂ) T w)
+            rw [Submodule.mem_sup] at this ⊢
+            obtain ⟨a, ha, b, hb, hab⟩ := this
+            exact ⟨(Module.AEval'.of (R := ℂ) T).symm a, ha,
+              (Module.AEval'.of (R := ℂ) T).symm b, hb,
+              (Module.AEval'.of (R := ℂ) T).injective (by simp [hab])⟩
+        · -- T-invariance of S₁
+          intro w hw
+          let w' := Module.AEval'.of (R := ℂ) T w
+          have hw' : w' ∈ S₁ := hw
+          have hXw : (X : ℂ[X]) • w' ∈ S₁ := S₁.smul_mem X hw'
+          rw [Module.AEval'.X_smul_of] at hXw
+          exact hXw
+        · -- T-invariance of S₂
+          intro w hw
+          let w' := Module.AEval'.of (R := ℂ) T w
+          have hw' : w' ∈ S₂ := hw
+          have hXw : (X : ℂ[X]) • w' ∈ S₂ := S₂.smul_mem X hw'
+          rw [Module.AEval'.X_smul_of] at hXw
+          exact hXw
+      · -- Case 2b-i: ker T ⊄ range T. Elementary: use hyperplane containing range T.
+        -- Find v ∈ ker T \ range T
+        obtain ⟨v, hv_ker, hv_range⟩ := Set.not_subset.mp hkR
+        have hTv : T v = 0 := LinearMap.mem_ker.mp hv_ker
+        have hv_ne : v ≠ 0 := fun h => by subst h; exact hv_range (Submodule.zero_mem _)
+        -- span{v} ∩ range T = ⊥ (since v ∉ range T and span{v} is 1-dim)
+        have hdv : Disjoint (Submodule.span ℂ {v}) (LinearMap.range T) := by
+          rw [Submodule.disjoint_def]
+          intro w hw₁ hw₂
+          rw [Submodule.mem_span_singleton] at hw₁
+          obtain ⟨c, rfl⟩ := hw₁
+          by_contra h
+          exact hv_range (by
+            have hc : c ≠ 0 := fun hc => h (by simp [hc])
+            exact (Submodule.smul_mem_iff _ hc).mp hw₂)
+        -- Get complement C of (span{v} ⊔ range T) in V
+        obtain ⟨C, hC⟩ := (Submodule.span ℂ {v} ⊔ LinearMap.range T).exists_isCompl
+        -- M₂ = range T ⊔ C is complement of span{v}:
+        -- V = span{v} ⊔ range T ⊔ C, and span{v} ∩ (range T ⊔ C) = ⊥
+        refine ⟨Submodule.span ℂ {v}, LinearMap.range T ⊔ C, ?_, ?_, ?_, ?_, ?_⟩
+        · -- span{v} ≠ ⊥
+          exact mt Submodule.span_singleton_eq_bot.mp hv_ne
+        · -- range T ⊔ C ≠ ⊥ (contains range T which is ≠ ⊥ since T ≠ 0)
+          exact ne_bot_of_le_ne_bot (by rwa [ne_eq, LinearMap.range_eq_bot]) le_sup_left
+        · -- IsCompl
+          constructor
+          · -- Disjoint: if w ∈ span{v} ∩ (range T ⊔ C), then w = 0
+            rw [Submodule.disjoint_def]
+            intro w hw₁ hw₂
+            -- w ∈ span{v}, w ∈ range T ⊔ C
+            obtain ⟨r, hr, c, hc, rfl⟩ := Submodule.mem_sup.mp hw₂
+            -- r + c ∈ span{v}, so c = (r + c) - r ∈ span{v} + range T
+            have hc_in : c ∈ Submodule.span ℂ {v} ⊔ LinearMap.range T := by
+              have : r + c - r ∈ Submodule.span ℂ {v} ⊔ LinearMap.range T :=
+                (Submodule.span ℂ {v} ⊔ LinearMap.range T).sub_mem
+                  (Submodule.mem_sup_left hw₁) (Submodule.mem_sup_right hr)
+              simpa using this
+            -- c ∈ C ∩ (span{v} ⊔ range T) = ⊥
+            have hc0 : c = 0 := by
+              have : c ∈ (Submodule.span ℂ {v} ⊔ LinearMap.range T) ⊓ C :=
+                Submodule.mem_inf.mpr ⟨hc_in, hc⟩
+              rwa [hC.inf_eq_bot, Submodule.mem_bot] at this
+            -- so w = r + 0 = r ∈ span{v} ∩ range T = ⊥
+            rw [hc0, add_zero] at hw₁ ⊢
+            exact Submodule.disjoint_def.mp hdv _ hw₁ hr
+          · -- Codisjoint: span{v} ⊔ (range T ⊔ C) = ⊤
+            rw [codisjoint_iff]
+            calc Submodule.span ℂ {v} ⊔ (LinearMap.range T ⊔ C)
+                = (Submodule.span ℂ {v} ⊔ LinearMap.range T) ⊔ C := by
+                    rw [sup_assoc]
+              _ = ⊤ := hC.codisjoint.eq_top
+        · -- T-invariance of span{v}: Tv = 0
+          intro w hw
+          rw [Submodule.mem_span_singleton] at hw
+          obtain ⟨c, rfl⟩ := hw
+          rw [map_smul, hTv, smul_zero]
+          exact Submodule.zero_mem _
+        · -- T-invariance of range T ⊔ C: T maps V into range T ⊆ range T ⊔ C
+          intro w _
+          exact Submodule.mem_sup_left ⟨w, rfl⟩
 
 /-- If dim(ker A) + dim(ker B) ≥ 2 for a Q₂-rep with AB nilpotent and both dims > 0,
 then the rep is decomposable.
