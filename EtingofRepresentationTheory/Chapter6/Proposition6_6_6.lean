@@ -882,6 +882,16 @@ private theorem Etingof.reversedArrow_ne_ne_twice
       (@Etingof.reversedAtVertex_twice Q inst_dec inst i).symm
   exact eq_of_heq ((h1 _).trans ((h2 _).trans h3))
 
+/-- Convert a reversed-quiver arrow from a to i (a ≠ i) back to i ⟶ a in Q.
+For a ≠ i, `ReversedAtVertexHom Q i a i = i ⟶ a`. -/
+private def Etingof.reversedArrow_ne_eq
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a : Q}
+    (ha : a ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) : i ⟶ a := by
+  change @Etingof.ReversedAtVertexHom Q inst _ i a i at e
+  rw [Etingof.ReversedAtVertexHom_ne_eq ha rfl] at e; exact e
+
+
 end Helpers
 
 set_option maxHeartbeats 3200000 in
