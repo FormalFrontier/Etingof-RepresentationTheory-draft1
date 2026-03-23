@@ -15,7 +15,7 @@ The principal series construction is not in Mathlib; we define the
 Borel subgroup and principal series locally.
 -/
 
-open CategoryTheory Classical
+open CategoryTheory CategoryTheory.Limits Classical
 
 noncomputable section
 
@@ -281,23 +281,6 @@ theorem Etingof.Theorem5_25_2_part1
     Simple (Etingof.GL2.principalSeries p n chi1 chi2) :=
   Etingof.GL2.principalSeries_simple_of_ne p n chi1 chi2 hne
 
-/-- Helper: V(μ,μ) decomposes as ℂ_μ ⊕ W_μ in FDRep.
-The augmentation functional provides the ℂ_μ summand, and W_μ = ker(augmentation)
-is the complement. -/
-private lemma Etingof.GL2.principalSeries_decomp
-    (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Nonempty (Etingof.GL2.principalSeries p n mu mu ≅
-      Etingof.GL2.detChar p n mu ⊞ Etingof.GL2.complementW p n mu) := by
-  sorry
-
-/-- Helper: W_μ is irreducible. Uses ⟨χ_{V(μ,μ)}, χ_{V(μ,μ)}⟩ = 2 and the
-fact that ℂ_μ is a 1-dimensional constituent, so W_μ must be the other
-irreducible summand. -/
-private lemma Etingof.GL2.complementW_simple
-    (mu : (GaloisField p n)ˣ →* ℂˣ) :
-    Simple (Etingof.GL2.complementW p n mu) := by
-  sorry
-
 /-- Coset representatives for B\GL₂(𝔽_q), indexed by Option (GaloisField p n) ≅ P¹(𝔽_q).
     none ↦ I, some t ↦ [[0,-1],[1,t]] with det = 1. -/
 private noncomputable def Etingof.GL2.cosetRep
@@ -400,14 +383,38 @@ private lemma Etingof.GL2.detFun_mem_principalSeries
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     (fun g : GL2 p n => (mu (Matrix.GeneralLinearGroup.det g) : ℂ)) ∈
       Etingof.GL2.principalSeriesSubmodule p n mu mu := by
-  sorry
+  intro b g
+  simp only [Etingof.GL2.borelCharValue]
+  -- LHS: μ(det(b·g)) = μ(det(b)) · μ(det(g))
+  rw [show Matrix.GeneralLinearGroup.det (b.val * g) =
+    Matrix.GeneralLinearGroup.det b.val * Matrix.GeneralLinearGroup.det g from map_mul _ _ _,
+    map_mul, Units.val_mul]
+  -- Need: μ(det(b)) = μ(b₀₀) · μ(b₁₁) since det(b) = b₀₀·b₁₁ for upper triangular b
+  congr 1
+  have hb10 : (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := b.prop
+  have hdet_eq : (Matrix.GeneralLinearGroup.det b.val : GaloisField p n) =
+      (b.val.val : Matrix _ _ _) 0 0 * (b.val.val : Matrix _ _ _) 1 1 := by
+    show (b.val.val : Matrix _ _ _).det = _
+    rw [Matrix.det_fin_two, hb10, mul_zero, sub_zero]
+  have : Matrix.GeneralLinearGroup.det b.val =
+      Units.mk0 ((b.val.val : Matrix _ _ _) 0 0) (Etingof.GL2.borel_diag00_ne_zero p n b) *
+      Units.mk0 ((b.val.val : Matrix _ _ _) 1 1) (Etingof.GL2.borel_diag11_ne_zero p n b) := by
+    ext; simp [hdet_eq]
+  rw [this, map_mul, Units.val_mul]
 
 /-- Augmentation of μ∘det equals |G|, hence is nonzero. -/
 private lemma Etingof.GL2.augmentation_detFun_ne_zero
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Etingof.GL2.augmentation p n mu
       (fun g : GL2 p n => (mu (Matrix.GeneralLinearGroup.det g) : ℂ)) ≠ 0 := by
-  sorry
+  -- aug(μ∘det) = ∑_g μ(det g) · μ(det g)⁻¹ = ∑_g 1 = |G|
+  simp only [Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk]
+  have hone : ∀ g : GL2 p n,
+      (mu (Matrix.GeneralLinearGroup.det g) : ℂ) *
+      ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ = 1 := fun g => by
+    rw [Units.val_inv_eq_inv_val, mul_inv_cancel₀ (Units.ne_zero _)]
+  simp_rw [hone, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one]
+  exact Nat.cast_ne_zero.mpr Fintype.card_ne_zero
 
 /-- The augmentation restricted to the principal series submodule, as a linear map. -/
 private noncomputable def Etingof.GL2.augOnPrincipalSeries
@@ -422,12 +429,157 @@ private lemma Etingof.GL2.ker_augOnPrincipalSeries_eq
     LinearMap.ker (Etingof.GL2.augOnPrincipalSeries p n mu) =
       (Etingof.GL2.complementWSubmodule p n mu).comap
         (Submodule.subtype (Etingof.GL2.principalSeriesSubmodule p n mu mu)) := by
-  sorry
+  ext ⟨f, hf⟩
+  simp only [LinearMap.mem_ker, Submodule.mem_comap,
+    Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
+    Etingof.GL2.complementWSubmodule, Submodule.mem_inf, LinearMap.mem_ker]
+  exact ⟨fun h => ⟨hf, h⟩, fun ⟨_, h⟩ => h⟩
 
 /-- The augmentation restricted to principal series is surjective (onto ℂ). -/
 private lemma Etingof.GL2.augOnPrincipalSeries_surjective
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Function.Surjective (Etingof.GL2.augOnPrincipalSeries p n mu) := by
+  -- The det function μ∘det has nonzero augmentation, so the map is surjective onto ℂ
+  intro c
+  have hdetMem := Etingof.GL2.detFun_mem_principalSeries p n mu
+  set detFn : ↥(Etingof.GL2.principalSeriesSubmodule p n mu mu) :=
+    ⟨fun g => (mu (Matrix.GeneralLinearGroup.det g) : ℂ), hdetMem⟩
+  have haugNe := Etingof.GL2.augmentation_detFun_ne_zero p n mu
+  set a := Etingof.GL2.augOnPrincipalSeries p n mu detFn with ha_def
+  refine ⟨(c / a) • detFn, ?_⟩
+  simp only [map_smul, smul_eq_mul]
+  have ha_ne : a ≠ 0 := haugNe
+  exact div_mul_cancel₀ c ha_ne
+
+/-- The augmentation is equivariant: aug(ρ(g)f) = μ(det g) · aug(f). -/
+private lemma Etingof.GL2.augOnPrincipalSeries_equivariant
+    (mu : (GaloisField p n)ˣ →* ℂˣ)
+    (g : GL2 p n)
+    (f : ↥(Etingof.GL2.principalSeriesSubmodule p n mu mu)) :
+    Etingof.GL2.augOnPrincipalSeries p n mu
+      (Etingof.GL2.principalSeriesRep p n mu mu g f) =
+    ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) *
+      Etingof.GL2.augOnPrincipalSeries p n mu f := by
+  simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
+    Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk,
+    Submodule.coe_subtype]
+  -- LHS: ∑_x f(xg) · μ(det x)⁻¹. Reindex x ↦ xg⁻¹.
+  change ∑ x : GL2 p n, f.val (x * g) * ↑(mu (Matrix.GeneralLinearGroup.det x))⁻¹ =
+    ↑(mu (Matrix.GeneralLinearGroup.det g)) *
+    (∑ x : GL2 p n, f.val x * ↑(mu (Matrix.GeneralLinearGroup.det x))⁻¹)
+  conv_lhs =>
+    rw [Fintype.sum_equiv (Equiv.mulRight g)
+        (fun x => f.val (x * g) * ↑(mu (Matrix.GeneralLinearGroup.det x))⁻¹)
+        (fun x => f.val x * ↑(mu (Matrix.GeneralLinearGroup.det (x * g⁻¹)))⁻¹)
+        (fun x => by simp [Equiv.mulRight])]
+  simp_rw [map_mul, mul_inv_rev, Units.val_mul]
+  simp_rw [show ∀ x : GL2 p n,
+      f.val x * (↑(mu (Matrix.GeneralLinearGroup.det g⁻¹))⁻¹ *
+      ↑(mu (Matrix.GeneralLinearGroup.det x))⁻¹) =
+      f.val x * ↑(mu (Matrix.GeneralLinearGroup.det x))⁻¹ *
+      ↑(mu (Matrix.GeneralLinearGroup.det g⁻¹))⁻¹ from fun x => by ring]
+  rw [← Finset.sum_mul, mul_comm]
+  congr 1
+  -- μ(det g⁻¹)⁻¹ = μ(det g)
+  rw [map_inv, map_inv, inv_inv]
+
+/-- The augmentation as a G-equivariant map V(μ,μ) ⟶ ℂ_μ in FDRep. -/
+private noncomputable def Etingof.GL2.augMorphism
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.principalSeries p n mu mu ⟶ Etingof.GL2.detChar p n mu where
+  hom := FGModuleCat.ofHom (Etingof.GL2.augOnPrincipalSeries p n mu)
+  comm g := by
+    apply FGModuleCat.hom_ext
+    ext ⟨f, hf⟩
+    show Etingof.GL2.augOnPrincipalSeries p n mu
+      (Etingof.GL2.principalSeriesRep p n mu mu g ⟨f, hf⟩) =
+      ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) *
+        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩
+    exact Etingof.GL2.augOnPrincipalSeries_equivariant p n mu g ⟨f, hf⟩
+
+/-- The inclusion W_μ ↪ V(μ,μ) in FDRep. -/
+private noncomputable def Etingof.GL2.complementWInclusion
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.complementW p n mu ⟶ Etingof.GL2.principalSeries p n mu mu where
+  hom := FGModuleCat.ofHom
+    { toFun := fun ⟨f, hf⟩ => ⟨f, hf.1⟩
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  comm g := by
+    ext ⟨f, hf⟩; rfl
+
+/-- The embedding ℂ_μ ↪ V(μ,μ) sending c to c · (g ↦ μ(det g)) in FDRep. -/
+private noncomputable def Etingof.GL2.detCharEmbedding
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.detChar p n mu ⟶ Etingof.GL2.principalSeries p n mu mu where
+  hom := FGModuleCat.ofHom
+    { toFun := fun c =>
+        ⟨fun g => c * (mu (Matrix.GeneralLinearGroup.det g) : ℂ),
+         fun b g => by
+           have := Etingof.GL2.detFun_mem_principalSeries p n mu b g
+           simp only [Etingof.GL2.borelCharValue] at this ⊢; rw [this]; ring⟩
+      map_add' := fun _ _ => Subtype.ext (funext fun _ => by simp [add_mul])
+      map_smul' := fun _ _ => Subtype.ext (funext fun _ => by simp [mul_assoc]) }
+  comm g := by
+    apply FGModuleCat.hom_ext; ext1
+    apply Subtype.ext; funext x
+    -- Both sides reduce to μ(det g) * μ(det x) vs μ(det(x*g))
+    show ((mu (Matrix.GeneralLinearGroup.det g) : ℂˣ) : ℂ) • (1 : ℂ) *
+      ↑(mu (Matrix.GeneralLinearGroup.det x)) =
+      1 * ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
+    simp only [smul_eq_mul, mul_one, one_mul, map_mul, Units.val_mul]; ring
+
+/-- ℂ_μ is a simple (1-dimensional) representation. -/
+private lemma Etingof.GL2.detChar_simple
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Simple (Etingof.GL2.detChar p n mu) := by
+  sorry
+
+/-- The embedding ℂ_μ ↪ V(μ,μ) is nonzero. -/
+private lemma Etingof.GL2.detCharEmbedding_ne_zero
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.detCharEmbedding p n mu ≠ 0 := by
+  sorry
+
+/-- The embedding ℂ_μ ↪ V(μ,μ) is mono (injective). -/
+private lemma Etingof.GL2.detCharEmbedding_mono
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Mono (Etingof.GL2.detCharEmbedding p n mu) := by
+  sorry
+
+/-- V(μ,μ) decomposes as ℂ_μ ⊕ W_μ in FDRep. -/
+private lemma Etingof.GL2.principalSeries_decomp
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Nonempty (Etingof.GL2.principalSeries p n mu mu ≅
+      Etingof.GL2.detChar p n mu ⊞ Etingof.GL2.complementW p n mu) := by
+  -- Step 1: ℂ_μ is simple and the embedding is nonzero → mono → split mono (Maschke)
+  haveI : Simple (Etingof.GL2.detChar p n mu) := Etingof.GL2.detChar_simple p n mu
+  have hne := Etingof.GL2.detCharEmbedding_ne_zero p n mu
+  set emb := Etingof.GL2.detCharEmbedding p n mu
+  haveI : Mono emb := Etingof.GL2.detCharEmbedding_mono p n mu
+  haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  haveI : CategoryTheory.Injective (Etingof.GL2.detChar p n mu) := inferInstance
+  haveI : IsSplitMono emb := IsSplitMono.mk'
+    ⟨CategoryTheory.Injective.factorThru (𝟙 _) emb,
+     CategoryTheory.Injective.comp_factorThru (𝟙 _) emb⟩
+  -- Step 2: V(μ,μ) ≅ ℂ_μ ⊞ cokernel(emb)
+  have hcok := cokernelIsCokernel emb
+  let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
+  have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
+  haveI : HasBinaryBiproduct (Etingof.GL2.detChar p n mu) (cokernel emb) :=
+    HasBinaryBiproduct.mk ⟨bc, hbl⟩
+  have iso1 : Etingof.GL2.principalSeries p n mu mu ≅
+    Etingof.GL2.detChar p n mu ⊞ cokernel emb :=
+    biprod.uniqueUpToIso _ _ hbl
+  -- Step 3: Show cokernel(emb) ≅ W_μ
+  -- Both have the same character (= χ_V - χ_{ℂ_μ})
+  -- For now, we use character comparison via Corollary 4.2.4
+  sorry
+
+/-- W_μ is irreducible. -/
+private lemma Etingof.GL2.complementW_simple
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Simple (Etingof.GL2.complementW p n mu) := by
   sorry
 
 /-- Helper: dim W_μ = q = p^n. Since dim V(μ,μ) = [G:B] = q+1 and
