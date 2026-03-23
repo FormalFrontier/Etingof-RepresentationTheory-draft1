@@ -914,8 +914,8 @@ theorem Etingof.Proposition6_6_6_sink
   let instR := @Etingof.reversedAtVertex Q _ inst i
   let instDR := @Etingof.reversedAtVertex Q _ instR i
   let ρ_plus := @Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ
-  let ρ_dr := @Etingof.reflectionFunctorMinus k _ Q _ instR i
-      (@Etingof.isSink_reversedAtVertex_isSource Q _ inst i hi) ρ_plus _
+  let hi' := @Etingof.isSink_reversedAtVertex_isSource Q _ inst i hi
+  let ρ_dr := @Etingof.reflectionFunctorMinus k _ Q _ instR i hi' ρ_plus _
   exact Etingof.QuiverRepresentation.crossIsoToIso
     (@Etingof.reversedAtVertex_twice Q _ inst i)
     (fun v => by
@@ -923,8 +923,10 @@ theorem Etingof.Proposition6_6_6_sink
       · -- v = i: first isomorphism theorem
         cases hv
         exact @Etingof.equivAt_eq_sink k _ Q _ inst i hi ρ _ _ _ hsurj
-      · -- v ≠ i: both sides reduce to ρ.obj v
-        exact @Etingof.equivAt_ne_sink k _ Q _ inst i hi ρ _ v hv)
+      · -- v ≠ i: use explicit composition of the two equivAt_ne equivs
+        exact (@Etingof.reflFunctorMinus_equivAt_ne k _ Q _
+          instR i hi' ρ_plus _ v hv).trans
+          (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ inst i hi ρ v hv))
     (fun {a b} e x => by
       -- Naturality: the isomorphism commutes with representation maps.
       by_cases ha : a = i
@@ -933,19 +935,17 @@ theorem Etingof.Proposition6_6_6_sink
       · by_cases hb : b = i
         · -- a ≠ i, b = i: arrow a → i, involves equivAt_eq_sink at target
           sorry
-        · -- a ≠ i, b ≠ i: both equivs reduce to equivAt_ne_sink (≃ id)
-          simp only [dif_neg ha, dif_neg hb]
-          have h_da : ‹DecidableEq Q› a i = .isFalse ha := by
-            cases ‹DecidableEq Q› a i with | isTrue h => exact absurd h ha | isFalse _ => rfl
-          have h_db : ‹DecidableEq Q› b i = .isFalse hb := by
-            cases ‹DecidableEq Q› b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
-          -- BLOCKER: Decidable.casesOn opacity prevents reducing through
-          -- F⁻(F⁺(V)).mapLinear for a≠i, b≠i. The equivAt_ne_sink equivs
-          -- reduce to identity, but the map also needs reduction through
-          -- reflFunctorMinus_mapLinear_ne_ne + reflFunctorPlus_mapLinear_ne_ne
-          -- + reversedArrow_ne_ne_twice. The Decidable.rec terms in the
-          -- goal types resist rw/simp/dsimp, causing "motive is not type correct".
-          sorry)
+        · -- a ≠ i, b ≠ i: use API lemmas compositionally
+          simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
+          -- After trans_apply, goal has explicit composition of the two equivs
+          -- Step 1: Use reflFunctorMinus_mapLinear_ne_ne to reduce through F⁻
+          rw [@Etingof.reflFunctorMinus_mapLinear_ne_ne k _ Q _
+            instR i hi' ρ_plus _ a b ha hb
+            ((@Etingof.reversedAtVertex_twice Q _ inst i).symm ▸ e) x]
+          -- Step 2: Use reflFunctorPlus_mapLinear_ne_ne to reduce through F⁺
+          rw [@Etingof.reflFunctorPlus_mapLinear_ne_ne k _ Q _ inst i hi ρ a b ha hb]
+          -- Step 3: Use reversedArrow_ne_ne_twice to close
+          rw [@Etingof.reversedArrow_ne_ne_twice Q _ inst i a b ha hb e])
 
 /-- If ψ is injective at a source, then applying F⁺ᵢ after F⁻ᵢ recovers V
 up to isomorphism of representations.
