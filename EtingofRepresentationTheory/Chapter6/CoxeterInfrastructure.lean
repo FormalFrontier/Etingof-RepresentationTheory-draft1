@@ -243,21 +243,359 @@ structure IsAdmissibleOrdering (Q : Quiver (Fin n))
       (iteratedReversedAtVertices Q (ordering.take k))
       (ordering.get ⟨k, hk⟩)
 
+/-- Iterated reversal distributes over list append. -/
+private lemma iteratedReversed_append
+    {V : Type*} [DecidableEq V] (Q : Quiver V) (xs ys : List V) :
+    iteratedReversedAtVertices Q (xs ++ ys) =
+    iteratedReversedAtVertices (iteratedReversedAtVertices Q xs) ys := by
+  induction xs generalizing Q with
+  | nil => rfl
+  | cons x xs ih => exact ih (@reversedAtVertex V _ Q x)
+
+/-- Edges between vertices not in the reversal list are unchanged. -/
+private lemma iteratedReversed_hom_not_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n))
+    {a b : Fin n} (ha : a ∉ vs) (hb : b ∉ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q a b := by
+  induction vs generalizing Q with
+  | nil => rfl
+  | cons v vs ih =>
+    have hav : a ≠ v := fun h => ha (List.mem_cons.mpr (Or.inl h))
+    have hbv : b ≠ v := fun h => hb (List.mem_cons.mpr (Or.inl h))
+    have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
+    have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
+    show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b =
+      @Quiver.Hom _ Q a b
+    rw [ih _ ha' hb']
+    exact ReversedAtVertexHom_ne_ne hav hbv
+
+/-- In any nonempty subset S of vertices of a Dynkin quiver, there exists a vertex
+in S with no outgoing Q-edges to S (a "local sink").
+
+This is the subset generalization of `exists_sink_of_dynkin_orientation`. The proof
+uses the same positive-definiteness contradiction: if every S-vertex has an S-outgoing
+edge, counting forward/backward pairs gives ∑_{S×S} adj ≥ 2|S|, but B(d,d) > 0 for
+the S-indicator d gives ∑_{S×S} adj < 2|S|. -/
+private theorem exists_local_sink_of_dynkin
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    (S : Finset (Fin n)) (hS : S.Nonempty) :
+    ∃ v ∈ S, ∀ w ∈ S, @IsEmpty (@Quiver.Hom _ Q v w) := by
+  by_contra hall
+  push_neg at hall
+  -- Every vertex in S has an outgoing edge within S
+  have hout : ∀ v ∈ S, ∃ w ∈ S, Nonempty (@Quiver.Hom _ Q v w) := by
+    intro v hv; obtain ⟨w, hw, hne⟩ := hall v hv
+    exact ⟨w, hw, hne⟩
+  -- Choose successor (dependently typed) and lift to total function
+  choose next hnext_mem hnext_arr using hout
+  set next' : Fin n → Fin n := fun v => if hv : v ∈ S then next v hv else v
+  have hnext'_eq : ∀ v (hv : v ∈ S), next' v = next v hv :=
+    fun v hv => dif_pos hv
+  have hadj_out : ∀ v ∈ S, adj v (next' v) = 1 := by
+    intro v hv; rw [hnext'_eq v hv]
+    exact adj_eq_one_of_arrow hDynkin hOrient (hnext_arr v hv).some
+  have hadj_in : ∀ v ∈ S, adj (next' v) v = 1 := by
+    intro v hv; rw [hnext'_eq v hv]
+    have hsymm := hDynkin.1
+    have : adj (next v hv) v = adj v (next v hv) := by
+      have := congr_fun (congr_fun hsymm v) (next v hv)
+      simp [Matrix.transpose_apply] at this; exact this
+    rw [this]; exact adj_eq_one_of_arrow hDynkin hOrient (hnext_arr v hv).some
+  have hnext'_mem : ∀ v ∈ S, next' v ∈ S := by
+    intro v hv; rw [hnext'_eq v hv]; exact hnext_mem v hv
+  -- Forward and backward pair sets within S are disjoint
+  have hno_overlap : ∀ v ∈ S, ∀ w ∈ S, (v, next' v) ≠ (next' w, w) := by
+    intro v hv w hw heq
+    rw [hnext'_eq v hv, hnext'_eq w hw] at heq
+    have h1 : v = next w hw := congr_arg Prod.fst heq
+    have h2 : next v hv = w := congr_arg Prod.snd heq
+    apply hOrient.2.2 v w
+    · rw [show w = next v hv from h2.symm]; exact hnext_arr v hv
+    · rw [show v = next w hw from h1]; exact hnext_arr w hw
+  -- adj is nonneg
+  have hadj_nonneg : ∀ i j, (0 : ℤ) ≤ adj i j := by
+    intro i j; rcases hDynkin.2.2.1 i j with h | h <;> omega
+  -- Lower bound: counting forward + backward pairs gives sum ≥ 2|S|
+  set total_S := ∑ i ∈ S, ∑ j ∈ S, adj i j with htotal_S_def
+  -- Forward pairs: {(v, next' v) | v ∈ S}, injective on first component
+  have h_fwd_sum : ∑ p ∈ S.image (fun v => (v, next' v)),
+      adj p.1 p.2 = ↑S.card := by
+    rw [Finset.sum_image (fun a _ b _ h => (Prod.mk.inj h).1)]
+    rw [show ∑ x ∈ S, adj x (next' x) = ∑ _ ∈ S, (1 : ℤ) from
+      Finset.sum_congr rfl (fun x hx => hadj_out x hx)]
+    simp
+  -- Backward pairs: {(next' v, v) | v ∈ S}, injective on second component
+  have h_bwd_sum : ∑ p ∈ S.image (fun v => (next' v, v)),
+      adj p.1 p.2 = ↑S.card := by
+    rw [Finset.sum_image (fun a _ b _ h => (Prod.mk.inj h).2)]
+    rw [show ∑ x ∈ S, adj (next' x) x = ∑ _ ∈ S, (1 : ℤ) from
+      Finset.sum_congr rfl (fun x hx => hadj_in x hx)]
+    simp
+  have hdisjoint : Disjoint
+      (S.image (fun v => (v, next' v)))
+      (S.image (fun v => (next' v, v))) := by
+    rw [Finset.disjoint_left]
+    intro p hp1 hp2
+    rw [Finset.mem_image] at hp1 hp2
+    obtain ⟨v, hv, hvp⟩ := hp1
+    obtain ⟨w, hw, hwp⟩ := hp2
+    exact absurd (hvp ▸ hwp ▸ rfl : (v, next' v) = (next' w, w)) (hno_overlap v hv w hw)
+  have h_union_sum : ∑ p ∈ (S.image (fun v => (v, next' v)) ∪
+      S.image (fun v => (next' v, v))),
+      adj p.1 p.2 = 2 * ↑S.card := by
+    rw [Finset.sum_union hdisjoint, h_fwd_sum, h_bwd_sum]; ring
+  -- Both image sets are subsets of S × S
+  have h_sub : S.image (fun v => (v, next' v)) ∪
+      S.image (fun v => (next' v, v)) ⊆ S ×ˢ S := by
+    apply Finset.union_subset <;> intro p hp <;> rw [Finset.mem_image] at hp <;>
+      obtain ⟨v, hv, rfl⟩ := hp <;> simp [hv, hnext'_mem v hv]
+  have hlb : 2 * (↑S.card : ℤ) ≤ total_S := by
+    have h_prod_sum : ∑ p ∈ S ×ˢ S, adj p.1 p.2 = total_S := by
+      rw [htotal_S_def, Finset.sum_product']
+    have := Finset.sum_le_sum_of_subset_of_nonneg h_sub
+      (fun p _ _ => hadj_nonneg p.1 p.2)
+    linarith [h_union_sum, h_prod_sum]
+  -- Upper bound: B(d, d) > 0 for S-indicator gives sum < 2|S|
+  set d : Fin n → ℤ := fun v => if v ∈ S then 1 else 0 with hd_def
+  have hd_ne : d ≠ 0 := by
+    intro heq; obtain ⟨v, hv⟩ := hS
+    have := congr_fun heq v; simp [hd_def, hv] at this
+  have hpos := hDynkin.2.2.2.2 d hd_ne
+  -- Expand B(d,d) = 2|S| - total_S
+  have hexpand : dotProduct d ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec d) =
+      2 * ↑S.card - total_S := by
+    -- Decompose: (2I - A)d = 2d - Ad, then d·(2d - Ad) = 2d·d - d·(Ad)
+    have h_sub : (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec d =
+        2 • d - adj.mulVec d := by
+      rw [Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec]
+    rw [h_sub, dotProduct_sub, dotProduct_smul, nsmul_eq_mul]; push_cast
+    -- Helper: Finset.univ.filter (· ∈ S) = S
+    have hfilter_S : (Finset.univ : Finset (Fin n)).filter (· ∈ S) = S := by ext; simp
+    -- d · d = |S| (since d is a 0/1 indicator)
+    have hdd : dotProduct d d = ↑S.card := by
+      simp only [dotProduct, hd_def]
+      rw [show ∑ i : Fin n, (if i ∈ S then (1 : ℤ) else 0) * (if i ∈ S then 1 else 0) =
+        ∑ i, if i ∈ S then 1 else 0 from
+        Finset.sum_congr rfl (fun i _ => by split_ifs <;> ring)]
+      simp only [← Finset.sum_filter, hfilter_S, Finset.sum_const, nsmul_eq_mul, mul_one]
+    -- d · (A d) = total_S (since d restricts both indices to S)
+    have hdad : dotProduct d (adj.mulVec d) = total_S := by
+      simp only [dotProduct, Matrix.mulVec, hd_def]
+      -- inner sum: ∑ j, adj i j * d(j) = ∑ j ∈ S, adj i j
+      have h_inner : ∀ i : Fin n,
+          ∑ j, adj i j * (if j ∈ S then (1 : ℤ) else 0) = ∑ j ∈ S, adj i j := by
+        intro i
+        rw [show ∑ j, adj i j * (if j ∈ S then (1 : ℤ) else 0) =
+          ∑ j, if j ∈ S then adj i j else 0 from
+          Finset.sum_congr rfl (fun j _ => by split_ifs <;> ring)]
+        simp only [← Finset.sum_filter, hfilter_S]
+      simp_rw [h_inner]
+      -- outer sum: ∑ i, d(i) * (∑ j ∈ S, adj i j) = ∑ i ∈ S, ∑ j ∈ S, adj i j
+      rw [show ∑ i : Fin n, (if i ∈ S then (1 : ℤ) else 0) * ∑ j ∈ S, adj i j =
+        ∑ i, if i ∈ S then ∑ j ∈ S, adj i j else 0 from
+        Finset.sum_congr rfl (fun i _ => by split_ifs <;> ring)]
+      simp only [← Finset.sum_filter, hfilter_S]; rfl
+    linarith
+  have hub : total_S < 2 * (↑S.card : ℤ) := by linarith
+  -- Contradiction: total_S ≥ 2|S| and total_S < 2|S|
+  linarith
+
+/-- Edge from a non-participant `a` to a participant `b` in the iterated reversed
+quiver equals the reverse-direction edge `b ⟶ a` in the original quiver Q.
+
+When `b = vs[j]`, the reversal at step j flips the edge direction, and all other
+reversals leave it unchanged (since `a ∉ vs` and `b` only appears once by nodup). -/
+private lemma iteratedReversed_hom_to_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a : Fin n} (ha : a ∉ vs) {b : Fin n} (hb : b ∈ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q b a := by
+  induction vs generalizing Q with
+  | nil => simp at hb
+  | cons v vs ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp hb with rfl | hb_vs
+    · -- b = v (head): reversal at b flips the edge (rfl replaced v with b)
+      have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
+      have hav : a ≠ b := fun h => ha (List.mem_cons.mpr (Or.inl h))
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) vs) a b = _
+      rw [iteratedReversed_hom_not_mem _ vs ha' hvs.1]
+      exact ReversedAtVertexHom_ne_eq hav rfl
+    · -- b ∈ vs (tail): IH handles, reversal at v is transparent
+      have ha' : a ∉ vs := fun h => ha (List.mem_cons.mpr (Or.inr h))
+      have hav : a ≠ v := fun h => ha (List.mem_cons.mpr (Or.inl h))
+      have hbv : b ≠ v := by intro h; subst h; exact hvs.1 hb_vs
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+      rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha' hb_vs]
+      exact ReversedAtVertexHom_ne_ne hbv hav
+
+/-- A topological sort of a Dynkin quiver exists: a permutation of vertices
+where ordering[k] has no Q-outgoing edges to ordering[m] for m ≥ k. -/
+private theorem exists_topoSort
+    (hDynkin : IsDynkinDiagram n adj)
+    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
+    ∃ (ordering : List (Fin n)),
+      ordering.Perm (List.finRange n) ∧ ordering.Nodup ∧
+      ∀ k m (hk : k < ordering.length) (hm : m < ordering.length), k ≤ m →
+        @IsEmpty (@Quiver.Hom _ Q (ordering.get ⟨k, hk⟩) (ordering.get ⟨m, hm⟩)) := by
+  -- Build by induction with two invariants:
+  -- (1) within-acc topological: acc[k] has no Q-edges to acc[m] for k ≤ m
+  -- (2) acc-to-remaining: acc[k] has no Q-edges to any vertex in remaining
+  suffices h : ∀ (remaining : Finset (Fin n)) (acc : List (Fin n)),
+      acc.Nodup → acc.toFinset = Finset.univ \ remaining →
+      (∀ k m (hk : k < acc.length) (hm : m < acc.length), k ≤ m →
+        @IsEmpty (@Quiver.Hom _ Q (acc.get ⟨k, hk⟩) (acc.get ⟨m, hm⟩))) →
+      (∀ k (hk : k < acc.length), ∀ w ∈ remaining,
+        @IsEmpty (@Quiver.Hom _ Q (acc.get ⟨k, hk⟩) w)) →
+      ∃ (ordering : List (Fin n)),
+        ordering.Perm (List.finRange n) ∧ ordering.Nodup ∧
+        ∀ k m (hk : k < ordering.length) (hm : m < ordering.length), k ≤ m →
+          @IsEmpty (@Quiver.Hom _ Q (ordering.get ⟨k, hk⟩) (ordering.get ⟨m, hm⟩)) by
+    exact h Finset.univ [] List.nodup_nil (by simp) (by simp) (by simp)
+  intro remaining
+  induction remaining using Finset.strongInduction with
+  | H remaining ih =>
+    intro acc hnodup hacc_set htopo hedge
+    by_cases hrem : remaining.Nonempty
+    · obtain ⟨v, hv_mem, hv_sink⟩ := exists_local_sink_of_dynkin hDynkin hOrient remaining hrem
+      have hv_not_acc : v ∉ acc := by
+        intro hv; rw [← List.mem_toFinset] at hv; rw [hacc_set] at hv
+        simp at hv; exact hv hv_mem
+      -- Local helpers: bridge List.get ↔ getElem for append
+      have get_app_l {l₁ l₂ : List (Fin n)} {i : ℕ} (h₁ : i < l₁.length)
+          {h₂ : i < (l₁ ++ l₂).length} :
+          (l₁ ++ l₂).get ⟨i, h₂⟩ = l₁.get ⟨i, h₁⟩ := by
+        simp only [List.get_eq_getElem]
+        exact List.getElem_append_left h₁
+      have get_app_r {l₁ l₂ : List (Fin n)} {i : ℕ} (h₁ : l₁.length ≤ i)
+          {h₂ : i < (l₁ ++ l₂).length} :
+          (l₁ ++ l₂).get ⟨i, h₂⟩ = l₂.get ⟨i - l₁.length, by rw [List.length_append] at h₂; omega⟩ := by
+        simp only [List.get_eq_getElem]
+        exact List.getElem_append_right h₁
+      apply ih (remaining.erase v) (Finset.erase_ssubset hv_mem) (acc ++ [v])
+      · exact hnodup.append (List.nodup_singleton v)
+          (by simp [List.disjoint_singleton]; exact hv_not_acc)
+      · -- (acc ++ [v]).toFinset = Finset.univ \ remaining.erase v
+        rw [List.toFinset_append, hacc_set]
+        ext w
+        simp only [Finset.mem_union, List.toFinset_cons, List.toFinset_nil,
+          Finset.mem_insert,
+          Finset.mem_sdiff, Finset.mem_univ, true_and, Finset.mem_erase, ne_eq]
+        tauto
+      · -- Topological invariant for acc ++ [v]
+        intro k m hk hm hkm
+        rw [List.length_append, List.length_singleton] at hk hm
+        by_cases hk_old : k < acc.length
+        · by_cases hm_old : m < acc.length
+          · -- Both in old acc
+            rw [get_app_l hk_old, get_app_l hm_old]
+            exact htopo k m hk_old hm_old hkm
+          · -- k in old acc, m indexes v
+            have hm_eq : m = acc.length := by omega
+            subst hm_eq
+            rw [get_app_l hk_old, get_app_r (by omega)]
+            simp; exact hedge k hk_old v hv_mem
+        · -- k indexes v
+          have hk_eq : k = acc.length := by omega
+          subst hk_eq
+          have hm_eq : m = acc.length := by omega
+          subst hm_eq
+          rw [get_app_r (by omega)]
+          simp; exact hv_sink v hv_mem
+      · -- Edge-to-remaining invariant for acc ++ [v] with remaining.erase v
+        intro k hk w hw
+        rw [List.length_append, List.length_singleton] at hk
+        have hw_rem : w ∈ remaining := Finset.mem_of_mem_erase hw
+        by_cases hk_old : k < acc.length
+        · rw [get_app_l hk_old]; exact hedge k hk_old w hw_rem
+        · have hk_eq : k = acc.length := by omega
+          subst hk_eq
+          rw [get_app_r (by omega)]; simp
+          exact hv_sink w hw_rem
+    · -- remaining empty: acc is the full ordering
+      rw [Finset.not_nonempty_iff_eq_empty] at hrem
+      refine ⟨acc, ?_, hnodup, htopo⟩
+      rw [List.perm_iff_count]; intro v
+      have hv_acc : v ∈ acc := by rw [← List.mem_toFinset, hacc_set]; simp [hrem]
+      rw [List.count_eq_one_of_mem hnodup hv_acc,
+          List.count_eq_one_of_mem (List.nodup_finRange n) (List.mem_finRange v)]
+
 /-- Every Dynkin quiver orientation admits an admissible ordering.
 
-The proof constructs the ordering inductively: at each step, find a sink
-(which exists by `exists_sink_of_dynkin_orientation`), add it to the ordering,
-and reverse at it. The reversed quiver is still an orientation of the same
-Dynkin diagram (by `reversedAtVertex_isOrientationOf`), so the process continues.
-
-Note: the existence of admissible orderings is a standard result for finite
-acyclic directed graphs. The Dynkin hypothesis is used only to guarantee
-acyclicity (via positive definiteness of the Cartan matrix). -/
+The proof constructs a topological sort of the quiver (sinks first), using
+`exists_local_sink_of_dynkin` to iteratively find vertices with no outgoing
+edges to the remaining set. This topological sort is then shown to be an
+admissible ordering: each vertex σₖ is a sink of the k-th iterated reversed
+quiver because its outgoing Q-edges to earlier vertices get flipped by the
+corresponding reversals, while edges to later vertices don't exist (by the
+topological property). -/
 theorem admissibleOrdering_exists
     (hDynkin : IsDynkinDiagram n adj)
     {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj) :
     ∃ ordering : List (Fin n), IsAdmissibleOrdering Q ordering := by
-  sorry
+  obtain ⟨ordering, hperm, hnodup, htopo⟩ := exists_topoSort hDynkin hOrient
+  -- Bridge: List.get for take = List.get for original
+  have get_take_eq {j k : ℕ} (hj : j < (ordering.take k).length) :
+      (ordering.take k).get ⟨j, hj⟩ = ordering.get ⟨j, by rw [List.length_take] at hj; omega⟩ := by
+    simp only [List.get_eq_getElem]; exact List.getElem_take
+  -- Helper: ordering.get ⟨k, hk⟩ ∉ ordering.take k (by nodup)
+  have get_not_mem_take : ∀ k (hk : k < ordering.length),
+      ordering.get ⟨k, hk⟩ ∉ ordering.take k := by
+    intro k hk hmem
+    obtain ⟨⟨j, hj_lt⟩, hj_eq⟩ := List.mem_iff_get.mp hmem
+    have hj_lt_k : j < k := by
+      have : j < (ordering.take k).length := hj_lt
+      rw [List.length_take] at this; exact lt_of_lt_of_le this (min_le_left k ordering.length)
+    have hj_lt' : j < ordering.length := by omega
+    have : ordering.get ⟨j, hj_lt'⟩ = ordering.get ⟨k, hk⟩ := by
+      rw [← get_take_eq hj_lt, hj_eq]
+    have hinj := hnodup.injective_get this
+    simp only [Fin.mk.injEq] at hinj
+    omega
+  -- Helper: ordering.get ⟨m, hm⟩ ∈ ordering.take k when m < k
+  have get_mem_take : ∀ m k (hm : m < ordering.length) (hmk : m < k),
+      ordering.get ⟨m, hm⟩ ∈ ordering.take k := by
+    intro m k hm hmk
+    rw [List.mem_iff_get]
+    have hm_take : m < (ordering.take k).length := by rw [List.length_take]; omega
+    exact ⟨⟨m, hm_take⟩, get_take_eq hm_take⟩
+  refine ⟨ordering, hperm, fun k hk => ?_⟩
+  -- Show ordering[k] is a sink of iteratedReversedAtVertices Q (ordering.take k)
+  intro w
+  -- Find w's position in ordering (it's a permutation, so w is in it)
+  have hw_mem : w ∈ ordering := hperm.mem_iff.mpr (List.mem_finRange w)
+  obtain ⟨⟨m, hm⟩, hm_eq⟩ := List.mem_iff_get.mp hw_mem
+  -- hm_eq : ordering.get ⟨m, hm⟩ = w; replace w with ordering.get ⟨m, hm⟩
+  constructor; intro e; subst hm_eq
+  by_cases hkm : k ≤ m
+  · -- m ≥ k: both ordering[k] and ordering[m] are NOT in ordering.take k
+    have hk_not := get_not_mem_take k hk
+    have hm_not : ordering.get ⟨m, hm⟩ ∉ ordering.take k := by
+      intro hmem
+      obtain ⟨⟨j, hj_lt⟩, hj_eq⟩ := List.mem_iff_get.mp hmem
+      have hj_lt_k : j < k := by
+        have : j < (ordering.take k).length := hj_lt
+        rw [List.length_take] at this; exact lt_of_lt_of_le this (min_le_left k ordering.length)
+      have hj_lt' : j < ordering.length := by omega
+      have : ordering.get ⟨j, hj_lt'⟩ = ordering.get ⟨m, hm⟩ := by
+        rw [← get_take_eq hj_lt, hj_eq]
+      have hinj := hnodup.injective_get this
+      simp only [Fin.mk.injEq] at hinj
+      omega
+    have h_eq := iteratedReversed_hom_not_mem Q (ordering.take k) hk_not hm_not
+    exact (htopo k m hk hm hkm).false (h_eq ▸ e)
+  · -- m < k: ordering[m] IS in ordering.take k, edge gets flipped
+    push_neg at hkm
+    have hm_in := get_mem_take m k hm hkm
+    have hk_not := get_not_mem_take k hk
+    have htake_nodup : (ordering.take k).Nodup := hnodup.take
+    have h_eq := iteratedReversed_hom_to_mem Q (ordering.take k) htake_nodup hk_not hm_in
+    -- Arrow from ordering[k] to ordering[m] in iterated quiver = ordering[m] ⟶ ordering[k] in Q
+    have : Nonempty (@Quiver.Hom _ Q (ordering.get ⟨m, hm⟩) (ordering.get ⟨k, hk⟩)) :=
+      ⟨h_eq ▸ e⟩
+    exact (htopo m k hm hk (by omega)).false this.some
 
 /-! ## Dimension vector tracking through admissible ordering
 
