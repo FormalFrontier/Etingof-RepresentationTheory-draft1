@@ -863,14 +863,14 @@ We use the Casimir to construct complements:
 - If C has same eigenvalue λ ≠ 0 and C ≠ λ on E: section via Schur + (C-λ).
 - If C = λ on E with λ ≠ 0: use primitive vector (weight-n argument).
 - If λ = 0: trivial action by sl2_trivial_action_of_trivial_subquotients. -/
-private lemma exists_complement_of_irreducible_quotient (d : ℕ) :
-    ∀ {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
+    ∀ {V : Type u} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     [LieRingModule sl2 V] [LieModule ℂ sl2 V],
     finrank ℂ V ≤ d →
     ∀ N : LieSubmodule ℂ sl2 V, N ≠ ⊤ →
     LieModule.IsIrreducible ℂ sl2 (V ⧸ N) →
     (∀ (d' : ℕ), d' < d →
-      ∀ (W : Type*) [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+      ∀ (W : Type u) [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
       [LieRingModule sl2 W] [LieModule ℂ sl2 W],
       finrank ℂ W ≤ d' →
       ComplementedLattice (LieSubmodule ℂ sl2 W)) →
@@ -934,8 +934,145 @@ private lemma exists_complement_of_irreducible_quotient (d : ℕ) :
       have htriv := sl2_acts_trivially_of_quotient_and_sub N hN_triv hQ_triv
       exact (complementedLattice_of_trivial_action htriv).exists_isCompl N
     · -- Either c_irr ≠ 0, or C ≠ c_irr on some part of N.
-      -- These cases require weight-space arguments or eigenspace decomposition of N.
-      sorry
+      -- Extract a nonzero eigenvector from ¬hInj
+      push_neg at hInj
+      obtain ⟨v₀, hv₀_N, hv₀_eigen, hv₀_ne⟩ := hInj
+      -- Define the c_irr-eigenspace of C in V as a Lie submodule
+      let K : LieSubmodule ℂ sl2 V :=
+        LieSubmodule.mk ((sl2_casimir (V := V)).eigenspace c_irr)
+          (fun {x v} hv ↦ casimir_eigenspace_lie_invariant c_irr x v hv)
+      -- N' = N ∩ K: the c_irr-eigenspace within N
+      set N' := N ⊓ K with hN'_def
+      have hv₀_N' : v₀ ∈ N' := ⟨hv₀_N, Module.End.mem_eigenspace_iff.mpr hv₀_eigen⟩
+      have hN'_ne_bot : N' ≠ ⊥ := by
+        intro h
+        have : v₀ ∈ (⊥ : LieSubmodule ℂ sl2 V) := h ▸ hv₀_N'
+        rw [LieSubmodule.mem_bot] at this; exact hv₀_ne this
+      -- Case split: is C = c_irr on ALL of N?
+      by_cases hAllN : ∀ v ∈ N.toSubmodule, sl2_casimir v = c_irr • v
+      · -- C = c_irr on all of N, so c_irr ≠ 0 (from ¬hc_zero)
+        have hc_ne : c_irr ≠ 0 := fun hc => hc_zero ⟨hc, hAllN⟩
+        -- The remaining case: C = c_irr ≠ 0 on all of N, and V/N is irreducible.
+        -- This is the self-extension case requiring the weight argument.
+        -- For sl₂, Ext¹(V_n, V_m) = 0 when n(n+2) = m(m+2) (forces n=m)
+        -- and n ≥ 1. The complement comes from a primitive vector not in N.
+        sorry
+      · -- C ≠ c_irr on some part of N: eigenspace N' is proper in N.
+        push_neg at hAllN
+        obtain ⟨w₀, hw₀_N, hw₀_ne_eigen⟩ := hAllN
+        have hN'_lt_N : N' < N := by
+          refine lt_of_le_of_ne inf_le_left (fun h => hw₀_ne_eigen ?_)
+          have : w₀ ∈ N' := h ▸ hw₀_N
+          exact Module.End.mem_eigenspace_iff.mp this.2
+        -- Dimension bounds
+        have hN'_pos : 0 < finrank ℂ (N' : Submodule ℂ V) := by
+          have : Nontrivial N' :=
+            (LieSubmodule.nontrivial_iff_ne_bot ℂ sl2 (M := V)).mpr hN'_ne_bot
+          exact Module.finrank_pos (R := ℂ)
+        have hN_lt_V : finrank ℂ (N : Submodule ℂ V) < finrank ℂ V := by
+          have hN_sub_lt : N.toSubmodule < ⊤ :=
+            lt_top_iff_ne_top.mpr (mt (LieSubmodule.toSubmodule_eq_top (N := N)).mp hN_top)
+          have := Submodule.finrank_lt_finrank_of_lt hN_sub_lt
+          rwa [finrank_top] at this
+        have hN'_lt_N_rank : finrank ℂ (N' : Submodule ℂ V) < finrank ℂ (N : Submodule ℂ V) :=
+          Submodule.finrank_lt_finrank_of_lt (show N'.toSubmodule < N.toSubmodule from hN'_lt_N)
+        -- Step 1: V/N' has strictly smaller dimension, so it's completely reducible
+        have hVN'_lt : finrank ℂ (V ⧸ N') < finrank ℂ V := by
+          have h1 := Submodule.finrank_quotient_add_finrank N'.toSubmodule
+          have h2 : finrank ℂ (V ⧸ N') = finrank ℂ (V ⧸ N'.toSubmodule) := rfl
+          omega
+        have hVN'_compl : ComplementedLattice (LieSubmodule ℂ sl2 (V ⧸ N')) :=
+          ih (finrank ℂ (V ⧸ N')) (by omega) (V ⧸ N') (le_refl _)
+        -- Step 2: Get complement of N/N' in V/N'
+        set π := LieSubmodule.Quotient.mk' N'
+        obtain ⟨T_bar, hT_bar⟩ := hVN'_compl.exists_isCompl (LieSubmodule.map π N)
+        -- Step 3: Pull back to T
+        set T := LieSubmodule.comap π T_bar
+        -- N' ≤ T (kernel of π lands in T_bar since 0 ∈ T_bar)
+        have hN'_le_T : N' ≤ T := by
+          intro w hw
+          show π w ∈ T_bar
+          have : π w = 0 := (LieSubmodule.Quotient.mk_eq_zero (N := N')).mpr hw
+          rw [this]; exact T_bar.zero_mem
+        -- N ⊓ T = N'
+        have hNT_inf : N ⊓ T = N' := by
+          apply le_antisymm
+          · intro v ⟨hvN, hvT⟩
+            have hvN_bar : π v ∈ LieSubmodule.map π N := LieSubmodule.mem_map_of_mem hvN
+            have : π v ∈ (LieSubmodule.map π N ⊓ T_bar : LieSubmodule ℂ sl2 (V ⧸ N')) :=
+              ⟨hvN_bar, hvT⟩
+            rw [hT_bar.inf_eq_bot, LieSubmodule.mem_bot] at this
+            exact (LieSubmodule.Quotient.mk_eq_zero (N := N')).mp this
+          · exact le_inf inf_le_left hN'_le_T
+        -- N ⊔ T = ⊤
+        have hNT_sup : N ⊔ T = ⊤ := by
+          rw [eq_top_iff]; intro v _
+          have hv_top : π v ∈ (⊤ : LieSubmodule ℂ sl2 (V ⧸ N')) := LieSubmodule.mem_top _
+          rw [← hT_bar.sup_eq_top, LieSubmodule.mem_sup] at hv_top
+          obtain ⟨a, ha, b, hb, hab⟩ := hv_top
+          rw [LieSubmodule.mem_map] at ha
+          obtain ⟨n, hn, rfl⟩ := ha
+          have hvn : v - n ∈ (T : LieSubmodule ℂ sl2 V) := by
+            show π (v - n) ∈ T_bar
+            rw [map_sub, ← hab, add_sub_cancel_left]; exact hb
+          rw [show v = n + (v - n) by abel, LieSubmodule.mem_sup]
+          exact ⟨n, hn, v - n, hvn, rfl⟩
+        -- Step 4: T has strictly smaller dimension than V
+        have hfT_lt : finrank ℂ (T : Submodule ℂ V) < finrank ℂ V := by
+          have h1 := Submodule.finrank_sup_add_finrank_inf_eq N.toSubmodule T.toSubmodule
+          have h2 : N.toSubmodule ⊔ T.toSubmodule = ⊤ := by
+            have := congrArg LieSubmodule.toSubmodule hNT_sup
+            rwa [LieSubmodule.sup_toSubmodule, LieSubmodule.top_toSubmodule] at this
+          have h3 : N.toSubmodule ⊓ T.toSubmodule = N'.toSubmodule := by
+            have := congrArg LieSubmodule.toSubmodule hNT_inf
+            rwa [LieSubmodule.inf_toSubmodule] at this
+          rw [h2, h3, finrank_top] at h1; omega
+        -- By IH, T is completely reducible
+        have hT_compl : ComplementedLattice (LieSubmodule ℂ sl2 T) :=
+          ih (finrank ℂ (T : Submodule ℂ V)) (by omega) T (le_refl _)
+        -- Step 5: Get complement of N' (viewed in T) within T
+        set N'_T := LieSubmodule.comap T.incl N'
+        obtain ⟨U_T, hU_T⟩ := hT_compl.exists_isCompl N'_T
+        -- Step 6: Map U_T back to V → this is the complement of N
+        set U := LieSubmodule.map T.incl U_T
+        refine ⟨U, ?_⟩
+        rw [← LieSubmodule.isCompl_toSubmodule]
+        constructor
+        · -- Disjoint: N ∩ U = ⊥
+          rw [disjoint_iff_inf_le]
+          intro v ⟨hvN, hvU⟩
+          have hvU' : v ∈ (U : LieSubmodule ℂ sl2 V) := hvU
+          rw [LieSubmodule.mem_map] at hvU'
+          obtain ⟨u, hu, rfl⟩ := hvU'
+          -- T.incl u ∈ N ∩ T = N'
+          have h1 : T.incl u ∈ (N ⊓ T : LieSubmodule ℂ sl2 V) := ⟨hvN, u.property⟩
+          rw [hNT_inf] at h1
+          -- u ∈ N'_T ∩ U_T = ⊥
+          have h3 : u ∈ (N'_T ⊓ U_T : LieSubmodule ℂ sl2 T) := ⟨h1, hu⟩
+          rw [hU_T.inf_eq_bot, LieSubmodule.mem_bot] at h3
+          simp [h3]
+        · -- Codisjoint: N ⊔ U = ⊤
+          rw [codisjoint_iff, eq_top_iff]
+          intro v _
+          -- v ∈ N ⊔ T = ⊤
+          have hv_NT : v ∈ (N ⊔ T : LieSubmodule ℂ sl2 V) := hNT_sup ▸ LieSubmodule.mem_top v
+          rw [LieSubmodule.mem_sup] at hv_NT
+          obtain ⟨n, hn, t_val, ht, rfl⟩ := hv_NT
+          -- t ∈ T, decompose: t = n' + u (N'_T ⊔ U_T = ⊤)
+          have ht_T : (⟨t_val, ht⟩ : T) ∈ (⊤ : LieSubmodule ℂ sl2 T) := LieSubmodule.mem_top _
+          rw [← hU_T.sup_eq_top, LieSubmodule.mem_sup] at ht_T
+          obtain ⟨w, hw, u, hu, hwu⟩ := ht_T
+          -- w ∈ N'_T means w.val ∈ N' ≤ N
+          have hw_N : (w : V) ∈ N := (inf_le_left : N' ≤ N) hw
+          -- u ∈ U_T, so T.incl u ∈ U
+          have hu_U : (u : V) ∈ (U : LieSubmodule ℂ sl2 V) := LieSubmodule.mem_map_of_mem hu
+          -- v = n + t_val = n + (w + u) = (n + w) + u with (n+w) ∈ N and u ∈ U
+          have ht_eq : t_val = (w : V) + (u : V) := by
+            have := congrArg Subtype.val hwu
+            simp only [LieSubmodule.incl_apply, AddSubmonoid.mk_add_mk] at this
+            exact this.symm
+          rw [ht_eq, show n + ((w : V) + (u : V)) = (n + (w : V)) + (u : V) by abel]
+          exact Submodule.add_mem_sup (N.add_mem hn hw_N) (LieSubmodule.mem_map_of_mem hu)
 
 /-- Helper: If W ∩ N = ⊥ in V with W an atom (irreducible), then N has a complement in V,
 given that all strictly smaller-dimensional modules are completely reducible. -/
