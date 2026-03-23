@@ -219,6 +219,8 @@ Before submitting a PR for a formalized item:
 3. **No `admit`** anywhere in committed code
 4. **Docstring present** with book's natural language statement
 5. **Imports are minimal** — only import what's actually used
+6. **No duplicate declarations** — search for the declaration name across all files before adding. Duplicate names (even private ones) cause CI failures when files are compiled together. PRs #1655, #1657 were CI fixes for this exact issue.
+7. **Heartbeat budget** — if your proof uses heavy `decide` or `omega` calls, test with the CI heartbeat limit. Use `set_option maxHeartbeats N in` to increase locally if needed (PR #1655).
 
 ## Issue Sizing for Formalization
 
@@ -298,6 +300,69 @@ theorem foo : Part1 ∧ Part2 ∧ Part3 := by
 **Always work on the hardest part first.** If Part 2 fails, all effort on Parts 1 and 3 is wasted. Commit partial proofs — they document exactly what's missing and unblock downstream work that doesn't need the sorry'd parts.
 
 This pattern succeeded for Theorem 3.10.2 (part i proved, part ii sorry'd), Theorem 5.4.4 (main structure done, one ingredient sorry'd), and IrreducibleEnumeration (injectivity + simplicity proved, surjectivity sorry'd).
+
+### Character Orthogonality for Span/Independence (Wave 30)
+
+When proving that a set of characters spans or is linearly independent, use inner product orthogonality:
+
+```lean
+-- Prove ℚ-span via orthogonality + induction
+have h_orth := FDRep.char_orthonormal
+-- Use span_induction to reduce to showing each basis element is in the span
+apply Submodule.span_induction ...
+```
+
+**Key APIs:** `FDRep.char_orthonormal`, `ClassFunction.inner_eq_zero_of_ne`, `Submodule.exists_le_ker_of_notMem`.
+
+**Evidence:** This proved Theorem5_26_1 (Artin's theorem) completely — both `class_fun_vanishes_on_subgroup_of_orthogonal` and `artin_Q_span_of_induced_chars` used character inner products. Also proved the character orthogonality lemma for `principalSeries_simple_of_ne`.
+
+**Pattern:** For any "show X is in the span of Y" problem in representation theory, first check if orthogonality gives you a clean proof. It usually does.
+
+### IsSplitMono + Cokernel for Representation Decomposition (Wave 30)
+
+When proving a representation decomposes as a direct sum V ≅ A ⊕ B:
+
+1. Construct a nonzero mono `f : A ⟶ V` (e.g., an embedding)
+2. Apply Maschke's theorem to get `IsSplitMono f`
+3. Use `binaryBiconeOfIsSplitMonoOfCokernel` to get V ≅ A ⊞ cokernel(f)
+4. Identify cokernel(f) ≅ B (often via dimension counting)
+
+```lean
+-- Step 1: Get IsSplitMono from Maschke
+have hsm : IsSplitMono detCharEmbedding := Abelian.IsSplitMono_of_mono _
+-- Step 2: Build biproduct via cokernel
+exact binaryBiconeOfIsSplitMonoOfCokernel detCharEmbedding
+```
+
+**Evidence:** This approach is set up for `principalSeries_decomp` (V(μ,μ) ≅ ℂ_μ ⊕ W_μ). The infrastructure lemmas (detChar_simple, detCharEmbedding_mono, detCharEmbedding_ne_zero) proved in PRs #1624, #1658 feed directly into this pattern.
+
+### Dimension Contradiction Pattern (Wave 30)
+
+For proving properties by contradiction using `Module.finrank`:
+
+```lean
+-- Show two finite-rank subspaces can't both fit
+have h1 : Module.finrank k S₁ ≥ 1 := ...
+have h2 : Module.finrank k S₂ ≥ 1 := ...
+have h3 : Module.finrank k V = Module.finrank k S₁ + Module.finrank k S₂ := ...
+-- Derive contradiction from dimension inequality
+omega
+```
+
+**Evidence:** Proved nilpotent_nontrivial_decomp (d=1 contradiction in PR #1628, subrepresentation arguments in PR #1632). Also used in decomp_of_ker_sum_ge_two dimension argument (PR #1633).
+
+### Graph Isomorphism for Classification Proofs (Wave 30)
+
+For Dynkin-type classification proofs requiring graph isomorphisms between combinatorially-defined graphs:
+
+```lean
+-- Build explicit bijection via path permutation
+def tree_branch_iso : G₁ ≃g G₂ where
+  toEquiv := pathPermutation ...  -- permute vertices along a canonical path
+  map_rel_iff' := ...
+```
+
+**Evidence:** PR #1634 used `tree_branch_iso` to prove all 4 arm cases (D_n, E₆, E₇, E₈) in `branch_classification`, reducing Theorem_Dynkin_classification from 6 sorries to 0. The key insight: express graph isomorphisms as path permutations with optional reversal.
 
 ### FDRep Categorical Plumbing
 
@@ -549,41 +614,49 @@ When a chapter is within 1-3 items of 100% completion, prioritize closing it. Ch
 
 **Evidence:** Ch3 closed via Jordan-Hölder (#831), Ch4 via block polynomial (#812). Both were chain-completion efforts that required focused multi-session work but had outsized impact on project morale and metrics.
 
-## Endgame Priorities (Wave 29+)
+## Endgame Priorities (Wave 30+)
 
-With ~58 sorries remaining across ~26 files (96.4% items sorry-free), the remaining work is concentrated in hard items. See `progress/sorry-landscape.md` for the full tier analysis.
+With ~66 sorries across 24 files (96.4% items sorry-free), the remaining work is concentrated in hard items. See `progress/sorry-landscape.md` for the full tier analysis.
 
-**Recently completed (Wave 28-29):**
-- Theorem2_1_1 (sl(2) complete reducibility) — sorry-free
-- GL2NormalizerInfra — sorry-free (normalizer_card proved)
-- FDRep bridge — spechtModuleFDRep_simple proved
-- CoxeterInfrastructure — admissibleOrdering_exists fully proved
-- Proposition6_6_6 — reduced from 5→2 sorries
-- Problem6_9_1 — 4/5 nilpotent decomp cases proved
+**Recently completed (Wave 29-30, PRs #1620–#1658):**
+- Theorem_Dynkin_classification — sorry-free (reciprocal inequality + tree_branch_iso proved all arm cases)
+- Theorem5_26_1 (Artin's theorem) — sorry-free (character orthogonality + span_induction)
+- nilpotent_nontrivial_decomp — sorry-free (d=1 contradiction + subrepresentation arguments)
+- elliptic_sum_algebraic_core — sorry-free (triple-sum rearrangement)
+- class_fun_vanishes_on_subgroup_of_orthogonal — sorry-free (Artin helper)
+- detChar_simple, detCharEmbedding_ne_zero, detCharEmbedding_mono — proved (principalSeries infrastructure)
+- character_orthogonality lemma for principalSeries_simple_of_ne — proved
+- Proposition6_6_6 — reduced from 3→2 sorries (cases-based dependent elimination)
+
+**Note on sorry count increase:** Count went from 61→66 because decomposition PRs (e.g., #1649 complementW_finrank, #1633 decomp_of_ker_sum_ge_two) added well-scoped sub-sorries. This is healthy — it means opaque sorries became tractable sub-goals.
 
 **Tier 1 — Most Tractable:**
-- Ch5 Theorem5_15_1 (alternating Kostka identity, 1 sorry) — needs Vandermonde orthogonality (infrastructure merged in #1618)
+- Ch5 Theorem5_15_1 (alternating Kostka identity, 1 sorry) — needs Vandermonde orthogonality
+- Ch5 principalSeries_decomp + complementW_simple (significant infrastructure now proved, IsSplitMono approach ready)
+- Ch5 principalSeries_simple_of_ne (character orthogonality lemma proved)
 - Ch6 Problem6_9_1 Case 2b-ii (PID bridge) — infrastructure built, needs kernel dimension on ℂ[X]/(X^n)
-- Ch6 Proposition6_6_6 (2 sorries) — ne_eq and eq_ne naturality cases, Decidable.casesOn partially mitigated
 
 **Tier 2 — Hard but Tractable:**
-- Ch6 Theorem_Dynkin_classification (6 sorries) — arm extraction and exceptional type cases
 - Ch5 Proposition5_21_1 (2 sorries), Proposition5_22_2 (1 sorry) — Schur polynomial character formulas
-- Ch6 Corollary6_8_2/6_8_3 — unblocked by admissibleOrdering_exists, needs type-changing reflection iteration
+- Ch6 Corollary6_8_3/6_8_4 — need type-changing reflection iteration (Coxeter infrastructure)
+- Ch6 Proposition6_6_6 (2 sorries) — ne_eq and eq_ne naturality cases, Decidable.casesOn partially mitigated
+- Ch6 indecomposable_reduces_to_simpleRoot — type-changing iterated reflection functor
 
-**Tier 3 — Infrastructure-Blocked (~35 sorries):**
-- SchurModule cluster (~20 sorries across 4 files) — concrete definition needed (mega-blocker, ~33% of remaining)
-- Gabriel theorem cluster (~8 sorries) — partially unblocked by Prop6_6_6 progress
-- Ch9 finite-dimensional algebras (5 sorries) — Morita/Nakayama infrastructure
-- Theorem5_25_2 principal series (6 sorries) — sorry pushed to helpers
-- Theorem5_26_1 Artin's theorem (4 sorries) — forward direction decomposed
+**Tier 3 — Infrastructure-Blocked (~29 sorries):**
+- SchurModule cluster (~20 sorries across 4 files) — concrete definition needed (mega-blocker, ~30% of remaining)
+- Gabriel theorem cluster (~8 sorries) — partially unblocked by Prop6_6_6 progress and CoxeterInfrastructure
+- Ch9 finite-dimensional algebras (3 sorries) — Morita/Nakayama infrastructure
 
 **Tier 4 — Deep Blockers:**
 - Mackey machine Theorem5_27_1 (5 sorries) — needs ~500 lines Clifford theory
 - GL₂ classification residual — substantial character computation helpers
 - Morita/Basic algebra infrastructure (3 sorries)
 
-**Key endgame insight:** The decomposition strategy (pushing sorry from theorems into helpers) is the dominant value-creation pattern. Many theorem files now have complete proof terms with sorry only in isolated helpers. Prioritize this pattern over heroic attempts at hard sorries.
+**Key endgame insights:**
+1. **Decomposition as primary value creation** continues to be the dominant pattern. PRs #1640, #1648 (Artin's theorem) succeeded by decomposing into sub-goals then proving each independently.
+2. **Character orthogonality** is a highly reliable proof strategy for representation theory results. It proved Theorem5_26_1 and the principalSeries_simple_of_ne helper.
+3. **Single-sorry items are highest ROI** — most Wave 29-30 completions were single-sorry items or items reduced to 0 in one focused session.
+4. **Infrastructure PRs unlock downstream work** even when they add sorries. PR #1649 (complementW_finrank) added 8 helper sorries but structured the problem for parallel completion.
 
 ## Type-Level If/Else Diamond Issue
 
@@ -1191,23 +1264,25 @@ The project alternates between **breadth phases** (statement formalization) and 
 - **Expected metrics:** Higher items/PR ratio, sorry count declining
 - **Planners should create 80%+ proof issues** during this phase
 
-### Current Status (as of Wave 29)
-The project has ~562/583 items sorry-free (~96.4%), with ~58 remaining sorries across ~26 files. This is deep in a **depth phase** — all remaining work is proof completion on hard items. Statement formalization is complete.
+### Current Status (as of Wave 30)
+The project has ~562/583 items sorry-free (~96.4%), with ~66 remaining sorries across 24 files. This is deep in a **depth phase** — all remaining work is proof completion on hard items. Statement formalization is complete.
 
-**Chapter status:** Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch2 reduced to 1 sorry (Theorem2_1_1 completed). Ch5 remains the bottleneck (~30 sorries). Ch6 has ~15 sorries with Coxeter infrastructure and reflection functor work progressing. Ch9 has ~8 sorries.
+**Chapter status:** Ch3, Ch4, Ch7, Ch8 are 100% sorry-free. Ch2 has 2 sorries. Ch5 remains the bottleneck (~36 sorries, but Theorem5_26_1 now sorry-free, principalSeries infrastructure substantially advanced). Ch6 has ~19 sorries (Theorem_Dynkin_classification now sorry-free, CoxeterInfrastructure and reflection functor work progressing). Ch9 has ~6 sorries.
 
 **Major blocker clusters:**
-1. **SchurModule** (~20 sorries, ~33% of total): Mega-blocker. `SchurModule k N lam` is sorry'd, blocking AlgIrrepGL, Peter-Weyl for GL(V), Frobenius formula, Schur-Weyl duality
-2. **Gabriel's theorem / Decidable.casesOn** (~8 sorries): Partially mitigated — Prop6_6_6 down to 2 sorries, admissible ordering proved. Type-changing reflection iteration still needs work.
+1. **SchurModule** (~20 sorries, ~30% of total): Mega-blocker. `SchurModule k N lam` is sorry'd, blocking AlgIrrepGL, Peter-Weyl for GL(V), Frobenius formula, Schur-Weyl duality
+2. **Gabriel's theorem / Coxeter infrastructure** (~8 sorries): admissibleOrdering_exists proved, Prop6_6_6 down to 2 sorries. Type-changing reflection iteration (indecomposable_reduces_to_simpleRoot) is the key remaining piece.
 3. **Mackey machine / Clifford theory** (~5 sorries): Theorem 5.27.1 semidirect product orbit method — deep blocker, no Mathlib infrastructure
-4. **Morita/Krull-Schmidt** (~8 sorries): Ch9 infrastructure
+4. **Theorem5_25_2 principal series** (~11 sorries): IsSplitMono decomposition approach set up, detChar_simple/mono/ne_zero proved. Key remaining: cokernel identification ≅ W_μ, principalSeries_simple_of_ne character computation.
+5. **Morita/Ch9** (~6 sorries): Infrastructure gaps
 
-**Best ROI targets (Wave 29+):**
-1. Problem6_9_1 Case 2b-ii (PID bridge — infrastructure built, one key lemma away)
-2. Theorem5_15_1 (Vandermonde orthogonality infrastructure merged)
-3. Corollary6_8_2/6_8_3 (unblocked by admissibleOrdering_exists)
-4. Proposition6_6_6 remaining 2 sorries (if Decidable.casesOn workaround found)
+**Best ROI targets (Wave 30+):**
+1. principalSeries_decomp (IsSplitMono infrastructure ready, cokernel identification is the gap)
+2. principalSeries_simple_of_ne (character orthogonality lemma proved)
+3. Theorem5_15_1 (Vandermonde orthogonality infrastructure merged)
+4. indecomposable_reduces_to_simpleRoot (CoxeterInfrastructure foundations built)
+5. Problem6_9_1 remaining sorry (decomp_of_ker_sum_ge_two Q₂-transfer)
 
-**Velocity trend:** Continuing to decline as remaining items are the hardest. The steepening difficulty curve means many remaining sorries require Mathlib infrastructure that doesn't exist (SchurModule, Mackey machine) or deep combinatorial identities. Single-sorry items have been the highest-ROI targets — most Wave 28-29 completions were single-sorry items.
+**Velocity trend:** 19 PRs merged in Wave 29-30, netting Theorem_Dynkin_classification (fully sorry-free) and Theorem5_26_1 (fully sorry-free) as major wins. The sorry count increased from 61→66 due to healthy decomposition (opaque sorries replaced by well-scoped sub-sorries). Effective sorry-reduction rate remains positive when accounting for decomposition.
 
 **Key velocity insight:** Difficulty 3/3 items have a ~30% single-session success rate — agents should budget accordingly and commit partial progress early. **Agents that don't commit intermediate work produce zero value** — stale claims continue to be a recurring problem.
