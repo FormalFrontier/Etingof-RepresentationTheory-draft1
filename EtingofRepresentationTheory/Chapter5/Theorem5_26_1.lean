@@ -265,7 +265,70 @@ private lemma artin_Q_span_of_induced_chars {G : Type} [Group G] [Fintype G]
           -- plus semisimple decomposition of induced representation
   -- Irreducible characters are ℂ-linearly independent (from char_orthonormal + non-isomorphism)
   have h_li_C : LinearIndependent ℂ (fun i : Fin D.n => (D.columnFDRep i).character) := by
-    sorry -- Follows from FDRep.char_orthonormal + columnFDRep_injective
+    rw [Fintype.linearIndependent_iff]
+    intro c hc j
+    -- From hc: ∑ i, c i • (D.columnFDRep i).character = 0
+    -- We extract c j by taking the inner product with χ_j
+    -- ⅟|G| • ∑ g, (∑ i, c i • χ_i)(g) • χ_j(g⁻¹) = c j
+    -- Each columnFDRep i is simple
+    haveI (i : Fin D.n) : CategoryTheory.Simple (D.columnFDRep i) := D.columnFDRep_simple i
+    -- Iso iff equal index
+    have h_iso_iff : ∀ i k : Fin D.n,
+        Nonempty ((D.columnFDRep i) ≅ (D.columnFDRep k)) ↔ i = k := by
+      intro i k
+      constructor
+      · exact D.columnFDRep_injective i k
+      · rintro rfl; exact ⟨CategoryTheory.Iso.refl _⟩
+    -- Apply inner product with χ_j: extract c_j from the linear combination
+    -- Use char_orthonormal: ⅟|G| • ∑_g χ_i(g) * χ_j(g⁻¹) = δ_{ij}
+    have h_orth : ∀ i : Fin D.n,
+        ⅟(Fintype.card G : ℂ) • ∑ g : G,
+          (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ =
+        if i = j then 1 else 0 := by
+      intro i
+      rw [FDRep.char_orthonormal]
+      simp [h_iso_iff]
+    -- From hc: ∑ c_i • χ_i = 0, evaluate at each g
+    have lhs_zero : ∀ g, (∑ i : Fin D.n, c i * (D.columnFDRep i).character g) = 0 := by
+      intro g
+      have := congr_fun hc g
+      simp only [Pi.zero_apply, Finset.sum_apply, Pi.smul_apply, smul_eq_mul] at this
+      exact this
+    -- Compute: 0 = ⅟|G| • ∑_g 0 * χ_j(g⁻¹) = ⅟|G| • ∑_g (∑_i c_i χ_i(g)) * χ_j(g⁻¹)
+    --        = ∑_i c_i * (⅟|G| • ∑_g χ_i(g) * χ_j(g⁻¹)) = ∑_i c_i * δ_{ij} = c_j
+    -- Step A: ⅟|G| • ∑_g (∑_i c_i χ_i(g)) * χ_j(g⁻¹) = 0
+    have stepA : ⅟(Fintype.card G : ℂ) • ∑ g : G,
+        (∑ i : Fin D.n, c i * (D.columnFDRep i).character g) *
+        (D.columnFDRep j).character g⁻¹ = 0 := by
+      simp_rw [lhs_zero, zero_mul, Finset.sum_const_zero, smul_zero]
+    -- Step B: Rearrange LHS to ∑_i c_i * (⅟|G| • ∑_g χ_i(g) * χ_j(g⁻¹))
+    have stepB : ⅟(Fintype.card G : ℂ) • ∑ g : G,
+        (∑ i : Fin D.n, c i * (D.columnFDRep i).character g) *
+        (D.columnFDRep j).character g⁻¹ =
+        ∑ i : Fin D.n, c i * (⅟(Fintype.card G : ℂ) • ∑ g : G,
+          (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹) := by
+      calc ⅟(Fintype.card G : ℂ) • ∑ g : G,
+              (∑ i, c i * (D.columnFDRep i).character g) * (D.columnFDRep j).character g⁻¹
+          _ = ⅟(Fintype.card G : ℂ) • ∑ g : G, ∑ i,
+              c i * (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ := by
+            congr 1; apply Finset.sum_congr rfl; intro g _; rw [Finset.sum_mul]
+          _ = ⅟(Fintype.card G : ℂ) • ∑ i, ∑ g : G,
+              c i * (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ := by
+            congr 1; rw [Finset.sum_comm]
+          _ = ⅟(Fintype.card G : ℂ) • ∑ i,
+              c i * ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹ := by
+            congr 1; apply Finset.sum_congr rfl; intro i _
+            conv_lhs => arg 2; ext g; rw [mul_assoc]
+            rw [← Finset.mul_sum]
+          _ = ∑ i, c i * (⅟(Fintype.card G : ℂ) •
+              ∑ g : G, (D.columnFDRep i).character g * (D.columnFDRep j).character g⁻¹) := by
+            rw [Finset.smul_sum]
+            apply Finset.sum_congr rfl; intro i _
+            rw [Algebra.mul_smul_comm]
+    -- Step C: Use h_orth to simplify
+    simp_rw [stepB, h_orth] at stepA
+    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ↓reduceIte] at stepA
+    exact stepA
   -- Therefore also ℚ-linearly independent
   have h_li_Q : LinearIndependent ℚ (fun i : Fin D.n => (D.columnFDRep i).character) :=
     h_li_C.restrict_scalars (smul_left_injective ℚ one_ne_zero)
