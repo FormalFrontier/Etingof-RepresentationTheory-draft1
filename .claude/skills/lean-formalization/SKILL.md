@@ -1110,4 +1110,18 @@ The project has ~193/583 items sorry-free (~33%), with 84 remaining sorries acro
 
 **Velocity trend:** Continuing to decline as remaining items are harder. The steepening difficulty curve means many remaining sorries require Mathlib infrastructure that doesn't exist (SchurModule, Mackey machine, quiver representations) or deep combinatorial identities (hook length formula, alternating Kostka). Tier 1 arithmetic sorries represent the highest-ROI targets.
 
+## Scalar Tower Pattern (ℂ → ℂ[X] → Module)
+
+When `e` is `R`-linear (e.g., ℂ[X]-linear) but you need `e (r' • m) = r' • e m` for a sub-ring scalar `r' : S` (e.g., `c : ℂ`):
+
+1. Convert sub-ring scalar to ring scalar: `← IsScalarTower.algebraMap_smul R c m`
+2. Use `map_smul e` (now the scalar is in `R`)
+3. Convert back: `IsScalarTower.algebraMap_smul R c _`
+
+**Avoid `e.restrictScalars S |>.map_smul`** — causes synthesis timeouts with complex types like `DirectSum`.
+
+When the goal has MULTIPLE `c •` subexpressions, use `conv_lhs`/`conv_rhs` to target the right one, since `← IsScalarTower.algebraMap_smul` rewrites all occurrences.
+
+**Split pattern for complex equalities**: Instead of one `rw` chain, prove `lhs : LHS = common` and `rhs : RHS = common` separately, then close with `exact lhs.trans rhs.symm`.
+
 **Key velocity insight from waves 9-24:** Statement formalization runs ~5x faster than proof completion. A single breadth session can formalize 10+ statements, but a proof session typically completes 1-3 proofs. Difficulty 3/3 items have a ~30% single-session success rate — agents should budget accordingly and commit partial progress early. **Agents that don't commit intermediate work produce zero value** — stale claims continue to be a recurring problem.
