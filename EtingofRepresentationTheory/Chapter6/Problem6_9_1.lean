@@ -1048,6 +1048,45 @@ private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
     (hker : 2 ≤ Module.finrank ℂ (LinearMap.ker ρ.A) +
               Module.finrank ℂ (LinearMap.ker ρ.B)) :
     ¬ρ.Indecomposable := by
+  intro hρ
+  have hkA := ρ.ker_A_sub_range_B hρ hAB _hV_pos _hW_pos
+  have hkB := ρ.ker_B_sub_range_A hρ hAB _hV_pos _hW_pos
+  -- Step 1: dim(ker AB) = dim(ker A) + dim(ker B) ≥ 2
+  -- B : ker(AB) → ker(A) is surjective (using ker A ⊆ range B) with kernel ker(B)
+  have hker_AB : 2 ≤ Module.finrank ℂ (LinearMap.ker (ρ.A.comp ρ.B)) := by
+    -- ker B ⊆ ker(AB)
+    have hkB_le : LinearMap.ker ρ.B ≤ LinearMap.ker (ρ.A.comp ρ.B) := by
+      intro w hw; rw [LinearMap.mem_ker] at hw ⊢; simp [LinearMap.comp_apply, hw]
+    -- B maps ker(AB) surjectively onto ker(A)
+    have hB_surj : LinearMap.ker ρ.A ≤ Submodule.map ρ.B (LinearMap.ker (ρ.A.comp ρ.B)) := by
+      intro v hv
+      obtain ⟨w, rfl⟩ := LinearMap.mem_range.mp (hkA hv)
+      exact ⟨w, LinearMap.mem_ker.mpr (by simp [LinearMap.comp_apply,
+        LinearMap.mem_ker.mp hv]), rfl⟩
+    -- Rank-nullity for B|_{ker AB}: dim(ker AB) = dim(range B|_{ker AB}) + dim(ker B|_{ker AB})
+    set f := ρ.B.domRestrict (LinearMap.ker (ρ.A.comp ρ.B))
+    have hRN := f.finrank_range_add_finrank_ker
+    -- ker(B|_{ker AB}) ≅ ker B (since ker B ⊆ ker AB)
+    have hker_f : Module.finrank ℂ (LinearMap.ker f) = Module.finrank ℂ (LinearMap.ker ρ.B) := by
+      have : LinearMap.ker f = (LinearMap.ker ρ.B).comap
+          (LinearMap.ker (ρ.A.comp ρ.B)).subtype := by
+        ext ⟨w, hw⟩; simp [f, LinearMap.domRestrict_apply]
+      rw [this]
+      exact LinearEquiv.finrank_eq (Submodule.comapSubtypeEquivOfLe hkB_le)
+    -- range(B|_{ker AB}) ⊇ ker A, so dim(range B|_{ker AB}) ≥ dim(ker A)
+    have hrange_f : Module.finrank ℂ (LinearMap.ker ρ.A) ≤
+        Module.finrank ℂ (LinearMap.range f) := by
+      apply Submodule.finrank_mono
+      intro v hv
+      obtain ⟨w, hw, rfl⟩ := hB_surj hv
+      exact LinearMap.mem_range.mpr ⟨⟨w, hw⟩, rfl⟩
+    linarith
+  -- Step 2: Apply nilpotent_nontrivial_decomp to AB on W
+  obtain ⟨W₁, W₂, hW₁_ne, hW₂_ne, hW_compl, hAB_inv₁, hAB_inv₂⟩ :=
+    nilpotent_nontrivial_decomp (ρ.A.comp ρ.B) hAB hker_AB
+  -- Step 3: Construct Q₂-compatible decomposition contradicting Indecomposable
+  -- V₁ = B(W₁), V₂ = B(W₂) are A,B-compatible but don't span V
+  -- Need to augment with the complement of range B
   sorry
 
 /-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0,
