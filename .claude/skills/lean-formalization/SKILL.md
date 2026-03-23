@@ -328,6 +328,25 @@ If your proof requires distributing `.hom.hom` over `Finset.sum` or similar, you
 - Define a helper that states the result directly on `LinearMap`
 - Or use `Representation.averageMap` which already works at the LinearMap level
 
+**Pattern 4: Proving FDRep morphisms nonzero**
+
+To show an `Action.Hom` is nonzero, define the underlying `LinearMap` separately, then connect via `rfl`:
+```lean
+-- 1. Define the concrete linear map
+private def myMap_linearMap : A →ₗ[k] B where ...
+
+-- 2. Show: if FDRep morphism = 0, the concrete map = 0
+have hh : myFDRepMorphism.hom = 0 := by rw [h]; exact Action.zero_hom
+-- 3. Connect concrete map to categorical morphism via rfl
+have key : ∀ a, (myMap_linearMap a).val g =
+    (ConcreteCategory.hom myFDRepMorphism.hom.hom a : ↥S).val g := by
+  intro a; rfl
+-- 4. Rewrite and use rfl for zero
+rw [key, hh]; rfl
+```
+
+The key insight: `ConcreteCategory.hom (InducedCategory.Hom.hom 0)` applied to any value and then `.val` applied to any argument reduces to `0` via `rfl`, but `simp` cannot handle this chain. Always use `rfl` for zero-evaluation through these layers.
+
 **When stuck on FDRep plumbing after 2 attempts:** Sorry the categorical step with a comment explaining what's needed, and file an issue. Don't spend an entire session on unwrapping functors.
 
 ### Bezout Reduction for Integrality
