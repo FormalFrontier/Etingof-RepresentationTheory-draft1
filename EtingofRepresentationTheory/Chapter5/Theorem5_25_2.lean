@@ -15,7 +15,7 @@ The principal series construction is not in Mathlib; we define the
 Borel subgroup and principal series locally.
 -/
 
-open CategoryTheory Classical
+open CategoryTheory CategoryTheory.Limits Classical
 
 noncomputable section
 
@@ -486,11 +486,51 @@ private noncomputable def Etingof.GL2.detCharEmbedding
       1 * ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
     simp only [smul_eq_mul, mul_one, one_mul, map_mul, Units.val_mul]; ring
 
+/-- ℂ_μ is a simple (1-dimensional) representation. -/
+private lemma Etingof.GL2.detChar_simple
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Simple (Etingof.GL2.detChar p n mu) := by
+  sorry
+
+/-- The embedding ℂ_μ ↪ V(μ,μ) is nonzero. -/
+private lemma Etingof.GL2.detCharEmbedding_ne_zero
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.detCharEmbedding p n mu ≠ 0 := by
+  sorry
+
+/-- The embedding ℂ_μ ↪ V(μ,μ) is mono (injective). -/
+private lemma Etingof.GL2.detCharEmbedding_mono
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Mono (Etingof.GL2.detCharEmbedding p n mu) := by
+  sorry
+
 /-- V(μ,μ) decomposes as ℂ_μ ⊕ W_μ in FDRep. -/
 private lemma Etingof.GL2.principalSeries_decomp
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (Etingof.GL2.principalSeries p n mu mu ≅
       Etingof.GL2.detChar p n mu ⊞ Etingof.GL2.complementW p n mu) := by
+  -- Step 1: ℂ_μ is simple and the embedding is nonzero → mono → split mono (Maschke)
+  haveI : Simple (Etingof.GL2.detChar p n mu) := Etingof.GL2.detChar_simple p n mu
+  have hne := Etingof.GL2.detCharEmbedding_ne_zero p n mu
+  set emb := Etingof.GL2.detCharEmbedding p n mu
+  haveI : Mono emb := Etingof.GL2.detCharEmbedding_mono p n mu
+  haveI : NeZero (Nat.card (GL2 p n) : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  haveI : CategoryTheory.Injective (Etingof.GL2.detChar p n mu) := inferInstance
+  haveI : IsSplitMono emb := IsSplitMono.mk'
+    ⟨CategoryTheory.Injective.factorThru (𝟙 _) emb,
+     CategoryTheory.Injective.comp_factorThru (𝟙 _) emb⟩
+  -- Step 2: V(μ,μ) ≅ ℂ_μ ⊞ cokernel(emb)
+  have hcok := cokernelIsCokernel emb
+  let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
+  have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
+  haveI : HasBinaryBiproduct (Etingof.GL2.detChar p n mu) (cokernel emb) :=
+    HasBinaryBiproduct.mk ⟨bc, hbl⟩
+  have iso1 : Etingof.GL2.principalSeries p n mu mu ≅
+    Etingof.GL2.detChar p n mu ⊞ cokernel emb :=
+    biprod.uniqueUpToIso _ _ hbl
+  -- Step 3: Show cokernel(emb) ≅ W_μ
+  -- Both have the same character (= χ_V - χ_{ℂ_μ})
+  -- For now, we use character comparison via Corollary 4.2.4
   sorry
 
 /-- W_μ is irreducible. -/
