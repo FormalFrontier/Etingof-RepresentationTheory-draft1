@@ -614,6 +614,46 @@ private lemma decomp_of_AB_BA_zero (ρ : Q₂Rep ℂ)
   · exact hpV_ne h1
   · exact hqW_ne h2
 
+open Polynomial in
+/-- In `ℂ[X] ⧸ (X ^ n)`, any element annihilated by `X` lies in the ℂ-span of
+the image of `X ^ (n - 1)`. This shows the X-torsion is at most 1-dimensional. -/
+private lemma quotient_X_torsion_mem_span (n : ℕ)
+    (a : ℂ[X] ⧸ Ideal.span {(X : ℂ[X]) ^ n})
+    (ha : (X : ℂ[X]) • a = 0) :
+    a ∈ Submodule.span ℂ ({Ideal.Quotient.mk
+      (Ideal.span {(X : ℂ[X]) ^ n}) ((X : ℂ[X]) ^ (n - 1))} : Set _) := by
+  obtain ⟨pa, rfl⟩ := Ideal.Quotient.mk_surjective a
+  -- X • mk(pa) = 0 means mk(X * pa) = 0, i.e., X^n ∣ X * pa
+  have hmem : (X : ℂ[X]) ^ n ∣ X * pa := by
+    rw [← Ideal.mem_span_singleton, ← Ideal.Quotient.eq_zero_iff_mem]
+    rwa [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul] at ha
+  cases n with
+  | zero =>
+    suffices h : (Ideal.Quotient.mk (Ideal.span {(X : ℂ[X]) ^ 0})) pa = 0 by
+      rw [h]; exact Submodule.zero_mem _
+    rw [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton, pow_zero]
+    exact one_dvd pa
+  | succ m =>
+    -- X^(m+1) ∣ X * pa → X^m ∣ pa (cancel X in integral domain)
+    rw [pow_succ'] at hmem
+    have hpa : X ^ m ∣ pa :=
+      (mul_dvd_mul_iff_left (Polynomial.X_ne_zero (R := ℂ))).mp hmem
+    obtain ⟨q, rfl⟩ := hpa
+    -- mk(X^m * q) ∈ span{mk(X^m)}, witnessed by c = q.coeff 0
+    rw [Submodule.mem_span_singleton, show m + 1 - 1 = m from rfl]
+    refine ⟨q.coeff 0, ?_⟩
+    -- q.coeff 0 • mk(X^m) = mk(C(q.coeff 0) * X^m)
+    rw [Algebra.smul_def, IsScalarTower.algebraMap_apply ℂ ℂ[X] _,
+      Ideal.Quotient.algebraMap_eq, Polynomial.algebraMap_eq, ← map_mul]
+    apply Ideal.Quotient.eq.mpr
+    rw [mul_comm (C _) _, ← mul_sub, Ideal.mem_span_singleton, pow_succ]
+    apply mul_dvd_mul_left
+    rw [show (X : ℂ[X]) = X - C 0 by simp, Polynomial.dvd_iff_isRoot]
+    simp [Polynomial.IsRoot, Polynomial.coeff_zero_eq_eval_zero]
+
+-- PID structure theorem and direct sum manipulation require extra heartbeats
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 40000 in
 /-- A nilpotent endomorphism with kernel of dimension ≥ 2 admits a nontrivial
 invariant direct sum decomposition.
 
@@ -704,8 +744,66 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
             have : Module.finrank ℂ V = 0 := Module.finrank_zero_of_subsingleton
             have := Submodule.finrank_le (LinearMap.ker T)
             omega
-          · -- d = 1: AEval' T ≅ ℂ[X]/(X^k₀), ker T ≅ ker X on quotient, dim = 1
-            sorry
+          · -- d = 1: AEval' T ≅ ℂ[X]/(X^k₀), ker T has dim ≤ 1
+            exfalso
+            have h1 : Module.finrank ℂ (LinearMap.ker T) ≤ 1 := by
+              set j₀ : Fin 1 := ⟨0, by omega⟩
+              set gen := (Submodule.Quotient.mk ((X : ℂ[X]) ^ (k j₀ - 1)) :
+                ℂ[X] ⧸ ℂ[X] ∙ X ^ k j₀)
+              set w : V := (Module.AEval'.of (R := ℂ) T).symm
+                (e.symm (DirectSum.of _ j₀ gen)) with hw_def
+              suffices h_le : LinearMap.ker T ≤ Submodule.span ℂ ({w} : Set V) by
+                exact (Submodule.finrank_mono h_le).trans
+                  ((finrank_span_le_card ({w} : Set V)).trans (by simp))
+              intro v hv
+              rw [LinearMap.mem_ker] at hv
+              -- e(AEval'.of T v) has X • it = 0
+              have hX_tors : (X : ℂ[X]) • e (Module.AEval'.of (R := ℂ) T v) = 0 := by
+                have h := e.map_smul (X : ℂ[X]) (Module.AEval'.of (R := ℂ) T v)
+                rw [Module.AEval'.X_smul_of, hv, map_zero, map_zero] at h
+                exact h.symm
+              -- Component j₀ also has X • it = 0
+              set c₀ := DirectSum.component ℂ[X] _ _ j₀ (e (Module.AEval'.of (R := ℂ) T v))
+              have hc₀_tors : (X : ℂ[X]) • c₀ = 0 := by
+                have h := (DirectSum.component ℂ[X] _ _ j₀).map_smul
+                  (X : ℂ[X]) (e (Module.AEval'.of (R := ℂ) T v))
+                rw [hX_tors, map_zero] at h; exact h.symm
+              -- By quotient_X_torsion_mem_span, c₀ = c • X^(k₀-1) for some c
+              have hc₀_span := quotient_X_torsion_mem_span (k j₀) c₀ hc₀_tors
+              rw [Submodule.mem_span_singleton] at hc₀_span
+              obtain ⟨c, hc⟩ := hc₀_span
+              -- Reconstruct: for Fin 1, the direct sum element = of j₀ (component j₀)
+              have hds_eq : e (Module.AEval'.of (R := ℂ) T v) = DirectSum.of _ j₀ c₀ := by
+                apply DFinsupp.ext; intro ⟨i, hi⟩
+                have : i = 0 := by omega
+                subst this
+                rw [DirectSum.of_eq_same]; rfl
+              -- v = c • w: both map to the same element under e ∘ AEval'.of
+              have hv_eq : v = c • w := by
+                apply (Module.AEval'.of (R := ℂ) T).injective
+                apply e.injective
+                -- LHS = of j₀ (c • gen)
+                have lhs : e (Module.AEval'.of (R := ℂ) T v) =
+                    DirectSum.of _ j₀ (c • gen) := by
+                  rw [hds_eq]; congr 1; exact hc.symm
+                -- RHS = of j₀ (c • gen)
+                have rhs : e (Module.AEval'.of (R := ℂ) T (c • w)) =
+                    DirectSum.of _ j₀ (c • gen) := by
+                  rw [map_smul, hw_def, LinearEquiv.apply_symm_apply]
+                  -- Goal: e (c • e.symm (of j₀ gen)) = of j₀ (c • gen)
+                  conv_lhs =>
+                    rw [← IsScalarTower.algebraMap_smul ℂ[X] c
+                      (e.symm (DirectSum.of _ j₀ gen))]
+                  rw [e.map_smul, LinearEquiv.apply_symm_apply]
+                  -- Goal: (algebraMap ℂ ℂ[X] c) • of j₀ gen = of j₀ (c • gen)
+                  conv_rhs =>
+                    rw [← IsScalarTower.algebraMap_smul ℂ[X] c gen]
+                  exact ((DirectSum.lof ℂ[X] (Fin 1)
+                    (fun i => ℂ[X] ⧸ ℂ[X] ∙ X ^ k i) j₀).map_smul _ gen).symm
+                exact lhs.trans rhs.symm
+              rw [hv_eq]
+              exact Submodule.smul_mem _ c (Submodule.subset_span rfl)
+            omega
         -- Split the direct sum: summand 0 vs the rest
         -- Define ℂ[X]-submodules of AEval' T via the isomorphism e
         let N : Fin d → Type := fun i => ℂ[X] ⧸ Ideal.span {(X : ℂ[X]) ^ k i}
