@@ -157,11 +157,47 @@ instance (n : ℕ) (α : Fin n →₀ ℕ) (σ : Equiv.Perm (Fin n)) :
 /-- The MvPolynomial coefficient of P_σ at a composition α equals the number of
 cycle colorings. This generalizes `coeff_psum_prod_eq_card_colorings` from
 partitions to compositions. -/
+private lemma finsupp_sum_single_iff' (n : ℕ) (α : Fin n →₀ ℕ) (σ : Equiv.Perm (Fin n))
+    (f : Fin (fullCycleType n σ).toList.length → Fin n) :
+    (∑ i, Finsupp.single (f i) ((fullCycleType n σ).toList[(↑i : ℕ)]) = α) ↔
+    (∀ j : Fin n, (Finset.univ.filter (fun i => f i = j)).sum
+      (fun i => (fullCycleType n σ).toList[(↑i : ℕ)]) = α j) := by
+  constructor
+  · intro heq j
+    have hj := DFunLike.congr_fun heq j
+    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply] at hj
+    rw [← hj, Finset.sum_filter]
+  · intro hall
+    ext j
+    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply]
+    rw [← Finset.sum_filter]
+    exact hall j
+
 theorem coeff_cycleTypePsumProduct_eq_card (n : ℕ) (α : Fin n →₀ ℕ)
     (σ : Equiv.Perm (Fin n)) :
     MvPolynomial.coeff α (cycleTypePsumProduct n σ) =
     ↑(Fintype.card (CycleColoring n α σ)) := by
-  sorry
+  rw [cycleTypePsumProduct_eq_fullCycleType]
+  rw [← Multiset.prod_map_toList, ← List.ofFn_getElem_eq_map, List.prod_ofFn]
+  simp_rw [psum_eq_sum_monomial]
+  rw [Finset.prod_univ_sum]
+  simp_rw [← MvPolynomial.monomial_sum_one]
+  rw [MvPolynomial.coeff_sum]
+  simp_rw [MvPolynomial.coeff_monomial, Finset.sum_boole, Fintype.piFinset_univ]
+  norm_cast
+  -- Goal: card of filter {f | ∑ single (f i) ... = α} = card CycleColoring
+  -- Both count functions f with the marginal condition; they differ in how
+  -- the condition is stated (finsupp sum vs pointwise).
+  have equiv : CycleColoring n α σ ≃
+      { f : Fin (fullCycleType n σ).toList.length → Fin n //
+        (∑ i, Finsupp.single (f i) ((fullCycleType n σ).toList[(↑i : ℕ)])) = α } := by
+    unfold CycleColoring
+    exact Equiv.subtypeEquiv (Equiv.refl _) (fun f => (finsupp_sum_single_iff' n α σ f).symm)
+  rw [show Fintype.card (CycleColoring n α σ) = Fintype.card
+      { f : Fin (fullCycleType n σ).toList.length → Fin n //
+        (∑ i, Finsupp.single (f i) ((fullCycleType n σ).toList[(↑i : ℕ)])) = α }
+    from Fintype.card_congr equiv]
+  simp only [Fintype.card_subtype, Finset.card_filter]
 
 /-- **Double counting lemma**: The total number of (σ, f, g) triples equals
 n! times the number of matrices with given margins.
