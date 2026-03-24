@@ -1962,25 +1962,7 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
                simp only [RingHom.id_apply]
                rw [hdecomp i rfl a m, hdecomp j hlj a (f m)]
                exact f.map_smul ((WA (π a)) l) m }⟩
-  -- σ is surjective (using hM_exhaustive)
-  have hσ_surj : Function.Surjective σ := by
-    intro l
-    -- Block l gives a simple module over Mat_{d l}(k). By hM_exhaustive, it's isomorphic
-    -- to some M i. Then σ(i) = l by uniqueness of block assignment.
-    -- The standard representation of Mat_{d l}(k) is simple. Lift it to an A-module structure.
-    -- Since c_l acts as identity on this module, σ for this module must be l.
-    -- Actually, more directly: use Fintype.bijective_iff_surjective after proving card equality.
-    -- |ι| ≤ n (by injectivity). n ≤ |ι| by the following:
-    -- Cardinality: |ι| = n follows from injectivity + finiteness + n ≤ |ι|.
-    -- But we need n ≤ |ι|. This requires that every block is "used", i.e., for each l,
-    -- there exists a simple module supported on block l. This follows from hM_exhaustive.
-    -- For each block l, construct a simple A-module from the standard Mat representation,
-    -- use hM_exhaustive to find i with M i ≅ this module, then σ i = l.
-    sorry
-  -- Dimension matching: d(σ i) = finrank k (M i)
-  have hd_eq : ∀ i, d (σ i) = Module.finrank k (M i) := by
-    sorry
-  -- Rank property for all E_{jj}
+  -- Rank property for all E_{jj} (proved first, needed for dimension matching)
   have hrank : ∀ (p : Σ l : Fin n, Fin (d l)) (j : ι),
       Module.finrank k (smulRange (k := k) (A := A) (M j) (e_raw p)) =
         if σ j = p.fst then 1 else 0 := by
@@ -2129,6 +2111,14 @@ lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
         · rintro ⟨m, rfl⟩; exact ha_zero m
         · intro hx; rw [hx]; exact (smulRange (k := k) (A := A) (M j) (e_raw ⟨l, j_idx⟩)).zero_mem
       rw [hbot]; simp
+  -- Dimension matching: d(σ i) = finrank k (M i)
+  -- Strategy: the d(σ i) idempotents e_raw(σ i, j) each contribute a 1-dim subspace to M_i
+  -- (by hrank), and together they span M_i (by COI completeness + other blocks vanish).
+  have hd_eq : ∀ i, d (σ i) = Module.finrank k (M i) := by
+    sorry
+  -- σ is surjective (using hM_exhaustive)
+  have hσ_surj : Function.Surjective σ := by
+    sorry
   exact ⟨σ, ⟨hσ_inj, hσ_surj⟩, hd_eq, hrank⟩
 
 end CompleteSystem
