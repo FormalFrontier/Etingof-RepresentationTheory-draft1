@@ -1037,10 +1037,34 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
           intro w _
           exact Submodule.mem_sup_left ⟨w, rfl⟩
 
+/-- Given AB nilpotent with dim(ker A) + dim(ker B) ≥ 2, both V and W nontrivial,
+and ker A ⊆ range B, ker B ⊆ range A (from indecomposability), there exists a
+nontrivial Q₂-compatible direct sum decomposition.
+
+This is the key transfer lemma from Problem 6.9.1(c) of Etingof:
+the off-diagonal operator X(v,w) = (Bw, Av) on V × W is nilpotent with
+dim(ker X) = dim(ker A) + dim(ker B) ≥ 2. Its chain basis can be chosen
+compatible with the V ⊕ W grading (each chain generator lies in V or W),
+so grouping ≥ 2 chains yields a Q₂-decomposition. -/
+private lemma q2_nontrivial_decomp (ρ : Q₂Rep ℂ)
+    (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (hV_pos : 0 < Module.finrank ℂ ρ.V)
+    (hW_pos : 0 < Module.finrank ℂ ρ.W)
+    (hker : 2 ≤ Module.finrank ℂ (LinearMap.ker ρ.A) +
+              Module.finrank ℂ (LinearMap.ker ρ.B))
+    (hkA : LinearMap.ker ρ.A ≤ LinearMap.range ρ.B)
+    (hkB : LinearMap.ker ρ.B ≤ LinearMap.range ρ.A) :
+    ∃ (pV qV : Submodule ℂ ρ.V) (pW qW : Submodule ℂ ρ.W),
+      IsCompl pV qV ∧ IsCompl pW qW ∧
+      (∀ x ∈ pV, ρ.A x ∈ pW) ∧ (∀ x ∈ qV, ρ.A x ∈ qW) ∧
+      (∀ x ∈ pW, ρ.B x ∈ pV) ∧ (∀ x ∈ qW, ρ.B x ∈ qV) ∧
+      ¬(pV = ⊥ ∧ pW = ⊥) ∧ ¬(qV = ⊥ ∧ qW = ⊥) := by
+  sorry
+
 /-- If dim(ker A) + dim(ker B) ≥ 2 for a Q₂-rep with AB nilpotent and both dims > 0,
 then the rep is decomposable.
 
-Uses `nilpotent_nontrivial_decomp` to decompose the V ⊕ W space. -/
+Uses `q2_nontrivial_decomp` to produce a Q₂-compatible decomposition. -/
 private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (_hV_pos : 0 < Module.finrank ℂ ρ.V)
@@ -1051,43 +1075,9 @@ private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
   intro hρ
   have hkA := ρ.ker_A_sub_range_B hρ hAB _hV_pos _hW_pos
   have hkB := ρ.ker_B_sub_range_A hρ hAB _hV_pos _hW_pos
-  -- Step 1: dim(ker AB) = dim(ker A) + dim(ker B) ≥ 2
-  -- B : ker(AB) → ker(A) is surjective (using ker A ⊆ range B) with kernel ker(B)
-  have hker_AB : 2 ≤ Module.finrank ℂ (LinearMap.ker (ρ.A.comp ρ.B)) := by
-    -- ker B ⊆ ker(AB)
-    have hkB_le : LinearMap.ker ρ.B ≤ LinearMap.ker (ρ.A.comp ρ.B) := by
-      intro w hw; rw [LinearMap.mem_ker] at hw ⊢; simp [LinearMap.comp_apply, hw]
-    -- B maps ker(AB) surjectively onto ker(A)
-    have hB_surj : LinearMap.ker ρ.A ≤ Submodule.map ρ.B (LinearMap.ker (ρ.A.comp ρ.B)) := by
-      intro v hv
-      obtain ⟨w, rfl⟩ := LinearMap.mem_range.mp (hkA hv)
-      exact ⟨w, LinearMap.mem_ker.mpr (by simp [LinearMap.comp_apply,
-        LinearMap.mem_ker.mp hv]), rfl⟩
-    -- Rank-nullity for B|_{ker AB}: dim(ker AB) = dim(range B|_{ker AB}) + dim(ker B|_{ker AB})
-    set f := ρ.B.domRestrict (LinearMap.ker (ρ.A.comp ρ.B))
-    have hRN := f.finrank_range_add_finrank_ker
-    -- ker(B|_{ker AB}) ≅ ker B (since ker B ⊆ ker AB)
-    have hker_f : Module.finrank ℂ (LinearMap.ker f) = Module.finrank ℂ (LinearMap.ker ρ.B) := by
-      have : LinearMap.ker f = (LinearMap.ker ρ.B).comap
-          (LinearMap.ker (ρ.A.comp ρ.B)).subtype := by
-        ext ⟨w, hw⟩; simp [f, LinearMap.domRestrict_apply]
-      rw [this]
-      exact LinearEquiv.finrank_eq (Submodule.comapSubtypeEquivOfLe hkB_le)
-    -- range(B|_{ker AB}) ⊇ ker A, so dim(range B|_{ker AB}) ≥ dim(ker A)
-    have hrange_f : Module.finrank ℂ (LinearMap.ker ρ.A) ≤
-        Module.finrank ℂ (LinearMap.range f) := by
-      apply Submodule.finrank_mono
-      intro v hv
-      obtain ⟨w, hw, rfl⟩ := hB_surj hv
-      exact LinearMap.mem_range.mpr ⟨⟨w, hw⟩, rfl⟩
-    linarith
-  -- Step 2: Apply nilpotent_nontrivial_decomp to AB on W
-  obtain ⟨W₁, W₂, hW₁_ne, hW₂_ne, hW_compl, hAB_inv₁, hAB_inv₂⟩ :=
-    nilpotent_nontrivial_decomp (ρ.A.comp ρ.B) hAB hker_AB
-  -- Step 3: Construct Q₂-compatible decomposition contradicting Indecomposable
-  -- V₁ = B(W₁), V₂ = B(W₂) are A,B-compatible but don't span V
-  -- Need to augment with the complement of range B
-  sorry
+  obtain ⟨pV, qV, pW, qW, hcV, hcW, hApV, hAqV, hBpW, hBqW, hp_ne, hq_ne⟩ :=
+    q2_nontrivial_decomp ρ hAB _hV_pos _hW_pos hker hkA hkB
+  exact (hρ.2 pV qV pW qW hcV hcW hApV hAqV hBpW hBqW).elim hp_ne hq_ne
 
 /-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0,
 dim(ker A) + dim(ker B) ≤ 1. Combined with `ker_sum_ge_one`, gives sum = 1. -/
