@@ -1815,7 +1815,89 @@ private lemma Etingof.GL2.complementW_weyl_const_ne
     (t : GaloisField p n) (ht : t ≠ 0) :
     (Etingof.GL2.complementWRep p n mu (Etingof.GL2.cosetRep p n (some 0)) f).val
       (Etingof.GL2.cosetRep p n (some t)) = σ := by
-  sorry
+  -- LHS = f.val(rep(some t) * rep(some 0)) by definition
+  change f.val (Etingof.GL2.cosetRep p n (some t) *
+    Etingof.GL2.cosetRep p n (some 0)) = σ
+  set M := Etingof.GL2.cosetRep p n (some t) * Etingof.GL2.cosetRep p n (some 0)
+  -- M has nonzero (1,0) entry since t ≠ 0
+  have h10 := Etingof.GL2.cosetRep_some_mul_weyl_not_borel p n t ht
+  -- cosetIndex(M) = some s for some s
+  have hM10 : (M.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 ≠ 0 := by
+    change ((Etingof.GL2.cosetRep p n (some t)).val *
+      (Etingof.GL2.cosetRep p n (some 0)).val : Matrix _ _ _) 1 0 ≠ 0
+    exact h10
+  have hidx : ∃ s, Etingof.GL2.cosetIndex p n M = some s := by
+    unfold Etingof.GL2.cosetIndex
+    simp [hM10]
+  obtain ⟨s, hs⟩ := hidx
+  -- By covariance: f(M) = borelCharValue(cosetBorel M) * f(rep(some s))
+  have hcov_f := f.prop.1
+  have hcov_app := hcov_f (Etingof.GL2.cosetBorel p n M)
+    (Etingof.GL2.cosetRep p n (Etingof.GL2.cosetIndex p n M))
+  rw [← Etingof.GL2.cosetBorel_mul_cosetRep p n M] at hcov_app
+  rw [hcov_app, hs, hconst s]
+  -- Need: borelCharValue(cosetBorel M) = 1 when χ₁ = χ₂ = μ
+  -- Since M = cosetBorel(M) * rep(some s), det M = det(cosetBorel M) * det(rep(some s))
+  -- det M = det(rep(some t)) * det(rep(some 0)) = 1 * 1 = 1
+  -- det(rep(some s)) = 1, so det(cosetBorel M) = 1
+  -- borelCharValue(b) = μ(b₀₀) * μ(b₁₁) = μ(b₀₀ * b₁₁) = μ(det b) = μ(1) = 1
+  suffices Etingof.GL2.borelCharValue p n mu mu (Etingof.GL2.cosetBorel p n M) = 1 by
+    rw [this, one_mul]
+  -- borelCharValue = μ(diag00) * μ(diag11), and for chi1=chi2=mu:
+  -- this equals μ(diag00 * diag11) = μ(det(cosetBorel M))
+  set b := Etingof.GL2.cosetBorel p n M
+  have hb10 : (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := b.prop
+  -- det(b) = b₀₀ * b₁₁ (since b₁₀ = 0)
+  have hdet_b : Matrix.GeneralLinearGroup.det b.val =
+    Units.mk0 ((b.val.val : Matrix _ _ _) 0 0) (Etingof.GL2.borel_diag00_ne_zero p n b) *
+    Units.mk0 ((b.val.val : Matrix _ _ _) 1 1) (Etingof.GL2.borel_diag11_ne_zero p n b) := by
+    ext; simp [Matrix.GeneralLinearGroup.det, Matrix.det_fin_two, hb10]
+  -- det(M) = 1
+  have hdet_M : Matrix.GeneralLinearGroup.det M = 1 := by
+    simp only [M]
+    rw [map_mul]
+    have h1 : Matrix.GeneralLinearGroup.det (Etingof.GL2.cosetRep p n (some t)) = 1 := by
+      ext; simp [Etingof.GL2.cosetRep, Matrix.GeneralLinearGroup.det,
+        Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+        Matrix.unitOfDetInvertible, Matrix.det_fin_two]
+    have h2 : Matrix.GeneralLinearGroup.det (Etingof.GL2.cosetRep p n (some 0)) = 1 := by
+      ext; simp [Etingof.GL2.cosetRep, Matrix.GeneralLinearGroup.det,
+        Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+        Matrix.unitOfDetInvertible, Matrix.det_fin_two]
+    rw [h1, h2, mul_one]
+  -- det(rep(some s)) = 1
+  have hdet_rep_s : Matrix.GeneralLinearGroup.det (Etingof.GL2.cosetRep p n (some s)) = 1 := by
+    ext; simp [Etingof.GL2.cosetRep, Matrix.GeneralLinearGroup.det,
+      Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+      Matrix.unitOfDetInvertible, Matrix.det_fin_two]
+  -- det(b) = 1
+  have hdet_b_one : Matrix.GeneralLinearGroup.det b.val = 1 := by
+    have hdecomp := Etingof.GL2.cosetBorel_mul_cosetRep p n M
+    rw [hs] at hdecomp
+    have : Matrix.GeneralLinearGroup.det M =
+      Matrix.GeneralLinearGroup.det b.val *
+      Matrix.GeneralLinearGroup.det (Etingof.GL2.cosetRep p n (some s)) := by
+      conv_lhs => rw [hdecomp]; rw [map_mul]
+    rw [hdet_M, hdet_rep_s, mul_one] at this
+    exact this.symm
+  -- borelCharValue(b) = μ(b₀₀) * μ(b₁₁) = μ(b₀₀ * b₁₁) = μ(det b) = μ(1) = 1
+  unfold Etingof.GL2.borelCharValue
+  rw [hdet_b] at hdet_b_one
+  -- det(b) = mk0(b₀₀) * mk0(b₁₁) = 1
+  have hprod : Units.mk0 ((b.val.val : Matrix _ _ _) 0 0)
+      (Etingof.GL2.borel_diag00_ne_zero p n b) *
+    Units.mk0 ((b.val.val : Matrix _ _ _) 1 1)
+      (Etingof.GL2.borel_diag11_ne_zero p n b) = 1 := hdet_b_one
+  -- μ(b₀₀) * μ(b₁₁) = μ(b₀₀ * b₁₁) = μ(1) = 1
+  have hmu : (mu (Units.mk0 ((b.val.val : Matrix _ _ _) 0 0)
+      (Etingof.GL2.borel_diag00_ne_zero p n b)) : ℂˣ) *
+    (mu (Units.mk0 ((b.val.val : Matrix _ _ _) 1 1)
+      (Etingof.GL2.borel_diag11_ne_zero p n b)) : ℂˣ) = 1 := by
+    rw [← map_mul, hprod, map_one]
+  -- The goal has a `let` from borelCharValue unfolding; convert via Units.val
+  have := congr_arg Units.val hmu
+  simp only [Units.val_mul, Units.val_one] at this
+  convert this using 1
 
 /-- ρ(w)(f)(rep(some 0)) = f(rep(none)) for f ∈ complementW.
     Proof: rep(some 0)² = -I, and f(-I) = borelCharValue(-I)·f(1) = f(1)
