@@ -2481,16 +2481,245 @@ private lemma Etingof.GL2.sum_nontrivial_char_eq_zero
     rw [sub_mul, one_mul, sub_eq_zero]; exact key
   exact (mul_eq_zero.mp h1).resolve_left (sub_ne_zero.mpr hne)
 
-/-- V(χ₁,χ₂) ≅ V(χ₂,χ₁): the character of V(χ₁,χ₂) is symmetric in χ₁, χ₂,
-    so by Corollary 4.2.4 (equal characters ⟹ isomorphic representations) they are isomorphic. -/
+/-- Factorization: cosetRep(some u) * b = diagBorel * cosetRep(some v)
+    where diagBorel has (0,0)=b₁₁, (1,1)=b₀₀ and v = (b₀₁ + u*b₁₁)/b₀₀. -/
+private lemma Etingof.GL2.cosetRep_some_mul_borel_factor
+    (u : GaloisField p n) (b : ↥(Etingof.GL2.BorelSubgroup p n)) :
+    let bm := (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+    let a := bm 0 0
+    let d := bm 1 1
+    let c := bm 0 1
+    let v := (c + u * d) / a
+    ∃ b' : ↥(Etingof.GL2.BorelSubgroup p n),
+      Etingof.GL2.cosetRep p n (some u) * b.val = b'.val *
+        Etingof.GL2.cosetRep p n (some v) ∧
+      (b'.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 = d ∧
+      (b'.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 1 = a := by
+  set bm := (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  set a := bm 0 0
+  set d := bm 1 1
+  set c := bm 0 1
+  set v := (c + u * d) / a
+  have ha : a ≠ 0 := Etingof.GL2.borel_diag00_ne_zero p n b
+  have hd : d ≠ 0 := Etingof.GL2.borel_diag11_ne_zero p n b
+  set b'mat : Matrix (Fin 2) (Fin 2) (GaloisField p n) := !![d, 0; 0, a]
+  have hb'det : b'mat.det ≠ 0 := by
+    simp only [b'mat, Matrix.det_fin_two, Matrix.of_apply, Matrix.cons_val',
+      Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_one, Matrix.vecHead,
+      Matrix.vecTail, mul_zero, sub_zero]
+    exact mul_ne_zero hd ha
+  set b'gl := Matrix.GeneralLinearGroup.mkOfDetNeZero b'mat hb'det
+  have hb'mem : (b'gl.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 1 0 = 0 := by
+    simp [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible]
+  refine ⟨⟨b'gl, hb'mem⟩, ?_, ?_, ?_⟩
+  · -- Matrix identity: r_u * b = b' * r_v
+    apply Matrix.GeneralLinearGroup.ext; intro i j
+    simp only [Matrix.GeneralLinearGroup.coe_mul,
+      Etingof.GL2.cosetRep,
+      Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+      Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two,
+      b'mat, b'gl]
+    have hb10 : bm 1 0 = 0 := b.prop
+    have ha' : (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n)) 0 0 ≠ 0 := ha
+    fin_cases i <;> fin_cases j <;>
+      simp [hb10, a, d, c, v, bm, b'mat, b'gl,
+        Matrix.GeneralLinearGroup.coe_mul, Etingof.GL2.cosetRep,
+        Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+        Matrix.unitOfDetInvertible, Matrix.mul_apply, Fin.sum_univ_two,
+        Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
+        Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail] <;>
+      (try field_simp [ha', ha, hd]) <;> ring
+  · -- (0,0) entry of b' is d
+    simp only [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible,
+      Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
+      Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]; rfl
+  · -- (1,1) entry of b' is a
+    simp only [b'gl, b'mat, Matrix.GeneralLinearGroup.mkOfDetNeZero,
+      Matrix.GeneralLinearGroup.mk', Matrix.unitOfDetInvertible,
+      Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
+      Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail]; rfl
+
+/-- The intertwining sum ∑_u f(r_u * b * g) = χ₂(b₀₀)·χ₁(b₁₁) · ∑_u f(r_u * g). -/
+private lemma Etingof.GL2.intertwining_sum_covariant
+    (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ)
+    (f : ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2))
+    (b : ↥(Etingof.GL2.BorelSubgroup p n)) (g : GL2 p n) :
+    ∑ u : GaloisField p n,
+      f.val (Etingof.GL2.cosetRep p n (some u) * (b.val * g)) =
+    Etingof.GL2.borelCharValue p n chi2 chi1 b *
+      ∑ u : GaloisField p n,
+        f.val (Etingof.GL2.cosetRep p n (some u) * g) := by
+  set bm := (b.val.val : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+  set a := bm 0 0
+  set d := bm 1 1
+  set c := bm 0 1
+  have ha : a ≠ 0 := Etingof.GL2.borel_diag00_ne_zero p n b
+  have hd : d ≠ 0 := Etingof.GL2.borel_diag11_ne_zero p n b
+  -- Rewrite each term using the factorization
+  have hterm : ∀ u : GaloisField p n,
+      f.val (Etingof.GL2.cosetRep p n (some u) * (b.val * g)) =
+      Etingof.GL2.borelCharValue p n chi2 chi1 b *
+        f.val (Etingof.GL2.cosetRep p n (some ((c + u * d) / a)) * g) := by
+    intro u
+    obtain ⟨b', hfact, hb'00, hb'11⟩ :=
+      Etingof.GL2.cosetRep_some_mul_borel_factor p n u b
+    rw [← mul_assoc, hfact, mul_assoc]
+    -- Apply covariance of f
+    have hcov := f.prop b' (Etingof.GL2.cosetRep p n (some ((c + u * d) / a)) * g)
+    rw [hcov]
+    -- Show the borel char values match
+    -- borelCharValue chi1 chi2 b' = chi1(b'₀₀) * chi2(b'₁₁) = chi1(d) * chi2(a)
+    -- borelCharValue chi2 chi1 b = chi2(b₀₀) * chi1(b₁₁) = chi2(a) * chi1(d)
+    unfold Etingof.GL2.borelCharValue
+    simp only [hb'00, hb'11]
+    ring
+  simp_rw [hterm, ← Finset.mul_sum]
+  congr 1
+  -- Change of variable: u ↦ (c + u * d) / a is bijection on 𝔽_q
+  apply Fintype.sum_equiv
+    (show GaloisField p n ≃ GaloisField p n from
+      { toFun := fun u => (c + u * d) / a
+        invFun := fun v => (v * a - c) / d
+        left_inv := fun u => by field_simp; ring
+        right_inv := fun v => by field_simp; ring })
+  intro u; rfl
+
+/-- V(χ₁,χ₂) ≅ V(χ₂,χ₁): constructed via the intertwining operator
+    T(f)(g) = ∑_u f(cosetRep(some u) · g). When χ₁ = χ₂ this is trivial;
+    when χ₁ ≠ χ₂ both reps are simple so a nonzero equivariant map is an iso. -/
 private lemma Etingof.GL2.principalSeries_iso_swap
     (chi1 chi2 : (GaloisField p n)ˣ →* ℂˣ) :
     Nonempty (Etingof.GL2.principalSeries p n chi1 chi2 ≅
       Etingof.GL2.principalSeries p n chi2 chi1) := by
-  apply Etingof.Corollary4_2_4
-  ext g
-  simp only [FDRep.character, Etingof.GL2.principalSeries, Etingof.GL2.principalSeriesRep]
-  sorry -- character of V(χ₁,χ₂) at g = character of V(χ₂,χ₁) at g
+  by_cases heq : chi1 = chi2
+  · subst heq; exact ⟨Iso.refl _⟩
+  · -- Both representations are simple
+    have hSimple₁ := Etingof.GL2.principalSeries_simple_of_ne p n chi1 chi2 heq
+    have hSimple₂ := Etingof.GL2.principalSeries_simple_of_ne p n chi2 chi1 (Ne.symm heq)
+    -- Construct the intertwining operator T: V₁₂ → V₂₁
+    -- T(f) has evaluation coordinates c(j) = ∑_u f(r_u * r_j)
+    let evalMap₂ : ↥(Etingof.GL2.principalSeriesSubmodule p n chi2 chi1) →ₗ[ℂ]
+        (Option (GaloisField p n) → ℂ) :=
+      { toFun := fun f i => (f : GL2 p n → ℂ) (Etingof.GL2.cosetRep p n i)
+        map_add' := fun _ _ => funext fun _ => rfl
+        map_smul' := fun _ _ => funext fun _ => rfl }
+    have hinj₂ : Function.Injective evalMap₂ := by
+      intro f g hfg
+      have h := Etingof.GL2.principalSeries_eval_injective p n chi2 chi1 (f - g)
+        (fun i => by have := congr_fun hfg i; simp [evalMap₂] at this; simp [this])
+      exact sub_eq_zero.mp h
+    have hsurj₂ : Function.Surjective evalMap₂ := fun c =>
+      ⟨⟨Etingof.GL2.mkCovariantFun p n chi2 chi1 c,
+        Etingof.GL2.mkCovariantFun_mem p n chi2 chi1 c⟩,
+       funext fun i => Etingof.GL2.mkCovariantFun_eval p n chi2 chi1 c i⟩
+    set e₂ := LinearEquiv.ofBijective evalMap₂ ⟨hinj₂, hsurj₂⟩
+    set T : ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2) →ₗ[ℂ]
+        ↥(Etingof.GL2.principalSeriesSubmodule p n chi2 chi1) :=
+      { toFun := fun f => e₂.symm (fun j => ∑ u : GaloisField p n,
+          f.val (Etingof.GL2.cosetRep p n (some u) * Etingof.GL2.cosetRep p n j))
+        map_add' := fun f₁ f₂ => by
+          apply e₂.injective; simp [LinearEquiv.apply_symm_apply]
+          ext j; simp [Finset.sum_add_distrib]
+        map_smul' := fun c f => by
+          apply e₂.injective; simp [LinearEquiv.apply_symm_apply]
+          ext j; simp [Finset.mul_sum] }
+    -- T is G-equivariant
+    have hT_equiv : ∀ (h : GL2 p n)
+        (f : ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2)),
+        T (Etingof.GL2.principalSeriesRep p n chi1 chi2 h f) =
+        Etingof.GL2.principalSeriesRep p n chi2 chi1 h (T f) := by
+      intro h f
+      apply e₂.injective
+      have hLHS : e₂ (T (Etingof.GL2.principalSeriesRep p n chi1 chi2 h f)) =
+          fun j => ∑ u : GaloisField p n,
+            f.val (Etingof.GL2.cosetRep p n (some u) *
+              Etingof.GL2.cosetRep p n j * h) := by
+        change e₂ (e₂.symm (fun j => ∑ u : GaloisField p n,
+          (Etingof.GL2.principalSeriesRep p n chi1 chi2 h f).val
+            (Etingof.GL2.cosetRep p n (some u) * Etingof.GL2.cosetRep p n j))) = _
+        rw [LinearEquiv.apply_symm_apply]; rfl
+      have hRHS : e₂ (Etingof.GL2.principalSeriesRep p n chi2 chi1 h (T f)) =
+          fun j => (T f).val (Etingof.GL2.cosetRep p n j * h) := by
+        ext j; rfl
+      rw [hLHS, hRHS]; ext j
+      set b := Etingof.GL2.cosetBorel p n (Etingof.GL2.cosetRep p n j * h)
+      set k := Etingof.GL2.cosetIndex p n (Etingof.GL2.cosetRep p n j * h)
+      have hdecomp := Etingof.GL2.cosetBorel_mul_cosetRep p n
+        (Etingof.GL2.cosetRep p n j * h)
+      have hTf_cov : (T f).val (Etingof.GL2.cosetRep p n j * h) =
+          Etingof.GL2.borelCharValue p n chi2 chi1 b *
+            (T f).val (Etingof.GL2.cosetRep p n k) := by
+        conv_lhs => rw [hdecomp]; exact (T f).prop b (Etingof.GL2.cosetRep p n k)
+      have hTf_eval : (T f).val (Etingof.GL2.cosetRep p n k) =
+          ∑ u, f.val (Etingof.GL2.cosetRep p n (some u) *
+            Etingof.GL2.cosetRep p n k) := by
+        exact congr_fun (e₂.apply_symm_apply (fun j => ∑ u : GaloisField p n,
+          f.val (Etingof.GL2.cosetRep p n (some u) * Etingof.GL2.cosetRep p n j))) k
+      rw [hTf_cov, hTf_eval]
+      have hreassoc : ∀ u : GaloisField p n,
+          f.val (Etingof.GL2.cosetRep p n (some u) *
+            Etingof.GL2.cosetRep p n j * h) =
+          f.val (Etingof.GL2.cosetRep p n (some u) *
+            (b.val * Etingof.GL2.cosetRep p n k)) := by
+        intro u; congr 1; rw [mul_assoc, hdecomp]
+      simp_rw [hreassoc]
+      exact Etingof.GL2.intertwining_sum_covariant p n chi1 chi2 f b
+        (Etingof.GL2.cosetRep p n k)
+    -- T is nonzero
+    have hT_ne : T ≠ 0 := by
+      intro hT0
+      obtain ⟨f₀, hf₀⟩ := hsurj₂ (Pi.single (some (0 : GaloisField p n)) 1)
+      -- Build basis function for V₁₂ with eval coords = Pi.single (some 0) 1
+      let evalMap₁ : ↥(Etingof.GL2.principalSeriesSubmodule p n chi1 chi2) →ₗ[ℂ]
+          (Option (GaloisField p n) → ℂ) :=
+        { toFun := fun f i => (f : GL2 p n → ℂ) (Etingof.GL2.cosetRep p n i)
+          map_add' := fun _ _ => funext fun _ => rfl
+          map_smul' := fun _ _ => funext fun _ => rfl }
+      have hsurj₁ : Function.Surjective evalMap₁ := fun c =>
+        ⟨⟨Etingof.GL2.mkCovariantFun p n chi1 chi2 c,
+          Etingof.GL2.mkCovariantFun_mem p n chi1 chi2 c⟩,
+         funext fun i => Etingof.GL2.mkCovariantFun_eval p n chi1 chi2 c i⟩
+      obtain ⟨g₀, hg₀⟩ := hsurj₁ (Pi.single (some (0 : GaloisField p n)) 1)
+      have hTg₀ : T g₀ = 0 := by rw [hT0]; simp
+      have heval_none : (e₂ (T g₀)) none = ∑ u : GaloisField p n,
+          g₀.val (Etingof.GL2.cosetRep p n (some u) *
+            Etingof.GL2.cosetRep p n none) := by
+        simp [T, LinearEquiv.apply_symm_apply]
+      rw [hTg₀] at heval_none; simp at heval_none
+      have : ∑ u : GaloisField p n,
+          g₀.val (Etingof.GL2.cosetRep p n (some u) *
+            Etingof.GL2.cosetRep p n none) =
+        ∑ u : GaloisField p n,
+          g₀.val (Etingof.GL2.cosetRep p n (some u)) := by
+        congr 1; ext u; congr 1; simp [Etingof.GL2.cosetRep]
+      rw [this] at heval_none
+      have hg₀_eval : ∀ u : GaloisField p n,
+          g₀.val (Etingof.GL2.cosetRep p n (some u)) =
+          if u = 0 then 1 else 0 := by
+        intro u; have := congr_fun hg₀ (some u)
+        simp [evalMap₁, Pi.single_apply] at this; exact this
+      simp_rw [hg₀_eval] at heval_none; simp at heval_none
+    -- Build T as a morphism in FDRep (Action category)
+    let Thom : Etingof.GL2.principalSeries p n chi1 chi2 ⟶
+        Etingof.GL2.principalSeries p n chi2 chi1 :=
+      { hom := FGModuleCat.ofHom T
+        comm := fun g => by
+          ext f
+          change T (Etingof.GL2.principalSeriesRep p n chi1 chi2 g f) =
+            Etingof.GL2.principalSeriesRep p n chi2 chi1 g (T f)
+          exact hT_equiv g f }
+    -- T is nonzero as a morphism
+    have hThom_ne : Thom ≠ 0 := by
+      intro h
+      apply hT_ne
+      have : Thom.hom.hom.hom = (0 : _ →ₗ[ℂ] _) := by
+        have h1 := congr_arg Action.Hom.hom h; rw [h1]; rfl
+      exact this
+    -- By Schur's lemma, nonzero map between simple objects is an iso
+    haveI := isIso_of_hom_simple hThom_ne
+    exact ⟨asIso Thom⟩
 
 set_option maxHeartbeats 1600000 in
 -- trace computation through evaluation linear equiv
