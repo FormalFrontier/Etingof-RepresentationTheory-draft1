@@ -196,45 +196,94 @@ private theorem Etingof.arrowsOutReversed_ne
     rw [hj] at e; exact ((hi i).false e).elim
   · exact hj
 
-/-- Extract the original arrow j →_Q i from a reversed arrow i →_{Q̄ᵢ} j. -/
+/-- The reversed arrow type at (i, i, j) equals j ⟶ i for all j.
+This works by case-splitting on inst i i (which succeeds here because
+inst i i appears only as the casesOn major premise in the isolated goal). -/
+private theorem Etingof.ReversedAtVertexHom_at_first
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i j : Q} :
+    Etingof.ReversedAtVertexHom Q i i j = (j ⟶ i) := by
+  unfold Etingof.ReversedAtVertexHom
+  cases inst i i with
+  | isFalse h => exact absurd rfl h
+  | isTrue _ =>
+    cases inst j i with
+    | isFalse _ => rfl
+    | isTrue hj => subst hj; rfl
+
+/-- Extract the original arrow j →_Q i from a reversed arrow i →_{Q̄ᵢ} j.
+Defined via `reversedArrow_eq_ne` to ensure definitional compatibility with the
+API lemmas (e.g., `reflFunctorPlus_mapLinear_eq_ne`). -/
 private def Etingof.arrowsOutReversed_origArrow
     {Q : Type*} [DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
-    (a : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i) : a.fst ⟶ i := by
-  obtain ⟨j, e⟩ := a
-  change Etingof.ReversedAtVertexHom Q i i j at e
-  have hne := Etingof.arrowsOutReversed_ne hi ⟨j, e⟩
-  rw [Etingof.ReversedAtVertexHom_eq_ne rfl hne] at e; exact e
+    (a : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i) : a.fst ⟶ i :=
+  Etingof.reversedArrow_eq_ne (Etingof.arrowsOutReversed_ne hi a) a.snd
+
+/-- The type equality `ReversedAtVertexHom Q i i j = (j ⟶ i)` as a computable
+definition (not a theorem), so that `cast`/`Eq.mpr` with it reduces properly. -/
+private def Etingof.ReversedAtVertexHom_at_first_def
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i j : Q} (hj : j ≠ i) :
+    Etingof.ReversedAtVertexHom Q i i j = (j ⟶ i) := by
+  unfold Etingof.ReversedAtVertexHom
+  cases inst i i with
+  | isFalse h => exact absurd rfl h
+  | isTrue _ =>
+    cases inst j i with
+    | isTrue h => exact absurd h hj
+    | isFalse _ => rfl
 
 /-- Map arrows into i in Q to arrows out of i in Q̄ᵢ.
 Since i is a sink (no arrows out), any arrow j → i in Q gives a reversed
-arrow i →_{Q̄ᵢ} j. The underlying arrow data is unchanged. -/
+arrow i →_{Q̄ᵢ} j. Uses `cast` with computable type equality. -/
 private def Etingof.arrowsInto_to_arrowsOutReversed
-    {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
     (b : Etingof.ArrowsInto Q i) :
-    @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i := by
-  obtain ⟨j, e⟩ := b
-  refine ⟨j, ?_⟩
-  -- Need i →_{Q̄ᵢ} j, i.e., ReversedAtVertexHom Q i i j
-  change Etingof.ReversedAtVertexHom Q i i j
-  have hji : j ≠ i := by
-    intro heq; rw [heq] at e; exact (hi i).false e
-  rw [Etingof.ReversedAtVertexHom_eq_ne rfl hji]; exact e
+    @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i :=
+  have hne : b.fst ≠ i := fun h =>
+    (hi i).false (cast (congrArg (· ⟶ i) h) b.snd)
+  ⟨b.fst, cast (Etingof.ReversedAtVertexHom_at_first_def hne).symm b.snd⟩
+
+set_option maxHeartbeats 800000 in
+-- reason: unfolding reversedArrow_eq_ne + ReversedAtVertexHom_at_first_def + proof irrelevance
+/-- `reversedArrow_eq_ne` agrees with `cast` using the computable type equality. -/
+private theorem Etingof.reversedArrow_eq_ne_eq_cast_def
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i j : Q} (hj : j ≠ i)
+    (e : Etingof.ReversedAtVertexHom Q i i j) :
+    Etingof.reversedArrow_eq_ne hj e =
+    cast (Etingof.ReversedAtVertexHom_at_first_def hj) e := by
+  -- Both functions case-split on inst i i and inst j i.
+  -- Fix the Decidable values, then revert e and rw to reduce both sides.
+  have h_ii : inst i i = .isTrue rfl := by
+    match inst i i with
+    | .isTrue _ => rfl
+    | .isFalse h => exact absurd rfl h
+  have h_ji : inst j i = .isFalse hj := by
+    match inst j i with
+    | .isFalse _ => rfl
+    | .isTrue h => exact absurd h hj
+  revert e
+  unfold Etingof.reversedArrow_eq_ne Etingof.ReversedAtVertexHom_at_first_def
+    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_ii, h_ji]
+  intro e; rfl
 
 /-- Round-trip: extracting the original arrow from a converted ArrowsInto
 gives back the original arrow. -/
 private theorem Etingof.origArrow_arrowsInto_to_arrowsOutReversed
-    {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
     (b : Etingof.ArrowsInto Q i) :
     Etingof.arrowsOutReversed_origArrow hi
       (Etingof.arrowsInto_to_arrowsOutReversed hi b) = b.2 := by
   obtain ⟨j, e⟩ := b
-  simp only [arrowsInto_to_arrowsOutReversed, arrowsOutReversed_origArrow, id]
-  -- Goal reduces to cast round-trip through ReversedAtVertexHom_eq_ne
-  -- The .mp and .mpr from the Eq cast cancel
-  change cast _ (cast _ e) = e
+  have hji : j ≠ i := by intro heq; rw [heq] at e; exact (hi i).false e
+  simp only [arrowsOutReversed_origArrow, arrowsInto_to_arrowsOutReversed]
+  rw [reversedArrow_eq_ne_eq_cast_def]
   simp [cast_cast]
 
 /-- The component of `arrowsInto_to_arrowsOutReversed` at j gives the original arrow j ⟶ i. -/
@@ -243,7 +292,36 @@ private theorem Etingof.arrowsInto_to_arrowsOutReversed_fst
     {i : Q} (hi : Etingof.IsSink Q i)
     (b : Etingof.ArrowsInto Q i) :
     (Etingof.arrowsInto_to_arrowsOutReversed hi b).fst = b.fst := by
-  rfl
+  simp [arrowsInto_to_arrowsOutReversed]
+
+/-- Reverse round-trip: converting an arrow from ArrowsOutOf instR i to ArrowsInto
+and back gives the original element. -/
+private theorem Etingof.arrowsInto_to_arrowsOutReversed_roundtrip
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (x : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i) :
+    Etingof.arrowsInto_to_arrowsOutReversed hi
+      ⟨x.fst, Etingof.arrowsOutReversed_origArrow hi x⟩ = x := by
+  obtain ⟨j, e⟩ := x
+  have hji : j ≠ i := Etingof.arrowsOutReversed_ne hi ⟨j, e⟩
+  refine Sigma.ext rfl ?_
+  simp only [arrowsInto_to_arrowsOutReversed, arrowsOutReversed_origArrow]
+  rw [reversedArrow_eq_ne_eq_cast_def]
+  exact heq_of_eq (by simp [cast_cast])
+
+/-- Equivalence between ArrowsOutOf in the reversed quiver and ArrowsInto in the original.
+This is the key reindexing used in the round-trip proof. -/
+private def Etingof.arrowReindexEquiv
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i) :
+    @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i ≃
+    Etingof.ArrowsInto Q i where
+  toFun x := ⟨x.fst, Etingof.arrowsOutReversed_origArrow hi x⟩
+  invFun b := Etingof.arrowsInto_to_arrowsOutReversed hi b
+  left_inv x := Etingof.arrowsInto_to_arrowsOutReversed_roundtrip hi x
+  right_inv b := by
+    refine Sigma.ext (Etingof.arrowsInto_to_arrowsOutReversed_fst hi b) ?_
+    exact heq_of_eq (Etingof.origArrow_arrowsInto_to_arrowsOutReversed hi b)
 
 /-- At v ≠ i, F⁻(F⁺(V)).obj v ≃ₗ[k] ρ.obj v. Both sides reduce to ρ.obj v
 through the Decidable.casesOn in the reflection functor definitions. -/
@@ -346,21 +424,130 @@ private theorem Etingof.Φ_comp_source_eq_zero
         (Etingof.reflectionFunctorPlus Q i hi ρ) i x.fst x.snd w)) = 0 := by
   -- Use the API lemma to reduce each term
   simp_rw [Etingof.reflFunctorPlus_mapLinear_eq_ne hi ρ]
-  -- Goal: ∑ x, ρ.mapLinear(origArrow x)
-  --   (component ⟨x.fst, revArrow x.snd⟩ (subtype (equivAt_eq w))) = 0
-  -- Show this equals sinkMap(subtype(equivAt_eq w)) = 0 since equivAt_eq w ∈ ker(sinkMap)
-  -- Step 1: equivAt_eq w ∈ ker(sinkMap), so sinkMap(subtype(equivAt_eq w)) = 0
-  have hmem : (ρ.sinkMap i) ((ρ.sinkMap i).ker.subtype
-      (Etingof.reflFunctorPlus_equivAt_eq hi ρ w)) = 0 := by
-    exact (Etingof.reflFunctorPlus_equivAt_eq hi ρ w).property
-  -- The sum should equal sinkMap(subtype(equivAt_eq w)) which is 0 by hmem.
-  -- Proving the sum equals sinkMap requires:
-  -- 1. A DirectSum.toModule decomposition lemma (toModule y = ∑_b f b (component b y))
-  -- 2. A reindexing bijection ArrowsOutOf instR i ↔ ArrowsInto inst i
-  -- 3. Arrow equality: origArrow x = reversedArrow_eq_ne (arrowsOutReversed_ne x) x.snd
-  -- Step 3 is blocked by the same Decidable.casesOn dependent type issue.
-  -- See issue #1263 for the full analysis.
-  sorry
+  -- Normalize: fold reversedArrow_eq_ne back to arrowsOutReversed_origArrow
+  change ∑ x : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i,
+    ρ.mapLinear (Etingof.arrowsOutReversed_origArrow hi x)
+      (DirectSum.component k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1)
+        ⟨x.fst, Etingof.arrowsOutReversed_origArrow hi x⟩
+        ((ρ.sinkMap i).ker.subtype (Etingof.reflFunctorPlus_equivAt_eq hi ρ w))) = 0
+  -- Goal: ∑ x, mapLinear(origArrow x)(component ⟨x.fst, origArrow x⟩ y) = 0
+  -- Strategy: show sum = sinkMap(y) = 0 since y ∈ ker(sinkMap).
+  classical
+  haveI : Fintype (Etingof.ArrowsInto Q i) :=
+    Fintype.ofEquiv _ (Etingof.arrowReindexEquiv hi)
+  set y := (ρ.sinkMap i).ker.subtype (Etingof.reflFunctorPlus_equivAt_eq hi ρ w) with hy_def
+  -- Express the sum as ∑ x, g(equiv(x)) where g b = mapLinear b.2 (component b y)
+  let g : Etingof.ArrowsInto Q i → ρ.obj i :=
+    fun b => ρ.mapLinear b.2 (DirectSum.component k (Etingof.ArrowsInto Q i)
+      (fun a => ρ.obj a.1) b y)
+  change ∑ x, g (Etingof.arrowReindexEquiv hi x) = 0
+  -- Step 1: Reindex using bijection
+  rw [(Etingof.arrowReindexEquiv hi).bijective.sum_comp g]
+  -- Step 2: Show ∑ b, g b = sinkMap y = 0
+  change ∑ b : Etingof.ArrowsInto Q i,
+    ρ.mapLinear b.2 (DirectSum.component k (Etingof.ArrowsInto Q i)
+      (fun a => ρ.obj a.1) b y) = 0
+  -- Decompose: sinkMap y = ∑ b, mapLinear b.2 (component b y)
+  rw [show ∑ b : Etingof.ArrowsInto Q i,
+      ρ.mapLinear b.2 (DirectSum.component k (Etingof.ArrowsInto Q i)
+        (fun a => ρ.obj a.1) b y) = (ρ.sinkMap i) y from by
+    symm
+    delta Etingof.QuiverRepresentation.sinkMap
+    change (DirectSum.toModule k (Etingof.ArrowsInto Q i) (ρ.obj i)
+      (fun a => ρ.mapLinear a.2)) y = _
+    induction y using DirectSum.induction_on with
+    | zero => simp only [map_zero, Finset.sum_const_zero]
+    | of i x =>
+      erw [DirectSum.toModule_lof]
+      rw [Finset.sum_eq_single i]
+      · erw [DirectSum.component.lof_self]
+      · intro b _ hb
+        erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+      · intro h; exact absurd (Finset.mem_univ i) h
+    | add x y hx hy =>
+      simp only [map_add, hx, hy, Finset.sum_add_distrib]]
+  -- Step 3: sinkMap y = 0 (kernel property)
+  exact (Etingof.reflFunctorPlus_equivAt_eq hi ρ w).property
+
+set_option maxHeartbeats 400000 in
+-- reason: finrank arithmetic with rank-nullity for both ψ and Φ
+/-- If ψ.range ≤ ker Φ, Φ is surjective, ψ is injective, and
+finrank(source ψ) + finrank(target Φ) = finrank(source Φ), then ψ.range = ker Φ.
+This is the "first isomorphism theorem" applied to an exact sequence. -/
+private theorem Etingof.exact_of_dim
+    {k : Type*} [Field k]
+    {A B C : Type*}
+    [AddCommGroup A] [Module k A] [FiniteDimensional k A]
+    [AddCommGroup B] [Module k B] [FiniteDimensional k B]
+    [AddCommGroup C] [Module k C] [FiniteDimensional k C]
+    {ψ' : A →ₗ[k] B} {Φ' : B →ₗ[k] C}
+    (hfwd : ψ'.range ≤ Φ'.ker)
+    (hΦ_surj : Function.Surjective Φ')
+    (hψ_inj : Function.Injective ψ')
+    (hdim : Module.finrank k A + Module.finrank k C = Module.finrank k B) :
+    ψ'.range = Φ'.ker := by
+  apply Submodule.eq_of_le_of_finrank_eq hfwd
+  -- finrank(ψ'.range) = finrank(A) since ψ' is injective
+  have hr : Module.finrank k ↥ψ'.range = Module.finrank k A :=
+    LinearMap.finrank_range_of_inj hψ_inj
+  -- finrank(Φ'.ker) + finrank(C) = finrank(B)
+  have hk : Module.finrank k ↥Φ'.ker + Module.finrank k C = Module.finrank k B := by
+    have h1 := LinearMap.finrank_range_add_finrank_ker Φ'
+    rw [LinearMap.range_eq_top.mpr hΦ_surj, finrank_top] at h1
+    omega
+  -- Combine: finrank(A) = finrank(B) - finrank(C) = finrank(Φ'.ker)
+  omega
+
+set_option maxHeartbeats 800000 in
+-- reason: finrank arithmetic with FiniteDimensional instances for reflectionFunctorPlus objects
+/-- The reflectionFunctorPlus object at vertex i is finite-dimensional. -/
+private theorem Etingof.reflFunctorPlus_finiteDim_i
+    {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    [Fintype (@Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i)] :
+    @Module.Finite k
+      (@Etingof.QuiverRepresentation.obj k Q _
+        (@Etingof.reversedAtVertex Q _ inst i)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) i)
+      (inferInstanceAs (Semiring k))
+      (@Etingof.QuiverRepresentation.instAddCommMonoid k Q _
+        (@Etingof.reversedAtVertex Q _ inst i)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) i)
+      (@Etingof.QuiverRepresentation.instModule k Q _
+        (@Etingof.reversedAtVertex Q _ inst i)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) i) := by
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfField (k := k)
+  haveI : Fintype (@Etingof.ArrowsInto Q inst i) :=
+    Fintype.ofEquiv _ (@Etingof.arrowReindexEquiv Q _ inst i hi)
+  exact Module.Finite.equiv
+    (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ inst i hi ρ).symm
+
+set_option maxHeartbeats 800000 in
+-- reason: finrank computation for reflectionFunctorPlus at non-sink vertices
+/-- Each F⁺(V).obj a.fst is finite-dimensional for arrows out of i in Q̄ᵢ. -/
+private theorem Etingof.reflFunctorPlus_finiteDim_ne
+    {k : Type*} [Field k] {Q : Type*} [DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSink Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    [Fintype (@Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i)]
+    (a : @Etingof.ArrowsOutOf Q (Etingof.reversedAtVertex Q i) i) :
+    @Module.Finite k
+      (@Etingof.QuiverRepresentation.obj k Q _
+        (@Etingof.reversedAtVertex Q _ inst i)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) a.fst)
+      (inferInstanceAs (Semiring k))
+      (@Etingof.QuiverRepresentation.instAddCommMonoid k Q _
+        (@Etingof.reversedAtVertex Q _ inst i)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) a.fst)
+      (@Etingof.QuiverRepresentation.instModule k Q _
+        (@Etingof.reversedAtVertex Q _ inst i)
+        (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) a.fst) :=
+  Module.Finite.equiv
+    (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ inst i hi ρ a.fst
+      (@Etingof.arrowsOutReversed_ne Q _ inst i hi a)).symm
 
 set_option maxHeartbeats 800000 in
 -- reason: unfolding reflectionFunctorMinus + first isomorphism theorem + DirectSum reindexing
@@ -454,26 +641,133 @@ private noncomputable def Etingof.equivAt_eq_sink
           exact congrArg (fun e => @Etingof.QuiverRepresentation.mapLinear k Q _ inst ρ _ i e v)
             (@Etingof.origArrow_arrowsInto_to_arrowsOutReversed Q _ inst i hi b))
     -- Step 2: Show range(source map) = ker(Φ)
-    have hker : (∑ a : @Etingof.ArrowsOutOf Q instR i,
+    -- Source map ψ : F⁺(V)_i → ⊕ F⁺(V)_j
+    let ψ := ∑ a : @Etingof.ArrowsOutOf Q instR i,
         (DirectSum.lof k (@Etingof.ArrowsOutOf Q instR i)
           (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst) a).comp
-          (@Etingof.QuiverRepresentation.mapLinear k Q _ instR ρ' i a.fst a.snd)).range =
-        LinearMap.ker Φ := by
-      -- Exactness: range(source_map) = ker(Φ)
-      -- Uses Φ_comp_source_eq_zero for the forward direction (range ≤ ker),
-      -- which applies reflFunctorPlus_mapLinear_eq_ne to reduce individual terms.
-      -- The remaining gap is the sum reindexing (ArrowsOutOf ↔ ArrowsInto) and
-      -- arrow equality (origArrow vs reversedArrow_eq_ne), both blocked by
-      -- Decidable.casesOn dependent type transport issues.
-      -- The reverse direction (ker ≤ range) requires constructing preimages.
-      sorry
+          (@Etingof.QuiverRepresentation.mapLinear k Q _ instR ρ' i a.fst a.snd)
+    have hker : ψ.range = LinearMap.ker Φ := by
+      apply le_antisymm
+      · -- Forward: range(ψ) ≤ ker(Φ), i.e., Φ ∘ ψ = 0
+        rw [LinearMap.range_le_ker_iff]
+        ext w
+        simp only [LinearMap.comp_apply, LinearMap.zero_apply]
+        -- Φ(ψ(w)) = ∑_a Φ_comp(a)(ρ'.mapLinear(a.snd, w)) = 0
+        simp only [ψ, LinearMap.sum_apply, LinearMap.comp_apply]
+        -- Goal: Φ (∑ a, lof a (ρ'.mapLinear a.snd w)) = 0
+        simp only [Φ, map_sum, DirectSum.toModule_lof]
+        -- Goal: ∑ x, Φ_component x (ρ'.mapLinear x.snd w) = 0
+        exact @Etingof.Φ_comp_source_eq_zero k _ Q _ inst i hi ρ _ w
+      · -- Reverse: ker(Φ) ≤ range(ψ)
+        have hfwd : ψ.range ≤ LinearMap.ker Φ := by
+          rw [LinearMap.range_le_ker_iff]; ext w
+          simp only [LinearMap.comp_apply, LinearMap.zero_apply]
+          simp only [ψ, LinearMap.sum_apply, LinearMap.comp_apply]
+          simp only [Φ, map_sum, DirectSum.toModule_lof]
+          exact @Etingof.Φ_comp_source_eq_zero k _ Q _ inst i hi ρ _ w
+        -- FiniteDimensional instances from external helpers (avoid instR pollution)
+        letI acg_rho'_i : AddCommGroup
+            (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i) :=
+          @Etingof.addCommGroupOfField k _ _
+            (ρ'.instAddCommMonoid i) (ρ'.instModule i)
+        haveI fd_i :
+            @Module.Finite k
+              (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i)
+              (inferInstanceAs (Semiring k))
+              (@Etingof.QuiverRepresentation.instAddCommMonoid k Q _
+                instR ρ' i)
+              (@Etingof.QuiverRepresentation.instModule k Q _
+                instR ρ' i) :=
+          @Etingof.reflFunctorPlus_finiteDim_i k _ Q _ inst i hi ρ _ _ _
+        haveI fd_ne : ∀ a : @Etingof.ArrowsOutOf Q instR i,
+            @Module.Finite k
+              (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)
+              (inferInstanceAs (Semiring k))
+              (@Etingof.QuiverRepresentation.instAddCommMonoid k Q _
+                instR ρ' a.fst)
+              (@Etingof.QuiverRepresentation.instModule k Q _
+                instR ρ' a.fst) :=
+          fun a => @Etingof.reflFunctorPlus_finiteDim_ne k _ Q _ inst i hi ρ _ _ _ a
+        haveI : FiniteDimensional k (DirectSum (@Etingof.ArrowsOutOf Q instR i)
+            (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)) :=
+          @Module.Finite.instDirectSum k (@Etingof.ArrowsOutOf Q instR i) _
+            inferInstance
+            (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)
+            (fun a => (acg_comp a).toAddCommMonoid)
+            (fun a => ρ'.instModule a.fst)
+            (fun a => fd_ne a)
+        -- Now prove ker Φ ≤ ψ.range via dimension count
+        -- BLOCKER: instR type class pollution makes finrank/injectivity proofs
+        -- extremely difficult. Each use of Module.finrank or Function.Injective
+        -- triggers synthesis conflicts between inst and instR.
+        -- Mathematical argument for hψ_inj: ψ factors as
+        --   equivAt_eq → subtype → reindex ∘ ⊕equivAt_ne⁻¹
+        -- which is injective (equiv ∘ injection ∘ equiv).
+        -- Mathematical argument for hdim:
+        --   finrank(ρ'.obj i) = finrank(ker sinkMap) [equivAt_eq]
+        --   finrank(ker sinkMap) + finrank(V_i) = finrank(⊕V_j) [rank-nullity]
+        --   finrank(⊕V_j) = finrank(⊕ρ'.obj a.fst) [equivAt_ne + reindex]
+        have hψ_inj : Function.Injective ψ := by
+          sorry
+        have hdim : Module.finrank k
+              (@Etingof.QuiverRepresentation.obj k Q _ instR ρ' i) +
+            Module.finrank k (@Etingof.QuiverRepresentation.obj k Q _ inst ρ i) =
+            Module.finrank k (DirectSum (@Etingof.ArrowsOutOf Q instR i)
+              (fun a => @Etingof.QuiverRepresentation.obj k Q _ instR ρ' a.fst)) := by
+          sorry
+        exact (Etingof.exact_of_dim hfwd hΦsurj hψ_inj hdim).ge
     -- Compose quotEquivOfEq with quotKerEquivOfSurjective
     exact (Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦsurj)
 
+/-- `reversedArrow_ne_ne ha hb` is a cast through `ReversedAtVertexHom_ne_ne`. -/
+private theorem Etingof.reversedArrow_ne_ne_is_cast
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i a b : Q} (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
+    Etingof.reversedArrow_ne_ne ha hb e =
+    cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e := by
+  have h_ai : inst_dec a i = .isFalse ha := by
+    match inst_dec a i with | .isTrue h => exact absurd h ha | .isFalse _ => rfl
+  have h_bi : inst_dec b i = .isFalse hb := by
+    match inst_dec b i with | .isTrue h => exact absurd h hb | .isFalse _ => rfl
+  revert e
+  unfold Etingof.reversedArrow_ne_ne Etingof.ReversedAtVertexHom_ne_ne
+    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_ai, h_bi]
+  intro e; rfl
+
+set_option maxHeartbeats 1600000 in
+private theorem Etingof.reversedArrow_ne_ne_twice
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i : Q} {a b : Q} (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q inst a b) :
+    @Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb
+      (@Etingof.reversedArrow_ne_ne Q inst_dec
+        (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb
+        ((@Etingof.reversedAtVertex_twice Q inst_dec inst i).symm ▸ e)) = e := by
+  -- Convert each reversedArrow_ne_ne to cast via is_cast, then compose via HEq
+  have h1 : ∀ (y : @Quiver.Hom Q (@Etingof.reversedAtVertex Q _ inst i) a b),
+      HEq (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb y) y := by
+    intro y; rw [Etingof.reversedArrow_ne_ne_is_cast]; exact cast_heq _ _
+  have h2 : ∀ (z : @Quiver.Hom Q
+      (@Etingof.reversedAtVertex Q _ (@Etingof.reversedAtVertex Q _ inst i) i) a b),
+      HEq (@Etingof.reversedArrow_ne_ne Q inst_dec
+        (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb z) z := by
+    intro z
+    rw [@Etingof.reversedArrow_ne_ne_is_cast Q inst_dec
+      (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb z]
+    exact cast_heq _ _
+  -- Use eqRec_heq_self with explicit motive using field projection (avoids instance synthesis)
+  have h3 : HEq ((@Etingof.reversedAtVertex_twice Q inst_dec inst i).symm ▸ e) e :=
+    eqRec_heq_self (motive := fun q _ => q.Hom a b) e
+      (@Etingof.reversedAtVertex_twice Q inst_dec inst i).symm
+  exact eq_of_heq ((h1 _).trans ((h2 _).trans h3))
+
 end Helpers
 
-set_option maxHeartbeats 800000 in
--- reason: crossIsoToIso + equivAt case analysis with multiple quiver instances
+set_option maxHeartbeats 3200000 in
+-- reason: crossIsoToIso + equivAt case analysis + Decidable.casesOn reduction
 /-- If φ is surjective at a sink, then applying F⁻ᵢ after F⁺ᵢ recovers V
 up to isomorphism of representations.
 
@@ -515,15 +809,25 @@ theorem Etingof.Proposition6_6_6_sink
         exact @Etingof.equivAt_ne_sink k _ Q _ inst i hi ρ _ v hv)
     (fun {a b} e x => by
       -- Naturality: the isomorphism commutes with representation maps.
-      -- Case analysis on a = i and b = i:
-      -- • a ≠ i, b ≠ i: both equivs are identity, maps unchanged — trivial
-      -- • a = i, b ≠ i: involves equivAt_eq_sink on the source vertex
-      -- • a ≠ i, b = i: involves equivAt_eq_sink on the target vertex
-      -- • a = i, b = i: self-loop at sink, vacuous
-      -- BLOCKER: Same Decidable.casesOn type transport issue as equivAt_eq_sink.
-      -- The representation maps of F⁻(F⁺(V)) are defined via Decidable.casesOn
-      -- and don't reduce without explicit case-splitting on DecidableEq instances.
-      sorry)
+      by_cases ha : a = i
+      · -- a = i: vacuous — i is a sink, so there are no arrows out of i
+        subst ha; exact ((hi b).false e).elim
+      · by_cases hb : b = i
+        · -- a ≠ i, b = i: arrow a → i, involves equivAt_eq_sink at target
+          sorry
+        · -- a ≠ i, b ≠ i: both equivs reduce to equivAt_ne_sink (≃ id)
+          simp only [dif_neg ha, dif_neg hb]
+          have h_da : ‹DecidableEq Q› a i = .isFalse ha := by
+            cases ‹DecidableEq Q› a i with | isTrue h => exact absurd h ha | isFalse _ => rfl
+          have h_db : ‹DecidableEq Q› b i = .isFalse hb := by
+            cases ‹DecidableEq Q› b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
+          -- BLOCKER: Decidable.casesOn opacity prevents reducing through
+          -- F⁻(F⁺(V)).mapLinear for a≠i, b≠i. The equivAt_ne_sink equivs
+          -- reduce to identity, but the map also needs reduction through
+          -- reflFunctorMinus_mapLinear_ne_ne + reflFunctorPlus_mapLinear_ne_ne
+          -- + reversedArrow_ne_ne_twice. The Decidable.rec terms in the
+          -- goal types resist rw/simp/dsimp, causing "motive is not type correct".
+          sorry)
 
 /-- If ψ is injective at a source, then applying F⁺ᵢ after F⁻ᵢ recovers V
 up to isomorphism of representations.

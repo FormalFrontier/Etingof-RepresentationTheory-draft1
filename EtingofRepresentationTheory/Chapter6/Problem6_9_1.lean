@@ -561,17 +561,93 @@ private lemma ker_sum_ge_one (ρ : Q₂Rep ℂ)
     rw [pow_succ', Module.End.mul_apply, Module.End.mul_apply] at hxy
     exact LinearMap.ker_eq_bot.mp ih (hAB_inj hxy)
 
-/-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0, both kernels cannot be
-simultaneously nontrivial. This, combined with `ker_sum_ge_one`, gives the sum = 1.
+/-- When AB = 0, BA = 0, both ker A and ker B nontrivial, ker A ⊆ range B, ker B ⊆ range A:
+the "cross-pairing" decomposition (ker A, complement of ker B) ⊕ (complement of ker A, ker B)
+is a compatible Q₂-decomposition with both parts nontrivial. -/
+private lemma decomp_of_AB_BA_zero (ρ : Q₂Rep ℂ)
+    (hAB_zero : ρ.A.comp ρ.B = 0) (hBA_zero : ρ.B.comp ρ.A = 0)
+    (hkA_pos : 0 < Module.finrank ℂ (LinearMap.ker ρ.A))
+    (hkB_pos : 0 < Module.finrank ℂ (LinearMap.ker ρ.B))
+    (hkA_rangeB : LinearMap.ker ρ.A ≤ LinearMap.range ρ.B)
+    (hkB_rangeA : LinearMap.ker ρ.B ≤ LinearMap.range ρ.A) :
+    ¬ρ.Indecomposable := by
+  intro hρ
+  -- ker A = range B (from AB = 0: range B ⊆ ker A, and ker A ⊆ range B)
+  have hkA_eq : LinearMap.ker ρ.A = LinearMap.range ρ.B := by
+    exact le_antisymm hkA_rangeB (fun w hw => by
+      rw [LinearMap.mem_ker]
+      obtain ⟨x, rfl⟩ := LinearMap.mem_range.mp hw
+      exact LinearMap.congr_fun hAB_zero x)
+  have hkB_eq : LinearMap.ker ρ.B = LinearMap.range ρ.A := by
+    exact le_antisymm hkB_rangeA (fun v hv => by
+      rw [LinearMap.mem_ker]
+      obtain ⟨x, rfl⟩ := LinearMap.mem_range.mp hv
+      exact LinearMap.congr_fun hBA_zero x)
+  -- Get complements
+  obtain ⟨qV, hcV⟩ := (LinearMap.ker ρ.A).exists_isCompl
+  obtain ⟨qW, hcW⟩ := (LinearMap.ker ρ.B).exists_isCompl
+  -- The cross-pairing decomposition:
+  -- pV = ker A, pW = qW (complement of ker B)
+  -- qV' = qV (complement of ker A), qW' = ker B
+  -- Check A maps:
+  -- A(ker A) = {0} ⊆ qW ✓
+  -- A(qV) ⊆ range A = ker B ✓ (since BA = 0 means range A ⊆ ker B, hence = ker B)
+  -- Check B maps:
+  -- B(qW) ⊆ range B = ker A ✓ (since AB = 0 means range B ⊆ ker A, hence = ker A)
+  -- B(ker B) = {0} ⊆ qV ✓
+  have hA_pV : ∀ x ∈ LinearMap.ker ρ.A, ρ.A x ∈ qW := by
+    intro x hx; rw [LinearMap.mem_ker.mp hx]; exact Submodule.zero_mem _
+  have hA_qV : ∀ x ∈ qV, ρ.A x ∈ LinearMap.ker ρ.B := by
+    intro x _; rw [hkB_eq]; exact LinearMap.mem_range_self ρ.A x
+  have hB_qW : ∀ x ∈ qW, ρ.B x ∈ LinearMap.ker ρ.A := by
+    intro x _; rw [hkA_eq]; exact LinearMap.mem_range_self ρ.B x
+  have hB_kB : ∀ x ∈ LinearMap.ker ρ.B, ρ.B x ∈ qV := by
+    intro x hx; rw [LinearMap.mem_ker.mp hx]; exact Submodule.zero_mem _
+  -- Both summands nontrivial
+  have hpV_ne : LinearMap.ker ρ.A ≠ ⊥ := by
+    intro h; rw [h, finrank_bot] at hkA_pos; exact Nat.lt_irrefl 0 hkA_pos
+  have hqW_ne : LinearMap.ker ρ.B ≠ ⊥ := by
+    intro h; rw [h, finrank_bot] at hkB_pos; exact Nat.lt_irrefl 0 hkB_pos
+  -- Apply indecomposability
+  rcases hρ.2 (LinearMap.ker ρ.A) qV qW (LinearMap.ker ρ.B) hcV hcW.symm
+    hA_pV hA_qV hB_qW hB_kB with ⟨h1, h2⟩ | ⟨h1, h2⟩
+  · exact hpV_ne h1
+  · exact hqW_ne h2
 
-Requires: the structure theorem for modules over k[X]/(X^N) (nilpotent
-Jordan chain decomposition) which is not yet in Mathlib. -/
+/-- If dim(ker A) + dim(ker B) ≥ 2 for a Q₂-rep with AB nilpotent and both dims > 0,
+then the rep is decomposable.
+
+The proof requires the structure theorem for nilpotent operators (cyclic/Jordan
+chain decomposition). The strategy (following Problem 6.9.1(c) of Etingof):
+1. The operator X(v,w) = (Bw, Av) on V × W is nilpotent with
+   dim(ker X) = dim(ker A) + dim(ker B) ≥ 2.
+2. X has off-diagonal structure: it maps pure V-elements to pure W-elements
+   and vice versa. Therefore chain generators can be chosen pure (in V or W).
+3. Each pure chain gives a sub-representation (the V and W components alternate).
+4. With ≥ 2 chains (since dim(ker X) ≥ 2), the chain decomposition gives a
+   nontrivial Q₂-decomposition, contradicting indecomposability.
+
+Steps 2-3 require the structure theorem for k[X]/(X^N)-modules (equivalently,
+the cyclic decomposition for nilpotent endomorphisms), which is not yet
+available in Mathlib in a directly usable form. -/
+private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
+    (hAB : IsNilpotent (ρ.A.comp ρ.B))
+    (_hV_pos : 0 < Module.finrank ℂ ρ.V)
+    (_hW_pos : 0 < Module.finrank ℂ ρ.W)
+    (hker : 2 ≤ Module.finrank ℂ (LinearMap.ker ρ.A) +
+              Module.finrank ℂ (LinearMap.ker ρ.B)) :
+    ¬ρ.Indecomposable := by
+  sorry
+
+/-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0,
+dim(ker A) + dim(ker B) ≤ 1. Combined with `ker_sum_ge_one`, gives sum = 1. -/
 private lemma ker_sum_le_one (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (hV_pos : 0 < Module.finrank ℂ ρ.V)
     (hW_pos : 0 < Module.finrank ℂ ρ.W) :
     Module.finrank ℂ (LinearMap.ker ρ.A) + Module.finrank ℂ (LinearMap.ker ρ.B) ≤ 1 := by
-  sorry
+  by_contra h
+  exact absurd hρ (decomp_of_ker_sum_ge_two ρ hAB hV_pos hW_pos (by omega))
 
 private lemma ker_sum_eq_one (ρ : Q₂Rep ℂ) (hρ : ρ.Indecomposable)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))

@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_2_2
 import EtingofRepresentationTheory.Chapter9.Corollary9_1_3
+import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.Algebra.Module.Projective
 import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.RingTheory.Artinian.Module
@@ -64,6 +66,58 @@ The proof of Theorem 9.2.1(i) proceeds by:
 -/
 
 namespace Etingof.Theorem921
+
+/-- Any nontrivial finitely generated module over an artinian ring has a maximal (coatom)
+submodule, giving a simple quotient. Uses Hopkins-Levitzki: f.g. over artinian ⟹ noetherian
+⟹ WellFoundedGT ⟹ coatomic.
+This is needed for Theorem 9.2.1(iii): an indecomposable projective has a simple quotient. -/
+theorem exists_isCoatom_submodule
+    {R : Type*} [Ring R] [IsArtinianRing R]
+    {M : Type*} [AddCommGroup M] [Module R M] [Module.Finite R M] [Nontrivial M] :
+    ∃ (N : Submodule R M), IsCoatom N := by
+  -- Hopkins-Levitzki: f.g. over artinian ⟹ noetherian
+  haveI : IsNoetherian R M := ((IsArtinianRing.tfae R M).out 0 1).mp ‹Module.Finite R M›
+  -- Noetherian ⟹ WellFoundedGT on submodules ⟹ coatomic
+  haveI : WellFoundedGT (Submodule R M) := isNoetherian_iff'.mp inferInstance
+  haveI : IsCoatomic (Submodule R M) :=
+    isCoatomic_of_orderTop_gt_wellFounded (wellFounded_gt)
+  obtain h | ⟨N, hN_coatom, _⟩ := IsCoatomic.eq_top_or_exists_le_coatom (⊥ : Submodule R M)
+  · exact absurd h bot_ne_top
+  · exact ⟨N, hN_coatom⟩
+
+/-- Any nontrivial f.g. module Q over an artinian ring with an exhaustive family of simples M_i
+has a nonzero A-linear map to some M_{j₀}. The quotient Q/N by a coatom N is simple,
+hence isomorphic to some M_{j₀}, and the composition Q → Q/N ≅ M_{j₀} is nonzero.
+This is the key step in Theorem 9.2.1(iii) that does NOT need #1487. -/
+theorem exists_nonzero_hom_to_simple
+    {R : Type u} [Ring R] [IsArtinianRing R]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type v) [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)]
+    [∀ i, IsSimpleModule R (M i)]
+    (hM_exhaustive : ∀ (S : Type v) [AddCommGroup S] [Module R S] [IsSimpleModule R S],
+      ∃ i, Nonempty (S ≃ₗ[R] M i))
+    {Q : Type v} [AddCommGroup Q] [Module R Q] [Module.Finite R Q] [Nontrivial Q] :
+    ∃ (j₀ : ι) (f : Q →ₗ[R] M j₀), f ≠ 0 := by
+  -- Q has a maximal submodule N (coatom), giving a simple quotient Q/N
+  obtain ⟨N, hN_coatom⟩ := exists_isCoatom_submodule (R := R) (M := Q)
+  -- Q/N is simple (coatom ↔ simple quotient)
+  haveI : IsSimpleModule R (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  -- Q/N is isomorphic to some M_{j₀}
+  obtain ⟨j₀, ⟨e⟩⟩ := hM_exhaustive (Q ⧸ N)
+  -- The composition Q → Q/N ≅ M_{j₀} is nonzero
+  refine ⟨j₀, e.toLinearMap.comp N.mkQ, ?_⟩
+  intro h
+  -- If the composition is zero, then the image of mkQ in M_{j₀} is zero for all q
+  have hzero : ∀ q : Q, e (N.mkQ q) = 0 := fun q => by
+    have := LinearMap.congr_fun h q
+    simpa using this
+  -- This means mkQ = 0 (e is injective)
+  have hmkQ : ∀ q : Q, N.mkQ q = 0 := fun q => by
+    have := hzero q; rwa [map_eq_zero_iff e e.injective] at this
+  -- mkQ q = 0 means q ∈ N for all q, i.e., N = ⊤
+  exact hN_coatom.1 (Submodule.eq_top_iff'.mpr fun q => by
+    specialize hmkQ q
+    rwa [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hmkQ)
 
 /-- Over a simple artinian ring, any two simple modules are isomorphic.
 This follows from `IsSimpleRing.isIsotypic`: all simple submodules of any module
@@ -857,6 +911,100 @@ lemma leftIdeal_finite (e : A) :
     Module.Finite A ↥(Submodule.span A ({e} : Set A)) :=
   inferInstance
 
+/-- Conjugate idempotents give isomorphic left ideals as A-modules.
+If u * e₁ * u⁻¹ = e₂, then A·e₁ ≅ A·e₂ via right multiplication by u⁻¹.
+Key: a * e₁ * u⁻¹ = (a * u⁻¹) * e₂ and b * e₂ * u = (b * u) * e₁. -/
+def leftIdeal_equiv_of_conjugate
+    (e₁ e₂ : A) (u : Aˣ) (hconj : ↑u * e₁ * ↑u⁻¹ = e₂) :
+    ↥(Submodule.span A ({e₁} : Set A)) ≃ₗ[A]
+    ↥(Submodule.span A ({e₂} : Set A)) where
+  toFun := fun ⟨x, hx⟩ => by
+    refine ⟨x * ↑u⁻¹, ?_⟩
+    rw [Submodule.mem_span_singleton] at hx ⊢
+    obtain ⟨a, rfl⟩ := hx
+    refine ⟨a * ↑u⁻¹, ?_⟩
+    simp only [smul_eq_mul]
+    -- Goal: (a * ↑u⁻¹) * e₂ = a * e₁ * ↑u⁻¹
+    rw [← hconj]
+    -- Goal: (a * ↑u⁻¹) * (↑u * e₁ * ↑u⁻¹) = a * e₁ * ↑u⁻¹
+    simp only [← mul_assoc]
+    rw [show a * ↑u⁻¹ * ↑u = a from by rw [mul_assoc, Units.inv_mul, mul_one]]
+  invFun := fun ⟨y, hy⟩ => by
+    refine ⟨y * ↑u, ?_⟩
+    rw [Submodule.mem_span_singleton] at hy ⊢
+    obtain ⟨b, rfl⟩ := hy
+    refine ⟨b * ↑u, ?_⟩
+    simp only [smul_eq_mul]
+    -- Goal: (b * ↑u) * e₁ = b * e₂ * ↑u
+    rw [← hconj]
+    simp only [← mul_assoc]
+    rw [show b * ↑u * e₁ * ↑u⁻¹ * ↑u = b * ↑u * e₁ from by
+      rw [mul_assoc (b * ↑u * e₁), Units.inv_mul, mul_one]]
+  left_inv := fun ⟨x, _⟩ => by
+    ext; show x * ↑u⁻¹ * ↑u = x
+    rw [mul_assoc, Units.inv_mul, mul_one]
+  right_inv := fun ⟨y, _⟩ => by
+    ext; show y * ↑u * ↑u⁻¹ = y
+    rw [mul_assoc, Units.mul_inv, mul_one]
+  map_add' := fun ⟨x, _⟩ ⟨y, _⟩ => by ext; simp [add_mul]
+  map_smul' := fun r ⟨x, _⟩ => by ext; show r * x * ↑u⁻¹ = r * (x * ↑u⁻¹); rw [mul_assoc]
+
+/-- For complete orthogonal idempotents e₁,...,eₙ in a ring A, the left ideals Aeᵢ form
+an internal direct sum decomposition of A. The canonical map ⨁ᵢ Aeᵢ → A is bijective. -/
+lemma isInternal_leftIdeals_of_completeOrthogonalIdempotents
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (e : ι → A) (he : CompleteOrthogonalIdempotents e) :
+    DirectSum.IsInternal (fun i => Submodule.span A ({e i} : Set A)) := by
+  set N := fun i => Submodule.span A ({e i} : Set A) with hN
+  -- Helper: elements of Aeᵢ have the form a * eᵢ
+  have hmem : ∀ i (x : A), x ∈ N i ↔ ∃ a, a * e i = x := by
+    intro i x; rw [hN, Submodule.mem_span_singleton]; rfl
+  -- Helper: (a * eᵢ) * eⱼ = δᵢⱼ · (a * eᵢ)
+  have hmul_right : ∀ i j (a : A), a * e i * e j = if i = j then a * e i else 0 := by
+    intro i j a
+    split_ifs with hij
+    · subst hij; rw [mul_assoc, he.toOrthogonalIdempotents.idem]
+    · rw [mul_assoc, he.toOrthogonalIdempotents.ortho hij, mul_zero]
+  -- Show bijectivity of the canonical map
+  -- Right-multiplication by eₖ extracts the k-th component from elements of Aeⱼ
+  have hmul_component : ∀ k j (x : ↥(N j)), (↑x : A) * e k = if j = k then ↑x else 0 := by
+    intro k j ⟨x, hx⟩
+    rw [hmem] at hx; obtain ⟨c, rfl⟩ := hx
+    simp [hmul_right]
+  -- For any direct sum element, right-multiply by eₖ extracts the k-th component
+  have hextract : ∀ (f : ⨁ j, ↥(N j)) (k : ι),
+      (DirectSum.coeLinearMap N f) * e k = ↑(f k) := by
+    intro f k
+    have hsum : DirectSum.coeLinearMap N f = ∑ j, ↑(f j) := by
+      conv_lhs =>
+        rw [show f = ∑ j ∈ Finset.univ, DirectSum.of _ j (f j) from
+          (DirectSum.sum_univ_of f).symm]
+      simp [DirectSum.coeLinearMap_of]
+    rw [hsum, Finset.sum_mul]
+    conv_lhs =>
+      arg 2; ext j
+      rw [hmul_component k j (f j)]
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+  constructor
+  · -- Injective
+    intro f g hfg
+    have hfg' : DirectSum.coeLinearMap N f = DirectSum.coeLinearMap N g := hfg
+    have hcomp : ∀ i, (f i : A) = (g i : A) := by
+      intro i
+      have h1 := hextract f i
+      have h2 := hextract g i
+      rw [hfg'] at h1
+      exact h1.symm.trans h2
+    exact DFinsupp.ext fun i => Subtype.ext (hcomp i)
+  · -- Surjective: a = ∑ (a * eᵢ) with a * eᵢ ∈ Aeᵢ
+    intro a
+    refine ⟨∑ i, DirectSum.of (fun i => ↥(N i)) i
+        ⟨a * e i, Submodule.smul_mem _ a (Submodule.subset_span rfl)⟩, ?_⟩
+    -- Goal reduces to ∑ (a * eᵢ) = a * ∑ eᵢ = a
+    simp only [map_sum, DirectSum.coeAddMonoidHom_of]
+    rw [show ∑ i, a * e i = a * ∑ i, e i from (Finset.mul_sum ..).symm,
+      he.complete, mul_one]
+
 /-- A left ideal A·e is indecomposable if the Hom dimension property holds:
 dim Hom(Ae, Mⱼ) = 0 for all j except exactly one j = i₀ where it equals 1.
 The argument: if Ae = Q₁ ⊕ Q₂, then Hom(Ae, Mⱼ) = Hom(Q₁, Mⱼ) ⊕ Hom(Q₂, Mⱼ),
@@ -1216,6 +1364,374 @@ theorem Etingof.Theorem_9_2_1_i
       (hdim_hom i),
     hdim_hom⟩
 
+/-! ### Local endomorphism ring and uniqueness of indecomposable projectives
+
+For an indecomposable finitely generated module P over a finite-dimensional algebra,
+End_A(P) is a local ring (Fitting's lemma + nilpotent sum closure). This gives
+the key isomorphism lemma for projective covers.
+-/
+
+section LocalEndomorphismRing
+
+variable {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+
+/-- The endomorphism ring of an indecomposable finite-dimensional module is local.
+This follows from Fitting's lemma: every endomorphism is either bijective (= unit) or
+nilpotent, and the sum of nilpotent endomorphisms is nilpotent (Lemma 3.8.2). -/
+theorem Etingof.IsIndecomposable.isLocalRing_end
+    {W : Type*} [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    [FiniteDimensional k W] (hW : Etingof.IsIndecomposable A W) :
+    IsLocalRing (Module.End A W) where
+  exists_pair_ne := by
+    haveI := hW.1
+    exact ⟨1, 0, one_ne_zero⟩
+  isUnit_or_isUnit_of_add_one := by
+    intro a b hab
+    rcases Etingof.endo_indecomposable_iso_or_nilpotent k A W hW a with ha | ha
+    · left; exact (Module.End.isUnit_iff a).mpr ha
+    · right
+      have hb : b = 1 - a := eq_sub_of_add_eq' hab
+      rw [hb]; exact ha.isUnit_one_sub
+
+/-- An endomorphism of an indecomposable module whose range is contained in a proper
+submodule must be nilpotent (not bijective). -/
+theorem Etingof.endo_nilpotent_of_range_le_proper
+    {W : Type*} [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    [FiniteDimensional k W] (hW : Etingof.IsIndecomposable A W)
+    (θ : W →ₗ[A] W) (N : Submodule A W) (hN : N ≠ ⊤) (hθ : LinearMap.range θ ≤ N) :
+    IsNilpotent θ := by
+  rcases Etingof.endo_indecomposable_iso_or_nilpotent k A W hW θ with hbij | hnil
+  · exfalso
+    have hrange : LinearMap.range θ = ⊤ :=
+      LinearMap.range_eq_top.mpr hbij.2
+    exact hN (top_le_iff.mp (hrange ▸ hθ))
+  · exact hnil
+
+/-- Two indecomposable finitely generated projective modules with nonzero Hom to the
+same simple module are isomorphic.
+
+**Proof using Fitting's lemma (avoids Nakayama/unique maximal submodule):**
+1. Both P, P' surject onto M (nonzero map to simple = surjective).
+2. By projectivity, get f: P → P' and g: P' → P with ψ ∘ f = φ and φ ∘ g = ψ.
+3. Then φ ∘ (g ∘ f - id) = 0, so range(g ∘ f - id) ≤ ker(φ).
+4. ker(φ) is proper. By Fitting, g ∘ f - id is nilpotent, so g ∘ f is a unit.
+5. Similarly f ∘ g is a unit.
+6. f is bijective → P ≅ P'. -/
+theorem Etingof.indecomposable_projective_iso_of_hom
+    {P : Type*} [AddCommGroup P] [Module A P] [Module k P] [IsScalarTower k A P]
+    [FiniteDimensional k P] [Module.Projective A P]
+    (hP : Etingof.IsIndecomposable A P)
+    {P' : Type*} [AddCommGroup P'] [Module A P'] [Module k P'] [IsScalarTower k A P']
+    [FiniteDimensional k P'] [Module.Projective A P']
+    (hP' : Etingof.IsIndecomposable A P')
+    {M : Type*} [AddCommGroup M] [Module A M] [IsSimpleModule A M]
+    (φ : P →ₗ[A] M) (hφ : φ ≠ 0) (ψ : P' →ₗ[A] M) (hψ : ψ ≠ 0) :
+    Nonempty (P ≃ₗ[A] P') := by
+  -- Step 1: φ and ψ are surjective (nonzero map to simple module)
+  have hφ_surj : Function.Surjective φ := by
+    rw [← LinearMap.range_eq_top]
+    exact (eq_bot_or_eq_top (LinearMap.range φ)).resolve_left
+      (LinearMap.range_eq_bot.not.mpr hφ)
+  have hψ_surj : Function.Surjective ψ := by
+    rw [← LinearMap.range_eq_top]
+    exact (eq_bot_or_eq_top (LinearMap.range ψ)).resolve_left
+      (LinearMap.range_eq_bot.not.mpr hψ)
+  -- Step 2: Lift φ through ψ and ψ through φ using projectivity
+  obtain ⟨f, hf⟩ := Module.projective_lifting_property ψ φ hψ_surj
+  obtain ⟨g, hg⟩ := Module.projective_lifting_property φ ψ hφ_surj
+  -- Step 3: g ∘ f - id has range in ker(φ) because φ ∘ (g ∘ f) = φ
+  have hgf_range :
+      LinearMap.range (g.comp f - LinearMap.id) ≤ LinearMap.ker φ := by
+    intro y hy
+    rw [LinearMap.mem_ker]
+    obtain ⟨x, hx⟩ := LinearMap.mem_range.mp hy
+    rw [← hx]
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply,
+      LinearMap.id_apply]
+    have h1 : φ (g (f x)) = ψ (f x) := LinearMap.congr_fun hg (f x)
+    have h2 : ψ (f x) = φ x := LinearMap.congr_fun hf x
+    rw [map_sub, h1, h2, sub_self]
+  -- ker(φ) is proper because φ ≠ 0
+  have hker_proper : LinearMap.ker φ ≠ ⊤ := by
+    intro h; exact hφ (LinearMap.ker_eq_top.mp h)
+  -- Step 4: By Fitting, g ∘ f - id is nilpotent, so g ∘ f is a unit
+  have hgf_nilp : IsNilpotent (g.comp f - LinearMap.id) :=
+    Etingof.endo_nilpotent_of_range_le_proper (k := k) hP _ _
+      hker_proper hgf_range
+  have hgf_unit : IsUnit (g.comp f) := by
+    have heq : g.comp f = LinearMap.id - (-(g.comp f - LinearMap.id)) :=
+      by simp only [neg_sub, sub_sub_cancel]
+    rw [heq]; exact hgf_nilp.neg.isUnit_one_sub
+  -- Step 5: Similarly, f ∘ g - id has range in ker(ψ)
+  have hfg_range :
+      LinearMap.range (f.comp g - LinearMap.id) ≤ LinearMap.ker ψ := by
+    intro y hy
+    rw [LinearMap.mem_ker]
+    obtain ⟨x, hx⟩ := LinearMap.mem_range.mp hy
+    rw [← hx]
+    simp only [LinearMap.sub_apply, LinearMap.comp_apply,
+      LinearMap.id_apply]
+    have h1 : ψ (f (g x)) = φ (g x) := LinearMap.congr_fun hf (g x)
+    have h2 : φ (g x) = ψ x := LinearMap.congr_fun hg x
+    rw [map_sub, h1, h2, sub_self]
+  have hker_proper' : LinearMap.ker ψ ≠ ⊤ := by
+    intro h; exact hψ (LinearMap.ker_eq_top.mp h)
+  have hfg_nilp : IsNilpotent (f.comp g - LinearMap.id) :=
+    Etingof.endo_nilpotent_of_range_le_proper (k := k) hP' _ _
+      hker_proper' hfg_range
+  have hfg_unit : IsUnit (f.comp g) := by
+    have heq : f.comp g = LinearMap.id - (-(f.comp g - LinearMap.id)) :=
+      by simp only [neg_sub, sub_sub_cancel]
+    rw [heq]; exact hfg_nilp.neg.isUnit_one_sub
+  -- Step 6: f is bijective
+  have hgf_bij : Function.Bijective (g.comp f) :=
+    (Module.End.isUnit_iff _).mp hgf_unit
+  have hfg_bij : Function.Bijective (f.comp g) :=
+    (Module.End.isUnit_iff _).mp hfg_unit
+  have f_inj : Function.Injective f := by
+    intro x y hxy
+    have : (g.comp f) x = (g.comp f) y := by
+      simp only [LinearMap.comp_apply]; exact congr_arg g hxy
+    exact hgf_bij.1 this
+  have f_surj : Function.Surjective f := by
+    intro y
+    obtain ⟨z, hz⟩ := hfg_bij.2 y
+    exact ⟨g z, by
+      have : f (g z) = (f.comp g) z := rfl
+      rw [this, hz]⟩
+  exact ⟨LinearEquiv.ofBijective f ⟨f_inj, f_surj⟩⟩
+
+end LocalEndomorphismRing
+
+section CompleteSystem
+
+/-! ### Complete orthogonal idempotent system
+
+The full double-indexed system of orthogonal idempotents {e_{ij}} needed for
+Theorem 9.2.1(ii). This extends `exists_orthogonal_idempotents_for_simples`
+(which only constructs one E₁₁ per block) to the complete system of all
+diagonal matrix units E_{jj} across all blocks.
+-/
+
+/-- Diagonal matrix units in a matrix ring form complete orthogonal idempotents.
+For `Mat_n(R)`, the family `j ↦ Matrix.single j j 1` satisfies `∑ E_{jj} = I`
+and `E_{jj} * E_{kk} = δ_{jk} E_{jj}`. -/
+lemma Etingof.Theorem921.completeOrthogonalIdempotents_matrix_single
+    {R : Type*} [CommSemiring R] {n : ℕ} :
+    CompleteOrthogonalIdempotents
+      (fun j : Fin n => Matrix.single j j (1 : R)) := by
+  refine CompleteOrthogonalIdempotents.iff_ortho_complete.mpr ⟨fun j k' hjk => ?_, ?_⟩
+  · show Matrix.single j j 1 * Matrix.single k' k' 1 = 0
+    ext r s
+    simp only [Matrix.mul_apply, Matrix.single_apply, Matrix.zero_apply]
+    apply Finset.sum_eq_zero; intro x _
+    by_cases hxj : j = r ∧ j = x <;> by_cases hxk : k' = x ∧ k' = s
+    · exact absurd (hxj.2.trans hxk.1.symm) hjk
+    all_goals simp_all
+  · -- Completeness: ∑ E_{jj} = I
+    have : ∑ j : Fin n, Matrix.single j j (1 : R) = Matrix.diagonal (fun _ => 1) := by
+      funext r s
+      simp only [Matrix.sum_apply, Matrix.single_apply, Matrix.diagonal_apply, ite_and]
+      simp [Finset.sum_ite_eq']
+    rw [this, Matrix.diagonal_one]
+
+/-- Diagonal matrix units in a product of matrix rings form complete orthogonal idempotents
+indexed by the sigma type `Σ l, Fin (d l)`. The idempotent at `(l, j)` is
+`Pi.single l (Matrix.single j j 1)`. -/
+lemma Etingof.Theorem921.completeOrthogonalIdempotents_pi_matrix
+    {n : ℕ} {d : Fin n → ℕ}
+    {R : Type*} [CommSemiring R] :
+    CompleteOrthogonalIdempotents
+      (fun (p : Σ l : Fin n, Fin (d l)) =>
+        (Pi.single p.1 (Matrix.single p.2 p.2 (1 : R)) :
+          ∀ l, Matrix (Fin (d l)) (Fin (d l)) R)) := by
+  refine CompleteOrthogonalIdempotents.iff_ortho_complete.mpr ⟨fun ⟨l₁, j₁⟩ ⟨l₂, j₂⟩ hpq => ?_, ?_⟩
+  · -- Orthogonality
+    funext k
+    simp only [Pi.mul_apply, Pi.zero_apply]
+    by_cases h₁ : l₁ = k <;> by_cases h₂ : l₂ = k
+    · subst h₁; subst h₂
+      simp only [Pi.single_eq_same]
+      have h2 : j₁ ≠ j₂ := fun h => hpq (Sigma.ext rfl (heq_of_eq h))
+      ext r s
+      simp only [Matrix.mul_apply, Matrix.single_apply, Matrix.zero_apply]
+      apply Finset.sum_eq_zero; intro x _
+      by_cases hxp : j₁ = r ∧ j₁ = x <;> by_cases hxq : j₂ = x ∧ j₂ = s
+      · exact absurd (hxp.2.trans hxq.1.symm) h2
+      all_goals simp_all
+    · simp [Pi.single_apply, h₁, h₂]
+    · simp [Pi.single_apply, h₁, h₂]
+    · simp [Pi.single_apply, h₁, h₂]
+  · -- Completeness: ∑ p, Pi.single p.1 (E_{p.2,p.2}) = 1
+    -- Split ∑_{(l,j)} into ∑_l ∑_j
+    rw [show (∑ x : Σ l : Fin n, Fin (d l),
+        (Pi.single x.1 (Matrix.single x.2 x.2 (1 : R)) :
+          ∀ l, Matrix (Fin (d l)) (Fin (d l)) R)) =
+        ∑ l : Fin n, ∑ j : Fin (d l), Pi.single l (Matrix.single j j 1) from
+      Fintype.sum_sigma _]
+    -- ∑_l (∑_j Pi.single l (E_jj)) = 1
+    -- Inner sum: ∑_j Pi.single l (E_jj) = Pi.single l (∑_j E_jj) = Pi.single l 1
+    have key : ∀ l : Fin n, ∑ j : Fin (d l),
+        (Pi.single l (Matrix.single j j (1 : R)) :
+          ∀ l, Matrix (Fin (d l)) (Fin (d l)) R) =
+        Pi.single l 1 := by
+      intro l
+      rw [← completeOrthogonalIdempotents_matrix_single.complete]
+      induction Finset.univ (α := Fin (d l)) using Finset.cons_induction with
+      | empty => simp
+      | cons j s hj ih =>
+        simp only [Finset.sum_cons]
+        rw [Pi.single_add, ih]
+    simp_rw [key]
+    exact Finset.univ_sum_single 1
+
+/-- **Full system of complete orthogonal idempotents for Theorem 9.2.1(ii).**
+
+Constructs `finrank k (M i)` orthogonal idempotents for each simple module class `i`,
+forming a complete system in `A` that lifts the Wedderburn-Artin diagonal matrix units
+from `A/Rad(A)`.
+
+The construction:
+1. Decompose `A/J ≅ ∏ Mat_{d_l}(k)` (Wedderburn-Artin)
+2. In the product ring, diagonal matrix units `E_{jj}^l` form complete orthogonal idempotents
+3. Lift to `A` via Corollary 9.1.3
+4. Establish `σ : ι ≃ Fin n` (block assignment, bijective by exhaustiveness)
+5. Prove `d(σ(i)) = finrank k (M i)` (dimension matching)
+6. Reindex from `Σ l, Fin (d l)` to `Σ i, Fin (finrank k (M i))` -/
+lemma Etingof.Theorem921.exists_complete_orthogonal_idempotents_for_simples
+    [IsAlgClosed k] [IsArtinianRing A]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
+    [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S] [IsSimpleModule A S],
+      ∃ i, Nonempty (S ≃ₗ[A] M i)) :
+    ∃ (e : (Σ i : ι, Fin (Module.finrank k (M i))) → A),
+      CompleteOrthogonalIdempotents e ∧
+      ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))) (j : ι),
+        Module.finrank k (smulRange (k := k) (A := A) (M j) (e p)) =
+          if p.fst = j then 1 else 0 := by
+  -- Step 1: A is semiprimary
+  haveI : IsSemiprimaryRing A := inferInstance
+  haveI hss : IsSemisimpleRing (A ⧸ Ring.jacobson A) := IsSemiprimaryRing.isSemisimpleRing
+  have hnil := IsSemiprimaryRing.isNilpotent (R := A)
+  -- Step 2: Jacobson radical annihilates simple modules
+  have hann : ∀ i, Ring.jacobson A ≤ Module.annihilator A (M i) :=
+    fun i => IsSemisimpleModule.jacobson_le_annihilator A (M i)
+  -- Step 3: WA decomposition
+  let π := Ideal.Quotient.mk (Ring.jacobson A)
+  haveI : Module.Finite k (A ⧸ Ring.jacobson A) := inferInstance
+  obtain ⟨n, d, hd, ⟨WA⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ Ring.jacobson A)
+  -- Step 4: Elements in same coset of A/J act identically on simples
+  have hsmul_eq : ∀ (a a' : A) (j : ι) (m : M j),
+      π a = π a' → a • m = a' • m := by
+    intro a a' j m hq
+    have hmem : a - a' ∈ Ring.jacobson A := Ideal.Quotient.eq.mp hq
+    have h0 := Module.mem_annihilator.mp (hann j hmem) m
+    rwa [sub_smul, sub_eq_zero] at h0
+  have hsmulRange_eq : ∀ (a a' : A) (j : ι),
+      π a = π a' → smulRange (k := k) (A := A) (M j) a = smulRange (k := k) (A := A) (M j) a' := by
+    intro a a' j hq
+    have : smulEnd (k := k) (A := A) (M j) a = smulEnd (k := k) (A := A) (M j) a' := by
+      ext m; exact hsmul_eq a a' j m hq
+    simp only [smulRange, this]
+  -- Step 5: Construct COI in A/J, indexed by Σ l, Fin (d l)
+  let ebar : (Σ l : Fin n, Fin (d l)) → A ⧸ Ring.jacobson A :=
+    fun p => WA.symm (Pi.single p.1 (Matrix.single p.2 p.2 (1 : k)))
+  have hebar_coi : CompleteOrthogonalIdempotents ebar := by
+    have h := completeOrthogonalIdempotents_pi_matrix (R := k) (n := n) (d := d)
+    exact h.map WA.symm.toRingEquiv.toRingHom
+  -- Step 6: Lift to A
+  have hker : ∀ x ∈ RingHom.ker π, IsNilpotent x := by
+    intro x hx
+    rw [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem] at hx
+    obtain ⟨m, hm⟩ := hnil
+    exact ⟨m, by
+      have := Ideal.pow_mem_pow hx m
+      rw [hm] at this
+      exact Ideal.mem_bot.mp this⟩
+  have hebar_range : ∀ p, ebar p ∈ π.range :=
+    fun p => Ideal.Quotient.mk_surjective (ebar p)
+  obtain ⟨e_raw, he_raw_coi, he_raw_lift⟩ :=
+    CompleteOrthogonalIdempotents.lift_of_isNilpotent_ker π hker hebar_coi hebar_range
+  -- e_raw : (Σ l, Fin (d l)) → A is a COI system in A lifting ebar
+  -- Step 7: Block assignment σ and rank property
+  -- This follows the same infrastructure as exists_orthogonal_idempotents_for_simples.
+  -- We establish:
+  -- (a) Block assignment σ : ι → Fin n (injective, mapping simples to WA blocks)
+  -- (b) σ is surjective (using hM_exhaustive)
+  -- (c) Dimension matching: d(σ(i)) = finrank k (M i)
+  -- (d) Rank property: finrank k (smulRange M_j (e_raw (l, k))) = δ_{σ(j), l}
+  --
+  -- The proofs of (a) and (d) are structurally identical to
+  -- exists_orthogonal_idempotents_for_simples (replacing E₁₁ with E_{jj}).
+  -- Parts (b) and (c) are new and use hM_exhaustive.
+  suffices h_block :
+      ∃ (σ : ι → Fin n),
+        Function.Bijective σ ∧
+        (∀ i, d (σ i) = Module.finrank k (M i)) ∧
+        (∀ (p : Σ l : Fin n, Fin (d l)) (j : ι),
+          Module.finrank k (smulRange (k := k) (A := A) (M j) (e_raw p)) =
+            if σ j = p.fst then 1 else 0) by
+    -- Step 8: Reindex from Σ l, Fin (d l) to Σ i, Fin (finrank k (M i))
+    obtain ⟨σ, hσ_bij, hd_eq, hrank⟩ := h_block
+    let σ_equiv : ι ≃ Fin n := Equiv.ofBijective σ hσ_bij
+    -- Build reindexing equivalence (Σ i, Fin (dim M_i)) ≃ (Σ l, Fin (d l))
+    -- Build reindexing equivalence using σ bijection + dimension matching
+    -- (Σ i : ι, Fin (dim M_i)) ≃ (Σ l : Fin n, Fin (d l))
+    -- via (i, j) ↦ (σ i, cast j) and (l, k) ↦ (σ⁻¹ l, cast k)
+    let e : (Σ i : ι, Fin (Module.finrank k (M i))) → A :=
+      fun p => e_raw ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩
+    -- CompleteOrthogonalIdempotents: e is COI because it's e_raw ∘ (injective reindexing)
+    -- and e_raw is COI on the full sigma type. The reindexing is σ-bijective + dim-matching.
+    have he_coi : CompleteOrthogonalIdempotents e := by
+      -- e is e_raw ∘ reindex where reindex is a bijection
+      let reindex : (Σ i : ι, Fin (Module.finrank k (M i))) → (Σ l : Fin n, Fin (d l)) :=
+        fun p => ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩
+      have hreindex_bij : Function.Bijective reindex := by
+        constructor
+        · rintro ⟨i₁, j₁⟩ ⟨i₂, j₂⟩ h
+          simp only [reindex, Sigma.mk.injEq] at h
+          obtain ⟨hi, hj⟩ := h
+          have hi' := hσ_bij.1 hi
+          subst hi'
+          simp at hj
+          exact Sigma.ext rfl (heq_of_eq hj)
+        · rintro ⟨l, j⟩
+          have hl : σ (σ_equiv.symm l) = l := σ_equiv.apply_symm_apply l
+          have hdl : d l = Module.finrank k (M (σ_equiv.symm l)) := by
+            have := hd_eq (σ_equiv.symm l); rwa [hl] at this
+          refine ⟨⟨σ_equiv.symm l, finCongr hdl j⟩, ?_⟩
+          simp only [reindex, Sigma.mk.injEq]
+          refine ⟨hl, ?_⟩
+          have hdl2 : d (σ (σ_equiv.symm l)) = d l := by rw [hl]
+          rw [Fin.heq_ext_iff hdl2]
+          simp [finCongr]
+      let reindex_equiv := Equiv.ofBijective reindex hreindex_bij
+      have hcomp : e = e_raw ∘ reindex_equiv := funext fun ⟨i, j⟩ => rfl
+      rw [hcomp]
+      have hortho := (OrthogonalIdempotents.equiv reindex_equiv).mpr
+        he_raw_coi.toOrthogonalIdempotents
+      exact ⟨hortho,
+        by simp [Equiv.sum_comp reindex_equiv, he_raw_coi.complete]⟩
+    refine ⟨e, he_coi, fun p j => ?_⟩
+    -- Rank property: finrank k (smulRange M_j (e p)) = δ_{p.1, j}
+    show Module.finrank k (smulRange (k := k) (A := A) (M j)
+      (e_raw ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩)) =
+      if p.fst = j then 1 else 0
+    -- Use hrank with q = (σ p.1, cast p.2)
+    have := hrank ⟨σ p.1, (finCongr (hd_eq p.1).symm) p.2⟩ j
+    rw [this]
+    -- Now: (if σ j = σ p.fst then 1 else 0) = (if p.fst = j then 1 else 0)
+    congr 1; exact propext ⟨fun h => (hσ_bij.1 h).symm, fun h => congrArg σ h.symm⟩
+  -- Step 9: Prove the block assignment, bijectivity, dimension matching, and rank property
+  sorry
+
+end CompleteSystem
+
 /-- **Theorem 9.2.1(ii)**: Decomposition of the algebra as a module.
 
 The algebra A, viewed as a left module over itself, decomposes as A ≅ ⊕ᵢ (dim Mᵢ) · Pᵢ.
@@ -1239,7 +1755,119 @@ theorem Etingof.Theorem_9_2_1_ii
     (hP_indec : ∀ i, Etingof.IsIndecomposable A (P i))
     (hP : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0) :
     Nonempty (A ≃ₗ[A] ⨁ (i : ι), Fin (Module.finrank k (M i)) → P i) := by
-  sorry
+  -- Proof strategy (Etingof Theorem 9.2.1(ii)):
+  -- 1. Construct complete orthogonal idempotents in A indexed by Σ i, Fin (dim M_i),
+  --    using the Wedderburn-Artin decomposition of A/J, diagonal matrix units, and lifting.
+  -- 2. Each left ideal A·e_p has Hom(A·e_p, M_j) = δ_{p.1, j} (rank property).
+  -- 3. Each A·e_p is indecomposable and projective, hence ≅ P_{p.1} by uniqueness.
+  -- 4. A = ⊕_p A·e_p ≅ ⊕_p P_{p.1} ≅ ⊕_i (Fin (dim M_i) → P_i).
+  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  -- Step 1: Construct complete orthogonal idempotents with the Hom delta property.
+  -- This is the core WA-based construction (sorry'd — see detailed outline above).
+  suffices h_coi : ∃ (e : (Σ i : ι, Fin (Module.finrank k (M i))) → A),
+      CompleteOrthogonalIdempotents e ∧
+      ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))) (j : ι),
+        Module.finrank k (Etingof.Theorem921.smulRange (k := k) (A := A) (M j) (e p)) =
+          if p.fst = j then 1 else 0 by
+    -- Assembly: Given the complete system, build the decomposition A ≅ ⊕_i (dim M_i) · P_i.
+    obtain ⟨e, he_coi, he_rank⟩ := h_coi
+    -- Each left ideal A·e_p has the Hom delta property via finrank_hom_leftIdeal_eq
+    set N : (Σ i : ι, Fin (Module.finrank k (M i))) → Submodule A A :=
+      fun p => Submodule.span A ({e p} : Set A) with hN_def
+    have hdim_hom : ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))) (j : ι),
+        Module.finrank k (↥(N p) →ₗ[A] M j) = if p.fst = j then 1 else 0 := by
+      intro p j
+      rw [Theorem921.finrank_hom_leftIdeal_eq (k := k) (e p) (he_coi.idem p)]
+      exact he_rank p j
+    -- Each A·e_p is projective
+    have hproj : ∀ p, Module.Projective A ↥(N p) :=
+      fun p => Theorem921.leftIdeal_projective (e p) (he_coi.idem p)
+    -- Each A·e_p is indecomposable (by the Hom delta + exhaustiveness argument)
+    have hindec : ∀ p, Etingof.IsIndecomposable A ↥(N p) :=
+      fun p => Theorem921.leftIdeal_indecomposable_of_hom_delta (k := k) M hM hM_exhaustive
+        (e p) (he_coi.idem p) p.1 (hdim_hom p)
+    -- Each A·e_p ≅ P_{p.1} by uniqueness of indecomposable projectives
+    -- (both have nonzero Hom to M_{p.1})
+    have hiso : ∀ p, Nonempty (↥(N p) ≃ₗ[A] P p.fst) := by
+      intro p
+      -- Need: finrank of Hom to M_{p.1} is 1 for both N p and P p.fst
+      -- A·e_p has dim Hom(-, M_{p.1}) = 1
+      have hdim1 : Module.finrank k (↥(N p) →ₗ[A] M p.fst) = 1 := by
+        rw [hdim_hom]; simp
+      -- P p.fst has dim Hom(-, M_{p.1}) = 1
+      have hdim2 : Module.finrank k (P p.fst →ₗ[A] M p.fst) = 1 := by
+        rw [hP]; simp
+      -- Both Hom spaces are nontrivial (finrank = 1)
+      haveI : Module.Finite k ↥(N p) :=
+        Module.Finite.of_injective ((N p).subtype.restrictScalars k) Subtype.val_injective
+      haveI : FiniteDimensional k ↥(N p) := inferInstance
+      haveI : FiniteDimensional k (P p.fst) := Module.Finite.trans A (P p.fst)
+      -- Simple modules are finite-dimensional
+      haveI : ∀ j, Module.Finite k (M j) := by
+        intro j
+        haveI : Nontrivial (M j) := IsSimpleModule.nontrivial A (M j)
+        obtain ⟨v, hv⟩ := exists_ne (0 : M j)
+        let φ : A →ₗ[k] M j := (LinearMap.toSpanSingleton A (M j) v).restrictScalars k
+        have hφ_surj : Function.Surjective φ := by
+          intro m
+          have hrange : LinearMap.range (LinearMap.toSpanSingleton A (M j) v) = ⊤ := by
+            rcases IsSimpleOrder.eq_bot_or_eq_top
+              (LinearMap.range (LinearMap.toSpanSingleton A (M j) v)) with h | h
+            · exact absurd (show v = 0 from by
+                have : v ∈ LinearMap.range
+                    (LinearMap.toSpanSingleton A (M j) v) := ⟨1, one_smul A v⟩
+                rw [h] at this; exact (Submodule.mem_bot A).mp this) hv
+            · exact h
+          exact LinearMap.range_eq_top.mp hrange m
+        exact Module.Finite.of_surjective φ hφ_surj
+      -- Hom spaces are finite-dimensional
+      haveI : Module.Finite k (↥(N p) →ₗ[A] M p.fst) :=
+        Module.Finite.of_injective
+          (LinearMap.restrictScalarsₗ k A (↥(N p)) (M p.fst) k)
+          (LinearMap.restrictScalars_injective k)
+      haveI : Module.Finite k (P p.fst →ₗ[A] M p.fst) :=
+        Module.Finite.of_injective
+          (LinearMap.restrictScalarsₗ k A (P p.fst) (M p.fst) k)
+          (LinearMap.restrictScalars_injective k)
+      -- Get nonzero maps from both
+      have hnt1 : Nontrivial (↥(N p) →ₗ[A] M p.fst) := by
+        rw [← Module.finrank_pos_iff (R := k)]; omega
+      have hnt2 : Nontrivial (P p.fst →ₗ[A] M p.fst) := by
+        rw [← Module.finrank_pos_iff (R := k)]; omega
+      obtain ⟨φ, hφ⟩ := exists_ne (0 : ↥(N p) →ₗ[A] M p.fst)
+      obtain ⟨ψ, hψ⟩ := exists_ne (0 : P p.fst →ₗ[A] M p.fst)
+      exact Etingof.indecomposable_projective_iso_of_hom (k := k)
+        (hindec p) (hP_indec p.fst) φ hφ ψ hψ
+    -- Step 2: Build the A-linear equivalence A ≅ ⊕_i (Fin (dim M_i) → P i).
+    -- First: A ≅ ⊕_p A·e_p (from complete orthogonal idempotents + internal direct sum)
+    have hint := Theorem921.isInternal_leftIdeals_of_completeOrthogonalIdempotents e he_coi
+    -- DirectSum.IsInternal means coeLinearMap is bijective
+    let decomp : A ≃ₗ[A] ⨁ p, ↥(N p) :=
+      (LinearEquiv.ofBijective (DirectSum.coeLinearMap N) hint).symm
+    -- Second: ⊕_p A·e_p ≃ ⊕_p P_{p.fst} (component-wise via hiso)
+    -- Use δ i j = P i (constant in j) for the sigma curry
+    let δ : (i : ι) → Fin (Module.finrank k (M i)) → Type _ := fun i _ => P i
+    -- Component-wise linear equivalences
+    let isoP : ∀ (p : Σ i : ι, Fin (Module.finrank k (M i))),
+        ↥(N p) ≃ₗ[A] δ p.fst p.snd :=
+      fun p => Classical.choice (hiso p)
+    -- ⊕ p, N(p) ≃ ⊕ p, δ p.fst p.snd
+    let dsIso : (⨁ p, ↥(N p)) ≃ₗ[A] ⨁ (p : Σ i : ι, Fin (Module.finrank k (M i))),
+        δ p.fst p.snd :=
+      DFinsupp.mapRange.linearEquiv isoP
+    -- Third: ⊕ p, δ p.fst p.snd ≃ ⊕ i, ⊕ j, δ i j  (sigma curry)
+    let sigCurry :=
+      @DirectSum.sigmaLcurryEquiv A _ ι (fun i => Fin (Module.finrank k (M i))) δ _ _ _
+    -- Fourth: for each i, ⊕ (j : Fin _), P i ≃ (Fin _ → P i)
+    let piEquiv : (⨁ (i : ι), ⨁ (_ : Fin (Module.finrank k (M i))), P i) ≃ₗ[A]
+        ⨁ (i : ι), (Fin (Module.finrank k (M i)) → P i) :=
+      DFinsupp.mapRange.linearEquiv (fun i =>
+        DirectSum.linearEquivFunOnFintype A (Fin (Module.finrank k (M i)))
+          (fun _ => P i))
+    -- Compose all four equivalences
+    exact ⟨decomp.trans (dsIso.trans (sigCurry.trans piEquiv))⟩
+  -- Apply the full COI construction lemma
+  exact Theorem921.exists_complete_orthogonal_idempotents_for_simples M hM hM_exhaustive
 
 /-- **Theorem 9.2.1(iii)**: Completeness of the projective cover classification.
 
@@ -1264,7 +1892,48 @@ theorem Etingof.Theorem_9_2_1_iii
     [∀ i, Module.Projective A (P i)] [∀ i, Module.Finite A (P i)]
     (hP_indec : ∀ i, Etingof.IsIndecomposable A (P i))
     (hP : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0)
-    (Q : Type*) [AddCommGroup Q] [Module A Q]
+    (Q : Type uA) [AddCommGroup Q] [Module A Q] [Module k Q] [IsScalarTower k A Q]
+    [SMulCommClass A k Q]
     [Module.Projective A Q] [Module.Finite A Q] (hQ_indec : Etingof.IsIndecomposable A Q) :
     ∃ i, Nonempty (Q ≃ₗ[A] P i) := by
-  sorry
+  -- Proof strategy (Etingof):
+  -- Q has a simple quotient M_{j₀}, so Hom(Q, M_{j₀}) ≠ 0.
+  -- P_{j₀} also has Hom(P_{j₀}, M_{j₀}) = 1.
+  -- By indecomposable_projective_iso_of_hom (Fitting's lemma), Q ≅ P_{j₀}.
+  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  haveI : Nontrivial Q := hQ_indec.1
+  haveI : FiniteDimensional k Q := Module.Finite.trans A Q
+  -- Step 1: Q has a nonzero map to some M_{j₀}
+  -- Q has a maximal submodule (A is artinian, Q is f.g.)
+  obtain ⟨N, hN_coatom⟩ := Theorem921.exists_isCoatom_submodule (R := A) (M := Q)
+  haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  -- Q/N is a simple A-module. The quotient map Q → Q/N is nonzero.
+  -- By exhaustiveness, Q/N ≅ M j₀ for some j₀. Composing gives a nonzero Q → M j₀.
+  obtain ⟨j₀, ⟨e⟩⟩ := hM_exhaustive (Q ⧸ N)
+  -- Nonzero map Q → M j₀: compose quotient with the isomorphism
+  let φ : Q →ₗ[A] M j₀ := e.toLinearMap.comp N.mkQ
+  have hφ : φ ≠ 0 := by
+    intro h
+    apply hN_coatom.1
+    rw [Submodule.eq_top_iff']
+    intro q
+    have h1 : (e (N.mkQ q) : M j₀) = 0 := LinearMap.congr_fun h q
+    have h2 : N.mkQ q = 0 := e.injective (by rwa [map_zero])
+    exact (Submodule.Quotient.mk_eq_zero N).mp h2
+  -- Step 2: P j₀ has a nonzero map to M j₀ (finrank = 1 implies nontrivial Hom space)
+  haveI : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
+  -- M j₀ is finite over k: it's iso to Q/N which is a quotient of the f.g. module Q
+  haveI : Module.Finite A (M j₀) := Module.Finite.equiv e
+  haveI : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
+  haveI : Module.Finite k (P j₀ →ₗ[A] M j₀) :=
+    Module.Finite.of_injective
+      (LinearMap.restrictScalarsₗ k A (P j₀) (M j₀) k)
+      (LinearMap.restrictScalars_injective k)
+  have hPdim : Module.finrank k (P j₀ →ₗ[A] M j₀) = 1 := by
+    have := hP j₀ j₀; simp only [ite_true] at this; exact this
+  have hP_nt : Nontrivial (P j₀ →ₗ[A] M j₀) := by
+    rw [← Module.finrank_pos_iff (R := k)]; omega
+  obtain ⟨ψ, hψ⟩ := exists_ne (0 : P j₀ →ₗ[A] M j₀)
+  -- Step 3: By uniqueness, Q ≅ P j₀
+  exact ⟨j₀, Etingof.indecomposable_projective_iso_of_hom (k := k) hQ_indec
+    (hP_indec j₀) φ hφ ψ hψ⟩

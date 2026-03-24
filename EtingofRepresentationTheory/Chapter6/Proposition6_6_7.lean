@@ -54,59 +54,6 @@ private theorem reflFunctorPlus_obj_eq
   | .isTrue _ => rw [hd]
   | .isFalse hii => exact absurd rfl hii
 
-/-- At v ≠ i, the linear equiv between F⁺ᵢ(ρ).obj v and ρ.obj v (the identity). -/
-private noncomputable def reflFunctorPlus_equiv_ne
-    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    {i : Q} (hi : Etingof.IsSink Q i)
-    (ρ : Etingof.QuiverRepresentation k Q) (v : Q) (hv : v ≠ i) :
-    @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
-      (Etingof.reflectionFunctorPlus Q i hi ρ) v ≃ₗ[k] ρ.obj v := by
-  unfold Etingof.reflectionFunctorPlus
-  simp only
-  match hd : (‹DecidableEq Q› v i) with
-  | .isTrue hvi => exact absurd hvi hv
-  | .isFalse _ => rw [hd]
-
-/-- Convert a reversed-quiver arrow between non-sink vertices back to original.
-Uses match on the DecidableEq instance for clean definitional reduction. -/
-private def reversedArrow_ne_ne
-    {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a b : Q}
-    (ha : a ≠ i) (hb : b ≠ i)
-    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) : a ⟶ b := by
-  change @Etingof.ReversedAtVertexHom Q inst _ i a b at e
-  unfold Etingof.ReversedAtVertexHom at e
-  revert e
-  exact match inst a i, inst b i with
-  | .isTrue h, _ => absurd h ha
-  | .isFalse _, .isTrue h => absurd h hb
-  | .isFalse _, .isFalse _ => fun e => e
-
-/-! ## Decidable instance helpers
-
-`reflectionFunctorPlus` is defined using `Decidable.casesOn`, creating opaque type-level
-terms. These helpers normalize `Decidable` instances to known constructors, enabling
-`simp`-based reduction in proof contexts where `rw`/`generalize` fail due to dependent
-type constraints.
-
-**Known blocker**: Even with these helpers, `simp` cannot rewrite `inst a i` inside
-`Decidable.rec` terms in the goal when the motive involves dependent types. A future
-refactor of `reflectionFunctorPlus` to use explicit vertex-indexed data (avoiding
-`Decidable.casesOn`) would resolve this. -/
-
-/-- A `Decidable p` with proof of `¬p` must be `.isFalse`. Uses proof irrelevance. -/
-private lemma decidable_eq_isFalse {p : Prop} (h : ¬p) (d : Decidable p) :
-    d = .isFalse h := by
-  cases d with
-  | isTrue hp => exact absurd hp h
-  | isFalse _ => rfl
-
-/-- A `Decidable p` with proof of `p` must be `.isTrue`. Uses proof irrelevance. -/
-private lemma decidable_eq_isTrue {p : Prop} (h : p) (d : Decidable p) :
-    d = .isTrue h := by
-  cases d with
-  | isTrue _ => rfl
-  | isFalse hp => exact absurd h hp
-
 /-- At a sink i, the source vertex of an arrow into i is distinct from i. -/
 private theorem arrowsInto_ne_sink
     {Q : Type*} [Quiver Q] {i : Q} (hi : Etingof.IsSink Q i)
@@ -164,27 +111,6 @@ private theorem reflFunctorPlus_map_from_sink_component
   rw [h_da, h_db]
   intro x
   rfl
-
-set_option maxHeartbeats 400000 in
--- reason: unfolding reflectionFunctorPlus + rewriting Decidable instances
-/-- At non-sink vertices, the F⁺ᵢ map between a and b (both ≠ i) equals
-the original ρ map, after transport through the equivAt_ne equivalences. -/
-private theorem reflFunctorPlus_mapLinear_ne_ne
-    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
-    {i : Q} (hi : Etingof.IsSink Q i)
-    (ρ : Etingof.QuiverRepresentation k Q) {a b : Q}
-    (ha : a ≠ i) (hb : b ≠ i)
-    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b)
-    (w : @Etingof.QuiverRepresentation.obj k Q _
-      (Etingof.reversedAtVertex Q i)
-      (Etingof.reflectionFunctorPlus Q i hi ρ) a) :
-    (Etingof.reflFunctorPlus_equivAt_ne hi ρ b hb)
-      (@Etingof.QuiverRepresentation.mapLinear k Q _
-        (Etingof.reversedAtVertex Q i)
-        (Etingof.reflectionFunctorPlus Q i hi ρ) a b e w) =
-    ρ.mapLinear (reversedArrow_ne_ne ha hb e)
-      ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a ha) w) := by
-  exact Etingof.reflFunctorPlus_mapLinear_ne_ne hi ρ ha hb e w
 
 /-- Reflection functors preserve indecomposability at a sink:
 F⁺ᵢ(V) is either indecomposable or zero.

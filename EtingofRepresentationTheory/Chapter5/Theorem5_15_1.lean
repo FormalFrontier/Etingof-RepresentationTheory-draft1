@@ -224,6 +224,19 @@ theorem spechtMultiplicity_vanishing (n : ℕ) (mu nu : Nat.Partition n)
     ⟨fun f g => by rw [hall f, hall g]⟩
   exact Module.finrank_zero_of_subsingleton
 
+/-- Multiplicity is zero when ν does not dominate μ. This is more general than
+`spechtMultiplicity_vanishing` (which requires StrictDominates): it also covers
+the case where μ and ν are incomparable in the dominance order. -/
+theorem spechtMultiplicity_vanishing_general (n : ℕ) (mu nu : Nat.Partition n)
+    (h : ¬ Nat.Partition.Dominates nu mu) :
+    spechtMultiplicity n mu nu = 0 := by
+  simp only [spechtMultiplicity]
+  have hall : ∀ f : PermutationModule n mu →ₗ[SymGroupAlgebra n] ↥(SpechtModule n nu), f = 0 :=
+    Proposition5_14_1_vanishing_general n mu nu h
+  have : Subsingleton (PermutationModule n mu →ₗ[SymGroupAlgebra n] ↥(SpechtModule n nu)) :=
+    ⟨fun f g => by rw [hall f, hall g]⟩
+  exact Module.finrank_zero_of_subsingleton
+
 /-- Multiplicity of V_λ in U_λ is 1 (Prop 5.14.1 diagonal). -/
 theorem spechtMultiplicity_diagonal (n : ℕ) (la : Nat.Partition n) :
     spechtMultiplicity n la la = 1 :=
@@ -1270,6 +1283,558 @@ private theorem finsuppToPartition_toFinsupp {n : ℕ} (la : Nat.Partition n)
       exact (List.mem_replicate.mp (Multiset.mem_coe.mp hx)).2)
   rw [hfsp, hfrep, add_zero]
 
+/-- If `finsuppToPartition v = la`, then the multisets of ALL entries (including zeros)
+of `v` and `la.toFinsupp` are equal. This follows because both have cardinality n,
+and the same nonzero parts (= la.parts), hence the same number of zeros. -/
+private theorem multiset_entries_eq_of_partition_eq {n : ℕ}
+    (la : Nat.Partition n)
+    (v : Fin n →₀ ℕ) (hsum : ∑ i, v i = n)
+    (heq : finsuppToPartition v hsum = la) :
+    Finset.univ.val.map v = Finset.univ.val.map (Nat.Partition.toFinsupp la) := by
+  -- Two multisets with equal cardinality and equal nonzero parts are equal.
+  set M₁ := Finset.univ.val.map (v : Fin n → ℕ)
+  set M₂ := Finset.univ.val.map (Nat.Partition.toFinsupp la : Fin n → ℕ)
+  -- Both have cardinality n
+  have hcard : M₁.card = M₂.card := by simp [M₁, M₂]
+  -- Both have the same nonzero filter (= la.parts)
+  have hfilt_v : M₁.filter (· ≠ 0) = la.parts := by
+    have h1 : (finsuppToPartition v hsum).parts = M₁.filter (· ≠ 0) := by
+      simp [finsuppToPartition, Nat.Partition.ofSums_parts, M₁]
+    rw [heq] at h1; exact h1.symm
+  have hla_sum : ∑ i : Fin n, (Nat.Partition.toFinsupp la) i = n := by
+    have hfs : (Nat.Partition.toFinsupp la).sum (fun _ m => m) =
+        ∑ i : Fin n, (Nat.Partition.toFinsupp la) i :=
+      Finsupp.sum_fintype _ _ (fun _ => rfl)
+    rw [← hfs, Nat.Partition.toFinsupp, Finsupp.equivFunOnFinite_symm_sum]
+    have hsorted : la.sortedParts.sum = n := by
+      unfold Nat.Partition.sortedParts
+      have h := congrArg Multiset.sum (Multiset.sort_eq la.parts (· ≥ ·))
+      rw [Multiset.sum_coe] at h; linarith [la.parts_sum]
+    have hlen : la.sortedParts.length ≤ n := by
+      calc la.sortedParts.length
+          ≤ la.sortedParts.sum := List.length_le_sum_of_one_le _ (fun i hi => by
+            unfold Nat.Partition.sortedParts at hi
+            exact la.parts_pos (Multiset.sort_eq la.parts (· ≥ ·) ▸ Multiset.mem_coe.mpr hi))
+        _ = n := hsorted
+    linarith [list_sum_eq_fin_sum_getD la.sortedParts n hlen]
+  have hfilt_la : M₂.filter (· ≠ 0) = la.parts := by
+    have hla_eq := finsuppToPartition_toFinsupp la hla_sum
+    have h1 : (finsuppToPartition (Nat.Partition.toFinsupp la) hla_sum).parts =
+        M₂.filter (· ≠ 0) := by
+      simp [finsuppToPartition, Nat.Partition.ofSums_parts, M₂]
+    rw [hla_eq] at h1; exact h1.symm
+  -- Equal cardinality + equal nonzero filter → equal multisets
+  have hfilt : M₁.filter (· ≠ 0) = M₂.filter (· ≠ 0) := by rw [hfilt_v, hfilt_la]
+  ext a
+  by_cases ha : a = 0
+  · -- For a = 0: count 0 = card - (filter ≠ 0).card
+    subst ha
+    -- count 0 M = card M - card (filter (· ≠ 0) M)
+    -- because filter (· = 0) M = replicate (count 0 M) 0
+    suffices h : M₁.count 0 = M₂.count 0 from h
+    -- Both: count 0 M = card M - ∑_{a≠0} count a M
+    -- Since counts of nonzero elements agree (from hfilt) and total cards agree:
+    have := congrArg Multiset.card hfilt
+    -- card (filter (· ≠ 0) M₁) = card (filter (· ≠ 0) M₂)
+    -- count 0 M = card M - card (filter (· ≠ 0) M) [since filter + complement = full]
+    have hc1 : M₁.count 0 + (M₁.filter (· ≠ 0)).card = M₁.card := by
+      have := congrArg Multiset.card (Multiset.filter_add_not (p := (· ≠ 0)) M₁)
+      simp only [Multiset.card_add] at this
+      have : (M₁.filter (fun x => ¬(x ≠ 0))).card = M₁.count 0 := by
+        simp only [not_not]
+        rw [Multiset.filter_eq' M₁ 0, Multiset.card_replicate]
+      omega
+    have hc2 : M₂.count 0 + (M₂.filter (· ≠ 0)).card = M₂.card := by
+      have := congrArg Multiset.card (Multiset.filter_add_not (p := (· ≠ 0)) M₂)
+      simp only [Multiset.card_add] at this
+      have : (M₂.filter (fun x => ¬(x ≠ 0))).card = M₂.count 0 := by
+        simp only [not_not]
+        rw [Multiset.filter_eq' M₂ 0, Multiset.card_replicate]
+      omega
+    omega
+  · -- For a ≠ 0: count in M = count in M.filter(≠0)
+    have h1 : ∀ M : Multiset ℕ, Multiset.count a (M.filter (fun x => x ≠ 0)) = Multiset.count a M := by
+      intro M; exact Multiset.count_filter_of_pos ha
+    have : Multiset.count a (M₁.filter (· ≠ 0)) = Multiset.count a (M₂.filter (· ≠ 0)) := by
+      rw [hfilt]
+    rw [h1, h1] at this; exact this
+
+/-- From multiset equality of entries, derive inner product equality with any function.
+If `v` and `w` have the same multiset of values over `Fin n`, then for any `u`,
+`∑ v(i)² = ∑ w(i)²`. Combined with `∑(a-v)² = ∑(a-w)²` expansion, this gives
+`∑ a·v = ∑ a·w`. -/
+private theorem inner_product_eq_of_partition_eq {n : ℕ}
+    (la : Nat.Partition n)
+    (π : Equiv.Perm (Fin n))
+    (hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n)
+    (heq : finsuppToPartition
+      (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+      (sum_shifted_sub_permExponent la π hle) = la) :
+    ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ)) *
+        (permExponent n π i : ℤ) =
+    ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ)) *
+        (rhoShift n i : ℤ) := by
+  -- Step 1: multiset equality of v = la.toFinsupp + ρ - e_π and la.toFinsupp
+  set v := Nat.Partition.toFinsupp la + rhoShift n - permExponent n π with hv_def
+  have hsum_v := sum_shifted_sub_permExponent la π hle
+  have hmulti := multiset_entries_eq_of_partition_eq la v hsum_v heq
+  -- Step 2: From multiset equality, derive sum-of-squares equality (in ℤ)
+  have hsq_int : ∑ i : Fin n, ((v i : ℤ)) ^ 2 =
+      ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ)) ^ 2 := by
+    have hmaps : (Finset.univ.val.map v).map (fun x : ℕ => (x : ℤ) ^ 2) =
+        (Finset.univ.val.map (Nat.Partition.toFinsupp la)).map (fun x : ℕ => (x : ℤ) ^ 2) := by
+      rw [hmulti]
+    have lhs : (Finset.univ.val.map v).map (fun x : ℕ => (x : ℤ) ^ 2) =
+        Finset.univ.val.map (fun i => (v i : ℤ) ^ 2) := by rw [Multiset.map_map]; rfl
+    have rhs : (Finset.univ.val.map (Nat.Partition.toFinsupp la)).map (fun x : ℕ => (x : ℤ) ^ 2) =
+        Finset.univ.val.map (fun i => (Nat.Partition.toFinsupp la i : ℤ) ^ 2) := by
+      rw [Multiset.map_map]; rfl
+    rw [lhs, rhs] at hmaps
+    exact congr_arg Multiset.sum hmaps
+  -- v(i) = a(i) - e_π(i) in ℤ
+  have hv_eq : ∀ i : Fin n, (v i : ℤ) =
+      (Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ) - (permExponent n π i : ℤ) := by
+    intro i
+    simp only [hv_def, Finsupp.coe_tsub, Finsupp.coe_add, Pi.sub_apply, Pi.add_apply]
+    have := Finsupp.coe_le_coe.mpr hle i
+    simp only [Finsupp.coe_add, Pi.add_apply] at this
+    omega
+  -- Substitute into sum of squares: ∑(a-e)² = ∑ la²
+  have hsq2 : ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ) -
+      (permExponent n π i : ℤ)) ^ 2 =
+    ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ)) ^ 2 := by
+    convert hsq_int using 1; congr 1; ext i; rw [hv_eq]
+  -- Step 3: ∑ e_π(i)² = ∑ ρ(i)² (both are ∑ i² under permutation/reversal)
+  have hperm_sq : ∑ i : Fin n, ((permExponent n π i : ℤ)) ^ 2 =
+      ∑ i : Fin n, ((rhoShift n i : ℤ)) ^ 2 := by
+    -- ∑ (π⁻¹ i).val² = ∑ i.val² (reindex by π)
+    have h1 : ∑ i : Fin n, ((permExponent n π i : ℤ)) ^ 2 =
+        ∑ i : Fin n, ((i.val : ℤ)) ^ 2 := by
+      have hf : ∀ i : Fin n, (permExponent n π i : ℤ) = ((π⁻¹ i).val : ℤ) := by
+        intro i; simp [permExponent, Finsupp.equivFunOnFinite]
+      simp_rw [hf]
+      exact Equiv.sum_comp π⁻¹ (fun i : Fin n => ((i.val : ℤ)) ^ 2)
+    -- ∑ (n-1-i)² = ∑ i² (reindex by Fin.rev)
+    have h2 : ∑ i : Fin n, ((rhoShift n i : ℤ)) ^ 2 =
+        ∑ i : Fin n, ((i.val : ℤ)) ^ 2 := by
+      have hg : ∀ i : Fin n, (rhoShift n i : ℤ) = ((Fin.rev i).val : ℤ) := by
+        intro i; simp [rhoShift, Finsupp.equivFunOnFinite, Fin.rev]; omega
+      simp_rw [hg]
+      exact Equiv.sum_comp (Fin.revOrderIso (n := n)).toEquiv
+        (fun i : Fin n => ((i.val : ℤ)) ^ 2)
+    linarith
+  -- Step 4: ∑(a-e)² = ∑(a-ρ)² (since RHS of hsq2 = ∑la² = ∑(a-ρ)²)
+  have hsq3 : ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ) -
+      (rhoShift n i : ℤ)) ^ 2 =
+    ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ)) ^ 2 := by
+    congr 1; ext i; congr 1; omega
+  have hsq4 : ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ) -
+      (permExponent n π i : ℤ)) ^ 2 =
+    ∑ i : Fin n, ((Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ) -
+      (rhoShift n i : ℤ)) ^ 2 := by rw [hsq2, hsq3]
+  -- Step 5: Expand and conclude using hperm_sq
+  -- ∑(a-e)² = ∑a² - 2∑a·e + ∑e², ∑(a-r)² = ∑a² - 2∑a·r + ∑r²
+  -- From hsq4 + hperm_sq: ∑a·e = ∑a·r
+  set af : Fin n → ℤ := fun i => (Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ)
+  set ef : Fin n → ℤ := fun i => (permExponent n π i : ℤ)
+  set rf : Fin n → ℤ := fun i => (rhoShift n i : ℤ)
+  -- From hsq4: ∑(a-e)² = ∑(a-r)², expand to get the inner product equality
+  -- Instead of expanding, compute ∑(a-e)² - ∑(a-r)² = 0 pointwise
+  -- ∑ [(a-e)² - (a-r)²] = 0
+  -- (a-e)² - (a-r)² = (r-e)(2a-e-r)
+  -- So ∑(r-e)(2a-r-e) = 0
+  -- Also ∑e² = ∑r² from hperm_sq
+  -- Directly use linarith on the expanded sums
+  -- Actually, let's just use a direct calculation:
+  -- ∑ a*e - ∑ a*r = (1/2)(∑(a-r)² - ∑(a-e)² + ∑e² - ∑r²) = 0
+  -- From hsq4 and hperm_sq, derive the goal
+  -- ∑(a-e)² - ∑(a-r)² = 0  and  ∑e² - ∑r² = 0
+  -- Pointwise: (a-e)² - (a-r)² = -2ae + e² + 2ar - r²
+  -- Sum: -2∑ae + ∑e² + 2∑ar - ∑r² = 0
+  -- Using ∑e² = ∑r²: -2∑ae + 2∑ar = 0  →  ∑ae = ∑ar
+  -- Pointwise: (a-e)² - (a-r)² = 2a(r-e) + e² - r²
+  -- So ∑[(a-e)² - (a-r)²] = 2∑a(r-e) + ∑(e²-r²)
+  -- From hsq4: ∑(a-e)² = ∑(a-r)², so LHS = 0
+  -- From hperm_sq: ∑e² = ∑r², so ∑(e²-r²) = 0
+  -- Therefore 2∑a(r-e) = 0, i.e., ∑ar = ∑ae
+  -- Rewrite goal in terms of ar and ae
+  suffices h : ∑ i, af i * rf i = ∑ i, af i * ef i by linarith
+  -- Use the two sum equalities (hsq4 and hperm_sq) pointwise
+  -- ∑[(a-e)²] = ∑[(a-r)²]  from hsq4
+  -- Subtract pointwise then sum: ∑[(a-e)² - (a-r)²] = 0
+  have hzero : ∑ i, ((af i - ef i) ^ 2 - (af i - rf i) ^ 2) = 0 := by
+    rw [Finset.sum_sub_distrib]; linarith
+  -- Rewrite pointwise difference
+  have hpw : ∀ i : Fin n,
+      (af i - ef i) ^ 2 - (af i - rf i) ^ 2 =
+      2 * af i * (rf i - ef i) + (ef i ^ 2 - rf i ^ 2) := by intro i; ring
+  simp_rw [hpw] at hzero
+  rw [Finset.sum_add_distrib] at hzero
+  have hperm_sq' : ∑ i, (ef i ^ 2 - rf i ^ 2) = 0 := by
+    rw [Finset.sum_sub_distrib]; linarith
+  have hmul : ∑ i, 2 * af i * (rf i - ef i) = 0 := by linarith
+  have hmul' : ∑ i, (af i * rf i - af i * ef i) = 0 := by
+    have : ∀ i : Fin n, 2 * af i * (rf i - ef i) = 2 * (af i * rf i - af i * ef i) := by
+      intro i; ring
+    simp_rw [this, ← Finset.mul_sum] at hmul
+    linarith
+  linarith [Finset.sum_sub_distrib (f := fun i => af i * rf i) (g := fun i => af i * ef i)
+    (s := Finset.univ)]
+
+/-- The shifted partition la + ρ is strictly decreasing: if i < j then
+(la.toFinsupp + ρ)(i) > (la.toFinsupp + ρ)(j). -/
+private theorem shifted_partition_strict_mono {n : ℕ} (la : Nat.Partition n) :
+    StrictAnti (fun i : Fin n => (Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ)) := by
+  intro i j hij
+  simp only
+  -- la.toFinsupp is weakly decreasing (sorted partition)
+  -- ρ is strictly decreasing: ρ(i) = n-1-i > n-1-j = ρ(j) when i < j
+  -- Sum of weakly decreasing + strictly decreasing = strictly decreasing
+  have hla_mono : (Nat.Partition.toFinsupp la j : ℤ) ≤ (Nat.Partition.toFinsupp la i : ℤ) := by
+    simp only [Nat.Partition.toFinsupp, Finsupp.coe_equivFunOnFinite_symm]
+    push_cast; apply Int.ofNat_le.mpr
+    set sp := la.sortedParts
+    have hsorted : sp.Pairwise (· ≥ ·) := Multiset.pairwise_sort la.parts (· ≥ ·)
+    by_cases hj : j.val < sp.length
+    · have hi : i.val < sp.length := by omega
+      have hsorted' := List.pairwise_iff_getElem.mp hsorted i.val j.val hi hj hij
+      simp only [List.getD] at hsorted' ⊢
+      rw [sp.getElem?_eq_getElem hi, sp.getElem?_eq_getElem hj, Option.getD_some, Option.getD_some]
+      exact hsorted'
+    · push_neg at hj
+      simp only [List.getD, sp.getElem?_eq_none (by omega), Option.getD_none]
+      exact Nat.zero_le _
+  have hρ_strict : (rhoShift n j : ℤ) < (rhoShift n i : ℤ) := by
+    simp [rhoShift, Finsupp.equivFunOnFinite]
+    omega
+  linarith
+
+/-- If `e_π = ρ` (i.e., `permExponent n π = rhoShift n`), then `π = Fin.revPerm`. -/
+private theorem rev_of_permExponent_eq_rhoShift {n : ℕ} (π : Equiv.Perm (Fin n))
+    (h : permExponent n π = rhoShift n) : π = Fin.revPerm := by
+  -- permExponent n π maps i ↦ (π⁻¹ i).val, rhoShift n maps i ↦ n-1-i
+  -- So π⁻¹ = revPerm, hence π = revPerm (since revPerm is self-inverse).
+  have hinv : π⁻¹ = Fin.revPerm := by
+    ext i
+    have hi := congr_fun (congr_arg DFunLike.coe h) i
+    simp [permExponent, rhoShift, Finsupp.equivFunOnFinite] at hi
+    simp [Fin.ext_iff, Fin.revPerm]
+    omega
+  have : Fin.revPerm⁻¹ = (Fin.revPerm : Equiv.Perm (Fin n)) := by
+    ext i; simp [Fin.revPerm]
+  rw [← inv_inv π, hinv, this]
+
+/-- For any S ⊆ Fin n with |S| = k, ∑_{j ∈ S} j.val ≤ (n-1) + (n-2) + ... + (n-k).
+Equivalently, the top k elements of Fin n maximize the val-sum. -/
+private theorem sum_fin_subset_le_sum_top (n : ℕ) (S : Finset (Fin n))
+    (k : ℕ) (hk : k ≤ n) (hcard : S.card = k) :
+    S.sum (fun j => (j.val : ℤ)) ≤
+    ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) := by
+  -- Strategy: complement argument. sum(S) + sum(Sᶜ) = sum(univ).
+  -- Any m-element subset of Fin n has val-sum ≥ 0+1+...+(m-1).
+  -- So sum(Sᶜ) ≥ 0+1+...+(n-k-1), hence sum(S) ≤ sum(univ) - that = sum(top k).
+  -- Strengthened induction: if all elements of T have val ≥ b, then sum ≥ ∑_{i<m} (b+i).
+  suffices hmin : ∀ (T : Finset (Fin n)) (m b : ℕ), T.card = m →
+      (∀ j ∈ T, b ≤ j.val) →
+      ∑ i ∈ Finset.range m, ((b + i : ℕ) : ℤ) ≤ T.sum (fun j => (j.val : ℤ)) by
+    -- Apply to complement with b = 0
+    have hSc_card : (Finset.univ \ S).card = n - k := by
+      rw [Finset.card_sdiff_of_subset (Finset.subset_univ S), Finset.card_univ,
+        Fintype.card_fin, hcard]
+    have hSc_lb := hmin _ _ 0 hSc_card (fun j _ => Nat.zero_le _)
+    simp at hSc_lb
+    have huniv : Finset.univ.sum (fun j : Fin n => (j.val : ℤ)) =
+        ∑ i ∈ Finset.range n, (i : ℤ) := by
+      rw [← Fin.sum_univ_eq_sum_range]
+    have hS_eq : S.sum (fun j => (j.val : ℤ)) =
+        Finset.univ.sum (fun j : Fin n => (j.val : ℤ)) -
+        (Finset.univ \ S).sum (fun j => (j.val : ℤ)) := by
+      have := Finset.sum_sdiff (f := fun j : Fin n => (j.val : ℤ)) (Finset.subset_univ S)
+      linarith
+    rw [hS_eq, huniv]
+    suffices hrhs : ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) =
+        ∑ i ∈ Finset.range n, (i : ℤ) - ∑ i ∈ Finset.range (n - k), (i : ℤ) by
+      linarith
+    have : ∑ i ∈ Finset.range k, ((n - 1 - i : ℕ) : ℤ) =
+        ∑ i ∈ Finset.range k, ((n : ℤ) - 1 - i) := by
+      apply Finset.sum_congr rfl; intro i hi
+      simp at hi; push_cast; omega
+    rw [this]
+    rw [Finset.sum_sub_distrib]
+    simp only [Finset.sum_const, Finset.card_range, nsmul_eq_mul]
+    -- Goal: ↑k * (↑n - 1) - ∑ i in range k, ↑i = ∑ i in range n, ↑i - ∑ i in range (n-k), ↑i
+    -- Use Gauss formula: ∑ i in range m, (i : ℤ) = m * (m - 1) / 2
+    -- All sums are over ℤ, but with Nat values. Use omega on the Nat level.
+    -- Actually ∑ i in range m, (i : ℤ) is hard for omega. Let's use linarith with Gauss.
+    have gauss : ∀ p : ℕ, 2 * ∑ i ∈ Finset.range p, (i : ℤ) = (p : ℤ) * ((p : ℤ) - 1) := by
+      intro p; induction p with
+      | zero => simp
+      | succ p ih => rw [Finset.sum_range_succ]; push_cast; linarith
+    have g1 := gauss k; have g2 := gauss n; have g3 := gauss (n - k)
+    -- Substitute ↑(n - k) = ↑n - ↑k in g3
+    have hnk : ((n - k : ℕ) : ℤ) = (n : ℤ) - k := by omega
+    rw [hnk] at g3
+    -- Now g3 : 2 * ∑ i ∈ range (n-k), ↑i = (↑n - ↑k) * (↑n - ↑k - 1)
+    nlinarith
+  -- Proof of hmin by induction on m
+  intro T m b hT hb
+  induction m generalizing T b with
+  | zero =>
+    rw [Finset.card_eq_zero.mp hT]; simp
+  | succ m ih =>
+    have hT_nonempty : T.Nonempty := Finset.card_pos.mp (hT ▸ Nat.succ_pos m)
+    obtain ⟨t_min, ht_min_mem, ht_min_le⟩ :=
+      T.exists_min_image (fun j : Fin n => j.val) hT_nonempty
+    set T' := T.erase t_min
+    have hT'_card : T'.card = m := by
+      rw [Finset.card_erase_of_mem ht_min_mem, hT]; rfl
+    -- Every j ∈ T' has j.val ≥ t_min.val + 1
+    have hT'_lb : ∀ j ∈ T', t_min.val + 1 ≤ j.val := by
+      intro j hj
+      have hj_mem : j ∈ T := Finset.mem_of_mem_erase hj
+      have hj_ne : j ≠ t_min := Finset.ne_of_mem_erase hj
+      exact Nat.lt_of_le_of_ne (ht_min_le j hj_mem) (fun h => hj_ne (Fin.ext h).symm)
+    -- Apply ih to T' with b' = t_min.val + 1
+    have hih := ih T' (t_min.val + 1) hT'_card hT'_lb
+    -- sum(T) = t_min.val + sum(T')
+    have hsum_split : T.sum (fun j => (j.val : ℤ)) =
+        (t_min.val : ℤ) + T'.sum (fun j => (j.val : ℤ)) := by
+      rw [← Finset.add_sum_erase _ _ ht_min_mem]
+    rw [hsum_split, Finset.sum_range_succ']
+    -- LHS of goal: ∑ i < m+1, (b+i) = (b+0) + ∑ i < m, (b+1+i)
+    -- which matches t_min.val + sum(T') via hih
+    push_cast
+    have hb_le : (b : ℤ) ≤ t_min.val := Int.ofNat_le.mpr (hb t_min ht_min_mem)
+    -- Normalize hih to use separate Int casts
+    have hih' : ∑ i ∈ Finset.range m, ((t_min.val : ℤ) + 1 + i) ≤
+        T'.sum (fun j => (j.val : ℤ)) := by
+      refine le_trans ?_ hih
+      apply Finset.sum_le_sum; intro i _; push_cast; omega
+    -- The goal after push_cast is:
+    -- ∑ x ∈ range m, (↑b + (↑x + 1)) + (↑b + 0) ≤ ↑t_min.val + sum(T')
+    -- Rewrite to a cleaner form
+    change ∑ x ∈ Finset.range m, ((b : ℤ) + (↑x + 1)) + ((b : ℤ) + 0) ≤
+        (t_min.val : ℤ) + T'.sum (fun j => (j.val : ℤ))
+    have h1 : ∑ x ∈ Finset.range m, ((b : ℤ) + (↑x + 1)) ≤
+        ∑ x ∈ Finset.range m, ((t_min.val : ℤ) + 1 + ↑x) :=
+      Finset.sum_le_sum (fun i _ => by linarith)
+    linarith [hih']
+
+/-- Partial sums of rhoShift dominate partial sums of permExponent:
+∑_{i<k} ρ(i) ≥ ∑_{i<k} e_π(i) for all k. This is because ρ picks the top k
+values from {0,...,n-1}, which have maximal sum. -/
+private theorem rhoShift_partial_sum_ge {n : ℕ}
+    (π : Equiv.Perm (Fin n)) (k : ℕ) :
+    (Finset.univ.filter (fun i : Fin n => i.val < k)).sum
+      (fun i => (permExponent n π i : ℤ)) ≤
+    (Finset.univ.filter (fun i : Fin n => i.val < k)).sum
+      (fun i => (rhoShift n i : ℤ)) := by
+  -- Convert LHS to a sum over a k-subset of Fin n
+  -- permExponent n π i = (π⁻¹ i).val, so ∑_{i<k} e_π(i) = ∑_{j ∈ π⁻¹({i|i<k})} j.val
+  -- rhoShift i = n-1-i, so ∑_{i<k} ρ(i) = (n-1) + (n-2) + ... + (n-k) = ∑_{i<k}(n-1-i)
+  set F := Finset.univ.filter (fun j : Fin n => j.val < k)
+  -- LHS: reindex by π⁻¹
+  have hLHS : F.sum (fun i => (permExponent n π i : ℤ)) =
+      (F.map π⁻¹.toEmbedding).sum (fun j => (j.val : ℤ)) := by
+    simp only [Finset.sum_map, Equiv.toEmbedding_apply, permExponent,
+      Finsupp.coe_equivFunOnFinite_symm]
+  -- RHS = ∑_{i<k} (n-1-i) = sum of top k elements
+  have hRHS : F.sum (fun i => (rhoShift n i : ℤ)) =
+      ∑ i ∈ Finset.range (min k n), ((n - 1 - i : ℕ) : ℤ) := by
+    have hrho : ∀ i : Fin n, (rhoShift n i : ℤ) = ((n - 1 - i.val : ℕ) : ℤ) := by
+      intro i; simp [rhoShift, Finsupp.equivFunOnFinite]
+    simp_rw [hrho]
+    -- Use sum_nbij to biject F ↔ range (min k n) via Fin.val
+    apply Finset.sum_nbij (fun i : Fin n => i.val) (fun i hi => ?_) (fun i j hi hj h => ?_)
+        (fun b hb => ?_) (fun i hi => ?_)
+    · -- i ∈ F → i.val ∈ range (min k n)
+      simp [F] at hi; simp; omega
+    · -- Injectivity of Fin.val
+      exact Fin.val_injective h
+    · -- Surjectivity: b ∈ range (min k n) → ∃ i ∈ F, i.val = b
+      simp at hb; refine ⟨⟨b, by omega⟩, ?_, rfl⟩
+      simp [F]; omega
+    · -- Values match
+      rfl
+  rw [hLHS, hRHS]
+  by_cases hk : k ≤ n
+  · rw [min_eq_left hk]
+    refine sum_fin_subset_le_sum_top n _ k hk ?_
+    rw [Finset.card_map]
+    -- F.card = |{i : Fin n | i.val < k}| = k (since k ≤ n)
+    -- The elements of F are exactly ⟨0, _⟩, ..., ⟨k-1, _⟩
+    -- So F has the same card as Finset.range k mapped into Fin n
+    have hkn := hk  -- capture for use in term-mode proofs
+    trans (Finset.range k).card
+    · apply Finset.card_eq_of_equiv
+      exact {
+        toFun := fun ⟨⟨i, hi⟩, hm⟩ => ⟨i, by simp [F] at hm; exact Finset.mem_range.mpr hm⟩
+        invFun := fun ⟨i, hm⟩ => ⟨⟨i, by have := Finset.mem_range.mp hm; omega⟩,
+          by simp [F]; exact Finset.mem_range.mp hm⟩
+        left_inv := fun ⟨⟨i, hi⟩, hm⟩ => by simp
+        right_inv := fun ⟨i, hm⟩ => by simp
+      }
+    · exact Finset.card_range k
+  · push_neg at hk
+    rw [min_eq_right (le_of_lt hk)]
+    -- F = univ, F.map π⁻¹ = univ
+    have hF_univ : F = Finset.univ := by ext ⟨i, hi⟩; simp [F]; omega
+    rw [hF_univ]
+    -- Both sides equal ∑ j : Fin n, j.val
+    -- LHS: univ.map π⁻¹ = univ (since π⁻¹ is a bijection)
+    have hmap_univ : Finset.univ.map (π⁻¹).toEmbedding = Finset.univ := by
+      ext j; simp
+    rw [hmap_univ]
+    -- Both sides = ∑ j : Fin n, j.val
+    -- RHS: ∑ i in range n, (n-1-i) = ∑ j : Fin n, j.val (by reverse substitution)
+    rw [← Fin.sum_univ_eq_sum_range]
+    apply le_of_eq
+    apply Finset.sum_nbij Fin.rev
+      (fun i _ => Finset.mem_univ _)
+      (fun i j _ _ h => Fin.rev_injective h)
+      (fun j _ => ⟨Fin.rev j, Finset.mem_univ _, Fin.rev_rev j⟩)
+      (fun ⟨i, hi⟩ _ => by simp [Fin.rev]; push_cast; omega)
+
+/-- For any partition p of n, the sum of the first k sorted parts equals the
+sum of the first k entries of toFinsupp, viewed as ∑_{i : Fin n | i.val < k}. -/
+private lemma sortedParts_take_sum_eq {n : ℕ} (p : Nat.Partition n) (k : ℕ) :
+    (p.sortedParts.take k).sum =
+    (Finset.univ.filter (fun i : Fin n => i.val < k)).sum
+      (Nat.Partition.toFinsupp p) := by
+  set sp := p.sortedParts
+  -- sp has all positive entries and sums to n
+  have hsp_mem : ∀ i ∈ sp, 0 < i := fun i hi =>
+    p.parts_pos ((Multiset.sort_eq p.parts (· ≥ ·) ▸
+      Multiset.mem_coe.mpr hi : i ∈ p.parts))
+  have hsp_sum : sp.sum = n := by
+    have h1 : (sp : Multiset ℕ).sum = p.parts.sum :=
+      congrArg Multiset.sum (Multiset.sort_eq p.parts (· ≥ ·))
+    rwa [Multiset.sum_coe, p.parts_sum] at h1
+  have hlen : sp.length ≤ n :=
+    le_trans (List.length_le_sum_of_one_le _ (fun i hi => hsp_mem i hi))
+      (le_of_eq hsp_sum)
+  have htake_len : (sp.take k).length ≤ n := by
+    simp only [List.length_take]; omega
+  rw [list_sum_eq_fin_sum_getD (sp.take k) n htake_len]
+  -- Key: (sp.take k).getD i 0 = if i < k then sp.getD i 0 else 0
+  have getD_take_eq : ∀ i : ℕ,
+      (sp.take k).getD i 0 = if i < k then sp.getD i 0 else 0 := by
+    intro i
+    by_cases hik : i < k
+    · simp only [hik, ite_true]
+      by_cases hil : i < sp.length
+      · have hilt : i < (sp.take k).length := by
+          simp [List.length_take]; omega
+        rw [List.getD_eq_getElem _ _ hilt,
+            List.getD_eq_getElem _ _ hil,
+            ← List.getElem_take' hil hik]
+      · rw [List.getD_eq_default _ _ (by simp [List.length_take]; omega),
+            List.getD_eq_default _ _ (by omega)]
+    · simp only [hik, ite_false]
+      exact List.getD_eq_default _ _
+        (by simp [List.length_take]; omega)
+  simp_rw [getD_take_eq]
+  rw [← Finset.sum_filter]
+  congr 1
+
+/-- The entries of (finsuppToPartition v).toFinsupp are a permutation of the entries of v.
+More precisely, there exists σ with v = (finsuppToPartition v).toFinsupp ∘ σ. -/
+private lemma finsuppToPartition_sort_perm {n : ℕ}
+    (v : Fin n →₀ ℕ) (hsum : ∑ i, v i = n) :
+    ∃ σ : Equiv.Perm (Fin n),
+      ∀ i, v i = Nat.Partition.toFinsupp (finsuppToPartition v hsum) (σ i) := by
+  set w := Nat.Partition.toFinsupp (finsuppToPartition v hsum) with hw_def
+  set p := finsuppToPartition v hsum
+  have hcard_eq_count : ∀ (f : Fin n →₀ ℕ) (c : ℕ),
+      Fintype.card {i : Fin n // f i = c} =
+      Multiset.count c (Finset.univ.val.map (⇑f)) := by
+    intro f c
+    rw [Fintype.card_subtype, Multiset.count_map, Finset.card_def, Finset.filter_val]
+    congr 1
+    exact Multiset.filter_congr (fun x _ => ⟨fun h => h.symm, fun h => h.symm⟩)
+  suffices hfiber : ∀ c : ℕ, Fintype.card {i : Fin n // v i = c} =
+      Fintype.card {i : Fin n // w i = c} by
+    exact ⟨Equiv.ofFiberEquiv (fun c => Fintype.equivOfCardEq (hfiber c)),
+      fun i => (Equiv.ofFiberEquiv_map _ i).symm⟩
+  set M := Finset.univ.val.map (⇑v) with hM_def
+  set Mw := Finset.univ.val.map (⇑w) with hMw_def
+  have hparts : p.parts = M.filter (· ≠ 0) := by
+    simp [p, finsuppToPartition, Nat.Partition.ofSums, M, hM_def]
+  have hsorted_eq : (p.sortedParts : Multiset ℕ) = p.parts :=
+    Multiset.sort_eq p.parts (· ≥ ·)
+  have hparts_w : Mw.filter (· ≠ 0) = p.parts := by
+    rw [hsorted_eq.symm]
+    ext c'
+    simp only [Multiset.coe_count, Multiset.count_filter]
+    split_ifs with hc'
+    · rw [show Mw = Finset.univ.val.map (⇑w) from rfl, hw_def, Nat.Partition.toFinsupp]
+      simp only [Finsupp.coe_equivFunOnFinite_symm, Multiset.count_map]
+      have hlen : p.sortedParts.length ≤ n := by
+        calc p.sortedParts.length = p.parts.card := by
+              simp [Nat.Partition.sortedParts, Multiset.length_sort]
+            _ ≤ p.parts.sum := by
+              suffices h : ∀ (s : Multiset ℕ), (∀ x ∈ s, 0 < x) → s.card ≤ s.sum from
+                h p.parts (fun x hx => p.parts_pos hx)
+              intro s hs
+              induction s using Multiset.induction with
+              | empty => simp
+              | cons a t ih =>
+                rw [Multiset.card_cons, Multiset.sum_cons]
+                have := hs a (Multiset.mem_cons_self a t)
+                have := ih (fun x hx => hs x (Multiset.mem_cons_of_mem hx))
+                omega
+            _ = n := p.parts_sum
+      exact card_filter_getD_eq_count p.sortedParts n hlen c' hc'
+    · push_neg at hc'; subst hc'
+      symm; rw [List.count_eq_zero]
+      exact fun h => Nat.lt_irrefl 0 (p.parts_pos (hsorted_eq ▸ Multiset.mem_coe.mpr h))
+  intro c
+  rw [hcard_eq_count v c, hcard_eq_count w c]
+  by_cases hc : c = 0
+  · subst hc
+    have hcardM : M.card = n := by simp [M, hM_def]
+    have hcardMw : Mw.card = n := by simp [Mw, hMw_def]
+    have h_count_zero : ∀ s : Multiset ℕ,
+        Multiset.count 0 s = s.card - (s.filter (· ≠ 0)).card := by
+      intro s
+      have h := Multiset.filter_add_not (· ≠ (0 : ℕ)) s
+      have hc := congr_arg Multiset.card h
+      rw [Multiset.card_add] at hc
+      have hfilt : s.filter (fun a => ¬(a ≠ 0)) = s.filter (· = 0) :=
+        Multiset.filter_congr (fun x _ => by simp)
+      rw [hfilt] at hc
+      have hcnt : (s.filter (· = 0)).card = Multiset.count 0 s := by
+        rw [Multiset.filter_eq' s 0, Multiset.card_replicate]
+      omega
+    rw [h_count_zero M, h_count_zero Mw, hcardM, hcardMw]
+    congr 1; rw [hparts.symm, hparts_w]
+  · have hfv : Multiset.count c (M.filter (· ≠ 0)) = Multiset.count c M :=
+      Multiset.count_filter_of_pos hc
+    have hfw : Multiset.count c (Mw.filter (· ≠ 0)) = Multiset.count c Mw :=
+      Multiset.count_filter_of_pos hc
+    rw [← hfv, ← hfw]
+    exact congrArg (Multiset.count c) (hparts.symm.trans hparts_w.symm)
+
+/-- The toFinsupp of finsuppToPartition gives a non-increasing (antitone) function,
+since it lists the sorted parts in decreasing order. -/
+private lemma finsuppToPartition_toFinsupp_antitone {n : ℕ}
+    (v : Fin n →₀ ℕ) (hsum : ∑ i, v i = n) :
+    Antitone (fun i : Fin n =>
+      Nat.Partition.toFinsupp (finsuppToPartition v hsum) i) := by
+  intro i j hij
+  -- Unfold toFinsupp to sortedParts.getD
+  change (finsuppToPartition v hsum).sortedParts.getD j.val 0 ≤
+         (finsuppToPartition v hsum).sortedParts.getD i.val 0
+  set sp := (finsuppToPartition v hsum).sortedParts
+  have hsorted : sp.Sorted (· ≥ ·) := Multiset.sort_sorted _ _
+  by_cases hj : j.val < sp.length
+  · have hi : i.val < sp.length := lt_of_le_of_lt hij hj
+    simp only [List.getD_eq_getElem sp 0 hi, List.getD_eq_getElem sp 0 hj]
+    exact List.Pairwise.rel_get_of_le hsorted
+      (show (⟨i.val, hi⟩ : Fin sp.length) ≤ ⟨j.val, hj⟩ from hij)
+  · simp only [List.getD_eq_default sp 0 (by omega : sp.length ≤ j.val)]
+    exact Nat.zero_le _
+
 /-- For π ≠ rev and permExponent n π ≤ la.toFinsupp + rhoShift n, the sorted partition
 `finsuppToPartition(la + ρ - e_π)` strictly dominates `la`.
 
@@ -1289,20 +1854,339 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
       la := by
   constructor
   · -- Dominance: ∀ k, (la.sortedParts.take k).sum ≤ (mu.sortedParts.take k).sum
-    -- where mu = finsuppToPartition(la + ρ - e_π)
-    -- This is the rearrangement inequality for partial sums
-    sorry
+    -- Strategy: la.take k = ∑_{i<k} la(i) ≤ ∑_{i<k} v(i) ≤ ∑_{i<k} mu(i) = mu.take k
+    -- First ≤: from rhoShift_partial_sum_ge. Second ≤: from rearrangement inequality.
+    set v := Nat.Partition.toFinsupp la + rhoShift n - permExponent n π
+    set mu := finsuppToPartition v (sum_shifted_sub_permExponent la π hle)
+    set F := fun k' => Finset.univ.filter (fun i : Fin n => i.val < k')
+    intro k
+    -- Step 1: Rewrite both sides as finsupp partial sums
+    rw [sortedParts_take_sum_eq la k, sortedParts_take_sum_eq mu k]
+    -- Goal: (F k).sum la.toFinsupp ≤ (F k).sum Nat.Partition.toFinsupp mu
+    -- Suffices to show via ℤ casting
+    suffices h : ((F k).sum (fun i => (Nat.Partition.toFinsupp la i : ℤ))) ≤
+        ((F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ))) by
+      exact_mod_cast h
+    -- Step 2: ∑_{i<k} la(i) ≤ ∑_{i<k} v(i) from rhoShift_partial_sum_ge
+    have hv_ge_la : (F k).sum (fun i => (Nat.Partition.toFinsupp la i : ℤ)) ≤
+        (F k).sum (fun i => (v i : ℤ)) := by
+      -- v(i) = la(i) + ρ(i) - e_π(i), so ∑_{i<k} v(i) - ∑_{i<k} la(i) = ∑_{i<k} (ρ(i) - e_π(i))
+      have hrho := rhoShift_partial_sum_ge π k
+      -- hrho: ∑_{i<k} e_π(i) ≤ ∑_{i<k} ρ(i), i.e., ∑_{i<k}(ρ(i) - e_π(i)) ≥ 0
+      suffices hsuff : (F k).sum (fun i => (v i : ℤ)) -
+          (F k).sum (fun i => (Nat.Partition.toFinsupp la i : ℤ)) =
+          (F k).sum (fun i => (rhoShift n i : ℤ)) -
+           (F k).sum (fun i => (permExponent n π i : ℤ)) by
+        linarith
+      rw [← Finset.sum_sub_distrib, ← Finset.sum_sub_distrib]
+      congr 1; ext i
+      have hle_i : permExponent n π i ≤ (Nat.Partition.toFinsupp la + rhoShift n) i := hle i
+      simp only [Finsupp.coe_add, Pi.add_apply] at hle_i
+      simp only [v, Finsupp.coe_tsub, Finsupp.coe_add, Pi.add_apply, Pi.sub_apply]
+      push_cast [Nat.cast_sub hle_i]; ring
+    -- Step 3: ∑_{i<k} v(i) ≤ ∑_{i<k} Nat.Partition.toFinsupp mu(i) by rearrangement inequality
+    -- Get sorting permutation σ with v(j) = Nat.Partition.toFinsupp mu(σ(j))
+    obtain ⟨σ, hσ⟩ := finsuppToPartition_sort_perm v (sum_shifted_sub_permExponent la π hle)
+    -- Nat.Partition.toFinsupp mu is antitone and indicator(i<k) is antitone → Monovary
+    have hanti_mu : Antitone (fun i : Fin n => (Nat.Partition.toFinsupp mu i : ℤ)) := by
+      intro i j hij; exact Nat.cast_le.mpr (finsuppToPartition_toFinsupp_antitone v _ hij)
+    have hmono : Monovary (fun i : Fin n => (Nat.Partition.toFinsupp mu i : ℤ))
+        (fun i : Fin n => if (i : Fin n).val < k then (1 : ℤ) else 0) := by
+      intro i j hlt
+      simp only at hlt
+      split_ifs at hlt with h1 h2
+      · omega
+      · omega
+      · exact hanti_mu (show j ≤ i by omega)
+      · omega
+    have hrearr := hmono.sum_smul_comp_perm_le_sum_smul (σ := σ⁻¹)
+    simp only [zsmul_eq_mul, mul_ite, mul_one, mul_zero] at hrearr
+    -- hrearr: ∑ i, (if (σ⁻¹ i).val < k then Nat.Partition.toFinsupp mu(i) else 0) ≤
+    --         ∑ i, (if i.val < k then Nat.Partition.toFinsupp mu(i) else 0)
+    -- Rewrite LHS: reindex by j = σ⁻¹(i), so i = σ(j)
+    have hLHS : ∑ i : Fin n, (if (σ⁻¹ i).val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) =
+        ∑ j : Fin n, (if j.val < k then (v j : ℤ) else 0) := by
+      rw [← Equiv.sum_comp σ]
+      -- After reindexing: ∑ j, (if (σ⁻¹ (σ j)).val < k then mu_tf(σ j) else 0)
+      congr 1; ext j
+      simp only [Equiv.Perm.inv_apply_self]
+      split_ifs with h
+      · exact_mod_cast (hσ j).symm
+      · rfl
+    -- Rewrite RHS
+    have hRHS : ∑ i : Fin n, (if i.val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) =
+        (F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ)) := by
+      rw [← Finset.sum_filter]
+    -- Rewrite LHS further
+    have hLHS' : ∑ j : Fin n, (if j.val < k then (v j : ℤ) else 0) =
+        (F k).sum (fun i => (v i : ℤ)) := by
+      rw [← Finset.sum_filter]
+    -- Chain: la partial sum ≤ v partial sum ≤ mu partial sum
+    -- hrearr LHS = v partial sum (via hLHS, hLHS'), RHS = mu partial sum (via hRHS)
+    have hv_le_mu : (F k).sum (fun i => (v i : ℤ)) ≤
+        (F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ)) := by
+      calc (F k).sum (fun i => (v i : ℤ))
+          = ∑ j : Fin n, (if j.val < k then (v j : ℤ) else 0) := hLHS'.symm
+        _ = ∑ i : Fin n, (if (σ⁻¹ i).val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := hLHS.symm
+        _ ≤ ∑ i : Fin n, (if i.val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := by
+          convert hrearr using 2 <;> simp
+        _ = (F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ)) := hRHS
+    linarith
   · -- Inequality: finsuppToPartition(la + ρ - e_π) ≠ la
-    -- Since π ≠ rev, e_π ≠ ρ, so la + ρ - e_π ≠ la.toFinsupp componentwise
-    -- After sorting, the partition differs because the multiset of values differs
+    -- Proof via rearrangement inequality: partition equality → inner product equality
+    -- → Monovary → e_π = ρ → π = rev (contradicting hπ)
     intro heq
     apply hπ
-    -- If finsuppToPartition(la + ρ - e_π) = la, then the multisets of entries match.
-    -- Since la + ρ is strictly decreasing, this forces e_π = ρ, so π = rev.
-    -- Proof sketch: from heq, {u(j) - e_π(j)} = {u(j) - ρ(j)} as multisets where
-    -- u = la + ρ is strictly decreasing. So there exists σ with u(j) - e_π(j) = u(σ(j)) - ρ(σ(j))
-    -- for all j. Since u is strictly decreasing, this forces σ = id and e_π = ρ.
-    sorry
+    -- Step 1: From partition equality, derive inner product equality
+    have hip := inner_product_eq_of_partition_eq la π hle heq
+    -- Step 2: a = la.toFinsupp + ρ is strictly decreasing
+    have hmono := shifted_partition_strict_mono la
+    -- Step 3: Set up functions for rearrangement inequality
+    -- f(i) = a(i) = la.toFinsupp(i) + ρ(i), g(i) = ρ(i) = n-1-i
+    -- Both are strictly decreasing, hence Monovary.
+    set f : Fin n → ℤ := fun i => (Nat.Partition.toFinsupp la i : ℤ) + (rhoShift n i : ℤ)
+    set g : Fin n → ℤ := fun i => (rhoShift n i : ℤ)
+    -- σ(i) = rev(π⁻¹(i)), so g(σ(i)) = n-1-rev(π⁻¹(i)).val = (π⁻¹ i).val = e_π(i)
+    set σ := (π⁻¹ : Equiv.Perm (Fin n)).trans Fin.revPerm
+    -- Step 3a: Show Monovary f g
+    -- Both f and g are strictly anti-monotone → they monovary
+    have hg_anti : StrictAnti g := by
+      intro i j hij
+      simp [g, rhoShift, Finsupp.equivFunOnFinite]
+      omega
+    have hfg : Monovary f g := by
+      -- Monovary f g = ∀ i j, g i < g j → f i ≤ f j
+      intro i j hlt
+      -- hlt : g i < g j. g is strictly anti, so g i < g j → j < i.
+      have hji : j < i := by
+        by_contra h; push_neg at h
+        rcases h.eq_or_lt with rfl | hlt2
+        · exact lt_irrefl _ hlt
+        · exact not_lt.mpr (le_of_lt (hg_anti hlt2)) hlt
+      -- j < i and f strictly anti → f i < f j → f i ≤ f j
+      exact le_of_lt (hmono hji)
+    -- Step 3b: Show ∑ f(i) * g(σ(i)) = ∑ f(i) * g(i) (= hip after rewriting)
+    have hsum_eq : ∑ i, f i * g (σ i) = ∑ i, f i * g i := by
+      -- g(σ(i)) = (permExponent n π i : ℤ), so LHS = hip's LHS
+      -- g(i) = (rhoShift n i : ℤ), so RHS = hip's RHS
+      suffices hsuff : ∀ i, g (σ i) = (permExponent n π i : ℤ) by
+        simp_rw [hsuff]; exact hip
+      intro i
+      simp [σ, g, rhoShift, permExponent, Finsupp.equivFunOnFinite, Fin.revPerm]
+      omega
+    -- Step 3c: By Monovary equality condition, Monovary f (g ∘ σ)
+    have hm := hfg.sum_mul_comp_perm_eq_sum_mul_iff.mp hsum_eq
+    -- Step 3d: g ∘ σ = e_π (as functions). Monovary f (g∘σ) means e_π is weakly decreasing.
+    -- Since f is strictly anti and Monovary f (g∘σ), (g∘σ) is weakly anti (decreasing).
+    -- (g∘σ)(i) = (permExponent n π i : ℤ), which takes distinct values.
+    -- Weakly decreasing + distinct → strictly decreasing = ρ.
+    -- Therefore permExponent n π = rhoShift n.
+    -- Step 3d: From Monovary f (g∘σ) + StrictAnti f → Antitone (g∘σ)
+    have hanti : Antitone (g ∘ σ) := by
+      intro i j hij
+      by_contra h; push_neg at h
+      -- h : (g ∘ σ) j < (g ∘ σ) i, i.e., (g∘σ) increases from j to i
+      -- Wait, we need (g∘σ)(j) < (g∘σ)(i) to apply hm
+      -- From hm: (g∘σ)(j) < (g∘σ)(i) → f(j) ≤ f(i)
+      have := hm h
+      -- this : f j ≤ f i. But i ≤ j and f strictly anti:
+      rcases hij.eq_or_lt with rfl | hlt
+      · exact lt_irrefl _ h
+      · exact not_le.mpr (hmono hlt) this
+    -- Step 3e: (g∘σ)(i) = (π⁻¹ i).val (as ℤ)
+    -- So π⁻¹ is antitone on Fin n
+    -- The unique antitone bijection on Fin n is revPerm
+    have hpe : permExponent n π = rhoShift n := by
+      ext i
+      -- permExponent n π i = (π⁻¹ i).val, rhoShift n i = n-1-i
+      -- From antitone: for all i j, i ≤ j → (g∘σ)(j) ≤ (g∘σ)(i)
+      -- (g∘σ)(i) = (π⁻¹ i).val, so π⁻¹ is antitone
+      -- Antitone bijection on Fin n: π⁻¹ = revPerm
+      -- So (π⁻¹ i).val = n-1-i = rhoShift n i
+      have hpi_anti : Antitone (fun i : Fin n => (π⁻¹ i : Fin n)) := by
+        intro i j hij
+        -- (g∘σ) antitone and (g∘σ)(i) = n-1-(π⁻¹ i).val...
+        -- Wait, (g∘σ)(i) = (π⁻¹ i).val. Antitone means i≤j → (π⁻¹ j).val ≤ (π⁻¹ i).val
+        -- Which is equivalent to π⁻¹ j ≤ π⁻¹ i in Fin n ordering
+        have h1 : ∀ k : Fin n, (g ∘ σ) k = ((π⁻¹ k).val : ℤ) := by
+          intro k
+          simp [σ, g, rhoShift, Finsupp.equivFunOnFinite, Fin.revPerm]
+          omega
+        have := hanti hij
+        rw [h1 i, h1 j] at this
+        exact Fin.le_iff_val_le_val.mpr (Int.le_of_ofNat_le_ofNat this)
+      -- π⁻¹ antitone → π⁻¹ ∘ rev is strictly monotone (antitone ∘ strictAnti = strictMono)
+      have hcomp_mono : StrictMono ((⇑π⁻¹ : Fin n → Fin n) ∘ Fin.rev) := by
+        intro i j hij
+        have hrev := Fin.rev_strictAnti hij -- rev j < rev i
+        have hle := hpi_anti (le_of_lt hrev) -- π⁻¹(rev i) ≤ π⁻¹(rev j)... wait
+        -- Antitone: a ≤ b → f b ≤ f a. So rev j < rev i → π⁻¹(rev i) ≤ π⁻¹(rev j)
+        -- This means (π⁻¹ ∘ rev)(i) ≤ (π⁻¹ ∘ rev)(j). To get strict:
+        exact lt_of_le_of_ne hle (fun h => by
+          have := Fin.rev_injective ((π⁻¹).injective h)
+          exact absurd this (ne_of_lt hij))
+      -- StrictMono bijection Fin n → Fin n is the identity (via OrderIso)
+      have hcomp_surj : Function.Surjective ((⇑π⁻¹ : Fin n → Fin n) ∘ Fin.rev) :=
+        (π⁻¹.surjective).comp Fin.rev_surjective
+      have hid : ∀ k : Fin n, (π⁻¹ (Fin.rev k) : ℕ) = k.val := by
+        intro k
+        exact Fin.coe_orderIso_apply (hcomp_mono.orderIsoOfSurjective _ hcomp_surj) k
+      -- From π⁻¹(rev(k)) = k, substituting k = rev(i): π⁻¹(i) = rev(i)
+      have key : (π⁻¹ i : ℕ) = (Fin.revPerm i).val := by
+        have := hid (Fin.rev i)
+        simp [Fin.rev_rev] at this
+        simp [Fin.revPerm]
+        omega
+      simp [permExponent, rhoShift, Finsupp.equivFunOnFinite, Fin.revPerm] at key ⊢
+      omega
+    exact rev_of_permExponent_eq_rhoShift π hpe
+
+/-- The alternating Kostka sum L_{νλ} as an integer:
+L_{νλ} = ∑_π sign(π) · K(sort(λ+ρ-π(ρ)), ν).
+
+This is the same as the ℂ-valued sum in `alternating_kostka_eq_delta`,
+but valued in ℤ to enable the norm-squared integer arithmetic argument. -/
+private noncomputable def alternatingKostkaInt {n : ℕ}
+    (la nu : Nat.Partition n) : ℤ :=
+  ∑ π : Equiv.Perm (Fin n),
+    (Equiv.Perm.sign π : ℤ) *
+      if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+      then (spechtMultiplicity n
+        (finsuppToPartition
+          (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+          (sum_shifted_sub_permExponent la π h))
+        nu : ℤ)
+      else 0
+
+/-- The ℂ-valued alternating Kostka sum equals the cast of the ℤ version. -/
+private theorem alternatingKostka_eq_cast {n : ℕ} (la nu : Nat.Partition n) :
+    (∑ π : Equiv.Perm (Fin n),
+      (Equiv.Perm.sign π : ℤ) •
+        (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+         then ((spechtMultiplicity n
+           (finsuppToPartition
+             (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+             (sum_shifted_sub_permExponent la π h))
+           nu : ℕ) : ℂ)
+         else (0 : ℂ))) = (alternatingKostkaInt la nu : ℂ) := by
+  simp only [alternatingKostkaInt, Int.cast_sum, Int.cast_mul]
+  congr 1; ext π
+  rw [zsmul_eq_mul]
+  congr 1
+  split <;> simp
+
+/-- The diagonal alternating Kostka sum: L_{λλ} = sign(rev).
+
+Only the rev permutation contributes: for π ≠ rev, sort(λ+ρ-π(ρ)) strictly
+dominates λ, so K(sort(λ+ρ-π(ρ)), λ) = 0. For π = rev, λ+ρ-ρ = λ, so
+K(λ, λ) = 1, giving sign(rev) · 1 = sign(rev). -/
+private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
+    alternatingKostkaInt la la = Equiv.Perm.sign (Fin.revPerm (n := n)) := by
+  unfold alternatingKostkaInt
+  set rev := Fin.revPerm (n := n)
+  rw [← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ rev)]
+  -- rev term
+  have hrev_le : permExponent n rev ≤ Nat.Partition.toFinsupp la + rhoShift n :=
+    permExponent_revPerm n ▸ rhoShift_le_toFinsupp_add_rhoShift la
+  simp only [dif_pos hrev_le]
+  have hsub : Nat.Partition.toFinsupp la + rhoShift n - permExponent n rev =
+      Nat.Partition.toFinsupp la := by
+    rw [permExponent_revPerm]; exact toFinsupp_add_rhoShift_sub_rhoShift la
+  -- Non-rev terms vanish
+  have hrest : ∑ π ∈ Finset.univ.erase rev,
+      (Equiv.Perm.sign π : ℤ) *
+        (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+        then (spechtMultiplicity n
+          (finsuppToPartition
+            (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+            (sum_shifted_sub_permExponent la π h))
+          la : ℤ)
+        else 0) = 0 := by
+    apply Finset.sum_eq_zero
+    intro π hπ
+    rw [Finset.mem_erase] at hπ
+    by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+    · simp only [dif_pos hle]
+      have hdom := sorted_shifted_strict_dominates la π hπ.1 hle
+      rw [spechtMultiplicity_vanishing n _ la hdom]
+      simp
+    · simp [dif_neg hle]
+  rw [hrest, add_zero]
+  -- rev term: sign(rev) * K(la, la) = sign(rev) * 1 = sign(rev)
+  suffices ∀ (v : Fin n →₀ ℕ) (_ : v = Nat.Partition.toFinsupp la)
+      (hsum : ∑ i, v i = n),
+      (Equiv.Perm.sign rev : ℤ) *
+        (spechtMultiplicity n (finsuppToPartition v hsum) la : ℤ) =
+      (Equiv.Perm.sign rev : ℤ) by
+    exact this _ hsub _
+  intro v hv hsum
+  subst hv
+  rw [finsuppToPartition_toFinsupp, spechtMultiplicity_diagonal]
+  simp
+
+/-- **Norm-squared identity for the alternating Kostka matrix:**
+∑_ν L²_{νλ} = 1, where L_{νλ} = ∑_π sign(π) · K(sort(λ+ρ-π(ρ)), ν).
+
+**Proof strategy** (Etingof, Theorem 5.15.1):
+By character orthonormality (⟨χ_ν, χ_μ⟩ = δ_{νμ}, Mathlib `FDRep.char_orthonormal`)
+and the expansion θ_λ = ∑_ν L_{νλ} χ_ν (from Young's Rule), we get
+⟨θ_λ, θ_λ⟩ = ∑_ν L²_{νλ}. Then Vandermonde coefficient orthogonality
+(the S_n-orbits of λ+ρ for distinct partitions λ are disjoint) gives
+⟨θ_λ, θ_λ⟩ = 1.
+
+**Infrastructure needed** to close this sorry:
+1. Bridge `spechtModuleCharacter` to `FDRep.character` (construct FDRep from SpechtModule)
+2. Apply Mathlib's `FDRep.char_orthonormal` to get character orthonormality
+3. Prove Vandermonde coefficient orthogonality: (1/n!) ∑_σ |[x^{λ+ρ}](Δ·P_σ)|² = 1 -/
+private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n) :
+    ∑ nu : Nat.Partition n, alternatingKostkaInt la nu ^ 2 = 1 := by
+  sorry
+
+/-- The hard case of the alternating Kostka identity: when ν strictly dominates λ
+(i.e., ν > λ in the dominance order), the alternating sum ∑_π sign(π) · K(sort(λ+ρ-e_π), ν)
+vanishes by genuine cancellation (not term-by-term vanishing).
+
+**Proof**: By the norm-squared identity `∑_ν L²_{νλ} = 1` and the diagonal identity
+`L_{λλ} = sign(rev)` (so L²_{λλ} = 1), each L² ≥ 0 forces L_{νλ} = 0 for ν ≠ λ. -/
+private theorem alternating_kostka_eq_zero_of_strict_dom {n : ℕ}
+    (la nu : Nat.Partition n)
+    (hne : la ≠ nu)
+    (hdom : Nat.Partition.Dominates nu la) :
+    (∑ π : Equiv.Perm (Fin n),
+      (Equiv.Perm.sign π : ℤ) •
+        (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+         then ((spechtMultiplicity n
+           (finsuppToPartition
+             (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+             (sum_shifted_sub_permExponent la π h))
+           nu : ℕ) : ℂ)
+         else (0 : ℂ))) = 0 := by
+  rw [alternatingKostka_eq_cast]
+  suffices h : alternatingKostkaInt la nu = 0 by simp [h]
+  -- The norm-squared identity: ∑_ν L²_{νλ} = 1
+  have h_norm := alternatingKostka_norm_sq_eq_one la
+  -- The diagonal identity: L_{λλ} = sign(rev), so L²_{λλ} = 1
+  have h_diag := alternatingKostka_diag la
+  have h_diag_sq : alternatingKostkaInt la la ^ 2 = 1 := by
+    rw [h_diag]
+    rcases Int.isUnit_iff.mp (Units.isUnit (Equiv.Perm.sign (Fin.revPerm (n := n)))) with h | h <;>
+      simp [h]
+  -- Split: L²_{λλ} + ∑_{ν≠λ} L²_ν = 1
+  have hsplit : alternatingKostkaInt la la ^ 2 +
+      ∑ x ∈ Finset.univ.erase la, alternatingKostkaInt la x ^ 2 =
+      ∑ nu : Nat.Partition n, alternatingKostkaInt la nu ^ 2 :=
+    Finset.add_sum_erase _ (fun nu => alternatingKostkaInt la nu ^ 2) (Finset.mem_univ la)
+  -- So ∑_{ν≠λ} L²_ν = 0
+  have hrest : ∑ x ∈ Finset.univ.erase la, alternatingKostkaInt la x ^ 2 = 0 := by
+    linarith
+  -- Each L²_ν = 0 for ν ≠ λ (sum of non-negatives = 0)
+  have hmem : nu ∈ Finset.univ.erase la :=
+    Finset.mem_erase.mpr ⟨Ne.symm hne, Finset.mem_univ _⟩
+  have hnu_sq : alternatingKostkaInt la nu ^ 2 = 0 := by
+    have h1 := Finset.single_le_sum (fun x _ => sq_nonneg (alternatingKostkaInt la x)) hmem
+    have h2 := sq_nonneg (alternatingKostkaInt la nu)
+    omega
+  exact sq_eq_zero_iff.mp hnu_sq
 
 /-- The alternating Kostka identity: the alternating sum of Kostka numbers over
 Vandermonde permutations equals sign(rev) times the Kronecker delta.
@@ -1378,11 +2262,50 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
     rw [finsuppToPartition_toFinsupp]
     congr 1
     simp [spechtMultiplicity_diagonal]
-  · -- Case la ≠ nu: requires the full orthogonality/norm argument from the book
-    -- (Σ_π sign(π) m(sort(la+ρ-e_π), nu) = 0 requires genuine cancellation,
-    -- not just term-by-term vanishing)
+  · -- Case la ≠ nu
     simp only [if_neg hla_nu, smul_zero]
-    sorry
+    by_cases hdom : Nat.Partition.Dominates nu la
+    · -- Hard sub-case: nu strictly dominates la (genuine cancellation needed).
+      -- Book proof: θ_λ = ∑_{μ≥λ} L_{μλ} χ_μ with L_{λλ}=1.
+      -- Then ||θ_λ||² = ∑_μ L²_{μλ} ≥ 1, but ||θ_λ||² ≤ 1 by Vandermonde orthogonality.
+      -- So L_{μλ} = 0 for μ ≠ λ. Requires character inner product infrastructure.
+      exact alternating_kostka_eq_zero_of_strict_dom la nu hla_nu hdom
+    · -- Easy sub-case: nu doesn't dominate la, so each term vanishes individually.
+      -- Key insight: sort(la+ρ-e_π) ≥ la for all π (rearrangement inequality).
+      -- If nu ≱ la and sort(la+ρ-e_π) ≥ la, then nu ≱ sort(la+ρ-e_π) by transitivity.
+      -- So spechtMultiplicity(sort(la+ρ-e_π), nu) = 0 by vanishing.
+      apply Finset.sum_eq_zero
+      intro π _
+      by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+      · simp only [dif_pos hle]
+        have h_not_dom_sort : ¬ Nat.Partition.Dominates nu
+            (finsuppToPartition
+              (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+              (sum_shifted_sub_permExponent la π hle)) := by
+          intro habs
+          apply hdom
+          by_cases hπ : π = rev
+          · -- sort(la+ρ-ρ) = la, so Dominates nu sort = Dominates nu la
+            subst hπ
+            have hsub : Nat.Partition.toFinsupp la + rhoShift n - permExponent n rev =
+                Nat.Partition.toFinsupp la := by
+              rw [permExponent_revPerm]; exact toFinsupp_add_rhoShift_sub_rhoShift la
+            suffices ∀ (v : Fin n →₀ ℕ) (_ : v = Nat.Partition.toFinsupp la)
+                (hsum : ∑ i, v i = n),
+                Nat.Partition.Dominates nu (finsuppToPartition v hsum) →
+                Nat.Partition.Dominates nu la by
+              exact this _ hsub _ habs
+            intro v hv hsum hd
+            subst hv
+            rwa [finsuppToPartition_toFinsupp] at hd
+          · -- sort(la+ρ-e_π) strictly dominates la, so Dominates sort la
+            have hsdom := sorted_shifted_strict_dominates la π hπ hle
+            -- Transitivity: Dominates nu sort ∧ Dominates sort la → Dominates nu la
+            intro k
+            exact le_trans (hsdom.1 k) (habs k)
+        rw [spechtMultiplicity_vanishing_general n _ nu h_not_dom_sort]
+        simp
+      · simp [dif_neg hle]
 
 /-! ### Frobenius formula: alternating sum identity
 
