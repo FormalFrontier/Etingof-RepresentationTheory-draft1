@@ -936,7 +936,18 @@ theorem Etingof.Proposition6_6_6_sink
       · by_cases hb : b = i
         · -- a ≠ i, b = i: arrow a → i, involves equivAt_eq_sink at target
           rw [eq_comm] at hb; subst hb
-          simp only [dite_true, dif_neg ha, LinearEquiv.trans_apply]
+          -- BLOCKER: equivAt_eq_sink is defined via `cases (‹DecidableEq Q› i i)` + `classical`
+          -- Inside the `isTrue` branch, the computation rule is trivially rfl:
+          --   equivAt_eq_sink (mkQ (lof b v)) = Φ_component b v
+          --     = ρ.mapLinear (origArrow b) (equivAt_ne v)
+          -- But OUTSIDE the definition, the result is wrapped in Decidable.rec(inst i i)
+          -- which cannot be reduced because:
+          -- 1. `generalize inst i i` fails: inst appears as a whole function elsewhere
+          -- 2. `rw [h_di]` fails: Decidable.casesOn has a dependent motive on inst i i
+          -- 3. `classical` inside equivAt_eq_sink introduces Classical.propDecidable,
+          --    a different Decidable source that prevents consistent generalization
+          -- Fix requires redesigning equivAt_eq_sink to avoid `cases` on DecidableEq,
+          -- or redesigning reflectionFunctorMinus to not use Decidable.casesOn.
           sorry
         · -- a ≠ i, b ≠ i: use API lemmas compositionally
           simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
