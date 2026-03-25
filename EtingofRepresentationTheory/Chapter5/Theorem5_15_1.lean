@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_14_3
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2
+import EtingofRepresentationTheory.Chapter5.PowerSumCauchyBilinear
 
 /-!
 # Theorem 5.15.1: Frobenius Character Formula for Specht Modules
@@ -448,6 +449,46 @@ of `V_ν` in `U_μ` is zero when `μ` strictly dominates `ν`, and 1 when `μ = 
 theorem spechtModule_noniso (n : ℕ) (nu₁ nu₂ : Nat.Partition n) (hne : nu₁ ≠ nu₂) :
     IsEmpty (↥(SpechtModule n nu₁) ≃ₗ[SymGroupAlgebra n] ↥(SpechtModule n nu₂)) :=
   Theorem5_12_2_distinct n nu₁ nu₂ hne
+
+private theorem spechtModuleFDRep_iso_iff_eq (n : ℕ) (ν₁ ν₂ : Nat.Partition n) :
+    Nonempty (spechtModuleFDRep n ν₁ ≅ spechtModuleFDRep n ν₂) ↔ ν₁ = ν₂ := by
+  constructor
+  · rintro ⟨f⟩
+    by_contra hne
+    let φ : ↥(SpechtModule n ν₁) ≃ₗ[ℂ] ↥(SpechtModule n ν₂) :=
+      FDRep.isoToLinearEquiv f
+    -- φ intertwines group action (from FDRep.Iso.conj_ρ)
+    have hφ_group : ∀ (σ : Equiv.Perm (Fin n)) (v : ↥(SpechtModule n ν₁)),
+        φ (spechtModuleAction n ν₁ σ v) = spechtModuleAction n ν₂ σ (φ v) := by
+      intro σ v
+      have h := FDRep.Iso.conj_ρ f σ
+      change φ ((spechtModuleFDRep n ν₁).ρ σ v) = (spechtModuleFDRep n ν₂).ρ σ (φ v)
+      have hconj : (FDRep.isoToLinearEquiv f).conj ((spechtModuleFDRep n ν₁).ρ σ) (φ v) =
+          φ ((spechtModuleFDRep n ν₁).ρ σ v) := by
+        simp only [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
+        show φ (((spechtModuleFDRep n ν₁).ρ σ) (φ.symm (φ v))) = φ (((spechtModuleFDRep n ν₁).ρ σ) v)
+        rw [φ.symm_apply_apply]
+      rw [h, hconj]
+    -- Extend to SymGroupAlgebra-linear by Finsupp induction
+    have hφ_smul : ∀ (a : SymGroupAlgebra n) (v : ↥(SpechtModule n ν₁)),
+        φ (a • v) = a • (φ v) := by
+      intro a
+      induction a using Finsupp.induction_linear with
+      | zero => intro v; simp [zero_smul, map_zero]
+      | add f g hf hg => intro v; rw [add_smul, map_add, hf, hg, add_smul]
+      | single σ c =>
+        intro v
+        -- single σ c = c • of σ, and (c • of σ) • v = c • (of σ • v)
+        show φ ((Finsupp.single σ c : SymGroupAlgebra n) • v) =
+          (Finsupp.single σ c : SymGroupAlgebra n) • (φ v)
+        have hsingle : (Finsupp.single σ c : SymGroupAlgebra n) =
+            c • MonoidAlgebra.of ℂ _ σ := by
+          simp [MonoidAlgebra.of, Finsupp.smul_single']
+        rw [hsingle, smul_assoc, map_smul, smul_assoc]
+        congr 1; exact hφ_group σ v
+    exact (spechtModule_noniso n ν₁ ν₂ hne).false
+      { φ with map_smul' := hφ_smul }
+  · rintro rfl; exact ⟨CategoryTheory.Iso.refl _⟩
 
 /-- Every simple `SymGroupAlgebra n`-submodule of a module is isomorphic to some Specht module.
 This is the completeness of the classification of S_n irreps: the Specht modules `{V_λ | λ ⊢ n}`
@@ -2235,38 +2276,229 @@ private theorem alternatingKostka_diag {n : ℕ} (la : Nat.Partition n) :
   rw [finsuppToPartition_toFinsupp, spechtMultiplicity_diagonal]
   simp
 
-/-- **Vandermonde coefficient orthogonality**: ∑_σ θ_λ(σ)² = n!,
-where θ_λ(σ) = [x^{λ+ρ}](Δ(x) · P_σ(x)).
+-- Each coefficient term equals a Young's Rule expansion via symmetry + Thm 5.14.3.
+-- (Moved before alternatingKostka_norm_sq_eq_one to avoid forward reference.)
+private theorem coeff_eq_youngsRule_expansion'
+    (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
+    (π : Equiv.Perm (Fin n))
+    (h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n) :
+    (MvPolynomial.coeff
+      (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+      (cycleTypePsumProduct n σ) : ℂ) =
+    ∑ nu : Nat.Partition n,
+      ((spechtMultiplicity n
+        (finsuppToPartition
+          (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+          (sum_shifted_sub_permExponent la π h))
+        nu : ℕ) : ℂ) * spechtModuleCharacter n nu σ := by
+  rw [coeff_symmetric_eq_coeff_partition _ (cycleTypePsumProduct_isSymmetric n σ)]
+  · rw [← permModuleCharacter_eq_coeff]
+    exact youngsRule_character n _ σ
 
-This is equivalent to the norm-squared identity ∑_ν L²_{νλ} = 1 via
-character orthonormality (Parseval), but is stated as a combinatorial identity
-about polynomial coefficients that can be proved directly.
+/-- Character inner product for Specht modules:
+∑_σ χ_ν(σ) · χ_μ(σ⁻¹) = n! · δ_{ν,μ}. -/
+private theorem specht_char_inner (n : ℕ) (ν μ : Nat.Partition n) :
+    ∑ σ : Equiv.Perm (Fin n),
+      spechtModuleCharacter n ν σ * spechtModuleCharacter n μ σ⁻¹ =
+    (Nat.factorial n : ℂ) * if ν = μ then 1 else 0 := by
+  classical
+  have hcard : (Fintype.card (Equiv.Perm (Fin n)) : ℂ) = (Nat.factorial n : ℂ) := by
+    rw [Fintype.card_perm, Fintype.card_fin]
+  have hne : (Fintype.card (Equiv.Perm (Fin n)) : ℂ) ≠ 0 := by
+    rw [hcard]; exact Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
+  haveI : NeZero (Fintype.card (Equiv.Perm (Fin n)) : ℂ) := ⟨hne⟩
+  haveI : Invertible (Fintype.card (Equiv.Perm (Fin n)) : ℂ) :=
+    invertibleOfNonzero hne
+  have horth := FDRep.char_orthonormal (spechtModuleFDRep n ν) (spechtModuleFDRep n μ)
+  rw [spechtModuleFDRep_iso_iff_eq] at horth
+  simp only [spechtModuleFDRep_character] at horth
+  rw [smul_eq_mul, invOf_eq_inv] at horth
+  -- From c⁻¹ * s = d, derive s = c * d
+  rw [mul_comm] at horth
+  rw [← div_eq_mul_inv] at horth
+  rw [div_eq_iff hne] at horth
+  rw [mul_comm, hcard] at horth
+  by_cases h : ν = μ <;> simp [h] at horth ⊢ <;> exact horth
 
-**Proof strategy** (Etingof, proof of Theorem 5.15.1):
-1. Expand θ_λ(σ)² = (∑_π sign(π) [x^{λ+ρ-e_π}](P_σ))²
-2. Sum over σ: ∑_σ c_{π,σ} c_{τ,σ} = n! · dim Hom(U_{μ_π}, U_{μ_τ})
-3. The double alternating sum gives ∑_ν L²_{νλ} (Parseval).
-4. Independently: via the power sum Cauchy identity
-   (∑_σ P_σ(x)P_σ(y) = n! · ∏_{i,j} 1/(1-x_i y_j) at degree n)
-   and the Cauchy determinant identity (Corollary 5.15.4),
-   this sum equals n! · coeff(x^{λ+ρ} y^{λ+ρ}, det(1/(1-x_i y_j))) = n! · 1.
-
-**Blocked on**: The power sum Cauchy identity (GitHub issue #1622).
-The coefficient extraction coeff(x^α y^α, cauchyRHS) = 1 for distinct α
-is straightforward (only σ=id contributes when α has distinct entries),
-but connecting ∑_σ P_σ(x)P_σ(y) to ∏ 1/(1-x_i y_j) requires either
-the exponential formula for formal power series or a direct combinatorial
-argument about cycle types (estimated 300-500 lines).
-
-Alternative approaches investigated and found insufficient:
-1. Character orthonormality alone → tautological (Parseval gives ∑L² = ⟨θ,θ⟩)
-2. Strong induction on dominance order → also tautological (inductive hypothesis
-   gives L_{ν,μ} = 0 for μ > λ, but doesn't constrain K(μ_π, ν) directly)
-3. Sign-reversing involution → requires Gessel-Viennot / lattice path infrastructure
-4. Matrix L^T L = I argument → needs ⟨θ_λ, θ_λ⟩ ≤ 1, same blocker -/
+/-- **Norm-squared identity**: ∑_ν L²_{νλ} = 1.
+Proof: n! · ∑L² = ∑_σ θ(σ)θ(σ⁻¹) = ∑_σ θ² = n!, cancel n!.
+Uses character orthonormality, cycle type invariance, and Cauchy bilinear identity. -/
 private theorem alternatingKostka_norm_sq_eq_one {n : ℕ} (la : Nat.Partition n) :
     ∑ nu : Nat.Partition n, alternatingKostkaInt la nu ^ 2 = 1 := by
-  sorry
+  -- Cast to ℂ via injectivity of ℤ → ℂ
+  have hinj : Function.Injective (Int.cast : ℤ → ℂ) := Int.cast_injective
+  apply hinj; push_cast
+  -- Abbreviations
+  set L : Nat.Partition n → ℂ := fun nu => (alternatingKostkaInt la nu : ℂ)
+  set χ := fun nu σ => spechtModuleCharacter n nu σ
+  set θ : Equiv.Perm (Fin n) → ℂ := fun σ =>
+    ∑ π : Equiv.Perm (Fin n),
+      (Equiv.Perm.sign π : ℤ) •
+        (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+         then (MvPolynomial.coeff
+                 (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+                 (cycleTypePsumProduct n σ) : ℂ)
+         else 0)
+  have hn : (Nat.factorial n : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
+  -- Claim 1: θ(σ) = ∑_ν L_ν · χ_ν(σ) (Young's rule expansion)
+  have hY : ∀ σ, θ σ = ∑ nu : Nat.Partition n, L nu * χ nu σ := by
+    intro σ; simp only [θ, L, χ]
+    -- Each summand: sign(π) • (if h then coeff else 0) = ∑_ν (...) * χ_ν(σ)
+    have hstep : ∀ (π : Equiv.Perm (Fin n)),
+        (Equiv.Perm.sign π : ℤ) •
+          (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+           then (MvPolynomial.coeff
+                   (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+                   (cycleTypePsumProduct n σ) : ℂ)
+           else 0) =
+        ∑ nu : Nat.Partition n,
+          ((Equiv.Perm.sign π : ℤ) •
+            (if h : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+             then ((spechtMultiplicity n
+               (finsuppToPartition
+                 (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+                 (sum_shifted_sub_permExponent la π h))
+               nu : ℕ) : ℂ)
+             else 0)) *
+            spechtModuleCharacter n nu σ := by
+      intro π
+      by_cases hle : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n
+      · simp only [dif_pos hle]
+        rw [coeff_eq_youngsRule_expansion' n la σ π hle, Finset.smul_sum]
+        congr 1; ext nu; rw [smul_mul_assoc]
+      · simp only [dif_neg hle, smul_zero]
+        exact (Finset.sum_eq_zero (fun nu _ => by simp)).symm
+    conv_lhs => arg 2; ext π; rw [hstep π]
+    rw [Finset.sum_comm]
+    congr 1; ext nu; rw [← Finset.sum_mul]; congr 1
+    exact alternatingKostka_eq_cast la nu
+  -- Claim 2: θ(σ⁻¹) = θ(σ) (cycle type invariance)
+  have hI : ∀ σ, θ σ⁻¹ = θ σ := by
+    intro σ; simp only [θ, cycleTypePsumProduct_inv]
+  -- Claim 3: ∑_σ θ(σ)² = n! (Cauchy bilinear + vandermonde diagonal)
+  have hC : ∑ σ : Equiv.Perm (Fin n), θ σ ^ 2 = (Nat.factorial n : ℂ) := by
+    -- Set α_fun = la+ρ as Fin n → ℕ
+    set α_fun : Fin n → ℕ := fun i => (Nat.Partition.toFinsupp la + rhoShift n) i
+    -- α_fun is injective (since la+ρ is strictly decreasing over ℤ)
+    have hα_inj : Function.Injective α_fun := by
+      have hsa := shifted_partition_strict_mono la
+      -- hsa : StrictAnti (fun i => (la(i) : ℤ) + (ρ(i) : ℤ))
+      -- α_fun i = la(i) + ρ(i) as ℕ; cast to ℤ gives (la(i) : ℤ) + (ρ(i) : ℤ)
+      have hsa' : StrictAnti (fun i : Fin n => (α_fun i : ℤ)) := by
+        intro i j hij
+        have := hsa hij
+        simp only [α_fun, Finsupp.coe_add, Pi.add_apply, Nat.cast_add] at this ⊢
+        exact this
+      exact fun i j h => hsa'.injective (by exact_mod_cast h : (α_fun i : ℤ) = α_fun j)
+    -- Apply vandermonde_cauchy_diagonal to get the double alternating sum = 1
+    have hvcd := vandermonde_cauchy_diagonal n α_fun hα_inj
+    -- Suffices to show ∑_σ θ(σ)² = n! · (double alternating sum)
+    -- Then n! · 1 = n!
+    suffices hrel : ∑ σ : Equiv.Perm (Fin n), θ σ ^ 2 =
+        (Nat.factorial n : ℂ) *
+          (∑ π : Equiv.Perm (Fin n), ∑ τ : Equiv.Perm (Fin n),
+            ((Equiv.Perm.sign π : ℤ) : ℂ) * ((Equiv.Perm.sign τ : ℤ) : ℂ) *
+            (if (∀ i, (π⁻¹ i : Fin n).val ≤ α_fun i) ∧
+                (∀ i, (τ⁻¹ i : Fin n).val ≤ α_fun i)
+             then MvPowerSeries.coeff
+                    (bilinExponent n (fun i => α_fun i - (π⁻¹ i : Fin n).val)
+                                     (fun i => α_fun i - (τ⁻¹ i : Fin n).val))
+                    (fullCauchyProd n ℂ)
+             else 0)) by
+      rw [hrel, hvcd, mul_one]
+    -- Prove the relation
+    -- Expand θ² as double sum, swap, apply powerSum_bilinear_coeff
+    simp only [θ, sq]
+    simp_rw [Finset.sum_mul_sum]
+    -- Swap ∑_σ out: ∑_σ ∑_π ∑_τ → ∑_π ∑_τ ∑_σ
+    rw [Finset.sum_comm]
+    conv_lhs => arg 2; ext π; rw [Finset.sum_comm]
+    -- Factor sign out of inner sum
+    -- Each term: (sign(π) • c_π(σ)) * (sign(τ) • c_τ(σ))
+    -- = sign(π) * sign(τ) * (c_π(σ) * c_τ(σ))  [smul over ℤ into ℂ]
+    rw [Finset.mul_sum]
+    congr 1; ext π; rw [Finset.mul_sum]
+    congr 1; ext τ
+    -- For fixed π, τ: relate smul products to powerSum_bilinear_coeff
+    -- Condition equivalence
+    have hcond : ∀ (σ : Equiv.Perm (Fin n)),
+        (permExponent n σ ≤ Nat.Partition.toFinsupp la + rhoShift n) ↔
+        (∀ i, (σ⁻¹ i : Fin n).val ≤ α_fun i) := by
+      intro σ; constructor <;> intro hle i <;>
+        (have := hle i;
+         simp only [permExponent, Finsupp.coe_equivFunOnFinite_symm, α_fun,
+           Finsupp.coe_add, Pi.add_apply] at this ⊢; exact this)
+    -- Subtraction equality
+    have hsub_eq : ∀ (σ : Equiv.Perm (Fin n)),
+        ⇑(Nat.Partition.toFinsupp la + rhoShift n - permExponent n σ) =
+        (fun i => α_fun i - (σ⁻¹ i : Fin n).val) := by
+      intro σ; ext i
+      simp [α_fun, permExponent, Finsupp.equivFunOnFinite, Finsupp.coe_tsub,
+        Pi.sub_apply, Finsupp.coe_add, Pi.add_apply]
+    -- Rewrite ℤ smul as multiplication and simplify dite
+    by_cases hπ : permExponent n π ≤ Nat.Partition.toFinsupp la + rhoShift n <;>
+    by_cases hτ : permExponent n τ ≤ Nat.Partition.toFinsupp la + rhoShift n
+    · -- Both hold
+      simp only [dif_pos hπ, dif_pos hτ, zsmul_eq_mul]
+      rw [if_pos ⟨(hcond π).mp hπ, (hcond τ).mp hτ⟩]
+      -- Apply powerSum_bilinear_coeff
+      have hpbc := powerSum_bilinear_coeff n
+        (Nat.Partition.toFinsupp la + rhoShift n - permExponent n π)
+        (Nat.Partition.toFinsupp la + rhoShift n - permExponent n τ)
+        (sum_shifted_sub_permExponent la π hπ)
+        (sum_shifted_sub_permExponent la τ hτ)
+      rw [hsub_eq π, hsub_eq τ] at hpbc
+      -- ∑_σ (sπ * cπ(σ)) * (sτ * cτ(σ)) = sπ * sτ * ∑_σ cπ(σ) * cτ(σ) = sπ * sτ * n! * coeff
+      simp_rw [mul_mul_mul_comm ((Equiv.Perm.sign π : ℤ) : ℂ) _ ((Equiv.Perm.sign τ : ℤ) : ℂ)]
+      rw [← Finset.mul_sum, hpbc]; ring
+    · -- hπ holds, hτ fails
+      simp only [dif_pos hπ, dif_neg hτ, zsmul_eq_mul, mul_zero]
+      rw [if_neg (fun h => hτ ((hcond τ).mpr h.2))]
+      simp only [mul_zero]
+      exact Finset.sum_eq_zero fun σ _ => by ring
+    · -- hπ fails, hτ holds
+      simp only [dif_neg hπ, dif_pos hτ, zsmul_eq_mul, zero_mul]
+      rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
+      simp only [mul_zero]
+      exact Finset.sum_eq_zero fun σ _ => by ring
+    · -- Both fail
+      simp only [dif_neg hπ, dif_neg hτ, zsmul_eq_mul, mul_zero, zero_mul]
+      rw [if_neg (fun h => hπ ((hcond π).mpr h.1))]
+      simp only [mul_zero]
+      exact Finset.sum_eq_zero fun σ _ => by ring
+  -- Claim 4: n! · ∑_ν L² = ∑_σ θ(σ)·θ(σ⁻¹) (Parseval via char orth)
+  have hP : (Nat.factorial n : ℂ) * ∑ nu, L nu ^ 2 =
+      ∑ σ : Equiv.Perm (Fin n), θ σ * θ σ⁻¹ := by
+    -- Rewrite θ using Young's rule
+    conv_rhs => arg 2; ext σ; rw [hY σ, hY σ⁻¹]
+    -- Expand (∑ L·χ(σ)) * (∑ L·χ(σ⁻¹)) = ∑_ν ∑_μ L_ν L_μ χ_ν(σ) χ_μ(σ⁻¹)
+    simp_rw [Finset.sum_mul_sum]
+    -- ∑_σ ∑_{(ν,μ)} (L ν · χ ν σ) * (L μ · χ μ σ⁻¹)
+    -- Rearrange to (L ν · L μ) · (χ ν σ · χ μ σ⁻¹)
+    simp_rw [mul_mul_mul_comm (L _) _ (L _)]
+    -- Swap ∑_σ ∑_ν ∑_μ → ∑_ν ∑_μ ∑_σ
+    rw [Finset.sum_comm]
+    simp_rw [Finset.sum_comm (s := Finset.univ (α := Equiv.Perm (Fin n)))]
+    -- Pull L ν · L μ out of ∑_σ
+    simp_rw [← Finset.mul_sum]
+    -- Apply character orthogonality: ∑_σ χ_ν(σ) χ_μ(σ⁻¹) = n! · δ_{ν,μ}
+    simp only [χ]
+    simp_rw [specht_char_inner n]
+    -- Simplify: L_ν · L_μ · (n! · δ_{ν,μ}) = n! · ∑ L²
+    simp only [mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
+    -- Goal: n! * ∑ L² = ∑ x, L x * L x * n!
+    simp_rw [← sq, ← Finset.sum_mul]
+    ring
+  -- Assembly: n! · ∑L² = ∑ θ·θ⁻¹ = ∑ θ² = n!, so ∑L² = 1
+  have hEq : ∑ σ : Equiv.Perm (Fin n), θ σ * θ σ⁻¹ =
+      ∑ σ : Equiv.Perm (Fin n), θ σ ^ 2 := by
+    congr 1; ext σ; rw [hI σ, sq]
+  suffices h : (Nat.factorial n : ℂ) * ∑ nu, L nu ^ 2 = Nat.factorial n by
+    exact mul_left_cancel₀ hn (h.trans (mul_one _).symm)
+  calc (Nat.factorial n : ℂ) * ∑ nu, L nu ^ 2
+      = ∑ σ : Equiv.Perm (Fin n), θ σ * θ σ⁻¹ := hP
+    _ = ∑ σ : Equiv.Perm (Fin n), θ σ ^ 2 := hEq
+    _ = Nat.factorial n := hC
 
 /-- The hard case of the alternating Kostka identity: when ν strictly dominates λ
 (i.e., ν > λ in the dominance order), the alternating sum ∑_π sign(π) · K(sort(λ+ρ-e_π), ν)

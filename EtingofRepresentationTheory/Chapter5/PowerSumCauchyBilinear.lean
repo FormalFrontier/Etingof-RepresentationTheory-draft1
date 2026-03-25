@@ -715,4 +715,25 @@ theorem powerSum_bilinear_coeff (n : ℕ) (α β : Fin n →₀ ℕ)
   congr 1
   exact double_counting n α β hα hβ
 
+/-- **Vandermonde-Cauchy diagonal coefficient identity**.
+
+For injective `α : Fin N → ℕ`, the double alternating sum of `fullCauchyProd` coefficients
+equals 1. This encodes the coefficient-level content of the identity
+`Δ_x · Δ_y · ∏_{i,j} 1/(1-xᵢyⱼ) = cauchyRHS`, evaluated at the diagonal exponent `(α, α)`.
+
+The proof requires the formal power series Cauchy determinant identity
+(connecting `fullCauchyProd` to `cauchyRHS` via Vandermonde polynomials)
+together with `cauchyRHS_coeff_bilin_of_injective`. -/
+theorem vandermonde_cauchy_diagonal (N : ℕ) (α : Fin N → ℕ)
+    (hα_inj : Function.Injective α) :
+    (∑ π : Equiv.Perm (Fin N), ∑ τ : Equiv.Perm (Fin N),
+      ((Equiv.Perm.sign π : ℤ) : ℂ) * ((Equiv.Perm.sign τ : ℤ) : ℂ) *
+      (if (∀ i, (π⁻¹ i : Fin N).val ≤ α i) ∧ (∀ i, (τ⁻¹ i : Fin N).val ≤ α i)
+       then MvPowerSeries.coeff
+              (bilinExponent N (fun i => α i - (π⁻¹ i : Fin N).val)
+                               (fun i => α i - (τ⁻¹ i : Fin N).val))
+              (fullCauchyProd N ℂ)
+       else 0)) = 1 := by
+  sorry
+
 end Etingof
