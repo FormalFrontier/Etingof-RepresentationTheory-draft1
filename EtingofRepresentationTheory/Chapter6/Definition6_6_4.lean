@@ -273,6 +273,49 @@ noncomputable def Etingof.reflFunctorMinus_mkQ
   | .isFalse h => absurd rfl h
 
 open Classical in
+set_option maxHeartbeats 800000 in -- unfolding reflFunctorMinus_mkQ + reflectionFunctorMinus + match reduction
+/-- The quotient map mkQ kills sourceMap elements: mkQ(∑ lof(a)(mapLinear(a.snd)(v))) = 0.
+The mathematical content is: ψ(v) ∈ range(ψ) = ker(mkQ), so mkQ(ψ(v)) = 0.
+
+Key technique: avoid `= 0` (where `0 : F⁻(ρ).obj i` has Decidable.rec in its type) by
+first proving `= mkQ(0)` (where `0 : DirectSum` has no Decidable dependency), then
+using `map_zero` to bridge. The `revert; unfold; rw [h_di]` pattern works because
+both sides share the same `Decidable.casesOn` structure. -/
+theorem Etingof.reflFunctorMinus_mkQ_kills_sourceMap
+    {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [Fintype (Etingof.ArrowsOutOf Q i)]
+    (v : ρ.obj i) :
+    Etingof.reflFunctorMinus_mkQ hi ρ
+      (∑ a : Etingof.ArrowsOutOf Q i,
+        (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1) a)
+          (ρ.mapLinear a.2 v)) = 0 := by
+  have h_di : inst i i = .isTrue rfl := by
+    cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
+  -- Step 1: Reformulate as mkQ(ψ v) = mkQ(0), avoiding abstract 0 : F⁻(ρ).obj i
+  suffices h : Etingof.reflFunctorMinus_mkQ hi ρ
+      (∑ a : Etingof.ArrowsOutOf Q i,
+        (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1) a)
+          (ρ.mapLinear a.2 v)) = Etingof.reflFunctorMinus_mkQ hi ρ 0 by
+    rwa [map_zero] at h
+  -- Step 2: Both sides share Decidable.casesOn structure, so rw [h_di] works
+  revert v
+  unfold Etingof.reflFunctorMinus_mkQ Etingof.reflectionFunctorMinus
+  simp only []
+  dsimp only [id]
+  rw [h_di]
+  intro v
+  simp only []
+  -- Provide AddCommGroup instances (must be letI for transparency to match unfolded defs)
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+    Etingof.addCommGroupOfRing (k := k)
+  -- Goal: mkQ(∑ lof a (mapLinear a.2 v)) = mkQ(0) in CokerType
+  rw [map_zero, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
+  exact ⟨v, by simp [LinearMap.sum_apply, LinearMap.comp_apply]⟩
+
+open Classical in
 set_option maxHeartbeats 1600000 in
 -- reason: unfolding reflectionFunctorMinus + equivAt_ne + mkQ + match reduction
 /-- At (a ≠ i, b = i), the F⁻ᵢ map sends w to mkQ(lof ⟨a, reversed_arrow⟩ (equivAt_ne w))
@@ -308,5 +351,6 @@ theorem Etingof.reflFunctorMinus_mapLinear_ne_eq
   rw [h_da, h_di]
   intro e w
   rfl
+
 
 end ReflectionFunctorMinusAPI
