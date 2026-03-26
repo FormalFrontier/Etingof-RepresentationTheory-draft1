@@ -674,8 +674,43 @@ theorem Etingof.Proposition6_6_7_source
     @Etingof.QuiverRepresentation.IsZero k _ Q
       (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorMinus Q i hi ρ) := by
-  -- BLOCKED: Definition 6.6.4 (reflectionFunctorMinus) is mostly sorry'd.
-  -- The proof would be dual to the sink case:
-  -- By Prop 6.6.5_source: either V is simple at i (→ F⁻(V) = 0) or sourceMap injective
-  -- In the injective case: F⁻(V) is indecomposable by the dual construction.
-  sorry
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfField (k := k)
+  rcases Etingof.Proposition6_6_5_source hi hρ with hsimple | hinj
+  · -- V is simple at i → F⁻(V) is zero
+    right
+    intro v
+    unfold Etingof.reflectionFunctorMinus
+    simp only
+    match hd : (‹DecidableEq Q› v i) with
+    | .isTrue hvi =>
+      rw [hd]; dsimp only []
+      -- v = i: space is coker(sourceMap). All arrow targets j ≠ i have dim 0.
+      have htrivial : ∀ (a : Etingof.ArrowsOutOf Q i), Subsingleton (ρ.obj a.1) := by
+        intro ⟨j, e⟩
+        have hj : j ≠ i := by intro heq; rw [heq] at e; exact (hi i).false e
+        rcases subsingleton_or_nontrivial (ρ.obj j) with h | h
+        · exact h
+        · exfalso
+          have h1 := Module.finrank_pos (R := k) (M := ρ.obj j)
+          have h2 := hsimple.2 j hj
+          omega
+      -- Direct sum is subsingleton (each component is)
+      haveI : Subsingleton (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+        subsingleton_of_forall_eq 0 fun x => DFunLike.ext x 0 fun a => Subsingleton.eq_zero _
+      -- Quotient of subsingleton is subsingleton
+      exact @Subsingleton.intro _ fun a b => by
+        induction a using Quotient.ind
+        induction b using Quotient.ind
+        exact congr_arg (Quotient.mk _) (Subsingleton.elim _ _)
+    | .isFalse hvi =>
+      rw [hd]; dsimp only []
+      -- v ≠ i: space is ρ.obj v, which has finrank 0
+      rcases subsingleton_or_nontrivial (ρ.obj v) with h | h
+      · exact h
+      · exfalso
+        have h1 := Module.finrank_pos (R := k) (M := ρ.obj v)
+        have h2 := hsimple.2 v hvi
+        omega
+  · -- sourceMap injective → F⁻(V) is indecomposable
+    left
+    sorry
