@@ -877,6 +877,33 @@ define both conversion directions in the SAME file as the type definition, or us
 **Stop after 3 failed approaches** — if `match`-based proof doesn't work, the issue is structural
 (needs upstream definition changes), not tactical.
 
+### Pattern 6: `Equiv.Perm` group inverse vs `Equiv.symm`
+
+`simp` and `rw` CANNOT match `q⁻¹` (group inverse on `Equiv.Perm`) against `Equiv.symm_apply_apply`
+(which has pattern `e.symm (e x) = x`). They are definitionally equal but simp's discrimination
+tree indexes them differently.
+
+**Symptoms:** `simp only [Equiv.symm_apply_apply]` leaves `q⁻¹ (q x)` unsimplified.
+
+**Solutions (in order of preference):**
+```lean
+-- 1. Use `change` to convert q⁻¹ to q.symm, then simp:
+change ... q.symm (q x) ...  -- definitional equality
+simp only [Equiv.symm_apply_apply]
+
+-- 2. Use deprecated but matching lemmas:
+rw [Equiv.Perm.inv_apply_self]  -- matches f⁻¹ (f x) = x
+rw [Equiv.Perm.apply_inv_self]  -- matches f (f⁻¹ x) = x
+
+-- 3. For nested applications, dsimp first to beta-reduce:
+dsimp only
+rw [Equiv.apply_symm_apply]  -- handles σ (σ.symm x) = x
+change ... q.symm ...         -- then convert q⁻¹ → q.symm
+```
+
+**Note:** `Equiv.apply_symm_apply` (pattern `e (e.symm x) = x`) works for `σ (σ.symm x)` because
+`σ.symm` is literally `Equiv.symm σ`, but does NOT work for `q (q⁻¹ x)` because `q⁻¹` is `Inv.inv q`.
+
 ## Issue Description Feasibility Check
 
 **Issue descriptions sometimes contain mathematically incorrect proof strategies.** Before committing to a proof approach described in an issue:
