@@ -980,17 +980,130 @@ theorem powerSum_bilinear_coeff (n : ℕ) (α β : Fin n →₀ ℕ)
   congr 1
   exact double_counting n α β hα hβ
 
-/-- **Cauchy determinant at coefficient level**: the double alternating sum of
-`fullCauchyProd` coefficients equals the corresponding `cauchyRHS` coefficient.
+/-! ### Vandermonde FPS and the Cauchy determinant at coefficient level
 
-This is the coefficient-level content of the formal power series identity
-`Δ_x · Δ_y · ∏_{i,j} 1/(1-xᵢyⱼ) = cauchyRHS = det(1/(1-xᵢyⱼ))`,
-which follows from the Cauchy determinant formula (Lemma 5.15.3).
+The key identity `Δ_x · Δ_y · ∏_{i,j} 1/(1-xᵢyⱼ) = det(1/(1-xᵢyⱼ)) = cauchyRHS`
+is proved as a formal power series identity by clearing denominators and using
+the polynomial Cauchy determinant formula (Lemma 5.15.3) via `MvPolynomial.funext`. -/
 
-Proof sketch: The alternating sum over π extracts a determinant from the product
-via the factorization `[x^r] fullCauchyProd = ∏_i h_{r_i}(y)` (x-variables separate
-across rows). This gives `det(h_{α_i-j}(y))_{ij}`. The alternating sum over τ then
-extracts `[y^β]` of this determinant, giving `[x^α y^β](cauchyRHS)` by Cauchy-Binet. -/
+/-- Permutation exponent vector in x-variables:
+`permExponentX N π` maps `Sum.inl i ↦ (π⁻¹ i).val`, `Sum.inr j ↦ 0`. -/
+private def permExponentX (N : ℕ) (π : Equiv.Perm (Fin N)) : CauchyVars N →₀ ℕ :=
+  Finsupp.equivFunOnFinite.symm (Sum.elim (fun i => (π⁻¹ i).val) (fun _ => 0))
+
+/-- Permutation exponent vector in y-variables:
+`permExponentY N τ` maps `Sum.inl i ↦ 0`, `Sum.inr j ↦ (τ⁻¹ j).val`. -/
+private def permExponentY (N : ℕ) (τ : Equiv.Perm (Fin N)) : CauchyVars N →₀ ℕ :=
+  Finsupp.equivFunOnFinite.symm (Sum.elim (fun _ => 0) (fun j => (τ⁻¹ j).val))
+
+@[simp]
+private theorem permExponentX_inl (N : ℕ) (π : Equiv.Perm (Fin N)) (i : Fin N) :
+    permExponentX N π (Sum.inl i) = (π⁻¹ i).val := by
+  simp [permExponentX, Finsupp.equivFunOnFinite]
+
+@[simp]
+private theorem permExponentX_inr (N : ℕ) (π : Equiv.Perm (Fin N)) (j : Fin N) :
+    permExponentX N π (Sum.inr j) = 0 := by
+  simp [permExponentX, Finsupp.equivFunOnFinite]
+
+@[simp]
+private theorem permExponentY_inl (N : ℕ) (τ : Equiv.Perm (Fin N)) (i : Fin N) :
+    permExponentY N τ (Sum.inl i) = 0 := by
+  simp [permExponentY, Finsupp.equivFunOnFinite]
+
+@[simp]
+private theorem permExponentY_inr (N : ℕ) (τ : Equiv.Perm (Fin N)) (j : Fin N) :
+    permExponentY N τ (Sum.inr j) = (τ⁻¹ j).val := by
+  simp [permExponentY, Finsupp.equivFunOnFinite]
+
+/-- The x-Vandermonde as a formal power series: `∑_π sign(π) · x^{permExponentX π}`. -/
+private noncomputable def vandermondeFPS_x (N : ℕ) : MvPowerSeries (CauchyVars N) ℂ :=
+  ∑ π : Equiv.Perm (Fin N),
+    ((Equiv.Perm.sign π : ℤ) : ℂ) • MvPowerSeries.monomial (permExponentX N π) 1
+
+/-- The y-Vandermonde as a formal power series: `∑_τ sign(τ) · y^{permExponentY τ}`. -/
+private noncomputable def vandermondeFPS_y (N : ℕ) : MvPowerSeries (CauchyVars N) ℂ :=
+  ∑ τ : Equiv.Perm (Fin N),
+    ((Equiv.Perm.sign τ : ℤ) : ℂ) • MvPowerSeries.monomial (permExponentY N τ) 1
+
+/-- The sum of permutation exponent vectors gives the bilinear exponent of the shifts:
+`permExponentX π + permExponentY τ = bilinExponent((π⁻¹ i).val, (τ⁻¹ j).val)`. -/
+private theorem permExponentXY_add (N : ℕ) (π τ : Equiv.Perm (Fin N)) :
+    permExponentX N π + permExponentY N τ =
+    bilinExponent N (fun i => (π⁻¹ i).val) (fun j => (τ⁻¹ j).val) := by
+  ext v; cases v <;> simp [bilinExponent, Finsupp.equivFunOnFinite]
+
+/-- When `permExponentX π ≤ bilinExponent α β`, this means `(π⁻¹ i).val ≤ α i` for all `i`,
+and the subtraction gives `bilinExponent(α - shift_x, β)`. -/
+private theorem bilinExponent_sub_permExponentX (N : ℕ) (α β : Fin N → ℕ)
+    (π : Equiv.Perm (Fin N)) (h : ∀ i, (π⁻¹ i : Fin N).val ≤ α i) :
+    bilinExponent N α β - permExponentX N π =
+    bilinExponent N (fun i => α i - (π⁻¹ i).val) β := by
+  ext v; cases v with
+  | inl i => simp [bilinExponent, permExponentX, Finsupp.equivFunOnFinite, h i]
+  | inr j => simp [bilinExponent, permExponentX, Finsupp.equivFunOnFinite]
+
+/-- The `≤` condition for `permExponentX` vs `bilinExponent`. -/
+private theorem permExponentX_le_bilinExponent_iff (N : ℕ) (α β : Fin N → ℕ)
+    (π : Equiv.Perm (Fin N)) :
+    permExponentX N π ≤ bilinExponent N α β ↔ ∀ i, (π⁻¹ i : Fin N).val ≤ α i := by
+  constructor
+  · intro h i
+    have := h (Sum.inl i)
+    simp at this
+    exact this
+  · intro h v; cases v with
+    | inl i => exact h i
+    | inr j => simp
+
+/-- The `≤` condition for `permExponentY` vs a bilinExponent-shifted value. -/
+private theorem permExponentY_le_bilinExponent_iff (N : ℕ) (α' β : Fin N → ℕ)
+    (τ : Equiv.Perm (Fin N)) :
+    permExponentY N τ ≤ bilinExponent N α' β ↔ ∀ j, (τ⁻¹ j : Fin N).val ≤ β j := by
+  constructor
+  · intro h j
+    have := h (Sum.inr j)
+    simp at this
+    exact this
+  · intro h v; cases v with
+    | inl i => simp
+    | inr j => exact h j
+
+private theorem bilinExponent_sub_permExponentY (N : ℕ) (α' β : Fin N → ℕ)
+    (τ : Equiv.Perm (Fin N)) (h : ∀ j, (τ⁻¹ j : Fin N).val ≤ β j) :
+    bilinExponent N α' β - permExponentY N τ =
+    bilinExponent N α' (fun j => β j - (τ⁻¹ j).val) := by
+  ext v; cases v with
+  | inl i => simp [bilinExponent, permExponentY, Finsupp.equivFunOnFinite]
+  | inr j =>
+    simp only [bilinExponent, permExponentY, Finsupp.equivFunOnFinite, Finsupp.tsub_apply]
+    simp [Finsupp.equivFunOnFinite]
+
+/-- **FPS Cauchy identity**: the product of x- and y-Vandermonde polynomials with the full
+Cauchy product equals the Cauchy RHS (= determinant of the Cauchy matrix).
+
+This is the formal power series identity `Δ_x · Δ_y · ∏_{i,j} 1/(1-xᵢyⱼ) = cauchyRHS`. -/
+private theorem vandermonde_mul_fullCauchyProd_eq_cauchyRHS (N : ℕ) :
+    vandermondeFPS_x N * vandermondeFPS_y N * fullCauchyProd N ℂ = cauchyRHS N ℂ := by
+  sorry
+
+/-- Coefficient extraction for a monomial-sum times a power series:
+if `V = ∑_π sign(π) • monomial(e(π)) 1` and `F` is an FPS, then
+`coeff d (V * F) = ∑_π sign(π) * (if e(π) ≤ d then coeff(d - e(π)) F else 0)`. -/
+private theorem coeff_vandermondeFPS_x_mul (N : ℕ) (d : CauchyVars N →₀ ℕ)
+    (F : MvPowerSeries (CauchyVars N) ℂ) :
+    MvPowerSeries.coeff d (vandermondeFPS_x N * F) =
+    ∑ π : Equiv.Perm (Fin N),
+      ((Equiv.Perm.sign π : ℤ) : ℂ) *
+        (if permExponentX N π ≤ d
+         then MvPowerSeries.coeff (d - permExponentX N π) F
+         else 0) := by
+  simp only [vandermondeFPS_x, Finset.sum_mul, smul_mul_assoc, map_sum,
+    MvPowerSeries.coeff_smul, zsmul_eq_mul]
+  congr 1; ext π
+  congr 1
+  rw [MvPowerSeries.coeff_monomial_mul, one_mul]
+
 private theorem alternating_coeff_eq_cauchyRHS_coeff (N : ℕ) (α β : Fin N → ℕ) :
     (∑ π : Equiv.Perm (Fin N), ∑ τ : Equiv.Perm (Fin N),
       ((Equiv.Perm.sign π : ℤ) : ℂ) * ((Equiv.Perm.sign τ : ℤ) : ℂ) *
@@ -1001,7 +1114,40 @@ private theorem alternating_coeff_eq_cauchyRHS_coeff (N : ℕ) (α β : Fin N �
               (fullCauchyProd N ℂ)
        else 0)) =
     MvPowerSeries.coeff (bilinExponent N α β) (cauchyRHS N ℂ) := by
-  sorry
+  -- Use the FPS Cauchy identity: V_x * V_y * fullCauchyProd = cauchyRHS
+  rw [← vandermonde_mul_fullCauchyProd_eq_cauchyRHS N, mul_assoc]
+  -- Extract coefficient of V_x * (V_y * fullCauchyProd)
+  rw [coeff_vandermondeFPS_x_mul]
+  -- Both sides are ∑_π ..., match term by term
+  apply Finset.sum_congr rfl; intro π _
+  by_cases hπ : ∀ i, (π⁻¹ i : Fin N).val ≤ α i
+  · -- π condition holds: simplify the if on both sides
+    have hle : permExponentX N π ≤ bilinExponent N α β :=
+      (permExponentX_le_bilinExponent_iff N α β π).mpr hπ
+    rw [if_pos hle, bilinExponent_sub_permExponentX N α β π hπ]
+    -- Expand V_y * F coefficient
+    simp only [vandermondeFPS_y, Finset.sum_mul, smul_mul_assoc, map_sum,
+      MvPowerSeries.coeff_smul, zsmul_eq_mul]
+    -- LHS: ∑_τ sign(π)*sign(τ) * (if hπ ∧ hτ then coeff ... else 0)
+    -- RHS: sign(π) * ∑_τ sign(τ) * coeff(monomial*F)
+    rw [Finset.mul_sum]; congr 1; ext τ
+    rw [MvPowerSeries.coeff_monomial_mul, one_mul]
+    by_cases hτ : ∀ j, (τ⁻¹ j : Fin N).val ≤ β j
+    · have hle' : permExponentY N τ ≤ bilinExponent N (fun i => α i - (π⁻¹ i).val) β :=
+        (permExponentY_le_bilinExponent_iff N _ β τ).mpr hτ
+      rw [if_pos hle', bilinExponent_sub_permExponentY N _ β τ hτ,
+        if_pos ⟨hπ, hτ⟩]
+      ring
+    · have hle' : ¬(permExponentY N τ ≤ bilinExponent N (fun i => α i - (π⁻¹ i).val) β) :=
+        by rwa [permExponentY_le_bilinExponent_iff]
+      rw [if_neg hle', if_neg (show ¬(_ ∧ _) from fun h => hτ h.2)]
+      ring
+  · -- π condition fails: both sides are zero
+    have hle : ¬(permExponentX N π ≤ bilinExponent N α β) :=
+      by rwa [permExponentX_le_bilinExponent_iff]
+    rw [if_neg hle]
+    simp only [show ¬((∀ i, (π⁻¹ i : Fin N).val ≤ α i) ∧ _) from fun h => hπ h.1,
+      if_false, mul_zero, Finset.sum_const_zero, mul_zero]
 
 /-- **Vandermonde-Cauchy diagonal coefficient identity**.
 
