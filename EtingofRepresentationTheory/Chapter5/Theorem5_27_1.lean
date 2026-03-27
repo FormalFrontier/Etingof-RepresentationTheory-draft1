@@ -243,6 +243,48 @@ private lemma coset_fixed_iff {G : Type*} [Group G] [Fintype G]
     exact Quotient.sound' (QuotientGroup.leftRel_apply.mpr (by
       simpa [mul_inv_rev, inv_inv] using hmem))
 
+-- Helper: the first component of groupEquivQuotientProdSubgroup is the quotient map
+open Classical in
+private lemma groupEquivQuotientProdSubgroup_fst {G : Type*} [Group G] [Fintype G]
+    (H : Subgroup G) (g : G) :
+    ((Subgroup.groupEquivQuotientProdSubgroup (s := H)) g).1 = (g : G ⧸ H) := by
+  simp only [Subgroup.groupEquivQuotientProdSubgroup]
+  rfl
+
+-- Helper: sum of a right-H-invariant function over G = |H| * sum over G/H
+-- Right-invariant means f(g * s) = f(g) for s ∈ H, so f is constant on LEFT cosets gH.
+open Classical in
+private lemma sum_rightInvariant {G : Type*} [Group G] [Fintype G]
+    (H : Subgroup G) (f : G → ℂ)
+    (hf : ∀ (g : G) (s : ↥H), f (g * ↑s) = f g) :
+    ∑ g : G, f g = ↑(Fintype.card ↥H) * ∑ q : G ⧸ H, f q.out := by
+  -- Decompose G ≃ (G/H) × H
+  rw [← Equiv.sum_comp (Subgroup.groupEquivQuotientProdSubgroup (s := H)).symm]
+  rw [Fintype.sum_prod_type]
+  simp_rw [Finset.mul_sum]
+  congr 1; ext q
+  -- Goal: ∑ s, f(equiv.symm (q, s)) = |H| * f(q.out)
+  have hval : ∀ s : ↥H,
+      f ((Subgroup.groupEquivQuotientProdSubgroup (s := H)).symm (q, s)) = f q.out := by
+    intro s
+    set x := (Subgroup.groupEquivQuotientProdSubgroup (s := H)).symm (q, s)
+    have hxq : (x : G ⧸ H) = q := by
+      have := groupEquivQuotientProdSubgroup_fst H x
+      rw [Equiv.apply_symm_apply] at this
+      exact this.symm
+    -- q.out⁻¹ * x ∈ H (same left coset)
+    have hmem : q.out⁻¹ * x ∈ H := by
+      apply QuotientGroup.leftRel_apply.mp
+      apply Quotient.exact'
+      change Quotient.mk'' q.out = Quotient.mk'' x
+      rw [Quotient.out_eq']
+      exact hxq.symm
+    -- x = q.out * (q.out⁻¹ * x), and (q.out⁻¹ * x) ∈ H, so by right-invariance:
+    calc f x = f (q.out * (q.out⁻¹ * x)) := by rw [mul_inv_cancel_left]
+      _ = f q.out := hf q.out ⟨q.out⁻¹ * x, hmem⟩
+  simp_rw [hval]
+  rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+
 open Classical in
 /-- Classification of irreducible representations of semidirect products G ⋉ A
 via the orbit method: they are parametrized by pairs (O, U) where O is a
@@ -352,15 +394,68 @@ theorem Etingof.Theorem5_27_1
       -- Suffices to show |H| * ∑ q F(q) = ∑ h f(h), then multiply by |H|⁻¹
       rw [eq_comm, inv_mul_eq_div, div_eq_iff]
       · -- Need: ∑ h, f(h) = (∑ q, F(q)) * |H|
-        -- Proof outline:
-        -- (A) f is left-H-invariant: f(sh) = f(h) for s ∈ H
-        --     because (sh)g(sh)⁻¹ = s(hgh⁻¹)s⁻¹ ∈ H ↔ hgh⁻¹ ∈ H,
-        --     χ(φ(sh)(a)) = χ(φ(h)(a)) by stab_char_inv,
-        --     char(sts⁻¹) = char(t) by FDRep.char_mul_comm
-        -- (B) ∑ h, f(h) = ∑ h, f(h⁻¹) by Equiv.sum_comp (MulEquiv.inv G)
-        -- (C) g := f∘inv is right-H-invariant (from A)
-        -- (D) ∑ h, g(h) = |H| * ∑ q, g(q.out) by groupEquivQuotientProdSubgroup
-        -- (E) g(q.out) = f(q.out⁻¹) = F(q) since q.out⁻¹*g*(q.out⁻¹)⁻¹ = q.out⁻¹*g*q.out
-        sorry
+        -- where f(h) = if hgh⁻¹ ∈ H then χ(φ(h)(a)) * char(hgh⁻¹) else 0
+        -- Strategy: reindex by h → h⁻¹, apply sum_rightInvariant
+        -- Step 1: ∑ h, f(h) = ∑ h, f(h⁻¹) via involution h → h⁻¹
+        have step_inv : (∑ h : G, dite (h * g * h⁻¹ ∈ stabAux φ χ)
+            (fun hh => ↑(χ ((φ h) a)) * U.character ⟨h * g * h⁻¹, hh⟩)
+            (fun _ => 0)) =
+          ∑ h : G, dite (h⁻¹ * g * h ∈ stabAux φ χ)
+            (fun hh => (↑(χ ((φ h⁻¹) a)) : ℂ) * U.character ⟨h⁻¹ * g * h, hh⟩)
+            (fun _ => 0) := by
+          rw [← Equiv.sum_comp (Equiv.inv G)]
+          congr 1; ext h; simp [Equiv.inv]
+        rw [step_inv]
+        -- Step 2: Define g'(h) = f(h⁻¹) and show it's right-H-invariant
+        -- g'(h) = if h⁻¹*g*h ∈ H then χ(φ(h⁻¹)(a)) * char(h⁻¹*g*h) else 0
+        -- g'(h*s) for s ∈ H: (h*s)⁻¹*g*(h*s) = s⁻¹*(h⁻¹*g*h)*s
+        -- s⁻¹*(h⁻¹*g*h)*s ∈ H ↔ h⁻¹*g*h ∈ H (conjugation by s ∈ H preserves H)
+        -- χ(φ((h*s)⁻¹)(a)) = χ(φ(s⁻¹*h⁻¹)(a)) = χ(φ(s⁻¹)(φ(h⁻¹)(a))) = χ(φ(h⁻¹)(a))
+        -- char(s⁻¹*(h⁻¹*g*h)*s) = char(h⁻¹*g*h) by char_conj
+        -- Step 2: Show the inverted function is right-(stabAux φ χ)-invariant
+        -- and apply sum_rightInvariant
+        have key := sum_rightInvariant (stabAux φ χ)
+          (fun h => dite (h⁻¹ * g * h ∈ stabAux φ χ)
+            (fun hh => (↑(χ ((φ h⁻¹) a)) : ℂ) * U.character ⟨h⁻¹ * g * h, hh⟩)
+            (fun _ => 0))
+          (by -- Right-invariance proof
+            intro h ⟨s, hs⟩
+            simp only
+            have hconj_eq : (h * s)⁻¹ * g * (h * s) = s⁻¹ * (h⁻¹ * g * h) * s := by group
+            have hmem_iff : (h * s)⁻¹ * g * (h * s) ∈ stabAux φ χ ↔
+                h⁻¹ * g * h ∈ stabAux φ χ := by
+              rw [hconj_eq]
+              constructor
+              · intro hm
+                have := (stabAux φ χ).mul_mem ((stabAux φ χ).mul_mem hs hm)
+                  ((stabAux φ χ).inv_mem hs)
+                simpa [mul_assoc] using this
+              · intro hm
+                exact (stabAux φ χ).mul_mem ((stabAux φ χ).mul_mem
+                  ((stabAux φ χ).inv_mem hs) hm) hs
+            by_cases hm : h⁻¹ * g * h ∈ stabAux φ χ
+            · simp only [dif_pos hm, dif_pos (hmem_iff.mpr hm)]
+              congr 1
+              · -- χ(φ((hs)⁻¹)(a)) = χ(φ(h⁻¹)(a))
+                have heq : (φ (h * s)⁻¹ : MulAut A) a =
+                    (φ s⁻¹ : MulAut A) ((φ h⁻¹ : MulAut A) a) := by
+                  rw [mul_inv_rev, map_mul, MulAut.mul_apply]
+                rw [heq]
+                exact congrArg Units.val
+                  (stab_char_inv φ χ ((stabAux φ χ).inv_mem hs) ((φ h⁻¹ : MulAut A) a))
+              · -- char(s⁻¹*(h⁻¹*g*h)*s) = char(h⁻¹*g*h) by char_conj
+                have hsub : (⟨(h * s)⁻¹ * g * (h * s), hmem_iff.mpr hm⟩ :
+                    ↥(stabAux φ χ)) =
+                    ⟨s⁻¹, (stabAux φ χ).inv_mem hs⟩ *
+                    ⟨h⁻¹ * g * h, hm⟩ *
+                    ⟨s⁻¹, (stabAux φ χ).inv_mem hs⟩⁻¹ := by
+                  ext; simp [mul_assoc]
+                rw [hsub]
+                exact FDRep.char_conj U ⟨h⁻¹ * g * h, hm⟩
+                  ⟨s⁻¹, (stabAux φ χ).inv_mem hs⟩
+            · rw [dif_neg (mt hmem_iff.mp hm), dif_neg hm])
+        have : this = QuotientGroup.fintype (stabAux φ χ) := Subsingleton.elim _ _
+        subst this
+        rw [key, mul_comm]
       · -- Need: |H| ≠ 0
         exact Nat.cast_ne_zero.mpr (Fintype.card_pos.ne')
