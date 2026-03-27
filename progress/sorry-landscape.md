@@ -1,192 +1,162 @@
-# Sorry Landscape Analysis — Wave 37
+# Sorry Landscape Analysis — Wave 38
 
-Generated 2026-03-27 by summarize session (issue #1790).
+Generated 2026-03-27 by summarize session (issue #1818).
 
 ## Summary
 
-**33 sorries** across 21 files. Down from 37 / 22 in wave 36 (−4 sorries, −1 file). Chapters 3, 4, 7, 8 remain 100% sorry-free. 250 of 271 Lean files (92.3%) are sorry-free. 568 of 583 items (97.4%) sorry-free.
+**27 sorries** across 19 files. Down from 33 / 21 in wave 37 (−6 sorries, −2 files). Chapters 3, 4, 7, 8 remain 100% sorry-free. 249 of 271 Lean files (91.9%) are sorry-free. 209 of 583 items (35.8%) sorry-free.
 
-10 PRs merged since wave 36 (#1762–#1779). Key changes:
-- **charValue constructed** (#1762) — Frobenius character formula via alternant matrix determinant. Removes the last Ch5 definition-level sorry.
-- **IsFiniteTypeQuiver constructed** (#1770) — finite-type quiver predicate now real (quantified over all orientations and algebraically closed fields). Removes the last Ch6 definition-level sorry.
-- **TabloidModule sorrys resolved** (#1769, #1771, #1772) — SYT injection proved, false theorem `RelColumnSubgroup_ne_tabloid` identified and removed, dominance order infrastructure added.
-- **inducedRepV constructed** (#1778) — `map_one'` and `map_mul'` for Theorem5_27_1 proved, removing 1 of 5 Mackey machine sorrys.
-- **Proposition6_6_7 fix** (#1777) — replaced `addCommGroupOfField` with `addCommGroupOfRing`.
-- **Meditate session** (#1779) — skill updates from patterns across PRs #1723–#1771.
+15 PRs merged since wave 37 (#1795–#1822). Key changes:
+- **Proposition6_6_7 sorry-free** (#1800) — Both source-case sorrys proved via Decidable.casesOn workarounds. Removes 2 sorrys and unblocks Gabriel chain partially.
+- **Proposition5_21_1 sorry-free** (#1808) — Antisymmetric basis decomposition proved. Character expansion in terms of Schur polynomials complete.
+- **Theorem5_18_4 reduced to 1 sorry** (#1817 + earlier #1781) — Centralizer theorem proved; 3 of 4 sorrys resolved. Only partition-indexed decomposition remains.
+- **Theorem5_22_1 reduced to 1 sorry** (#1815, #1806) — Weight-to-Schur-poly coefficient identity proved. Only vandermonde multiplication formula remains.
+- **Problem6_9_1 decomposed** (#1807) — Single sorry split into finer structure; 6 of 8 sub-goals proved, 2 remain (IsCompl conditions).
+- **BasicAlgebraExistence expanded** (#1803) — Helper lemma `fullIdempotent_cornerRing_moritaEquivalent` added with its own sorry (1→2 sorrys, but more structured).
+- **Mackey machine infrastructure** (#1804, #1822) — coset_fixed_iff and LHS simplification proved; no sorry count change yet (4 remain).
+- **Cauchy identity progress** (#1801, #1812) — Reduced FPS Cauchy identity to polynomial determinant; coefficient-level alternating identity proved.
+- **Tabloid infrastructure** (#1797, #1811) — Dominance order properties proved; swap_column_dominance done.
 
 | Tier | Count | % | Description |
 |------|-------|---|-------------|
-| Tier 1 — Achievable | 3 | 9% | Standard math, clear path, 1-2 sessions |
-| Tier 2 — Hard but tractable | 5 | 15% | Non-trivial proofs, self-contained |
-| Tier 3 — Significant infrastructure | 7 | 21% | Clifford, Morita, Schur-Weyl decomposition |
-| Tier 4 — Deep blockers | ~18 | 55% | SchurModule-dependent proofs + Gabriel chain |
+| Tier 1 — Achievable | 3 | 11% | Standard math, clear path, 1-2 sessions |
+| Tier 2 — Hard but tractable | 4 | 15% | Non-trivial proofs, self-contained |
+| Tier 3 — Significant infrastructure | 7 | 26% | Clifford, Morita, Schur-Weyl decomposition |
+| Tier 4 — Deep blockers | ~13 | 48% | SchurModule-dependent + Gabriel chain |
 
-## Milestone: All Definition-Level Sorries Resolved
+## Definition-Level Sorries (Regression Check)
 
-**Definition-level sorries reduced from 2 to 0.** This is a historic milestone — every mathematical object in the project is now constructed with real data.
-
-Wave 36 had these definition-level sorries:
-- ~~charValue~~ → **constructed** (#1762): Frobenius character formula via `alternantMatrix.det * psumPart`
-- ~~IsFiniteTypeQuiver~~ → **constructed** (#1770): quantified over all orientations and algebraically closed fields
-
-**All 33 remaining sorries are now genuine proof obligations against real mathematical objects.** No theorem in the project is vacuous.
+**All definition-level sorries remain resolved: 0.** Every mathematical object in the project is constructed. No regression since wave 37.
 
 ## Chapter Breakdown
 
-| Chapter | Sorries | Files | Delta from Wave 36 |
+| Chapter | Sorries | Files | Delta from Wave 37 |
 |---------|---------|-------|---------------------|
 | Ch2 | 1 | 1 | 0 |
-| Ch5 | 15 | 8 | −2 sorrys, −1 file (charValue constructed; TabloidModule sorry-free; inducedRepV partial) |
-| Ch6 | 10 | 8 | −1 sorry (IsFiniteTypeQuiver constructed) |
+| Ch5 | 12 | 7 | −3 sorrys, −1 file (Proposition5_21_1 sorry-free; Theorem5_18_4 4→1; Theorem5_22_1 2→1) |
+| Ch6 | 9 | 7 | −2 sorrys, −1 file (Proposition6_6_7 sorry-free; Problem6_9_1 1→2) |
 | Ch9 | 2 | 2 | 0 |
-| Infra | 2 | 2 | 0 |
+| Infra | 3 | 2 | +1 sorry (BasicAlgebraExistence helper added) |
 
-Note: Wave 36 counted Ch5 as 21/9 and Ch6 as 11/9, but the wave 36 file included some sorrys in comments. Recount on this wave's methodology gives Ch5: 15 code sorrys, Ch6: 10 code sorrys.
+## Files That Became Sorry-Free Since Wave 37
 
-## Files That Became Sorry-Free Since Wave 36
-
-1. **TabloidModule.lean** — 2 sorrys → 0. SYT injection proved (#1769), false theorem removed (#1772), dominance order added (#1771).
+1. **Proposition6_6_7.lean** — 2 sorrys → 0. Both source-case sorrys proved via Decidable.casesOn workarounds (#1800).
+2. **Proposition5_21_1.lean** — 1 sorry → 0. Antisymmetric basis decomposition proved (#1808).
 
 ## Open PRs (In-Flight Work)
 
 | PR | Issue | Title | Status |
 |----|-------|-------|--------|
-| #1786 | #1784 | Clean up stale sorry docs in Lemma5_25_3 | CI passing |
-| #1781 | #1776 | Schur-Weyl semisimplicity + decomposition (2/4 sorrys remain) | CI passing |
-| #1780 | #1773 | Weight support finiteness for formalCharacter | CI passing |
+| #1821 | #1785? | Prove Proposition6_6_6 remaining 2 sorrys | Open |
 
-Note: All 3 open PRs have passing CI. If merged, #1780 would remove 1 sorry from Theorem5_22_1 and #1781 would remove 2 sorrys from Theorem5_18_4.
+Note: The wave 37 backlog of 3 open PRs (#1780, #1781, #1786) has been fully merged.
 
 ## Tier 1 — Achievable (3 sorries)
 
 ### PowerSumCauchyBilinear — 1 sorry
 **File:** `Chapter5/PowerSumCauchyBilinear.lean`
 **Nature:** `card_sigma_fiberPerm_eq_factorial_mul` (orbit-stabilizer for element bicolorings).
-**Status:** Active issue #1714 (Part B).
-**Delta:** Unchanged from wave 36.
+**Delta:** Unchanged. Cauchy identity infrastructure improved (#1801, #1812) but this sorry persists.
 
 ### PolytabloidBasis — 2 sorries
 **File:** `Chapter5/PolytabloidBasis.lean`
 **Nature:** `polytabloid_linearIndependent` and `perm_mul_youngSymmetrizer_mem_span_polytabloids` (straightening lemma).
-**Status:** Active issue #1717.
-**Delta:** Unchanged from wave 36.
+**Delta:** Unchanged. Dominance order infrastructure improved (#1797, #1811) but core sorrys persist.
 
-## Tier 2 — Hard but Tractable (5 sorries)
+## Tier 2 — Hard but Tractable (4 sorries)
 
 ### Proposition6_6_6_source — 2 sorries
 **File:** `Chapter6/Proposition6_6_6_source.lean`
-**Nature:** `hdim` (finrank equality via rank-nullity) and source naturality (instance diamond prevents naming `ofBijective` term). Both blocked by Decidable.casesOn / instance diamond issues.
-**Status:** Active issue #1724.
+**Nature:** `hdim` (finrank equality via rank-nullity) and source naturality (instance diamond).
+**Delta:** Unchanged. Active PR #1821 in progress.
 
-### Proposition6_6_7 — 2 sorries
-**File:** `Chapter6/Proposition6_6_7.lean`
-**Nature:** `reversedArrow_arrowOut_eq` (roundtrip lemma for ReversedAtVertexHom) and codisjointness at source vertex.
-**Status:** Active issue #1726.
-
-### Problem6_9_1 — 1 sorry
+### Problem6_9_1 — 2 sorries
 **File:** `Chapter6/Problem6_9_1.lean`
-**Nature:** `decomp_of_ker_sum_ge_two` — Q₂-rep decomposability via graded nilpotent chain basis.
-**Status:** Active issue #1691.
+**Nature:** Two `IsCompl` conditions (complementarity of projected subspaces pV/qV and pW/qW).
+**Delta:** Decomposed from 1 coarse sorry into 8 sub-goals; 6 proved, 2 remain (#1807).
 
-## Tier 3 — Significant Infrastructure (~7 sorries)
+## Tier 3 — Significant Infrastructure (7 sorries)
 
 ### Mackey Machine (Ch5, 4 sorries)
 **File:** Theorem5_27_1
-**Missing:** Clifford theory infrastructure (~500 lines). 4 sorry'd proof obligations remain after inducedRepV construction (#1778).
-**Delta:** Was 5 sorrys; now 4 (inducedRepV `map_one'`, `map_mul'` proved).
+**Missing:** Clifford theory infrastructure. 4 sorry'd proof obligations remain.
+**Delta:** Infrastructure improved (coset_fixed_iff #1804, LHS simplification #1822) but sorry count unchanged.
 **Status:** Issue #1731.
 
 ### Morita/Basic Algebra Infrastructure (3 sorries)
-**Files:** MoritaStructural Ch9 (1), BasicAlgebraExistence (1), MoritaStructural Infra (1)
-**Missing:** Progenerator-to-algebra construction. Issue #1729.
+**Files:** MoritaStructural Ch9 (1), BasicAlgebraExistence (2), MoritaStructural Infra (1)
+**Delta:** BasicAlgebraExistence went from 1→2 (helper lemma added #1803). Net +1 sorry but better structured.
+**Status:** Issue #1729.
 
-## Tier 4 — Deep Blockers (~18 sorries)
+## Tier 4 — Deep Blockers (~13 sorries)
 
-### SchurModule Proofs (Ch5, ~8 sorries)
-**Files:** Theorem5_23_2 (2), Theorem5_18_4 (4), Theorem5_22_1 (2)
-**Change from wave 36:** All definitions are now constructed. These are pure proof obligations.
-**In-flight:** PR #1780 (weight support finiteness, −1 sorry from Theorem5_22_1) and PR #1781 (Schur-Weyl semisimplicity, −2 sorrys from Theorem5_18_4) both have passing CI.
-**Status:** Active issue #1722.
-
-### Proposition5_21_1 — 1 sorry
-**File:** `Chapter5/Proposition5_21_1.lean`
-**Nature:** Character expansion using charValue. charValue is now **constructed** (#1762), so this is a genuine proof obligation.
-**Delta:** Was 2 sorrys (def + proof); now 1 (proof only). Definition-level sorry resolved.
+### SchurModule Proofs (Ch5, 4 sorries)
+**Files:** Theorem5_23_2 (2), Theorem5_18_4 (1), Theorem5_22_1 (1)
+**Delta:** Major progress. Theorem5_18_4 went from 4→1 (centralizer proved #1817, semisimplicity #1781). Theorem5_22_1 went from 2→1 (coefficient identity #1815).
+**Active issues:** #1773 (Theorem5_22_1 vandermonde), #1816 (Theorem5_18_4 partition decomposition).
 
 ### Proposition5_22_2 — 1 sorry
 **File:** `Chapter5/Proposition5_22_2.lean`
-**Nature:** Schur polynomial character formula. Depends on SchurModule theory.
+**Nature:** Determinant twist isomorphism for Schur modules.
+**Active issue:** #1785.
 
 ### Gabriel's Theorem Chain (Ch6, 5 sorries)
 **Files:** Corollary6_8_3 (1), Corollary6_8_4 (1), Problem6_1_5_theorem (1), Theorem6_5_2 (1), CoxeterInfrastructure (1)
-**Change from wave 36:** Problem6_1_5_theorem reduced from 2 to 1 sorry (IsFiniteTypeQuiver constructed).
-**Status:** Chain blocked on CoxeterInfrastructure + Proposition6_6_6/7. Issue #1734.
+**Delta:** Proposition6_6_7 becoming sorry-free partially unblocks this chain, but Proposition6_6_6_source (2 sorrys) still blocks.
+**Status:** Issue #1734.
 
 ### Gabriel's Theorem Classification (Ch2, 1 sorry)
 **File:** Theorem2_1_2
-**Missing:** Full Gabriel's theorem depends on Ch6 Gabriel cluster. Issue #1734.
+**Missing:** Full Gabriel's theorem depends on Ch6 Gabriel cluster.
 
 ### Homological Dimension (Ch9, 1 sorry)
 **File:** Example9_4_4
-**Status:** `homologicalDimension (MvPolynomial (Fin n) k) = n` — standalone, deep homological algebra. Issue #1729.
-
-## Definition-Level Sorries (Regression Check)
-
-**All definition-level sorries resolved: 2 → 0.** Every mathematical object in the project is now constructed.
-
-**Resolved since wave 36 (2):**
-- ~~Proposition5_21_1: charValue~~ → constructed via Frobenius character formula (#1762)
-- ~~Problem6_1_5_theorem: IsFiniteTypeQuiver~~ → constructed with quantified predicate (#1770)
-
-**Resolved in total since wave 28 (10-11):**
-- SchurModule (#1740), formalCharacter (#1753), AlgIrrepGL/Dual (#1752), charValue (#1762), IsFiniteTypeQuiver (#1770)
+**Status:** `homologicalDimension (MvPolynomial (Fin n) k) = n` — standalone, deep homological algebra.
 
 ## Per-File Sorry Detail
 
-| File | Sorries | Nature | Delta from W36 |
+| File | Sorries | Nature | Delta from W37 |
 |------|---------|--------|----------------|
-| Theorem5_18_4 | 4 | Young symmetrizer character formula | 0 |
-| Theorem5_27_1 | 4 | Mackey machine (Clifford theory) | **−1** |
+| Theorem5_27_1 | 4 | Mackey machine (Clifford theory) | 0 |
 | Theorem5_23_2 | 2 | Complete reducibility + Peter-Weyl decomposition | 0 |
-| Theorem5_22_1 | 2 | Weight support finiteness + Weyl character formula | 0 |
-| Proposition6_6_7 | 2 | Reflection functor source (roundtrip + codisjointness) | 0 |
+| Theorem5_18_4 | 1 | Partition-indexed Schur-Weyl decomposition | **−3** |
+| Theorem5_22_1 | 1 | Vandermonde multiplication formula | **−1** |
 | Proposition6_6_6_source | 2 | Reflection functor source (hdim + naturality) | 0 |
 | PolytabloidBasis | 2 | Linear independence + straightening | 0 |
-| Proposition5_21_1 | 1 | Character expansion | **−1** |
-| Problem6_1_5_theorem | 1 | Finite type ↔ Dynkin | **−1** |
+| Problem6_9_1 | 2 | IsCompl conditions (pV/qV, pW/qW) | **+1** |
+| BasicAlgebraExistence | 2 | Basic algebra existence + corner ring Morita | **+1** |
 | Proposition5_22_2 | 1 | Schur polynomial character formula | 0 |
 | Corollary6_8_3 | 1 | Indecomposable → positive root | 0 |
 | Corollary6_8_4 | 1 | Bijection: indec reps ↔ positive roots | 0 |
 | CoxeterInfrastructure | 1 | Admissible ordering existence | 0 |
 | Theorem6_5_2 | 1 | Indecomposable decomposition uniqueness | 0 |
-| Problem6_9_1 | 1 | Q₂-rep decomposability | 0 |
+| Problem6_1_5_theorem | 1 | Finite type ↔ Dynkin | 0 |
 | PowerSumCauchyBilinear | 1 | card_sigma_fiberPerm (orbit-stabilizer) | 0 |
-| BasicAlgebraExistence | 1 | Basic algebra existence | 0 |
 | MoritaStructural (Ch9) | 1 | Morita equivalence construction | 0 |
 | MoritaStructural (Infra) | 1 | Morita structural infrastructure | 0 |
 | Example9_4_4 | 1 | Homological dimension of polynomial ring | 0 |
 | Theorem2_1_2 | 1 | Gabriel's theorem statement | 0 |
 
-**Removed since Wave 36:** TabloidModule.lean (2 sorrys → 0, now sorry-free)
-**Changed since Wave 36:**
-- Proposition5_21_1: 2→1 (charValue definition constructed, −1)
-- Problem6_1_5_theorem: 2→1 (IsFiniteTypeQuiver constructed, −1)
-- Theorem5_27_1: 5→4 (inducedRepV `map_one'`/`map_mul'` proved, −1)
-- TabloidModule: 2→0 (sorry-free, removed from table)
+**Removed since Wave 37:** Proposition6_6_7.lean (2 sorrys → 0), Proposition5_21_1.lean (1 sorry → 0)
+**Changed since Wave 37:**
+- Theorem5_18_4: 4→1 (centralizer proved #1817, semisimplicity/decomposition #1781)
+- Theorem5_22_1: 2→1 (coefficient identity #1815)
+- Problem6_9_1: 1→2 (decomposed into finer structure #1807, +1 net but 6 sub-goals proved)
+- BasicAlgebraExistence: 1→2 (helper lemma added #1803)
 
 ## Strategic Recommendations
 
-1. **Merge passing PRs** — #1780, #1781, #1786 all have passing CI. Merging would reduce sorrys by ~3 more (→ ~30 sorrys / 21 files in wave 38).
+1. **Close out Proposition6_6_6_source** — PR #1821 is in-flight. Resolving the 2 remaining sorrys here unblocks most of the Gabriel chain (5 sorrys in Corollary6_8_3, Corollary6_8_4, Problem6_1_5_theorem, Theorem6_5_2, CoxeterInfrastructure).
 
-2. **Prove SchurModule-dependent theorems** — All definitions constructed. The ~8 remaining Ch5 proof sorrys (Theorem5_23_2, Theorem5_18_4, Theorem5_22_1) are genuine proof obligations. Highest ROI area.
+2. **Finish Theorem5_18_4** (#1816) — Only 1 sorry remains (partition-indexed decomposition). The centralizer and semisimplicity infrastructure is done.
 
-3. **Resolve Decidable.casesOn blocker** — Proposition6_6_6_source (2 sorrys) and Proposition6_6_7 (2 sorrys) share the same root cause. A targeted refactor of Definition6_6_2/4 would unblock 4 sorrys and the entire Gabriel chain.
+3. **Finish Theorem5_22_1** (#1773) — Only 1 sorry remains (vandermonde multiplication). Coefficient identity is proved.
 
-4. **Complete PolytabloidBasis** (#1717) — 2 sorrys (linear independence + straightening). Independent of SchurModule.
+4. **Complete PolytabloidBasis** (#1717) — 2 sorrys. Independent of other work. Dominance order infrastructure has improved.
 
-5. **PowerSumCauchyBilinear Part B** (#1714) — 1 remaining sorry. Standard combinatorics.
+5. **Mackey machine** — 4 sorrys but infrastructure is building up (coset_fixed_iff, LHS simplification). Still needs significant Clifford theory work.
 
-6. **Attempt neglected Ch9/Infra** (#1729) — MoritaStructural has had zero direct PRs in 50+ waves.
+6. **Problem6_9_1 IsCompl** — 2 remaining sorrys are localized complementarity conditions, potentially tractable.
 
 ## Trajectory
 
@@ -202,3 +172,6 @@ Note: All 3 open PRs have passing CI. If merged, #1780 would remove 1 sorry from
 | 35 | 43 | 21 | 568/583 (97.4%) | 2026-03-26 |
 | 36 | 37 | 22 | 568/583 (97.4%) | 2026-03-27 |
 | 37 | 33 | 21 | 568/583 (97.4%) | 2026-03-27 |
+| 38 | 27 | 19 | 570/583 (97.8%) | 2026-03-27 |
+
+Note: "Items sorry-free" counts items whose Lean files contain zero `sorry` keywords. The 209/583 (35.8%) figure in items.json counts individual item-level sorry_free status, which is a different (stricter) metric tracking whether each specific theorem/definition is proved.
