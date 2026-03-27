@@ -137,7 +137,52 @@ private noncomputable def inducedRepV {G A : Type} [Group G] [CommGroup A] [Fint
         rw [this, map_one, Module.End.one_apply]
       exact this _ (by simp [SemidirectProduct.one_right, inv_mul_cancel]) _
     map_mul' := fun ag₁ ag₂ => by
-      sorry }
+      apply LinearMap.ext; intro f; funext q
+      simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
+        LinearMap.coe_mk, AddHom.coe_mk, Module.End.mul_apply]
+      set q₁ := ag₁.right⁻¹ • q
+      have hcoset : (ag₁.right * ag₂.right)⁻¹ • q = ag₂.right⁻¹ • q₁ := by
+        rw [mul_inv_rev, mul_smul]
+      -- Character factor
+      have hchar :
+          ((χ ((φ q.out⁻¹ : MulAut A)
+            (ag₁.left * (φ ag₁.right : MulAut A) ag₂.left)) : ℂˣ) : ℂ) =
+          ((χ ((φ q.out⁻¹ : MulAut A) ag₁.left) : ℂˣ) : ℂ) *
+          ((χ ((φ q₁.out⁻¹ : MulAut A) ag₂.left) : ℂˣ) : ℂ) := by
+        rw [map_mul (φ q.out⁻¹ : MulAut A), map_mul χ, Units.val_mul]
+        congr 1
+        rw [← MulAut.mul_apply, ← map_mul φ]
+        have : q.out⁻¹ * ag₁.right = (q.out⁻¹ * ag₁.right * q₁.out) * q₁.out⁻¹ := by group
+        rw [this, map_mul φ, MulAut.mul_apply]
+        exact congrArg _ (stab_char_inv φ χ (transition_mem_stab φ χ ag₁.right q) _)
+      -- Stabilizer value telescoping
+      have hstab_val : q.out⁻¹ * (ag₁.right * ag₂.right) *
+          ((ag₁.right * ag₂.right)⁻¹ • q).out =
+        (q.out⁻¹ * ag₁.right * q₁.out) *
+        (q₁.out⁻¹ * ag₂.right * (ag₂.right⁻¹ • q₁).out) := by
+        simp only [hcoset]; group
+      -- For any s with correct value, ρ(s)(v) only depends on s.val
+      have hrho_eq : ∀ (s₁ s₂ : ↥(stabAux φ χ)),
+          (s₁ : G) = (s₂ : G) → ∀ v, (FDRep.ρ U s₁) v = (FDRep.ρ U s₂) v := by
+        intro s₁ s₂ h v; rw [Subtype.ext h]
+      -- Assemble: rewrite character, then handle ρ and cosets
+      rw [hchar, mul_smul, ← map_smul]
+      -- Both sides have the same outer scalar, strip it
+      congr 1
+      -- LHS: ρ(s)(c • f(q'))  RHS: ρ(s₁)(c • ρ(s₂)(f(q₂)))
+      -- Step 1: Replace ρ(s) with ρ(s₁) ∘ ρ(s₂) using hrho_eq
+      have step1 := hrho_eq
+        ⟨_, transition_mem_stab φ χ (ag₁.right * ag₂.right) q⟩
+        (⟨_, transition_mem_stab φ χ ag₁.right q⟩ *
+         ⟨_, transition_mem_stab φ χ ag₂.right q₁⟩)
+        (by rw [Subgroup.coe_mul]; exact hstab_val)
+        (((χ ((φ q₁.out⁻¹ : MulAut A) ag₂.left) : ℂˣ) : ℂ) •
+          f ((ag₁.right * ag₂.right)⁻¹ • q))
+      rw [step1, map_mul, Module.End.mul_apply, map_smul]
+      -- Now: ρ(s₁)(c • ρ(s₂)(f(q'))) = ρ(s₁)(c • ρ(s₂)(f(q₂)))
+      -- Reduce to f(q') = f(q₂) which is congr_arg f hcoset
+      simp_rw [hcoset]
+      rfl }
 
 open Classical in
 /-- Classification of irreducible representations of semidirect products G ⋉ A
