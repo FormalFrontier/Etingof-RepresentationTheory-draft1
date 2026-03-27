@@ -337,15 +337,60 @@ noncomputable def charValue {n : ℕ} (N : ℕ) (lam : BoundedPartition N n)
     (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts))
     ((alternantMatrix N (vandermondeExps N)).det * MvPolynomial.psumPart (Fin N) ℚ μ)
 
+/-! ## Infrastructure for the Frobenius character formula -/
+
+/-- DecidableEq for BoundedPartition: two bounded partitions are equal iff their parts agree. -/
+private instance boundedPartition_decEq {N n : ℕ} : DecidableEq (BoundedPartition N n) :=
+  fun a b => decidable_of_iff (a.parts = b.parts) ⟨
+    fun h => by cases a; cases b; simp_all,
+    fun h => by subst h; rfl⟩
+
+/-- BoundedPartition N n is finite: each part is ≤ n, so we inject into Fin N → Fin (n+1). -/
+private noncomputable instance boundedPartition_fintype {N n : ℕ} :
+    Fintype (BoundedPartition N n) := by
+  classical
+  exact Fintype.ofInjective
+    (fun p : BoundedPartition N n => fun i =>
+      (⟨p.parts i, Nat.lt_succ_of_le (le_trans
+        (Finset.single_le_sum (fun j _ => Nat.zero_le _) (Finset.mem_univ i))
+        (le_of_eq p.sum_eq))⟩ : Fin (n + 1)))
+    (fun a b h => by
+      cases a; cases b; simp only [BoundedPartition.mk.injEq]
+      funext i; exact congrArg Fin.val (congrFun h i))
+
+/-- The alternant determinant is antisymmetric: `rename σ (det M) = sgn(σ) • det M`.
+This is the key algebraic fact underlying the Frobenius character formula. -/
+private theorem rename_alternant_det {N : ℕ} (e : Fin N → ℕ) (σ : Equiv.Perm (Fin N)) :
+    (MvPolynomial.rename σ) (alternantMatrix N e).det =
+      Equiv.Perm.sign σ • (alternantMatrix N e).det := by
+  rw [AlgHom.map_det]
+  have hmat : (MvPolynomial.rename σ).mapMatrix (alternantMatrix N e) =
+      (alternantMatrix N e).submatrix σ id := by
+    apply Matrix.ext; intro i j
+    change (MvPolynomial.rename σ) ((alternantMatrix N e) i j) =
+      (alternantMatrix N e) (σ i) j
+    simp [alternantMatrix, Matrix.of_apply, map_pow, MvPolynomial.rename_X]
+  rw [hmat, Matrix.det_permute]
+  simp [Units.smul_def]
+
 theorem Proposition5_21_1
     {n : ℕ} (N : ℕ) (μ : n.Partition) :
     -- LHS: ∏_m p_m(x)^{i_m} (power-sum product indexed by partition μ)
     -- RHS: Σ_λ χ_λ(C_μ) · S_λ(x)  (sum over partitions λ of n with ≤ N parts)
-    -- We state the identity existentially to avoid Fintype synthesis issues.
     ∃ (lams : Finset (BoundedPartition N n)),
       (MvPolynomial.psumPart (Fin N) ℚ μ : MvPolynomial (Fin N) ℚ) =
         ∑ lam ∈ lams,
           (charValue N lam μ : ℚ) • schurPoly N lam.parts := by
+  use Finset.univ
+  -- The proof strategy:
+  -- 1. Multiply both sides by the Vandermonde determinant Δ
+  -- 2. Show Δ · p_μ = Σ_λ χ_λ(C_μ) · D_λ (antisymmetric basis decomposition)
+  -- 3. Cancel Δ using the integral domain property
+  -- The antisymmetric basis decomposition uses:
+  -- - rename_alternant_det: Δ·p_μ is antisymmetric (Δ antisymmetric, p_μ symmetric)
+  -- - Alternant D_λ has coefficient 1 at x^{λ+ρ} and 0 at x^{μ+ρ} for μ ≠ λ
+  -- - Antisymmetric polynomials are determined by their leading coefficients
+  -- - charValue is exactly the leading coefficient by definition
   sorry
 
 end Etingof
