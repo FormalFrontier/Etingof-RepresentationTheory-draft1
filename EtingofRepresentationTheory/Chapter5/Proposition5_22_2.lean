@@ -107,16 +107,84 @@ theorem formalCharacter_schurModule_shift (N : ℕ) (lam : Fin N → ℕ) (hlam 
   have hlam' : Antitone (fun i => lam i + 1) := fun i j hij => Nat.add_le_add_right (hlam hij) 1
   rw [Theorem5_22_1 k N _ hlam', Theorem5_22_1 k N lam hlam, schurPoly_shift]
 
+/-! ### Weight space analysis for the determinant twist
+
+The determinant twist shifts every weight by `(1,…,1)`: if `v` has weight `ν` under
+the original representation, then `v` has weight `ν + 1` under the det-twisted
+representation (because `det(diagUnit(i,t)) = t`, so the action gains a factor of `t`). -/
+
+/-- The det-twisted action of `diagUnit(i,t)` equals `t` times the original action. -/
+private lemma detTwist_diagUnit (N : ℕ) (lam : Fin N → ℕ) (i : Fin N) (t : kˣ) :
+    detTwistedSchurModuleRep k N lam (diagUnit k N i t) =
+      (t : k) • schurModuleRep k N lam (diagUnit k N i t) := by
+  unfold detTwistedSchurModuleRep
+  simp only [MonoidHom.coe_mk, OneHom.coe_mk]
+  congr 1
+  exact det_diagUnit k N i t
+
+-- The `iInf_congr` + `ker_smul` rewriting is expensive because the kernel
+-- of a linear map on `SchurModuleSubmodule` involves `PiTensorProduct.map`.
+set_option maxHeartbeats 800000 in
+/-- The weight space at `ν + 1` in the det-twisted rep equals the weight space at `ν`
+in the original Schur module. Both are submodules of the same underlying vector space. -/
+private theorem glWeightSpace_detTwist_shift (N : ℕ) (lam : Fin N → ℕ) (ν : Fin N → ℕ) :
+    glWeightSpace k N (FDRep.of (detTwistedSchurModuleRep k N lam)) (fun i => ν i + 1) =
+      glWeightSpace k N (SchurModule k N lam) ν := by
+  simp only [glWeightSpace]
+  apply iInf_congr; intro i
+  apply iInf_congr; intro t
+  -- detTwist.ρ(diagUnit(i,t)) = t • original.ρ(diagUnit(i,t))  [by det_diagUnit]
+  have hρ : (FDRep.of (detTwistedSchurModuleRep k N lam)).ρ (diagUnit k N i t) =
+      (t : k) • (SchurModule k N lam).ρ (diagUnit k N i t) := by
+    change detTwistedSchurModuleRep k N lam (diagUnit k N i t) =
+      (t : k) • schurModuleRep k N lam (diagUnit k N i t)
+    exact detTwist_diagUnit k N lam i t
+  -- t • f - t^{ν+1} • id = t • (f - t^ν • id), so ker is the same (t is a unit)
+  rw [hρ]
+  have factor : (↑t : k) • (SchurModule k N lam).ρ (diagUnit k N i t) -
+      (↑t : k) ^ (ν i + 1) • LinearMap.id =
+    (↑t : k) • ((SchurModule k N lam).ρ (diagUnit k N i t) -
+      (↑t : k) ^ ν i • LinearMap.id) := by
+    rw [smul_sub, pow_succ', mul_smul]
+  rw [factor, LinearMap.ker_smul _ _ (Units.ne_zero t)]
+
+/-- Two polynomial `GL_N`-representations with the same formal character are isomorphic.
+
+This follows from complete reducibility of polynomial representations of `GL_N(k)`
+over algebraically closed fields: both decompose as direct sums of simple modules,
+and simple polynomial `GL_N`-representations are classified by their highest weight,
+which is determined by the formal character.
+
+TODO: requires complete reducibility of `GL_N`-representations (Schur–Weyl duality
+or reductive group theory). See #1788 for related infrastructure. -/
+private theorem glRep_iso_of_formalCharacter_eq (N : ℕ)
+    (M₁ M₂ : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (h : formalCharacter k N M₁ = formalCharacter k N M₂) :
+    Nonempty (M₁ ≅ M₂) := by
+  sorry
+
+/-- The formal character of the det-twisted Schur module equals `(∏ Xᵢ) · char(L_λ)`.
+
+The determinant twist shifts every weight by `(1,…,1)`, which multiplies the
+formal character by the monomial `∏ Xᵢ`. -/
+private theorem formalCharacter_detTwist (N : ℕ) (lam : Fin N → ℕ) :
+    formalCharacter k N (FDRep.of (detTwistedSchurModuleRep k N lam)) =
+      (∏ i : Fin N, MvPolynomial.X i) * formalCharacter k N (SchurModule k N lam) := by
+  sorry
+
 /-- Key isomorphism: the Schur module `L_{λ+(1,…,1)}` is isomorphic (as a GL_N-representation)
 to the determinant-twisted Schur module `det ⊗ L_λ`.
 
-Mathematically: `L_λ ⊗ ∧^N V ⊂ V^{⊗n} ⊗ ∧^N V ⊂ V^{⊗(n+N)}`, and the unique
-component of `V^{⊗(n+N)}` with the same character as `L_λ ⊗ ∧^N V` is `L_{λ+(1,…,1)}`.
-This is the core mathematical content of Proposition 5.22.2. -/
+Both representations have the same formal character: `(∏ Xᵢ) · char(L_λ)`.
+The isomorphism follows from the fact that polynomial `GL_N`-representations
+are determined by their formal character. -/
 theorem schurModule_shift_iso_detTwist (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     Nonempty (FDRep.of (schurModuleRep k N (fun i => lam i + 1)) ≅
       FDRep.of (detTwistedSchurModuleRep k N lam)) := by
-  sorry
+  apply glRep_iso_of_formalCharacter_eq
+  change formalCharacter k N (SchurModule k N (fun i => lam i + 1)) =
+    formalCharacter k N (FDRep.of (detTwistedSchurModuleRep k N lam))
+  rw [formalCharacter_schurModule_shift k N lam hlam, formalCharacter_detTwist]
 
 /-- The `TensorProduct.rid` intertwines the tensor action `rep(g) ⊗ det(g)·id` with
 the determinant-twisted action `det(g) · rep(g)`. -/
