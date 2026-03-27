@@ -203,13 +203,15 @@ Sₙ-invariant matrices. This is the Veronese spanning property
 which holds in characteristic 0 by irreducibility of Sⁿ(U) as a
 GL(U)-representation.
 
-**Missing Mathlib infrastructure:** The isomorphism
-End(V⊗ⁿ) ≅ (End V)⊗ⁿ for PiTensorProduct, or equivalently the
-Veronese spanning property for symmetric powers.
+**Proof:** The ≤ direction uses the averaging/polarization argument from
+Theorem 5.18.2: if φ commutes with all permutations, then conj_σ(φ) = φ
+for all σ, so n!·φ = Σ_σ conj_σ(φ). By multilinear polarization
+(Lemma 5.18.3), this sum lies in the fullDiagonalSubalgebra = diagonalActionImage.
+Dividing by n! (char 0) gives φ ∈ diagonalActionImage.
 -/
 theorem centralizer_symGroupImage_eq_diagonalActionImage
     [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    (_hN : n ≤ Module.finrank k V) :
     Subalgebra.centralizer k
       (symGroupImage k V n :
         Set (Module.End k (TensorPower k V n))) =
@@ -223,7 +225,7 @@ theorem centralizer_symGroupImage_eq_diagonalActionImage
     open Theorem5_18_2_Helpers in
     intro φ hφ
     rw [Subalgebra.mem_centralizer_iff] at hφ
-    show φ ∈ Lemma5_18_3.fullDiagonalSubalgebra k V n
+    change φ ∈ Lemma5_18_3.fullDiagonalSubalgebra k V n
     -- φ commutes with all reindex(σ), so conj_σ(φ) = φ
     have hconj : ∀ σ : Equiv.Perm (Fin n),
         (PiTensorProduct.reindex k (fun _ => V) σ).toLinearMap * φ *
