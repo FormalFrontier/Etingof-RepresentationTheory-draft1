@@ -642,6 +642,128 @@ private lemma card_sigma_CycleCol_eq_card_sigma_fiberPerm (n : ℕ) (α β : Fin
         rfl
   }
 
+/-! ### MulAction of permutations on element bicolorings -/
+
+/-- Precomposing a filter with a permutation preserves cardinality. -/
+private lemma filter_card_comp_perm {n : ℕ} (P : Fin n → Prop) [DecidablePred P]
+    (σ : Equiv.Perm (Fin n)) :
+    (Finset.univ.filter (fun x => P (σ x))).card = (Finset.univ.filter P).card := by
+  apply Finset.card_bij' (fun x _ => σ x) (fun x _ => σ⁻¹ x)
+  · intro x hx; simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢; exact hx
+  · intro x hx; simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx ⊢
+    convert hx using 1; simp
+  · intro x _; simp
+  · intro x _; simp
+
+private noncomputable def permSmulElemBicol {n : ℕ} {α β : Fin n →₀ ℕ}
+    (σ : Equiv.Perm (Fin n)) (hb : ElemBicol n α β) : ElemBicol n α β :=
+  ⟨hb.val ∘ ⇑σ⁻¹, by
+    constructor
+    · intro i
+      have h1 : (Finset.univ.filter (fun x => ((hb.val ∘ ⇑σ⁻¹) x).1 = i)).card =
+          (Finset.univ.filter (fun x => (hb.val x).1 = i)).card :=
+        filter_card_comp_perm (fun x => (hb.val x).1 = i) σ⁻¹
+      rw [h1]; exact hb.2.1 i
+    · intro j
+      have h1 : (Finset.univ.filter (fun x => ((hb.val ∘ ⇑σ⁻¹) x).2 = j)).card =
+          (Finset.univ.filter (fun x => (hb.val x).2 = j)).card :=
+        filter_card_comp_perm (fun x => (hb.val x).2 = j) σ⁻¹
+      rw [h1]; exact hb.2.2 j⟩
+
+@[simp]
+private lemma permSmulElemBicol_val {n : ℕ} {α β : Fin n →₀ ℕ}
+    (σ : Equiv.Perm (Fin n)) (hb : ElemBicol n α β) :
+    (permSmulElemBicol σ hb).val = hb.val ∘ ⇑σ⁻¹ := rfl
+
+private noncomputable instance permMulActionElemBicol {n : ℕ} {α β : Fin n →₀ ℕ} :
+    MulAction (Equiv.Perm (Fin n)) (ElemBicol n α β) where
+  smul := permSmulElemBicol
+  one_smul hb := Subtype.ext (funext fun _ => by
+    show (permSmulElemBicol 1 hb).val _ = hb.val _
+    simp [permSmulElemBicol_val, Function.comp])
+  mul_smul σ τ hb := Subtype.ext (funext fun x => by
+    show (permSmulElemBicol (σ * τ) hb).val x = (permSmulElemBicol σ (permSmulElemBicol τ hb)).val x
+    simp [permSmulElemBicol_val, Function.comp, mul_inv_rev, Equiv.Perm.mul_apply])
+
+/-- The stabilizer of h under the Perm action equals FiberPerm h. -/
+private lemma mem_stabilizer_iff_fiberPerm {n : ℕ} {α β : Fin n →₀ ℕ}
+    (hb : ElemBicol n α β) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ MulAction.stabilizer (Equiv.Perm (Fin n)) hb ↔ ∀ x, hb.val (σ x) = hb.val x := by
+  simp only [MulAction.mem_stabilizer_iff]
+  constructor
+  · intro h x
+    have h1 := congr_arg Subtype.val h  -- (σ • hb).val = hb.val
+    rw [show (σ • hb).val = hb.val ∘ ⇑σ⁻¹ from permSmulElemBicol_val σ hb] at h1
+    have := congr_fun h1 (σ x)         -- hb.val (σ⁻¹ (σ x)) = hb.val (σ x)
+    simp at this; exact this.symm
+  · intro h
+    apply Subtype.ext
+    rw [show (σ • hb).val = hb.val ∘ ⇑σ⁻¹ from permSmulElemBicol_val σ hb]
+    funext x
+    have := h (σ⁻¹ x)                 -- hb.val (σ (σ⁻¹ x)) = hb.val (σ⁻¹ x)
+    simp at this; exact this.symm
+
+/-- Fiber size matrix: maps an element bicoloring to its fiber size matrix. -/
+private noncomputable def fiberSizes {n : ℕ} {α β : Fin n →₀ ℕ}
+    (hb : ElemBicol n α β) : NNMatrixWithMargins n (⇑α) (⇑β) :=
+  ⟨fun i j => ⟨(Finset.univ.filter fun x => hb.val x = (i, j)).card,
+    Nat.lt_succ_of_le <| (Finset.card_filter_le _ _).trans <| by simp [Fintype.card_fin]⟩,
+   fun i => by
+     simp only [Fin.val_natCast]
+     rw [← hb.2.1 i]
+     rw [← Finset.card_biUnion (fun j₁ _ j₂ _ hj =>
+       Finset.disjoint_filter.mpr (fun x _ h₁ h₂ => hj (by
+         have := h₁.symm.trans h₂; exact Prod.ext_iff.mp this |>.2)))]
+     congr 1; ext x
+     simp only [Finset.mem_biUnion, Finset.mem_filter, Finset.mem_univ, true_and, Prod.ext_iff]
+     exact ⟨fun ⟨j, ⟨h1, h2⟩⟩ => h1, fun h => ⟨(hb.val x).2, ⟨h, rfl⟩⟩⟩,
+   fun j => by
+     simp only [Fin.val_natCast]
+     rw [← hb.2.2 j]
+     rw [← Finset.card_biUnion (fun i₁ _ i₂ _ hi =>
+       Finset.disjoint_filter.mpr (fun x _ h₁ h₂ => hi (by
+         have := h₁.symm.trans h₂; exact Prod.ext_iff.mp this |>.1)))]
+     congr 1; ext x
+     simp only [Finset.mem_biUnion, Finset.mem_filter, Finset.mem_univ, true_and, Prod.ext_iff]
+     exact ⟨fun ⟨i, ⟨h1, h2⟩⟩ => h2, fun h => ⟨(hb.val x).1, ⟨rfl, h⟩⟩⟩⟩
+
+@[simp]
+private lemma smul_val {n : ℕ} {α β : Fin n →₀ ℕ}
+    (σ : Equiv.Perm (Fin n)) (hb : ElemBicol n α β) :
+    (σ • hb).val = hb.val ∘ ⇑σ⁻¹ :=
+  permSmulElemBicol_val σ hb
+
+/-- Fiber sizes are invariant under the Perm action. -/
+private lemma fiberSizes_smul_eq {n : ℕ} {α β : Fin n →₀ ℕ}
+    (σ : Equiv.Perm (Fin n)) (hb : ElemBicol n α β) :
+    fiberSizes (σ • hb) = fiberSizes hb := by
+  apply Subtype.ext; funext i; funext j; apply Fin.ext
+  simp only [fiberSizes, smul_val]
+  exact filter_card_comp_perm (fun x => hb.val x = (i, j)) σ⁻¹
+
+/-- Two bicolorings with the same fiber sizes are in the same orbit. -/
+private lemma same_fiberSizes_same_orbit {n : ℕ} {α β : Fin n →₀ ℕ}
+    (h₁ h₂ : ElemBicol n α β) (heq : fiberSizes h₁ = fiberSizes h₂) :
+    h₁ ∈ MulAction.orbit (Equiv.Perm (Fin n)) h₂ := by
+  classical
+  -- For each pair, the fibers have the same size
+  have hcard : ∀ p : Fin n × Fin n,
+      Fintype.card { x // h₁.val x = p } = Fintype.card { x // h₂.val x = p } := by
+    intro ⟨i, j⟩
+    simp only [Fintype.card_subtype, Finset.card_filter]
+    have := congr_arg (fun K => (K.1 i j : ℕ)) heq
+    simpa [fiberSizes] using this
+  -- Build a permutation matching fibers via Equiv.ofFiberEquiv
+  let σ : Equiv.Perm (Fin n) :=
+    Equiv.ofFiberEquiv (f := h₁.val) (g := h₂.val)
+      (fun p => Fintype.equivOfCardEq (hcard p))
+  -- σ satisfies h₂(σ x) = h₁(x) by ofFiberEquiv_map
+  have hσ : ∀ x, h₂.val (σ x) = h₁.val x := Equiv.ofFiberEquiv_map _
+  -- So h₁ = σ⁻¹ • h₂ (since (σ⁻¹ • h₂)(x) = h₂(σ x) = h₁(x))
+  refine ⟨σ⁻¹, Subtype.ext (funext fun x => ?_)⟩
+  simp only [smul_val, Function.comp, inv_inv]
+  exact hσ x
+
 /-- **Part B**: The total count of compatible (h, σ) pairs equals n! × card(NNMat).
 
 **Proof strategy**: Define a `MulAction` of `Equiv.Perm (Fin n)` on `ElemBicol n α β` by
