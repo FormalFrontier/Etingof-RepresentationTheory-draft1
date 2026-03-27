@@ -337,15 +337,83 @@ noncomputable def charValue {n : ℕ} (N : ℕ) (lam : BoundedPartition N n)
     (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts))
     ((alternantMatrix N (vandermondeExps N)).det * MvPolynomial.psumPart (Fin N) ℚ μ)
 
+/-! ## Infrastructure for the Frobenius character formula -/
+
+/-- DecidableEq for BoundedPartition: two bounded partitions are equal iff their parts agree. -/
+private instance boundedPartition_decEq {N n : ℕ} : DecidableEq (BoundedPartition N n) :=
+  fun a b => decidable_of_iff (a.parts = b.parts) ⟨
+    fun h => by cases a; cases b; simp_all,
+    fun h => by subst h; rfl⟩
+
+/-- BoundedPartition N n is finite: each part is ≤ n, so we inject into Fin N → Fin (n+1). -/
+private noncomputable instance boundedPartition_fintype {N n : ℕ} :
+    Fintype (BoundedPartition N n) := by
+  classical
+  exact Fintype.ofInjective
+    (fun p : BoundedPartition N n => fun i =>
+      (⟨p.parts i, Nat.lt_succ_of_le (le_trans
+        (Finset.single_le_sum (fun j _ => Nat.zero_le _) (Finset.mem_univ i))
+        (le_of_eq p.sum_eq))⟩ : Fin (n + 1)))
+    (fun a b h => by
+      cases a; cases b; simp only [BoundedPartition.mk.injEq]
+      funext i; exact congrArg Fin.val (congrFun h i))
+
+/-- The alternant determinant is antisymmetric: `rename σ (det M) = sgn(σ) • det M`.
+This is the key algebraic fact underlying the Frobenius character formula. -/
+private theorem rename_alternant_det {N : ℕ} (e : Fin N → ℕ) (σ : Equiv.Perm (Fin N)) :
+    (MvPolynomial.rename σ) (alternantMatrix N e).det =
+      Equiv.Perm.sign σ • (alternantMatrix N e).det := by
+  rw [AlgHom.map_det]
+  have hmat : (MvPolynomial.rename σ).mapMatrix (alternantMatrix N e) =
+      (alternantMatrix N e).submatrix σ id := by
+    apply Matrix.ext; intro i j
+    change (MvPolynomial.rename σ) ((alternantMatrix N e) i j) =
+      (alternantMatrix N e) (σ i) j
+    simp [alternantMatrix, Matrix.of_apply, map_pow, MvPolynomial.rename_X]
+  rw [hmat, Matrix.det_permute]
+  simp [Units.smul_def]
+
 theorem Proposition5_21_1
     {n : ℕ} (N : ℕ) (μ : n.Partition) :
     -- LHS: ∏_m p_m(x)^{i_m} (power-sum product indexed by partition μ)
     -- RHS: Σ_λ χ_λ(C_μ) · S_λ(x)  (sum over partitions λ of n with ≤ N parts)
-    -- We state the identity existentially to avoid Fintype synthesis issues.
     ∃ (lams : Finset (BoundedPartition N n)),
       (MvPolynomial.psumPart (Fin N) ℚ μ : MvPolynomial (Fin N) ℚ) =
         ∑ lam ∈ lams,
           (charValue N lam μ : ℚ) • schurPoly N lam.parts := by
+  use Finset.univ
+  -- Step 1: Cancel the Vandermonde determinant Δ from both sides (integral domain)
+  have hΔ : (alternantMatrix N (vandermondeExps N)).det ≠ 0 := by
+    obtain ⟨u, hu⟩ := alternant_det_associated_prod N
+    -- hu : det * ↑u = ∏ (X_j - X_i)
+    intro h
+    have hprod : ∏ i : Fin N, ∏ j ∈ Ioi i,
+        (X j - X i : MvPolynomial (Fin N) ℚ) ≠ 0 :=
+      Finset.prod_ne_zero_iff.mpr fun i _ =>
+        Finset.prod_ne_zero_iff.mpr fun j hj =>
+          (X_sub_X_prime (mem_Ioi.mp hj).ne').ne_zero
+    exact hprod (by rw [← hu, h, zero_mul])
+  apply mul_left_cancel₀ hΔ
+  -- Step 2: Rewrite RHS: Δ * Σ c_λ • S_λ = Σ c_λ • (S_λ * Δ) = Σ c_λ • D_λ
+  rw [Finset.mul_sum]
+  simp_rw [Algebra.mul_smul_comm,
+    mul_comm (alternantMatrix N (vandermondeExps N)).det (schurPoly _ _),
+    schurPoly_mul_vandermonde]
+  -- Step 3: Antisymmetric basis decomposition
+  -- Goal: Δ * p_μ = Σ_λ coeff_{λ+ρ}(Δ * p_μ) • D_λ
+  -- Proof sketch (not yet formalized):
+  --   Let F = Δ * p_μ and G = F - RHS. Then G is antisymmetric (rename σ G = sgn(σ) • G)
+  --   because both F and each D_λ are antisymmetric (by rename_alternant_det).
+  --   For any monomial m in G:
+  --   - If m has repeated entries (m i = m j for i ≠ j): coeff_m(G) = 0 by antisymmetry
+  --   - If m has distinct entries: sort m to get ν = λ+ρ for some BoundedPartition λ.
+  --     Then coeff_m(G) = sgn(σ) * coeff_ν(G) where σ sorts m.
+  --     But coeff_ν(G) = coeff_ν(F) - charValue(λ,μ) * 1 = 0 by construction.
+  --   So G = 0, i.e., F = RHS.
+  -- Key sub-lemmas needed:
+  --   (a) coeff_rename: coeff m (rename σ F) = coeff (Finsupp.equivMapDomain σ.symm m) F
+  --   (b) Alternant coefficient: coeff_{μ+ρ}(D_λ) = δ_{λ,μ} for partitions
+  --   (c) psum_isSymmetric: rename σ (psumPart μ) = psumPart μ
   sorry
 
 end Etingof
