@@ -7,6 +7,8 @@ import Mathlib.Data.ENat.Lattice
 import Mathlib.RingTheory.SimpleModule.InjectiveProjective
 import Mathlib.CategoryTheory.Abelian.Exact
 import Mathlib.CategoryTheory.Preadditive.Projective.Preserves
+import Mathlib.RingTheory.Polynomial.Basic
+import Mathlib.Algebra.Polynomial.Module.AEval
 
 /-!
 # Example 9.4.4: Homological dimension of polynomial algebra (Hilbert syzygies)
@@ -124,18 +126,123 @@ theorem mvPolynomial_hasHomologicalDimensionLE (k : Type u) [Field k] :
     -- Transfer across the ring isomorphism
     exact hasHomologicalDimensionLE_of_ringEquiv e (n + 1) h_poly
 
+section PolynomialLowerBound
+
+open Polynomial
+
+/-! ### Polynomial ring has positive global dimension
+
+For a nontrivial commutative ring R, the polynomial ring R[x] is not semisimple.
+The key argument: the augmentation module R (where x acts as 0) is not projective
+over R[x], because any R[x]-linear section of the evaluation-at-0 map would be
+killed by x (since x acts as 0 on R), hence zero, contradicting surjectivity. -/
+
+/-- In Polynomial R, multiplication by X is injective (for any ring R). -/
+private theorem Polynomial.X_mul_eq_zero {R : Type u} [CommRing R] {p : R[X]} (h : X * p = 0) :
+    p = 0 := by
+  ext n
+  have h1 := congr_arg (Polynomial.coeff · (n + 1)) h
+  simp only [coeff_X_mul, coeff_zero] at h1
+  exact h1
+
+/-- The polynomial ring over a nontrivial commutative ring has global dimension ≥ 1.
+Equivalently, it is not semisimple: the augmentation module is not projective. -/
+private theorem not_hasHomologicalDimensionLE_zero_polynomial
+    (R : Type u) [CommRing R] [Nontrivial R] :
+    ¬ Etingof.HasHomologicalDimensionLE (Polynomial R) 0 := by
+  intro hall
+  -- The augmentation module: R with R[X]-action where X acts as 0
+  let φ : R →ₗ[R] R := 0
+  let A := Module.AEval' φ
+  let MA := ModuleCat.of (Polynomial R) A
+  -- Every R[X]-module has pd ≤ 0, so MA is projective
+  have hpd : HasProjectiveDimensionLE MA 0 := hall MA
+  have hproj : Projective MA :=
+    (projective_iff_hasProjectiveDimensionLT_one MA).mpr hpd
+  have hmod : Module.Projective (Polynomial R) A :=
+    MA.projective_of_module_projective
+  -- The surjection: R[X] → A sending p ↦ p • 1_A
+  let one_A : A := Module.AEval'.of φ (1 : R)
+  let surj := LinearMap.toSpanSingleton (Polynomial R) A one_A
+  have hsurj : Function.Surjective surj := by
+    intro a
+    refine ⟨Polynomial.C ((Module.AEval'.of φ).symm a), ?_⟩
+    simp only [surj, LinearMap.toSpanSingleton_apply]
+    rw [Module.AEval.C_smul,
+      ← (Module.AEval'.of φ).map_smul, smul_eq_mul, mul_one,
+      LinearEquiv.apply_symm_apply]
+  -- Get section from projectivity
+  obtain ⟨sect, hsect⟩ :=
+    Module.projective_lifting_property surj LinearMap.id hsurj
+  -- Show sect = 0: X • a = 0 in A (since X acts as 0),
+  -- so X * sect(a) = sect(X • a) = 0
+  have X_smul_zero : ∀ a : A, (X : R[X]) • a = 0 := by
+    intro a
+    rw [show a = Module.AEval'.of φ ((Module.AEval'.of φ).symm a) from
+      ((Module.AEval'.of φ).apply_symm_apply a).symm,
+      Module.AEval'.X_smul_of, LinearMap.zero_apply, map_zero]
+  have hzero : ∀ a : A, sect a = 0 := by
+    intro a
+    apply Polynomial.X_mul_eq_zero
+    calc X * sect a
+        = sect ((X : R[X]) • a) := (sect.map_smul (X : R[X]) a).symm
+      _ = sect 0 := by rw [X_smul_zero]
+      _ = 0 := map_zero sect
+  -- surj ∘ sect = id, but sect = 0 means every a = 0
+  have hall_zero : ∀ a : A, a = 0 := by
+    intro a
+    have h := LinearMap.ext_iff.mp hsect a
+    simp only [LinearMap.comp_apply, LinearMap.id_apply, hzero a,
+      map_zero] at h
+    exact h.symm
+  -- But A ≅ R as additive groups, and R is nontrivial
+  have : one_A ≠ 0 := by
+    intro h
+    exact one_ne_zero ((Module.AEval'.of φ).injective
+      (h.trans (map_zero (Module.AEval'.of φ)).symm))
+  exact this (hall_zero one_A)
+
+/-- If R is a nontrivial commutative ring and HasHomologicalDimensionLE (Polynomial R) (d+1),
+then HasHomologicalDimensionLE R d. This is the key inductive step for the lower bound:
+gldim(R[x]) ≥ gldim(R) + 1.
+
+The proof uses the standard short exact sequence of R[X]-modules for any R-module M
+viewed as M₀ (R[X]-module with X = 0):
+  0 → R[X] ⊗_R M →^{X·} R[X] ⊗_R M → M₀ → 0
+together with the change-of-rings Ext adjunction (Shapiro's lemma):
+  Ext^n_{R[X]}(R[X] ⊗_R M, N) ≅ Ext^n_R(M, N|_R)
+to show pd_{R[X]}(M₀) = pd_R(M) + 1. Neither the SES construction for
+polynomial modules nor the Ext adjunction is in Mathlib. -/
+private theorem hasHomologicalDimensionLE_of_polynomial_succ
+    (R : Type u) [CommRing R] [Nontrivial R] (d : ℕ)
+    (h : Etingof.HasHomologicalDimensionLE (Polynomial R) (d + 1)) :
+    Etingof.HasHomologicalDimensionLE R d := by
+  sorry
+
+end PolynomialLowerBound
+
 /-- The Hilbert syzygy theorem (lower bound): if every module over k[x₁, …, xₙ] has
 projective dimension ≤ d, then n ≤ d. Equivalently, the residue field
 k = k[x₁,…,xₙ]/(x₁,…,xₙ) has projective dimension exactly n.
 
-The proof uses the Koszul complex to compute Ext^n(k, k) ≅ k ≠ 0. -/
+The proof is by induction on n, using the ring equivalence
+k[x₁,…,x_{n+1}] ≃ k[x₁,…,xₙ][x_{n+1}] and the fact that polynomial extension
+increases global dimension by at least 1. -/
 theorem mvPolynomial_homologicalDimension_le_iff (k : Type u) [Field k] :
     ∀ n d, HasHomologicalDimensionLE (MvPolynomial (Fin n) k) d → n ≤ d
   | 0, d, _ => Nat.zero_le d
   | n + 1, d, hd => by
-    -- Need to show Ext^{n+1}(k, k) ≠ 0 where k = R/(x₁,...,x_{n+1}).
-    -- This uses the Koszul complex computation. Not yet in Mathlib.
-    sorry
+    -- Transfer via ring iso: MvPolynomial (Fin (n+1)) k ≃+* Polynomial (MvPolynomial (Fin n) k)
+    have e := (MvPolynomial.finSuccEquiv k n).symm.toRingEquiv
+    have hpoly : HasHomologicalDimensionLE (Polynomial (MvPolynomial (Fin n) k)) d :=
+      hasHomologicalDimensionLE_of_ringEquiv e d hd
+    -- Case split on d
+    match d with
+    | 0 => exact absurd hpoly (not_hasHomologicalDimensionLE_zero_polynomial _)
+    | d' + 1 =>
+      have hR := hasHomologicalDimensionLE_of_polynomial_succ _ d' hpoly
+      have ih := mvPolynomial_homologicalDimension_le_iff k n d' hR
+      omega
 
 /-- The Hilbert syzygy theorem: the homological dimension of k[x₁, …, xₙ] is n.
 (Etingof Example 9.4.4) -/
