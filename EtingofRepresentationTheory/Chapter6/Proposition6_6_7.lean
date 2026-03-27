@@ -1061,10 +1061,17 @@ theorem Etingof.Proposition6_6_7_source
           -- mkQ is surjective, so x = mkQ(z) for some z
           -- Strategy: show range(reflFunctorMinus_mkQ) ⊆ W'(i)
           suffices h : ∀ z, (Etingof.reflFunctorMinus_mkQ hi ρ) z ∈ W' i by
-            -- Need: reflFunctorMinus_mkQ is surjective
-            -- It's Submodule.mkQ after unfolding, hence surjective
-            -- For now, use sorry for the surjectivity bridge
-            sorry
+            -- reflFunctorMinus_mkQ is surjective (Submodule.mkQ after unfolding)
+            have hsurj : Function.Surjective (Etingof.reflFunctorMinus_mkQ hi ρ) := by
+              have h_di : ‹DecidableEq Q› i i = .isTrue rfl := by
+                cases ‹DecidableEq Q› i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
+              intro y; revert y
+              unfold Etingof.reflFunctorMinus_mkQ Etingof.reflectionFunctorMinus
+              simp only []; rw [h_di]; simp only []
+              intro y
+              exact ⟨y.out, y.out_eq⟩
+            obtain ⟨z, rfl⟩ := hsurj x
+            exact h z
           intro z
           -- Decompose z = ∑ lof(a)(z(a))
           rw [show z = ∑ a ∈ Finset.univ, (DirectSum.of (fun a => ρ.obj a.1) a) (z a) from
