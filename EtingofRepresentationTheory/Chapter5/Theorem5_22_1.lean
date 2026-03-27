@@ -202,6 +202,138 @@ noncomputable def glWeightSpace (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
   ⨅ (i : Fin N) (t : kˣ),
     LinearMap.ker (M.ρ (diagUnit k N i t) - ((t : k) ^ μ i) • LinearMap.id)
 
+/-! ### Diagonal matrices commute -/
+
+/-- Diagonal matrices with entries modified at different positions commute. -/
+theorem diagUnit_comm (k : Type*) [Field k] (N : ℕ) (i₁ : Fin N) (t₁ : kˣ)
+    (i₂ : Fin N) (t₂ : kˣ) :
+    diagUnit k N i₁ t₁ * diagUnit k N i₂ t₂ = diagUnit k N i₂ t₂ * diagUnit k N i₁ t₁ := by
+  ext : 1
+  change (diagUnit k N i₁ t₁).val * (diagUnit k N i₂ t₂).val =
+    (diagUnit k N i₂ t₂).val * (diagUnit k N i₁ t₁).val
+  simp only [diagUnit, Matrix.diagonal_mul_diagonal, mul_comm]
+
+/-- The representation of two diagUnit elements commutes. -/
+theorem rep_diagUnit_commute (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (i₁ : Fin N) (t₁ : kˣ) (i₂ : Fin N) (t₂ : kˣ) :
+    Commute (M.ρ (diagUnit k N i₁ t₁)) (M.ρ (diagUnit k N i₂ t₂)) := by
+  change M.ρ (diagUnit k N i₁ t₁) * M.ρ (diagUnit k N i₂ t₂) =
+    M.ρ (diagUnit k N i₂ t₂) * M.ρ (diagUnit k N i₁ t₁)
+  rw [← map_mul, ← map_mul, diagUnit_comm]
+
+/-! ### Weight space is contained in eigenspace -/
+
+/-- The weight space is contained in the maximal generalized eigenspace of each
+torus operator. Proved by extracting the (i, t) component from the iInf. -/
+theorem glWeightSpace_le_maxGenEigenspace (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (μ : Fin N → ℕ) (i : Fin N) (t : kˣ) :
+    glWeightSpace k N M μ ≤
+      Module.End.maxGenEigenspace (M.ρ (diagUnit k N i t)) ((t : k) ^ μ i) := by
+  intro v hv
+  -- Extract the (i, t) component: v ∈ ker(ρ(diagUnit i t) - t^(μ i) • id)
+  have h1 : glWeightSpace k N M μ ≤ ⨅ (s : kˣ),
+      LinearMap.ker (M.ρ (diagUnit k N i s) - ((s : k) ^ μ i) • LinearMap.id) :=
+    iInf_le _ i
+  have h2 : ⨅ (s : kˣ),
+      LinearMap.ker (M.ρ (diagUnit k N i s) - ((s : k) ^ μ i) • LinearMap.id) ≤
+      LinearMap.ker (M.ρ (diagUnit k N i t) - ((t : k) ^ μ i) • LinearMap.id) :=
+    iInf_le _ t
+  have hker := LinearMap.mem_ker.mp (h2 (h1 hv))
+  -- hker says (ρ(diagUnit i t) - t^(μ i) • id) v = 0, so ρ(diagUnit i t) v = t^(μ i) • v
+  have hev : (M.ρ (diagUnit k N i t)) v = ((t : k) ^ μ i) • v := by
+    rwa [LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, sub_eq_zero] at hker
+  -- This means v is an eigenvector, hence in the maxGenEigenspace
+  exact Module.End.eigenspace_le_maxGenEigenspace (Module.End.mem_eigenspace_iff.mpr hev)
+
+/-! ### Finiteness of weight support -/
+
+/-- In an algebraically closed field (hence infinite), for any n ≥ 1 there exists
+a unit t such that t^n ≠ 1. -/
+theorem exists_unit_pow_ne_one (k : Type*) [Field k] [IsAlgClosed k] (n : ℕ) (hn : n ≥ 1) :
+    ∃ t : kˣ, (t : k) ^ n ≠ 1 := by
+  by_contra h; push_neg at h
+  -- Every nonzero element of k is a root of X^n - C 1
+  have hp_ne : (Polynomial.X ^ n - Polynomial.C (1 : k)) ≠ 0 :=
+    Polynomial.X_pow_sub_C_ne_zero (by omega) 1
+  -- The roots of X^n - 1 form a finite set
+  have hfin : {a : k | a ^ n = 1}.Finite := by
+    apply ((Polynomial.X ^ n - Polynomial.C (1 : k)).rootSet_finite k).subset
+    intro a (ha : a ^ n = 1)
+    rw [Polynomial.mem_rootSet]
+    exact ⟨hp_ne, by simp [ha]⟩
+  -- But every nonzero element of k satisfies x^n = 1
+  have hsub : {a : k | a ≠ 0} ⊆ {a : k | a ^ n = 1} :=
+    fun a ha => by simpa using h (Units.mk0 a ha)
+  -- The set of nonzero elements is infinite (k is algebraically closed hence infinite)
+  have hinf : Set.Infinite {a : k | a ≠ 0} := by
+    rw [show {a : k | a ≠ 0} = ({0} : Set k)ᶜ from by ext; simp]
+    exact (Set.finite_singleton _).infinite_compl
+  exact hinf.not_finite (hfin.subset hsub)
+
+/-- In an algebraically closed (hence infinite) field, distinct natural number exponents
+give distinct power functions: if a ≠ b, there exists t ∈ kˣ with t^a ≠ t^b. -/
+theorem exists_unit_pow_ne (k : Type*) [Field k] [IsAlgClosed k] {a b : ℕ} (hab : a ≠ b) :
+    ∃ t : kˣ, (t : k) ^ a ≠ (t : k) ^ b := by
+  -- Reduce to the case a > b
+  suffices ∀ {a b : ℕ}, a > b → ∃ t : kˣ, (t : k) ^ a ≠ (t : k) ^ b from by
+    rcases Nat.lt_or_gt_of_ne hab with h | h
+    · obtain ⟨t, ht⟩ := this h; exact ⟨t, ht.symm⟩
+    · exact this h
+  intro a b h
+  obtain ⟨t, ht⟩ := exists_unit_pow_ne_one k (a - b) (by omega)
+  refine ⟨t, fun heq => ht ?_⟩
+  have hne : (t : k) ^ b ≠ 0 := pow_ne_zero _ (Units.ne_zero t)
+  have : (t : k) ^ (a - b) * (t : k) ^ b = 1 * (t : k) ^ b := by
+    rw [← pow_add, Nat.sub_add_cancel h.le, heq, one_mul]
+  exact mul_right_cancel₀ hne this
+
+/-- The set of weights with nonzero weight space is finite for any finite-dimensional
+`GL_N(k)`-representation. -/
+theorem glWeightSpace_finite_support (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
+    { μ : Fin N →₀ ℕ | glWeightSpace k N M (fun i => μ i) ≠ ⊥ }.Finite := by
+  -- Define the family of operators indexed by (Fin N × kˣ)
+  set f : Fin N × kˣ → Module.End k M := fun p => M.ρ (diagUnit k N p.1 p.2) with hf_def
+  -- The operators commute, so they satisfy the MapsTo condition
+  have h_comm : ∀ (p₁ p₂ : Fin N × kˣ), Commute (f p₁) (f p₂) :=
+    fun p₁ p₂ => rep_diagUnit_commute k N M p₁.1 p₁.2 p₂.1 p₂.2
+  have h_mapsTo : ∀ (p₁ p₂ : Fin N × kˣ) (φ : k),
+      Set.MapsTo (f p₁)
+        ((f p₂).maxGenEigenspace φ) ((f p₂).maxGenEigenspace φ) :=
+    fun p₁ p₂ φ => Module.End.mapsTo_maxGenEigenspace_of_comm (h_comm p₂ p₁) φ
+  -- By Pi.lean, the simultaneous maximal generalized eigenspaces are independent
+  have h_indep := Module.End.independent_iInf_maxGenEigenspace_of_forall_mapsTo f h_mapsTo
+  -- By Noetherian, only finitely many are nonzero
+  have h_fin := Submodule.finite_ne_bot_of_iSupIndep h_indep
+  -- The weight space for μ is contained in the simultaneous maxGenEigenspace for χ_μ
+  -- where χ_μ(i, t) = t^(μ i)
+  -- Define the eigenvalue map
+  set χ : (Fin N →₀ ℕ) → (Fin N × kˣ → k) :=
+    fun μ p => (p.2 : k) ^ (μ p.1) with hχ_def
+  -- Show the map is injective
+  have h_inj : Function.Injective χ := by
+    intro μ₁ μ₂ heq
+    ext i
+    by_contra hi
+    obtain ⟨t, ht⟩ := exists_unit_pow_ne k hi
+    exact ht (congr_fun heq (i, t))
+  -- Show glWeightSpace μ ≤ ⨅ p, maxGenEigenspace(f p, χ μ p)
+  have h_le : ∀ (μ : Fin N →₀ ℕ),
+      glWeightSpace k N M (fun i => μ i) ≤
+        ⨅ (p : Fin N × kˣ), (f p).maxGenEigenspace (χ μ p) := by
+    intro μ
+    apply le_iInf
+    intro ⟨i, t⟩
+    exact glWeightSpace_le_maxGenEigenspace k N M (fun j => μ j) i t
+  -- If glWeightSpace μ ≠ ⊥, then the simultaneous maxGenEigenspace is also ≠ ⊥
+  refine (h_fin.preimage h_inj.injOn).subset ?_
+  intro μ hμ
+  simp only [Set.mem_setOf_eq] at hμ
+  simp only [Set.mem_preimage, Set.mem_setOf_eq]
+  exact fun h => hμ (eq_bot_iff.mpr (h ▸ h_le μ))
+
 /-! ### Formal character -/
 
 /-- The formal character of a finite-dimensional polynomial `GL_N(k)`-representation,
@@ -213,10 +345,9 @@ The sum ranges over the finitely many weights with nonzero weight space. -/
 noncomputable def formalCharacter (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
     MvPolynomial (Fin N) ℚ :=
-  -- The set of weights with nonzero weight space is finite (M is finite-dimensional)
   have hfin : { μ : Fin N →₀ ℕ |
-      glWeightSpace k N M (fun i => μ i) ≠ ⊥ }.Finite := by
-    sorry -- finiteness of weight support follows from finite-dimensionality of M
+      glWeightSpace k N M (fun i => μ i) ≠ ⊥ }.Finite :=
+    glWeightSpace_finite_support k N M
   hfin.toFinset.sum fun μ =>
     (Module.finrank k (glWeightSpace k N M (fun i => μ i)) : ℚ) •
       MvPolynomial.monomial μ 1
