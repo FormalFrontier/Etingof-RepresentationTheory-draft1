@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter6.Definition6_6_3
 import EtingofRepresentationTheory.Chapter6.Definition6_6_4
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
+import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
 /-!
 # Proposition 6.6.7: Reflection Preserves Indecomposability
@@ -649,11 +650,13 @@ theorem Etingof.reversedArrow_arrowOut_eq
   obtain ⟨j, e⟩ := a
   show Etingof.reversedArrow_ne_eq _ (Etingof.arrowOutToReversed hi ⟨j, e⟩) = e
   have ha : j ≠ i := fun heq => (hi i).false (heq ▸ e)
-  -- Both reversedArrow_ne_eq and arrowOutToReversed are identity-like casts,
-  -- but Lean 4's Decidable.casesOn dependent types prevent definitional reduction.
-  -- The composition is propositionally obvious but requires matching on Decidable instances
-  -- that are entangled with the type of the reversed arrow.
-  sorry
+  -- reversedArrow_ne_eq is a cast (by reversedArrow_ne_eq_is_cast), and
+  -- arrowOutToReversed is cast of the inverse equality. Their composition is identity.
+  rw [Etingof.reversedArrow_ne_eq_is_cast]
+  show cast (Etingof.ReversedAtVertexHom_ne_eq ha rfl)
+    (Etingof.arrowOutToReversed hi ⟨j, e⟩) = e
+  unfold Etingof.arrowOutToReversed
+  simp only [cast_cast, cast_eq]
 
 /-- Reflection functors preserve indecomposability at a source:
 F⁻ᵢ(V) is either indecomposable or zero.
@@ -675,7 +678,7 @@ theorem Etingof.Proposition6_6_7_source
     @Etingof.QuiverRepresentation.IsZero k _ Q
       (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorMinus Q i hi ρ) := by
-  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfField (k := k)
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
   rcases Etingof.Proposition6_6_5_source hi hρ with hsimple | hinj
   · -- V is simple at i → F⁻(V) is zero
     right
