@@ -427,30 +427,115 @@ private theorem card_filter_le_min {α : Type*}
   le_min (Finset.card_filter_le B P)
     (Finset.card_le_card (Finset.filter_subset_filter P hB))
 
-/-- Column permutations preserve or decrease dominance for standard tableaux.
+/-- A single column transposition preserves dominance: if positions p₁ and p₂ are in the
+same column with row(p₁) < row(p₂), and σ assigns a smaller entry to p₁ than p₂
+(column-increasing property), then σ dominates (swap p₁ p₂) * σ. -/
+private theorem swap_column_dominance (σ : Equiv.Perm (Fin n))
+    (p₁ p₂ : Fin n) (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
+    (hrow_lt : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
+    (hentry : σ.symm p₁ < σ.symm p₂) :
+    tabloidDominates la σ (Equiv.swap p₁ p₂ * σ) := by
+  intro k i
+  simp only [tabloidCumulCount, Equiv.Perm.coe_mul, Function.comp_apply]
+  -- The swap changes σ(e) to swap(p₁,p₂)(σ(e)):
+  --   If σ(e) = p₁: goes to p₂ (row increases)
+  --   If σ(e) = p₂: goes to p₁ (row decreases)
+  --   Otherwise: unchanged
+  -- Let e₁ = σ⁻¹(p₁), e₂ = σ⁻¹(p₂). Then e₁ < e₂ by hentry.
+  -- After swap: e₁ is at row(p₂), e₂ is at row(p₁)
+  set e₁ := σ.symm p₁
+  set e₂ := σ.symm p₂
+  -- The only entries affected are e₁ and e₂
+  -- For threshold k and row bound i, analyze cases:
+  -- If row(p₁) ≥ i: no entry was in early rows at either p₁ or p₂, so no change.
+  --   (Before: e₁ at row(p₁) ≥ i, e₂ at row(p₂) > row(p₁) ≥ i. After: swapped but both ≥ i.)
+  -- If row(p₂) < i: both were in early rows, both still in early rows. No change.
+  -- If row(p₁) < i ≤ row(p₂): e₁ was in early rows (row p₁ < i), now at row p₂ ≥ i (leaves).
+  --   e₂ was not in early rows (row p₂ ≥ i), now at row p₁ < i (enters).
+  --   Net: lose 1 from e₁ ≤ k, gain 1 from e₂ ≤ k.
+  --   Since e₁ < e₂: if e₂ ≤ k then e₁ ≤ k, so net ≤ 0. If e₂ > k: lose ≤ 1 if e₁ ≤ k, gain 0.
+  --   Either way: new count ≤ old count.
+  -- All other entries: unchanged.
+  by_cases hi₁ : rowOfPos la.sortedParts p₁.val < i
+  · by_cases hi₂ : rowOfPos la.sortedParts p₂.val < i
+    · -- Both in early rows: swap doesn't change which entries are in rows < i
+      apply Finset.card_le_card
+      intro e
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+      intro ⟨hle, hrow⟩
+      refine ⟨hle, ?_⟩
+      by_cases he₁ : σ e = p₁
+      · rw [he₁]; exact hi₁
+      · by_cases he₂ : σ e = p₂
+        · rw [he₂]; exact hi₂
+        · rw [Equiv.swap_apply_of_ne_of_ne he₁ he₂] at hrow; exact hrow
+    · -- row(p₁) < i ≤ row(p₂): the interesting case
+      push_neg at hi₂
+      -- Count the difference: at most -1 for e₁ leaving, +1 for e₂ entering
+      -- If e₁ > k: both e₁, e₂ > k, no change for threshold k
+      -- If e₁ ≤ k and e₂ > k: lose 1 (net -1), new ≤ old ✓
+      -- If e₁ ≤ k and e₂ ≤ k: lose 1 gain 1 (net 0) ✓
+      -- For entries other than e₁, e₂: swap doesn't change their position
+      -- Formalize: show the new filter is contained in old filter + possibly {e₂}
+      -- and old filter ⊇ new filter ∖ {e₂} ∪ {e₁}
+      -- Simplify: directly compare cardinalities
+      -- The filters differ only on e₁ and e₂:
+      --   e₁: old row = p₁ (< i) ✓, new row = p₂ (≥ i) ✗
+      --   e₂: old row = p₂ (≥ i) ✗, new row = p₁ (< i) ✓
+      --   others: same
+      -- So |new| = |old| - (1 if e₁ ≤ k else 0) + (1 if e₂ ≤ k else 0)
+      -- Since e₁ < e₂: if e₂ ≤ k then e₁ ≤ k, so net = 0.
+      -- If e₂ > k and e₁ ≤ k: net = -1. If e₂ > k and e₁ > k: net = 0.
+      -- In all cases net ≤ 0.
+      suffices h : ∀ e : Fin n, e ≠ e₁ → e ≠ e₂ →
+          (rowOfPos la.sortedParts (Equiv.swap p₁ p₂ (σ e)).val < i ↔
+           rowOfPos la.sortedParts (σ e).val < i) by
+        -- Use injection via Equiv.swap e₁ e₂ to map new_filter into old_filter
+        rw [← Finset.card_image_of_injective _ (Equiv.swap e₁ e₂).injective]
+        apply Finset.card_le_card
+        intro e he
+        simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and] at he ⊢
+        obtain ⟨e', ⟨hle', hrow'⟩, rfl⟩ := he
+        -- e' is in new_filter, need swap(e₁,e₂)(e') in old_filter
+        by_cases hee₁ : e' = e₁
+        · -- e' = e₁: new row = swap(p₁,p₂)(σ e₁) = swap(p₁,p₂)(p₁) = p₂, row(p₂) ≥ i
+          exfalso; subst hee₁
+          have : σ e₁ = p₁ := σ.apply_symm_apply p₁
+          rw [this, Equiv.swap_apply_left] at hrow'; omega
+        · by_cases hee₂ : e' = e₂
+          · -- e' = e₂: swap e₁ e₂ maps e₂ to e₁
+            subst hee₂
+            rw [Equiv.swap_apply_right]
+            have hσe₁ : σ e₁ = p₁ := σ.apply_symm_apply p₁
+            rw [hσe₁]
+            exact ⟨le_of_lt (lt_of_lt_of_le hentry hle'), hi₁⟩
+          · -- e' ≠ e₁, e₂: swap is identity, use h to transfer row condition
+            rw [Equiv.swap_apply_of_ne_of_ne hee₁ hee₂]
+            exact ⟨hle', (h e' hee₁ hee₂).mp hrow'⟩
+      -- Prove the "rest unchanged" fact
+      intro e hne₁ hne₂
+      have : σ e ≠ p₁ := fun h => hne₁ (σ.injective (h ▸ (σ.apply_symm_apply p₁).symm))
+      have : σ e ≠ p₂ := fun h => hne₂ (σ.injective (h ▸ (σ.apply_symm_apply p₂).symm))
+      rw [Equiv.swap_apply_of_ne_of_ne ‹σ e ≠ p₁› ‹σ e ≠ p₂›]
+  · -- row(p₁) ≥ i: both positions have row ≥ i, swap irrelevant for rows < i
+    push_neg at hi₁
+    apply Finset.card_le_card
+    intro e
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    intro ⟨hle, hrow⟩
+    refine ⟨hle, ?_⟩
+    by_cases he₁ : σ e = p₁
+    · exfalso; rw [he₁, Equiv.swap_apply_left] at hrow; omega
+    · by_cases he₂ : σ e = p₂
+      · exfalso; rw [he₂, Equiv.swap_apply_right] at hrow; omega
+      · rw [Equiv.swap_apply_of_ne_of_ne he₁ he₂] at hrow; exact hrow
 
-For T a standard Young tableau and q ∈ Q_λ (position-level column subgroup), the
-tabloid of σ_T dominates the tabloid of q⁻¹ · σ_T. The key insight: within each
-column, the standard filling places the smallest entries in the earliest rows,
-maximizing the cumulative count. Any column permutation can only rearrange entries
-within columns, which cannot increase the count of small entries in early rows. -/
 theorem column_perm_dominance (T : StandardYoungTableau n la)
     (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
     tabloidDominates la (sytPerm n la T) (q⁻¹ * sytPerm n la T) := by
-  intro k i
-  simp only [tabloidCumulCount, Equiv.Perm.coe_mul, Function.comp_apply]
-  -- Define the entry-level column permutation g = σ_T⁻¹ * q⁻¹ * σ_T
-  set σ_T := sytPerm n la T
-  -- Key identity: q⁻¹(σ_T(e)) = σ_T(g(e)) where g = σ_T⁻¹ * q⁻¹ * σ_T
-  -- Rewrite LHS filter in terms of g
-  -- |{e ≤ k : row(q⁻¹(σ_T(e))) < i}| ≤ |{e ≤ k : row(σ_T(e)) < i}|
-  -- Use bijection: map e ↦ g(e) transforms the LHS set
-  -- Since g is a bijection, |{e ≤ k : row(q⁻¹(σ_T(e))) < i}|
-  --   = |{e' : row(σ_T(e')) < i ∧ g⁻¹(e') ≤ k}| (where e' = g(e), e = g⁻¹(e'))
-  -- We need: |{e' : row(σ_T(e')) < i ∧ g⁻¹(e') ≤ k}| ≤ |{e' : row(σ_T(e')) < i ∧ e' ≤ k}|
-  -- Per column: g⁻¹ permutes entries within each column, and entries in early rows
-  -- are the smallest in each column (standardness). So filtering A = {row < i} by
-  -- (· ≤ k) gives ≥ filtering by (g⁻¹(·) ≤ k), since A ∩ col_c is the initial segment.
+  -- Strategy: decompose q into transpositions within columns using swap_induction.
+  -- Each transposition preserves dominance by swap_column_dominance.
+  -- By transitivity, the full permutation preserves dominance.
   sorry
 
 /-- A non-identity column permutation strictly decreases dominance: for q ∈ Q_λ
