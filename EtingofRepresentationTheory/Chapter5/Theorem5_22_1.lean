@@ -172,11 +172,54 @@ def SchurModule (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ) (lam : Fin N →
     FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
   FDRep.of (schurModuleRep k N lam)
 
+/-! ### Diagonal torus and weight spaces -/
+
+/-- The diagonal matrix in `GL_N(k)` with `t` at position `(i,i)` and `1` elsewhere.
+This embeds a single coordinate of the maximal torus `(k×)^N ↪ GL_N(k)`. -/
+noncomputable def diagUnit (k : Type*) [Field k] (N : ℕ) (i : Fin N) (t : kˣ) :
+    Matrix.GeneralLinearGroup (Fin N) k where
+  val := Matrix.diagonal (Function.update 1 i (t : k))
+  inv := Matrix.diagonal (Function.update 1 i ((t⁻¹ : kˣ) : k))
+  val_inv := by
+    rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
+    congr 1; ext j
+    by_cases h : j = i
+    · subst h; simp [Units.val_inv_eq_inv_val]
+    · simp [Function.update_of_ne h]
+  inv_val := by
+    rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
+    congr 1; ext j
+    by_cases h : j = i
+    · subst h; simp [Units.val_inv_eq_inv_val]
+    · simp [Function.update_of_ne h]
+
+/-- The weight space `M_μ` for weight `μ : Fin N → ℕ` in a `GL_N(k)`-representation `M`.
+This is the subspace of `M` where the diagonal matrix with `t` at position `i`
+acts as scalar multiplication by `t ^ μ i`, for each `i` and all `t ∈ k×`. -/
+noncomputable def glWeightSpace (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (μ : Fin N → ℕ) : Submodule k M :=
+  ⨅ (i : Fin N) (t : kˣ),
+    LinearMap.ker (M.ρ (diagUnit k N i t) - ((t : k) ^ μ i) • LinearMap.id)
+
+/-! ### Formal character -/
+
 /-- The formal character of a finite-dimensional polynomial `GL_N(k)`-representation,
-as a polynomial in `N` variables over `ℚ`. Not yet in Mathlib. -/
+as a polynomial in `N` variables over `ℚ`.
+
+For a representation `M`, the formal character is `∑_μ (dim M_μ) · x^μ` where
+`M_μ` is the weight space for weight `μ` under the diagonal torus action.
+The sum ranges over the finitely many weights with nonzero weight space. -/
 noncomputable def formalCharacter (k : Type*) [Field k] [IsAlgClosed k] (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
-    MvPolynomial (Fin N) ℚ := sorry
+    MvPolynomial (Fin N) ℚ :=
+  -- The set of weights with nonzero weight space is finite (M is finite-dimensional)
+  have hfin : { μ : Fin N →₀ ℕ |
+      glWeightSpace k N M (fun i => μ i) ≠ ⊥ }.Finite := by
+    sorry -- finiteness of weight support follows from finite-dimensionality of M
+  hfin.toFinset.sum fun μ =>
+    (Module.finrank k (glWeightSpace k N M (fun i => μ i)) : ℚ) •
+      MvPolynomial.monomial μ 1
 
 variable (k : Type*) [Field k] [IsAlgClosed k]
 
