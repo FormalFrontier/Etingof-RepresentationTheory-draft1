@@ -3793,8 +3793,10 @@
     "end_page": "131",
     "start_line": 17,
     "end_line": 32,
-    "status": "statement_formalized",
-    "needs_statement": true
+    "status": "sorry_free",
+    "needs_statement": true,
+    "sorry_free": true,
+    "notes": "Proved in PR #1808 (antisymmetric basis decomposition)."
   },
   {
     "id": "Chapter5/Discussion_before_Proposition5.21.2",
@@ -4698,8 +4700,9 @@
     "end_page": "172",
     "start_line": 33,
     "end_line": 26,
-    "status": "proof_partial",
-    "notes": "Triage 2026-03-18: Sink case mostly proved (1 sorry in indecomposability branch, line 209). Source case fully sorry'd (blocked on reflectionFunctorMinus definition being sorry'd). Previous import issues are resolved. No active claimed issue. The sink case sorry is a formalization challenge (dependent types with Decidable.rec). Ready for feature issue."
+    "status": "sorry_free",
+    "notes": "Proved in PR #1800 (Decidable.casesOn workarounds for source case).",
+    "sorry_free": true
   },
   {
     "id": "Chapter6/Proposition6.6.8",
