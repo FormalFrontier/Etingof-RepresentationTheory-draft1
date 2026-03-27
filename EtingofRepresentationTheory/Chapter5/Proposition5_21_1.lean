@@ -382,15 +382,28 @@ theorem Proposition5_21_1
         ∑ lam ∈ lams,
           (charValue N lam μ : ℚ) • schurPoly N lam.parts := by
   use Finset.univ
-  -- The proof strategy:
-  -- 1. Multiply both sides by the Vandermonde determinant Δ
-  -- 2. Show Δ · p_μ = Σ_λ χ_λ(C_μ) · D_λ (antisymmetric basis decomposition)
-  -- 3. Cancel Δ using the integral domain property
-  -- The antisymmetric basis decomposition uses:
-  -- - rename_alternant_det: Δ·p_μ is antisymmetric (Δ antisymmetric, p_μ symmetric)
-  -- - Alternant D_λ has coefficient 1 at x^{λ+ρ} and 0 at x^{μ+ρ} for μ ≠ λ
-  -- - Antisymmetric polynomials are determined by their leading coefficients
-  -- - charValue is exactly the leading coefficient by definition
+  -- Step 1: Cancel the Vandermonde determinant Δ from both sides (integral domain)
+  have hΔ : (alternantMatrix N (vandermondeExps N)).det ≠ 0 := by
+    obtain ⟨u, hu⟩ := alternant_det_associated_prod N
+    -- hu : det * ↑u = ∏ (X_j - X_i)
+    intro h
+    have hprod : ∏ i : Fin N, ∏ j ∈ Ioi i,
+        (X j - X i : MvPolynomial (Fin N) ℚ) ≠ 0 :=
+      Finset.prod_ne_zero_iff.mpr fun i _ =>
+        Finset.prod_ne_zero_iff.mpr fun j hj =>
+          (X_sub_X_prime (mem_Ioi.mp hj).ne').ne_zero
+    exact hprod (by rw [← hu, h, zero_mul])
+  apply mul_left_cancel₀ hΔ
+  -- Step 2: Rewrite RHS: Δ * Σ c_λ • S_λ = Σ c_λ • (S_λ * Δ) = Σ c_λ • D_λ
+  rw [Finset.mul_sum]
+  simp_rw [Algebra.mul_smul_comm,
+    mul_comm (alternantMatrix N (vandermondeExps N)).det (schurPoly _ _),
+    schurPoly_mul_vandermonde]
+  -- Step 3: Antisymmetric basis decomposition
+  -- Goal: Δ * p_μ = Σ_λ coeff_{λ+ρ}(Δ * p_μ) • D_λ
+  -- Uses: Δ*p_μ is antisymmetric (rename_alternant_det + psum symmetric),
+  --       alternant D_λ has coeff 1 at x^{λ+ρ} and 0 at x^{μ+ρ} for μ≠λ,
+  --       antisymmetric polynomials are determined by leading coefficients.
   sorry
 
 end Etingof
