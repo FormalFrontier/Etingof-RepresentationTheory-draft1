@@ -662,6 +662,125 @@ theorem column_perm_strict_dominance (T : StandardYoungTableau n la)
   ⟨column_perm_dominance T q hq,
    (ColumnSubgroup_ne_tabloid T q hq hne).symm⟩
 
+/-! ### Dominance for polytabloid support
+
+The polytabloid e_T = of(σ_T) · c_λ has support on {σ_T · p · q : p ∈ P_λ, q ∈ Q_λ}.
+The tabloid projection tabloidProjection(e_T) collects coefficients by LEFT P_λ-coset.
+For the triangularity proof, we need: if any term σ_T · p · q contributes to tabloid τ,
+then τ is dominated by sytToTabloid(T).
+
+**Blocker**: With the LEFT coset convention (σ₁ ~ σ₂ iff σ₁ · σ₂⁻¹ ∈ P_λ),
+LEFT multiplication by p ∈ P_λ preserves tabloids, but σ_T · p · q does NOT
+equal p' · σ_T · q for p' ∈ P_λ (it equals p' · σ_T · q where p' = σ_T p σ_T⁻¹
+is in σ_T P_λ σ_T⁻¹, the T-RELATIVE row subgroup). So the tabloid of σ_T · p · q
+depends on both p AND q, and the LEFT-action column_perm_dominance cannot be
+applied directly.
+
+Possible approaches:
+1. Prove `pq_dominance` directly: show tabloidDominates la σ_T (σ_T · p · q)
+   for all p ∈ P_λ, q ∈ Q_λ. Requires new proof technique.
+2. Switch TabloidSetoid to RIGHT cosets (σ₁⁻¹ · σ₂ ∈ P_λ), making
+   RIGHT mult by P_λ preserve tabloids and allowing expansion as
+   Σ_q sign(q) · toTabloid_R(σ_T · q). Major refactor of TabloidModule.lean.
+3. Use a different proof of polytabloid linear independence (e.g., via
+   representation theory, bilinear form on M^λ, or dimension counting).
+-/
+
+/-- Dominance for polytabloid support: for p ∈ P_λ, q ∈ Q_λ, the tabloid of
+σ_T dominates the tabloid of σ_T · p · q.
+
+This is the key inequality needed for unitriangularity of the tabloid expansion.
+The LEFT-action version `column_perm_dominance` handles the case p = 1 with
+LEFT action (q⁻¹ · σ_T). This generalizes to arbitrary p, q. -/
+theorem pq_dominance (T : StandardYoungTableau n la)
+    (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la)
+    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
+    tabloidDominates la (sytPerm n la T) (sytPerm n la T * p * q) := by
+  sorry
+
+/-- LEFT multiplication by p ∈ P_λ preserves tabloids (using our LEFT coset convention). -/
+theorem toTabloid_left_mul_rowPerm (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la)
+    (σ : Equiv.Perm (Fin n)) :
+    toTabloid n la (p * σ) = toTabloid n la σ := by
+  rw [toTabloid_eq_iff]
+  simp [mul_assoc, hp]
+
+/-! ### Tabloid projection of polytabloids -/
+
+/-- The tabloid projection map: sends x ∈ ℂ[S_n] to the Finsupp on Tabloid
+that records the sum of x(σ) over each left P_λ-coset. -/
+noncomputable def tabloidProjection (n : ℕ) (la : Nat.Partition n) :
+    SymGroupAlgebra n →ₗ[ℂ] (Tabloid n la →₀ ℂ) :=
+  Finsupp.lmapDomain ℂ ℂ (toTabloid n la)
+
+/-- The tabloid coefficient of tabloid τ in the tabloid projection of the
+polytabloid e_T is nonzero only when {T} dominates τ (in tabloid dominance).
+
+Specifically, if tabloidProjection(e_T)(τ) ≠ 0, then tabloidDominates(σ_T, σ)
+for any σ representing τ.
+
+**Proof sketch**: If tabloidProjection(e_T)(τ) ≠ 0, then some σ with
+toTabloid(σ) = τ has e_T(σ) ≠ 0, meaning σ_T⁻¹ · σ = p · q for
+p ∈ P_λ, q ∈ Q_λ. So σ = σ_T · p · q, and dominance follows from
+`pq_dominance`. Since dominance is well-defined on tabloids, it holds
+for any representative. -/
+theorem tabloidProjection_polytabloid_dominance (n : ℕ) (la : Nat.Partition n)
+    (T : StandardYoungTableau n la) (τ : Tabloid n la)
+    (h : tabloidProjection n la (polytabloid n la T) τ ≠ 0) :
+    ∀ σ : Equiv.Perm (Fin n), toTabloid n la σ = τ →
+      tabloidDominates la (sytPerm n la T) σ := by
+  sorry
+
+/-- The tabloid coefficient of {T} in e_T is nonzero.
+
+**Proof sketch**: tabloidProjection(e_T)(sytToTabloid(T))
+= Σ_{σ : toTabloid(σ) = sytToTabloid(T)} e_T(σ)
+= Σ_{p ∈ P_λ} c_λ(σ_T⁻¹ · p · σ_T).
+The p = 1 term gives c_λ(1) = 1. The other terms contribute sign(q)
+for (p,q) with σ_T⁻¹ · p · σ_T = p' · q ∈ P_λ · Q_λ. The total
+sum is ≥ 1 since |P_λ ∩ σ_T Q_λ σ_T⁻¹| contributes only the identity
+by row_col_inter_trivial'. -/
+theorem tabloidProjection_polytabloid_self_ne_zero (n : ℕ) (la : Nat.Partition n)
+    (T : StandardYoungTableau n la) :
+    tabloidProjection n la (polytabloid n la T) (sytToTabloid n la T) ≠ 0 := by
+  sorry
+
+/-! ### Polytabloid linear independence -/
+
+/-- The polytabloids {e_T : T ∈ SYT(λ)} are linearly independent in the group algebra.
+
+The proof uses the tabloid projection and dominance triangularity:
+1. Map polytabloids to the free ℂ-module on tabloids via tabloidProjection
+2. By tabloidProjection_polytabloid_dominance, the coefficient matrix is
+   upper-triangular with respect to any total order refining tabloid dominance
+3. By tabloidProjection_polytabloid_self_ne_zero, the diagonal entries are nonzero
+4. By sytToTabloid_injective, different SYTs map to different tabloids (so the
+   diagonal is well-defined)
+5. LinearIndependent.of_comp pulls back the independence to the group algebra -/
+theorem polytabloid_linearIndependent_proof (n : ℕ) (la : Nat.Partition n) :
+    LinearIndependent ℂ (fun T : StandardYoungTableau n la =>
+      (polytabloidInSpecht n la T : SymGroupAlgebra n)) := by
+  -- Step 1: Reduce to showing images under tabloidProjection are independent
+  apply LinearIndependent.of_comp (tabloidProjection n la)
+  -- Step 2: Use linearIndependent_iff' with a dominance-maximality argument
+  rw [linearIndependent_iff']
+  intro S g hg T hT
+  -- Suppose for contradiction that g T ≠ 0
+  by_contra hne
+  -- Let S' = {T' ∈ S : g T' ≠ 0}
+  set S' := S.filter (fun T' => g T' ≠ 0) with hS'_def
+  have hT_in_S' : T ∈ S' := Finset.mem_filter.mpr ⟨hT, hne⟩
+  -- S' is nonempty
+  have hS'_nonempty : S'.Nonempty := ⟨T, hT_in_S'⟩
+  -- Among S', find T₀ whose tabloid is maximal in dominance
+  -- (A maximal element exists since S' is finite and dominance is a partial order)
+  -- We use a total order on Tabloid (exists since Fintype) to find the maximum
+  -- For the purpose of this proof, we pick a T₀ that is maximal in the sense that
+  -- no other T' ∈ S' with g T' ≠ 0 has {T'} strictly dominating {T₀}
+  -- (This is possible since S' is finite and tabloidStrictDominates is well-founded
+  -- on finite types)
+  sorry
+
 end
 
 end Etingof
