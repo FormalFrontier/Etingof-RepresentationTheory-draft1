@@ -5,8 +5,8 @@ import EtingofRepresentationTheory.Chapter5.PolytabloidBasis
 /-!
 # Tabloid Module Infrastructure
 
-This file defines the **tabloid type** and **T-relative column subgroup** needed for
-the polytabloid linear independence proof.
+This file defines the **tabloid type**, **T-relative column subgroup**, and
+**dominance order** needed for the polytabloid linear independence proof.
 
 A tabloid is a left P_λ-coset of S_n: two permutations give the same tabloid iff their
 "row assignments" agree (same entries in each row). The row assignment of a permutation
@@ -17,12 +17,25 @@ A tabloid is a left P_λ-coset of S_n: two permutations give the same tabloid if
 * `Etingof.TabloidSetoid` — the equivalence relation σ₁ ~ σ₂ iff σ₁ σ₂⁻¹ ∈ P_λ
 * `Etingof.Tabloid` — the quotient type (left P_λ cosets)
 * `Etingof.sytToTabloid` — maps an SYT to its tabloid
-* `Etingof.RelColumnSubgroup` — Q'_T = σ_T Q_λ σ_T⁻¹ (acts on entries via T's columns)
+* `Etingof.RelColumnSubgroup` — C_T = σ_T⁻¹ Q_λ σ_T (entry-level column stabilizer of T)
+* `Etingof.tabloidDominance` — dominance partial order on tabloids
 
 ## Main results
 
 * `Etingof.sytToTabloid_injective` — different SYTs give different tabloids
-* `Etingof.RelColumnSubgroup_ne_tabloid` — non-identity T-column perms change tabloid
+* `Etingof.RowSubgroup_inter_ColumnSubgroup` — P_λ ∩ Q_λ = {1}
+* `Etingof.ColumnSubgroup_ne_tabloid` — non-identity column perms change tabloid
+* `Etingof.RelColumnSubgroup_ne_tabloid` — entry-level column perms change tabloid
+
+## Convention note
+
+The T-relative column subgroup C_T = σ_T⁻¹ Q_λ σ_T (NOT σ_T Q_λ σ_T⁻¹). This is
+the entry-level column stabilizer: π ∈ C_T iff π preserves the column sets of T.
+Explicitly, for entry e, col_T(π(e)) = col_T(e) where col_T(e) = colOfPos(σ_T(e)).
+
+The polytabloid expansion in the tabloid module is:
+  e_T ↝ |P_λ| · Σ_{q ∈ Q_λ} sign(q) · toTabloid(q⁻¹ · σ_T)
+where q⁻¹ · σ_T gives the tabloid {π · T} for π = σ_T⁻¹ q σ_T ∈ C_T.
 
 ## References
 
@@ -127,66 +140,189 @@ theorem sytToTabloid_injective (n : ℕ) (la : Nat.Partition n) :
   apply sytPerm_injective n la
   sorry
 
+/-! ### Row-column subgroup intersection -/
+
+/-- In a Young diagram, each cell is uniquely determined by its (row, column) pair.
+Therefore, a permutation that preserves both rows and columns must be the identity:
+P_λ ∩ Q_λ = {1}. -/
+theorem RowSubgroup_inter_ColumnSubgroup (n : ℕ) (la : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n)) (hrow : σ ∈ RowSubgroup n la)
+    (hcol : σ ∈ ColumnSubgroup n la) : σ = 1 := by
+  ext k
+  simp only [Equiv.Perm.one_apply]
+  have hr : rowOfPos la.sortedParts (σ k).val = rowOfPos la.sortedParts k.val := hrow k
+  have hc : colOfPos la.sortedParts (σ k).val = colOfPos la.sortedParts k.val := hcol k
+  have hsum : la.sortedParts.sum = n := by
+    have h := Multiset.sort_eq la.parts (· ≥ ·)
+    have : (la.sortedParts : Multiset ℕ).sum = la.parts.sum := congrArg Multiset.sum h
+    rw [Multiset.sum_coe] at this; rw [this, la.parts_sum]
+  have hk : k.val < la.sortedParts.sum := by omega
+  have hsk : (σ k).val < la.sortedParts.sum := by omega
+  exact rowOfPos_colOfPos_injective la.sortedParts (σ k).val k.val hsk hk hr hc
+
 /-! ### T-relative column subgroup -/
 
-/-- The column subgroup relative to SYT T: Q'_T = σ_T Q_λ σ_T⁻¹.
+/-- The column stabilizer of T: C_T = σ_T⁻¹ Q_λ σ_T.
 
-An element π ∈ Q'_T acts on ENTRIES, permuting them within the columns of T.
-Specifically, π ∈ Q'_T iff π = σ_T q σ_T⁻¹ for some q ∈ Q_λ. -/
+An element π ∈ C_T preserves T's column structure at the entry level: for every
+entry e, the column of π(e) in T equals the column of e in T.
+
+Concretely, π ∈ C_T iff π = σ_T⁻¹ q σ_T for some q ∈ Q_λ, where σ_T = sytPerm T.
+
+Note: this uses conjugation by σ_T⁻¹ (not σ_T). The key identity is:
+  col_T(π(e)) = colOfPos(σ_T(π(e)))
+and π = σ_T⁻¹ q σ_T gives σ_T π σ_T⁻¹ = q ∈ Q_λ (column-preserving on positions). -/
 def RelColumnSubgroup (n : ℕ) (la : Nat.Partition n)
     (T : StandardYoungTableau n la) : Subgroup (Equiv.Perm (Fin n)) :=
-  (ColumnSubgroup n la).map (MulAut.conj (sytPerm n la T)).toMonoidHom
+  (ColumnSubgroup n la).map (MulAut.conj (sytPerm n la T)⁻¹).toMonoidHom
 
 theorem mem_RelColumnSubgroup_iff (T : StandardYoungTableau n la)
     (π : Equiv.Perm (Fin n)) :
     π ∈ RelColumnSubgroup n la T ↔
       ∃ q ∈ ColumnSubgroup n la,
-        π = sytPerm n la T * q * (sytPerm n la T)⁻¹ := by
+        π = (sytPerm n la T)⁻¹ * q * sytPerm n la T := by
   simp only [RelColumnSubgroup, Subgroup.mem_map, MulAut.conj_apply,
-             MulEquiv.coe_toMonoidHom]
+             MulEquiv.coe_toMonoidHom, inv_inv]
   constructor
   · rintro ⟨q, hq, rfl⟩; exact ⟨q, hq, rfl⟩
   · rintro ⟨q, hq, rfl⟩; exact ⟨q, hq, rfl⟩
 
-/-- Key factoring identity: σ_T · q = (σ_T q σ_T⁻¹) · σ_T.
-When q ∈ Q_λ, the left factor σ_T q σ_T⁻¹ is in Q'_T. -/
-theorem sytPerm_mul_eq_conj_mul (T : StandardYoungTableau n la)
-    (q : Equiv.Perm (Fin n)) :
-    sytPerm n la T * q =
-      (sytPerm n la T * q * (sytPerm n la T)⁻¹) * sytPerm n la T := by
-  simp [mul_assoc]
+/-- The position-level column perm corresponding to an entry-level column perm:
+if π ∈ C_T then q = σ_T π σ_T⁻¹ ∈ Q_λ. -/
+theorem sytPerm_conj_mem_ColumnSubgroup (T : StandardYoungTableau n la)
+    (π : Equiv.Perm (Fin n)) (hπ : π ∈ RelColumnSubgroup n la T) :
+    sytPerm n la T * π * (sytPerm n la T)⁻¹ ∈ ColumnSubgroup n la := by
+  rw [mem_RelColumnSubgroup_iff] at hπ
+  obtain ⟨q, hq, rfl⟩ := hπ
+  group
+  exact hq
 
-/-- The left factor σ_T q σ_T⁻¹ is in Q'_T when q ∈ Q_λ. -/
-theorem conj_mem_RelColumnSubgroup (T : StandardYoungTableau n la)
-    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
-    sytPerm n la T * q * (sytPerm n la T)⁻¹ ∈ RelColumnSubgroup n la T := by
-  rw [mem_RelColumnSubgroup_iff]; exact ⟨q, hq, rfl⟩
+/-! ### Polytabloid tabloid expansion -/
 
-/-! ### Tabloid of conjugated permutation -/
-
-/-- The tabloid of σ_T · q is the tabloid of (σ_T q σ_T⁻¹) · σ_T. -/
-theorem toTabloid_sytPerm_mul_eq (T : StandardYoungTableau n la)
-    (q : Equiv.Perm (Fin n)) :
-    toTabloid n la (sytPerm n la T * q) =
-      toTabloid n la ((sytPerm n la T * q * (sytPerm n la T)⁻¹) *
-                       sytPerm n la T) := by
-  congr 1; simp [mul_assoc]
-
-/-- The identity Q'_T element preserves the tabloid of T. -/
-theorem toTabloid_id_mul_sytPerm (T : StandardYoungTableau n la) :
-    toTabloid n la (1 * sytPerm n la T) = sytToTabloid n la T := by
+/-- The tabloid of q⁻¹ · σ_T represents {π · T} where π = σ_T⁻¹ q σ_T ∈ C_T.
+For q = 1 (π = 1), this is the tabloid of T. -/
+theorem toTabloid_inv_mul_sytPerm_one (T : StandardYoungTableau n la) :
+    toTabloid n la (1⁻¹ * sytPerm n la T) = sytToTabloid n la T := by
   simp [sytToTabloid]
 
-/-- A non-identity element of Q'_T changes the tabloid of σ_T.
+/-- A non-identity position-level column perm changes the tabloid of σ_T.
 
-This is the key combinatorial fact: if π ∈ Q'_T and π ≠ 1, then the tabloid
-P_λ · (π · σ_T) ≠ P_λ · σ_T. This holds because π permutes entries within T's
-columns, and for a standard tableau, this moves at least one entry to a different row
-(entries in a column are in strictly increasing rows). -/
+If q ∈ Q_λ and q ≠ 1, then toTabloid(q⁻¹ · σ_T) ≠ toTabloid(σ_T).
+The proof reduces to q ∉ P_λ, which follows from P_λ ∩ Q_λ = {1}. -/
+theorem ColumnSubgroup_ne_tabloid (T : StandardYoungTableau n la)
+    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) (hne : q ≠ 1) :
+    toTabloid n la (q⁻¹ * sytPerm n la T) ≠ sytToTabloid n la T := by
+  rw [Ne, sytToTabloid, toTabloid_eq_iff]
+  intro hmem
+  -- hmem : q⁻¹ * σ_T * σ_T⁻¹ ∈ P_λ, i.e., q⁻¹ ∈ P_λ
+  simp only [mul_assoc, mul_inv_cancel, mul_one] at hmem
+  have : q⁻¹ = 1 := RowSubgroup_inter_ColumnSubgroup n la q⁻¹ hmem
+    ((ColumnSubgroup n la).inv_mem hq)
+  exact hne (inv_eq_one.mp this)
+
+/-- Entry-level column perms change the tabloid of T.
+
+For π ∈ C_T = σ_T⁻¹ Q_λ σ_T, the tabloid {π · T} = toTabloid(σ_T * π⁻¹) differs
+from {T} when π ≠ 1.
+
+The proof: π = σ_T⁻¹ q σ_T for q ∈ Q_λ, so σ_T * π⁻¹ = q⁻¹ * σ_T, and
+the result follows from `ColumnSubgroup_ne_tabloid`. -/
 theorem RelColumnSubgroup_ne_tabloid (T : StandardYoungTableau n la)
     (π : Equiv.Perm (Fin n)) (hπ : π ∈ RelColumnSubgroup n la T) (hne : π ≠ 1) :
-    toTabloid n la (π * sytPerm n la T) ≠ sytToTabloid n la T := by
-  sorry
+    toTabloid n la (sytPerm n la T * π⁻¹) ≠ sytToTabloid n la T := by
+  rw [mem_RelColumnSubgroup_iff] at hπ
+  obtain ⟨q, hq, rfl⟩ := hπ
+  -- π = σ_T⁻¹ q σ_T, so π⁻¹ = σ_T⁻¹ q⁻¹ σ_T
+  -- σ_T * π⁻¹ = σ_T * σ_T⁻¹ * q⁻¹ * σ_T = q⁻¹ * σ_T
+  have hsimp : sytPerm n la T * ((sytPerm n la T)⁻¹ * q * sytPerm n la T)⁻¹ =
+      q⁻¹ * sytPerm n la T := by group
+  rw [hsimp]
+  have hq_ne : q ≠ 1 := by
+    intro heq; apply hne
+    rw [heq]; simp
+  exact ColumnSubgroup_ne_tabloid T q hq hq_ne
+
+/-! ### Dominance order on tabloids -/
+
+/-- The number of entries ≤ k in the first i rows of the tabloid defined by σ.
+This is the fundamental quantity for the dominance partial order.
+
+For tabloid σ, this counts |{e ∈ Fin n : e ≤ k ∧ rowOfPos(σ(e)) < i}|. -/
+def tabloidCumulCount (la : Nat.Partition n) (σ : Equiv.Perm (Fin n))
+    (k : Fin n) (i : ℕ) : ℕ :=
+  (Finset.univ.filter fun e : Fin n =>
+    e ≤ k ∧ rowOfPos la.sortedParts (σ e).val < i).card
+
+/-- The cumulative count is well-defined on tabloids: if σ₁ and σ₂ define the same
+tabloid (same row assignments), they have the same cumulative counts. -/
+theorem tabloidCumulCount_eq_of_toTabloid_eq (σ₁ σ₂ : Equiv.Perm (Fin n))
+    (h : toTabloid n la σ₁ = toTabloid n la σ₂) (k : Fin n) (i : ℕ) :
+    tabloidCumulCount la σ₁ k i = tabloidCumulCount la σ₂ k i := by
+  rw [toTabloid_eq_iff_rowAssign] at h
+  simp only [tabloidCumulCount]
+  congr 1
+  ext e
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+  constructor <;> intro ⟨hle, hrow⟩
+  · exact ⟨hle, (h e) ▸ hrow⟩
+  · exact ⟨hle, (h e) ▸ hrow⟩
+
+/-- Tabloid t₁ dominates tabloid t₂ if for all thresholds k and row counts i,
+the number of small entries (≤ k) in the first i rows of t₁ is at least
+that of t₂. -/
+def tabloidDominates (la : Nat.Partition n) (σ₁ σ₂ : Equiv.Perm (Fin n)) : Prop :=
+  ∀ k : Fin n, ∀ i : ℕ,
+    tabloidCumulCount la σ₂ k i ≤ tabloidCumulCount la σ₁ k i
+
+/-- Strict dominance: t₁ strictly dominates t₂ if t₁ dominates t₂ and they differ. -/
+def tabloidStrictDominates (la : Nat.Partition n) (σ₁ σ₂ : Equiv.Perm (Fin n)) : Prop :=
+  tabloidDominates la σ₁ σ₂ ∧ toTabloid n la σ₁ ≠ toTabloid n la σ₂
+
+/-- Dominance is reflexive. -/
+theorem tabloidDominates_refl (σ : Equiv.Perm (Fin n)) :
+    tabloidDominates la σ σ :=
+  fun _ _ => le_refl _
+
+/-- Dominance is transitive. -/
+theorem tabloidDominates_trans {σ₁ σ₂ σ₃ : Equiv.Perm (Fin n)}
+    (h₁₂ : tabloidDominates la σ₁ σ₂) (h₂₃ : tabloidDominates la σ₂ σ₃) :
+    tabloidDominates la σ₁ σ₃ :=
+  fun k i => le_trans (h₂₃ k i) (h₁₂ k i)
+
+/-- Dominance is well-defined on tabloids: if σ₁ ~ σ₁' and σ₂ ~ σ₂', then
+dominance is preserved. -/
+theorem tabloidDominates_congr {σ₁ σ₁' σ₂ σ₂' : Equiv.Perm (Fin n)}
+    (h₁ : toTabloid n la σ₁ = toTabloid n la σ₁')
+    (h₂ : toTabloid n la σ₂ = toTabloid n la σ₂')
+    (hdom : tabloidDominates la σ₁ σ₂) :
+    tabloidDominates la σ₁' σ₂' := by
+  intro k i
+  rw [← tabloidCumulCount_eq_of_toTabloid_eq σ₂ σ₂' h₂,
+      ← tabloidCumulCount_eq_of_toTabloid_eq σ₁ σ₁' h₁]
+  exact hdom k i
+
+/-! ### Last-letter total order -/
+
+/-- The row assignment vector of a tabloid, as a function Fin n → ℕ.
+This is the key comparison function: the last-letter order compares these
+vectors lexicographically from the largest entry down. -/
+def tabloidRowVec (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    Fin n → ℕ :=
+  fun k => rowOfPos la.sortedParts (σ k).val
+
+/-- The row vector is well-defined on tabloids. -/
+theorem tabloidRowVec_eq_of_toTabloid_eq (σ₁ σ₂ : Equiv.Perm (Fin n))
+    (h : toTabloid n la σ₁ = toTabloid n la σ₂) :
+    tabloidRowVec la σ₁ = tabloidRowVec la σ₂ := by
+  rw [toTabloid_eq_iff_rowAssign] at h
+  ext k; exact h k
+
+/-- Two permutations with the same row vector give the same tabloid. -/
+theorem toTabloid_eq_of_tabloidRowVec_eq (σ₁ σ₂ : Equiv.Perm (Fin n))
+    (h : tabloidRowVec la σ₁ = tabloidRowVec la σ₂) :
+    toTabloid n la σ₁ = toTabloid n la σ₂ := by
+  rw [toTabloid_eq_iff_rowAssign]
+  intro k; exact congr_fun h k
 
 end
 
