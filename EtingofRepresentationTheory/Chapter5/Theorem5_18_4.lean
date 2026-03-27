@@ -187,14 +187,36 @@ theorem symGroupImage_faithfulSMul
 /-- The centralizer of the symmetric group image equals the diagonal
 action image. This is the key content of Schur-Weyl duality:
 every endomorphism of V⊗ⁿ commuting with all permutations is
-a polynomial in diagonal operators. -/
+a polynomial in diagonal operators.
+
+**Proof approach (Etingof Theorem 5.18.2 + Lemma 5.18.3):**
+The ≥ direction is `diagonalActionImage_le_centralizer_symGroupImage`.
+For ≤: Via the basis `Basis.piTensorProduct`, an Sₙ-equivariant
+endomorphism has matrix M[c,f] depending only on the multiset
+{(c(i),f(i))}. The diagonal operator (map (fun _ => g)) has matrix
+∏ᵢ g[c(i),f(i)]. Equality reduces to: the span of
+{∏ᵢ g[c(i),f(i)] : g ∈ End V} over all g equals the space of
+Sₙ-invariant matrices. This is the Veronese spanning property
+(= Lemma 5.18.3(i): Sⁿ(U) is spanned by {u⊗ⁿ : u ∈ U}),
+which holds in characteristic 0 by irreducibility of Sⁿ(U) as a
+GL(U)-representation.
+
+**Missing Mathlib infrastructure:** The isomorphism
+End(V⊗ⁿ) ≅ (End V)⊗ⁿ for PiTensorProduct, or equivalently the
+Veronese spanning property for symmetric powers.
+-/
 theorem centralizer_symGroupImage_eq_diagonalActionImage
     (hN : n ≤ Module.finrank k V) :
     Subalgebra.centralizer k
       (symGroupImage k V n :
         Set (Module.End k (TensorPower k V n))) =
     diagonalActionImage k V n := by
-  sorry
+  apply le_antisymm
+  · -- Hard direction: centralizer(Sₙ) ≤ diagonalActionImage
+    -- Requires: Veronese spanning / End(V⊗ⁿ) ≅ (End V)⊗ⁿ
+    sorry
+  · exact diagonalActionImage_le_centralizer_symGroupImage
+      k V n
 
 /-- Schur-Weyl duality, part (i): The images of k[S_n] and End_k(V)
 in End(V^⊗n) are mutual centralizers.
