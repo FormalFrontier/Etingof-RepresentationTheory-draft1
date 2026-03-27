@@ -299,8 +299,7 @@ by partitions (Theorem 5.12.2).
 theorem Theorem5_18_4_partition_decomposition
     [IsAlgClosed k]
     (hN : n ≤ Module.finrank k V) :
-    ∃ (S : Nat.Partition n → Type (max u v))
-      (L : Nat.Partition n → Type u)
+    ∃ (S L : Nat.Partition n → Type)
       (_ : ∀ p, AddCommGroup (S p))
       (_ : ∀ p, Module k (S p))
       (_ : ∀ p, AddCommGroup (L p))
