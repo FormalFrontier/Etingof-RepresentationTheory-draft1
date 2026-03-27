@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_18_2
+import EtingofRepresentationTheory.Chapter5.Lemma5_18_3
 
 /-!
 # Theorem 5.18.4: Schur-Weyl Duality
@@ -201,20 +203,59 @@ Sₙ-invariant matrices. This is the Veronese spanning property
 which holds in characteristic 0 by irreducibility of Sⁿ(U) as a
 GL(U)-representation.
 
-**Missing Mathlib infrastructure:** The isomorphism
-End(V⊗ⁿ) ≅ (End V)⊗ⁿ for PiTensorProduct, or equivalently the
-Veronese spanning property for symmetric powers.
+**Proof:** The ≤ direction uses the averaging/polarization argument from
+Theorem 5.18.2: if φ commutes with all permutations, then conj_σ(φ) = φ
+for all σ, so n!·φ = Σ_σ conj_σ(φ). By multilinear polarization
+(Lemma 5.18.3), this sum lies in the fullDiagonalSubalgebra = diagonalActionImage.
+Dividing by n! (char 0) gives φ ∈ diagonalActionImage.
 -/
 theorem centralizer_symGroupImage_eq_diagonalActionImage
-    (hN : n ≤ Module.finrank k V) :
+    [CharZero k]
+    (_hN : n ≤ Module.finrank k V) :
     Subalgebra.centralizer k
       (symGroupImage k V n :
         Set (Module.End k (TensorPower k V n))) =
     diagonalActionImage k V n := by
   apply le_antisymm
   · -- Hard direction: centralizer(Sₙ) ≤ diagonalActionImage
-    -- Requires: Veronese spanning / End(V⊗ⁿ) ≅ (End V)⊗ⁿ
-    sorry
+    -- Theorem 5.18.2 proves centralizer = UE.range via the chain:
+    --   centralizer ≤ fullDiag ≤ diagSub ≤ UE.range ≤ centralizer
+    -- We only need: centralizer ≤ fullDiag = diagonalActionImage
+    -- Reproduce the centralizer ≤ fullDiag step from Theorem 5.18.2
+    open Theorem5_18_2_Helpers in
+    intro φ hφ
+    rw [Subalgebra.mem_centralizer_iff] at hφ
+    change φ ∈ Lemma5_18_3.fullDiagonalSubalgebra k V n
+    -- φ commutes with all reindex(σ), so conj_σ(φ) = φ
+    have hconj : ∀ σ : Equiv.Perm (Fin n),
+        (PiTensorProduct.reindex k (fun _ => V) σ).toLinearMap * φ *
+        (PiTensorProduct.reindex k (fun _ => V) σ).symm.toLinearMap = φ := by
+      intro σ
+      set e := PiTensorProduct.reindex k (fun _ => V) σ
+      have hcomm := hφ e.toLinearMap (Algebra.subset_adjoin ⟨σ, rfl⟩)
+      have he_inv : e.toLinearMap * e.symm.toLinearMap = 1 := by
+        ext v; simp [Module.End.mul_eq_comp]
+      calc e.toLinearMap * φ * e.symm.toLinearMap
+          = φ * e.toLinearMap * e.symm.toLinearMap := by rw [hcomm]
+        _ = φ * (e.toLinearMap * e.symm.toLinearMap) := by rw [mul_assoc]
+        _ = φ * 1 := by rw [he_inv]
+        _ = φ := mul_one _
+    -- n! · φ = ∑_σ conj_σ(φ), and ∑_σ conj_σ(φ) ∈ fullDiag
+    set fullDiag := Lemma5_18_3.fullDiagonalSubalgebra k V n
+    have hfact : (n.factorial : k) ≠ 0 := Nat.cast_ne_zero.mpr n.factorial_ne_zero
+    have hmem : φ ∈ Submodule.span k (Set.range fun f : Fin n → Module.End k V =>
+        PiTensorProduct.map f) :=
+      @map_span_eq_top k _ V _ _ n _ _ ▸ Submodule.mem_top
+    have hsum := avg_conj_mem_fullDiag (k := k) (V := V) (n := n) φ hmem
+    have heq : ∑ σ : Equiv.Perm (Fin n),
+        (PiTensorProduct.reindex k (fun _ => V) σ).toLinearMap * φ *
+        (PiTensorProduct.reindex k (fun _ => V) σ).symm.toLinearMap =
+        (n.factorial : k) • φ := by
+      simp_rw [hconj, Finset.sum_const, Finset.card_univ,
+        Fintype.card_perm, Fintype.card_fin, ← Nat.cast_smul_eq_nsmul k]
+    rw [heq] at hsum
+    have := fullDiag.toSubmodule.smul_mem (n.factorial : k)⁻¹ hsum
+    rwa [inv_smul_smul₀ hfact] at this
   · exact diagonalActionImage_le_centralizer_symGroupImage
       k V n
 
