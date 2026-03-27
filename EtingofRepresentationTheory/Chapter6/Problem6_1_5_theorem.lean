@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter6.Definition6_1_4
+import EtingofRepresentationTheory.Chapter6.Corollary6_8_4
+import EtingofRepresentationTheory.Chapter6.ReflectionFunctorInfrastructure
 
 /-!
 # Theorem (Problem 6.1.5): Finite Type iff Dynkin
@@ -19,18 +21,29 @@ available in Mathlib.
 ## Formalization note
 
 The statement uses `IsDynkinDiagram` (Definition 6.1.4) for the combinatorial
-condition. The representation-theoretic side (`IsFiniteTypeQuiver`) is defined
-as a sorry'd predicate pending development of quiver representation infrastructure.
+condition. The representation-theoretic side (`IsFiniteTypeQuiver`) is defined using
+`QuiverRepresentation`, `IsIndecomposable`, and `Iso` from the project's quiver
+representation infrastructure.
 The hypotheses unpack the connected simple graph conditions.
 -/
 
 /-- A quiver on n vertices (with underlying graph given by adjacency matrix adj) is of
-finite type if for every algebraically closed field k, the set of isomorphism classes
-of indecomposable k-representations of the path algebra kQ is finite.
+**finite type** if for every algebraically closed field k and every orientation Q of the
+underlying graph, the set of isomorphism classes of finite-dimensional indecomposable
+k-representations of Q is finite.
 
-This is a placeholder definition — the full development requires quiver representation
-theory infrastructure not yet present in this project or in Mathlib. -/
-def Etingof.IsFiniteTypeQuiver (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop := sorry
+Concretely: there exists a finite collection of indecomposables such that every
+indecomposable representation is isomorphic to one of them. -/
+def Etingof.IsFiniteTypeQuiver (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
+  ∀ (k : Type) [Field k] [IsAlgClosed k]
+    (Q : Quiver.{0} (Fin n)) (_hQ : @Etingof.IsOrientationOf n Q adj),
+    ∃ (m : ℕ) (reps : Fin m → @Etingof.QuiverRepresentation.{0, 0, 0, 0} k (Fin n) _ Q),
+      (∀ i, (reps i).IsIndecomposable) ∧
+      ∀ (ρ : @Etingof.QuiverRepresentation.{0, 0, 0, 0} k (Fin n) _ Q),
+        (∀ v, Module.Free k (ρ.obj v)) →
+        (∀ v, Module.Finite k (ρ.obj v)) →
+        ρ.IsIndecomposable →
+        ∃ i, Nonempty (Etingof.QuiverRepresentation.Iso ρ (reps i))
 
 /-- Gabriel's theorem: a connected quiver (given by its symmetric adjacency matrix)
 is of finite type (finitely many indecomposable representations up to isomorphism)
