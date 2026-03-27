@@ -221,6 +221,28 @@ private lemma trace_twisted_permutation
     rw [Pi.basis_repr]; dsimp only
     rw [heval, map_zero, Finsupp.zero_apply]
 
+-- Helper: the fixed-point condition for the coset action.
+-- σ'(q) = g⁻¹ • q = q iff q.out⁻¹ * g * q.out ∈ H (quotient element is in stabilizer)
+open Classical in
+private lemma coset_fixed_iff {G : Type*} [Group G] [Fintype G]
+    (H : Subgroup G) (g : G) (q : G ⧸ H) :
+    g⁻¹ • q = q ↔ q.out⁻¹ * g * q.out ∈ H := by
+  constructor
+  · intro hfixed
+    -- g⁻¹ • q = q means [g⁻¹ * q.out] = [q.out] in G/H
+    -- i.e., (g⁻¹ * q.out)⁻¹ * q.out ∈ H, i.e., q.out⁻¹ * g * q.out ∈ H
+    have h1 : (⟦g⁻¹ * q.out⟧ : G ⧸ H) = ⟦q.out⟧ := by
+      have : g⁻¹ • (q : G ⧸ H) = q := hfixed
+      rw [← QuotientGroup.out_eq' q] at this
+      exact this
+    have h2 := QuotientGroup.leftRel_apply.mp (Quotient.exact' h1)
+    simpa [mul_inv_rev, inv_inv, mul_assoc] using h2
+  · intro hmem
+    rw [← QuotientGroup.out_eq' q]
+    change (⟦g⁻¹ * q.out⟧ : G ⧸ H) = ⟦q.out⟧
+    exact Quotient.sound' (QuotientGroup.leftRel_apply.mpr (by
+      simpa [mul_inv_rev, inv_inv] using hmem))
+
 open Classical in
 /-- Classification of irreducible representations of semidirect products G ⋉ A
 via the orbit method: they are parametrized by pairs (O, U) where O is a
@@ -293,10 +315,27 @@ theorem Etingof.Theorem5_27_1
         (inducedRepV φ χ U).ρ ⟨a, g⟩ f q = L' q (f (σ' q)) := fun f q => rfl
     have step1 := trace_twisted_permutation σ' L' _ hTwist
     rw [step1]
-    -- Step 2: Simplify trace(L' q) for fixed q
-    -- L' q = c • ρ_U(s), so trace(L' q) = c * trace(ρ_U(s)) = c * U.character(s)
-    -- The remaining identity converts the coset-sum to the group-sum formula.
-    -- This requires: (1) trace(c • ρ(s)) = c * U.character(s),
-    -- (2) fiber-sum over G/H → sum over G with weight 1/|H|,
-    -- (3) stabilizer invariance and class function properties.
+    -- Proof strategy: both sides equal ∑ q, [q.out⁻¹gq.out ∈ H] · c(q) · char(q.out⁻¹gq.out)
+    -- where c(q) = χ(φ(q.out⁻¹)(a)) and H = stabAux φ χ.
+    --
+    -- LHS simplification (coset sum → canonical form):
+    --   (1) σ'(q) = q iff q.out⁻¹·g·q.out ∈ H (quotient fixed-point characterization)
+    --   (2) When σ'(q) = q: (σ'q).out = q.out (same quotient element)
+    --   (3) trace(c • ρ(s)) = c * trace(ρ(s)) = c * U.character(s) (trace linearity)
+    --   These give: LHS = ∑ q, [q.out⁻¹gq.out∈H] · c(q) · char(q.out⁻¹gq.out)
+    --
+    -- RHS simplification (group sum → canonical form):
+    --   (4) ∑_h f(h) = ∑_h f(h⁻¹) (involution h↦h⁻¹)
+    --   (5) f(h⁻¹) = [h⁻¹gh∈H] · χ(φ(h⁻¹)(a)) · char(h⁻¹gh)
+    --   (6) f∘inv is right-H-invariant: f((hs)⁻¹) = f(s⁻¹h⁻¹) = f(h⁻¹) by left-H-inv of f
+    --       Left-H-invariance of f uses stab_char_inv and FDRep.char_conj
+    --   (7) Fiber sum: ∑_h (f∘inv)(h) = |H| · ∑_q (f∘inv)(q.out) for right-H-inv functions
+    --       via Subgroup.groupEquivQuotientProdSubgroup decomposition
+    --   (8) (f∘inv)(q.out) = f(q.out⁻¹) = [q.out⁻¹gq.out∈H] · c(q) · char(q.out⁻¹gq.out)
+    --   These give: RHS = (1/|H|) · |H| · ∑_q [q.out⁻¹gq.out∈H] · c(q) · char(q.out⁻¹gq.out)
+    --            = ∑_q [q.out⁻¹gq.out∈H] · c(q) · char(q.out⁻¹gq.out)
+    -- Step 2: Simplify trace(L'(q)) when σ'(q) = q
+    -- L'(q) = c(q) • ρ(q.out⁻¹ * g * (σ'q).out)
+    -- When σ'(q) = q, (σ'q).out = q.out, so trace(L'(q)) = c(q) * char(q.out⁻¹ * g * q.out)
+    -- Also σ'(q) = q ↔ q.out⁻¹ * g * q.out ∈ stabAux φ χ by coset_fixed_iff
     sorry
