@@ -131,6 +131,9 @@ obligation.
 -- variable for `1/det` that is mathematically redundant, making the LHS
 -- infinite-dimensional while the RHS is 1-dimensional. The statement as formalized
 -- is only correct for `n ≥ 1`.
+instance DominantWeight.countable (n : ℕ) : Countable (DominantWeight n) :=
+  Subtype.countable
+
 -- The coordinate ring has rank ℵ₀: its monomial basis is indexed by the countably
 -- infinite type `(GLCoordVars n →₀ ℕ)` (GLCoordVars n is finite nonempty).
 private theorem glCoordinateRing_rank (n : ℕ) :
@@ -143,17 +146,50 @@ private theorem glCoordinateRing_rank (n : ℕ) :
   rw [hcard, Cardinal.lift_aleph0, Cardinal.lift_id'] at hbasis
   exact hbasis.symm
 
--- The direct sum ⊕_λ L*_λ ⊗ L_λ also has rank ℵ₀. Both sides are free k-modules
--- with equal (countably infinite) rank, hence isomorphic.
--- Proof sketch: DominantWeight n is countable, each summand is finite-dimensional,
--- and infinitely many Schur modules are nonzero (e.g., Sym^m(V) for m ∈ ℕ).
--- The n = 0 case is a formalization artifact (GLCoordinateRing includes a spurious
--- variable for 1/det when det is always 1).
+-- The direct sum ⊕_λ L*_λ ⊗ L_λ has rank ≤ ℵ₀: DominantWeight n is countable and
+-- each summand is finite-dimensional.
+set_option maxHeartbeats 400000 in
+-- Heartbeat increase needed for cardinal arithmetic in calc chain
+private theorem directSum_rank_le_aleph0 (n : ℕ) :
+    Module.rank k (DirectSum (DominantWeight n) fun lam =>
+      (AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k)) ≤ Cardinal.aleph0 := by
+  set F := fun lam : DominantWeight n =>
+    (AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k)
+  rw [rank_directSum]
+  -- Upper bound: sum of ranks ≤ #ι * sup(ranks) ≤ ℵ₀ * ℵ₀ = ℵ₀
+  have h_sup : ⨆ lam : DominantWeight n, Module.rank k (F lam) ≤ Cardinal.aleph0 := by
+    apply ciSup_le'
+    intro lam
+    haveI : Module.Finite k (AlgIrrepGLDual n lam k) :=
+      AlgIrrepGL.finite n lam.w0Twist k
+    haveI : Module.Finite k (AlgIrrepGL n lam k) :=
+      AlgIrrepGL.finite n lam k
+    exact (Module.rank_lt_aleph0 k (F lam)).le
+  calc Cardinal.sum (fun lam => Module.rank k (F lam))
+      ≤ _ := Cardinal.sum_le_iSup_lift _
+    _ ≤ Cardinal.aleph0 * Cardinal.aleph0 := by
+        apply mul_le_mul'
+        · rw [Cardinal.lift_le_aleph0]; exact Cardinal.mk_le_aleph0
+        · exact h_sup
+    _ = Cardinal.aleph0 := Cardinal.aleph0_mul_aleph0
+
+-- The direct sum ⊕_λ L*_λ ⊗ L_λ has rank ≥ ℵ₀: infinitely many Schur modules are
+-- nonzero. For each m ∈ ℕ, the weight (m, 0, ..., 0) gives the symmetric power
+-- Sym^m(V), which is nonzero for n ≥ 1. Proving this requires showing the Young
+-- symmetrizer is nonzero on tensor powers, which needs the fact that the Young
+-- symmetrizer is a nonzero idempotent (up to scalar) — ultimately from
+-- Lemma 5.13.3 (c_λ² = d(λ)/n! · c_λ with d(λ) ≠ 0).
+private theorem directSum_rank_ge_aleph0 (n : ℕ) :
+    Cardinal.aleph0 ≤ Module.rank k (DirectSum (DominantWeight n) fun lam =>
+      (AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k)) := by
+  sorry
+
 private theorem peterWeyl_rank_eq (n : ℕ) :
     Module.rank k (GLCoordinateRing n k) =
       Module.rank k (DirectSum (DominantWeight n) fun lam =>
         (AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k)) := by
-  sorry
+  rw [glCoordinateRing_rank]
+  exact le_antisymm (directSum_rank_le_aleph0 n) (directSum_rank_ge_aleph0 n) |>.symm
 
 theorem Theorem5_23_2_ii
     (n : ℕ) :
