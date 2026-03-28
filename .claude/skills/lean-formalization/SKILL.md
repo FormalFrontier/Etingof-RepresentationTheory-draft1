@@ -1230,6 +1230,15 @@ Use `Equiv.ofFiberEquiv` to show structures with the same fiber sizes are in the
 
 **Mitigation:** After CI failure on `simp` calls, try removing specific simp lemmas rather than adding new ones. Use `simp?` to find the current minimal simp set.
 
+## Module Instance Diamond: `Module.AEval'` + `restrictScalars`
+
+When constructing morphisms in `ModuleCat R` involving `(restrictScalars f).obj (of S (Module.AEval' φ))`, Lean synthesizes `Module.AEval.instModuleOrig` on the carrier but the target expects `Module.compHom ... f`. These agree value-wise but are not definitionally equal.
+
+**Workarounds:**
+- For `ModuleCat.ofHom`: use the `(Y := ...)` hint to force the correct instance, as Mathlib does in `ExtendRestrictScalarsAdj.Unit.map`
+- For isos `G.obj Y₀ ≅ Y`: use `restrictScalarsComp'App` + `restrictScalarsId'App` to decompose `(restrictScalars f₁).obj ((restrictScalars f₂).obj Y) ≅ (restrictScalars (f₂.comp f₁)).obj Y ≅ Y` when `f₂ ∘ f₁ = id`. May need `set_option maxHeartbeats` for the `restrictScalarsComp'App` computation.
+- Avoid `Module.AEval'` for the second Ext variable when you need a clean iso back to the original module. Instead use `(restrictScalars eval₀).obj Y` where `eval₀ : R[X] →+* R` is `(Polynomial.aeval 0).toRingHom`.
+
 ## Known Dead-Ends (Don't Waste Context Windows)
 
 These are proof approaches that multiple agents have attempted and failed. Don't retry them without new Mathlib infrastructure.
