@@ -139,7 +139,86 @@ private lemma pi_matrix_single_generates_ideal (k : Type u) [Field k]
     let R := ∀ i, Matrix (Fin (d i)) (Fin (d i)) k
     Ideal.span {a * (∑ i, (Pi.single i (Matrix.single 0 0 1) : R)) * b |
       (a : R) (b : R)} = ⊤ := by
-  sorry
+  intro R
+  rw [eq_top_iff]
+  intro x _
+  let I := Ideal.span {a * (∑ j, (Pi.single j (Matrix.single 0 0 1) : R)) * b |
+      (a : R) (b : R)}
+  -- Key: Pi.single i m is in I for all i, m
+  suffices hsingle : ∀ (i : Fin n) (m : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i m ∈ I from by
+    rw [show x = ∑ i, Pi.single i (x i) from (Finset.univ_sum_single x).symm]
+    exact Ideal.sum_mem _ fun i _ => hsingle i (x i)
+  intro i m
+  -- m is in Ideal.span {a * E₁₁ * b} in Mat_{d_i}(k)
+  have hgen := matrix_single_generates_ideal k (n := d i)
+  rw [eq_top_iff] at hgen
+  have hm := hgen (Submodule.mem_top : m ∈ ⊤)
+  -- Key: Pi.single i (a * E₁₁ * b) is in I, for any a, b in block i.
+  -- This follows from: Pi.single i a * (∑ j, Pi.single j E₁₁) * Pi.single i b = Pi.single i (a * E₁₁ * b)
+  -- by orthogonality of Pi.single at different indices.
+  -- Since m ∈ Ideal.span {a * E₁₁ * b | a b} in the matrix ring, Pi.single i m ∈ I.
+  -- Key helper: Pi.single i is a ring homomorphism (add, zero, mul)
+  have single_add : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i (a + b) = (Pi.single i a : R) + Pi.single i b := by
+    intro a b; ext t r s
+    simp only [Pi.add_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
+      Matrix.zero_apply, Matrix.add_apply]
+    split
+    · next h => subst h; rfl
+    · simp
+  have single_mul : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i (a * b) = (Pi.single i a : R) * Pi.single i b := by
+    intro a b; ext t r s
+    simp only [Pi.mul_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
+      Matrix.zero_apply, Matrix.mul_apply]
+    split
+    · next h => subst h; rfl
+    · simp
+  -- Key: Pi.single i (a * E₁₁ * b) = (Pi.single i a) * (∑ j, E₁₁^j) * (Pi.single i b) ∈ I
+  have hfgen : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i (a * Matrix.single 0 0 1 * b) ∈ I := by
+    intro a b
+    have hcalc : (Pi.single i a : R) * (∑ j, (Pi.single j (Matrix.single 0 0 (1 : k)) : R)) *
+        (Pi.single i b : R) = Pi.single i (a * Matrix.single 0 0 1 * b) := by
+      simp only [Finset.mul_sum, Finset.sum_mul]
+      rw [Finset.sum_eq_single i]
+      · -- single_mul for three factors
+        ext t r s
+        simp only [Pi.mul_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
+          Matrix.zero_apply, Matrix.mul_apply]
+        split
+        · next h => subst h; rfl
+        · simp
+      · intro j _ hj
+        have : (Pi.single i a : R) * (Pi.single j (Matrix.single 0 0 (1 : k)) : R) = 0 := by
+          ext t r s
+          simp only [Pi.mul_apply, Pi.zero_apply, Pi.single, Function.update, dite_apply,
+            Matrix.zero_apply, Matrix.mul_apply]
+          split
+          · next h => subst h; simp [dif_neg (Ne.symm hj)]
+          · simp
+        simp [this]
+      · simp
+    rw [← hcalc]
+    exact Ideal.subset_span ⟨_, _, rfl⟩
+  -- Since m is in the span of {a * E₁₁ * b}, Pi.single i m ∈ I by span induction
+  have hpi : ∀ y, y ∈ Ideal.span {a * Matrix.single (0 : Fin (d i)) 0 (1 : k) * b |
+      (a : Matrix _ _ k) (b : Matrix _ _ k)} → Pi.single i y ∈ I := by
+    intro y hy
+    induction hy using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨a, b, rfl⟩ := hx
+      exact hfgen a b
+    | zero =>
+      simp only [Pi.single_zero]
+      exact I.zero_mem
+    | add x y _ _ ihx ihy =>
+      rw [single_add]; exact I.add_mem ihx ihy
+    | smul r x _ ihx =>
+      rw [show r • x = r * x from rfl, single_mul]
+      exact I.mul_mem_left _ ihx
+  exact hpi m hm
 
 /-- The sum of orthogonal idempotents is idempotent. -/
 private lemma isIdempotentElem_sum_orthogonal {R : Type*} [Ring R] {n : ℕ}
