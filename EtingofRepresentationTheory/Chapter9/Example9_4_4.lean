@@ -15,6 +15,7 @@ import Mathlib.Algebra.Polynomial.Inductions
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.Linear
 import Mathlib.LinearAlgebra.Finsupp.VectorSpace
+import Mathlib.Algebra.Polynomial.Module.TensorProduct
 
 /-!
 # Example 9.4.4: Homological dimension of polynomial algebra (Hilbert syzygies)
@@ -151,6 +152,39 @@ private noncomputable def xActionAsRLinear {R : Type u} [CommRing R]
   (ModuleCat.restrictScalars (Polynomial.C (R := R))).map
     ((Polynomial.X : Polynomial R) • (𝟙 M))
 
+/-! ### Koszul differential on Finsupp
+
+We prove that the "shift minus action" map on `ℕ →₀ N` is injective by backward induction
+on the support. This is the key lemma for the mono part of the Koszul SES. -/
+
+/-- If `shift(f) = mapRange φ f` for all f in `ℕ →₀ N` (where shift sends `single n m` to
+`single (n+1) m`), then `f = 0`. Proof by strong induction on the maximum support index:
+the (max+1)-th coefficient of shift(f) equals `f(max)`, while `mapRange φ f` has no support
+beyond max, giving `f(max) = 0`. -/
+private theorem finsupp_shift_sub_mapRange_injective {R : Type u} [CommRing R]
+    {N : Type u} [AddCommGroup N] [Module R N] (φ : N →ₗ[R] N)
+    (f : ℕ →₀ N) (hf : Finsupp.mapDomain Nat.succ f = Finsupp.mapRange φ φ.map_zero f) :
+    f = 0 := by
+  by_contra hne
+  -- f ≠ 0, so f has nonempty support
+  have hsup : f.support.Nonempty := Finsupp.support_nonempty_iff.mpr hne
+  -- Let k be the maximum index in the support
+  set k := f.support.max' hsup
+  -- The (k+1)-th coefficient of mapDomain Nat.succ f is f(k)
+  have h_shift : (Finsupp.mapDomain Nat.succ f) (k + 1) = f k := by
+    rw [Finsupp.mapDomain_apply Nat.succ_injective]
+  -- The (k+1)-th coefficient of mapRange φ f is φ(f(k+1)) = φ(0) = 0
+  -- because k+1 is not in the support of f (k is the max)
+  have h_range : (Finsupp.mapRange φ φ.map_zero f) (k + 1) = 0 := by
+    rw [Finsupp.mapRange_apply]
+    have : f (k + 1) = 0 := by
+      by_contra hmem
+      exact absurd (f.support.le_max' (k + 1) (Finsupp.mem_support_iff.mpr hmem)) (by omega)
+    rw [this, φ.map_zero]
+  -- Combining: f(k) = 0, contradicting k ∈ support
+  have : f k = 0 := by rw [← h_shift, hf, h_range]
+  exact absurd this (Finsupp.mem_support_iff.mp (f.support.max'_mem hsup))
+
 /-- The Koszul short exact sequence for an R[X]-module M:
   0 → R[X] ⊗_R M|_R →^d R[X] ⊗_R M|_R →^ε M → 0
 where d(p ⊗ m) = Xp ⊗ m - p ⊗ (X·m) and ε(p ⊗ m) = p·m. -/
@@ -167,12 +201,28 @@ private theorem koszulSES_shortExact {R : Type u} [CommRing R]
       set adj := ModuleCat.extendRestrictScalarsAdj.{u} C
       have nat := adj.counit.naturality ((Polynomial.X : Polynomial R) • 𝟙 M)
       simp only [Functor.comp_map, Functor.id_map] at nat
-      -- d ≫ ε = 0 by counit naturality:
-      -- d = X•𝟙 - F(G(X•𝟙_M)), and by naturality of counit,
-      -- F(G(X•𝟙_M)) ≫ ε = ε ≫ X•𝟙_M = X•ε, so d ≫ ε = X•ε - X•ε = 0
-      sorry
+      -- d = X•𝟙 - F(G(X•𝟙)), ε = counit. By naturality: F(G(X•𝟙)) ≫ ε = ε ≫ X•𝟙
+      -- So d ≫ ε = (X•𝟙 - F(G(X•𝟙))) ≫ ε = X•ε - ε ≫ X•𝟙 = X•ε - X•ε = 0
+      have h1 : F.map (xActionAsRLinear M) ≫ ε = ε ≫ (Polynomial.X • 𝟙 M) := nat
+      rw [show d = (Polynomial.X : Polynomial R) • 𝟙 FGM - F.map (xActionAsRLinear M) from rfl,
+        Preadditive.sub_comp, Linear.smul_comp, Category.id_comp, h1,
+        Linear.comp_smul]
+      simp
       )).ShortExact := by
-  sorry
+  intro C F G FGM ε d
+  have hmono : Mono d := by
+    -- d = X•𝟙 - F.map(xAction) is injective.
+    -- Strategy: Under the iso R[X] ⊗_R M|_R ≃ ℕ →₀ M|_R (PolynomialModule),
+    -- d becomes shift - mapRange(X·), which is injective by backward induction
+    -- (finsupp_shift_sub_mapRange_injective).
+    sorry
+  have hepi : Epi ε := by
+    rw [ModuleCat.epi_iff_surjective]
+    intro m
+    refine ⟨(1 : Polynomial R) ⊗ₜ[R] m, ?_⟩
+    change (1 : Polynomial R) • m = m
+    exact one_smul _ _
+  exact ShortComplex.ShortExact.mk' (by sorry) hmono hepi
 
 theorem hasHomologicalDimensionLE_polynomial {R : Type u} [CommRing R] [Small.{u} R] (d : ℕ)
     (h : Etingof.HasHomologicalDimensionLE R d) :
