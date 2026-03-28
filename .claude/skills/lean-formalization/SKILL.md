@@ -113,6 +113,21 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+### Dependent Pi Types and Pi.single
+
+When working with `Pi.single` for dependent function types (e.g., `∀ i, Matrix (Fin (d i)) (Fin (d i)) k`), standard lemmas like `Pi.single_eq_same`, `Pi.single_add` do NOT work with `simp` because types differ across indices.
+
+**Working pattern** — unfold to `Function.update` and manipulate `dite`:
+```lean
+ext t r s  -- go all the way to scalar level
+simp only [Pi.single, Function.update, dite_apply, Pi.zero_apply, ...]
+split
+· next h => subst h; rfl  -- or simp
+· simp  -- the ¬(i = t) case gives 0
+```
+
+Key insight: `ext t` alone leaves dependent casts (`⋯ ▸ x`). Go deeper with `ext t r s` to reach scalar goals where `subst` eliminates the cast.
+
 ### Representation Theory Patterns
 
 This book covers:
