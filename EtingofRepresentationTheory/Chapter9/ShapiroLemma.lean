@@ -149,11 +149,19 @@ variable {R : Type u} {S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
 `(extendScalars f).obj M` to `N` is subsingleton, then `Ext` at degree `i` from
 `M` to `(restrictScalars f).obj N` is also subsingleton.
 
-The proof proceeds via the cochain complex isomorphism: given a projective resolution
-`P` of `M`, the mapped resolution `F(P)` is a projective resolution of `F(M)`.
-The adjunction gives a degree-wise isomorphism
-`Hom_S(F(P_n), N) ≅ Hom_R(P_n, G(N))` which commutes with the coboundary maps
-(by naturality), hence induces an isomorphism on Ext groups. -/
+**Proof approach** (cochain complex isomorphism, cf. Mathlib's `groupCohomology.coindIso`):
+1. Take a projective resolution `P` of `M` (via `EnoughProjectives`).
+2. `(extendScalars f).mapProjectiveResolution P` is a projective resolution of `F(M)`.
+3. The adjunction `extendScalars f ⊣ restrictScalars f` gives degree-wise isos
+   `Hom_S(F(P_n), N) ≅ Hom_R(P_n, G(N))` for each `n`.
+4. These commute with coboundary maps by naturality of the adjunction, giving a
+   cochain complex isomorphism `HomComplex(F(P), N) ≅ HomComplex(P, G(N))`.
+5. The cochain complex iso induces an iso on cohomology = `CohomologyClass`, hence
+   on `Ext` via `extEquivCohomologyClass`.
+6. Subsingleton transfers through the equivalence.
+
+This requires working with `Cochain`, `Cocycle`, `CohomologyClass`, and `HomComplex`
+from `Mathlib.Algebra.Homology.HomotopyCategory.HomComplex*`. -/
 theorem ext_subsingleton_of_extendScalars [Small.{u} R] [Small.{u} S]
     (M : ModuleCat.{u} R) (N : ModuleCat.{u} S) (i : ℕ)
     (h : Subsingleton (Ext.{u} ((extendScalars.{u, u, u} f).obj M) N i)) :
