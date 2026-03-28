@@ -347,6 +347,20 @@ theorem tabloidDominates_congr {σ₁ σ₁' σ₂ σ₂' : Equiv.Perm (Fin n)}
       ← tabloidCumulCount_eq_of_toTabloid_eq σ₁ σ₁' h₁]
   exact hdom k i
 
+/-- If σ₁ dominates σ₂ dominates σ₃ and toTabloid(σ₁) = toTabloid(σ₃),
+then toTabloid(σ₂) = toTabloid(σ₃). This is a "squeeze" lemma:
+equal cumulative counts at the endpoints force equal counts in the middle. -/
+theorem tabloidDominates_antisymm_toTabloid {σ₁ σ₂ σ₃ : Equiv.Perm (Fin n)}
+    (h₁₂ : tabloidDominates la σ₁ σ₂) (h₂₃ : tabloidDominates la σ₂ σ₃)
+    (heq : toTabloid n la σ₁ = toTabloid n la σ₃) :
+    toTabloid n la σ₂ = toTabloid n la σ₃ := by
+  -- tabloidCumulCount is squeezed: count(σ₃) ≤ count(σ₂) ≤ count(σ₁) = count(σ₃)
+  -- So count(σ₂) = count(σ₃), which implies same row assignment.
+  -- Squeeze argument: equal cumulative counts at endpoints force equality in middle
+  -- count(σ₃) ≤ count(σ₂) ≤ count(σ₁) = count(σ₃), so count(σ₂) = count(σ₃)
+  -- Then use cumulative count differences to show row assignments match
+  sorry
+
 /-! ### Last-letter total order -/
 
 /-- The row assignment vector of a tabloid, as a function Fin n → ℕ.
@@ -706,7 +720,8 @@ theorem polytabloid_eval_implies_dominance
   obtain ⟨p, hp, q, hq, rfl⟩ := polytabloid_support n la T₂ σ hne
   exact right_pq_dominance T₂ p hp q hq
 
-/-- The polytabloids {e_T : T ∈ SYT(λ)} are linearly independent in V_λ.
+/-
+The polytabloids {e_T : T ∈ SYT(λ)} are linearly independent in V_λ.
 
 Proved via the tabloid triangularity argument:
 1. Assume Σ aₜ · eₜ = 0 with some aₜ ≠ 0.
@@ -716,31 +731,114 @@ Proved via the tabloid triangularity argument:
 5. For T' ≠ T with aₜ' ≠ 0: if eₜ'(σ_T) ≠ 0, then by polytabloid_eval_implies_dominance,
    tabloid(T') dominates tabloid(T). By maximality, tabloid(T') = tabloid(T), but then
    T' = T by sytToTabloid_injective — contradiction.
-6. So aₜ · 1 + Σ_{T'≠T} 0 = 0, giving aₜ = 0 — contradiction. -/
+6. So aₜ · 1 + Σ_{T'≠T} 0 = 0, giving aₜ = 0 — contradiction.
+-/
+
+/-- Auxiliary: if Σ f(T) e_T = 0 over a finset S, then for any T₀ ∈ S that is
+dominance-maximal among {T ∈ S : f(T) ≠ 0}, we have f(T₀) = 0. -/
+private lemma polytabloid_coeff_zero_of_maximal
+    (S : Finset (StandardYoungTableau n la))
+    (f : StandardYoungTableau n la → ℂ)
+    (hf : ∑ t ∈ S, f t • (polytabloidInSpecht n la t : SymGroupAlgebra n) = 0)
+    (T₀ : StandardYoungTableau n la) (hT₀ : T₀ ∈ S)
+    (hmax : ∀ T' ∈ S, f T' ≠ 0 →
+      tabloidDominates la (sytPerm n la T') (sytPerm n la T₀) →
+      sytToTabloid n la T' = sytToTabloid n la T₀) :
+    f T₀ = 0 := by
+  classical
+  -- Evaluate at σ_{T₀}: f(T₀) · e_{T₀}(σ_{T₀}) + Σ_{T'≠T₀} f(T') · e_{T'}(σ_{T₀}) = 0
+  -- e_{T₀}(σ_{T₀}) = 1 by polytabloid_self_coeff
+  -- For T' ≠ T₀ with f(T') ≠ 0: e_{T'}(σ_{T₀}) ≠ 0 implies T' dom T₀ (by support),
+  -- so toTabloid(T') = toTabloid(T₀) by maximality, so T' = T₀ by injectivity — contradiction.
+  -- Therefore all other terms are 0, giving f(T₀) = 0.
+  sorry
+
+/-- In any finset with a dominance-like relation, a nonempty subset has a maximal
+element. We use a Nat-valued measure and strong induction. -/
+private lemma exists_dominance_maximal
+    (S : Finset (StandardYoungTableau n la))
+    (f : StandardYoungTableau n la → ℂ) (T₀ : StandardYoungTableau n la)
+    (hT₀ : T₀ ∈ S) (hfT₀ : f T₀ ≠ 0) :
+    ∃ T₁ ∈ S, f T₁ ≠ 0 ∧
+      ∀ T' ∈ S, f T' ≠ 0 →
+        tabloidDominates la (sytPerm n la T') (sytPerm n la T₁) →
+        sytToTabloid n la T' = sytToTabloid n la T₁ := by
+  -- Measure: for each T, count how many other T' ∈ S with f(T') ≠ 0
+  -- have tabloid(T') strictly dominating tabloid(T). This is bounded.
+  -- Use Nat.strongRecOn on this measure.
+  -- Simpler: use well-founded induction on the subset of S that strictly
+  -- dominates T. Since S is finite, this terminates.
+  classical
+  -- Define: "badSet T" = {T' ∈ S | f(T') ≠ 0 ∧ tabloid(T') strictly dom tabloid(T)}
+  -- If badSet T₀ = ∅, T₀ is maximal. Otherwise pick T₁ ∈ badSet T₀ and recurse.
+  -- Measure: S.card - (number of SYTs whose tabloid is dominated by T)
+  -- Actually just use strong induction on |{T' ∈ S : tabloidDominates T T'}|
+  -- For a simpler proof, use the finiteness directly:
+  suffices hmain : ∀ (m : ℕ) (T : StandardYoungTableau n la),
+      T ∈ S → f T ≠ 0 →
+      (S.filter fun T' => f T' ≠ 0 ∧
+        tabloidStrictDominates la (sytPerm n la T') (sytPerm n la T)).card = m →
+      ∃ T₁ ∈ S, f T₁ ≠ 0 ∧ ∀ T' ∈ S, f T' ≠ 0 →
+        tabloidDominates la (sytPerm n la T') (sytPerm n la T₁) →
+        sytToTabloid n la T' = sytToTabloid n la T₁ by
+    exact hmain _ T₀ hT₀ hfT₀ rfl
+  intro m
+  induction m using Nat.strongRecOn with
+  | ind m ih =>
+  intro T hTS hfT hcard
+  -- Check if T is already maximal
+  by_cases hmax : ∀ T' ∈ S, f T' ≠ 0 →
+      tabloidDominates la (sytPerm n la T') (sytPerm n la T) →
+      sytToTabloid n la T' = sytToTabloid n la T
+  · exact ⟨T, hTS, hfT, hmax⟩
+  · -- T is not maximal: there exists T' with f(T') ≠ 0 that strictly dominates T
+    push_neg at hmax
+    obtain ⟨T', hT'S, hfT', hdom, hne_tab⟩ := hmax
+    -- T' is in the badSet of T, so |badSet(T')| < |badSet(T)|
+    -- because anything strictly dominating T' also strictly dominates T (transitivity)
+    -- but T' strictly dominates T so T' ∉ badSet(T')
+    have hstrict : tabloidStrictDominates la (sytPerm n la T') (sytPerm n la T) :=
+      ⟨hdom, fun h => hne_tab (toTabloid_eq_of_tabloidRowVec_eq _ _
+        (tabloidRowVec_eq_of_toTabloid_eq _ _ h))⟩
+    apply ih (S.filter fun T'' => f T'' ≠ 0 ∧
+        tabloidStrictDominates la (sytPerm n la T'') (sytPerm n la T')).card
+    · -- Strict decrease: badSet(T') ⊊ badSet(T)
+      rw [← hcard]
+      apply Finset.card_lt_card
+      rw [Finset.ssubset_iff_of_subset]
+      · -- T' is in badSet(T) but not in badSet(T')
+        refine ⟨T', ?_, ?_⟩
+        · simp only [Finset.mem_filter]
+          exact ⟨hT'S, hfT', hstrict⟩
+        · simp only [Finset.mem_filter]
+          simp only [not_and]
+          intro _ _ hsd
+          exact hsd.2 rfl
+      · -- badSet(T') ⊆ badSet(T)
+        intro T'' hT''
+        simp only [Finset.mem_filter] at hT'' ⊢
+        refine ⟨hT''.1, hT''.2.1, ?_⟩
+        exact ⟨tabloidDominates_trans hT''.2.2.1 hstrict.1,
+          fun heq =>
+            -- If toTabloid(T'') = toTabloid(T), then T'' dom T' dom T and
+            -- tabloidCumulCount matches at T'' and T (same tabloid).
+            -- So T' is squeezed: all cumulative counts match, giving same tabloid.
+            hstrict.2 (tabloidDominates_antisymm_toTabloid
+              hT''.2.2.1 hstrict.1 heq)⟩
+    · exact hT'S
+    · exact hfT'
+    · rfl
+
 theorem polytabloid_linearIndependent' :
     LinearIndependent ℂ (fun T : StandardYoungTableau n la =>
       (polytabloidInSpecht n la T : SymGroupAlgebra n)) := by
   rw [linearIndependent_iff']
   intro S f hf T hT
-  -- Suppose f T ≠ 0 and derive contradiction
   by_contra hfT
-  -- The key: evaluate the sum at σ_T
-  have heval : ∀ σ : Equiv.Perm (Fin n),
-      (∑ t ∈ S, f t • (polytabloidInSpecht n la t : SymGroupAlgebra n)) σ = 0 := by
-    intro σ; rw [hf]; rfl
-  have hσT := heval (sytPerm n la T)
-  -- Expand the sum at σ_T
-  simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.coe_smul] at hσT
-  -- The T-th term: f T * e_T(σ_T) = f T * 1 = f T
-  have hdiag : (polytabloidInSpecht n la T : SymGroupAlgebra n)
-      (sytPerm n la T) = 1 := polytabloid_self_coeff n la T
-  -- For T' ≠ T in S with f T' ≠ 0: e_{T'}(σ_T) = 0
-  -- Because if e_{T'}(σ_T) ≠ 0, then tabloid(T') dominates tabloid(T).
-  -- But also: e_T evaluated at σ_{T'}-related perms shows tabloid(T) ≥ tabloid(T'),
-  -- giving tabloid(T') = tabloid(T), contradicting T' ≠ T by sytToTabloid_injective.
-  -- Actually simpler: we use the maximal element argument.
-  -- But we need a well-ordering on tabloids first.
-  sorry
+  -- Find a dominance-maximal T₀ ∈ S with f(T₀) ≠ 0
+  obtain ⟨T₀, hT₀, hfT₀, hmax⟩ := exists_dominance_maximal S f T hT hfT
+  -- Apply the coefficient extraction lemma to T₀
+  exact hfT₀ (polytabloid_coeff_zero_of_maximal S f hf T₀ hT₀ hmax)
 
 end
 
