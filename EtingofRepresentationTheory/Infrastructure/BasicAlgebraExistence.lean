@@ -9,6 +9,9 @@ import Mathlib.CategoryTheory.Equivalence
 import Mathlib.RingTheory.Morita.Matrix
 import Mathlib.LinearAlgebra.TensorProduct.Defs
 import Mathlib.RingTheory.Idempotents
+import Mathlib.RingTheory.Jacobson.Semiprimary
+import Mathlib.RingTheory.Jacobson.Ideal
+import Mathlib.Data.Matrix.Basis
 
 /-!
 # Basic algebra existence
@@ -86,13 +89,323 @@ there exists a full idempotent `e ∈ A` such that the corner ring `eAe` is basi
    idempotents in A/rad(A)
 5. `CompleteOrthogonalIdempotents.lift_of_isNilpotent_ker` — lift to A
 6. Sum of lifted idempotents is full (AeA = A) and eAe is basic -/
+/-! ### Helper lemmas for the main proof -/
+
+/-- In `Mat_n(k)`, the matrix unit `E₀₀` generates the whole ring as a two-sided ideal.
+Proof: `E_{r,s} = E_{r,0} · E_{0,0} · E_{0,s}`, so every matrix unit is in the ideal
+of `E₀₀`, and every matrix is a sum of matrix units. -/
+private lemma matrix_single_generates_ideal (k : Type u) [Field k]
+    {n : ℕ} [NeZero n] :
+    Ideal.span {a * Matrix.single (0 : Fin n) (0 : Fin n) (1 : k) * b |
+      (a : Matrix (Fin n) (Fin n) k) (b : Matrix (Fin n) (Fin n) k)} = ⊤ := by
+  rw [eq_top_iff]
+  intro x _
+  -- Each matrix unit E_{r,s} = E_{r,0} · E_{0,0} · E_{0,s} is in the ideal of E₀₀.
+  -- Every matrix x is a k-linear combination of matrix units.
+  -- We show each scaled matrix unit c • E_{r,s} is in the ideal.
+  -- c • E_{r,s} = (c • E_{r,0}) · E_{0,0} · E_{0,s}
+  -- For each (r, s) entry of x, show that x r s • E_{r,s} is in the ideal.
+  -- x r s • E_{r,s} = (x r s • E_{r,0}) · E_{0,0} · E_{0,s}, which is in the ideal of E₀₀.
+  -- Then x = ∑ r s, x r s • E_{r,s} is in the ideal.
+  -- We use that Matrix.single r s c · Matrix.single 0 0 1 · Matrix.single 0 s' 1
+  -- follows from Matrix.single_mul_single_same.
+  let I := Ideal.span {a * Matrix.single (0 : Fin n) (0 : Fin n) (1 : k) * b |
+      (a : Matrix (Fin n) (Fin n) k) (b : Matrix (Fin n) (Fin n) k)}
+  suffices h : ∀ (r s : Fin n) (c : k), Matrix.single r s c ∈ I by
+    have hx : x = ∑ r, ∑ s, Matrix.single r s (x r s) := by
+      ext i j
+      simp only [Matrix.sum_apply]
+      rw [Finset.sum_eq_single i
+        (fun b _ hb => by simp [Matrix.single_apply, hb])
+        (by simp)]
+      rw [Finset.sum_eq_single j
+        (fun b _ hb => by simp [Matrix.single_apply, hb])
+        (by simp)]
+      simp [Matrix.single_apply]
+    rw [hx]
+    exact Ideal.sum_mem _ fun r _ => Ideal.sum_mem _ fun s _ => h r s _
+  intro r s c
+  -- Matrix.single r s c = (Matrix.single r 0 c) · E₀₀ · (Matrix.single 0 s 1)
+  have : Matrix.single r (0 : Fin n) c * Matrix.single 0 0 1 *
+      Matrix.single (0 : Fin n) s 1 = Matrix.single r s c := by
+    rw [Matrix.single_mul_single_same, Matrix.single_mul_single_same]
+    simp [mul_one]
+  rw [← this]
+  exact Ideal.subset_span ⟨_, _, rfl⟩
+
+/-- In a product of matrix algebras, the sum of matrix units E₁₁ in each factor
+generates the whole product ring as a two-sided ideal. -/
+private lemma pi_matrix_single_generates_ideal (k : Type u) [Field k]
+    {n : ℕ} (d : Fin n → ℕ) [∀ i, NeZero (d i)] :
+    let R := ∀ i, Matrix (Fin (d i)) (Fin (d i)) k
+    Ideal.span {a * (∑ i, (Pi.single i (Matrix.single 0 0 1) : R)) * b |
+      (a : R) (b : R)} = ⊤ := by
+  intro R
+  rw [eq_top_iff]
+  intro x _
+  let I := Ideal.span {a * (∑ j, (Pi.single j (Matrix.single 0 0 1) : R)) * b |
+      (a : R) (b : R)}
+  -- Key: Pi.single i m is in I for all i, m
+  suffices hsingle : ∀ (i : Fin n) (m : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i m ∈ I from by
+    rw [show x = ∑ i, Pi.single i (x i) from (Finset.univ_sum_single x).symm]
+    exact Ideal.sum_mem _ fun i _ => hsingle i (x i)
+  intro i m
+  -- m is in Ideal.span {a * E₁₁ * b} in Mat_{d_i}(k)
+  have hgen := matrix_single_generates_ideal k (n := d i)
+  rw [eq_top_iff] at hgen
+  have hm := hgen (Submodule.mem_top : m ∈ ⊤)
+  -- Key: Pi.single i (a * E₁₁ * b) is in I, for any a, b in block i.
+  -- This follows from: Pi.single i a * (∑ j, Pi.single j E₁₁) * Pi.single i b = Pi.single i (a * E₁₁ * b)
+  -- by orthogonality of Pi.single at different indices.
+  -- Since m ∈ Ideal.span {a * E₁₁ * b | a b} in the matrix ring, Pi.single i m ∈ I.
+  -- Key helper: Pi.single i is a ring homomorphism (add, zero, mul)
+  have single_add : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i (a + b) = (Pi.single i a : R) + Pi.single i b := by
+    intro a b; ext t r s
+    simp only [Pi.add_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
+      Matrix.zero_apply, Matrix.add_apply]
+    split
+    · next h => subst h; rfl
+    · simp
+  have single_mul : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i (a * b) = (Pi.single i a : R) * Pi.single i b := by
+    intro a b; ext t r s
+    simp only [Pi.mul_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
+      Matrix.zero_apply, Matrix.mul_apply]
+    split
+    · next h => subst h; rfl
+    · simp
+  -- Key: Pi.single i (a * E₁₁ * b) = (Pi.single i a) * (∑ j, E₁₁^j) * (Pi.single i b) ∈ I
+  have hfgen : ∀ (a b : Matrix (Fin (d i)) (Fin (d i)) k),
+      Pi.single i (a * Matrix.single 0 0 1 * b) ∈ I := by
+    intro a b
+    have hcalc : (Pi.single i a : R) * (∑ j, (Pi.single j (Matrix.single 0 0 (1 : k)) : R)) *
+        (Pi.single i b : R) = Pi.single i (a * Matrix.single 0 0 1 * b) := by
+      simp only [Finset.mul_sum, Finset.sum_mul]
+      rw [Finset.sum_eq_single i]
+      · -- single_mul for three factors
+        ext t r s
+        simp only [Pi.mul_apply, Pi.single, Function.update, dite_apply, Pi.zero_apply,
+          Matrix.zero_apply, Matrix.mul_apply]
+        split
+        · next h => subst h; rfl
+        · simp
+      · intro j _ hj
+        have : (Pi.single i a : R) * (Pi.single j (Matrix.single 0 0 (1 : k)) : R) = 0 := by
+          ext t r s
+          simp only [Pi.mul_apply, Pi.zero_apply, Pi.single, Function.update, dite_apply,
+            Matrix.zero_apply, Matrix.mul_apply]
+          split
+          · next h => subst h; simp [dif_neg (Ne.symm hj)]
+          · simp
+        simp [this]
+      · simp
+    rw [← hcalc]
+    exact Ideal.subset_span ⟨_, _, rfl⟩
+  -- Since m is in the span of {a * E₁₁ * b}, Pi.single i m ∈ I by span induction
+  have hpi : ∀ y, y ∈ Ideal.span {a * Matrix.single (0 : Fin (d i)) 0 (1 : k) * b |
+      (a : Matrix _ _ k) (b : Matrix _ _ k)} → Pi.single i y ∈ I := by
+    intro y hy
+    induction hy using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨a, b, rfl⟩ := hx
+      exact hfgen a b
+    | zero =>
+      simp only [Pi.single_zero]
+      exact I.zero_mem
+    | add x y _ _ ihx ihy =>
+      rw [single_add]; exact I.add_mem ihx ihy
+    | smul r x _ ihx =>
+      rw [show r • x = r * x from rfl, single_mul]
+      exact I.mul_mem_left _ ihx
+  exact hpi m hm
+
+/-- The sum of orthogonal idempotents is idempotent. -/
+private lemma isIdempotentElem_sum_orthogonal {R : Type*} [Ring R] {n : ℕ}
+    {e : Fin n → R} (he : OrthogonalIdempotents e) :
+    IsIdempotentElem (∑ i, e i) := by
+  simp only [IsIdempotentElem, Finset.sum_mul, Finset.mul_sum]
+  rw [show ∑ i, e i = ∑ i, ∑ j, if i = j then e i else 0 by
+    simp [Finset.sum_ite_eq]]
+  rw [Finset.sum_comm]
+  congr 1; ext j
+  congr 1; ext i
+  split_ifs with hij
+  · subst hij; exact (he.idem _).eq
+  · exact he.ortho hij
+
+/-- For a finite-dimensional algebra over an algebraically closed field, the quotient
+by the Jacobson radical is a semisimple finite-dimensional algebra, and by Wedderburn-Artin
+it decomposes as a product of matrix algebras. This gives us orthogonal idempotents
+(one primitive per block) which can be lifted to A. The sum is a full idempotent with
+basic corner ring.
+
+This is the key construction: we sorry the existence statement but decompose
+the proof obligations clearly. -/
 lemma exists_full_idempotent_basic_corner
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
     ∃ (e : A) (he : IsFullIdempotent e),
       @IsBasicAlgebra k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
         (CornerRing.instAlgebra he.1) := by
-  sorry
+  -- Step 1: A is Artinian (finite-dim over a field)
+  haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
+  -- Step 2: A is semiprimary (automatic from Artinian)
+  haveI : IsSemiprimaryRing A := inferInstance
+  -- Step 3: A/J(A) is semisimple and finite-dimensional
+  set J := Ring.jacobson A
+  haveI : IsSemisimpleRing (A ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
+  -- Step 4: Wedderburn-Artin decomposition of A/J(A) ≅ ∏ Mat_{n_i}(k)
+  -- The quotient algebra is finite-dimensional over k
+  letI : Algebra k (A ⧸ J) := Ideal.Quotient.algebra k
+  haveI : Module.Finite k (A ⧸ J) := Module.Finite.of_surjective
+    (Ideal.Quotient.mkₐ k J).toLinearMap (Ideal.Quotient.mkₐ_surjective k J)
+  obtain ⟨numBlocks, blockSize, hne, ⟨φ⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed k (A ⧸ J)
+  -- Step 5: Extract orthogonal idempotents E₁₁ in each block of the product
+  -- In ∏ Mat_{n_i}(k), define ēᵢ = Pi.single i (Matrix.single 0 0 1)
+  let ē : Fin numBlocks → (∀ i, Matrix (Fin (blockSize i)) (Fin (blockSize i)) k) :=
+    fun i => Pi.single i (Matrix.single 0 0 1)
+  -- These are orthogonal idempotents in the product
+  have hē_orth : OrthogonalIdempotents ē := by
+    constructor
+    · intro i
+      change ē i * ē i = ē i
+      simp only [ē, ← Pi.single_mul]
+      congr 1
+      rw [Matrix.single_mul_single_same]
+      simp
+    · intro i j hij
+      change ē i * ē j = 0
+      simp only [ē]
+      ext t : 1
+      simp only [Pi.mul_apply, Pi.zero_apply]
+      by_cases hi : i = t
+      · subst hi
+        simp [hij]
+      · simp [hi]
+  -- Transport to A/J(A) via the isomorphism
+  let ē_AJ : Fin numBlocks → (A ⧸ J) := fun i => φ.symm (ē i)
+  have hē_AJ_orth : OrthogonalIdempotents ē_AJ := by
+    constructor
+    · intro i
+      change ē_AJ i * ē_AJ i = ē_AJ i
+      simp only [ē_AJ, ← map_mul, hē_orth.idem i |>.eq]
+    · intro i j hij
+      change ē_AJ i * ē_AJ j = 0
+      simp only [ē_AJ, ← map_mul, hē_orth.ortho hij, map_zero]
+  -- Step 6: Lift to A using nilpotency of J
+  have hJ_nil : IsNilpotent J := IsSemiprimaryRing.isNilpotent
+  have hker_nil : ∀ x ∈ RingHom.ker (Ideal.Quotient.mk J), IsNilpotent x := by
+    intro x hx
+    rw [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem] at hx
+    obtain ⟨n, hn⟩ := hJ_nil
+    exact ⟨n, Ideal.pow_eq_zero_of_mem hn le_rfl hx⟩
+  obtain ⟨e_lifted, he_orth, he_comp⟩ := OrthogonalIdempotents.lift_of_isNilpotent_ker
+    (Ideal.Quotient.mk J) hker_nil hē_AJ_orth
+    (fun i => Ideal.Quotient.mk_surjective (ē_AJ i))
+  -- Step 7: Set e = ∑ e_lifted i
+  let e := ∑ i, e_lifted i
+  have he_idem : IsIdempotentElem e := isIdempotentElem_sum_orthogonal he_orth
+  -- Step 8: Show e is full (AeA = A) and eAe is basic
+  -- Fullness: In A/J, the images ē_AJ i generate A/J as a two-sided ideal.
+  -- Since J is nilpotent, this lifts to fullness in A.
+  -- Basicness: eAe/rad(eAe) ≅ k^n (one copy per block), so all simple eAe-modules
+  -- are 1-dimensional.
+  -- Step 8a: Show that in A/J, the two-sided ideal generated by ē = ∑ ēᵢ is all of A/J.
+  have he_quotient_image : ∀ i, Ideal.Quotient.mk J (e_lifted i) = ē_AJ i :=
+    fun i => congr_fun he_comp i
+  have he_image : Ideal.Quotient.mk J e = ∑ i, ē_AJ i := by
+    simp only [e, map_sum, he_quotient_image]
+  -- Key fact: in ∏ Mat_{n_i}(k), the two-sided ideal generated by ∑ E₁₁^(i) is the
+  -- whole product because E_{rs}^(i) = E_{r0}^(i) · E₀₀^(i) · E_{0s}^(i).
+  -- Therefore in A/J, the image of e generates A/J as a two-sided ideal.
+  -- This means ∃ aₖ, bₖ such that ∑ aₖ · ē · bₖ = 1 in A/J,
+  -- i.e., 1 - ∑ aₖ · e · bₖ ∈ J.
+  -- Since J = Ring.jacobson A ⊆ jacobson ⊥, this element is in the Jacobson radical,
+  -- so ∑ aₖ · e · bₖ is a unit. Since AeA contains this unit, AeA = ⊤.
+  have he_full : IsFullIdempotent e := by
+    constructor
+    · exact he_idem
+    · -- Strategy: Show 1 ∈ Ideal.span {a * e * b | a b}
+      -- Step A: In ∏ Mat_{n_i}(k), ∑ E₁₁ generates the whole ring
+      have hpi := pi_matrix_single_generates_ideal k blockSize
+      -- Step B: Transport through φ to A/J
+      let ē_sum := ∑ i, ē_AJ i
+      -- Key: φ.symm (∑ E₁₁) = ē_sum
+      have hē_sum_eq : φ.symm (∑ i,
+          (Pi.single i (Matrix.single 0 0 1) :
+          (∀ i, Matrix (Fin (blockSize i)) (Fin (blockSize i)) k))) =
+          ē_sum := by
+        simp only [ē_sum, map_sum, ē_AJ, ē]
+      have hAJ_gen : Ideal.span {a * ē_sum * b |
+          (a : A ⧸ J) (b : A ⧸ J)} = ⊤ := by
+        rw [eq_top_iff]; intro x _
+        -- Pull back through φ.symm from the product ideal
+        suffices key : ∀ y, y ∈ Ideal.span
+            {a * (∑ i, (Pi.single i (Matrix.single 0 0 1) :
+              (∀ i, Matrix (Fin (blockSize i)) (Fin (blockSize i)) k))) *
+              b | (a : ∀ i, Matrix _ _ k) (b : ∀ i, Matrix _ _ k)} →
+            φ.symm y ∈ Ideal.span
+              {a * ē_sum * b | (a : A ⧸ J) (b : A ⧸ J)} by
+          have := key (φ x) (hpi ▸ Submodule.mem_top)
+          rwa [φ.symm_apply_apply] at this
+        intro y hy
+        induction hy using Submodule.span_induction with
+        | mem z hz =>
+          obtain ⟨a, b, rfl⟩ := hz
+          rw [map_mul, map_mul, hē_sum_eq]
+          exact Ideal.subset_span ⟨φ.symm a, φ.symm b, rfl⟩
+        | zero => simp [Ideal.zero_mem]
+        | add a b _ _ iha ihb => rw [map_add]; exact Ideal.add_mem _ iha ihb
+        | smul r a _ iha =>
+          change φ.symm (r * a) ∈ _
+          rw [map_mul]; exact Ideal.mul_mem_left _ _ iha
+      -- Step C: The image of e in A/J is ē_sum
+      -- So AeA maps onto A/J, meaning AeA + J = A
+      -- i.e., 1 ∈ AeA + J
+      let I := Ideal.span {a * e * b | (a : A) (b : A)}
+      -- The quotient image of I contains the quotient image of e
+      have hI_image : ∀ (a b : A ⧸ J),
+          a * ē_sum * b ∈ Ideal.map (Ideal.Quotient.mk J) I := by
+        intro a b
+        obtain ⟨a', rfl⟩ := Ideal.Quotient.mk_surjective a
+        obtain ⟨b', rfl⟩ := Ideal.Quotient.mk_surjective b
+        have : Ideal.Quotient.mk J a' * ē_sum * Ideal.Quotient.mk J b' =
+            Ideal.Quotient.mk J (a' * e * b') := by
+          rw [show ē_sum = Ideal.Quotient.mk J e from he_image.symm]
+          simp [map_mul]
+        rw [this]
+        exact Ideal.mem_map_of_mem _ (Ideal.subset_span ⟨a', b', rfl⟩)
+      have hI_map_top : Ideal.map (Ideal.Quotient.mk J) I = ⊤ := by
+        rw [eq_top_iff, ← hAJ_gen]
+        exact Submodule.span_le.mpr fun _ ⟨a, b, h⟩ => h ▸ hI_image a b
+      -- Step D: I ⊔ J = ⊤
+      have hIJ_top : I ⊔ J = ⊤ := by
+        rw [eq_top_iff]
+        intro x _
+        rw [← Ideal.mem_quotient_iff_mem_sup]
+        rw [hI_map_top]
+        exact Submodule.mem_top
+      -- Step E: 1 = x + j with x ∈ I, j ∈ J, so x = 1 - j and 1 - x ∈ J
+      have h1_mem : (1 : A) ∈ I ⊔ J := hIJ_top ▸ Submodule.mem_top
+      rw [Submodule.mem_sup] at h1_mem
+      obtain ⟨x, hxI, j, hjJ, hxj⟩ := h1_mem
+      -- x = 1 - j, and j ∈ J which is nilpotent, so j is nilpotent, so x is a unit
+      have hx_unit : IsUnit x := by
+        have hx_eq : x = 1 - j := by
+          have h := hxj; rw [show x + j = 1 ↔ x = 1 - j from
+            ⟨fun h => by rw [← h, add_sub_cancel_right],
+             fun h => by rw [h, sub_add_cancel]⟩] at h; exact h
+        rw [hx_eq]
+        exact IsNilpotent.isUnit_one_sub
+          (hker_nil j (by rwa [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem]))
+      exact Ideal.eq_top_of_isUnit_mem I hxI hx_unit
+  have he_basic : @IsBasicAlgebra k _ (CornerRing (k := k) e)
+      (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1) := by
+    sorry
+  exact ⟨e, he_full, he_basic⟩
 
 /-! ## Corner module infrastructure for Morita equivalence
 
