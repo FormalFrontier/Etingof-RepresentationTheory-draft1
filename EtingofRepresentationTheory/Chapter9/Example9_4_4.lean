@@ -95,17 +95,103 @@ theorem hasHomologicalDimensionLE_of_ringEquiv {R S : Type u} [Ring R] [Ring S]
   -- which is E.functor.obj (E.inverse.obj M) ≅ M
   exact @hasProjectiveDimensionLT_of_iso _ _ _ _ _ (E.counitIso.app M) (d + 1) hFN
 
-/-- The polynomial ring extension theorem for global dimension: if every R-module has
-projective dimension ≤ d, then every R[x]-module has projective dimension ≤ d + 1.
+/-- The extension-of-scalars functor `R[X] ⊗_R -` preserves projective dimension.
+Since R[X] is free (hence flat) over R, `extendScalars C` is exact and preserves
+projective objects, so it preserves `HasProjectiveDimensionLT`. -/
+private theorem extendScalars_preservesProjectiveDimensionLT
+    {R : Type u} [CommRing R] [Small.{u} R]
+    (M : ModuleCat.{u} R) :
+    ∀ (n : ℕ), HasProjectiveDimensionLT M n →
+    HasProjectiveDimensionLT
+      ((ModuleCat.extendScalars.{u, u, u} (Polynomial.C (R := R))).obj M) n := by
+  set C := Polynomial.C (R := R)
+  set F := ModuleCat.extendScalars.{u, u, u} C
+  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  have hFlat : C.Flat := by
+    change (algebraMap R (Polynomial R)).Flat; rw [RingHom.flat_algebraMap_iff]; infer_instance
+  haveI := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hFlat
+  haveI := (ModuleCat.extendRestrictScalarsAdj.{u} C).leftAdjoint_preservesColimits
+  haveI : F.PreservesHomology := inferInstance
+  haveI : F.Additive :=
+    Adjunction.left_adjoint_additive (ModuleCat.extendRestrictScalarsAdj.{u} C)
+  intro n
+  induction n generalizing M with
+  | zero =>
+    intro h
+    exact (F.map_isZero (isZero_of_hasProjectiveDimensionLT_zero M)).hasProjectiveDimensionLT_zero
+  | succ n ih =>
+    intro h
+    cases n with
+    | zero =>
+      have hproj : Projective M := (projective_iff_hasProjectiveDimensionLT_one M).mpr h
+      have : Projective (F.obj M) :=
+        Functor.PreservesProjectiveObjects.projective_obj hproj
+      exact (projective_iff_hasProjectiveDimensionLT_one _).mp this
+    | succ k =>
+      obtain ⟨pp⟩ := EnoughProjectives.presentation M
+      let SC := ShortComplex.mk (kernel.ι pp.f) pp.f (by simp)
+      have hSE : SC.ShortExact := { exact := ShortComplex.exact_kernel pp.f }
+      have hK : HasProjectiveDimensionLT (kernel pp.f) (k + 1) :=
+        hSE.hasProjectiveDimensionLT_X₁ (k + 1)
+          (hasProjectiveDimensionLT_of_ge pp.p 1 (k + 1) (by omega)) h
+      have hFK := ih (kernel pp.f) hK
+      have hFSE : (SC.map F).ShortExact := hSE.map_of_exact F
+      exact hFSE.hasProjectiveDimensionLT_X₃ (k + 1) hFK
+        (hasProjectiveDimensionLT_of_ge (F.obj pp.p) 1 (k + 2) (by omega))
 
-The proof constructs the standard short exact sequence for any R[x]-module M:
-  0 → R[x] ⊗_R M|_R → R[x] ⊗_R M|_R → M → 0
-and uses dimension shifting. Neither this SES nor the flat base change theorem
-for projective dimension is yet in Mathlib. -/
+/-- The X-action on an R[X]-module M, viewed as an R-linear endomorphism of M|_R.
+This sends m ↦ X • m, which is R-linear since C(r) and X commute in R[X]. -/
+private noncomputable def xActionAsRLinear {R : Type u} [CommRing R]
+    (M : ModuleCat.{u} (Polynomial R)) :
+    (ModuleCat.restrictScalars (Polynomial.C (R := R))).obj M ⟶
+    (ModuleCat.restrictScalars (Polynomial.C (R := R))).obj M :=
+  -- G.obj M has the same carrier as M but with R-module structure via C
+  -- We need the R-linear map m ↦ X • m
+  -- Use G.map applied to the R[X]-linear map X • 𝟙_M
+  (ModuleCat.restrictScalars (Polynomial.C (R := R))).map
+    ((Polynomial.X : Polynomial R) • (𝟙 M))
+
+/-- The Koszul short exact sequence for an R[X]-module M:
+  0 → R[X] ⊗_R M|_R →^d R[X] ⊗_R M|_R →^ε M → 0
+where d(p ⊗ m) = Xp ⊗ m - p ⊗ (X·m) and ε(p ⊗ m) = p·m. -/
+private theorem koszulSES_shortExact {R : Type u} [CommRing R]
+    (M : ModuleCat.{u} (Polynomial R)) :
+    let C := Polynomial.C (R := R)
+    let F := ModuleCat.extendScalars.{u, u, u} C
+    let G := ModuleCat.restrictScalars.{u} C
+    let FGM := F.obj (G.obj M)
+    let ε := (ModuleCat.extendRestrictScalarsAdj.{u} C).counit.app M
+    let d := (Polynomial.X : Polynomial R) • (𝟙 FGM) - F.map (xActionAsRLinear M)
+    (ShortComplex.mk d ε (by
+      -- d ≫ ε = 0 by counit naturality
+      set adj := ModuleCat.extendRestrictScalarsAdj.{u} C
+      have nat := adj.counit.naturality ((Polynomial.X : Polynomial R) • 𝟙 M)
+      simp only [Functor.comp_map, Functor.id_map] at nat
+      -- d ≫ ε = 0 by counit naturality:
+      -- d = X•𝟙 - F(G(X•𝟙_M)), and by naturality of counit,
+      -- F(G(X•𝟙_M)) ≫ ε = ε ≫ X•𝟙_M = X•ε, so d ≫ ε = X•ε - X•ε = 0
+      sorry
+      )).ShortExact := by
+  sorry
+
 theorem hasHomologicalDimensionLE_polynomial {R : Type u} [CommRing R] [Small.{u} R] (d : ℕ)
     (h : Etingof.HasHomologicalDimensionLE R d) :
     Etingof.HasHomologicalDimensionLE (Polynomial R) (d + 1) := by
-  sorry
+  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  set C := Polynomial.C (R := R)
+  set F := ModuleCat.extendScalars.{u, u, u} C
+  set G := ModuleCat.restrictScalars.{u} C
+  intro M
+  -- The Koszul SES: 0 → F(G(M)) →^d F(G(M)) →^ε M → 0
+  have hSES := koszulSES_shortExact M
+  -- pd_{R[X]}(F(G(M))) ≤ d
+  have hFGM_pd : HasProjectiveDimensionLE (F.obj (G.obj M)) d := by
+    exact extendScalars_preservesProjectiveDimensionLT (G.obj M) (d + 1) (h (G.obj M))
+  -- Apply dimension shifting: pd(M) ≤ d+1
+  -- hasProjectiveDimensionLT_X₃ n : pd(X₁) < n → pd(X₂) < n+1 → pd(X₃) < n+1
+  -- Here n = d+1, X₁ = X₂ = F(G(M)) with pd ≤ d, i.e., pd < d+1
+  exact hSES.hasProjectiveDimensionLT_X₃ (d + 1) hFGM_pd
+    (hasProjectiveDimensionLT_of_ge _ (d + 1) (d + 2) (by omega))
 
 /-- The Hilbert syzygy theorem (upper bound): every module over k[x₁, …, xₙ] has
 projective dimension ≤ n.
