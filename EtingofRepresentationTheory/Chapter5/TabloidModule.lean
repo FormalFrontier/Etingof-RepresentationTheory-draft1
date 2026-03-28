@@ -746,12 +746,41 @@ private lemma polytabloid_coeff_zero_of_maximal
       sytToTabloid n la T' = sytToTabloid n la T₀) :
     f T₀ = 0 := by
   classical
-  -- Evaluate at σ_{T₀}: f(T₀) · e_{T₀}(σ_{T₀}) + Σ_{T'≠T₀} f(T') · e_{T'}(σ_{T₀}) = 0
-  -- e_{T₀}(σ_{T₀}) = 1 by polytabloid_self_coeff
-  -- For T' ≠ T₀ with f(T') ≠ 0: e_{T'}(σ_{T₀}) ≠ 0 implies T' dom T₀ (by support),
-  -- so toTabloid(T') = toTabloid(T₀) by maximality, so T' = T₀ by injectivity — contradiction.
-  -- Therefore all other terms are 0, giving f(T₀) = 0.
-  sorry
+  -- Evaluate the linear combination at the permutation σ_{T₀}
+  have heval : ∑ t ∈ S, f t * (polytabloidInSpecht n la t : SymGroupAlgebra n)
+      (sytPerm n la T₀) = 0 := by
+    calc ∑ t ∈ S, f t * (polytabloidInSpecht n la t : SymGroupAlgebra n)
+          (sytPerm n la T₀)
+        = (∑ t ∈ S, f t • (polytabloidInSpecht n la t : SymGroupAlgebra n))
+          (sytPerm n la T₀) := by
+          rw [Finsupp.finset_sum_apply]; simp [Finsupp.smul_apply]
+      _ = 0 := by rw [hf]; rfl
+  -- Split off the T₀ term
+  rw [← Finset.add_sum_erase S _ hT₀] at heval
+  -- e_{T₀}(σ_{T₀}) = 1
+  have hself : (polytabloidInSpecht n la T₀ : SymGroupAlgebra n)
+      (sytPerm n la T₀) = 1 := polytabloid_self_coeff n la T₀
+  rw [hself, mul_one] at heval
+  -- Show all other terms are 0
+  suffices hrest : ∀ T' ∈ S.erase T₀,
+      f T' * (polytabloidInSpecht n la T' : SymGroupAlgebra n)
+        (sytPerm n la T₀) = 0 by
+    rw [Finset.sum_eq_zero hrest, add_zero] at heval; exact heval
+  intro T' hT'
+  have hT'S : T' ∈ S := Finset.mem_of_mem_erase hT'
+  have hne : T' ≠ T₀ := Finset.ne_of_mem_erase hT'
+  by_cases hfT' : f T' = 0
+  · rw [hfT', zero_mul]
+  by_cases hcoeff : (polytabloidInSpecht n la T' : SymGroupAlgebra n)
+      (sytPerm n la T₀) = 0
+  · rw [hcoeff, mul_zero]
+  · -- e_{T'}(σ_{T₀}) ≠ 0 implies tabloid(T') dominates tabloid(T₀)
+    have hdom := polytabloid_eval_implies_dominance T'
+      (sytPerm n la T₀) hcoeff
+    -- By maximality, tabloid(T') = tabloid(T₀)
+    have htab_eq := hmax T' hT'S hfT' hdom
+    -- But different SYTs have different tabloids
+    exact absurd (sytToTabloid_injective n la htab_eq) hne
 
 /-- In any finset with a dominance-like relation, a nonempty subset has a maximal
 element. We use a Nat-valued measure and strong induction. -/
