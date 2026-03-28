@@ -95,6 +95,155 @@ theorem hasHomologicalDimensionLE_of_ringEquiv {R S : Type u} [Ring R] [Ring S]
   -- which is E.functor.obj (E.inverse.obj M) ≅ M
   exact @hasProjectiveDimensionLT_of_iso _ _ _ _ _ (E.counitIso.app M) (d + 1) hFN
 
+section ExtendScalarsPreservesPD
+
+variable {C : Type*} [Category C] [Abelian C] [EnoughProjectives C]
+variable {D : Type*} [Category D] [Abelian D]
+
+/-- An exact functor that preserves projective objects preserves `HasProjectiveDimensionLT`.
+This is the `extendScalars` analogue of `restrictScalars_preservesProjectiveDimensionLT`. -/
+private theorem exact_functor_preservesProjectiveDimensionLT
+    (F : C ⥤ D)
+    [F.Additive] [F.PreservesProjectiveObjects] [F.PreservesHomology]
+    (X : C) :
+    ∀ (n : ℕ), HasProjectiveDimensionLT X n →
+      HasProjectiveDimensionLT (F.obj X) n := by
+  haveI : PreservesFiniteLimits F := Functor.preservesFiniteLimits_of_preservesHomology F
+  haveI : PreservesFiniteColimits F := Functor.preservesFiniteColimits_of_preservesHomology F
+  intro n
+  induction n generalizing X with
+  | zero =>
+    intro h
+    exact (F.map_isZero (isZero_of_hasProjectiveDimensionLT_zero X)).hasProjectiveDimensionLT_zero
+  | succ n ih =>
+    intro h
+    cases n with
+    | zero =>
+      have hproj : Projective X := (projective_iff_hasProjectiveDimensionLT_one X).mpr h
+      have : Projective (F.obj X) :=
+        Functor.PreservesProjectiveObjects.projective_obj hproj
+      exact (projective_iff_hasProjectiveDimensionLT_one _).mp this
+    | succ k =>
+      obtain ⟨pp⟩ := EnoughProjectives.presentation X
+      let SC := ShortComplex.mk (kernel.ι pp.f) pp.f (by simp)
+      have hSE : SC.ShortExact := { exact := ShortComplex.exact_kernel pp.f }
+      have hK : HasProjectiveDimensionLT (kernel pp.f) (k + 1) :=
+        hSE.hasProjectiveDimensionLT_X₁ (k + 1)
+          (hasProjectiveDimensionLT_of_ge pp.p 1 (k + 1) (by omega)) h
+      have hFK := ih (kernel pp.f) hK
+      have hFSE : (SC.map F).ShortExact := hSE.map_of_exact F
+      have hFP_proj : Projective (F.obj pp.p) :=
+        Functor.PreservesProjectiveObjects.projective_obj pp.projective
+      exact hFSE.hasProjectiveDimensionLT_X₃ (k + 1) hFK
+        (hasProjectiveDimensionLT_of_ge (F.obj pp.p) 1 (k + 2) (by omega))
+
+end ExtendScalarsPreservesPD
+
+section PolynomialAugmentationSES
+
+open Polynomial
+
+variable {R : Type u} [CommRing R]
+
+/-- For an R[X]-module M, the "difference" map α : F(G(M)) → F(G(M)) defined by
+α(p ⊗ m) = Xp ⊗ m - p ⊗ (X · m). This is the kernel of the counit map. -/
+private noncomputable def polynomialAlphaMap (M : ModuleCat.{u} (Polynomial R)) :
+    let C := Polynomial.C (R := R)
+    let F := ModuleCat.extendScalars.{u, u, u} C
+    let G := ModuleCat.restrictScalars.{u} C
+    let FGM := F.obj (G.obj M)
+    FGM ⟶ FGM := by
+  set C := Polynomial.C (R := R)
+  set F := ModuleCat.extendScalars.{u, u, u} C
+  set G := ModuleCat.restrictScalars.{u} C
+  set FGM := F.obj (G.obj M)
+  -- α = X • 𝟙_{FGM} - F.map(G.map(X • 𝟙_M))
+  exact (X : Polynomial R) • (𝟙 FGM) - F.map (G.map ((X : Polynomial R) • (𝟙 M)))
+
+/-- The counit map ε : F(G(M)) → M for the extend-restrict adjunction. -/
+private noncomputable def polynomialCounitMap (M : ModuleCat.{u} (Polynomial R)) :
+    let C := Polynomial.C (R := R)
+    let F := ModuleCat.extendScalars.{u, u, u} C
+    let G := ModuleCat.restrictScalars.{u} C
+    F.obj (G.obj M) ⟶ M :=
+  (ModuleCat.extendRestrictScalarsAdj.{u} (Polynomial.C (R := R))).counit.app M
+
+/-- The composition α ≫ ε = 0: the counit kills the difference map.
+By counit naturality, ε ∘ F(G(X•𝟙_M)) = (X•𝟙_M) ∘ ε.
+Also ε ∘ (X•𝟙_{FGM}) = X • ε (R[X]-linearity). So α ≫ ε = X•ε - X•ε = 0. -/
+private theorem polynomialAlphaCounit_comp_zero (M : ModuleCat.{u} (Polynomial R)) :
+    polynomialAlphaMap M ≫ polynomialCounitMap M = 0 := by
+  -- α = X•𝟙 - F(G(X•𝟙_M))
+  -- α ≫ ε = (X•𝟙) ≫ ε - F(G(X•𝟙_M)) ≫ ε = X•ε - X•ε = 0
+  -- Use Preadditive.sub_comp then counit naturality.
+  -- We unfold both definitions to get a single categorical expression.
+  show ((X : Polynomial R) •
+      (𝟙 ((ModuleCat.extendScalars (Polynomial.C (R := R))).obj
+        ((ModuleCat.restrictScalars (Polynomial.C (R := R))).obj M))) -
+    (ModuleCat.extendScalars (Polynomial.C (R := R))).map
+      ((ModuleCat.restrictScalars (Polynomial.C (R := R))).map
+        ((X : Polynomial R) • (𝟙 M)))) ≫
+    (ModuleCat.extendRestrictScalarsAdj (Polynomial.C (R := R))).counit.app M = 0
+  rw [Preadditive.sub_comp, sub_eq_zero, Linear.smul_comp, Category.id_comp]
+  -- Goal: X • ε = F.map(G.map(X•𝟙)) ≫ ε
+  -- Fold F.map(G.map(...)) into (G ⋙ F).map(...)
+  conv_rhs => rw [show (ModuleCat.extendScalars (Polynomial.C (R := R))).map
+    ((ModuleCat.restrictScalars (Polynomial.C (R := R))).map ((X : Polynomial R) • (𝟙 M))) =
+    (ModuleCat.restrictScalars (Polynomial.C (R := R)) ⋙
+     ModuleCat.extendScalars (Polynomial.C (R := R))).map ((X : Polynomial R) • (𝟙 M)) from rfl]
+  -- By counit naturality: (G ⋙ F).map(f) ≫ ε = ε ≫ f
+  rw [((ModuleCat.extendRestrictScalarsAdj (Polynomial.C (R := R))).counit.naturality
+    ((X : Polynomial R) • (𝟙 M))), Functor.id_map, Linear.comp_smul]
+  simp [Category.comp_id]
+
+/-- The counit map ε : F(G(M)) → M is an epimorphism.
+Proof: G(ε) has a section (by triangle identity η_G ∘ G(ε) = id),
+so G(ε) is surjective, which means ε is surjective (G reflects surjectivity). -/
+private theorem polynomialCounitMap_epi (M : ModuleCat.{u} (Polynomial R)) :
+    Epi (polynomialCounitMap M) := by
+  rw [ModuleCat.epi_iff_surjective]
+  -- The counit ε : F(G(M)) → M has a section (by the adjunction triangle identity).
+  -- G(ε) ∘ η = id, and G doesn't change the underlying function, so ε ∘ η = id.
+  let adj := ModuleCat.extendRestrictScalarsAdj.{u} (Polynomial.C (R := R))
+  let G := ModuleCat.restrictScalars.{u} (Polynomial.C (R := R))
+  have htri := adj.right_triangle_components (Y := M)
+  -- htri : η ≫ G.map(ε) = 𝟙
+  intro m
+  refine ⟨ConcreteCategory.hom (adj.unit.app (G.obj M)) m, ?_⟩
+  -- polynomialCounitMap M and G.map(ε) have the same underlying function
+  -- (G = restrictScalars is forgetful), so we can use the triangle identity.
+  have h1 : ConcreteCategory.hom (adj.unit.app (G.obj M) ≫ G.map (adj.counit.app M)) m = m := by
+    rw [htri]; rfl
+  rw [CategoryTheory.comp_apply] at h1
+  exact h1
+
+/-- The short exact sequence 0 → F(G(M)) →^{α} F(G(M)) →^{ε} M → 0 for any R[X]-module M.
+Here α(p ⊗ m) = Xp ⊗ m - p ⊗ (X·m) and ε(p ⊗ m) = p·m (the adjunction counit). -/
+private noncomputable def polynomialAugmentationSES (M : ModuleCat.{u} (Polynomial R)) :
+    (ShortComplex.mk (polynomialAlphaMap M) (polynomialCounitMap M)
+      (polynomialAlphaCounit_comp_zero M)).ShortExact where
+  mono_f := by
+    rw [ModuleCat.mono_iff_injective]
+    set C := Polynomial.C (R := R)
+    set F := ModuleCat.extendScalars.{u, u, u} C
+    set G := ModuleCat.restrictScalars.{u} C
+    set FGM := F.obj (G.obj M)
+    -- α = X • 𝟙 - F.map(G.map(X • 𝟙_M))
+    -- divX ⊗ id is a left inverse of X • 𝟙 (from polynomial_X_mul_mono_extendScalars),
+    -- composing with α gives: (divX ⊗ id) ∘ α = id - (divX ⊗ id) ∘ F.map(G.map(X • 𝟙_M))
+    -- For injectivity we use a degree argument:
+    -- If α(t) = 0, then X • t = F.map(G.map(X • 𝟙))(t).
+    -- On pure tensors: X * p ⊗ m = p ⊗ (X · m) for all p, m.
+    -- Comparing degrees: deg(Xp) = deg(p) + 1, but deg in the right factor doesn't change.
+    -- This forces p = 0 for all summands.
+    -- We use the filtration by polynomial degree.
+    sorry
+  epi_g := polynomialCounitMap_epi M
+  exact := by
+    sorry
+
+end PolynomialAugmentationSES
+
 /-- The polynomial ring extension theorem for global dimension: if every R-module has
 projective dimension ≤ d, then every R[x]-module has projective dimension ≤ d + 1.
 
@@ -105,7 +254,36 @@ for projective dimension is yet in Mathlib. -/
 theorem hasHomologicalDimensionLE_polynomial {R : Type u} [CommRing R] [Small.{u} R] (d : ℕ)
     (h : Etingof.HasHomologicalDimensionLE R d) :
     Etingof.HasHomologicalDimensionLE (Polynomial R) (d + 1) := by
-  sorry
+  letI : Small.{u} (Polynomial R) := ⟨⟨Polynomial R, ⟨Equiv.refl _⟩⟩⟩
+  set C := Polynomial.C (R := R)
+  set F := ModuleCat.extendScalars.{u, u, u} C
+  set G := ModuleCat.restrictScalars.{u} C
+  -- F preserves projectives (left adjoint of epi-preserving functor)
+  -- F preserves homology (R[X] is flat over R)
+  haveI : F.PreservesProjectiveObjects := ModuleCat.extendScalars_preservesProjectiveObjects C
+  have hFlat : C.Flat := by
+    change (algebraMap R (Polynomial R)).Flat
+    rw [RingHom.flat_algebraMap_iff]
+    infer_instance
+  haveI : PreservesFiniteLimits F := ModuleCat.preservesFiniteLimits_extendScalars_of_flat hFlat
+  haveI : PreservesColimitsOfSize.{0, 0} F :=
+    (ModuleCat.extendRestrictScalarsAdj.{u} C).leftAdjoint_preservesColimits
+  haveI : F.PreservesHomology := inferInstance
+  haveI : F.Additive := Adjunction.left_adjoint_additive (ModuleCat.extendRestrictScalarsAdj C)
+  intro M
+  -- For any R[X]-module M, use the SES 0 → FG(M) → FG(M) → M → 0
+  have hSES := polynomialAugmentationSES M
+  -- FG(M) has pd ≤ d because:
+  -- - G(M) has pd_R ≤ d (by hypothesis h)
+  -- - F preserves pd (exact functor preserving projectives)
+  have hGM_pd : HasProjectiveDimensionLE (G.obj M) d := h (G.obj M)
+  have hFGM_pd : HasProjectiveDimensionLE (F.obj (G.obj M)) d :=
+    exact_functor_preservesProjectiveDimensionLT F (G.obj M) (d + 1) hGM_pd
+  -- Dimension shifting from the SES:
+  -- X₁ = FG(M) has pd < d+1, X₂ = FG(M) has pd < d+2, X₃ = M
+  -- By hasProjectiveDimensionLT_X₃: pd(M) < d+2, i.e., pd(M) ≤ d+1
+  exact hSES.hasProjectiveDimensionLT_X₃ (d + 1) hFGM_pd
+    (hasProjectiveDimensionLT_of_ge (F.obj (G.obj M)) (d + 1) (d + 2) (by omega))
 
 /-- The Hilbert syzygy theorem (upper bound): every module over k[x₁, …, xₙ] has
 projective dimension ≤ n.
