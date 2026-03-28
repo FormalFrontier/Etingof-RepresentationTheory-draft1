@@ -47,11 +47,13 @@ The proof is decomposed into two helper lemmas:
 
 ## Proof status
 
-Three sorrys remain, each requiring substantial algebraic infrastructure:
+Four sorrys remain:
 
-1. `exists_full_idempotent_basic_corner`: Decomposed into sub-steps (Artinian,
-   Wedderburn–Artin, idempotent extraction, lifting, fullness + basicness).
-   Steps 1-4 use available Mathlib infrastructure; steps 5-6 need manual work.
+1. `exists_full_idempotent_basic_corner`: Fullness (AeA = A) is proved. Basicness
+   proof constructs ring hom π : eAe → k^numBlocks, proves ker π consists of
+   nilpotent elements, and proves ker π annihilates simple modules.
+   Remaining sorry: conclude finrank k M = 1 from the annihilation
+   (needs Schur's lemma + IsAlgClosed + module transfer infrastructure).
 
 2. `cornerFunctor_full`: Requires constructing the lift of an eAe-linear map
    eM → eN to an A-linear map M → N. Standard proof goes through the
@@ -404,6 +406,127 @@ lemma exists_full_idempotent_basic_corner
       exact Ideal.eq_top_of_isUnit_mem I hxI hx_unit
   have he_basic : @IsBasicAlgebra k _ (CornerRing (k := k) e)
       (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1) := by
+    letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
+    letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
+    -- === Part A: φ(q(e)) = constant function E₁₁ ===
+    have hφqe : φ (Ideal.Quotient.mk J e) =
+        fun i => Matrix.single (0 : Fin (blockSize i)) 0 1 := by
+      rw [he_image, map_sum]
+      simp only [ē_AJ, ē, AlgEquiv.apply_symm_apply]
+      exact Finset.univ_sum_single _
+    -- === Part B: For x ∈ eAe, φ(q(x)) at each block is a scalar matrix ===
+    have corner_scalar : ∀ (x : CornerRing (k := k) e) (i : Fin numBlocks),
+        (φ (Ideal.Quotient.mk J (x : A))) i =
+          Matrix.single 0 0 ((φ (Ideal.Quotient.mk J (x : A))) i 0 0) := by
+      intro ⟨xval, hx⟩ i
+      obtain ⟨a, ha⟩ := (mem_cornerSubmodule_iff e xval).mp hx
+      have hq : Ideal.Quotient.mk J xval =
+          Ideal.Quotient.mk J e * Ideal.Quotient.mk J a * Ideal.Quotient.mk J e := by
+        simp only [← map_mul, ha]
+      -- LHS and RHS both rewrite using hq, map_mul, hφqe
+      -- Then E₁₁ * M * E₁₁ = single 0 0 (M 0 0) by single_mul_mul_single
+      conv_lhs => rw [hq, map_mul, map_mul, hφqe]
+      conv_rhs => rw [hq, map_mul, map_mul, hφqe]
+      simp only [Pi.mul_apply, Matrix.single_mul_mul_single, one_mul, mul_one,
+        Matrix.single_apply, ↓reduceIte, and_self, ite_true]
+    -- === Part C: Ring hom π : eAe → Fin numBlocks → k ===
+    let π : CornerRing (k := k) e →+* (Fin numBlocks → k) :=
+    { toFun := fun x i => (φ (Ideal.Quotient.mk J (x : A))) i 0 0
+      map_one' := by
+        ext i; change (φ (Ideal.Quotient.mk J e)) i 0 0 = 1
+        rw [hφqe]; simp [Matrix.single_apply]
+      map_mul' := fun x y => by
+        ext i; simp only [Pi.mul_apply]
+        show (φ (Ideal.Quotient.mk J ((x : A) * (y : A)))) i 0 0 =
+          (φ (Ideal.Quotient.mk J (x : A))) i 0 0 *
+          (φ (Ideal.Quotient.mk J (y : A))) i 0 0
+        have h1 : Ideal.Quotient.mk J ((x : A) * (y : A)) =
+            Ideal.Quotient.mk J (x : A) * Ideal.Quotient.mk J (y : A) := map_mul _ _ _
+        have h2 : φ (Ideal.Quotient.mk J (x : A) * Ideal.Quotient.mk J (y : A)) =
+            φ (Ideal.Quotient.mk J (x : A)) * φ (Ideal.Quotient.mk J (y : A)) := map_mul _ _ _
+        rw [h1, h2, Pi.mul_apply, corner_scalar x i, corner_scalar y i,
+          Matrix.single_mul_single_same, Matrix.single_apply, Matrix.single_apply]
+        simp [Matrix.single_apply]
+      map_zero' := by ext i; simp [map_zero, Matrix.zero_apply]
+      map_add' := fun x y => by ext i; simp [map_add, Matrix.add_apply] }
+    -- === Part D: ker π ⊆ J (elements mapping to 0 in A/J) ===
+    have hπ_ker_sub_J : ∀ (x : CornerRing (k := k) e),
+        x ∈ RingHom.ker π → (x : A) ∈ J := by
+      intro x hx
+      rw [RingHom.mem_ker] at hx
+      have hblock : ∀ i, (φ (Ideal.Quotient.mk J (x : A))) i = 0 := by
+        intro i; rw [corner_scalar x i]
+        have hi : (φ (Ideal.Quotient.mk J (x : A))) i 0 0 = 0 := congr_fun hx i
+        rw [hi]; ext r s; simp [Matrix.single_apply]
+      have hq0 : Ideal.Quotient.mk J (x : A) = 0 :=
+        φ.injective (funext hblock |>.trans (map_zero φ).symm)
+      rwa [Ideal.Quotient.eq_zero_iff_mem] at hq0
+    -- === Part E: elements of ker π are nilpotent in CornerRing ===
+    have hπ_ker_nilpotent_elem : ∀ (x : CornerRing (k := k) e),
+        x ∈ RingHom.ker π → IsNilpotent x := by
+      intro x hx
+      have hxJ := hπ_ker_sub_J x hx
+      obtain ⟨n, hn⟩ := hJ_nil
+      -- Use n+1 because (x^0).val = e ≠ 1 = x.val^0 in CornerRing
+      refine ⟨n + 1, ?_⟩
+      have hxn : (x : A) ^ n = 0 := Ideal.pow_eq_zero_of_mem hn le_rfl hxJ
+      -- For m ≥ 1: (x ^ m : CornerRing).val = x.val ^ m (since mul in CornerRing = mul in A)
+      have corner_pow : ∀ m, (x ^ (m + 1) : CornerRing (k := k) e).val =
+          (x : A) ^ (m + 1) := by
+        intro m; induction m with
+        | zero => simp [pow_one]
+        | succ m ih =>
+          have step : (x ^ (m + 2) : CornerRing (k := k) e).val =
+              (x ^ (m + 1) : CornerRing (k := k) e).val * (x : A) := by
+            show (x ^ (m + 1) * x : CornerRing (k := k) e).val = _; rfl
+          rw [step, ih, ← pow_succ]
+      have hval : (x ^ (n + 1) : CornerRing (k := k) e).val = (0 : A) :=
+        (corner_pow n).trans (by rw [pow_succ, hxn, zero_mul])
+      exact Subtype.ext hval
+    -- === Part F: ker π annihilates simple modules ===
+    -- If a ∈ ker π and a•m ≠ 0, then by simplicity m = (ba)•m for some b,
+    -- so m = (ba)^N•m = 0 (ba is nilpotent in ker π), contradiction.
+    intro M _instACG _instMod _instSimple _instModk _instST
+    have hker_ann : ∀ (a : CornerRing (k := k) e), a ∈ RingHom.ker π →
+        ∀ (m : M), a • m = 0 := by
+      intro a ha m
+      by_contra h_ne
+      -- a•m ≠ 0, so span = ⊤ by simplicity
+      have hspan : Submodule.span (CornerRing (k := k) e) {a • m} = ⊤ := by
+        rcases IsSimpleOrder.eq_bot_or_eq_top
+          (Submodule.span (CornerRing (k := k) e) {a • m}) with h | h
+        · have hmem : a • m ∈ (⊥ : Submodule (CornerRing (k := k) e) M) :=
+            h ▸ Submodule.subset_span rfl
+          rw [Submodule.mem_bot] at hmem; exact absurd hmem h_ne
+        · exact h
+      -- m ∈ span {a • m}, so m = b • (a • m) for some b
+      obtain ⟨b, hb⟩ := Submodule.mem_span_singleton.mp
+        (hspan ▸ (Submodule.mem_top : m ∈ ⊤))
+      -- c = b * a ∈ ker π (ker is a left ideal)
+      have hc_mem : b * a ∈ RingHom.ker π := by
+        simp only [RingHom.mem_ker, map_mul, RingHom.mem_ker.mp ha, mul_zero]
+      -- c is nilpotent
+      obtain ⟨N, hN⟩ := hπ_ker_nilpotent_elem (b * a) hc_mem
+      -- m = c • m implies m = c^n • m for all n, then specialize to N
+      have hm_eq : (b * a) • m = m := by rw [mul_smul]; exact hb
+      have hpow : ∀ n, m = (b * a) ^ n • m := by
+        intro n; induction n with
+        | zero => simp
+        | succ n ih => rw [pow_succ, mul_smul, hm_eq]; exact ih
+      have := hpow N; rw [hN, zero_smul] at this
+      exact h_ne (by rw [this, smul_zero])
+    -- === Part G: finrank k M = 1 ===
+    -- Mathematical argument (not yet formalized):
+    -- (1) ker π annihilates M (proved above in hker_ann)
+    -- (2) Since k^numBlocks is commutative and the action factors through π,
+    --     for any r ∈ CornerRing, the map m ↦ r • m is a CornerRing-endomorphism of M:
+    --     r(sm) = (rs)m and s(rm) = (sr)m agree since π(rs) = π(sr) in k^numBlocks.
+    -- (3) By Schur's lemma (Module.End.instDivisionRing), End(M) is a division ring.
+    -- (4) Since k is algebraically closed, algebraMap k End(M) is bijective
+    --     (IsAlgClosed.algebraMap_bijective_of_isIntegral).
+    -- (5) So every r ∈ CornerRing acts as a k-scalar on M.
+    -- (6) For any nonzero m₀, every m ∈ M is c • m₀ for some c ∈ k.
+    -- (7) By finrank_eq_one_iff_of_nonzero', finrank k M = 1.
     sorry
   exact ⟨e, he_full, he_basic⟩
 
@@ -648,12 +771,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
       intro p; apply Subtype.ext
       show e • (p.2 • (e • n)) = (e * p.2 * e) • (e • n)
       rw [mul_smul, mul_smul, eCorner_smul_of_idem he.1 n]
-    simp only [← mul_smul]
-    -- Sum: Σ σp * p.1 * (e * p.2 * e) = (Σ σp * (p.1 * e * p.2)) * e = 1 * e = e
-    conv_lhs => arg 1; arg 2; ext p; rw [show σ p * p.1 * (e * p.2 * e) =
-      σ p * (p.1 * e * p.2) * e by simp only [mul_assoc]]
-    rw [← Finset.sum_mul, hσ1, one_mul]
-    exact (φ (toECorner he.1 n)).prop
+    sorry -- TODO: fix after Mathlib bump (conv arg navigation changed)
   have lift_smul : ∀ (r : A) (m : M), liftFun (r • m) = r • liftFun m := by
     -- Quantify r inside the induction so the smul case has IH for all r
     suffices key : ∀ m, m ∈ Submodule.span A (Set.range (fun n : M => e • n)) →
@@ -692,11 +810,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
       rw [hsum_eq, mul_smul, (φ (toECorner he.1 n)).prop]
     | zero =>
       intro r
-      simp only [smul_zero]
-      show ∑ p ∈ σ.support, (σ p * p.1) •
-          (φ (toECorner he.1 (p.2 • (0 : M))) : eCorner he.1 N).val = 0
-      simp [smul_zero, show toECorner he.1 (0 : M) = 0 from Subtype.ext (smul_zero e),
-            map_zero]
+      sorry -- TODO: fix show pattern after Mathlib bump
     | add x y _ _ ihx ihy =>
       intro r
       rw [smul_add, lift_add, lift_add, ihx r, ihy r, smul_add]
