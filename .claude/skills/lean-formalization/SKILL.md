@@ -1677,3 +1677,28 @@ theorem hard_theorem : conclusion := by
 **Value assessment:** A session that decomposes a monolithic sorry into 5 sub-goals and proves 3 of them is MORE valuable than a session that attempts the monolithic sorry directly and fails. Decomposition creates independently claimable work items and documents the proof strategy.
 
 **Evidence:** Problem6_9_1 was decomposed from 1 sorry into 8 sub-goals, 6 proved (#1807). Theorem5_22_1 was decomposed into coefficient extraction + core identity (#1806). BasicAlgebraExistence was split into 2 targeted helpers (#1803). All three patterns created visible, committable progress.
+
+## Rewriting Inside Coercion Wrappers (`.ker`, `↥`, `Module.finrank`)
+
+When `rw [h]` fails to find a pattern that is visibly present in the goal — especially inside
+`LinearMap.ker`, `↥(Submodule)`, or `Module.finrank k ↥(...)` — the issue is coercion mismatch.
+
+**Don't iterate**: If `rw`, `simp only`, `conv`, and `show` all fail on the same pattern, stop
+trying variations. Instead:
+
+1. **For `.ker` rewrites**: Use `calc` with `congr_arg LinearMap.ker h` to rewrite the argument:
+   ```lean
+   calc LinearMap.ker LHS
+       = LinearMap.ker RHS1 := congr_arg LinearMap.ker h_eq
+     _ = LinearMap.ker RHS2 := LinearMap.ker_smul _ _ h_ne_zero
+   ```
+
+2. **For `Module.finrank` on equal submodules**: Add a helper:
+   ```lean
+   private lemma finrank_submodule_congr {S₁ S₂ : Submodule R M} (h : S₁ = S₂) :
+       Module.finrank R S₁ = Module.finrank R S₂ := by subst h; rfl
+   ```
+   Direct `h ▸ rfl` may timeout due to expensive coercion unification.
+
+3. **For `iInf` equality**: Use `iInf_congr` (not `iInf_mono` + `le_antisymm`) when you need
+   equality, not just inequality.
