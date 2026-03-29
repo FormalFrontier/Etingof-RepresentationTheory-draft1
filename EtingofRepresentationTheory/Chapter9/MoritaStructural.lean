@@ -51,6 +51,27 @@ open CategoryTheory CategoryTheory.Limits
 
 namespace Etingof
 
+/-! ## Internal direct sum ↔ categorical biproduct bridge -/
+
+/-- Given an internal direct sum `A = ⊕ᵢ N(i)` as `A`-submodules, construct a categorical
+biproduct isomorphism in `ModuleCat A`:  `ModuleCat.of A A ≅ ⨁ᵢ ModuleCat.of A (N i)`.
+
+This bridges the module-theoretic `DirectSum.IsInternal` with the categorical biproduct
+in `ModuleCat`, which is needed to apply equivalence functors to decomposed modules. -/
+noncomputable def internalDirectSum_biproductIso
+    {A : Type u} [Ring A] {ι : Type} [Fintype ι] [DecidableEq ι]
+    (N : ι → Submodule A A)
+    (h : DirectSum.IsInternal N) :
+    ModuleCat.of A A ≅ ⨁ (fun i => ModuleCat.of A (↥(N i))) := by
+  -- Step 1: IsInternal gives a linear equivalence (⨁ᵢ N(i)) ≃ₗ[A] A
+  let e₁ := (LinearEquiv.ofBijective (DirectSum.coeLinearMap N) h)
+  -- Step 2: linearEquivFunOnFintype gives (⨁ᵢ ↥(N i)) ≃ₗ[A] (∀ i, ↥(N i))
+  let e₂ := DirectSum.linearEquivFunOnFintype A ι (fun i => ↥(N i))
+  -- Step 3: biproductIsoPi gives ⨁ f ≅ ModuleCat.of A (∀ j, f j) in ModuleCat
+  let e₃ := ModuleCat.biproductIsoPi (fun i => ModuleCat.of A (↥(N i)))
+  -- Compose: A ←≃ ⨁ᵢ N(i) ≃ ∀ i, N(i) ≃← ⨁ (ModuleCat.of A (N i))
+  exact e₁.symm.toModuleIso ≪≫ e₂.toModuleIso ≪≫ e₃.symm
+
 /-! ## Simple module preservation under equivalence -/
 
 /-- An equivalence of categories preserves simple objects: if `F : C ≌ D` is
