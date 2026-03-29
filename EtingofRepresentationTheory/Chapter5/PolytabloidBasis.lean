@@ -589,7 +589,9 @@ private theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
       exact hr ((Finset.mem_filter.mp hpos₁).2.symm.trans (Finset.mem_filter.mp hpos₂).2)
   -- T_fun is surjective (injective function between types of equal finite cardinality)
   have T_surj : Function.Surjective T_fun := by
-    sorry
+    have h_card : Fintype.card (Cell n la) = Fintype.card (Fin n) :=
+      Fintype.card_of_bijective (canonicalFilling n la).bijective |>.symm
+    exact ((Fintype.bijective_iff_injective_and_card T_fun).mpr ⟨T_inj, h_card⟩).2
   -- T_fun is row-increasing (orderEmbOfFin is monotone)
   have T_row_inc : ∀ c₁ c₂ : Cell n la,
       c₁.val.1 = c₂.val.1 → c₁.val.2 < c₂.val.2 → T_fun c₁ < T_fun c₂ := by
