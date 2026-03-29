@@ -48,12 +48,9 @@ The proof is decomposed into two helper lemmas:
 
 ## Proof status
 
-One sorry remains:
-
-1. `cornerFunctor_essSurj`: Requires showing `e(A ⊗_{eAe} N) ≅ N`, the other
-   direction of the evaluation isomorphism.
-
-`cornerFunctor_full` is now sorry-free (lift construction complete).
+All proofs are sorry-free. `cornerFunctor_essSurj`, `cornerFunctor_full`,
+and `cornerFunctor_faithful` are fully proved, giving the Morita equivalence
+`exists_basic_morita_equivalent`.
 -/
 
 universe u
@@ -906,6 +903,7 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
 
 /-! ## Essential surjectivity of the corner functor -/
 
+set_option maxHeartbeats 800000 in
 private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
     letI := CornerRing.instRing (k := k) he.1
     (cornerFunctor (k := k) he.1).EssSurj := by
@@ -1038,8 +1036,10 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
     rw [he.1.eq]
   let inv_fun : Nty → eCorner he.1 (TensorProduct k A Nty ⧸ S) :=
     fun n => ⟨q (e ⊗ₜ[k] n), inv_mem n⟩
-  have inv_add : ∀ n₁ n₂ : Nty, inv_fun (n₁ + n₂) = inv_fun n₁ + inv_fun n₂ :=
-    fun n₁ n₂ => Subtype.ext (by show q (e ⊗ₜ[k] (n₁ + n₂)) = _; rw [TensorProduct.tmul_add, map_add])
+  have inv_add : ∀ n₁ n₂ : Nty, inv_fun (n₁ + n₂) = inv_fun n₁ + inv_fun n₂ := by
+    intro n₁ n₂; apply Subtype.ext
+    show q (e ⊗ₜ[k] (n₁ + n₂)) = (q (e ⊗ₜ[k] n₁) : TensorProduct k A Nty ⧸ S) + q (e ⊗ₜ[k] n₂)
+    rw [TensorProduct.tmul_add, map_add]
   -- Forward-inverse: fwd(inv(n)) = n
   have fwd_inv : ∀ n : Nty, fwd_q_add (inv_fun n).val = n := by
     intro n
@@ -1048,97 +1048,106 @@ private lemma cornerFunctor_essSurj {e : A} (he : IsFullIdempotent e) :
     change cr e • n = n
     have : cr e = 1 := Subtype.ext (by show e * e * e = e; rw [he.1.eq, he.1.eq])
     rw [this, one_smul]
+  -- Helper: ↑(1 : CornerRing e) = e
+  have coe_one : ((1 : CornerRing (k := k) e) : A) = e := rfl
   -- Balanced relation in quotient: q(eae ⊗ n) = q(ea ⊗ n)
   have q_eae_eq_ea : ∀ (a : A) (n : Nty),
       q ((e * a * e) ⊗ₜ[k] n) = q ((e * a) ⊗ₜ[k] n) := by
     intro a n
-    rw [← sub_eq_zero, show (e * a * e) = (e * a) * ((1 : CornerRing (k := k) e) : A)
-      from by simp [mul_assoc]]
-    exact (Submodule.Quotient.mk_eq_zero S).mpr (q_bal_mem (e * a) 1 n)
-  -- Inverse-forward: for any m, inv(fwd(m)).val = e • m
+    rw [← sub_eq_zero, ← map_sub]
+    apply (Submodule.Quotient.mk_eq_zero S).mpr
+    convert q_bal_mem (e * a) 1 n using 1
+    simp only [one_smul, mul_assoc, coe_one]
+  -- Balanced relation helper: q(e ⊗ r•n) = q(e*r ⊗ n)
+  have q_bal_eq : ∀ (r : CornerRing (k := k) e) (n : Nty),
+      q (e ⊗ₜ[k] (r • n)) = q ((e * (r : A)) ⊗ₜ[k] n) := by
+    intro r n
+    have h : q ((e * (r : A)) ⊗ₜ[k] n) - q (e ⊗ₜ[k] (r • n)) = 0 := by
+      rw [← q.map_sub]
+      exact (Submodule.Quotient.mk_eq_zero S).mpr (q_bal_mem e r n)
+    exact (eq_of_sub_eq_zero h).symm
+  -- Inverse-forward: for any m, inv(fwd(m)).val = e • q(m)
   have inv_fwd_all : ∀ t : TensorProduct k A Nty,
       (inv_fun (fwd_tensor t)).val = e • q t := by
     intro t
     induction t using TensorProduct.induction_on with
     | zero => simp [inv_fun, map_zero, smul_zero]
     | tmul a n =>
-      -- fwd_tensor(a ⊗ n) = cr(a) • n
-      -- inv_fun(cr(a) • n).val = q(e ⊗ cr(a) • n)
-      -- By balanced: q(e ⊗ cr(a)•n) = q((e * cr(a)) ⊗ n) = q(eae ⊗ n)
-      -- By q_eae_eq_ea: q(eae ⊗ n) = q(ea ⊗ n) = e • q(a ⊗ n)
       show q (e ⊗ₜ[k] (cr a • n)) = e • q (a ⊗ₜ[k] n)
-      rw [← sub_eq_zero, show e • q (a ⊗ₜ[k] n) = q ((e * a) ⊗ₜ[k] n) from rfl]
-      -- q(e ⊗ cr(a)•n) - q(ea ⊗ n) = q(e ⊗ cr(a)•n - ea ⊗ n)
-      rw [← map_sub]
-      apply (Submodule.Quotient.mk_eq_zero S).mpr
-      -- e ⊗ cr(a)•n - (ea) ⊗ n
-      -- = (e ⊗ cr(a)•n - e*cr(a) ⊗ n) + (eae ⊗ n - ea ⊗ n)
-      -- First part is negative of balanced relation (a'=e, r=cr(a))
-      -- Second part is balanced relation with r=1 (a'=ea)
-      have h1 : e ⊗ₜ[k] (cr a • n) - (e * a) ⊗ₜ[k] n =
-          (e ⊗ₜ[k] (cr a • n) - (e * (cr a : A)) ⊗ₜ[k] n) +
-          ((e * a * e) ⊗ₜ[k] n - (e * a) ⊗ₜ[k] n) := by
-        rw [cornerSubmodule_left_mul (k := k) he.1 (eae_mem a)]
-        abel
-      rw [h1]
-      apply Submodule.add_mem
-      · -- e ⊗ cr(a)•n - e*cr(a) ⊗ n ∈ S  (negated balanced relation)
-        rw [show e ⊗ₜ[k] (cr a • n) - (e * (cr a : A)) ⊗ₜ[k] n =
-          -((e * (cr a : A)) ⊗ₜ[k] n - e ⊗ₜ[k] (cr a • n)) from by abel]
-        exact S.neg_mem (q_bal_mem e (cr a) n)
-      · -- eae ⊗ n - ea ⊗ n ∈ S (balanced relation with r = 1_{eAe})
-        rw [show (e * a * e) ⊗ₜ[k] n - (e * a) ⊗ₜ[k] n =
-          (e * a) * ((1 : CornerRing (k := k) e) : A) ⊗ₜ[k] n -
-            (e * a) ⊗ₜ[k] ((1 : CornerRing (k := k) e) • n) from by simp [mul_assoc]]
-        exact q_bal_mem (e * a) 1 n
+      -- q(e ⊗ cr(a)•n) = q(e*cr(a) ⊗ n) = q(eae ⊗ n) = q(ea ⊗ n) = e • q(a ⊗ n)
+      rw [q_bal_eq (cr a) n, cornerSubmodule_left_mul (k := k) he.1 (eae_mem a), q_eae_eq_ea]
+      exact (q.map_smul e (a ⊗ₜ[k] n)).symm
     | add x y ihx ihy =>
-      simp only [map_add, smul_add]
-      show (inv_fun (fwd_tensor x + fwd_tensor y)).val = _ + _
-      have : inv_fun (fwd_tensor x + fwd_tensor y) =
-          inv_fun (fwd_tensor x) + inv_fun (fwd_tensor y) := inv_add _ _
-      rw [this]; exact congr_arg₂ (· + ·) ihx ihy
+      simp only [map_add (f := q), map_add (f := fwd_tensor), smul_add]
+      have hadd : (inv_fun (fwd_tensor x + fwd_tensor y)).val =
+          (inv_fun (fwd_tensor x)).val + (inv_fun (fwd_tensor y)).val :=
+        congr_arg Subtype.val (inv_add (fwd_tensor x) (fwd_tensor y))
+      rw [hadd, ihx, ihy]
   -- Round trip for eM
   have inv_fwd : ∀ m : eCorner he.1 (TensorProduct k A Nty ⧸ S),
       inv_fun (fwd_q_add m.val) = m := by
     intro ⟨m, hm⟩
     apply Subtype.ext
-    exact Submodule.Quotient.induction_on m (fun t ht => by
-      rw [fwd_q_rep, inv_fwd_all, ht]) hm
+    suffices h : (inv_fun (fwd_q_add m)).val = e • m by rw [h, hm]
+    clear hm
+    induction m using Submodule.Quotient.induction_on with
+    | H t =>
+      change (inv_fun (fwd_q_add (q t))).val = e • q t
+      rw [fwd_q_rep, inv_fwd_all]
   -- inv_fun is CornerRing-linear
   have inv_smul : ∀ (r : CornerRing (k := k) e) (n : Nty),
       inv_fun (r • n) = r • inv_fun n := by
     intro r n; apply Subtype.ext
     show q (e ⊗ₜ[k] (r • n)) = (r : A) • q (e ⊗ₜ[k] n)
-    -- balanced: e*(r:A) ⊗ n - e ⊗ r•n ∈ S, so q(e ⊗ r•n) = q(e*(r:A) ⊗ n)
-    have hbal : q (e ⊗ₜ[k] (r • n)) = q ((e * (r : A)) ⊗ₜ[k] n) := by
-      rw [← sub_eq_zero]
-      exact (Submodule.Quotient.mk_eq_zero S).mpr (q_bal_mem e r n)
-    rw [hbal]
-    -- (r:A) • q(e ⊗ n) = q((r:A) • (e ⊗ n)) = q((r:A)*e ⊗ n) = q((r:A) ⊗ n)
-    -- And e*(r:A) = (r:A) by left_mul
-    change q ((e * (r : A)) ⊗ₜ[k] n) = q (((r : A) * e) ⊗ₜ[k] n)
+    rw [q_bal_eq r n, ← q.map_smul]
+    -- q(e*r ⊗ n) = q((r:A) • (e ⊗ n)) = q((r:A)*e ⊗ n)
+    -- e*r = r by left_mul, (r:A)*e = r by right_mul
+    congr 1
+    change (e * (r : A)) ⊗ₜ[k] n = ((r : A) * e) ⊗ₜ[k] n
     rw [cornerSubmodule_left_mul (k := k) he.1 r.prop,
         cornerSubmodule_right_mul (k := k) he.1 r.prop]
+  -- fwd_tensor is CornerRing-equivariant via A-action
+  have fwd_A_smul : ∀ (r : CornerRing (k := k) e) (t : TensorProduct k A Nty),
+      fwd_tensor ((r : A) • t) = r • fwd_tensor t := by
+    intro r t
+    induction t using TensorProduct.induction_on with
+    | zero => simp [smul_zero, map_zero]
+    | tmul a n =>
+      change cr ((↑r : A) * a) • n = r • (cr a • n)
+      rw [← mul_smul]; congr 1
+      apply Subtype.ext
+      change e * ((↑r : A) * a) * e = (↑r : A) * (e * a * e)
+      have hleft := cornerSubmodule_left_mul (k := k) he.1 r.prop
+      have hright := cornerSubmodule_right_mul (k := k) he.1 r.prop
+      have h1 : e * ((↑r : A) * a) * e = ↑r * a * e := by
+        conv_lhs => rw [show e * (↑r * a) * e = (e * ↑r) * a * e from by
+          simp only [mul_assoc], hleft]
+      have h2 : (↑r : A) * (e * a * e) = ↑r * a * e := by
+        conv_lhs => rw [show (↑r : A) * (e * a * e) = (↑r * e) * a * e from by
+          simp only [mul_assoc], hright]
+      rw [h1, h2]
+    | add x y ihx ihy =>
+      rw [smul_add, map_add, map_add, ihx, ihy, smul_add]
   -- Construct the isomorphism in ModuleCat
   refine ⟨M, ⟨?_⟩⟩
-  -- cornerFunctor.obj M = ModuleCat.of (CornerRing e) (eCorner he.1 M)
-  -- We need an iso to N
   exact
     { hom := ModuleCat.ofHom
         { toFun := fun m => fwd_q_add m.val
           map_add' := fun m₁ m₂ => by simp [map_add]
           map_smul' := fun r m => by
             change fwd_q_add ((r : A) • m.val) = r • fwd_q_add m.val
-            -- (r:A) • m.val for m ∈ eM means r acts via A on the quotient
-            -- fwd_q_add((r:A) • q(t)) = fwd_q_add(q((r:A) • t)) = fwd_tensor((r:A) • t)
-            -- This needs careful treatment since fwd_q_add is NOT A-linear
-            -- But for r ∈ eAe and m ∈ eM, we have a special structure
-            sorry }
+            obtain ⟨mval, hm⟩ := m
+            induction mval using Submodule.Quotient.induction_on with
+            | H t =>
+              change fwd_q_add (q ((↑r : A) • t)) = r • fwd_tensor t
+              rw [fwd_q_rep, fwd_A_smul] }
       inv := ModuleCat.ofHom
         { toFun := inv_fun
           map_add' := inv_add
           map_smul' := fun r n => by rw [RingHom.id_apply]; exact inv_smul r n }
-      hom_inv_id := by ext ⟨m, hm⟩; exact Subtype.ext (by exact congr_arg Subtype.val (inv_fwd ⟨m, hm⟩))
+      hom_inv_id := by
+        ext ⟨m, hm⟩
+        exact Subtype.ext (congr_arg Subtype.val (inv_fwd ⟨m, hm⟩))
       inv_hom_id := by ext n; exact fwd_inv n }
 
 /-! ## Helper: Morita equivalence via full idempotent
