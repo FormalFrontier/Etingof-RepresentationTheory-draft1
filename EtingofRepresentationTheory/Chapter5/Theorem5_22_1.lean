@@ -664,6 +664,45 @@ projector against the diagonal GL action:
 where the trace of σ acting on `V^{⊗n}` restricted to a diagonal matrix `diag(x₁,…,x_N)`
 gives `permTracePoly N σ`. -/
 
+/-- The normalized Young symmetrizer `α⁻¹ • E` is an idempotent projection
+onto the Schur module submodule. -/
+private theorem youngSymEndomorphism_normalized_isProj
+    (k' : Type*) [Field k'] (N : ℕ) (lam : Fin N → ℕ)
+    (α : k') (hα : α ≠ 0)
+    (hα_sq : YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam) *
+      YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam) =
+      α • YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam)) :
+    LinearMap.IsProj (SchurModuleSubmodule k' N lam) (α⁻¹ • youngSymEndomorphism k' N lam) where
+  map_mem x := by
+    simp only [LinearMap.smul_apply, SchurModuleSubmodule, LinearMap.mem_range]
+    exact ⟨α⁻¹ • x, by rw [map_smul]⟩
+  map_id x hx := by
+    simp only [LinearMap.smul_apply]
+    rw [youngSymEndomorphism_apply_on_range k' N lam α hα_sq x hx]
+    rw [smul_smul, inv_mul_cancel₀ hα, one_smul]
+
+/-- The normalized Young symmetrizer is idempotent. -/
+private theorem youngSymEndomorphism_normalized_isIdempotent
+    (k' : Type*) [Field k'] (N : ℕ) (lam : Fin N → ℕ)
+    (α : k') (hα : α ≠ 0)
+    (hα_sq : YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam) *
+      YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam) =
+      α • YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam)) :
+    IsIdempotentElem (α⁻¹ • youngSymEndomorphism k' N lam) :=
+  (youngSymEndomorphism_normalized_isProj k' N lam α hα hα_sq).isIdempotentElem
+
+/-- The trace of the normalized Young symmetrizer on V⊗n equals the dimension of the
+Schur module. This follows from `IsProj.trace`. -/
+private theorem trace_normalized_youngSym_eq_finrank
+    (N : ℕ) (lam : Fin N → ℕ)
+    (α : ℚ) (hα : α ≠ 0)
+    (hα_sq : YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) *
+      YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) =
+      α • YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam)) :
+    LinearMap.trace ℚ _ (α⁻¹ • youngSymEndomorphism ℚ N lam) =
+      (Module.finrank ℚ (SchurModuleSubmodule ℚ N lam) : ℚ) :=
+  (youngSymEndomorphism_normalized_isProj ℚ N lam α hα hα_sq).trace
+
 /-- **Trace formula**: The formal character of the Schur module equals
 `α⁻¹ · ∑_{σ ∈ S_n} c_λ(σ) · permTracePoly(N, σ)`.
 
