@@ -24,7 +24,7 @@ where `charValue` uses N variables (dim V) with S_n permutations (n = |λ|).
 
 * `coeff_powerSumCycleProduct_eq_card`: The coefficient of x^α in the power sum cycle
   product equals the number of generalized cycle colorings
-* `powerSum_bilinear_coeff_gen`: The generalized bilinear Cauchy identity (sorry'd)
+* `powerSum_bilinear_coeff_gen`: The generalized bilinear Cauchy identity
 -/
 
 open MvPolynomial Finset
@@ -637,15 +637,129 @@ private theorem card_NNMatrixWithMarginsGen_eq_card_NNMatrixWithMargins
       refine Subtype.ext (funext fun i => funext fun j => Fin.ext ?_); simp
   }
 
+/-- Coefficient of invOfUnit(1-xy, 1) over ℚ, transferred from the ℂ version. -/
+private theorem coeff_invOfUnit_one_sub_xy_rat (i j : Fin N) (e : CauchyVars N →₀ ℕ) :
+    MvPowerSeries.coeff e
+      (MvPowerSeries.invOfUnit
+        (1 - MvPowerSeries.X (Sum.inl i : CauchyVars N) *
+             MvPowerSeries.X (Sum.inr j : CauchyVars N) : MvPowerSeries (CauchyVars N) ℚ) 1) =
+    if e = e (Sum.inl i) • (Finsupp.single (Sum.inl i) 1 + Finsupp.single (Sum.inr j) 1)
+    then 1 else 0 := by
+  have h_inj : Function.Injective (algebraMap ℚ ℂ) := Rat.cast_injective
+  apply h_inj
+  rw [show (algebraMap ℚ ℂ) (MvPowerSeries.coeff e (MvPowerSeries.invOfUnit _ _)) =
+      MvPowerSeries.coeff e (MvPowerSeries.map (algebraMap ℚ ℂ)
+        (MvPowerSeries.invOfUnit _ _)) from by rw [MvPowerSeries.coeff_map]]
+  rw [map_invOfUnit_one_sub_xy]
+  rw [coeff_invOfUnit_one_sub_xy]
+  split <;> simp [*]
+
+/-- The full Cauchy product over ℚ as a product over pairs. -/
+private theorem fullCauchyProd_eq_prod_pairs_gen :
+    fullCauchyProd N ℚ = ∏ p : Fin N × Fin N,
+      MvPowerSeries.invOfUnit
+        (1 - MvPowerSeries.X (Sum.inl p.1 : CauchyVars N) *
+             MvPowerSeries.X (Sum.inr p.2 : CauchyVars N) : MvPowerSeries (CauchyVars N) ℚ)
+        (1 : ℚˣ) := by
+  unfold fullCauchyProd
+  rw [Fintype.prod_prod_type]
+
 theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
     (hα : ∀ i, α i ≤ n) :
     MvPowerSeries.coeff (bilinExponent N α β) (fullCauchyProd N ℚ) =
     ↑(Fintype.card (NNMatrixWithMarginsGen N (n := n) α β)) := by
-  -- Transfer from ℂ via the ring map ℚ → ℂ
-  have h_map : (algebraMap ℚ ℂ) (MvPowerSeries.coeff (bilinExponent N α β) (fullCauchyProd N ℚ)) =
-      MvPowerSeries.coeff (bilinExponent N α β) (fullCauchyProd N ℂ) := by
-    rw [← MvPowerSeries.coeff_map, map_fullCauchyProd]
-  sorry
+  rw [fullCauchyProd_eq_prod_pairs_gen]
+  rw [MvPowerSeries.coeff_prod]
+  simp_rw [coeff_invOfUnit_one_sub_xy_rat, Finset.prod_boole,
+    Finset.mem_univ, forall_true_left, Finset.sum_boole]
+  norm_cast
+  -- Bijection: valid antidiag elements ↔ NNMatrixWithMarginsGen
+  set xyMon : Fin N × Fin N → CauchyVars N →₀ ℕ :=
+    fun p => Finsupp.single (Sum.inl p.1) 1 + Finsupp.single (Sum.inr p.2) 1
+  -- Extract row/col sum lemmas from antidiag membership
+  have extract_row : ∀ (x : (Fin N × Fin N) →₀ (CauchyVars N →₀ ℕ)),
+      x ∈ Finset.univ.finsuppAntidiag (bilinExponent N α β) →
+      (∀ p, x p = (x p) (Sum.inl p.1) • xyMon p) →
+      ∀ i, ∑ j, (x (i, j)) (Sum.inl i) = α i := by
+    intro x hx hvalid i
+    have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx).1 (Sum.inl i)
+    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inl] at h
+    rw [Fintype.sum_prod_type, Finset.sum_eq_single i _ _] at h
+    · exact h
+    · intro i' _ hi'
+      exact Finset.sum_eq_zero fun j _ => by
+        have := DFunLike.congr_fun (hvalid (i', j)) (Sum.inl i)
+        simp [xyMon, Finsupp.single_apply, hi'] at this; exact this
+    · exact fun h' => absurd (Finset.mem_univ i) h'
+  have extract_col : ∀ (x : (Fin N × Fin N) →₀ (CauchyVars N →₀ ℕ)),
+      x ∈ Finset.univ.finsuppAntidiag (bilinExponent N α β) →
+      (∀ p, x p = (x p) (Sum.inl p.1) • xyMon p) →
+      ∀ j, ∑ i, (x (i, j)) (Sum.inl i) = β j := by
+    intro x hx hvalid j
+    have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx).1 (Sum.inr j)
+    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inr] at h
+    rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j _ _] at h
+    · rwa [show (∑ i, (x (i, j)) (Sum.inr j)) = ∑ i, (x (i, j)) (Sum.inl i) from
+        Finset.sum_congr rfl fun i _ => by
+          have := DFunLike.congr_fun (hvalid (i, j)) (Sum.inr j)
+          simp [xyMon, Finsupp.single_apply] at this; exact this] at h
+    · intro j' _ hj'
+      exact Finset.sum_eq_zero fun i _ => by
+        have := DFunLike.congr_fun (hvalid (i, j')) (Sum.inr j)
+        simp [xyMon, Finsupp.single_apply, hj'] at this; exact this
+    · exact fun h' => absurd (Finset.mem_univ j) h'
+  have entry_bound : ∀ (x : (Fin N × Fin N) →₀ (CauchyVars N →₀ ℕ)),
+      x ∈ Finset.univ.finsuppAntidiag (bilinExponent N α β) →
+      (∀ p, x p = (x p) (Sum.inl p.1) • xyMon p) →
+      ∀ i j, (x (i, j)) (Sum.inl i) < n + 1 := by
+    intro x hx hvalid i j
+    apply Nat.lt_succ_of_le; apply le_trans _ (hα i)
+    calc (x (i, j)) (Sum.inl i)
+        ≤ ∑ j' : Fin N, (x (i, j')) (Sum.inl i) :=
+          Finset.single_le_sum (f := fun j' => (x (i, j')) (Sum.inl i))
+            (fun _ _ => Nat.zero_le _) (Finset.mem_univ j)
+      _ = α i := extract_row x hx hvalid i
+  change #_ = #(Finset.univ : Finset (NNMatrixWithMarginsGen N (n := n) α β))
+  apply Finset.card_bij'
+    (fun x hx =>
+      let hmem := (Finset.mem_filter.mp hx).1
+      let hvalid := (Finset.mem_filter.mp hx).2
+      ⟨fun i j => ⟨(x (i, j)) (Sum.inl i), entry_bound x hmem hvalid i j⟩,
+       extract_row x hmem hvalid, extract_col x hmem hvalid⟩)
+    (fun K _ =>
+      Finsupp.equivFunOnFinite.symm (fun p => (K.1 p.1 p.2 : ℕ) • xyMon p))
+    (fun _ _ => Finset.mem_univ _)
+    (fun K _ => by
+      apply Finset.mem_filter.mpr
+      constructor
+      · rw [Finset.mem_finsuppAntidiag]
+        constructor
+        · apply DFunLike.ext; intro v
+          simp only [Finsupp.coe_finset_sum, Finset.sum_apply,
+            Finsupp.coe_equivFunOnFinite_symm]
+          cases v with
+          | inl i =>
+            rw [bilinExponent_inl, Fintype.sum_prod_type]
+            simp only [xyMon, Finsupp.smul_apply, smul_eq_mul,
+              Finsupp.coe_add, Pi.add_apply, Finsupp.single_apply]
+            simp [Finset.sum_ite_eq']
+            exact K.2.1 i
+          | inr j =>
+            rw [bilinExponent_inr, Fintype.sum_prod_type, Finset.sum_comm]
+            simp only [xyMon, Finsupp.smul_apply, smul_eq_mul,
+              Finsupp.coe_add, Pi.add_apply, Finsupp.single_apply]
+            simp [Finset.sum_ite_eq']
+            exact K.2.2 j
+        · exact Finset.subset_univ _
+      · intro p; simp [xyMon]
+      )
+    (fun x hx => by
+      apply DFunLike.ext; intro ⟨i, j⟩
+      simp only [Finsupp.coe_equivFunOnFinite_symm, xyMon]
+      exact ((Finset.mem_filter.mp hx).2 (i, j)).symm)
+    (fun K _ => by
+      refine Subtype.ext (funext fun i => funext fun j => Fin.ext ?_)
+      simp [xyMon, Finsupp.single_apply])
 
 /-- **Generalized Power Sum Cauchy Identity** (coefficient-level bilinear version):
 
