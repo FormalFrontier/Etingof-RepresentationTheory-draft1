@@ -434,6 +434,104 @@ private lemma iteratedReversed_hom_to_mem
       rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha' hb_vs]
       exact ReversedAtVertexHom_ne_ne hbv hav
 
+/-- Edge from a participant `a` to a non-participant `b` in the iterated reversed
+quiver equals the reverse-direction edge `b ⟶ a` in the original quiver Q.
+
+Symmetric analog of `iteratedReversed_hom_to_mem` with the roles swapped. -/
+private lemma iteratedReversed_hom_from_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a : Fin n} (ha : a ∈ vs) {b : Fin n} (hb : b ∉ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q b a := by
+  induction vs generalizing Q with
+  | nil => simp at ha
+  | cons v vs ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp ha with rfl | ha_vs
+    · -- a = v (head): reversal at a flips the edge, rest doesn't touch it
+      have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
+      have hba : b ≠ a := fun h => hb (List.mem_cons.mpr (Or.inl h.symm))
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) vs) a b = _
+      rw [iteratedReversed_hom_not_mem _ vs hvs.1 hb']
+      exact ReversedAtVertexHom_eq_ne rfl hba
+    · -- a ∈ vs (tail): reversal at v is transparent, IH handles
+      have hb' : b ∉ vs := fun h => hb (List.mem_cons.mpr (Or.inr h))
+      have hav : a ≠ v := fun h => hvs.1 (h ▸ ha_vs)
+      have hbv : b ≠ v := fun h => hb (List.mem_cons.mpr (Or.inl h))
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) vs) a b = _
+      rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_vs hb']
+      exact ReversedAtVertexHom_ne_ne (Ne.symm hbv) (Ne.symm hav)
+
+/-- When both endpoints are in the reversal list (and distinct), the iterated
+reversal preserves the hom type. Each endpoint causes one flip; two flips cancel. -/
+private lemma iteratedReversed_hom_both_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a b : Fin n} (ha : a ∈ vs) (hb : b ∈ vs) (hab : a ≠ b) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b =
+    @Quiver.Hom (Fin n) Q a b := by
+  induction vs generalizing Q with
+  | nil => simp at ha
+  | cons v rest ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp ha with rfl | ha_rest
+    · -- a = v: a ∉ rest (nodup), b ∈ rest (b ≠ a and b ∈ v :: rest)
+      have hb_rest : b ∈ rest := (List.mem_cons.mp hb).resolve_left (Ne.symm hab)
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) rest) a b = _
+      -- a ∉ rest, b ∈ rest → to_mem gives Hom = Hom_{reversed Q at a}(b, a)
+      rw [iteratedReversed_hom_to_mem _ rest hvs.2 hvs.1 hb_rest]
+      -- Hom_{reversed Q at a}(b, a): b ≠ a, a = a → ne_eq → Hom_Q(a, b)
+      exact ReversedAtVertexHom_ne_eq (Ne.symm hab) rfl
+    · rcases List.mem_cons.mp hb with rfl | hb_rest
+      · -- b = v: b ∉ rest, a ∈ rest
+        show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q b) rest) a b = _
+        -- a ∈ rest, b ∉ rest → from_mem gives Hom = Hom_{reversed Q at b}(b, a)
+        rw [iteratedReversed_hom_from_mem _ rest hvs.2 ha_rest hvs.1]
+        -- Hom_{reversed Q at b}(b, a): b = b, a ≠ b → eq_ne → Hom_Q(a, b)
+        exact ReversedAtVertexHom_eq_ne rfl hab
+      · -- Both a, b ∈ rest: IH
+        have hav : a ≠ v := fun h => hvs.1 (h ▸ ha_rest)
+        have hbv : b ≠ v := fun h => hvs.1 (h ▸ hb_rest)
+        show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) rest) a b = _
+        rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_rest hb_rest]
+        exact ReversedAtVertexHom_ne_ne hav hbv
+
+/-- Self-loops are unchanged by iterated reversal (when the vertex is in the list).
+Reversal at a vertex preserves self-loops, and reversal at other vertices doesn't
+touch the vertex. -/
+private lemma iteratedReversed_hom_self_mem
+    (Q : Quiver (Fin n)) (vs : List (Fin n)) (hvs : vs.Nodup)
+    {a : Fin n} (ha : a ∈ vs) :
+    @Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a a =
+    @Quiver.Hom (Fin n) Q a a := by
+  induction vs generalizing Q with
+  | nil => simp at ha
+  | cons v rest ih =>
+    rw [List.nodup_cons] at hvs
+    rcases List.mem_cons.mp ha with rfl | ha_rest
+    · -- a = v: reversal at a preserves self-loop, rest doesn't touch a
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q a) rest) a a = _
+      rw [iteratedReversed_hom_not_mem _ rest hvs.1 hvs.1]
+      exact ReversedAtVertexHom_eq_eq rfl rfl
+    · -- a ∈ rest: reversal at v (v ≠ a) doesn't touch (a,a), IH handles rest
+      have hav : a ≠ v := fun h => hvs.1 (h ▸ ha_rest)
+      show @Quiver.Hom _ (iteratedReversedAtVertices (@reversedAtVertex _ _ Q v) rest) a a = _
+      rw [ih (@reversedAtVertex _ _ Q v) hvs.2 ha_rest]
+      exact ReversedAtVertexHom_ne_ne hav hav
+
+/-- Iterating reversals over a permutation of ALL vertices recovers the original quiver.
+Each edge is reversed exactly twice (once for each endpoint), which is the identity. -/
+private theorem iteratedReversedAtVertices_perm_eq
+    (Q : Quiver (Fin n)) (σ : List (Fin n)) (hσ : σ.Perm (List.finRange n)) :
+    iteratedReversedAtVertices Q σ = Q := by
+  apply Quiver.ext'
+  intro a b
+  have hnodup := hσ.nodup_iff.mpr (List.nodup_finRange n)
+  have ha : a ∈ σ := hσ.mem_iff.mpr (List.mem_finRange a)
+  have hb : b ∈ σ := hσ.mem_iff.mpr (List.mem_finRange b)
+  by_cases hab : a = b
+  · subst hab; exact iteratedReversed_hom_self_mem Q σ hnodup ha
+  · exact iteratedReversed_hom_both_mem Q σ hnodup ha hb hab
+
 /-- A topological sort of a Dynkin quiver exists: a permutation of vertices
 where ordering[k] has no Q-outgoing edges to ordering[m] for m ≥ k. -/
 private theorem exists_topoSort
