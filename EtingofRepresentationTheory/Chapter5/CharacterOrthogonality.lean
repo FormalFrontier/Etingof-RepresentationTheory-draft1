@@ -112,15 +112,49 @@ theorem charValue_as_alternating_coeff
     (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts))
     (MvPolynomial.psumPart (Fin N) ℚ μ)
 
+/-- Sum of shifted minus permuted vandermondeExps equals n. -/
+private lemma sum_shiftedExps_sub_permVandermondeExp
+    (N : ℕ) {n : ℕ} (lam : BoundedPartition N n)
+    (π : Equiv.Perm (Fin N))
+    (hle : ∀ i, permVandermondeExp N π i ≤ shiftedExps N lam.parts i) :
+    ∑ i, (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts) -
+      Finsupp.equivFunOnFinite.symm (permVandermondeExp N π) : Fin N →₀ ℕ) i = n := by
+  -- Simplify Finsupp evaluations
+  have heval : ∀ (f : Fin N → ℕ) (i : Fin N),
+      (Finsupp.equivFunOnFinite.symm f : Fin N →₀ ℕ) i = f i := by
+    intros; simp [Finsupp.equivFunOnFinite]
+  simp_rw [show ∀ i, (Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts) -
+      Finsupp.equivFunOnFinite.symm (permVandermondeExp N π) : Fin N →₀ ℕ) i =
+      shiftedExps N lam.parts i - permVandermondeExp N π i from by
+    intro i; simp [Finsupp.equivFunOnFinite, Finsupp.coe_tsub, heval]]
+  -- ∑(a - b) + ∑ b = ∑ a when b ≤ a pointwise, so ∑(a - b) = ∑ a - ∑ b
+  have key : ∑ i : Fin N, (shiftedExps N lam.parts i - permVandermondeExp N π i) +
+      ∑ i : Fin N, permVandermondeExp N π i =
+      ∑ i : Fin N, shiftedExps N lam.parts i := by
+    rw [← Finset.sum_add_distrib]
+    exact Finset.sum_congr rfl fun i _ => Nat.sub_add_cancel (hle i)
+  -- ∑ shiftedExps = ∑ lam.parts + ∑ vandermondeExps = n + ∑ vandermondeExps
+  have hsum_shifted : ∑ i : Fin N, shiftedExps N lam.parts i =
+      n + ∑ i : Fin N, vandermondeExps N i := by
+    unfold shiftedExps vandermondeExps
+    rw [show ∑ i : Fin N, (lam.parts i + (N - 1 - ↑i)) =
+        ∑ i : Fin N, lam.parts i + ∑ i : Fin N, (N - 1 - (↑i : ℕ)) from
+      Finset.sum_add_distrib]
+    rw [lam.sum_eq]
+  -- ∑ permVandermondeExp = ∑ vandermondeExps (permutation invariance)
+  have hsum_perm : ∑ i : Fin N, permVandermondeExp N π i =
+      ∑ i : Fin N, vandermondeExps N i :=
+    Fintype.sum_equiv π⁻¹ _ _ (fun _ => rfl)
+  omega
+
 /-! ### Step 2: Bilinear sum over permutations -/
 
 /-- **Bilinear expansion**: the sum of products of character values over all
 permutations σ ∈ Sₙ equals a double alternating sum of fullCauchyProd
 coefficients (times n!).
 
-This uses `powerSum_bilinear_coeff_gen` (which carries a sorry from its
-dependency chain) to convert `∑_σ coeff_α(P_σ) · coeff_β(P_σ)` into
-`n! · fullCauchyProd` coefficients. -/
+This uses `powerSum_bilinear_coeff_gen` to convert
+`∑_σ coeff_α(P_σ) · coeff_β(P_σ)` into `n! · fullCauchyProd` coefficients. -/
 theorem charValue_product_sum_eq_alternating_cauchy
     (N : ℕ) {n : ℕ} (lam lam' : BoundedPartition N n) :
     (∑ σ : Equiv.Perm (Fin n),
@@ -137,7 +171,58 @@ theorem charValue_product_sum_eq_alternating_cauchy
                 (fun i => shiftedExps N lam'.parts i - permVandermondeExp N τ i))
               (fullCauchyProd N ℚ)
        else 0) := by
-  sorry
+  -- Step 1: Expand charValue using the alternant expansion
+  simp_rw [charValue_as_alternating_coeff]
+  -- Step 2: Each summand is a product of two alternating sums
+  -- ∑_σ (∑_π sign(π)*f_π(σ)) * (∑_τ sign(τ)*g_τ(σ))
+  -- = ∑_σ ∑_π ∑_τ sign(π)*sign(τ)*f_π(σ)*g_τ(σ)
+  simp_rw [Finset.sum_mul_sum]
+  -- Step 3: Exchange sum order: ∑_σ ∑_π ∑_τ → ∑_π ∑_τ ∑_σ
+  rw [Finset.sum_comm]
+  simp_rw [Finset.sum_comm (s := Finset.univ (α := Equiv.Perm (Fin n)))]
+  -- Now: ∑_π ∑_τ ∑_σ sign(π)*f_π(σ) * sign(τ)*g_τ(σ)
+  -- Step 4: Factor n! out and match term by term
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl; intro π _
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl; intro τ _
+  -- Factor out signs and merge conditionals
+  set hcondπ := ∀ i, permVandermondeExp N π i ≤ shiftedExps N lam.parts i
+  set hcondτ := ∀ i, permVandermondeExp N τ i ≤ shiftedExps N lam'.parts i
+  set sπ := (↑(Equiv.Perm.sign π : ℤ) : ℚ)
+  set sτ := (↑(Equiv.Perm.sign τ : ℤ) : ℚ)
+  set α' := Finsupp.equivFunOnFinite.symm (shiftedExps N lam.parts) -
+      Finsupp.equivFunOnFinite.symm (permVandermondeExp N π)
+  set β' := Finsupp.equivFunOnFinite.symm (shiftedExps N lam'.parts) -
+      Finsupp.equivFunOnFinite.symm (permVandermondeExp N τ)
+  -- Each summand: sπ * (if hcondπ then ... else 0) * (sτ * (if hcondτ then ... else 0))
+  -- = sπ * sτ * (if hcondπ ∧ hcondτ then ... * ... else 0)
+  have aux : ∀ (a b c d : ℚ) (P Q : Prop) [Decidable P] [Decidable Q],
+      (a * if P then c else 0) * (b * if Q then d else 0) =
+      a * b * if P ∧ Q then c * d else 0 := by
+    intros; split_ifs <;> simp_all <;> ring
+  simp_rw [aux]
+  rw [← Finset.mul_sum]
+  split_ifs with h
+  · -- Both conditions hold: apply powerSum_bilinear_coeff_gen
+    obtain ⟨hπ, hτ⟩ := h
+    -- Replace psumPart with powerSumCycleProduct
+    simp_rw [← powerSumCycleProduct_eq_psumPart]
+    -- Need sum hypotheses for powerSum_bilinear_coeff_gen
+    have hα_sum : ∑ i, α' i = n :=
+      sum_shiftedExps_sub_permVandermondeExp N lam π hπ
+    have hβ_sum : ∑ i, β' i = n :=
+      sum_shiftedExps_sub_permVandermondeExp N lam' τ hτ
+    rw [powerSum_bilinear_coeff_gen N α' β' hα_sum hβ_sum]
+    -- Now: sπ * sτ * (n! * coeff) = n! * (sπ * sτ * coeff)
+    -- with matching bilinExponent
+    have hbilin : bilinExponent N (⇑α') (⇑β') =
+        bilinExponent N (fun i => shiftedExps N lam.parts i - permVandermondeExp N π i)
+          (fun i => shiftedExps N lam'.parts i - permVandermondeExp N τ i) := by
+      ext v; cases v <;> simp [bilinExponent, α', β', Finsupp.equivFunOnFinite]
+    rw [hbilin]; ring
+  · -- At least one condition fails: both sides are zero
+    simp
 
 /-! ### Step 3: Connecting to vandermonde_cauchy_general -/
 
