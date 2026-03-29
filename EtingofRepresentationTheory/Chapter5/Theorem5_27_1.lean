@@ -714,10 +714,10 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
           -- g is in σ, supported only on q₀ with g(q₀) ≠ 0
           -- Step 1: Move g to the identity coset [1] via G-action
           set q₁ := (⟦(1 : G)⟧ : G ⧸ stabAux φ χ) with hq₁_def
-          -- Act by (1, q₀.out) to move support from q₀ to q₀.out⁻¹ • q₀ = [1]
-          set g₁ := ρ ⟨1, q₀.out⟩ g with hg₁_def
-          have hg₁_mem : g₁ ∈ σ.toSubmodule := hσ_inv ⟨1, q₀.out⟩ g hg_mem
-          -- g₁ is supported on q₀.out⁻¹ • q₀ = [1]
+          -- Act by (1, q₀.out⁻¹) to move support from q₀ to q₀.out⁻¹ • q₀ = [1]
+          -- (ρ(1,s)(f) supported on s • q₀ when f supported on q₀)
+          set g₁ := ρ ⟨1, q₀.out⁻¹⟩ g with hg₁_def
+          have hg₁_mem : g₁ ∈ σ.toSubmodule := hσ_inv ⟨1, q₀.out⁻¹⟩ g hg_mem
           have hg₁_supp_target : q₀.out⁻¹ • q₀ = q₁ := by
             rw [hq₁_def, ← MulAction.Quotient.coe_smul_out (H := stabAux φ χ)]
             simp [smul_eq_mul, inv_mul_cancel]
@@ -730,6 +730,27 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
               ext q; simp [Finset.sum_apply, Pi.single_apply]
             rw [this]
             exact σ.toSubmodule.sum_mem (fun q _ => h_single q (x q))
+          -- First show Pi.single q₁ u ∈ σ for all u, using simplicity of U
+          -- Define the subspace S = {u ∈ U | Pi.single q₁ u ∈ σ}
+          have h_at_q₁ : ∀ u, Pi.single q₁ u ∈ σ.toSubmodule := by
+            sorry
+          -- For any coset q, Pi.single q u ∈ σ
+          -- Transport via G-action: ρ(1, q.out) maps V_{q₁} to V_q
+          intro q u
+          -- The transition element when acting by (1, q.out) on V_{q₁}
+          -- is q₁.out ∈ H (stabilizer). Pre-apply its inverse.
+          -- q₁.out ∈ H since [q₁.out] = q₁ = [1]
+          have hq₁_out_mem : q₁.out ∈ stabAux φ χ := by
+            have := QuotientGroup.leftRel_apply.mp (Quotient.exact' (QuotientGroup.out_eq' q₁))
+            simpa using (stabAux φ χ).inv_mem this
+          set t : ↥(stabAux φ χ) := ⟨q₁.out, hq₁_out_mem⟩
+          set u' := FDRep.ρ U t⁻¹ u
+          -- Pi.single q₁ u' ∈ σ
+          have hu'_mem := h_at_q₁ u'
+          -- ρ(1, q.out)(Pi.single q₁ u') ∈ σ
+          have h_acted := hσ_inv ⟨1, q.out⟩ _ hu'_mem
+          -- ρ(1, q.out)(Pi.single q₁ u') = Pi.single q u
+          -- so Pi.single q u ∈ σ
           sorry }
   exact simple_of_isSimpleModule_asModule' ρ
 
