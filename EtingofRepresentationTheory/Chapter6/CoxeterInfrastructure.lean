@@ -1182,17 +1182,31 @@ derivation for `ArrowsInto` which is needed by Proposition 6.6.8. -/
 /-- `Subsingleton` for Hom types is preserved by `reversedAtVertex`.
 Each case of `ReversedAtVertexHom` reduces to an original Hom type. -/
 private lemma subsingleton_hom_reversedAtVertex
-    {Q : Quiver (Fin n)} [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    [inst : DecidableEq (Fin n)]
+    {Q : Quiver (Fin n)} [hSS : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
     (p : Fin n) (a b : Fin n) :
-    Subsingleton (@Quiver.Hom (Fin n) (@reversedAtVertex (Fin n) _ Q p) a b) := by
-  sorry
+    Subsingleton (@Quiver.Hom (Fin n) (@reversedAtVertex (Fin n) inst Q p) a b) := by
+  constructor
+  intro x y
+  revert x y
+  change ∀ (x y : ReversedAtVertexHom (Fin n) p a b), x = y
+  unfold ReversedAtVertexHom
+  cases inst a p <;> cases inst b p <;> exact fun x y => Subsingleton.elim x y
 
 /-- `Subsingleton` for Hom types is preserved by `iteratedReversedAtVertices`. -/
 private lemma subsingleton_hom_iteratedReversed
     {Q : Quiver (Fin n)} [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
     (vs : List (Fin n)) (a b : Fin n) :
     Subsingleton (@Quiver.Hom (Fin n) (iteratedReversedAtVertices Q vs) a b) := by
-  sorry
+  induction vs generalizing Q with
+  | nil => change Subsingleton (@Quiver.Hom (Fin n) Q a b); infer_instance
+  | cons v vs ih =>
+    change Subsingleton (@Quiver.Hom (Fin n)
+      (iteratedReversedAtVertices (@reversedAtVertex (Fin n) _ Q v) vs) a b)
+    haveI : ∀ (a b : Fin n), Subsingleton
+        (@Quiver.Hom (Fin n) (@reversedAtVertex (Fin n) _ Q v) a b) :=
+      fun a b => subsingleton_hom_reversedAtVertex v a b
+    exact @ih _ this
 
 /-- Derive `Fintype` for each Hom type from `Subsingleton`, classically. -/
 private noncomputable def fintypeHomOfSubsingleton
@@ -1221,18 +1235,23 @@ private lemma reflFunctorPlus_free_ne
     (v : Q) (hv : v ≠ i) :
     Module.Free k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
       (reflectionFunctorPlus Q i hi ρ) v) := by
-  sorry
+  exact Module.Free.of_equiv (reflFunctorPlus_equivAt_ne hi ρ v hv).symm
 
+set_option linter.unusedFintypeInType false in
 /-- `Module.Free` for the reflected representation at i (ker of linear map over field). -/
 private lemma reflFunctorPlus_free_eq
-    {k₀ : Type*} [Field k₀] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {k₀ : Type*} [Field k₀] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : IsSink Q i)
     (ρ : @QuiverRepresentation k₀ Q _ _)
     [∀ v, Module.Free k₀ (ρ.obj v)] [∀ v, Module.Finite k₀ (ρ.obj v)]
     [Fintype (@ArrowsInto Q _ i)] :
     Module.Free k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
       (reflectionFunctorPlus Q i hi ρ) i) := by
-  sorry
+  -- Transport via the linear equivalence F⁺ᵢ(ρ).obj i ≃ₗ ker(sinkMap)
+  -- Need AddCommGroup for the direct sum to make Free work for submodules over PIDs
+  letI : AddCommGroup (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+    addCommGroupOfRing (k := k₀)
+  exact Module.Free.of_equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
 
 /-- `Module.Finite` for the reflected representation at v ≠ i. -/
 private lemma reflFunctorPlus_finite_ne
@@ -1243,18 +1262,21 @@ private lemma reflFunctorPlus_finite_ne
     (v : Q) (hv : v ≠ i) :
     Module.Finite k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
       (reflectionFunctorPlus Q i hi ρ) v) := by
-  sorry
+  exact Module.Finite.equiv (reflFunctorPlus_equivAt_ne hi ρ v hv).symm
 
+set_option linter.unusedFintypeInType false in
 /-- `Module.Finite` for the reflected representation at i. -/
 private lemma reflFunctorPlus_finite_eq
-    {k₀ : Type*} [Field k₀] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {k₀ : Type*} [Field k₀] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : IsSink Q i)
     (ρ : @QuiverRepresentation k₀ Q _ _)
     [∀ v, Module.Free k₀ (ρ.obj v)] [∀ v, Module.Finite k₀ (ρ.obj v)]
     [Fintype (@ArrowsInto Q _ i)] :
     Module.Finite k₀ (@QuiverRepresentation.obj k₀ Q _ (reversedAtVertex Q i)
       (reflectionFunctorPlus Q i hi ρ) i) := by
-  sorry
+  letI : AddCommGroup (DirectSum (@ArrowsInto Q _ i) (fun a => ρ.obj a.1)) :=
+    addCommGroupOfRing (k := k₀)
+  exact Module.Finite.equiv (reflFunctorPlus_equivAt_eq hi ρ).symm
 
 /-! ### Bridge: simpleReflectionDimVector ↔ simpleReflection
 
@@ -1276,7 +1298,80 @@ private lemma simpleReflectionDimVector_eq_simpleReflection
     haveI := fintypeArrowsIntoOfSubsingleton (Q := Q) p
     simpleReflectionDimVector (fun (a : @ArrowsInto (Fin n) Q p) => a.1) p d =
     simpleReflection n (cartanMatrix n adj) p d := by
-  sorry
+  -- Provide Fintype instances (needed for card computations)
+  haveI := fintypeArrowsIntoOfSubsingleton (Q := Q) p
+  haveI : ∀ (a b : Fin n), Fintype (@Quiver.Hom (Fin n) Q a b) :=
+    fun a b => fintypeHomOfSubsingleton a b
+  ext v
+  unfold simpleReflectionDimVector simpleReflection rootReflection
+  by_cases hv : v = p
+  · subst hv
+    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same, mul_one, if_true]
+    -- Goal: -d v + ∑ x, d x.fst = d v - d ⬝ᵥ cartanMatrix n adj *ᵥ Pi.single v 1
+    -- Step 1: compute dot product with Cartan matrix
+    have hdot : d ⬝ᵥ cartanMatrix n adj *ᵥ Pi.single v 1 =
+        2 * d v - ∑ j : Fin n, adj j v * d j := by
+      -- Collapse dotProduct/mulVec/Pi.single to ∑ j, d j * A j v
+      simp only [dotProduct, Matrix.mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+      -- Direct computation: expand dotProduct, mulVec, cartanMatrix
+      simp only [cartanMatrix]
+      -- Each entry: (2 • 1 - adj) j v = 2 * (if j=v then 1 else 0) - adj j v
+      simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply]
+      simp only [nsmul_eq_mul, Nat.cast_ofNat]
+      -- Now: ∑ j, d j * (2*(if j=v then 1 else 0) - adj j v) = 2*dv - ∑ j, adj j v * d j
+      simp only [mul_sub, Finset.sum_sub_distrib, mul_ite, mul_zero, mul_one,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+      simp_rw [mul_comm (d _) (adj _ _)]
+      ring
+    -- Step 2: card(j ⟶ v) = adj j v for each j
+    have hcard : ∀ j : Fin n, (Fintype.card (@Quiver.Hom (Fin n) Q j v) : ℤ) = adj j v := by
+      intro j
+      rcases hDynkin.2.2.1 j v with h0 | h1
+      · -- adj j v = 0: no arrows j → v
+        haveI : IsEmpty (@Quiver.Hom (Fin n) Q j v) := hOrient.1 j v (by omega)
+        rw [Fintype.card_eq_zero]; omega
+      · -- adj j v = 1: exactly one arrow j → v (v is sink, so v → j is empty)
+        rcases hOrient.2.1 j v h1 with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
+        · -- j → v exists, Subsingleton → card = 1
+          haveI : Unique (@Quiver.Hom (Fin n) Q j v) :=
+            { default := e, uniq := fun a => Subsingleton.elim a e }
+          simp [Fintype.card_unique, h1]
+        · -- v → j exists, but v is a sink → contradiction
+          exact ((hp j).false e).elim
+    -- Step 3: decompose ArrowsInto sum via Sigma
+    have hsum : (∑ a : @ArrowsInto (Fin n) Q v, d a.fst) = ∑ j : Fin n, adj j v * d j := by
+      -- Prove via an equivalence that carries sums between Fintype instances.
+      -- ArrowsInto = Σ j, (j ⟶ v), and fintypeArrowsIntoOfSubsingleton = Sigma.instFintype
+      -- Build the equiv explicitly to avoid instance mismatch.
+      -- Step 1: create a Sigma Fintype with the Hom Fintype from context
+      letI sigmaFT : Fintype (Σ j : Fin n, @Quiver.Hom (Fin n) Q j v) := Sigma.instFintype
+      -- Step 2: show ArrowsInto sum = Sigma sum (definitionally equal types)
+      have h_unfold : (∑ a : @ArrowsInto (Fin n) Q v, d a.fst) =
+          @Finset.sum _ _ _ (@Finset.univ _ sigmaFT) (fun a => d a.fst) := by
+        apply Finset.sum_congr
+        · ext x; simp [Finset.mem_univ]
+        · intros; rfl
+      rw [h_unfold]
+      -- Step 3: decompose Sigma sum
+      rw [Fintype.sum_sigma]
+      congr 1; ext j
+      -- ∑ y, d ⟨j, y⟩.fst = ∑ y, d j = card(j ⟶ v) * d j = adj j v * d j
+      change (∑ _ : @Quiver.Hom (Fin n) Q j v, d j) = adj j v * d j
+      rw [Finset.sum_const, nsmul_eq_mul]
+      have : (Finset.univ (α := @Quiver.Hom (Fin n) Q j v)).card = Fintype.card _ := rfl
+      rw [this, show (Fintype.card (@Quiver.Hom (Fin n) Q j v) : ℤ) = adj j v from hcard j]
+    -- Goal's ∑ and hsum's ∑ may use different Fintype instances; use omega after cast
+    have : ∀ (inst1 inst2 : Fintype (@ArrowsInto (Fin n) Q v)),
+        @Finset.sum _ _ _ (@Finset.univ _ inst1) (fun x => d x.fst) =
+        @Finset.sum _ _ _ (@Finset.univ _ inst2) (fun x => d x.fst) := by
+      intro i1 i2
+      apply Finset.sum_congr
+      · ext x; simp [Finset.mem_univ]
+      · intros; rfl
+    linarith [this (fintypeArrowsIntoOfSubsingleton v) inferInstance, hsum, hdot]
+  · simp only [hv, ite_false, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
+      Pi.single_apply, mul_zero, sub_zero]
 
 /-- **One round of reflection functors along an admissible ordering.**
 
