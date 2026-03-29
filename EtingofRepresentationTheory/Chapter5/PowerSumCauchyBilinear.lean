@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.PowerSumCauchyIdentity
 import EtingofRepresentationTheory.Chapter5.Theorem5_14_3
+import EtingofRepresentationTheory.Chapter5.Proposition5_21_1
 
 /-!
 # Power Sum Cauchy Identity: Bilinear Version
@@ -1473,5 +1474,47 @@ theorem vandermonde_cauchy_diagonal (N : ℕ) (α : Fin N → ℕ)
   have h1 := alternating_coeff_eq_cauchyRHS_coeff N α α
   have h2 := cauchyRHS_coeff_bilin_of_injective ℂ (N := N) α α hα_inj hα_inj (fun _ => rfl)
   rw [h1, h2]
+
+/-- **Generalized Vandermonde-Cauchy coefficient identity**.
+
+For strictly anti-monotone `α β : Fin N → ℕ`, the double alternating sum of
+`fullCauchyProd` coefficients equals `δ_{α,β}`. This generalizes
+`vandermonde_cauchy_diagonal` from the diagonal case `α = β` to handle the
+off-diagonal case needed for character orthogonality.
+
+The key insight: if `α` and `β` are both strictly decreasing, then
+`∀ j, α j = β (σ j)` forces `σ` to be order-preserving, hence the identity
+(by `perm_eq_one_of_strictMono`), hence `α = β`. -/
+theorem vandermonde_cauchy_general (N : ℕ) (α β : Fin N → ℕ)
+    (hα : StrictAnti α) (hβ : StrictAnti β) :
+    (∑ π : Equiv.Perm (Fin N), ∑ τ : Equiv.Perm (Fin N),
+      ((Equiv.Perm.sign π : ℤ) : ℂ) * ((Equiv.Perm.sign τ : ℤ) : ℂ) *
+      (if (∀ i, (π⁻¹ i : Fin N).val ≤ α i) ∧ (∀ i, (τ⁻¹ i : Fin N).val ≤ β i)
+       then MvPowerSeries.coeff
+              (bilinExponent N (fun i => α i - (π⁻¹ i : Fin N).val)
+                               (fun i => β i - (τ⁻¹ i : Fin N).val))
+              (fullCauchyProd N ℂ)
+       else 0)) =
+    if α = β then 1 else 0 := by
+  -- Helper: for StrictAnti α, β, the cauchyRHS coefficient is δ_{α,β}
+  have hcauchy : MvPowerSeries.coeff (bilinExponent N α β) (cauchyRHS N ℂ) =
+      if α = β then 1 else 0 := by
+    by_cases heq : α = β
+    · subst heq; rw [if_pos rfl]
+      exact cauchyRHS_coeff_bilin_of_injective ℂ (N := N) α α hα.injective hα.injective
+        (fun _ => rfl)
+    · rw [if_neg heq, @cauchyRHS_coeff_general N ℂ _ _ α β]
+      apply Finset.sum_eq_zero; intro σ _
+      suffices h : ¬(∀ j, α j = β (σ j)) by rw [if_neg h, mul_zero]
+      intro hall; apply heq; funext j
+      -- StrictAnti α, β + ∀j α j = β (σ j) ⟹ σ is StrictMono ⟹ σ = id
+      have hσ_mono : StrictMono (⇑σ : Fin N → Fin N) := by
+        intro i k hik
+        by_contra hle; push_neg at hle
+        rcases hle.eq_or_lt with heq' | hlt
+        · exact absurd (σ.injective heq'.symm) (ne_of_lt hik)
+        · exact absurd (hα hik) (not_lt.mpr (le_of_lt (by rw [hall i, hall k]; exact hβ hlt)))
+      rw [show σ = 1 from perm_eq_one_of_strictMono hσ_mono] at hall; exact hall j
+  rw [alternating_coeff_eq_cauchyRHS_coeff N α β, hcauchy]
 
 end Etingof
