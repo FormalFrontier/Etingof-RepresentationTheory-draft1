@@ -98,19 +98,64 @@ theorem formalCharacter_schurModule_shift (N : ℕ) (lam : Fin N → ℕ) (hlam 
   have hlam' : Antitone (fun i => lam i + 1) := fun i j hij => Nat.add_le_add_right (hlam hij) 1
   rw [Theorem5_22_1 k N _ hlam', Theorem5_22_1 k N lam hlam, schurPoly_shift]
 
-/-- The formal character of the det-twisted Schur module equals that of the shifted
-Schur module `L_{λ+(1,…,1)}`. Both equal `(∏ Xᵢ) · char(L_λ)`.
+omit [IsAlgClosed k] in
+/-- The determinant of `diagUnit k N i t` is `t`. -/
+private lemma det_diagUnit (N : ℕ) (i : Fin N) (t : kˣ) :
+    Matrix.GeneralLinearGroup.det (diagUnit k N i t) = t := by
+  ext
+  change Matrix.det (diagUnit k N i t).val = (t : k)
+  simp only [diagUnit, Matrix.det_diagonal, Finset.prod_update_of_mem (Finset.mem_univ i),
+    Pi.one_apply]
+  simp [Finset.prod_eq_one (fun j _ => rfl)]
 
-The proof requires showing that weight spaces of the det-twisted representation at
-weights with some zero component are trivial. This follows from the polynomial nature
-of the representation: the eigenvalue `t⁻¹` arising from the zero-weight condition
-cannot occur for a polynomial representation (it's not a root of the characteristic
-polynomial of `diagUnit(i,t)` acting on `V^{⊗n}` for generic `t`). -/
+omit [IsAlgClosed k] in
+private lemma det_diagUnit_val (N : ℕ) (i : Fin N) (t : kˣ) :
+    (Matrix.GeneralLinearGroup.det (diagUnit k N i t) : k) = (t : k) :=
+  congr_arg Units.val (det_diagUnit k N i t)
+
+-- The initial `simp only [glWeightSpace, ...]` unfold is expensive.
+set_option maxHeartbeats 800000 in
+/-- The weight space of the det-twisted module at weight `μ + 1` equals
+the weight space of the original Schur module at weight `μ`. -/
+lemma glWeightSpace_detTwist_shift (N : ℕ) (lam : Fin N → ℕ) (μ : Fin N → ℕ) :
+    glWeightSpace k N (FDRep.of (detTwistedSchurModuleRep k N lam)) (fun j => μ j + 1) =
+      glWeightSpace k N (SchurModule k N lam) μ := by
+  -- Unfold definitions to iInf over kernels
+  simp only [glWeightSpace, SchurModule, FDRep.of_ρ']
+  -- detTwisted(g) = t • orig(g), so the linear maps factor:
+  -- detTwisted(g) - t^(μ+1)•id = t•(orig(g) - t^μ•id)
+  -- Hence ker(detTwisted(g) - t^(μ+1)•id) = ker(orig(g) - t^μ•id)
+  apply iInf_congr; intro i; apply iInf_congr; intro t
+  have hdt : (detTwistedSchurModuleRep k N lam (diagUnit k N i t)) =
+      (t : k) • (schurModuleRep k N lam (diagUnit k N i t)) := by
+    change (Matrix.GeneralLinearGroup.det (diagUnit k N i t) : k) •
+      (schurModuleRep k N lam) (diagUnit k N i t) = _
+    rw [det_diagUnit_val]
+  have factored : (detTwistedSchurModuleRep k N lam (diagUnit k N i t)) -
+      ((↑t : k) ^ (μ i + 1)) • LinearMap.id =
+    (↑t : k) • ((schurModuleRep k N lam (diagUnit k N i t)) -
+      ((↑t : k) ^ μ i) • LinearMap.id) := by
+    rw [hdt, smul_sub, pow_succ, mul_comm, mul_smul]
+  calc LinearMap.ker ((detTwistedSchurModuleRep k N lam (diagUnit k N i t)) -
+        ((↑t : k) ^ (μ i + 1)) • LinearMap.id)
+      = LinearMap.ker ((↑t : k) • ((schurModuleRep k N lam (diagUnit k N i t)) -
+          ((↑t : k) ^ μ i) • LinearMap.id)) := congr_arg LinearMap.ker factored
+    _ = LinearMap.ker ((schurModuleRep k N lam (diagUnit k N i t)) -
+          ((↑t : k) ^ μ i) • LinearMap.id) := LinearMap.ker_smul _ _ (Units.ne_zero t)
+
+/-- The formal character of the det-twisted Schur module equals that of the shifted
+Schur module `L_{λ+(1,…,1)}`. Both equal `(∏ Xᵢ) · char(L_λ)`. -/
+private lemma finrank_submodule_congr {R M : Type*} [CommRing R] [AddCommGroup M]
+    [Module R M] {S₁ S₂ : Submodule R M} (h : S₁ = S₂) :
+    Module.finrank R S₁ = Module.finrank R S₂ := by subst h; rfl
+
 private theorem formalCharacter_detTwist_eq_shift (N : ℕ) (lam : Fin N → ℕ)
     (hlam : Antitone lam) :
     formalCharacter k N (FDRep.of (detTwistedSchurModuleRep k N lam)) =
       formalCharacter k N (SchurModule k N (fun i => lam i + 1)) := by
-  sorry
+  rw [formalCharacter_schurModule_shift k N lam hlam]
+  exact formalCharacter_shift_of_weightSpace_finrank k N _ _ fun ν =>
+    finrank_submodule_congr (glWeightSpace_detTwist_shift k N lam ν)
 
 /-- Key isomorphism: the Schur module `L_{λ+(1,…,1)}` is isomorphic (as a GL_N-representation)
 to the determinant-twisted Schur module `det ⊗ L_λ`.
@@ -123,6 +168,7 @@ theorem schurModule_shift_iso_detTwist (N : ℕ) (lam : Fin N → ℕ) (hlam : A
       FDRep.of (detTwistedSchurModuleRep k N lam)) := by
   exact iso_of_formalCharacter_eq k N _ _ (formalCharacter_detTwist_eq_shift k N lam hlam).symm
 
+omit [IsAlgClosed k] in
 /-- The `TensorProduct.rid` intertwines the tensor action `rep(g) ⊗ det(g)·id` with
 the determinant-twisted action `det(g) · rep(g)`. -/
 theorem tensorRid_comm_detTwist (N : ℕ) (lam : Fin N → ℕ)
