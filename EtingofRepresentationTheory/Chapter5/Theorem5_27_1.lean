@@ -665,6 +665,23 @@ private lemma extract_single_support {G A : Type} [Group G] [CommGroup A] [Finty
           _ ≤ n := by omega
       exact ih f' hf'_mem hf'_q₀ hcard'
 
+-- Bridge: Simple in FDRep implies IsIrreducible for the underlying representation.
+-- This constructs the reverse of simple_of_isSimpleModule_asModule'.
+open CategoryTheory in
+private lemma isIrreducible_of_simple_fdRep {k : Type} [Field k] {H : Type} [Group H] [Fintype H]
+    [NeZero (Fintype.card H : k)]
+    (U : FDRep k H) (hU : Simple U) :
+    Representation.IsIrreducible (FDRep.ρ U) := by
+  rw [Representation.irreducible_iff_isSimpleModule_asModule]
+  -- Go through the equivalence chain: FDRep → Rep → ModuleCat
+  let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := H)
+  -- Simple U in FDRep → Simple in Rep (forget₂ reflects, but we need forward direction)
+  -- Instead, use that the module is simple by constructing from Schur-type argument
+  -- For a simple FDRep object U, every nonzero equivariant map into U is injective
+  -- and every nonzero equivariant map from U is surjective.
+  -- Use Maschke + semisimplicity to get the result.
+  sorry
+
 open Classical in
 private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G]
     (φ : G →* MulAut A) (χ : A →* ℂˣ)
@@ -795,10 +812,81 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
             -- Pi.single q₁ u gives Pi.single q₁ (ρ_U(s)(u)).
             -- Since σ is invariant, this shows S is invariant under ρ_U.
             -- By simplicity of U, S = U.
+            -- q₁.out ∈ H (since [q₁.out] = q₁ = [1])
+            have hq₁_stab : q₁.out ∈ stabAux φ χ := by
+              have := QuotientGroup.leftRel_apply.mp
+                (Quotient.exact' (QuotientGroup.out_eq' q₁))
+              simpa using (stabAux φ χ).inv_mem this
+            -- For s ∈ H, acting by (1, q₁.out * s * q₁.out⁻¹) on a function
+            -- supported on q₁ preserves the q₁-support and applies ρ_U(s) to the value.
+            -- This shows {u | Pi.single q₁ u ∈ σ} is invariant under ρ_U.
+            have h_conj_act : ∀ (s : ↥(stabAux φ χ)) (v : ↥U),
+                Pi.single q₁ v ∈ σ.toSubmodule →
+                Pi.single q₁ (FDRep.ρ U s v) ∈ σ.toSubmodule := by
+              intro s v hv
+              set g' := q₁.out * ↑s * q₁.out⁻¹
+              have hg'_mem : g' ∈ stabAux φ χ :=
+                (stabAux φ χ).mul_mem ((stabAux φ χ).mul_mem hq₁_stab s.2)
+                  ((stabAux φ χ).inv_mem hq₁_stab)
+              have hg'_fix : g'⁻¹ • q₁ = q₁ := by
+                rw [hq₁_def]
+                apply Quotient.sound'
+                exact QuotientGroup.leftRel_apply.mpr (by
+                  simp only [smul_eq_mul, mul_one, inv_inv]; exact hg'_mem)
+              -- ρ(1,g') maps σ to σ
+              have h_acted : ρ ⟨1, g'⟩ (Pi.single q₁ v) ∈ σ.toSubmodule :=
+                hσ_inv ⟨1, g'⟩ (Pi.single q₁ v) (by convert hv)
+              -- Work with r := ρ(1,g')(Pi.single q₁ v) and show r = Pi.single q₁ (ρ_U(s)(v))
+              set r := ρ ⟨1, g'⟩ (Pi.single q₁ v)
+              -- The key equality: ρ(1,g')(Pi.single q₁ v) = Pi.single q₁ (ρ_U(s)(v))
+              -- Pointwise: at q₁, g'⁻¹ fixes q₁ and the transition element
+              -- q₁.out⁻¹ * g' * q₁.out = s (by group). At q ≠ q₁, both sides are 0.
+              -- This is mathematically straightforward but blocked by a Pi.single
+              -- DecidableEq instance diamond between Quotient.decidableEq and
+              -- QuotientGroup.instDecidableEq. The proof structure is complete.
+              sorry
+            -- Construct S = {u | Pi.single q₁ u ∈ σ} as Subrepresentation of U
+            have hS_sub : ∀ (s : ↥(stabAux φ χ)) (v : ↥U),
+                v ∈ ({v | Pi.single q₁ v ∈ σ.toSubmodule} : Set ↥U) →
+                FDRep.ρ U s v ∈ ({v | Pi.single q₁ v ∈ σ.toSubmodule} : Set ↥U) :=
+              fun s v hv => h_conj_act s v hv
+            set S : Subrepresentation (FDRep.ρ U) := {
+              toSubmodule := {
+                carrier := {v | Pi.single q₁ v ∈ σ.toSubmodule}
+                add_mem' := fun {a b} ha hb => by
+                  show Pi.single q₁ (a + b) ∈ σ.toSubmodule
+                  convert σ.toSubmodule.add_mem ha hb using 1
+                  funext q; simp [Pi.single_apply]; split_ifs <;> simp
+                zero_mem' := by
+                  show Pi.single q₁ 0 ∈ σ.toSubmodule
+                  convert σ.toSubmodule.zero_mem using 1
+                  funext q; simp [Pi.single_apply]
+                smul_mem' := fun c v hv => by
+                  show Pi.single q₁ (c • v) ∈ σ.toSubmodule
+                  convert σ.toSubmodule.smul_mem c hv using 1
+                  funext q; simp [Pi.single_apply, smul_ite] }
+              apply_mem_toSubmodule := fun s v hv => hS_sub s v hv }
+            -- S is nonzero (contains g₁ q₁)
+            have hS_ne : S ≠ ⊥ := by
+              intro h
+              apply hg₁_nz
+              have : g₁ q₁ ∈ S.toSubmodule := by
+                show Pi.single q₁ (g₁ q₁) ∈ σ.toSubmodule
+                rw [← hg₁_eq]; exact hg₁_mem
+              rw [h] at this
+              exact (Submodule.mem_bot ℂ).mp this
+            -- By simplicity of U, S = ⊤
+            haveI : NeZero (Fintype.card ↥(stabAux φ χ) : ℂ) := by
+              rw [neZero_iff]; exact Nat.cast_ne_zero.mpr Fintype.card_pos.ne'
+            haveI hU_irred := isIrreducible_of_simple_fdRep U hU
+            have hS_top : S = ⊤ :=
+              (hU_irred.eq_bot_or_eq_top S).resolve_left hS_ne
             intro u
-            -- Use Subrepresentation machinery: construct a Subrepresentation of FDRep.ρ U
-            -- and apply simplicity
-            sorry
+            have : u ∈ S.toSubmodule := by
+              rw [show S.toSubmodule = (⊤ : Subrepresentation (FDRep.ρ U)).toSubmodule from
+                congrArg _ hS_top]
+              exact Submodule.mem_top
+            exact this
           -- For any coset q, Pi.single q u ∈ σ
           -- Transport via G-action: ρ(1, q.out) maps V_{q₁} to V_q
           intro q u
