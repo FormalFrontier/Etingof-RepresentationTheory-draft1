@@ -1677,3 +1677,14 @@ theorem hard_theorem : conclusion := by
 **Value assessment:** A session that decomposes a monolithic sorry into 5 sub-goals and proves 3 of them is MORE valuable than a session that attempts the monolithic sorry directly and fails. Decomposition creates independently claimable work items and documents the proof strategy.
 
 **Evidence:** Problem6_9_1 was decomposed from 1 sorry into 8 sub-goals, 6 proved (#1807). Theorem5_22_1 was decomposed into coefficient extraction + core identity (#1806). BasicAlgebraExistence was split into 2 targeted helpers (#1803). All three patterns created visible, committable progress.
+
+## Quotient Group Instance Resolution Issues
+
+When working with `G ⧸ H` (quotient groups), Lean sometimes can't find `SMul G (G ⧸ H)` when the type unfolds to `Quotient (QuotientGroup.leftRel H)`. Symptom: `failed to synthesize instance HSMul G (Quotient (QuotientGroup.leftRel ...))`.
+
+**Fixes:**
+1. Add `letI : MulAction G (G ⧸ H) := inferInstance` at the start of the proof block where `•` is used
+2. Use `set` to capture transition elements BEFORE `simp only [inv_inv]` or similar rewrites — `set` after `simp` may fail to match the modified term
+3. Use `conv in g _ => rw [heval]` to rewrite only specific subterms (e.g., function arguments) without touching dependent transition elements
+4. For `Pi.single` with quotient group indices, prefer `Pi.single_apply` + `ite_true`/`ite_false` over `Pi.single_eq_same`/`Pi.single_eq_of_ne` — the latter often fail due to `DecidableEq` instance mismatch between `Quotient.decidableEq` and `QuotientGroup.instDecidableEq`
+5. When `Pi.single_eq_of_ne hq` fails as an `exact` or `rw` argument, try `simp [Pi.single, Function.update, if_neg hq]` instead
