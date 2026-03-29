@@ -1117,10 +1117,19 @@ private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
   obtain ⟨V₁, V₂, hV₁_ne, hV₂_ne, hV_compl, hV₁_inv, hV₂_inv⟩ :=
     nilpotent_nontrivial_decomp (ρ.B.comp ρ.A) hBA hkerBA
   -- Step 4: Construct the Q₂-decomposition
-  -- V₁ and V₂ are BA-invariant. Use them to decompose V.
-  -- For W: use W₁ = A(V₁) ⊕ (ker B ∩ assigned-part) and W₂ = A(V₂) ⊕ rest
-  -- The endomorphism approach: build idempotent (π₁, g) in End(ρ)
-  -- For now, construct the decomposition directly.
+  -- We have V = V₁ ⊕ V₂ (BA-invariant, both nontrivial).
+  -- Need to construct W = W₁ ⊕ W₂ compatible with A, B.
+  --
+  -- Mathematical approach: Build a Q₂-endomorphism idempotent (π₁, g) where
+  -- π₁ is the BA-projection onto V₁ and g : W → W satisfies A∘π₁ = g∘A, B∘g = π₁∘B.
+  -- Key facts enabling this:
+  -- (a) ker A is BA-invariant (hence π₁-invariant), so g is well-defined on range A
+  -- (b) range B is BA-invariant (hence π₁-invariant), so the B-condition is compatible
+  -- (c) ker B ⊆ range A ensures extension from range A to all of W is possible
+  -- The idempotent gives W₁ = range g, W₂ = ker g.
+  --
+  -- This construction requires ~150 lines of careful subtype/comap manipulation.
+  -- TODO: implement the endomorphism construction
   sorry
 
 /-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0,
