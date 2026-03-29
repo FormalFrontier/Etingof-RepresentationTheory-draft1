@@ -12,6 +12,7 @@ import Mathlib.RingTheory.Idempotents
 import Mathlib.RingTheory.Jacobson.Semiprimary
 import Mathlib.RingTheory.Jacobson.Ideal
 import Mathlib.Data.Matrix.Basis
+import Mathlib.RepresentationTheory.AlgebraRepresentation.Basic
 
 /-!
 # Basic algebra existence
@@ -47,15 +48,9 @@ The proof is decomposed into two helper lemmas:
 
 ## Proof status
 
-Two sorrys remain:
+One sorry remains:
 
-1. `exists_full_idempotent_basic_corner`: Fullness (AeA = A) is proved. Basicness
-   proof constructs ring hom π : eAe → k^numBlocks, proves ker π consists of
-   nilpotent elements, and proves ker π annihilates simple modules.
-   Remaining sorry: conclude finrank k M = 1 from the annihilation
-   (needs Schur's lemma + IsAlgClosed + module transfer infrastructure).
-
-2. `cornerFunctor_essSurj`: Requires showing `e(A ⊗_{eAe} N) ≅ N`, the other
+1. `cornerFunctor_essSurj`: Requires showing `e(A ⊗_{eAe} N) ≅ N`, the other
    direction of the evaluation isomorphism.
 
 `cornerFunctor_full` is now sorry-free (lift construction complete).
@@ -514,18 +509,68 @@ lemma exists_full_idempotent_basic_corner
       have := hpow N; rw [hN, zero_smul] at this
       exact h_ne (by rw [this, smul_zero])
     -- === Part G: finrank k M = 1 ===
-    -- Mathematical argument (not yet formalized):
-    -- (1) ker π annihilates M (proved above in hker_ann)
-    -- (2) Since k^numBlocks is commutative and the action factors through π,
-    --     for any r ∈ CornerRing, the map m ↦ r • m is a CornerRing-endomorphism of M:
-    --     r(sm) = (rs)m and s(rm) = (sr)m agree since π(rs) = π(sr) in k^numBlocks.
-    -- (3) By Schur's lemma (Module.End.instDivisionRing), End(M) is a division ring.
-    -- (4) Since k is algebraically closed, algebraMap k End(M) is bijective
-    --     (IsAlgClosed.algebraMap_bijective_of_isIntegral).
-    -- (5) So every r ∈ CornerRing acts as a k-scalar on M.
-    -- (6) For any nonzero m₀, every m ∈ M is c • m₀ for some c ∈ k.
-    -- (7) By finrank_eq_one_iff_of_nonzero', finrank k M = 1.
-    sorry
+    -- Step G.1: M is finite-dimensional over k.
+    -- CornerRing is f.d. over k, and M is a cyclic quotient (simple module).
+    haveI : Module.Finite k (CornerRing (k := k) e) := CornerRing.instModuleFinite
+    haveI : Nontrivial M := IsSimpleModule.nontrivial (R := CornerRing (k := k) e) (M := M)
+    obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
+    -- The map r ↦ r • m₀ is a surjective k-linear map CornerRing → M
+    have hspan_top : Submodule.span (CornerRing (k := k) e) {m₀} = ⊤ :=
+      (IsSimpleOrder.eq_bot_or_eq_top _).resolve_left (by
+        intro h; apply hm₀
+        have : m₀ ∈ (⊥ : Submodule (CornerRing (k := k) e) M) :=
+          h ▸ Submodule.subset_span rfl
+        rwa [Submodule.mem_bot] at this)
+    -- Every m ∈ M is r • m₀ for some r
+    have hsurj : ∀ m : M, ∃ r : CornerRing (k := k) e, r • m₀ = m := by
+      intro m
+      have hm : m ∈ (⊤ : Submodule (CornerRing (k := k) e) M) := Submodule.mem_top
+      rw [← hspan_top] at hm
+      exact Submodule.mem_span_singleton.mp hm
+    haveI : FiniteDimensional k M := by
+      let f : CornerRing (k := k) e →ₗ[k] M :=
+        { toFun := fun r => r • m₀
+          map_add' := fun x y => add_smul x y m₀
+          map_smul' := fun c x => by
+            simp only [RingHom.id_apply]
+            rw [← smul_assoc] }
+      exact Module.Finite.of_surjective f (fun m => by obtain ⟨r, hr⟩ := hsurj m; exact ⟨r, hr⟩)
+    -- Step G.2: For each r ∈ CornerRing, m ↦ r • m is CornerRing-linear.
+    -- This uses: ker π annihilates M, and π maps to commutative k^numBlocks.
+    have hcomm_act : ∀ (r s : CornerRing (k := k) e) (m : M),
+        r • (s • m) = s • (r • m) := by
+      intro r s m
+      -- (rs - sr) ∈ ker π because π maps to a commutative ring
+      have hcomm : r * s - s * r ∈ RingHom.ker π := by
+        rw [RingHom.mem_ker, map_sub, map_mul, map_mul, sub_eq_zero]
+        ext i; exact mul_comm _ _
+      -- ker π annihilates M
+      have := hker_ann (r * s - s * r) hcomm m
+      rw [sub_smul, mul_smul, mul_smul, sub_eq_zero] at this
+      exact this
+    -- Step G.3: By Schur (alg closed), every CornerRing-endo of M is a k-scalar.
+    have hschur := IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed k
+        (A := CornerRing (k := k) e) (V := M)
+    -- For each r, define the CornerRing-linear map m ↦ r • m
+    have hscalar : ∀ r : CornerRing (k := k) e, ∃ c : k, ∀ m : M, r • m = c • m := by
+      intro r
+      let φ_r : M →ₗ[CornerRing (k := k) e] M :=
+        { toFun := fun m => r • m
+          map_add' := fun x y => smul_add r x y
+          map_smul' := fun s m => by simp only [RingHom.id_apply]; exact hcomm_act r s m }
+      obtain ⟨c, hc⟩ := hschur.2 φ_r
+      exact ⟨c, fun m => by
+        have := LinearMap.ext_iff.mp hc m
+        simp [Algebra.linearMap_apply, Module.algebraMap_end_apply] at this
+        exact this.symm⟩
+    -- Step G.4: Every m is c • m₀, so finrank k M = 1.
+    have hone_dim : ∀ m : M, ∃ c : k, m = c • m₀ := by
+      intro m
+      obtain ⟨r, hr⟩ := hsurj m
+      obtain ⟨c, hc⟩ := hscalar r
+      exact ⟨c, by rw [← hr, hc]⟩
+    rw [finrank_eq_one_iff_of_nonzero' m₀ hm₀]
+    exact fun m => let ⟨c, hc⟩ := hone_dim m; ⟨c, hc.symm⟩
   exact ⟨e, he_full, he_basic⟩
 
 /-! ## Corner module infrastructure for Morita equivalence
