@@ -571,6 +571,22 @@ private lemma A_action_at_coset {G A : Type} [Group G] [CommGroup A] [Fintype G]
   congr 1
   exact hrho _ (inv_mul_cancel q.out) _
 
+-- Helper: G-action formula at a coset. For (1,s) ∈ A ⋊ G acting on f at coset q:
+-- (1,s)·f(q) = ρ_U(transition)(f(s⁻¹•q))
+-- (the character factor χ(φ(q⁻¹)(1)) is 1 since φ(g) maps 1↦1 and χ(1)=1)
+open Classical in
+private lemma G_action_at_coset {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ)
+    (U : FDRep ℂ ↥(stabAux φ χ))
+    (s : G) (f : (G ⧸ stabAux φ χ) → ↥U) (q : G ⧸ stabAux φ χ) :
+    inducedRep_raw φ χ U ⟨1, s⟩ f q =
+      FDRep.ρ U ⟨q.out⁻¹ * s * (s⁻¹ • q).out,
+        transition_mem_stab φ χ s q⟩ (f (s⁻¹ • q)) := by
+  change ((χ ((φ q.out⁻¹ : MulAut A) 1) : ℂˣ) : ℂ) •
+    (FDRep.ρ U ⟨q.out⁻¹ * s * (s⁻¹ • q).out,
+      transition_mem_stab φ χ s q⟩) (f (s⁻¹ • q)) = _
+  simp [map_one, Units.val_one, one_smul]
+
 -- Helper: if σ is an invariant submodule containing f with f(q₀) ≠ 0,
 -- then σ contains an element supported only on q₀.
 -- Uses the "A-eigenspace extraction" trick: iteratively kill other coset components.
@@ -733,12 +749,60 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
           -- First show Pi.single q₁ u ∈ σ for all u, using simplicity of U
           -- Define the subspace S = {u ∈ U | Pi.single q₁ u ∈ σ}
           have h_at_q₁ : ∀ u, Pi.single q₁ u ∈ σ.toSubmodule := by
+            letI : MulAction G (G ⧸ stabAux φ χ) := inferInstance
+            -- Step 1: g₁ is supported only on q₁
+            have hg₁_supp : ∀ q, q ≠ q₁ → g₁ q = 0 := by
+              intro q hq
+              -- g₁ = ρ⟨1, q₀.out⁻¹⟩ g. By G_action_at_coset, g₁(q) involves
+              -- g(q₀.out⁻¹⁻¹ • q) = g(q₀.out • q). This is 0 when q₀.out • q ≠ q₀,
+              -- which happens iff q ≠ q₀.out⁻¹ • q₀ = q₁.
+              change (ρ ⟨1, q₀.out⁻¹⟩ g) q = 0
+              rw [show ρ = inducedRep_raw φ χ U from rfl, G_action_at_coset]
+              simp only [inv_inv]
+              have h1 : g (q₀.out • q) = 0 := hg_supp _ (by
+                intro h; apply hq
+                calc q = 1 • q := (one_smul G q).symm
+                  _ = (q₀.out⁻¹ * q₀.out) • q := by rw [inv_mul_cancel]
+                  _ = q₀.out⁻¹ • (q₀.out • q) := mul_smul _ _ _
+                  _ = q₀.out⁻¹ • q₀ := by rw [h]
+                  _ = q₁ := hg₁_supp_target)
+              simp only [h1, map_zero]
+            -- Step 2: g₁ q₁ ≠ 0
+            have hg₁_nz : g₁ q₁ ≠ 0 := by
+              change (ρ ⟨1, q₀.out⁻¹⟩ g) q₁ ≠ 0
+              rw [show ρ = inducedRep_raw φ χ U from rfl, G_action_at_coset]
+              set s₀ : ↥(stabAux φ χ) := ⟨_, transition_mem_stab φ χ q₀.out⁻¹ q₁⟩
+              simp only [inv_inv]
+              have heval : q₀.out • q₁ = q₀ := by
+                rw [show q₁ = q₀.out⁻¹ • q₀ from hg₁_supp_target.symm,
+                  ← mul_smul, mul_inv_cancel, one_smul]
+              conv in g _ => rw [heval]
+              intro h
+              apply hg_nz
+              have key := congr_arg (FDRep.ρ U s₀⁻¹) h
+              rw [map_zero] at key
+              rwa [show FDRep.ρ U s₀⁻¹ (FDRep.ρ U s₀ (g q₀)) = g q₀ from by
+                change (FDRep.ρ U s₀⁻¹ * FDRep.ρ U s₀) (g q₀) = g q₀
+                rw [← map_mul, inv_mul_cancel, map_one]; rfl] at key
+            -- Step 3: g₁ = Pi.single q₁ (g₁ q₁)
+            have hg₁_eq : g₁ = Pi.single q₁ (g₁ q₁) := by
+              ext q; by_cases hq : q = q₁
+              · rw [hq, Pi.single_eq_same]
+              · rw [hg₁_supp q hq]
+                simp [Pi.single, Function.update, if_neg hq]
+            -- Step 4: S = {u | Pi.single q₁ u ∈ σ} is a nonzero sub-rep of U
+            -- For any s ∈ stabAux, acting by (1, q₁.out * s * q₁.out⁻¹) on
+            -- Pi.single q₁ u gives Pi.single q₁ (ρ_U(s)(u)).
+            -- Since σ is invariant, this shows S is invariant under ρ_U.
+            -- By simplicity of U, S = U.
+            intro u
+            -- Use Subrepresentation machinery: construct a Subrepresentation of FDRep.ρ U
+            -- and apply simplicity
             sorry
           -- For any coset q, Pi.single q u ∈ σ
           -- Transport via G-action: ρ(1, q.out) maps V_{q₁} to V_q
           intro q u
-          -- The transition element when acting by (1, q.out) on V_{q₁}
-          -- is q₁.out ∈ H (stabilizer). Pre-apply its inverse.
+          letI : MulAction G (G ⧸ stabAux φ χ) := inferInstance
           -- q₁.out ∈ H since [q₁.out] = q₁ = [1]
           have hq₁_out_mem : q₁.out ∈ stabAux φ χ := by
             have := QuotientGroup.leftRel_apply.mp (Quotient.exact' (QuotientGroup.out_eq' q₁))
@@ -749,9 +813,48 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
           have hu'_mem := h_at_q₁ u'
           -- ρ(1, q.out)(Pi.single q₁ u') ∈ σ
           have h_acted := hσ_inv ⟨1, q.out⟩ _ hu'_mem
-          -- ρ(1, q.out)(Pi.single q₁ u') = Pi.single q u
-          -- so Pi.single q u ∈ σ
-          sorry }
+          -- Show ρ(1, q.out)(Pi.single q₁ u') = Pi.single q u pointwise
+          have hq_inv : q.out⁻¹ • q = q₁ := by
+            rw [hq₁_def, ← QuotientGroup.out_eq' q,
+              ← MulAction.Quotient.coe_smul_out (H := stabAux φ χ)]
+            simp [smul_eq_mul, inv_mul_cancel]
+          have heq : ∀ q', (inducedRep_raw φ χ U ⟨1, q.out⟩ (Pi.single q₁ u')) q' =
+              (Pi.single q u : (G ⧸ stabAux φ χ) → ↥U) q' := by
+            intro q'
+            by_cases hq' : q' = q
+            · -- At q' = q: ρ_U(t)(u') = ρ_U(t)(ρ_U(t⁻¹)(u)) = u
+              rw [hq', Pi.single_eq_same, G_action_at_coset]
+              -- Simplify transition element
+              simp only [show (q.out⁻¹ : G) • (q : G ⧸ stabAux φ χ) = q₁ from hq_inv]
+              -- Evaluate Pi.single at the argument
+              simp only [Pi.single_apply, show (q.out⁻¹ : G) • (q : G ⧸ stabAux φ χ) = q₁
+                from hq_inv, ite_true]
+              -- Now: (U.ρ ⟨q.out⁻¹ * q.out * q₁.out, ⋯⟩) u' = u
+              have hrho_eq : ∀ (s₁ s₂ : ↥(stabAux φ χ)),
+                  (s₁ : G) = (s₂ : G) → ∀ v, (FDRep.ρ U s₁) v = (FDRep.ρ U s₂) v := by
+                intro s₁ s₂ h v; rw [Subtype.ext h]
+              rw [hrho_eq _ t (by
+                show q.out⁻¹ * q.out * q₁.out = q₁.out
+                rw [inv_mul_cancel, one_mul]) u']
+              change (FDRep.ρ U t * FDRep.ρ U t⁻¹) u = u
+              rw [← map_mul, mul_inv_cancel, map_one]; rfl
+            · -- At q' ≠ q: both sides are 0
+              rw [Pi.single_eq_of_ne hq', G_action_at_coset]
+              have hne : q.out⁻¹ • q' ≠ q₁ := by
+                intro h; apply hq'
+                have key : q.out⁻¹ • q' = q.out⁻¹ • q := h.trans hq_inv.symm
+                calc q' = (q.out * q.out⁻¹) • q' := by rw [mul_inv_cancel, one_smul]
+                  _ = q.out • (q.out⁻¹ • q') := mul_smul _ _ _
+                  _ = q.out • (q.out⁻¹ • q) := by rw [key]
+                  _ = (q.out * q.out⁻¹) • q := (mul_smul _ _ _).symm
+                  _ = q := by rw [mul_inv_cancel, one_smul]
+              rw [Pi.single_eq_of_ne hne, map_zero]
+          -- Conclude membership: ρ(1,q.out)(Pi.single q₁ u') and Pi.single q u
+          -- agree pointwise, so they're in the same submodule
+          have h_fn_eq : ρ ⟨1, q.out⟩ (Pi.single q₁ u') = Pi.single q u := by
+            change inducedRep_raw φ χ U ⟨1, q.out⟩ (Pi.single q₁ u') = Pi.single q u
+            exact funext heq
+          rw [← h_fn_eq]; convert h_acted }
   exact simple_of_isSimpleModule_asModule' ρ
 
 -- (ii) Orbit injectivity: if V(χ₁, U₁) ≅ V(χ₂, U₂) then χ₁, χ₂ are in the same orbit.
