@@ -536,12 +536,17 @@ private def isColumnStandard' (n : ℕ) (la : Nat.Partition n)
     σ.symm p₁ < σ.symm p₂
 
 /-- Row-sorting a column-standard filling produces a standard Young tableau.
-Given a column-standard σ, there exists p ∈ P_λ such that sytPerm T = σ * p
-for some SYT T. -/
+Given a column-standard σ, there exists p ∈ P_λ such that σ = p * sytPerm T
+for some SYT T (LEFT coset decomposition).
+
+Note: the RIGHT coset form `sytPerm T = σ * p` is mathematically false in general.
+See issue #1969 for a counterexample with partition (3,1). Row-sorting gives a
+LEFT P_λ-coset relationship because the sorting permutation acts on positions
+within rows (left multiplication). -/
 private theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ) :
     ∃ T : StandardYoungTableau n la,
-      ∃ p ∈ RowSubgroup n la, sytPerm n la T = σ * p := by
+      ∃ p ∈ RowSubgroup n la, σ = p * sytPerm n la T := by
   classical
   set parts := la.sortedParts with parts_def
   have hps : parts.sum = n := sortedParts_sum n la
@@ -579,7 +584,8 @@ private theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
       have h2 := Finset.orderEmbOfFin_mem (rowEntries r₂) (rowEnt_card r₂ hr₂) ⟨c₂, by omega⟩
       -- h gives that these two orderEmbOfFin values are equal
       -- So the entry from row r₂ is also in rowEntries r₁
-      have h1' : (rowEntries r₂).orderEmbOfFin (rowEnt_card r₂ hr₂) ⟨c₂, by omega⟩ ∈ rowEntries r₁ := h ▸ h1
+      have h1' : (rowEntries r₂).orderEmbOfFin (rowEnt_card r₂ hr₂)
+          ⟨c₂, by omega⟩ ∈ rowEntries r₁ := h ▸ h1
       -- Unpack: entry ∈ rowEntries r means ∃ pos in row r with σ.symm pos = entry
       obtain ⟨pos₁, hpos₁, hv₁⟩ := Finset.mem_image.mp h1'
       obtain ⟨pos₂, hpos₂, hv₂⟩ := Finset.mem_image.mp h2
@@ -604,23 +610,62 @@ private theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
     sorry
   let T : StandardYoungTableau n la :=
     ⟨T_fun, ⟨T_inj, T_surj⟩, T_row_inc, T_col_inc⟩
-  -- p = σ⁻¹ * sytPerm T preserves rows (both σ and T assign entries within same rows)
-  let p := σ⁻¹ * sytPerm n la T
+  -- p = σ * (sytPerm T)⁻¹ preserves rows: T has the same entries in each row as σ,
+  -- so σ maps each entry to the same row where T places it.
+  let p := σ * (sytPerm n la T)⁻¹
+  -- T_fun(cell) ∈ rowEntries(cell.row)
+  have T_fun_mem : ∀ (cell : Cell n la),
+      T_fun cell ∈ rowEntries cell.val.1 := fun ⟨⟨r, c⟩, hr, hc⟩ =>
+    Finset.orderEmbOfFin_mem (rowEntries r) (rowEnt_card r hr) ⟨c, by omega⟩
+  -- entry in rowEntries(r) → σ maps it to a position in row r
+  have σ_entry_row : ∀ (r : ℕ) (e : Fin n),
+      e ∈ rowEntries r → rowOfPos parts (σ e).val = r := by
+    intro r e he
+    obtain ⟨pos, hpos, hv⟩ := Finset.mem_image.mp he
+    have hrow := (Finset.mem_filter.mp hpos).2
+    have : σ e = pos := by
+      have h := σ.apply_symm_apply pos; rw [hv] at h; exact h
+    rw [this]; exact hrow
   have hp_row : p ∈ RowSubgroup n la := by
-    sorry
-  exact ⟨T, p, hp_row, by simp only [p]; rw [mul_inv_cancel_left]⟩
+    intro k
+    -- Goal: rowOfPos la.sortedParts (p k) = rowOfPos la.sortedParts k
+    -- Unfold parts_def to work with `parts`
+    suffices h : rowOfPos parts (p k).val = rowOfPos parts k.val by
+      simp only [parts_def] at h; exact h
+    -- p(k) = σ(sytPerm(T)⁻¹(k))
+    change rowOfPos parts ((σ * (sytPerm n la T)⁻¹) k).val = rowOfPos parts k.val
+    simp only [Equiv.Perm.coe_mul, Function.comp_apply]
+    -- sytPerm(T)⁻¹(k) = T_fun(canonicalFilling(k))
+    have h_inv : (sytPerm n la T)⁻¹ k = T_fun (canonicalFilling n la k) := by
+      simp only [sytPerm, T, Equiv.Perm.inv_def, Equiv.symm_trans_apply]; rfl
+    rw [h_inv]
+    -- T_fun(canonicalFilling(k)) ∈ rowEntries(rowOfPos(k))
+    let cell := canonicalFilling n la k
+    have cell_row : cell.val.1 = rowOfPos parts k.val := by
+      simp only [cell, canonicalFilling, canonicalFillingFun, Equiv.ofBijective_apply, parts_def]
+    rw [← cell_row]
+    exact σ_entry_row cell.val.1 (T_fun cell) (T_fun_mem cell)
+  refine ⟨T, p, hp_row, ?_⟩
+  simp only [p]
+  group
 
-/-- A column-standard filling gives a standard polytabloid. -/
+/-- A column-standard filling gives a standard polytabloid.
+
+With the LEFT coset decomposition σ = p * sytPerm(T), we get:
+  of(σ) * c_λ = of(p) * of(sytPerm T) * c_λ = of(p) * polytabloid(T)
+
+Note: the old RIGHT coset approach used of(p⁻¹) * c_λ = c_λ (left absorption)
+to get of(σ) * c_λ = polytabloid(T) directly. With left cosets, of(p) is NOT
+adjacent to c_λ, so left absorption doesn't apply. The proof that
+of(p) * polytabloid(T) ∈ span(polytabloids) requires a different technique
+(e.g., showing the group action of P_λ preserves the span, or using the
+representation theory of the Specht module). -/
 private theorem column_standard_in_span' (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ) :
     MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la ∈
       Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
         (polytabloidInSpecht n la T : SymGroupAlgebra n))) := by
-  obtain ⟨T, p, hp, hperm⟩ := column_standard_coset_has_syt' n la σ hcs
-  have hσ : σ = sytPerm n la T * p⁻¹ := by rw [hperm]; group
-  rw [hσ, map_mul, mul_assoc,
-      of_row_mul_youngSymmetrizer' n la p⁻¹ ((RowSubgroup n la).inv_mem hp)]
-  exact Submodule.subset_span ⟨T, rfl⟩
+  sorry
 
 /-- Garnir reduction: for a non-column-standard filling, of(σ) · c_λ
 can be expressed as a combination of of(τᵢ) · c_λ with fewer column inversions. -/
