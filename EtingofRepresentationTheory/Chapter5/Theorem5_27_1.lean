@@ -683,12 +683,10 @@ private lemma sigma_contains_all_single {G A : Type} [Group G] [CommGroup A] [Fi
     (hg₁_nz : g₁ q₁ ≠ 0) (hg₁_supp : ∀ q, q ≠ q₁ → g₁ q = 0)
     (u : ↥U) : ∃ f ∈ σ, f q₁ = u ∧ ∀ q, q ≠ q₁ → f q = 0 := by
   -- Bridge: Simple U → IsIrreducible (FDRep.ρ U)
-  -- This is: CategoryTheory.Simple → IsSimpleOrder (Subrepresentation ρ)
-  -- The chain is: Simple FDRep → Simple Rep (forget₂ preserves) →
-  --   Simple ModuleCat (equivalence preserves) → IsSimpleModule → IsIrreducible
-  -- The forget₂ preservation step requires showing sub-Reps of f.d. reps are f.d.
+  -- Proof sketch: construct FDRep.of S.toRepresentation with subtype inclusion as
+  -- a mono in FDRep. By Simple, it's zero or iso, giving S = ⊥ or S = ⊤.
   have hU_irred : Representation.IsIrreducible (FDRep.ρ U) := by
-    sorry -- bridge: CategoryTheory.Simple FDRep ↔ Representation.IsIrreducible
+    sorry -- CategoryTheory.Simple FDRep → Representation.IsIrreducible
   -- Build S = {v : ↥U | ∃ f ∈ σ, f q₁ = v ∧ ∀ q ≠ q₁, f q = 0}
   -- as a Subrepresentation of FDRep.ρ U.
   set S : Subrepresentation (FDRep.ρ U) :=
