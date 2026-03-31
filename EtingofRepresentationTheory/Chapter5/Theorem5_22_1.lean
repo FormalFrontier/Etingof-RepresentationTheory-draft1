@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_21_1
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 import EtingofRepresentationTheory.Chapter5.PermDiagonalTrace
+import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
 
 /-!
 # Theorem 5.22.1: Weyl Character Formula for GL(V)
@@ -848,28 +849,283 @@ def weightToBP (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
   decreasing := hlam
   sum_eq := rfl
 
-/-! #### Character orthogonality for the Young symmetrizer
+/-! #### Helper: trace of multiplication in group algebra -/
 
-This is the key representation-theoretic identity: the Young symmetrizer
-paired with the Frobenius character values gives a Kronecker delta.
-Mathematically, it states that `c_λ` acts as a rank-1 projector (up to
-scalar α) on the irreducible S_n-representation indexed by λ, and as
-zero on all other irreducibles.
+set_option maxHeartbeats 800000 in
+/-- The trace of left multiplication by `c` in `MonoidAlgebra ℚ G` equals `|G| · c(1)`. -/
+private theorem monoidAlgebra_trace_mulLeft_eq'
+    {G : Type*} [Group G] [DecidableEq G] [Fintype G]
+    (c : MonoidAlgebra ℚ G) :
+    LinearMap.trace ℚ _ (LinearMap.mulLeft ℚ c) =
+      Fintype.card G * c 1 := by
+  set b := MonoidAlgebra.basis G ℚ
+  rw [LinearMap.trace_eq_matrix_trace ℚ b]
+  simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply]
+  have hdiag : ∀ σ : G, b.repr (LinearMap.mulLeft ℚ c (b σ)) σ = c 1 := by
+    intro σ
+    rw [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
+    have hrepr : ∀ (x : MonoidAlgebra ℚ G) (g : G), b.repr x g = x g := fun _ _ => rfl
+    rw [hrepr, MonoidAlgebra.mul_single_apply, mul_one, mul_inv_cancel]
+  simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
 
-Proof would require the theory of Specht modules and the structure of
-Young symmetrizers in the group algebra decomposition. -/
+set_option maxHeartbeats 800000 in
+/-- The scalar `α` from `c_λ² = α · c_λ` is nonzero. If `α = 0` then `c² = 0`,
+so left multiplication by `c` is nilpotent with trace 0, but the trace equals `n!`. -/
+theorem YoungSymmetrizerK_sq_scalar_ne_zero
+    (n : ℕ) (la : Nat.Partition n)
+    (α : ℚ)
+    (hα_sq : YoungSymmetrizerK ℚ n la * YoungSymmetrizerK ℚ n la =
+      α • YoungSymmetrizerK ℚ n la) :
+    α ≠ 0 := by
+  intro h0
+  rw [h0, zero_smul] at hα_sq
+  set c := YoungSymmetrizerK ℚ n la with hc_def
+  have hnil : IsNilpotent (LinearMap.mulLeft ℚ c) := by
+    refine ⟨2, LinearMap.ext fun x => ?_⟩
+    change (LinearMap.mulLeft ℚ c) ((LinearMap.mulLeft ℚ c) x) = 0
+    simp only [LinearMap.mulLeft_apply, ← mul_assoc, hα_sq, zero_mul]
+  have htr_nil := LinearMap.isNilpotent_trace_of_isNilpotent hnil
+  rw [isNilpotent_iff_eq_zero] at htr_nil
+  rw [monoidAlgebra_trace_mulLeft_eq'] at htr_nil
+  have hone : c 1 = 1 := by
+    rw [hc_def, YoungSymmetrizerK_eq_mapRange ℚ n la]
+    simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+  rw [hone, mul_one] at htr_nil
+  exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
+    (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
+
+/-! #### Inlined trace-Kronecker identity for the bridge
+
+We inline the key parts of the `youngSym_trace_kronecker` proof here
+to avoid circular imports (YoungSymTraceKronecker.lean imports this file). -/
+
+/-- Coefficient transfer: ℚ and ℂ Young symmetrizer coefficients agree under cast. -/
+private lemma youngSym_coeff_cast' (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    (YoungSymmetrizerK ℚ n la σ : ℂ) = YoungSymmetrizer n la σ := by
+  rw [YoungSymmetrizerK_eq_mapRange ℚ n la, YoungSymmetrizer_eq_mapRange n la]
+  simp only [MonoidAlgebra.mapRangeRingHom_apply]
+  exact_mod_cast rfl
+
+/-- Transfer `c² = α·c` from ℚ to ℂ via the ℤ base change. -/
+private lemma youngSym_sq_ℂ' (n : ℕ) (la : Nat.Partition n)
+    (α : ℚ) (hα : YoungSymmetrizerK ℚ n la * YoungSymmetrizerK ℚ n la =
+      α • YoungSymmetrizerK ℚ n la) :
+    YoungSymmetrizer n la * YoungSymmetrizer n la = (α : ℂ) • YoungSymmetrizer n la := by
+  set cZ := YoungSymmetrizerZ n la
+  set β : ℤ := (cZ * cZ) 1
+  set φ_ℚ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
+  set φ_ℂ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
+  have h_ℚ : YoungSymmetrizerK ℚ n la = φ_ℚ cZ := YoungSymmetrizerK_eq_mapRange ℚ n la
+  have h_ℂ : YoungSymmetrizer n la = φ_ℂ cZ := YoungSymmetrizer_eq_mapRange n la
+  have hcZ1 : cZ 1 = 1 := YoungSymmetrizerZ_apply_one n la
+  have hmul_ℚ : φ_ℚ (cZ * cZ) = α • φ_ℚ cZ := by rw [map_mul]; exact h_ℚ ▸ hα
+  have hα_eq : α = (β : ℚ) := by
+    have h1 := Finsupp.ext_iff.mp hmul_ℚ 1
+    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+      smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
+    exact h1.symm
+  have hZ : cZ * cZ = β • cZ := by
+    ext σ
+    have h1 := Finsupp.ext_iff.mp hmul_ℚ σ
+    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+      smul_eq_mul, hα_eq, φ_ℚ] at h1
+    have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
+    have h3 : (cZ * cZ) σ = β * cZ σ := Int.cast_injective h2
+    rw [MonoidAlgebra.smul_apply, smul_eq_mul, h3]
+  rw [h_ℂ, ← map_mul, hZ, map_zsmul, ← Int.cast_smul_eq_zsmul ℂ]
+  congr 1; exact_mod_cast hα_eq.symm
+
+/-- Left multiplication on the Specht module. -/
+private def mulLeftOnSpecht' (n : ℕ) (c : SymGroupAlgebra n) (la' : Nat.Partition n) :
+    ↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la') where
+  toFun v := ⟨c * ↑v, (SpechtModule n la').smul_mem c v.prop⟩
+  map_add' a b := Subtype.ext (mul_add c ↑a ↑b)
+  map_smul' r v := Subtype.ext (Algebra.mul_smul_comm r c ↑v)
+
+private lemma mulLeftOnSpecht_of' (n : ℕ) (la' : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    mulLeftOnSpecht' n (MonoidAlgebra.of ℂ _ σ) la' = spechtModuleAction n la' σ := by
+  ext ⟨m, hm⟩; rfl
+
+private noncomputable def mulLeftOnSpechtLinear' (n : ℕ) (la' : Nat.Partition n) :
+    SymGroupAlgebra n →ₗ[ℂ] (↥(SpechtModule n la') →ₗ[ℂ] ↥(SpechtModule n la')) where
+  toFun c := mulLeftOnSpecht' n c la'
+  map_add' a b := by ext ⟨m, hm⟩; simp [mulLeftOnSpecht', add_mul]
+  map_smul' r c := by ext ⟨m, hm⟩; simp [mulLeftOnSpecht']
+
+/-- Trace linearity: ∑_σ c(σ) · χ_{V}(σ) = trace of left mult by c on V. -/
+private lemma sum_coeff_char_eq_trace' (n : ℕ) (la' : Nat.Partition n) (c : SymGroupAlgebra n) :
+    ∑ σ : Equiv.Perm (Fin n), c σ * spechtModuleCharacter n la' σ =
+      LinearMap.trace ℂ _ (mulLeftOnSpecht' n c la') := by
+  symm
+  have key : (LinearMap.trace ℂ _) (mulLeftOnSpecht' n c la') =
+      ∑ σ ∈ c.support, c σ * spechtModuleCharacter n la' σ := by
+    have hlin : mulLeftOnSpecht' n c la' = (mulLeftOnSpechtLinear' n la') c := rfl
+    rw [hlin]
+    simp_rw [spechtModuleCharacter, ← mulLeftOnSpecht_of' n la']
+    have hc : c = ∑ σ ∈ c.support, c σ • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) σ := by
+      conv_lhs => rw [← Finsupp.sum_single c]
+      unfold Finsupp.sum
+      refine Finset.sum_congr rfl (fun σ _ => ?_)
+      rw [MonoidAlgebra.of_apply, Finsupp.smul_single', mul_one]
+    conv_lhs => rw [show (mulLeftOnSpechtLinear' n la') c =
+        (mulLeftOnSpechtLinear' n la')
+          (∑ σ ∈ c.support, c σ • MonoidAlgebra.of ℂ _ σ) from by rw [← hc]]
+    rw [map_sum, map_sum]
+    refine Finset.sum_congr rfl (fun σ _ => ?_)
+    rw [map_smul, LinearMap.map_smul, smul_eq_mul]; rfl
+  rw [key]
+  apply Finset.sum_subset (Finset.subset_univ c.support)
+  intro σ _ hσ
+  have : c σ = 0 := by rwa [Finsupp.mem_support_iff, not_not] at hσ
+  simp [this]
+
+/-- Off-diagonal: c_λ acts as 0 on V_{λ'} when λ ≠ λ'. -/
+private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) (hne : la ≠ la') :
+    mulLeftOnSpecht' n (YoungSymmetrizer n la) la' = 0 := by
+  by_contra hT
+  obtain ⟨w₀, hw₀⟩ : ∃ w₀ : SpechtModule n la',
+      mulLeftOnSpecht' n (YoungSymmetrizer n la) la' w₀ ≠ 0 := by
+    by_contra hall; push_neg at hall; exact hT (LinearMap.ext hall)
+  set φ : SpechtModule n la →ₗ[SymGroupAlgebra n] SpechtModule n la' :=
+    { toFun := fun v => ⟨(v : SymGroupAlgebra n) * (w₀ : SymGroupAlgebra n),
+        (SpechtModule n la').smul_mem (v : SymGroupAlgebra n) w₀.prop⟩
+      map_add' := fun a b => Subtype.ext (add_mul (a : SymGroupAlgebra n) b w₀)
+      map_smul' := fun a v => Subtype.ext (mul_assoc a (v : SymGroupAlgebra n) w₀) }
+  have hφ_ne : φ ≠ 0 := by
+    intro h; apply hw₀
+    have : φ ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩ = 0 :=
+      congr_fun (congr_arg DFunLike.coe h) ⟨YoungSymmetrizer n la, Submodule.subset_span rfl⟩
+    simp only [mulLeftOnSpecht', LinearMap.coe_mk, AddHom.coe_mk] at this ⊢; exact this
+  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la) :=
+    Theorem5_12_2_irreducible n la
+  haveI : IsSimpleModule (SymGroupAlgebra n) (SpechtModule n la') :=
+    Theorem5_12_2_irreducible n la'
+  have hφ_bij := LinearMap.bijective_of_ne_zero hφ_ne
+  exact (Theorem5_12_2_distinct n la la' hne).false (LinearEquiv.ofBijective φ hφ_bij)
+
+/-- Identity coefficient of c_ℂ is 1. -/
+private lemma youngSym_coeff_one' (n : ℕ) (la : Nat.Partition n) :
+    (YoungSymmetrizer n la : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) 1 = 1 := by
+  rw [YoungSymmetrizer_eq_mapRange]
+  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+
+/-- Sandwich proportionality: c * v = ((c * v)(1)) • c for v ∈ V_λ. -/
+private lemma mul_mem_specht_proportional' (n : ℕ) (la : Nat.Partition n)
+    (v : ↥(SpechtModule n la)) :
+    YoungSymmetrizer n la * v.val =
+      (YoungSymmetrizer n la * v.val) 1 • YoungSymmetrizer n la := by
+  classical
+  set c := YoungSymmetrizer n la
+  obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp v.prop
+  rw [smul_eq_mul] at ha
+  obtain ⟨ℓ, hℓ⟩ := Etingof.Lemma5_13_1 n la
+  have h_sandwich : ∀ x,
+      c * x * c = ℓ (ColumnAntisymmetrizer n la * (x * RowSymmetrizer n la)) • c := by
+    intro x
+    change RowSymmetrizer n la * ColumnAntisymmetrizer n la * x *
+        (RowSymmetrizer n la * ColumnAntisymmetrizer n la) = _
+    rw [show RowSymmetrizer n la * ColumnAntisymmetrizer n la * x *
+          (RowSymmetrizer n la * ColumnAntisymmetrizer n la) =
+        RowSymmetrizer n la * (ColumnAntisymmetrizer n la * x * RowSymmetrizer n la) *
+          ColumnAntisymmetrizer n la from by simp only [mul_assoc]]
+    rw [hℓ, show c = YoungSymmetrizer n la from rfl]; simp only [YoungSymmetrizer, mul_assoc]
+  have hsand := h_sandwich a
+  conv_lhs at hsand => rw [mul_assoc]
+  conv_lhs => rw [show v.val = a * c from ha.symm, hsand]
+  conv_rhs => rw [show v.val = a * c from ha.symm, hsand]
+  congr 1; rw [Finsupp.smul_apply, smul_eq_mul, youngSym_coeff_one', mul_one]
+
+/-- Diagonal case: trace of c_λ on V_λ equals α. -/
+private lemma trace_mulLeft_youngSym_eq' (n : ℕ) (la : Nat.Partition n)
+    (α : ℂ) (_hα_ne : α ≠ 0)
+    (hα_sq : YoungSymmetrizer n la * YoungSymmetrizer n la = α • YoungSymmetrizer n la) :
+    LinearMap.trace ℂ _ (mulLeftOnSpecht' n (YoungSymmetrizer n la) la) = α := by
+  set c := YoungSymmetrizer n la with hc_def
+  set V := SpechtModule n la
+  set T := mulLeftOnSpecht' n c la
+  have hc_mem : c ∈ V := Submodule.subset_span rfl
+  set e : V := ⟨c, hc_mem⟩
+  let ι : ℂ →ₗ[ℂ] V := LinearMap.lsmul ℂ V |>.flip e
+  let π : V →ₗ[ℂ] ℂ :=
+    { toFun := fun v => (c * v.val) 1
+      map_add' := fun x y => by simp [mul_add]
+      map_smul' := fun r x => by
+        change (c * (r • x.val)) 1 = r * (c * x.val) 1
+        rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul] }
+  have hT_eq : T = ι.comp π := by
+    apply LinearMap.ext; intro ⟨v, hv⟩; apply Subtype.ext
+    exact mul_mem_specht_proportional' n la ⟨v, hv⟩
+  rw [hT_eq, LinearMap.trace_comp_comm']
+  have h_comp : π.comp ι = α • LinearMap.id := by
+    apply LinearMap.ext; intro x
+    change (c * (x • c)) 1 = α * x
+    rw [Algebra.mul_smul_comm, Finsupp.smul_apply, smul_eq_mul]
+    rw [hα_sq, Finsupp.smul_apply, smul_eq_mul, youngSym_coeff_one', mul_one, mul_comm]
+  rw [h_comp]; simp [map_smul, LinearMap.trace_id, Module.finrank_self]
+
+/-- Young symmetrizer trace Kronecker (inlined version):
+`∑_σ c_λ(σ) · χ_{V_{λ'}}(σ) = α · δ_{λ,λ'}`. -/
+private theorem youngSym_trace_kronecker' (n : ℕ) (la la' : Nat.Partition n)
+    (α : ℚ) (hα_sq : YoungSymmetrizerK ℚ n la * YoungSymmetrizerK ℚ n la =
+      α • YoungSymmetrizerK ℚ n la) :
+    ∑ σ : Equiv.Perm (Fin n),
+      (YoungSymmetrizerK ℚ n la σ : ℂ) * spechtModuleCharacter n la' σ =
+      if la = la' then (α : ℂ) else 0 := by
+  conv_lhs => arg 2; ext σ; rw [youngSym_coeff_cast']
+  have hα_ℂ := youngSym_sq_ℂ' n la α hα_sq
+  have hα_ne : (α : ℂ) ≠ 0 := by exact_mod_cast YoungSymmetrizerK_sq_scalar_ne_zero n la α hα_sq
+  rw [sum_coeff_char_eq_trace']
+  split_ifs with h
+  · subst h; exact trace_mulLeft_youngSym_eq' n la (α : ℂ) hα_ne hα_ℂ
+  · rw [mulLeft_youngSym_zero_of_ne' n la la' h, map_zero]
+
+/-! #### Bridge: charValue ↔ spechtModuleCharacter
+
+The Frobenius character formula (Theorem 5.15.1) connects the polynomial
+coefficient definition (`charValue` over ℚ with N variables) to the trace
+definition (`spechtModuleCharacter` over ℂ with n variables). For N = n,
+the connection is exact. For general N, stability of symmetric functions
+ensures the character value is independent of the number of variables.
+
+**Key identity chain (for N = n):**
+1. `alternantDet n = sign(rev) · ∏_{i<j}(x_j - x_i)` (Vandermonde identity)
+2. `charValue = coeff_{λ+ρ}(sign(rev) · vandermonde · psumPart)`
+3. Theorem 5.15.1: `sign(rev) · χ = coeff_{λ+ρ}(vandermonde · cyclePsum)`
+4. Therefore `charValue = sign(rev)² · χ = χ` since `sign(rev)² = 1`. -/
+
+/-- The Frobenius character formula bridge: `charValue` equals `spechtModuleCharacter`
+(after casting ℚ → ℂ). This bridges the polynomial coefficient definition used in
+the Weyl character formula with the trace definition used in Specht module theory.
+
+For general N, this follows from the stability of symmetric function coefficients
+(charValue is independent of the number of variables for N ≥ l(λ)). -/
+private lemma charValue_eq_spechtModuleCharacter
+    (N : ℕ) (n : ℕ) (lam' : BoundedPartition N n) (σ : Equiv.Perm (Fin n)) :
+    (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
+      spechtModuleCharacter n (lam'.sum_eq ▸ weightToPartition N lam'.parts) σ := by
+  sorry
+
+/-- Two antitone sequences with the same sum and the same weightToPartition
+are pointwise equal. (The multiset of nonzero parts, being sorted by
+antitonicity, uniquely determines the sequence once padded with zeros.) -/
+private lemma weightToPartition_eq_iff
+    (N n : ℕ) (lam lam' : Fin N → ℕ)
+    (_hlam : Antitone lam) (_hlam' : Antitone lam')
+    (hsum : ∑ i, lam i = n) (hsum' : ∑ i, lam' i = n) :
+    (hsum ▸ weightToPartition N lam : Nat.Partition n) =
+      (hsum' ▸ weightToPartition N lam') ↔ lam = lam' := by
+  sorry
+
+/-! #### Character orthogonality for the Young symmetrizer -/
 
 /-- **Character orthogonality for the Young symmetrizer**: The Young-symmetrizer-weighted
 sum of character values gives `α` for the matching partition and `0` otherwise.
 
 This is the key identity: ∑_σ c_λ(σ) · χ_{λ'}(σ) = α · δ_{λ,λ'}
-where χ_{λ'} is the character value at the conjugacy class of σ.
 
-The proof requires the decomposition of c_λ in the Wedderburn decomposition
-of ℚ[S_n]: the Young symmetrizer c_λ maps to a scalar multiple of a
-rank-1 idempotent in the λ-isotypic component and to 0 in all other
-components. This is a fundamental result in the representation theory
-of the symmetric group. -/
+Proved by bridging `charValue` (polynomial coefficient over ℚ) to
+`spechtModuleCharacter` (trace over ℂ) via the Frobenius character formula,
+then applying `youngSym_trace_kronecker` and using injectivity of ℚ → ℂ. -/
 theorem youngSym_charValue_orthogonality
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam)
     (α : ℚ) (hα_sq : YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) *
@@ -880,7 +1136,41 @@ theorem youngSym_charValue_orthogonality
       (YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) *
         charValue N lam' (fullCycleTypePartition σ) =
       if lam'.parts = lam then α else 0 := by
-  sorry
+  -- Prove the ℂ version using the trace Kronecker identity, then cast back to ℚ
+  set la'_np : Nat.Partition (∑ i, lam i) := lam'.sum_eq ▸ weightToPartition N lam'.parts
+  -- The trace Kronecker identity over ℂ
+  have h_trace := youngSym_trace_kronecker' (∑ i, lam i) (weightToPartition N lam)
+    la'_np α hα_sq
+  -- Bridge: charValue cast to ℂ equals spechtModuleCharacter
+  have h_bridge : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+      (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
+        spechtModuleCharacter (∑ i, lam i) la'_np σ :=
+    fun σ => charValue_eq_spechtModuleCharacter N (∑ i, lam i) lam' σ
+  -- Match the if-conditions: (la = la'_np) ↔ (lam'.parts = lam)
+  have h_cond : (weightToPartition N lam = la'_np) ↔ (lam'.parts = lam) := by
+    rw [weightToPartition_eq_iff N (∑ i, lam i) lam lam'.parts hlam lam'.decreasing rfl lam'.sum_eq]
+    exact ⟨fun h => h.symm, fun h => h.symm⟩
+  -- Combine: compute the ℂ version and cast back
+  have h_ℂ : ∀ σ, (YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℂ) *
+      (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
+      (YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℂ) *
+        spechtModuleCharacter (∑ i, lam i) la'_np σ := by
+    intro σ; congr 1; exact h_bridge σ
+  have h_sum : (∑ σ, (YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) *
+      charValue N lam' (fullCycleTypePartition σ) : ℂ) =
+      if lam'.parts = lam then (α : ℂ) else 0 := by
+    simp only [Rat.cast_sum, Rat.cast_mul]
+    simp_rw [h_ℂ, h_trace]
+    split_ifs with h1 h2 h2
+    · rfl
+    · exact absurd (h_cond.mp h1) h2
+    · exact absurd (h_cond.mpr h2) h1
+    · rfl
+  have hinj := (algebraMap ℚ ℂ).injective
+  apply hinj
+  convert h_sum using 1
+  · push_cast; rfl
+  · split_ifs <;> simp
 
 /-! #### Step 2: Young symmetrizer weighted sum of permTracePoly equals α · schurPoly
 
@@ -1022,54 +1312,6 @@ theorem sum_youngSym_permTracePoly_eq_alpha_schurPoly
       rw [hweight] at hd
       obtain ⟨lam', hlam'⟩ := exists_bp_of_strictAnti_sum e he (by exact_mod_cast hd)
       exact hbp ⟨lam', hlam'⟩
-
-set_option maxHeartbeats 800000 in
-/-- The trace of left multiplication by `c` in `MonoidAlgebra ℚ G` equals `|G| · c(1)`. -/
-private theorem monoidAlgebra_trace_mulLeft_eq
-    {G : Type*} [Group G] [DecidableEq G] [Fintype G]
-    (c : MonoidAlgebra ℚ G) :
-    LinearMap.trace ℚ _ (LinearMap.mulLeft ℚ c) =
-      Fintype.card G * c 1 := by
-  set b := MonoidAlgebra.basis G ℚ
-  rw [LinearMap.trace_eq_matrix_trace ℚ b]
-  simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply]
-  have hdiag : ∀ σ : G, b.repr (LinearMap.mulLeft ℚ c (b σ)) σ = c 1 := by
-    intro σ
-    -- b.repr is identity, b σ = single σ 1, (c * single σ 1)(σ) = c(σσ⁻¹) = c(1)
-    rw [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
-    -- b.repr is identity for MonoidAlgebra.basis
-    have hrepr : ∀ (x : MonoidAlgebra ℚ G) (g : G), b.repr x g = x g := fun _ _ => rfl
-    rw [hrepr, MonoidAlgebra.mul_single_apply, mul_one, mul_inv_cancel]
-  simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
-
-set_option maxHeartbeats 800000 in
-/-- The scalar `α` from `c_λ² = α · c_λ` is nonzero. If `α = 0` then `c² = 0`,
-so left multiplication by `c` is nilpotent with trace 0, but the trace equals `n!`. -/
-theorem YoungSymmetrizerK_sq_scalar_ne_zero
-    (n : ℕ) (la : Nat.Partition n)
-    (α : ℚ)
-    (hα_sq : YoungSymmetrizerK ℚ n la * YoungSymmetrizerK ℚ n la =
-      α • YoungSymmetrizerK ℚ n la) :
-    α ≠ 0 := by
-  intro h0
-  rw [h0, zero_smul] at hα_sq
-  set c := YoungSymmetrizerK ℚ n la with hc_def
-  -- c² = 0, so left multiplication by c is nilpotent
-  have hnil : IsNilpotent (LinearMap.mulLeft ℚ c) := by
-    refine ⟨2, LinearMap.ext fun x => ?_⟩
-    change (LinearMap.mulLeft ℚ c) ((LinearMap.mulLeft ℚ c) x) = 0
-    simp only [LinearMap.mulLeft_apply, ← mul_assoc, hα_sq, zero_mul]
-  -- Nilpotent trace is nilpotent, hence 0 in ℚ (reduced ring)
-  have htr_nil := LinearMap.isNilpotent_trace_of_isNilpotent hnil
-  rw [isNilpotent_iff_eq_zero] at htr_nil
-  -- But trace = n! · c(1) = n!
-  rw [monoidAlgebra_trace_mulLeft_eq] at htr_nil
-  have hone : c 1 = 1 := by
-    rw [hc_def, YoungSymmetrizerK_eq_mapRange ℚ n la]
-    simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
-  rw [hone, mul_one] at htr_nil
-  exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
-    (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
 
 /-- **Weyl character formula (polynomial level)**: The formal character of the Schur module
 `L_λ` equals the Schur polynomial `S_λ(x₁, …, x_N)`.
