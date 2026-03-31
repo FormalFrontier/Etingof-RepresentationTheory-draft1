@@ -1093,12 +1093,32 @@ ensures the character value is independent of the number of variables.
 3. Theorem 5.15.1: `sign(rev) · χ = coeff_{λ+ρ}(vandermonde · cyclePsum)`
 4. Therefore `charValue = sign(rev)² · χ = χ` since `sign(rev)² = 1`. -/
 
+/-- For antitone `f : Fin n → ℕ`, the sorted parts of `weightToPartition n f` match `f`
+at each position. Since `f` is already weakly decreasing, `sort (· ≥ ·)` of the
+positive-value multiset gives back the positive values of `f` in order, and `getD`
+extends with zeros matching the zero tail of `f`. -/
+private lemma sortedParts_getD_eq_of_antitone
+    (n : ℕ) (f : Fin n → ℕ) (hf : Antitone f) (i : Fin n) :
+    ((weightToPartition n f).sortedParts.getD i.val 0 : ℕ) = f i := by
+  sorry
+
+/-- Stability of charValue: the value is independent of the number of variables N,
+depending only on the partition (nonzero parts). This is the standard fact that
+symmetric function coefficients in the alternant expansion are stable under
+change of the number of variables. -/
+private lemma charValue_stability
+    (N₁ N₂ n : ℕ) (bp₁ : BoundedPartition N₁ n) (bp₂ : BoundedPartition N₂ n)
+    (h : (bp₁.sum_eq ▸ weightToPartition N₁ bp₁.parts : Nat.Partition n) =
+         (bp₂.sum_eq ▸ weightToPartition N₂ bp₂.parts : Nat.Partition n))
+    (μ : Nat.Partition n) :
+    charValue N₁ bp₁ μ = charValue N₂ bp₂ μ := by
+  sorry
+
 /-- The Frobenius character formula bridge: `charValue` equals `spechtModuleCharacter`
 (after casting ℚ → ℂ). This bridges the polynomial coefficient definition used in
 the Weyl character formula with the trace definition used in Specht module theory.
 
-For general N, this follows from the stability of symmetric function coefficients
-(charValue is independent of the number of variables for N ≥ l(λ)). -/
+For general N, this reduces to the N = n case via `charValue_stability`. -/
 private lemma charValue_eq_spechtModuleCharacter
     (N : ℕ) (n : ℕ) (lam' : BoundedPartition N n) (σ : Equiv.Perm (Fin n)) :
     (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
@@ -1129,7 +1149,7 @@ private lemma antitone_eq_of_filter_pos_eq
         rw [Multiset.card_add] at h_split
         rw [Multiset.count_eq_card_filter_eq]
         have : Multiset.filter (fun a => 0 = a) m = Multiset.filter (fun a => ¬ 0 < a) m := by
-          congr 1; ext a; simp [Nat.le_zero, eq_comm]
+          congr 1; ext a; simp [eq_comm]
         rw [this]; omega
       rw [key, key]; omega
   -- Step 2: Antitone functions with equal value multisets are equal.
@@ -1200,7 +1220,7 @@ theorem youngSym_charValue_orthogonality
   have h_sum : (∑ σ, (YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) *
       charValue N lam' (fullCycleTypePartition σ) : ℂ) =
       if lam'.parts = lam then (α : ℂ) else 0 := by
-    simp only [Rat.cast_sum, Rat.cast_mul]
+    push_cast [Finset.sum_comm]
     simp_rw [h_ℂ, h_trace]
     split_ifs with h1 h2 h2
     · rfl
