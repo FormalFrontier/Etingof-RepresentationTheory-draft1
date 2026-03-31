@@ -1100,7 +1100,68 @@ extends with zeros matching the zero tail of `f`. -/
 private lemma sortedParts_getD_eq_of_antitone
     (n : ℕ) (f : Fin n → ℕ) (hf : Antitone f) (i : Fin n) :
     ((weightToPartition n f).sortedParts.getD i.val 0 : ℕ) = f i := by
-  sorry
+  unfold Nat.Partition.sortedParts weightToPartition
+  simp only [Fin.univ_val_map]
+  -- Goal: ((↑(List.ofFn f)).filter (0 < ·)).sort (· ≥ ·) |>.getD i.val 0 = f i
+  -- Step 1: The filtered list is already sorted (since f is antitone)
+  have h_sorted : ((List.ofFn f).filter (0 < ·)).SortedGE := by
+    rw [List.sortedGE_iff_pairwise]
+    exact List.Pairwise.filter _ (List.sortedGE_ofFn_iff.mpr hf).pairwise
+  -- Step 2: sort of a sorted coe is the original list
+  -- sort_eq says ↑(sort (↑l) r) = ↑l as multisets
+  -- pairwise_sort says sort result is pairwise
+  -- eq_of_sortedGE + perm gives list equality
+  have h_sort_eq : ((↑(List.ofFn f) : Multiset ℕ).filter (0 < ·)).sort (· ≥ ·) =
+      (List.ofFn f).filter (0 < ·) := by
+    rw [Multiset.filter_coe]
+    have h_perm : ((↑((List.ofFn f).filter (0 < ·)) : Multiset ℕ).sort (· ≥ ·)).Perm
+        ((List.ofFn f).filter (0 < ·)) :=
+      Multiset.coe_eq_coe.mp (Multiset.sort_eq _ _)
+    have h_sort_sorted : (↑((List.ofFn f).filter (0 < ·)) : Multiset ℕ).sort (· ≥ ·)
+        |>.SortedGE := by
+      rw [List.sortedGE_iff_pairwise]
+      exact Multiset.pairwise_sort _ _
+    exact h_perm.eq_of_sortedGE h_sort_sorted h_sorted
+  rw [h_sort_eq]
+  -- Step 3: getD on filtered list equals f i
+  -- For antitone f, positive elements form a prefix of List.ofFn f
+  -- Key: filter keeps a prefix, and getD extends with 0
+  -- We prove: for antitone f, (ofFn f).filter (0 < ·) = (ofFn f).take k
+  -- where k = #{j | 0 < f j}
+  -- Then getD i 0 of take k = f i (either i < k and we get f i, or i ≥ k and f i = 0)
+  suffices h_filter_eq : ∀ (m : ℕ) (g : Fin m → ℕ), Antitone g →
+      ∀ j : Fin m, ((List.ofFn g).filter (0 < ·)).getD j.val 0 = g j by
+    exact h_filter_eq n f hf i
+  intro m g hg j
+  induction m with
+  | zero => exact j.elim0
+  | succ m ih =>
+    rw [List.ofFn_succ]
+    by_cases hg0 : 0 < g 0
+    · -- g 0 > 0, so it passes filter
+      simp only [List.filter_cons, decide_eq_true_eq.mpr hg0, ↓reduceIte]
+      cases j using Fin.cases with
+      | zero => simp [List.getD]
+      | succ j' =>
+        simp only [List.getD]
+        have hgs : Antitone (g ∘ Fin.succ) :=
+          fun a b hab => hg (show Fin.succ a ≤ Fin.succ b from Fin.succ_le_succ_iff.mpr hab)
+        exact ih (g ∘ Fin.succ) hgs j'
+    · -- g 0 = 0
+      push_neg at hg0
+      have hg0' : g 0 = 0 := Nat.le_zero.mp hg0
+      simp only [List.filter_cons, show decide (0 < g 0) = false from
+        decide_eq_false (not_lt.mpr hg0), Bool.false_eq_true, ↓reduceIte]
+      -- Since g is antitone and g 0 = 0, all g j = 0
+      have hall : ∀ k : Fin (m + 1), g k = 0 :=
+        fun k => Nat.le_zero.mp (hg0' ▸ hg (Fin.zero_le k))
+      -- filter on tail is empty (all values are 0)
+      have h_empty : List.filter (fun x => decide (0 < x))
+          (List.ofFn (fun i : Fin m => g i.succ)) = [] := by
+        rw [List.filter_eq_nil_iff]
+        intro x hx; rw [List.mem_ofFn] at hx; obtain ⟨k, rfl⟩ := hx
+        simp [hall k.succ]
+      rw [h_empty]; simp [hall j]
 
 /-- Stability of charValue: the value is independent of the number of variables N,
 depending only on the partition (nonzero parts). This is the standard fact that
