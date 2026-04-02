@@ -1037,13 +1037,131 @@ private lemma nilpotent_nontrivial_decomp {V : Type*} [AddCommGroup V] [Module �
           intro w _
           exact Submodule.mem_sup_left ⟨w, rfl⟩
 
-/-- If dim(ker A) + dim(ker B) ≥ 2 for a Q₂-rep with AB nilpotent and both dims > 0,
-then the rep is decomposable.
+/-- Helper: if v ∈ ker A and v ∉ range B, then (span{v}, ⊥) ⊕ (qV, W) is a nontrivial
+product-compatible decomposition. -/
+private lemma product_decomp_of_ker_A_not_range_B
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (A : V →ₗ[ℂ] W) (B : W →ₗ[ℂ] V)
+    (v₀ : V) (hv₀_ne : v₀ ≠ 0) (hv₀_ker : A v₀ = 0)
+    (hv₀_not_range : v₀ ∉ LinearMap.range B)
+    (hW_or_kerA : 0 < Module.finrank ℂ W ∨
+        1 < Module.finrank ℂ (LinearMap.ker A)) :
+    ∃ (pV qV : Submodule ℂ V) (pW qW : Submodule ℂ W),
+      IsCompl pV qV ∧ IsCompl pW qW ∧
+      (∀ x ∈ pV, A x ∈ pW) ∧ (∀ x ∈ qV, A x ∈ qW) ∧
+      (∀ x ∈ pW, B x ∈ pV) ∧ (∀ x ∈ qW, B x ∈ qV) ∧
+      ¬(pV = ⊥ ∧ pW = ⊥) ∧ ¬(qV = ⊥ ∧ qW = ⊥) := by
+  set pV := Submodule.span ℂ ({v₀} : Set V)
+  -- range B is disjoint from span{v₀} since v₀ ∉ range B
+  have h_disj : Disjoint pV (LinearMap.range B) := by
+    rw [disjoint_comm]
+    exact (Submodule.disjoint_span_singleton' hv₀_ne).mpr hv₀_not_range
+  -- Get complement of (span{v₀} ⊔ range B)
+  obtain ⟨C, hTC⟩ := (pV ⊔ LinearMap.range B).exists_isCompl
+  set qV := LinearMap.range B ⊔ C
+  have hcV : IsCompl pV qV := by
+    constructor
+    · rw [disjoint_iff, Submodule.eq_bot_iff]
+      intro x hx
+      obtain ⟨hx₁, hx₂⟩ := Submodule.mem_inf.mp hx
+      obtain ⟨r, hr, c, hc, hrc⟩ := Submodule.mem_sup.mp hx₂
+      have hc_T : c ∈ pV ⊔ LinearMap.range B := by
+        have : c = x - r := by rw [← hrc]; abel
+        rw [this]; exact (pV ⊔ LinearMap.range B).sub_mem
+          (Submodule.mem_sup_left hx₁) (Submodule.mem_sup_right hr)
+      have hc0 : c = 0 := by
+        have := Submodule.mem_inf.mpr ⟨hc_T, hc⟩
+        rwa [hTC.disjoint.eq_bot] at this
+      have hxr : x = r := by rw [← hrc, hc0, add_zero]
+      subst hxr
+      exact h_disj.le_bot (Submodule.mem_inf.mpr ⟨hx₁, hr⟩)
+    · simp only [codisjoint_iff]
+      calc pV ⊔ qV = pV ⊔ (LinearMap.range B ⊔ C) := rfl
+        _ = (pV ⊔ LinearMap.range B) ⊔ C := (sup_assoc _ _ _).symm
+        _ = ⊤ := hTC.codisjoint.eq_top
+  refine ⟨pV, qV, ⊥, ⊤, hcV, isCompl_bot_top, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- A(pV) ⊆ ⊥: A(v₀) = 0
+    intro x hx; obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hx
+    simp [hv₀_ker]
+  · -- A(qV) ⊆ ⊤
+    intro _ _; exact Submodule.mem_top
+  · -- B(⊥) ⊆ pV
+    intro x hx; rw [(Submodule.mem_bot ℂ).mp hx, map_zero]; exact Submodule.zero_mem _
+  · -- B(⊤) ⊆ qV: range B ⊆ qV
+    intro x _; exact Submodule.mem_sup_left (LinearMap.mem_range_self B x)
+  · -- ¬(pV = ⊥ ∧ ⊥ = ⊥): pV ≠ ⊥
+    intro ⟨h, _⟩; exact hv₀_ne (show v₀ ∈ (⊥ : Submodule ℂ V) from
+      h ▸ Submodule.subset_span rfl)
+  · -- ¬(qV = ⊥ ∧ ⊤ = ⊥)
+    intro ⟨hqV, hW_top⟩
+    rcases hW_or_kerA with hW_pos | hkerA_gt
+    · -- dim W > 0 → ⊤ ≠ ⊥
+      haveI : Nontrivial W := Module.finrank_pos_iff.mp hW_pos
+      exact absurd hW_top top_ne_bot
+    · -- dim(ker A) > 1 → qV ≠ ⊥
+      have hpV_top : pV = ⊤ := eq_top_of_isCompl_bot (hqV ▸ hcV)
+      have h1 : Module.finrank ℂ pV ≤ 1 :=
+        (finrank_span_le_card ({v₀} : Set V)).trans (by simp)
+      rw [hpV_top, finrank_top] at h1
+      have : Module.finrank ℂ (LinearMap.ker A) ≤ Module.finrank ℂ V :=
+        Submodule.finrank_le _
+      linarith
 
-Proof: Assume indecomposable → ker A ⊆ range B, ker B ⊆ range A.
-Then dim(ker AB) = dim(ker A) + dim(ker B) ≥ 2. Apply nilpotent_nontrivial_decomp
-to AB on W to get N₁ ⊕ N₂. Pull back through A for the V decomposition, splitting
-ker A using Indecomposable to derive contradiction. -/
+private lemma off_diagonal_nilpotent_product_decomp
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
+    (A : V →ₗ[ℂ] W) (B : W →ₗ[ℂ] V)
+    (_hAB : IsNilpotent (A.comp B))
+    (hker : 2 ≤ Module.finrank ℂ (LinearMap.ker A) +
+              Module.finrank ℂ (LinearMap.ker B)) :
+    ∃ (pV qV : Submodule ℂ V) (pW qW : Submodule ℂ W),
+      IsCompl pV qV ∧ IsCompl pW qW ∧
+      (∀ x ∈ pV, A x ∈ pW) ∧ (∀ x ∈ qV, A x ∈ qW) ∧
+      (∀ x ∈ pW, B x ∈ pV) ∧ (∀ x ∈ qW, B x ∈ qV) ∧
+      ¬(pV = ⊥ ∧ pW = ⊥) ∧ ¬(qV = ⊥ ∧ qW = ⊥) := by
+  -- Case split: is there v ∈ ker A \ range B or w ∈ ker B \ range A?
+  by_cases h1 : ∃ v ∈ LinearMap.ker A, v ∉ LinearMap.range B
+  · -- Easy case: v ∈ ker A, v ∉ range B
+    obtain ⟨v₀, hv₀_ker, hv₀_not_range⟩ := h1
+    have hv₀_ne : v₀ ≠ 0 := fun h => hv₀_not_range (h ▸ Submodule.zero_mem _)
+    exact product_decomp_of_ker_A_not_range_B A B v₀ hv₀_ne
+      (LinearMap.mem_ker.mp hv₀_ker) hv₀_not_range (by
+        by_cases hW : 0 < Module.finrank ℂ W
+        · exact Or.inl hW
+        · right
+          push_neg at hW
+          have : Module.finrank ℂ (LinearMap.ker B) = 0 :=
+            le_antisymm (le_trans (Submodule.finrank_le _) (by omega)) (Nat.zero_le _)
+          linarith)
+  · push_neg at h1
+    -- h1 : ker A ≤ range B
+    by_cases h2 : ∃ w ∈ LinearMap.ker B, w ∉ LinearMap.range A
+    · -- Symmetric case: w ∈ ker B, w ∉ range A
+      obtain ⟨w₀, hw₀_ker, hw₀_not_range⟩ := h2
+      have hw₀_ne : w₀ ≠ 0 := fun h => hw₀_not_range (h ▸ Submodule.zero_mem _)
+      -- Use the symmetric version with B and A swapped
+      obtain ⟨pW, qW, pV, qV, hcW, hcV, hBpW, hBqW, hApV, hAqV, h1_ne, h2_ne⟩ :=
+        product_decomp_of_ker_A_not_range_B B A w₀ hw₀_ne
+          (LinearMap.mem_ker.mp hw₀_ker) hw₀_not_range (by
+            by_cases hV : 0 < Module.finrank ℂ V
+            · exact Or.inl hV
+            · right
+              push_neg at hV
+              have : Module.finrank ℂ (LinearMap.ker A) = 0 :=
+                le_antisymm (le_trans (Submodule.finrank_le _) (by omega)) (Nat.zero_le _)
+              linarith)
+      refine ⟨pV, qV, pW, qW, hcV, hcW, hApV, hAqV, hBpW, hBqW, ?_, ?_⟩
+      · intro ⟨hpV, hpW⟩; exact h1_ne ⟨hpW, hpV⟩
+      · intro ⟨hqV, hqW⟩; exact h2_ne ⟨hqW, hqV⟩
+    · push_neg at h2
+      -- Hard case: ker A ≤ range B AND ker B ≤ range A.
+      -- This requires the compatible chain basis argument.
+      sorry
+
+/-- If dim(ker A) + dim(ker B) ≥ 2 for a Q₂-rep with AB nilpotent and both dims > 0,
+then the rep is decomposable. Uses `off_diagonal_nilpotent_product_decomp` to construct
+the nontrivial product-compatible decomposition contradicting indecomposability. -/
 private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
     (hAB : IsNilpotent (ρ.A.comp ρ.B))
     (_hV_pos : 0 < Module.finrank ℂ ρ.V)
@@ -1052,28 +1170,13 @@ private lemma decomp_of_ker_sum_ge_two (ρ : Q₂Rep ℂ)
               Module.finrank ℂ (LinearMap.ker ρ.B)) :
     ¬ρ.Indecomposable := by
   intro hρ
-  have hkA := ρ.ker_A_sub_range_B hρ hAB _hV_pos _hW_pos
-  have hkB := ρ.ker_B_sub_range_A hρ hAB _hV_pos _hW_pos
-  -- Strategy: construct a nontrivial product-compatible decomposition to contradict hρ.
-  -- We find v₀ ∈ ker A or w₀ ∈ ker B that is NOT in range B or range A respectively,
-  -- then use decomp_of_ker_A_not_range_B or decomp_of_ker_B_not_range_A.
-  -- But ker A ⊆ range B and ker B ⊆ range A from indecomposability. Contradiction!
-  -- So dim(ker A) + dim(ker B) ≥ 2 is incompatible with indecomposability.
-  --
-  -- Wait: the above would mean ker_sum ≤ 1 follows trivially from ker A ⊆ range B.
-  -- But that's wrong: ker A ⊆ range B doesn't bound dim(ker A).
-  -- We need the full compatible chain basis argument.
-  --
-  -- Proof via PID decomposition of V × W under X(v,w) = (Bw, Av):
-  -- 1. X is nilpotent, dim(ker X) = dim(ker A) + dim(ker B) ≥ 2
-  -- 2. PID gives ≥ 2 cyclic summands (each contributes 1 to dim(ker X))
-  -- 3. Compatible generator lemma: each generator can be chosen in V or W
-  --    (because X swaps components, so X^k(v,0) and X^k(0,w) are in disjoint
-  --    components, hence X^k(g) = 0 implies X^k(v,0) = X^k(0,w) = 0)
-  -- 4. With compatible generators, each chain alternates between V and W,
-  --    so splitting chains gives product-compatible decomposition
-  -- 5. With ≥ 2 chains, the decomposition is nontrivial
-  sorry
+  -- Use off_diagonal_nilpotent_product_decomp to get a nontrivial product-compatible
+  -- decomposition, then derive contradiction with indecomposability.
+  obtain ⟨pV, qV, pW, qW, hcV, hcW, hApV, hAqV, hBpW, hBqW, h1_ne, h2_ne⟩ :=
+    off_diagonal_nilpotent_product_decomp ρ.A ρ.B hAB hker
+  rcases hρ.2 pV qV pW qW hcV hcW hApV hAqV hBpW hBqW with h | h
+  · exact h1_ne h
+  · exact h2_ne h
 
 /-- For indecomposable Q₂-reps with AB nilpotent and both dims > 0,
 dim(ker A) + dim(ker B) ≤ 1. Combined with `ker_sum_ge_one`, gives sum = 1. -/
