@@ -1164,6 +1164,24 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
     [Fintype G] [Fintype A]
     (φ : G →* MulAut A) (W : FDRep ℂ (A ⋊[φ] G)) (hW : CategoryTheory.Simple W) :
     ∃ χ : A →* ℂˣ, weightSpace φ W χ ≠ ⊥ := by
+  -- W is nontrivial since it's simple
+  have hnt : Nontrivial W := by
+    by_contra h; rw [not_nontrivial_iff_subsingleton] at h
+    exact (CategoryTheory.Simple.not_isZero W)
+      ((CategoryTheory.Limits.IsZero.iff_id_eq_zero _).mpr (by
+        haveI : Subsingleton (↑W.V.obj) := h
+        ext x; exact Subsingleton.elim _ _))
+  -- Restrict W to A via a ↦ (a,1). By Maschke, the ℂ[A]-module is semisimple.
+  let ρ_A : Representation ℂ A W := (FDRep.ρ W).comp SemidirectProduct.inl
+  haveI : NeZero (Nat.card A : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  -- Get a simple ℂ[A]-submodule (exists by semisimplicity + nontriviality)
+  haveI : Nontrivial ρ_A.asModule := hnt
+  obtain ⟨m, hm⟩ := IsSemisimpleModule.exists_simple_submodule (MonoidAlgebra ℂ A) ρ_A.asModule
+  -- Key steps (each requires careful type class management):
+  -- 1. m is 1-dimensional over ℂ (IsSimpleModule.finrank_eq_one_of_isMulCommutative)
+  -- 2. Pick nonzero v ∈ m, then ∀ a : A, ρ(a)v = χ(a)·v for unique scalar χ(a) : ℂ
+  -- 3. χ(a) ∈ ℂˣ (since ρ(a) is invertible) and χ : A →* ℂˣ (multiplicativity)
+  -- 4. v ∈ weightSpace φ W χ, so weightSpace φ W χ ≠ ⊥
   sorry
 
 -- Helper: The weight space W_χ is invariant under G_χ
@@ -1240,11 +1258,123 @@ private noncomputable def weightSpaceRep {G A : Type} [Group G] [CommGroup A]
       ext <;> simp [SemidirectProduct.mul_left, SemidirectProduct.one_left,
           SemidirectProduct.mul_right, SemidirectProduct.one_right, Subgroup.coe_mul] }
 
--- Helper: A nonzero finite-dimensional representation has a simple subrepresentation
-private lemma exists_simple_subrep {k H : Type} [Field k] [Group H] [Fintype H]
-    (V : FDRep k H) (hV : ¬ CategoryTheory.Limits.IsZero V) :
-    ∃ U : FDRep k H, CategoryTheory.Simple U ∧ Nonempty (U ⟶ V) := by
-  sorry
+private lemma finrank_iso' {H : Type} [Group H] [Fintype H]
+    (V W : FDRep ℂ H) (φ : V ≅ W) :
+    Module.finrank ℂ V = Module.finrank ℂ W :=
+  LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv φ)
+
+open CategoryTheory CategoryTheory.Limits in
+private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
+    (X Y : FDRep ℂ H) [HasBinaryBiproduct X Y] :
+    Module.finrank ℂ (X ⊞ Y : FDRep ℂ H) =
+      Module.finrank ℂ X + Module.finrank ℂ Y := by
+  rw [← Module.finrank_prod]
+  apply LinearEquiv.finrank_eq
+  have hzero : ∀ (A B : FDRep ℂ H) (x : A.V),
+      (0 : A ⟶ B).hom.hom.hom x = 0 := by
+    intro A B x
+    show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
+    simp [ModuleCat.Hom.hom]; exact LinearMap.zero_apply x
+  have hid : ∀ (A : FDRep ℂ H) (x : A.V),
+      (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
+  refine {
+    toFun := fun v => ((biprod.fst : X ⊞ Y ⟶ X).hom.hom.hom v,
+                        (biprod.snd : X ⊞ Y ⟶ Y).hom.hom.hom v)
+    map_add' := fun a b => by simp [map_add]
+    map_smul' := fun r a => by simp [map_smul]
+    invFun := fun p => (biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
+                        (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2
+    left_inv := fun v => by
+      show ((biprod.fst ≫ biprod.inl + biprod.snd ≫ biprod.inr :
+        (X ⊞ Y : FDRep ℂ H) ⟶ (X ⊞ Y))).hom.hom.hom v = v
+      rw [biprod.total]; rfl
+    right_inv := fun p => by
+      ext <;> dsimp only
+      · change ((biprod.fst : X ⊞ Y ⟶ X)).hom.hom.hom
+            ((biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
+             (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2) = p.1
+        rw [map_add]
+        show ((biprod.inl ≫ biprod.fst : X ⟶ X)).hom.hom.hom p.1 +
+             ((biprod.inr ≫ biprod.fst : Y ⟶ X)).hom.hom.hom p.2 = p.1
+        rw [biprod.inl_fst, biprod.inr_fst, hid, hzero, add_zero]
+      · change ((biprod.snd : X ⊞ Y ⟶ Y)).hom.hom.hom
+            ((biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
+             (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2) = p.2
+        rw [map_add]
+        show ((biprod.inl ≫ biprod.snd : X ⟶ Y)).hom.hom.hom p.1 +
+             ((biprod.inr ≫ biprod.snd : Y ⟶ Y)).hom.hom.hom p.2 = p.2
+        rw [biprod.inl_snd, biprod.inr_snd, hzero, hid, zero_add] }
+
+-- Helper: A nonzero finite-dimensional ℂ-representation of a finite group has a simple
+-- subrepresentation. Uses Maschke's theorem (semisimplicity) and induction on finrank.
+open CategoryTheory CategoryTheory.Limits in
+private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
+    (V : FDRep ℂ H) (hV : ¬ CategoryTheory.Limits.IsZero V) :
+    ∃ U : FDRep ℂ H, CategoryTheory.Simple U ∧ Nonempty (U ⟶ V) := by
+  -- Strong induction on finrank
+  haveI : NeZero (Nat.card H : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  suffices key : ∀ (n : ℕ) (V : FDRep ℂ H), ¬ IsZero V →
+      Module.finrank ℂ V ≤ n →
+      ∃ U : FDRep ℂ H, Simple U ∧ Nonempty (U ⟶ V) from
+    key _ V hV le_rfl
+  intro n
+  induction n with
+  | zero =>
+    intro V hV hfr
+    exfalso; apply hV; rw [IsZero.iff_id_eq_zero]
+    have hsub : Subsingleton V := Module.finrank_zero_iff.mp (Nat.eq_zero_of_le_zero hfr)
+    ext x; exact hsub.elim _ _
+  | succ n ih =>
+    intro V hV hfr
+    by_cases hS : Simple V
+    · exact ⟨V, hS, ⟨𝟙 V⟩⟩
+    · -- V is not simple: extract a nonzero non-iso mono Y ⟶ V
+      have h_exists : ∃ (Y : FDRep ℂ H) (f : Y ⟶ V),
+          Mono f ∧ f ≠ 0 ∧ ¬ IsIso f := by
+        by_contra h_all; apply hS
+        refine ⟨fun {Y} f _ => ⟨?_, ?_⟩⟩
+        · intro hi habs
+          haveI := hi; apply hV; rw [IsZero.iff_id_eq_zero]
+          have key := IsIso.inv_hom_id (f := f)
+          simp only [habs, comp_zero] at key; exact key.symm
+        · intro hne; by_contra hni
+          exact h_all ⟨Y, f, ‹Mono f›, hne, hni⟩
+      obtain ⟨Y, f, hfm, hfne, hfni⟩ := h_exists
+      haveI := hfm
+      -- Y is Injective (Maschke), so f is a split mono
+      haveI : IsSplitMono f :=
+        IsSplitMono.mk' ⟨Injective.factorThru (𝟙 Y) f,
+          Injective.comp_factorThru (𝟙 Y) f⟩
+      -- V ≅ Y ⊞ cokernel f
+      have hcok := cokernelIsCokernel f
+      let bc := binaryBiconeOfIsSplitMonoOfCokernel hcok
+      have hbl := isBilimitBinaryBiconeOfIsSplitMonoOfCokernel hcok
+      haveI : HasBinaryBiproduct Y (cokernel f) :=
+        HasBinaryBiproduct.mk ⟨bc, hbl⟩
+      have iso_V := biprod.uniqueUpToIso Y (cokernel f) hbl
+      -- Y is nonzero
+      have hY : ¬ IsZero Y := fun hY0 => hfne (hY0.eq_of_src f 0)
+      -- cokernel f is nonzero (otherwise f mono + epi → iso, contradiction)
+      have hcok_nz : ¬ IsZero (cokernel f : FDRep ℂ H) := by
+        intro hcok0
+        haveI : Epi f := (Preadditive.epi_iff_isZero_cokernel f).mpr hcok0
+        exact hfni (isIso_of_mono_of_epi f)
+      -- finrank Y < finrank V (since cok is nonzero → finrank cok > 0)
+      have hfr_eq : Module.finrank ℂ V = Module.finrank ℂ Y +
+          Module.finrank ℂ (cokernel f : FDRep ℂ H) := by
+        rw [finrank_iso' V (Y ⊞ cokernel f) iso_V, finrank_biprod']
+      have hcok_pos : 0 < Module.finrank ℂ (cokernel f : FDRep ℂ H) := by
+        by_contra h; push_neg at h
+        exact hcok_nz (by
+          rw [IsZero.iff_id_eq_zero]
+          have hsub : Subsingleton (cokernel f : FDRep ℂ H) :=
+            Module.finrank_zero_iff.mp (Nat.eq_zero_of_le_zero h)
+          ext x; exact hsub.elim _ _)
+      have hY_le : Module.finrank ℂ Y ≤ n := by omega
+      -- By induction, Y has a simple subrep U with g : U ⟶ Y
+      obtain ⟨U, hU, ⟨g⟩⟩ := ih Y hY hY_le
+      -- Compose g with f to get U ⟶ V
+      exact ⟨U, hU, ⟨g ≫ f⟩⟩
 
 -- Helper: Frobenius reciprocity map from V(χ,U) to W
 -- Given U ↪ W_χ (as G_χ-reps), construct a nonzero A⋊G-morphism V(χ,U) → W
@@ -1252,8 +1382,9 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     [Fintype G] [Fintype A]
     (φ : G →* MulAut A) (χ : A →* ℂˣ)
     (W : FDRep ℂ (A ⋊[φ] G)) (hW : CategoryTheory.Simple W)
+    (hχ : weightSpace φ W χ ≠ ⊥)
     (U : FDRep ℂ ↥(stabAux φ χ)) (hU : CategoryTheory.Simple U)
-    (hUW : Nonempty (U ⟶ weightSpaceRep φ W χ (by sorry))) :
+    (hUW : Nonempty (U ⟶ weightSpaceRep φ W χ hχ)) :
     Nonempty (inducedRepV φ χ U ≅ W) := by
   sorry
 
@@ -1270,10 +1401,36 @@ private lemma inducedRepV_completeness {G A : Type} [Group G] [CommGroup A]
   let Wχ := weightSpaceRep φ W χ hχ
   -- Step 3: Find a simple G_χ-subrepresentation U of W_χ
   have hWχ_nz : ¬ CategoryTheory.Limits.IsZero Wχ := by
-    sorry -- hχ : weightSpace ≠ ⊥ ⟹ FDRep.of (weight space) ≠ 0 (categorical bridge)
+    -- Contrapositive: weightSpace ≠ ⊥ means Nontrivial carrier; Nontrivial carrier ⟹ ¬ IsZero
+    rw [Ne, Submodule.eq_bot_iff, not_forall] at hχ
+    obtain ⟨v, hv⟩ := hχ; push_neg at hv; obtain ⟨hv_mem, hv_ne⟩ := hv
+    intro hzero; apply hv_ne
+    -- IsZero implies Subsingleton carrier
+    have hsub : Subsingleton ↑Wχ.V.obj := by
+      constructor; intro a b
+      -- Subsingleton follows from IsZero.eq_of_src: all parallel morphisms are equal
+      -- Build two morphisms from the terminal FDRep to Wχ hitting a and b respectively
+      -- Since IsZero Wχ, all maps into it are equal, but we need out of it
+      -- Instead: IsZero means all endomorphisms are equal, in particular 𝟙 = 0
+      -- This means the identity linear map equals zero, so ∀ x, x = 0
+      have h : (CategoryTheory.CategoryStruct.id Wχ : Wχ ⟶ Wχ) = 0 :=
+        hzero.eq_of_src _ _
+      -- Extract at element level using the ext lemma pattern
+      -- We know that for FDRep, ext says morphisms are determined by their .hom component
+      -- And .hom is in FGModuleCat where ext says determined by underlying function
+      -- So 𝟙 = 0 at function level: ∀ x, id x = 0 x, i.e., x = 0
+      have ha : a = 0 := by
+        have := congr_arg (fun (f : Wχ ⟶ Wχ) => f.hom.hom.hom a) h
+        simpa using this
+      have hb : b = 0 := by
+        have := congr_arg (fun (f : Wχ ⟶ Wχ) => f.hom.hom.hom b) h
+        simpa using this
+      exact ha ▸ hb ▸ rfl
+    have h := @Subsingleton.elim _ hsub ⟨v, hv_mem⟩ ⟨0, (weightSpace φ W χ).zero_mem⟩
+    exact congr_arg Subtype.val h
   obtain ⟨U, hU_simple, ⟨ι⟩⟩ := exists_simple_subrep Wχ hWχ_nz
   -- Step 4: By Frobenius reciprocity + Schur, V(χ,U) ≅ W
-  exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW U hU_simple ⟨ι⟩).map CategoryTheory.Iso.symm⟩
+  exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW hχ U hU_simple ⟨ι⟩).map CategoryTheory.Iso.symm⟩
 
 open Classical in
 /-- Classification of irreducible representations of semidirect products G ⋉ A
