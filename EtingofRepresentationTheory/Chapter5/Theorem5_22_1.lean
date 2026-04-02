@@ -1438,6 +1438,45 @@ private def BoundedPartition.dropLast (N n : ℕ) (bp : BoundedPartition (N + 1)
 /-- **Key reduction**: If the last part of a bounded partition is 0, then `charValue` at
 `N+1` variables equals `charValue` at `N` variables with the last part dropped.
 
+/-- Extension of a BoundedPartition by appending a zero part. -/
+private def BoundedPartition.extend {N n : ℕ}
+    (bp : BoundedPartition N n) : BoundedPartition (N + 1) n where
+  parts i :=
+    if h : (i : ℕ) < N then bp.parts ⟨i, h⟩ else 0
+  decreasing := by
+    intro i j hij
+    simp only
+    split_ifs with h1 h2
+    · exact bp.decreasing hij
+    · exfalso; omega
+    · exact Nat.zero_le _
+    · exact le_refl _
+  sum_eq := by
+    have : ∑ i : Fin (N + 1), (if h : (i : ℕ) < N then
+        bp.parts ⟨i, h⟩ else 0) =
+        ∑ i : Fin N, bp.parts i := by
+      rw [Fin.sum_univ_castSucc]
+      simp only [Fin.val_castSucc, Fin.val_last, lt_irrefl,
+        dite_false, add_zero]
+      congr 1; funext i; simp [i.isLt]
+    rw [this, bp.sum_eq]
+
+private lemma BoundedPartition.extend_last {N n : ℕ}
+    (bp : BoundedPartition N n) :
+    bp.extend.parts (Fin.last N) = 0 := by
+  simp [extend, Fin.val_last]
+
+private lemma BoundedPartition.extend_dropLast {N n : ℕ}
+    (bp : BoundedPartition N n) :
+    BoundedPartition.dropLast N n bp.extend bp.extend_last = bp := by
+  have : ∀ (a b : BoundedPartition N n),
+      a.parts = b.parts → a = b := by
+    intro ⟨_, _, _⟩ ⟨_, _, _⟩ h; simp_all
+  apply this; funext i
+  show (if h : (Fin.castSucc i : ℕ) < N then
+    bp.parts ⟨↑(Fin.castSucc i), h⟩ else 0) = bp.parts i
+  simp [Fin.val_castSucc, i.isLt]
+
 **Proof outline** (setting x_N = 0 in the (N+1)-variable formula):
 1. The (N+1)×(N+1) alternant matrix with last row (0,...,0,1) has determinant
    equal to ∏x_i · Δ_N (cofactor expansion, then factor x_i from each row).
@@ -1590,44 +1629,53 @@ private lemma weightToPartition_eq_iff'
     exact h1
   · intro h; subst h; rfl
 
-/-- `charValue N bp μ` reduces to `charValue n (canonicalBP N n bp) μ` by
-repeatedly removing trailing zeros. -/
-private lemma charValue_reduce_to_canonical (N n : ℕ) (bp : BoundedPartition N n)
+-- Reduction to canonical form: charValue N bp = charValue n (canonicalBP N n bp).
+-- Uses charValue_remove_trailing_zero (to strip trailing zeros when N > n) and its
+-- reverse (adding trailing zeros when N < n). Both directions follow from the same
+-- polynomial-coefficient identity relating N+1 and N variables.
+private lemma charValue_reduce_to_n (N n : ℕ) (bp : BoundedPartition N n)
     (μ : Nat.Partition n) :
     charValue N bp μ = charValue n (canonicalBP N n bp) μ := by
   sorry
+
+-- canonicalBP depends only on the underlying partition,
+-- so equal partitions give equal canonical BPs.
+private lemma canonicalBP_eq_of_weightToPartition_eq
+    (N₁ N₂ n : ℕ) (bp₁ : BoundedPartition N₁ n)
+    (bp₂ : BoundedPartition N₂ n)
+    (h : (bp₁.sum_eq ▸ weightToPartition N₁ bp₁.parts :
+            Nat.Partition n) =
+         (bp₂.sum_eq ▸ weightToPartition N₂ bp₂.parts :
+            Nat.Partition n)) :
+    canonicalBP N₁ n bp₁ = canonicalBP N₂ n bp₂ := by
+  have hparts : (canonicalBP N₁ n bp₁).parts =
+      (canonicalBP N₂ n bp₂).parts := by
+    funext i
+    change (bp₁.sum_eq ▸ weightToPartition N₁ bp₁.parts :
+            Nat.Partition n).sortedParts.getD i.val 0 =
+         (bp₂.sum_eq ▸ weightToPartition N₂ bp₂.parts :
+            Nat.Partition n).sortedParts.getD i.val 0
+    rw [h]
+  have : ∀ (a b : BoundedPartition n n), a.parts = b.parts → a = b := by
+    intro ⟨_, _, _⟩ ⟨_, _, _⟩ h; simp_all
+  exact this _ _ hparts
 
 /-- Stability of charValue: the value is independent of the number of variables N,
 depending only on the partition (nonzero parts). This is the standard fact that
 symmetric function coefficients in the alternant expansion are stable under
 change of the number of variables.
 
-**Proof**: Both sides reduce to `charValue n (canonicalBP)` via trailing-zero removal.
-The canonical BPs have the same parts by the hypothesis on partitions. -/
+**Proof**: Reduce both sides to canonical form (`canonicalBP`, which has `n` variables),
+then observe the canonical BPs are equal since they depend only on the partition. -/
 private lemma charValue_stability
     (N₁ N₂ n : ℕ) (bp₁ : BoundedPartition N₁ n) (bp₂ : BoundedPartition N₂ n)
     (h : (bp₁.sum_eq ▸ weightToPartition N₁ bp₁.parts : Nat.Partition n) =
          (bp₂.sum_eq ▸ weightToPartition N₂ bp₂.parts : Nat.Partition n))
     (μ : Nat.Partition n) :
     charValue N₁ bp₁ μ = charValue N₂ bp₂ μ := by
-  rw [charValue_reduce_to_canonical N₁ n bp₁ μ,
-      charValue_reduce_to_canonical N₂ n bp₂ μ]
-  -- The canonical BPs have the same underlying partition, hence same parts
-  -- (antitone at same size n + same multiset of nonzero parts → same function)
-  have h_canon₁ := canonicalBP_weightToPartition N₁ n bp₁
-  have h_canon₂ := canonicalBP_weightToPartition N₂ n bp₂
-  -- The canonical BPs must be equal since their partitions agree
-  suffices h_eq : canonicalBP N₁ n bp₁ = canonicalBP N₂ n bp₂ by rw [h_eq]
-  have h_same : ((canonicalBP N₁ n bp₁).sum_eq ▸
-      weightToPartition n (canonicalBP N₁ n bp₁).parts : Nat.Partition n) =
-    ((canonicalBP N₂ n bp₂).sum_eq ▸
-      weightToPartition n (canonicalBP N₂ n bp₂).parts : Nat.Partition n) := by
-    rw [h_canon₁, h_canon₂, h]
-  have h_parts : (canonicalBP N₁ n bp₁).parts = (canonicalBP N₂ n bp₂).parts :=
-    (weightToPartition_eq_iff' n n _ _ (canonicalBP N₁ n bp₁).decreasing
-      (canonicalBP N₂ n bp₂).decreasing _ _).mp h_same
-  exact match canonicalBP N₁ n bp₁, canonicalBP N₂ n bp₂, h_parts with
-    | ⟨_, _, _⟩, ⟨_, _, _⟩, rfl => rfl
+  rw [charValue_reduce_to_n N₁ n bp₁ μ, charValue_reduce_to_n N₂ n bp₂ μ]
+  congr 1
+  exact canonicalBP_eq_of_weightToPartition_eq N₁ N₂ n bp₁ bp₂ h
 
 /-- The Frobenius character formula bridge: `charValue` equals `spechtModuleCharacter`
 (after casting ℚ → ℂ). This bridges the polynomial coefficient definition used in
