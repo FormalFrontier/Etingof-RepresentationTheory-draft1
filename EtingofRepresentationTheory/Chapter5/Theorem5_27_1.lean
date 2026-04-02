@@ -1177,9 +1177,11 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
   -- Get a simple ℂ[A]-submodule (exists by semisimplicity + nontriviality)
   haveI : Nontrivial ρ_A.asModule := hnt
   obtain ⟨m, hm⟩ := IsSemisimpleModule.exists_simple_submodule (MonoidAlgebra ℂ A) ρ_A.asModule
-  -- Since A is commutative, m is 1-dim (finrank_eq_one_of_isMulCommutative)
-  -- The A-action on m is by scalars → defines a character χ : A →* ℂˣ
-  -- Any nonzero v ∈ m satisfies ρ(a,1)v = χ(a)·v, so v ∈ weightSpace φ W χ
+  -- Key steps (each requires careful type class management):
+  -- 1. m is 1-dimensional over ℂ (IsSimpleModule.finrank_eq_one_of_isMulCommutative)
+  -- 2. Pick nonzero v ∈ m, then ∀ a : A, ρ(a)v = χ(a)·v for unique scalar χ(a) : ℂ
+  -- 3. χ(a) ∈ ℂˣ (since ρ(a) is invertible) and χ : A →* ℂˣ (multiplicativity)
+  -- 4. v ∈ weightSpace φ W χ, so weightSpace φ W χ ≠ ⊥
   sorry
 
 -- Helper: The weight space W_χ is invariant under G_χ
