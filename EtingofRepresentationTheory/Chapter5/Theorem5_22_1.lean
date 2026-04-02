@@ -1294,22 +1294,132 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
 
 /-- Construct the canonical `BoundedPartition n n` from the sorted parts of an antitone
 weight function, by padding with zeros to length n. -/
+-- Helper: sum of getD over Fin n equals list sum when length ≤ n
+private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
+    ∑ i : Fin n, l.getD i.val 0 = l.sum := by
+  induction n generalizing l with
+  | zero =>
+    have := List.eq_nil_of_length_eq_zero (by omega : l.length = 0)
+    subst this; rfl
+  | succ n ih =>
+    rw [Fin.sum_univ_succ]
+    cases l with
+    | nil => simp [ih [] (Nat.zero_le _)]
+    | cons a t =>
+      simp only [List.getD_cons_zero, List.sum_cons, Fin.val_zero]
+      congr 1
+      have hstep : ∀ i : Fin n, (a :: t).getD i.succ.val 0 = t.getD i.val 0 := by
+        intro ⟨i, _⟩; simp [List.getD_cons_succ]
+      simp_rw [hstep]
+      exact ih t (by simpa using hlen)
+
+-- Helper: getD on a list with Pairwise (· ≥ ·) is antitone
+private lemma getD_antitone_of_pairwise (l : List ℕ) (h : l.Pairwise (· ≥ ·)) :
+    Antitone (fun i : Fin n => l.getD i.val 0) := by
+  intro i j hij
+  show l.getD j.val 0 ≤ l.getD i.val 0
+  rcases eq_or_lt_of_le hij with rfl | hlt
+  · exact le_refl _
+  · by_cases hj : j.val < l.length
+    · have hi : i.val < l.length := by omega
+      rw [List.getD_eq_getElem (hn := hj), List.getD_eq_getElem (hn := hi)]
+      exact List.pairwise_iff_get.mp h ⟨i.val, hi⟩ ⟨j.val, hj⟩ hlt
+    · rw [List.getD_eq_default (hn := by omega)]
+      exact Nat.zero_le _
+
 private def canonicalBP (N n : ℕ) (bp : BoundedPartition N n) : BoundedPartition n n where
   parts := fun i => (bp.sum_eq ▸ weightToPartition N bp.parts).sortedParts.getD i.val 0
   decreasing := by
-    intro i j hij
-    -- sortedParts is sorted by ≥, so getD at earlier index ≥ getD at later index
-    sorry
+    set l := (bp.sum_eq ▸ weightToPartition N bp.parts).sortedParts
+    exact getD_antitone_of_pairwise l (Multiset.pairwise_sort _ _)
   sum_eq := by
-    -- The sum of getD values over Fin n equals the partition sum (= n)
-    sorry
+    set la := (bp.sum_eq ▸ weightToPartition N bp.parts)
+    set l := la.sortedParts
+    have hpos : ∀ x ∈ l, 0 < x := by
+      intro x hx
+      apply la.parts_pos
+      have h_sort := Multiset.sort_eq (r := (· ≥ ·)) la.parts
+      rw [show la.parts.sort (· ≥ ·) = l from rfl] at h_sort
+      exact h_sort ▸ Multiset.mem_coe.mpr hx
+    have hlen : l.length ≤ n := by
+      have hsum : l.sum = n := sortedParts_sum n la
+      suffices h : ∀ (m : List ℕ), (∀ x ∈ m, 0 < x) → m.length ≤ m.sum by
+        linarith [h l hpos]
+      intro m hm
+      induction m with
+      | nil => exact Nat.zero_le _
+      | cons a t iht =>
+        simp only [List.length_cons, List.sum_cons]
+        have ha := hm a (by simp)
+        have := iht (fun x hx => hm x (by simp [hx]))
+        omega
+    rw [sum_getD_eq_sum l n hlen, sortedParts_sum]
 
 /-- The canonical BP has the same underlying partition (weightToPartition) as the original. -/
 private lemma canonicalBP_weightToPartition (N n : ℕ) (bp : BoundedPartition N n) :
     ((canonicalBP N n bp).sum_eq ▸ weightToPartition n (canonicalBP N n bp).parts :
       Nat.Partition n) =
     (bp.sum_eq ▸ weightToPartition N bp.parts : Nat.Partition n) := by
-  sorry -- The sortedParts of the canonical BP agree with the original partition's sortedParts
+  set la := (bp.sum_eq ▸ weightToPartition N bp.parts)
+  set l := la.sortedParts
+  have hrec : ∀ (m k : ℕ) (h : m = k) (p : Nat.Partition m), (h ▸ p).parts = p.parts := by
+    intros m k h p; subst h; rfl
+  apply Nat.Partition.ext
+  rw [hrec _ _ (canonicalBP N n bp).sum_eq, hrec _ _ bp.sum_eq]
+  -- Goal: (wtp n canonical.parts).parts = (wtp N bp.parts).parts
+  -- RHS = la.parts by unfolding. LHS needs work.
+  -- All elements of l are positive
+  have hpos : ∀ x ∈ l, 0 < x := by
+    intro x hx
+    exact la.parts_pos ((Multiset.sort_eq (r := (· ≥ ·)) la.parts) ▸
+      Multiset.mem_coe.mpr hx)
+  -- l.length ≤ n
+  have hlen : l.length ≤ n := by
+    have hsum : l.sum = n := sortedParts_sum n la
+    suffices hl : ∀ (m : List ℕ), (∀ x ∈ m, 0 < x) → m.length ≤ m.sum by linarith [hl l hpos]
+    intro m hm; induction m with
+    | nil => exact Nat.zero_le _
+    | cons a t ih =>
+      simp only [List.length_cons, List.sum_cons]
+      have := hm a (by simp); have := ih (fun x hx => hm x (by simp [hx])); omega
+  -- Show LHS.parts = la.parts
+  -- LHS.parts = filter(>0) from map(canonical.parts) over Fin n
+  -- canonical.parts i = l.getD i 0, so the map is [l.getD 0 0, ..., l.getD (n-1) 0]
+  -- Filtering zeros gives the positive elements of l = la.parts
+  suffices h_lhs : (weightToPartition n (canonicalBP N n bp).parts).parts = la.parts by
+    rw [h_lhs]; rw [show la.parts = (weightToPartition N bp.parts).parts from
+      (hrec _ _ bp.sum_eq (weightToPartition N bp.parts)).symm ▸ rfl]
+  -- Unfold to multiset operations
+  show (Finset.univ.val.map (fun i : Fin n => l.getD i.val 0)).filter (0 < ·) = la.parts
+  rw [Fin.univ_val_map, Multiset.filter_coe]
+  -- Show filter(>0) ofFn(getD) = l as lists (↑ gives la.parts by sort_eq)
+  suffices h : (List.ofFn (fun i : Fin n => l.getD i.val 0)).filter (fun x => decide (0 < x)) = l by
+    rw [h]; exact Multiset.sort_eq _ _
+  -- Prove by induction on n, generalizing l
+  suffices key : ∀ (m : ℕ) (ll : List ℕ), (∀ x ∈ ll, 0 < x) → ll.length ≤ m →
+      (List.ofFn (fun i : Fin m => ll.getD i.val 0)).filter (fun x => decide (0 < x)) = ll by
+    exact key n l hpos hlen
+  intro m; induction m with
+  | zero => intro ll _ hlen; simp [List.eq_nil_of_length_eq_zero (by omega : ll.length = 0)]
+  | succ m ih =>
+    intro ll hll hlen
+    simp only [List.ofFn_succ, Fin.val_zero, List.filter_cons]
+    cases ll with
+    | nil =>
+      simp only [List.getD_nil, List.ofFn_const, List.filter_replicate,
+        show ¬ decide (0 < 0) = true from by simp]
+      simp
+    | cons a t =>
+      simp only [List.getD_cons_zero]
+      have ha : 0 < a := hll a (by simp)
+      rw [show decide (0 < a) = true from decide_eq_true ha]
+      simp only [ite_true]
+      congr 1
+      -- The remaining terms: filter on ofFn(fun i => (a::t).getD i.succ 0)
+      -- = filter on ofFn(fun i => t.getD i 0) by List.getD_cons_succ
+      show (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
+      exact ih t (fun x hx => hll x (by simp [hx]))
+        (by simp only [List.length_cons] at hlen; omega)
 
 /-- Stability of charValue: the value is independent of the number of variables N,
 depending only on the partition (nonzero parts). This is the standard fact that
