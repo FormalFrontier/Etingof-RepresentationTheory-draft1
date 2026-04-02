@@ -1164,6 +1164,22 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
     [Fintype G] [Fintype A]
     (φ : G →* MulAut A) (W : FDRep ℂ (A ⋊[φ] G)) (hW : CategoryTheory.Simple W) :
     ∃ χ : A →* ℂˣ, weightSpace φ W χ ≠ ⊥ := by
+  -- W is nontrivial since it's simple
+  have hnt : Nontrivial W := by
+    by_contra h; rw [not_nontrivial_iff_subsingleton] at h
+    exact (CategoryTheory.Simple.not_isZero W)
+      ((CategoryTheory.Limits.IsZero.iff_id_eq_zero _).mpr (by
+        haveI : Subsingleton (↑W.V.obj) := h
+        ext x; exact Subsingleton.elim _ _))
+  -- Restrict W to A via a ↦ (a,1). By Maschke, the ℂ[A]-module is semisimple.
+  let ρ_A : Representation ℂ A W := (FDRep.ρ W).comp SemidirectProduct.inl
+  haveI : NeZero (Nat.card A : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+  -- Get a simple ℂ[A]-submodule (exists by semisimplicity + nontriviality)
+  haveI : Nontrivial ρ_A.asModule := hnt
+  obtain ⟨m, hm⟩ := IsSemisimpleModule.exists_simple_submodule (MonoidAlgebra ℂ A) ρ_A.asModule
+  -- Since A is commutative, m is 1-dim (finrank_eq_one_of_isMulCommutative)
+  -- The A-action on m is by scalars → defines a character χ : A →* ℂˣ
+  -- Any nonzero v ∈ m satisfies ρ(a,1)v = χ(a)·v, so v ∈ weightSpace φ W χ
   sorry
 
 -- Helper: The weight space W_χ is invariant under G_χ
@@ -1240,10 +1256,11 @@ private noncomputable def weightSpaceRep {G A : Type} [Group G] [CommGroup A]
       ext <;> simp [SemidirectProduct.mul_left, SemidirectProduct.one_left,
           SemidirectProduct.mul_right, SemidirectProduct.one_right, Subgroup.coe_mul] }
 
--- Helper: A nonzero finite-dimensional representation has a simple subrepresentation
-private lemma exists_simple_subrep {k H : Type} [Field k] [Group H] [Fintype H]
-    (V : FDRep k H) (hV : ¬ CategoryTheory.Limits.IsZero V) :
-    ∃ U : FDRep k H, CategoryTheory.Simple U ∧ Nonempty (U ⟶ V) := by
+-- Helper: A nonzero finite-dimensional ℂ-representation of a finite group has a simple
+-- subrepresentation. Uses Maschke's theorem (semisimplicity) and induction on finrank.
+private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
+    (V : FDRep ℂ H) (hV : ¬ CategoryTheory.Limits.IsZero V) :
+    ∃ U : FDRep ℂ H, CategoryTheory.Simple U ∧ Nonempty (U ⟶ V) := by
   sorry
 
 -- Helper: Frobenius reciprocity map from V(χ,U) to W
@@ -1252,8 +1269,9 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     [Fintype G] [Fintype A]
     (φ : G →* MulAut A) (χ : A →* ℂˣ)
     (W : FDRep ℂ (A ⋊[φ] G)) (hW : CategoryTheory.Simple W)
+    (hχ : weightSpace φ W χ ≠ ⊥)
     (U : FDRep ℂ ↥(stabAux φ χ)) (hU : CategoryTheory.Simple U)
-    (hUW : Nonempty (U ⟶ weightSpaceRep φ W χ (by sorry))) :
+    (hUW : Nonempty (U ⟶ weightSpaceRep φ W χ hχ)) :
     Nonempty (inducedRepV φ χ U ≅ W) := by
   sorry
 
@@ -1270,10 +1288,17 @@ private lemma inducedRepV_completeness {G A : Type} [Group G] [CommGroup A]
   let Wχ := weightSpaceRep φ W χ hχ
   -- Step 3: Find a simple G_χ-subrepresentation U of W_χ
   have hWχ_nz : ¬ CategoryTheory.Limits.IsZero Wχ := by
-    sorry -- hχ : weightSpace ≠ ⊥ ⟹ FDRep.of (weight space) ≠ 0 (categorical bridge)
+    intro hzero
+    apply hχ
+    rw [Submodule.eq_bot_iff]
+    intro x hx
+    -- IsZero ⟹ 𝟙 = 0, so applying to ⟨x, hx⟩ gives x = 0
+    have hid : (𝟙 Wχ : Wχ ⟶ Wχ) = 0 := hzero.eq_of_src _ _
+    have := congr_arg (fun f => (ConcreteCategory.hom f) ⟨x, hx⟩) hid
+    simpa using this
   obtain ⟨U, hU_simple, ⟨ι⟩⟩ := exists_simple_subrep Wχ hWχ_nz
   -- Step 4: By Frobenius reciprocity + Schur, V(χ,U) ≅ W
-  exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW U hU_simple ⟨ι⟩).map CategoryTheory.Iso.symm⟩
+  exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW hχ U hU_simple ⟨ι⟩).map CategoryTheory.Iso.symm⟩
 
 open Classical in
 /-- Classification of irreducible representations of semidirect products G ⋉ A
