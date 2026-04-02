@@ -781,7 +781,51 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
       (youngSymEndomorphism k' N lam (tensorStdBasis k' N (∑ i, lam i) f)) f =
     ∑ σ ∈ univ.filter (fun σ : Equiv.Perm (Fin (∑ i, lam i)) => ∀ j, f (σ j) = f j),
       YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam) σ := by
-  sorry
+  set c := YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam)
+  -- Unfold youngSymEndomorphism = symGroupAlgHom(c) as a Finsupp.sum
+  have hE : youngSymEndomorphism k' N lam =
+      c.sum (fun σ a => a • (symGroupAction k' (Fin N → k') (∑ i, lam i) σ).toLinearMap) := by
+    unfold youngSymEndomorphism symGroupAlgHom
+    rw [MonoidAlgebra.lift_apply]
+    rfl
+  rw [hE, Finsupp.sum]
+  simp only [← LinearEquiv.coe_toLinearMap]
+  rw [LinearMap.sum_apply]
+  simp only [LinearMap.smul_apply, LinearEquiv.coe_toLinearMap, map_sum, map_smul,
+    Finsupp.coe_smul, Pi.smul_apply,
+    Finsupp.coe_finset_sum, Finset.sum_apply]
+  -- Apply symGroupAction_tensorStdBasis via conv
+  conv_lhs =>
+    arg 2; ext x
+    rw [show (symGroupAction k' (Fin N → k') (∑ i, lam i) x) ((tensorStdBasis k' N (∑ i, lam i)) f) =
+      tensorStdBasis k' N (∑ i, lam i) (f ∘ x.symm) from symGroupAction_tensorStdBasis k' N (∑ i, lam i) x f]
+  -- repr(b_{f∘σ⁻¹})(f) = if (f ∘ σ⁻¹ = f) then 1 else 0
+  simp only [Module.Basis.repr_self, Finsupp.single_apply]
+  -- ∑_{σ ∈ support} c(σ) • (if f ∘ σ⁻¹ = f then 1 else 0) = ∑_{σ : f ∘ σ = f} c(σ)
+  simp only [smul_ite, smul_eq_mul, mul_one, mul_zero, Finset.sum_filter]
+  -- Extend from c.support to Finset.univ
+  rw [← Finset.sum_subset (Finset.subset_univ c.support)]
+  · congr 1; ext σ
+    -- Show: c σ * (if f ∘ σ⁻¹ = f then 1 else 0) = (if ∀ j, f(σ j) = f j then c σ else 0)
+    -- First show the conditions are equivalent
+    have hiff : f ∘ σ.symm = f ↔ ∀ j, f (σ j) = f j := by
+      constructor
+      · intro h j
+        have : (f ∘ σ.symm) (σ j) = f (σ j) := congr_fun h (σ j)
+        simp [Function.comp_apply] at this
+        exact this.symm
+      · intro h
+        funext j
+        simp only [Function.comp_apply]
+        exact h (σ.symm j) |>.symm.trans (by simp [Equiv.apply_symm_apply])
+    split_ifs with h1 h2 h2
+    · ring
+    · exact absurd (hiff.mp h1) h2
+    · exact absurd (hiff.mpr h2) h1
+    · ring
+  · intro σ _ hmem
+    simp only [Finsupp.mem_support_iff, not_not] at hmem
+    simp [hmem]
 
 /-- The `diagUnit(i,t)` action on a standard tensor basis element multiplies by `t` raised
 to the number of times color `i` appears in `f`. -/
