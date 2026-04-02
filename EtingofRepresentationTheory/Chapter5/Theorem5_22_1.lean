@@ -1163,10 +1163,163 @@ private lemma sortedParts_getD_eq_of_antitone
         simp [hall k.succ]
       rw [h_empty]; simp [hall j]
 
+/-- The alternant determinant with Vandermonde exponents equals `sign(revPerm)` times the
+Vandermonde product. (Local copy; the canonical version is in FrobeniusCharacterBridge.) -/
+private theorem alternantDet_eq_sign_mul_vandermondeProd' (N : ℕ) :
+    (alternantMatrix N (vandermondeExps N)).det =
+      ((Equiv.Perm.sign (@Fin.revPerm N) : ℤ) : MvPolynomial (Fin N) ℚ) *
+        ∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
+          (MvPolynomial.X j - MvPolynomial.X i : MvPolynomial (Fin N) ℚ) := by
+  have h1 : alternantMatrix N (vandermondeExps N) =
+      (Matrix.vandermonde (MvPolynomial.X : Fin N → MvPolynomial (Fin N) ℚ)).submatrix
+        id (@Fin.revPerm N) := by
+    ext i j
+    simp only [alternantMatrix, Matrix.vandermonde, vandermondeExps, Matrix.of_apply,
+      Matrix.submatrix_apply, id, Fin.revPerm_apply]
+    congr 2
+    simp only [Fin.rev, Fin.val_mk]
+    omega
+  rw [h1, Matrix.det_permute', Matrix.det_vandermonde]
+
+/-- The shifted exponent vector for a BoundedPartition n n equals the Nat.Partition.toFinsupp
+plus the rho shift, connecting `charValue`'s exponent to Theorem 5.15.1's exponent. -/
+private lemma shiftedExps_eq_toFinsupp_add_rhoShift
+    (n : ℕ) (bp : BoundedPartition n n) :
+    Finsupp.equivFunOnFinite.symm (shiftedExps n bp.parts) =
+      Nat.Partition.toFinsupp (bp.sum_eq ▸ weightToPartition n bp.parts) + rhoShift n := by
+  -- The ▸ transport doesn't change sortedParts
+  have h_sorted : (bp.sum_eq ▸ weightToPartition n bp.parts).sortedParts =
+      (weightToPartition n bp.parts).sortedParts := by
+    -- ▸ on Nat.Partition transports along the sum proof but doesn't change parts/sortedParts
+    have : ∀ (m k : ℕ) (h : m = k) (p : Nat.Partition m), (h ▸ p).sortedParts = p.sortedParts := by
+      intro m k h p; subst h; rfl
+    exact this _ _ bp.sum_eq _
+  ext i
+  simp only [Finsupp.coe_add, Pi.add_apply,
+    Nat.Partition.toFinsupp, rhoShift, shiftedExps,
+    Finsupp.coe_equivFunOnFinite_symm, h_sorted]
+  congr 1
+  exact (sortedParts_getD_eq_of_antitone n bp.parts bp.decreasing i).symm
+
+/-- Base change: `map (algebraMap ℚ ℂ)` sends `psumPart ℚ μ` to `psumPart ℂ μ`. -/
+private lemma map_psumPart (n : ℕ) (μ : Nat.Partition n) :
+    MvPolynomial.map (algebraMap ℚ ℂ) (MvPolynomial.psumPart (Fin n) ℚ μ) =
+      MvPolynomial.psumPart (Fin n) ℂ μ := by
+  simp only [MvPolynomial.psumPart, MvPolynomial.psum]
+  rw [map_multiset_prod]
+  congr 1
+  rw [Multiset.map_map]
+  congr 1; ext m
+  rw [Function.comp_apply, map_sum]
+  congr 1; ext i
+  simp [map_pow, MvPolynomial.map_X]
+
+/-- `psumPart ℂ (fullCycleTypePartition σ)` equals `cycleTypePsumProduct n σ`. -/
+private lemma psumPart_fullCycleType_eq_cycleTypePsumProduct
+    (n : ℕ) (σ : Equiv.Perm (Fin n)) :
+    MvPolynomial.psumPart (Fin n) ℂ (fullCycleTypePartition σ) =
+      cycleTypePsumProduct n σ := by
+  rw [cycleTypePsumProduct_eq_fullCycleType]
+  simp only [MvPolynomial.psumPart, fullCycleTypePartition]
+
+/-- The Vandermonde product over ℚ maps to the Vandermonde product over ℂ under base change. -/
+private lemma map_vandermondeProd (n : ℕ) :
+    MvPolynomial.map (algebraMap ℚ ℂ)
+      (∏ i : Fin n, ∏ j ∈ Finset.Ioi i,
+        (MvPolynomial.X j - MvPolynomial.X i : MvPolynomial (Fin n) ℚ)) =
+      vandermondePoly n := by
+  simp only [vandermondePoly, map_prod, map_sub, MvPolynomial.map_X]
+
+set_option maxHeartbeats 800000 in
+/-- **Frobenius character formula bridge (N = n case)**: For `BoundedPartition n n`,
+`charValue` cast to ℂ equals `spechtModuleCharacter`.
+
+Proof: Using `alternantDet = sign(rev) · ∏(Xj-Xi)` and Theorem 5.15.1
+`sign(rev) · χ = coeff(∏(Xj-Xi) · cyclePsum)`, we get
+`charValue = sign(rev) · coeff(·) = sign(rev)² · χ = χ`. -/
+private lemma charValue_eq_spechtModuleCharacter_of_eq
+    (n : ℕ) (bp : BoundedPartition n n) (σ : Equiv.Perm (Fin n)) :
+    (charValue n bp (fullCycleTypePartition σ) : ℂ) =
+      spechtModuleCharacter n (bp.sum_eq ▸ weightToPartition n bp.parts) σ := by
+  set la : Nat.Partition n := bp.sum_eq ▸ weightToPartition n bp.parts
+  set μ := fullCycleTypePartition σ
+  set e := Finsupp.equivFunOnFinite.symm (shiftedExps n bp.parts)
+  set s := (Equiv.Perm.sign (@Fin.revPerm n) : ℤ)
+  -- Step 1: charValue cast to ℂ = coeff of mapped polynomial
+  have hcast : (charValue n bp μ : ℂ) =
+      MvPolynomial.coeff e (MvPolynomial.map (algebraMap ℚ ℂ)
+        ((alternantMatrix n (vandermondeExps n)).det *
+          MvPolynomial.psumPart (Fin n) ℚ μ)) := by
+    show (algebraMap ℚ ℂ) (charValue n bp μ) = _
+    rw [charValue, MvPolynomial.coeff_map]
+  rw [hcast]
+  -- Step 2: Rewrite alternant as sign(rev) * vandermonde product
+  rw [alternantDet_eq_sign_mul_vandermondeProd' n]
+  -- Step 3: Reassociate multiplication
+  rw [show ((s : MvPolynomial (Fin n) ℚ) *
+    ∏ i : Fin n, ∏ j ∈ Finset.Ioi i,
+      (MvPolynomial.X j - MvPolynomial.X i : MvPolynomial (Fin n) ℚ)) *
+    MvPolynomial.psumPart (Fin n) ℚ μ =
+    (s : MvPolynomial (Fin n) ℚ) *
+    ((∏ i : Fin n, ∏ j ∈ Finset.Ioi i,
+      (MvPolynomial.X j - MvPolynomial.X i : MvPolynomial (Fin n) ℚ)) *
+    MvPolynomial.psumPart (Fin n) ℚ μ) from by ring]
+  -- Step 4: Apply base change ℚ → ℂ
+  rw [map_mul, map_mul, map_psumPart, map_vandermondeProd]
+  rw [show MvPolynomial.map (algebraMap ℚ ℂ) (s : MvPolynomial (Fin n) ℚ) =
+    (s : MvPolynomial (Fin n) ℂ) from by simp only [map_intCast]]
+  -- Step 5: Factor out the integer constant from coeff
+  -- Int cast in MvPolynomial factors through C
+  have hint : (s : MvPolynomial (Fin n) ℂ) = MvPolynomial.C (s : ℂ) := by
+    simp only [MvPolynomial.C_apply, Finsupp.single_zero]
+    rfl
+  rw [hint, MvPolynomial.C_mul', MvPolynomial.coeff_smul, smul_eq_mul]
+  -- Step 6: Match the exponent vectors
+  rw [show e = Nat.Partition.toFinsupp la + rhoShift n from
+    shiftedExps_eq_toFinsupp_add_rhoShift n bp]
+  -- Step 7: Replace psumPart with cycleTypePsumProduct
+  rw [psumPart_fullCycleType_eq_cycleTypePsumProduct]
+  -- Step 8: Apply Theorem 5.15.1
+  have h515 := Theorem5_15_1 n la σ
+  rw [← h515, zsmul_eq_mul, ← mul_assoc]
+  -- s * s = 1 for sign values (sign is ±1, so sign² = 1)
+  have hs : (s : ℂ) * (s : ℂ) = 1 := by
+    have h1 := Int.units_mul_self (Equiv.Perm.sign (@Fin.revPerm n))
+    -- h1 : sign * sign = 1 as ℤˣ, need to cast to ℂ
+    have h2 : (s : ℤ) * (s : ℤ) = 1 := by
+      show (↑(Equiv.Perm.sign Fin.revPerm) : ℤ) * ↑(Equiv.Perm.sign Fin.revPerm) = ↑(1 : ℤˣ)
+      rw [← Units.val_mul, h1]
+    exact_mod_cast h2
+  rw [hs, one_mul]
+
+/-- Construct the canonical `BoundedPartition n n` from the sorted parts of an antitone
+weight function, by padding with zeros to length n. -/
+private def canonicalBP (N n : ℕ) (bp : BoundedPartition N n) : BoundedPartition n n where
+  parts := fun i => (bp.sum_eq ▸ weightToPartition N bp.parts).sortedParts.getD i.val 0
+  decreasing := by
+    intro i j hij
+    -- sortedParts is sorted by ≥, so getD at earlier index ≥ getD at later index
+    sorry
+  sum_eq := by
+    -- The sum of getD values over Fin n equals the partition sum (= n)
+    sorry
+
+/-- The canonical BP has the same underlying partition (weightToPartition) as the original. -/
+private lemma canonicalBP_weightToPartition (N n : ℕ) (bp : BoundedPartition N n) :
+    ((canonicalBP N n bp).sum_eq ▸ weightToPartition n (canonicalBP N n bp).parts :
+      Nat.Partition n) =
+    (bp.sum_eq ▸ weightToPartition N bp.parts : Nat.Partition n) := by
+  sorry -- The sortedParts of the canonical BP agree with the original partition's sortedParts
+
 /-- Stability of charValue: the value is independent of the number of variables N,
 depending only on the partition (nonzero parts). This is the standard fact that
 symmetric function coefficients in the alternant expansion are stable under
-change of the number of variables. -/
+change of the number of variables.
+
+**Proof strategy**: For any BoundedPartition N n, we:
+1. Construct the canonical BoundedPartition n n with the same partition
+2. Show charValue N bp μ = charValue n (canonicalBP) μ by variable restriction
+3. Conclude by symmetry -/
 private lemma charValue_stability
     (N₁ N₂ n : ℕ) (bp₁ : BoundedPartition N₁ n) (bp₂ : BoundedPartition N₂ n)
     (h : (bp₁.sum_eq ▸ weightToPartition N₁ bp₁.parts : Nat.Partition n) =
@@ -1184,7 +1337,17 @@ private lemma charValue_eq_spechtModuleCharacter
     (N : ℕ) (n : ℕ) (lam' : BoundedPartition N n) (σ : Equiv.Perm (Fin n)) :
     (charValue N lam' (fullCycleTypePartition σ) : ℂ) =
       spechtModuleCharacter n (lam'.sum_eq ▸ weightToPartition N lam'.parts) σ := by
-  sorry
+  -- Reduce to N = n case via stability
+  set bp_n := canonicalBP N n lam'
+  have hstab := charValue_stability N n n lam' bp_n
+    (by rw [canonicalBP_weightToPartition]) (fullCycleTypePartition σ)
+  rw [hstab]
+  -- Apply the N = n bridge
+  have hbridge := charValue_eq_spechtModuleCharacter_of_eq n bp_n σ
+  rw [hbridge]
+  -- Show the transported partitions match
+  congr 1
+  exact canonicalBP_weightToPartition N n lam'
 
 /-- Two antitone sequences with the same sum and the same weightToPartition
 are pointwise equal. (The multiset of nonzero parts, being sorted by
