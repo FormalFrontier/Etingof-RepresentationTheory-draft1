@@ -1294,15 +1294,66 @@ private lemma charValue_eq_spechtModuleCharacter_of_eq
 
 /-- Construct the canonical `BoundedPartition n n` from the sorted parts of an antitone
 weight function, by padding with zeros to length n. -/
+-- Helper: sum of getD over Fin n equals list sum when length ≤ n
+private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
+    ∑ i : Fin n, l.getD i.val 0 = l.sum := by
+  induction n generalizing l with
+  | zero =>
+    have := List.eq_nil_of_length_eq_zero (by omega : l.length = 0)
+    subst this; rfl
+  | succ n ih =>
+    rw [Fin.sum_univ_succ]
+    cases l with
+    | nil => simp [ih [] (Nat.zero_le _)]
+    | cons a t =>
+      simp only [List.getD_cons_zero, List.sum_cons, Fin.val_zero]
+      congr 1
+      have hstep : ∀ i : Fin n, (a :: t).getD i.succ.val 0 = t.getD i.val 0 := by
+        intro ⟨i, _⟩; simp [List.getD_cons_succ]
+      simp_rw [hstep]
+      exact ih t (by simpa using hlen)
+
+-- Helper: getD on a list with Pairwise (· ≥ ·) is antitone
+private lemma getD_antitone_of_pairwise (l : List ℕ) (h : l.Pairwise (· ≥ ·)) :
+    Antitone (fun i : Fin n => l.getD i.val 0) := by
+  intro i j hij
+  show l.getD j.val 0 ≤ l.getD i.val 0
+  rcases eq_or_lt_of_le hij with rfl | hlt
+  · exact le_refl _
+  · by_cases hj : j.val < l.length
+    · have hi : i.val < l.length := by omega
+      rw [List.getD_eq_getElem (hn := hj), List.getD_eq_getElem (hn := hi)]
+      exact List.pairwise_iff_get.mp h ⟨i.val, hi⟩ ⟨j.val, hj⟩ hlt
+    · rw [List.getD_eq_default (hn := by omega)]
+      exact Nat.zero_le _
+
 private def canonicalBP (N n : ℕ) (bp : BoundedPartition N n) : BoundedPartition n n where
   parts := fun i => (bp.sum_eq ▸ weightToPartition N bp.parts).sortedParts.getD i.val 0
   decreasing := by
-    intro i j hij
-    -- sortedParts is sorted by ≥, so getD at earlier index ≥ getD at later index
-    sorry
+    set l := (bp.sum_eq ▸ weightToPartition N bp.parts).sortedParts
+    exact getD_antitone_of_pairwise l (Multiset.pairwise_sort _ _)
   sum_eq := by
-    -- The sum of getD values over Fin n equals the partition sum (= n)
-    sorry
+    set la := (bp.sum_eq ▸ weightToPartition N bp.parts)
+    set l := la.sortedParts
+    have hpos : ∀ x ∈ l, 0 < x := by
+      intro x hx
+      apply la.parts_pos
+      have h_sort := Multiset.sort_eq (r := (· ≥ ·)) la.parts
+      rw [show la.parts.sort (· ≥ ·) = l from rfl] at h_sort
+      exact h_sort ▸ Multiset.mem_coe.mpr hx
+    have hlen : l.length ≤ n := by
+      have hsum : l.sum = n := sortedParts_sum n la
+      suffices h : ∀ (m : List ℕ), (∀ x ∈ m, 0 < x) → m.length ≤ m.sum by
+        linarith [h l hpos]
+      intro m hm
+      induction m with
+      | nil => exact Nat.zero_le _
+      | cons a t iht =>
+        simp only [List.length_cons, List.sum_cons]
+        have ha := hm a (by simp)
+        have := iht (fun x hx => hm x (by simp [hx]))
+        omega
+    rw [sum_getD_eq_sum l n hlen, sortedParts_sum]
 
 /-- The canonical BP has the same underlying partition (weightToPartition) as the original. -/
 private lemma canonicalBP_weightToPartition (N n : ℕ) (bp : BoundedPartition N n) :
