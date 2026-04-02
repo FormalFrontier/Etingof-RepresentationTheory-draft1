@@ -1468,21 +1468,42 @@ private lemma restrictLastVar_alternantDet (N : ℕ) :
     restrictLastVar N (alternantMatrix (N + 1) (vandermondeExps (N + 1))).det =
       (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) *
         (alternantMatrix N (vandermondeExps N)).det := by
+  -- Step 1: Push restrictLastVar inside the determinant
+  rw [(restrictLastVar N).map_det]
+  -- Step 2: The mapped matrix M' has entry (i,j) = restrictLastVar N (X_i^{N-j})
+  -- Last row is (0,...,0,1) and we expand along it.
+  set M' := (restrictLastVar N).mapMatrix (alternantMatrix (N + 1) (vandermondeExps (N + 1)))
+  -- Step 3: Laplacian expansion along the last row (Fin.last N)
+  -- Only the (N,N) entry is nonzero (= 1), so det = minor(N,N).
+  -- Step 4: The minor has entry X_i^{N-j} = X_i · X_i^{N-1-j} for i,j : Fin N
+  -- Factor out X_i from each row to get (∏ X_i) · alternantDet N.
   sorry
 
 /-- Setting x_N = 0 in psum gives psum in N variables:
 `psum(Fin(N+1), k) = ∑_{i<N} X_i^k + X_N^k`, setting X_N = 0 drops last term. -/
-private lemma restrictLastVar_psum (N k : ℕ) :
+private lemma restrictLastVar_psum (N k : ℕ) (hk : k ≠ 0) :
     restrictLastVar N (MvPolynomial.psum (Fin (N + 1)) ℚ k) =
       MvPolynomial.psum (Fin N) ℚ k := by
-  sorry
+  simp only [MvPolynomial.psum, restrictLastVar, map_sum, map_pow, MvPolynomial.aeval_X]
+  rw [Fin.sum_univ_castSucc]
+  simp only [Fin.val_last, dif_neg (lt_irrefl N), zero_pow hk, add_zero, Fin.coe_castSucc]
+  apply Finset.sum_congr rfl
+  intro i _
+  congr 1
+  have hi : (i : ℕ) < N := i.isLt
+  simp [hi]
 
 /-- Setting x_N = 0 in psumPart: since psumPart is a product of psum's,
 this follows from `restrictLastVar_psum` and multiplicativity of `AlgHom`. -/
 private lemma restrictLastVar_psumPart {n : ℕ} (N : ℕ) (μ : Nat.Partition n) :
     restrictLastVar N (MvPolynomial.psumPart (Fin (N + 1)) ℚ μ) =
       MvPolynomial.psumPart (Fin N) ℚ μ := by
-  sorry
+  simp only [MvPolynomial.psumPart]
+  rw [map_multiset_prod (restrictLastVar N), Multiset.map_map]
+  congr 1
+  apply Multiset.map_congr rfl
+  intro k hk
+  exact restrictLastVar_psum N k (μ.parts_pos hk).ne'
 
 /-- Coefficient shifting: coeff_{e+1}(∏x_i · p) = coeff_e(p), where +1 means
 adding 1 to every exponent component. -/
