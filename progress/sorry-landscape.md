@@ -1,194 +1,185 @@
-# Sorry Landscape Analysis — Wave 39
+# Sorry Landscape Analysis — Wave 40
 
-Generated 2026-03-28 by summarize session (issue #1890).
+Generated 2026-04-02 by summarize session (issue #1994).
 
 ## Summary
 
-**29 sorries** across 17 files. Changed from 27 / 19 in wave 38: +2 sorries (decomposition), −2 files sorry-free. Chapters 3, 4, 7, 8 remain 100% sorry-free. 255 of 272 Lean files (93.8%) are sorry-free. 571/583 items (97.9%) sorry-free.
+**23 sorries** across 13 files. Changed from 29 / 17 in wave 39: **−6 sorries, −4 files**. Chapters 3, 4, 7, 8 remain 100% sorry-free. 266 of 279 Lean files (95.3%) are sorry-free. 571/583 items (97.9%) sorry-free.
 
-35+ PRs merged since wave 38 (#1824–#1900). Key changes:
+40+ PRs merged since wave 39 (#1901–#1993). Key changes:
 
-- **Theorem5_18_4 sorry-free** (#1830) — Partition-indexed Schur-Weyl decomposition proved. Last sorry cleared.
-- **PowerSumCauchyBilinear sorry-free** (merged into other work) — orbit-stabilizer card computation proved.
-- **Infrastructure/MoritaStructural removed** (#1835) — Dead code; functionality consolidated in Chapter9/MoritaStructural.lean.
-- **MoritaStructural (Ch9) restructured** (#1876, #1878) — Proof decomposed into 3 components (exists_full_idempotent, morita_equiv_of_full_idempotent, basic_morita_algEquiv). Net: 1 sorry remains.
-- **BasicAlgebraExistence major progress** (#1864, #1881, #1886) — `exists_basic_morita_equivalent` proved, `cornerFunctor_full` proved, `pi_matrix_single_generates_ideal` proved. 3→2 sorries (fullness proved, but essSurj added).
-- **Theorem5_27_1 character formula proved** (#1872) — Part (iv) Frobenius character formula done via sum reindexing + fiber decomposition. 4→3 sorries.
-- **Theorem5_23_2 part (i) proved** (#1824) — Complete reducibility half done. 2→1 sorry.
-- **Proposition6_6_6_source reduced** (#1829) — hdim sorry eliminated via direct surjectivity. 2→1 sorry.
-- **Theorem5_22_1 decomposed** (#1806, #1815, #1866, #1883) — Single sorry decomposed into 3 independent sub-lemmas (trace formula, Frobenius+orthogonality, α≠0). Net: 1→3 sorries.
-- **Example9_4_4 Hilbert syzygy** (#1844, #1887, #1880, #1897) — Major infrastructure: Shapiro lemma proved, Ext vanishing proved, polynomial SES constructed. But decomposition added a sorry. Net: 1→2 sorries.
-- **Polytabloid decomposition** (#1871, #1888) — Young symmetrizer generalized to arbitrary CharZero fields, tabloid expansion approach corrected. TabloidModule.lean created with 3 sorries (right-multiplication dominance).
-- **Coxeter infrastructure** (#1832, #1862) — indecomposable_reduces_to_simpleRoot proved. But sorry count: 1→2.
+- **Proposition6_6_6_source sorry-free** (#1903) — Source naturality instance diamond proved. Was Cluster D keystone; unblocks downstream Gabriel chain sorries.
+- **Theorem5_23_2 sorry-free** (#1918) — Complete reducibility + Peter-Weyl decomposition for GL(V) fully proved.
+- **Proposition5_22_2 sorry-free** (#1926) — Determinant twist isomorphism proved via SchurModule construction.
+- **BasicAlgebraExistence sorry-free** (#1922, #1944) — cornerFunctor_essSurj proved via balanced tensor product isomorphism. Mathlib bump sorries fixed.
+- **Example9_4_4 sorry-free** (#1912, #1910) — Hilbert syzygy theorem fully proved; both lower-bound sub-goals closed.
+- **CoxeterInfrastructure 2→1** (#1977, #1965, #1948) — 7/8 sorries resolved. Admissible ordering proved; subsingleton infrastructure added. One sorry remains (type-changing iterated reflection).
+- **TabloidModule 3→1** (#1975, #1943) — Reversed dominance direction fixed; cumulative count helper proved. `polytabloid_syt_dominance` remains.
+- **MoritaStructural (Ch9) 1→2** (#1937, #1929, #1956) — `basic_morita_algEquiv` decomposed: ring structure proved, but `basic_morita_regular_module_iso` and k-linearity sorry added.
+- **FormalCharacterIso NEW** (#1917, #1991) — 2 sorries. Bridge lemmas for formal character isomorphism extracted from Theorem5_22_1 proof chain.
+- **Theorem5_22_1 3→3** (#1933, #1927, #1917, #1991, #1990, #1978) — Major infrastructure: Young symmetrizer trace Kronecker proved, character orthogonality proved, Frobenius bridge lemmas extracted. But sorry count unchanged due to restructuring.
+- **PolytabloidBasis 3→4** (#1993, #1952, #1970) — garnir_reduction' infrastructure proved, helper lemmas added. T_col_inc sorry added; column_standard_coset_has_syt' sorry moved.
 
-**Net sorry change: +2** (due to strategic decomposition of coarse sorrys into finer sub-tasks). The actual proof content increased significantly — many sub-goals that were implicit are now explicit and partially proved.
+**Net sorry change: −6** (first net decrease since wave 37). Five files became sorry-free; one new file created.
 
 **Definition-level sorries: 0.** All mathematical objects are constructed. No regression.
 
 ## Chapter Breakdown
 
-| Chapter | Sorries | Files | Delta from Wave 38 |
+| Chapter | Sorries | Files | Delta from Wave 39 |
 |---------|---------|-------|---------------------|
 | Ch2 | 1 | 1 | 0 |
-| Ch5 | 16 | 6 | +4 sorries, −1 file (Theorem5_18_4 sorry-free; Theorem5_22_1 1→3; TabloidModule new +3; PolytabloidBasis 2→3) |
-| Ch6 | 7 | 7 | −2 sorries, 0 files (Proposition6_6_6_source 2→1; CoxeterInfrastructure 1→2) |
-| Ch9 | 3 | 3 | +1 sorry, +1 file (Example9_4_4 1→2; MoritaStructural Ch9 unchanged) |
-| Infra | 2 | 1 | −1 sorry, −1 file (MoritaStructural Infra removed; BasicAlgebraExistence 2→2) |
+| Ch5 | 15 | 6 | −1 sorry, 0 files (Theorem5_23_2 sorry-free; Proposition5_22_2 sorry-free; FormalCharacterIso new +2; TabloidModule 3→1; PolytabloidBasis 3→4) |
+| Ch6 | 5 | 5 | −2 sorries, −2 files (Proposition6_6_6_source sorry-free; CoxeterInfrastructure 2→1) |
+| Ch9 | 2 | 1 | −1 sorry, −2 files (Example9_4_4 sorry-free; BasicAlgebraExistence sorry-free; MoritaStructural 1→2) |
+| Infra | 0 | 0 | −2 sorries, −1 file (BasicAlgebraExistence sorry-free) |
 
-## Files That Became Sorry-Free Since Wave 38
+## Files That Became Sorry-Free Since Wave 39
 
-1. **Theorem5_18_4.lean** — 1 sorry → 0. Partition-indexed Schur-Weyl decomposition proved (#1830).
-2. **PowerSumCauchyBilinear.lean** — 1 sorry → 0. Orbit-stabilizer computation proved.
-3. **Infrastructure/MoritaStructural.lean** — Removed (#1835). Dead code consolidated into Chapter9.
+1. **Proposition6_6_6_source.lean** — 1 sorry → 0. Source naturality instance diamond proved (#1903).
+2. **Theorem5_23_2.lean** — 1 sorry → 0. Peter-Weyl decomposition for GL(V) proved (#1918).
+3. **Proposition5_22_2.lean** — 1 sorry → 0. Determinant twist isomorphism proved (#1926).
+4. **BasicAlgebraExistence.lean** — 2 sorries → 0. Corner functor essential surjectivity + Mathlib bump fixes (#1922, #1944).
+5. **Example9_4_4.lean** — 2 sorries → 0. Hilbert syzygy theorem fully proved (#1912, #1910).
 
 ## New Files With Sorries
 
-1. **TabloidModule.lean** — 3 sorries (NEW). Polytabloid linear independence infrastructure decomposed from PolytabloidBasis. Contains `right_pq_dominance` and related dominance lemmas.
+1. **FormalCharacterIso.lean** — 2 sorries (NEW). Bridge lemmas: `iso_of_formalCharacter_eq` (iso from formal character equality) and `formalCharacter_shift_of_weightSpace_finrank` (character multiplication via weight space dimensions).
 
 ## Per-File Sorry Detail
 
-| File | Sorries | Nature | Delta from W38 |
+| File | Sorries | Nature | Delta from W39 |
 |------|---------|--------|----------------|
-| PolytabloidBasis | 3 | Linear independence + straightening + support | **+1** |
-| TabloidModule | 3 | Right-mult dominance (pq, row-perm, main) | **NEW** |
-| Theorem5_22_1 | 3 | Trace formula + Frobenius/orthogonality + α≠0 | **+2** |
-| Theorem5_27_1 | 3 | Mackey: irreducibility, injectivity, completeness | **−1** |
-| BasicAlgebraExistence | 2 | Full idempotent existence + corner essSurj | 0 |
-| CoxeterInfrastructure | 2 | Admissible ordering + coxeterElement property | **+1** |
-| Example9_4_4 | 2 | Hilbert syzygy lower bound (2 sub-goals) | **+1** |
+| PolytabloidBasis | 4 | Linear independence + T_col_inc + coset_has_syt + garnir_reduction' | **+1** |
+| Theorem5_22_1 | 3 | Trace formula + charValue stability + charValue=spechtChar | 0 |
+| Theorem5_27_1 | 3 | Mackey: irreducibility, injectivity, completeness | 0 |
+| FormalCharacterIso | 2 | iso_of_formalCharacter_eq + shift formula | **NEW** |
+| MoritaStructural (Ch9) | 2 | regular_module_iso + k-linearity (Eilenberg-Watts) | **+1** |
 | Problem6_9_1 | 2 | IsCompl conditions (pV/qV, pW/qW) | 0 |
-| Corollary6_8_3 | 1 | Indecomposable → positive root | 0 |
+| Corollary6_8_3 | 1 | Indecomposable → positive root (reflection chain) | 0 |
 | Corollary6_8_4 | 1 | Bijection: indec reps ↔ positive roots | 0 |
-| MoritaStructural (Ch9) | 1 | basic_morita_algEquiv | 0 |
+| CoxeterInfrastructure | 1 | Type-changing iterated reflection (universe constraint) | **−1** |
 | Problem6_1_5_theorem | 1 | Finite type ↔ Dynkin | 0 |
-| Proposition5_22_2 | 1 | Determinant twist isomorphism | 0 |
-| Proposition6_6_6_source | 1 | Source naturality (instance diamond) | **−1** |
+| TabloidModule | 1 | polytabloid_syt_dominance (PQ transformation) | **−2** |
 | Theorem2_1_2 | 1 | Gabriel's theorem | 0 |
-| Theorem5_23_2 | 1 | Peter-Weyl decomposition | **−1** |
 | Theorem6_5_2 | 1 | Indecomposable decomposition uniqueness | 0 |
 
-## Merged PRs Since Wave 38 (35+)
+## Merged PRs Since Wave 39 (40+)
 
-### Hilbert Syzygy Theorem (Ch9)
+### Weyl Character / Young Symmetrizer (Ch5)
 | PR | Title |
 |----|-------|
-| #1844 | Prove Example9_4_4 (Hilbert syzygy theorem — homological dimension of polynomial ring) |
-| #1863 | Prove Hilbert syzygy lower bound structure + polynomial ring not semisimple |
-| #1869 | Restructure Hilbert syzygy lower bound with documented proof strategy |
-| #1870 | Shapiro lemma infrastructure for polynomial Ext adjunction |
-| #1880 | Prove Shapiro lemma for Ext (ext_subsingleton_of_extendScalars) |
-| #1887 | Prove Ext^n(k,k) ≠ 0 for polynomial ring residue field |
-| #1897 | Hilbert syzygy upper bound infrastructure (extendScalars preserves pd) |
+| #1913 | Prove YoungSymmetrizerK_sq_scalar_ne_zero |
+| #1917 | Prove sum_youngSym_permTracePoly_eq_alpha_schurPoly (Frobenius+orthogonality) |
+| #1925 | Young symmetrizer idempotent infrastructure + decompose remaining sorries |
+| #1927 | Projection infrastructure + reduce trace formula to weight_trace_coefficient_identity |
+| #1933 | Trace formula infrastructure for Theorem5_22_1 Sorry 1 |
+| #1953 | Generalize CycleColoring and powerSum_bilinear_coeff to N ≠ n variables |
+| #1957 | Prove charValue row orthogonality via Cauchy identity |
+| #1978 | Prove charValue row orthogonality via Cauchy identity |
+| #1990 | Prove youngSym_trace_kronecker: trace of c_λ on V_{λ'} = α·δ_{λ,λ'} |
+| #1991 | Prove character orthogonality for Young symmetrizer (Theorem5_22_1 Sorry 2) |
+| #1992 | Prove helper lemmas for Frobenius character formula bridge |
 
-### Morita Theory / Basic Algebras (Ch9/Infra)
+### Schur-Weyl / Polytabloid (Ch5)
 | PR | Title |
 |----|-------|
-| #1835 | Remove dead Infrastructure/MoritaStructural.lean |
-| #1843 | WIP corner module functor and faithfulness for Morita equivalence |
-| #1856 | Prove essential surjectivity of cornerFunctor (tensor product) |
-| #1860 | End_A(Ae) ≃ₐ[k] (CornerRing e)^op infrastructure |
-| #1864 | Prove exists_basic_morita_equivalent (basic algebra existence) |
-| #1876 | Prove MoritaStructural via basic corner ring + uniqueness |
-| #1878 | Prove MoritaStructural corner ring equivalence (2 sorrys) |
-| #1881 | Prove fullness of idempotent in exists_full_idempotent_basic_corner |
-| #1886 | Prove cornerFunctor_full |
-
-### Weyl Character / Schur Polynomials (Ch5)
-| PR | Title |
-|----|-------|
-| #1806 | Decompose Theorem5_22_1 and prove formalCharacter_coeff |
-| #1815 | Prove schurModule_weight_eq_schurPoly_coeff |
-| #1831 | Prove Schur polynomial shift identity and character infrastructure |
-| #1845 | Prove det_clearedDenomMatrix_eq (polynomial determinant) |
-| #1850 | Prove permutation-diagonal trace formula |
-| #1866 | Restructure Theorem5_22_1: prove vandermonde from ch=schurPoly |
-| #1883 | Decompose Weyl character formula into trace formula sub-lemmas |
+| #1905 | Prove Schur polynomial shift and structural decomposition for Prop 5.22.2 |
+| #1908 | Polytabloid linear independence proof structure (2 sorrys remain) |
+| #1918 | Prove Theorem5_23_2 complete reducibility + Peter-Weyl decomposition |
+| #1926 | Prove Proposition5_22_2 determinant twist |
+| #1943 | Add tabloidCumulCount_full helper for polytabloid_syt_dominance |
+| #1952 | Prove sorted comparison lemma for PolytabloidBasis |
+| #1970 | Prove garnir_reduction' via Garnir element identity |
+| #1975 | Fix reversed dominance direction in polytabloid_syt_dominance |
+| #1993 | Prove helper lemmas for polytabloid basis straightening |
 
 ### Mackey Machine (Ch5)
 | PR | Title |
 |----|-------|
-| #1778 | Prove inducedRepV construction (map_one', map_mul') |
-| #1804 | Prove coset_fixed_iff + character formula outline |
-| #1822 | LHS simplification |
-| #1872 | Prove character formula (part iv) |
-
-### Schur-Weyl / Young Tableaux (Ch5)
-| PR | Title |
-|----|-------|
-| #1780 | Prove weight support finiteness for formalCharacter |
-| #1781 | Prove Schur-Weyl semisimplicity + decomposition (2/4 sorrys) |
-| #1795 | Partial proof of Proposition5_21_1 Frobenius character formula |
-| #1808 | Prove Proposition5_21_1 antisymmetric basis decomposition |
-| #1811 | Prove dominance order properties for tabloid column permutations |
-| #1817 | Prove centralizer_symGroupImage_eq_diagonalActionImage |
-| #1824 | Prove Theorem5_23_2_i, reduce Theorem5_23_2_ii |
-| #1830 | Prove Theorem5_18_4_partition_decomposition |
-| #1871 | Generalize Young symmetrizer idempotent to arbitrary fields |
-| #1888 | Fix polytabloid linear independence approach |
+| #1916 | Prove endo_preserves_cosets for Theorem5_27_1 |
+| #1932 | Add Mackey machine infrastructure |
+| #1954 | Prove transport lemma and single-coset support |
+| #1985 | Prove sigma_contains_all_single for Mackey machine irreducibility |
 
 ### Gabriel Theorem Chain (Ch6)
 | PR | Title |
 |----|-------|
-| #1800 | Fix 2 remaining sorrys in Proposition6_6_7 source case |
-| #1807 | Prove q2_nontrivial_decomp structure (2/8 sorrys remain) |
-| #1828 | Coxeter work |
-| #1829 | Proposition6_6_6_source hdim + naturality progress |
-| #1832 | Prove indecomposable_reduces_to_simpleRoot |
-| #1862 | Prove indecomposable_reduces_to_simpleRoot (Coxeter reduction) |
+| #1903 | Prove equivAt_eq_source_naturality (0 sorries in Proposition6_6_6_source) |
+| #1948 | Reduce CoxeterInfrastructure sorrys |
+| #1965 | Subsingleton infrastructure for CoxeterInfrastructure reflection functors |
+| #1977 | Resolve 7/8 sorrys in CoxeterInfrastructure |
+
+### Morita Theory / Basic Algebras (Ch9/Infra)
+| PR | Title |
+|----|-------|
+| #1904 | Prove ker π annihilates simple modules in basicness proof |
+| #1906 | Prove basic_morita_algEquiv |
+| #1922 | Fix BasicAlgebraExistence: 2 Mathlib bump sorries + corner module dimension |
+| #1929 | Prove basic_morita_algEquiv: basic + Morita equivalent ⟹ isomorphic |
+| #1937 | Decompose basic_morita_algEquiv into sub-lemmas |
+| #1944 | Prove cornerFunctor_essSurj: balanced tensor product isomorphism |
+| #1956 | Prove equivEndAlgEquiv ring structure (k-linearity sorry remains) |
+| #1963 | Prove equivalences of ModuleCat preserve module-theoretic indecomposability |
+| #1962 | Internal direct sum ↔ categorical biproduct bridge for ModuleCat |
+
+### Hilbert Syzygy (Ch9)
+| PR | Title |
+|----|-------|
+| #1910 | Prove Example9_4_4 (final sorry closed) |
+| #1912 | Prove Example9_4_4 (additional sorry closed) |
 
 ### Other
 | PR | Title |
 |----|-------|
-| #1779 | Meditate: review patterns and skills |
-| #1786 | Clean up stale sorry comment in Lemma5_25_3 |
-| #1791 | Proposition5_22_2 progress |
-| #1793 | Progress file for Proposition5_22_2 session |
-| #1796 | Mackey machine sorry decomposition |
-| #1797 | Prove swap_column_dominance and column_perm_strict_dominance |
-| #1801 | Prove alternating_coeff_eq_cauchyRHS_coeff |
-| #1803 | Prove exists_basic_morita_equivalent |
-| #1812 | Reduce FPS Cauchy identity to polynomial determinant |
-| #1814 | Reconcile repo with updated FormalFrontier templates |
-| #1825 | Update lean-formalization skill |
-| #1855 | Fix main branch build |
-| #1861 | Prove equivalence-preserves-pd and ring-equiv transfer |
-| #1900 | Meditate: definition-level sorry scan + pattern analysis |
+| #1901 | Wave 39 summary |
+| #1986 | Specht module simplicity proved |
 
 ## Dependency Clusters
 
-### Cluster A: Polytabloid Linear Independence (Ch5, 6 sorries)
-**Files:** PolytabloidBasis (3), TabloidModule (3)
-**Blocker:** `right_pq_dominance` — right-multiplication version of column permutation dominance. Existing `column_perm_dominance` proves LEFT multiplication; RIGHT multiplication requires different reasoning about entry vs position permutations.
-**Status:** Active work (#1884, #1888). Approach being restructured.
+### Cluster A: Polytabloid Basis (Ch5, 5 sorries)
+**Files:** PolytabloidBasis (4), TabloidModule (1)
+**Key sorries:**
+- `polytabloid_linearIndependent` — needs tabloid projection approach (#1928)
+- `T_col_inc` — column-increasing property of SYT filling
+- `column_standard_coset_has_syt'` — LEFT vs RIGHT coset mismatch (#1969)
+- `garnir_reduction'` — Garnir element identity for straightening
+- `polytabloid_syt_dominance` — PQ transformation dominance ordering
+**Status:** Active work. Coset mismatch identified (#1969). garnir_reduction' infrastructure built (#1970, #1993).
 
-### Cluster B: Weyl Character Formula (Ch5, 4 sorries)
-**Files:** Theorem5_22_1 (3), Proposition5_22_2 (1)
-**Blocker:** Trace formula connecting formal character to Young symmetrizer trace. Needs `ch(L_λ) = α⁻¹ · Σ c_λ(σ) · permTracePoly(N, σ)`.
-**Dependencies:** α≠0 (from Young symmetrizer idempotent), Frobenius formula (proved in Proposition5_21_1).
-**Status:** Well-decomposed. Each sub-lemma is independent (#1837, #1895).
+### Cluster B: Weyl Character Formula (Ch5, 5 sorries)
+**Files:** Theorem5_22_1 (3), FormalCharacterIso (2)
+**Key sorries:**
+- `finrank_weight_eq_card_sum` — trace formula: weight finrank via Young symmetrizer
+- `charValue_stability` — character stabilization under variable count change
+- `charValue_eq_spechtModuleCharacter` — bridge between polynomial charValue and Specht module trace
+- `iso_of_formalCharacter_eq` — isomorphism from formal character equality
+- `formalCharacter_shift_of_weightSpace_finrank` — character shift formula
+**Status:** Major progress. Trace Kronecker proved (#1990), character orthogonality proved (#1991). Bridge lemmas remain.
 
 ### Cluster C: Mackey Machine (Ch5, 3 sorries)
 **Files:** Theorem5_27_1 (3)
 **Remaining:** Parts (i) irreducibility, (ii) injectivity, (iii) completeness.
-**Status:** Character formula (part iv) proved. Infrastructure building (#1782).
+**Status:** Character formula proved. Infrastructure expanding (#1916, #1932, #1954, #1985). sigma_contains_all_single proved.
 
-### Cluster D: Gabriel Theorem Chain (Ch6, 7 sorries)
-**Files:** Proposition6_6_6_source (1), CoxeterInfrastructure (2), Corollary6_8_3 (1), Corollary6_8_4 (1), Problem6_1_5_theorem (1), Theorem6_5_2 (1)
-**Keystone:** Proposition6_6_6_source (1 sorry: source naturality instance diamond). Proving this unblocks ~6 downstream sorries.
-**Status:** Down from 9 to 7 sorries this wave. Active progress.
+### Cluster D: Gabriel Theorem Chain (Ch6, 5 sorries)
+**Files:** CoxeterInfrastructure (1), Corollary6_8_3 (1), Corollary6_8_4 (1), Problem6_1_5_theorem (1), Theorem6_5_2 (1)
+**Keystone:** CoxeterInfrastructure `one_round_or_simpleRoot_iteration` (1 sorry: type-changing iterated reflection with universe constraint). This is the last blocker for Corollary6_8_3 and Corollary6_8_4.
+**Status:** Down from 7 to 5 sorries this wave. Proposition6_6_6_source closed. 7/8 CoxeterInfrastructure sorries resolved.
 
-### Cluster E: Hilbert Syzygy (Ch9, 2 sorries)
-**Files:** Example9_4_4 (2)
-**Status:** Major infrastructure built (Shapiro lemma, Ext vanishing, polynomial SES). Two sub-goals remain for the lower bound.
+### Cluster E: Morita Theory (Ch9, 2 sorries)
+**Files:** MoritaStructural (2)
+**Key sorries:**
+- `basic_morita_regular_module_iso` — F(B₁) ≅ B₂ for basic Morita-equivalent algebras (#1939)
+- k-linearity of ring equivalence (Eilenberg-Watts theorem)
+**Status:** BasicAlgebraExistence now sorry-free. Ring structure proved (#1956). Two sorries remain in the final step.
 
-### Cluster F: Morita Theory (Ch9/Infra, 3 sorries)
-**Files:** MoritaStructural (1), BasicAlgebraExistence (2)
-**Blocker:** `exists_full_idempotent_basic_corner` needs Wedderburn-Artin decomposition + idempotent lifting. `cornerFunctor_essSurj` needs balanced tensor product.
-**Status:** Fullness proved (#1881, #1886). Infrastructure improved but core sorrys remain.
+### Cluster F: Problem6_9_1 (Ch6, 2 sorries)
+**Files:** Problem6_9_1 (2)
+**Sorries:** IsCompl_pV_qV + IsCompl_pW_qW (direct sum decomposition). Independent of other clusters.
 
 ### Isolated
-- **Theorem2_1_2** (1 sorry): Gabriel's theorem classification, blocked on Cluster D.
-- **Theorem5_23_2** (1 sorry): Peter-Weyl decomposition for GL(V).
+- **Theorem2_1_2** (1 sorry): Gabriel's theorem classification. Depends on Cluster D completion.
 
 ## Trajectory
 
@@ -206,17 +197,18 @@ Generated 2026-03-28 by summarize session (issue #1890).
 | 37 | 33 | 21 | 568/583 (97.4%) | 2026-03-27 |
 | 38 | 27 | 19 | 570/583 (97.8%) | 2026-03-27 |
 | 39 | 29 | 17 | 571/583 (97.9%) | 2026-03-28 |
+| 40 | 23 | 13 | 571/583 (97.9%) | 2026-04-02 |
 
-Note: The sorry count increase from 27→29 reflects strategic decomposition of coarse sorrys into finer independent sub-tasks. Three files became sorry-free while one new file was created. The actual proof content increased substantially — the higher sorry count represents more granular, more tractable problems.
+The wave 39→40 decrease of 6 sorries is the largest single-wave reduction since wave 37→38 (−6). Five files cleared entirely. The sorry count is now at a project low, with trajectory firmly downward again after the wave 38→39 uptick.
 
 ## Strategic Recommendations
 
-1. **Close Proposition6_6_6_source** (1 sorry) — Keystone for Gabriel chain. Source naturality instance diamond is the last blocker. Resolving this unblocks ~6 downstream sorries.
+1. **Close CoxeterInfrastructure** (1 sorry) — Keystone for Gabriel chain (Cluster D, 5 sorries). The type-changing iterated reflection functor (#1936) is the last blocker. Resolving this potentially unblocks Corollary6_8_3, Corollary6_8_4, and downstream.
 
-2. **Polytabloid right-multiplication dominance** — The `right_pq_dominance` blocker affects 6 sorries. Current approach being restructured (#1884). This is the highest-ROI single proof.
+2. **Fix column_standard_coset_has_syt' coset direction** (#1969) — Correctness fix affecting the entire polytabloid basis chain (Cluster A, 5 sorries). The LEFT vs RIGHT coset mismatch is well-analyzed with a clear fix plan.
 
-3. **Theorem5_22_1 trace formula** — The 3 sub-lemmas are independent. The trace formula (`formalCharacter_schurModule_eq_sum_permTracePoly`) connects character to Young symmetrizer and is the most mathematically direct.
+3. **Mackey machine irreducibility** (#1782) — With sigma_contains_all_single proved (#1985), the irreducibility proof may be within reach. Closing one of the three Mackey sorries would demonstrate progress on this cluster.
 
-4. **BasicAlgebraExistence full idempotent** — Wedderburn-Artin + idempotent lifting. Infrastructure is improving but requires substantial algebraic machinery.
+4. **MoritaStructural regular module iso** (#1939) — The regular module isomorphism F(B₁) ≅ B₂ is the concrete remaining step now that BasicAlgebraExistence is sorry-free.
 
-5. **Mackey machine remaining parts** — Character formula done. Irreducibility/injectivity/completeness require Clifford theory. Consider whether these can be decomposed further.
+5. **FormalCharacterIso bridge lemmas** (#1983) — New file with 2 sorries connecting Specht module character to Schur polynomial. Both are relatively self-contained.
