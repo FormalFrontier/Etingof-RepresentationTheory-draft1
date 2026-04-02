@@ -1360,7 +1360,66 @@ private lemma canonicalBP_weightToPartition (N n : ℕ) (bp : BoundedPartition N
     ((canonicalBP N n bp).sum_eq ▸ weightToPartition n (canonicalBP N n bp).parts :
       Nat.Partition n) =
     (bp.sum_eq ▸ weightToPartition N bp.parts : Nat.Partition n) := by
-  sorry -- The sortedParts of the canonical BP agree with the original partition's sortedParts
+  set la := (bp.sum_eq ▸ weightToPartition N bp.parts)
+  set l := la.sortedParts
+  have hrec : ∀ (m k : ℕ) (h : m = k) (p : Nat.Partition m), (h ▸ p).parts = p.parts := by
+    intros m k h p; subst h; rfl
+  apply Nat.Partition.ext
+  rw [hrec _ _ (canonicalBP N n bp).sum_eq, hrec _ _ bp.sum_eq]
+  -- Goal: (wtp n canonical.parts).parts = (wtp N bp.parts).parts
+  -- RHS = la.parts by unfolding. LHS needs work.
+  -- All elements of l are positive
+  have hpos : ∀ x ∈ l, 0 < x := by
+    intro x hx
+    exact la.parts_pos ((Multiset.sort_eq (r := (· ≥ ·)) la.parts) ▸
+      Multiset.mem_coe.mpr hx)
+  -- l.length ≤ n
+  have hlen : l.length ≤ n := by
+    have hsum : l.sum = n := sortedParts_sum n la
+    suffices hl : ∀ (m : List ℕ), (∀ x ∈ m, 0 < x) → m.length ≤ m.sum by linarith [hl l hpos]
+    intro m hm; induction m with
+    | nil => exact Nat.zero_le _
+    | cons a t ih =>
+      simp only [List.length_cons, List.sum_cons]
+      have := hm a (by simp); have := ih (fun x hx => hm x (by simp [hx])); omega
+  -- Show LHS.parts = la.parts
+  -- LHS.parts = filter(>0) from map(canonical.parts) over Fin n
+  -- canonical.parts i = l.getD i 0, so the map is [l.getD 0 0, ..., l.getD (n-1) 0]
+  -- Filtering zeros gives the positive elements of l = la.parts
+  suffices h_lhs : (weightToPartition n (canonicalBP N n bp).parts).parts = la.parts by
+    rw [h_lhs]; rw [show la.parts = (weightToPartition N bp.parts).parts from
+      (hrec _ _ bp.sum_eq (weightToPartition N bp.parts)).symm ▸ rfl]
+  -- Unfold to multiset operations
+  show (Finset.univ.val.map (fun i : Fin n => l.getD i.val 0)).filter (0 < ·) = la.parts
+  rw [Fin.univ_val_map, Multiset.filter_coe]
+  -- Show filter(>0) ofFn(getD) = l as lists (↑ gives la.parts by sort_eq)
+  suffices h : (List.ofFn (fun i : Fin n => l.getD i.val 0)).filter (fun x => decide (0 < x)) = l by
+    rw [h]; exact Multiset.sort_eq _ _
+  -- Prove by induction on n, generalizing l
+  suffices key : ∀ (m : ℕ) (ll : List ℕ), (∀ x ∈ ll, 0 < x) → ll.length ≤ m →
+      (List.ofFn (fun i : Fin m => ll.getD i.val 0)).filter (fun x => decide (0 < x)) = ll by
+    exact key n l hpos hlen
+  intro m; induction m with
+  | zero => intro ll _ hlen; simp [List.eq_nil_of_length_eq_zero (by omega : ll.length = 0)]
+  | succ m ih =>
+    intro ll hll hlen
+    simp only [List.ofFn_succ, Fin.val_zero, List.filter_cons]
+    cases ll with
+    | nil =>
+      simp only [List.getD_nil, List.ofFn_const, List.filter_replicate,
+        show ¬ decide (0 < 0) = true from by simp]
+      simp
+    | cons a t =>
+      simp only [List.getD_cons_zero]
+      have ha : 0 < a := hll a (by simp)
+      rw [show decide (0 < a) = true from decide_eq_true ha]
+      simp only [ite_true]
+      congr 1
+      -- The remaining terms: filter on ofFn(fun i => (a::t).getD i.succ 0)
+      -- = filter on ofFn(fun i => t.getD i 0) by List.getD_cons_succ
+      show (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
+      exact ih t (fun x hx => hll x (by simp [hx]))
+        (by simp only [List.length_cons] at hlen; omega)
 
 /-- Stability of charValue: the value is independent of the number of variables N,
 depending only on the partition (nonzero parts). This is the standard fact that
