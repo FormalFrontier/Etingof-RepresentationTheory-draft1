@@ -1672,15 +1672,16 @@ private lemma charValue_reduce_to_n (N n : ℕ) (bp : BoundedPartition N n)
     (μ : Nat.Partition n) :
     charValue N bp μ = charValue n (canonicalBP N n bp) μ := by
   -- Induction on the distance |N - n|
-  suffices key : ∀ d N, (max N n - min N n = d) → ∀ bp : BoundedPartition N n,
+  suffices key : ∀ d N n, (max N n - min N n = d) → ∀ (bp : BoundedPartition N n)
+      (μ : Nat.Partition n),
       charValue N bp μ = charValue n (canonicalBP N n bp) μ from
-    key _ N rfl bp
+    key _ N n rfl bp μ
   intro d
   induction d with
   | zero =>
-    intro N hd bp
+    intro N n hd bp μ
     have hNn : N = n := by omega
-    subst hNn
+    subst N
     -- N = n: show canonicalBP n n bp = bp
     have hcwtp := canonicalBP_weightToPartition n n bp
     have hparts : (canonicalBP n n bp).parts = bp.parts :=
@@ -1692,8 +1693,8 @@ private lemma charValue_reduce_to_n (N n : ℕ) (bp : BoundedPartition N n)
       exact this _ _ hparts
     rw [hbp_eq]
   | succ d ih =>
-    intro N hd bp
-    rcases le_or_lt n N with hle | hlt
+    intro N n hd bp μ
+    by_cases hle : n ≤ N
     · -- N > n (since d > 0 and N ≥ n means N > n)
       have hN : N > n := by omega
       have hNpos : 0 < N := by omega
@@ -1702,15 +1703,14 @@ private lemma charValue_reduce_to_n (N n : ℕ) (bp : BoundedPartition N n)
       have h0 : bp.parts (Fin.last M) = 0 := by
         have := bp_trailing_zero_of_gt (M + 1) n bp hMn
         convert this using 2
-        ext; simp [Fin.val_last]
       rw [charValue_remove_trailing_zero M n bp h0 μ]
-      rw [ih M (by omega) (bp.dropLast M n h0)]
+      rw [ih M n (by omega) (bp.dropLast M n h0) μ]
       congr 1
-      exact (canonicalBP_eq_of_weightToPartition_eq M (M + 1) n
-        (bp.dropLast M n h0) bp (wtp_dropLast M n bp h0)).symm
+      exact (canonicalBP_eq_of_weightToPartition_eq (M + 1) M n
+        bp (bp.dropLast M n h0) (wtp_dropLast M n bp h0).symm).symm
     · -- N < n
       rw [charValue_extend_zero N n bp μ]
-      rw [ih (N + 1) (by omega) bp.extend]
+      rw [ih (N + 1) n (by omega) bp.extend μ]
       congr 1
       exact canonicalBP_eq_of_weightToPartition_eq (N + 1) N n
         bp.extend bp (wtp_extend N n bp)
