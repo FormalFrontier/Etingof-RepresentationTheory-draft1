@@ -646,6 +646,12 @@ private theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
   -- (3) orderEmbOfFin comparison: if row r₁ has ≥ j+1 entries < B[j], then A[j] < B[j]
   have T_col_inc : ∀ c₁ c₂ : Cell n la,
       c₁.val.2 = c₂.val.2 → c₁.val.1 < c₂.val.1 → T_fun c₁ < T_fun c₂ := by
+    -- Row-sorting preserves column-increasing for column-standard fillings.
+    -- Proof outline: assume B[col] ≤ A[col] for contradiction.
+    -- For each of the col+1 sorted entries B[0]≤...≤B[col] of rowEntries r₂,
+    -- the column-standard condition provides a strictly smaller entry in rowEntries r₁
+    -- (at the same column in the diagram). These col+1 distinct entries are all < B[col],
+    -- but A[col] ≥ B[col] allows at most col elements of rowEntries r₁ below B[col].
     sorry
   let T : StandardYoungTableau n la :=
     ⟨T_fun, ⟨T_inj, T_surj⟩, T_row_inc, T_col_inc⟩
@@ -672,15 +678,25 @@ private theorem column_standard_coset_has_syt' (n : ℕ) (la : Nat.Partition n)
     -- And rowEntries(r) = (rowPositions r).image σ.symm,
     -- so the entry maps under σ to a position in the same row.
     set entry := (sytPerm n la T)⁻¹ k with entry_def
-    -- entry = T.val(canonicalFilling(k)) — the entry T assigns to canonical cell at k
-    -- We need: rowOfPos(σ(entry)) = rowOfPos(k)
-    -- Key: entry = T_fun(cell) for cell = canonical_cell(k), which has row = rowOfPos(k)
-    -- T_mem_rowEntries: T_fun(cell) ∈ rowEntries(cell.row)
-    -- rowEntries(r) = (rowPositions r).image σ.symm
-    -- So entry ∈ (rowPositions(rowOfPos(k))).image σ.symm
-    -- Meaning ∃ pos ∈ rowPositions(rowOfPos(k)), σ.symm(pos) = entry
-    -- I.e., σ(entry) = pos, and rowOfPos(pos) = rowOfPos(k). QED.
-    sorry
+    -- entry = T_fun(canonical cell at k)
+    have h_entry : entry = T_fun ((canonicalFilling n la) k) := by
+      simp only [entry_def, sytPerm, Equiv.Perm.inv_def, Equiv.symm_trans_apply,
+                 Equiv.symm_symm, Equiv.ofBijective_apply]
+      rfl
+    -- canonical cell's row = rowOfPos parts k.val
+    have h_cell_row : ((canonicalFilling n la) k).val.1 = rowOfPos parts k.val := by
+      simp [canonicalFilling, canonicalFillingFun, Equiv.ofBijective_apply]
+      rfl
+    -- entry ∈ rowEntries(rowOfPos parts k.val)
+    have h_mem : entry ∈ rowEntries (rowOfPos parts k.val) := by
+      rw [h_entry, ← h_cell_row]
+      exact T_mem_rowEntries ((canonicalFilling n la) k)
+    -- Unpack: ∃ pos with σ.symm(pos) = entry and pos in same row
+    obtain ⟨pos, hpos, hv⟩ := Finset.mem_image.mp h_mem
+    -- σ(entry) = pos
+    have h_σ : σ entry = pos := by rw [← hv]; exact σ.apply_symm_apply pos
+    rw [h_σ]
+    exact (Finset.mem_filter.mp hpos).2
   exact ⟨T, p, hp_row, by simp only [p]; group⟩
 
 /-- A column-standard filling gives a standard polytabloid.
