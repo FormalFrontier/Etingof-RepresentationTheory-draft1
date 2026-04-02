@@ -13,7 +13,7 @@ A **Young tableau** of shape λ is a filling of the Young diagram with numbers 1
 The **row subgroup** P_λ ⊂ S_n consists of permutations preserving each row.
 The **column subgroup** Q_λ ⊂ S_n consists of permutations preserving each column.
 
-The **Young symmetrizer** c_λ = a_λ · b_λ where:
+The **Young symmetrizer** c_λ = b_λ · a_λ where:
 - a_λ = Σ_{g ∈ P_λ} g
 - b_λ = Σ_{g ∈ Q_λ} sign(g) · g
 
@@ -116,14 +116,20 @@ noncomputable def ColumnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
   ∑ g : (ColumnSubgroup n la),
     ((↑(Equiv.Perm.sign g.val) : ℤ) : ℂ) • MonoidAlgebra.of ℂ _ g.val
 
-/-- The Young symmetrizer c_λ = a_λ · b_λ in the group algebra ℂ[S_n].
+/-- The Young symmetrizer c_λ = b_λ · a_λ in the group algebra ℂ[S_n].
 (Etingof Definition 5.12.1)
 
 Here a_λ = ∑_{g ∈ P_λ} g and b_λ = ∑_{g ∈ Q_λ} sign(g) · g,
-where P_λ is the row subgroup and Q_λ is the column subgroup. -/
+where P_λ is the row subgroup and Q_λ is the column subgroup.
+
+**Convention**: We use c_λ = b_λ · a_λ (column × row) rather than a_λ · b_λ.
+Both conventions generate isomorphic Specht modules, but the b_λ · a_λ convention
+is needed for the polytabloid basis theorem: the map T ↦ of(σ_T) · c_λ is injective
+on standard Young tableaux only with this ordering. See James, "The Representation
+Theory of the Symmetric Groups". -/
 noncomputable def YoungSymmetrizer (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
-  RowSymmetrizer n la * ColumnAntisymmetrizer n la
+  ColumnAntisymmetrizer n la * RowSymmetrizer n la
 
 /-! ## Helper lemmas for rowOfPos and colOfPos -/
 
