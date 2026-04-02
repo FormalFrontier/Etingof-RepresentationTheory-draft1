@@ -217,9 +217,9 @@ Uses P_λ ∩ Q_λ = {id}. -/
 private lemma youngSymmetrizer_one_coeff (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizer n la : SymGroupAlgebra n) 1 = 1 := by
   classical
-  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.sum_mul]
+  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.mul_sum]
   rw [Finsupp.finset_sum_apply]
-  simp only [MonoidAlgebra.single_mul_apply, one_mul, mul_one]
+  simp only [MonoidAlgebra.mul_single_apply, mul_one]
   -- Goal: ∑ p : RowSubgroup, (ColumnAntisymmetrizer)(p⁻¹) = 1
   rw [Finset.sum_eq_single (⟨1, (RowSubgroup n la).one_mem⟩ : ↑(RowSubgroup n la))]
   · -- p = 1: ColumnAntisymmetrizer(1⁻¹) = ColumnAntisymmetrizer(1)
@@ -279,13 +279,13 @@ private lemma youngSymmetrizer_rowPerm_coeff (n : ℕ) (la : Nat.Partition n)
     (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la) :
     (YoungSymmetrizer n la : SymGroupAlgebra n) p = 1 := by
   classical
-  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.sum_mul]
+  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.mul_sum]
   rw [Finsupp.finset_sum_apply]
-  simp only [MonoidAlgebra.single_mul_apply, one_mul]
-  -- c_λ(p) = Σ_{r ∈ P_λ} b_λ(r⁻¹ * p). Only r = p contributes (giving b_λ(1) = 1).
+  simp only [MonoidAlgebra.mul_single_apply, mul_one]
+  -- c_λ(p) = Σ_{r ∈ P_λ} b_λ(p * r⁻¹). Only r = p contributes (giving b_λ(1) = 1).
   rw [Finset.sum_eq_single (⟨p, hp⟩ : ↑(RowSubgroup n la))]
-  · -- r = p: b_λ(p⁻¹ * p) = b_λ(1)
-    simp only [inv_mul_cancel]
+  · -- r = p: b_λ(p * p⁻¹) = b_λ(1)
+    simp only [mul_inv_cancel]
     simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply]
     rw [Finsupp.finset_sum_apply]
     rw [Finset.sum_eq_single (⟨1, (ColumnSubgroup n la).one_mem⟩ : ↑(ColumnSubgroup n la))]
@@ -297,17 +297,16 @@ private lemma youngSymmetrizer_rowPerm_coeff (n : ℕ) (la : Nat.Partition n)
       have : (q : Equiv.Perm (Fin n)) ≠ 1 := fun h => hq (Subtype.ext h)
       simp [this]
     · intro h; exact absurd (Finset.mem_univ _) h
-  · -- r ≠ p: b_λ(r⁻¹ * p) = 0 because r⁻¹ * p ∉ Q_λ
+  · -- r ≠ p: b_λ(p * r⁻¹) = 0 because p * r⁻¹ ∉ Q_λ
     intro r _ hr
     have hr_ne : (r : Equiv.Perm (Fin n)) ≠ p := fun h => hr (Subtype.ext h)
     apply columnAntisymmetrizer_apply_not_mem'
     intro hcol
-    have : (r : Equiv.Perm (Fin n))⁻¹ * p = 1 := by
+    have hid : p * (r : Equiv.Perm (Fin n))⁻¹ = 1 := by
       apply row_col_inter_trivial' n la
-      · exact (RowSubgroup n la).mul_mem ((RowSubgroup n la).inv_mem r.prop) hp
+      · exact (RowSubgroup n la).mul_mem hp ((RowSubgroup n la).inv_mem r.prop)
       · exact hcol
-    exact hr_ne (mul_left_cancel (a := (r : Equiv.Perm (Fin n))⁻¹)
-      (by rw [this, inv_mul_cancel]))
+    exact hr_ne (inv_injective (mul_left_cancel (a := p) (by rw [hid, mul_inv_cancel])))
   · intro h; exact absurd (Finset.mem_univ _) h
 
 /-! ### Tabloid projection for linear independence
@@ -342,45 +341,51 @@ in both directions. The tabloid projection approach is needed instead.
 
 /-! ### Support characterization of the Young symmetrizer -/
 
-/-- The Young symmetrizer c_λ is supported on P_λ · Q_λ: if c_λ(g) ≠ 0 then g = p · q
-for some p ∈ P_λ and q ∈ Q_λ, with c_λ(g) = sign(q). -/
+/-- The Young symmetrizer c_λ is supported on Q_λ · P_λ: if c_λ(g) ≠ 0 then g = q · p
+for some q ∈ Q_λ and p ∈ P_λ, with c_λ(g) = sign(q). -/
 private theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
     (g : Equiv.Perm (Fin n))
     (hg : (YoungSymmetrizer n la : SymGroupAlgebra n) g ≠ 0) :
-    ∃ p ∈ RowSubgroup n la, ∃ q ∈ ColumnSubgroup n la,
-      g = p * q := by
+    ∃ q ∈ ColumnSubgroup n la, ∃ p ∈ RowSubgroup n la,
+      g = q * p := by
   classical
-  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.sum_mul] at hg
+  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.mul_sum] at hg
   rw [Finsupp.finset_sum_apply] at hg
-  simp only [MonoidAlgebra.single_mul_apply, one_mul] at hg
-  -- hg says ∑_{p ∈ P_λ} b_λ(p⁻¹ · g) ≠ 0, so some term is nonzero
-  obtain ⟨⟨p, hp⟩, _, hterm⟩ := Finset.exists_ne_zero_of_sum_ne_zero hg
-  -- b_λ(p⁻¹ · g) ≠ 0
+  simp only [MonoidAlgebra.mul_single_apply, mul_one] at hg
+  -- hg says ∑_{r ∈ P_λ} b_λ(g · r⁻¹) ≠ 0, so some term is nonzero
+  obtain ⟨⟨r, hr⟩, _, hterm⟩ := Finset.exists_ne_zero_of_sum_ne_zero hg
+  -- b_λ(g · r⁻¹) ≠ 0
   simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply] at hterm
   rw [Finsupp.finset_sum_apply] at hterm
   obtain ⟨⟨q, hq⟩, _, hq_term⟩ := Finset.exists_ne_zero_of_sum_ne_zero hterm
-  -- sign(q) · δ_q(p⁻¹ · g) ≠ 0
+  -- sign(q) · δ_q(g · r⁻¹) ≠ 0
   change ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ) •
-    (Finsupp.single q (1 : ℂ))) ((p : Equiv.Perm (Fin n))⁻¹ * g) ≠ 0 at hq_term
+    (Finsupp.single q (1 : ℂ))) (g * (r : Equiv.Perm (Fin n))⁻¹) ≠ 0 at hq_term
   rw [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply] at hq_term
   split_ifs at hq_term with heq
-  · -- p⁻¹ · g = q, so g = p · q
-    exact ⟨p, hp, q, hq, by rw [heq, mul_inv_cancel_left]⟩
+  · -- g · r⁻¹ = q, so g = q · r
+    exact ⟨q, hq, r, hr, by
+      have : g = q * r := by
+        have h := heq.symm
+        calc g = g * r⁻¹ * r := by group
+             _ = q * r := by rw [heq]
+      exact this⟩
   · simp at hq_term
 
-/-- The coefficient of g in c_λ when g = p · q (p ∈ P_λ, q ∈ Q_λ) is sign(q). -/
+/-- The coefficient of g in c_λ when g = q · p (q ∈ Q_λ, p ∈ P_λ) is sign(q). -/
 private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
-    (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la)
-    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
-    (YoungSymmetrizer n la : SymGroupAlgebra n) (p * q) =
+    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la)
+    (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la) :
+    (YoungSymmetrizer n la : SymGroupAlgebra n) (q * p) =
       (↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ) := by
   classical
-  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.sum_mul]
+  simp only [YoungSymmetrizer, RowSymmetrizer, MonoidAlgebra.of_apply, Finset.mul_sum]
   rw [Finsupp.finset_sum_apply]
-  simp only [MonoidAlgebra.single_mul_apply, one_mul]
+  simp only [MonoidAlgebra.mul_single_apply, mul_one]
+  -- c_λ(q * p) = Σ_{r ∈ P_λ} b_λ(q * p * r⁻¹). Only r = p contributes (giving b_λ(q) = sign(q)).
   rw [Finset.sum_eq_single (⟨p, hp⟩ : ↑(RowSubgroup n la))]
-  · -- r = p: b_λ(p⁻¹ · p · q) = b_λ(q) = sign(q)
-    simp only [inv_mul_cancel_left]
+  · -- r = p: b_λ(q * p * p⁻¹) = b_λ(q) = sign(q)
+    simp only [mul_inv_cancel_right]
     simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply]
     rw [Finsupp.finset_sum_apply]
     rw [Finset.sum_eq_single (⟨q, hq⟩ : ↑(ColumnSubgroup n la))]
@@ -394,34 +399,33 @@ private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
       have : (q' : Equiv.Perm (Fin n)) ≠ q := fun h => hq' (Subtype.ext h)
       simp [this]
     · intro h; exact absurd (Finset.mem_univ _) h
-  · -- r ≠ p: b_λ(r⁻¹ · p · q) = 0 because r⁻¹ · p · q ∉ Q_λ
+  · -- r ≠ p: b_λ(q * p * r⁻¹) = 0 because q * p * r⁻¹ ∉ Q_λ
     intro r _ hr
     have hr_ne : (r : Equiv.Perm (Fin n)) ≠ p := fun h => hr (Subtype.ext h)
     apply columnAntisymmetrizer_apply_not_mem'
     intro hcol
-    -- r⁻¹ · p · q ∈ Q_λ means r⁻¹ · p ∈ Q_λ · Q_λ⁻¹ = Q_λ
-    have : (r : Equiv.Perm (Fin n))⁻¹ * p ∈ ColumnSubgroup n la := by
-      have h2 := (ColumnSubgroup n la).mul_mem hcol ((ColumnSubgroup n la).inv_mem hq)
-      simp only [mul_assoc] at h2
-      rwa [mul_inv_cancel, mul_one] at h2
-    -- r⁻¹ · p ∈ P_λ ∩ Q_λ = {1}
-    have hid := row_col_inter_trivial' n la ((r : Equiv.Perm (Fin n))⁻¹ * p)
-      ((RowSubgroup n la).mul_mem ((RowSubgroup n la).inv_mem r.prop) hp)
-      this
-    exact hr_ne (mul_left_cancel (a := (r : Equiv.Perm (Fin n))⁻¹)
-      (by rw [hid, inv_mul_cancel]))
+    -- q * p * r⁻¹ ∈ Q_λ means p * r⁻¹ ∈ Q_λ⁻¹ * Q_λ = Q_λ
+    have hpr : p * (r : Equiv.Perm (Fin n))⁻¹ ∈ ColumnSubgroup n la := by
+      have h2 := (ColumnSubgroup n la).mul_mem ((ColumnSubgroup n la).inv_mem hq) hcol
+      simp only [← mul_assoc] at h2
+      rwa [inv_mul_cancel, one_mul] at h2
+    -- p * r⁻¹ ∈ P_λ ∩ Q_λ = {1}
+    have hid := row_col_inter_trivial' n la (p * (r : Equiv.Perm (Fin n))⁻¹)
+      ((RowSubgroup n la).mul_mem hp ((RowSubgroup n la).inv_mem r.prop))
+      hpr
+    exact hr_ne (inv_injective (mul_left_cancel (a := p) (by rw [hid, mul_inv_cancel])))
   · intro h; exact absurd (Finset.mem_univ _) h
 
-/-- If e_{T₂}(σ) ≠ 0, then σ ∈ σ_{T₂} · P_λ · Q_λ: there exist p ∈ P_λ and q ∈ Q_λ
-such that σ = σ_{T₂} · p · q. -/
+/-- If e_{T₂}(σ) ≠ 0, then σ ∈ σ_{T₂} · Q_λ · P_λ: there exist q ∈ Q_λ and p ∈ P_λ
+such that σ = σ_{T₂} · q · p. -/
 theorem polytabloid_support (n : ℕ) (la : Nat.Partition n)
     (T₂ : StandardYoungTableau n la) (σ : Equiv.Perm (Fin n))
     (hne : (polytabloid n la T₂ : SymGroupAlgebra n) σ ≠ 0) :
-    ∃ p ∈ RowSubgroup n la, ∃ q ∈ ColumnSubgroup n la,
-      σ = sytPerm n la T₂ * p * q := by
+    ∃ q ∈ ColumnSubgroup n la, ∃ p ∈ RowSubgroup n la,
+      σ = sytPerm n la T₂ * q * p := by
   rw [polytabloid_apply] at hne
-  obtain ⟨p, hp, q, hq, heq⟩ := youngSymmetrizer_support n la _ hne
-  refine ⟨p, hp, q, hq, ?_⟩
+  obtain ⟨q, hq, p, hp, heq⟩ := youngSymmetrizer_support n la _ hne
+  refine ⟨q, hq, p, hp, ?_⟩
   have : σ = sytPerm n la T₂ * ((sytPerm n la T₂)⁻¹ * σ) := by
     rw [mul_inv_cancel_left]
   rw [this, heq, mul_assoc]
@@ -511,13 +515,13 @@ private theorem orderEmbOfFin_lt_of_injective_lt [LinearOrder α]
 
 /-! ### Straightening infrastructure: row absorption and column inversions -/
 
-/-- Left multiplication by a row permutation is absorbed by the Young symmetrizer:
-of(p) · c_λ = c_λ for p ∈ P_λ. This follows from of(p) · a_λ = a_λ. -/
+/-- Right multiplication by a row permutation is absorbed by the Young symmetrizer:
+c_λ · of(p) = c_λ for p ∈ P_λ. This follows from a_λ · of(p) = a_λ. -/
 private theorem of_row_mul_youngSymmetrizer' (n : ℕ) (la : Nat.Partition n)
     (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la) :
-    MonoidAlgebra.of ℂ _ p * YoungSymmetrizer n la = YoungSymmetrizer n la := by
+    YoungSymmetrizer n la * MonoidAlgebra.of ℂ _ p = YoungSymmetrizer n la := by
   unfold YoungSymmetrizer
-  rw [← mul_assoc, of_row_mul_RowSymmetrizer p hp]
+  rw [mul_assoc, RowSymmetrizer_mul_of_row p hp]
 
 /-- The number of "column inversions" in the filling defined by σ. -/
 private def columnInvCount' (n : ℕ) (la : Nat.Partition n)

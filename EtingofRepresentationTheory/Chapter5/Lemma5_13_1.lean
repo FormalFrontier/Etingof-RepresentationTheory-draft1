@@ -3,8 +3,9 @@ import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 /-!
 # Lemma 5.13.1: Young Projector Linear Functional
 
-For x ∈ ℂ[S_n], we have a_λ · x · b_λ = ℓ_λ(x) · c_λ, where ℓ_λ is a linear
-functional on ℂ[S_n]. Here a_λ = Σ_{g ∈ P_λ} g and b_λ = Σ_{g ∈ Q_λ} sign(g) · g.
+For x ∈ ℂ[S_n], we have b_λ · x · a_λ = ℓ_λ(x) · c_λ, where ℓ_λ is a linear
+functional on ℂ[S_n]. Here a_λ = Σ_{g ∈ P_λ} g and b_λ = Σ_{g ∈ Q_λ} sign(g) · g,
+and c_λ = b_λ · a_λ is the Young symmetrizer.
 
 ## Mathlib correspondence
 
@@ -378,93 +379,117 @@ private theorem pigeonhole_transposition {n : ℕ} {la : Nat.Partition n}
     refine Set.mem_mul.mpr ⟨σ * q_perm⁻¹, hp_row, q_perm, hq_col_sub, ?_⟩
     group
 
-/-- For σ ∈ P_λ · Q_λ with σ = p · q, the sandwiched product equals sign(q) • c_λ. -/
+/-- For σ ∈ Q_λ · P_λ with σ = q · p, the sandwiched product equals sign(q) • c_λ.
+(With c_λ = b_λ · a_λ.) -/
 private theorem sandwich_mem {n : ℕ} {la : Nat.Partition n}
-    (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la)
-    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
-    RowSymmetrizer n la * MonoidAlgebra.of ℂ _ (p * q) * ColumnAntisymmetrizer n la =
+    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la)
+    (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la) :
+    ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ (q * p) * RowSymmetrizer n la =
       ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ)) • YoungSymmetrizer n la := by
-  simp only [map_mul, mul_assoc]
-  rw [← mul_assoc (RowSymmetrizer n la), RowSymmetrizer_mul_of_row p hp,
-    of_col_mul_ColumnAntisymmetrizer q hq, Algebra.mul_smul_comm]
-  rfl
+  rw [map_mul (MonoidAlgebra.of ℂ _)]
+  simp only [mul_assoc]
+  rw [of_row_mul_RowSymmetrizer p hp,
+    ← mul_assoc (ColumnAntisymmetrizer n la), ColumnAntisymmetrizer_mul_of_col q hq,
+    Algebra.smul_mul_assoc, YoungSymmetrizer]
 
 open Pointwise in
-/-- For σ ∉ P_λ · Q_λ, a sign-reversing involution shows a_λ * of(σ) * b_λ = 0. -/
+/-- For σ ∉ Q_λ · P_λ, a sign-reversing involution shows b_λ * of(σ) * a_λ = 0.
+
+The proof applies the existing pigeonhole to σ⁻¹ (since σ ∉ Q·P ↔ σ⁻¹ ∉ P·Q),
+obtaining t ∈ P_λ with u = σ·t·σ⁻¹ ∈ Q_λ. Then b·of(σ)·a = sign(u)·(b·of(σ)·a) = -y. -/
 private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     (σ : Equiv.Perm (Fin n))
-    (hσ : σ ∉ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
-      (ColumnSubgroup n la : Set (Equiv.Perm (Fin n)))) :
-    RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la = 0 := by
+    (hσ : σ ∉ (ColumnSubgroup n la : Set (Equiv.Perm (Fin n))) *
+      (RowSubgroup n la : Set (Equiv.Perm (Fin n)))) :
+    ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ * RowSymmetrizer n la = 0 := by
   classical
-  obtain ⟨t, ht_swap, ht_row, ht_col⟩ := pigeonhole_transposition σ hσ
-  set t' := σ⁻¹ * t * σ with ht'_def
-  -- Step 1: a * of(σ) = a * of(σ) * of(t')
-  have h_absorb : RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ =
-      RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * MonoidAlgebra.of ℂ _ t' := by
-    have htσ : t * σ = σ * t' := by simp [ht'_def]; group
-    calc RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ
-      _ = RowSymmetrizer n la * MonoidAlgebra.of ℂ _ t * MonoidAlgebra.of ℂ _ σ := by
-          rw [RowSymmetrizer_mul_of_row t ht_row]
-      _ = RowSymmetrizer n la * (MonoidAlgebra.of ℂ _ t * MonoidAlgebra.of ℂ _ σ) := by
-          rw [mul_assoc]
-      _ = RowSymmetrizer n la * MonoidAlgebra.of ℂ _ (t * σ) := by rw [map_mul]
-      _ = RowSymmetrizer n la * MonoidAlgebra.of ℂ _ (σ * t') := by rw [htσ]
-      _ = RowSymmetrizer n la * (MonoidAlgebra.of ℂ _ σ * MonoidAlgebra.of ℂ _ t') := by
-          rw [← map_mul]
-      _ = RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * MonoidAlgebra.of ℂ _ t' := by
-          rw [← mul_assoc]
-  -- Step 2: sign(t') = -1
-  have hsign_t' : (↑(↑(Equiv.Perm.sign t') : ℤ) : ℂ) = -1 := by
+  -- σ ∉ Q·P ↔ σ⁻¹ ∉ P·Q. Apply existing pigeonhole to σ⁻¹.
+  have hσ_inv : σ⁻¹ ∉ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
+      (ColumnSubgroup n la : Set (Equiv.Perm (Fin n))) := by
+    intro hmem
+    apply hσ
+    obtain ⟨p, hp, q, hq, hpq⟩ := Set.mem_mul.mp hmem
+    exact Set.mem_mul.mpr ⟨q⁻¹, (ColumnSubgroup n la).inv_mem hq,
+      p⁻¹, (RowSubgroup n la).inv_mem hp,
+      show q⁻¹ * p⁻¹ = σ from by rw [← mul_inv_rev, hpq, inv_inv]⟩
+  obtain ⟨t, ht_swap, ht_row, ht_col'⟩ := pigeonhole_transposition σ⁻¹ hσ_inv
+  -- ht_col' : (σ⁻¹)⁻¹ * t * σ⁻¹ = σ * t * σ⁻¹ ∈ Q_λ
+  set u := σ * t * σ⁻¹ with hu_def
+  have hu_col : u ∈ ColumnSubgroup n la := by
+    have : σ⁻¹⁻¹ = σ := inv_inv σ
+    rw [hu_def, ← this]; exact ht_col'
+  -- Key relation: σ * t = u * σ
+  have hσt : σ * t = u * σ := by simp [hu_def]; group
+  -- sign(u) = -1 (u is a conjugate of the transposition t)
+  have hsign_u : (↑(↑(Equiv.Perm.sign u) : ℤ) : ℂ) = -1 := by
     have hsign_t : Equiv.Perm.sign t = -1 := by
       obtain ⟨x, z, hxz, ht_eq⟩ := ht_swap; rw [ht_eq]; exact Equiv.Perm.sign_swap hxz
-    have : Equiv.Perm.sign t' = -1 := by
-      change Equiv.Perm.sign (σ⁻¹ * t * σ) = -1
-      rw [map_mul, map_mul, Equiv.Perm.sign_inv, hsign_t,
-        mul_comm (Equiv.Perm.sign σ) (-1 : ℤˣ), mul_assoc, Int.units_mul_self, mul_one]
+    have : Equiv.Perm.sign u = -1 := by
+      show Equiv.Perm.sign (σ * t * σ⁻¹) = -1
+      rw [map_mul, map_mul, hsign_t, Equiv.Perm.sign_inv]
+      simp [mul_comm, Int.units_mul_self]
     simp [this]
-  -- Step 3: y = -y
-  set y := RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la
-  have heq : y = -y := by
-    change RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la = -y
-    conv_lhs => rw [h_absorb, mul_assoc,
-      of_col_mul_ColumnAntisymmetrizer t' ht_col, Algebra.mul_smul_comm]
-    rw [hsign_t', neg_one_smul]
-  -- Step 4: y = -y → y = 0
-  have h2 : y + y = 0 := by nth_rw 1 [heq]; exact neg_add_cancel y
-  have h3 : (2 : ℂ) • y = 0 := by rw [two_smul]; exact h2
-  exact (smul_eq_zero.mp h3).resolve_left two_ne_zero
+  -- y = sign(u) • y, via: insert of(t) after of(σ) (absorbed by a_λ),
+  -- rewrite σ·t = u·σ, absorb of(u) into b_λ with sign.
+  -- Show: b * of(σ) * a = sign(u) • (b * of(σ) * a), then use sign(u) = -1.
+  suffices heq : ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ * RowSymmetrizer n la =
+      ((↑(↑(Equiv.Perm.sign u) : ℤ) : ℂ)) •
+        (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ * RowSymmetrizer n la) by
+    -- x = sign(u) • x = -x, so x = 0
+    rw [hsign_u, neg_one_smul] at heq
+    -- heq : x = -x. Pointwise: x g = -(x g), so 2*(x g) = 0, so x g = 0.
+    have hg : ∀ g, (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
+        RowSymmetrizer n la) g = 0 := by
+      intro g
+      have := Finsupp.ext_iff.mp heq g
+      rw [Finsupp.neg_apply] at this
+      exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination this)).resolve_left (by norm_num)
+    exact Finsupp.ext hg
+  -- Proof of x = sign(u) • x:
+  -- Insert of(t) before a_λ (absorbed), combine of(σ)*of(t)=of(σ*t)=of(u*σ),
+  -- split of(u)*of(σ), absorb of(u) into b_λ with sign.
+  have h1 : ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ * RowSymmetrizer n la =
+      ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ (σ * t) * RowSymmetrizer n la := by
+    conv_lhs => rw [← of_row_mul_RowSymmetrizer t ht_row]
+    rw [map_mul (MonoidAlgebra.of ℂ _) σ t]
+    simp only [mul_assoc]
+  have h2 : ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ (u * σ) * RowSymmetrizer n la =
+      ((↑(↑(Equiv.Perm.sign u) : ℤ) : ℂ)) •
+        (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ * RowSymmetrizer n la) := by
+    rw [map_mul (MonoidAlgebra.of ℂ _)]
+    simp only [mul_assoc]
+    rw [← mul_assoc (ColumnAntisymmetrizer n la), ColumnAntisymmetrizer_mul_of_col u hu_col,
+      Algebra.smul_mul_assoc]
+  exact h1.trans (hσt ▸ h2)
 
 end Etingof
 
 open Etingof Pointwise in
-/-- For x ∈ ℂ[S_n], a_λ · x · b_λ is a scalar multiple of c_λ = a_λ · b_λ.
+/-- For x ∈ ℂ[S_n], b_λ · x · a_λ is a scalar multiple of c_λ = b_λ · a_λ.
 More precisely, there exists a linear functional ℓ_λ on ℂ[S_n] such that
-a_λ * x * b_λ = ℓ_λ(x) • c_λ for all x.
-(Etingof Lemma 5.13.1) -/
+b_λ * x * a_λ = ℓ_λ(x) • c_λ for all x.
+(Etingof Lemma 5.13.1, adapted for c_λ = b_λ · a_λ convention) -/
 theorem Etingof.Lemma5_13_1
     (n : ℕ) (la : Nat.Partition n) :
     ∃ ℓ : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] ℂ,
-      ∀ x, RowSymmetrizer n la * x * ColumnAntisymmetrizer n la =
+      ∀ x, ColumnAntisymmetrizer n la * x * RowSymmetrizer n la =
         ℓ x • YoungSymmetrizer n la := by
   classical
   -- For each basis element σ, compute the coefficient
   have basis_mul : ∀ σ : Equiv.Perm (Fin n), ∃ coeff : ℂ,
-      RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la =
+      ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ * RowSymmetrizer n la =
         coeff • YoungSymmetrizer n la := by
     intro σ
-    by_cases hmem : σ ∈ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
-        (ColumnSubgroup n la : Set (Equiv.Perm (Fin n)))
-    · obtain ⟨p, hp, q, hq, hpq⟩ := Set.mem_mul.mp hmem
-      exact ⟨↑(↑(Equiv.Perm.sign q) : ℤ), hpq ▸ sandwich_mem p hp q hq⟩
+    by_cases hmem : σ ∈ (ColumnSubgroup n la : Set (Equiv.Perm (Fin n))) *
+        (RowSubgroup n la : Set (Equiv.Perm (Fin n)))
+    · obtain ⟨q, hq, p, hp, hqp⟩ := Set.mem_mul.mp hmem
+      exact ⟨↑(↑(Equiv.Perm.sign q) : ℤ), hqp ▸ sandwich_mem q hq p hp⟩
     · exact ⟨0, by rw [zero_smul]; exact sandwich_not_mem σ hmem⟩
   -- Extract coefficient function and build linear functional
   choose f hf using basis_mul
-  -- ℓ(x) = ∑_{σ} x(σ) * f(σ), constructed via Finsupp.lsum
   let ℓ : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) →ₗ[ℂ] ℂ :=
     Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))
   refine ⟨ℓ, fun x => ?_⟩
-  -- Both sides are linear in x; check on basis elements
   induction x using Finsupp.induction_linear with
   | zero => simp
   | add x y hx hy =>

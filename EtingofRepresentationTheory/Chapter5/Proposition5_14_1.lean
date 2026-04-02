@@ -110,10 +110,10 @@ private lemma rowSymmetrizer_annihilates_specht (n : ℕ) (la mu : Nat.Partition
   rw [show v = x • YoungSymmetrizer n mu from hx.symm]
   change RowSymmetrizer n la * (x * YoungSymmetrizer n mu) = 0
   simp only [YoungSymmetrizer]
-  rw [show RowSymmetrizer n la * (x * (RowSymmetrizer n mu * ColumnAntisymmetrizer n mu)) =
-    RowSymmetrizer n la * (x * RowSymmetrizer n mu) * ColumnAntisymmetrizer n mu
+  rw [show RowSymmetrizer n la * (x * (ColumnAntisymmetrizer n mu * RowSymmetrizer n mu)) =
+    RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu * RowSymmetrizer n mu
     from by simp only [mul_assoc]]
-  exact Lemma5_13_2_general n la mu h _
+  rw [Lemma5_13_2_general n la mu h x, zero_mul]
 
 end
 
@@ -226,7 +226,10 @@ private lemma row_mul_youngSymmetrizer (n : ℕ) (la : Nat.Partition n)
     (p : G' n) (hp : p ∈ RowSubgroup n la) :
     MonoidAlgebra.of ℂ _ p * YoungSymmetrizer n la = YoungSymmetrizer n la := by
   simp only [YoungSymmetrizer, ← mul_assoc]
-  rw [of_row_mul_RowSymmetrizer p hp]
+  -- TODO: with the ColumnAntisymmetrizer * RowSymmetrizer convention, this needs
+  -- of(p) * ColumnAntisymmetrizer = ColumnAntisymmetrizer for p ∈ RowSubgroup,
+  -- which is not provided by of_row_mul_RowSymmetrizer. Needs reworking.
+  sorry
 
 /-- The Young symmetrizer c_λ is nonzero. -/
 private lemma youngSymmetrizer_ne_zero (n : ℕ) (la : Nat.Partition n) :
@@ -271,8 +274,10 @@ private lemma row_invariant_is_scalar_of_youngSymmetrizer (n : ℕ) (la : Nat.Pa
   obtain ⟨ℓ, hℓ⟩ := Etingof.Lemma5_13_1 n la
   have h_sandwich : RowSymmetrizer n la * (x * YoungSymmetrizer n la) =
       ℓ (x * RowSymmetrizer n la) • YoungSymmetrizer n la := by
-    conv_lhs => rw [YoungSymmetrizer, ← mul_assoc x, ← mul_assoc]
-    exact hℓ (x * RowSymmetrizer n la)
+    -- TODO: with ColumnAntisymmetrizer * RowSymmetrizer convention, the conv_lhs rearrangement
+    -- produces RowSymmetrizer * (x * ColumnAntisymmetrizer) * RowSymmetrizer, but hℓ expects
+    -- ColumnAntisymmetrizer * (x * RowSymmetrizer) * RowSymmetrizer. Needs reworking.
+    sorry
   have h_card_ne_zero : (Fintype.card (RowSubgroup n la) : ℂ) ≠ 0 :=
     Nat.cast_ne_zero.mpr Fintype.card_pos.ne'
   rw [h_sandwich] at h_sum
