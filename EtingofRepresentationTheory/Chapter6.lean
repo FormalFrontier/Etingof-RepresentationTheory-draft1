@@ -36,6 +36,7 @@ import EtingofRepresentationTheory.Chapter6.Definition6_7_1
 import EtingofRepresentationTheory.Chapter6.Lemma6_7_2
 
 -- Section 6.8: Gabriel's Theorem
+import EtingofRepresentationTheory.Chapter6.OrientationDefs
 import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_2
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_3
