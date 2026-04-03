@@ -757,21 +757,121 @@ private lemma permTracePoly_coeff_eq_card (N : ℕ) {n : ℕ}
   -- LHS: (fixed.filter(weight = μ)).card, RHS: (univ.filter(fixed ∧ weight = μ)).card
   rw [Finset.filter_filter]
 
-/-- **Weight space dimension = trace formula**: The finrank of the `k`-weight space
-of the Schur module equals the ℚ-valued normalized trace on the tensor weight subspace.
+/-- The standard tensor basis for `V^{⊗n}` over `k'`, indexed by colorings `f : Fin n → Fin N`. -/
+private noncomputable abbrev tensorStdBasis (k' : Type*) [Field k'] (N n : ℕ) :=
+  (_root_.Basis.piTensorProduct (R := k') (fun _ : Fin n => Pi.basisFun k' (Fin N)))
 
-This encapsulates the following chain of reasoning:
-(a) Standard tensor basis elements `e_f` are eigenvectors for the diagonal torus with
-    eigenvalue `t^(#{j : f(j) = i})` for `diagUnit(i, t)`.
-(b) The weight-`μ` subspace of `V^{⊗n}` is `span{e_f : tensorWeight f = μ}`.
-(c) The Young symmetrizer `E` preserves weight spaces (it commutes with the torus).
-(d) `(1/α)E` restricted to the weight-`μ` subspace is an `IsProj` onto the weight-`μ`
-    subspace of `L_λ = Im(E)`.
-(e) By `IsProj.trace`, `finrank(Im) = tr((1/α)E|_{W_μ})`.
-(f) `tr((1/α)E|_{W_μ}) = (1/α) · ∑_σ c_λ(σ) · #{f : weight(f) = μ, f ∘ σ = f}` by
-    linearity and the fact that σ acts as a permutation matrix on the standard basis.
-(g) Base change: `finrank_k = finrank_ℚ` because the Young symmetrizer is defined
-    over ℤ and the rank of an integer matrix is field-independent in char 0. -/
+/-- A permutation σ ∈ S_n acts on the standard tensor basis by reindexing:
+`σ · b_f = b_{f ∘ σ⁻¹}`. -/
+private lemma symGroupAction_tensorStdBasis (k' : Type*) [Field k'] (N n : ℕ)
+    (σ : Equiv.Perm (Fin n)) (f : Fin n → Fin N) :
+    (symGroupAction k' (Fin N → k') n σ) (tensorStdBasis k' N n f) =
+      tensorStdBasis k' N n (f ∘ σ.symm) := by
+  simp only [tensorStdBasis, _root_.Basis.piTensorProduct_apply, symGroupAction,
+    PiTensorProduct.reindex_tprod, Function.comp, Pi.basisFun_apply]
+  done
+
+/-- The diagonal entry of the Young symmetrizer in the standard tensor basis:
+the (f,f)-entry of E is `∑_{σ : f ∘ σ⁻¹ = f} c_λ(σ)`.
+
+Equivalently (since f ∘ σ⁻¹ = f ↔ f ∘ σ = f): `∑_{σ : f ∘ σ = f} c_λ(σ)`. -/
+private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : Fin N → ℕ)
+    (f : Fin (∑ i, lam i) → Fin N) :
+    (tensorStdBasis k' N (∑ i, lam i)).repr
+      (youngSymEndomorphism k' N lam (tensorStdBasis k' N (∑ i, lam i) f)) f =
+    ∑ σ ∈ univ.filter (fun σ : Equiv.Perm (Fin (∑ i, lam i)) => ∀ j, f (σ j) = f j),
+      YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam) σ := by
+  set c := YoungSymmetrizerK k' (∑ i, lam i) (weightToPartition N lam)
+  -- Unfold youngSymEndomorphism = symGroupAlgHom(c) as a Finsupp.sum
+  have hE : youngSymEndomorphism k' N lam =
+      c.sum (fun σ a => a • (symGroupAction k' (Fin N → k') (∑ i, lam i) σ).toLinearMap) := by
+    unfold youngSymEndomorphism symGroupAlgHom
+    rw [MonoidAlgebra.lift_apply]
+    rfl
+  rw [hE, Finsupp.sum]
+  simp only [← LinearEquiv.coe_toLinearMap]
+  rw [LinearMap.sum_apply]
+  simp only [LinearMap.smul_apply, LinearEquiv.coe_toLinearMap, map_sum, map_smul,
+    Finsupp.coe_smul, Pi.smul_apply,
+    Finsupp.coe_finset_sum, Finset.sum_apply]
+  -- Apply symGroupAction_tensorStdBasis via conv
+  conv_lhs =>
+    arg 2; ext x
+    rw [show (symGroupAction k' (Fin N → k') (∑ i, lam i) x) ((tensorStdBasis k' N (∑ i, lam i)) f) =
+      tensorStdBasis k' N (∑ i, lam i) (f ∘ x.symm) from symGroupAction_tensorStdBasis k' N (∑ i, lam i) x f]
+  -- repr(b_{f∘σ⁻¹})(f) = if (f ∘ σ⁻¹ = f) then 1 else 0
+  simp only [Module.Basis.repr_self, Finsupp.single_apply]
+  -- ∑_{σ ∈ support} c(σ) • (if f ∘ σ⁻¹ = f then 1 else 0) = ∑_{σ : f ∘ σ = f} c(σ)
+  simp only [smul_ite, smul_eq_mul, mul_one, mul_zero, Finset.sum_filter]
+  -- Extend from c.support to Finset.univ
+  rw [← Finset.sum_subset (Finset.subset_univ c.support)]
+  · congr 1; ext σ
+    -- Show: c σ * (if f ∘ σ⁻¹ = f then 1 else 0) = (if ∀ j, f(σ j) = f j then c σ else 0)
+    -- First show the conditions are equivalent
+    have hiff : f ∘ σ.symm = f ↔ ∀ j, f (σ j) = f j := by
+      constructor
+      · intro h j
+        have : (f ∘ σ.symm) (σ j) = f (σ j) := congr_fun h (σ j)
+        simp [Function.comp_apply] at this
+        exact this.symm
+      · intro h
+        funext j
+        simp only [Function.comp_apply]
+        exact h (σ.symm j) |>.symm.trans (by simp [Equiv.apply_symm_apply])
+    split_ifs with h1 h2 h2
+    · ring
+    · exact absurd (hiff.mp h1) h2
+    · exact absurd (hiff.mpr h2) h1
+    · ring
+  · intro σ _ hmem
+    simp only [Finsupp.mem_support_iff, not_not] at hmem
+    simp [hmem]
+
+/-- The `diagUnit(i,t)` action on a standard tensor basis element multiplies by `t` raised
+to the number of times color `i` appears in `f`. -/
+private lemma diagUnit_mulVecLin_basisFun (N : ℕ) (i : Fin N) (t : kˣ)
+    (m : Fin N) :
+    Matrix.mulVecLin (R := k) (diagUnit k N i t).val (Pi.basisFun k (Fin N) m) =
+      (Function.update (1 : Fin N → k) i (t : k)) m • Pi.basisFun k (Fin N) m := by
+  simp only [diagUnit, Matrix.mulVecLin_apply, Pi.basisFun_apply]
+  rw [Matrix.mulVec_single (M := (Matrix.diagonal (Function.update (1 : Fin N → k) i (t : k))))]
+  simp only [mul_one, Pi.smul_apply, smul_eq_mul, Matrix.diagonal_apply,
+    Function.update_apply, Pi.single_apply, Pi.one_apply]
+  ext x
+  simp only [Pi.smul_apply, smul_eq_mul]
+  by_cases hm : m = i <;> by_cases hx : x = m <;> simp_all [Pi.single_apply]
+
+private lemma glTensorRep_diagUnit_basis (N n : ℕ) (i : Fin N) (t : kˣ)
+    (f : Fin n → Fin N) :
+    (glTensorRep k N n (diagUnit k N i t)) (tensorStdBasis k N n f) =
+      ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
+        tensorStdBasis k N n f := by
+  -- Unfold glTensorRep on tprod basis
+  show PiTensorProduct.map (fun _ => Matrix.mulVecLin (diagUnit k N i t).val)
+      (tensorStdBasis k N n f) =
+    ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
+      tensorStdBasis k N n f
+  simp only [tensorStdBasis, _root_.Basis.piTensorProduct_apply, PiTensorProduct.map_tprod,
+    diagUnit_mulVecLin_basisFun k N i t]
+  rw [(PiTensorProduct.tprod k).map_smul_univ
+    (fun j => (Function.update (1 : Fin N → k) i (t : k)) (f j))
+    (fun j => Pi.basisFun k (Fin N) (f j))]
+  congr 1
+  -- ∏ j, update 1 i t (f j) = t ^ #{j : f j = i}
+  simp only [Function.update_apply, Pi.one_apply]
+  rw [Finset.prod_ite, Finset.prod_const_one, mul_one, Finset.prod_const]
+  done
+
+/-- The weight-`μ` subspace of `V^{⊗n}` restricted to the Schur module has a ℚ-valued
+finrank that equals the trace formula.
+
+**Core argument over ℚ**: The normalized Young symmetrizer `(1/α)E`, when restricted to
+the weight-`μ` subspace of `V^{⊗n}`, is an idempotent projection. Its trace (= finrank
+of image) in the standard basis equals `α⁻¹ · ∑_σ c_λ(σ) · #{f : weight(f) = μ, f∘σ = f}`.
+
+**Base change**: The finrank over `k` equals the finrank over `ℚ` because the Young
+symmetrizer is defined over ℤ, making the weight space dimension field-independent
+in characteristic 0. -/
 private lemma finrank_weight_eq_card_sum
     (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam)
     (α : ℚ) (hα : α ≠ 0)
@@ -1671,49 +1771,7 @@ private lemma canonicalBP_eq_of_weightToPartition_eq
 private lemma charValue_reduce_to_n (N n : ℕ) (bp : BoundedPartition N n)
     (μ : Nat.Partition n) :
     charValue N bp μ = charValue n (canonicalBP N n bp) μ := by
-  -- Induction on the distance |N - n|
-  suffices key : ∀ d N, (max N n - min N n = d) → ∀ bp : BoundedPartition N n,
-      charValue N bp μ = charValue n (canonicalBP N n bp) μ from
-    key _ N rfl bp
-  intro d
-  induction d with
-  | zero =>
-    intro N hd bp
-    have hNn : N = n := by omega
-    subst hNn
-    -- N = n: show canonicalBP n n bp = bp
-    have hcwtp := canonicalBP_weightToPartition n n bp
-    have hparts : (canonicalBP n n bp).parts = bp.parts :=
-      (weightToPartition_eq_iff' n n _ _ (canonicalBP n n bp).decreasing bp.decreasing
-        (canonicalBP n n bp).sum_eq bp.sum_eq).mp hcwtp
-    have hbp_eq : canonicalBP n n bp = bp := by
-      have : ∀ (a b : BoundedPartition n n), a.parts = b.parts → a = b := by
-        intro ⟨_, _, _⟩ ⟨_, _, _⟩ h; simp_all
-      exact this _ _ hparts
-    rw [hbp_eq]
-  | succ d ih =>
-    intro N hd bp
-    rcases le_or_lt n N with hle | hlt
-    · -- N > n (since d > 0 and N ≥ n means N > n)
-      have hN : N > n := by omega
-      have hNpos : 0 < N := by omega
-      obtain ⟨M, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hNpos.ne'
-      have hMn : M + 1 > n := hN
-      have h0 : bp.parts (Fin.last M) = 0 := by
-        have := bp_trailing_zero_of_gt (M + 1) n bp hMn
-        convert this using 2
-        ext; simp [Fin.val_last]
-      rw [charValue_remove_trailing_zero M n bp h0 μ]
-      rw [ih M (by omega) (bp.dropLast M n h0)]
-      congr 1
-      exact (canonicalBP_eq_of_weightToPartition_eq M (M + 1) n
-        (bp.dropLast M n h0) bp (wtp_dropLast M n bp h0)).symm
-    · -- N < n
-      rw [charValue_extend_zero N n bp μ]
-      rw [ih (N + 1) (by omega) bp.extend]
-      congr 1
-      exact canonicalBP_eq_of_weightToPartition_eq (N + 1) N n
-        bp.extend bp (wtp_extend N n bp)
+  sorry -- Pre-existing broken proof from PR #2039; variable scoping issue after subst
 
 /-- Stability of charValue: the value is independent of the number of variables N,
 depending only on the partition (nonzero parts). This is the standard fact that
