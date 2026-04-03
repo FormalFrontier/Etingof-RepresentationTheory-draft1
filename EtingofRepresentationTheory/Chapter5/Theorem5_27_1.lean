@@ -1310,12 +1310,12 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
 open CategoryTheory CategoryTheory.Limits in
 private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
     (V : FDRep ℂ H) (hV : ¬ CategoryTheory.Limits.IsZero V) :
-    ∃ U : FDRep ℂ H, CategoryTheory.Simple U ∧ Nonempty (U ⟶ V) := by
+    ∃ (U : FDRep ℂ H) (_ : CategoryTheory.Simple U) (f : U ⟶ V), f ≠ 0 := by
   -- Strong induction on finrank
   haveI : NeZero (Nat.card H : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   suffices key : ∀ (n : ℕ) (V : FDRep ℂ H), ¬ IsZero V →
       Module.finrank ℂ V ≤ n →
-      ∃ U : FDRep ℂ H, Simple U ∧ Nonempty (U ⟶ V) from
+      ∃ (U : FDRep ℂ H) (_ : Simple U) (f : U ⟶ V), f ≠ 0 from
     key _ V hV le_rfl
   intro n
   induction n with
@@ -1327,7 +1327,7 @@ private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
   | succ n ih =>
     intro V hV hfr
     by_cases hS : Simple V
-    · exact ⟨V, hS, ⟨𝟙 V⟩⟩
+    · exact ⟨V, hS, 𝟙 V, id_nonzero V⟩
     · -- V is not simple: extract a nonzero non-iso mono Y ⟶ V
       have h_exists : ∃ (Y : FDRep ℂ H) (f : Y ⟶ V),
           Mono f ∧ f ≠ 0 ∧ ¬ IsIso f := by
@@ -1372,9 +1372,9 @@ private lemma exists_simple_subrep {H : Type} [Group H] [Fintype H]
           ext x; exact hsub.elim _ _)
       have hY_le : Module.finrank ℂ Y ≤ n := by omega
       -- By induction, Y has a simple subrep U with g : U ⟶ Y
-      obtain ⟨U, hU, ⟨g⟩⟩ := ih Y hY hY_le
+      obtain ⟨U, hU, g, hg_ne⟩ := ih Y hY hY_le
       -- Compose g with f to get U ⟶ V
-      exact ⟨U, hU, ⟨g ≫ f⟩⟩
+      exact ⟨U, hU, g ≫ f, fun h => hg_ne ((cancel_mono f).mp (by simp [h]))⟩
 
 -- Helper: Frobenius reciprocity map from V(χ,U) to W
 -- Given U ↪ W_χ (as G_χ-reps), construct a nonzero A⋊G-morphism V(χ,U) → W
@@ -1384,7 +1384,7 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     (W : FDRep ℂ (A ⋊[φ] G)) (hW : CategoryTheory.Simple W)
     (hχ : weightSpace φ W χ ≠ ⊥)
     (U : FDRep ℂ ↥(stabAux φ χ)) (hU : CategoryTheory.Simple U)
-    (hUW : Nonempty (U ⟶ weightSpaceRep φ W χ hχ)) :
+    (ι : U ⟶ weightSpaceRep φ W χ hχ) (hι : ι ≠ 0) :
     Nonempty (inducedRepV φ χ U ≅ W) := by
   sorry
 
@@ -1428,9 +1428,9 @@ private lemma inducedRepV_completeness {G A : Type} [Group G] [CommGroup A]
       exact ha ▸ hb ▸ rfl
     have h := @Subsingleton.elim _ hsub ⟨v, hv_mem⟩ ⟨0, (weightSpace φ W χ).zero_mem⟩
     exact congr_arg Subtype.val h
-  obtain ⟨U, hU_simple, ⟨ι⟩⟩ := exists_simple_subrep Wχ hWχ_nz
+  obtain ⟨U, hU_simple, ι, hι_ne⟩ := exists_simple_subrep Wχ hWχ_nz
   -- Step 4: By Frobenius reciprocity + Schur, V(χ,U) ≅ W
-  exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW hχ U hU_simple ⟨ι⟩).map CategoryTheory.Iso.symm⟩
+  exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW hχ U hU_simple ι hι_ne).map CategoryTheory.Iso.symm⟩
 
 open Classical in
 /-- Classification of irreducible representations of semidirect products G ⋉ A
