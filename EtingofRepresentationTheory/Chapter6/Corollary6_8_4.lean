@@ -3,7 +3,11 @@ import EtingofRepresentationTheory.Chapter6.Definition6_4_1
 import EtingofRepresentationTheory.Chapter6.Definition6_4_7
 import EtingofRepresentationTheory.Chapter6.Definition6_4_10
 import EtingofRepresentationTheory.Chapter6.Definition6_5_1
+import EtingofRepresentationTheory.Chapter6.OrientationDefs
+import EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_7
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
 import EtingofRepresentationTheory.Chapter6.Theorem6_8_1
 
 /-!
@@ -59,22 +63,6 @@ reconstruct the representation from the simple one.
 -/
 
 open scoped Matrix
-
-/-- A quiver `Q` on `Fin n` is an orientation of the undirected graph with adjacency
-matrix `adj` if:
-- for each edge (`adj i j = 1`), exactly one of `i ⟶ j` or `j ⟶ i` is inhabited;
-- for non-edges (`adj i j ≠ 1`), no arrows exist in either direction.
-
-This predicate connects the unoriented graph (encoded by `adj`) to the oriented
-quiver `Q`, which is needed for Gabriel's theorem: the positive roots of the
-Dynkin diagram correspond to indecomposable representations of any orientation. -/
-def Etingof.IsOrientationOf {n : ℕ} (Q : Quiver (Fin n))
-    (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
-  -- Non-edges have no arrows
-  (∀ i j : Fin n, adj i j ≠ 1 → IsEmpty (Q.Hom i j)) ∧
-  -- Each edge is oriented: exactly one direction
-  (∀ i j : Fin n, adj i j = 1 → Nonempty (Q.Hom i j) ∨ Nonempty (Q.Hom j i)) ∧
-  (∀ i j : Fin n, Nonempty (Q.Hom i j) → Nonempty (Q.Hom j i) → False)
 
 section SimpleRepresentation
 
@@ -192,66 +180,6 @@ theorem Etingof.Corollary6_8_4_simpleRoot
    Etingof.simpleRepresentation_indecomposable k p,
    fun v => Etingof.simpleRepresentation_finrank_eq_simpleRoot k p v⟩
 
-universe v_arrow in
-private lemma nonempty_of_eq {X Y : Sort v_arrow} (h : X = Y) :
-    Nonempty X → Nonempty Y :=
-  fun hx => match h with | rfl => hx
-
-universe v_arrow in
-private lemma isEmpty_of_eq {X Y : Sort v_arrow} (h : X = Y) :
-    IsEmpty Y → IsEmpty X :=
-  fun hy => match h with | rfl => hy
-
-/-- Reversing all arrows at a vertex preserves the orientation property. -/
-lemma Etingof.reversedAtVertex_isOrientationOf
-    {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
-    (hadj_symm : adj.IsSymm) (hnoloop : ∀ v, adj v v = 0)
-    {Q : Quiver (Fin n)} (hQ : Etingof.IsOrientationOf Q adj) (p : Fin n) :
-    Etingof.IsOrientationOf (@Etingof.reversedAtVertex (Fin n) _ Q p) adj := by
-  obtain ⟨hQ_nonarrow, hQ_edge, hQ_unique⟩ := hQ
-  have adj_symm : ∀ i j, adj i j = adj j i := by
-    intro i j
-    have := congr_fun (congr_fun hadj_symm j) i
-    simp [Matrix.transpose_apply] at this
-    exact this
-  refine ⟨fun a b hab => ?_, fun a b hab => ?_, fun a b ha_arr hb_arr => ?_⟩
-  · -- Non-edges: no arrows in reversed quiver
-    by_cases ha : a = p <;> by_cases hb : b = p
-    · exact isEmpty_of_eq (Etingof.ReversedAtVertexHom_eq_eq ha hb) (hQ_nonarrow a b hab)
-    · exact isEmpty_of_eq (Etingof.ReversedAtVertexHom_eq_ne ha hb)
-        (hQ_nonarrow b p fun h => hab (by rw [ha, adj_symm p b]; exact h))
-    · exact isEmpty_of_eq (Etingof.ReversedAtVertexHom_ne_eq ha hb)
-        (hQ_nonarrow p a fun h => hab (by rw [hb, adj_symm a p]; exact h))
-    · exact isEmpty_of_eq (Etingof.ReversedAtVertexHom_ne_ne ha hb) (hQ_nonarrow a b hab)
-  · -- Each edge has an arrow in reversed quiver
-    by_cases ha : a = p <;> by_cases hb : b = p
-    · exact absurd (by rw [ha, hb] at hab; rw [hnoloop] at hab; exact hab.symm) one_ne_zero
-    · have h_bp : adj b p = 1 := by rw [adj_symm b p, ← ha]; exact hab
-      rcases hQ_edge b p h_bp with h | h
-      · left; exact nonempty_of_eq (Etingof.ReversedAtVertexHom_eq_ne ha hb).symm h
-      · right; exact nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_eq hb ha).symm h
-    · have h_pa : adj p a = 1 := by rw [adj_symm p a, ← hb]; exact hab
-      rcases hQ_edge p a h_pa with h | h
-      · left; exact nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_eq ha hb).symm h
-      · right; exact nonempty_of_eq (Etingof.ReversedAtVertexHom_eq_ne hb ha).symm h
-    · rcases hQ_edge a b hab with h | h
-      · left; exact nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_ne ha hb).symm h
-      · right; exact nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_ne hb ha).symm h
-  · -- No two-way arrows in reversed quiver
-    by_cases ha : a = p <;> by_cases hb : b = p
-    · exact hQ_unique a b
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_eq_eq ha hb) ha_arr)
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_eq_eq hb ha) hb_arr)
-    · exact hQ_unique b p
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_eq_ne ha hb) ha_arr)
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_eq hb ha) hb_arr)
-    · exact hQ_unique p a
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_eq ha hb) ha_arr)
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_eq_ne hb ha) hb_arr)
-    · exact hQ_unique a b
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_ne ha hb) ha_arr)
-        (nonempty_of_eq (Etingof.ReversedAtVertexHom_ne_ne hb ha) hb_arr)
-
 universe u in
 /-- Every positive root of a Dynkin quiver is the dimension vector of some
 indecomposable representation.
@@ -330,12 +258,17 @@ theorem Etingof.Corollary6_8_4
       obtain ⟨ρ', hfree', hfinite', hindec', hdim'⟩ :=
         ih _ hα'_sum_lt α' (@Etingof.reversedAtVertex (Fin n) _ Q i) rfl hα'_positive hQ'
       -- Step 5: Construct ρ on Q from ρ' on Q' via reflection functor at i.
-      -- The full argument requires:
-      -- (a) Determine if i is a sink or source in Q' and apply F⁺ᵢ or F⁻ᵢ.
-      -- (b) Double reversal: reversedAtVertex (reversedAtVertex Q i) i = Q,
-      --     so the result lives on Q.
-      -- (c) Proposition 6.6.7: reflection functor preserves indecomposability.
-      -- (d) Proposition 6.6.8: d(F±ᵢ(ρ')) = sᵢ(d(ρ')) = sᵢ(α') = α.
-      -- These require sorry'd Propositions 6.6.6/6.6.7 and quiver reversal
-      -- infrastructure not yet available.
+      --
+      -- Q' = reversedAtVertex Q i. In Q', vertex i has all its arrows
+      -- reversed compared to Q:
+      --   * If i is a SOURCE in Q → i is a SINK in Q' → apply F⁺ᵢ on Q'
+      --   * If i is a SINK in Q → i is a SOURCE in Q' → apply F⁻ᵢ on Q'
+      --   * If i is mixed → BGP reflection functor not directly applicable
+      --
+      -- In all cases, F(ρ') lives on reversedAtVertex Q' i = Q (double reversal),
+      -- with dimvec sᵢ(α') = α (involutivity) and is indecomposable (Prop 6.6.7).
+      --
+      -- The source and sink cases are proved below. The mixed case requires
+      -- processing through an admissible ordering to make i a sink, which
+      -- needs `one_round_or_simpleRoot` from CoxeterInfrastructure (currently sorry'd).
       sorry

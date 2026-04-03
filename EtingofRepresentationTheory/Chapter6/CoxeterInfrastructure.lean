@@ -3,7 +3,7 @@ import EtingofRepresentationTheory.Chapter6.Definition6_4_1
 import EtingofRepresentationTheory.Chapter6.Definition6_6_1
 import EtingofRepresentationTheory.Chapter6.Definition6_6_2
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_2
-import EtingofRepresentationTheory.Chapter6.Corollary6_8_4
+import EtingofRepresentationTheory.Chapter6.OrientationDefs
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_7
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
 
