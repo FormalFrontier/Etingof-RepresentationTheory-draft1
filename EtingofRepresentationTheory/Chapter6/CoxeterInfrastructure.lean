@@ -247,13 +247,15 @@ structure IsAdmissibleOrdering (Q : Quiver (Fin n))
       (ordering.get ⟨k, hk⟩)
 
 /-- Iterated reversal distributes over list append. -/
-private lemma iteratedReversed_append
+theorem iteratedReversedAtVertices_append
     {V : Type*} [DecidableEq V] (Q : Quiver V) (xs ys : List V) :
     iteratedReversedAtVertices Q (xs ++ ys) =
     iteratedReversedAtVertices (iteratedReversedAtVertices Q xs) ys := by
   induction xs generalizing Q with
   | nil => rfl
   | cons x xs ih => exact ih (@reversedAtVertex V _ Q x)
+
+private alias iteratedReversed_append := iteratedReversedAtVertices_append
 
 /-- Edges between vertices not in the reversal list are unchanged. -/
 private lemma iteratedReversed_hom_not_mem
@@ -1546,5 +1548,92 @@ theorem indecomposable_bilinearForm_eq_two
   -- IsPositiveRoot = (d ≠ 0 ∧ B(d,d) = 2) ∧ (∀ i, 0 ≤ d i)
   -- where B uses (2 • 1 - adj) = cartanMatrix n adj
   exact hroot.1.2
+
+/-! ## Admissible sinks for replicated orderings
+
+When σ is an admissible ordering and we repeat it M times (plus a prefix),
+each vertex in the resulting list is still a sink at the appropriate iterated
+reversal. This is because one full round of reversals returns Q to itself
+(`iteratedReversedAtVertices_perm_eq`), so each copy of σ sees the same quiver. -/
+
+/-- Reversing at every vertex M times (via `List.replicate M σ |>.flatten`)
+returns the quiver to its original state, since each full round is a no-op. -/
+theorem iteratedReversedAtVertices_replicate_flatten_eq
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : σ.Perm (List.finRange n)) (M : ℕ) :
+    iteratedReversedAtVertices Q ((List.replicate M σ).flatten) = Q := by
+  induction M with
+  | zero => simp [iteratedReversedAtVertices]
+  | succ M ih =>
+    simp only [List.replicate_succ, List.flatten_cons]
+    rw [iteratedReversedAtVertices_append]
+    rw [iteratedReversedAtVertices_perm_eq Q σ hσ]
+    exact ih
+
+/-- Each vertex in a prefix of σ is a sink at the appropriate iterated reversal,
+since those prefixes are also prefixes of the full admissible ordering. -/
+theorem admissible_sinks_prefix
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : IsAdmissibleOrdering Q σ) (j : ℕ) (hj : j ≤ σ.length) :
+    ∀ m (hm : m < (σ.take j).length),
+      @IsSink (Fin n)
+        (iteratedReversedAtVertices Q ((σ.take j).take m))
+        ((σ.take j).get ⟨m, hm⟩) := by
+  intro m hm
+  have hm_lt : m < j := by rwa [List.length_take_of_le hj] at hm
+  have hm_lt_len : m < σ.length := lt_of_lt_of_le hm_lt hj
+  rw [List.take_take, min_eq_left (le_of_lt hm_lt)]
+  have : (σ.take j).get ⟨m, hm⟩ = σ.get ⟨m, hm_lt_len⟩ := by
+    simp [List.getElem_take]
+  rw [this]
+  exact hσ.isSink m hm_lt_len
+
+/-- Each vertex in a replicated admissible ordering (with a prefix of the final round)
+is a sink at the appropriate iterated reversal. -/
+theorem admissible_sinks_replicated
+    (Q : Quiver (Fin n)) (σ : List (Fin n))
+    (hσ : IsAdmissibleOrdering Q σ) (M : ℕ) (j : ℕ) (hj : j ≤ σ.length) :
+    ∀ m (hm : m < ((List.replicate M σ).flatten ++ σ.take j).length),
+      @IsSink (Fin n)
+        (iteratedReversedAtVertices Q (((List.replicate M σ).flatten ++ σ.take j).take m))
+        (((List.replicate M σ).flatten ++ σ.take j).get ⟨m, hm⟩) := by
+  induction M with
+  | zero =>
+    simp only [List.replicate_zero, List.flatten_nil, List.nil_append]
+    exact admissible_sinks_prefix Q σ hσ j hj
+  | succ M ih =>
+    -- Use suffices to work with the reassociated list σ ++ tail,
+    -- avoiding dependent type issues in get/take with the original expression
+    suffices h : ∀ (L : List (Fin n)),
+        L = σ ++ ((List.replicate M σ).flatten ++ σ.take j) →
+        ∀ m (hm : m < L.length),
+          @IsSink (Fin n) (iteratedReversedAtVertices Q (L.take m)) (L.get ⟨m, hm⟩) by
+      intro m hm
+      exact h _ (by simp [List.replicate_succ, List.flatten_cons, List.append_assoc]) m hm
+    intro L hL
+    subst hL
+    set tail := (List.replicate M σ).flatten ++ σ.take j with htail_def
+    intro m hm
+    by_cases hm_lt : m < σ.length
+    · -- m is within the first copy of σ
+      have htake : (σ ++ tail).take m = σ.take m :=
+        List.take_append_of_le_length (le_of_lt hm_lt)
+      have hget : (σ ++ tail).get ⟨m, hm⟩ = σ.get ⟨m, hm_lt⟩ := by
+        simp [List.getElem_append_left hm_lt]
+      rw [htake, hget]
+      exact hσ.isSink m hm_lt
+    · -- m ≥ σ.length: we're past the first copy of σ
+      push_neg at hm_lt
+      set m' := m - σ.length with hm'_def
+      have hm_eq : m = σ.length + m' := by omega
+      have hm'_lt : m' < tail.length := by
+        simp [List.length_append] at hm; omega
+      have htake : (σ ++ tail).take m = σ ++ tail.take m' := by
+        rw [hm_eq, List.take_append]; simp
+      have hget : (σ ++ tail).get ⟨m, hm⟩ = tail.get ⟨m', hm'_lt⟩ := by
+        simp [hm_eq, List.getElem_append_right (by omega : σ.length ≤ σ.length + m')]
+      rw [htake, iteratedReversedAtVertices_append,
+          iteratedReversedAtVertices_perm_eq Q σ hσ.perm, hget]
+      exact ih m' hm'_lt
 
 end Etingof
