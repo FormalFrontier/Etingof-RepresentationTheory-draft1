@@ -1085,21 +1085,163 @@ private theorem garnir_row_annihilates (n : ℕ) (la : Nat.Partition n)
     rw [two_smul]; exact h2
   exact (smul_eq_zero.mp h3).resolve_left (by norm_num : (2 : ℂ) ≠ 0)
 
-/-- Garnir reduction via the Garnir element identity.
+/-- swap(p₁, p₂) belongs to the column subgroup when p₁ and p₂ are in the same column. -/
+private theorem swap_mem_ColumnSubgroup' (n : ℕ) (la : Nat.Partition n)
+    (p₁ p₂ : Fin n)
+    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val) :
+    Equiv.swap p₁ p₂ ∈ ColumnSubgroup n la := by
+  intro k
+  simp only [Equiv.swap_apply_def]
+  split_ifs with h1 h2
+  · subst h1; exact hcol.symm
+  · subst h2; exact hcol
+  · rfl
 
-From `a_λ · G = 0`, extracting the identity term gives:
-  `a_λ = -Σ_{w ≠ id} sign(w) · a_λ · of(w)`
-Multiplying: `of(σ) · c_λ = -Σ_{w ≠ id} sign(w) · of(σ) · a_λ · of(w) · b_λ`
+/-- Left multiplication by a column subgroup element on the Young symmetrizer:
+of(q) * c_λ = sign(q) • c_λ for q ∈ Q_λ. -/
+private theorem of_col_mul_YoungSymmetrizer (n : ℕ) (la : Nat.Partition n)
+    (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la) :
+    MonoidAlgebra.of ℂ _ q * YoungSymmetrizer n la =
+      ((↑(↑(Equiv.Perm.sign q) : ℤ) : ℂ)) • YoungSymmetrizer n la := by
+  show MonoidAlgebra.of ℂ _ q * (ColumnAntisymmetrizer n la * RowSymmetrizer n la) =
+    _ • (ColumnAntisymmetrizer n la * RowSymmetrizer n la)
+  rw [← mul_assoc, of_col_mul_ColumnAntisymmetrizer q hq, Algebra.smul_mul_assoc]
 
-Each non-identity w ∈ S_{A∪B} moves entries between rows r₁ and r₂,
-which reduces column inversions. Specifically:
-- The terms `of(σ) · a_λ · of(w) · b_λ` can be regrouped as
-  `Σ_τ d(τ) · of(τ) · c_λ` where each τ has fewer column inversions.
+/-- Key algebraic identity: for p₁, p₂ in the same column,
+of(σ) · c_λ = -of(σ · swap(p₁,p₂)) · c_λ.
+This follows from swap(p₁,p₂) ∈ Q_λ and the column absorption property. -/
+private theorem garnir_swap_identity (n : ℕ) (la : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n)) (p₁ p₂ : Fin n)
+    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
+    (hne : p₁ ≠ p₂) :
+    MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
+      (-1 : ℂ) • (MonoidAlgebra.of ℂ _ (σ * Equiv.swap p₁ p₂) *
+        YoungSymmetrizer n la) := by
+  have hswap_col := swap_mem_ColumnSubgroup' n la p₁ p₂ hcol
+  have h1 : MonoidAlgebra.of ℂ _ (Equiv.swap p₁ p₂) * YoungSymmetrizer n la =
+      (-1 : ℂ) • YoungSymmetrizer n la := by
+    rw [of_col_mul_YoungSymmetrizer n la _ hswap_col, Equiv.Perm.sign_swap hne]
+    simp [Int.cast_neg, Int.cast_one]
+  -- of(σ) * c_λ = of(σ) * of(swap)² * c_λ = of(σ*swap) * of(swap) * c_λ
+  -- = of(σ*swap) * (-1 • c_λ) = -1 • of(σ*swap) * c_λ
+  have key : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (σ * Equiv.swap p₁ p₂) *
+      (MonoidAlgebra.of ℂ _ (Equiv.swap p₁ p₂) * YoungSymmetrizer n la) =
+      MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la := by
+    rw [← mul_assoc, ← map_mul, mul_assoc, Equiv.swap_mul_self, mul_one]
+  rw [h1] at key
+  rw [Algebra.mul_smul_comm] at key
+  -- key : (-1) • (of(σ*swap) * c_λ) = of(σ) * c_λ
+  exact key.symm
 
-The column inversion decrease comes from: w moves entries from the
-high-inversion row arrangement into a lower-inversion arrangement by
-"sorting" entries between adjacent rows in the same column. -/
-private theorem garnir_identity_expansion (n : ℕ) (la : Nat.Partition n)
+/-- The column inversion count is positive when there exists an inversion. -/
+private theorem columnInvCount'_pos_of_inv (n : ℕ) (la : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n))
+    (p₁ p₂ : Fin n)
+    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
+    (hrow : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
+    (hinv : σ.symm p₂ < σ.symm p₁) :
+    0 < columnInvCount' n la σ := by
+  unfold columnInvCount'
+  apply Finset.card_pos.mpr
+  exact ⟨(p₁, p₂), Finset.mem_filter.mpr ⟨Finset.mem_univ _, hcol, hrow, hinv⟩⟩
+
+/-- For a single-column partition (all parts = 1), of(σ) * c_λ = sign(σ) • c_λ.
+This gives a trivial Garnir expansion with S = {1}. -/
+private theorem single_column_garnir (n : ℕ) (la : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n))
+    (h_single : ∀ i, i < la.sortedParts.length → la.sortedParts.getD i 0 = 1) :
+    MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
+      ((↑(↑(Equiv.Perm.sign σ) : ℤ) : ℂ)) •
+        (MonoidAlgebra.of ℂ _ (1 : Equiv.Perm (Fin n)) * YoungSymmetrizer n la) := by
+  -- For single-column, every σ ∈ Q_λ (all positions in col 0)
+  have hσ_col : σ ∈ ColumnSubgroup n la := by
+    intro k
+    have hk := k.isLt
+    have hsum : la.sortedParts.sum = n := sortedParts_sum n la
+    have hksum : k.val < la.sortedParts.sum := by omega
+    -- Both σ k and k have colOfPos = 0 when all rows have width 1
+    have hk_col : colOfPos la.sortedParts k.val = 0 := by
+      have hrow := rowOfPos_lt_length la.sortedParts k.val hksum
+      have hw := h_single _ hrow
+      have hcol := colOfPos_lt_getD la.sortedParts k.val hksum
+      rw [hw] at hcol; omega
+    have hσk_col : colOfPos la.sortedParts (σ k).val = 0 := by
+      have hσk := (σ k).isLt
+      have hσksum : (σ k).val < la.sortedParts.sum := by omega
+      have hrow := rowOfPos_lt_length la.sortedParts (σ k).val hσksum
+      have hw := h_single _ hrow
+      have hcol := colOfPos_lt_getD la.sortedParts (σ k).val hσksum
+      rw [hw] at hcol; omega
+    rw [hk_col, hσk_col]
+  rw [of_col_mul_YoungSymmetrizer n la σ hσ_col, map_one, one_mul]
+
+/-- rowOfPos is monotone: a ≤ b implies rowOfPos a ≤ rowOfPos b. -/
+private theorem rowOfPos_mono (parts : List ℕ) (a b : ℕ)
+    (hb : b < parts.sum)
+    (hab : a ≤ b) : rowOfPos parts a ≤ rowOfPos parts b := by
+  induction parts generalizing a b with
+  | nil => simp [List.sum_nil] at hb
+  | cons p ps ih =>
+    simp only [rowOfPos]
+    split_ifs with ha hb
+    · omega
+    · omega
+    · exfalso; simp [List.sum_cons] at hb; omega
+    · have hb' : b - p < ps.sum := by simp [List.sum_cons] at hb; omega
+      have hab' : a - p ≤ b - p := Nat.sub_le_sub_right hab p
+      have := ih (a - p) (b - p) hb' hab'
+      omega
+
+/-- For the identity permutation, positions in canonical order have no column inversions:
+if rowOfPos(a) < rowOfPos(b), then a < b. -/
+private theorem rowOfPos_eq_length (parts : List ℕ) (a : ℕ) (ha : parts.sum ≤ a) :
+    rowOfPos parts a = parts.length := by
+  induction parts generalizing a with
+  | nil => simp [rowOfPos]
+  | cons p ps ih =>
+    simp only [rowOfPos, List.length_cons]
+    have : ¬(a < p) := by simp [List.sum_cons] at ha; omega
+    rw [if_neg this]
+    have : ps.sum ≤ a - p := by simp [List.sum_cons] at ha; omega
+    rw [ih _ this]; omega
+
+private theorem lt_of_lt_rowOfPos (parts : List ℕ) (a b : ℕ)
+    (hb : b < parts.sum)
+    (hrow : rowOfPos parts a < rowOfPos parts b) : a < b := by
+  by_contra h
+  push_neg at h
+  -- a ≥ b. Two cases: a < parts.sum or a ≥ parts.sum
+  by_cases ha : a < parts.sum
+  · have := rowOfPos_mono parts b a ha h
+    omega
+  · push_neg at ha
+    have := rowOfPos_eq_length parts a ha
+    have := rowOfPos_lt_length parts b hb
+    omega
+
+/-- columnInvCount' for the identity permutation is 0. -/
+private theorem columnInvCount'_one (n : ℕ) (la : Nat.Partition n) :
+    columnInvCount' n la 1 = 0 := by
+  unfold columnInvCount'
+  apply Finset.card_eq_zero.mpr
+  apply Finset.filter_eq_empty_iff.mpr
+  intro ⟨a, b⟩ _
+  simp only [Equiv.Perm.one_symm, Equiv.Perm.one_apply, not_and]
+  intro _ hrow
+  have hsum : la.sortedParts.sum = n := sortedParts_sum n la
+  have hb : b.val < la.sortedParts.sum := by omega
+  exact Nat.not_lt.mpr (Nat.le_of_lt (lt_of_lt_rowOfPos la.sortedParts a.val b.val hb hrow))
+
+/-- The column inversion count strictly decreases after applying a Garnir-type
+reduction. This is the combinatorial heart of the straightening algorithm.
+
+For a column inversion at (p₁, p₂) with hwidth (row(p₁) has width ≥ 2),
+the Garnir element produces permutations of the Garnir set that, when
+composed with σ, have strictly fewer column inversions.
+
+For the ¬hwidth case (single-column rows), a different argument based on
+the column antisymmetrizer is used. -/
+private theorem garnir_columnInvCount_decrease (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n))
     (p₁ p₂ : Fin n)
     (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
@@ -1109,7 +1251,27 @@ private theorem garnir_identity_expansion (n : ℕ) (la : Nat.Partition n)
       (∀ τ ∈ S, columnInvCount' n la τ < columnInvCount' n la σ) ∧
       MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
         S.sum (fun τ => c τ • (MonoidAlgebra.of ℂ _ τ * YoungSymmetrizer n la)) := by
-  sorry
+  -- Single-column case: all parts = 1
+  by_cases h_single : ∀ i, i < la.sortedParts.length → la.sortedParts.getD i 0 = 1
+  · refine ⟨{1}, fun _ => ((↑(↑(Equiv.Perm.sign σ) : ℤ) : ℂ)), ?_, ?_⟩
+    · intro τ hτ
+      rw [Finset.mem_singleton.mp hτ, columnInvCount'_one]
+      exact columnInvCount'_pos_of_inv n la σ p₁ p₂ hcol hrow hinv
+    · rw [Finset.sum_singleton, single_column_garnir n la σ h_single]
+  · -- General case: not all parts = 1, so Garnir element approach applies
+    sorry
+
+private theorem garnir_identity_expansion (n : ℕ) (la : Nat.Partition n)
+    (σ : Equiv.Perm (Fin n))
+    (p₁ p₂ : Fin n)
+    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
+    (hrow : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
+    (hinv : σ.symm p₂ < σ.symm p₁) :
+    ∃ (S : Finset (Equiv.Perm (Fin n))) (c : Equiv.Perm (Fin n) → ℂ),
+      (∀ τ ∈ S, columnInvCount' n la τ < columnInvCount' n la σ) ∧
+      MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
+        S.sum (fun τ => c τ • (MonoidAlgebra.of ℂ _ τ * YoungSymmetrizer n la)) :=
+  garnir_columnInvCount_decrease n la σ p₁ p₂ hcol hrow hinv
 
 /-- Garnir reduction: for a non-column-standard filling, of(σ) · c_λ
 can be expressed as a combination of of(τᵢ) · c_λ with fewer column inversions.
