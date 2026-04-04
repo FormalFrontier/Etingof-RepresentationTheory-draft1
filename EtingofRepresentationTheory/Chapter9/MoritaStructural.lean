@@ -20,6 +20,7 @@ import Mathlib.CategoryTheory.Preadditive.Projective.Preserves
 import Mathlib.RingTheory.Jacobson.Radical
 import Mathlib.RingTheory.Artinian.Module
 import Mathlib.RingTheory.HopkinsLevitzki
+import Mathlib.Algebra.Category.ModuleCat.Projective
 
 universe u v
 
@@ -268,31 +269,28 @@ private noncomputable def iso_of_surjection_with_trivial_kernel_head
   -- ker f = J • ker f (since hker gives ≤ and smul_le_right gives ≥)
   have heq : LinearMap.ker f = Ring.jacobson B₂ • LinearMap.ker f :=
     le_antisymm hker Submodule.smul_le_right
-  -- The Jacobson radical of an Artinian ring is nilpotent
+  -- ker f = ⊥ by nilpotency of the Jacobson radical
   have hker_bot : LinearMap.ker f = ⊥ := by
     obtain ⟨n, hn⟩ := (IsSemiprimaryRing.isNilpotent : IsNilpotent (Ring.jacobson B₂))
-    rw [eq_bot_iff]
-    -- Show every element of ker f is in J^k • ⊤ for all k
-    suffices h : ∀ (k : ℕ), ∀ x ∈ LinearMap.ker f,
-        x ∈ (Ring.jacobson B₂ ^ k • ⊤ : Submodule B₂ ↑P) by
-      intro x hx
-      have := h n x hx
-      rw [hn, Submodule.bot_smul] at this
-      exact this
+    -- Key: ker f = J^k • ker f for all k
+    -- Because ker f = J • ker f, so J^k • ker f = J^k • (J • ker f) = (J^k * J) • ker f
+    --   = J^(k+1) • ker f (by pow_succ)
+    -- Key: J^k • ker f = J^(k+1) • ker f for all k
+    -- Because ker f = J • ker f (heq), so
+    --   J^k • ker f = J^k • (J • ker f) = (J^k * J) • ker f = J^(k+1) • ker f
+    have hstep : ∀ k, Ring.jacobson B₂ ^ k • LinearMap.ker f =
+        Ring.jacobson B₂ ^ (k + 1) • LinearMap.ker f := fun k => by
+      conv_lhs => rw [heq]
+      rw [← Submodule.mul_smul, ← Submodule.pow_succ]
+    -- Therefore ker f = J^k • ker f for all k
+    suffices h : ∀ k, LinearMap.ker f = Ring.jacobson B₂ ^ k • LinearMap.ker f by
+      have h1 := h n
+      rw [eq_bot_iff, h1]
+      have : (Ring.jacobson B₂ ^ n : Ideal B₂) = ⊥ := by rwa [Ideal.zero_eq_bot] at hn
+      rw [this, Submodule.bot_smul]
     intro k; induction k with
-    | zero => intro x _; exact Submodule.mem_top
-    | succ k ih =>
-      intro x hx
-      rw [heq] at hx
-      -- x ∈ J • ker f, decompose using smul_induction_on
-      refine Submodule.smul_induction_on hx (fun r hr z hz => ?_) (fun a b ha hb => ?_)
-      · -- r ∈ J, z ∈ ker f. By IH, z ∈ J^k • ⊤.
-        have hz' := ih z hz
-        -- r • z ∈ J^(k+1) • ⊤
-        -- J^(k+1) = J * J^k, and r * s ∈ J * J^k when r ∈ J and s ∈ J^k
-        rw [pow_succ']
-        exact Submodule.smul_mem_smul hr hz'
-      · exact Submodule.add_mem _ ha hb
+    | zero => rw [Submodule.pow_zero, Ideal.one_eq_top, Submodule.top_smul]
+    | succ k ih => rw [← hstep, ← ih]
   -- f is injective
   have hf_inj : Function.Injective f :=
     LinearMap.ker_eq_bot.mp hker_bot
@@ -310,6 +308,69 @@ private noncomputable def iso_of_surjection_with_trivial_kernel_head
        → B₂/J·B₂ through the quotient B₂ → B₂/J·B₂.
     3. By Nakayama, the lifted map is surjective (image covers B₂ mod J).
     4. Splitting (B₂ projective) gives F(B₁) ≅ B₂ ⊕ K where K/J·K = 0. -/
+-- Helper 1: An equivalence of module categories preserves projectivity.
+-- F(B₁) is projective as a B₂-module because B₁ is projective (free rank 1)
+-- and equivalences preserve projective objects.
+private noncomputable instance equiv_image_projective
+    {R : Type u} [Ring R] {S : Type u} [Ring S]
+    (F : ModuleCat.{u} R ≌ ModuleCat.{u} S) :
+    Module.Projective S (F.functor.obj (ModuleCat.of R R)) := by
+  -- R is projective as a module over itself (it's free of rank 1)
+  haveI : Module.Projective R R := Module.Projective.of_free
+  haveI : CategoryTheory.Projective (ModuleCat.of R R) :=
+    (ModuleCat.of R R).projective_of_categoryTheory_projective
+  haveI : CategoryTheory.Projective (F.functor.obj (ModuleCat.of R R)) :=
+    (F.map_projective_iff _).mpr ‹CategoryTheory.Projective (ModuleCat.of R R)›
+  exact (F.functor.obj (ModuleCat.of R R)).projective_of_module_projective
+
+-- Helper 2: A projective lift of a surjection through a nilpotent quotient is surjective.
+-- If P is projective, g : P → B₂/J is surjective, and J is nilpotent, then the
+-- lift f : P → B₂ (with π ∘ f = g) is also surjective.
+private theorem projective_lift_surjective
+    {B₂ : Type u} [Ring B₂] [IsSemiprimaryRing B₂]
+    {P : Type u} [AddCommGroup P] [Module B₂ P]
+    {f : P →ₗ[B₂] B₂}
+    {g : P →ₗ[B₂] B₂ ⧸ (Ring.jacobson B₂ • ⊤ : Submodule B₂ B₂)}
+    (hg_surj : Function.Surjective g)
+    (hf : (Ring.jacobson B₂ • ⊤ : Submodule B₂ B₂).mkQ ∘ₗ f = g) :
+    Function.Surjective f := by
+  rw [← LinearMap.range_eq_top]
+  let π := (Ring.jacobson B₂ • ⊤ : Submodule B₂ B₂).mkQ
+  -- First show range f + J•⊤ = ⊤
+  have h_range_sup : LinearMap.range f ⊔ (Ring.jacobson B₂ • ⊤ : Submodule B₂ B₂) = ⊤ := by
+    rw [eq_top_iff]
+    intro b _
+    obtain ⟨p, hp⟩ := hg_surj (π b)
+    have hπfp : π (f p) = π b := by rw [← LinearMap.comp_apply, hf, hp]
+    rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq] at hπfp
+    exact Submodule.mem_sup.mpr ⟨f p, LinearMap.mem_range.mpr ⟨p, rfl⟩, b - f p,
+      neg_sub (f p) b ▸ Submodule.neg_mem _ hπfp, add_sub_cancel (f p) b⟩
+  -- Use nilpotency of J to conclude range f = ⊤
+  obtain ⟨n, hn⟩ := (IsSemiprimaryRing.isNilpotent : IsNilpotent (Ring.jacobson B₂))
+  suffices h : ∀ k, LinearMap.range f ⊔ Ring.jacobson B₂ ^ k • ⊤ = ⊤ by
+    have h1 := h n
+    have : (Ring.jacobson B₂ ^ n : Ideal B₂) = ⊥ := by rwa [Ideal.zero_eq_bot] at hn
+    rw [this, Submodule.bot_smul, sup_bot_eq] at h1
+    exact h1
+  intro k; induction k with
+  | zero =>
+    simp only [Submodule.pow_zero, Ideal.one_eq_top, Submodule.top_smul, sup_top_eq]
+  | succ k ih =>
+    -- J^k • ⊤ ≤ range f ⊔ J^(k+1) • ⊤ since J^k • ⊤ = J^k • (range f ⊔ J•⊤)
+    have hstep : Ring.jacobson B₂ ^ k • (⊤ : Submodule B₂ B₂) ≤
+        LinearMap.range f ⊔ Ring.jacobson B₂ ^ (k + 1) • ⊤ := by
+      calc Ring.jacobson B₂ ^ k • ⊤
+          = Ring.jacobson B₂ ^ k • (LinearMap.range f ⊔ Ring.jacobson B₂ • ⊤) := by
+            rw [h_range_sup]
+        _ = Ring.jacobson B₂ ^ k • LinearMap.range f ⊔
+            Ring.jacobson B₂ ^ k • (Ring.jacobson B₂ • ⊤) := Submodule.smul_sup _ _ _
+        _ ≤ LinearMap.range f ⊔ Ring.jacobson B₂ ^ (k + 1) • ⊤ := by
+            apply sup_le_sup
+            · exact Submodule.smul_le_right
+            · rw [← Submodule.mul_smul, ← Submodule.pow_succ]
+    exact le_antisymm le_top (ih.symm.le.trans
+      ((sup_le_sup_left hstep _).trans (by rw [← sup_assoc, sup_idem])))
+
 private noncomputable def exists_surjection_with_trivial_kernel_head [IsAlgClosed k]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
     (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
@@ -318,6 +379,18 @@ private noncomputable def exists_surjection_with_trivial_kernel_head [IsAlgClose
     Σ' (f : (F.functor.obj (ModuleCat.of B₁ B₁)) →ₗ[B₂] B₂),
       Function.Surjective f ∧
       LinearMap.ker f ≤ Ring.jacobson B₂ • (LinearMap.ker f) := by
+  -- F(B₁) is projective (equivalences preserve projective objects, and B₁ is free rank 1)
+  haveI := equiv_image_projective F
+  -- B₂ is Artinian (finite-dim over field), hence semiprimary
+  haveI : IsArtinianRing B₂ := IsArtinianRing.of_finite k B₂
+  -- The proof constructs f via the following steps:
+  -- 1. Both B₁/J(B₁) and B₂/J(B₂) are ⊕ᵢ kᵢ (one copy of each simple, basic algebra property).
+  -- 2. The equivalence F bijects simples, so F(B₁)/J·F(B₁) ≅ B₂/J (as B₂-modules).
+  -- 3. Compose with the quotient map to get g : F(B₁) → B₂/J, which is surjective.
+  -- 4. Lift g through π : B₂ → B₂/J using projectivity of F(B₁) to get f : F(B₁) → B₂.
+  -- 5. f is surjective by `projective_lift_surjective` (Nakayama argument).
+  -- 6. ker f ≤ J • ker f because P/JP ≅ B₂/J (step 2) and P ≅ B₂ ⊕ ker f (split exact seq),
+  --    so ker f / J·ker f = 0.
   sorry
 
 /-- For basic Morita-equivalent algebras, the regular modules correspond under the
