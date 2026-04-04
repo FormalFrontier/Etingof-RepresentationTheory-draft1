@@ -365,16 +365,85 @@ private noncomputable def equivEndAlgEquiv [IsAlgClosed k]
     -- αRing (c • 𝟙 FX) = α.inv ≫ (c • 𝟙 FX) ≫ α.hom = c • (α.inv ≫ 𝟙 ≫ α.hom)
     --                    = c • 𝟙 Y
     -- eB₂ (c • 𝟙 Y) = algebraMap k _ c
-    show re (algebraMap k (Module.End B₁ B₁) c) =
+    change re (algebraMap k (Module.End B₁ B₁) c) =
       algebraMap k (Module.End B₂ B₂) c
     simp only [Algebra.algebraMap_eq_smul_one]
-    show eB₂ (αRing (fRing (eB₁.symm (c • 1)))) = c • 1
-    -- The chain re = eB₂ ∘ αRing ∘ fRing ∘ eB₁.symm preserves k-scalars:
-    -- eB₁.symm is ofHom (preserves smul), fRing is F.map (k-linear by hypothesis),
-    -- αRing is conjugation (k-linear by composition), eB₂ is .hom (preserves smul).
-    -- Technical: Lean has an instance diamond between SMul k (End Y) and SMul k (Y ⟶ Y)
-    -- that prevents a clean proof. The mathematical content is straightforward.
-    sorry)
+    change eB₂ (αRing (fRing (eB₁.symm (c • 1)))) = c • 1
+    -- Step 1: eB₁.symm (c • 1) = c • 𝟙 X (bridging End↔Hom SMul via hom_ext)
+    have h1 : eB₁.symm (c • (1 : Module.End B₁ B₁)) =
+        (c • (𝟙 X : X ⟶ X) : X ⟶ X) :=
+      ModuleCat.hom_ext rfl
+    -- fRing is definitionally F.functor.map
+    change eB₂ (αRing (F.functor.map (eB₁.symm (c • (1 : Module.End B₁ B₁))))) = c • 1
+    rw [h1]
+    -- Work at element level to bypass SMul instance diamond
+    -- between Algebra.toModule and RestrictScalars.module
+    apply LinearMap.ext; intro x
+    -- RHS: (c • 1 : Module.End B₂ B₂) x = c • x
+    simp only [LinearMap.smul_apply]
+    -- LHS: (re (c • 1)) x = eB₂(αRing(fRing(eB₁.symm(c • 1)))) x
+    -- eB₂ f = f.hom (endRingEquiv), so LHS = (αRing(fRing(eB₁.symm(c•1)))).hom x
+    -- αRing f = α.inv ≫ f ≫ α.hom, so .hom x = α.hom.hom(f.hom(α.inv.hom x))
+    -- fRing = F.map, eB₁.symm f = ⟨f⟩ (ofHom)
+    -- So LHS = α.hom.hom((F.map ⟨c•1⟩).hom(α.inv.hom x))
+    -- By F's k-linearity: F.map(c•𝟙 X) = c•𝟙(F.obj X) (at .hom level)
+    -- So (F.map ⟨c•1⟩).hom y = c • y for all y
+    -- Then α.hom.hom(c • α.inv.hom x) = c • α.hom.hom(α.inv.hom x) = c • x
+    change (re (c • (1 : Module.End B₁ B₁))).toFun x = c • x
+    -- Unfold re = eB₁.symm.trans (fRing.trans (αRing.trans eB₂))
+    -- eB₂ f = f.hom (endRingEquiv), so (re f) x = (αRing(fRing(eB₁.symm f))).hom x
+    change (αRing (fRing (eB₁.symm (c • (1 : Module.End B₁ B₁))))).hom x = c • x
+    -- Unfold αRing: conjugation by α
+    change (α.inv ≫ (fRing (eB₁.symm (c • (1 : Module.End B₁ B₁)))) ≫ α.hom).hom x = c • x
+    simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply]
+    -- Unfold fRing and eB₁.symm
+    change α.hom.hom ((F.functor.map (eB₁.symm (c • (1 : Module.End B₁ B₁)))).hom
+      (α.inv.hom x)) = c • x
+    -- eB₁.symm f = ⟨f⟩ = ModuleCat.ofHom f, so .hom is identity on the LinearMap
+    rw [h1]
+    -- F.map(c • 𝟙 X) at .hom level: use Functor.Linear.map_smul via congrArg
+    have hF := congrArg ModuleCat.Hom.hom
+      (Functor.Linear.map_smul (F := F.functor) (R := k) (𝟙 X) c)
+    -- hF : (F.map (c •[Linear] 𝟙 X)).hom = (c •[Linear] F.map (𝟙 X)).hom
+    simp only [F.functor.map_id, ModuleCat.hom_smul] at hF
+    -- hF should be: (F.map (c • 𝟙 X)).hom = c • (𝟙 FX).hom
+    -- Bridge the SMul diamond via element-level Algebra.smul_def normalization.
+    -- F.map (c • 𝟙 X) at element level: use map_smul then normalize
+    have key := Functor.Linear.map_smul (F := F.functor) (R := k) (𝟙 X) c
+    simp only [F.functor.map_id] at key
+    -- key : F.map (c •[Linear] 𝟙 X) = c •[?] 𝟙 FX  (with Linear-SMul)
+    -- Bridge: c •[instSMulHom] 𝟙 X = c •[Linear] 𝟙 X at element level
+    have smul_eq : (c • 𝟙 X : X ⟶ X) = @HSMul.hSMul k (X ⟶ X) (X ⟶ X)
+        (@instHSMul k (X ⟶ X) (Linear.homModule X X).toSMul) c (𝟙 X) := by
+      apply ModuleCat.hom_ext; apply LinearMap.ext; intro z
+      simp only [ModuleCat.hom_smul, LinearMap.smul_apply, ModuleCat.id_apply]
+      -- Goal: c •[Algebra.toModule] z = c •[moduleOfAlgebraModule] z
+      -- RHS is definitionally algebraMap k B₁ c * z (via Module.compHom)
+      -- LHS requires Algebra.smul_def to normalize
+      conv_lhs => rw [Algebra.smul_def]
+      rfl
+    -- Use smul_eq + key to get F.map at element level
+    have h_Fmap : ∀ y, (F.functor.map (c • 𝟙 X)).hom y = c • y := by
+      intro y
+      have h := congrArg F.functor.map smul_eq
+      -- h : F.map (c •[instSMulHom] 𝟙 X) = F.map (c •[Linear] 𝟙 X)
+      have := congrArg ModuleCat.Hom.hom (h.trans key)
+      -- this : (F.map (c •[instSMulHom] 𝟙 X)).hom = (c •[?] 𝟙 FX).hom
+      simp only [ModuleCat.hom_smul] at this
+      exact LinearMap.congr_fun this y
+    rw [h_Fmap]
+    -- Goal: α.hom.hom (c • α.inv.hom x) = c • x
+    -- α.hom is B₂-linear, c acts via algebraMap
+    -- α.hom.hom (c • α.inv.hom x) = c • x
+    -- Rewrite c • as algebraMap action, use B₂-linearity of α.hom
+    conv_lhs => rw [show c • α.inv.hom x = algebraMap k B₂ c • α.inv.hom x from by
+      simp only [algebraMap_smul]]
+    rw [map_smul]
+    -- Goal: algebraMap k B₂ c • α.hom.hom (α.inv.hom x) = c • x
+    conv_rhs => rw [show c • x = algebraMap k B₂ c • x from by
+      simp only [Algebra.smul_def, algebraMap_smul]]
+    congr 1
+    exact LinearMap.congr_fun (congrArg ModuleCat.Hom.hom α.inv_hom_id) x)
 
 private lemma basic_morita_algEquiv [IsAlgClosed k]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
