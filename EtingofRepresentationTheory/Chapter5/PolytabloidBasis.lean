@@ -1085,6 +1085,17 @@ private theorem garnir_row_annihilates (n : ℕ) (la : Nat.Partition n)
     rw [two_smul]; exact h2
   exact (smul_eq_zero.mp h3).resolve_left (by norm_num : (2 : ℂ) ≠ 0)
 
+/-- c_λ * G = 0: the Young symmetrizer annihilates the Garnir element on the right.
+This follows from a_λ * G = 0 (garnir_row_annihilates) since c_λ = b_λ * a_λ. -/
+private theorem YoungSymmetrizer_mul_garnirElement (n : ℕ) (la : Nat.Partition n)
+    (p₁ p₂ : Fin n)
+    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
+    (hrow : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
+    (hwidth : 1 < la.sortedParts.getD (rowOfPos la.sortedParts p₁.val) 0) :
+    YoungSymmetrizer n la * garnirElement n la p₁ p₂ = 0 := by
+  show ColumnAntisymmetrizer n la * RowSymmetrizer n la * garnirElement n la p₁ p₂ = 0
+  rw [mul_assoc, garnir_row_annihilates n la p₁ p₂ hcol hrow hwidth, mul_zero]
+
 /-- swap(p₁, p₂) belongs to the column subgroup when p₁ and p₂ are in the same column. -/
 private theorem swap_mem_ColumnSubgroup' (n : ℕ) (la : Nat.Partition n)
     (p₁ p₂ : Fin n)
