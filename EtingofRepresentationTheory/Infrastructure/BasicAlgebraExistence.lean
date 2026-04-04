@@ -1166,6 +1166,91 @@ lemma morita_equiv_of_full_idempotent
     { faithful := hfaith, full := hfull, essSurj := hesssurj }
   exact ⟨(cornerFunctor (k := k) he.1).asEquivalence⟩
 
+/-- The corner functor `M ↦ eM` is additive. -/
+private noncomputable instance cornerFunctor_additive {e : A} (he : IsIdempotentElem e) :
+    letI := CornerRing.instRing (k := k) he
+    (cornerFunctor (k := k) he).Additive := by
+  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he
+  exact ⟨fun {M N f g} => by ext m; exact Subtype.ext (LinearMap.add_apply f.hom g.hom m.val)⟩
+
+open scoped ModuleCat in
+/-- The corner functor `M ↦ eM` is k-linear on morphism spaces.
+
+For f : M →ₗ[A] N and r : k, the corner functor sends r • f to r • (f|_{eM}).
+Both sides send m ∈ eM to `algebraMap k A r • f(m)`. On the source side this is
+immediate; on the target side it follows because the CornerRing scalar action
+satisfies `(algebraMap k (CornerRing e) r) • n = algebraMap k A r • n` for n ∈ eN,
+since `algebraMap k (CornerRing e) r = r • e` and `e • n = n`. -/
+private noncomputable instance cornerFunctor_linear_k {e : A} (he : IsIdempotentElem e) :
+    letI := CornerRing.instRing (k := k) he
+    letI := CornerRing.instAlgebra (k := k) he
+    haveI := cornerFunctor_additive (k := k) he
+    (cornerFunctor (k := k) he).Linear k := by
+  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he
+  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he
+  haveI := cornerFunctor_additive (k := k) he
+  constructor
+  intro M N f r
+  -- Need: cornerFunctor.map (r • f) = r • cornerFunctor.map f
+  -- After ext m : eCorner he M, both sides give Subtype.ext of an equality in N
+  ext m; apply Subtype.ext
+  -- LHS: ((r • f).hom m.val : N) by hom_smul = (r • f.hom) m.val = r • f.hom(m.val)
+  -- where r acts on N via RestrictScalars k A N, i.e., algebraMap k A r • _
+  -- RHS: ((r • cornerFunctor.map f).hom m : eCorner he N).val by hom_smul
+  -- = (r • (cornerFunctor.map f).hom) m coerced
+  -- where r acts on eCorner he N via RestrictScalars k CornerRing (eCorner he N)
+  -- i.e., algebraMap k CornerRing r • _ where the CornerRing smul on eCorner
+  -- satisfies (a • x).val = (a : A) • x.val
+  -- So RHS = ((algebraMap k CornerRing r : A) • f.hom m.val)
+  -- = (algebraMap k A r * e) • f.hom m.val [since algebraMap k CornerRing r = r • e]
+  -- = algebraMap k A r • (e • f.hom m.val) [by mul_smul]
+  -- = algebraMap k A r • f.hom m.val [since f.hom m.val ∈ eN]
+  -- Both sides equal algebraMap k A r • f.hom m.val:
+  -- LHS via RestrictScalars k A, RHS via algebraMap k CornerRing r = algebraMap k A r * e
+  -- and e • f.hom(m.val) = f.hom(m.val).
+  change (r • f).hom m.val = (↑(algebraMap k (CornerRing (k := k) e) r) : A) • f.hom m.val
+  simp only [ModuleCat.hom_smul, LinearMap.smul_apply]
+  -- Goal: r • f.hom m.val = (algebraMap k CornerRing r : A) • f.hom m.val
+  -- LHS r • uses RestrictScalars k A, which is definitionally algebraMap k A r •
+  change algebraMap k A r • f.hom m.val =
+    (↑(algebraMap k (CornerRing (k := k) e) r) : A) • f.hom m.val
+  -- (algebraMap k CornerRing r : A) = algebraMap k A r * e
+  have h_one_val : (1 : CornerRing (k := k) e).val = e := by
+    change (@One.one (CornerRing (k := k) e)
+      (CornerRing.instRing (k := k) he).toSemiring.toMulOneClass.toOne).val = e
+    rfl
+  have h_alg : (↑(algebraMap k (CornerRing (k := k) e) r) : A) = algebraMap k A r * e := by
+    change (algebraMap k (CornerRing (k := k) e) r).val = algebraMap k A r * e
+    rw [Algebra.algebraMap_eq_smul_one, show (r • (1 : CornerRing (k := k) e)).val =
+      r • (1 : CornerRing (k := k) e).val from rfl, h_one_val, Algebra.smul_def]
+  rw [h_alg, mul_smul]
+  -- Goal: algebraMap k A r • f.hom m.val = algebraMap k A r • (e • f.hom m.val)
+  -- e • f.hom m.val = f.hom m.val since m ∈ eM
+  congr 1
+  have : f.hom (e • m.val) = e • f.hom m.val := map_smul f.hom e m.val
+  rw [eCorner_prop m] at this
+  exact this
+
+/-- The corner functor equivalence for a full idempotent is k-linear Morita. -/
+lemma klinear_morita_equiv_of_full_idempotent
+    {e : A} (he : IsFullIdempotent e) [Module.Finite k A] :
+    @KLinearMoritaEquivalent k _ A _ _ (CornerRing (k := k) e)
+      (CornerRing.instRing he.1) (CornerRing.instAlgebra he.1) := by
+  letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
+  letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
+  haveI hfull : (cornerFunctor (k := k) he.1).Full := cornerFunctor_full he
+  haveI hfaith : (cornerFunctor (k := k) he.1).Faithful := cornerFunctor_faithful he
+  haveI hesssurj : (cornerFunctor (k := k) he.1).EssSurj := cornerFunctor_essSurj he
+  haveI : (cornerFunctor (k := k) he.1).IsEquivalence :=
+    { faithful := hfaith, full := hfull, essSurj := hesssurj }
+  let E := (cornerFunctor (k := k) he.1).asEquivalence
+  refine ⟨E, ?_⟩
+  -- E.functor is definitionally the cornerFunctor, so the Linear instance transfers
+  haveI : E.functor.Additive := by
+    haveI : E.functor.IsEquivalence := E.isEquivalence_functor
+    exact Functor.additive_of_preserves_binary_products E.functor
+  exact cornerFunctor_linear_k (k := k) he.1
+
 /-- **Basic algebra existence**: For a finite-dimensional algebra `A` over an
 algebraically closed field `k`, there exists a basic algebra `B` (all simple
 modules 1-dimensional) that is Morita equivalent to `A`.
