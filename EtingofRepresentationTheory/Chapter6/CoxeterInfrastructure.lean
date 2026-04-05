@@ -1375,6 +1375,172 @@ lemma simpleReflectionDimVector_eq_simpleReflection
   · simp only [hv, ite_false, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
       Pi.single_apply, mul_zero, sub_zero]
 
+/-- Predicate packaging the "surviving representation" data after walking along a vertex list.
+Bundled to avoid typeclass instance conflicts between Q_cur and iteratedReversedAtVertices Q_cur tail
+in the return type of walk_admissible_ordering. -/
+private def SurvivingRepData
+    (k : Type*) [CommSemiring k] (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
+    (Q_end : @Quiver.{0, 0} (Fin n))
+    (d_cur : Fin n → ℤ) (tail : List (Fin n)) : Prop :=
+  ∃ (ρ_end : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_end),
+    (∀ v, @Module.Free k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    (∀ v, @Module.Finite k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v)) ∧
+    @QuiverRepresentation.IsIndecomposable k _ _ Q_end ρ_end ∧
+    ∀ v, (@Module.finrank k (ρ_end.obj v) _ (ρ_end.instAddCommMonoid v) (ρ_end.instModule v) : ℤ) =
+      iteratedSimpleReflection n (cartanMatrix n adj) tail d_cur v
+
+/-- Helper: walk along a (partial) vertex list, threading an indecomposable
+representation through reflection functors. Returns either a simple root index
+or the surviving representation on the final reversed quiver. -/
+private lemma walk_admissible_ordering
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    (tail : List (Fin n))
+    {Q_cur : @Quiver.{0, 0} (Fin n)}
+    (hOrient_cur : @IsOrientationOf n Q_cur adj)
+    (hSS_cur : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b))
+    (hSinks : ∀ m (hm : m < tail.length),
+      @IsSink (Fin n)
+        (@iteratedReversedAtVertices _ _ Q_cur (tail.take m))
+        (tail.get ⟨m, hm⟩))
+    (ρ_cur : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q_cur)
+    (hFree_cur : ∀ v, Module.Free k (ρ_cur.obj v))
+    (hFinite_cur : ∀ v, Module.Finite k (ρ_cur.obj v))
+    (hIndec_cur : @QuiverRepresentation.IsIndecomposable k _ _ Q_cur ρ_cur)
+    (d_cur : Fin n → ℤ)
+    (hd_cur : d_cur = fun v => (Module.finrank k (ρ_cur.obj v) : ℤ)) :
+    (∃ (i : ℕ) (p : Fin n), i ≤ tail.length ∧
+      iteratedSimpleReflection n (cartanMatrix n adj) (tail.take i) d_cur = simpleRoot n p)
+    ∨
+    SurvivingRepData k n adj (@iteratedReversedAtVertices _ _ Q_cur tail) d_cur tail := by
+  induction tail generalizing Q_cur d_cur with
+  | nil =>
+    -- Base case: return ρ_cur unchanged
+    right
+    exact ⟨ρ_cur, fun v => hFree_cur v, fun v => hFinite_cur v, hIndec_cur,
+      fun v => by simp [iteratedSimpleReflection]; rw [hd_cur]⟩
+  | cons i rest ih =>
+    -- i is a sink of Q_cur (from hSinks at position 0)
+    have hi_sink : @IsSink (Fin n) Q_cur i := by
+      have := hSinks 0 (by simp)
+      simp only [List.take_zero, iteratedReversedAtVertices] at this
+      exact this
+    -- Derive instances
+    haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur
+    haveI : Fintype (@ArrowsInto (Fin n) Q_cur i) :=
+      fintypeArrowsIntoOfSubsingleton i
+    haveI : ∀ v, Module.Free k (ρ_cur.obj v) := hFree_cur
+    haveI : ∀ v, Module.Finite k (ρ_cur.obj v) := hFinite_cur
+    -- Apply Prop 6.6.5: simple or surjective at sink
+    rcases @Proposition6_6_5_sink k _ _ _ Q_cur ρ_cur i _ _ hi_sink hIndec_cur with
+      h_simple | h_surj
+    · -- ρ_cur is simple at i: d_cur = simpleRoot n i
+      left
+      refine ⟨0, i, Nat.zero_le _, ?_⟩
+      simp only [List.take_zero, iteratedSimpleReflection]
+      ext v
+      by_cases hv : v = i
+      · subst hv; simp [simpleRoot, hd_cur]; exact_mod_cast h_simple.1
+      · simp [simpleRoot, Ne.symm hv, hd_cur]
+        exact_mod_cast h_simple.2 v hv
+    · -- ρ_cur has surjective sink map at i: apply F⁺
+      -- Precompute equalities that need Q_cur instances BEFORE introducing Q_rev
+      set d_new := simpleReflection n (cartanMatrix n adj) i d_cur with hd_new_def
+      have hd_eq : (fun v => (Module.finrank k (ρ_cur.obj v) : ℤ)) = d_cur := by
+        rw [hd_cur]
+      have hbridge :
+          haveI := fintypeArrowsIntoOfSubsingleton (Q := Q_cur) i
+          simpleReflectionDimVector (fun (a : @ArrowsInto (Fin n) Q_cur i) => a.1) i d_cur =
+          simpleReflection n (cartanMatrix n adj) i d_cur :=
+        @simpleReflectionDimVector_eq_simpleReflection _ _
+          hDynkin Q_cur hOrient_cur hSS_cur i hi_sink d_cur
+      -- Prove sink subsingleton helper (needed for zero-rep detection)
+      have h_sink_ss_of_src :
+          (∀ (a : @ArrowsInto (Fin n) Q_cur i), Subsingleton (ρ_cur.obj a.1)) →
+          Subsingleton (ρ_cur.obj i) := by
+        intro hsrc_ss
+        refine ⟨fun a b => ?_⟩
+        obtain ⟨x, rfl⟩ := h_surj a
+        obtain ⟨y, rfl⟩ := h_surj b
+        suffices x = y by rw [this]
+        have : ∀ z : DirectSum (@ArrowsInto (Fin n) Q_cur i)
+            (fun a => ρ_cur.obj a.1), z = 0 :=
+          fun z => DFinsupp.ext (fun j => @Subsingleton.elim _ (hsrc_ss j) _ _)
+        exact (this x).trans (this y).symm
+      let Q_rev := @reversedAtVertex (Fin n) _ Q_cur i
+      let ρ_plus := @reflectionFunctorPlus k _ (Fin n) _ Q_cur i hi_sink ρ_cur
+      -- Subsingleton/Fintype on reversed quiver
+      have hSS_rev : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_rev a b) :=
+        fun a b => subsingleton_hom_reversedAtVertex i a b
+      haveI : Fintype (@ArrowsInto (Fin n) Q_rev i) :=
+        @fintypeArrowsIntoOfSubsingleton _ Q_rev hSS_rev i
+      -- Free/Finite for F⁺ outputs
+      have hFree_plus : ∀ v, Module.Free k (ρ_plus.obj v) := fun v => by
+        by_cases hv : v = i
+        · rw [hv]; exact @reflFunctorPlus_free_eq k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _
+        · exact @reflFunctorPlus_free_ne k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ v hv
+      have hFinite_plus : ∀ v, Module.Finite k (ρ_plus.obj v) := fun v => by
+        by_cases hv : v = i
+        · rw [hv]; exact @reflFunctorPlus_finite_eq k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _
+        · exact @reflFunctorPlus_finite_ne k _ (Fin n) _ Q_cur i hi_sink ρ_cur _ v hv
+      -- F⁺ output is indecomposable (Prop 6.6.7)
+      have hIndec_plus :
+          @QuiverRepresentation.IsIndecomposable k _ _ Q_rev ρ_plus := by
+        rcases @Proposition6_6_7_sink k _ _ _ Q_cur i hi_sink ρ_cur _ _ hIndec_cur
+          with h | h_zero
+        · exact h
+        · exfalso
+          obtain ⟨⟨v, hv⟩, _⟩ := hIndec_cur
+          suffices hs : ∀ j, Subsingleton
+              (@QuiverRepresentation.obj k (Fin n) _ Q_cur ρ_cur j) from
+            absurd (hs v) (not_subsingleton_iff_nontrivial.mpr hv)
+          intro j
+          by_cases hj : j = i
+          · rw [hj]; exact h_sink_ss_of_src (fun ⟨m, e⟩ =>
+              (@reflFunctorPlus_equivAt_ne k _ (Fin n) _ Q_cur i hi_sink ρ_cur m
+                (fun h => (hi_sink m).false (h ▸ e))).toEquiv.subsingleton_congr.mp (h_zero m))
+          · exact (@reflFunctorPlus_equivAt_ne k _ (Fin n) _
+              Q_cur i hi_sink ρ_cur j hj).toEquiv.subsingleton_congr.mp (h_zero j)
+      -- Orientation on reversed quiver
+      have hOrient_rev : @IsOrientationOf n Q_rev adj :=
+        reversedAtVertex_isOrientationOf hDynkin.1 hDynkin.2.1 hOrient_cur i
+      -- Dim vector of F⁺ output = simpleReflection of d_cur
+      have hDim_plus : ∀ v, (Module.finrank k (ρ_plus.obj v) : ℤ) = d_new v := by
+        intro v
+        haveI : ∀ v, Module.Free k (ρ_plus.obj v) := hFree_plus
+        haveI : ∀ v, Module.Finite k (ρ_plus.obj v) := hFinite_plus
+        have h668 := @Proposition6_6_8_sink k _
+          (Fin n) _ Q_cur i hi_sink ρ_cur _ _ _ h_surj v
+        change (ρ_plus.finrankAt' k v : ℤ) = d_new v
+        rw [h668, hd_eq]
+        convert congr_fun hbridge v
+      -- Sinks condition for rest on reversed quiver
+      have hSinks_rest : ∀ m (hm : m < rest.length),
+          @IsSink (Fin n)
+            (@iteratedReversedAtVertices _ _ Q_rev (rest.take m))
+            (rest.get ⟨m, hm⟩) := by
+        intro m hm
+        exact hSinks (m + 1) (by simp [List.length_cons]; omega)
+      -- Apply IH to F⁺ output on reversed quiver
+      rcases @ih Q_rev hOrient_rev hSS_rev hSinks_rest ρ_plus hFree_plus hFinite_plus
+        hIndec_plus d_new (funext fun v => (hDim_plus v).symm) with
+        ⟨j, p, hj, hp⟩ | ⟨ρ_end, hFree_end, hFinite_end, hIndec_end, hDim_end⟩
+      · -- Simple root found at prefix j of rest
+        left
+        refine ⟨j + 1, p, by simp [List.length_cons]; omega, ?_⟩
+        simp only [List.take_succ_cons]
+        rw [iteratedSimpleReflection_cons]
+        exact hp
+      · -- Rep survives: pass through
+        right
+        show SurvivingRepData k n adj _ d_cur (i :: rest)
+        unfold SurvivingRepData
+        exact ⟨ρ_end, hFree_end, hFinite_end, hIndec_end, fun v => by
+          rw [show iteratedSimpleReflection n (cartanMatrix n adj) (i :: rest) d_cur =
+            iteratedSimpleReflection n (cartanMatrix n adj) rest d_new from
+            iteratedSimpleReflection_cons _ i rest d_cur]
+          exact hDim_end v⟩
+
 /-- **One round of reflection functors along an admissible ordering.**
 
 For an indecomposable representation V with admissible ordering σ, either:
@@ -1388,10 +1554,10 @@ ordering, threading the type-changing quiver instances. -/
 lemma one_round_or_simpleRoot
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
-    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
     (σ : List (Fin n)) (hσ : IsAdmissibleOrdering Q σ)
-    (ρ : @QuiverRepresentation k (Fin n) _ Q)
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hρ : ρ.IsIndecomposable)
     (d : Fin n → ℤ) (hd : d = fun v => (Module.finrank k (ρ.obj v) : ℤ)) :
@@ -1400,27 +1566,32 @@ lemma one_round_or_simpleRoot
     ∨
     ((∀ i, 0 ≤ iteratedSimpleReflection n (cartanMatrix n adj) σ d i) ∧
      iteratedSimpleReflection n (cartanMatrix n adj) σ d ≠ 0 ∧
-     ∃ (ρ' : @QuiverRepresentation k (Fin n) _ Q)
-       (_ : ∀ v, Module.Free k (ρ'.obj v))
-       (_ : ∀ v, Module.Finite k (ρ'.obj v)),
-       ρ'.IsIndecomposable ∧
-       ∀ v, (Module.finrank k (ρ'.obj v) : ℤ) =
-         iteratedSimpleReflection n (cartanMatrix n adj) σ d v) := by
-  -- The proof proceeds by induction on the admissible ordering σ, tracking an
-  -- indecomposable representation on iteratedReversedAtVertices Q (σ.take m).
-  -- At each step m, apply Prop 6.6.5 (simple or surjective at sink σ[m]):
-  --   - If simple: the dim vector is a simple root → left disjunct
-  --   - If surjective: apply F⁺, getting indecomp rep on Q_{m+1} (Prop 6.6.7)
-  --     with dim vector = simpleReflection of previous (Prop 6.6.8 + bridge lemma)
-  -- At m = σ.length: Q_n = Q by iteratedReversedAtVertices_perm_eq → right disjunct.
-  --
-  -- Technical blocker: Lean universe constraint. The representation at step m lives on
-  -- iteratedReversedAtVertices Q (σ.take m), which is Quiver.{v} (Fin n) at the same
-  -- Hom universe v as Q. But the obj types of QuiverRepresentation introduce a separate
-  -- universe u_obj, and when the induction state is wrapped in a ∀ or ∃, Lean cannot
-  -- unify u_obj across steps. Infrastructure lemmas (Subsingleton preservation, Fintype
-  -- derivation, Module.Free/Finite for F⁺, dim vector bridge) are provided above.
-  sorry
+     SurvivingRepData k n adj Q d σ) := by
+  -- Apply the helper lemma to walk through σ
+  rcases walk_admissible_ordering hDynkin σ hOrient
+    (fun a b => inferInstance) hσ.isSink ρ
+    (fun v => inferInstance) (fun v => inferInstance) hρ d hd with
+    ⟨i, p, hi, hp⟩ | hSurv
+  · left; exact ⟨i, p, hi, hp⟩
+  · -- Transport SurvivingRepData from iteratedReversedAtVertices Q σ to Q via perm_eq
+    right
+    have heq : @iteratedReversedAtVertices _ _ Q σ = Q :=
+      iteratedReversedAtVertices_perm_eq Q σ hσ.perm
+    -- Transport the SurvivingRepData bundle at once
+    have hSurv_Q : SurvivingRepData k n adj Q d σ := heq ▸ hSurv
+    obtain ⟨ρ', hFree', hFinite', hIndec', hDim'⟩ := hSurv_Q
+    refine ⟨?_, ?_, ρ', hFree', hFinite', hIndec', hDim'⟩
+    · -- Nonneg
+      intro v; rw [← hDim' v]; exact Int.natCast_nonneg _
+    · -- Nonzero
+      intro h0
+      obtain ⟨⟨v, hv⟩, _⟩ := hIndec'
+      have h0v : (@Module.finrank k _ _ (ρ'.instAddCommMonoid v) (ρ'.instModule v) : ℤ) = 0 := by
+        rw [hDim' v]; exact congr_fun h0 v
+      simp only [Int.natCast_eq_zero] at h0v
+      haveI := hFree' v; haveI := hFinite' v
+      rw [Module.finrank_eq_zero_iff_of_free (R := k)] at h0v
+      exact absurd h0v (not_subsingleton_iff_nontrivial.mpr hv)
 
 /-- **Representation-level Theorem 6.8.1**: For an indecomposable representation V
 of a Dynkin quiver, there exist simple reflections reducing d(V) to a simple root.
@@ -1433,9 +1604,9 @@ The proof follows the book's argument:
 private lemma indecomposable_reduces_to_simpleRoot
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
-    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
-    (ρ : @QuiverRepresentation k (Fin n) _ Q)
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hρ : ρ.IsIndecomposable) :
     ∃ (vertices : List (Fin n)) (p : Fin n),
@@ -1469,7 +1640,7 @@ private lemma indecomposable_reduces_to_simpleRoot
     (∃ (vertices : List (Fin n)) (p : Fin n),
       iteratedSimpleReflection n A vertices d = simpleRoot n p) ∨
     ((∀ j, 0 ≤ c^[M] d j) ∧
-     ∃ (ρ_M : @QuiverRepresentation k (Fin n) _ Q),
+     ∃ (ρ_M : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q),
        (∀ v, Module.Free k (ρ_M.obj v)) ∧
        (∀ v, Module.Finite k (ρ_M.obj v)) ∧
        ρ_M.IsIndecomposable ∧
@@ -1505,9 +1676,9 @@ private lemma indecomposable_reduces_to_simpleRoot
         exact hp
       · -- Full round completed: c^{M+1}(d) is nonneg with indecomp rep ρ'
         right
-        refine ⟨fun j => ?_, ρ', hFree', hFinite', hIndecomp', fun v => ?_⟩
-        · rw [Function.iterate_succ', Function.comp_apply]; exact hnonneg j
-        · rw [Function.iterate_succ', Function.comp_apply]; exact hDimVec' v
+        exact ⟨fun j => by rw [Function.iterate_succ', Function.comp_apply]; exact hnonneg j,
+          ρ', hFree', hFinite', hIndecomp',
+          fun v => by rw [Function.iterate_succ', Function.comp_apply]; exact hDimVec' v⟩
 
 /-- The dimension vector of an indecomposable representation of a Dynkin quiver
 satisfies B(d, d) = 2 (not just ≤ 2).
@@ -1520,9 +1691,9 @@ This theorem resolves `indecomposable_titsForm_le_two` in `Corollary6_8_3.lean`.
 theorem indecomposable_bilinearForm_eq_two
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
-    {Q : Quiver (Fin n)} (hOrient : IsOrientationOf Q adj)
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
-    (ρ : @QuiverRepresentation k (Fin n) _ Q)
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hρ : ρ.IsIndecomposable) :
     dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
