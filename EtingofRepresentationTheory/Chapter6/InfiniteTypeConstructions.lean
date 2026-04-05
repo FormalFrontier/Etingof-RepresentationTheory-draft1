@@ -67,9 +67,62 @@ theorem nilpotentShiftLin_nilpotent (m : ℕ) :
   change (nilpotentShiftLin m) ^ (m + 1) = 0
   rw [nilpotentShiftLin, ← mulVecLin_pow, hmat, Matrix.mulVecLin_zero]
 
+private theorem nilpotentShiftLin_apply (m : ℕ) (v : Fin (m + 1) → ℂ) (i : Fin (m + 1)) :
+    nilpotentShiftLin m v i = if h : i.val + 1 < m + 1 then v ⟨i.val + 1, h⟩ else 0 := by
+  simp only [nilpotentShiftLin, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+    nilpotentShiftMatrix]
+  split_ifs with h
+  · rw [Finset.sum_eq_single ⟨i.val + 1, h⟩]
+    · simp
+    · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hbi; exact hb (Fin.ext (by omega))
+    · intro habs; exact absurd (Finset.mem_univ _) habs
+  · apply Finset.sum_eq_zero; intro j _
+    simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+    intro hji; exact h (by have := j.isLt; omega)
+
 theorem nilpotentShiftLin_ker_finrank (m : ℕ) :
     Module.finrank ℂ (LinearMap.ker (nilpotentShiftLin m)) = 1 := by
-  sorry
+  -- The kernel is {v | v(j) = 0 for j ≥ 1} = span{e₀}
+  -- We build a linear equiv ker ≃ ℂ
+  have hker_fwd : ∀ v : Fin (m + 1) → ℂ, nilpotentShiftLin m v = 0 →
+      ∀ j : Fin (m + 1), 0 < j.val → v j = 0 := by
+    intro v hv j hj
+    have h1 : nilpotentShiftLin m v ⟨j.val - 1, by omega⟩ = 0 := by
+      simp [hv]
+    rw [nilpotentShiftLin_apply] at h1
+    have h2 : (j.val - 1) + 1 < m + 1 := by omega
+    rw [dif_pos h2] at h1
+    have h3 : (⟨(j.val - 1) + 1, h2⟩ : Fin (m + 1)) = j := by
+      ext; show (j.val - 1) + 1 = j.val; omega
+    rwa [h3] at h1
+  have hker_bwd : ∀ v : Fin (m + 1) → ℂ,
+      (∀ j : Fin (m + 1), 0 < j.val → v j = 0) → nilpotentShiftLin m v = 0 := by
+    intro v hv; ext i; simp only [Pi.zero_apply]
+    rw [nilpotentShiftLin_apply]
+    split_ifs with h
+    · exact hv ⟨i.val + 1, h⟩ (by simp)
+    · rfl
+  suffices h : LinearMap.ker (nilpotentShiftLin m) =
+      Submodule.span ℂ {Pi.single (0 : Fin (m + 1)) (1 : ℂ)} by
+    rw [h, finrank_span_singleton]
+    simp [Pi.single_eq_zero_iff]
+  ext v
+  rw [LinearMap.mem_ker, Submodule.mem_span_singleton]
+  constructor
+  · intro hv
+    have hvj := hker_fwd v hv
+    refine ⟨v 0, funext fun j => ?_⟩
+    by_cases hj : j = 0
+    · subst hj; simp [Pi.single_apply]
+    · have hjz := hvj j (Fin.pos_iff_ne_zero.mpr hj)
+      simp [Pi.single_apply, hj, hjz]
+  · intro ⟨c, hcv⟩
+    apply hker_bwd
+    intro j hj
+    rw [← hcv]
+    simp only [Pi.smul_apply, Pi.single_apply, smul_ite, smul_zero]
+    rw [if_neg (show j ≠ (0 : Fin (m + 1)) from by intro h; subst h; simp at hj)]
 
 /-! ## Section 2: Nilpotent-invariant complement triviality -/
 
