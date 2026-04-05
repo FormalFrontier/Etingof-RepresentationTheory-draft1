@@ -399,7 +399,50 @@ private theorem module_jacobson_eq_smul_of_artinian
     exact h_le
   · exact Ring.jacobson_smul_top_le B₂ M
 
--- Helper 5: For a surjective B₂-linear map π : F(B₁) → S where S is semisimple,
+-- Helper 5: For an equivalence F, nonzero morphisms to G(S) in C correspond to
+-- nonzero morphisms to S in D. In particular, if G(S) ≠ 0 then there exists a
+-- nonzero morphism F(B₁) → S.
+private theorem equiv_hom_to_simple_nonzero
+    {B₁ : Type u} [Ring B₁]
+    {B₂ : Type u} [Ring B₂]
+    (F : ModuleCat.{u} B₁ ≌ ModuleCat.{u} B₂)
+    (S : ModuleCat.{u} B₂) [hS : Simple S] :
+    ∃ (f : F.functor.obj (ModuleCat.of B₁ B₁) ⟶ S), f ≠ 0 := by
+  -- G(S) is simple (by simple_of_equivalence for the inverse)
+  haveI : Simple (F.inverse.obj S) := simple_of_equivalence F.symm S
+  -- G(S) is nontrivial: Simple objects are not the zero object
+  have hGS_nt : Nontrivial (F.inverse.obj S) := by
+    by_contra h
+    rw [not_nontrivial_iff_subsingleton] at h
+    exact Simple.not_isZero (F.inverse.obj S) (ModuleCat.isZero_of_subsingleton _)
+  -- Pick a nonzero element m ∈ G(S)
+  obtain ⟨m, hm⟩ := exists_ne (0 : F.inverse.obj S)
+  -- The B₁-linear map φ_m : B₁ → G(S) sending b ↦ b • m
+  let φ_m : ModuleCat.of B₁ B₁ ⟶ F.inverse.obj S :=
+    ModuleCat.ofHom (LinearMap.toSpanSingleton B₁ (F.inverse.obj S) m)
+  -- φ_m is nonzero (φ_m(1) = m ≠ 0)
+  have hφ_ne : φ_m ≠ 0 := by
+    intro h
+    apply hm
+    have h1 : φ_m.hom = (0 : ModuleCat.of B₁ B₁ ⟶ F.inverse.obj S).hom :=
+      congrArg ModuleCat.Hom.hom h
+    have h2 : φ_m.hom (1 : B₁) = 0 := by
+      rw [h1]; rfl
+    simp [φ_m, LinearMap.toSpanSingleton_apply] at h2
+    exact h2
+  -- Under the adjunction F ⊣ G: nonzero φ_m maps to a nonzero morphism F(B₁) → S
+  let f : F.functor.obj (ModuleCat.of B₁ B₁) ⟶ S :=
+    (F.toAdjunction.homEquiv _ _).symm φ_m
+  refine ⟨f, ?_⟩
+  intro hf
+  apply hφ_ne
+  -- f = 0 means the adjoint φ_m = homEquiv(f) = homEquiv(0) = 0
+  have h1 : f = (F.toAdjunction.homEquiv _ _).symm φ_m := rfl
+  have h2 : φ_m = (F.toAdjunction.homEquiv _ _) f := by
+    rw [h1, Equiv.apply_symm_apply]
+  rw [h2, hf, Adjunction.homEquiv_apply, F.inverse.map_zero, comp_zero]
+
+-- Helper 5b: For a surjective B₂-linear map π : F(B₁) → S where S is semisimple,
 -- the image of F(J₁·B₁) under π is zero. This means F(J₁·B₁) is contained in
 -- the kernel of every map to a semisimple quotient of F(B₁).
 -- Proof: J₂ annihilates S, and the image of J₁·B₁ under the adjunction
@@ -418,17 +461,41 @@ private noncomputable def exists_surjection_with_trivial_kernel_head [IsAlgClose
     Σ' (f : (F.functor.obj (ModuleCat.of B₁ B₁)) →ₗ[B₂] B₂),
       Function.Surjective f ∧
       LinearMap.ker f ≤ Ring.jacobson B₂ • (LinearMap.ker f) := by
-  -- F(B₁) is projective (equivalences preserve projective objects, and B₁ is free rank 1)
   haveI := equiv_image_projective F
-  -- B₂ is Artinian (finite-dim over field), hence semiprimary
   haveI : IsArtinianRing B₂ := IsArtinianRing.of_finite k B₂
-  -- Strategy: construct a surjection f : F(B₁) → B₂ using projectivity,
-  -- then show ker f ≤ J • ker f via splitting.
-  -- Step 1: We use that equivalences preserve and reflect simple quotients,
-  -- so the module radical is preserved: F(J₁·B₁) = J₂·F(B₁).
-  -- Step 2: This gives F(B₁)/J₂·F(B₁) ≅ F(B₁/J₁) ≅ B₂/J₂ (both k^n for basic algebras).
-  -- Step 3: Lift the surjection g : F(B₁) → B₂/J₂ to f : F(B₁) → B₂ by projectivity.
-  -- Step 4: ker f ⊆ J₂·F(B₁), and splitting gives ker f ⊆ J₂·ker f.
+  haveI : IsArtinianRing B₁ := IsArtinianRing.of_finite k B₁
+  set P := F.functor.obj (ModuleCat.of B₁ B₁)
+  set J₂ := Ring.jacobson B₂
+  -- ══════════════════════════════════════════════════════════════════
+  -- KEY FACT: For each simple B₂-module S, dim_k Hom_{B₂}(P, S) = 1.
+  --
+  -- Proof chain:
+  --   Hom_{B₂}(F(B₁), S)          (categorical Hom in ModuleCat B₂)
+  --   ≅ Hom_{B₁}(B₁, G(S))        (adjunction: F ⊣ G)
+  --   ≅ G(S)                       (Hom from free rank-1 module = the module)
+  --   G(S) is simple               (simple_of_equivalence for G = F.symm)
+  --   dim_k G(S) = 1               (IsBasicAlgebra k B₁)
+  --
+  -- Similarly, dim_k Hom_{B₂}(B₂, S) = dim_k S = 1 (IsBasicAlgebra k B₂).
+  --
+  -- Therefore both F(B₁) and B₂ have heads with each simple appearing
+  -- exactly once (multiplicity = dim Hom / dim End = 1/1 = 1).
+  -- ══════════════════════════════════════════════════════════════════
+  --
+  -- STEP 1: Surjection g : F(B₁) → B₂/J₂
+  -- Both P/J₂P and B₂/J₂ are semisimple with each simple appearing once.
+  -- They are isomorphic, and the composition P → P/J₂P ≅ B₂/J₂ is surjective.
+  --
+  -- STEP 2: Lift to f : F(B₁) → B₂
+  -- By Module.projective_lifting_property (F(B₁) is projective).
+  --
+  -- STEP 3: Surjectivity of f
+  -- By projective_lift_surjective (Nakayama/nilpotency argument).
+  --
+  -- STEP 4: Kernel condition ker f ≤ J₂ • ker f
+  -- Since B₂ is projective (free rank 1), f splits: P ≅ B₂ ⊕ ker f.
+  -- Heads: P/J₂P ≅ (B₂/J₂) ⊕ (ker f / J₂·ker f).
+  -- Since dim(P/J₂P) = n = dim(B₂/J₂), we get ker f / J₂·ker f = 0.
   sorry
 
 /-- For basic Morita-equivalent algebras, the regular modules correspond under the
