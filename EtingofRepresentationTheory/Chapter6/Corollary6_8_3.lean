@@ -408,10 +408,10 @@ private lemma Etingof.indecomposable_titsForm_le_two
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : Etingof.IsDynkinDiagram n adj)
     {k : Type*} [Field k]
-    {Q : Quiver (Fin n)}
+    {Q : @Quiver.{0, 0} (Fin n)}
     (hOrient : Etingof.IsOrientationOf Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
-    (ρ : @Etingof.QuiverRepresentation k (Fin n) _ Q)
+    (ρ : @Etingof.QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hρ : ρ.IsIndecomposable) :
     dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
@@ -432,7 +432,7 @@ theorem Etingof.Corollary6_8_3
     {Q : @Quiver.{0, 0} (Fin n)}
     (hOrient : Etingof.IsOrientationOf Q adj)
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
-    (ρ₁ ρ₂ : @Etingof.QuiverRepresentation k (Fin n) _ Q)
+    (ρ₁ ρ₂ : @Etingof.QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
     [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)]
     (h₁ : ρ₁.IsIndecomposable)
@@ -461,7 +461,7 @@ theorem Etingof.Corollary6_8_3
   suffices ∀ (M : ℕ),
       Nonempty (@Etingof.QuiverRepresentation.Iso k _ (Fin n) Q ρ₁ ρ₂) ∨
       ((∀ j, 0 ≤ c^[M] d j) ∧
-       ∃ (ρ_M : @Etingof.QuiverRepresentation k (Fin n) _ Q),
+       ∃ (ρ_M : @Etingof.QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q),
          (∀ v, Module.Free k (ρ_M.obj v)) ∧
          (∀ v, Module.Finite k (ρ_M.obj v)) ∧
          ρ_M.IsIndecomposable ∧

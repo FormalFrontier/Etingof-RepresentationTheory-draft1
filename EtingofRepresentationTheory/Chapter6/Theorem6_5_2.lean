@@ -225,7 +225,7 @@ theorem Etingof.Theorem_6_5_2c_bijection
       (_ : ∀ v, Module.Free k (ρ.obj v)) (_ : ∀ v, Module.Finite k (ρ.obj v)),
       ρ.IsIndecomposable ∧ ∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ.obj v))) ∧
     -- Uniqueness: any two such are isomorphic
-    (∀ (ρ₁ ρ₂ : @Etingof.QuiverRepresentation.{u, 0, u, _} k (Fin n) _ Q)
+    (∀ (ρ₁ ρ₂ : @Etingof.QuiverRepresentation.{u, 0, 0, 0} k (Fin n) _ Q)
       [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
       [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)],
       ρ₁.IsIndecomposable → ρ₂.IsIndecomposable →
