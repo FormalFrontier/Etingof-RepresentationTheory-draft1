@@ -110,10 +110,10 @@ private lemma rowSymmetrizer_annihilates_specht (n : ℕ) (la mu : Nat.Partition
   rw [show v = x • YoungSymmetrizer n mu from hx.symm]
   change RowSymmetrizer n la * (x * YoungSymmetrizer n mu) = 0
   simp only [YoungSymmetrizer]
-  rw [show RowSymmetrizer n la * (x * (ColumnAntisymmetrizer n mu * RowSymmetrizer n mu)) =
-    RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu * RowSymmetrizer n mu
+  rw [show RowSymmetrizer n la * (x * (RowSymmetrizer n mu * ColumnAntisymmetrizer n mu)) =
+    RowSymmetrizer n la * (x * RowSymmetrizer n mu) * ColumnAntisymmetrizer n mu
     from by simp only [mul_assoc]]
-  rw [Lemma5_13_2_general n la mu h x, zero_mul]
+  rw [Lemma5_13_2_general n la mu h]
 
 end
 
@@ -221,13 +221,12 @@ noncomputable section
 set_option linter.style.openClassical false in
 open scoped Classical
 
-/-- Left multiplication by a row subgroup element fixes a_λ * c_λ.
-With c_λ = b_λ · a_λ, left absorption of(p) * c_λ = c_λ fails, but
-of(p) * a_λ * c_λ = a_λ * c_λ works because of(p) * a_λ = a_λ. -/
-private lemma row_mul_rowSym_youngSymmetrizer (n : ℕ) (la : Nat.Partition n)
+/-- Left multiplication by a row subgroup element fixes c_λ.
+With c_λ = a_λ * b_λ, of(p) * c_λ = of(p) * a_λ * b_λ = a_λ * b_λ = c_λ. -/
+private lemma row_mul_youngSymmetrizer (n : ℕ) (la : Nat.Partition n)
     (p : G' n) (hp : p ∈ RowSubgroup n la) :
-    MonoidAlgebra.of ℂ _ p * (RowSymmetrizer n la * YoungSymmetrizer n la) =
-    RowSymmetrizer n la * YoungSymmetrizer n la := by
+    MonoidAlgebra.of ℂ _ p * YoungSymmetrizer n la = YoungSymmetrizer n la := by
+  simp only [YoungSymmetrizer]
   rw [← mul_assoc, of_row_mul_RowSymmetrizer p hp]
 
 /-- The Young symmetrizer c_λ is nonzero. -/
@@ -238,43 +237,29 @@ private lemma youngSymmetrizer_ne_zero (n : ℕ) (la : Nat.Partition n) :
   have hbot : SpechtModule n la = ⊥ := Submodule.span_singleton_eq_bot.mpr h
   exact (isSimpleModule_iff_isAtom.mp ‹_›).1 hbot
 
-/-- The product a_λ * c_λ = a_λ * b_λ * a_λ is nonzero.
-If a_λ * c_λ = 0, then b_λ * (a_λ * c_λ) = c_λ² = 0, contradicting
-`young_symmetrizer_sq_ne_zero`. -/
-private lemma rowSym_youngSym_ne_zero (n : ℕ) (la : Nat.Partition n) :
-    RowSymmetrizer n la * YoungSymmetrizer n la ≠ 0 := by
+/-- of(g) * c_λ ≠ 0 since of(g) is a unit and c_λ ≠ 0. -/
+private lemma of_mul_youngSymmetrizer_ne_zero (n : ℕ) (la : Nat.Partition n) (g : G' n) :
+    MonoidAlgebra.of ℂ _ g * YoungSymmetrizer n la ≠ 0 := by
   intro h
-  apply young_symmetrizer_sq_ne_zero n la
-  have : ColumnAntisymmetrizer n la * (RowSymmetrizer n la * YoungSymmetrizer n la) =
-      YoungSymmetrizer n la * YoungSymmetrizer n la := by
-    simp only [YoungSymmetrizer, mul_assoc]
+  apply youngSymmetrizer_ne_zero n la
+  have : MonoidAlgebra.of ℂ _ g⁻¹ * (MonoidAlgebra.of ℂ _ g * YoungSymmetrizer n la) =
+      YoungSymmetrizer n la := by
+    rw [← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
   rw [h, mul_zero] at this; exact this.symm
 
-/-- of(g) * a_λ * c_λ ≠ 0 since of(g) is a unit and a_λ * c_λ ≠ 0. -/
-private lemma of_mul_rowSym_youngSymmetrizer_ne_zero (n : ℕ) (la : Nat.Partition n) (g : G' n) :
-    MonoidAlgebra.of ℂ _ g * (RowSymmetrizer n la * YoungSymmetrizer n la) ≠ 0 := by
-  intro h
-  apply rowSym_youngSym_ne_zero n la
-  have : MonoidAlgebra.of ℂ _ g⁻¹ * (MonoidAlgebra.of ℂ _ g *
-      (RowSymmetrizer n la * YoungSymmetrizer n la)) =
-      RowSymmetrizer n la * YoungSymmetrizer n la := by
-    rw [← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
-  rw [h, mul_zero] at this
-  exact this.symm
-
-/-- Any row-invariant element of V_λ is a scalar multiple of a_λ * c_λ.
-With c_λ = b_λ · a_λ, left P_λ-invariant elements are proportional to a_λ * c_λ
-(not c_λ itself, since of(p) * c_λ ≠ c_λ with the James convention). -/
-private lemma row_invariant_is_scalar_of_rowSym_youngSym (n : ℕ) (la : Nat.Partition n)
+/-- Any row-invariant element of V_λ is a scalar multiple of c_λ.
+With c_λ = a_λ * b_λ, of(p) * c_λ = c_λ, so left P_λ-invariant elements
+are proportional to c_λ itself. -/
+private lemma row_invariant_is_scalar_of_youngSym (n : ℕ) (la : Nat.Partition n)
     (v : SymGroupAlgebra n) (hv : v ∈ SpechtModule n la)
     (hinv : ∀ p ∈ RowSubgroup n la,
       MonoidAlgebra.of ℂ (G' n) p * v = v) :
-    ∃ c : ℂ, v = c • (RowSymmetrizer n la * YoungSymmetrizer n la) := by
+    ∃ c : ℂ, v = c • YoungSymmetrizer n la := by
   classical
   obtain ⟨x, hx⟩ := Submodule.mem_span_singleton.mp hv
   change x • YoungSymmetrizer n la = v at hx
   rw [hx.symm]
-  -- a_λ * (x * c_λ) = |P_λ| * (x * c_λ)
+  -- a_λ * (x * c_λ) = |P_λ| * (x * c_λ) (from row invariance)
   have h_sum : RowSymmetrizer n la * (x * YoungSymmetrizer n la) =
       (Fintype.card (RowSubgroup n la) : ℂ) • (x * YoungSymmetrizer n la) := by
     have key : ∀ p : RowSubgroup n la,
@@ -283,13 +268,16 @@ private lemma row_invariant_is_scalar_of_rowSym_youngSym (n : ℕ) (la : Nat.Par
       intro p; have h := hinv p.val p.prop; rwa [← hx] at h
     simp only [RowSymmetrizer, Finset.sum_mul, key, Finset.sum_const, Finset.card_univ,
       ← Nat.cast_smul_eq_nsmul ℂ]
-  -- By dual sandwich: a_λ * x * b_λ = ℓ'(x) • (a_λ * b_λ)
-  -- Therefore a_λ * x * c_λ = a_λ * x * b_λ * a_λ = ℓ'(x) • (a_λ * b_λ * a_λ) = ℓ'(x) • (a_λ * c_λ)
+  -- By dual sandwich: a_λ * (x * a_λ) * b_λ = ℓ'(x * a_λ) • c_λ
   obtain ⟨ℓ', hℓ'⟩ := Etingof.Lemma5_13_1_dual n la
   have h_sandwich : RowSymmetrizer n la * (x * YoungSymmetrizer n la) =
-      ℓ' x • (RowSymmetrizer n la * YoungSymmetrizer n la) := by
+      ℓ' (x * RowSymmetrizer n la) • YoungSymmetrizer n la := by
     simp only [YoungSymmetrizer]
-    rw [← mul_assoc, ← mul_assoc, hℓ' x, Algebra.smul_mul_assoc, mul_assoc]
+    rw [show RowSymmetrizer n la * (x * (RowSymmetrizer n la * ColumnAntisymmetrizer n la)) =
+      RowSymmetrizer n la * (x * RowSymmetrizer n la) * ColumnAntisymmetrizer n la
+      from by simp only [mul_assoc]]
+    rw [hℓ']
+    simp only [YoungSymmetrizer, Algebra.smul_mul_assoc]
   have h_card_ne_zero : (Fintype.card (RowSubgroup n la) : ℂ) ≠ 0 :=
     Nat.cast_ne_zero.mpr Fintype.card_pos.ne'
   rw [h_sandwich] at h_sum
@@ -297,14 +285,14 @@ private lemma row_invariant_is_scalar_of_rowSym_youngSym (n : ℕ) (la : Nat.Par
   simp only [smul_smul, inv_mul_cancel₀ h_card_ne_zero, one_smul] at h_sum
   exact ⟨_, h_sum⟩
 
-/-- Coset representative equivariance for a_λ * c_λ:
-of(out(σ·q)) * a_λ * c_λ = of(σ) * of(out q) * a_λ * c_λ. -/
+/-- Coset representative equivariance for c_λ:
+of(out(σ·q)) * c_λ = of(σ) * of(out q) * c_λ.
+Uses of(p) * c_λ = c_λ for p ∈ P_λ. -/
 private lemma coset_rep_equivariance (n : ℕ) (la : Nat.Partition n)
     (σ : G' n) (q : Q n la) :
-    MonoidAlgebra.of ℂ _ (Quotient.out (σ • q)) *
-      (RowSymmetrizer n la * YoungSymmetrizer n la) =
+    MonoidAlgebra.of ℂ _ (Quotient.out (σ • q)) * YoungSymmetrizer n la =
     MonoidAlgebra.of ℂ _ σ * MonoidAlgebra.of ℂ _ (Quotient.out q) *
-      (RowSymmetrizer n la * YoungSymmetrizer n la) := by
+      YoungSymmetrizer n la := by
   have h_eq : QuotientGroup.mk (Quotient.out (σ • q)) =
       (QuotientGroup.mk (σ * Quotient.out q) : Q n la) := by
     rw [QuotientGroup.out_eq']
@@ -316,7 +304,7 @@ private lemma coset_rep_equivariance (n : ℕ) (la : Nat.Partition n)
       MonoidAlgebra.of ℂ _ (Quotient.out (σ • q)) *
         MonoidAlgebra.of ℂ _ ((Quotient.out (σ • q))⁻¹ * (σ * Quotient.out q)) := by
     rw [← map_mul, ← map_mul]; congr 1; group
-  rw [key, mul_assoc, row_mul_rowSym_youngSymmetrizer n la _ hmem]
+  rw [key, mul_assoc, row_mul_youngSymmetrizer n la _ hmem]
 
 end
 
@@ -324,10 +312,12 @@ noncomputable section
 set_option linter.style.openClassical false in
 open scoped Classical
 
-/-- Helper: the image function for the canonical map, using a_λ * c_λ. -/
+/-- Helper: the image function for the canonical map, using c_λ.
+With c_λ = a_λ * b_λ, of(p) * c_λ = c_λ, so q ↦ of(out(q)) * c_λ is
+well-defined on cosets of P_λ. -/
 private abbrev canonicalHom_v (n : ℕ) (la : Nat.Partition n) (q : Q n la) :
     SymGroupAlgebra n :=
-  MonoidAlgebra.of ℂ _ (Quotient.out q) * (RowSymmetrizer n la * YoungSymmetrizer n la)
+  MonoidAlgebra.of ℂ _ (Quotient.out q) * YoungSymmetrizer n la
 
 /-- The ℂ-linear version of the canonical map, using Finsupp.lift. -/
 private noncomputable def canonicalHom_ℂ (n : ℕ) (la : Nat.Partition n) :
@@ -343,7 +333,7 @@ private lemma permMod_smul_assoc (n : ℕ) (la : Nat.Partition n)
   simp only [map_smul, LinearMap.smul_apply]
 
 /-- The canonical equivariant map φ : U_λ → V_λ, sending δ_{gP_λ} to
-of(out(gP_λ)) * a_λ * c_λ. -/
+of(out(gP_λ)) * c_λ. -/
 private noncomputable def canonicalHom (n : ℕ) (la : Nat.Partition n) :
     PermutationModule n la →ₗ[SymGroupAlgebra n] ↥(SpechtModule n la) where
   toFun x :=
@@ -352,8 +342,7 @@ private noncomputable def canonicalHom (n : ℕ) (la : Nat.Partition n) :
       apply Submodule.sum_mem; intro q _
       exact Submodule.smul_of_tower_mem (SpechtModule n la) (x q)
         (Submodule.mem_span_singleton.mpr
-          ⟨MonoidAlgebra.of ℂ _ (Quotient.out q) * RowSymmetrizer n la,
-           by rw [smul_eq_mul, mul_assoc]⟩)⟩
+          ⟨MonoidAlgebra.of ℂ _ (Quotient.out q), by rw [smul_eq_mul]⟩)⟩
   map_add' x y := Subtype.ext (map_add (canonicalHom_ℂ n la) x y)
   map_smul' a x := by
     refine Subtype.ext ?_
@@ -436,16 +425,16 @@ theorem Proposition5_14_1_diagonal
     have h_val := congrArg Subtype.val h
     simp only [Submodule.coe_zero] at h_val
     rw [hφe_val, canonicalHom_v] at h_val
-    exact of_mul_rowSym_youngSymmetrizer_ne_zero n la _ h_val
-  -- φ(e).val is a scalar multiple of a_λ * c_λ
-  obtain ⟨c₀, hc₀⟩ := row_invariant_is_scalar_of_rowSym_youngSym n la
+    exact of_mul_youngSymmetrizer_ne_zero n la _ h_val
+  -- φ(e).val is a scalar multiple of c_λ
+  obtain ⟨c₀, hc₀⟩ := row_invariant_is_scalar_of_youngSym n la
     (φ e : SymGroupAlgebra n) (φ e).prop (equivariant_map_row_invariant n la φ)
   have hc₀_ne : c₀ ≠ 0 := by
     intro h; rw [h, zero_smul] at hc₀; exact hφe_ne (Subtype.ext hc₀)
   apply finrank_eq_one (R := ℂ) (v := φ)
   · exact fun h => hφe_ne (by rw [h, LinearMap.zero_apply])
   · intro f
-    obtain ⟨c₁, hc₁⟩ := row_invariant_is_scalar_of_rowSym_youngSym n la
+    obtain ⟨c₁, hc₁⟩ := row_invariant_is_scalar_of_youngSym n la
       (f e : SymGroupAlgebra n) (f e).prop (equivariant_map_row_invariant n la f)
     have h_agree : f e = (c₁ / c₀) • φ e := by
       apply Subtype.ext

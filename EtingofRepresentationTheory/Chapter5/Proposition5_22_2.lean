@@ -24,7 +24,7 @@ noncomputable section
 
 namespace Etingof
 
-variable (k : Type*) [Field k] [IsAlgClosed k]
+variable (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- The determinant representation of `GL_N(k)`: the one-dimensional representation
 given by `g ↦ det(g)`. This is isomorphic to the top exterior power `∧^N(k^N)` as
@@ -282,7 +282,7 @@ theorem schurModule_shift_iso_detTwist (N : ℕ) (lam : Fin N → ℕ) (hlam : A
       FDRep.of (detTwistedSchurModuleRep k N lam)) := by
   exact iso_of_formalCharacter_eq k N _ _ (formalCharacter_detTwist_eq_shift k N lam hlam).symm
 
-omit [IsAlgClosed k] in
+omit [IsAlgClosed k] [CharZero k] in
 /-- The `TensorProduct.rid` intertwines the tensor action `rep(g) ⊗ det(g)·id` with
 the determinant-twisted action `det(g) · rep(g)`. -/
 theorem tensorRid_comm_detTwist (N : ℕ) (lam : Fin N → ℕ)
@@ -304,6 +304,7 @@ theorem tensorRid_comm_detTwist (N : ℕ) (lam : Fin N → ℕ)
     (↑(Matrix.GeneralLinearGroup.det g) : k) • ((schurModuleRep k N lam) g) (c • v)
   rw [map_smul, mul_smul, smul_comm]
 
+omit [CharZero k] in
 /-- The FDRep tensor product `L_λ ⊗ det` is isomorphic to the determinant-twisted
 representation. For any 1-dimensional representation `χ`, `M ⊗ χ` is isomorphic
 to `M` with the action twisted by `χ`. -/

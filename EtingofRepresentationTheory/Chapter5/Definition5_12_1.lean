@@ -122,14 +122,14 @@ noncomputable def ColumnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
 Here a_λ = ∑_{g ∈ P_λ} g and b_λ = ∑_{g ∈ Q_λ} sign(g) · g,
 where P_λ is the row subgroup and Q_λ is the column subgroup.
 
-**Convention**: We use c_λ = b_λ · a_λ (column × row) rather than a_λ · b_λ.
-Both conventions generate isomorphic Specht modules, but the b_λ · a_λ convention
-is needed for the polytabloid basis theorem: the map T ↦ of(σ_T) · c_λ is injective
-on standard Young tableaux only with this ordering. See James, "The Representation
+**Convention**: We use c_λ = a_λ · b_λ (row × column) rather than b_λ · a_λ.
+Both conventions generate isomorphic Specht modules. The a_λ · b_λ convention
+provides left P_λ absorption: of(p) · c_λ = c_λ for p ∈ P_λ, which is needed
+for the straightening lemma (Garnir element argument). See James, "The Representation
 Theory of the Symmetric Groups". -/
 noncomputable def YoungSymmetrizer (n : ℕ) (la : Nat.Partition n) :
     MonoidAlgebra ℂ (Equiv.Perm (Fin n)) :=
-  ColumnAntisymmetrizer n la * RowSymmetrizer n la
+  RowSymmetrizer n la * ColumnAntisymmetrizer n la
 
 /-! ## Helper lemmas for rowOfPos and colOfPos -/
 
