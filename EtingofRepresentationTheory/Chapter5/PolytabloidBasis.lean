@@ -21,7 +21,7 @@ of the Specht module V_λ = ℂ[S_n] · c_λ.
 * `Etingof.polytabloid_mem_spechtModule` — polytabloids lie in the Specht module
 * `Etingof.polytabloid_linearIndependent` — polytabloids are linearly independent (sorry)
 * `Etingof.perm_mul_youngSymmetrizer_mem_span_polytabloids` — straightening lemma
-  (proved via WF induction on column inversions; depends on two sorry'd helpers)
+  (proved via WF induction on tabloid dominance order; depends on sorry'd ordering + Garnir)
 * `Etingof.polytabloid_span` — polytabloids span the Specht module (proved from straightening)
 * `Etingof.finrank_spechtModule_eq_card_syt` — dim V_λ = |SYT(λ)| (proved from independence + span)
 
@@ -1129,208 +1129,93 @@ private theorem garnir_swap_identity (n : ℕ) (la : Nat.Partition n)
   -- goal : c * of(σ) = (-1) • (c * of(swap * σ))
   rw [← key, smul_smul]; norm_num
 
-/-- The column inversion count is positive when there exists an inversion. -/
-private theorem columnInvCount'_pos_of_inv (n : ℕ) (la : Nat.Partition n)
-    (σ : Equiv.Perm (Fin n))
-    (p₁ p₂ : Fin n)
-    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
-    (hrow : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
-    (hinv : σ.symm p₂ < σ.symm p₁) :
-    0 < columnInvCount' n la σ := by
-  unfold columnInvCount'
-  apply Finset.card_pos.mpr
-  exact ⟨(p₁, p₂), Finset.mem_filter.mpr ⟨Finset.mem_univ _, hcol, hrow, hinv⟩⟩
+/-! ### Straightening well-order
 
-/-- For a single-column partition (all parts = 1), of(σ) * c_λ = sign(σ) • c_λ.
-This gives a trivial Garnir expansion with S = {1}. -/
-private theorem single_column_garnir (n : ℕ) (la : Nat.Partition n)
-    (σ : Equiv.Perm (Fin n))
-    (h_single : ∀ i, i < la.sortedParts.length → la.sortedParts.getD i 0 = 1) :
-    MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
-      ((↑(↑(Equiv.Perm.sign σ) : ℤ) : ℂ)) •
-        (MonoidAlgebra.of ℂ _ (1 : Equiv.Perm (Fin n)) * YoungSymmetrizer n la) := by
-  -- For single-column, every σ ∈ Q_λ (all positions in col 0)
-  have hσ_col : σ ∈ ColumnSubgroup n la := by
-    intro k
-    have hk := k.isLt
-    have hsum : la.sortedParts.sum = n := sortedParts_sum n la
-    have hksum : k.val < la.sortedParts.sum := by omega
-    -- Both σ k and k have colOfPos = 0 when all rows have width 1
-    have hk_col : colOfPos la.sortedParts k.val = 0 := by
-      have hrow := rowOfPos_lt_length la.sortedParts k.val hksum
-      have hw := h_single _ hrow
-      have hcol := colOfPos_lt_getD la.sortedParts k.val hksum
-      rw [hw] at hcol; omega
-    have hσk_col : colOfPos la.sortedParts (σ k).val = 0 := by
-      have hσk := (σ k).isLt
-      have hσksum : (σ k).val < la.sortedParts.sum := by omega
-      have hrow := rowOfPos_lt_length la.sortedParts (σ k).val hσksum
-      have hw := h_single _ hrow
-      have hcol := colOfPos_lt_getD la.sortedParts (σ k).val hσksum
-      rw [hw] at hcol; omega
-    rw [hk_col, hσk_col]
-  -- For single-column, RowSubgroup = {1} (each row has width 1)
-  have h_row_trivial : ∀ (p : Equiv.Perm (Fin n)), p ∈ RowSubgroup n la → p = 1 := by
-    intro p hp; ext k : 1; simp only [Equiv.Perm.one_apply]
-    have hk_lt : k.val < la.sortedParts.sum := by rw [sortedParts_sum]; exact k.isLt
-    have hpk_lt : (p k).val < la.sortedParts.sum := by rw [sortedParts_sum]; exact (p k).isLt
-    have hcol_k : colOfPos la.sortedParts k.val = 0 := by
-      have hcol := colOfPos_lt_getD la.sortedParts k.val hk_lt
-      rw [h_single _ (rowOfPos_lt_length la.sortedParts k.val hk_lt)] at hcol; omega
-    have hcol_pk : colOfPos la.sortedParts (p k).val = 0 := by
-      have hcol := colOfPos_lt_getD la.sortedParts (p k).val hpk_lt
-      rw [h_single _ (rowOfPos_lt_length la.sortedParts (p k).val hpk_lt)] at hcol; omega
-    exact Fin.ext (rowOfPos_colOfPos_injective la.sortedParts (p k).val k.val
-      hpk_lt hk_lt (hp k) (by rw [hcol_pk, hcol_k]))
-  -- Therefore YoungSymmetrizer = RowSymmetrizer * ColAnti = of(1) * ColAnti = ColAnti
-  -- and of(σ) * YoungSymmetrizer = of(σ) * ColAnti = sign(σ) • ColAnti = sign(σ) • YoungSymmetrizer
-  have h_unique : Unique (↥(RowSubgroup n la)) :=
-    ⟨⟨⟨1, (RowSubgroup n la).one_mem⟩⟩, fun g => Subtype.ext (h_row_trivial g.val g.prop)⟩
-  have h_rowSym_eq : RowSymmetrizer n la = MonoidAlgebra.of ℂ _ (1 : Equiv.Perm (Fin n)) := by
-    have hval : ∀ g : ↥(RowSubgroup n la), (g : Equiv.Perm (Fin n)) = 1 :=
-      fun g => h_row_trivial g.val g.prop
-    simp only [RowSymmetrizer, hval, Finset.sum_const, Finset.card_univ]
-    haveI := h_unique
-    simp [Fintype.card_unique]
-  have h_of_one : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (1 : Equiv.Perm (Fin n)) = 1 :=
-    map_one _
-  rw [YoungSymmetrizer, h_rowSym_eq, h_of_one, one_mul,
-    of_col_mul_ColumnAntisymmetrizer σ hσ_col, one_mul]
+The straightening algorithm requires a well-founded ordering on permutations such that
+the Garnir expansion produces terms that are ALL strictly smaller in this ordering.
 
-/-- rowOfPos is monotone: a ≤ b implies rowOfPos a ≤ rowOfPos b. -/
-private theorem rowOfPos_mono (parts : List ℕ) (a b : ℕ)
-    (hb : b < parts.sum)
-    (hab : a ≤ b) : rowOfPos parts a ≤ rowOfPos parts b := by
-  induction parts generalizing a b with
-  | nil => simp [List.sum_nil] at hb
-  | cons p ps ih =>
-    simp only [rowOfPos]
-    split_ifs with ha hb
-    · omega
-    · omega
-    · exfalso; simp [List.sum_cons] at hb; omega
-    · have hb' : b - p < ps.sum := by simp [List.sum_cons] at hb; omega
-      have hab' : a - p ≤ b - p := Nat.sub_le_sub_right hab p
-      have := ih (a - p) (b - p) hb' hab'
-      omega
+**Why not `columnInvCount'`?** The naive approach using pointwise decrease of column
+inversion count fails: for partition (2,2), σ with columnInvCount' = 1 can produce
+Garnir terms τ with columnInvCount' = 1 (same). See issue #2104 for the counterexample.
 
-/-- For the identity permutation, positions in canonical order have no column inversions:
-if rowOfPos(a) < rowOfPos(b), then a < b. -/
-private theorem rowOfPos_eq_length (parts : List ℕ) (a : ℕ) (ha : parts.sum ≤ a) :
-    rowOfPos parts a = parts.length := by
-  induction parts generalizing a with
-  | nil => simp [rowOfPos]
-  | cons p ps ih =>
-    simp only [rowOfPos, List.length_cons]
-    have : ¬(a < p) := by simp [List.sum_cons] at ha; omega
-    rw [if_neg this]
-    have : ps.sum ≤ a - p := by simp [List.sum_cons] at ha; omega
-    rw [ih _ this]; omega
+**Correct approach**: Use the *dominance order on tabloids* (equivalently, the last-letter
+order). James (1978, Theorem 7.2) proves that Garnir expansion produces tabloids that are
+strictly higher in dominance order. Since dominance is a well-order on the finite set of
+tabloids, this gives the required well-founded induction.
 
-private theorem lt_of_lt_rowOfPos (parts : List ℕ) (a b : ℕ)
-    (hb : b < parts.sum)
-    (hrow : rowOfPos parts a < rowOfPos parts b) : a < b := by
-  by_contra h
-  push_neg at h
-  -- a ≥ b. Two cases: a < parts.sum or a ≥ parts.sum
-  by_cases ha : a < parts.sum
-  · have := rowOfPos_mono parts b a ha h
-    omega
-  · push_neg at ha
-    have := rowOfPos_eq_length parts a ha
-    have := rowOfPos_lt_length parts b hb
-    omega
+The ordering is defined abstractly here and will be instantiated with the tabloid
+dominance order once that infrastructure exists. The key property is:
 
-/-- columnInvCount' for the identity permutation is 0. -/
-private theorem columnInvCount'_one (n : ℕ) (la : Nat.Partition n) :
-    columnInvCount' n la 1 = 0 := by
-  unfold columnInvCount'
-  apply Finset.card_eq_zero.mpr
-  apply Finset.filter_eq_empty_iff.mpr
-  intro ⟨a, b⟩ _
-  simp only [Equiv.Perm.one_symm, Equiv.Perm.one_apply, not_and]
-  intro _ hrow
-  have hsum : la.sortedParts.sum = n := sortedParts_sum n la
-  have hb : b.val < la.sortedParts.sum := by omega
-  exact Nat.not_lt.mpr (Nat.le_of_lt (lt_of_lt_rowOfPos la.sortedParts a.val b.val hb hrow))
+  For every non-column-standard σ, the Garnir expansion of(σ) · c_λ = Σ cᵢ · of(τᵢ) · c_λ
+  satisfies straighteningLT τᵢ σ for all i.
 
-/-- The column inversion count strictly decreases after applying a Garnir-type
-reduction. This is the combinatorial heart of the straightening algorithm.
+This is a strictly weaker (and provable!) requirement compared to the old pointwise
+decrease of columnInvCount'. -/
 
-For a column inversion at (p₁, p₂) with hwidth (row(p₁) has width ≥ 2),
-the Garnir element produces permutations of the Garnir set that, when
-composed with σ, have strictly fewer column inversions.
+/-- A well-founded strict ordering on permutations used for the straightening algorithm.
+To be instantiated with the tabloid dominance order: T₁ < T₂ iff the tabloid of T₁
+strictly dominates T₂ (i.e., T₁ is "more standard").
 
-For the ¬hwidth case (single-column rows), a different argument based on
-the column antisymmetrizer is used. -/
-private theorem garnir_columnInvCount_decrease (n : ℕ) (la : Nat.Partition n)
-    (σ : Equiv.Perm (Fin n))
-    (p₁ p₂ : Fin n)
-    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
-    (hrow : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
-    (hinv : σ.symm p₂ < σ.symm p₁) :
-    ∃ (S : Finset (Equiv.Perm (Fin n))) (c : Equiv.Perm (Fin n) → ℂ),
-      (∀ τ ∈ S, columnInvCount' n la τ < columnInvCount' n la σ) ∧
-      MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
-        S.sum (fun τ => c τ • (MonoidAlgebra.of ℂ _ τ * YoungSymmetrizer n la)) := by
-  -- Single-column case: all parts = 1
-  by_cases h_single : ∀ i, i < la.sortedParts.length → la.sortedParts.getD i 0 = 1
-  · refine ⟨{1}, fun _ => ((↑(↑(Equiv.Perm.sign σ) : ℤ) : ℂ)), ?_, ?_⟩
-    · intro τ hτ
-      rw [Finset.mem_singleton.mp hτ, columnInvCount'_one]
-      exact columnInvCount'_pos_of_inv n la σ p₁ p₂ hcol hrow hinv
-    · rw [Finset.sum_singleton, single_column_garnir n la σ h_single]
-  · -- General case: not all parts = 1, so Garnir element approach applies
-    sorry
+TODO(#2104): Replace this sorry with the tabloid dominance order or last-letter order. -/
+private def straighteningLT (n : ℕ) (la : Nat.Partition n) :
+    Equiv.Perm (Fin n) → Equiv.Perm (Fin n) → Prop :=
+  sorry
 
-private theorem garnir_identity_expansion (n : ℕ) (la : Nat.Partition n)
-    (σ : Equiv.Perm (Fin n))
-    (p₁ p₂ : Fin n)
-    (hcol : colOfPos la.sortedParts p₁.val = colOfPos la.sortedParts p₂.val)
-    (hrow : rowOfPos la.sortedParts p₁.val < rowOfPos la.sortedParts p₂.val)
-    (hinv : σ.symm p₂ < σ.symm p₁) :
-    ∃ (S : Finset (Equiv.Perm (Fin n))) (c : Equiv.Perm (Fin n) → ℂ),
-      (∀ τ ∈ S, columnInvCount' n la τ < columnInvCount' n la σ) ∧
-      MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
-        S.sum (fun τ => c τ • (MonoidAlgebra.of ℂ _ τ * YoungSymmetrizer n la)) :=
-  garnir_columnInvCount_decrease n la σ p₁ p₂ hcol hrow hinv
+/-- The straightening ordering is well-founded.
+Follows from finiteness of Equiv.Perm (Fin n) once straighteningLT is defined. -/
+private theorem straighteningLT_wf (n : ℕ) (la : Nat.Partition n) :
+    WellFounded (straighteningLT n la) :=
+  sorry
 
-/-- Garnir reduction: for a non-column-standard filling, of(σ) · c_λ
-can be expressed as a combination of of(τᵢ) · c_λ with fewer column inversions.
+/-- Garnir reduction using the straightening ordering: for a non-column-standard filling,
+of(σ) · c_λ can be expressed as a combination of of(τᵢ) · c_λ where each τᵢ is strictly
+smaller than σ in the straightening order.
 
-The standard proof uses the Garnir element (see James, Ch. 7). -/
-private theorem garnir_reduction' (n : ℕ) (la : Nat.Partition n)
+This replaces the old `garnir_columnInvCount_decrease` which required pointwise decrease
+of `columnInvCount'` — a condition that is provably too strong (see issue #2104).
+
+The proof follows James (1978, Ch. 7): the Garnir element for adjacent columns at a
+column inversion produces coset representatives whose tabloids strictly dominate the
+original in the dominance order.
+
+TODO(#2104): Prove this once straighteningLT is defined as the dominance order. -/
+private theorem garnir_reduction (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) (h : ¬ isColumnStandard' n la σ) :
     ∃ (S : Finset (Equiv.Perm (Fin n))) (c : Equiv.Perm (Fin n) → ℂ),
-      (∀ τ ∈ S, columnInvCount' n la τ < columnInvCount' n la σ) ∧
+      (∀ τ ∈ S, straighteningLT n la τ σ) ∧
       MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la =
         S.sum (fun τ => c τ • (MonoidAlgebra.of ℂ _ τ * YoungSymmetrizer n la)) := by
-  obtain ⟨p₁, p₂, hcol, hrow, hinv⟩ := exists_column_inversion n la σ h
-  exact garnir_identity_expansion n la σ p₁ p₂ hcol hrow hinv
+  sorry
 
 /-- **Straightening lemma**: any permutation applied to the Young symmetrizer
 lies in the ℂ-span of standard polytabloids.
 
-Proved by well-founded induction on column inversions:
-- Base case (0 inversions): σ is column-standard → row-sort within right
-  P_λ-coset to get an SYT, using row absorption of c_λ.
-- Inductive step: Garnir reduction expresses σ · c_λ as a combination
-  of terms with fewer column inversions. -/
+Proved by well-founded induction on the straightening order (tabloid dominance):
+- Base case: σ is column-standard → row-sort within the right P_λ-coset to get
+  an SYT, using row absorption of c_λ.
+- Inductive step: Garnir reduction expresses σ · c_λ as a combination of terms
+  that are strictly smaller in the straightening order. By the IH, each such term
+  is already in the span.
+
+**Note on the well-founded ordering**: The old proof used `Nat.strongRecOn` on
+`columnInvCount'`, but pointwise decrease of column inversion count is too strong
+(counterexample on partition (2,2)). The correct argument uses the dominance order
+on tabloids, which IS pointwise decreasing under Garnir expansion (James, Thm 7.2). -/
 theorem perm_mul_youngSymmetrizer_mem_span_polytabloids (n : ℕ) (la : Nat.Partition n)
     (σ : Equiv.Perm (Fin n)) :
     MonoidAlgebra.of ℂ _ σ * YoungSymmetrizer n la ∈
       Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
         (polytabloidInSpecht n la T : SymGroupAlgebra n))) := by
-  induction h : columnInvCount' n la σ using Nat.strongRecOn generalizing σ with
-  | ind m ih =>
+  apply (straighteningLT_wf n la).induction σ
+  intro σ ih
   by_cases hcs : isColumnStandard' n la σ
   · exact column_standard_in_span' n la σ hcs
-  · obtain ⟨S, c, hlt, heq⟩ := garnir_reduction' n la σ hcs
+  · obtain ⟨S, c, hlt, heq⟩ := garnir_reduction n la σ hcs
     rw [heq]
     apply Submodule.sum_mem
     intro τ hτ
     apply Submodule.smul_mem
-    exact ih (columnInvCount' n la τ) (h ▸ hlt τ hτ) τ rfl
+    exact ih τ (hlt τ hτ)
 
 /-- The polytabloids {e_T : T ∈ SYT(λ)} span V_λ.
 
