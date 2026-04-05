@@ -525,4 +525,63 @@ noncomputable def starRep (m : ℕ) :
       exact starEmbedding m a
   }
 
+/-! ## Section 9: Indecomposability of star representations -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem starRep_isIndecomposable (m : ℕ) :
+    @Etingof.QuiverRepresentation.IsIndecomposable ℂ _ (Fin 5)
+      starQuiver (starRep m) := by
+  letI := starQuiver
+  constructor
+  · -- Nontrivial at some vertex (leaf 1 has dim m+1 ≥ 1)
+    refine ⟨⟨1, by omega⟩, ?_⟩
+    change Nontrivial (Fin (if (1 : Fin 5).val = 0 then _ else m + 1) → ℂ)
+    simp only [show (1 : Fin 5).val = 1 from rfl, one_ne_zero, ↓reduceIte]
+    infer_instance
+  · -- Indecomposability: any complement decomposition is trivial
+    -- The proof uses dimension counting on the split center space
+    -- and nilpotent_invariant_compl_trivial.
+    intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+    sorry
+
+/-! ## Section 10: Dimension vectors and infinite type for star -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem starRep_dimVec (m : ℕ) (v : Fin 5) :
+    Nonempty (@Etingof.QuiverRepresentation.obj ℂ (Fin 5) _
+      starQuiver (starRep m) v ≃ₗ[ℂ]
+      (Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → ℂ)) :=
+  ⟨LinearEquiv.refl ℂ _⟩
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- The star graph K_{1,4} has infinite representation type:
+    for each m, there is an indecomposable rep with distinct dim vector. -/
+theorem star_not_finite_type :
+    ¬ Etingof.IsFiniteTypeQuiver 5 starAdj := by
+  intro hft
+  letI := starQuiver
+  have hfin := @hft ℂ _ inferInstance starQuiver
+    (fun a b => starQuiver_subsingleton a b)
+    starOrientation_isOrientationOf
+  -- The dimension vector for starRep m maps m to
+  -- (2(m+1), m+1, m+1, m+1, m+1) which is injective in m
+  have hmem : ∀ m : ℕ,
+      (fun v : Fin 5 => if v.val = 0 then 2 * (m + 1) else m + 1) ∈
+      {d : Fin 5 → ℕ | ∃ V : Etingof.QuiverRepresentation.{0,0,0,0} ℂ (Fin 5),
+        V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[ℂ] (Fin (d v) → ℂ))} := by
+    intro m
+    exact ⟨starRep m, starRep_isIndecomposable m, starRep_dimVec m⟩
+  have hinj : Function.Injective
+      (fun m : ℕ => fun v : Fin 5 =>
+        if v.val = 0 then 2 * (m + 1) else m + 1) := by
+    intro m₁ m₂ h
+    have h0 := congr_fun h ⟨0, by omega⟩
+    simp only [ite_true] at h0
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+
 end Etingof
