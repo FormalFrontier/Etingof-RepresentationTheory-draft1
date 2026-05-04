@@ -119,15 +119,16 @@ instance schurModuleSubmodule_diagonalActionImage_isScalarTower
 /-! ## C-4a aggregation (sorry pending parallel work)
 
 `schurModuleSubmodule_isSimple_centralizer` aggregates the C-4a sub-pieces:
-* sub-α: bimodule decomposition (already in Mathlib + `Theorem5_18_4`),
-* sub-β: off-block vanishing (#2683 in flight as PR #2697, #2684 blocked),
-* sub-γ: rank-1 scaled-projection structure (#2694 in flight: γ.A; #2693
-  blocked: γ.B),
-* C-4a-ii: `image_of_primitive_idempotent_isSimple_centralizer` (PR #2698
-  in flight, #2695 closed).
+* sub-α: bimodule decomposition `Theorem5_18_4_bimodule_decomposition_explicit`;
+* sub-β: off-block vanishing (β.2 = #2683 merged via PR #2697; β.3 = #2684
+  unclaimed);
+* sub-γ: rank-1 scaled-projection structure (γ.A in flight as PR #2694;
+  γ.B = #2693 blocked on β.3);
+* C-4a-ii: `image_of_primitive_idempotent_isSimple_centralizer` in
+  `PrimitiveIdempotentSimplicity.lean`, merged via PR #2698.
 
-This sorry will be discharged by a follow-up issue once the in-flight pieces
-land. The statement is precisely what the C-4a chain delivers. -/
+The sorry will be discharged by a follow-up planner issue (the "C-4a
+aggregation" step) once γ.A, γ.B, and β.3 land. -/
 
 /-- **Schur-Weyl L_i, part C-4a (aggregated).**
 
