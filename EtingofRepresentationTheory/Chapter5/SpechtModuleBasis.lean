@@ -1673,6 +1673,208 @@ private theorem twistedPolytabloid_support_bound
   by_contra hnotdom
   exact hα_supp (twistedPolytabloid_apply_of_not_dominates σ hcs w α hnotdom)
 
+/-! ### Per-q decomposition for the twisted polytabloid (Wall 3 R2.a)
+
+Strategy A* infrastructure for `garnir_twisted_in_lower_span` (see
+`progress/q-high-involution.md` §3, §4.1). For each `q ∈ Q_λ`, define the
+column-standard representative `τ_q := γ_q · w · q⁻¹ · σ` where
+`γ_q := garnirColReindex σ w q ∈ Q_λ` is the canonical column-restandardizer.
+Classify `Q_λ` into four disjoint regions by the relation between `[τ_q]`
+and `[σ]`:
+
+* `perQ_low`  — `[τ_q]` strictly dominated by `[σ]`
+* `perQ_eq`   — `[τ_q] = [σ]` and `rowInv τ_q < rowInv σ`
+* `perQ_eqHi` — `[τ_q] = [σ]` and `¬ rowInv τ_q < rowInv σ`
+* `perQ_high` — `[τ_q]` not weakly below `[σ]` (incomparable or strictly above)
+
+The first two regions are exactly those where the (outer/inner) inductive
+hypothesis on `(srRank, rowInvCount')` discharges `ψ_{τ_q} ∈ V`, where `V`
+is the SYT polytabloid span. The aggregated contribution from these two
+regions is `twistedIHPart`, the IH-killable part `(★)`. The latter two
+regions are deferred into a residual `Δ`, whose tabloid support is bounded
+by `[σ]` (combining `twistedPolytabloid_support_bound` with the per-term
+support bounds on the `(★)` summands).
+
+R2.a (this section) provides the decomposition `f_w(σ) = (★) + Δ`, the
+witness `(★) ∈ V`, and the support bound on `Δ`. R2.b will further show
+`Δ ∈ V` via inner induction on `srRank`; R2.c then assembles `f_w(σ) ∈ V`
+and lifts to `L_σ` via the R1 bridge `in_L_of_in_V_of_supp_bounded`. -/
+
+/-- Column-standard representative `τ_q := γ_q · w · q⁻¹ · σ`,
+where `γ_q := garnirColReindex σ w q ∈ Q_λ`. -/
+private noncomputable def perQTau
+    (σ w q : Equiv.Perm (Fin n)) : Equiv.Perm (Fin n) :=
+  garnirColReindex (la := la) σ w q * (w * q⁻¹ * σ)
+
+/-- `perQTau σ w q` is column-standard. -/
+private theorem perQTau_colStandard
+    (σ w q : Equiv.Perm (Fin n)) :
+    isColumnStandard' n la (perQTau (la := la) σ w q) :=
+  garnirColReindex_colStandard (la := la) σ w q
+
+/-- `Q_low := { q ∈ Q_λ | [τ_q] strictly dominated by [σ] }`. -/
+private noncomputable def perQ_low
+    (σ w : Equiv.Perm (Fin n)) : Finset ↥(ColumnSubgroup n la) := by
+  classical
+  exact Finset.univ.filter (fun q : ↥(ColumnSubgroup n la) =>
+    tabloidStrictDominates la σ (perQTau (la := la) σ w q.val))
+
+/-- `Q_eq := { q ∈ Q_λ | [τ_q] = [σ] ∧ rowInv τ_q < rowInv σ }`. -/
+private noncomputable def perQ_eq
+    (σ w : Equiv.Perm (Fin n)) : Finset ↥(ColumnSubgroup n la) := by
+  classical
+  exact Finset.univ.filter (fun q : ↥(ColumnSubgroup n la) =>
+    toTabloid n la (perQTau (la := la) σ w q.val) = toTabloid n la σ ∧
+    rowInvCount' (la := la) (perQTau (la := la) σ w q.val) <
+      rowInvCount' (la := la) σ)
+
+/-- `Q_eq' := { q ∈ Q_λ | [τ_q] = [σ] ∧ ¬ rowInv τ_q < rowInv σ }`. -/
+private noncomputable def perQ_eqHi
+    (σ w : Equiv.Perm (Fin n)) : Finset ↥(ColumnSubgroup n la) := by
+  classical
+  exact Finset.univ.filter (fun q : ↥(ColumnSubgroup n la) =>
+    toTabloid n la (perQTau (la := la) σ w q.val) = toTabloid n la σ ∧
+    ¬ rowInvCount' (la := la) (perQTau (la := la) σ w q.val) <
+      rowInvCount' (la := la) σ)
+
+/-- `Q_high := { q ∈ Q_λ | ¬ [σ] strictly ≻ [τ_q] ∧ [τ_q] ≠ [σ] }`.
+Equivalently, `[τ_q]` is not weakly below `[σ]` (either strictly above or
+incomparable). -/
+private noncomputable def perQ_high
+    (σ w : Equiv.Perm (Fin n)) : Finset ↥(ColumnSubgroup n la) := by
+  classical
+  exact Finset.univ.filter (fun q : ↥(ColumnSubgroup n la) =>
+    ¬ tabloidStrictDominates la σ (perQTau (la := la) σ w q.val) ∧
+    toTabloid n la (perQTau (la := la) σ w q.val) ≠ toTabloid n la σ)
+
+/-- Every `q ∈ Q_λ` lies in exactly one of the four `perQ_*` regions: this
+gives the disjoint partition `Q_λ = Q_low ⊔ Q_eq ⊔ Q_eqHi ⊔ Q_high` in
+membership form. The four regions are pairwise disjoint by construction
+(the predicates are mutually exclusive). -/
+private theorem perQ_partition (σ w : Equiv.Perm (Fin n))
+    (q : ↥(ColumnSubgroup n la)) :
+    q ∈ perQ_low (la := la) σ w ∨ q ∈ perQ_eq (la := la) σ w ∨
+      q ∈ perQ_eqHi (la := la) σ w ∨ q ∈ perQ_high (la := la) σ w := by
+  classical
+  simp only [perQ_low, perQ_eq, perQ_eqHi, perQ_high, Finset.mem_filter,
+    Finset.mem_univ, true_and]
+  by_cases h_dom : tabloidStrictDominates la σ (perQTau (la := la) σ w q.val)
+  · exact Or.inl h_dom
+  · by_cases h_eq : toTabloid n la (perQTau (la := la) σ w q.val) = toTabloid n la σ
+    · by_cases h_rinv : rowInvCount' (la := la) (perQTau (la := la) σ w q.val) <
+                         rowInvCount' (la := la) σ
+      · exact Or.inr (Or.inl ⟨h_eq, h_rinv⟩)
+      · exact Or.inr (Or.inr (Or.inl ⟨h_eq, h_rinv⟩))
+    · exact Or.inr (Or.inr (Or.inr ⟨h_dom, h_eq⟩))
+
+/-- The IH-killable part of the per-q expansion of `f_w(σ)`:
+`(★) := Σ_{q ∈ Q_low ∪ Q_eq} sign(q) · sign(γ_q) · ψ_{τ_q}`,
+the contribution from those `q` for which `ψ_{τ_q} ∈ V` follows from the
+inductive hypothesis. -/
+private noncomputable def twistedIHPart
+    (σ w : Equiv.Perm (Fin n)) : TabloidRepresentation n la :=
+  ∑ q ∈ perQ_low (la := la) σ w ∪ perQ_eq (la := la) σ w,
+    ((↑(↑(Equiv.Perm.sign q.val) : ℤ) : ℂ) *
+       (↑(↑(Equiv.Perm.sign (garnirColReindex (la := la) σ w q.val)) : ℤ) : ℂ)) •
+      generalizedPolytabloidTab (n := n) (la := la)
+        (perQTau (la := la) σ w q.val)
+
+/-- The IH-killable part lies in the SYT polytabloid span. For each
+`q ∈ Q_low ∪ Q_eq`, the inductive hypothesis on `(srRank, rowInvCount')`
+discharges `ψ_{τ_q} ∈ V`: `Q_low` triggers the outer (srRank-strict) branch
+via `srRank_lt_of_tabloidStrictDominates`, and `Q_eq` triggers the inner
+(srRank-equal, rowInv-strict) branch via `srRank_eq_of_toTabloid_eq`. -/
+private theorem twistedIHPart_mem_span
+    (σ w : Equiv.Perm (Fin n))
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T))) :
+    twistedIHPart (la := la) σ w ∈
+      Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+        polytabloidTab (n := n) (la := la) T)) := by
+  classical
+  refine Submodule.sum_mem _ ?_
+  intro q hq
+  refine Submodule.smul_mem _ _ ?_
+  rw [Finset.mem_union] at hq
+  rcases hq with hq_low | hq_eq
+  · -- Q_low ⟹ srRank τ_q < srRank σ ⟹ outer IH discharges ψ_{τ_q} ∈ V.
+    simp only [perQ_low, Finset.mem_filter, Finset.mem_univ, true_and] at hq_low
+    exact ih _ (perQTau_colStandard σ w q.val)
+      (Or.inl (srRank_lt_of_tabloidStrictDominates hq_low))
+  · -- Q_eq ⟹ srRank τ_q = srRank σ ∧ rowInv τ_q < rowInv σ ⟹ inner IH.
+    simp only [perQ_eq, Finset.mem_filter, Finset.mem_univ, true_and] at hq_eq
+    exact ih _ (perQTau_colStandard σ w q.val)
+      (Or.inr ⟨srRank_eq_of_toTabloid_eq hq_eq.1, hq_eq.2⟩)
+
+/-- **R2.a — Per-q decomposition of the twisted polytabloid.** For column-
+standard `σ` and arbitrary `w`, given the standard outer/inner IH on
+`(srRank, rowInvCount')`, the twisted polytabloid `f_w(σ)` decomposes as
+
+  `f_w(σ) = twistedIHPart σ w + Δ`,
+
+where `twistedIHPart σ w` is the IH-killable contribution from
+`Q_low ∪ Q_eq` (in `V`, the SYT polytabloid span) and `Δ` is the residual
+whose tabloid support is bounded by `[σ]`.
+
+R2.b (`twistedPolytabloid_residual_in_V`) will further establish `Δ ∈ V`
+via inner induction on `srRank`; R2.c (`garnir_twisted_in_lower_span`)
+then concludes `f_w(σ) ∈ V` and lifts to `L_σ` via the R1 bridge
+`in_L_of_in_V_of_supp_bounded`. -/
+private theorem twistedPolytabloid_per_q_decomp
+    (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
+    (_hrp : 0 < rowInvCount' (la := la) σ)
+    (w : Equiv.Perm (Fin n))
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T))) :
+    ∃ Δ : TabloidRepresentation n la,
+      twistedPolytabloid (la := la) w σ = twistedIHPart (la := la) σ w + Δ
+        ∧ twistedIHPart (la := la) σ w ∈
+            Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+              polytabloidTab (n := n) (la := la) T))
+        ∧ ∀ α : Equiv.Perm (Fin n),
+            Δ (toTabloid n la α) ≠ 0 → tabloidDominates la σ α := by
+  classical
+  refine ⟨twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w,
+          by abel, twistedIHPart_mem_span σ w ih, ?_⟩
+  intro α hα
+  -- `Δ α ≠ 0` ⟹ `f_w α ≠ twistedIHPart α`, so at least one is nonzero.
+  by_cases hf : twistedPolytabloid (la := la) w σ (toTabloid n la α) ≠ 0
+  · exact twistedPolytabloid_support_bound σ hcs w α hf
+  · push_neg at hf
+    -- `f_w α = 0` and `Δ α ≠ 0` force `twistedIHPart α ≠ 0`.
+    have h_ih_ne : twistedIHPart (la := la) σ w (toTabloid n la α) ≠ 0 := by
+      intro h_zero
+      apply hα
+      rw [Finsupp.sub_apply, hf, h_zero, sub_self]
+    -- Find a `q ∈ Q_low ∪ Q_eq` whose `ψ_{τ_q}` has nonzero coefficient at `α`.
+    rw [twistedIHPart, Finsupp.finset_sum_apply] at h_ih_ne
+    obtain ⟨q, hq, hq_term⟩ := Finset.exists_ne_zero_of_sum_ne_zero h_ih_ne
+    rw [Finsupp.smul_apply, smul_eq_mul] at hq_term
+    have hψ_ne : generalizedPolytabloidTab (n := n) (la := la)
+        (perQTau (la := la) σ w q.val) (toTabloid n la α) ≠ 0 := by
+      intro h; rw [h, mul_zero] at hq_term; exact hq_term rfl
+    -- `[τ_q]` dominates `α` (col-std support bound), and `[τ_q] ≼ [σ]`
+    -- by the `Q_low ∪ Q_eq` classification, so `[σ]` dominates `α`.
+    have h_dom_τα := generalizedPolytabloidTab_coeff_dominance
+      (perQTau (la := la) σ w q.val)
+      (perQTau_colStandard σ w q.val) α hψ_ne
+    rw [Finset.mem_union] at hq
+    rcases hq with hq_low | hq_eq
+    · simp only [perQ_low, Finset.mem_filter, Finset.mem_univ, true_and] at hq_low
+      exact tabloidDominates_trans hq_low.1 h_dom_τα
+    · simp only [perQ_eq, Finset.mem_filter, Finset.mem_univ, true_and] at hq_eq
+      exact tabloidDominates_congr hq_eq.1 rfl h_dom_τα
+
 /-- **Twisted polytabloid in lower span** (sub-sorry 2 of 2):
 For column-standard σ with row inversion, each Garnir permutation w that is
 **neither** column-preserving nor row-preserving produces a "twisted polytabloid"
