@@ -941,7 +941,6 @@ extends each subgraph indecomposable by zero on the vertices outside
 `Set.range φ`. -/
 theorem subgraph_infinite_type_transfer_per_kQ
     (φ : Fin m ↪ Fin n)
-    (_adj : Matrix (Fin n) (Fin n) ℤ) (_adj_sub : Matrix (Fin m) (Fin m) ℤ)
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin n))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
