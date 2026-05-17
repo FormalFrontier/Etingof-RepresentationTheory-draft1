@@ -575,4 +575,168 @@ theorem subgraph_infinite_type_transfer_per_kQ
 
 end SubgraphTransferPerKQ
 
+/-! ## Section 7: Direction-aware leaf maps for orientation-generic K_{1,4}
+
+For an arbitrary orientation `Q` of `starAdj`, each leaf edge `{0, i}` is
+oriented one of two ways. The canonical direction `i → 0` uses the
+embeddings `starEmbed_i_F`. The reversed direction `0 → i` needs a
+projection `V_0 → V_i` that is a left inverse of the corresponding
+embedding. Below we define four such projections with pairwise distinct
+kernels — each kernel equals the image of one of the other three
+embeddings. -/
+
+/-- First-half projection `(a, b) ↦ a`. -/
+noncomputable def starFirst_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Second-half projection `(a, b) ↦ b`. -/
+noncomputable def starSecond_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨m + 1 + i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Projection 1 (F-generic): `(a, b) ↦ a − b`. Left inverse of
+`starEmbed1_F`. Kernel = image of `starEmbedDiag_F`. -/
+noncomputable def starProj1_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  starFirst_F F m - starSecond_F F m
+
+/-- Projection 2 (F-generic): `(a, b) ↦ b − N(a)` where `N` is the
+nilpotent shift. Left inverse of `starEmbed2_F`. Kernel = image of
+`starEmbedNilp_F`. -/
+noncomputable def starProj2_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  starSecond_F F m - (nilpotentShiftLinGen F m).comp (starFirst_F F m)
+
+/-- Projection 3 (F-generic): `(a, b) ↦ b`. Left inverse of
+`starEmbedDiag_F`. Kernel = image of `starEmbed1_F`. -/
+noncomputable def starProj3_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  starSecond_F F m
+
+/-- Projection 4 (F-generic): `(a, b) ↦ a`. Left inverse of
+`starEmbedNilp_F`. Kernel = image of `starEmbed2_F`. -/
+noncomputable def starProj4_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  starFirst_F F m
+
+/-! ### Left-inverse identities
+
+Each `starProj_i_F` is a left inverse of `starEmbed_i_F`. These identities
+are the key linear-algebra facts the downstream indecomposability proof
+needs. -/
+
+private theorem starFirst_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starFirst_F F m (starEmbed1_F F m x) = x := by
+  ext i
+  simp only [starFirst_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk, dif_pos i.isLt]
+
+private theorem starFirst_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starFirst_F F m (starEmbed2_F F m x) = 0 := by
+  ext i
+  simp only [starFirst_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_neg (by omega)]
+  rfl
+
+private theorem starSecond_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starSecond_F F m (starEmbed1_F F m x) = 0 := by
+  ext i
+  simp only [starSecond_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_neg (by omega)]
+  rfl
+
+private theorem starSecond_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starSecond_F F m (starEmbed2_F F m x) = x := by
+  ext i
+  simp only [starSecond_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_pos (by omega)]
+  congr 1
+  apply Fin.ext
+  simp
+
+theorem starProj1_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj1_F F m (starEmbed1_F F m x) = x := by
+  simp [starProj1_F, LinearMap.sub_apply,
+    starFirst_F_starEmbed1_F, starSecond_F_starEmbed1_F]
+
+theorem starProj2_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj2_F F m (starEmbed2_F F m x) = x := by
+  simp [starProj2_F, LinearMap.sub_apply, LinearMap.comp_apply,
+    starFirst_F_starEmbed2_F, starSecond_F_starEmbed2_F, map_zero]
+
+theorem starProj3_F_starEmbedDiag_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj3_F F m (starEmbedDiag_F F m x) = x := by
+  simp [starProj3_F, starEmbedDiag_F, LinearMap.add_apply,
+    starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F]
+
+theorem starProj4_F_starEmbedNilp_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj4_F F m (starEmbedNilp_F F m x) = x := by
+  simp [starProj4_F, starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply,
+    starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F]
+
+/-! ## Section 8: Orientation-generic K_{1,4} representation
+
+`starRep_kQ` matches `starRepGen` at the canonical orientation and uses the
+projections `starProj_i_F` at reversed leaf edges. The same object map and
+dimension vector `(2(m+1), m+1, m+1, m+1, m+1)` regardless of `Q`. -/
+
+/-- Match-based map for the orientation-generic K_{1,4} representation. -/
+private noncomputable def starRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fin 5) :
+    (Fin (if a.val = 0 then 2 * (m + 1) else m + 1) → F) →ₗ[F]
+    (Fin (if b.val = 0 then 2 * (m + 1) else m + 1) → F) :=
+  match a, b with
+  | ⟨1, _⟩, ⟨0, _⟩ => starEmbed1_F F m
+  | ⟨2, _⟩, ⟨0, _⟩ => starEmbed2_F F m
+  | ⟨3, _⟩, ⟨0, _⟩ => starEmbedDiag_F F m
+  | ⟨4, _⟩, ⟨0, _⟩ => starEmbedNilp_F F m
+  | ⟨0, _⟩, ⟨1, _⟩ => starProj1_F F m
+  | ⟨0, _⟩, ⟨2, _⟩ => starProj2_F F m
+  | ⟨0, _⟩, ⟨3, _⟩ => starProj3_F F m
+  | ⟨0, _⟩, ⟨4, _⟩ => starProj4_F F m
+  | _, _ => 0
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Orientation-generic K_{1,4} (D̃₄) representation over `F` with arbitrary
+orientation `Q`. Dimension vector `(2(m+1), m+1, m+1, m+1, m+1)`. -/
+noncomputable def starRep_kQ
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 5))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
+    (_hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
+    (m : ℕ) :
+    @Etingof.QuiverRepresentation F (Fin 5) _ Q := by
+  letI := Q
+  exact {
+    obj := fun v => Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F
+    instAddCommMonoid := fun _ => inferInstance
+    instModule := fun _ => inferInstance
+    mapLinear := fun {a b} _ => starRepMap_kQ F m a b
+  }
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem starRep_kQ_dimVec
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 5))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
+    (m : ℕ) (v : Fin 5) :
+    Nonempty (@Etingof.QuiverRepresentation.obj F (Fin 5) _ Q
+      (starRep_kQ F Q hOrient m) v ≃ₗ[F]
+      (Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F)) :=
+  ⟨LinearEquiv.refl F _⟩
+
 end Etingof
