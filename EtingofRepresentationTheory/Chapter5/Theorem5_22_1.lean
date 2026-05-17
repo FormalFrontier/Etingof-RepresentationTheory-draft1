@@ -880,12 +880,6 @@ section SpechtBridge
 
 variable {N n : ℕ}
 
--- The `IsScalarTower ℂ ↥(symGroupImage) V^⊗n` instance is needed for several
--- definitions in this section; its synthesis traverses a deep
--- `Subalgebra → Subsemiring → Module` chain that exceeds the default 20000
--- heartbeats.
-set_option synthInstance.maxHeartbeats 800000
-
 /-- Codomain-restricted version of `symGroupAlgHom`, landing in `symGroupImage`.
 This is a surjection `ℂ[S_n] →ₐ[ℂ] symGroupImage`. -/
 private noncomputable def symGroupAlgHomToImage :
@@ -912,11 +906,15 @@ private theorem symGroupAlgHomToImage_of (σ : Equiv.Perm (Fin n)) :
       ⟨(symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap,
         Algebra.subset_adjoin ⟨σ, rfl⟩⟩ := by
   apply Subtype.ext
-  show (symGroupAlgHom ℂ (Fin N → ℂ) n) (MonoidAlgebra.of ℂ _ σ) = _
+  change (symGroupAlgHom ℂ (Fin N → ℂ) n) (MonoidAlgebra.of ℂ _ σ) = _
   unfold symGroupAlgHom
   rw [MonoidAlgebra.lift_of]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- `Module.compHom` synthesises a `Module (symGroupImage) ↥(S.restrictScalars ℂ)`
+-- instance, traversing a deep `Subalgebra → Subsemiring → Module` chain that
+-- exceeds the default 20000 heartbeats.
 /-- The `SymGroupAlgebra n`-module structure on `↥(S.restrictScalars ℂ)`
 induced from the `symGroupImage`-module structure on `↥S` via
 `symGroupAlgHomToImage`. -/
@@ -926,6 +924,10 @@ private noncomputable def submoduleAsSymGroupAlgebraModule
     Module (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) :=
   Module.compHom _ (symGroupAlgHomToImage (N := N) (n := n)).toRingHom
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `letI := submoduleAsSymGroupAlgebraModule S` in the type forces
+-- elaboration of the `Module (SymGroupAlgebra n) ↥(S.restrictScalars ℂ)`
+-- instance, traversing the `Subalgebra → Subsemiring → Module` chain.
 /-- The smul of `submoduleAsSymGroupAlgebraModule` agrees with applying
 `symGroupAlgHomToImage(a)` (an element of `↥(symGroupImage)`) to the carrier. -/
 private theorem submoduleAsSymGroupAlgebraModule_smul_def
@@ -935,6 +937,10 @@ private theorem submoduleAsSymGroupAlgebraModule_smul_def
     letI := submoduleAsSymGroupAlgebraModule S
     (a • v).val = (symGroupAlgHom ℂ (Fin N → ℂ) n) a v.val := rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `IsScalarTower ℂ ↥(symGroupImage) V^⊗n` instance is needed to
+-- elaborate the scalar-tower hypothesis; its synthesis traverses the same
+-- deep `Subalgebra → Subsemiring → Module` chain.
 /-- Scalar tower: `(c • a) • v = c • (a • v)` for `c : ℂ`,
 `a : SymGroupAlgebra n`, `v : ↥(S.restrictScalars ℂ)`. -/
 private theorem submoduleAsSymGroupAlgebra_isScalarTower
@@ -948,6 +954,10 @@ private theorem submoduleAsSymGroupAlgebra_isScalarTower
   rw [submoduleAsSymGroupAlgebraModule_smul_def, map_smul]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Constructing a semilinear map between the two carriers requires elaborating
+-- both `Module` instances on `↥(S.restrictScalars ℂ)` (over ℂ and over
+-- `SymGroupAlgebra n`), each via the same deep instance chain.
 /-- The identity-on-carrier `↥(S.restrictScalars ℂ) → ↥S`, semilinear over the
 surjective ring hom `symGroupAlgHomToImage`. -/
 private noncomputable def submoduleSemilinearId
@@ -960,6 +970,8 @@ private noncomputable def submoduleSemilinearId
     map_add' := fun _ _ => rfl
     map_smul' := fun _ _ => rfl }
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Same instance chain as `submoduleSemilinearId`.
 private theorem submoduleSemilinearId_bijective
     (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
       (TensorPower ℂ (Fin N → ℂ) n)) :
@@ -972,6 +984,11 @@ private theorem submoduleSemilinearId_bijective
     exact Subtype.ext_iff.mp h
   · rintro ⟨w, hw⟩; exact ⟨⟨w, hw⟩, rfl⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `RingHomSurjective` instance for `symGroupAlgHomToImage.toRingHom` and
+-- the bijective-semilinear-map transfer both invoke `Module` instance
+-- synthesis on the `S.restrictScalars ℂ` carrier, traversing the deep
+-- `Subalgebra → Subsemiring → Module` chain.
 /-- Simplicity of `↥S` as a `↥(symGroupImage)`-module transfers to simplicity
 of `↥(S.restrictScalars ℂ)` as a `SymGroupAlgebra n`-module. -/
 private theorem submoduleAsSymGroupAlgebra_isSimpleModule
@@ -997,9 +1014,10 @@ private theorem spechtModule_smul_of
   apply Subtype.ext
   rfl
 
+set_option maxHeartbeats 400000 in
 -- Bumped: the Specht-bridge construction unfolds Module.compHom, traverses a
 -- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
-set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Specht bridge** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
 admits a partition `la'` such that the trace of every `σ`-permutation operator
 restricted to `S` equals `spechtModuleCharacter n la' σ`.
@@ -1043,7 +1061,7 @@ theorem trace_symGroupAction_eq_spechtModuleCharacter
     have h_lhs : (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • v =
         restrictedAction v := by
       apply Subtype.ext
-      show (symGroupAlgHom ℂ (Fin N → ℂ) n) (MonoidAlgebra.of ℂ _ σ) v.val =
+      change (symGroupAlgHom ℂ (Fin N → ℂ) n) (MonoidAlgebra.of ℂ _ σ) v.val =
         (symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap v.val
       unfold symGroupAlgHom
       rw [MonoidAlgebra.lift_of]
@@ -1056,7 +1074,7 @@ theorem trace_symGroupAction_eq_spechtModuleCharacter
       (spechtModuleAction n la' σ) ∘ₗ eℂ.toLinearMap := by
     apply LinearMap.ext
     intro v
-    show restrictedAction v = eℂ.symm (spechtModuleAction n la' σ (eℂ v))
+    change restrictedAction v = eℂ.symm (spechtModuleAction n la' σ (eℂ v))
     rw [← h_intertwine v, eℂ.symm_apply_apply]
   rw [h_eq]
   -- Trace conjugation: tr(eℂ.symm ∘ T ∘ eℂ) = tr(T) for ℂ-linear T.
