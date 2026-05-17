@@ -654,7 +654,7 @@ the forbidden-subgraph constructions: identity arrows force subspace
 equality regardless of arrow direction.
 
 The four submodules are passed explicitly: when the carrier `V` arises as
-`(cycleRepGen_kQ …).obj a` (a struct projection that does not always
+`(cycleRep_kQ …).obj a` (a struct projection that does not always
 reduce), implicit-argument inference cannot align them across the two
 complementary-pair hypotheses. -/
 theorem compl_le_forces_eq
@@ -685,7 +685,7 @@ carries the nilpotent shift; all other arrows carry the identity. The
 closing edge is detected from the pair `{a.val, b.val}`, not the arrow
 direction, so the construction works for any orientation `Q` of the cycle
 adjacency matrix `cycleAdj k hk`. -/
-noncomputable def cycleRepGen_kQ
+noncomputable def cycleRep_kQ
     (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
     (Q : @Quiver.{0, 0} (Fin k))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
@@ -702,13 +702,13 @@ noncomputable def cycleRepGen_kQ
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-theorem cycleRepGen_kQ_isIndecomposable
+theorem cycleRep_kQ_isIndecomposable
     (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
     (Q : @Quiver.{0, 0} (Fin k))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
     (hOrient : @Etingof.IsOrientationOf k Q (cycleAdj k hk))
     (m : ℕ) :
-    (cycleRepGen_kQ F k hk Q hOrient m).IsIndecomposable := by
+    (cycleRep_kQ F k hk Q hOrient m).IsIndecomposable := by
   obtain ⟨_, hOrient_edge, _⟩ := hOrient
   constructor
   · refine ⟨⟨0, by omega⟩, ?_⟩
@@ -743,11 +743,11 @@ theorem cycleRepGen_kQ_isIndecomposable
         obtain ⟨e⟩ := hQab
         have h_inv₁ : W₁ a ≤ W₁ b := fun x hx => by
           have h := hW₁_inv e x hx
-          simp only [cycleRepGen_kQ, if_neg h_not_closing_ab, LinearMap.id_coe, id_eq] at h
+          simp only [cycleRep_kQ, if_neg h_not_closing_ab, LinearMap.id_coe, id_eq] at h
           exact h
         have h_inv₂ : W₂ a ≤ W₂ b := fun x hx => by
           have h := hW₂_inv e x hx
-          simp only [cycleRepGen_kQ, if_neg h_not_closing_ab, LinearMap.id_coe, id_eq] at h
+          simp only [cycleRep_kQ, if_neg h_not_closing_ab, LinearMap.id_coe, id_eq] at h
           exact h
         exact compl_le_forces_eq (V := Fin (m + 1) → F) (W₁ a) (W₂ a) (W₁ b) (W₂ b)
           (hcompl a) (hcompl b) h_inv₁ h_inv₂
@@ -755,11 +755,11 @@ theorem cycleRepGen_kQ_isIndecomposable
         obtain ⟨e⟩ := hQba
         have h_inv₁ : W₁ b ≤ W₁ a := fun x hx => by
           have h := hW₁_inv e x hx
-          simp only [cycleRepGen_kQ, if_neg h_not_closing_ba, LinearMap.id_coe, id_eq] at h
+          simp only [cycleRep_kQ, if_neg h_not_closing_ba, LinearMap.id_coe, id_eq] at h
           exact h
         have h_inv₂ : W₂ b ≤ W₂ a := fun x hx => by
           have h := hW₂_inv e x hx
-          simp only [cycleRepGen_kQ, if_neg h_not_closing_ba, LinearMap.id_coe, id_eq] at h
+          simp only [cycleRep_kQ, if_neg h_not_closing_ba, LinearMap.id_coe, id_eq] at h
           exact h
         have ⟨h1, h2⟩ := compl_le_forces_eq (V := Fin (m + 1) → F)
           (W₁ b) (W₂ b) (W₁ a) (W₂ a)
@@ -795,13 +795,13 @@ theorem cycleRepGen_kQ_isIndecomposable
       have h_shift₁ : ∀ x ∈ W₁ z, nilpotentShiftLinGen F m x ∈ W₁ z := by
         intro x hx
         have h := hW₁_inv e x hx
-        simp only [cycleRepGen_kQ, if_pos h_close_zl] at h
+        simp only [cycleRep_kQ, if_pos h_close_zl] at h
         rw [(h_const last).1] at h
         exact h
       have h_shift₂ : ∀ x ∈ W₂ z, nilpotentShiftLinGen F m x ∈ W₂ z := by
         intro x hx
         have h := hW₂_inv e x hx
-        simp only [cycleRepGen_kQ, if_pos h_close_zl] at h
+        simp only [cycleRep_kQ, if_pos h_close_zl] at h
         rw [(h_const last).2] at h
         exact h
       have hres := nilpotent_invariant_compl_trivial_gen
@@ -820,13 +820,13 @@ theorem cycleRepGen_kQ_isIndecomposable
         intro x hx
         rw [(h_const last).1.symm] at hx
         have h := hW₁_inv e x hx
-        simp only [cycleRepGen_kQ, if_pos h_close_lz] at h
+        simp only [cycleRep_kQ, if_pos h_close_lz] at h
         exact h
       have h_shift₂ : ∀ x ∈ W₂ z, nilpotentShiftLinGen F m x ∈ W₂ z := by
         intro x hx
         rw [(h_const last).2.symm] at hx
         have h := hW₂_inv e x hx
-        simp only [cycleRepGen_kQ, if_pos h_close_lz] at h
+        simp only [cycleRep_kQ, if_pos h_close_lz] at h
         exact h
       have hres := nilpotent_invariant_compl_trivial_gen
         (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
@@ -838,14 +838,14 @@ theorem cycleRepGen_kQ_isIndecomposable
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-theorem cycleRepGen_kQ_dimVec
+theorem cycleRep_kQ_dimVec
     (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
     (Q : @Quiver.{0, 0} (Fin k))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
     (hOrient : @Etingof.IsOrientationOf k Q (cycleAdj k hk))
     (m : ℕ) (v : Fin k) :
     Nonempty (@Etingof.QuiverRepresentation.obj F (Fin k) _
-      Q (cycleRepGen_kQ F k hk Q hOrient m) v ≃ₗ[F] (Fin (m + 1) → F)) :=
+      Q (cycleRep_kQ F k hk Q hOrient m) v ≃ₗ[F] (Fin (m + 1) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -869,9 +869,9 @@ theorem cycle_not_finite_type_per_kQ
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin k) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
     intro m
-    exact ⟨cycleRepGen_kQ F k hk Q hOrient m,
-      cycleRepGen_kQ_isIndecomposable F k hk Q hOrient m,
-      cycleRepGen_kQ_dimVec F k hk Q hOrient m⟩
+    exact ⟨cycleRep_kQ F k hk Q hOrient m,
+      cycleRep_kQ_isIndecomposable F k hk Q hOrient m,
+      cycleRep_kQ_dimVec F k hk Q hOrient m⟩
   have hinj : Function.Injective (fun m : ℕ => (fun (_ : Fin k) => m + 1)) := by
     intro m₁ m₂ h
     have : m₁ + 1 = m₂ + 1 := congr_fun h ⟨0, by omega⟩
