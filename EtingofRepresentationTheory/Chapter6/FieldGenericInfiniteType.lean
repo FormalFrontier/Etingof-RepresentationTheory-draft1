@@ -14,6 +14,42 @@ any field F (or any algebraically closed field when needed).
 The key insight: all the indecomposability proofs use only linear algebra
 (nilpotent maps, kernel dimension, complementary subspaces). None of this
 requires ℂ specifically.
+
+## Naming conventions
+
+The Chapter 6 "field-generic" / "orientation-generic" wave introduces three
+suffix conventions side-by-side with the original ℂ-only names. Four
+categories are in use across this file,
+`Chapter6/FieldGenericETilde6.lean`, and `Chapter6/FieldGenericETilde7.lean`:
+
+* `_F` / `_gen` — **field-generic only.** Construction or theorem
+  parametrised by an arbitrary field `F` (often algebraically closed),
+  but specialised to the canonical orientation of the graph.
+  Representative examples: `cycleRepGen`, `cycleRepGen_dimVec`,
+  `cycle_not_finite_type_gen`, `starRepGen`, `starEmbed1_F`,
+  `starEmbedNilp_F`, `star_not_finite_type_F`.
+
+* `_kQ` — **data, parametrised by both `(F, Q)`.** A representation or
+  structure over any field `F` and any orientation `Q` of the underlying
+  graph. The `Q` argument selects per-edge directions, so each edge map
+  is built from forward/reverse maps depending on `Q`'s choice.
+  Representative examples: `cycleRep_kQ`, `etilde6Rep_kQ`,
+  `etilde7Rep_kQ`, `etilde6RepMap_kQ`, `etilde7RepMap_kQ`.
+
+* `_per_kQ` — **theorem stating a per-`(F, Q)` conclusion.** Typically
+  an infinite-type or indecomposability statement applied to the
+  `_kQ` data. Representative examples: `cycle_not_finite_type_per_kQ`,
+  `etilde6_not_finite_type_per_kQ`, `subgraph_infinite_type_transfer_per_kQ`.
+
+* (no suffix) — **original ℂ-only construction** living in
+  `Chapter6/InfiniteTypeConstructions.lean`. Representative examples:
+  `cycleRep`, `etilde6Rep`, `etilde7Rep`, `cycle_not_finite_type`,
+  `etilde6_not_finite_type`.
+
+When introducing a new item, pick the suffix matching what is actually
+generic: `_F`/`_gen` when only the field is generic, `_kQ` for `(F, Q)`
+data, `_per_kQ` for `(F, Q)`-quantified theorems, and no suffix for
+ℂ-only code in `InfiniteTypeConstructions.lean`.
 -/
 
 open scoped Matrix
