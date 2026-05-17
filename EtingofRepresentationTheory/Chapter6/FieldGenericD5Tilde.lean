@@ -332,6 +332,217 @@ theorem gamma_from_embed2_F (F : Type) [Field F] (m : ℕ) (y : Fin (m + 1) → 
       exact congr_arg y (Fin.ext (by simp; omega))
     · simp only [dif_neg h2]
 
+/-! ## Section 5b: Left-inverse identities for `starProj_F ∘ starEmbed_F`
+
+The `starProj_F` half-block projections are left inverses of the
+`starEmbed_F` half-block embeddings on their own half, and zero on the
+opposite half. These reduce later closed-form `d5tildeGammaInv_F`
+identity proofs to algebra over `cumTailSumLin` without re-doing
+entry-by-entry calculations. -/
+
+/-- `starProj1_F (starEmbed1_F x) = x`: first-half projection is a left
+inverse of first-half embedding. -/
+theorem starProj1_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj1_F F m (starEmbed1_F F m x) = x := by
+  ext ⟨i, hi⟩
+  simp only [starProj1_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk,
+    dif_pos hi]
+
+/-- `starProj1_F (starEmbed2_F x) = 0`: first-half projection vanishes on
+second-half embedding. -/
+theorem starProj1_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj1_F F m (starEmbed2_F F m x) = 0 := by
+  ext ⟨i, hi⟩
+  simp only [starProj1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk,
+    Pi.zero_apply, dif_neg (show ¬(m + 1 ≤ i) by omega)]
+
+/-- `starProj2_F (starEmbed2_F x) = x`: second-half projection is a left
+inverse of second-half embedding. -/
+theorem starProj2_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj2_F F m (starEmbed2_F F m x) = x := by
+  ext ⟨i, hi⟩
+  simp only [starProj2_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk,
+    dif_pos (show m + 1 ≤ m + 1 + i by omega)]
+  congr 1; ext; simp
+
+/-- `starProj2_F (starEmbed1_F x) = 0`: second-half projection vanishes
+on first-half embedding. -/
+theorem starProj2_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj2_F F m (starEmbed1_F F m x) = 0 := by
+  ext ⟨i, hi⟩
+  simp only [starProj2_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk,
+    Pi.zero_apply, dif_neg (show ¬(m + 1 + i < m + 1) by omega)]
+
+/-! ## Section 5c: `cumTailSumLin` closed form and the `(I - N)` inverse
+
+`cumTailSumLin` is `(I - nilpotentShiftLinGen)⁻¹`. We give an explicit
+closed form for its application (a right-tail sum) and prove the
+telescoping identity `M (v - N v) = v`, which is the only fact needed
+to invert `d5tildeGamma_F` on the two leaf-embedding patterns that
+appear in the per-(F, Q) D̃₅ indecomposability proof. -/
+
+/-- Closed-form right-tail sum:
+`cumTailSumLin F m v i = ∑_{j : Fin (m+1), i.val ≤ j.val} v j`. -/
+theorem cumTailSumLin_apply (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) (i : Fin (m + 1)) :
+    cumTailSumLin F m v i =
+      ∑ j ∈ Finset.univ.filter (fun j : Fin (m + 1) => i.val ≤ j.val), v j := by
+  simp only [cumTailSumLin, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+    cumTailSumMatrix, Finset.sum_filter, ite_mul, one_mul, zero_mul]
+
+/-- Boundary case for `cumTailSumLin`: at index `m`, the right-tail sum
+collapses to a single term `v ⟨m, _⟩`. -/
+theorem cumTailSumLin_apply_last (F : Type) [Field F] (m : ℕ) (v : Fin (m + 1) → F) :
+    cumTailSumLin F m v ⟨m, lt_add_one m⟩ = v ⟨m, lt_add_one m⟩ := by
+  rw [cumTailSumLin_apply]
+  apply Finset.sum_eq_single (⟨m, lt_add_one m⟩ : Fin (m + 1))
+  · intro j hj hjne
+    exfalso
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
+    have : j.val = m := le_antisymm (by have := j.isLt; omega) hj
+    exact hjne (Fin.ext this)
+  · intro habs
+    exfalso; apply habs; simp
+
+/-- Recursive step for `cumTailSumLin`: splits off the index-`i` term,
+yielding `M v ⟨i, _⟩ = v ⟨i, _⟩ + M v ⟨i + 1, _⟩` whenever `i + 1` is in
+range. -/
+theorem cumTailSumLin_apply_succ (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) (i : ℕ) (hi : i + 1 < m + 1) :
+    cumTailSumLin F m v ⟨i, by omega⟩ =
+      v ⟨i, by omega⟩ + cumTailSumLin F m v ⟨i + 1, hi⟩ := by
+  rw [cumTailSumLin_apply, cumTailSumLin_apply]
+  have hmem : (⟨i, by omega⟩ : Fin (m + 1)) ∈
+      Finset.univ.filter (fun j : Fin (m + 1) => i ≤ j.val) := by simp
+  rw [← Finset.sum_erase_add _ _ hmem, add_comm]
+  congr 1
+  apply Finset.sum_congr ?_ (fun _ _ => rfl)
+  ext j
+  simp only [Finset.mem_erase, Finset.mem_filter, Finset.mem_univ, true_and]
+  refine ⟨?_, ?_⟩
+  · rintro ⟨hne, hij⟩
+    have hne' : j.val ≠ i := fun h => hne (Fin.ext h)
+    omega
+  · intro hij
+    refine ⟨?_, by omega⟩
+    intro h
+    have hjv : j.val = i := by
+      have := congr_arg Fin.val h
+      simpa using this
+    omega
+
+/-- `cumTailSumLin` inverts `I - nilpotentShiftLinGen`: telescoping sum
+`M (v - N v) = v`. This is the key algebraic identity that makes
+`d5tildeGammaInv_F` a true two-sided inverse of `d5tildeGamma_F` on the
+leaf-embedding patterns.
+
+Proof: reverse induction on `i.val`. Base case `i.val = m` uses
+`cumTailSumLin_apply_last`; the inductive step uses
+`cumTailSumLin_apply_succ` to split off the index-`i` term, the closed
+form for `nilpotentShiftLinGen`, and the induction hypothesis at
+`i + 1`. -/
+theorem cumTailSumLin_oneSubNilp (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) :
+    cumTailSumLin F m (v - nilpotentShiftLinGen F m v) = v := by
+  -- Closed form for `nilpotentShiftLinGen F m v`.
+  have hN : ∀ j : Fin (m + 1), nilpotentShiftLinGen F m v j =
+      if h : j.val + 1 < m + 1 then v ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext ⟨i, hi⟩
+  -- Reverse induction on `m - i` (equivalently, induct on `k = m - i` going
+  -- from `0` (i.e. `i = m`) up to `m` (i.e. `i = 0`)).
+  suffices key : ∀ k : ℕ, ∀ i' (hi' : i' < m + 1), i' + k = m →
+      cumTailSumLin F m (v - nilpotentShiftLinGen F m v) ⟨i', hi'⟩ = v ⟨i', hi'⟩ from
+    key (m - i) i hi (by omega)
+  intro k
+  induction k with
+  | zero =>
+    intro i' hi' heq
+    have hi_eq_m : i' = m := by omega
+    subst hi_eq_m
+    have hidx : (⟨i', hi'⟩ : Fin (i' + 1)) = ⟨i', lt_add_one i'⟩ := rfl
+    rw [hidx, cumTailSumLin_apply_last, Pi.sub_apply, hN]
+    simp only [show ¬(i' + 1 < i' + 1) by omega, dite_false, sub_zero]
+  | succ n ih =>
+    intro i' hi' heq
+    have hi1 : i' + 1 < m + 1 := by omega
+    rw [cumTailSumLin_apply_succ _ _ _ _ hi1]
+    rw [ih (i' + 1) hi1 (by omega)]
+    rw [Pi.sub_apply, hN]
+    simp only [dif_pos hi1]
+    ring
+
+/-! ## Section 5d: Closed-form `d5tildeGammaInv_F` identities on leaf-embedding patterns
+
+These are the two key identities for handling the reversed `{2, 3}`
+edge direction in the per-(F, Q) D̃₅ indecomposability proof: they
+collapse `d5tildeGammaInv_F` applied to the patterns produced by
+`gamma_from_embed1_F` and `gamma_from_embed2_F` back to a single
+`starEmbed_i_F` term.
+
+The ℂ source `d5tildeRep_isIndecomposable`
+(`InfiniteTypeConstructions.lean:1569-1913`) uses `d5tildeGamma` in the
+forward direction only, so it does **not** need these identities; they
+are new obligations introduced by the per-(F, Q) generalization
+(specifically, by the reversed `{2, 3}` edge case). -/
+
+/-- Closed-form γ⁻¹ identity (case (x, x)):
+`γ⁻¹(starEmbed1_F x + starEmbed2_F x) = starEmbed1_F x`.
+
+Derivation: with `w = starEmbed1_F x + starEmbed2_F x`, the
+projections give `P1 w = x` and `P2 w = x`, so the second-block output
+`y_out = M (x - x) = 0` and the first-block output
+`x_out = P1 w - y_out = x`. -/
+theorem gammaInv_embed1_plus_embed2_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    d5tildeGammaInv_F F m (starEmbed1_F F m x + starEmbed2_F F m x) =
+      starEmbed1_F F m x := by
+  have hP1 : starProj1_F F m (starEmbed1_F F m x + starEmbed2_F F m x) = x := by
+    rw [map_add, starProj1_F_starEmbed1_F, starProj1_F_starEmbed2_F, add_zero]
+  have hP2 : starProj2_F F m (starEmbed1_F F m x + starEmbed2_F F m x) = x := by
+    rw [map_add, starProj2_F_starEmbed1_F, starProj2_F_starEmbed2_F, zero_add]
+  simp only [d5tildeGammaInv_F, LinearMap.add_apply, LinearMap.comp_apply,
+    LinearMap.sub_apply]
+  rw [hP1, hP2, sub_self, map_zero, sub_zero, map_zero, add_zero]
+
+/-- Closed-form γ⁻¹ identity (case (y, N y)):
+`γ⁻¹(starEmbed1_F y + starEmbed2_F (N y)) = starEmbed2_F y`.
+
+Derivation: with `w = starEmbed1_F y + starEmbed2_F (N y)`, the
+projections give `P1 w = y` and `P2 w = N y`, so the second-block output
+`y_out = M (y - N y) = y` (via `cumTailSumLin_oneSubNilp`) and the
+first-block output `x_out = P1 w - y_out = 0`. -/
+theorem gammaInv_embed1_plus_embedNshift_F (F : Type) [Field F] (m : ℕ)
+    (y : Fin (m + 1) → F) :
+    d5tildeGammaInv_F F m
+        (starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y)) =
+      starEmbed2_F F m y := by
+  have hP1 : starProj1_F F m
+      (starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y)) = y := by
+    rw [map_add, starProj1_F_starEmbed1_F, starProj1_F_starEmbed2_F, add_zero]
+  have hP2 : starProj2_F F m
+      (starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y)) =
+      nilpotentShiftLinGen F m y := by
+    rw [map_add, starProj2_F_starEmbed1_F, starProj2_F_starEmbed2_F, zero_add]
+  simp only [d5tildeGammaInv_F, LinearMap.add_apply, LinearMap.comp_apply,
+    LinearMap.sub_apply]
+  rw [hP1, hP2, cumTailSumLin_oneSubNilp, sub_self, map_zero, zero_add]
+
 /-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
 
 The orientation-generic indecomposability proof is structurally the
