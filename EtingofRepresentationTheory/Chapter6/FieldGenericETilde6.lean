@@ -233,4 +233,97 @@ theorem etilde6Rep_kQ_dimVec
       (etilde6Rep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (etilde6Dim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 4: Indecomposability (path b: inherits the wave-54 framework wall)
+
+The ℂ-specific source `etilde6v2Rep_isIndecomposable`
+(`InfiniteTypeConstructions.lean:3331`) is `sorry`'d due to the wave-54
+framework wall: the single-nilpotent-twist construction is decomposable for
+every `m ≥ 1` because the N-twist only covers the `⟨e₀, …, e_{m-1}⟩`
+sub-block of its target, leaving the `e_m` direction free to peel off as a
+1-dim summand at the center. See
+`progress/indecomposability-framework-investigation.md` (Section 1) for the
+explicit counter-example (verified at `etilde6v2Rep 1`).
+
+Per #2807, we follow path (b): mirror the ℂ-specific stub at the
+orientation-generic level, carrying the same `sorry` with a docstring
+tying it to the framework wall. The final per-(F, Q) theorem
+`etilde6_not_finite_type_per_kQ` below depends transitively on this
+sorry, exactly as the ℂ-specific `etilde6_not_finite_type` depends on
+`etilde6v2Rep_isIndecomposable`.
+-/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Orientation-generic indecomposability of `etilde6Rep_kQ`.
+
+**Framework wall (wave 54)**: this theorem inherits the same wall that
+blocks the ℂ-specific source `etilde6v2Rep_isIndecomposable`
+(`InfiniteTypeConstructions.lean:3331`): the single-nilpotent-twist
+construction is provably decomposable for every `m ≥ 1` (the N-twist only
+covers the `⟨e₀, …, e_{m-1}⟩` sub-block of its target, leaving `e_m`
+free). See `progress/indecomposability-framework-investigation.md`
+(Section 1) for the explicit counter-example and Section 5 Option B for a
+sketched stronger construction. The `1 ≤ m` hypothesis is required even
+in the planned proof — for `m = 0`, `nilpotentShiftLin 0 = 0`, the
+nilpotent twist disappears and the representation is provably
+decomposable (see the comment at
+`InfiniteTypeConstructions.lean:3322-3328`).
+
+The current proof is a `sorry`; the consumer `etilde6_not_finite_type_per_kQ`
+inherits this dependency. This is path (b) of #2807 — a follow-up
+issue will revisit when the framework question is resolved. -/
+theorem etilde6Rep_kQ_isIndecomposable
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q etilde6Adj)
+    (m : ℕ) (hm : 1 ≤ m) :
+    (etilde6Rep_kQ F Q hOrient m).IsIndecomposable := by
+  let _ := hm  -- retain `hm` in the signature for the future proof
+  sorry
+
+/-! ## Section 5: Per-(F, Q) infinite-type theorem -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) version of `etilde6_not_finite_type`: for any
+algebraically closed field `F` and any orientation `Q` of `etilde6Adj`,
+the set of dimension vectors of indecomposable representations is
+infinite.
+
+Mirrors the proof of `etilde6_not_finite_type`
+(`InfiniteTypeConstructions.lean:3354`): we range over `m + 1` (not `m`)
+because `etilde6Rep_kQ_isIndecomposable` requires `1 ≤ m` (the `m = 0`
+case is provably decomposable). Injectivity comes from vertex `0`, where
+`etilde6Dim m 0 = 3 * (m + 1)`.
+
+This theorem carries no direct `sorry`, but transitively depends on
+`etilde6Rep_kQ_isIndecomposable`, which inherits the wave-54 framework
+wall — see its docstring. -/
+theorem etilde6_not_finite_type_per_kQ
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q etilde6Adj) :
+    ¬ Set.Finite
+      {d : Fin 7 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 7) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  intro hfin
+  have hmem : ∀ m : ℕ, (fun v : Fin 7 => etilde6Dim (m + 1) v) ∈
+      {d : Fin 7 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 7) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro m
+    exact ⟨etilde6Rep_kQ F Q hOrient (m + 1),
+      etilde6Rep_kQ_isIndecomposable F Q hOrient (m + 1) (Nat.succ_le_succ m.zero_le),
+      etilde6Rep_kQ_dimVec F Q hOrient (m + 1)⟩
+  have hinj : Function.Injective (fun m : ℕ => fun v : Fin 7 => etilde6Dim (m + 1) v) := by
+    intro m₁ m₂ h
+    have h0 := congr_fun h ⟨0, by omega⟩
+    simp only [etilde6Dim] at h0
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+
 end Etingof
