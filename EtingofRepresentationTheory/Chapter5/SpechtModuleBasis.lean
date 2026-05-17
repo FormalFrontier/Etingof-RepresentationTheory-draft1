@@ -1811,6 +1811,36 @@ private theorem twistedIHPart_mem_span
     exact ih _ (perQTau_colStandard σ w q.val)
       (Or.inr ⟨srRank_eq_of_toTabloid_eq hq_eq.1, hq_eq.2⟩)
 
+/-- **`twistedIHPart` as a signed polytabloid sum** (Wall 3 R3-bis side-quest,
+issue #2776).
+
+The column-restandardizer `γ_q := garnirColReindex σ w q` drops out from the
+body of the `twistedIHPart` sum: by `garnirColReindex_polytabloid_eq` we have
+`ψ_{w q⁻¹ σ} = sign(γ_q) • ψ_{γ_q · (w q⁻¹ σ)} = sign(γ_q) • ψ_{τ_q}`, and the
+two `sign(γ_q)` factors collapse via `sign² = 1`. Hence
+
+`twistedIHPart σ w = Σ_{q ∈ perQ_low ∪ perQ_eq} sign(q) • ψ_{w q⁻¹ σ}`.
+
+The remaining `γ`-dependence is purely in the region membership classification
+`q ∈ perQ_low ∪ perQ_eq` (via `[τ_q]`). The body of the sum no longer mentions
+`γ_q` or `perQTau`.
+
+This form is preferred for the residual calculation `Δ := f_w(σ) - twistedIHPart`
+in R2.b: `f_w(σ) = Σ_{q ∈ Q_λ} sign(q) δ_{[w q⁻¹ σ]}`, so subtracting
+`twistedIHPart` rewritten via this lemma exposes the structural cancellation
+between `δ_{[w q⁻¹ σ]}` and `ψ_{w q⁻¹ σ}` directly. -/
+private theorem twistedIHPart_eq_signed_polytabloid_sum
+    (σ w : Equiv.Perm (Fin n)) :
+    twistedIHPart (la := la) σ w =
+      ∑ q ∈ perQ_low (la := la) σ w ∪ perQ_eq (la := la) σ w,
+        ((↑(↑(Equiv.Perm.sign q.val) : ℤ) : ℂ)) •
+          generalizedPolytabloidTab (n := n) (la := la) (w * q.val⁻¹ * σ) := by
+  classical
+  unfold twistedIHPart
+  refine Finset.sum_congr rfl fun q _ => ?_
+  unfold perQTau
+  rw [mul_smul, ← garnirColReindex_polytabloid_eq]
+
 /-- **R2.a — Per-q decomposition of the twisted polytabloid.** For column-
 standard `σ` and arbitrary `w`, given the standard outer/inner IH on
 `(srRank, rowInvCount')`, the twisted polytabloid `f_w(σ)` decomposes as
