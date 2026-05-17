@@ -636,4 +636,247 @@ theorem star_not_finite_type_F (F : Type) [Field F] :
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+/-! ## Section 5: Shared infrastructure for per-(k,Q) constructions
+
+The remaining six per-(field, orientation) sub-issues
+(#2787-#2793, decomposed from #2773) all rely on the same complementary-pair
+algebra: an identity arrow `e : a → b` in a quiver representation forces
+`W₁ a ≤ W₁ b` and `W₂ a ≤ W₂ b` (or the reverse, if Q reverses the arrow).
+`compl_le_forces_eq` collapses the asymmetric inclusion to subspace
+equality at both ends, so the constancy of `W₁`/`W₂` along an undirected
+path is independent of how each individual arrow is oriented.
+-/
+
+/-- If `(W₁_a, W₂_a)` and `(W₁_b, W₂_b)` are both complementary pairs in a
+finite-dimensional space, and `W₁_a ≤ W₁_b`, `W₂_a ≤ W₂_b`, then both
+inclusions are equalities. Used in the per-(field, orientation) refactor of
+the forbidden-subgraph constructions: identity arrows force subspace
+equality regardless of arrow direction.
+
+The four submodules are passed explicitly: when the carrier `V` arises as
+`(cycleRepGen_kQ …).obj a` (a struct projection that does not always
+reduce), implicit-argument inference cannot align them across the two
+complementary-pair hypotheses. -/
+theorem compl_le_forces_eq
+    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
+    [Module.Finite F V]
+    (W₁_a W₂_a W₁_b W₂_b : Submodule F V)
+    (hcompl_a : IsCompl W₁_a W₂_a) (hcompl_b : IsCompl W₁_b W₂_b)
+    (h1 : W₁_a ≤ W₁_b) (h2 : W₂_a ≤ W₂_b) :
+    W₁_a = W₁_b ∧ W₂_a = W₂_b := by
+  have h_sum_a : Module.finrank F W₁_a + Module.finrank F W₂_a = Module.finrank F V :=
+    Submodule.finrank_add_eq_of_isCompl hcompl_a
+  have h_sum_b : Module.finrank F W₁_b + Module.finrank F W₂_b = Module.finrank F V :=
+    Submodule.finrank_add_eq_of_isCompl hcompl_b
+  have h_le₁ : Module.finrank F W₁_a ≤ Module.finrank F W₁_b := Submodule.finrank_mono h1
+  have h_le₂ : Module.finrank F W₂_a ≤ Module.finrank F W₂_b := Submodule.finrank_mono h2
+  have h_eq₁ : Module.finrank F W₁_a = Module.finrank F W₁_b := by omega
+  have h_eq₂ : Module.finrank F W₂_a = Module.finrank F W₂_b := by omega
+  exact ⟨Submodule.eq_of_le_of_finrank_eq h1 h_eq₁,
+         Submodule.eq_of_le_of_finrank_eq h2 h_eq₂⟩
+
+/-! ## Section 6: Orientation-generic cycle representation -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Orientation-generic cycle representation. At each vertex the space is
+`Fin (m+1) → F`. The "closing edge" (between vertices `0` and `k-1`)
+carries the nilpotent shift; all other arrows carry the identity. The
+closing edge is detected from the pair `{a.val, b.val}`, not the arrow
+direction, so the construction works for any orientation `Q` of the cycle
+adjacency matrix `cycleAdj k hk`. -/
+noncomputable def cycleRepGen_kQ
+    (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
+    (Q : @Quiver.{0, 0} (Fin k))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
+    (_ : @Etingof.IsOrientationOf k Q (cycleAdj k hk))
+    (m : ℕ) :
+    @Etingof.QuiverRepresentation F (Fin k) _ Q := by
+  letI := Q
+  exact { obj := fun _ => Fin (m + 1) → F
+          mapLinear := fun {a b} _ =>
+            if (a.val = 0 ∧ b.val = k - 1) ∨ (a.val = k - 1 ∧ b.val = 0) then
+              nilpotentShiftLinGen F m
+            else
+              LinearMap.id }
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem cycleRepGen_kQ_isIndecomposable
+    (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
+    (Q : @Quiver.{0, 0} (Fin k))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf k Q (cycleAdj k hk))
+    (m : ℕ) :
+    (cycleRepGen_kQ F k hk Q hOrient m).IsIndecomposable := by
+  obtain ⟨_, hOrient_edge, _⟩ := hOrient
+  constructor
+  · refine ⟨⟨0, by omega⟩, ?_⟩
+    change Nontrivial (Fin (m + 1) → F)
+    infer_instance
+  · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+    -- Step 1: each adjacent pair (i, i+1) with i+1 < k yields W₁ i = W₁ (i+1).
+    -- Either the arrow in Q goes i → i+1 (identity map gives W₁ i ≤ W₁ (i+1))
+    -- or i+1 → i (gives W₁ (i+1) ≤ W₁ i). Either way `compl_le_forces_eq`
+    -- collapses to equality.
+    have h_eq_succ : ∀ (i : ℕ) (hi : i + 1 < k),
+        W₁ ⟨i, by omega⟩ = W₁ ⟨i + 1, hi⟩ ∧ W₂ ⟨i, by omega⟩ = W₂ ⟨i + 1, hi⟩ := by
+      intro i hi
+      set a : Fin k := ⟨i, by omega⟩
+      set b : Fin k := ⟨i + 1, hi⟩
+      have ha_val : a.val = i := rfl
+      have hb_val : b.val = i + 1 := rfl
+      have h_adj_ab : cycleAdj k hk a b = 1 := by
+        simp only [cycleAdj]
+        rw [if_pos]
+        left
+        show b.val = (a.val + 1) % k
+        rw [hb_val, ha_val, Nat.mod_eq_of_lt hi]
+      have h_not_closing_ab :
+          ¬ ((a.val = 0 ∧ b.val = k - 1) ∨ (a.val = k - 1 ∧ b.val = 0)) := by
+        rintro (⟨h1, h2⟩ | ⟨h1, h2⟩) <;> omega
+      have h_not_closing_ba :
+          ¬ ((b.val = 0 ∧ a.val = k - 1) ∨ (b.val = k - 1 ∧ a.val = 0)) := by
+        rintro (⟨h1, h2⟩ | ⟨h1, h2⟩) <;> omega
+      rcases hOrient_edge a b h_adj_ab with hQab | hQba
+      · -- arrow a → b in Q; mapLinear e = id
+        obtain ⟨e⟩ := hQab
+        have h_inv₁ : W₁ a ≤ W₁ b := fun x hx => by
+          have h := hW₁_inv e x hx
+          simp only [cycleRepGen_kQ, if_neg h_not_closing_ab, LinearMap.id_coe, id_eq] at h
+          exact h
+        have h_inv₂ : W₂ a ≤ W₂ b := fun x hx => by
+          have h := hW₂_inv e x hx
+          simp only [cycleRepGen_kQ, if_neg h_not_closing_ab, LinearMap.id_coe, id_eq] at h
+          exact h
+        exact compl_le_forces_eq (V := Fin (m + 1) → F) (W₁ a) (W₂ a) (W₁ b) (W₂ b)
+          (hcompl a) (hcompl b) h_inv₁ h_inv₂
+      · -- arrow b → a in Q; mapLinear e = id
+        obtain ⟨e⟩ := hQba
+        have h_inv₁ : W₁ b ≤ W₁ a := fun x hx => by
+          have h := hW₁_inv e x hx
+          simp only [cycleRepGen_kQ, if_neg h_not_closing_ba, LinearMap.id_coe, id_eq] at h
+          exact h
+        have h_inv₂ : W₂ b ≤ W₂ a := fun x hx => by
+          have h := hW₂_inv e x hx
+          simp only [cycleRepGen_kQ, if_neg h_not_closing_ba, LinearMap.id_coe, id_eq] at h
+          exact h
+        have ⟨h1, h2⟩ := compl_le_forces_eq (V := Fin (m + 1) → F)
+          (W₁ b) (W₂ b) (W₁ a) (W₂ a)
+          (hcompl b) (hcompl a) h_inv₁ h_inv₂
+        exact ⟨h1.symm, h2.symm⟩
+    -- Step 2: W₁ and W₂ are constant across all vertices.
+    have h_const : ∀ (v : Fin k),
+        W₁ v = W₁ ⟨0, by omega⟩ ∧ W₂ v = W₂ ⟨0, by omega⟩ := by
+      rintro ⟨i, hi⟩
+      induction i with
+      | zero => exact ⟨rfl, rfl⟩
+      | succ n ih =>
+        have ihn := ih (by omega)
+        have h_step := h_eq_succ n hi
+        exact ⟨h_step.1.symm.trans ihn.1, h_step.2.symm.trans ihn.2⟩
+    -- Step 3: At the closing edge, the nilpotent shift preserves both W₁ and W₂
+    -- at vertex 0 (using constancy from Step 2).
+    set z : Fin k := ⟨0, by omega⟩
+    set last : Fin k := ⟨k - 1, by omega⟩
+    have h_adj_closing : cycleAdj k hk z last = 1 := by
+      simp only [cycleAdj]
+      rw [if_pos]
+      right
+      show z.val = (last.val + 1) % k
+      simp only [z, last]
+      rw [show k - 1 + 1 = k from by omega, Nat.mod_self]
+    rcases hOrient_edge z last h_adj_closing with hQzl | hQlz
+    · -- arrow z → last; mapLinear e = nilpotentShiftLinGen
+      obtain ⟨e⟩ := hQzl
+      have h_close_zl :
+          (z.val = 0 ∧ last.val = k - 1) ∨ (z.val = k - 1 ∧ last.val = 0) := by
+        left; refine ⟨rfl, rfl⟩
+      have h_shift₁ : ∀ x ∈ W₁ z, nilpotentShiftLinGen F m x ∈ W₁ z := by
+        intro x hx
+        have h := hW₁_inv e x hx
+        simp only [cycleRepGen_kQ, if_pos h_close_zl] at h
+        rw [(h_const last).1] at h
+        exact h
+      have h_shift₂ : ∀ x ∈ W₂ z, nilpotentShiftLinGen F m x ∈ W₂ z := by
+        intro x hx
+        have h := hW₂_inv e x hx
+        simp only [cycleRepGen_kQ, if_pos h_close_zl] at h
+        rw [(h_const last).2] at h
+        exact h
+      have hres := nilpotent_invariant_compl_trivial_gen
+        (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+        (nilpotentShiftLinGen_ker_finrank F m)
+        (W₁ z) (W₂ z) h_shift₁ h_shift₂ (hcompl z)
+      rcases hres with h | h
+      · left; intro v; exact (h_const v).1.trans h
+      · right; intro v; exact (h_const v).2.trans h
+    · -- arrow last → z; mapLinear e = nilpotentShiftLinGen
+      obtain ⟨e⟩ := hQlz
+      have h_close_lz :
+          (last.val = 0 ∧ z.val = k - 1) ∨ (last.val = k - 1 ∧ z.val = 0) := by
+        right; refine ⟨rfl, rfl⟩
+      have h_shift₁ : ∀ x ∈ W₁ z, nilpotentShiftLinGen F m x ∈ W₁ z := by
+        intro x hx
+        rw [(h_const last).1.symm] at hx
+        have h := hW₁_inv e x hx
+        simp only [cycleRepGen_kQ, if_pos h_close_lz] at h
+        exact h
+      have h_shift₂ : ∀ x ∈ W₂ z, nilpotentShiftLinGen F m x ∈ W₂ z := by
+        intro x hx
+        rw [(h_const last).2.symm] at hx
+        have h := hW₂_inv e x hx
+        simp only [cycleRepGen_kQ, if_pos h_close_lz] at h
+        exact h
+      have hres := nilpotent_invariant_compl_trivial_gen
+        (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+        (nilpotentShiftLinGen_ker_finrank F m)
+        (W₁ z) (W₂ z) h_shift₁ h_shift₂ (hcompl z)
+      rcases hres with h | h
+      · left; intro v; exact (h_const v).1.trans h
+      · right; intro v; exact (h_const v).2.trans h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem cycleRepGen_kQ_dimVec
+    (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
+    (Q : @Quiver.{0, 0} (Fin k))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf k Q (cycleAdj k hk))
+    (m : ℕ) (v : Fin k) :
+    Nonempty (@Etingof.QuiverRepresentation.obj F (Fin k) _
+      Q (cycleRepGen_kQ F k hk Q hOrient m) v ≃ₗ[F] (Fin (m + 1) → F)) :=
+  ⟨LinearEquiv.refl F _⟩
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) version of `cycle_not_finite_type_gen`:
+for any field `F`, any size `k ≥ 3`, and any orientation `Q` of the cycle
+graph on `k` vertices, the set of dimension vectors of indecomposable
+representations is infinite. -/
+theorem cycle_not_finite_type_per_kQ
+    (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k)
+    (Q : @Quiver.{0, 0} (Fin k))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin k) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf k Q (cycleAdj k hk)) :
+    ¬ Set.Finite
+      {d : Fin k → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin k) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  intro hfin
+  have hmem : ∀ m : ℕ, (fun (_ : Fin k) => m + 1) ∈
+      {d : Fin k → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin k) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro m
+    exact ⟨cycleRepGen_kQ F k hk Q hOrient m,
+      cycleRepGen_kQ_isIndecomposable F k hk Q hOrient m,
+      cycleRepGen_kQ_dimVec F k hk Q hOrient m⟩
+  have hinj : Function.Injective (fun m : ℕ => (fun (_ : Fin k) => m + 1)) := by
+    intro m₁ m₂ h
+    have : m₁ + 1 = m₂ + 1 := congr_fun h ⟨0, by omega⟩
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+
 end Etingof
