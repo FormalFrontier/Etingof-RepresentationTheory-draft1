@@ -5,25 +5,44 @@ items as GitHub issues, then exit. You do NOT execute any code changes.
 
 ## Step 1: Orient
 
-1. `git fetch origin main`
+1. `git fetch origin master`
 2. `coordination orient` — see open issues (claimed and unclaimed), PRs, attention items
 3. Read the last 5 files in `progress/` (sorted by filename) to understand recent work
 4. Read the project's roadmap document to understand current phase
 5. Record quality metrics as described in the project's CLAUDE.md
 
-## Step 1b: Check for human oversight directives
+## Step 1b: Check for directives
 
-Before creating any new work, check for open `human-oversight` issues:
+Before creating any new work, check for open `directive` issues:
 ```
-gh issue list --label human-oversight --state open --json number,title,labels \
+gh issue list --label directive --state open --json number,title,labels \
     --jq '.[] | select(.labels | all(.name != "has-pr")) | "#\(.number) \(.title)"'
 ```
 
-These are direct instructions from the project owner. Treat them as highest priority:
-- **Do not create issues that overlap with or supersede a `human-oversight` issue**
-- **Do not close `human-oversight` issues** — only the owner closes them
-- **Do not add `replan` to `human-oversight` issues** — they stay open until done
-- If a `human-oversight` issue is already claimed, continue to Step 2 (workers are on it)
+These are direct instructions from the project owner — work flowing
+*down* from the human, not work awaiting human attention. Treat them as
+highest priority:
+- **Do not create issues that overlap with or supersede a `directive`**
+- **Close a `directive` when its deliverables are merged.** If you
+  decompose it into sub-issues, the parent stays open until every
+  sub-issue closes; close the parent yourself once the chain is done.
+  Do **not** leave a directive open with a "for owner closure" note.
+- **Do not add `replan` to a `directive`** — if it is genuinely blocked,
+  say so in a comment and leave the claim. The replan triage loop
+  intentionally skips directives.
+- **Do not hand-apply `has-pr` to a `directive`** to "park" it while
+  sub-issues do the work. `has-pr` is owned by `coordination create-pr`
+  alone — applied automatically when a PR with `Closes #N` is opened,
+  removed automatically when GitHub auto-closes the issue on merge.
+  Manual application desynchronises the label from any real PR; when
+  the partial PR merges (without `Closes #N`) the issue stays `has-pr`
+  forever and is silently excluded from the work queue. To park a
+  decomposed directive cleanly, run
+  `coordination add-dep <directive> <sub-issue>` for each open
+  sub-issue: the directive becomes `blocked` and auto-unblocks when all
+  subs close. The housekeeping cycle (`check-has-pr`, `check-blocked`)
+  will remove orphan labels and post an audit comment.
+- If a `directive` is already claimed, continue to Step 2 (workers are on it)
 - If unclaimed, prioritise creating any supporting infrastructure issues first, then exit
   — the next worker will claim the directive itself
 
@@ -43,25 +62,11 @@ gh pr list --state open \
 
 Never skip this step. Downstream agents are blocked on `main` until merged PRs land.
 
-## Step 3: Triage `replan` issues (before creating new work)
+Replan triage is handled by `/replan`, which dispatch always runs
+before `/plan` when there are `replan`-labelled candidates. Do not
+duplicate that work here.
 
-Fetch the list:
-```
-gh issue list --label replan --state open --json number,title,body \
-    --jq '.[] | "### #\(.number) \(.title)\n\(.body)\n"'
-```
-
-Process **all** replan issues before creating any new issues.
-For each, exactly one of:
-- **Work already done** (a subsequent PR merged it): close with a note
-- **Plan stale / approach changed**: create a corrected replacement issue, close original linking forward
-- **Partial progress**: create issue for remaining deliverables, close original linking forward
-- **Still valid, body still accurate**: remove the `replan` label (`gh issue edit N --remove-label replan`) to re-open for workers
-- **Still valid, body stale**: update the issue body with current state, then remove the `replan` label
-
-**Never delegate replan triage to a worker** — that is the planner's job.
-
-## Step 4: Create fix issues for broken PRs
+## Step 3: Create fix issues for broken PRs
 
 Check for PRs with merge conflicts or failing CI:
 ```bash
@@ -81,24 +86,23 @@ gh issue list --label agent-plan --state open --json number,title \
 If no fix issue exists, **create one immediately** using `coordination plan`.
 These fix issues take priority over all new feature work.
 
-## Step 5: Understand existing plans
+## Step 4: Understand existing plans
 
 Read the **full body** of every open `agent-plan` issue:
 ```
-gh issue list --label agent-plan --state open --limit 20 \
+pod _filter-trusted-issues --label agent-plan --state open --limit 20 \
     --json number,title,body --jq '.[] | "### #\(.number) \(.title)\n\(.body)\n"'
 ```
 
 Understand what's already planned at the **deliverable level**, not just the title.
 Your work item MUST NOT overlap with any existing issue's deliverables.
 
-## Step 6: Write new issues
+## Step 5: Write new issues
 
-Work types: **`feature`**, **`review`**, **`summarize`**, **`meditate`**.
+Work types: **`feature`**, **`review`**, **`summarize`**.
 Target roughly 2:1 feature:review during implementation; 1:1 during cleanup.
 
 **Summarize trigger**: when 10+ PRs merged since last summarize issue closed.
-**Meditate trigger**: when 15+ PRs merged since last meditate issue closed.
 
 Each issue body MUST be **self-contained**:
 - **Current state**, **Deliverables**, **Context**, **Verification**
@@ -118,12 +122,18 @@ stage, follow them. The goal is many small, independent issues — not one large
 issue per stage.
 
 If you cannot yet determine the scope of a stage because it depends on earlier
-output (e.g., item discovery), create the issue for the whole stage but include
-a note in the body: **"This issue needs decomposition: once the prerequisite is
-complete, the claiming worker should
-`coordination skip N 'needs decomposition into per-item sub-issues'` so the
-planner can create properly-scoped sub-issues."** This keeps issue creation under
-planner locking and overlap protection. Never ask workers to create issues directly.
+output (e.g., item discovery), it is fine to create the issue for the whole
+stage. **Workers are allowed and encouraged to decompose oversized issues
+themselves** — they have the freshest codebase context and can usually scope
+sub-tasks more accurately than you can in advance. See the `agent-worker-flow`
+skill's "Assess Scope" step for the worker-side mechanics.
+
+If you specifically want planner-led decomposition (e.g., the split needs
+cross-issue coordination you can see and the worker cannot), include a note in
+the body asking the claiming worker to
+`coordination skip N 'needs planner decomposition: <reason>'` instead of
+splitting it themselves. Default is worker-led decomposition; require
+planner-led only when there is a clear reason.
 
 **Critical-path issues**: When you create an issue that blocks all other planned
 work (e.g., the first issue in a sequential pipeline, or a bottleneck that many
@@ -135,7 +145,17 @@ This tells the dispatcher to assign a worker immediately, bypassing the normal
 queue-size threshold. Use sparingly — only for genuine pipeline bottlenecks where
 no other useful work can proceed until this issue is done.
 
-**Queue health**: keep <3 unclaimed → create unblocked work.
+**How many issues to create**: the dispatcher exports `POD_MIN_QUEUE`,
+`POD_QUEUE_DEPTH`, and `POD_QUEUE_DEFICIT` (= target unclaimed minus current
+unclaimed). Your target for this cycle is roughly `POD_QUEUE_DEFICIT` new
+atomic issues, capped at **10** so a single planner doesn't run too long or
+exhaust context. If the deficit is 0 or negative, create no new issues and
+exit. If the deficit is large, prefer breadth — one small issue per
+independent unit — over depth; leftover deficit will be handled by the next
+planner cycle. The previous "keep under 3 unclaimed" rule is obsolete: the
+dispatcher runs a planner exactly when the queue drops below `min_queue`, so
+refilling to that level is the whole job.
+
 No transitive blocking. Keep work types mixed.
 
 After writing, re-fetch open issues to check for overlap:
@@ -144,37 +164,39 @@ gh issue list --label agent-plan --state open --limit 20 \
     --json number,title --jq '.[].title'
 ```
 
-## Step 7: Post and exit
+## Step 6: Post and exit
 
 For each issue, write the plan body to `plans/<UUID-prefix>-N.md`, then post:
 ```
-coordination plan --label <feature|review|summarize|meditate> "title" < plans/<UUID-prefix>-N.md
+coordination plan --label <feature|review|summarize> "title" < plans/<UUID-prefix>-N.md
 ```
 
-**Adjusting agent pool size**: After assessing the project state, use these
-commands to tell the dispatcher what you think is appropriate:
-- `coordination set-target N` — recommend N agents for this project (pod uses
-  min of your recommendation and the user's configured maximum)
-- `coordination set-min-queue N` — recommend min_queue of N (pod uses min of
-  your recommendation and the config value, floored at 1)
+**Agent pool sizing**: By default, do NOT call `coordination set-target`.
+The operator configured it; the advisory merge is `min(config, advisory)`,
+so calling it can only *shrink* the pool, never grow it — and shrinking
+mid-project starves workers.
 
-Set target based on how much parallelisable work exists. Set min_queue based on
-how far ahead you want planning to stay (typically 2-3 during active development,
-1 during sequential bottlenecks).
+Use it only when the project is actually winding down. Two cases:
 
-**If you created zero new issues** but work is still in-flight (claimed issues,
-open PRs, blocked issues): set target to the number of currently claimed issues
-(workers already running) and set min_queue to 1.
+- **Fully converged** (zero unclaimed, zero claimed, zero broken PRs, and
+  you created no new issues because there is nothing left to plan):
+  `coordination return-to-human`. Verify all three are zero first:
+  ```bash
+  coordination queue-depth
+  gh issue list --label claimed --state open --json number --jq 'length'
+  gh pr list --state open --json number,mergeable,statusCheckRollup \
+    --jq '[.[] | select(.mergeable == "CONFLICTING" or (.statusCheckRollup | any(.conclusion == "FAILURE")))] | length'
+  ```
 
-**If zero new issues AND nothing in-flight** (no unclaimed, no claimed, no
-broken PRs): `coordination return-to-human` (signals the pod TUI to stop
-spawning agents). Verify all three are zero first:
-```bash
-coordination queue-depth
-gh issue list --label claimed --state open --json number --jq 'length'
-gh pr list --state open --json number,mergeable,statusCheckRollup \
-  --jq '[.[] | select(.mergeable == "CONFLICTING" or (.statusCheckRollup | any(.conclusion == "FAILURE")))] | length'
-```
+- **Tail** (only a small number of in-flight streams remain and further
+  planning genuinely depends on their outcome): `coordination set-target N`
+  where N = currently claimed issues. Narrows the pool as you wrap up.
+
+Any other case — including a cycle where you happened to create few or
+zero issues during active development — leave `set-target` alone.
+
+Do **not** call `coordination set-min-queue`. That command is for the
+operator, not the planner.
 
 Then exit. Do NOT execute any code changes.
 
