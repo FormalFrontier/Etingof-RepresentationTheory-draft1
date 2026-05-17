@@ -2082,6 +2082,160 @@ private theorem youngSym_trace_kronecker' (n : ℕ) (la la' : Nat.Partition n)
   · subst h; exact trace_mulLeft_youngSym_eq' n la (α : ℂ) hα_ne hα_ℂ
   · rw [mulLeft_youngSym_zero_of_ne' n la la' h, map_zero]
 
+/-! #### β.3 Off-block vanishing: `youngSymEndomorphism` vanishes on simple
+`symGroupImage`-submodules whose Specht-module label differs from
+`weightToPartition N lam`
+
+Assembles β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`), β.2
+(`trace_symGroupAction_eq_spechtModuleCharacter`), the character-orthogonality
+identity (`youngSym_trace_kronecker'`), and the idempotent-up-to-scalar
+identity (`youngSymEndomorphism_restrict_sq_scalar`).
+
+The "trace-zero idempotent ⟹ zero" step is encapsulated as a small
+characteristic-zero linear-algebra lemma (`isIdempotentElem_eq_zero_of_trace_eq_zero`).
+-/
+
+/-- An idempotent endomorphism of a finite-dimensional vector space over a
+characteristic-zero field with vanishing trace is the zero map.
+
+The trace of an idempotent equals the cast of the rank of its range
+(`LinearMap.IsProj.trace`). Over a characteristic-zero field, vanishing trace
+forces the rank to be zero, hence the range is `⊥` and the endomorphism
+vanishes. -/
+private theorem isIdempotentElem_eq_zero_of_trace_eq_zero
+    {K : Type*} [Field K] [CharZero K]
+    {V : Type*} [AddCommGroup V] [Module K V] [Module.Finite K V]
+    {e : V →ₗ[K] V} (he : IsIdempotentElem e)
+    (htr : LinearMap.trace K V e = 0) :
+    e = 0 := by
+  have hproj : LinearMap.IsProj (LinearMap.range e) e :=
+    LinearMap.IsIdempotentElem.isProj_range _ he
+  have htr_eq : LinearMap.trace K V e = (Module.finrank K (LinearMap.range e) : K) :=
+    hproj.trace
+  rw [htr] at htr_eq
+  have hfinrank_zero : Module.finrank K (LinearMap.range e) = 0 := by
+    have h : ((Module.finrank K (LinearMap.range e) : ℕ) : K) = 0 := htr_eq.symm
+    exact_mod_cast h
+  rw [← LinearMap.range_eq_bot, ← Submodule.finrank_eq_zero]
+  exact hfinrank_zero
+
+/-- `YoungSymmetrizerK ℂ n la = YoungSymmetrizer n la`: both are the image of
+the universal ℤ Young symmetrizer under base change `ℤ → ℂ`. -/
+private lemma youngSymmetrizerK_complex_eq (n : ℕ) (la : Nat.Partition n) :
+    YoungSymmetrizerK ℂ n la = YoungSymmetrizer n la := by
+  rw [YoungSymmetrizerK_eq_mapRange ℂ n la, YoungSymmetrizer_eq_mapRange n la]
+
+set_option maxHeartbeats 800000 in
+-- Bumped: applying β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`) and
+-- β.2 (`trace_symGroupAction_eq_spechtModuleCharacter`) traverses the deep
+-- `Subalgebra → Subsemiring → Module → IsScalarTower` synthesis chain for
+-- `S.restrictScalars ℂ`, which exceeds the default 20000 heartbeats.
+set_option synthInstance.maxHeartbeats 800000 in
+/-- **β.3 Off-block vanishing.** When the simple `symGroupImage`-submodule
+`S ≤ V^⊗n` has Specht-module label `la' ≠ weightToPartition N lam`, the Young
+symmetrizer endomorphism `c_λ` vanishes when restricted to `S`.
+
+The proof assembles four pieces:
+* β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`): the trace of `c_λ` on
+  `S` equals `∑_σ c_λ(σ) · tr(σ on S)`.
+* β.2 (`trace_symGroupAction_eq_spechtModuleCharacter`, encoded via the
+  `h_label` hypothesis): `tr(σ on S) = spechtModuleCharacter n la' σ`.
+* `youngSym_trace_kronecker'` (character orthogonality): when `la ≠ la'`
+  the orthogonality sum vanishes, so the trace of `c_λ` on `S` is zero.
+* `youngSymEndomorphism_restrict_sq_scalar`: the restriction of `c_λ`
+  satisfies `f² = α · f` for the same scalar `α ≠ 0`. Normalising by
+  `α⁻¹` produces an idempotent of vanishing trace; over a characteristic-zero
+  field such an idempotent is the zero map.
+
+The `h_label` hypothesis encodes β.2's witness for this particular `S`; the
+typical caller obtains it by destructuring the existential in
+`trace_symGroupAction_eq_spechtModuleCharacter`. -/
+theorem youngSym_action_vanishes_off_block
+    (N : ℕ) (lam : Fin N → ℕ)
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
+      (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)))
+    [Module.Finite ℂ ↥(S.restrictScalars ℂ)]
+    (la' : Nat.Partition (∑ i, lam i))
+    (h_label : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+            ((symGroupAction ℂ (Fin N → ℂ) (∑ i, lam i) σ).toLinearMap.restrict
+              (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+              (fun _ hv =>
+                symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+          spechtModuleCharacter (∑ i, lam i) la' σ)
+    (h_ne : la' ≠ weightToPartition N lam) :
+    (youngSymEndomorphism ℂ N lam).restrict
+        (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+        (fun _ hv =>
+          youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv) = 0 := by
+  -- Abbreviation: `f` is the restriction of `c_λ` to `S`.
+  let f : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) :=
+    (youngSymEndomorphism ℂ N lam).restrict
+      (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+      (fun _ hv =>
+        youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv)
+  change f = 0
+  -- Scalar α (≠ 0) from `c_λ² = α · c_λ` over ℚ, transferred to ℂ.
+  obtain ⟨α, hα_sq⟩ :=
+    YoungSymmetrizerK_sq_scalar ℚ (∑ i, lam i) (weightToPartition N lam)
+  have hα_ne : α ≠ 0 :=
+    YoungSymmetrizerK_sq_scalar_ne_zero _ (weightToPartition N lam) α hα_sq
+  have hα_ℂ_ne : (α : ℂ) ≠ 0 := by exact_mod_cast hα_ne
+  have hα_sq_ℂ :
+      YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) *
+        YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) =
+      (α : ℂ) • YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) := by
+    rw [youngSymmetrizerK_complex_eq]
+    exact youngSym_sq_ℂ' _ _ α hα_sq
+  -- β.1: trace of `f` is the weighted sum over σ of traces of σ on S.
+  have h_trace_f : LinearMap.trace ℂ _ f =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ) *
+        LinearMap.trace ℂ _
+          ((symGroupAction ℂ (Fin N → ℂ) (∑ i, lam i) σ).toLinearMap.restrict
+            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S σ hv)) :=
+    trace_youngSymEndomorphism_restrict_eq_sum N lam S
+  -- β.2 (via `h_label`): substitute the Specht character.
+  have h_trace_eq_sum : LinearMap.trace ℂ _ f =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ) *
+          spechtModuleCharacter (∑ i, lam i) la' σ := by
+    rw [h_trace_f]
+    exact Finset.sum_congr rfl fun σ _ => by rw [h_label σ]
+  -- Character orthogonality: the trace is 0 because `weightToPartition N lam ≠ la'`.
+  have h_trace_zero : LinearMap.trace ℂ _ f = 0 := by
+    have h_coef_cast : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ : ℂ) =
+          ((YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) : ℂ) := by
+      intro σ
+      rw [youngSym_coeff_cast', ← youngSymmetrizerK_complex_eq]
+    rw [h_trace_eq_sum]
+    conv_lhs => arg 2; ext σ; rw [h_coef_cast σ]
+    rw [youngSym_trace_kronecker' _ (weightToPartition N lam) la' α hα_sq,
+        if_neg (fun h => h_ne h.symm)]
+  -- f² = α • f.
+  have hf_sq : f * f = (α : ℂ) • f :=
+    youngSymEndomorphism_restrict_sq_scalar N lam S (α : ℂ) hα_sq_ℂ
+  -- g := α⁻¹ • f is an idempotent endomorphism of `S`.
+  let g : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) := (α : ℂ)⁻¹ • f
+  have hg_idem : IsIdempotentElem g := by
+    change ((α : ℂ)⁻¹ • f) * ((α : ℂ)⁻¹ • f) = (α : ℂ)⁻¹ • f
+    rw [smul_mul_smul_comm, hf_sq, smul_smul]
+    congr 1
+    rw [mul_assoc, inv_mul_cancel₀ hα_ℂ_ne, mul_one]
+  -- Trace of g vanishes.
+  have hg_tr_zero : LinearMap.trace ℂ _ g = 0 := by
+    change LinearMap.trace ℂ _ ((α : ℂ)⁻¹ • f) = 0
+    rw [LinearMap.map_smul, h_trace_zero, smul_zero]
+  -- A trace-zero idempotent over a characteristic-zero field is the zero map.
+  have hg_zero : g = 0 := isIdempotentElem_eq_zero_of_trace_eq_zero hg_idem hg_tr_zero
+  -- Therefore f = α • g = 0.
+  have hf_eq_smul_g : f = (α : ℂ) • g := by
+    change f = (α : ℂ) • ((α : ℂ)⁻¹ • f)
+    rw [smul_smul, mul_inv_cancel₀ hα_ℂ_ne, one_smul]
+  rw [hf_eq_smul_g, hg_zero, smul_zero]
+
 /-! #### Bridge: charValue ↔ spechtModuleCharacter
 
 The Frobenius character formula (Theorem 5.15.1) connects the polynomial
