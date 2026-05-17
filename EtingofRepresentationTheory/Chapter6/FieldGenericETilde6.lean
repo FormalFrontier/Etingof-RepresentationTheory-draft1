@@ -32,22 +32,42 @@ open scoped Matrix
 
 namespace Etingof
 
+/-! ## Section 0: Shared prefix-block primitives
+
+Two-parameter families that subsume the prefix-block embed / projection
+pairs used in both Ẽ₆ and Ẽ₇. The Ẽ₆ rep uses `prefixBlockEmbed_F 2 3`
+(zero-extension `F^{2(m+1)} → F^{3(m+1)}`) and `prefixBlockProj_F 2 3 _`;
+the Ẽ₇ rep additionally uses the `3 → 4` instances.
+-/
+
+/-- F-generic zero-extension `F^{a(m+1)} → F^{b(m+1)}` along the first
+`a` blocks: `x ↦ (x, 0, …, 0)`. When `a > b` the output is zero
+everywhere (no values fit), but the typical use case has `a ≤ b`. -/
+noncomputable def prefixBlockEmbed_F (F : Type) [Field F]
+    (a b m : ℕ) :
+    (Fin (a * (m + 1)) → F) →ₗ[F] (Fin (b * (m + 1)) → F) where
+  toFun x i := if h : i.val < a * (m + 1) then x ⟨i.val, h⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- F-generic first-`a`-blocks projection `F^{b(m+1)} → F^{a(m+1)}`:
+`w ↦ (w₀, …, w_{a(m+1)-1})`. Requires `a ≤ b` so the domain index
+remains in range. -/
+noncomputable def prefixBlockProj_F (F : Type) [Field F]
+    (a b m : ℕ) (hab : a ≤ b) :
+    (Fin (b * (m + 1)) → F) →ₗ[F] (Fin (a * (m + 1)) → F) where
+  toFun w i :=
+    w ⟨i.val, Nat.lt_of_lt_of_le i.isLt (Nat.mul_le_mul_right _ hab)⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
 /-! ## Section 1: F-generic forward maps for Ẽ₆
 
 F-generic versions of the ℂ-specific maps used in `etilde6v2RepMap`
 (`InfiniteTypeConstructions.lean:3282-3294`). The bodies are
 copy-paste of the ℂ versions with `ℂ` replaced by `F`.
 -/
-
-/-- F-generic embedding from a 2-block space into the first two blocks of a
-3-block space: `(a, b) ↦ (a, b, 0)`. Mirror of `embed2to3_AB`
-(`InfiniteTypeConstructions.lean:1518`). -/
-noncomputable def embed2to3_AB_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
-  toFun x i := if h : i.val < 2 * (m + 1) then x ⟨i.val, h⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
 
 /-- F-generic embedding from a 2-block space into blocks (C, _, A) of a
 3-block space: `(a, b) ↦ (b, 0, a)` (first component to block C, second
@@ -88,8 +108,8 @@ For an arbitrary orientation `Q` of `etilde6Adj`, each edge may point the
 opposite way from `etilde6v2Quiver`. The reverse maps below are linear
 maps in the opposite direction:
 
-- `embed2to3_AB_reverse_F`: left inverse of `embed2to3_AB_F`, sending
-  `(a, b, c) ↦ (a, b)` (first two blocks).
+- The reverse of `prefixBlockEmbed_F 2 3` is `prefixBlockProj_F 2 3 _`
+  (defined in Section 0), sending `(a, b, c) ↦ (a, b)`.
 - `embed2to3_CA_reverse_F`: left inverse of `embed2to3_CA_F`, sending
   `(a, b, c) ↦ (c, a)` (block C to first half, block A to second half).
 - `etilde6GammaInv_F`: right section of `etilde6Gamma_F`. The map
@@ -102,15 +122,6 @@ maps in the opposite direction:
   `starEmbedNilp_F` (since `starEmbedNilp_F x = (x, Nx)`). Used for the
   three reversed-leaf-edge cases.
 -/
-
-/-- Reverse map for the `embed2to3_AB_F` edge: `(a, b, c) ↦ (a, b)`,
-which is the first-two-blocks projection. Left inverse of
-`embed2to3_AB_F`. -/
-noncomputable def embed2to3_AB_reverse_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) where
-  toFun w i := w ⟨i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
 
 /-- Reverse map for the `embed2to3_CA_F` edge: `(a', b', c') ↦ (c', a')`,
 sending block C to the first half and block A to the second half. Left
@@ -173,8 +184,8 @@ private noncomputable def etilde6RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   | ⟨2, _⟩, ⟨1, _⟩ => starEmbed1_F F m
   | ⟨1, _⟩, ⟨2, _⟩ => etilde6LeafProj_F F m
   -- Edge {0, 1}
-  | ⟨1, _⟩, ⟨0, _⟩ => embed2to3_AB_F F m
-  | ⟨0, _⟩, ⟨1, _⟩ => embed2to3_AB_reverse_F F m
+  | ⟨1, _⟩, ⟨0, _⟩ => prefixBlockEmbed_F F 2 3 m
+  | ⟨0, _⟩, ⟨1, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
   -- Edge {0, 3}
   | ⟨0, _⟩, ⟨3, _⟩ => etilde6Gamma_F F m
   | ⟨3, _⟩, ⟨0, _⟩ => etilde6GammaInv_F F m

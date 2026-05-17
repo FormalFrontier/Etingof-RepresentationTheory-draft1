@@ -44,18 +44,11 @@ F-generic versions of the ℂ-specific maps used in `etilde7RepMap`
 (`InfiniteTypeConstructions.lean:3559`). The bodies are copy-paste of
 the ℂ versions with `ℂ` replaced by `F`. The maps reused from existing
 files are `starEmbed1_F` (from `FieldGenericInfiniteType.lean`) and
-`embed2to3_AB_F` (from `FieldGenericETilde6.lean`).
+`prefixBlockEmbed_F 2 3` (from `FieldGenericETilde6.lean`, used for
+edges {2,3} and {5,6} where the arrow goes leaf → arm-internal vertex).
+The `3 → 4` prefix-block embedding for edges {0,2} and (via the dual)
+{0,5} comes from the same `prefixBlockEmbed_F` family.
 -/
-
-/-- F-generic embedding from a 3-block space into the first three blocks of a
-4-block space: `(x, y, z) ↦ (x, y, z, 0)`. Mirror of `embed3to4_ABC`
-(`InfiniteTypeConstructions.lean:3508`). -/
-noncomputable def embed3to4_ABC_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) where
-  toFun x i := if h : i.val < 3 * (m + 1) then x ⟨i.val, h⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
 
 /-- F-generic embedding from a 3-block space into blocks (A, _, C, D) of a
 4-block space: `(x, y, z) ↦ (x, 0, y, z)`. Mirror of `embed3to4_ACD`
@@ -100,8 +93,8 @@ For an arbitrary orientation `Q` of `etilde7Adj`, each edge may point
 the opposite way from `etilde7Quiver`. The reverse maps below are
 linear maps in the opposite direction:
 
-- `embed3to4_ABC_reverse_F`: left inverse of `embed3to4_ABC_F`,
-  sending `(a, b, c, d) ↦ (a, b, c)` (first three blocks).
+- The reverse of `prefixBlockEmbed_F 3 4` is `prefixBlockProj_F 3 4 _`
+  (from `FieldGenericETilde6.lean`), sending `(a, b, c, d) ↦ (a, b, c)`.
 - `embed3to4_ACD_reverse_F`: left inverse of `embed3to4_ACD_F`,
   sending `(a, b, c, d) ↦ (a, c, d)` (blocks A, C, D extracted).
 - `etilde7Arm1Embed_reverse_F`: a right section of `etilde7Arm1Embed_F`,
@@ -114,18 +107,9 @@ linear maps in the opposite direction:
 
 The leaf-edge reverses (for edges `{3, 4}` and `{6, 7}`) reuse
 `etilde6LeafProj_F` from `FieldGenericETilde6.lean`; the arm-internal
-reverses (for edges `{2, 3}` and `{5, 6}`) reuse
-`embed2to3_AB_reverse_F` from the same file.
+reverses (for edges `{2, 3}` and `{5, 6}`) use
+`prefixBlockProj_F 2 3 _` from the same file.
 -/
-
-/-- Reverse map for the `embed3to4_ABC_F` edge: `(a, b, c, d) ↦ (a, b, c)`,
-which is the first-three-blocks projection. Left inverse of
-`embed3to4_ABC_F`. -/
-noncomputable def embed3to4_ABC_reverse_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (4 * (m + 1)) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
-  toFun w i := w ⟨i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
 
 /-- Reverse map for the `embed3to4_ACD_F` edge: `(a, b, c, d) ↦ (a, c, d)`,
 sending block A to the first third, then blocks C, D to the last two
@@ -180,17 +164,17 @@ private noncomputable def etilde7RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
   | ⟨3, _⟩, ⟨4, _⟩ => etilde6LeafProj_F F m
   -- Arm 2: edge {2, 3}
-  | ⟨3, _⟩, ⟨2, _⟩ => embed2to3_AB_F F m
-  | ⟨2, _⟩, ⟨3, _⟩ => embed2to3_AB_reverse_F F m
+  | ⟨3, _⟩, ⟨2, _⟩ => prefixBlockEmbed_F F 2 3 m
+  | ⟨2, _⟩, ⟨3, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
   -- Arm 2: edge {0, 2}
-  | ⟨2, _⟩, ⟨0, _⟩ => embed3to4_ABC_F F m
-  | ⟨0, _⟩, ⟨2, _⟩ => embed3to4_ABC_reverse_F F m
+  | ⟨2, _⟩, ⟨0, _⟩ => prefixBlockEmbed_F F 3 4 m
+  | ⟨0, _⟩, ⟨2, _⟩ => prefixBlockProj_F F 3 4 m (by omega)
   -- Arm 3: edge {6, 7}
   | ⟨7, _⟩, ⟨6, _⟩ => starEmbed1_F F m
   | ⟨6, _⟩, ⟨7, _⟩ => etilde6LeafProj_F F m
   -- Arm 3: edge {5, 6}
-  | ⟨6, _⟩, ⟨5, _⟩ => embed2to3_AB_F F m
-  | ⟨5, _⟩, ⟨6, _⟩ => embed2to3_AB_reverse_F F m
+  | ⟨6, _⟩, ⟨5, _⟩ => prefixBlockEmbed_F F 2 3 m
+  | ⟨5, _⟩, ⟨6, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
   -- Arm 3: edge {0, 5}
   | ⟨5, _⟩, ⟨0, _⟩ => embed3to4_ACD_F F m
   | ⟨0, _⟩, ⟨5, _⟩ => embed3to4_ACD_reverse_F F m
