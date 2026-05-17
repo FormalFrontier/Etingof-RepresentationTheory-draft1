@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter6.OrientationDefs
 import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
+import EtingofRepresentationTheory.Chapter6.FieldGenericStar
 
 /-!
 # Orientation-Generic Ẽ₆ Construction (Sub A of #2791)

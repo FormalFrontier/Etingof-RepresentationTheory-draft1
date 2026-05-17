@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter6.OrientationDefs
 import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
+import EtingofRepresentationTheory.Chapter6.FieldGenericStar
 import EtingofRepresentationTheory.Chapter6.FieldGenericETilde6
 
 /-!
