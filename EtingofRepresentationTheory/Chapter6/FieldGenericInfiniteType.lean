@@ -389,6 +389,9 @@ theorem starRepGen_dimVec (F : Type) [Field F] (m : ℕ) (v : Fin 5) :
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
+-- Bumped from default: the proof body is ~200 lines with many nested have-blocks
+-- that exercise typeclass synthesis repeatedly under the `attribute [-instance]`
+-- pragma. Matches the bump on the ℂ-specific source `starRep_isIndecomposable`.
 set_option maxHeartbeats 1600000 in
 theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
     @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5)
@@ -446,9 +449,11 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
       have hb0 : starEmbed1_F F m b ∈ W' ⟨0, by omega⟩ :=
         hW' (show @Quiver.Hom _ starQuiver ⟨1, by omega⟩ ⟨0, by omega⟩ from ⟨⟨by decide, rfl⟩⟩) b hb
       have hd0 : starEmbed2_F F m d ∈ W' ⟨0, by omega⟩ :=
-        hW' (show @Quiver.Hom _ starQuiver ⟨2, by omega⟩ ⟨0, by omega⟩ from ⟨⟨by decide, rfl⟩⟩) d hd
+        hW' (show @Quiver.Hom _ starQuiver ⟨2, by omega⟩ ⟨0, by omega⟩
+          from ⟨⟨by decide, rfl⟩⟩) d hd
       have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
-          (starEmbed1_F F m a + starEmbed2_F F m c) + (starEmbed1_F F m b + starEmbed2_F F m d) := by
+          (starEmbed1_F F m a + starEmbed2_F F m c) +
+            (starEmbed1_F F m b + starEmbed2_F F m d) := by
         rw [← hab, ← hcd]; simp [map_add]; abel
       rw [hsum] at hmem
       have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ W ⟨0, by omega⟩ :=
@@ -579,7 +584,7 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
           (heq31'.symm.trans heq32') heq31' heq41' h
     intro W W' hW'_inv hc h12 h31 h41 hbot v
     fin_cases v
-    · show W ⟨0, by omega⟩ = ⊥
+    · change W ⟨0, by omega⟩ = ⊥
       have hW'1_top : W' ⟨1, by omega⟩ = ⊤ := by
         have := (hc ⟨1, by omega⟩).sup_eq_top; rwa [hbot, bot_sup_eq] at this
       have hW'2_top : W' ⟨2, by omega⟩ = ⊤ := by
@@ -596,8 +601,39 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
       have := Submodule.mem_inf.mpr ⟨hw, hw'⟩
       rwa [(hc ⟨0, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
     · exact hbot
-    · show W ⟨2, by omega⟩ = ⊥; rw [← h12]; exact hbot
-    · show W ⟨3, by omega⟩ = ⊥; rw [h31]; exact hbot
-    · show W ⟨4, by omega⟩ = ⊥; rw [h41]; exact hbot
+    · change W ⟨2, by omega⟩ = ⊥; rw [← h12]; exact hbot
+    · change W ⟨3, by omega⟩ = ⊥; rw [h31]; exact hbot
+    · change W ⟨4, by omega⟩ = ⊥; rw [h41]; exact hbot
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- F-generic: the star graph K_{1,4} (D̃₄) has infinite representation type
+over any field F when oriented as the canonical all-sink `starQuiver`. -/
+theorem star_not_finite_type_F (F : Type) [Field F] :
+    ¬ Set.Finite
+      {d : Fin 5 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0, 0, 0, 0} F (Fin 5) _ starQuiver,
+          @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5) starQuiver V ∧
+          ∀ v, Nonempty
+            (@Etingof.QuiverRepresentation.obj F (Fin 5) _ starQuiver V v ≃ₗ[F]
+              (Fin (d v) → F))} := by
+  intro hfin
+  have hmem : ∀ m : ℕ,
+      (fun v : Fin 5 => if v.val = 0 then 2 * (m + 1) else m + 1) ∈
+      {d : Fin 5 → ℕ | ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 5) _ starQuiver,
+        @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5) starQuiver V ∧
+        ∀ v, Nonempty
+          (@Etingof.QuiverRepresentation.obj F (Fin 5) _ starQuiver V v ≃ₗ[F]
+            (Fin (d v) → F))} := by
+    intro m
+    exact ⟨starRepGen F m, starRepGen_isIndecomposable F m, starRepGen_dimVec F m⟩
+  have hinj : Function.Injective
+      (fun m : ℕ => fun v : Fin 5 => if v.val = 0 then 2 * (m + 1) else m + 1) := by
+    intro m₁ m₂ h
+    have h1 := congr_fun h ⟨1, by omega⟩
+    simp only [one_ne_zero, ↓reduceIte] at h1
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
 end Etingof
