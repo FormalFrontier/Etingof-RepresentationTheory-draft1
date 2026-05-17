@@ -321,4 +321,70 @@ theorem cycle_not_finite_type_gen (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k) 
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+/-! ## Section 4: Field-generic star (K_{1,4} / D̃₄) representation
+
+The construction mirrors `starRep` from `InfiniteTypeConstructions.lean` over an
+arbitrary field `F`, keeping the canonical all-sink orientation `starQuiver`.
+Dimension vector: `(2(m+1), m+1, m+1, m+1, m+1)`. The four leaf maps are
+`starEmbed1_F`, `starEmbed2_F`, `starEmbedDiag_F`, `starEmbedNilp_F`.
+-/
+
+/-- First-component embedding (F-generic): `x ↦ (x, 0)`. -/
+noncomputable def starEmbed1_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) where
+  toFun x i := if h : i.val < m + 1 then x ⟨i.val, h⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Second-component embedding (F-generic): `x ↦ (0, x)`. -/
+noncomputable def starEmbed2_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) where
+  toFun x i := if h : m + 1 ≤ i.val then x ⟨i.val - (m + 1), by omega⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Diagonal embedding (F-generic): `x ↦ (x, x)`. -/
+noncomputable def starEmbedDiag_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
+  starEmbed1_F F m + starEmbed2_F F m
+
+/-- Nilpotent-twisted embedding (F-generic): `x ↦ (x, Nx)`. -/
+noncomputable def starEmbedNilp_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
+  starEmbed1_F F m + (starEmbed2_F F m).comp (nilpotentShiftLinGen F m)
+
+/-- Match-based map for the F-generic star representation. -/
+private noncomputable def starRepMapGen (F : Type) [Field F] (m : ℕ) (a b : Fin 5) :
+    (Fin (if a.val = 0 then 2 * (m + 1) else m + 1) → F) →ₗ[F]
+    (Fin (if b.val = 0 then 2 * (m + 1) else m + 1) → F) :=
+  match a, b with
+  | ⟨1, _⟩, ⟨0, _⟩ => starEmbed1_F F m
+  | ⟨2, _⟩, ⟨0, _⟩ => starEmbed2_F F m
+  | ⟨3, _⟩, ⟨0, _⟩ => starEmbedDiag_F F m
+  | ⟨4, _⟩, ⟨0, _⟩ => starEmbedNilp_F F m
+  | _, _ => 0
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- The F-generic star representation with dim vector `(2(m+1), m+1, m+1, m+1, m+1)`. -/
+noncomputable def starRepGen (F : Type) [Field F] (m : ℕ) :
+    @Etingof.QuiverRepresentation F (Fin 5) _ starQuiver := by
+  letI := starQuiver
+  exact {
+    obj := fun v => Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F
+    instAddCommMonoid := fun _ => inferInstance
+    instModule := fun _ => inferInstance
+    mapLinear := fun {a b} _ => starRepMapGen F m a b
+  }
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem starRepGen_dimVec (F : Type) [Field F] (m : ℕ) (v : Fin 5) :
+    Nonempty (@Etingof.QuiverRepresentation.obj F (Fin 5) _
+      starQuiver (starRepGen F m) v ≃ₗ[F]
+      (Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F)) :=
+  ⟨LinearEquiv.refl F _⟩
+
 end Etingof
