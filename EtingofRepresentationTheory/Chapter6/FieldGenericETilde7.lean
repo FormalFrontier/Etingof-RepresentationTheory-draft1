@@ -32,6 +32,10 @@ Indecomposability inherits the same wave-54 framework wall as the
 ℂ-specific source `etilde7Rep_isIndecomposable`
 (`InfiniteTypeConstructions.lean:3588`); the stub here carries the
 same `sorry` with a docstring tying it to the wall.
+
+See the "Naming conventions" section of
+`Chapter6/FieldGenericInfiniteType.lean` for the meaning of the
+`_F` / `_kQ` / `_per_kQ` suffixes used throughout this file.
 -/
 
 open scoped Matrix

@@ -26,6 +26,10 @@ choices below are left inverses (for embeddings) or a right section
 (for `etilde6Gamma_F`, which is not injective). Sub B may revisit the
 section choice if it turns out indecomposability requires a different
 one.
+
+See the "Naming conventions" section of
+`Chapter6/FieldGenericInfiniteType.lean` for the meaning of the
+`_F` / `_kQ` / `_per_kQ` suffixes used throughout this file.
 -/
 
 open scoped Matrix
