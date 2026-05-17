@@ -879,4 +879,269 @@ theorem cycle_not_finite_type_per_kQ
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+/-! ## Section 8: Per-(field, orientation) subgraph transfer
+
+The existing `subgraph_infinite_type_transfer` works at the
+`IsFiniteTypeQuiver` level (universal over `k` and orientations). The
+per-(field, orientation) refactor needs a version that fixes `F` and `Q`
+externally and transfers infinite-type from the restricted subgraph
+orientation, `restrictOrientationViaEmb φ Q`, to `Q` itself.
+
+The construction mirrors `subgraph_infinite_type_transfer`: an
+indecomposable on the subgraph is extended to one on the full graph by
+setting the spaces at vertices outside `Set.range φ` to zero. -/
+
+section SubgraphTransferPerKQ
+
+variable {m n : ℕ}
+
+/-- Restrict a quiver `Q` on `Fin n` to `Fin m` via an embedding
+`φ : Fin m ↪ Fin n`. The restricted quiver has
+`Hom i j := Q.Hom (φ i) (φ j)`. -/
+def restrictOrientationViaEmb (φ : Fin m ↪ Fin n) (Q : Quiver (Fin n)) :
+    Quiver (Fin m) where
+  Hom i j := Q.Hom (φ i) (φ j)
+
+instance restrictOrientationViaEmb_subsingleton
+    (φ : Fin m ↪ Fin n) (Q : Quiver (Fin n))
+    [hsub : ∀ a b, Subsingleton (Q.Hom a b)] (i j : Fin m) :
+    Subsingleton (@Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i j) :=
+  hsub (φ i) (φ j)
+
+/-- The restricted orientation is an orientation of the restricted
+adjacency matrix whenever `Q` orients `adj` and the adjacencies embed. -/
+theorem restrictOrientationViaEmb_isOrientationOf
+    (φ : Fin m ↪ Fin n)
+    {adj : Matrix (Fin n) (Fin n) ℤ} {adj_sub : Matrix (Fin m) (Fin m) ℤ}
+    (hembed : ∀ i j, adj_sub i j = adj (φ i) (φ j))
+    {Q : Quiver (Fin n)}
+    (hOrient : Etingof.IsOrientationOf Q adj) :
+    Etingof.IsOrientationOf (restrictOrientationViaEmb φ Q) adj_sub := by
+  obtain ⟨hno, hedge, huniq⟩ := hOrient
+  refine ⟨?_, ?_, ?_⟩
+  · intro i j hsub
+    rw [hembed] at hsub
+    exact hno (φ i) (φ j) hsub
+  · intro i j hsub
+    rw [hembed] at hsub
+    exact hedge (φ i) (φ j) hsub
+  · intro i j hij hji
+    exact huniq (φ i) (φ j) hij hji
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) subgraph transfer: if the restricted
+orientation `restrictOrientationViaEmb φ Q` on the subgraph admits
+infinitely many indecomposable dimension vectors over `F`, then `Q`
+itself does too.
+
+This is the per-(F, Q) analog of `subgraph_infinite_type_transfer`
+(which universally quantifies over `k` and orientations). The proof
+extends each subgraph indecomposable by zero on the vertices outside
+`Set.range φ`. -/
+theorem subgraph_infinite_type_transfer_per_kQ
+    (φ : Fin m ↪ Fin n)
+    (_adj : Matrix (Fin n) (Fin n) ℤ) (_adj_sub : Matrix (Fin m) (Fin m) ℤ)
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (h_inf : letI Q_sub := restrictOrientationViaEmb φ Q
+      ¬ Set.Finite
+        {d : Fin m → ℕ |
+          ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin m) _ Q_sub,
+            V.IsIndecomposable ∧
+            ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))}) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧
+          ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  letI Q_sub : Quiver (Fin m) := restrictOrientationViaEmb φ Q
+  -- Subsingleton for the restricted quiver, derived from Q's subsingleton.
+  haveI : ∀ a b, Subsingleton (@Quiver.Hom (Fin m) Q_sub a b) := fun a b =>
+    inferInstanceAs (Subsingleton (Q.Hom (φ a) (φ b)))
+  intro hfin
+  apply h_inf
+  classical
+  let extDV : (Fin m → ℕ) → (Fin n → ℕ) := fun d v =>
+    if h : ∃ i, φ i = v then d h.choose else 0
+  have h_choose : ∀ i, (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose = i :=
+    fun i => φ.injective (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose_spec
+  have extDV_apply : ∀ d i, extDV d (φ i) = d i := by
+    intro d i; change (if h : ∃ j, φ j = φ i then d h.choose else 0) = d i
+    rw [dif_pos ⟨i, rfl⟩, h_choose]
+  have hinj : Function.Injective extDV := by
+    intro d₁ d₂ h; ext i
+    have := congr_fun h (φ i)
+    rwa [extDV_apply, extDV_apply] at this
+  have hmem : ∀ d,
+      d ∈ {d : Fin m → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin m) _ Q_sub,
+          V.IsIndecomposable ∧
+          ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} →
+      extDV d ∈ {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧
+          ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro d ⟨V, hV_ind, hV_dim⟩
+    let equiv_at : ∀ i : Fin m, V.obj i ≃ₗ[F] (Fin (d i) → F) := fun i => (hV_dim i).some
+    let finCastEquiv (a b : ℕ) (h : a = b) : (Fin a → F) ≃ₗ[F] (Fin b → F) :=
+      LinearEquiv.funCongrLeft F F (Fin.castOrderIso h.symm).toEquiv
+    -- V'.mapLinear at e : Q.Hom a b. When both a, b are in range φ
+    -- (a = φ i, b = φ j), the input e itself witnesses
+    -- `Nonempty (restrictOrientationViaEmb φ Q).Hom i j`; the if-branch
+    -- uses V's map on an arbitrary representative of that hom space
+    -- (by Subsingleton, this equals e).
+    let V'mapLinear : ∀ {a b : Fin n},
+        @Quiver.Hom (Fin n) Q a b → (Fin (extDV d a) → F) →ₗ[F] (Fin (extDV d b) → F) :=
+      fun {a b} _ =>
+        if h : ∃ i j, φ i = a ∧ φ j = b ∧
+            Nonempty (@Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i j) then
+          have hi : φ h.choose = a := h.choose_spec.choose_spec.1
+          have hj : φ h.choose_spec.choose = b := h.choose_spec.choose_spec.2.1
+          have e_sub := h.choose_spec.choose_spec.2.2.some
+          let j := h.choose_spec.choose
+          let i := h.choose
+          (finCastEquiv _ _ ((extDV_apply d j).symm.trans (congrArg (extDV d) hj))).toLinearMap.comp
+            ((equiv_at j).toLinearMap.comp
+              ((@Etingof.QuiverRepresentation.mapLinear F (Fin m) _
+                (restrictOrientationViaEmb φ Q) V _ _ e_sub).comp
+                ((equiv_at i).symm.toLinearMap.comp
+                  (finCastEquiv _ _
+                    ((extDV_apply d i).symm.trans
+                      (congrArg (extDV d) hi))).symm.toLinearMap)))
+        else 0
+    refine ⟨⟨fun v => Fin (extDV d v) → F, V'mapLinear⟩, ?_, fun v => ⟨LinearEquiv.refl F _⟩⟩
+    let e_at (i : Fin m) : V.obj i ≃ₗ[F] (Fin (extDV d (φ i)) → F) :=
+      (equiv_at i).trans (finCastEquiv (d i) (extDV d (φ i)) (extDV_apply d i).symm)
+    constructor
+    · obtain ⟨⟨v₀, hv₀⟩, _⟩ := hV_ind
+      exact ⟨φ v₀, (e_at v₀).toEquiv.symm.nontrivial⟩
+    · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+      have h_ext_zero : ∀ v, v ∉ Set.range φ → extDV d v = 0 := by
+        intro v hv
+        simp only [extDV, dif_neg (show ¬∃ i, φ i = v from fun ⟨i, hi⟩ => hv ⟨i, hi⟩)]
+      have h_bot_of_not_range : ∀ v, v ∉ Set.range φ →
+          ∀ (S : Submodule F (Fin (extDV d v) → F)), S = ⊥ := by
+        intro v hv S
+        have hze := h_ext_zero v hv
+        have : Subsingleton (Fin (extDV d v) → F) := by
+          rw [hze]; infer_instance
+        rw [eq_bot_iff]; intro x _; rw [Submodule.mem_bot]
+        exact Subsingleton.elim _ _
+      let U₁ (i : Fin m) : Submodule F (V.obj i) := (W₁ (φ i)).comap (e_at i).toLinearMap
+      let U₂ (i : Fin m) : Submodule F (V.obj i) := (W₂ (φ i)).comap (e_at i).toLinearMap
+      have hU_compl : ∀ i, IsCompl (U₁ i) (U₂ i) := by
+        intro i
+        have hc := hcompl (φ i)
+        constructor
+        · rw [disjoint_iff]; rw [eq_bot_iff]; intro x hx
+          rw [Submodule.mem_inf] at hx
+          have h1 : (e_at i) x ∈ W₁ (φ i) := hx.1
+          have h2 : (e_at i) x ∈ W₂ (φ i) := hx.2
+          have : (e_at i) x ∈ W₁ (φ i) ⊓ W₂ (φ i) := Submodule.mem_inf.mpr ⟨h1, h2⟩
+          rw [hc.1.eq_bot] at this
+          rw [Submodule.mem_bot]
+          have h_ez := (Submodule.mem_bot F).mp this
+          exact (e_at i).injective (h_ez.trans (map_zero _).symm)
+        · rw [codisjoint_iff]; rw [eq_top_iff]; intro x _
+          have : (e_at i) x ∈ W₁ (φ i) ⊔ W₂ (φ i) := hc.2.eq_top ▸ Submodule.mem_top
+          obtain ⟨y₁, hy₁, y₂, hy₂, hsum⟩ := Submodule.mem_sup.mp this
+          rw [Submodule.mem_sup]
+          refine ⟨(e_at i).symm y₁, ?_, (e_at i).symm y₂, ?_, ?_⟩
+          · change (e_at i) ((e_at i).symm y₁) ∈ W₁ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy₁
+          · change (e_at i) ((e_at i).symm y₂) ∈ W₂ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy₂
+          · apply (e_at i).injective
+            rw [map_add, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
+            exact hsum
+      -- V'mapLinear on a Q.Hom (φ i) (φ j) edge reduces to V's map conjugated by e_at.
+      have V'map_aux : ∀ (i j : Fin m)
+          (e_sub_ij : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i j)
+          (i' j' : Fin m) (hi : i' = i) (hj : j' = j)
+          (e' : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i' j')
+          (x : Fin (extDV d (φ i)) → F),
+          (finCastEquiv _ _
+            ((extDV_apply d j').symm.trans
+              (congrArg (extDV d) (show φ j' = φ j by rw [hj])))).toLinearMap.comp
+            ((equiv_at j').toLinearMap.comp
+              ((@Etingof.QuiverRepresentation.mapLinear F (Fin m) _
+                (restrictOrientationViaEmb φ Q) V _ _ e').comp
+                ((equiv_at i').symm.toLinearMap.comp
+                  (finCastEquiv _ _ ((extDV_apply d i').symm.trans
+                    (congrArg (extDV d) (show φ i' = φ i by rw [hi])))).symm.toLinearMap))) x =
+          (e_at j) (V.mapLinear e_sub_ij ((e_at i).symm x)) := by
+        intro i j e_sub_ij i' j' hi hj e' x
+        subst hi; subst hj
+        have : e' = e_sub_ij := Subsingleton.elim _ _
+        subst this
+        rfl
+      have V'map_compat : ∀ (i j : Fin m)
+          (e_sub_ij : @Quiver.Hom (Fin m) Q_sub i j)
+          (x : Fin (extDV d (φ i)) → F),
+          V'mapLinear (show @Quiver.Hom (Fin n) Q (φ i) (φ j) from e_sub_ij) x =
+          (e_at j) (V.mapLinear e_sub_ij ((e_at i).symm x)) := by
+        intro i j e_sub_ij x
+        simp only [V'mapLinear]
+        have h_ex : ∃ i' j', φ i' = φ i ∧ φ j' = φ j ∧
+            Nonempty (@Quiver.Hom (Fin m) Q_sub i' j') :=
+          ⟨i, j, rfl, rfl, ⟨e_sub_ij⟩⟩
+        rw [dif_pos h_ex]
+        exact V'map_aux i j e_sub_ij
+          h_ex.choose h_ex.choose_spec.choose
+          (φ.injective h_ex.choose_spec.choose_spec.1)
+          (φ.injective h_ex.choose_spec.choose_spec.2.1)
+          h_ex.choose_spec.choose_spec.2.2.some x
+      have hU₁_inv : ∀ {a b : Fin m}
+          (e : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) a b),
+          ∀ x ∈ U₁ a, V.mapLinear e x ∈ U₁ b := by
+        intro a b e_ab x hx
+        change (e_at b) (V.mapLinear e_ab x) ∈ W₁ (φ b)
+        have h_compat := V'map_compat a b e_ab ((e_at a) x)
+        rw [LinearEquiv.symm_apply_apply] at h_compat
+        rw [← h_compat]
+        exact hW₁_inv (show @Quiver.Hom (Fin n) Q (φ a) (φ b) from e_ab) _ hx
+      have hU₂_inv : ∀ {a b : Fin m}
+          (e : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) a b),
+          ∀ x ∈ U₂ a, V.mapLinear e x ∈ U₂ b := by
+        intro a b e_ab x hx
+        change (e_at b) (V.mapLinear e_ab x) ∈ W₂ (φ b)
+        have h_compat := V'map_compat a b e_ab ((e_at a) x)
+        rw [LinearEquiv.symm_apply_apply] at h_compat
+        rw [← h_compat]
+        exact hW₂_inv (show @Quiver.Hom (Fin n) Q (φ a) (φ b) from e_ab) _ hx
+      rcases hV_ind.2 U₁ U₂ hU₁_inv hU₂_inv hU_compl with hU₁_bot | hU₂_bot
+      · left; intro v
+        by_cases hv : v ∈ Set.range φ
+        · obtain ⟨i, rfl⟩ := hv
+          rw [eq_bot_iff]; intro y hy
+          have hU := hU₁_bot i
+          have : (e_at i).symm y ∈ U₁ i := by
+            change (e_at i) ((e_at i).symm y) ∈ W₁ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy
+          rw [hU, Submodule.mem_bot] at this
+          rw [Submodule.mem_bot]
+          calc y = (e_at i) ((e_at i).symm y) := (LinearEquiv.apply_symm_apply _ _).symm
+            _ = (e_at i) 0 := by rw [this]
+            _ = 0 := map_zero _
+        · exact h_bot_of_not_range v hv (W₁ v)
+      · right; intro v
+        by_cases hv : v ∈ Set.range φ
+        · obtain ⟨i, rfl⟩ := hv
+          rw [eq_bot_iff]; intro y hy
+          have hU := hU₂_bot i
+          have : (e_at i).symm y ∈ U₂ i := by
+            change (e_at i) ((e_at i).symm y) ∈ W₂ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy
+          rw [hU, Submodule.mem_bot] at this
+          rw [Submodule.mem_bot]
+          calc y = (e_at i) ((e_at i).symm y) := (LinearEquiv.apply_symm_apply _ _).symm
+            _ = (e_at i) 0 := by rw [this]
+            _ = 0 := map_zero _
+        · exact h_bot_of_not_range v hv (W₂ v)
+  exact (hfin.subset (Set.image_subset_iff.mpr hmem)).of_finite_image hinj.injOn
+
+end SubgraphTransferPerKQ
+
 end Etingof
