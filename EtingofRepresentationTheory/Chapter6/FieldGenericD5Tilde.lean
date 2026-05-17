@@ -223,4 +223,205 @@ theorem d5tildeRep_kQ_dimVec
       (d5tildeRep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (d5tildeDim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 5: F-generic helper lemmas for indecomposability
+
+F-generic analogues of the inline computations in the ℂ-specific
+`d5tildeRep_isIndecomposable` (`InfiniteTypeConstructions.lean:1569`).
+Extracted as named lemmas so the per-(F, Q) indecomposability proof can
+use them across direction case-splits. -/
+
+/-- The two leaf-embeds disjoint at the center:
+`starEmbed1_F x + starEmbed2_F y = 0 → x = 0 ∧ y = 0`. -/
+theorem embed_sum_zero_F (F : Type) [Field F] (m : ℕ) (x y : Fin (m + 1) → F)
+    (h : starEmbed1_F F m x + starEmbed2_F F m y = 0) :
+    x = 0 ∧ y = 0 := by
+  have heval : ∀ j : Fin (2 * (m + 1)),
+      starEmbed1_F F m x j + starEmbed2_F F m y j = 0 :=
+    fun j => by have := congr_fun h j; simpa using this
+  constructor <;> ext ⟨i, hi⟩ <;> simp only [Pi.zero_apply]
+  · have := heval ⟨i, by omega⟩
+    simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
+    split_ifs at this with h1
+    · omega
+    · simpa using this
+  · have := heval ⟨m + 1 + i, by omega⟩
+    simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
+    split_ifs at this with h1 h2
+    · omega
+    · omega
+    · simp only [zero_add] at this
+      have key : (⟨m + 1 + i - (m + 1), by omega⟩ : Fin (m + 1)) = ⟨i, hi⟩ := by
+        simp only [Fin.mk.injEq]; omega
+      rwa [key] at this
+    · omega
+
+/-- Every `F^{2(m+1)}` vector decomposes as the sum of its two half-block
+embeddings via the projections. -/
+theorem center_decomp_F (F : Type) [Field F] (m : ℕ) (w : Fin (2 * (m + 1)) → F) :
+    w = starEmbed1_F F m (starProj1_F F m w) +
+        starEmbed2_F F m (starProj2_F F m w) := by
+  ext ⟨j, hj⟩
+  simp only [Pi.add_apply, starEmbed1_F, starEmbed2_F, starProj1_F, starProj2_F,
+    LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases hjlt : j < m + 1
+  · simp only [dif_pos hjlt, show ¬(m + 1 ≤ j) from by omega, dite_false, add_zero]
+  · simp only [dif_neg hjlt, show m + 1 ≤ j from by omega, dite_true, zero_add]
+    congr 1; ext; simp; omega
+
+/-- `d5tildeGamma_F` on `starEmbed1_F`: `γ(x, 0) = (x, x)`. F-generic
+mirror of the inline `gamma_from_embed1` computation in the canonical
+proof (`InfiniteTypeConstructions.lean:1711`). -/
+theorem gamma_from_embed1_F (F : Type) [Field F] (m : ℕ) (x : Fin (m + 1) → F) :
+    d5tildeGamma_F F m (starEmbed1_F F m x) =
+      starEmbed1_F F m x + starEmbed2_F F m x := by
+  ext i
+  change (d5tildeGamma_F F m (starEmbed1_F F m x)) i =
+    (starEmbed1_F F m x) i + (starEmbed2_F F m x) i
+  simp only [d5tildeGamma_F, starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases h : i.val < m + 1
+  · simp only [dif_pos h, dif_neg (show ¬(m + 1 ≤ i.val) by omega),
+        dif_neg (show ¬(m + 1 + i.val < m + 1) by omega), add_zero]
+  · push_neg at h
+    simp only [dif_neg (show ¬(i.val < m + 1) by omega),
+        dif_pos (show m + 1 ≤ i.val by omega),
+        dif_pos (show i.val - (m + 1) < m + 1 by omega), zero_add]
+    by_cases h2 : i.val - (m + 1) + 1 < m + 1
+    · simp only [dif_pos h2,
+        dif_neg (show ¬(m + 1 + (i.val - (m + 1)) + 1 < m + 1) by omega),
+        add_zero]
+    · simp only [dif_neg h2, add_zero]
+
+/-- `d5tildeGamma_F` on `starEmbed2_F`: `γ(0, y) = (y, Ny)` where `N` is
+the nilpotent shift. F-generic mirror of the inline `gamma_from_embed2`
+computation in the canonical proof
+(`InfiniteTypeConstructions.lean:1732`). -/
+theorem gamma_from_embed2_F (F : Type) [Field F] (m : ℕ) (y : Fin (m + 1) → F) :
+    d5tildeGamma_F F m (starEmbed2_F F m y) =
+      starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y) := by
+  have aux : ∀ j : Fin (m + 1), nilpotentShiftLinGen F m y j =
+      if h : j.val + 1 < m + 1 then y ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext i
+  simp only [d5tildeGamma_F, starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk,
+    Pi.add_apply, aux]
+  by_cases h : i.val < m + 1
+  · simp only [dif_pos h,
+        dif_neg (show ¬(m + 1 ≤ i.val) by omega),
+        dif_pos (show m + 1 ≤ m + 1 + i.val by omega),
+        zero_add, add_zero]
+    exact congr_arg y (Fin.ext (by simp))
+  · push_neg at h
+    simp only [dif_neg (show ¬(i.val < m + 1) by omega),
+        dif_pos (show m + 1 ≤ i.val by omega),
+        dif_neg (show ¬(m + 1 ≤ i.val - (m + 1)) by omega),
+        zero_add]
+    by_cases h2 : i.val - (m + 1) + 1 < m + 1
+    · simp only [dif_pos h2,
+          dif_pos (show m + 1 ≤ m + 1 + (i.val - (m + 1)) + 1 by omega)]
+      exact congr_arg y (Fin.ext (by simp; omega))
+    · simp only [dif_neg h2]
+
+/-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
+
+The orientation-generic indecomposability proof is structurally the
+~350-line ℂ-specific argument in `d5tildeRep_isIndecomposable`
+(`InfiniteTypeConstructions.lean:1569`), generalized with direction-aware
+case-splits on each of the five edges of `d5tildeAdj`. With ten
+direction-aware rep-map cases (5 edges × 2 directions) and a `core`
+lemma that requires symmetric leaf information at each center, the
+direct case-analysis blows the per-session budget.
+
+This sub-issue (#2804) is therefore landed in two parts:
+- This PR (partial): construction (#2803, already merged), F-generic
+  helper lemmas (Section 5 above), API stubs for the two final theorems
+  (Section 6, 7 below), and the per-(F, Q) infiniteness theorem
+  *conditional* on the stubbed indecomposability.
+- A follow-up sub-issue tracks the actual indecomposability proof body.
+  The follow-up is the bulk of the work; the API and downstream
+  consumer are already in place. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Orientation-generic indecomposability of `d5tildeRep_kQ`.
+
+**Proof body deferred** to a follow-up sub-issue of #2804. The structural
+template is the ℂ-specific `d5tildeRep_isIndecomposable`
+(`InfiniteTypeConstructions.lean:1569`); the per-(F, Q) version
+case-splits on the direction of each of the five edges of `d5tildeAdj`
+(four leaf-center edges and the central γ edge). The helper lemmas
+`embed_sum_zero_F`, `center_decomp_F`, `gamma_from_embed1_F`,
+`gamma_from_embed2_F` (Section 5) are F-generic extractions of the
+inline computations used in the ℂ proof and are ready for use by the
+follow-up worker.
+
+This is path (b) of #2804: stub the API at the orientation-generic level,
+carry the same `sorry` with a docstring tying it to the follow-up
+sub-issue. The consumer `d5tilde_not_finite_type_per_kQ` below depends
+transitively on this sorry. -/
+theorem d5tildeRep_kQ_isIndecomposable
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ) :
+    (d5tildeRep_kQ F Q hOrient m).IsIndecomposable := by
+  sorry
+
+/-! ## Section 7: Per-(F, Q) infinite-type theorem -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) version of `d5tilde_not_finite_type`: for
+any algebraically closed field `F` and any orientation `Q` of
+`d5tildeAdj`, the set of dimension vectors of indecomposable
+representations is infinite.
+
+Mirrors the proof of `d5tilde_not_finite_type`
+(`InfiniteTypeConstructions.lean:1962`). Injectivity comes from vertex
+`0`, where `d5tildeDim m 0 = m + 1`.
+
+This theorem carries no direct `sorry`, but transitively depends on
+`d5tildeRep_kQ_isIndecomposable`, whose proof body is deferred — see its
+docstring. -/
+theorem d5tilde_not_finite_type_per_kQ
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj) :
+    ¬ Set.Finite
+      {d : Fin 6 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 6) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  intro hfin
+  have hmem : ∀ m : ℕ, d5tildeDim m ∈
+      {d : Fin 6 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 6) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro m
+    exact ⟨d5tildeRep_kQ F Q hOrient m,
+      d5tildeRep_kQ_isIndecomposable F Q hOrient m,
+      d5tildeRep_kQ_dimVec F Q hOrient m⟩
+  have hinj : Function.Injective (d5tildeDim : ℕ → Fin 6 → ℕ) := by
+    intro m₁ m₂ h
+    have h0 := congr_fun h ⟨0, by omega⟩
+    change (if (⟨0, by omega⟩ : Fin 6).val = 2 ∨ (⟨0, by omega⟩ : Fin 6).val = 3
+            then 2 * (m₁ + 1) else m₁ + 1) =
+           (if (⟨0, by omega⟩ : Fin 6).val = 2 ∨ (⟨0, by omega⟩ : Fin 6).val = 3
+            then 2 * (m₂ + 1) else m₂ + 1) at h0
+    simp only [show ¬(0 = 2 ∨ 0 = 3) from by omega, ite_false] at h0
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+
 end Etingof
