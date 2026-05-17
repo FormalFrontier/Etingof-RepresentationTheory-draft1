@@ -2125,12 +2125,12 @@ private lemma youngSymmetrizerK_complex_eq (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizerK ℂ n la = YoungSymmetrizer n la := by
   rw [YoungSymmetrizerK_eq_mapRange ℂ n la, YoungSymmetrizer_eq_mapRange n la]
 
-set_option maxHeartbeats 800000 in
+set_option maxHeartbeats 400000 in
 -- Bumped: applying β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`) and
 -- β.2 (`trace_symGroupAction_eq_spechtModuleCharacter`) traverses the deep
 -- `Subalgebra → Subsemiring → Module → IsScalarTower` synthesis chain for
 -- `S.restrictScalars ℂ`, which exceeds the default 20000 heartbeats.
-set_option synthInstance.maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **β.3 Off-block vanishing.** When the simple `symGroupImage`-submodule
 `S ≤ V^⊗n` has Specht-module label `la' ≠ weightToPartition N lam`, the Young
 symmetrizer endomorphism `c_λ` vanishes when restricted to `S`.
