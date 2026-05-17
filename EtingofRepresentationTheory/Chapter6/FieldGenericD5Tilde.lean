@@ -96,52 +96,31 @@ end Etingof
 
 namespace Etingof
 
-/-! ## Section 3: Leaf projections for D̃₅
+/-! ## Section 3: Closed-form inverse of `d5tildeGamma_F`
 
-The reversed leaf-edge maps are simple half-block projections.
-`starProj1_F` is the first-half projection `(a, b) ↦ a`, a left inverse
-of `starEmbed1_F`. `starProj2_F` is the second-half projection
-`(a, b) ↦ b`, a left inverse of `starEmbed2_F`.
-
-These are the *plain* half-block projections (no kernel adjustment),
-since D̃₅'s reversed leaf edges only need to land in the leaf space; the
-indecomposability argument (Sub B) does the leaf decomposition via the
-direct sum at each center, not via projection kernels.
+The reversed leaf-edge maps in D̃₅ are the plain half-block projections
+`starFirst_F` (`(a, b) ↦ a`) and `starSecond_F` (`(a, b) ↦ b`),
+re-used here from `FieldGenericStar.lean`. They were originally cloned
+as `starProj1_F` / `starProj2_F` in this file; #2846 deduped to the
+K_{1,4} primitives (which are definitionally identical to D̃₅'s
+plain projections, just with a more neutral name).
 -/
 
-/-- First-half projection `(a, b) ↦ a` for `F^{2(m+1)} → F^{m+1}`. Left
-inverse of `starEmbed1_F` (`x ↦ (x, 0)`). Used for the reversed
-direction of leaf edges `{0,2}` and `{4,3}`. -/
-noncomputable def starProj1_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
-  toFun w i := w ⟨i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
-
-/-- Second-half projection `(a, b) ↦ b` for `F^{2(m+1)} → F^{m+1}`. Left
-inverse of `starEmbed2_F` (`x ↦ (0, x)`). Used for the reversed
-direction of leaf edges `{1,2}` and `{5,3}`. -/
-noncomputable def starProj2_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
-  toFun w i := w ⟨m + 1 + i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
-
 /-- Closed-form inverse of `d5tildeGamma_F`, built via `LinearMap`
-arithmetic over `starEmbed1_F`, `starEmbed2_F`, `starProj1_F`,
-`starProj2_F`, and `cumTailSumLin`. Block form `[[I - M, M], [M, -M]]`
+arithmetic over `starEmbed1_F`, `starEmbed2_F`, `starFirst_F`,
+`starSecond_F`, and `cumTailSumLin`. Block form `[[I - M, M], [M, -M]]`
 where `M = cumTailSumLin = (I - N)⁻¹`.
 
-Concretely, on input `w` decomposed as `(u, v) = (starProj1_F w,
-starProj2_F w)`:
+Concretely, on input `w` decomposed as `(u, v) = (starFirst_F w,
+starSecond_F w)`:
 - second-block output `y = M (u - v)` (the `cumTailSumLin` of the
   half-difference);
 - first-block output `x = u - y`;
 - the full output is `starEmbed1_F x + starEmbed2_F y`. -/
 noncomputable def d5tildeGammaInv_F (F : Type) [Field F] (m : ℕ) :
     (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
-  let P1 := starProj1_F F m
-  let P2 := starProj2_F F m
+  let P1 := starFirst_F F m
+  let P2 := starSecond_F F m
   let M := cumTailSumLin F m
   let y : (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) := M.comp (P1 - P2)
   let x : (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) := P1 - y
@@ -164,19 +143,19 @@ private noncomputable def d5tildeRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   match a, b with
   -- Edge {0, 2}: canonical 0→2, reverse 2→0
   | ⟨0, _⟩, ⟨2, _⟩ => starEmbed1_F F m
-  | ⟨2, _⟩, ⟨0, _⟩ => starProj1_F F m
+  | ⟨2, _⟩, ⟨0, _⟩ => starFirst_F F m
   -- Edge {1, 2}: canonical 1→2, reverse 2→1
   | ⟨1, _⟩, ⟨2, _⟩ => starEmbed2_F F m
-  | ⟨2, _⟩, ⟨1, _⟩ => starProj2_F F m
+  | ⟨2, _⟩, ⟨1, _⟩ => starSecond_F F m
   -- Edge {2, 3}: canonical 2→3, reverse 3→2
   | ⟨2, _⟩, ⟨3, _⟩ => d5tildeGamma_F F m
   | ⟨3, _⟩, ⟨2, _⟩ => d5tildeGammaInv_F F m
   -- Edge {4, 3}: canonical 4→3, reverse 3→4
   | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
-  | ⟨3, _⟩, ⟨4, _⟩ => starProj1_F F m
+  | ⟨3, _⟩, ⟨4, _⟩ => starFirst_F F m
   -- Edge {5, 3}: canonical 5→3, reverse 3→5
   | ⟨5, _⟩, ⟨3, _⟩ => starEmbed2_F F m
-  | ⟨3, _⟩, ⟨5, _⟩ => starProj2_F F m
+  | ⟨3, _⟩, ⟨5, _⟩ => starSecond_F F m
   -- Non-edge (ruled out by `hOrient`); placeholder
   | _, _ => 0
 
@@ -259,10 +238,10 @@ theorem embed_sum_zero_F (F : Type) [Field F] (m : ℕ) (x y : Fin (m + 1) → F
 /-- Every `F^{2(m+1)}` vector decomposes as the sum of its two half-block
 embeddings via the projections. -/
 theorem center_decomp_F (F : Type) [Field F] (m : ℕ) (w : Fin (2 * (m + 1)) → F) :
-    w = starEmbed1_F F m (starProj1_F F m w) +
-        starEmbed2_F F m (starProj2_F F m w) := by
+    w = starEmbed1_F F m (starFirst_F F m w) +
+        starEmbed2_F F m (starSecond_F F m w) := by
   ext ⟨j, hj⟩
-  simp only [Pi.add_apply, starEmbed1_F, starEmbed2_F, starProj1_F, starProj2_F,
+  simp only [Pi.add_apply, starEmbed1_F, starEmbed2_F, starFirst_F, starSecond_F,
     LinearMap.coe_mk, AddHom.coe_mk]
   by_cases hjlt : j < m + 1
   · simp only [dif_pos hjlt, show ¬(m + 1 ≤ j) from by omega, dite_false, add_zero]
