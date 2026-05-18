@@ -348,4 +348,83 @@ theorem cycle_not_finite_type_per_kQ
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+/-! ## Section: Per-(F, Q) subgraph dispatch wrappers for cycle subgraphs
+
+Mirrors `chordless_cycle_infinite_type` (`InfiniteTypeConstructions.lean:4112`)
+and `triangle_infinite_type` (`InfiniteTypeConstructions.lean:3880`): given
+an embedding witnessing that `Q` contains a cycle (or a triangle), conclude
+that the per-(F, Q) representation set of indecomposable dimension vectors
+is infinite. Body-isomorphic to the kQ-free counterparts modulo plumbing
+through `(F, Q, hOrient)` via `subgraph_infinite_type_transfer_per_kQ` and
+the restricted orientation.
+
+The wrappers are placed here (rather than in `FieldGenericInfiniteType.lean`
+next to `subgraph_infinite_type_transfer_per_kQ`) because they depend on
+`cycle_not_finite_type_per_kQ`, which lives in this file; the import graph
+runs `FieldGenericInfiniteType → FieldGenericCycle`, not the reverse.
+-/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of `chordless_cycle_infinite_type`: a graph
+containing a chordless cycle of length `k ≥ 3` (witnessed by an embedding
+`φ : Fin k ↪ Fin n` exactly preserving the cycle adjacency) has infinite
+representation type for every orientation `Q`. -/
+theorem chordless_cycle_infinite_type_per_kQ {n k : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (_hsymm : adj.IsSymm)
+    (_hdiag : ∀ i, adj i i = 0)
+    (hk : 3 ≤ k)
+    (φ : Fin k ↪ Fin n)
+    (hembed : ∀ i j, cycleAdj k hk i j = adj (φ i) (φ j))
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} :=
+  subgraph_infinite_type_transfer_per_kQ φ F Q
+    (cycle_not_finite_type_per_kQ F k hk (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of `triangle_infinite_type`: a graph containing a
+triangle (three pairwise-adjacent distinct vertices) has infinite
+representation type for every orientation `Q`. Built as the `k = 3`
+specialisation of `chordless_cycle_infinite_type_per_kQ`. -/
+theorem triangle_infinite_type_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (_h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (a b c : Fin n) (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c)
+    (h_ab : adj a b = 1) (h_bc : adj b c = 1) (h_ac : adj a c = 1)
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- Construct embedding φ : Fin 3 ↪ Fin n mapping 0 ↦ a, 1 ↦ b, 2 ↦ c.
+  let φ_fun : Fin 3 → Fin n := ![a, b, c]
+  have hφ_inj : Function.Injective φ_fun := by
+    intro x y h
+    fin_cases x <;> fin_cases y <;> simp_all [φ_fun, Matrix.cons_val_zero,
+      Matrix.cons_val_one]
+  let φ : Fin 3 ↪ Fin n := ⟨φ_fun, hφ_inj⟩
+  have hembed : ∀ i j, cycleAdj 3 (by omega) i j = adj (φ i) (φ j) := by
+    intro i j
+    have h_ba := (hsymm.apply a b).trans h_ab
+    have h_cb := (hsymm.apply b c).trans h_bc
+    have h_ca := (hsymm.apply a c).trans h_ac
+    fin_cases i <;> fin_cases j <;> simp [cycleAdj, φ, φ_fun, Matrix.cons_val_zero,
+      Matrix.cons_val_one, hdiag, h_ab, h_bc, h_ac, h_ba, h_cb, h_ca]
+  exact chordless_cycle_infinite_type_per_kQ adj hsymm hdiag (by omega) φ hembed
+    F Q hOrient
+
 end Etingof

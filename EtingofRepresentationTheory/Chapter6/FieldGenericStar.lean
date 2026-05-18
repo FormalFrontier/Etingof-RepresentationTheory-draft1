@@ -555,4 +555,84 @@ theorem star_not_finite_type_per_kQ
   let _ := hOrient
   sorry
 
+/-! ## Section: Per-(F, Q) subgraph dispatch wrapper for K_{1,4}
+
+Mirrors `star_subgraph_not_finite_type` (`InfiniteTypeConstructions.lean:1133`):
+given a center vertex and four pairwise non-adjacent leaves, conclude that
+the per-(F, Q) representation set of indecomposable dimension vectors is
+infinite. Inherits the `sorry` chain of `star_not_finite_type_per_kQ`
+(tracked by #2789 / #2801).
+
+Placed here (rather than in `FieldGenericInfiniteType.lean` next to
+`subgraph_infinite_type_transfer_per_kQ`) because it depends on
+`star_not_finite_type_per_kQ`, which lives in this file; the import graph
+runs `FieldGenericInfiniteType → FieldGenericStar`, not the reverse.
+-/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of `star_subgraph_not_finite_type`: a graph
+containing a `K_{1,4}` subgraph (a center vertex with four pairwise
+non-adjacent leaves) has infinite representation type for every
+algebraically closed `F` and every orientation `Q`. -/
+theorem star_subgraph_not_finite_type_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hadj_symm : adj.IsSymm)
+    (hadj_diag : ∀ v, adj v v = 0)
+    (center : Fin n) (leaves : Fin 4 ↪ Fin n)
+    (hleaves_ne : ∀ i, leaves i ≠ center)
+    (hadj_edge : ∀ i, adj center (leaves i) = 1)
+    (hadj_indep : ∀ i j, adj (leaves i) (leaves j) = 0)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- Construct embedding φ : Fin 5 ↪ Fin n mapping 0 ↦ center, k+1 ↦ leaves k.
+  have h_leaf (i : Fin 5) (h : i.val ≠ 0) : i.val - 1 < 4 := by omega
+  let φ_fun : Fin 5 → Fin n := fun i =>
+    if h : i.val = 0 then center
+    else leaves ⟨i.val - 1, h_leaf i h⟩
+  have hφ_inj : Function.Injective φ_fun := by
+    intro a b hab
+    simp only [φ_fun] at hab
+    by_cases ha0 : a.val = 0 <;> by_cases hb0 : b.val = 0
+    · exact Fin.ext (by omega)
+    · exfalso; rw [dif_pos ha0, dif_neg hb0] at hab; exact hleaves_ne _ hab.symm
+    · exfalso; rw [dif_neg ha0, dif_pos hb0] at hab; exact hleaves_ne _ hab
+    · rw [dif_neg ha0, dif_neg hb0] at hab
+      have h := congr_arg Fin.val (leaves.injective hab)
+      simp at h
+      exact Fin.ext (by omega)
+  let φ : Fin 5 ↪ Fin n := ⟨φ_fun, hφ_inj⟩
+  -- Verify adjacency embedding condition: starAdj i j = adj (φ i) (φ j).
+  have hembed : ∀ i j, starAdj i j = adj (φ i) (φ j) := by
+    intro i j
+    change (if (i.val = 0 ∧ j.val ≠ 0) ∨ (i.val ≠ 0 ∧ j.val = 0) then (1 : ℤ) else 0) =
+      adj (φ_fun i) (φ_fun j)
+    by_cases hi0 : i.val = 0 <;> by_cases hj0 : j.val = 0
+    · -- center-center
+      rw [if_neg (by rintro (⟨-, h⟩ | ⟨h, -⟩) <;> contradiction)]
+      simp only [φ_fun, dif_pos hi0, dif_pos hj0]
+      exact (hadj_diag center).symm
+    · -- center-leaf
+      rw [if_pos (Or.inl ⟨hi0, hj0⟩)]
+      simp only [φ_fun, dif_pos hi0, dif_neg hj0]
+      exact (hadj_edge ⟨j.val - 1, h_leaf j hj0⟩).symm
+    · -- leaf-center
+      rw [if_pos (Or.inr ⟨hi0, hj0⟩)]
+      simp only [φ_fun, dif_neg hi0, dif_pos hj0]
+      exact ((hadj_symm.apply center (leaves ⟨i.val - 1, h_leaf i hi0⟩)).trans
+        (hadj_edge ⟨i.val - 1, h_leaf i hi0⟩)).symm
+    · -- leaf-leaf
+      rw [if_neg (by rintro (⟨h, -⟩ | ⟨-, h⟩) <;> contradiction)]
+      simp only [φ_fun, dif_neg hi0, dif_neg hj0]
+      exact (hadj_indep ⟨i.val - 1, h_leaf i hi0⟩ ⟨j.val - 1, h_leaf j hj0⟩).symm
+  exact subgraph_infinite_type_transfer_per_kQ φ F Q
+    (star_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
 end Etingof
