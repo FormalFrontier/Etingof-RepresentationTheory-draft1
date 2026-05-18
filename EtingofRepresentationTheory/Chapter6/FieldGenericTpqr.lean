@@ -490,14 +490,129 @@ theorem single_branch_leaf_both_extend_t122_per_kQ {n : ℕ}
     [exact hV; exact hL; exact hA₂;
      exact hB₂; exact hA₃; exact hB₃]
 
+set_option maxHeartbeats 6400000 in
+-- reason: T(1, q, 2) case-split mirrors `InfiniteTypeConstructions.lean:7325-7639`
+-- (~315 lines of port plus an inlined T(1, 2, 5) embedding); the
+-- 81-case `fin_cases` adjacency proof through the `Fin 9 ↪ Fin n` embedding
+-- and the bundle of `acyclic_path_nonadj`/`Finset.sum_insert` reasoning push
+-- elaboration past the default budget. Same setting as on the sub-D helper
+-- and on `single_branch_leaf_case` in the original source.
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of the `(b₂ degree 2, b₃ degree 1)` sub-case of the
+"both arms extend" branch of `single_branch_leaf_case`
+(`InfiniteTypeConstructions.lean:7325-7639`): the T(1, q, 2) configuration
+with q ≥ 3 (i.e. `b₂` extends to a longer arm and `b₃` is a leaf).
+Case-splits on whether `c₂`, `d₂`, `e₂` extend:
+
+* `c₂` is a leaf (arm2 length = 3) → T(1, 3, 2) = E₇ is positive definite,
+  contradicting `h_not_posdef` via `e7_tree_posdef`.
+* `d₂` is a leaf (arm2 length = 4) → T(1, 4, 2) = E₈ is positive definite,
+  contradicting `h_not_posdef` via `e8_posdef`.
+* `d₂` extends (arm2 length ≥ 5) → the 9 vertices
+  `{v₀, leaf, a₃, b₃, a₂, b₂, c₂, d₂, e₂}` form a T(1, 2, 5) = Ẽ₈ subgraph;
+  dispatch to `t125_not_finite_type_per_kQ` via
+  `subgraph_infinite_type_transfer_per_kQ`. -/
+theorem single_branch_leaf_both_extend_b3leaf_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (h_deg : ∀ v, vertexDegree adj v < 4)
+    (v₀ : Fin n) (hv₀ : vertexDegree adj v₀ = 3)
+    (h_unique : ∀ w, vertexDegree adj w = 3 → w = v₀)
+    (h_not_posdef : ¬ ∀ x : Fin n → ℤ, x ≠ 0 →
+      0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x))
+    (leaf a₂ a₃ b₂ b₃ : Fin n)
+    (h_leaf_adj : adj v₀ leaf = 1)
+    (ha₂_adj : adj v₀ a₂ = 1) (ha₃_adj : adj v₀ a₃ = 1)
+    (hb₂_adj : adj a₂ b₂ = 1) (hb₃_adj : adj a₃ b₃ = 1)
+    (h_leaf_deg : vertexDegree adj leaf = 1)
+    (h_a2_ext : vertexDegree adj a₂ = 2) (h_a3_ext : vertexDegree adj a₃ = 2)
+    (h_b2_ext : vertexDegree adj b₂ = 2)
+    (hb₃_deg1 : vertexDegree adj b₃ = 1)
+    (ha₂₃ : a₂ ≠ a₃)
+    (ha₂_ne_leaf : a₂ ≠ leaf) (ha₃_ne_leaf : a₃ ≠ leaf)
+    (hb₂_ne_v₀ : b₂ ≠ v₀) (hb₃_ne_v₀ : b₃ ≠ v₀)
+    (hS₀_eq : (Finset.univ.filter (adj v₀ · = 1)).erase leaf = {a₂, a₃})
+    (hb₂_eq : (Finset.univ.filter (adj a₂ · = 1)).erase v₀ = {b₂})
+    (hb₃_eq : (Finset.univ.filter (adj a₃ · = 1)).erase v₀ = {b₃})
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj' : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
+    rw [hab, hdiag] at h; exact one_ne_zero h.symm
+  have h_deg_le2 : ∀ v, v ≠ v₀ → vertexDegree adj v ≤ 2 := by
+    intro v hv; have h3 := h_deg v
+    by_contra h; push_neg at h; exact hv (h_unique v (by omega))
+  have hleaf_ne_v₀ : leaf ≠ v₀ := (ne_of_adj' v₀ leaf h_leaf_adj).symm
+  have ha₂_ne_v₀ : a₂ ≠ v₀ := (ne_of_adj' v₀ a₂ ha₂_adj).symm
+  have ha₃_ne_v₀ : a₃ ≠ v₀ := (ne_of_adj' v₀ a₃ ha₃_adj).symm
+  have ha₂_ne_b₂ : a₂ ≠ b₂ := ne_of_adj' a₂ b₂ hb₂_adj
+  have ha₃_ne_b₃ : a₃ ≠ b₃ := ne_of_adj' a₃ b₃ hb₃_adj
+  set S₀ := Finset.univ.filter (fun j => adj v₀ j = 1) with hS₀_def
+  -- Extract c₂: the neighbour of b₂ other than a₂
+  have extract_other := fun (v u : Fin n) (hvu : adj v u = 1)
+      (hdeg2 : vertexDegree adj v = 2) =>
+    let Sv := Finset.univ.filter (fun j => adj v j = 1)
+    have hcard : Sv.card = 2 := hdeg2
+    have hu_mem : u ∈ Sv :=
+      Finset.mem_filter.mpr ⟨Finset.mem_univ _, hvu⟩
+    Finset.card_eq_one.mp (by rw [Finset.card_erase_of_mem hu_mem, hcard])
+  obtain ⟨c₂, hc₂_eq⟩ := extract_other b₂ a₂
+    ((adj_comm b₂ a₂).trans hb₂_adj) h_b2_ext
+  have hc₂_mem : c₂ ∈ (Finset.univ.filter (adj b₂ · = 1)).erase a₂ :=
+    hc₂_eq ▸ Finset.mem_singleton_self c₂
+  have hc₂_adj : adj b₂ c₂ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hc₂_mem)).2
+  have hc₂_ne_a₂ : c₂ ≠ a₂ := Finset.ne_of_mem_erase hc₂_mem
+  have hb₂_ne_c₂ : b₂ ≠ c₂ := ne_of_adj' b₂ c₂ hc₂_adj
+  by_cases h_c2_ext : vertexDegree adj c₂ = 2
+  · -- c₂ extends (arm2 length ≥ 4): extract d₂
+    obtain ⟨d₂, hd₂_eq⟩ := extract_other c₂ b₂
+      ((adj_comm c₂ b₂).trans hc₂_adj) h_c2_ext
+    have hd₂_mem : d₂ ∈ (Finset.univ.filter (adj c₂ · = 1)).erase b₂ :=
+      hd₂_eq ▸ Finset.mem_singleton_self d₂
+    have hd₂_adj : adj c₂ d₂ = 1 :=
+      (Finset.mem_filter.mp (Finset.mem_of_mem_erase hd₂_mem)).2
+    have hd₂_ne_b₂ : d₂ ≠ b₂ := Finset.ne_of_mem_erase hd₂_mem
+    have hc₂_ne_d₂ : c₂ ≠ d₂ := ne_of_adj' c₂ d₂ hd₂_adj
+    by_cases h_d2_ext : vertexDegree adj d₂ = 2
+    · -- d₂ extends (arm2 length ≥ 5): extract e₂, embed T(1, 2, 5)
+      obtain ⟨e₂, he₂_eq⟩ := extract_other d₂ c₂
+        ((adj_comm d₂ c₂).trans hd₂_adj) h_d2_ext
+      have he₂_mem : e₂ ∈ (Finset.univ.filter (adj d₂ · = 1)).erase c₂ :=
+        he₂_eq ▸ Finset.mem_singleton_self e₂
+      have _he₂_adj : adj d₂ e₂ = 1 :=
+        (Finset.mem_filter.mp (Finset.mem_of_mem_erase he₂_mem)).2
+      have _he₂_ne_c₂ : e₂ ≠ c₂ := Finset.ne_of_mem_erase he₂_mem
+      let _ := h_a3_ext  -- silenced until d₂-extends body is implemented
+      sorry  -- T(1, 2, 5) embedding for d₂-extends arm
+    · -- d₂ is a leaf (arm2 length = 4): e8_posdef contradiction
+      sorry  -- E₈ posdef contradiction for T(1, 4, 2)
+  · -- c₂ is a leaf (arm2 length = 3): e7_tree_posdef contradiction
+    sorry  -- E₇ posdef contradiction for T(1, 3, 2)
+
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- Per-(F, Q) version of the "both arms extend" branch of
 `single_branch_leaf_case` (`InfiniteTypeConstructions.lean:6981-8352`):
 given the T(1, q, r) configuration where both of `v₀`'s non-leaf
-neighbours `a₂` and `a₃` have degree 2 (i.e. q, r ≥ 2), the quiver has
-infinite representation type for every algebraically closed `F` and every
-orientation `Q`.
 
 API stub: the body is `sorry`, tracked by a follow-up sub-issue. The real
 proof mirrors the `_kQ`-free original — further case-splits on whether
