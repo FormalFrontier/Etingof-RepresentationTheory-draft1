@@ -535,7 +535,40 @@ theorem d5tildeRep_kQ_leaf_equalities
     W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ := by
-  sorry
+  obtain ⟨_, hOrient_edge, _⟩ := hOrient
+  -- d5tildeAdj values at each edge (canonical direction)
+  have h02 : d5tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h12 : d5tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h23 : d5tildeAdj ⟨2, by omega⟩ ⟨3, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h43 : d5tildeAdj ⟨4, by omega⟩ ⟨3, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h53 : d5tildeAdj ⟨5, by omega⟩ ⟨3, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  -- Per-edge direction disjunctions (Or.inl = canonical for each)
+  obtain ⟨a02⟩ | ⟨a02⟩ := hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02
+  · -- e02 = Or.inl: 0→2 canonical
+    obtain ⟨a12⟩ | ⟨a12⟩ := hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12
+    · -- e12 = Or.inl: 1→2 canonical
+      obtain ⟨a23⟩ | ⟨a23⟩ := hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23
+      · -- e23 = Or.inl: 2→3 canonical
+        obtain ⟨a43⟩ | ⟨a43⟩ := hOrient_edge ⟨4, by omega⟩ ⟨3, by omega⟩ h43
+        · -- e43 = Or.inl: 4→3 canonical
+          obtain ⟨a53⟩ | ⟨a53⟩ := hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53
+          · -- ALL CANONICAL: 0→2, 1→2, 2→3, 4→3, 5→3 — mirrors ℂ-source proof
+            sorry
+          · -- e53 reversed (3→5): follow-up sub-issue
+            sorry
+        · -- e43 reversed (3→4): follow-up sub-issue
+          sorry
+      · -- e23 reversed (3→2): follow-up sub-issue (uses γ⁻¹)
+        sorry
+    · -- e12 reversed (2→1): follow-up sub-issue (uses starSecond_F projection)
+      sorry
+  · -- e02 reversed (2→0): follow-up sub-issue (uses starFirst_F projection)
+    sorry
 
 /-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
 
