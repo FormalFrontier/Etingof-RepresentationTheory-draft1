@@ -535,7 +535,8 @@ theorem d5tildeRep_kQ_leaf_equalities
     W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ := by
-  obtain ⟨_, hOrient_edge, _⟩ := hOrient
+  letI := Q
+  have hOrient_edge := hOrient.2.1
   -- d5tildeAdj values at each edge (canonical direction)
   have h02 : d5tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by
     simp [d5tildeAdj]
@@ -547,17 +548,125 @@ theorem d5tildeRep_kQ_leaf_equalities
     simp [d5tildeAdj]
   have h53 : d5tildeAdj ⟨5, by omega⟩ ⟨3, by omega⟩ = 1 := by
     simp [d5tildeAdj]
-  -- Per-edge direction disjunctions (Or.inl = canonical for each)
-  obtain ⟨a02⟩ | ⟨a02⟩ := hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02
+  -- Per-edge direction disjunctions (first Or branch = canonical for each).
+  -- Use the FieldGenericCycle pattern: rcases the Or, then obtain the Nonempty.
+  rcases hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ02 | hQ02
   · -- e02 = Or.inl: 0→2 canonical
-    obtain ⟨a12⟩ | ⟨a12⟩ := hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12
+    obtain ⟨a02⟩ := hQ02
+    rcases hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ12 | hQ12
     · -- e12 = Or.inl: 1→2 canonical
-      obtain ⟨a23⟩ | ⟨a23⟩ := hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23
+      obtain ⟨a12⟩ := hQ12
+      rcases hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23 with hQ23 | hQ23
       · -- e23 = Or.inl: 2→3 canonical
-        obtain ⟨a43⟩ | ⟨a43⟩ := hOrient_edge ⟨4, by omega⟩ ⟨3, by omega⟩ h43
+        obtain ⟨a23⟩ := hQ23
+        rcases hOrient_edge ⟨4, by omega⟩ ⟨3, by omega⟩ h43 with hQ43 | hQ43
         · -- e43 = Or.inl: 4→3 canonical
-          obtain ⟨a53⟩ | ⟨a53⟩ := hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53
-          · -- ALL CANONICAL: 0→2, 1→2, 2→3, 4→3, 5→3 — mirrors ℂ-source proof
+          obtain ⟨a43⟩ := hQ43
+          rcases hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
+          · -- e53 = Or.inl: 5→3 canonical
+            obtain ⟨a53⟩ := hQ53
+            -- ALL CANONICAL: 0→2, 1→2, 2→3, 4→3, 5→3 — mirrors ℂ-source proof.
+            -- Specialize invariance to the concrete rep maps.
+            have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a02 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a12 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a23 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_43 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨4, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a43 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_53 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨5, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a53 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a02 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a12 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a23 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_43 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨4, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a43 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_53 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨5, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a53 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            -- Core decomposition at v=2 (analog of ℂ-source `core`).
+            -- If `starEmbed1 x + starEmbed2 z ∈ Wmain ⟨2⟩` then `x ∈ Wmain ⟨0⟩` and
+            -- `z ∈ Wmain ⟨1⟩`. Uses canonical 0→2 and 1→2 pushes.
+            have core_F : ∀ (Wmain Wother : ∀ v, Submodule F
+                  ((d5tildeRep_kQ F Q hOrient m).obj v))
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨0, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wother ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨1, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wother ⟨2, by omega⟩)
+                (_ : ∀ v, IsCompl (Wmain v) (Wother v))
+                (x z : Fin (m + 1) → F)
+                (_ : starEmbed1_F F m x + starEmbed2_F F m z ∈ Wmain ⟨2, by omega⟩),
+                x ∈ Wmain ⟨0, by omega⟩ ∧ z ∈ Wmain ⟨1, by omega⟩ := by
+              intros Wmain Wother hMain_02 hMain_12 hOther_02 hOther_12 hc x z hmem
+              have htop0 := (hc ⟨0, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := x)
+              obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop0
+              have htop1 := (hc ⟨1, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := z)
+              obtain ⟨c, hcm, d, hd, hcd⟩ := Submodule.mem_sup.mp htop1
+              have ha2 := hMain_02 a ha
+              have hcm2 := hMain_12 c hcm
+              have hb2 := hOther_02 b hb
+              have hd2 := hOther_12 d hd
+              have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
+                  (starEmbed1_F F m a + starEmbed2_F F m c) +
+                    (starEmbed1_F F m b + starEmbed2_F F m d) := by
+                rw [← hab, ← hcd]; simp [map_add]; abel
+              rw [hsum] at hmem
+              have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ Wmain ⟨2, by omega⟩ :=
+                (Wmain ⟨2, by omega⟩).add_mem ha2 hcm2
+              have hw'_in_W : starEmbed1_F F m b + starEmbed2_F F m d ∈
+                  Wmain ⟨2, by omega⟩ := by
+                have hsmul := (Wmain ⟨2, by omega⟩).smul_mem (-1 : F) hadd
+                have hadd2 := (Wmain ⟨2, by omega⟩).add_mem hmem hsmul
+                have key : starEmbed1_F F m a + starEmbed2_F F m c +
+                    (starEmbed1_F F m b + starEmbed2_F F m d) +
+                    (-1 : F) • (starEmbed1_F F m a + starEmbed2_F F m c) =
+                    starEmbed1_F F m b + starEmbed2_F F m d := by
+                  ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+                rwa [key] at hadd2
+              have hzero : starEmbed1_F F m b + starEmbed2_F F m d = 0 := by
+                have hcross := Submodule.mem_inf.mpr ⟨hw'_in_W,
+                  (Wother ⟨2, by omega⟩).add_mem hb2 hd2⟩
+                rwa [(hc ⟨2, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hcross
+              obtain ⟨hb0, hd0⟩ := embed_sum_zero_F F m b d hzero
+              exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
+                     hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
             sorry
           · -- e53 reversed (3→5): follow-up sub-issue
             sorry
