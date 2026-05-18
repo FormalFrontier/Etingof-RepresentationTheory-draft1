@@ -46,6 +46,393 @@ open scoped Matrix
 
 namespace Etingof
 
+set_option maxHeartbeats 6400000 in
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of the `(b₂ degree 2, b₃ degree 2)` sub-case of
+the "both arms extend" branch of `single_branch_leaf_case`
+(`InfiniteTypeConstructions.lean:6982-7324`): given the T(1, q, r)
+configuration with q, r ≥ 3, the quiver contains Ẽ₇ = T(1, 3, 3) as a
+subgraph, so it has infinite representation type for every algebraically
+closed `F` and every orientation `Q`. -/
+theorem single_branch_leaf_both_extend_arms_ge3_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (v₀ leaf a₂ a₃ b₂ b₃ : Fin n)
+    (h_leaf_adj : adj v₀ leaf = 1)
+    (ha₂_adj : adj v₀ a₂ = 1) (ha₃_adj : adj v₀ a₃ = 1)
+    (hb₂_adj : adj a₂ b₂ = 1) (hb₃_adj : adj a₃ b₃ = 1)
+    (ha₂₃ : a₂ ≠ a₃)
+    (ha₂_ne_leaf : a₂ ≠ leaf) (ha₃_ne_leaf : a₃ ≠ leaf)
+    (hb₂_ne_v₀ : b₂ ≠ v₀) (hb₃_ne_v₀ : b₃ ≠ v₀)
+    (h_b2_ext : vertexDegree adj b₂ = 2) (h_b3_ext : vertexDegree adj b₃ = 2)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj' : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
+    rw [hab, hdiag] at h; exact one_ne_zero h.symm
+  have hleaf_ne_v₀ : leaf ≠ v₀ := (ne_of_adj' v₀ leaf h_leaf_adj).symm
+  have ha₂_ne_v₀ : a₂ ≠ v₀ := (ne_of_adj' v₀ a₂ ha₂_adj).symm
+  have ha₃_ne_v₀ : a₃ ≠ v₀ := (ne_of_adj' v₀ a₃ ha₃_adj).symm
+  have ha₂_ne_b₂ : a₂ ≠ b₂ := ne_of_adj' a₂ b₂ hb₂_adj
+  have ha₃_ne_b₃ : a₃ ≠ b₃ := ne_of_adj' a₃ b₃ hb₃_adj
+  -- Extract c₂, c₃: second-layer neighbours on each arm
+  have extract_other := fun (v u : Fin n) (hvu : adj v u = 1)
+      (hdeg2 : vertexDegree adj v = 2) =>
+    let Sv := Finset.univ.filter (fun j => adj v j = 1)
+    have hcard : Sv.card = 2 := hdeg2
+    have hu_mem : u ∈ Sv :=
+      Finset.mem_filter.mpr ⟨Finset.mem_univ _, hvu⟩
+    Finset.card_eq_one.mp (by rw [Finset.card_erase_of_mem hu_mem, hcard])
+  obtain ⟨c₂, hc₂_eq⟩ := extract_other b₂ a₂
+    ((adj_comm b₂ a₂).trans hb₂_adj) h_b2_ext
+  have hc₂_mem : c₂ ∈ (Finset.univ.filter (adj b₂ · = 1)).erase a₂ :=
+    hc₂_eq ▸ Finset.mem_singleton_self c₂
+  have hc₂_adj : adj b₂ c₂ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hc₂_mem)).2
+  have hc₂_ne_a₂ : c₂ ≠ a₂ := Finset.ne_of_mem_erase hc₂_mem
+  obtain ⟨c₃, hc₃_eq⟩ := extract_other b₃ a₃
+    ((adj_comm b₃ a₃).trans hb₃_adj) h_b3_ext
+  have hc₃_mem : c₃ ∈ (Finset.univ.filter (adj b₃ · = 1)).erase a₃ :=
+    hc₃_eq ▸ Finset.mem_singleton_self c₃
+  have hc₃_adj : adj b₃ c₃ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hc₃_mem)).2
+  have hc₃_ne_a₃ : c₃ ≠ a₃ := Finset.ne_of_mem_erase hc₃_mem
+  -- Same-arm distinctness
+  have hb₂_ne_c₂ := ne_of_adj' b₂ c₂ hc₂_adj
+  have hb₃_ne_c₃ := ne_of_adj' b₃ c₃ hc₃_adj
+  -- Reversed edge facts for path proofs
+  have hb₂_a₂ : adj b₂ a₂ = 1 := (adj_comm b₂ a₂).trans hb₂_adj
+  have ha₂_v₀ : adj a₂ v₀ = 1 := (adj_comm a₂ v₀).trans ha₂_adj
+  have hb₃_a₃ : adj b₃ a₃ = 1 := (adj_comm b₃ a₃).trans hb₃_adj
+  have ha₃_v₀ : adj a₃ v₀ = 1 := (adj_comm a₃ v₀).trans ha₃_adj
+  have hc₂_b₂ : adj c₂ b₂ = 1 := (adj_comm c₂ b₂).trans hc₂_adj
+  have hc₃_b₃ : adj c₃ b₃ = 1 := (adj_comm c₃ b₃).trans hc₃_adj
+  -- Path helpers (nodup + edges for various lengths)
+  have path_nodup4 : ∀ (a b c d : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → b ≠ c → b ≠ d → c ≠ d →
+      [a, b, c, d].Nodup := by
+    intro a b c d hab hac had hbc hbd hcd
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had⟩, ⟨hbc, hbd⟩, hcd⟩
+  have path_edges4 : ∀ (a b c d : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d].length) →
+        adj ([a, b, c, d].get ⟨k, by omega⟩)
+          ([a, b, c, d].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d h₁ h₂ h₃ k hk
+    have : k + 1 < 4 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 := by omega
+    rcases this with rfl | rfl | rfl <;> assumption
+  have path_nodup5 : ∀ (a b c d e : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → a ≠ e →
+      b ≠ c → b ≠ d → b ≠ e →
+      c ≠ d → c ≠ e → d ≠ e → [a, b, c, d, e].Nodup := by
+    intro a b c d e hab hac had hae hbc hbd hbe hcd hce hde
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had, hae⟩, ⟨hbc, hbd, hbe⟩, ⟨hcd, hce⟩, hde⟩
+  have path_edges5 : ∀ (a b c d e : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 → adj d e = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d, e].length) →
+        adj ([a, b, c, d, e].get ⟨k, by omega⟩)
+          ([a, b, c, d, e].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d e h₁ h₂ h₃ h₄ k hk
+    have : k + 1 < 5 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 := by omega
+    rcases this with rfl | rfl | rfl | rfl <;> assumption
+  have path_nodup6 : ∀ (a b c d e f : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → a ≠ e → a ≠ f →
+      b ≠ c → b ≠ d → b ≠ e → b ≠ f →
+      c ≠ d → c ≠ e → c ≠ f →
+      d ≠ e → d ≠ f → e ≠ f → [a, b, c, d, e, f].Nodup := by
+    intro a b c d e f hab hac had hae haf hbc hbd hbe hbf
+      hcd hce hcf hde hdf hef
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had, hae, haf⟩, ⟨hbc, hbd, hbe, hbf⟩,
+      ⟨hcd, hce, hcf⟩, ⟨hde, hdf⟩, hef⟩
+  have path_edges6 : ∀ (a b c d e f : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 →
+      adj d e = 1 → adj e f = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d, e, f].length) →
+        adj ([a, b, c, d, e, f].get ⟨k, by omega⟩)
+          ([a, b, c, d, e, f].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d e f h₁ h₂ h₃ h₄ h₅ k hk
+    have : k + 1 < 6 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 := by omega
+    rcases this with rfl | rfl | rfl | rfl | rfl <;> assumption
+  have path_nodup7 : ∀ (a b c d e f g : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → a ≠ e → a ≠ f → a ≠ g →
+      b ≠ c → b ≠ d → b ≠ e → b ≠ f → b ≠ g →
+      c ≠ d → c ≠ e → c ≠ f → c ≠ g →
+      d ≠ e → d ≠ f → d ≠ g →
+      e ≠ f → e ≠ g → f ≠ g → [a, b, c, d, e, f, g].Nodup := by
+    intro a b c d e f g hab hac had hae haf hag hbc hbd hbe hbf hbg
+      hcd hce hcf hcg hde hdf hdg hef heg hfg
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had, hae, haf, hag⟩, ⟨hbc, hbd, hbe, hbf, hbg⟩,
+      ⟨hcd, hce, hcf, hcg⟩, ⟨hde, hdf, hdg⟩, ⟨hef, heg⟩, hfg⟩
+  have path_edges7 : ∀ (a b c d e f g : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 → adj d e = 1 →
+      adj e f = 1 → adj f g = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d, e, f, g].length) →
+        adj ([a, b, c, d, e, f, g].get ⟨k, by omega⟩)
+          ([a, b, c, d, e, f, g].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d e f g h₁ h₂ h₃ h₄ h₅ h₆ k hk
+    have : k + 1 < 7 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5 := by omega
+    rcases this with rfl | rfl | rfl | rfl | rfl | rfl <;> assumption
+  -- Triangle non-edges (distance 2)
+  have hleaf_a₂ : adj leaf a₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ leaf a₂
+      ha₂_ne_leaf.symm hleaf_ne_v₀ ha₂_ne_v₀ h_leaf_adj ha₂_adj
+  have hleaf_a₃ : adj leaf a₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ leaf a₃
+      ha₃_ne_leaf.symm hleaf_ne_v₀ ha₃_ne_v₀ h_leaf_adj ha₃_adj
+  have ha₂a₃ : adj a₂ a₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ a₂ a₃
+      ha₂₃ ha₂_ne_v₀ ha₃_ne_v₀ ha₂_adj ha₃_adj
+  have hv₀b₂ : adj v₀ b₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic a₂ v₀ b₂
+      hb₂_ne_v₀.symm ha₂_ne_v₀.symm ha₂_ne_b₂.symm
+      ha₂_v₀ hb₂_adj
+  have hv₀b₃ : adj v₀ b₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic a₃ v₀ b₃
+      hb₃_ne_v₀.symm ha₃_ne_v₀.symm ha₃_ne_b₃.symm
+      ha₃_v₀ hb₃_adj
+  have ha₂c₂ : adj a₂ c₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic b₂ a₂ c₂
+      hc₂_ne_a₂.symm ha₂_ne_b₂ hb₂_ne_c₂.symm
+      hb₂_a₂ hc₂_adj
+  have ha₃c₃ : adj a₃ c₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic b₃ a₃ c₃
+      hc₃_ne_a₃.symm ha₃_ne_b₃ hb₃_ne_c₃.symm
+      hb₃_a₃ hc₃_adj
+  -- Cross-arm distinctness (level 1: from triangle non-edges)
+  have hleaf_ne_b₂ : leaf ≠ b₂ := by
+    intro h; rw [← h] at hb₂_adj
+    linarith [adj_comm a₂ leaf, hleaf_a₂]
+  have hleaf_ne_b₃ : leaf ≠ b₃ := by
+    intro h; rw [← h] at hb₃_adj
+    linarith [adj_comm a₃ leaf, hleaf_a₃]
+  have ha₂_ne_b₃ : a₂ ≠ b₃ := by
+    intro h; rw [h] at ha₂_adj; linarith [hv₀b₃]
+  have ha₃_ne_b₂ : a₃ ≠ b₂ := by
+    intro h; rw [h] at ha₃_adj; linarith [hv₀b₂]
+  have hv₀_ne_c₂ : v₀ ≠ c₂ := by
+    intro h; rw [← h] at hc₂_adj; linarith [adj_comm b₂ v₀, hv₀b₂]
+  have hv₀_ne_c₃ : v₀ ≠ c₃ := by
+    intro h; rw [← h] at hc₃_adj; linarith [adj_comm b₃ v₀, hv₀b₃]
+  -- Path-3 non-edges (distance 3)
+  have hleaf_b₂ : adj leaf b₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [b₂, a₂, v₀, leaf] (by simp)
+      (path_nodup4 _ _ _ _ ha₂_ne_b₂.symm hb₂_ne_v₀ hleaf_ne_b₂.symm
+        ha₂_ne_v₀ ha₂_ne_leaf hleaf_ne_v₀.symm)
+      (path_edges4 _ _ _ _ hb₂_a₂ ha₂_v₀ h_leaf_adj)
+  have hleaf_b₃ : adj leaf b₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [b₃, a₃, v₀, leaf] (by simp)
+      (path_nodup4 _ _ _ _ ha₃_ne_b₃.symm hb₃_ne_v₀ hleaf_ne_b₃.symm
+        ha₃_ne_v₀ ha₃_ne_leaf hleaf_ne_v₀.symm)
+      (path_edges4 _ _ _ _ hb₃_a₃ ha₃_v₀ h_leaf_adj)
+  have ha₂b₃ : adj a₂ b₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [b₃, a₃, v₀, a₂] (by simp)
+      (path_nodup4 _ _ _ _ ha₃_ne_b₃.symm hb₃_ne_v₀ ha₂_ne_b₃.symm
+        ha₃_ne_v₀ ha₂₃.symm ha₂_ne_v₀.symm)
+      (path_edges4 _ _ _ _ hb₃_a₃ ha₃_v₀ ha₂_adj)
+  have ha₃b₂ : adj a₃ b₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [b₂, a₂, v₀, a₃] (by simp)
+      (path_nodup4 _ _ _ _ ha₂_ne_b₂.symm hb₂_ne_v₀ ha₃_ne_b₂.symm
+        ha₂_ne_v₀ ha₂₃ ha₃_ne_v₀.symm)
+      (path_edges4 _ _ _ _ hb₂_a₂ ha₂_v₀ ha₃_adj)
+  have hv₀c₂ : adj v₀ c₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₂, b₂, a₂, v₀] (by simp)
+      (path_nodup4 _ _ _ _ hb₂_ne_c₂.symm hc₂_ne_a₂ hv₀_ne_c₂.symm
+        ha₂_ne_b₂.symm hb₂_ne_v₀ ha₂_ne_v₀)
+      (path_edges4 _ _ _ _ hc₂_b₂ hb₂_a₂ ha₂_v₀)
+  have hv₀c₃ : adj v₀ c₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₃, b₃, a₃, v₀] (by simp)
+      (path_nodup4 _ _ _ _ hb₃_ne_c₃.symm hc₃_ne_a₃ hv₀_ne_c₃.symm
+        ha₃_ne_b₃.symm hb₃_ne_v₀ ha₃_ne_v₀)
+      (path_edges4 _ _ _ _ hc₃_b₃ hb₃_a₃ ha₃_v₀)
+  -- Cross-arm distinctness (level 2: from path non-edges)
+  have hleaf_ne_c₂ : leaf ≠ c₂ := by
+    intro h; rw [h] at h_leaf_adj; linarith [hv₀c₂]
+  have hleaf_ne_c₃ : leaf ≠ c₃ := by
+    intro h; rw [h] at h_leaf_adj; linarith [hv₀c₃]
+  have ha₂_ne_c₃ : a₂ ≠ c₃ := by
+    intro h; rw [h] at ha₂_adj; linarith [hv₀c₃]
+  have ha₃_ne_c₂ : a₃ ≠ c₂ := by
+    intro h; rw [h] at ha₃_adj; linarith [hv₀c₂]
+  have hb₂_ne_b₃ : b₂ ≠ b₃ := by
+    intro h; rw [← h] at hb₃_adj
+    exact h_acyclic [b₂, a₂, v₀, a₃] (by simp)
+      (path_nodup4 _ _ _ _ ha₂_ne_b₂.symm hb₂_ne_v₀ ha₃_ne_b₂.symm
+        ha₂_ne_v₀ ha₂₃ ha₃_ne_v₀.symm)
+      (path_edges4 _ _ _ _ hb₂_a₂ ha₂_v₀ ha₃_adj) hb₃_adj
+  -- c₂ ≠ c₃ via cycle: [c₂, b₂, a₂, v₀, a₃, b₃] would close
+  have hc₂_ne_c₃ : c₂ ≠ c₃ := by
+    intro h; rw [← h] at hc₃_adj
+    have hc₂_ne_b₃ : c₂ ≠ b₃ := (ne_of_adj' b₃ c₂ hc₃_adj).symm
+    exact h_acyclic [c₂, b₂, a₂, v₀, a₃, b₃] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hb₂_ne_c₂.symm hc₂_ne_a₂
+        hv₀_ne_c₂.symm ha₃_ne_c₂.symm hc₂_ne_b₃
+        ha₂_ne_b₂.symm hb₂_ne_v₀ ha₃_ne_b₂.symm hb₂_ne_b₃
+        ha₂_ne_v₀ ha₂₃ ha₂_ne_b₃ ha₃_ne_v₀.symm
+        hb₃_ne_v₀.symm ha₃_ne_b₃)
+      (path_edges6 _ _ _ _ _ _ hc₂_b₂ hb₂_a₂ ha₂_v₀ ha₃_adj hb₃_adj)
+      hc₃_adj
+  have hb₂_ne_c₃ : b₂ ≠ c₃ := by
+    intro h; rw [← h] at hc₃_adj
+    exact h_acyclic [b₂, a₂, v₀, a₃, b₃] (by simp)
+      (path_nodup5 _ _ _ _ _ ha₂_ne_b₂.symm hb₂_ne_v₀ ha₃_ne_b₂.symm
+        hb₂_ne_b₃ ha₂_ne_v₀ ha₂₃ ha₂_ne_b₃
+        ha₃_ne_v₀.symm hb₃_ne_v₀.symm ha₃_ne_b₃)
+      (path_edges5 _ _ _ _ _ hb₂_a₂ ha₂_v₀ ha₃_adj hb₃_adj)
+      hc₃_adj
+  have hb₃_ne_c₂ : b₃ ≠ c₂ := by
+    intro h; rw [← h] at hc₂_adj
+    exact h_acyclic [b₃, a₃, v₀, a₂, b₂] (by simp)
+      (path_nodup5 _ _ _ _ _ ha₃_ne_b₃.symm hb₃_ne_v₀ ha₂_ne_b₃.symm
+        hb₂_ne_b₃.symm ha₃_ne_v₀ ha₂₃.symm ha₃_ne_b₂
+        ha₂_ne_v₀.symm hb₂_ne_v₀.symm ha₂_ne_b₂)
+      (path_edges5 _ _ _ _ _ hb₃_a₃ ha₃_v₀ ha₂_adj hb₂_adj)
+      hc₂_adj
+  -- Remaining non-edges (distance 4+)
+  have hleaf_c₂ : adj leaf c₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₂, b₂, a₂, v₀, leaf] (by simp)
+      (path_nodup5 _ _ _ _ _ hb₂_ne_c₂.symm hc₂_ne_a₂ hv₀_ne_c₂.symm
+        hleaf_ne_c₂.symm ha₂_ne_b₂.symm hb₂_ne_v₀ hleaf_ne_b₂.symm
+        ha₂_ne_v₀ ha₂_ne_leaf hleaf_ne_v₀.symm)
+      (path_edges5 _ _ _ _ _ hc₂_b₂ hb₂_a₂ ha₂_v₀ h_leaf_adj)
+  have hleaf_c₃ : adj leaf c₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₃, b₃, a₃, v₀, leaf] (by simp)
+      (path_nodup5 _ _ _ _ _ hb₃_ne_c₃.symm hc₃_ne_a₃ hv₀_ne_c₃.symm
+        hleaf_ne_c₃.symm ha₃_ne_b₃.symm hb₃_ne_v₀ hleaf_ne_b₃.symm
+        ha₃_ne_v₀ ha₃_ne_leaf hleaf_ne_v₀.symm)
+      (path_edges5 _ _ _ _ _ hc₃_b₃ hb₃_a₃ ha₃_v₀ h_leaf_adj)
+  have ha₂c₃ : adj a₂ c₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₃, b₃, a₃, v₀, a₂] (by simp)
+      (path_nodup5 _ _ _ _ _ hb₃_ne_c₃.symm hc₃_ne_a₃ hv₀_ne_c₃.symm
+        ha₂_ne_c₃.symm ha₃_ne_b₃.symm hb₃_ne_v₀ ha₂_ne_b₃.symm
+        ha₃_ne_v₀ ha₂₃.symm ha₂_ne_v₀.symm)
+      (path_edges5 _ _ _ _ _ hc₃_b₃ hb₃_a₃ ha₃_v₀ ha₂_adj)
+  have ha₃c₂ : adj a₃ c₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₂, b₂, a₂, v₀, a₃] (by simp)
+      (path_nodup5 _ _ _ _ _ hb₂_ne_c₂.symm hc₂_ne_a₂ hv₀_ne_c₂.symm
+        ha₃_ne_c₂.symm ha₂_ne_b₂.symm hb₂_ne_v₀ ha₃_ne_b₂.symm
+        ha₂_ne_v₀ ha₂₃ ha₃_ne_v₀.symm)
+      (path_edges5 _ _ _ _ _ hc₂_b₂ hb₂_a₂ ha₂_v₀ ha₃_adj)
+  have hb₂b₃ : adj b₂ b₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [b₃, a₃, v₀, a₂, b₂] (by simp)
+      (path_nodup5 _ _ _ _ _ ha₃_ne_b₃.symm hb₃_ne_v₀ ha₂_ne_b₃.symm
+        hb₂_ne_b₃.symm ha₃_ne_v₀ ha₂₃.symm ha₃_ne_b₂
+        ha₂_ne_v₀.symm hb₂_ne_v₀.symm ha₂_ne_b₂)
+      (path_edges5 _ _ _ _ _ hb₃_a₃ ha₃_v₀ ha₂_adj hb₂_adj)
+  have hb₂c₃ : adj b₂ c₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₃, b₃, a₃, v₀, a₂, b₂] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hb₃_ne_c₃.symm hc₃_ne_a₃
+        hv₀_ne_c₃.symm ha₂_ne_c₃.symm hb₂_ne_c₃.symm
+        ha₃_ne_b₃.symm hb₃_ne_v₀ ha₂_ne_b₃.symm
+        hb₂_ne_b₃.symm ha₃_ne_v₀ ha₂₃.symm ha₃_ne_b₂
+        ha₂_ne_v₀.symm hb₂_ne_v₀.symm ha₂_ne_b₂)
+      (path_edges6 _ _ _ _ _ _
+        hc₃_b₃ hb₃_a₃ ha₃_v₀ ha₂_adj hb₂_adj)
+  have hb₃c₂ : adj b₃ c₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₂, b₂, a₂, v₀, a₃, b₃] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hb₂_ne_c₂.symm hc₂_ne_a₂
+        hv₀_ne_c₂.symm ha₃_ne_c₂.symm hb₃_ne_c₂.symm
+        ha₂_ne_b₂.symm hb₂_ne_v₀ ha₃_ne_b₂.symm
+        hb₂_ne_b₃ ha₂_ne_v₀ ha₂₃ ha₂_ne_b₃
+        ha₃_ne_v₀.symm hb₃_ne_v₀.symm ha₃_ne_b₃)
+      (path_edges6 _ _ _ _ _ _
+        hc₂_b₂ hb₂_a₂ ha₂_v₀ ha₃_adj hb₃_adj)
+  have hc₂c₃ : adj c₂ c₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic
+      [c₃, b₃, a₃, v₀, a₂, b₂, c₂] (by simp)
+      (path_nodup7 _ _ _ _ _ _ _ hb₃_ne_c₃.symm hc₃_ne_a₃
+        hv₀_ne_c₃.symm ha₂_ne_c₃.symm hb₂_ne_c₃.symm
+        hc₂_ne_c₃.symm ha₃_ne_b₃.symm hb₃_ne_v₀
+        ha₂_ne_b₃.symm hb₂_ne_b₃.symm hb₃_ne_c₂
+        ha₃_ne_v₀ ha₂₃.symm ha₃_ne_b₂ ha₃_ne_c₂
+        ha₂_ne_v₀.symm hb₂_ne_v₀.symm hv₀_ne_c₂
+        ha₂_ne_b₂ hc₂_ne_a₂.symm hb₂_ne_c₂)
+      (path_edges7 _ _ _ _ _ _ _
+        hc₃_b₃ hb₃_a₃ ha₃_v₀ ha₂_adj hb₂_adj hc₂_adj)
+  -- Construct the embedding φ : Fin 8 ↪ Fin n for Ẽ₇ = T(1,3,3)
+  -- Ẽ₇ adjacency: 0-1, 0-2, 2-3, 3-4, 0-5, 5-6, 6-7
+  -- Map: 0→v₀, 1→leaf, 2→a₂, 3→b₂, 4→c₂, 5→a₃, 6→b₃, 7→c₃
+  let φ_fun : Fin 8 → Fin n := fun i =>
+    match i with
+    | ⟨0, _⟩ => v₀  | ⟨1, _⟩ => leaf | ⟨2, _⟩ => a₂
+    | ⟨3, _⟩ => b₂  | ⟨4, _⟩ => c₂   | ⟨5, _⟩ => a₃
+    | ⟨6, _⟩ => b₃  | ⟨7, _⟩ => c₃
+  have φ_inj : Function.Injective φ_fun := by
+    intro i j hij; simp only [φ_fun] at hij
+    fin_cases i <;> fin_cases j <;> first
+      | rfl
+      | (exact absurd hij ‹_›)
+      | (exact absurd hij.symm ‹_›)
+  let φ : Fin 8 ↪ Fin n := ⟨φ_fun, φ_inj⟩
+  have hembed : ∀ i j, etilde7Adj i j = adj (φ i) (φ j) := by
+    intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [etilde7Adj, φ, φ_fun] <;> norm_num <;>
+      linarith [hdiag v₀, hdiag leaf, hdiag a₂, hdiag a₃,
+        hdiag b₂, hdiag b₃, hdiag c₂, hdiag c₃,
+        h_leaf_adj, ha₂_adj, ha₃_adj,
+        hb₂_adj, hb₃_adj, hc₂_adj, hc₃_adj,
+        adj_comm v₀ leaf, adj_comm v₀ a₂, adj_comm v₀ a₃,
+        adj_comm v₀ b₂, adj_comm v₀ b₃,
+        adj_comm v₀ c₂, adj_comm v₀ c₃,
+        adj_comm leaf a₂, adj_comm leaf a₃,
+        adj_comm leaf b₂, adj_comm leaf b₃,
+        adj_comm leaf c₂, adj_comm leaf c₃,
+        adj_comm a₂ a₃, adj_comm a₂ b₂, adj_comm a₂ b₃,
+        adj_comm a₂ c₂, adj_comm a₂ c₃,
+        adj_comm a₃ b₂, adj_comm a₃ b₃,
+        adj_comm a₃ c₂, adj_comm a₃ c₃,
+        adj_comm b₂ b₃, adj_comm b₂ c₂, adj_comm b₂ c₃,
+        adj_comm b₃ c₂, adj_comm b₃ c₃,
+        adj_comm c₂ c₃,
+        hleaf_a₂, hleaf_a₃, ha₂a₃, hv₀b₂, hv₀b₃,
+        ha₂c₂, ha₃c₃,
+        hleaf_b₂, hleaf_b₃, ha₂b₃, ha₃b₂,
+        hv₀c₂, hv₀c₃,
+        hleaf_c₂, hleaf_c₃, ha₂c₃, ha₃c₂, hb₂b₃,
+        hb₂c₃, hb₃c₂, hc₂c₃]
+  exact subgraph_infinite_type_transfer_per_kQ φ F Q
+    (etilde7_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- Per-(F, Q) version of the "both arms extend" branch of
