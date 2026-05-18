@@ -526,4 +526,33 @@ theorem starRep_kQ_dimVec
       (Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) version of `star_not_finite_type`: for any
+algebraically closed field `F` and any orientation `Q` of `starAdj`, the
+set of dimension vectors of indecomposable representations of `Q` over
+`F` is infinite.
+
+API stub introduced by issue #2875 (deliverable 1): the body is `sorry`
+pending the indecomposability proof for `starRep_kQ`, which is tracked by
+issues #2789 (canonical orientation) and #2801 (Q-extension). This stub
+exists so that the per-(F, Q) assembly `not_posdef_infinite_type_per_kQ`
+can dispatch by name to the K_{1,4} (D̃₄) forbidden-subgraph case via
+`subgraph_infinite_type_transfer_per_kQ`. -/
+theorem star_not_finite_type_per_kQ
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 5))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 5 Q starAdj) :
+    ¬ Set.Finite
+      {d : Fin 5 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 5) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- TODO (#2789, #2801): replace this `sorry` with the proof that the
+  -- orientation-generic family `starRep_kQ F Q hOrient (m + 1)` is
+  -- indecomposable and produces infinitely many distinct dimension
+  -- vectors (mirror `etilde6_not_finite_type_per_kQ`).
+  let _ := hOrient
+  sorry
+
 end Etingof
