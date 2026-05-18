@@ -593,7 +593,15 @@ theorem single_branch_leaf_both_extend_b3leaf_per_kQ {n : ℕ}
     have hd₂_ne_b₂ : d₂ ≠ b₂ := Finset.ne_of_mem_erase hd₂_mem
     have hc₂_ne_d₂ : c₂ ≠ d₂ := ne_of_adj' c₂ d₂ hd₂_adj
     by_cases h_d2_ext : vertexDegree adj d₂ = 2
-    · -- d₂ extends (arm2 length ≥ 5): extract e₂, embed T(1, 2, 5)
+    · -- d₂ extends (arm2 length ≥ 5): extract e₂, embed T(1, 2, 5) and
+      -- dispatch to `t125_not_finite_type_per_kQ` via
+      -- `subgraph_infinite_type_transfer_per_kQ`. Tracked by follow-up
+      -- sub-issue: this case requires ~250 lines of distinctness/non-edge
+      -- derivations across 9 vertices plus the φ + hembed construction,
+      -- mirroring `embed_t125_in_tree`
+      -- (`InfiniteTypeConstructions.lean:4918-5279`) with renaming
+      -- (v₀, u₁, p₁, p₂, q₁, q₂, q₃, q₄, q₅) ↦
+      -- (v₀, leaf, a₃, b₃, a₂, b₂, c₂, d₂, e₂).
       obtain ⟨e₂, he₂_eq⟩ := extract_other d₂ c₂
         ((adj_comm d₂ c₂).trans hd₂_adj) h_d2_ext
       have he₂_mem : e₂ ∈ (Finset.univ.filter (adj d₂ · = 1)).erase c₂ :=
@@ -601,8 +609,8 @@ theorem single_branch_leaf_both_extend_b3leaf_per_kQ {n : ℕ}
       have _he₂_adj : adj d₂ e₂ = 1 :=
         (Finset.mem_filter.mp (Finset.mem_of_mem_erase he₂_mem)).2
       have _he₂_ne_c₂ : e₂ ≠ c₂ := Finset.ne_of_mem_erase he₂_mem
-      let _ := h_a3_ext  -- silenced until d₂-extends body is implemented
-      sorry  -- T(1, 2, 5) embedding for d₂-extends arm
+      let _ := h_a3_ext  -- absorbed in the embedded subgraph
+      sorry
     · -- d₂ is a leaf (arm2 length = 4): T(1, 4, 2) = E₈ posdef contradiction.
       -- The 8 named vertices {v₀, leaf, a₂, b₂, c₂, d₂, a₃, b₃} form an E₈ tree
       -- whose Cartan form is positive definite — contradicting `h_not_posdef`.
