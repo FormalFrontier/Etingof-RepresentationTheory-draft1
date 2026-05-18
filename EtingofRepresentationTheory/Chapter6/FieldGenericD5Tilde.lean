@@ -208,45 +208,13 @@ theorem d5tildeRep_kQ_dimVec
 F-generic analogues of the inline computations in the ℂ-specific
 `d5tildeRep_isIndecomposable` (`InfiniteTypeConstructions.lean:1569`).
 Extracted as named lemmas so the per-(F, Q) indecomposability proof can
-use them across direction case-splits. -/
+use them across direction case-splits.
 
-/-- The two leaf-embeds disjoint at the center:
-`starEmbed1_F x + starEmbed2_F y = 0 → x = 0 ∧ y = 0`. -/
-theorem embed_sum_zero_F (F : Type) [Field F] (m : ℕ) (x y : Fin (m + 1) → F)
-    (h : starEmbed1_F F m x + starEmbed2_F F m y = 0) :
-    x = 0 ∧ y = 0 := by
-  have heval : ∀ j : Fin (2 * (m + 1)),
-      starEmbed1_F F m x j + starEmbed2_F F m y j = 0 :=
-    fun j => by have := congr_fun h j; simpa using this
-  constructor <;> ext ⟨i, hi⟩ <;> simp only [Pi.zero_apply]
-  · have := heval ⟨i, by omega⟩
-    simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
-    split_ifs at this with h1
-    · omega
-    · simpa using this
-  · have := heval ⟨m + 1 + i, by omega⟩
-    simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
-    split_ifs at this with h1 h2
-    · omega
-    · omega
-    · simp only [zero_add] at this
-      have key : (⟨m + 1 + i - (m + 1), by omega⟩ : Fin (m + 1)) = ⟨i, hi⟩ := by
-        simp only [Fin.mk.injEq]; omega
-      rwa [key] at this
-    · omega
-
-/-- Every `F^{2(m+1)}` vector decomposes as the sum of its two half-block
-embeddings via the projections. -/
-theorem center_decomp_F (F : Type) [Field F] (m : ℕ) (w : Fin (2 * (m + 1)) → F) :
-    w = starEmbed1_F F m (starFirst_F F m w) +
-        starEmbed2_F F m (starSecond_F F m w) := by
-  ext ⟨j, hj⟩
-  simp only [Pi.add_apply, starEmbed1_F, starEmbed2_F, starFirst_F, starSecond_F,
-    LinearMap.coe_mk, AddHom.coe_mk]
-  by_cases hjlt : j < m + 1
-  · simp only [dif_pos hjlt, show ¬(m + 1 ≤ j) from by omega, dite_false, add_zero]
-  · simp only [dif_neg hjlt, show m + 1 ≤ j from by omega, dite_true, zero_add]
-    congr 1; ext; simp; omega
+`embed_sum_zero_F` and `center_decomp_F` live in
+`FieldGenericStar.lean` next to their underlying definitions
+(`starEmbed1_F`, `starEmbed2_F`, `starFirst_F`, `starSecond_F`); they
+are used both by `starRepGen_isIndecomposable` there and by the D̃₅
+cascade below. -/
 
 /-- `d5tildeGamma_F` on `starEmbed1_F`: `γ(x, 0) = (x, x)`. F-generic
 mirror of the inline `gamma_from_embed1` computation in the canonical
@@ -865,9 +833,10 @@ template is the ℂ-specific `d5tildeRep_isIndecomposable`
 (`InfiniteTypeConstructions.lean:1569`); the per-(F, Q) version
 case-splits on the direction of each of the five edges of `d5tildeAdj`
 (four leaf-center edges and the central γ edge). The helper lemmas
-`embed_sum_zero_F`, `center_decomp_F`, `gamma_from_embed1_F`,
-`gamma_from_embed2_F` (Section 5) are F-generic extractions of the
-inline computations used in the ℂ proof and are ready for use by the
+`gamma_from_embed1_F`, `gamma_from_embed2_F` (Section 5) and
+`embed_sum_zero_F`, `center_decomp_F`
+(`FieldGenericStar.lean`) are F-generic extractions of the inline
+computations used in the ℂ proof and are ready for use by the
 follow-up worker.
 
 This is path (b) of #2804: stub the API at the orientation-generic level,
