@@ -5412,7 +5412,7 @@ set_option maxHeartbeats 1600000 in
     After removing L1 and L2, v₀ becomes a leaf of the resulting path graph.
     Key identity: Q(x) = Q_path(x_rest) - V² + (V - L - A)² + (L - A)²
     where V = x(v₀), L = x(L1), A = x(L2), and Q_path is the path's Cartan form. -/
-private lemma tree_two_leaf_posdef {n : ℕ}
+lemma tree_two_leaf_posdef {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)

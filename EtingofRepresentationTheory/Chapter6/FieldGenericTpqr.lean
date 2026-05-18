@@ -48,6 +48,80 @@ namespace Etingof
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of the "both arms extend" branch of
+`single_branch_leaf_case` (`InfiniteTypeConstructions.lean:6981-8352`):
+given the T(1, q, r) configuration where both of `v₀`'s non-leaf
+neighbours `a₂` and `a₃` have degree 2 (i.e. q, r ≥ 2), the quiver has
+infinite representation type for every algebraically closed `F` and every
+orientation `Q`.
+
+API stub: the body is `sorry`, tracked by a follow-up sub-issue. The real
+proof mirrors the `_kQ`-free original — further case-splits on whether
+`b₂`, `b₃` and deeper vertices extend, dispatching to
+`etilde7_not_finite_type_per_kQ` (q, r ≥ 3 → Ẽ₇),
+`t125_not_finite_type_per_kQ` (q = 2, r ≥ 5 → T(1, 2, 5)), or contradicting
+`h_not_posdef` for the ADE shapes T(1, 2, 2), T(1, 2, 3), T(1, 2, 4).
+
+The "one or both arms are leaves" branches are handled inline in
+`single_branch_leaf_case_per_kQ` via `tree_two_leaf_posdef` and do not flow
+through this helper. -/
+theorem single_branch_leaf_case_both_extend_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (h_deg : ∀ v, vertexDegree adj v < 4)
+    (v₀ : Fin n) (hv₀ : vertexDegree adj v₀ = 3)
+    (h_unique : ∀ w, vertexDegree adj w = 3 → w = v₀)
+    (h_not_posdef : ¬ ∀ x : Fin n → ℤ, x ≠ 0 →
+      0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x))
+    (leaf : Fin n) (h_leaf_adj : adj v₀ leaf = 1)
+    (h_leaf_deg : vertexDegree adj leaf = 1)
+    (a₂ a₃ : Fin n)
+    (ha₂_adj : adj v₀ a₂ = 1) (ha₃_adj : adj v₀ a₃ = 1)
+    (ha₂₃ : a₂ ≠ a₃)
+    (ha₂_ne_leaf : a₂ ≠ leaf) (ha₃_ne_leaf : a₃ ≠ leaf)
+    (ha₂_deg : vertexDegree adj a₂ = 2) (ha₃_deg : vertexDegree adj a₃ = 2)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- TODO (follow-up issue): replace this `sorry` with the per-(F, Q) "both arms
+  -- extend" body mirroring `single_branch_leaf_case`
+  -- (`InfiniteTypeConstructions.lean:6981-8352`, ~1370 lines). Further case-
+  -- splits on whether `b₂`, `b₃` and deeper vertices extend, dispatching to:
+  --   * both arms ≥ 3 → embed Ẽ₇ and call `etilde7_not_finite_type_per_kQ`
+  --   * one arm length 2, other ≥ 5 → embed T(1, 2, 5) and call
+  --     `t125_not_finite_type_per_kQ`
+  --   * ADE shapes T(1, 2, 2/3/4) → contradict `h_not_posdef` via the
+  --     `e7_tree_posdef` / `e8_posdef`-style posdef facts in
+  --     `InfiniteTypeConstructions.lean`.
+  -- The real body will need `set_option maxHeartbeats 6400000 in` (mirroring
+  -- the `_kQ`-free original at `InfiniteTypeConstructions.lean:6896`); the
+  -- stub elaborates fine without it.
+  let _ := hn; let _ := hsymm; let _ := hdiag; let _ := h01; let _ := hconn
+  let _ := h_acyclic; let _ := h_deg; let _ := hv₀; let _ := h_unique
+  let _ := h_not_posdef; let _ := h_leaf_adj; let _ := h_leaf_deg
+  let _ := ha₂_adj; let _ := ha₃_adj; let _ := ha₂₃
+  let _ := ha₂_ne_leaf; let _ := ha₃_ne_leaf; let _ := ha₂_deg; let _ := ha₃_deg
+  let _ := hOrient
+  sorry
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
 /-- Per-(F, Q) version of `single_branch_leaf_case`
 (`InfiniteTypeConstructions.lean:6901`): a connected acyclic simple graph
 with a unique degree-3 vertex `v₀`, all degrees ≤ 3, non-positive-definite
@@ -55,12 +129,15 @@ Cartan form, and at least one leaf neighbour of `v₀` has infinite
 representation type for every algebraically closed `F` and every
 orientation `Q`.
 
-API stub: the body is `sorry`, tracked by a follow-up sub-issue. The real
-proof will mirror the `_kQ`-free original — case-split on T(1, q, r)
-shape, embed Ẽ₇ or T(1, 2, 5), and dispatch via
-`subgraph_infinite_type_transfer_per_kQ`. This stub exists so that
-`single_branch_not_posdef_infinite_type_per_kQ` (in this file) can
-dispatch by name to the leaf-case branch. -/
+Top-level case-split on whether each of `v₀`'s other two neighbours
+(`a₂`, `a₃`) has degree 2:
+
+* Both `a₂` and `a₃` extend (q, r ≥ 2) → delegate to
+  `single_branch_leaf_case_both_extend_per_kQ`.
+* `a₃` is a leaf (q ≥ 2, r = 1) → T(1, q, 1) is a D-type tree, whose Cartan
+  form is positive definite by `tree_two_leaf_posdef`, contradicting
+  `h_not_posdef`.
+* `a₂` is a leaf — symmetric to the previous case. -/
 theorem single_branch_leaf_case_per_kQ {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hsymm : adj.IsSymm)
@@ -90,16 +167,63 @@ theorem single_branch_leaf_case_per_kQ {n : ℕ}
       {d : Fin n → ℕ |
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  -- TODO (follow-up issue): replace this `sorry` with the per-(F, Q)
-  -- analog of `single_branch_leaf_case`
-  -- (`InfiniteTypeConstructions.lean:6901-8400`). The real proof
-  -- case-splits on the T(1, q, r) shape: q, r ≥ 3 embeds Ẽ₇ and
-  -- dispatches to `etilde7_not_finite_type_per_kQ`; q = 2, r ≥ 5
-  -- embeds T(1, 2, 5) and dispatches to `t125_not_finite_type_per_kQ`;
-  -- the ADE cases (T(1, 1, r), T(1, 2, 2), T(1, 2, 3), T(1, 2, 4))
-  -- contradict `h_not_posdef`.
-  let _ := hn; let _ := hconn; let _ := h_leaf_deg; let _ := hOrient
-  sorry
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj' : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
+    rw [hab, hdiag] at h; exact one_ne_zero h.symm
+  have h_deg_le2 : ∀ v, v ≠ v₀ → vertexDegree adj v ≤ 2 := by
+    intro v hv; have h3 := h_deg v
+    by_contra h; push_neg at h; exact hv (h_unique v (by omega))
+  -- Extract a₂, a₃: the other two neighbours of v₀ (besides leaf)
+  set S₀ := Finset.univ.filter (fun j => adj v₀ j = 1) with hS₀_def
+  have h_leaf_mem : leaf ∈ S₀ := Finset.mem_filter.mpr ⟨Finset.mem_univ _, h_leaf_adj⟩
+  obtain ⟨a₂, a₃, ha₂₃, hS₀_eq⟩ := Finset.card_eq_two.mp (by
+    rw [Finset.card_erase_of_mem h_leaf_mem, (show S₀.card = 3 from hv₀)])
+  have ha₂_mem : a₂ ∈ S₀.erase leaf := hS₀_eq ▸ Finset.mem_insert_self a₂ _
+  have ha₃_mem : a₃ ∈ S₀.erase leaf := hS₀_eq ▸ Finset.mem_insert.mpr
+    (Or.inr (Finset.mem_singleton_self a₃))
+  have ha₂_adj : adj v₀ a₂ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase ha₂_mem)).2
+  have ha₃_adj : adj v₀ a₃ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase ha₃_mem)).2
+  have ha₂_ne_leaf : a₂ ≠ leaf := Finset.ne_of_mem_erase ha₂_mem
+  have ha₃_ne_leaf : a₃ ≠ leaf := Finset.ne_of_mem_erase ha₃_mem
+  have hleaf_ne_v₀ : leaf ≠ v₀ := (ne_of_adj' v₀ leaf h_leaf_adj).symm
+  have ha₂_ne_v₀ : a₂ ≠ v₀ := (ne_of_adj' v₀ a₂ ha₂_adj).symm
+  have ha₃_ne_v₀ : a₃ ≠ v₀ := (ne_of_adj' v₀ a₃ ha₃_adj).symm
+  -- Case split: both a₂ and a₃ have degree 2?
+  by_cases h_a2_ext : vertexDegree adj a₂ = 2
+  · by_cases h_a3_ext : vertexDegree adj a₃ = 2
+    · -- Both arms extend (degree = 2 each) → delegate to the both-extend helper
+      exact single_branch_leaf_case_both_extend_per_kQ adj hn hsymm hdiag h01 hconn
+        h_acyclic h_deg v₀ hv₀ h_unique h_not_posdef leaf h_leaf_adj h_leaf_deg
+        a₂ a₃ ha₂_adj ha₃_adj ha₂₃ ha₂_ne_leaf ha₃_ne_leaf h_a2_ext h_a3_ext
+        F Q hOrient
+    · -- a₃ has degree 1 (leaf): T(1, ≥2, 1) = D-type → posdef → contradiction
+      have ha₃_deg1 : vertexDegree adj a₃ = 1 := by
+        have hle := h_deg_le2 a₃ ha₃_ne_v₀
+        have hge : 1 ≤ vertexDegree adj a₃ :=
+          Finset.card_pos.mpr ⟨v₀, Finset.mem_filter.mpr
+            ⟨Finset.mem_univ _, (adj_comm a₃ v₀).trans ha₃_adj⟩⟩
+        omega
+      exfalso
+      apply h_not_posdef
+      intro x hx
+      exact tree_two_leaf_posdef adj hsymm hdiag h01 hconn h_acyclic h_deg v₀ leaf a₃
+        h_leaf_adj h_leaf_deg ha₃_adj ha₃_deg1
+        ha₃_ne_leaf.symm hleaf_ne_v₀ ha₃_ne_v₀ h_deg_le2 x hx
+  · -- a₂ has degree 1 (leaf): T(1, ≥1, 1) — symmetric to the a₃ leaf case
+    have ha₂_deg1 : vertexDegree adj a₂ = 1 := by
+      have hle := h_deg_le2 a₂ ha₂_ne_v₀
+      have hge : 1 ≤ vertexDegree adj a₂ :=
+        Finset.card_pos.mpr ⟨v₀, Finset.mem_filter.mpr
+          ⟨Finset.mem_univ _, (adj_comm a₂ v₀).trans ha₂_adj⟩⟩
+      omega
+    exfalso
+    apply h_not_posdef
+    intro x hx
+    exact tree_two_leaf_posdef adj hsymm hdiag h01 hconn h_acyclic h_deg v₀ leaf a₂
+      h_leaf_adj h_leaf_deg ha₂_adj ha₂_deg1
+      ha₂_ne_leaf.symm hleaf_ne_v₀ ha₂_ne_v₀ h_deg_le2 x hx
 
 set_option maxHeartbeats 3200000 in
 -- reason: ~30 distinctness facts plus the 49-case `fin_cases` adjacency
