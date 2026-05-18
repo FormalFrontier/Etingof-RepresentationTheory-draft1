@@ -324,4 +324,68 @@ theorem etilde7_not_finite_type_per_kQ
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+set_option maxHeartbeats 3200000 in
+-- reason: matches the `set_option maxHeartbeats` budget on
+-- `embed_t125_in_tree_per_kQ` (`FieldGenericT125.lean:55`), which the
+-- forthcoming proof body of this helper mirrors line-for-line — the
+-- ~30 distinctness facts and the 64-case `fin_cases` adjacency check
+-- through the `Fin 8 ↪ Fin n` embedding need the larger budget.
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) Ẽ₇ = T(1, 3, 3) embedding helper: given
+eight vertices forming a `T(1, 3, 3)` shape inside an acyclic simple
+graph, embed and dispatch to `etilde7_not_finite_type_per_kQ` via
+`subgraph_infinite_type_transfer_per_kQ`.
+
+Mirrors the pattern of `embed_t125_in_tree_per_kQ`
+(`FieldGenericT125.lean:71`). Vertex roles match `etilde7Adj`: `v₀`
+(center, vertex `0`); `u₁` (length-1 arm, vertex `1`); `(c₂, d₂, e₂)`
+(length-3 arm, vertices `2`-`3`-`4`); `(c₃, d₃, e₃)` (length-3 arm,
+vertices `5`-`6`-`7`). Embedding map:
+`0→v₀, 1→u₁, 2→c₂, 3→d₂, 4→e₂, 5→c₃, 6→d₃, 7→e₃`.
+
+Shared helper introduced for the non-adjacent-branches leaf case
+(issue #2932). The body is currently `sorry` pending the proof
+tracked by a follow-up sub-issue of #2932; the full implementation
+mirrors `embed_t125_in_tree_per_kQ` (build the distinctness lattice
+via `acyclic_no_triangle` and `acyclic_path_nonadj`, define a
+`Fin 8 ↪ Fin n` embedding, verify `etilde7Adj i j = adj (φ i) (φ j)`
+by case analysis, then dispatch via
+`subgraph_infinite_type_transfer_per_kQ`). -/
+theorem embed_etilde7_in_tree_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (v₀ u₁ c₂ d₂ e₂ c₃ d₃ e₃ : Fin n)
+    (hu₁ : adj v₀ u₁ = 1)
+    (hc₂ : adj v₀ c₂ = 1) (hd₂ : adj c₂ d₂ = 1) (he₂ : adj d₂ e₂ = 1)
+    (hc₃ : adj v₀ c₃ = 1) (hd₃ : adj c₃ d₃ = 1) (he₃ : adj d₃ e₃ = 1)
+    (hu₁_ne_c₂ : u₁ ≠ c₂) (hu₁_ne_c₃ : u₁ ≠ c₃) (hc₂_ne_c₃ : c₂ ≠ c₃)
+    (hd₂_ne_v₀ : d₂ ≠ v₀) (hd₃_ne_v₀ : d₃ ≠ v₀)
+    (he₂_ne_c₂ : e₂ ≠ c₂) (he₃_ne_c₃ : e₃ ≠ c₃)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- TODO (sub-issue of #2932): port the body from the
+  -- `embed_t125_in_tree_per_kQ` pattern (`FieldGenericT125.lean:71`).
+  let _ := hsymm; let _ := hdiag; let _ := h01; let _ := h_acyclic
+  let _ := hu₁; let _ := hc₂; let _ := hd₂; let _ := he₂
+  let _ := hc₃; let _ := hd₃; let _ := he₃
+  let _ := hu₁_ne_c₂; let _ := hu₁_ne_c₃; let _ := hc₂_ne_c₃
+  let _ := hd₂_ne_v₀; let _ := hd₃_ne_v₀
+  let _ := he₂_ne_c₂; let _ := he₃_ne_c₃
+  let _ := hOrient
+  sorry
+
 end Etingof
