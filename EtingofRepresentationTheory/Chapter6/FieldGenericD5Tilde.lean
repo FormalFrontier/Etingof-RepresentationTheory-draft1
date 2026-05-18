@@ -490,6 +490,325 @@ theorem gammaInv_embed1_plus_embedNshift_F (F : Type) [Field F] (m : ℕ)
     LinearMap.sub_apply]
   rw [hP1, hP2, cumTailSumLin_oneSubNilp, sub_self, map_zero, zero_add]
 
+/-! ## Section 5e: Leaf subspace equalities
+
+The leaf-equality theorem `d5tildeRep_kQ_leaf_equalities` derives the four
+identities `W₁(0) = W₁(1) = W₁(4) = W₁(5)` for any complementary invariant
+submodule pair `(W₁, W₂)` of `d5tildeRep_kQ F Q hOrient m`. Mirrors the
+leaf-equality block of the ℂ-source proof
+(`InfiniteTypeConstructions.lean:1820-1834`), generalized over all 32
+orientations of `d5tildeAdj`.
+
+The proof case-splits on the direction of each of the five edges of
+`d5tildeAdj` (`hOrient_edge` extracts each direction as a 2-way disjunction).
+The canonical-orientation branch (all five edges in canonical direction)
+mirrors the ℂ-source proof using the helpers from Sections 5/5a-5d. The
+remaining 31 orientation branches are deferred to follow-up sub-issues. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- For any orientation `Q` of `d5tildeAdj` and any complementary invariant
+submodule pair `(W₁, W₂)` of `d5tildeRep_kQ F Q hOrient m`, the leaf
+vertices `0, 1, 4, 5` carry equal `W₁`-subspaces. (The analogous statement
+for `W₂` follows by applying the theorem with the arguments `(W₂, W₁)`
+flipped — `IsCompl` is symmetric.)
+
+This is the analog of the leaf-equality block in the ℂ-specific proof
+(`InfiniteTypeConstructions.lean:1820-1834`).
+
+**Proof body partially deferred** — see #2850 for the decomposition. The
+all-canonical orientation branch (0→2, 1→2, 2→3, 4→3, 5→3) is proven
+inline by mirroring the ℂ-source proof: the helper invariance facts are
+specialized via `simp only [d5tildeRep_kQ, d5tildeRepMap_kQ]`, then the
+`core_F` (v=2 decomposition), `core3_F` (v=3 decomposition), and
+`gamma_containment_F` (γ-coupled leaf containments) lemmas are
+established. Final `compl_le_forces_eq` applications chain the
+containments into the three equalities. The remaining 31 orientation
+branches are tracked as follow-up sub-issues. -/
+theorem d5tildeRep_kQ_leaf_equalities
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ ∧
+    W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
+    W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ := by
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  -- d5tildeAdj values at each edge (canonical direction)
+  have h02 : d5tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h12 : d5tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h23 : d5tildeAdj ⟨2, by omega⟩ ⟨3, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h43 : d5tildeAdj ⟨4, by omega⟩ ⟨3, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  have h53 : d5tildeAdj ⟨5, by omega⟩ ⟨3, by omega⟩ = 1 := by
+    simp [d5tildeAdj]
+  -- Per-edge direction disjunctions (first Or branch = canonical for each).
+  -- Use the FieldGenericCycle pattern: rcases the Or, then obtain the Nonempty.
+  rcases hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ02 | hQ02
+  · -- e02 = Or.inl: 0→2 canonical
+    obtain ⟨a02⟩ := hQ02
+    rcases hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ12 | hQ12
+    · -- e12 = Or.inl: 1→2 canonical
+      obtain ⟨a12⟩ := hQ12
+      rcases hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23 with hQ23 | hQ23
+      · -- e23 = Or.inl: 2→3 canonical
+        obtain ⟨a23⟩ := hQ23
+        rcases hOrient_edge ⟨4, by omega⟩ ⟨3, by omega⟩ h43 with hQ43 | hQ43
+        · -- e43 = Or.inl: 4→3 canonical
+          obtain ⟨a43⟩ := hQ43
+          rcases hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
+          · -- e53 = Or.inl: 5→3 canonical
+            obtain ⟨a53⟩ := hQ53
+            -- ALL CANONICAL: 0→2, 1→2, 2→3, 4→3, 5→3 — mirrors ℂ-source proof.
+            -- Specialize invariance to the concrete rep maps.
+            have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a02 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a12 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a23 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_43 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨4, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a43 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_53 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨5, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a53 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a02 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a12 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a23 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_43 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨4, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a43 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_53 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨5, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a53 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            -- Core decomposition at v=2 (analog of ℂ-source `core`).
+            -- If `starEmbed1 x + starEmbed2 z ∈ Wmain ⟨2⟩` then `x ∈ Wmain ⟨0⟩` and
+            -- `z ∈ Wmain ⟨1⟩`. Uses canonical 0→2 and 1→2 pushes.
+            have core_F : ∀ (Wmain Wother : ∀ v, Submodule F
+                  ((d5tildeRep_kQ F Q hOrient m).obj v))
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨0, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wother ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨1, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wother ⟨2, by omega⟩)
+                (_ : ∀ v, IsCompl (Wmain v) (Wother v))
+                (x z : Fin (m + 1) → F)
+                (_ : starEmbed1_F F m x + starEmbed2_F F m z ∈ Wmain ⟨2, by omega⟩),
+                x ∈ Wmain ⟨0, by omega⟩ ∧ z ∈ Wmain ⟨1, by omega⟩ := by
+              intros Wmain Wother hMain_02 hMain_12 hOther_02 hOther_12 hc x z hmem
+              have htop0 := (hc ⟨0, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := x)
+              obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop0
+              have htop1 := (hc ⟨1, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := z)
+              obtain ⟨c, hcm, d, hd, hcd⟩ := Submodule.mem_sup.mp htop1
+              have ha2 := hMain_02 a ha
+              have hcm2 := hMain_12 c hcm
+              have hb2 := hOther_02 b hb
+              have hd2 := hOther_12 d hd
+              have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
+                  (starEmbed1_F F m a + starEmbed2_F F m c) +
+                    (starEmbed1_F F m b + starEmbed2_F F m d) := by
+                rw [← hab, ← hcd]; simp [map_add]; abel
+              rw [hsum] at hmem
+              have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ Wmain ⟨2, by omega⟩ :=
+                (Wmain ⟨2, by omega⟩).add_mem ha2 hcm2
+              have hw'_in_W : starEmbed1_F F m b + starEmbed2_F F m d ∈
+                  Wmain ⟨2, by omega⟩ := by
+                have hsmul := (Wmain ⟨2, by omega⟩).smul_mem (-1 : F) hadd
+                have hadd2 := (Wmain ⟨2, by omega⟩).add_mem hmem hsmul
+                have key : starEmbed1_F F m a + starEmbed2_F F m c +
+                    (starEmbed1_F F m b + starEmbed2_F F m d) +
+                    (-1 : F) • (starEmbed1_F F m a + starEmbed2_F F m c) =
+                    starEmbed1_F F m b + starEmbed2_F F m d := by
+                  ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+                rwa [key] at hadd2
+              have hzero : starEmbed1_F F m b + starEmbed2_F F m d = 0 := by
+                have hcross := Submodule.mem_inf.mpr ⟨hw'_in_W,
+                  (Wother ⟨2, by omega⟩).add_mem hb2 hd2⟩
+                rwa [(hc ⟨2, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hcross
+              obtain ⟨hb0, hd0⟩ := embed_sum_zero_F F m b d hzero
+              exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
+                     hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
+            -- Core decomposition at v=3 (analog of ℂ-source `core3`).
+            have core3_F : ∀ (Wmain Wother : ∀ v, Submodule F
+                  ((d5tildeRep_kQ F Q hOrient m).obj v))
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨4, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wmain ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨5, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wmain ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨4, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wother ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨5, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wother ⟨3, by omega⟩)
+                (_ : ∀ v, IsCompl (Wmain v) (Wother v))
+                (x z : Fin (m + 1) → F)
+                (_ : starEmbed1_F F m x + starEmbed2_F F m z ∈ Wmain ⟨3, by omega⟩),
+                x ∈ Wmain ⟨4, by omega⟩ ∧ z ∈ Wmain ⟨5, by omega⟩ := by
+              intros Wmain Wother hMain_43 hMain_53 hOther_43 hOther_53 hc x z hmem
+              have htop4 := (hc ⟨4, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := x)
+              obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop4
+              have htop5 := (hc ⟨5, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := z)
+              obtain ⟨c, hcm, d, hd, hcd⟩ := Submodule.mem_sup.mp htop5
+              have ha3 := hMain_43 a ha
+              have hcm3 := hMain_53 c hcm
+              have hb3 := hOther_43 b hb
+              have hd3 := hOther_53 d hd
+              have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
+                  (starEmbed1_F F m a + starEmbed2_F F m c) +
+                    (starEmbed1_F F m b + starEmbed2_F F m d) := by
+                rw [← hab, ← hcd]; simp [map_add]; abel
+              rw [hsum] at hmem
+              have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ Wmain ⟨3, by omega⟩ :=
+                (Wmain ⟨3, by omega⟩).add_mem ha3 hcm3
+              have hw'_in_W : starEmbed1_F F m b + starEmbed2_F F m d ∈
+                  Wmain ⟨3, by omega⟩ := by
+                have hsmul := (Wmain ⟨3, by omega⟩).smul_mem (-1 : F) hadd
+                have hadd2 := (Wmain ⟨3, by omega⟩).add_mem hmem hsmul
+                have key : starEmbed1_F F m a + starEmbed2_F F m c +
+                    (starEmbed1_F F m b + starEmbed2_F F m d) +
+                    (-1 : F) • (starEmbed1_F F m a + starEmbed2_F F m c) =
+                    starEmbed1_F F m b + starEmbed2_F F m d := by
+                  ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+                rwa [key] at hadd2
+              have hzero : starEmbed1_F F m b + starEmbed2_F F m d = 0 := by
+                have hcross := Submodule.mem_inf.mpr ⟨hw'_in_W,
+                  (Wother ⟨3, by omega⟩).add_mem hb3 hd3⟩
+                rwa [(hc ⟨3, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hcross
+              obtain ⟨hb0, hd0⟩ := embed_sum_zero_F F m b d hzero
+              exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
+                     hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
+            -- γ-based leaf containments (analog of ℂ-source `gamma_containment`).
+            have gamma_containment_F : ∀ (Wmain Wother : ∀ v, Submodule F
+                  ((d5tildeRep_kQ F Q hOrient m).obj v))
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+                (_ : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wmain ⟨2, by omega⟩ →
+                    d5tildeGamma_F F m x ∈ Wmain ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨4, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wmain ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨5, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wmain ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨4, by omega⟩ →
+                    starEmbed1_F F m x ∈ Wother ⟨3, by omega⟩)
+                (_ : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨5, by omega⟩ →
+                    starEmbed2_F F m x ∈ Wother ⟨3, by omega⟩)
+                (_ : ∀ v, IsCompl (Wmain v) (Wother v)),
+                (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+                  x ∈ Wmain ⟨4, by omega⟩) ∧
+                (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+                  x ∈ Wmain ⟨5, by omega⟩) ∧
+                (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+                  y ∈ Wmain ⟨4, by omega⟩) ∧
+                (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+                  nilpotentShiftLinGen F m y ∈ Wmain ⟨5, by omega⟩) := by
+              intros Wmain Wother hMain_02 hMain_12 hMain_23 hMain_43 hMain_53
+                hOther_43 hOther_53 hc
+              refine ⟨fun x hx => ?_, fun x hx => ?_, fun y hy => ?_, fun y hy => ?_⟩
+              · -- x ∈ Wmain(0) → x ∈ Wmain(4): via γ(embed1(x)) = embed1(x) + embed2(x)
+                have he1 := hMain_02 x hx
+                have hgamma := hMain_23 (starEmbed1_F F m x) he1
+                rw [gamma_from_embed1_F] at hgamma
+                exact (core3_F Wmain Wother hMain_43 hMain_53 hOther_43 hOther_53
+                  hc x x hgamma).1
+              · -- x ∈ Wmain(0) → x ∈ Wmain(5): same path, second component
+                have he1 := hMain_02 x hx
+                have hgamma := hMain_23 (starEmbed1_F F m x) he1
+                rw [gamma_from_embed1_F] at hgamma
+                exact (core3_F Wmain Wother hMain_43 hMain_53 hOther_43 hOther_53
+                  hc x x hgamma).2
+              · -- y ∈ Wmain(1) → y ∈ Wmain(4): via γ(embed2(y)) = embed1(y) + embed2(Ny)
+                have he2 := hMain_12 y hy
+                have hgamma := hMain_23 (starEmbed2_F F m y) he2
+                rw [gamma_from_embed2_F] at hgamma
+                exact (core3_F Wmain Wother hMain_43 hMain_53 hOther_43 hOther_53
+                  hc y (nilpotentShiftLinGen F m y) hgamma).1
+              · -- y ∈ Wmain(1) → Ny ∈ Wmain(5): same path, second component
+                have he2 := hMain_12 y hy
+                have hgamma := hMain_23 (starEmbed2_F F m y) he2
+                rw [gamma_from_embed2_F] at hgamma
+                exact (core3_F Wmain Wother hMain_43 hMain_53 hOther_43 hOther_53
+                  hc y (nilpotentShiftLinGen F m y) hgamma).2
+            -- Apply gamma_containment_F to W₁ and W₂ to get leaf containments
+            obtain ⟨h04, h05, h14, _hN15⟩ := gamma_containment_F W₁ W₂
+              hW₁_02 hW₁_12 hW₁_23 hW₁_43 hW₁_53 hW₂_43 hW₂_53 hcompl
+            obtain ⟨h04', h05', h14', _hN15'⟩ := gamma_containment_F W₂ W₁
+              hW₂_02 hW₂_12 hW₂_23 hW₂_43 hW₂_53 hW₁_43 hW₁_53
+              (fun v => (hcompl v).symm)
+            -- Apply compl_le_forces_eq to derive equalities W₁(0) = W₁(k) for k=4,5
+            -- and W₁(1) = W₁(4); then chain W₁(0) = W₁(1) via W₁(4).
+            have heq04 : W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨4, by omega⟩) h04 h04').1
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq14 : W₁ ⟨1, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨4, by omega⟩) h14 h14').1
+            have heq01 : W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ := heq04.trans heq14.symm
+            exact ⟨heq01, heq04, heq05⟩
+          · -- e53 reversed (3→5): follow-up sub-issue
+            sorry
+        · -- e43 reversed (3→4): follow-up sub-issue
+          sorry
+      · -- e23 reversed (3→2): follow-up sub-issue (uses γ⁻¹)
+        sorry
+    · -- e12 reversed (2→1): follow-up sub-issue (uses starSecond_F projection)
+      sorry
+  · -- e02 reversed (2→0): follow-up sub-issue (uses starFirst_F projection)
+    sorry
+
 /-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
 
 The orientation-generic indecomposability proof is structurally the
