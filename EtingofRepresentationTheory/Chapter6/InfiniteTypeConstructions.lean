@@ -4710,7 +4710,7 @@ theorem acyclic_deg_le_2_posdef {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     neighbors. More precisely, if `adj v a = 1` and `adj v b = 1` with `a ≠ b`, and
     `adj v w = 1` with `w ≠ v`, then in the acyclic graph adj a b = 0 (they cannot
     form a triangle). -/
-private theorem acyclic_no_triangle {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+theorem acyclic_no_triangle {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
@@ -4740,7 +4740,7 @@ private theorem acyclic_no_triangle {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
 /-- In an acyclic graph, vertices at path-distance ≥ 2 are non-adjacent.
     If there's a path v₁ - v₂ - ... - v_k from a to b (through intermediate vertices),
     then adj a b = 0 (would create a cycle). -/
-private theorem acyclic_path_nonadj {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+theorem acyclic_path_nonadj {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →

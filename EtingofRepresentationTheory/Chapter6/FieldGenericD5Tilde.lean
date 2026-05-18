@@ -1026,4 +1026,167 @@ theorem d5tilde_not_finite_type_per_kQ
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+set_option maxHeartbeats 3200000 in
+-- reason: 15 distinctness facts plus the 36-case `fin_cases` adjacency
+-- proof through the `Fin 6 ↪ Fin n` embedding push elaboration past
+-- the default budget; mirrors the same setting on
+-- `adjacent_branches_infinite_type` (`InfiniteTypeConstructions.lean:4760`).
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of `adjacent_branches_infinite_type`
+(`InfiniteTypeConstructions.lean:4764`): a connected acyclic simple
+graph with two adjacent degree-3 vertices (and all degrees ≤ 3) has
+infinite representation type for every algebraically closed `F` and
+every orientation `Q`. Embeds D̃₅ on the two branch points plus their
+4 other neighbours and dispatches to `d5tilde_not_finite_type_per_kQ`
+via `subgraph_infinite_type_transfer_per_kQ`. -/
+theorem adjacent_branches_infinite_type_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (v₀ w : Fin n) (hv₀_deg : vertexDegree adj v₀ = 3)
+    (hw_deg : vertexDegree adj w = 3) (hvw_adj : adj v₀ w = 1)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- adj_comm: adj i j = adj j i (from symmetry)
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  -- ne_of_adj: adjacent vertices are distinct
+  have ne_of_adj : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
+    rw [hab, hdiag] at h; exact one_ne_zero h.symm
+  -- Extract the 3 neighbors of v₀
+  set S₀ := Finset.univ.filter (fun j => adj v₀ j = 1) with hS₀_def
+  have hS₀_card : S₀.card = 3 := hv₀_deg
+  have hw_mem : w ∈ S₀ := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hvw_adj⟩
+  have hS₀_erase : (S₀.erase w).card = 2 := by
+    rw [Finset.card_erase_of_mem hw_mem, hS₀_card]
+  obtain ⟨u₁, u₂, hu₁₂, hS₀_eq⟩ := Finset.card_eq_two.mp hS₀_erase
+  have hu₁_mem : u₁ ∈ S₀.erase w := hS₀_eq ▸ Finset.mem_insert_self u₁ _
+  have hu₂_mem : u₂ ∈ S₀.erase w := hS₀_eq ▸ Finset.mem_insert.mpr
+    (Or.inr (Finset.mem_singleton_self u₂))
+  have hu₁_adj : adj v₀ u₁ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hu₁_mem)).2
+  have hu₂_adj : adj v₀ u₂ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hu₂_mem)).2
+  have hu₁_ne_w : u₁ ≠ w := Finset.ne_of_mem_erase hu₁_mem
+  have hu₂_ne_w : u₂ ≠ w := Finset.ne_of_mem_erase hu₂_mem
+  -- Extract the 3 neighbors of w
+  set Sw := Finset.univ.filter (fun j => adj w j = 1) with hSw_def
+  have hSw_card : Sw.card = 3 := hw_deg
+  have hv₀_mem_Sw : v₀ ∈ Sw :=
+    Finset.mem_filter.mpr ⟨Finset.mem_univ _, (adj_comm w v₀).trans hvw_adj⟩
+  have hSw_erase : (Sw.erase v₀).card = 2 := by
+    rw [Finset.card_erase_of_mem hv₀_mem_Sw, hSw_card]
+  obtain ⟨w₁, w₂, hw₁₂, hSw_eq⟩ := Finset.card_eq_two.mp hSw_erase
+  have hw₁_mem : w₁ ∈ Sw.erase v₀ := hSw_eq ▸ Finset.mem_insert_self w₁ _
+  have hw₂_mem : w₂ ∈ Sw.erase v₀ := hSw_eq ▸ Finset.mem_insert.mpr
+    (Or.inr (Finset.mem_singleton_self w₂))
+  have hw₁_adj : adj w w₁ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hw₁_mem)).2
+  have hw₂_adj : adj w w₂ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hw₂_mem)).2
+  have hw₁_ne_v₀ : w₁ ≠ v₀ := Finset.ne_of_mem_erase hw₁_mem
+  have hw₂_ne_v₀ : w₂ ≠ v₀ := Finset.ne_of_mem_erase hw₂_mem
+  -- Key distinctness facts (from adjacency)
+  have hv₀_ne_w : v₀ ≠ w := ne_of_adj v₀ w hvw_adj
+  have hu₁_ne_v₀ : u₁ ≠ v₀ := (ne_of_adj v₀ u₁ hu₁_adj).symm
+  have hu₂_ne_v₀ : u₂ ≠ v₀ := (ne_of_adj v₀ u₂ hu₂_adj).symm
+  have hw₁_ne_w : w₁ ≠ w := (ne_of_adj w w₁ hw₁_adj).symm
+  have hw₂_ne_w : w₂ ≠ w := (ne_of_adj w w₂ hw₂_adj).symm
+  -- Non-edges via acyclic_no_triangle (center has both as neighbors → no triangle)
+  have hu₁u₂ : adj u₁ u₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ u₁ u₂
+      hu₁₂ hu₁_ne_v₀ hu₂_ne_v₀ hu₁_adj hu₂_adj
+  have hu₁_w : adj u₁ w = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ u₁ w
+      hu₁_ne_w hu₁_ne_v₀ hv₀_ne_w.symm hu₁_adj hvw_adj
+  have hu₂_w : adj u₂ w = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ u₂ w
+      hu₂_ne_w hu₂_ne_v₀ hv₀_ne_w.symm hu₂_adj hvw_adj
+  have hw₁w₂ : adj w₁ w₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic w w₁ w₂
+      hw₁₂ hw₁_ne_w hw₂_ne_w hw₁_adj hw₂_adj
+  have hw_v₀ : adj w v₀ = 1 := (adj_comm w v₀).trans hvw_adj
+  have hv₀_w₁ : adj v₀ w₁ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic w v₀ w₁
+      hw₁_ne_v₀.symm hv₀_ne_w hw₁_ne_w hw_v₀ hw₁_adj
+  have hv₀_w₂ : adj v₀ w₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic w v₀ w₂
+      hw₂_ne_v₀.symm hv₀_ne_w hw₂_ne_w hw_v₀ hw₂_adj
+  have hu₁_ne_w₁ : u₁ ≠ w₁ := by intro h; rw [h] at hu₁_adj; linarith
+  have hu₁_ne_w₂ : u₁ ≠ w₂ := by intro h; rw [h] at hu₁_adj; linarith
+  have hu₂_ne_w₁ : u₂ ≠ w₁ := by intro h; rw [h] at hu₂_adj; linarith
+  have hu₂_ne_w₂ : u₂ ≠ w₂ := by intro h; rw [h] at hu₂_adj; linarith
+  have hw₁_w : adj w₁ w = 1 := (adj_comm w₁ w).trans hw₁_adj
+  have hw₂_w : adj w₂ w = 1 := (adj_comm w₂ w).trans hw₂_adj
+  have path_nodup : ∀ (a b c d : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → b ≠ c → b ≠ d → c ≠ d → [a, b, c, d].Nodup := by
+    intro a b c d hab hac had hbc hbd hcd
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had⟩, ⟨hbc, hbd⟩, hcd⟩
+  have path_edges : ∀ (a b c d : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d].length) →
+        adj ([a, b, c, d].get ⟨k, by omega⟩) ([a, b, c, d].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d h₁ h₂ h₃ k hk
+    have : k + 1 < 4 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 := by omega
+    rcases this with rfl | rfl | rfl <;> assumption
+  have hu₁_w₁ : adj u₁ w₁ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [w₁, w, v₀, u₁] (by simp)
+      (path_nodup w₁ w v₀ u₁ hw₁_ne_w hw₁_ne_v₀
+        hu₁_ne_w₁.symm hv₀_ne_w.symm hu₁_ne_w.symm hu₁_ne_v₀.symm)
+      (path_edges w₁ w v₀ u₁ hw₁_w hw_v₀ hu₁_adj)
+  have hu₁_w₂ : adj u₁ w₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [w₂, w, v₀, u₁] (by simp)
+      (path_nodup w₂ w v₀ u₁ hw₂_ne_w hw₂_ne_v₀
+        hu₁_ne_w₂.symm hv₀_ne_w.symm hu₁_ne_w.symm hu₁_ne_v₀.symm)
+      (path_edges w₂ w v₀ u₁ hw₂_w hw_v₀ hu₁_adj)
+  have hu₂_w₁ : adj u₂ w₁ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [w₁, w, v₀, u₂] (by simp)
+      (path_nodup w₁ w v₀ u₂ hw₁_ne_w hw₁_ne_v₀
+        hu₂_ne_w₁.symm hv₀_ne_w.symm hu₂_ne_w.symm hu₂_ne_v₀.symm)
+      (path_edges w₁ w v₀ u₂ hw₁_w hw_v₀ hu₂_adj)
+  have hu₂_w₂ : adj u₂ w₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [w₂, w, v₀, u₂] (by simp)
+      (path_nodup w₂ w v₀ u₂ hw₂_ne_w hw₂_ne_v₀
+        hu₂_ne_w₂.symm hv₀_ne_w.symm hu₂_ne_w.symm hu₂_ne_v₀.symm)
+      (path_edges w₂ w v₀ u₂ hw₂_w hw_v₀ hu₂_adj)
+  -- Construct the embedding φ : Fin 6 ↪ Fin n
+  -- Map: 0 → u₁, 1 → u₂, 2 → v₀, 3 → w, 4 → w₁, 5 → w₂
+  let φ_fun : Fin 6 → Fin n := fun i =>
+    match i with
+    | ⟨0, _⟩ => u₁ | ⟨1, _⟩ => u₂ | ⟨2, _⟩ => v₀
+    | ⟨3, _⟩ => w  | ⟨4, _⟩ => w₁ | ⟨5, _⟩ => w₂
+  have φ_inj : Function.Injective φ_fun := by
+    intro i j hij; simp only [φ_fun] at hij
+    fin_cases i <;> fin_cases j <;>
+      first | rfl | (exact absurd hij ‹_›) | (exact absurd hij.symm ‹_›)
+  let φ : Fin 6 ↪ Fin n := ⟨φ_fun, φ_inj⟩
+  have hembed : ∀ i j, d5tildeAdj i j = adj (φ i) (φ j) := by
+    intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [d5tildeAdj, φ, φ_fun] <;> norm_num <;>
+      linarith [hdiag u₁, hdiag u₂, hdiag v₀, hdiag w, hdiag w₁, hdiag w₂,
+                adj_comm u₁ v₀, adj_comm u₂ v₀, adj_comm w v₀,
+                adj_comm w₁ w, adj_comm w₂ w,
+                adj_comm u₁ u₂, adj_comm u₁ w, adj_comm u₂ w,
+                adj_comm w₁ w₂, adj_comm v₀ w₁, adj_comm v₀ w₂,
+                adj_comm u₁ w₁, adj_comm u₁ w₂, adj_comm u₂ w₁, adj_comm u₂ w₂]
+  exact subgraph_infinite_type_transfer_per_kQ φ F Q
+    (d5tilde_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
 end Etingof
