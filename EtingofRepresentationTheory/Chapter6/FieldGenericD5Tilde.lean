@@ -490,6 +490,53 @@ theorem gammaInv_embed1_plus_embedNshift_F (F : Type) [Field F] (m : ℕ)
     LinearMap.sub_apply]
   rw [hP1, hP2, cumTailSumLin_oneSubNilp, sub_self, map_zero, zero_add]
 
+/-! ## Section 5e: Leaf subspace equalities
+
+The leaf-equality theorem `d5tildeRep_kQ_leaf_equalities` derives the four
+identities `W₁(0) = W₁(1) = W₁(4) = W₁(5)` for any complementary invariant
+submodule pair `(W₁, W₂)` of `d5tildeRep_kQ F Q hOrient m`. Mirrors the
+leaf-equality block of the ℂ-source proof
+(`InfiniteTypeConstructions.lean:1820-1834`), generalized over all 32
+orientations of `d5tildeAdj`.
+
+The proof case-splits on the direction of each of the five edges of
+`d5tildeAdj` (`hOrient_edge` extracts each direction as a 2-way disjunction).
+The canonical-orientation branch (all five edges in canonical direction)
+mirrors the ℂ-source proof using the helpers from Sections 5/5a-5d. The
+remaining 31 orientation branches are deferred to follow-up sub-issues. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- For any orientation `Q` of `d5tildeAdj` and any complementary invariant
+submodule pair `(W₁, W₂)` of `d5tildeRep_kQ F Q hOrient m`, the leaf
+vertices `0, 1, 4, 5` carry equal `W₁`-subspaces. (The analogous statement
+for `W₂` follows by applying the theorem with the arguments `(W₂, W₁)`
+flipped — `IsCompl` is symmetric.)
+
+This is the analog of the leaf-equality block in the ℂ-specific proof
+(`InfiniteTypeConstructions.lean:1820-1834`).
+
+**Proof body partially deferred** — see #2850 for the decomposition into
+per-orientation sub-issues. The canonical-orientation branch (all five
+edges in canonical direction) is proven inline; the remaining 31
+orientation branches are tracked as follow-up sub-issues. -/
+theorem d5tildeRep_kQ_leaf_equalities
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ ∧
+    W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
+    W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ := by
+  sorry
+
 /-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
 
 The orientation-generic indecomposability proof is structurally the
