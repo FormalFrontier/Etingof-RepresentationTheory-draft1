@@ -516,10 +516,15 @@ flipped — `IsCompl` is symmetric.)
 This is the analog of the leaf-equality block in the ℂ-specific proof
 (`InfiniteTypeConstructions.lean:1820-1834`).
 
-**Proof body partially deferred** — see #2850 for the decomposition into
-per-orientation sub-issues. The canonical-orientation branch (all five
-edges in canonical direction) is proven inline; the remaining 31
-orientation branches are tracked as follow-up sub-issues. -/
+**Proof body partially deferred** — see #2850 for the decomposition. The
+all-canonical orientation branch (0→2, 1→2, 2→3, 4→3, 5→3) is proven
+inline by mirroring the ℂ-source proof: the helper invariance facts are
+specialized via `simp only [d5tildeRep_kQ, d5tildeRepMap_kQ]`, then the
+`core_F` (v=2 decomposition), `core3_F` (v=3 decomposition), and
+`gamma_containment_F` (γ-coupled leaf containments) lemmas are
+established. Final `compl_le_forces_eq` applications chain the
+containments into the three equalities. The remaining 31 orientation
+branches are tracked as follow-up sub-issues. -/
 theorem d5tildeRep_kQ_leaf_equalities
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 6))
