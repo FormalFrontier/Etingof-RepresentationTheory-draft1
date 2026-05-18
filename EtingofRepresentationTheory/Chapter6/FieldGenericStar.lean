@@ -403,13 +403,13 @@ Each `starProj_i_F` is a left inverse of `starEmbed_i_F`. These identities
 are the key linear-algebra facts the downstream indecomposability proof
 needs. -/
 
-private theorem starFirst_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+theorem starFirst_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
     (x : Fin (m + 1) → F) :
     starFirst_F F m (starEmbed1_F F m x) = x := by
   ext i
   simp only [starFirst_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk, dif_pos i.isLt]
 
-private theorem starFirst_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+theorem starFirst_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
     (x : Fin (m + 1) → F) :
     starFirst_F F m (starEmbed2_F F m x) = 0 := by
   ext i
@@ -417,7 +417,7 @@ private theorem starFirst_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
   rw [dif_neg (by omega)]
   rfl
 
-private theorem starSecond_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
+theorem starSecond_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
     (x : Fin (m + 1) → F) :
     starSecond_F F m (starEmbed1_F F m x) = 0 := by
   ext i
@@ -425,7 +425,7 @@ private theorem starSecond_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
   rw [dif_neg (by omega)]
   rfl
 
-private theorem starSecond_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
+theorem starSecond_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
     (x : Fin (m + 1) → F) :
     starSecond_F F m (starEmbed2_F F m x) = x := by
   ext i

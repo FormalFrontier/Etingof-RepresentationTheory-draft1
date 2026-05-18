@@ -312,50 +312,17 @@ theorem gamma_from_embed2_F (F : Type) [Field F] (m : ℕ) (y : Fin (m + 1) → 
       exact congr_arg y (Fin.ext (by simp; omega))
     · simp only [dif_neg h2]
 
-/-! ## Section 5b: Left-inverse identities for `starProj_F ∘ starEmbed_F`
+/-! ## Section 5b (REMOVED): left-inverse identities
 
-The `starProj_F` half-block projections are left inverses of the
-`starEmbed_F` half-block embeddings on their own half, and zero on the
-opposite half. These reduce later closed-form `d5tildeGammaInv_F`
-identity proofs to algebra over `cumTailSumLin` without re-doing
-entry-by-entry calculations. -/
-
-/-- `starProj1_F (starEmbed1_F x) = x`: first-half projection is a left
-inverse of first-half embedding. -/
-theorem starProj1_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
-    (x : Fin (m + 1) → F) :
-    starProj1_F F m (starEmbed1_F F m x) = x := by
-  ext ⟨i, hi⟩
-  simp only [starProj1_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk,
-    dif_pos hi]
-
-/-- `starProj1_F (starEmbed2_F x) = 0`: first-half projection vanishes on
-second-half embedding. -/
-theorem starProj1_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
-    (x : Fin (m + 1) → F) :
-    starProj1_F F m (starEmbed2_F F m x) = 0 := by
-  ext ⟨i, hi⟩
-  simp only [starProj1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk,
-    Pi.zero_apply, dif_neg (show ¬(m + 1 ≤ i) by omega)]
-
-/-- `starProj2_F (starEmbed2_F x) = x`: second-half projection is a left
-inverse of second-half embedding. -/
-theorem starProj2_F_starEmbed2_F (F : Type) [Field F] (m : ℕ)
-    (x : Fin (m + 1) → F) :
-    starProj2_F F m (starEmbed2_F F m x) = x := by
-  ext ⟨i, hi⟩
-  simp only [starProj2_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk,
-    dif_pos (show m + 1 ≤ m + 1 + i by omega)]
-  congr 1; ext; simp
-
-/-- `starProj2_F (starEmbed1_F x) = 0`: second-half projection vanishes
-on first-half embedding. -/
-theorem starProj2_F_starEmbed1_F (F : Type) [Field F] (m : ℕ)
-    (x : Fin (m + 1) → F) :
-    starProj2_F F m (starEmbed1_F F m x) = 0 := by
-  ext ⟨i, hi⟩
-  simp only [starProj2_F, starEmbed1_F, LinearMap.coe_mk, AddHom.coe_mk,
-    Pi.zero_apply, dif_neg (show ¬(m + 1 + i < m + 1) by omega)]
+The four left-inverse identities `starFirst_F (starEmbed1_F x) = x`,
+`starFirst_F (starEmbed2_F x) = 0`, `starSecond_F (starEmbed1_F x) = 0`,
+`starSecond_F (starEmbed2_F x) = x` are now de-privatized in
+`FieldGenericStar.lean` (Section "Left-inverse identities") and used
+directly here. The earlier `starProj1_F_starEmbed*_F` /
+`starProj2_F_starEmbed*_F` lemmas in this section were inconsistent with
+the post-#2846 D̃₅ rep-map (which uses the plain `starFirst_F` /
+`starSecond_F`, not the K_{1,4}-specific `starProj1_F` / `starProj2_F`
+that include a subtraction). -/
 
 /-! ## Section 5c: `cumTailSumLin` closed form and the `(I - N)` inverse
 
@@ -492,10 +459,10 @@ theorem gammaInv_embed1_plus_embed2_F (F : Type) [Field F] (m : ℕ)
     (x : Fin (m + 1) → F) :
     d5tildeGammaInv_F F m (starEmbed1_F F m x + starEmbed2_F F m x) =
       starEmbed1_F F m x := by
-  have hP1 : starProj1_F F m (starEmbed1_F F m x + starEmbed2_F F m x) = x := by
-    rw [map_add, starProj1_F_starEmbed1_F, starProj1_F_starEmbed2_F, add_zero]
-  have hP2 : starProj2_F F m (starEmbed1_F F m x + starEmbed2_F F m x) = x := by
-    rw [map_add, starProj2_F_starEmbed1_F, starProj2_F_starEmbed2_F, zero_add]
+  have hP1 : starFirst_F F m (starEmbed1_F F m x + starEmbed2_F F m x) = x := by
+    rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero]
+  have hP2 : starSecond_F F m (starEmbed1_F F m x + starEmbed2_F F m x) = x := by
+    rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add]
   simp only [d5tildeGammaInv_F, LinearMap.add_apply, LinearMap.comp_apply,
     LinearMap.sub_apply]
   rw [hP1, hP2, sub_self, map_zero, sub_zero, map_zero, add_zero]
@@ -512,13 +479,13 @@ theorem gammaInv_embed1_plus_embedNshift_F (F : Type) [Field F] (m : ℕ)
     d5tildeGammaInv_F F m
         (starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y)) =
       starEmbed2_F F m y := by
-  have hP1 : starProj1_F F m
+  have hP1 : starFirst_F F m
       (starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y)) = y := by
-    rw [map_add, starProj1_F_starEmbed1_F, starProj1_F_starEmbed2_F, add_zero]
-  have hP2 : starProj2_F F m
+    rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero]
+  have hP2 : starSecond_F F m
       (starEmbed1_F F m y + starEmbed2_F F m (nilpotentShiftLinGen F m y)) =
       nilpotentShiftLinGen F m y := by
-    rw [map_add, starProj2_F_starEmbed1_F, starProj2_F_starEmbed2_F, zero_add]
+    rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add]
   simp only [d5tildeGammaInv_F, LinearMap.add_apply, LinearMap.comp_apply,
     LinearMap.sub_apply]
   rw [hP1, hP2, cumTailSumLin_oneSubNilp, sub_self, map_zero, zero_add]
