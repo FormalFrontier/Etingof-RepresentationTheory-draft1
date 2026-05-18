@@ -957,24 +957,23 @@ theorem single_branch_leaf_both_extend_b2leaf_per_kQ {n : ℕ}
     have hd₃_ne_b₃ : d₃ ≠ b₃ := Finset.ne_of_mem_erase hd₃_mem
     have hc₃_ne_d₃ : c₃ ≠ d₃ := ne_of_adj' c₃ d₃ hd₃_adj
     by_cases h_d3_ext : vertexDegree adj d₃ = 2
-    · -- d₃ extends (arm3 length ≥ 5): extract e₃, embed T(1, 2, 5) and
-      -- dispatch to `t125_not_finite_type_per_kQ` via
-      -- `subgraph_infinite_type_transfer_per_kQ`. Tracked by follow-up
-      -- sub-issue: this case requires ~250 lines of distinctness/non-edge
-      -- derivations across 9 vertices plus the φ + hembed construction,
-      -- mirroring `embed_t125_in_tree`
-      -- (`InfiniteTypeConstructions.lean:4918-5279`) with renaming
+    · -- d₃ extends (arm3 length ≥ 5): extract e₃, embed T(1, 2, 5) via the
+      -- shared helper `embed_t125_in_tree_per_kQ` with renaming
       -- (v₀, u₁, p₁, p₂, q₁, q₂, q₃, q₄, q₅) ↦
       -- (v₀, leaf, a₂, b₂, a₃, b₃, c₃, d₃, e₃).
       obtain ⟨e₃, he₃_eq⟩ := extract_other d₃ c₃
         ((adj_comm d₃ c₃).trans hd₃_adj) h_d3_ext
       have he₃_mem : e₃ ∈ (Finset.univ.filter (adj d₃ · = 1)).erase c₃ :=
         he₃_eq ▸ Finset.mem_singleton_self e₃
-      have _he₃_adj : adj d₃ e₃ = 1 :=
+      have he₃_adj : adj d₃ e₃ = 1 :=
         (Finset.mem_filter.mp (Finset.mem_of_mem_erase he₃_mem)).2
-      have _he₃_ne_c₃ : e₃ ≠ c₃ := Finset.ne_of_mem_erase he₃_mem
-      let _ := h_a2_ext  -- absorbed in the embedded subgraph
-      sorry
+      have he₃_ne_c₃ : e₃ ≠ c₃ := Finset.ne_of_mem_erase he₃_mem
+      exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+        v₀ leaf a₂ b₂ a₃ b₃ c₃ d₃ e₃
+        h_leaf_adj ha₂_adj hb₂_adj ha₃_adj hb₃_adj hc₃_adj hd₃_adj he₃_adj
+        ha₂_ne_leaf.symm ha₃_ne_leaf.symm ha₂₃ hb₂_ne_v₀ hb₃_ne_v₀
+        hc₃_ne_a₃ hd₃_ne_b₃ he₃_ne_c₃
+        F Q hOrient
     · -- d₃ is a leaf (arm3 length = 4): T(1, 2, 4) = E₈ posdef contradiction.
       -- The 8 named vertices {v₀, leaf, a₃, b₃, c₃, d₃, a₂, b₂} form an E₈ tree
       -- whose Cartan form is positive definite — contradicting `h_not_posdef`.
