@@ -2101,7 +2101,12 @@ characteristic-zero field with vanishing trace is the zero map.
 The trace of an idempotent equals the cast of the rank of its range
 (`LinearMap.IsProj.trace`). Over a characteristic-zero field, vanishing trace
 forces the rank to be zero, hence the range is `⊥` and the endomorphism
-vanishes. -/
+vanishes.
+
+Upstream Mathlib PR: https://github.com/leanprover-community/mathlib4/pull/39523
+(once it merges, replace this lemma with the upstream
+`LinearMap.IsIdempotentElem.eq_zero_of_trace_eq_zero` and remove this local
+copy — see issue #2841). -/
 private theorem isIdempotentElem_eq_zero_of_trace_eq_zero
     {K : Type*} [Field K] [CharZero K]
     {V : Type*} [AddCommGroup V] [Module K V] [Module.Finite K V]
