@@ -122,10 +122,10 @@ maps in the opposite direction:
   codomain), so it has no left inverse — we provide a right section
   `(u, v) ↦ (v, u - v, 0)`, which satisfies
   `etilde6Gamma_F ∘ etilde6GammaInv_F = id`.
-- `etilde6LeafProj_F`: first-half projection `(a, b) ↦ a`. Left inverse
-  of both `starEmbed1_F` (since `starEmbed1_F x = (x, 0)`) and
-  `starEmbedNilp_F` (since `starEmbedNilp_F x = (x, Nx)`). Used for the
-  three reversed-leaf-edge cases.
+For the three reversed-leaf-edge cases we reuse `starFirst_F` from
+`FieldGenericStar.lean` — the first-half projection `(a, b) ↦ a`, which
+is a left inverse of both `starEmbed1_F` (`starEmbed1_F x = (x, 0)`)
+and `starEmbedNilp_F` (`starEmbedNilp_F x = (x, Nx)`).
 -/
 
 /-- Reverse map for the `embed2to3_CA_F` edge: `(a', b', c') ↦ (c', a')`,
@@ -159,16 +159,6 @@ noncomputable def etilde6GammaInv_F (F : Type) [Field F] (m : ℕ) :
   map_smul' _ _ := by
     ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
 
-/-- First-half projection `(a, b) ↦ a` for `F^{2(m+1)} → F^{m+1}`. Used as
-the reverse map for the three leaf-edge cases of Ẽ₆ ({1,2}, {3,4}, {5,6}).
-A left inverse of `starEmbed1_F` (`(x, 0) ↦ x`) and of `starEmbedNilp_F`
-(`(x, Nx) ↦ x`). -/
-noncomputable def etilde6LeafProj_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
-  toFun w i := w ⟨i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
-
 /-! ## Section 3: Orientation-generic Ẽ₆ representation
 
 The map function is a match on `(a.val, b.val)` mirroring `etilde6v2RepMap`
@@ -187,7 +177,7 @@ private noncomputable def etilde6RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   match a, b with
   -- Edge {1, 2}
   | ⟨2, _⟩, ⟨1, _⟩ => starEmbed1_F F m
-  | ⟨1, _⟩, ⟨2, _⟩ => etilde6LeafProj_F F m
+  | ⟨1, _⟩, ⟨2, _⟩ => starFirst_F F m
   -- Edge {0, 1}
   | ⟨1, _⟩, ⟨0, _⟩ => prefixBlockEmbed_F F 2 3 m
   | ⟨0, _⟩, ⟨1, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
@@ -196,13 +186,13 @@ private noncomputable def etilde6RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   | ⟨3, _⟩, ⟨0, _⟩ => etilde6GammaInv_F F m
   -- Edge {3, 4}
   | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
-  | ⟨3, _⟩, ⟨4, _⟩ => etilde6LeafProj_F F m
+  | ⟨3, _⟩, ⟨4, _⟩ => starFirst_F F m
   -- Edge {0, 5}
   | ⟨5, _⟩, ⟨0, _⟩ => embed2to3_CA_F F m
   | ⟨0, _⟩, ⟨5, _⟩ => embed2to3_CA_reverse_F F m
   -- Edge {5, 6}
   | ⟨6, _⟩, ⟨5, _⟩ => starEmbedNilp_F F m
-  | ⟨5, _⟩, ⟨6, _⟩ => etilde6LeafProj_F F m
+  | ⟨5, _⟩, ⟨6, _⟩ => starFirst_F F m
   -- Non-edge or impossible (ruled out by `hOrient`); placeholder
   | _, _ => 0
 

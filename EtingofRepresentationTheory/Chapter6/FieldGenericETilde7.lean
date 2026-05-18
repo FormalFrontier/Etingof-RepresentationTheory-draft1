@@ -111,9 +111,9 @@ linear maps in the opposite direction:
   (`FieldGenericETilde6.lean:133`).
 
 The leaf-edge reverses (for edges `{3, 4}` and `{6, 7}`) reuse
-`etilde6LeafProj_F` from `FieldGenericETilde6.lean`; the arm-internal
-reverses (for edges `{2, 3}` and `{5, 6}`) use
-`prefixBlockProj_F 2 3 _` from the same file.
+`starFirst_F` from `FieldGenericStar.lean`; the arm-internal reverses
+(for edges `{2, 3}` and `{5, 6}`) use `prefixBlockProj_F 2 3 _` from
+`FieldGenericETilde6.lean`.
 -/
 
 /-- Reverse map for the `embed3to4_ACD_F` edge: `(a, b, c, d) ↦ (a, c, d)`,
@@ -167,7 +167,7 @@ private noncomputable def etilde7RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   | ⟨0, _⟩, ⟨1, _⟩ => etilde7Arm1Embed_reverse_F F m
   -- Arm 2: edge {3, 4}
   | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
-  | ⟨3, _⟩, ⟨4, _⟩ => etilde6LeafProj_F F m
+  | ⟨3, _⟩, ⟨4, _⟩ => starFirst_F F m
   -- Arm 2: edge {2, 3}
   | ⟨3, _⟩, ⟨2, _⟩ => prefixBlockEmbed_F F 2 3 m
   | ⟨2, _⟩, ⟨3, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
@@ -176,7 +176,7 @@ private noncomputable def etilde7RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   | ⟨0, _⟩, ⟨2, _⟩ => prefixBlockProj_F F 3 4 m (by omega)
   -- Arm 3: edge {6, 7}
   | ⟨7, _⟩, ⟨6, _⟩ => starEmbed1_F F m
-  | ⟨6, _⟩, ⟨7, _⟩ => etilde6LeafProj_F F m
+  | ⟨6, _⟩, ⟨7, _⟩ => starFirst_F F m
   -- Arm 3: edge {5, 6}
   | ⟨6, _⟩, ⟨5, _⟩ => prefixBlockEmbed_F F 2 3 m
   | ⟨5, _⟩, ⟨6, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
