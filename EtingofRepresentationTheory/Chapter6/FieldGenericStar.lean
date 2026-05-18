@@ -61,6 +61,64 @@ noncomputable def starEmbedNilp_F (F : Type) [Field F] (m : ℕ) :
     (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
   starEmbed1_F F m + (starEmbed2_F F m).comp (nilpotentShiftLinGen F m)
 
+/-- First-half projection (F-generic): `(a, b) ↦ a`. -/
+noncomputable def starFirst_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Second-half projection (F-generic): `(a, b) ↦ b`. -/
+noncomputable def starSecond_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨m + 1 + i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-! ## Embedding sum lemmas
+
+F-generic lemmas about the two leaf-embeds at the center vertex. Used by
+`starRepGen_isIndecomposable` (this file) and by the D̃₅ cascade in
+`FieldGenericD5Tilde.lean`. -/
+
+/-- The two leaf-embeds are disjoint at the center:
+`starEmbed1_F x + starEmbed2_F y = 0 → x = 0 ∧ y = 0`. -/
+theorem embed_sum_zero_F (F : Type) [Field F] (m : ℕ) (x y : Fin (m + 1) → F)
+    (h : starEmbed1_F F m x + starEmbed2_F F m y = 0) :
+    x = 0 ∧ y = 0 := by
+  have heval : ∀ j : Fin (2 * (m + 1)),
+      starEmbed1_F F m x j + starEmbed2_F F m y j = 0 :=
+    fun j => by have := congr_fun h j; simpa using this
+  constructor <;> ext ⟨i, hi⟩ <;> simp only [Pi.zero_apply]
+  · have := heval ⟨i, by omega⟩
+    simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
+    split_ifs at this with h1
+    · omega
+    · simpa using this
+  · have := heval ⟨m + 1 + i, by omega⟩
+    simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
+    split_ifs at this with h1 h2
+    · omega
+    · omega
+    · simp only [zero_add] at this
+      have key : (⟨m + 1 + i - (m + 1), by omega⟩ : Fin (m + 1)) = ⟨i, hi⟩ := by
+        simp only [Fin.mk.injEq]; omega
+      rwa [key] at this
+    · omega
+
+/-- Every `F^{2(m+1)}` vector decomposes as the sum of its two half-block
+embeddings via the half-block projections. -/
+theorem center_decomp_F (F : Type) [Field F] (m : ℕ) (w : Fin (2 * (m + 1)) → F) :
+    w = starEmbed1_F F m (starFirst_F F m w) +
+        starEmbed2_F F m (starSecond_F F m w) := by
+  ext ⟨j, hj⟩
+  simp only [Pi.add_apply, starEmbed1_F, starEmbed2_F, starFirst_F, starSecond_F,
+    LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases hjlt : j < m + 1
+  · simp only [dif_pos hjlt, show ¬(m + 1 ≤ j) from by omega, dite_false, add_zero]
+  · simp only [dif_neg hjlt, show m + 1 ≤ j from by omega, dite_true, zero_add]
+    congr 1; ext; simp; omega
+
 /-- Match-based map for the F-generic star representation. -/
 private noncomputable def starRepMapGen (F : Type) [Field F] (m : ℕ) (a b : Fin 5) :
     (Fin (if a.val = 0 then 2 * (m + 1) else m + 1) → F) →ₗ[F]
@@ -110,29 +168,6 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
     simp only [show (1 : Fin 5).val = 1 from rfl, one_ne_zero, ↓reduceIte]
     infer_instance
   · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
-    -- Key disjointness: embed1(x) + embed2(y) = 0 → x = 0 ∧ y = 0
-    have embed_sum_zero : ∀ x y : Fin (m + 1) → F,
-        starEmbed1_F F m x + starEmbed2_F F m y = 0 → x = 0 ∧ y = 0 := by
-      intro x y h
-      have heval : ∀ j : Fin (2 * (m + 1)),
-          starEmbed1_F F m x j + starEmbed2_F F m y j = 0 :=
-        fun j => by have := congr_fun h j; simpa using this
-      constructor <;> ext ⟨i, hi⟩ <;> simp only [Pi.zero_apply]
-      · have := heval ⟨i, by omega⟩
-        simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
-        split_ifs at this with h1
-        · omega
-        · simpa using this
-      · have := heval ⟨m + 1 + i, by omega⟩
-        simp only [starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk] at this
-        split_ifs at this with h1 h2
-        · omega
-        · omega
-        · simp only [zero_add] at this
-          have key : (⟨m + 1 + i - (m + 1), by omega⟩ : Fin (m + 1)) = ⟨i, hi⟩ := by
-            simp only [Fin.mk.injEq]; omega
-          rwa [key] at this
-        · omega
     -- Core decomposition: if embed1(x) + embed2(z) ∈ W(center) and both W, W'
     -- have subrepresentation invariance, then x ∈ W(leaf1) and z ∈ W(leaf2).
     have core (W W' : ∀ v, Submodule F ((starRepGen F m).obj v))
@@ -177,7 +212,7 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
         have := Submodule.mem_inf.mpr ⟨hw'_in_W,
           (W' ⟨0, by omega⟩).add_mem hb0 hd0⟩
         rwa [(hc ⟨0, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
-      obtain ⟨hb0', hd0'⟩ := embed_sum_zero b d hzero
+      obtain ⟨hb0', hd0'⟩ := embed_sum_zero_F F m b d hzero
       exact ⟨hab ▸ by rw [hb0', add_zero]; exact ha,
              hcd ▸ by rw [hd0', add_zero]; exact hc2⟩
     -- Leaf 3 (diagonal embedding): x ∈ W(3) → x ∈ W(1) ∧ x ∈ W(2)
@@ -266,16 +301,6 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
       (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
       (nilpotentShiftLinGen_ker_finrank F m)
       (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩) hN₁ hN₂ (hcompl ⟨1, by omega⟩)
-    -- Center decomposition: every w in 2(m+1)-dim space is embed1(first half) + embed2(second half)
-    have center_decomp : ∀ w : Fin (2 * (m + 1)) → F,
-        w = starEmbed1_F F m (fun i => w ⟨i.val, by omega⟩) +
-            starEmbed2_F F m (fun i => w ⟨m + 1 + i.val, by omega⟩) := by
-      intro w; ext ⟨j, hj⟩
-      simp only [Pi.add_apply, starEmbed1_F, starEmbed2_F, LinearMap.coe_mk, AddHom.coe_mk]
-      by_cases hjlt : j < m + 1
-      · simp only [dif_pos hjlt, show ¬(m + 1 ≤ j) from by omega, dite_false, add_zero]
-      · simp only [dif_neg hjlt, show m + 1 ≤ j from by omega, dite_true, zero_add]
-        congr 1; ext; simp; omega
     suffices propagate : ∀ (W W' : ∀ v, Submodule F ((starRepGen F m).obj v)),
         (∀ {a b : Fin 5} (e : @Quiver.Hom _ starQuiver a b),
           ∀ x ∈ W' a, (starRepGen F m).mapLinear e x ∈ W' b) →
@@ -303,7 +328,7 @@ theorem starRepGen_isIndecomposable (F : Type) [Field F] (m : ℕ) :
           from ⟨⟨by decide, rfl⟩⟩) x (hW'2_top ▸ Submodule.mem_top)
       rw [eq_bot_iff]; intro (w : Fin (2 * (m + 1)) → F) hw
       have hw' : w ∈ W' ⟨0, by omega⟩ :=
-        center_decomp w ▸ (W' ⟨0, by omega⟩).add_mem (h_emb1 _) (h_emb2 _)
+        center_decomp_F F m w ▸ (W' ⟨0, by omega⟩).add_mem (h_emb1 _) (h_emb2 _)
       have := Submodule.mem_inf.mpr ⟨hw, hw'⟩
       rwa [(hc ⟨0, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
     · exact hbot
@@ -356,21 +381,10 @@ Moved here from `FieldGenericInfiniteType.lean` (originally PR #2802,
 Sections 7–8) per #2846: the original placement in the shared header
 referenced `starEmbed*_F` which now live in `FieldGenericStar.lean`,
 breaking the build (a cyclic import would be needed to reach them from
-the shared header). -/
-
-/-- First-half projection `(a, b) ↦ a`. -/
-noncomputable def starFirst_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
-  toFun w i := w ⟨i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
-
-/-- Second-half projection `(a, b) ↦ b`. -/
-noncomputable def starSecond_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
-  toFun w i := w ⟨m + 1 + i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
+the shared header). The two half-block projections `starFirst_F` and
+`starSecond_F` that these projections build on are defined earlier in
+this file alongside the embeddings, since the indecomposability proof
+also uses them. -/
 
 /-- Projection 1 (F-generic): `(a, b) ↦ a − b`. Left inverse of
 `starEmbed1_F`. Kernel = image of `starEmbedDiag_F`. -/
