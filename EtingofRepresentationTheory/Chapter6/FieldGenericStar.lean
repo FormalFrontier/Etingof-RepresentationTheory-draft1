@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter6.OrientationDefs
 import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
+import EtingofRepresentationTheory.Chapter6.FieldGenericCycle
 
 /-!
 # Field-Generic Star (K_{1,4} / D̃₄) Representation
@@ -634,5 +635,63 @@ theorem star_subgraph_not_finite_type_per_kQ {n : ℕ}
   exact subgraph_infinite_type_transfer_per_kQ φ F Q
     (star_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
       (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) version of `degree_ge_4_infinite_type`: a graph with a
+vertex of degree ≥ 4 has infinite representation type for every
+algebraically closed `F` and every orientation `Q`.
+
+Either four neighbors are pairwise non-adjacent (dispatch to
+`star_subgraph_not_finite_type_per_kQ`) or two neighbors are adjacent,
+giving a triangle (dispatch to `triangle_infinite_type_per_kQ`). Mirrors
+`degree_ge_4_infinite_type` (`InfiniteTypeConstructions.lean:4064`). -/
+theorem degree_ge_4_infinite_type_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (v : Fin n) (hv : 4 ≤ vertexDegree adj v)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  -- Get 4 distinct neighbors of v
+  set S := Finset.univ.filter (fun w => adj v w = 1) with hS_def
+  have hS_card : 4 ≤ S.card := hv
+  obtain ⟨T, hTS, hTcard⟩ := Finset.exists_subset_card_eq hS_card
+  have hT_fin : Fintype T := inferInstance
+  have hT_card : Fintype.card T = 4 := by rwa [Fintype.card_coe]
+  let e := (Fintype.equivFinOfCardEq hT_card).symm
+  let neighbors : Fin 4 → Fin n := fun i => (e i).val
+  have h_adj : ∀ i, adj v (neighbors i) = 1 := by
+    intro i; exact (Finset.mem_filter.mp (hTS (e i).prop)).2
+  have h_ne : ∀ i, neighbors i ≠ v := by
+    intro i hc; have := h_adj i; rw [← hc, hdiag] at this; exact one_ne_zero this.symm
+  have h_inj : Function.Injective neighbors := by
+    intro a b hab; exact (e.injective (Subtype.val_injective hab))
+  -- Case split: are any two neighbors adjacent?
+  by_cases h_indep : ∀ i j, adj (neighbors i) (neighbors j) = 0
+  · -- All pairwise non-adjacent: dispatch to star_subgraph_not_finite_type_per_kQ
+    exact star_subgraph_not_finite_type_per_kQ adj hsymm hdiag v
+      ⟨neighbors, h_inj⟩ h_ne h_adj h_indep F Q hOrient
+  · -- Two neighbors are adjacent: triangle v - neighbors i - neighbors j
+    push_neg at h_indep
+    obtain ⟨i, j, h_adj_ij⟩ := h_indep
+    have h_nonzero : adj (neighbors i) (neighbors j) ≠ 0 := by
+      intro hc; exact h_adj_ij hc
+    have h_one : adj (neighbors i) (neighbors j) = 1 := by
+      rcases h01 (neighbors i) (neighbors j) with h | h
+      · exact absurd h h_nonzero
+      · exact h
+    have hij : neighbors i ≠ neighbors j := by
+      intro hc; rw [hc, hdiag] at h_one; exact one_ne_zero h_one.symm
+    exact triangle_infinite_type_per_kQ adj hsymm hdiag h01 v (neighbors i) (neighbors j)
+      (h_ne i).symm hij (h_ne j).symm
+      (h_adj i) h_one (h_adj j) F Q hOrient
 
 end Etingof
