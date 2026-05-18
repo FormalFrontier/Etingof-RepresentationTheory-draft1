@@ -589,6 +589,134 @@ theorem d5tilde_core3_F
   exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
          hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
 
+/-! ## Section 5e′: Projection-based reversed-leaf-edge sibling lemmas
+
+For sub-cases of `d5tildeRep_kQ_leaf_equalities` where one or more leaf
+edges are reversed, the canonical `d5tilde_core_F` / `d5tilde_core3_F`
+lemmas no longer apply (they require both leaf edges to be canonical
+pushes). The four siblings below recover one half of the canonical
+conjunction using the reversed-direction pull (`starFirst_F` for the
+"1-side" leaf and `starSecond_F` for the "2-side" leaf), via the
+identity `starFirst_F (starEmbed1_F x + starEmbed2_F z) = x` (and the
+symmetric identity for `starSecond_F`).
+
+Each sibling concludes only one half of the original `core_F` /
+`core3_F` conjunction — the half made trivial by the projection
+identity. The other half, when the corresponding leaf is also reversed,
+follows by applying the companion sibling. When the other leaf is
+canonical, the other half generally requires additional argument
+inside `d5tildeRep_kQ_leaf_equalities`'s sub-case (it is not derivable
+in general from a single pull + a single push). -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the first half of `d5tilde_core_F` at
+the `e02 = 2→0` reversed orientation. Given a submodule `W` such that
+the reversed 0-2 pull `starFirst_F` sends `W ⟨2⟩` into `W ⟨0⟩`, any sum
+`starEmbed1_F x + starEmbed2_F z` in `W ⟨2⟩` has its first component
+`x` in `W ⟨0⟩`.
+
+Proof: apply the pull and rewrite using `starFirst_F_starEmbed1_F = id`
+and `starFirst_F_starEmbed2_F = 0`. Mirrors the canonical-direction
+push in the same role inside the existing `d5tilde_core_F` proof, but
+runs in the opposite direction. -/
+theorem d5tilde_core_F_proj1
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hW_20 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨2, by omega⟩ →
+        starFirst_F F m w ∈ W ⟨0, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨2, by omega⟩) :
+    x ∈ W ⟨0, by omega⟩ := by
+  have h := hW_20 _ hmem
+  rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the second half of `d5tilde_core_F` at
+the `e12 = 2→1` reversed orientation. Given a submodule `W` such that
+the reversed 1-2 pull `starSecond_F` sends `W ⟨2⟩` into `W ⟨1⟩`, any
+sum `starEmbed1_F x + starEmbed2_F z` in `W ⟨2⟩` has its second
+component `z` in `W ⟨1⟩`.
+
+Proof: apply the pull and rewrite using `starSecond_F_starEmbed1_F = 0`
+and `starSecond_F_starEmbed2_F = id`. Symmetric counterpart of
+`d5tilde_core_F_proj1`. -/
+theorem d5tilde_core_F_proj2
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hW_21 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨2, by omega⟩ →
+        starSecond_F F m w ∈ W ⟨1, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨2, by omega⟩) :
+    z ∈ W ⟨1, by omega⟩ := by
+  have h := hW_21 _ hmem
+  rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the first half of `d5tilde_core3_F` at
+the `e43 = 3→4` reversed orientation. Given a submodule `W` such that
+the reversed 4-3 pull `starFirst_F` sends `W ⟨3⟩` into `W ⟨4⟩`, any sum
+`starEmbed1_F x + starEmbed2_F z` in `W ⟨3⟩` has its first component
+`x` in `W ⟨4⟩`.
+
+Proof: apply the pull and rewrite using `starFirst_F_starEmbed1_F = id`
+and `starFirst_F_starEmbed2_F = 0`. v=3 analogue of
+`d5tilde_core_F_proj1`. -/
+theorem d5tilde_core3_F_proj1
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hW_34 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨3, by omega⟩ →
+        starFirst_F F m w ∈ W ⟨4, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨3, by omega⟩) :
+    x ∈ W ⟨4, by omega⟩ := by
+  have h := hW_34 _ hmem
+  rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the second half of `d5tilde_core3_F`
+at the `e53 = 3→5` reversed orientation. Given a submodule `W` such
+that the reversed 5-3 pull `starSecond_F` sends `W ⟨3⟩` into `W ⟨5⟩`,
+any sum `starEmbed1_F x + starEmbed2_F z` in `W ⟨3⟩` has its second
+component `z` in `W ⟨5⟩`.
+
+Proof: apply the pull and rewrite using `starSecond_F_starEmbed1_F = 0`
+and `starSecond_F_starEmbed2_F = id`. v=3 analogue of
+`d5tilde_core_F_proj2`. -/
+theorem d5tilde_core3_F_proj2
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hW_35 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨3, by omega⟩ →
+        starSecond_F F m w ∈ W ⟨5, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨3, by omega⟩) :
+    z ∈ W ⟨5, by omega⟩ := by
+  have h := hW_35 _ hmem
+  rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
+  exact h
+
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- γ-coupled leaf containments. Given canonical embed pushes on both
