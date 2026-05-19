@@ -308,10 +308,10 @@ derives the remaining 21-pair adjacency lattice and dispatches via
 `subgraph_infinite_type_transfer_per_kQ` and
 `d7tilde_not_finite_type_per_kQ`. -/
 
+set_option maxHeartbeats 800000 in
 -- The 21-pair adjacency lattice (8 triangle + 1 input + 12 path-based
 -- non-edges) drives a sizeable `linarith` over the 64 `fin_cases` of
 -- `hembed`, exceeding the default 200k heartbeat limit.
-set_option maxHeartbeats 800000 in
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- Per-(F, Q) embedding of D̃₇ into a host acyclic adjacency matrix.
