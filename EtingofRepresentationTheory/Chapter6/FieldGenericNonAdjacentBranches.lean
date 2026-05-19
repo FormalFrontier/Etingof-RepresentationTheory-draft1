@@ -956,16 +956,140 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
             harm₁_ne_pre.symm harm₂_ne_pre.symm harm₁₂
             hc_3_ne_w hy₁_ne_w hy₂_ne_w
             F Q hOrient
-        · -- ===== Case E — sub-issue =====
-          -- Remaining cases: `chain.length = 3` (D̃₅ embedding), the all-
-          -- leaves case at `chain.length ≥ 6`, and the asymmetric short-
-          -- chain cases (e.g. `chain.length ∈ {4, 5}` with only one of
-          -- `arm₁`, `arm₂` of degree 2). Tracked by sub-issue #2955.
-          let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-          let _ := h_no_adj_branch_w
-          let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-          let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-          let _ := leaf_ne_chain; let _ := arm₂_ne_chain
-          sorry
+        · -- ===== Case E — partial coverage from sub-issue #2955 =====
+          -- The negative branch here is `¬ hA ∧ ¬ hB ∧ ¬ hC ∧ ¬ hD`, i.e.,
+          -- `chain.length = 3`, OR `chain.length ∈ {4, 5}` with
+          -- `side.deg = 1` AND not both arms deg-2, OR `chain.length ≥ 6`
+          -- with all of `side, arm₁, arm₂` leaves.
+          --
+          -- Two tractable sub-cases handled here via existing per-(F, Q)
+          -- helpers:
+          --
+          -- * **Sub-case E.aa** — `chain.length = 3 ∧ arm₁.deg = 2 ∧
+          --   arm₂.deg = 2`: Ẽ₆ at `w` via `chain[1] = c, chain[0] = v₀`
+          --   as the third length-2 leg (mirrors Case D's dispatch with
+          --   `chain.length - 3 = 0`, `chain.length - 2 = 1`).
+          -- * **Sub-case E.s1c4** — `chain.length = 4 ∧ side.deg = 1`:
+          --   D̃₇ at (v₀, w) directly. The 8-vertex induced subgraph
+          --   `{leaf, side_arm, v₀, chain[1], chain[2], w, arm₁, arm₂}`
+          --   matches D̃₇ exactly because `h_no_adj_branch` /
+          --   `h_no_adj_branch_w` force `chain[1].deg = chain[2].deg = 2`,
+          --   so no extra subgraph edges arise.
+          --
+          -- Remaining cases (still `sorry`):
+          --
+          -- * E.aa siblings at `chain.length = 3` with mixed arm degrees
+          --   (requires Ẽ₇ at `v₀` or `w` plus extension-degree splits, or
+          --   the unavailable D̃₆ helper for all-leaves at chain.length=3).
+          -- * `chain.length = 5` (any sub-case): needs D̃₈ helper, not in
+          --   the per-(F, Q) library.
+          -- * `chain.length ≥ 6` all-leaves: needs general D̃_n helper.
+          --
+          -- Tracked by follow-up sub-issues spawned from #2955.
+          by_cases hE_aa : chain.length = 3 ∧ vertexDegree adj arm₁ = 2 ∧
+              vertexDegree adj arm₂ = 2
+          · -- ===== Sub-case E.aa: Ẽ₆ at w via c-v₀ third leg =====
+            obtain ⟨_hlen3, harm₁_deg2, harm₂_deg2⟩ := hE_aa
+            -- Extract y₁: arm₁'s unique non-w neighbour.
+            set Sarm1 := Finset.univ.filter (fun j => adj arm₁ j = 1)
+              with hSarm1_def
+            have hSarm1_card : Sarm1.card = 2 := harm₁_deg2
+            have hw_in_Sarm1 : w ∈ Sarm1 :=
+              Finset.mem_filter.mpr ⟨Finset.mem_univ _, arm₁_adj_w⟩
+            have hSarm1_erase : (Sarm1.erase w).card = 1 := by
+              rw [Finset.card_erase_of_mem hw_in_Sarm1, hSarm1_card]
+            obtain ⟨y₁, hy₁_eq⟩ := Finset.card_eq_one.mp hSarm1_erase
+            have hy₁_mem : y₁ ∈ Sarm1.erase w :=
+              hy₁_eq ▸ Finset.mem_singleton_self _
+            have hy₁_adj : adj arm₁ y₁ = 1 :=
+              (Finset.mem_filter.mp (Finset.mem_of_mem_erase hy₁_mem)).2
+            have hy₁_ne_w : y₁ ≠ w := Finset.ne_of_mem_erase hy₁_mem
+            -- Extract y₂: arm₂'s unique non-w neighbour.
+            set Sarm2 := Finset.univ.filter (fun j => adj arm₂ j = 1)
+              with hSarm2_def
+            have hSarm2_card : Sarm2.card = 2 := harm₂_deg2
+            have hw_in_Sarm2 : w ∈ Sarm2 :=
+              Finset.mem_filter.mpr ⟨Finset.mem_univ _, arm₂_adj_w⟩
+            have hSarm2_erase : (Sarm2.erase w).card = 1 := by
+              rw [Finset.card_erase_of_mem hw_in_Sarm2, hSarm2_card]
+            obtain ⟨y₂, hy₂_eq⟩ := Finset.card_eq_one.mp hSarm2_erase
+            have hy₂_mem : y₂ ∈ Sarm2.erase w :=
+              hy₂_eq ▸ Finset.mem_singleton_self _
+            have hy₂_adj : adj arm₂ y₂ = 1 :=
+              (Finset.mem_filter.mp (Finset.mem_of_mem_erase hy₂_mem)).2
+            have hy₂_ne_w : y₂ ≠ w := Finset.ne_of_mem_erase hy₂_mem
+            -- Reversed chain edge chain[len-2] → chain[len-3]
+            -- (= chain[1] → chain[0] = c → v₀ for chain.length = 3).
+            have hcL_2_3 : adj (chain.get ⟨chain.length - 3, by omega⟩)
+                (chain.get ⟨chain.length - 2, by omega⟩) = 1 := by
+              have h := hchain_edges (chain.length - 3) (by omega)
+              have h_nat : chain.length - 3 + 1 = chain.length - 2 := by omega
+              rw [show chain.get ⟨chain.length - 3 + 1, by omega⟩ =
+                    chain.get ⟨chain.length - 2, by omega⟩ from by
+                    congr 1; exact Fin.ext h_nat] at h
+              exact h
+            have hcR_2_3 : adj (chain.get ⟨chain.length - 2, by omega⟩)
+                (chain.get ⟨chain.length - 3, by omega⟩) = 1 :=
+              (adj_comm _ _).trans hcL_2_3
+            have hc_3_ne_w : chain.get ⟨chain.length - 3, by omega⟩ ≠ w := by
+              rw [hw_get]; intro h
+              exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp; omega)
+            -- Dispatch to `embed_etilde6_in_tree_per_kQ` (identical
+            -- argument pattern to Case D above).
+            exact embed_etilde6_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+              w (chain.get ⟨chain.length - 2, by omega⟩)
+              (chain.get ⟨chain.length - 3, by omega⟩)
+              arm₁ y₁ arm₂ y₂
+              hw_chain_adj hcR_2_3
+              harm₁_adj hy₁_adj
+              harm₂_adj hy₂_adj
+              harm₁_ne_pre.symm harm₂_ne_pre.symm harm₁₂
+              hc_3_ne_w hy₁_ne_w hy₂_ne_w
+              F Q hOrient
+          · by_cases hE_s1c4 : chain.length = 4 ∧
+                vertexDegree adj side_arm = 1
+            · -- ===== Sub-case E.s1c4: D̃₇ at (v₀, w) =====
+              obtain ⟨hlen4, _hside_deg1⟩ := hE_s1c4
+              -- chain[2] = chain[chain.length - 2] = c for chain.length = 4.
+              have hc12 : adj (chain.get ⟨1, by omega⟩)
+                  (chain.get ⟨2, by omega⟩) = 1 :=
+                hchain_edges 1 (by omega)
+              -- adj chain[2] w = 1 via chain.length = 4: chain[2] = chain[len-2].
+              have hc2_eq_pre : chain.get ⟨2, by omega⟩ =
+                  chain.get ⟨chain.length - 2, by omega⟩ := by
+                have h_nat : (2 : ℕ) = chain.length - 2 := by omega
+                congr 1; exact Fin.ext h_nat
+              have hc2_w : adj (chain.get ⟨2, by omega⟩) w = 1 := by
+                rw [hc2_eq_pre, adj_comm]; exact hw_chain_adj
+              -- v₀ — w non-edge.
+              have hps_eq : adj v₀ w = 0 :=
+                (h01 v₀ w).resolve_right h_v₀w_nonadj
+              -- chain[2] distinctness from arm₁ / arm₂ (chain[2] is on chain).
+              have harm₁_ne_c2 : chain.get ⟨2, by omega⟩ ≠ arm₁ :=
+                (arm₁_ne_chain 2 (by omega)).symm
+              have harm₂_ne_c2 : chain.get ⟨2, by omega⟩ ≠ arm₂ :=
+                (arm₂_ne_chain 2 (by omega)).symm
+              -- Vertex map matching `d7tildeAdj`:
+              -- 0→leaf, 1→side_arm, 2→v₀, 3→chain[1], 4→chain[2], 5→w,
+              -- 6→arm₁, 7→arm₂.
+              exact embed_d7tilde_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+                leaf side_arm v₀ (chain.get ⟨1, by omega⟩)
+                (chain.get ⟨2, by omega⟩) w arm₁ arm₂
+                h_leaf_adj hside_adj hc1_adj hc12 hc2_w
+                harm₁_adj harm₂_adj hps_eq
+                hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+                harm₁₂ harm₁_ne_c2 harm₂_ne_c2 hne.symm
+                F Q hOrient
+            · -- ===== Residual: tracked by follow-up sub-issues =====
+              -- Remaining: chain.length = 3 mixed arm cases (E.ab, E.bb),
+              -- chain.length = 5 (any), chain.length ≥ 6 all-leaves.
+              -- Requires Ẽ₇ extension splits, D̃₆, or D̃₈+/parametric D̃_n
+              -- helpers — see follow-up sub-issues.
+              let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
+              let _ := h_no_adj_branch_w
+              let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
+              let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
+              let _ := leaf_ne_chain; let _ := arm₂_ne_chain
+              sorry
 
 end Etingof
