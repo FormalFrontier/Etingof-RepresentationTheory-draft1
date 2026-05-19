@@ -511,15 +511,139 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
       hx_ne_v₀ hc2_ne_v₀ hc3_ne_c1 hc4_ne_c2 hc5_ne_c3
       F Q hOrient
   · -- ===== Cases B, C, D, E — sub-issues =====
-    -- TODO (sub-issues of #2951): implement the remaining cases.
-    -- See the case enumeration above. Phase 1 setup and the Case A
-    -- exclusion `¬(6 ≤ chain.length ∧ vertexDegree adj side_arm = 2)`
-    -- are in scope.
-    let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-    let _ := h_no_adj_branch_w; let _ := hOrient
-    let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-    let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-    let _ := leaf_ne_chain; let _ := arm₂_ne_chain
-    sorry
+    by_cases hB : 6 ≤ chain.length ∧
+        (vertexDegree adj arm₁ = 2 ∨ vertexDegree adj arm₂ = 2)
+    · -- ===== Case B: T(1, 2, 5) centred at w =====
+      obtain ⟨hlen6, harm_deg2_or⟩ := hB
+      -- Forward chain edges chain[d-k-1] → chain[d-k] for k = 2,…,5.
+      have hcL_2_3 : adj (chain.get ⟨chain.length - 3, by omega⟩)
+          (chain.get ⟨chain.length - 2, by omega⟩) = 1 := by
+        have h := hchain_edges (chain.length - 3) (by omega)
+        have h_nat : chain.length - 3 + 1 = chain.length - 2 := by omega
+        rw [show chain.get ⟨chain.length - 3 + 1, by omega⟩ =
+              chain.get ⟨chain.length - 2, by omega⟩ from by
+              congr 1; exact Fin.ext h_nat] at h
+        exact h
+      have hcL_3_4 : adj (chain.get ⟨chain.length - 4, by omega⟩)
+          (chain.get ⟨chain.length - 3, by omega⟩) = 1 := by
+        have h := hchain_edges (chain.length - 4) (by omega)
+        have h_nat : chain.length - 4 + 1 = chain.length - 3 := by omega
+        rw [show chain.get ⟨chain.length - 4 + 1, by omega⟩ =
+              chain.get ⟨chain.length - 3, by omega⟩ from by
+              congr 1; exact Fin.ext h_nat] at h
+        exact h
+      have hcL_4_5 : adj (chain.get ⟨chain.length - 5, by omega⟩)
+          (chain.get ⟨chain.length - 4, by omega⟩) = 1 := by
+        have h := hchain_edges (chain.length - 5) (by omega)
+        have h_nat : chain.length - 5 + 1 = chain.length - 4 := by omega
+        rw [show chain.get ⟨chain.length - 5 + 1, by omega⟩ =
+              chain.get ⟨chain.length - 4, by omega⟩ from by
+              congr 1; exact Fin.ext h_nat] at h
+        exact h
+      have hcL_5_6 : adj (chain.get ⟨chain.length - 6, by omega⟩)
+          (chain.get ⟨chain.length - 5, by omega⟩) = 1 := by
+        have h := hchain_edges (chain.length - 6) (by omega)
+        have h_nat : chain.length - 6 + 1 = chain.length - 5 := by omega
+        rw [show chain.get ⟨chain.length - 6 + 1, by omega⟩ =
+              chain.get ⟨chain.length - 5, by omega⟩ from by
+              congr 1; exact Fin.ext h_nat] at h
+        exact h
+      -- Reversed chain edges (the direction the t125 helper expects).
+      have hcR_2_3 : adj (chain.get ⟨chain.length - 2, by omega⟩)
+          (chain.get ⟨chain.length - 3, by omega⟩) = 1 :=
+        (adj_comm _ _).trans hcL_2_3
+      have hcR_3_4 : adj (chain.get ⟨chain.length - 3, by omega⟩)
+          (chain.get ⟨chain.length - 4, by omega⟩) = 1 :=
+        (adj_comm _ _).trans hcL_3_4
+      have hcR_4_5 : adj (chain.get ⟨chain.length - 4, by omega⟩)
+          (chain.get ⟨chain.length - 5, by omega⟩) = 1 :=
+        (adj_comm _ _).trans hcL_4_5
+      have hcR_5_6 : adj (chain.get ⟨chain.length - 5, by omega⟩)
+          (chain.get ⟨chain.length - 6, by omega⟩) = 1 :=
+        (adj_comm _ _).trans hcL_5_6
+      -- Chain index distinctness (from `hchain_nodup`).
+      have hc_3_ne_w : chain.get ⟨chain.length - 3, by omega⟩ ≠ w := by
+        rw [hw_get]; intro h
+        exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp; omega)
+      have hc_4_ne_2 : chain.get ⟨chain.length - 4, by omega⟩
+          ≠ chain.get ⟨chain.length - 2, by omega⟩ := by
+        intro h
+        exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp; omega)
+      have hc_5_ne_3 : chain.get ⟨chain.length - 5, by omega⟩
+          ≠ chain.get ⟨chain.length - 3, by omega⟩ := by
+        intro h
+        exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp; omega)
+      have hc_6_ne_4 : chain.get ⟨chain.length - 6, by omega⟩
+          ≠ chain.get ⟨chain.length - 4, by omega⟩ := by
+        intro h
+        exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp; omega)
+      -- Inner case split: which arm has degree 2 (the extending one)?
+      -- Vertex map: 0→w (center), 1→arm_other (length-1 arm),
+      -- 2→arm_ext, 3→y (length-2 arm), 4→chain[d-2], 5→chain[d-3],
+      -- 6→chain[d-4], 7→chain[d-5], 8→chain[d-6] (length-5 arm).
+      rcases harm_deg2_or with harm₁_deg2 | harm₂_deg2
+      · -- Sub-case B.1: arm₁ extends; arm_ext = arm₁, arm_other = arm₂.
+        set Sarm1 := Finset.univ.filter (fun j => adj arm₁ j = 1) with hSarm1_def
+        have hSarm1_card : Sarm1.card = 2 := harm₁_deg2
+        have hw_in_Sarm1 : w ∈ Sarm1 :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, arm₁_adj_w⟩
+        have hSarm1_erase_card : (Sarm1.erase w).card = 1 := by
+          rw [Finset.card_erase_of_mem hw_in_Sarm1, hSarm1_card]
+        obtain ⟨y, hy_eq⟩ := Finset.card_eq_one.mp hSarm1_erase_card
+        have hy_mem : y ∈ Sarm1.erase w :=
+          hy_eq ▸ Finset.mem_singleton_self _
+        have hy_adj : adj arm₁ y = 1 :=
+          (Finset.mem_filter.mp (Finset.mem_of_mem_erase hy_mem)).2
+        have hy_ne_w : y ≠ w := Finset.ne_of_mem_erase hy_mem
+        exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+          w arm₂ arm₁ y
+          (chain.get ⟨chain.length - 2, by omega⟩)
+          (chain.get ⟨chain.length - 3, by omega⟩)
+          (chain.get ⟨chain.length - 4, by omega⟩)
+          (chain.get ⟨chain.length - 5, by omega⟩)
+          (chain.get ⟨chain.length - 6, by omega⟩)
+          harm₂_adj harm₁_adj hy_adj
+          hw_chain_adj hcR_2_3 hcR_3_4 hcR_4_5 hcR_5_6
+          harm₁₂.symm harm₂_ne_pre harm₁_ne_pre
+          hy_ne_w hc_3_ne_w hc_4_ne_2 hc_5_ne_3 hc_6_ne_4
+          F Q hOrient
+      · -- Sub-case B.2: arm₂ extends; arm_ext = arm₂, arm_other = arm₁.
+        set Sarm2 := Finset.univ.filter (fun j => adj arm₂ j = 1) with hSarm2_def
+        have hSarm2_card : Sarm2.card = 2 := harm₂_deg2
+        have hw_in_Sarm2 : w ∈ Sarm2 :=
+          Finset.mem_filter.mpr ⟨Finset.mem_univ _, arm₂_adj_w⟩
+        have hSarm2_erase_card : (Sarm2.erase w).card = 1 := by
+          rw [Finset.card_erase_of_mem hw_in_Sarm2, hSarm2_card]
+        obtain ⟨y, hy_eq⟩ := Finset.card_eq_one.mp hSarm2_erase_card
+        have hy_mem : y ∈ Sarm2.erase w :=
+          hy_eq ▸ Finset.mem_singleton_self _
+        have hy_adj : adj arm₂ y = 1 :=
+          (Finset.mem_filter.mp (Finset.mem_of_mem_erase hy_mem)).2
+        have hy_ne_w : y ≠ w := Finset.ne_of_mem_erase hy_mem
+        exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+          w arm₁ arm₂ y
+          (chain.get ⟨chain.length - 2, by omega⟩)
+          (chain.get ⟨chain.length - 3, by omega⟩)
+          (chain.get ⟨chain.length - 4, by omega⟩)
+          (chain.get ⟨chain.length - 5, by omega⟩)
+          (chain.get ⟨chain.length - 6, by omega⟩)
+          harm₁_adj harm₂_adj hy_adj
+          hw_chain_adj hcR_2_3 hcR_3_4 hcR_4_5 hcR_5_6
+          harm₁₂ harm₁_ne_pre harm₂_ne_pre
+          hy_ne_w hc_3_ne_w hc_4_ne_2 hc_5_ne_3 hc_6_ne_4
+          F Q hOrient
+    · -- ===== Cases C, D, E — sub-issues =====
+      -- TODO (sub-issues #2954, #2955 of #2951): implement the remaining
+      -- cases. The negation of `hA` and `hB` now restricts to:
+      -- * `chain.length < 6` (Cases C, D, E differ on chain length and
+      --   arm degrees), or
+      -- * `6 ≤ chain.length` with `side_arm` and both arms of degree 1
+      --   (all-leaves case — see Case E in the parent issue).
+      let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
+      let _ := h_no_adj_branch_w; let _ := hOrient
+      let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
+      let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
+      let _ := leaf_ne_chain; let _ := arm₂_ne_chain
+      sorry
 
 end Etingof
