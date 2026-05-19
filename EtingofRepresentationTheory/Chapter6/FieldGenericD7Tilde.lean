@@ -297,4 +297,282 @@ theorem d7tilde_not_finite_type_per_kQ
   exact (Set.infinite_range_of_injective hinj |>.mono
     (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
+/-! ## Section 7: Embedding D̃₇ into a host tree (per-(F, Q) helper)
+
+Mirrors `embed_etilde7_in_tree_per_kQ` (`FieldGenericETilde7.lean:356`)
+for the D̃₇ shape: two non-adjacent degree-3 branch points (`p`, `s`)
+each with two leaves (`a, b` for `p`; `u, v` for `s`), connected by an
+internal length-3 chain `p – q – r – s`. Given the seven edges, the
+`p – s` non-edge, and seven distinctness hypotheses, this helper
+derives the remaining 21-pair adjacency lattice and dispatches via
+`subgraph_infinite_type_transfer_per_kQ` and
+`d7tilde_not_finite_type_per_kQ`. -/
+
+set_option maxHeartbeats 800000 in
+-- The 21-pair adjacency lattice (8 triangle + 1 input + 12 path-based
+-- non-edges) drives a sizeable `linarith` over the 64 `fin_cases` of
+-- `hembed`, exceeding the default 200k heartbeat limit.
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) embedding of D̃₇ into a host acyclic adjacency matrix.
+
+Vertex map (matching `d7tildeAdj`):
+`0 → a, 1 → b, 2 → p, 3 → q, 4 → r, 5 → s, 6 → u, 7 → v`. The seven
+D̃₇ edges are: `a-p, b-p, p-q, q-r, r-s, s-u, s-v`; vertices `p` and
+`s` are the two non-adjacent degree-3 branch points. -/
+theorem embed_d7tilde_in_tree_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (a b p q r s u v : Fin n)
+    (hap : adj p a = 1) (hbp : adj p b = 1) (hpq : adj p q = 1)
+    (hqr : adj q r = 1) (hrs : adj r s = 1)
+    (hsu : adj s u = 1) (hsv : adj s v = 1)
+    (hps : adj p s = 0)
+    (hab : a ≠ b) (haq : a ≠ q) (hbq : b ≠ q)
+    (huv : u ≠ v) (hru : r ≠ u) (hrv : r ≠ v)
+    (hps_ne : p ≠ s)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj' : ∀ x y, adj x y = 1 → x ≠ y := fun x y h hxy => by
+    rw [hxy, hdiag] at h; exact one_ne_zero h.symm
+  -- Edge-derived distinctness (Phase 1) — directions matching the edge labels.
+  have hap_ne : a ≠ p := (ne_of_adj' p a hap).symm
+  have hbp_ne : b ≠ p := (ne_of_adj' p b hbp).symm
+  have hpq_ne : p ≠ q := ne_of_adj' p q hpq
+  have hqr_ne : q ≠ r := ne_of_adj' q r hqr
+  have hrs_ne : r ≠ s := ne_of_adj' r s hrs
+  have hsu_ne : s ≠ u := ne_of_adj' s u hsu
+  have hsv_ne : s ≠ v := ne_of_adj' s v hsv
+  -- Reversed edges.
+  have hap' : adj a p = 1 := (adj_comm a p).trans hap
+  have hbp' : adj b p = 1 := (adj_comm b p).trans hbp
+  have hpq' : adj q p = 1 := (adj_comm q p).trans hpq
+  have hqr' : adj r q = 1 := (adj_comm r q).trans hqr
+  have hrs' : adj s r = 1 := (adj_comm s r).trans hrs
+  have hsu' : adj u s = 1 := (adj_comm u s).trans hsu
+  have hsv' : adj v s = 1 := (adj_comm v s).trans hsv
+  have hps' : adj s p = 0 := (adj_comm s p).trans hps
+  -- Path Nodup helpers.
+  have path_nodup4 : ∀ (x₁ x₂ x₃ x₄ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₂ ≠ x₃ → x₂ ≠ x₄ → x₃ ≠ x₄ →
+      [x₁, x₂, x₃, x₄].Nodup := by
+    intro x₁ x₂ x₃ x₄ h12 h13 h14 h23 h24 h34
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14⟩, ⟨h23, h24⟩, h34⟩
+  have path_nodup5 : ∀ (x₁ x₂ x₃ x₄ x₅ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₁ ≠ x₅ →
+      x₂ ≠ x₃ → x₂ ≠ x₄ → x₂ ≠ x₅ →
+      x₃ ≠ x₄ → x₃ ≠ x₅ → x₄ ≠ x₅ →
+      [x₁, x₂, x₃, x₄, x₅].Nodup := by
+    intro x₁ x₂ x₃ x₄ x₅ h12 h13 h14 h15 h23 h24 h25 h34 h35 h45
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14, h15⟩, ⟨h23, h24, h25⟩, ⟨h34, h35⟩, h45⟩
+  have path_nodup6 : ∀ (x₁ x₂ x₃ x₄ x₅ x₆ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₁ ≠ x₅ → x₁ ≠ x₆ →
+      x₂ ≠ x₃ → x₂ ≠ x₄ → x₂ ≠ x₅ → x₂ ≠ x₆ →
+      x₃ ≠ x₄ → x₃ ≠ x₅ → x₃ ≠ x₆ →
+      x₄ ≠ x₅ → x₄ ≠ x₆ → x₅ ≠ x₆ →
+      [x₁, x₂, x₃, x₄, x₅, x₆].Nodup := by
+    intro x₁ x₂ x₃ x₄ x₅ x₆ h12 h13 h14 h15 h16 h23 h24 h25 h26 h34 h35 h36 h45 h46 h56
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14, h15, h16⟩, ⟨h23, h24, h25, h26⟩,
+      ⟨h34, h35, h36⟩, ⟨h45, h46⟩, h56⟩
+  have path_edges4 : ∀ (x₁ x₂ x₃ x₄ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄].length) →
+        adj ([x₁, x₂, x₃, x₄].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ e12 e23 e34 k hk
+    have : k + 1 < 4 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 := by omega
+    rcases this with rfl | rfl | rfl <;> assumption
+  have path_edges5 : ∀ (x₁ x₂ x₃ x₄ x₅ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 → adj x₄ x₅ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄, x₅].length) →
+        adj ([x₁, x₂, x₃, x₄, x₅].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄, x₅].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ x₅ e12 e23 e34 e45 k hk
+    have : k + 1 < 5 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 := by omega
+    rcases this with rfl | rfl | rfl | rfl <;> assumption
+  have path_edges6 : ∀ (x₁ x₂ x₃ x₄ x₅ x₆ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 →
+      adj x₄ x₅ = 1 → adj x₅ x₆ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄, x₅, x₆].length) →
+        adj ([x₁, x₂, x₃, x₄, x₅, x₆].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄, x₅, x₆].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ x₅ x₆ e12 e23 e34 e45 e56 k hk
+    have : k + 1 < 6 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 := by omega
+    rcases this with rfl | rfl | rfl | rfl | rfl <;> assumption
+  -- Triangle non-edges via `acyclic_no_triangle` (8 distance-2 non-edges).
+  have hab0 : adj a b = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic p a b hab hap_ne hbp_ne hap hbp
+  have haq0 : adj a q = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic p a q haq hap_ne hpq_ne.symm hap hpq
+  have hbq0 : adj b q = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic p b q hbq hbp_ne hpq_ne.symm hbp hpq
+  have huv0 : adj u v = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic s u v huv hsu_ne.symm hsv_ne.symm hsu hsv
+  have hru0 : adj r u = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic s r u hru hrs_ne hsu_ne.symm hrs' hsu
+  have hrv0 : adj r v = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic s r v hrv hrs_ne hsv_ne.symm hrs' hsv
+  -- Apex q: p-r (need p ≠ r derived from hrs + hps).
+  have hpr_ne : p ≠ r := by
+    intro h; rw [← h] at hrs; exact absurd hrs (hps ▸ zero_ne_one)
+  have hpr0 : adj p r = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic q p r hpr_ne hpq_ne hqr_ne.symm hpq' hqr
+  -- Apex r: q-s (need q ≠ s derived from hpq + hps).
+  have hqs_ne : q ≠ s := by
+    intro h; rw [h] at hpq; exact absurd hpq (hps ▸ zero_ne_one)
+  have hqs0 : adj q s = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic r q s hqs_ne hqr_ne hrs_ne.symm hqr' hrs
+  -- Cross-side distinctness derived from distance-2 non-edges.
+  have har_ne : a ≠ r := by intro h; rw [h] at hap; linarith [hpr0]
+  have has_ne : a ≠ s := by intro h; rw [h] at hap; linarith [hps]
+  have hbr_ne : b ≠ r := by intro h; rw [h] at hbp; linarith [hpr0]
+  have hbs_ne : b ≠ s := by intro h; rw [h] at hbp; linarith [hps]
+  have hpu_ne : p ≠ u := by intro h; rw [h] at hps; linarith [hsu']
+  have hpv_ne : p ≠ v := by intro h; rw [h] at hps; linarith [hsv']
+  have hqu_ne : q ≠ u := by intro h; rw [h] at hqs0; linarith [hsu']
+  have hqv_ne : q ≠ v := by intro h; rw [h] at hqs0; linarith [hsv']
+  -- Distance-3 non-edges (4-vertex paths).
+  have har0 : adj a r = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r] (by simp)
+      (path_nodup4 _ _ _ _ hap_ne haq har_ne hpq_ne hpr_ne hqr_ne)
+      (path_edges4 _ _ _ _ hap' hpq hqr)
+    simpa using h
+  have hbr0 : adj b r = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r] (by simp)
+      (path_nodup4 _ _ _ _ hbp_ne hbq hbr_ne hpq_ne hpr_ne hqr_ne)
+      (path_edges4 _ _ _ _ hbp' hpq hqr)
+    simpa using h
+  have hqu0 : adj q u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [q, r, s, u] (by simp)
+      (path_nodup4 _ _ _ _ hqr_ne hqs_ne hqu_ne hrs_ne hru hsu_ne)
+      (path_edges4 _ _ _ _ hqr hrs hsu)
+    simpa using h
+  have hqv0 : adj q v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [q, r, s, v] (by simp)
+      (path_nodup4 _ _ _ _ hqr_ne hqs_ne hqv_ne hrs_ne hrv hsv_ne)
+      (path_edges4 _ _ _ _ hqr hrs hsv)
+    simpa using h
+  -- Distance-4 non-edges (5-vertex paths).
+  have has0 : adj a s = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s] (by simp)
+      (path_nodup5 _ _ _ _ _ hap_ne haq har_ne has_ne
+        hpq_ne hpr_ne hps_ne hqr_ne hqs_ne hrs_ne)
+      (path_edges5 _ _ _ _ _ hap' hpq hqr hrs)
+    simpa using h
+  have hbs0 : adj b s = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s] (by simp)
+      (path_nodup5 _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne
+        hpq_ne hpr_ne hps_ne hqr_ne hqs_ne hrs_ne)
+      (path_edges5 _ _ _ _ _ hbp' hpq hqr hrs)
+    simpa using h
+  have hpu0 : adj p u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [p, q, r, s, u] (by simp)
+      (path_nodup5 _ _ _ _ _ hpq_ne hpr_ne hps_ne hpu_ne
+        hqr_ne hqs_ne hqu_ne hrs_ne hru hsu_ne)
+      (path_edges5 _ _ _ _ _ hpq hqr hrs hsu)
+    simpa using h
+  have hpv0 : adj p v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [p, q, r, s, v] (by simp)
+      (path_nodup5 _ _ _ _ _ hpq_ne hpr_ne hps_ne hpv_ne
+        hqr_ne hqs_ne hqv_ne hrs_ne hrv hsv_ne)
+      (path_edges5 _ _ _ _ _ hpq hqr hrs hsv)
+    simpa using h
+  -- Cross-leaf distinctness (level 3, from distance-4 non-edges).
+  have hau_ne : a ≠ u := by intro h; rw [h] at hap; linarith [hpu0]
+  have hav_ne : a ≠ v := by intro h; rw [h] at hap; linarith [hpv0]
+  have hbu_ne : b ≠ u := by intro h; rw [h] at hbp; linarith [hpu0]
+  have hbv_ne : b ≠ v := by intro h; rw [h] at hbp; linarith [hpv0]
+  -- Distance-5 non-edges (6-vertex paths).
+  have hau0 : adj a u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s, u] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hap_ne haq har_ne has_ne hau_ne
+        hpq_ne hpr_ne hps_ne hpu_ne hqr_ne hqs_ne hqu_ne hrs_ne hru hsu_ne)
+      (path_edges6 _ _ _ _ _ _ hap' hpq hqr hrs hsu)
+    simpa using h
+  have hav0 : adj a v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s, v] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hap_ne haq har_ne has_ne hav_ne
+        hpq_ne hpr_ne hps_ne hpv_ne hqr_ne hqs_ne hqv_ne hrs_ne hrv hsv_ne)
+      (path_edges6 _ _ _ _ _ _ hap' hpq hqr hrs hsv)
+    simpa using h
+  have hbu0 : adj b u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s, u] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne hbu_ne
+        hpq_ne hpr_ne hps_ne hpu_ne hqr_ne hqs_ne hqu_ne hrs_ne hru hsu_ne)
+      (path_edges6 _ _ _ _ _ _ hbp' hpq hqr hrs hsu)
+    simpa using h
+  have hbv0 : adj b v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s, v] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne hbv_ne
+        hpq_ne hpr_ne hps_ne hpv_ne hqr_ne hqs_ne hqv_ne hrs_ne hrv hsv_ne)
+      (path_edges6 _ _ _ _ _ _ hbp' hpq hqr hrs hsv)
+    simpa using h
+  -- Construct φ : Fin 8 ↪ Fin n.
+  let φ_fun : Fin 8 → Fin n := fun i =>
+    match i with
+    | ⟨0, _⟩ => a  | ⟨1, _⟩ => b  | ⟨2, _⟩ => p  | ⟨3, _⟩ => q
+    | ⟨4, _⟩ => r  | ⟨5, _⟩ => s  | ⟨6, _⟩ => u  | ⟨7, _⟩ => v
+  have φ_inj : Function.Injective φ_fun := by
+    intro i j hij; simp only [φ_fun] at hij
+    fin_cases i <;> fin_cases j <;> first
+      | rfl
+      | (exact absurd hij ‹_›)
+      | (exact absurd hij.symm ‹_›)
+  let φ : Fin 8 ↪ Fin n := ⟨φ_fun, φ_inj⟩
+  have hembed : ∀ i j, d7tildeAdj i j = adj (φ i) (φ j) := by
+    intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [d7tildeAdj, φ, φ_fun] <;> norm_num <;>
+      linarith [hdiag a, hdiag b, hdiag p, hdiag q, hdiag r, hdiag s, hdiag u, hdiag v,
+        hap, hbp, hpq, hqr, hrs, hsu, hsv,
+        hap', hbp', hpq', hqr', hrs', hsu', hsv',
+        hps, hps',
+        hab0, haq0, hbq0, huv0, hru0, hrv0, hpr0, hqs0,
+        adj_comm a b, adj_comm a q, adj_comm b q, adj_comm u v,
+        adj_comm r u, adj_comm r v, adj_comm p r, adj_comm q s,
+        har0, hbr0, hqu0, hqv0,
+        adj_comm a r, adj_comm b r, adj_comm q u, adj_comm q v,
+        has0, hbs0, hpu0, hpv0,
+        adj_comm a s, adj_comm b s, adj_comm p u, adj_comm p v,
+        hau0, hav0, hbu0, hbv0,
+        adj_comm a u, adj_comm a v, adj_comm b u, adj_comm b v]
+  exact subgraph_infinite_type_transfer_per_kQ φ F Q
+    (d7tilde_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
 end Etingof

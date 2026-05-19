@@ -5,6 +5,7 @@ import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
 import EtingofRepresentationTheory.Chapter6.FieldGenericD5Tilde
+import EtingofRepresentationTheory.Chapter6.FieldGenericD7Tilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericETilde6
 import EtingofRepresentationTheory.Chapter6.FieldGenericETilde7
 import EtingofRepresentationTheory.Chapter6.FieldGenericT125
@@ -869,19 +870,29 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
                     hx_ne_v₀ hc2_ne_v₀ hw_ne_c1 harm₂_ne_c2 hz₂_ne_w
                     F Q hOrient
                 · -- All-leaves residual: chain.length = 4, x.deg = 1,
-                  -- arm₁.deg = arm₂.deg = 1. The induced 8-vertex graph
-                  -- (v₀, leaf, side_arm, x, chain[1], chain[2], w, arm₁,
-                  -- arm₂ minus one — actually all 9 = host) is exactly
-                  -- D̃₇. Awaiting `d7tilde_not_finite_type_per_kQ`
-                  -- (issue #2964); residual fill tracked separately.
-                  -- TODO(#2964): replace with `d7tilde_*` dispatch once the
-                  -- helper lands.
-                  let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-                  let _ := h_no_adj_branch_w
-                  let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-                  let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-                  let _ := leaf_ne_chain; let _ := arm₂_ne_chain
-                  sorry
+                  -- arm₁.deg = arm₂.deg ≠ 2. Embed D̃₇ on the 8 vertices
+                  -- {leaf, side_arm, v₀, chain[1], chain[2], w, arm₁, arm₂}
+                  -- (excluding x). Dispatch via
+                  -- `embed_d7tilde_in_tree_per_kQ`
+                  -- (`Chapter6/FieldGenericD7Tilde.lean:Section 7`).
+                  -- Vertex map matching `d7tildeAdj`:
+                  -- 0→leaf, 1→side_arm, 2→v₀, 3→chain[1], 4→chain[2],
+                  -- 5→w, 6→arm₁, 7→arm₂. The two branch points
+                  -- (v₀, w) are non-adjacent by `h_v₀w_nonadj`.
+                  have hps_eq : adj v₀ w = 0 :=
+                    (h01 v₀ w).resolve_right h_v₀w_nonadj
+                  have harm₁_ne_c2 : chain.get ⟨2, by omega⟩ ≠ arm₁ :=
+                    (arm₁_ne_chain 2 (by omega)).symm
+                  have harm₂_ne_c2 : chain.get ⟨2, by omega⟩ ≠ arm₂ :=
+                    (arm₂_ne_chain 2 (by omega)).symm
+                  exact embed_d7tilde_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+                    leaf side_arm v₀ (chain.get ⟨1, by omega⟩)
+                    (chain.get ⟨2, by omega⟩) w arm₁ arm₂
+                    h_leaf_adj hside_adj hc1_adj hc12 hc2_w
+                    harm₁_adj harm₂_adj hps_eq
+                    hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+                    harm₁₂ harm₁_ne_c2 harm₂_ne_c2 hne.symm
+                    F Q hOrient
       · -- ===== Cases D, E — sub-issues =====
         by_cases hD : 4 ≤ chain.length ∧ chain.length < 6 ∧
             vertexDegree adj arm₁ = 2 ∧ vertexDegree adj arm₂ = 2
