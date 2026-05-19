@@ -695,16 +695,193 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
             hx_ne_v₀ hc2_ne_v₀
             hx'_ne_side hc3_ne_c1
             F Q hOrient
-        · -- Sub-case C.short: `vertexDegree adj x = 1` — tracked by
-          -- sub-issue #2960. With `side_arm`'s arm of length 2
-          -- (side_arm-x), arms (1, 2, 3) at v₀ plus arms at w give a
-          -- D̃-shape; the embedding is non-obvious and handled separately.
-          let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-          let _ := h_no_adj_branch_w
-          let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-          let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-          let _ := leaf_ne_chain; let _ := arm₂_ne_chain
-          sorry
+        · -- Sub-case C.short: `vertexDegree adj x ≠ 2`. Split further on
+          -- `vertexDegree adj x = 3` (Ẽ₇ via `x → y₁` extension) vs
+          -- `vertexDegree adj x = 1` (T(1, 2, 5) via the chain extension).
+          by_cases hxdeg3 : vertexDegree adj x = 3
+          · -- Sub-case C.short.3: x.deg = 3 → Ẽ₇ T(1, 3, 3) at v₀
+            -- Extract y₁ as any non-side_arm neighbour of x.
+            set Sx := Finset.univ.filter (fun j => adj x j = 1) with hSx_def
+            have hSx_card : Sx.card = 3 := hxdeg3
+            have hside_in_Sx : side_arm ∈ Sx :=
+              Finset.mem_filter.mpr ⟨Finset.mem_univ _,
+                (adj_comm x side_arm).trans hx_adj⟩
+            have hSx_erase : (Sx.erase side_arm).card = 2 := by
+              rw [Finset.card_erase_of_mem hside_in_Sx, hSx_card]
+            have hSx_nonempty : (Sx.erase side_arm).Nonempty :=
+              Finset.card_pos.mp (by rw [hSx_erase]; omega)
+            obtain ⟨y₁, hy₁_mem⟩ := hSx_nonempty
+            have hy₁_adj : adj x y₁ = 1 :=
+              (Finset.mem_filter.mp (Finset.mem_of_mem_erase hy₁_mem)).2
+            have hy₁_ne_side : y₁ ≠ side_arm := Finset.ne_of_mem_erase hy₁_mem
+            -- Chain edges chain[k]→chain[k+1] for k = 1, 2.
+            have hc12 : adj (chain.get ⟨1, by omega⟩)
+                (chain.get ⟨2, by omega⟩) = 1 :=
+              hchain_edges 1 (by omega)
+            have hc23 : adj (chain.get ⟨2, by omega⟩)
+                (chain.get ⟨3, by omega⟩) = 1 :=
+              hchain_edges 2 (by omega)
+            have hc2_ne_v₀ : chain.get ⟨2, by omega⟩ ≠ v₀ := by
+              rw [← hchain_first]; intro h
+              exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+            have hc3_ne_c1 : chain.get ⟨3, by omega⟩ ≠
+                chain.get ⟨1, by omega⟩ := by
+              intro h
+              exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+            -- Dispatch to `embed_etilde7_in_tree_per_kQ`.
+            -- Vertex map: 0→v₀, 1→leaf (length-1 arm), 2→side_arm, 3→x,
+            -- 4→y₁ (length-3 arm), 5→chain[1], 6→chain[2], 7→chain[3]
+            -- (length-3 arm). When `chain.length = 4` the third arm's tip
+            -- `chain[3]` coincides with `w`; the embedder does not need
+            -- distinctness from `w`.
+            exact embed_etilde7_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+              v₀ leaf side_arm x y₁
+              (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩)
+              (chain.get ⟨3, by omega⟩)
+              h_leaf_adj
+              hside_adj hx_adj hy₁_adj
+              hc1_adj hc12 hc23
+              hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+              hx_ne_v₀ hc2_ne_v₀
+              hy₁_ne_side hc3_ne_c1
+              F Q hOrient
+          · -- Sub-case C.short.1: x.deg ∈ {1} (since ≠ 2 and ≠ 3 and ≥ 1 by
+            -- the side_arm-x edge). Split on chain.length ∈ {4, 5}.
+            by_cases hlen5 : chain.length = 5
+            · -- chain.length = 5 → T(1, 2, 5) at v₀ via chain[1..4]=w, arm₁.
+              -- Vertex map: 0→v₀, 1→leaf, 2→side_arm, 3→x, 4→chain[1],
+              -- 5→chain[2], 6→chain[3], 7→chain[4]=w, 8→arm₁.
+              have hc12 : adj (chain.get ⟨1, by omega⟩)
+                  (chain.get ⟨2, by omega⟩) = 1 :=
+                hchain_edges 1 (by omega)
+              have hc23 : adj (chain.get ⟨2, by omega⟩)
+                  (chain.get ⟨3, by omega⟩) = 1 :=
+                hchain_edges 2 (by omega)
+              have hc34 : adj (chain.get ⟨3, by omega⟩)
+                  (chain.get ⟨4, by omega⟩) = 1 :=
+                hchain_edges 3 (by omega)
+              -- chain[4] = w under chain.length = 5.
+              have hc4_eq_w : chain.get ⟨4, by omega⟩ = w := by
+                have h_nat : (4 : ℕ) = chain.length - 1 := by omega
+                rw [← hchain_get_last]; congr 1; exact Fin.ext h_nat
+              have hc4_arm : adj (chain.get ⟨4, by omega⟩) arm₁ = 1 := by
+                rw [hc4_eq_w]; exact harm₁_adj
+              have hc2_ne_v₀ : chain.get ⟨2, by omega⟩ ≠ v₀ := by
+                rw [← hchain_first]; intro h
+                exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+              have hc3_ne_c1 : chain.get ⟨3, by omega⟩ ≠
+                  chain.get ⟨1, by omega⟩ := by
+                intro h
+                exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+              have hc4_ne_c2 : chain.get ⟨4, by omega⟩ ≠
+                  chain.get ⟨2, by omega⟩ := by
+                intro h
+                exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+              have harm₁_ne_c3 : arm₁ ≠ chain.get ⟨3, by omega⟩ :=
+                arm₁_ne_chain 3 (by omega)
+              exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+                v₀ leaf side_arm x
+                (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩)
+                (chain.get ⟨3, by omega⟩) (chain.get ⟨4, by omega⟩) arm₁
+                h_leaf_adj hside_adj hx_adj
+                hc1_adj hc12 hc23 hc34 hc4_arm
+                hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+                hx_ne_v₀ hc2_ne_v₀ hc3_ne_c1 hc4_ne_c2 harm₁_ne_c3
+                F Q hOrient
+            · -- chain.length = 4 (since ∈ {4, 5} and ≠ 5). Further split on
+              -- whether arm₁ or arm₂ extends to a degree-2 vertex.
+              have hchain_len4 : chain.length = 4 := by omega
+              -- chain[3] = chain[len-1] = w; chain[2] = chain[len-2].
+              have hc3_eq_w : chain.get ⟨3, by omega⟩ = w := by
+                have h_nat : (3 : ℕ) = chain.length - 1 := by omega
+                rw [← hchain_get_last]; congr 1; exact Fin.ext h_nat
+              have hc2_eq_pre : chain.get ⟨2, by omega⟩ =
+                  chain.get ⟨chain.length - 2, by omega⟩ := by
+                have h_nat : (2 : ℕ) = chain.length - 2 := by omega
+                congr 1; exact Fin.ext h_nat
+              have hc1_ne_w : chain.get ⟨1, by omega⟩ ≠ w := by
+                rw [← hc3_eq_w]; intro h
+                exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+              have hc2_ne_v₀ : chain.get ⟨2, by omega⟩ ≠ v₀ := by
+                rw [← hchain_first]; intro h
+                exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+              have hc12 : adj (chain.get ⟨1, by omega⟩)
+                  (chain.get ⟨2, by omega⟩) = 1 :=
+                hchain_edges 1 (by omega)
+              -- adj chain[2] w = 1: from hw_chain_adj (adj w chain[len-2] = 1)
+              -- via adj_comm and chain[2] = chain[len-2].
+              have hc2_w : adj (chain.get ⟨2, by omega⟩) w = 1 := by
+                rw [hc2_eq_pre, adj_comm]; exact hw_chain_adj
+              have hw_ne_c1 : w ≠ chain.get ⟨1, by omega⟩ := hc1_ne_w.symm
+              by_cases h_arm₁_deg2 : vertexDegree adj arm₁ = 2
+              · -- arm₁ extends → T(1, 2, 5) at v₀ via chain[1], chain[2], w,
+                -- arm₁, z₁.
+                set Sarm1 := Finset.univ.filter (fun j => adj arm₁ j = 1)
+                  with hSarm1_def
+                have hSarm1_card : Sarm1.card = 2 := h_arm₁_deg2
+                have hw_in_Sarm1 : w ∈ Sarm1 :=
+                  Finset.mem_filter.mpr ⟨Finset.mem_univ _, arm₁_adj_w⟩
+                have hSarm1_erase : (Sarm1.erase w).card = 1 := by
+                  rw [Finset.card_erase_of_mem hw_in_Sarm1, hSarm1_card]
+                obtain ⟨z₁, hz₁_eq⟩ := Finset.card_eq_one.mp hSarm1_erase
+                have hz₁_mem : z₁ ∈ Sarm1.erase w :=
+                  hz₁_eq ▸ Finset.mem_singleton_self _
+                have hz₁_adj : adj arm₁ z₁ = 1 :=
+                  (Finset.mem_filter.mp (Finset.mem_of_mem_erase hz₁_mem)).2
+                have hz₁_ne_w : z₁ ≠ w := Finset.ne_of_mem_erase hz₁_mem
+                have harm₁_ne_c2 : arm₁ ≠ chain.get ⟨2, by omega⟩ :=
+                  arm₁_ne_chain 2 (by omega)
+                -- Vertex map: 0→v₀, 1→leaf, 2→side_arm, 3→x, 4→chain[1],
+                -- 5→chain[2], 6→w, 7→arm₁, 8→z₁.
+                exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+                  v₀ leaf side_arm x
+                  (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩)
+                  w arm₁ z₁
+                  h_leaf_adj hside_adj hx_adj
+                  hc1_adj hc12 hc2_w harm₁_adj hz₁_adj
+                  hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+                  hx_ne_v₀ hc2_ne_v₀ hw_ne_c1 harm₁_ne_c2 hz₁_ne_w
+                  F Q hOrient
+              · by_cases h_arm₂_deg2 : vertexDegree adj arm₂ = 2
+                · -- arm₂ extends (symmetric).
+                  set Sarm2 := Finset.univ.filter (fun j => adj arm₂ j = 1)
+                    with hSarm2_def
+                  have hSarm2_card : Sarm2.card = 2 := h_arm₂_deg2
+                  have hw_in_Sarm2 : w ∈ Sarm2 :=
+                    Finset.mem_filter.mpr ⟨Finset.mem_univ _, arm₂_adj_w⟩
+                  have hSarm2_erase : (Sarm2.erase w).card = 1 := by
+                    rw [Finset.card_erase_of_mem hw_in_Sarm2, hSarm2_card]
+                  obtain ⟨z₂, hz₂_eq⟩ := Finset.card_eq_one.mp hSarm2_erase
+                  have hz₂_mem : z₂ ∈ Sarm2.erase w :=
+                    hz₂_eq ▸ Finset.mem_singleton_self _
+                  have hz₂_adj : adj arm₂ z₂ = 1 :=
+                    (Finset.mem_filter.mp (Finset.mem_of_mem_erase hz₂_mem)).2
+                  have hz₂_ne_w : z₂ ≠ w := Finset.ne_of_mem_erase hz₂_mem
+                  have harm₂_ne_c2 : arm₂ ≠ chain.get ⟨2, by omega⟩ :=
+                    arm₂_ne_chain 2 (by omega)
+                  exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+                    v₀ leaf side_arm x
+                    (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩)
+                    w arm₂ z₂
+                    h_leaf_adj hside_adj hx_adj
+                    hc1_adj hc12 hc2_w harm₂_adj hz₂_adj
+                    hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+                    hx_ne_v₀ hc2_ne_v₀ hw_ne_c1 harm₂_ne_c2 hz₂_ne_w
+                    F Q hOrient
+                · -- All-leaves residual: chain.length = 4, x.deg = 1,
+                  -- arm₁.deg = arm₂.deg = 1. The induced 8-vertex graph
+                  -- (v₀, leaf, side_arm, x, chain[1], chain[2], w, arm₁,
+                  -- arm₂ minus one — actually all 9 = host) is exactly
+                  -- D̃₇. Awaiting `d7tilde_not_finite_type_per_kQ`
+                  -- (issue #2964); residual fill tracked separately.
+                  -- TODO(#2964): replace with `d7tilde_*` dispatch once the
+                  -- helper lands.
+                  let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
+                  let _ := h_no_adj_branch_w
+                  let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
+                  let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
+                  let _ := leaf_ne_chain; let _ := arm₂_ne_chain
+                  sorry
       · -- ===== Cases D, E — sub-issues =====
         by_cases hD : 4 ≤ chain.length ∧ chain.length < 6 ∧
             vertexDegree adj arm₁ = 2 ∧ vertexDegree adj arm₂ = 2
