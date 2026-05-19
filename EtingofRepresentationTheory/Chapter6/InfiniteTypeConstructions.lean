@@ -8836,7 +8836,7 @@ private lemma dTildeSpinePath_mem_val (k a b : ℕ) (ha : 2 ≤ a) (hb : b ≤ k
   exact ⟨by omega, by omega⟩
 
 /-- A non-Nodup list has two distinct indices with equal elements. -/
-private lemma exists_dup_indices {α : Type*} [DecidableEq α] :
+lemma exists_dup_indices {α : Type*} [DecidableEq α] :
     ∀ (l : List α), ¬ l.Nodup →
     ∃ (p q : ℕ) (hp : p < l.length) (hq : q < l.length),
       p < q ∧ l.get ⟨p, hp⟩ = l.get ⟨q, hq⟩ := by
@@ -8857,7 +8857,7 @@ private lemma exists_dup_indices {α : Type*} [DecidableEq α] :
 
 /-- Any walk between distinct vertices can be trimmed to a
     Nodup (simple) path with the same endpoints. -/
-private theorem walk_to_nodup_path {n : ℕ} {i j : Fin n} (adj : Matrix (Fin n) (Fin n) ℤ)
+theorem walk_to_nodup_path {n : ℕ} {i j : Fin n} (adj : Matrix (Fin n) (Fin n) ℤ)
     (walk : List (Fin n))
     (hhead : walk.head? = some i) (hlast : walk.getLast? = some j)
     (hij : i ≠ j)
