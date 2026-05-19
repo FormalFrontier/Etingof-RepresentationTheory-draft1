@@ -40,8 +40,9 @@ The branch case fans out to:
 * single branch → `single_branch_not_posdef_infinite_type_per_kQ`
   (`Chapter6/FieldGenericTpqr.lean:1408`)
 * ≥ 2 non-adjacent branches →
-  `non_adjacent_branches_infinite_type_per_kQ` (this file, sorry-bodied;
-  tracked by #2919).
+  `non_adjacent_branches_infinite_type_per_kQ` (this file; the
+  remaining leaf-case body is in `FieldGenericNonAdjacentBranches.lean`,
+  tracked by #2939).
 -/
 
 open Matrix
@@ -146,16 +147,27 @@ theorem non_adjacent_branches_infinite_type_per_kQ {n : ℕ}
       intro hadj
       have := h_adj_exists v₀ w hadj
       simp [hv₀, hw] at this
+    -- Neighbours of `w` have degree `< 3`, derived from the negated existential
+    -- (the per-(F, Q) leaf-case helper hypothesises this symmetrically to
+    -- `h_no_adj_branch`; see `FieldGenericNonAdjacentBranches.lean:76-81`).
+    have h_no_adj_branch_w : ∀ u, adj w u = 1 → vertexDegree adj u < 3 := by
+      intro u hu
+      have := h_adj_exists w u hu hw
+      have := h_deg u
+      omega
     -- Leaf-case dispatch via Sub-A1 helper (`non_adjacent_branches_leaf_case_per_kQ`).
     by_cases hu₁_leaf : vertexDegree adj u₁ = 1
     · exact non_adjacent_branches_leaf_case_per_kQ adj hn hsymm hdiag h01 hconn h_acyclic
-        h_deg v₀ w hv₀ hw hne h_no_adj_branch h_v₀w_nonadj u₁ hu₁_adj hu₁_leaf F Q hOrient
+        h_deg v₀ w hv₀ hw hne h_no_adj_branch h_no_adj_branch_w h_v₀w_nonadj
+        u₁ hu₁_adj hu₁_leaf F Q hOrient
     · by_cases hu₂_leaf : vertexDegree adj u₂ = 1
       · exact non_adjacent_branches_leaf_case_per_kQ adj hn hsymm hdiag h01 hconn h_acyclic
-          h_deg v₀ w hv₀ hw hne h_no_adj_branch h_v₀w_nonadj u₂ hu₂_adj hu₂_leaf F Q hOrient
+          h_deg v₀ w hv₀ hw hne h_no_adj_branch h_no_adj_branch_w h_v₀w_nonadj
+          u₂ hu₂_adj hu₂_leaf F Q hOrient
       · by_cases hu₃_leaf : vertexDegree adj u₃ = 1
         · exact non_adjacent_branches_leaf_case_per_kQ adj hn hsymm hdiag h01 hconn h_acyclic
-            h_deg v₀ w hv₀ hw hne h_no_adj_branch h_v₀w_nonadj u₃ hu₃_adj hu₃_leaf F Q hOrient
+            h_deg v₀ w hv₀ hw hne h_no_adj_branch h_no_adj_branch_w h_v₀w_nonadj
+            u₃ hu₃_adj hu₃_leaf F Q hOrient
         · -- All 3 neighbors have degree = 2. Embed Ẽ₆ = T(2, 2, 2).
           have hu₁_deg2 : vertexDegree adj u₁ = 2 := by omega
           have hu₂_deg2 : vertexDegree adj u₂ = 2 := by omega
