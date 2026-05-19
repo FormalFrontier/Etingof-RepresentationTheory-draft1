@@ -60,10 +60,11 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 /-- Per-(field, orientation) leaf-neighbour helper for the non-adjacent
 branches case: given two degree-3 branch vertices `v₀, w` of a connected
 acyclic simple graph (all degrees `< 4`), with `v₀, w` non-adjacent, all
-of `v₀`'s neighbours of degree `< 3`, and one specified neighbour `leaf`
-of `v₀` having degree 1, the dimension-vector set of indecomposable
-representations is infinite for every algebraically closed `F` and every
-orientation `Q` of `adj`.
+of `v₀`'s neighbours of degree `< 3`, all of `w`'s neighbours of
+degree `< 3`, and one specified neighbour `leaf` of `v₀` having degree
+`1`, the dimension-vector set of indecomposable representations is
+infinite for every algebraically closed `F` and every orientation `Q`
+of `adj`.
 
 Mirrors the inline `leaf_case` at
 `Chapter6/InfiniteTypeConstructions.lean:9770` inside
@@ -72,10 +73,17 @@ adapted to the per-(F, Q) forbidden-subgraph library on `main`
 (no `dTilde_not_finite_type_per_kQ` for general `n`). See the file
 docstring for the strategy.
 
+The two hypotheses `h_no_adj_branch` (on `v₀`'s neighbours) and
+`h_no_adj_branch_w` (on `w`'s neighbours) are both implied by the
+"no two adjacent degree-3 vertices anywhere" assumption that holds in
+the outer assembly `non_adjacent_branches_infinite_type_per_kQ`
+(issue #2923) — the caller derives them from the negated existential
+`h_adj_exists` before invoking this helper.
+
 **API stub** (issue #2922): the body is `sorry` pending the proof
-tracked by a follow-up issue. The signature exists so that the outer
-assembly `non_adjacent_branches_infinite_type_per_kQ` (issue #2923)
-can dispatch to it by name. -/
+tracked by issue #2932 and its sub-issues. The signature exists so
+that the outer assembly `non_adjacent_branches_infinite_type_per_kQ`
+(issue #2923) can dispatch to it by name. -/
 theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hsymm : adj.IsSymm)
@@ -94,6 +102,7 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
     (v₀ w : Fin n) (hv₀ : vertexDegree adj v₀ = 3)
     (hw : vertexDegree adj w = 3) (hne : w ≠ v₀)
     (h_no_adj_branch : ∀ u, adj v₀ u = 1 → vertexDegree adj u < 3)
+    (h_no_adj_branch_w : ∀ u, adj w u = 1 → vertexDegree adj u < 3)
     (h_v₀w_nonadj : adj v₀ w ≠ 1)
     (leaf : Fin n) (h_leaf_adj : adj v₀ leaf = 1)
     (h_leaf_deg : vertexDegree adj leaf = 1)
@@ -105,8 +114,8 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
       {d : Fin n → ℕ |
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  -- TODO (follow-up to #2922): replace this `sorry` with the case-split
-  -- proof. Sketch:
+  -- TODO (follow-up to #2922 / #2932): replace this `sorry` with the
+  -- case-split proof. Sketch:
   -- 1. Mirror lines 9779-10120 of `InfiniteTypeConstructions.lean`
   --    (universal `leaf_case`) to extract `chain : List (Fin n)` from
   --    `hconn` (the `v₀ → w` Nodup path with length ≥ 3), then extract
@@ -120,13 +129,14 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
   --    * `T(1, 2, 5)` (via `embed_t125_in_tree_per_kQ` /
   --      `t125_not_finite_type_per_kQ`) — primary tool when a long
   --      arm is available.
-  --    * `Ẽ₇ = T(1, 3, 3)` (via a new `embed_etilde7_in_tree_per_kQ`
-  --      helper to be ported from the universal proof, then
+  --    * `Ẽ₇ = T(1, 3, 3)` (via `embed_etilde7_in_tree_per_kQ` in
+  --      `FieldGenericETilde7.lean`, then
   --      `etilde7_not_finite_type_per_kQ`).
-  --    * `Ẽ₆ = T(2, 2, 2)` (via a new `embed_etilde6_in_tree_per_kQ`
-  --      helper, then `etilde6_not_finite_type_per_kQ`) — when three
-  --      arms of length 2 are available from `w` (the chain extends
-  --      one arm; both `arm₁` and `arm₂` extend the other two).
+  --    * `Ẽ₆ = T(2, 2, 2)` (via `embed_etilde6_in_tree_per_kQ` in
+  --      `FieldGenericETilde6.lean`, then
+  --      `etilde6_not_finite_type_per_kQ`) — when three arms of
+  --      length 2 are available from `w` (the chain extends one arm;
+  --      both `arm₁` and `arm₂` extend the other two).
   --    Each case feeds `subgraph_infinite_type_transfer_per_kQ` with
   --    `restrictOrientationViaEmb_isOrientationOf` on `hOrient`.
   --
@@ -137,7 +147,8 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
   -- pattern.
   let _ := hn; let _ := hsymm; let _ := hdiag; let _ := h01; let _ := hconn
   let _ := h_acyclic; let _ := h_deg; let _ := hv₀; let _ := hw; let _ := hne
-  let _ := h_no_adj_branch; let _ := h_v₀w_nonadj; let _ := h_leaf_adj
+  let _ := h_no_adj_branch; let _ := h_no_adj_branch_w
+  let _ := h_v₀w_nonadj; let _ := h_leaf_adj
   let _ := h_leaf_deg; let _ := hOrient
   sorry
 
