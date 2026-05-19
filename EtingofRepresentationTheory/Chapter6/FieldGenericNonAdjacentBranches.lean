@@ -114,42 +114,344 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
       {d : Fin n → ℕ |
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  -- TODO (follow-up to #2922 / #2932): replace this `sorry` with the
-  -- case-split proof. Sketch:
-  -- 1. Mirror lines 9779-10120 of `InfiniteTypeConstructions.lean`
-  --    (universal `leaf_case`) to extract `chain : List (Fin n)` from
-  --    `hconn` (the `v₀ → w` Nodup path with length ≥ 3), then extract
-  --    `v₀`'s third neighbour `side_arm` (not `leaf`, not `chain[1]`)
-  --    and `w`'s two non-chain neighbours `arm₁, arm₂`. Establish the
-  --    full distinctness lattice (`leaf_ne_chain`, `side_ne_chain`,
-  --    `arm₁_ne_chain`, `arm₂_ne_chain`, cross-region neqs via
-  --    `acyclic_path_nonadj` and `leaf_only`).
-  -- 2. Case-split on `(chain.length, side.deg, arm₁.deg, arm₂.deg)`
-  --    and embed one of the available per-(F, Q) forbidden subgraphs:
-  --    * `T(1, 2, 5)` (via `embed_t125_in_tree_per_kQ` /
-  --      `t125_not_finite_type_per_kQ`) — primary tool when a long
-  --      arm is available.
-  --    * `Ẽ₇ = T(1, 3, 3)` (via `embed_etilde7_in_tree_per_kQ` in
-  --      `FieldGenericETilde7.lean`, then
-  --      `etilde7_not_finite_type_per_kQ`).
-  --    * `Ẽ₆ = T(2, 2, 2)` (via `embed_etilde6_in_tree_per_kQ` in
-  --      `FieldGenericETilde6.lean`, then
-  --      `etilde6_not_finite_type_per_kQ`) — when three arms of
-  --      length 2 are available from `w` (the chain extends one arm;
-  --      both `arm₁` and `arm₂` extend the other two).
-  --    Each case feeds `subgraph_infinite_type_transfer_per_kQ` with
-  --    `restrictOrientationViaEmb_isOrientationOf` on `hOrient`.
-  --
-  -- Reference: `single_branch_leaf_case_per_kQ`
-  -- (`Chapter6/FieldGenericTpqr.lean:1306`) for the case-split pattern
-  -- on arm degrees; `adjacent_branches_infinite_type_per_kQ`
-  -- (`Chapter6/FieldGenericD5Tilde.lean:1043`) for the embed-dispatch
-  -- pattern.
-  let _ := hn; let _ := hsymm; let _ := hdiag; let _ := h01; let _ := hconn
-  let _ := h_acyclic; let _ := h_deg; let _ := hv₀; let _ := hw; let _ := hne
-  let _ := h_no_adj_branch; let _ := h_no_adj_branch_w
-  let _ := h_v₀w_nonadj; let _ := h_leaf_adj
-  let _ := h_leaf_deg; let _ := hOrient
+  -- Phase 1: setup. Port of `InfiniteTypeConstructions.lean:9707-10120`
+  -- adapted to the per-(F, Q) signature (h_v₀w_nonadj is a direct
+  -- hypothesis here; S₀/Sw and the universal helpers are inlined).
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
+    rw [hab, hdiag] at h; exact one_ne_zero h.symm
+  -- Extract v₀'s 3 neighbours into S₀
+  set S₀ := Finset.univ.filter (fun j => adj v₀ j = 1) with hS₀_def
+  have hS₀_card : S₀.card = 3 := hv₀
+  -- Get a Nodup path from v₀ to w (via hconn + walk trimming).
+  -- chain = [v₀, c₁, ..., c_{d-1}, w] with length ≥ 3 (since non-adjacent)
+  obtain ⟨chain, hchain_head, hchain_last, hchain_nodup, hchain_len, hchain_edges⟩ :
+    ∃ chain : List (Fin n), chain.head? = some v₀ ∧ chain.getLast? = some w ∧
+      chain.Nodup ∧ 3 ≤ chain.length ∧
+      ∀ t, (ht : t + 1 < chain.length) →
+        adj (chain.get ⟨t, by omega⟩) (chain.get ⟨t + 1, ht⟩) = 1 := by
+    obtain ⟨walk, hwh, hwl, hwe⟩ := hconn v₀ w
+    obtain ⟨spath, hsh, hsl, hsd, hslen, hse⟩ :=
+      walk_to_nodup_path adj walk hwh hwl hne.symm hwe
+    refine ⟨spath, hsh, hsl, hsd, ?_, hse⟩
+    by_contra hlt; push_neg at hlt
+    have hlen2 : spath.length = 2 := by omega
+    have h01' := hse 0 (by omega)
+    have hfirst : spath.get ⟨0, by omega⟩ = v₀ := by
+      cases spath with
+      | nil => simp at hlen2
+      | cons a _ => simpa using hsh
+    have hsecond : spath.get ⟨1, by omega⟩ = w := by
+      cases spath with
+      | nil => simp at hlen2
+      | cons a t =>
+        cases t with
+        | nil => simp at hlen2
+        | cons b u =>
+          cases u with
+          | nil => simpa using hsl
+          | cons _ _ => simp [List.length] at hlen2
+    rw [hfirst, hsecond] at h01'
+    exact h_v₀w_nonadj h01'
+  -- chain[0] = v₀, chain[last] = w
+  have hchain_ne : chain ≠ [] := List.ne_nil_of_length_pos (by omega)
+  have hchain_first : chain.get ⟨0, by omega⟩ = v₀ := by
+    cases chain with
+    | nil => exact absurd rfl hchain_ne
+    | cons a t => simpa using hchain_head
+  have hchain_last' : chain.getLast hchain_ne = w := by
+    rw [List.getLast?_eq_some_getLast hchain_ne] at hchain_last
+    exact Option.some_injective _ hchain_last
+  -- chain[1] is adjacent to v₀ and distinct from it
+  have hc1_adj : adj v₀ (chain.get ⟨1, by omega⟩) = 1 := by
+    rw [← hchain_first]; exact hchain_edges 0 (by omega)
+  -- leaf ≠ chain[1] (leaf has degree 1, but chain[1] connects to chain[2] and v₀)
+  have hleaf_ne_c1 : leaf ≠ chain.get ⟨1, by omega⟩ := by
+    intro heq
+    have hc1c2_adj : adj (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩) = 1 :=
+      hchain_edges 1 (by omega)
+    have hc2_ne_v₀ : chain.get ⟨2, by omega⟩ ≠ v₀ := by
+      rw [← hchain_first]; intro h
+      exact absurd ((hchain_nodup.get_inj_iff).mp h) (by simp)
+    have : 2 ≤ vertexDegree adj leaf := by
+      rw [heq]; unfold vertexDegree
+      have hv₀_in : v₀ ∈ Finset.univ.filter (fun j => adj (chain.get ⟨1, by omega⟩) j = 1) :=
+        Finset.mem_filter.mpr ⟨Finset.mem_univ _, (adj_comm _ _).trans hc1_adj⟩
+      have hc2_in : chain.get ⟨2, by omega⟩ ∈
+          Finset.univ.filter (fun j => adj (chain.get ⟨1, by omega⟩) j = 1) :=
+        Finset.mem_filter.mpr ⟨Finset.mem_univ _, hc1c2_adj⟩
+      have hsub : {v₀, chain.get ⟨2, by omega⟩} ⊆
+          Finset.univ.filter (fun j => adj (chain.get ⟨1, by omega⟩) j = 1) := by
+        intro x hx
+        simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+        rcases hx with rfl | rfl <;> assumption
+      have := Finset.card_le_card hsub
+      rw [Finset.card_pair hc2_ne_v₀.symm] at this
+      exact this
+    omega
+  -- v₀ has exactly 3 neighbours. leaf and chain[1] are two of them.
+  -- The third is the "side arm" start.
+  have hleaf_in_S₀ : leaf ∈ S₀ := Finset.mem_filter.mpr ⟨Finset.mem_univ _, h_leaf_adj⟩
+  have hc1_in_S₀ : chain.get ⟨1, by omega⟩ ∈ S₀ :=
+    Finset.mem_filter.mpr ⟨Finset.mem_univ _, hc1_adj⟩
+  have hS₀_remove2 : ((S₀.erase leaf).erase (chain.get ⟨1, by omega⟩)).card = 1 := by
+    rw [Finset.card_erase_of_mem (Finset.mem_erase.mpr ⟨hleaf_ne_c1.symm, hc1_in_S₀⟩)]
+    rw [Finset.card_erase_of_mem hleaf_in_S₀, hS₀_card]
+  obtain ⟨side_arm, hside_eq⟩ := Finset.card_eq_one.mp hS₀_remove2
+  have hside_mem : side_arm ∈ (S₀.erase leaf).erase (chain.get ⟨1, by omega⟩) :=
+    hside_eq ▸ Finset.mem_singleton_self _
+  have hside_adj : adj v₀ side_arm = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase (Finset.mem_of_mem_erase hside_mem))).2
+  have hside_ne_leaf : side_arm ≠ leaf :=
+    Finset.ne_of_mem_erase (Finset.mem_of_mem_erase hside_mem)
+  have hside_ne_c1 : side_arm ≠ chain.get ⟨1, by omega⟩ :=
+    Finset.ne_of_mem_erase hside_mem
+  -- Extract w's two non-chain neighbours (arm₁, arm₂)
+  have hw_get : w = chain.get ⟨chain.length - 1, by omega⟩ := by
+    rw [← hchain_last']; simp [List.getLast_eq_getElem]
+  have hclast_idx : chain.get ⟨chain.length - 2, by omega⟩ ≠ w := by
+    rw [hw_get]; intro h
+    exact absurd ((hchain_nodup.get_inj_iff).mp h) (by simp; omega)
+  have hw_chain_adj : adj w (chain.get ⟨chain.length - 2, by omega⟩) = 1 := by
+    rw [adj_comm, hw_get]
+    have := hchain_edges (chain.length - 2) (by omega)
+    have h_nat : chain.length - 2 + 1 = chain.length - 1 := by omega
+    rw [show chain.get ⟨chain.length - 2 + 1, _⟩ =
+          chain.get ⟨chain.length - 1, by omega⟩ from by congr 1; exact Fin.ext h_nat] at this
+    exact this
+  set Sw := Finset.univ.filter (fun j => adj w j = 1) with hSw_def
+  have hSw_card : Sw.card = 3 := hw
+  have hpre_in_Sw : chain.get ⟨chain.length - 2, by omega⟩ ∈ Sw :=
+    Finset.mem_filter.mpr ⟨Finset.mem_univ _, hw_chain_adj⟩
+  have hSw_erase : (Sw.erase (chain.get ⟨chain.length - 2, by omega⟩)).card = 2 := by
+    rw [Finset.card_erase_of_mem hpre_in_Sw, hSw_card]
+  obtain ⟨arm₁, arm₂, harm₁₂, hSw_eq⟩ := Finset.card_eq_two.mp hSw_erase
+  have harm₁_mem : arm₁ ∈ Sw.erase (chain.get ⟨chain.length - 2, by omega⟩) :=
+    hSw_eq ▸ Finset.mem_insert_self arm₁ _
+  have harm₂_mem : arm₂ ∈ Sw.erase (chain.get ⟨chain.length - 2, by omega⟩) :=
+    hSw_eq ▸ Finset.mem_insert.mpr (Or.inr (Finset.mem_singleton_self arm₂))
+  have harm₁_adj : adj w arm₁ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase harm₁_mem)).2
+  have harm₂_adj : adj w arm₂ = 1 :=
+    (Finset.mem_filter.mp (Finset.mem_of_mem_erase harm₂_mem)).2
+  have harm₁_ne_pre : arm₁ ≠ chain.get ⟨chain.length - 2, by omega⟩ :=
+    Finset.ne_of_mem_erase harm₁_mem
+  have harm₂_ne_pre : arm₂ ≠ chain.get ⟨chain.length - 2, by omega⟩ :=
+    Finset.ne_of_mem_erase harm₂_mem
+  -- Convenience adjacency facts
+  have leaf_adj_v₀ : adj leaf v₀ = 1 := (adj_comm leaf v₀).trans h_leaf_adj
+  have side_adj_v₀ : adj side_arm v₀ = 1 := (adj_comm side_arm v₀).trans hside_adj
+  have arm₁_adj_w : adj arm₁ w = 1 := (adj_comm arm₁ w).trans harm₁_adj
+  have arm₂_adj_w : adj arm₂ w = 1 := (adj_comm arm₂ w).trans harm₂_adj
+  have leaf_ne_v₀ : leaf ≠ v₀ := (ne_of_adj v₀ leaf h_leaf_adj).symm
+  have side_ne_v₀ : side_arm ≠ v₀ := (ne_of_adj v₀ side_arm hside_adj).symm
+  have arm₁_ne_w : arm₁ ≠ w := (ne_of_adj w arm₁ harm₁_adj).symm
+  have arm₂_ne_w : arm₂ ≠ w := (ne_of_adj w arm₂ harm₂_adj).symm
+  -- chain[last] = w
+  have hchain_get_last : chain.get ⟨chain.length - 1, by omega⟩ = w := by
+    conv_rhs => rw [← hchain_last']
+    simp [List.getLast_eq_getElem]
+  -- leaf's only neighbour is v₀
+  have leaf_only : ∀ x, adj leaf x = 1 → x = v₀ := by
+    intro x hx
+    obtain ⟨a, ha⟩ := Finset.card_eq_one.mp h_leaf_deg
+    have h1 : v₀ = a := Finset.mem_singleton.mp (ha ▸ Finset.mem_filter.mpr
+      ⟨Finset.mem_univ _, leaf_adj_v₀⟩)
+    exact (Finset.mem_singleton.mp (ha ▸ Finset.mem_filter.mpr
+      ⟨Finset.mem_univ _, hx⟩)).trans h1.symm
+  -- Distinctness: leaf ∉ chain
+  have leaf_ne_chain : ∀ (idx : ℕ) (hidx : idx < chain.length),
+      leaf ≠ chain.get ⟨idx, hidx⟩ := by
+    intro idx hidx heq
+    by_cases h0 : idx = 0
+    · subst h0; rw [hchain_first] at heq; exact leaf_ne_v₀ heq
+    · by_cases h1 : idx = 1
+      · subst h1; exact hleaf_ne_c1 heq
+      · have hedge : adj (chain.get ⟨idx - 1, by omega⟩)
+            (chain.get ⟨idx, hidx⟩) = 1 := by
+          have h_nat : idx - 1 + 1 = idx := by omega
+          have h := hchain_edges (idx - 1) (by omega)
+          rwa [show chain.get ⟨idx - 1 + 1, by omega⟩ =
+            chain.get ⟨idx, hidx⟩ from by congr 1; exact Fin.ext h_nat] at h
+        rw [← heq] at hedge
+        have := leaf_only _ ((adj_comm _ _).trans hedge)
+        rw [← hchain_first] at this
+        exact absurd ((hchain_nodup.get_inj_iff).mp this) (by simp; omega)
+  -- Distinctness: side_arm ∉ chain (uses acyclicity for idx ≥ 2)
+  have side_ne_chain : ∀ (idx : ℕ) (hidx : idx < chain.length),
+      side_arm ≠ chain.get ⟨idx, hidx⟩ := by
+    intro idx hidx heq
+    by_cases h0 : idx = 0
+    · subst h0; rw [hchain_first] at heq; exact side_ne_v₀ heq
+    · by_cases h1 : idx = 1
+      · subst h1; exact hside_ne_c1 heq
+      · exfalso
+        have h_back : adj (chain.get ⟨idx, hidx⟩) (chain.get ⟨0, by omega⟩) = 1 := by
+          rw [← heq, hchain_first]; exact side_adj_v₀
+        have h_nonadj := acyclic_path_nonadj adj hsymm h01 h_acyclic
+          (chain.take (idx + 1))
+          (by rw [List.length_take_of_le (by omega)]; omega)
+          (hchain_nodup.sublist (List.take_sublist _ _))
+          (fun t ht => by
+            rw [List.length_take_of_le (by omega)] at ht
+            have ht1 : t + 1 < chain.length := by omega
+            have hgt : (chain.take (idx + 1)).get ⟨t, by
+                rw [List.length_take_of_le (by omega)]; omega⟩ =
+                chain.get ⟨t, by omega⟩ := by
+              simp only [List.get_eq_getElem, List.getElem_take]
+            have hgt1 : (chain.take (idx + 1)).get ⟨t + 1, by
+                rw [List.length_take_of_le (by omega)]; exact ht⟩ =
+                chain.get ⟨t + 1, ht1⟩ := by
+              simp only [List.get_eq_getElem, List.getElem_take]
+            rw [hgt, hgt1]; exact hchain_edges t ht1)
+        have hlast : (chain.take (idx + 1)).getLast
+            (List.ne_nil_of_length_pos (by
+              rw [List.length_take_of_le (by omega)]; omega)) =
+            chain.get ⟨idx, hidx⟩ := by
+          simp only [List.getLast_eq_getElem, List.get_eq_getElem,
+            List.length_take_of_le (by omega : idx + 1 ≤ chain.length),
+            show idx + 1 - 1 = idx from by omega, List.getElem_take]
+        have hfirst : (chain.take (idx + 1)).get ⟨0, by
+            rw [List.length_take_of_le (by omega)]; omega⟩ =
+            chain.get ⟨0, by omega⟩ := by
+          simp only [List.get_eq_getElem, List.getElem_take]
+        rw [hlast, hfirst] at h_nonadj
+        linarith
+  -- Distinctness: arm₁ ∉ chain
+  have arm₁_ne_chain : ∀ (idx : ℕ) (hidx : idx < chain.length),
+      arm₁ ≠ chain.get ⟨idx, hidx⟩ := by
+    intro idx hidx heq
+    by_cases hlast : idx = chain.length - 1
+    · subst hlast; rw [hchain_get_last] at heq; exact arm₁_ne_w heq
+    · by_cases hpre : idx = chain.length - 2
+      · subst hpre; exact harm₁_ne_pre heq
+      · exfalso
+        have h_back : adj (chain.get ⟨chain.length - 1, by omega⟩)
+            (chain.get ⟨idx, hidx⟩) = 1 := by
+          rw [hchain_get_last, ← heq]; exact harm₁_adj
+        have h_nonadj := acyclic_path_nonadj adj hsymm h01 h_acyclic
+          (chain.drop idx)
+          (by rw [List.length_drop]; omega)
+          (hchain_nodup.sublist (List.drop_sublist _ _))
+          (fun t ht => by
+            rw [List.length_drop] at ht
+            have ht1 : idx + t + 1 < chain.length := by omega
+            have hgt : (chain.drop idx).get ⟨t, by rw [List.length_drop]; omega⟩ =
+                chain.get ⟨idx + t, by omega⟩ := by
+              simp only [List.get_eq_getElem, List.getElem_drop]
+            have hgt1 : (chain.drop idx).get ⟨t + 1, by rw [List.length_drop]; exact ht⟩ =
+                chain.get ⟨idx + t + 1, ht1⟩ := by
+              simp only [List.get_eq_getElem, List.getElem_drop]
+              rfl
+            rw [hgt, hgt1]; exact hchain_edges (idx + t) (by omega))
+        have hlast' : (chain.drop idx).getLast
+            (List.ne_nil_of_length_pos (by rw [List.length_drop]; omega)) =
+            chain.get ⟨chain.length - 1, by omega⟩ := by
+          rw [List.getLast_drop, List.getLast_eq_getElem, List.get_eq_getElem]
+        have hfirst : (chain.drop idx).get ⟨0, by rw [List.length_drop]; omega⟩ =
+            chain.get ⟨idx, hidx⟩ := by
+          simp only [List.get_eq_getElem, List.getElem_drop, Nat.add_zero]
+        rw [hlast', hfirst] at h_nonadj
+        linarith
+  -- Distinctness: arm₂ ∉ chain
+  have arm₂_ne_chain : ∀ (idx : ℕ) (hidx : idx < chain.length),
+      arm₂ ≠ chain.get ⟨idx, hidx⟩ := by
+    intro idx hidx heq
+    by_cases hlast : idx = chain.length - 1
+    · subst hlast; rw [hchain_get_last] at heq; exact arm₂_ne_w heq
+    · by_cases hpre : idx = chain.length - 2
+      · subst hpre; exact harm₂_ne_pre heq
+      · exfalso
+        have h_back : adj (chain.get ⟨chain.length - 1, by omega⟩)
+            (chain.get ⟨idx, hidx⟩) = 1 := by
+          rw [hchain_get_last, ← heq]; exact harm₂_adj
+        have h_nonadj := acyclic_path_nonadj adj hsymm h01 h_acyclic
+          (chain.drop idx)
+          (by rw [List.length_drop]; omega)
+          (hchain_nodup.sublist (List.drop_sublist _ _))
+          (fun t ht => by
+            rw [List.length_drop] at ht
+            have ht1 : idx + t + 1 < chain.length := by omega
+            have hgt : (chain.drop idx).get ⟨t, by rw [List.length_drop]; omega⟩ =
+                chain.get ⟨idx + t, by omega⟩ := by
+              simp only [List.get_eq_getElem, List.getElem_drop]
+            have hgt1 : (chain.drop idx).get ⟨t + 1, by rw [List.length_drop]; exact ht⟩ =
+                chain.get ⟨idx + t + 1, ht1⟩ := by
+              simp only [List.get_eq_getElem, List.getElem_drop]
+              rfl
+            rw [hgt, hgt1]; exact hchain_edges (idx + t) (by omega))
+        have hlast' : (chain.drop idx).getLast
+            (List.ne_nil_of_length_pos (by rw [List.length_drop]; omega)) =
+            chain.get ⟨chain.length - 1, by omega⟩ := by
+          rw [List.getLast_drop, List.getLast_eq_getElem, List.get_eq_getElem]
+        have hfirst : (chain.drop idx).get ⟨0, by rw [List.length_drop]; omega⟩ =
+            chain.get ⟨idx, hidx⟩ := by
+          simp only [List.get_eq_getElem, List.getElem_drop, Nat.add_zero]
+        rw [hlast', hfirst] at h_nonadj
+        linarith
+  -- Cross-region distinctness: leaf ≠ arm₁, leaf ≠ arm₂
+  have hleaf_ne_arm₁ : leaf ≠ arm₁ := by
+    intro heq; have := leaf_only w (heq ▸ arm₁_adj_w); exact hne this
+  have hleaf_ne_arm₂ : leaf ≠ arm₂ := by
+    intro heq; have := leaf_only w (heq ▸ arm₂_adj_w); exact hne this
+  -- side_arm ≠ arm₁, side_arm ≠ arm₂ (cycle via chain contradicts acyclicity)
+  have side_arm_ne_arm : ∀ (arm : Fin n), adj w arm = 1 →
+      (∀ (idx : ℕ) (hidx : idx < chain.length), arm ≠ chain.get ⟨idx, hidx⟩) →
+      side_arm ≠ arm := by
+    intro arm harm_adj harm_ne_chain heq
+    -- chain ++ [side_arm] is a cycle: last→first edge is side_arm→v₀
+    apply h_acyclic (chain ++ [side_arm])
+      (by simp [List.length]; omega)
+    · -- Nodup
+      rw [List.nodup_append]
+      refine ⟨hchain_nodup, List.nodup_singleton _, ?_⟩
+      intro x hx1 y hy
+      simp only [List.mem_singleton] at hy
+      subst hy
+      obtain ⟨⟨i, hi⟩, heq'⟩ := List.mem_iff_get.mp hx1
+      exact heq' ▸ (side_ne_chain i hi).symm
+    · -- Consecutive edges
+      intro t ht
+      simp only [List.length_append, List.length_singleton] at ht
+      by_cases ht' : t + 1 < chain.length
+      · have hge1 : (chain ++ [side_arm]).get ⟨t, by omega⟩ = chain.get ⟨t, by omega⟩ := by
+          simp only [List.get_eq_getElem]; exact List.getElem_append_left (by omega)
+        have hge2 : (chain ++ [side_arm]).get ⟨t + 1, by omega⟩ = chain.get ⟨t + 1, ht'⟩ := by
+          simp only [List.get_eq_getElem]; exact List.getElem_append_left ht'
+        rw [hge1, hge2]; exact hchain_edges t ht'
+      · have htv : t = chain.length - 1 := by omega
+        subst htv
+        have hge1 : (chain ++ [side_arm]).get ⟨chain.length - 1, by omega⟩ =
+            chain.get ⟨chain.length - 1, by omega⟩ := by
+          simp only [List.get_eq_getElem]; exact List.getElem_append_left (by omega)
+        have hge2 : (chain ++ [side_arm]).get ⟨chain.length - 1 + 1, by omega⟩ = side_arm := by
+          simp only [List.get_eq_getElem]
+          rw [List.getElem_append_right (by omega)]
+          simp [show chain.length - 1 + 1 - chain.length = 0 from by omega]
+        rw [hge1, hge2, hchain_get_last, heq]; exact harm_adj
+    · -- Back-edge: adj side_arm v₀ = 1, contradiction
+      have hlast' : (chain ++ [side_arm]).getLast
+          (List.ne_nil_of_length_pos (by simp)) = side_arm := by
+        rw [List.getLast_append_of_ne_nil (by simp) (by simp)]
+        simp
+      have hfirst : (chain ++ [side_arm]).get ⟨0, by simp⟩ =
+          chain.get ⟨0, by omega⟩ := by
+        simp only [List.get_eq_getElem]
+        exact List.getElem_append_left (by omega)
+      rw [hlast', hfirst, hchain_first]; exact side_adj_v₀
+  have hside_ne_arm₁ : side_arm ≠ arm₁ := side_arm_ne_arm arm₁ harm₁_adj arm₁_ne_chain
+  have hside_ne_arm₂ : side_arm ≠ arm₂ := side_arm_ne_arm arm₂ harm₂_adj arm₂_ne_chain
+  -- Phase 2 (TODO — decomposed into sub-issues): case-split on
+  -- `(chain.length, vertexDegree adj side_arm, vertexDegree adj arm₁,
+  -- vertexDegree adj arm₂)` and dispatch to one of
+  -- `embed_t125_in_tree_per_kQ` / `embed_etilde6_in_tree_per_kQ` /
+  -- `embed_etilde7_in_tree_per_kQ`. Phase 1 setup (above) is complete
+  -- — all vertex data and the distinctness lattice are in scope.
+  let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
+  let _ := h_no_adj_branch_w; let _ := hOrient
+  let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
+  let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
+  let _ := leaf_ne_chain; let _ := arm₂_ne_chain
   sorry
 
 end Etingof
