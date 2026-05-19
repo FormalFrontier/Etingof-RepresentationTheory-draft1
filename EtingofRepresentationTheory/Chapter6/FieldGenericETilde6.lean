@@ -362,13 +362,13 @@ Mirrors the pattern of `embed_t125_in_tree_per_kQ`
 Embedding map: `0→v₀, 1→c₁, 2→d₁, 3→c₂, 4→d₂, 5→c₃, 6→d₃`.
 
 Shared helper introduced for the non-adjacent-branches leaf case
-(issue #2932). The body is currently `sorry` pending the proof
-tracked by a follow-up sub-issue of #2932; the full implementation
-mirrors `embed_t125_in_tree_per_kQ` (build the distinctness lattice
-via `acyclic_no_triangle` and `acyclic_path_nonadj`, define a
-`Fin 7 ↪ Fin n` embedding, verify `etilde6Adj i j = adj (φ i) (φ j)`
-by case analysis, then dispatch via
-`subgraph_infinite_type_transfer_per_kQ`). -/
+(issue #2932). Body filled in #2937 following the
+`embed_t125_in_tree_per_kQ` pattern: build the distinctness lattice
+via `acyclic_no_triangle` (six triangle non-edges) and
+`acyclic_path_nonadj` (six distance-3 and three distance-4 non-edges),
+define a `Fin 7 ↪ Fin n` embedding, verify
+`etilde6Adj i j = adj (φ i) (φ j)` by case analysis, then dispatch
+via `subgraph_infinite_type_transfer_per_kQ`. -/
 theorem embed_etilde6_in_tree_per_kQ {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
@@ -393,13 +393,169 @@ theorem embed_etilde6_in_tree_per_kQ {n : ℕ}
       {d : Fin n → ℕ |
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  -- TODO (sub-issue of #2932): port the body from the
-  -- `embed_t125_in_tree_per_kQ` pattern (`FieldGenericT125.lean:71`).
-  let _ := hsymm; let _ := hdiag; let _ := h01; let _ := h_acyclic
-  let _ := hc₁; let _ := hd₁; let _ := hc₂; let _ := hd₂; let _ := hc₃; let _ := hd₃
-  let _ := hc₁_ne_c₂; let _ := hc₁_ne_c₃; let _ := hc₂_ne_c₃
-  let _ := hd₁_ne_v₀; let _ := hd₂_ne_v₀; let _ := hd₃_ne_v₀
-  let _ := hOrient
-  sorry
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj' : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
+    rw [hab, hdiag] at h; exact one_ne_zero h.symm
+  -- Same-arm distinctness (from adjacency)
+  have hv₀_ne_c₁ := ne_of_adj' v₀ c₁ hc₁
+  have hv₀_ne_c₂ := ne_of_adj' v₀ c₂ hc₂
+  have hv₀_ne_c₃ := ne_of_adj' v₀ c₃ hc₃
+  have hc₁_ne_d₁ := ne_of_adj' c₁ d₁ hd₁
+  have hc₂_ne_d₂ := ne_of_adj' c₂ d₂ hd₂
+  have hc₃_ne_d₃ := ne_of_adj' c₃ d₃ hd₃
+  -- Reversed edges
+  have hc₁_v₀ : adj c₁ v₀ = 1 := (adj_comm c₁ v₀).trans hc₁
+  have hc₂_v₀ : adj c₂ v₀ = 1 := (adj_comm c₂ v₀).trans hc₂
+  have hc₃_v₀ : adj c₃ v₀ = 1 := (adj_comm c₃ v₀).trans hc₃
+  have hd₁_c₁ : adj d₁ c₁ = 1 := (adj_comm d₁ c₁).trans hd₁
+  have hd₂_c₂ : adj d₂ c₂ = 1 := (adj_comm d₂ c₂).trans hd₂
+  have hd₃_c₃ : adj d₃ c₃ = 1 := (adj_comm d₃ c₃).trans hd₃
+  -- Triangle non-edges (acyclic_no_triangle): v₀-dᵢ via apex cᵢ
+  have hv₀d₁ : adj v₀ d₁ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic c₁ v₀ d₁
+      hd₁_ne_v₀.symm hv₀_ne_c₁ hc₁_ne_d₁.symm hc₁_v₀ hd₁
+  have hv₀d₂ : adj v₀ d₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic c₂ v₀ d₂
+      hd₂_ne_v₀.symm hv₀_ne_c₂ hc₂_ne_d₂.symm hc₂_v₀ hd₂
+  have hv₀d₃ : adj v₀ d₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic c₃ v₀ d₃
+      hd₃_ne_v₀.symm hv₀_ne_c₃ hc₃_ne_d₃.symm hc₃_v₀ hd₃
+  -- Triangle non-edges: cᵢ-cⱼ via apex v₀
+  have hc₁c₂ : adj c₁ c₂ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ c₁ c₂
+      hc₁_ne_c₂ hv₀_ne_c₁.symm hv₀_ne_c₂.symm hc₁ hc₂
+  have hc₁c₃ : adj c₁ c₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ c₁ c₃
+      hc₁_ne_c₃ hv₀_ne_c₁.symm hv₀_ne_c₃.symm hc₁ hc₃
+  have hc₂c₃ : adj c₂ c₃ = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic v₀ c₂ c₃
+      hc₂_ne_c₃ hv₀_ne_c₂.symm hv₀_ne_c₃.symm hc₂ hc₃
+  -- Cross-arm ne (level 1): cᵢ ≠ dⱼ for i ≠ j (from triangle non-edges)
+  have hc₁_ne_d₂ : c₁ ≠ d₂ := by intro h; rw [h] at hc₁; linarith [hv₀d₂]
+  have hc₁_ne_d₃ : c₁ ≠ d₃ := by intro h; rw [h] at hc₁; linarith [hv₀d₃]
+  have hc₂_ne_d₁ : c₂ ≠ d₁ := by intro h; rw [h] at hc₂; linarith [hv₀d₁]
+  have hc₂_ne_d₃ : c₂ ≠ d₃ := by intro h; rw [h] at hc₂; linarith [hv₀d₃]
+  have hc₃_ne_d₁ : c₃ ≠ d₁ := by intro h; rw [h] at hc₃; linarith [hv₀d₁]
+  have hc₃_ne_d₂ : c₃ ≠ d₂ := by intro h; rw [h] at hc₃; linarith [hv₀d₂]
+  -- Path nodup helpers
+  have path_nodup4 : ∀ (a b c d : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → b ≠ c → b ≠ d → c ≠ d → [a, b, c, d].Nodup := by
+    intro a b c d hab hac had hbc hbd hcd
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had⟩, ⟨hbc, hbd⟩, hcd⟩
+  have path_nodup5 : ∀ (a b c d e : Fin n),
+      a ≠ b → a ≠ c → a ≠ d → a ≠ e →
+      b ≠ c → b ≠ d → b ≠ e → c ≠ d → c ≠ e → d ≠ e →
+      [a, b, c, d, e].Nodup := by
+    intro a b c d e hab hac had hae hbc hbd hbe hcd hce hde
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨hab, hac, had, hae⟩, ⟨hbc, hbd, hbe⟩, ⟨hcd, hce⟩, hde⟩
+  -- Path edges helpers
+  have path_edges4 : ∀ (a b c d : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d].length) →
+        adj ([a, b, c, d].get ⟨k, by omega⟩)
+          ([a, b, c, d].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d h₁ h₂ h₃ k hk
+    have : k + 1 < 4 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 := by omega
+    rcases this with rfl | rfl | rfl <;> assumption
+  have path_edges5 : ∀ (a b c d e : Fin n),
+      adj a b = 1 → adj b c = 1 → adj c d = 1 → adj d e = 1 →
+      ∀ k, (hk : k + 1 < [a, b, c, d, e].length) →
+        adj ([a, b, c, d, e].get ⟨k, by omega⟩)
+          ([a, b, c, d, e].get ⟨k + 1, hk⟩) = 1 := by
+    intro a b c d e h₁ h₂ h₃ h₄ k hk
+    have : k + 1 < 5 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 := by omega
+    rcases this with rfl | rfl | rfl | rfl <;> assumption
+  -- Distance-3 non-edges (4-vertex paths): cᵢ-dⱼ for i ≠ j
+  have hc₁d₂ : adj c₁ d₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₂, c₂, v₀, c₁] (by simp)
+      (path_nodup4 _ _ _ _ hc₂_ne_d₂.symm hd₂_ne_v₀ hc₁_ne_d₂.symm
+        hv₀_ne_c₂.symm hc₁_ne_c₂.symm hv₀_ne_c₁)
+      (path_edges4 _ _ _ _ hd₂_c₂ hc₂_v₀ hc₁)
+  have hc₁d₃ : adj c₁ d₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₃, c₃, v₀, c₁] (by simp)
+      (path_nodup4 _ _ _ _ hc₃_ne_d₃.symm hd₃_ne_v₀ hc₁_ne_d₃.symm
+        hv₀_ne_c₃.symm hc₁_ne_c₃.symm hv₀_ne_c₁)
+      (path_edges4 _ _ _ _ hd₃_c₃ hc₃_v₀ hc₁)
+  have hc₂d₁ : adj c₂ d₁ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₁, c₁, v₀, c₂] (by simp)
+      (path_nodup4 _ _ _ _ hc₁_ne_d₁.symm hd₁_ne_v₀ hc₂_ne_d₁.symm
+        hv₀_ne_c₁.symm hc₁_ne_c₂ hv₀_ne_c₂)
+      (path_edges4 _ _ _ _ hd₁_c₁ hc₁_v₀ hc₂)
+  have hc₂d₃ : adj c₂ d₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₃, c₃, v₀, c₂] (by simp)
+      (path_nodup4 _ _ _ _ hc₃_ne_d₃.symm hd₃_ne_v₀ hc₂_ne_d₃.symm
+        hv₀_ne_c₃.symm hc₂_ne_c₃.symm hv₀_ne_c₂)
+      (path_edges4 _ _ _ _ hd₃_c₃ hc₃_v₀ hc₂)
+  have hc₃d₁ : adj c₃ d₁ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₁, c₁, v₀, c₃] (by simp)
+      (path_nodup4 _ _ _ _ hc₁_ne_d₁.symm hd₁_ne_v₀ hc₃_ne_d₁.symm
+        hv₀_ne_c₁.symm hc₁_ne_c₃ hv₀_ne_c₃)
+      (path_edges4 _ _ _ _ hd₁_c₁ hc₁_v₀ hc₃)
+  have hc₃d₂ : adj c₃ d₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₂, c₂, v₀, c₃] (by simp)
+      (path_nodup4 _ _ _ _ hc₂_ne_d₂.symm hd₂_ne_v₀ hc₃_ne_d₂.symm
+        hv₀_ne_c₂.symm hc₂_ne_c₃ hv₀_ne_c₃)
+      (path_edges4 _ _ _ _ hd₂_c₂ hc₂_v₀ hc₃)
+  -- Cross-arm ne (level 2): dᵢ ≠ dⱼ for i ≠ j (from distance-3 non-edges)
+  have hd₁_ne_d₂ : d₁ ≠ d₂ := by intro h; rw [h] at hd₁; linarith [hc₁d₂]
+  have hd₁_ne_d₃ : d₁ ≠ d₃ := by intro h; rw [h] at hd₁; linarith [hc₁d₃]
+  have hd₂_ne_d₃ : d₂ ≠ d₃ := by intro h; rw [h] at hd₂; linarith [hc₂d₃]
+  -- Distance-4 non-edges (5-vertex paths): dᵢ-dⱼ for i ≠ j
+  have hd₁d₂ : adj d₁ d₂ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₂, c₂, v₀, c₁, d₁] (by simp)
+      (path_nodup5 _ _ _ _ _ hc₂_ne_d₂.symm hd₂_ne_v₀ hc₁_ne_d₂.symm hd₁_ne_d₂.symm
+        hv₀_ne_c₂.symm hc₁_ne_c₂.symm hc₂_ne_d₁ hv₀_ne_c₁ hd₁_ne_v₀.symm hc₁_ne_d₁)
+      (path_edges5 _ _ _ _ _ hd₂_c₂ hc₂_v₀ hc₁ hd₁)
+  have hd₁d₃ : adj d₁ d₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₃, c₃, v₀, c₁, d₁] (by simp)
+      (path_nodup5 _ _ _ _ _ hc₃_ne_d₃.symm hd₃_ne_v₀ hc₁_ne_d₃.symm hd₁_ne_d₃.symm
+        hv₀_ne_c₃.symm hc₁_ne_c₃.symm hc₃_ne_d₁ hv₀_ne_c₁ hd₁_ne_v₀.symm hc₁_ne_d₁)
+      (path_edges5 _ _ _ _ _ hd₃_c₃ hc₃_v₀ hc₁ hd₁)
+  have hd₂d₃ : adj d₂ d₃ = 0 :=
+    acyclic_path_nonadj adj hsymm h01 h_acyclic [d₃, c₃, v₀, c₂, d₂] (by simp)
+      (path_nodup5 _ _ _ _ _ hc₃_ne_d₃.symm hd₃_ne_v₀ hc₂_ne_d₃.symm hd₂_ne_d₃.symm
+        hv₀_ne_c₃.symm hc₂_ne_c₃.symm hc₃_ne_d₂ hv₀_ne_c₂ hd₂_ne_v₀.symm hc₂_ne_d₂)
+      (path_edges5 _ _ _ _ _ hd₃_c₃ hc₃_v₀ hc₂ hd₂)
+  -- Construct the embedding φ : Fin 7 ↪ Fin n for T(2, 2, 2)
+  -- Map: 0→v₀, 1→c₁, 2→d₁, 3→c₂, 4→d₂, 5→c₃, 6→d₃
+  let φ_fun : Fin 7 → Fin n := fun i =>
+    match i with
+    | ⟨0, _⟩ => v₀  | ⟨1, _⟩ => c₁  | ⟨2, _⟩ => d₁
+    | ⟨3, _⟩ => c₂  | ⟨4, _⟩ => d₂  | ⟨5, _⟩ => c₃
+    | ⟨6, _⟩ => d₃
+  have φ_inj : Function.Injective φ_fun := by
+    intro i j hij; simp only [φ_fun] at hij
+    fin_cases i <;> fin_cases j <;> first
+      | rfl
+      | (exact absurd hij ‹_›)
+      | (exact absurd hij.symm ‹_›)
+  let φ : Fin 7 ↪ Fin n := ⟨φ_fun, φ_inj⟩
+  have hembed : ∀ i j, etilde6Adj i j = adj (φ i) (φ j) := by
+    intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [etilde6Adj, φ, φ_fun] <;> norm_num <;>
+      linarith [hdiag v₀, hdiag c₁, hdiag d₁,
+        hdiag c₂, hdiag d₂, hdiag c₃, hdiag d₃,
+        hc₁, hd₁, hc₂, hd₂, hc₃, hd₃,
+        adj_comm v₀ c₁, adj_comm v₀ d₁, adj_comm v₀ c₂, adj_comm v₀ d₂,
+        adj_comm v₀ c₃, adj_comm v₀ d₃,
+        adj_comm c₁ d₁, adj_comm c₁ c₂, adj_comm c₁ d₂,
+        adj_comm c₁ c₃, adj_comm c₁ d₃,
+        adj_comm d₁ c₂, adj_comm d₁ d₂, adj_comm d₁ c₃, adj_comm d₁ d₃,
+        adj_comm c₂ d₂, adj_comm c₂ c₃, adj_comm c₂ d₃,
+        adj_comm d₂ c₃, adj_comm d₂ d₃,
+        adj_comm c₃ d₃,
+        hv₀d₁, hv₀d₂, hv₀d₃, hc₁c₂, hc₁c₃, hc₂c₃,
+        hc₁d₂, hc₁d₃, hc₂d₁, hc₂d₃, hc₃d₁, hc₃d₂,
+        hd₁d₂, hd₁d₃, hd₂d₃]
+  exact subgraph_infinite_type_transfer_per_kQ φ F Q
+    (etilde6_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
 
 end Etingof
