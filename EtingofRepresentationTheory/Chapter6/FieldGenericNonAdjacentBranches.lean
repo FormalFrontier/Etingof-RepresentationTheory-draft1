@@ -441,17 +441,85 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
       rw [hlast', hfirst, hchain_first]; exact side_adj_v₀
   have hside_ne_arm₁ : side_arm ≠ arm₁ := side_arm_ne_arm arm₁ harm₁_adj arm₁_ne_chain
   have hside_ne_arm₂ : side_arm ≠ arm₂ := side_arm_ne_arm arm₂ harm₂_adj arm₂_ne_chain
-  -- Phase 2 (TODO — decomposed into sub-issues): case-split on
+  -- Phase 2: case-split on
   -- `(chain.length, vertexDegree adj side_arm, vertexDegree adj arm₁,
-  -- vertexDegree adj arm₂)` and dispatch to one of
-  -- `embed_t125_in_tree_per_kQ` / `embed_etilde6_in_tree_per_kQ` /
-  -- `embed_etilde7_in_tree_per_kQ`. Phase 1 setup (above) is complete
-  -- — all vertex data and the distinctness lattice are in scope.
-  let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-  let _ := h_no_adj_branch_w; let _ := hOrient
-  let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-  let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-  let _ := leaf_ne_chain; let _ := arm₂_ne_chain
-  sorry
+  -- vertexDegree adj arm₂)` and dispatch to one of the per-(F, Q)
+  -- embedders. Cases (from the parent issue #2951):
+  --
+  -- * Case A — `6 ≤ chain.length ∧ vertexDegree adj side_arm = 2`:
+  --   embed T(1, 2, 5) centred at `v₀` and dispatch to
+  --   `embed_t125_in_tree_per_kQ`. **Implemented here.**
+  -- * Case B — `6 ≤ chain.length ∧
+  --   (vertexDegree adj arm₁ = 2 ∨ vertexDegree adj arm₂ = 2)`:
+  --   embed T(1, 2, 5) centred at `w` (symmetric to A). **Sub-issue.**
+  -- * Case C — `4 ≤ chain.length < 6 ∧ vertexDegree adj side_arm = 2`:
+  --   embed Ẽ₇ = T(1, 3, 3) centred at `v₀` and dispatch to
+  --   `embed_etilde7_in_tree_per_kQ`. **Sub-issue.**
+  -- * Case D — `4 ≤ chain.length < 6 ∧ vertexDegree adj arm₁ = 2 ∧
+  --   vertexDegree adj arm₂ = 2`: embed Ẽ₆ = T(2, 2, 2) centred at `w`
+  --   and dispatch to `embed_etilde6_in_tree_per_kQ`. **Sub-issue.**
+  -- * Case E — `chain.length = 3`: dispatch to a D̃₅-style embedding via
+  --   `d5tilde_not_finite_type_per_kQ`. **Sub-issue.**
+  by_cases hA : 6 ≤ chain.length ∧ vertexDegree adj side_arm = 2
+  · -- ===== Case A: T(1, 2, 5) centred at v₀ =====
+    obtain ⟨hlen6, hside_deg2⟩ := hA
+    -- Extract `x`: side_arm's unique non-v₀ neighbour
+    set Sside := Finset.univ.filter (fun j => adj side_arm j = 1) with hSside_def
+    have hSside_card : Sside.card = 2 := hside_deg2
+    have hv₀_in_Sside : v₀ ∈ Sside :=
+      Finset.mem_filter.mpr ⟨Finset.mem_univ _,
+        (adj_comm side_arm v₀).trans hside_adj⟩
+    have hSside_erase : (Sside.erase v₀).card = 1 := by
+      rw [Finset.card_erase_of_mem hv₀_in_Sside, hSside_card]
+    obtain ⟨x, hx_eq⟩ := Finset.card_eq_one.mp hSside_erase
+    have hx_mem : x ∈ Sside.erase v₀ :=
+      hx_eq ▸ Finset.mem_singleton_self _
+    have hx_adj : adj side_arm x = 1 :=
+      (Finset.mem_filter.mp (Finset.mem_of_mem_erase hx_mem)).2
+    have hx_ne_v₀ : x ≠ v₀ := Finset.ne_of_mem_erase hx_mem
+    -- Adjacency facts on chain[1..5] from `hchain_edges`
+    have hc12 : adj (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩) = 1 :=
+      hchain_edges 1 (by omega)
+    have hc23 : adj (chain.get ⟨2, by omega⟩) (chain.get ⟨3, by omega⟩) = 1 :=
+      hchain_edges 2 (by omega)
+    have hc34 : adj (chain.get ⟨3, by omega⟩) (chain.get ⟨4, by omega⟩) = 1 :=
+      hchain_edges 3 (by omega)
+    have hc45 : adj (chain.get ⟨4, by omega⟩) (chain.get ⟨5, by omega⟩) = 1 :=
+      hchain_edges 4 (by omega)
+    -- Distinctness facts on chain[i] vs v₀ / chain[j] (from `hchain_nodup`)
+    have hc2_ne_v₀ : chain.get ⟨2, by omega⟩ ≠ v₀ := by
+      rw [← hchain_first]; intro h
+      exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+    have hc3_ne_c1 : chain.get ⟨3, by omega⟩ ≠ chain.get ⟨1, by omega⟩ := by
+      intro h; exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+    have hc4_ne_c2 : chain.get ⟨4, by omega⟩ ≠ chain.get ⟨2, by omega⟩ := by
+      intro h; exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+    have hc5_ne_c3 : chain.get ⟨5, by omega⟩ ≠ chain.get ⟨3, by omega⟩ := by
+      intro h; exact absurd (hchain_nodup.get_inj_iff.mp h) (by simp)
+    -- Dispatch to `embed_t125_in_tree_per_kQ`.
+    -- Vertex map: 0→v₀, 1→leaf (length-1 arm), 2→side_arm, 3→x
+    -- (length-2 arm), 4→chain[1], 5→chain[2], 6→chain[3], 7→chain[4],
+    -- 8→chain[5] (length-5 arm).
+    exact embed_t125_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+      v₀ leaf side_arm x
+      (chain.get ⟨1, by omega⟩) (chain.get ⟨2, by omega⟩)
+      (chain.get ⟨3, by omega⟩) (chain.get ⟨4, by omega⟩)
+      (chain.get ⟨5, by omega⟩)
+      h_leaf_adj hside_adj hx_adj
+      hc1_adj hc12 hc23 hc34 hc45
+      hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+      hx_ne_v₀ hc2_ne_v₀ hc3_ne_c1 hc4_ne_c2 hc5_ne_c3
+      F Q hOrient
+  · -- ===== Cases B, C, D, E — sub-issues =====
+    -- TODO (sub-issues of #2951): implement the remaining cases.
+    -- See the case enumeration above. Phase 1 setup and the Case A
+    -- exclusion `¬(6 ≤ chain.length ∧ vertexDegree adj side_arm = 2)`
+    -- are in scope.
+    let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
+    let _ := h_no_adj_branch_w; let _ := hOrient
+    let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
+    let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
+    let _ := leaf_ne_chain; let _ := arm₂_ne_chain
+    sorry
 
 end Etingof
