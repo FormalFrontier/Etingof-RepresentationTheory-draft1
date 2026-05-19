@@ -27,29 +27,41 @@ varies with the host graph's chain length and dispatches to
 forbidden-subgraph library on `main` has no `dTilde_not_finite_type_per_kQ`
 for general `n` — only the fixed-`n` leaves
 `d5tilde_not_finite_type_per_kQ` (`FieldGenericD5Tilde.lean:999`),
+`d7tilde_not_finite_type_per_kQ` (`FieldGenericD7Tilde.lean:272`),
 `etilde6_not_finite_type_per_kQ` (`FieldGenericETilde6.lean:319`),
 `etilde7_not_finite_type_per_kQ` (`FieldGenericETilde7.lean:301`), and
 `t125_not_finite_type_per_kQ` (`FieldGenericT125.lean:39`), plus the
-shared embedding helper `embed_t125_in_tree_per_kQ`
-(`FieldGenericT125.lean:71`).
+shared embedding helpers `embed_t125_in_tree_per_kQ`
+(`FieldGenericT125.lean:71`) and `embed_d7tilde_in_tree_per_kQ`
+(`FieldGenericD7Tilde.lean:323`).
 
 The per-(F, Q) port must therefore case-split on chain length and arm
 extensions and embed one of the available fixed-shape forbidden
-subgraphs (`Ẽ₆`, `Ẽ₇`, `T(1, 2, 5)`).
+subgraphs (`Ẽ₆`, `Ẽ₇`, `T(1, 2, 5)`, `D̃₇`).
 
-## API stub
+## Status
 
-This file introduces `non_adjacent_branches_leaf_case_per_kQ` as an
-**API stub** with a `sorry` body so that the outer assembly
-`non_adjacent_branches_infinite_type_per_kQ` (issue #2923) can dispatch
-to it by name. The actual proof — chain extraction, side / arm
-extraction, distinctness lattice, and the case-split on
-`(chain.length, side.deg, arm₁.deg, arm₂.deg)` with the corresponding
-embeddings — is tracked by a follow-up issue.
+The body of `non_adjacent_branches_leaf_case_per_kQ` is substantially
+landed:
 
-Mirrors the API-stub precedent set by `t125_not_finite_type_per_kQ`
-(`FieldGenericT125.lean:39`, introduced by issue #2875 with body
-deferred to #2793).
+* **Phase 1 setup**: chain extraction, side / arm extraction, and the
+  distinctness lattice derived from `hchain_nodup` and the degree
+  hypotheses.
+* **Phase 2 dispatch** via `by_cases hA … hD` on the
+  `(chain.length, side.deg, arm₁.deg, arm₂.deg)` configuration:
+  Cases A / B / C-main / C.short / D and the partial Case E sub-cases
+  E.aa (chain.length = 3 with both arms degree 2 → `Ẽ₆` at `w`) and
+  E.s1c4 (chain.length = 4 with `side_arm` degree 1 → `D̃₇` at
+  `(v₀, w)`).
+
+A documented residual `sorry` covers the configurations that need
+forbidden-subgraph helpers not yet on `main` — `chain.length = 3` with
+mixed arm degrees (E.ab) or both-leaf arms (E.bb), `chain.length = 5`,
+and `chain.length ≥ 6` all-leaves — tracked by sub-issues #2974 (D̃₆
+for chain.length = 3 all-leaves), #2976 (Ẽ₇ extension splits for
+chain.length = 3 mixed arms), #2977 (D̃₈ for chain.length = 5), and
+#2978 (general parametric D̃_n for chain.length ≥ 6 all-leaves). All
+four are blocked on #2955.
 -/
 
 open scoped Matrix
@@ -81,10 +93,13 @@ the outer assembly `non_adjacent_branches_infinite_type_per_kQ`
 (issue #2923) — the caller derives them from the negated existential
 `h_adj_exists` before invoking this helper.
 
-**API stub** (issue #2922): the body is `sorry` pending the proof
-tracked by issue #2932 and its sub-issues. The signature exists so
-that the outer assembly `non_adjacent_branches_infinite_type_per_kQ`
-(issue #2923) can dispatch to it by name. -/
+The body is substantially landed: Phase 1 setup and Phase 2 dispatch
+on `(chain.length, side.deg, arm₁.deg, arm₂.deg)` cover Cases A, B,
+C-main, C.short, D, and the partial Case E sub-cases E.aa and E.s1c4.
+A documented residual `sorry` (`chain.length = 3` mixed/all-leaves
+arms, `chain.length = 5`, and `chain.length ≥ 6` all-leaves) is
+tracked by sub-issues #2974, #2976, #2977, #2978, all blocked on
+#2955. See the file docstring for the full status. -/
 theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hsymm : adj.IsSymm)
