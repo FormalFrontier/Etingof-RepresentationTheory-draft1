@@ -21,12 +21,17 @@ on whether all three arms have length ≥ 2:
 * All three arms ≥ 2 → embed Ẽ₆ = T(2, 2, 2) and dispatch to
   `etilde6_not_finite_type_per_kQ` via `subgraph_infinite_type_transfer_per_kQ`.
 * Some arm is a leaf → delegate to `single_branch_leaf_case_per_kQ`,
-  which internally dispatches to Ẽ₇ / T(1, 2, 5) depending on the
-  T(1, q, r) shape.
+  which case-splits on whether each of `v₀`'s non-leaf neighbours `a₂`,
+  `a₃` has degree 2: if both extend, dispatch to
+  `single_branch_leaf_case_both_extend_per_kQ` (still an API stub,
+  tracked by the #2905 sub-chain #2907 / #2908 / #2909 / #2910); if
+  either `a₂` or `a₃` is itself a leaf, the graph is a D-type tree and
+  the Cartan form is positive definite by `tree_two_leaf_posdef`,
+  contradicting `h_not_posdef`.
 
-`single_branch_leaf_case_per_kQ` is introduced here as an API stub with a
-`sorry` body, tracked by a follow-up issue. Mirrors the API-stub
-precedent set by `t125_not_finite_type_per_kQ` (`FieldGenericT125.lean`).
+The remaining API stub in this file is
+`single_branch_leaf_case_both_extend_per_kQ` (line 1233) — the body is
+`sorry`, tracked by the #2905 sub-chain.
 
 Audit-pattern recipe (per
 `progress/reviews/2026-05-18-degree4-per-kQ-placement.md`): the per-(F, Q)
@@ -40,6 +45,8 @@ the same recipe:
   (`FieldGenericCycle.lean:440`, PR #2897)
 * `adjacent_branches_infinite_type_per_kQ`
   (`FieldGenericD5Tilde.lean:1043`, PR #2900)
+* `non_adjacent_branches_infinite_type_per_kQ`
+  (`FieldGenericAssembly.lean:75`, PR #2943)
 -/
 
 open scoped Matrix
