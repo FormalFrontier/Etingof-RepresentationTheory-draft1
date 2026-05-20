@@ -993,12 +993,14 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
           --
           -- Remaining cases (still `sorry`):
           --
-          -- * E.aa siblings at `chain.length = 3` with mixed arm degrees
-          --   (requires Ẽ₇ at `v₀` or `w` plus extension-degree splits, or
-          --   the unavailable D̃₆ helper for all-leaves at chain.length=3).
-          -- * `chain.length = 5` (any sub-case): needs D̃₈ helper, not in
-          --   the per-(F, Q) library.
-          -- * `chain.length ≥ 6` all-leaves: needs general D̃_n helper.
+          -- * `chain.length = 3`, all-leaves (#2974): requires the
+          --   unavailable D̃₆ per-(F, Q) helper.
+          -- * `chain.length = 3`, mixed arm degrees E.ab / E.bb (#2976):
+          --   requires Ẽ₇ at `v₀` or `w` plus extension-degree splits.
+          -- * `chain.length = 5`, any sub-case (#2977): needs the D̃₈
+          --   per-(F, Q) helper, not in the per-(F, Q) library.
+          -- * `chain.length ≥ 6`, all-leaves (#2978): needs a general
+          --   parametric D̃_n per-(F, Q) helper.
           --
           -- Tracked by follow-up sub-issues spawned from #2955.
           by_cases hE_aa : chain.length = 3 ∧ vertexDegree adj arm₁ = 2 ∧
@@ -1096,10 +1098,19 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
                 harm₁₂ harm₁_ne_c2 harm₂_ne_c2 hne.symm
                 F Q hOrient
             · -- ===== Residual: tracked by follow-up sub-issues =====
-              -- Remaining: chain.length = 3 mixed arm cases (E.ab, E.bb),
-              -- chain.length = 5 (any), chain.length ≥ 6 all-leaves.
-              -- Requires Ẽ₇ extension splits, D̃₆, or D̃₈+/parametric D̃_n
-              -- helpers — see follow-up sub-issues.
+              -- Remaining cases (still `sorry`):
+              --
+              -- * `chain.length = 3`, all-leaves (#2974): requires the
+              --   unavailable D̃₆ per-(F, Q) helper.
+              -- * `chain.length = 3`, mixed arm degrees E.ab / E.bb
+              --   (#2976): requires Ẽ₇ at `v₀` or `w` plus
+              --   extension-degree splits.
+              -- * `chain.length = 5`, any sub-case (#2977): needs the
+              --   D̃₈ per-(F, Q) helper.
+              -- * `chain.length ≥ 6`, all-leaves (#2978): needs a
+              --   general parametric D̃_n per-(F, Q) helper.
+              --
+              -- See follow-up sub-issues spawned from #2955.
               let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
               let _ := h_no_adj_branch_w
               let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
