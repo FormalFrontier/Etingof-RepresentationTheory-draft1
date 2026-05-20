@@ -1264,16 +1264,21 @@ theorem single_branch_leaf_case_both_extend_per_kQ {n : ℕ}
       {d : Fin n → ℕ |
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  -- TODO (follow-up issue): replace this `sorry` with the per-(F, Q) "both arms
-  -- extend" body mirroring `single_branch_leaf_case`
+  -- TODO (parent assembly issue #2905): replace this `sorry` with the
+  -- per-(F, Q) "both arms extend" body mirroring `single_branch_leaf_case`
   -- (`InfiniteTypeConstructions.lean:6981-8352`, ~1370 lines). Further case-
   -- splits on whether `b₂`, `b₃` and deeper vertices extend, dispatching to:
   --   * both arms ≥ 3 → embed Ẽ₇ and call `etilde7_not_finite_type_per_kQ`
-  --   * one arm length 2, other ≥ 5 → embed T(1, 2, 5) and call
-  --     `t125_not_finite_type_per_kQ`
+  --     (sub-issue #2907).
+  --   * `b₃` leaf, q ≥ 3 (T(1, q, 2)) → embed T(1, 2, 5) and call
+  --     `t125_not_finite_type_per_kQ` (sub-issue #2908).
+  --   * `b₂` leaf, r ≥ 3 (T(1, 2, r)) — symmetric to the previous case;
+  --     call `t125_not_finite_type_per_kQ` (sub-issue #2909).
   --   * ADE shapes T(1, 2, 2/3/4) → contradict `h_not_posdef` via the
   --     `e7_tree_posdef` / `e8_posdef`-style posdef facts in
-  --     `InfiniteTypeConstructions.lean`.
+  --     `InfiniteTypeConstructions.lean` (sub-issue #2910; landed via
+  --     PR #2912, covering T(1, 2, 2), T(1, 2, 3), and T(1, 2, 4) in the
+  --     same posdef-contradiction branch).
   -- The real body will need `set_option maxHeartbeats 6400000 in` (mirroring
   -- the `_kQ`-free original at `InfiniteTypeConstructions.lean:6896`); the
   -- stub elaborates fine without it.
