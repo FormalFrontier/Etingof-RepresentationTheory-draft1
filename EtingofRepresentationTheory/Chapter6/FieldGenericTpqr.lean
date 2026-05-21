@@ -30,7 +30,7 @@ on whether all three arms have length ≥ 2:
   contradicting `h_not_posdef`.
 
 The remaining API stub in this file is
-`single_branch_leaf_case_both_extend_per_kQ` (line 1233) — the body is
+`single_branch_leaf_case_both_extend_per_kQ` (line 1240) — the body is
 `sorry`, tracked by the #2905 sub-chain.
 
 Audit-pattern recipe (per
@@ -1281,11 +1281,12 @@ theorem single_branch_leaf_case_both_extend_per_kQ {n : ℕ}
   --     `t125_not_finite_type_per_kQ` (sub-issue #2908).
   --   * `b₂` leaf, r ≥ 3 (T(1, 2, r)) — symmetric to the previous case;
   --     call `t125_not_finite_type_per_kQ` (sub-issue #2909).
-  --   * ADE shapes T(1, 2, 2/3/4) → contradict `h_not_posdef` via the
-  --     `e7_tree_posdef` / `e8_posdef`-style posdef facts in
-  --     `InfiniteTypeConstructions.lean` (sub-issue #2910; landed via
-  --     PR #2912, covering T(1, 2, 2), T(1, 2, 3), and T(1, 2, 4) in the
-  --     same posdef-contradiction branch).
+  --   * ADE shape T(1, 2, 2) = D₅ → contradict `h_not_posdef` via the
+  --     `d5_posdef`-style posdef facts in `InfiniteTypeConstructions.lean`
+  --     (sub-issue #2910; landed via PR #2912 — only T(1, 2, 2)). The
+  --     other ADE configurations T(1, 3, 2)/T(1, 4, 2)/T(1, 2, 3)/T(1, 2, 4)
+  --     are q,r ∈ {3, 4} sub-rows of #2908/#2909 above, not separately
+  --     tracked.
   -- The real body will need `set_option maxHeartbeats 6400000 in` (mirroring
   -- the `_kQ`-free original at `InfiniteTypeConstructions.lean:6896`); the
   -- stub elaborates fine without it.
