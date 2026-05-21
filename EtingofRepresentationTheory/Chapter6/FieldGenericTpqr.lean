@@ -1226,13 +1226,17 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 /-- Per-(F, Q) version of the "both arms extend" branch of
 `single_branch_leaf_case` (`InfiniteTypeConstructions.lean:6981-8352`):
 given the T(1, q, r) configuration where both of `v₀`'s non-leaf
+neighbours have degree 2.
 
 API stub: the body is `sorry`, tracked by a follow-up sub-issue. The real
 proof mirrors the `_kQ`-free original — further case-splits on whether
 `b₂`, `b₃` and deeper vertices extend, dispatching to
 `etilde7_not_finite_type_per_kQ` (q, r ≥ 3 → Ẽ₇),
-`t125_not_finite_type_per_kQ` (q = 2, r ≥ 5 → T(1, 2, 5)), or contradicting
-`h_not_posdef` for the ADE shapes T(1, 2, 2), T(1, 2, 3), T(1, 2, 4).
+`t125_not_finite_type_per_kQ` (r = 2, q ≥ 3 → T(1, q, 2), or q = 2,
+r ≥ 3 → T(1, 2, r)), or contradicting `h_not_posdef` for the
+T(1, 2, 2) = D₅ shape (with the asymmetric ADE configurations
+T(1, 3, 2)/T(1, 4, 2)/T(1, 2, 3)/T(1, 2, 4) folded into the
+T(1, q, 2)/T(1, 2, r) sub-cases above).
 
 The "one or both arms are leaves" branches are handled inline in
 `single_branch_leaf_case_per_kQ` via `tree_two_leaf_posdef` and do not flow
