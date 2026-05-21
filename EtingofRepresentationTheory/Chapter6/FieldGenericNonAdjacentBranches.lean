@@ -1115,7 +1115,7 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
               let _ := h_no_adj_branch_w
               let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
               let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-              let _ := leaf_ne_chain; let _ := arm₂_ne_chain
+              let _ := leaf_ne_chain
               sorry
 
 end Etingof
