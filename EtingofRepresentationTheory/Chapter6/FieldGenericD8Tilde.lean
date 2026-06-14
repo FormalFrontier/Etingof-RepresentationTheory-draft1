@@ -41,11 +41,14 @@ This is the `chain.length = 5` analogue of `FieldGenericD7Tilde.lean`
 (`chain.length = 4`) and `FieldGenericD6Tilde.lean` (`chain.length = 3`):
 one extra internal chain vertex carrying an identity edge.
 
-Indecomposability mirrors the deferred-`sorry` precedent of
-`d7tildeRep_kQ_isIndecomposable` (`FieldGenericD7Tilde.lean:247`, tracked
-by #2967) — the proof body is deferred to a follow-up issue; the
-per-(F, Q) infinite-type theorem `d8tilde_not_finite_type_per_kQ`
-transitively depends on it. The consumer of this helper is the
+The central edge `2-3` carries the corrected eigenvalue-site tube
+`d5tildeGammaTube_F` (#4597 / `progress/dtilde-tube-redesign-design.md`),
+replacing the refuted rank-deficient bridge `d5tildeGamma_F`. With this
+correction `d8tildeRep_kQ_isIndecomposable` becomes true for every
+orientation; its proof body is deferred to a sub-C follow-up that
+generalises the D̃₅ assembly to the length-4 chain. The per-(F, Q)
+infinite-type theorem `d8tilde_not_finite_type_per_kQ` transitively
+depends on that sorry. The consumer of this helper is the
 `chain.length = 5` residual sub-case of the non-adjacent-branches
 assembly (`FieldGenericNonAdjacentBranches.lean`).
 
@@ -147,7 +150,12 @@ the canonical forward map and a reverse map per edge:
 
 * `0-2`, `1-2`: `starEmbed1_F / starEmbed2_F` (canonical) and
   `starFirst_F / starSecond_F` (reverses).
-* `2-3`: `d5tildeGamma_F` (canonical) and `d5tildeGammaInv_F` (reverse).
+* `2-3`: the corrected eigenvalue-site tube `d5tildeGammaTube_F F lam`
+  (canonical) and its closed-form inverse `d5tildeGammaTubeInv_F F lam`
+  (reverse). This replaces the refuted rank-deficient bridge
+  `d5tildeGamma_F` / `d5tildeGammaInv_F` (#4597 /
+  `progress/dtilde-tube-redesign-design.md`); `lam` is the generic
+  eigenvalue `d5tildeTubeLam F`, shared with the D̃₅ central edge.
 * `3-4`, `4-5`, `5-6`: `LinearMap.id` in both directions (internal-chain
   edges between equal-dimension blocks).
 * `6-7`, `6-8`: `starEmbed1_F / starEmbed2_F` (canonical) and
@@ -158,7 +166,8 @@ Outside these 16 directed edges the map is `0` (ruled out by `hOrient`).
 
 /-- Direction-aware match-based map function for the orientation-generic
 D̃₈ representation. -/
-private noncomputable def d8tildeRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fin 9) :
+private noncomputable def d8tildeRepMap_kQ (F : Type) [Field F] (lam : F) (m : ℕ)
+    (a b : Fin 9) :
     (Fin (d8tildeDim m a) → F) →ₗ[F] (Fin (d8tildeDim m b) → F) :=
   match a, b with
   -- Edge {0, 2}: canonical 0→2, reverse 2→0
@@ -167,9 +176,9 @@ private noncomputable def d8tildeRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b :
   -- Edge {1, 2}: canonical 1→2, reverse 2→1
   | ⟨1, _⟩, ⟨2, _⟩ => starEmbed2_F F m
   | ⟨2, _⟩, ⟨1, _⟩ => starSecond_F F m
-  -- Edge {2, 3}: canonical 2→3, reverse 3→2
-  | ⟨2, _⟩, ⟨3, _⟩ => d5tildeGamma_F F m
-  | ⟨3, _⟩, ⟨2, _⟩ => d5tildeGammaInv_F F m
+  -- Edge {2, 3}: canonical 2→3, reverse 3→2 (corrected eigenvalue-site tube)
+  | ⟨2, _⟩, ⟨3, _⟩ => d5tildeGammaTube_F F lam m
+  | ⟨3, _⟩, ⟨2, _⟩ => d5tildeGammaTubeInv_F F lam m
   -- Edge {3, 4}: canonical 3→4, reverse 4→3 (both identities)
   | ⟨3, _⟩, ⟨4, _⟩ => LinearMap.id
   | ⟨4, _⟩, ⟨3, _⟩ => LinearMap.id
@@ -203,7 +212,7 @@ edges of `d8tildeAdj` contributes one canonical map and one reverse map
 that downstream lemmas (the deferred indecomposability proof) can
 pattern-match on which arrows exist. -/
 noncomputable def d8tildeRep_kQ
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (_hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -214,7 +223,7 @@ noncomputable def d8tildeRep_kQ
     obj := fun v => Fin (d8tildeDim m v) → F
     instAddCommMonoid := fun _ => inferInstance
     instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => d8tildeRepMap_kQ F m a b
+    mapLinear := fun {a b} _ => d8tildeRepMap_kQ F (d5tildeTubeLam F) m a b
   }
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -222,7 +231,7 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 /-- The orientation-generic D̃₈ rep has the expected dimension vector
 `d8tildeDim m` at each vertex. -/
 theorem d8tildeRep_kQ_dimVec
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -253,7 +262,7 @@ complementary invariant submodule pair `(Wmain, Wother)`: if
 `z ∈ Wmain ⟨1⟩`. Uses canonical `0→2` and `1→2` pushes on both `Wmain`
 and `Wother`. Verbatim analogue of `d5tilde_core_F`. -/
 theorem d8tilde_core_F
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -312,7 +321,7 @@ complementary invariant submodule pair `(Wmain, Wother)`: if
 `z ∈ Wmain ⟨8⟩`. Uses canonical `7→6` and `8→6` pushes on both `Wmain`
 and `Wother`. Relabelled analogue of `d5tilde_core3_F`. -/
 theorem d8tilde_core6_F
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -371,7 +380,7 @@ sends `W ⟨2⟩` into `W ⟨0⟩`, then any `starEmbed1_F x + starEmbed2_F z` i
 `W ⟨2⟩` has first component `x ∈ W ⟨0⟩`. Analogue of
 `d5tilde_core_F_proj1`. -/
 theorem d8tilde_core_F_proj1
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -394,7 +403,7 @@ sends `W ⟨2⟩` into `W ⟨1⟩`, then any `starEmbed1_F x + starEmbed2_F z` i
 `W ⟨2⟩` has second component `z ∈ W ⟨1⟩`. Analogue of
 `d5tilde_core_F_proj2`. -/
 theorem d8tilde_core_F_proj2
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -417,7 +426,7 @@ sends `W ⟨6⟩` into `W ⟨7⟩`, then any `starEmbed1_F x + starEmbed2_F z` i
 `W ⟨6⟩` has first component `x ∈ W ⟨7⟩`. Analogue of
 `d5tilde_core3_F_proj1`. -/
 theorem d8tilde_core6_F_proj1
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -440,7 +449,7 @@ sends `W ⟨6⟩` into `W ⟨8⟩`, then any `starEmbed1_F x + starEmbed2_F z` i
 `W ⟨6⟩` has second component `z ∈ W ⟨8⟩`. Analogue of
 `d5tilde_core3_F_proj2`. -/
 theorem d8tilde_core6_F_proj2
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -479,7 +488,7 @@ subspaces across the whole interior, so `W₁ ⟨3⟩ = W₁ ⟨6⟩` and
 `W₂ ⟨3⟩ = W₂ ⟨6⟩`. Generalises `d6tildeRep_kQ_chain_collapse` (single
 edge `3-4`) to the three-edge chain. -/
 theorem d8tildeRep_kQ_chain_collapse
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -578,9 +587,18 @@ onto its leaves `7, 8` via `d8tilde_core6_F`. The fourth conjunct carries
 the nilpotent twist `nilpotentShiftLinGen F m y` from
 `gamma_from_embed2_F` (`γ(0, y) = (y, N y)`). D̃₈ analogue of
 `d6tilde_gamma_containment_F`, with the single collapse edge replaced by
-the three-edge chain endpoint. -/
+the three-edge chain endpoint.
+
+**Legacy bridge.** This lemma is hypothesised against the refuted
+rank-deficient bridge `d5tildeGamma_F` (`hMain_23`), whereas the corrected
+rep (`d8tildeRepMap_kQ`) now carries the eigenvalue-site tube
+`d5tildeGammaTube_F` on the `{2, 3}` edge. It therefore no longer matches
+the rep's central map and is not used by the corrected indecomposability
+assembly. The sub-C follow-up must re-derive a `d5tildeGammaTube_F`-based
+containment (with the Jordan twist `Λ = λ·id + J` replacing `N`); this
+statement is retained only as the worked legacy template. -/
 theorem d8tilde_gamma_containment_F
-    (F : Type) [Field F]
+    (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
@@ -638,25 +656,31 @@ theorem d8tilde_gamma_containment_F
 
 /-! ## Section 5: Indecomposability (deferred sorry)
 
-The body of the indecomposability proof is deferred to a follow-up
-issue, mirroring the precedent of
-`d7tildeRep_kQ_isIndecomposable` (`FieldGenericD7Tilde.lean:247`,
-tracked by #2967) and `d5tildeRep_kQ_isIndecomposable`
-(`FieldGenericD5Tilde.lean:980`, tracked by #2834). The per-(F, Q)
+With the corrected eigenvalue-site construction (Section 4, edge `{2, 3}`
+now `d5tildeGammaTube_F`), the statement below is **true for every
+orientation** — the rank-deficient under-coupling that made the old
+`[[I, I], [I, N]]` bridge decomposable in the mixed / reversed-leaf
+orientations (#4566 / #4597) is gone. The proof body is deferred to a
+follow-up sub-C issue, which must generalise the worked D̃₅ assembly
+`d5tildeRep_kQ_isIndecomposable` (`FieldGenericD5Tilde.lean`, the
+pattern-setter under #4647 / #4663) from one central γ-edge to the
+length-4 internal chain via `d8tildeRep_kQ_chain_collapse`. The per-(F, Q)
 infinite-type theorem below transitively depends on this sorry.
 -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Orientation-generic indecomposability of `d8tildeRep_kQ`.
+/-- Orientation-generic indecomposability of `d8tildeRep_kQ` (corrected
+eigenvalue-site tube).
 
-The proof body is deferred to a follow-up issue (the D̃₈ analogue of
-`d7tildeRep_kQ_isIndecomposable`, `FieldGenericD7Tilde.lean:247`, which
-is itself sorry-deferred under #2967). Closing this sorry requires
-F-generic versions of the leaf-subspace equalities used by the
-ℂ-specific universal proof, parameterised across each of the eight
-possible arrow directions; the d5tilde/d7tilde precedents show this is a
-multi-hundred-line construction. The consumer
+True for every orientation on the corrected rep. The proof body is
+deferred to a sub-C follow-up issue: generalise the worked D̃₅ assembly
+`d5tildeRep_kQ_isIndecomposable` (`FieldGenericD5Tilde.lean`, #4663) to
+the length-4 internal chain. The route is leaf collapse at the two
+centers (`d8tilde_core_F` / `d8tilde_core6_F`) → interior collapse
+`⟨3⟩ = ⟨6⟩` (`d8tildeRep_kQ_chain_collapse`) → a single
+`(λ·id + J)`-invariant splitting at the eigenvalue site killed by
+`eigenvalue_jordan_invariant_compl_trivial_gen`. The consumer
 `d8tilde_not_finite_type_per_kQ` carries this sorry transitively. -/
 theorem d8tildeRep_kQ_isIndecomposable
     (F : Type) [Field F] [IsAlgClosed F]
