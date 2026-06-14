@@ -175,6 +175,54 @@ noncomputable def t125Arm1Tube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
     + (blockEmbedAtN_F F (4 * (m + 1)) (6 * (m + 1)) m).comp (P + Λ4.comp Q + Λ8.comp R)
     + (blockEmbedAtN_F F (5 * (m + 1)) (6 * (m + 1)) m).comp (P + Λ5.comp Q + Λ10.comp R)
 
+/-! ## Section 2: Flag retractions (sub-B1 of #4612)
+
+The prefix/suffix flag projections are left inverses of the corresponding
+embeddings, and the single-block projection reads back the block placed by
+`blockEmbedAtN_F`. These map-level retractions are the foundational step of
+the flag-collapse argument that drives `t125Rep_kQ_leaf_equalities`: they let
+the indecomposability proof extract a leaf component from a center membership,
+and they hold in every orientation. Mirrors `center_decomp_F` /
+`embed_sum_zero_F` (`FieldGenericStar.lean`) for the two-leaf star. -/
+
+/-- `prefixBlockProj_F` is a left inverse of `prefixBlockEmbed_F`: the
+prefix-flag embedding `F^{a(m+1)} → F^{b(m+1)}` (`x ↦ (x, 0, …, 0)`) is read
+back exactly by the first-`a`-blocks projection. -/
+theorem prefixBlockProj_comp_embed_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b)
+    (x : Fin (a * (m + 1)) → F) :
+    prefixBlockProj_F F a b m hab (prefixBlockEmbed_F F a b m x) = x := by
+  ext i
+  simp only [prefixBlockProj_F, prefixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk,
+    dif_pos i.isLt]
+
+/-- `suffixBlockProj_F` is a left inverse of `suffixBlockEmbed_F`: the
+suffix-flag embedding `F^{a(m+1)} → F^{b(m+1)}` (`x ↦ (0, …, 0, x)`) is read
+back exactly by the last-`a`-blocks projection. -/
+theorem suffixBlockProj_comp_embed_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b)
+    (x : Fin (a * (m + 1)) → F) :
+    suffixBlockProj_F F a b m hab (suffixBlockEmbed_F F a b m x) = x := by
+  ext i
+  have hi := i.isLt
+  simp only [suffixBlockProj_F, suffixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_pos ⟨by omega, by omega⟩]
+  congr 1
+  ext
+  simp
+
+/-- `blockProjAtN_F` reads back the single block placed by `blockEmbedAtN_F` at
+the same offset `o`. The retraction for the eigenvalue-tube input blocks
+`(P, Q, R)`. -/
+theorem blockProjAtN_comp_embed_F (F : Type) [Field F] (o N m : ℕ)
+    (h : o + (m + 1) ≤ N) (x : Fin (m + 1) → F) :
+    blockProjAtN_F F o N m h (blockEmbedAtN_F F o N m x) = x := by
+  ext i
+  have hi := i.isLt
+  simp only [blockProjAtN_F, blockEmbedAtN_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_pos ⟨by omega, by omega⟩]
+  congr 1
+  ext
+  simp
+
 /-! ## Section 3: Orientation-generic Ẽ₈ homogeneous-tube representation
 
 The map function is a match on `(a.val, b.val)` over the eight canonical
