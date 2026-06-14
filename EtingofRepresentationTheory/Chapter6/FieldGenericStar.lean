@@ -518,6 +518,93 @@ theorem sup_top_le_isCompl_forces_eq
     rw [this, zero_add]; exact ha₂
   exact ⟨le_antisymm h1 hB1, le_antisymm h2 hB2⟩
 
+/-- **Reversed-leaf subspace reduction (abstract form).** When a leaf edge
+is oriented *into* the leaf (`0 → i`, the reversed direction), its map is a
+surjective projection `p : V₀ → Vᵢ`. Subrepresentation invariance then
+gives `map p (W 0) ≤ W i` for both halves of a complementary pair, and
+because `p` is surjective the two images already span `Vᵢ`. By
+`sup_top_le_isCompl_forces_eq` the leaf subspaces are therefore *exactly*
+the projected center subspaces: `W i = map p (W 0)`. This is the crux
+reduction for every reversed leaf in the orientation-generic D̃/star
+indecomposability proofs — the entire leaf datum is determined by the
+center. -/
+theorem reversed_leaf_subspace_eq
+    {F : Type*} [Field F] {V₀ Vᵢ : Type*}
+    [AddCommGroup V₀] [Module F V₀] [AddCommGroup Vᵢ] [Module F Vᵢ]
+    (p : V₀ →ₗ[F] Vᵢ) (hp : Function.Surjective p)
+    (U₁ U₂ : Submodule F V₀) (Wi₁ Wi₂ : Submodule F Vᵢ)
+    (hU : IsCompl U₁ U₂) (hWi : IsCompl Wi₁ Wi₂)
+    (h1 : U₁.map p ≤ Wi₁) (h2 : U₂.map p ≤ Wi₂) :
+    Wi₁ = U₁.map p ∧ Wi₂ = U₂.map p := by
+  have htop : U₁.map p ⊔ U₂.map p = ⊤ := by
+    rw [← Submodule.map_sup, hU.sup_eq_top, Submodule.map_top,
+      LinearMap.range_eq_top.mpr hp]
+  obtain ⟨e1, e2⟩ := sup_top_le_isCompl_forces_eq _ _ _ _ htop h1 h2 hWi
+  exact ⟨e1.symm, e2.symm⟩
+
+/-- General directness primitive: if the lower pair `(A₁, A₂)` already
+sups above the upper pair `(B₁, B₂)`, each `Aₖ ≤ Bₖ`, and the upper pair
+meets trivially, then the pairs coincide. Generalises
+`sup_top_le_isCompl_forces_eq` by replacing the ambient `⊤` with the
+common sup `A₁ ⊔ A₂`; used for the forward-leaf reduction, where the
+relevant ambient is `range e` rather than the whole space. -/
+theorem submodule_pair_eq_of_sup_le_of_inf_bot
+    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
+    (A₁ A₂ B₁ B₂ : Submodule F V)
+    (h1 : A₁ ≤ B₁) (h2 : A₂ ≤ B₂)
+    (hsup : B₁ ⊔ B₂ ≤ A₁ ⊔ A₂) (hinf : B₁ ⊓ B₂ = ⊥) :
+    A₁ = B₁ ∧ A₂ = B₂ := by
+  have hB1 : B₁ ≤ A₁ := by
+    intro b hb
+    have hb_top : b ∈ A₁ ⊔ A₂ := hsup (Submodule.mem_sup_left hb)
+    obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := Submodule.mem_sup.mp hb_top
+    have ha₂B1 : a₂ ∈ B₁ := by
+      have hsub : a₂ = (a₁ + a₂) - a₁ := by abel
+      rw [hsub]; exact B₁.sub_mem hb (h1 ha₁)
+    have : a₂ ∈ B₁ ⊓ B₂ := Submodule.mem_inf.mpr ⟨ha₂B1, h2 ha₂⟩
+    rw [hinf, Submodule.mem_bot] at this
+    rw [this, add_zero]; exact ha₁
+  have hB2 : B₂ ≤ A₂ := by
+    intro b hb
+    have hb_top : b ∈ A₁ ⊔ A₂ := hsup (Submodule.mem_sup_right hb)
+    obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := Submodule.mem_sup.mp hb_top
+    have ha₁B2 : a₁ ∈ B₂ := by
+      have hsub : a₁ = (a₁ + a₂) - a₂ := by abel
+      rw [hsub]; exact B₂.sub_mem hb (h2 ha₂)
+    have : a₁ ∈ B₁ ⊓ B₂ := Submodule.mem_inf.mpr ⟨h1 ha₁, ha₁B2⟩
+    rw [hinf, Submodule.mem_bot] at this
+    rw [this, zero_add]; exact ha₂
+  exact ⟨le_antisymm h1 hB1, le_antisymm h2 hB2⟩
+
+/-- **Forward-leaf subspace reduction (abstract form).** A leaf edge
+oriented *out of* the leaf (`i → 0`, the canonical direction) has an
+injective embedding `e : Vᵢ → V₀` as its map. Invariance gives
+`map e (W i) ≤ W 0` for both halves of a complementary pair, and since the
+two leaf images sup to `range e`, each is pinned to `W 0 ⊓ range e`. Dual
+to `reversed_leaf_subspace_eq`: together they reduce every leaf datum of
+the orientation-generic D̃/star representations to the center subspace. -/
+theorem forward_leaf_subspace_eq
+    {F : Type*} [Field F] {V₀ Vᵢ : Type*}
+    [AddCommGroup V₀] [Module F V₀] [AddCommGroup Vᵢ] [Module F Vᵢ]
+    (e : Vᵢ →ₗ[F] V₀)
+    (Wi₁ Wi₂ : Submodule F Vᵢ) (U₁ U₂ : Submodule F V₀)
+    (hWi : IsCompl Wi₁ Wi₂) (hU : IsCompl U₁ U₂)
+    (h1 : Wi₁.map e ≤ U₁) (h2 : Wi₂.map e ≤ U₂) :
+    Wi₁.map e = U₁ ⊓ LinearMap.range e ∧
+      Wi₂.map e = U₂ ⊓ LinearMap.range e := by
+  have hrange : Wi₁.map e ⊔ Wi₂.map e = LinearMap.range e := by
+    rw [← Submodule.map_sup, hWi.sup_eq_top, Submodule.map_top]
+  have hmr : ∀ W : Submodule F Vᵢ, W.map e ≤ LinearMap.range e :=
+    fun W => le_trans (Submodule.map_mono le_top) (Submodule.map_top e).le
+  have h1' : Wi₁.map e ≤ U₁ ⊓ LinearMap.range e := le_inf h1 (hmr _)
+  have h2' : Wi₂.map e ≤ U₂ ⊓ LinearMap.range e := le_inf h2 (hmr _)
+  refine submodule_pair_eq_of_sup_le_of_inf_bot _ _ _ _ h1' h2' ?_ ?_
+  · rw [hrange]; exact sup_le inf_le_right inf_le_right
+  · have hle : (U₁ ⊓ LinearMap.range e) ⊓ (U₂ ⊓ LinearMap.range e) ≤ U₁ ⊓ U₂ :=
+      le_inf (le_trans inf_le_left inf_le_left) (le_trans inf_le_right inf_le_left)
+    rw [hU.inf_eq_bot] at hle
+    exact le_bot_iff.mp hle
+
 /-! ## Section: Orientation-generic K_{1,4} representation
 
 `starRep_kQ` matches `starRepGen` at the canonical orientation and uses the
