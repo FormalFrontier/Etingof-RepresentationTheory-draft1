@@ -6,15 +6,15 @@ import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
 import EtingofRepresentationTheory.Chapter6.FieldGenericStar
 import EtingofRepresentationTheory.Chapter6.FieldGenericETilde6
+import EtingofRepresentationTheory.Chapter6.FieldGenericTube
 
 /-!
 # Orientation-Generic Ẽ₇ Construction (#2792)
 
-F-generic, orientation-generic version of the Ẽ₇ representation
-`etilde7Rep` from `InfiniteTypeConstructions.lean`. This file provides
-`etilde7Rep_kQ`, its dimension-vector lemma, an indecomposability
-stub that inherits the wave-54 framework wall, and the per-(F, Q)
-infinite-type theorem.
+F-generic, orientation-generic version of the Ẽ₇ representation for
+T_{1,3,3}. This file provides `etilde7Rep_kQ`, its dimension-vector
+lemma, an indecomposability stub (a single `sorry`, of a now-*true*
+statement), and the per-(F, Q) infinite-type theorem.
 
 Ẽ₇ is the affine `E₇` Dynkin diagram T_{1,3,3}: 8 vertices forming
 three arms meeting at the center (vertex 0).
@@ -29,10 +29,19 @@ arbitrary orientation `Q` of `etilde7Adj`, each of the seven edges
 may point either way, so the construction provides a forward and
 reverse map per edge.
 
-Indecomposability inherits the same wave-54 framework wall as the
-ℂ-specific source `etilde7Rep_isIndecomposable`
-(`InfiniteTypeConstructions.lean:3588`); the stub here carries the
-same `sorry` with a docstring tying it to the wall.
+**Corrected homogeneous-tube construction (#4568).** The earlier
+single-nilpotent-twist family was decomposable for every `m ≥ 1`
+(audit #4542). `etilde7Rep_kQ` is now the genuine homogeneous tube
+`R_λ^{(m+1)}` of the regular simple `S_λ` at `δ = (4;2;3,2,1;3,2,1)`:
+arm 2 is the coordinate *prefix* flag, arm 3 the opposite *suffix*
+flag, and arm 1 the eigenvalue 2-plane carrying `Λ = λ·id + J`. See
+`progress/etilde7-tube-design.md` §7 for the explicit matrices and the
+paper brick-proof (`End(S_λ) = F` for generic `λ`). The eigenvalue is
+`etilde7TubeLam F`, a generic element of the infinite field `F`.
+
+`etilde7Rep_kQ_isIndecomposable` is still a single `sorry`, but now of a
+**true** statement (the soundness win of #4568); the assembly is sub-C
+(#4570), modelled on `starTubeRepGen_isIndecomposable`.
 
 See the "Naming conventions" section of
 `Chapter6/FieldGenericInfiniteType.lean` for the meaning of the
@@ -43,146 +52,172 @@ open scoped Matrix
 
 namespace Etingof
 
-/-! ## Section 1: F-generic forward maps for Ẽ₇
+/-! ## Section 0.5: Generic eigenvalue for the homogeneous tube
 
-F-generic versions of the ℂ-specific maps used in `etilde7RepMap`
-(`InfiniteTypeConstructions.lean:3559`). The bodies are copy-paste of
-the ℂ versions with `ℂ` replaced by `F`. The maps reused from existing
-files are `starEmbed1_F` (from `FieldGenericInfiniteType.lean`) and
-`prefixBlockEmbed_F 2 3` (from `FieldGenericETilde6.lean`, used for
-edges {2,3} and {5,6} where the arrow goes leaf → arm-internal vertex).
-The `3 → 4` prefix-block embedding for edges {0,2} and (via the dual)
-{0,5} comes from the same `prefixBlockEmbed_F` family.
+The homogeneous tube `R_λ^{(m+1)}` is a brick only at the *homogeneous*
+points of `P¹`, i.e. for `λ` with `1, λ, λ², λ³` pairwise distinct (see
+`progress/etilde7-tube-design.md` §7.2). Such `λ` exist in any infinite
+field — in particular any algebraically closed `F` — because the bad set
+is the finite root set of `∏_{i<j}(X^j − X^i)`. -/
+
+/-- Some eigenvalue `λ` of the infinite field `F` with `1, λ, λ², λ³`
+pairwise distinct (the homogeneity / brick condition of §7.2). -/
+theorem exists_lam_distinct_powers (F : Type) [Field F] [IsAlgClosed F] :
+    ∃ lam : F, ∀ i j : Fin 4, i ≠ j → lam ^ (i : ℕ) ≠ lam ^ (j : ℕ) := by
+  classical
+  set X := (Polynomial.X : Polynomial F) with hX
+  have hfac : ∀ i j : ℕ, i < j → (X ^ j - X ^ i : Polynomial F) ≠ 0 := by
+    intro i j hij hzero
+    have hpow : (X ^ j : Polynomial F) = X ^ i := sub_eq_zero.mp hzero
+    have hdeg := congrArg Polynomial.natDegree hpow
+    rw [hX, Polynomial.natDegree_X_pow, Polynomial.natDegree_X_pow] at hdeg
+    omega
+  set f : Polynomial F :=
+    (X ^ 1 - X ^ 0) * (X ^ 2 - X ^ 0) * (X ^ 3 - X ^ 0) *
+      (X ^ 2 - X ^ 1) * (X ^ 3 - X ^ 1) * (X ^ 3 - X ^ 2) with hf_def
+  have hf : f ≠ 0 := by
+    rw [hf_def]
+    exact mul_ne_zero (mul_ne_zero (mul_ne_zero (mul_ne_zero (mul_ne_zero
+      (hfac 0 1 (by norm_num)) (hfac 0 2 (by norm_num))) (hfac 0 3 (by norm_num)))
+      (hfac 1 2 (by norm_num))) (hfac 1 3 (by norm_num))) (hfac 2 3 (by norm_num))
+  have hcard : (f.natDegree : Cardinal) < Cardinal.mk F :=
+    lt_of_lt_of_le Cardinal.natCast_lt_aleph0 (Cardinal.infinite_iff.mp inferInstance)
+  obtain ⟨lam, hlam⟩ := Polynomial.exists_eval_ne_zero_of_natDegree_lt_card f hf hcard
+  rw [hf_def] at hlam
+  simp only [Polynomial.eval_mul, Polynomial.eval_sub, Polynomial.eval_pow,
+    hX, Polynomial.eval_X] at hlam
+  rw [mul_ne_zero_iff, mul_ne_zero_iff, mul_ne_zero_iff, mul_ne_zero_iff,
+    mul_ne_zero_iff] at hlam
+  obtain ⟨⟨⟨⟨⟨h01, h02⟩, h03⟩, h12⟩, h13⟩, h23⟩ := hlam
+  have key : ∀ a b : ℕ, a < b → b < 4 → lam ^ a ≠ lam ^ b := by
+    intro a b hab hb
+    have ha : a < 4 := by omega
+    interval_cases a <;> interval_cases b <;>
+      first
+        | exact (sub_ne_zero.mp h01).symm
+        | exact (sub_ne_zero.mp h02).symm
+        | exact (sub_ne_zero.mp h03).symm
+        | exact (sub_ne_zero.mp h12).symm
+        | exact (sub_ne_zero.mp h13).symm
+        | exact (sub_ne_zero.mp h23).symm
+        | omega
+  refine ⟨lam, fun i j hij => ?_⟩
+  rcases lt_trichotomy (i : ℕ) (j : ℕ) with h | h | h
+  · exact key i j h j.isLt
+  · exact absurd (Fin.ext h) hij
+  · exact fun hpow => key j i h i.isLt hpow.symm
+
+/-- A generic eigenvalue for the Ẽ₇ homogeneous tube: an element of the
+infinite field `F` with `1, λ, λ², λ³` pairwise distinct (§7.2). -/
+noncomputable def etilde7TubeLam (F : Type) [Field F] [IsAlgClosed F] : F :=
+  Classical.choose (exists_lam_distinct_powers F)
+
+/-- The defining property of `etilde7TubeLam`: its first four powers are
+pairwise distinct. This is the brick / homogeneity hypothesis used by the
+indecomposability assembly (sub-C, #4570). -/
+theorem etilde7TubeLam_distinct (F : Type) [Field F] [IsAlgClosed F] :
+    ∀ i j : Fin 4, i ≠ j →
+      etilde7TubeLam F ^ (i : ℕ) ≠ etilde7TubeLam F ^ (j : ℕ) :=
+  Classical.choose_spec (exists_lam_distinct_powers F)
+
+/-! ## Section 1: F-generic forward maps for the Ẽ₇ homogeneous tube
+
+Arm 2 enters the center `F^{4(m+1)}` as a coordinate **prefix** flag
+(via `starEmbed1_F`, `prefixBlockEmbed_F`), arm 3 as the opposite
+coordinate **suffix** flag (via `starEmbed2_F`, `suffixBlockEmbed_F`),
+and arm 1 as the eigenvalue 2-plane carrying `Λ = λ·id + J`
+(`etilde7Arm1Tube_F`). See `progress/etilde7-tube-design.md` §7.
 -/
 
-/-- F-generic embedding from a 3-block space into blocks (A, _, C, D) of a
-4-block space: `(x, y, z) ↦ (x, 0, y, z)`. Mirror of `embed3to4_ACD`
-(`InfiniteTypeConstructions.lean:3516`). -/
-noncomputable def embed3to4_ACD_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) where
+/-- Single-block placement `F^{m+1} → F^{4(m+1)}` at offset `o`:
+`x ↦ (…, 0, x, 0, …)` with `x` occupying coordinates `[o, o + (m+1))`.
+Used to assemble the four center blocks of the arm-1 tube map. -/
+noncomputable def blockEmbedAt_F (F : Type) [Field F] (o m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) where
+  toFun x i := if h : o ≤ i.val ∧ i.val < o + (m + 1) then x ⟨i.val - o, by omega⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- F-generic suffix-block embedding `F^{a(m+1)} → F^{b(m+1)}` placing the
+input into the **last** `a` blocks: `x ↦ (0, …, 0, x)`. The opposite of
+`prefixBlockEmbed_F`; realizes the arm-3 (suffix) flag. -/
+noncomputable def suffixBlockEmbed_F (F : Type) [Field F] (a b m : ℕ) :
+    (Fin (a * (m + 1)) → F) →ₗ[F] (Fin (b * (m + 1)) → F) where
   toFun x i :=
-    if h : i.val < m + 1 then
-      x ⟨i.val, by omega⟩
-    else if h2 : m + 1 ≤ i.val ∧ i.val < 2 * (m + 1) then
-      0
-    else if h3 : i.val < 4 * (m + 1) then
-      x ⟨i.val - (m + 1), by omega⟩
+    if h : (b - a) * (m + 1) ≤ i.val ∧ i.val - (b - a) * (m + 1) < a * (m + 1) then
+      x ⟨i.val - (b - a) * (m + 1), h.2⟩
     else 0
   map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
   map_smul' c x := by
     ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
 
-/-- F-generic Ẽ₇ arm-1 embedding `F^{2(m+1)} → F^{4(m+1)}`:
-`(p, q) ↦ (p + q, p, q, Nq)`. Couples all four blocks of the center
-with the arm-1 leaf, introducing a nilpotent twist in block D. Mirror
-of `etilde7Arm1Embed` (`InfiniteTypeConstructions.lean:3535`). -/
-noncomputable def etilde7Arm1Embed_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) where
+/-- F-generic last-`a`-blocks projection `F^{b(m+1)} → F^{a(m+1)}`:
+`w ↦ (w_{(b-a)(m+1)}, …, w_{b(m+1)-1})`. Reverse map for the arm-3
+suffix embeddings. -/
+noncomputable def suffixBlockProj_F (F : Type) [Field F]
+    (a b m : ℕ) (hab : a ≤ b) :
+    (Fin (b * (m + 1)) → F) →ₗ[F] (Fin (a * (m + 1)) → F) where
   toFun w i :=
-    if h : i.val < m + 1 then
-      w ⟨i.val, by omega⟩ + w ⟨m + 1 + i.val, by omega⟩
-    else if h2 : i.val < 2 * (m + 1) then
-      w ⟨i.val - (m + 1), by omega⟩
-    else if h3 : i.val < 3 * (m + 1) then
-      w ⟨m + 1 + (i.val - 2 * (m + 1)), by omega⟩
-    else
-      let j := i.val - 3 * (m + 1)
-      if h4 : j + 1 < m + 1 then w ⟨m + 1 + j + 1, by omega⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+    w ⟨i.val + (b - a) * (m + 1), by
+      have h2 : a * (m + 1) + (b - a) * (m + 1) = b * (m + 1) := by
+        rw [← Nat.add_mul]; congr 1; omega
+      have := i.isLt; omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
 
-/-! ## Section 2: F-generic reverse maps for Ẽ₇
+/-- Ẽ₇ arm-1 eigenvalue tube embedding `F^{2(m+1)} → F^{4(m+1)}`:
+`(P, Q) ↦ (P + Q, P + ΛQ, P + Λ²Q, P + Λ³Q)`, where `Λ = λ·id + J`
+(`jordanShiftLinGen`). The single λ-bearing map of the tube; full column
+rank for `λ ≠ 1`, full-rank-coupling block D (`e4`) to block C
+(`e3 = q`) through the eigenvalue site (defeating the §1 peeling —
+design §7.3). -/
+noncomputable def etilde7Arm1Tube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) :=
+  let Λ := jordanShiftLinGen F lam m
+  let P := starFirst_F F m
+  let Q := starSecond_F F m
+  (blockEmbedAt_F F 0 m).comp (P + Q)
+    + (blockEmbedAt_F F (m + 1) m).comp (P + Λ.comp Q)
+    + (blockEmbedAt_F F (2 * (m + 1)) m).comp (P + (Λ.comp Λ).comp Q)
+    + (blockEmbedAt_F F (3 * (m + 1)) m).comp (P + (Λ.comp (Λ.comp Λ)).comp Q)
 
-For an arbitrary orientation `Q` of `etilde7Adj`, each edge may point
-the opposite way from `etilde7Quiver`. The reverse maps below are
-linear maps in the opposite direction:
+/-! ## Section 3: Orientation-generic Ẽ₇ homogeneous-tube representation
 
-- The reverse of `prefixBlockEmbed_F 3 4` is `prefixBlockProj_F 3 4 _`
-  (from `FieldGenericETilde6.lean`), sending `(a, b, c, d) ↦ (a, b, c)`.
-- `embed3to4_ACD_reverse_F`: left inverse of `embed3to4_ACD_F`,
-  sending `(a, b, c, d) ↦ (a, c, d)` (blocks A, C, D extracted).
-- `etilde7Arm1Embed_reverse_F`: a right section of `etilde7Arm1Embed_F`,
-  sending `(a, b, c, d) ↦ (b, c)`. The map `etilde7Arm1Embed_F` is not
-  injective for `m ≥ 1` (4(m+1)-dim codomain, 2(m+1)-dim domain — it
-  *is* injective, but the projection `(b, c)` is a left inverse on its
-  image rather than a right inverse on the codomain). The choice
-  matches the analogous shape used in `etilde6GammaInv_F`
-  (`FieldGenericETilde6.lean:133`).
-
-The leaf-edge reverses (for edges `{3, 4}` and `{6, 7}`) reuse
-`etilde6LeafProj_F` from `FieldGenericETilde6.lean`; the arm-internal
-reverses (for edges `{2, 3}` and `{5, 6}`) use
-`prefixBlockProj_F 2 3 _` from the same file.
--/
-
-/-- Reverse map for the `embed3to4_ACD_F` edge: `(a, b, c, d) ↦ (a, c, d)`,
-sending block A to the first third, then blocks C, D to the last two
-thirds. Left inverse of `embed3to4_ACD_F`. -/
-noncomputable def embed3to4_ACD_reverse_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (4 * (m + 1)) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
-  toFun w i :=
-    if h : i.val < m + 1 then
-      w ⟨i.val, by omega⟩
-    else
-      w ⟨i.val + (m + 1), by omega⟩
-  map_add' _ _ := by ext; simp only [Pi.add_apply]; split_ifs <;> rfl
-  map_smul' _ _ := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> rfl
-
-/-- A right section of `etilde7Arm1Embed_F`: `(a, b, c, d) ↦ (b, c)`.
-The choice extracts blocks B and C, which are exactly the `p` and `q`
-components of the canonical input. Satisfies
-`etilde7Arm1Embed_F ∘ etilde7Arm1Embed_reverse_F ≠ id` (the section
-is only a right inverse on the image of `etilde7Arm1Embed_F`). -/
-noncomputable def etilde7Arm1Embed_reverse_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (4 * (m + 1)) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) where
-  toFun w i :=
-    if h : i.val < m + 1 then
-      w ⟨m + 1 + i.val, by omega⟩
-    else
-      w ⟨2 * (m + 1) + (i.val - (m + 1)), by omega⟩
-  map_add' _ _ := by ext; simp only [Pi.add_apply]; split_ifs <;> rfl
-  map_smul' _ _ := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> rfl
-
-/-! ## Section 3: Orientation-generic Ẽ₇ representation
-
-The map function is a match on `(a.val, b.val)` mirroring `etilde7RepMap`
-(`InfiniteTypeConstructions.lean:3559`) for the canonical seven (a, b)
-pairs, plus the seven reversed pairs using the maps from Section 2.
-Outside those 14 edge pairs, the map is `0` (these arrows do not exist
-in any orientation of `etilde7Adj`).
+The map function is a match on `(a.val, b.val)` over the seven canonical
+edges (arrow toward the center) plus the seven reversed edges. Arm 1 is
+the eigenvalue tube; arm 2 the prefix flag; arm 3 the suffix flag.
+Outside those 14 edge pairs the map is `0` (these arrows do not exist in
+any orientation of `etilde7Adj`).
 -/
 
 /-- Direction-aware match-based map function for the orientation-generic
-Ẽ₇ representation. Returns the same linear maps as `etilde7RepMap` for
-the canonical orientation, plus the reverse maps from Section 2 when the
-arrow is in the reversed direction. -/
-private noncomputable def etilde7RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fin 8) :
+Ẽ₇ homogeneous-tube representation at eigenvalue `lam`. -/
+private noncomputable def etilde7RepMap_kQ (F : Type) [Field F] (lam : F)
+    (m : ℕ) (a b : Fin 8) :
     (Fin (etilde7Dim m a) → F) →ₗ[F] (Fin (etilde7Dim m b) → F) :=
   match a, b with
-  -- Arm 1: edge {0, 1}
-  | ⟨1, _⟩, ⟨0, _⟩ => etilde7Arm1Embed_F F m
-  | ⟨0, _⟩, ⟨1, _⟩ => etilde7Arm1Embed_reverse_F F m
-  -- Arm 2: edge {3, 4}
+  -- Arm 1 (eigenvalue 2-plane): edge {0, 1}
+  | ⟨1, _⟩, ⟨0, _⟩ => etilde7Arm1Tube_F F lam m
+  | ⟨0, _⟩, ⟨1, _⟩ => prefixBlockProj_F F 2 4 m (by omega)
+  -- Arm 2 (prefix flag): edge {3, 4}
   | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
   | ⟨3, _⟩, ⟨4, _⟩ => etilde6LeafProj_F F m
-  -- Arm 2: edge {2, 3}
+  -- Arm 2 (prefix flag): edge {2, 3}
   | ⟨3, _⟩, ⟨2, _⟩ => prefixBlockEmbed_F F 2 3 m
   | ⟨2, _⟩, ⟨3, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
-  -- Arm 2: edge {0, 2}
+  -- Arm 2 (prefix flag): edge {0, 2}
   | ⟨2, _⟩, ⟨0, _⟩ => prefixBlockEmbed_F F 3 4 m
   | ⟨0, _⟩, ⟨2, _⟩ => prefixBlockProj_F F 3 4 m (by omega)
-  -- Arm 3: edge {6, 7}
-  | ⟨7, _⟩, ⟨6, _⟩ => starEmbed1_F F m
-  | ⟨6, _⟩, ⟨7, _⟩ => etilde6LeafProj_F F m
-  -- Arm 3: edge {5, 6}
-  | ⟨6, _⟩, ⟨5, _⟩ => prefixBlockEmbed_F F 2 3 m
-  | ⟨5, _⟩, ⟨6, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
-  -- Arm 3: edge {0, 5}
-  | ⟨5, _⟩, ⟨0, _⟩ => embed3to4_ACD_F F m
-  | ⟨0, _⟩, ⟨5, _⟩ => embed3to4_ACD_reverse_F F m
+  -- Arm 3 (suffix flag): edge {6, 7}
+  | ⟨7, _⟩, ⟨6, _⟩ => starEmbed2_F F m
+  | ⟨6, _⟩, ⟨7, _⟩ => starSecond_F F m
+  -- Arm 3 (suffix flag): edge {5, 6}
+  | ⟨6, _⟩, ⟨5, _⟩ => suffixBlockEmbed_F F 2 3 m
+  | ⟨5, _⟩, ⟨6, _⟩ => suffixBlockProj_F F 2 3 m (by omega)
+  -- Arm 3 (suffix flag): edge {0, 5}
+  | ⟨5, _⟩, ⟨0, _⟩ => suffixBlockEmbed_F F 3 4 m
+  | ⟨0, _⟩, ⟨5, _⟩ => suffixBlockProj_F F 3 4 m (by omega)
   -- Non-edge or impossible (ruled out by `hOrient`); placeholder
   | _, _ => 0
 
@@ -213,7 +248,7 @@ noncomputable def etilde7Rep_kQ
     obj := fun v => Fin (etilde7Dim m v) → F
     instAddCommMonoid := fun _ => inferInstance
     instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => etilde7RepMap_kQ F m a b
+    mapLinear := fun {a b} _ => etilde7RepMap_kQ F (etilde7TubeLam F) m a b
   }
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -230,46 +265,38 @@ theorem etilde7Rep_kQ_dimVec
       (etilde7Rep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (etilde7Dim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
-/-! ## Section 4: Indecomposability (inherits the wave-54 framework wall)
+/-! ## Section 4: Indecomposability (corrected homogeneous tube)
 
-The ℂ-specific source `etilde7Rep_isIndecomposable`
-(`InfiniteTypeConstructions.lean:3588`) is `sorry`'d due to the wave-54
-framework wall: the single-nilpotent-twist construction is provably
-decomposable for every `m ≥ 1` because the N-twist on arm 1 only covers
-the `⟨e₀, …, e_{m-1}⟩` sub-block of its target at the center, leaving
-the `e_m` direction free to peel off as a 1-dim summand. See
-`progress/indecomposability-framework-investigation.md` (Section 1)
-for the explicit counter-example (verified at `etilde7Rep 1`).
-
-Following the same pattern as Ẽ₆ Sub B (#2807), we mirror the
-ℂ-specific stub at the orientation-generic level, carrying the same
-`sorry` with a docstring tying it to the framework wall. The final
-per-(F, Q) theorem `etilde7_not_finite_type_per_kQ` below depends
-transitively on this sorry, exactly as the ℂ-specific
-`etilde7_not_finite_type` depends on `etilde7Rep_isIndecomposable`.
+`etilde7Rep_kQ` is now the genuine homogeneous tube `R_λ^{(m+1)}` at the
+generic eigenvalue `etilde7TubeLam F` (§7 of
+`progress/etilde7-tube-design.md`), so the statement below is **true**.
+The single `sorry` is the indecomposability *proof*, deferred to sub-C
+(#4570), which assembles it via the `core` / `propagate` collapse and
+`eigenvalue_jordan_invariant_compl_trivial_gen` reduction — the template
+is `starTubeRepGen_isIndecomposable` (`FieldGenericTube.lean`). The
+earlier refuted single-twist construction (audit #4542) has been
+replaced; the §1 peeling pair is defeated (design §7.3).
 -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Orientation-generic indecomposability of `etilde7Rep_kQ`.
+/-- Orientation-generic indecomposability of the corrected Ẽ₇
+homogeneous-tube representation `etilde7Rep_kQ`.
 
-**Framework wall (wave 54)**: this theorem inherits the same wall that
-blocks the ℂ-specific source `etilde7Rep_isIndecomposable`
-(`InfiniteTypeConstructions.lean:3588`): the single-nilpotent-twist
-construction is provably decomposable for every `m ≥ 1` (the N-twist on
-arm 1 only covers the `⟨e₀, …, e_{m-1}⟩` sub-block of block D at the
-center, leaving `e_m` free). See
-`progress/indecomposability-framework-investigation.md` (Section 1) for
-the explicit counter-example (`etilde7Rep 1`). A stronger construction
-sketched in Section 5 Option B would close the wall.
+This is now a **true** statement: `etilde7Rep_kQ` is the homogeneous tube
+`R_λ^{(m+1)}` of the regular simple `S_λ` (a brick for the generic
+eigenvalue `etilde7TubeLam F`; see `etilde7TubeLam_distinct` and
+`progress/etilde7-tube-design.md` §7.2). The proof is a single `sorry`,
+deferred to the sub-C assembly (#4570) modelled on
+`starTubeRepGen_isIndecomposable`: the arm-2 prefix flag and arm-3 suffix
+flag collapse every vertex onto a common `F^{m+1}`, where arm 1 deposits
+the `(λ•id + J)`-invariant complementary pair killed by
+`eigenvalue_jordan_invariant_compl_trivial_gen`.
 
-The `1 ≤ m` hypothesis is required even in the planned proof — for
-`m = 0`, `nilpotentShiftLin 0 = 0`, the nilpotent twist disappears and
-the representation is provably decomposable.
-
-The current proof is a `sorry`; the consumer
-`etilde7_not_finite_type_per_kQ` inherits this dependency. A follow-up
-issue will revisit when the framework question is resolved. -/
+The `1 ≤ m` hypothesis is retained: for `m = 0` the Jordan block is a
+scalar and there is no eigenvalue-site nilpotent to drive the splitting
+(the `m = 0` regular simple `S_λ` is itself the dimension-`δ` brick, but
+the infinite-type argument ranges over `m + 1 ≥ 1`). -/
 theorem etilde7Rep_kQ_isIndecomposable
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 8))
@@ -277,7 +304,7 @@ theorem etilde7Rep_kQ_isIndecomposable
     (hOrient : @Etingof.IsOrientationOf 8 Q etilde7Adj)
     (m : ℕ) (hm : 1 ≤ m) :
     (etilde7Rep_kQ F Q hOrient m).IsIndecomposable := by
-  let _ := hm  -- retain `hm` in the signature for the future proof
+  let _ := hm  -- retain `hm` in the signature for the sub-C proof
   sorry
 
 /-! ## Section 5: Per-(F, Q) infinite-type theorem -/
