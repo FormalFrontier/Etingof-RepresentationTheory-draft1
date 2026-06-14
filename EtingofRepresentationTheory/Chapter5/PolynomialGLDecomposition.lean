@@ -68,6 +68,8 @@ variable (k : Type u) [Field k] (N : ℕ)
 `GL_N`-equivariant decompositions are stated. -/
 abbrev GLAlg := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)
 
+set_option maxHeartbeats 3200000 in
+set_option synthInstance.maxHeartbeats 1600000 in
 /-- **Unified equivariant + simple Schur-Weyl decomposition of `V^{⊗n}`.**
 
 This is `glTensorRep_equivariant_schurWeyl_decomposition`
@@ -82,7 +84,13 @@ The proof therefore re-runs the equivariance computation of the former while
 keeping the centralizer-side simplicity clause that
 `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple` transports to `GL_N`.
 
-TODO (sub-issue of #2482): merge the two existing proofs. -/
+Built by destructuring `Theorem5_18_4_bimodule_decomposition_explicit` once
+(keeping both its centralizer-side simplicity clause `homA_simp` and its
+evaluation formula `he`), reconstructing the `GL_N`-action `ρ_i` exactly as
+`Theorem5_18_4_GL_rep_decomposition_explicit`, then assembling the equivariance
+(à la `glTensorRep_equivariant_schurWeyl_decomposition`) and the per-`L i`
+simplicity (à la `Theorem5_18_4_GL_rep_decomposition_simple`'s `hL_simple`) over
+that one shared `ρ_i`. -/
 theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
@@ -99,8 +107,54 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
           e (glTensorRep k N n g v) =
             Representation.directSum (fun i =>
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
-                (S i)).tprod (L i).ρ) g (e v) :=
-  sorry
+                (S i)).tprod (L i).ρ) g (e v) := by
+  classical
+  -- The combined explicit + simple decomposition supplies, over one shared
+  -- `ρ_i`, the simplicity clause AND the explicit equivariance ingredients
+  -- (the iso `e` already typed in the `(L i : Type u)` family, the evaluation
+  -- formula `he`, and the action formula `h_act`).
+  obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simple,
+      L_carrier, e, he, h_act⟩ :=
+    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
+  refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
+    fun _ => inferInstance, fun _ => inferInstance,
+    fun i => hSi_fin i, L, hL_simple, ?_, ?_⟩
+  · exact e
+  intro g v
+  -- Reduce equivariance to: (glTensorRep g) ∘ e.symm = e.symm ∘ directSum_action g.
+  have h_lin :
+      (glTensorRep k N n g) ∘ₗ (e.symm : _ →ₗ[k] _) =
+        (e.symm : _ →ₗ[k] _) ∘ₗ
+          (Representation.directSum (fun i =>
+            (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+              (↥(S' i))).tprod (L i).ρ) g) := by
+    refine DirectSum.linearMap_ext k fun i => ?_
+    apply TensorProduct.ext'
+    intro s l
+    change (glTensorRep k N n g) (e.symm
+        (DirectSum.lof k ι (fun i => ↥(S' i) ⊗[k] (L i : Type u)) i
+          (s ⊗ₜ[k] l))) =
+      e.symm ((Representation.directSum (fun i =>
+        (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+          (↥(S' i))).tprod (L i).ρ) g)
+        (DirectSum.lof k ι _ i (s ⊗ₜ[k] l)))
+    rw [DirectSum.lof_eq_of, he i s l]
+    change _ = e.symm (DirectSum.lmap
+      (fun i => ((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (DirectSum.of _ i (s ⊗ₜ[k] l)))
+    rw [DirectSum.lmap_of, Representation.tprod_apply, TensorProduct.map_tmul,
+      Representation.trivial_apply, he i s ((L i).ρ g l)]
+    exact (h_act i g l s).symm
+  have h := LinearMap.congr_fun h_lin (e v)
+  rw [LinearMap.comp_apply, LinearMap.comp_apply] at h
+  rw [show (e.symm : _ →ₗ[k] _) (e v) = v from e.symm_apply_apply v] at h
+  rw [show (e.symm : _ →ₗ[k] _) ((Representation.directSum (fun i =>
+      (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (e v)) =
+    e.symm ((Representation.directSum (fun i =>
+      (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (e v)) from rfl] at h
+  exact (LinearEquiv.eq_symm_apply e).mp h
 
 /-- **`M` embeds `R`-linearly as a submodule of a finite direct sum of the
 abstract simple summands `L i`.**
