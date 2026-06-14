@@ -57,6 +57,39 @@ private theorem coeff_alternant_mul {N : ℕ} (e : Fin N → ℕ)
   rw [Units.smul_def, smul_mul_assoc, MvPolynomial.coeff_smul, hmon,
     MvPolynomial.coeff_monomial_mul', one_mul]
 
+/-- **Multinomial coefficient of `(∑ᵢ Xᵢ)^n`.** For an exponent vector `β` with
+`∑ᵢ βᵢ = n`, the coefficient of `x^β` in `(∑ᵢ Xᵢ)^n` is the multinomial
+`n! / ∏ᵢ (βᵢ)!`. This is the rational-coefficient extraction step that evaluates
+each term of the signed sum produced by `coeff_alternant_mul`. -/
+private lemma coeff_sumXpow_multinomial {N : ℕ} (n : ℕ) (β : Fin N →₀ ℕ)
+    (hβ : (∑ i, β i) = n) :
+    ((∑ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ^ n).coeff β =
+      (n.factorial : ℚ) / ∏ i : Fin N, ((β i).factorial : ℚ) := by
+  classical
+  rw [Finset.sum_pow_eq_sum_piAntidiag, MvPolynomial.coeff_sum]
+  have hterm : ∀ k : Fin N → ℕ,
+      MvPolynomial.coeff β
+        ((Nat.multinomial Finset.univ k : MvPolynomial (Fin N) ℚ) *
+          ∏ i, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ) ^ k i) =
+        if k = Finsupp.equivFunOnFinite β then (Nat.multinomial Finset.univ k : ℚ) else 0 := by
+    intro k
+    rw [show (Nat.multinomial Finset.univ k : MvPolynomial (Fin N) ℚ) =
+        MvPolynomial.C (Nat.multinomial Finset.univ k : ℚ) by push_cast; rfl,
+      prod_X_pow_eq_monomial', MvPolynomial.coeff_C_mul, MvPolynomial.coeff_monomial]
+    simp only [Equiv.symm_apply_eq, mul_ite, mul_one, mul_zero]
+  rw [Finset.sum_congr rfl (fun k _ => hterm k), Finset.sum_ite_eq']
+  have hmem : (Finsupp.equivFunOnFinite β : Fin N → ℕ) ∈
+      Finset.piAntidiag Finset.univ n := by
+    rw [Finset.mem_piAntidiag]; exact ⟨by simpa using hβ, by simp⟩
+  rw [if_pos hmem]
+  have hspec : (∏ i, (β i).factorial) * Nat.multinomial Finset.univ (⇑β) = n.factorial := by
+    have h := Nat.multinomial_spec (Finset.univ : Finset (Fin N)) (⇑β)
+    simpa [hβ] using h
+  have hprod : (∏ i : Fin N, ((β i).factorial : ℚ)) ≠ 0 :=
+    Finset.prod_ne_zero_iff.mpr (fun i _ => by positivity)
+  rw [eq_div_iff hprod, ← Nat.cast_prod, ← Nat.cast_mul, Nat.cast_inj, mul_comm]
+  exact hspec
+
 /-- **Part A — Frobenius → Vandermonde determinant**
 (book `Discussion_hook_length_derivation`, lines 1–18).
 
@@ -84,13 +117,15 @@ theorem charValue_trivialCycleType_eq_frobeniusDetForm
         ((∏ j, (shiftedExps N lam.parts j).factorial : ℕ) : ℚ) := by
   unfold charValue
   rw [psumPart_trivialCycleType, coeff_alternant_mul]
-  -- Residual goal: the signed sum over `σ : Perm (Fin N)` of the multinomial
-  -- coefficients `coeff (lF - (vandermondeExps ∘ σ⁻¹)) ((∑ X)^n)` equals
-  -- `n! · ∏_{i<j}(l_i − l_j) / ∏_j l_j!`. Each nonzero coefficient is the
-  -- multinomial `n! / ∏_k (l_k − (N−1−σ⁻¹k))!` (issue: `coeff_sumXpow_multinomial`),
-  -- and the signed sum reorganizes into `n!/∏l_j! · det(falling factorials)`,
-  -- whose column reduction to `det(l_j^{N−i})` gives the Vandermonde product
-  -- `∏_{i<j}(l_i − l_j)` (issue: signed-sum → Vandermonde determinant).
+  -- Residual goal: the signed sum over `σ : Perm (Fin N)` of the coefficients
+  -- `coeff (lF - (vandermondeExps ∘ σ⁻¹)) ((∑ X)^n)` equals
+  -- `n! · ∏_{i<j}(l_i − l_j) / ∏_j l_j!`. Each nonzero coefficient is now the
+  -- multinomial `n! / ∏_k (l_k − (N−1−σ⁻¹k))!` (`coeff_sumXpow_multinomial`, proven
+  -- above; its sum-constraint `∑ (lF − vExpσ) = n` holds whenever `vExpσ ≤ lF`).
+  -- What remains is the determinant assembly: reorganize the signed sum into
+  -- `n!/∏l_j! · det(falling-factorial matrix Aⱼₖ = l_j‼/(l_j−(N−1−k))!)`, then
+  -- column-reduce `det(A)` to `det(l_j^{N−i})` and apply `Matrix.det_vandermonde`
+  -- to obtain `∏_{i<j}(l_i − l_j)`. (Tracked as a #4608 follow-up sub-issue.)
   sorry
 
 /-- **Part B — the hook-length identity**
