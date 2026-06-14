@@ -182,6 +182,19 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+**Nested `Finset.filter` membership: don't `simp` it open.** Unfolding
+`p ∈ (s.filter P).filter Q` (e.g. a per-column slice of a `Finset.univ.filter`)
+with `simp only [Finset.mem_filter, Finset.mem_univ, true_and]` makes `simp`
+dive into the underlying `List.filter`/`List.finRange` and produces a
+`List.Mem` goal that breaks `obtain`/projections. Instead build a clean iff
+helper with `rw`: `rw [hFilt, Finset.mem_filter, hInner, Finset.mem_filter,
+and_iff_right (Finset.mem_univ p)]` gives exactly `pred ∧ Q` with no list
+reduction; reuse it via `.mp`/`.mpr`. Note also that this Mathlib's
+`Finset.card_le_card_of_injOn` and `Finset.card_eq_sum_card_fiberwise` take
+`Set.MapsTo`/`Set.InjOn` over the `↑`-coerced finset, so membership goals
+arrive as `x ∈ ↑t` — convert with `Finset.mem_coe` (or `Finset.mem_coe.mp`)
+before `Finset.mem_range` etc. (`twistedPolytabloid_pigeonhole_pair`, #2543.)
+
 ### Dependent Pi Types and Pi.single
 
 When working with `Pi.single` for dependent function types (e.g., `∀ i, Matrix (Fin (d i)) (Fin (d i)) k`), standard lemmas like `Pi.single_eq_same`, `Pi.single_add` do NOT work with `simp` because types differ across indices.
