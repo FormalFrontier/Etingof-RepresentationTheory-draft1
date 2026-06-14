@@ -5,7 +5,7 @@ items as GitHub issues, then exit. You do NOT execute any code changes.
 
 ## Step 1: Orient
 
-1. `git fetch origin master`
+1. `git fetch origin main`
 2. `coordination orient` — see open issues (claimed and unclaimed), PRs, attention items
 3. Read the last 5 files in `progress/` (sorted by filename) to understand recent work
 4. Read the project's roadmap document to understand current phase
@@ -147,14 +147,41 @@ no other useful work can proceed until this issue is done.
 
 **How many issues to create**: the dispatcher exports `POD_MIN_QUEUE`,
 `POD_QUEUE_DEPTH`, and `POD_QUEUE_DEFICIT` (= target unclaimed minus current
-unclaimed). Your target for this cycle is roughly `POD_QUEUE_DEFICIT` new
-atomic issues, capped at **10** so a single planner doesn't run too long or
-exhaust context. If the deficit is 0 or negative, create no new issues and
-exit. If the deficit is large, prefer breadth — one small issue per
-independent unit — over depth; leftover deficit will be handled by the next
-planner cycle. The previous "keep under 3 unclaimed" rule is obsolete: the
-dispatcher runs a planner exactly when the queue drops below `min_queue`, so
-refilling to that level is the whole job.
+unclaimed). `POD_QUEUE_DEPTH` counts **claimable** work only — issues labelled
+`blocked`, `replan`, `has-pr`, or `claimed` are excluded. Your target for this
+cycle is roughly `POD_QUEUE_DEFICIT` new atomic issues, capped at **10** so a
+single planner doesn't run too long or exhaust context. If the deficit is large,
+prefer breadth — one small issue per independent unit — over depth; leftover
+deficit will be handled by the next planner cycle.
+
+**A no-op cycle is a bug, not an outcome.** If you were dispatched, claimable
+depth was below `min_queue`. The presence of `blocked`/`replan`/`has-pr` issues
+does **not** satisfy the deficit — those are not claimable, and counting them as
+"work already queued" to justify doing nothing is forbidden. Never conclude the
+deficit is "artifactual"; never commit a "Nth consecutive no-op" progress file.
+If the codebase still has open `sorry`s (do a quick count) and yet you have
+nothing claimable to create, the queue has silently starved and **you must
+unstarve it this cycle**:
+
+1. **Find the dam.** A large `blocked`/`replan` cluster usually traces to one
+   root — often a refuted strategy that was frozen instead of reverted (see the
+   "refuted strategy → revert" protocol in `agent-worker-flow`). File the
+   **revert `feature` item** that rips out the unsound objects; that single item
+   unblocks the cluster.
+2. **Decompose the hardest open sorries** per the book's proof into claimable
+   `feature` items, even if other chapters look more convenient.
+3. **Redirect.** If one chapter is genuinely stuck behind in-flight work, create
+   claimable items in another chapter that still has open sorries.
+
+Producing claimable work is mandatory whenever sorries remain. The only cycle
+that legitimately creates nothing is genuine convergence (see Step 6, "Fully
+converged") — verify it, don't assume it.
+
+**Never raise your hand to a human.** Do not create `human-oversight` issues,
+"framework decision" tickets, "needs owner input" notes, or any work item whose
+unblocker is a person. There is no human in the loop; human instructions arrive
+only as owner-authored `directive` issues (Step 1b). A queue you cannot fill is a
+revert / decompose / redirect problem you solve yourself — never an escalation.
 
 No transitive blocking. Keep work types mixed.
 

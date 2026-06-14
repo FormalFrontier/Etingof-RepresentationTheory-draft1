@@ -5,8 +5,17 @@ agent workflow by updating skills, commands, and tooling based on accumulated
 experience.
 
 **First, read the `agent-worker-flow` skill** for the standard
-claim/branch/verify/publish workflow. This document only covers what is specific
-to meditate sessions.
+claim/branch/verify/publish workflow, including the **"there is no human in the
+loop"** and **"refuted strategy → revert"** principles, which bind this session
+type especially. This document only covers what is specific to meditate sessions.
+
+A meditate session is often where a refuted approach first surfaces: a survey of
+recent progress reveals a construction was shown unsound, or a strategy hit a
+counterexample. When that happens, file a **revert `feature` work item** that
+rips out the unsound objects and re-files book-following work (meditate does no
+code changes itself — the issue is the deliverable). **Never** open a
+`human-oversight` issue, a "framework decision" ticket, or anything that waits on
+a person. There is no person. See the revert protocol in `agent-worker-flow`.
 
 ## Claiming Your Issue
 
