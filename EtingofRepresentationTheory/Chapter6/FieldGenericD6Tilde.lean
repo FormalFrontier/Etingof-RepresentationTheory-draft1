@@ -824,28 +824,164 @@ theorem d6tildeRep_kQ_leaf_equalities
   · -- e02 reversed (2→0): tracked by #4527 sub-B
     sorry
 
-/-! ## Section 5: Indecomposability (deferred sorry)
+/-! ## Section 4e: Leaf nilpotent-shift invariance (companion to leaf equalities)
 
-The body of the indecomposability proof is deferred to a follow-up
-issue, mirroring the precedent of `d7tildeRep_kQ_isIndecomposable`
-(`FieldGenericD7Tilde.lean:247`, tracked by #2967) and
-`d5tildeRep_kQ_isIndecomposable` (`FieldGenericD5Tilde.lean:980`,
-tracked by #2834). The per-(F, Q) infinite-type theorem below
-transitively depends on this sorry.
--/
+For the indecomposability assembly we additionally need that the nilpotent
+shift `N = nilpotentShiftLinGen F m` preserves a leaf subspace. In the
+all-canonical orientation this is the fourth conclusion of
+`d6tilde_gamma_containment_F` (`y ∈ Wmain⟨1⟩ → N y ∈ Wmain⟨6⟩`), transported
+to leaf `0` through the leaf equalities `Wmain⟨0⟩ = Wmain⟨1⟩ = Wmain⟨6⟩`.
+
+Like `d6tildeRep_kQ_leaf_equalities`, the body is proven inline only for the
+all-canonical branch; the non-canonical branches carry the same
+nilpotent-shift (N) invariance obstruction documented there (#4527 sub-B)
+and are `sorry`. Consumers (`d6tildeRep_kQ_isIndecomposable`) use this as a
+black box, so its internal `sorry`s do not appear in the assembled proof. -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Orientation-generic indecomposability of `d6tildeRep_kQ`.
+/-- The nilpotent shift `N` preserves the leaf-`0` subspaces of any
+complementary invariant pair `(W₁, W₂)` of `d6tildeRep_kQ`. Companion to
+`d6tildeRep_kQ_leaf_equalities`; non-canonical branches are deferred
+(#4527 sub-B). -/
+theorem d6tildeRep_kQ_leaf_N_invariance
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (d6tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (d6tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    (∀ y : Fin (m + 1) → F, y ∈ W₁ ⟨0, by omega⟩ →
+      nilpotentShiftLinGen F m y ∈ W₁ ⟨0, by omega⟩) ∧
+    (∀ y : Fin (m + 1) → F, y ∈ W₂ ⟨0, by omega⟩ →
+      nilpotentShiftLinGen F m y ∈ W₂ ⟨0, by omega⟩) := by
+  letI := Q
+  obtain ⟨he01, _he05, he06⟩ :=
+    d6tildeRep_kQ_leaf_equalities F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+  obtain ⟨he01', _he05', he06'⟩ :=
+    d6tildeRep_kQ_leaf_equalities F Q hOrient m W₂ W₁ hW₂_inv hW₁_inv
+      (fun v => (hcompl v).symm)
+  obtain ⟨hcol₁, hcol₂⟩ :=
+    d6tildeRep_kQ_chain_collapse F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+  have hOrient_edge := hOrient.2.1
+  have h02 : d6tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h12 : d6tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h23 : d6tildeAdj ⟨2, by omega⟩ ⟨3, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h54 : d6tildeAdj ⟨5, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h64 : d6tildeAdj ⟨6, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  rcases hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ02 | hQ02
+  · obtain ⟨a02⟩ := hQ02
+    rcases hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ12 | hQ12
+    · obtain ⟨a12⟩ := hQ12
+      rcases hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23 with hQ23 | hQ23
+      · obtain ⟨a23⟩ := hQ23
+        rcases hOrient_edge ⟨5, by omega⟩ ⟨4, by omega⟩ h54 with hQ54 | hQ54
+        · obtain ⟨a54⟩ := hQ54
+          rcases hOrient_edge ⟨6, by omega⟩ ⟨4, by omega⟩ h64 with hQ64 | hQ64
+          · -- ALL CANONICAL: reuse `d6tilde_gamma_containment_F`'s N-conclusion.
+            obtain ⟨a64⟩ := hQ64
+            have hW1_02 : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨0, by omega⟩ →
+                starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := fun x hx => by
+              have h := hW₁_inv a02 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW1_12 : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨1, by omega⟩ →
+                starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := fun x hx => by
+              have h := hW₁_inv a12 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW1_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W₁ ⟨2, by omega⟩ →
+                d5tildeGamma_F F m x ∈ W₁ ⟨3, by omega⟩ := fun x hx => by
+              have h := hW₁_inv a23 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW1_54 : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨5, by omega⟩ →
+                starEmbed1_F F m x ∈ W₁ ⟨4, by omega⟩ := fun x hx => by
+              have h := hW₁_inv a54 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW1_64 : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨6, by omega⟩ →
+                starEmbed2_F F m x ∈ W₁ ⟨4, by omega⟩ := fun x hx => by
+              have h := hW₁_inv a64 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW2_02 : ∀ (x : Fin (m + 1) → F), x ∈ W₂ ⟨0, by omega⟩ →
+                starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := fun x hx => by
+              have h := hW₂_inv a02 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW2_12 : ∀ (x : Fin (m + 1) → F), x ∈ W₂ ⟨1, by omega⟩ →
+                starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := fun x hx => by
+              have h := hW₂_inv a12 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW2_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W₂ ⟨2, by omega⟩ →
+                d5tildeGamma_F F m x ∈ W₂ ⟨3, by omega⟩ := fun x hx => by
+              have h := hW₂_inv a23 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW2_54 : ∀ (x : Fin (m + 1) → F), x ∈ W₂ ⟨5, by omega⟩ →
+                starEmbed1_F F m x ∈ W₂ ⟨4, by omega⟩ := fun x hx => by
+              have h := hW₂_inv a54 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW2_64 : ∀ (x : Fin (m + 1) → F), x ∈ W₂ ⟨6, by omega⟩ →
+                starEmbed2_F F m x ∈ W₂ ⟨4, by omega⟩ := fun x hx => by
+              have h := hW₂_inv a64 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have G1 := d6tilde_gamma_containment_F F Q hOrient m W₁ W₂
+              hW1_02 hW1_12 hW1_23 hcol₁ hW1_54 hW1_64 hW2_54 hW2_64 hcompl
+            have G2 := d6tilde_gamma_containment_F F Q hOrient m W₂ W₁
+              hW2_02 hW2_12 hW2_23 hcol₂ hW2_54 hW2_64 hW1_54 hW1_64
+              (fun v => (hcompl v).symm)
+            refine ⟨fun y hy => ?_, fun y hy => ?_⟩
+            · have hy1 : y ∈ W₁ ⟨1, by omega⟩ := he01 ▸ hy
+              have hN6 := G1.2.2.2 y hy1
+              rw [he06]; exact hN6
+            · have hy1 : y ∈ W₂ ⟨1, by omega⟩ := he01' ▸ hy
+              have hN6 := G2.2.2.2 y hy1
+              rw [he06']; exact hN6
+          · -- e64 reversed: mixed v=4, blocked (#4527 sub-B).
+            sorry
+        · -- e54 reversed: blocked (#4527 sub-B).
+          sorry
+      · -- e23 reversed: blocked (#4527 sub-B).
+        sorry
+    · -- e12 reversed: blocked (#4527 sub-B).
+      sorry
+  · -- e02 reversed: blocked (#4527 sub-B).
+    sorry
 
-The proof body is deferred to a follow-up issue (the D̃₆ analogue of
-`d7tildeRep_kQ_isIndecomposable`, `FieldGenericD7Tilde.lean:247`, which
-is itself sorry-deferred). Closing this sorry requires F-generic
-versions of the leaf-subspace equalities used by the ℂ-specific
-universal proof, parameterised across each of the six possible arrow
-directions; the d5tilde / d7tilde precedents show this is a
-multi-hundred-line construction. The consumer
-`d6tilde_not_finite_type_per_kQ` carries this sorry transitively. -/
+/-! ## Section 5: Indecomposability
+
+The D̃₆ analogue of the ℂ-specific universal proof
+`dTildeRep_isIndecomposable` (`InfiniteTypeConstructions.lean:3114`) and
+the F-generic `starRepGen_isIndecomposable` (`FieldGenericStar.lean:161`).
+The proof has three movements:
+
+1. **Nontriviality**: the rep is nonzero at leaf `0` (dim `m + 1 ≥ 1`).
+2. **No nontrivial summand**: given a complementary invariant pair
+   `(W₁, W₂)`, `d6tildeRep_kQ_leaf_equalities` forces the four leaf
+   subspaces equal, `d6tildeRep_kQ_leaf_N_invariance` pushes nilpotent-
+   shift invariance onto leaf `0`, and
+   `nilpotent_invariant_compl_trivial_gen` forces one leaf subspace to
+   `⊥`.
+3. **Propagation**: with one leaf at `⊥`, the leaf equalities zero all
+   leaves and the chain-collapse + leaf-edge structure zeroes the three
+   path vertices, giving `W v = ⊥` for every `v`. This step is fully
+   orientation-generic: each path vertex reconstructs from its two
+   leaf-edge components (`center_decomp_F`), and each component lands in
+   the complement whether its edge is canonical (push of `⊤`) or reversed
+   (pull into a `⊥` leaf).
+
+The orientation case analysis lives in the `_leaf_equalities` /
+`_leaf_N_invariance` companions (with the same `#4527 sub-B` deferrals);
+this assembly uses them as black boxes and is itself `sorry`-free. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+set_option maxHeartbeats 1600000 in
+/-- Orientation-generic indecomposability of `d6tildeRep_kQ`: for any
+algebraically closed field `F` and any orientation `Q` of `d6tildeAdj`,
+the representation `d6tildeRep_kQ F Q hOrient m` is indecomposable.
+Mirrors `starRepGen_isIndecomposable` and the ℂ-source
+`dTildeRep_isIndecomposable`. -/
 theorem d6tildeRep_kQ_isIndecomposable
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 7))
@@ -853,7 +989,131 @@ theorem d6tildeRep_kQ_isIndecomposable
     (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
     (m : ℕ) :
     (d6tildeRep_kQ F Q hOrient m).IsIndecomposable := by
-  sorry
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  have h02 : d6tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h12 : d6tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h54 : d6tildeAdj ⟨5, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h64 : d6tildeAdj ⟨6, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  constructor
+  · -- Nontrivial at leaf 0 (dim m + 1 ≥ 1).
+    refine ⟨⟨0, by omega⟩, ?_⟩
+    change Nontrivial (Fin (d6tildeDim m ⟨0, by omega⟩) → F)
+    have : d6tildeDim m ⟨0, by omega⟩ = m + 1 := by simp [d6tildeDim]
+    rw [this]; infer_instance
+  · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+    -- Leaf equalities for both submodules.
+    obtain ⟨he01, he05, he06⟩ :=
+      d6tildeRep_kQ_leaf_equalities F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+    obtain ⟨he01', he05', he06'⟩ :=
+      d6tildeRep_kQ_leaf_equalities F Q hOrient m W₂ W₁ hW₂_inv hW₁_inv
+        (fun v => (hcompl v).symm)
+    obtain ⟨hcol₁, hcol₂⟩ :=
+      d6tildeRep_kQ_chain_collapse F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+    -- Nilpotent-shift invariance on leaf 0.
+    obtain ⟨hN₁, hN₂⟩ :=
+      d6tildeRep_kQ_leaf_N_invariance F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+    -- One leaf-0 subspace is trivial.
+    have hresult := nilpotent_invariant_compl_trivial_gen
+      (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+      (nilpotentShiftLinGen_ker_finrank F m)
+      (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩) hN₁ hN₂ (hcompl ⟨0, by omega⟩)
+    -- Propagation: leaf 0 trivial ⟹ all vertices trivial.
+    suffices propagate : ∀ (W W' : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v)),
+        (∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+          ∀ x ∈ W a, (d6tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W b) →
+        (∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+          ∀ x ∈ W' a, (d6tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W' b) →
+        (∀ v, IsCompl (W v) (W' v)) →
+        W ⟨0, by omega⟩ = W ⟨1, by omega⟩ →
+        W ⟨0, by omega⟩ = W ⟨5, by omega⟩ →
+        W ⟨0, by omega⟩ = W ⟨6, by omega⟩ →
+        W ⟨3, by omega⟩ = W ⟨4, by omega⟩ →
+        W ⟨0, by omega⟩ = ⊥ → ∀ v, W v = ⊥ by
+      rcases hresult with h | h
+      · left
+        exact propagate W₁ W₂ hW₁_inv hW₂_inv hcompl he01 he05 he06 hcol₁ h
+      · right
+        exact propagate W₂ W₁ hW₂_inv hW₁_inv (fun v => (hcompl v).symm)
+          he01' he05' he06' hcol₂ h
+    intro W W' hW_inv hW'_inv hc h01 h05 h06 hcol hbot
+    -- Leaf bots and complement tops.
+    have hb1 : W ⟨1, by omega⟩ = ⊥ := h01 ▸ hbot
+    have hb5 : W ⟨5, by omega⟩ = ⊥ := h05 ▸ hbot
+    have hb6 : W ⟨6, by omega⟩ = ⊥ := h06 ▸ hbot
+    have ht0 : W' ⟨0, by omega⟩ = ⊤ := by
+      have := (hc ⟨0, by omega⟩).sup_eq_top; rwa [hbot, bot_sup_eq] at this
+    have ht1 : W' ⟨1, by omega⟩ = ⊤ := by
+      have := (hc ⟨1, by omega⟩).sup_eq_top; rwa [hb1, bot_sup_eq] at this
+    have ht5 : W' ⟨5, by omega⟩ = ⊤ := by
+      have := (hc ⟨5, by omega⟩).sup_eq_top; rwa [hb5, bot_sup_eq] at this
+    have ht6 : W' ⟨6, by omega⟩ = ⊤ := by
+      have := (hc ⟨6, by omega⟩).sup_eq_top; rwa [hb6, bot_sup_eq] at this
+    -- Path vertex 2 = ⊥ (via leaves 0, 1).
+    have hb2 : W ⟨2, by omega⟩ = ⊥ := by
+      rw [eq_bot_iff]; intro w hw
+      have hc1 : starEmbed1_F F m (starFirst_F F m w) ∈ W' ⟨2, by omega⟩ := by
+        rcases hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ | hQ
+        · obtain ⟨e⟩ := hQ
+          have h := hW'_inv e (starFirst_F F m w) (by rw [ht0]; exact Submodule.mem_top)
+          simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ] using h
+        · obtain ⟨e⟩ := hQ
+          have h := hW_inv e w hw
+          rw [hbot, Submodule.mem_bot] at h
+          have hz : starFirst_F F m w = 0 := h
+          rw [hz, map_zero]; exact Submodule.zero_mem _
+      have hc2 : starEmbed2_F F m (starSecond_F F m w) ∈ W' ⟨2, by omega⟩ := by
+        rcases hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ | hQ
+        · obtain ⟨e⟩ := hQ
+          have h := hW'_inv e (starSecond_F F m w) (by rw [ht1]; exact Submodule.mem_top)
+          simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ] using h
+        · obtain ⟨e⟩ := hQ
+          have h := hW_inv e w hw
+          rw [hb1, Submodule.mem_bot] at h
+          have hz : starSecond_F F m w = 0 := h
+          rw [hz, map_zero]; exact Submodule.zero_mem _
+      have hsum := (W' ⟨2, by omega⟩).add_mem hc1 hc2
+      rw [← center_decomp_F F m w] at hsum
+      have hinf := Submodule.mem_inf.mpr ⟨hw, hsum⟩
+      rwa [(hc ⟨2, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hinf
+    -- Path vertex 4 = ⊥ (via leaves 5, 6).
+    have hb4 : W ⟨4, by omega⟩ = ⊥ := by
+      rw [eq_bot_iff]; intro w hw
+      have hc1 : starEmbed1_F F m (starFirst_F F m w) ∈ W' ⟨4, by omega⟩ := by
+        rcases hOrient_edge ⟨5, by omega⟩ ⟨4, by omega⟩ h54 with hQ | hQ
+        · obtain ⟨e⟩ := hQ
+          have h := hW'_inv e (starFirst_F F m w) (by rw [ht5]; exact Submodule.mem_top)
+          simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ] using h
+        · obtain ⟨e⟩ := hQ
+          have h := hW_inv e w hw
+          rw [hb5, Submodule.mem_bot] at h
+          have hz : starFirst_F F m w = 0 := h
+          rw [hz, map_zero]; exact Submodule.zero_mem _
+      have hc2 : starEmbed2_F F m (starSecond_F F m w) ∈ W' ⟨4, by omega⟩ := by
+        rcases hOrient_edge ⟨6, by omega⟩ ⟨4, by omega⟩ h64 with hQ | hQ
+        · obtain ⟨e⟩ := hQ
+          have h := hW'_inv e (starSecond_F F m w) (by rw [ht6]; exact Submodule.mem_top)
+          simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ] using h
+        · obtain ⟨e⟩ := hQ
+          have h := hW_inv e w hw
+          rw [hb6, Submodule.mem_bot] at h
+          have hz : starSecond_F F m w = 0 := h
+          rw [hz, map_zero]; exact Submodule.zero_mem _
+      have hsum := (W' ⟨4, by omega⟩).add_mem hc1 hc2
+      rw [← center_decomp_F F m w] at hsum
+      have hinf := Submodule.mem_inf.mpr ⟨hw, hsum⟩
+      rwa [(hc ⟨4, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hinf
+    -- Path vertex 3 = ⊥ (chain collapse).
+    have hb3 : W ⟨3, by omega⟩ = ⊥ := hcol.trans hb4
+    intro v
+    fin_cases v
+    · exact hbot
+    · exact hb1
+    · exact hb2
+    · exact hb3
+    · exact hb4
+    · exact hb5
+    · exact hb6
 
 /-! ## Section 6: Per-(F, Q) infinite-type theorem -/
 
@@ -868,9 +1128,11 @@ infinite. Mirrors the proof shape of `d7tilde_not_finite_type_per_kQ`
 
 Injectivity comes from vertex `0`, where `d6tildeDim m 0 = m + 1`.
 
-This theorem carries no direct `sorry`, but transitively depends on
-`d6tildeRep_kQ_isIndecomposable`, whose proof body is deferred — see
-its docstring. -/
+This theorem carries no direct `sorry`. Its dependency
+`d6tildeRep_kQ_isIndecomposable` is now assembled `sorry`-free; the only
+remaining deferrals are the non-canonical orientation branches of the
+`d6tildeRep_kQ_leaf_equalities` / `d6tildeRep_kQ_leaf_N_invariance`
+companions (#4527 sub-B), reached transitively. -/
 theorem d6tilde_not_finite_type_per_kQ
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 7))
