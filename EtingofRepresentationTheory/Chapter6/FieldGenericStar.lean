@@ -474,6 +474,50 @@ theorem starProj4_F_starEmbedNilp_F (F : Type) [Field F] (m : ℕ)
   simp [starProj4_F, starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply,
     starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F]
 
+/-! ### Directness transfer
+
+A pure submodule-lattice companion to `compl_le_forces_eq`. Where
+`compl_le_forces_eq` collapses `A ≤ B` between two complementary *pairs*
+via a finrank count, this one starts from the *lower* pair already
+spanning the whole space and needs no dimension argument. It is the key
+step that lets the orientation-generic K_{1,4} proof pin a leaf subspace
+from the center: a surjective reversed-leaf projection sends a center
+complement pair `(W₁ 0, W₂ 0)` to a pair that spans the leaf (`⊔ = ⊤`),
+and the leaf's own complement pair bounds it from above, so the two must
+coincide. -/
+
+/-- If `A₁ ⊔ A₂ = ⊤`, `A₁ ≤ B₁`, `A₂ ≤ B₂` and `B₁, B₂` are
+complementary, then `A₁ = B₁` and `A₂ = B₂`. The two lower spaces, already
+spanning the whole space, must fill their complementary upper bounds
+exactly. No finite-dimensionality required. -/
+theorem sup_top_le_isCompl_forces_eq
+    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
+    (A₁ A₂ B₁ B₂ : Submodule F V)
+    (htop : A₁ ⊔ A₂ = ⊤) (h1 : A₁ ≤ B₁) (h2 : A₂ ≤ B₂)
+    (hB : IsCompl B₁ B₂) :
+    A₁ = B₁ ∧ A₂ = B₂ := by
+  have hB1 : B₁ ≤ A₁ := by
+    intro b hb
+    have hb_top : b ∈ A₁ ⊔ A₂ := htop ▸ Submodule.mem_top
+    obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := Submodule.mem_sup.mp hb_top
+    have ha₂B1 : a₂ ∈ B₁ := by
+      have hsub : a₂ = (a₁ + a₂) - a₁ := by abel
+      rw [hsub]; exact B₁.sub_mem hb (h1 ha₁)
+    have : a₂ ∈ B₁ ⊓ B₂ := Submodule.mem_inf.mpr ⟨ha₂B1, h2 ha₂⟩
+    rw [hB.inf_eq_bot, Submodule.mem_bot] at this
+    rw [this, add_zero]; exact ha₁
+  have hB2 : B₂ ≤ A₂ := by
+    intro b hb
+    have hb_top : b ∈ A₁ ⊔ A₂ := htop ▸ Submodule.mem_top
+    obtain ⟨a₁, ha₁, a₂, ha₂, rfl⟩ := Submodule.mem_sup.mp hb_top
+    have ha₁B2 : a₁ ∈ B₂ := by
+      have hsub : a₁ = (a₁ + a₂) - a₂ := by abel
+      rw [hsub]; exact B₂.sub_mem hb (h2 ha₂)
+    have : a₁ ∈ B₁ ⊓ B₂ := Submodule.mem_inf.mpr ⟨h1 ha₁, ha₁B2⟩
+    rw [hB.inf_eq_bot, Submodule.mem_bot] at this
+    rw [this, zero_add]; exact ha₂
+  exact ⟨le_antisymm h1 hB1, le_antisymm h2 hB2⟩
+
 /-! ## Section: Orientation-generic K_{1,4} representation
 
 `starRep_kQ` matches `starRepGen` at the canonical orientation and uses the
