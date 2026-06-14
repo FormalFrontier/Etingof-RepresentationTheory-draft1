@@ -244,7 +244,36 @@ theorem dTildeRep_kQ_isIndecomposable
     (hOrient : @Etingof.IsOrientationOf (k + 6) Q (dTildeAdj k))
     (m : ℕ) :
     (dTildeRep_kQ F k Q hOrient m).IsIndecomposable := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · -- Nontriviality: vertex `0` is a leaf with dimension `m + 1 ≥ 1`, and the
+    -- function space `Fin (m + 1) → F` over the field `F` is nontrivial.
+    refine ⟨⟨0, by omega⟩, ?_⟩
+    have hdim : dTildeDim k m (⟨0, by omega⟩ : Fin (k + 6)) = m + 1 := by
+      simp [dTildeDim]
+    haveI : Nonempty (Fin (dTildeDim k m (⟨0, by omega⟩ : Fin (k + 6)))) :=
+      ⟨⟨0, by rw [hdim]; omega⟩⟩
+    obtain ⟨e⟩ := dTildeRep_kQ_dimVec F k Q hOrient m ⟨0, by omega⟩
+    exact e.toEquiv.nontrivial
+  · -- Decomposition core (deferred to a follow-up sub-issue of #2978).
+    --
+    -- This is the genuinely hard, k-parametric, orientation-generic part:
+    -- given invariant complementary subspaces `W₁ v, W₂ v` at every vertex,
+    -- show `W₁ v = ⊥` for all `v` or `W₂ v = ⊥` for all `v`.
+    --
+    -- The structural template is the ℂ-specific universal proof
+    -- `dTildeRep_isIndecomposable` (`InfiniteTypeConstructions.lean:3114`),
+    -- which transports through a `DTildeVertex`-indexed representation and
+    -- ultimately rests on `dTildeRep'_isIndecomposable` (line 2431). The
+    -- per-(F, Q) version must instead case-split on the direction of each of
+    -- the `(k + 5)` edges (`fin_cases` over the edge lattice does not
+    -- generalise in `k`), establish F-generic leaf-subspace equalities at the
+    -- four leaves `0, 1, k+4, k+5`, and propagate constancy along the interior
+    -- chain `2, …, k+3` (whose maps are `LinearMap.id`) by induction on the
+    -- chain length. None of the fixed-shape precedents
+    -- (`d{5,7,8}tildeRep_kQ_isIndecomposable`) are yet closed, so no reusable
+    -- F-generic leaf equalities exist to build on. See the follow-up sub-issue.
+    intro W₁ W₂ _hW₁ _hW₂ _hCompl
+    sorry
 
 /-! ## Section 5: Per-(F, Q) infinite-type theorem -/
 
