@@ -415,6 +415,60 @@ theorem etilde6_armC_criterion
   · rintro _ ⟨z, hz, rfl⟩
     simpa only [etilde6CompC_F, LinearMap.comp_apply] using h50₂ _ (h65₂ z hz)
 
+/-! ### Coordinate-plane splits (mid→center, brick ingredient)
+
+The §3 brick argument (deliverable 2 of #4638) needs each center coordinate plane
+to split as `π_i = (W₁(0) ⊓ π_i) ⊕ (W₂(0) ⊓ π_i)`. This is `forward_leaf_subspace_eq`
+applied at the mid→center level: the mid pair `(W₁(mid), W₂(mid))` is complementary
+and its block embedding has image `π_i = range`, so the two intersections fill the
+plane and meet trivially. These pin the plane components of `W₁(0)` to the mid
+data and are the mid→center half of the two-level reduction (the leaf→center half
+is the membership criterion above). -/
+
+/-- Arm-A plane split (`π_A = ⟨c₁,c₂⟩ = range blockEmbed12_F`). -/
+theorem etilde6_armA_plane_split
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W1₁ W1₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc1 : IsCompl W1₁ W1₂)
+    (h10₁ : ∀ y ∈ W1₁, blockEmbed12_F F m y ∈ W0₁)
+    (h10₂ : ∀ y ∈ W1₂, blockEmbed12_F F m y ∈ W0₂) :
+    W1₁.map (blockEmbed12_F F m) = W0₁ ⊓ LinearMap.range (blockEmbed12_F F m) ∧
+      W1₂.map (blockEmbed12_F F m) = W0₂ ⊓ LinearMap.range (blockEmbed12_F F m) := by
+  refine forward_leaf_subspace_eq (blockEmbed12_F F m) W1₁ W1₂ W0₁ W0₂ hc1 hc0 ?_ ?_
+  · rintro _ ⟨y, hy, rfl⟩; exact h10₁ y hy
+  · rintro _ ⟨y, hy, rfl⟩; exact h10₂ y hy
+
+/-- Arm-B plane split (`π_B = ⟨c₀,c₂⟩ = range blockEmbed02_F`). -/
+theorem etilde6_armB_plane_split
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W3₁ W3₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc3 : IsCompl W3₁ W3₂)
+    (h30₁ : ∀ y ∈ W3₁, blockEmbed02_F F m y ∈ W0₁)
+    (h30₂ : ∀ y ∈ W3₂, blockEmbed02_F F m y ∈ W0₂) :
+    W3₁.map (blockEmbed02_F F m) = W0₁ ⊓ LinearMap.range (blockEmbed02_F F m) ∧
+      W3₂.map (blockEmbed02_F F m) = W0₂ ⊓ LinearMap.range (blockEmbed02_F F m) := by
+  refine forward_leaf_subspace_eq (blockEmbed02_F F m) W3₁ W3₂ W0₁ W0₂ hc3 hc0 ?_ ?_
+  · rintro _ ⟨y, hy, rfl⟩; exact h30₁ y hy
+  · rintro _ ⟨y, hy, rfl⟩; exact h30₂ y hy
+
+/-- Arm-C plane split (`π_C = ⟨c₀,c₁⟩ = range (prefixBlockEmbed_F 2 3)`). -/
+theorem etilde6_armC_plane_split
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W5₁ W5₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc5 : IsCompl W5₁ W5₂)
+    (h50₁ : ∀ y ∈ W5₁, prefixBlockEmbed_F F 2 3 m y ∈ W0₁)
+    (h50₂ : ∀ y ∈ W5₂, prefixBlockEmbed_F F 2 3 m y ∈ W0₂) :
+    W5₁.map (prefixBlockEmbed_F F 2 3 m) =
+        W0₁ ⊓ LinearMap.range (prefixBlockEmbed_F F 2 3 m) ∧
+      W5₂.map (prefixBlockEmbed_F F 2 3 m) =
+        W0₂ ⊓ LinearMap.range (prefixBlockEmbed_F F 2 3 m) := by
+  refine forward_leaf_subspace_eq (prefixBlockEmbed_F F 2 3 m) W5₁ W5₂ W0₁ W0₂ hc5 hc0 ?_ ?_
+  · rintro _ ⟨y, hy, rfl⟩; exact h50₁ y hy
+  · rintro _ ⟨y, hy, rfl⟩; exact h50₂ y hy
+
 /-! ## Section 1: F-generic forward maps for Ẽ₆
 
 F-generic versions of the ℂ-specific maps used in `etilde6v2RepMap`
