@@ -1,5 +1,16 @@
 # Wall 3 R3-bis — refined residual cancellation for R2.b.i
 
+> **SUPERSEDED (2026-06-14, meditate #4584).** §2–§3 of this note assert that
+> R2.b.i (`twistedPolytabloid_residual_no_colStd_zero`) is TRUE via the
+> cross-region pair involution `(q,r) ↔ (q·r⁻¹, r⁻¹)`, "validated on the running
+> example". That conclusion is **false**: a faithful brute-force check on the
+> same λ=(2,2) example (`progress/r2bi-counterexample-check.py`) gives
+> `Δ = −ψ_{(0 1 3 2)}`, nonzero at three no-col-std tabloids below `[σ]`. The
+> involution does not yield pointwise vanishing. Use
+> `progress/r2b-redesign-direct-polytabloid.md` (candidate 1, direct polytabloid
+> identification) instead. The §1 setup recap and the γ-dropout identity (landed
+> as `twistedIHPart_eq_signed_polytabloid_sum`) remain correct.
+
 Meditate note for issue
 [#2776](https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/2776).
 Session `e93e1a90`. Replaces the assumed-tractable R2.b.i statement at
