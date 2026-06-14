@@ -410,6 +410,107 @@ theorem d6tilde_core4_F
   exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
          hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
 
+/-! ### Reversed-edge projection siblings
+
+For sub-cases of `d6tildeRep_kQ_leaf_equalities` where a leaf edge points
+*out of* its branch vertex, the rep map is the reversed-direction pull
+(`starFirst_F` for the "1-side" leaf, `starSecond_F` for the "2-side"
+leaf). These siblings extract a single leaf component directly from a
+`starEmbed1_F x + starEmbed2_F z` membership using the left-inverse
+identities. Vertex-relabel ports of `d5tilde_core_F_proj1/2`
+(`FieldGenericD5Tilde.lean:623`) and `d5tilde_core3_F_proj1/2`
+(`FieldGenericD5Tilde.lean:677`): for D̃₆, vertex 2 (leaves 0, 1) reuses
+the v=2 sibling and vertex 4 (leaves 5, 6) is the index-shifted v=4
+sibling (`3↦4, 4↦5, 5↦6`). -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection sibling for the `e02 = 2→0` reversed orientation: the
+reversed 0-2 pull `starFirst_F` sends `W ⟨2⟩` into `W ⟨0⟩`, so any sum
+`starEmbed1_F x + starEmbed2_F z` in `W ⟨2⟩` has first component
+`x ∈ W ⟨0⟩`. Port of `d5tilde_core_F_proj1`. -/
+theorem d6tilde_core_F_proj1
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hW_20 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨2, by omega⟩ →
+        starFirst_F F m w ∈ W ⟨0, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨2, by omega⟩) :
+    x ∈ W ⟨0, by omega⟩ := by
+  have h := hW_20 _ hmem
+  rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection sibling for the `e12 = 2→1` reversed orientation: the
+reversed 1-2 pull `starSecond_F` sends `W ⟨2⟩` into `W ⟨1⟩`, so any sum
+`starEmbed1_F x + starEmbed2_F z` in `W ⟨2⟩` has second component
+`z ∈ W ⟨1⟩`. Port of `d5tilde_core_F_proj2`. -/
+theorem d6tilde_core_F_proj2
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hW_21 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨2, by omega⟩ →
+        starSecond_F F m w ∈ W ⟨1, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨2, by omega⟩) :
+    z ∈ W ⟨1, by omega⟩ := by
+  have h := hW_21 _ hmem
+  rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection sibling for the `e54 = 4→5` reversed orientation: the
+reversed 5-4 pull `starFirst_F` sends `W ⟨4⟩` into `W ⟨5⟩`, so any sum
+`starEmbed1_F x + starEmbed2_F z` in `W ⟨4⟩` has first component
+`x ∈ W ⟨5⟩`. Index-shifted port of `d5tilde_core3_F_proj1`. -/
+theorem d6tilde_core4_F_proj1
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hW_45 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨4, by omega⟩ →
+        starFirst_F F m w ∈ W ⟨5, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨4, by omega⟩) :
+    x ∈ W ⟨5, by omega⟩ := by
+  have h := hW_45 _ hmem
+  rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection sibling for the `e64 = 4→6` reversed orientation: the
+reversed 6-4 pull `starSecond_F` sends `W ⟨4⟩` into `W ⟨6⟩`, so any sum
+`starEmbed1_F x + starEmbed2_F z` in `W ⟨4⟩` has second component
+`z ∈ W ⟨6⟩`. Index-shifted port of `d5tilde_core3_F_proj2`. -/
+theorem d6tilde_core4_F_proj2
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hW_46 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨4, by omega⟩ →
+        starSecond_F F m w ∈ W ⟨6, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨4, by omega⟩) :
+    z ∈ W ⟨6, by omega⟩ := by
+  have h := hW_46 _ hmem
+  rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
+  exact h
+
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- γ-coupled leaf containments for D̃₆. Given canonical embed pushes on
@@ -491,9 +592,17 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 submodule pair `(W₁, W₂)` of `d6tildeRep_kQ F Q hOrient m`, the leaf
 vertices `0, 1, 5, 6` carry equal `W₁`-subspaces.
 
-**Proof body partially deferred** (#4527 sub-B). The all-canonical
-orientation branch (`0→2, 1→2, 2→3, 5→4, 6→4`, with `3-4` collapsed) is
-proven inline; the remaining 31 leaf/γ orientation branches are `sorry`. -/
+**Proof body partially deferred** (#4527 sub-B). Two branches are proven
+inline: the all-canonical branch (`0→2, 1→2, 2→3, 5→4, 6→4`, with `3-4`
+collapsed) and **combo D** (`0→2, 1→2, 2→3` canonical, both v=4 leaf
+edges reversed `4→5, 4→6`), the latter via the reversed-edge projection
+siblings `d6tilde_core4_F_proj1/2`. This matches the proven state of the
+d5tilde precedent (`d5tildeRep_kQ_leaf_equalities`). The five remaining
+coarse branches are `sorry`: the two **mixed-direction v=4** cases
+(one leaf edge canonical, the other reversed — combo C / C′) are blocked
+on nilpotent-shift (N) invariance infrastructure that exists nowhere in
+the codebase, and the three outer reversed branches (`e02`, `e12`, `e23`)
+nest those same mixed v=4 sub-configurations. -/
 theorem d6tildeRep_kQ_leaf_equalities
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 7))
@@ -594,10 +703,120 @@ theorem d6tildeRep_kQ_leaf_equalities
                 (hcompl ⟨1, by omega⟩) (hcompl ⟨5, by omega⟩) h15 h15').1
             have heq01 : W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ := heq05.trans heq15.symm
             exact ⟨heq01, heq05, heq06⟩
-          · -- e64 reversed (4→6): tracked by #4527 sub-B
+          · -- e64 reversed (4→6): MIXED v=4 (5-4 canonical, 6-4 reversed).
+            -- Blocked on nilpotent-shift (N) invariance infrastructure — the
+            -- canonical 5-push only yields an (I - N)-twisted relation through
+            -- γ; same obstruction as d5tilde combo C. Tracked by sub-B follow-up.
             sorry
-        · -- e54 reversed (4→5): tracked by #4527 sub-B
-          sorry
+        · -- e54 reversed (4→5): branch on e64.
+          obtain ⟨a45⟩ := hQ54
+          rcases hOrient_edge ⟨6, by omega⟩ ⟨4, by omega⟩ h64 with hQ64 | hQ64
+          · -- e64 canonical (6→4): MIXED v=4 (5-4 reversed, 6-4 canonical).
+            -- Blocked on nilpotent-shift (N) invariance infrastructure — the
+            -- canonical 6-push only yields an (I - N)-twisted relation through
+            -- γ; same obstruction as d5tilde combo C. Tracked by sub-B follow-up.
+            obtain ⟨a64⟩ := hQ64
+            sorry
+          · -- e64 reversed (4→6): COMBO D — both v=4 leaf edges reversed.
+            -- Tractable: the reversed pulls starFirst_F / starSecond_F extract
+            -- the leaf-5/6 components directly via the proj siblings, with no
+            -- mixed-direction obstruction. Mirrors d5tilde combo D.
+            obtain ⟨a46⟩ := hQ64
+            -- Canonical v=2 + central γ pushes (same as the all-canonical branch).
+            have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a02 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a12 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a23 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a02 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a12 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a23 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            -- Reversed v=4 leaf pulls (4→5 = starFirst, 4→6 = starSecond).
+            have hW₁_45 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨4, by omega⟩) :
+                starFirst_F F m w ∈ W₁ ⟨5, by omega⟩ := by
+              have h := hW₁_inv a45 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₁_46 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨4, by omega⟩) :
+                starSecond_F F m w ∈ W₁ ⟨6, by omega⟩ := by
+              have h := hW₁_inv a46 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_45 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨4, by omega⟩) :
+                starFirst_F F m w ∈ W₂ ⟨5, by omega⟩ := by
+              have h := hW₂_inv a45 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_46 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨4, by omega⟩) :
+                starSecond_F F m w ∈ W₂ ⟨6, by omega⟩ := by
+              have h := hW₂_inv a46 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            -- Leaf containments for W₁: route 0/1 → 2 →(γ) 3, collapse to 4,
+            -- then pull to leaves 5/6.
+            have h05 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₁ hW₁_45 x x (hcol₁ ▸ hg)
+            have h06 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨6, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d6tilde_core4_F_proj2 F Q hOrient m W₁ hW₁_46 x x (hcol₁ ▸ hg)
+            have h15 : W₁ ⟨1, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+              intro y hy
+              have hg := hW₁_23 _ (hW₁_12 y hy)
+              rw [gamma_from_embed2_F] at hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₁ hW₁_45 y
+                (nilpotentShiftLinGen F m y) (hcol₁ ▸ hg)
+            -- Same containments for W₂.
+            have h05' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₂ hW₂_45 x x (hcol₂ ▸ hg)
+            have h06' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨6, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d6tilde_core4_F_proj2 F Q hOrient m W₂ hW₂_46 x x (hcol₂ ▸ hg)
+            have h15' : W₂ ⟨1, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+              intro y hy
+              have hg := hW₂_23 _ (hW₂_12 y hy)
+              rw [gamma_from_embed2_F] at hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₂ hW₂_45 y
+                (nilpotentShiftLinGen F m y) (hcol₂ ▸ hg)
+            -- Complementarity upgrades each containment to an equality.
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq06 : W₁ ⟨0, by omega⟩ = W₁ ⟨6, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨6, by omega⟩) (W₂ ⟨6, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨6, by omega⟩) h06 h06').1
+            have heq15 : W₁ ⟨1, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨5, by omega⟩) h15 h15').1
+            have heq01 : W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ := heq05.trans heq15.symm
+            exact ⟨heq01, heq05, heq06⟩
       · -- e23 reversed (3→2): tracked by #4527 sub-B
         sorry
     · -- e12 reversed (2→1): tracked by #4527 sub-B
