@@ -2126,3 +2126,35 @@ through the Fin wrapper.
 **Finset.erase parsing:** `S.erase a |>.erase b` in a type annotation
 parses as `(S.erase a).erase b` in term position but `(x ∈ S.erase a).erase b`
 in proposition position. Always use explicit parentheses: `(S.erase a).erase b`.
+
+## obj↔concrete type bridge in `leaf_equalities` (quiver-rep collapse proofs)
+
+When writing an orientation-generic `leaf_equalities`/collapse lemma over a
+quiver representation, the invariant subspaces are typed
+`W : ∀ v, Submodule F ((someRep_kQ …).obj v)`. The per-vertex object
+`(someRep_kQ …).obj ⟨v, _⟩` is **definitionally** `Fin (k·(m+1)) → F`, but the
+unifier will **not** reduce it to the concrete form — not even under an explicit
+ascription `(W ⟨v,_⟩ : Submodule F (Fin (k·(m+1)) → F))`, which errors with a
+"type mismatch … `(someRep_kQ …).obj ⟨v, ?m⟩` vs `Fin (k·(m+1)) → F`". This bites
+hardest when the per-vertex dimension `…Dim` is defined by `match v.val with …`
+(does not reduce through the `Fin 8` proof metavar); an `if … then … else …`
+dimension reduces and avoids the wall (this is why some `_kQ_leaf_equalities`
+families compile in obj-form and others do not).
+
+**Consequence:** you cannot directly pass obj-typed `W ⟨v⟩` into a foundation
+lemma stated over concrete `Fin (k·(m+1)) → F` spaces. Two fixes:
+1. **Stay obj-form (preferred, mirrors the working D̃₇ family).** Build the
+   leaf→center map `e` as a composite of the rep's **own** `mapLinear` along the
+   relevant arrows (e.g.
+   `(rep).mapLinear a20 ∘ (rep).mapLinear a32 ∘ (rep).mapLinear a43`), which is
+   obj-typed by construction, and apply a space-generic criterion like
+   `leaf_center_mem_iff_of_forward` (`FieldGenericETilde6.lean`). Then
+   `simp only [someRep_kQ, someRepMap_kQ]` rewrites that composite to the concrete
+   map (`blockEmbedAt_F …`, etc.) only where you actually need the concrete form.
+2. Add obj-form wrappers of the concrete foundation lemmas.
+
+A membership *statement* `concreteMap x ∈ W ⟨0,_⟩` (deposit into an obj-typed
+submodule) elaborates if you ascribe the element to the obj type:
+`(concreteMap x : (rep).obj ⟨0, by omega⟩) ∈ W ⟨0, by omega⟩` — the ascription
+forces a default-transparency defeq that *does* reduce. The proof body still
+needs fix (1) or (2).
