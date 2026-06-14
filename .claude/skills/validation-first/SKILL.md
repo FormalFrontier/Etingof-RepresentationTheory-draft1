@@ -49,6 +49,33 @@ After individual content work is complete, run a **cross-validation** pass that 
 
 Cross-validation should be a separate issue, not an afterthought. Plan for it explicitly.
 
+## Validating Proof Strategies (not just output format)
+
+Crux issues often *prescribe a proof strategy* and mandate a numerical
+pre-formalization check ("validate before formalizing"). That check validates
+the **strategy**, not just an output format — and it can refute the strategy
+while the deliverable (the lemma statement) is still true.
+
+When validation refutes the prescribed strategy:
+
+- **Trust the computation over the issue prose.** A small exact-arithmetic
+  enumeration over the actual model (permutations, tabloids, signs) is ground
+  truth; the issue's strategy paragraph is a hypothesis. If they disagree, the
+  strategy is wrong. Distinguish "the lemma is false" (rare — re-scope hard)
+  from "the lemma is true but the stated mechanism is wrong" (common).
+- **Find the corrected mechanism before bouncing.** A refutation plus a
+  *validated corrected mechanism* makes the replan actionable; a bare "this
+  doesn't work" does not. Probe variants (e.g. is the property true one level
+  up? is it a maximal-only phenomenon? does it reduce to a known sub-fact?).
+- **Preserve the analysis via a `--partial` PR, not a bare `skip`.** A
+  `--partial` PR ("Partial progress on #N") merges your validation scripts and
+  analysis doc into the repo *and* marks the issue `replan`; a bare `skip`
+  strands all of it on an unmerged branch where the next planner can't see it.
+  Keep the issue's Lean signature, flag only the refuted strategy section.
+- **Repeated mis-scoping of the same crux is a signal.** If a crux has now been
+  mis-scoped more than once, say so in the replan — the planner may need to
+  reconsider the surrounding decomposition, not just patch the strategy.
+
 ## Phase 3: Formalization Verification Patterns
 
 Formalization adds a new dimension to validation — the Lean compiler itself is the ultimate validator.
