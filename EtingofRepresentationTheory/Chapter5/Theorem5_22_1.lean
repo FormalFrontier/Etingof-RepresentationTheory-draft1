@@ -2241,6 +2241,127 @@ theorem youngSym_action_vanishes_off_block
     rw [smul_smul, mul_inv_cancel₀ hα_ℂ_ne, one_smul]
   rw [hf_eq_smul_g, hg_zero, smul_zero]
 
+/-! #### γ.B Rank-1 scaled projection on the special Specht block
+
+The diagonal counterpart of `youngSym_action_vanishes_off_block`. There the
+off-block trace `Σ_σ c_λ(σ)·χ_{Specht^{la'}}(σ)` vanishes for `la' ≠ λ`; here, on
+a simple `symGroupImage`-stable submodule whose Specht label *is* the special
+partition `weightToPartition N lam`, the diagonal Kronecker value
+(`youngSym_trace_kronecker'`, diagonal case `= trace_mulLeft_youngSym_eq'`)
+gives `trace(c_λ|_S) = α`. Since `c_λ|_S` is `α` times an idempotent, the
+trace pins the idempotent's rank to `1`.
+-/
+
+-- The `IsScalarTower ℂ ↥(symGroupImage) V^⊗n` instance backing the
+-- `S.restrictScalars ℂ` binders and `IsProj.trace` is expensive to synthesize
+-- and elaborate; raise both budgets.
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Schur-Weyl L_i (γ.B): rank-1 scaled projection on the special block.**
+
+On a simple `symGroupImage`-stable submodule `S ≤ V^⊗n` whose Specht-module
+character equals that of the special partition `weightToPartition N lam`, the
+restricted endomorphism `f = c_λ|_S` factors as `α • π` for a nonzero scalar `α`
+(`c_λ² = α·c_λ`) and a rank-1 idempotent `π`:
+
+* `π * π = π`,
+* `Module.finrank ℂ (LinearMap.range π) = 1`,
+* `f = α • π`.
+
+The rank-1 fact is the genuine "primitivity" content: it does **not** follow from
+the whole-space trace (that route is circular, re-deriving the bimodule
+dimension identity), but from the diagonal value `trace(c_λ|_S) = α` of the
+character-orthogonality identity, which is an independent `ℂ[S_n]` computation
+(`trace_mulLeft_youngSym_eq'`). Together with the bimodule decomposition
+(`youngSym_block_factorization`) and off-block vanishing
+(`youngSym_action_vanishes_off_block`), this supplies the rank-1 hypothesis of
+`image_of_primitive_idempotent_isSimple_centralizer`. -/
+theorem youngSym_action_on_special_block_rank_one_scaled_proj
+    (N : ℕ) (lam : Fin N → ℕ)
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
+      (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)))
+    [Module.Finite ℂ ↥(S.restrictScalars ℂ)]
+    (h_label : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+            ((symGroupAction ℂ (Fin N → ℂ) (∑ i, lam i) σ).toLinearMap.restrict
+              (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+              (fun _ hv =>
+                symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+          spechtModuleCharacter (∑ i, lam i) (weightToPartition N lam) σ) :
+    ∃ (α : ℂ) (π : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ)),
+      α ≠ 0 ∧ π * π = π ∧
+      Module.finrank ℂ (LinearMap.range π) = 1 ∧
+      (youngSymEndomorphism ℂ N lam).restrict
+          (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+          (fun _ hv =>
+            youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv) = α • π := by
+  -- Abbreviation: `f` is the restriction of `c_λ` to `S`.
+  let f : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) :=
+    (youngSymEndomorphism ℂ N lam).restrict
+      (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+      (fun _ hv =>
+        youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv)
+  -- Scalar α (≠ 0) from `c_λ² = α · c_λ` over ℚ, transferred to ℂ.
+  obtain ⟨α, hα_sq⟩ :=
+    YoungSymmetrizerK_sq_scalar ℚ (∑ i, lam i) (weightToPartition N lam)
+  have hα_ne : α ≠ 0 :=
+    YoungSymmetrizerK_sq_scalar_ne_zero _ (weightToPartition N lam) α hα_sq
+  have hα_ℂ_ne : (α : ℂ) ≠ 0 := by exact_mod_cast hα_ne
+  have hα_sq_ℂ :
+      YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) *
+        YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) =
+      (α : ℂ) • YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) := by
+    rw [youngSymmetrizerK_complex_eq]
+    exact youngSym_sq_ℂ' _ _ α hα_sq
+  -- β.1: trace of `f` is the weighted sum over σ of traces of σ on S.
+  have h_trace_f : LinearMap.trace ℂ _ f =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ) *
+        LinearMap.trace ℂ _
+          ((symGroupAction ℂ (Fin N → ℂ) (∑ i, lam i) σ).toLinearMap.restrict
+            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S σ hv)) :=
+    trace_youngSymEndomorphism_restrict_eq_sum N lam S
+  -- Diagonal Kronecker value: trace(f) = α (the independent primitivity input).
+  have h_trace_eq_alpha : LinearMap.trace ℂ _ f = (α : ℂ) := by
+    have h_coef_cast : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ : ℂ) =
+          ((YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) : ℂ) := by
+      intro σ
+      rw [youngSym_coeff_cast', ← youngSymmetrizerK_complex_eq]
+    rw [h_trace_f]
+    conv_lhs => arg 2; ext σ; rw [h_label σ, h_coef_cast σ]
+    rw [youngSym_trace_kronecker' _ (weightToPartition N lam) (weightToPartition N lam) α hα_sq,
+        if_pos rfl]
+  -- f² = α • f.
+  have hf_sq : f * f = (α : ℂ) • f :=
+    youngSymEndomorphism_restrict_sq_scalar N lam S (α : ℂ) hα_sq_ℂ
+  -- π := α⁻¹ • f is the candidate rank-1 idempotent.
+  set π : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) := (α : ℂ)⁻¹ • f with hπ_def
+  -- π is idempotent.
+  have hπ_idem : π * π = π := by
+    rw [hπ_def, smul_mul_smul_comm, hf_sq, smul_smul]
+    congr 1
+    rw [mul_assoc, inv_mul_cancel₀ hα_ℂ_ne, mul_one]
+  -- π is a projection onto its own range.
+  have hπ_proj : LinearMap.IsProj (LinearMap.range π) π :=
+    { map_mem := fun x => LinearMap.mem_range_self π x
+      map_id := fun x hx => by
+        obtain ⟨y, rfl⟩ := hx
+        exact LinearMap.congr_fun hπ_idem y }
+  -- trace(π) = α⁻¹ · trace(f) = α⁻¹ · α = 1.
+  have hπ_trace : LinearMap.trace ℂ _ π = 1 := by
+    rw [hπ_def, LinearMap.map_smul, h_trace_eq_alpha, smul_eq_mul, inv_mul_cancel₀ hα_ℂ_ne]
+  -- finrank(range π) = trace(π) = 1.
+  have hπ_rank : Module.finrank ℂ (LinearMap.range π) = 1 := by
+    have h := hπ_proj.trace
+    rw [hπ_trace] at h
+    exact_mod_cast h.symm
+  -- f = α • π.
+  have hf_eq : f = (α : ℂ) • π := by
+    rw [hπ_def, smul_smul, mul_inv_cancel₀ hα_ℂ_ne, one_smul]
+  exact ⟨(α : ℂ), π, hα_ℂ_ne, hπ_idem, hπ_rank, hf_eq⟩
+
 /-! #### Bridge: charValue ↔ spechtModuleCharacter
 
 The Frobenius character formula (Theorem 5.15.1) connects the polynomial
