@@ -1087,6 +1087,49 @@ theorem cumTailSumLin_oneSubNilp (F : Type) [Field F] (m : ℕ)
     simp only [dif_pos hi1]
     ring
 
+/-- The other-sided inverse identity: `(I - N) ∘ M = I`, i.e.
+`cumTailSumLin v - N (cumTailSumLin v) = v`. Together with
+`cumTailSumLin_oneSubNilp` (`M ∘ (I - N) = I`) this exhibits
+`cumTailSumLin = M` as the genuine **two-sided** inverse of
+`I - nilpotentShiftLinGen`, which is what packaging `d5tildeGamma_F` as a
+`LinearEquiv` requires (the `γ ∘ γ⁻¹ = id` direction needs `(I - N) M = I`,
+not just `M (I - N) = I`).
+
+Unlike `cumTailSumLin_oneSubNilp` this needs no reverse induction: at index
+`i < m` the recursion `M v ⟨i⟩ = v ⟨i⟩ + M v ⟨i+1⟩` (`cumTailSumLin_apply_succ`)
+cancels the shifted term `N (M v) ⟨i⟩ = M v ⟨i+1⟩` directly, and at index `m`
+the shift vanishes while `M v ⟨m⟩ = v ⟨m⟩` (`cumTailSumLin_apply_last`). -/
+theorem oneSubNilp_cumTailSumLin (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) :
+    cumTailSumLin F m v - nilpotentShiftLinGen F m (cumTailSumLin F m v) = v := by
+  -- Closed form for `nilpotentShiftLinGen` applied to `cumTailSumLin F m v`.
+  have hN : ∀ j : Fin (m + 1),
+      nilpotentShiftLinGen F m (cumTailSumLin F m v) j =
+      if h : j.val + 1 < m + 1 then cumTailSumLin F m v ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext ⟨i, hi⟩
+  rw [Pi.sub_apply, hN]
+  by_cases h : i + 1 < m + 1
+  · simp only [dif_pos h]
+    rw [cumTailSumLin_apply_succ _ _ _ _ h]
+    ring
+  · have hi_eq_m : i = m := by omega
+    subst hi_eq_m
+    simp only [show ¬(i + 1 < i + 1) by omega, dite_false, sub_zero]
+    have hidx : (⟨i, hi⟩ : Fin (i + 1)) = ⟨i, lt_add_one i⟩ := rfl
+    rw [hidx, cumTailSumLin_apply_last]
+
 /-! ## Shared γ-preimage untwisting lemma
 
 The mixed-direction branch-vertex configuration in the D̃-family

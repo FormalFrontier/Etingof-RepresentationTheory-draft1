@@ -347,6 +347,112 @@ theorem gammaInv_embed1_plus_embedNshift_F (F : Type) [Field F] (m : ℕ)
     LinearMap.sub_apply]
   rw [hP1, hP2, cumTailSumLin_oneSubNilp, sub_self, map_zero, zero_add]
 
+/-! ## Section 5d′: γ-equivalence packaging
+
+`d5tildeGamma_F` is a genuine linear isomorphism with closed-form inverse
+`d5tildeGammaInv_F`. The two compositions reduce, via the embed-decomposition
+(`center_decomp_F`) and the `γ` / `γ⁻¹` block identities, to the two-sided
+inversion facts `cumTailSumLin_oneSubNilp` (`M (I - N) = I`, for the
+left-inverse direction) and `oneSubNilp_cumTailSumLin` (`(I - N) M = I`, for
+the right-inverse direction).
+
+`d5tildeGammaEquiv_F` packages this as a `LinearEquiv` whose `.symm` *is*
+`d5tildeGammaInv_F` (definitionally, via `LinearEquiv.ofLinear`). This is the
+γ-equiv the shared untwisting lemma `linearEquiv_invariant_isCompl_symm_mem`
+(`FieldGenericStar.lean`) consumes to close the mixed-direction branch-vertex
+cases in the D̃-family leaf-equality proofs (d5 #2850, d6 #4551, d7 #4533,
+d8). It is shared by all four families, which reuse `d5tildeGamma_F` /
+`d5tildeGammaInv_F` for their `{2, 3}` γ edge. -/
+
+/-- General closed form of `d5tildeGammaInv_F` on an embed-decomposed input:
+`γ⁻¹(e₁ a + e₂ b) = e₁ (a - M (a - b)) + e₂ (M (a - b))`, `M = cumTailSumLin`.
+Subsumes `gammaInv_embed1_plus_embed2_F` (`b = a`) and
+`gammaInv_embed1_plus_embedNshift_F` (`b = N a`). -/
+theorem gammaInv_embed_general_F (F : Type) [Field F] (m : ℕ)
+    (a b : Fin (m + 1) → F) :
+    d5tildeGammaInv_F F m (starEmbed1_F F m a + starEmbed2_F F m b) =
+      starEmbed1_F F m (a - cumTailSumLin F m (a - b)) +
+        starEmbed2_F F m (cumTailSumLin F m (a - b)) := by
+  have hP1 : starFirst_F F m (starEmbed1_F F m a + starEmbed2_F F m b) = a := by
+    rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero]
+  have hP2 : starSecond_F F m (starEmbed1_F F m a + starEmbed2_F F m b) = b := by
+    rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add]
+  simp only [d5tildeGammaInv_F, LinearMap.add_apply, LinearMap.comp_apply,
+    LinearMap.sub_apply]
+  rw [hP1, hP2]
+
+/-- Right inverse: `γ (γ⁻¹ w) = w`. Needs `(I - N) M = I`
+(`oneSubNilp_cumTailSumLin`). -/
+theorem d5tildeGamma_gammaInv_F (F : Type) [Field F] (m : ℕ)
+    (w : Fin (2 * (m + 1)) → F) :
+    d5tildeGamma_F F m (d5tildeGammaInv_F F m w) = w := by
+  set a := starFirst_F F m w with ha
+  set b := starSecond_F F m w with hb
+  have hw : w = starEmbed1_F F m a + starEmbed2_F F m b := by
+    rw [ha, hb]; exact center_decomp_F F m w
+  rw [hw, gammaInv_embed_general_F, map_add, gamma_from_embed1_F,
+    gamma_from_embed2_F]
+  set q := cumTailSumLin F m (a - b) with hq
+  -- goal: (e₁ (a - q) + e₂ (a - q)) + (e₁ q + e₂ (N q)) = e₁ a + e₂ b
+  have hpq : (a - q) + q = a := by abel
+  have hpNq : (a - q) + nilpotentShiftLinGen F m q = b := by
+    have h : q - nilpotentShiftLinGen F m q = a - b := by
+      rw [hq]; exact oneSubNilp_cumTailSumLin F m (a - b)
+    have hrw : (a - q) + nilpotentShiftLinGen F m q
+        = a - (q - nilpotentShiftLinGen F m q) := by abel
+    rw [hrw, h]; abel
+  rw [show (starEmbed1_F F m (a - q) + starEmbed2_F F m (a - q)) +
+        (starEmbed1_F F m q + starEmbed2_F F m (nilpotentShiftLinGen F m q))
+        = starEmbed1_F F m ((a - q) + q) +
+            starEmbed2_F F m ((a - q) + nilpotentShiftLinGen F m q) from by
+      rw [map_add, map_add]; abel]
+  rw [hpq, hpNq]
+
+/-- Left inverse: `γ⁻¹ (γ w) = w`. Needs `M (I - N) = I`
+(`cumTailSumLin_oneSubNilp`). -/
+theorem d5tildeGammaInv_gamma_F (F : Type) [Field F] (m : ℕ)
+    (w : Fin (2 * (m + 1)) → F) :
+    d5tildeGammaInv_F F m (d5tildeGamma_F F m w) = w := by
+  set u := starFirst_F F m w with hu
+  set v := starSecond_F F m w with hv
+  have hw : w = starEmbed1_F F m u + starEmbed2_F F m v := by
+    rw [hu, hv]; exact center_decomp_F F m w
+  rw [hw, map_add, gamma_from_embed1_F, gamma_from_embed2_F]
+  -- now γ⁻¹ applied to (e₁ u + e₂ u) + (e₁ v + e₂ (N v))
+  rw [show (starEmbed1_F F m u + starEmbed2_F F m u) +
+        (starEmbed1_F F m v + starEmbed2_F F m (nilpotentShiftLinGen F m v))
+        = starEmbed1_F F m (u + v) +
+            starEmbed2_F F m (u + nilpotentShiftLinGen F m v) from by
+      rw [map_add, map_add]; abel]
+  rw [gammaInv_embed_general_F]
+  have hAB : (u + v) - (u + nilpotentShiftLinGen F m v)
+      = v - nilpotentShiftLinGen F m v := by abel
+  rw [hAB, cumTailSumLin_oneSubNilp, show (u + v) - v = u from by abel]
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- `d5tildeGamma_F` packaged as a linear isomorphism, with `.symm` equal to
+the closed-form inverse `d5tildeGammaInv_F` (definitionally). Consumed by the
+shared untwisting lemma `linearEquiv_invariant_isCompl_symm_mem` in the
+mixed-direction D̃-family leaf-equality branches. -/
+noncomputable def d5tildeGammaEquiv_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) ≃ₗ[F] (Fin (2 * (m + 1)) → F) :=
+  LinearEquiv.ofLinear (d5tildeGamma_F F m) (d5tildeGammaInv_F F m)
+    (LinearMap.ext fun w => by
+      simp only [LinearMap.comp_apply, LinearMap.id_apply]
+      exact d5tildeGamma_gammaInv_F F m w)
+    (LinearMap.ext fun w => by
+      simp only [LinearMap.comp_apply, LinearMap.id_apply]
+      exact d5tildeGammaInv_gamma_F F m w)
+
+@[simp] theorem d5tildeGammaEquiv_F_apply (F : Type) [Field F] (m : ℕ)
+    (w : Fin (2 * (m + 1)) → F) :
+    d5tildeGammaEquiv_F F m w = d5tildeGamma_F F m w := rfl
+
+@[simp] theorem d5tildeGammaEquiv_F_symm_apply (F : Type) [Field F] (m : ℕ)
+    (w : Fin (2 * (m + 1)) → F) :
+    (d5tildeGammaEquiv_F F m).symm w = d5tildeGammaInv_F F m w := rfl
+
 /-! ## Section 5e: Leaf subspace equalities
 
 The leaf-equality theorem `d5tildeRep_kQ_leaf_equalities` derives the four
