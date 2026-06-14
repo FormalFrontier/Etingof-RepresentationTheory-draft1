@@ -48,7 +48,7 @@ theorem youngSymEndomorphism_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
 /-! ## The character-determines-module gap (cited dependency)
 
 This is the only genuinely character-theoretic ingredient of the special-block
-lemma still open. See issue tracker for the dedicated follow-up. -/
+lemma still open. Tracked as the dedicated follow-up issue #4679. -/
 
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
@@ -81,6 +81,9 @@ theorem simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S' σ hv)) =
           spechtModuleCharacter n la σ) :
     Nonempty (↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S') := by
+  -- Cited dependency, tracked as issue #4679: classify each restrictScalars
+  -- module as a Specht module, use Specht character injectivity to pin both
+  -- labels to `la`, then transfer the SymGroupAlgebra-iso to a symGroupImage-iso.
   sorry
 
 /-! ## Existence and uniqueness of the special block -/
