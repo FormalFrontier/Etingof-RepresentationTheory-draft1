@@ -1954,6 +1954,23 @@ end Foo
 **Alternative**: Explicitly add the parameter to each declaration (the pattern
 used in this project's `cornerSubmodule_left_mul` etc.).
 
+### Calling a section-variabled lemma: don't guess positional args
+
+When you *apply* a lemma defined under a `variable (k : Type*) [Field k]
+(N n : ℕ)` block, the used section variables are prepended as **explicit**
+arguments in declaration order — so `foo` may really take `foo k N n M halg …`
+even though its written signature starts at `M`. The order is often
+non-obvious (a section `n` redeclared locally by an earlier lemma can drop out;
+an implicit-looking variable can be explicit and vice versa). Guessing
+positionally wastes build cycles on `Application type mismatch: argument … has
+type ℕ but is expected to have type FDRep …`.
+
+**Fix**: before the first call, run `#check @Namespace.foo` (in a throwaway file
+or scratch `#check`) to read the real binder list, then either match it
+positionally or pass the data argument by name (`foo (M := M) …`) and let the
+preceding section variables infer. Thirty seconds of `#check` beats four failed
+`lake build`s.
+
 ## When to Decompose vs. Attempt Directly
 
 **Decompose immediately** when:
