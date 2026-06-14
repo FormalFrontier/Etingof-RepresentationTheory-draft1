@@ -681,6 +681,40 @@ Reference implementation: `cycleRep_isIndecomposable` (lines 304-372).
 **Critical:** The m ≥ 1 hypothesis is essential. For m = 0, the nilpotent is zero and
 the representations are genuinely decomposable (issues #2342, #2374, #2376).
 
+### Refuting indecomposability (counterexample-first)
+
+Single-twist D̃/Ẽ `_kQ` indecomposability theorems are frequently **false** for
+reversed-leaf orientations (issue #4566: `starRep_kQ_isIndecomposable` is false
+when the diagonal leaf is reversed). Before grinding a `sorry` on
+`<X>Rep_kQ_isIndecomposable`, try to refute it at `m = 1`. Worked, sorry-free
+example: `starRep_kQ_reversedLeaf3_decomposable` (`FieldGenericStar.lean`).
+
+`IsIndecomposable` is `(∃ v, Nontrivial) ∧ (∀ W₁ W₂, inv₁ → inv₂ → compl → all-⊥)`.
+To refute, exhibit explicit invariant complementary `W₁ W₂` with neither
+everywhere `⊥`: `rintro ⟨-, hno⟩; have := hno W₁ W₂ ?inv1 ?inv2 ?compl` then derive
+a contradiction from a vertex where both are nonzero. Reusable helpers
+`isCompl_coordLines_two` / `isCompl_coordPlanes_four` (in `FieldGenericStar.lean`)
+give `IsCompl` for coordinate-axis spans.
+
+Three non-obvious Lean gotchas when building such counterexamples:
+
+1. **Ambient `Quiver` instance interference.** Outside the
+   `attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+   CategoryTheory.ReflQuiver.toQuiver in` guard, a spurious category `Quiver`
+   instance is active. `rw` with `ReversedAtVertexHom_eq_*` lemmas then fails to
+   match — pass the base quiver explicitly:
+   `rw [@Etingof.ReversedAtVertexHom_eq_eq (Fin n) _ starQuiver i a b ha hb]`.
+   Also `reversedAtVertex` is noncomputable: use `@[reducible] noncomputable def`,
+   not `abbrev`, for a named oriented quiver.
+2. **`simp only [matchDef]` does not reduce a `match` on `Fin` literals.**
+   `starRepMap_kQ F 1 1 0` will not rewrite to `starEmbed1_F F 1` via simp.
+   Convert the map by a defeq `show starEmbed1_F F 1 x ∈ _` (do this *before*
+   destructuring `x`, to avoid cross-type `HAdd` errors in the `show`).
+3. **Arrow case order + empty Homs.** After `fin_cases a <;> fin_cases b`, arrow
+   goals appear in `(a,b)` lexicographic order (e.g. `(0,3)` before `(1,0)`). In a
+   `reversedAtVertex` orientation every non-arrow pair has empty Hom, closable
+   uniformly by `first | exact absurd e.down (by decide) | skip`.
+
 ### Dimension Vector Pattern
 
 Track dimension vectors `(dim V, dim V₁, ..., dim Vₙ)` as the primary classification tool. Indecomposability constraints on dimension vectors are often finite and enumerable.
