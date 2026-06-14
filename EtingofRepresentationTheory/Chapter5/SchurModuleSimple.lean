@@ -9,9 +9,8 @@ import EtingofRepresentationTheory.Chapter5.PrimitiveIdempotentSimplicity
 # Theorem 5.22.1 (Schur-Weyl L_i, part C-4c): the Schur module is a simple GL_N-rep.
 
 Final assembly step combining the algebraic core
-`schurModuleSubmodule_isSimple_centralizer` (the C-4a aggregation, sorry pending the
-parallel Schur-Weyl C-4a-i and C-4a-ii sub-issues) with the GL_N transfer
-`isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`
+`schurModuleSubmodule_isSimple_centralizer` (the C-4a aggregation, proved over `ℂ`)
+with the GL_N transfer `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`
 (C-4b, in `SchurWeylGLTransfer.lean`).
 
 The deliverable is `schurModule_isSimple`: simplicity of `SchurModule k N λ` as a
@@ -239,6 +238,8 @@ private theorem schurBlock_imageSubmoduleB_isSimple
 
 end CAggregation
 
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 800000 in
 /-- **Schur-Weyl L_i, part C-4a (aggregated, over ℂ).**
 
 The Schur module submodule `SchurModuleSubmodule ℂ N λ`, viewed as a
@@ -256,7 +257,50 @@ theorem schurModuleSubmodule_isSimple_centralizer
     IsSimpleModule
       (↥(diagonalActionImage ℂ (Fin N → ℂ) (∑ i, lam i)))
       (SchurModuleSubmodule ℂ N lam) := by
-  sorry
+  classical
+  have hN' : (∑ i, lam i) ≤ Module.finrank ℂ (Fin N → ℂ) := finrank_bound N lam hN
+  -- `diagonalActionImage = centralizer(symGroupImage)`.
+  have hBD : diagonalActionImage ℂ (Fin N → ℂ) (∑ i, lam i) =
+      Subalgebra.centralizer ℂ
+        (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i) :
+          Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)))) :=
+    (Theorem5_18_4_centralizers ℂ (Fin N → ℂ) (∑ i, lam i) hN').2
+  -- The interface result: `imageSubmoduleB c` is simple over the centralizer.
+  have h1 := schurBlock_imageSubmoduleB_isSimple N lam hlam hN
+  -- Ring iso induced by the subalgebra equality.
+  let φ : ↥(diagonalActionImage ℂ (Fin N → ℂ) (∑ i, lam i)) ≃+*
+      ↥(Subalgebra.centralizer ℂ
+        (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i) :
+          Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i))))) :=
+    (Subalgebra.equivOfEq _ _ hBD).toRingEquiv
+  haveI : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
+    ⟨by ext x; simpa using φ.symm_apply_apply x,
+      by ext x; simpa using φ.apply_symm_apply x⟩
+  haveI : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
+    ⟨by ext x; simpa using φ.apply_symm_apply x,
+      by ext x; simpa using φ.symm_apply_apply x⟩
+  -- The carrier identity `SchurModuleSubmodule = range c.val = imageSubmoduleB c`,
+  -- packaged as a `φ`-semilinear equiv.
+  let e : ↥(SchurModuleSubmodule ℂ N lam) ≃ₛₗ[φ.toRingHom]
+      ↥(imageSubmoduleB (youngSymElement ℂ N lam)) :=
+    { toFun := fun x => ⟨x.val, by rw [mem_imageSubmoduleB]; exact x.property⟩
+      map_add' := fun _ _ => rfl
+      map_smul' := fun a x => by
+        apply Subtype.ext
+        rw [schurModuleSubmodule_diagonalActionImage_smul_coe, SetLike.val_smul]
+        rfl
+      invFun := fun y => ⟨y.val, by
+        have hy := y.property; rw [mem_imageSubmoduleB] at hy; exact hy⟩
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl }
+  -- Transfer simplicity along the induced order isomorphism of submodule lattices.
+  have hso1 : IsSimpleOrder
+      (Submodule (↥(Subalgebra.centralizer ℂ
+        (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i) :
+          Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i))))))
+        ↥(imageSubmoduleB (youngSymElement ℂ N lam))) := h1.toIsSimpleOrder
+  have hso2 := (Submodule.orderIsoMapComap e).isSimpleOrder_iff.mpr hso1
+  exact { toIsSimpleOrder := hso2 }
 
 /-! ## Final assembly: `schurModule_isSimple` -/
 
