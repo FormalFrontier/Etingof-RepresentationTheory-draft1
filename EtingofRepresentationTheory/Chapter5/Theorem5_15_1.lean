@@ -2320,6 +2320,26 @@ private theorem specht_char_inner (n : ℕ) (ν μ : Nat.Partition n) :
   rw [mul_comm, hcard] at horth
   by_cases h : ν = μ <;> simp [h] at horth ⊢ <;> exact horth
 
+/-- **Specht character injectivity over ℂ.** Two Specht modules whose
+`σ`-characters agree pointwise carry the same partition label. This is the
+character-theoretic uniqueness underlying the special Schur-Weyl block: the
+inner product `∑_σ χ_μ(σ)·χ_ν(σ⁻¹) = n!·δ_{μ,ν}` (`specht_char_inner`) is
+nonzero exactly when `μ = ν`, so equal characters force `μ = ν`. -/
+theorem spechtModuleCharacter_injective (n : ℕ) {μ ν : Nat.Partition n}
+    (h : ∀ σ, spechtModuleCharacter n μ σ = spechtModuleCharacter n ν σ) : μ = ν := by
+  by_contra hne
+  have h1 := specht_char_inner n μ ν
+  have h2 := specht_char_inner n μ μ
+  rw [if_neg hne, mul_zero] at h1
+  rw [if_pos rfl, mul_one] at h2
+  have key : (∑ σ : Equiv.Perm (Fin n),
+        spechtModuleCharacter n μ σ * spechtModuleCharacter n ν σ⁻¹) =
+      ∑ σ : Equiv.Perm (Fin n),
+        spechtModuleCharacter n μ σ * spechtModuleCharacter n μ σ⁻¹ :=
+    Finset.sum_congr rfl fun σ _ => by rw [h σ⁻¹]
+  rw [key, h2] at h1
+  exact Nat.factorial_ne_zero n (by exact_mod_cast h1)
+
 /-- **Norm-squared identity**: ∑_ν L²_{νλ} = 1.
 Proof: n! · ∑L² = ∑_σ θ(σ)θ(σ⁻¹) = ∑_σ θ² = n!, cancel n!.
 Uses character orthonormality, cycle type invariance, and Cauchy bilinear identity. -/
