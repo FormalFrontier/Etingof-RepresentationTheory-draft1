@@ -226,6 +226,249 @@ theorem center3_sum_zero_F (F : Type) [Field F] (m : ℕ) (x0 x1 x2 : Fin (m + 1
       simp only [Fin.mk.injEq]; omega
     rwa [key] at hh
 
+/-! ## Section 0d: Canonical two-level leaf→center reduction (#4638, sub-1 of #4576)
+
+The canonical orientation of `etilde6Adj` points every arrow toward the center
+(`2→1→0`, `4→3→0`, `6→5→0`). Each arm composes its leaf→mid and mid→center maps
+into a single **injective** leaf→center embedding whose image is the arm's leaf
+line in the center (see `progress/etilde6-tube-matrices.md` §3-4):
+
+* arm A: `compA x = (0, x, x)` (blocks `c₁, c₂`), `= blockEmbed12_F ∘ starEmbedDiag_F`;
+* arm B: `compB x = (x, 0, x)` (blocks `c₀, c₂`), `= blockEmbed02_F ∘ starEmbedDiag_F`;
+* arm C: `compC x = (x, (λ•id+J) x, 0)` (blocks `c₀, c₁`), the eigenvalue site,
+  `= prefixBlockEmbed_F 2 3 ∘ starEmbedTube_F`.
+
+For any complementary subrepresentation-invariant pair, `forward_leaf_subspace_eq`
+applied to each (injective) composite pins the leaf datum to the center:
+`x ∈ W₁(leaf) ↔ compArm x ∈ W₁(0)`. These membership criteria are the two-level
+realization of deliverable 1 of #4638 — the leaf datum reduces through its mid to
+the center — and are what the indecomposability assembly (sub-C #4577) consumes at
+the eigenvalue site. -/
+
+/-- Arm-A leaf→center composite (canonical `2→1→0`): `x ↦ (0, x, x)`. -/
+noncomputable def etilde6CompA_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) :=
+  (blockEmbed12_F F m).comp (starEmbedDiag_F F m)
+
+/-- Arm-B leaf→center composite (canonical `4→3→0`): `x ↦ (x, 0, x)`. -/
+noncomputable def etilde6CompB_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) :=
+  (blockEmbed02_F F m).comp (starEmbedDiag_F F m)
+
+/-- Arm-C leaf→center composite (canonical `6→5→0`, eigenvalue site):
+`x ↦ (x, (λ•id+J) x, 0)`. -/
+noncomputable def etilde6CompC_F (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) :=
+  (prefixBlockEmbed_F F 2 3 m).comp (starEmbedTube_F F lam m)
+
+/-- Block-`1` projection is a left inverse of arm-A's composite (`(0,x,x) ↦ x`). -/
+theorem centerProj1_etilde6CompA_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    centerProj1_F F m (etilde6CompA_F F m x) = x := by
+  funext j
+  simp only [etilde6CompA_F, LinearMap.comp_apply, centerProj1_F, blockEmbed12_F,
+    starEmbedDiag_F, LinearMap.add_apply, Pi.add_apply, starEmbed1_F, starEmbed2_F,
+    LinearMap.coe_mk, AddHom.coe_mk]
+  split_ifs <;>
+    (try simp only [add_zero, zero_add]) <;>
+    first
+      | (exfalso; omega)
+      | rfl
+      | (congr 1; ext; simp; omega)
+      | (congr 1; ext; simp)
+
+/-- Block-`0` projection is a left inverse of arm-B's composite (`(x,0,x) ↦ x`). -/
+theorem centerProj0_etilde6CompB_F (F : Type) [Field F] (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    centerProj0_F F m (etilde6CompB_F F m x) = x := by
+  funext j
+  simp only [etilde6CompB_F, LinearMap.comp_apply, centerProj0_F, blockEmbed02_F,
+    starEmbedDiag_F, LinearMap.add_apply, Pi.add_apply, starEmbed1_F, starEmbed2_F,
+    LinearMap.coe_mk, AddHom.coe_mk]
+  split_ifs <;>
+    (try simp only [add_zero, zero_add]) <;>
+    first
+      | (exfalso; omega)
+      | rfl
+      | (congr 1; ext; simp; omega)
+      | (congr 1; ext; simp)
+
+/-- Block-`0` projection is a left inverse of arm-C's composite (`(x, Jx, 0) ↦ x`). -/
+theorem centerProj0_etilde6CompC_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    centerProj0_F F m (etilde6CompC_F F lam m x) = x := by
+  funext j
+  simp only [etilde6CompC_F, LinearMap.comp_apply, centerProj0_F, prefixBlockEmbed_F,
+    starEmbedTube_F, LinearMap.add_apply, Pi.add_apply, starEmbed1_F, starEmbed2_F,
+    LinearMap.coe_mk, AddHom.coe_mk]
+  split_ifs <;>
+    (try simp only [add_zero, zero_add]) <;>
+    first
+      | (exfalso; omega)
+      | rfl
+      | (congr 1; ext; simp; omega)
+      | (congr 1; ext; simp)
+
+theorem etilde6CompA_F_injective (F : Type) [Field F] (m : ℕ) :
+    Function.Injective (etilde6CompA_F F m) :=
+  Function.LeftInverse.injective (g := centerProj1_F F m) (centerProj1_etilde6CompA_F F m)
+
+theorem etilde6CompB_F_injective (F : Type) [Field F] (m : ℕ) :
+    Function.Injective (etilde6CompB_F F m) :=
+  Function.LeftInverse.injective (g := centerProj0_F F m) (centerProj0_etilde6CompB_F F m)
+
+theorem etilde6CompC_F_injective (F : Type) [Field F] (lam : F) (m : ℕ) :
+    Function.Injective (etilde6CompC_F F lam m) :=
+  Function.LeftInverse.injective (g := centerProj0_F F m) (centerProj0_etilde6CompC_F F lam m)
+
+/-- **Membership criterion from a forward (canonical) injective leaf→center
+embedding.** When both halves of a complementary pair satisfy
+`Wi_k.map e ≤ U_k`, a leaf vector lies in `Wi₁` iff its image lies in `U₁`. The
+forward direction is invariance; the reverse uses `forward_leaf_subspace_eq` to
+pin `Wi₁.map e = U₁ ⊓ range e` and injectivity to descend from the image. -/
+theorem leaf_center_mem_iff_of_forward
+    {F : Type*} [Field F] {V₀ Vᵢ : Type*}
+    [AddCommGroup V₀] [Module F V₀] [AddCommGroup Vᵢ] [Module F Vᵢ]
+    (e : Vᵢ →ₗ[F] V₀) (he : Function.Injective e)
+    (Wi₁ Wi₂ : Submodule F Vᵢ) (U₁ U₂ : Submodule F V₀)
+    (hWi : IsCompl Wi₁ Wi₂) (hU : IsCompl U₁ U₂)
+    (h1 : Wi₁.map e ≤ U₁) (h2 : Wi₂.map e ≤ U₂) (x : Vᵢ) :
+    x ∈ Wi₁ ↔ e x ∈ U₁ := by
+  constructor
+  · intro hx; exact h1 ⟨x, hx, rfl⟩
+  · intro hx
+    obtain ⟨e1, _⟩ := forward_leaf_subspace_eq e Wi₁ Wi₂ U₁ U₂ hWi hU h1 h2
+    have hmem : e x ∈ U₁ ⊓ LinearMap.range e :=
+      Submodule.mem_inf.mpr ⟨hx, LinearMap.mem_range_self e x⟩
+    rw [← e1] at hmem
+    obtain ⟨y, hy, hey⟩ := hmem
+    exact he hey ▸ hy
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Arm-A two-level membership criterion (canonical `2→1→0`): for a complementary
+invariant pair, `x ∈ W₁(leaf 2) ↔ (0,x,x) ∈ W₁(center 0)`. -/
+theorem etilde6_armA_criterion
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W1₁ W1₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (W2₁ W2₂ : Submodule F (Fin (m + 1) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc2 : IsCompl W2₁ W2₂)
+    (h21₁ : ∀ x ∈ W2₁, starEmbedDiag_F F m x ∈ W1₁)
+    (h10₁ : ∀ y ∈ W1₁, blockEmbed12_F F m y ∈ W0₁)
+    (h21₂ : ∀ x ∈ W2₂, starEmbedDiag_F F m x ∈ W1₂)
+    (h10₂ : ∀ y ∈ W1₂, blockEmbed12_F F m y ∈ W0₂)
+    (x : Fin (m + 1) → F) :
+    x ∈ W2₁ ↔ etilde6CompA_F F m x ∈ W0₁ := by
+  refine leaf_center_mem_iff_of_forward (etilde6CompA_F F m)
+    (etilde6CompA_F_injective F m) W2₁ W2₂ W0₁ W0₂ hc2 hc0 ?_ ?_ x
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde6CompA_F, LinearMap.comp_apply] using h10₁ _ (h21₁ z hz)
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde6CompA_F, LinearMap.comp_apply] using h10₂ _ (h21₂ z hz)
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Arm-B two-level membership criterion (canonical `4→3→0`): for a complementary
+invariant pair, `x ∈ W₁(leaf 4) ↔ (x,0,x) ∈ W₁(center 0)`. -/
+theorem etilde6_armB_criterion
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W3₁ W3₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (W4₁ W4₂ : Submodule F (Fin (m + 1) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc4 : IsCompl W4₁ W4₂)
+    (h43₁ : ∀ x ∈ W4₁, starEmbedDiag_F F m x ∈ W3₁)
+    (h30₁ : ∀ y ∈ W3₁, blockEmbed02_F F m y ∈ W0₁)
+    (h43₂ : ∀ x ∈ W4₂, starEmbedDiag_F F m x ∈ W3₂)
+    (h30₂ : ∀ y ∈ W3₂, blockEmbed02_F F m y ∈ W0₂)
+    (x : Fin (m + 1) → F) :
+    x ∈ W4₁ ↔ etilde6CompB_F F m x ∈ W0₁ := by
+  refine leaf_center_mem_iff_of_forward (etilde6CompB_F F m)
+    (etilde6CompB_F_injective F m) W4₁ W4₂ W0₁ W0₂ hc4 hc0 ?_ ?_ x
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde6CompB_F, LinearMap.comp_apply] using h30₁ _ (h43₁ z hz)
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde6CompB_F, LinearMap.comp_apply] using h30₂ _ (h43₂ z hz)
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Arm-C two-level membership criterion (canonical `6→5→0`, eigenvalue site): for
+a complementary invariant pair, `x ∈ W₁(leaf 6) ↔ (x, (λ•id+J)x, 0) ∈ W₁(center 0)`.
+This is the arm whose composite carries `λ•id+J`; sub-C feeds the resulting
+`jordanShiftLinGen`-coupled relation to `eigenvalue_jordan_invariant_compl_trivial_gen`. -/
+theorem etilde6_armC_criterion
+    (F : Type) [Field F] (lam : F) (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W5₁ W5₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (W6₁ W6₂ : Submodule F (Fin (m + 1) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc6 : IsCompl W6₁ W6₂)
+    (h65₁ : ∀ x ∈ W6₁, starEmbedTube_F F lam m x ∈ W5₁)
+    (h50₁ : ∀ y ∈ W5₁, prefixBlockEmbed_F F 2 3 m y ∈ W0₁)
+    (h65₂ : ∀ x ∈ W6₂, starEmbedTube_F F lam m x ∈ W5₂)
+    (h50₂ : ∀ y ∈ W5₂, prefixBlockEmbed_F F 2 3 m y ∈ W0₂)
+    (x : Fin (m + 1) → F) :
+    x ∈ W6₁ ↔ etilde6CompC_F F lam m x ∈ W0₁ := by
+  refine leaf_center_mem_iff_of_forward (etilde6CompC_F F lam m)
+    (etilde6CompC_F_injective F lam m) W6₁ W6₂ W0₁ W0₂ hc6 hc0 ?_ ?_ x
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde6CompC_F, LinearMap.comp_apply] using h50₁ _ (h65₁ z hz)
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde6CompC_F, LinearMap.comp_apply] using h50₂ _ (h65₂ z hz)
+
+/-! ### Coordinate-plane splits (mid→center, brick ingredient)
+
+The §3 brick argument (deliverable 2 of #4638) needs each center coordinate plane
+to split as `π_i = (W₁(0) ⊓ π_i) ⊕ (W₂(0) ⊓ π_i)`. This is `forward_leaf_subspace_eq`
+applied at the mid→center level: the mid pair `(W₁(mid), W₂(mid))` is complementary
+and its block embedding has image `π_i = range`, so the two intersections fill the
+plane and meet trivially. These pin the plane components of `W₁(0)` to the mid
+data and are the mid→center half of the two-level reduction (the leaf→center half
+is the membership criterion above). -/
+
+/-- Arm-A plane split (`π_A = ⟨c₁,c₂⟩ = range blockEmbed12_F`). -/
+theorem etilde6_armA_plane_split
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W1₁ W1₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc1 : IsCompl W1₁ W1₂)
+    (h10₁ : ∀ y ∈ W1₁, blockEmbed12_F F m y ∈ W0₁)
+    (h10₂ : ∀ y ∈ W1₂, blockEmbed12_F F m y ∈ W0₂) :
+    W1₁.map (blockEmbed12_F F m) = W0₁ ⊓ LinearMap.range (blockEmbed12_F F m) ∧
+      W1₂.map (blockEmbed12_F F m) = W0₂ ⊓ LinearMap.range (blockEmbed12_F F m) := by
+  refine forward_leaf_subspace_eq (blockEmbed12_F F m) W1₁ W1₂ W0₁ W0₂ hc1 hc0 ?_ ?_
+  · rintro _ ⟨y, hy, rfl⟩; exact h10₁ y hy
+  · rintro _ ⟨y, hy, rfl⟩; exact h10₂ y hy
+
+/-- Arm-B plane split (`π_B = ⟨c₀,c₂⟩ = range blockEmbed02_F`). -/
+theorem etilde6_armB_plane_split
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W3₁ W3₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc3 : IsCompl W3₁ W3₂)
+    (h30₁ : ∀ y ∈ W3₁, blockEmbed02_F F m y ∈ W0₁)
+    (h30₂ : ∀ y ∈ W3₂, blockEmbed02_F F m y ∈ W0₂) :
+    W3₁.map (blockEmbed02_F F m) = W0₁ ⊓ LinearMap.range (blockEmbed02_F F m) ∧
+      W3₂.map (blockEmbed02_F F m) = W0₂ ⊓ LinearMap.range (blockEmbed02_F F m) := by
+  refine forward_leaf_subspace_eq (blockEmbed02_F F m) W3₁ W3₂ W0₁ W0₂ hc3 hc0 ?_ ?_
+  · rintro _ ⟨y, hy, rfl⟩; exact h30₁ y hy
+  · rintro _ ⟨y, hy, rfl⟩; exact h30₂ y hy
+
+/-- Arm-C plane split (`π_C = ⟨c₀,c₁⟩ = range (prefixBlockEmbed_F 2 3)`). -/
+theorem etilde6_armC_plane_split
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W5₁ W5₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc5 : IsCompl W5₁ W5₂)
+    (h50₁ : ∀ y ∈ W5₁, prefixBlockEmbed_F F 2 3 m y ∈ W0₁)
+    (h50₂ : ∀ y ∈ W5₂, prefixBlockEmbed_F F 2 3 m y ∈ W0₂) :
+    W5₁.map (prefixBlockEmbed_F F 2 3 m) =
+        W0₁ ⊓ LinearMap.range (prefixBlockEmbed_F F 2 3 m) ∧
+      W5₂.map (prefixBlockEmbed_F F 2 3 m) =
+        W0₂ ⊓ LinearMap.range (prefixBlockEmbed_F F 2 3 m) := by
+  refine forward_leaf_subspace_eq (prefixBlockEmbed_F F 2 3 m) W5₁ W5₂ W0₁ W0₂ hc5 hc0 ?_ ?_
+  · rintro _ ⟨y, hy, rfl⟩; exact h50₁ y hy
+  · rintro _ ⟨y, hy, rfl⟩; exact h50₂ y hy
+
 /-! ## Section 1: F-generic forward maps for Ẽ₆
 
 F-generic versions of the ℂ-specific maps used in `etilde6v2RepMap`
