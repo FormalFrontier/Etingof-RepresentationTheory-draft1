@@ -817,6 +817,73 @@ private theorem scalarGL_acts_as_pow (n : ℕ)
   -- `h_span` propagates this to all of `M`.
   sorry
 
+/-- **det⁻¹ elimination proper (the genuine `h_span` content of issue #4654).**
+On a *genuinely polynomial* algebraic representation — one whose `ℕ`-indexed
+weight spaces span `M` (`h_span`) — the algebraic-representation matrix
+coefficients, a priori living in `k[Xᵢⱼ, D]` with `D = det⁻¹`, are already
+*bare-entry* polynomials in `k[Xᵢⱼ]`: the `det⁻¹` variable can be eliminated.
+
+This is the hard mathematical core (Etingof Theorem 5.23.2(i), polynomial case):
+`h_span` is *essential* and `h_scalar` alone is **insufficient**. The naive
+"clear the denominator `P = Q/det^r`, match the scaling degree, conclude `r = 0`"
+argument only shows each cleared numerator `Q` is *multi-homogeneous* (degree
+`s + μ(a)ᵢ` in row `i`, `s + μ(c)ⱼ` in column `j`); multi-homogeneity does **not**
+imply `det^s ∣ Q` (e.g. `N = 2, s = 1`: `α·g₁₁g₂₂ + β·g₁₂g₂₁` is row/column
+multi-homogeneous of degree `1` but `det = g₁₁g₂₂ - g₁₂g₂₁` divides it only when
+`α = -β`). Divisibility — equivalently, that the rep extends to the matrix monoid
+`Mₙ(k)`, equivalently nonnegativity of *all* weights — is exactly the global
+representation structure supplied by `h_span` (the `Sym²(V) ⊗ det⁻¹`
+counterexample, with ℤ-weights `(1,-1),(0,0),(-1,1)`, fails `h_span` precisely
+because its negative-entry weights leave the `ℕ`-indexed weight spaces
+non-spanning). No homogeneity is asserted here; that is `matrixCoeff_isHomogeneous`.
+
+TODO (issue #4654 sub, det⁻¹ elimination): the genuine proof. Routes: (a) book's
+structural route — `R` (the matrix-coefficient ring) decomposes through
+`Sⁿ(V ⊗ V*) ⊗ (∧ᴺV*)^s` and `h_span` forces `s = 0`; (b) monoid-extension —
+`ρ : GLₙ → GL(M)` with all weights `≥ 0` extends to `Mₙ(k) → End(M)`, whose
+matrix coefficients are the bare polynomials. -/
+private theorem detInv_elim_of_polynomial (n : ℕ) [CharZero k] [IsAlgClosed k]
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤) :
+    ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
+       (Q : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
+         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) a c,
+           b.repr (M.ρ g (b c)) a =
+             MvPolynomial.eval
+               (fun ij : Fin N × Fin N =>
+                 (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+               (Q a c) := by
+  -- The det⁻¹-elimination core; see the docstring for why `h_span` is needed.
+  sorry
+
+/-- **Homogeneity extraction.** Once the `det⁻¹` variable has been eliminated
+(`detInv_elim_of_polynomial`), the bare-entry matrix-coefficient polynomials `Q`
+are automatically **homogeneous of degree `n`**, provided the scalar matrix acts
+by `t ^ n` (`h_scalar`).
+
+Unlike the det⁻¹ elimination, this step is purely formal: each matrix coefficient
+`f(g) = b.repr (M.ρ g (b c)) a = eval g (Q a c)` satisfies `f(t • g) = tⁿ f(g)`
+(from `h_scalar` and `M.ρ.map_mul`, since `scalarGL t * g = t • g`), so on each
+homogeneous component `Qᵈ` of `Q` the identity
+`∑ᵈ tᵈ · eval g Qᵈ = tⁿ · eval g Q` holds for all `t ∈ kˣ`; as a univariate
+polynomial in `t` with infinitely many (all of `kˣ`) roots it vanishes, forcing
+`eval g Qᵈ = 0` for `d ≠ n` on all of `GL`, hence `Qᵈ = 0` by
+`eq_of_eval_eq_on_gl`, i.e. `Q` is homogeneous of degree `n`. -/
+private theorem matrixCoeff_isHomogeneous (n : ℕ) [CharZero k] [IsAlgClosed k]
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (h_scalar : ∀ t : kˣ, M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id)
+    {d : ℕ} (b : Module.Basis (Fin d) k M)
+    (Q : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k)
+    (hQ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) a c,
+           b.repr (M.ρ g (b c)) a =
+             MvPolynomial.eval
+               (fun ij : Fin N × Fin N =>
+                 (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+               (Q a c))
+    (a c : Fin d) : (Q a c).IsHomogeneous n := by
+  sorry
+
 /-- **Piece 2 of `det⁻¹` elimination — assembly given the scalar action.**
 On a *polynomial* (all weights nonnegative) representation whose scalar matrix
 acts by `t ^ n` (`h_scalar`, Piece 1 `scalarGL_acts_as_pow`), the
@@ -862,11 +929,12 @@ private theorem hpoly'_of_scalarGL_action (n : ℕ)
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (P a c)) := by
-  -- TODO (issue #4654): clear the `det⁻¹` denominator and use the scaling
-  -- behaviour to force the homogeneous degree, then `eq_of_eval_eq_on_gl`.
-  -- `h_span` supplies the weight-nonnegativity that forces the `det⁻¹` exponent
-  -- `r = 0`; without it the statement is false (see docstring counterexample).
-  sorry
+  -- Assemble: eliminate `det⁻¹` (`detInv_elim_of_polynomial`, the `h_span` core),
+  -- then read off homogeneity of the bare-entry polynomials
+  -- (`matrixCoeff_isHomogeneous`, formal from `h_scalar`).
+  obtain ⟨d, b, Q, hQ⟩ := detInv_elim_of_polynomial k N n M halg h_span
+  exact ⟨d, b, Q,
+    fun a c => matrixCoeff_isHomogeneous k N n M h_scalar b Q hQ a c, hQ⟩
 
 /-- **Weight-homogeneity kills the `det⁻¹` variable (issue #4598 core).**
 A weight-homogeneous-of-degree-`n` algebraic `GL_N`-representation `M` has its
