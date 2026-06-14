@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.PolynomialTensorBridge
 import EtingofRepresentationTheory.Chapter5.Definition5_23_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 
 /-!
 # Polynomial GL_N-rep embedding into a tensor power (Schur-Weyl #2b)
@@ -761,5 +762,64 @@ theorem polynomialRep_embeds_in_tensorPower' (n : ℕ)
   obtain ⟨d, b, P, hhom, hP⟩ := hpoly'
   exact polynomialRep_embeds_in_tensorPower k N n ρ halg
     ⟨d, b, P, hhom, hP, fun g a c' => hP_mul_of_hP k N b P ρ hP g a c'⟩
+
+/-- **Weight-homogeneity kills the `det⁻¹` variable (issue #4598 core).**
+A weight-homogeneous-of-degree-`n` algebraic `GL_N`-representation `M` has its
+matrix coefficients given, in a suitable basis, by **homogeneous degree-`n`
+polynomials in the bare matrix entries** `Fin N × Fin N` — i.e. the raw
+`hpoly'` witness consumed by `polynomialRep_embeds_in_tensorPower'`.
+
+This bridges `Etingof.IsAlgebraicRepresentation` (matrix coefficients in
+`k[Xᵢⱼ, D]`, `D = det⁻¹`, no homogeneity) to the bare-entry homogeneous data.
+
+Proof strategy (the genuine mathematical content, deferred — see issue #4598
+decomposition): evaluate the matrix-coefficient identity at the scalar matrix
+`t • 1 = ∏ᵢ diagUnit i t`. Since `M` is algebraic over an algebraically closed
+field of characteristic zero, the diagonal torus acts diagonalisably, so the
+weight spaces span `M` and `M.ρ (t • 1) = t^n • id` (each weight `μ` has
+`∑ μ = n` by `h_homog`). Hence every matrix coefficient `g ↦ b.repr (ρ g (b c))
+a` is homogeneous of degree `n` under `g ↦ t • g`. Writing the algebraic-rep
+polynomial `P a c` over `GLCoordVars = (Fin N × Fin N) ⊕ Unit` as
+`Q / det^r` with `Q` homogeneous, homogeneity forces the `det⁻¹` exponent to
+`0` and the entry-degree to exactly `n` (clear denominators, then use Zariski
+density of `GL` in `Matrix` via `MvPolynomial.eq_of_eval_eq_on_gl`), yielding
+the bare-entry degree-`n` polynomial. -/
+theorem polynomialRep_homogeneous_hpoly'
+    [CharZero k] [IsAlgClosed k]
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
+    ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
+       (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
+         (∀ a c, (P a c).IsHomogeneous n) ∧
+         (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) a c,
+           b.repr (M.ρ g (b c)) a =
+             MvPolynomial.eval
+               (fun ij : Fin N × Fin N =>
+                 (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+               (P a c)) := by
+  sorry
+
+/-- **A weight-homogeneous-of-degree-`n` algebraic `GL_N`-rep embeds
+`GL_N`-equivariantly into `(V^{⊗n})^m`** (issue #4598, FDRep-facing corollary
+of `polynomialRep_embeds_in_tensorPower'`). The det⁻¹ elimination is supplied
+by `polynomialRep_homogeneous_hpoly'`; the equivariant embedding then follows
+from the primed embedding lemma. Downstream: the Schur-Weyl #5 assembly
+(issue #2482) views `(Fin m → TensorPower …)` as the ambient semisimple
+`(V^{⊗n})^m`. -/
+theorem polynomial_homog_rep_equivariant_embedding
+    [CharZero k] [IsAlgClosed k]
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
+    ∃ (m : ℕ) (φ : M →ₗ[k] (Fin m → TensorPower k (StdV k N) n)),
+      Function.Injective φ ∧
+      (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (x : M) (i : Fin m),
+        φ (M.ρ g x) i =
+          PiTensorProduct.map
+            (fun _ : Fin n => Matrix.toLin' (g : Matrix (Fin N) (Fin N) k))
+            (φ x i)) := by
+  obtain ⟨d, b, P, hhom, hP⟩ := polynomialRep_homogeneous_hpoly' k N M halg h_homog
+  exact polynomialRep_embeds_in_tensorPower' k N n M.ρ halg ⟨d, b, P, hhom, hP⟩
 
 end Etingof.PolynomialRepEmbedding
