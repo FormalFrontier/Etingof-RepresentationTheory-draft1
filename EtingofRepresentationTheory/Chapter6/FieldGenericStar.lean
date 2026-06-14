@@ -1154,4 +1154,78 @@ theorem linearEquiv_invariant_isCompl_symm_mem
   rw [← hsum, ha₂0, add_zero]
   exact ha₁
 
+/-! ## Section: Decomposability counterexample for the reversed diagonal leaf
+
+`starRep_kQ_isIndecomposable` (above) is **false**: for the orientation `Q`
+that reverses the diagonal leaf 3 (`reversedAtVertex starQuiver 3`), the
+representation `starRep_kQ F Q hOrient m` is **decomposable** for every `m ≥ 1`.
+This section formalises the explicit `m = 1` complementary invariant pair from
+issue #4566, machine-checking the refutation.
+
+The mechanism (issue #4566): reversing leaf 3 turns its edge map from the
+diagonal embed `starEmbedDiag_F` (range `L₃ = Δ`, the coupling that makes the
+canonical D̃₄ rigid) into the projection `starProj3_F = starSecond_F`. The four
+leaf images `L₁, L₂, L₄` still split under the center pair `(U₁, U₂)`, but `L₃`
+is never forced to split — so an idempotent `A` commuting with the regular
+nilpotent is no longer forced to lie in `{0, 1}`, and a nontrivial summand
+appears. -/
+
+/-- Two distinct standard coordinate lines are complementary in `Fin 2 → F`. -/
+theorem isCompl_coordLines_two (F : Type) [Field F] :
+    IsCompl (Submodule.span F {(![1, 0] : Fin 2 → F)})
+            (Submodule.span F {(![0, 1] : Fin 2 → F)}) := by
+  refine ⟨?_, ?_⟩
+  · rw [Submodule.disjoint_def]
+    rintro x hx hx2
+    rw [Submodule.mem_span_singleton] at hx hx2
+    obtain ⟨a, ha⟩ := hx
+    obtain ⟨b, hb⟩ := hx2
+    have hx0 : x 0 = 0 := by rw [← hb]; simp
+    have hx1 : x 1 = 0 := by rw [← ha]; simp
+    funext i; fin_cases i
+    · simpa using hx0
+    · simpa using hx1
+  · rw [codisjoint_iff, eq_top_iff]
+    intro x _
+    have hx : x = x 0 • (![1, 0] : Fin 2 → F) + x 1 • (![0, 1] : Fin 2 → F) := by
+      funext i; fin_cases i <;> simp
+    rw [hx]
+    exact Submodule.add_mem_sup
+      (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
+      (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
+
+/-- The two coordinate planes `span{e₀, e₃}` and `span{e₁, e₂}` are
+complementary in `Fin 4 → F`. -/
+theorem isCompl_coordPlanes_four (F : Type) [Field F] :
+    IsCompl (Submodule.span F {(![1, 0, 0, 0] : Fin 4 → F), ![0, 0, 0, 1]})
+            (Submodule.span F {(![0, 1, 0, 0] : Fin 4 → F), ![0, 0, 1, 0]}) := by
+  refine ⟨?_, ?_⟩
+  · rw [Submodule.disjoint_def]
+    rintro x hx hx2
+    rw [Submodule.mem_span_pair] at hx hx2
+    obtain ⟨s, t, hst⟩ := hx
+    obtain ⟨u, v, huv⟩ := hx2
+    have h0 : x 0 = 0 := by rw [← huv]; simp
+    have h1 : x 1 = 0 := by rw [← hst]; simp
+    have h2 : x 2 = 0 := by rw [← hst]; simp
+    have h3 : x 3 = 0 := by rw [← huv]; simp
+    funext i; fin_cases i
+    · simpa using h0
+    · simpa using h1
+    · simpa using h2
+    · simpa using h3
+  · rw [codisjoint_iff, eq_top_iff]
+    intro x _
+    have hx : x = (x 0 • (![1, 0, 0, 0] : Fin 4 → F) + x 3 • ![0, 0, 0, 1])
+        + (x 1 • (![0, 1, 0, 0] : Fin 4 → F) + x 2 • ![0, 0, 1, 0]) := by
+      funext i; fin_cases i <;> simp
+    rw [hx]
+    refine Submodule.add_mem_sup ?_ ?_
+    · exact Submodule.add_mem _
+        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
+        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
+    · exact Submodule.add_mem _
+        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
+        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
+
 end Etingof
