@@ -143,8 +143,10 @@ def run(rowOf, colOf, sigma, w, label):
     # with tab(a)=t.
     def colstd_rep(t):
         reps = [a for a in allp if tab(a) == t and isColStd(a)]
-        assert len(reps) == 1, (t, len(reps))
-        return reps[0]
+        # A tabloid can have several column-standard representatives; any one
+        # works for the peel (generalizedPolytabloidTab_leading_tabloid holds
+        # for every column-standard rep). Return one if it exists.
+        return reps[0] if reps else None
 
     # dominance order on tabloids: pick a maximal support tabloid.
     def dom_tab(t1, t2):
