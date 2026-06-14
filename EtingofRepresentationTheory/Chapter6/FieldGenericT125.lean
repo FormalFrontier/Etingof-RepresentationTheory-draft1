@@ -371,6 +371,105 @@ theorem t125Rep_kQ_dimVec
       (t125Rep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (t125Dim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 3b: Orientation-canonical flag-collapse helpers (sub-B1 of #4612)
+
+The two flag arms enter the center as nested coordinate flags: arm 2 is the
+**prefix** flag `3 → 2 → 0`, arm 3 the **suffix** flag `8 → 7 → 6 → 5 → 4 → 0`.
+For the *canonical* orientation (every arrow pointing toward the center), a
+subrep-invariant family `W` carries each arm vertex into the corresponding
+prefix/suffix blocks of the center `W ⟨0⟩`. These helpers fold the per-edge
+invariance facts into a single arm→center containment using the landed
+composition laws (`prefixBlockEmbed_comp_F` / `suffixBlockEmbed_comp_F`).
+
+They are the orientation-canonical building blocks consumed by the
+all-canonical branch of `t125Rep_kQ_leaf_equalities` (sub-B2, #4620): the
+flags collapse `W ⟨2⟩, W ⟨3⟩` (resp. `W ⟨4⟩, …, W ⟨8⟩`) onto blocks of
+`W ⟨0⟩`, where the arm-1 eigenvalue core deposits the `(λ • id + J)`-invariant
+pair (sub-C, #4613). Mirrors the `leaf_sub` shape inside
+`starTubeRepGen_isIndecomposable` (`FieldGenericTube.lean`), but the flag is a
+single chain (no cross-leaf overlap within an arm), so only forward
+composition is needed — the cross-arm disentangling lives at the center. -/
+
+/-- **Prefix-flag forward containment (arm 2, canonical `3 → 2 → 0`).** Given
+the two canonical prefix-edge invariance facts (`3 → 2` via
+`prefixBlockEmbed_F 2 4`, `2 → 0` via `prefixBlockEmbed_F 4 6`), the arm-2 leaf
+`W3` lands in the first two blocks of the center: `x ∈ W3` implies
+`prefixBlockEmbed_F 2 6 x ∈ W0`. The `2 → 0` containment is the hypothesis
+`hW_20`; this lemma supplies the composed `3 → 0` containment.
+
+Stated over explicit center/arm submodules (`W0`, `W2`, `W3`) rather than the
+rep family `W`, so it elaborates without unfolding `(t125Rep_kQ …).obj` and is
+reusable by the Ẽ₆/Ẽ₇ prefix flags too. Call sites pass `W ⟨0⟩`, `W ⟨2⟩`,
+`W ⟨3⟩`; the block dims match `t125Dim` by defeq. -/
+theorem t125_prefix_sub
+    (F : Type) [Field F] (m : ℕ)
+    (W0 : Submodule F (Fin (6 * (m + 1)) → F))
+    (W2 : Submodule F (Fin (4 * (m + 1)) → F))
+    (W3 : Submodule F (Fin (2 * (m + 1)) → F))
+    (hW_32 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W3 →
+        prefixBlockEmbed_F F 2 4 m x ∈ W2)
+    (hW_20 : ∀ (y : Fin (4 * (m + 1)) → F), y ∈ W2 →
+        prefixBlockEmbed_F F 4 6 m y ∈ W0) :
+    ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W3 →
+        prefixBlockEmbed_F F 2 6 m x ∈ W0 := by
+  intro x hx
+  have h0 := hW_20 _ (hW_32 x hx)
+  rwa [prefixBlockEmbed_comp_F F 2 4 6 m (by omega)] at h0
+
+/-- **Suffix-flag forward containment (arm 3, canonical `8 → 7 → 6 → 5 → 4 → 0`).**
+Given the five canonical suffix-edge invariance facts (`8 → 7` via
+`starEmbed2_F`, then `suffixBlockEmbed_F 2 3`, `3 4`, `4 5`, `5 6`), every arm-3
+vertex lands in the corresponding suffix blocks of the center. The `4 → 0`
+containment is the hypothesis `hW_40`; this lemma folds the remaining hops into
+the composed `5 → 0`, `6 → 0`, `7 → 0`, `8 → 0` containments. The leaf `W8`
+has dim `m + 1` (not `1 · (m + 1)`), so its hop uses `starEmbed2_F`; the
+result is left as the composite `suffixBlockEmbed_F 2 6 (starEmbed2_F x)`.
+
+Stated over explicit center/arm submodules (as `t125_prefix_sub`); call sites
+pass `W ⟨0⟩`, `W ⟨4⟩`, …, `W ⟨8⟩`. -/
+theorem t125_suffix_sub
+    (F : Type) [Field F] (m : ℕ)
+    (W0 : Submodule F (Fin (6 * (m + 1)) → F))
+    (W4 : Submodule F (Fin (5 * (m + 1)) → F))
+    (W5 : Submodule F (Fin (4 * (m + 1)) → F))
+    (W6 : Submodule F (Fin (3 * (m + 1)) → F))
+    (W7 : Submodule F (Fin (2 * (m + 1)) → F))
+    (W8 : Submodule F (Fin (m + 1) → F))
+    (hW_87 : ∀ (x : Fin (m + 1) → F), x ∈ W8 →
+        starEmbed2_F F m x ∈ W7)
+    (hW_76 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W7 →
+        suffixBlockEmbed_F F 2 3 m x ∈ W6)
+    (hW_65 : ∀ (x : Fin (3 * (m + 1)) → F), x ∈ W6 →
+        suffixBlockEmbed_F F 3 4 m x ∈ W5)
+    (hW_54 : ∀ (x : Fin (4 * (m + 1)) → F), x ∈ W5 →
+        suffixBlockEmbed_F F 4 5 m x ∈ W4)
+    (hW_40 : ∀ (x : Fin (5 * (m + 1)) → F), x ∈ W4 →
+        suffixBlockEmbed_F F 5 6 m x ∈ W0) :
+    (∀ (x : Fin (4 * (m + 1)) → F), x ∈ W5 →
+        suffixBlockEmbed_F F 4 6 m x ∈ W0) ∧
+    (∀ (x : Fin (3 * (m + 1)) → F), x ∈ W6 →
+        suffixBlockEmbed_F F 3 6 m x ∈ W0) ∧
+    (∀ (x : Fin (2 * (m + 1)) → F), x ∈ W7 →
+        suffixBlockEmbed_F F 2 6 m x ∈ W0) ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ W8 →
+        suffixBlockEmbed_F F 2 6 m (starEmbed2_F F m x) ∈ W0) := by
+  have h5 : ∀ (x : Fin (4 * (m + 1)) → F), x ∈ W5 →
+      suffixBlockEmbed_F F 4 6 m x ∈ W0 := by
+    intro x hx
+    have h := hW_40 _ (hW_54 x hx)
+    rwa [suffixBlockEmbed_comp_F F 4 5 6 m (by omega) (by omega)] at h
+  have h6 : ∀ (x : Fin (3 * (m + 1)) → F), x ∈ W6 →
+      suffixBlockEmbed_F F 3 6 m x ∈ W0 := by
+    intro x hx
+    have h := h5 _ (hW_65 x hx)
+    rwa [suffixBlockEmbed_comp_F F 3 4 6 m (by omega) (by omega)] at h
+  have h7 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W7 →
+      suffixBlockEmbed_F F 2 6 m x ∈ W0 := by
+    intro x hx
+    have h := h6 _ (hW_76 x hx)
+    rwa [suffixBlockEmbed_comp_F F 2 3 6 m (by omega) (by omega)] at h
+  exact ⟨h5, h6, h7, fun x hx => h7 _ (hW_87 x hx)⟩
+
 /-! ## Section 4: Indecomposability (corrected homogeneous tube)
 
 `t125Rep_kQ` is now the genuine homogeneous tube `R_λ^{(m+1)}` at the
