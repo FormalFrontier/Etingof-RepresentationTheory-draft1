@@ -267,6 +267,159 @@ theorem charValue_trivialCycleType_eq_frobeniusDetForm
         ((∏ j, (shiftedExps N lam.parts j).factorial : ℕ) : ℚ) := by
   sorry
 
+/-- The descending product `∏_{x < k} (k - x)` equals `k!`. -/
+private theorem prod_range_sub_eq_factorial (k : ℕ) :
+    ∏ x ∈ Finset.range k, (k - x) = k.factorial := by
+  rw [← Finset.prod_range_add_one_eq_factorial, ← Finset.prod_range_reflect (fun x => x + 1) k]
+  refine Finset.prod_congr rfl (fun x hx => ?_)
+  rw [Finset.mem_range] at hx
+  omega
+
+/-- The hook-length product is invariant under transporting the partition along
+an equality of its size index (the Young diagram, hence its hooks, does not
+depend on the size). -/
+private theorem hookLengthProduct_cast {a b : ℕ} (h : a = b) (p : Nat.Partition a) :
+    (h ▸ p).toYoungDiagram.hookLengthProduct = p.toYoungDiagram.hookLengthProduct := by
+  subst h; rfl
+
+/-- **Per-row Frame–Robinson–Thrall identity (the combinatorial heart of Part B).**
+
+For each row `i`, the row's hook lengths together with the first-column gaps
+`βᵢ − βₖ` (`k > i`, `β = shiftedExps`) form exactly `{1, …, βᵢ}`:
+
+  `(∏_{c < λᵢ} h(i,c)) · (∏_{k > i} (βᵢ − βₖ)) = βᵢ!`.
+
+Proof: both index sets inject into `range βᵢ` (the gaps as `k ↦ βₖ`, the hooks as
+`c ↦ βᵢ − h(i,c) = c + #{r > i : λᵣ ≤ c} =: g c`); they are disjoint and have
+total size `λᵢ + (N−1−i) = βᵢ`, so they partition `range βᵢ`. Then
+`∏_{x < βᵢ}(βᵢ − x) = βᵢ!`. Disjointness reduces to two monotone leg-count
+bounds: for `k > i`, `g c > βₖ` when `λₖ ≤ c` and `g c < βₖ` when `c < λₖ`. -/
+private theorem row_hook_gap_prod_eq_factorial (N : ℕ) {n : ℕ} (lam : BoundedPartition N n)
+    (i : Fin N) :
+    (∏ c ∈ Finset.range (lam.parts i),
+        (weightToPartition N lam.parts).toYoungDiagram.hookLength i c) *
+      (∏ k ∈ Finset.Ioi i,
+        (shiftedExps N lam.parts i - shiftedExps N lam.parts k)) =
+      (shiftedExps N lam.parts i).factorial := by
+  classical
+  set β := shiftedExps N lam.parts with hβdef
+  have hβanti : StrictAnti β := by rw [hβdef]; exact shiftedExps_strictAnti lam
+  have hβinj : Function.Injective β := hβanti.injective
+  have hβi : β i = lam.parts i + (N - 1 - (i : ℕ)) := by rw [hβdef]; simp only [shiftedExps]
+  set g : ℕ → ℕ :=
+    fun c => c + ((Finset.Ioi i).filter (fun r => lam.parts r ≤ c)).card with hgdef
+  have hg_sm : StrictMono g := by
+    intro a b hab
+    have hcard : ((Finset.Ioi i).filter (fun r => lam.parts r ≤ a)).card ≤
+        ((Finset.Ioi i).filter (fun r => lam.parts r ≤ b)).card := by
+      apply Finset.card_le_card
+      intro r hr
+      rw [Finset.mem_filter] at hr ⊢
+      exact ⟨hr.1, le_trans hr.2 hab.le⟩
+    simp only [hgdef]
+    omega
+  have hg_inj : Function.Injective g := hg_sm.injective
+  set SA := (Finset.Ioi i).image β with hSA
+  set SB := (Finset.range (lam.parts i)).image g with hSB
+  have hSA_sub : SA ⊆ Finset.range (β i) := by
+    intro v hv
+    rw [hSA, Finset.mem_image] at hv
+    obtain ⟨k, hk, rfl⟩ := hv
+    rw [Finset.mem_range]
+    exact hβanti (Finset.mem_Ioi.mp hk)
+  have hSB_sub : SB ⊆ Finset.range (β i) := by
+    intro v hv
+    rw [hSB, Finset.mem_image] at hv
+    obtain ⟨c, hc, rfl⟩ := hv
+    rw [Finset.mem_range] at hc ⊢
+    have hBle : ((Finset.Ioi i).filter (fun r => lam.parts r ≤ c)).card ≤ (Finset.Ioi i).card :=
+      Finset.card_le_card (Finset.filter_subset _ _)
+    have hIoii : (Finset.Ioi i).card = N - 1 - (i : ℕ) := Fin.card_Ioi i
+    rw [hIoii] at hBle
+    simp only [hgdef]
+    rw [hβi]
+    omega
+  have hdisj : Disjoint SA SB := by
+    rw [Finset.disjoint_left]
+    intro v hvA hvB
+    rw [hSA, Finset.mem_image] at hvA
+    rw [hSB, Finset.mem_image] at hvB
+    obtain ⟨k, hk, hkv⟩ := hvA
+    obtain ⟨c, _, hcv⟩ := hvB
+    rw [Finset.mem_Ioi] at hk
+    have heq : β k = g c := by rw [hkv, hcv]
+    have hβk : β k = lam.parts k + (N - 1 - (k : ℕ)) := by rw [hβdef]; simp only [shiftedExps]
+    have hkN : (k : ℕ) < N := k.isLt
+    rcases Nat.lt_or_ge c (lam.parts k) with hkc | hkc
+    · -- `c < λₖ`: the leg count is at most `N − 1 − k`, so `g c < βₖ`.
+      have hle : ((Finset.Ioi i).filter (fun r => lam.parts r ≤ c)).card ≤ N - 1 - (k : ℕ) := by
+        have hIoik : (Finset.Ioi k).card = N - 1 - (k : ℕ) := Fin.card_Ioi k
+        rw [← hIoik]
+        apply Finset.card_le_card
+        intro s hs
+        rw [Finset.mem_filter, Finset.mem_Ioi] at hs
+        obtain ⟨_, hs2⟩ := hs
+        rw [Finset.mem_Ioi]
+        by_contra hcon
+        push_neg at hcon
+        have hmono := lam.decreasing hcon
+        omega
+      simp only [hgdef] at heq
+      omega
+    · -- `λₖ ≤ c`: the leg count is at least `N − k`, so `g c > βₖ`.
+      have hge : (N : ℕ) - (k : ℕ) ≤
+          ((Finset.Ioi i).filter (fun r => lam.parts r ≤ c)).card := by
+        have hIci : (Finset.Ici k).card = N - (k : ℕ) := Fin.card_Ici k
+        rw [← hIci]
+        apply Finset.card_le_card
+        intro s hs
+        rw [Finset.mem_Ici] at hs
+        rw [Finset.mem_filter, Finset.mem_Ioi]
+        exact ⟨lt_of_lt_of_le hk hs, le_trans (lam.decreasing hs) hkc⟩
+      simp only [hgdef] at heq
+      omega
+  have hcardSA : SA.card = N - 1 - (i : ℕ) := by
+    rw [hSA, Finset.card_image_of_injective _ hβinj]
+    exact Fin.card_Ioi i
+  have hcardSB : SB.card = lam.parts i := by
+    rw [hSB, Finset.card_image_of_injective _ hg_inj, Finset.card_range]
+  have hunion : SA ∪ SB = Finset.range (β i) := by
+    apply Finset.eq_of_subset_of_card_le (Finset.union_subset hSA_sub hSB_sub)
+    rw [Finset.card_range, Finset.card_union_of_disjoint hdisj, hcardSA, hcardSB, hβi]
+    omega
+  have hkey : ∀ c, c < lam.parts i →
+      β i - g c = (weightToPartition N lam.parts).toYoungDiagram.hookLength i c := by
+    intro c hc
+    have hcompl : ((Finset.Ioi i).filter (fun r => c < lam.parts r)).card +
+        ((Finset.Ioi i).filter (fun r => lam.parts r ≤ c)).card = N - 1 - (i : ℕ) := by
+      have hIoii : (Finset.Ioi i).card = N - 1 - (i : ℕ) := Fin.card_Ioi i
+      rw [← hIoii, ← Finset.card_filter_add_card_filter_not (s := Finset.Ioi i)
+            (p := fun r => c < lam.parts r)]
+      congr 1
+      apply congrArg Finset.card
+      apply Finset.filter_congr
+      intro r _
+      simp only [not_lt]
+    have hA : (Finset.univ.filter (fun r : Fin N => i < r ∧ c < lam.parts r)).card =
+        ((Finset.Ioi i).filter (fun r => c < lam.parts r)).card := by
+      congr 1
+      ext r
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_Ioi]
+    rw [hookLength_eq_arm_add_leg N lam i hc, hA]
+    simp only [hgdef]
+    rw [hβi]
+    omega
+  have hhook : (∏ c ∈ Finset.range (lam.parts i),
+        (weightToPartition N lam.parts).toYoungDiagram.hookLength i c)
+      = ∏ c ∈ Finset.range (lam.parts i), (β i - g c) := by
+    refine Finset.prod_congr rfl (fun c hc => ?_)
+    rw [Finset.mem_range] at hc
+    rw [← hkey c hc]
+  rw [hhook, ← prod_range_sub_eq_factorial (β i), ← hunion, Finset.prod_union hdisj,
+      hSA, hSB, Finset.prod_image (fun x _ y _ h => hβinj h),
+      Finset.prod_image (fun x _ y _ h => hg_inj h)]
+  exact mul_comm _ _
+
 /-- **Part B — the hook-length identity**
 (book `Discussion_hook_length_derivation`, lines 18–end).
 
@@ -281,7 +434,11 @@ theorem hookLengthProduct_mul_vandermonde_eq_prod_factorial
         (shiftedExps N lam.parts i - shiftedExps N lam.parts j) : ℕ) *
       (lam.sum_eq ▸ weightToPartition N lam.parts).toYoungDiagram.hookLengthProduct =
       (∏ j, (shiftedExps N lam.parts j).factorial : ℕ) := by
-  sorry
+  rw [hookLengthProduct_cast lam.sum_eq, hookLengthProduct_eq_prod_rows,
+      ← Finset.prod_mul_distrib]
+  refine Finset.prod_congr rfl (fun i _ => ?_)
+  rw [mul_comm]
+  exact row_hook_gap_prod_eq_factorial N lam i
 
 /-- The arithmetic that combines Part A (`n!·V/L`) and Part B (`V·H = L`) into the
 hook-length quotient `n!/H`, with the ℕ-division on the right cast to ℚ via
