@@ -182,6 +182,264 @@ noncomputable def etilde7Arm1Tube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
     + (blockEmbedAt_F F (2 * (m + 1)) m).comp (P + (Λ.comp Λ).comp Q)
     + (blockEmbedAt_F F (3 * (m + 1)) m).comp (P + (Λ.comp (Λ.comp Λ)).comp Q)
 
+/-! ## Section 2: Orientation-independent flag-collapse foundation (sub-B1, #4569)
+
+The 4-block analogue of the Ẽ₆ Section 0c/0d infrastructure
+(`FieldGenericETilde6.lean`). The center `F^{4(m+1)}` splits as four
+coordinate blocks `(c₀, c₁, c₂, c₃)`, each a copy of `F^{m+1}` placed by
+`blockEmbedAt_F` at offsets `0, m+1, 2(m+1), 3(m+1)`. The canonical arm-2
+prefix flag (`4→3→2→0`) deposits the leaf-4 datum into center **block 0**;
+the canonical arm-3 suffix flag (`7→6→5→0`) deposits the leaf-7 datum into
+center **block 3**. The arm-1 eigenvalue site (`etilde7Arm1Tube_F`) is the
+only coupling between block 0 and block 3 (design §7.3) and is handled
+separately by the orientation case-tree assembly (sub-B2, #4642), which
+consumes the block-projection, center-decomposition, and arm leaf→center
+membership criteria below. -/
+
+/-- Single-block projection `F^{4(m+1)} → F^{m+1}` reading the block at
+offset `o`: `w ↦ (w_o, …, w_{o+m})`. Left inverse of `blockEmbedAt_F o`
+when the block fits (`o + (m+1) ≤ 4(m+1)`). The projection counterpart of
+`blockEmbedAt_F`. -/
+noncomputable def blockProjAt_F (F : Type) [Field F] (o m : ℕ)
+    (ho : o + (m + 1) ≤ 4 * (m + 1)) :
+    (Fin (4 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨o + i.val, by have := i.isLt; omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- `blockProjAt_F o` is a left inverse of `blockEmbedAt_F o`: reading back
+the block just deposited returns the original datum. -/
+theorem blockProjAt_comp_embedAt_F (F : Type) [Field F] (o m : ℕ)
+    (ho : o + (m + 1) ≤ 4 * (m + 1)) (x : Fin (m + 1) → F) :
+    blockProjAt_F F o m ho (blockEmbedAt_F F o m x) = x := by
+  funext ⟨i, hi⟩
+  simp only [blockProjAt_F, blockEmbedAt_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_pos (show o ≤ o + i ∧ o + i < o + (m + 1) from ⟨Nat.le_add_right _ _, by omega⟩)]
+  congr 1
+  simp only [Fin.mk.injEq]; omega
+
+/-- Off-diagonal block projection vanishes: reading block `o` of a datum
+deposited in a disjoint block `o'` returns zero. -/
+theorem blockProjAt_embedAt_disjoint_F (F : Type) [Field F] (o o' m : ℕ)
+    (ho : o + (m + 1) ≤ 4 * (m + 1))
+    (hd : o + (m + 1) ≤ o' ∨ o' + (m + 1) ≤ o) (x : Fin (m + 1) → F) :
+    blockProjAt_F F o m ho (blockEmbedAt_F F o' m x) = 0 := by
+  funext ⟨i, hi⟩
+  simp only [blockProjAt_F, blockEmbedAt_F, LinearMap.coe_mk, AddHom.coe_mk, Pi.zero_apply]
+  rw [dif_neg (show ¬(o' ≤ o + i ∧ o + i < o' + (m + 1)) from by omega)]
+
+/-- Every center vector decomposes as the sum of its four single-block
+embeddings via the four block projections. The 4-block analogue of
+`center3_decomp_F` (`FieldGenericETilde6.lean`). -/
+theorem etilde7_center_decomp_F (F : Type) [Field F] (m : ℕ)
+    (w : Fin (4 * (m + 1)) → F) :
+    w = blockEmbedAt_F F 0 m (blockProjAt_F F 0 m (by omega) w) +
+        blockEmbedAt_F F (m + 1) m (blockProjAt_F F (m + 1) m (by omega) w) +
+        blockEmbedAt_F F (2 * (m + 1)) m (blockProjAt_F F (2 * (m + 1)) m (by omega) w) +
+        blockEmbedAt_F F (3 * (m + 1)) m (blockProjAt_F F (3 * (m + 1)) m (by omega) w) := by
+  ext ⟨j, hj⟩
+  simp only [Pi.add_apply, blockEmbedAt_F, blockProjAt_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases h0 : j < m + 1
+  · rw [dif_pos (show 0 ≤ j ∧ j < 0 + (m + 1) from ⟨Nat.zero_le _, by omega⟩),
+        dif_neg (show ¬(m + 1 ≤ j ∧ j < m + 1 + (m + 1)) from by omega),
+        dif_neg (show ¬(2 * (m + 1) ≤ j ∧ j < 2 * (m + 1) + (m + 1)) from by omega),
+        dif_neg (show ¬(3 * (m + 1) ≤ j ∧ j < 3 * (m + 1) + (m + 1)) from by omega),
+        add_zero, add_zero, add_zero]
+    congr 1; simp only [Fin.mk.injEq]; omega
+  · by_cases h1 : j < 2 * (m + 1)
+    · rw [dif_neg (show ¬(0 ≤ j ∧ j < 0 + (m + 1)) from by omega),
+          dif_pos (show m + 1 ≤ j ∧ j < m + 1 + (m + 1) from by omega),
+          dif_neg (show ¬(2 * (m + 1) ≤ j ∧ j < 2 * (m + 1) + (m + 1)) from by omega),
+          dif_neg (show ¬(3 * (m + 1) ≤ j ∧ j < 3 * (m + 1) + (m + 1)) from by omega),
+          add_zero, add_zero, zero_add]
+      congr 1; simp only [Fin.mk.injEq]; omega
+    · by_cases h2 : j < 3 * (m + 1)
+      · rw [dif_neg (show ¬(0 ≤ j ∧ j < 0 + (m + 1)) from by omega),
+            dif_neg (show ¬(m + 1 ≤ j ∧ j < m + 1 + (m + 1)) from by omega),
+            dif_pos (show 2 * (m + 1) ≤ j ∧ j < 2 * (m + 1) + (m + 1) from by omega),
+            dif_neg (show ¬(3 * (m + 1) ≤ j ∧ j < 3 * (m + 1) + (m + 1)) from by omega),
+            add_zero, zero_add, zero_add]
+        congr 1; simp only [Fin.mk.injEq]; omega
+      · rw [dif_neg (show ¬(0 ≤ j ∧ j < 0 + (m + 1)) from by omega),
+            dif_neg (show ¬(m + 1 ≤ j ∧ j < m + 1 + (m + 1)) from by omega),
+            dif_neg (show ¬(2 * (m + 1) ≤ j ∧ j < 2 * (m + 1) + (m + 1)) from by omega),
+            dif_pos (show 3 * (m + 1) ≤ j ∧ j < 3 * (m + 1) + (m + 1) from by omega),
+            zero_add, zero_add, zero_add]
+        congr 1; simp only [Fin.mk.injEq]; omega
+
+/-- The four single-block embeddings are disjoint at the center:
+`blockEmbedAt 0 x₀ + blockEmbedAt (m+1) x₁ + blockEmbedAt 2(m+1) x₂ +
+blockEmbedAt 3(m+1) x₃ = 0 → x₀ = x₁ = x₂ = x₃ = 0`. The 4-block analogue
+of `center3_sum_zero_F` (`FieldGenericETilde6.lean`). -/
+theorem etilde7_center_sum_zero_F (F : Type) [Field F] (m : ℕ)
+    (x0 x1 x2 x3 : Fin (m + 1) → F)
+    (h : blockEmbedAt_F F 0 m x0 + blockEmbedAt_F F (m + 1) m x1
+        + blockEmbedAt_F F (2 * (m + 1)) m x2 + blockEmbedAt_F F (3 * (m + 1)) m x3 = 0) :
+    x0 = 0 ∧ x1 = 0 ∧ x2 = 0 ∧ x3 = 0 := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · have hp := congrArg (blockProjAt_F F 0 m (by omega)) h
+    simpa only [map_add, map_zero, blockProjAt_comp_embedAt_F,
+      blockProjAt_embedAt_disjoint_F F 0 (m + 1) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F 0 (2 * (m + 1)) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F 0 (3 * (m + 1)) m (by omega) (by omega),
+      add_zero] using hp
+  · have hp := congrArg (blockProjAt_F F (m + 1) m (by omega)) h
+    simpa only [map_add, map_zero, blockProjAt_comp_embedAt_F,
+      blockProjAt_embedAt_disjoint_F F (m + 1) 0 m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (m + 1) (2 * (m + 1)) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (m + 1) (3 * (m + 1)) m (by omega) (by omega),
+      add_zero, zero_add] using hp
+  · have hp := congrArg (blockProjAt_F F (2 * (m + 1)) m (by omega)) h
+    simpa only [map_add, map_zero, blockProjAt_comp_embedAt_F,
+      blockProjAt_embedAt_disjoint_F F (2 * (m + 1)) 0 m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (2 * (m + 1)) (m + 1) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (2 * (m + 1)) (3 * (m + 1)) m (by omega) (by omega),
+      add_zero, zero_add] using hp
+  · have hp := congrArg (blockProjAt_F F (3 * (m + 1)) m (by omega)) h
+    simpa only [map_add, map_zero, blockProjAt_comp_embedAt_F,
+      blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) 0 m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) (m + 1) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) (2 * (m + 1)) m (by omega) (by omega),
+      add_zero, zero_add] using hp
+
+/-- Arm-2 (prefix flag) leaf-4 → center composite for the canonical
+orientation `4→3→2→0`:
+`x ↦ (x, 0, 0, 0)`, i.e. the chain
+`prefixBlockEmbed_F 3 4 ∘ prefixBlockEmbed_F 2 3 ∘ starEmbed1_F`. Its image
+is the leaf-4 line in center block 0. -/
+noncomputable def etilde7PrefixArmComp_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) :=
+  (prefixBlockEmbed_F F 3 4 m).comp ((prefixBlockEmbed_F F 2 3 m).comp (starEmbed1_F F m))
+
+/-- Arm-3 (suffix flag) leaf-7 → center composite for the canonical
+orientation `7→6→5→0`:
+`x ↦ (0, 0, 0, x)`, i.e. the chain
+`suffixBlockEmbed_F 3 4 ∘ suffixBlockEmbed_F 2 3 ∘ starEmbed2_F`. Its image
+is the leaf-7 line in center block 3. -/
+noncomputable def etilde7SuffixArmComp_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (4 * (m + 1)) → F) :=
+  (suffixBlockEmbed_F F 3 4 m).comp ((suffixBlockEmbed_F F 2 3 m).comp (starEmbed2_F F m))
+
+/-- The arm-2 prefix composite deposits the leaf-4 datum into center
+**block 0**: `etilde7PrefixArmComp_F = blockEmbedAt_F 0`. -/
+theorem etilde7_prefixArm_comp_F (F : Type) [Field F] (m : ℕ) (x : Fin (m + 1) → F) :
+    etilde7PrefixArmComp_F F m x = blockEmbedAt_F F 0 m x := by
+  funext ⟨i, hi⟩
+  simp only [etilde7PrefixArmComp_F, LinearMap.comp_apply, prefixBlockEmbed_F, starEmbed1_F,
+    blockEmbedAt_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases h0 : i < m + 1
+  · rw [dif_pos (show i < 3 * (m + 1) from by omega), dif_pos (show i < 2 * (m + 1) from by omega),
+        dif_pos (show i < m + 1 from h0),
+        dif_pos (show 0 ≤ i ∧ i < 0 + (m + 1) from ⟨Nat.zero_le _, by omega⟩)]
+    simp only [Nat.sub_zero]
+  · rw [dif_neg (show ¬(0 ≤ i ∧ i < 0 + (m + 1)) from by omega)]
+    by_cases h1 : i < 3 * (m + 1)
+    · rw [dif_pos h1]
+      by_cases h2 : i < 2 * (m + 1)
+      · rw [dif_pos h2, dif_neg (show ¬ i < m + 1 from h0)]
+      · rw [dif_neg h2]
+    · rw [dif_neg h1]
+
+/-- The arm-3 suffix composite deposits the leaf-7 datum into center
+**block 3**: `etilde7SuffixArmComp_F = blockEmbedAt_F 3(m+1)`. -/
+theorem etilde7_suffixArm_comp_F (F : Type) [Field F] (m : ℕ) (x : Fin (m + 1) → F) :
+    etilde7SuffixArmComp_F F m x = blockEmbedAt_F F (3 * (m + 1)) m x := by
+  funext ⟨i, hi⟩
+  simp only [etilde7SuffixArmComp_F, LinearMap.comp_apply, suffixBlockEmbed_F, starEmbed2_F,
+    blockEmbedAt_F, LinearMap.coe_mk, AddHom.coe_mk]
+  -- suffixBlockEmbed 3 4: offset (4-3)(m+1) = m+1; suffixBlockEmbed 2 3: offset (3-2)(m+1) = m+1
+  by_cases h3 : 3 * (m + 1) ≤ i
+  · -- top block: both suffix conditions hold, starEmbed2 condition holds
+    rw [dif_pos (show (4 - 3) * (m + 1) ≤ i ∧ i - (4 - 3) * (m + 1) < 3 * (m + 1) from by omega),
+        dif_pos (show (3 - 2) * (m + 1) ≤ i - (4 - 3) * (m + 1)
+          ∧ i - (4 - 3) * (m + 1) - (3 - 2) * (m + 1) < 2 * (m + 1) from by omega),
+        dif_pos (show m + 1 ≤ i - (4 - 3) * (m + 1) - (3 - 2) * (m + 1) from by omega),
+        dif_pos (show 3 * (m + 1) ≤ i ∧ i < 3 * (m + 1) + (m + 1) from by omega)]
+    congr 1; simp only [Fin.mk.injEq]; omega
+  · rw [dif_neg (show ¬(3 * (m + 1) ≤ i ∧ i < 3 * (m + 1) + (m + 1)) from by omega)]
+    by_cases h2 : (4 - 3) * (m + 1) ≤ i ∧ i - (4 - 3) * (m + 1) < 3 * (m + 1)
+    · rw [dif_pos h2]
+      by_cases h1 : (3 - 2) * (m + 1) ≤ i - (4 - 3) * (m + 1)
+          ∧ i - (4 - 3) * (m + 1) - (3 - 2) * (m + 1) < 2 * (m + 1)
+      · rw [dif_pos h1,
+          dif_neg (show ¬(m + 1 ≤ i - (4 - 3) * (m + 1) - (3 - 2) * (m + 1)) from by omega)]
+      · rw [dif_neg h1]
+    · rw [dif_neg h2]
+
+/-- The arm-2 prefix leaf→center composite is injective (left inverse
+`blockProjAt_F 0`). -/
+theorem etilde7PrefixArmComp_F_injective (F : Type) [Field F] (m : ℕ) :
+    Function.Injective (etilde7PrefixArmComp_F F m) := by
+  apply Function.LeftInverse.injective (g := blockProjAt_F F 0 m (by omega))
+  intro x
+  rw [etilde7_prefixArm_comp_F]
+  exact blockProjAt_comp_embedAt_F F 0 m (by omega) x
+
+/-- The arm-3 suffix leaf→center composite is injective (left inverse
+`blockProjAt_F 3(m+1)`). -/
+theorem etilde7SuffixArmComp_F_injective (F : Type) [Field F] (m : ℕ) :
+    Function.Injective (etilde7SuffixArmComp_F F m) := by
+  apply Function.LeftInverse.injective (g := blockProjAt_F F (3 * (m + 1)) m (by omega))
+  intro x
+  rw [etilde7_suffixArm_comp_F]
+  exact blockProjAt_comp_embedAt_F F (3 * (m + 1)) m (by omega) x
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Arm-2 three-level membership criterion (canonical `4→3→2→0`): for a
+complementary invariant pair, the leaf-4 datum lies in `W₁(leaf 4)` iff its
+center deposit `(x,0,0,0)` lies in `W₁(center 0)`. The arm-2 analogue of
+`etilde6_armB_criterion` with the extra prefix hop. -/
+theorem etilde7_prefixArm_collapse_F
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (4 * (m + 1)) → F))
+    (W2₁ W2₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W3₁ W3₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (W4₁ W4₂ : Submodule F (Fin (m + 1) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc4 : IsCompl W4₁ W4₂)
+    (h43₁ : ∀ x ∈ W4₁, starEmbed1_F F m x ∈ W3₁)
+    (h32₁ : ∀ y ∈ W3₁, prefixBlockEmbed_F F 2 3 m y ∈ W2₁)
+    (h20₁ : ∀ z ∈ W2₁, prefixBlockEmbed_F F 3 4 m z ∈ W0₁)
+    (h43₂ : ∀ x ∈ W4₂, starEmbed1_F F m x ∈ W3₂)
+    (h32₂ : ∀ y ∈ W3₂, prefixBlockEmbed_F F 2 3 m y ∈ W2₂)
+    (h20₂ : ∀ z ∈ W2₂, prefixBlockEmbed_F F 3 4 m z ∈ W0₂)
+    (x : Fin (m + 1) → F) :
+    x ∈ W4₁ ↔ etilde7PrefixArmComp_F F m x ∈ W0₁ := by
+  refine leaf_center_mem_iff_of_forward (etilde7PrefixArmComp_F F m)
+    (etilde7PrefixArmComp_F_injective F m) W4₁ W4₂ W0₁ W0₂ hc4 hc0 ?_ ?_ x
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde7PrefixArmComp_F, LinearMap.comp_apply] using h20₁ _ (h32₁ _ (h43₁ z hz))
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde7PrefixArmComp_F, LinearMap.comp_apply] using h20₂ _ (h32₂ _ (h43₂ z hz))
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Arm-3 three-level membership criterion (canonical `7→6→5→0`): for a
+complementary invariant pair, the leaf-7 datum lies in `W₁(leaf 7)` iff its
+center deposit `(0,0,0,x)` lies in `W₁(center 0)`. The arm-3 (suffix-flag)
+analogue of `etilde7_prefixArm_collapse_F`. -/
+theorem etilde7_suffixArm_collapse_F
+    (F : Type) [Field F] (m : ℕ)
+    (W0₁ W0₂ : Submodule F (Fin (4 * (m + 1)) → F))
+    (W5₁ W5₂ : Submodule F (Fin (3 * (m + 1)) → F))
+    (W6₁ W6₂ : Submodule F (Fin (2 * (m + 1)) → F))
+    (W7₁ W7₂ : Submodule F (Fin (m + 1) → F))
+    (hc0 : IsCompl W0₁ W0₂) (hc7 : IsCompl W7₁ W7₂)
+    (h76₁ : ∀ x ∈ W7₁, starEmbed2_F F m x ∈ W6₁)
+    (h65₁ : ∀ y ∈ W6₁, suffixBlockEmbed_F F 2 3 m y ∈ W5₁)
+    (h50₁ : ∀ z ∈ W5₁, suffixBlockEmbed_F F 3 4 m z ∈ W0₁)
+    (h76₂ : ∀ x ∈ W7₂, starEmbed2_F F m x ∈ W6₂)
+    (h65₂ : ∀ y ∈ W6₂, suffixBlockEmbed_F F 2 3 m y ∈ W5₂)
+    (h50₂ : ∀ z ∈ W5₂, suffixBlockEmbed_F F 3 4 m z ∈ W0₂)
+    (x : Fin (m + 1) → F) :
+    x ∈ W7₁ ↔ etilde7SuffixArmComp_F F m x ∈ W0₁ := by
+  refine leaf_center_mem_iff_of_forward (etilde7SuffixArmComp_F F m)
+    (etilde7SuffixArmComp_F_injective F m) W7₁ W7₂ W0₁ W0₂ hc7 hc0 ?_ ?_ x
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde7SuffixArmComp_F, LinearMap.comp_apply] using h50₁ _ (h65₁ _ (h76₁ z hz))
+  · rintro _ ⟨z, hz, rfl⟩
+    simpa only [etilde7SuffixArmComp_F, LinearMap.comp_apply] using h50₂ _ (h65₂ _ (h76₂ z hz))
+
 /-! ## Section 3: Orientation-generic Ẽ₇ homogeneous-tube representation
 
 The map function is a match on `(a.val, b.val)` over the seven canonical
