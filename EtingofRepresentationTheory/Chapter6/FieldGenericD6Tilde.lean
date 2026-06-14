@@ -220,6 +220,71 @@ theorem d6tildeRep_kQ_dimVec
       (d6tildeRep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (d6tildeDim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 4b: Identity-chain collapse (#4527 sub-A infrastructure)
+
+D̃₆ is D̃₅ with one extra internal vertex: leaves `0,1` → branch `2` →
+(γ via `d5tildeGamma_F`) → `3` → (`id`) → `4` ← leaves `5,6`. The single
+internal edge `3-4` uses `LinearMap.id` in both directions (see
+`d6tildeRepMap_kQ`). So for any complementary invariant submodule pair
+`(W₁, W₂)`, invariance through that identity arrow forces
+`W₁⟨3⟩ = W₁⟨4⟩` and `W₂⟨3⟩ = W₂⟨4⟩`, regardless of how `Q` orients the
+edge. After this collapse, the picture at the merged `3 = 4` space is
+exactly the d5tilde vertex-3 picture, with the right leaves relabelled
+`4 ↦ 5, 5 ↦ 6`. This mirrors deliverable 1 of the D̃₇ sub-A issue. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Identity-chain collapse for D̃₆: the internal edge `3-4` is an
+identity iso in either orientation, so any complementary invariant pair
+`(W₁, W₂)` has `W₁⟨3⟩ = W₁⟨4⟩` and `W₂⟨3⟩ = W₂⟨4⟩`. -/
+theorem d6tildeRep_kQ_chain_collapse
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (d6tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (d6tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ ⟨3, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
+    W₂ ⟨3, by omega⟩ = W₂ ⟨4, by omega⟩ := by
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  have h34 : d6tildeAdj ⟨3, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  rcases hOrient_edge ⟨3, by omega⟩ ⟨4, by omega⟩ h34 with hQ34 | hQ34
+  · -- Edge oriented `3 → 4` (canonical): map = `id`, so `W₁⟨3⟩ ≤ W₁⟨4⟩`.
+    obtain ⟨a34⟩ := hQ34
+    have hW₁_le : W₁ ⟨3, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+      intro x hx
+      have h := hW₁_inv a34 x hx
+      simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+    have hW₂_le : W₂ ⟨3, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+      intro x hx
+      have h := hW₂_inv a34 x hx
+      simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+    exact compl_le_forces_eq (V := Fin (2 * (m + 1)) → F)
+      (W₁ ⟨3, by omega⟩) (W₂ ⟨3, by omega⟩)
+      (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+      (hcompl ⟨3, by omega⟩) (hcompl ⟨4, by omega⟩) hW₁_le hW₂_le
+  · -- Edge oriented `4 → 3` (reversed): map = `id`, so `W₁⟨4⟩ ≤ W₁⟨3⟩`.
+    obtain ⟨a43⟩ := hQ34
+    have hW₁_le : W₁ ⟨4, by omega⟩ ≤ W₁ ⟨3, by omega⟩ := by
+      intro x hx
+      have h := hW₁_inv a43 x hx
+      simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+    have hW₂_le : W₂ ⟨4, by omega⟩ ≤ W₂ ⟨3, by omega⟩ := by
+      intro x hx
+      have h := hW₂_inv a43 x hx
+      simpa only [d6tildeRep_kQ, d6tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+    have h := compl_le_forces_eq (V := Fin (2 * (m + 1)) → F)
+      (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+      (W₁ ⟨3, by omega⟩) (W₂ ⟨3, by omega⟩)
+      (hcompl ⟨4, by omega⟩) (hcompl ⟨3, by omega⟩) hW₁_le hW₂_le
+    exact ⟨h.1.symm, h.2.symm⟩
+
 /-! ## Section 5: Indecomposability (deferred sorry)
 
 The body of the indecomposability proof is deferred to a follow-up
