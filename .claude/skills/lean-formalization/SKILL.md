@@ -217,6 +217,15 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
+
+The per-(field, orientation) reps `<X>Rep_kQ` (`FieldGeneric{Star,D5/6/7Tilde,ETilde6/7,T125,Tube}.lean`) are built tactically: `noncomputable def … := by letI := Q; exact { obj := fun v => Fin (<X>Dim m v) → F, … }`. The structure projection `(<X>Rep_kQ …).obj ⟨v, _⟩` does **not** reduce to `Fin (k·(m+1)) → F` under the transparency that `Membership`-instance synthesis uses. Consequences when stating lemmas over the rep family `W : ∀ v, Submodule F ((<X>Rep_kQ …).obj v)`:
+
+- A **top-level signature** with a concrete-element membership — `∀ (x : Fin (k·(m+1)) → F), x ∈ W ⟨v, _⟩ → …` — fails to elaborate (`failed to synthesize Membership (Fin … → F) (Submodule F ((…).obj ⟨v, ?⟩))`). Equalities/`≤` between two `W ⟨v⟩` only typecheck when the two vertices share a dim (e.g. the four dim-`(m+1)` leaves of the D̃ family); for distinct-dim vertices (e.g. T(1,2,5)) they don't.
+- `(…).obj ⟨v,_⟩ = (Fin (<X>Dim m ⟨v,_⟩) → F) := rfl` ✓ (projection reduces with `<X>Dim` symbolic), but `… = (Fin (k·(m+1)) → F) := rfl` ✗ (the `<X>Dim` match won't reduce in the same step).
+
+**Workarounds.** (1) State reusable arm/flag helpers over **explicit `Fin (k·(m+1)) → F` carriers** plus per-edge hypotheses (as `t125_prefix_sub` / `t125_canonical_collapse` do) — these elaborate cleanly. (2) Do the `W ⟨v⟩` → explicit-carrier bridge **inside a proof body**, where `simp only [<X>Rep_kQ, <X>RepMap_kQ]` unfolds the rep and concrete memberships elaborate at default transparency (this is why the local `core`/`leaf*_sub` haves inside `starTubeRepGen_isIndecomposable` work). Do not try to expose a rep-level `…_leaf_equalities` theorem whose *conclusion* carries concrete memberships; assemble that content in the consuming indecomposability proof instead.
+
 ## Scaffolding Anti-Patterns
 
 These patterns were discovered during Chapter 2 and 7-8 reviews. Avoid them in all scaffolding work.
