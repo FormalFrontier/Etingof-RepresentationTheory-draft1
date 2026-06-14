@@ -1456,6 +1456,36 @@ private lemma in_L_of_in_V_of_supp_bounded
   rintro _ ⟨T, rfl⟩
   exact polytabloidTab_in_lower_span_of_dominates σ hrp T.val T.prop
 
+/-- A downward-closed finite set of naturals is an initial segment: `m ∈ S ↔ m < S.card`.
+Used for the column-standard "prefix" structure in the Support Bound pigeonhole. -/
+private theorem downward_closed_mem_iff_lt_card (S : Finset ℕ)
+    (hdc : ∀ a ∈ S, ∀ b, b < a → b ∈ S) (m : ℕ) : m ∈ S ↔ m < S.card := by
+  constructor
+  · intro hm
+    have hsub : Finset.range (m + 1) ⊆ S := by
+      intro x hx
+      rw [Finset.mem_range] at hx
+      rcases Nat.lt_or_ge x m with h | h
+      · exact hdc m hm x h
+      · have hxm : x = m := by omega
+        exact hxm ▸ hm
+    have hcard := Finset.card_le_card hsub
+    rw [Finset.card_range] at hcard
+    omega
+  · intro hm
+    by_contra hmem
+    have hbound : ∀ a ∈ S, a < m := by
+      intro a ha
+      by_contra hge
+      push_neg at hge
+      rcases eq_or_lt_of_le hge with heq | hlt
+      · exact hmem (heq ▸ ha)
+      · exact hmem (hdc a ha m hlt)
+    have hsub : S ⊆ Finset.range m := fun a ha => Finset.mem_range.mpr (hbound a ha)
+    have hcard := Finset.card_le_card hsub
+    rw [Finset.card_range] at hcard
+    omega
+
 /-- **Pigeonhole core for the Support Bound**. Given a column-standard σ, any
 `q₀ ∈ ColumnSubgroup` whose `w · q₀⁻¹ · σ` has strictly greater cumulative
 count than σ at some threshold `(k, i)`, there exist two distinct positions
@@ -1481,10 +1511,209 @@ private theorem twistedPolytabloid_pigeonhole_pair
     ∃ a₁ a₂ : Fin n, a₁ ≠ a₂ ∧
       colOfPos la.sortedParts a₁.val = colOfPos la.sortedParts a₂.val ∧
       rowOfPos la.sortedParts (w a₁).val = rowOfPos la.sortedParts (w a₂).val := by
-  -- Full combinatorial proof via column decomposition is deferred.
-  -- The proof strategy is documented above and validated against
-  -- counter-examples in `progress/20260424T064759Z_bd928e67.md`.
-  sorry
+  classical
+  have hsum : la.sortedParts.sum = n := sortedParts_sum_eq n la
+  have h_sorted : la.sortedParts.Pairwise (· ≥ ·) := la.parts.pairwise_sort (· ≥ ·)
+  -- `colOfPos` never exceeds the position index.
+  have hcol_le : ∀ (pl : List ℕ) (j : ℕ), colOfPos pl j ≤ j := by
+    intro pl
+    induction pl with
+    | nil => intro j; simp [colOfPos]
+    | cons p ps ih =>
+      intro j
+      simp only [colOfPos]
+      split_ifs with h
+      · exact le_refl j
+      · exact le_trans (ih (j - p)) (Nat.sub_le j p)
+  -- Row widths are antitone for the descending-sorted parts.
+  have hgetD_anti : ∀ r r' : ℕ, r' ≤ r →
+      la.sortedParts.getD r 0 ≤ la.sortedParts.getD r' 0 := by
+    intro r r' hr'r
+    by_cases hr : r < la.sortedParts.length
+    · have hr' : r' < la.sortedParts.length := lt_of_le_of_lt hr'r hr
+      rw [la.sortedParts.getD_eq_getElem 0 hr', la.sortedParts.getD_eq_getElem 0 hr]
+      rcases eq_or_lt_of_le hr'r with heq | hlt
+      · subst heq; exact le_refl _
+      · exact List.pairwise_iff_getElem.mp h_sorted r' r hr' hr hlt
+    · rw [List.getD_eq_default _ _ (not_lt.mp hr)]; exact Nat.zero_le _
+  -- Position sets whose cardinalities are the two cumulative counts.
+  set Bset : Finset (Fin n) := Finset.univ.filter
+    (fun p => σ.symm (q₀ p) ≤ k ∧ rowOfPos la.sortedParts (w p).val < i) with hBset
+  set Dset : Finset (Fin n) := Finset.univ.filter
+    (fun p => σ.symm p ≤ k ∧ rowOfPos la.sortedParts p.val < i) with hDset
+  -- `|Dset| = cumulCount σ` via the bijection `e ↦ σ e`.
+  have hcardD : tabloidCumulCount la σ k i = Dset.card := by
+    have himg : Dset = (Finset.univ.filter
+        (fun e : Fin n => e ≤ k ∧ rowOfPos la.sortedParts (σ e).val < i)).image σ := by
+      ext p
+      simp only [hDset, Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_image]
+      constructor
+      · rintro ⟨h1, h2⟩
+        exact ⟨σ.symm p, ⟨h1, by simpa using h2⟩, by simp⟩
+      · rintro ⟨e, ⟨he1, he2⟩, rfl⟩
+        exact ⟨by simpa using he1, he2⟩
+    rw [himg, Finset.card_image_of_injective _ σ.injective]; rfl
+  -- `|Bset| = cumulCount (w q₀⁻¹ σ)` via the bijection `e ↦ q₀⁻¹ σ e`.
+  have hcardB : tabloidCumulCount la (w * q₀⁻¹ * σ) k i = Bset.card := by
+    have himg : Bset = (Finset.univ.filter
+        (fun e : Fin n =>
+          e ≤ k ∧ rowOfPos la.sortedParts ((w * q₀⁻¹ * σ) e).val < i)).image
+          (q₀⁻¹ * σ) := by
+      ext p
+      simp only [hBset, Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_image]
+      constructor
+      · rintro ⟨h1, h2⟩
+        refine ⟨σ.symm (q₀ p), ⟨h1, ?_⟩, ?_⟩
+        · have he : (w * q₀⁻¹ * σ) (σ.symm (q₀ p)) = w p := by
+            simp [Equiv.Perm.mul_apply]
+          rw [he]; exact h2
+        · simp [Equiv.Perm.mul_apply]
+      · rintro ⟨e, ⟨he1, he2⟩, rfl⟩
+        refine ⟨?_, ?_⟩
+        · have he : σ.symm (q₀ ((q₀⁻¹ * σ) e)) = e := by
+            simp [Equiv.Perm.mul_apply]
+          rw [he]; exact he1
+        · have he : (w ((q₀⁻¹ * σ) e)) = (w * q₀⁻¹ * σ) e := by
+            simp [Equiv.Perm.mul_apply]
+          rw [he]; exact he2
+    rw [himg, Finset.card_image_of_injective _ (q₀⁻¹ * σ).injective]; rfl
+  rw [hcardD, hcardB] at hcount
+  -- Suppose no collision pair exists; derive `|Bset| ≤ |Dset|`, contradicting `hcount`.
+  by_contra hcon
+  push_neg at hcon
+  have hginj : ∀ a₁ a₂ : Fin n,
+      colOfPos la.sortedParts a₁.val = colOfPos la.sortedParts a₂.val →
+      rowOfPos la.sortedParts (w a₁).val = rowOfPos la.sortedParts (w a₂).val → a₁ = a₂ := by
+    intro a₁ a₂ hcoleq hroweq
+    by_contra hne
+    exact hcon a₁ a₂ hne hcoleq hroweq
+  -- Injectivity of `rowOfPos` on any single column.
+  have hrow_inj : ∀ (F : Finset (Fin n)) (c : ℕ),
+      (∀ p ∈ F, colOfPos la.sortedParts p.val = c) →
+      Set.InjOn (fun p : Fin n => rowOfPos la.sortedParts p.val) ↑F := by
+    intro F c hF p hp q hq hpq
+    have hpc := hF p hp
+    have hqc := hF q hq
+    exact Fin.ext (rowOfPos_colOfPos_injective la.sortedParts p.val q.val
+      (by rw [hsum]; exact p.isLt) (by rw [hsum]; exact q.isLt)
+      hpq (hpc.trans hqc.symm))
+  have hmain : Bset.card ≤ Dset.card := by
+    have hmapsB : Set.MapsTo (fun p : Fin n => colOfPos la.sortedParts p.val)
+        ↑Bset ↑(Finset.range n) := by
+      intro p _; rw [Finset.mem_coe, Finset.mem_range]
+      exact lt_of_le_of_lt (hcol_le la.sortedParts p.val) p.isLt
+    have hmapsD : Set.MapsTo (fun p : Fin n => colOfPos la.sortedParts p.val)
+        ↑Dset ↑(Finset.range n) := by
+      intro p _; rw [Finset.mem_coe, Finset.mem_range]
+      exact lt_of_le_of_lt (hcol_le la.sortedParts p.val) p.isLt
+    rw [Finset.card_eq_sum_card_fiberwise hmapsB,
+        Finset.card_eq_sum_card_fiberwise hmapsD]
+    apply Finset.sum_le_sum
+    intro c _
+    set Bc := Bset.filter (fun p => colOfPos la.sortedParts p.val = c) with hBc
+    set Dc := Dset.filter (fun p => colOfPos la.sortedParts p.val = c) with hDc
+    set Sc := Finset.univ.filter
+      (fun p : Fin n => σ.symm p ≤ k ∧ colOfPos la.sortedParts p.val = c) with hSc
+    -- Membership characterisations (avoid `simp` reducing the nested filters to lists).
+    have memSc : ∀ p : Fin n, p ∈ Sc ↔
+        σ.symm p ≤ k ∧ colOfPos la.sortedParts p.val = c := fun p => by
+      rw [hSc, Finset.mem_filter, and_iff_right (Finset.mem_univ p)]
+    have memBc : ∀ p : Fin n, p ∈ Bc ↔
+        (σ.symm (q₀ p) ≤ k ∧ rowOfPos la.sortedParts (w p).val < i) ∧
+        colOfPos la.sortedParts p.val = c := fun p => by
+      rw [hBc, Finset.mem_filter, hBset, Finset.mem_filter, and_iff_right (Finset.mem_univ p)]
+    have memDc : ∀ p : Fin n, p ∈ Dc ↔
+        (σ.symm p ≤ k ∧ rowOfPos la.sortedParts p.val < i) ∧
+        colOfPos la.sortedParts p.val = c := fun p => by
+      rw [hDc, Finset.mem_filter, hDset, Finset.mem_filter, and_iff_right (Finset.mem_univ p)]
+    have hSc_col : ∀ p ∈ Sc, colOfPos la.sortedParts p.val = c :=
+      fun p hp => ((memSc p).mp hp).2
+    have hSc_le : ∀ p ∈ Sc, σ.symm p ≤ k :=
+      fun p hp => ((memSc p).mp hp).1
+    -- (i) `|Bc| ≤ |Sc|` via `q₀` (which preserves columns).
+    have hb1 : Bc.card ≤ Sc.card := by
+      apply Finset.card_le_card_of_injOn (fun p => q₀ p)
+      · intro p hp
+        obtain ⟨⟨h1, _⟩, h3⟩ := (memBc p).mp hp
+        exact (memSc (q₀ p)).mpr ⟨h1, by rw [hq₀_col p]; exact h3⟩
+      · intro a _ b _ hab; exact q₀.injective hab
+    -- (ii) `|Bc| ≤ i` via injectivity of `row ∘ w` on `Bc`.
+    have hb2 : Bc.card ≤ i := by
+      have hle : Bc.card ≤ (Finset.range i).card := by
+        apply Finset.card_le_card_of_injOn (fun p => rowOfPos la.sortedParts (w p).val)
+        · intro p hp
+          rw [Finset.mem_coe, Finset.mem_range]; exact ((memBc p).mp hp).1.2
+        · intro a ha b hb hab
+          have ha' := (memBc a).mp (Finset.mem_coe.mp ha)
+          have hb' := (memBc b).mp (Finset.mem_coe.mp hb)
+          exact hginj a b (ha'.2.trans hb'.2.symm) hab
+      rwa [Finset.card_range] at hle
+    -- Column-standard prefix structure: the rows occupied by `Sc` form `range |Sc|`.
+    set RS := Sc.image (fun p => rowOfPos la.sortedParts p.val) with hRS
+    have hRS_card : RS.card = Sc.card := by
+      rw [hRS, Finset.card_image_of_injOn (hrow_inj Sc c hSc_col)]
+    have hRS_dc : ∀ a ∈ RS, ∀ b, b < a → b ∈ RS := by
+      intro a ha b hba
+      rw [hRS, Finset.mem_image] at ha
+      obtain ⟨p, hpSc, hpa⟩ := ha
+      have hpcol : colOfPos la.sortedParts p.val = c := hSc_col p hpSc
+      have hp_valid : p.val < la.sortedParts.sum := by rw [hsum]; exact p.isLt
+      have hc_lt_a : c < la.sortedParts.getD a 0 := by
+        have h := colOfPos_lt_getD la.sortedParts p.val hp_valid
+        rw [hpcol, hpa] at h; exact h
+      have hc_lt_b : c < la.sortedParts.getD b 0 :=
+        lt_of_lt_of_le hc_lt_a (hgetD_anti a b (le_of_lt hba))
+      obtain ⟨pos, hpos_lt, hpos_row, hpos_col⟩ :=
+        exists_pos_of_cell la.sortedParts b c hc_lt_b
+      set p' : Fin n := ⟨pos, hsum ▸ hpos_lt⟩ with hp'
+      have hp'_lt : σ.symm p' < σ.symm p := by
+        apply hcs p' p
+        · rw [hpos_col, hpcol]
+        · rw [hpos_row, hpa]; exact hba
+      have hp'_Sc : p' ∈ Sc := (memSc p').mpr
+        ⟨le_of_lt (lt_of_lt_of_le hp'_lt (hSc_le p hpSc)), hpos_col⟩
+      rw [hRS, Finset.mem_image]
+      exact ⟨p', hp'_Sc, hpos_row⟩
+    have hRS_iff : ∀ m, m ∈ RS ↔ m < Sc.card := by
+      intro m; rw [← hRS_card]
+      exact downward_closed_mem_iff_lt_card RS hRS_dc m
+    have hprefix : ∀ p : Fin n, colOfPos la.sortedParts p.val = c →
+        (σ.symm p ≤ k ↔ rowOfPos la.sortedParts p.val < Sc.card) := by
+      intro p hpcol
+      constructor
+      · intro hpk
+        rw [← hRS_iff, hRS, Finset.mem_image]
+        exact ⟨p, (memSc p).mpr ⟨hpk, hpcol⟩, rfl⟩
+      · intro hrow
+        rw [← hRS_iff, hRS, Finset.mem_image] at hrow
+        obtain ⟨p', hp'Sc, hp'row⟩ := hrow
+        have hp'col : colOfPos la.sortedParts p'.val = c := hSc_col p' hp'Sc
+        have hpp' : p' = p := Fin.ext (rowOfPos_colOfPos_injective la.sortedParts p'.val p.val
+          (by rw [hsum]; exact p'.isLt) (by rw [hsum]; exact p.isLt)
+          hp'row (hp'col.trans hpcol.symm))
+        rw [← hpp']; exact hSc_le p' hp'Sc
+    -- `|Dc| = min(|Sc|, i)`.
+    have hDc_card : Dc.card = min (Sc.card) i := by
+      have hDc_col : ∀ p ∈ Dc, colOfPos la.sortedParts p.val = c :=
+        fun p hp => ((memDc p).mp hp).2
+      have hRD_eq : Dc.image (fun p => rowOfPos la.sortedParts p.val) =
+          Finset.range (min (Sc.card) i) := by
+        ext m
+        rw [Finset.mem_image, Finset.mem_range, lt_min_iff]
+        constructor
+        · rintro ⟨p, hpDc, rfl⟩
+          have hd := (memDc p).mp hpDc
+          exact ⟨(hprefix p hd.2).mp hd.1.1, hd.1.2⟩
+        · rintro ⟨hm1, hm2⟩
+          have hmRS := (hRS_iff m).mpr hm1
+          rw [hRS, Finset.mem_image] at hmRS
+          obtain ⟨p, hpSc, hprow⟩ := hmRS
+          refine ⟨p, (memDc p).mpr ⟨⟨hSc_le p hpSc, ?_⟩, hSc_col p hpSc⟩, hprow⟩
+          rw [hprow]; exact hm2
+      rw [← Finset.card_image_of_injOn (hrow_inj Dc c hDc_col), hRD_eq, Finset.card_range]
+    rw [hDc_card]
+    exact le_min_iff.mpr ⟨hb1, hb2⟩
+  omega
 
 /-- **Fibre coefficient vanishes for non-dominators** (helper for support bound).
 For column-standard σ, if α does not dominate σ in the tabloid order, then the
