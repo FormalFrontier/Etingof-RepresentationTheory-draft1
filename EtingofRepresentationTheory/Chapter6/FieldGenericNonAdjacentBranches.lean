@@ -7,6 +7,7 @@ import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
 import EtingofRepresentationTheory.Chapter6.FieldGenericD5Tilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericD6Tilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericD7Tilde
+import EtingofRepresentationTheory.Chapter6.FieldGenericD8Tilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericETilde6
 import EtingofRepresentationTheory.Chapter6.FieldGenericETilde7
 import EtingofRepresentationTheory.Chapter6.FieldGenericT125
@@ -1132,22 +1133,74 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
                   harm₁₂ (arm₁_ne_chain 1 (by omega)).symm
                   (arm₂_ne_chain 1 (by omega)).symm hne.symm
                   F Q hOrient
-              · -- ===== Residual: tracked by follow-up sub-issues =====
-                -- Remaining cases (still `sorry`):
-                --
-                -- * `chain.length = 5`, any sub-case (#2977): needs the
-                --   D̃₈ per-(F, Q) helper.
-                -- * `chain.length ≥ 6`, all-leaves (#2978): needs a
-                --   general parametric D̃_n per-(F, Q) helper.
-                -- * `chain.length = 4` with `side_arm` degree ≠ 1 (not
-                --   covered by `hE_s1c4`).
-                --
-                -- See follow-up sub-issues spawned from #2955.
-                let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-                let _ := h_no_adj_branch_w
-                let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-                let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-                let _ := leaf_ne_chain
-                sorry
+              · by_cases hE_c5 : chain.length = 5
+                · -- ===== Sub-case E.c5: D̃₈ at (v₀, w) (#2977) =====
+                  -- For `chain.length = 5` the two degree-3 branch points
+                  -- `v₀` and `w` are at distance 4 (internal vertices
+                  -- `chain[1], chain[2], chain[3]`), so the 9-vertex
+                  -- subgraph `{leaf, side_arm, v₀, chain[1], chain[2],
+                  -- chain[3], w, arm₁, arm₂}` is D̃₈ exactly. As with the
+                  -- D̃₆ branch above, the embedding is valid for *every*
+                  -- `chain.length = 5` configuration regardless of arm
+                  -- degrees (extra host edges at the arms are simply
+                  -- unused), so this single branch covers the all-leaves
+                  -- and mixed-arm chain-length-5 sub-cases.
+                  -- chain[1]-chain[2] and chain[2]-chain[3] are chain edges.
+                  have hc12 : adj (chain.get ⟨1, by omega⟩)
+                      (chain.get ⟨2, by omega⟩) = 1 :=
+                    hchain_edges 1 (by omega)
+                  have hc23 : adj (chain.get ⟨2, by omega⟩)
+                      (chain.get ⟨3, by omega⟩) = 1 :=
+                    hchain_edges 2 (by omega)
+                  -- chain[3] = chain[chain.length - 2] = pre-last for length 5.
+                  have hc3_eq_pre : chain.get ⟨3, by omega⟩ =
+                      chain.get ⟨chain.length - 2, by omega⟩ := by
+                    have h_nat : (3 : ℕ) = chain.length - 2 := by omega
+                    congr 1; exact Fin.ext h_nat
+                  have hc3_w : adj (chain.get ⟨3, by omega⟩) w = 1 := by
+                    rw [hc3_eq_pre, adj_comm]; exact hw_chain_adj
+                  -- v₀ — w non-edge.
+                  have hps_eq : adj v₀ w = 0 :=
+                    (h01 v₀ w).resolve_right h_v₀w_nonadj
+                  -- Interior path distinctness from `chain.Nodup`.
+                  have hpr_ne : v₀ ≠ chain.get ⟨2, by omega⟩ := by
+                    rw [← hchain_first]; intro h
+                    exact absurd ((hchain_nodup.get_inj_iff).mp h) (by simp)
+                  have hqs_ne : chain.get ⟨1, by omega⟩ ≠
+                      chain.get ⟨3, by omega⟩ := by
+                    intro h
+                    exact absurd ((hchain_nodup.get_inj_iff).mp h) (by simp)
+                  have hrt_ne : chain.get ⟨2, by omega⟩ ≠ w := by
+                    rw [hw_get]; intro h
+                    exact absurd ((hchain_nodup.get_inj_iff).mp h) (by simp; omega)
+                  -- Vertex map matching `d8tildeAdj`:
+                  -- 0→leaf, 1→side_arm, 2→v₀, 3→chain[1], 4→chain[2],
+                  -- 5→chain[3], 6→w, 7→arm₁, 8→arm₂.
+                  exact embed_d8tilde_in_tree_per_kQ adj hsymm hdiag h01 h_acyclic
+                    leaf side_arm v₀ (chain.get ⟨1, by omega⟩)
+                    (chain.get ⟨2, by omega⟩) (chain.get ⟨3, by omega⟩)
+                    w arm₁ arm₂
+                    h_leaf_adj hside_adj hc1_adj hc12 hc23 hc3_w
+                    harm₁_adj harm₂_adj hps_eq
+                    hside_ne_leaf.symm hleaf_ne_c1 hside_ne_c1
+                    harm₁₂ (arm₁_ne_chain 3 (by omega)).symm
+                    (arm₂_ne_chain 3 (by omega)).symm
+                    hne.symm hpr_ne hqs_ne hrt_ne
+                    F Q hOrient
+                · -- ===== Residual: tracked by follow-up sub-issues =====
+                  -- Remaining cases (still `sorry`):
+                  --
+                  -- * `chain.length ≥ 6`, all-leaves (#2978): needs a
+                  --   general parametric D̃_n per-(F, Q) helper.
+                  -- * `chain.length = 4` with `side_arm` degree ≠ 1 (not
+                  --   covered by `hE_s1c4`).
+                  --
+                  -- See follow-up sub-issue #2978 spawned from #2955.
+                  let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
+                  let _ := h_no_adj_branch_w
+                  let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
+                  let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
+                  let _ := leaf_ne_chain
+                  sorry
 
 end Etingof
