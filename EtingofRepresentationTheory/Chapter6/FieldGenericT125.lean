@@ -175,6 +175,113 @@ noncomputable def t125Arm1Tube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
     + (blockEmbedAtN_F F (4 * (m + 1)) (6 * (m + 1)) m).comp (P + Λ4.comp Q + Λ8.comp R)
     + (blockEmbedAtN_F F (5 * (m + 1)) (6 * (m + 1)) m).comp (P + Λ5.comp Q + Λ10.comp R)
 
+/-! ## Section 2: Flag retractions (sub-B1 of #4612)
+
+The prefix/suffix flag projections are left inverses of the corresponding
+embeddings, and the single-block projection reads back the block placed by
+`blockEmbedAtN_F`. These map-level retractions are the foundational step of
+the flag-collapse argument that drives `t125Rep_kQ_leaf_equalities`: they let
+the indecomposability proof extract a leaf component from a center membership,
+and they hold in every orientation. Mirrors `center_decomp_F` /
+`embed_sum_zero_F` (`FieldGenericStar.lean`) for the two-leaf star. -/
+
+/-- `prefixBlockProj_F` is a left inverse of `prefixBlockEmbed_F`: the
+prefix-flag embedding `F^{a(m+1)} → F^{b(m+1)}` (`x ↦ (x, 0, …, 0)`) is read
+back exactly by the first-`a`-blocks projection. -/
+theorem prefixBlockProj_comp_embed_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b)
+    (x : Fin (a * (m + 1)) → F) :
+    prefixBlockProj_F F a b m hab (prefixBlockEmbed_F F a b m x) = x := by
+  ext i
+  simp only [prefixBlockProj_F, prefixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk,
+    dif_pos i.isLt]
+
+/-- `suffixBlockProj_F` is a left inverse of `suffixBlockEmbed_F`: the
+suffix-flag embedding `F^{a(m+1)} → F^{b(m+1)}` (`x ↦ (0, …, 0, x)`) is read
+back exactly by the last-`a`-blocks projection. -/
+theorem suffixBlockProj_comp_embed_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b)
+    (x : Fin (a * (m + 1)) → F) :
+    suffixBlockProj_F F a b m hab (suffixBlockEmbed_F F a b m x) = x := by
+  ext i
+  have hi := i.isLt
+  simp only [suffixBlockProj_F, suffixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_pos ⟨by omega, by omega⟩]
+  congr 1
+  ext
+  simp
+
+/-- `blockProjAtN_F` reads back the single block placed by `blockEmbedAtN_F` at
+the same offset `o`. The retraction for the eigenvalue-tube input blocks
+`(P, Q, R)`. -/
+theorem blockProjAtN_comp_embed_F (F : Type) [Field F] (o N m : ℕ)
+    (h : o + (m + 1) ≤ N) (x : Fin (m + 1) → F) :
+    blockProjAtN_F F o N m h (blockEmbedAtN_F F o N m x) = x := by
+  ext i
+  have hi := i.isLt
+  simp only [blockProjAtN_F, blockEmbedAtN_F, LinearMap.coe_mk, AddHom.coe_mk]
+  rw [dif_pos ⟨by omega, by omega⟩]
+  congr 1
+  ext
+  simp
+
+/-- `prefixBlockEmbed_F` is injective (left inverse `prefixBlockProj_F`). -/
+theorem prefixBlockEmbed_injective_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b) :
+    Function.Injective (prefixBlockEmbed_F F a b m) :=
+  Function.LeftInverse.injective (prefixBlockProj_comp_embed_F F a b m hab)
+
+/-- `suffixBlockEmbed_F` is injective (left inverse `suffixBlockProj_F`). -/
+theorem suffixBlockEmbed_injective_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b) :
+    Function.Injective (suffixBlockEmbed_F F a b m) :=
+  Function.LeftInverse.injective (suffixBlockProj_comp_embed_F F a b m hab)
+
+/-- Prefix-flag composition law: embedding into the first `a` blocks of `b`
+then into the first `b` blocks of `c` equals embedding into the first `a`
+blocks of `c`. The prefix flag `F^{a(m+1)} ↪ F^{b(m+1)} ↪ F^{c(m+1)}` is a
+single prefix embedding. -/
+theorem prefixBlockEmbed_comp_F (F : Type) [Field F] (a b c m : ℕ) (hab : a ≤ b)
+    (x : Fin (a * (m + 1)) → F) :
+    prefixBlockEmbed_F F b c m (prefixBlockEmbed_F F a b m x) =
+      prefixBlockEmbed_F F a c m x := by
+  ext j
+  simp only [prefixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases hjb : j.val < b * (m + 1)
+  · rw [dif_pos hjb]
+  · rw [dif_neg hjb,
+      dif_neg (fun hja => hjb (Nat.lt_of_lt_of_le hja (Nat.mul_le_mul_right _ hab)))]
+
+/-- Suffix-flag composition law: embedding into the last `a` blocks of `b`
+then into the last `b` blocks of `c` equals embedding into the last `a`
+blocks of `c`. The suffix flag `F^{a(m+1)} ↪ F^{b(m+1)} ↪ F^{c(m+1)}` is a
+single suffix embedding (the arm-3 flag of T(1,2,5)). -/
+theorem suffixBlockEmbed_comp_F (F : Type) [Field F] (a b c m : ℕ)
+    (hab : a ≤ b) (hbc : b ≤ c) (x : Fin (a * (m + 1)) → F) :
+    suffixBlockEmbed_F F b c m (suffixBlockEmbed_F F a b m x) =
+      suffixBlockEmbed_F F a c m x := by
+  ext j
+  have hj := j.isLt
+  have e1 : (c - b) * (m + 1) + (b - a) * (m + 1) = (c - a) * (m + 1) := by
+    rw [← Nat.add_mul]; congr 1; omega
+  have e2 : (c - b) * (m + 1) + b * (m + 1) = c * (m + 1) := by
+    rw [← Nat.add_mul]; congr 1; omega
+  have e3 : (b - a) * (m + 1) + a * (m + 1) = b * (m + 1) := by
+    rw [← Nat.add_mul]; congr 1; omega
+  simp only [suffixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases hR : (c - a) * (m + 1) ≤ j.val ∧ j.val - (c - a) * (m + 1) < a * (m + 1)
+  · rw [dif_pos hR, dif_pos (show (c - b) * (m + 1) ≤ j.val ∧
+        j.val - (c - b) * (m + 1) < b * (m + 1) from ⟨by omega, by omega⟩),
+      dif_pos (show (b - a) * (m + 1) ≤ j.val - (c - b) * (m + 1) ∧
+        j.val - (c - b) * (m + 1) - (b - a) * (m + 1) < a * (m + 1) from
+        ⟨by omega, by omega⟩)]
+    congr 1
+    ext
+    simp only
+    omega
+  · rw [dif_neg hR]
+    by_cases hO : (c - b) * (m + 1) ≤ j.val ∧ j.val - (c - b) * (m + 1) < b * (m + 1)
+    · rw [dif_pos hO, dif_neg (show ¬ ((b - a) * (m + 1) ≤ j.val - (c - b) * (m + 1) ∧
+        j.val - (c - b) * (m + 1) - (b - a) * (m + 1) < a * (m + 1)) from
+        fun h => hR ⟨by omega, by omega⟩)]
+    · rw [dif_neg hO]
+
 /-! ## Section 3: Orientation-generic Ẽ₈ homogeneous-tube representation
 
 The map function is a match on `(a.val, b.val)` over the eight canonical
