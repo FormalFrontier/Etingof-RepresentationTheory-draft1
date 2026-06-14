@@ -5,6 +5,7 @@ import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
 import EtingofRepresentationTheory.Chapter6.FieldGenericStar
+import EtingofRepresentationTheory.Chapter6.FieldGenericTube
 
 /-!
 # Orientation-Generic Ẽ₆ Construction (Sub A of #2791)
@@ -66,6 +67,52 @@ noncomputable def prefixBlockProj_F (F : Type) [Field F]
     w ⟨i.val, Nat.lt_of_lt_of_le i.isLt (Nat.mul_le_mul_right _ hab)⟩
   map_add' _ _ := by ext; simp
   map_smul' _ _ := by ext; simp
+
+/-! ## Section 0b: Coordinate-block maps for the homogeneous-tube redesign
+
+These are the corrected (#4574) maps replacing the refuted single-twist family.
+The center `F^{3(m+1)}` is three blocks `(c₀, c₁, c₂)`; the three arms embed
+their `F^{2(m+1)}` intermediates as the three "coordinate planes" of the center
+(`⟨c₁,c₂⟩`, `⟨c₀,c₂⟩`, `⟨c₀,c₁⟩`). See
+`progress/etilde6-tube-matrices.md` for the regular-simple derivation. -/
+
+/-- Block embedding `F^{2(m+1)} → F^{3(m+1)}`, `(p, q) ↦ (0, p, q)` (image is
+the coordinate plane `⟨c₁, c₂⟩`). Arm-A intermediate→center map `α_A`. -/
+noncomputable def blockEmbed12_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
+  toFun x i := if h : i.val < m + 1 then 0 else x ⟨i.val - (m + 1), by omega⟩
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Block embedding `F^{2(m+1)} → F^{3(m+1)}`, `(p, q) ↦ (p, 0, q)` (image is
+the coordinate plane `⟨c₀, c₂⟩`). Arm-B intermediate→center map `α_B`. -/
+noncomputable def blockEmbed02_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
+  toFun x i :=
+    if h : i.val < m + 1 then x ⟨i.val, by omega⟩
+    else if h2 : i.val < 2 * (m + 1) then 0
+    else x ⟨i.val - (m + 1), by omega⟩
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Block projection `F^{3(m+1)} → F^{2(m+1)}`, `(c₀, c₁, c₂) ↦ (c₁, c₂)`.
+Reverse map for the `{0,1}` edge (right inverse of `blockEmbed12_F`). -/
+noncomputable def blockProj12_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) where
+  toFun w j := w ⟨j.val + (m + 1), by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Block projection `F^{3(m+1)} → F^{2(m+1)}`, `(c₀, c₁, c₂) ↦ (c₀, c₂)`.
+Reverse map for the `{0,3}` edge (right inverse of `blockEmbed02_F`). -/
+noncomputable def blockProj02_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) where
+  toFun w j := if h : j.val < m + 1 then w ⟨j.val, by omega⟩ else w ⟨j.val + (m + 1), by omega⟩
+  map_add' _ _ := by ext j; simp only [Pi.add_apply]; split_ifs <;> rfl
+  map_smul' _ _ := by
+    ext j; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> rfl
 
 /-! ## Section 1: F-generic forward maps for Ẽ₆
 
@@ -178,61 +225,73 @@ those 12 edge pairs, the map is `0` (these arrows do not exist in any
 orientation of `etilde6Adj`).
 -/
 
-/-- Direction-aware match-based map function for the orientation-generic
-Ẽ₆ representation. Returns the same linear maps as
-`etilde6v2RepMap` for the canonical orientation, plus the reverse maps
-from Section 2 when the arrow is in the reversed direction. -/
-private noncomputable def etilde6RepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fin 7) :
+/-- Direction-aware match-based map function for the corrected
+orientation-generic Ẽ₆ homogeneous tube (#4574). The three arms embed their
+intermediates as the three coordinate planes of the center; arm C
+(edge `{5,6}`) carries the eigenvalue site `λ•id + J`
+(`starEmbedTube_F F lam m`) instead of the refuted rank-deficient twist. Arms
+A and B (edges `{1,2}` / `{3,4}`) use the diagonal leaf embedding so the two
+identity components drive the collapse. See `progress/etilde6-tube-matrices.md`
+for the regular-simple derivation. Reverse maps are the matching block
+projections / left inverses. Outside the 12 edge pairs the map is `0`. -/
+private noncomputable def etilde6RepMap_kQ (F : Type) [Field F] (lam : F) (m : ℕ)
+    (a b : Fin 7) :
     (Fin (etilde6Dim m a) → F) →ₗ[F] (Fin (etilde6Dim m b) → F) :=
   match a, b with
-  -- Edge {1, 2}
-  | ⟨2, _⟩, ⟨1, _⟩ => starEmbed1_F F m
-  | ⟨1, _⟩, ⟨2, _⟩ => etilde6LeafProj_F F m
-  -- Edge {0, 1}
-  | ⟨1, _⟩, ⟨0, _⟩ => prefixBlockEmbed_F F 2 3 m
-  | ⟨0, _⟩, ⟨1, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
-  -- Edge {0, 3}
-  | ⟨0, _⟩, ⟨3, _⟩ => etilde6Gamma_F F m
-  | ⟨3, _⟩, ⟨0, _⟩ => etilde6GammaInv_F F m
-  -- Edge {3, 4}
-  | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
-  | ⟨3, _⟩, ⟨4, _⟩ => etilde6LeafProj_F F m
-  -- Edge {0, 5}
-  | ⟨5, _⟩, ⟨0, _⟩ => embed2to3_CA_F F m
-  | ⟨0, _⟩, ⟨5, _⟩ => embed2to3_CA_reverse_F F m
-  -- Edge {5, 6}
-  | ⟨6, _⟩, ⟨5, _⟩ => starEmbedNilp_F F m
-  | ⟨5, _⟩, ⟨6, _⟩ => etilde6LeafProj_F F m
+  -- Edge {1, 2} (arm A leaf→mid): diagonal embedding
+  | ⟨2, _⟩, ⟨1, _⟩ => starEmbedDiag_F F m
+  | ⟨1, _⟩, ⟨2, _⟩ => starProj3_F F m
+  -- Edge {0, 1} (arm A mid→center): plane ⟨c₁,c₂⟩
+  | ⟨1, _⟩, ⟨0, _⟩ => blockEmbed12_F F m
+  | ⟨0, _⟩, ⟨1, _⟩ => blockProj12_F F m
+  -- Edge {0, 3} (arm B mid→center): plane ⟨c₀,c₂⟩
+  | ⟨3, _⟩, ⟨0, _⟩ => blockEmbed02_F F m
+  | ⟨0, _⟩, ⟨3, _⟩ => blockProj02_F F m
+  -- Edge {3, 4} (arm B leaf→mid): diagonal embedding
+  | ⟨4, _⟩, ⟨3, _⟩ => starEmbedDiag_F F m
+  | ⟨3, _⟩, ⟨4, _⟩ => starProj3_F F m
+  -- Edge {0, 5} (arm C mid→center): plane ⟨c₀,c₁⟩
+  | ⟨5, _⟩, ⟨0, _⟩ => prefixBlockEmbed_F F 2 3 m
+  | ⟨0, _⟩, ⟨5, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
+  -- Edge {5, 6} (arm C leaf→mid): eigenvalue site λ•id + J
+  | ⟨6, _⟩, ⟨5, _⟩ => starEmbedTube_F F lam m
+  | ⟨5, _⟩, ⟨6, _⟩ => starProj4_F F m
   -- Non-edge or impossible (ruled out by `hOrient`); placeholder
   | _, _ => 0
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Orientation-generic Ẽ₆ (= T_{2,2,2}) representation over an arbitrary
-field `F` with arbitrary orientation `Q` of `etilde6Adj`. Dimension vector
-follows `etilde6Dim`: vertex 0 has dim `3(m+1)`, vertices 1/3/5 have dim
-`2(m+1)`, vertices 2/4/6 have dim `m+1`.
+/-- Orientation-generic Ẽ₆ (= T(2,2,2)) **homogeneous-tube** representation at
+eigenvalue `lam`, over an arbitrary field `F` with arbitrary orientation `Q` of
+`etilde6Adj` (corrected construction, #4574, replacing the refuted
+single-nilpotent-twist family). Dimension vector follows `etilde6Dim`: vertex 0
+has dim `3(m+1)`, vertices 1/3/5 have dim `2(m+1)`, vertices 2/4/6 have dim
+`m+1`, i.e. `(m+1)·δ` with `δ = (3; 2,1; 2,1; 2,1)`.
 
-The map on an arrow `e : Q.Hom a b` depends only on the underlying
-unordered edge `{a, b}` and the direction `a → b`. Each of the six edges
-of `etilde6Adj` contributes one canonical map (matching `etilde6v2RepMap`)
-and one reverse map (defined in Section 2). The orientation hypothesis
-`hOrient` is not used by the construction itself; it is recorded so that
-downstream lemmas (notably the indecomposability proof planned for
-Sub B #2807) can pattern-match on which arrows exist. -/
+The three arms embed their intermediates as the three coordinate planes of the
+center; arm C carries the eigenvalue site `λ•id + J` (`starEmbedTube_F`). See
+`progress/etilde6-tube-matrices.md` for the explicit regular-simple matrices
+and the brick proof.
+
+The map on an arrow `e : Q.Hom a b` depends only on the underlying unordered
+edge `{a, b}` and the direction `a → b`. Each of the six edges contributes one
+toward-center map and one reverse map. The orientation hypothesis `hOrient` is
+not used by the construction itself; it is recorded so that downstream lemmas
+(the indecomposability proof, sub-B #4576 / sub-C #4577) can pattern-match on
+which arrows exist. -/
 noncomputable def etilde6Rep_kQ
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 7))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
     (_hOrient : @Etingof.IsOrientationOf 7 Q etilde6Adj)
-    (m : ℕ) :
+    (lam : F) (m : ℕ) :
     @Etingof.QuiverRepresentation F (Fin 7) _ Q := by
   letI := Q
   exact {
     obj := fun v => Fin (etilde6Dim m v) → F
     instAddCommMonoid := fun _ => inferInstance
     instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => etilde6RepMap_kQ F m a b
+    mapLinear := fun {a b} _ => etilde6RepMap_kQ F lam m a b
   }
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -244,57 +303,50 @@ theorem etilde6Rep_kQ_dimVec
     (Q : @Quiver.{0, 0} (Fin 7))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 7 Q etilde6Adj)
-    (m : ℕ) (v : Fin 7) :
+    (lam : F) (m : ℕ) (v : Fin 7) :
     Nonempty (@Etingof.QuiverRepresentation.obj F (Fin 7) _ Q
-      (etilde6Rep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (etilde6Dim m v) → F)) :=
+      (etilde6Rep_kQ F Q hOrient lam m) v ≃ₗ[F] (Fin (etilde6Dim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
-/-! ## Section 4: Indecomposability (path b: inherits the wave-54 framework wall)
+/-! ## Section 4: Indecomposability (corrected homogeneous tube; proof pending)
 
-The ℂ-specific source `etilde6v2Rep_isIndecomposable`
-(`InfiniteTypeConstructions.lean:3331`) is `sorry`'d due to the wave-54
-framework wall: the single-nilpotent-twist construction is decomposable for
-every `m ≥ 1` because the N-twist only covers the `⟨e₀, …, e_{m-1}⟩`
-sub-block of its target, leaving the `e_m` direction free to peel off as a
-1-dim summand at the center. See
-`progress/indecomposability-framework-investigation.md` (Section 1) for the
-explicit counter-example (verified at `etilde6v2Rep 1`).
+The construction above is now the corrected **homogeneous tube** (#4574): the
+three arms embed their intermediates as the three coordinate planes of the
+center, and arm C carries the square eigenvalue site `λ•id + J`
+(`starEmbedTube_F`) in place of the refuted rank-deficient twist. The brick
+derivation (`progress/etilde6-tube-matrices.md`) shows the leaf lines avoid
+every coordinate axis, so the `m = 1` peeling splitting of the old shape is
+defeated — there is no free `e_m` direction.
 
-Per #2807, we follow path (b): mirror the ℂ-specific stub at the
-orientation-generic level, carrying the same `sorry` with a docstring
-tying it to the framework wall. The final per-(F, Q) theorem
-`etilde6_not_finite_type_per_kQ` below depends transitively on this
-sorry, exactly as the ℂ-specific `etilde6_not_finite_type` depends on
-`etilde6v2Rep_isIndecomposable`.
+The indecomposability **proof** is the remaining open work, decomposed exactly
+as the D̃₆ program: sub-B (#4576) supplies the two-level collapse and the
+orientation-generic `leaf_equalities`; sub-C (#4577) assembles the final
+argument via `eigenvalue_jordan_invariant_compl_trivial_gen`
+(`FieldGenericTube.lean`). The theorem below carries the `sorry` until then.
 -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Orientation-generic indecomposability of `etilde6Rep_kQ`.
+/-- Orientation-generic indecomposability of the corrected Ẽ₆ homogeneous tube
+`etilde6Rep_kQ` at eigenvalue `lam`, for every `lam` (the eigenvalue drops out
+of the splitting argument, as in `starTubeRepGen_isIndecomposable`).
 
-**Framework wall (wave 54)**: this theorem inherits the same wall that
-blocks the ℂ-specific source `etilde6v2Rep_isIndecomposable`
-(`InfiniteTypeConstructions.lean:3331`): the single-nilpotent-twist
-construction is provably decomposable for every `m ≥ 1` (the N-twist only
-covers the `⟨e₀, …, e_{m-1}⟩` sub-block of its target, leaving `e_m`
-free). See `progress/indecomposability-framework-investigation.md`
-(Section 1) for the explicit counter-example and Section 5 Option B for a
-sketched stronger construction. The `1 ≤ m` hypothesis is required even
-in the planned proof — for `m = 0`, `nilpotentShiftLin 0 = 0`, the
-nilpotent twist disappears and the representation is provably
-decomposable (see the comment at
-`InfiniteTypeConstructions.lean:3322-3328`).
+The `1 ≤ m` hypothesis is genuinely required: for `m = 0` the Jordan block
+`J_{m+1}` is `0` so the eigenvalue site degenerates and the representation
+decomposes.
 
-The current proof is a `sorry`; the consumer `etilde6_not_finite_type_per_kQ`
-inherits this dependency. This is path (b) of #2807 — a follow-up
-issue will revisit when the framework question is resolved. -/
+**Proof pending** (#4576 sub-B + #4577 sub-C). The construction is the
+corrected homogeneous tube (sub-A #4574), so unlike the previous
+single-nilpotent-twist stub this statement is no longer refuted — it awaits the
+two-level collapse + eigenvalue-site assembly. The consumer
+`etilde6_not_finite_type_per_kQ` inherits this `sorry`. -/
 theorem etilde6Rep_kQ_isIndecomposable
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 7))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 7 Q etilde6Adj)
-    (m : ℕ) (hm : 1 ≤ m) :
-    (etilde6Rep_kQ F Q hOrient m).IsIndecomposable := by
+    (lam : F) (m : ℕ) (hm : 1 ≤ m) :
+    (etilde6Rep_kQ F Q hOrient lam m).IsIndecomposable := by
   let _ := hm  -- retain `hm` in the signature for the future proof
   sorry
 
@@ -331,9 +383,9 @@ theorem etilde6_not_finite_type_per_kQ
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 7) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
     intro m
-    exact ⟨etilde6Rep_kQ F Q hOrient (m + 1),
-      etilde6Rep_kQ_isIndecomposable F Q hOrient (m + 1) (Nat.succ_le_succ m.zero_le),
-      etilde6Rep_kQ_dimVec F Q hOrient (m + 1)⟩
+    exact ⟨etilde6Rep_kQ F Q hOrient 1 (m + 1),
+      etilde6Rep_kQ_isIndecomposable F Q hOrient 1 (m + 1) (Nat.succ_le_succ m.zero_le),
+      etilde6Rep_kQ_dimVec F Q hOrient 1 (m + 1)⟩
   have hinj : Function.Injective (fun m : ℕ => fun v : Fin 7 => etilde6Dim (m + 1) v) := by
     intro m₁ m₂ h
     have h0 := congr_fun h ⟨0, by omega⟩
