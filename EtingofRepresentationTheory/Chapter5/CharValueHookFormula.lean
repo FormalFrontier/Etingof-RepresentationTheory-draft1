@@ -26,6 +26,37 @@ namespace Etingof
 noncomputable section
 open scoped BigOperators
 
+/-- **ℚ analogue of `coeff_vandermonde_mul`.** The coefficient of `x^α` in
+`(alternantMatrix N e).det · P` is the signed sum over permutations `σ` of the
+shifted coefficients of `P`, where the shift `e ∘ σ⁻¹` is the exponent vector of
+the monomial `∏ᵢ X_{σ i}^{e i}` appearing in the determinant expansion.
+
+This mirrors `coeff_vandermonde_mul` (`Theorem5_15_1.lean`, stated over ℂ for the
+`vandermondePoly`) but works directly with the ℚ-valued `alternantMatrix`
+determinant that defines `charValue`, so no ℚ/ℂ transfer is needed. -/
+private theorem coeff_alternant_mul {N : ℕ} (e : Fin N → ℕ)
+    (P : MvPolynomial (Fin N) ℚ) (α : Fin N →₀ ℕ) :
+    MvPolynomial.coeff α ((alternantMatrix N e).det * P) =
+      ∑ σ : Equiv.Perm (Fin N),
+        (Equiv.Perm.sign σ : ℤ) •
+          (if Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm) ≤ α
+            then MvPolynomial.coeff
+              (α - Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) P
+            else 0) := by
+  rw [Matrix.det_apply, Finset.sum_mul, MvPolynomial.coeff_sum]
+  apply Finset.sum_congr rfl
+  intro σ _
+  have hmon : (∏ i, alternantMatrix N e (σ i) i) =
+      MvPolynomial.monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := by
+    rw [show ∏ i, alternantMatrix N e (σ i) i =
+        ∏ i, (MvPolynomial.X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i from rfl,
+      show ∏ i, (MvPolynomial.X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i =
+        ∏ i, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ) ^ (e (σ.symm i)) from
+          Fintype.prod_equiv σ _ _ (fun _ => by simp)]
+    exact prod_X_pow_eq_monomial' _
+  rw [Units.smul_def, smul_mul_assoc, MvPolynomial.coeff_smul, hmon,
+    MvPolynomial.coeff_monomial_mul', one_mul]
+
 /-- **Part A — Frobenius → Vandermonde determinant**
 (book `Discussion_hook_length_derivation`, lines 1–18).
 
@@ -51,6 +82,15 @@ theorem charValue_trivialCycleType_eq_frobeniusDetForm
         ((∏ i, ∏ j ∈ Finset.Ioi i,
             (shiftedExps N lam.parts i - shiftedExps N lam.parts j) : ℕ) : ℚ) /
         ((∏ j, (shiftedExps N lam.parts j).factorial : ℕ) : ℚ) := by
+  unfold charValue
+  rw [psumPart_trivialCycleType, coeff_alternant_mul]
+  -- Residual goal: the signed sum over `σ : Perm (Fin N)` of the multinomial
+  -- coefficients `coeff (lF - (vandermondeExps ∘ σ⁻¹)) ((∑ X)^n)` equals
+  -- `n! · ∏_{i<j}(l_i − l_j) / ∏_j l_j!`. Each nonzero coefficient is the
+  -- multinomial `n! / ∏_k (l_k − (N−1−σ⁻¹k))!` (issue: `coeff_sumXpow_multinomial`),
+  -- and the signed sum reorganizes into `n!/∏l_j! · det(falling factorials)`,
+  -- whose column reduction to `det(l_j^{N−i})` gives the Vandermonde product
+  -- `∏_{i<j}(l_i − l_j)` (issue: signed-sum → Vandermonde determinant).
   sorry
 
 /-- **Part B — the hook-length identity**
