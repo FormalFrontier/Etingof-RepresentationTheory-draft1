@@ -779,30 +779,108 @@ noncomputable def scalarGL (t : kˣ) :
     simp only [Units.inv_mul]
     exact Matrix.diagonal_one
 
+/-- The scalar matrix is the (commuting) product of the one-parameter diagonal
+generators: `scalarGL t = ∏ᵢ diagUnit i t`, the diagonal matrix with `t` in every
+slot.  The generators pairwise commute (`diagUnit_comm`), so this is a
+`Finset.noncommProd` (the ambient `GL` is noncommutative). -/
+private lemma scalarGL_eq_noncommProd (t : kˣ) :
+    scalarGL k N t
+      = Finset.univ.noncommProd (fun i => diagUnit k N i t)
+          (fun i _ j _ _ => diagUnit_comm k N i t j t) := by
+  apply Units.ext
+  have gen : ∀ (s : Finset (Fin N))
+      (comm : (↑s : Set (Fin N)).Pairwise
+        fun a b => Commute (diagUnit k N a t) (diagUnit k N b t)),
+      (s.noncommProd (fun i => diagUnit k N i t) comm).val
+        = Matrix.diagonal (fun j => if j ∈ s then (t : k) else 1) := by
+    intro s
+    induction s using Finset.induction with
+    | empty => intro comm; simp [Matrix.diagonal_one]
+    | @insert a s ha ih =>
+        intro comm
+        rw [Finset.noncommProd_insert_of_notMem _ _ _ _ ha, Units.val_mul, ih]
+        change Matrix.diagonal (Function.update (1 : Fin N → k) a (t : k))
+            * Matrix.diagonal (fun j => if j ∈ s then (t : k) else 1)
+            = Matrix.diagonal (fun j => if j ∈ insert a s then (t : k) else 1)
+        rw [Matrix.diagonal_mul_diagonal]
+        congr 1
+        funext j
+        by_cases hja : j = a
+        · subst hja; simp [Function.update_self, ha]
+        · rw [Function.update_of_ne hja]; simp [Finset.mem_insert, hja]
+  rw [gen Finset.univ]
+  change Matrix.diagonal (fun _ => (t : k))
+      = Matrix.diagonal (fun j => if j ∈ (Finset.univ : Finset (Fin N)) then (t : k) else 1)
+  simp
+
 /-- **Piece 1 of `det⁻¹` elimination — the scalar matrix acts by `t^n`.**
 On a weight-homogeneous-of-degree-`n` algebraic `GL_N`-representation, the scalar
 matrix `scalarGL t = t • 1` acts as the scalar `t ^ n`.
 
-Strategy (issue #4598 decomposition, Piece 1; see sub-issue for the genuine
-content): over an algebraically closed field of characteristic zero an algebraic
-representation has diagonalisable torus action, so the weight spaces span `M`
-(the missing *general* lemma `⨆ μ, glWeightSpace k N M μ = ⊤` for an arbitrary
-`IsAlgebraicRepresentation` — currently proven only for Schur modules at
-`Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`).  On a weight space
-`M_μ` the generator `diagUnit i t` acts by `t ^ (μ i)`
-(`glWeightSpace_le_maxGenEigenspace`), so `scalarGL t = ∏ᵢ diagUnit i t` acts by
-`t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`).  Hence `M.ρ (scalarGL t) = t^n • id`. -/
+Strategy (issue #4653): the genuine content is that the (nonnegative) weight
+spaces span `M`, supplied here as the hypothesis `hspan`.  **This cannot be
+derived from `h_homog` alone**: for the rational rep `M = det⁻¹` every
+`glWeightSpace μ` (`μ : Fin N → ℕ`) is `⊥` (the weight is `-1` everywhere, never
+a natural number), so `h_homog` holds vacuously, yet `M.ρ (scalarGL t) = t^{-N}`
+is not `t^n • id` for any `n : ℕ`.  The span hypothesis encodes that `M` is a
+*polynomial* representation; for Schur modules it is
+`Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`.
+
+Given `hspan`, the proof is short: on a weight space `M_μ` each generator
+`diagUnit i t` acts as `t ^ (μ i)` (directly from the weight-space membership),
+so `scalarGL t = ∏ᵢ diagUnit i t` (`scalarGL_eq_prod_diagUnit`) acts as
+`t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`).  Since these weight spaces span `M`, the
+operator `M.ρ (scalarGL t) - t^n • id` vanishes on all of `M`. -/
 private theorem scalarGL_acts_as_pow (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (hspan : (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i)) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n)
     (t : kˣ) :
     M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id := by
-  -- TODO (issue #4653): diagonalisability of the torus action on an arbitrary
-  -- algebraic representation, i.e. `⨆ μ, glWeightSpace k N M μ = ⊤`; the
-  -- Schur-module case is `glWeightSpace_schurModule_iSup_eq_top`.
-  sorry
+  rw [← sub_eq_zero]
+  set L : M →ₗ[k] M := M.ρ (scalarGL k N t) - ((t : k) ^ n) • LinearMap.id with hL
+  -- `L` kills every weight space, hence all of `M` (by `hspan`).
+  have hker : (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i)) ≤ LinearMap.ker L := by
+    rw [iSup_le_iff]
+    intro μ w hw
+    rw [LinearMap.mem_ker]
+    by_cases hw0 : w = 0
+    · simp [hw0]
+    · -- `w` is a simultaneous eigenvector for the diagonal generators.
+      have heig : ∀ i : Fin N, M.ρ (diagUnit k N i t) w = ((t : k) ^ μ i) • w := by
+        intro i
+        have hmem : w ∈ glWeightSpace k N M (fun j => μ j) := hw
+        rw [glWeightSpace, Submodule.mem_iInf] at hmem
+        have h2 := (Submodule.mem_iInf _).1 (hmem i) t
+        rw [LinearMap.mem_ker, LinearMap.sub_apply, sub_eq_zero,
+          LinearMap.smul_apply, LinearMap.id_apply] at h2
+        exact h2
+      -- `scalarGL t = ∏ᵢ diagUnit i t` acts as `∏ᵢ t^(μ i) = t^(∑ μ)`.
+      have act : ∀ (s : Finset (Fin N))
+          (comm : (↑s : Set (Fin N)).Pairwise
+            fun a b => Commute (M.ρ (diagUnit k N a t)) (M.ρ (diagUnit k N b t))),
+          (s.noncommProd (fun i => M.ρ (diagUnit k N i t)) comm) w
+            = (∏ i ∈ s, (t : k) ^ μ i) • w := by
+        intro s
+        induction s using Finset.induction with
+        | empty => intro comm; simp
+        | @insert a s ha ih =>
+            intro comm
+            rw [Finset.noncommProd_insert_of_notMem _ _ _ _ ha, Module.End.mul_apply, ih,
+              Finset.prod_insert ha, map_smul, heig a, smul_smul, mul_comm]
+      have hprod : M.ρ (scalarGL k N t) w = ((t : k) ^ (∑ i, μ i)) • w := by
+        rw [scalarGL_eq_noncommProd, Finset.map_noncommProd, act Finset.univ,
+          Finset.prod_pow_eq_pow_sum]
+      -- `w ≠ 0` lies in this weight space, so it is nonzero and `∑ μ = n`.
+      have hne : glWeightSpace k N M (fun i => μ i) ≠ ⊥ := by
+        intro h; exact hw0 ((Submodule.mem_bot k).1 (h ▸ hw))
+      have hsum : ∑ i, μ i = n := h_homog (fun i => μ i) hne
+      rw [hL, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, hprod, hsum,
+        sub_self]
+  rw [hspan, top_le_iff, LinearMap.ker_eq_top] at hker
+  exact hker
 
 /-- **Piece 2 of `det⁻¹` elimination — assembly given the scalar action.**
 Given that the scalar matrix acts by `t ^ n` (Piece 1, `scalarGL_acts_as_pow`),
@@ -845,11 +923,15 @@ polynomials in the bare matrix entries** `Fin N × Fin N` — i.e. the raw
 This bridges `Etingof.IsAlgebraicRepresentation` (matrix coefficients in
 `k[Xᵢⱼ, D]`, `D = det⁻¹`, no homogeneity) to the bare-entry homogeneous data.
 
-Proof strategy (the genuine mathematical content, deferred — see issue #4598
-decomposition): evaluate the matrix-coefficient identity at the scalar matrix
-`t • 1 = ∏ᵢ diagUnit i t`. Since `M` is algebraic over an algebraically closed
-field of characteristic zero, the diagonal torus acts diagonalisably, so the
-weight spaces span `M` and `M.ρ (t • 1) = t^n • id` (each weight `μ` has
+The hypothesis `hspan` (the nonnegative weight spaces span `M`) encodes that `M`
+is a *polynomial* representation; it cannot be dropped, since a rational rep such
+as `det⁻¹` satisfies `h_homog` vacuously yet is not polynomial (see
+`scalarGL_acts_as_pow`).
+
+Proof strategy (Piece 2, `hpoly'_of_scalarGL_action`, is the genuine content,
+deferred — see issue #4654): evaluate the matrix-coefficient identity at the
+scalar matrix `t • 1 = ∏ᵢ diagUnit i t`. By `hspan` the weight spaces span `M`,
+so `M.ρ (t • 1) = t^n • id` (each weight `μ` has
 `∑ μ = n` by `h_homog`). Hence every matrix coefficient `g ↦ b.repr (ρ g (b c))
 a` is homogeneous of degree `n` under `g ↦ t • g`. Writing the algebraic-rep
 polynomial `P a c` over `GLCoordVars = (Fin N × Fin N) ⊕ Unit` as
@@ -861,6 +943,7 @@ theorem polynomialRep_homogeneous_hpoly'
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (hspan : (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i)) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
@@ -873,19 +956,23 @@ theorem polynomialRep_homogeneous_hpoly'
                (P a c)) :=
   -- Assemble Piece 2 (det⁻¹ elimination) over Piece 1 (scalar action).
   hpoly'_of_scalarGL_action k N n M halg
-    (fun t => scalarGL_acts_as_pow k N n M halg h_homog t)
+    (fun t => scalarGL_acts_as_pow k N n M halg hspan h_homog t)
 
 /-- **A weight-homogeneous-of-degree-`n` algebraic `GL_N`-rep embeds
 `GL_N`-equivariantly into `(V^{⊗n})^m`** (issue #4598, FDRep-facing corollary
 of `polynomialRep_embeds_in_tensorPower'`). The det⁻¹ elimination is supplied
 by `polynomialRep_homogeneous_hpoly'`; the equivariant embedding then follows
-from the primed embedding lemma. Downstream: the Schur-Weyl #5 assembly
-(issue #2482) views `(Fin m → TensorPower …)` as the ambient semisimple
-`(V^{⊗n})^m`. -/
+from the primed embedding lemma. The `hspan` hypothesis (nonnegative weight
+spaces span `M`) is the polynomial-ness assumption required for the embedding to
+exist — a rational rep like `det⁻¹` does not embed into `V^{⊗n}`. Downstream: the
+Schur-Weyl #5 assembly (issue #2482) views `(Fin m → TensorPower …)` as the
+ambient semisimple `(V^{⊗n})^m`, and supplies `hspan` from the polynomiality of
+the rep at hand. -/
 theorem polynomial_homog_rep_equivariant_embedding
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (hspan : (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i)) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (m : ℕ) (φ : M →ₗ[k] (Fin m → TensorPower k (StdV k N) n)),
       Function.Injective φ ∧
@@ -894,7 +981,7 @@ theorem polynomial_homog_rep_equivariant_embedding
           PiTensorProduct.map
             (fun _ : Fin n => Matrix.toLin' (g : Matrix (Fin N) (Fin N) k))
             (φ x i)) := by
-  obtain ⟨d, b, P, hhom, hP⟩ := polynomialRep_homogeneous_hpoly' k N M halg h_homog
+  obtain ⟨d, b, P, hhom, hP⟩ := polynomialRep_homogeneous_hpoly' k N M halg hspan h_homog
   exact polynomialRep_embeds_in_tensorPower' k N n M.ρ halg ⟨d, b, P, hhom, hP⟩
 
 end Etingof.PolynomialRepEmbedding
