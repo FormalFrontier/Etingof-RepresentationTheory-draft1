@@ -240,6 +240,154 @@ theorem hookLengthProduct_eq_prod_rows (N : ℕ) {n : ℕ} (lam : BoundedPartiti
   · intro p hp; rfl
   · intro c hc; rfl
 
+/-- **Multinomial coefficient (step 4).** The coefficient of `monomial (symm γ) 1`
+in `(∑ᵢ Xᵢ)ⁿ` is the multinomial coefficient `n!/∏ (γ i)!`, for any exponent vector
+`γ` summing to `n`. Proved from `Finset.sum_pow_eq_sum_piAntidiag`. -/
+private theorem coeff_sum_X_pow_eq_multinomial {N n : ℕ} (γ : Fin N → ℕ)
+    (hγ : ∑ i, γ i = n) :
+    MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm γ)
+        ((∑ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ^ n)
+      = (Nat.multinomial Finset.univ γ : ℚ) := by
+  classical
+  rw [Finset.sum_pow_eq_sum_piAntidiag Finset.univ
+        (fun i => (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) n,
+      MvPolynomial.coeff_sum]
+  have hmem : γ ∈ Finset.piAntidiag (Finset.univ : Finset (Fin N)) n := by
+    rw [Finset.mem_piAntidiag]
+    exact ⟨by simpa using hγ, fun i _ => Finset.mem_univ i⟩
+  rw [Finset.sum_eq_single_of_mem γ hmem]
+  · rw [← nsmul_eq_mul, MvPolynomial.coeff_smul, prod_X_pow_eq_monomial',
+        MvPolynomial.coeff_monomial, if_pos rfl, nsmul_eq_mul, mul_one]
+  · intro k _ hkγ
+    rw [← nsmul_eq_mul, MvPolynomial.coeff_smul, prod_X_pow_eq_monomial',
+        MvPolynomial.coeff_monomial,
+        if_neg (fun h => hkγ (Finsupp.equivFunOnFinite.symm.injective h)), smul_zero]
+
+/-- **Sub-A1 (steps 1–6 of the Frobenius route, #4669).** The Frobenius character
+value at the identity reduces to a falling-factorial (descending-Pochhammer)
+determinant: `charValue = (n!/∏ βⱼ!) · det((βᵢ)_{eⱼ})`, where `β = shiftedExps` and
+`e = vandermondeExps`. This is the analytic / coefficient-extraction half of the
+Vandermonde computation. The sibling step 7 turns this determinant into the
+Vandermonde product `∏_{i<j}(βᵢ − βⱼ)` via column reduction.
+
+Proof: expand the alternant determinant as a signed monomial sum
+(`Matrix.det_apply`), shift each coefficient through `(∑X)ⁿ`
+(`coeff_monomial_mul'`), read off the multinomial coefficient
+(`coeff_sum_X_pow_eq_multinomial`), and recognise the resulting signed sum of
+falling factorials as the determinant of `descPochhammer`-evaluations
+(`factorial_mul_descFactorial`, `descPochhammer_eval_eq_descFactorial`). -/
+private theorem charValue_trivialCycleType_eq_descPochhammer_det
+    (N : ℕ) {n : ℕ} (lam : BoundedPartition N n) :
+    charValue N lam (trivialCycleType n) =
+      (n.factorial : ℚ) / (∏ j, ((shiftedExps N lam.parts j).factorial : ℚ)) *
+        ((Matrix.of fun i j : Fin N =>
+            (descPochhammer ℤ (vandermondeExps N j)).eval
+              (shiftedExps N lam.parts i : ℤ)).det : ℚ) := by
+  classical
+  unfold charValue
+  rw [psumPart_trivialCycleType]
+  set β := shiftedExps N lam.parts with hβ
+  set e := vandermondeExps N with he
+  set P := (∑ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ^ n with hP
+  have hsumβ : ∑ k, β k = n + ∑ k, e k := by
+    rw [hβ, he]; simp only [shiftedExps, vandermondeExps]
+    rw [Finset.sum_add_distrib, lam.sum_eq]
+  have hfac_pos : (0 : ℚ) < ∏ j, ((β j).factorial : ℚ) := by
+    apply Finset.prod_pos; intro j _; exact_mod_cast Nat.factorial_pos (β j)
+  rw [div_mul_eq_mul_div, eq_div_iff (ne_of_gt hfac_pos)]
+  -- Each `∏ᵢ X_{σ i}^{e i}` is the monomial at the permuted exponent `e ∘ σ⁻¹`.
+  have hmono : ∀ σ : Equiv.Perm (Fin N),
+      (∏ i, alternantMatrix N e (σ i) i)
+        = MvPolynomial.monomial
+            (Finsupp.equivFunOnFinite.symm (fun k => e (σ.symm k))) (1 : ℚ) := by
+    intro σ
+    rw [show (∏ i, alternantMatrix N e (σ i) i)
+          = ∏ i, ((MvPolynomial.X (σ i) : MvPolynomial (Fin N) ℚ)) ^ e i from rfl,
+        show (∏ i, ((MvPolynomial.X (σ i) : MvPolynomial (Fin N) ℚ)) ^ e i)
+          = ∏ i, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ) ^ (e (σ.symm i))
+          from Fintype.prod_equiv σ _ _ (fun i => by simp)]
+    exact prod_X_pow_eq_monomial' _
+  -- The descending-Pochhammer determinant, expanded over permutations, in ℚ.
+  have hR : ((Matrix.of fun i j : Fin N =>
+        (descPochhammer ℤ (e j)).eval ((β i : ℤ))).det : ℚ)
+      = ∑ σ : Equiv.Perm (Fin N), Equiv.Perm.sign σ •
+          ∏ i, ((β (σ i)).descFactorial (e i) : ℚ) := by
+    have hcast : ((Matrix.of fun i j : Fin N =>
+          (descPochhammer ℤ (e j)).eval ((β i : ℤ))).det : ℚ)
+        = (Matrix.of fun i j : Fin N => ((β i).descFactorial (e j) : ℚ)).det := by
+      have h1 : ((Matrix.of fun i j : Fin N =>
+            (descPochhammer ℤ (e j)).eval ((β i : ℤ))).det : ℚ)
+          = (Int.castRingHom ℚ) (Matrix.of fun i j : Fin N =>
+            (descPochhammer ℤ (e j)).eval ((β i : ℤ))).det := by simp
+      rw [h1, RingHom.map_det]
+      congr 1
+      ext i j
+      simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply,
+        eq_intCast, descPochhammer_eval_eq_descFactorial, Int.cast_natCast]
+    rw [hcast, Matrix.det_apply]
+    refine Finset.sum_congr rfl (fun σ _ => ?_)
+    congr 1
+  rw [hR, Matrix.det_apply, Finset.sum_mul, MvPolynomial.coeff_sum]
+  simp_rw [smul_mul_assoc, MvPolynomial.coeff_smul, hmono,
+           MvPolynomial.coeff_monomial_mul', one_mul]
+  rw [Finset.sum_mul, Finset.mul_sum]
+  refine Finset.sum_congr rfl (fun σ _ => ?_)
+  rw [smul_mul_assoc, mul_smul_comm]
+  congr 1
+  by_cases H : ∀ i, e i ≤ β (σ i)
+  · -- The genuine-subtraction branch: coefficient = multinomial coefficient.
+    set γ : Fin N → ℕ := fun k => β k - e (σ.symm k) with hγdef
+    have hcond : ∀ k, e (σ.symm k) ≤ β k := fun k => by
+      have := H (σ.symm k); simpa using this
+    have hHσ : Finsupp.equivFunOnFinite.symm (fun k => e (σ.symm k))
+        ≤ Finsupp.equivFunOnFinite.symm β := by
+      rw [Finsupp.le_def]; intro k
+      simp only [Finsupp.coe_equivFunOnFinite_symm]; exact hcond k
+    rw [if_pos hHσ]
+    have hsub : Finsupp.equivFunOnFinite.symm β
+          - Finsupp.equivFunOnFinite.symm (fun k => e (σ.symm k))
+        = Finsupp.equivFunOnFinite.symm γ := by
+      ext k
+      simp only [Finsupp.tsub_apply, Finsupp.coe_equivFunOnFinite_symm, hγdef]
+    rw [hsub]
+    have hsum : ∑ k, γ k = n := by
+      have h1 : (∑ k, γ k) + (∑ k, e (σ.symm k)) = ∑ k, β k := by
+        rw [← Finset.sum_add_distrib]
+        refine Finset.sum_congr rfl (fun k _ => ?_)
+        simp only [hγdef]; exact Nat.sub_add_cancel (hcond k)
+      have h2 : ∑ k, e (σ.symm k) = ∑ k, e k := Equiv.sum_comp σ.symm e
+      omega
+    rw [hP, coeff_sum_X_pow_eq_multinomial γ hsum]
+    have hkey : Nat.multinomial Finset.univ γ * (∏ j, (β j).factorial)
+        = n.factorial * ∏ i, (β (σ i)).descFactorial (e i) := by
+      have hreindex : (∏ j, (β j).factorial) = ∏ i, (β (σ i)).factorial :=
+        (Equiv.prod_comp σ (fun j => (β j).factorial)).symm
+      have hfac_i : ∀ i, (β (σ i)).factorial
+          = (γ (σ i)).factorial * (β (σ i)).descFactorial (e i) := by
+        intro i
+        have hei : e i ≤ β (σ i) := H i
+        have hgi : γ (σ i) = β (σ i) - e i := by
+          simp only [hγdef, Equiv.symm_apply_apply]
+        rw [hgi, ← Nat.factorial_mul_descFactorial hei]
+      rw [hreindex, Finset.prod_congr rfl (fun i _ => hfac_i i), Finset.prod_mul_distrib,
+          Equiv.prod_comp σ (fun k => (γ k).factorial), ← mul_assoc,
+          mul_comm (Nat.multinomial Finset.univ γ), Nat.multinomial_spec, hsum]
+    exact_mod_cast hkey
+  · -- The support-gap branch: a falling factorial vanishes, both sides are zero.
+    push_neg at H
+    obtain ⟨i₀, hi₀⟩ := H
+    have hHσ : ¬ (Finsupp.equivFunOnFinite.symm (fun k => e (σ.symm k))
+        ≤ Finsupp.equivFunOnFinite.symm β) := by
+      rw [Finsupp.le_def]; push_neg
+      refine ⟨σ i₀, ?_⟩
+      simp only [Finsupp.coe_equivFunOnFinite_symm, Equiv.symm_apply_apply]
+      exact hi₀
+    rw [if_neg hHσ, zero_mul]
+    have hzero : ∏ i, ((β (σ i)).descFactorial (e i) : ℚ) = 0 :=
+      Finset.prod_eq_zero (Finset.mem_univ i₀) (by
+        rw [Nat.descFactorial_eq_zero_iff_lt.mpr hi₀]; simp)
+    rw [hzero, mul_zero]
+
 /-- **Part A — Frobenius → Vandermonde determinant**
 (book `Discussion_hook_length_derivation`, lines 1–18).
 
