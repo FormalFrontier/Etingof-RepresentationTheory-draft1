@@ -68,12 +68,18 @@ variable (k : Type u) [Field k] (N : ℕ)
 `GL_N`-equivariant decompositions are stated. -/
 abbrev GLAlg := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)
 
+set_option maxHeartbeats 3200000 in
+set_option synthInstance.maxHeartbeats 1600000 in
 /-- **Unified equivariant + simple Schur-Weyl decomposition of `V^{⊗n}`.**
 
 This is `glTensorRep_equivariant_schurWeyl_decomposition`
 (`FormalCharacterIso.lean:775`) strengthened with the simplicity clause of
 `Theorem5_18_4_GL_rep_decomposition_simple` (`SchurWeylGLTransfer.lean:659`):
 each abstract summand `L i` is *simple* as a `MonoidAlgebra k GL_N`-module.
+
+The heartbeat budgets match the source proofs (`Theorem5_18_4_GL_rep_decomposition_explicit`
+/ `_simple`): the simplicity-enriched explicit existential has 14 binders whose
+`Submodule → Module k` instance synthesis exceeds the default budget.
 
 Both source theorems are built from the same explicit bimodule decomposition
 (`Theorem5_18_4_bimodule_decomposition_explicit`) and produce the *same*
@@ -99,8 +105,56 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
           e (glTensorRep k N n g v) =
             Representation.directSum (fun i =>
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
-                (S i)).tprod (L i).ρ) g (e v) :=
-  sorry
+                (S i)).tprod (L i).ρ) g (e v) := by
+  classical
+  -- Get the explicit GL_N decomposition together with the per-`i` simplicity
+  -- clause (`Theorem5_18_4_GL_rep_decomposition_explicit_simple`, issue #4666).
+  obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, L_carrier,
+      hL_simple, e, he, h_act⟩ :=
+    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
+  refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
+    fun _ => inferInstance, fun _ => inferInstance,
+    fun i => hSi_fin i, L, hL_simple, ?_, ?_⟩
+  · exact e
+  intro g v
+  -- Reduce equivariance to: (glTensorRep g) ∘ e.symm = e.symm ∘ directSum_action g.
+  -- This is the equivariance computation of
+  -- `glTensorRep_equivariant_schurWeyl_decomposition` (FormalCharacterIso.lean),
+  -- now run over the simplicity-enriched explicit data.
+  have h_lin :
+      (glTensorRep k N n g) ∘ₗ (e.symm : _ →ₗ[k] _) =
+        (e.symm : _ →ₗ[k] _) ∘ₗ
+          (Representation.directSum (fun i =>
+            (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+              (↥(S' i))).tprod (L i).ρ) g) := by
+    refine DirectSum.linearMap_ext k fun i => ?_
+    apply TensorProduct.ext'
+    intro s l
+    change (glTensorRep k N n g) (e.symm
+        (DirectSum.lof k ι (fun i => ↥(S' i) ⊗[k] (L i : Type u)) i
+          (s ⊗ₜ[k] l))) =
+      e.symm ((Representation.directSum (fun i =>
+        (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+          (↥(S' i))).tprod (L i).ρ) g)
+        (DirectSum.lof k ι _ i (s ⊗ₜ[k] l)))
+    rw [DirectSum.lof_eq_of, he i s l]
+    change _ = e.symm (DirectSum.lmap
+      (fun i => ((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (DirectSum.of _ i (s ⊗ₜ[k] l)))
+    rw [DirectSum.lmap_of, Representation.tprod_apply, TensorProduct.map_tmul,
+      Representation.trivial_apply, he i s ((L i).ρ g l)]
+    exact (h_act i g l s).symm
+  -- Apply h_lin at z := e v and reduce.
+  have h := LinearMap.congr_fun h_lin (e v)
+  rw [LinearMap.comp_apply, LinearMap.comp_apply] at h
+  rw [show (e.symm : _ →ₗ[k] _) (e v) = v from e.symm_apply_apply v] at h
+  rw [show (e.symm : _ →ₗ[k] _) ((Representation.directSum (fun i =>
+      (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (e v)) =
+    e.symm ((Representation.directSum (fun i =>
+      (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (e v)) from rfl] at h
+  exact (LinearEquiv.eq_symm_apply e).mp h
 
 /-- **`M` embeds `R`-linearly as a submodule of a finite direct sum of the
 abstract simple summands `L i`.**
