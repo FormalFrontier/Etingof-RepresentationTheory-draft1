@@ -39,20 +39,23 @@ lemmas:
 
 The two named decomposition theorems build the **same** `L i = FDRep.of ρ_i`
 but expose disjoint clauses (one the equivariance, the other the simplicity).
-Unifying them, and transferring the `k`-linear equivariant data to the
-`MonoidAlgebra k GL_N`-module level expected by the isotypic engine, are the
-two bridge lemmas left as `sorry` here:
+Unifying them (now done, #4666), and transferring the `k`-linear equivariant
+data to the `MonoidAlgebra k GL_N`-module level expected by the isotypic engine,
+were the two bridge lemmas:
 
 * `glTensorRep_schurWeyl_decomposition_equivariant_simple` — the unified
-  equivariant + simple decomposition (merge the two existing proofs, both over
-  `FDRep.of ρ_i`).
+  equivariant + simple decomposition. **Proved** (#4666) by re-running the
+  equivariance computation over `Theorem5_18_4_GL_rep_decomposition_explicit_simple`
+  (`SchurWeylGLTransfer.lean`), the merge of the two source proofs over the one
+  shared `FDRep.of ρ_i`.
 * `polynomial_homog_rep_asModule_embeds_directSum_simple` — package #4598 +
   the unified decomposition + the `asModule` transfer + the `Fin m`-fold
   product splitting into a single `R`-linear embedding of `M.asModule` as a
-  submodule of a finite direct sum of the simple `L i`.
+  submodule of a finite direct sum of the simple `L i`. Still `sorry` here
+  (#4667).
 
 Given those two, `decompose_polynomial_gl_rep` is a clean application of the
-isotypic engine #4600. The two bridges are filed as sub-issues of #2482.
+isotypic engine #4600. The bridges are filed as sub-issues of #2482.
 -/
 
 open scoped TensorProduct DirectSum
@@ -68,6 +71,11 @@ variable (k : Type u) [Field k] (N : ℕ)
 `GL_N`-equivariant decompositions are stated. -/
 abbrev GLAlg := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)
 
+set_option maxHeartbeats 1200000 in
+-- 9 ∀-binders in the output; the source `_explicit_simple` carries deep
+-- `Subalgebra → Ring → Module.End` instance chains re-synthesised here
+set_option synthInstance.maxHeartbeats 400000 in
+-- headroom over the 60000 of `glTensorRep_equivariant_schurWeyl_decomposition`
 /-- **Unified equivariant + simple Schur-Weyl decomposition of `V^{⊗n}`.**
 
 This is `glTensorRep_equivariant_schurWeyl_decomposition`
@@ -82,7 +90,10 @@ The proof therefore re-runs the equivariance computation of the former while
 keeping the centralizer-side simplicity clause that
 `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple` transports to `GL_N`.
 
-TODO (sub-issue of #2482): merge the two existing proofs. -/
+Merges the two existing proofs (#4666): the equivariance computation of
+`glTensorRep_equivariant_schurWeyl_decomposition` is re-run over the unified
+`Theorem5_18_4_GL_rep_decomposition_explicit_simple`, which additionally carries
+the per-`L i` simplicity clause. -/
 theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
@@ -99,8 +110,57 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
           e (glTensorRep k N n g v) =
             Representation.directSum (fun i =>
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
-                (S i)).tprod (L i).ρ) g (e v) :=
-  sorry
+                (S i)).tprod (L i).ρ) g (e v) := by
+  classical
+  -- Get the explicit + simple GL_N decomposition (this carries both the
+  -- evaluation/action formulas and the per-`L i` simplicity).
+  obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hLsimp, L_carrier,
+      e, he, h_act⟩ :=
+    Etingof.Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
+  refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
+    fun _ => inferInstance, fun _ => inferInstance,
+    fun i => hSi_fin i, L, hLsimp, ?_, ?_⟩
+  · exact e
+  intro g v
+  -- Equivariance (à la `glTensorRep_equivariant_schurWeyl_decomposition`):
+  -- reduce to `(glTensorRep g) ∘ e.symm = e.symm ∘ directSum_action g`.
+  have h_lin :
+      (glTensorRep k N n g) ∘ₗ (e.symm : _ →ₗ[k] _) =
+        (e.symm : _ →ₗ[k] _) ∘ₗ
+          (Representation.directSum (fun i =>
+            (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+              (↥(S' i))).tprod (L i).ρ) g) := by
+    refine DirectSum.linearMap_ext k fun i => ?_
+    apply TensorProduct.ext'
+    intro s l
+    change (glTensorRep k N n g) (e.symm
+        (DirectSum.lof k ι (fun i => ↥(S' i) ⊗[k] (L i : Type u)) i
+          (s ⊗ₜ[k] l))) =
+      e.symm ((Representation.directSum (fun i =>
+        (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+          (↥(S' i))).tprod (L i).ρ) g)
+        (DirectSum.lof k ι _ i (s ⊗ₜ[k] l)))
+    -- LHS: e.symm (of i (s ⊗ₜ l)) = (L_carrier i l) s by `he`.
+    rw [DirectSum.lof_eq_of, he i s l]
+    -- RHS: directSum_action g (of i (s ⊗ₜ l)) = of i (s ⊗ₜ ((L i).ρ g l)).
+    change _ = e.symm (DirectSum.lmap
+      (fun i => ((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (DirectSum.of _ i (s ⊗ₜ[k] l)))
+    rw [DirectSum.lmap_of, Representation.tprod_apply, TensorProduct.map_tmul,
+      Representation.trivial_apply, he i s ((L i).ρ g l)]
+    -- Goal: glTensorRep g ((L_carrier i l) s) = (L_carrier i ((L i).ρ g l)) s.
+    exact (h_act i g l s).symm
+  -- Apply h_lin at z := e v and reduce.
+  have h := LinearMap.congr_fun h_lin (e v)
+  rw [LinearMap.comp_apply, LinearMap.comp_apply] at h
+  rw [show (e.symm : _ →ₗ[k] _) (e v) = v from e.symm_apply_apply v] at h
+  rw [show (e.symm : _ →ₗ[k] _) ((Representation.directSum (fun i =>
+      (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (e v)) =
+    e.symm ((Representation.directSum (fun i =>
+      (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (↥(S' i))).tprod (L i).ρ) g) (e v)) from rfl] at h
+  exact (LinearEquiv.eq_symm_apply e).mp h
 
 /-- **`M` embeds `R`-linearly as a submodule of a finite direct sum of the
 abstract simple summands `L i`.**
