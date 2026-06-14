@@ -924,8 +924,125 @@ theorem d5tildeRep_kQ_leaf_equalities
             exact ⟨heq01, heq04, heq05⟩
           · -- e53 reversed (3→5): follow-up sub-issue
             sorry
-        · -- e43 reversed (3→4): follow-up sub-issue
-          sorry
+        · -- e43 reversed (3→4)
+          obtain ⟨a34⟩ := hQ43
+          rcases hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
+          · -- e53 canonical (5→3): combo C — v=3 mixed (4 reversed, 5 canonical).
+            -- The canonical push-leaf 5 only yields a (I - N)-twisted relation
+            -- via γ⁻¹; the literal leaf equality needs N-invariance
+            -- infrastructure. Deferred to a follow-up sub-issue.
+            obtain ⟨a53⟩ := hQ53
+            sorry
+          · -- e53 reversed (3→5): combo D — both v=3 leaf edges reversed.
+            -- The reversed projections starFirst_F / starSecond_F extract the
+            -- leaf components directly, so the `*_proj1/2` siblings deliver the
+            -- containments with no mixed-direction obstruction.
+            obtain ⟨a35⟩ := hQ53
+            -- Canonical v=2 + central pushes (same as the all-canonical branch).
+            have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a02 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+              have h := hW₁_inv a12 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a23 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            -- Reversed v=3 leaf pulls.
+            have hW₁_34 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨3, by omega⟩) :
+                starFirst_F F m w ∈ W₁ ⟨4, by omega⟩ := by
+              have h := hW₁_inv a34 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₁_35 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨3, by omega⟩) :
+                starSecond_F F m w ∈ W₁ ⟨5, by omega⟩ := by
+              have h := hW₁_inv a35 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            -- Same five facts for W₂.
+            have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a02 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+              have h := hW₂_inv a12 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+                d5tildeGamma_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a23 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_34 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨3, by omega⟩) :
+                starFirst_F F m w ∈ W₂ ⟨4, by omega⟩ := by
+              have h := hW₂_inv a34 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            have hW₂_35 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨3, by omega⟩) :
+                starSecond_F F m w ∈ W₂ ⟨5, by omega⟩ := by
+              have h := hW₂_inv a35 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h
+              exact h
+            -- Leaf containments for W₁: route 0/1 → 2 → 3, then pull to 4/5.
+            have h04 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₁ hW₁_34 x x hg
+            have h05 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj2 F Q hOrient m W₁ hW₁_35 x x hg
+            have h14 : W₁ ⟨1, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+              intro y hy
+              have hg := hW₁_23 _ (hW₁_12 y hy)
+              rw [gamma_from_embed2_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₁ hW₁_34 y
+                (nilpotentShiftLinGen F m y) hg
+            -- Same containments for W₂.
+            have h04' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₂ hW₂_34 x x hg
+            have h05' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gamma_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj2 F Q hOrient m W₂ hW₂_35 x x hg
+            have h14' : W₂ ⟨1, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+              intro y hy
+              have hg := hW₂_23 _ (hW₂_12 y hy)
+              rw [gamma_from_embed2_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₂ hW₂_34 y
+                (nilpotentShiftLinGen F m y) hg
+            -- Complementarity upgrades each containment to an equality.
+            have heq04 : W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨4, by omega⟩) h04 h04').1
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq14 : W₁ ⟨1, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨4, by omega⟩) h14 h14').1
+            have heq01 : W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ := heq04.trans heq14.symm
+            exact ⟨heq01, heq04, heq05⟩
       · -- e23 reversed (3→2): follow-up sub-issue (uses γ⁻¹)
         sorry
     · -- e12 reversed (2→1): follow-up sub-issue (uses starSecond_F projection)
