@@ -240,6 +240,81 @@ theorem hookLengthProduct_eq_prod_rows (N : ℕ) {n : ℕ} (lam : BoundedPartiti
   · intro p hp; rfl
   · intro c hc; rfl
 
+/-- **Part A, step 7 (algebraic / Vandermonde half, #4670).**
+
+The falling-factorial alternant determinant with the *reflected* column exponents
+`vandermondeExps N j = N-1-j` equals the genuine descending product
+`∏_{i<j}(βᵢ − βⱼ)` of a strictly antitone node sequence `β`.
+
+Proof: `descPochhammer ℤ k` is monic of degree `k`, so
+`Matrix.det_eval_matrixOfPolynomials_eq_det_vandermonde` identifies the *ascending*
+falling-factorial matrix (columns `j ↦ (descPochhammer ℤ j).eval ·`) with a true
+Vandermonde determinant. The reflected matrix is obtained from the ascending one of
+the *reversed* node sequence `γ := β ∘ Fin.rev` by the `rev`-on-both-indices
+submatrix, whose determinant is unchanged (`det_submatrix_equiv_self`) — so no
+column-reflection sign survives. `Matrix.det_vandermonde` then gives
+`∏_{i<j}(γⱼ − γᵢ)`, and the pair-involution `(i,j) ↦ (rev j, rev i)` rewrites this
+as `∏_{i<j}(βᵢ − βⱼ)` (each difference a genuine positive `ℕ` subtraction since
+`β` is strictly decreasing). -/
+private theorem descPochhammer_alternant_det_eq_prod_sub
+    (N : ℕ) (β : Fin N → ℕ) (hβ : StrictAnti β) :
+    (Matrix.of fun i j : Fin N =>
+        (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)).det =
+      ((∏ i, ∏ j ∈ Finset.Ioi i, (β i - β j) : ℕ) : ℤ) := by
+  classical
+  set γ : Fin N → ℤ := fun i => (β (Fin.rev i) : ℤ) with hγ
+  -- The Vandermonde determinant of the reversed nodes `γ` equals the determinant of
+  -- the *ascending* falling-factorial matrix of `γ` (monic degree-`k` polynomials).
+  have hBγ : (Matrix.vandermonde γ).det
+      = (Matrix.of fun i j : Fin N => (descPochhammer ℤ (j : ℕ)).eval (γ i)).det :=
+    Matrix.det_eval_matrixOfPolynomials_eq_det_vandermonde γ
+      (fun i : Fin N => descPochhammer ℤ (i : ℕ))
+      (fun i => descPochhammer_natDegree ℤ i)
+      (fun i => monic_descPochhammer ℤ i)
+  -- The `rev`-on-both-indices submatrix of our reflected matrix is exactly that
+  -- ascending falling-factorial matrix of `γ`.
+  have hsub : (Matrix.of fun i j : Fin N =>
+        (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)).submatrix
+          Fin.revPerm Fin.revPerm
+      = (Matrix.of fun i j : Fin N => (descPochhammer ℤ (j : ℕ)).eval (γ i)) := by
+    ext i j
+    have hvj : vandermondeExps N (Fin.rev j) = (j : ℕ) := by
+      have hj := j.isLt
+      simp only [vandermondeExps, Fin.val_rev]
+      omega
+    simp only [Matrix.submatrix_apply, Matrix.of_apply, Fin.revPerm_apply, hγ, hvj]
+  -- Chain: det(reflected) = det(submatrix) = det(vandermonde γ) = ∏ (γ j − γ i).
+  have hdet : (Matrix.of fun i j : Fin N =>
+        (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)).det
+      = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, (γ j - γ i) := by
+    rw [← Matrix.det_submatrix_equiv_self Fin.revPerm
+          (Matrix.of fun i j : Fin N =>
+            (descPochhammer ℤ (vandermondeExps N j)).eval (β i : ℤ)),
+        hsub, ← hBγ, Matrix.det_vandermonde]
+  rw [hdet]
+  -- Cast the `ℕ` target into a product of genuine `ℤ` differences.
+  have hcast : ((∏ i, ∏ j ∈ Finset.Ioi i, (β i - β j) : ℕ) : ℤ)
+      = ∏ i : Fin N, ∏ j ∈ Finset.Ioi i, ((β i : ℤ) - (β j : ℤ)) := by
+    rw [Nat.cast_prod]
+    refine Finset.prod_congr rfl (fun i _ => ?_)
+    rw [Nat.cast_prod]
+    refine Finset.prod_congr rfl (fun j hj => ?_)
+    exact Nat.cast_sub (hβ (Finset.mem_Ioi.mp hj)).le
+  rw [hcast, Finset.prod_sigma', Finset.prod_sigma']
+  -- The pair involution `(i,j) ↦ (rev j, rev i)` matches `γ j − γ i` with `βᵢ − βⱼ`.
+  apply Finset.prod_nbij'
+    (fun x : Σ _ : Fin N, Fin N => (⟨Fin.rev x.2, Fin.rev x.1⟩ : Σ _ : Fin N, Fin N))
+    (fun x : Σ _ : Fin N, Fin N => (⟨Fin.rev x.2, Fin.rev x.1⟩ : Σ _ : Fin N, Fin N))
+  · intro x hx
+    simp only [Finset.mem_sigma, Finset.mem_univ, Finset.mem_Ioi, true_and] at hx ⊢
+    exact Fin.rev_lt_rev.mpr hx
+  · intro x hx
+    simp only [Finset.mem_sigma, Finset.mem_univ, Finset.mem_Ioi, true_and] at hx ⊢
+    exact Fin.rev_lt_rev.mpr hx
+  · intro x _; simp only [Fin.rev_rev]
+  · intro x _; simp only [Fin.rev_rev]
+  · intro x _; simp only [hγ]
+
 /-- **Part A — Frobenius → Vandermonde determinant**
 (book `Discussion_hook_length_derivation`, lines 1–18).
 
