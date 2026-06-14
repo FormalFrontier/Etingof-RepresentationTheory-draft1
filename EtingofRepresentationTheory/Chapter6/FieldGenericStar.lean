@@ -1140,6 +1140,179 @@ theorem oneSubNilp_cumTailSumLin (F : Type) [Field F] (m : ℕ)
     have hidx : (⟨i, hi⟩ : Fin (i + 1)) = ⟨i, lt_add_one i⟩ := rfl
     rw [hidx, cumTailSumLin_apply_last]
 
+/-! ## Eigenvalue-site geometric series `(Λ - I)⁻¹`
+
+The D̃-family tube redesign (`progress/dtilde-tube-redesign-design.md`)
+replaces the rank-deficient nilpotent central site `N` with the full-rank
+eigenvalue site `Λ = lam·id + N` (`jordanShiftLinGen`, `FieldGenericTube`).
+The reversed-central orientation of the corrected tube needs the closed-form
+inverse of `Λ - I = (lam-1)·id + N`, the eigenvalue analogue of
+`cumTailSumLin = (I - N)⁻¹`.
+
+For `lam ≠ 1` the inverse is the geometric series
+`Σ_{k=0}^m (-1)^k (lam-1)^{-(k+1)} N^k`, whose matrix is upper triangular
+with entry `(-(lam-1)⁻¹)^{j-i} · (lam-1)⁻¹` at `(i, j)` for `i ≤ j` — the
+`cumTailSumMatrix` pattern with each `1` replaced by the weighted power.
+Shared here (next to `cumTailSumLin`) so the whole D̃ family reuses it. -/
+
+/-- Eigenvalue-site tail-sum matrix: upper triangular, entry
+`(-(lam-1)⁻¹)^{j-i} · (lam-1)⁻¹` for `i ≤ j`, else `0`. Represents
+`(Λ - I)⁻¹ = ((lam-1)·id + N)⁻¹` for `lam ≠ 1`. -/
+noncomputable def eigTailSumMatrix (F : Type) [Field F] (lam : F) (m : ℕ) :
+    Matrix (Fin (m + 1)) (Fin (m + 1)) F :=
+  fun i j => if i.val ≤ j.val then (-(lam - 1)⁻¹) ^ (j.val - i.val) * (lam - 1)⁻¹ else 0
+
+/-- Eigenvalue-site geometric-series linear map `(Λ - I)⁻¹`, `Λ = lam·id + N`.
+The eigenvalue analogue of `cumTailSumLin`. -/
+noncomputable def eigTailSumLin (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  Matrix.mulVecLin (eigTailSumMatrix F lam m)
+
+/-- Closed form of `eigTailSumLin`:
+`eigTailSumLin F lam m v i = ∑_{j ≥ i} (-(lam-1)⁻¹)^{j-i} (lam-1)⁻¹ v j`. -/
+theorem eigTailSumLin_apply (F : Type) [Field F] (lam : F) (m : ℕ)
+    (v : Fin (m + 1) → F) (i : Fin (m + 1)) :
+    eigTailSumLin F lam m v i =
+      ∑ j ∈ Finset.univ.filter (fun j : Fin (m + 1) => i.val ≤ j.val),
+        (-(lam - 1)⁻¹) ^ (j.val - i.val) * (lam - 1)⁻¹ * v j := by
+  simp only [eigTailSumLin, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+    eigTailSumMatrix, Finset.sum_filter, ite_mul, zero_mul]
+
+/-- Boundary case for `eigTailSumLin`: at index `m` the tail collapses to the
+single diagonal term `(lam-1)⁻¹ · v ⟨m⟩`. -/
+theorem eigTailSumLin_apply_last (F : Type) [Field F] (lam : F) (m : ℕ)
+    (v : Fin (m + 1) → F) :
+    eigTailSumLin F lam m v ⟨m, lt_add_one m⟩ = (lam - 1)⁻¹ * v ⟨m, lt_add_one m⟩ := by
+  rw [eigTailSumLin_apply]
+  rw [show (Finset.univ.filter (fun j : Fin (m + 1) => m ≤ j.val))
+        = {(⟨m, lt_add_one m⟩ : Fin (m + 1))} from ?_]
+  · rw [Finset.sum_singleton]
+    simp
+  · ext j
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+    constructor
+    · intro h
+      have hjm : j.val = m := le_antisymm (by have := j.isLt; omega) h
+      exact Fin.ext hjm
+    · rintro rfl
+      exact le_refl m
+
+/-- Recursive step for `eigTailSumLin`: splits off the index-`i` diagonal term,
+`S v ⟨i⟩ = (lam-1)⁻¹ v ⟨i⟩ + (-(lam-1)⁻¹) S v ⟨i+1⟩`. -/
+theorem eigTailSumLin_apply_succ (F : Type) [Field F] (lam : F) (m : ℕ)
+    (v : Fin (m + 1) → F) (i : ℕ) (hi : i + 1 < m + 1) :
+    eigTailSumLin F lam m v ⟨i, by omega⟩ =
+      (lam - 1)⁻¹ * v ⟨i, by omega⟩ +
+        (-(lam - 1)⁻¹) * eigTailSumLin F lam m v ⟨i + 1, hi⟩ := by
+  rw [eigTailSumLin_apply, eigTailSumLin_apply]
+  have hsplit : Finset.univ.filter (fun j : Fin (m + 1) => i ≤ j.val)
+      = insert (⟨i, by omega⟩ : Fin (m + 1))
+          (Finset.univ.filter (fun j : Fin (m + 1) => i + 1 ≤ j.val)) := by
+    ext j
+    simp only [Finset.mem_insert, Finset.mem_filter, Finset.mem_univ, true_and]
+    constructor
+    · intro hij
+      rcases Nat.lt_or_ge i j.val with h | h
+      · right; omega
+      · left; exact Fin.ext (le_antisymm h hij)
+    · rintro (rfl | h)
+      · exact le_refl i
+      · omega
+  rw [hsplit, Finset.sum_insert (by
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and]; omega)]
+  congr 1
+  · have h0 : ((⟨i, by omega⟩ : Fin (m + 1)) : ℕ) - i = 0 := by simp
+    rw [h0, pow_zero, one_mul]
+  · rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro j hj
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
+    have hji : (j : ℕ) - i = ((j : ℕ) - (i + 1)) + 1 := by omega
+    rw [hji, pow_succ]
+    ring
+
+/-- `(Λ - I) ∘ eigTailSumLin = id`, i.e. `(lam-1)·(S v) + N (S v) = v`
+(`lam ≠ 1`). Together with `eigTailSumLin_eigSub` this exhibits
+`eigTailSumLin` as the genuine two-sided inverse of `Λ - I`. No reverse
+induction needed: at index `i < m` the recursion cancels the shifted term,
+at index `m` the shift vanishes and the diagonal `(lam-1)·(lam-1)⁻¹ = 1`. -/
+theorem eigSub_eigTailSumLin (F : Type) [Field F] (lam : F) (m : ℕ)
+    (hlam : lam ≠ 1) (v : Fin (m + 1) → F) :
+    (lam - 1) • eigTailSumLin F lam m v
+        + nilpotentShiftLinGen F m (eigTailSumLin F lam m v) = v := by
+  have hc : (lam - 1) ≠ 0 := sub_ne_zero.mpr hlam
+  have hN : ∀ j : Fin (m + 1),
+      nilpotentShiftLinGen F m (eigTailSumLin F lam m v) j =
+      if h : j.val + 1 < m + 1 then eigTailSumLin F lam m v ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext ⟨i, hi⟩
+  rw [Pi.add_apply, Pi.smul_apply, smul_eq_mul, hN]
+  by_cases h : i + 1 < m + 1
+  · rw [dif_pos h, eigTailSumLin_apply_succ _ _ _ _ _ h]
+    field_simp
+    ring
+  · rw [dif_neg h, add_zero]
+    have hi_eq_m : i = m := by omega
+    subst hi_eq_m
+    rw [show (⟨i, hi⟩ : Fin (i + 1)) = ⟨i, lt_add_one i⟩ from rfl, eigTailSumLin_apply_last,
+      ← mul_assoc, mul_inv_cancel₀ hc, one_mul]
+
+/-- `eigTailSumLin ∘ (Λ - I) = id`, i.e.
+`S ((lam-1)·v + N v) = v` (`lam ≠ 1`). Reverse induction on `m - i`, mirroring
+`cumTailSumLin_oneSubNilp`. -/
+theorem eigTailSumLin_eigSub (F : Type) [Field F] (lam : F) (m : ℕ)
+    (hlam : lam ≠ 1) (v : Fin (m + 1) → F) :
+    eigTailSumLin F lam m ((lam - 1) • v + nilpotentShiftLinGen F m v) = v := by
+  have hc : (lam - 1) ≠ 0 := sub_ne_zero.mpr hlam
+  have hN : ∀ j : Fin (m + 1), nilpotentShiftLinGen F m v j =
+      if h : j.val + 1 < m + 1 then v ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext ⟨i, hi⟩
+  suffices key : ∀ k : ℕ, ∀ i' (hi' : i' < m + 1), i' + k = m →
+      eigTailSumLin F lam m ((lam - 1) • v + nilpotentShiftLinGen F m v) ⟨i', hi'⟩
+        = v ⟨i', hi'⟩ from
+    key (m - i) i hi (by omega)
+  intro k
+  induction k with
+  | zero =>
+    intro i' hi' heq
+    have hi_eq_m : i' = m := by omega
+    subst hi_eq_m
+    rw [show (⟨i', hi'⟩ : Fin (i' + 1)) = ⟨i', lt_add_one i'⟩ from rfl,
+      eigTailSumLin_apply_last, Pi.add_apply, Pi.smul_apply, smul_eq_mul, hN]
+    simp only [show ¬(i' + 1 < i' + 1) by omega, dite_false, add_zero]
+    rw [← mul_assoc, inv_mul_cancel₀ hc, one_mul]
+  | succ n ih =>
+    intro i' hi' heq
+    have hi1 : i' + 1 < m + 1 := by omega
+    rw [eigTailSumLin_apply_succ _ _ _ _ _ hi1, ih (i' + 1) hi1 (by omega),
+      Pi.add_apply, Pi.smul_apply, smul_eq_mul, hN]
+    simp only [dif_pos hi1]
+    field_simp
+    ring
+
 /-! ## Shared γ-preimage untwisting lemma
 
 The mixed-direction branch-vertex configuration in the D̃-family
