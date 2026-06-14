@@ -226,3 +226,15 @@ For D̃₆₊ (#4649–#4652): same three-part split per shape, with the extra
 degree-2 pass-through centers joined by block isos that collapse exactly like
 the cycle-pattern identity arrows; the single eigenvalue site `γ_λ` lives on
 one central edge, the rest of the central path is honest isos.
+
+**sub-A for D̃₆₊ needs no new gamma defs** (verified on D̃₇, #4650): these
+shapes differ from D̃₅ only by the internal identity chain plus the one central
+edge, so sub-A is a mechanical swap — point the central `{2,3}` edge at the
+already-merged D̃₅ `d5tildeGammaTube_F` / `d5tildeGammaTubeInv_F` (whose
+retraction lemmas are also merged), thread `lam := d5tildeTubeLam F`, add
+`[IsAlgClosed F]` to the rep `def` and every helper that mentions it, and
+`sorry` the restated `leaf_equalities` (sub-B). The bottom theorems
+(`isIndecomposable`, `not_finite_type_per_kQ`, the embed lemma) may already
+carry `[IsAlgClosed F]`; check before editing. Confirm with a full
+`lake build EtingofRepresentationTheory` — the ripple stays inside the shape's
+own file in practice.
