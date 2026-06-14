@@ -62,6 +62,70 @@ noncomputable def starEmbedNilp_F (F : Type) [Field F] (m : ℕ) :
     (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
   starEmbed1_F F m + (starEmbed2_F F m).comp (nilpotentShiftLinGen F m)
 
+/-! ### Homogeneous-tube core (relocated upstream from `FieldGenericTube.lean`)
+
+The corrected D̃₄ construction replaces the rank-deficient nilpotent twist
+`starEmbedNilp_F` (`x ↦ (x, Nx)`, machine-refuted at reversed leaf 3 by
+`starRep_kQ_reversedLeaf3_decomposable`, issue #4566/#4589) with the
+eigenvalue-site tube `λ • id + J`. These three declarations previously lived
+in the downstream `FieldGenericTube.lean`; they are moved here (issue #4648)
+so the orientation-generic `starRep_kQ` — defined in this file, upstream of
+`FieldGenericTube` — can carry the corrected tube at its fourth arm. The move
+is name-preserving: `FieldGenericTube` and the `FieldGenericETilde6/7`
+consumers reach them transitively through `import …FieldGenericStar`. -/
+
+/-- The eigenvalue-site operator `λI + J` on `F^{m+1}`: a Jordan block at
+eigenvalue `lam`. Its invariant subspaces coincide with those of the bare
+nilpotent shift `J`, which is why `lam` drops out of the splitting argument
+(`eigenvalue_jordan_invariant_compl_trivial_gen`). -/
+noncomputable def jordanShiftLinGen (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  lam • (LinearMap.id : (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F)) +
+    nilpotentShiftLinGen F m
+
+/-- Eigenvalue-site embedding (homogeneous tube): `x ↦ (x, (λI + N) x)`,
+the corrected fourth arm of the D̃₄ tube. -/
+noncomputable def starEmbedTube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
+  starEmbed1_F F m + (starEmbed2_F F m).comp (jordanShiftLinGen F lam m)
+
+/-- **Homogeneous-tube reduction core.** If `N` is nilpotent with a
+1-dimensional kernel, then any complement decomposition into subspaces
+invariant under `λ • id + N` (the Jordan block at an eigenvalue site) has one
+component trivial.
+
+The eigenvalue `λ` plays no role: `λ • id` maps every subspace to itself, so a
+subspace is `(λ • id + N)`-invariant iff it is `N`-invariant, and the claim
+reduces to `nilpotent_invariant_compl_trivial_gen` for the bare nilpotent `N`.
+This is the §3 Kronecker template's portable step (design doc, issue #4548):
+the per-shape sub-issues call it at their eigenvalue site, where the
+shape-specific collapse machinery has already forced every vertex onto a single
+`F^{m+1}` carrying `λ • id + J`. -/
+theorem eigenvalue_jordan_invariant_compl_trivial_gen
+    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
+    [Module.Finite F V]
+    (N : V →ₗ[F] V) (hN : IsNilpotent N)
+    (hker : Module.finrank F (LinearMap.ker N) = 1)
+    (lam : F)
+    (W₁ W₂ : Submodule F V)
+    (hW₁_inv : ∀ x ∈ W₁, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W₁)
+    (hW₂_inv : ∀ x ∈ W₂, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W₂)
+    (hcompl : IsCompl W₁ W₂) :
+    W₁ = ⊥ ∨ W₂ = ⊥ := by
+  -- Invariance under `λ • id + N` upgrades to invariance under `N`:
+  -- `N x = (λ • id + N) x - λ • x`, and both terms stay in the submodule.
+  have key : ∀ (W : Submodule F V),
+      (∀ x ∈ W, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W) →
+      ∀ x ∈ W, N x ∈ W := by
+    intro W hW x hx
+    have hNx : N x = (lam • (LinearMap.id : V →ₗ[F] V) + N) x - lam • x := by
+      rw [LinearMap.add_apply, LinearMap.smul_apply, LinearMap.id_apply]
+      abel
+    rw [hNx]
+    exact W.sub_mem (hW x hx) (W.smul_mem lam hx)
+  exact nilpotent_invariant_compl_trivial_gen N hN hker W₁ W₂
+    (key W₁ hW₁_inv) (key W₂ hW₂_inv) hcompl
+
 /-- First-half projection (F-generic): `(a, b) ↦ a`. -/
 noncomputable def starFirst_F (F : Type) [Field F] (m : ℕ) :
     (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
