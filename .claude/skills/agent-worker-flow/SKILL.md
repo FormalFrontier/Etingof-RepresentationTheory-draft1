@@ -197,8 +197,19 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **The theorem you're asked to prove is actually TRUE.** Before writing any
+  proof, consult the relevant domain skill (for Lean work,
+  `lean-formalization`) — it records *refuted constructions* and which
+  statements are known false. A green build means nothing if the statement
+  is false: a "sorry-free" body that leans on sorried companion lemmas whose
+  branches are unfillable-because-false is sorry-laundering, not a proof.
+  Concretely for this repo: the orientation-generic `*_kQ_isIndecomposable`
+  and `*_kQ_leaf_equalities` D̃/Ẽ/T(p,q,r) family is **decomposable / false
+  for reversed-leaf orientations** (#4566/#4548) — check those before
+  claiming any such issue; the fix is the homogeneous-tube redesign, not a
+  cleverer proof.
 
-If stale:
+If stale (or the target is refuted):
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
