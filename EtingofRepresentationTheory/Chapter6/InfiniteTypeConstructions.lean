@@ -1987,7 +1987,7 @@ This generalizes the D̃_5 (k=0) construction above. -/
 
 /-- Edge predicate for D̃_{k+5}: vertices i,j are adjacent iff they form
     a leaf-branch edge or a consecutive path edge. -/
-private def dTildeEdgePred (k : ℕ) (i j : Fin (k + 6)) : Prop :=
+def dTildeEdgePred (k : ℕ) (i j : Fin (k + 6)) : Prop :=
   -- Leaf edges at first branch point
   (i.val = 0 ∧ j.val = 2) ∨ (i.val = 1 ∧ j.val = 2) ∨
   -- Path edges: consecutive vertices on the path 2-3-..-(k+3)
@@ -2043,7 +2043,7 @@ private theorem dTildeArrowPred_eq_edgePred (k : ℕ) (i j : Fin (k + 6)) :
     dTildeArrowPred k i j ↔ dTildeEdgePred k i j := by
   simp only [dTildeArrowPred, dTildeEdgePred]
 
-private theorem dTildeAdj_eq_one_iff (k : ℕ) (i j : Fin (k + 6)) :
+theorem dTildeAdj_eq_one_iff (k : ℕ) (i j : Fin (k + 6)) :
     dTildeAdj k i j = 1 ↔ dTildeEdgePred k i j ∨ dTildeEdgePred k j i := by
   simp only [dTildeAdj]; split_ifs with h <;> simp [h]
 
@@ -8353,7 +8353,7 @@ private theorem single_branch_not_posdef_infinite_type {n : ℕ}
     Proof idea: For non-adjacent i ≠ j in the subgraph, connectivity gives a Nodup path
     from i to j of length ≥ 3. Map via φ to get a Nodup path in the host. If φ(i) and
     φ(j) were adjacent, this path + that edge would form a cycle, contradicting acyclicity. -/
-private theorem tree_embed_adj_eq {m n : ℕ}
+theorem tree_embed_adj_eq {m n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (adj_sub : Matrix (Fin m) (Fin m) ℤ)
     (hsymm : adj.IsSymm) (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -8642,7 +8642,7 @@ theorem walk_to_nodup_path {n : ℕ} {i j : Fin n} (adj : Matrix (Fin n) (Fin n)
 /-- D̃_{k+5} has Nodup paths of length ≥ 3 between any two non-adjacent distinct vertices.
     This follows from D̃ being a tree: the unique path between any pair goes through
     the spine (vertices 2 to k+3), possibly via leaf branch points. -/
-private theorem dTilde_nodup_path_between (k : ℕ) (i j : Fin (k + 6))
+theorem dTilde_nodup_path_between (k : ℕ) (i j : Fin (k + 6))
     (hij : i ≠ j) (h_nonadj : dTildeAdj k i j = 0) :
     ∃ path : List (Fin (k + 6)),
       path.head? = some i ∧ path.getLast? = some j ∧

@@ -5,6 +5,7 @@ import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
 import EtingofRepresentationTheory.Chapter6.FieldGenericD5Tilde
+import EtingofRepresentationTheory.Chapter6.FieldGenericDTilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericD6Tilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericD7Tilde
 import EtingofRepresentationTheory.Chapter6.FieldGenericD8Tilde
@@ -43,27 +44,20 @@ subgraphs (`Ẽ₆`, `Ẽ₇`, `T(1, 2, 5)`, `D̃₇`).
 
 ## Status
 
-The body of `non_adjacent_branches_leaf_case_per_kQ` is substantially
-landed:
+The body of `non_adjacent_branches_leaf_case_per_kQ` is fully landed
+(sorry-free):
 
 * **Phase 1 setup**: chain extraction, side / arm extraction, and the
   distinctness lattice derived from `hchain_nodup` and the degree
   hypotheses.
-* **Phase 2 dispatch** via `by_cases hA … hD` on the
+* **Phase 2 dispatch** via `by_cases hA … hE` on the
   `(chain.length, side.deg, arm₁.deg, arm₂.deg)` configuration:
-  Cases A / B / C-main / C.short / D and the partial Case E sub-cases
-  E.aa (chain.length = 3 with both arms degree 2 → `Ẽ₆` at `w`) and
-  E.s1c4 (chain.length = 4 with `side_arm` degree 1 → `D̃₇` at
-  `(v₀, w)`).
-
-A documented residual `sorry` covers the configurations that need
-forbidden-subgraph helpers not yet on `main` — `chain.length = 3` with
-mixed arm degrees (E.ab) or both-leaf arms (E.bb), `chain.length = 5`,
-and `chain.length ≥ 6` all-leaves — tracked by sub-issues #2974 (D̃₆
-for chain.length = 3 all-leaves), #2976 (Ẽ₇ extension splits for
-chain.length = 3 mixed arms), #2977 (D̃₈ for chain.length = 5), and
-#2978 (general parametric D̃_n for chain.length ≥ 6 all-leaves). All
-four are blocked on #2955.
+  Cases A / B / C-main / C.short / D and the Case E sub-cases E.aa
+  (chain.length = 3 with both arms degree 2 → `Ẽ₆` at `w`), E.s1c4
+  (chain.length = 4 with `side_arm` degree 1 → `D̃₇` at `(v₀, w)`),
+  E.c3 (chain.length = 3 → `D̃₆`), E.c5 (chain.length = 5 → `D̃₈`), and
+  the general residual (any remaining chain length → the parametric
+  `embed_dtilde_in_tree_per_kQ`, #2978).
 -/
 
 open scoped Matrix
@@ -83,10 +77,11 @@ of `adj`.
 
 Mirrors the inline `leaf_case` at
 `Chapter6/InfiniteTypeConstructions.lean:9770` inside
-`non_adjacent_branches_infinite_type`, but with the embedding strategy
-adapted to the per-(F, Q) forbidden-subgraph library on `main`
-(no `dTilde_not_finite_type_per_kQ` for general `n`). See the file
-docstring for the strategy.
+`non_adjacent_branches_infinite_type`, adapted to the per-(F, Q)
+forbidden-subgraph library: the short chain lengths dispatch to the
+fixed-shape `embed_d{6,7,8}tilde_in_tree_per_kQ` helpers, and the
+general case to the parametric `embed_dtilde_in_tree_per_kQ`. See the
+file docstring for the strategy.
 
 The two hypotheses `h_no_adj_branch` (on `v₀`'s neighbours) and
 `h_no_adj_branch_w` (on `w`'s neighbours) are both implied by the
@@ -95,13 +90,12 @@ the outer assembly `non_adjacent_branches_infinite_type_per_kQ`
 (issue #2923) — the caller derives them from the negated existential
 `h_adj_exists` before invoking this helper.
 
-The body is substantially landed: Phase 1 setup and Phase 2 dispatch
-on `(chain.length, side.deg, arm₁.deg, arm₂.deg)` cover Cases A, B,
-C-main, C.short, D, and the partial Case E sub-cases E.aa and E.s1c4.
-A documented residual `sorry` (`chain.length = 3` mixed/all-leaves
-arms, `chain.length = 5`, and `chain.length ≥ 6` all-leaves) is
-tracked by sub-issues #2974, #2976, #2977, #2978, all blocked on
-#2955. See the file docstring for the full status. -/
+The body is fully landed (sorry-free): Phase 1 setup and Phase 2
+dispatch on `(chain.length, side.deg, arm₁.deg, arm₂.deg)` cover Cases
+A, B, C-main, C.short, D, and the Case E sub-cases E.aa, E.s1c4, E.c3
+(`D̃₆`), E.c5 (`D̃₈`), and the general residual via the parametric
+`embed_dtilde_in_tree_per_kQ`. See the file docstring for the full
+status. -/
 theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hsymm : adj.IsSymm)
@@ -1187,20 +1181,22 @@ theorem non_adjacent_branches_leaf_case_per_kQ {n : ℕ}
                     (arm₂_ne_chain 3 (by omega)).symm
                     hne.symm hpr_ne hqs_ne hrt_ne
                     F Q hOrient
-                · -- ===== Residual: tracked by follow-up sub-issues =====
-                  -- Remaining cases (still `sorry`):
-                  --
-                  -- * `chain.length ≥ 6`, all-leaves (#2978): needs a
-                  --   general parametric D̃_n per-(F, Q) helper.
-                  -- * `chain.length = 4` with `side_arm` degree ≠ 1 (not
-                  --   covered by `hE_s1c4`).
-                  --
-                  -- See follow-up sub-issue #2978 spawned from #2955.
-                  let _ := hn; let _ := h_deg; let _ := h_no_adj_branch
-                  let _ := h_no_adj_branch_w
-                  let _ := hleaf_ne_arm₁; let _ := hleaf_ne_arm₂
-                  let _ := hside_ne_arm₁; let _ := hside_ne_arm₂
-                  let _ := leaf_ne_chain
-                  sorry
+                · -- ===== Residual: general chain length (#2978) =====
+                  -- All remaining configurations (`chain.length ≥ 6`
+                  -- all-leaves, and `chain.length = 4` with `side_arm`
+                  -- degree ≠ 1) embed D̃_{k+5} with `k = chain.length - 2`
+                  -- uniformly. The vertex map is
+                  -- `0 → leaf, 1 → side_arm, 2 → v₀ = chain[0], …,
+                  --  k+3 → w = chain[k+1], k+4 → arm₁, k+5 → arm₂`,
+                  -- dispatched via the parametric
+                  -- `embed_dtilde_in_tree_per_kQ`.
+                  exact embed_dtilde_in_tree_per_kQ adj hsymm hdiag h01
+                    h_acyclic v₀ w chain hchain_len hchain_nodup
+                    hchain_first hchain_get_last hchain_edges
+                    leaf side_arm arm₁ arm₂
+                    leaf_adj_v₀ side_adj_v₀ arm₁_adj_w arm₂_adj_w
+                    leaf_ne_chain side_ne_chain arm₁_ne_chain arm₂_ne_chain
+                    hleaf_ne_arm₁ hleaf_ne_arm₂ hside_ne_arm₁ hside_ne_arm₂
+                    harm₁₂ hside_ne_leaf F Q hOrient
 
 end Etingof
