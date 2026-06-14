@@ -223,6 +223,108 @@ theorem d7tildeRep_kQ_dimVec
       (d7tildeRep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (d7tildeDim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 5a: Identity-chain collapse
+
+D̃₇ differs from D̃₅ only by the internal identity chain `3 — 4 — 5`:
+the edges `3-4` and `4-5` carry `LinearMap.id` in either direction
+(see `d7tildeRepMap_kQ`). Consequently any complementary invariant
+submodule pair `(W₁, W₂)` has `W₁⟨3⟩ = W₁⟨4⟩ = W₁⟨5⟩`. After this
+collapse, the central picture at the merged `3 = 4 = 5` space is
+exactly the d5tilde vertex-`3` picture (leaves `0,1` push in via
+`γ ∘ embed`, leaves `6,7` push in via embeds), with leaf relabel
+`4 ↦ 6, 5 ↦ 7`; this is what lets the d5tilde core/γ-containment
+helpers be reused for D̃₇ (issue #4531). -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- The internal identity chain `3 — 4 — 5` forces the invariant
+subspaces to agree at vertices `3, 4, 5`: for any complementary
+invariant submodule pair `(W₁, W₂)` of `d7tildeRep_kQ F Q hOrient m`,
+`W₁⟨3⟩ = W₁⟨4⟩` and `W₁⟨4⟩ = W₁⟨5⟩`.
+
+The two chain edges map by `LinearMap.id` in whichever direction `Q`
+orients them, so invariance gives one containment between the two
+endpoints; `compl_le_forces_eq` upgrades it to equality. -/
+theorem d7tilde_chain_collapse
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 8))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 8) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 8 Q d7tildeAdj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((d7tildeRep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 8} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (d7tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 8} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (d7tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ ⟨3, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
+    W₁ ⟨4, by omega⟩ = W₁ ⟨5, by omega⟩ := by
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  have h34 : d7tildeAdj ⟨3, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d7tildeAdj]
+  have h45 : d7tildeAdj ⟨4, by omega⟩ ⟨5, by omega⟩ = 1 := by simp [d7tildeAdj]
+  refine ⟨?_, ?_⟩
+  · -- W₁⟨3⟩ = W₁⟨4⟩
+    rcases hOrient_edge ⟨3, by omega⟩ ⟨4, by omega⟩ h34 with hQ | hQ
+    · -- arrow 3 → 4 (canonical): W₁⟨3⟩ ≤ W₁⟨4⟩, W₂⟨3⟩ ≤ W₂⟨4⟩
+      obtain ⟨e⟩ := hQ
+      have hle1 : W₁ ⟨3, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+        intro x hx
+        have h := hW₁_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      have hle2 : W₂ ⟨3, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+        intro x hx
+        have h := hW₂_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      exact (compl_le_forces_eq (V := Fin (2 * (m + 1)) → F)
+        (W₁ ⟨3, by omega⟩) (W₂ ⟨3, by omega⟩)
+        (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+        (hcompl ⟨3, by omega⟩) (hcompl ⟨4, by omega⟩) hle1 hle2).1
+    · -- arrow 4 → 3 (reverse): W₁⟨4⟩ ≤ W₁⟨3⟩, W₂⟨4⟩ ≤ W₂⟨3⟩
+      obtain ⟨e⟩ := hQ
+      have hle1 : W₁ ⟨4, by omega⟩ ≤ W₁ ⟨3, by omega⟩ := by
+        intro x hx
+        have h := hW₁_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      have hle2 : W₂ ⟨4, by omega⟩ ≤ W₂ ⟨3, by omega⟩ := by
+        intro x hx
+        have h := hW₂_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      exact ((compl_le_forces_eq (V := Fin (2 * (m + 1)) → F)
+        (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+        (W₁ ⟨3, by omega⟩) (W₂ ⟨3, by omega⟩)
+        (hcompl ⟨4, by omega⟩) (hcompl ⟨3, by omega⟩) hle1 hle2).1).symm
+  · -- W₁⟨4⟩ = W₁⟨5⟩
+    rcases hOrient_edge ⟨4, by omega⟩ ⟨5, by omega⟩ h45 with hQ | hQ
+    · -- arrow 4 → 5 (canonical)
+      obtain ⟨e⟩ := hQ
+      have hle1 : W₁ ⟨4, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+        intro x hx
+        have h := hW₁_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      have hle2 : W₂ ⟨4, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+        intro x hx
+        have h := hW₂_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      exact (compl_le_forces_eq (V := Fin (2 * (m + 1)) → F)
+        (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+        (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+        (hcompl ⟨4, by omega⟩) (hcompl ⟨5, by omega⟩) hle1 hle2).1
+    · -- arrow 5 → 4 (reverse)
+      obtain ⟨e⟩ := hQ
+      have hle1 : W₁ ⟨5, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+        intro x hx
+        have h := hW₁_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      have hle2 : W₂ ⟨5, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+        intro x hx
+        have h := hW₂_inv e x hx
+        simpa only [d7tildeRep_kQ, d7tildeRepMap_kQ, LinearMap.id_coe, id_eq] using h
+      exact ((compl_le_forces_eq (V := Fin (2 * (m + 1)) → F)
+        (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+        (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+        (hcompl ⟨5, by omega⟩) (hcompl ⟨4, by omega⟩) hle1 hle2).1).symm
+
 /-! ## Section 5: Indecomposability (deferred sorry)
 
 The body of the indecomposability proof is deferred to follow-up
