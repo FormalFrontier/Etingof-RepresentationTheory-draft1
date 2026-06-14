@@ -51,6 +51,8 @@ Run this checklist before writing a single tactic. Skipping it has caused agents
 
 5. **Check dependency readiness.** Verify that imports compile and key helper lemmas are sorry-free (or that sorry'd helpers won't block your proof). Use `lake build <module>` for the specific file.
 
+   **When a plan says "mirror/port precedent X", first verify X is actually proven.** Planners frequently reference a sibling result (e.g. "mirror the d5tilde non-canonical work") as if it were a complete template. It often is *not* — the precedent may itself be only partially proven, carrying the same sorries you were asked to close. Read the cited precedent's proof body (grep for `sorry` inside it) before estimating scope. If the precedent is incomplete because of a shared missing piece of infrastructure (a lemma that exists nowhere), that is the real deliverable and the real blocker — land the tractable subset, then decompose the blocked remainder into a sub-issue naming the missing infrastructure, rather than attempting an impossible "port".
+
 6. **Code the framework before deep analysis.** When a proof has an obvious high-level structure (e.g., "use Schur's lemma + nonvanishing"), code that framework with sorry placeholders within the first 15 minutes. Don't spend the majority of your session analyzing whether the hard step is provable before writing any Lean. The framework commit has value even if the hard sorry remains — it reduces the problem for future agents. Deep mathematical analysis should happen AFTER the framework compiles, focused on the specific sorry goals.
 
 ## Endgame Protocol (≥99% Sorry-Free)
