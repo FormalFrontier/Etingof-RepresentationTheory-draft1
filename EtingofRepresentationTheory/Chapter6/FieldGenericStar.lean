@@ -956,4 +956,202 @@ theorem degree_ge_4_infinite_type_per_kQ {n : ℕ}
       (h_ne i).symm hij (h_ne j).symm
       (h_adj i) h_one (h_adj j) F Q hOrient
 
+/-! ## Shared nilpotent-inverse infrastructure `(I - N)⁻¹`
+
+The cumulative right-tail sum map `cumTailSumLin` is the explicit inverse
+`M = (I - N)⁻¹` of `(I - nilpotentShiftLinGen)`, where `N` is nilpotent so
+the geometric series `M = I + N + N² + ⋯ + Nᵐ` terminates. The key fact is
+the telescoping inversion identity `cumTailSumLin (v - N v) = v`
+(`cumTailSumLin_oneSubNilp`).
+
+Relocated here from `FieldGenericD5Tilde.lean` (#4554) so the whole D̃-family
+(`d5`/`d6`/`d7`/`d8`) can reuse it: the reversed γ-edge maps and the
+mixed-direction leaf arguments all need `(I - N)⁻¹` to strip the `(I - N)`
+twist that the γ-coupling introduces. The nilpotent shift itself
+(`nilpotentShiftLinGen` / `nilpotentShiftMatrixGen`) already lives in
+`FieldGenericInfiniteType.lean`. -/
+
+/-- Cumulative right-tail sum matrix: upper triangular with `1`s on and
+above the diagonal. `cumTailSumMatrix[i][j] = 1` iff `i ≤ j`. -/
+noncomputable def cumTailSumMatrix (F : Type) [Field F] (m : ℕ) :
+    Matrix (Fin (m + 1)) (Fin (m + 1)) F :=
+  fun i j => if i.val ≤ j.val then 1 else 0
+
+/-- The cumulative right-tail sum linear map
+`w ↦ (i ↦ Σ_{j=i}^{m} w_j)`, equivalently `(I - N)⁻¹` for the nilpotent
+shift `N`. Defined as `Matrix.mulVecLin (cumTailSumMatrix F m)`. -/
+noncomputable def cumTailSumLin (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  Matrix.mulVecLin (cumTailSumMatrix F m)
+
+/-- Closed-form right-tail sum:
+`cumTailSumLin F m v i = ∑_{j : Fin (m+1), i.val ≤ j.val} v j`. -/
+theorem cumTailSumLin_apply (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) (i : Fin (m + 1)) :
+    cumTailSumLin F m v i =
+      ∑ j ∈ Finset.univ.filter (fun j : Fin (m + 1) => i.val ≤ j.val), v j := by
+  simp only [cumTailSumLin, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+    cumTailSumMatrix, Finset.sum_filter, ite_mul, one_mul, zero_mul]
+
+/-- Boundary case for `cumTailSumLin`: at index `m`, the right-tail sum
+collapses to a single term `v ⟨m, _⟩`. -/
+theorem cumTailSumLin_apply_last (F : Type) [Field F] (m : ℕ) (v : Fin (m + 1) → F) :
+    cumTailSumLin F m v ⟨m, lt_add_one m⟩ = v ⟨m, lt_add_one m⟩ := by
+  rw [cumTailSumLin_apply]
+  apply Finset.sum_eq_single (⟨m, lt_add_one m⟩ : Fin (m + 1))
+  · intro j hj hjne
+    exfalso
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
+    have : j.val = m := le_antisymm (by have := j.isLt; omega) hj
+    exact hjne (Fin.ext this)
+  · intro habs
+    exfalso; apply habs; simp
+
+/-- Recursive step for `cumTailSumLin`: splits off the index-`i` term,
+yielding `M v ⟨i, _⟩ = v ⟨i, _⟩ + M v ⟨i + 1, _⟩` whenever `i + 1` is in
+range. -/
+theorem cumTailSumLin_apply_succ (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) (i : ℕ) (hi : i + 1 < m + 1) :
+    cumTailSumLin F m v ⟨i, by omega⟩ =
+      v ⟨i, by omega⟩ + cumTailSumLin F m v ⟨i + 1, hi⟩ := by
+  rw [cumTailSumLin_apply, cumTailSumLin_apply]
+  have hmem : (⟨i, by omega⟩ : Fin (m + 1)) ∈
+      Finset.univ.filter (fun j : Fin (m + 1) => i ≤ j.val) := by simp
+  rw [← Finset.sum_erase_add _ _ hmem, add_comm]
+  congr 1
+  apply Finset.sum_congr ?_ (fun _ _ => rfl)
+  ext j
+  simp only [Finset.mem_erase, Finset.mem_filter, Finset.mem_univ, true_and]
+  refine ⟨?_, ?_⟩
+  · rintro ⟨hne, hij⟩
+    have hne' : j.val ≠ i := fun h => hne (Fin.ext h)
+    omega
+  · intro hij
+    refine ⟨?_, by omega⟩
+    intro h
+    have hjv : j.val = i := by
+      have := congr_arg Fin.val h
+      simpa using this
+    omega
+
+/-- `cumTailSumLin` inverts `I - nilpotentShiftLinGen`: telescoping sum
+`M (v - N v) = v`. This is the key algebraic identity that makes the
+closed-form γ⁻¹ maps true two-sided inverses on the leaf-embedding
+patterns, and the tool used to strip the `(I - N)` twist in the
+mixed-direction leaf arguments across the D̃-family.
+
+Proof: reverse induction on `i.val`. Base case `i.val = m` uses
+`cumTailSumLin_apply_last`; the inductive step uses
+`cumTailSumLin_apply_succ` to split off the index-`i` term, the closed
+form for `nilpotentShiftLinGen`, and the induction hypothesis at
+`i + 1`. -/
+theorem cumTailSumLin_oneSubNilp (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) :
+    cumTailSumLin F m (v - nilpotentShiftLinGen F m v) = v := by
+  -- Closed form for `nilpotentShiftLinGen F m v`.
+  have hN : ∀ j : Fin (m + 1), nilpotentShiftLinGen F m v j =
+      if h : j.val + 1 < m + 1 then v ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext ⟨i, hi⟩
+  -- Reverse induction on `m - i` (equivalently, induct on `k = m - i` going
+  -- from `0` (i.e. `i = m`) up to `m` (i.e. `i = 0`)).
+  suffices key : ∀ k : ℕ, ∀ i' (hi' : i' < m + 1), i' + k = m →
+      cumTailSumLin F m (v - nilpotentShiftLinGen F m v) ⟨i', hi'⟩ = v ⟨i', hi'⟩ from
+    key (m - i) i hi (by omega)
+  intro k
+  induction k with
+  | zero =>
+    intro i' hi' heq
+    have hi_eq_m : i' = m := by omega
+    subst hi_eq_m
+    have hidx : (⟨i', hi'⟩ : Fin (i' + 1)) = ⟨i', lt_add_one i'⟩ := rfl
+    rw [hidx, cumTailSumLin_apply_last, Pi.sub_apply, hN]
+    simp only [show ¬(i' + 1 < i' + 1) by omega, dite_false, sub_zero]
+  | succ n ih =>
+    intro i' hi' heq
+    have hi1 : i' + 1 < m + 1 := by omega
+    rw [cumTailSumLin_apply_succ _ _ _ _ hi1]
+    rw [ih (i' + 1) hi1 (by omega)]
+    rw [Pi.sub_apply, hN]
+    simp only [dif_pos hi1]
+    ring
+
+/-! ## Shared γ-preimage untwisting lemma
+
+The mixed-direction branch-vertex configuration in the D̃-family
+indecomposability proofs (one leaf edge at a γ-coupled center canonical,
+the other reversed) produces an `(I - N)`-twisted relation rather than a
+literal leaf equality. The reusable infrastructure that strips the twist
+is **not** a per-leaf `N`-invariance statement — that is circular, because
+the only honest route from `y ∈ Wmain ⟨leaf⟩` to `N y ∈ Wmain ⟨leaf⟩`
+runs through the leaf-subspace equalities those branches are trying to
+establish (the partial fact `gamma_containment` only yields
+`y ∈ Wmain ⟨1⟩ → N y ∈ Wmain ⟨5⟩`, and bridging leaf `5` back to leaf `1`
+*is* part of the leaf equality). See #4554 for the analysis.
+
+The correct, non-circular tool is a **γ-preimage lemma**: the γ-coupling
+`g = d5tildeGamma_F` is a linear isomorphism, and a complementary pair of
+invariant submodules is carried by `g` so that each summand maps *onto*
+the corresponding summand at the target. Hence the `g`-preimage of a
+target-summand element lands in the source summand. Packaging `g` as a
+`LinearEquiv` (via its closed-form inverse `d5tildeGammaInv_F`) and feeding
+the inverse the leaf-embedding patterns (`gammaInv_*` identities, which use
+`cumTailSumLin = M = (I - N)⁻¹` above) recovers the untwisted source-side
+coordinates `e₁(a - M (a - b)) + e₂(M (a - b))`.
+
+This lemma is field-generic and stated over an abstract `LinearEquiv`, so
+every D̃-family member (`d5`/`d6`/`d7`/`d8`) instantiates it with its own
+γ-equiv and center submodules. It needs no finite-dimensionality. -/
+
+/-- γ-preimage untwisting. If a linear isomorphism `g : V ≃ₗ[F] W` carries a
+complementary pair of invariant submodules `(A₁, A₂)` of `V` into the
+complementary pair `(B₁, B₂)` of `W` (i.e. `g '' A₁ ⊆ B₁` and
+`g '' A₂ ⊆ B₂`), then `g` maps `A₁` *onto* `B₁`: the `g`-preimage of any
+`w ∈ B₁` lies in `A₁`.
+
+This is the non-circular replacement for per-leaf `N`-invariance in the
+mixed-direction D̃-family branches: with `g` the γ-coupling and
+`(A₁, A₂)`, `(B₁, B₂)` the complementary invariant submodules at the two
+γ-coupled centers, it pulls center-`B` membership back to center `A`, where
+the available leaf-edge invariance can extract the leaf coordinates. -/
+theorem linearEquiv_invariant_isCompl_symm_mem
+    {F : Type*} [Field F] {V W : Type*}
+    [AddCommGroup V] [Module F V] [AddCommGroup W] [Module F W]
+    (g : V ≃ₗ[F] W)
+    (A₁ A₂ : Submodule F V) (B₁ B₂ : Submodule F W)
+    (hA : IsCompl A₁ A₂) (hB : IsCompl B₁ B₂)
+    (h₁ : ∀ x ∈ A₁, g x ∈ B₁) (h₂ : ∀ x ∈ A₂, g x ∈ B₂)
+    (w : W) (hw : w ∈ B₁) :
+    g.symm w ∈ A₁ := by
+  -- Decompose the preimage in `A₁ ⊕ A₂`.
+  have hx : g.symm w ∈ (⊤ : Submodule F V) := Submodule.mem_top
+  rw [← hA.sup_eq_top] at hx
+  obtain ⟨a₁, ha₁, a₂, ha₂, hsum⟩ := Submodule.mem_sup.mp hx
+  -- Apply `g`: `w = g a₁ + g a₂`.
+  have hgw : w = g a₁ + g a₂ := by
+    have hgg : g (g.symm w) = g (a₁ + a₂) := by rw [hsum]
+    rwa [g.apply_symm_apply, map_add] at hgg
+  -- `g a₂` lies in both `B₁` (as `w - g a₁`) and `B₂`, hence is `0`.
+  have hga₂B₁ : g a₂ ∈ B₁ := by
+    have hrw : g a₂ = w - g a₁ := by rw [hgw]; abel
+    rw [hrw]; exact B₁.sub_mem hw (h₁ a₁ ha₁)
+  have hga₂B₂ : g a₂ ∈ B₂ := h₂ a₂ ha₂
+  have hga₂0 : g a₂ = 0 := by
+    have hmem : g a₂ ∈ B₁ ⊓ B₂ := Submodule.mem_inf.mpr ⟨hga₂B₁, hga₂B₂⟩
+    rwa [hB.inf_eq_bot, Submodule.mem_bot] at hmem
+  have ha₂0 : a₂ = 0 := g.injective (by rw [hga₂0, map_zero])
+  rw [← hsum, ha₂0, add_zero]
+  exact ha₁
+
 end Etingof
