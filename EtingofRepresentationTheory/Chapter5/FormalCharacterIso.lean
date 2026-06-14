@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
+import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
 
 /-!
 # Formal character determines isomorphism class
@@ -1048,5 +1049,50 @@ theorem formalCharacter_glTensorRep_eq_pow (N n : ℕ) :
   ext μ
   rw [formalCharacter_coeff, sum_X_pow_coeff, finrank_glWeightSpace_glTensorRep,
     Fintype.card_subtype]
+
+/-! ### Schur-Weyl character decomposition: assembly of parts C-1 and C-2
+
+Combining the two halves of the Schur-Weyl L_i computation:
+
+* **C-1** (`formalCharacter_glTensorRep_eq_pow`): the GL_N side,
+  `char(V^{⊗n}) = (∑ᵢ Xᵢ)^n`;
+* **C-2** (`sum_X_pow_eq_sum_finrank_smul_schurPoly`): the polynomial side,
+  `(∑ᵢ Xᵢ)^n = ∑_λ dim(Sλ) · sλ(X)` over bounded partitions `λ` of `n`,
+
+yields the **Schur-Weyl character identity** for `V^{⊗n}`: its formal
+character is the Specht-dimension-weighted sum of Schur polynomials, the
+expansion that drives the multiplicity computation of Etingof Theorem 5.18.4.
+
+Note this is the *character-level* assembly. Upgrading it to a concrete
+`GL_N`-equivariant decomposition with each abstract summand `Lᵢ` of
+`glTensorRep_equivariant_schurWeyl_decomposition` *named* as a Schur module
+`SchurModule k N λ` additionally requires `char(Lᵢ) = schurPoly N λ` — the
+highest-weight classification "every simple polynomial `GL_N`-rep has a Schur
+polynomial as its character." That classification is the content of the
+downstream identification chain (issues #2482 / #2483); it is not implied by
+the simplicity of `Lᵢ` (`Theorem5_18_4_GL_rep_decomposition_simple`) together
+with Schur's lemma alone, because Schur's lemma needs a nonzero equivariant
+map between `Lᵢ` and `SchurModule k N λ`, which in turn presupposes the very
+character match being sought. -/
+
+omit [CharZero k] in
+/-- **Schur-Weyl character decomposition of `V^{⊗n}`.**
+
+The formal character of the `GL_N(k)`-representation `V^{⊗n}`
+(`V = Fin N → k`) is the Specht-dimension-weighted sum of Schur polynomials
+indexed by bounded partitions of `n`:
+
+`char(V^{⊗n}) = ∑_{λ ∈ BoundedPartition N n} dim_ℂ(Sλ) · sλ(X)`.
+
+This is the assembly of part C-1 (the GL_N-side power identity, issue #2580)
+and part C-2 (the polynomial-side Schur expansion, issue #2581) of the
+Schur-Weyl L_i computation (issue #2493). -/
+theorem formalCharacter_glTensorRep_eq_sum_specht_smul_schurPoly (N n : ℕ) :
+    formalCharacter k N (FDRep.of (glTensorRep k N n)) =
+      ∑ lam : BoundedPartition N n,
+        (Module.finrank ℂ (SpechtModule n
+          (lam.sum_eq ▸ weightToPartition N lam.parts)) : ℚ) •
+        schurPoly N lam.parts := by
+  rw [formalCharacter_glTensorRep_eq_pow, sum_X_pow_eq_sum_finrank_smul_schurPoly]
 
 end Etingof
