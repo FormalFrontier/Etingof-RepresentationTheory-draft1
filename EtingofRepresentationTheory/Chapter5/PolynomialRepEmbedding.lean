@@ -780,48 +780,78 @@ noncomputable def scalarGL (t : kˣ) :
     exact Matrix.diagonal_one
 
 /-- **Piece 1 of `det⁻¹` elimination — the scalar matrix acts by `t^n`.**
-On a weight-homogeneous-of-degree-`n` algebraic `GL_N`-representation, the scalar
-matrix `scalarGL t = t • 1` acts as the scalar `t ^ n`.
+On a *polynomial* (all weights nonnegative) weight-homogeneous-of-degree-`n`
+`GL_N`-representation, the scalar matrix `scalarGL t = t • 1` acts as the scalar
+`t ^ n`.
 
-Strategy (issue #4598 decomposition, Piece 1; see sub-issue for the genuine
-content): over an algebraically closed field of characteristic zero an algebraic
-representation has diagonalisable torus action, so the weight spaces span `M`
-(the missing *general* lemma `⨆ μ, glWeightSpace k N M μ = ⊤` for an arbitrary
-`IsAlgebraicRepresentation` — currently proven only for Schur modules at
-`Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`).  On a weight space
-`M_μ` the generator `diagUnit i t` acts by `t ^ (μ i)`
-(`glWeightSpace_le_maxGenEigenspace`), so `scalarGL t = ∏ᵢ diagUnit i t` acts by
-`t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`).  Hence `M.ρ (scalarGL t) = t^n • id`. -/
+**Hypotheses (corrected, issue #4654).** `h_span` — that the `ℕ`-indexed weight
+spaces span `M` — is *essential* and was missing from the original
+decomposition. Without it the statement is **false**: the diagonal torus need
+not act diagonalisably with nonnegative weights. Concrete counterexample
+(`N = 2`, `n = 1`): `M = V ⊕ (det⁻¹)` where `V` is the standard rep. The center
+`scalarGL t` acts by `t` on `V` but by `t⁻²` on the `det⁻¹` summand, so it is
+*not* the scalar `t¹ • id`; yet `halg` holds and `h_homog` holds for `n = 1`
+(the only `ℕ`-valued weights are `(1,0),(0,1)`, both summing to `1`; the weight
+`(-1,-1)` of `det⁻¹` is not expressible in the `ℕ`-indexed `glWeightSpace`, so
+it imposes no constraint). The weight spaces do *not* span (`V ≠ M`), so `h_span`
+correctly excludes it.
+
+Strategy (now that `h_span` is a hypothesis): on a weight space `M_μ` the
+generator `diagUnit i t` acts by *exactly* `t ^ (μ i)` (by definition of
+`glWeightSpace` as the relevant kernel), so `scalarGL t = ∏ᵢ diagUnit i t` acts
+by `t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`). Since the weight spaces span (`h_span`),
+this extends to all of `M`: `M.ρ (scalarGL t) = t^n • id`. The general
+weight-span hypothesis is proven for Schur modules at
+`Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`. -/
 private theorem scalarGL_acts_as_pow (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n)
     (t : kˣ) :
     M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id := by
-  -- TODO (issue #4653): diagonalisability of the torus action on an arbitrary
-  -- algebraic representation, i.e. `⨆ μ, glWeightSpace k N M μ = ⊤`; the
-  -- Schur-module case is `glWeightSpace_schurModule_iSup_eq_top`.
+  -- TODO (issue #4653): with `h_span` the genuine content is short — each weight
+  -- space is an exact eigenspace for `diagUnit i t` (eigenvalue `t ^ (μ i)`), so
+  -- `scalarGL t = ∏ᵢ diagUnit i t` acts by `t ^ (∑ μ) = t ^ n` there, and
+  -- `h_span` propagates this to all of `M`.
   sorry
 
 /-- **Piece 2 of `det⁻¹` elimination — assembly given the scalar action.**
-Given that the scalar matrix acts by `t ^ n` (Piece 1, `scalarGL_acts_as_pow`),
-the algebraic-representation matrix coefficients are bare-entry polynomials in
+On a *polynomial* (all weights nonnegative) representation whose scalar matrix
+acts by `t ^ n` (`h_scalar`, Piece 1 `scalarGL_acts_as_pow`), the
+algebraic-representation matrix coefficients are bare-entry polynomials in
 `Fin N × Fin N`, homogeneous of degree `n`.
 
-Strategy (issue #4598 decomposition, Piece 2; see sub-issue): each matrix
-coefficient `f_{a,c}(g) = b.repr (M.ρ g (b c)) a` satisfies `f (t • g) = t^n f(g)`
-by `h_scalar` and `M.ρ.map_mul` (since `scalarGL t * g = t • g`).  The
-algebraic-rep polynomial `P a c ∈ k[Xᵢⱼ, D]` (`evalAtGL` substitutes `D ↦
-det⁻¹`, scaling by `t^{-N}` under `g ↦ t • g`).  Writing `P a c = Q / det^r` and
-matching the `t`-degree forces `Q` homogeneous of degree `n + N r`; nonnegativity
-of the weights forces the minimal `r = 0`, so `f` is a genuine bare-entry
-polynomial homogeneous of degree `n`.  Identity over all of `GL` upgrades to a
-polynomial identity by `MvPolynomial.eq_of_eval_eq_on_gl` (cf. `hP_mul_of_hP`). -/
+**Hypotheses (corrected, issue #4654).** `h_span` — that the `ℕ`-indexed weight
+spaces span `M` — is *essential*. With only `h_scalar` the statement is
+**false**: `h_scalar` records the aggregate action of the center but not the
+nonnegativity of the individual weights that kills the `det⁻¹` denominator.
+Concrete counterexample (`N = 2`, `n = 0`): `M = Sym²(V) ⊗ det⁻¹`. The center
+`scalarGL t = t • 1` acts by `t² · t⁻² = t⁰ = 1`, so `h_scalar` holds with
+`n = 0`; `M` is algebraic; and the only `ℕ`-valued weight is `(0,0)` (weights
+`(1,-1),(-1,1)` are not expressible in the `ℕ`-indexed `glWeightSpace`), so
+`h_homog` holds vacuously. But the conclusion would force every matrix
+coefficient to be a homogeneous degree-`0` polynomial — a constant — i.e.
+`M.ρ g = M.ρ 1 = id` for all `g`, contradicting that `Sym²V ⊗ det⁻¹` is a
+nontrivial `3`-dimensional representation. The weight spaces do not span (only
+the `1`-dimensional `(0,0)`-space is `ℕ`-indexed), so `h_span` excludes it.
+
+Strategy (now that `h_span` is a hypothesis): each matrix coefficient
+`f_{a,c}(g) = b.repr (M.ρ g (b c)) a` satisfies `f (t • g) = t^n f(g)` by
+`h_scalar` and `M.ρ.map_mul` (since `scalarGL t * g = t • g`). The algebraic-rep
+polynomial `P a c ∈ k[Xᵢⱼ, D]` (`evalAtGL` substitutes `D ↦ det⁻¹`, scaling by
+`t^{-N}` under `g ↦ t • g`). Writing `P a c = Q / det^r` and matching the
+`t`-degree forces `Q` homogeneous of degree `n + N r`; nonnegativity of the
+weights — guaranteed by `h_span`, which is what makes `M` genuinely polynomial —
+forces the minimal `r = 0`, so `f` is a genuine bare-entry polynomial
+homogeneous of degree `n`. Identity over all of `GL` upgrades to a polynomial
+identity by `MvPolynomial.eq_of_eval_eq_on_gl` (cf. `hP_mul_of_hP`). -/
 private theorem hpoly'_of_scalarGL_action (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_scalar : ∀ t : kˣ, M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
@@ -834,6 +864,8 @@ private theorem hpoly'_of_scalarGL_action (n : ℕ)
                (P a c)) := by
   -- TODO (issue #4654): clear the `det⁻¹` denominator and use the scaling
   -- behaviour to force the homogeneous degree, then `eq_of_eval_eq_on_gl`.
+  -- `h_span` supplies the weight-nonnegativity that forces the `det⁻¹` exponent
+  -- `r = 0`; without it the statement is false (see docstring counterexample).
   sorry
 
 /-- **Weight-homogeneity kills the `det⁻¹` variable (issue #4598 core).**
@@ -845,22 +877,33 @@ polynomials in the bare matrix entries** `Fin N × Fin N` — i.e. the raw
 This bridges `Etingof.IsAlgebraicRepresentation` (matrix coefficients in
 `k[Xᵢⱼ, D]`, `D = det⁻¹`, no homogeneity) to the bare-entry homogeneous data.
 
+**Hypotheses (corrected, issue #4654).** `h_span` — that the `ℕ`-indexed weight
+spaces span `M` — is *essential* and was missing from the original statement.
+Without it the theorem is **false**: `IsAlgebraicRepresentation` allows weights
+in `ℤ^N` (the `det⁻¹` variable), whereas the bare-entry-polynomial conclusion
+needs all weights in `ℕ^N`. Counterexample (`N = 2`, `n = 0`):
+`M = Sym²(V) ⊗ det⁻¹` is algebraic and satisfies `h_homog` vacuously (its only
+`ℕ`-valued weight is `(0,0)`), but its degree-`0` matrix coefficients are not
+constant. `h_span` (equivalently: `M` is a genuinely *polynomial* — not merely
+rational/algebraic — representation) rules such cases out; it holds for Schur
+modules by `Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`.
+
 Proof strategy (the genuine mathematical content, deferred — see issue #4598
 decomposition): evaluate the matrix-coefficient identity at the scalar matrix
-`t • 1 = ∏ᵢ diagUnit i t`. Since `M` is algebraic over an algebraically closed
-field of characteristic zero, the diagonal torus acts diagonalisably, so the
-weight spaces span `M` and `M.ρ (t • 1) = t^n • id` (each weight `μ` has
-`∑ μ = n` by `h_homog`). Hence every matrix coefficient `g ↦ b.repr (ρ g (b c))
-a` is homogeneous of degree `n` under `g ↦ t • g`. Writing the algebraic-rep
-polynomial `P a c` over `GLCoordVars = (Fin N × Fin N) ⊕ Unit` as
-`Q / det^r` with `Q` homogeneous, homogeneity forces the `det⁻¹` exponent to
-`0` and the entry-degree to exactly `n` (clear denominators, then use Zariski
-density of `GL` in `Matrix` via `MvPolynomial.eq_of_eval_eq_on_gl`), yielding
-the bare-entry degree-`n` polynomial. -/
+`t • 1 = ∏ᵢ diagUnit i t`. By `h_span` the weight spaces span `M`, so
+`M.ρ (t • 1) = t^n • id` (each weight `μ` has `∑ μ = n` by `h_homog`). Hence
+every matrix coefficient `g ↦ b.repr (ρ g (b c)) a` is homogeneous of degree `n`
+under `g ↦ t • g`. Writing the algebraic-rep polynomial `P a c` over
+`GLCoordVars = (Fin N × Fin N) ⊕ Unit` as `Q / det^r` with `Q` homogeneous,
+homogeneity plus weight-nonnegativity forces the `det⁻¹` exponent to `0` and the
+entry-degree to exactly `n` (clear denominators, then use Zariski density of
+`GL` in `Matrix` via `MvPolynomial.eq_of_eval_eq_on_gl`), yielding the bare-entry
+degree-`n` polynomial. -/
 theorem polynomialRep_homogeneous_hpoly'
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
        (P : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
@@ -872,8 +915,8 @@ theorem polynomialRep_homogeneous_hpoly'
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (P a c)) :=
   -- Assemble Piece 2 (det⁻¹ elimination) over Piece 1 (scalar action).
-  hpoly'_of_scalarGL_action k N n M halg
-    (fun t => scalarGL_acts_as_pow k N n M halg h_homog t)
+  hpoly'_of_scalarGL_action k N n M halg h_span
+    (fun t => scalarGL_acts_as_pow k N n M halg h_span h_homog t)
 
 /-- **A weight-homogeneous-of-degree-`n` algebraic `GL_N`-rep embeds
 `GL_N`-equivariantly into `(V^{⊗n})^m`** (issue #4598, FDRep-facing corollary
@@ -886,6 +929,7 @@ theorem polynomial_homog_rep_equivariant_embedding
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (m : ℕ) (φ : M →ₗ[k] (Fin m → TensorPower k (StdV k N) n)),
       Function.Injective φ ∧
@@ -894,7 +938,8 @@ theorem polynomial_homog_rep_equivariant_embedding
           PiTensorProduct.map
             (fun _ : Fin n => Matrix.toLin' (g : Matrix (Fin N) (Fin N) k))
             (φ x i)) := by
-  obtain ⟨d, b, P, hhom, hP⟩ := polynomialRep_homogeneous_hpoly' k N M halg h_homog
+  obtain ⟨d, b, P, hhom, hP⟩ :=
+    polynomialRep_homogeneous_hpoly' k N M halg h_span h_homog
   exact polynomialRep_embeds_in_tensorPower' k N n M.ρ halg ⟨d, b, P, hhom, hP⟩
 
 end Etingof.PolynomialRepEmbedding
