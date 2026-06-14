@@ -240,6 +240,13 @@ You may decompose when any of these is true:
 #    explicitly in the sub-issue body rather than relying on the warning.
 echo "body..." | coordination plan --label feature "Sub-task 1: ..."
 echo "body..." | coordination plan --label feature "Sub-task 2: ..."
+#    To capture a new issue number, parse the created /issues/<N> URL, NOT
+#    the trailing output: the title-keyword overlap warnings print *other*
+#    issue numbers after the URL, so `grep -oE '[0-9]+' | tail -1` grabs the
+#    wrong one. Use e.g.
+#      N=$(echo "body" | coordination plan --label feature "..." \
+#            | grep -oE '/issues/[0-9]+' | grep -oE '[0-9]+$' | head -1)
+#    or just re-query afterward: `gh issue list --search "<unique title> in:title"`.
 
 # 2. Link ordering dependencies if any sub-task must precede another.
 #    Do NOT add `depends-on: #<parent>` — the parent is about to be
