@@ -229,7 +229,7 @@ private theorem schurPoly_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antito
 
 -- The SchurModuleSubmodule is nonzero for any antitone weight.
 -- Uses the Weyl character formula: ch(L_λ) = s_λ ≠ 0.
-private theorem schurModuleSubmodule_ne_bot (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+theorem schurModuleSubmodule_ne_bot (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     SchurModuleSubmodule k N lam ≠ ⊥ := by
   intro h
   -- If SchurModuleSubmodule = ⊥, the Schur module is zero

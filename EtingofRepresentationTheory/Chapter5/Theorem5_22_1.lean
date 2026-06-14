@@ -736,7 +736,7 @@ theorem youngSym_block_factorization
 
 /-- A `symGroupImage`-stable submodule of `V^⊗n` is preserved by every
 permutation operator (viewed as the linear endomorphism `symGroupAction σ`). -/
-private lemma symGroupAction_mem_of_symGroupImage_submodule
+lemma symGroupAction_mem_of_symGroupImage_submodule
     {k : Type*} [Field k] {N n : ℕ}
     (S : Submodule (symGroupImage k (Fin N → k) n)
       (TensorPower k (Fin N → k) n))
