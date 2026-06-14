@@ -425,6 +425,29 @@ theorem gamma_from_embed2_F (F : Type) [Field F] (m : ℕ) (y : Fin (m + 1) → 
       exact congr_arg y (Fin.ext (by simp; omega))
     · simp only [dif_neg h2]
 
+/-- `γ_λ` on `starEmbed1_F`: `γ_λ(x, 0) = (x, x)`. Corrected-tube analogue
+of `gamma_from_embed1_F`; the embed-1 column of `γ_λ` is unchanged by the
+eigenvalue twist (the twist only acts on the embed-2 column). Derived from
+`gammaTube_embed_general_F` with `b = 0`. -/
+theorem gammaTube_from_embed1_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    d5tildeGammaTube_F F lam m (starEmbed1_F F m x) =
+      starEmbed1_F F m x + starEmbed2_F F m x := by
+  have h := gammaTube_embed_general_F F lam m x 0
+  simpa using h
+
+/-- `γ_λ` on `starEmbed2_F`: `γ_λ(0, y) = (y, Λy)` where `Λ = jordanShiftLinGen`
+is the eigenvalue site `λ·id + N`. Corrected-tube analogue of
+`gamma_from_embed2_F` (which produced the pure nilpotent `Ny`); the eigenvalue
+twist replaces `N` by `Λ`. Derived from `gammaTube_embed_general_F` with
+`a = 0`. -/
+theorem gammaTube_from_embed2_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (y : Fin (m + 1) → F) :
+    d5tildeGammaTube_F F lam m (starEmbed2_F F m y) =
+      starEmbed1_F F m y + starEmbed2_F F m (jordanShiftLinGen F lam m y) := by
+  have h := gammaTube_embed_general_F F lam m 0 y
+  simpa using h
+
 /-! ## Section 5b (REMOVED): left-inverse identities
 
 The four left-inverse identities `starFirst_F (starEmbed1_F x) = x`,
@@ -928,6 +951,68 @@ theorem d5tilde_gamma_containment_F
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
+/-- Corrected-tube analogue of `d5tilde_gamma_containment_F` for the central
+edge in its **canonical** direction `2→3` carrying `γ_λ = d5tildeGammaTube_F`.
+Identical structure; the only change is the eigenvalue twist on the embed-2
+column (`gammaTube_from_embed2_F` deposits `Λy = jordanShiftLinGen F lam m y`
+into `Wmain ⟨5⟩` in the fourth clause, where the old `γ` deposited `Ny`). The
+three containments used for the leaf equalities (`0→4`, `0→5`, `1→4`) are
+unchanged, because the embed-1 column of `γ_λ` is untouched and the first
+component of the embed-2 image is still `y`. -/
+theorem d5tilde_gammaTube_containment_F
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (lam : F) (m : ℕ)
+    (Wmain Wother : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wmain ⟨2, by omega⟩ →
+        d5tildeGammaTube_F F lam m x ∈ Wmain ⟨3, by omega⟩)
+    (hMain_43 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨4, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨3, by omega⟩)
+    (hMain_53 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨5, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨3, by omega⟩)
+    (hOther_43 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨4, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨3, by omega⟩)
+    (hOther_53 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨5, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨3, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v)) :
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨4, by omega⟩) ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨5, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      y ∈ Wmain ⟨4, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      jordanShiftLinGen F lam m y ∈ Wmain ⟨5, by omega⟩) := by
+  refine ⟨fun x hx => ?_, fun x hx => ?_, fun y hy => ?_, fun y hy => ?_⟩
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gammaTube_from_embed1_F] at hgamma
+    exact (d5tilde_core3_F F Q hOrient m Wmain Wother hMain_43 hMain_53
+      hOther_43 hOther_53 hc x x hgamma).1
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gammaTube_from_embed1_F] at hgamma
+    exact (d5tilde_core3_F F Q hOrient m Wmain Wother hMain_43 hMain_53
+      hOther_43 hOther_53 hc x x hgamma).2
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gammaTube_from_embed2_F] at hgamma
+    exact (d5tilde_core3_F F Q hOrient m Wmain Wother hMain_43 hMain_53
+      hOther_43 hOther_53 hc y (jordanShiftLinGen F lam m y) hgamma).1
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gammaTube_from_embed2_F] at hgamma
+    exact (d5tilde_core3_F F Q hOrient m Wmain Wother hMain_43 hMain_53
+      hOther_43 hOther_53 hc y (jordanShiftLinGen F lam m y) hgamma).2
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
 /-- For any orientation `Q` of `d5tildeAdj` and any complementary invariant
 submodule pair `(W₁, W₂)` of `d5tildeRep_kQ F Q hOrient m`, the leaf
 vertices `0, 1, 4, 5` carry equal `W₁`-subspaces. (The analogous statement
@@ -962,12 +1047,180 @@ theorem d5tildeRep_kQ_leaf_equalities
     W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ := by
   -- Restated against the corrected eigenvalue-site tube `d5tildeGammaTube_F`.
-  -- The old canonical-branch proof reasoned about the refuted `[[I, I], [I, N]]`
-  -- γ (false in the mixed/reversed orientations, #2853); it is preserved in git
-  -- history. On the corrected `γ_λ` tube the leaf equalities hold in ALL branches;
-  -- the orientation-generic proof (central transport rewritten around `Λ`/`γ_λ⁻¹`
-  -- via the Section 3c retraction lemmas) is sub-B (#4662).
-  sorry
+  -- The central edge now carries `γ_λ = d5tildeGammaTube_F F (d5tildeTubeLam F) m`
+  -- (canonical 2→3) / `γ_λ⁻¹` (reversed 3→2). The tube embed identities
+  -- `gammaTube_from_embed1_F`/`gammaTube_from_embed2_F` and the tube containment
+  -- helper `d5tilde_gammaTube_containment_F` replace the old refuted-γ versions.
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  set lam := d5tildeTubeLam F with hlam
+  -- d5tildeAdj values at each edge (canonical direction)
+  have h02 : d5tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d5tildeAdj]
+  have h12 : d5tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d5tildeAdj]
+  have h23 : d5tildeAdj ⟨2, by omega⟩ ⟨3, by omega⟩ = 1 := by simp [d5tildeAdj]
+  have h43 : d5tildeAdj ⟨4, by omega⟩ ⟨3, by omega⟩ = 1 := by simp [d5tildeAdj]
+  have h53 : d5tildeAdj ⟨5, by omega⟩ ⟨3, by omega⟩ = 1 := by simp [d5tildeAdj]
+  rcases hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ02 | hQ02
+  · -- e02 = Or.inl: 0→2 canonical
+    obtain ⟨a02⟩ := hQ02
+    rcases hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ12 | hQ12
+    · -- e12 = Or.inl: 1→2 canonical
+      obtain ⟨a12⟩ := hQ12
+      rcases hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23 with hQ23 | hQ23
+      · -- e23 = Or.inl: 2→3 canonical
+        obtain ⟨a23⟩ := hQ23
+        -- Canonical v=2 pushes and central γ_λ push (shared by all branches below).
+        have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+            starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+          have h := hW₁_inv a02 x hx
+          simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+        have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+            starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+          have h := hW₁_inv a12 x hx
+          simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+        have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+            d5tildeGammaTube_F F lam m x ∈ W₁ ⟨3, by omega⟩ := by
+          have h := hW₁_inv a23 x hx
+          simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+        have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+            starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+          have h := hW₂_inv a02 x hx
+          simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+        have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+            starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+          have h := hW₂_inv a12 x hx
+          simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+        have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+            d5tildeGammaTube_F F lam m x ∈ W₂ ⟨3, by omega⟩ := by
+          have h := hW₂_inv a23 x hx
+          simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+        rcases hOrient_edge ⟨4, by omega⟩ ⟨3, by omega⟩ h43 with hQ43 | hQ43
+        · -- e43 = Or.inl: 4→3 canonical
+          obtain ⟨a43⟩ := hQ43
+          rcases hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
+          · -- e53 = Or.inl: 5→3 canonical — ALL CANONICAL.
+            obtain ⟨a53⟩ := hQ53
+            have hW₁_43 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨4, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a43 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have hW₁_53 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨5, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨3, by omega⟩ := by
+              have h := hW₁_inv a53 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have hW₂_43 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨4, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a43 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have hW₂_53 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨5, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨3, by omega⟩ := by
+              have h := hW₂_inv a53 x hx
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            obtain ⟨h04, h05, h14, _hN15⟩ :=
+              d5tilde_gammaTube_containment_F F Q hOrient lam m W₁ W₂
+                hW₁_02 hW₁_12 hW₁_23 hW₁_43 hW₁_53 hW₂_43 hW₂_53 hcompl
+            obtain ⟨h04', h05', h14', _hN15'⟩ :=
+              d5tilde_gammaTube_containment_F F Q hOrient lam m W₂ W₁
+                hW₂_02 hW₂_12 hW₂_23 hW₂_43 hW₂_53 hW₁_43 hW₁_53
+                (fun v => (hcompl v).symm)
+            have heq04 : W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨4, by omega⟩) h04 h04').1
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq14 : W₁ ⟨1, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨4, by omega⟩) h14 h14').1
+            exact ⟨heq04.trans heq14.symm, heq04, heq05⟩
+          · -- e53 reversed (3→5), e43 canonical (4→3): combo C′ — central-canonical,
+            -- mixed v=3 leaves. Follow-up sub-issue (#4662 residual).
+            sorry
+        · -- e43 reversed (3→4)
+          obtain ⟨a34⟩ := hQ43
+          rcases hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
+          · -- e53 canonical (5→3): combo C — central-canonical, mixed v=3 leaves.
+            -- Follow-up sub-issue (#4662 residual).
+            obtain ⟨a53⟩ := hQ53
+            sorry
+          · -- e53 reversed (3→5): COMBO D — both v=3 leaf edges reversed.
+            obtain ⟨a35⟩ := hQ53
+            have hW₁_34 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨3, by omega⟩) :
+                starFirst_F F m w ∈ W₁ ⟨4, by omega⟩ := by
+              have h := hW₁_inv a34 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have hW₁_35 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨3, by omega⟩) :
+                starSecond_F F m w ∈ W₁ ⟨5, by omega⟩ := by
+              have h := hW₁_inv a35 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have hW₂_34 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨3, by omega⟩) :
+                starFirst_F F m w ∈ W₂ ⟨4, by omega⟩ := by
+              have h := hW₂_inv a34 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have hW₂_35 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨3, by omega⟩) :
+                starSecond_F F m w ∈ W₂ ⟨5, by omega⟩ := by
+              have h := hW₂_inv a35 w hw
+              simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+            have h04 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₁ hW₁_34 x x hg
+            have h05 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj2 F Q hOrient m W₁ hW₁_35 x x hg
+            have h14 : W₁ ⟨1, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := by
+              intro y hy
+              have hg := hW₁_23 _ (hW₁_12 y hy)
+              rw [gammaTube_from_embed2_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₁ hW₁_34 y
+                (jordanShiftLinGen F lam m y) hg
+            have h04' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₂ hW₂_34 x x hg
+            have h05' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              exact d5tilde_core3_F_proj2 F Q hOrient m W₂ hW₂_35 x x hg
+            have h14' : W₂ ⟨1, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := by
+              intro y hy
+              have hg := hW₂_23 _ (hW₂_12 y hy)
+              rw [gammaTube_from_embed2_F] at hg
+              exact d5tilde_core3_F_proj1 F Q hOrient m W₂ hW₂_34 y
+                (jordanShiftLinGen F lam m y) hg
+            have heq04 : W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨4, by omega⟩) h04 h04').1
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq14 : W₁ ⟨1, by omega⟩ = W₁ ⟨4, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨4, by omega⟩) h14 h14').1
+            exact ⟨heq04.trans heq14.symm, heq04, heq05⟩
+      · -- e23 reversed (3→2): central edge carries `γ_λ⁻¹`. Follow-up sub-issue.
+        sorry
+    · -- e12 reversed (2→1): uses `starSecond_F` projection. Follow-up sub-issue.
+      sorry
+  · -- e02 reversed (2→0): uses `starFirst_F` projection. Follow-up sub-issue.
+    sorry
 
 /-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
 
