@@ -527,6 +527,59 @@ theorem starRep_kQ_dimVec
       (Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section: Reduction of `starRep_kQ` to `starRepGen` at the canonical orientation
+
+At the canonical all-sink orientation `starQuiver` the orientation-generic
+representation `starRep_kQ` coincides with the canonical F-generic representation
+`starRepGen`. The two have the same object family, instances, and dimension
+vector; their arrow maps agree on every arrow of `starQuiver` — all of the form
+leaf `i → 0`, where `starRepMap_kQ` and `starRepMapGen` select the same
+embedding. The reversed-edge arms of `starRepMap_kQ` (`0 → i`, using the
+projections `starProj_i_F`) are never reached because `starQuiver` has no such
+arrow. This lets the canonical-orientation indecomposability of `starRep_kQ`
+reuse `starRepGen_isIndecomposable` instead of reproving the ~210-line argument
+(review #2816 Q3, issue #2823). -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- The orientation-generic K_{1,4} representation at the canonical orientation
+`starQuiver` equals the canonical F-generic representation `starRepGen`. -/
+theorem starRep_kQ_canonical_eq_starRepGen
+    (F : Type) [Field F] (m : ℕ)
+    (hOrient : @Etingof.IsOrientationOf 5 starQuiver starAdj) :
+    starRep_kQ F starQuiver hOrient m = starRepGen F m := by
+  letI : Quiver (Fin 5) := starQuiver
+  -- The two arrow maps agree on every arrow of `starQuiver`: such an arrow `a → b`
+  -- forces `a.val ≠ 0` and `b.val = 0`, i.e. a leaf `i → 0`, where both `starRepMap_kQ`
+  -- and `starRepMapGen` select the same embedding. On every other index pair an arrow
+  -- cannot exist (`b.val = 0` is contradicted), so the reversed-edge arms are unreached.
+  have hmap : ∀ (a b : Fin 5), @Quiver.Hom (Fin 5) starQuiver a b →
+      starRepMap_kQ F m a b = starRepMapGen F m a b := by
+    intro a b e
+    obtain ⟨ha, hb⟩ := e.down
+    fin_cases a <;> fin_cases b <;>
+      first
+        | rfl
+        | exact absurd hb (by decide)
+  unfold starRep_kQ starRepGen
+  congr 1
+  funext a b e
+  exact hmap a b e
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Canonical-orientation indecomposability of `starRep_kQ`, obtained from
+`starRepGen_isIndecomposable` via `starRep_kQ_canonical_eq_starRepGen`. This is
+the canonical-orientation half of the `star_not_finite_type_per_kQ` deliverable
+(issue #2801); the general orientation `Q` is handled separately. -/
+theorem starRep_kQ_canonical_isIndecomposable
+    (F : Type) [Field F] (m : ℕ)
+    (hOrient : @Etingof.IsOrientationOf 5 starQuiver starAdj) :
+    @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5) starQuiver
+      (starRep_kQ F starQuiver hOrient m) := by
+  rw [starRep_kQ_canonical_eq_starRepGen]
+  exact starRepGen_isIndecomposable F m
+
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- Per-(field, orientation) version of `star_not_finite_type`: for any
