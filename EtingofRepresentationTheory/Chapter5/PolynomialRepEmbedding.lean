@@ -888,6 +888,193 @@ private theorem scalarGL_acts_as_pow (n : ℕ)
   rw [h_span, top_le_iff, LinearMap.ker_eq_top] at hker
   exact hker
 
+/-- Scaling all evaluation points by `c` multiplies the value of a degree-`i`
+homogeneous polynomial by `c ^ i`. -/
+private lemma eval_mul_pow_of_isHomogeneous {i : ℕ}
+    {p : MvPolynomial (Fin N × Fin N) k} (hp : p.IsHomogeneous i)
+    (c : k) (x : Fin N × Fin N → k) :
+    MvPolynomial.eval (fun s => c * x s) p = c ^ i * MvPolynomial.eval x p := by
+  classical
+  rw [MvPolynomial.eval_eq, MvPolynomial.eval_eq, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun d hd => ?_
+  rw [MvPolynomial.mem_support_iff] at hd
+  have hdeg : d.degree = i := by by_contra h; exact hd (hp.coeff_eq_zero h)
+  have hsum : (∑ s ∈ d.support, d s) = i := by rw [← hdeg]; rfl
+  rw [Finset.prod_congr rfl (fun s _ => mul_pow c (x s) (d s)), Finset.prod_mul_distrib,
+    Finset.prod_pow_eq_pow_sum, hsum]
+  ring
+
+/-- **Homogeneity from `GL`-scaling.** A polynomial in the matrix entries whose
+evaluation scales as `Q(t • g) = tⁿ Q(g)` for every `g ∈ GL` and unit `t` is
+homogeneous of degree `n`. Each homogeneous component `Qᵈ` contributes `tᵈ·eval g Qᵈ`
+to the scaling, so the univariate polynomial `∑ᵈ (eval g Qᵈ) Tᵈ - (eval g Q) Tⁿ`
+vanishes on all of `kˣ` (infinite), hence is `0`; reading off its coefficients
+forces `eval g Qᵈ = 0` for `d ≠ n` on all of `GL`, so `Qᵈ = 0` by
+`eq_of_eval_eq_on_gl`. -/
+private lemma isHomogeneous_of_gl_scaling [Infinite k] {n : ℕ}
+    (Q : MvPolynomial (Fin N × Fin N) k)
+    (hsc : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (t : kˣ),
+       MvPolynomial.eval (fun ij : Fin N × Fin N =>
+           (t : k) * (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2) Q
+       = (t : k) ^ n *
+         MvPolynomial.eval (fun ij : Fin N × Fin N =>
+           (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2) Q) :
+    Q.IsHomogeneous n := by
+  classical
+  have key : ∀ i, i ≠ n → MvPolynomial.homogeneousComponent i Q = 0 := by
+    intro i hi
+    apply MvPolynomial.eq_of_eval_eq_on_gl
+    intro g
+    rw [map_zero]
+    set G : Fin N × Fin N → k :=
+      fun ij => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2 with hG
+    set td := Q.totalDegree with htd
+    set c : ℕ → k := fun e => MvPolynomial.eval G (MvPolynomial.homogeneousComponent e Q) with hc
+    have hsum_id : ∀ t : k, MvPolynomial.eval (fun ij => t * G ij) Q
+        = ∑ e ∈ Finset.range (td+1), c e * t^e := by
+      intro t
+      conv_lhs => rw [← MvPolynomial.sum_homogeneousComponent Q]
+      rw [map_sum]
+      refine Finset.sum_congr rfl fun e he => ?_
+      rw [eval_mul_pow_of_isHomogeneous k N (MvPolynomial.homogeneousComponent_isHomogeneous e Q) t G]
+      rw [hc]; ring
+    by_cases hile : i ≤ td
+    · set P : Polynomial k :=
+        (∑ e ∈ Finset.range (td+1), Polynomial.C (c e) * Polynomial.X ^ e)
+          - Polynomial.C (MvPolynomial.eval G Q) * Polynomial.X ^ n with hP
+      have hroot : ∀ t : k, t ≠ 0 → P.IsRoot t := by
+        intro t ht
+        have hu : MvPolynomial.eval (fun ij => ((Units.mk0 t ht : kˣ):k) * G ij) Q
+            = ((Units.mk0 t ht : kˣ):k)^n * MvPolynomial.eval G Q := hsc g (Units.mk0 t ht)
+        simp only [Units.val_mk0] at hu
+        have key2 : (∑ e ∈ Finset.range (td+1), c e * t^e) = t^n * MvPolynomial.eval G Q := by
+          rw [← hsum_id t]; exact hu
+        rw [Polynomial.IsRoot.def, hP]
+        simp only [Polynomial.eval_sub, Polynomial.eval_finset_sum, Polynomial.eval_mul,
+          Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X]
+        rw [key2]; ring
+      have hinf : Set.Infinite {t : k | P.IsRoot t} := by
+        apply Set.Infinite.mono _ ((Set.finite_singleton (0:k)).infinite_compl)
+        intro t ht
+        exact hroot t (by simpa using ht)
+      have hP0 : P = 0 := Polynomial.eq_zero_of_infinite_isRoot P hinf
+      have hcoeff : P.coeff i = c i := by
+        rw [hP]
+        simp only [Polynomial.coeff_sub, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul,
+          Polynomial.coeff_X_pow, mul_ite, mul_one, mul_zero]
+        rw [Finset.sum_ite_eq (Finset.range (td+1)) i (fun e => c e)]
+        simp only [Finset.mem_range, Nat.lt_succ_iff, hile, if_true]
+        rw [if_neg hi]
+        ring
+      rw [hP0] at hcoeff
+      simpa [hc] using hcoeff.symm
+    · rw [show MvPolynomial.homogeneousComponent i Q = 0 from
+          MvPolynomial.homogeneousComponent_eq_zero (φ := Q) (n := i) (by omega), map_zero]
+  have hQeq : Q = MvPolynomial.homogeneousComponent n Q := by
+    ext d
+    rw [MvPolynomial.coeff_homogeneousComponent]
+    by_cases hd : d.degree = n
+    · rw [if_pos hd]
+    · rw [if_neg hd]
+      have h0 := key d.degree hd
+      have h2 : MvPolynomial.coeff d (MvPolynomial.homogeneousComponent d.degree Q)
+          = MvPolynomial.coeff d Q := by
+        rw [MvPolynomial.coeff_homogeneousComponent, if_pos rfl]
+      rw [h0, MvPolynomial.coeff_zero] at h2
+      exact h2.symm
+  rw [hQeq]
+  exact MvPolynomial.homogeneousComponent_isHomogeneous n Q
+
+/-- **det⁻¹ elimination proper (the genuine `h_span` content of issue #4654).**
+On a *genuinely polynomial* algebraic representation — one whose `ℕ`-indexed
+weight spaces span `M` (`h_span`) — the algebraic-representation matrix
+coefficients, a priori living in `k[Xᵢⱼ, D]` with `D = det⁻¹`, are already
+*bare-entry* polynomials in `k[Xᵢⱼ]`: the `det⁻¹` variable can be eliminated.
+
+This is the hard mathematical core (Etingof Theorem 5.23.2(i), polynomial case):
+`h_span` is *essential* and `h_scalar` alone is **insufficient**. The naive
+"clear the denominator `P = Q/det^r`, match the scaling degree, conclude `r = 0`"
+argument only shows each cleared numerator `Q` is *multi-homogeneous* (degree
+`s + μ(a)ᵢ` in row `i`, `s + μ(c)ⱼ` in column `j`); multi-homogeneity does **not**
+imply `det^s ∣ Q` (e.g. `N = 2, s = 1`: `α·g₁₁g₂₂ + β·g₁₂g₂₁` is row/column
+multi-homogeneous of degree `1` but `det = g₁₁g₂₂ - g₁₂g₂₁` divides it only when
+`α = -β`). Divisibility — equivalently, that the rep extends to the matrix monoid
+`Mₙ(k)`, equivalently nonnegativity of *all* weights — is exactly the global
+representation structure supplied by `h_span` (the `Sym²(V) ⊗ det⁻¹`
+counterexample, with ℤ-weights `(1,-1),(0,0),(-1,1)`, fails `h_span` precisely
+because its negative-entry weights leave the `ℕ`-indexed weight spaces
+non-spanning). No homogeneity is asserted here; that is `matrixCoeff_isHomogeneous`.
+
+TODO (issue #4654 sub, det⁻¹ elimination): the genuine proof. Routes: (a) book's
+structural route — `R` (the matrix-coefficient ring) decomposes through
+`Sⁿ(V ⊗ V*) ⊗ (∧ᴺV*)^s` and `h_span` forces `s = 0`; (b) monoid-extension —
+`ρ : GLₙ → GL(M)` with all weights `≥ 0` extends to `Mₙ(k) → End(M)`, whose
+matrix coefficients are the bare polynomials. -/
+private theorem detInv_elim_of_polynomial (n : ℕ) [CharZero k] [IsAlgClosed k]
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤) :
+    ∃ (d : ℕ) (b : Module.Basis (Fin d) k M)
+       (Q : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k),
+         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) a c,
+           b.repr (M.ρ g (b c)) a =
+             MvPolynomial.eval
+               (fun ij : Fin N × Fin N =>
+                 (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+               (Q a c) := by
+  -- The det⁻¹-elimination core; see the docstring for why `h_span` is needed.
+  sorry
+
+/-- **Homogeneity extraction.** Once the `det⁻¹` variable has been eliminated
+(`detInv_elim_of_polynomial`), the bare-entry matrix-coefficient polynomials `Q`
+are automatically **homogeneous of degree `n`**, provided the scalar matrix acts
+by `t ^ n` (`h_scalar`).
+
+Unlike the det⁻¹ elimination, this step is purely formal: each matrix coefficient
+`f(g) = b.repr (M.ρ g (b c)) a = eval g (Q a c)` satisfies `f(t • g) = tⁿ f(g)`
+(from `h_scalar` and `M.ρ.map_mul`, since `scalarGL t * g = t • g`), so on each
+homogeneous component `Qᵈ` of `Q` the identity
+`∑ᵈ tᵈ · eval g Qᵈ = tⁿ · eval g Q` holds for all `t ∈ kˣ`; as a univariate
+polynomial in `t` with infinitely many (all of `kˣ`) roots it vanishes, forcing
+`eval g Qᵈ = 0` for `d ≠ n` on all of `GL`, hence `Qᵈ = 0` by
+`eq_of_eval_eq_on_gl`, i.e. `Q` is homogeneous of degree `n`. -/
+private theorem matrixCoeff_isHomogeneous (n : ℕ) [CharZero k] [IsAlgClosed k]
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (h_scalar : ∀ t : kˣ, M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id)
+    {d : ℕ} (b : Module.Basis (Fin d) k M)
+    (Q : Fin d → Fin d → MvPolynomial (Fin N × Fin N) k)
+    (hQ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) a c,
+           b.repr (M.ρ g (b c)) a =
+             MvPolynomial.eval
+               (fun ij : Fin N × Fin N =>
+                 (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+               (Q a c))
+    (a c : Fin d) : (Q a c).IsHomogeneous n := by
+  apply isHomogeneous_of_gl_scaling
+  intro g t
+  -- The scalar matrix `scalarGL t` times `g` has entries `t * g_ij`.
+  have hmatrix : ∀ ij : Fin N × Fin N,
+      ((scalarGL k N t * g : Matrix.GeneralLinearGroup (Fin N) k) :
+          Matrix (Fin N) (Fin N) k) ij.1 ij.2
+        = (t : k) * (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2 := by
+    intro ij
+    show ((scalarGL k N t : Matrix (Fin N) (Fin N) k) *
+        (g : Matrix (Fin N) (Fin N) k)) ij.1 ij.2 = _
+    rw [show (scalarGL k N t : Matrix (Fin N) (Fin N) k)
+          = Matrix.diagonal (fun _ => (t : k)) from rfl, Matrix.diagonal_mul]
+  -- Rewrite the scaled evaluation as the matrix coefficient at `scalarGL t * g`.
+  have hpt : (fun ij : Fin N × Fin N => (t : k) * (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+      = (fun ij : Fin N × Fin N =>
+          ((scalarGL k N t * g : Matrix.GeneralLinearGroup (Fin N) k) :
+            Matrix (Fin N) (Fin N) k) ij.1 ij.2) := by
+    funext ij; exact (hmatrix ij).symm
+  have hL : MvPolynomial.eval (fun ij : Fin N × Fin N =>
+        (t : k) * (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2) (Q a c)
+      = b.repr (M.ρ (scalarGL k N t * g) (b c)) a := by
+    rw [hpt]; exact (hQ (scalarGL k N t * g) a c).symm
+  rw [hL, map_mul, h_scalar t, Module.End.mul_apply, LinearMap.smul_apply,
+    LinearMap.id_coe, id_eq, map_smul, Finsupp.smul_apply, smul_eq_mul, hQ g a c]
+
 /-- **Piece 2 of `det⁻¹` elimination — assembly given the scalar action.**
 On a *polynomial* (all weights nonnegative) representation whose scalar matrix
 acts by `t ^ n` (`h_scalar`, Piece 1 `scalarGL_acts_as_pow`), the
@@ -933,11 +1120,12 @@ private theorem hpoly'_of_scalarGL_action (n : ℕ)
                (fun ij : Fin N × Fin N =>
                  (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
                (P a c)) := by
-  -- TODO (issue #4654): clear the `det⁻¹` denominator and use the scaling
-  -- behaviour to force the homogeneous degree, then `eq_of_eval_eq_on_gl`.
-  -- `h_span` supplies the weight-nonnegativity that forces the `det⁻¹` exponent
-  -- `r = 0`; without it the statement is false (see docstring counterexample).
-  sorry
+  -- Assemble: eliminate `det⁻¹` (`detInv_elim_of_polynomial`, the `h_span` core),
+  -- then read off homogeneity of the bare-entry polynomials
+  -- (`matrixCoeff_isHomogeneous`, formal from `h_scalar`).
+  obtain ⟨d, b, Q, hQ⟩ := detInv_elim_of_polynomial k N n M halg h_span
+  exact ⟨d, b, Q,
+    fun a c => matrixCoeff_isHomogeneous k N n M h_scalar b Q hQ a c, hQ⟩
 
 /-- **Weight-homogeneity kills the `det⁻¹` variable (issue #4598 core).**
 A weight-homogeneous-of-degree-`n` algebraic `GL_N`-representation `M` has its
