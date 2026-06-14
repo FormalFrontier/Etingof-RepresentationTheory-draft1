@@ -1087,4 +1087,71 @@ theorem cumTailSumLin_oneSubNilp (F : Type) [Field F] (m : ℕ)
     simp only [dif_pos hi1]
     ring
 
+/-! ## Shared γ-preimage untwisting lemma
+
+The mixed-direction branch-vertex configuration in the D̃-family
+indecomposability proofs (one leaf edge at a γ-coupled center canonical,
+the other reversed) produces an `(I - N)`-twisted relation rather than a
+literal leaf equality. The reusable infrastructure that strips the twist
+is **not** a per-leaf `N`-invariance statement — that is circular, because
+the only honest route from `y ∈ Wmain ⟨leaf⟩` to `N y ∈ Wmain ⟨leaf⟩`
+runs through the leaf-subspace equalities those branches are trying to
+establish (the partial fact `gamma_containment` only yields
+`y ∈ Wmain ⟨1⟩ → N y ∈ Wmain ⟨5⟩`, and bridging leaf `5` back to leaf `1`
+*is* part of the leaf equality). See #4554 for the analysis.
+
+The correct, non-circular tool is a **γ-preimage lemma**: the γ-coupling
+`g = d5tildeGamma_F` is a linear isomorphism, and a complementary pair of
+invariant submodules is carried by `g` so that each summand maps *onto*
+the corresponding summand at the target. Hence the `g`-preimage of a
+target-summand element lands in the source summand. Packaging `g` as a
+`LinearEquiv` (via its closed-form inverse `d5tildeGammaInv_F`) and feeding
+the inverse the leaf-embedding patterns (`gammaInv_*` identities, which use
+`cumTailSumLin = M = (I - N)⁻¹` above) recovers the untwisted source-side
+coordinates `e₁(a - M (a - b)) + e₂(M (a - b))`.
+
+This lemma is field-generic and stated over an abstract `LinearEquiv`, so
+every D̃-family member (`d5`/`d6`/`d7`/`d8`) instantiates it with its own
+γ-equiv and center submodules. It needs no finite-dimensionality. -/
+
+/-- γ-preimage untwisting. If a linear isomorphism `g : V ≃ₗ[F] W` carries a
+complementary pair of invariant submodules `(A₁, A₂)` of `V` into the
+complementary pair `(B₁, B₂)` of `W` (i.e. `g '' A₁ ⊆ B₁` and
+`g '' A₂ ⊆ B₂`), then `g` maps `A₁` *onto* `B₁`: the `g`-preimage of any
+`w ∈ B₁` lies in `A₁`.
+
+This is the non-circular replacement for per-leaf `N`-invariance in the
+mixed-direction D̃-family branches: with `g` the γ-coupling and
+`(A₁, A₂)`, `(B₁, B₂)` the complementary invariant submodules at the two
+γ-coupled centers, it pulls center-`B` membership back to center `A`, where
+the available leaf-edge invariance can extract the leaf coordinates. -/
+theorem linearEquiv_invariant_isCompl_symm_mem
+    {F : Type*} [Field F] {V W : Type*}
+    [AddCommGroup V] [Module F V] [AddCommGroup W] [Module F W]
+    (g : V ≃ₗ[F] W)
+    (A₁ A₂ : Submodule F V) (B₁ B₂ : Submodule F W)
+    (hA : IsCompl A₁ A₂) (hB : IsCompl B₁ B₂)
+    (h₁ : ∀ x ∈ A₁, g x ∈ B₁) (h₂ : ∀ x ∈ A₂, g x ∈ B₂)
+    (w : W) (hw : w ∈ B₁) :
+    g.symm w ∈ A₁ := by
+  -- Decompose the preimage in `A₁ ⊕ A₂`.
+  have hx : g.symm w ∈ (⊤ : Submodule F V) := Submodule.mem_top
+  rw [← hA.sup_eq_top] at hx
+  obtain ⟨a₁, ha₁, a₂, ha₂, hsum⟩ := Submodule.mem_sup.mp hx
+  -- Apply `g`: `w = g a₁ + g a₂`.
+  have hgw : w = g a₁ + g a₂ := by
+    have hgg : g (g.symm w) = g (a₁ + a₂) := by rw [hsum]
+    rwa [g.apply_symm_apply, map_add] at hgg
+  -- `g a₂` lies in both `B₁` (as `w - g a₁`) and `B₂`, hence is `0`.
+  have hga₂B₁ : g a₂ ∈ B₁ := by
+    have hrw : g a₂ = w - g a₁ := by rw [hgw]; abel
+    rw [hrw]; exact B₁.sub_mem hw (h₁ a₁ ha₁)
+  have hga₂B₂ : g a₂ ∈ B₂ := h₂ a₂ ha₂
+  have hga₂0 : g a₂ = 0 := by
+    have hmem : g a₂ ∈ B₁ ⊓ B₂ := Submodule.mem_inf.mpr ⟨hga₂B₁, hga₂B₂⟩
+    rwa [hB.inf_eq_bot, Submodule.mem_bot] at hmem
+  have ha₂0 : a₂ = 0 := g.injective (by rw [hga₂0, map_zero])
+  rw [← hsum, ha₂0, add_zero]
+  exact ha₁
+
 end Etingof
