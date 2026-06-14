@@ -455,6 +455,187 @@ theorem d8tilde_core6_F_proj2
   rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
   exact h
 
+/-! ## Section 5b: Internal-chain collapse and γ-coupled containment
+(#4546 deliverable 1)
+
+D̃₈ couples its two degree-3 branch points (vertices `2` and `6`) across
+the internal length-4 chain `2 – 3 – 4 – 5 – 6`. The edge `2-3` carries
+the γ-coupling `d5tildeGamma_F`; the three edges `3-4`, `4-5`, `5-6`
+carry `LinearMap.id` in both orientations. For any complementary
+invariant pair, each identity edge forces equality of the two vertex
+subspaces (the D̃₆ single-edge `d6tildeRep_kQ_chain_collapse` argument,
+applied three times), so the whole interior collapses:
+`W ⟨3⟩ = W ⟨4⟩ = W ⟨5⟩ = W ⟨6⟩`. This lets γ-data pushed in at vertex `3`
+transport to the right center `6`, where `d8tilde_core6_F` decomposes it
+onto the leaves `7, 8`. This is the genuinely D̃₈-specific propagation
+that does not port directly from D̃₅ (single γ edge) or D̃₆ (single
+identity edge). -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Internal-chain collapse for D̃₈: the three identity edges `3-4`,
+`4-5`, `5-6` force any complementary invariant pair to carry equal
+subspaces across the whole interior, so `W₁ ⟨3⟩ = W₁ ⟨6⟩` and
+`W₂ ⟨3⟩ = W₂ ⟨6⟩`. Generalises `d6tildeRep_kQ_chain_collapse` (single
+edge `3-4`) to the three-edge chain. -/
+theorem d8tildeRep_kQ_chain_collapse
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 9} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (d8tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 9} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (d8tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ ⟨3, by omega⟩ = W₁ ⟨6, by omega⟩ ∧
+    W₂ ⟨3, by omega⟩ = W₂ ⟨6, by omega⟩ := by
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  -- One identity edge `{i, j}` (with `j = i+1`) collapses both subspaces.
+  -- Each block mirrors `d6tildeRep_kQ_chain_collapse`'s single-edge proof.
+  have hstep34 : W₁ ⟨3, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
+      W₂ ⟨3, by omega⟩ = W₂ ⟨4, by omega⟩ := by
+    have hadj : d8tildeAdj ⟨3, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d8tildeAdj]
+    rcases hOrient_edge ⟨3, by omega⟩ ⟨4, by omega⟩ hadj with hQ | hQ
+    · obtain ⟨a⟩ := hQ
+      have hle1 : W₁ ⟨3, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₁_inv a x hx
+      have hle2 : W₂ ⟨3, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₂_inv a x hx
+      exact compl_le_forces_eq (V := Fin (2 * (m + 1)) → F) _ _ _ _
+        (hcompl ⟨3, by omega⟩) (hcompl ⟨4, by omega⟩) hle1 hle2
+    · obtain ⟨a⟩ := hQ
+      have hle1 : W₁ ⟨4, by omega⟩ ≤ W₁ ⟨3, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₁_inv a x hx
+      have hle2 : W₂ ⟨4, by omega⟩ ≤ W₂ ⟨3, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₂_inv a x hx
+      have h := compl_le_forces_eq (V := Fin (2 * (m + 1)) → F) _ _ _ _
+        (hcompl ⟨4, by omega⟩) (hcompl ⟨3, by omega⟩) hle1 hle2
+      exact ⟨h.1.symm, h.2.symm⟩
+  have hstep45 : W₁ ⟨4, by omega⟩ = W₁ ⟨5, by omega⟩ ∧
+      W₂ ⟨4, by omega⟩ = W₂ ⟨5, by omega⟩ := by
+    have hadj : d8tildeAdj ⟨4, by omega⟩ ⟨5, by omega⟩ = 1 := by simp [d8tildeAdj]
+    rcases hOrient_edge ⟨4, by omega⟩ ⟨5, by omega⟩ hadj with hQ | hQ
+    · obtain ⟨a⟩ := hQ
+      have hle1 : W₁ ⟨4, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₁_inv a x hx
+      have hle2 : W₂ ⟨4, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₂_inv a x hx
+      exact compl_le_forces_eq (V := Fin (2 * (m + 1)) → F) _ _ _ _
+        (hcompl ⟨4, by omega⟩) (hcompl ⟨5, by omega⟩) hle1 hle2
+    · obtain ⟨a⟩ := hQ
+      have hle1 : W₁ ⟨5, by omega⟩ ≤ W₁ ⟨4, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₁_inv a x hx
+      have hle2 : W₂ ⟨5, by omega⟩ ≤ W₂ ⟨4, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₂_inv a x hx
+      have h := compl_le_forces_eq (V := Fin (2 * (m + 1)) → F) _ _ _ _
+        (hcompl ⟨5, by omega⟩) (hcompl ⟨4, by omega⟩) hle1 hle2
+      exact ⟨h.1.symm, h.2.symm⟩
+  have hstep56 : W₁ ⟨5, by omega⟩ = W₁ ⟨6, by omega⟩ ∧
+      W₂ ⟨5, by omega⟩ = W₂ ⟨6, by omega⟩ := by
+    have hadj : d8tildeAdj ⟨5, by omega⟩ ⟨6, by omega⟩ = 1 := by simp [d8tildeAdj]
+    rcases hOrient_edge ⟨5, by omega⟩ ⟨6, by omega⟩ hadj with hQ | hQ
+    · obtain ⟨a⟩ := hQ
+      have hle1 : W₁ ⟨5, by omega⟩ ≤ W₁ ⟨6, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₁_inv a x hx
+      have hle2 : W₂ ⟨5, by omega⟩ ≤ W₂ ⟨6, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₂_inv a x hx
+      exact compl_le_forces_eq (V := Fin (2 * (m + 1)) → F) _ _ _ _
+        (hcompl ⟨5, by omega⟩) (hcompl ⟨6, by omega⟩) hle1 hle2
+    · obtain ⟨a⟩ := hQ
+      have hle1 : W₁ ⟨6, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₁_inv a x hx
+      have hle2 : W₂ ⟨6, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := fun x hx => by
+        simpa only [d8tildeRep_kQ, d8tildeRepMap_kQ, LinearMap.id_coe, id_eq]
+          using hW₂_inv a x hx
+      have h := compl_le_forces_eq (V := Fin (2 * (m + 1)) → F) _ _ _ _
+        (hcompl ⟨6, by omega⟩) (hcompl ⟨5, by omega⟩) hle1 hle2
+      exact ⟨h.1.symm, h.2.symm⟩
+  exact ⟨hstep34.1.trans (hstep45.1.trans hstep56.1),
+         hstep34.2.trans (hstep45.2.trans hstep56.2)⟩
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- γ-coupled containment for D̃₈: leaf data on the left center (vertices
+`0, 1` feeding vertex `2`) propagates along the γ edge `2 → 3`, transports
+across the collapsed interior `⟨3⟩ = ⟨6⟩` (supplied by
+`d8tildeRep_kQ_chain_collapse`), and decomposes at the right center `6`
+onto its leaves `7, 8` via `d8tilde_core6_F`. The fourth conjunct carries
+the nilpotent twist `nilpotentShiftLinGen F m y` from
+`gamma_from_embed2_F` (`γ(0, y) = (y, N y)`). D̃₈ analogue of
+`d6tilde_gamma_containment_F`, with the single collapse edge replaced by
+the three-edge chain endpoint. -/
+theorem d8tilde_gamma_containment_F
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (Wmain Wother : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wmain ⟨2, by omega⟩ →
+        d5tildeGamma_F F m x ∈ Wmain ⟨3, by omega⟩)
+    (hcol_main : Wmain ⟨3, by omega⟩ = Wmain ⟨6, by omega⟩)
+    (hMain_76 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨7, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨6, by omega⟩)
+    (hMain_86 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨8, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨6, by omega⟩)
+    (hOther_76 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨7, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨6, by omega⟩)
+    (hOther_86 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨8, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨6, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v)) :
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨7, by omega⟩) ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨8, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      y ∈ Wmain ⟨7, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      nilpotentShiftLinGen F m y ∈ Wmain ⟨8, by omega⟩) := by
+  refine ⟨fun x hx => ?_, fun x hx => ?_, fun y hy => ?_, fun y hy => ?_⟩
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gamma_from_embed1_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc x x hgamma6).1
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gamma_from_embed1_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc x x hgamma6).2
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gamma_from_embed2_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc y (nilpotentShiftLinGen F m y) hgamma6).1
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gamma_from_embed2_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc y (nilpotentShiftLinGen F m y) hgamma6).2
+
 /-! ## Section 5: Indecomposability (deferred sorry)
 
 The body of the indecomposability proof is deferred to a follow-up
