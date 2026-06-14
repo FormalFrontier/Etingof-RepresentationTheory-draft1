@@ -248,6 +248,40 @@ theorem prefixBlockEmbed_comp_F (F : Type) [Field F] (a b c m : ℕ) (hab : a �
   · rw [dif_neg hjb,
       dif_neg (fun hja => hjb (Nat.lt_of_lt_of_le hja (Nat.mul_le_mul_right _ hab)))]
 
+/-- Suffix-flag composition law: embedding into the last `a` blocks of `b`
+then into the last `b` blocks of `c` equals embedding into the last `a`
+blocks of `c`. The suffix flag `F^{a(m+1)} ↪ F^{b(m+1)} ↪ F^{c(m+1)}` is a
+single suffix embedding (the arm-3 flag of T(1,2,5)). -/
+theorem suffixBlockEmbed_comp_F (F : Type) [Field F] (a b c m : ℕ)
+    (hab : a ≤ b) (hbc : b ≤ c) (x : Fin (a * (m + 1)) → F) :
+    suffixBlockEmbed_F F b c m (suffixBlockEmbed_F F a b m x) =
+      suffixBlockEmbed_F F a c m x := by
+  ext j
+  have hj := j.isLt
+  have e1 : (c - b) * (m + 1) + (b - a) * (m + 1) = (c - a) * (m + 1) := by
+    rw [← Nat.add_mul]; congr 1; omega
+  have e2 : (c - b) * (m + 1) + b * (m + 1) = c * (m + 1) := by
+    rw [← Nat.add_mul]; congr 1; omega
+  have e3 : (b - a) * (m + 1) + a * (m + 1) = b * (m + 1) := by
+    rw [← Nat.add_mul]; congr 1; omega
+  simp only [suffixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases hR : (c - a) * (m + 1) ≤ j.val ∧ j.val - (c - a) * (m + 1) < a * (m + 1)
+  · rw [dif_pos hR, dif_pos (show (c - b) * (m + 1) ≤ j.val ∧
+        j.val - (c - b) * (m + 1) < b * (m + 1) from ⟨by omega, by omega⟩),
+      dif_pos (show (b - a) * (m + 1) ≤ j.val - (c - b) * (m + 1) ∧
+        j.val - (c - b) * (m + 1) - (b - a) * (m + 1) < a * (m + 1) from
+        ⟨by omega, by omega⟩)]
+    congr 1
+    ext
+    simp only
+    omega
+  · rw [dif_neg hR]
+    by_cases hO : (c - b) * (m + 1) ≤ j.val ∧ j.val - (c - b) * (m + 1) < b * (m + 1)
+    · rw [dif_pos hO, dif_neg (show ¬ ((b - a) * (m + 1) ≤ j.val - (c - b) * (m + 1) ∧
+        j.val - (c - b) * (m + 1) - (b - a) * (m + 1) < a * (m + 1)) from
+        fun h => hR ⟨by omega, by omega⟩)]
+    · rw [dif_neg hO]
+
 /-! ## Section 3: Orientation-generic Ẽ₈ homogeneous-tube representation
 
 The map function is a match on `(a.val, b.val)` over the eight canonical
