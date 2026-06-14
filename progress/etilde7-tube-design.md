@@ -114,3 +114,77 @@ keeps its statement (it already consumes `_isIndecomposable`); rebuild
   consumer + rebuild downstream.
 
 Do **not** re-file sub-sorries against the old refuted single-twist shape.
+
+## 7. sub-A realization (work session 7446ec63): explicit S_λ + brick proof
+
+This section discharges deliverable 1 of #4568: the explicit regular-simple
+matrices and a paper brick-proof, plus the tube shape that the Lean `def`
+`etilde7Rep_kQ` now implements.
+
+### 7.1 The regular simple `S_λ` at `δ = (4;2;3,2,1;3,2,1)` (m = 0)
+
+Center `V0 = F^4` with basis `e1,e2,e3,e4`. The three arms enter as:
+
+- **Arm 2 (prefix flag F).** Maps `v4→v3→v2→v0` are the coordinate prefix
+  embeddings `x ↦ (x,0,…)`. Center images:
+  `V4 ↦ ⟨e1⟩ ⊂ V3 ↦ ⟨e1,e2⟩ ⊂ V2 ↦ ⟨e1,e2,e3⟩`. Flag `F = ⟨e1⟩⊂⟨e1,e2⟩⊂⟨e1,e2,e3⟩`.
+- **Arm 3 (suffix flag G).** Maps `v7→v6→v5→v0` are the coordinate *suffix*
+  embeddings `x ↦ (0,…,x)`. Center images:
+  `V7 ↦ ⟨e4⟩ ⊂ V6 ↦ ⟨e3,e4⟩ ⊂ V5 ↦ ⟨e2,e3,e4⟩`. Flag `G = ⟨e4⟩⊂⟨e3,e4⟩⊂⟨e2,e3,e4⟩`
+  (the opposite flag to `F`).
+- **Arm 1 (eigenvalue 2-plane P).** `v1 = F^2`, map `(p,q) ↦ p·u + q·v` with
+  `u = (1,1,1,1)`, `v = (1,λ,λ²,λ³)`. So
+  `P = ⟨(1,1,1,1),(1,λ,λ²,λ³)⟩ ⊆ F^4`. Full column rank for `λ ≠ 1`.
+
+### 7.2 Brick proof (`End(S_λ) = F`) for generic `λ`
+
+Let `φ` be a representation endomorphism; `φ₀ : F^4 → F^4` is its center
+component. Commuting with the (injective) arm maps forces `φ₀` to preserve all
+three subspace systems:
+
+1. Preserving flag `F` ⟹ `φ₀` upper-triangular in `e1,…,e4`.
+2. Preserving flag `G` ⟹ `φ₀` preserves every suffix space `⟨e_k,…,e4⟩`.
+   Upper-triangular + preserves all suffix spaces ⟹ `φ₀` **diagonal**,
+   `φ₀ = diag(α1,α2,α3,α4)`.
+3. Preserving `P = ⟨u,v⟩`: `φ₀ u ∈ P` gives `α = s·u + t·v`, i.e.
+   `α_i = s + t λ^{i-1}`. Then `φ₀ v ∈ P` gives, for all `i`,
+   `λ^{i-1} α_i = s' + t' λ^{i-1}`, i.e. the quadratic
+   `t·x² + (s−t')·x − s'` vanishes at the four points `x ∈ {1,λ,λ²,λ³}`.
+   When `1,λ,λ²,λ³` are **pairwise distinct** a quadratic with four roots is
+   zero: `t = 0`, `s = t'`, `s' = 0`, hence `α_i = s` for all `i`.
+
+So `φ₀ = s·id` is scalar; the scalars are genuine rep endomorphisms, giving
+`End(S_λ) = F`. `S_λ` is a brick. The genericity hypothesis is exactly
+`1,λ,λ²,λ³ pairwise distinct`, realized in Lean by `etilde7TubeLam` /
+`etilde7TubeLam_distinct` (an element of the infinite field `F` avoiding the
+finitely many roots of `∏_{i<j}(X^j − X^i)`).
+
+### 7.3 The homogeneous tube `R_λ^{(m+1)}` and why it defeats the §1 peeling
+
+Replace every `F` block by `F^{m+1}` (tensoring with `I_{m+1}`), and replace
+the scalar `λ` in arm 1 by the Jordan block `Λ = λ·id + J` (`jordanShiftLinGen`),
+so arm 1 becomes
+`(P,Q) ↦ (P+Q, P+ΛQ, P+Λ²Q, P+Λ³Q)` on the four center blocks. Every other
+arm map is a coordinate prefix/suffix block embedding (no `λ`).
+
+§1's peeling pair `W'(0)=⟨e4⊗e_m⟩`, supported only along arm 3, is no longer a
+direct summand: for it to peel, arm 1's full image must avoid `e4⊗e_m`, but the
+block-4 component `P+Λ³Q` is surjective onto `F^{m+1}` (`Λ³` invertible for
+`λ≠0`), so any vector with block-4 component `e_m` also has nonzero blocks
+1–3 and is *not* in the candidate complement `W(0)` (= everything but
+`e4⊗e_m`). Concretely `(Λ−I)Q = 0 ⟹ Q = 0` (since `Λ−I = (λ−1)id+J` is
+invertible for `λ≠1`), so block 4 cannot be isolated. Block D (= `e4`) is now
+full-rank-coupled to block C (= `e3` = `q`) through the eigenvalue site, which
+is the §2 obstruction the single-arm swap failed to meet.
+
+### 7.4 Lean realization (this file)
+
+`etilde7Rep_kQ` keeps its per-vertex object `Fin (etilde7Dim m v) → F`
+(so `etilde7Rep_kQ_dimVec` stays `LinearEquiv.refl`). The map function
+`etilde7RepMap_kQ` dispatches the 7 edges (forward + reverse) to:
+`etilde7Arm1Tube_F` (arm 1 eigenvalue tube), `prefixBlockEmbed_F`/`prefixBlockProj_F`
+(arm 2), and `suffixBlockEmbed_F`/`suffixBlockProj_F` (arm 3), with `starEmbed1_F`
+/`starEmbed2_F`/`etilde6LeafProj_F`/`starSecond_F` at the leaves. The eigenvalue is
+`etilde7TubeLam F` (generic). `etilde7Rep_kQ_isIndecomposable` remains a single
+`sorry` — but now of a **true** statement (sub-C, #4570, assembles it via the
+`starTubeRepGen_isIndecomposable` collapse template).

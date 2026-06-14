@@ -80,8 +80,9 @@ Before investing a full session in a hard proof, spend 5-10 minutes checking the
 4. **Indecomposability of explicit affine-Dynkin reps: build a small decomposition first.** The Ch6 `*Rep_kQ_isIndecomposable` family (D̃/Ẽ/T(p,q,r), orientation-generic) is built from a single nilpotent twist `N`, which is **too weakly coupled** and yields *decomposable* reps. Already refuted for the sporadic cases (Ẽ₆/Ẽ₇/T(1,2,5), #4548, `progress/indecomposability-framework-investigation.md`) and for the D̃ family in **reversed-leaf** orientations (D̃₄ #4523 → #4566: explicit `m=1` complementary pair). The needed fix is the homogeneous-tube redesign, not a cleverer proof. Before claiming any open `d5/d6/d7/d8/dTilde/etilde/t125 *_kQ_isIndecomposable` issue, check #4566/#4548 — most are likely still false. A reversed leaf removes the coupling its forward edge supplied, so test a reversed orientation at `m=1` for `span`-level decompositions. (Note: the canonical all-sink D̃₄ `starRepGen_isIndecomposable` is genuinely indecomposable — only the orientation-generic statements are at risk.) **This also refutes the `*_kQ_leaf_equalities` sub-lemmas** (e.g. #2853, and the d6/d7/d8 analogs) that feed those `_isIndecomposable` theorems: the *mixed* orientations (one leaf pushed, one pulled at a shared center) force only an M-twisted relation `M(W⟨leaf⟩) = W⟨other⟩` with `M = (I−N)⁻¹` (derivable via `linearEquiv_invariant_isCompl_symm_mem` + `gammaInv_embed_general_F` + the v=2 `core_F`), and no edge supplies the leaf N-invariance needed to untwist it — so leaf equality is *false* there (D̃₅ m=1: `W⟨0⟩=span{(1,1)}`, forced `W⟨5⟩=(I−N)W⟨0⟩=span{(0,1)}`). Don't grind on a `_leaf_equalities` issue over arbitrary orientations; only the all-canonical and all-leaves-reversed branches are provable.
 
 5. **"Follows via Schur's lemma / character matching" can be circular — check the nonzero-hom prerequisite.** When an issue claims a decomposition/iso "follows by Schur's lemma" from two reps being simple, remember Schur's lemma (`finrank_hom_simple_simple`) only gives `Hom ∈ {0,1}`-dim; concluding *iso* needs a **nonzero** equivariant map, which usually presupposes the very character/highest-weight match being sought. Example (#2493): identifying the abstract Schur-Weyl summand `Lᵢ` with `SchurModule k N λ` was claimed to follow from `Lᵢ` simple (C-3) + `SchurModule` simple (C-4) + Schur's lemma, but that route is circular — it needs `char(Lᵢ) = schurPoly N λ` (the highest-weight classification, downstream #2482/#2483) to produce the nonzero map. The character-level assembly (`formalCharacter(V^⊗n) = ∑_λ dim(Sλ)·sλ`) is reachable from C-1∘C-2; the concrete-module iso is not. Land the reachable character identity and route the classification gap to the downstream issue rather than forcing a circular "Schur's lemma" proof. Also: do not "rescue" such an iso with a pure `finrank`-equality `≃ₗ[k]` — it type-checks but is mathematically vacuous (any equal-dimension spaces are k-linearly isomorphic), violating the no-vacuous-theorems principle.
+6. **"Vanishes pointwise" lemmas about an element already known to lie in a span are usually false — refute by direct computation.** A lemma claiming an explicit element has *zero coefficient* at certain basis points (e.g. a residual `Δ`'s coefficient at tabloids with no column-standard rep, Ch5 Wall 3 R2.b.i #2769) is suspicious whenever the true reason `Δ` sits in the target span `V` is **global** rather than pointwise. If `Δ` equals a single polytabloid `±ψ_τ` (τ col-standard), it carries `±1` at *every* column-class of τ — including non-standardizable ones — so pointwise vanishing fails even though `Δ ∈ V` holds. Brute-force the smallest example by replicating the Lean definitional conventions exactly (`toTabloid` = entry→row map, `ColumnSubgroup`, `tabloidStrictDominates`, signed-polytabloid form of the construction), and **validate your model reproduces a known ground truth** (e.g. the design note's hand-computed values) before trusting a refutation. This refuted #2769 in minutes (`progress/r2bi-counterexample-check.py`, redesign tracked in #4584). **A hand-checked *confirmation* is no safer than a hand-checked refutation — brute-force both directions.** A prior meditate note (#2776, `progress/r3-bis-residual-cancellation.md` §3) claimed the *same* statement was TRUE via a cross-region involution, "validated on the running example; sign reversal verified" — the faithful brute force refuted it on that very example. When you assert a tricky combinatorial identity *holds*, run the script; never ship "verified by hand". And refuting the lemma does not refute the goal: the global span-membership a dead pointwise route was serving is often still true by a *direct* identification (here `Δ = ±ψ_τ`, discharged by the existing `(srRank, rowInvCount')` induction — see `progress/r2b-redesign-direct-polytabloid.md`). Also beware the inverse circularity trap: a "straightening" lemma that *consumes* `v ∈ V` as a hypothesis (e.g. `tabloidSupport_straightening`) cannot be the route that *establishes* `v ∈ V`.
 
-This saved 2+ sessions in Waves 47-49 by catching false statements early, and an entire D̃₄ proof attempt this session (#4566).
+This saved 2+ sessions in Waves 47-49 by catching false statements early, an entire D̃₄ proof attempt (#4566), and a Ch5 Wall 3 R2.b.i attempt against a false pointwise-vanishing residual lemma (#2769 → #4584).
 
 ### Sorry Decomposition as Primary Strategy
 
@@ -679,6 +680,40 @@ Reference implementation: `cycleRep_isIndecomposable` (lines 304-372).
 
 **Critical:** The m ≥ 1 hypothesis is essential. For m = 0, the nilpotent is zero and
 the representations are genuinely decomposable (issues #2342, #2374, #2376).
+
+### Refuting indecomposability (counterexample-first)
+
+Single-twist D̃/Ẽ `_kQ` indecomposability theorems are frequently **false** for
+reversed-leaf orientations (issue #4566: `starRep_kQ_isIndecomposable` is false
+when the diagonal leaf is reversed). Before grinding a `sorry` on
+`<X>Rep_kQ_isIndecomposable`, try to refute it at `m = 1`. Worked, sorry-free
+example: `starRep_kQ_reversedLeaf3_decomposable` (`FieldGenericStar.lean`).
+
+`IsIndecomposable` is `(∃ v, Nontrivial) ∧ (∀ W₁ W₂, inv₁ → inv₂ → compl → all-⊥)`.
+To refute, exhibit explicit invariant complementary `W₁ W₂` with neither
+everywhere `⊥`: `rintro ⟨-, hno⟩; have := hno W₁ W₂ ?inv1 ?inv2 ?compl` then derive
+a contradiction from a vertex where both are nonzero. Reusable helpers
+`isCompl_coordLines_two` / `isCompl_coordPlanes_four` (in `FieldGenericStar.lean`)
+give `IsCompl` for coordinate-axis spans.
+
+Three non-obvious Lean gotchas when building such counterexamples:
+
+1. **Ambient `Quiver` instance interference.** Outside the
+   `attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+   CategoryTheory.ReflQuiver.toQuiver in` guard, a spurious category `Quiver`
+   instance is active. `rw` with `ReversedAtVertexHom_eq_*` lemmas then fails to
+   match — pass the base quiver explicitly:
+   `rw [@Etingof.ReversedAtVertexHom_eq_eq (Fin n) _ starQuiver i a b ha hb]`.
+   Also `reversedAtVertex` is noncomputable: use `@[reducible] noncomputable def`,
+   not `abbrev`, for a named oriented quiver.
+2. **`simp only [matchDef]` does not reduce a `match` on `Fin` literals.**
+   `starRepMap_kQ F 1 1 0` will not rewrite to `starEmbed1_F F 1` via simp.
+   Convert the map by a defeq `show starEmbed1_F F 1 x ∈ _` (do this *before*
+   destructuring `x`, to avoid cross-type `HAdd` errors in the `show`).
+3. **Arrow case order + empty Homs.** After `fin_cases a <;> fin_cases b`, arrow
+   goals appear in `(a,b)` lexicographic order (e.g. `(0,3)` before `(1,0)`). In a
+   `reversedAtVertex` orientation every non-arrow pair has empty Hom, closable
+   uniformly by `first | exact absurd e.down (by decide) | skip`.
 
 ### Dimension Vector Pattern
 
@@ -1694,7 +1729,8 @@ From Phase 2 review patterns and Stage 3.2 proof experience (110+ merged PRs thr
 10. **Opaque placeholder accumulation.** Defining key structures as `sorry : FDRep k G` (e.g., `SchurModule k N lam`) creates downstream dependency chains that block entire proof clusters. When you must sorry a definition, prefer making the carrier type concrete and sorry-ing only specific operations/instances (see "Never sorry a Type" above). Each opaque placeholder blocks all items that depend on it.
 11. **Convention mismatch between book and Mathlib.** Sign conventions, ordering conventions, and normalization conventions can silently make statements unprovable. See "Verify Statement Correctness Before Proving" section above. The vandermondePoly sign mismatch wasted multiple agent sessions before being discovered via a concrete n=2 counterexample.
 12. **Issue description proof strategies are sometimes wrong.** The proof approach described in an issue body may be mathematically incorrect or only work for special cases. Always spend 10 minutes verifying the described approach before committing to it. See "Issue Description Feasibility Check" section above.
-13. **Namespace dot-notation mismatch.** Most Lean files in this project wrap code in `namespace Etingof` (and `noncomputable section`). If you define `def YoungDiagram.foo` inside `namespace Etingof`, the full name is `Etingof.YoungDiagram.foo` — dot notation `μ.foo` (where `μ : YoungDiagram`) will NOT find it. **Symptoms:** The definition silently fails to register (no error reported) and downstream references get "Invalid field" errors. **Fix:** Close the namespace before defining `YoungDiagram.*` declarations that need dot-notation access, then reopen it. Remember to also close/reopen any `noncomputable section`.
+13. **A prior agent's "circular / needs missing theorem" skip can be wrong.** When an issue was already skipped as circular or blocked on a named result "not in the project," do not just re-skip — check whether an existing **off-block / orthogonality / character lemma's diagonal (special) case** already supplies the missing independent input. Concrete example (#2693): the rank-1 Young-symmetrizer fact was twice skipped as "needs primitivity `c_λ k[S_n] c_λ = k·c_λ`, not in project." But the diagonal case of the existing `youngSym_trace_kronecker'` is exactly `trace(c_λ|_S) = α` (an independent `ℂ[S_n]` computation), and `trace(α⁻¹·c_λ|_S) = 1` via `IsProj.trace` gives rank 1 directly — no primitivity, no whole-space trace, no dimension bridge. Pattern: if a proved `..._vanishes_off_block` lemma gives the off-diagonal value (`if h_ne then 0`), its `if_pos rfl` diagonal twin usually gives the special-block value you need. Spend 10 minutes looking for the diagonal twin before re-skipping.
+14. **Namespace dot-notation mismatch.** Most Lean files in this project wrap code in `namespace Etingof` (and `noncomputable section`). If you define `def YoungDiagram.foo` inside `namespace Etingof`, the full name is `Etingof.YoungDiagram.foo` — dot notation `μ.foo` (where `μ : YoungDiagram`) will NOT find it. **Symptoms:** The definition silently fails to register (no error reported) and downstream references get "Invalid field" errors. **Fix:** Close the namespace before defining `YoungDiagram.*` declarations that need dot-notation access, then reopen it. Remember to also close/reopen any `noncomputable section`.
 
 
 ### Tactic Gotchas with `rw`, `omega`, and `nsmul`
