@@ -470,6 +470,91 @@ theorem t125_suffix_sub
     rwa [suffixBlockEmbed_comp_F F 2 3 6 m (by omega) (by omega)] at h
   exact ⟨h5, h6, h7, fun x hx => h7 _ (hW_87 x hx)⟩
 
+/-! ## Section 3c: All-canonical arm→center collapse spine (sub-B2 of #4612, #4620)
+
+The all-canonical orientation branch of the leaf-collapse: every arm flag
+points toward the center (`1→0`, `3→2→0`, `8→7→6→5→4→0`). Given the eight
+raw per-edge invariance facts for a single invariant family, every
+non-center vertex's subspace lands in the center along its composite arm
+embedding. This folds the sub-B1 flag helpers (`t125_prefix_sub`,
+`t125_suffix_sub`) over the arm-2 prefix and arm-3 suffix flags, and passes
+the arm-1 eigenvalue-tube push through unchanged.
+
+**Why this is stated over explicit `Fin (k·(m+1)) → F` carriers** (not the
+rep family `W : ∀ v, Submodule F ((t125Rep_kQ …).obj v)`): the structure
+projection `(t125Rep_kQ …).obj ⟨v, …⟩` does not reduce under the
+type-class-instance transparency used by `Membership` synthesis, so a
+hypothesis or goal of the form `(x : Fin (k·(m+1)) → F) ∈ W ⟨v⟩` fails to
+elaborate in a top-level signature (the `obj` carrier and the concrete
+`Fin` type never unify, even though they are propositionally — and, with
+`t125Dim` kept symbolic, definitionally — equal). The same wall blocks a
+rep-level `t125Rep_kQ_leaf_equalities`; the bridge from `W ⟨v⟩` to these
+explicit carriers must therefore be performed *inside* the indecomposability
+proof (sub-C, #4613), where `simp only [t125Rep_kQ, t125RepMap_kQ]` unfolds
+the rep and the per-edge facts elaborate (exactly as the local `core` /
+`leaf*_sub` haves do inside `starTubeRepGen_isIndecomposable`,
+`FieldGenericTube.lean`). This matches the explicit-carrier style of the
+landed sub-B1 helpers. -/
+
+/-- **All-canonical arm→center collapse spine** (explicit-carrier form).
+From the eight canonical per-edge containments (arm-1 eigenvalue tube push
+`1→0`; arm-2 prefix pushes `3→2`, `2→0`; arm-3 suffix pushes `8→7`, `7→6`,
+`6→5`, `5→4`, `4→0`), derive that every non-center vertex embeds into the
+center `W0` along its full arm flag. The arm-2 leaf (`W3`) and arm-3 vertices
+(`W5`–`W8`) are folded through the flags by `t125_prefix_sub` /
+`t125_suffix_sub`; the arm-1 (`W1`), arm-2 inner (`W2`) and arm-3 deepest
+(`W4`) containments are the corresponding hypotheses verbatim. -/
+theorem t125_canonical_collapse
+    (F : Type) [Field F] (lam : F) (m : ℕ)
+    (W0 : Submodule F (Fin (6 * (m + 1)) → F))
+    (W1 : Submodule F (Fin (3 * (m + 1)) → F))
+    (W2 : Submodule F (Fin (4 * (m + 1)) → F))
+    (W3 : Submodule F (Fin (2 * (m + 1)) → F))
+    (W4 : Submodule F (Fin (5 * (m + 1)) → F))
+    (W5 : Submodule F (Fin (4 * (m + 1)) → F))
+    (W6 : Submodule F (Fin (3 * (m + 1)) → F))
+    (W7 : Submodule F (Fin (2 * (m + 1)) → F))
+    (W8 : Submodule F (Fin (m + 1) → F))
+    (h10 : ∀ (x : Fin (3 * (m + 1)) → F), x ∈ W1 →
+        t125Arm1Tube_F F lam m x ∈ W0)
+    (h32 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W3 →
+        prefixBlockEmbed_F F 2 4 m x ∈ W2)
+    (h20 : ∀ (x : Fin (4 * (m + 1)) → F), x ∈ W2 →
+        prefixBlockEmbed_F F 4 6 m x ∈ W0)
+    (h87 : ∀ (x : Fin (m + 1) → F), x ∈ W8 →
+        starEmbed2_F F m x ∈ W7)
+    (h76 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ W7 →
+        suffixBlockEmbed_F F 2 3 m x ∈ W6)
+    (h65 : ∀ (x : Fin (3 * (m + 1)) → F), x ∈ W6 →
+        suffixBlockEmbed_F F 3 4 m x ∈ W5)
+    (h54 : ∀ (x : Fin (4 * (m + 1)) → F), x ∈ W5 →
+        suffixBlockEmbed_F F 4 5 m x ∈ W4)
+    (h40 : ∀ (x : Fin (5 * (m + 1)) → F), x ∈ W4 →
+        suffixBlockEmbed_F F 5 6 m x ∈ W0) :
+    -- arm 1 (eigenvalue tube): v1 → center
+    (∀ (x : Fin (3 * (m + 1)) → F), x ∈ W1 →
+        t125Arm1Tube_F F lam m x ∈ W0) ∧
+    -- arm 2 (prefix flag): v2, v3 → center
+    (∀ (x : Fin (4 * (m + 1)) → F), x ∈ W2 →
+        prefixBlockEmbed_F F 4 6 m x ∈ W0) ∧
+    (∀ (x : Fin (2 * (m + 1)) → F), x ∈ W3 →
+        prefixBlockEmbed_F F 2 6 m x ∈ W0) ∧
+    -- arm 3 (suffix flag): v4, v5, v6, v7, v8 → center
+    (∀ (x : Fin (5 * (m + 1)) → F), x ∈ W4 →
+        suffixBlockEmbed_F F 5 6 m x ∈ W0) ∧
+    (∀ (x : Fin (4 * (m + 1)) → F), x ∈ W5 →
+        suffixBlockEmbed_F F 4 6 m x ∈ W0) ∧
+    (∀ (x : Fin (3 * (m + 1)) → F), x ∈ W6 →
+        suffixBlockEmbed_F F 3 6 m x ∈ W0) ∧
+    (∀ (x : Fin (2 * (m + 1)) → F), x ∈ W7 →
+        suffixBlockEmbed_F F 2 6 m x ∈ W0) ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ W8 →
+        suffixBlockEmbed_F F 2 6 m (starEmbed2_F F m x) ∈ W0) := by
+  have hpre := t125_prefix_sub F m W0 W2 W3 h32 h20
+  obtain ⟨hsuf5, hsuf6, hsuf7, hsuf8⟩ :=
+    t125_suffix_sub F m W0 W4 W5 W6 W7 W8 h87 h76 h65 h54 h40
+  exact ⟨h10, h20, hpre, h40, hsuf5, hsuf6, hsuf7, hsuf8⟩
+
 /-! ## Section 4: Indecomposability (corrected homogeneous tube)
 
 `t125Rep_kQ` is now the genuine homogeneous tube `R_λ^{(m+1)}` at the
