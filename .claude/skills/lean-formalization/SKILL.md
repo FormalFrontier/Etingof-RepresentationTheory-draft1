@@ -349,6 +349,30 @@ instance : Algebra k (Matrix (Fin n) (Fin n) k) := inferInstance
 
 This compiles cleanly when Mathlib already provides the instance. Check with `#check` first.
 
+### Module-theory instance gotchas (semisimple / submodule work)
+
+Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API:
+
+- **`List.TFAE.out` chokes on named type args.** Writing
+  `(IsSemisimpleModule.finite_tfae (R := R) (M := X)).out 0 1` fails with
+  "type class instance expected". Instead let the *goal type* drive inference
+  exactly as Mathlib does internally:
+  `haveI : IsNoetherian R X := (IsSemisimpleModule.finite_tfae.out 0 1).mp ‹_›`
+  (TFAE order is `[Module.Finite, IsNoetherian, IsArtinian, IsFiniteLength, …]`).
+  The `‹_›` finds the source instance; the `M` is unified from the goal.
+
+- **AddCommGroup vs AddCommMonoid diamond on `↥(submodule)`.** Transferring
+  simplicity along an equiv with `IsSimpleModule.congr e` can fail with an
+  AddCommMonoid mismatch (`p.addCommGroup.toAddCommMonoid` vs `p.addCommMonoid`)
+  when one side is a submodule type. Use `(LinearEquiv.isSimpleModule_iff e).mp`
+  instead — it sidesteps the re-synthesis that triggers the diamond.
+
+- **`DirectSum ι L` semisimple/finite instances** resolve through the `Π₀`
+  (`DFinsupp`) instances: `inferInstanceAs (IsSemisimpleModule R (Π₀ i, L i))`.
+  `DirectSum.lof R ι L i` is *defeq* to `DFinsupp.lsingle i`, so its injectivity
+  comes from `DirectSum.component.lof_self` (a left inverse) and the coordinate
+  lines span via `DFinsupp.iSup_range_lsingle`.
+
 ### Norm-Based Contradiction (Analysis Proofs)
 
 For proofs requiring algebraic integer arguments (e.g., Lemma 5.4.5):
