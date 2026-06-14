@@ -912,6 +912,19 @@ private theorem symGroupAlgHomToImage_of (σ : Equiv.Perm (Fin n)) :
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+/-- Value-level description of the `↥(symGroupImage)`-action on a submodule
+`S ≤ V^⊗n` via `symGroupAlgHomToImage`: `(symGroupAlgHomToImage a • x).val`
+applies the endomorphism `symGroupAlgHom a` to `x.val`. -/
+private theorem symGroupAlgHomToImage_smul_val
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    (a : SymGroupAlgebra n) (x : ↥S) :
+    ((symGroupAlgHomToImage (N := N) (n := n) a) • x).val =
+      (symGroupAlgHom ℂ (Fin N → ℂ) n a) x.val := by
+  rw [Submodule.coe_smul, Subalgebra.smul_def, Module.End.smul_def,
+      symGroupAlgHomToImage_val]
+
+set_option synthInstance.maxHeartbeats 200000 in
 -- `Module.compHom` synthesises a `Module (symGroupImage) ↥(S.restrictScalars ℂ)`
 -- instance, traversing a deep `Subalgebra → Subsemiring → Module` chain that
 -- exceeds the default 20000 heartbeats.
@@ -1015,45 +1028,38 @@ private theorem spechtModule_smul_of
   rfl
 
 set_option maxHeartbeats 400000 in
--- Bumped: the Specht-bridge construction unfolds Module.compHom, traverses a
--- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
 set_option synthInstance.maxHeartbeats 200000 in
-/-- **Specht bridge** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
-admits a partition `la'` such that the trace of every `σ`-permutation operator
-restricted to `S` equals `spechtModuleCharacter n la' σ`.
-
-The bridge: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
-via `symGroupAlgHomToImage`) as a simple `SymGroupAlgebra n`-module, apply the
-Specht classification (Theorem 5.12.2), then transport the trace through the
-ℂ-linear part of the resulting iso. -/
-theorem trace_symGroupAction_eq_spechtModuleCharacter
+/-- The conjugation step of the Specht bridge, factored out so it can be reused
+when the classification iso `e` is obtained separately (when both the iso and
+the trace identity are needed downstream). Given a `SymGroupAlgebra n`-iso
+`e : ↥(S.restrictScalars ℂ) ≃ₗ SpechtModule n la'`, the trace of the restricted
+`σ`-action on `↥(S.restrictScalars ℂ)` equals `spechtModuleCharacter n la' σ`,
+by trace-conjugation through the ℂ-linear part of `e`. -/
+private theorem trace_restrictedSymGroupAction_eq_of_spechtIso
     (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
       (TensorPower ℂ (Fin N → ℂ) n))
-    [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S] :
-    ∃ la' : Nat.Partition n, ∀ σ : Equiv.Perm (Fin n),
-      LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
-          ((symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
-            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
-            (fun _ hv =>
-              symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
-        spechtModuleCharacter n la' σ := by
+    (la' : Nat.Partition n)
+    (e : letI := submoduleAsSymGroupAlgebraModule S
+         ↥(S.restrictScalars ℂ) ≃ₗ[SymGroupAlgebra n] ↥(SpechtModule n la'))
+    (σ : Equiv.Perm (Fin n)) :
+    LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+        ((symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
+          (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+          (fun _ hv =>
+            symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+      spechtModuleCharacter n la' σ := by
   letI := submoduleAsSymGroupAlgebraModule S
   haveI := submoduleAsSymGroupAlgebra_isScalarTower S
-  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
-  obtain ⟨la', ⟨e⟩⟩ :=
-    Theorem5_12_2_classification n ↥(S.restrictScalars ℂ)
-  refine ⟨la', fun σ => ?_⟩
   -- Convert `e` to a ℂ-linear equiv.
   let eℂ : ↥(S.restrictScalars ℂ) ≃ₗ[ℂ] ↥(SpechtModule n la') :=
     LinearEquiv.restrictScalars ℂ e
-  -- Goal: trace of restricted symGroupAction σ = spechtModuleCharacter n la' σ.
   set restrictedAction :
       ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) :=
     (symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
       (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
       (fun _ hv =>
         symGroupAction_mem_of_symGroupImage_submodule S σ hv)
-  -- Show eℂ intertwines restrictedAction with spechtModuleAction n la' σ.
+  -- `eℂ` intertwines `restrictedAction` with `spechtModuleAction n la' σ`.
   have h_intertwine : ∀ v : ↥(S.restrictScalars ℂ),
       eℂ (restrictedAction v) = spechtModuleAction n la' σ (eℂ v) := by
     intro v
@@ -1084,6 +1090,134 @@ theorem trace_symGroupAction_eq_spechtModuleCharacter
     rfl
   rw [h_conj, LinearMap.trace_conj']
   rfl
+
+set_option maxHeartbeats 400000 in
+-- Bumped: the Specht-bridge construction unfolds Module.compHom, traverses a
+-- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
+set_option synthInstance.maxHeartbeats 200000 in
+/-- **Specht bridge** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
+admits a partition `la'` such that the trace of every `σ`-permutation operator
+restricted to `S` equals `spechtModuleCharacter n la' σ`.
+
+The bridge: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
+via `symGroupAlgHomToImage`) as a simple `SymGroupAlgebra n`-module, apply the
+Specht classification (Theorem 5.12.2), then transport the trace through the
+ℂ-linear part of the resulting iso. -/
+theorem trace_symGroupAction_eq_spechtModuleCharacter
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S] :
+    ∃ la' : Nat.Partition n, ∀ σ : Equiv.Perm (Fin n),
+      LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+          ((symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
+            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+            (fun _ hv =>
+              symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+        spechtModuleCharacter n la' σ := by
+  letI := submoduleAsSymGroupAlgebraModule S
+  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
+  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
+  obtain ⟨la', ⟨e⟩⟩ :=
+    Theorem5_12_2_classification n ↥(S.restrictScalars ℂ)
+  exact ⟨la', fun σ => trace_restrictedSymGroupAction_eq_of_spechtIso S la' e σ⟩
+
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Transfer a `SymGroupAlgebra n`-linear equivalence between the restricted-scalar
+modules `↥(S.restrictScalars ℂ)` and `↥(S'.restrictScalars ℂ)` to a
+`symGroupImage`-linear equivalence `↥S ≃ₗ ↥S'`. Valid because both module
+structures factor through the surjective algebra hom `symGroupAlgHomToImage`:
+the carriers are shared, and `symGroupImage`-linearity follows from
+`SymGroupAlgebra`-linearity by surjectivity. `g` is taken as an opaque parameter
+so this construction elaborates without unfolding the (large) classification isos. -/
+private noncomputable def transferToSymGroupImageEquiv
+    (S S' : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    (g : letI := submoduleAsSymGroupAlgebraModule S
+         letI := submoduleAsSymGroupAlgebraModule S'
+         ↥(S.restrictScalars ℂ) ≃ₗ[SymGroupAlgebra n] ↥(S'.restrictScalars ℂ)) :
+    ↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S' :=
+  letI := submoduleAsSymGroupAlgebraModule S
+  letI := submoduleAsSymGroupAlgebraModule S'
+  { toFun := fun x => ⟨(g ⟨x.val, x.property⟩).val, (g ⟨x.val, x.property⟩).property⟩
+    invFun := fun y =>
+      ⟨(g.symm ⟨y.val, y.property⟩).val, (g.symm ⟨y.val, y.property⟩).property⟩
+    left_inv := fun x => by
+      apply Subtype.ext
+      exact congrArg Subtype.val (g.symm_apply_apply ⟨x.val, x.property⟩)
+    right_inv := fun y => by
+      apply Subtype.ext
+      exact congrArg Subtype.val (g.apply_symm_apply ⟨y.val, y.property⟩)
+    map_add' := fun x y => by
+      apply Subtype.ext
+      exact congrArg Subtype.val (g.map_add ⟨x.val, x.property⟩ ⟨y.val, y.property⟩)
+    map_smul' := fun b x => by
+      obtain ⟨a, rfl⟩ := symGroupAlgHomToImage_surjective b
+      apply Subtype.ext
+      have hxeq : (⟨((symGroupAlgHomToImage (N := N) (n := n) a) • x).val,
+            ((symGroupAlgHomToImage (N := N) (n := n) a) • x).property⟩ :
+            ↥(S.restrictScalars ℂ))
+            = a • (⟨x.val, x.property⟩ : ↥(S.restrictScalars ℂ)) := by
+        apply Subtype.ext
+        rw [submoduleAsSymGroupAlgebraModule_smul_def, symGroupAlgHomToImage_smul_val]
+      show (g ⟨((symGroupAlgHomToImage (N := N) (n := n) a) • x).val,
+            ((symGroupAlgHomToImage (N := N) (n := n) a) • x).property⟩).val = _
+      rw [hxeq, map_smul, submoduleAsSymGroupAlgebraModule_smul_def,
+          RingHom.id_apply, symGroupAlgHomToImage_smul_val] }
+
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Character determines the module over ℂ** (the uniqueness ingredient of the
+special Schur-Weyl block). Two simple `symGroupImage`-submodules `S, S' ≤ V^⊗n`
+whose `σ`-trace functions both equal `spechtModuleCharacter n la` are isomorphic
+as `symGroupImage`-modules.
+
+Route: classify each `↥(S.restrictScalars ℂ)` as a Specht module
+(`Theorem5_12_2_classification`); the trace through that iso equals
+`spechtModuleCharacter` of its label (`trace_restrictedSymGroupAction_eq_of_spechtIso`),
+so character injectivity (`spechtModuleCharacter_injective`) pins both labels to
+`la`; the two Specht modules then coincide, yielding a `SymGroupAlgebra n`-iso
+`g : ↥(S.restrictScalars ℂ) ≃ₗ ↥(S'.restrictScalars ℂ)`. Finally transfer `g` to a
+`symGroupImage`-iso: the `SymGroupAlgebra n`-action factors through the surjection
+`symGroupAlgHomToImage`, so a `SymGroupAlgebra`-linear bijection on the shared
+carriers is automatically `symGroupImage`-linear. -/
+theorem simpleSubmodule_iso_of_spechtCharacter_eq
+    (S S' : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S]
+    [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S']
+    (la : Nat.Partition n)
+    (hS : ∀ σ : Equiv.Perm (Fin n),
+        LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+          ((symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
+            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+          spechtModuleCharacter n la σ)
+    (hS' : ∀ σ : Equiv.Perm (Fin n),
+        LinearMap.trace ℂ ↥(S'.restrictScalars ℂ)
+          ((symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
+            (p := S'.restrictScalars ℂ) (q := S'.restrictScalars ℂ)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S' σ hv)) =
+          spechtModuleCharacter n la σ) :
+    Nonempty (↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S') := by
+  letI := submoduleAsSymGroupAlgebraModule S
+  letI := submoduleAsSymGroupAlgebraModule S'
+  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
+  haveI := submoduleAsSymGroupAlgebra_isScalarTower S'
+  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
+  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S'
+  -- Classify each restrictScalars module as a Specht module.
+  obtain ⟨μ, ⟨eS⟩⟩ := Theorem5_12_2_classification n ↥(S.restrictScalars ℂ)
+  obtain ⟨μ', ⟨eS'⟩⟩ := Theorem5_12_2_classification n ↥(S'.restrictScalars ℂ)
+  -- Both labels equal `la` by Specht character injectivity.
+  have hμ : μ = la := spechtModuleCharacter_injective n fun σ =>
+    (trace_restrictedSymGroupAction_eq_of_spechtIso S μ eS σ).symm.trans (hS σ)
+  have hμ' : μ' = la := spechtModuleCharacter_injective n fun σ =>
+    (trace_restrictedSymGroupAction_eq_of_spechtIso S' μ' eS' σ).symm.trans (hS' σ)
+  have hμμ' : μ = μ' := hμ.trans hμ'.symm
+  subst hμμ'
+  -- The resulting `SymGroupAlgebra n`-iso between the two restrictScalars modules.
+  exact ⟨transferToSymGroupImageEquiv S S' (eS.trans eS'.symm)⟩
 
 end SpechtBridge
 
