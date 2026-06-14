@@ -382,6 +382,28 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   comes from `DirectSum.component.lof_self` (a left inverse) and the coordinate
   lines span via `DFinsupp.iSup_range_lsingle`.
 
+- **Opaque-parameter isolation defeats `whnf`/`isDefEq` heartbeat timeouts in
+  `compHom`/`restrictScalars` transfer constructions.** When building a
+  `LinearEquiv` over the deep `Subalgebra → Subsemiring → Module` chain (e.g.
+  transferring a `SymGroupAlgebra`-iso to a `symGroupImage`-iso through
+  `symGroupAlgHomToImage`), a complex equiv held in a local `let`
+  (`set g := e₁.trans e₂.symm`) makes the structure-field proofs time out —
+  `whnf` unfolds the large source isos (here `Theorem5_12_2_classification`).
+  `clear_value g` does **not** help. Fix: move the construction into a standalone
+  `def` that takes the big equiv as an explicit **parameter** (`letI`-typed if it
+  needs the `compHom` module instance); the body elaborates once with the equiv
+  genuinely opaque. Then the caller is a one-line `exact ⟨transferDef S S' g⟩`.
+
+- **Pin `f (N := N) (n := n)` on a hom application feeding a `•`** whose scalar
+  type is being inferred (e.g. `(symGroupAlgHomToImage (N := N) (n := n) a) • x`).
+  Otherwise `N` is a stuck metavariable ("typeclass instance problem is stuck").
+
+- **`congrArg Subtype.val (g.<lemma> ⟨x.val, x.property⟩)`** discharges the
+  `left_inv`/`right_inv`/`map_add'` fields of a carrier-identity submodule
+  `LinearEquiv` by defeq. Prefer it over `rw [show ⟨…⟩ = g … from rfl, …]`, which
+  fails on "pattern not found" because the post-`Subtype.ext` goal is not
+  syntactically normalised.
+
 ### Norm-Based Contradiction (Analysis Proofs)
 
 For proofs requiring algebraic integer arguments (e.g., Lemma 5.4.5):

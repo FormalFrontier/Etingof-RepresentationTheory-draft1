@@ -80,11 +80,12 @@ theorem simpleSymGroupImageSubmodule_iso_of_spechtCharacter_eq
             (p := S'.restrictScalars ℂ) (q := S'.restrictScalars ℂ)
             (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S' σ hv)) =
           spechtModuleCharacter n la σ) :
-    Nonempty (↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S') := by
-  -- Cited dependency, tracked as issue #4679: classify each restrictScalars
-  -- module as a Specht module, use Specht character injectivity to pin both
-  -- labels to `la`, then transfer the SymGroupAlgebra-iso to a symGroupImage-iso.
-  sorry
+    Nonempty (↥S ≃ₗ[↥(symGroupImage ℂ (Fin N → ℂ) n)] ↥S') :=
+  -- Proved in `Theorem5_22_1.lean` where the Specht-bridge infrastructure lives:
+  -- classify each `restrictScalars` module as a Specht module, pin both labels
+  -- to `la` by Specht character injectivity, then transfer the resulting
+  -- `SymGroupAlgebra`-iso to a `symGroupImage`-iso through `symGroupAlgHomToImage`.
+  simpleSubmodule_iso_of_spechtCharacter_eq S S' la hS hS'
 
 /-! ## Existence and uniqueness of the special block -/
 
