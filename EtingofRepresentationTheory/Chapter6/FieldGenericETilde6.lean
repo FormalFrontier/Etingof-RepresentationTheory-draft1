@@ -114,6 +114,118 @@ noncomputable def blockProj02_F (F : Type) [Field F] (m : ℕ) :
   map_smul' _ _ := by
     ext j; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> rfl
 
+/-! ## Section 0c: Three-block center decomposition (sub-B #4576 infrastructure)
+
+The center `F^{3(m+1)}` splits as three coordinate blocks `(c₀, c₁, c₂)`, each a
+copy of `F^{m+1}`. These single-block embeddings/projections and the
+decomposition + disjointness lemmas are the foundation of the two-level collapse
+(#4576): pushing each leaf subspace up through its mid to the center and reading
+off the block components. They are the three-block analogues of `center_decomp_F`
+and `embed_sum_zero_F` (`FieldGenericStar.lean`, two-block center of the D̃₄
+star). -/
+
+/-- Single-block embedding into block `0` of the center: `x ↦ (x, 0, 0)`. -/
+noncomputable def centerEmbed0_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
+  toFun x i := if h : i.val < m + 1 then x ⟨i.val, h⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Single-block embedding into block `1` of the center: `x ↦ (0, x, 0)`. -/
+noncomputable def centerEmbed1_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
+  toFun x i :=
+    if h : m + 1 ≤ i.val ∧ i.val < 2 * (m + 1) then x ⟨i.val - (m + 1), by omega⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Single-block embedding into block `2` of the center: `x ↦ (0, 0, x)`. -/
+noncomputable def centerEmbed2_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (3 * (m + 1)) → F) where
+  toFun x i :=
+    if h : 2 * (m + 1) ≤ i.val then x ⟨i.val - 2 * (m + 1), by omega⟩ else 0
+  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
+  map_smul' c x := by
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
+
+/-- Projection onto block `0` of the center: `(c₀, c₁, c₂) ↦ c₀`. -/
+noncomputable def centerProj0_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Projection onto block `1` of the center: `(c₀, c₁, c₂) ↦ c₁`. -/
+noncomputable def centerProj1_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨m + 1 + i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Projection onto block `2` of the center: `(c₀, c₁, c₂) ↦ c₂`. -/
+noncomputable def centerProj2_F (F : Type) [Field F] (m : ℕ) :
+    (Fin (3 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
+  toFun w i := w ⟨2 * (m + 1) + i.val, by omega⟩
+  map_add' _ _ := by ext; simp
+  map_smul' _ _ := by ext; simp
+
+/-- Every center vector decomposes as the sum of its three single-block
+embeddings via the three block projections. -/
+theorem center3_decomp_F (F : Type) [Field F] (m : ℕ) (w : Fin (3 * (m + 1)) → F) :
+    w = centerEmbed0_F F m (centerProj0_F F m w) +
+        centerEmbed1_F F m (centerProj1_F F m w) +
+        centerEmbed2_F F m (centerProj2_F F m w) := by
+  ext ⟨j, hj⟩
+  simp only [Pi.add_apply, centerEmbed0_F, centerEmbed1_F, centerEmbed2_F,
+    centerProj0_F, centerProj1_F, centerProj2_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases h0 : j < m + 1
+  · rw [dif_pos h0, dif_neg (show ¬(m + 1 ≤ j ∧ j < 2 * (m + 1)) from by omega),
+      dif_neg (show ¬(2 * (m + 1) ≤ j) from by omega), add_zero, add_zero]
+  · by_cases h1 : j < 2 * (m + 1)
+    · rw [dif_neg h0, dif_pos (show m + 1 ≤ j ∧ j < 2 * (m + 1) from by omega),
+        dif_neg (show ¬(2 * (m + 1) ≤ j) from by omega), add_zero, zero_add]
+      congr 1; ext; simp; omega
+    · rw [dif_neg h0, dif_neg (show ¬(m + 1 ≤ j ∧ j < 2 * (m + 1)) from by omega),
+        dif_pos (show 2 * (m + 1) ≤ j from by omega), zero_add, zero_add]
+      congr 1; ext; simp; omega
+
+/-- The three single-block embeddings are disjoint at the center:
+`centerEmbed0 x₀ + centerEmbed1 x₁ + centerEmbed2 x₂ = 0 → x₀ = x₁ = x₂ = 0`. -/
+theorem center3_sum_zero_F (F : Type) [Field F] (m : ℕ) (x0 x1 x2 : Fin (m + 1) → F)
+    (h : centerEmbed0_F F m x0 + centerEmbed1_F F m x1 + centerEmbed2_F F m x2 = 0) :
+    x0 = 0 ∧ x1 = 0 ∧ x2 = 0 := by
+  have heval : ∀ j : Fin (3 * (m + 1)),
+      centerEmbed0_F F m x0 j + centerEmbed1_F F m x1 j + centerEmbed2_F F m x2 j = 0 :=
+    fun j => by have := congr_fun h j; simpa using this
+  refine ⟨?_, ?_, ?_⟩ <;> ext ⟨i, hi⟩ <;> simp only [Pi.zero_apply]
+  · have hh := heval ⟨i, by omega⟩
+    simp only [centerEmbed0_F, centerEmbed1_F, centerEmbed2_F, LinearMap.coe_mk,
+      AddHom.coe_mk] at hh
+    rw [dif_pos (show i < m + 1 from hi),
+      dif_neg (show ¬(m + 1 ≤ i ∧ i < 2 * (m + 1)) from by omega),
+      dif_neg (show ¬(2 * (m + 1) ≤ i) from by omega), add_zero, add_zero] at hh
+    exact hh
+  · have hh := heval ⟨m + 1 + i, by omega⟩
+    simp only [centerEmbed0_F, centerEmbed1_F, centerEmbed2_F, LinearMap.coe_mk,
+      AddHom.coe_mk] at hh
+    rw [dif_neg (show ¬(m + 1 + i < m + 1) from by omega),
+      dif_pos (show m + 1 ≤ m + 1 + i ∧ m + 1 + i < 2 * (m + 1) from by omega),
+      dif_neg (show ¬(2 * (m + 1) ≤ m + 1 + i) from by omega), zero_add, add_zero] at hh
+    have key : (⟨m + 1 + i - (m + 1), by omega⟩ : Fin (m + 1)) = ⟨i, hi⟩ := by
+      simp only [Fin.mk.injEq]; omega
+    rwa [key] at hh
+  · have hh := heval ⟨2 * (m + 1) + i, by omega⟩
+    simp only [centerEmbed0_F, centerEmbed1_F, centerEmbed2_F, LinearMap.coe_mk,
+      AddHom.coe_mk] at hh
+    rw [dif_neg (show ¬(2 * (m + 1) + i < m + 1) from by omega),
+      dif_neg (show ¬(m + 1 ≤ 2 * (m + 1) + i ∧ 2 * (m + 1) + i < 2 * (m + 1)) from by omega),
+      dif_pos (show 2 * (m + 1) ≤ 2 * (m + 1) + i from by omega), zero_add, zero_add] at hh
+    have key : (⟨2 * (m + 1) + i - 2 * (m + 1), by omega⟩ : Fin (m + 1)) = ⟨i, hi⟩ := by
+      simp only [Fin.mk.injEq]; omega
+    rwa [key] at hh
+
 /-! ## Section 1: F-generic forward maps for Ẽ₆
 
 F-generic versions of the ℂ-specific maps used in `etilde6v2RepMap`
