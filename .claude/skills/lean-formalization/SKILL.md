@@ -166,7 +166,7 @@ Follow the global CLAUDE.md proof rules strictly:
 Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` for the same underlying type. When using lemmas across files, `rw`/`simp`/`show` may fail because the elaborator sees different abbreviation names. Workarounds:
 - Use `have h := lemma_from_other_file ...` then `rw [h]` (let unification handle it)
 - Use `change` instead of `show` when the target uses a different abbreviation
-- For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
+- For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`. It also must come *before* the declaration's `/-- … -/` docstring, not between docstring and `theorem` (the latter is a parse error: "unexpected token 'set_option'; expected 'lemma'"). Order: `set_option … in` lines, then docstring, then `theorem`.
 
 ### Tactic Selection Guide
 
