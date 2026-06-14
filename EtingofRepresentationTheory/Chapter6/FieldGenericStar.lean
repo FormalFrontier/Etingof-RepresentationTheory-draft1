@@ -538,6 +538,17 @@ theorem starProj4_F_starEmbedNilp_F (F : Type) [Field F] (m : ℕ)
   simp [starProj4_F, starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply,
     starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F]
 
+/-- The first-half projection `starProj4_F` is a left inverse of the *corrected*
+eigenvalue-site tube embedding `starEmbedTube_F` (`x ↦ (x, (λ•id + N) x)`): the
+projection discards the second half, so it recovers `x` for every `lam`. This is
+the corrected-tube analogue of `starProj4_F_starEmbedNilp_F` (the `λ = 0`
+embedding) and gives injectivity of `starEmbedTube_F` at the reversed leaf 4. -/
+theorem starProj4_F_starEmbedTube_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    starProj4_F F m (starEmbedTube_F F lam m x) = x := by
+  simp [starProj4_F, starEmbedTube_F, LinearMap.add_apply, LinearMap.comp_apply,
+    starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F]
+
 /-! ### Reversed-leaf projection surjectivity
 
 Each `starProj_i_F` is surjective: the corresponding embedding `starEmbed_i_F`
@@ -694,6 +705,44 @@ theorem forward_leaf_subspace_eq
     rw [hU.inf_eq_bot] at hle
     exact le_bot_iff.mp hle
 
+/-- **Leaf triviality from center triviality (orientation-generic).** A single
+leaf of the K_{1,4} star, whatever its orientation, is forced to `⊥` once the
+center subspace `U` is `⊥`. The leaf datum is governed by an injective embedding
+`e : Vᵢ → V₀` with left inverse `p` (so `p ∘ e = id`) that is also the surjective
+reversed-edge projection:
+
+* **forward leaf** (`i → 0`, map `e`): invariance gives `e x ∈ U` for `x ∈ Wᵢ`;
+  with `U = ⊥`, `e x = 0`, and the left inverse `p` recovers `x = 0`.
+* **reversed leaf** (`0 → i`, map `p`): invariance gives `U.map p ≤ Wᵢ` and
+  `U'.map p ≤ Wᵢ'`, so `reversed_leaf_subspace_eq` pins `Wᵢ = U.map p`; with
+  `U = ⊥`, `Wᵢ = (⊥ : Submodule).map p = ⊥`.
+
+This is the orientation-uniform propagation primitive shared by the corrected
+D̃₄/Ẽ₆/Ẽ₇ tube indecomposability proofs: once the center crux forces one
+component of the central pair to `⊥`, every leaf collapses to `⊥`. -/
+theorem star_leaf_bot_of_center_bot
+    {F : Type*} [Field F] {V₀ Vᵢ : Type*}
+    [AddCommGroup V₀] [Module F V₀] [AddCommGroup Vᵢ] [Module F Vᵢ]
+    (e : Vᵢ →ₗ[F] V₀) (p : V₀ →ₗ[F] Vᵢ)
+    (hpe : ∀ x, p (e x) = x) (hp_surj : Function.Surjective p)
+    (U U' : Submodule F V₀) (Wi Wi' : Submodule F Vᵢ)
+    (hcU : IsCompl U U') (hcW : IsCompl Wi Wi')
+    (hdir : (∀ x ∈ Wi, e x ∈ U) ∨ (U.map p ≤ Wi ∧ U'.map p ≤ Wi'))
+    (hU0 : U = ⊥) : Wi = ⊥ := by
+  rcases hdir with hfwd | ⟨hrev1, hrev2⟩
+  · -- Forward leaf: `e x ∈ U = ⊥`, recover `x = 0` via the left inverse.
+    rw [eq_bot_iff]
+    intro x hx
+    have hex : e x ∈ U := hfwd x hx
+    rw [hU0, Submodule.mem_bot] at hex
+    rw [Submodule.mem_bot]
+    have := congrArg p hex
+    rwa [hpe, map_zero] at this
+  · -- Reversed leaf: `Wi = U.map p = ⊥`.
+    obtain ⟨e1, _⟩ :=
+      reversed_leaf_subspace_eq p hp_surj U U' Wi Wi' hcU hcW hrev1 hrev2
+    rw [e1, hU0, Submodule.map_bot]
+
 /-! ## Section: Orientation-generic K_{1,4} representation
 
 `starRep_kQ` matches `starRepGen` at the canonical orientation and uses the
@@ -811,13 +860,124 @@ theorem starRep_kQ_isIndecomposable
     change Nontrivial (Fin (if (1 : Fin 5).val = 0 then 2 * (m + 1) else m + 1) → F)
     simp only [show (1 : Fin 5).val = 1 from rfl, one_ne_zero, ↓reduceIte]
     infer_instance
-  · -- Orientation-generic D̃₄ center crux + propagation. Shared family-wide
-    -- wall (issue #4648 deliverable 2); see the docstring above for the
-    -- reduction roadmap (forward/reversed leaf reductions →
-    -- `eigenvalue_jordan_invariant_compl_trivial_gen` center crux).
-    let _ := hOrient
-    let _ := lam
-    sorry
+  · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+    have hEdge := hOrient.2.1
+    -- **Propagation (sorry-free).** Once the center subspace is `⊥`, every leaf
+    -- collapses to `⊥` regardless of orientation: each leaf is pinned to the
+    -- center by `star_leaf_bot_of_center_bot` (forward: injective embedding;
+    -- reversed: `reversed_leaf_subspace_eq`). This reduces the whole
+    -- no-decomposition obligation to the **center crux** below.
+    have propagate : ∀ (W W' : ∀ v, Submodule F ((starRep_kQ F Q hOrient lam m).obj v)),
+        (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+          ∀ x ∈ W a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W b) →
+        (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+          ∀ x ∈ W' a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W' b) →
+        (∀ v, IsCompl (W v) (W' v)) →
+        W ⟨0, by omega⟩ = ⊥ → ∀ v, W v = ⊥ := by
+      intro W W' hW_inv hW'_inv hc h0 v
+      fin_cases v
+      · exact h0
+      · -- Leaf 1: embedding `starEmbed1_F`, projection `starProj1_F`.
+        refine star_leaf_bot_of_center_bot (starEmbed1_F F m) (starProj1_F F m)
+          (starProj1_F_starEmbed1_F F m) (starProj1_F_surjective F m)
+          (W ⟨0, by omega⟩) (W' ⟨0, by omega⟩) (W ⟨1, by omega⟩) (W' ⟨1, by omega⟩)
+          (hc ⟨0, by omega⟩) (hc ⟨1, by omega⟩) ?_ h0
+        rcases hEdge ⟨1, by omega⟩ ⟨0, by omega⟩ (by decide) with h1 | h1
+        · refine Or.inl fun x hx => ?_
+          obtain ⟨e'⟩ := h1
+          have h := @hW_inv ⟨1, by omega⟩ ⟨0, by omega⟩ e' x hx
+          change starEmbed1_F F m x ∈ W ⟨0, by omega⟩ at h
+          exact h
+        · refine Or.inr ⟨fun y hy => ?_, fun y hy => ?_⟩
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW_inv ⟨0, by omega⟩ ⟨1, by omega⟩ e'' u hu
+            change starProj1_F F m u ∈ W ⟨1, by omega⟩ at h
+            exact h
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW'_inv ⟨0, by omega⟩ ⟨1, by omega⟩ e'' u hu
+            change starProj1_F F m u ∈ W' ⟨1, by omega⟩ at h
+            exact h
+      · -- Leaf 2: embedding `starEmbed2_F`, projection `starProj2_F`.
+        refine star_leaf_bot_of_center_bot (starEmbed2_F F m) (starProj2_F F m)
+          (starProj2_F_starEmbed2_F F m) (starProj2_F_surjective F m)
+          (W ⟨0, by omega⟩) (W' ⟨0, by omega⟩) (W ⟨2, by omega⟩) (W' ⟨2, by omega⟩)
+          (hc ⟨0, by omega⟩) (hc ⟨2, by omega⟩) ?_ h0
+        rcases hEdge ⟨2, by omega⟩ ⟨0, by omega⟩ (by decide) with h1 | h1
+        · refine Or.inl fun x hx => ?_
+          obtain ⟨e'⟩ := h1
+          have h := @hW_inv ⟨2, by omega⟩ ⟨0, by omega⟩ e' x hx
+          change starEmbed2_F F m x ∈ W ⟨0, by omega⟩ at h
+          exact h
+        · refine Or.inr ⟨fun y hy => ?_, fun y hy => ?_⟩
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW_inv ⟨0, by omega⟩ ⟨2, by omega⟩ e'' u hu
+            change starProj2_F F m u ∈ W ⟨2, by omega⟩ at h
+            exact h
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW'_inv ⟨0, by omega⟩ ⟨2, by omega⟩ e'' u hu
+            change starProj2_F F m u ∈ W' ⟨2, by omega⟩ at h
+            exact h
+      · -- Leaf 3: embedding `starEmbedDiag_F`, projection `starProj3_F`.
+        refine star_leaf_bot_of_center_bot (starEmbedDiag_F F m) (starProj3_F F m)
+          (starProj3_F_starEmbedDiag_F F m) (starProj3_F_surjective F m)
+          (W ⟨0, by omega⟩) (W' ⟨0, by omega⟩) (W ⟨3, by omega⟩) (W' ⟨3, by omega⟩)
+          (hc ⟨0, by omega⟩) (hc ⟨3, by omega⟩) ?_ h0
+        rcases hEdge ⟨3, by omega⟩ ⟨0, by omega⟩ (by decide) with h1 | h1
+        · refine Or.inl fun x hx => ?_
+          obtain ⟨e'⟩ := h1
+          have h := @hW_inv ⟨3, by omega⟩ ⟨0, by omega⟩ e' x hx
+          change starEmbedDiag_F F m x ∈ W ⟨0, by omega⟩ at h
+          exact h
+        · refine Or.inr ⟨fun y hy => ?_, fun y hy => ?_⟩
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW_inv ⟨0, by omega⟩ ⟨3, by omega⟩ e'' u hu
+            change starProj3_F F m u ∈ W ⟨3, by omega⟩ at h
+            exact h
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW'_inv ⟨0, by omega⟩ ⟨3, by omega⟩ e'' u hu
+            change starProj3_F F m u ∈ W' ⟨3, by omega⟩ at h
+            exact h
+      · -- Leaf 4 (eigenvalue site): embedding `starEmbedTube_F`, projection `starProj4_F`.
+        refine star_leaf_bot_of_center_bot (starEmbedTube_F F lam m) (starProj4_F F m)
+          (starProj4_F_starEmbedTube_F F lam m) (starProj4_F_surjective F m)
+          (W ⟨0, by omega⟩) (W' ⟨0, by omega⟩) (W ⟨4, by omega⟩) (W' ⟨4, by omega⟩)
+          (hc ⟨0, by omega⟩) (hc ⟨4, by omega⟩) ?_ h0
+        rcases hEdge ⟨4, by omega⟩ ⟨0, by omega⟩ (by decide) with h1 | h1
+        · refine Or.inl fun x hx => ?_
+          obtain ⟨e'⟩ := h1
+          have h := @hW_inv ⟨4, by omega⟩ ⟨0, by omega⟩ e' x hx
+          change starEmbedTube_F F lam m x ∈ W ⟨0, by omega⟩ at h
+          exact h
+        · refine Or.inr ⟨fun y hy => ?_, fun y hy => ?_⟩
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW_inv ⟨0, by omega⟩ ⟨4, by omega⟩ e'' u hu
+            change starProj4_F F m u ∈ W ⟨4, by omega⟩ at h
+            exact h
+          · obtain ⟨u, hu, rfl⟩ := hy
+            obtain ⟨e''⟩ := h1
+            have h := @hW'_inv ⟨0, by omega⟩ ⟨4, by omega⟩ e'' u hu
+            change starProj4_F F m u ∈ W' ⟨4, by omega⟩ at h
+            exact h
+    -- **Center crux (deferred).** The central pair `(W₁ 0, W₂ 0)` of a
+    -- complementary subrepresentation-invariant decomposition has a trivial
+    -- component. Routed through the leaf reductions
+    -- (`forward_leaf_subspace_eq` / `reversed_leaf_subspace_eq`) onto the
+    -- eigenvalue site `λ•id + J`, where
+    -- `eigenvalue_jordan_invariant_compl_trivial_gen` kills one half. This is
+    -- the shared, family-wide D̃₄/Ẽ₆/Ẽ₇ tree-indecomposability wall; the
+    -- canonical (all-forward) instance is `starTubeRepGen_isIndecomposable`.
+    have hcenter : W₁ ⟨0, by omega⟩ = ⊥ ∨ W₂ ⟨0, by omega⟩ = ⊥ := by
+      sorry
+    rcases hcenter with h0 | h0
+    · exact Or.inl (propagate W₁ W₂ hW₁_inv hW₂_inv hcompl h0)
+    · exact Or.inr (propagate W₂ W₁ hW₂_inv hW₁_inv (fun v => (hcompl v).symm) h0)
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
