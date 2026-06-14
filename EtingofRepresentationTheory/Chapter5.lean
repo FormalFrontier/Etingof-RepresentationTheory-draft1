@@ -79,6 +79,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_18_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_2
 import EtingofRepresentationTheory.Chapter5.Lemma5_18_3
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
+import EtingofRepresentationTheory.Chapter5.PrimitiveIdempotentSimplicity
 import EtingofRepresentationTheory.Chapter5.PolynomialTensorBridge
 import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
 
@@ -94,6 +95,8 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_21_2
 -- Section 5.22: Weyl Character Formula
 import EtingofRepresentationTheory.Chapter5.PermDiagonalTrace
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
+import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
+import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 import EtingofRepresentationTheory.Chapter5.Proposition5_22_2
 import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
 

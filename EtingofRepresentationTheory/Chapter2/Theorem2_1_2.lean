@@ -6,6 +6,7 @@ import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.Problem6_1_5_theorem
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
 import EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure
+import EtingofRepresentationTheory.Chapter6.FieldGenericAssembly
 
 /-!
 # Theorem 2.1.2: Gabriel's Theorem
@@ -142,35 +143,40 @@ noncomputable def QuiverRepresentation.Iso.toEquiv
   commutes e x := f.naturality e x
 
 /-- If the Tits form on the underlying graph is not positive definite, then for any
-algebraically closed field k and the given quiver Q, there are infinitely many
-non-isomorphic finite-dimensional indecomposable representations.
+algebraically closed field k and the given quiver Q, the set of dimension vectors
+of finite-dimensional indecomposable representations is infinite, hence
+`HasFiniteRepresentationType` fails.
 
-This is the per-field version of the infinite type result. The existing
-`not_posdef_infinite_type` (Chapter 6) proves `¬IsFiniteTypeQuiver` which quantifies
-over all fields/orientations. This lemma extracts the consequence for ONE specific
-field and quiver, via the contrapositive of `finite_dimVectors`.
-
-The proof requires showing that the infinite family constructions in Chapter 6
-(cycle families, star graph families, extended Dynkin families) produce
-indecomposable representations for any algebraically closed field k and any
-orientation of the underlying graph. The constructions are uniform in k, but
-the existing formalization wraps them as `¬IsFiniteTypeQuiver` (¬∀) rather than
-the stronger `∀¬` statement needed here. -/
+Combines the per-(F, Q) infinite type result
+`not_posdef_infinite_type_per_kQ` (`Chapter6/FieldGenericAssembly.lean`) with
+the contrapositive of `HasFiniteRepresentationType.finite_dimVectors`. -/
 private lemma not_posdef_not_HasFiniteRepresentationType
     (k : Type) [Field k] [IsAlgClosed k]
     (n : ℕ) [Quiver.{0} (Fin n)] [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
     [∀ a b : Fin n, Subsingleton (a ⟶ b)]
     (hOrient : IsOrientationOf ‹Quiver (Fin n)› (quiverUndirectedAdj n))
-    (_hconn : QuiverUndirectedConnected n)
+    (hconn : QuiverUndirectedConnected n)
     (h_not_posdef : ∃ x : Fin n → ℤ, x ≠ 0 ∧
       ¬ (0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
         quiverUndirectedAdj n).mulVec x))) :
-    ¬ HasFiniteRepresentationType k n :=
-  -- The per-field infinite type result. The InfiniteTypeConstructions in Chapter 6
-  -- prove ¬IsFiniteTypeQuiver (for ALL fields/orientations). Extracting the per-field
-  -- version requires refactoring those proofs to expose the ∀k∀Q quantifier structure.
-  -- See Issue #2255 for details on this bridge.
-  sorry
+    ¬ HasFiniteRepresentationType k n := by
+  intro hfrt
+  obtain ⟨x, hx_ne, hx_not_pd⟩ := h_not_posdef
+  have hn : 1 ≤ n := by
+    rcases Nat.eq_zero_or_pos n with rfl | hn
+    · exact absurd (funext (fun i : Fin 0 => i.elim0)) hx_ne
+    · exact hn
+  have h_not_pd' : ¬ ∀ y : Fin n → ℤ, y ≠ 0 →
+      0 < dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
+        quiverUndirectedAdj n).mulVec y) :=
+    fun h => hx_not_pd (h x hx_ne)
+  have h_inf := not_posdef_infinite_type_per_kQ (quiverUndirectedAdj n) hn
+    quiverUndirectedAdj_symm quiverUndirectedAdj_diag quiverUndirectedAdj_01
+    hconn h_not_pd' k ‹Quiver (Fin n)› hOrient
+  exact h_inf <|
+    (HasFiniteRepresentationType.finite_dimVectors k hfrt).subset
+      (fun _ ⟨V, hV_indec, hV_dim⟩ =>
+        ⟨V, fun v => Module.Finite.equiv (hV_dim v).some.symm, hV_indec, hV_dim⟩)
 
 /-- Backward direction bridge: `IsDynkinDiagram` implies `HasFiniteRepresentationType`
 for any algebraically closed field and the given quiver.

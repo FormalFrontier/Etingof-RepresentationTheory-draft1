@@ -5,15 +5,80 @@ import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
 
 /-!
-# Field-Generic Infinite Type Constructions
+# Field-Generic Infinite Type Constructions — Shared Header
 
-This file provides field-generic versions of the infinite type constructions from
-`InfiniteTypeConstructions.lean`. The originals are ℂ-specific; these work over
-any field F (or any algebraically closed field when needed).
+This file provides the shared primitives used by all field-generic /
+orientation-generic infinite-type constructions in Chapter 6. The originals
+are ℂ-specific (see `InfiniteTypeConstructions.lean`); the constructions
+here work over any field `F` (or any algebraically closed field when
+needed).
+
+Per-graph representations and their indecomposability proofs live in
+sibling files that import this one:
+
+* `FieldGenericCycle.lean` — `cycleRepGen` / `cycleRep_kQ` for the cycle
+  graph (any `k ≥ 3`).
+* `FieldGenericStar.lean` — `starRepGen` for K_{1,4} (D̃₄) with the
+  canonical all-sink orientation. Per-(F, Q) star variants will land
+  here too (see #2801 / #2802).
+* `FieldGenericD5Tilde.lean`, `FieldGenericETilde6.lean`,
+  `FieldGenericETilde7.lean` — orientation-generic affine Dynkin
+  constructions.
+
+The shared content kept in this file is:
+
+* Field-generic nilpotent shift `nilpotentShiftMatrixGen` /
+  `nilpotentShiftLinGen` and their key properties (nilpotency,
+  one-dimensional kernel).
+* The nilpotent-invariant complement lemma
+  `nilpotent_invariant_compl_trivial_gen`.
+* `compl_le_forces_eq` — the complementary-pair identity used by every
+  per-(F, Q) indecomposability proof to collapse an identity-arrow
+  inclusion to subspace equality.
+* The per-(F, Q) subgraph transfer infrastructure
+  `restrictOrientationViaEmb` / `subgraph_infinite_type_transfer_per_kQ`.
 
 The key insight: all the indecomposability proofs use only linear algebra
 (nilpotent maps, kernel dimension, complementary subspaces). None of this
 requires ℂ specifically.
+
+## Naming conventions
+
+The Chapter 6 "field-generic" / "orientation-generic" wave introduces three
+suffix conventions side-by-side with the original ℂ-only names. Four
+categories are in use across this file and the sibling per-graph files
+(`FieldGenericCycle.lean`, `FieldGenericStar.lean`,
+`FieldGenericETilde6.lean`, `FieldGenericETilde7.lean`,
+`FieldGenericD5Tilde.lean`):
+
+* `_F` / `_gen` — **field-generic only.** Construction or theorem
+  parametrised by an arbitrary field `F` (often algebraically closed),
+  but specialised to the canonical orientation of the graph.
+  Representative examples: `cycleRepGen`, `cycleRepGen_dimVec`,
+  `cycle_not_finite_type_gen`, `starRepGen`, `starEmbed1_F`,
+  `starEmbedNilp_F`, `star_not_finite_type_F`.
+
+* `_kQ` — **data, parametrised by both `(F, Q)`.** A representation or
+  structure over any field `F` and any orientation `Q` of the underlying
+  graph. The `Q` argument selects per-edge directions, so each edge map
+  is built from forward/reverse maps depending on `Q`'s choice.
+  Representative examples: `cycleRep_kQ`, `etilde6Rep_kQ`,
+  `etilde7Rep_kQ`, `etilde6RepMap_kQ`, `etilde7RepMap_kQ`.
+
+* `_per_kQ` — **theorem stating a per-`(F, Q)` conclusion.** Typically
+  an infinite-type or indecomposability statement applied to the
+  `_kQ` data. Representative examples: `cycle_not_finite_type_per_kQ`,
+  `etilde6_not_finite_type_per_kQ`, `subgraph_infinite_type_transfer_per_kQ`.
+
+* (no suffix) — **original ℂ-only construction** living in
+  `Chapter6/InfiniteTypeConstructions.lean`. Representative examples:
+  `cycleRep`, `etilde6Rep`, `etilde7Rep`, `cycle_not_finite_type`,
+  `etilde6_not_finite_type`.
+
+When introducing a new item, pick the suffix matching what is actually
+generic: `_F`/`_gen` when only the field is generic, `_kQ` for `(F, Q)`
+data, `_per_kQ` for `(F, Q)`-quantified theorems, and no suffix for
+ℂ-only code in `InfiniteTypeConstructions.lean`.
 -/
 
 open scoped Matrix
@@ -21,7 +86,7 @@ open Finset
 
 namespace Etingof
 
-/-! ## Section 1: Field-generic nilpotent shift -/
+/-! ## Field-generic nilpotent shift -/
 
 /-- The nilpotent shift matrix over an arbitrary commutative ring. -/
 noncomputable def nilpotentShiftMatrixGen (R : Type*) [CommSemiring R] (m : ℕ) :
@@ -131,7 +196,7 @@ theorem nilpotentShiftLinGen_ker_finrank (F : Type*) [Field F] (m : ℕ) :
     simp only [Pi.smul_apply, Pi.single_apply, smul_ite, smul_zero]
     rw [if_neg (show j ≠ (0 : Fin (m + 1)) from by intro h; subst h; simp at hj)]
 
-/-! ## Section 2: Field-generic nilpotent complement lemma -/
+/-! ## Field-generic nilpotent complement lemma -/
 
 private theorem ker_ne_bot_of_isNilpotent_gen
     {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V] [Nontrivial V]
@@ -207,118 +272,307 @@ theorem nilpotent_invariant_compl_trivial_gen
   rw [hcompl.inf_eq_bot, Submodule.mem_bot] at hmem
   exact hw₂_ne0 hmem
 
-/-! ## Section 3: Field-generic cycle representation -/
+/-! ## Shared infrastructure for per-(k,Q) constructions
+
+The remaining six per-(field, orientation) sub-issues
+(#2787-#2793, decomposed from #2773) all rely on the same complementary-pair
+algebra: an identity arrow `e : a → b` in a quiver representation forces
+`W₁ a ≤ W₁ b` and `W₂ a ≤ W₂ b` (or the reverse, if Q reverses the arrow).
+`compl_le_forces_eq` collapses the asymmetric inclusion to subspace
+equality at both ends, so the constancy of `W₁`/`W₂` along an undirected
+path is independent of how each individual arrow is oriented.
+-/
+
+/-- If `(W₁_a, W₂_a)` and `(W₁_b, W₂_b)` are both complementary pairs in a
+finite-dimensional space, and `W₁_a ≤ W₁_b`, `W₂_a ≤ W₂_b`, then both
+inclusions are equalities. Used in the per-(field, orientation) refactor of
+the forbidden-subgraph constructions: identity arrows force subspace
+equality regardless of arrow direction.
+
+The four submodules are passed explicitly: when the carrier `V` arises as
+`(cycleRep_kQ …).obj a` (a struct projection that does not always
+reduce), implicit-argument inference cannot align them across the two
+complementary-pair hypotheses. -/
+theorem compl_le_forces_eq
+    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
+    [Module.Finite F V]
+    (W₁_a W₂_a W₁_b W₂_b : Submodule F V)
+    (hcompl_a : IsCompl W₁_a W₂_a) (hcompl_b : IsCompl W₁_b W₂_b)
+    (h1 : W₁_a ≤ W₁_b) (h2 : W₂_a ≤ W₂_b) :
+    W₁_a = W₁_b ∧ W₂_a = W₂_b := by
+  have h_sum_a : Module.finrank F W₁_a + Module.finrank F W₂_a = Module.finrank F V :=
+    Submodule.finrank_add_eq_of_isCompl hcompl_a
+  have h_sum_b : Module.finrank F W₁_b + Module.finrank F W₂_b = Module.finrank F V :=
+    Submodule.finrank_add_eq_of_isCompl hcompl_b
+  have h_le₁ : Module.finrank F W₁_a ≤ Module.finrank F W₁_b := Submodule.finrank_mono h1
+  have h_le₂ : Module.finrank F W₂_a ≤ Module.finrank F W₂_b := Submodule.finrank_mono h2
+  have h_eq₁ : Module.finrank F W₁_a = Module.finrank F W₁_b := by omega
+  have h_eq₂ : Module.finrank F W₂_a = Module.finrank F W₂_b := by omega
+  exact ⟨Submodule.eq_of_le_of_finrank_eq h1 h_eq₁,
+         Submodule.eq_of_le_of_finrank_eq h2 h_eq₂⟩
+
+/-! ## Per-(field, orientation) subgraph transfer
+
+The existing `subgraph_infinite_type_transfer` works at the
+`IsFiniteTypeQuiver` level (universal over `k` and orientations). The
+per-(field, orientation) refactor needs a version that fixes `F` and `Q`
+externally and transfers infinite-type from the restricted subgraph
+orientation, `restrictOrientationViaEmb φ Q`, to `Q` itself.
+
+The construction mirrors `subgraph_infinite_type_transfer`: an
+indecomposable on the subgraph is extended to one on the full graph by
+setting the spaces at vertices outside `Set.range φ` to zero. -/
+
+section SubgraphTransferPerKQ
+
+variable {m n : ℕ}
+
+/-- Restrict a quiver `Q` on `Fin n` to `Fin m` via an embedding
+`φ : Fin m ↪ Fin n`. The restricted quiver has
+`Hom i j := Q.Hom (φ i) (φ j)`. -/
+def restrictOrientationViaEmb (φ : Fin m ↪ Fin n) (Q : Quiver (Fin n)) :
+    Quiver (Fin m) where
+  Hom i j := Q.Hom (φ i) (φ j)
+
+instance restrictOrientationViaEmb_subsingleton
+    (φ : Fin m ↪ Fin n) (Q : Quiver (Fin n))
+    [hsub : ∀ a b, Subsingleton (Q.Hom a b)] (i j : Fin m) :
+    Subsingleton (@Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i j) :=
+  hsub (φ i) (φ j)
+
+/-- The restricted orientation is an orientation of the restricted
+adjacency matrix whenever `Q` orients `adj` and the adjacencies embed. -/
+theorem restrictOrientationViaEmb_isOrientationOf
+    (φ : Fin m ↪ Fin n)
+    {adj : Matrix (Fin n) (Fin n) ℤ} {adj_sub : Matrix (Fin m) (Fin m) ℤ}
+    (hembed : ∀ i j, adj_sub i j = adj (φ i) (φ j))
+    {Q : Quiver (Fin n)}
+    (hOrient : Etingof.IsOrientationOf Q adj) :
+    Etingof.IsOrientationOf (restrictOrientationViaEmb φ Q) adj_sub := by
+  obtain ⟨hno, hedge, huniq⟩ := hOrient
+  refine ⟨?_, ?_, ?_⟩
+  · intro i j hsub
+    rw [hembed] at hsub
+    exact hno (φ i) (φ j) hsub
+  · intro i j hsub
+    rw [hembed] at hsub
+    exact hedge (φ i) (φ j) hsub
+  · intro i j hij hji
+    exact huniq (φ i) (φ j) hij hji
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- The cycle representation over an arbitrary field F. At each vertex the space
-is Fin (m+1) → F. Non-last arrows map by the identity; the last arrow uses
-the nilpotent shift. -/
-noncomputable def cycleRepGen (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k) (m : ℕ) :
-    @Etingof.QuiverRepresentation F (Fin k) _ (cycleQuiver k hk) := by
-  letI := cycleQuiver k hk
-  exact { obj := fun _ => Fin (m + 1) → F
-          mapLinear := fun {v _} _ =>
-            if v.val = k - 1 then nilpotentShiftLinGen F m else LinearMap.id }
+/-- Per-(field, orientation) subgraph transfer: if the restricted
+orientation `restrictOrientationViaEmb φ Q` on the subgraph admits
+infinitely many indecomposable dimension vectors over `F`, then `Q`
+itself does too.
 
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-theorem cycleRepGen_isIndecomposable (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k) (m : ℕ) :
-    @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin k)
-      (cycleQuiver k hk) (cycleRepGen F k hk m) := by
-  letI := cycleQuiver k hk
-  constructor
-  · refine ⟨⟨0, by omega⟩, ?_⟩
-    change Nontrivial (Fin (m + 1) → F)
-    infer_instance
-  · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
-    have hle_succ : ∀ (W : ∀ v, Submodule F ((cycleRepGen F k hk m).obj v)),
-        (∀ {a b : Fin k} (e : @Quiver.Hom _ (cycleQuiver k hk) a b),
-          ∀ x ∈ W a, (cycleRepGen F k hk m).mapLinear e x ∈ W b) →
-        ∀ (v : Fin k) (hv : v.val + 1 < k), W v ≤ W ⟨v.val + 1, hv⟩ := by
-      intro W hW_inv v hv x hx
-      have harrow : @Quiver.Hom (Fin k) (cycleQuiver k hk) v
-          ⟨v.val + 1, by omega⟩ := ⟨by simp [Nat.mod_eq_of_lt hv]⟩
-      have := hW_inv harrow x hx
-      simp only [cycleRepGen] at this
-      have hne : v.val ≠ k - 1 := by have := v.isLt; omega
-      rw [if_neg hne] at this
-      exact this
-    have hchain_mono : ∀ (W : ∀ v, Submodule F ((cycleRepGen F k hk m).obj v)),
-        (∀ {a b : Fin k} (e : @Quiver.Hom _ (cycleQuiver k hk) a b),
-          ∀ x ∈ W a, (cycleRepGen F k hk m).mapLinear e x ∈ W b) →
-        ∀ (i j : ℕ) (hi : i < k) (hj : j < k), i ≤ j → W ⟨i, hi⟩ ≤ W ⟨j, hj⟩ := by
-      intro W hW_inv i j hi hj hij
-      induction j with
-      | zero => simp at hij; subst hij; exact le_of_eq (by congr 1)
-      | succ n ih =>
-        rcases Nat.eq_or_lt_of_le hij with rfl | hlt
-        · exact le_refl _
-        · exact le_trans (ih (by omega) (by omega)) (hle_succ W hW_inv ⟨n, by omega⟩ hj)
-    set last : Fin k := ⟨k - 1, by omega⟩
-    have hlast_arrow : @Quiver.Hom (Fin k) (cycleQuiver k hk) last
-        ⟨0, by omega⟩ := ⟨by
-          show (0 : ℕ) = (k - 1 + 1) % k
-          rw [show k - 1 + 1 = k from by omega, Nat.mod_self]⟩
-    have hshift₁ : ∀ x ∈ W₁ last, nilpotentShiftLinGen F m x ∈ W₁ last := by
-      intro x hx
-      have h_in_0 := hW₁_inv hlast_arrow x hx
-      simp only [cycleRepGen, show last.val = k - 1 from rfl, ite_true] at h_in_0
-      exact hchain_mono W₁ hW₁_inv 0 (k - 1) (by omega) (by omega) (by omega) h_in_0
-    have hshift₂ : ∀ x ∈ W₂ last, nilpotentShiftLinGen F m x ∈ W₂ last := by
-      intro x hx
-      have h_in_0 := hW₂_inv hlast_arrow x hx
-      simp only [cycleRepGen, show last.val = k - 1 from rfl, ite_true] at h_in_0
-      exact hchain_mono W₂ hW₂_inv 0 (k - 1) (by omega) (by omega) (by omega) h_in_0
-    have hresult := nilpotent_invariant_compl_trivial_gen
-      (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
-      (nilpotentShiftLinGen_ker_finrank F m)
-      (W₁ last) (W₂ last) hshift₁ hshift₂ (hcompl last)
-    rcases hresult with h | h
-    · left; intro v
-      have : W₁ v ≤ W₁ last :=
-        hchain_mono W₁ hW₁_inv v.val (k - 1) v.isLt (by omega) (by omega)
-      rwa [h, le_bot_iff] at this
-    · right; intro v
-      have : W₂ v ≤ W₂ last :=
-        hchain_mono W₂ hW₂_inv v.val (k - 1) v.isLt (by omega) (by omega)
-      rwa [h, le_bot_iff] at this
+This is the per-(F, Q) analog of `subgraph_infinite_type_transfer`
+(which universally quantifies over `k` and orientations). The proof
+extends each subgraph indecomposable by zero on the vertices outside
+`Set.range φ`. -/
+theorem subgraph_infinite_type_transfer_per_kQ
+    (φ : Fin m ↪ Fin n)
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (h_inf : letI Q_sub := restrictOrientationViaEmb φ Q
+      ¬ Set.Finite
+        {d : Fin m → ℕ |
+          ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin m) _ Q_sub,
+            V.IsIndecomposable ∧
+            ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))}) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧
+          ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  letI Q_sub : Quiver (Fin m) := restrictOrientationViaEmb φ Q
+  -- Subsingleton for the restricted quiver, derived from Q's subsingleton.
+  haveI : ∀ a b, Subsingleton (@Quiver.Hom (Fin m) Q_sub a b) := fun a b =>
+    inferInstanceAs (Subsingleton (Q.Hom (φ a) (φ b)))
+  intro hfin
+  apply h_inf
+  classical
+  let extDV : (Fin m → ℕ) → (Fin n → ℕ) := fun d v =>
+    if h : ∃ i, φ i = v then d h.choose else 0
+  have h_choose : ∀ i, (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose = i :=
+    fun i => φ.injective (⟨i, rfl⟩ : ∃ j, φ j = φ i).choose_spec
+  have extDV_apply : ∀ d i, extDV d (φ i) = d i := by
+    intro d i; change (if h : ∃ j, φ j = φ i then d h.choose else 0) = d i
+    rw [dif_pos ⟨i, rfl⟩, h_choose]
+  have hinj : Function.Injective extDV := by
+    intro d₁ d₂ h; ext i
+    have := congr_fun h (φ i)
+    rwa [extDV_apply, extDV_apply] at this
+  have hmem : ∀ d,
+      d ∈ {d : Fin m → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin m) _ Q_sub,
+          V.IsIndecomposable ∧
+          ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} →
+      extDV d ∈ {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧
+          ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro d ⟨V, hV_ind, hV_dim⟩
+    let equiv_at : ∀ i : Fin m, V.obj i ≃ₗ[F] (Fin (d i) → F) := fun i => (hV_dim i).some
+    let finCastEquiv (a b : ℕ) (h : a = b) : (Fin a → F) ≃ₗ[F] (Fin b → F) :=
+      LinearEquiv.funCongrLeft F F (Fin.castOrderIso h.symm).toEquiv
+    -- V'.mapLinear at e : Q.Hom a b. When both a, b are in range φ
+    -- (a = φ i, b = φ j), the input e itself witnesses
+    -- `Nonempty (restrictOrientationViaEmb φ Q).Hom i j`; the if-branch
+    -- uses V's map on an arbitrary representative of that hom space
+    -- (by Subsingleton, this equals e).
+    let V'mapLinear : ∀ {a b : Fin n},
+        @Quiver.Hom (Fin n) Q a b → (Fin (extDV d a) → F) →ₗ[F] (Fin (extDV d b) → F) :=
+      fun {a b} _ =>
+        if h : ∃ i j, φ i = a ∧ φ j = b ∧
+            Nonempty (@Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i j) then
+          have hi : φ h.choose = a := h.choose_spec.choose_spec.1
+          have hj : φ h.choose_spec.choose = b := h.choose_spec.choose_spec.2.1
+          have e_sub := h.choose_spec.choose_spec.2.2.some
+          let j := h.choose_spec.choose
+          let i := h.choose
+          (finCastEquiv _ _ ((extDV_apply d j).symm.trans (congrArg (extDV d) hj))).toLinearMap.comp
+            ((equiv_at j).toLinearMap.comp
+              ((@Etingof.QuiverRepresentation.mapLinear F (Fin m) _
+                (restrictOrientationViaEmb φ Q) V _ _ e_sub).comp
+                ((equiv_at i).symm.toLinearMap.comp
+                  (finCastEquiv _ _
+                    ((extDV_apply d i).symm.trans
+                      (congrArg (extDV d) hi))).symm.toLinearMap)))
+        else 0
+    refine ⟨⟨fun v => Fin (extDV d v) → F, V'mapLinear⟩, ?_, fun v => ⟨LinearEquiv.refl F _⟩⟩
+    let e_at (i : Fin m) : V.obj i ≃ₗ[F] (Fin (extDV d (φ i)) → F) :=
+      (equiv_at i).trans (finCastEquiv (d i) (extDV d (φ i)) (extDV_apply d i).symm)
+    constructor
+    · obtain ⟨⟨v₀, hv₀⟩, _⟩ := hV_ind
+      exact ⟨φ v₀, (e_at v₀).toEquiv.symm.nontrivial⟩
+    · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+      have h_ext_zero : ∀ v, v ∉ Set.range φ → extDV d v = 0 := by
+        intro v hv
+        simp only [extDV, dif_neg (show ¬∃ i, φ i = v from fun ⟨i, hi⟩ => hv ⟨i, hi⟩)]
+      have h_bot_of_not_range : ∀ v, v ∉ Set.range φ →
+          ∀ (S : Submodule F (Fin (extDV d v) → F)), S = ⊥ := by
+        intro v hv S
+        have hze := h_ext_zero v hv
+        have : Subsingleton (Fin (extDV d v) → F) := by
+          rw [hze]; infer_instance
+        rw [eq_bot_iff]; intro x _; rw [Submodule.mem_bot]
+        exact Subsingleton.elim _ _
+      let U₁ (i : Fin m) : Submodule F (V.obj i) := (W₁ (φ i)).comap (e_at i).toLinearMap
+      let U₂ (i : Fin m) : Submodule F (V.obj i) := (W₂ (φ i)).comap (e_at i).toLinearMap
+      have hU_compl : ∀ i, IsCompl (U₁ i) (U₂ i) := by
+        intro i
+        have hc := hcompl (φ i)
+        constructor
+        · rw [disjoint_iff]; rw [eq_bot_iff]; intro x hx
+          rw [Submodule.mem_inf] at hx
+          have h1 : (e_at i) x ∈ W₁ (φ i) := hx.1
+          have h2 : (e_at i) x ∈ W₂ (φ i) := hx.2
+          have : (e_at i) x ∈ W₁ (φ i) ⊓ W₂ (φ i) := Submodule.mem_inf.mpr ⟨h1, h2⟩
+          rw [hc.1.eq_bot] at this
+          rw [Submodule.mem_bot]
+          have h_ez := (Submodule.mem_bot F).mp this
+          exact (e_at i).injective (h_ez.trans (map_zero _).symm)
+        · rw [codisjoint_iff]; rw [eq_top_iff]; intro x _
+          have : (e_at i) x ∈ W₁ (φ i) ⊔ W₂ (φ i) := hc.2.eq_top ▸ Submodule.mem_top
+          obtain ⟨y₁, hy₁, y₂, hy₂, hsum⟩ := Submodule.mem_sup.mp this
+          rw [Submodule.mem_sup]
+          refine ⟨(e_at i).symm y₁, ?_, (e_at i).symm y₂, ?_, ?_⟩
+          · change (e_at i) ((e_at i).symm y₁) ∈ W₁ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy₁
+          · change (e_at i) ((e_at i).symm y₂) ∈ W₂ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy₂
+          · apply (e_at i).injective
+            rw [map_add, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
+            exact hsum
+      -- V'mapLinear on a Q.Hom (φ i) (φ j) edge reduces to V's map conjugated by e_at.
+      have V'map_aux : ∀ (i j : Fin m)
+          (e_sub_ij : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i j)
+          (i' j' : Fin m) (hi : i' = i) (hj : j' = j)
+          (e' : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) i' j')
+          (x : Fin (extDV d (φ i)) → F),
+          (finCastEquiv _ _
+            ((extDV_apply d j').symm.trans
+              (congrArg (extDV d) (show φ j' = φ j by rw [hj])))).toLinearMap.comp
+            ((equiv_at j').toLinearMap.comp
+              ((@Etingof.QuiverRepresentation.mapLinear F (Fin m) _
+                (restrictOrientationViaEmb φ Q) V _ _ e').comp
+                ((equiv_at i').symm.toLinearMap.comp
+                  (finCastEquiv _ _ ((extDV_apply d i').symm.trans
+                    (congrArg (extDV d) (show φ i' = φ i by rw [hi])))).symm.toLinearMap))) x =
+          (e_at j) (V.mapLinear e_sub_ij ((e_at i).symm x)) := by
+        intro i j e_sub_ij i' j' hi hj e' x
+        subst hi; subst hj
+        have : e' = e_sub_ij := Subsingleton.elim _ _
+        subst this
+        rfl
+      have V'map_compat : ∀ (i j : Fin m)
+          (e_sub_ij : @Quiver.Hom (Fin m) Q_sub i j)
+          (x : Fin (extDV d (φ i)) → F),
+          V'mapLinear (show @Quiver.Hom (Fin n) Q (φ i) (φ j) from e_sub_ij) x =
+          (e_at j) (V.mapLinear e_sub_ij ((e_at i).symm x)) := by
+        intro i j e_sub_ij x
+        simp only [V'mapLinear]
+        have h_ex : ∃ i' j', φ i' = φ i ∧ φ j' = φ j ∧
+            Nonempty (@Quiver.Hom (Fin m) Q_sub i' j') :=
+          ⟨i, j, rfl, rfl, ⟨e_sub_ij⟩⟩
+        rw [dif_pos h_ex]
+        exact V'map_aux i j e_sub_ij
+          h_ex.choose h_ex.choose_spec.choose
+          (φ.injective h_ex.choose_spec.choose_spec.1)
+          (φ.injective h_ex.choose_spec.choose_spec.2.1)
+          h_ex.choose_spec.choose_spec.2.2.some x
+      have hU₁_inv : ∀ {a b : Fin m}
+          (e : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) a b),
+          ∀ x ∈ U₁ a, V.mapLinear e x ∈ U₁ b := by
+        intro a b e_ab x hx
+        change (e_at b) (V.mapLinear e_ab x) ∈ W₁ (φ b)
+        have h_compat := V'map_compat a b e_ab ((e_at a) x)
+        rw [LinearEquiv.symm_apply_apply] at h_compat
+        rw [← h_compat]
+        exact hW₁_inv (show @Quiver.Hom (Fin n) Q (φ a) (φ b) from e_ab) _ hx
+      have hU₂_inv : ∀ {a b : Fin m}
+          (e : @Quiver.Hom (Fin m) (restrictOrientationViaEmb φ Q) a b),
+          ∀ x ∈ U₂ a, V.mapLinear e x ∈ U₂ b := by
+        intro a b e_ab x hx
+        change (e_at b) (V.mapLinear e_ab x) ∈ W₂ (φ b)
+        have h_compat := V'map_compat a b e_ab ((e_at a) x)
+        rw [LinearEquiv.symm_apply_apply] at h_compat
+        rw [← h_compat]
+        exact hW₂_inv (show @Quiver.Hom (Fin n) Q (φ a) (φ b) from e_ab) _ hx
+      rcases hV_ind.2 U₁ U₂ hU₁_inv hU₂_inv hU_compl with hU₁_bot | hU₂_bot
+      · left; intro v
+        by_cases hv : v ∈ Set.range φ
+        · obtain ⟨i, rfl⟩ := hv
+          rw [eq_bot_iff]; intro y hy
+          have hU := hU₁_bot i
+          have : (e_at i).symm y ∈ U₁ i := by
+            change (e_at i) ((e_at i).symm y) ∈ W₁ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy
+          rw [hU, Submodule.mem_bot] at this
+          rw [Submodule.mem_bot]
+          calc y = (e_at i) ((e_at i).symm y) := (LinearEquiv.apply_symm_apply _ _).symm
+            _ = (e_at i) 0 := by rw [this]
+            _ = 0 := map_zero _
+        · exact h_bot_of_not_range v hv (W₁ v)
+      · right; intro v
+        by_cases hv : v ∈ Set.range φ
+        · obtain ⟨i, rfl⟩ := hv
+          rw [eq_bot_iff]; intro y hy
+          have hU := hU₂_bot i
+          have : (e_at i).symm y ∈ U₂ i := by
+            change (e_at i) ((e_at i).symm y) ∈ W₂ (φ i)
+            rw [LinearEquiv.apply_symm_apply]; exact hy
+          rw [hU, Submodule.mem_bot] at this
+          rw [Submodule.mem_bot]
+          calc y = (e_at i) ((e_at i).symm y) := (LinearEquiv.apply_symm_apply _ _).symm
+            _ = (e_at i) 0 := by rw [this]
+            _ = 0 := map_zero _
+        · exact h_bot_of_not_range v hv (W₂ v)
+  exact (hfin.subset (Set.image_subset_iff.mpr hmem)).of_finite_image hinj.injOn
 
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-theorem cycleRepGen_dimVec (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k) (m : ℕ) (v : Fin k) :
-    Nonempty (@Etingof.QuiverRepresentation.obj F (Fin k) _
-      (cycleQuiver k hk) (cycleRepGen F k hk m) v ≃ₗ[F] (Fin (m + 1) → F)) :=
-  ⟨LinearEquiv.refl F _⟩
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-/-- Field-generic: the cycle graph on k ≥ 3 vertices has infinite representation type
-over any field F. -/
-theorem cycle_not_finite_type_gen (F : Type) [Field F] (k : ℕ) (hk : 3 ≤ k) :
-    ¬ ∀ (Q : @Quiver.{0, 0} (Fin k))
-      [∀ (a b : Fin k), Subsingleton (@Quiver.Hom (Fin k) Q a b)],
-      @Etingof.IsOrientationOf k Q (cycleAdj k hk) →
-      Set.Finite
-        {d : Fin k → ℕ |
-          ∃ (V : @Etingof.QuiverRepresentation.{0, 0, 0, 0} F (Fin k) _ Q),
-            V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  intro hft
-  letI := cycleQuiver k hk
-  have hfin := @hft (cycleQuiver k hk)
-    (fun a b => cycleQuiver_subsingleton k hk a b)
-    (cycleOrientation_isOrientationOf k hk)
-  have hmem : ∀ m : ℕ, (fun (_ : Fin k) => m + 1) ∈
-      {d : Fin k → ℕ | ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin k) _ (cycleQuiver k hk),
-        V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-    intro m
-    exact ⟨cycleRepGen F k hk m, cycleRepGen_isIndecomposable F k hk m,
-      cycleRepGen_dimVec F k hk m⟩
-  have hinj : Function.Injective (fun m : ℕ => (fun (_ : Fin k) => m + 1)) := by
-    intro m₁ m₂ h
-    have : m₁ + 1 = m₂ + 1 := congr_fun h ⟨0, by omega⟩
-    omega
-  exact (Set.infinite_range_of_injective hinj |>.mono
-    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+end SubgraphTransferPerKQ
 
 end Etingof

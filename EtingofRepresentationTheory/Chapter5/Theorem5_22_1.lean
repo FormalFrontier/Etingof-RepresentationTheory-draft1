@@ -18,6 +18,7 @@ is GL_N-stable.
 -/
 
 open MvPolynomial Finset CategoryTheory
+open scoped TensorProduct
 
 noncomputable section
 
@@ -655,6 +656,437 @@ theorem youngSymEndomorphism_apply_on_range (k : Type*) [Field k] (N : ℕ) (lam
   rw [youngSymEndomorphism_sq_scalar k N lam α hα_sq]
   rfl
 
+/-! ### Block factorization of `youngSymEndomorphism` via the bimodule iso -/
+
+/-- The Young symmetrizer endomorphism, packaged as an element of the
+symmetric-group image subalgebra `A = symGroupImage k V n`. This is the
+abstract `c_λ ∈ A`, paired with its `End`-level realisation
+`youngSymEndomorphism`. -/
+def youngSymElement (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
+    ↥(symGroupImage k (Fin N → k) (∑ i, lam i)) :=
+  ⟨youngSymEndomorphism k N lam, by
+    rw [← symGroupAlgHom_range]; exact ⟨_, rfl⟩⟩
+
+@[simp]
+theorem youngSymElement_val (k : Type*) [Field k] (N : ℕ) (lam : Fin N → ℕ) :
+    (youngSymElement k N lam).val = youngSymEndomorphism k N lam := rfl
+
+-- Heartbeats bumped: the statement and proof traverse a deep
+-- `Subalgebra → Subsemiring → Module` instance chain (`Module ↥A ↥(S i)`
+-- and `AddZeroClass ↥(S i)` for `S i : Submodule ↥A V^⊗n`).
+-- Empirical minimum: 1600000 / 800000 fails at the final `rw` chain whnf,
+-- 2000000 / 800000 passes; 2400000 / 1000000 used here for a 20% safety
+-- buffer.
+set_option maxHeartbeats 2400000 in
+set_option synthInstance.maxHeartbeats 1000000 in
+/-- Block factorization of the Young symmetrizer endomorphism through the
+bimodule iso of Schur-Weyl duality (Theorem 5.18.4, part iii, bimodule form).
+
+Given any `k`-linear iso
+  `e : V^⊗n ≃ₗ[k] ⨁ᵢ ↥(S i) ⊗[k] (↥(S i) →ₗ[A] V^⊗n)`
+with the evaluation formula
+  `e.symm (of i (v ⊗ₜ l)) = l v`,
+the endomorphism `youngSymEndomorphism k N lam`, applied through `e`,
+acts on each block `↥(S i) ⊗[k] (↥(S i) →ₗ[A] V^⊗n)` as
+`(youngSymElement • -) ⊗ id_{L i}` on pure tensors, where the action on
+the first factor is the restriction of the `A`-action on `V^⊗n` to the
+submodule `S i`.
+
+This is the abstract algebraic step `(1)` in the C-4a-i decomposition of
+the algebraic-core simplicity proof for the Schur-Weyl `L_i` simple
+modules: it is the input to the off-block vanishing analysis (sub-β)
+and the rank-1 scaled-projection analysis (sub-γ). -/
+theorem youngSym_block_factorization
+    (k : Type*) [Field k]
+    (N : ℕ) (lam : Fin N → ℕ)
+    {ι : Type} [DecidableEq ι]
+    (S : ι → Submodule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)))
+    (e : TensorPower k (Fin N → k) (∑ i, lam i) ≃ₗ[k]
+      DirectSum ι (fun i => ↥(S i) ⊗[k]
+        (↥(S i) →ₗ[symGroupImage k (Fin N → k) (∑ i, lam i)]
+          TensorPower k (Fin N → k) (∑ i, lam i))))
+    (he : ∀ (i : ι) (v : ↥(S i))
+        (l : ↥(S i) →ₗ[symGroupImage k (Fin N → k) (∑ i, lam i)]
+          TensorPower k (Fin N → k) (∑ i, lam i)),
+      e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v)
+    (i : ι) (v : ↥(S i))
+    (l : ↥(S i) →ₗ[symGroupImage k (Fin N → k) (∑ i, lam i)]
+      TensorPower k (Fin N → k) (∑ i, lam i)) :
+    e (youngSymEndomorphism k N lam
+        (e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)))) =
+      DirectSum.of _ i ((youngSymElement k N lam • v) ⊗ₜ[k] l) := by
+  set A := symGroupImage k (Fin N → k) (∑ i, lam i) with hA
+  -- `youngSymElement • x = youngSymEndomorphism x` on `V^⊗n`: factors
+  -- through `Subalgebra.smul_def` and `Module.End.smul_def`.
+  have hsmul : ((youngSymElement k N lam : ↥A) • (l v)
+      : TensorPower k (Fin N → k) (∑ i, lam i)) =
+      youngSymEndomorphism k N lam (l v) := by
+    rw [Subalgebra.smul_def, Module.End.smul_def, youngSymElement_val]
+  -- A-linearity of `l` transports `youngSymElement • -` from the `V^⊗n`
+  -- factor to the `↥(S i)` factor.
+  have hl : youngSymEndomorphism k N lam (l v) =
+      l ((youngSymElement k N lam : ↥A) • v) := by
+    rw [← hsmul, ← l.map_smul (youngSymElement k N lam) v]
+  rw [he i v l, hl, ← he i ((youngSymElement k N lam : ↥A) • v) l,
+    e.apply_symm_apply]
+
+/-! #### Trace formula for `youngSymEndomorphism` restricted to a
+`symGroupImage`-stable submodule -/
+
+/-- A `symGroupImage`-stable submodule of `V^⊗n` is preserved by every
+permutation operator (viewed as the linear endomorphism `symGroupAction σ`). -/
+private lemma symGroupAction_mem_of_symGroupImage_submodule
+    {k : Type*} [Field k] {N n : ℕ}
+    (S : Submodule (symGroupImage k (Fin N → k) n)
+      (TensorPower k (Fin N → k) n))
+    (σ : Equiv.Perm (Fin n))
+    {v : TensorPower k (Fin N → k) n} (hv : v ∈ S) :
+    (symGroupAction k (Fin N → k) n σ).toLinearMap v ∈ S := by
+  have h_in : (symGroupAction k (Fin N → k) n σ).toLinearMap ∈
+      (symGroupImage k (Fin N → k) n :
+        Set (Module.End k (TensorPower k (Fin N → k) n))) :=
+    Algebra.subset_adjoin ⟨σ, rfl⟩
+  exact S.smul_mem ⟨_, h_in⟩ hv
+
+/-- A `symGroupImage`-stable submodule of `V^⊗n` is preserved by the Young
+symmetrizer endomorphism. -/
+private lemma youngSymEndomorphism_mem_of_symGroupImage_submodule
+    {k : Type*} [Field k] {N : ℕ} (lam : Fin N → ℕ)
+    (S : Submodule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)))
+    {v : TensorPower k (Fin N → k) (∑ i, lam i)} (hv : v ∈ S) :
+    youngSymEndomorphism k N lam v ∈ S :=
+  S.smul_mem (youngSymElement k N lam) hv
+
+/-- Decomposition of the Young symmetrizer endomorphism as a finite sum of
+permutation operators weighted by the Young symmetrizer coefficients. -/
+private lemma youngSymEndomorphism_eq_sum_symGroupAction
+    {k : Type*} [Field k] (N : ℕ) (lam : Fin N → ℕ) :
+    youngSymEndomorphism k N lam =
+    ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+      (YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) σ) •
+      (symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap := by
+  set c := YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) with hc
+  have hE : youngSymEndomorphism k N lam =
+      c.sum (fun σ a => a •
+        (symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap) := by
+    unfold youngSymEndomorphism symGroupAlgHom
+    rw [MonoidAlgebra.lift_apply]
+    rfl
+  rw [hE, Finsupp.sum]
+  apply Finset.sum_subset (Finset.subset_univ c.support)
+  intro σ _ hmem
+  simp only [Finsupp.mem_support_iff, not_not] at hmem
+  rw [hmem, zero_smul]
+
+-- Heartbeats bumped: the `Module k ↥(S.restrictScalars k)` instance synthesis
+-- traverses the `Subalgebra → Subsemiring → Module` chain via `IsScalarTower`,
+-- which exceeds the default 20000 heartbeats; the `whnf` reduction of
+-- `LinearMap.restrict` together with `Submodule.coe_sum` traversal also needs
+-- additional `maxHeartbeats`.
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 800000 in
+/-- Trace formula: the trace of the Young symmetrizer endomorphism, restricted
+to a `symGroupImage`-stable submodule `S ≤ V^⊗n`, equals the weighted sum
+`∑_σ c_λ(σ) · tr(symGroupAction σ on S)`. -/
+theorem trace_youngSymEndomorphism_restrict_eq_sum
+    {k : Type*} [Field k] (N : ℕ) (lam : Fin N → ℕ)
+    (S : Submodule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)))
+    [Module.Finite k ↥(S.restrictScalars k)] :
+    LinearMap.trace k ↥(S.restrictScalars k)
+        ((youngSymEndomorphism k N lam).restrict
+          (p := S.restrictScalars k) (q := S.restrictScalars k)
+          (fun _ hv =>
+            youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv)) =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) σ) *
+        LinearMap.trace k ↥(S.restrictScalars k)
+          ((symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap.restrict
+            (p := S.restrictScalars k) (q := S.restrictScalars k)
+            (fun _ hv =>
+              symGroupAction_mem_of_symGroupImage_submodule S σ hv)) := by
+  have h_eq : (youngSymEndomorphism k N lam).restrict
+        (p := S.restrictScalars k) (q := S.restrictScalars k)
+        (fun _ hv =>
+          youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv) =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) σ) •
+        (symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap.restrict
+          (p := S.restrictScalars k) (q := S.restrictScalars k)
+          (fun _ hv =>
+            symGroupAction_mem_of_symGroupImage_submodule S σ hv) := by
+    apply LinearMap.ext
+    intro v
+    apply Subtype.ext
+    have h_pt := LinearMap.ext_iff.mp
+      (youngSymEndomorphism_eq_sum_symGroupAction (k := k) N lam) v.val
+    simp only [LinearMap.coe_sum, Finset.sum_apply, LinearMap.smul_apply] at h_pt
+    simp only [LinearMap.restrict_apply, LinearMap.coe_sum, Finset.sum_apply,
+      LinearMap.smul_apply, Submodule.coe_sum, Submodule.coe_smul_of_tower]
+    exact h_pt
+  rw [h_eq, map_sum]
+  refine Finset.sum_congr rfl ?_
+  intro σ _
+  rw [LinearMap.map_smul, smul_eq_mul]
+
+/-- Companion: the squared Young symmetrizer endomorphism on `S` equals
+`α` times itself when `c_λ² = α · c_λ`. -/
+theorem youngSymEndomorphism_restrict_sq_scalar
+    {k : Type*} [Field k] (N : ℕ) (lam : Fin N → ℕ)
+    (S : Submodule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)))
+    (α : k)
+    (hα_sq : YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) *
+      YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam) =
+      α • YoungSymmetrizerK k (∑ i, lam i) (weightToPartition N lam)) :
+    ((youngSymEndomorphism k N lam).restrict
+        (p := S.restrictScalars k) (q := S.restrictScalars k)
+        (fun _ hv =>
+          youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv)) *
+      ((youngSymEndomorphism k N lam).restrict
+        (p := S.restrictScalars k) (q := S.restrictScalars k)
+        (fun _ hv =>
+          youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv)) =
+    α • (youngSymEndomorphism k N lam).restrict
+        (p := S.restrictScalars k) (q := S.restrictScalars k)
+        (fun _ hv =>
+          youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv) := by
+  apply LinearMap.ext
+  intro v
+  apply Subtype.ext
+  have h_sq : youngSymEndomorphism k N lam * youngSymEndomorphism k N lam =
+      α • youngSymEndomorphism k N lam :=
+    youngSymEndomorphism_sq_scalar k N lam α hα_sq
+  have h_pt := LinearMap.ext_iff.mp h_sq v.val
+  simp only [Module.End.mul_apply, LinearMap.smul_apply,
+    LinearMap.restrict_apply, SetLike.val_smul_of_tower]
+  exact h_pt
+
+/-! #### β.2 Specht bridge: simple `symGroupImage`-modules ↔ Specht modules
+
+Every simple `symGroupImage`-submodule `S ≤ V^⊗n` is, as a ℂ-module, isomorphic
+to `SpechtModule n la'` for some partition `la'`, with the iso intertwining
+`symGroupAction σ` (restricted to `S`) and `spechtModuleAction n la' σ`. The
+trace identity `tr(σ on S) = spechtModuleCharacter n la' σ` follows.
+
+The bridge: `symGroupAlgHom : ℂ[S_n] →ₐ[ℂ] End_ℂ(V^⊗n)` has range
+`symGroupImage`. Pull back along this surjection to give `↥(S.restrictScalars ℂ)`
+a `SymGroupAlgebra n`-module structure (via `Module.compHom`), then apply the
+Specht classification (`Theorem5_12_2_classification`). -/
+
+section SpechtBridge
+
+variable {N n : ℕ}
+
+/-- Codomain-restricted version of `symGroupAlgHom`, landing in `symGroupImage`.
+This is a surjection `ℂ[S_n] →ₐ[ℂ] symGroupImage`. -/
+private noncomputable def symGroupAlgHomToImage :
+    SymGroupAlgebra n →ₐ[ℂ] ↥(symGroupImage ℂ (Fin N → ℂ) n) :=
+  AlgHom.codRestrict (symGroupAlgHom ℂ (Fin N → ℂ) n)
+    (symGroupImage ℂ (Fin N → ℂ) n)
+    (fun a => by rw [← symGroupAlgHom_range]; exact ⟨a, rfl⟩)
+
+@[simp]
+private theorem symGroupAlgHomToImage_val (a : SymGroupAlgebra n) :
+    ((symGroupAlgHomToImage (N := N) (n := n)) a).val =
+      (symGroupAlgHom ℂ (Fin N → ℂ) n) a := rfl
+
+private theorem symGroupAlgHomToImage_surjective :
+    Function.Surjective (symGroupAlgHomToImage (N := N) (n := n)) := by
+  intro b
+  have h_in : (b.val : Module.End ℂ _) ∈ (symGroupAlgHom ℂ (Fin N → ℂ) n).range := by
+    rw [symGroupAlgHom_range]; exact b.prop
+  obtain ⟨a, ha⟩ := h_in
+  exact ⟨a, Subtype.ext ha⟩
+
+private theorem symGroupAlgHomToImage_of (σ : Equiv.Perm (Fin n)) :
+    (symGroupAlgHomToImage (N := N) (n := n)) (MonoidAlgebra.of ℂ _ σ) =
+      ⟨(symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap,
+        Algebra.subset_adjoin ⟨σ, rfl⟩⟩ := by
+  apply Subtype.ext
+  change (symGroupAlgHom ℂ (Fin N → ℂ) n) (MonoidAlgebra.of ℂ _ σ) = _
+  unfold symGroupAlgHom
+  rw [MonoidAlgebra.lift_of]
+  rfl
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- `Module.compHom` synthesises a `Module (symGroupImage) ↥(S.restrictScalars ℂ)`
+-- instance, traversing a deep `Subalgebra → Subsemiring → Module` chain that
+-- exceeds the default 20000 heartbeats.
+/-- The `SymGroupAlgebra n`-module structure on `↥(S.restrictScalars ℂ)`
+induced from the `symGroupImage`-module structure on `↥S` via
+`symGroupAlgHomToImage`. -/
+private noncomputable def submoduleAsSymGroupAlgebraModule
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n)) :
+    Module (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) :=
+  Module.compHom _ (symGroupAlgHomToImage (N := N) (n := n)).toRingHom
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `letI := submoduleAsSymGroupAlgebraModule S` in the type forces
+-- elaboration of the `Module (SymGroupAlgebra n) ↥(S.restrictScalars ℂ)`
+-- instance, traversing the `Subalgebra → Subsemiring → Module` chain.
+/-- The smul of `submoduleAsSymGroupAlgebraModule` agrees with applying
+`symGroupAlgHomToImage(a)` (an element of `↥(symGroupImage)`) to the carrier. -/
+private theorem submoduleAsSymGroupAlgebraModule_smul_def
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    (a : SymGroupAlgebra n) (v : ↥(S.restrictScalars ℂ)) :
+    letI := submoduleAsSymGroupAlgebraModule S
+    (a • v).val = (symGroupAlgHom ℂ (Fin N → ℂ) n) a v.val := rfl
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `IsScalarTower ℂ ↥(symGroupImage) V^⊗n` instance is needed to
+-- elaborate the scalar-tower hypothesis; its synthesis traverses the same
+-- deep `Subalgebra → Subsemiring → Module` chain.
+/-- Scalar tower: `(c • a) • v = c • (a • v)` for `c : ℂ`,
+`a : SymGroupAlgebra n`, `v : ↥(S.restrictScalars ℂ)`. -/
+private theorem submoduleAsSymGroupAlgebra_isScalarTower
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n)) :
+    letI := submoduleAsSymGroupAlgebraModule S
+    IsScalarTower ℂ (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) := by
+  letI := submoduleAsSymGroupAlgebraModule S
+  refine ⟨fun c a v => ?_⟩
+  apply Subtype.ext
+  rw [submoduleAsSymGroupAlgebraModule_smul_def, map_smul]
+  rfl
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- Constructing a semilinear map between the two carriers requires elaborating
+-- both `Module` instances on `↥(S.restrictScalars ℂ)` (over ℂ and over
+-- `SymGroupAlgebra n`), each via the same deep instance chain.
+/-- The identity-on-carrier `↥(S.restrictScalars ℂ) → ↥S`, semilinear over the
+surjective ring hom `symGroupAlgHomToImage`. -/
+private noncomputable def submoduleSemilinearId
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n)) :
+    letI := submoduleAsSymGroupAlgebraModule S
+    ↥(S.restrictScalars ℂ) →ₛₗ[(symGroupAlgHomToImage (N := N) (n := n)).toRingHom] ↥S :=
+  letI := submoduleAsSymGroupAlgebraModule S
+  { toFun := fun v => ⟨v.val, v.prop⟩
+    map_add' := fun _ _ => rfl
+    map_smul' := fun _ _ => rfl }
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- Same instance chain as `submoduleSemilinearId`.
+private theorem submoduleSemilinearId_bijective
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n)) :
+    letI := submoduleAsSymGroupAlgebraModule S
+    Function.Bijective (submoduleSemilinearId S) := by
+  letI := submoduleAsSymGroupAlgebraModule S
+  refine ⟨?_, ?_⟩
+  · intro v w h
+    apply Subtype.ext
+    exact Subtype.ext_iff.mp h
+  · rintro ⟨w, hw⟩; exact ⟨⟨w, hw⟩, rfl⟩
+
+set_option synthInstance.maxHeartbeats 200000 in
+-- The `RingHomSurjective` instance for `symGroupAlgHomToImage.toRingHom` and
+-- the bijective-semilinear-map transfer both invoke `Module` instance
+-- synthesis on the `S.restrictScalars ℂ` carrier, traversing the deep
+-- `Subalgebra → Subsemiring → Module` chain.
+/-- Simplicity of `↥S` as a `↥(symGroupImage)`-module transfers to simplicity
+of `↥(S.restrictScalars ℂ)` as a `SymGroupAlgebra n`-module. -/
+private theorem submoduleAsSymGroupAlgebra_isSimpleModule
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S] :
+    letI := submoduleAsSymGroupAlgebraModule S
+    IsSimpleModule (SymGroupAlgebra n) ↥(S.restrictScalars ℂ) := by
+  letI := submoduleAsSymGroupAlgebraModule S
+  haveI : RingHomSurjective
+      (symGroupAlgHomToImage (N := N) (n := n)).toRingHom :=
+    ⟨symGroupAlgHomToImage_surjective⟩
+  exact (LinearMap.isSimpleModule_iff_of_bijective
+    (submoduleSemilinearId S)
+    (submoduleSemilinearId_bijective S)).mpr ‹_›
+
+/-- The action of `MonoidAlgebra.of ℂ _ σ` on a Specht module is left
+multiplication, i.e., `spechtModuleAction n la' σ`. -/
+private theorem spechtModule_smul_of
+    (la' : Nat.Partition n) (σ : Equiv.Perm (Fin n)) (w : ↥(SpechtModule n la')) :
+    ((MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • w : ↥(SpechtModule n la')) =
+      spechtModuleAction n la' σ w := by
+  apply Subtype.ext
+  rfl
+
+set_option maxHeartbeats 400000 in
+-- Bumped: the Specht-bridge construction unfolds Module.compHom, traverses a
+-- `Subalgebra → Subsemiring → Module` chain, and applies trace conjugation.
+set_option synthInstance.maxHeartbeats 200000 in
+/-- **Specht bridge** (β.2). Every simple `symGroupImage`-submodule `S ≤ V^⊗n`
+admits a partition `la'` such that the trace of every `σ`-permutation operator
+restricted to `S` equals `spechtModuleCharacter n la' σ`.
+
+The bridge: identify `↥(S.restrictScalars ℂ)` (with the SymGroupAlgebra-action
+via `symGroupAlgHomToImage`) as a simple `SymGroupAlgebra n`-module, apply the
+Specht classification (Theorem 5.12.2), then transport the trace through the
+ℂ-linear part of the resulting iso. -/
+theorem trace_symGroupAction_eq_spechtModuleCharacter
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) n)
+      (TensorPower ℂ (Fin N → ℂ) n))
+    [IsSimpleModule (↥(symGroupImage ℂ (Fin N → ℂ) n)) ↥S] :
+    ∃ la' : Nat.Partition n, ∀ σ : Equiv.Perm (Fin n),
+      LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+          ((symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
+            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+            (fun _ hv =>
+              symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+        spechtModuleCharacter n la' σ := by
+  letI := submoduleAsSymGroupAlgebraModule S
+  haveI := submoduleAsSymGroupAlgebra_isScalarTower S
+  haveI := submoduleAsSymGroupAlgebra_isSimpleModule S
+  obtain ⟨la', ⟨e⟩⟩ :=
+    Theorem5_12_2_classification n ↥(S.restrictScalars ℂ)
+  refine ⟨la', fun σ => ?_⟩
+  -- Convert `e` to a ℂ-linear equiv.
+  let eℂ : ↥(S.restrictScalars ℂ) ≃ₗ[ℂ] ↥(SpechtModule n la') :=
+    LinearEquiv.restrictScalars ℂ e
+  -- Goal: trace of restricted symGroupAction σ = spechtModuleCharacter n la' σ.
+  set restrictedAction :
+      ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) :=
+    (symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap.restrict
+      (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+      (fun _ hv =>
+        symGroupAction_mem_of_symGroupImage_submodule S σ hv)
+  -- Show eℂ intertwines restrictedAction with spechtModuleAction n la' σ.
+  have h_intertwine : ∀ v : ↥(S.restrictScalars ℂ),
+      eℂ (restrictedAction v) = spechtModuleAction n la' σ (eℂ v) := by
+    intro v
+    have h := e.map_smul (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) v
+    have h_lhs : (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • v =
+        restrictedAction v := by
+      apply Subtype.ext
+      change (symGroupAlgHom ℂ (Fin N → ℂ) n) (MonoidAlgebra.of ℂ _ σ) v.val =
+        (symGroupAction ℂ (Fin N → ℂ) n σ).toLinearMap v.val
+      unfold symGroupAlgHom
+      rw [MonoidAlgebra.lift_of]
+      rfl
+    have h_rhs : (MonoidAlgebra.of ℂ _ σ : SymGroupAlgebra n) • e v =
+        spechtModuleAction n la' σ (e v) := spechtModule_smul_of la' σ (e v)
+    rw [h_lhs, h_rhs] at h
+    exact h
+  have h_eq : restrictedAction = eℂ.symm.toLinearMap ∘ₗ
+      (spechtModuleAction n la' σ) ∘ₗ eℂ.toLinearMap := by
+    apply LinearMap.ext
+    intro v
+    change restrictedAction v = eℂ.symm (spechtModuleAction n la' σ (eℂ v))
+    rw [← h_intertwine v, eℂ.symm_apply_apply]
+  rw [h_eq]
+  -- Trace conjugation: tr(eℂ.symm ∘ T ∘ eℂ) = tr(T) for ℂ-linear T.
+  have h_conj : eℂ.symm.toLinearMap ∘ₗ
+      (spechtModuleAction n la' σ) ∘ₗ eℂ.toLinearMap =
+        eℂ.symm.conj (spechtModuleAction n la' σ) := by
+    rfl
+  rw [h_conj, LinearMap.trace_conj']
+  rfl
+
+end SpechtBridge
+
 /-! #### Step 1: Formal character via trace of Young symmetrizer
 
 The Schur module `L_λ = Im(c_λ)` where `c_λ² = α · c_λ`. So `(1/α) · c_λ` is
@@ -826,6 +1258,7 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
     simp only [Finsupp.mem_support_iff, not_not] at hmem
     simp [hmem]
 
+omit [CharZero k] in
 /-- The `diagUnit(i,t)` action on a standard tensor basis element multiplies by `t` raised
 to the number of times color `i` appears in `f`. -/
 private lemma diagUnit_mulVecLin_basisFun (N : ℕ) (i : Fin N) (t : kˣ)
@@ -840,6 +1273,7 @@ private lemma diagUnit_mulVecLin_basisFun (N : ℕ) (i : Fin N) (t : kˣ)
   simp only [Pi.smul_apply, smul_eq_mul]
   by_cases hm : m = i <;> by_cases hx : x = m <;> simp_all [Pi.single_apply]
 
+omit [CharZero k] in
 lemma glTensorRep_diagUnit_basis (N n : ℕ) (i : Fin N) (t : kˣ)
     (f : Fin n → Fin N) :
     (glTensorRep k N n (diagUnit k N i t)) (tensorStdBasis k N n f) =
@@ -943,6 +1377,7 @@ private lemma weight_restricted_diag_sum (N : ℕ) (lam : Fin N → ℕ) (μ : F
   intro f _
   exact youngSym_diagonal_entry ℚ N lam f
 
+omit [CharZero k] in
 /-- The basis repr coordinate of a diagonal torus action is multiplicative:
 `B.repr(ρ(diag(i,t))(v))(g) = t^(wt(g)(i)) * B.repr(v)(g)`. -/
 lemma repr_glTensorRep_diagUnit (N n : ℕ) (i : Fin N) (t : kˣ)
@@ -1646,6 +2081,165 @@ private theorem youngSym_trace_kronecker' (n : ℕ) (la la' : Nat.Partition n)
   split_ifs with h
   · subst h; exact trace_mulLeft_youngSym_eq' n la (α : ℂ) hα_ne hα_ℂ
   · rw [mulLeft_youngSym_zero_of_ne' n la la' h, map_zero]
+
+/-! #### β.3 Off-block vanishing: `youngSymEndomorphism` vanishes on simple
+`symGroupImage`-submodules whose Specht-module label differs from
+`weightToPartition N lam`
+
+Assembles β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`), β.2
+(`trace_symGroupAction_eq_spechtModuleCharacter`), the character-orthogonality
+identity (`youngSym_trace_kronecker'`), and the idempotent-up-to-scalar
+identity (`youngSymEndomorphism_restrict_sq_scalar`).
+
+The "trace-zero idempotent ⟹ zero" step is encapsulated as a small
+characteristic-zero linear-algebra lemma (`isIdempotentElem_eq_zero_of_trace_eq_zero`).
+-/
+
+/-- An idempotent endomorphism of a finite-dimensional vector space over a
+characteristic-zero field with vanishing trace is the zero map.
+
+The trace of an idempotent equals the cast of the rank of its range
+(`LinearMap.IsProj.trace`). Over a characteristic-zero field, vanishing trace
+forces the rank to be zero, hence the range is `⊥` and the endomorphism
+vanishes.
+
+Upstream Mathlib PR: https://github.com/leanprover-community/mathlib4/pull/39523
+(once it merges, replace this lemma with the upstream
+`LinearMap.IsIdempotentElem.eq_zero_of_trace_eq_zero` and remove this local
+copy — see issue #2841). -/
+private theorem isIdempotentElem_eq_zero_of_trace_eq_zero
+    {K : Type*} [Field K] [CharZero K]
+    {V : Type*} [AddCommGroup V] [Module K V] [Module.Finite K V]
+    {e : V →ₗ[K] V} (he : IsIdempotentElem e)
+    (htr : LinearMap.trace K V e = 0) :
+    e = 0 := by
+  have hproj : LinearMap.IsProj (LinearMap.range e) e :=
+    LinearMap.IsIdempotentElem.isProj_range _ he
+  have htr_eq : LinearMap.trace K V e = (Module.finrank K (LinearMap.range e) : K) :=
+    hproj.trace
+  rw [htr] at htr_eq
+  have hfinrank_zero : Module.finrank K (LinearMap.range e) = 0 := by
+    have h : ((Module.finrank K (LinearMap.range e) : ℕ) : K) = 0 := htr_eq.symm
+    exact_mod_cast h
+  rw [← LinearMap.range_eq_bot, ← Submodule.finrank_eq_zero]
+  exact hfinrank_zero
+
+/-- `YoungSymmetrizerK ℂ n la = YoungSymmetrizer n la`: both are the image of
+the universal ℤ Young symmetrizer under base change `ℤ → ℂ`. -/
+private lemma youngSymmetrizerK_complex_eq (n : ℕ) (la : Nat.Partition n) :
+    YoungSymmetrizerK ℂ n la = YoungSymmetrizer n la := by
+  rw [YoungSymmetrizerK_eq_mapRange ℂ n la, YoungSymmetrizer_eq_mapRange n la]
+
+set_option maxHeartbeats 400000 in
+-- Bumped: applying β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`) and
+-- β.2 (`trace_symGroupAction_eq_spechtModuleCharacter`) traverses the deep
+-- `Subalgebra → Subsemiring → Module → IsScalarTower` synthesis chain for
+-- `S.restrictScalars ℂ`, which exceeds the default 20000 heartbeats.
+set_option synthInstance.maxHeartbeats 200000 in
+/-- **β.3 Off-block vanishing.** When the simple `symGroupImage`-submodule
+`S ≤ V^⊗n` has Specht-module label `la' ≠ weightToPartition N lam`, the Young
+symmetrizer endomorphism `c_λ` vanishes when restricted to `S`.
+
+The proof assembles four pieces:
+* β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`): the trace of `c_λ` on
+  `S` equals `∑_σ c_λ(σ) · tr(σ on S)`.
+* β.2 (`trace_symGroupAction_eq_spechtModuleCharacter`, encoded via the
+  `h_label` hypothesis): `tr(σ on S) = spechtModuleCharacter n la' σ`.
+* `youngSym_trace_kronecker'` (character orthogonality): when `la ≠ la'`
+  the orthogonality sum vanishes, so the trace of `c_λ` on `S` is zero.
+* `youngSymEndomorphism_restrict_sq_scalar`: the restriction of `c_λ`
+  satisfies `f² = α · f` for the same scalar `α ≠ 0`. Normalising by
+  `α⁻¹` produces an idempotent of vanishing trace; over a characteristic-zero
+  field such an idempotent is the zero map.
+
+The `h_label` hypothesis encodes β.2's witness for this particular `S`; the
+typical caller obtains it by destructuring the existential in
+`trace_symGroupAction_eq_spechtModuleCharacter`. -/
+theorem youngSym_action_vanishes_off_block
+    (N : ℕ) (lam : Fin N → ℕ)
+    (S : Submodule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
+      (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)))
+    [Module.Finite ℂ ↥(S.restrictScalars ℂ)]
+    (la' : Nat.Partition (∑ i, lam i))
+    (h_label : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        LinearMap.trace ℂ ↥(S.restrictScalars ℂ)
+            ((symGroupAction ℂ (Fin N → ℂ) (∑ i, lam i) σ).toLinearMap.restrict
+              (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+              (fun _ hv =>
+                symGroupAction_mem_of_symGroupImage_submodule S σ hv)) =
+          spechtModuleCharacter (∑ i, lam i) la' σ)
+    (h_ne : la' ≠ weightToPartition N lam) :
+    (youngSymEndomorphism ℂ N lam).restrict
+        (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+        (fun _ hv =>
+          youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv) = 0 := by
+  -- Abbreviation: `f` is the restriction of `c_λ` to `S`.
+  let f : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) :=
+    (youngSymEndomorphism ℂ N lam).restrict
+      (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+      (fun _ hv =>
+        youngSymEndomorphism_mem_of_symGroupImage_submodule lam S hv)
+  change f = 0
+  -- Scalar α (≠ 0) from `c_λ² = α · c_λ` over ℚ, transferred to ℂ.
+  obtain ⟨α, hα_sq⟩ :=
+    YoungSymmetrizerK_sq_scalar ℚ (∑ i, lam i) (weightToPartition N lam)
+  have hα_ne : α ≠ 0 :=
+    YoungSymmetrizerK_sq_scalar_ne_zero _ (weightToPartition N lam) α hα_sq
+  have hα_ℂ_ne : (α : ℂ) ≠ 0 := by exact_mod_cast hα_ne
+  have hα_sq_ℂ :
+      YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) *
+        YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) =
+      (α : ℂ) • YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) := by
+    rw [youngSymmetrizerK_complex_eq]
+    exact youngSym_sq_ℂ' _ _ α hα_sq
+  -- β.1: trace of `f` is the weighted sum over σ of traces of σ on S.
+  have h_trace_f : LinearMap.trace ℂ _ f =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ) *
+        LinearMap.trace ℂ _
+          ((symGroupAction ℂ (Fin N → ℂ) (∑ i, lam i) σ).toLinearMap.restrict
+            (p := S.restrictScalars ℂ) (q := S.restrictScalars ℂ)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule S σ hv)) :=
+    trace_youngSymEndomorphism_restrict_eq_sum N lam S
+  -- β.2 (via `h_label`): substitute the Specht character.
+  have h_trace_eq_sum : LinearMap.trace ℂ _ f =
+      ∑ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ) *
+          spechtModuleCharacter (∑ i, lam i) la' σ := by
+    rw [h_trace_f]
+    exact Finset.sum_congr rfl fun σ _ => by rw [h_label σ]
+  -- Character orthogonality: the trace is 0 because `weightToPartition N lam ≠ la'`.
+  have h_trace_zero : LinearMap.trace ℂ _ f = 0 := by
+    have h_coef_cast : ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        (YoungSymmetrizerK ℂ (∑ i, lam i) (weightToPartition N lam) σ : ℂ) =
+          ((YoungSymmetrizerK ℚ (∑ i, lam i) (weightToPartition N lam) σ : ℚ) : ℂ) := by
+      intro σ
+      rw [youngSym_coeff_cast', ← youngSymmetrizerK_complex_eq]
+    rw [h_trace_eq_sum]
+    conv_lhs => arg 2; ext σ; rw [h_coef_cast σ]
+    rw [youngSym_trace_kronecker' _ (weightToPartition N lam) la' α hα_sq,
+        if_neg (fun h => h_ne h.symm)]
+  -- f² = α • f.
+  have hf_sq : f * f = (α : ℂ) • f :=
+    youngSymEndomorphism_restrict_sq_scalar N lam S (α : ℂ) hα_sq_ℂ
+  -- g := α⁻¹ • f is an idempotent endomorphism of `S`.
+  let g : ↥(S.restrictScalars ℂ) →ₗ[ℂ] ↥(S.restrictScalars ℂ) := (α : ℂ)⁻¹ • f
+  have hg_idem : IsIdempotentElem g := by
+    change ((α : ℂ)⁻¹ • f) * ((α : ℂ)⁻¹ • f) = (α : ℂ)⁻¹ • f
+    rw [smul_mul_smul_comm, hf_sq, smul_smul]
+    congr 1
+    rw [mul_assoc, inv_mul_cancel₀ hα_ℂ_ne, mul_one]
+  -- Trace of g vanishes.
+  have hg_tr_zero : LinearMap.trace ℂ _ g = 0 := by
+    change LinearMap.trace ℂ _ ((α : ℂ)⁻¹ • f) = 0
+    rw [LinearMap.map_smul, h_trace_zero, smul_zero]
+  -- A trace-zero idempotent over a characteristic-zero field is the zero map.
+  have hg_zero : g = 0 := isIdempotentElem_eq_zero_of_trace_eq_zero hg_idem hg_tr_zero
+  -- Therefore f = α • g = 0.
+  have hf_eq_smul_g : f = (α : ℂ) • g := by
+    change f = (α : ℂ) • ((α : ℂ)⁻¹ • f)
+    rw [smul_smul, mul_inv_cancel₀ hα_ℂ_ne, one_smul]
+  rw [hf_eq_smul_g, hg_zero, smul_zero]
 
 /-! #### Bridge: charValue ↔ spechtModuleCharacter
 

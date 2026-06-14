@@ -484,6 +484,63 @@ instance centralizerModuleHom_smulCommClass
     show b.val ((c • f) v) = c • b.val (f v)
     rw [LinearMap.smul_apply, map_smul]
 
+-- Heartbeats bumped: `LinearMap.ext` on the centralizer-wrapped subtype
+-- triggers `LinearMap.CompatibleSMul` synthesis, which exceeds the default
+-- 20000 heartbeats (same root cause as `centralizerModuleHom` above).
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Monoid hom `↥centralizer(A) →* End_k(V →ₗ[A] E)` given by post-composition:
+`b ↦ (l ↦ (centralizerToEndA b).comp l)`.
+
+This bundles the post-composition action used to build a `B`-action on
+`V →ₗ[A] E` from a monoid hom into `B = centralizer(A)`. The construction
+is identical in content to the `centralizerModuleHom` SMul, but provided
+as a `MonoidHom` (not via `Module.toModuleEnd`) to bypass an
+instance-synthesis diamond at composite call sites.
+
+Composing this with a `MonoidHom M →* ↥centralizer(A)` (for any monoid
+`M`) yields the canonical `M`-action on `V →ₗ[A] E`, e.g. the `GL_N`
+action on each Schur-Weyl `L_i` summand
+(`Theorem5_18_4_GL_rep_decomposition_explicit`). -/
+noncomputable def postCompCentralizerMonoidHom
+    (A : Subalgebra k (Module.End k E))
+    (V : Type*) [AddCommGroup V] [Module k V]
+    [Module A V] [IsScalarTower k A V] :
+    (↥(Subalgebra.centralizer k (A : Set (Module.End k E)))) →*
+      Module.End k (V →ₗ[A] E) where
+  toFun b :=
+    { toFun := fun l => (centralizerToEndA k E A b).comp l
+      map_add' := fun l₁ l₂ => by
+        ext v
+        simp only [LinearMap.comp_apply, LinearMap.add_apply, map_add]
+      map_smul' := fun c l => by
+        ext v
+        simp only [LinearMap.smul_apply, RingHom.id_apply,
+          LinearMap.comp_apply, LinearMap.map_smul_of_tower] }
+  map_one' := by
+    ext l v
+    simp only [LinearMap.coe_mk, AddHom.coe_mk, LinearMap.comp_apply,
+      Module.End.one_apply]
+    change (centralizerToEndA k E A 1) (l v) = l v
+    rw [map_one]; rfl
+  map_mul' b₁ b₂ := by
+    ext l v
+    simp only [LinearMap.coe_mk, AddHom.coe_mk, LinearMap.comp_apply,
+      Module.End.mul_apply]
+    change (centralizerToEndA k E A (b₁ * b₂)) (l v) = _
+    rw [map_mul]; rfl
+
+/-- Underlying-map identity for `postCompCentralizerMonoidHom`: applying it to
+`b` and then evaluating at a hom `l` yields the post-composition
+`(centralizerToEndA b).comp l`. Useful for unfolding inside proofs. -/
+@[simp]
+theorem postCompCentralizerMonoidHom_apply_apply
+    (A : Subalgebra k (Module.End k E))
+    (V : Type*) [AddCommGroup V] [Module k V]
+    [Module A V] [IsScalarTower k A V]
+    (b : ↥(Subalgebra.centralizer k (A : Set (Module.End k E))))
+    (l : V →ₗ[A] E) (v : V) :
+    postCompCentralizerMonoidHom k E A V b l v = b.val (l v) := rfl
+
 set_option synthInstance.maxHeartbeats 400000 in
 /-- The natural bridge: every `A`-linear map from a simple submodule `V ≤ E`
 into `E` lands in the isotypic component `isotypicComponent A E V`. -/
@@ -537,11 +594,11 @@ noncomputable def homIsotypicBridge
   map_add' f g := by ext v; simp
   map_smul' r f := by ext v; rfl
 
+set_option maxHeartbeats 800000 in
 -- Heartbeats bumped: the `IsSimpleModule` statement on the centralizer-wrapped
 -- subtype hom-space `V →ₗ[A] E` triggers a deep instance synthesis chain on
 -- `Submodule (↥centralizer) (V →ₗ[A] E)` (involving Subalgebra → Ring → Module.End
 -- and the non-trivial centralizerModuleHom instance) that overruns 200000.
-set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 800000 in
 /-- Schur's lemma on the multiplicity space: for a simple `A`-submodule
 `V ≤ E` of a semisimple `A`-module `E`, the hom-space `V →ₗ[A] E` is a
@@ -615,13 +672,13 @@ theorem isSimpleModule_homA_centralizer
     change h (f v) = g v
     exact LinearMap.congr_fun hh v
 
+set_option maxHeartbeats 2000000 in
 -- Heartbeats are bumped because the existential output has several universe-polymorphic
 -- ∀-binders whose instance synthesis (AddCommGroup / Module / SMulCommClass / Module.Finite
 -- over a subalgebra-wrapped ring) each triggers a deep `Subalgebra → Ring → Module.End`
 -- instance chain. Empirical minimum is between 1600000 / 800000 (fails) and 1800000 /
 -- 900000 (passes); 2000000 / 1000000 used here for a small safety buffer (was
 -- 3200000 / 1600000 in #2504).
-set_option maxHeartbeats 2000000 in
 set_option synthInstance.maxHeartbeats 1000000 in
 /-- Double centralizer theorem, part (iii), bimodule form.
 
@@ -764,13 +821,15 @@ theorem Theorem5_18_1_bimodule_decomposition
       DirectSum.lequivCongrLeft k φ
     exact ⟨e2.trans (e3.trans e4)⟩
 
--- Heartbeats further bumped from 3200000 / 1200000 (see prior comment) to
--- 6400000 / 2400000 because the existential signature now also advertises
--- the `B`-side simplicity clause (`isSimpleModule_homA_centralizer`) on each
--- multiplicity space, which adds another non-trivial typeclass-search chain
--- through the centralizer-module instance.
-set_option maxHeartbeats 6400000 in
-set_option synthInstance.maxHeartbeats 2400000 in
+set_option maxHeartbeats 4000000 in
+-- Heartbeats bumped because the existential signature advertises the `B`-side
+-- simplicity clause (`isSimpleModule_homA_centralizer`) on each multiplicity
+-- space in addition to the prior `A`-side clauses, adding another non-trivial
+-- typeclass-search chain through the centralizer-module instance. Empirical
+-- minimum is between 3200000 / 1200000 (fails @ line 986 isDefEq + line 920
+-- tactic) and 3400000 / 1300000 (passes); 4000000 / 1500000 used here for an
+-- ~18% safety buffer (was 6400000 / 2400000 in #2634).
+set_option synthInstance.maxHeartbeats 1500000 in
 /-- Double centralizer theorem, part (iii), bimodule form with explicit
 evaluation.
 

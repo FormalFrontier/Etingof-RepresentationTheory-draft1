@@ -4359,7 +4359,7 @@ theorem acyclic_deg_le_2_posdef {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     neighbors. More precisely, if `adj v a = 1` and `adj v b = 1` with `a ≠ b`, and
     `adj v w = 1` with `w ≠ v`, then in the acyclic graph adj a b = 0 (they cannot
     form a triangle). -/
-private theorem acyclic_no_triangle {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+theorem acyclic_no_triangle {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
@@ -4389,7 +4389,7 @@ private theorem acyclic_no_triangle {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
 /-- In an acyclic graph, vertices at path-distance ≥ 2 are non-adjacent.
     If there's a path v₁ - v₂ - ... - v_k from a to b (through intermediate vertices),
     then adj a b = 0 (would create a cycle). -/
-private theorem acyclic_path_nonadj {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+theorem acyclic_path_nonadj {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
@@ -5061,7 +5061,7 @@ set_option maxHeartbeats 1600000 in
     After removing L1 and L2, v₀ becomes a leaf of the resulting path graph.
     Key identity: Q(x) = Q_path(x_rest) - V² + (V - L - A)² + (L - A)²
     where V = x(v₀), L = x(L1), A = x(L2), and Q_path is the path's Cartan form. -/
-private lemma tree_two_leaf_posdef {n : ℕ}
+lemma tree_two_leaf_posdef {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -5577,7 +5577,7 @@ private lemma deg1_unique_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   omega
 
 -- Helper: if a vertex has degree 2 with two known distinct neighbors, any neighbor is one of them.
-private lemma deg2_two_neighbors {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+lemma deg2_two_neighbors {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     {v w₁ w₂ : Fin n} (h1 : adj v w₁ = 1) (h2 : adj v w₂ = 1) (hne : w₁ ≠ w₂)
     (hdeg : vertexDegree adj v = 2) :
     ∀ j, adj v j = 1 → j = w₁ ∨ j = w₂ := by
@@ -5593,7 +5593,7 @@ private lemma deg2_two_neighbors {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   omega
 
 -- Helper: if a vertex has degree 3 with three known distinct neighbors, any neighbor is one of them.
-private lemma deg3_three_neighbors {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+lemma deg3_three_neighbors {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     {v w₁ w₂ w₃ : Fin n} (h1 : adj v w₁ = 1) (h2 : adj v w₂ = 1) (h3 : adj v w₃ = 1)
     (hne12 : w₁ ≠ w₂) (hne13 : w₁ ≠ w₃) (hne23 : w₂ ≠ w₃)
     (hdeg : vertexDegree adj v = 3) :
@@ -5646,7 +5646,7 @@ set_option maxHeartbeats 6400000 in
 /-- E₇ tree T(1,3,2) has positive definite Cartan form.
     Given 7 named vertices forming the E₇ tree in a connected acyclic graph,
     the Cartan quadratic form is positive definite. -/
-private lemma e7_tree_posdef {n : ℕ}
+lemma e7_tree_posdef {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
@@ -6075,7 +6075,7 @@ private lemma e7_tree_posdef {n : ℕ}
 
 /-- In a connected graph, if a predicate S holds for a vertex v₀ and is closed
     under adjacency (S v ∧ adj v w = 1 → S w), then S holds for all vertices. -/
-private lemma connected_closed_set_is_all {n : ℕ}
+lemma connected_closed_set_is_all {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
       path.head? = some i ∧ path.getLast? = some j ∧
@@ -6135,7 +6135,7 @@ private lemma e8_arm_a (v a b c d : ℤ) :
              sq_nonneg (c-d), sq_nonneg d]
 
 -- All 28 pairs distinct, bundled as a structure
-private structure E8Distinct {n : ℕ} (v₀ l a b c d p q : Fin n) : Prop where
+structure E8Distinct {n : ℕ} (v₀ l a b c d p q : Fin n) : Prop where
   ne_v₀l : v₀ ≠ l
   ne_v₀a : v₀ ≠ a
   ne_v₀b : v₀ ≠ b
@@ -6269,7 +6269,7 @@ set_option maxHeartbeats 3200000 in
 /-- E₈ positive definiteness for an abstract graph with 8 named vertices.
     v₀ (center, degree 3), l (leaf), a,b,c,d (arm of length 4), p,q (arm of length 2).
     Edges: v₀-l, v₀-a, a-b, b-c, c-d, v₀-p, p-q. -/
-private theorem e8_posdef {n : ℕ}
+theorem e8_posdef {n : ℕ}
     (adj : Matrix (Fin n) (Fin n) ℤ)
     (hsymm : adj.IsSymm)
     (hdiag : ∀ i, adj i i = 0)
@@ -8485,7 +8485,7 @@ private lemma dTildeSpinePath_mem_val (k a b : ℕ) (ha : 2 ≤ a) (hb : b ≤ k
   exact ⟨by omega, by omega⟩
 
 /-- A non-Nodup list has two distinct indices with equal elements. -/
-private lemma exists_dup_indices {α : Type*} [DecidableEq α] :
+lemma exists_dup_indices {α : Type*} [DecidableEq α] :
     ∀ (l : List α), ¬ l.Nodup →
     ∃ (p q : ℕ) (hp : p < l.length) (hq : q < l.length),
       p < q ∧ l.get ⟨p, hp⟩ = l.get ⟨q, hq⟩ := by
@@ -8506,7 +8506,7 @@ private lemma exists_dup_indices {α : Type*} [DecidableEq α] :
 
 /-- Any walk between distinct vertices can be trimmed to a
     Nodup (simple) path with the same endpoints. -/
-private theorem walk_to_nodup_path {n : ℕ} {i j : Fin n} (adj : Matrix (Fin n) (Fin n) ℤ)
+theorem walk_to_nodup_path {n : ℕ} {i j : Fin n} (adj : Matrix (Fin n) (Fin n) ℤ)
     (walk : List (Fin n))
     (hhead : walk.head? = some i) (hlast : walk.getLast? = some j)
     (hij : i ≠ j)
