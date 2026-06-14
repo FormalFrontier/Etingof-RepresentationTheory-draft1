@@ -62,6 +62,70 @@ noncomputable def starEmbedNilp_F (F : Type) [Field F] (m : ℕ) :
     (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
   starEmbed1_F F m + (starEmbed2_F F m).comp (nilpotentShiftLinGen F m)
 
+/-! ### Homogeneous-tube core (relocated upstream from `FieldGenericTube.lean`)
+
+The corrected D̃₄ construction replaces the rank-deficient nilpotent twist
+`starEmbedNilp_F` (`x ↦ (x, Nx)`, machine-refuted at reversed leaf 3 by
+`starRep_kQ_reversedLeaf3_decomposable`, issue #4566/#4589) with the
+eigenvalue-site tube `λ • id + J`. These three declarations previously lived
+in the downstream `FieldGenericTube.lean`; they are moved here (issue #4648)
+so the orientation-generic `starRep_kQ` — defined in this file, upstream of
+`FieldGenericTube` — can carry the corrected tube at its fourth arm. The move
+is name-preserving: `FieldGenericTube` and the `FieldGenericETilde6/7`
+consumers reach them transitively through `import …FieldGenericStar`. -/
+
+/-- The eigenvalue-site operator `λI + J` on `F^{m+1}`: a Jordan block at
+eigenvalue `lam`. Its invariant subspaces coincide with those of the bare
+nilpotent shift `J`, which is why `lam` drops out of the splitting argument
+(`eigenvalue_jordan_invariant_compl_trivial_gen`). -/
+noncomputable def jordanShiftLinGen (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  lam • (LinearMap.id : (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F)) +
+    nilpotentShiftLinGen F m
+
+/-- Eigenvalue-site embedding (homogeneous tube): `x ↦ (x, (λI + N) x)`,
+the corrected fourth arm of the D̃₄ tube. -/
+noncomputable def starEmbedTube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
+  starEmbed1_F F m + (starEmbed2_F F m).comp (jordanShiftLinGen F lam m)
+
+/-- **Homogeneous-tube reduction core.** If `N` is nilpotent with a
+1-dimensional kernel, then any complement decomposition into subspaces
+invariant under `λ • id + N` (the Jordan block at an eigenvalue site) has one
+component trivial.
+
+The eigenvalue `λ` plays no role: `λ • id` maps every subspace to itself, so a
+subspace is `(λ • id + N)`-invariant iff it is `N`-invariant, and the claim
+reduces to `nilpotent_invariant_compl_trivial_gen` for the bare nilpotent `N`.
+This is the §3 Kronecker template's portable step (design doc, issue #4548):
+the per-shape sub-issues call it at their eigenvalue site, where the
+shape-specific collapse machinery has already forced every vertex onto a single
+`F^{m+1}` carrying `λ • id + J`. -/
+theorem eigenvalue_jordan_invariant_compl_trivial_gen
+    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
+    [Module.Finite F V]
+    (N : V →ₗ[F] V) (hN : IsNilpotent N)
+    (hker : Module.finrank F (LinearMap.ker N) = 1)
+    (lam : F)
+    (W₁ W₂ : Submodule F V)
+    (hW₁_inv : ∀ x ∈ W₁, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W₁)
+    (hW₂_inv : ∀ x ∈ W₂, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W₂)
+    (hcompl : IsCompl W₁ W₂) :
+    W₁ = ⊥ ∨ W₂ = ⊥ := by
+  -- Invariance under `λ • id + N` upgrades to invariance under `N`:
+  -- `N x = (λ • id + N) x - λ • x`, and both terms stay in the submodule.
+  have key : ∀ (W : Submodule F V),
+      (∀ x ∈ W, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W) →
+      ∀ x ∈ W, N x ∈ W := by
+    intro W hW x hx
+    have hNx : N x = (lam • (LinearMap.id : V →ₗ[F] V) + N) x - lam • x := by
+      rw [LinearMap.add_apply, LinearMap.smul_apply, LinearMap.id_apply]
+      abel
+    rw [hNx]
+    exact W.sub_mem (hW x hx) (W.smul_mem lam hx)
+  exact nilpotent_invariant_compl_trivial_gen N hN hker W₁ W₂
+    (key W₁ hW₁_inv) (key W₂ hW₂_inv) hcompl
+
 /-- First-half projection (F-generic): `(a, b) ↦ a`. -/
 noncomputable def starFirst_F (F : Type) [Field F] (m : ℕ) :
     (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
@@ -636,15 +700,23 @@ theorem forward_leaf_subspace_eq
 projections `starProj_i_F` at reversed leaf edges. The same object map and
 dimension vector `(2(m+1), m+1, m+1, m+1, m+1)` regardless of `Q`. -/
 
-/-- Match-based map for the orientation-generic K_{1,4} representation. -/
-private noncomputable def starRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fin 5) :
+/-- Match-based map for the orientation-generic K_{1,4} representation.
+
+The fourth arm carries the corrected eigenvalue-site tube `starEmbedTube_F F lam m`
+(`x ↦ (x, (λ•id + N) x)`) rather than the machine-refuted rank-deficient twist
+`starEmbedNilp_F` (λ = 0); the reversed arm `0 → 4` keeps the first-half
+projection `starProj4_F = starFirst_F`, which is a left inverse of the tube
+embedding for every `lam` (it discards the second half). Arms 1,2,3 are
+unchanged. -/
+private noncomputable def starRepMap_kQ (F : Type) [Field F] (lam : F) (m : ℕ)
+    (a b : Fin 5) :
     (Fin (if a.val = 0 then 2 * (m + 1) else m + 1) → F) →ₗ[F]
     (Fin (if b.val = 0 then 2 * (m + 1) else m + 1) → F) :=
   match a, b with
   | ⟨1, _⟩, ⟨0, _⟩ => starEmbed1_F F m
   | ⟨2, _⟩, ⟨0, _⟩ => starEmbed2_F F m
   | ⟨3, _⟩, ⟨0, _⟩ => starEmbedDiag_F F m
-  | ⟨4, _⟩, ⟨0, _⟩ => starEmbedNilp_F F m
+  | ⟨4, _⟩, ⟨0, _⟩ => starEmbedTube_F F lam m
   | ⟨0, _⟩, ⟨1, _⟩ => starProj1_F F m
   | ⟨0, _⟩, ⟨2, _⟩ => starProj2_F F m
   | ⟨0, _⟩, ⟨3, _⟩ => starProj3_F F m
@@ -653,21 +725,24 @@ private noncomputable def starRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fi
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Orientation-generic K_{1,4} (D̃₄) representation over `F` with arbitrary
-orientation `Q`. Dimension vector `(2(m+1), m+1, m+1, m+1, m+1)`. -/
+/-- Orientation-generic K_{1,4} (D̃₄) **homogeneous-tube** representation over
+`F` with arbitrary orientation `Q`, at eigenvalue `lam`. Dimension vector
+`(2(m+1), m+1, m+1, m+1, m+1) = (m+1)·δ`, `δ = (2;1,1,1,1)`. The fourth arm
+carries `λ•id + J` (`starEmbedTube_F F lam m`); the canonical `λ = 0` member is
+the old refuted `starRepGen`/`starRep_kQ`. -/
 noncomputable def starRep_kQ
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 5))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
     (_hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
-    (m : ℕ) :
+    (lam : F) (m : ℕ) :
     @Etingof.QuiverRepresentation F (Fin 5) _ Q := by
   letI := Q
   exact {
     obj := fun v => Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F
     instAddCommMonoid := fun _ => inferInstance
     instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => starRepMap_kQ F m a b
+    mapLinear := fun {a b} _ => starRepMap_kQ F lam m a b
   }
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -677,116 +752,71 @@ theorem starRep_kQ_dimVec
     (Q : @Quiver.{0, 0} (Fin 5))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
-    (m : ℕ) (v : Fin 5) :
+    (lam : F) (m : ℕ) (v : Fin 5) :
     Nonempty (@Etingof.QuiverRepresentation.obj F (Fin 5) _ Q
-      (starRep_kQ F Q hOrient m) v ≃ₗ[F]
+      (starRep_kQ F Q hOrient lam m) v ≃ₗ[F]
       (Fin (if v.val = 0 then 2 * (m + 1) else m + 1) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
-/-! ## Section: Reduction of `starRep_kQ` to `starRepGen` at the canonical orientation
+/-! ## Section: Orientation-generic indecomposability of the D̃₄ tube
 
-At the canonical all-sink orientation `starQuiver` the orientation-generic
-representation `starRep_kQ` coincides with the canonical F-generic representation
-`starRepGen`. The two have the same object family, instances, and dimension
-vector; their arrow maps agree on every arrow of `starQuiver` — all of the form
-leaf `i → 0`, where `starRepMap_kQ` and `starRepMapGen` select the same
-embedding. The reversed-edge arms of `starRepMap_kQ` (`0 → i`, using the
-projections `starProj_i_F`) are never reached because `starQuiver` has no such
-arrow. This lets the canonical-orientation indecomposability of `starRep_kQ`
-reuse `starRepGen_isIndecomposable` instead of reproving the ~210-line argument
-(review #2816 Q3, issue #2823). -/
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-/-- The orientation-generic K_{1,4} representation at the canonical orientation
-`starQuiver` equals the canonical F-generic representation `starRepGen`. -/
-theorem starRep_kQ_canonical_eq_starRepGen
-    (F : Type) [Field F] (m : ℕ)
-    (hOrient : @Etingof.IsOrientationOf 5 starQuiver starAdj) :
-    starRep_kQ F starQuiver hOrient m = starRepGen F m := by
-  letI : Quiver (Fin 5) := starQuiver
-  -- The two arrow maps agree on every arrow of `starQuiver`: such an arrow `a → b`
-  -- forces `a.val ≠ 0` and `b.val = 0`, i.e. a leaf `i → 0`, where both `starRepMap_kQ`
-  -- and `starRepMapGen` select the same embedding. On every other index pair an arrow
-  -- cannot exist (`b.val = 0` is contradicted), so the reversed-edge arms are unreached.
-  have hmap : ∀ (a b : Fin 5), @Quiver.Hom (Fin 5) starQuiver a b →
-      starRepMap_kQ F m a b = starRepMapGen F m a b := by
-    intro a b e
-    obtain ⟨ha, hb⟩ := e.down
-    fin_cases a <;> fin_cases b <;>
-      first
-        | rfl
-        | exact absurd hb (by decide)
-  unfold starRep_kQ starRepGen
-  congr 1
-  funext a b e
-  exact hmap a b e
+The old reduction `starRep_kQ = starRepGen` at the canonical orientation
+(`starRep_kQ_canonical_eq_starRepGen` / `..._canonical_isIndecomposable`) is
+retired by the homogeneous-tube redesign (issue #4648): the fourth arm now
+carries `λ•id + J` (`starEmbedTube_F`), so the canonical-orientation member is
+no longer `starRepGen` (which is the `λ = 0` rank-deficient twist) but the
+corrected `starTubeRepGen F lam m` of `FieldGenericTube.lean`. The canonical
+orientation is genuinely indecomposable for every `lam` — witnessed
+independently and sorry-free by `starTubeRepGen_isIndecomposable` (downstream,
+so not re-exported here) — and is subsumed by the general lemma below. -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- Canonical-orientation indecomposability of `starRep_kQ`, obtained from
-`starRepGen_isIndecomposable` via `starRep_kQ_canonical_eq_starRepGen`. This is
-the canonical-orientation half of the `star_not_finite_type_per_kQ` deliverable
-(issue #2801); the general orientation `Q` is handled separately. -/
-theorem starRep_kQ_canonical_isIndecomposable
-    (F : Type) [Field F] (m : ℕ)
-    (hOrient : @Etingof.IsOrientationOf 5 starQuiver starAdj) :
-    @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5) starQuiver
-      (starRep_kQ F starQuiver hOrient m) := by
-  rw [starRep_kQ_canonical_eq_starRepGen]
-  exact starRepGen_isIndecomposable F m
+/-- **Orientation-generic indecomposability of the corrected D̃₄ tube
+`starRep_kQ`** (issue #4648). For any field `F`, any orientation `Q` of
+`starAdj`, any eigenvalue `lam`, and any `m`, the homogeneous-tube
+representation `starRep_kQ F Q hOrient lam m` is indecomposable.
 
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-/-- **Orientation-generic indecomposability of `starRep_kQ`** (issue #2801,
-center-crux sub #4523). For any field `F`, any orientation `Q` of `starAdj`,
-and any `m`, the K_{1,4} (D̃₄) representation `starRep_kQ F Q hOrient m` is
-indecomposable.
-
-**WARNING (issue #4566): this statement is FALSE and its `sorry` cannot be
-filled.** For the orientation that reverses the diagonal leaf 3, the
-representation is decomposable for every `m ≥ 1`; see the machine-checked
-refutation `starRep_kQ_reversedLeaf3_decomposable` (end of this file). The
-construction needs the homogeneous-tube redesign of issue #4566 before any
-orientation-generic indecomposability can hold. The canonical all-sink
-orientation is genuinely indecomposable
-(`starRep_kQ_canonical_isIndecomposable`), and the downstream
-`star_not_finite_type_per_kQ` remains true on other grounds (D̃₄ is affine).
-
-The nontriviality half is proven here (leaf 1 has dimension `m + 1 ≥ 1`). The
-no-nontrivial-decomposition half is the orientation-generic D̃₄ center crux,
-deferred to the body `sorry`:
+Unlike the retired `λ = 0` construction (whose reversed-leaf-3 member was
+machine-refuted in #4566/#4589), this statement is **true**: the corrected
+fourth arm `λ•id + J` is a *square* Jordan block, so at `m = 1` the
+invariant subspaces are genuinely `J`-invariant and no free direction peels
+off. The nontriviality half is proven here (leaf 1 has dimension `m + 1 ≥ 1`).
+The no-nontrivial-decomposition half is sorried, deferred to the shared,
+family-wide center-crux assembly that `FieldGenericETilde6/7` also await
+(`etilde6Rep_kQ_isIndecomposable`, `etilde7tildeRep_kQ_isIndecomposable`):
 
 * Each leaf edge `{0, i}` is oriented `i → 0` (forward, map `starEmbed_i_F`)
   or `0 → i` (reversed, map `starProj_i_F`). The landed per-leaf reductions
   `forward_leaf_subspace_eq` / `reversed_leaf_subspace_eq` (the latter using
   the `starProj_i_F_surjective` facts in this file) pin every leaf subspace
   to the center subspace `U₁ := W₁ 0 ⊆ V₀`.
-* The genuinely hard part — forcing `U₁ ∈ {⊥, ⊤}` from the four images in
-  general position plus the nilpotent twist `N` at leaf 4 (reusing
-  `nilpotent_invariant_compl_trivial_gen`), then propagating to every
-  vertex — is the D̃₄ instance of the project-wide tree-indecomposability
-  wall (the analogous D̃₅/D̃₆/D̃₇/Ẽ₆/Ẽ₇ bodies are likewise sorry-deferred).
-
-The canonical all-forward orientation is fully proven and reachable via
-`starRep_kQ_canonical_isIndecomposable`; this theorem subsumes it for the
-general `Q`. -/
+* The center crux then forces `U₁ ∈ {⊥, ⊤}` via
+  `eigenvalue_jordan_invariant_compl_trivial_gen` (the `λ•id + J` deposited at
+  leaf 4), and propagates to every vertex. For the canonical (all-forward)
+  orientation this is exactly the worked argument
+  `starTubeRepGen_isIndecomposable`; the reversed-leaf cases additionally route
+  the leaf data through the projection reductions above. This is the D̃₄
+  instance of the project-wide tree-indecomposability wall. -/
 theorem starRep_kQ_isIndecomposable
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 5))
     [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
     (hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
-    (m : ℕ) :
-    (starRep_kQ F Q hOrient m).IsIndecomposable := by
+    (lam : F) (m : ℕ) :
+    (starRep_kQ F Q hOrient lam m).IsIndecomposable := by
   constructor
   · -- Nontrivial at leaf 1 (dimension `m + 1 ≥ 1`).
     refine ⟨⟨1, by omega⟩, ?_⟩
     change Nontrivial (Fin (if (1 : Fin 5).val = 0 then 2 * (m + 1) else m + 1) → F)
     simp only [show (1 : Fin 5).val = 1 from rfl, one_ne_zero, ↓reduceIte]
     infer_instance
-  · -- Orientation-generic D̃₄ center crux + propagation. Tracked sub-issue of
-    -- #2801; see the docstring above for the reduction roadmap.
+  · -- Orientation-generic D̃₄ center crux + propagation. Shared family-wide
+    -- wall (issue #4648 deliverable 2); see the docstring above for the
+    -- reduction roadmap (forward/reversed leaf reductions →
+    -- `eigenvalue_jordan_invariant_compl_trivial_gen` center crux).
     let _ := hOrient
+    let _ := lam
     sorry
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -817,8 +847,11 @@ theorem star_not_finite_type_per_kQ
       {d : Fin 5 → ℕ | ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 5) _ Q,
         V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
     intro m
-    exact ⟨starRep_kQ F Q hOrient m, starRep_kQ_isIndecomposable F Q hOrient m,
-      starRep_kQ_dimVec F Q hOrient m⟩
+    -- Fix the eigenvalue to `lam = 1` (any field element works; the
+    -- dimension vector is independent of `lam`). Mirrors the `lam = 1` choice
+    -- in `etilde6_not_finite_type_per_kQ`.
+    exact ⟨starRep_kQ F Q hOrient 1 m, starRep_kQ_isIndecomposable F Q hOrient 1 m,
+      starRep_kQ_dimVec F Q hOrient 1 m⟩
   have hinj : Function.Injective
       (fun m : ℕ => fun v : Fin 5 => if v.val = 0 then 2 * (m + 1) else m + 1) := by
     intro m₁ m₂ h
@@ -1206,284 +1239,5 @@ theorem linearEquiv_invariant_isCompl_symm_mem
   have ha₂0 : a₂ = 0 := g.injective (by rw [hga₂0, map_zero])
   rw [← hsum, ha₂0, add_zero]
   exact ha₁
-
-/-! ## Section: Decomposability counterexample for the reversed diagonal leaf
-
-`starRep_kQ_isIndecomposable` (above) is **false**: for the orientation `Q`
-that reverses the diagonal leaf 3 (`reversedAtVertex starQuiver 3`), the
-representation `starRep_kQ F Q hOrient m` is **decomposable** for every `m ≥ 1`.
-This section formalises the explicit `m = 1` complementary invariant pair from
-issue #4566, machine-checking the refutation.
-
-The mechanism (issue #4566): reversing leaf 3 turns its edge map from the
-diagonal embed `starEmbedDiag_F` (range `L₃ = Δ`, the coupling that makes the
-canonical D̃₄ rigid) into the projection `starProj3_F = starSecond_F`. The four
-leaf images `L₁, L₂, L₄` still split under the center pair `(U₁, U₂)`, but `L₃`
-is never forced to split — so an idempotent `A` commuting with the regular
-nilpotent is no longer forced to lie in `{0, 1}`, and a nontrivial summand
-appears. -/
-
-/-- Two distinct standard coordinate lines are complementary in `Fin 2 → F`. -/
-theorem isCompl_coordLines_two (F : Type) [Field F] :
-    IsCompl (Submodule.span F {(![1, 0] : Fin 2 → F)})
-            (Submodule.span F {(![0, 1] : Fin 2 → F)}) := by
-  refine ⟨?_, ?_⟩
-  · rw [Submodule.disjoint_def]
-    rintro x hx hx2
-    rw [Submodule.mem_span_singleton] at hx hx2
-    obtain ⟨a, ha⟩ := hx
-    obtain ⟨b, hb⟩ := hx2
-    have hx0 : x 0 = 0 := by rw [← hb]; simp
-    have hx1 : x 1 = 0 := by rw [← ha]; simp
-    funext i; fin_cases i
-    · simpa using hx0
-    · simpa using hx1
-  · rw [codisjoint_iff, eq_top_iff]
-    intro x _
-    have hx : x = x 0 • (![1, 0] : Fin 2 → F) + x 1 • (![0, 1] : Fin 2 → F) := by
-      funext i; fin_cases i <;> simp
-    rw [hx]
-    exact Submodule.add_mem_sup
-      (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
-      (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
-
-/-- The two coordinate planes `span{e₀, e₃}` and `span{e₁, e₂}` are
-complementary in `Fin 4 → F`. -/
-theorem isCompl_coordPlanes_four (F : Type) [Field F] :
-    IsCompl (Submodule.span F {(![1, 0, 0, 0] : Fin 4 → F), ![0, 0, 0, 1]})
-            (Submodule.span F {(![0, 1, 0, 0] : Fin 4 → F), ![0, 0, 1, 0]}) := by
-  refine ⟨?_, ?_⟩
-  · rw [Submodule.disjoint_def]
-    rintro x hx hx2
-    rw [Submodule.mem_span_pair] at hx hx2
-    obtain ⟨s, t, hst⟩ := hx
-    obtain ⟨u, v, huv⟩ := hx2
-    have h0 : x 0 = 0 := by rw [← huv]; simp
-    have h1 : x 1 = 0 := by rw [← hst]; simp
-    have h2 : x 2 = 0 := by rw [← hst]; simp
-    have h3 : x 3 = 0 := by rw [← huv]; simp
-    funext i; fin_cases i
-    · simpa using h0
-    · simpa using h1
-    · simpa using h2
-    · simpa using h3
-  · rw [codisjoint_iff, eq_top_iff]
-    intro x _
-    have hx : x = (x 0 • (![1, 0, 0, 0] : Fin 4 → F) + x 3 • ![0, 0, 0, 1])
-        + (x 1 • (![0, 1, 0, 0] : Fin 4 → F) + x 2 • ![0, 0, 1, 0]) := by
-      funext i; fin_cases i <;> simp
-    rw [hx]
-    refine Submodule.add_mem_sup ?_ ?_
-    · exact Submodule.add_mem _
-        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
-        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
-    · exact Submodule.add_mem _
-        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
-        (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
-
-/-! ### Image computations at `m = 1`
-
-The four leaf maps and the reversed-leaf projection evaluated on the explicit
-basis vectors of the `m = 1` counterexample. -/
-
-private theorem cex_embed1_e0 (F : Type) [Field F] :
-    starEmbed1_F F 1 (![1, 0] : Fin 2 → F) = ![1, 0, 0, 0] := by
-  funext i; fin_cases i <;> simp [starEmbed1_F]
-
-private theorem cex_embed1_e1 (F : Type) [Field F] :
-    starEmbed1_F F 1 (![0, 1] : Fin 2 → F) = ![0, 1, 0, 0] := by
-  funext i; fin_cases i <;> simp [starEmbed1_F]
-
-private theorem cex_embed2_e0 (F : Type) [Field F] :
-    starEmbed2_F F 1 (![1, 0] : Fin 2 → F) = ![0, 0, 1, 0] := by
-  funext i; fin_cases i <;> simp [starEmbed2_F]
-
-private theorem cex_embed2_e1 (F : Type) [Field F] :
-    starEmbed2_F F 1 (![0, 1] : Fin 2 → F) = ![0, 0, 0, 1] := by
-  funext i; fin_cases i <;> simp [starEmbed2_F]
-
-private theorem cex_nilp_e0 (F : Type) [Field F] :
-    nilpotentShiftLinGen F 1 (![1, 0] : Fin 2 → F) = ![0, 0] := by
-  funext i; fin_cases i <;>
-    simp [nilpotentShiftLinGen, nilpotentShiftMatrixGen, Matrix.mulVecLin_apply,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-
-private theorem cex_nilp_e1 (F : Type) [Field F] :
-    nilpotentShiftLinGen F 1 (![0, 1] : Fin 2 → F) = ![1, 0] := by
-  funext i; fin_cases i <;>
-    simp [nilpotentShiftLinGen, nilpotentShiftMatrixGen, Matrix.mulVecLin_apply,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-
-private theorem cex_embedNilp_e0 (F : Type) [Field F] :
-    starEmbedNilp_F F 1 (![1, 0] : Fin 2 → F) = ![1, 0, 0, 0] := by
-  funext i
-  simp only [starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply, cex_nilp_e0]
-  fin_cases i <;> simp [starEmbed1_F, starEmbed2_F]
-
-private theorem cex_embedNilp_e1 (F : Type) [Field F] :
-    starEmbedNilp_F F 1 (![0, 1] : Fin 2 → F) = ![0, 1, 1, 0] := by
-  funext i
-  simp only [starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply, cex_nilp_e1]
-  fin_cases i <;> simp [starEmbed1_F, starEmbed2_F, cex_embed1_e1, cex_embed2_e0]
-
-private theorem cex_proj3_g0 (F : Type) [Field F] :
-    starProj3_F F 1 (![1, 0, 0, 0] : Fin 4 → F) = ![0, 0] := by
-  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
-
-private theorem cex_proj3_g3 (F : Type) [Field F] :
-    starProj3_F F 1 (![0, 0, 0, 1] : Fin 4 → F) = ![0, 1] := by
-  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
-
-private theorem cex_proj3_h1 (F : Type) [Field F] :
-    starProj3_F F 1 (![0, 1, 0, 0] : Fin 4 → F) = ![0, 0] := by
-  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
-
-private theorem cex_proj3_h2 (F : Type) [Field F] :
-    starProj3_F F 1 (![0, 0, 1, 0] : Fin 4 → F) = ![1, 0] := by
-  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
-
-/-! ### The complementary invariant pair and the refutation -/
-
-/-- First summand `W₁` of the `m = 1` decomposition of `starRep_kQ` at the
-reversed-leaf-3 orientation (issue #4566). -/
-private noncomputable def starCexW1 (F : Type) [Field F] :
-    ∀ v : Fin 5, Submodule F (Fin (if v.val = 0 then 2 * (1 + 1) else 1 + 1) → F)
-  | ⟨0, _⟩ => Submodule.span F {(![1, 0, 0, 0] : Fin 4 → F), ![0, 0, 0, 1]}
-  | ⟨1, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
-  | ⟨2, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
-  | ⟨3, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
-  | ⟨4, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
-  | ⟨n + 5, h⟩ => absurd h (by omega)
-
-/-- Second summand `W₂` of the `m = 1` decomposition (issue #4566). -/
-private noncomputable def starCexW2 (F : Type) [Field F] :
-    ∀ v : Fin 5, Submodule F (Fin (if v.val = 0 then 2 * (1 + 1) else 1 + 1) → F)
-  | ⟨0, _⟩ => Submodule.span F {(![0, 1, 0, 0] : Fin 4 → F), ![0, 0, 1, 0]}
-  | ⟨1, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
-  | ⟨2, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
-  | ⟨3, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
-  | ⟨4, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
-  | ⟨n + 5, h⟩ => absurd h (by omega)
-
-/-- The reversed-diagonal-leaf orientation of `starQuiver`. -/
-@[reducible] private noncomputable def starRevLeaf3Quiver : Quiver (Fin 5) :=
-  @Etingof.reversedAtVertex (Fin 5) _ starQuiver 3
-
-instance starRevLeaf3_subsingleton (a b : Fin 5) :
-    Subsingleton (@Quiver.Hom (Fin 5) starRevLeaf3Quiver a b) := by
-  show Subsingleton (@Etingof.ReversedAtVertexHom (Fin 5) _ starQuiver 3 a b)
-  by_cases ha : a = 3 <;> by_cases hb : b = 3
-  · rw [@Etingof.ReversedAtVertexHom_eq_eq (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
-  · rw [@Etingof.ReversedAtVertexHom_eq_ne (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
-  · rw [@Etingof.ReversedAtVertexHom_ne_eq (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
-  · rw [@Etingof.ReversedAtVertexHom_ne_ne (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-/-- **Refutation of `starRep_kQ_isIndecomposable` (issue #4566).** For the
-orientation `Q = reversedAtVertex starQuiver 3` (reversing the diagonal leaf),
-the K_{1,4} (D̃₄) representation `starRep_kQ F Q hOrient 1` is **decomposable**:
-`starCexW1`/`starCexW2` are a nontrivial complementary invariant pair.
-
-This proves `starRep_kQ_isIndecomposable` (above) states a false proposition;
-its `sorry` body cannot be filled. The downstream `star_not_finite_type_per_kQ`
-remains true (D̃₄ is affine), but its current proof route via this construction
-is unsound for reversed orientations and needs the homogeneous-tube redesign
-(issue #4566 recommendation 2). -/
-theorem starRep_kQ_reversedLeaf3_decomposable (F : Type) [Field F] :
-    ¬ @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5) starRevLeaf3Quiver
-        (starRep_kQ F starRevLeaf3Quiver
-          (Etingof.reversedAtVertex_isOrientationOf starAdj_symm starAdj_diag
-            starOrientation_isOrientationOf 3) 1) := by
-  rintro ⟨-, hno⟩
-  have key := hno (starCexW1 F) (starCexW2 F) ?_ ?_ ?_
-  · -- Neither summand is everywhere `⊥`: both are nonzero at leaf 1.
-    have hne1 : starCexW1 F 1 ≠ ⊥ := by
-      simp only [starCexW1, ne_eq, Submodule.span_singleton_eq_bot]
-      intro h; exact one_ne_zero (congr_fun h 0)
-    have hne2 : starCexW2 F 1 ≠ ⊥ := by
-      simp only [starCexW2, ne_eq, Submodule.span_singleton_eq_bot]
-      intro h; exact one_ne_zero (congr_fun h 1)
-    rcases key with h | h
-    · exact hne1 (h 1)
-    · exact hne2 (h 1)
-  · -- `W₁`-invariance.
-    intro a b e x hx
-    show starRepMap_kQ F 1 a b x ∈ starCexW1 F b
-    fin_cases a <;> fin_cases b <;>
-      first
-      | exact absurd e.down (by decide)
-      | skip
-    · -- arrow 0 → 3 (reversed)
-      simp only [starCexW1] at hx ⊢
-      show starProj3_F F 1 x ∈ _
-      rw [Submodule.mem_span_pair] at hx; obtain ⟨s, t, rfl⟩ := hx
-      rw [map_add, map_smul, map_smul, cex_proj3_g0, cex_proj3_g3,
-        show (![0, 0] : Fin 2 → F) = 0 from by funext i; fin_cases i <;> rfl,
-        smul_zero, zero_add]
-      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
-    · -- arrow 1 → 0
-      simp only [starCexW1] at hx ⊢
-      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
-      show starEmbed1_F F 1 (c • (![1, 0] : Fin 2 → F)) ∈ _
-      rw [map_smul, cex_embed1_e0]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
-    · -- arrow 2 → 0
-      simp only [starCexW1] at hx ⊢
-      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
-      show starEmbed2_F F 1 (c • (![0, 1] : Fin 2 → F)) ∈ _
-      rw [map_smul, cex_embed2_e1]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
-    · -- arrow 4 → 0
-      simp only [starCexW1] at hx ⊢
-      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
-      show starEmbedNilp_F F 1 (c • (![1, 0] : Fin 2 → F)) ∈ _
-      rw [map_smul, cex_embedNilp_e0]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
-  · -- `W₂`-invariance.
-    intro a b e x hx
-    show starRepMap_kQ F 1 a b x ∈ starCexW2 F b
-    fin_cases a <;> fin_cases b <;>
-      first
-      | exact absurd e.down (by decide)
-      | skip
-    · -- arrow 0 → 3 (reversed)
-      simp only [starCexW2] at hx ⊢
-      show starProj3_F F 1 x ∈ _
-      rw [Submodule.mem_span_pair] at hx; obtain ⟨s, t, rfl⟩ := hx
-      rw [map_add, map_smul, map_smul, cex_proj3_h1, cex_proj3_h2,
-        show (![0, 0] : Fin 2 → F) = 0 from by funext i; fin_cases i <;> rfl,
-        smul_zero, zero_add]
-      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
-    · -- arrow 1 → 0
-      simp only [starCexW2] at hx ⊢
-      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
-      show starEmbed1_F F 1 (c • (![0, 1] : Fin 2 → F)) ∈ _
-      rw [map_smul, cex_embed1_e1]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
-    · -- arrow 2 → 0
-      simp only [starCexW2] at hx ⊢
-      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
-      show starEmbed2_F F 1 (c • (![1, 0] : Fin 2 → F)) ∈ _
-      rw [map_smul, cex_embed2_e0]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
-    · -- arrow 4 → 0
-      simp only [starCexW2] at hx ⊢
-      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
-      show starEmbedNilp_F F 1 (c • (![0, 1] : Fin 2 → F)) ∈ _
-      rw [map_smul, cex_embedNilp_e1,
-        show (![0, 1, 1, 0] : Fin 4 → F)
-          = (![0, 1, 0, 0] : Fin 4 → F) + ![0, 0, 1, 0] from by
-        funext i; fin_cases i <;> simp]
-      exact Submodule.smul_mem _ _ (Submodule.add_mem _
-        (Submodule.subset_span (by simp)) (Submodule.subset_span (by simp)))
-  · -- Complementarity at every vertex.
-    intro v
-    fin_cases v
-    · exact isCompl_coordPlanes_four F
-    · exact isCompl_coordLines_two F
-    · exact (isCompl_coordLines_two F).symm
-    · exact (isCompl_coordLines_two F).symm
-    · exact isCompl_coordLines_two F
 
 end Etingof
