@@ -169,10 +169,9 @@ maps in the opposite direction:
   codomain), so it has no left inverse — we provide a right section
   `(u, v) ↦ (v, u - v, 0)`, which satisfies
   `etilde6Gamma_F ∘ etilde6GammaInv_F = id`.
-- `etilde6LeafProj_F`: first-half projection `(a, b) ↦ a`. Left inverse
-  of both `starEmbed1_F` (since `starEmbed1_F x = (x, 0)`) and
-  `starEmbedNilp_F` (since `starEmbedNilp_F x = (x, Nx)`). Used for the
-  three reversed-leaf-edge cases.
+
+The first-half projection `(a, b) ↦ a` for the three reversed-leaf-edge
+cases is the shared primitive `starFirst_F` (`FieldGenericStar.lean`).
 -/
 
 /-- Reverse map for the `embed2to3_CA_F` edge: `(a', b', c') ↦ (c', a')`,
@@ -205,16 +204,6 @@ noncomputable def etilde6GammaInv_F (F : Type) [Field F] (m : ℕ) :
   map_add' _ _ := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
   map_smul' _ _ := by
     ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- First-half projection `(a, b) ↦ a` for `F^{2(m+1)} → F^{m+1}`. Used as
-the reverse map for the three leaf-edge cases of Ẽ₆ ({1,2}, {3,4}, {5,6}).
-A left inverse of `starEmbed1_F` (`(x, 0) ↦ x`) and of `starEmbedNilp_F`
-(`(x, Nx) ↦ x`). -/
-noncomputable def etilde6LeafProj_F (F : Type) [Field F] (m : ℕ) :
-    (Fin (2 * (m + 1)) → F) →ₗ[F] (Fin (m + 1) → F) where
-  toFun w i := w ⟨i.val, by omega⟩
-  map_add' _ _ := by ext; simp
-  map_smul' _ _ := by ext; simp
 
 /-! ## Section 3: Orientation-generic Ẽ₆ representation
 

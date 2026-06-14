@@ -202,7 +202,7 @@ private noncomputable def etilde7RepMap_kQ (F : Type) [Field F] (lam : F)
   | ⟨0, _⟩, ⟨1, _⟩ => prefixBlockProj_F F 2 4 m (by omega)
   -- Arm 2 (prefix flag): edge {3, 4}
   | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1_F F m
-  | ⟨3, _⟩, ⟨4, _⟩ => etilde6LeafProj_F F m
+  | ⟨3, _⟩, ⟨4, _⟩ => starFirst_F F m
   -- Arm 2 (prefix flag): edge {2, 3}
   | ⟨3, _⟩, ⟨2, _⟩ => prefixBlockEmbed_F F 2 3 m
   | ⟨2, _⟩, ⟨3, _⟩ => prefixBlockProj_F F 2 3 m (by omega)
