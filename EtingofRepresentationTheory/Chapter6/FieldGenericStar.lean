@@ -956,4 +956,135 @@ theorem degree_ge_4_infinite_type_per_kQ {n : ℕ}
       (h_ne i).symm hij (h_ne j).symm
       (h_adj i) h_one (h_adj j) F Q hOrient
 
+/-! ## Shared nilpotent-inverse infrastructure `(I - N)⁻¹`
+
+The cumulative right-tail sum map `cumTailSumLin` is the explicit inverse
+`M = (I - N)⁻¹` of `(I - nilpotentShiftLinGen)`, where `N` is nilpotent so
+the geometric series `M = I + N + N² + ⋯ + Nᵐ` terminates. The key fact is
+the telescoping inversion identity `cumTailSumLin (v - N v) = v`
+(`cumTailSumLin_oneSubNilp`).
+
+Relocated here from `FieldGenericD5Tilde.lean` (#4554) so the whole D̃-family
+(`d5`/`d6`/`d7`/`d8`) can reuse it: the reversed γ-edge maps and the
+mixed-direction leaf arguments all need `(I - N)⁻¹` to strip the `(I - N)`
+twist that the γ-coupling introduces. The nilpotent shift itself
+(`nilpotentShiftLinGen` / `nilpotentShiftMatrixGen`) already lives in
+`FieldGenericInfiniteType.lean`. -/
+
+/-- Cumulative right-tail sum matrix: upper triangular with `1`s on and
+above the diagonal. `cumTailSumMatrix[i][j] = 1` iff `i ≤ j`. -/
+noncomputable def cumTailSumMatrix (F : Type) [Field F] (m : ℕ) :
+    Matrix (Fin (m + 1)) (Fin (m + 1)) F :=
+  fun i j => if i.val ≤ j.val then 1 else 0
+
+/-- The cumulative right-tail sum linear map
+`w ↦ (i ↦ Σ_{j=i}^{m} w_j)`, equivalently `(I - N)⁻¹` for the nilpotent
+shift `N`. Defined as `Matrix.mulVecLin (cumTailSumMatrix F m)`. -/
+noncomputable def cumTailSumLin (F : Type) [Field F] (m : ℕ) :
+    (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F) :=
+  Matrix.mulVecLin (cumTailSumMatrix F m)
+
+/-- Closed-form right-tail sum:
+`cumTailSumLin F m v i = ∑_{j : Fin (m+1), i.val ≤ j.val} v j`. -/
+theorem cumTailSumLin_apply (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) (i : Fin (m + 1)) :
+    cumTailSumLin F m v i =
+      ∑ j ∈ Finset.univ.filter (fun j : Fin (m + 1) => i.val ≤ j.val), v j := by
+  simp only [cumTailSumLin, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+    cumTailSumMatrix, Finset.sum_filter, ite_mul, one_mul, zero_mul]
+
+/-- Boundary case for `cumTailSumLin`: at index `m`, the right-tail sum
+collapses to a single term `v ⟨m, _⟩`. -/
+theorem cumTailSumLin_apply_last (F : Type) [Field F] (m : ℕ) (v : Fin (m + 1) → F) :
+    cumTailSumLin F m v ⟨m, lt_add_one m⟩ = v ⟨m, lt_add_one m⟩ := by
+  rw [cumTailSumLin_apply]
+  apply Finset.sum_eq_single (⟨m, lt_add_one m⟩ : Fin (m + 1))
+  · intro j hj hjne
+    exfalso
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
+    have : j.val = m := le_antisymm (by have := j.isLt; omega) hj
+    exact hjne (Fin.ext this)
+  · intro habs
+    exfalso; apply habs; simp
+
+/-- Recursive step for `cumTailSumLin`: splits off the index-`i` term,
+yielding `M v ⟨i, _⟩ = v ⟨i, _⟩ + M v ⟨i + 1, _⟩` whenever `i + 1` is in
+range. -/
+theorem cumTailSumLin_apply_succ (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) (i : ℕ) (hi : i + 1 < m + 1) :
+    cumTailSumLin F m v ⟨i, by omega⟩ =
+      v ⟨i, by omega⟩ + cumTailSumLin F m v ⟨i + 1, hi⟩ := by
+  rw [cumTailSumLin_apply, cumTailSumLin_apply]
+  have hmem : (⟨i, by omega⟩ : Fin (m + 1)) ∈
+      Finset.univ.filter (fun j : Fin (m + 1) => i ≤ j.val) := by simp
+  rw [← Finset.sum_erase_add _ _ hmem, add_comm]
+  congr 1
+  apply Finset.sum_congr ?_ (fun _ _ => rfl)
+  ext j
+  simp only [Finset.mem_erase, Finset.mem_filter, Finset.mem_univ, true_and]
+  refine ⟨?_, ?_⟩
+  · rintro ⟨hne, hij⟩
+    have hne' : j.val ≠ i := fun h => hne (Fin.ext h)
+    omega
+  · intro hij
+    refine ⟨?_, by omega⟩
+    intro h
+    have hjv : j.val = i := by
+      have := congr_arg Fin.val h
+      simpa using this
+    omega
+
+/-- `cumTailSumLin` inverts `I - nilpotentShiftLinGen`: telescoping sum
+`M (v - N v) = v`. This is the key algebraic identity that makes the
+closed-form γ⁻¹ maps true two-sided inverses on the leaf-embedding
+patterns, and the tool used to strip the `(I - N)` twist in the
+mixed-direction leaf arguments across the D̃-family.
+
+Proof: reverse induction on `i.val`. Base case `i.val = m` uses
+`cumTailSumLin_apply_last`; the inductive step uses
+`cumTailSumLin_apply_succ` to split off the index-`i` term, the closed
+form for `nilpotentShiftLinGen`, and the induction hypothesis at
+`i + 1`. -/
+theorem cumTailSumLin_oneSubNilp (F : Type) [Field F] (m : ℕ)
+    (v : Fin (m + 1) → F) :
+    cumTailSumLin F m (v - nilpotentShiftLinGen F m v) = v := by
+  -- Closed form for `nilpotentShiftLinGen F m v`.
+  have hN : ∀ j : Fin (m + 1), nilpotentShiftLinGen F m v j =
+      if h : j.val + 1 < m + 1 then v ⟨j.val + 1, h⟩ else 0 := by
+    intro j
+    simp only [nilpotentShiftLinGen, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
+      nilpotentShiftMatrixGen]
+    split_ifs with h
+    · rw [Finset.sum_eq_single ⟨j.val + 1, h⟩]
+      · simp
+      · intro b _ hb; simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+        intro hbi; exact hb (Fin.ext (by omega))
+      · intro habs; exact absurd (Finset.mem_univ _) habs
+    · apply Finset.sum_eq_zero; intro c _
+      simp only [ite_mul, one_mul, zero_mul]; rw [if_neg]
+      intro hji; exact h (by have := c.isLt; omega)
+  ext ⟨i, hi⟩
+  -- Reverse induction on `m - i` (equivalently, induct on `k = m - i` going
+  -- from `0` (i.e. `i = m`) up to `m` (i.e. `i = 0`)).
+  suffices key : ∀ k : ℕ, ∀ i' (hi' : i' < m + 1), i' + k = m →
+      cumTailSumLin F m (v - nilpotentShiftLinGen F m v) ⟨i', hi'⟩ = v ⟨i', hi'⟩ from
+    key (m - i) i hi (by omega)
+  intro k
+  induction k with
+  | zero =>
+    intro i' hi' heq
+    have hi_eq_m : i' = m := by omega
+    subst hi_eq_m
+    have hidx : (⟨i', hi'⟩ : Fin (i' + 1)) = ⟨i', lt_add_one i'⟩ := rfl
+    rw [hidx, cumTailSumLin_apply_last, Pi.sub_apply, hN]
+    simp only [show ¬(i' + 1 < i' + 1) by omega, dite_false, sub_zero]
+  | succ n ih =>
+    intro i' hi' heq
+    have hi1 : i' + 1 < m + 1 := by omega
+    rw [cumTailSumLin_apply_succ _ _ _ _ hi1]
+    rw [ih (i' + 1) hi1 (by omega)]
+    rw [Pi.sub_apply, hN]
+    simp only [dif_pos hi1]
+    ring
+
 end Etingof
