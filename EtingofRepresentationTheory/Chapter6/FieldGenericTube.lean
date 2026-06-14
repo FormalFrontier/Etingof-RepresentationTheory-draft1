@@ -33,10 +33,12 @@ design doc shows the tube reduces to that workhorse once one observes:
 > subspace to itself. So the eigenvalue `λ` never needs to be tracked in the
 > splitting argument.
 
-`eigenvalue_jordan_invariant_compl_trivial_gen` below packages exactly this
-"λ drops out" reduction: a complementary pair invariant under `λ • id + N`,
-with `N` nilpotent of 1-dimensional kernel, has one component trivial. This is
-the portable lemma the per-shape sub-issues invoke at their eigenvalue site.
+`eigenvalue_jordan_invariant_compl_trivial_gen` (relocated upstream to
+`FieldGenericStar.lean` by issue #4648, so the orientation-generic `starRep_kQ`
+can reach it) packages exactly this "λ drops out" reduction: a complementary
+pair invariant under `λ • id + N`, with `N` nilpotent of 1-dimensional kernel,
+has one component trivial. This is the portable lemma the per-shape sub-issues
+invoke at their eigenvalue site.
 
 ## D̃₄ validation
 
@@ -60,45 +62,6 @@ open Finset
 
 namespace Etingof
 
-/-! ## Reusable §3 reduction: the eigenvalue parameter drops out -/
-
-/-- **Homogeneous-tube reduction core.** If `N` is nilpotent with a
-1-dimensional kernel, then any complement decomposition into subspaces
-invariant under `λ • id + N` (the Jordan block at an eigenvalue site) has one
-component trivial.
-
-The eigenvalue `λ` plays no role: `λ • id` maps every subspace to itself, so a
-subspace is `(λ • id + N)`-invariant iff it is `N`-invariant, and the claim
-reduces to `nilpotent_invariant_compl_trivial_gen` for the bare nilpotent `N`.
-This is the §3 Kronecker template's portable step (design doc, issue #4548):
-the per-shape sporadic sub-issues call it at their eigenvalue site, where the
-shape-specific collapse machinery has already forced every vertex onto a single
-`F^{m+1}` carrying `λ • id + J`. -/
-theorem eigenvalue_jordan_invariant_compl_trivial_gen
-    {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
-    [Module.Finite F V]
-    (N : V →ₗ[F] V) (hN : IsNilpotent N)
-    (hker : Module.finrank F (LinearMap.ker N) = 1)
-    (lam : F)
-    (W₁ W₂ : Submodule F V)
-    (hW₁_inv : ∀ x ∈ W₁, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W₁)
-    (hW₂_inv : ∀ x ∈ W₂, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W₂)
-    (hcompl : IsCompl W₁ W₂) :
-    W₁ = ⊥ ∨ W₂ = ⊥ := by
-  -- Invariance under `λ • id + N` upgrades to invariance under `N`:
-  -- `N x = (λ • id + N) x - λ • x`, and both terms stay in the submodule.
-  have key : ∀ (W : Submodule F V),
-      (∀ x ∈ W, (lam • (LinearMap.id : V →ₗ[F] V) + N) x ∈ W) →
-      ∀ x ∈ W, N x ∈ W := by
-    intro W hW x hx
-    have hNx : N x = (lam • (LinearMap.id : V →ₗ[F] V) + N) x - lam • x := by
-      rw [LinearMap.add_apply, LinearMap.smul_apply, LinearMap.id_apply]
-      abel
-    rw [hNx]
-    exact W.sub_mem (hW x hx) (W.smul_mem lam hx)
-  exact nilpotent_invariant_compl_trivial_gen N hN hker W₁ W₂
-    (key W₁ hW₁_inv) (key W₂ hW₂_inv) hcompl
-
 /-! ## D̃₄ homogeneous tube
 
 The fourth arm of the K_{1,4} star carries the eigenvalue site `λ • id + J`
@@ -107,21 +70,6 @@ rather than the rank-deficient nilpotent twist. The other three arms
 step still forces `W(1) = W(2) = W(3) = W(4)`; the fourth arm then deposits a
 `(λ • id + N)`-invariant pair at that common space, where the reduction core
 finishes. -/
-
-/-- The eigenvalue-site operator `λI + J` on `F^{m+1}`: a Jordan block at
-eigenvalue `lam`. Its invariant subspaces coincide with those of the bare
-nilpotent shift `J`, which is why `lam` drops out of the splitting argument
-(`eigenvalue_jordan_invariant_compl_trivial_gen`). -/
-noncomputable def jordanShiftLinGen (F : Type) [Field F] (lam : F) (m : ℕ) :
-    (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F) :=
-  lam • (LinearMap.id : (Fin (m + 1) → F) →ₗ[F] (Fin (m + 1) → F)) +
-    nilpotentShiftLinGen F m
-
-/-- Eigenvalue-site embedding (homogeneous tube): `x ↦ (x, (λI + N) x)`,
-the fourth arm of the D̃₄ tube. -/
-noncomputable def starEmbedTube_F (F : Type) [Field F] (lam : F) (m : ℕ) :
-    (Fin (m + 1) → F) →ₗ[F] (Fin (2 * (m + 1)) → F) :=
-  starEmbed1_F F m + (starEmbed2_F F m).comp (jordanShiftLinGen F lam m)
 
 /-- Match-based map for the D̃₄ homogeneous-tube representation. Arms 1,2,3 are
 `embed1`/`embed2`/`diag` exactly as in `starRepGen`; arm 4 carries the
