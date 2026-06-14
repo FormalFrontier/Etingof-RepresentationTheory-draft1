@@ -77,8 +77,9 @@ Before investing a full session in a hard proof, spend 5-10 minutes checking the
 1. **Instantiate with concrete examples.** If the theorem is about all graphs with property P, check P for the simplest non-trivial case.
 2. **Check boundary cases.** The hypothesis `h_dim : Module.finrank k M = Module.finrank k (SchurModule k N lam)` was added to `iso_of_formalCharacter_eq_schurPoly` after discovering a counterexample: `M = SchurModule ⊕ det⁻¹`.
 3. **If two "different" accounts/objects produce suspiciously similar data, investigate.**
+4. **Indecomposability of explicit affine-Dynkin reps: build a small decomposition first.** The Ch6 `*Rep_kQ_isIndecomposable` family (D̃/Ẽ/T(p,q,r), orientation-generic) is built from a single nilpotent twist `N`, which is **too weakly coupled** and yields *decomposable* reps. Already refuted for the sporadic cases (Ẽ₆/Ẽ₇/T(1,2,5), #4548, `progress/indecomposability-framework-investigation.md`) and for the D̃ family in **reversed-leaf** orientations (D̃₄ #4523 → #4566: explicit `m=1` complementary pair). The needed fix is the homogeneous-tube redesign, not a cleverer proof. Before claiming any open `d5/d6/d7/d8/dTilde/etilde/t125 *_kQ_isIndecomposable` issue, check #4566/#4548 — most are likely still false. A reversed leaf removes the coupling its forward edge supplied, so test a reversed orientation at `m=1` for `span`-level decompositions. (Note: the canonical all-sink D̃₄ `starRepGen_isIndecomposable` is genuinely indecomposable — only the orientation-generic statements are at risk.)
 
-This saved 2+ sessions in Waves 47-49 by catching false statements early.
+This saved 2+ sessions in Waves 47-49 by catching false statements early, and an entire D̃₄ proof attempt this session (#4566).
 
 ### Sorry Decomposition as Primary Strategy
 
