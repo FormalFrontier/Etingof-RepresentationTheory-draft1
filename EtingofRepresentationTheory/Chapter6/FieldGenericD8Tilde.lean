@@ -1,0 +1,676 @@
+import Mathlib
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
+import EtingofRepresentationTheory.Chapter6.OrientationDefs
+import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
+import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
+import EtingofRepresentationTheory.Chapter6.FieldGenericInfiniteType
+import EtingofRepresentationTheory.Chapter6.FieldGenericStar
+import EtingofRepresentationTheory.Chapter6.FieldGenericD5Tilde
+
+/-!
+# Orientation-Generic D̃₈ Construction (#2977)
+
+F-generic, orientation-generic version of the D̃₈ extended-Dynkin
+representation. This file provides `d8tildeRep_kQ`, its dimension-vector
+lemma, an indecomposability stub, and the per-(F, Q) infinite-type
+theorem `d8tilde_not_finite_type_per_kQ`.
+
+D̃₈ is the affine D₈ Dynkin diagram with 9 vertices, two non-adjacent
+degree-3 branch points each with two leaves, connected by a length-4
+internal chain:
+
+```
+0           7
+ \         /
+  2-3-4-5-6
+ /         \
+1           8
+```
+
+Vertex labelling: `0, 1` are leaves of left branch `2`; `2-3-4-5-6` is
+the internal path; `7, 8` are leaves of right branch `6`.
+
+The canonical orientation (`d8tildeQuiver`) is the universal sink-
+orientation pattern from `dTildeQuiver` (`InfiniteTypeConstructions.lean:
+2049`): both leaf pairs point inward, the internal chain runs
+left-to-right. For an arbitrary orientation `Q` of `d8tildeAdj`, each of
+the eight edges may point either way, so the construction provides a
+forward and reverse map per edge.
+
+This is the `chain.length = 5` analogue of `FieldGenericD7Tilde.lean`
+(`chain.length = 4`) and `FieldGenericD6Tilde.lean` (`chain.length = 3`):
+one extra internal chain vertex carrying an identity edge.
+
+Indecomposability mirrors the deferred-`sorry` precedent of
+`d7tildeRep_kQ_isIndecomposable` (`FieldGenericD7Tilde.lean:247`, tracked
+by #2967) — the proof body is deferred to a follow-up issue; the
+per-(F, Q) infinite-type theorem `d8tilde_not_finite_type_per_kQ`
+transitively depends on it. The consumer of this helper is the
+`chain.length = 5` residual sub-case of the non-adjacent-branches
+assembly (`FieldGenericNonAdjacentBranches.lean`).
+
+See `Chapter6/FieldGenericInfiniteType.lean` for the meaning of the
+`_F` / `_kQ` / `_per_kQ` suffixes.
+-/
+
+open scoped Matrix
+
+namespace Etingof
+
+/-! ## Section 1: D̃₈ adjacency matrix -/
+
+/-- Adjacency matrix for the extended Dynkin diagram D̃₈ on 9 vertices.
+Edges: `0-2`, `1-2`, `2-3`, `3-4`, `4-5`, `5-6`, `6-7`, `6-8`.
+Vertices `2` and `6` have degree 3; the rest have degree 1. -/
+def d8tildeAdj : Matrix (Fin 9) (Fin 9) ℤ := fun i j =>
+  match i.val, j.val with
+  -- left leaves to left branch (vertex 2)
+  | 0, 2 | 2, 0 | 1, 2 | 2, 1
+  -- internal chain 2-3-4-5-6
+  | 2, 3 | 3, 2 | 3, 4 | 4, 3 | 4, 5 | 5, 4 | 5, 6 | 6, 5
+  -- right leaves to right branch (vertex 6)
+  | 6, 7 | 7, 6 | 6, 8 | 8, 6 => 1
+  | _, _ => 0
+
+theorem d8tildeAdj_symm : d8tildeAdj.IsSymm := by
+  ext i j
+  simp only [d8tildeAdj, Matrix.transpose_apply]
+  fin_cases i <;> fin_cases j <;> simp
+
+theorem d8tildeAdj_diag (i : Fin 9) : d8tildeAdj i i = 0 := by
+  fin_cases i <;> simp [d8tildeAdj]
+
+theorem d8tildeAdj_01 (i j : Fin 9) : d8tildeAdj i j = 0 ∨ d8tildeAdj i j = 1 := by
+  fin_cases i <;> fin_cases j <;> simp [d8tildeAdj]
+
+/-! ## Section 2: D̃₈ canonical quiver and orientation property -/
+
+/-- Canonical orientation for D̃₈: leaves point inward and the internal
+chain runs left-to-right. Arrows:
+`0→2, 1→2, 2→3, 3→4, 4→5, 5→6, 7→6, 8→6`. -/
+def d8tildeQuiver : Quiver (Fin 9) where
+  Hom i j := PLift (
+    (i.val = 0 ∧ j.val = 2) ∨ (i.val = 1 ∧ j.val = 2) ∨
+    (i.val = 2 ∧ j.val = 3) ∨ (i.val = 3 ∧ j.val = 4) ∨
+    (i.val = 4 ∧ j.val = 5) ∨ (i.val = 5 ∧ j.val = 6) ∨
+    (i.val = 7 ∧ j.val = 6) ∨ (i.val = 8 ∧ j.val = 6))
+
+instance d8tildeQuiver_subsingleton (a b : Fin 9) :
+    Subsingleton (@Quiver.Hom (Fin 9) d8tildeQuiver a b) :=
+  ⟨fun ⟨_⟩ ⟨_⟩ => rfl⟩
+
+private theorem d8tilde_arrow_implies_edge (i j : Fin 9)
+    (hp : (i.val = 0 ∧ j.val = 2) ∨ (i.val = 1 ∧ j.val = 2) ∨
+      (i.val = 2 ∧ j.val = 3) ∨ (i.val = 3 ∧ j.val = 4) ∨
+      (i.val = 4 ∧ j.val = 5) ∨ (i.val = 5 ∧ j.val = 6) ∨
+      (i.val = 7 ∧ j.val = 6) ∨ (i.val = 8 ∧ j.val = 6)) :
+    d8tildeAdj i j = 1 := by
+  rcases hp with ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ |
+    ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ <;>
+    simp only [d8tildeAdj, h1, h2]
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+theorem d8tildeOrientation_isOrientationOf :
+    @Etingof.IsOrientationOf 9 d8tildeQuiver d8tildeAdj := by
+  refine ⟨fun i j hij => ?_, fun i j hij => ?_, fun i j hi hj => ?_⟩
+  · -- Non-edges have no arrows
+    constructor; intro ⟨hp⟩
+    exact hij (d8tilde_arrow_implies_edge i j hp)
+  · -- Each edge has an arrow in one direction
+    fin_cases i <;> fin_cases j <;> simp [d8tildeAdj] at hij <;>
+      first
+      | (left; exact ⟨⟨by decide⟩⟩)
+      | (right; exact ⟨⟨by decide⟩⟩)
+  · -- No two-way arrows (antisymmetry)
+    obtain ⟨hp⟩ := hi; obtain ⟨hq⟩ := hj
+    rcases hp with ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ |
+      ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ <;>
+      (rcases hq with ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ |
+        ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ <;>
+         omega)
+
+/-! ## Section 3: D̃₈ dimension vector
+
+Vertices `0, 1, 7, 8` are leaves with dimension `m + 1`; the path
+vertices `2, 3, 4, 5, 6` have dimension `2 * (m + 1)`. -/
+
+/-- Dimension of vertex `v` in the D̃₈ representation with parameter `m`. -/
+def d8tildeDim (m : ℕ) (v : Fin 9) : ℕ :=
+  if 2 ≤ v.val ∧ v.val ≤ 6 then 2 * (m + 1) else m + 1
+
+/-! ## Section 4: D̃₈ direction-aware match-based representation map
+
+For an arbitrary orientation `Q` of `d8tildeAdj`, each of the eight
+edges may point in either direction. The map function below provides
+the canonical forward map and a reverse map per edge:
+
+* `0-2`, `1-2`: `starEmbed1_F / starEmbed2_F` (canonical) and
+  `starFirst_F / starSecond_F` (reverses).
+* `2-3`: `d5tildeGamma_F` (canonical) and `d5tildeGammaInv_F` (reverse).
+* `3-4`, `4-5`, `5-6`: `LinearMap.id` in both directions (internal-chain
+  edges between equal-dimension blocks).
+* `6-7`, `6-8`: `starEmbed1_F / starEmbed2_F` (canonical) and
+  `starFirst_F / starSecond_F` (reverses).
+
+Outside these 16 directed edges the map is `0` (ruled out by `hOrient`).
+-/
+
+/-- Direction-aware match-based map function for the orientation-generic
+D̃₈ representation. -/
+private noncomputable def d8tildeRepMap_kQ (F : Type) [Field F] (m : ℕ) (a b : Fin 9) :
+    (Fin (d8tildeDim m a) → F) →ₗ[F] (Fin (d8tildeDim m b) → F) :=
+  match a, b with
+  -- Edge {0, 2}: canonical 0→2, reverse 2→0
+  | ⟨0, _⟩, ⟨2, _⟩ => starEmbed1_F F m
+  | ⟨2, _⟩, ⟨0, _⟩ => starFirst_F F m
+  -- Edge {1, 2}: canonical 1→2, reverse 2→1
+  | ⟨1, _⟩, ⟨2, _⟩ => starEmbed2_F F m
+  | ⟨2, _⟩, ⟨1, _⟩ => starSecond_F F m
+  -- Edge {2, 3}: canonical 2→3, reverse 3→2
+  | ⟨2, _⟩, ⟨3, _⟩ => d5tildeGamma_F F m
+  | ⟨3, _⟩, ⟨2, _⟩ => d5tildeGammaInv_F F m
+  -- Edge {3, 4}: canonical 3→4, reverse 4→3 (both identities)
+  | ⟨3, _⟩, ⟨4, _⟩ => LinearMap.id
+  | ⟨4, _⟩, ⟨3, _⟩ => LinearMap.id
+  -- Edge {4, 5}: canonical 4→5, reverse 5→4 (both identities)
+  | ⟨4, _⟩, ⟨5, _⟩ => LinearMap.id
+  | ⟨5, _⟩, ⟨4, _⟩ => LinearMap.id
+  -- Edge {5, 6}: canonical 5→6, reverse 6→5 (both identities)
+  | ⟨5, _⟩, ⟨6, _⟩ => LinearMap.id
+  | ⟨6, _⟩, ⟨5, _⟩ => LinearMap.id
+  -- Edge {6, 7}: canonical 7→6, reverse 6→7
+  | ⟨7, _⟩, ⟨6, _⟩ => starEmbed1_F F m
+  | ⟨6, _⟩, ⟨7, _⟩ => starFirst_F F m
+  -- Edge {6, 8}: canonical 8→6, reverse 6→8
+  | ⟨8, _⟩, ⟨6, _⟩ => starEmbed2_F F m
+  | ⟨6, _⟩, ⟨8, _⟩ => starSecond_F F m
+  -- Non-edges (ruled out by `hOrient`); placeholder.
+  | _, _ => 0
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Orientation-generic D̃₈ representation over an arbitrary field `F`
+with arbitrary orientation `Q` of `d8tildeAdj`. Dimension vector follows
+`d8tildeDim`: path vertices `2, 3, 4, 5, 6` have dim `2(m+1)`; leaf
+vertices `0, 1, 7, 8` have dim `m+1`.
+
+The map on an arrow `e : Q.Hom a b` depends only on the underlying
+unordered edge `{a, b}` and the direction `a → b`. Each of the eight
+edges of `d8tildeAdj` contributes one canonical map and one reverse map
+(see `d8tildeRepMap_kQ` for the dispatch). The orientation hypothesis
+`hOrient` is not used by the construction itself; it is recorded so
+that downstream lemmas (the deferred indecomposability proof) can
+pattern-match on which arrows exist. -/
+noncomputable def d8tildeRep_kQ
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (_hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ) :
+    @Etingof.QuiverRepresentation F (Fin 9) _ Q := by
+  letI := Q
+  exact {
+    obj := fun v => Fin (d8tildeDim m v) → F
+    instAddCommMonoid := fun _ => inferInstance
+    instModule := fun _ => inferInstance
+    mapLinear := fun {a b} _ => d8tildeRepMap_kQ F m a b
+  }
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- The orientation-generic D̃₈ rep has the expected dimension vector
+`d8tildeDim m` at each vertex. -/
+theorem d8tildeRep_kQ_dimVec
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ) (v : Fin 9) :
+    Nonempty (@Etingof.QuiverRepresentation.obj F (Fin 9) _ Q
+      (d8tildeRep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (d8tildeDim m v) → F)) :=
+  ⟨LinearEquiv.refl F _⟩
+
+/-! ## Section 5: Indecomposability (deferred sorry)
+
+The body of the indecomposability proof is deferred to a follow-up
+issue, mirroring the precedent of
+`d7tildeRep_kQ_isIndecomposable` (`FieldGenericD7Tilde.lean:247`,
+tracked by #2967) and `d5tildeRep_kQ_isIndecomposable`
+(`FieldGenericD5Tilde.lean:980`, tracked by #2834). The per-(F, Q)
+infinite-type theorem below transitively depends on this sorry.
+-/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Orientation-generic indecomposability of `d8tildeRep_kQ`.
+
+The proof body is deferred to a follow-up issue (the D̃₈ analogue of
+`d7tildeRep_kQ_isIndecomposable`, `FieldGenericD7Tilde.lean:247`, which
+is itself sorry-deferred under #2967). Closing this sorry requires
+F-generic versions of the leaf-subspace equalities used by the
+ℂ-specific universal proof, parameterised across each of the eight
+possible arrow directions; the d5tilde/d7tilde precedents show this is a
+multi-hundred-line construction. The consumer
+`d8tilde_not_finite_type_per_kQ` carries this sorry transitively. -/
+theorem d8tildeRep_kQ_isIndecomposable
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ) :
+    (d8tildeRep_kQ F Q hOrient m).IsIndecomposable := by
+  sorry
+
+/-! ## Section 6: Per-(F, Q) infinite-type theorem -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(field, orientation) D̃₈ infinite-type theorem: for any
+algebraically closed field `F` and any orientation `Q` of `d8tildeAdj`,
+the set of dimension vectors of indecomposable representations is
+infinite. Mirrors the proof shape of `d7tilde_not_finite_type_per_kQ`
+(`FieldGenericD7Tilde.lean:272`) and `dTilde_not_finite_type`
+(`InfiniteTypeConstructions.lean:3191`).
+
+Injectivity comes from vertex `0`, where `d8tildeDim m 0 = m + 1`.
+
+This theorem carries no direct `sorry`, but transitively depends on
+`d8tildeRep_kQ_isIndecomposable`, whose proof body is deferred — see
+its docstring. -/
+theorem d8tilde_not_finite_type_per_kQ
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj) :
+    ¬ Set.Finite
+      {d : Fin 9 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 9) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  intro hfin
+  have hmem : ∀ m : ℕ, d8tildeDim m ∈
+      {d : Fin 9 → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 9) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro m
+    exact ⟨d8tildeRep_kQ F Q hOrient m,
+      d8tildeRep_kQ_isIndecomposable F Q hOrient m,
+      d8tildeRep_kQ_dimVec F Q hOrient m⟩
+  have hinj : Function.Injective (d8tildeDim : ℕ → Fin 9 → ℕ) := by
+    intro m₁ m₂ h
+    have h0 := congr_fun h ⟨0, by omega⟩
+    have hnot : ¬(2 ≤ (⟨0, by omega⟩ : Fin 9).val ∧
+      (⟨0, by omega⟩ : Fin 9).val ≤ 6) := by simp
+    simp only [d8tildeDim, hnot, ite_false] at h0
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+
+/-! ## Section 7: Embedding D̃₈ into a host tree (per-(F, Q) helper)
+
+Mirrors `embed_d7tilde_in_tree_per_kQ` (`FieldGenericD7Tilde.lean:323`)
+for the D̃₈ shape: two non-adjacent degree-3 branch points (`p`, `t`)
+each with two leaves (`a, b` for `p`; `u, v` for `t`), connected by an
+internal length-4 chain `p – q – r – s – t`. Given the eight edges, the
+`p – t` non-edge, and the distinctness hypotheses, this helper derives
+the remaining 27-pair adjacency lattice and dispatches via
+`subgraph_infinite_type_transfer_per_kQ` and
+`d8tilde_not_finite_type_per_kQ`.
+
+Because the branch points are now at distance 4 (vs. distance 3 in D̃₇),
+the three interior path-distinctness facts `p ≠ r`, `q ≠ s`, `r ≠ t` are
+*not* derivable from the branch non-edge alone (a graph with `p = r`,
+etc., satisfies all the edge and `p – t` non-edge hypotheses), so they
+are taken as additional inputs. The caller supplies them from the host
+chain's `Nodup`. -/
+
+set_option maxHeartbeats 1600000 in
+-- The 27-pair adjacency lattice drives a sizeable `linarith` over the 81
+-- `fin_cases` of `hembed`, exceeding the default 200k heartbeat limit.
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Per-(F, Q) embedding of D̃₈ into a host acyclic adjacency matrix.
+
+Vertex map (matching `d8tildeAdj`):
+`0 → a, 1 → b, 2 → p, 3 → q, 4 → r, 5 → s, 6 → t, 7 → u, 8 → v`. The
+eight D̃₈ edges are: `a-p, b-p, p-q, q-r, r-s, s-t, t-u, t-v`; vertices
+`p` and `t` are the two non-adjacent degree-3 branch points. -/
+theorem embed_d8tilde_in_tree_per_kQ {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm)
+    (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (h_acyclic : ∀ (cycle : List (Fin n)) (hclen : 3 ≤ cycle.length), cycle.Nodup →
+      (∀ k, (h : k + 1 < cycle.length) →
+        adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, h⟩) = 1) →
+      adj (cycle.getLast (List.ne_nil_of_length_pos (by omega)))
+        (cycle.get ⟨0, by omega⟩) ≠ 1)
+    (a b p q r s t u v : Fin n)
+    (hap : adj p a = 1) (hbp : adj p b = 1) (hpq : adj p q = 1)
+    (hqr : adj q r = 1) (hrs : adj r s = 1) (hst : adj s t = 1)
+    (htu : adj t u = 1) (htv : adj t v = 1)
+    (hpt : adj p t = 0)
+    (hab : a ≠ b) (haq : a ≠ q) (hbq : b ≠ q)
+    (huv : u ≠ v) (hsu : s ≠ u) (hsv : s ≠ v)
+    (hpt_ne : p ≠ t) (hpr_ne : p ≠ r) (hqs_ne : q ≠ s) (hrt_ne : r ≠ t)
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf n Q adj) :
+    ¬ Set.Finite
+      {d : Fin n → ℕ |
+        ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin n) _ Q,
+          V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+  have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
+  have ne_of_adj' : ∀ x y, adj x y = 1 → x ≠ y := fun x y h hxy => by
+    rw [hxy, hdiag] at h; exact one_ne_zero h.symm
+  -- Edge-derived distinctness — directions matching the edge labels.
+  have hap_ne : a ≠ p := (ne_of_adj' p a hap).symm
+  have hbp_ne : b ≠ p := (ne_of_adj' p b hbp).symm
+  have hpq_ne : p ≠ q := ne_of_adj' p q hpq
+  have hqr_ne : q ≠ r := ne_of_adj' q r hqr
+  have hrs_ne : r ≠ s := ne_of_adj' r s hrs
+  have hst_ne : s ≠ t := ne_of_adj' s t hst
+  have htu_ne : t ≠ u := ne_of_adj' t u htu
+  have htv_ne : t ≠ v := ne_of_adj' t v htv
+  -- Reversed edges.
+  have hap' : adj a p = 1 := (adj_comm a p).trans hap
+  have hbp' : adj b p = 1 := (adj_comm b p).trans hbp
+  have hpq' : adj q p = 1 := (adj_comm q p).trans hpq
+  have hqr' : adj r q = 1 := (adj_comm r q).trans hqr
+  have hrs' : adj s r = 1 := (adj_comm s r).trans hrs
+  have hst' : adj t s = 1 := (adj_comm t s).trans hst
+  have htu' : adj u t = 1 := (adj_comm u t).trans htu
+  have htv' : adj v t = 1 := (adj_comm v t).trans htv
+  have hpt' : adj t p = 0 := (adj_comm t p).trans hpt
+  -- Remaining interior path-distinctness derivable from the branch non-edge.
+  have hps_ne : p ≠ s := by
+    intro h; rw [h, hst] at hpt; exact one_ne_zero hpt
+  have hqt_ne : q ≠ t := by
+    intro h; rw [← h, hpq] at hpt; exact one_ne_zero hpt
+  -- Path Nodup helpers.
+  have path_nodup4 : ∀ (x₁ x₂ x₃ x₄ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₂ ≠ x₃ → x₂ ≠ x₄ → x₃ ≠ x₄ →
+      [x₁, x₂, x₃, x₄].Nodup := by
+    intro x₁ x₂ x₃ x₄ h12 h13 h14 h23 h24 h34
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14⟩, ⟨h23, h24⟩, h34⟩
+  have path_nodup5 : ∀ (x₁ x₂ x₃ x₄ x₅ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₁ ≠ x₅ →
+      x₂ ≠ x₃ → x₂ ≠ x₄ → x₂ ≠ x₅ →
+      x₃ ≠ x₄ → x₃ ≠ x₅ → x₄ ≠ x₅ →
+      [x₁, x₂, x₃, x₄, x₅].Nodup := by
+    intro x₁ x₂ x₃ x₄ x₅ h12 h13 h14 h15 h23 h24 h25 h34 h35 h45
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14, h15⟩, ⟨h23, h24, h25⟩, ⟨h34, h35⟩, h45⟩
+  have path_nodup6 : ∀ (x₁ x₂ x₃ x₄ x₅ x₆ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₁ ≠ x₅ → x₁ ≠ x₆ →
+      x₂ ≠ x₃ → x₂ ≠ x₄ → x₂ ≠ x₅ → x₂ ≠ x₆ →
+      x₃ ≠ x₄ → x₃ ≠ x₅ → x₃ ≠ x₆ →
+      x₄ ≠ x₅ → x₄ ≠ x₆ → x₅ ≠ x₆ →
+      [x₁, x₂, x₃, x₄, x₅, x₆].Nodup := by
+    intro x₁ x₂ x₃ x₄ x₅ x₆ h12 h13 h14 h15 h16 h23 h24 h25 h26 h34 h35 h36 h45 h46 h56
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14, h15, h16⟩, ⟨h23, h24, h25, h26⟩,
+      ⟨h34, h35, h36⟩, ⟨h45, h46⟩, h56⟩
+  have path_nodup7 : ∀ (x₁ x₂ x₃ x₄ x₅ x₆ x₇ : Fin n),
+      x₁ ≠ x₂ → x₁ ≠ x₃ → x₁ ≠ x₄ → x₁ ≠ x₅ → x₁ ≠ x₆ → x₁ ≠ x₇ →
+      x₂ ≠ x₃ → x₂ ≠ x₄ → x₂ ≠ x₅ → x₂ ≠ x₆ → x₂ ≠ x₇ →
+      x₃ ≠ x₄ → x₃ ≠ x₅ → x₃ ≠ x₆ → x₃ ≠ x₇ →
+      x₄ ≠ x₅ → x₄ ≠ x₆ → x₄ ≠ x₇ →
+      x₅ ≠ x₆ → x₅ ≠ x₇ → x₆ ≠ x₇ →
+      [x₁, x₂, x₃, x₄, x₅, x₆, x₇].Nodup := by
+    intro x₁ x₂ x₃ x₄ x₅ x₆ x₇
+      h12 h13 h14 h15 h16 h17 h23 h24 h25 h26 h27 h34 h35 h36 h37
+      h45 h46 h47 h56 h57 h67
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
+      not_or, not_false_eq_true, List.nodup_nil, and_self, and_true]
+    exact ⟨⟨h12, h13, h14, h15, h16, h17⟩, ⟨h23, h24, h25, h26, h27⟩,
+      ⟨h34, h35, h36, h37⟩, ⟨h45, h46, h47⟩, ⟨h56, h57⟩, h67⟩
+  have path_edges4 : ∀ (x₁ x₂ x₃ x₄ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄].length) →
+        adj ([x₁, x₂, x₃, x₄].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ e12 e23 e34 k hk
+    have : k + 1 < 4 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 := by omega
+    rcases this with rfl | rfl | rfl <;> assumption
+  have path_edges5 : ∀ (x₁ x₂ x₃ x₄ x₅ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 → adj x₄ x₅ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄, x₅].length) →
+        adj ([x₁, x₂, x₃, x₄, x₅].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄, x₅].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ x₅ e12 e23 e34 e45 k hk
+    have : k + 1 < 5 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 := by omega
+    rcases this with rfl | rfl | rfl | rfl <;> assumption
+  have path_edges6 : ∀ (x₁ x₂ x₃ x₄ x₅ x₆ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 →
+      adj x₄ x₅ = 1 → adj x₅ x₆ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄, x₅, x₆].length) →
+        adj ([x₁, x₂, x₃, x₄, x₅, x₆].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄, x₅, x₆].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ x₅ x₆ e12 e23 e34 e45 e56 k hk
+    have : k + 1 < 6 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 := by omega
+    rcases this with rfl | rfl | rfl | rfl | rfl <;> assumption
+  have path_edges7 : ∀ (x₁ x₂ x₃ x₄ x₅ x₆ x₇ : Fin n),
+      adj x₁ x₂ = 1 → adj x₂ x₃ = 1 → adj x₃ x₄ = 1 →
+      adj x₄ x₅ = 1 → adj x₅ x₆ = 1 → adj x₆ x₇ = 1 →
+      ∀ k, (hk : k + 1 < [x₁, x₂, x₃, x₄, x₅, x₆, x₇].length) →
+        adj ([x₁, x₂, x₃, x₄, x₅, x₆, x₇].get ⟨k, by omega⟩)
+          ([x₁, x₂, x₃, x₄, x₅, x₆, x₇].get ⟨k + 1, hk⟩) = 1 := by
+    intro x₁ x₂ x₃ x₄ x₅ x₆ x₇ e12 e23 e34 e45 e56 e67 k hk
+    have : k + 1 < 7 := by simpa using hk
+    have : k = 0 ∨ k = 1 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5 := by omega
+    rcases this with rfl | rfl | rfl | rfl | rfl | rfl <;> assumption
+  -- Triangle non-edges via `acyclic_no_triangle` (9 distance-2 non-edges).
+  have hab0 : adj a b = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic p a b hab hap_ne hbp_ne hap hbp
+  have haq0 : adj a q = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic p a q haq hap_ne hpq_ne.symm hap hpq
+  have hbq0 : adj b q = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic p b q hbq hbp_ne hpq_ne.symm hbp hpq
+  have huv0 : adj u v = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic t u v huv htu_ne.symm htv_ne.symm htu htv
+  have hsu0 : adj s u = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic t s u hsu hst_ne htu_ne.symm hst' htu
+  have hsv0 : adj s v = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic t s v hsv hst_ne htv_ne.symm hst' htv
+  have hpr0 : adj p r = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic q p r hpr_ne hpq_ne hqr_ne.symm hpq' hqr
+  have hqs0 : adj q s = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic r q s hqs_ne hqr_ne hrs_ne.symm hqr' hrs
+  have hrt0 : adj r t = 0 :=
+    acyclic_no_triangle adj hsymm h01 h_acyclic s r t hrt_ne hrs_ne hst_ne.symm hrs' hst
+  -- Cross-side distinctness derived from distance-2 non-edges.
+  have har_ne : a ≠ r := by intro h; rw [h] at hap; linarith [hpr0]
+  have hbr_ne : b ≠ r := by intro h; rw [h] at hbp; linarith [hpr0]
+  have hru_ne : r ≠ u := by intro h; rw [h] at hrt0; rw [adj_comm] at hrt0; linarith [htu]
+  have hrv_ne : r ≠ v := by intro h; rw [h] at hrt0; rw [adj_comm] at hrt0; linarith [htv]
+  have hpu_ne : p ≠ u := by intro h; rw [h] at hpt'; linarith [htu]
+  have hpv_ne : p ≠ v := by intro h; rw [h] at hpt'; linarith [htv]
+  -- Distance-3 non-edges (4-vertex paths).
+  have hps0 : adj p s = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [p, q, r, s] (by simp)
+      (path_nodup4 _ _ _ _ hpq_ne hpr_ne hps_ne hqr_ne hqs_ne hrs_ne)
+      (path_edges4 _ _ _ _ hpq hqr hrs)
+    simpa using h
+  have hqt0 : adj q t = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [q, r, s, t] (by simp)
+      (path_nodup4 _ _ _ _ hqr_ne hqs_ne hqt_ne hrs_ne hrt_ne hst_ne)
+      (path_edges4 _ _ _ _ hqr hrs hst)
+    simpa using h
+  have har0 : adj a r = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r] (by simp)
+      (path_nodup4 _ _ _ _ hap_ne haq har_ne hpq_ne hpr_ne hqr_ne)
+      (path_edges4 _ _ _ _ hap' hpq hqr)
+    simpa using h
+  have hbr0 : adj b r = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r] (by simp)
+      (path_nodup4 _ _ _ _ hbp_ne hbq hbr_ne hpq_ne hpr_ne hqr_ne)
+      (path_edges4 _ _ _ _ hbp' hpq hqr)
+    simpa using h
+  have hru0 : adj r u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [r, s, t, u] (by simp)
+      (path_nodup4 _ _ _ _ hrs_ne hrt_ne hru_ne hst_ne hsu htu_ne)
+      (path_edges4 _ _ _ _ hrs hst htu)
+    simpa using h
+  have hrv0 : adj r v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [r, s, t, v] (by simp)
+      (path_nodup4 _ _ _ _ hrs_ne hrt_ne hrv_ne hst_ne hsv htv_ne)
+      (path_edges4 _ _ _ _ hrs hst htv)
+    simpa using h
+  -- Cross-side distinctness derived from distance-3 non-edges.
+  have has_ne : a ≠ s := by intro h; rw [h] at hap; linarith [hps0]
+  have hbs_ne : b ≠ s := by intro h; rw [h] at hbp; linarith [hps0]
+  have hqu_ne : q ≠ u := by intro h; rw [h] at hqt0; rw [adj_comm] at hqt0; linarith [htu]
+  have hqv_ne : q ≠ v := by intro h; rw [h] at hqt0; rw [adj_comm] at hqt0; linarith [htv]
+  -- Distance-4 non-edges (5-vertex paths).
+  have has0 : adj a s = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s] (by simp)
+      (path_nodup5 _ _ _ _ _ hap_ne haq har_ne has_ne
+        hpq_ne hpr_ne hps_ne hqr_ne hqs_ne hrs_ne)
+      (path_edges5 _ _ _ _ _ hap' hpq hqr hrs)
+    simpa using h
+  have hbs0 : adj b s = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s] (by simp)
+      (path_nodup5 _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne
+        hpq_ne hpr_ne hps_ne hqr_ne hqs_ne hrs_ne)
+      (path_edges5 _ _ _ _ _ hbp' hpq hqr hrs)
+    simpa using h
+  have hqu0 : adj q u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [q, r, s, t, u] (by simp)
+      (path_nodup5 _ _ _ _ _ hqr_ne hqs_ne hqt_ne hqu_ne
+        hrs_ne hrt_ne hru_ne hst_ne hsu htu_ne)
+      (path_edges5 _ _ _ _ _ hqr hrs hst htu)
+    simpa using h
+  have hqv0 : adj q v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [q, r, s, t, v] (by simp)
+      (path_nodup5 _ _ _ _ _ hqr_ne hqs_ne hqt_ne hqv_ne
+        hrs_ne hrt_ne hrv_ne hst_ne hsv htv_ne)
+      (path_edges5 _ _ _ _ _ hqr hrs hst htv)
+    simpa using h
+  -- Cross-side distinctness derived from distance-4 non-edges / branch non-edge.
+  have hat_ne : a ≠ t := by intro h; rw [h] at hap; linarith [hpt]
+  have hbt_ne : b ≠ t := by intro h; rw [h] at hbp; linarith [hpt]
+  -- Distance-5 non-edges (6-vertex paths).
+  have hat0 : adj a t = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s, t] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hap_ne haq har_ne has_ne hat_ne
+        hpq_ne hpr_ne hps_ne hpt_ne hqr_ne hqs_ne hqt_ne hrs_ne hrt_ne hst_ne)
+      (path_edges6 _ _ _ _ _ _ hap' hpq hqr hrs hst)
+    simpa using h
+  have hbt0 : adj b t = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s, t] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne hbt_ne
+        hpq_ne hpr_ne hps_ne hpt_ne hqr_ne hqs_ne hqt_ne hrs_ne hrt_ne hst_ne)
+      (path_edges6 _ _ _ _ _ _ hbp' hpq hqr hrs hst)
+    simpa using h
+  have hpu0 : adj p u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [p, q, r, s, t, u] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hpq_ne hpr_ne hps_ne hpt_ne hpu_ne
+        hqr_ne hqs_ne hqt_ne hqu_ne hrs_ne hrt_ne hru_ne hst_ne hsu htu_ne)
+      (path_edges6 _ _ _ _ _ _ hpq hqr hrs hst htu)
+    simpa using h
+  have hpv0 : adj p v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [p, q, r, s, t, v] (by simp)
+      (path_nodup6 _ _ _ _ _ _ hpq_ne hpr_ne hps_ne hpt_ne hpv_ne
+        hqr_ne hqs_ne hqt_ne hqv_ne hrs_ne hrt_ne hrv_ne hst_ne hsv htv_ne)
+      (path_edges6 _ _ _ _ _ _ hpq hqr hrs hst htv)
+    simpa using h
+  -- Cross-leaf distinctness (from distance-5 non-edges).
+  have hau_ne : a ≠ u := by intro h; rw [h] at hap; linarith [hpu0]
+  have hav_ne : a ≠ v := by intro h; rw [h] at hap; linarith [hpv0]
+  have hbu_ne : b ≠ u := by intro h; rw [h] at hbp; linarith [hpu0]
+  have hbv_ne : b ≠ v := by intro h; rw [h] at hbp; linarith [hpv0]
+  -- Distance-6 non-edges (7-vertex paths).
+  have hau0 : adj a u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s, t, u] (by simp)
+      (path_nodup7 _ _ _ _ _ _ _ hap_ne haq har_ne has_ne hat_ne hau_ne
+        hpq_ne hpr_ne hps_ne hpt_ne hpu_ne hqr_ne hqs_ne hqt_ne hqu_ne
+        hrs_ne hrt_ne hru_ne hst_ne hsu htu_ne)
+      (path_edges7 _ _ _ _ _ _ _ hap' hpq hqr hrs hst htu)
+    simpa using h
+  have hav0 : adj a v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [a, p, q, r, s, t, v] (by simp)
+      (path_nodup7 _ _ _ _ _ _ _ hap_ne haq har_ne has_ne hat_ne hav_ne
+        hpq_ne hpr_ne hps_ne hpt_ne hpv_ne hqr_ne hqs_ne hqt_ne hqv_ne
+        hrs_ne hrt_ne hrv_ne hst_ne hsv htv_ne)
+      (path_edges7 _ _ _ _ _ _ _ hap' hpq hqr hrs hst htv)
+    simpa using h
+  have hbu0 : adj b u = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s, t, u] (by simp)
+      (path_nodup7 _ _ _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne hbt_ne hbu_ne
+        hpq_ne hpr_ne hps_ne hpt_ne hpu_ne hqr_ne hqs_ne hqt_ne hqu_ne
+        hrs_ne hrt_ne hru_ne hst_ne hsu htu_ne)
+      (path_edges7 _ _ _ _ _ _ _ hbp' hpq hqr hrs hst htu)
+    simpa using h
+  have hbv0 : adj b v = 0 := by
+    rw [adj_comm]
+    have h := acyclic_path_nonadj adj hsymm h01 h_acyclic [b, p, q, r, s, t, v] (by simp)
+      (path_nodup7 _ _ _ _ _ _ _ hbp_ne hbq hbr_ne hbs_ne hbt_ne hbv_ne
+        hpq_ne hpr_ne hps_ne hpt_ne hpv_ne hqr_ne hqs_ne hqt_ne hqv_ne
+        hrs_ne hrt_ne hrv_ne hst_ne hsv htv_ne)
+      (path_edges7 _ _ _ _ _ _ _ hbp' hpq hqr hrs hst htv)
+    simpa using h
+  -- Construct φ : Fin 9 ↪ Fin n.
+  let φ_fun : Fin 9 → Fin n := fun i =>
+    match i with
+    | ⟨0, _⟩ => a  | ⟨1, _⟩ => b  | ⟨2, _⟩ => p  | ⟨3, _⟩ => q
+    | ⟨4, _⟩ => r  | ⟨5, _⟩ => s  | ⟨6, _⟩ => t  | ⟨7, _⟩ => u
+    | ⟨8, _⟩ => v
+  have φ_inj : Function.Injective φ_fun := by
+    intro i j hij; simp only [φ_fun] at hij
+    fin_cases i <;> fin_cases j <;> first
+      | rfl
+      | (exact absurd hij ‹_›)
+      | (exact absurd hij.symm ‹_›)
+  let φ : Fin 9 ↪ Fin n := ⟨φ_fun, φ_inj⟩
+  have hembed : ∀ i j, d8tildeAdj i j = adj (φ i) (φ j) := by
+    intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [d8tildeAdj, φ, φ_fun] <;> norm_num <;>
+      linarith [hdiag a, hdiag b, hdiag p, hdiag q, hdiag r, hdiag s, hdiag t,
+        hdiag u, hdiag v,
+        hap, hbp, hpq, hqr, hrs, hst, htu, htv,
+        hap', hbp', hpq', hqr', hrs', hst', htu', htv',
+        hpt, hpt',
+        hab0, haq0, hbq0, huv0, hsu0, hsv0, hpr0, hqs0, hrt0,
+        adj_comm a b, adj_comm a q, adj_comm b q, adj_comm u v,
+        adj_comm s u, adj_comm s v, adj_comm p r, adj_comm q s, adj_comm r t,
+        hps0, hqt0, har0, hbr0, hru0, hrv0,
+        adj_comm p s, adj_comm q t, adj_comm a r, adj_comm b r,
+        adj_comm r u, adj_comm r v,
+        has0, hbs0, hqu0, hqv0,
+        adj_comm a s, adj_comm b s, adj_comm q u, adj_comm q v,
+        hat0, hbt0, hpu0, hpv0,
+        adj_comm a t, adj_comm b t, adj_comm p u, adj_comm p v,
+        hau0, hav0, hbu0, hbv0,
+        adj_comm a u, adj_comm a v, adj_comm b u, adj_comm b v]
+  exact subgraph_infinite_type_transfer_per_kQ φ F Q
+    (d8tilde_not_finite_type_per_kQ F (restrictOrientationViaEmb φ Q)
+      (restrictOrientationViaEmb_isOrientationOf φ hembed hOrient))
+
+end Etingof
