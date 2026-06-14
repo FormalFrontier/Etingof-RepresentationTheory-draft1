@@ -743,6 +743,16 @@ center-crux sub #4523). For any field `F`, any orientation `Q` of `starAdj`,
 and any `m`, the K_{1,4} (D̃₄) representation `starRep_kQ F Q hOrient m` is
 indecomposable.
 
+**WARNING (issue #4566): this statement is FALSE and its `sorry` cannot be
+filled.** For the orientation that reverses the diagonal leaf 3, the
+representation is decomposable for every `m ≥ 1`; see the machine-checked
+refutation `starRep_kQ_reversedLeaf3_decomposable` (end of this file). The
+construction needs the homogeneous-tube redesign of issue #4566 before any
+orientation-generic indecomposability can hold. The canonical all-sink
+orientation is genuinely indecomposable
+(`starRep_kQ_canonical_isIndecomposable`), and the downstream
+`star_not_finite_type_per_kQ` remains true on other grounds (D̃₄ is affine).
+
 The nontriviality half is proven here (leaf 1 has dimension `m + 1 ≥ 1`). The
 no-nontrivial-decomposition half is the orientation-generic D̃₄ center crux,
 deferred to the body `sorry`:
@@ -1227,5 +1237,210 @@ theorem isCompl_coordPlanes_four (F : Type) [Field F] :
     · exact Submodule.add_mem _
         (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
         (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
+
+/-! ### Image computations at `m = 1`
+
+The four leaf maps and the reversed-leaf projection evaluated on the explicit
+basis vectors of the `m = 1` counterexample. -/
+
+private theorem cex_embed1_e0 (F : Type) [Field F] :
+    starEmbed1_F F 1 (![1, 0] : Fin 2 → F) = ![1, 0, 0, 0] := by
+  funext i; fin_cases i <;> simp [starEmbed1_F]
+
+private theorem cex_embed1_e1 (F : Type) [Field F] :
+    starEmbed1_F F 1 (![0, 1] : Fin 2 → F) = ![0, 1, 0, 0] := by
+  funext i; fin_cases i <;> simp [starEmbed1_F]
+
+private theorem cex_embed2_e0 (F : Type) [Field F] :
+    starEmbed2_F F 1 (![1, 0] : Fin 2 → F) = ![0, 0, 1, 0] := by
+  funext i; fin_cases i <;> simp [starEmbed2_F]
+
+private theorem cex_embed2_e1 (F : Type) [Field F] :
+    starEmbed2_F F 1 (![0, 1] : Fin 2 → F) = ![0, 0, 0, 1] := by
+  funext i; fin_cases i <;> simp [starEmbed2_F]
+
+private theorem cex_nilp_e0 (F : Type) [Field F] :
+    nilpotentShiftLinGen F 1 (![1, 0] : Fin 2 → F) = ![0, 0] := by
+  funext i; fin_cases i <;>
+    simp [nilpotentShiftLinGen, nilpotentShiftMatrixGen, Matrix.mulVecLin_apply,
+      Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+private theorem cex_nilp_e1 (F : Type) [Field F] :
+    nilpotentShiftLinGen F 1 (![0, 1] : Fin 2 → F) = ![1, 0] := by
+  funext i; fin_cases i <;>
+    simp [nilpotentShiftLinGen, nilpotentShiftMatrixGen, Matrix.mulVecLin_apply,
+      Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+private theorem cex_embedNilp_e0 (F : Type) [Field F] :
+    starEmbedNilp_F F 1 (![1, 0] : Fin 2 → F) = ![1, 0, 0, 0] := by
+  funext i
+  simp only [starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply, cex_nilp_e0]
+  fin_cases i <;> simp [starEmbed1_F, starEmbed2_F]
+
+private theorem cex_embedNilp_e1 (F : Type) [Field F] :
+    starEmbedNilp_F F 1 (![0, 1] : Fin 2 → F) = ![0, 1, 1, 0] := by
+  funext i
+  simp only [starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply, cex_nilp_e1]
+  fin_cases i <;> simp [starEmbed1_F, starEmbed2_F, cex_embed1_e1, cex_embed2_e0]
+
+private theorem cex_proj3_g0 (F : Type) [Field F] :
+    starProj3_F F 1 (![1, 0, 0, 0] : Fin 4 → F) = ![0, 0] := by
+  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
+
+private theorem cex_proj3_g3 (F : Type) [Field F] :
+    starProj3_F F 1 (![0, 0, 0, 1] : Fin 4 → F) = ![0, 1] := by
+  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
+
+private theorem cex_proj3_h1 (F : Type) [Field F] :
+    starProj3_F F 1 (![0, 1, 0, 0] : Fin 4 → F) = ![0, 0] := by
+  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
+
+private theorem cex_proj3_h2 (F : Type) [Field F] :
+    starProj3_F F 1 (![0, 0, 1, 0] : Fin 4 → F) = ![1, 0] := by
+  funext i; fin_cases i <;> simp [starProj3_F, starSecond_F]
+
+/-! ### The complementary invariant pair and the refutation -/
+
+/-- First summand `W₁` of the `m = 1` decomposition of `starRep_kQ` at the
+reversed-leaf-3 orientation (issue #4566). -/
+private noncomputable def starCexW1 (F : Type) [Field F] :
+    ∀ v : Fin 5, Submodule F (Fin (if v.val = 0 then 2 * (1 + 1) else 1 + 1) → F)
+  | ⟨0, _⟩ => Submodule.span F {(![1, 0, 0, 0] : Fin 4 → F), ![0, 0, 0, 1]}
+  | ⟨1, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
+  | ⟨2, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
+  | ⟨3, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
+  | ⟨4, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
+  | ⟨n + 5, h⟩ => absurd h (by omega)
+
+/-- Second summand `W₂` of the `m = 1` decomposition (issue #4566). -/
+private noncomputable def starCexW2 (F : Type) [Field F] :
+    ∀ v : Fin 5, Submodule F (Fin (if v.val = 0 then 2 * (1 + 1) else 1 + 1) → F)
+  | ⟨0, _⟩ => Submodule.span F {(![0, 1, 0, 0] : Fin 4 → F), ![0, 0, 1, 0]}
+  | ⟨1, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
+  | ⟨2, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
+  | ⟨3, _⟩ => Submodule.span F {(![1, 0] : Fin 2 → F)}
+  | ⟨4, _⟩ => Submodule.span F {(![0, 1] : Fin 2 → F)}
+  | ⟨n + 5, h⟩ => absurd h (by omega)
+
+/-- The reversed-diagonal-leaf orientation of `starQuiver`. -/
+@[reducible] private noncomputable def starRevLeaf3Quiver : Quiver (Fin 5) :=
+  @Etingof.reversedAtVertex (Fin 5) _ starQuiver 3
+
+instance starRevLeaf3_subsingleton (a b : Fin 5) :
+    Subsingleton (@Quiver.Hom (Fin 5) starRevLeaf3Quiver a b) := by
+  show Subsingleton (@Etingof.ReversedAtVertexHom (Fin 5) _ starQuiver 3 a b)
+  by_cases ha : a = 3 <;> by_cases hb : b = 3
+  · rw [@Etingof.ReversedAtVertexHom_eq_eq (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
+  · rw [@Etingof.ReversedAtVertexHom_eq_ne (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
+  · rw [@Etingof.ReversedAtVertexHom_ne_eq (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
+  · rw [@Etingof.ReversedAtVertexHom_ne_ne (Fin 5) _ starQuiver 3 a b ha hb]; infer_instance
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- **Refutation of `starRep_kQ_isIndecomposable` (issue #4566).** For the
+orientation `Q = reversedAtVertex starQuiver 3` (reversing the diagonal leaf),
+the K_{1,4} (D̃₄) representation `starRep_kQ F Q hOrient 1` is **decomposable**:
+`starCexW1`/`starCexW2` are a nontrivial complementary invariant pair.
+
+This proves `starRep_kQ_isIndecomposable` (above) states a false proposition;
+its `sorry` body cannot be filled. The downstream `star_not_finite_type_per_kQ`
+remains true (D̃₄ is affine), but its current proof route via this construction
+is unsound for reversed orientations and needs the homogeneous-tube redesign
+(issue #4566 recommendation 2). -/
+theorem starRep_kQ_reversedLeaf3_decomposable (F : Type) [Field F] :
+    ¬ @Etingof.QuiverRepresentation.IsIndecomposable F _ (Fin 5) starRevLeaf3Quiver
+        (starRep_kQ F starRevLeaf3Quiver
+          (Etingof.reversedAtVertex_isOrientationOf starAdj_symm starAdj_diag
+            starOrientation_isOrientationOf 3) 1) := by
+  rintro ⟨-, hno⟩
+  have key := hno (starCexW1 F) (starCexW2 F) ?_ ?_ ?_
+  · -- Neither summand is everywhere `⊥`: both are nonzero at leaf 1.
+    have hne1 : starCexW1 F 1 ≠ ⊥ := by
+      simp only [starCexW1, ne_eq, Submodule.span_singleton_eq_bot]
+      intro h; exact one_ne_zero (congr_fun h 0)
+    have hne2 : starCexW2 F 1 ≠ ⊥ := by
+      simp only [starCexW2, ne_eq, Submodule.span_singleton_eq_bot]
+      intro h; exact one_ne_zero (congr_fun h 1)
+    rcases key with h | h
+    · exact hne1 (h 1)
+    · exact hne2 (h 1)
+  · -- `W₁`-invariance.
+    intro a b e x hx
+    show starRepMap_kQ F 1 a b x ∈ starCexW1 F b
+    fin_cases a <;> fin_cases b <;>
+      first
+      | exact absurd e.down (by decide)
+      | skip
+    · -- arrow 0 → 3 (reversed)
+      simp only [starCexW1] at hx ⊢
+      show starProj3_F F 1 x ∈ _
+      rw [Submodule.mem_span_pair] at hx; obtain ⟨s, t, rfl⟩ := hx
+      rw [map_add, map_smul, map_smul, cex_proj3_g0, cex_proj3_g3,
+        show (![0, 0] : Fin 2 → F) = 0 from by funext i; fin_cases i <;> rfl,
+        smul_zero, zero_add]
+      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+    · -- arrow 1 → 0
+      simp only [starCexW1] at hx ⊢
+      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
+      show starEmbed1_F F 1 (c • (![1, 0] : Fin 2 → F)) ∈ _
+      rw [map_smul, cex_embed1_e0]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
+    · -- arrow 2 → 0
+      simp only [starCexW1] at hx ⊢
+      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
+      show starEmbed2_F F 1 (c • (![0, 1] : Fin 2 → F)) ∈ _
+      rw [map_smul, cex_embed2_e1]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
+    · -- arrow 4 → 0
+      simp only [starCexW1] at hx ⊢
+      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
+      show starEmbedNilp_F F 1 (c • (![1, 0] : Fin 2 → F)) ∈ _
+      rw [map_smul, cex_embedNilp_e0]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
+  · -- `W₂`-invariance.
+    intro a b e x hx
+    show starRepMap_kQ F 1 a b x ∈ starCexW2 F b
+    fin_cases a <;> fin_cases b <;>
+      first
+      | exact absurd e.down (by decide)
+      | skip
+    · -- arrow 0 → 3 (reversed)
+      simp only [starCexW2] at hx ⊢
+      show starProj3_F F 1 x ∈ _
+      rw [Submodule.mem_span_pair] at hx; obtain ⟨s, t, rfl⟩ := hx
+      rw [map_add, map_smul, map_smul, cex_proj3_h1, cex_proj3_h2,
+        show (![0, 0] : Fin 2 → F) = 0 from by funext i; fin_cases i <;> rfl,
+        smul_zero, zero_add]
+      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+    · -- arrow 1 → 0
+      simp only [starCexW2] at hx ⊢
+      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
+      show starEmbed1_F F 1 (c • (![0, 1] : Fin 2 → F)) ∈ _
+      rw [map_smul, cex_embed1_e1]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
+    · -- arrow 2 → 0
+      simp only [starCexW2] at hx ⊢
+      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
+      show starEmbed2_F F 1 (c • (![1, 0] : Fin 2 → F)) ∈ _
+      rw [map_smul, cex_embed2_e0]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
+    · -- arrow 4 → 0
+      simp only [starCexW2] at hx ⊢
+      rw [Submodule.mem_span_singleton] at hx; obtain ⟨c, rfl⟩ := hx
+      show starEmbedNilp_F F 1 (c • (![0, 1] : Fin 2 → F)) ∈ _
+      rw [map_smul, cex_embedNilp_e1,
+        show (![0, 1, 1, 0] : Fin 4 → F)
+          = (![0, 1, 0, 0] : Fin 4 → F) + ![0, 0, 1, 0] from by
+        funext i; fin_cases i <;> simp]
+      exact Submodule.smul_mem _ _ (Submodule.add_mem _
+        (Submodule.subset_span (by simp)) (Submodule.subset_span (by simp)))
+  · -- Complementarity at every vertex.
+    intro v
+    fin_cases v
+    · exact isCompl_coordPlanes_four F
+    · exact isCompl_coordLines_two F
+    · exact (isCompl_coordLines_two F).symm
+    · exact (isCompl_coordLines_two F).symm
+    · exact isCompl_coordLines_two F
 
 end Etingof
