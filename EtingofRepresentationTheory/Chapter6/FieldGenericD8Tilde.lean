@@ -231,6 +231,230 @@ theorem d8tildeRep_kQ_dimVec
       (d8tildeRep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (d8tildeDim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 5a: Foundational center-decomposition lemmas
+
+The D̃₈ indecomposability proof (Section 5) decomposes any complementary
+invariant submodule pair through the two degree-3 branch points: vertex
+`2` (leaves `0, 1`) and vertex `6` (leaves `7, 8`). Both centers carry
+the same star structure as the D̃₅ center (`starEmbed1_F` for the first
+leaf, `starEmbed2_F` for the second, `starFirst_F / starSecond_F` for the
+reverse pulls), so the core-decomposition lemmas port verbatim from
+`d5tilde_core_F` / `d5tilde_core_F_proj{1,2}` (`FieldGenericD5Tilde.lean`)
+with the vertex labels relabelled. These are the shape-specific
+foundation reused by every orientation branch of the assembly; the
+γ-coupled containment along the internal chain `2-3-4-5-6` is genuinely
+new D̃₈ work and is tracked by the follow-up sub-issue. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Core decomposition at the first branch point `v = 2` for any
+complementary invariant submodule pair `(Wmain, Wother)`: if
+`starEmbed1_F x + starEmbed2_F z ∈ Wmain ⟨2⟩`, then `x ∈ Wmain ⟨0⟩` and
+`z ∈ Wmain ⟨1⟩`. Uses canonical `0→2` and `1→2` pushes on both `Wmain`
+and `Wother`. Verbatim analogue of `d5tilde_core_F`. -/
+theorem d8tilde_core_F
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (Wmain Wother : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hOther_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨2, by omega⟩)
+    (hOther_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨2, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v))
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ Wmain ⟨2, by omega⟩) :
+    x ∈ Wmain ⟨0, by omega⟩ ∧ z ∈ Wmain ⟨1, by omega⟩ := by
+  have htop0 := (hc ⟨0, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := x)
+  obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop0
+  have htop1 := (hc ⟨1, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := z)
+  obtain ⟨c, hcm, d, hd, hcd⟩ := Submodule.mem_sup.mp htop1
+  have ha2 := hMain_02 a ha
+  have hcm2 := hMain_12 c hcm
+  have hb2 := hOther_02 b hb
+  have hd2 := hOther_12 d hd
+  have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
+      (starEmbed1_F F m a + starEmbed2_F F m c) +
+        (starEmbed1_F F m b + starEmbed2_F F m d) := by
+    rw [← hab, ← hcd]; simp [map_add]; abel
+  rw [hsum] at hmem
+  have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ Wmain ⟨2, by omega⟩ :=
+    (Wmain ⟨2, by omega⟩).add_mem ha2 hcm2
+  have hw'_in_W : starEmbed1_F F m b + starEmbed2_F F m d ∈
+      Wmain ⟨2, by omega⟩ := by
+    have hsmul := (Wmain ⟨2, by omega⟩).smul_mem (-1 : F) hadd
+    have hadd2 := (Wmain ⟨2, by omega⟩).add_mem hmem hsmul
+    have key : starEmbed1_F F m a + starEmbed2_F F m c +
+        (starEmbed1_F F m b + starEmbed2_F F m d) +
+        (-1 : F) • (starEmbed1_F F m a + starEmbed2_F F m c) =
+        starEmbed1_F F m b + starEmbed2_F F m d := by
+      ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+    rwa [key] at hadd2
+  have hzero : starEmbed1_F F m b + starEmbed2_F F m d = 0 := by
+    have hcross := Submodule.mem_inf.mpr ⟨hw'_in_W,
+      (Wother ⟨2, by omega⟩).add_mem hb2 hd2⟩
+    rwa [(hc ⟨2, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hcross
+  obtain ⟨hb0, hd0⟩ := embed_sum_zero_F F m b d hzero
+  exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
+         hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Core decomposition at the second branch point `v = 6` for any
+complementary invariant submodule pair `(Wmain, Wother)`: if
+`starEmbed1_F x + starEmbed2_F z ∈ Wmain ⟨6⟩`, then `x ∈ Wmain ⟨7⟩` and
+`z ∈ Wmain ⟨8⟩`. Uses canonical `7→6` and `8→6` pushes on both `Wmain`
+and `Wother`. Relabelled analogue of `d5tilde_core3_F`. -/
+theorem d8tilde_core6_F
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (Wmain Wother : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_76 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨7, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨6, by omega⟩)
+    (hMain_86 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨8, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨6, by omega⟩)
+    (hOther_76 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨7, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨6, by omega⟩)
+    (hOther_86 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨8, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨6, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v))
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ Wmain ⟨6, by omega⟩) :
+    x ∈ Wmain ⟨7, by omega⟩ ∧ z ∈ Wmain ⟨8, by omega⟩ := by
+  have htop7 := (hc ⟨7, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := x)
+  obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop7
+  have htop8 := (hc ⟨8, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := z)
+  obtain ⟨c, hcm, d, hd, hcd⟩ := Submodule.mem_sup.mp htop8
+  have ha6 := hMain_76 a ha
+  have hcm6 := hMain_86 c hcm
+  have hb6 := hOther_76 b hb
+  have hd6 := hOther_86 d hd
+  have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
+      (starEmbed1_F F m a + starEmbed2_F F m c) +
+        (starEmbed1_F F m b + starEmbed2_F F m d) := by
+    rw [← hab, ← hcd]; simp [map_add]; abel
+  rw [hsum] at hmem
+  have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ Wmain ⟨6, by omega⟩ :=
+    (Wmain ⟨6, by omega⟩).add_mem ha6 hcm6
+  have hw'_in_W : starEmbed1_F F m b + starEmbed2_F F m d ∈
+      Wmain ⟨6, by omega⟩ := by
+    have hsmul := (Wmain ⟨6, by omega⟩).smul_mem (-1 : F) hadd
+    have hadd2 := (Wmain ⟨6, by omega⟩).add_mem hmem hsmul
+    have key : starEmbed1_F F m a + starEmbed2_F F m c +
+        (starEmbed1_F F m b + starEmbed2_F F m d) +
+        (-1 : F) • (starEmbed1_F F m a + starEmbed2_F F m c) =
+        starEmbed1_F F m b + starEmbed2_F F m d := by
+      ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+    rwa [key] at hadd2
+  have hzero : starEmbed1_F F m b + starEmbed2_F F m d = 0 := by
+    have hcross := Submodule.mem_inf.mpr ⟨hw'_in_W,
+      (Wother ⟨6, by omega⟩).add_mem hb6 hd6⟩
+    rwa [(hc ⟨6, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hcross
+  obtain ⟨hb0, hd0⟩ := embed_sum_zero_F F m b d hzero
+  exact ⟨hab ▸ by rw [hb0, add_zero]; exact ha,
+         hcd ▸ by rw [hd0, add_zero]; exact hcm⟩
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the first half of `d8tilde_core_F` at
+the reversed `2→0` orientation: if the reversed `0-2` pull `starFirst_F`
+sends `W ⟨2⟩` into `W ⟨0⟩`, then any `starEmbed1_F x + starEmbed2_F z` in
+`W ⟨2⟩` has first component `x ∈ W ⟨0⟩`. Analogue of
+`d5tilde_core_F_proj1`. -/
+theorem d8tilde_core_F_proj1
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hW_20 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨2, by omega⟩ →
+        starFirst_F F m w ∈ W ⟨0, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨2, by omega⟩) :
+    x ∈ W ⟨0, by omega⟩ := by
+  have h := hW_20 _ hmem
+  rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the second half of `d8tilde_core_F` at
+the reversed `2→1` orientation: if the reversed `1-2` pull `starSecond_F`
+sends `W ⟨2⟩` into `W ⟨1⟩`, then any `starEmbed1_F x + starEmbed2_F z` in
+`W ⟨2⟩` has second component `z ∈ W ⟨1⟩`. Analogue of
+`d5tilde_core_F_proj2`. -/
+theorem d8tilde_core_F_proj2
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hW_21 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨2, by omega⟩ →
+        starSecond_F F m w ∈ W ⟨1, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨2, by omega⟩) :
+    z ∈ W ⟨1, by omega⟩ := by
+  have h := hW_21 _ hmem
+  rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the first half of `d8tilde_core6_F` at
+the reversed `6→7` orientation: if the reversed `7-6` pull `starFirst_F`
+sends `W ⟨6⟩` into `W ⟨7⟩`, then any `starEmbed1_F x + starEmbed2_F z` in
+`W ⟨6⟩` has first component `x ∈ W ⟨7⟩`. Analogue of
+`d5tilde_core3_F_proj1`. -/
+theorem d8tilde_core6_F_proj1
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hW_67 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨6, by omega⟩ →
+        starFirst_F F m w ∈ W ⟨7, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨6, by omega⟩) :
+    x ∈ W ⟨7, by omega⟩ := by
+  have h := hW_67 _ hmem
+  rw [map_add, starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F, add_zero] at h
+  exact h
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Projection-based sibling for the second half of `d8tilde_core6_F` at
+the reversed `6→8` orientation: if the reversed `8-6` pull `starSecond_F`
+sends `W ⟨6⟩` into `W ⟨8⟩`, then any `starEmbed1_F x + starEmbed2_F z` in
+`W ⟨6⟩` has second component `z ∈ W ⟨8⟩`. Analogue of
+`d5tilde_core3_F_proj2`. -/
+theorem d8tilde_core6_F_proj2
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (m : ℕ)
+    (W : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hW_68 : ∀ (w : Fin (2 * (m + 1)) → F), w ∈ W ⟨6, by omega⟩ →
+        starSecond_F F m w ∈ W ⟨8, by omega⟩)
+    (x z : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨6, by omega⟩) :
+    z ∈ W ⟨8, by omega⟩ := by
+  have h := hW_68 _ hmem
+  rw [map_add, starSecond_F_starEmbed1_F, starSecond_F_starEmbed2_F, zero_add] at h
+  exact h
+
 /-! ## Section 5: Indecomposability (deferred sorry)
 
 The body of the indecomposability proof is deferred to a follow-up
