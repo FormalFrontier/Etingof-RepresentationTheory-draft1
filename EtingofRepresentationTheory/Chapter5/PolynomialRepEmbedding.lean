@@ -779,6 +779,40 @@ noncomputable def scalarGL (t : kˣ) :
     simp only [Units.inv_mul]
     exact Matrix.diagonal_one
 
+/-- The scalar matrix is the (commuting) product of the one-parameter diagonal
+generators: `scalarGL t = ∏ᵢ diagUnit i t`, the diagonal matrix with `t` in every
+slot.  The generators pairwise commute (`diagUnit_comm`), so this is a
+`Finset.noncommProd` (the ambient `GL` is noncommutative). -/
+private lemma scalarGL_eq_noncommProd (t : kˣ) :
+    scalarGL k N t
+      = Finset.univ.noncommProd (fun i => diagUnit k N i t)
+          (fun i _ j _ _ => diagUnit_comm k N i t j t) := by
+  apply Units.ext
+  have gen : ∀ (s : Finset (Fin N))
+      (comm : (↑s : Set (Fin N)).Pairwise
+        fun a b => Commute (diagUnit k N a t) (diagUnit k N b t)),
+      (s.noncommProd (fun i => diagUnit k N i t) comm).val
+        = Matrix.diagonal (fun j => if j ∈ s then (t : k) else 1) := by
+    intro s
+    induction s using Finset.induction with
+    | empty => intro comm; simp [Matrix.diagonal_one]
+    | @insert a s ha ih =>
+        intro comm
+        rw [Finset.noncommProd_insert_of_notMem _ _ _ _ ha, Units.val_mul, ih]
+        change Matrix.diagonal (Function.update (1 : Fin N → k) a (t : k))
+            * Matrix.diagonal (fun j => if j ∈ s then (t : k) else 1)
+            = Matrix.diagonal (fun j => if j ∈ insert a s then (t : k) else 1)
+        rw [Matrix.diagonal_mul_diagonal]
+        congr 1
+        funext j
+        by_cases hja : j = a
+        · subst hja; simp [Function.update_self, ha]
+        · rw [Function.update_of_ne hja]; simp [Finset.mem_insert, hja]
+  rw [gen Finset.univ]
+  change Matrix.diagonal (fun _ => (t : k))
+      = Matrix.diagonal (fun j => if j ∈ (Finset.univ : Finset (Fin N)) then (t : k) else 1)
+  simp
+
 /-- **Piece 1 of `det⁻¹` elimination — the scalar matrix acts by `t^n`.**
 On a *polynomial* (all weights nonnegative) weight-homogeneous-of-degree-`n`
 `GL_N`-representation, the scalar matrix `scalarGL t = t • 1` acts as the scalar
@@ -811,11 +845,48 @@ private theorem scalarGL_acts_as_pow (n : ℕ)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n)
     (t : kˣ) :
     M.ρ (scalarGL k N t) = ((t : k) ^ n) • LinearMap.id := by
-  -- TODO (issue #4653): with `h_span` the genuine content is short — each weight
-  -- space is an exact eigenspace for `diagUnit i t` (eigenvalue `t ^ (μ i)`), so
-  -- `scalarGL t = ∏ᵢ diagUnit i t` acts by `t ^ (∑ μ) = t ^ n` there, and
-  -- `h_span` propagates this to all of `M`.
-  sorry
+  rw [← sub_eq_zero]
+  set L : M →ₗ[k] M := M.ρ (scalarGL k N t) - ((t : k) ^ n) • LinearMap.id with hL
+  -- `L` kills every weight space, hence all of `M` (by `h_span`).
+  have hker : (⨆ μ : Fin N →₀ ℕ, glWeightSpace k N M (fun i => μ i)) ≤ LinearMap.ker L := by
+    rw [iSup_le_iff]
+    intro μ w hw
+    rw [LinearMap.mem_ker]
+    by_cases hw0 : w = 0
+    · simp [hw0]
+    · -- `w` is a simultaneous eigenvector for the diagonal generators.
+      have heig : ∀ i : Fin N, M.ρ (diagUnit k N i t) w = ((t : k) ^ μ i) • w := by
+        intro i
+        have hmem : w ∈ glWeightSpace k N M (fun j => μ j) := hw
+        rw [glWeightSpace, Submodule.mem_iInf] at hmem
+        have h2 := (Submodule.mem_iInf _).1 (hmem i) t
+        rw [LinearMap.mem_ker, LinearMap.sub_apply, sub_eq_zero,
+          LinearMap.smul_apply, LinearMap.id_apply] at h2
+        exact h2
+      -- `scalarGL t = ∏ᵢ diagUnit i t` acts as `∏ᵢ t^(μ i) = t^(∑ μ)`.
+      have act : ∀ (s : Finset (Fin N))
+          (comm : (↑s : Set (Fin N)).Pairwise
+            fun a b => Commute (M.ρ (diagUnit k N a t)) (M.ρ (diagUnit k N b t))),
+          (s.noncommProd (fun i => M.ρ (diagUnit k N i t)) comm) w
+            = (∏ i ∈ s, (t : k) ^ μ i) • w := by
+        intro s
+        induction s using Finset.induction with
+        | empty => intro comm; simp
+        | @insert a s ha ih =>
+            intro comm
+            rw [Finset.noncommProd_insert_of_notMem _ _ _ _ ha, Module.End.mul_apply, ih,
+              Finset.prod_insert ha, map_smul, heig a, smul_smul, mul_comm]
+      have hprod : M.ρ (scalarGL k N t) w = ((t : k) ^ (∑ i, μ i)) • w := by
+        rw [scalarGL_eq_noncommProd, Finset.map_noncommProd, act Finset.univ,
+          Finset.prod_pow_eq_pow_sum]
+      -- `w ≠ 0` lies in this weight space, so it is nonzero and `∑ μ = n`.
+      have hne : glWeightSpace k N M (fun i => μ i) ≠ ⊥ := by
+        intro h; exact hw0 ((Submodule.mem_bot k).1 (h ▸ hw))
+      have hsum : ∑ i, μ i = n := h_homog (fun i => μ i) hne
+      rw [hL, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, hprod, hsum,
+        sub_self]
+  rw [h_span, top_le_iff, LinearMap.ker_eq_top] at hker
+  exact hker
 
 /-- **Piece 2 of `det⁻¹` elimination — assembly given the scalar action.**
 On a *polynomial* (all weights nonnegative) representation whose scalar matrix
