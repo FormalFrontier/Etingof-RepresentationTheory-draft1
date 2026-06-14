@@ -223,6 +223,31 @@ theorem blockProjAtN_comp_embed_F (F : Type) [Field F] (o N m : ℕ)
   ext
   simp
 
+/-- `prefixBlockEmbed_F` is injective (left inverse `prefixBlockProj_F`). -/
+theorem prefixBlockEmbed_injective_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b) :
+    Function.Injective (prefixBlockEmbed_F F a b m) :=
+  Function.LeftInverse.injective (prefixBlockProj_comp_embed_F F a b m hab)
+
+/-- `suffixBlockEmbed_F` is injective (left inverse `suffixBlockProj_F`). -/
+theorem suffixBlockEmbed_injective_F (F : Type) [Field F] (a b m : ℕ) (hab : a ≤ b) :
+    Function.Injective (suffixBlockEmbed_F F a b m) :=
+  Function.LeftInverse.injective (suffixBlockProj_comp_embed_F F a b m hab)
+
+/-- Prefix-flag composition law: embedding into the first `a` blocks of `b`
+then into the first `b` blocks of `c` equals embedding into the first `a`
+blocks of `c`. The prefix flag `F^{a(m+1)} ↪ F^{b(m+1)} ↪ F^{c(m+1)}` is a
+single prefix embedding. -/
+theorem prefixBlockEmbed_comp_F (F : Type) [Field F] (a b c m : ℕ) (hab : a ≤ b)
+    (x : Fin (a * (m + 1)) → F) :
+    prefixBlockEmbed_F F b c m (prefixBlockEmbed_F F a b m x) =
+      prefixBlockEmbed_F F a c m x := by
+  ext j
+  simp only [prefixBlockEmbed_F, LinearMap.coe_mk, AddHom.coe_mk]
+  by_cases hjb : j.val < b * (m + 1)
+  · rw [dif_pos hjb]
+  · rw [dif_neg hjb,
+      dif_neg (fun hja => hjb (Nat.lt_of_lt_of_le hja (Nat.mul_le_mul_right _ hab)))]
+
 /-! ## Section 3: Orientation-generic Ẽ₈ homogeneous-tube representation
 
 The map function is a match on `(a.val, b.val)` over the eight canonical
