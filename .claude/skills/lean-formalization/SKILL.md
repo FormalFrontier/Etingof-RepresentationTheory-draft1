@@ -321,6 +321,8 @@ Before submitting a PR for a formalized item:
    - **400000–800000**: Acceptable for trace/character computations over finite groups. Add a comment explaining why.
    - **800000–1600000**: Borderline. Acceptable only for GL₂(𝔽_q) trace computations or similar unavoidable large finite sums. Must have a comment. Consider whether `simp` can be replaced with targeted `rw` to reduce heartbeats.
    - **> 1600000**: Refactor the proof. Extract helper lemmas, precompute intermediate results, or use `native_decide` for finite checks.
+   - **Placement:** `set_option ... in` lines must come *before* the `/-- ... -/` docstring (the docstring must sit immediately above `theorem`/`def`). Putting the docstring first gives `unexpected token 'set_option'; expected 'lemma'`.
+   - **`whnf` timeout despite a high budget** usually means Lean is eagerly reducing through a *non-reducible* coercion (e.g. an `FDRep`/`FGModuleCat` carrier identified with a hom-space, re-typed mid-proof via `let e' := e`). Fix it by paying that coercion *once* in a helper theorem whose output is already stated in the target type, then consume the result opaquely — do not re-coerce inside the heavy proof.
 
 ## Issue Sizing for Formalization
 
