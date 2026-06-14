@@ -1939,21 +1939,6 @@ noncomputable def embed2to3_AC (m : ℕ) :
   map_smul' c x := by
     ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
 
-/-- Embedding from 2-block space into blocks (C,_,A) of 3-block center: (a,b) ↦ (b,0,a).
-    First component of input goes to block C, second goes to block A. -/
-noncomputable def embed2to3_CA (m : ℕ) :
-    (Fin (2 * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (3 * (m + 1)) → ℂ) where
-  toFun x i :=
-    if h : i.val < m + 1 then
-      -- Block A: gets second component of input (positions m+1 to 2(m+1)-1)
-      x ⟨i.val + (m + 1), by omega⟩
-    else if h2 : 2 * (m + 1) ≤ i.val then
-      -- Block C: gets first component of input (positions 0 to m)
-      (if h3 : i.val - 2 * (m + 1) < m + 1 then x ⟨i.val - 2 * (m + 1), by omega⟩ else 0)
-    else 0  -- Block B: zero
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
@@ -3260,121 +3245,18 @@ theorem etilde6v2Orientation_isOrientationOf :
       (rcases hq with ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ | ⟨h3, h4⟩ <;>
          omega)
 
-/-- The coupling map Γ: ℂ^{3(m+1)} → ℂ^{2(m+1)} for Ẽ₆ mixed orientation.
-    Γ(a, b, c) = (a + b, a + Nc) where a,b,c are blocks of size (m+1) and N is nilpotent shift.
-    This mirrors D̃₅'s γ = [[I,I],[I,N]] but operates on 3 input blocks instead of 2. -/
-noncomputable def etilde6v2Gamma (m : ℕ) :
-    (Fin (3 * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (2 * (m + 1)) → ℂ) where
-  toFun w i :=
-    if h : i.val < m + 1 then
-      -- First block of output: a + b = w_i + w_{m+1+i}
-      w ⟨i.val, by omega⟩ + w ⟨m + 1 + i.val, by omega⟩
-    else
-      -- Second block of output: a + Nc = w_{i-(m+1)} + N(c)_{i-(m+1)}
-      let j := i.val - (m + 1)
-      w ⟨j, by omega⟩ +
-        (if h2 : j + 1 < m + 1 then w ⟨2 * (m + 1) + j + 1, by omega⟩ else 0)
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- The representation map for Ẽ₆ with mixed orientation. -/
-private noncomputable def etilde6v2RepMap (m : ℕ) (a b : Fin 7) :
-    (Fin (etilde6Dim m a) → ℂ) →ₗ[ℂ] (Fin (etilde6Dim m b) → ℂ) :=
-  match a, b with
-  -- Arm 1 (toward center): 2→1→0
-  | ⟨2, _⟩, ⟨1, _⟩ => starEmbed1 m      -- x ↦ (x, 0)
-  | ⟨1, _⟩, ⟨0, _⟩ => embed2to3_AB m    -- (a,b) ↦ (a, b, 0)
-  -- Arm 2 (toward vertex 3): 0→3←4
-  | ⟨0, _⟩, ⟨3, _⟩ => etilde6v2Gamma m  -- Γ(a,b,c) = (a+b, a+Nc)
-  | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1 m      -- x ↦ (x, 0)
-  -- Arm 3 (toward center): 6→5→0
-  | ⟨6, _⟩, ⟨5, _⟩ => starEmbedNilp m   -- x ↦ (x, Nx)
-  | ⟨5, _⟩, ⟨0, _⟩ => embed2to3_CA m    -- (a,b) ↦ (b, 0, a)
-  | _, _ => 0
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-noncomputable def etilde6v2Rep (m : ℕ) :
-    @Etingof.QuiverRepresentation ℂ (Fin 7) _ etilde6v2Quiver := by
-  letI := etilde6v2Quiver
-  exact {
-    obj := fun v => Fin (etilde6Dim m v) → ℂ
-    instAddCommMonoid := fun _ => inferInstance
-    instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => etilde6v2RepMap m a b
-  }
-
-/-! The indecomposability proof follows the D̃₅ pattern:
-1. Vertex 0 (dim 3(m+1)) receives from arms 1 and 3:
-   - embed2to3_AB maps from inner 1: (a,b) ↦ (a,b,0), covering blocks A,B
-   - embed2to3_CA maps from inner 5: (a,b) ↦ (b,0,a), covering blocks A,C
-2. Vertex 3 (dim 2(m+1)) receives from vertex 0 (via Γ) and vertex 4 (via starEmbed1):
-   - Γ(a,b,c) = (a+b, a+Nc) couples blocks A,B,C to both blocks of vertex 3
-   - starEmbed1 embeds tip 4 into first block of vertex 3
-3. From tip 2: x ∈ W(2) → (x,0,0) ∈ W(0) → Γ(x,0,0) = (x,x) ∈ W(3)
-   So W(2) ⊆ both blocks of W(3), hence W(2) ⊆ W(4) (both in first block)
-4. From tip 6: x ∈ W(6) → (x,Nx) ∈ W(5) → (Nx,0,x) ∈ W(0) → Γ(Nx,0,x) = (Nx, Nx+Nx) ∈ W(3)
-   Combined with N-coupling: forces N-invariance of common leaf subspace
-5. nilpotent_invariant_compl_trivial concludes -/
-
--- For now, sorry the indecomposability; we only need the infinite type theorem.
--- NOTE: The hypothesis `1 ≤ m` is required. For `m = 0`, `nilpotentShiftLin 0 = 0`
--- (since `i.val + 1 < 1` is unsatisfiable for `i : Fin 1`), so the nilpotent twist
--- disappears and the representation is provably decomposable. An explicit
--- complementary invariant pair is: W₁(0) = {(a,b,0)}, W₂(0) = {(0,0,c)}, with
--- W₁(1)=W₁(3)=W₁(5)=full, W₁(2)=W₁(4)=full, W₁(6)=0, W₂ the complements.
--- For m ≥ 1, the nilpotent twist `N ≠ 0` breaks this decomposition at vertex 6,
--- forcing the argument through via `nilpotent_invariant_compl_trivial`.
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-theorem etilde6v2Rep_isIndecomposable (m : ℕ) (hm : 1 ≤ m) :
-    @Etingof.QuiverRepresentation.IsIndecomposable ℂ _ (Fin 7)
-      etilde6v2Quiver (etilde6v2Rep m) := by
-  -- FRAMEWORK WALL (wave 54): the single-nilpotent-twist construction is
-  -- decomposable for every m ≥ 1. The N-twist only covers the ⟨e₀, …, e_{m−1}⟩
-  -- sub-block of its target, leaving the e_m direction free to peel off as a
-  -- 1-dim summand at the center. See
-  -- `progress/indecomposability-framework-investigation.md` for the explicit
-  -- counter-example (verified at `etilde6v2Rep 1`) and wave-54 Wall 1 for the
-  -- framework-decision issue. This theorem is expected to be re-proved against
-  -- a new framework (book's Tits-form argument, or a stronger explicit
-  -- construction).
-  let _ := hm  -- retain `m, hm` in the signature for the future proof
-  sorry
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-theorem etilde6v2Rep_dimVec (m : ℕ) (v : Fin 7) :
-    Nonempty (@Etingof.QuiverRepresentation.obj ℂ (Fin 7) _
-      etilde6v2Quiver (etilde6v2Rep m) v ≃ₗ[ℂ]
-      (Fin (etilde6Dim m v) → ℂ)) :=
-  ⟨LinearEquiv.refl ℂ _⟩
 
 theorem etilde6_not_finite_type :
     ¬ Etingof.IsFiniteTypeQuiver 7 etilde6Adj := by
-  intro hft
-  letI := etilde6v2Quiver
-  have hfin := @hft ℂ _ inferInstance etilde6v2Quiver
-    (fun a b => etilde6v2Quiver_subsingleton a b)
-    etilde6v2Orientation_isOrientationOf
-  -- We range over `m + 1` (not `m`) because `etilde6v2Rep_isIndecomposable`
-  -- requires `1 ≤ m`: the `m = 0` case is provably decomposable.
-  -- Shifting gives an infinite family of indecomposables with distinct dim vectors.
-  have hmem : ∀ m : ℕ, (fun v : Fin 7 => etilde6Dim (m + 1) v) ∈
-      {d : Fin 7 → ℕ | ∃ V : Etingof.QuiverRepresentation.{0,0,0,0} ℂ (Fin 7),
-        V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[ℂ] (Fin (d v) → ℂ))} := by
-    intro m
-    exact ⟨etilde6v2Rep (m + 1),
-      etilde6v2Rep_isIndecomposable (m + 1) (Nat.succ_le_succ m.zero_le),
-      etilde6v2Rep_dimVec (m + 1)⟩
-  have hinj : Function.Injective (fun m : ℕ => fun v : Fin 7 => etilde6Dim (m + 1) v) := by
-    intro m₁ m₂ h
-    have h0 := congr_fun h ⟨0, by omega⟩
-    simp only [etilde6Dim] at h0
-    omega
-  exact (Set.infinite_range_of_injective hinj |>.mono
-    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+  -- TRUE statement: Ẽ₆ is an affine (extended) Dynkin diagram and therefore
+  -- has infinite representation type. The previous proof routed through an
+  -- explicit single-nilpotent-twist construction that was shown UNSOUND
+  -- (decomposable for every m ≥ 1; see directive #4516 and
+  -- progress/indecomposability-framework-investigation.md) and has been reverted.
+  -- Re-derive via the book's existence proof (Etingof Problem 6.1.5 + 6.1.2):
+  -- Tits form q(δ) = 0 ⇒ dim Rep(Q, n·δ) > dim G − 1 ⇒ infinitely many GL-orbits
+  -- ⇒ infinitely many indecomposables per n·δ.
+  sorry
 
 /-! ## Section 17: Ẽ_8 has infinite representation type via subgraph embedding
 
@@ -3504,130 +3386,20 @@ def etilde7Dim (m : ℕ) (v : Fin 8) : ℕ :=
   | 2 | 5 => 3 * (m + 1)
   | _ => m + 1  -- vertices 4, 7
 
-/-- Embedding ℂ^{3(m+1)} into first 3 blocks of ℂ^{4(m+1)}: (x,y,z) ↦ (x,y,z,0). -/
-noncomputable def embed3to4_ABC (m : ℕ) :
-    (Fin (3 * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (4 * (m + 1)) → ℂ) where
-  toFun x i := if h : i.val < 3 * (m + 1) then x ⟨i.val, h⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- Embedding ℂ^{3(m+1)} into blocks A,C,D of ℂ^{4(m+1)}: (x,y,z) ↦ (x,0,y,z). -/
-noncomputable def embed3to4_ACD (m : ℕ) :
-    (Fin (3 * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (4 * (m + 1)) → ℂ) where
-  toFun x i :=
-    if h : i.val < m + 1 then
-      -- Block A: first component of input
-      x ⟨i.val, by omega⟩
-    else if h2 : m + 1 ≤ i.val ∧ i.val < 2 * (m + 1) then
-      -- Block B: zero
-      0
-    else if h3 : i.val < 4 * (m + 1) then
-      -- Blocks C,D: shift input by -(m+1) to get components 2,3 of input
-      x ⟨i.val - (m + 1), by omega⟩
-    else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- Ẽ₇ arm 1 embedding ℂ^{2(m+1)} into ℂ^{4(m+1)}: (p,q) ↦ (p+q, p, q, Nq).
-    Couples all four blocks and introduces nilpotent twist in block D. -/
-noncomputable def etilde7Arm1Embed (m : ℕ) :
-    (Fin (2 * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (4 * (m + 1)) → ℂ) where
-  toFun w i :=
-    if h : i.val < m + 1 then
-      -- Block A: p + q = w_i + w_{m+1+i}
-      w ⟨i.val, by omega⟩ + w ⟨m + 1 + i.val, by omega⟩
-    else if h2 : i.val < 2 * (m + 1) then
-      -- Block B: p = w_{i-(m+1)} (first component)
-      w ⟨i.val - (m + 1), by omega⟩
-    else if h3 : i.val < 3 * (m + 1) then
-      -- Block C: q = w_{m+1+(i-2(m+1))} (second component)
-      w ⟨m + 1 + (i.val - 2 * (m + 1)), by omega⟩
-    else
-      -- Block D: Nq = nilpotentShift applied to second component
-      let j := i.val - 3 * (m + 1)
-      if h4 : j + 1 < m + 1 then w ⟨m + 1 + j + 1, by omega⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- Match-based map for the Ẽ₇ representation.
-    Arm 1: 1→0 via nilpotent-coupled embedding
-    Arm 2: 4→3→2→0 via identity chain + first-3-blocks embedding
-    Arm 3: 7→6→5→0 via identity chain + blocks-ACD embedding -/
-private noncomputable def etilde7RepMap (m : ℕ) (a b : Fin 8) :
-    (Fin (etilde7Dim m a) → ℂ) →ₗ[ℂ] (Fin (etilde7Dim m b) → ℂ) :=
-  match a, b with
-  -- Arm 1: 1→0
-  | ⟨1, _⟩, ⟨0, _⟩ => etilde7Arm1Embed m
-  -- Arm 2: 4→3→2→0 (chain toward center via first blocks)
-  | ⟨4, _⟩, ⟨3, _⟩ => starEmbed1 m          -- x ↦ (x, 0)
-  | ⟨3, _⟩, ⟨2, _⟩ => embed2to3_AB m        -- (x,y) ↦ (x, y, 0)
-  | ⟨2, _⟩, ⟨0, _⟩ => embed3to4_ABC m       -- (x,y,z) ↦ (x, y, z, 0)
-  -- Arm 3: 7→6→5→0 (chain via blocks A,C,D)
-  | ⟨7, _⟩, ⟨6, _⟩ => starEmbed1 m          -- x ↦ (x, 0)
-  | ⟨6, _⟩, ⟨5, _⟩ => embed2to3_AB m        -- (x,y) ↦ (x, y, 0)
-  | ⟨5, _⟩, ⟨0, _⟩ => embed3to4_ACD m       -- (x,y,z) ↦ (x, 0, y, z)
-  | _, _ => 0
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-noncomputable def etilde7Rep (m : ℕ) :
-    @Etingof.QuiverRepresentation ℂ (Fin 8) _ etilde7Quiver := by
-  letI := etilde7Quiver
-  exact {
-    obj := fun v => Fin (etilde7Dim m v) → ℂ
-    instAddCommMonoid := fun _ => inferInstance
-    instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => etilde7RepMap m a b
-  }
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-theorem etilde7Rep_isIndecomposable (m : ℕ) (hm : 1 ≤ m) :
-    @Etingof.QuiverRepresentation.IsIndecomposable ℂ _ (Fin 8)
-      etilde7Quiver (etilde7Rep m) := by
-  -- FRAMEWORK WALL (wave 54): same refutation as etilde6v2Rep. The single
-  -- nilpotent-twist on arm 1 only covers ⟨e₀, …, e_{m−1}⟩ of block D at the
-  -- center, leaving the e_m direction free to peel off as a 1-dim summand
-  -- (verified counter-example: `etilde7Rep 1` in
-  -- `progress/indecomposability-framework-investigation.md`). Wave-54 Wall 1
-  -- tracks the framework decision. Expected to be re-proved against a new
-  -- framework.
-  let _ := hm
-  sorry
-
-theorem etilde7Rep_dimVec (m : ℕ) (v : Fin 8) :
-    Nonempty (@Etingof.QuiverRepresentation.obj ℂ (Fin 8) _ etilde7Quiver
-      (etilde7Rep m) v ≃ₗ[ℂ] (Fin (etilde7Dim m v) → ℂ)) :=
-  ⟨LinearEquiv.refl _ _⟩
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 theorem etilde7_not_finite_type :
     ¬ Etingof.IsFiniteTypeQuiver 8 etilde7Adj := by
-  intro hft
-  letI := etilde7Quiver
-  have hfin := @hft ℂ _ inferInstance etilde7Quiver
-    (fun a b => etilde7Quiver_subsingleton a b)
-    etilde7Orientation_isOrientationOf
-  -- We range over `m + 1` (not `m`) because `etilde7Rep_isIndecomposable`
-  -- requires `1 ≤ m`: the `m = 0` case is provably decomposable.
-  have hmem : ∀ m : ℕ, (fun v : Fin 8 => etilde7Dim (m + 1) v) ∈
-      {d : Fin 8 → ℕ | ∃ V : Etingof.QuiverRepresentation.{0,0,0,0} ℂ (Fin 8),
-        V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[ℂ] (Fin (d v) → ℂ))} := by
-    intro m
-    exact ⟨etilde7Rep (m + 1),
-      etilde7Rep_isIndecomposable (m + 1) (Nat.succ_le_succ m.zero_le),
-      etilde7Rep_dimVec (m + 1)⟩
-  have hinj : Function.Injective (fun m : ℕ => fun v : Fin 8 => etilde7Dim (m + 1) v) := by
-    intro m₁ m₂ h
-    have h0 := congr_fun h ⟨4, by omega⟩
-    simp only [etilde7Dim] at h0
-    omega
-  exact (Set.infinite_range_of_injective hinj |>.mono
-    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+  -- TRUE statement: Ẽ₇ is an affine (extended) Dynkin diagram and therefore
+  -- has infinite representation type. The previous proof routed through an
+  -- explicit single-nilpotent-twist construction that was shown UNSOUND
+  -- (decomposable for every m ≥ 1; see directive #4516 and
+  -- progress/indecomposability-framework-investigation.md) and has been reverted.
+  -- Re-derive via the book's existence proof (Etingof Problem 6.1.5 + 6.1.2):
+  -- Tits form q(δ) = 0 ⇒ dim Rep(Q, n·δ) > dim G − 1 ⇒ infinitely many GL-orbits
+  -- ⇒ infinitely many indecomposables per n·δ.
+  sorry
 
 /-! ## Section 20: T_{1,2,5} has infinite representation type
 
@@ -3718,143 +3490,20 @@ def t125Dim (m : ℕ) (v : Fin 9) : ℕ :=
   | 4 => 5 * (m + 1)
   | _ => m + 1  -- vertex 8
 
-/-- Generic first-blocks embedding: ℂ^{k·(m+1)} ↪ ℂ^{n·(m+1)} for k ≤ n,
-    sending x to (x, 0, ..., 0). -/
-noncomputable def embedFirstBlocks (m : ℕ) (k n : ℕ) (hkn : k ≤ n) :
-    (Fin (k * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (n * (m + 1)) → ℂ) where
-  toFun x i := if h : i.val < k * (m + 1) then x ⟨i.val, h⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- Embedding ℂ^{k·(m+1)} into ℂ^{n·(m+1)} skipping block B (positions m+1..2(m+1)-1):
-    (x₁,...,xₖ) ↦ (x₁, 0, x₂, ..., xₖ). Block A gets first component, skip B, then C..onwards. -/
-noncomputable def embedSkipBlockB (m : ℕ) (k n : ℕ) (hkn : k + 1 ≤ n) (hk : 1 ≤ k) :
-    (Fin (k * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (n * (m + 1)) → ℂ) where
-  toFun x i :=
-    if h : i.val < m + 1 then
-      x ⟨i.val, by nlinarith⟩
-    else if h2 : i.val < 2 * (m + 1) then
-      0  -- Block B: skip
-    else if h3 : i.val < (k + 1) * (m + 1) then
-      x ⟨i.val - (m + 1), by
-        have : (k + 1) * (m + 1) = k * (m + 1) + (m + 1) := by ring
-        omega⟩
-    else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- T_{1,2,5} arm 1 embedding: ℂ^{3(m+1)} → ℂ^{6(m+1)}.
-    (p,q,r) ↦ (p+q+r, p+q, p, q, r, Nr) where p,q,r are blocks of size (m+1).
-    Couples all six blocks and introduces nilpotent twist in block F. -/
-noncomputable def t125Arm1Embed (m : ℕ) :
-    (Fin (3 * (m + 1)) → ℂ) →ₗ[ℂ] (Fin (6 * (m + 1)) → ℂ) where
-  toFun w i :=
-    if h : i.val < m + 1 then
-      -- Block A: p + q + r
-      w ⟨i.val, by omega⟩ + w ⟨m + 1 + i.val, by omega⟩ +
-        w ⟨2 * (m + 1) + i.val, by omega⟩
-    else if h2 : i.val < 2 * (m + 1) then
-      -- Block B: p + q
-      let j := i.val - (m + 1)
-      w ⟨j, by omega⟩ + w ⟨m + 1 + j, by omega⟩
-    else if h3 : i.val < 3 * (m + 1) then
-      -- Block C: p
-      let j := i.val - 2 * (m + 1)
-      w ⟨j, by omega⟩
-    else if h4 : i.val < 4 * (m + 1) then
-      -- Block D: q
-      w ⟨m + 1 + (i.val - 3 * (m + 1)), by omega⟩
-    else if h5 : i.val < 5 * (m + 1) then
-      -- Block E: r
-      w ⟨2 * (m + 1) + (i.val - 4 * (m + 1)), by omega⟩
-    else
-      -- Block F: Nr (nilpotent shift of third component r)
-      let j := i.val - 5 * (m + 1)
-      if h6 : j + 1 < m + 1 then w ⟨2 * (m + 1) + j + 1, by omega⟩ else 0
-  map_add' x y := by ext i; simp only [Pi.add_apply]; split_ifs <;> ring
-  map_smul' c x := by
-    ext i; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; split_ifs <;> ring
-
-/-- Match-based map for the T_{1,2,5} representation.
-    Arm 1: 1→0 via nilpotent-coupled embedding
-    Arm 2: 3→2→0 via identity chain + first-4-blocks embedding
-    Arm 3: 8→7→6→5→4→0 via identity chain + skip-block-B embedding -/
-private noncomputable def t125RepMap (m : ℕ) (a b : Fin 9) :
-    (Fin (t125Dim m a) → ℂ) →ₗ[ℂ] (Fin (t125Dim m b) → ℂ) :=
-  match a, b with
-  -- Arm 1: 1→0
-  | ⟨1, _⟩, ⟨0, _⟩ => t125Arm1Embed m
-  -- Arm 2: 3→2→0
-  | ⟨3, _⟩, ⟨2, _⟩ => embedFirstBlocks m 2 4 (by omega) -- ℂ^{2(m+1)} → ℂ^{4(m+1)}: x ↦ (x,0,0)
-  -- Need: ℂ^{4(m+1)} → ℂ^{6(m+1)}: first 4 blocks
-  | ⟨2, _⟩, ⟨0, _⟩ => embedFirstBlocks m 4 6 (by omega)
-  -- Arm 3: 8→7→6→5→4→0
-  | ⟨8, _⟩, ⟨7, _⟩ => starEmbed1 m          -- ℂ^{m+1} → ℂ^{2(m+1)}
-  | ⟨7, _⟩, ⟨6, _⟩ => embed2to3_AB m        -- ℂ^{2(m+1)} → ℂ^{3(m+1)}
-  | ⟨6, _⟩, ⟨5, _⟩ => embedFirstBlocks m 3 4 (by omega) -- ℂ^{3(m+1)} → ℂ^{4(m+1)}
-  | ⟨5, _⟩, ⟨4, _⟩ => embedFirstBlocks m 4 5 (by omega) -- ℂ^{4(m+1)} → ℂ^{5(m+1)}
-  | ⟨4, _⟩, ⟨0, _⟩ => embedSkipBlockB m 5 6 (by omega) (by omega) -- ℂ^{5(m+1)} → ℂ^{6(m+1)}: skip B
-  | _, _ => 0
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-noncomputable def t125Rep (m : ℕ) :
-    @Etingof.QuiverRepresentation ℂ (Fin 9) _ t125Quiver := by
-  letI := t125Quiver
-  exact {
-    obj := fun v => Fin (t125Dim m v) → ℂ
-    instAddCommMonoid := fun _ => inferInstance
-    instModule := fun _ => inferInstance
-    mapLinear := fun {a b} _ => t125RepMap m a b
-  }
-
-attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
-  CategoryTheory.ReflQuiver.toQuiver in
-theorem t125Rep_isIndecomposable (m : ℕ) (hm : 1 ≤ m) :
-    @Etingof.QuiverRepresentation.IsIndecomposable ℂ _ (Fin 9)
-      t125Quiver (t125Rep m) := by
-  -- FRAMEWORK WALL (wave 54): same refutation as etilde6v2Rep / etilde7Rep.
-  -- The arm-1 nilpotent twist (`t125Arm1Embed`) only covers ⟨e₀, …, e_{m−1}⟩
-  -- of block F at the center, leaving the e_m direction free to peel off as a
-  -- 1-dim summand (verified counter-example: `t125Rep 1` in
-  -- `progress/indecomposability-framework-investigation.md`). Wave-54 Wall 1
-  -- tracks the framework decision. Expected to be re-proved against a new
-  -- framework.
-  let _ := hm
-  sorry
-
-theorem t125Rep_dimVec (m : ℕ) (v : Fin 9) :
-    Nonempty (@Etingof.QuiverRepresentation.obj ℂ (Fin 9) _ t125Quiver
-      (t125Rep m) v ≃ₗ[ℂ] (Fin (t125Dim m v) → ℂ)) :=
-  ⟨LinearEquiv.refl _ _⟩
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 theorem t125_not_finite_type :
     ¬ Etingof.IsFiniteTypeQuiver 9 t125Adj := by
-  intro hft
-  letI := t125Quiver
-  have hfin := @hft ℂ _ inferInstance t125Quiver
-    (fun a b => t125Quiver_subsingleton a b)
-    t125Orientation_isOrientationOf
-  -- We range over `m + 1` (not `m`) because `t125Rep_isIndecomposable`
-  -- requires `1 ≤ m`: the `m = 0` case is provably decomposable.
-  have hmem : ∀ m : ℕ, (fun v : Fin 9 => t125Dim (m + 1) v) ∈
-      {d : Fin 9 → ℕ | ∃ V : Etingof.QuiverRepresentation.{0,0,0,0} ℂ (Fin 9),
-        V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[ℂ] (Fin (d v) → ℂ))} := by
-    intro m
-    exact ⟨t125Rep (m + 1),
-      t125Rep_isIndecomposable (m + 1) (Nat.succ_le_succ m.zero_le),
-      t125Rep_dimVec (m + 1)⟩
-  have hinj : Function.Injective (fun m : ℕ => fun v : Fin 9 => t125Dim (m + 1) v) := by
-    intro m₁ m₂ h
-    have h0 := congr_fun h ⟨8, by omega⟩
-    simp only [t125Dim] at h0
-    omega
-  exact (Set.infinite_range_of_injective hinj |>.mono
-    (Set.range_subset_iff.mpr hmem)).not_finite hfin
+  -- TRUE statement: T(1,2,5) is an affine (extended) Dynkin diagram and therefore
+  -- has infinite representation type. The previous proof routed through an
+  -- explicit single-nilpotent-twist construction that was shown UNSOUND
+  -- (decomposable for every m ≥ 1; see directive #4516 and
+  -- progress/indecomposability-framework-investigation.md) and has been reverted.
+  -- Re-derive via the book's existence proof (Etingof Problem 6.1.5 + 6.1.2):
+  -- Tits form q(δ) = 0 ⇒ dim Rep(Q, n·δ) > dim G − 1 ⇒ infinitely many GL-orbits
+  -- ⇒ infinitely many indecomposables per n·δ.
+  sorry
 
 /-! ## Section 21: Non-ADE graph classification
 
