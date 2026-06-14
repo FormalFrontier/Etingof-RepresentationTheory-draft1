@@ -474,6 +474,31 @@ theorem starProj4_F_starEmbedNilp_F (F : Type) [Field F] (m : ℕ)
   simp [starProj4_F, starEmbedNilp_F, LinearMap.add_apply, LinearMap.comp_apply,
     starFirst_F_starEmbed1_F, starFirst_F_starEmbed2_F]
 
+/-! ### Reversed-leaf projection surjectivity
+
+Each `starProj_i_F` is surjective: the corresponding embedding `starEmbed_i_F`
+is a right inverse (`starProj_i_F (starEmbed_i_F x) = x`), so surjectivity
+follows from `Function.RightInverse.surjective`. These are exactly the
+`Function.Surjective p` hypotheses that `reversed_leaf_subspace_eq` needs at
+each leaf oriented `0 → i` in the orientation-generic indecomposability
+proof. -/
+
+theorem starProj1_F_surjective (F : Type) [Field F] (m : ℕ) :
+    Function.Surjective (starProj1_F F m) :=
+  Function.RightInverse.surjective (starProj1_F_starEmbed1_F F m)
+
+theorem starProj2_F_surjective (F : Type) [Field F] (m : ℕ) :
+    Function.Surjective (starProj2_F F m) :=
+  Function.RightInverse.surjective (starProj2_F_starEmbed2_F F m)
+
+theorem starProj3_F_surjective (F : Type) [Field F] (m : ℕ) :
+    Function.Surjective (starProj3_F F m) :=
+  Function.RightInverse.surjective (starProj3_F_starEmbedDiag_F F m)
+
+theorem starProj4_F_surjective (F : Type) [Field F] (m : ℕ) :
+    Function.Surjective (starProj4_F F m) :=
+  Function.RightInverse.surjective (starProj4_F_starEmbedNilp_F F m)
+
 /-! ### Directness transfer
 
 A pure submodule-lattice companion to `compl_le_forces_eq`. Where
@@ -713,17 +738,60 @@ theorem starRep_kQ_canonical_isIndecomposable
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
+/-- **Orientation-generic indecomposability of `starRep_kQ`** (issue #2801,
+center-crux sub #4523). For any field `F`, any orientation `Q` of `starAdj`,
+and any `m`, the K_{1,4} (D̃₄) representation `starRep_kQ F Q hOrient m` is
+indecomposable.
+
+The nontriviality half is proven here (leaf 1 has dimension `m + 1 ≥ 1`). The
+no-nontrivial-decomposition half is the orientation-generic D̃₄ center crux,
+deferred to the body `sorry`:
+
+* Each leaf edge `{0, i}` is oriented `i → 0` (forward, map `starEmbed_i_F`)
+  or `0 → i` (reversed, map `starProj_i_F`). The landed per-leaf reductions
+  `forward_leaf_subspace_eq` / `reversed_leaf_subspace_eq` (the latter using
+  the `starProj_i_F_surjective` facts in this file) pin every leaf subspace
+  to the center subspace `U₁ := W₁ 0 ⊆ V₀`.
+* The genuinely hard part — forcing `U₁ ∈ {⊥, ⊤}` from the four images in
+  general position plus the nilpotent twist `N` at leaf 4 (reusing
+  `nilpotent_invariant_compl_trivial_gen`), then propagating to every
+  vertex — is the D̃₄ instance of the project-wide tree-indecomposability
+  wall (the analogous D̃₅/D̃₆/D̃₇/Ẽ₆/Ẽ₇ bodies are likewise sorry-deferred).
+
+The canonical all-forward orientation is fully proven and reachable via
+`starRep_kQ_canonical_isIndecomposable`; this theorem subsumes it for the
+general `Q`. -/
+theorem starRep_kQ_isIndecomposable
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 5))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
+    (m : ℕ) :
+    (starRep_kQ F Q hOrient m).IsIndecomposable := by
+  constructor
+  · -- Nontrivial at leaf 1 (dimension `m + 1 ≥ 1`).
+    refine ⟨⟨1, by omega⟩, ?_⟩
+    change Nontrivial (Fin (if (1 : Fin 5).val = 0 then 2 * (m + 1) else m + 1) → F)
+    simp only [show (1 : Fin 5).val = 1 from rfl, one_ne_zero, ↓reduceIte]
+    infer_instance
+  · -- Orientation-generic D̃₄ center crux + propagation. Tracked sub-issue of
+    -- #2801; see the docstring above for the reduction roadmap.
+    let _ := hOrient
+    sorry
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
 /-- Per-(field, orientation) version of `star_not_finite_type`: for any
 algebraically closed field `F` and any orientation `Q` of `starAdj`, the
 set of dimension vectors of indecomposable representations of `Q` over
 `F` is infinite.
 
-API stub introduced by issue #2875 (deliverable 1): the body is `sorry`
-pending the indecomposability proof for `starRep_kQ`, which is tracked by
-issues #2789 (canonical orientation) and #2801 (Q-extension). This stub
-exists so that the per-(F, Q) assembly `not_posdef_infinite_type_per_kQ`
-can dispatch by name to the K_{1,4} (D̃₄) forbidden-subgraph case via
-`subgraph_infinite_type_transfer_per_kQ`. -/
+This theorem carries no direct `sorry`, but transitively depends on
+`starRep_kQ_isIndecomposable`, whose center-crux body is deferred (see its
+docstring). The dimension vectors of the family `starRep_kQ F Q hOrient m`
+(value `2(m+1)` at the center, `m+1` at every leaf) are pairwise distinct, so
+the indecomposable dimension-vector set is infinite. Mirrors the proof of
+`star_not_finite_type_F`. -/
 theorem star_not_finite_type_per_kQ
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 5))
@@ -733,12 +801,22 @@ theorem star_not_finite_type_per_kQ
       {d : Fin 5 → ℕ |
         ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 5) _ Q,
           V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
-  -- TODO (#2789, #2801): replace this `sorry` with the proof that the
-  -- orientation-generic family `starRep_kQ F Q hOrient (m + 1)` is
-  -- indecomposable and produces infinitely many distinct dimension
-  -- vectors (mirror `etilde6_not_finite_type_per_kQ`).
-  let _ := hOrient
-  sorry
+  intro hfin
+  have hmem : ∀ m : ℕ,
+      (fun v : Fin 5 => if v.val = 0 then 2 * (m + 1) else m + 1) ∈
+      {d : Fin 5 → ℕ | ∃ V : @Etingof.QuiverRepresentation.{0,0,0,0} F (Fin 5) _ Q,
+        V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[F] (Fin (d v) → F))} := by
+    intro m
+    exact ⟨starRep_kQ F Q hOrient m, starRep_kQ_isIndecomposable F Q hOrient m,
+      starRep_kQ_dimVec F Q hOrient m⟩
+  have hinj : Function.Injective
+      (fun m : ℕ => fun v : Fin 5 => if v.val = 0 then 2 * (m + 1) else m + 1) := by
+    intro m₁ m₂ h
+    have h1 := congr_fun h ⟨1, by omega⟩
+    simp only [one_ne_zero, ↓reduceIte] at h1
+    omega
+  exact (Set.infinite_range_of_injective hinj |>.mono
+    (Set.range_subset_iff.mpr hmem)).not_finite hfin
 
 /-! ## Section: Per-(F, Q) subgraph dispatch wrapper for K_{1,4}
 
