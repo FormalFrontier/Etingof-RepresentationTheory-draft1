@@ -80,17 +80,29 @@ This is the deferred highest-weight classification: "a simple polynomial
 `GL_N`-rep is determined by its character, and the simples of `V^{⊗n}` are
 exactly the `SchurModule k N λ` for antitone `λ`, `|λ| = n`, `length ≤ N`."
 
+Well-posedness (issue #4721, replacing #4704): the conclusion needs two
+hypotheses on the abstract simples `L` that the bare equivariance data `(e, he)`
+does not pin down, so they are taken explicitly:
+* `hLsimp` — each `L i` is a simple polynomial `GL_N`-rep. Without it `char(L i)`
+  need not be a single `schurPoly` (a reducible `A ⊕ B` summand absorbs into the
+  equivariance), so `char(L i) = schurPoly N λᵢ` would be false.
+* `hLdist` — the `L i` are pairwise non-isomorphic. Without it an isotypic
+  component `S ⊗ L` with `dim S ≥ 2` re-presents as two indices sharing one `L`,
+  forcing `L i ≅ L j` and making `Function.Injective lam` impossible.
+Both are surfaced by `glTensorRep_equivariant_schurWeyl_decomposition` (simplicity
+now, distinctness pending the Schur-Weyl GL-side injectivity sub-issue).
+
 Proof strategy (per #4698 / #2483): each `SchurModule k N λ` is simple
 (`schurModule_isSimple`), algebraic, and homogeneous of degree `n = ∑ λ`, so under
 the abstract decomposition it lands as a single summand `L i₀` with
 `char(L i₀) = formalCharacter k N (SchurModule k N λ) = schurPoly N λ`
-(`formalCharacter_schurModule_eq_schurPoly`). Injectivity of `lam` follows because
-the `L i` are pairwise non-isomorphic simples and `schurPoly` is injective on
-antitone partitions (`schurPoly_injective`).
+(`formalCharacter_schurModule_eq_schurPoly`). Injectivity of `lam` follows from
+`hLdist` and `schurPoly_injective`.
 
-The proof is deferred (the conceptual crux); the single `sorry` is isolated here
-so the reduction and the headline corollary below are otherwise sorry-free. The
-proof is tracked by issue #4704. -/
+The deep step — "a simple polynomial `GL_N`-rep is character-determined ⇒
+`char = schurPoly`" — is the deferred Tier-4 highest-weight content; the single
+residual `sorry` is isolated here so the reduction and headline corollary remain
+otherwise sorry-free. Tracked by issue #4721. -/
 theorem schurWeyl_simples_formalCharacter_classification_core
     (N n : ℕ) (hN : n ≤ N)
     {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -104,10 +116,19 @@ theorem schurWeyl_simples_formalCharacter_classification_core
           e (glTensorRep k N n g v) =
             Representation.directSum (fun i =>
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
-                (S i)).tprod (L i).ρ) g (e v)) :
+                (S i)).tprod (L i).ρ) g (e v))
+    (hLsimp : ∀ i, IsSimpleModule
+        (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))) :
     ∃ lam : ι → {l : Fin N → ℕ // Antitone l},
       Function.Injective lam ∧
       ∀ i, formalCharacter k N (L i) = schurPoly N (lam i).val := by
+  -- Well-posed (issue #4721) once the highest-weight classification is supplied:
+  -- `hLsimp` (each `L i` simple) pins `char(L i)` to a single `schurPoly N λᵢ`;
+  -- `hLdist` (the `L i` pairwise non-isomorphic) gives `Function.Injective lam`
+  -- via `schurPoly_injective`. The deep step "a simple polynomial `GL_N`-rep is
+  -- character-determined ⇒ `char = schurPoly`" is the deferred Tier-4 content.
   sorry
 
 /-- **Headline (sorry-free given the crux).** The formal characters of the
@@ -131,10 +152,14 @@ theorem glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent
           e (glTensorRep k N n g v) =
             Representation.directSum (fun i =>
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
-                (S i)).tprod (L i).ρ) g (e v)) :
+                (S i)).tprod (L i).ρ) g (e v))
+    (hLsimp : ∀ i, IsSimpleModule
+        (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))) :
     LinearIndependent ℚ (fun i => formalCharacter k N (L i)) := by
   obtain ⟨lam, hlam_inj, hlam_char⟩ :=
-    schurWeyl_simples_formalCharacter_classification_core k N n hN L e he
+    schurWeyl_simples_formalCharacter_classification_core k N n hN L e he hLsimp hLdist
   exact formalCharacter_linearIndependent_of_eq_schurPoly k N L lam hlam_inj hlam_char
 
 end Etingof
