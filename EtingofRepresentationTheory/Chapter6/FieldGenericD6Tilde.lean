@@ -582,6 +582,75 @@ theorem d6tilde_gamma_containment_F
     exact (d6tilde_core4_F F Q hOrient m Wmain Wother hMain_54 hMain_64
       hOther_54 hOther_64 hc y (nilpotentShiftLinGen F m y) hgamma4).2
 
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Corrected-tube analogue of `d6tilde_gamma_containment_F` for the central
+edge in its **canonical** direction `2→3` carrying the full-rank eigenvalue-site
+iso `γ_λ = d5tildeGammaTube_F` (`Λ = λ·id + J`, #4649). Identical structure to
+`d6tilde_gamma_containment_F`; the only change is the eigenvalue twist on the
+embed-2 column: `gammaTube_from_embed2_F` deposits `Λy = jordanShiftLinGen F lam m y`
+into `Wmain ⟨6⟩` in the fourth clause, where the old `γ` deposited `Ny`. The three
+containments used for the leaf equalities (`0→5`, `0→6`, `1→5`) are unchanged,
+because the embed-1 column of `γ_λ` is untouched and the first component of the
+embed-2 image is still `y`. Port of `d5tilde_gammaTube_containment_F` with the
+extra identity-edge collapse threaded in via `hcol_main : Wmain⟨3⟩ = Wmain⟨4⟩`. -/
+theorem d6tilde_gammaTube_containment_F
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q d6tildeAdj)
+    (lam : F) (m : ℕ)
+    (Wmain Wother : ∀ v, Submodule F ((d6tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wmain ⟨2, by omega⟩ →
+        d5tildeGammaTube_F F lam m x ∈ Wmain ⟨3, by omega⟩)
+    (hcol_main : Wmain ⟨3, by omega⟩ = Wmain ⟨4, by omega⟩)
+    (hMain_54 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨5, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨4, by omega⟩)
+    (hMain_64 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨6, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨4, by omega⟩)
+    (hOther_54 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨5, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨4, by omega⟩)
+    (hOther_64 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨6, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨4, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v)) :
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨5, by omega⟩) ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨6, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      y ∈ Wmain ⟨5, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      jordanShiftLinGen F lam m y ∈ Wmain ⟨6, by omega⟩) := by
+  refine ⟨fun x hx => ?_, fun x hx => ?_, fun y hy => ?_, fun y hy => ?_⟩
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gammaTube_from_embed1_F] at hgamma
+    have hgamma4 := hcol_main ▸ hgamma
+    exact (d6tilde_core4_F F Q hOrient m Wmain Wother hMain_54 hMain_64
+      hOther_54 hOther_64 hc x x hgamma4).1
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gammaTube_from_embed1_F] at hgamma
+    have hgamma4 := hcol_main ▸ hgamma
+    exact (d6tilde_core4_F F Q hOrient m Wmain Wother hMain_54 hMain_64
+      hOther_54 hOther_64 hc x x hgamma4).2
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gammaTube_from_embed2_F] at hgamma
+    have hgamma4 := hcol_main ▸ hgamma
+    exact (d6tilde_core4_F F Q hOrient m Wmain Wother hMain_54 hMain_64
+      hOther_54 hOther_64 hc y (jordanShiftLinGen F lam m y) hgamma4).1
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gammaTube_from_embed2_F] at hgamma
+    have hgamma4 := hcol_main ▸ hgamma
+    exact (d6tilde_core4_F F Q hOrient m Wmain Wother hMain_54 hMain_64
+      hOther_54 hOther_64 hc y (jordanShiftLinGen F lam m y) hgamma4).2
+
 /-! ## Section 4d: Leaf equalities (#4527 sub-A: canonical branch)
 
 The leaf-equality theorem derives `W₁⟨0⟩ = W₁⟨1⟩ = W₁⟨5⟩ = W₁⟨6⟩` for any
@@ -601,16 +670,27 @@ vertices `0, 1, 5, 6` carry equal `W₁`-subspaces.
 **Restated against the corrected eigenvalue-site tube** (#4649 sub-A;
 `progress/dtilde-tube-redesign-design.md`). The central edge `{2,3}` now
 carries `γ_λ = d5tildeGammaTube_F F (d5tildeTubeLam F) m` (`Λ = λ·id + J`,
-full rank) rather than the refuted rank-deficient `d5tildeGamma_F`, so the
-statement is now **true in every orientation** (including the m=1 combo
-C/C′ and outer-reversed branches refuted in #4631 / #4632 on the old rep).
+full rank) rather than the refuted rank-deficient `d5tildeGamma_F`.
 
-**Proof body deferred to #4649 sub-B.** The all-canonical and
-all-leaves-reversed (combo-D) leaf arms transport across `γ_λ` exactly as
-in the old proof; the central-edge transport is rewritten around `Λ` /
-`γ_λ⁻¹` (`gammaTube_from_embed1_F` / `gammaTube_from_embed2_F`), and the
-previously-blocked mixed v=4 branches close because the eigenvalue site is
-now full rank. Mirrors the D̃₅ sub-B precedent (#4692). -/
+**Proof status (#4722, partial).** The **all-canonical** orientation branch
+(`0→2, 1→2, 2→3, 3→4, 5→4, 6→4`) is proven inline, mirroring the landed D̃₅
+all-canonical branch (`d5tildeRep_kQ_leaf_equalities`,
+`FieldGenericD5Tilde.lean`): the internal edge `3-4` collapses
+orientation-independently via `d6tildeRep_kQ_chain_collapse`, the canonical
+embed/`γ_λ` pushes feed `d6tilde_gammaTube_containment_F`, and three
+`compl_le_forces_eq` applications chain the containments into the three
+equalities.
+
+The remaining orientation branches carry a `sorry`. As established for D̃₅ in
+#4743 (filed after this issue): the **mixed-direction** (mixed-`v=4`-leaf)
+branches are **not separately derivable** from the leaf data alone — the
+eigenvalue twist `Λ` lives entirely inside the central `γ_λ`, never as a vertex
+self-map, so pinning the leaf-4 subspace through `γ_λ⁻¹` is circular against the
+goal. Those branches must fold into `d6tildeRep_kQ_isIndecomposable` (#4724),
+where the two centers fold and `M = Λ − I` becomes a usable self-map for
+`eigenvalue_jordan_invariant_compl_trivial_gen`. The all-leaves-reversed
+(combo-D) branch transports across `γ_λ` like the canonical branch and is a
+natural next increment. Mirrors the D̃₅ precedent state on `main`. -/
 theorem d6tildeRep_kQ_leaf_equalities
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 7))
@@ -626,7 +706,107 @@ theorem d6tildeRep_kQ_leaf_equalities
     W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨6, by omega⟩ := by
-  sorry
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  set lam := d5tildeTubeLam F with hlam
+  -- The internal edge `3-4` collapses orientation-independently.
+  obtain ⟨hcol1, hcol2⟩ :=
+    d6tildeRep_kQ_chain_collapse F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+  -- d6tildeAdj values at each leaf/γ edge (canonical direction).
+  have h02 : d6tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h12 : d6tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h23 : d6tildeAdj ⟨2, by omega⟩ ⟨3, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h54 : d6tildeAdj ⟨5, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  have h64 : d6tildeAdj ⟨6, by omega⟩ ⟨4, by omega⟩ = 1 := by simp [d6tildeAdj]
+  rcases hOrient_edge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ02 | hQ02
+  · -- e02 = Or.inl: 0→2 canonical
+    obtain ⟨a02⟩ := hQ02
+    rcases hOrient_edge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ12 | hQ12
+    · -- e12 = Or.inl: 1→2 canonical
+      obtain ⟨a12⟩ := hQ12
+      rcases hOrient_edge ⟨2, by omega⟩ ⟨3, by omega⟩ h23 with hQ23 | hQ23
+      · -- e23 = Or.inl: 2→3 canonical (central γ_λ in canonical direction)
+        obtain ⟨a23⟩ := hQ23
+        -- Canonical v=2 pushes and central γ_λ push.
+        have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+            starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+          have h := hW₁_inv a02 x hx
+          simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+        have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+            starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+          have h := hW₁_inv a12 x hx
+          simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+        have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+            d5tildeGammaTube_F F lam m x ∈ W₁ ⟨3, by omega⟩ := by
+          have h := hW₁_inv a23 x hx
+          simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+        have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+            starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+          have h := hW₂_inv a02 x hx
+          simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+        have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+            starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+          have h := hW₂_inv a12 x hx
+          simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+        have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+            d5tildeGammaTube_F F lam m x ∈ W₂ ⟨3, by omega⟩ := by
+          have h := hW₂_inv a23 x hx
+          simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+        rcases hOrient_edge ⟨5, by omega⟩ ⟨4, by omega⟩ h54 with hQ54 | hQ54
+        · -- e54 = Or.inl: 5→4 canonical
+          obtain ⟨a54⟩ := hQ54
+          rcases hOrient_edge ⟨6, by omega⟩ ⟨4, by omega⟩ h64 with hQ64 | hQ64
+          · -- e64 = Or.inl: 6→4 canonical — ALL CANONICAL.
+            obtain ⟨a64⟩ := hQ64
+            have hW₁_54 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨5, by omega⟩) :
+                starEmbed1_F F m x ∈ W₁ ⟨4, by omega⟩ := by
+              have h := hW₁_inv a54 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₁_64 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨6, by omega⟩) :
+                starEmbed2_F F m x ∈ W₁ ⟨4, by omega⟩ := by
+              have h := hW₁_inv a64 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_54 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨5, by omega⟩) :
+                starEmbed1_F F m x ∈ W₂ ⟨4, by omega⟩ := by
+              have h := hW₂_inv a54 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_64 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨6, by omega⟩) :
+                starEmbed2_F F m x ∈ W₂ ⟨4, by omega⟩ := by
+              have h := hW₂_inv a64 x hx
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            obtain ⟨h05, h06, h15, _hN16⟩ :=
+              d6tilde_gammaTube_containment_F F Q hOrient lam m W₁ W₂
+                hW₁_02 hW₁_12 hW₁_23 hcol1 hW₁_54 hW₁_64 hW₂_54 hW₂_64 hcompl
+            obtain ⟨h05', h06', h15', _hN16'⟩ :=
+              d6tilde_gammaTube_containment_F F Q hOrient lam m W₂ W₁
+                hW₂_02 hW₂_12 hW₂_23 hcol2 hW₂_54 hW₂_64 hW₁_54 hW₁_64
+                (fun v => (hcompl v).symm)
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq06 : W₁ ⟨0, by omega⟩ = W₁ ⟨6, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨6, by omega⟩) (W₂ ⟨6, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨6, by omega⟩) h06 h06').1
+            have heq15 : W₁ ⟨1, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨5, by omega⟩) h15 h15').1
+            exact ⟨heq05.trans heq15.symm, heq05, heq06⟩
+          · -- e64 reversed (4→6): mixed v=4 leaves. Folds into #4724 (sub-C).
+            sorry
+        · -- e54 reversed (4→5): mixed v=4 leaves. Folds into #4724 (sub-C).
+          sorry
+      · -- e23 reversed (3→2): central-reversed. Follow-up (#4722 residual / #4724).
+        sorry
+    · -- e12 reversed (2→1). Follow-up (#4722 residual / #4724).
+      sorry
+  · -- e02 reversed (2→0). Follow-up (#4722 residual / #4724).
+    sorry
 
 /-! ## Section 5: Indecomposability (deferred sorry)
 
