@@ -555,6 +555,135 @@ theorem t125_canonical_collapse
     t125_suffix_sub F m W0 W4 W5 W6 W7 W8 h87 h76 h65 h54 h40
   exact ⟨h10, h20, hpre, h40, hsuf5, hsuf6, hsuf7, hsuf8⟩
 
+/-! ## Section 3d: Arm-1 eigenvalue-site deposit (sub-B1 of #4612, #4633)
+
+The arm-1 eigenvalue tube `t125Arm1Tube_F` couples all six center blocks
+through the moment curve `c_k = P + Λ^k Q + Λ^{2k} R` (`Λ = λ•id + J`). The
+indecomposability assembly (sub-C, #4613) needs from this arm only the
+`(λ•id + J)`-invariance deposit at the common `F^{m+1}` eigenvalue site — the
+hypothesis fed to `eigenvalue_jordan_invariant_compl_trivial_gen`.
+
+The key observation that avoids inverting the full block-Vandermonde: feed the
+arm-1 leaf the **Q-concentrated** input `(0, x, 0)` (`x` placed in the middle
+block). Then every moment-curve coefficient collapses, `c_k = Λ^k x`, so the
+center's block-`1` readout is exactly `Λ x = jordanShiftLinGen x`. Combined
+with the leaf collapse (the middle leaf block embeds into `W ⟨1⟩`, the arm-1
+push lands in `W ⟨0⟩`, and the center block-`1` readout returns to the common
+site `U`), this yields `(λ•id + J)`-invariance of `U` directly. -/
+
+/-- Off-diagonal block retraction: `blockProjAtN_F` at offset `o` reads zero
+from a single block placed by `blockEmbedAtN_F` at a **disjoint** offset `o'`
+(`o + (m+1) ≤ o'` or `o' + (m+1) ≤ o`). Companion of
+`blockProjAtN_comp_embed_F` (same-offset readout) for the eigenvalue-tube
+block disentangling. -/
+theorem blockProjAtN_embedAtN_disjoint_F (F : Type) [Field F] (o o' N m : ℕ)
+    (h : o + (m + 1) ≤ N) (hdis : o + (m + 1) ≤ o' ∨ o' + (m + 1) ≤ o)
+    (x : Fin (m + 1) → F) :
+    blockProjAtN_F F o N m h (blockEmbedAtN_F F o' N m x) = 0 := by
+  ext i
+  have hi := i.isLt
+  simp only [blockProjAtN_F, blockEmbedAtN_F, LinearMap.coe_mk, AddHom.coe_mk,
+    Pi.zero_apply]
+  rw [dif_neg (by omega)]
+
+/-- **Q-concentrated moment-curve readout.** The arm-1 tube applied to the
+middle-block input `(0, x, 0)` has center block-`1` readout `Λ x`, i.e.
+`jordanShiftLinGen F lam m x`. This is the single moment-curve fact the
+eigenvalue-site deposit needs: all six blocks are `Λ^k x`, and block `1` is
+`Λ x`. -/
+theorem t125Arm1Tube_blockProj1_Qonly_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (x : Fin (m + 1) → F) :
+    blockProjAtN_F F (m + 1) (6 * (m + 1)) m (by omega)
+        (t125Arm1Tube_F F lam m
+          (blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x)) =
+      jordanShiftLinGen F lam m x := by
+  -- The three input-block projections of `(0, x, 0)`.
+  have hP : blockProjAtN_F F 0 (3 * (m + 1)) m (by omega)
+      (blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x) = 0 :=
+    blockProjAtN_embedAtN_disjoint_F F 0 (m + 1) (3 * (m + 1)) m (by omega)
+      (Or.inl (by omega)) x
+  have hQ : blockProjAtN_F F (m + 1) (3 * (m + 1)) m (by omega)
+      (blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x) = x :=
+    blockProjAtN_comp_embed_F F (m + 1) (3 * (m + 1)) m (by omega) x
+  have hR : blockProjAtN_F F (2 * (m + 1)) (3 * (m + 1)) m (by omega)
+      (blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x) = 0 :=
+    blockProjAtN_embedAtN_disjoint_F F (2 * (m + 1)) (m + 1) (3 * (m + 1)) m
+      (by omega) (Or.inr (by omega)) x
+  rw [t125Arm1Tube_F]
+  simp only [LinearMap.add_apply, LinearMap.comp_apply, map_add, hP, hQ, hR,
+    map_zero, zero_add, add_zero]
+  -- Now each summand is `blockProjAtN_F (m+1) (blockEmbedAtN_F (k*(m+1)) (Λ^k x))`.
+  rw [blockProjAtN_embedAtN_disjoint_F F (m + 1) 0 (6 * (m + 1)) m (by omega)
+        (Or.inr (by omega)),
+      blockProjAtN_comp_embed_F F (m + 1) (6 * (m + 1)) m (by omega),
+      blockProjAtN_embedAtN_disjoint_F F (m + 1) (2 * (m + 1)) (6 * (m + 1)) m
+        (by omega) (Or.inl (by omega)),
+      blockProjAtN_embedAtN_disjoint_F F (m + 1) (3 * (m + 1)) (6 * (m + 1)) m
+        (by omega) (Or.inl (by omega)),
+      blockProjAtN_embedAtN_disjoint_F F (m + 1) (4 * (m + 1)) (6 * (m + 1)) m
+        (by omega) (Or.inl (by omega)),
+      blockProjAtN_embedAtN_disjoint_F F (m + 1) (5 * (m + 1)) (6 * (m + 1)) m
+        (by omega) (Or.inl (by omega))]
+  simp only [add_zero, zero_add]
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- **Arm-1 eigenvalue-site deposit and complementary-pair finish.** Given a
+complementary pair `(U, U')` at the common eigenvalue site `F^{m+1}`, the leaf
+collapse (the middle leaf block embeds into the arm-1 leaf subspaces `W1`/`W1'`),
+the arm-1 canonical invariance (`W1`/`W1'` push into the centers `W0`/`W0'`
+under `t125Arm1Tube_F`), and the center block-`1` readout collapse (the centers
+read back into `U`/`U'`), one of `U`, `U'` is trivial.
+
+The deposit step: for `x ∈ U`, the Q-concentrated input `(0, x, 0)` lies in
+`W1`, its arm-1 push lies in `W0`, and the block-`1` readout `Λ x` lies in `U`
+(`t125Arm1Tube_blockProj1_Qonly_F`) — so `U` is `(λ•id + J)`-invariant, and
+symmetrically `U'`. The complementary `J`-invariant pair is then killed by
+`eigenvalue_jordan_invariant_compl_trivial_gen` (the eigenvalue `lam` drops
+out). This is the arm-1 analogue of `leaf4_sub` inside
+`starTubeRepGen_isIndecomposable` (`FieldGenericTube.lean`); sub-C (#4613)
+supplies the collapse hypotheses from the flag spine and discharges the pair. -/
+theorem t125_arm1_sub
+    (F : Type) [Field F] (lam : F) (m : ℕ)
+    (W0 W0' : Submodule F (Fin (6 * (m + 1)) → F))
+    (W1 W1' : Submodule F (Fin (3 * (m + 1)) → F))
+    (U U' : Submodule F (Fin (m + 1) → F))
+    (hUemb : ∀ x : Fin (m + 1) → F, x ∈ U →
+        blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x ∈ W1)
+    (hU'emb : ∀ x : Fin (m + 1) → F, x ∈ U' →
+        blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x ∈ W1')
+    (hpush : ∀ y : Fin (3 * (m + 1)) → F, y ∈ W1 →
+        t125Arm1Tube_F F lam m y ∈ W0)
+    (hpush' : ∀ y : Fin (3 * (m + 1)) → F, y ∈ W1' →
+        t125Arm1Tube_F F lam m y ∈ W0')
+    (hread : ∀ w : Fin (6 * (m + 1)) → F, w ∈ W0 →
+        blockProjAtN_F F (m + 1) (6 * (m + 1)) m (by omega) w ∈ U)
+    (hread' : ∀ w : Fin (6 * (m + 1)) → F, w ∈ W0' →
+        blockProjAtN_F F (m + 1) (6 * (m + 1)) m (by omega) w ∈ U')
+    (hcompl : IsCompl U U') :
+    U = ⊥ ∨ U' = ⊥ := by
+  -- The eigenvalue-site invariance deposit, both sides.
+  have deposit : ∀ (Wa : Submodule F (Fin (6 * (m + 1)) → F))
+      (Wb : Submodule F (Fin (3 * (m + 1)) → F))
+      (Ua : Submodule F (Fin (m + 1) → F)),
+      (∀ x : Fin (m + 1) → F, x ∈ Ua →
+        blockEmbedAtN_F F (m + 1) (3 * (m + 1)) m x ∈ Wb) →
+      (∀ y : Fin (3 * (m + 1)) → F, y ∈ Wb →
+        t125Arm1Tube_F F lam m y ∈ Wa) →
+      (∀ w : Fin (6 * (m + 1)) → F, w ∈ Wa →
+        blockProjAtN_F F (m + 1) (6 * (m + 1)) m (by omega) w ∈ Ua) →
+      ∀ x : Fin (m + 1) → F, x ∈ Ua → jordanShiftLinGen F lam m x ∈ Ua := by
+    intro Wa Wb Ua hemb hp hr x hx
+    have h1 := hemb x hx
+    have h2 := hp _ h1
+    have h3 := hr _ h2
+    rwa [t125Arm1Tube_blockProj1_Qonly_F] at h3
+  exact eigenvalue_jordan_invariant_compl_trivial_gen
+    (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+    (nilpotentShiftLinGen_ker_finrank F m) lam U U'
+    (deposit W0 W1 U hUemb hpush hread)
+    (deposit W0' W1' U' hU'emb hpush' hread') hcompl
+
 /-! ## Section 4: Indecomposability (corrected homogeneous tube)
 
 `t125Rep_kQ` is now the genuine homogeneous tube `R_λ^{(m+1)}` at the
