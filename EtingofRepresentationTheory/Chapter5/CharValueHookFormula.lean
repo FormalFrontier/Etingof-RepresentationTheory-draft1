@@ -493,7 +493,11 @@ theorem charValue_trivialCycleType_eq_frobeniusDetForm
         ((∏ i, ∏ j ∈ Finset.Ioi i,
             (shiftedExps N lam.parts i - shiftedExps N lam.parts j) : ℕ) : ℚ) /
         ((∏ j, (shiftedExps N lam.parts j).factorial : ℕ) : ℚ) := by
-  sorry
+  rw [charValue_trivialCycleType_eq_descPochhammer_det N lam,
+    descPochhammer_alternant_det_eq_prod_sub N (shiftedExps N lam.parts)
+      (shiftedExps_strictAnti lam)]
+  push_cast
+  ring
 
 /-- The descending product `∏_{x < k} (k - x)` equals `k!`. -/
 private theorem prod_range_sub_eq_factorial (k : ℕ) :
