@@ -393,6 +393,19 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   when one side is a submodule type. Use `(LinearEquiv.isSimpleModule_iff e).mp`
   instead — it sidesteps the re-synthesis that triggers the diamond.
 
+- **`sub_mem` fails on `QuiverRepresentation` submodules.** The `obj v` carriers
+  of `Etingof.QuiverRepresentation` (Chapter 6 indecomposability proofs) are
+  wired with `instAddCommMonoid` only, so `Submodule.sub_mem` on a `W v` errors
+  with an opaque application-type-mismatch (the `p` metavar never unifies). Mirror
+  the established `core` pattern in `FieldGenericStar.lean`: build subtractions as
+  `(W v).add_mem h ((W v).smul_mem (-1 : F) h')` and discharge the algebraic
+  identity pointwise (`ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring`).
+  Relatedly, when introducing a center vector for `eq_bot_iff`, annotate its type
+  (`intro (w : Fin (2*(m+1)) → F) hw`) — an under-determined `w` cascades into
+  spurious "No goals"/type-mismatch errors downstream. Keep `⟨i, by omega⟩` Fin
+  literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
+  definitionally for `change`/defeq steps.
+
 - **`DirectSum ι L` semisimple/finite instances** resolve through the `Π₀`
   (`DFinsupp`) instances: `inferInstanceAs (IsSemisimpleModule R (Π₀ i, L i))`.
   `DirectSum.lof R ι L i` is *defeq* to `DFinsupp.lsingle i`, so its injectivity

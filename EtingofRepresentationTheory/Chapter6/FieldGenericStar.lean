@@ -993,22 +993,24 @@ machine-refuted in #4566/#4589), this statement is **true**: the corrected
 fourth arm `λ•id + J` is a *square* Jordan block, so at `m = 1` the
 invariant subspaces are genuinely `J`-invariant and no free direction peels
 off. The nontriviality half is proven here (leaf 1 has dimension `m + 1 ≥ 1`).
-The no-nontrivial-decomposition half is sorried, deferred to the shared,
-family-wide center-crux assembly that `FieldGenericETilde6/7` also await
-(`etilde6Rep_kQ_isIndecomposable`, `etilde7tildeRep_kQ_isIndecomposable`):
+The no-nontrivial-decomposition half is proven here:
 
-* Each leaf edge `{0, i}` is oriented `i → 0` (forward, map `starEmbed_i_F`)
-  or `0 → i` (reversed, map `starProj_i_F`). The landed per-leaf reductions
-  `forward_leaf_subspace_eq` / `reversed_leaf_subspace_eq` (the latter using
-  the `starProj_i_F_surjective` facts in this file) pin every leaf subspace
-  to the center subspace `U₁ := W₁ 0 ⊆ V₀`.
-* The center crux then forces `U₁ ∈ {⊥, ⊤}` via
-  `eigenvalue_jordan_invariant_compl_trivial_gen` (the `λ•id + J` deposited at
-  leaf 4), and propagates to every vertex. For the canonical (all-forward)
-  orientation this is exactly the worked argument
-  `starTubeRepGen_isIndecomposable`; the reversed-leaf cases additionally route
-  the leaf data through the projection reductions above. This is the D̃₄
-  instance of the project-wide tree-indecomposability wall. -/
+* `starRep_kQ_leaf_equalities` collapses the four leaf subspaces of a component
+  to one another and exhibits `jordanShiftLinGen`-invariance at leaf 1.
+* The eigenvalue site `λ•id + J` then forces one component of the central pair
+  to `⊥` via `eigenvalue_jordan_invariant_compl_trivial_gen`.
+* `center_collapse` (local) lifts that leaf-1 triviality back to the center,
+  orientation-generically: only arms 1 and 3 are needed, since
+  `range starEmbed1_F` (`= ker starProj3_F`) and `range starEmbedDiag_F`
+  (`= ker starProj1_F`) span the center and meet trivially.
+* `propagate` (local) then sends the trivial center to every vertex.
+
+For the canonical (all-forward) orientation this is exactly the worked argument
+`starTubeRepGen_isIndecomposable`. This is the D̃₄ instance of the project-wide
+tree-indecomposability wall that `FieldGenericETilde6/7` also build on
+(`etilde6Rep_kQ_isIndecomposable`, `etilde7tildeRep_kQ_isIndecomposable`).
+(`starRep_kQ_leaf_equalities` still defers its reversed-orientation arms to a
+follow-up sub-issue, so the result transitively carries those `sorry`s.) -/
 theorem starRep_kQ_isIndecomposable
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 5))
@@ -1127,16 +1129,119 @@ theorem starRep_kQ_isIndecomposable
             have h := @hW'_inv ⟨0, by omega⟩ ⟨4, by omega⟩ e'' u hu
             change starProj4_F F m u ∈ W' ⟨4, by omega⟩ at h
             exact h
-    -- **Center crux (deferred).** The central pair `(W₁ 0, W₂ 0)` of a
-    -- complementary subrepresentation-invariant decomposition has a trivial
-    -- component. Routed through the leaf reductions
-    -- (`forward_leaf_subspace_eq` / `reversed_leaf_subspace_eq`) onto the
-    -- eigenvalue site `λ•id + J`, where
-    -- `eigenvalue_jordan_invariant_compl_trivial_gen` kills one half. This is
-    -- the shared, family-wide D̃₄/Ẽ₆/Ẽ₇ tree-indecomposability wall; the
-    -- canonical (all-forward) instance is `starTubeRepGen_isIndecomposable`.
+    -- **Leaf-1 triviality lifts to the center (orientation-generic).** Once a
+    -- component `W` of the central pair has trivial leaves 1 and 3, its center
+    -- is `⊥` too. Only arms 1 and 3 are needed: `range starEmbed1_F`
+    -- (= `ker starProj3_F`) and `range starEmbedDiag_F` (= `ker starProj1_F`)
+    -- span the center (`H₁ ⊔ Δ = ⊤`) and meet trivially (`H₁ ⊓ Δ = ⊥`), so the
+    -- four orientation cases of `(arm 1, arm 3)` each pin `W ⟨0⟩` to `⊥`:
+    -- forward arms push the matching range into `W' ⟨0⟩`, reversed arms trap
+    -- `W ⟨0⟩` in the matching kernel.
+    have center_collapse : ∀ (W W' : ∀ v, Submodule F ((starRep_kQ F Q hOrient lam m).obj v)),
+        (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+          ∀ x ∈ W a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W b) →
+        (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+          ∀ x ∈ W' a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W' b) →
+        (∀ v, IsCompl (W v) (W' v)) →
+        W ⟨1, by omega⟩ = ⊥ → W ⟨3, by omega⟩ = ⊥ →
+        W ⟨0, by omega⟩ = ⊥ := by
+      intro W W' hW_inv hW'_inv hc hbot1 hbot3
+      have hW'1top : W' ⟨1, by omega⟩ = ⊤ := by
+        have := (hc ⟨1, by omega⟩).sup_eq_top; rwa [hbot1, bot_sup_eq] at this
+      have hW'3top : W' ⟨3, by omega⟩ = ⊤ := by
+        have := (hc ⟨3, by omega⟩).sup_eq_top; rwa [hbot3, bot_sup_eq] at this
+      rw [eq_bot_iff]
+      intro (w : Fin (2 * (m + 1)) → F) hw
+      rw [Submodule.mem_bot]
+      -- It suffices to also place `w` in the complement `W' ⟨0⟩`.
+      suffices hwW' : w ∈ W' ⟨0, by omega⟩ by
+        have hinf := Submodule.mem_inf.mpr ⟨hw, hwW'⟩
+        rwa [(hc ⟨0, by omega⟩).inf_eq_bot, Submodule.mem_bot] at hinf
+      rcases hEdge ⟨1, by omega⟩ ⟨0, by omega⟩ (by decide) with hf1 | hr1
+      · -- Arm 1 forward (`1 → 0`): `range starEmbed1_F ⊆ W' ⟨0⟩`.
+        obtain ⟨e10⟩ := hf1
+        have hfwd1 : ∀ x, starEmbed1_F F m x ∈ W' ⟨0, by omega⟩ :=
+          fun x => @hW'_inv ⟨1, by omega⟩ ⟨0, by omega⟩ e10 x (hW'1top ▸ Submodule.mem_top)
+        rcases hEdge ⟨3, by omega⟩ ⟨0, by omega⟩ (by decide) with hf3 | hr3
+        · -- Arm 3 forward: `range starEmbedDiag_F ⊆ W' ⟨0⟩`, and `H₁ ⊔ Δ = ⊤`.
+          obtain ⟨e30⟩ := hf3
+          have hfwd3 : ∀ x, starEmbedDiag_F F m x ∈ W' ⟨0, by omega⟩ :=
+            fun x => @hW'_inv ⟨3, by omega⟩ ⟨0, by omega⟩ e30 x (hW'3top ▸ Submodule.mem_top)
+          have he2 : ∀ y, starEmbed2_F F m y ∈ W' ⟨0, by omega⟩ := by
+            intro y
+            have hd : starEmbed1_F F m y + starEmbed2_F F m y ∈ W' ⟨0, by omega⟩ := by
+              have h := hfwd3 y; rwa [starEmbedDiag_F, LinearMap.add_apply] at h
+            -- `emb2 y = (emb1 y + emb2 y) + (-1)•(emb1 y)`; avoid `sub_mem` since
+            -- the representation modules carry only `AddCommMonoid` (cf. `core`).
+            have hsum := (W' ⟨0, by omega⟩).add_mem hd
+              ((W' ⟨0, by omega⟩).smul_mem (-1 : F) (hfwd1 y))
+            have key : starEmbed1_F F m y + starEmbed2_F F m y
+                + (-1 : F) • starEmbed1_F F m y = starEmbed2_F F m y := by
+              ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+            rwa [key] at hsum
+          rw [center_decomp_F F m w]
+          exact (W' ⟨0, by omega⟩).add_mem (hfwd1 _) (he2 _)
+        · -- Arm 3 reversed (`0 → 3`): `starProj3_F w ∈ W ⟨3⟩ = ⊥`, so the second
+          -- half of `w` vanishes and `w = starEmbed1_F (starFirst_F w) ∈ W' ⟨0⟩`.
+          obtain ⟨e03⟩ := hr3
+          have hsec : starSecond_F F m w = 0 := by
+            have h := @hW_inv ⟨0, by omega⟩ ⟨3, by omega⟩ e03 w hw
+            change starProj3_F F m w ∈ W ⟨3, by omega⟩ at h
+            rw [hbot3, Submodule.mem_bot] at h
+            exact h
+          have hwemb : w = starEmbed1_F F m (starFirst_F F m w) := by
+            conv_lhs => rw [center_decomp_F F m w]
+            rw [hsec, map_zero, add_zero]
+          rw [hwemb]; exact hfwd1 _
+      · -- Arm 1 reversed (`0 → 1`): `starProj1_F w ∈ W ⟨1⟩ = ⊥`, i.e.
+        -- `starFirst_F w = starSecond_F w`.
+        obtain ⟨e01⟩ := hr1
+        have hfs : starFirst_F F m w = starSecond_F F m w := by
+          have h := @hW_inv ⟨0, by omega⟩ ⟨1, by omega⟩ e01 w hw
+          change starProj1_F F m w ∈ W ⟨1, by omega⟩ at h
+          rw [hbot1, Submodule.mem_bot, starProj1_F, LinearMap.sub_apply] at h
+          exact sub_eq_zero.mp h
+        rcases hEdge ⟨3, by omega⟩ ⟨0, by omega⟩ (by decide) with hf3 | hr3
+        · -- Arm 3 forward: `w = starEmbedDiag_F (starFirst_F w) ∈ W' ⟨0⟩`.
+          obtain ⟨e30⟩ := hf3
+          have hfwd3 : ∀ x, starEmbedDiag_F F m x ∈ W' ⟨0, by omega⟩ :=
+            fun x => @hW'_inv ⟨3, by omega⟩ ⟨0, by omega⟩ e30 x (hW'3top ▸ Submodule.mem_top)
+          have hwdiag : w = starEmbedDiag_F F m (starFirst_F F m w) := by
+            conv_lhs => rw [center_decomp_F F m w]
+            rw [← hfs, starEmbedDiag_F, LinearMap.add_apply]
+          rw [hwdiag]; exact hfwd3 _
+        · -- Arm 3 reversed: `starSecond_F w = 0` as well, so `H₁ ⊓ Δ = ⊥`
+          -- forces `w = 0`.
+          obtain ⟨e03⟩ := hr3
+          have hsec : starSecond_F F m w = 0 := by
+            have h := @hW_inv ⟨0, by omega⟩ ⟨3, by omega⟩ e03 w hw
+            change starProj3_F F m w ∈ W ⟨3, by omega⟩ at h
+            rw [hbot3, Submodule.mem_bot] at h
+            exact h
+          have hw0 : w = 0 := by
+            have hd := center_decomp_F F m w
+            rw [hfs, hsec] at hd
+            simpa using hd
+          rw [hw0]; exact (W' ⟨0, by omega⟩).zero_mem
+    -- **Center crux.** The eigenvalue site `λ•id + J` at leaf 1 forces one
+    -- component of the central pair to `⊥` (`eigenvalue_jordan_invariant_
+    -- compl_trivial_gen`), via the orientation-generic leaf collapse
+    -- (`starRep_kQ_leaf_equalities`). `center_collapse` then lifts the leaf-1
+    -- triviality back to the center. The all-forward instance is
+    -- `starTubeRepGen_isIndecomposable`.
     have hcenter : W₁ ⟨0, by omega⟩ = ⊥ ∨ W₂ ⟨0, by omega⟩ = ⊥ := by
-      sorry
+      obtain ⟨-, h₁₃, -, hN₁⟩ := starRep_kQ_leaf_equalities F Q hOrient lam m
+        W₁ W₂ hW₁_inv hW₂_inv hcompl
+      obtain ⟨-, h₂₃, -, hN₂⟩ := starRep_kQ_leaf_equalities F Q hOrient lam m
+        W₂ W₁ hW₂_inv hW₁_inv (fun v => (hcompl v).symm)
+      rcases eigenvalue_jordan_invariant_compl_trivial_gen
+          (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+          (nilpotentShiftLinGen_ker_finrank F m) lam
+          (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩) hN₁ hN₂ (hcompl ⟨1, by omega⟩) with h | h
+      · exact Or.inl
+          (center_collapse W₁ W₂ hW₁_inv hW₂_inv hcompl h (h₁₃ ▸ h))
+      · exact Or.inr
+          (center_collapse W₂ W₁ hW₂_inv hW₁_inv (fun v => (hcompl v).symm) h (h₂₃ ▸ h))
     rcases hcenter with h0 | h0
     · exact Or.inl (propagate W₁ W₂ hW₁_inv hW₂_inv hcompl h0)
     · exact Or.inr (propagate W₂ W₁ hW₂_inv hW₁_inv (fun v => (hcompl v).symm) h0)
@@ -1149,8 +1254,9 @@ set of dimension vectors of indecomposable representations of `Q` over
 `F` is infinite.
 
 This theorem carries no direct `sorry`, but transitively depends on
-`starRep_kQ_isIndecomposable`, whose center-crux body is deferred (see its
-docstring). The dimension vectors of the family `starRep_kQ F Q hOrient m`
+`starRep_kQ_isIndecomposable`, whose center-crux body is now closed though it
+still calls `starRep_kQ_leaf_equalities` (whose reversed-orientation arms remain
+deferred to a follow-up sub-issue). The dimension vectors of the family `starRep_kQ F Q hOrient m`
 (value `2(m+1)` at the center, `m+1` at every leaf) are pairwise distinct, so
 the indecomposable dimension-vector set is infinite. Mirrors the proof of
 `star_not_finite_type_F`. -/
