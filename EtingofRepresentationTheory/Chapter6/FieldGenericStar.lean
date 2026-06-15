@@ -821,6 +821,168 @@ so not re-exported here) — and is subsumed by the general lemma below. -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
+/-- **Orientation-generic leaf collapse for the corrected D̃₄ tube**
+(issue #4702, sub-A of #4686). For any field `F`, any orientation `Q` of
+`starAdj`, eigenvalue `lam`, and any complementary subrepresentation-invariant
+pair `(W₁, W₂)` of `starRep_kQ F Q hOrient lam m`, the four leaf subspaces of
+`W₁` coincide and `W₁ ⟨1⟩` is `jordanShiftLinGen`-invariant. (The `W₂` versions
+follow by applying the lemma to `(W₂, W₁)`, using `IsCompl.symm`.)
+
+These are exactly the four facts the canonical model
+`starTubeRepGen_isIndecomposable` (`FieldGenericTube.lean`) derives as
+`heq31`/`heq32`/`heq41`/`hN₁`, generalised from the all-forward orientation to
+every orientation `Q`. The proof case-splits each leaf edge `{0, i}`
+(`i = 1,2,3,4`) into forward (`i → 0`, embedding `starEmbed_i_F`) / reversed
+(`0 → i`, projection `starProj_i_F`) via `hOrient.2.1`. The all-forward branch
+reproduces the canonical `core`/`leaf3_sub`/`leaf4_sub` reduction inline; the
+reversed branches are deferred to a follow-up sub-issue. -/
+theorem starRep_kQ_leaf_equalities
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 5))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 5) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 5 Q starAdj)
+    (lam : F) (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((starRep_kQ F Q hOrient lam m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ ⟨1, by omega⟩ = W₁ ⟨2, by omega⟩ ∧
+    W₁ ⟨1, by omega⟩ = W₁ ⟨3, by omega⟩ ∧
+    W₁ ⟨1, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨1, by omega⟩ →
+      jordanShiftLinGen F lam m x ∈ W₁ ⟨1, by omega⟩) := by
+  letI := Q
+  have hEdge := hOrient.2.1
+  have h10 : starAdj ⟨1, by omega⟩ ⟨0, by omega⟩ = 1 := by simp [starAdj]
+  have h20 : starAdj ⟨2, by omega⟩ ⟨0, by omega⟩ = 1 := by simp [starAdj]
+  have h30 : starAdj ⟨3, by omega⟩ ⟨0, by omega⟩ = 1 := by simp [starAdj]
+  have h40 : starAdj ⟨4, by omega⟩ ⟨0, by omega⟩ = 1 := by simp [starAdj]
+  rcases hEdge ⟨1, by omega⟩ ⟨0, by omega⟩ h10 with hQ1 | hQ1
+  · -- e10 = Or.inl: 1 → 0 forward (embedding `starEmbed1_F`)
+    obtain ⟨a1⟩ := hQ1
+    rcases hEdge ⟨2, by omega⟩ ⟨0, by omega⟩ h20 with hQ2 | hQ2
+    · -- e20 = Or.inl: 2 → 0 forward (embedding `starEmbed2_F`)
+      obtain ⟨a2⟩ := hQ2
+      rcases hEdge ⟨3, by omega⟩ ⟨0, by omega⟩ h30 with hQ3 | hQ3
+      · -- e30 = Or.inl: 3 → 0 forward (embedding `starEmbedDiag_F`)
+        obtain ⟨a3⟩ := hQ3
+        rcases hEdge ⟨4, by omega⟩ ⟨0, by omega⟩ h40 with hQ4 | hQ4
+        · -- e40 = Or.inl: 4 → 0 forward (embedding `starEmbedTube_F`) — ALL CANONICAL.
+          obtain ⟨a4⟩ := hQ4
+          -- Core decomposition: `starEmbed1 x + starEmbed2 z ∈ W 0 → x ∈ W 1 ∧ z ∈ W 2`.
+          have core : ∀ (W W' : ∀ v, Submodule F ((starRep_kQ F Q hOrient lam m).obj v)),
+              (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+                ∀ x ∈ W a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W b) →
+              (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+                ∀ x ∈ W' a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W' b) →
+              (∀ v, IsCompl (W v) (W' v)) →
+              ∀ (x z : Fin (m + 1) → F),
+                starEmbed1_F F m x + starEmbed2_F F m z ∈ W ⟨0, by omega⟩ →
+                x ∈ W ⟨1, by omega⟩ ∧ z ∈ W ⟨2, by omega⟩ := by
+            intro W W' hW hW' hc x z hmem
+            have htop1 := (hc ⟨1, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := x)
+            obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.mp htop1
+            have htop2 := (hc ⟨2, by omega⟩).sup_eq_top ▸ Submodule.mem_top (x := z)
+            obtain ⟨c, hc2, d, hd, hcd⟩ := Submodule.mem_sup.mp htop2
+            have ha0 : starEmbed1_F F m a ∈ W ⟨0, by omega⟩ := by
+              have h := hW a1 a ha; simpa only [starRep_kQ, starRepMap_kQ] using h
+            have hc0 : starEmbed2_F F m c ∈ W ⟨0, by omega⟩ := by
+              have h := hW a2 c hc2; simpa only [starRep_kQ, starRepMap_kQ] using h
+            have hb0 : starEmbed1_F F m b ∈ W' ⟨0, by omega⟩ := by
+              have h := hW' a1 b hb; simpa only [starRep_kQ, starRepMap_kQ] using h
+            have hd0 : starEmbed2_F F m d ∈ W' ⟨0, by omega⟩ := by
+              have h := hW' a2 d hd; simpa only [starRep_kQ, starRepMap_kQ] using h
+            have hsum : starEmbed1_F F m x + starEmbed2_F F m z =
+                (starEmbed1_F F m a + starEmbed2_F F m c) +
+                  (starEmbed1_F F m b + starEmbed2_F F m d) := by
+              rw [← hab, ← hcd]; simp [map_add]; abel
+            rw [hsum] at hmem
+            have hadd : starEmbed1_F F m a + starEmbed2_F F m c ∈ W ⟨0, by omega⟩ :=
+              (W ⟨0, by omega⟩).add_mem ha0 hc0
+            have hw'_in_W : starEmbed1_F F m b + starEmbed2_F F m d ∈ W ⟨0, by omega⟩ := by
+              have hsmul := (W ⟨0, by omega⟩).smul_mem (-1 : F) hadd
+              have hadd2 := (W ⟨0, by omega⟩).add_mem hmem hsmul
+              have key : starEmbed1_F F m a + starEmbed2_F F m c +
+                  (starEmbed1_F F m b + starEmbed2_F F m d) +
+                  (-1 : F) • (starEmbed1_F F m a + starEmbed2_F F m c) =
+                  starEmbed1_F F m b + starEmbed2_F F m d := by
+                ext i; simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]; ring
+              rwa [key] at hadd2
+            have hzero : starEmbed1_F F m b + starEmbed2_F F m d = 0 := by
+              have := Submodule.mem_inf.mpr ⟨hw'_in_W,
+                (W' ⟨0, by omega⟩).add_mem hb0 hd0⟩
+              rwa [(hc ⟨0, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
+            obtain ⟨hb0', hd0'⟩ := embed_sum_zero_F F m b d hzero
+            exact ⟨hab ▸ by rw [hb0', add_zero]; exact ha,
+                   hcd ▸ by rw [hd0', add_zero]; exact hc2⟩
+          -- Leaf 3 (diagonal embedding): `x ∈ W 3 → x ∈ W 1 ∧ x ∈ W 2`.
+          have leaf3_sub : ∀ (W W' : ∀ v, Submodule F ((starRep_kQ F Q hOrient lam m).obj v)),
+              (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+                ∀ x ∈ W a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W b) →
+              (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+                ∀ x ∈ W' a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W' b) →
+              (∀ v, IsCompl (W v) (W' v)) →
+              ∀ (x : Fin (m + 1) → F), x ∈ W ⟨3, by omega⟩ →
+                x ∈ W ⟨1, by omega⟩ ∧ x ∈ W ⟨2, by omega⟩ := by
+            intro W W' hW hW' hc x hx
+            have hmem : starEmbedDiag_F F m x ∈ W ⟨0, by omega⟩ := by
+              have h := hW a3 x hx; simpa only [starRep_kQ, starRepMap_kQ] using h
+            rw [starEmbedDiag_F, LinearMap.add_apply] at hmem
+            exact core W W' hW hW' hc x x hmem
+          -- Leaf 4 (eigenvalue site): `x ∈ W 4 → x ∈ W 1 ∧ (λI + N) x ∈ W 2`.
+          have leaf4_sub : ∀ (W W' : ∀ v, Submodule F ((starRep_kQ F Q hOrient lam m).obj v)),
+              (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+                ∀ x ∈ W a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W b) →
+              (∀ {a b : Fin 5} (e : @Quiver.Hom _ Q a b),
+                ∀ x ∈ W' a, (starRep_kQ F Q hOrient lam m).mapLinear e x ∈ W' b) →
+              (∀ v, IsCompl (W v) (W' v)) →
+              ∀ (x : Fin (m + 1) → F), x ∈ W ⟨4, by omega⟩ →
+                x ∈ W ⟨1, by omega⟩ ∧ jordanShiftLinGen F lam m x ∈ W ⟨2, by omega⟩ := by
+            intro W W' hW hW' hc x hx
+            have hmem : starEmbedTube_F F lam m x ∈ W ⟨0, by omega⟩ := by
+              have h := hW a4 x hx; simpa only [starRep_kQ, starRepMap_kQ] using h
+            rw [starEmbedTube_F, LinearMap.add_apply, LinearMap.comp_apply] at hmem
+            exact core W W' hW hW' hc x (jordanShiftLinGen F lam m x) hmem
+          -- Pin leaves 3, 4 to leaves 1, 2 via `compl_le_forces_eq`.
+          have heq31 : W₁ ⟨3, by omega⟩ = W₁ ⟨1, by omega⟩ :=
+            (compl_le_forces_eq (V := Fin (m + 1) → F) _ _ _ _
+              (hcompl ⟨3, by omega⟩) (hcompl ⟨1, by omega⟩)
+              (fun x hx => (leaf3_sub W₁ W₂ hW₁_inv hW₂_inv hcompl x hx).1)
+              (fun x hx => (leaf3_sub W₂ W₁ hW₂_inv hW₁_inv
+                (fun v => (hcompl v).symm) x hx).1)).1
+          have heq32 : W₁ ⟨3, by omega⟩ = W₁ ⟨2, by omega⟩ :=
+            (compl_le_forces_eq (V := Fin (m + 1) → F) _ _ _ _
+              (hcompl ⟨3, by omega⟩) (hcompl ⟨2, by omega⟩)
+              (fun x hx => (leaf3_sub W₁ W₂ hW₁_inv hW₂_inv hcompl x hx).2)
+              (fun x hx => (leaf3_sub W₂ W₁ hW₂_inv hW₁_inv
+                (fun v => (hcompl v).symm) x hx).2)).1
+          have heq41 : W₁ ⟨4, by omega⟩ = W₁ ⟨1, by omega⟩ :=
+            (compl_le_forces_eq (V := Fin (m + 1) → F) _ _ _ _
+              (hcompl ⟨4, by omega⟩) (hcompl ⟨1, by omega⟩)
+              (fun x hx => (leaf4_sub W₁ W₂ hW₁_inv hW₂_inv hcompl x hx).1)
+              (fun x hx => (leaf4_sub W₂ W₁ hW₂_inv hW₁_inv
+                (fun v => (hcompl v).symm) x hx).1)).1
+          have h12 : W₁ ⟨1, by omega⟩ = W₁ ⟨2, by omega⟩ := heq31.symm.trans heq32
+          have hN₁ : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨1, by omega⟩ →
+              jordanShiftLinGen F lam m x ∈ W₁ ⟨1, by omega⟩ := by
+            intro x hx
+            have hx4 : x ∈ W₁ ⟨4, by omega⟩ := by rw [heq41]; exact hx
+            have h2 := (leaf4_sub W₁ W₂ hW₁_inv hW₂_inv hcompl x hx4).2
+            exact h12 ▸ h2
+          exact ⟨h12, heq31.symm, heq41.symm, hN₁⟩
+        · -- e40 = Or.inr: 0 → 4 reversed. Follow-up sub-issue.
+          sorry
+      · -- e30 = Or.inr: 0 → 3 reversed. Follow-up sub-issue.
+        sorry
+    · -- e20 = Or.inr: 0 → 2 reversed. Follow-up sub-issue.
+      sorry
+  · -- e10 = Or.inr: 0 → 1 reversed. Follow-up sub-issue.
+    sorry
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
 /-- **Orientation-generic indecomposability of the corrected D̃₄ tube
 `starRep_kQ`** (issue #4648). For any field `F`, any orientation `Q` of
 `starAdj`, any eigenvalue `lam`, and any `m`, the homogeneous-tube
