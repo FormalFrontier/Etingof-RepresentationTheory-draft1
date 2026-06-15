@@ -364,6 +364,22 @@ leaf-equalities and `_isIndecomposable` jointly. The mechanical eigenvalue
 readout (e.g. `etilde7_arm1Tube_blockProj_F`: the four block projections of the
 arm-1 tube = `(p+q, p+Λq, p+Λ²q, p+Λ³q)`) is the reusable piece to land first.
 
+**Star `_leaf_equalities`: the non-canonical *orientation* branches fold too —
+they are not the mechanical d5/d6tilde reversed-leaf pattern.** For a *star*
+(Ẽ₆ #4701, Ẽ₇ #4769) the conclusion `W₁⟨leafᵢ⟩` all-equal couples every arm
+through the single shared center, whose composite planes pairwise overlap.
+Reversing an arm edge only swaps an embed criterion for a projection criterion;
+it does **not** decouple the arms, so every orientation branch hits the *same*
+overlapping-plane center-collapse wall as the canonical branch and folds into
+`…Rep_kQ_isIndecomposable`. The d5/d6tilde reversed-leaf branches close only
+because those are *chains* with one central γ-tube (combo-D reads reversed leaves
+off one shared block) — no analog exists for the star. So an issue framed as
+"close the non-canonical branches by mirroring d6tilde" is mis-scoped: grep the
+canonical branch first; if its center collapse is already re-scoped to the
+indecomposability fold (e.g. #4750/#4765 left `hcenter` as a documented `sorry`),
+the reversed branches inherit it. Re-scope via a doc PR (`--partial`) rather than
+attempting closure.
+
 ## Proven Proof Strategies
 
 Patterns that have succeeded in this project, derived from 110+ merged proof PRs (through wave 20).
