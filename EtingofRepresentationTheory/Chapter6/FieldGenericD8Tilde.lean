@@ -484,9 +484,12 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- Internal-chain collapse for D̃₈: the three identity edges `3-4`,
 `4-5`, `5-6` force any complementary invariant pair to carry equal
-subspaces across the whole interior, so `W₁ ⟨3⟩ = W₁ ⟨6⟩` and
-`W₂ ⟨3⟩ = W₂ ⟨6⟩`. Generalises `d6tildeRep_kQ_chain_collapse` (single
-edge `3-4`) to the three-edge chain. -/
+subspaces across the whole interior, so every interior vertex `3, 4, 5`
+equals the right center `6` (for both `W₁` and `W₂`). Generalises
+`d6tildeRep_kQ_chain_collapse` (single edge `3-4`) to the three-edge
+chain; the assembly consumes `⟨3⟩ = ⟨6⟩` to transport γ-data and the
+`⟨4⟩ = ⟨6⟩` / `⟨5⟩ = ⟨6⟩` clauses to collapse the interior once the
+center is forced to `⊥`. -/
 theorem d8tildeRep_kQ_chain_collapse
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
@@ -500,7 +503,11 @@ theorem d8tildeRep_kQ_chain_collapse
       ∀ x ∈ W₂ a, (d8tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
     (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
     W₁ ⟨3, by omega⟩ = W₁ ⟨6, by omega⟩ ∧
-    W₂ ⟨3, by omega⟩ = W₂ ⟨6, by omega⟩ := by
+    W₂ ⟨3, by omega⟩ = W₂ ⟨6, by omega⟩ ∧
+    W₁ ⟨4, by omega⟩ = W₁ ⟨6, by omega⟩ ∧
+    W₂ ⟨4, by omega⟩ = W₂ ⟨6, by omega⟩ ∧
+    W₁ ⟨5, by omega⟩ = W₁ ⟨6, by omega⟩ ∧
+    W₂ ⟨5, by omega⟩ = W₂ ⟨6, by omega⟩ := by
   letI := Q
   have hOrient_edge := hOrient.2.1
   -- One identity edge `{i, j}` (with `j = i+1`) collapses both subspaces.
@@ -575,7 +582,10 @@ theorem d8tildeRep_kQ_chain_collapse
         (hcompl ⟨6, by omega⟩) (hcompl ⟨5, by omega⟩) hle1 hle2
       exact ⟨h.1.symm, h.2.symm⟩
   exact ⟨hstep34.1.trans (hstep45.1.trans hstep56.1),
-         hstep34.2.trans (hstep45.2.trans hstep56.2)⟩
+         hstep34.2.trans (hstep45.2.trans hstep56.2),
+         hstep45.1.trans hstep56.1,
+         hstep45.2.trans hstep56.2,
+         hstep56.1, hstep56.2⟩
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
@@ -654,18 +664,100 @@ theorem d8tilde_gamma_containment_F
     exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
       hOther_76 hOther_86 hc y (nilpotentShiftLinGen F m y) hgamma6).2
 
-/-! ## Section 5: Indecomposability (deferred sorry)
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Corrected eigenvalue-site γ-coupled containment for D̃₈ (sub-C
+deliverable 2). Identical transport structure to the legacy
+`d8tilde_gamma_containment_F`, but hypothesised against the corrected
+central tube `d5tildeGammaTube_F F lam` (which the corrected rep
+actually carries on the `{2, 3}` edge) instead of the refuted
+rank-deficient bridge `d5tildeGamma_F`. Leaf data on the left center
+(vertices `0, 1` feeding `2`) propagates along the canonical γ edge
+`2 → 3` via `gammaTube_from_embed{1,2}_F`, transports across the
+collapsed interior `⟨3⟩ = ⟨6⟩` (supplied by
+`d8tildeRep_kQ_chain_collapse`), and decomposes at the right center `6`
+onto its leaves `7, 8` via `d8tilde_core6_F`. The eigenvalue twist
+appears only in the embed-2 column: the fourth conjunct now carries the
+Jordan deposit `jordanShiftLinGen F lam m y` (`Λ = λ·id + N`) where the
+legacy lemma carried the pure nilpotent `N y` — the first three
+containments are unchanged because the embed-1 column of `γ_λ` is
+untouched and the first component of the embed-2 image is still `y`.
+D̃₈ analogue of `d5tilde_gammaTube_containment_F`. -/
+theorem d8tilde_gammaTube_containment_F
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 9))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 9) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
+    (lam : F) (m : ℕ)
+    (Wmain Wother : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wmain ⟨2, by omega⟩ →
+        d5tildeGammaTube_F F lam m x ∈ Wmain ⟨3, by omega⟩)
+    (hcol_main : Wmain ⟨3, by omega⟩ = Wmain ⟨6, by omega⟩)
+    (hMain_76 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨7, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨6, by omega⟩)
+    (hMain_86 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨8, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨6, by omega⟩)
+    (hOther_76 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨7, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨6, by omega⟩)
+    (hOther_86 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨8, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨6, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v)) :
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨7, by omega⟩) ∧
+    (∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+      x ∈ Wmain ⟨8, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      y ∈ Wmain ⟨7, by omega⟩) ∧
+    (∀ (y : Fin (m + 1) → F), y ∈ Wmain ⟨1, by omega⟩ →
+      jordanShiftLinGen F lam m y ∈ Wmain ⟨8, by omega⟩) := by
+  refine ⟨fun x hx => ?_, fun x hx => ?_, fun y hy => ?_, fun y hy => ?_⟩
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gammaTube_from_embed1_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc x x hgamma6).1
+  · have he1 := hMain_02 x hx
+    have hgamma := hMain_23 (starEmbed1_F F m x) he1
+    rw [gammaTube_from_embed1_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc x x hgamma6).2
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gammaTube_from_embed2_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc y (jordanShiftLinGen F lam m y) hgamma6).1
+  · have he2 := hMain_12 y hy
+    have hgamma := hMain_23 (starEmbed2_F F m y) he2
+    rw [gammaTube_from_embed2_F] at hgamma
+    have hgamma6 := hcol_main ▸ hgamma
+    exact (d8tilde_core6_F F Q hOrient m Wmain Wother hMain_76 hMain_86
+      hOther_76 hOther_86 hc y (jordanShiftLinGen F lam m y) hgamma6).2
+
+/-! ## Section 5: Indecomposability (all-canonical orientation closed)
 
 With the corrected eigenvalue-site construction (Section 4, edge `{2, 3}`
 now `d5tildeGammaTube_F`), the statement below is **true for every
 orientation** — the rank-deficient under-coupling that made the old
 `[[I, I], [I, N]]` bridge decomposable in the mixed / reversed-leaf
-orientations (#4566 / #4597) is gone. The proof body is deferred to a
-follow-up sub-C issue, which must generalise the worked D̃₅ assembly
+orientations (#4566 / #4597) is gone. The **all-canonical** orientation
+branch is now closed by generalising the worked D̃₅ assembly
 `d5tildeRep_kQ_isIndecomposable` (`FieldGenericD5Tilde.lean`, the
 pattern-setter under #4647 / #4663) from one central γ-edge to the
-length-4 internal chain via `d8tildeRep_kQ_chain_collapse`. The per-(F, Q)
-infinite-type theorem below transitively depends on this sorry.
+length-4 internal chain via `d8tildeRep_kQ_chain_collapse` and the
+corrected `d8tilde_gammaTube_containment_F`. The five reversed /
+mixed-direction orientation branches remain `sorry`, exactly mirroring
+the current state of the D̃₅ pattern-setter (whose reversed branches are
+tracked separately by #4740); they need the same reversed-leaf transport
+foundation and are deferred to a follow-up sub-issue. The per-(F, Q)
+infinite-type theorem below transitively depends on those residual
+sorries.
 -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
@@ -673,15 +765,17 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 /-- Orientation-generic indecomposability of `d8tildeRep_kQ` (corrected
 eigenvalue-site tube).
 
-True for every orientation on the corrected rep. The proof body is
-deferred to a sub-C follow-up issue: generalise the worked D̃₅ assembly
-`d5tildeRep_kQ_isIndecomposable` (`FieldGenericD5Tilde.lean`, #4663) to
-the length-4 internal chain. The route is leaf collapse at the two
-centers (`d8tilde_core_F` / `d8tilde_core6_F`) → interior collapse
-`⟨3⟩ = ⟨6⟩` (`d8tildeRep_kQ_chain_collapse`) → a single
-`(λ·id + J)`-invariant splitting at the eigenvalue site killed by
-`eigenvalue_jordan_invariant_compl_trivial_gen`. The consumer
-`d8tilde_not_finite_type_per_kQ` carries this sorry transitively. -/
+True for every orientation on the corrected rep. The **all-canonical**
+branch is proven here: leaf collapse at the two centers
+(`d8tilde_core_F` / `d8tilde_core6_F` via `d8tilde_gammaTube_containment_F`)
+→ interior collapse `⟨3⟩ = ⟨4⟩ = ⟨5⟩ = ⟨6⟩`
+(`d8tildeRep_kQ_chain_collapse`) → a single `(λ·id + J)`-invariant
+splitting at the eigenvalue site killed by
+`eigenvalue_jordan_invariant_compl_trivial_gen`, then propagation of
+`W ⟨0⟩ = ⊥` across all nine vertices. The five reversed / mixed-direction
+branches are still `sorry` (same status as the D̃₅ pattern-setter, see
+#4740). The consumer `d8tilde_not_finite_type_per_kQ` carries those
+residual sorries transitively. -/
 theorem d8tildeRep_kQ_isIndecomposable
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 9))
@@ -689,7 +783,205 @@ theorem d8tildeRep_kQ_isIndecomposable
     (hOrient : @Etingof.IsOrientationOf 9 Q d8tildeAdj)
     (m : ℕ) :
     (d8tildeRep_kQ F Q hOrient m).IsIndecomposable := by
-  sorry
+  letI := Q
+  have hEdge := hOrient.2.1
+  set lam := d5tildeTubeLam F with hlam
+  constructor
+  · -- Nontrivial at vertex 0 (dimension `m + 1 ≥ 1`).
+    refine ⟨⟨0, by omega⟩, ?_⟩
+    change Nontrivial (Fin (m + 1) → F)
+    infer_instance
+  · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
+    -- Orientation-generic interior collapse: every interior vertex `3, 4, 5`
+    -- equals the right center `6` (for both `W₁` and `W₂`).
+    obtain ⟨hcol1_36, hcol2_36, hcol1_46, hcol2_46, hcol1_56, hcol2_56⟩ :=
+      d8tildeRep_kQ_chain_collapse F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
+    -- Adjacency facts (canonical edge directions).
+    have h02 : d8tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d8tildeAdj]
+    have h12 : d8tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d8tildeAdj]
+    have h23 : d8tildeAdj ⟨2, by omega⟩ ⟨3, by omega⟩ = 1 := by simp [d8tildeAdj]
+    have h76 : d8tildeAdj ⟨7, by omega⟩ ⟨6, by omega⟩ = 1 := by simp [d8tildeAdj]
+    have h86 : d8tildeAdj ⟨8, by omega⟩ ⟨6, by omega⟩ = 1 := by simp [d8tildeAdj]
+    rcases hEdge ⟨0, by omega⟩ ⟨2, by omega⟩ h02 with hQ02 | hQ02
+    · obtain ⟨a02⟩ := hQ02
+      rcases hEdge ⟨1, by omega⟩ ⟨2, by omega⟩ h12 with hQ12 | hQ12
+      · obtain ⟨a12⟩ := hQ12
+        rcases hEdge ⟨2, by omega⟩ ⟨3, by omega⟩ h23 with hQ23 | hQ23
+        · obtain ⟨a23⟩ := hQ23
+          rcases hEdge ⟨7, by omega⟩ ⟨6, by omega⟩ h76 with hQ76 | hQ76
+          · obtain ⟨a76⟩ := hQ76
+            rcases hEdge ⟨8, by omega⟩ ⟨6, by omega⟩ h86 with hQ86 | hQ86
+            · obtain ⟨a86⟩ := hQ86
+              -- ALL CANONICAL: full reduction.
+              -- Per-vertex invariance pushes (canonical maps).
+              have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
+                  starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+                have h := hW₁_inv a02 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+                  starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+                have h := hW₁_inv a12 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+                  d5tildeGammaTube_F F lam m x ∈ W₁ ⟨3, by omega⟩ := by
+                have h := hW₁_inv a23 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₁_76 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨7, by omega⟩) :
+                  starEmbed1_F F m x ∈ W₁ ⟨6, by omega⟩ := by
+                have h := hW₁_inv a76 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₁_86 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨8, by omega⟩) :
+                  starEmbed2_F F m x ∈ W₁ ⟨6, by omega⟩ := by
+                have h := hW₁_inv a86 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₂_02 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨0, by omega⟩) :
+                  starEmbed1_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+                have h := hW₂_inv a02 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+                  starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+                have h := hW₂_inv a12 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+                  d5tildeGammaTube_F F lam m x ∈ W₂ ⟨3, by omega⟩ := by
+                have h := hW₂_inv a23 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₂_76 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨7, by omega⟩) :
+                  starEmbed1_F F m x ∈ W₂ ⟨6, by omega⟩ := by
+                have h := hW₂_inv a76 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              have hW₂_86 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨8, by omega⟩) :
+                  starEmbed2_F F m x ∈ W₂ ⟨6, by omega⟩ := by
+                have h := hW₂_inv a86 x hx
+                simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+              -- γ-coupled containment with eigenvalue deposit (corrected tube),
+              -- transported across the collapsed interior `⟨3⟩ = ⟨6⟩`.
+              obtain ⟨h07, h08, h17, hN18⟩ :=
+                d8tilde_gammaTube_containment_F F Q hOrient lam m W₁ W₂
+                  hW₁_02 hW₁_12 hW₁_23 hcol1_36 hW₁_76 hW₁_86 hW₂_76 hW₂_86 hcompl
+              obtain ⟨h07', h08', h17', hN18'⟩ :=
+                d8tilde_gammaTube_containment_F F Q hOrient lam m W₂ W₁
+                  hW₂_02 hW₂_12 hW₂_23 hcol2_36 hW₂_76 hW₂_86 hW₁_76 hW₁_86
+                  (fun v => (hcompl v).symm)
+              -- Leaf set equalities at the two centers (both `W₁` and `W₂`).
+              have hpair07 := compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨7, by omega⟩) (W₂ ⟨7, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨7, by omega⟩) h07 h07'
+              have hpair08 := compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨8, by omega⟩) (W₂ ⟨8, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨8, by omega⟩) h08 h08'
+              have hpair17 := compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨7, by omega⟩) (W₂ ⟨7, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨7, by omega⟩) h17 h17'
+              have heq07 : W₁ ⟨0, by omega⟩ = W₁ ⟨7, by omega⟩ := hpair07.1
+              have heq08 : W₁ ⟨0, by omega⟩ = W₁ ⟨8, by omega⟩ := hpair08.1
+              have heq17 : W₁ ⟨1, by omega⟩ = W₁ ⟨7, by omega⟩ := hpair17.1
+              have heq01 : W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ := heq07.trans heq17.symm
+              have heq07' : W₂ ⟨0, by omega⟩ = W₂ ⟨7, by omega⟩ := hpair07.2
+              have heq08' : W₂ ⟨0, by omega⟩ = W₂ ⟨8, by omega⟩ := hpair08.2
+              have heq17' : W₂ ⟨1, by omega⟩ = W₂ ⟨7, by omega⟩ := hpair17.2
+              have heq01' : W₂ ⟨0, by omega⟩ = W₂ ⟨1, by omega⟩ := heq07'.trans heq17'.symm
+              -- `(λ·id + J)`-invariance of the common leaf subspace, at vertex 0.
+              have hN₁ : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨0, by omega⟩ →
+                  jordanShiftLinGen F lam m x ∈ W₁ ⟨0, by omega⟩ := by
+                intro x hx
+                have hx1 : x ∈ W₁ ⟨1, by omega⟩ := heq01 ▸ hx
+                rw [heq08]; exact hN18 x hx1
+              have hN₂ : ∀ (x : Fin (m + 1) → F), x ∈ W₂ ⟨0, by omega⟩ →
+                  jordanShiftLinGen F lam m x ∈ W₂ ⟨0, by omega⟩ := by
+                intro x hx
+                have hx1 : x ∈ W₂ ⟨1, by omega⟩ := heq01' ▸ hx
+                rw [heq08']; exact hN18' x hx1
+              -- Workhorse: the eigenvalue site forces one component `⊥`.
+              have hresult := eigenvalue_jordan_invariant_compl_trivial_gen
+                (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+                (nilpotentShiftLinGen_ker_finrank F m) lam
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩) hN₁ hN₂ (hcompl ⟨0, by omega⟩)
+              -- Propagation: `W ⟨0⟩ = ⊥` collapses every vertex.
+              have propagate : ∀ (W W' : ∀ v, Submodule F ((d8tildeRep_kQ F Q hOrient m).obj v)),
+                  (∀ {a b : Fin 9} (e : @Quiver.Hom _ Q a b),
+                    ∀ x ∈ W' a, (d8tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W' b) →
+                  (∀ v, IsCompl (W v) (W' v)) →
+                  W ⟨0, by omega⟩ = W ⟨1, by omega⟩ →
+                  W ⟨0, by omega⟩ = W ⟨7, by omega⟩ →
+                  W ⟨0, by omega⟩ = W ⟨8, by omega⟩ →
+                  W ⟨3, by omega⟩ = W ⟨6, by omega⟩ →
+                  W ⟨4, by omega⟩ = W ⟨6, by omega⟩ →
+                  W ⟨5, by omega⟩ = W ⟨6, by omega⟩ →
+                  W ⟨0, by omega⟩ = ⊥ → ∀ v, W v = ⊥ := by
+                intro W W' hW'_inv hc h01 h07' h08' h36 h46 h56 hbot
+                -- Right center `6` collapses via its leaves `7, 8`.
+                have hbot6 : W ⟨6, by omega⟩ = ⊥ := by
+                  have hW'7 : W' ⟨7, by omega⟩ = ⊤ := by
+                    have := (hc ⟨7, by omega⟩).sup_eq_top
+                    rwa [← h07', hbot, bot_sup_eq] at this
+                  have hW'8 : W' ⟨8, by omega⟩ = ⊤ := by
+                    have := (hc ⟨8, by omega⟩).sup_eq_top
+                    rwa [← h08', hbot, bot_sup_eq] at this
+                  have h_emb7 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed1_F F m x ∈ W' ⟨6, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a76 x (hW'7 ▸ Submodule.mem_top)
+                    simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+                  have h_emb8 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed2_F F m x ∈ W' ⟨6, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a86 x (hW'8 ▸ Submodule.mem_top)
+                    simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+                  rw [eq_bot_iff]; intro (w : Fin (2 * (m + 1)) → F) hw
+                  have hw' : w ∈ W' ⟨6, by omega⟩ :=
+                    center_decomp_F F m w ▸ (W' ⟨6, by omega⟩).add_mem (h_emb7 _) (h_emb8 _)
+                  have := Submodule.mem_inf.mpr ⟨hw, hw'⟩
+                  rwa [(hc ⟨6, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
+                intro v
+                fin_cases v
+                · exact hbot
+                · show W ⟨1, by omega⟩ = ⊥; rw [← h01]; exact hbot
+                · -- v = 2 (left center, leaves 0 and 1)
+                  show W ⟨2, by omega⟩ = ⊥
+                  have hW'0 : W' ⟨0, by omega⟩ = ⊤ := by
+                    have := (hc ⟨0, by omega⟩).sup_eq_top; rwa [hbot, bot_sup_eq] at this
+                  have hW'1 : W' ⟨1, by omega⟩ = ⊤ := by
+                    have := (hc ⟨1, by omega⟩).sup_eq_top; rwa [← h01, hbot, bot_sup_eq] at this
+                  have h_emb0 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed1_F F m x ∈ W' ⟨2, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a02 x (hW'0 ▸ Submodule.mem_top)
+                    simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+                  have h_emb1 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed2_F F m x ∈ W' ⟨2, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a12 x (hW'1 ▸ Submodule.mem_top)
+                    simp only [d8tildeRep_kQ, d8tildeRepMap_kQ] at h; exact h
+                  rw [eq_bot_iff]; intro (w : Fin (2 * (m + 1)) → F) hw
+                  have hw' : w ∈ W' ⟨2, by omega⟩ :=
+                    center_decomp_F F m w ▸ (W' ⟨2, by omega⟩).add_mem (h_emb0 _) (h_emb1 _)
+                  have := Submodule.mem_inf.mpr ⟨hw, hw'⟩
+                  rwa [(hc ⟨2, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
+                · show W ⟨3, by omega⟩ = ⊥; rw [h36]; exact hbot6
+                · show W ⟨4, by omega⟩ = ⊥; rw [h46]; exact hbot6
+                · show W ⟨5, by omega⟩ = ⊥; rw [h56]; exact hbot6
+                · exact hbot6
+                · show W ⟨7, by omega⟩ = ⊥; rw [← h07']; exact hbot
+                · show W ⟨8, by omega⟩ = ⊥; rw [← h08']; exact hbot
+              rcases hresult with h0 | h0
+              · exact Or.inl (propagate W₁ W₂ hW₂_inv hcompl heq01 heq07 heq08
+                  hcol1_36 hcol1_46 hcol1_56 h0)
+              · exact Or.inr (propagate W₂ W₁ hW₁_inv (fun v => (hcompl v).symm)
+                  heq01' heq07' heq08' hcol2_36 hcol2_46 hcol2_56 h0)
+            · -- e86 reversed (6→8): mixed-direction residual (sub-issue).
+              sorry
+          · -- e76 reversed (6→7): mixed-direction residual (sub-issue).
+            sorry
+        · -- e23 reversed (3→2): central edge carries `γ_λ⁻¹`. Residual.
+          sorry
+      · -- e12 reversed (2→1): residual.
+        sorry
+    · -- e02 reversed (2→0): residual.
+      sorry
 
 /-! ## Section 6: Per-(F, Q) infinite-type theorem -/
 
