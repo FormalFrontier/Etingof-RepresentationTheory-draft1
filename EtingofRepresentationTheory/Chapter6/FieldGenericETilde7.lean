@@ -302,6 +302,72 @@ theorem etilde7_center_sum_zero_F (F : Type) [Field F] (m : ℕ)
       blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) (2 * (m + 1)) m (by omega) (by omega),
       add_zero, zero_add] using hp
 
+/-- Expanded block form of the arm-1 eigenvalue tube: with `p = starFirst_F w`
+(the `P` plane coordinate) and `q = starSecond_F w` (the `Q` coordinate),
+`etilde7Arm1Tube_F w` is the sum of the four block deposits
+`(p+q, p+Λq, p+Λ²q, p+Λ³q)` at offsets `0, m+1, 2(m+1), 3(m+1)`. -/
+theorem etilde7Arm1Tube_expand_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (w : Fin (2 * (m + 1)) → F) :
+    etilde7Arm1Tube_F F lam m w =
+      blockEmbedAt_F F 0 m (starFirst_F F m w + starSecond_F F m w)
+      + blockEmbedAt_F F (m + 1) m
+          (starFirst_F F m w + jordanShiftLinGen F lam m (starSecond_F F m w))
+      + blockEmbedAt_F F (2 * (m + 1)) m
+          (starFirst_F F m w
+            + jordanShiftLinGen F lam m (jordanShiftLinGen F lam m (starSecond_F F m w)))
+      + blockEmbedAt_F F (3 * (m + 1)) m
+          (starFirst_F F m w
+            + jordanShiftLinGen F lam m
+                (jordanShiftLinGen F lam m
+                  (jordanShiftLinGen F lam m (starSecond_F F m w)))) := by
+  simp only [etilde7Arm1Tube_F, LinearMap.add_apply, LinearMap.comp_apply]
+
+/-- The four single-block projections read the arm-1 tube's four eigenvalue-site
+deposits: block `0` is `p+q`, block `1` is `p+Λq`, block `2` is `p+Λ²q`, block
+`3` is `p+Λ³q` (`Λ = jordanShiftLinGen`, `p = starFirst_F w`, `q = starSecond_F w`).
+This is the eigenvalue-coupling readout consumed by the canonical leaf-equality
+core: blocks `0` and `3` are exactly where the two long-arm flags deposit, and
+the four readouts pin them together through the single `Λ` site. -/
+theorem etilde7_arm1Tube_blockProj_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (w : Fin (2 * (m + 1)) → F) :
+    blockProjAt_F F 0 m (by omega) (etilde7Arm1Tube_F F lam m w)
+        = starFirst_F F m w + starSecond_F F m w
+    ∧ blockProjAt_F F (m + 1) m (by omega) (etilde7Arm1Tube_F F lam m w)
+        = starFirst_F F m w + jordanShiftLinGen F lam m (starSecond_F F m w)
+    ∧ blockProjAt_F F (2 * (m + 1)) m (by omega) (etilde7Arm1Tube_F F lam m w)
+        = starFirst_F F m w
+            + jordanShiftLinGen F lam m (jordanShiftLinGen F lam m (starSecond_F F m w))
+    ∧ blockProjAt_F F (3 * (m + 1)) m (by omega) (etilde7Arm1Tube_F F lam m w)
+        = starFirst_F F m w
+            + jordanShiftLinGen F lam m
+                (jordanShiftLinGen F lam m
+                  (jordanShiftLinGen F lam m (starSecond_F F m w))) := by
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> rw [etilde7Arm1Tube_expand_F]
+  · rw [map_add, map_add, map_add,
+      blockProjAt_comp_embedAt_F F 0 m (by omega),
+      blockProjAt_embedAt_disjoint_F F 0 (m + 1) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F 0 (2 * (m + 1)) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F 0 (3 * (m + 1)) m (by omega) (by omega),
+      add_zero, add_zero, add_zero]
+  · rw [map_add, map_add, map_add,
+      blockProjAt_embedAt_disjoint_F F (m + 1) 0 m (by omega) (by omega),
+      blockProjAt_comp_embedAt_F F (m + 1) m (by omega),
+      blockProjAt_embedAt_disjoint_F F (m + 1) (2 * (m + 1)) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (m + 1) (3 * (m + 1)) m (by omega) (by omega),
+      add_zero, add_zero, zero_add]
+  · rw [map_add, map_add, map_add,
+      blockProjAt_embedAt_disjoint_F F (2 * (m + 1)) 0 m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (2 * (m + 1)) (m + 1) m (by omega) (by omega),
+      blockProjAt_comp_embedAt_F F (2 * (m + 1)) m (by omega),
+      blockProjAt_embedAt_disjoint_F F (2 * (m + 1)) (3 * (m + 1)) m (by omega) (by omega),
+      add_zero, zero_add, zero_add]
+  · rw [map_add, map_add, map_add,
+      blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) 0 m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) (m + 1) m (by omega) (by omega),
+      blockProjAt_embedAt_disjoint_F F (3 * (m + 1)) (2 * (m + 1)) m (by omega) (by omega),
+      blockProjAt_comp_embedAt_F F (3 * (m + 1)) m (by omega),
+      zero_add, zero_add, zero_add]
+
 /-- Arm-2 (prefix flag) leaf-4 → center composite for the canonical
 orientation `4→3→2→0`:
 `x ↦ (x, 0, 0, 0)`, i.e. the chain
