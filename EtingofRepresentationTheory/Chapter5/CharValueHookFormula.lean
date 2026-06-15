@@ -1,6 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
-import EtingofRepresentationTheory.Chapter5.Theorem5_17_1
+import EtingofRepresentationTheory.Chapter5.FRTHelpers
 
 /-!
 # Frobenius route to `dim V_λ = #SYT` (Etingof Theorem 5.17.1) — bypasses Wall 3
@@ -752,6 +752,127 @@ theorem finrank_spechtModule_eq_card_syt_via_frobenius
   rw [← charValue_trivialCycleType_eq_spechtFinrank_rat]
   exact charValue_trivialCycleType_eq_card_syt N lam
 
+/-! ## Surjectivity: every partition is a `BoundedPartition n n` weight (issue #4595)
+
+`finrank_spechtModule_eq_card_syt_via_frobenius` is stated for partitions of the
+shape `weightToPartition n bp.parts`. To reach an *arbitrary* `Nat.Partition n`
+we show every partition of `n` arises this way: pad its sorted parts with zeros
+to length `n`. The helper lemmas reproduce the `private` `canonicalBP` machinery
+of `Theorem5_22_1.lean`, specialised so the construction starts from the
+partition itself rather than from another bounded partition. -/
+
+/-- A list of positive naturals has length at most its sum. -/
+private lemma list_length_le_sum_of_pos (m : List ℕ) (hm : ∀ x ∈ m, 0 < x) :
+    m.length ≤ m.sum := by
+  induction m with
+  | nil => exact Nat.zero_le _
+  | cons a t ih =>
+    simp only [List.length_cons, List.sum_cons]
+    have ha := hm a (by simp)
+    have ht := ih (fun x hx => hm x (by simp [hx]))
+    omega
+
+/-- Summing `l.getD · 0` over `Fin n` recovers the list sum once `l.length ≤ n`. -/
+private lemma sum_getD_eq_sum (l : List ℕ) (n : ℕ) (hlen : l.length ≤ n) :
+    ∑ i : Fin n, l.getD i.val 0 = l.sum := by
+  induction n generalizing l with
+  | zero =>
+    have := List.eq_nil_of_length_eq_zero (by omega : l.length = 0)
+    subst this; rfl
+  | succ n ih =>
+    rw [Fin.sum_univ_succ]
+    cases l with
+    | nil => simp [ih [] (Nat.zero_le _)]
+    | cons a t =>
+      simp only [List.getD_cons_zero, List.sum_cons, Fin.val_zero]
+      congr 1
+      have hstep : ∀ i : Fin n, (a :: t).getD i.succ.val 0 = t.getD i.val 0 := by
+        intro ⟨i, _⟩; simp [List.getD_cons_succ]
+      simp_rw [hstep]
+      exact ih t (by simpa using hlen)
+
+/-- `l.getD · 0` is antitone on `Fin n` when `l` is sorted in weakly decreasing order. -/
+private lemma getD_antitone_of_pairwise {n : ℕ} (l : List ℕ) (h : l.Pairwise (· ≥ ·)) :
+    Antitone (fun i : Fin n => l.getD i.val 0) := by
+  intro i j hij
+  show l.getD j.val 0 ≤ l.getD i.val 0
+  rcases eq_or_lt_of_le hij with rfl | hlt
+  · exact le_refl _
+  · by_cases hj : j.val < l.length
+    · have hi : i.val < l.length := by omega
+      rw [List.getD_eq_getElem (hn := hj), List.getD_eq_getElem (hn := hi)]
+      exact List.pairwise_iff_get.mp h ⟨i.val, hi⟩ ⟨j.val, hj⟩ hlt
+    · rw [List.getD_eq_default (hn := by omega)]
+      exact Nat.zero_le _
+
+/-- Filtering the positive entries out of `ofFn (l.getD · 0)` on `Fin m` recovers `l`,
+provided `l` has only positive entries and `l.length ≤ m`. -/
+private lemma ofFn_getD_filter_pos :
+    ∀ (m : ℕ) (ll : List ℕ), (∀ x ∈ ll, 0 < x) → ll.length ≤ m →
+      (List.ofFn (fun i : Fin m => ll.getD i.val 0)).filter (fun x => decide (0 < x)) = ll := by
+  intro m
+  induction m with
+  | zero => intro ll _ hlen; simp [List.eq_nil_of_length_eq_zero (by omega : ll.length = 0)]
+  | succ m ih =>
+    intro ll hll hlen
+    simp only [List.ofFn_succ, Fin.val_zero, List.filter_cons]
+    cases ll with
+    | nil =>
+      simp only [List.getD_nil, List.ofFn_const, List.filter_replicate,
+        show ¬ decide (0 < 0) = true from by simp]
+      simp
+    | cons a t =>
+      simp only [List.getD_cons_zero]
+      have ha : 0 < a := hll a (by simp)
+      rw [show decide (0 < a) = true from decide_eq_true ha]
+      simp only [ite_true]
+      congr 1
+      show (List.ofFn (fun i : Fin m => t.getD i.val 0)).filter (fun x => decide (0 < x)) = t
+      exact ih t (fun x hx => hll x (by simp [hx]))
+        (by simp only [List.length_cons] at hlen; omega)
+
+/-- **Surjectivity of the Schur-Weyl weight map.** Every `Nat.Partition n` is the
+underlying partition of some `BoundedPartition n n` (its sorted parts, padded with
+zeros to length `n`). This lets the Frobenius dimension result, stated for
+`weightToPartition`-shaped partitions, descend to an arbitrary partition. -/
+theorem exists_boundedPartition_weightToPartition_eq (n : ℕ) (la : Nat.Partition n) :
+    ∃ bp : BoundedPartition n n,
+      (bp.sum_eq ▸ weightToPartition n bp.parts : Nat.Partition n) = la := by
+  have hpos : ∀ x ∈ la.sortedParts, 0 < x := by
+    intro x hx
+    refine la.parts_pos ?_
+    have h := Multiset.sort_eq la.parts (· ≥ ·)
+    rw [show la.parts.sort (· ≥ ·) = la.sortedParts from rfl] at h
+    exact h ▸ Multiset.mem_coe.mpr hx
+  have hlen : la.sortedParts.length ≤ n := by
+    have hsum : la.sortedParts.sum = n := sortedParts_sum_eq n la
+    have := list_length_le_sum_of_pos la.sortedParts hpos
+    omega
+  refine ⟨{ parts := fun i : Fin n => la.sortedParts.getD i.val 0
+            decreasing := getD_antitone_of_pairwise la.sortedParts
+              (by rw [show la.sortedParts = la.parts.sort (· ≥ ·) from rfl]
+                  exact Multiset.pairwise_sort _ _)
+            sum_eq := by
+              rw [sum_getD_eq_sum la.sortedParts n hlen]; exact sortedParts_sum_eq n la }, ?_⟩
+  have hrec : ∀ (p q : ℕ) (h : p = q) (P : Nat.Partition p), (h ▸ P).parts = P.parts := by
+    intro p q h P; subst h; rfl
+  apply Nat.Partition.ext
+  rw [hrec _ _ _ (weightToPartition n (fun i : Fin n => la.sortedParts.getD i.val 0))]
+  show (Finset.univ.val.map (fun i : Fin n => la.sortedParts.getD i.val 0)).filter (0 < ·) =
+      la.parts
+  rw [Fin.univ_val_map, Multiset.filter_coe, ofFn_getD_filter_pos n la.sortedParts hpos hlen]
+  exact Multiset.sort_eq _ _
+
+/-- **Book route, payoff 2 (general `λ`):** `dim_ℂ V_λ = #SYT` for an *arbitrary*
+partition `λ`, from `finrank_spechtModule_eq_card_syt_via_frobenius` plus
+surjectivity of `weightToPartition`. This is the Wall-3-free (no Garnir
+straightening) replacement for the polytabloid-basis route. -/
+theorem finrank_spechtModule_eq_card_syt_general (n : ℕ) (la : Nat.Partition n) :
+    Module.finrank ℂ (SpechtModule n la) = Nat.card (StandardYoungTableau n la) := by
+  obtain ⟨bp, hbp⟩ := exists_boundedPartition_weightToPartition_eq n la
+  have h := finrank_spechtModule_eq_card_syt_via_frobenius n bp
+  rw [hbp] at h
+  exact_mod_cast h
 
 end
 end Etingof
