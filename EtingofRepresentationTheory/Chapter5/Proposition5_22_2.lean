@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
+import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
 
 /-!
 # Proposition 5.22.2: Twisting by Determinant

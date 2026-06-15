@@ -15,13 +15,16 @@ shift computation for the determinant twist.
 
 ## Mathematical content
 
-The key theorem `iso_of_formalCharacter_eq_schurPoly` states that a `GL_N(k)`-
+This file develops the weight-space machinery (formal characters, weight-space
+finrank sums, the determinant-twist shift) underlying the Schur-Weyl #6 theorem.
+The capstone theorem itself, `iso_of_formalCharacter_eq_schurPoly` — a `GL_N(k)`-
 representation whose formal character equals a Schur polynomial `S_λ` is
-isomorphic to the Schur module `L_λ`. The proof requires:
-1. Complete reducibility of polynomial `GL_N` representations
-2. Uniqueness of irreducible components with a given highest weight
+isomorphic to the Schur module `L_λ` — lives downstream in
+`SchurWeylFormalCharacterIso` (it depends on `decompose_polynomial_gl_rep`, which
+imports this file, so it cannot be stated here without an import cycle; see
+issue #4699).
 
-The previous formulation (`iso_of_glWeightSpace_finrank_eq`) was stated for
+The earlier formulation (`iso_of_glWeightSpace_finrank_eq`) was stated for
 arbitrary `FDRep k (GL_N k)`, which is false: non-polynomial representations
 like `det⁻¹` and `det⁻²` have all `ℕ`-valued weight spaces trivial (so the
 equal-dimensions hypothesis holds vacuously) yet are non-isomorphic.
@@ -369,36 +372,10 @@ theorem weight_magnitude_of_formalCharacter_eq_schurPoly (N : ℕ)
     exact Finset.sum_congr rfl (fun i _ => congrFun hd_fun i)
   omega
 
-/-- A `GL_N(k)`-representation whose formal character equals a Schur polynomial
-`S_λ` and whose dimension matches the Schur module is isomorphic to `L_λ`.
-
-The dimension hypothesis `h_dim` is necessary: without it, one could take
-`M = L_λ ⊕ det⁻¹`, which has `formalCharacter M = schurPoly N lam` (since
-`det⁻¹` has no `ℕ`-valued weight spaces and is invisible to `formalCharacter`),
-yet `M ≇ L_λ` due to the dimension mismatch. The hypothesis ensures `M` is
-"polynomial" — its `ℕ`-valued weight spaces account for all of `M`.
-
-The proof requires GL_N-equivariant complete reducibility: every polynomial
-`GL_N`-representation decomposes into a direct sum of Schur modules. Combined
-with `Theorem5_22_1` (Weyl character formula) and `schurPoly_injective`,
-this forces `M ≅ L_λ`.
-
-The downstream use is in `schurModule_shift_iso_detTwist` (Proposition 5.22.2),
-where both representations are polynomial and have character equal to
-`schurPoly N (λ + 1^N)`. -/
-theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
-    (lam : Fin N → ℕ) (hlam : Antitone lam)
-    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (h : formalCharacter k N M = schurPoly N lam)
-    (h_dim : Module.finrank k M = Module.finrank k (SchurModule k N lam)) :
-    Nonempty (M ≅ SchurModule k N lam) := by
-  -- Proof outline:
-  -- 1. From h + Theorem5_22_1: weight space dims match at every ℕ-valued weight
-  -- 2. From h_dim: ℕ-valued weight spaces span M (M is polynomial)
-  -- 3. By GL_N-equivariant complete reducibility (Schur-Weyl): M ≅ ⊕ nᵢ · L_μᵢ
-  -- 4. Character additivity + schurPoly_injective: nλ = 1, all others = 0
-  -- 5. Therefore M ≅ L_λ
-  sorry
+-- `iso_of_formalCharacter_eq_schurPoly` (Schur-Weyl #6) has been relocated to
+-- `SchurWeylFormalCharacterIso` — it depends on `decompose_polynomial_gl_rep`,
+-- which imports this file, so stating it here would create an import cycle.
+-- See issue #4699.
 
 /-- The finsupp with all values equal to 1 on `Fin N`. -/
 private def onesFinsupp (N : ℕ) : Fin N →₀ ℕ :=
