@@ -2234,3 +2234,40 @@ submodule) elaborates if you ascribe the element to the obj type:
 `(concreteMap x : (rep).obj ⟨0, by omega⟩) ∈ W ⟨0, by omega⟩` — the ascription
 forces a default-transparency defeq that *does* reduce. The proof body still
 needs fix (1) or (2).
+
+### Working recipe for fix (1) on a `match`-`Dim` family (landed for Ẽ₇)
+
+`etilde7Rep_kQ_{prefix,suffix}Arm_collapse` (`FieldGenericETilde7.lean`,
+Section 3b, #4642) are the first obj-form collapse criteria actually carried to a
+compile over a `match`-based `Dim`. Two non-obvious gotchas beyond "build the
+obj composite + call `leaf_center_mem_iff_of_forward`":
+
+1. **Instance wall + diamond.** `leaf_center_mem_iff_of_forward` (and any lemma
+   with `[AddCommGroup Vᵢ] [Module F Vᵢ]`) needs those instances on the stuck
+   obj-type `(rep).obj ⟨v,_⟩`; synthesis fails (reducible transparency won't
+   reduce the `match`). Supply them with `letI` + `inferInstanceAs`, but use the
+   **stuck index form**, not the reduced one:
+   ```
+   letI : AddCommGroup ((rep).obj ⟨v, by omega⟩) :=
+     inferInstanceAs (AddCommGroup (Fin (someDim m ⟨v, by omega⟩) → F))
+   letI : Module F ((rep).obj ⟨v, by omega⟩) :=
+     inferInstanceAs (Module F (Fin (someDim m ⟨v, by omega⟩) → F))
+   ```
+   Using the **reduced** form `Fin (k*(m+1)) → F` typechecks but produces a
+   `.toAddCommMonoid` that does **not** match the rep's bundled
+   `instAddCommMonoid ⟨v,_⟩` (which is `Pi.addCommMonoid` at the *stuck* index),
+   so the subsequent `W ⟨v⟩` argument fails with an "Application type mismatch …
+   `this✝.toAddCommMonoid` vs `(rep).instAddCommMonoid ⟨v,_⟩`" instance diamond.
+   The stuck-index form keeps `Pi.addCommMonoid` at the same index and the
+   diamond closes.
+2. **Conclusion membership index must be inferred, not re-proved.** Writing the
+   conclusion as `… ∈ W₁ ⟨0, by omega⟩` while the element already pins vertex `0`
+   (via the composite's target / the bound `x`'s type) makes the second
+   `by omega` run against an already-unified metavar and report a spurious
+   `No goals to be solved`. Write `… ∈ W₁ _` and let the index infer from the
+   element type.
+
+With both, containments come from pure invariance chaining
+(`hW₁_inv a20 _ (hW₁_inv a32 _ (hW₁_inv a43 p hp))`) and injectivity descends via
+`simp only [LinearMap.comp_apply, rep, repMap] at h` then the concrete
+`*ArmComp_F_injective` (term-mode defeq unfolds the `match` at the leaves).
