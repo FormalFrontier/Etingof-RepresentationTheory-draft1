@@ -523,6 +523,145 @@ theorem etilde7Rep_kQ_dimVec
       (etilde7Rep_kQ F Q hOrient m) v ≃ₗ[F] (Fin (etilde7Dim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 3b: Obj-form canonical flag-collapse criteria (sub-B2, #4642)
+
+The two foundation membership criteria (`etilde7_prefixArm_collapse_F`,
+`etilde7_suffixArm_collapse_F`) are stated over the **concrete** carrier spaces
+`Fin (k·(m+1)) → F`. The leaf-equality assembly works with the **obj-typed**
+invariant pair `W₁ W₂ : ∀ v, Submodule F ((etilde7Rep_kQ …).obj v)`. The two
+lemmas below bridge the gap for the canonical (all-toward-center) orientation:
+given the three canonical prefix-arm arrows `4→3→2→0` (resp. suffix-arm arrows
+`7→6→5→0`), the leaf-4 datum lies in `W₁⟨4⟩` iff its center-block-0 deposit lies
+in `W₁⟨0⟩` (resp. leaf-7 ↔ block-3). The chain containments the concrete
+criteria need are derived from obj-typed invariance by reducing the rep's
+`mapLinear` along each arrow (`simp only [etilde7Rep_kQ, etilde7RepMap_kQ]`, the
+d6tilde `chain_collapse` pattern). These are the orientation-independent half of
+the canonical leaf-equality branch; the eigenvalue-coupled arm-1 core that links
+block 0 to block 3 is left to the follow-up. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- **Obj-form arm-2 (prefix flag) leaf→center collapse criterion** for the
+canonical orientation `4→3→2→0`. Given a complementary invariant pair
+`(W₁, W₂)` over `etilde7Rep_kQ` and the three canonical prefix-arm arrows, the
+leaf-4 datum lies in `W₁⟨4⟩` iff its leaf→center deposit (the obj-typed
+`mapLinear` composite along `4→3→2→0`, concretely `blockEmbedAt_F 0`) lies in
+`W₁⟨0⟩`. Obj-form criterion built directly from `leaf_center_mem_iff_of_forward`:
+the `.map`-containments come from `W`-invariance along the arrows, injectivity
+descends through `etilde7PrefixArmComp_F_injective` after reducing the composite
+to its concrete prefix-flag form. Stays obj-typed to sidestep the `etilde7Dim`
+match-reduction wall (obstacle #1 of the sub-B2 investigation). -/
+theorem etilde7Rep_kQ_prefixArm_collapse
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 8))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 8) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 8 Q etilde7Adj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((etilde7Rep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 8} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (etilde7Rep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 8} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (etilde7Rep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v))
+    (a43 : @Quiver.Hom _ Q ⟨4, by omega⟩ ⟨3, by omega⟩)
+    (a32 : @Quiver.Hom _ Q ⟨3, by omega⟩ ⟨2, by omega⟩)
+    (a20 : @Quiver.Hom _ Q ⟨2, by omega⟩ ⟨0, by omega⟩)
+    (x : (etilde7Rep_kQ F Q hOrient m).obj ⟨4, by omega⟩) :
+    x ∈ W₁ _ ↔
+      (etilde7Rep_kQ F Q hOrient m).mapLinear a20
+        ((etilde7Rep_kQ F Q hOrient m).mapLinear a32
+          ((etilde7Rep_kQ F Q hOrient m).mapLinear a43 x)) ∈ W₁ _ := by
+  letI := Q
+  -- Work with the rep's own obj-typed leaf→center composite, avoiding the
+  -- `etilde7Dim` match-reduction wall (instance synthesis won't unfold it, but
+  -- term-mode defeq at the leaves does). Containments come from invariance;
+  -- injectivity descends through `etilde7PrefixArmComp_F` after reducing the
+  -- composite to its concrete prefix-flag form. The leaf/center obj-types are a
+  -- stuck `match` so their algebraic instances are not found by synthesis; we
+  -- pin them by `inferInstanceAs` (default-transparency defeq reduces the match).
+  letI : AddCommGroup ((etilde7Rep_kQ F Q hOrient m).obj ⟨4, by omega⟩) :=
+    inferInstanceAs (AddCommGroup (Fin (etilde7Dim m ⟨4, by omega⟩) → F))
+  letI : Module F ((etilde7Rep_kQ F Q hOrient m).obj ⟨4, by omega⟩) :=
+    inferInstanceAs (Module F (Fin (etilde7Dim m ⟨4, by omega⟩) → F))
+  letI : AddCommGroup ((etilde7Rep_kQ F Q hOrient m).obj ⟨0, by omega⟩) :=
+    inferInstanceAs (AddCommGroup (Fin (etilde7Dim m ⟨0, by omega⟩) → F))
+  letI : Module F ((etilde7Rep_kQ F Q hOrient m).obj ⟨0, by omega⟩) :=
+    inferInstanceAs (Module F (Fin (etilde7Dim m ⟨0, by omega⟩) → F))
+  refine leaf_center_mem_iff_of_forward
+    (((etilde7Rep_kQ F Q hOrient m).mapLinear a20).comp
+      (((etilde7Rep_kQ F Q hOrient m).mapLinear a32).comp
+        ((etilde7Rep_kQ F Q hOrient m).mapLinear a43)))
+    ?hinj (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩) (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+    (hcompl ⟨4, by omega⟩) (hcompl ⟨0, by omega⟩) ?h1 ?h2 x
+  case hinj =>
+    intro p q hpq
+    simp only [LinearMap.comp_apply, etilde7Rep_kQ, etilde7RepMap_kQ] at hpq
+    exact etilde7PrefixArmComp_F_injective F m
+      (by simpa only [etilde7PrefixArmComp_F, LinearMap.comp_apply] using hpq)
+  case h1 =>
+    rintro _ ⟨p, hp, rfl⟩
+    exact hW₁_inv a20 _ (hW₁_inv a32 _ (hW₁_inv a43 p hp))
+  case h2 =>
+    rintro _ ⟨p, hp, rfl⟩
+    exact hW₂_inv a20 _ (hW₂_inv a32 _ (hW₂_inv a43 p hp))
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- **Obj-form arm-3 (suffix flag) leaf→center collapse criterion** for the
+canonical orientation `7→6→5→0`. Given a complementary invariant pair
+`(W₁, W₂)` over `etilde7Rep_kQ` and the three canonical suffix-arm arrows, the
+leaf-7 datum lies in `W₁⟨7⟩` iff its leaf→center deposit (the obj-typed
+`mapLinear` composite along `7→6→5→0`, concretely `blockEmbedAt_F 3(m+1)`) lies
+in `W₁⟨0⟩`. Obj-form criterion built directly from
+`leaf_center_mem_iff_of_forward`, the arm-3 (suffix-flag) analogue of
+`etilde7Rep_kQ_prefixArm_collapse`. -/
+theorem etilde7Rep_kQ_suffixArm_collapse
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 8))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 8) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 8 Q etilde7Adj)
+    (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((etilde7Rep_kQ F Q hOrient m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 8} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (etilde7Rep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 8} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (etilde7Rep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v))
+    (a76 : @Quiver.Hom _ Q ⟨7, by omega⟩ ⟨6, by omega⟩)
+    (a65 : @Quiver.Hom _ Q ⟨6, by omega⟩ ⟨5, by omega⟩)
+    (a50 : @Quiver.Hom _ Q ⟨5, by omega⟩ ⟨0, by omega⟩)
+    (x : (etilde7Rep_kQ F Q hOrient m).obj ⟨7, by omega⟩) :
+    x ∈ W₁ _ ↔
+      (etilde7Rep_kQ F Q hOrient m).mapLinear a50
+        ((etilde7Rep_kQ F Q hOrient m).mapLinear a65
+          ((etilde7Rep_kQ F Q hOrient m).mapLinear a76 x)) ∈ W₁ _ := by
+  letI := Q
+  letI : AddCommGroup ((etilde7Rep_kQ F Q hOrient m).obj ⟨7, by omega⟩) :=
+    inferInstanceAs (AddCommGroup (Fin (etilde7Dim m ⟨7, by omega⟩) → F))
+  letI : Module F ((etilde7Rep_kQ F Q hOrient m).obj ⟨7, by omega⟩) :=
+    inferInstanceAs (Module F (Fin (etilde7Dim m ⟨7, by omega⟩) → F))
+  letI : AddCommGroup ((etilde7Rep_kQ F Q hOrient m).obj ⟨0, by omega⟩) :=
+    inferInstanceAs (AddCommGroup (Fin (etilde7Dim m ⟨0, by omega⟩) → F))
+  letI : Module F ((etilde7Rep_kQ F Q hOrient m).obj ⟨0, by omega⟩) :=
+    inferInstanceAs (Module F (Fin (etilde7Dim m ⟨0, by omega⟩) → F))
+  refine leaf_center_mem_iff_of_forward
+    (((etilde7Rep_kQ F Q hOrient m).mapLinear a50).comp
+      (((etilde7Rep_kQ F Q hOrient m).mapLinear a65).comp
+        ((etilde7Rep_kQ F Q hOrient m).mapLinear a76)))
+    ?hinj (W₁ ⟨7, by omega⟩) (W₂ ⟨7, by omega⟩) (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+    (hcompl ⟨7, by omega⟩) (hcompl ⟨0, by omega⟩) ?h1 ?h2 x
+  case hinj =>
+    intro p q hpq
+    simp only [LinearMap.comp_apply, etilde7Rep_kQ, etilde7RepMap_kQ] at hpq
+    exact etilde7SuffixArmComp_F_injective F m
+      (by simpa only [etilde7SuffixArmComp_F, LinearMap.comp_apply] using hpq)
+  case h1 =>
+    rintro _ ⟨p, hp, rfl⟩
+    exact hW₁_inv a50 _ (hW₁_inv a65 _ (hW₁_inv a76 p hp))
+  case h2 =>
+    rintro _ ⟨p, hp, rfl⟩
+    exact hW₂_inv a50 _ (hW₂_inv a65 _ (hW₂_inv a76 p hp))
+
 /-! ## Section 4: Indecomposability (corrected homogeneous tube)
 
 `etilde7Rep_kQ` is now the genuine homogeneous tube `R_λ^{(m+1)}` at the
