@@ -71,7 +71,10 @@ import EtingofRepresentationTheory.Chapter5.PowerSumCauchyIdentity
 import EtingofRepresentationTheory.Chapter5.SYTFintype
 import EtingofRepresentationTheory.Chapter5.PolytabloidBasis
 import EtingofRepresentationTheory.Chapter5.TabloidModule
-import EtingofRepresentationTheory.Chapter5.SpechtModuleBasis
+-- `SpechtModuleBasis` (the Garnir-straightening route to dim V_λ = #SYT, issues
+-- #2703/#2543) is retired off the critical path: Theorem 5.17.1 now goes through
+-- the Frobenius character formula (`Theorem5_17_1` → `CharValueHookFormula`). The
+-- file is kept as a non-book bonus but no longer built by this aggregator.
 import EtingofRepresentationTheory.Chapter5.Theorem5_17_1
 
 -- Section 5.18: Schur-Weyl Duality

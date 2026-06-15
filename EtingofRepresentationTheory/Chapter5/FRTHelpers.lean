@@ -1982,6 +1982,21 @@ theorem card_standardYoungTableau_mul (n : ℕ) (la : Nat.Partition n) :
   | zero => exact card_standardYoungTableau_mul_zero la
   | succ n ih => exact card_standardYoungTableau_mul_succ n ih la
 
+/-- The hook length product divides n!. Follows from the multiplicative form
+of the Frame–Robinson–Thrall theorem. -/
+theorem hookLengthProduct_dvd_factorial (n : ℕ) (la : Nat.Partition n) :
+    la.toYoungDiagram.hookLengthProduct ∣ n.factorial :=
+  ⟨Nat.card (StandardYoungTableau n la), by linarith [card_standardYoungTableau_mul n la]⟩
+
+/-- Frame–Robinson–Thrall theorem (1954): the number of standard Young tableaux
+of shape λ equals n! / ∏ h(i,j). Derived from the multiplicative form. -/
+theorem card_standardYoungTableau_eq (n : ℕ) (la : Nat.Partition n) :
+    Nat.card (StandardYoungTableau n la) =
+      n.factorial / la.toYoungDiagram.hookLengthProduct := by
+  have h := card_standardYoungTableau_mul n la
+  have hpos := YoungDiagram.hookLengthProduct_pos la.toYoungDiagram
+  rw [← h, Nat.mul_div_cancel _ hpos]
+
 end
 
 end Etingof
