@@ -437,6 +437,15 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   type is being inferred (e.g. `(symGroupAlgHomToImage (N := N) (n := n) a) • x`).
   Otherwise `N` is a stuck metavariable ("typeclass instance problem is stuck").
 
+- **`∀ x ∈ W v, …` fails to elaborate when `W v : Submodule F (rep.obj v)` and
+  `rep.obj v` is a dependent `if`-type** (e.g. `Fin (if v.val = 0 then a else b) → F`).
+  The anonymous-binder sugar leaves the element type a stuck metavariable
+  ("failed to synthesize Membership ?m (Submodule F (…obj ⟨1, ?⟩))") because the
+  `if` does not reduce before membership resolution. Fix: spell it out with an
+  explicit binder type, `∀ (x : Fin (m+1) → F), x ∈ W v → …` (defeq to the sugar,
+  so downstream consumers are unaffected). The all-`have` bodies inside the proof
+  hit the same issue — give those `∀`s explicit types too.
+
 - **`congrArg Subtype.val (g.<lemma> ⟨x.val, x.property⟩)`** discharges the
   `left_inv`/`right_inv`/`map_add'` fields of a carrier-identity submodule
   `LinearEquiv` by defeq. Prefer it over `rw [show ⟨…⟩ = g … from rfl, …]`, which
