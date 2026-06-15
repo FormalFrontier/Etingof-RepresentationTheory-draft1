@@ -270,6 +270,35 @@ theorem d5tildeGammaTubeInv_gammaTube_F (F : Type) [Field F] (lam : F) (m : ℕ)
       eigTailSumLin_eigSub F lam m hlam]
   rw [hKey, show (u + v) + -v = u from by abel, neg_neg]
 
+/-- The corrected eigenvalue-site central iso `γ_λ = d5tildeGammaTube_F` packaged
+as a `LinearEquiv`, with `.symm` equal to the closed-form inverse
+`d5tildeGammaTubeInv_F` (definitionally). This is the `Λ = λ·id + J` analogue of
+`d5tildeGammaEquiv_F` (which packages the refuted rank-deficient `γ`). Both
+two-sided inverse witnesses are `d5tildeGammaTube_gammaTubeInv_F` and
+`d5tildeGammaTubeInv_gammaTube_F` (`λ ≠ 1`, supplied by `d5tildeTubeLam_ne_one`).
+Consumed by the shared untwisting lemma
+`linearEquiv_invariant_isCompl_symm_mem` in the mixed-direction /
+central-reversed leaf-equality branches of `d5tildeRep_kQ_leaf_equalities`. -/
+noncomputable def d5tildeGammaTubeEquiv_F (F : Type) [Field F] (lam : F) (m : ℕ)
+    (hlam : lam ≠ 1) :
+    (Fin (2 * (m + 1)) → F) ≃ₗ[F] (Fin (2 * (m + 1)) → F) :=
+  LinearEquiv.ofLinear (d5tildeGammaTube_F F lam m) (d5tildeGammaTubeInv_F F lam m)
+    (LinearMap.ext fun w => by
+      simp only [LinearMap.comp_apply, LinearMap.id_apply]
+      exact d5tildeGammaTube_gammaTubeInv_F F lam m hlam w)
+    (LinearMap.ext fun w => by
+      simp only [LinearMap.comp_apply, LinearMap.id_apply]
+      exact d5tildeGammaTubeInv_gammaTube_F F lam m hlam w)
+
+@[simp] theorem d5tildeGammaTubeEquiv_F_apply (F : Type) [Field F] (lam : F) (m : ℕ)
+    (hlam : lam ≠ 1) (w : Fin (2 * (m + 1)) → F) :
+    d5tildeGammaTubeEquiv_F F lam m hlam w = d5tildeGammaTube_F F lam m w := rfl
+
+@[simp] theorem d5tildeGammaTubeEquiv_F_symm_apply (F : Type) [Field F] (lam : F)
+    (m : ℕ) (hlam : lam ≠ 1) (w : Fin (2 * (m + 1)) → F) :
+    (d5tildeGammaTubeEquiv_F F lam m hlam).symm w = d5tildeGammaTubeInv_F F lam m w :=
+  rfl
+
 /-! ## Section 4: Orientation-generic D̃₅ representation
 
 The map function is a match on `(a.val, b.val)` mirroring `d5tildeRepMap`
@@ -1010,6 +1039,66 @@ theorem d5tilde_gammaTube_containment_F
     rw [gammaTube_from_embed2_F] at hgamma
     exact (d5tilde_core3_F F Q hOrient m Wmain Wother hMain_43 hMain_53
       hOther_43 hOther_53 hc y (jordanShiftLinGen F lam m y) hgamma).2
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- Central-canonical untwist decomposition at center 2. For a complementary
+invariant pair `(Wmain, Wother)` with the central edge **canonical** (`2→3`
+carrying `γ_λ`) and both `v=2` leaf edges canonical (`0→2`, `1→2`), any
+center-3 element `starEmbed1_F p + starEmbed2_F q ∈ Wmain ⟨3⟩` pulls back through
+`γ_λ⁻¹` to center 2 and decomposes there:
+
+  `p + K(p − q) ∈ Wmain ⟨0⟩`  and  `K(p − q) ∈ Wmain ⟨1⟩`,   `K = eigTailSumLin`.
+
+This is the substitute for the missing `v=3` leaf push in the mixed-direction
+branches of `d5tildeRep_kQ_leaf_equalities` (combo C / C′): there one `v=3` leaf
+edge is canonical and the other reversed, so `d5tilde_core3_F` (which needs both
+`v=3` pushes) does not apply. Routing through the central γ-isomorphism and the
+`v=2` core decomposition recovers leaf information at center 2 instead. Uses the
+shared untwisting lemma `linearEquiv_invariant_isCompl_symm_mem` with
+`d5tildeGammaTubeEquiv_F`, then `gammaTubeInv_embed_general_F` and
+`d5tilde_core_F`. -/
+theorem d5tilde_centralCanon_untwist_core_F
+    (F : Type) [Field F] [IsAlgClosed F]
+    (Q : @Quiver.{0, 0} (Fin 6))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 6) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 6 Q d5tildeAdj)
+    (lam : F) (m : ℕ) (hlam : lam ≠ 1)
+    (Wmain Wother : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v))
+    (hMain_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hMain_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wmain ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wmain ⟨2, by omega⟩)
+    (hOther_02 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨0, by omega⟩ →
+        starEmbed1_F F m x ∈ Wother ⟨2, by omega⟩)
+    (hOther_12 : ∀ (x : Fin (m + 1) → F), x ∈ Wother ⟨1, by omega⟩ →
+        starEmbed2_F F m x ∈ Wother ⟨2, by omega⟩)
+    (hMain_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wmain ⟨2, by omega⟩ →
+        d5tildeGammaTube_F F lam m x ∈ Wmain ⟨3, by omega⟩)
+    (hOther_23 : ∀ (x : Fin (2 * (m + 1)) → F), x ∈ Wother ⟨2, by omega⟩ →
+        d5tildeGammaTube_F F lam m x ∈ Wother ⟨3, by omega⟩)
+    (hc : ∀ v, IsCompl (Wmain v) (Wother v))
+    (p q : Fin (m + 1) → F)
+    (hmem : starEmbed1_F F m p + starEmbed2_F F m q ∈ Wmain ⟨3, by omega⟩) :
+    p + eigTailSumLin F lam m (p - q) ∈ Wmain ⟨0, by omega⟩ ∧
+      eigTailSumLin F lam m (p - q) ∈ Wmain ⟨1, by omega⟩ := by
+  -- Untwist the center-3 element back to center 2 through the `γ_λ` equiv.
+  have huntwist : d5tildeGammaTubeInv_F F lam m
+      (starEmbed1_F F m p + starEmbed2_F F m q) ∈ Wmain ⟨2, by omega⟩ := by
+    have hpre := linearEquiv_invariant_isCompl_symm_mem
+      (d5tildeGammaTubeEquiv_F F lam m hlam)
+      (Wmain ⟨2, by omega⟩) (Wother ⟨2, by omega⟩)
+      (Wmain ⟨3, by omega⟩) (Wother ⟨3, by omega⟩)
+      (hc ⟨2, by omega⟩) (hc ⟨3, by omega⟩)
+      (fun x hx => hMain_23 x hx) (fun x hx => hOther_23 x hx)
+      _ hmem
+    simpa using hpre
+  rw [gammaTubeInv_embed_general_F] at huntwist
+  obtain ⟨h0, h1⟩ := d5tilde_core_F F Q hOrient m Wmain Wother
+    hMain_02 hMain_12 hOther_02 hOther_12 hc
+    (p + eigTailSumLin F lam m (p - q)) (-(eigTailSumLin F lam m (p - q))) huntwist
+  refine ⟨h0, ?_⟩
+  simpa only [LinearMap.neg_apply, neg_neg] using Submodule.neg_mem _ h1
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
