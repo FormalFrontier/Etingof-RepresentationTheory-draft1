@@ -226,6 +226,45 @@ The per-(field, orientation) reps `<X>Rep_kQ` (`FieldGeneric{Star,D5/6/7Tilde,ET
 
 **Workarounds.** (1) State reusable arm/flag helpers over **explicit `Fin (k·(m+1)) → F` carriers** plus per-edge hypotheses (as `t125_prefix_sub` / `t125_canonical_collapse` do) — these elaborate cleanly. (2) Do the `W ⟨v⟩` → explicit-carrier bridge **inside a proof body**, where `simp only [<X>Rep_kQ, <X>RepMap_kQ]` unfolds the rep and concrete memberships elaborate at default transparency (this is why the local `core`/`leaf*_sub` haves inside `starTubeRepGen_isIndecomposable` work). Do not try to expose a rep-level `…_leaf_equalities` theorem whose *conclusion* carries concrete memberships; assemble that content in the consuming indecomposability proof instead.
 
+### Direct sums / decompositions of `QuiverRepresentation` (Ch6, #4781)
+
+Two gotchas bite anyone building iterated direct sums or decomposition results
+(`DecompositionExistence.lean` is the reference; `exists_decomposition` is the
+existence-of-decomposition-into-indecomposables workhorse).
+
+1. **`obj` carries only `AddCommMonoid` — `FiniteDimensional` is ill-typed.**
+   `Etingof.QuiverRepresentation.obj` bundles `AddCommMonoid` + `Module`, not
+   `AddCommGroup`. So a hypothesis `[∀ v, FiniteDimensional k (V.obj v)]` does
+   **not** elaborate (`FiniteDimensional` needs `AddCommGroup`). Use
+   `[∀ v, Module.Finite k (V.obj v)]` instead (works over `AddCommMonoid`;
+   `Module.finrank` is fine too). Where you genuinely need group structure
+   (complements, `IsCompl`, `prodEquivOfIsCompl`, `finrank` additivity), add it
+   locally and *only there*:
+   `letI : ∀ v, AddCommGroup (V.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)`
+   (it extends the bundled `AddCommMonoid`, no diamond). Under that `letI`,
+   `FiniteDimensional k (V.obj v)` becomes defeq-derivable from `Module.Finite`,
+   so `Submodule.finrank_add_eq_of_isCompl`, `Submodule.finrank_eq_zero`, and the
+   submodule-`Module.Finite` instance all resolve.
+
+2. **`directSum` returns obj-universe `max u₁ u₂` — pin the fold base to `Type 0`.**
+   `Etingof.QuiverRepresentation.directSum.{…}` has `ρ₁ : QR.{…,u₄,…}`,
+   `ρ₂ : QR.{…,u₅,…}`, result `QR.{…,max u₅ u₄,…}`. A `foldr`-based `directSumList`
+   with a *universe-polymorphic* zero base (`obj := fun _ => PUnit`) therefore
+   leaks a **free universe** (the base's `PUnit` universe stays an independent
+   param, and unification fails with `directSumList.{…,?u}` mismatches). Fix: make
+   the zero rep `obj := fun _ => PUnit.{1}` (concretely `Type 0`) and state the
+   decomposition theorem at obj-universe `0`
+   (`QuiverRepresentation.{uk, 0, 0, uh} k (Fin n)`). Then `max u 0 = u` collapses
+   cleanly and `directSumList` is monomorphic. Obj-universe `0` is exactly what the
+   orbit-counting application needs (`V.obj v ≃ Fin (d v) → k`). Tie `V` and the
+   existential summand list to the **same** explicit universes, or the witness
+   `[V]`/`L₁ ++ L₂` fails with a `List.cons` universe mismatch.
+
+   Defeq-but-not-syntactic `(subRep …).obj v` ↦ `↥(W v)`: `rw [subRep_obj]` in a
+   `finrank` goal triggers a "motive is not type correct" (the `AddCommMonoid`
+   instance depends on the rewritten term). Use `change`/`show` to the reduced
+   form (defeq) or `simp only [subRep_obj]` instead of `rw`.
+
 ## Scaffolding Anti-Patterns
 
 These patterns were discovered during Chapter 2 and 7-8 reviews. Avoid them in all scaffolding work.
