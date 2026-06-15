@@ -349,6 +349,21 @@ reduces exactly to leaf `Λ`-invariance, the indecomposability crux) over a
 heroic full-closure attempt, and partial-PR. Confirm the tractability premise
 early — it sets scope and avoids rediscovering the obstruction from scratch.
 
+**Multi-block tubes: don't fix the `_leaf_equalities` *statement shape* ahead of
+the center-collapse design.** For the ≥3-arm / >2-block-center tubes (Ẽ₆ #4638,
+Ẽ₇ #4746, and the entangled D̃₅ #4743) the eigenvalue site is a **separate
+vertex** (not a leaf) mapping to *all* center blocks, while the deep flag leaves
+reach only the edge blocks (Ẽ₇: leaf-4→block 0, leaf-7→block 3; interior blocks
+1,2 come only from the flag *intermediate* vertices). So N-invariance on the
+common `F^{m+1}` cannot be read off one leaf — it must be derived **jointly** with
+the flag collapse, and a center-core decomposition needs the intermediate
+vertices' W-spans. Stating `…_leaf_equalities` with a guessed conclusion first
+risks an *un-derivable* statement (the d5tilde #4743 outcome). Build the concrete
+center-core primitive first, fix the conclusion shape from it, then prove
+leaf-equalities and `_isIndecomposable` jointly. The mechanical eigenvalue
+readout (e.g. `etilde7_arm1Tube_blockProj_F`: the four block projections of the
+arm-1 tube = `(p+q, p+Λq, p+Λ²q, p+Λ³q)`) is the reusable piece to land first.
+
 ## Proven Proof Strategies
 
 Patterns that have succeeded in this project, derived from 110+ merged proof PRs (through wave 20).
