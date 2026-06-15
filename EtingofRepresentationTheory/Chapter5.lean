@@ -86,6 +86,7 @@ import EtingofRepresentationTheory.Chapter5.PrimitiveIdempotentSimplicity
 import EtingofRepresentationTheory.Chapter5.PolynomialTensorBridge
 import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
 import EtingofRepresentationTheory.Chapter5.DetLocalization
+import EtingofRepresentationTheory.Chapter5.DetIrreducible
 
 -- Section 5.19: Schur-Weyl Duality and Schur Functors
 import EtingofRepresentationTheory.Chapter5.Proposition5_19_1
