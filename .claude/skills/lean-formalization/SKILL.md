@@ -1249,8 +1249,11 @@ Multiple sessions were wasted proving statements that turned out to be false due
 | `[CharZero k]` | Averaging/Reynolds operator arguments fail | Theorem5_18_4 `symGroupImage_faithful` needed char 0 |
 | `Module.Finite k V` | Finite-dimensionality needed for rank-nullity | MoritaStructural needed explicit finiteness |
 | Orientation constraints | Sink/source confusion in quiver proofs | Prop6_6_6 sink vs source cases |
+| Weight spaces span `M` (`h_span`, "genuinely polynomial" not just algebraic) | Algebraic GL-rep embedding / decomposition into `V^{⊗n}`-summands fails | #4667: `polynomial_homog_rep_asModule_embeds_directSum_simple` + `decompose_polynomial_gl_rep` were false; `Sym²(V)⊗det⁻¹` satisfies `halg` + `h_homog` vacuously yet doesn't embed in `V^{⊗0}` |
 
 **Pattern:** If a proof fails at a fundamental level (not a tactic issue but a mathematical impossibility) after 1 serious attempt, **suspect a statement bug**. Check the book's hypotheses carefully before trying more proof strategies.
+
+**Aggregation/bridge issues — audit the inputs' hypotheses, not just their names.** When an issue says "compose lemma X with Y", a hypothesis present in X's *signature* but absent from the bridge goal is a statement-bug signal: add it (and thread it through any consumer in the same file). This is a *value*-hypothesis analog of Pre-Flight #5 (which checks input *generality*). Catching it (e.g. #4667's `h_span`, required by the `#4598` embedding it wraps) before writing any proof avoids attempting a false theorem; check whether the input lemma already documents a counterexample for the missing hypothesis.
 
 ## Sorry-to-Helper Extraction Pattern (Endgame)
 
