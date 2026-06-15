@@ -1515,8 +1515,128 @@ theorem d5tildeRep_kQ_isIndecomposable
               · exact Or.inl (propagate W₁ W₂ hW₂_inv hcompl heq01 heq04 heq05 h0)
               · exact Or.inr (propagate W₂ W₁ hW₁_inv (fun v => (hcompl v).symm)
                   heq01' heq04' heq05' h0)
-            · -- e53 reversed (3→5): central-transport / projection propagation residual.
-              sorry
+            · -- e53 reversed (3→5): leaf-5 edge reversed. The jordan-deposit comes
+              -- from the canonical central γ_λ push followed by the reversed-edge
+              -- `starSecond_F` projection (`d5tilde_core3_F_proj2`); the v=3 collapse
+              -- fills the complement `W'⟨3⟩` through the canonical 4→3 embed.
+              obtain ⟨a35⟩ := hQ53
+              have hW₁_12 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨1, by omega⟩) :
+                  starEmbed2_F F m x ∈ W₁ ⟨2, by omega⟩ := by
+                have h := hW₁_inv a12 x hx
+                simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+              have hW₁_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₁ ⟨2, by omega⟩) :
+                  d5tildeGammaTube_F F lam m x ∈ W₁ ⟨3, by omega⟩ := by
+                have h := hW₁_inv a23 x hx
+                simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+              have hW₁_35 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨3, by omega⟩) :
+                  starSecond_F F m w ∈ W₁ ⟨5, by omega⟩ := by
+                have h := hW₁_inv a35 w hw
+                simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+              have hW₂_12 (x : Fin (m + 1) → F) (hx : x ∈ W₂ ⟨1, by omega⟩) :
+                  starEmbed2_F F m x ∈ W₂ ⟨2, by omega⟩ := by
+                have h := hW₂_inv a12 x hx
+                simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+              have hW₂_23 (x : Fin (2 * (m + 1)) → F) (hx : x ∈ W₂ ⟨2, by omega⟩) :
+                  d5tildeGammaTube_F F lam m x ∈ W₂ ⟨3, by omega⟩ := by
+                have h := hW₂_inv a23 x hx
+                simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+              have hW₂_35 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨3, by omega⟩) :
+                  starSecond_F F m w ∈ W₂ ⟨5, by omega⟩ := by
+                have h := hW₂_inv a35 w hw
+                simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+              -- `(λ·id + J)`-invariance of the common leaf subspace at vertex 0,
+              -- routed through center 2 (γ_λ on `starEmbed2`) and the reversed
+              -- 3→5 projection.
+              have hN₁ : ∀ (x : Fin (m + 1) → F), x ∈ W₁ ⟨0, by omega⟩ →
+                  jordanShiftLinGen F lam m x ∈ W₁ ⟨0, by omega⟩ := by
+                intro x hx
+                have hx1 : x ∈ W₁ ⟨1, by omega⟩ := heq01 ▸ hx
+                have hg := hW₁_23 _ (hW₁_12 x hx1)
+                rw [gammaTube_from_embed2_F] at hg
+                have h5 := d5tilde_core3_F_proj2 F Q hOrient m W₁ hW₁_35 x
+                  (jordanShiftLinGen F lam m x) hg
+                rw [heq05]; exact h5
+              have hN₂ : ∀ (x : Fin (m + 1) → F), x ∈ W₂ ⟨0, by omega⟩ →
+                  jordanShiftLinGen F lam m x ∈ W₂ ⟨0, by omega⟩ := by
+                intro x hx
+                have hx1 : x ∈ W₂ ⟨1, by omega⟩ := heq01' ▸ hx
+                have hg := hW₂_23 _ (hW₂_12 x hx1)
+                rw [gammaTube_from_embed2_F] at hg
+                have h5 := d5tilde_core3_F_proj2 F Q hOrient m W₂ hW₂_35 x
+                  (jordanShiftLinGen F lam m x) hg
+                rw [heq05']; exact h5
+              have hresult := eigenvalue_jordan_invariant_compl_trivial_gen
+                (nilpotentShiftLinGen F m) (nilpotentShiftLinGen_nilpotent F m)
+                (nilpotentShiftLinGen_ker_finrank F m) lam
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩) hN₁ hN₂ (hcompl ⟨0, by omega⟩)
+              -- Propagation. The v=3 collapse differs from the all-canonical case:
+              -- the reversed 3→5 edge sends `W⟨3⟩` into `W⟨5⟩ = ⊥` (so any center-3
+              -- element has zero second component), while the canonical 4→3 edge
+              -- fills `W'⟨3⟩` with all `starEmbed1`'s; the two meet in `⊥`.
+              have propagate : ∀ (W W' : ∀ v, Submodule F ((d5tildeRep_kQ F Q hOrient m).obj v)),
+                  (∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
+                    ∀ x ∈ W a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W b) →
+                  (∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
+                    ∀ x ∈ W' a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W' b) →
+                  (∀ v, IsCompl (W v) (W' v)) →
+                  W ⟨0, by omega⟩ = W ⟨1, by omega⟩ →
+                  W ⟨0, by omega⟩ = W ⟨4, by omega⟩ →
+                  W ⟨0, by omega⟩ = W ⟨5, by omega⟩ →
+                  W ⟨0, by omega⟩ = ⊥ → ∀ v, W v = ⊥ := by
+                intro W W' hW_inv hW'_inv hc h01 h04 h05 hbot v
+                fin_cases v
+                · exact hbot
+                · show W ⟨1, by omega⟩ = ⊥; rw [← h01]; exact hbot
+                · -- v = 2 (center, leaves 0 and 1; both canonical)
+                  show W ⟨2, by omega⟩ = ⊥
+                  have hW'0 : W' ⟨0, by omega⟩ = ⊤ := by
+                    have := (hc ⟨0, by omega⟩).sup_eq_top; rwa [hbot, bot_sup_eq] at this
+                  have hW'1 : W' ⟨1, by omega⟩ = ⊤ := by
+                    have := (hc ⟨1, by omega⟩).sup_eq_top; rwa [← h01, hbot, bot_sup_eq] at this
+                  have h_emb0 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed1_F F m x ∈ W' ⟨2, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a02 x (hW'0 ▸ Submodule.mem_top)
+                    simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+                  have h_emb1 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed2_F F m x ∈ W' ⟨2, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a12 x (hW'1 ▸ Submodule.mem_top)
+                    simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+                  rw [eq_bot_iff]; intro (w : Fin (2 * (m + 1)) → F) hw
+                  have hw' : w ∈ W' ⟨2, by omega⟩ :=
+                    center_decomp_F F m w ▸ (W' ⟨2, by omega⟩).add_mem (h_emb0 _) (h_emb1 _)
+                  have := Submodule.mem_inf.mpr ⟨hw, hw'⟩
+                  rwa [(hc ⟨2, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
+                · -- v = 3 (center, leaves 4 and 5; e53 reversed)
+                  show W ⟨3, by omega⟩ = ⊥
+                  have hbot5 : W ⟨5, by omega⟩ = ⊥ := by rw [← h05]; exact hbot
+                  have hW'4 : W' ⟨4, by omega⟩ = ⊤ := by
+                    have := (hc ⟨4, by omega⟩).sup_eq_top; rwa [← h04, hbot, bot_sup_eq] at this
+                  have h_emb4 : ∀ (x : Fin (m + 1) → F),
+                      starEmbed1_F F m x ∈ W' ⟨3, by omega⟩ := by
+                    intro x
+                    have h := hW'_inv a43 x (hW'4 ▸ Submodule.mem_top)
+                    simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+                  rw [eq_bot_iff]; intro (w : Fin (2 * (m + 1)) → F) hw
+                  have h35 : starSecond_F F m w ∈ W ⟨5, by omega⟩ := by
+                    have h := hW_inv a35 w hw
+                    simp only [d5tildeRep_kQ, d5tildeRepMap_kQ] at h; exact h
+                  have hss0 : starSecond_F F m w = 0 := by
+                    rw [hbot5, Submodule.mem_bot] at h35; exact h35
+                  have hdecomp : w = starEmbed1_F F m (starFirst_F F m w) := by
+                    have hcd := center_decomp_F F m w
+                    rw [hss0, map_zero, add_zero] at hcd; exact hcd
+                  have hw' : w ∈ W' ⟨3, by omega⟩ := by
+                    rw [hdecomp]; exact h_emb4 (starFirst_F F m w)
+                  have := Submodule.mem_inf.mpr ⟨hw, hw'⟩
+                  rwa [(hc ⟨3, by omega⟩).inf_eq_bot, Submodule.mem_bot] at this
+                · show W ⟨4, by omega⟩ = ⊥; rw [← h04]; exact hbot
+                · show W ⟨5, by omega⟩ = ⊥; rw [← h05]; exact hbot
+              rcases hresult with h0 | h0
+              · exact Or.inl (propagate W₁ W₂ hW₁_inv hW₂_inv hcompl heq01 heq04 heq05 h0)
+              · exact Or.inr (propagate W₂ W₁ hW₂_inv hW₁_inv (fun v => (hcompl v).symm)
+                  heq01' heq04' heq05' h0)
           · -- e43 reversed (3→4): residual.
             sorry
         · -- e23 reversed (3→2): central edge carries `γ_λ⁻¹`. Residual.
