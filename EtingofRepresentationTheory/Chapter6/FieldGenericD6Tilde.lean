@@ -799,8 +799,93 @@ theorem d6tildeRep_kQ_leaf_equalities
             exact ⟨heq05.trans heq15.symm, heq05, heq06⟩
           · -- e64 reversed (4→6): mixed v=4 leaves. Folds into #4724 (sub-C).
             sorry
-        · -- e54 reversed (4→5): mixed v=4 leaves. Folds into #4724 (sub-C).
-          sorry
+        · -- e54 reversed (4→5): split on e64. The both-reversed sub-case is
+          -- COMBO D (the genuine D̃₅ combo-D analogue: both v=4 leaf edges
+          -- reversed, v=2 + central canonical); the mixed sub-case folds
+          -- into #4724. (The issue header labelled this "all-leaves-reversed",
+          -- but the all-four-sinks orientation is not leaf-derivable — every
+          -- leaf would be a sink with no source to transport from; that case
+          -- folds into #4724 like the other mixed/reversed branches.)
+          obtain ⟨a45⟩ := hQ54
+          rcases hOrient_edge ⟨6, by omega⟩ ⟨4, by omega⟩ h64 with hQ64 | hQ64
+          · -- e64 canonical (6→4): combo C — mixed v=4 leaves. Folds into #4724.
+            sorry
+          · -- e64 reversed (4→6): COMBO D — both v=4 leaf edges reversed.
+            -- v=2 leaves + central γ_λ transport exactly like the all-canonical
+            -- branch into center 4 (`hcol1`/`hcol2` collapse `⟨3⟩ = ⟨4⟩`); the
+            -- reversed v=4 leaves are then read off by projecting the γ-image
+            -- out of center 4 via the `core4` proj siblings.
+            obtain ⟨a46⟩ := hQ64
+            have hW₁_45 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨4, by omega⟩) :
+                starFirst_F F m w ∈ W₁ ⟨5, by omega⟩ := by
+              have h := hW₁_inv a45 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₁_46 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨4, by omega⟩) :
+                starSecond_F F m w ∈ W₁ ⟨6, by omega⟩ := by
+              have h := hW₁_inv a46 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_45 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨4, by omega⟩) :
+                starFirst_F F m w ∈ W₂ ⟨5, by omega⟩ := by
+              have h := hW₂_inv a45 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have hW₂_46 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₂ ⟨4, by omega⟩) :
+                starSecond_F F m w ∈ W₂ ⟨6, by omega⟩ := by
+              have h := hW₂_inv a46 w hw
+              simp only [d6tildeRep_kQ, d6tildeRepMap_kQ] at h; exact h
+            have h05 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              have hg4 := hcol1 ▸ hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₁ hW₁_45 x x hg4
+            have h06 : W₁ ⟨0, by omega⟩ ≤ W₁ ⟨6, by omega⟩ := by
+              intro x hx
+              have hg := hW₁_23 _ (hW₁_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              have hg4 := hcol1 ▸ hg
+              exact d6tilde_core4_F_proj2 F Q hOrient m W₁ hW₁_46 x x hg4
+            have h15 : W₁ ⟨1, by omega⟩ ≤ W₁ ⟨5, by omega⟩ := by
+              intro y hy
+              have hg := hW₁_23 _ (hW₁_12 y hy)
+              rw [gammaTube_from_embed2_F] at hg
+              have hg4 := hcol1 ▸ hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₁ hW₁_45 y
+                (jordanShiftLinGen F lam m y) hg4
+            have h05' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              have hg4 := hcol2 ▸ hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₂ hW₂_45 x x hg4
+            have h06' : W₂ ⟨0, by omega⟩ ≤ W₂ ⟨6, by omega⟩ := by
+              intro x hx
+              have hg := hW₂_23 _ (hW₂_02 x hx)
+              rw [gammaTube_from_embed1_F] at hg
+              have hg4 := hcol2 ▸ hg
+              exact d6tilde_core4_F_proj2 F Q hOrient m W₂ hW₂_46 x x hg4
+            have h15' : W₂ ⟨1, by omega⟩ ≤ W₂ ⟨5, by omega⟩ := by
+              intro y hy
+              have hg := hW₂_23 _ (hW₂_12 y hy)
+              rw [gammaTube_from_embed2_F] at hg
+              have hg4 := hcol2 ▸ hg
+              exact d6tilde_core4_F_proj1 F Q hOrient m W₂ hW₂_45 y
+                (jordanShiftLinGen F lam m y) hg4
+            have heq05 : W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨5, by omega⟩) h05 h05').1
+            have heq06 : W₁ ⟨0, by omega⟩ = W₁ ⟨6, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨0, by omega⟩) (W₂ ⟨0, by omega⟩)
+                (W₁ ⟨6, by omega⟩) (W₂ ⟨6, by omega⟩)
+                (hcompl ⟨0, by omega⟩) (hcompl ⟨6, by omega⟩) h06 h06').1
+            have heq15 : W₁ ⟨1, by omega⟩ = W₁ ⟨5, by omega⟩ :=
+              (compl_le_forces_eq (V := Fin (m + 1) → F)
+                (W₁ ⟨1, by omega⟩) (W₂ ⟨1, by omega⟩)
+                (W₁ ⟨5, by omega⟩) (W₂ ⟨5, by omega⟩)
+                (hcompl ⟨1, by omega⟩) (hcompl ⟨5, by omega⟩) h15 h15').1
+            exact ⟨heq05.trans heq15.symm, heq05, heq06⟩
       · -- e23 reversed (3→2): central-reversed. Follow-up (#4722 residual / #4724).
         sorry
     · -- e12 reversed (2→1). Follow-up (#4722 residual / #4724).
