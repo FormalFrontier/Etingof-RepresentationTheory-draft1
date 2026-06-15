@@ -672,8 +672,16 @@ via the landed arm criteria `etilde6_armA/B/C_criterion` — to a single
 `compA x = (0,x,x)`, `compB x = (x,0,x)`, `compC x = (x,Jx,0)` are simultaneously
 in or out of `W₁⟨0⟩`. That obligation is the genuinely new infrastructure (the
 three-block analogue of the D̃₄ `core`, accounting for plane overlap) and is the
-residual `sorry`; the non-canonical orientation branches are tracked by the
-sub-B follow-up of #4639. -/
+residual `sorry`. The non-canonical orientation branches (#4639 sub-B / #4701)
+hit the **same** overlapping-plane wall: every branch's conclusion
+`W₁⟨2⟩ = W₁⟨4⟩ = W₁⟨6⟩` couples the three arms through the shared center 0, and
+reversing an arm edge only swaps an embed criterion for a projection criterion —
+it does not decouple the arms. Unlike the D̃₅/D̃₆ *chains* (cross-leaf transport
+through a single central γ-tube, where reversed leaves close via projection — the
+combo-D branch of `d6tildeRep_kQ_leaf_equalities`), the Ẽ₆ *star* has no such
+single shared block, so the cited reversed-leaf pattern does not port. Like the
+canonical branch (#4750), the non-canonical branches fold into the
+indecomposability pass (#4577). -/
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
@@ -681,11 +689,13 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 submodule pair `(W₁, W₂)` of `etilde6Rep_kQ F Q hOrient lam m`, the three arm
 leaf vertices `2, 4, 6` carry equal `W₁`-subspaces.
 
-**Proof body partially deferred** (#4639 sub-B). The all-canonical branch
+**Proof body partially deferred** (#4639 sub-B / #4701). The all-canonical branch
 (`2→1→0, 4→3→0, 6→5→0`) is reduced to the center-collapse obligation
 `hcenter` via the arm criteria; that obligation and the non-canonical branches
-carry `sorry`. See the section docstring for why the D̃₄/D̃₆ `core` does not
-port to the overlapping-plane star geometry. -/
+carry `sorry`. Both are re-scoped to fold into the indecomposability pass
+(#4577): see the section docstring and the `hcenter` comment for why the D̃₄/D̃₆
+`core` does not port to the overlapping-plane star geometry and why reversing
+arm edges does not decouple the arms. -/
 theorem etilde6Rep_kQ_leaf_equalities
     (F : Type) [Field F]
     (Q : @Quiver.{0, 0} (Fin 7))
@@ -817,17 +827,31 @@ theorem etilde6Rep_kQ_leaf_equalities
                 rw [hcritA x, hcritB x]; exact (hcenter x).1
               · refine Submodule.ext fun x => ?_
                 rw [hcritA x, hcritC x]; exact (hcenter x).2
-            · -- e05 reversed (0→5): tracked by #4639 sub-B
+            · -- e05 reversed (0→5): arm-C mid edge reversed.
+              -- Re-scoped to the indecomposability fold (#4577), NOT closed
+              -- standalone here. Reversing this edge swaps arm C's
+              -- `prefixBlockEmbed_F` push for a `prefixBlockProj_F` readout, but
+              -- the conclusion `W₁⟨2⟩ = W₁⟨4⟩ = W₁⟨6⟩` still compares all three
+              -- leaves through the shared center 0, whose three composite planes
+              -- π_A,π_B,π_C pairwise overlap. That cross-arm comparison is the
+              -- same `hcenter` obligation re-scoped for the canonical branch in
+              -- #4750 (`progress/etilde6-hcenter-findings_d25cccd0.md`): the
+              -- A↔B coincidence routes through the arm-C eigenvalue site π_C, so
+              -- arms A,B cannot be decoupled from arm C. The D̃₅/D̃₆ reversed-leaf
+              -- pattern (single central γ-tube) does not port to the star. Folds
+              -- into `etilde6Rep_kQ_isIndecomposable` (#4577) with the canonical
+              -- branch.
               sorry
-          · -- e56 reversed (5→6): tracked by #4639 sub-B
+          · -- e56 reversed (5→6): arm-C leaf edge reversed. Same overlapping-plane
+            -- wall as the e05 branch above — folds into #4577.
             sorry
-        · -- e03 reversed (0→3): tracked by #4639 sub-B
+        · -- e03 reversed (0→3): arm-B mid edge reversed. Same wall — folds into #4577.
           sorry
-      · -- e34 reversed (3→4): tracked by #4639 sub-B
+      · -- e34 reversed (3→4): arm-B leaf edge reversed. Same wall — folds into #4577.
         sorry
-    · -- e01 reversed (0→1): tracked by #4639 sub-B
+    · -- e01 reversed (0→1): arm-A mid edge reversed. Same wall — folds into #4577.
       sorry
-  · -- e12 reversed (1→2): tracked by #4639 sub-B
+  · -- e12 reversed (1→2): arm-A leaf edge reversed. Same wall — folds into #4577.
     sorry
 
 /-! ## Section 4: Indecomposability (corrected homogeneous tube; proof pending)
