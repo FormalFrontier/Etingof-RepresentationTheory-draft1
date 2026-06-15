@@ -405,6 +405,30 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   (`≃ₛₗ[φ.toRingHom]`, not `≃ₛₗ[(φ : _ →+* _)]`) or it stays a metavariable and
   blocks `SetLike.val_smul`.
 
+- **Identity `LinearEquiv` between defeq carriers with *different* module
+  instances — `smul`-instance poisoning** (e.g. `Representation.asModule_directSum_equiv`,
+  `asModule (directSum ρs) ≃ₗ[k[G]] ⨁ i, asModule (ρs i)`, #4714). Both carriers
+  are defeq to `⨁ i, V i`, so `toFun/invFun := fun x => x` and
+  `map_add'/left_inv/right_inv := rfl`; only `map_smul'` has content (the two
+  `k[G]`-actions — `asAlgebraHom` vs componentwise — agree but are not defeq).
+  The trap: in `map_smul'` the bound `x` has the *source* type, and `HSMul`
+  resolution keys off the operand type, so `r • x` picks the **source** action
+  even on the equation's target side (an ascription on the result does not change
+  this). Componentwise rewrites (`DirectSum.smul_apply`, `lof`-lemmas) then refuse
+  to fire — and `DirectSum.ext (β := …)` projects at the chosen family, so a
+  source-family element under a target-family `(·) i` blocks the rewrite outright
+  (family mismatch in the coe). **Fix:** factor the target-side computation into a
+  standalone lemma taking a *genuinely target-typed* argument `y`
+  (`single_smul_directSum (… ) (y : ⨁ i, asModule (ρs i)) : single g t • y =
+  t • DirectSum.lmap (fun i => ρs i g) y`), where `single g t • y` resolves to
+  the `DirectSum` action and `DirectSum.smul_apply` + `Representation.single_smul`
+  + `rfl` close it. In `map_smul'`, `induction r using MonoidAlgebra.induction_linear`
+  (after `simp only [RingHom.id_apply]`); the `single` case rewrites the
+  target-side with that lemma and the source-side with `single_smul` +
+  `Representation.directSum_apply`, then `rfl` (both reduce to
+  `t • lmap (ρs · g) x`). Note `Representation.directSum` and the equiv need **no**
+  `[DecidableEq ι]`.
+
 - **Reconstructing a public lemma's `LinearMap.restrict` map when its membership
   proof is `private`.** Lemmas like `youngSym_action_vanishes_off_block` /
   `_rank_one_scaled_proj` state their conclusion about
