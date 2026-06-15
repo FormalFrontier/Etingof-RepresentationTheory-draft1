@@ -1102,24 +1102,34 @@ theorem d5tilde_centralCanon_untwist_core_F
 
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
-/-- For any orientation `Q` of `d5tildeAdj` and any complementary invariant
-submodule pair `(W₁, W₂)` of `d5tildeRep_kQ F Q hOrient m`, the leaf
-vertices `0, 1, 4, 5` carry equal `W₁`-subspaces. (The analogous statement
-for `W₂` follows by applying the theorem with the arguments `(W₂, W₁)`
-flipped — `IsCompl` is symmetric.)
+/-- For an **eigenvalue-free** orientation `Q` of `d5tildeAdj` and any
+complementary invariant submodule pair `(W₁, W₂)` of
+`d5tildeRep_kQ F Q hOrient m`, the leaf vertices `0, 1, 4, 5` carry equal
+`W₁`-subspaces. (The analogous statement for `W₂` follows by applying the
+theorem with the arguments `(W₂, W₁)` flipped — `IsCompl` is symmetric.)
+
+"Eigenvalue-free" is the restriction carried by the explicit orientation
+hypotheses (#4743): the two `v=3` leaf edges point the **same** direction
+(`hv3`), and the two `v=2` leaf edges plus the central edge are canonical
+(`hc02`, `hc12`, `hc23`). This is exactly the all-canonical ⊕ combo-D scope.
+The architectural finding (#4692/#4743) is that the *mixed-`v3`* orientations
+(`hv3` false) reduce to needing `Λ`-invariance of the leaf-4 subspace, which
+no edge of the acyclic D̃₅ tree supplies — so they are not separately
+derivable and are proven **jointly** with the eigenvalue collapse inside
+`d5tildeRep_kQ_isIndecomposable` (#4663). The reversed `v=2`/central
+orientations (`hc*` false) are likewise out of scope here; the projection
+infrastructure (`d5tilde_core_F_proj1/2`, `d5tilde_centralCanon_untwist_core_F`)
+needed to broaden to them is a follow-up.
 
 This is the analog of the leaf-equality block in the ℂ-specific proof
 (`InfiniteTypeConstructions.lean:1820-1834`).
 
-**Proof body partially deferred** — see #2850 for the decomposition. The
-all-canonical orientation branch (0→2, 1→2, 2→3, 4→3, 5→3) is proven
-inline by mirroring the ℂ-source proof: the helper invariance facts are
-specialized via `simp only [d5tildeRep_kQ, d5tildeRepMap_kQ]`, then the
-`core_F` (v=2 decomposition), `core3_F` (v=3 decomposition), and
-`gamma_containment_F` (γ-coupled leaf containments) lemmas are
-established. Final `compl_le_forces_eq` applications chain the
-containments into the three equalities. The remaining 31 orientation
-branches are tracked as follow-up sub-issues. -/
+The two in-scope branches are proven inline by mirroring the ℂ-source proof:
+the helper invariance facts are specialized via
+`simp only [d5tildeRep_kQ, d5tildeRepMap_kQ]`, then the `core_F` /
+`core3_F` / `gamma_containment_F` lemmas chain through `compl_le_forces_eq`.
+The off-restriction branches are discharged by orientation antisymmetry
+(`IsOrientationOf.2.2`) against `hc*` / `hv3`. -/
 theorem d5tildeRep_kQ_leaf_equalities
     (F : Type) [Field F] [IsAlgClosed F]
     (Q : @Quiver.{0, 0} (Fin 6))
@@ -1131,7 +1141,21 @@ theorem d5tildeRep_kQ_leaf_equalities
       ∀ x ∈ W₁ a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₁ b)
     (hW₂_inv : ∀ {a b : Fin 6} (e : @Quiver.Hom _ Q a b),
       ∀ x ∈ W₂ a, (d5tildeRep_kQ F Q hOrient m).mapLinear e x ∈ W₂ b)
-    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v))
+    -- Eigenvalue-free orientation restriction (#4743): the two `v=3` leaf edges
+    -- (4–3 and 5–3) point the same direction (`hv3`), and the two `v=2` leaf
+    -- edges plus the central edge are canonical (`hc02`, `hc12`, `hc23`). This is
+    -- exactly the all-canonical ⊕ combo-D scope, where no eigenvalue-site
+    -- self-map is needed and the collapse is `sorry`-free. The mixed-`v3`
+    -- orientations (`hv3` false) and reversed `v=2`/central orientations are
+    -- logically entangled with the eigenvalue deposit and are handled jointly
+    -- inside `d5tildeRep_kQ_isIndecomposable` (#4663) — see the #4692/#4743
+    -- architectural finding.
+    (hc02 : Nonempty (@Quiver.Hom (Fin 6) Q ⟨0, by omega⟩ ⟨2, by omega⟩))
+    (hc12 : Nonempty (@Quiver.Hom (Fin 6) Q ⟨1, by omega⟩ ⟨2, by omega⟩))
+    (hc23 : Nonempty (@Quiver.Hom (Fin 6) Q ⟨2, by omega⟩ ⟨3, by omega⟩))
+    (hv3 : Nonempty (@Quiver.Hom (Fin 6) Q ⟨4, by omega⟩ ⟨3, by omega⟩) ↔
+           Nonempty (@Quiver.Hom (Fin 6) Q ⟨5, by omega⟩ ⟨3, by omega⟩)) :
     W₁ ⟨0, by omega⟩ = W₁ ⟨1, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨4, by omega⟩ ∧
     W₁ ⟨0, by omega⟩ = W₁ ⟨5, by omega⟩ := by
@@ -1228,16 +1252,17 @@ theorem d5tildeRep_kQ_leaf_equalities
                 (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
                 (hcompl ⟨1, by omega⟩) (hcompl ⟨4, by omega⟩) h14 h14').1
             exact ⟨heq04.trans heq14.symm, heq04, heq05⟩
-          · -- e53 reversed (3→5), e43 canonical (4→3): combo C′ — central-canonical,
-            -- mixed v=3 leaves. Follow-up sub-issue (#4662 residual).
-            sorry
+          · -- e53 reversed (3→5), e43 canonical (4→3): combo C′ — mixed v=3 leaves.
+            -- Excluded by `hv3` (eigenvalue-free restriction): `hv3.mp ⟨a43⟩` gives
+            -- `5→3`, contradicting the reversed `3→5` arrow `hQ53`.
+            exact (hOrient.2.2 ⟨5, by omega⟩ ⟨3, by omega⟩ (hv3.mp ⟨a43⟩) hQ53).elim
         · -- e43 reversed (3→4)
           obtain ⟨a34⟩ := hQ43
           rcases hOrient_edge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
-          · -- e53 canonical (5→3): combo C — central-canonical, mixed v=3 leaves.
-            -- Follow-up sub-issue (#4662 residual).
+          · -- e53 canonical (5→3): combo C — mixed v=3 leaves. Excluded by `hv3`:
+            -- `hv3.mpr ⟨a53⟩` gives `4→3`, contradicting the reversed `3→4` arrow.
             obtain ⟨a53⟩ := hQ53
-            sorry
+            exact (hOrient.2.2 ⟨4, by omega⟩ ⟨3, by omega⟩ (hv3.mpr ⟨a53⟩) ⟨a34⟩).elim
           · -- e53 reversed (3→5): COMBO D — both v=3 leaf edges reversed.
             obtain ⟨a35⟩ := hQ53
             have hW₁_34 (w : Fin (2 * (m + 1)) → F) (hw : w ∈ W₁ ⟨3, by omega⟩) :
@@ -1304,12 +1329,12 @@ theorem d5tildeRep_kQ_leaf_equalities
                 (W₁ ⟨4, by omega⟩) (W₂ ⟨4, by omega⟩)
                 (hcompl ⟨1, by omega⟩) (hcompl ⟨4, by omega⟩) h14 h14').1
             exact ⟨heq04.trans heq14.symm, heq04, heq05⟩
-      · -- e23 reversed (3→2): central edge carries `γ_λ⁻¹`. Follow-up sub-issue.
-        sorry
-    · -- e12 reversed (2→1): uses `starSecond_F` projection. Follow-up sub-issue.
-      sorry
-  · -- e02 reversed (2→0): uses `starFirst_F` projection. Follow-up sub-issue.
-    sorry
+      · -- e23 reversed (3→2): excluded by the canonical-central restriction `hc23`.
+        exact (hOrient.2.2 ⟨2, by omega⟩ ⟨3, by omega⟩ hc23 hQ23).elim
+    · -- e12 reversed (2→1): excluded by the canonical-`v=2` restriction `hc12`.
+      exact (hOrient.2.2 ⟨1, by omega⟩ ⟨2, by omega⟩ hc12 hQ12).elim
+  · -- e02 reversed (2→0): excluded by the canonical-`v=2` restriction `hc02`.
+    exact (hOrient.2.2 ⟨0, by omega⟩ ⟨2, by omega⟩ hc02 hQ02).elim
 
 /-! ## Section 6: Orientation-generic indecomposability (path b: deferred)
 
@@ -1365,12 +1390,10 @@ theorem d5tildeRep_kQ_isIndecomposable
     change Nontrivial (Fin (m + 1) → F)
     infer_instance
   · intro W₁ W₂ hW₁_inv hW₂_inv hcompl
-    -- Orientation-generic leaf collapse (sub-B): the four leaves are equal.
-    obtain ⟨heq01, heq04, heq05⟩ :=
-      d5tildeRep_kQ_leaf_equalities F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv hcompl
-    obtain ⟨heq01', heq04', heq05'⟩ :=
-      d5tildeRep_kQ_leaf_equalities F Q hOrient m W₂ W₁ hW₂_inv hW₁_inv
-        (fun v => (hcompl v).symm)
+    -- Leaf collapse (sub-B) is now invoked per-branch: the restricted
+    -- `d5tildeRep_kQ_leaf_equalities` (#4743) carries explicit eigenvalue-free
+    -- orientation hypotheses, which are discharged from the canonical arrows
+    -- inside the all-canonical branch below.
     -- Adjacency facts (canonical edge directions).
     have h02 : d5tildeAdj ⟨0, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d5tildeAdj]
     have h12 : d5tildeAdj ⟨1, by omega⟩ ⟨2, by omega⟩ = 1 := by simp [d5tildeAdj]
@@ -1388,6 +1411,15 @@ theorem d5tildeRep_kQ_isIndecomposable
             rcases hEdge ⟨5, by omega⟩ ⟨3, by omega⟩ h53 with hQ53 | hQ53
             · obtain ⟨a53⟩ := hQ53
               -- ALL CANONICAL: full reduction.
+              -- Leaf collapse (restricted #4743): supply the eigenvalue-free
+              -- orientation hypotheses from the canonical arrows (`hv3` holds as
+              -- both `v=3` leaves are canonical).
+              obtain ⟨heq01, heq04, heq05⟩ :=
+                d5tildeRep_kQ_leaf_equalities F Q hOrient m W₁ W₂ hW₁_inv hW₂_inv
+                  hcompl ⟨a02⟩ ⟨a12⟩ ⟨a23⟩ (iff_of_true ⟨a43⟩ ⟨a53⟩)
+              obtain ⟨heq01', heq04', heq05'⟩ :=
+                d5tildeRep_kQ_leaf_equalities F Q hOrient m W₂ W₁ hW₂_inv hW₁_inv
+                  (fun v => (hcompl v).symm) ⟨a02⟩ ⟨a12⟩ ⟨a23⟩ (iff_of_true ⟨a43⟩ ⟨a53⟩)
               -- Per-vertex invariance pushes (canonical maps).
               have hW₁_02 (x : Fin (m + 1) → F) (hx : x ∈ W₁ ⟨0, by omega⟩) :
                   starEmbed1_F F m x ∈ W₁ ⟨2, by omega⟩ := by
