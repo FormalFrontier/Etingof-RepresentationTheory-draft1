@@ -684,6 +684,53 @@ theorem t125_arm1_sub
     (deposit W0 W1 U hUemb hpush hread)
     (deposit W0' W1' U' hU'emb hpush' hread') hcompl
 
+/-! ## Section 3e: Center spanning decomposition (propagation support, #4613)
+
+The indecomposability propagation step needs that the canonical arm-2 and arm-3
+images jointly span the center: from `W' ⟨2⟩ = ⊤` (arm-2 prefix top) and
+`W' ⟨4⟩ = ⊤` (arm-3 suffix top), the canonical pushes place
+`prefixBlockEmbed_F 4 6` (center blocks `0–3`) and `suffixBlockEmbed_F 5 6`
+(center blocks `1–5`) entirely in `W' ⟨0⟩`. Since blocks `0–3` and `1–5` cover
+all six blocks, this forces `W' ⟨0⟩ = ⊤`. This is the T(1,2,5) analogue of
+`center_decomp_F` (`FieldGenericStar.lean`). -/
+
+/-- **Center spanning decomposition** (arm-2 prefix + arm-3 suffix). Every
+center vector `w : F^{6(m+1)}` is the sum of an arm-2 prefix embed (image =
+blocks `0–3`) and an arm-3 suffix embed (image = blocks `1–5`); the suffix
+summand is chosen supported on blocks `4–5` so the two images tile all six
+blocks without overlap. The two arm images therefore span the center, which is
+the spanning fact the canonical-orientation propagation uses to collapse the
+center vertex. -/
+theorem t125_center_decomp_F (F : Type) [Field F] (m : ℕ)
+    (w : Fin (6 * (m + 1)) → F) :
+    ∃ (a : Fin (4 * (m + 1)) → F) (b : Fin (5 * (m + 1)) → F),
+      w = prefixBlockEmbed_F F 4 6 m a + suffixBlockEmbed_F F 5 6 m b := by
+  refine ⟨fun i => w ⟨i.val, by omega⟩,
+    fun i => if 3 * (m + 1) ≤ i.val then w ⟨i.val + (m + 1), by omega⟩ else 0, ?_⟩
+  ext j
+  have hj := j.isLt
+  simp only [Pi.add_apply, prefixBlockEmbed_F, suffixBlockEmbed_F, LinearMap.coe_mk,
+    AddHom.coe_mk]
+  by_cases hlt : j.val < 4 * (m + 1)
+  · rw [dif_pos hlt]
+    have hsuf : (if h : (6 - 5) * (m + 1) ≤ j.val ∧
+        j.val - (6 - 5) * (m + 1) < 5 * (m + 1) then
+        (if 3 * (m + 1) ≤ j.val - (6 - 5) * (m + 1) then
+          w ⟨j.val - (6 - 5) * (m + 1) + (m + 1), by omega⟩ else 0)
+        else (0 : F)) = 0 := by
+      split_ifs with h1 h2
+      · exact absurd h2 (by omega)
+      · rfl
+      · rfl
+    rw [hsuf, add_zero]
+  · rw [dif_neg hlt,
+      dif_pos (show (6 - 5) * (m + 1) ≤ j.val ∧
+        j.val - (6 - 5) * (m + 1) < 5 * (m + 1) from ⟨by omega, by omega⟩),
+      if_pos (show 3 * (m + 1) ≤ j.val - (6 - 5) * (m + 1) from by omega),
+      zero_add]
+    have hidx : j.val - (6 - 5) * (m + 1) + (m + 1) = j.val := by omega
+    exact congrArg w (Fin.ext hidx.symm)
+
 /-! ## Section 4: Indecomposability (corrected homogeneous tube)
 
 `t125Rep_kQ` is now the genuine homogeneous tube `R_λ^{(m+1)}` at the
