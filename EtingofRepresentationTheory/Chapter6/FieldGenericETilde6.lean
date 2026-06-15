@@ -652,6 +652,173 @@ theorem etilde6Rep_kQ_dimVec
       (etilde6Rep_kQ F Q hOrient lam m) v ≃ₗ[F] (Fin (etilde6Dim m v) → F)) :=
   ⟨LinearEquiv.refl F _⟩
 
+/-! ## Section 3d: Orientation-generic leaf equalities (#4639 sub-A: canonical branch)
+
+The leaf-equality theorem derives `W₁⟨2⟩ = W₁⟨4⟩ = W₁⟨6⟩` (the three arm leaves
+carry equal `W₁`-subspaces) for any complementary invariant pair. Unlike the
+chain quivers D̃₅ / D̃₆, Ẽ₆ is a genuine three-arm **star**: the three mid→center
+maps embed the three coordinate **planes** `⟨c₁,c₂⟩`, `⟨c₀,c₂⟩`, `⟨c₀,c₁⟩` of the
+center, which pairwise overlap in single blocks (`c₂ = π_A ∩ π_B`,
+`c₀ = π_B ∩ π_C`, `c₁ = π_A ∩ π_C`). Consequently the D̃₄/D̃₆ `core` mechanism
+does **not** port: neither the single-block sum (`center3_sum_zero_F`) nor a
+mid-level sum is injective on the overlapping planes, and the naive pairwise
+leaf containments (e.g. `W₁⟨2⟩ ≤ W₁⟨4⟩`) are false (the difference
+`(0,x,x) - (x,0,x) = (-x,x,0)` is not a priori in `W₁⟨0⟩`).
+
+The case analysis branches on the six edges of `etilde6Adj`
+(`{1,2}, {0,1}, {3,4}, {0,3}, {5,6}, {0,5}`). The all-canonical branch reduces —
+via the landed arm criteria `etilde6_armA/B/C_criterion` — to a single
+**center-collapse** obligation: that the three plane-diagonal composites
+`compA x = (0,x,x)`, `compB x = (x,0,x)`, `compC x = (x,Jx,0)` are simultaneously
+in or out of `W₁⟨0⟩`. That obligation is the genuinely new infrastructure (the
+three-block analogue of the D̃₄ `core`, accounting for plane overlap) and is the
+residual `sorry`; the non-canonical orientation branches are tracked by the
+sub-B follow-up of #4639. -/
+
+attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
+  CategoryTheory.ReflQuiver.toQuiver in
+/-- For any orientation `Q` of `etilde6Adj` and any complementary invariant
+submodule pair `(W₁, W₂)` of `etilde6Rep_kQ F Q hOrient lam m`, the three arm
+leaf vertices `2, 4, 6` carry equal `W₁`-subspaces.
+
+**Proof body partially deferred** (#4639 sub-B). The all-canonical branch
+(`2→1→0, 4→3→0, 6→5→0`) is reduced to the center-collapse obligation
+`hcenter` via the arm criteria; that obligation and the non-canonical branches
+carry `sorry`. See the section docstring for why the D̃₄/D̃₆ `core` does not
+port to the overlapping-plane star geometry. -/
+theorem etilde6Rep_kQ_leaf_equalities
+    (F : Type) [Field F]
+    (Q : @Quiver.{0, 0} (Fin 7))
+    [∀ a b, Subsingleton (@Quiver.Hom (Fin 7) Q a b)]
+    (hOrient : @Etingof.IsOrientationOf 7 Q etilde6Adj)
+    (lam : F) (m : ℕ)
+    (W₁ W₂ : ∀ v, Submodule F ((etilde6Rep_kQ F Q hOrient lam m).obj v))
+    (hW₁_inv : ∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₁ a, (etilde6Rep_kQ F Q hOrient lam m).mapLinear e x ∈ W₁ b)
+    (hW₂_inv : ∀ {a b : Fin 7} (e : @Quiver.Hom _ Q a b),
+      ∀ x ∈ W₂ a, (etilde6Rep_kQ F Q hOrient lam m).mapLinear e x ∈ W₂ b)
+    (hcompl : ∀ v, IsCompl (W₁ v) (W₂ v)) :
+    W₁ (2 : Fin 7) = W₁ (4 : Fin 7) ∧
+    W₁ (2 : Fin 7) = W₁ (6 : Fin 7) := by
+  letI := Q
+  have hOrient_edge := hOrient.2.1
+  have e12 : etilde6Adj (2 : Fin 7) (1 : Fin 7) = 1 := by simp [etilde6Adj]
+  have e01 : etilde6Adj (1 : Fin 7) (0 : Fin 7) = 1 := by simp [etilde6Adj]
+  have e34 : etilde6Adj (4 : Fin 7) (3 : Fin 7) = 1 := by simp [etilde6Adj]
+  have e03 : etilde6Adj (3 : Fin 7) (0 : Fin 7) = 1 := by simp [etilde6Adj]
+  have e56 : etilde6Adj (6 : Fin 7) (5 : Fin 7) = 1 := by simp [etilde6Adj]
+  have e05 : etilde6Adj (5 : Fin 7) (0 : Fin 7) = 1 := by simp [etilde6Adj]
+  rcases hOrient_edge (2 : Fin 7) (1 : Fin 7) e12 with hq21 | hq21
+  · obtain ⟨a21⟩ := hq21
+    rcases hOrient_edge (1 : Fin 7) (0 : Fin 7) e01 with hq10 | hq10
+    · obtain ⟨a10⟩ := hq10
+      rcases hOrient_edge (4 : Fin 7) (3 : Fin 7) e34 with hq43 | hq43
+      · obtain ⟨a43⟩ := hq43
+        rcases hOrient_edge (3 : Fin 7) (0 : Fin 7) e03 with hq30 | hq30
+        · obtain ⟨a30⟩ := hq30
+          rcases hOrient_edge (6 : Fin 7) (5 : Fin 7) e56 with hq65 | hq65
+          · obtain ⟨a65⟩ := hq65
+            rcases hOrient_edge (5 : Fin 7) (0 : Fin 7) e05 with hq50 | hq50
+            · obtain ⟨a50⟩ := hq50
+              -- ALL CANONICAL: every arrow points toward the center.
+              -- Extract the six canonical push facts on W₁ and W₂.
+              have h21₁ (x : Fin (m + 1) → F) (hx : x ∈ W₁ (2 : Fin 7)) :
+                  starEmbedDiag_F F m x ∈ W₁ (1 : Fin 7) := by
+                have h := hW₁_inv a21 x hx
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h10₁ (y : Fin (2 * (m + 1)) → F) (hy : y ∈ W₁ (1 : Fin 7)) :
+                  blockEmbed12_F F m y ∈ W₁ (0 : Fin 7) := by
+                have h := hW₁_inv a10 y hy
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h43₁ (x : Fin (m + 1) → F) (hx : x ∈ W₁ (4 : Fin 7)) :
+                  starEmbedDiag_F F m x ∈ W₁ (3 : Fin 7) := by
+                have h := hW₁_inv a43 x hx
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h30₁ (y : Fin (2 * (m + 1)) → F) (hy : y ∈ W₁ (3 : Fin 7)) :
+                  blockEmbed02_F F m y ∈ W₁ (0 : Fin 7) := by
+                have h := hW₁_inv a30 y hy
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h65₁ (x : Fin (m + 1) → F) (hx : x ∈ W₁ (6 : Fin 7)) :
+                  starEmbedTube_F F lam m x ∈ W₁ (5 : Fin 7) := by
+                have h := hW₁_inv a65 x hx
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h50₁ (y : Fin (2 * (m + 1)) → F) (hy : y ∈ W₁ (5 : Fin 7)) :
+                  prefixBlockEmbed_F F 2 3 m y ∈ W₁ (0 : Fin 7) := by
+                have h := hW₁_inv a50 y hy
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h21₂ (x : Fin (m + 1) → F) (hx : x ∈ W₂ (2 : Fin 7)) :
+                  starEmbedDiag_F F m x ∈ W₂ (1 : Fin 7) := by
+                have h := hW₂_inv a21 x hx
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h10₂ (y : Fin (2 * (m + 1)) → F) (hy : y ∈ W₂ (1 : Fin 7)) :
+                  blockEmbed12_F F m y ∈ W₂ (0 : Fin 7) := by
+                have h := hW₂_inv a10 y hy
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h43₂ (x : Fin (m + 1) → F) (hx : x ∈ W₂ (4 : Fin 7)) :
+                  starEmbedDiag_F F m x ∈ W₂ (3 : Fin 7) := by
+                have h := hW₂_inv a43 x hx
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h30₂ (y : Fin (2 * (m + 1)) → F) (hy : y ∈ W₂ (3 : Fin 7)) :
+                  blockEmbed02_F F m y ∈ W₂ (0 : Fin 7) := by
+                have h := hW₂_inv a30 y hy
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h65₂ (x : Fin (m + 1) → F) (hx : x ∈ W₂ (6 : Fin 7)) :
+                  starEmbedTube_F F lam m x ∈ W₂ (5 : Fin 7) := by
+                have h := hW₂_inv a65 x hx
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              have h50₂ (y : Fin (2 * (m + 1)) → F) (hy : y ∈ W₂ (5 : Fin 7)) :
+                  prefixBlockEmbed_F F 2 3 m y ∈ W₂ (0 : Fin 7) := by
+                have h := hW₂_inv a50 y hy
+                simp only [etilde6Rep_kQ, etilde6RepMap_kQ] at h; exact h
+              -- The three arm criteria pin each leaf membership to its
+              -- plane-diagonal composite in the center `W₁⟨0⟩`.
+              have hcritA : ∀ x, x ∈ W₁ (2 : Fin 7) ↔
+                  etilde6CompA_F F m x ∈ W₁ (0 : Fin 7) := fun x =>
+                etilde6_armA_criterion F m _ _ _ _ _ _
+                  (hcompl (0 : Fin 7)) (hcompl (2 : Fin 7))
+                  h21₁ h10₁ h21₂ h10₂ x
+              have hcritB : ∀ x, x ∈ W₁ (4 : Fin 7) ↔
+                  etilde6CompB_F F m x ∈ W₁ (0 : Fin 7) := fun x =>
+                etilde6_armB_criterion F m _ _ _ _ _ _
+                  (hcompl (0 : Fin 7)) (hcompl (4 : Fin 7))
+                  h43₁ h30₁ h43₂ h30₂ x
+              have hcritC : ∀ x, x ∈ W₁ (6 : Fin 7) ↔
+                  etilde6CompC_F F lam m x ∈ W₁ (0 : Fin 7) := fun x =>
+                etilde6_armC_criterion F lam m _ _ _ _ _ _
+                  (hcompl (0 : Fin 7)) (hcompl (6 : Fin 7))
+                  h65₁ h50₁ h65₂ h50₂ x
+              -- Center collapse: the three plane-diagonal composites agree on
+              -- membership in `W₁⟨0⟩`. This is the genuinely new overlapping-plane
+              -- core (the 3-block analogue of `FieldGenericTube.lean`'s `core`,
+              -- which does NOT port: the center planes overlap, so the pairwise
+              -- leaf containments are false and `center3_sum_zero_F` does not
+              -- separate the `core` residual). Tracked by #4750 (sub-A center
+              -- crux); that issue also weighs whether it is provable for an
+              -- arbitrary complementary pair or needs a re-scope.
+              have hcenter : ∀ x : Fin (m + 1) → F,
+                  (etilde6CompA_F F m x ∈ W₁ (0 : Fin 7) ↔
+                    etilde6CompB_F F m x ∈ W₁ (0 : Fin 7)) ∧
+                  (etilde6CompA_F F m x ∈ W₁ (0 : Fin 7) ↔
+                    etilde6CompC_F F lam m x ∈ W₁ (0 : Fin 7)) := by
+                sorry
+              refine ⟨?_, ?_⟩
+              · refine Submodule.ext fun x => ?_
+                rw [hcritA x, hcritB x]; exact (hcenter x).1
+              · refine Submodule.ext fun x => ?_
+                rw [hcritA x, hcritC x]; exact (hcenter x).2
+            · -- e05 reversed (0→5): tracked by #4639 sub-B
+              sorry
+          · -- e56 reversed (5→6): tracked by #4639 sub-B
+            sorry
+        · -- e03 reversed (0→3): tracked by #4639 sub-B
+          sorry
+      · -- e34 reversed (3→4): tracked by #4639 sub-B
+        sorry
+    · -- e01 reversed (0→1): tracked by #4639 sub-B
+      sorry
+  · -- e12 reversed (1→2): tracked by #4639 sub-B
+    sorry
+
 /-! ## Section 4: Indecomposability (corrected homogeneous tube; proof pending)
 
 The construction above is now the corrected **homogeneous tube** (#4574): the
