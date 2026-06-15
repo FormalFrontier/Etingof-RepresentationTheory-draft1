@@ -368,12 +368,20 @@ waves 62 or 63.
   Unchanged from wave 62. Tracking issue #2708 blocked on
   γ.A (PR #2694, `DIRTY`) + γ.B (#2693, unclaimed `replan`).
 
-### FormalCharacterIso (Ch5) — 1 sorry: SCHUR-WEYL TOP-OF-CHAIN (unchanged)
+### SchurWeylFormalCharacterIso (Ch5) — 1 sorry: SCHUR-WEYL TOP-OF-CHAIN
 
-- **Line 399 — `iso_of_formalCharacter_eq_schurPoly`**. Unchanged
-  in position. Same dependency cascade as wave 62: closes via
-  `#6 (#2483) → #5 (#2482) → Part C (#2493) → C-4 aggregation
-  (#2708) → γ-cluster (γ.A PR #2694 + γ.B #2693)`.
+- **`iso_of_formalCharacter_eq_schurPoly`** (Schur-Weyl #6, #2483).
+  **Relocated** (#4699) out of `FormalCharacterIso` into the new file
+  `Chapter5/SchurWeylFormalCharacterIso.lean`, downstream of
+  `PolynomialGLDecomposition` + `SchurWeylSimplesClassification`, to break the
+  import cycle that prevented an in-place proof. Signature and the sole consumer
+  (`schurModule_shift_iso_detTwist`, `Proposition5_22_2`) are unchanged. The
+  proof remains `sorry`: closing it needs an `halg` hypothesis (algebraicity is
+  not a character-level property), `h_span` threading, and the abstract-simple
+  character classification (`decompose_polynomial_gl_rep` must expose the
+  tensor-power data `SchurWeylSimplesClassification` consumes). See the module
+  docstring and #4699's follow-up. Dependency cascade still via
+  `#6 (#2483) → #5 (#2482) → …`.
 
 ## Per-(F, Q) ↔ Theorem 2.1.2 bridge scoreboard
 
