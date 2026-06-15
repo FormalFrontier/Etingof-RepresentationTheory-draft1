@@ -334,6 +334,21 @@ Based on Phase 2 experience with issue sizing:
 - **Hard theorems**: 1 per issue
 - **Never mix difficulty levels** in one issue — a hard theorem blocks the easy ones
 
+### Verify cited "model" files actually close the analogous case
+
+When an issue says "mirror the proven branch in sibling file X" or "models: Y, Z",
+**grep the cited file for `sorry` at the analogous declaration before assuming the
+branch is tractable**. In the D̃-family tube work (#4692) the issue cited D̃₆
+(`FieldGenericD6Tilde.lean`) and T(2,2,2) as models for the mixed-direction
+(combo C/C′) and central-reversed leaf-equality branches — but D̃₆ carries the
+**same five branches still `sorry`**, and no tube member had closed a mixed
+combo-C branch anywhere. A branch that is unsolved across *every* sibling is
+frontier-difficulty regardless of how the issue frames it. In that case prefer
+landing reusable infrastructure plus a documented reduction (e.g. combo C′
+reduces exactly to leaf `Λ`-invariance, the indecomposability crux) over a
+heroic full-closure attempt, and partial-PR. Confirm the tractability premise
+early — it sets scope and avoids rediscovering the obstruction from scratch.
+
 ## Proven Proof Strategies
 
 Patterns that have succeeded in this project, derived from 110+ merged proof PRs (through wave 20).
