@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
+import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 
 /-!
 # Formal character determines isomorphism class
@@ -779,7 +780,10 @@ theorem glTensorRep_equivariant_schurWeyl_decomposition
       (_ : ∀ i, AddCommGroup (S i))
       (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module.Finite k (S i))
-      (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k)),
+      (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+      (_ : ∀ i, IsSimpleModule
+        (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (L i).ρ)),
       ∃ (e : TensorPower k (Fin N → k) n ≃ₗ[k]
           (DirectSum ι (fun i => S i ⊗[k] (L i : Type u)))),
         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
@@ -789,13 +793,15 @@ theorem glTensorRep_equivariant_schurWeyl_decomposition
               (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
                 (S i)).tprod (L i).ρ) g (e v) := by
   classical
-  -- Get the explicit GL_N decomposition (issue #2572).
-  obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, L_carrier, e, he,
-      h_act⟩ :=
-    Theorem5_18_4_GL_rep_decomposition_explicit k N n hN
+  -- Get the explicit GL_N decomposition **with per-`L i` simplicity** (issue
+  -- #2572 / #4721): `_explicit_simple` carries the same explicit `(L, e, he,
+  -- h_act)` data as `_explicit`, plus `hL_simp : ∀ i, IsSimpleModule … (L i)`.
+  obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simp, L_carrier,
+      e, he, h_act⟩ :=
+    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
-    fun i => hSi_fin i, L, ?_, ?_⟩
+    fun i => hSi_fin i, L, hL_simp, ?_, ?_⟩
   · exact e
   intro g v
   -- Reduce equivariance to: (glTensorRep g) ∘ e.symm = e.symm ∘ directSum_action g.
@@ -871,7 +877,7 @@ theorem formalCharacter_tensorPower_eq_sum_character_L
       formalCharacter k N (FDRep.of (glTensorRep k N n)) =
         ∑ i : ι, (Module.finrank k (S i) : ℚ) • formalCharacter k N (L i) := by
   -- Invoke the GL_N-equivariant Schur-Weyl decomposition (Theorem 5.18.4 iii).
-  obtain ⟨ι, hιFin, hιDec, S, hS_acg, hS_mod, hS_fin, L, e, he⟩ :=
+  obtain ⟨ι, hιFin, hιDec, S, hS_acg, hS_mod, hS_fin, L, _hL_simp, e, he⟩ :=
     glTensorRep_equivariant_schurWeyl_decomposition k N n hN
   refine ⟨ι, hιFin, hιDec, S, hS_acg, hS_mod, hS_fin, L, ?_⟩
   -- Step 1: push char(glTensorRep) across the equivariant iso to the
