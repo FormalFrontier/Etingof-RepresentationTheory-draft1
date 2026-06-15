@@ -58,6 +58,60 @@ isotypic engine #4600. The two bridges are filed as sub-issues of #2482.
 open scoped TensorProduct DirectSum
 open CategoryTheory
 
+namespace Representation
+
+section DirectSumAsModule
+
+variable {k G : Type*} [CommSemiring k] [Monoid G]
+variable {ι : Type*} {V : ι → Type*}
+variable [(i : ι) → AddCommMonoid (V i)] [(i : ι) → Module k (V i)]
+
+/-- The componentwise `MonoidAlgebra k G`-action of `single g t` on a direct sum
+of `asModule`s collapses to the scalar `t` times the `DirectSum.lmap` of the
+per-component `ρs i g`. Stated with a genuinely target-typed argument `y` so the
+`single g t • y` resolves to the `DirectSum` action (not a poisoned `asModule`
+action), which is what makes the componentwise `single_smul` rewrite apply. -/
+theorem single_smul_directSum (ρs : (i : ι) → Representation k G (V i))
+    (g : G) (t : k) (y : DirectSum ι (fun i => Representation.asModule (ρs i))) :
+    MonoidAlgebra.single g t • y = t • DirectSum.lmap (fun i => ρs i g) y := by
+  refine DirectSum.ext (β := fun i => Representation.asModule (ρs i)) fun i => ?_
+  rw [DirectSum.smul_apply, Representation.single_smul]
+  rfl
+
+/-- The `MonoidAlgebra k G`-linear equivalence identifying the `asModule` of a
+direct sum of representations with the direct sum of their `asModule`s.
+
+This is the keystone conversion for the Schur-Weyl Step E assembly (#4667): the
+decomposition target is a `DirectSum` of `asModule`s, which is *not* itself the
+`asModule` of a single representation, so the equivariant embedding (a
+`MonoidAlgebra k G`-linear map into `asModule (directSum ρs)`) must be retargeted
+through this equiv.
+
+Both carriers are defeq to `⨁ i, V i`, so the underlying map is the identity;
+only compatibility of the two `MonoidAlgebra k G`-actions needs proof, which
+reduces componentwise to `Representation.single_smul` after a
+`MonoidAlgebra.induction_linear` on the scalar. -/
+noncomputable def asModule_directSum_equiv (ρs : (i : ι) → Representation k G (V i)) :
+    Representation.asModule (Representation.directSum ρs) ≃ₗ[MonoidAlgebra k G]
+      DirectSum ι (fun i => Representation.asModule (ρs i)) where
+  toFun x := x
+  invFun x := x
+  map_add' _ _ := rfl
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_smul' r x := by
+    simp only [RingHom.id_apply]
+    induction r using MonoidAlgebra.induction_linear with
+    | zero => simp
+    | add a b ha hb => simp only [add_smul, ha, hb]
+    | single g t =>
+      rw [single_smul_directSum, Representation.single_smul, Representation.directSum_apply]
+      rfl
+
+end DirectSumAsModule
+
+end Representation
+
 namespace Etingof.PolynomialGLDecomposition
 
 universe u
