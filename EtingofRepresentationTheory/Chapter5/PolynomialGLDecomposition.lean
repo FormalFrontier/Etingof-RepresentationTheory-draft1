@@ -174,12 +174,17 @@ ambient summand is, an `R`-linear identification `e` of the ambient
 `(V^{⊗n})^m`-module with `⨁_{c : κ} asModule (L (g c))`, and a submodule `M'`
 of that ambient module together with an `R`-linear iso `asModule M.ρ ≃ M'`.
 
-TODO (sub-issue of #2482): supply the `asModule` transfer glue and the
-`Fin m`-fold product / `S ⊗ L` splitting. -/
+The hypothesis `h_span` — that the `ℕ`-indexed weight spaces span `M` — is
+**essential** (it says `M` is genuinely *polynomial*, not merely algebraic). It
+feeds `polynomial_homog_rep_equivariant_embedding` (#4598); without it the
+statement is false, since `IsAlgebraicRepresentation` + `h_homog` admits the
+counterexample `M = Sym²(V) ⊗ det⁻¹` (`N = 2`, `n = 0`), which has no embedding
+into `V^{⊗0}`. -/
 theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -209,6 +214,7 @@ theorem decompose_polynomial_gl_rep
     [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
+    (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -220,7 +226,7 @@ theorem decompose_polynomial_gl_rep
   -- Embed `M.asModule` as a submodule `M'` of an ambient module `W` that is
   -- `R`-linearly a finite direct sum of the simple `L (gκ c)`.
   obtain ⟨ι, hιFin, hιDec, L, hLsimp, κ, hκFin, gκ, W, hWacg, hWmod, e, M', ⟨eM⟩⟩ :=
-    polynomial_homog_rep_asModule_embeds_directSum_simple k N n hN M halg h_homog
+    polynomial_homog_rep_asModule_embeds_directSum_simple k N n hN M halg h_span h_homog
   -- The ambient summand family, indexed by `κ`.
   set Lsum : κ → Type u := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
   haveI : ∀ c, IsSimpleModule (GLAlg k N) (Lsum c) := fun c => hLsimp (gκ c)
