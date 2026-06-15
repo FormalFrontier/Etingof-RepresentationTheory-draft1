@@ -1,7 +1,5 @@
 import Mathlib
-import EtingofRepresentationTheory.Chapter5.Definition5_14_2
-import EtingofRepresentationTheory.Chapter5.SpechtModuleBasis
-import EtingofRepresentationTheory.Chapter5.FRTHelpers
+import EtingofRepresentationTheory.Chapter5.CharValueHookFormula
 
 /-!
 # Theorem 5.17.1: Hook Length Formula
@@ -28,33 +26,17 @@ namespace Etingof
 
 noncomputable section
 
-/-- The hook length product divides n!. Follows from the multiplicative form
-of the Frame–Robinson–Thrall theorem. -/
-theorem hookLengthProduct_dvd_factorial (n : ℕ) (la : Nat.Partition n) :
-    la.toYoungDiagram.hookLengthProduct ∣ n.factorial :=
-  ⟨Nat.card (StandardYoungTableau n la), by linarith [card_standardYoungTableau_mul n la]⟩
-
 /-- The dimension of V_λ equals the number of standard Young tableaux of shape λ.
-This is the core representation-theoretic content: the polytabloid basis of the
-Specht module is naturally indexed by SYT(λ).
+This is the core representation-theoretic content.
 
-The proof delegates to `finrank_spechtModule_eq_card_syt` (which uses
-`Fintype.card`) and converts to `Nat.card`. The underlying proof constructs
-the polytabloid basis: linear independence + spanning of polytabloids. -/
+Proved via the **Frobenius character formula** (`finrank_spechtModule_eq_card_syt_general`,
+`CharValueHookFormula.lean`), NOT via the polytabloid/Garnir-straightening basis —
+that route (`finrank_spechtModule_eq_card_syt'`, `SpechtModuleBasis.lean`) is no
+longer on the critical path for the hook length formula. -/
 theorem finrank_spechtModule_eq_card_standardYoungTableau (n : ℕ) (la : Nat.Partition n) :
     Module.finrank ℂ (SpechtModule n la) =
-      Nat.card (StandardYoungTableau n la) := by
-  rw [Nat.card_eq_fintype_card]
-  exact finrank_spechtModule_eq_card_syt' n la
-
-/-- Frame–Robinson–Thrall theorem (1954): the number of standard Young tableaux
-of shape λ equals n! / ∏ h(i,j). Derived from the multiplicative form. -/
-theorem card_standardYoungTableau_eq (n : ℕ) (la : Nat.Partition n) :
-    Nat.card (StandardYoungTableau n la) =
-      n.factorial / la.toYoungDiagram.hookLengthProduct := by
-  have h := card_standardYoungTableau_mul n la
-  have hpos := YoungDiagram.hookLengthProduct_pos la.toYoungDiagram
-  rw [← h, Nat.mul_div_cancel _ hpos]
+      Nat.card (StandardYoungTableau n la) :=
+  finrank_spechtModule_eq_card_syt_general n la
 
 /-- Hook length formula: dim V_λ = n! / ∏ h(i,j).
 (Etingof Theorem 5.17.1)
