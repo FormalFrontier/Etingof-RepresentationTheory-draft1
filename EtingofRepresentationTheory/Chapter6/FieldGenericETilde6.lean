@@ -792,9 +792,20 @@ theorem etilde6Rep_kQ_leaf_equalities
               -- core (the 3-block analogue of `FieldGenericTube.lean`'s `core`,
               -- which does NOT port: the center planes overlap, so the pairwise
               -- leaf containments are false and `center3_sum_zero_F` does not
-              -- separate the `core` residual). Tracked by #4750 (sub-A center
-              -- crux); that issue also weighs whether it is provable for an
-              -- arbitrary complementary pair or needs a re-scope.
+              -- separate the `core` residual).
+              --
+              -- Route correction (#4750, session d25cccd0, see
+              -- `progress/etilde6-hcenter-findings_d25cccd0.md`): `hcenter` is
+              -- logically identical to this theorem's own conclusion (via
+              -- `hcritA/B/C`), so the center framing adds no leverage. It is NOT
+              -- provable from the plane-splits `etilde6_armX_plane_split` alone:
+              -- `W₁⟨0⟩ = π_C = ⟨c₀,c₁⟩`, `W₂⟨0⟩ = c₂` splits all three planes yet
+              -- has `compC u ∈ W₁⟨0⟩` while `compA u ∉ W₁⟨0⟩`. The A↔B coincidence
+              -- reduces to `(-u,u,0) ∈ W₁⟨0⟩ ∈ π_C`, governed by the arm-C
+              -- eigenvalue site — arms A,B cannot be decoupled from arm C. The
+              -- correct route folds the eigenvalue argument into the
+              -- indecomposability pass (mirroring `starRep_kQ_isIndecomposable`,
+              -- #4752), rather than proving a standalone arbitrary-pair `hcenter`.
               have hcenter : ∀ x : Fin (m + 1) → F,
                   (etilde6CompA_F F m x ∈ W₁ (0 : Fin 7) ↔
                     etilde6CompB_F F m x ∈ W₁ (0 : Fin 7)) ∧
