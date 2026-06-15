@@ -384,6 +384,43 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   comes from `DirectSum.component.lof_self` (a left inverse) and the coordinate
   lines span via `DFinsupp.iSup_range_lsingle`.
 
+- **Transferring `IsSimpleModule` across a `Subalgebra` equality of acting rings**
+  (recurs in Schur-Weyl: `diagonalActionImage = centralizer(symGroupImage)` via
+  `Theorem5_18_4_centralizers`). The two `↥A`-module structures are over
+  *propositionally* equal subalgebras, so there is no shared-ring `LinearEquiv`.
+  Route: `φ := (Subalgebra.equivOfEq _ _ h).toRingEquiv`, build a `φ.toRingHom`-
+  **semilinear** equiv `e : ↥M₁ ≃ₛₗ[φ.toRingHom] ↥M₂` (often the carrier-identity
+  map — both submodules' carriers are defeq, both smuls are `b.val • x.val` and
+  `(φ a).val = a.val` defeq, so `toFun/invFun = fun x => ⟨x.val, _⟩` and
+  `map_add'/left_inv/right_inv = rfl`; `map_smul'` closes with
+  `Subtype.ext` + the smul-coe lemmas + `SetLike.val_smul` then `rfl`). Then
+  `Submodule.orderIsoMapComap e : Submodule R₁ M₁ ≃o Submodule R₂ M₂` and
+  `(…).isSimpleOrder_iff.mpr h.toIsSimpleOrder`. Two gotchas: (1) **`RingHomInvPair
+  φ.toRingHom φ.symm.toRingHom` is NOT a Mathlib instance for a `RingEquiv`** —
+  provide both directions locally (`haveI : RingHomInvPair … := ⟨by ext x; simpa
+  using φ.symm_apply_apply x, by ext x; simpa using φ.apply_symm_apply x⟩`), else
+  the `≃ₛₗ` and `orderIsoMapComap` fail to synthesize. (2) `IsSimpleModule` is a
+  *class extending* `IsSimpleOrder` (not defeq) — rebuild with
+  `exact { toIsSimpleOrder := hso }`, and pin the semilinear ring hom explicitly
+  (`≃ₛₗ[φ.toRingHom]`, not `≃ₛₗ[(φ : _ →+* _)]`) or it stays a metavariable and
+  blocks `SetLike.val_smul`.
+
+- **Reconstructing a public lemma's `LinearMap.restrict` map when its membership
+  proof is `private`.** Lemmas like `youngSym_action_vanishes_off_block` /
+  `_rank_one_scaled_proj` state their conclusion about
+  `(f).restrict (p := S.restrictScalars k) … (private_mem_proof)`. You can still
+  feed that map to an interface expecting `g : ∀ i, ↥(S i) →ₗ[k] ↥(S i)`: define
+  `g i := (f).restrict … (your_own_mem_proof)` with a public membership lemma —
+  the proof argument is a `Prop`, so the two `restrict`s are **defeq** (proof
+  irrelevance), and `have hzero : g i = 0 := <the public lemma>` typechecks by
+  defeq. Also: `↥(S.restrictScalars k)` is defeq to `↥S` (restrictScalars keeps
+  the carrier), and for an `A`-submodule `S` with `IsScalarTower k A E` the two
+  `Module k` structures on `↥S` and `↥(S.restrictScalars k)` agree by defeq, so
+  the restrict-typed map slots in where `↥(S i) →ₗ[k] ↥(S i)` is expected. When a
+  per-block scalar `α'` (from a rank-1 lemma's existential) must match an
+  independently-obtained `α` (`c² = α•c`), reconcile via `f² = α•f`, `f = α'•π'`,
+  `π' ≠ 0`, `smul_left_injective k hπ'_ne`, then `mul_right_cancel₀`.
+
 - **Opaque-parameter isolation defeats `whnf`/`isDefEq` heartbeat timeouts in
   `compHom`/`restrictScalars` transfer constructions.** When building a
   `LinearEquiv` over the deep `Subalgebra → Subsemiring → Module` chain (e.g.
