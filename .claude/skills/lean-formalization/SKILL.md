@@ -17,14 +17,29 @@ lake exe cache get
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
 **Build-environment recovery (shared `.lake/packages` across pod worktrees):**
-- `Lean exited with code 139` (SIGSEGV) reproducibly on *dependency* files you did
-  not touch usually means Mathlib oleans got corrupted by a concurrent
-  `lake exe cache get` from another agent writing the shared dir. Fix with a forced
-  re-download: `lake exe cache get!`, then rebuild.
+- `Lean exited with code 139` (SIGSEGV) on *dependency* files you did not touch has
+  two distinct causes. (a) Corrupted Mathlib oleans from a concurrent `lake exe cache
+  get` writing the shared dir — fix with `lake exe cache get!`, then rebuild. (b)
+  **Memory pressure from build parallelism** — if the SAME heavy file builds fine in
+  isolation (`lake build EtingofRepresentationTheory.Chapter5.<File>`) but segfaults
+  during a big parallel build, it is OOM, not corruption. Build the heavy files one
+  at a time, then the target.
 - `failed to read file '...olean', incompatible header` means `main` bumped the Lean
-  toolchain mid-session. `git fetch origin main`; if `origin/main:lean-toolchain`
-  changed, rebase your branch onto `origin/main`, then `lake exe cache get` before
-  rebuilding.
+  toolchain mid-session. `lake exe cache get` only fetches **Mathlib** oleans, NOT
+  the upstream deps (batteries/aesop/Qq/importGraph/Cli/plausible) — those keep
+  old-toolchain oleans and keep throwing `incompatible header`. Recovery order:
+  1. `git fetch origin main`; if `origin/main:lean-toolchain` changed, rebase onto
+     `origin/main`.
+  2. The shared `.lake/packages/mathlib` checkout itself can lag the manifest
+     (`lake update` may not move it): `grep -A2 '"name": "mathlib"' lake-manifest.json`
+     for the pinned `rev`, then `git -C .lake/packages/mathlib checkout <rev>` so its
+     `lean-toolchain` matches the project.
+  3. `lake exe cache get`, then rebuild the stale upstream deps (`lake build Batteries
+     Aesop ...`, or just build your target and let lake regenerate them).
+- A **stale session in another worktree** still on the pre-bump toolchain can rebuild
+  the shared dep oleans back to the old version, re-corrupting your build in a loop.
+  Check `pgrep -fl 'v4.28'` (the old version); if a `lake`/`lean` from an obsolete
+  worktree is running, terminate that specific PID (targeted, not `pkill`).
 
 ## Pre-Flight Checklist (Before Starting Any Proof)
 
