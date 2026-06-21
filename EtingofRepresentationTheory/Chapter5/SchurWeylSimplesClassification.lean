@@ -131,54 +131,19 @@ theorem schurWeyl_simples_formalCharacter_classification_core
   -- character-determined ⇒ `char = schurPoly`" is the deferred Tier-4 content.
   sorry
 
-/-- **Pairwise distinctness of the Schur-Weyl simples (deferred, isolated
-`sorry`).** The abstract simple summands `L i` of `V^{⊗n}` produced by the
-equivariant decomposition `glTensorRep_equivariant_schurWeyl_decomposition` are
-pairwise non-isomorphic.
-
-This is the GL-side distinctness output targeted by issue #4731. Part 1
-(`SchurWeylLDistinct.lean`, the GL-equivariant ⟹ centralizer-linear reduction)
-has landed; the remaining B-side step `M_i ≅_C M_j ⟹ i = j` (the symmetric
-double-centralizer argument) is in flight as #4849/#4859/#4862. Until that chain
-lands, the `Pairwise` conclusion is isolated here as a single `sorry`, mirroring
-`schurWeyl_simples_formalCharacter_classification_core`, so the downstream
-schurPoly-classification API (`decompose_polynomial_gl_rep`, issue #4758) stays
-otherwise sorry-free. -/
-theorem glTensorRep_schurWeyl_simples_pairwise_distinct
-    (N n : ℕ)
-    {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
-    [∀ i, Module.Finite k (S i)]
-    (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
-    (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
-          (v : TensorPower k (Fin N → k) n),
-          e (glTensorRep k N n g v) =
-            Representation.directSum (fun i =>
-              (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
-                (S i)).tprod (L i).ρ) g (e v))
-    (hLsimp : ∀ i, IsSimpleModule
-        (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
-        (Representation.asModule (L i).ρ)) :
-    Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))) := by
-  -- Deferred: the B-side distinctness `M_i ≅_C M_j ⟹ i = j` (#4849/#4859/#4862)
-  -- transported to the GL-side `L i ≇ L j` via the Part-1 centralizer-linear
-  -- reduction (`SchurWeylLDistinct.lean`, #4731). Isolated here as one `sorry`.
-  sorry
-
-/-- **schurPoly-classification of the Schur-Weyl simples (from the bare
-equivariance data).** Combines the deferred distinctness
-(`glTensorRep_schurWeyl_simples_pairwise_distinct`) with the classification crux
-(`schurWeyl_simples_formalCharacter_classification_core`) to produce, from only
-the decomposition data `(e, he)` and per-summand simplicity `hLsimp`, an
-injective antitone-partition assignment `lam` with
+/-- **schurPoly-classification of the Schur-Weyl simples.** Combines the GL-side
+distinctness `hLdist` (now discharged by `schurWeyl_L_pairwise_distinct_of_explicit`
+in `SchurWeylLDistinct.lean`, issue #4860) with the classification crux
+(`schurWeyl_simples_formalCharacter_classification_core`) to produce, from the
+decomposition data `(e, he)`, per-summand simplicity `hLsimp`, and distinctness
+`hLdist`, an injective antitone-partition assignment `lam` with
 `char(L i) = schurPoly N (lam i)`.
 
 This is the form consumed by `decompose_polynomial_gl_rep` (issue #4758): it lets
 the Schur-Weyl #6 assembly read the partition classification of the abstract
-simples without re-deriving the tensor-power decomposition data `(e, he, hLsimp,
-hLdist)` itself. -/
+simples without re-deriving the tensor-power decomposition data. The distinctness
+`hLdist` is supplied by `glTensorRep_schurWeyl_decomposition_equivariant_simple`,
+which now emits it alongside `(e, he, hLsimp)`. -/
 theorem glTensorRep_schurWeyl_simples_schurPoly_classified
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -195,12 +160,12 @@ theorem glTensorRep_schurWeyl_simples_schurPoly_classified
                 (S i)).tprod (L i).ρ) g (e v))
     (hLsimp : ∀ i, IsSimpleModule
         (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
-        (Representation.asModule (L i).ρ)) :
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))) :
     ∃ lam : ι → {l : Fin N → ℕ // Antitone l},
       Function.Injective lam ∧
       ∀ i, formalCharacter k N (L i) = schurPoly N (lam i).val :=
-  schurWeyl_simples_formalCharacter_classification_core k N n L e he hLsimp
-    (glTensorRep_schurWeyl_simples_pairwise_distinct k N n L e he hLsimp)
+  schurWeyl_simples_formalCharacter_classification_core k N n L e he hLsimp hLdist
 
 /-- **Headline (sorry-free given the crux).** The formal characters of the
 abstract simple summands `L i` of `V^{⊗n}` (from
