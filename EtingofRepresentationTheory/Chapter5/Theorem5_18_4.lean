@@ -176,8 +176,7 @@ instance symGroupImage_isSemisimpleRing
 /-- V⊗ⁿ is a faithful module over symGroupImage when n ≤ dim V.
 Distinct permutations produce distinct operators on V⊗ⁿ when
 there are enough linearly independent vectors. -/
-theorem symGroupImage_faithfulSMul
-    (hN : n ≤ Module.finrank k V) :
+theorem symGroupImage_faithfulSMul :
     FaithfulSMul (symGroupImage k V n) (TensorPower k V n) := by
   constructor
   intro a b hab
@@ -210,8 +209,7 @@ for all σ, so n!·φ = Σ_σ conj_σ(φ). By multilinear polarization
 Dividing by n! (char 0) gives φ ∈ diagonalActionImage.
 -/
 theorem centralizer_symGroupImage_eq_diagonalActionImage
-    [CharZero k]
-    (_hN : n ≤ Module.finrank k V) :
+    [CharZero k] :
     Subalgebra.centralizer k
       (symGroupImage k V n :
         Set (Module.End k (TensorPower k V n))) =
@@ -266,21 +264,20 @@ Specifically, symGroupImage = centralizer(diagonalActionImage) and
 diagonalActionImage = centralizer(symGroupImage).
 (Etingof Theorem 5.18.4, part i) -/
 theorem Theorem5_18_4_centralizers
-    [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    [CharZero k] :
     symGroupImage k V n = Subalgebra.centralizer k
       (diagonalActionImage k V n :
         Set (Module.End k (TensorPower k V n)))
     ∧ diagonalActionImage k V n = Subalgebra.centralizer k
       (symGroupImage k V n :
         Set (Module.End k (TensorPower k V n))) := by
-  have h_cent := centralizer_symGroupImage_eq_diagonalActionImage k V n hN
+  have h_cent := centralizer_symGroupImage_eq_diagonalActionImage k V n
   constructor
   · -- symGroupImage = centralizer(diagonalActionImage)
     -- By double centralizer theorem: centralizer(centralizer(symGroupImage)) = symGroupImage
     -- Since centralizer(symGroupImage) = diagonalActionImage, this gives the result
     haveI := symGroupImage_isSemisimpleRing k V n
-    haveI := symGroupImage_faithfulSMul k V n hN
+    haveI := symGroupImage_faithfulSMul k V n
     rw [← h_cent]
     exact (Theorem5_18_1_double_centralizer k (TensorPower k V n) (symGroupImage k V n)).symm
   · -- diagonalActionImage = centralizer(symGroupImage)
@@ -291,7 +288,7 @@ action subalgebras of End(V^⊗n) are both semisimple.
 (Etingof Theorem 5.18.4, part ii) -/
 theorem Theorem5_18_4_semisimple
     [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    (_hN : n ≤ Module.finrank k V) :
     IsSemisimpleRing (symGroupImage k V n)
     ∧ IsSemisimpleRing (diagonalActionImage k V n) := by
   constructor
@@ -299,9 +296,9 @@ theorem Theorem5_18_4_semisimple
   · -- diagonalActionImage = centralizer(symGroupImage)
     -- centralizer of semisimple subalgebra is semisimple
     rw [← centralizer_symGroupImage_eq_diagonalActionImage
-      k V n hN]
+      k V n]
     haveI := symGroupImage_isSemisimpleRing k V n
-    haveI := symGroupImage_faithfulSMul k V n hN
+    haveI := symGroupImage_faithfulSMul k V n
     exact Theorem5_18_1_commutant_semisimple k (TensorPower k V n) (symGroupImage k V n)
 
 /-- Schur-Weyl duality, part (iii): Decomposition of V^⊗n.
@@ -314,7 +311,7 @@ polynomial GL(V)-representations.
 (Etingof Theorem 5.18.4, part iii) -/
 theorem Theorem5_18_4_decomposition
     [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    (_hN : n ≤ Module.finrank k V) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type (max u v)) (L : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
@@ -324,7 +321,7 @@ theorem Theorem5_18_4_decomposition
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
   haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n hN
+  haveI := symGroupImage_faithfulSMul k V n
   obtain ⟨ι, hι, hι_dec, V', W', hV'_acg, hV'_mod,
     hV'_Amod, hV'_simp, hW'_acg, hW'_mod, ⟨e⟩⟩ :=
     Theorem5_18_1_decomposition k
@@ -413,7 +410,7 @@ from `Theorem5_18_4_centralizers`.
 (Etingof Theorem 5.18.4, part iii, bimodule form.) -/
 theorem Theorem5_18_4_bimodule_decomposition
     [IsAlgClosed k] [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    (_hN : n ≤ Module.finrank k V) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type (max u v))
       (_ : ∀ i, AddCommGroup (S i))
@@ -428,7 +425,7 @@ theorem Theorem5_18_4_bimodule_decomposition
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum ι (fun i => S i ⊗[k] L i)) := by
   haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n hN
+  haveI := symGroupImage_faithfulSMul k V n
   obtain ⟨ι, hι, hι_dec, S', hS'_acg, hS'_mod, hS'_Amod, hS'_simp,
     hS'_dist, hS'_fin, L', hL'_acg, hL'_mod, hL'_Bmod, _hL'_smul, _hL'_fin, ⟨e⟩⟩ :=
     Theorem5_18_1_bimodule_decomposition k (TensorPower k V n)
@@ -439,7 +436,7 @@ theorem Theorem5_18_4_bimodule_decomposition
   have h_eq : Subalgebra.centralizer k
       (symGroupImage k V n : Set (Module.End k (TensorPower k V n))) =
         diagonalActionImage k V n :=
-    (Theorem5_18_4_centralizers k V n hN).2.symm
+    (Theorem5_18_4_centralizers k V n).2.symm
   refine ⟨ι, hι, hι_dec, S', hS'_acg, hS'_mod, hS'_Amod, hS'_simp, hS'_dist,
     hS'_fin, L', hL'_acg, hL'_mod, fun i => h_eq ▸ hL'_Bmod i, ⟨e⟩⟩
 
@@ -462,8 +459,7 @@ of the iso with respect to the centralizer-post-composition action).
 
 (Etingof Theorem 5.18.4, part iii, bimodule form, explicit version.) -/
 theorem Theorem5_18_4_bimodule_decomposition_explicit
-    [IsAlgClosed k] [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
+    [IsAlgClosed k] [CharZero k] :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Submodule (symGroupImage k V n) (TensorPower k V n))
       (_ : ∀ i, IsSimpleModule (symGroupImage k V n) (S i))
@@ -480,7 +476,7 @@ theorem Theorem5_18_4_bimodule_decomposition_explicit
           (l : ↥(S i) →ₗ[symGroupImage k V n] TensorPower k V n),
           e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v := by
   haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n hN
+  haveI := symGroupImage_faithfulSMul k V n
   exact Theorem5_18_1_bimodule_decomposition_explicit k (TensorPower k V n)
     (symGroupImage k V n)
 
@@ -579,7 +575,7 @@ issue #2540): the evaluation formula together with the post-composition
 `GL_N`-action formula make equivariance computable on pure tensors. -/
 theorem Theorem5_18_4_GL_rep_decomposition_explicit
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N) :
+    (N n : ℕ) (_hN : n ≤ N) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Submodule (symGroupImage k (Fin N → k) n)
         (TensorPower k (Fin N → k) n))
@@ -604,15 +600,12 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit
               ((L_carrier i l) v)) := by
   set V : Type u := Fin N → k with hV
   haveI : Module.Finite k V := inferInstance
-  have hfinrank : Module.finrank k V = N :=
-    (Module.finrank_pi k).trans (Fintype.card_fin N)
-  have hN' : n ≤ Module.finrank k V := hfinrank.symm ▸ hN
   haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n hN'
+  haveI := symGroupImage_faithfulSMul k V n
   -- Get the explicit bimodule decomposition with concrete summand types
   -- and the evaluation formula.
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, _, e, he⟩ :=
-    Theorem5_18_4_bimodule_decomposition_explicit k V n hN'
+    Theorem5_18_4_bimodule_decomposition_explicit k V n
   -- Monoid hom GL_N → centralizer(symGroupImage):
   --   g ↦ PiTensorProduct.map (fun _ => mulVecLin g.val).
   -- The explicit type ascription forces unification of `V` with `Fin N → k`

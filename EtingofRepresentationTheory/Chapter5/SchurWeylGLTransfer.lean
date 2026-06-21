@@ -658,7 +658,7 @@ Combines:
 -/
 theorem Theorem5_18_4_GL_rep_decomposition_simple
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N) :
+    (N n : ℕ) (_hN : n ≤ N) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
@@ -676,16 +676,13 @@ theorem Theorem5_18_4_GL_rep_decomposition_simple
         DirectSum ι (fun i => S i ⊗[k] (L i : Type u))) := by
   set V : Type u := Fin N → k with hV
   haveI : Module.Finite k V := inferInstance
-  have hfinrank : Module.finrank k V = N :=
-    (Module.finrank_pi k).trans (Fintype.card_fin N)
-  have hN' : n ≤ Module.finrank k V := hfinrank.symm ▸ hN
   haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n hN'
+  haveI := symGroupImage_faithfulSMul k V n
   -- Re-destructure the bimodule decomposition; this time we keep `homA_simp`
   -- (the centralizer-side simplicity clause) which the inner
   -- `_GL_rep_decomposition_explicit` discards.
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, homA_simp, e, _he⟩ :=
-    Theorem5_18_4_bimodule_decomposition_explicit k V n hN'
+    Theorem5_18_4_bimodule_decomposition_explicit k V n
   -- Build the GL_N action data exactly as in `_explicit`.
   let glHom : Matrix.GeneralLinearGroup (Fin N) k →*
       ↥(Subalgebra.centralizer k
@@ -712,7 +709,7 @@ theorem Theorem5_18_4_GL_rep_decomposition_simple
   have h_eq : Subalgebra.centralizer k
       (symGroupImage k V n : Set (Module.End k (TensorPower k V n))) =
       diagonalActionImage k V n :=
-    ((Theorem5_18_4_centralizers k V n hN').2).symm
+    ((Theorem5_18_4_centralizers k V n).2).symm
   -- For each i, prove simplicity of the GL_N-representation `FDRep.of (ρ_i i)`
   -- as a `MonoidAlgebra k GL_N`-module.
   have hL_simple : ∀ i, IsSimpleModule
@@ -823,7 +820,7 @@ coercion is paid here, once, at the `refine`), so the downstream equivariance
 computation can use it opaquely without re-triggering that coercion. -/
 theorem Theorem5_18_4_GL_rep_decomposition_explicit_simple
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N) :
+    (N n : ℕ) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Submodule (symGroupImage k (Fin N → k) n)
         (TensorPower k (Fin N → k) n))
@@ -851,14 +848,11 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit_simple
               ((L_carrier i l) v)) := by
   set V : Type u := Fin N → k with hV
   haveI : Module.Finite k V := inferInstance
-  have hfinrank : Module.finrank k V = N :=
-    (Module.finrank_pi k).trans (Fintype.card_fin N)
-  have hN' : n ≤ Module.finrank k V := hfinrank.symm ▸ hN
   haveI := symGroupImage_isSemisimpleRing k V n
-  haveI := symGroupImage_faithfulSMul k V n hN'
+  haveI := symGroupImage_faithfulSMul k V n
   -- Keep `homA_simp` this time (the `_explicit` wrapper discards it).
   obtain ⟨ι, hι, hι_dec, S', hS'_simp, hS'_dist, hS'_fin, homA_simp, e, he⟩ :=
-    Theorem5_18_4_bimodule_decomposition_explicit k V n hN'
+    Theorem5_18_4_bimodule_decomposition_explicit k V n
   let glHom : Matrix.GeneralLinearGroup (Fin N) k →*
       ↥(Subalgebra.centralizer k
         (symGroupImage k V n : Set (Module.End k (TensorPower k V n)))) :=
@@ -889,7 +883,7 @@ theorem Theorem5_18_4_GL_rep_decomposition_explicit_simple
   have h_eq : Subalgebra.centralizer k
       (symGroupImage k V n : Set (Module.End k (TensorPower k V n))) =
       diagonalActionImage k V n :=
-    ((Theorem5_18_4_centralizers k V n hN').2).symm
+    ((Theorem5_18_4_centralizers k V n).2).symm
   -- Per-`L i` simplicity over `MonoidAlgebra k GL_N` (à la `_simple`'s `hL_simple`).
   have hL_simple : ∀ i, IsSimpleModule
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))

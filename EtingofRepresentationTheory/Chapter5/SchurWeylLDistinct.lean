@@ -69,7 +69,7 @@ drives an `Algebra.adjoin_induction`: the intertwining property is closed under
 generators by hypothesis. -/
 theorem homA_centralizer_smul_comm_of_unitTensorPow_intertwine
     [Module.Finite k V] [Infinite k] [CharZero k] {n : ℕ}
-    (hN : n ≤ Module.finrank k V)
+    (_hN : n ≤ Module.finrank k V)
     {S W : Submodule (symGroupImage k V n) (TensorPower k V n)}
     (ψ : (↥S →ₗ[symGroupImage k V n] TensorPower k V n) ≃ₗ[k]
         (↥W →ₗ[symGroupImage k V n] TensorPower k V n))
@@ -109,7 +109,7 @@ theorem homA_centralizer_smul_comm_of_unitTensorPow_intertwine
   -- `C = Algebra.adjoin k {g^{⊗n} : g unit}`.
   have hCeq : C = Algebra.adjoin k (Set.range fun (g : (Module.End k V)ˣ) =>
       PiTensorProduct.map (R := k) (fun _ : Fin n => (g : Module.End k V))) := by
-    rw [hC, centralizer_symGroupImage_eq_diagonalActionImage k V n hN,
+    rw [hC, centralizer_symGroupImage_eq_diagonalActionImage k V n,
       ← adjoin_unitsTensorPow_eq_diagonalActionImage k (V := V) (n := n)]
   -- Reduce to an adjoin induction over `cval ∈ adjoin k {g^{⊗n}}`.
   have hgen : cval ∈ Algebra.adjoin k
@@ -161,7 +161,7 @@ that intertwines post-composition by every `g^{⊗n}` to a `C`-linear equiv over
 the centralizer `C = centralizer(symGroupImage k V n)`. -/
 noncomputable def homACentralizerLinearEquivOfUnitTensorPowIntertwine
     [Module.Finite k V] [Infinite k] [CharZero k] {n : ℕ}
-    (hN : n ≤ Module.finrank k V)
+    (_hN : n ≤ Module.finrank k V)
     {S W : Submodule (symGroupImage k V n) (TensorPower k V n)}
     (ψ : (↥S →ₗ[symGroupImage k V n] TensorPower k V n) ≃ₗ[k]
         (↥W →ₗ[symGroupImage k V n] TensorPower k V n))
@@ -175,7 +175,7 @@ noncomputable def homACentralizerLinearEquivOfUnitTensorPowIntertwine
   invFun := ψ.symm
   map_add' := ψ.map_add
   map_smul' c l :=
-    homA_centralizer_smul_comm_of_unitTensorPow_intertwine hN ψ h_int c l
+    homA_centralizer_smul_comm_of_unitTensorPow_intertwine _hN ψ h_int c l
   left_inv := ψ.left_inv
   right_inv := ψ.right_inv
 

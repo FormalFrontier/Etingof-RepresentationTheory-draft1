@@ -165,18 +165,17 @@ module over `centralizer(symGroupImage)`. This is the application of
 bimodule decomposition, feeding it off-block vanishing (sub-β) and the rank-1
 scaled projection on the special block (sub-γ). -/
 private theorem schurBlock_imageSubmoduleB_isSimple
-    (hlam : Antitone lam) (hN : (∑ i, lam i) ≤ N) :
+    (hlam : Antitone lam) (_hN : (∑ i, lam i) ≤ N) :
     IsSimpleModule
       (↥(Subalgebra.centralizer ℂ
         (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i) :
           Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i))))))
       ↥(imageSubmoduleB (youngSymElement ℂ N lam)) := by
   classical
-  have hN' : (∑ i, lam i) ≤ Module.finrank ℂ (Fin N → ℂ) := finrank_bound N lam hN
   -- sub-α: explicit bimodule decomposition.
   obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
     Theorem5_18_4_bimodule_decomposition_explicit
-      (k := ℂ) (V := Fin N → ℂ) (n := ∑ i, lam i) hN'
+      (k := ℂ) (V := Fin N → ℂ) (n := ∑ i, lam i)
   haveI : IsSemisimpleModule (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i))
       (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)) := IsSemisimpleRing.isSemisimpleModule
   -- sub-A (#4634): the unique special block.
@@ -258,13 +257,12 @@ theorem schurModuleSubmodule_isSimple_centralizer
       (↥(diagonalActionImage ℂ (Fin N → ℂ) (∑ i, lam i)))
       (SchurModuleSubmodule ℂ N lam) := by
   classical
-  have hN' : (∑ i, lam i) ≤ Module.finrank ℂ (Fin N → ℂ) := finrank_bound N lam hN
   -- `diagonalActionImage = centralizer(symGroupImage)`.
   have hBD : diagonalActionImage ℂ (Fin N → ℂ) (∑ i, lam i) =
       Subalgebra.centralizer ℂ
         (symGroupImage ℂ (Fin N → ℂ) (∑ i, lam i) :
           Set (Module.End ℂ (TensorPower ℂ (Fin N → ℂ) (∑ i, lam i)))) :=
-    (Theorem5_18_4_centralizers ℂ (Fin N → ℂ) (∑ i, lam i) hN').2
+    (Theorem5_18_4_centralizers ℂ (Fin N → ℂ) (∑ i, lam i)).2
   -- The interface result: `imageSubmoduleB c` is simple over the centralizer.
   have h1 := schurBlock_imageSubmoduleB_isSimple N lam hlam hN
   -- Ring iso induced by the subalgebra equality.
