@@ -2729,3 +2729,16 @@ re-elaboration. After the `rw`, close with the underlying lemma but let Lean
 pinning `↑g` yourself reintroduces a second coercion spelling and re-triggers the
 same whnf blowup. Symptom to recognize: `(deterministic) timeout at whnf` on a
 line that is "obviously" `rfl` or a trivial `exact`.
+
+**Same trap when proving `Commute`/equality *of* such endos** (e.g. left and
+right `GL_N`-actions on `k[Xᵢⱼ]` commute). `exact AlgHom.congr_fun h_comp f` —
+where `h_comp` equates the underlying `AlgHom.comp`s — blows up `whnf` (even at
+6.4M heartbeats): Lean reconciles the `Module.End` product form against the
+applied form through `aeval`. Make every step syntactic instead:
+1. `apply LinearMap.ext; intro f` — **not** bare `ext f`, which over-applies into
+   `MvPolynomial` *coefficient* extensionality (`f` becomes a `Finsupp` exponent).
+2. `rw [Module.End.mul_apply, Module.End.mul_apply, ρ_apply, σ_apply, …]` (all
+   `rfl`-lemmas) to reach the applied form on both sides.
+3. Normalise the underlying lemma the same way and close by matching, not defeq:
+   `have h2 := AlgHom.congr_fun h_comp f; rw [AlgHom.comp_apply, AlgHom.comp_apply] at h2; exact h2`.
+With the fully-syntactic route the proof needs **no** `maxHeartbeats` bump at all.
