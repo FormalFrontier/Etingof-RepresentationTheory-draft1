@@ -1886,6 +1886,8 @@ When promoting a `k`-linear intertwiner to a `MonoidAlgebra k G`-linear equivale
 
 The `map_smul'` of the `asModule`-to-`asModule` aux reduces to the carrier-level intertwiner via `rw [single_smul, single_smul, map_smul]; simp only [Representation.asModuleEquiv]; congr 1; exact <intertwiner>` (`asModuleEquiv` is `LinearEquiv.refl`, so it normalizes away with the def-unfold alone — `LinearEquiv.refl_apply` is then an unused simp arg).
 
+**Dot notation on a `Representation`-typed value resolves to `MonoidHom`, not your `Representation.*` lemmas.** `Representation k G V` is definitionally `G →* (V →ₗ[k] V)`, so for `ρ : Representation k G V` the term `ρ.myLemma` elaborates as `MonoidHom.myLemma ρ` and fails with `Invalid field 'myLemma': … does not contain MonoidHom.myLemma`. Even when you *defined* `Representation.myLemma`, you must call it with the **fully-qualified name** `Representation.myLemma ρ …` (not `ρ.myLemma`). This bit me defining `Representation.stableSubmodule` (#4902) — both the definition's own `@[simp]` mem-lemma and every call site needed the explicit `Representation.stableSubmodule ρ …` form.
+
 ## FDRep Morphism Extensionality Patterns
 
 FDRep morphisms are `Action.Hom` wrapping `FGModuleCat.Hom` wrapping `ModuleCat.Hom` wrapping `LinearMap`. Proving `f = g` for FDRep morphisms requires decomposing through all layers.
