@@ -30,13 +30,21 @@ det⁻¹-elimination kernel lemma (K) (issue #4694, route doc
 
 ## The statement
 
-`kernelLemmaK'` : for `r ≥ 1` the supremum of all **nonnegative**-weight spaces
-of `(A/det) ⊗ χ⁻ʳ` is `⊥`. Equivalently (`kernelLemmaK'_submodule`), every
-right-`GL_N`-submodule all of whose torus weights lie in `ℕ^N` is `⊥`.
+`kernelLemmaK'` : for `r ≥ 1`, every right-`GL_N`-**subrepresentation** `W` of
+`(A/det) ⊗ χ⁻ʳ` all of whose torus weights lie in `ℕ^N` is `⊥`. The consumable
+corollary `kernelLemmaK'_submodule` rephrases this for an explicitly
+`GL_N`-invariant submodule.
 
 This is the form the #4694 det-power-filtration assembly consumes: the assembly
-produces a *nonzero* nonneg-weight submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and (K′)
-contradicts it.
+produces a *nonzero* nonneg-weight invariant submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and
+(K′) contradicts it.
+
+**Statement correction (issue #4847).** An earlier phrasing — "the supremum of
+all nonneg-weight *spaces* of `(A/det) ⊗ χ⁻ʳ` is `⊥`" — is **false**: a single
+nonneg-weight vector (e.g. the class of `X₁₁X₂₂`, weight `(0,0)` after the `χ⁻¹`
+twist) exists inside an irreducible whose `GL_N`-orbit also realizes negative
+weights. `GL_N`-invariance of `W` is essential and cannot be dropped; see the
+`kernelLemmaK'` docstring.
 
 ## Status
 
@@ -149,32 +157,60 @@ noncomputable def glWeightSpaceℤ (k : Type*) [Field k] (N : ℕ) {V : Type*}
 
 /-! ### The kernel lemma (K′) -/
 
-/-- **Kernel lemma (K′).** For `r ≥ 1`, the supremum of all *nonnegative*-weight
-spaces of the twisted quotient representation `(A/det) ⊗ χ⁻ʳ` is `⊥`: it has no
-nonzero vector whose right-torus weight lies in `ℕ^N`.
+/-- **Kernel lemma (K′).** For `r ≥ 1`, every right-`GL_N`-**subrepresentation**
+`W` of the twisted quotient `(A/det) ⊗ χ⁻ʳ` all of whose right-torus weights are
+nonnegative (`W.toSubmodule` is contained in the span of the `ℕ^N`-weight spaces)
+is `⊥`.
 
-The mathematics: by the `GL×GL`-equivariant Cauchy decomposition every
-irreducible constituent of `A/det = k[Xᵢⱼ]/(det)` has last highest-weight
-coordinate `ν_N = 0`; twisting by `χ⁻ʳ` (weight `(−r,…,−r)`) makes the last
-coordinate `ν_N − r = −r < 0`, so no weight is `≥ 0`. This Cauchy-decomposition
-core is tracked as a research-level residual `sorry` (follow-up sub-issue of
-#4826); the statement and all the objects it quantifies over are in place. -/
+The mathematics: by complete reducibility (`Theorem5_23_2_i`) `W` decomposes into
+irreducibles, each — having all weights `≥ 0` — a *polynomial* irrep with highest
+weight `ν ∈ ℕ^N` (lowest-weight theory). But by the `GL×GL`-equivariant Cauchy
+decomposition every irreducible constituent of `A/det = k[Xᵢⱼ]/(det)` has last
+highest-weight coordinate `ν_N = 0`; twisting by `χ⁻ʳ` (weight `(−r,…,−r)`) makes
+the last coordinate `ν_N − r = −r < 0`, contradicting `ν ≥ 0`. So `W = ⊥`. This
+Cauchy-decomposition core is tracked as a research-level residual `sorry`
+(follow-up sub-issue of #4826); the statement and all the objects it quantifies
+over are in place.
+
+**Statement correction (issue #4847).** The earlier phrasing of (K′) — "the
+supremum of all nonneg-weight *spaces* of `(A/det) ⊗ χ⁻ʳ` is `⊥`" — is **false**.
+For `N = 2, r = 1` the class of `X₁₁X₂₂` in `A/det` is nonzero (`X₁₁X₂₂ ∉ (det)`)
+with right-torus weight the column-sum `(1,1)`, which the `χ⁻¹` twist shifts to
+`(0,0) ≥ 0`; so it is a nonzero vector of `glWeightSpaceℤ … (0,0)` and the
+supremum of nonneg-weight spaces is **not** `⊥`. A single nonneg-weight *vector*
+may sit inside an irreducible whose full `GL_N`-orbit also realizes negative
+weights — `GL_N`-invariance of `W` is exactly what makes the highest-weight bound
+apply, and it cannot be dropped. The genuine (K′) is therefore about invariant
+subrepresentations, as stated here. -/
 theorem kernelLemmaK' (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
-    (r : ℕ) (hr : 1 ≤ r) :
-    (⨆ (μ : Fin N → ℕ), glWeightSpaceℤ k N (quotDetTwistRep k N r)
-      (fun i => (μ i : ℤ))) = ⊥ := by
+    (r : ℕ) (hr : 1 ≤ r) (W : Subrepresentation (quotDetTwistRep k N r))
+    (hW : W.toSubmodule ≤ ⨆ (μ : Fin N → ℕ),
+      glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (μ i : ℤ))) :
+    W = ⊥ := by
   sorry
 
-/-- Consumable form of (K′): every submodule of `(A/det) ⊗ χ⁻ʳ` all of whose
-torus weights lie in `ℕ^N` (i.e. contained in the supremum of nonneg-weight
-spaces) is `⊥`. This is what the #4694 det-power-filtration assembly contradicts:
-it produces a *nonzero* such submodule. -/
+/-- Consumable form of (K′): every `GL_N`-**invariant** submodule of
+`(A/det) ⊗ χ⁻ʳ` all of whose torus weights lie in `ℕ^N` (i.e. contained in the
+supremum of nonneg-weight spaces) is `⊥`. This is what the #4694 det-power-
+filtration assembly contradicts: it produces a *nonzero* such invariant submodule
+(the image of a nonneg-weight subrep under the equivariant subquotient iso).
+
+The `GL_N`-invariance hypothesis `hW_inv` is essential — without it the statement
+is false (see the note on `kernelLemmaK'`). -/
 theorem kernelLemmaK'_submodule (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
     (N : ℕ) (r : ℕ) (hr : 1 ≤ r)
     {W : Submodule k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N)}
+    (hW_inv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k),
+      ∀ w ∈ W, quotDetTwistRep k N r g w ∈ W)
     (hW : W ≤ ⨆ (μ : Fin N → ℕ),
       glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (μ i : ℤ))) :
-    W = ⊥ :=
-  le_bot_iff.mp (le_of_le_of_eq hW (kernelLemmaK' k N r hr))
+    W = ⊥ := by
+  -- Package `W` as a subrepresentation and apply `kernelLemmaK'`.
+  let W' : Subrepresentation (quotDetTwistRep k N r) :=
+    ⟨W, fun g _ hw => hW_inv g _ hw⟩
+  have hW'bot : W' = ⊥ := kernelLemmaK' k N r hr W' hW
+  have : W'.toSubmodule = (⊥ : Subrepresentation (quotDetTwistRep k N r)).toSubmodule :=
+    congrArg Subrepresentation.toSubmodule hW'bot
+  simpa [W'] using this
 
 end Etingof.KernelLemmaKPrime

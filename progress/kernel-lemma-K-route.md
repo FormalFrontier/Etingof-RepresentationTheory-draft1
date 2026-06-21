@@ -58,6 +58,14 @@ The reduction is finished by:
 
 `(K′)` contradicts `W̄ ≠ 0`; hence `W ⊆ A`. ∎ (reduction)
 
+> **NB (issue #4847).** The word **submodule** here means *`GL_N`-invariant*
+> submodule — this is essential. The first Lean formalization of (K′)
+> (`KernelLemmaKPrime.lean`, landed by #4826) mistakenly phrased it as "the span
+> of all nonneg-weight *spaces* is `⊥`" (and a corollary over an arbitrary
+> `k`-submodule), dropping invariance; that is **false** (e.g. `[X₁₁X₂₂]` is a
+> nonzero weight-`(0,0)` vector of `(A/det) ⊗ χ⁻¹`). The Lean statement was
+> corrected to the `Subrepresentation` form to match this route doc.
+
 ## Why the torus alone is insufficient (explicit, confirms the route doc)
 
 Right-multiplying by the full diagonal torus `diag(z₁,…,z_N)` and using
