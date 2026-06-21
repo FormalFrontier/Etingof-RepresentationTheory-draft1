@@ -116,6 +116,7 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylPolynomialIdentity
 
 -- Section 5.23: Algebraic Representations of GL(V)
 import EtingofRepresentationTheory.Chapter5.Definition5_23_1
+import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 import EtingofRepresentationTheory.Chapter5.DetTwistAlgebraic
 import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
 import EtingofRepresentationTheory.Chapter5.SchurModuleSpecialBlock
