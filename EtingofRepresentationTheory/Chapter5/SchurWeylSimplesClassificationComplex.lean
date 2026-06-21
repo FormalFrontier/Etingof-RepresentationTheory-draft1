@@ -1,6 +1,7 @@
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
 import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 import EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic
+import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
 
 /-!
 # ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862)
@@ -89,6 +90,49 @@ theorem schurWeyl_decomposition_numerical_identity
       formalCharacter_directSum]
     exact Finset.sum_congr rfl (fun i _ => formalCharacter_trivialTensor k N (S i) (L i))
   rw [← h1, formalCharacter_glTensorRep_eq_pow, sum_X_pow_eq_sum_finrank_smul_schurPoly]
+
+/-- **`R`-linear flattening of the Schur-Weyl decomposition (sorry-free `def`).**
+
+For any equivariant decomposition `e : V^{⊗n} ≃ ⨁ᵢ Sᵢ ⊗ Lᵢ`, the `asModule` of
+`glTensorRep` is `MonoidAlgebra k GL_N`-linearly the direct sum, over
+`ν : Σ i, Fin (dim Sᵢ)`, of copies of the simple modules `asModule (L ν.1).ρ`.
+
+Each `Sᵢ ⊗ Lᵢ` (with `Sᵢ` carrying the trivial action) splits, via a basis of
+`Sᵢ`, into `dim Sᵢ` copies of `Lᵢ`; assembling these over `i` and flattening the
+`Σ` gives the stated isotypic form. This is the extraction of the `Einner`
+construction of `polynomial_homog_rep_asModule_embeds_directSum_simple`
+(`PolynomialGLDecomposition.lean`) for arbitrary decomposition data, packaging the
+ambient `V^{⊗n}` as a finite direct sum of simple `R`-modules — the input shape
+required by `SemisimpleIsotypic.submodule_of_directSum_simple_iso_directSum`. -/
+noncomputable def schurWeyl_decomposition_asModule_flatten
+    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (N n : ℕ)
+    {ι : Type} [Fintype ι] [DecidableEq ι]
+    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    [∀ i, Module.Finite k (S i)]
+    (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (e : TensorPower k (Fin N → k) n ≃ₗ[k]
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+    (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
+          (v : TensorPower k (Fin N → k) n),
+          e (glTensorRep k N n g v) =
+            Representation.directSum (fun i =>
+              (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+                (S i)).tprod (L i).ρ) g (e v)) :
+    Representation.asModule (glTensorRep k N n) ≃ₗ[MonoidAlgebra k
+        (Matrix.GeneralLinearGroup (Fin N) k)]
+      DirectSum (Σ i : ι, Fin (Module.finrank k (S i)))
+        (fun ν => Representation.asModule (L ν.1).ρ) :=
+  (Representation.asModuleEquivOfIntertwiner e he) ≪≫ₗ
+    (Representation.asModule_directSum_equiv
+      (fun i => (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+        (S i)).tprod (L i).ρ)) ≪≫ₗ
+    (DFinsupp.mapRange.linearEquiv (fun i =>
+      Representation.asModule_trivial_tprod_equiv (Module.finBasis k (S i)) (L i).ρ)) ≪≫ₗ
+    (DirectSum.sigmaLcurryEquiv (R := MonoidAlgebra k
+        (Matrix.GeneralLinearGroup (Fin N) k))
+      (δ := fun (i : ι) (_ : Fin (Module.finrank k (S i))) =>
+        Representation.asModule (L i).ρ)).symm
 
 /-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
 
