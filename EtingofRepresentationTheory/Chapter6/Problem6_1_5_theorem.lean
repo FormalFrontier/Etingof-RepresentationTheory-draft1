@@ -3,7 +3,8 @@ import EtingofRepresentationTheory.Chapter6.Definition6_1_4
 import EtingofRepresentationTheory.Chapter6.Corollary6_8_4
 import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
-import EtingofRepresentationTheory.Chapter6.InfiniteTypeConstructions
+import EtingofRepresentationTheory.Chapter6.Theorem_Dynkin_classification
+import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 
 /-!
 # Theorem (Problem 6.1.5): Finite Type iff Dynkin
@@ -20,36 +21,26 @@ Gabriel's theorem is NOT in Mathlib. Quiver representations have basic support
 ## Formalization note
 
 The statement uses `IsDynkinDiagram` (Definition 6.1.4) for the combinatorial
-condition. `IsFiniteTypeQuiver` is defined in `FiniteTypeDefs.lean` using quiver
-representation isomorphism and indecomposability, quantified over all orientations
-and algebraically closed fields.
+condition. `IsFiniteTypeQuiver` is defined in `FiniteTypeDefs.lean` as "finitely
+many isomorphism classes of finite-dimensional indecomposable representations"
+(the book's literal definition), quantified over all orientations and
+algebraically closed fields.
+
+## Status of the two directions
+
+* **Backward** (Dynkin ⟹ finite type): proved here, sorry-free. Each
+  finite-dimensional indecomposable has a dimension vector that is a positive
+  root (Theorem 6.5.2b), positive roots are finite (Theorem 6.5.2a), each
+  positive root is realized by a unique indecomposable up to isomorphism
+  (Theorem 6.5.2c). The finite set of those realizers covers every
+  indecomposable up to `AreIsomorphic`.
+* **Forward** (finite type ⟹ Dynkin): the Tits-form positive-definiteness is the
+  output of the orbit-counting chain of directive #4777
+  (#4780 → #4782 → #4783 → #4784), to be wired into the positivity component by
+  #4786. It is the single remaining `sorry` below.
 -/
 
 open Etingof in
-/-- A connected simple graph on n ≥ 1 vertices that is not graph-isomorphic to any
-standard Dynkin type (A_n, D_n, E₆, E₇, E₈) has infinite representation type.
-
-This is proved by case analysis on the graph structure:
-- Graphs containing cycles → `cycle_not_finite_type` + subgraph transfer
-- Trees with degree ≥ 4 → `tree_degree_ge_4_not_finite_type`
-- Trees with ≥ 2 branch points of degree 3 → D̃₅ subgraph + `d5tilde_not_finite_type`
-- T_{p,q,r} with p ≥ 2 → Ẽ₆ = T_{2,2,2} subgraph + `etilde6_not_finite_type`
-- T_{1,q,r} with q ≥ 3 → Ẽ₇ type: extended Dynkin infinite type
-- T_{1,2,r} with r ≥ 5 → Ẽ₈ type: extended Dynkin infinite type -/
-private theorem not_ade_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
-    (hn : 1 ≤ n)
-    (hsymm : adj.IsSymm)
-    (hdiag : ∀ i, adj i i = 0)
-    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
-    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
-      path.head? = some i ∧ path.getLast? = some j ∧
-      ∀ k, (h : k + 1 < path.length) →
-        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
-    (h_not_ade : ¬ ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
-      ∀ i j, adj (σ i) (σ j) = t.adj i j) :
-    ¬ IsFiniteTypeQuiver n adj :=
-  Etingof.non_ade_graph_not_finite_type adj hn hsymm hdiag h01 hconn h_not_ade
-
 /-- Gabriel's theorem: a connected quiver (given by its symmetric adjacency matrix)
 is of finite type (finitely many indecomposable representations up to isomorphism)
 if and only if its underlying unoriented graph is a Dynkin diagram.
@@ -64,70 +55,68 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1) :
     Etingof.IsFiniteTypeQuiver n adj ↔ Etingof.IsDynkinDiagram n adj := by
   constructor
-  · -- Forward: finite type → Dynkin diagram
-    intro hft
+  · -- Forward: finite type → Dynkin diagram.
+    -- The four combinatorial conditions hold by hypothesis; positive-definiteness
+    -- of the Tits form is the orbit-counting output of directive #4777
+    -- (#4780 → #4782 → #4783 → #4784), to be wired in by #4786.
+    intro _hft
     refine ⟨hsymm, hdiag, h01, hconn, fun x hx => ?_⟩
-    -- By contradiction: if B(x,x) ≤ 0, then the graph is not Dynkin, hence not ADE,
-    -- hence has infinite representation type, contradicting finite type.
-    by_contra h_not_pos
-    push_neg at h_not_pos
-    -- The other 4 conditions + ¬pos_def → ¬IsDynkinDiagram
-    have h_not_dynkin : ¬ Etingof.IsDynkinDiagram n adj := by
-      intro ⟨_, _, _, _, hpos⟩
-      exact not_lt.mpr h_not_pos (hpos x hx)
-    -- For n = 0: impossible (no nonzero x : Fin 0 → ℤ)
-    by_cases hn : n = 0
-    · subst hn; exact hx (funext (fun i => i.elim0))
-    · -- For n ≥ 1: by Dynkin classification, not ADE
-      have hn1 : 1 ≤ n := Nat.one_le_iff_ne_zero.mpr hn
-      have h_not_ade : ¬ ∃ t : Etingof.DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
-          ∀ i j, adj (σ i) (σ j) = t.adj i j := by
-        intro hade
-        exact h_not_dynkin ((Etingof.Theorem_Dynkin_classification n adj hn1).mpr hade)
-      exact not_ade_not_finite_type adj hn1 hsymm hdiag h01 hconn h_not_ade hft
-  · -- Backward: Dynkin diagram → finite type
-    -- Every indecomposable has dim vector that is a positive root (Theorem 6.5.2b),
-    -- and positive roots are finite (Theorem 6.5.2a).
+    -- TODO(#4786): 0 < B(x, x) from finite type via the orbit-counting argument.
+    sorry
+  · -- Backward: Dynkin diagram → finite type.
     intro hDynkin k _inst_field _inst_algclosed Q _inst_ss hOrient
-    -- Cast map from ℕ dim vectors to ℤ vectors
-    set f : (Fin n → ℕ) → (Fin n → ℤ) := fun d i => ↑(d i)
-    -- f is injective
-    have hf_inj : Function.Injective f := by
-      intro d₁ d₂ heq; ext i
-      have := congr_fun heq i; simp only [f] at this; exact_mod_cast this
-    -- The set of dim vectors of indecomposables maps into positive roots
-    apply Set.Finite.subset
-      ((Etingof.Theorem_6_5_2a_finiteness hDynkin).preimage (hf_inj.injOn))
-    intro d ⟨V, hV_indec, hV_equiv⟩
-    simp only [Set.mem_preimage, Set.mem_setOf_eq]
-    -- Show f d is a positive root: nonneg, nonzero, B(f d, f d) = 2
-    refine ⟨⟨?_, ?_⟩, fun i => Int.natCast_nonneg (d i)⟩
-    · -- f d ≠ 0 (V is indecomposable → nontrivial at some vertex → d v ≥ 1)
-      obtain ⟨⟨v, hv⟩, _⟩ := hV_indec
-      intro heq
-      have hv_zero : d v = 0 := by
-        have h := congr_fun heq v
-        change (d v : ℤ) = 0 at h
-        exact_mod_cast h
-      -- V.obj v ≃ₗ[k] (Fin 0 → k), so V.obj v is trivial, contradicting Nontrivial
-      obtain ⟨e⟩ := hV_equiv v
-      rw [hv_zero] at e
-      haveI : Subsingleton (V.obj v) := e.toEquiv.injective.subsingleton
-      exact not_nontrivial (V.obj v) hv
-    · -- B(f d, f d) = 2: indecomposable dim vectors satisfy the Tits form condition.
-      -- Derive Module.Free and Module.Finite from the linear equivs
-      haveI : ∀ v, Module.Free k (V.obj v) := fun v =>
-        Module.Free.of_equiv ((hV_equiv v).some.symm)
-      haveI : ∀ v, Module.Finite k (V.obj v) := fun v =>
-        Module.Finite.equiv ((hV_equiv v).some.symm)
-      -- Bridge: show finrank equals d v via LinearEquiv
-      have hdim : ∀ v, Module.finrank k (V.obj v) = d v := fun v => by
-        rw [(hV_equiv v).some.finrank_eq, Module.finrank_fin_fun]
-      -- Rewrite the goal to use finrank
-      have : f d = fun v => (Module.finrank k (V.obj v) : ℤ) := by
-        ext v; simp only [f]; rw [hdim v]
-      rw [this]
-      exact Etingof.indecomposable_bilinearForm_eq_two hDynkin hOrient V hV_indec
+    classical
+    -- The set of positive roots is finite (Theorem 6.5.2a).
+    have hPR_fin : Set.Finite {α : Fin n → ℤ | Etingof.IsPositiveRoot n adj α} :=
+      Etingof.Theorem_6_5_2a_finiteness hDynkin
+    -- For each positive root, Theorem 6.5.2c gives an indecomposable representative.
+    have hex : ∀ α : Fin n → ℤ, Etingof.IsPositiveRoot n adj α →
+        ∃ ρ : @Etingof.QuiverRepresentation.{0, 0, 0, 0} k (Fin n) _ Q,
+          (∀ v, Module.Free k (ρ.obj v)) ∧ (∀ v, Module.Finite k (ρ.obj v)) ∧
+            ρ.IsIndecomposable ∧ ∀ v, α v = (Module.finrank k (ρ.obj v) : ℤ) := by
+      intro α hα
+      obtain ⟨ρ, hfree, hfin, hindec, hdim⟩ :=
+        (Etingof.Theorem_6_5_2c_bijection hDynkin k hOrient α hα).1
+      exact ⟨ρ, hfree, hfin, hindec, hdim⟩
+    choose! g hg_free hg_fin hg_indec hg_dim using hex
+    -- The chosen representatives, indexed by the (finite) set of positive roots; the
+    -- representative set is the dependent image of the finite root set under `g`.
+    refine ⟨_, hPR_fin.dependent_image (fun α hα => g α hα), ?_, ?_⟩
+    · -- Each representative is indecomposable.
+      rintro V ⟨α, hα, rfl⟩
+      exact hg_indec α hα
+    · -- Every finite-dimensional indecomposable is isomorphic to a representative.
+      intro W hWfree hWfin hWindec
+      haveI : ∀ v, Module.Free k (W.obj v) := hWfree
+      haveI : ∀ v, Module.Finite k (W.obj v) := hWfin
+      -- Dimension vector of W.
+      set dW : Fin n → ℤ := fun v => (Module.finrank k (W.obj v) : ℤ) with hdW
+      -- dW is a positive root (Theorem 6.5.2b).
+      have hdW_root : Etingof.IsPositiveRoot n adj dW := by
+        refine Etingof.Theorem_6_5_2b_dimvec_is_positive_root hDynkin dW
+          (fun i => Int.natCast_nonneg _) ?_ ?_
+        · -- dW ≠ 0: W is indecomposable, hence nontrivial at some vertex.
+          obtain ⟨v, hv⟩ := hWindec.1
+          intro heq
+          have hv0 : Module.finrank k (W.obj v) = 0 := by
+            have h := congr_fun heq v
+            simpa [hdW] using h
+          letI : AddCommGroup (W.obj v) := Etingof.addCommGroupOfRing (k := k)
+          haveI : Subsingleton (W.obj v) := Module.finrank_zero_iff.mp hv0
+          exact not_nontrivial (W.obj v) hv
+        · -- B(dW, dW) = 2 (Tits form on an indecomposable dimension vector).
+          exact Etingof.indecomposable_bilinearForm_eq_two hDynkin hOrient W hWindec
+      -- The representative attached to dW.
+      refine ⟨g dW hdW_root, ⟨dW, hdW_root, rfl⟩, ?_⟩
+      -- W ≅ g dW by uniqueness (Theorem 6.5.2c), both indecomposable with dim vector dW.
+      haveI : ∀ v, Module.Free k ((g dW hdW_root).obj v) := hg_free dW hdW_root
+      haveI : ∀ v, Module.Finite k ((g dW hdW_root).obj v) := hg_fin dW hdW_root
+      have huniq :=
+        (Etingof.Theorem_6_5_2c_bijection hDynkin k hOrient dW hdW_root).2
+          W (g dW hdW_root) hWindec (hg_indec dW hdW_root) (fun _ => rfl)
+          (hg_dim dW hdW_root)
+      obtain ⟨iso⟩ := huniq
+      exact ⟨iso.equivAt, fun {a b} f => by ext x; simpa using iso.naturality f x⟩
 
 /-- Corollary: A connected simple graph that is not a Dynkin diagram has infinite
 representation type. (Non-circular version, proved as corollary of Theorem_6_1_5.) -/

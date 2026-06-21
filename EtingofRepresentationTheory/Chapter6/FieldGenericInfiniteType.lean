@@ -314,7 +314,7 @@ theorem compl_le_forces_eq
 /-! ## Per-(field, orientation) subgraph transfer
 
 The existing `subgraph_infinite_type_transfer` works at the
-`IsFiniteTypeQuiver` level (universal over `k` and orientations). The
+`IsFiniteTypeQuiverDimVec` level (universal over `k` and orientations). The
 per-(field, orientation) refactor needs a version that fixes `F` and `Q`
 externally and transfers infinite-type from the restricted subgraph
 orientation, `restrictOrientationViaEmb φ Q`, to `Q` itself.

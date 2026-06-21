@@ -16,7 +16,7 @@ Per-(F, Q) means the conclusion is
                           V.IsIndecomposable ∧ dim V = d }`
 
 for an algebraically closed `F` and an arbitrary orientation `Q`. This
-is strictly stronger than the universal `¬ IsFiniteTypeQuiver n adj`,
+is strictly stronger than the universal `¬ IsFiniteTypeQuiverDimVec n adj`,
 which only asserts that *some* (F, Q) witnesses infinitely many
 indecomposables — the per-(F, Q) form is the one Chapter 2 needs to
 close `not_posdef_not_HasFiniteRepresentationType`.
