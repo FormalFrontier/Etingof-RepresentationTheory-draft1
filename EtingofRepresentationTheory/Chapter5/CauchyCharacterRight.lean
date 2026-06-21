@@ -113,35 +113,17 @@ noncomputable def polyRightDegreeFDRep (k : Type*) [Field k] (N d : ℕ) :
     finiteDimensional_homogeneousSubmodule d
   FDRep.of (polyRightHomogeneousSubrep k N d).toRepresentation
 
-/-- **The right-`GL_N` Cauchy character identity.** As a right-`GL_N`-representation,
-the total-degree-`d` part of `A = k[Xᵢⱼ]` is the sum, over the dominant weights
-`ν ∈ ℕ^N` of size `d` (`BoundedPartition N d`), of the irreducibles `V_ν` each
-with multiplicity `dim S_ν(k^N) = s_ν(1,…,1)`:
+/- **The right-`GL_N` Cauchy character identity** `polyRightDegreeFDRep_formalCharacter`,
 
   `formalCharacter k N (A_d) = ∑_{ν : BoundedPartition N d} s_ν(1,…,1) · S_ν`,
 
-where the multiplicity `s_ν(1,…,1)` is `schurPoly` evaluated at the all-ones
-point (the dimension of the left Schur-module factor, i.e. the number of SSYT
-of shape `ν` with entries in `[N]`).
-
-This is the genuine research core of the `GL_N × GL_N`-equivariant Cauchy
-decomposition `k[Xᵢⱼ] = ⊕_{ν ∈ ℕ^N dom} V_ν^* ⊠ V_ν` (each `ν` once *as a
-bi-representation*), restricted to the right factor and read off on formal
-characters. Forgetting the left action, each right-irreducible `V_ν` occurs
-`dim V_ν^* = dim V_ν` times — **not** once. (A `= ∑_ν S_ν` form is false: for
-`N = 2, d = 1`, `dim A_1 = 4 ≠ 2 = ∑_ν dim V_ν`. See the file header and #4944.)
-
-Its proof is the Cauchy/Schur-Weyl content (the Cauchy identity, or the
-GL×GL-equivariant decomposition of `Sym^d(V ⊗ W)`) together with the
-highest-weight ⟺ `ν ∈ ℕ^N` theory; it is tracked as the residual core of #4934
-(overlapping `iso_of_formalCharacter_eq_schurPoly`, #4699/#4882) and is the sole
-remaining `sorry`. -/
-theorem polyRightDegreeFDRep_formalCharacter
-    (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N d : ℕ) :
-    formalCharacter k N (polyRightDegreeFDRep k N d)
-      = ∑ ν : BoundedPartition N d,
-          (MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts)) •
-            schurPoly N ν.parts := by
-  sorry
+is stated and proved in `CauchyCharacterRightAssembly.lean` (still under the
+`Etingof.CauchyCharacterRight` namespace, so its fully-qualified name is
+unchanged). It cannot live here: its proof needs the weight-space coefficient
+computation `formalCharacter_polyRightDegreeFDRep_coeff` of #4957, which sits in
+`CauchyWeightSpaceDimension.lean` — a file that imports *this* one (it depends on
+`polyRightDegreeFDRep` defined above). Placing the assembly downstream of both
+its coefficient ingredients (#4957 and the Schur-basis Cauchy core #4958) avoids
+the circular import. See `CauchyCharacterRightAssembly.lean` and #4944. -/
 
 end Etingof.CauchyCharacterRight
