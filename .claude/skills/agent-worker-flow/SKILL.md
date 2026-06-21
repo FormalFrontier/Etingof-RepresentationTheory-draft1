@@ -15,6 +15,16 @@ The `coordination` script handles all GitHub-based multi-agent coordination.
 Session UUID is available as `$POD_SESSION_ID` (exported by `pod`).
 The `gh` CLI defaults to the current repo, so `--repo` is not needed.
 
+**If `coordination` dies with `gh CLI not authenticated` but `gh api user` succeeds**,
+the stored token is valid for the API but `gh auth status` is failing (stale
+keyring/refresh state). Re-store the existing token without creating a new one:
+```bash
+TOK=$(awk '/^    oauth_token:/{print $2}' ~/.config/gh/hosts.yml | head -1)
+echo "$TOK" | gh auth login --hostname github.com --with-token
+```
+`gh auth status` then passes and `coordination` works. Do **not** run
+`gh auth refresh` (interactive — it hangs a non-interactive pod session).
+
 | Command | What it does |
 |---------|-------------|
 | `coordination orient` | List unclaimed/claimed issues, open PRs, PRs needing attention |
