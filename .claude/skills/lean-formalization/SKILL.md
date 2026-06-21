@@ -477,6 +477,22 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **GL-element inverse coercion to `Matrix` is ambiguous — annotate, or use `.val`.**
+  Writing `((g i)⁻¹ : Matrix _ _ k)` for `g i : GL (Fin p) k` (e.g. the base-change
+  action `g j · M · (g i)⁻¹` in `Problem6_1_5_OrbitSpace.lean`) elaborates with
+  unresolved metavariables and times out typeclass synthesis: Lean cannot decide
+  between *GL-inverse-then-coerce* and *coerce-then-`Matrix.inv`*, and the `_ _`
+  dimensions never pin down. Write `(↑(g i)⁻¹ : Matrix (Fin p) (Fin p) k)` with the
+  coercion arrow **and** explicit dimensions, or `(g i)⁻¹.val`. Then the GL coe lemmas
+  (`Matrix.GeneralLinearGroup.coe_mul/coe_inv/coe_one`) drive the proofs, and
+  `(↑g)⁻¹ * ↑g = 1` comes via `← coe_mul; (mul_inv_cancel/inv_mul_cancel); coe_one`.
+  To turn a vertex `≃ₗ` into a `GL` element, build the `Units` directly
+  (`⟨toMatrix' e, toMatrix' e.symm, _, _⟩`, val/inv discharged by `← toMatrix'_comp`,
+  `e ∘ₗ e.symm = id` via `ext; simp`, `toMatrix'_id`) — its coe to `Matrix` is then
+  `rfl`-equal to `toMatrix' e`, which makes the orbit↔iso intertwining a clean
+  `toMatrix'`/`toLin'` round-trip. Rectangular matrices need `Matrix.mul_one`/
+  `Matrix.mul_assoc`, **not** the monoid `mul_one`/`mul_assoc`.
+
 - **`DirectSum ι L` semisimple/finite instances** resolve through the `Π₀`
   (`DFinsupp`) instances: `inferInstanceAs (IsSemisimpleModule R (Π₀ i, L i))`.
   `DirectSum.lof R ι L i` is *defeq* to `DFinsupp.lsingle i`, so its injectivity
