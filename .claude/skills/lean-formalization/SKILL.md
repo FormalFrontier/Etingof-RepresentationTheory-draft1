@@ -16,6 +16,16 @@ lake exe cache get
 ```
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
+**Build-environment recovery (shared `.lake/packages` across pod worktrees):**
+- `Lean exited with code 139` (SIGSEGV) reproducibly on *dependency* files you did
+  not touch usually means Mathlib oleans got corrupted by a concurrent
+  `lake exe cache get` from another agent writing the shared dir. Fix with a forced
+  re-download: `lake exe cache get!`, then rebuild.
+- `failed to read file '...olean', incompatible header` means `main` bumped the Lean
+  toolchain mid-session. `git fetch origin main`; if `origin/main:lean-toolchain`
+  changed, rebase your branch onto `origin/main`, then `lake exe cache get` before
+  rebuilding.
+
 ## Pre-Flight Checklist (Before Starting Any Proof)
 
 Run this checklist before writing a single tactic. Skipping it has caused agents to waste entire context windows on dead-ends.
