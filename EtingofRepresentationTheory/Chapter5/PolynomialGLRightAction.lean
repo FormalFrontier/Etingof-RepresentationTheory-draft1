@@ -21,8 +21,8 @@ is multiplicative in `M` (`rTransAlgHom_one`, `rTransAlgHom_mul`), and restrict 
 
 The generic determinant `det(Xᵢⱼ)` transforms by the determinant character:
 `R_h det(X) = det(h) · det(X)` (`rTransAlgHom_det`). Consequently the principal
-ideal `(det)` is `GL_N`-stable (`detIdeal_stable`), so the quotient `A/det`
-inherits a right-`GL_N`-action — this is exactly the rep `A/det` that (K′)
+ideal `(det)` is `GL_N`-stable (`rTransAlgHom_mem_detIdeal`), so the quotient
+`A/det` inherits a right-`GL_N`-action — this is exactly the rep `A/det` that (K′)
 analyses (twisted by the determinant character `χ^{-r}`).
 
 These are the structural prerequisites for the genuine representation-theoretic
@@ -119,5 +119,20 @@ theorem rTransAlgHom_det (M : Matrix (Fin N) (Fin N) k) :
   have hmap : (M.map (MvPolynomial.C : k →+* MvPolynomial (Fin N × Fin N) k)).det
       = MvPolynomial.C M.det := (RingHom.map_det _ _).symm
   rw [AlgHom.map_det, mapMatrix_mvPolynomialX, Matrix.det_mul, hmap, mul_comm]
+
+/-- **The determinant ideal `(det)` is right-`GL_N`-stable.** A multiple of the
+generic determinant maps under right translation to a multiple of it (the
+semi-invariance `rTransAlgHom_det` keeps the factor `det`). Consequently the
+quotient ring `A/det = k[Xᵢⱼ]/(det)` inherits the right-`GL_N`-action: it is the
+representation (twisted by `χ^{-r}`) that the kernel lemma (K′) analyses. -/
+theorem rTransAlgHom_mem_detIdeal (M : Matrix (Fin N) (Fin N) k)
+    {f : MvPolynomial (Fin N × Fin N) k}
+    (hf : f ∈ Ideal.span {Matrix.det (Matrix.mvPolynomialX (Fin N) (Fin N) k)}) :
+    rTransAlgHom M f ∈
+      Ideal.span {Matrix.det (Matrix.mvPolynomialX (Fin N) (Fin N) k)} := by
+  rw [Ideal.mem_span_singleton] at hf ⊢
+  obtain ⟨q, rfl⟩ := hf
+  rw [map_mul, rTransAlgHom_det]
+  exact ⟨MvPolynomial.C M.det * rTransAlgHom M q, by ring⟩
 
 end Etingof.PolynomialGLAction
