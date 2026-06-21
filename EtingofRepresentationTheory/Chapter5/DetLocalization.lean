@@ -1,6 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_23_1
-import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
+import EtingofRepresentationTheory.Chapter5.EvalEqOnGL
 
 /-!
 # The determinant localization `A[det⁻¹]` and its faithful functions-on-GL model

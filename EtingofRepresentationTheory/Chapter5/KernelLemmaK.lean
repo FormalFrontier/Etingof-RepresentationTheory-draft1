@@ -103,21 +103,76 @@ theorem kernelLemmaK [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι]
   have : Fintype ι := Fintype.ofFinite ι
   set W := Submodule.span k (Set.range w) with hW
   -- Descent step: `W ⊆ A_{r+1} ⟹ W ⊆ A_r`.
+  -- The corrected (K′) (`kernelLemmaK'_submodule`, issue #4847) applies only to
+  -- `GL_N`-**invariant** nonneg-weight submodules — a single nonneg-weight vector
+  -- need not vanish. So we apply it to the image `W̄` of the whole `GL_N`-stable
+  -- span `W` in the subquotient, then read off that each generator maps to `0`.
   have step : ∀ r : ℕ, W ≤ filtrA k N (r + 1) → W ≤ filtrA k N r := by
     intro r hWsucc
+    -- The lift of generator `j` into `A_{r+1}` and the image span `W̄`.
+    set genElt : ι → ↥(filtrA k N (r + 1)) :=
+      fun j => ⟨w j, hWsucc (Submodule.subset_span ⟨j, rfl⟩)⟩ with hgenElt
+    set Wbar : Submodule k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+      Submodule.span k (Set.range (fun j => filtrToQuot k N (r + 1) (genElt j))) with hWbar
+    -- Any `u ∈ W` (with any membership proof into `A_{r+1}`) maps into `W̄`.
+    have push : ∀ u ∈ W, ∀ (hu : u ∈ filtrA k N (r + 1)),
+        filtrToQuot k N (r + 1) ⟨u, hu⟩ ∈ Wbar := by
+      intro u huW
+      rw [hW] at huW
+      induction huW using Submodule.span_induction with
+      | mem x hx =>
+          obtain ⟨j, rfl⟩ := hx
+          intro hu
+          exact Submodule.subset_span ⟨j, rfl⟩
+      | zero =>
+          intro hu
+          rw [show (⟨(0 : Localization.Away (detPoly k N)), hu⟩ : ↥(filtrA k N (r + 1)))
+              = 0 from rfl, map_zero]
+          exact Submodule.zero_mem Wbar
+      | add x y hx hy ihx ihy =>
+          intro hu
+          have hux : x ∈ filtrA k N (r + 1) := hWsucc (by rw [hW]; exact hx)
+          have huy : y ∈ filtrA k N (r + 1) := hWsucc (by rw [hW]; exact hy)
+          have hsplit : (⟨x + y, hu⟩ : ↥(filtrA k N (r + 1)))
+              = ⟨x, hux⟩ + ⟨y, huy⟩ := rfl
+          rw [hsplit, map_add]
+          exact Submodule.add_mem _ (ihx hux) (ihy huy)
+      | smul c x hx ihx =>
+          intro hu
+          have hux : x ∈ filtrA k N (r + 1) := hWsucc (by rw [hW]; exact hx)
+          have hsplit : (⟨c • x, hu⟩ : ↥(filtrA k N (r + 1)))
+              = c • ⟨x, hux⟩ := rfl
+          rw [hsplit, map_smul]
+          exact Submodule.smul_mem _ _ (ihx hux)
+    -- `W̄` is `GL_N`-invariant: `filtrToQuot` intertwines the actions and `W` is stable.
+    have hinv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k),
+        ∀ y ∈ Wbar, quotDetTwistRep k N (r + 1) g y ∈ Wbar := by
+      intro g y hy
+      induction hy using Submodule.span_induction with
+      | mem z hz =>
+          obtain ⟨j, rfl⟩ := hz
+          rw [← filtrToQuot_equivariant g (r + 1) (genElt j)]
+          exact push _ (hstable g (w j) (by rw [hW]; exact Submodule.subset_span ⟨j, rfl⟩)) _
+      | zero => rw [map_zero]; exact Submodule.zero_mem Wbar
+      | add a b _ _ iha ihb => rw [map_add]; exact Submodule.add_mem _ iha ihb
+      | smul c a _ iha => rw [map_smul]; exact Submodule.smul_mem _ _ iha
+    -- `W̄` has all torus weights in `ℕ^N` (`filtrToQuot` preserves weights).
+    have hnn : Wbar ≤ ⨆ (ν : Fin N → ℕ),
+        glWeightSpaceℤ k N (quotDetTwistRep k N (r + 1)) (fun l => (ν l : ℤ)) := by
+      rw [hWbar, Submodule.span_le]
+      rintro _ ⟨j, rfl⟩
+      exact Submodule.mem_iSup_of_mem (μ j)
+        (filtrToQuot_mem_glWeightSpaceℤ (r + 1) (genElt j) _ (hw j))
+    -- Corrected (K′): the invariant nonneg-weight submodule `W̄` is `⊥`.
+    have hWbar_bot : Wbar = ⊥ := kernelLemmaK'_submodule k N (r + 1) (by omega) hinv hnn
+    -- Hence each generator lies in `ker filtrToQuot = A_r`.
     have hgen : ∀ j, w j ∈ filtrA k N r := by
       intro j
       have hwj : w j ∈ filtrA k N (r + 1) := hWsucc (Submodule.subset_span ⟨j, rfl⟩)
-      -- The subquotient image of `w j` is a nonneg-weight vector, hence `0` by (K′).
       have hquot : filtrToQuot k N (r + 1) ⟨w j, hwj⟩ = 0 := by
-        have hmem : filtrToQuot k N (r + 1) ⟨w j, hwj⟩
-            ∈ ⨆ (ν : Fin N → ℕ),
-                glWeightSpaceℤ k N (quotDetTwistRep k N (r + 1)) (fun l => (ν l : ℤ)) :=
-          Submodule.mem_iSup_of_mem (μ j)
-            (filtrToQuot_mem_glWeightSpaceℤ (r + 1) ⟨w j, hwj⟩ _ (hw j))
-        rw [kernelLemmaK' k N (r + 1) (by omega)] at hmem
+        have hmem := push (w j) (Submodule.subset_span ⟨j, rfl⟩) hwj
+        rw [hWbar_bot] at hmem
         simpa using hmem
-      -- `filtrToQuot (w j) = 0 ⟹ w j ∈ A_r` (`ker filtrToQuot = A_r` inside `A_{r+1}`).
       have hker : (⟨w j, hwj⟩ : ↥(filtrA k N (r + 1)))
           ∈ LinearMap.ker (filtrToQuot k N (r + 1)) := LinearMap.mem_ker.2 hquot
       rw [ker_filtrToQuot (r + 1) (by omega)] at hker
