@@ -477,6 +477,32 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **Bundled instances from a destructured existential are already usable — do
+  NOT re-`haveI` them (Ch5, #4716).** Decomposition theorems
+  (`glTensorRep_..._decomposition...`) return `∃ (S : ι → Type u)
+  (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i)) …`. After
+  `obtain ⟨…, S, hSacg, hSmod, hSfin, …⟩`, those hypotheses are automatically
+  local instances: `Module k (S i)`, `S i ⊗[k] (L i)`, `trivial k G (S i)`
+  all resolve with no `haveI`. Pitfalls that cost real debugging time:
+  - The anonymous form `haveI := hSmod` for a *Pi-quantified* instance can fail
+    to register a usable instance. Always use the type-ascribed form
+    `haveI iSmod : ∀ i, Module k (S i) := hSmod` — or, better, just rely on the
+    `obtain` hypotheses directly and add nothing.
+  - Re-introducing an instance that already exists (e.g. `haveI iSacg : ∀ i,
+    AddCommGroup (S i) := hSacg` when `hSacg` is in scope) creates a *competing*
+    instance term; later `Module k (S i)` picks the new one while the source
+    hypothesis still carries the old one, producing `AddCommGroup`-diamond
+    type-mismatches.
+  - Symptom of getting this wrong: a cascade of misleading
+    `failed to synthesize Module k (S i)` errors plus a `(deterministic)
+    timeout at whnf` (the fallback global instance search is what blows the
+    heartbeats — bumping `maxHeartbeats` does NOT fix it, fixing the instance
+    setup does). Only `haveI` instances that are genuinely *missing*, e.g.
+    `Module.Free` over a field: `haveI : ∀ i, Module.Free k (S i) :=
+    fun i => Module.Free.of_divisionRing k (S i)`. For a `Type 0` basis index
+    (needed when the result type demands `Type`, not `Type u`), use
+    `Fin (Module.finrank k (S i))` with `Module.finBasis k (S i)`.
+
 - **GL-element inverse coercion to `Matrix` is ambiguous — annotate, or use `.val`.**
   Writing `((g i)⁻¹ : Matrix _ _ k)` for `g i : GL (Fin p) k` (e.g. the base-change
   action `g j · M · (g i)⁻¹` in `Problem6_1_5_OrbitSpace.lean`) elaborates with
@@ -634,6 +660,36 @@ coordinate ring `B` (the `det⁻¹`-localization the bridge above consumes). Fou
   (`Finset.prod_eq_zero`/`prod_ne_zero_iff`) + `MvPolynomial.funext` over `[Infinite k]` — no
   Zariski topology. Group-side lemmas (GIdx/genMat/detProd) need `omit [Quiver ..] [∀ i j, Fintype ..] in`
   to silence section-var linters; the `omit` must precede any docstring.
+
+### Index-agnostic dimension bound: transport a localization bridge to `Fin` (Ch6, #4808)
+
+Assembling `card σ ≤ card τ` (`dim W ≤ dim G`) from an injective comorphism
+`φ : k[xσ] → B`, where `B` is a domain localization of `k[xτ]` at `S`, by reusing a
+bridge phrased over `Fin N`/`Fin M` (`Problem6_1_5_DimBound.lean`). Both indices move
+to `Fin` via `MvPolynomial.renameEquiv (Fintype.equivFin _)`:
+
+- **Source: precompose.** `φ.comp (renameEquiv k (Fintype.equivFin σ).symm).toAlgHom`,
+  injective via `hφ.comp (renameEquiv ..).injective` (align the coe with `AlgHom.coe_comp`
+  / an `ext` + `simp` if `exact` balks).
+- **Base: carry `IsLocalization` across the rename ring equiv.** Let
+  `h := (renameEquiv k eτ).toRingEquiv`. `IsLocalization.isLocalization_of_base_ringEquiv S B h`
+  proves `IsLocalization (S.map h) B` **but for a specific new algebra instance**
+  `((algebraMap (MvPolynomial τ k) B).comp h.symm.toRingHom).toAlgebra` — you must
+  `letI algB := that exact term` so the instance it returns matches. Then build
+  `IsScalarTower k (MvPolynomial (Fin M) k) B` by hand: `IsScalarTower.of_algebraMap_eq`,
+  unfold the new map with `RingHom.algebraMap_toAlgebra`, and discharge
+  `h.symm.toRingHom (algebraMap k _ x) = algebraMap k _ x` by `(renameEquiv k eτ).symm.commutes x`
+  (defeq: `h.symm.toRingHom` applied IS `(renameEquiv k eτ).symm` applied, since `h` is a `let`).
+- **Pin the transported submonoid at the bridge call:** `bridge (S := S.map h) φ' hφ'` — the
+  bridge's `{S}` is not fixed by its value args, so TC stalls otherwise (same metavar idiom as
+  the FieldEmbedding note above).
+- **The concrete `B = Localization (Submonoid.powers (detProd m))` has all instances.**
+  `Algebra (MvPolynomial (GIdx m) k) B`, `IsLocalization`, `Algebra k B`, and
+  `IsScalarTower k _ B` all synthesize **when `Localization S` is written directly** — contra
+  the #4803 note's "no `Algebra k (Localization S)`", which bites only if you `let B := …`
+  (a `let`-bound local blocks instance synthesis; inline the type instead). `IsDomain B` via
+  `IsLocalization.isDomain_localization (M := …) (powers_le_nonZeroDivisors_of_noZeroDivisors
+  (detProd_ne_zero ..))`.
 
 ### Norm-Based Contradiction (Analysis Proofs)
 
