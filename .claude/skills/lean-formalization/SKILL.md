@@ -2390,6 +2390,8 @@ From Phase 2 review patterns and Stage 3.2 proof experience (110+ merged PRs thr
 
 5. **`linarith` requires a linear order — use `linear_combination` over ℂ.** `linarith` only works on linearly ordered types (ℝ, ℤ, ℕ, etc.). For goals over ℂ like `a + b = 0 → a = -b`, use `linear_combination h` instead. The `linear_combination` tactic works over any commutative ring.
 
+6. **`exact_mod_cast` can fail on a generic field `k` where it worked over ℂ/ℚ.** When porting a proof from a concrete field to a `variable {k} [Field k]`, a step like `exact_mod_cast h` (e.g. proving `((↑(↑(sign q):ℤ):k)) * (...) = 1` from a ℤ-level fact) may break with a cast-depth mismatch (`↑(…)` vs `↑↑(…)`), because `mod_cast`'s simp set normalizes differently without a concrete target type. Fix: do the cast explicitly — `rw [← Int.cast_mul, hZ, Int.cast_one]` where `hZ` is the ℤ-level equation — instead of relying on `exact_mod_cast`/`norm_cast`. This recurs across the active ℂ→general-`k` generalization work.
+
 ## Breadth-vs-Depth Phase Awareness
 
 The project alternates between **breadth phases** (statement formalization) and **depth phases** (proof completion). Recognizing which phase you're in prevents misallocating effort.
