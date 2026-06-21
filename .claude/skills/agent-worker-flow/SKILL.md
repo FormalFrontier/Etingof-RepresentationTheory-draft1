@@ -149,17 +149,6 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
-- **Cited "already-landed" dependencies actually exist.** Planner issue bodies
-  drift from reality — an issue can claim a prerequisite "Part 1 landed
-  (file `X.lean`, lemmas `foo`/`bar`)" when no such file or declaration was
-  ever merged. Before building on any such claim, `find`/`grep` for the named
-  files and declarations. If they are absent, the issue is mis-scoped: check
-  whether its real deliverable duplicates a *still-open* sibling/parent issue
-  (the "Part 1/Part 2" split may be a planner artifact). If so, `skip` →
-  replan with a comment naming the duplicate and recommending consolidation,
-  rather than re-deriving the phantom prerequisite. (Observed on #4849, whose
-  cited Part 1 `SchurWeylLDistinct.lean` never existed and whose real core
-  duplicated the open #4731.)
 
 If stale:
 ```
@@ -257,66 +246,7 @@ After each coherent chunk of changes:
 - Build and test using the project's build commands (see project CLAUDE.md)
 - Commit with conventional prefixes: `feat:`, `fix:`, `refactor:`, `test:`, `doc:`, `chore:`
 
-- **Wait on builds via the background-task notification or the build's own log
-  file — never `pgrep`.** Several agent sessions run `lake build` concurrently, so
-  `pgrep -f "lake build"` (and loose variants) match *other* sessions' processes;
-  a `until ! pgrep …; do sleep …; done` loop then hangs indefinitely (or fires on
-  the wrong process) and burns tool calls. Instead run the build with
-  `run_in_background: true` — the harness notifies you when *your* command exits —
-  or `tee` to a named log and poll *that file* for `Build completed`/`error:`. A
-  full project build also competes with those concurrent builds for CPU and can
-  appear stalled near the end; trust your per-module build (verified green
-  standalone) and let CI run the authoritative full build.
-
-- **If `lake build` fails on `proofwidgets/widgetJsAll` ("ProofWidgets not
-  up-to-date"), verify your single file with `lake env lean` instead.** This is a
-  pre-existing cloud-release/trace inconsistency in the *shared* `.lake/packages`
-  (symlinked across all worktrees) — do NOT delete or edit anything under
-  `.lake/` (you will break every concurrent session, and editing a dependency's
-  lakefile does not re-resolve anyway). When your imports' oleans already exist,
-  typecheck just your file, applying the project's `leanOptions` (from
-  `lakefile.toml`) so universe/instance elaboration matches `lake build`:
-  ```bash
-  lake env lean -D maxSynthPendingDepth=3 -D relaxedAutoImplicit=false \
-    -D pp.unicode.fun=true EtingofRepresentationTheory/Chapter5/<File>.lean
-  ```
-  Omitting those `-D` flags produces spurious "stuck at solving universe
-  constraint" errors in code that builds fine under `lake build`. A clean run
-  (only your intended `sorry` warnings) is sufficient pre-PR verification; CI runs
-  the authoritative full build.
-- **`.lake/packages` is a symlink shared by every worktree.** All worktrees
-  point at the *same* `.lake/packages/mathlib` checkout. You therefore cannot
-  change the Mathlib pin (`lakefile.toml` rev / `lean-toolchain` /
-  `lake-manifest.json`) and build it in place: a sibling agent's `lake build`
-  re-checks-out the shared mathlib to *main's* pinned rev mid-build, so your
-  build fails with `no such file or directory` on mathlib sources from the
-  other version. Never `git checkout` inside the shared mathlib to "fix" it —
-  that breaks every sibling building against main. To verify a pin bump (or any
-  mathlib-version-sensitive change), build in an **isolated `/tmp` clone**
-  (`git clone --no-local <repo> /tmp/x`, apply your diff, `lake exe cache get`
-  then `lake build` — it gets its own real `.lake`). Note: a Mathlib pin bump
-  is **atomic** — it cannot merge to main until the whole project builds and
-  cannot be split across auto-merge PRs; if its API-drift fallout spans many
-  modules, it needs a coordinated migration branch, so `skip` → replan with the
-  categorized error inventory rather than attempting it in one worker session.
-  (Observed on #2841: v4.28.1 → v4.31.0 broke ~29 modules / 177 errors.)
-
 Each commit must compile. One logical change per commit.
-
-- **Never `git add -A` / `git add .` blindly in a reused worktree.** Worktrees
-  are recycled across sessions and often carry pre-existing uncommitted edits
-  (e.g. a stale skill change) that you did not make. A blind `add -A` sweeps
-  them into your commit and merges them as part of your PR — silently reverting
-  or duplicating other agents' work. Run `git status` first and `git add` only
-  the specific paths you intend to change. (Observed: a stale
-  `agent-worker-flow/SKILL.md` deletion got swept into #4868 and reverted a
-  merged skill note.)
-- **Before deleting a file or retiring a "track", grep the *whole* repo for
-  importers and symbol consumers, not just the chapter named in the issue.** A
-  deletion directive can under-scope cross-cutting consumers. (Observed:
-  `Chapter2/Theorem2_1_2.lean` consumed `not_posdef_infinite_type_per_kQ` from
-  a Chapter 6 file the directive told us to delete — it had to be rerouted
-  first.) Reroute or fix every consumer before `git rm`, then do a full build.
 
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
