@@ -661,6 +661,36 @@ coordinate ring `B` (the `det⁻¹`-localization the bridge above consumes). Fou
   Zariski topology. Group-side lemmas (GIdx/genMat/detProd) need `omit [Quiver ..] [∀ i j, Fintype ..] in`
   to silence section-var linters; the `omit` must precede any docstring.
 
+### Index-agnostic dimension bound: transport a localization bridge to `Fin` (Ch6, #4808)
+
+Assembling `card σ ≤ card τ` (`dim W ≤ dim G`) from an injective comorphism
+`φ : k[xσ] → B`, where `B` is a domain localization of `k[xτ]` at `S`, by reusing a
+bridge phrased over `Fin N`/`Fin M` (`Problem6_1_5_DimBound.lean`). Both indices move
+to `Fin` via `MvPolynomial.renameEquiv (Fintype.equivFin _)`:
+
+- **Source: precompose.** `φ.comp (renameEquiv k (Fintype.equivFin σ).symm).toAlgHom`,
+  injective via `hφ.comp (renameEquiv ..).injective` (align the coe with `AlgHom.coe_comp`
+  / an `ext` + `simp` if `exact` balks).
+- **Base: carry `IsLocalization` across the rename ring equiv.** Let
+  `h := (renameEquiv k eτ).toRingEquiv`. `IsLocalization.isLocalization_of_base_ringEquiv S B h`
+  proves `IsLocalization (S.map h) B` **but for a specific new algebra instance**
+  `((algebraMap (MvPolynomial τ k) B).comp h.symm.toRingHom).toAlgebra` — you must
+  `letI algB := that exact term` so the instance it returns matches. Then build
+  `IsScalarTower k (MvPolynomial (Fin M) k) B` by hand: `IsScalarTower.of_algebraMap_eq`,
+  unfold the new map with `RingHom.algebraMap_toAlgebra`, and discharge
+  `h.symm.toRingHom (algebraMap k _ x) = algebraMap k _ x` by `(renameEquiv k eτ).symm.commutes x`
+  (defeq: `h.symm.toRingHom` applied IS `(renameEquiv k eτ).symm` applied, since `h` is a `let`).
+- **Pin the transported submonoid at the bridge call:** `bridge (S := S.map h) φ' hφ'` — the
+  bridge's `{S}` is not fixed by its value args, so TC stalls otherwise (same metavar idiom as
+  the FieldEmbedding note above).
+- **The concrete `B = Localization (Submonoid.powers (detProd m))` has all instances.**
+  `Algebra (MvPolynomial (GIdx m) k) B`, `IsLocalization`, `Algebra k B`, and
+  `IsScalarTower k _ B` all synthesize **when `Localization S` is written directly** — contra
+  the #4803 note's "no `Algebra k (Localization S)`", which bites only if you `let B := …`
+  (a `let`-bound local blocks instance synthesis; inline the type instead). `IsDomain B` via
+  `IsLocalization.isDomain_localization (M := …) (powers_le_nonZeroDivisors_of_noZeroDivisors
+  (detProd_ne_zero ..))`.
+
 ### Norm-Based Contradiction (Analysis Proofs)
 
 For proofs requiring algebraic integer arguments (e.g., Lemma 5.4.5):
