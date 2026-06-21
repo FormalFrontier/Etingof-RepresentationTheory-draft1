@@ -30,7 +30,7 @@ of S_n over ℂ can be defined over ℚ. -/
 theorem Corollary5_12_4 (n : ℕ) (la : Nat.Partition n) :
     ∃ c_int : MonoidAlgebra ℤ (Equiv.Perm (Fin n)),
       c_int.mapRange (Int.cast) (by simp) = YoungSymmetrizer n la := by
-  let φ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
+  let φ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
   -- ℤ-versions of the row symmetrizer and column antisymmetrizer
   let a_int : MonoidAlgebra ℤ (Equiv.Perm (Fin n)) :=
     haveI : DecidablePred (· ∈ RowSubgroup n la) := Classical.decPred _
@@ -49,12 +49,12 @@ theorem Corollary5_12_4 (n : ℕ) (la : Nat.Partition n) :
       rw [ha, hb, YoungSymmetrizer]
     -- Prove φ b_int = ColumnAntisymmetrizer
     simp only [b_int, φ, ColumnAntisymmetrizer, map_sum, map_zsmul,
-      MonoidAlgebra.of_apply, MonoidAlgebra.mapRangeRingHom_single, map_one]
+      MonoidAlgebra.of_apply, MonoidAlgebra.mapRingHom_single, map_one]
     convert rfl using 2
     ext ⟨σ, hσ⟩
     rw [← Int.cast_smul_eq_zsmul ℂ]
   -- Prove φ a_int = RowSymmetrizer
   simp only [a_int, φ, RowSymmetrizer, map_sum,
-    MonoidAlgebra.of_apply, MonoidAlgebra.mapRangeRingHom_single, map_one]
+    MonoidAlgebra.of_apply, MonoidAlgebra.mapRingHom_single, map_one]
 
 end Etingof
