@@ -257,6 +257,17 @@ After each coherent chunk of changes:
 - Build and test using the project's build commands (see project CLAUDE.md)
 - Commit with conventional prefixes: `feat:`, `fix:`, `refactor:`, `test:`, `doc:`, `chore:`
 
+- **Wait on builds via the background-task notification or the build's own log
+  file — never `pgrep`.** Several agent sessions run `lake build` concurrently, so
+  `pgrep -f "lake build"` (and loose variants) match *other* sessions' processes;
+  a `until ! pgrep …; do sleep …; done` loop then hangs indefinitely (or fires on
+  the wrong process) and burns tool calls. Instead run the build with
+  `run_in_background: true` — the harness notifies you when *your* command exits —
+  or `tee` to a named log and poll *that file* for `Build completed`/`error:`. A
+  full project build also competes with those concurrent builds for CPU and can
+  appear stalled near the end; trust your per-module build (verified green
+  standalone) and let CI run the authoritative full build.
+
 Each commit must compile. One logical change per commit.
 
 - **Never `git add -A` / `git add .` blindly in a reused worktree.** Worktrees
