@@ -634,6 +634,17 @@ coordinate ring `B` (the `det⁻¹`-localization the bridge above consumes). Fou
 - **`AlgHom.map_det f M` produces `(f.mapMatrix M).det`, NOT `(M.map ⇑f).det`.** State the
   "mapped matrix = 1" helper with `AlgHom.mapMatrix` (`simp [..., AlgHom.mapMatrix_apply,
   Matrix.map_apply, Matrix.one_apply]`) so it rewrites after `map_det`.
+- **Two confusing-error gotchas when building `aeval`-style endomorphisms of
+  `MvPolynomial`.** (1) Bare `X`/`C` do **not** resolve under `open MvPolynomial`
+  with `import Mathlib` (another `X` is in scope) — symptom is a misleading
+  `Function expected at ...`. Qualify `MvPolynomial.X` / `MvPolynomial.C`
+  everywhere, including inside statements and `simp` args. (2) An unannotated sum
+  binder `∑ l, ...` whose index type is only pinned by the body also throws
+  `Function expected`; write `∑ l : Fin N, ...`. (3) `Finset.sum_congr rfl ...`
+  can fail with `typeclass instance problem is stuck` when the two sides' sums
+  carry syntactically different `Fintype`/`univ` instances even though both are
+  `Finset.univ`; `simp only [mul_comm]` (or the relevant per-term rewrite under
+  the binder) is instance-robust where `sum_congr` chokes.
 - **Parametrize the comorphism `def` over an *abstract* localization `B`**
   (`[Algebra (MvPolynomial (GIdx m) k) B] [IsLocalization (Submonoid.powers (detProd m)) B]
   [Algebra k B] [IsScalarTower k _ B]`), not a concrete `Localization`: there is no
