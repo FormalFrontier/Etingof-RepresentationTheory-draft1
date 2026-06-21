@@ -278,63 +278,11 @@ private theorem formalCharacter_detTwist_eq_shift (N : ℕ) (lam : Fin N → ℕ
 
 The weight spaces of a Schur module form a direct internal decomposition.
 This is used to show `finrank(L_λ) = ∑_μ finrank(L_λ)_μ = eval₁(schurPoly)`,
-which gives the dimension equality `finrank(L_λ) = finrank(L_{λ+(1,...,1)})`. -/
+which gives the dimension equality `finrank(L_λ) = finrank(L_{λ+(1,...,1)})`.
 
-/-- The Young symmetrizer maps tensor basis elements to weight vectors:
-`c_λ(e_f)` has weight `tensorWeight(f)` because `c_λ` commutes with the torus. -/
-private lemma youngSym_tBasis_weightVector (N : ℕ) (lam : Fin N → ℕ)
-    (f : Fin (∑ i, lam i) → Fin N) (i : Fin N) (t : kˣ) :
-    glTensorRep k N (∑ j, lam j) (diagUnit k N i t)
-      (youngSymEndomorphism k N lam (tBasis (k := k) N (∑ j, lam j) f)) =
-    ((t : k) ^ (Finset.univ.filter (fun j => f j = i)).card) •
-      youngSymEndomorphism k N lam (tBasis (k := k) N (∑ j, lam j) f) := by
-  change (glTensorRep k N (∑ j, lam j) (diagUnit k N i t) ∘ₗ
-    youngSymEndomorphism k N lam) (tBasis (k := k) N (∑ j, lam j) f) = _
-  rw [glTensor_comm_youngSym k N lam (diagUnit k N i t),
-    LinearMap.comp_apply, glTensorRep_diagUnit_tBasis, map_smul]
-
-/-- The weight of a tensor coloring f: counts occurrences of each color. -/
-private def colorWeight (N : ℕ) {n : ℕ} (f : Fin n → Fin N) : Fin N →₀ ℕ where
-  toFun i := (Finset.univ.filter (fun j => f j = i)).card
-  support := Finset.univ.filter (fun i => 0 < (Finset.univ.filter (fun j => f j = i)).card)
-  mem_support_toFun i := by simp [Finset.card_pos, Finset.filter_nonempty_iff]
-
-/-- Weight spaces of the Schur module span the entire module.
-Every element of `L_λ = range(c_λ)` is a sum of weight vectors since each
-`c_λ(e_f)` lies in the weight space for `tensorWeight(f)` (because `c_λ`
-commutes with the torus action). -/
-private theorem glWeightSpace_schurModule_iSup_eq_top (N : ℕ) (lam : Fin N → ℕ) :
-    ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊤ := by
-  set n := ∑ j, lam j
-  set B := tBasis (k := k) N n
-  set c := youngSymEndomorphism k N lam
-  set S := ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (SchurModule k N lam) (fun i => μ i)
-  -- Step 1: Each c(B f) is a weight vector, hence in S
-  have h_gen_in_S : ∀ f : Fin n → Fin N,
-      (⟨c (B f), ⟨B f, rfl⟩⟩ : ↥(SchurModuleSubmodule k N lam)) ∈ S := by
-    intro f
-    apply Submodule.mem_iSup_of_mem (colorWeight N f)
-    rw [glWeightSpace]; simp only [Submodule.mem_iInf]; intro i t
-    rw [LinearMap.mem_ker]
-    simp only [LinearMap.sub_apply, sub_eq_zero, LinearMap.smul_apply, LinearMap.id_apply]
-    apply Subtype.ext
-    simp only [SchurModule, FDRep.of_ρ', LinearMap.restrict_coe_apply,
-      Submodule.coe_smul_of_tower, colorWeight]
-    exact youngSym_tBasis_weightVector k N lam f i t
-  -- Step 2: S contains all elements (since c(B f) span the Schur module)
-  rw [eq_top_iff]
-  intro v _
-  obtain ⟨w, hw⟩ := v.property
-  -- v.val = c(w) = c(∑ coeff • B f) = ∑ coeff • c(B f)
-  have hv_sum : v =
-      ∑ f, (B.repr w f) • (⟨c (B f), ⟨B f, rfl⟩⟩ : ↥(SchurModuleSubmodule k N lam)) := by
-    apply Subtype.ext
-    simp only [Submodule.coe_sum, Submodule.coe_smul_of_tower]
-    rw [show v.val = c w from hw.symm]
-    conv_lhs => rw [show w = ∑ x, B.repr w x • B x from (B.sum_repr w).symm]
-    simp only [map_sum, map_smul]
-  rw [hv_sum]
-  exact Submodule.sum_mem S (fun f _ => Submodule.smul_mem S _ (h_gen_in_S f))
+The Schur-module weight-saturation `glWeightSpace_schurModule_iSup_eq_top` lives upstream in
+`SchurWeylFormalCharacterIso` (it is the equivariant image of the tensor power), and is used
+unqualified below. -/
 
 /-- Weight spaces for distinct weights are disjoint: if `μ ≠ ν`, then
 `glWeightSpace(L, μ) ⊓ glWeightSpace(L, ν) = ⊥`. -/
