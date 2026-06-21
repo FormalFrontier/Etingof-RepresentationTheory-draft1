@@ -24,10 +24,9 @@ consumer #6 (`iso_of_formalCharacter_eq_schurPoly`) needs; routing it there
 keeps the dependency graph acyclic (see the analysis recorded on issue #2482
 and in `FormalCharacterIso.lean:1053`).
 
-## Proof structure (and the remaining infrastructure gaps)
+## Proof structure
 
-The assembly composes three already-merged pieces with two documented bridge
-lemmas:
+The assembly composes three already-merged pieces with two bridge lemmas:
 
 * **#4598** `polynomial_homog_rep_equivariant_embedding` — the `GL_N`-equivariant
   `k`-linear embedding `M ↪ (V^{⊗n})^m`.
@@ -41,18 +40,20 @@ The two named decomposition theorems build the **same** `L i = FDRep.of ρ_i`
 but expose disjoint clauses (one the equivariance, the other the simplicity).
 Unifying them, and transferring the `k`-linear equivariant data to the
 `MonoidAlgebra k GL_N`-module level expected by the isotypic engine, are the
-two bridge lemmas left as `sorry` here:
+two bridge lemmas proved here:
 
 * `glTensorRep_schurWeyl_decomposition_equivariant_simple` — the unified
-  equivariant + simple decomposition (merge the two existing proofs, both over
+  equivariant + simple decomposition (merges the two existing proofs, both over
   `FDRep.of ρ_i`).
-* `polynomial_homog_rep_asModule_embeds_directSum_simple` — package #4598 +
-  the unified decomposition + the `asModule` transfer + the `Fin m`-fold
-  product splitting into a single `R`-linear embedding of `M.asModule` as a
-  submodule of a finite direct sum of the simple `L i`.
+* `polynomial_homog_rep_asModule_embeds_directSum_simple` (#4716) — packages
+  #4598 + the unified decomposition + the `asModule` transfer
+  (`asModuleHomOfIntertwiner` / `asModuleEquivOfIntertwiner`) + glue-A (#4714)
+  + glue-B (#4715) + the `Fin m`-fold product and sigma flattening into a
+  single injective `R`-linear embedding of `M.asModule` as a submodule of a
+  finite direct sum of the simple `L i`.
 
 Given those two, `decompose_polynomial_gl_rep` is a clean application of the
-isotypic engine #4600. The two bridges are filed as sub-issues of #2482.
+isotypic engine #4600.
 -/
 
 open scoped TensorProduct DirectSum
@@ -405,8 +406,67 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
       (_ : W ≃ₗ[GLAlg k N]
         DirectSum κ (fun c => Representation.asModule (L (gκ c)).ρ))
       (M' : Submodule (GLAlg k N) W),
-      Nonempty (Representation.asModule M.ρ ≃ₗ[GLAlg k N] M') :=
-  sorry
+      Nonempty (Representation.asModule M.ρ ≃ₗ[GLAlg k N] M') := by
+  classical
+  -- (1) #4598: a `GL_N`-equivariant `k`-linear embedding `M ↪ (V^{⊗n})^m`.
+  obtain ⟨m, φ, hφinj, hφeq⟩ :=
+    Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding
+      (M := M) (halg := halg) (h_span := h_span) (h_homog := h_homog)
+  -- (2) unified equivariant + simple Schur–Weyl decomposition of `V^{⊗n}`.
+  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, e, he⟩ :=
+    glTensorRep_schurWeyl_decomposition_equivariant_simple (k := k) (N := N) n hN
+  haveI iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
+  -- basis index of each multiplicity space, in `Type 0` so `κ` stays small.
+  set β : ι → Type := fun i => Fin (Module.finrank k (S i)) with hβ
+  -- (3) view `φ` as a `k`-linear map into the `DirectSum` over the finite index `Fin m`.
+  set piToDS := (DirectSum.linearEquivFunOnFintype k (Fin m)
+    (fun _ : Fin m => TensorPower k (Fin N → k) n)).symm with hpiToDS
+  set φ' : (M : Type u) →ₗ[k]
+      DirectSum (Fin m) (fun _ : Fin m => TensorPower k (Fin N → k) n) :=
+    piToDS.toLinearMap ∘ₗ φ with hφ'
+  have hφ'inj : Function.Injective φ' := piToDS.injective.comp hφinj
+  have hcoe : ∀ (w : Fin m → TensorPower k (Fin N → k) n) (a : Fin m),
+      (piToDS w) a = w a := by intro w a; rw [hpiToDS]; rfl
+  -- equivariance of `φ'` for the `Fin m`-fold `directSum` of `glTensorRep`.
+  have hφ'eq : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (x : (M : Type u)),
+      φ' (M.ρ g x) =
+        Representation.directSum (fun _ : Fin m => glTensorRep k N n) g (φ' x) := by
+    intro g x
+    refine DFinsupp.ext fun a => ?_
+    rw [show φ' (M.ρ g x) = piToDS (φ (M.ρ g x)) from rfl,
+        show φ' x = piToDS (φ x) from rfl, hcoe,
+        Representation.directSum_apply, DirectSum.lmap_apply, hcoe, hφeq]
+    simp only [Matrix.toLin'_apply']
+    rfl
+  -- (4) transfer `φ'` to a `MonoidAlgebra k G`-linear (injective) map on `asModule`s.
+  let φR : Representation.asModule M.ρ →ₗ[GLAlg k N]
+      Representation.asModule (Representation.directSum (fun _ : Fin m => glTensorRep k N n)) :=
+    Representation.asModuleHomOfIntertwiner φ' hφ'eq
+  have hφRinj : Function.Injective φR := hφ'inj
+  -- (5) decompose the ambient `asModule` into the simple summands `L i`.
+  let Einner :
+      Representation.asModule (glTensorRep k N n) ≃ₗ[GLAlg k N]
+        DirectSum (Σ i : ι, β i) (fun ν => Representation.asModule (L ν.1).ρ) :=
+    (Representation.asModuleEquivOfIntertwiner e he) ≪≫ₗ
+      (Representation.asModule_directSum_equiv
+        (fun i => (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k) (S i)).tprod (L i).ρ)) ≪≫ₗ
+      (DFinsupp.mapRange.linearEquiv (fun i =>
+        Representation.asModule_trivial_tprod_equiv (Module.finBasis k (S i)) (L i).ρ)) ≪≫ₗ
+      (DirectSum.sigmaLcurryEquiv (R := GLAlg k N)
+        (δ := fun (i : ι) (_ : β i) => Representation.asModule (L i).ρ)).symm
+  let E1 := Representation.asModule_directSum_equiv (fun _ : Fin m => glTensorRep k N n)
+  let E2 := DFinsupp.mapRange.linearEquiv (fun _ : Fin m => Einner)
+  let Eouter := (DirectSum.sigmaLcurryEquiv (R := GLAlg k N)
+    (δ := fun (_ : Fin m) (ν : Σ i : ι, β i) => Representation.asModule (L ν.1).ρ)).symm
+  -- the full injective `R`-linear map into `⨁_κ asModule (L (gκ c)).ρ`.
+  let ψ := (Eouter.toLinearMap ∘ₗ E2.toLinearMap ∘ₗ E1.toLinearMap) ∘ₗ φR
+  have hψinj : Function.Injective ψ :=
+    ((Eouter.injective.comp E2.injective).comp E1.injective).comp hφRinj
+  refine ⟨ι, hιFin, hιDec, L, hLsimp,
+    (Σ _ : Fin m, Σ i : ι, β i), inferInstance, (fun c => c.2.1),
+    DirectSum (Σ _ : Fin m, Σ i : ι, β i) (fun c => Representation.asModule (L c.2.1).ρ),
+    inferInstance, inferInstance, LinearEquiv.refl (GLAlg k N) _,
+    LinearMap.range ψ, ⟨LinearEquiv.ofInjective ψ hψinj⟩⟩
 
 /-- **A polynomial `GL_N`-representation is a direct sum of abstract simple
 summands of `V^{⊗n}`** (Schur-Weyl #5, Step E, issue #2482).
