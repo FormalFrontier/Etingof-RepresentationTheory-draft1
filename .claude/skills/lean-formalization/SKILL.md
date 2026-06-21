@@ -558,6 +558,32 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **Upgrading a `k`-linear bijection to an `A`-linear equiv: prove `map_smul`
+  on the composite, do NOT transport the `A`-module (Ch5, #4926 biduality).**
+  When the target is `↥S ≃ₗ[A] ↥T` but the natural maps factor through a
+  hom-of-hom space `D := (↥S →ₗ[A] E) →ₗ[C] E` whose only canonical action is by
+  `↥(centralizer C)` (= `A` by double-centralizer), resist putting an
+  `A`-module on `D` via `Module.compHom`/scalar transport — the `map_smul`
+  obligations then force you to unfold `compHom` everywhere and the elaboration
+  is brutal. Instead: build *all* intermediate equivs `k`-linearly (the
+  curried-evaluation `↥S ≃ₗ[k] D` via `LinearEquiv.ofInjectiveOfFinrankEq`, the
+  precomposition via the already-`k`-linear `homCongrLeftOverSubring`), thread
+  them to a `Φ : ↥S ≃ₗ[k] ↥T`, then package the *final* `↥S ≃ₗ[A] ↥T` with the
+  explicit constructor `{ toFun := Φ, map_add' := Φ.map_add, invFun := Φ.symm,
+  left_inv := Φ.left_inv, right_inv := Φ.right_inv, map_smul' := fun a v => ... }`
+  and prove the lone `A`-`map_smul'` by hand (`apply (last equiv).injective; ext;
+  rewrite the definitional apply-formulas`). The double-hom space never needs an
+  `A`-module structure at all. Bonus: isolate the genuine content as a *pure
+  `k`-finrank* lemma (`finrank k ↥S = finrank k D`) whose statement mentions no
+  exotic module — clean to state and to attack separately.
+- **`centralizerModuleHom` firing twice needs an `IsScalarTower` companion
+  (Ch5, #4926).** To get `Module ↥(centralizer C) ((V →ₗ[A] E) →ₗ[C] E)` you
+  re-apply `Theorem5_18_1.centralizerModuleHom` with `C` in the `A`-slot; this
+  requires `IsScalarTower k ↥C (V →ₗ[A] E)`, which is NOT automatic. Provide it
+  (`smul_assoc r b f := LinearMap.ext fun v => by change (r•b).val (f v) = …;
+  rw [Subalgebra.coe_smul, LinearMap.smul_apply]`). Note: even *stating* this
+  instance (its `SMul` in the signature) overruns the default 20000 synth
+  heartbeats — bump `synthInstance.maxHeartbeats` on the instance itself.
 - **Bundled instances from a destructured existential are already usable — do
   NOT re-`haveI` them (Ch5, #4716).** Decomposition theorems
   (`glTensorRep_..._decomposition...`) return `∃ (S : ι → Type u)
