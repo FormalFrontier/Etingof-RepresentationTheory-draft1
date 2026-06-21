@@ -38,6 +38,8 @@ for semisimple Lie algebras, which is not in Mathlib.
 open scoped Matrix
 open Etingof
 
+attribute [local instance 100] LieRing.ofAssociativeRing
+
 namespace Etingof.Sl2Irrep
 
 /-! ## The standard sl(2) triple -/
