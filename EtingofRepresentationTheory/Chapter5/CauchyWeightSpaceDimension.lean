@@ -72,7 +72,7 @@ theorem polyRightRep_diagUnit_monomial (i : Fin N) (t : kˣ)
     polyRightRep k N (diagUnit k N i t) (monomial s c)
       = (t : k) ^ (∑ l, s (l, i)) • monomial s c := by
   rw [polyRightRep_apply]
-  show rTransAlgHom (Matrix.diagonal (Function.update 1 i (t : k))) (monomial s c) = _
+  change rTransAlgHom (Matrix.diagonal (Function.update 1 i (t : k))) (monomial s c) = _
   rw [rTransAlgHom_diagonal_monomial, prod_update_pow]
 
 /-- **Coefficient extraction for the diagonal torus action.** Since `diagUnit k N i t`
@@ -187,7 +187,7 @@ theorem map_polyOf_glWeightSpace (d : ℕ) (μ : Fin N → ℕ) :
     obtain ⟨hdeg, hcol⟩ := hs
     refine ⟨⟨monomial s 1, monomial_mem_homog d s hdeg⟩,
       (mem_glWeightSpace_polyRight_iff d μ _).mpr (fun i t => ?_), rfl⟩
-    show polyRightRep k N (diagUnit k N i t) (monomial s (1 : k))
+    change polyRightRep k N (diagUnit k N i t) (monomial s (1 : k))
       = (t : k) ^ μ i • monomial s (1 : k)
     rw [polyRightRep_diagUnit_monomial, hcol i]
 
@@ -206,11 +206,104 @@ theorem finrank_glWeightSpace_eq_card (d : ℕ) (μ : Fin N → ℕ) :
     have hb := (basisMonomials (Fin N × Fin N) k).linearIndependent.comp
       (fun s : (Dset N d μ) => (s : (Fin N × Fin N) →₀ ℕ)) Subtype.val_injective
     have hfun : (fun s : (Dset N d μ) => monomial (s : (Fin N × Fin N) →₀ ℕ) (1 : k))
-        = ⇑(basisMonomials (Fin N × Fin N) k) ∘ (fun s : (Dset N d μ) => (s : (Fin N × Fin N) →₀ ℕ)) := by
+        = ⇑(basisMonomials (Fin N × Fin N) k) ∘
+            (fun s : (Dset N d μ) => (s : (Fin N × Fin N) →₀ ℕ)) := by
       funext s; simp [coe_basisMonomials]
     rw [hfun]; exact hb
   rw [(Submodule.equivMapOfInjective (polyOf d) (polyOf_injective d)
         (glWeightSpace k N (polyRightDegreeFDRep k N d) μ)).finrank_eq,
       map_polyOf_glWeightSpace, hrange, finrank_span_eq_card hli, Fintype.card_coe]
+
+/-! ### Counting the column-degree-`μ` monomials (stars and bars) -/
+
+/-- **Stars and bars.** The number of `N`-tuples of naturals summing to `m` is the
+multichoose number `multichoose N m = C(m + N − 1, N − 1)`. -/
+theorem card_piAntidiag_univ (m : ℕ) :
+    (Finset.piAntidiag (Finset.univ : Finset (Fin N)) m).card = Nat.multichoose N m := by
+  rw [← Finset.map_sym_eq_piAntidiag, Finset.card_map, Finset.sym_univ, Finset.card_univ]
+  exact Sym.card_sym_fin_eq_multichoose N m
+
+omit [IsAlgClosed k] in
+/-- `multichoose N m = C(m + N − 1, N − 1)` for `N ≥ 1`. -/
+theorem multichoose_eq_choose (m : ℕ) (hN : 1 ≤ N) :
+    Nat.multichoose N m = (m + N - 1).choose (N - 1) := by
+  rw [Nat.multichoose_eq, Nat.add_comm N m]
+  have hsub : m + N - 1 - m = N - 1 := by omega
+  rw [← hsub, Nat.choose_symm (by omega)]
+
+/-- **The count of column-degree-`μ` monomials.** When `∑_j μ_j = d`, choosing each
+column independently gives `∏_j C(μ_j + N − 1, N − 1)`; otherwise no degree-`d`
+monomial has column-degree vector `μ`. -/
+theorem card_Dset (d : ℕ) (μ : Fin N → ℕ) :
+    (Dset N d μ).card
+      = if (∑ j, μ j) = d then ∏ j, (μ j + N - 1).choose (N - 1) else 0 := by
+  split_ifs with hd
+  · -- d = ∑ μ
+    rw [← hd]
+    have hbij : (Dset N (∑ j, μ j) μ).card
+        = (Fintype.piFinset
+            (fun j => Finset.piAntidiag (Finset.univ : Finset (Fin N)) (μ j))).card := by
+      refine Finset.card_nbij' (fun s => fun j i => s (i, j))
+        (fun g => Finsupp.equivFunOnFinite.symm (fun p => g p.2 p.1)) ?_ ?_ ?_ ?_
+      · -- MapsTo forward
+        intro s hs
+        rw [Finset.mem_coe, mem_Dset] at hs
+        rw [Finset.mem_coe, Fintype.mem_piFinset]
+        intro j
+        rw [Finset.mem_piAntidiag]
+        exact ⟨hs.2 j, fun i _ => Finset.mem_univ i⟩
+      · -- MapsTo backward
+        intro g hg
+        rw [Finset.mem_coe, Fintype.mem_piFinset] at hg
+        rw [Finset.mem_coe, mem_Dset]
+        have hcol : ∀ j, ∑ i, g j i = μ j := fun j =>
+          (Finset.mem_piAntidiag.mp (hg j)).1
+        refine ⟨?_, fun j => ?_⟩
+        · rw [Fintype.sum_prod_type]
+          simp only [Finsupp.coe_equivFunOnFinite_symm]
+          rw [Finset.sum_comm]
+          exact Finset.sum_congr rfl fun j _ => hcol j
+        · simp only [Finsupp.coe_equivFunOnFinite_symm]
+          exact hcol j
+      · -- left inverse
+        intro s _
+        change Finsupp.equivFunOnFinite.symm (fun p : Fin N × Fin N => s (p.1, p.2)) = s
+        rw [show (fun p : Fin N × Fin N => s (p.1, p.2)) = (s : Fin N × Fin N → ℕ) from
+          funext fun p => by rw [Prod.mk.eta]]
+        exact Finsupp.equivFunOnFinite_symm_coe s
+      · -- right inverse
+        intro g _
+        funext j i
+        simp only [Finsupp.coe_equivFunOnFinite_symm]
+    rw [hbij, Fintype.card_piFinset]
+    refine Finset.prod_congr rfl fun j _ => ?_
+    rw [card_piAntidiag_univ, multichoose_eq_choose (μ j) (Fin.pos j)]
+  · -- ∑ μ ≠ d: the set is empty
+    rw [Finset.card_eq_zero, Finset.eq_empty_iff_forall_notMem]
+    intro s hs
+    rw [mem_Dset] at hs
+    apply hd
+    rw [← hs.1, Fintype.sum_prod_type, Finset.sum_comm]
+    exact Finset.sum_congr rfl fun j _ => (hs.2 j).symm
+
+/-! ### The weight-space dimension formula -/
+
+/-- **Weight-space dimension of `A_d` (sub-issue A of #4944).** The `μ`-weight space
+of the right-`GL_N` representation `A_d = k[Xᵢⱼ]_d` has dimension
+`∏_j C(μ_j + N − 1, N − 1)` when `∑_j μ_j = d` (the number of degree-`d` monomials
+with column-degree vector `μ`), and is zero otherwise. -/
+theorem finrank_glWeightSpace_polyRightDegreeFDRep (d : ℕ) (μ : Fin N → ℕ) :
+    Module.finrank k (glWeightSpace k N (polyRightDegreeFDRep k N d) μ)
+      = if (∑ j, μ j) = d then ∏ j, (μ j + N - 1).choose (N - 1) else 0 := by
+  rw [finrank_glWeightSpace_eq_card, card_Dset]
+
+/-- The `μ`-coefficient of the formal character of `A_d` is the same count. -/
+theorem formalCharacter_polyRightDegreeFDRep_coeff (d : ℕ) (μ : Fin N →₀ ℕ) :
+    (formalCharacter k N (polyRightDegreeFDRep k N d)).coeff μ
+      = if (∑ j, μ j) = d then ((∏ j, (μ j + N - 1).choose (N - 1) : ℕ) : ℚ) else 0 := by
+  rw [formalCharacter_coeff, finrank_glWeightSpace_polyRightDegreeFDRep]
+  split_ifs with h
+  · push_cast; rfl
+  · rfl
 
 end Etingof.CauchyWeightSpaceDimension
