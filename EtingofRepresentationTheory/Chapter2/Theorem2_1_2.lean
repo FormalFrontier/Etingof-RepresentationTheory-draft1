@@ -6,7 +6,9 @@ import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.Problem6_1_5_theorem
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
 import EtingofRepresentationTheory.Chapter6.CoxeterInfrastructure
-import EtingofRepresentationTheory.Chapter6.FieldGenericAssembly
+import EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitFiniteness
+import EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound
+import EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge
 
 /-!
 # Theorem 2.1.2: Gabriel's Theorem
@@ -143,13 +145,16 @@ noncomputable def QuiverRepresentation.Iso.toEquiv
   commutes e x := f.naturality e x
 
 /-- If the Tits form on the underlying graph is not positive definite, then for any
-algebraically closed field k and the given quiver Q, the set of dimension vectors
-of finite-dimensional indecomposable representations is infinite, hence
-`HasFiniteRepresentationType` fails.
+algebraically closed field k and the given quiver Q, `HasFiniteRepresentationType`
+fails.
 
-Combines the per-(F, Q) infinite type result
-`not_posdef_infinite_type_per_kQ` (`Chapter6/FieldGenericAssembly.lean`) with
-the contrapositive of `HasFiniteRepresentationType.finite_dimVectors`. -/
+Proved via the orbit-counting route of directive #4777: finite representation type
+gives a finite `AreIsomorphic`-covering set of indecomposables, hence finitely many
+`G(m)`-orbits on every representation space `W(m)`
+(`orbitRel_quotient_finite_of_finite_reps`), hence the strict dimension bound
+`dim W(m) < dim G(m)` (`repSpace_finrank_lt_repGroup_ambient_finrank`), which is
+exactly positive-definiteness of the Tits form
+(`isDynkinDiagram_of_strict_finrank`) — contradicting `h_not_posdef`. -/
 private lemma not_posdef_not_HasFiniteRepresentationType
     (k : Type) [Field k] [IsAlgClosed k]
     (n : ℕ) [Quiver.{0} (Fin n)] [∀ a b : Fin n, Decidable (Nonempty (a ⟶ b))]
@@ -162,21 +167,30 @@ private lemma not_posdef_not_HasFiniteRepresentationType
     ¬ HasFiniteRepresentationType k n := by
   intro hfrt
   obtain ⟨x, hx_ne, hx_not_pd⟩ := h_not_posdef
-  have hn : 1 ≤ n := by
-    rcases Nat.eq_zero_or_pos n with rfl | hn
-    · exact absurd (funext (fun i : Fin 0 => i.elim0)) hx_ne
-    · exact hn
-  have h_not_pd' : ¬ ∀ y : Fin n → ℤ, y ≠ 0 →
-      0 < dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) -
-        quiverUndirectedAdj n).mulVec y) :=
-    fun h => hx_not_pd (h x hx_ne)
-  have h_inf := not_posdef_infinite_type_per_kQ (quiverUndirectedAdj n) hn
-    quiverUndirectedAdj_symm quiverUndirectedAdj_diag quiverUndirectedAdj_01
-    hconn h_not_pd' k ‹Quiver (Fin n)› hOrient
-  exact h_inf <|
-    (HasFiniteRepresentationType.finite_dimVectors k hfrt).subset
-      (fun _ ⟨V, hV_indec, hV_dim⟩ =>
-        ⟨V, fun v => Module.Finite.equiv (hV_dim v).some.symm, hV_indec, hV_dim⟩)
+  classical
+  -- `Fintype` on each (subsingleton) Hom type, for the orbit machinery.
+  haveI hfin : ∀ a b : Fin n, Fintype (a ⟶ b) := fun a b =>
+    if h : Nonempty (a ⟶ b) then Fintype.ofSubsingleton h.some
+    else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
+  -- Repackage finite representation type as a finite `AreIsomorphic`-covering set.
+  obtain ⟨_m, reps, _hrfin, _hrindec, hrcover⟩ := hfrt
+  have hcover : ∀ (W : QuiverRepresentation.{0, 0, 0, 0} k (Fin n)),
+      (∀ v, Module.Free k (W.obj v)) → (∀ v, Module.Finite k (W.obj v)) →
+      W.IsIndecomposable → ∃ V ∈ Set.range reps, W.AreIsomorphic V := by
+    intro W _ hWfin hWindec
+    obtain ⟨i, ⟨e⟩⟩ := hrcover W hWfin hWindec
+    exact ⟨reps i, ⟨i, rfl⟩, e.equivAt,
+      fun {a b} f => by ext y; simpa using e.commutes f y⟩
+  -- Finite type ⟹ finitely many orbits on every `W(m')` ⟹ Dynkin (orbit route).
+  haveI horb : ∀ m' : Fin n → ℕ,
+      Finite (MulAction.orbitRel.Quotient (repGroup k m') (repSpace (k := k) m')) :=
+    fun m' => orbitRel_quotient_finite_of_finite_reps m' (Set.range reps)
+      (Set.finite_range reps) hcover
+  have hDynkin : IsDynkinDiagram n (quiverUndirectedAdj n) :=
+    isDynkinDiagram_of_strict_finrank k (quiverUndirectedAdj n)
+      quiverUndirectedAdj_symm quiverUndirectedAdj_diag quiverUndirectedAdj_01 hconn hOrient
+      (fun m' hm' => Problem6_1_5.repSpace_finrank_lt_repGroup_ambient_finrank (k := k) m' hm')
+  exact hx_not_pd (hDynkin.2.2.2.2 x hx_ne)
 
 /-- Backward direction bridge: `IsDynkinDiagram` implies `HasFiniteRepresentationType`
 for any algebraically closed field and the given quiver.

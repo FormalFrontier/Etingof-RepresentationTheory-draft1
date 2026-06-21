@@ -149,17 +149,6 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
-- **Cited "already-landed" dependencies actually exist.** Planner issue bodies
-  drift from reality — an issue can claim a prerequisite "Part 1 landed
-  (file `X.lean`, lemmas `foo`/`bar`)" when no such file or declaration was
-  ever merged. Before building on any such claim, `find`/`grep` for the named
-  files and declarations. If they are absent, the issue is mis-scoped: check
-  whether its real deliverable duplicates a *still-open* sibling/parent issue
-  (the "Part 1/Part 2" split may be a planner artifact). If so, `skip` →
-  replan with a comment naming the duplicate and recommending consolidation,
-  rather than re-deriving the phantom prerequisite. (Observed on #4849, whose
-  cited Part 1 `SchurWeylLDistinct.lean` never existed and whose real core
-  duplicated the open #4731.)
 
 If stale:
 ```
