@@ -292,6 +292,14 @@ need that piece as an `FDRep`. Recipe (sorry-free):
 - Gotcha: `open MvPolynomial` did **not** expose `homogeneousSubmodule` /
   `restrictTotalDegree` / `mem_restrictTotalDegree` in an `instance` signature
   under `relaxedAutoImplicit false` — fully qualify with `MvPolynomial.`.
+- Gotcha (`X` over a product index): a `@[simp]` lemma about
+  `MvPolynomial.X (i, j)` stated with two args `(i j : Fin N)` will **not** fire
+  inside a `Finsupp.prod`/`Finset.prod` over `s : (Fin N × Fin N) →₀ ℕ`, because
+  the bound term is `X x` for a single variable `x` and simp won't unify the pair
+  pattern `(i, j)` against `x`. State such lemmas over **one** pair
+  `(p : Fin N × Fin N)` with `X p` / `p.2` and `obtain ⟨i, j⟩ := p` in the proof
+  (this is how `rTransAlgHom_diagonal_X`/`rTransAlgHom_diagonal_monomial`,
+  `PolynomialGLRightAction.lean`, are stated so they fire under `map_prod`).
 
 The canonical Fintype indexing set for "dominant weights `ν ∈ ℕ^N` of size `d`"
 is `BoundedPartition N d` (`Proposition5_21_1.lean`: antitone `ν : Fin N → ℕ`
