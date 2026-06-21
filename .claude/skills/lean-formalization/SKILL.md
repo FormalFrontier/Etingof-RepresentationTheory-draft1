@@ -647,6 +647,33 @@ Three API gotchas that cost build cycles here:
   fails on "pattern not found" because the post-`Subtype.ext` goal is not
   syntactically normalised.
 
+- **`set` reverts/shadows any hypothesis whose *type* mentions the set term —
+  spawns a `S✝` that no longer unifies (Ch5, #4731).** Proving over Schur-Weyl
+  hom-spaces `↥S →ₗ[symGroupImage k V n] TensorPower k V n`, writing
+  `set A := symGroupImage k V n` / `set E := TensorPower k V n` for brevity
+  abstracts those terms *inside* the types of `S`, `W`, `ψ`, forcing `set` to
+  revert and reintroduce them — the binder comes back as inaccessible `S✝` and a
+  later `exact`/`show` against the original `S` fails with a type mismatch. Only
+  `set` the term that does **not** appear in any in-scope binder's type (here the
+  centralizer `C`); leave `symGroupImage`/`TensorPower` written out literally.
+
+- **`Algebra.adjoin_induction` over a `Subalgebra` element: `obtain ⟨cval, hcmem⟩
+  := c` up front (Ch5, #4731).** The predicate
+  `p := fun x _ => ∀ (hx : x ∈ C) …, … (⟨x, hx⟩ : ↥C) • l …` produces a goal in
+  the `⟨cval, hcmem⟩` shape; if `c : ↥C` is still bundled, the final
+  `… hgen c.2 l` leaves `ψ (⟨↑c, _⟩ • l) = …` versus goal `ψ (c • l) = …`, which
+  is only `Subtype`-eta-defeq and a `show`/`exact` bridge **times out** (or hits
+  the `c✝` shadow from a prior `set`). Destructuring `c` first makes the goal
+  literally match. Mirror the model proof
+  `submodule_smul_mem_diagonalActionImage_of_unit_smul_mem`
+  (`SchurWeylGLTransfer.lean`); since the generating set is the *units* one
+  (`adjoin_unitsTensorPow_eq_diagonalActionImage`), no inner
+  `Submodule.span_induction` is needed. In the `mul` case apply the IH to the
+  *bundled* `(⟨y, hyC⟩ : ↥C) • l`, never the raw `y • l` (no `HSMul (End …)
+  (hom-space)`). These heavy `Module.End (TensorPower)` chains need
+  `maxHeartbeats 6400000 / synthInstance.maxHeartbeats 3200000`, matching the
+  source theorems.
+
 ### Fraction-field bridge: principal open shares the polynomial ring's k(g) (Ch6, #4783)
 
 To send an injective comorphism `φ : MvPolynomial (Fin N) k →ₐ[k] B` into
