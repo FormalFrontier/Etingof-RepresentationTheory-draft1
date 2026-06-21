@@ -2686,3 +2686,22 @@ With both, containments come from pure invariance chaining
 (`hW₁_inv a20 _ (hW₁_inv a32 _ (hW₁_inv a43 p hp))`) and injectivity descends via
 `simp only [LinearMap.comp_apply, rep, repMap] at h` then the concrete
 `*ArmComp_F_injective` (term-mode defeq unfolds the `match` at the leaves).
+
+## Bundled-hom defeq blowup: `ρ g f = underlyingHom f` is cheap *only* in the defining file
+
+`polyRightRep g f = rTransAlgHom (↑g) f` (a `Representation` applied, vs the
+underlying `AlgHom`) holds by `rfl`. But proving it as a fresh `have ... := rfl`
+— or relying on the defeq through `exact`/`show` — in a **downstream** file
+**diverges at `whnf`** (times out even at 1.6M heartbeats): reconciling the two
+FunLike coercion paths (`Representation`/`LinearMap` vs `AlgHom`) forces Lean to
+whnf into `aeval`/the underlying function. The identical `rfl` is cheap *inside*
+the file where the rep is defined (its `_apply_X` lemmas already use it).
+
+Fix: put the equation as a named lemma in the **defining** file
+(`theorem foo_apply (g) (f) : ρ g f = underlyingHom (↑g) f := rfl`), then
+downstream use `rw [foo_apply]` — the proof is already compiled, so no `rfl`
+re-elaboration. After the `rw`, close with the underlying lemma but let Lean
+**infer the matrix/group argument with `_`** (`exact bar _ hf`, not `bar (↑g) hf`):
+pinning `↑g` yourself reintroduces a second coercion spelling and re-triggers the
+same whnf blowup. Symptom to recognize: `(deterministic) timeout at whnf` on a
+line that is "obviously" `rfl` or a trivial `exact`.
