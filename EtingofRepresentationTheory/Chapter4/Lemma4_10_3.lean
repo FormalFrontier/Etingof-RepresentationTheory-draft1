@@ -313,7 +313,7 @@ theorem Etingof.Lemma4_10_3 (n : ℕ) (hn : 0 < n) :
         (totalDegree_X _)
         (fun x hx => isUnit_of_dvd_one (by
           have := hx (Finsupp.single ((0 : Fin 1), (0 : Fin 1)) 1)
-          rwa [coeff_X] at this))
+          simpa [coeff_X] using this))
     | succ n =>
       -- (n+2)×(n+2) case. IH gives irreducibility for (n+1)×(n+1).
       have ih' := ih (by omega)
