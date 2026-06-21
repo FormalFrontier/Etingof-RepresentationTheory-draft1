@@ -477,6 +477,32 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **Bundled instances from a destructured existential are already usable — do
+  NOT re-`haveI` them (Ch5, #4716).** Decomposition theorems
+  (`glTensorRep_..._decomposition...`) return `∃ (S : ι → Type u)
+  (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i)) …`. After
+  `obtain ⟨…, S, hSacg, hSmod, hSfin, …⟩`, those hypotheses are automatically
+  local instances: `Module k (S i)`, `S i ⊗[k] (L i)`, `trivial k G (S i)`
+  all resolve with no `haveI`. Pitfalls that cost real debugging time:
+  - The anonymous form `haveI := hSmod` for a *Pi-quantified* instance can fail
+    to register a usable instance. Always use the type-ascribed form
+    `haveI iSmod : ∀ i, Module k (S i) := hSmod` — or, better, just rely on the
+    `obtain` hypotheses directly and add nothing.
+  - Re-introducing an instance that already exists (e.g. `haveI iSacg : ∀ i,
+    AddCommGroup (S i) := hSacg` when `hSacg` is in scope) creates a *competing*
+    instance term; later `Module k (S i)` picks the new one while the source
+    hypothesis still carries the old one, producing `AddCommGroup`-diamond
+    type-mismatches.
+  - Symptom of getting this wrong: a cascade of misleading
+    `failed to synthesize Module k (S i)` errors plus a `(deterministic)
+    timeout at whnf` (the fallback global instance search is what blows the
+    heartbeats — bumping `maxHeartbeats` does NOT fix it, fixing the instance
+    setup does). Only `haveI` instances that are genuinely *missing*, e.g.
+    `Module.Free` over a field: `haveI : ∀ i, Module.Free k (S i) :=
+    fun i => Module.Free.of_divisionRing k (S i)`. For a `Type 0` basis index
+    (needed when the result type demands `Type`, not `Type u`), use
+    `Fin (Module.finrank k (S i))` with `Module.finBasis k (S i)`.
+
 - **GL-element inverse coercion to `Matrix` is ambiguous — annotate, or use `.val`.**
   Writing `((g i)⁻¹ : Matrix _ _ k)` for `g i : GL (Fin p) k` (e.g. the base-change
   action `g j · M · (g i)⁻¹` in `Problem6_1_5_OrbitSpace.lean`) elaborates with
