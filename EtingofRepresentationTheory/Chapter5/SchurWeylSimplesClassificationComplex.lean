@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
 import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 import EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic
 import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
+import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
+import EtingofRepresentationTheory.Chapter5.CharacterIndependence
 
 /-!
 # ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862)
@@ -293,12 +295,52 @@ theorem schurWeyl_simples_isotypic_matching_complex
   obtain rfl : p = p' := h2
   rfl
 
-/-- **Linear independence of the Schur-Weyl simple characters (isolated `sorry`,
-sub-issue of #4870).**
+/-- **Seam: torus-trace vanishing ⟹ coefficient vanishing (Dedekind/Artin + density,
+isolated `sorry`, sub-issue of #4887).**
 
-The formal characters of the pairwise non-isomorphic simple summands `L i` of
-`V^{⊗n}` (`V = Fin N → ℂ`, `n ≤ N`) produced by the equivariant decomposition are
-`ℚ`-linearly independent.
+For a finite family of pairwise non-isomorphic simple *polynomial* (algebraic, i.e.
+weight-space-spanning) `GL_N(ℂ)`-representations `L i`, if a `ℚ`-combination `c` of
+their characters has the property that the corresponding combination of *torus*
+traces vanishes at every diagonal torus element `diag(t)`, then every coefficient
+`c i` vanishes.
+
+This is the genuine remaining content of character independence. The proof is
+classical Dedekind/Artin independence of characters
+(`Etingof.traceCharacter_linearIndependent`, sub-issue (A)) applied to the
+`MonoidAlgebra ℂ (GL_N(ℂ))`-modules `Representation.asModule (L i).ρ`. Sub-issue (A)
+delivers independence of the trace functionals on the **whole** monoid algebra; the
+hypothesis here only supplies vanishing of the trace combination on the **torus**.
+Bridging the two — extending torus-trace vanishing to all of `GL_N(ℂ)` — is *the
+seam*: the trace combination is a class function (conjugation-invariant), hence
+vanishes on every diagonalizable matrix (each conjugate to a torus element), and the
+character of an algebraic representation is a polynomial (regular) function of the
+matrix entries, so vanishing on the Zariski-dense set of diagonalizable matrices
+forces vanishing everywhere. The required density / regular-function infrastructure
+(diagonalizable matrices Zariski-dense in `GL_N`, or Chevalley restriction for
+conjugation-invariant regular functions) is **not yet in the project**; this lemma
+is tracked as a dedicated sub-issue of #4887. -/
+theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
+    (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
+    (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤)
+    (hLsimp : ∀ i, IsSimpleModule
+        (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+    (c : ι → ℚ)
+    (htorus : ∀ t : Fin N → ℂˣ,
+        ∑ i, (c i : ℂ) • LinearMap.trace ℂ (L i) ((L i).ρ (diagTorus ℂ N t)) = 0) :
+    ∀ i, c i = 0 := by
+  -- Dedekind/Artin independence on `MonoidAlgebra ℂ (GL_N(ℂ))` (sub-issue (A)) +
+  -- the torus → full-group density bridge (the seam). Tracked as a sub-issue of #4887.
+  sorry
+
+/-- **Linear independence of the Schur-Weyl simple characters (sub-issue of #4870 /
+#4887).**
+
+The formal characters of the pairwise non-isomorphic simple *polynomial* summands
+`L i` of `V^{⊗n}` (`V = Fin N → ℂ`, `n ≤ N`) produced by the equivariant
+decomposition are `ℚ`-linearly independent.
 
 This is the classical fact "characters of pairwise non-isomorphic irreducible
 representations are linearly independent" (Dedekind/Artin independence of
@@ -308,14 +350,28 @@ identity `schurWeyl_decomposition_numerical_identity` and the injective isotypic
 matching `φ`, it forces every abstract simple `L i` to be a Schur module, i.e.
 `φ` surjective (see `schurWeyl_simples_formalCharacter_classification_core_complex`).
 
+**Spec resolution (#4887, option C-a).** As stated originally (only `hLsimp`,
+`hLdist`) the theorem is **false**: a "ghost" index whose abstract simple `L i` is
+not algebraic can have `formalCharacter ℂ N (L i) = 0` (empty weight-space
+decomposition), and two such ghosts make the family linearly dependent. The fix is
+the minimal-friction algebraicity hypothesis `hLtop` (each `L i` has spanning weight
+spaces) — exactly the form the torus-trace connection (sub-issue (B),
+`Etingof.trace_combination_eq_zero_of_formalCharacter_combination_eq_zero`) consumes.
+At the genuine call site each `L i` is a summand of the polynomial representation
+`V^{⊗n}`, hence algebraic; `hLtop` is supplied there from the decomposition data
+(`schurWeyl_simple_summand_glWeightSpace_top`).
+
 **Important — not circular.** The *existing*
 `glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent`
 (`SchurWeylSimplesClassification.lean`) derives the same conclusion, but *through*
 the still-sorried highest-weight classification core; using it here would make the
 ℂ-side classification depend on the very sorry it is meant to discharge. This
-lemma must instead be proved **directly** from `hLsimp`/`hLdist` (character
-independence), independently of the classification. Tracked as a sub-issue of
-#4870. -/
+lemma is instead proved **directly** from `hLsimp`/`hLdist`/`hLtop` (character
+independence), independently of the classification.
+
+The assembly here is `sorry`-free; it reduces to the isolated seam lemma
+`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero` via the torus-trace
+connection (B). -/
 theorem schurWeyl_simples_formalCharacter_linearIndependent_complex
     (N n : ℕ) (hN : n ≤ N)
     {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -330,12 +386,62 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_complex
             Representation.directSum (fun i =>
               (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
                 (S i)).tprod (L i).ρ) g (e v))
+    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤)
     (hLsimp : ∀ i, IsSimpleModule
         (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
         (Representation.asModule (L i).ρ))
     (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))) :
     LinearIndependent ℚ (fun i => formalCharacter ℂ N (L i)) := by
-  -- Classical character-independence content, isolated as a sub-issue of #4870.
+  -- Reduce to coefficient-vanishing for an arbitrary vanishing ℚ-combination.
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  -- Sub-issue (B): the relation `∑ cᵢ • char(Lᵢ) = 0` forces the corresponding
+  -- combination of torus traces to vanish at every diagonal torus element.
+  have htorus : ∀ t : Fin N → ℂˣ,
+      ∑ i, (c i : ℂ) • LinearMap.trace ℂ (L i) ((L i).ρ (diagTorus ℂ N t)) = 0 := by
+    intro t
+    have h := trace_combination_eq_zero_of_formalCharacter_combination_eq_zero
+      ℂ N Finset.univ c L (fun i _ => hLtop i) (by simpa using hc) t
+    simpa using h
+  -- The seam (sub-issue of #4887): torus-trace vanishing ⟹ every coefficient vanishes.
+  exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
+    N L hLtop hLsimp hLdist c htorus
+
+/-- **Algebraicity of the simple summands (isolated `sorry`, sub-issue of #4887).**
+
+Each simple summand `L i` of `V^{⊗n}` (`V = Fin N → ℂ`) carrying a nonzero
+multiplicity space (`0 < dim(S i)`) is a *polynomial* representation: its weight
+spaces span. This supplies the `hLtop` hypothesis of
+`schurWeyl_simples_formalCharacter_linearIndependent_complex` at the call site from
+the equivariant decomposition data.
+
+Proof sketch: a nonzero `s ∈ S i` gives a `GL_N(ℂ)`-equivariant embedding
+`L i ≅ {s} ⊗ L i ↪ S i ⊗ L i ↪ ⨁ⱼ Sⱼ ⊗ Lⱼ ≅ V^{⊗n}` (via `e⁻¹` and `he`), realizing
+`L i` as an invariant submodule of the algebraic representation `glTensorRep`
+(`Etingof.glTensorRep_isAlgebraic`). A sub-representation of an algebraic
+representation is algebraic (`Etingof.IsAlgebraicRepresentation.restrict`), and an
+algebraic representation has spanning weight spaces. The last step
+(`IsAlgebraicRepresentation ⟹ ⨆ glWeightSpace = ⊤`) is itself missing from the
+project and is part of this sub-issue. -/
+theorem schurWeyl_simple_summand_glWeightSpace_top
+    (N n : ℕ) (hN : n ≤ N)
+    {ι : Type} [Fintype ι] [DecidableEq ι]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module ℂ (S i)]
+    [∀ i, Module.Finite ℂ (S i)]
+    (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (e : TensorPower ℂ (Fin N → ℂ) n ≃ₗ[ℂ]
+        (DirectSum ι (fun i => S i ⊗[ℂ] (L i : Type))))
+    (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+          (v : TensorPower ℂ (Fin N → ℂ) n),
+          e (glTensorRep ℂ N n g v) =
+            Representation.directSum (fun i =>
+              (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
+                (S i)).tprod (L i).ρ) g (e v))
+    (hSne : ∀ i, 0 < Module.finrank ℂ (S i)) :
+    ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤ := by
+  -- Each `L i` (with `S i ≠ 0`) embeds equivariantly in the algebraic representation
+  -- `V^{⊗n}`, hence is algebraic, hence has spanning weight spaces. Tracked as a
+  -- sub-issue of #4887.
   sorry
 
 /-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
@@ -405,8 +511,13 @@ theorem schurWeyl_simples_formalCharacter_classification_core_complex
   -- coefficient to vanish; for `i ∉ im φ` the fibre is empty so `dim(Sᵢ) = 0`,
   -- contradicting `hSne`. Hence `φ` is surjective.
   have hφsurj : Function.Surjective φ := by
+    -- Each `L i` is a summand of the polynomial representation `V^{⊗n}` (with `S i ≠ 0`
+    -- by `hSne`), hence algebraic: its weight spaces span (`hLtop`).
+    have hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ),
+        glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤ :=
+      schurWeyl_simple_summand_glWeightSpace_top N n hN L e he hSne
     have hLI := schurWeyl_simples_formalCharacter_linearIndependent_complex
-      N n hN L e he hLsimp hLdist
+      N n hN L e he hLtop hLsimp hLdist
     have hnum := schurWeyl_decomposition_numerical_identity ℂ N n L e he
     set v : ι → MvPolynomial (Fin N) ℚ := fun i => formalCharacter ℂ N (L i) with hvdef
     -- Abstract the Specht-multiplicity coefficient on the partition side.
