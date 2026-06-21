@@ -448,6 +448,28 @@ explicit **weight-vector generators** (each in a single `glWeightSpaceℤ`) made
 descent need no torus-semisimplicity of `O`, which the abstract-submodule framing
 had wrongly demanded.
 
+### Adding a hypothesis the consumer must supply: check the import direction first
+
+When an issue says "add hypothesis `h` to lemma `L`, the consumer supplies it",
+verify *before* editing `L`'s signature that the term the consumer will pass is
+reachable **without an import cycle**. A *property* lemma (`X_isAlgebraic`,
+`X_isSimple`, `X_isPolynomial`, …) is usually defined **downstream** of the object
+`X` it describes — but the consumer of `L` often lives in the same upstream file
+where `X` itself is defined, so it cannot import the downstream property. The plan
+will read as if `h := X_property` is a one-liner; it is an import cycle. Fix by
+extracting the *general* infrastructure the property is built from into an upstream
+file and proving the consumer's instance **inline**; leave only the concrete
+packaging downstream. (#4882: `iso_of_formalCharacter_eq_schurPoly` gained `halg`,
+but `detTwistedSchurModuleRep_isAlgebraic` lives in `DetTwistAlgebraic`, which
+imports `Proposition5_22_2` — where both the consumer *and* `detTwistedSchurModuleRep`
+live — a cycle. Resolved by extracting `GLRepAlgebraic.lean` with the reusable
+`glTensorRep_isAlgebraic` / `.restrict` / `.detTwist` and building `halg` inline.)
+A second, related trap in the same issue: a plan step asserted "the simple summand
+`≅ L_λ` at the asModule level" as if free, but the existing classification exposes
+only *characters*, not the iso — that step needed a strictly stronger (deferred)
+lemma. Treat every "obviously follows" step in a plan as a claim to check against
+an actual existing declaration before committing to a sorry-free target.
+
 **Multi-block tubes: don't fix the `_leaf_equalities` *statement shape* ahead of
 the center-collapse design.** For the ≥3-arm / >2-block-center tubes (Ẽ₆ #4638,
 Ẽ₇ #4746, and the entangled D̃₅ #4743) the eigenvalue site is a **separate
