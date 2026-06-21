@@ -245,6 +245,46 @@ theorem glWeightSpaceℤ_neg_not_mem_nonneg_span (k : Type*) [Field k] [CharZero
     hbot ▸ Submodule.mem_inf.2 ⟨hμ_eig, hsup_le hv_sup⟩
   exact hv0 ((Submodule.mem_bot _).1 this)
 
+/-- **Weight-space shift under the `χ⁻ʳ` twist.** Twisting `A/det` by `detChar⁻ʳ`
+shifts every torus weight down by `(r,…,r)`: a vector is a weight-`μ` vector of the
+twisted rep `(A/det) ⊗ χ⁻ʳ` exactly when it is a weight-`(μ + r)` vector of the
+untwisted quotient `A/det`. Indeed `det (diagUnit i t) = t`, so the twist rescales
+the diagonal action `diagUnit i t` by the scalar `t⁻ʳ` uniformly in `i`, sending a
+`t^{μ i + r}`-eigenvector of `quotDetRep` to a `t^{μ i}`-eigenvector of the twist.
+
+This is the bookkeeping ingredient that the lowest/highest-weight realization core
+(`quotDetTwist_nonzero_subrep_has_neg_weight`) uses to convert a weight-`ν` vector
+of `A/det` (with `ν ∈ ℕ^N`, `ν_N = 0`) into a weight-`(ν − r)` vector of the twist
+whose last coordinate `ν_N − r = −r` is negative. -/
+theorem glWeightSpaceℤ_quotDetTwist (k : Type*) [Field k] (N : ℕ) (r : ℕ)
+    (μ : Fin N → ℤ) :
+    glWeightSpaceℤ k N (quotDetTwistRep k N r) μ =
+      glWeightSpaceℤ k N (quotDetRep k N) (fun i => μ i + r) := by
+  simp only [glWeightSpaceℤ]
+  refine iInf_congr fun i => iInf_congr fun t => ?_
+  set g := diagUnit k N i t with hg
+  -- `det (diagUnit i t) = t`, so the twist evaluates to `t⁻ʳ • quotDetRep g`.
+  have hdet : detChar k N g = t := by
+    ext
+    change Matrix.det g.val = (t : k)
+    simp only [hg, diagUnit, Matrix.det_diagonal,
+      Finset.prod_update_of_mem (Finset.mem_univ i), Pi.one_apply]
+    simp [Finset.prod_eq_one (fun j _ => rfl)]
+  set c : k := ((t ^ (-(r : ℤ)) : kˣ) : k) with hc
+  have hcne : c ≠ 0 := Units.ne_zero _
+  have htwist : quotDetTwistRep k N r g = c • quotDetRep k N g := by
+    show ((detChar k N ^ (-(r : ℤ))) g : k) • quotDetRep k N g = _
+    rw [MonoidHom.zpow_apply, hdet]
+  -- The two diagonal-action eigenscalars are related by `c`: `c · t^{μ i + r} = t^{μ i}`.
+  have hscal : c * ((t ^ (μ i + (r : ℤ)) : kˣ) : k) = ((t ^ μ i : kˣ) : k) := by
+    have hexp : (-(r : ℤ)) + (μ i + (r : ℤ)) = μ i := by ring
+    rw [hc, ← Units.val_mul, ← zpow_add, hexp]
+  -- Factor the twisted operator through `c`, then strip the nonzero scalar off the kernel.
+  have factored : quotDetTwistRep k N r g - ((t ^ μ i : kˣ) : k) • LinearMap.id =
+      c • (quotDetRep k N g - ((t ^ (μ i + (r : ℤ)) : kˣ) : k) • LinearMap.id) := by
+    rw [htwist, smul_sub, smul_smul, hscal]
+  rw [factored, LinearMap.ker_smul _ _ hcne]
+
 /-- **The genuine core of (K′).** For `r ≥ 1`, every *nonzero* subrepresentation
 `W` of the twisted quotient `(A/det) ⊗ χ⁻ʳ` contains a nonzero torus-weight vector
 whose weight has a negative coordinate.
