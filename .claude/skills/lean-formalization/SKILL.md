@@ -16,6 +16,25 @@ lake exe cache get
 ```
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
+### Build hygiene (one `lake build` at a time)
+
+**Never run two `lake build` invocations against the same workspace concurrently.**
+Worktree agents share `.lake/packages` (it is symlinked to the main checkout), and
+lake is not safe under concurrent invocations on shared state: racing builds
+overwrite each other's oleans mid-write and leave truncated/incompatible files.
+Run builds serially; if you need to wait for a long build, poll its single
+background task rather than launching another `lake build`.
+
+**`incompatible header` errors are a toolchain mismatch, not your code.** They mean
+an olean was produced by a different Lean version than the one reading it. The
+usual cause is another worktree agent on a different toolchain (e.g. an unmerged
+toolchain-bump branch on `v4.28.1` while `main`/yours is `v4.28.0`) rebuilding the
+shared `.lake/packages`. Diagnose with `head -c 64 <file>.olean | strings` (shows
+the olean's version) and `cat lean-toolchain` in the other worktrees. Do **not**
+fight it by rebuilding packages — that just churns against the other agent. If
+your code already built cleanly before the conflict, rely on CI (isolated, pinned
+to the repo's `lean-toolchain`) and proceed with the PR.
+
 ## Pre-Flight Checklist (Before Starting Any Proof)
 
 Run this checklist before writing a single tactic. Skipping it has caused agents to waste entire context windows on dead-ends.
