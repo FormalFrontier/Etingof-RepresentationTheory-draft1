@@ -91,4 +91,42 @@ theorem coeff_polyRightRep_diagUnit (i : Fin N) (t : kˣ)
   · rfl
   · rw [notMem_support_iff.mp hs, mul_zero]
 
+/-! ### The weight space as the span of column-degree-`μ` monomials -/
+
+/-- The `k`-linear inclusion of the carrier `A_d` of `polyRightDegreeFDRep` into the
+polynomial ring `k[Xᵢⱼ]`. It is the subtype map of the homogeneous component. -/
+noncomputable def polyOf (d : ℕ) :
+    polyRightDegreeFDRep k N d →ₗ[k] MvPolynomial (Fin N × Fin N) k :=
+  (homogeneousSubmodule (Fin N × Fin N) k d).subtype
+
+theorem polyOf_injective (d : ℕ) : Function.Injective (polyOf (k := k) (N := N) d) :=
+  Subtype.coe_injective
+
+theorem polyOf_mem (d : ℕ) (w : polyRightDegreeFDRep k N d) :
+    polyOf d w ∈ homogeneousSubmodule (Fin N × Fin N) k d :=
+  w.2
+
+/-- The underlying polynomial of the right action on `A_d` is `polyRightRep`. -/
+theorem polyOf_rho (d : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (w : polyRightDegreeFDRep k N d) :
+    polyOf d ((polyRightDegreeFDRep k N d).ρ g w) = polyRightRep k N g (polyOf d w) :=
+  rfl
+
+variable [IsAlgClosed k]
+
+/-- **Membership in the weight space, read on the underlying polynomial.** A vector
+`w ∈ A_d` lies in the `μ`-weight space iff for every diagonal torus element the
+right action multiplies `↑w` by the eigenvalue `t ^ μ i`. -/
+theorem mem_glWeightSpace_polyRight_iff (d : ℕ) (μ : Fin N → ℕ)
+    (w : polyRightDegreeFDRep k N d) :
+    w ∈ glWeightSpace k N (polyRightDegreeFDRep k N d) μ
+      ↔ ∀ (i : Fin N) (t : kˣ),
+          polyRightRep k N (diagUnit k N i t) (polyOf d w)
+            = (t : k) ^ μ i • polyOf d w := by
+  simp only [glWeightSpace, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply,
+    LinearMap.smul_apply, LinearMap.id_apply, sub_eq_zero]
+  refine forall_congr' fun i => forall_congr' fun t => ?_
+  rw [← polyOf_rho, ← map_smul]
+  exact ⟨fun h => by rw [h], fun h => polyOf_injective d h⟩
+
 end Etingof.CauchyWeightSpaceDimension
