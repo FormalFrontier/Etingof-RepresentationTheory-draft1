@@ -50,15 +50,23 @@ The iso-strength highest-weight uniqueness `simpleRep_iso_schurModule_of_formalC
 (this file) — "a simple polynomial `GL_N`-rep with character `S_λ` is `L_λ`", the natural
 strengthening of `schurWeyl_simples_formalCharacter_classification_core` (#4721, which only
 classifies characters) — is itself now **sorry-free in its own proof** (route B, #4901). It
-runs the two-element-family `{L, L_λ}` character-independence argument and reduces to three
-isolated, genuinely-deep ingredients, each tracked as a sub-issue:
+takes the polynomiality (weight saturation) of `L` as a hypothesis `hLtop` and runs the
+two-element-family `{L, L_λ}` character-independence argument, reducing to two isolated,
+genuinely-deep ingredients, each tracked as a sub-issue:
 
 * (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946);
 * (b) `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` — the general-`k`
   torus→full-group Zariski-density character-independence seam (#4947, shares the density core
-  with the ℂ seam #4908);
-* (c) `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` — weight saturation /
-  polynomiality of a simple rep with `schurPoly` character (#4948).
+  with the ℂ seam #4908).
+
+There is no third "weight saturation from character" ingredient: the original (c)
+`glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was **false** (`formalCharacter`
+does not see non-`ℕ` weights, so it cannot certify polynomiality of a simple — counterexample
+`det⁻¹ ⊗ Sym³(std)` at `N = 2`) and is retired (#4969). Polynomiality is instead threaded as
+the `hLtop` hypothesis and discharged at the real caller `iso_of_formalCharacter_eq_schurPoly`,
+where the simple summand `L (f 0)` is the equivariant image of the polynomial `M`; the
+`L_λ`-side uses the true `glWeightSpace_schurModule_iSup_eq_top`. Both rest on the elementary
+`glWeightSpace_iSup_eq_top_of_equivariant_surjective`.
 
 The classification crux (#4721) and pairwise distinctness (#4731), reached through
 `decompose_polynomial_gl_rep`, are consumed transitively by the assembly below.
@@ -121,6 +129,57 @@ theorem formalCharacter_FDRep_of_ρ (N : ℕ)
     formalCharacter k N (FDRep.of M.ρ) = formalCharacter k N M :=
   formalCharacter_eq_of_rep_iso k N M.ρ M.ρ (LinearEquiv.refl k M) (fun _ _ => rfl)
 
+omit [CharZero k] in
+/-- **Weight saturation transfers along equivariant surjections.** A `GL_N`-equivariant
+surjection `φ : M → P` sends each `ℕ`-weight vector of `M` to an `ℕ`-weight vector of `P`
+of the same weight (equivariance commutes `φ` past the torus action), so the image of a
+weight space lands in the matching weight space. Hence if the `ℕ`-weight spaces of `M`
+span all of `M`, those of `P` span all of `P`.
+
+(`omit [CharZero k]`: the statement and proof never use it.)
+
+This is the single elementary fact behind both polynomiality facts the highest-weight
+uniqueness assembly needs: the Schur module is the equivariant image of the tensor power
+(below), and a direct summand of a polynomial representation is its equivariant image. -/
+theorem glWeightSpace_iSup_eq_top_of_equivariant_surjective (N : ℕ)
+    (M P : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (φ : M →ₗ[k] P)
+    (hφ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : M), φ (M.ρ g v) = P.ρ g (φ v))
+    (hsurj : Function.Surjective φ)
+    (hM : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤) :
+    ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N P (fun i => μ i) = ⊤ := by
+  have hmap : ∀ μ : Fin N →₀ ℕ,
+      Submodule.map φ (glWeightSpace k N M (fun i => μ i))
+        ≤ glWeightSpace k N P (fun i => μ i) := by
+    intro μ
+    rw [Submodule.map_le_iff_le_comap]
+    intro v hv
+    simp only [Submodule.mem_comap, glWeightSpace, Submodule.mem_iInf, LinearMap.mem_ker,
+      LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, sub_eq_zero] at hv ⊢
+    intro i t
+    rw [← hφ, hv i t, map_smul]
+  rw [eq_top_iff, ← LinearMap.range_eq_top.mpr hsurj, ← Submodule.map_top, ← hM,
+    Submodule.map_iSup]
+  exact iSup_mono hmap
+
+/-- **The `ℕ`-weight spaces of the Schur module span.** `L_λ = SchurModule k N lam` is the
+equivariant image of the tensor power `V^{⊗n}` under (the corestriction of) the Young
+symmetrizer (`glTensor_comm_youngSym`), and the tensor power's `ℕ`-weight spaces span
+(`glTensorRep_iSup_glWeightSpace_eq_top`), so weight saturation transfers via
+`glWeightSpace_iSup_eq_top_of_equivariant_surjective`. -/
+theorem glWeightSpace_schurModule_iSup_eq_top (N : ℕ) (lam : Fin N → ℕ) :
+    ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊤ := by
+  refine glWeightSpace_iSup_eq_top_of_equivariant_surjective k N
+    (FDRep.of (glTensorRep k N (∑ i, lam i))) (SchurModule k N lam)
+    (LinearMap.rangeRestrict (youngSymEndomorphism k N lam)) ?_
+    (LinearMap.surjective_rangeRestrict _)
+    (glTensorRep_iSup_glWeightSpace_eq_top k N (∑ i, lam i))
+  intro g v
+  apply Subtype.ext
+  change youngSymEndomorphism k N lam ((FDRep.of (glTensorRep k N (∑ i, lam i))).ρ g v)
+     = (glTensorRep k N (∑ i, lam i) g) (youngSymEndomorphism k N lam v)
+  rw [FDRep.of_ρ']
+  exact (LinearMap.ext_iff.mp (glTensor_comm_youngSym k N lam g) v).symm
 
 /-- **Ingredient (a): general-`k` Schur-module simplicity (isolated `sorry`, issue #4946).**
 The Schur module `L_λ = SchurModule k N lam` is a simple
@@ -157,20 +216,6 @@ theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     ∀ i, c i = 0 := by
   sorry
 
-/-- **Ingredient (c): weight saturation / polynomiality (isolated `sorry`, issue #4948).**
-A *simple* `GL_N(k)`-representation whose formal character equals `schurPoly N lam` (antitone
-`lam`) is polynomial: its `ℕ`-valued weight spaces span everything. Simplicity is essential —
-it excludes the would-be counterexample `L_λ ⊕ det⁻¹`, whose `det⁻¹`-summand carries no
-`ℕ`-weight and is invisible to `formalCharacter`. Deliverable of #4948. -/
-theorem glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly (N : ℕ)
-    (lam : Fin N → ℕ) (hlam : Antitone lam)
-    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hMsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
-      (Representation.asModule M.ρ))
-    (h : formalCharacter k N M = schurPoly N lam) :
-    ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤ := by
-  sorry
-
 /-- **Highest-weight uniqueness (issue #4901/#4721, route B).** A *simple* polynomial
 `GL_N(k)`-representation whose formal character is the Schur polynomial `S_λ` (for an
 antitone `λ`) is isomorphic to the Schur module `L_λ`.
@@ -180,16 +225,23 @@ This is the iso-strength form of the highest-weight classification, one notch st
 *character* of an abstract simple). The proof is the **two-element-family character
 independence** argument: were `L` and `L_λ` non-isomorphic, the pair `{L, L_λ}` would be two
 pairwise non-isomorphic simple polynomial representations (simplicity of `L_λ` is ingredient
-(a); polynomiality of each via weight saturation is ingredient (c)) whose equal formal
-characters force the torus-trace combination `trace(L) − trace(L_λ)` to vanish, contradicting
-character independence (ingredient (b)) with the nonzero coefficient vector `(1, -1)`. Hence
-`L ≅ L_λ`. The three deep ingredients are isolated as the `sorry`s above (#4946/#4947/#4948);
-this assembly is sorry-free. -/
+(a)) whose equal formal characters force the torus-trace combination `trace(L) − trace(L_λ)`
+to vanish, contradicting character independence (ingredient (b)) with the nonzero coefficient
+vector `(1, -1)`. Hence `L ≅ L_λ`.
+
+Polynomiality (weight saturation) of `L` is genuinely available at the real call site and is
+threaded in as the hypothesis `hLtop`, not manufactured from the character: weight saturation
+is *not* determined by `formalCharacter` for non-polynomial simples (e.g. `det⁻¹ ⊗ Sym³(std)`
+at `N = 2` has character `schurPoly 2 (1,0)` but does not saturate), so the would-be ingredient
+(c) `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was false and is retired (#4969).
+The `L_λ`-side saturation is the true `glWeightSpace_schurModule_iSup_eq_top`. The two remaining
+deep ingredients are isolated as the `sorry`s above (#4946 simplicity, #4947 independence). -/
 theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     (lam : Fin N → ℕ) (hlam : Antitone lam)
     (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule L.ρ))
+    (hLtop : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N L (fun i => μ i) = ⊤)
     (h : formalCharacter k N L = schurPoly N lam) :
     Nonempty (L ≅ SchurModule k N lam) := by
   by_contra hno
@@ -204,10 +256,8 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
       glWeightSpace k N (![L, S] i) (fun j => μ j) = ⊤ := by
     rw [Fin.forall_fin_two]
     refine ⟨?_, ?_⟩
-    · simpa using
-        glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly k N lam hlam L hLsimp h
-    · simpa using
-        glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly k N lam hlam S hSsimp hSchar
+    · simpa using hLtop
+    · simpa using glWeightSpace_schurModule_iSup_eq_top k N lam
   have hsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule (![L, S] i).ρ) := by
     rw [Fin.forall_fin_two]; exact ⟨hLsimp, hSsimp⟩
@@ -345,8 +395,18 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
   -- `L (f 0) ≅ L_λ` by highest-weight uniqueness.
   have hchar0 : formalCharacter k N (L (f 0)) = schurPoly N lam := by
     rw [hchar (f 0), hclass0]
+  -- Polynomiality of the simple summand `L (f 0)`: it is the equivariant image of the
+  -- polynomial `M` under the `k`-linear GL-equivariant equivalence `hφ'`, so weight
+  -- saturation transfers from `h_span` (`M`'s `ℕ`-weight spaces span).
+  have hLf0top : ⨆ (μ : Fin N →₀ ℕ),
+      glWeightSpace k N (L (f 0)) (fun i => μ i) = ⊤ :=
+    glWeightSpace_iSup_eq_top_of_equivariant_surjective k N M (L (f 0))
+      (Representation.kEquivOfAsModuleEquiv hφ').toLinearMap
+      (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ' g v)
+      (Representation.kEquivOfAsModuleEquiv hφ').surjective h_span
   have hLS : Nonempty (L (f 0) ≅ SchurModule k N lam) :=
-    simpleRep_iso_schurModule_of_formalCharacter_eq k N lam hlam (L (f 0)) (hLsimp (f 0)) hchar0
+    simpleRep_iso_schurModule_of_formalCharacter_eq k N lam hlam (L (f 0)) (hLsimp (f 0))
+      hLf0top hchar0
   obtain ⟨isoML⟩ := hML
   obtain ⟨isoLS⟩ := hLS
   exact ⟨isoML ≪≫ isoLS⟩
