@@ -268,6 +268,23 @@ After each coherent chunk of changes:
   appear stalled near the end; trust your per-module build (verified green
   standalone) and let CI run the authoritative full build.
 
+- **If `lake build` fails on `proofwidgets/widgetJsAll` ("ProofWidgets not
+  up-to-date"), verify your single file with `lake env lean` instead.** This is a
+  pre-existing cloud-release/trace inconsistency in the *shared* `.lake/packages`
+  (symlinked across all worktrees) — do NOT delete or edit anything under
+  `.lake/` (you will break every concurrent session, and editing a dependency's
+  lakefile does not re-resolve anyway). When your imports' oleans already exist,
+  typecheck just your file, applying the project's `leanOptions` (from
+  `lakefile.toml`) so universe/instance elaboration matches `lake build`:
+  ```bash
+  lake env lean -D maxSynthPendingDepth=3 -D relaxedAutoImplicit=false \
+    -D pp.unicode.fun=true EtingofRepresentationTheory/Chapter5/<File>.lean
+  ```
+  Omitting those `-D` flags produces spurious "stuck at solving universe
+  constraint" errors in code that builds fine under `lake build`. A clean run
+  (only your intended `sorry` warnings) is sufficient pre-PR verification; CI runs
+  the authoritative full build.
+
 Each commit must compile. One logical change per commit.
 
 - **Never `git add -A` / `git add .` blindly in a reused worktree.** Worktrees
