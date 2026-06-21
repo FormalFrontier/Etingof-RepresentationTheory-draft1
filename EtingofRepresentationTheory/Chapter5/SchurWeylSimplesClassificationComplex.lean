@@ -4,6 +4,7 @@ import EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic
 import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
 import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 import EtingofRepresentationTheory.Chapter5.CharacterIndependence
+import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
 
 /-!
 # ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862)
@@ -295,8 +296,41 @@ theorem schurWeyl_simples_isotypic_matching_complex
   obtain rfl : p = p' := h2
   rfl
 
-/-- **Seam: torus-trace vanishing ⟹ coefficient vanishing (Dedekind/Artin + density,
-isolated `sorry`, sub-issue of #4887).**
+/-- **Geometric core of the seam: torus-trace vanishing ⟹ all-of-`GL_N` trace vanishing
+(isolated `sorry`, density sub-issue of #4887).**
+
+A `ℂ`-combination of the characters of finitely many *algebraic* (weight-space-spanning)
+`GL_N(ℂ)`-representations `L i` that vanishes at every diagonal torus element `diag(t)`
+vanishes at *every* group element `g`. This is the one genuinely geometric step of the
+character-independence seam, isolated here so the surrounding algebra
+(`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero`) is otherwise sorry-free.
+
+The character `g ↦ trace_ℂ ((L i).ρ g)` of an algebraic representation is a *regular*
+(polynomial-in-the-entries-with-`det⁻¹`) and conjugation-invariant function of `g`; the
+combination is therefore a regular class function. Every diagonalizable matrix is
+conjugate to a diagonal torus element, so the combination already vanishes on all
+diagonalizable matrices, and these are Zariski-dense in `GL_N(ℂ)`, forcing vanishing
+everywhere. The density / regular-function infrastructure (diagonalizable matrices
+Zariski-dense in `GL_N`, or Chevalley restriction for conjugation-invariant regular
+functions) is **not yet in the project** and is tracked as a dedicated density sub-issue
+of #4887. The available scaffolding is `eq_of_eval_eq_on_gl`
+(`Chapter5/EvalEqOnGL.lean`), `evalGLAway_injective` (`Chapter5/DetLocalization.lean`),
+`MvPolynomial.funext`, and `aeval_formalCharacter_eq_trace`
+(`Chapter5/FormalCharacterTorusTrace.lean`). -/
+theorem trace_combination_vanishes_of_torus_vanishes
+    (N : ℕ) {ι : Type} [Fintype ι]
+    (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤)
+    (c : ι → ℂ)
+    (htorus : ∀ t : Fin N → ℂˣ,
+        ∑ i, c i • LinearMap.trace ℂ (L i) ((L i).ρ (diagTorus ℂ N t)) = 0)
+    (g : Matrix.GeneralLinearGroup (Fin N) ℂ) :
+    ∑ i, c i • LinearMap.trace ℂ (L i) ((L i).ρ g) = 0 := by
+  -- Density of diagonalizable matrices in `GL_N(ℂ)` + regularity of algebraic characters.
+  -- Tracked as a dedicated density sub-issue of #4887.
+  sorry
+
+/-- **Seam: torus-trace vanishing ⟹ coefficient vanishing (Dedekind/Artin + density).**
 
 For a finite family of pairwise non-isomorphic simple *polynomial* (algebraic, i.e.
 weight-space-spanning) `GL_N(ℂ)`-representations `L i`, if a `ℚ`-combination `c` of
@@ -304,21 +338,26 @@ their characters has the property that the corresponding combination of *torus*
 traces vanishes at every diagonal torus element `diag(t)`, then every coefficient
 `c i` vanishes.
 
-This is the genuine remaining content of character independence. The proof is
+This is the genuine remaining content of character independence. The proof is the
 classical Dedekind/Artin independence of characters
-(`Etingof.traceCharacter_linearIndependent`, sub-issue (A)) applied to the
-`MonoidAlgebra ℂ (GL_N(ℂ))`-modules `Representation.asModule (L i).ρ`. Sub-issue (A)
-delivers independence of the trace functionals on the **whole** monoid algebra; the
-hypothesis here only supplies vanishing of the trace combination on the **torus**.
-Bridging the two — extending torus-trace vanishing to all of `GL_N(ℂ)` — is *the
-seam*: the trace combination is a class function (conjugation-invariant), hence
-vanishes on every diagonalizable matrix (each conjugate to a torus element), and the
-character of an algebraic representation is a polynomial (regular) function of the
-matrix entries, so vanishing on the Zariski-dense set of diagonalizable matrices
-forces vanishing everywhere. The required density / regular-function infrastructure
-(diagonalizable matrices Zariski-dense in `GL_N`, or Chevalley restriction for
-conjugation-invariant regular functions) is **not yet in the project**; this lemma
-is tracked as a dedicated sub-issue of #4887. -/
+(`Etingof.traceCharacter_linearIndependent`) applied to the
+`MonoidAlgebra ℂ (GL_N(ℂ))`-modules `Representation.asModule (L i).ρ`:
+
+* `hLdist` (an `FDRep` non-isomorphism `¬ (L i ≅ L j)`) becomes an `asModule`
+  `A`-module non-isomorphism via the carrier-level intertwiner
+  `Representation.kEquivOfAsModuleEquiv`;
+* `traceCharacter_linearIndependent` then gives `ℂ`-independence of the trace
+  functionals `traceChar (asModule (L i).ρ) : A →ₗ[ℂ] ℂ` on the **whole** monoid
+  algebra `A = MonoidAlgebra ℂ (GL_N(ℂ))`;
+* `traceChar` evaluated at a group element `of g` is the representation trace
+  `trace_ℂ ((L i).ρ g)`, so the trace combination, vanishing on every group element,
+  makes the functional combination vanish on the `A`-spanning set `{of g}`, hence
+  vanish identically; independence then forces every `c i = 0`.
+
+The one geometric input — that the trace combination vanishes at *every* `g`, not just
+on the torus — is the isolated lemma `trace_combination_vanishes_of_torus_vanishes`
+(diagonalizable matrices Zariski-dense in `GL_N`), tracked as a dedicated density
+sub-issue of #4887. Everything else here is sorry-free. -/
 theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
     (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
     (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
@@ -331,9 +370,56 @@ theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
     (htorus : ∀ t : Fin N → ℂˣ,
         ∑ i, (c i : ℂ) • LinearMap.trace ℂ (L i) ((L i).ρ (diagTorus ℂ N t)) = 0) :
     ∀ i, c i = 0 := by
-  -- Dedekind/Artin independence on `MonoidAlgebra ℂ (GL_N(ℂ))` (sub-issue (A)) +
-  -- the torus → full-group density bridge (the seam). Tracked as a sub-issue of #4887.
-  sorry
+  classical
+  -- Work with the `MonoidAlgebra ℂ (GL_N(ℂ))`-modules `M i := asModule (L i).ρ`.
+  -- (a) Pairwise non-isomorphic as `A`-modules: an `A`-iso of `asModule`s would, via the
+  -- carrier-level equivalence `kEquivOfAsModuleEquiv` (which intertwines `ρ`), produce an
+  -- `FDRep` isomorphism `L i ≅ L j`, contradicting `hLdist`.
+  have hdist : Pairwise (fun i j => ¬ Nonempty (Representation.asModule (L i).ρ
+      ≃ₗ[MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)]
+        Representation.asModule (L j).ρ)) := by
+    intro i j hij hcon
+    obtain ⟨φ⟩ := hcon
+    exact hLdist hij ⟨Action.mkIso (Representation.kEquivOfAsModuleEquiv φ).toFGModuleCatIso
+      (fun g => by ext x; exact Representation.kEquivOfAsModuleEquiv_intertwines φ g x)⟩
+  -- (b) Dedekind/Artin: the trace functionals `traceChar M i : A →ₗ[ℂ] ℂ` are independent.
+  have hLI := traceCharacter_linearIndependent (𝕜 := ℂ)
+    (A := MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (fun i => Representation.asModule (L i).ρ) hLsimp hdist
+  -- (c) Trace functional on a group element evaluates to the representation trace.
+  have hbridge : ∀ (i : ι) (g : Matrix.GeneralLinearGroup (Fin N) ℂ),
+      traceChar (fun i => Representation.asModule (L i).ρ) i (MonoidAlgebra.of ℂ _ g)
+        = LinearMap.trace ℂ (L i) ((L i).ρ g) := by
+    intro i g
+    have hmap : (repEnd (fun i => Representation.asModule (L i).ρ) i
+        (MonoidAlgebra.of ℂ _ g) :
+          Representation.asModule (L i).ρ →ₗ[ℂ] Representation.asModule (L i).ρ)
+          = (L i).ρ g := by
+      ext v
+      rw [repEnd_apply, ← Representation.asAlgebraHom_of (L i).ρ g]
+      rfl
+    rw [traceChar_apply, hmap]
+    rfl
+  -- (d) The functional combination `∑ᵢ (cᵢ:ℂ) • traceChar M i` vanishes on every group
+  -- element by the geometric core, hence (being spanned by group elements) is zero.
+  have hF0 : ∀ a, (∑ i, (c i : ℂ) • (traceChar (fun i => Representation.asModule (L i).ρ) i :
+      MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) →ₗ[ℂ] ℂ)) a = 0 := by
+    intro a
+    induction a using MonoidAlgebra.induction_on with
+    | hM g =>
+        have hg0 := trace_combination_vanishes_of_torus_vanishes N L hLtop
+          (fun i => (c i : ℂ)) htorus g
+        rw [LinearMap.sum_apply]
+        simpa only [LinearMap.smul_apply, hbridge] using hg0
+    | hadd x y hx hy => simp only [map_add, hx, hy, add_zero]
+    | hsmul r x hx => simp only [map_smul, hx, smul_zero]
+  have hfun : (∑ i, (c i : ℂ) • (traceChar (fun i => Representation.asModule (L i).ρ) i :
+      MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) →ₗ[ℂ] ℂ)) = 0 :=
+    LinearMap.ext hF0
+  -- (e) Independence then forces every coefficient to vanish.
+  intro i
+  have : (c i : ℂ) = 0 := Fintype.linearIndependent_iff.mp hLI (fun i => (c i : ℂ)) hfun i
+  exact_mod_cast this
 
 /-- **Linear independence of the Schur-Weyl simple characters (sub-issue of #4870 /
 #4887).**
