@@ -529,6 +529,43 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
     (needed when the result type demands `Type`, not `Type u`), use
     `Fin (Module.finrank k (S i))` with `Module.finBasis k (S i)`.
 
+### Proving `IsAlgebraicRepresentation` (Ch5 §5.23, #4756)
+
+`detTwistedSchurModuleRep_isAlgebraic` (`Chapter5/DetTwistAlgebraic.lean`) is the
+first algebraicity proof for a concrete rep, and ships **three reusable lemmas** —
+reach for these before re-deriving for any other `GL_N` rep (e.g. bare
+`schurModuleRep`, `glTensorRep`, further twists):
+
+- `glTensorRep_isAlgebraic` — the diagonal action is algebraic; matrix coefficient
+  in `tBasisAlg` is the monomial `∏ₘ X_{(h m, f m)}`.
+- `IsAlgebraicRepresentation.restrict (W) (hW)` — restrict to a `ρ`-invariant
+  submodule. (`schurModuleRep` algebraicity falls out as the intermediate step.)
+- `IsAlgebraicRepresentation.detTwist` — twist by the `det` character.
+
+Plus `evalAtGL_{mul,sum,prod,C,X_inl}`: `evalAtGL g` is `MvPolynomial.eval σ`, a
+ring hom, so it commutes with `*`/`∑`/`∏`/`C`; prove each by
+`simp only [Etingof.evalAtGL, map_mul]` etc. The det polynomial is `detPolyGL`
+(det of the generic `(Xᵢⱼ)` matrix); `evalAtGL g detPolyGL = det g` via
+`RingHom.map_det`.
+
+Three API gotchas that cost build cycles here:
+- **Tensor-basis coefficients:** `Basis.piTensorProduct_repr_tprod_apply` gives
+  `(piTensorProduct b).repr (⨂ₜ x) p = ∏ i, (b i).repr (x i) (p i)` — the clean way
+  to read a coefficient of `PiTensorProduct.map f (tprod …)`.
+- **`Matrix.col` has no `col_apply`.** `M.col j = Mᵀ`, so `(M.col j) i` is
+  *definitionally* `M i j` (via `transpose`/`of_apply`). After
+  `rw [Matrix.mulVec_single_one]` just close the entry goal with `rfl`, not a
+  `col_apply` simp (which does not exist).
+- **`Basis.repr_reindex_apply` needs full qualification** as
+  `Module.Basis.repr_reindex_apply` (and `Module.Basis.reindex_apply`); the bare
+  `Basis.`-prefixed forms fail to resolve. Use these to fit a non-`Fin`-indexed
+  basis (e.g. `tBasisAlg : Basis (Fin n → Fin N)`) into the `Fin m`-indexed
+  `IsAlgebraicRepresentation` predicate by reindexing through `Fintype.equivFin`.
+- **`let` not `set` for locals whose *defeq* you rely on** (here a projection `π`
+  and the functional `φ y = b'.repr (π y) a`): `set` introduces an *opaque* local,
+  so terms like `linearProjOfIsCompl_apply_left` (which mention the unfolded
+  expression) no longer typecheck against it, and `fun _ => rfl` proofs break.
+
 - **GL-element inverse coercion to `Matrix` is ambiguous — annotate, or use `.val`.**
   Writing `((g i)⁻¹ : Matrix _ _ k)` for `g i : GL (Fin p) k` (e.g. the base-change
   action `g j · M · (g i)⁻¹` in `Problem6_1_5_OrbitSpace.lean`) elaborates with
