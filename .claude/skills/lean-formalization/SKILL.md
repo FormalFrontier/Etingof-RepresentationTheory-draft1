@@ -615,6 +615,25 @@ coordinate ring `B` (the `det⁻¹`-localization the bridge above consumes). Fou
   Det-units come from `IsLocalization.map_units B ⟨detProd, Submonoid.mem_powers _⟩` plus
   `isUnit_of_dvd_unit (map_dvd _ (Finset.dvd_prod_of_mem ..))`; invert via
   `Matrix.mul_nonsing_inv _ (isUnit_det ..)`. See `Problem6_1_5_OrbitComorphism.lean`.
+- **Orbit-comorphism injectivity via per-element evaluation (`Problem6_1_5_OrbitInjective.lean`,
+  #4807).** To prove `orbitComorphism v₀ : k[W] →ₐ B` (into the abstract `detProd⁻¹`
+  localization) injective, evaluate at each group element: `evalAt g := IsLocalization.liftAlgHom`
+  of `aeval (groupEntries g)` (the `detProd`-units hypothesis discharges via
+  `(Submonoid.mem_powers_iff _ _).mp y.2` + `map_pow` + `IsUnit.pow`). Prove the identity
+  `evalAt g ∘ orbitComorphism v₀ = aeval (pointCoords (g • v₀))` by `MvPolynomial.algHom_ext`.
+  The base-change product `g_j · M · g_i⁻¹` is **rectangular**, so `AlgHom.mapMatrix`/`map_mul`
+  (square only) do NOT apply: push the ring hom through entrywise with
+  `key : ∀ M, evalAt g (M a b) = (M.map (evalAt g)) a b := fun _ => rfl`, then `Matrix.map_mul`
+  (a `NonUnitalRingHomClass` lemma — works for rectangular) twice. Map generic matrices via
+  `evalAt_algebraMap` (= `IsLocalization.lift_eq`); for the inverse, get `(g i)⁻¹` from
+  `Matrix.inv_eq_right_inv` (avoids `Ring.inverse`) and **match the GL-inverse-then-coerce form
+  of `repSpace_smul_apply`** by stating the lemma RHS as `(((g i)⁻¹ : GL (Fin (m i)) k) : Matrix ..)`,
+  not `((g i)⁻¹ : Matrix ..)`. Injectivity then follows from algebraic density of the orbit
+  (`injective_iff_map_eq_zero` + the density predicate). The density itself (Problem 6.1.2a) is
+  purely algebraic: finitely many orbits ⟹ a dense orbit by product-of-vanishing-witnesses
+  (`Finset.prod_eq_zero`/`prod_ne_zero_iff`) + `MvPolynomial.funext` over `[Infinite k]` — no
+  Zariski topology. Group-side lemmas (GIdx/genMat/detProd) need `omit [Quiver ..] [∀ i j, Fintype ..] in`
+  to silence section-var linters; the `omit` must precede any docstring.
 
 ### Norm-Based Contradiction (Analysis Proofs)
 
