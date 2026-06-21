@@ -669,4 +669,155 @@ theorem Proposition5_21_1
           (charValue N lam μ : ℚ) • schurPoly N lam.parts :=
   ⟨Finset.univ, Proposition5_21_1_univ N μ⟩
 
+/-! ## Leading term of the alternant determinant and Schur polynomial
+
+The highest-weight multiplicity-one fact: the coefficient of `x^λ` in the Schur
+polynomial `S_λ` is nonzero (in fact `1`, the Kostka number `K_{λλ}`). We obtain
+it as the leading-monomial content of the Weyl character formula
+`S_λ · Δ = D_{λ+δ}`, read off in the degree-lexicographic monomial order. -/
+
+section LeadingTerm
+
+open Finsupp
+open scoped MonomialOrder
+
+/-- Among all rearrangements of a strictly-decreasing exponent tuple `e`, the
+sorted tuple `e` itself is the degree-lexicographic maximum: every permuted
+monomial `x^{e ∘ σ⁻¹}` is `≤` `x^e`. -/
+theorem degLex_alternant_monomial_le {N : ℕ} {e : Fin N → ℕ} (he : StrictAnti e)
+    (σ : Equiv.Perm (Fin N)) :
+    toDegLex (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) ≤
+      toDegLex (Finsupp.equivFunOnFinite.symm e) := by
+  classical
+  set π : Equiv.Perm (Fin N) := σ.symm with hπ
+  set a : Fin N →₀ ℕ := Finsupp.equivFunOnFinite.symm (e ∘ ⇑π) with ha
+  set b : Fin N →₀ ℕ := Finsupp.equivFunOnFinite.symm e with hb
+  have hav : ∀ i, a i = e (π i) := fun i => by rw [ha]; rfl
+  have hbv : ∀ i, b i = e i := fun i => by rw [hb]; rfl
+  have hdeg : a.degree = b.degree := by
+    rw [Finsupp.degree_eq_sum, Finsupp.degree_eq_sum]
+    simp only [hav, hbv]
+    exact Equiv.sum_comp π e
+  rw [DegLex.le_iff]
+  simp only [ofDegLex_toDegLex]
+  refine Or.inr ⟨hdeg, ?_⟩
+  by_cases hid : ∀ i, π i = i
+  · have hab : a = b := by ext i; rw [hav, hbv, hid i]
+    rw [hab]
+  · apply le_of_lt
+    have hne : (Finset.univ.filter (fun i => π i ≠ i)).Nonempty := by
+      push_neg at hid; obtain ⟨i, hi⟩ := hid
+      exact ⟨i, by simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact hi⟩
+    set i₀ := (Finset.univ.filter (fun i => π i ≠ i)).min' hne with hi0
+    have hi0mem : i₀ ∈ Finset.univ.filter (fun i => π i ≠ i) := Finset.min'_mem _ hne
+    rw [Finset.mem_filter] at hi0mem
+    have hmove : π i₀ ≠ i₀ := hi0mem.2
+    have hfix : ∀ j, j < i₀ → π j = j := by
+      intro j hj
+      by_contra hjm
+      have : i₀ ≤ j :=
+        Finset.min'_le _ j (by simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact hjm)
+      exact absurd hj (not_lt.mpr this)
+    have hgt : i₀ < π i₀ := by
+      rcases lt_trichotomy (π i₀) i₀ with h | h | h
+      · exact absurd (π.injective (hfix (π i₀) h)) hmove
+      · exact absurd h hmove
+      · exact h
+    rw [Lex.lt_iff]
+    refine ⟨i₀, fun j hj => ?_, ?_⟩
+    · change a j = b j
+      rw [hav, hbv, hfix j hj]
+    · change a i₀ < b i₀
+      rw [hav, hbv]; exact he hgt
+
+/-- For a strictly-decreasing exponent tuple `e`, the degree-lexicographic leading
+monomial of the alternant determinant `D_e = det (x_i^{e_j})` is `x^e`. -/
+theorem degLex_degree_alternantMatrix_det {N : ℕ} {e : Fin N → ℕ} (he : StrictAnti e) :
+    (MonomialOrder.degLex : MonomialOrder (Fin N)).degree (alternantMatrix N e).det =
+      Finsupp.equivFunOnFinite.symm e := by
+  classical
+  set m : MonomialOrder (Fin N) := MonomialOrder.degLex with hm
+  -- Expand the determinant as a sum of signed monomials `± x^{e ∘ σ⁻¹}`.
+  have hmono : ∀ σ : Equiv.Perm (Fin N), (∏ j, alternantMatrix N e (σ j) j)
+      = monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := fun σ => by
+    rw [show (∏ j, alternantMatrix N e (σ j) j)
+          = ∏ j, (X (σ j) : MvPolynomial (Fin N) ℚ) ^ e j from rfl,
+        show (∏ j, (X (σ j) : MvPolynomial (Fin N) ℚ) ^ e j)
+          = ∏ i, X i ^ (e (σ.symm i)) from Fintype.prod_equiv σ _ _ (fun _ => by simp)]
+    exact prod_X_pow_eq_monomial' _
+  have hdet : (alternantMatrix N e).det =
+      ∑ σ : Equiv.Perm (Fin N),
+        Equiv.Perm.sign σ • monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := by
+    rw [Matrix.det_apply]
+    exact Finset.sum_congr rfl (fun σ _ => by rw [hmono σ])
+  -- Each signed-monomial term has degree exactly `x^{e ∘ σ⁻¹}`.
+  have hterm : ∀ σ : Equiv.Perm (Fin N),
+      m.degree (Equiv.Perm.sign σ •
+          monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ))
+        = Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm) := by
+    intro σ
+    have hc : (Equiv.Perm.sign σ • (1 : ℚ)) ≠ 0 := by
+      rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;>
+        simp [Units.smul_def]
+    rw [smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
+  -- Lower bound: `x^e` lies in the support (its coefficient is `1`).
+  have hlower : Finsupp.equivFunOnFinite.symm e ≼[m] m.degree (alternantMatrix N e).det := by
+    apply m.le_degree
+    rw [MvPolynomial.mem_support_iff, alternant_coeff_kronecker he he, if_pos rfl]
+    exact one_ne_zero
+  -- Upper bound: every monomial of the determinant is `≼ x^e`.
+  have hupper : m.degree (alternantMatrix N e).det ≼[m] Finsupp.equivFunOnFinite.symm e := by
+    rw [hdet]
+    refine le_trans m.degree_sum_le (Finset.sup_le (fun σ _ => ?_))
+    rw [hterm σ]
+    exact degLex_alternant_monomial_le he σ
+  exact m.toSyn.injective (le_antisymm hupper hlower)
+
+/-- **Highest-weight multiplicity one.** The coefficient of `x^λ` in the Schur
+polynomial `S_λ` (for antitone `λ`) is nonzero. This is the leading-term content
+of the Weyl character formula: `λ` occurs with multiplicity one as the highest
+weight of `S_λ` (the Kostka number `K_{λλ} = 1`). -/
+theorem schurPoly_coeff_self_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    (schurPoly N lam).coeff (Finsupp.equivFunOnFinite.symm lam) ≠ 0 := by
+  set m : MonomialOrder (Fin N) := MonomialOrder.degLex with hm
+  have hsv : StrictAnti (shiftedExps N lam) := by
+    intro i j hij; simp only [shiftedExps]; have := hlam (le_of_lt hij); omega
+  have hve : StrictAnti (vandermondeExps N) := by
+    intro i j hij; simp only [vandermondeExps]; omega
+  -- The Schur polynomial and the Vandermonde alternant are nonzero.
+  have hΔne : (alternantMatrix N (vandermondeExps N)).det ≠ 0 := by
+    intro h
+    have hcoeff := alternant_coeff_kronecker hve hve
+    rw [if_pos rfl, h, MvPolynomial.coeff_zero] at hcoeff
+    exact one_ne_zero hcoeff.symm
+  have hsne : schurPoly N lam ≠ 0 := by
+    intro h
+    have hprod := schurPoly_mul_vandermonde N lam
+    rw [h, zero_mul] at hprod
+    have hcoeff := alternant_coeff_kronecker hsv hsv
+    rw [if_pos rfl, ← hprod, MvPolynomial.coeff_zero] at hcoeff
+    exact one_ne_zero hcoeff.symm
+  -- Leading monomials of the three alternants.
+  have hΔdeg : m.degree (alternantMatrix N (vandermondeExps N)).det
+      = Finsupp.equivFunOnFinite.symm (vandermondeExps N) :=
+    degLex_degree_alternantMatrix_det hve
+  have hDdeg : m.degree (alternantMatrix N (shiftedExps N lam)).det
+      = Finsupp.equivFunOnFinite.symm (shiftedExps N lam) :=
+    degLex_degree_alternantMatrix_det hsv
+  -- `δ` is additive on the shifted exponents: `symm (λ+δ) = symm λ + symm δ`.
+  have hadd : Finsupp.equivFunOnFinite.symm (shiftedExps N lam)
+      = Finsupp.equivFunOnFinite.symm lam
+        + Finsupp.equivFunOnFinite.symm (vandermondeExps N) := by
+    ext i
+    simp only [Finsupp.add_apply, Finsupp.coe_equivFunOnFinite_symm, shiftedExps, vandermondeExps]
+  -- Read off `degree S_λ = symm λ` from `degree (S_λ · Δ) = degree D_{λ+δ}`.
+  have hmul := m.degree_mul hsne hΔne
+  rw [schurPoly_mul_vandermonde, hDdeg, hΔdeg, hadd] at hmul
+  have hdeg_schur : m.degree (schurPoly N lam) = Finsupp.equivFunOnFinite.symm lam :=
+    (add_right_cancel hmul).symm
+  rw [← hdeg_schur]
+  exact m.coeff_degree_ne_zero_iff.mpr hsne
+
+end LeadingTerm
+
 end Etingof
