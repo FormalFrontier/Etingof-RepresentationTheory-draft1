@@ -63,10 +63,17 @@ variable {k : Type*} [Field k] {N : ℕ}
 
 This is the leading-term content of the Weyl character formula: the highest
 weight `lam` of the irreducible `GL_N`-representation `L_lam` has multiplicity
-one in its character `schurPoly N lam`. -/
+one in its character `schurPoly N lam`.
+
+Proof route (issue #4949): with a monomial order `m` (e.g. `degLex`), the degree
+of `(alternantMatrix N e).det` is `symm e` for strictly-anti `e` (its sorted
+leading monomial, coeff `1` by `alternant_coeff_kronecker`); applying
+`degree_mul` to `schurPoly N lam * Δ = D_{lam+δ}` (`schurPoly_mul_vandermonde`)
+yields `m.degree (schurPoly N lam) = symm lam`, whence the coefficient there is
+nonzero by `coeff_degree_ne_zero_iff` and `schurPoly_ne_zero`. -/
 theorem schurPoly_coeff_self_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     (schurPoly N lam).coeff (Finsupp.equivFunOnFinite.symm lam) ≠ 0 := by
-  sorry
+  sorry -- issue #4949: highest-weight multiplicity-one (Kostka K_λλ = 1)
 
 /-! ### The genuine core of (K′) -/
 
