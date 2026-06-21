@@ -558,6 +558,39 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   fails on "pattern not found" because the post-`Subtype.ext` goal is not
   syntactically normalised.
 
+### Fraction-field bridge: principal open shares the polynomial ring's k(g) (Ch6, #4783)
+
+To send an injective comorphism `φ : MvPolynomial (Fin N) k →ₐ[k] B` into
+`FractionRing (MvPolynomial (Fin M) k)` when `B` is a localization of
+`P := MvPolynomial (Fin M) k` (the coordinate ring of a principal open `{det ≠ 0}`,
+e.g. the `det⁻¹`-localization forced by a base-change `g_j·M·g_i⁻¹` action), do **not**
+hunt for an `Algebra B (FractionRing P)` instance — none exists. Build it:
+
+```lean
+set P := MvPolynomial (Fin M) k; set K := FractionRing P
+have hSle : S ≤ nonZeroDivisors P := ...        -- 0 ∉ S since `IsDomain B`
+have hunit : ∀ y : S, IsUnit (algebraMap P K y) :=
+  fun y => IsLocalization.map_units K (⟨y, hSle y.2⟩ : nonZeroDivisors P)
+letI : Algebra B K := (IsLocalization.lift (M := S) (g := algebraMap P K) hunit).toAlgebra
+have hcomp : (algebraMap B K).comp (algebraMap P B) = algebraMap P K := by
+  change (IsLocalization.lift hunit).comp (algebraMap P B) = algebraMap P K  -- `change`, not `show`
+  exact IsLocalization.lift_comp hunit
+haveI : IsScalarTower P B K := IsScalarTower.of_algebraMap_eq' hcomp.symm
+haveI : IsFractionRing B K :=                    -- the principal-open identification
+  IsFractionRing.isFractionRing_of_isDomain_of_isLocalization S B K
+haveI : IsScalarTower k B K := IsScalarTower.of_algebraMap_eq fun x => by
+  rw [IsScalarTower.algebraMap_apply k P K x, ← hcomp, RingHom.comp_apply,
+    ← IsScalarTower.algebraMap_apply k P B x]
+```
+
+`IsFractionRing.isFractionRing_of_isDomain_of_isLocalization` (in
+`Mathlib/RingTheory/Localization/LocalizationLocalization.lean`) is load-bearing — over
+a domain it needs no `S ≤ nonZeroDivisors` side goal. `Algebra k (FractionRing P)` and
+`IsScalarTower k P (FractionRing P)` are already global instances. Gotcha: when a helper
+lemma's `{M}`/`{S}` appear only in *instance* args and the conclusion (not in an explicit
+value arg like `φ`), pass them explicitly (`(M := M) (S := S)`) or TC resolution stalls
+on a metavariable. See `Problem6_1_5_FieldEmbedding.lean`.
+
 ### Norm-Based Contradiction (Analysis Proofs)
 
 For proofs requiring algebraic integer arguments (e.g., Lemma 5.4.5):
