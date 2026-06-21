@@ -256,6 +256,30 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
+
+To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
+need that piece as an `FDRep`. Recipe (sorry-free):
+- finite-dimensionality of `MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d`:
+  it sits inside `MvPolynomial.restrictTotalDegree _ _ d` (a degree-`d`
+  homogeneous poly has total degree `≤ d` via `IsHomogeneous.totalDegree_le` +
+  `mem_restrictTotalDegree`), which is `Module.Finite` for finitely many vars —
+  conclude with `Submodule.finiteDimensional_of_le`.
+- package: take the existing `Subrepresentation` of the homogeneous component
+  (e.g. `polyRightHomogeneousSubrep`, `PolyRightGrading.lean`), then
+  `FDRep.of (subrep.toRepresentation)`. `FDRep.of` needs `[Module.Finite k V]`,
+  which the `FiniteDimensional` instance supplies (defeq over a field).
+- Gotcha: `open MvPolynomial` did **not** expose `homogeneousSubmodule` /
+  `restrictTotalDegree` / `mem_restrictTotalDegree` in an `instance` signature
+  under `relaxedAutoImplicit false` — fully qualify with `MvPolynomial.`.
+
+The canonical Fintype indexing set for "dominant weights `ν ∈ ℕ^N` of size `d`"
+is `BoundedPartition N d` (`Proposition5_21_1.lean`: antitone `ν : Fin N → ℕ`
+with `∑ ν = d`; has `Fintype` + `DecidableEq`). Use it to write a
+multiplicity-one decomposition as a single `Finset.sum`
+(`∑ ν : BoundedPartition N d, schurPoly N ν.parts`) — each `ν` once = mult one,
+no ad-hoc partition bookkeeping.
+
 ### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
 
 The per-(field, orientation) reps `<X>Rep_kQ` (`FieldGeneric{Star,D5/6/7Tilde,ETilde6/7,T125,Tube}.lean`) are built tactically: `noncomputable def … := by letI := Q; exact { obj := fun v => Fin (<X>Dim m v) → F, … }`. The structure projection `(<X>Rep_kQ …).obj ⟨v, _⟩` does **not** reduce to `Fin (k·(m+1)) → F` under the transparency that `Membership`-instance synthesis uses. Consequences when stating lemmas over the rep family `W : ∀ v, Submodule F ((<X>Rep_kQ …).obj v)`:
