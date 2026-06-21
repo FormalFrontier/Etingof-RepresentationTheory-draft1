@@ -2729,3 +2729,49 @@ re-elaboration. After the `rw`, close with the underlying lemma but let Lean
 pinning `↑g` yourself reintroduces a second coercion spelling and re-triggers the
 same whnf blowup. Symptom to recognize: `(deterministic) timeout at whnf` on a
 line that is "obviously" `rfl` or a trivial `exact`.
+
+## Extracting a simple sub-representation from an infinite-dim graded rep (#4922)
+
+`Chapter5/SimpleSubrepExtraction.lean` builds `exists_simple_subrep_of_quotDetRep`
+— from a nonzero `GL_N`-invariant submodule of `A/det` (infinite-dim) produce a
+simple `FDRep` constituent with an injective equivariant embedding. Reusable recipe
+when you need a *simple sub-representation* and `Theorem5_23_2_i` only gives the
+vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
+
+- **Finite-dim reduction in a graded rep:** lift a nonzero `w` to a polynomial of
+  total degree `D`; `MvPolynomial.restrictTotalDegree σ k D` is a ready
+  `Module.Finite k` submodule (instance), and the degree-preserving action keeps it
+  invariant (decompose into `homogeneousComponent`s + `IsHomogeneous.totalDegree_le`).
+  Push it through `mkQ` (`Module.Finite.map` is an instance) and intersect with the
+  invariant `W` for a *nonzero, finite-dim, invariant* `M₀ ≤ W`.
+- **Atom = simple sub-rep (the reusable lemma `Etingof.exists_isSimpleModule_le`):**
+  a nonzero `k[G]`-submodule of `ρ.asModule` finite over `k` is Artinian over `k[G]`
+  via `isArtinian_of_tower k inferInstance` (needs `IsScalarTower k k[G] ↥W`,
+  auto), so `isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf` gives an atom;
+  `isSimpleModule_iff_isAtom.mpr` + push forward along `W.subtype`
+  (`Submodule.equivMapOfInjective ... |>.symm` + `IsSimpleModule.congr`) gives the
+  simple submodule. (`IsArtinian` is an `abbrev` for `WellFoundedLT (Submodule …)`,
+  so `IsWellFounded.wf` supplies the `WellFounded` term directly.)
+- **`asModule` ↔ `asSubmodule` simplicity bridge:** packaging the atom as an
+  `FDRep.of σ.toRepresentation` forces proving `IsSimpleModule k[G]
+  (σ.toRepresentation).asModule`, which is NOT defeq to `IsSimpleModule k[G]
+  ↥σ.asSubmodule` (the `Module k[G]` instances differ — `:= h` fails). Build the
+  k[G]-linear equiv `(σ.toRepresentation).asModule ≃ₗ[k[G]] ↥σ.asSubmodule` by hand:
+  carriers coincide on `σ.toSubmodule` (use `σ.toRepresentation.asModuleEquiv`, which
+  is `LinearEquiv.refl`, to access `.1`/`.2`); `map_smul'` reduces via
+  `MonoidAlgebra.induction_linear`, and the `single g t` case closes by **`rfl`**
+  after `rw [Representation.single_smul, Representation.single_smul]` (both sides are
+  `t • ρ g y`). Then `IsSimpleModule.congr`. Mathlib's
+  `Subrepresentation.{asSubmodule, ofSubmodule', subrepresentationSubmoduleOrderIso}`
+  give the order iso between subrepresentations and `Submodule k[G] ρ.asModule`.
+- **Gotcha:** `MvPolynomial.mem_restrictTotalDegree` takes the index type `σ` and
+  the degree `m` as *explicit* positional args before `p` (`mem_restrictTotalDegree
+  (Fin N × Fin N) D p`), even though `R` is implicit — term-mode calls need all
+  three. `rw` forms infer them fine.
+
+**Workflow note:** `lake build <YourNewLeafModule>` is authoritative for a leaf file
+that nothing else imports; building the *chapter aggregator* rebuilds all ~120
+project files from source (`lake exe cache get` only fetches Mathlib oleans, not the
+project's), which is slow and adds no signal for a leaf addition. After a clean
+standalone build, just grep for declaration-name collisions and trust CI for the
+full graph rather than waiting on the aggregator locally.
