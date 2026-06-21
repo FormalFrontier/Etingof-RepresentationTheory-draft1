@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
 import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
+import EtingofRepresentationTheory.Chapter5.CharacterIndependence
+import EtingofRepresentationTheory.Chapter5.TraceVanishingDensity
 
 /-!
 # Schur-Weyl #6: the formal character determines the isomorphism class
@@ -192,17 +194,95 @@ theorem schurModule_isSimple_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
       (Representation.asModule (SchurModule k N lam).ρ) := by
   sorry
 
-/-- **Ingredient (b): general-`k` torus→full-group character independence (isolated
-`sorry`, issue #4947).** For a finite family of pairwise non-isomorphic simple polynomial
+/-- **General-`k` torus→full-group character independence (algebraic hypothesis,
+issue #4947).** For a finite family of pairwise non-isomorphic simple **algebraic**
+`GL_N(k)`-representations `L i`, a `ℚ`-combination `c` of their characters whose
+corresponding combination of *torus* traces vanishes at every diagonal torus element
+has all coefficients zero.
+
+This is the general algebraically-closed characteristic-zero `k` analogue of the ℂ
+seam `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero`
+(`SchurWeylSimplesClassificationComplex.lean`, #4908): same proof (Dedekind/Artin
+independence of characters + the Zariski-density bridge), now driven by the general-`k`
+density core `trace_combination_vanishes_of_torus_vanishes_of_algebraic`
+(`TraceVanishingDensity.lean`). The `ℂ` seam is the `k = ℂ` specialisation.
+
+The hypothesis is `hLalg` (regularity of each character), **not** `hLtop`
+(spanning `ℕ`-weight spaces): the density step requires the character combination to be
+a *regular* function, which `hLtop` does not provide for an abstract-group
+representation. See `TraceVanishingDensity.lean` and the `_general` wrapper below. -/
+theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_algebraic
+    (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
+    (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
+    (hLsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+    (c : ι → ℚ)
+    (htorus : ∀ t : Fin N → kˣ,
+        ∑ i, (c i : k) • LinearMap.trace k (L i) ((L i).ρ (diagTorus k N t)) = 0) :
+    ∀ i, c i = 0 := by
+  classical
+  -- (a) Pairwise non-isomorphic as `A := MonoidAlgebra k (GL_N k)`-modules.
+  have hdist : Pairwise (fun i j => ¬ Nonempty (Representation.asModule (L i).ρ
+      ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)]
+        Representation.asModule (L j).ρ)) := by
+    intro i j hij hcon
+    obtain ⟨φ⟩ := hcon
+    exact hLdist hij ⟨Action.mkIso (Representation.kEquivOfAsModuleEquiv φ).toFGModuleCatIso
+      (fun g => by ext x; exact Representation.kEquivOfAsModuleEquiv_intertwines φ g x)⟩
+  -- (b) Dedekind/Artin: the trace functionals are `k`-independent.
+  have hLI := traceCharacter_linearIndependent (𝕜 := k)
+    (A := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+    (fun i => Representation.asModule (L i).ρ) hLsimp hdist
+  -- (c) Trace functional at a group element evaluates to the representation trace.
+  have hbridge : ∀ (i : ι) (g : Matrix.GeneralLinearGroup (Fin N) k),
+      traceChar (fun i => Representation.asModule (L i).ρ) i (MonoidAlgebra.of k _ g)
+        = LinearMap.trace k (L i) ((L i).ρ g) := by
+    intro i g
+    have hmap : (repEnd (fun i => Representation.asModule (L i).ρ) i
+        (MonoidAlgebra.of k _ g) :
+          Representation.asModule (L i).ρ →ₗ[k] Representation.asModule (L i).ρ)
+          = (L i).ρ g := by
+      ext v
+      rw [repEnd_apply, ← Representation.asAlgebraHom_of (L i).ρ g]
+      rfl
+    rw [traceChar_apply, hmap]
+    rfl
+  -- (d) The functional combination vanishes on every group element by the density core.
+  have hF0 : ∀ a, (∑ i, (c i : k) • (traceChar (fun i => Representation.asModule (L i).ρ) i :
+      MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k) →ₗ[k] k)) a = 0 := by
+    intro a
+    induction a using MonoidAlgebra.induction_on with
+    | hM g =>
+        have hg0 := trace_combination_vanishes_of_torus_vanishes_of_algebraic N L hLalg
+          (fun i => (c i : k)) htorus g
+        rw [LinearMap.sum_apply]
+        simpa only [LinearMap.smul_apply, hbridge] using hg0
+    | hadd x y hx hy => simp only [map_add, hx, hy, add_zero]
+    | hsmul r x hx => simp only [map_smul, hx, smul_zero]
+  have hfun : (∑ i, (c i : k) • (traceChar (fun i => Representation.asModule (L i).ρ) i :
+      MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k) →ₗ[k] k)) = 0 :=
+    LinearMap.ext hF0
+  -- (e) Independence forces every coefficient to vanish.
+  intro i
+  have : (c i : k) = 0 := Fintype.linearIndependent_iff.mp hLI (fun i => (c i : k)) hfun i
+  exact_mod_cast this
+
+/-- **Ingredient (b): general-`k` torus→full-group character independence (issue #4947).**
+For a finite family of pairwise non-isomorphic simple polynomial
 (weight-space-spanning) `GL_N(k)`-representations, a `ℚ`-combination of their characters
 whose corresponding combination of *torus* traces vanishes at every diagonal torus element
 has all coefficients zero.
 
-This is the general-`k` analogue of the ℂ seam
-`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero`
-(`SchurWeylSimplesClassificationComplex.lean`, the open seam #4908). The genuine content is
-the Zariski-density bridge extending torus-trace vanishing to all of `GL_N(k)`; a single
-shared density lemma should serve both this and #4908. -/
+The genuine content — the Zariski-density bridge extending torus-trace vanishing to all of
+`GL_N(k)` — is discharged by `..._general_of_algebraic` above (general-`k` density core,
+`TraceVanishingDensity.lean`). The **only** remaining gap is the algebraicity bridge: that
+each weight-space-spanning simple `L i` is an *algebraic* (regular) representation. This is
+genuinely stronger than `hLtop` for an abstract-group representation and is the open residual
+of #4947 (see the progress note / follow-up issue). At the genuine call site each `L i` is a
+polynomial constituent, so this bridge will be supplied from the algebraic source rather than
+manufactured from `hLtop` alone. -/
 theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -214,7 +294,13 @@ theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     (htorus : ∀ t : Fin N → kˣ,
         ∑ i, (c i : k) • LinearMap.trace k (L i) ((L i).ρ (diagTorus k N t)) = 0) :
     ∀ i, c i = 0 := by
-  sorry
+  -- Algebraicity bridge: a weight-space-spanning simple representation is regular.
+  -- This is the open residual of #4947 (strictly stronger than `hLtop`); everything
+  -- downstream is discharged by the general-`k` density core.
+  have hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ := by
+    sorry
+  exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_algebraic
+    k N L hLalg hLsimp hLdist c htorus
 
 /-- **Highest-weight uniqueness (issue #4901/#4721, route B).** A *simple* polynomial
 `GL_N(k)`-representation whose formal character is the Schur polynomial `S_λ` (for an
