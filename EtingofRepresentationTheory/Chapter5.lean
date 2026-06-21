@@ -94,7 +94,9 @@ import EtingofRepresentationTheory.Chapter5.PolynomialGLBiAction
 import EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.CauchyDetQuotient
+import EtingofRepresentationTheory.Chapter5.CauchyCharacterRight
 import EtingofRepresentationTheory.Chapter5.SimpleSubrepExtraction
+import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrimeAssembly
 import EtingofRepresentationTheory.Chapter5.DetPowerFiltration
 import EtingofRepresentationTheory.Chapter5.KernelLemmaK
 import EtingofRepresentationTheory.Chapter5.DetInvElim
@@ -130,6 +132,7 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassificationComplex
 import EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct
 import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
+import EtingofRepresentationTheory.Chapter5.DiagonalizableConj
 
 -- Section 5.25: Representations of GL₂(𝔽_q)
 import EtingofRepresentationTheory.Chapter5.Proposition5_25_1

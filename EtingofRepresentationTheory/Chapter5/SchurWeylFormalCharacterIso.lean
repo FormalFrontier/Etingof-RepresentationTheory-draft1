@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
+import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 
 /-!
 # Schur-Weyl #6: the formal character determines the isomorphism class
@@ -45,15 +46,22 @@ are what make `M` genuinely polynomial — and routes the decomposition through
 `decompose_polynomial_gl_rep`, whose schurPoly-classification of the abstract simples it
 matches against `S_λ` via `schurPoly_linearIndependent` to force a single summand.
 
-Two pieces of deferred (Tier-4) content are isolated as `sorry`s and consumed
-transitively:
+The iso-strength highest-weight uniqueness `simpleRep_iso_schurModule_of_formalCharacter_eq`
+(this file) — "a simple polynomial `GL_N`-rep with character `S_λ` is `L_λ`", the natural
+strengthening of `schurWeyl_simples_formalCharacter_classification_core` (#4721, which only
+classifies characters) — is itself now **sorry-free in its own proof** (route B, #4901). It
+runs the two-element-family `{L, L_λ}` character-independence argument and reduces to three
+isolated, genuinely-deep ingredients, each tracked as a sub-issue:
 
-* `simpleRep_iso_schurModule_of_formalCharacter_eq` (this file): the iso-strength
-  highest-weight uniqueness "a simple polynomial `GL_N`-rep with character `S_λ` is `L_λ`".
-  This is the natural strengthening of `schurWeyl_simples_formalCharacter_classification_core`
-  (#4721), which only classifies characters.
-* The classification crux itself (#4721) and pairwise distinctness (#4731), reached
-  through `decompose_polynomial_gl_rep`.
+* (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946);
+* (b) `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` — the general-`k`
+  torus→full-group Zariski-density character-independence seam (#4947, shares the density core
+  with the ℂ seam #4908);
+* (c) `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` — weight saturation /
+  polynomiality of a simple rep with `schurPoly` character (#4948).
+
+The classification crux (#4721) and pairwise distinctness (#4731), reached through
+`decompose_polynomial_gl_rep`, are consumed transitively by the assembly below.
 
 The reusable glue `Representation.kEquivOfAsModuleEquiv` (the reverse of
 `asModuleEquivOfIntertwiner`) bridges the module-level `≃ₗ[MonoidAlgebra]` output of the
@@ -114,16 +122,69 @@ theorem formalCharacter_FDRep_of_ρ (N : ℕ)
   formalCharacter_eq_of_rep_iso k N M.ρ M.ρ (LinearEquiv.refl k M) (fun _ _ => rfl)
 
 
-/-- **Highest-weight uniqueness (isolated `sorry`, issue #4721).** A *simple* polynomial
+/-- **Ingredient (a): general-`k` Schur-module simplicity (isolated `sorry`, issue #4946).**
+The Schur module `L_λ = SchurModule k N lam` is a simple
+`MonoidAlgebra k (GL_N(k))`-module for any antitone `lam`. This is proven for `k = ℂ` as
+`schurModule_isSimple` (`SchurModuleSimple.lean`, via ℂ-specific Young-symmetrizer
+infrastructure); lifting it to a general algebraically-closed characteristic-zero field is
+the deliverable of #4946. -/
+theorem schurModule_isSimple_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (Representation.asModule (SchurModule k N lam).ρ) := by
+  sorry
+
+/-- **Ingredient (b): general-`k` torus→full-group character independence (isolated
+`sorry`, issue #4947).** For a finite family of pairwise non-isomorphic simple polynomial
+(weight-space-spanning) `GL_N(k)`-representations, a `ℚ`-combination of their characters
+whose corresponding combination of *torus* traces vanishes at every diagonal torus element
+has all coefficients zero.
+
+This is the general-`k` analogue of the ℂ seam
+`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero`
+(`SchurWeylSimplesClassificationComplex.lean`, the open seam #4908). The genuine content is
+the Zariski-density bridge extending torus-trace vanishing to all of `GL_N(k)`; a single
+shared density lemma should serve both this and #4908. -/
+theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
+    (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
+    (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (L i) (fun j => μ j) = ⊤)
+    (hLsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+    (c : ι → ℚ)
+    (htorus : ∀ t : Fin N → kˣ,
+        ∑ i, (c i : k) • LinearMap.trace k (L i) ((L i).ρ (diagTorus k N t)) = 0) :
+    ∀ i, c i = 0 := by
+  sorry
+
+/-- **Ingredient (c): weight saturation / polynomiality (isolated `sorry`, issue #4948).**
+A *simple* `GL_N(k)`-representation whose formal character equals `schurPoly N lam` (antitone
+`lam`) is polynomial: its `ℕ`-valued weight spaces span everything. Simplicity is essential —
+it excludes the would-be counterexample `L_λ ⊕ det⁻¹`, whose `det⁻¹`-summand carries no
+`ℕ`-weight and is invisible to `formalCharacter`. Deliverable of #4948. -/
+theorem glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly (N : ℕ)
+    (lam : Fin N → ℕ) (hlam : Antitone lam)
+    (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (hMsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (Representation.asModule M.ρ))
+    (h : formalCharacter k N M = schurPoly N lam) :
+    ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤ := by
+  sorry
+
+/-- **Highest-weight uniqueness (issue #4901/#4721, route B).** A *simple* polynomial
 `GL_N(k)`-representation whose formal character is the Schur polynomial `S_λ` (for an
 antitone `λ`) is isomorphic to the Schur module `L_λ`.
 
-This is the iso-strength form of the highest-weight classification. The existing
-`schurWeyl_simples_formalCharacter_classification_core` (#4721) only pins the *character*
-of an abstract simple to a Schur polynomial; identifying the simple itself with the
-concrete `SchurModule` is the same deferred Tier-4 content ("a simple polynomial
-`GL_N`-rep is determined by its character"), isolated here as a single `sorry` so the
-assembly `iso_of_formalCharacter_eq_schurPoly` below is otherwise sorry-free. -/
+This is the iso-strength form of the highest-weight classification, one notch stronger than
+`schurWeyl_simples_formalCharacter_classification_core` (#4721, which only pins the
+*character* of an abstract simple). The proof is the **two-element-family character
+independence** argument: were `L` and `L_λ` non-isomorphic, the pair `{L, L_λ}` would be two
+pairwise non-isomorphic simple polynomial representations (simplicity of `L_λ` is ingredient
+(a); polynomiality of each via weight saturation is ingredient (c)) whose equal formal
+characters force the torus-trace combination `trace(L) − trace(L_λ)` to vanish, contradicting
+character independence (ingredient (b)) with the nonzero coefficient vector `(1, -1)`. Hence
+`L ≅ L_λ`. The three deep ingredients are isolated as the `sorry`s above (#4946/#4947/#4948);
+this assembly is sorry-free. -/
 theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     (lam : Fin N → ℕ) (hlam : Antitone lam)
     (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -131,7 +192,49 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
       (Representation.asModule L.ρ))
     (h : formalCharacter k N L = schurPoly N lam) :
     Nonempty (L ≅ SchurModule k N lam) := by
-  sorry
+  by_contra hno
+  set S := SchurModule k N lam with hSdef
+  -- `S = L_λ` is a simple polynomial representation with the same formal character as `L`.
+  have hSchar : formalCharacter k N S = schurPoly N lam :=
+    formalCharacter_schurModule_eq_schurPoly k N lam hlam
+  have hSsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (Representation.asModule S.ρ) := schurModule_isSimple_general k N lam hlam
+  -- The two-element family `{L, S}` with coefficient vector `(1, -1)`.
+  have htop : ∀ i, ⨆ (μ : Fin N →₀ ℕ),
+      glWeightSpace k N (![L, S] i) (fun j => μ j) = ⊤ := by
+    rw [Fin.forall_fin_two]
+    refine ⟨?_, ?_⟩
+    · simpa using
+        glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly k N lam hlam L hLsimp h
+    · simpa using
+        glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly k N lam hlam S hSsimp hSchar
+  have hsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (Representation.asModule (![L, S] i).ρ) := by
+    rw [Fin.forall_fin_two]; exact ⟨hLsimp, hSsimp⟩
+  have hdist : Pairwise (fun i j => ¬ Nonempty ((![L, S] i) ≅ (![L, S] j))) := by
+    have hsym : ¬ Nonempty (S ≅ L) := fun ⟨e⟩ => hno ⟨e.symm⟩
+    intro i j hij
+    fin_cases i <;> fin_cases j <;>
+      first
+        | exact absurd rfl hij
+        | simpa using hno
+        | simpa using hsym
+  -- Equal formal characters ⟹ the `(1, -1)`-combination of characters vanishes.
+  have hcharsum : ∑ i, (![(1 : ℚ), -1] i) • formalCharacter k N (![L, S] i) = 0 := by
+    rw [Fin.sum_univ_two]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    rw [h, hSchar, one_smul, neg_one_smul, add_neg_cancel]
+  -- ⟹ the corresponding torus-trace combination vanishes at every diagonal torus element.
+  have htorus : ∀ t : Fin N → kˣ,
+      ∑ i, ((![(1 : ℚ), -1] i : ℚ) : k) •
+        LinearMap.trace k (![L, S] i) ((![L, S] i).ρ (diagTorus k N t)) = 0 := by
+    intro t
+    exact trace_combination_eq_zero_of_formalCharacter_combination_eq_zero k N Finset.univ
+      ![(1 : ℚ), -1] ![L, S] (fun i _ => htop i) hcharsum t
+  -- Character independence (ingredient (b)) forces the coefficient `1` to vanish: absurd.
+  have hzero := formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
+    k N ![L, S] htop hsimp hdist ![(1 : ℚ), -1] htorus
+  simpa using hzero 0
 
 /-- A polynomial `GL_N(k)`-representation whose formal character equals a Schur
 polynomial `S_λ` is isomorphic to the Schur module `L_λ`.
