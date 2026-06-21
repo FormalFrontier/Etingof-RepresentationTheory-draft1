@@ -415,6 +415,25 @@ reduces exactly to leaf `Λ`-invariance, the indecomposability crux) over a
 heroic full-closure attempt, and partial-PR. Confirm the tractability premise
 early — it sets scope and avoids rediscovering the obstruction from scratch.
 
+### Before creating a NEW named file, re-fetch main — concurrent sessions land it too
+
+Skill #4853 ("verify cited 'already-landed' deps exist") has a twin failure mode:
+the artifact you are about to **create** may already exist on `main`, landed by a
+**concurrent** session while you worked. If your branch base is several commits
+behind, `git fetch origin main` and check before you write `Chapter5/Foo.lean` —
+especially for a planned/obvious filename the whole pod is converging on. In
+#4695's kernel-lemma (K) assembly, a worker built `Chapter5/KernelLemmaK.lean`
+from scratch, then on rebase found `main` already had a complete sorry-free
+`KernelLemmaK.lean` from a sibling session; the entire branch (plus a follow-up
+issue resting on a gap the landed version sidestepped) was redundant and got
+closed. Cheap guard: `git fetch origin main && git show origin/main:<intended
+path>` (or `git log origin/main --oneline -15` for the area) right before the
+first `Write` of a new file. If it exists, build *on* it, not beside it. Bonus:
+the landed version often reveals a cleaner formulation — there, stating (K) over
+explicit **weight-vector generators** (each in a single `glWeightSpaceℤ`) made the
+descent need no torus-semisimplicity of `O`, which the abstract-submodule framing
+had wrongly demanded.
+
 **Multi-block tubes: don't fix the `_leaf_equalities` *statement shape* ahead of
 the center-collapse design.** For the ≥3-arm / >2-block-center tubes (Ẽ₆ #4638,
 Ẽ₇ #4746, and the entangled D̃₅ #4743) the eigenvalue site is a **separate
