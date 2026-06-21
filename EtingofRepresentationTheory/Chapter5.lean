@@ -90,6 +90,7 @@ import EtingofRepresentationTheory.Chapter5.DetIrreducible
 import EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction
 import EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
+import EtingofRepresentationTheory.Chapter5.DetPowerFiltration
 
 -- Section 5.19: Schur-Weyl Duality and Schur Functors
 import EtingofRepresentationTheory.Chapter5.Proposition5_19_1
