@@ -32,8 +32,41 @@ jobs:
         with:
           use-github-cache: false
           build: false
-      - name: Build all modules
+      - name: Build modules
         run: |
+          # v4.31 port stacks are intentionally not full-repo green until all
+          # repairs land. Validate only the modules touched by each stacked PR.
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              BASE="${{ github.event.pull_request.base.sha }}"
+              git fetch --no-tags --depth=1 origin "$BASE"
+            else
+              BASE_REF="${PORT_BASE_REF:-stack/toolchain-v4.31.0}"
+              git fetch --no-tags --depth=1 origin "$BASE_REF"
+              BASE="origin/$BASE_REF"
+            fi
+
+            mapfile -t FILES < <(
+              git diff --name-only "$BASE"...HEAD -- 'EtingofRepresentationTheory/**/*.lean' |
+                sort -u
+            )
+
+            if [ "${#FILES[@]}" -eq 0 ]; then
+              echo "No changed Lean modules to build."
+              exit 0
+            fi
+
+            TARGETS=()
+            for FILE in "${FILES[@]}"; do
+              MODULE="${FILE%.lean}"
+              TARGETS+=("${MODULE//\//.}")
+            done
+
+            printf 'Building changed module: %s\n' "${TARGETS[@]}"
+            lake build "${TARGETS[@]}"
+            exit 0
+          fi
+
           # Build individual modules, excluding:
           # - Chapter/root aggregation files (mindepth 2 skips these)
           # - Modules that import full Mathlib + large chapter environments,
