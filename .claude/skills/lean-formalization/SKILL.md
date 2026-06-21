@@ -2876,6 +2876,26 @@ vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
   the degree `m` as *explicit* positional args before `p` (`mem_restrictTotalDegree
   (Fin N × Fin N) D p`), even though `R` is implicit — term-mode calls need all
   three. `rw` forms infer them fine.
+- **`open MvPolynomial` inside `namespace Etingof.*` opens the WRONG namespace.**
+  `EvalEqOnGL.lean` declares an `Etingof.MvPolynomial` namespace, so a bare
+  `open MvPolynomial` inside any `namespace Etingof.Foo` resolves to *that* (the
+  relative match wins), and `monomial`/`coeff`/`C` come up as "unknown identifier"
+  (autoImplicit then mis-reports them as "function expected at monomial"). Use
+  `open _root_.MvPolynomial`. Same trap for any root namespace shadowed by an
+  `Etingof.<Name>` subnamespace.
+- **Reading the underlying object from an `FDRep.of σ.toRepresentation` carrier:**
+  `(FDRep.of ρ').ρ g w`'s coercion to the ambient type is not auto-inserted, but the
+  carrier is defeq to `↥σ.toSubmodule`, so `σ.toSubmodule.subtype` typechecks directly
+  as a `LinearMap` *from the FDRep carrier* (`def polyOf := (homog…).subtype`). Use it
+  to read elements / the `.ρ` action on the ambient module (`polyOf (M.ρ g w) =
+  ambientRep g (polyOf w)` holds by `rfl`), sidestepping all `.V`/`FGModuleCat` coe pain.
+- **Stars-and-bars count:** `#{f : Fin N → ℕ | ∑ f = m}` is `Finset.piAntidiag univ m`;
+  its card is `Nat.multichoose N m` via `Finset.map_sym_eq_piAntidiag` +
+  `Finset.sym_univ` + `Sym.card_sym_fin_eq_multichoose`. Then
+  `Nat.multichoose_eq`/`Nat.choose_symm` give `= C(m+N-1, N-1)` (needs `N ≥ 1`, which
+  `Fin.pos j` supplies inside a `∏ j : Fin N`). For a product of independent column
+  counts, biject to `Fintype.piFinset (fun j => piAntidiag …)` and use
+  `Fintype.card_piFinset`.
 
 **Workflow note:** `lake build <YourNewLeafModule>` is authoritative for a leaf file
 that nothing else imports; building the *chapter aggregator* rebuilds all ~120
