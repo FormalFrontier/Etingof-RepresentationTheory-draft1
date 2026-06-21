@@ -490,6 +490,24 @@ explicit **weight-vector generators** (each in a single `glWeightSpaceℤ`) made
 descent need no torus-semisimplicity of `O`, which the abstract-submodule framing
 had wrongly demanded.
 
+### "Residual sorry" issue whose file isn't on main yet — prove the lemma in its home, don't skip
+
+A `... residual` issue often quotes a sorry'd theorem "in `Chapter5/FooAssembly.lean`"
+and gives a `lake build ...FooAssembly` verification — but that file ships with a
+**sibling PR still in progress** (claimed, no PR), so it does not exist on `main`.
+Do **not** `coordination skip` as "stale": the *deliverable* is the lemma's proof, and
+the lemma is almost always a standalone, reusable fact. Prove it in its natural
+building-block home (the file where its subject and ingredients live — e.g.
+`schurPoly_coeff_self_ne_zero` belongs in `Proposition5_21_1.lean` beside `schurPoly`,
+`schurPoly_mul_vandermonde`, `alternant_coeff_kronecker`), with the **exact signature**
+the issue quotes. The eventual assembly imports that home transitively
+(`KernelLemmaKPrime` → `Theorem5_22_1` → `Proposition5_21_1`), so when the sibling PR
+lands it deletes its sorry'd copy and calls your lemma. Note this hand-off in the PR
+body and progress file. (#4949: proved sorry-free in `Proposition5_21_1.lean` while the
+consuming `KernelLemmaKPrimeAssembly.lean` from #4923 was unlanded.) Watch for name
+collision: use the issue's exact theorem name so the sibling references rather than
+re-declares it.
+
 ### Adding a hypothesis the consumer must supply: check the import direction first
 
 When an issue says "add hypothesis `h` to lemma `L`, the consumer supplies it",
