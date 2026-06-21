@@ -134,6 +134,76 @@ noncomputable def schurWeyl_decomposition_asModule_flatten
       (δ := fun (i : ι) (_ : Fin (Module.finrank k (S i))) =>
         Representation.asModule (L i).ρ)).symm
 
+/-- **Equal formal characters from a `MonoidAlgebra`-linear `asModule` equivalence
+(sorry-free).** A `MonoidAlgebra k GL_N`-linear equivalence between the `asModule`s
+of two representations `ρ`, `σ` produces equal formal characters.
+
+The `R`-linear `Φ` is upgraded to a `GL_N`-equivariant `k`-linear equivalence
+`ek := σ.asModuleEquiv ∘ Φ ∘ ρ.asModuleEquiv.symm`; equivariance follows from
+`asModuleEquiv_symm_map_rho` (turning `ρ g` into the `of g` action), `Φ`'s
+`R`-linearity, and `asModuleEquiv_map_smul` / `asAlgebraHom_of` (turning the `of g`
+action back into `σ g`). Then `formalCharacter_eq_of_rep_iso` applies. -/
+theorem formalCharacter_eq_of_asModule_linearEquiv
+    (k : Type u) [Field k] [IsAlgClosed k] (N : ℕ)
+    {V W : Type u} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    [AddCommGroup W] [Module k W] [Module.Finite k W]
+    (ρ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) V)
+    (σ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) W)
+    (Φ : Representation.asModule ρ ≃ₗ[MonoidAlgebra k
+        (Matrix.GeneralLinearGroup (Fin N) k)] Representation.asModule σ) :
+    formalCharacter k N (FDRep.of ρ) = formalCharacter k N (FDRep.of σ) := by
+  set ek : V ≃ₗ[k] W :=
+    ρ.asModuleEquiv.symm ≪≫ₗ Φ.restrictScalars k ≪≫ₗ σ.asModuleEquiv with hek
+  refine formalCharacter_eq_of_rep_iso k N ρ σ ek ?_
+  intro g v
+  simp only [hek, LinearEquiv.trans_apply, LinearEquiv.restrictScalars_apply]
+  rw [Representation.asModuleEquiv_symm_map_rho, map_smul,
+    Representation.asModuleEquiv_map_smul, Representation.asAlgebraHom_of]
+
+open DirectSum in
+/-- **A simple module embedding into a finite direct sum of simple modules is
+isomorphic to one of the summands (sorry-free).**
+
+If `W ≃ₗ[R] ⨁_κ Lsum` with each `Lsum c` simple and `T` is a simple `R`-module
+with an injective `R`-linear map into `W`, then `T ≃ₗ[R] Lsum c` for some `c`.
+
+This is the simple-module specialization of the isotypic-extraction step: `T`
+transports to a simple submodule `T'` of `⨁_κ Lsum`, which lies in the supremum
+of the (simple) coordinate lines, so `Submodule.linearEquiv_of_le_sSup` matches it
+to one line `range (lof c) ≅ Lsum c`. -/
+theorem simpleModule_iso_component_of_embeds
+    {R : Type*} [Ring R] {W : Type*} [AddCommGroup W] [Module R W]
+    {κ : Type*} [Finite κ] (Lsum : κ → Type*)
+    [∀ c, AddCommGroup (Lsum c)] [∀ c, Module R (Lsum c)]
+    (hsimp : ∀ c, IsSimpleModule R (Lsum c))
+    (eW : W ≃ₗ[R] DirectSum κ Lsum)
+    {T : Type*} [AddCommGroup T] [Module R T] [IsSimpleModule R T]
+    (incl : T →ₗ[R] W) (hincl : Function.Injective incl) :
+    ∃ c, Nonempty (T ≃ₗ[R] Lsum c) := by
+  classical
+  -- Realize `T` as a simple submodule `T'` of the direct sum.
+  set f : T →ₗ[R] DirectSum κ Lsum := eW.toLinearMap ∘ₗ incl with hf
+  have hfinj : Function.Injective f := eW.injective.comp hincl
+  set T' : Submodule R (DirectSum κ Lsum) := LinearMap.range f with hT'
+  have eTT' : T ≃ₗ[R] T' := LinearEquiv.ofInjective f hfinj
+  haveI : IsSimpleModule R T' := (LinearEquiv.isSimpleModule_iff eTT').mp ‹_›
+  -- The coordinate lines `range (lof c)`, each simple, spanning the whole sum.
+  set cs : Set (Submodule R (DirectSum κ Lsum)) :=
+    Set.range (fun c => LinearMap.range (DirectSum.lof R κ Lsum c)) with hcs
+  have hlof_inj : ∀ c, Function.Injective (DirectSum.lof R κ Lsum c) := fun c =>
+    Function.LeftInverse.injective (g := DirectSum.component R κ Lsum c)
+      (fun b => DirectSum.component.lof_self R c b)
+  have hcs_simple : ∀ m : cs, IsSimpleModule R (m : Submodule R (DirectSum κ Lsum)) := by
+    rintro ⟨m, c, rfl⟩
+    exact IsSimpleModule.congr (LinearEquiv.ofInjective _ (hlof_inj c)).symm
+  haveI := hcs_simple
+  have hcs_top : sSup cs = ⊤ := by
+    rw [hcs, sSup_range]; exact DFinsupp.iSup_range_lsingle
+  have hTle : T' ≤ sSup cs := by rw [hcs_top]; exact le_top
+  obtain ⟨m, hm, ⟨e'⟩⟩ := T'.linearEquiv_of_le_sSup cs hTle
+  obtain ⟨c, rfl⟩ := hm
+  exact ⟨c, ⟨eTT'.trans (e'.trans (LinearEquiv.ofInjective _ (hlof_inj c)).symm)⟩⟩
+
 /-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
 
 The `ℂ`-specialization of `schurWeyl_simples_formalCharacter_classification_core`:
