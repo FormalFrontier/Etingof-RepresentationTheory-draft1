@@ -147,4 +147,48 @@ theorem repSpace_finrank_le_repGroup_ambient_finrank (m : Fin n → ℕ)
   rwa [wIdx_card, gIdx_card, ← repSpace_finrank (k := k) m,
     ← repGroup_ambient_finrank (k := k) m] at hle
 
+/-! ## The `−1` strict refinement -/
+
+/-- **Step 2(c), strict refinement: `dim W(m) < dim G(m)` for nonzero `m`.** The
+non-strict `card_wIdx_le_card_gIdx` only yields `q(m) ≥ 0` (positive
+*semi*definite), satisfied by the affine/extended Dynkin diagrams — exactly the
+borderline infinite-type quivers. The strict `<` is what distinguishes finite
+type, and it comes from the single copy of global scalars `k*` that embeds
+diagonally into `repGroup k m = ∏ᵢ GL(Fin (m i))` as `λ ↦ (fun i => λ • 1)` and
+acts **trivially** on `repSpace m`: on the `i⟶j` block the action is
+`(λ·1)·x·(λ·1)⁻¹ = x`. So the orbit map is constant on `k*`-cosets and the generic
+orbit has dimension `≤ dim G(m) − 1`.
+
+In comorphism terms (this proof's route): under the global-scalar scaling of the
+`GIdx m` generators, the image of `orbitComorphism m v₀` is invariant — each
+generator maps to an entry of `G_j · v₀ · G_i⁻¹`, where the `λ` and `λ⁻¹` cancel
+— so it lands in the **degree-0 part** of `B`. The distinguished generator `g*`
+is then transcendental over the image subfield (Vandermonde over the infinite
+field `k`), so the `card (WIdx m)` algebraically independent images together with
+`g*` give `card (WIdx m) + 1 ≤ trdeg = card (GIdx m)`.
+
+The proof is split across two sub-issues of #4824: the reusable abstract core
+`card_lt_of_injective_comorphism_degreeZero` (#4828) and the comorphism degree-0
+invariance + this assembly (#4830). The `sorry` below is tracked by **#4830**. -/
+theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
+    [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
+    Fintype.card (WIdx m) < Fintype.card (GIdx m) := by
+  sorry
+
+set_option linter.unusedFintypeInType false in
+/-- **The S2/S3 strict interface: `dim W(m) < dim G(m)` for nonzero `m`.** The
+`−1` strict refinement of `repSpace_finrank_le_repGroup_ambient_finrank`,
+phrased with the `Module.finrank` quantities of `Problem6_1_5_OrbitSpace`. This is
+exactly the `hstrict` hypothesis consumed by
+`Etingof.isDynkinDiagram_of_strict_finrank` (`Problem6_1_5_TitsBridge`), so it is
+the directly-consumable hook for the final S4 assembly (#4786). It is derived
+here sorry-free from `card_wIdx_lt_card_gIdx` (whose proof is #4830). -/
+theorem repSpace_finrank_lt_repGroup_ambient_finrank (m : Fin n → ℕ) (hm : m ≠ 0)
+    [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
+    Module.finrank k (repSpace (k := k) m)
+      < Module.finrank k (∀ i : Fin n, Matrix (Fin (m i)) (Fin (m i)) k) := by
+  have hlt := card_wIdx_lt_card_gIdx (k := k) m hm
+  rwa [wIdx_card, gIdx_card, ← repSpace_finrank (k := k) m,
+    ← repGroup_ambient_finrank (k := k) m] at hlt
+
 end Etingof.Problem6_1_5
