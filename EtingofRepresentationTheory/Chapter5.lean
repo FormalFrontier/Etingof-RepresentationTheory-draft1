@@ -88,6 +88,7 @@ import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
 import EtingofRepresentationTheory.Chapter5.DetLocalization
 import EtingofRepresentationTheory.Chapter5.DetIrreducible
 import EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction
+import EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 
 -- Section 5.19: Schur-Weyl Duality and Schur Functors
