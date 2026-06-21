@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
 import EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
+import EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct
 
 /-!
 # Schur-Weyl #5, Step E: a polynomial `GL_N`-rep is a direct sum of abstract simples
@@ -312,7 +313,8 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
       (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-      (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ)),
+      (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
+      (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))),
       ∃ (e : TensorPower k (Fin N → k) n ≃ₗ[k]
           (DirectSum ι (fun i => S i ⊗[k] (L i : Type u)))),
         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
@@ -331,7 +333,9 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
-    fun i => hSi_fin i, L, hL_simple, ?_, ?_⟩
+    fun i => hSi_fin i, L, hL_simple,
+    schurWeyl_L_pairwise_distinct_of_explicit N n S' hS'_simp hS'_dist L L_carrier h_act,
+    ?_, ?_⟩
   · exact e
   intro g v
   -- Reduce equivariance to: (glTensorRep g) ∘ e.symm = e.symm ∘ directSum_action g.
@@ -416,14 +420,14 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding
       (M := M) (halg := halg) (h_span := h_span) (h_homog := h_homog)
   -- (2) unified equivariant + simple Schur–Weyl decomposition of `V^{⊗n}`.
-  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, e, he⟩ :=
+  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, e, he⟩ :=
     glTensorRep_schurWeyl_decomposition_equivariant_simple (k := k) (N := N) n
-  -- schurPoly-classification of the abstract simples (#4758), read off the bare
-  -- decomposition data `(e, he, hLsimp)` via the classification crux (#4732) and
-  -- the deferred distinctness (#4731 / #4849-chain).
+  -- schurPoly-classification of the abstract simples (#4758), read off the
+  -- decomposition data `(e, he, hLsimp, hLdist)` via the classification crux
+  -- (#4732) and the now-discharged GL-side distinctness (#4860).
   have hclass : ∃ lam : ι → {l : Fin N → ℕ // Antitone l}, Function.Injective lam ∧
       ∀ i, formalCharacter k N (L i) = schurPoly N (lam i).val :=
-    Etingof.glTensorRep_schurWeyl_simples_schurPoly_classified k N n L e he hLsimp
+    Etingof.glTensorRep_schurWeyl_simples_schurPoly_classified k N n L e he hLsimp hLdist
   haveI iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
   -- basis index of each multiplicity space, in `Type 0` so `κ` stays small.
   set β : ι → Type := fun i => Fin (Module.finrank k (S i)) with hβ

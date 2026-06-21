@@ -16,6 +16,18 @@ lake exe cache get
 ```
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
+**Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
+<file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
+particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
+instance chains in this project (e.g. the `Subalgebra → Module.End` centralizer-module
+instances: `Module ↥(centralizer A) (V →ₗ[A] E)` from `centralizerModuleHom`) need depth
+3, so under `lake env lean` they throw **spurious** `synthInstanceFailed` errors that do
+not occur under `lake build`. If a file fails `lake env lean` with instance-synthesis
+errors on centralizer/Subalgebra hom-spaces but you suspect the proof is fine, re-check
+with `lake build <Module>` before debugging — the on-`main` file fails `lake env lean`
+too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
+these instances.)
+
 **Build-environment recovery (shared `.lake/packages` across pod worktrees):**
 - `Lean exited with code 139` (SIGSEGV) on *dependency* files you did not touch has
   two distinct causes. (a) Corrupted Mathlib oleans from a concurrent `lake exe cache
@@ -109,7 +121,9 @@ Before investing a full session in a hard proof, spend 5-10 minutes checking the
 5. **"Follows via Schur's lemma / character matching" can be circular — check the nonzero-hom prerequisite.** When an issue claims a decomposition/iso "follows by Schur's lemma" from two reps being simple, remember Schur's lemma (`finrank_hom_simple_simple`) only gives `Hom ∈ {0,1}`-dim; concluding *iso* needs a **nonzero** equivariant map, which usually presupposes the very character/highest-weight match being sought. Example (#2493): identifying the abstract Schur-Weyl summand `Lᵢ` with `SchurModule k N λ` was claimed to follow from `Lᵢ` simple (C-3) + `SchurModule` simple (C-4) + Schur's lemma, but that route is circular — it needs `char(Lᵢ) = schurPoly N λ` (the highest-weight classification, downstream #2482/#2483) to produce the nonzero map. The character-level assembly (`formalCharacter(V^⊗n) = ∑_λ dim(Sλ)·sλ`) is reachable from C-1∘C-2; the concrete-module iso is not. Land the reachable character identity and route the classification gap to the downstream issue rather than forcing a circular "Schur's lemma" proof. Also: do not "rescue" such an iso with a pure `finrank`-equality `≃ₗ[k]` — it type-checks but is mathematically vacuous (any equal-dimension spaces are k-linearly isomorphic), violating the no-vacuous-theorems principle.
 6. **"Vanishes pointwise" lemmas about an element already known to lie in a span are usually false — refute by direct computation.** A lemma claiming an explicit element has *zero coefficient* at certain basis points (e.g. a residual `Δ`'s coefficient at tabloids with no column-standard rep, Ch5 Wall 3 R2.b.i #2769) is suspicious whenever the true reason `Δ` sits in the target span `V` is **global** rather than pointwise. If `Δ` equals a single polytabloid `±ψ_τ` (τ col-standard), it carries `±1` at *every* column-class of τ — including non-standardizable ones — so pointwise vanishing fails even though `Δ ∈ V` holds. Brute-force the smallest example by replicating the Lean definitional conventions exactly (`toTabloid` = entry→row map, `ColumnSubgroup`, `tabloidStrictDominates`, signed-polytabloid form of the construction), and **validate your model reproduces a known ground truth** (e.g. the design note's hand-computed values) before trusting a refutation. This refuted #2769 in minutes (`progress/r2bi-counterexample-check.py`, redesign tracked in #4584). **A hand-checked *confirmation* is no safer than a hand-checked refutation — brute-force both directions.** A prior meditate note (#2776, `progress/r3-bis-residual-cancellation.md` §3) claimed the *same* statement was TRUE via a cross-region involution, "validated on the running example; sign reversal verified" — the faithful brute force refuted it on that very example. When you assert a tricky combinatorial identity *holds*, run the script; never ship "verified by hand". And refuting the lemma does not refute the goal: the global span-membership a dead pointwise route was serving is often still true by a *direct* identification (here `Δ = ±ψ_τ`, discharged by the existing `(srRank, rowInvCount')` induction — see `progress/r2b-redesign-direct-polytabloid.md`). Also beware the inverse circularity trap: a "straightening" lemma that *consumes* `v ∈ V` as a hypothesis (e.g. `tabloidSupport_straightening`) cannot be the route that *establishes* `v ∈ V`; and a design note claiming a proof is "just re-packaging the internals of lemma X" is circular whenever X takes the goal as a hypothesis — check before adopting the plan. **When your validation script tests a *measure/ordering* condition (e.g. `srRank τ' < srRank σ`, IH-availability, dominance), pin the measure's DIRECTION to the codebase definition before trusting PASS/FAIL.** A flipped sign silently inverts the verdict: here `srRank σ = #{τ : σ strictly dominates τ}` counts tabloids *below* σ, so a tabloid dominated by σ has *smaller* srRank (IH-available) — an early script that counted tabloids *above* spuriously reported every constituent "above σ" and nearly condemned a sound route (Ch5 R2.b #4593, validated route → #4604/#4605). Re-derive one row by hand against the Lean `def` before reading the table.
 
-This saved 2+ sessions in Waves 47-49 by catching false statements early, an entire D̃₄ proof attempt (#4566), and a Ch5 Wall 3 R2.b.i attempt against a false pointwise-vanishing residual lemma (#2769 → #4584).
+7. **Character / multiplicity identities: dimension-count both sides (evaluate at all-ones) before attempting.** Any claimed `formalCharacter M = ∑_λ (coeff_λ)·S_λ` must match in *total dimension*: setting every torus variable to `1` makes each `S_λ` evaluate to `dim V_λ = s_λ(1,…,1)` and the LHS to `dim M`. This is a 30-second check that catches multiplicity errors instantly. It refuted #4944: `polyRightDegreeFDRep_formalCharacter` claimed the degree-`d` part `A_d` of `k[Xᵢⱼ]` had a *multiplicity-one* decomposition `formalCharacter k N A_d = ∑_{ν : BoundedPartition N d} schurPoly N ν.parts`, but for `N=2, d=1`, `dim A_1 = 4` (the four `Xᵢⱼ`) while `∑_ν dim V_ν = dim V_{(1,0)} = 2` — unequal, so false. The actual right-`GL_N` multiplicity is `dim S_ν(k^N) = s_ν(1,…,1)` (the left Schur-factor of the GL×GL Cauchy bi-rep `Sym^d(V⊗W) = ⊕_ν S_ν(V)⊗S_ν(W)`), **not** one. The fix is to correct the statement to the multiplicity-bearing form `∑_ν (eval 1 (schurPoly N ν.parts)) • schurPoly N ν.parts` (Cauchy at `x=1^N`) — and since a sorried *false* theorem is a landmine even unused, correct it openly (per "Definition seems wrong: don't silently work around bad definitions") rather than leaving it. Watch for "multiplicity one" / "each ν exactly once" claims about a *forgetful restriction* of a bi-representation: forgetting one factor of `V_λ ⊠ V_λ` leaves `dim V_λ` copies, never one (except `dim V_λ = 1`, i.e. powers of `det`). The qualitative *support* conclusion a consumer wants (e.g. "constituents of `A/det` have `ν_N = 0`") usually survives the multiplicity correction (the `dim V_{ν-(1,…,1)} = dim V_ν` factors cancel termwise), so re-spec the proof, don't abandon the consumer.
+
+This saved 2+ sessions in Waves 47-49 by catching false statements early, an entire D̃₄ proof attempt (#4566), a Ch5 Wall 3 R2.b.i attempt against a false pointwise-vanishing residual lemma (#2769 → #4584), and a research-level Cauchy proof attempt against a false multiplicity-one character identity (#4944).
 
 ### Sorry Decomposition as Primary Strategy
 
@@ -161,6 +175,7 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 - Check that universe levels are consistent. Representation theory often needs `Type*` not `Type`.
 - **WF-recursive definitions** (`termination_by`): Don't use `rw [f]` or `simp [f]` to unfold — they fail on WF-recursive functions. Instead, prove a separate `have` using `unfold f` (works inside `conv` blocks), or extract a standalone unfolding lemma.
 - **`Finset.prod`/`∏`-style products need `CommMonoid`.** `GL_N k`, `Matrix n n k`, and `Module.End` are non-commutative, so `∏ i, g i` over them does **not** typecheck (`failed to synthesize CommMonoid (GL …)`). For diagonal/torus elements that *do* commute, don't fight the typeclass: induct over the `Finset` with a partial helper (e.g. `diagTorusOn s` = the partial product over `s`, with `_empty`/`_insert`/`_univ` lemmas) and assemble one factor at a time via `map_mul`. See `Chapter5/FormalCharacterTorusTrace.lean`.
+- **Diagonalizing a distinct-eigenvalue matrix (conjugate to a diagonal) — full recipe.** Mathlib has no "distinct eigenvalues ⟹ diagonalizable" shortcut; build the eigenbasis. The chain (over an alg-closed field, here `ℂ`): roots of `A.charpoly` ↔ eigenvalues via `Matrix.mem_spectrum_iff_isRoot_charpoly` + `Matrix.spectrum_toLin'` + `Module.End.hasEigenvalue_iff_mem_spectrum`; `0` is not an eigenvalue of a unit via `spectrum.zero_mem_iff` (**`R` is an explicit arg — write `(spectrum.zero_mem_iff ℂ).mp`, not `spectrum.zero_mem_iff.mp`**, else "unknown constant `…mp`"); one eigenvector per eigenvalue is linearly independent via `Module.End.eigenvectors_linearIndependent'` (needs an *injective* eigenvalue family); `N` independent vectors in `Fin N → ℂ` give a basis via `basisOfLinearIndependentOfCardEqFinrank` (**needs `[Nonempty (Fin N)]` — handle `N = 0` separately; `GL_0` is a `Subsingleton`, close with `Subsingleton.elim`**); the column matrix `V := (Pi.basisFun ℂ (Fin N)).toMatrix ⇑b` is invertible via `Basis.invertibleToMatrix`, and `A * V = V * diagonal eigenvalues` follows columnwise from the eigenvector equation (`A *ᵥ vⱼ = tⱼ • vⱼ`), giving `A = V * D * V⁻¹` (`Matrix.mul_inv_of_invertible`). Package `h := unitOfInvertible V` (GL is `abbrev … := (Matrix …)ˣ`, so `unitOfInvertible` *is* a GL element), prove the GL equation via `Units.ext` + `Matrix.GeneralLinearGroup.coe_mul`/`coe_inv`. **Dot-notation gotcha: `f.HasEigenvalue` fails (`LinearMap.HasEigenvalue` does not exist) when `f : … →ₗ[R] …`; annotate `f : Module.End R M` so dot notation resolves to the `Module.End.*` API.** Full worked proof: `Chapter5/DiagonalizableConj.lean` (`gl_conj_diagTorus_of_distinct_eigenvalues`).
 
 ### 2. Scaffold: Set Up the Proof Structure
 
@@ -212,6 +227,13 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### Heavy Instance Resolves Abstractly but Fails Concretely
+
+**A heavy instance (e.g. `centralizerModuleHom : Module ↥(centralizer …) (V →ₗ[A] E)`) that resolves for an *abstract* carrier `V` can fail fresh typeclass search for a *concrete* one (`V = Fin N → k`), at the same `synthInstance.maxHeartbeats` — it is structural, not a heartbeat shortfall (diagnosed across ~7 build cycles in #4860, `SchurWeylLDistinct.lean`).** Symptom: `failed to synthesize HSMul … ?m` (an `outParam` output stuck as a metavar) on a `•`/instance you wrote *freshly* in the concrete proof, while the *same* `•` typechecks when it comes from *specializing* a polymorphic lemma's signature. Two non-fixes and the fix:
+- `haveI hI : Module … := …` registers the instance but makes it **opaque** — the `•` no longer reduces (`show (c • f) v = c.val (f v)` fails defeq), and it **shadows** the canonical instance so APIs expecting the canonical one mismatch.
+- `letI hI := …` keeps it transparent (reduces) but **still shadows** — passing your term to a lemma whose signature used the canonical instance gives an "application type mismatch" unless your `letI` body is syntactically the canonical instance.
+- **Fix:** never write the offending notation freshly in the concrete proof. (a) Obtain the goal *by specialization* — `refine polymorphicLemma … ?_` so the `•` in the `?_` goal is substituted from the lemma's signature, not searched. (b) Add an **abstract** `:= rfl` rewrite lemma over a general `V` (where the instance resolves), e.g. `theorem c_smul_eq (f) : c • f = (centralizerToEndA … c).comp f := rfl`, and `simp only [c_smul_eq]` in the concrete proof to eliminate the `•` entirely. The concrete proof then stays instance-notation-free.
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
@@ -260,6 +282,30 @@ Mathlib.GroupTheory.GroupAction.Basic
 ```
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
+
+#### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
+
+To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
+need that piece as an `FDRep`. Recipe (sorry-free):
+- finite-dimensionality of `MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d`:
+  it sits inside `MvPolynomial.restrictTotalDegree _ _ d` (a degree-`d`
+  homogeneous poly has total degree `≤ d` via `IsHomogeneous.totalDegree_le` +
+  `mem_restrictTotalDegree`), which is `Module.Finite` for finitely many vars —
+  conclude with `Submodule.finiteDimensional_of_le`.
+- package: take the existing `Subrepresentation` of the homogeneous component
+  (e.g. `polyRightHomogeneousSubrep`, `PolyRightGrading.lean`), then
+  `FDRep.of (subrep.toRepresentation)`. `FDRep.of` needs `[Module.Finite k V]`,
+  which the `FiniteDimensional` instance supplies (defeq over a field).
+- Gotcha: `open MvPolynomial` did **not** expose `homogeneousSubmodule` /
+  `restrictTotalDegree` / `mem_restrictTotalDegree` in an `instance` signature
+  under `relaxedAutoImplicit false` — fully qualify with `MvPolynomial.`.
+
+The canonical Fintype indexing set for "dominant weights `ν ∈ ℕ^N` of size `d`"
+is `BoundedPartition N d` (`Proposition5_21_1.lean`: antitone `ν : Fin N → ℕ`
+with `∑ ν = d`; has `Fintype` + `DecidableEq`). Use it to write a
+multiplicity-one decomposition as a single `Finset.sum`
+(`∑ ν : BoundedPartition N d, schurPoly N ν.parts`) — each `ν` once = mult one,
+no ad-hoc partition bookkeeping.
 
 ### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
 
@@ -453,6 +499,24 @@ explicit **weight-vector generators** (each in a single `glWeightSpaceℤ`) made
 descent need no torus-semisimplicity of `O`, which the abstract-submodule framing
 had wrongly demanded.
 
+### "Residual sorry" issue whose file isn't on main yet — prove the lemma in its home, don't skip
+
+A `... residual` issue often quotes a sorry'd theorem "in `Chapter5/FooAssembly.lean`"
+and gives a `lake build ...FooAssembly` verification — but that file ships with a
+**sibling PR still in progress** (claimed, no PR), so it does not exist on `main`.
+Do **not** `coordination skip` as "stale": the *deliverable* is the lemma's proof, and
+the lemma is almost always a standalone, reusable fact. Prove it in its natural
+building-block home (the file where its subject and ingredients live — e.g.
+`schurPoly_coeff_self_ne_zero` belongs in `Proposition5_21_1.lean` beside `schurPoly`,
+`schurPoly_mul_vandermonde`, `alternant_coeff_kronecker`), with the **exact signature**
+the issue quotes. The eventual assembly imports that home transitively
+(`KernelLemmaKPrime` → `Theorem5_22_1` → `Proposition5_21_1`), so when the sibling PR
+lands it deletes its sorry'd copy and calls your lemma. Note this hand-off in the PR
+body and progress file. (#4949: proved sorry-free in `Proposition5_21_1.lean` while the
+consuming `KernelLemmaKPrimeAssembly.lean` from #4923 was unlanded.) Watch for name
+collision: use the issue's exact theorem name so the sibling references rather than
+re-declares it.
+
 ### Adding a hypothesis the consumer must supply: check the import direction first
 
 When an issue says "add hypothesis `h` to lemma `L`, the consumer supplies it",
@@ -563,6 +627,32 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **Upgrading a `k`-linear bijection to an `A`-linear equiv: prove `map_smul`
+  on the composite, do NOT transport the `A`-module (Ch5, #4926 biduality).**
+  When the target is `↥S ≃ₗ[A] ↥T` but the natural maps factor through a
+  hom-of-hom space `D := (↥S →ₗ[A] E) →ₗ[C] E` whose only canonical action is by
+  `↥(centralizer C)` (= `A` by double-centralizer), resist putting an
+  `A`-module on `D` via `Module.compHom`/scalar transport — the `map_smul`
+  obligations then force you to unfold `compHom` everywhere and the elaboration
+  is brutal. Instead: build *all* intermediate equivs `k`-linearly (the
+  curried-evaluation `↥S ≃ₗ[k] D` via `LinearEquiv.ofInjectiveOfFinrankEq`, the
+  precomposition via the already-`k`-linear `homCongrLeftOverSubring`), thread
+  them to a `Φ : ↥S ≃ₗ[k] ↥T`, then package the *final* `↥S ≃ₗ[A] ↥T` with the
+  explicit constructor `{ toFun := Φ, map_add' := Φ.map_add, invFun := Φ.symm,
+  left_inv := Φ.left_inv, right_inv := Φ.right_inv, map_smul' := fun a v => ... }`
+  and prove the lone `A`-`map_smul'` by hand (`apply (last equiv).injective; ext;
+  rewrite the definitional apply-formulas`). The double-hom space never needs an
+  `A`-module structure at all. Bonus: isolate the genuine content as a *pure
+  `k`-finrank* lemma (`finrank k ↥S = finrank k D`) whose statement mentions no
+  exotic module — clean to state and to attack separately.
+- **`centralizerModuleHom` firing twice needs an `IsScalarTower` companion
+  (Ch5, #4926).** To get `Module ↥(centralizer C) ((V →ₗ[A] E) →ₗ[C] E)` you
+  re-apply `Theorem5_18_1.centralizerModuleHom` with `C` in the `A`-slot; this
+  requires `IsScalarTower k ↥C (V →ₗ[A] E)`, which is NOT automatic. Provide it
+  (`smul_assoc r b f := LinearMap.ext fun v => by change (r•b).val (f v) = …;
+  rw [Subalgebra.coe_smul, LinearMap.smul_apply]`). Note: even *stating* this
+  instance (its `SMul` in the signature) overruns the default 20000 synth
+  heartbeats — bump `synthInstance.maxHeartbeats` on the instance itself.
 - **Bundled instances from a destructured existential are already usable — do
   NOT re-`haveI` them (Ch5, #4716).** Decomposition theorems
   (`glTensorRep_..._decomposition...`) return `∃ (S : ι → Type u)
@@ -2715,3 +2805,81 @@ With both, containments come from pure invariance chaining
 (`hW₁_inv a20 _ (hW₁_inv a32 _ (hW₁_inv a43 p hp))`) and injectivity descends via
 `simp only [LinearMap.comp_apply, rep, repMap] at h` then the concrete
 `*ArmComp_F_injective` (term-mode defeq unfolds the `match` at the leaves).
+
+## Bundled-hom defeq blowup: `ρ g f = underlyingHom f` is cheap *only* in the defining file
+
+`polyRightRep g f = rTransAlgHom (↑g) f` (a `Representation` applied, vs the
+underlying `AlgHom`) holds by `rfl`. But proving it as a fresh `have ... := rfl`
+— or relying on the defeq through `exact`/`show` — in a **downstream** file
+**diverges at `whnf`** (times out even at 1.6M heartbeats): reconciling the two
+FunLike coercion paths (`Representation`/`LinearMap` vs `AlgHom`) forces Lean to
+whnf into `aeval`/the underlying function. The identical `rfl` is cheap *inside*
+the file where the rep is defined (its `_apply_X` lemmas already use it).
+
+Fix: put the equation as a named lemma in the **defining** file
+(`theorem foo_apply (g) (f) : ρ g f = underlyingHom (↑g) f := rfl`), then
+downstream use `rw [foo_apply]` — the proof is already compiled, so no `rfl`
+re-elaboration. After the `rw`, close with the underlying lemma but let Lean
+**infer the matrix/group argument with `_`** (`exact bar _ hf`, not `bar (↑g) hf`):
+pinning `↑g` yourself reintroduces a second coercion spelling and re-triggers the
+same whnf blowup. Symptom to recognize: `(deterministic) timeout at whnf` on a
+line that is "obviously" `rfl` or a trivial `exact`.
+
+**Same trap when proving `Commute`/equality *of* such endos** (e.g. left and
+right `GL_N`-actions on `k[Xᵢⱼ]` commute). `exact AlgHom.congr_fun h_comp f` —
+where `h_comp` equates the underlying `AlgHom.comp`s — blows up `whnf` (even at
+6.4M heartbeats): Lean reconciles the `Module.End` product form against the
+applied form through `aeval`. Make every step syntactic instead:
+1. `apply LinearMap.ext; intro f` — **not** bare `ext f`, which over-applies into
+   `MvPolynomial` *coefficient* extensionality (`f` becomes a `Finsupp` exponent).
+2. `rw [Module.End.mul_apply, Module.End.mul_apply, ρ_apply, σ_apply, …]` (all
+   `rfl`-lemmas) to reach the applied form on both sides.
+3. Normalise the underlying lemma the same way and close by matching, not defeq:
+   `have h2 := AlgHom.congr_fun h_comp f; rw [AlgHom.comp_apply, AlgHom.comp_apply] at h2; exact h2`.
+With the fully-syntactic route the proof needs **no** `maxHeartbeats` bump at all.
+
+## Extracting a simple sub-representation from an infinite-dim graded rep (#4922)
+
+`Chapter5/SimpleSubrepExtraction.lean` builds `exists_simple_subrep_of_quotDetRep`
+— from a nonzero `GL_N`-invariant submodule of `A/det` (infinite-dim) produce a
+simple `FDRep` constituent with an injective equivariant embedding. Reusable recipe
+when you need a *simple sub-representation* and `Theorem5_23_2_i` only gives the
+vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
+
+- **Finite-dim reduction in a graded rep:** lift a nonzero `w` to a polynomial of
+  total degree `D`; `MvPolynomial.restrictTotalDegree σ k D` is a ready
+  `Module.Finite k` submodule (instance), and the degree-preserving action keeps it
+  invariant (decompose into `homogeneousComponent`s + `IsHomogeneous.totalDegree_le`).
+  Push it through `mkQ` (`Module.Finite.map` is an instance) and intersect with the
+  invariant `W` for a *nonzero, finite-dim, invariant* `M₀ ≤ W`.
+- **Atom = simple sub-rep (the reusable lemma `Etingof.exists_isSimpleModule_le`):**
+  a nonzero `k[G]`-submodule of `ρ.asModule` finite over `k` is Artinian over `k[G]`
+  via `isArtinian_of_tower k inferInstance` (needs `IsScalarTower k k[G] ↥W`,
+  auto), so `isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf` gives an atom;
+  `isSimpleModule_iff_isAtom.mpr` + push forward along `W.subtype`
+  (`Submodule.equivMapOfInjective ... |>.symm` + `IsSimpleModule.congr`) gives the
+  simple submodule. (`IsArtinian` is an `abbrev` for `WellFoundedLT (Submodule …)`,
+  so `IsWellFounded.wf` supplies the `WellFounded` term directly.)
+- **`asModule` ↔ `asSubmodule` simplicity bridge:** packaging the atom as an
+  `FDRep.of σ.toRepresentation` forces proving `IsSimpleModule k[G]
+  (σ.toRepresentation).asModule`, which is NOT defeq to `IsSimpleModule k[G]
+  ↥σ.asSubmodule` (the `Module k[G]` instances differ — `:= h` fails). Build the
+  k[G]-linear equiv `(σ.toRepresentation).asModule ≃ₗ[k[G]] ↥σ.asSubmodule` by hand:
+  carriers coincide on `σ.toSubmodule` (use `σ.toRepresentation.asModuleEquiv`, which
+  is `LinearEquiv.refl`, to access `.1`/`.2`); `map_smul'` reduces via
+  `MonoidAlgebra.induction_linear`, and the `single g t` case closes by **`rfl`**
+  after `rw [Representation.single_smul, Representation.single_smul]` (both sides are
+  `t • ρ g y`). Then `IsSimpleModule.congr`. Mathlib's
+  `Subrepresentation.{asSubmodule, ofSubmodule', subrepresentationSubmoduleOrderIso}`
+  give the order iso between subrepresentations and `Submodule k[G] ρ.asModule`.
+- **Gotcha:** `MvPolynomial.mem_restrictTotalDegree` takes the index type `σ` and
+  the degree `m` as *explicit* positional args before `p` (`mem_restrictTotalDegree
+  (Fin N × Fin N) D p`), even though `R` is implicit — term-mode calls need all
+  three. `rw` forms infer them fine.
+
+**Workflow note:** `lake build <YourNewLeafModule>` is authoritative for a leaf file
+that nothing else imports; building the *chapter aggregator* rebuilds all ~120
+project files from source (`lake exe cache get` only fetches Mathlib oleans, not the
+project's), which is slow and adds no signal for a leaf addition. After a clean
+standalone build, just grep for declaration-name collisions and trust CI for the
+full graph rather than waiting on the aggregator locally.

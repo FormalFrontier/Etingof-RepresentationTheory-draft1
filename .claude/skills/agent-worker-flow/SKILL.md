@@ -287,8 +287,23 @@ Commit early and often. Each commit is a checkpoint.
 ## Step 6: Verify
 
 Build and test the project. Compare quality metrics with the starting values.
-Review your diff: `git diff <starting-commit>..HEAD`.
 Use `/second-opinion` if available.
+
+**Review your diff against `origin/main`, not your starting commit:**
+```bash
+git fetch origin
+git diff --stat origin/main..HEAD
+```
+This must show **only the files you intended to touch**. In a reused worktree the
+branch often starts *behind* `origin/main` (the session-start HEAD is an old
+commit), so `git diff <starting-commit>..HEAD` looks clean while the PR actually
+**reverts every file merged to main since your base** — shown as unexplained
+deletions. Note that an empty `git log origin/main..HEAD` does NOT mean
+up-to-date; it means HEAD is an *ancestor* of main (i.e. behind). If you see
+stray deletions, rebase before pushing:
+```bash
+git rebase origin/main      # then rebuild; force-push --force-with-lease if already pushed
+```
 
 ## Step 7: Publish
 

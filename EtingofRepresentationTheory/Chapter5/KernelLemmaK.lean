@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.DetPowerFiltration
+import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrimeAssembly
 
 /-!
 # The det⁻¹-elimination kernel lemma (K) and its functions-on-`GL` interface

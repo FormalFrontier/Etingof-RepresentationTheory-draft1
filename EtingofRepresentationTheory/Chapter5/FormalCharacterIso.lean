@@ -1002,6 +1002,19 @@ private theorem glWeightSpace_glTensorRep_eq_span (N n : ℕ) (μ : Fin N →₀
     rwa [heq] at hmem
 
 omit [CharZero k] in
+/-- The weight spaces of the tensor-power representation `V^⊗n` (`V = Fin N → k`)
+span the whole space: every standard tensor basis vector is a weight vector (of
+weight `tensorWeight N f`), and the standard tensor basis spans `V^⊗n`. -/
+theorem glTensorRep_iSup_glWeightSpace_eq_top (N n : ℕ) :
+    ⨆ (μ : Fin N →₀ ℕ),
+        glWeightSpace k N (FDRep.of (glTensorRep k N n)) (fun i => μ i) = ⊤ := by
+  classical
+  rw [eq_top_iff, ← (tensorStdBasis k N n).span_eq, Submodule.span_le]
+  rintro _ ⟨f, rfl⟩
+  exact Submodule.mem_iSup_of_mem (tensorWeight N f)
+    (tensorStdBasis_mem_glWeightSpace k N n f)
+
+omit [CharZero k] in
 /-- The dimension of the weight space at `μ` in `V^⊗n` equals the number of colorings
 `f : Fin n → Fin N` with `tensorWeight N f = μ`. -/
 private theorem finrank_glWeightSpace_glTensorRep (N n : ℕ) (μ : Fin N →₀ ℕ) :
