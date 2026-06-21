@@ -168,4 +168,50 @@ theorem localRightRep_algebraMap (g : Matrix.GeneralLinearGroup (Fin N) k)
       = algebraMap _ _ (polyRightRep k N g a) :=
   localRightAlgHom_algebraMap g a
 
+/-- **Determinant semi-invariance on `O`.** The formal inverse `det⁻¹ =
+invSelf detPoly` transforms by the **inverse** determinant character:
+`R_g det⁻¹ = (det g)⁻¹ · det⁻¹`. Together with `R_g det = det g · det`
+(`rTransAlgHom_det`) this is the `χ⁻¹` semi-invariance driving the det-power
+filtration twist `A_r/A_{r-1} ≅ (A/det) ⊗ χ⁻ʳ`. -/
+theorem localRightRep_invSelf (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    localRightRep k N g (IsLocalization.Away.invSelf (detPoly k N))
+      = ((g : Matrix (Fin N) (Fin N) k).det)⁻¹ •
+          IsLocalization.Away.invSelf (detPoly k N) := by
+  rw [localRightRep_apply]
+  have hd_ne : (g : Matrix (Fin N) (Fin N) k).det ≠ 0 :=
+    ((Matrix.isUnit_iff_isUnit_det _).mp (Units.isUnit g)).ne_zero
+  -- abbreviations
+  set d := (g : Matrix (Fin N) (Fin N) k).det with hd
+  set dpoly := algebraMap (MvPolynomial (Fin N × Fin N) k) (Localization.Away (detPoly k N))
+    (detPoly k N) with hdpoly
+  set inv : Localization.Away (detPoly k N) := IsLocalization.Away.invSelf (detPoly k N) with hinv
+  set u := algebraMap k (Localization.Away (detPoly k N)) d * dpoly with hu
+  -- `algebraMap (C d) = algebraMap k O d`
+  have hCd : algebraMap (MvPolynomial (Fin N × Fin N) k) (Localization.Away (detPoly k N))
+        (MvPolynomial.C d) = algebraMap k (Localization.Away (detPoly k N)) d := by
+    rw [← MvPolynomial.algebraMap_eq, ← IsScalarTower.algebraMap_apply]
+  -- `localRightAlgHom g dpoly = u`
+  have key1 : localRightAlgHom g dpoly = u := by
+    rw [hdpoly, localRightAlgHom_algebraMap, rTransAlgHom_detPoly, map_mul, hCd, hu, ← hdpoly]
+  -- `dpoly * inv = 1`
+  have hmulinv : dpoly * inv = 1 := by
+    rw [hdpoly, hinv]; exact IsLocalization.Away.mul_invSelf (detPoly k N)
+  -- `u * (localRightAlgHom g inv) = 1`
+  have hE1 : u * localRightAlgHom g inv = 1 := by
+    have h := congrArg (localRightAlgHom g) hmulinv
+    rwa [map_mul, map_one, key1] at h
+  -- `u * (d⁻¹ • inv) = 1`
+  have hE2 : u * (d⁻¹ • inv) = 1 := by
+    rw [hu, Algebra.smul_def,
+      show algebraMap k (Localization.Away (detPoly k N)) d * dpoly *
+          (algebraMap k (Localization.Away (detPoly k N)) d⁻¹ * inv)
+        = (algebraMap k (Localization.Away (detPoly k N)) d *
+            algebraMap k (Localization.Away (detPoly k N)) d⁻¹) * (dpoly * inv) by ring,
+      hmulinv, mul_one, ← map_mul, mul_inv_cancel₀ hd_ne, map_one]
+  -- cancellation: a unit's right inverse is unique
+  calc localRightAlgHom g inv
+      = localRightAlgHom g inv * (u * (d⁻¹ • inv)) := by rw [hE2, mul_one]
+    _ = u * localRightAlgHom g inv * (d⁻¹ • inv) := by ring
+    _ = d⁻¹ • inv := by rw [hE1, one_mul]
+
 end Etingof.LocalizationGLAction
