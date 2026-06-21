@@ -188,13 +188,62 @@ torus acts on `glWeightSpaceℤ … μ` by the character `t ↦ t^{μ i}` and on
 `glWeightSpaceℤ … ν` (`ν ∈ ℕ^N`) by `t ↦ t^{ν i}`; since `μ` has a coordinate
 `< 0` it differs from every `ν ∈ ℕ^N`, so the weight spaces are independent and
 `v ≠ 0` cannot be a finite sum of nonneg-weight vectors. -/
-theorem glWeightSpaceℤ_neg_not_mem_nonneg_span (k : Type*) [Field k] [IsAlgClosed k]
+theorem glWeightSpaceℤ_neg_not_mem_nonneg_span (k : Type*) [Field k] [CharZero k]
     (N : ℕ) (r : ℕ) (μ : Fin N → ℤ) (hμ : ∃ i, μ i < 0)
     {v : MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N}
     (hv0 : v ≠ 0) (hv : v ∈ glWeightSpaceℤ k N (quotDetTwistRep k N r) μ) :
     v ∉ ⨆ (ν : Fin N → ℕ),
       glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (ν i : ℤ)) := by
-  sorry
+  obtain ⟨i, hi⟩ := hμ
+  set ρ := quotDetTwistRep k N r with hρ
+  -- The infinite-order torus element `t₀ = 2` (`k` has characteristic zero) and the
+  -- single torus operator `T = ρ(diag i t₀)` whose eigenspaces separate the weights.
+  set t₀ : kˣ := Units.mk0 (2 : k) (by norm_num) with ht₀def
+  have hcoe : ((t₀ : k)) = 2 := by rw [ht₀def]; rfl
+  set T : Module.End k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+    ρ (diagUnit k N i t₀) with hT
+  -- The `i`-th torus eigenvalue attached to an integer weight.
+  set e : ℤ → k := fun a => ((t₀ ^ a : kˣ) : k) with he
+  -- Any weight-`η` vector is a `T`-eigenvector with eigenvalue `e (η i)`.
+  have key : ∀ (w : MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) (η : Fin N → ℤ),
+      w ∈ glWeightSpaceℤ k N ρ η → T w = e (η i) • w := by
+    intro w η hw
+    have hw' : w ∈ LinearMap.ker (ρ (diagUnit k N i t₀)
+        - (((t₀ ^ η i : kˣ) : k)) • LinearMap.id) :=
+      (Submodule.mem_iInf _).1 ((Submodule.mem_iInf _).1 hw i) t₀
+    rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      sub_eq_zero] at hw'
+    exact hw'
+  -- `e` is injective: `n ↦ 2^n` is injective over `ℚ` and `ℚ → k` is injective.
+  have he_inj : Function.Injective e := by
+    have htrans : ∀ n : ℤ, (2 : k) ^ n = algebraMap ℚ k ((2 : ℚ) ^ n) := by
+      intro n; rw [map_zpow₀, map_ofNat]
+    intro a b hab
+    have h2 : (2 : k) ^ a = (2 : k) ^ b := by
+      simpa only [he, Units.val_zpow_eq_zpow_val, hcoe] using hab
+    rw [htrans, htrans] at h2
+    have hQ : (2 : ℚ) ^ a = (2 : ℚ) ^ b := (algebraMap ℚ k).injective h2
+    exact zpow_right_injective₀ (by norm_num) (by norm_num) hQ
+  -- Eigenspace independence: `v` (eigenvalue `e (μ i)`, `μ i < 0`) cannot lie in the span
+  -- of the nonneg-weight spaces (eigenvalues `e m`, `m ∈ ℕ`).
+  intro hv_sup
+  have hμ_eig : v ∈ Module.End.eigenspace T (e (μ i)) :=
+    Module.End.mem_eigenspace_iff.2 (key v μ hv)
+  have hsup_le : (⨆ (ν : Fin N → ℕ), glWeightSpaceℤ k N ρ (fun j => (ν j : ℤ)))
+      ≤ ⨆ c ∈ Set.range (fun m : ℕ => e (m : ℤ)), Module.End.eigenspace T c := by
+    refine iSup_le fun ν w hw => ?_
+    refine Submodule.mem_iSup_of_mem (e ((ν i : ℤ))) ?_
+    exact Submodule.mem_iSup_of_mem ⟨ν i, rfl⟩
+      (Module.End.mem_eigenspace_iff.2 (key w (fun j => (ν j : ℤ)) hw))
+  have hnot : e (μ i) ∉ Set.range (fun m : ℕ => e (m : ℤ)) := by
+    rintro ⟨m, hm⟩
+    have := he_inj hm
+    omega
+  have hdis := (Module.End.eigenspaces_iSupIndep T).disjoint_biSup hnot
+  have hbot := disjoint_iff.1 hdis
+  have : v ∈ (⊥ : Submodule k _) :=
+    hbot ▸ Submodule.mem_inf.2 ⟨hμ_eig, hsup_le hv_sup⟩
+  exact hv0 ((Submodule.mem_bot _).1 this)
 
 /-- **The genuine core of (K′).** For `r ≥ 1`, every *nonzero* subrepresentation
 `W` of the twisted quotient `(A/det) ⊗ χ⁻ʳ` contains a nonzero torus-weight vector
