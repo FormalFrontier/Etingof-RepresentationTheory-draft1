@@ -51,10 +51,10 @@ theorem Etingof.Proposition4_1_2
   have hΛne : Λ ≠ 0 := by
     intro heq
     have h1 : (Λ : G →₀ k) 1 = 0 := by rw [heq]; rfl
-    rw [hΛ_def, Finsupp.coe_finsetSum, Finset.sum_apply] at h1
-    simp only [Finsupp.single_apply] at h1
-    rw [Finset.sum_ite_eq'] at h1
-    simp at h1
+    rw [hΛ_def] at h1
+    have h2 : (∑ g : G, Finsupp.single g (1 : k)) (1 : G) = 0 := h1
+    rw [Finsupp.finsetSum_apply] at h2
+    simp at h2
   -- Centrality: Λ is in the center
   have hΛcentral : ∀ x : MonoidAlgebra k G, Λ * x = x * Λ := by
     intro x
