@@ -306,4 +306,19 @@ theorem orbitRel_quotient_finite_of_finite_reps (m : Fin n → ℕ)
 
 /-! ## Wrapper: from `IsFiniteTypeQuiver` -/
 
+/-- **Finitely many orbits from finite type (Problem 6.1.5, step 1).** If the graph
+`adj`, oriented as the ambient quiver, has finite representation type, then for each
+dimension vector `m` the group `G(m)` acts on `W(m)` with finitely many orbits.
+
+This is the `IsFiniteTypeQuiver`-level statement consumed downstream (directive #4777,
+S4): combined with `Problem6_1_5_DenseOrbit.exists_dense_orbit_point` it produces the
+dense orbit feeding the dimension count. -/
+theorem orbitRel_quotient_finite_of_isFiniteType [IsAlgClosed k]
+    (adj : Matrix (Fin n) (Fin n) ℤ) [∀ a b : Fin n, Subsingleton (a ⟶ b)]
+    (hQ : Etingof.IsOrientationOf ‹Quiver.{0} (Fin n)› adj)
+    (hFT : Etingof.IsFiniteTypeQuiver n adj) (m : Fin n → ℕ) :
+    Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m)) := by
+  obtain ⟨reps, hfin, _, hcov⟩ := hFT k _ hQ
+  exact orbitRel_quotient_finite_of_finite_reps m reps hfin hcov
+
 end Etingof
