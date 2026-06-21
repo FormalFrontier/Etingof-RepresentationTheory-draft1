@@ -558,6 +558,32 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **Upgrading a `k`-linear bijection to an `A`-linear equiv: prove `map_smul`
+  on the composite, do NOT transport the `A`-module (Ch5, #4926 biduality).**
+  When the target is `↥S ≃ₗ[A] ↥T` but the natural maps factor through a
+  hom-of-hom space `D := (↥S →ₗ[A] E) →ₗ[C] E` whose only canonical action is by
+  `↥(centralizer C)` (= `A` by double-centralizer), resist putting an
+  `A`-module on `D` via `Module.compHom`/scalar transport — the `map_smul`
+  obligations then force you to unfold `compHom` everywhere and the elaboration
+  is brutal. Instead: build *all* intermediate equivs `k`-linearly (the
+  curried-evaluation `↥S ≃ₗ[k] D` via `LinearEquiv.ofInjectiveOfFinrankEq`, the
+  precomposition via the already-`k`-linear `homCongrLeftOverSubring`), thread
+  them to a `Φ : ↥S ≃ₗ[k] ↥T`, then package the *final* `↥S ≃ₗ[A] ↥T` with the
+  explicit constructor `{ toFun := Φ, map_add' := Φ.map_add, invFun := Φ.symm,
+  left_inv := Φ.left_inv, right_inv := Φ.right_inv, map_smul' := fun a v => ... }`
+  and prove the lone `A`-`map_smul'` by hand (`apply (last equiv).injective; ext;
+  rewrite the definitional apply-formulas`). The double-hom space never needs an
+  `A`-module structure at all. Bonus: isolate the genuine content as a *pure
+  `k`-finrank* lemma (`finrank k ↥S = finrank k D`) whose statement mentions no
+  exotic module — clean to state and to attack separately.
+- **`centralizerModuleHom` firing twice needs an `IsScalarTower` companion
+  (Ch5, #4926).** To get `Module ↥(centralizer C) ((V →ₗ[A] E) →ₗ[C] E)` you
+  re-apply `Theorem5_18_1.centralizerModuleHom` with `C` in the `A`-slot; this
+  requires `IsScalarTower k ↥C (V →ₗ[A] E)`, which is NOT automatic. Provide it
+  (`smul_assoc r b f := LinearMap.ext fun v => by change (r•b).val (f v) = …;
+  rw [Subalgebra.coe_smul, LinearMap.smul_apply]`). Note: even *stating* this
+  instance (its `SMul` in the signature) overruns the default 20000 synth
+  heartbeats — bump `synthInstance.maxHeartbeats` on the instance itself.
 - **Bundled instances from a destructured existential are already usable — do
   NOT re-`haveI` them (Ch5, #4716).** Decomposition theorems
   (`glTensorRep_..._decomposition...`) return `∃ (S : ι → Type u)
@@ -2729,3 +2755,62 @@ re-elaboration. After the `rw`, close with the underlying lemma but let Lean
 pinning `↑g` yourself reintroduces a second coercion spelling and re-triggers the
 same whnf blowup. Symptom to recognize: `(deterministic) timeout at whnf` on a
 line that is "obviously" `rfl` or a trivial `exact`.
+
+**Same trap when proving `Commute`/equality *of* such endos** (e.g. left and
+right `GL_N`-actions on `k[Xᵢⱼ]` commute). `exact AlgHom.congr_fun h_comp f` —
+where `h_comp` equates the underlying `AlgHom.comp`s — blows up `whnf` (even at
+6.4M heartbeats): Lean reconciles the `Module.End` product form against the
+applied form through `aeval`. Make every step syntactic instead:
+1. `apply LinearMap.ext; intro f` — **not** bare `ext f`, which over-applies into
+   `MvPolynomial` *coefficient* extensionality (`f` becomes a `Finsupp` exponent).
+2. `rw [Module.End.mul_apply, Module.End.mul_apply, ρ_apply, σ_apply, …]` (all
+   `rfl`-lemmas) to reach the applied form on both sides.
+3. Normalise the underlying lemma the same way and close by matching, not defeq:
+   `have h2 := AlgHom.congr_fun h_comp f; rw [AlgHom.comp_apply, AlgHom.comp_apply] at h2; exact h2`.
+With the fully-syntactic route the proof needs **no** `maxHeartbeats` bump at all.
+
+## Extracting a simple sub-representation from an infinite-dim graded rep (#4922)
+
+`Chapter5/SimpleSubrepExtraction.lean` builds `exists_simple_subrep_of_quotDetRep`
+— from a nonzero `GL_N`-invariant submodule of `A/det` (infinite-dim) produce a
+simple `FDRep` constituent with an injective equivariant embedding. Reusable recipe
+when you need a *simple sub-representation* and `Theorem5_23_2_i` only gives the
+vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
+
+- **Finite-dim reduction in a graded rep:** lift a nonzero `w` to a polynomial of
+  total degree `D`; `MvPolynomial.restrictTotalDegree σ k D` is a ready
+  `Module.Finite k` submodule (instance), and the degree-preserving action keeps it
+  invariant (decompose into `homogeneousComponent`s + `IsHomogeneous.totalDegree_le`).
+  Push it through `mkQ` (`Module.Finite.map` is an instance) and intersect with the
+  invariant `W` for a *nonzero, finite-dim, invariant* `M₀ ≤ W`.
+- **Atom = simple sub-rep (the reusable lemma `Etingof.exists_isSimpleModule_le`):**
+  a nonzero `k[G]`-submodule of `ρ.asModule` finite over `k` is Artinian over `k[G]`
+  via `isArtinian_of_tower k inferInstance` (needs `IsScalarTower k k[G] ↥W`,
+  auto), so `isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf` gives an atom;
+  `isSimpleModule_iff_isAtom.mpr` + push forward along `W.subtype`
+  (`Submodule.equivMapOfInjective ... |>.symm` + `IsSimpleModule.congr`) gives the
+  simple submodule. (`IsArtinian` is an `abbrev` for `WellFoundedLT (Submodule …)`,
+  so `IsWellFounded.wf` supplies the `WellFounded` term directly.)
+- **`asModule` ↔ `asSubmodule` simplicity bridge:** packaging the atom as an
+  `FDRep.of σ.toRepresentation` forces proving `IsSimpleModule k[G]
+  (σ.toRepresentation).asModule`, which is NOT defeq to `IsSimpleModule k[G]
+  ↥σ.asSubmodule` (the `Module k[G]` instances differ — `:= h` fails). Build the
+  k[G]-linear equiv `(σ.toRepresentation).asModule ≃ₗ[k[G]] ↥σ.asSubmodule` by hand:
+  carriers coincide on `σ.toSubmodule` (use `σ.toRepresentation.asModuleEquiv`, which
+  is `LinearEquiv.refl`, to access `.1`/`.2`); `map_smul'` reduces via
+  `MonoidAlgebra.induction_linear`, and the `single g t` case closes by **`rfl`**
+  after `rw [Representation.single_smul, Representation.single_smul]` (both sides are
+  `t • ρ g y`). Then `IsSimpleModule.congr`. Mathlib's
+  `Subrepresentation.{asSubmodule, ofSubmodule', subrepresentationSubmoduleOrderIso}`
+  give the order iso between subrepresentations and `Submodule k[G] ρ.asModule`.
+- **Gotcha:** `MvPolynomial.mem_restrictTotalDegree` takes the index type `σ` and
+  the degree `m` as *explicit* positional args before `p` (`mem_restrictTotalDegree
+  (Fin N × Fin N) D p`), even though `R` is implicit — term-mode calls need all
+  three. `rw` forms infer them fine.
+
+**Workflow note:** `lake build <YourNewLeafModule>` is authoritative for a leaf file
+that nothing else imports; building the *chapter aggregator* rebuilds all ~120
+project files from source (`lake exe cache get` only fetches Mathlib oleans, not the
+project's), which is slow and adds no signal for a leaf addition. After a clean
+standalone build, just grep for declaration-name collisions and trust CI for the
+full graph rather than waiting on the aggregator locally.
