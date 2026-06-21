@@ -151,7 +151,7 @@ private theorem pigeonhole_transposition {n : ℕ} {la : Nat.Partition n}
         row (σ a) ≠ row (σ b) := by
       intro a b hab hcol hrow
       have := h_exists (σ a) (σ b) (by intro h; exact hab (σ.injective h)) hrow
-      simp [Equiv.Perm.inv_apply_self] at this
+      simp [Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at this
       exact this hcol
     exfalso
     apply hσ
@@ -356,7 +356,7 @@ private theorem pigeonhole_transposition {n : ℕ} {la : Nat.Partition n}
         show colOfPos parts k₁.val = colOfPos parts k₂.val
         rw [← hq_col k₁, ← hq_col k₂, hval]
       have h_absurd := h_exists (σ k₁) (σ k₂) hσne hrow_σ
-      simp only [Equiv.Perm.inv_apply_self] at h_absurd
+      simp only [Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at h_absurd
       exact h_absurd hcol_k
     -- q_fun is surjective (injective endomorphism of finite type)
     have q_surj := (Finite.injective_iff_surjective).mp q_inj

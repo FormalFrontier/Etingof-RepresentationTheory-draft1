@@ -199,7 +199,7 @@ theorem detInv_elim [CharZero k] [IsAlgClosed k] (n : ℕ)
       conv_lhs => rw [show v c = ∑ c₀, b₀.repr (v c) c₀ • b₀ c₀ from (b₀.sum_repr (v c)).symm]
       rw [map_sum]; simp_rw [map_smul]
     rw [expand_col, map_sum]
-    simp only [map_smul, Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.coe_smul,
+    simp only [map_smul, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.coe_smul,
       Pi.smul_apply, smul_eq_mul]
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun c₀ _ => ?_
@@ -210,7 +210,7 @@ theorem detInv_elim [CharZero k] [IsAlgClosed k] (n : ℕ)
       conv_lhs => rw [show M.ρ g (b₀ c₀)
         = ∑ a₀, b₀.repr (M.ρ g (b₀ c₀)) a₀ • b₀ a₀ from (b₀.sum_repr _).symm]
       rw [map_sum]
-      simp only [map_smul, Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.coe_smul,
+      simp only [map_smul, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.coe_smul,
         Pi.smul_apply, smul_eq_mul]
     rw [hrow, Finset.mul_sum]
     refine Finset.sum_congr rfl fun a₀ _ => ?_
@@ -252,7 +252,7 @@ theorem detInv_elim [CharZero k] [IsAlgClosed k] (n : ℕ)
             conv_lhs => rw [show M.ρ g (v c)
               = ∑ c' : Fin d, (v.repr (M.ρ g (v c)) c') • v c' from (v.sum_repr _).symm]
             rw [map_sum, map_sum]
-            simp only [map_smul, Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.coe_smul,
+            simp only [map_smul, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.coe_smul,
               Pi.smul_apply, smul_eq_mul]
           have hRHS : evalGLAway (∑ c' : Fin d, (v.repr (M.ρ g (v c)) c') • coordToAway (R a c')) hh
               = ∑ c' : Fin d, v.repr (M.ρ g (v c)) c' * v.repr (M.ρ hh (v c')) a := by

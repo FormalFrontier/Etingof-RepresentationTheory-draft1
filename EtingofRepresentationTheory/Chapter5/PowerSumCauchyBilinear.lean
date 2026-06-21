@@ -280,14 +280,14 @@ private lemma matrixToAntidiag_mem (n : ℕ) (α β : Fin n → ℕ)
     simp [matrixToAntidiag]
   ext v; cases v with
   | inl i =>
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, key,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, key,
       Finsupp.smul_apply, smul_eq_mul, xyPairMon_inl, mul_ite, mul_one, mul_zero,
       bilinExponent_inl]
     rw [Fintype.sum_prod_type, Finset.sum_eq_single i
       (fun i' _ hi' => by simp [hi']) (fun h => absurd (Finset.mem_univ i) h)]
     simp [K.2.1 i]
   | inr j =>
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, key,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, key,
       Finsupp.smul_apply, smul_eq_mul, xyPairMon_inr, mul_ite, mul_one, mul_zero,
       bilinExponent_inr]
     rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j
@@ -310,7 +310,7 @@ private lemma extract_row_sum (n : ℕ) (α β : Fin n → ℕ)
     (hx_valid : ∀ p : Fin n × Fin n, x p = (x p) (Sum.inl p.1) • xyPairMon n p.1 p.2)
     (i : Fin n) : ∑ j : Fin n, (x (i, j)) (Sum.inl i) = α i := by
   have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx_mem).1 (Sum.inl i)
-  simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inl] at h
+  simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inl] at h
   rw [Fintype.sum_prod_type, Finset.sum_eq_single i _ _] at h
   · exact h
   · intro i' _ hi'
@@ -326,7 +326,7 @@ private lemma extract_col_sum (n : ℕ) (α β : Fin n → ℕ)
     (hx_valid : ∀ p : Fin n × Fin n, x p = (x p) (Sum.inl p.1) • xyPairMon n p.1 p.2)
     (j : Fin n) : ∑ i : Fin n, (x (i, j)) (Sum.inl i) = β j := by
   have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx_mem).1 (Sum.inr j)
-  simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inr] at h
+  simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inr] at h
   rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j _ _] at h
   · rwa [show (∑ i : Fin n, (x (i, j)) (Sum.inr j)) =
         ∑ i : Fin n, (x (i, j)) (Sum.inl i) from
@@ -415,11 +415,11 @@ private lemma finsupp_sum_single_iff' (n : ℕ) (α : Fin n →₀ ℕ) (σ : Eq
   constructor
   · intro heq j
     have hj := DFunLike.congr_fun heq j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply] at hj
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply] at hj
     rw [← hj, Finset.sum_filter]
   · intro hall
     ext j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply]
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply]
     rw [← Finset.sum_filter]
     exact hall j
 

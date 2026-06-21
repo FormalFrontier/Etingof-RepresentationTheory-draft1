@@ -51,7 +51,7 @@ theorem Etingof.Proposition4_1_2
   have hΛne : Λ ≠ 0 := by
     intro heq
     have h1 : (Λ : G →₀ k) 1 = 0 := by rw [heq]; rfl
-    rw [hΛ_def, Finsupp.coe_finset_sum, Finset.sum_apply] at h1
+    rw [hΛ_def, Finsupp.coe_finsetSum, Finset.sum_apply] at h1
     simp only [Finsupp.single_apply] at h1
     rw [Finset.sum_ite_eq'] at h1
     simp at h1

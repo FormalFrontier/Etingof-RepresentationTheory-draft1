@@ -75,6 +75,13 @@ namespace Etingof
 
 open Matrix Finset
 
+/-- Local restatement of the removed Mathlib lemma `pow_eq_zero` (specialised to
+the square case actually used below): in a `MonoidWithZero` with no zero
+divisors, `a ^ 2 = 0` forces `a = 0`. Upstream now provides only the iff form
+`sq_eq_zero_iff` / `pow_eq_zero_iff`. -/
+private theorem pow_eq_zero {M₀ : Type*} [MonoidWithZero M₀] [NoZeroDivisors M₀]
+    {a : M₀} (h : a ^ 2 = 0) : a = 0 := sq_eq_zero_iff.mp h
+
 /-! ## Graph isomorphism preserves IsDynkinDiagram -/
 
 /-- If `adj'` is the image of `adj` under a graph isomorphism `σ`, and `adj` is a

@@ -60,11 +60,11 @@ private lemma finsupp_sum_single_iff_gen (α : Fin N →₀ ℕ) (σ : Equiv.Per
   constructor
   · intro heq j
     have hj := DFunLike.congr_fun heq j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply] at hj
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply] at hj
     rw [← hj, Finset.sum_filter]
   · intro hall
     ext j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply]
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply]
     rw [← Finset.sum_filter]
     exact hall j
 
@@ -683,7 +683,7 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       ∀ i, ∑ j, (x (i, j)) (Sum.inl i) = α i := by
     intro x hx hvalid i
     have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx).1 (Sum.inl i)
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inl] at h
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inl] at h
     rw [Fintype.sum_prod_type, Finset.sum_eq_single i _ _] at h
     · exact h
     · intro i' _ hi'
@@ -697,7 +697,7 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       ∀ j, ∑ i, (x (i, j)) (Sum.inl i) = β j := by
     intro x hx hvalid j
     have h := DFunLike.congr_fun (Finset.mem_finsuppAntidiag.mp hx).1 (Sum.inr j)
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, bilinExponent_inr] at h
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, bilinExponent_inr] at h
     rw [Fintype.sum_prod_type, Finset.sum_comm, Finset.sum_eq_single j _ _] at h
     · rwa [show (∑ i, (x (i, j)) (Sum.inr j)) = ∑ i, (x (i, j)) (Sum.inl i) from
         Finset.sum_congr rfl fun i _ => by
@@ -735,7 +735,7 @@ theorem fullCauchyProd_coeff_eq_card_gen (α β : Fin N → ℕ)
       · rw [Finset.mem_finsuppAntidiag]
         constructor
         · apply DFunLike.ext; intro v
-          simp only [Finsupp.coe_finset_sum, Finset.sum_apply,
+          simp only [Finsupp.coe_finsetSum, Finset.sum_apply,
             Finsupp.coe_equivFunOnFinite_symm]
           cases v with
           | inl i =>

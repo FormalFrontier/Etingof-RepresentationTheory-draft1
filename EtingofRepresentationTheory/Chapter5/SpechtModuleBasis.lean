@@ -1181,11 +1181,11 @@ private theorem colStd_column_perm_dominance
               simp only [ecol, Equiv.apply_symm_apply, hq_fwd]; exact he.2
           · intro e _
             dsimp only
-            rw [Equiv.apply_symm_apply, Equiv.Perm.apply_inv_self,
+            rw [Equiv.apply_symm_apply, Equiv.Perm.coe_inv, Equiv.apply_symm_apply,
                 Equiv.symm_apply_apply]
           · intro e _
             dsimp only
-            rw [Equiv.apply_symm_apply, Equiv.Perm.inv_apply_self,
+            rw [Equiv.apply_symm_apply, Equiv.Perm.coe_inv, Equiv.symm_apply_apply,
                 Equiv.symm_apply_apply]
 
 /-- The coefficient of `[σ]` in `ψ_σ` is 1, for any permutation σ.

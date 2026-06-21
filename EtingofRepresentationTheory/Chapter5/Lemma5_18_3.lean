@@ -572,7 +572,7 @@ private lemma fullDiag_le_diag [CharZero k] :
               (ψ (MvPolynomial.esymm (Fin n) k j) : Module.End k _) = e j := by
             intro j
             simp only [MvPolynomial.esymm, map_sum, map_prod, MvPolynomial.aeval_X, hψ_def, e]
-            rw [AddSubmonoidClass.coe_finset_sum]
+            rw [AddSubmonoidClass.coe_finsetSum]
             exact Finset.sum_congr rfl (fun T _ => prod_val T)
           -- ψ maps psum to power sum
           have psum_val : ∀ d,
@@ -580,7 +580,7 @@ private lemma fullDiag_le_diag [CharZero k] :
                 ∑ i : Fin n, B i ^ d := by
             intro d
             simp only [MvPolynomial.psum, map_sum, map_pow, MvPolynomial.aeval_X, hψ_def]
-            simp only [AddSubmonoidClass.coe_finset_sum, SubmonoidClass.coe_pow, B']
+            simp only [AddSubmonoidClass.coe_finsetSum, SubmonoidClass.coe_pow, B']
           -- Composite evaluation: MvPolynomial → A → End
           set Φ : MvPolynomial (Fin n) k →ₐ[k] Module.End k (⨂[k] (_ : Fin n), V) :=
             A.val.comp ψ

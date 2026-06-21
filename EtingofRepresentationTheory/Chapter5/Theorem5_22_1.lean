@@ -1358,7 +1358,7 @@ private lemma youngSym_diagonal_entry (k' : Type*) [Field k'] (N : ℕ) (lam : F
   rw [LinearMap.sum_apply]
   simp only [LinearMap.smul_apply, LinearEquiv.coe_toLinearMap, map_sum, map_smul,
     Finsupp.coe_smul, Pi.smul_apply,
-    Finsupp.coe_finset_sum, Finset.sum_apply]
+    Finsupp.coe_finsetSum, Finset.sum_apply]
   -- Apply symGroupAction_tensorStdBasis via conv
   conv_lhs =>
     arg 2; ext x

@@ -138,12 +138,12 @@ private lemma finsupp_sum_single_iff (n : ℕ) (la : Nat.Partition n) (σ : Equi
   constructor
   · intro heq j
     have hj := DFunLike.congr_fun heq j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply,
       Nat.Partition.toFinsupp, Finsupp.coe_equivFunOnFinite_symm] at hj
     rw [← hj, Finset.sum_filter]
   · intro hall
     ext j
-    simp only [Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.single_apply,
+    simp only [Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.single_apply,
       Nat.Partition.toFinsupp, Finsupp.coe_equivFunOnFinite_symm]
     rw [← Finset.sum_filter]
     exact hall j
@@ -491,7 +491,7 @@ private lemma invColor_const_zpow (la : Nat.Partition n) (σ : Equiv.Perm (Fin n
     have hinv : c.val (σ⁻¹ ((σ ^ (-(↑k : ℤ))) x)) =
         c.val ((σ ^ (-(↑k : ℤ))) x) := by
       have h := c.prop.1 (σ⁻¹ ((σ ^ (-(↑k : ℤ))) x))
-      simp only [Equiv.Perm.apply_inv_self] at h; exact h.symm
+      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply] at h; exact h.symm
     rw [show (-(↑k : ℤ) - 1 : ℤ) = -1 + -(↑k : ℤ) from by ring,
       zpow_add, zpow_neg_one, Equiv.Perm.mul_apply, hinv, ih]
 
