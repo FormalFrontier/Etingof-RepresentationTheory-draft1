@@ -48,7 +48,8 @@ theorem regularCharacter_ne_one [Finite G] (g : G) (hg : g ≠ 1) :
   simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
   apply Finset.sum_eq_zero
   intro h _
-  convert key h using 1
+  simp only [Finsupp.basisSingleOne_repr, LinearEquiv.refl_apply, Finsupp.coe_basisSingleOne]
+  exact key h
 
 open scoped Classical in
 /-- Combined form: `χ_reg(g)` equals `|G|` if `g = 1` and `0` otherwise. -/
@@ -88,6 +89,8 @@ private lemma ofMulAction_eq_mulLeft (g : G) :
   simp only [ofMulAction_single, LinearMap.mulLeft_apply, MonoidAlgebra.of_apply,
     LinearMap.comp_apply, Finsupp.lsingle_apply, smul_eq_mul]
   congr 1
+  show (MonoidAlgebra.single (g * h) 1 : MonoidAlgebra k G) =
+    MonoidAlgebra.single g 1 * MonoidAlgebra.single h 1
   rw [MonoidAlgebra.single_mul_single, one_mul]
 
 /-- Trace of left multiplication is preserved by algebra isomorphisms. -/
@@ -219,10 +222,10 @@ private theorem regTrace_eq_card_mul [Fintype G]
   -- LHS: trace(lmul(single g 1)) = trace(mulLeft(single g 1))
   change LinearMap.trace k (MonoidAlgebra k G) (LinearMap.mulLeft k _) = _
   have := regularCharacter_eq (k := k) g
-  rw [ofMulAction_eq_mulLeft] at this
+  rw [ofMulAction_eq_mulLeft, MonoidAlgebra.of_apply] at this
   simp only [Finsupp.coe_basisSingleOne, Finsupp.single_apply]
   convert this using 1
-  split_ifs <;> ring
+  all_goals first | rfl | (split_ifs <;> ring)
 
 /-- In a Wedderburn decomposition of `k[G]`, each block dimension `d_i` is nonzero in `k`.
 This is proved via the nondegeneracy of the coefficient-at-identity form on `k[G]`:
