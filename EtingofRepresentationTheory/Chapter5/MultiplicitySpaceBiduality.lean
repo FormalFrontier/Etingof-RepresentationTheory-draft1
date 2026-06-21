@@ -66,6 +66,22 @@ noncomputable def homCongrLeftOverSubring
   map_add' f g := by ext v; simp
   map_smul' c f := by ext v; simp [LinearMap.smul_apply, LinearMap.comp_apply]
 
+/-- Restricting a simple `S`-module along a **surjective** ring homomorphism
+`σ : R →+* S` (with the `R`-action obtained by `σ`-restriction, `r • x = σ r • x`)
+keeps it simple: the `R`- and `S`-submodules coincide because every `S`-scalar is
+a `σ`-image. This is the transport tool for the double-centralizer identification
+`centralizer(centralizer A) = A`, where the inclusion `↥A → ↥(centralizer C)` is a
+bijective (hence surjective) ring hom. -/
+theorem isSimpleModule_of_surjective_ringHom
+    {R S : Type*} [Ring R] [Ring S] (σ : R →+* S) [RingHomSurjective σ]
+    {X : Type*} [AddCommGroup X] [Module R X] [Module S X]
+    (hcompat : ∀ (r : R) (x : X), r • x = σ r • x)
+    [IsSimpleModule S X] : IsSimpleModule R X :=
+  (LinearMap.isSimpleModule_iff_of_bijective
+    ({ toFun := id, map_add' := fun _ _ => rfl,
+        map_smul' := fun r x => (hcompat r x) } : X →ₛₗ[σ] X)
+    Function.bijective_id).mpr ‹_›
+
 -- Heartbeats bumped: even synthesizing the `SMul (↥centralizer A) (V →ₗ[A] E)`
 -- in this instance's statement runs the deep `centralizerModuleHom`
 -- `Subalgebra → Module.End` chain, overrunning the default 20000 synth budget
@@ -115,8 +131,122 @@ theorem multiplicitySpace_double_hom_finrank
     (S : Submodule A E) [IsSimpleModule A S] :
     Module.finrank k ↥S =
       Module.finrank k ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k
-        (A : Set (Module.End k E))] E) :=
-  sorry
+        (A : Set (Module.End k E))] E) := by
+  classical
+  -- Semisimplicity facts on both sides.
+  haveI : IsSemisimpleModule A E := IsSemisimpleRing.isSemisimpleModule
+  haveI hCss : IsSemisimpleRing (Subalgebra.centralizer k (A : Set (Module.End k E))) :=
+    Theorem5_18_1_commutant_semisimple k E A
+  haveI : IsSemisimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+    IsSemisimpleRing.isSemisimpleModule
+  -- `M_S := ↥S →ₗ[A] E` is a simple `C`-module (`C = centralizer A`).
+  haveI hMS : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E)))
+      (↥S →ₗ[A] E) := isSimpleModule_homA_centralizer k E A S
+  -- Pick a nonzero `s0 ∈ S`.
+  haveI : Nontrivial ↥S := IsSimpleModule.nontrivial A ↥S
+  obtain ⟨s0, hs0⟩ := exists_ne (0 : ↥S)
+  -- Evaluation at `s0`: a nonzero `C`-linear map `M_S → E`, hence injective.
+  let evs0 : (↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E :=
+    { toFun := fun l => l s0
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  have hevs0_ne : evs0 ≠ 0 := by
+    intro h
+    apply hs0
+    have h1 : (s0 : E) = 0 := by
+      have := LinearMap.congr_fun h S.subtype
+      simpa [evs0] using this
+    exact Subtype.ext (by simpa using h1)
+  have hinjE : Function.Injective evs0 := LinearMap.injective_of_ne_zero hevs0_ne
+  -- Its range `W` is a simple `C`-submodule of `E`, `C`-iso to `M_S`.
+  let W : Submodule (Subalgebra.centralizer k (A : Set (Module.End k E))) E :=
+    LinearMap.range evs0
+  let eMW : (↥S →ₗ[A] E) ≃ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] ↥W :=
+    LinearEquiv.ofInjective evs0 hinjE
+  haveI hWsimple : IsSimpleModule (Subalgebra.centralizer k (A : Set (Module.End k E))) ↥W :=
+    IsSimpleModule.congr eMW.symm
+  -- `W →ₗ[C] E` is simple over `centralizer C` (`= A`).
+  haveI hWE : IsSimpleModule
+      (Subalgebra.centralizer k
+        ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E)))
+      (↥W →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    isSimpleModule_homA_centralizer k E (Subalgebra.centralizer k (A : Set (Module.End k E))) W
+  -- Transport simplicity to the double-hom space along precomposition with `eMW`.
+  let preD : (↥W →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E)
+      ≃ₗ[Subalgebra.centralizer k
+        ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E))]
+      ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    { toFun := fun f => f.comp eMW.toLinearMap
+      invFun := fun f => f.comp eMW.symm.toLinearMap
+      left_inv := fun f => by ext m; simp
+      right_inv := fun f => by ext m; simp
+      map_add' := fun f g => by ext m; simp
+      map_smul' := fun b f => by ext m; rfl }
+  haveI hsimpD : IsSimpleModule
+      (Subalgebra.centralizer k
+        ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E)))
+      ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    IsSimpleModule.congr preD.symm
+  -- Double centralizer: `centralizer C = A`. Build the (bijective) inclusion ring hom
+  -- `↥A → ↥(centralizer C)` and transport simplicity down to `A`.
+  have hCC : Subalgebra.centralizer k
+      ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E)) = A :=
+    Theorem5_18_1_double_centralizer k E A
+  have hAle : A ≤ Subalgebra.centralizer k
+      ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E)) :=
+    le_of_eq hCC.symm
+  let σ : (↥A) →+* ↥(Subalgebra.centralizer k
+      ((Subalgebra.centralizer k (A : Set (Module.End k E))) : Set (Module.End k E))) :=
+    (Subalgebra.inclusion hAle).toRingHom
+  haveI hσsurj : RingHomSurjective σ :=
+    ⟨fun y => ⟨⟨y.val, hCC.le y.2⟩, Subtype.ext rfl⟩⟩
+  letI instA : Module (↥A)
+      ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    Module.compHom _ σ
+  haveI hsimpA : IsSimpleModule (↥A)
+      ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    isSimpleModule_of_surjective_ringHom σ (fun _ _ => rfl)
+  -- The curried-evaluation map `v ↦ (l ↦ l v)`, both as a `k`-map and an `A`-map.
+  let ev : ↥S → ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    fun v =>
+    { toFun := fun l => l v
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  let biSk : ↥S →ₗ[k]
+      ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    { toFun := ev
+      map_add' := fun v w => by ext l; exact l.map_add v w
+      map_smul' := fun c v => by ext l; exact l.map_smul_of_tower c v }
+  let biSA : ↥S →ₗ[A]
+      ((↥S →ₗ[A] E) →ₗ[Subalgebra.centralizer k (A : Set (Module.End k E))] E) :=
+    { toFun := ev
+      map_add' := fun v w => by ext l; exact l.map_add v w
+      map_smul' := fun a v => by
+        ext l
+        show l (a • v) = (σ a).val (l v)
+        rw [l.map_smul a v]; rfl }
+  -- `biSk` is injective (evaluating at `S.subtype` recovers `↑v`).
+  have hinj : Function.Injective biSk := by
+    rw [injective_iff_map_eq_zero]
+    intro v hv
+    have h1 : (v : E) = 0 := by
+      have := LinearMap.congr_fun hv S.subtype
+      simpa [biSk, ev] using this
+    exact Subtype.ext (by simpa using h1)
+  -- `biSA` is nonzero, hence surjective by Schur (target simple over `A`).
+  have hbiSA_ne : biSA ≠ 0 := by
+    obtain ⟨v, hv⟩ := exists_ne (0 : ↥S)
+    intro h
+    apply hv
+    have hv0 : biSk v = 0 := by
+      have : biSA v = 0 := by rw [h]; rfl
+      exact this
+    exact (injective_iff_map_eq_zero biSk).mp hinj v hv0
+  have hsurjA : Function.Surjective biSA :=
+    LinearMap.surjective_of_ne_zero hbiSA_ne
+  have hsurj : Function.Surjective biSk := hsurjA
+  -- Equal `k`-dimension via the resulting `k`-linear equivalence.
+  exact LinearEquiv.finrank_eq (LinearEquiv.ofBijective biSk ⟨hinj, hsurj⟩)
 
 -- Heartbeats bumped: stating and proving over the double hom-space
 -- `(↥S →ₗ[A] E) →ₗ[C] E` runs the deep `centralizerModuleHom`
