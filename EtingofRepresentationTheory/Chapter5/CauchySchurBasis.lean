@@ -133,6 +133,38 @@ theorem eval_one_eq_sum_coeff (σ : Equiv.Perm (Fin d)) :
 
 /-! ### Step 4: the stars-and-bars matrix count -/
 
+/-- **Stars and bars (one column).** The number of functions `Fin N → Fin (d+1)` whose
+values sum to `m ≤ d` is `C(m + N − 1, N − 1)`; the bound `Fin (d+1)` is not binding since
+each entry is at most the sum `m ≤ d`. -/
+private theorem card_boundedFun_sum_eq_choose (m : ℕ) (hm : m ≤ d) (hN : 1 ≤ N) :
+    Fintype.card {c : Fin N → Fin (d + 1) // ∑ i, (c i : ℕ) = m} =
+    (m + N - 1).choose (N - 1) := by
+  rw [← Nat.card_eq_fintype_card]
+  -- Strip the `Fin (d+1)` bound (entries are ≤ m ≤ d).
+  have ebound : {c : Fin N → Fin (d + 1) // ∑ i, (c i : ℕ) = m} ≃
+      {c : Fin N → ℕ // ∑ i, c i = m} :=
+    { toFun := fun c => ⟨fun i => (c.val i : ℕ), c.prop⟩
+      invFun := fun c => ⟨fun i => ⟨c.val i, by
+          have hle := Finset.single_le_sum (f := c.val)
+            (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)
+          rw [c.prop] at hle
+          omega⟩, by simpa using c.prop⟩
+      left_inv := fun c => by ext i; simp
+      right_inv := fun c => by ext i; simp }
+  -- Identify functions-summing-to-`m` with multisets of size `m` (i.e. `Sym (Fin N) m`).
+  have esym : {c : Fin N → ℕ // ∑ i, c i = m} ≃ Sym (Fin N) m :=
+    Equiv.subtypeEquiv (Finsupp.equivFunOnFinite.symm.trans Multiset.toFinsupp.toEquiv.symm)
+      (fun c => by
+        change (∑ i, c i = m) ↔
+            Multiset.card (Finsupp.toMultiset (Finsupp.equivFunOnFinite.symm c)) = m
+        rw [Finsupp.card_toMultiset, Finsupp.sum_fintype _ _ (fun _ => rfl)]
+        simp [Finsupp.equivFunOnFinite])
+  rw [Nat.card_congr ebound, Nat.card_congr esym, Nat.card_eq_fintype_card,
+    Sym.card_sym_eq_choose, Fintype.card_fin, Nat.add_comm N m,
+    ← Nat.choose_symm (show m ≤ m + N - 1 by omega)]
+  congr 1
+  omega
+
 /-- **Stars and bars.** Summing the number of `N×N` non-negative integer matrices with
 row sums `β` and column sums `μ` over all row margins `β` (of total `d = ∑ μ`) collapses
 to the number of matrices with column sums `μ` (rows free), which factors over the `N`
@@ -141,7 +173,55 @@ theorem sum_card_NNMatrixGen_eq_prod_choose (μ : Fin N →₀ ℕ) (hμ : ∑ i
     ∑ β ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d,
       Fintype.card (NNMatrixWithMarginsGen N (n := d) (⇑β) (⇑μ)) =
     ∏ j, (μ j + N - 1).choose (N - 1) := by
-  sorry
+  classical
+  -- The column-constrained matrices (column sums `μ`, rows free).
+  let M := {K : Fin N → Fin N → Fin (d + 1) // ∀ j, ∑ i, (K i j : ℕ) = μ j}
+  -- Row-sum vector of such a matrix, as a finsupp.
+  let rowF : M → (Fin N →₀ ℕ) :=
+    fun K => Finsupp.equivFunOnFinite.symm (fun i => ∑ j, (K.val i j : ℕ))
+  have hrowF_apply : ∀ (K : M) (i : Fin N), rowF K i = ∑ j, (K.val i j : ℕ) := by
+    intro K i; simp [rowF]
+  -- Every row-sum vector lands in the degree-`d` antidiagonal.
+  have hmem : ∀ K : M, rowF K ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d := by
+    intro K
+    rw [mem_finsuppAntidiag]
+    refine ⟨?_, Finset.subset_univ _⟩
+    simp_rw [hrowF_apply]
+    rw [Finset.sum_comm]
+    simp_rw [K.prop]; exact hμ
+  -- Fiberwise over the row-sum vector: `card M = ∑_β #(matrices, rows β, cols μ)`.
+  have hfib : Fintype.card M =
+      ∑ β ∈ finsuppAntidiag (Finset.univ : Finset (Fin N)) d,
+        Fintype.card (NNMatrixWithMarginsGen N (n := d) (⇑β) (⇑μ)) := by
+    rw [← Finset.card_univ, Finset.card_eq_sum_card_fiberwise (fun K _ => hmem K)]
+    refine Finset.sum_congr rfl (fun β _ => ?_)
+    rw [← Fintype.card_subtype]
+    refine Fintype.card_congr ?_
+    refine
+      { toFun := fun K => ⟨K.val.val, ⟨fun i => ?_, K.val.prop⟩⟩
+        invFun := fun K => ⟨⟨K.val, K.prop.2⟩, ?_⟩
+        left_inv := fun K => rfl
+        right_inv := fun K => rfl }
+    · -- row sums of `K` equal `β`, read off from `rowF K = β`
+      have h := K.prop
+      rw [← hrowF_apply K.val i, h]
+    · -- the membership condition `rowF ⟨K.val, _⟩ = β`
+      change Finsupp.equivFunOnFinite.symm (fun i => ∑ j, (K.val i j : ℕ)) = β
+      rw [show (fun i => ∑ j, (K.val i j : ℕ)) = (⇑β : Fin N → ℕ) from funext K.prop.1]
+      exact Finsupp.equivFunOnFinite_symm_coe β
+  -- Factor the column-constrained matrices over their `N` columns.
+  have hfactor : Fintype.card M = ∏ j, (μ j + N - 1).choose (N - 1) := by
+    -- Factor a column-constrained matrix into its `N` independent columns.
+    have e : M ≃ ∀ j, {c : Fin N → Fin (d + 1) // ∑ i, (c i : ℕ) = μ j} :=
+      { toFun := fun K j => ⟨fun i => K.val i j, K.prop j⟩
+        invFun := fun g => ⟨fun i j => (g j).val i, fun j => (g j).prop⟩
+        left_inv := fun K => rfl
+        right_inv := fun g => rfl }
+    rw [Fintype.card_congr e, Fintype.card_pi]
+    refine Finset.prod_congr rfl (fun j _ => ?_)
+    refine card_boundedFun_sum_eq_choose (μ j) ?_ (Fin.pos j)
+    rw [← hμ]; exact Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ j)
+  rw [← hfib, hfactor]
 
 /-! ### Assembly -/
 
