@@ -18,9 +18,10 @@ jobs:
     # The full project is rebuilt from scratch every run (use-github-cache:
     # false, so no project-olean cache). As Chapter5 has grown, that cold
     # build now needs more than the previous 60-minute budget: runs were
-    # reaching 8337/8339 modules and then dying on the job wall (SIGTERM 143).
-    # 90 minutes restores headroom for the current build and near-term growth.
-    timeout-minutes: 90
+    # reaching 8337/8339 modules and then dying on the job wall (SIGTERM
+    # 143). Raised to 120 min to keep full module coverage with headroom
+    # for near-term growth instead of excluding more theorems from CI.
+    timeout-minutes: 120
     steps:
       - name: Add swap space
         uses: actionhippie/swap-space@v1
