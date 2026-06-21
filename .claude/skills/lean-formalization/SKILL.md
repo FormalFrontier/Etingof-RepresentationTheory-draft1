@@ -1861,6 +1861,25 @@ noncomputable def classFinEquiv : ConjClass G ≃ Fin 4 :=
 
 This pattern proved GL₂(𝔽_q) conjugacy class cardinalities and `SimpleGraph.Connected.induce_compl_singleton_of_degree_eq_one`. It works well because `fin_cases` handles all pairs for injectivity automatically.
 
+### Finite set of representatives indexed by a finite predicate-set
+
+"Finitely many iso classes" / "finite covering set of representatives" goals (the
+Ch6 finite-type definition, the orbit-counting chain #4780–#4786) reduce to:
+pick one representative per element of a finite set `S = {x | P x}` (e.g. the
+positive roots, finite by Theorem 6.5.2a), then show the representatives form a
+finite set. Two gotchas, both hit in #4779:
+
+- `choose!` on `∀ x, P x → ∃ y, Q y` returns a **dependent** function
+  `g : ∀ x, P x → β` — the hypothesis argument is **kept**, not dropped. So `g`
+  is not a plain `α → β` and `Set.image g` / `hS.image g` fail with a type
+  mismatch.
+- Use `Set.Finite.dependent_image` for finiteness: from `hS : S.Finite` and
+  `F : ∀ x ∈ S, β` it gives `{y | ∃ x hx, F x hx = y}.Finite`. Let the set be
+  inferred — `refine ⟨_, hS.dependent_image (fun x hx => g x hx), ?_, ?_⟩` —
+  rather than writing a nested set-builder `{y | ∃ x (hx : x ∈ {x | P x}), …}`,
+  which fails to parse. `x ∈ {x | P x}` is defeq to `P x`, so `g x hx`
+  typechecks directly; recover witnesses downstream with `rintro y ⟨x, hx, rfl⟩`.
+
 ### Bridge to Mathlib's Native Abstractions
 
 When the project uses a custom representation (e.g., list-based paths, adjacency matrices) but Mathlib has richer API for a different representation (e.g., `SimpleGraph`):
