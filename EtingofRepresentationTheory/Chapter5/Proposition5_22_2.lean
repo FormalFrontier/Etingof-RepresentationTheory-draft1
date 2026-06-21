@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
+import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
 
 /-!
@@ -376,35 +377,46 @@ theorem schurModule_shift_iso_detTwist (N : ℕ) (lam : Fin N → ℕ) (hlam : A
   -- so their dimensions equal the total mass of the Schur polynomial.
   -- Since S_{λ+(1,...,1)} = (∏ Xᵢ) · S_λ and ∏ Xᵢ preserves total mass,
   -- dim L_λ = dim L_{λ+(1,...,1)}.
+  -- The det-twisted rep is polynomial: its ℕ-valued weight spaces span everything. Its
+  -- weight spaces at (μ+1) match the SchurModule's at μ (`glWeightSpace_detTwist_shift`),
+  -- and the SchurModule is polynomial. (Hoisted out so it is in scope as `h_span` below.)
+  have h₁_top : ⨆ (μ : Fin N →₀ ℕ),
+      glWeightSpace k N (FDRep.of (detTwistedSchurModuleRep k N lam))
+        (fun i => μ i) = ⊤ := by
+    rw [eq_top_iff, ← glWeightSpace_schurModule_iSup_eq_top k N lam]
+    apply iSup_le
+    intro μ
+    -- Map μ to its shift (i ↦ μ i + 1) as a Fin N →₀ ℕ
+    set μ_shift : Fin N →₀ ℕ := Finsupp.equivFunOnFinite.symm (fun i => μ i + 1) with hμs
+    refine le_trans ?_ (le_iSup _ μ_shift)
+    -- glWeightSpace_detTwist_shift gives equality (M₁ at μ+1) = (SchurModule at μ)
+    have h_shift := glWeightSpace_detTwist_shift k N lam (fun i => μ i)
+    have h_apply : (fun i => μ_shift i) = (fun i => μ i + 1) := by
+      ext i; simp [μ_shift]
+    rw [h_apply, h_shift]
+  -- The det-twisted Schur module representation is algebraic (assembled from the general
+  -- algebraicity infrastructure in `GLRepAlgebraic`; the concrete packaging is
+  -- `detTwistedSchurModuleRep_isAlgebraic`, which lives downstream and so is inlined here).
+  have halg : Etingof.IsAlgebraicRepresentation N
+      (FDRep.of (detTwistedSchurModuleRep k N lam)).ρ := by
+    rw [FDRep.of_ρ']
+    exact ((Etingof.glTensorRep_isAlgebraic k N (∑ i, lam i)).restrict
+      (SchurModuleSubmodule k N lam)
+      (fun g v hv => glTensorRep_mem_range k N lam g v hv)).detTwist
   have h_dim : Module.finrank k (FDRep.of (detTwistedSchurModuleRep k N lam)) =
       Module.finrank k (SchurModule k N (fun i => lam i + 1)) := by
     -- The SchurModule for λ+1 is polynomial (ℕ-valued weight spaces span).
     have h₂_top : ⨆ (μ : Fin N →₀ ℕ),
         glWeightSpace k N (SchurModule k N (fun i => lam i + 1)) (fun i => μ i) = ⊤ :=
       glWeightSpace_schurModule_iSup_eq_top k N (fun i => lam i + 1)
-    -- The det-twisted rep is polynomial: its weight spaces at (μ+1) match the SchurModule's
-    -- weight spaces at μ via `glWeightSpace_detTwist_shift`, and the SchurModule is polynomial.
-    have h₁_top : ⨆ (μ : Fin N →₀ ℕ),
-        glWeightSpace k N (FDRep.of (detTwistedSchurModuleRep k N lam))
-          (fun i => μ i) = ⊤ := by
-      rw [eq_top_iff, ← glWeightSpace_schurModule_iSup_eq_top k N lam]
-      apply iSup_le
-      intro μ
-      -- Map μ to its shift (i ↦ μ i + 1) as a Fin N →₀ ℕ
-      set μ_shift : Fin N →₀ ℕ := Finsupp.equivFunOnFinite.symm (fun i => μ i + 1) with hμs
-      refine le_trans ?_ (le_iSup _ μ_shift)
-      -- glWeightSpace_detTwist_shift gives equality (M₁ at μ+1) = (SchurModule at μ)
-      have h_shift := glWeightSpace_detTwist_shift k N lam (fun i => μ i)
-      have h_apply : (fun i => μ_shift i) = (fun i => μ i + 1) := by
-        ext i; simp [μ_shift]
-      rw [h_apply, h_shift]
     -- Formal characters agree (the det-twist shifts the character by the product of Xᵢ)
     have h_char_eq : formalCharacter k N (FDRep.of (detTwistedSchurModuleRep k N lam)) =
         formalCharacter k N (SchurModule k N (fun i => lam i + 1)) :=
       formalCharacter_detTwist_eq_shift k N lam hlam
     exact finrank_eq_of_formalCharacter_eq k N _ _ h₁_top h₂_top h_char_eq
   -- By iso_of_formalCharacter_eq_schurPoly, the det-twisted rep ≅ SchurModule k N (λ+1)
-  obtain ⟨iso⟩ := iso_of_formalCharacter_eq_schurPoly k N (fun i => lam i + 1) hlam' _ h_char h_dim
+  obtain ⟨iso⟩ := iso_of_formalCharacter_eq_schurPoly k N (fun i => lam i + 1) hlam'
+    _ halg h₁_top h_char h_dim
   exact ⟨iso.symm⟩
 
 omit [IsAlgClosed k] [CharZero k] in
