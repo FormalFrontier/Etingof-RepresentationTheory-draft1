@@ -239,4 +239,91 @@ theorem card_lt_of_injective_scalingInvariant {σ τ : Type} [Fintype σ] [Finty
     Cardinal.natCast_add_one_le_iff.mp hle
   exact_mod_cast hlt
 
+/-! ## The concrete strict bound for `W(m)` / `G(m)` -/
+
+open Matrix MulAction
+
+variable {n : ℕ} [Quiver.{0} (Fin n)] [∀ i j : Fin n, Fintype (i ⟶ j)]
+
+set_option maxHeartbeats 800000 in
+/-- **Step 2(c) for `W(m)` / `G(m)`: the strict bound.** Over an infinite field with
+finitely many `G(m)`-orbits on `W(m)` and a nonzero dimension vector `m`, the
+coordinate dimension of the representation space is *strictly* less than that of the
+group ambient space: `card (WIdx m) < card (GIdx m)`.
+
+This is the `−1` refinement of `card_wIdx_le_card_gIdx`: the orbit-map comorphism,
+composed into the fraction field `K = k(gₚᵩ)`, has image invariant under every
+scaling automorphism (the global scalars `k*` act trivially, the `λ` of `Gⱼ` and
+`λ⁻¹` of `Gᵢ⁻¹` cancelling). `card_lt_of_injective_scalingInvariant` then forces the
+strict inequality. -/
+theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
+    [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
+    Fintype.card (WIdx m) < Fintype.card (GIdx m) := by
+  classical
+  -- a distinguished group coordinate (`GIdx m` is nonempty since `m ≠ 0`)
+  obtain ⟨i₀, hi₀⟩ : ∃ i, 0 < m i := by
+    by_contra h
+    push_neg at h
+    exact hm (funext fun i => Nat.le_zero.mp (h i))
+  let t₀ : GIdx m := ⟨i₀, (⟨0, hi₀⟩, ⟨0, hi₀⟩)⟩
+  -- the principal-open coordinate ring `B = k[gₚᵩ, detProd⁻¹]` and the fraction field
+  haveI hdomB : IsDomain (Localization (Submonoid.powers (detProd (k := k) m))) :=
+    IsLocalization.isDomain_localization
+      (powers_le_nonZeroDivisors_of_noZeroDivisors (detProd_ne_zero (k := k) m))
+  -- injective orbit-map comorphism into `B`
+  obtain ⟨v₀, hv₀⟩ :=
+    exists_injective_orbitComorphism
+      (B := Localization (Submonoid.powers (detProd (k := k) m))) (k := k) m
+  -- the embedding `B → K = FractionRing (k[gₚᵩ])`
+  have hSle : Submonoid.powers (detProd (k := k) m) ≤ nonZeroDivisors (MvPolynomial (GIdx m) k) :=
+    powers_le_nonZeroDivisors_of_noZeroDivisors (detProd_ne_zero (k := k) m)
+  have hunit : ∀ y : Submonoid.powers (detProd (k := k) m),
+      IsUnit (algebraMap (MvPolynomial (GIdx m) k) (FractionRing (MvPolynomial (GIdx m) k))
+        (y : MvPolynomial (GIdx m) k)) :=
+    fun y => IsLocalization.map_units (FractionRing (MvPolynomial (GIdx m) k))
+      (⟨(y : MvPolynomial (GIdx m) k), hSle y.2⟩ : nonZeroDivisors (MvPolynomial (GIdx m) k))
+  letI algBK : Algebra (Localization (Submonoid.powers (detProd (k := k) m)))
+      (FractionRing (MvPolynomial (GIdx m) k)) :=
+    (IsLocalization.lift (M := Submonoid.powers (detProd (k := k) m))
+      (g := algebraMap _ (FractionRing (MvPolynomial (GIdx m) k))) hunit).toAlgebra
+  have hcomp : (algebraMap (Localization (Submonoid.powers (detProd (k := k) m)))
+        (FractionRing (MvPolynomial (GIdx m) k))).comp
+        (algebraMap (MvPolynomial (GIdx m) k) _)
+      = algebraMap (MvPolynomial (GIdx m) k) (FractionRing (MvPolynomial (GIdx m) k)) := by
+    change (IsLocalization.lift hunit).comp (algebraMap (MvPolynomial (GIdx m) k) _)
+      = algebraMap (MvPolynomial (GIdx m) k) (FractionRing (MvPolynomial (GIdx m) k))
+    exact IsLocalization.lift_comp hunit
+  haveI tower_PBK : IsScalarTower (MvPolynomial (GIdx m) k)
+      (Localization (Submonoid.powers (detProd (k := k) m)))
+      (FractionRing (MvPolynomial (GIdx m) k)) :=
+    IsScalarTower.of_algebraMap_eq' hcomp.symm
+  haveI hfracBK : IsFractionRing (Localization (Submonoid.powers (detProd (k := k) m)))
+      (FractionRing (MvPolynomial (GIdx m) k)) :=
+    IsFractionRing.isFractionRing_of_isDomain_of_isLocalization
+      (Submonoid.powers (detProd (k := k) m)) _ _
+  haveI tower_kBK : IsScalarTower k (Localization (Submonoid.powers (detProd (k := k) m)))
+      (FractionRing (MvPolynomial (GIdx m) k)) := by
+    refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
+    have h1 : algebraMap k (FractionRing (MvPolynomial (GIdx m) k)) x
+        = algebraMap (MvPolynomial (GIdx m) k) _ (algebraMap k (MvPolynomial (GIdx m) k) x) :=
+      IsScalarTower.algebraMap_apply k (MvPolynomial (GIdx m) k) _ x
+    have h2 : algebraMap k (Localization (Submonoid.powers (detProd (k := k) m))) x
+        = algebraMap (MvPolynomial (GIdx m) k) _ (algebraMap k (MvPolynomial (GIdx m) k) x) :=
+      IsScalarTower.algebraMap_apply k (MvPolynomial (GIdx m) k) _ x
+    rw [h1, ← hcomp, RingHom.comp_apply, ← h2]
+  -- the comorphism composed into the fraction field
+  set ψ : Localization (Submonoid.powers (detProd (k := k) m)) →ₐ[k]
+      FractionRing (MvPolynomial (GIdx m) k) :=
+    IsScalarTower.toAlgHom k _ _ with hψdef
+  set φK : MvPolynomial (WIdx m) k →ₐ[k] FractionRing (MvPolynomial (GIdx m) k) :=
+    ψ.comp (orbitComorphism (B := Localization (Submonoid.powers (detProd (k := k) m))) m v₀)
+    with hφKdef
+  have hφKinj : Function.Injective φK :=
+    (IsFractionRing.injective _ _).comp hv₀
+  -- Part A: scaling-invariance of the image
+  have hfix : ∀ lam : kˣ, ∀ w : WIdx m,
+      scalingFieldEquiv (GIdx m) lam (φK (X w)) = φK (X w) := by
+    sorry
+  exact card_lt_of_injective_scalingInvariant t₀ φK hφKinj hfix
+
 end Etingof.Problem6_1_5
