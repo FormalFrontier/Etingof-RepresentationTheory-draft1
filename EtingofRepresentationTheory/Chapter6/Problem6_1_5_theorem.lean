@@ -5,6 +5,10 @@ import EtingofRepresentationTheory.Chapter6.Proposition6_6_5
 import EtingofRepresentationTheory.Chapter6.Theorem6_5_2
 import EtingofRepresentationTheory.Chapter6.Theorem_Dynkin_classification
 import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
+import EtingofRepresentationTheory.Chapter6.OrientationDefs
+import EtingofRepresentationTheory.Chapter6.Problem6_1_5_TitsBridge
+import EtingofRepresentationTheory.Chapter6.Problem6_1_5_DimBound
+import EtingofRepresentationTheory.Chapter6.Problem6_1_5_OrbitFiniteness
 
 /-!
 # Theorem (Problem 6.1.5): Finite Type iff Dynkin
@@ -34,10 +38,15 @@ algebraically closed fields.
   positive root is realized by a unique indecomposable up to isomorphism
   (Theorem 6.5.2c). The finite set of those realizers covers every
   indecomposable up to `AreIsomorphic`.
-* **Forward** (finite type ⟹ Dynkin): the Tits-form positive-definiteness is the
-  output of the orbit-counting chain of directive #4777
-  (#4780 → #4782 → #4783 → #4784), to be wired into the positivity component by
-  #4786. It is the single remaining `sorry` below.
+* **Forward** (finite type ⟹ Dynkin): proved here, sorry-free, via the
+  orbit-counting chain of directive #4777. Picking the standard orientation `Q` of
+  the graph and the algebraically closed field `ℂ`, finite type makes the group
+  `G(m)` act on the representation space `W(m)` with finitely many orbits
+  (`orbitRel_quotient_finite_of_isFiniteType`, #4780→#4798); a finite orbit set
+  forces a dense orbit, an injective comorphism, and the strict dimension bound
+  `dim W(m) < dim G(m)` (#4782→#4783→#4784, with the `−1` from the global scalars
+  #4824); and that strict bound is exactly positive-definiteness of the Tits form
+  (`isDynkinDiagram_of_strict_finrank`, #4785/#4816).
 -/
 
 open Etingof in
@@ -55,14 +64,27 @@ theorem Etingof.Theorem_6_1_5 (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1) :
     Etingof.IsFiniteTypeQuiver n adj ↔ Etingof.IsDynkinDiagram n adj := by
   constructor
-  · -- Forward: finite type → Dynkin diagram.
-    -- The four combinatorial conditions hold by hypothesis; positive-definiteness
-    -- of the Tits form is the orbit-counting output of directive #4777
-    -- (#4780 → #4782 → #4783 → #4784), to be wired in by #4786.
-    intro _hft
-    refine ⟨hsymm, hdiag, h01, hconn, fun x hx => ?_⟩
-    -- TODO(#4786): 0 < B(x, x) from finite type via the orbit-counting argument.
-    sorry
+  · -- Forward: finite type → Dynkin diagram, via the orbit-counting chain (#4777).
+    intro hft
+    -- Fix the standard orientation `Q` of the graph and the field `ℂ`.
+    letI Q : Quiver.{0} (Fin n) := Etingof.standardOrientation adj
+    haveI hfin : ∀ a b : Fin n, Fintype (@Quiver.Hom (Fin n) Q a b) := by
+      intro a b
+      classical
+      exact if h : Nonempty (@Quiver.Hom (Fin n) Q a b)
+        then Fintype.ofSubsingleton h.some
+        else @Fintype.ofIsEmpty _ (not_nonempty_iff.mp h)
+    have hQ : Etingof.IsOrientationOf Q adj :=
+      Etingof.standardOrientation_isOrientationOf adj hsymm hdiag
+    -- Finite type ⟹ finitely many `G(m)`-orbits on `W(m)` over `ℂ`, for every `m`.
+    haveI horb : ∀ m : Fin n → ℕ,
+        Finite (MulAction.orbitRel.Quotient
+          (Etingof.repGroup ℂ m) (Etingof.repSpace (k := ℂ) m)) := fun m =>
+      Etingof.orbitRel_quotient_finite_of_isFiniteType (k := ℂ) adj hQ hft m
+    -- The strict dimension bound `dim W(m) < dim G(m)` is positive-definiteness.
+    exact Etingof.isDynkinDiagram_of_strict_finrank ℂ adj hsymm hdiag h01 hconn hQ
+      (fun m hm =>
+        Etingof.Problem6_1_5.repSpace_finrank_lt_repGroup_ambient_finrank (k := ℂ) m hm)
   · -- Backward: Dynkin diagram → finite type.
     intro hDynkin k _inst_field _inst_algclosed Q _inst_ss hOrient
     classical
