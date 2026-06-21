@@ -407,7 +407,27 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_complex
   exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
     N L hLtop hLsimp hLdist c htorus
 
-/-- **Algebraicity of the simple summands (isolated `sorry`, sub-issue of #4887).**
+/-- A `GL_N(ℂ)`-equivariant `ℂ`-linear map sends the `μ`-weight space of its source
+into the `μ`-weight space of its target: weight vectors map to weight vectors. -/
+private theorem glWeightSpace_map_le_of_equivariant (N : ℕ)
+    {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    (ρV : Representation ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) V)
+    (W : FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (f : V →ₗ[ℂ] (W : Type))
+    (hf : ∀ g v, f (ρV g v) = W.ρ g (f v)) (μ : Fin N → ℕ) :
+    (glWeightSpace ℂ N (FDRep.of ρV) μ).map f ≤ glWeightSpace ℂ N W μ := by
+  intro w hw
+  rw [Submodule.mem_map] at hw
+  obtain ⟨v, hv, rfl⟩ := hw
+  simp only [glWeightSpace, Submodule.mem_iInf, LinearMap.mem_ker, FDRep.of_ρ',
+    LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply] at hv ⊢
+  intro a t
+  have hvit : ρV (diagUnit ℂ N a t) v = (↑t : ℂ) ^ μ a • v := sub_eq_zero.mp (hv a t)
+  have hwit : W.ρ (diagUnit ℂ N a t) (f v) = (↑t : ℂ) ^ μ a • f v := by
+    rw [← hf, hvit, map_smul]
+  rw [sub_eq_zero]; exact hwit
+
+/-- **Spanning weight spaces of the simple summands (sub-issue #4909 of #4887).**
 
 Each simple summand `L i` of `V^{⊗n}` (`V = Fin N → ℂ`) carrying a nonzero
 multiplicity space (`0 < dim(S i)`) is a *polynomial* representation: its weight
@@ -415,14 +435,19 @@ spaces span. This supplies the `hLtop` hypothesis of
 `schurWeyl_simples_formalCharacter_linearIndependent_complex` at the call site from
 the equivariant decomposition data.
 
-Proof sketch: a nonzero `s ∈ S i` gives a `GL_N(ℂ)`-equivariant embedding
-`L i ≅ {s} ⊗ L i ↪ S i ⊗ L i ↪ ⨁ⱼ Sⱼ ⊗ Lⱼ ≅ V^{⊗n}` (via `e⁻¹` and `he`), realizing
-`L i` as an invariant submodule of the algebraic representation `glTensorRep`
-(`Etingof.glTensorRep_isAlgebraic`). A sub-representation of an algebraic
-representation is algebraic (`Etingof.IsAlgebraicRepresentation.restrict`), and an
-algebraic representation has spanning weight spaces. The last step
-(`IsAlgebraicRepresentation ⟹ ⨆ glWeightSpace = ⊤`) is itself missing from the
-project and is part of this sub-issue. -/
+Proof: pick a basis vector `s = b i0` of `S i` (exists since `dim(S i) > 0`) and the
+dual coordinate `φ = b.coord i0`, so `φ s = 1`. These build a `GL_N(ℂ)`-equivariant
+*surjection* `q : V^{⊗n} → L i`, namely `v ↦ φ ((e v)ᵢ.1) • (e v)ᵢ.2` — project `e v`
+to the `i`-th summand `S i ⊗ L i` and evaluate the `S i`-factor against `φ`
+(equivariance from `he` and the trivial `S i`-action; surjectivity since
+`q (e⁻¹ (of i (s ⊗ x))) = x`). The full tensor power has spanning weight spaces
+(`glTensorRep_iSup_glWeightSpace_eq_top`), and an equivariant map sends weight vectors
+to weight vectors (`glWeightSpace_map_le_of_equivariant`), so
+`⊤ = q ⊤ = q (⨆_μ wtₘ V^{⊗n}) = ⨆_μ q (wtₘ V^{⊗n}) ≤ ⨆_μ wtₘ (L i)`.
+
+Note: this routes through the *polynomial* embedding into `glTensorRep`, not through a
+general "algebraic ⟹ spanning ℕ-weight spaces" lemma, which is false (det⁻¹ twists are
+algebraic but carry negative weights). -/
 theorem schurWeyl_simple_summand_glWeightSpace_top
     (N n : ℕ) (hN : n ≤ N)
     {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -439,10 +464,82 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
                 (S i)).tprod (L i).ρ) g (e v))
     (hSne : ∀ i, 0 < Module.finrank ℂ (S i)) :
     ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤ := by
-  -- Each `L i` (with `S i ≠ 0`) embeds equivariantly in the algebraic representation
-  -- `V^{⊗n}`, hence is algebraic, hence has spanning weight spaces. Tracked as a
-  -- sub-issue of #4887.
-  sorry
+  classical
+  intro i
+  -- A nonzero functional `φ : S i → ℂ` with `φ (b i0) = 1` (exists since `dim (S i) > 0`).
+  let b : Module.Basis (Fin (Module.finrank ℂ (S i))) ℂ (S i) := Module.finBasis ℂ (S i)
+  let i0 : Fin (Module.finrank ℂ (S i)) := ⟨0, hSne i⟩
+  let φ : (S i) →ₗ[ℂ] ℂ := b.coord i0
+  have hφ : φ (b i0) = 1 := by
+    show b.coord i0 (b i0) = 1
+    rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
+  -- The "evaluate the `S i`-factor against `φ`" map `r : S i ⊗ L i → L i`, `a ⊗ x ↦ φ a • x`.
+  let r : (S i ⊗[ℂ] (L i : Type)) →ₗ[ℂ] (L i : Type) :=
+    (TensorProduct.lid ℂ (L i : Type)).toLinearMap ∘ₗ TensorProduct.map φ LinearMap.id
+  have hr_tmul : ∀ (a : S i) (x : (L i : Type)), r (a ⊗ₜ x) = φ a • x := by
+    intro a x
+    simp [r, TensorProduct.map_tmul, TensorProduct.lid_tmul]
+  -- `r` is `GL_N`-equivariant for `(trivial ⊗ ρ_{L i})` and `ρ_{L i}` (trivial action on `S i`).
+  have hr_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+      (y : S i ⊗[ℂ] (L i : Type)),
+      r (((Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) (S i)).tprod
+            (L i).ρ) g y) = (L i).ρ g (r y) := by
+    intro g y
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a x =>
+        simp only [Representation.tprod_apply, TensorProduct.map_tmul,
+          Representation.trivial_apply, hr_tmul, map_smul]
+    | add y z hy hz => simp only [map_add, hy, hz]
+  -- The equivariant surjection `q : V^{⊗n} → L i`: project `e` to the `i`-th summand, eval `φ`.
+  let q : TensorPower ℂ (Fin N → ℂ) n →ₗ[ℂ] (L i : Type) :=
+    r ∘ₗ (DirectSum.component ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i) ∘ₗ (e.toLinearMap)
+  -- Coordinate formula for the direct-sum representation.
+  have coord : ∀ (x : DirectSum ι (fun j => S j ⊗[ℂ] (L j : Type)))
+      (g : Matrix.GeneralLinearGroup (Fin N) ℂ),
+      DirectSum.component ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i
+          (Representation.directSum (fun j =>
+            (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
+              (S j)).tprod (L j).ρ) g x)
+        = ((Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) (S i)).tprod
+            (L i).ρ) g
+            (DirectSum.component ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i x) := by
+    intro x g
+    change (DirectSum.lmap (fun m =>
+      ((Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) (S m)).tprod
+        (L m).ρ) g) x) i
+      = ((Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ) (S i)).tprod
+          (L i).ρ) g (x i)
+    rw [DirectSum.lmap_apply]
+  -- `q` is `GL_N`-equivariant for `glTensorRep` and `ρ_{L i}`.
+  have hq : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+      (v : TensorPower ℂ (Fin N → ℂ) n),
+      q (glTensorRep ℂ N n g v) = (L i).ρ g (q v) := by
+    intro g v
+    simp only [q, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
+    rw [he, coord, hr_equiv]
+  -- `q` is surjective: `e.symm (of i (b i0 ⊗ x))` is a preimage of `x`.
+  have hsurj : Function.Surjective q := by
+    intro x
+    refine ⟨e.symm (DirectSum.lof ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i (b i0 ⊗ₜ x)), ?_⟩
+    simp only [q, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+      LinearEquiv.apply_symm_apply, DirectSum.component.lof_self]
+    rw [hr_tmul, hφ, one_smul]
+  -- Assemble: `⊤ = q ⊤ = q (⨆ wt sp of V^{⊗n}) = ⨆ q(wt sp) ≤ ⨆ wt sp of L i`.
+  have hmap_top : Submodule.map q ⊤ = ⊤ := by
+    rw [Submodule.map_top, LinearMap.range_eq_top.mpr hsurj]
+  refine le_antisymm le_top ?_
+  calc (⊤ : Submodule ℂ (L i : Type))
+      = Submodule.map q ⊤ := hmap_top.symm
+    _ = Submodule.map q (⨆ μ : Fin N →₀ ℕ,
+          glWeightSpace ℂ N (FDRep.of (glTensorRep ℂ N n)) (fun j => μ j)) := by
+          rw [glTensorRep_iSup_glWeightSpace_eq_top]
+    _ = ⨆ μ : Fin N →₀ ℕ, Submodule.map q
+          (glWeightSpace ℂ N (FDRep.of (glTensorRep ℂ N n)) (fun j => μ j)) :=
+          Submodule.map_iSup _ _
+    _ ≤ ⨆ μ : Fin N →₀ ℕ, glWeightSpace ℂ N (L i) (fun j => μ j) :=
+          iSup_mono fun μ =>
+            glWeightSpace_map_le_of_equivariant N (glTensorRep ℂ N n) (L i) q hq (fun j => μ j)
 
 /-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
 
