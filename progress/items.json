@@ -130,8 +130,8 @@
     "end_page": "8",
     "start_line": 5,
     "end_line": 7,
-    "status": "statement_formalized",
-    "needs_statement": true
+    "status": "sorry_free",
+    "needs_statement": false
   },
   {
     "id": "Chapter2/Discussion_after_Theorem2.1.2",
