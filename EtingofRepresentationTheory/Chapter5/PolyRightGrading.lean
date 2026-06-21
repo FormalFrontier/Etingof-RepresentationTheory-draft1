@@ -172,4 +172,64 @@ theorem mulDet_homogeneousSubmodule_le (d : ℕ) :
   exact (MvPolynomial.mem_homogeneousSubmodule _ _).2
     (mulDet_isHomogeneous ((MvPolynomial.mem_homogeneousSubmodule _ _).1 hQ))
 
+/-! ### The per-degree short exact sequence -/
+
+/-- **Multiplying by `det` commutes with extracting the degree-shifted homogeneous
+component.** Since `detPoly` is homogeneous of degree `N`, the degree-`(N + e)`
+component of `detPoly · Q` is `detPoly` times the degree-`e` component of `Q`. This
+is the computation that makes the determinant ideal a *graded* submodule. -/
+theorem homogeneousComponent_detPoly_mul (Q : MvPolynomial (Fin N × Fin N) k) (e : ℕ) :
+    MvPolynomial.homogeneousComponent (N + e) (detPoly k N * Q)
+      = detPoly k N * MvPolynomial.homogeneousComponent e Q := by
+  conv_lhs => rw [← MvPolynomial.sum_homogeneousComponent Q, Finset.mul_sum, map_sum]
+  rw [show (∑ j ∈ Finset.range (Q.totalDegree + 1),
+        MvPolynomial.homogeneousComponent (N + e)
+          (detPoly k N * MvPolynomial.homogeneousComponent j Q))
+      = ∑ j ∈ Finset.range (Q.totalDegree + 1),
+          (if e = j then detPoly k N * MvPolynomial.homogeneousComponent j Q else 0) from
+        Finset.sum_congr rfl fun j _ => by
+          rw [MvPolynomial.homogeneousComponent_of_mem
+            ((MvPolynomial.mem_homogeneousSubmodule (N + j) _).2
+              (detPoly_isHomogeneous.mul
+                (MvPolynomial.homogeneousComponent_isHomogeneous j Q)))]
+          exact if_congr (by omega) rfl rfl]
+  rw [Finset.sum_ite_eq]
+  split
+  · rfl
+  · next h =>
+    have he : Q.totalDegree < e := by simp only [Finset.mem_range, not_lt] at h; omega
+    rw [MvPolynomial.homogeneousComponent_eq_zero e Q he, mul_zero]
+
+/-- **The determinant ideal is graded: exactness in the middle of the per-degree
+sequence.** For `d ≥ N`, the degree-`d` slice of the determinant ideal `(det)` is
+exactly the image under `mulDet` of the degree-`(d - N)` component:
+
+  `(det) ∩ A_d = mulDet '' A_{d - N}`.
+
+This is the kernel-equals-image statement of the right-`GL_N`-equivariant short
+exact sequence `0 → A_{d-N} ⊗ χ → A_d → (A/det)_d → 0`: the cokernel of
+`mulDet : A_{d-N} → A_d` is the degree-`d` part `A_d / (det · A_{d-N})` of the
+quotient `A/det`. -/
+theorem detSubmodule_inf_homogeneous (d : ℕ) (hd : N ≤ d) :
+    detSubmodule k N ⊓ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d
+      = (MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k (d - N)).map (mulDet k N) := by
+  have hNd : N + (d - N) = d := by omega
+  apply le_antisymm
+  · rintro x ⟨hxdet, hxhom⟩
+    rw [← range_mulDet] at hxdet
+    obtain ⟨Q, hQ⟩ := LinearMap.mem_range.1 hxdet
+    rw [mulDet_apply] at hQ
+    refine ⟨MvPolynomial.homogeneousComponent (d - N) Q,
+      MvPolynomial.homogeneousComponent_mem _ _, ?_⟩
+    rw [mulDet_apply, ← homogeneousComponent_detPoly_mul Q (d - N),
+      hNd, hQ, MvPolynomial.homogeneousComponent_of_mem hxhom]
+    simp
+  · rintro y ⟨Q, hQ, rfl⟩
+    refine ⟨?_, ?_⟩
+    · rw [← range_mulDet]; exact ⟨Q, rfl⟩
+    · refine (MvPolynomial.mem_homogeneousSubmodule d _).2 ?_
+      rw [mulDet_apply]
+      have h := detPoly_isHomogeneous.mul ((MvPolynomial.mem_homogeneousSubmodule (d - N) _).1 hQ)
+      rwa [hNd] at h
+
 end Etingof.PolyRightGrading
