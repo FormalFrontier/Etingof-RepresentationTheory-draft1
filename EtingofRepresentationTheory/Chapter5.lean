@@ -117,6 +117,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
 import EtingofRepresentationTheory.Chapter5.SchurModuleSpecialBlock
 import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
+import EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct
 import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
 
 -- Section 5.25: Representations of GL₂(𝔽_q)
