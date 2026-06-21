@@ -1601,6 +1601,18 @@ haveI : Nontrivial m := IsSimpleModule.nontrivial (MonoidAlgebra ℂ A) ↥m
 
 **When to use:** Any proof that extracts characters from representations of commutative groups (e.g., `exists_character_in_rep` in the Mackey machine, #2036).
 
+## Building `≃ₗ[k[G]]` equivalences between `asModule`s (glue-A/B, #4714/#4715)
+
+When promoting a `k`-linear intertwiner to a `MonoidAlgebra k G`-linear equivalence (the Schur-Weyl Step E "glue" cluster, `Chapter5/PolynomialGLDecomposition.lean`), three instance/unification stalls recur:
+
+1. **Keep both sides genuine `asModule`s; never map straight to a raw `DirectSum` of carriers.** A `k`-linear equiv `e : V ≃ₗ[k] ⨁_β W` has codomain `DirectSum β (fun _ => W)`, and bare `W` carries *no* `k[G]`-module, so the `r • _` on the target in `map_smul'` is a **stuck instance** ("typeclass instance problem is stuck", `(i : ?m) → AddCommMonoid …`). Land in `asModule (Representation.directSum (fun _ => σ))` first (both sides are `asModule`s of representations, so `single_smul` and the `k[G]`-action resolve), then `.trans asModule_directSum_equiv` (glue-A) to reach `DirectSum β (fun _ => asModule σ)`.
+
+2. **Pin `Representation.directSum`'s family `V` explicitly.** `Representation.directSum (fun _ : β => σ)` leaves `V : β → Type` as a higher-order-unification metavar → the same stuck-instance error. Write `Representation.directSum (V := fun _ => W) (fun _ : β => σ)`, and call glue-A as `asModule_directSum_equiv (ι := β) (V := fun _ => W) (fun _ : β => σ)`. Use the *same* `(V := …)` everywhere so the `.trans` typechecks.
+
+3. **`DirectSum.ext`'s family implicit is named `β`.** If your index type is also `β`, supply it: `refine DirectSum.ext (β := fun _ : β => W) fun i => ?_`. Then close componentwise with `tprodSplitEquiv_tmul_apply`, `Representation.directSum_apply`, `DirectSum.lmap_apply`, `DirectSum.smul_apply`, `map_smul`.
+
+The `map_smul'` of the `asModule`-to-`asModule` aux reduces to the carrier-level intertwiner via `rw [single_smul, single_smul, map_smul]; simp only [Representation.asModuleEquiv]; congr 1; exact <intertwiner>` (`asModuleEquiv` is `LinearEquiv.refl`, so it normalizes away with the def-unfold alone — `LinearEquiv.refl_apply` is then an unused simp arg).
+
 ## FDRep Morphism Extensionality Patterns
 
 FDRep morphisms are `Action.Hom` wrapping `FGModuleCat.Hom` wrapping `ModuleCat.Hom` wrapping `LinearMap`. Proving `f = g` for FDRep morphisms requires decomposing through all layers.
