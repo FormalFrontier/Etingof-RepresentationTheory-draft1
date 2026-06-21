@@ -146,6 +146,97 @@ theorem card_lt_of_injective_scalingInvariant {σ τ : Type} [Fintype σ] [Finty
     (hφ : Function.Injective φ)
     (hfix : ∀ lam : kˣ, ∀ w : σ, scalingFieldEquiv τ lam (φ (X w)) = φ (X w)) :
     Fintype.card σ < Fintype.card τ := by
-  sorry
+  classical
+  set K := FractionRing (MvPolynomial τ k) with hKdef
+  set v : σ → K := fun w => φ (X w) with hvdef
+  set g₀ : K := algebraMap (MvPolynomial τ k) K (X t₀) with hg₀def
+  -- `g₀ ≠ 0`: the localization map is injective and `X t₀ ≠ 0`.
+  have hg₀ne : g₀ ≠ 0 := by
+    rw [hg₀def]
+    exact (map_ne_zero_iff _ (IsFractionRing.injective (MvPolynomial τ k) K)).mpr
+      (MvPolynomial.X_ne_zero t₀)
+  -- `v` is algebraically independent: `φ = aeval v` is injective.
+  have heqφ : (MvPolynomial.aeval v : MvPolynomial σ k →ₐ[k] K) = φ := by
+    apply MvPolynomial.algHom_ext; intro w; rw [aeval_X]
+  have halg : AlgebraicIndependent k v := by
+    rw [algebraicIndependent_iff_injective_aeval, heqφ]; exact hφ
+  -- `g₀` is transcendental over the (scaling-fixed) image `F = adjoin k (range v)`.
+  set F := Algebra.adjoin k (Set.range v) with hFdef
+  have htrans : Transcendental F g₀ := by
+    rw [transcendental_iff]
+    intro p hp
+    by_contra hpne
+    have hFinj : Function.Injective (algebraMap F K) :=
+      FaithfulSMul.algebraMap_injective F K
+    -- `p.eval₂ (algebraMap F K) g₀ = aeval g₀ p = 0`.
+    have hp0 : p.eval₂ (algebraMap F K) g₀ = 0 := by
+      rw [← Polynomial.aeval_def]; exact hp
+    -- every `λ • g₀` (`λ ∈ k*`) is a root of `p.map (algebraMap F K)`.
+    have hroot : ∀ lam : kˣ, (p.map (algebraMap F K)).IsRoot ((lam : k) • g₀) := by
+      intro lam
+      -- the scaling automorphism fixes `F` pointwise
+      have hFfix : ∀ x ∈ F, scalingFieldEquiv τ lam x = x := by
+        have hle : F ≤ AlgHom.equalizer (scalingFieldEquiv τ lam).toAlgHom (AlgHom.id k K) := by
+          rw [hFdef]
+          apply Algebra.adjoin_le
+          rintro _ ⟨w, rfl⟩
+          simp only [SetLike.mem_coe, AlgHom.mem_equalizer, AlgEquiv.coe_algHom]
+          exact hfix lam w
+        intro x hx
+        have h2 := hle hx
+        rw [AlgHom.mem_equalizer] at h2
+        simpa using h2
+      -- hence it fixes the coefficients of `p`
+      have hcompfix :
+          ((scalingFieldEquiv τ lam).toAlgHom.toRingHom).comp (algebraMap F K)
+            = algebraMap F K := by
+        ext y
+        rw [RingHom.comp_apply, Subalgebra.algebraMap_apply]
+        exact hFfix _ y.2
+      -- and sends `g₀ ↦ λ • g₀`
+      have heg : scalingFieldEquiv τ lam g₀ = (lam : k) • g₀ := by
+        rw [hg₀def]; exact scalingFieldEquiv_g τ lam t₀
+      -- push the automorphism through the evaluation
+      have hcalc : scalingFieldEquiv τ lam (p.eval₂ (algebraMap F K) g₀)
+          = p.eval₂ (algebraMap F K) ((lam : k) • g₀) := by
+        have h := Polynomial.hom_eval₂ p (algebraMap F K)
+          ((scalingFieldEquiv τ lam).toAlgHom.toRingHom) g₀
+        rw [hcompfix] at h
+        simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_coe, AlgEquiv.coe_algHom] at h
+        rw [heg] at h
+        exact h
+      rw [hp0, map_zero] at hcalc
+      rw [Polynomial.IsRoot, Polynomial.eval_map]
+      exact hcalc.symm
+    -- infinitely many roots force `p.map (algebraMap F K) = 0`, contradicting `p ≠ 0`.
+    have hpKne : p.map (algebraMap F K) ≠ 0 := (Polynomial.map_ne_zero_iff hFinj).mpr hpne
+    haveI : Infinite kˣ := by
+      have hcinf : Set.Infinite ({0}ᶜ : Set k) :=
+        Set.Finite.infinite_compl (Set.finite_singleton 0)
+      haveI := hcinf.to_subtype
+      exact Infinite.of_injective
+        (β := ↥({0}ᶜ : Set k))
+        (fun x => Units.mk0 (x : k)
+          (by have hx := x.2; rwa [Set.mem_compl_iff, Set.mem_singleton_iff] at hx))
+        (fun a b hab => Subtype.ext (by simpa using congrArg Units.val hab))
+    have hinj : Function.Injective (fun lam : kˣ => (lam : k) • g₀) := by
+      intro a b hab
+      simp only [Algebra.smul_def] at hab
+      exact Units.ext ((algebraMap k K).injective (mul_right_cancel₀ hg₀ne hab))
+    have hinf : Set.Infinite {x : K | (p.map (algebraMap F K)).IsRoot x} :=
+      Set.infinite_of_injective_forall_mem hinj (fun lam => hroot lam)
+    exact hpKne (Polynomial.eq_zero_of_infinite_isRoot _ hinf)
+  -- adjoin the transcendental `g₀`: algebraic independence is preserved.
+  have hAI : AlgebraicIndependent k (fun o : Option σ => o.elim g₀ v) :=
+    (halg.option_iff_transcendental g₀).mpr htrans
+  -- transcendence-degree count: `card σ + 1 ≤ trdeg k K = card τ`.
+  have hle : Algebra.trdeg k (MvPolynomial (Option σ) k) ≤ Algebra.trdeg k K :=
+    trdeg_le_of_injective (MvPolynomial.aeval (fun o : Option σ => o.elim g₀ v)) hAI
+  rw [MvPolynomial.trdeg_of_isDomain, Etingof.trdeg_fractionRing_mvPolynomial',
+    Cardinal.mk_option, Cardinal.mk_fintype] at hle
+  simp only [Cardinal.lift_add, Cardinal.lift_natCast, Cardinal.lift_one] at hle
+  have hlt : (Fintype.card σ : Cardinal) < (Fintype.card τ : Cardinal) :=
+    Cardinal.natCast_add_one_le_iff.mp hle
+  exact_mod_cast hlt
 
 end Etingof.Problem6_1_5
