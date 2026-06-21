@@ -582,8 +582,10 @@ matrix-coefficient setup). Over an infinite field — in particular when
 `[CharZero k]` — polynomial equality follows from equality on evaluations
 at every invertible matrix: the set of invertible matrices is Zariski-dense
 in `Matrix (Fin N) (Fin N) k` since the generic determinant polynomial is
-nonzero. We record that density argument here and then derive `hP_mul` from
-`ρ.map_mul`. -/
+nonzero. That density argument is the upstream Mathlib lemma
+`MvPolynomial.eq_of_eval_eq_on_gl` (Mathlib PR
+https://github.com/leanprover-community/mathlib4/pull/38583); we use it to
+derive `hP_mul` from `ρ.map_mul`. -/
 
 namespace Etingof.PolynomialRepEmbedding
 

@@ -2225,38 +2225,11 @@ Assembles β.1 (`trace_youngSymEndomorphism_restrict_eq_sum`), β.2
 identity (`youngSym_trace_kronecker'`), and the idempotent-up-to-scalar
 identity (`youngSymEndomorphism_restrict_sq_scalar`).
 
-The "trace-zero idempotent ⟹ zero" step is encapsulated as a small
-characteristic-zero linear-algebra lemma (`isIdempotentElem_eq_zero_of_trace_eq_zero`).
+The "trace-zero idempotent ⟹ zero" step is the upstream Mathlib lemma
+`IsIdempotentElem.eq_zero_of_trace_eq_zero` (the forward alias of
+`IsIdempotentElem.trace_eq_zero_iff`, Mathlib PR
+https://github.com/leanprover-community/mathlib4/pull/39523).
 -/
-
-/-- An idempotent endomorphism of a finite-dimensional vector space over a
-characteristic-zero field with vanishing trace is the zero map.
-
-The trace of an idempotent equals the cast of the rank of its range
-(`LinearMap.IsProj.trace`). Over a characteristic-zero field, vanishing trace
-forces the rank to be zero, hence the range is `⊥` and the endomorphism
-vanishes.
-
-Upstream Mathlib PR: https://github.com/leanprover-community/mathlib4/pull/39523
-(once it merges, replace this lemma with the upstream
-`LinearMap.IsIdempotentElem.eq_zero_of_trace_eq_zero` and remove this local
-copy — see issue #2841). -/
-private theorem isIdempotentElem_eq_zero_of_trace_eq_zero
-    {K : Type*} [Field K] [CharZero K]
-    {V : Type*} [AddCommGroup V] [Module K V] [Module.Finite K V]
-    {e : V →ₗ[K] V} (he : IsIdempotentElem e)
-    (htr : LinearMap.trace K V e = 0) :
-    e = 0 := by
-  have hproj : LinearMap.IsProj (LinearMap.range e) e :=
-    LinearMap.IsIdempotentElem.isProj_range _ he
-  have htr_eq : LinearMap.trace K V e = (Module.finrank K (LinearMap.range e) : K) :=
-    hproj.trace
-  rw [htr] at htr_eq
-  have hfinrank_zero : Module.finrank K (LinearMap.range e) = 0 := by
-    have h : ((Module.finrank K (LinearMap.range e) : ℕ) : K) = 0 := htr_eq.symm
-    exact_mod_cast h
-  rw [← LinearMap.range_eq_bot, ← Submodule.finrank_eq_zero]
-  exact hfinrank_zero
 
 /-- `YoungSymmetrizerK ℂ n la = YoungSymmetrizer n la`: both are the image of
 the universal ℤ Young symmetrizer under base change `ℤ → ℂ`. -/
@@ -2368,7 +2341,7 @@ theorem youngSym_action_vanishes_off_block
     change LinearMap.trace ℂ _ ((α : ℂ)⁻¹ • f) = 0
     rw [LinearMap.map_smul, h_trace_zero, smul_zero]
   -- A trace-zero idempotent over a characteristic-zero field is the zero map.
-  have hg_zero : g = 0 := isIdempotentElem_eq_zero_of_trace_eq_zero hg_idem hg_tr_zero
+  have hg_zero : g = 0 := hg_idem.eq_zero_of_trace_eq_zero hg_tr_zero
   -- Therefore f = α • g = 0.
   have hf_eq_smul_g : f = (α : ℂ) • g := by
     change f = (α : ℂ) • ((α : ℂ)⁻¹ • f)
