@@ -29,8 +29,12 @@ the induction functor `Rep.indFunctor k φ` is left adjoint to the
 restriction functor `Action.res _ φ`. -/
 noncomputable def Etingof.frobenius_reciprocity
     (k : Type u) {G H : Type u} [CommRing k] [Group G] [Group H] (φ : G →* H) :
-    Rep.indFunctor k φ ⊣ Action.res _ φ :=
+    Rep.indFunctor k φ ⊣ Rep.resFunctor φ :=
   Rep.indResAdjunction k φ
+
+-- `LieRing.ofAssociativeRing` (the commutator Lie structure on an associative ring) became a
+-- `local instance` upstream; re-enable it so `A` is seen as a Lie ring for `L →ₗ⁅R⁆ A`.
+attribute [local instance 100] LieRing.ofAssociativeRing
 
 /-- The universal enveloping algebra functor is left adjoint to the "underlying
 Lie algebra" functor, in the sense that Lie algebra homomorphisms L → A correspond
