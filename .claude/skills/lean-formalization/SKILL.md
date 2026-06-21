@@ -195,6 +195,16 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
+### Stuck `Module ?m (M i)` Metavariable Errors
+
+When working over a *family* `(M : ι → Type*) [∀ i, Module A (M i)] [∀ i, Module 𝕜 (M i)] [∀ i, IsScalarTower 𝕜 A (M i)]` (common for representation families), `lake build` errors like `typeclass instance problem is stuck … (i : ι) → Module ?m (M i)` mean a ring/field implicit was left undetermined. Three concrete causes, each with a one-line fix (diagnosed across ~5 build cycles in #4885, `CharacterIndependence.lean`):
+
+1. **An `abbrev`/`def` over the section `M` silently absorbs `M`'s instances.** `abbrev Pim : Type _ := ∀ i, M i` carries `[∀ i, Module A (M i)]` into its signature, so `Pim M` needs `A` — which `∀ i, M i` does not determine → stuck `Module ?A (M i)`. **Fix:** take a *fresh* type-family argument: `abbrev Pim (N : ι → Type*) : Type _ := ∀ i, N i`, then use `Pim M`.
+2. **A helper `def proj … : Pim M →ₗ[A] Pim M` has an implicit `A` invisible at use sites.** When applied (`proj M j x`), neither the argument nor result type mentions `A`, so `A` is a free metavariable. **Fix:** pin it with a named argument everywhere — `proj (A := A) M j x`.
+3. **A lemma statement / `LinearIndependent 𝕜 (fun i => f M i)` whose body doesn't pin `𝕜` or `A`.** Restating `Algebra.lsmul 𝕜 𝕜 (M i)` or `traceChar M i` standalone leaves the acting algebra/base field ambiguous. **Fix:** ascribe the codomain — `(traceChar M i : A →ₗ[𝕜] 𝕜)` — or route through a named `def repEnd (i) : A →ₐ[𝕜] End 𝕜 (M i)`.
+
+General rule: if an implicit type/ring/field appears only *inside* a definition's body (not in any argument or result type visible at the call site), pin it explicitly. Test a suspect term in isolation in `/tmp/foo.lean` — it compiles there when the surrounding context determines the implicit, which localizes the bug fast.
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
