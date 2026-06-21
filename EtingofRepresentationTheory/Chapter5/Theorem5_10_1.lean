@@ -32,5 +32,5 @@ theorem Etingof.Theorem5_10_1
     (k G : Type) [Field k] [Group G]
     (H : Subgroup G)
     (V : Rep k G) (W : Rep k ↥H) :
-    Nonempty ((Rep.ind H.subtype W ⟶ V) ≃ₗ[k] (W ⟶ (Action.res _ H.subtype).obj V)) :=
+    Nonempty ((Rep.ind H.subtype W ⟶ V) ≃ₗ[k] (W ⟶ Rep.res H.subtype V)) :=
   ⟨Rep.indResHomEquiv H.subtype W V⟩
