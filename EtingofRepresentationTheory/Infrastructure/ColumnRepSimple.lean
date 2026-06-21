@@ -99,22 +99,22 @@ private lemma columnRep_mul_inv_cancel (g : G) (v : Fin (D.d i) → k) :
 private noncomputable def invariantsEquivIntertwining :
     (Representation.linHom (D.columnRep i) (D.columnRep i)).invariants ≃ₗ[k]
       Representation.IntertwiningMap (D.columnRep i) (D.columnRep i) where
-  toFun f := {
-    toLinearMap := f.val
-    isIntertwining' := fun g v => by
-      have hf := f.property g
-      rw [Representation.linHom_apply] at hf
-      -- hf : ρ g ∘ₗ f.val ∘ₗ ρ g⁻¹ = f.val
-      have key := LinearMap.congr_fun hf.symm ((D.columnRep i) g v)
-      simp only [LinearMap.comp_apply, D.columnRep_inv_mul_cancel] at key
-      exact key }
+  toFun f := LinearMap.intertwiningMap_of_isIntertwiningMap
+      (D.columnRep i) (D.columnRep i) f.val fun g v => by
+    have hf := f.property g
+    rw [Representation.linHom_apply] at hf
+    -- hf : ρ g ∘ₗ f.val ∘ₗ ρ g⁻¹ = f.val
+    have key := LinearMap.congr_fun hf.symm ((D.columnRep i) g v)
+    simp only [LinearMap.comp_apply, D.columnRep_inv_mul_cancel] at key
+    exact key
   invFun f := {
     val := f.toLinearMap
     property := fun g => by
       rw [Representation.linHom_apply]
       apply LinearMap.ext; intro v
       simp only [LinearMap.comp_apply]
-      have := f.isIntertwining' g ((D.columnRep i) g⁻¹ v)
+      have := LinearMap.congr_fun (f.isIntertwining' g) ((D.columnRep i) g⁻¹ v)
+      simp only [LinearMap.comp_apply] at this
       rw [D.columnRep_mul_inv_cancel] at this
       exact this.symm }
   left_inv _ := rfl
