@@ -124,7 +124,14 @@ variable {e : A} (he : IsIdempotentElem e)
 -- The ring axioms (associativity, distributivity) follow from A's ring axioms.
 -- The only non-trivial part is that e acts as an identity: e * x = x = x * e
 -- for x ∈ eAe, which is cornerSubmodule_left_mul and cornerSubmodule_right_mul.
-noncomputable instance instRing : Ring (CornerRing (k := k) e) :=
+--
+-- This is a `def`, not an `instance`: it depends on the idempotency proof `he`,
+-- which is not instance-implicit and cannot be synthesised. (Lean v4.31 rejects
+-- such an `instance` outright; under v4.28.1 it was a latent lint warning.) All
+-- consumers already pass `he` explicitly via `letI := CornerRing.instRing he`.
+-- `@[reducible]` silences v4.31's "class-typed def must be reducible" warning and
+-- is a no-op on v4.28.1.
+@[reducible] noncomputable def instRing : Ring (CornerRing (k := k) e) :=
   { (inferInstance : AddCommGroup (CornerRing (k := k) e)) with
     mul := fun x y => ⟨(x : A) * (y : A), cornerSubmodule_mul_mem x.prop y.prop⟩
     one := ⟨e, mem_cornerSubmodule_self e he⟩
@@ -142,9 +149,14 @@ noncomputable instance instRing : Ring (CornerRing (k := k) e) :=
 --                                        = (algebraMap k A r) • e  (using he.eq).
 -- Commutativity of the algebra map with multiplication follows from
 -- r • (eae) = e(ra)e = (eae) • r for elements of eAe.
-noncomputable instance instAlgebra :
+-- A `def` for the same reason as `instRing`: it depends on the explicit `he`.
+@[reducible] noncomputable def instAlgebra :
     @Algebra k (CornerRing (k := k) e) _ (instRing he).toSemiring :=
-  @Algebra.ofModule k (CornerRing (k := k) e) _ (instRing he).toSemiring _
+  -- The `k`-module on `CornerRing e` is the one inherited from `cornerSubmodule e`,
+  -- passed positionally: v4.31 instance synthesis no longer unfolds the
+  -- semireducible `CornerRing` wrapper to discover it (v4.28.1 did).
+  @Algebra.ofModule k (CornerRing (k := k) e) _ (instRing he).toSemiring
+    (inferInstanceAs (Module k (cornerSubmodule (k := k) e)))
     (fun r x y => Subtype.ext (Algebra.smul_mul_assoc r (x : A) (y : A)))
     (fun r x y => Subtype.ext (Algebra.mul_smul_comm r (x : A) (y : A)))
 
