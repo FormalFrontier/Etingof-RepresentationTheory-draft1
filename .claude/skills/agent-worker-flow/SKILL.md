@@ -15,9 +15,19 @@ The `coordination` script handles all GitHub-based multi-agent coordination.
 Session UUID is available as `$POD_SESSION_ID` (exported by `pod`).
 The `gh` CLI defaults to the current repo, so `--repo` is not needed.
 
-**If `coordination` dies with `gh CLI not authenticated` but `gh api user` succeeds**,
-the stored token is valid for the API but `gh auth status` is failing (stale
-keyring/refresh state). Re-store the existing token without creating a new one:
+**If `coordination` dies with `gh CLI not authenticated`, first rule out a rate
+limit** — the 5,000/hr GitHub budget is shared across all concurrent pod agents,
+so transient exhaustion surfaces as a spurious auth error. Check
+`gh api rate_limit --jq '.resources | to_entries[] | "\(.key): \(.value.remaining)"'`.
+If any bucket (`core`, `graphql`, `search`) is at/near `0`, the token is fine —
+do **not** re-store it; wait for the bucket's `reset` and retry (or `ScheduleWakeup`
+past it if the wait is long). Re-store only as a last resort, never `gh auth login`
+mid-loop while rate-limited.
+
+**If `gh api rate_limit` shows healthy buckets but `gh CLI not authenticated`
+persists while `gh api user` succeeds**, the stored token is valid for the API but
+`gh auth status` is failing (stale keyring/refresh state). Re-store the existing
+token without creating a new one:
 ```bash
 TOK=$(awk '/^    oauth_token:/{print $2}' ~/.config/gh/hosts.yml | head -1)
 echo "$TOK" | gh auth login --hostname github.com --with-token
