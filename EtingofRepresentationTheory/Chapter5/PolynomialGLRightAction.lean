@@ -97,6 +97,13 @@ noncomputable def polyRightRep (k : Type*) [CommRing k] (N : ℕ) :
       = ∑ l, (g : Matrix (Fin N) (Fin N) k) l j • MvPolynomial.X (i, l) :=
   rTransAlgHom_X _ i j
 
+/-- The right-translation representation acts as the algebra endomorphism
+`rTransAlgHom`: `polyRightRep g f = rTransAlgHom (↑g) f`. -/
+theorem polyRightRep_apply (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (f : MvPolynomial (Fin N × Fin N) k) :
+    polyRightRep k N g f = rTransAlgHom (↑g) f :=
+  rfl
+
 /-- The generic determinant matrix `(rTransAlgHom M).mapMatrix mvPolynomialX`
 equals `mvPolynomialX * M.map C`: applying the column-mixing substitution to the
 generic matrix of variables is right multiplication by the constant matrix `M`. -/
