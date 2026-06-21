@@ -131,6 +131,7 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
 import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassificationComplex
 import EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct
 import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
+import EtingofRepresentationTheory.Chapter5.DiagonalizableConj
 
 -- Section 5.25: Representations of GL₂(𝔽_q)
 import EtingofRepresentationTheory.Chapter5.Proposition5_25_1
