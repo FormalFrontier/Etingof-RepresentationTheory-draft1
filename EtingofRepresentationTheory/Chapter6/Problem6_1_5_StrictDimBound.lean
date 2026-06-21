@@ -53,6 +53,23 @@ open MvPolynomial Polynomial Cardinal
 
 namespace Etingof.Problem6_1_5
 
+/-- The transcendence degree of `k(τ) = FractionRing (MvPolynomial τ k)` over `k`
+is `card τ`, for any finite index type `τ`. This is the `τ`-general companion of
+`Etingof.trdeg_fractionRing_mvPolynomial` (phrased over `Fin m`): the fraction
+field is algebraic over the polynomial ring, so the tower formula collapses its
+transcendence degree to that of `k[τ]`, namely `#τ = card τ`. -/
+theorem trdeg_fractionRing_mvPolynomial_card {k : Type} [Field k] (τ : Type) [Fintype τ] :
+    Algebra.trdeg k (FractionRing (MvPolynomial τ k)) = (Fintype.card τ : Cardinal) := by
+  haveI halg : Algebra.IsAlgebraic (MvPolynomial τ k) (FractionRing (MvPolynomial τ k)) :=
+    IsLocalization.isAlgebraic _ (nonZeroDivisors (MvPolynomial τ k))
+  have hz : Algebra.trdeg (MvPolynomial τ k) (FractionRing (MvPolynomial τ k)) = 0 :=
+    trdeg_eq_zero
+  have htower := trdeg_add_eq k (MvPolynomial τ k)
+    (A := FractionRing (MvPolynomial τ k))
+  rw [hz, add_zero, MvPolynomial.trdeg_of_isDomain, Cardinal.mk_fintype, Cardinal.lift_natCast]
+    at htower
+  exact htower.symm
+
 /-- **The `−1` strict bound (abstract core).** Let `K` be a field and `k`-algebra
 over an infinite field `k`. Suppose
 
@@ -159,5 +176,25 @@ theorem card_lt_of_scaleInvariant_image
   have : (Fintype.card σ + 1 : ℕ) ≤ (Fintype.card τ : ℕ) := by
     exact_mod_cast hchain
   omega
+
+/-- **The `−1` strict bound at `K = k(τ)`.** The specialisation of
+`card_lt_of_scaleInvariant_image` to the concrete fraction field
+`K = FractionRing (MvPolynomial τ k)`, where the transcendence-degree hypothesis
+is discharged automatically by `trdeg_fractionRing_mvPolynomial_card`. The
+consumer (#4824 sub-A / #4830) supplies only the injective image hom `f`, the
+nonzero distinguished coordinate `g`, and the scaling automorphism family with
+its two invariance properties (the "degree 0" fact `hscale_f` coming from
+`k*`-triviality on the representation space). -/
+theorem card_lt_of_scaleInvariant_image_fractionRing
+    {k : Type} [Field k] [Infinite k] {σ τ : Type} [Fintype σ] [Fintype τ]
+    (f : MvPolynomial σ k →ₐ[k] FractionRing (MvPolynomial τ k))
+    (hf : Function.Injective f)
+    (g : FractionRing (MvPolynomial τ k)) (hg : g ≠ 0)
+    (scale : kˣ → (FractionRing (MvPolynomial τ k) ≃ₐ[k] FractionRing (MvPolynomial τ k)))
+    (hscale_g : ∀ μ : kˣ, scale μ g = (μ : k) • g)
+    (hscale_f : ∀ (μ : kˣ) (s : σ), scale μ (f (X s)) = f (X s)) :
+    Fintype.card σ < Fintype.card τ :=
+  card_lt_of_scaleInvariant_image f hf g hg scale hscale_g hscale_f
+    (le_of_eq (trdeg_fractionRing_mvPolynomial_card τ))
 
 end Etingof.Problem6_1_5
