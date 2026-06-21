@@ -209,6 +209,64 @@ noncomputable def asModule_trivial_tprod_equiv (b : Module.Basis β k S)
 
 end TrivialTprodSplit
 
+section Intertwiner
+
+variable {k G : Type*} [CommSemiring k] [Monoid G]
+variable {V W : Type*} [AddCommMonoid V] [Module k V] [AddCommMonoid W] [Module k W]
+
+/-- A `k`-linear map intertwining representations `ρ` and `σ` lifts to a
+`MonoidAlgebra k G`-linear map between their `asModule`s (the underlying function is
+unchanged). The compatibility with the `MonoidAlgebra` action reduces, via
+`MonoidAlgebra.induction_linear`, to the intertwining hypothesis on `single g t`. -/
+def asModuleHomOfIntertwiner {ρ : Representation k G V} {σ : Representation k G W}
+    (f : V →ₗ[k] W) (hf : ∀ (g : G) (x : V), f (ρ g x) = σ g (f x)) :
+    Representation.asModule ρ →ₗ[MonoidAlgebra k G] Representation.asModule σ where
+  toFun := f
+  map_add' := map_add f
+  map_smul' r x := by
+    simp only [RingHom.id_apply]
+    induction r using MonoidAlgebra.induction_linear with
+    | zero => simp
+    | add a b ha hb => simp only [add_smul, map_add, ha, hb]
+    | single g t =>
+      rw [Representation.single_smul, Representation.single_smul, map_smul]
+      simp only [Representation.asModuleEquiv]
+      congr 1
+      exact hf g _
+
+@[simp] theorem asModuleHomOfIntertwiner_apply {ρ : Representation k G V}
+    {σ : Representation k G W} (f : V →ₗ[k] W)
+    (hf : ∀ (g : G) (x : V), f (ρ g x) = σ g (f x)) (x : Representation.asModule ρ) :
+    asModuleHomOfIntertwiner f hf x = f x := rfl
+
+/-- A `k`-linear equivalence intertwining `ρ` and `σ` lifts to a
+`MonoidAlgebra k G`-linear equivalence between their `asModule`s. -/
+def asModuleEquivOfIntertwiner {ρ : Representation k G V} {σ : Representation k G W}
+    (f : V ≃ₗ[k] W) (hf : ∀ (g : G) (x : V), f (ρ g x) = σ g (f x)) :
+    Representation.asModule ρ ≃ₗ[MonoidAlgebra k G] Representation.asModule σ where
+  toFun := f
+  invFun := f.symm
+  map_add' := map_add f
+  left_inv := f.left_inv
+  right_inv := f.right_inv
+  map_smul' r x := by
+    simp only [RingHom.id_apply]
+    induction r using MonoidAlgebra.induction_linear with
+    | zero => simp
+    | add a b ha hb => simp only [add_smul, map_add, ha, hb]
+    | single g t =>
+      rw [Representation.single_smul, Representation.single_smul, map_smul]
+      simp only [Representation.asModuleEquiv]
+      congr 1
+      exact hf g _
+
+@[simp] theorem asModuleEquivOfIntertwiner_apply {ρ : Representation k G V}
+    {σ : Representation k G W} (f : V ≃ₗ[k] W)
+    (hf : ∀ (g : G) (x : V), f (ρ g x) = σ g (f x)) (x : Representation.asModule ρ) :
+    asModuleEquivOfIntertwiner f hf x = f x := rfl
+
+end Intertwiner
+
 end Representation
 
 namespace Etingof.PolynomialGLDecomposition
