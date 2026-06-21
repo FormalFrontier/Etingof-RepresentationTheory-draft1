@@ -16,6 +16,18 @@ lake exe cache get
 ```
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
+**Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
+<file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
+particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
+instance chains in this project (e.g. the `Subalgebra → Module.End` centralizer-module
+instances: `Module ↥(centralizer A) (V →ₗ[A] E)` from `centralizerModuleHom`) need depth
+3, so under `lake env lean` they throw **spurious** `synthInstanceFailed` errors that do
+not occur under `lake build`. If a file fails `lake env lean` with instance-synthesis
+errors on centralizer/Subalgebra hom-spaces but you suspect the proof is fine, re-check
+with `lake build <Module>` before debugging — the on-`main` file fails `lake env lean`
+too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
+these instances.)
+
 **Build-environment recovery (shared `.lake/packages` across pod worktrees):**
 - `Lean exited with code 139` (SIGSEGV) on *dependency* files you did not touch has
   two distinct causes. (a) Corrupted Mathlib oleans from a concurrent `lake exe cache
