@@ -284,6 +284,22 @@ After each coherent chunk of changes:
   constraint" errors in code that builds fine under `lake build`. A clean run
   (only your intended `sorry` warnings) is sufficient pre-PR verification; CI runs
   the authoritative full build.
+- **`.lake/packages` is a symlink shared by every worktree.** All worktrees
+  point at the *same* `.lake/packages/mathlib` checkout. You therefore cannot
+  change the Mathlib pin (`lakefile.toml` rev / `lean-toolchain` /
+  `lake-manifest.json`) and build it in place: a sibling agent's `lake build`
+  re-checks-out the shared mathlib to *main's* pinned rev mid-build, so your
+  build fails with `no such file or directory` on mathlib sources from the
+  other version. Never `git checkout` inside the shared mathlib to "fix" it —
+  that breaks every sibling building against main. To verify a pin bump (or any
+  mathlib-version-sensitive change), build in an **isolated `/tmp` clone**
+  (`git clone --no-local <repo> /tmp/x`, apply your diff, `lake exe cache get`
+  then `lake build` — it gets its own real `.lake`). Note: a Mathlib pin bump
+  is **atomic** — it cannot merge to main until the whole project builds and
+  cannot be split across auto-merge PRs; if its API-drift fallout spans many
+  modules, it needs a coordinated migration branch, so `skip` → replan with the
+  categorized error inventory rather than attempting it in one worker session.
+  (Observed on #2841: v4.28.1 → v4.31.0 broke ~29 modules / 177 errors.)
 
 Each commit must compile. One logical change per commit.
 
