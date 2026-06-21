@@ -55,27 +55,11 @@ namespace Etingof.KernelLemmaKPrime
 
 variable {k : Type*} [Field k] {N : ℕ}
 
-/-! ### The highest-weight multiplicity-one coefficient -/
+/-! ### The genuine core of (K′)
 
-/-- **The highest weight occurs with coefficient one.** For an antitone partition
-`lam : Fin N → ℕ`, the coefficient of `x^lam` in the Schur polynomial
-`schurPoly N lam` is nonzero (in fact `1`, the Kostka number `K_{lam,lam}`).
-
-This is the leading-term content of the Weyl character formula: the highest
-weight `lam` of the irreducible `GL_N`-representation `L_lam` has multiplicity
-one in its character `schurPoly N lam`.
-
-Proof route (issue #4949): with a monomial order `m` (e.g. `degLex`), the degree
-of `(alternantMatrix N e).det` is `symm e` for strictly-anti `e` (its sorted
-leading monomial, coeff `1` by `alternant_coeff_kronecker`); applying
-`degree_mul` to `schurPoly N lam * Δ = D_{lam+δ}` (`schurPoly_mul_vandermonde`)
-yields `m.degree (schurPoly N lam) = symm lam`, whence the coefficient there is
-nonzero by `coeff_degree_ne_zero_iff` and `schurPoly_ne_zero`. -/
-theorem schurPoly_coeff_self_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
-    (schurPoly N lam).coeff (Finsupp.equivFunOnFinite.symm lam) ≠ 0 := by
-  sorry -- issue #4949: highest-weight multiplicity-one (Kostka K_λλ = 1)
-
-/-! ### The genuine core of (K′) -/
+The highest-weight multiplicity-one coefficient `x^λ` of `schurPoly N λ` is
+nonzero (the Kostka number `K_{λλ} = 1`); this is `Etingof.schurPoly_coeff_self_ne_zero`
+(`Proposition5_21_1.lean`, issue #4949), used directly in step 4 below. -/
 
 /-- **The genuine core of (K′).** For `r ≥ 1`, every *nonzero* subrepresentation
 `W` of the twisted quotient `(A/det) ⊗ χ⁻ʳ` contains a nonzero torus-weight vector
@@ -119,7 +103,7 @@ theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type*) [Field k]
   obtain ⟨i₀, hi₀⟩ := hν_zero
   -- The highest-weight space is nonzero.
   have hcoeff : (schurPoly N ν).coeff (Finsupp.equivFunOnFinite.symm ν) ≠ 0 :=
-    schurPoly_coeff_self_ne_zero N ν hν_anti
+    Etingof.schurPoly_coeff_self_ne_zero N ν hν_anti
   have hfin_ne : Module.finrank k
       (glWeightSpace k N L (fun i => (Finsupp.equivFunOnFinite.symm ν) i)) ≠ 0 := by
     have hcc := formalCharacter_coeff k N L (Finsupp.equivFunOnFinite.symm ν)
