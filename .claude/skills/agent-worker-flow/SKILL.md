@@ -9,54 +9,6 @@ allowed-tools: Bash, Read, Glob, Grep
 This skill covers the shared workflow used by all pod worker agents.
 Session-specific commands reference this skill rather than duplicating it.
 
-## Core principle: there is no human in the loop
-
-This system runs autonomously. **You may never raise your hand to a human.**
-There is no one to answer a question, approve a decision, or choose between
-options. Concretely, you must NEVER:
-
-- create an issue that asks a human to decide, review, or intervene;
-- apply a `human-oversight` label (it does not exist — do not invent it);
-- write "human decision required", "escalated to human oversight", "awaiting
-  owner input", or any equivalent into an issue, comment, or progress file;
-- park work in a `blocked`/`replan` state whose stated unblocker is a person.
-
-Human instructions flow **one way only — downward**, via owner-authored
-`directive` issues. Agents consume directives; agents never author upward
-escalations. If you ever feel the urge to "ask the owner", that urge is a bug:
-the correct move is always a concrete action you take yourself (see below).
-
-The only sanctioned human-facing signal is `coordination return-to-human`,
-and only on genuine, fully-verified convergence (zero unclaimed, zero claimed,
-zero broken PRs, nothing left to plan). That signals *completion*, never *help*.
-
-## Refuted strategy → revert and rebuild (never escalate)
-
-When you discover that an existing approach is **mathematically wrong** — a
-`def`/construction that is unsound, a theorem statement that is false, a proof
-strategy refuted by a counterexample — the response is to **revert it and
-rebuild from the book**, by your own hand. A wrong strategy is *reverted*, not
-*frozen* and not *escalated*.
-
-Required actions, in order:
-
-1. **Rip out the unsound objects.** Delete the false theorem(s) and the
-   `def`s/helpers that exist only to serve them. A false statement must never
-   survive in the codebase, even behind a `sorry` — a `sorry`'d *false* lemma
-   is worse than no lemma, because someone may try to "finish" it.
-2. **Return the genuine downstream targets to an honest state.** Theorems that
-   are *true* but whose only proof routed through the refuted object keep their
-   statements; replace their bodies with `sorry` plus a comment naming the
-   book's actual proof strategy (chapter/section/problem number). `sorry` on a
-   *theorem* is fine; never `sorry` a `def` body.
-3. **Re-read the book's blob** for the item and file `feature` work items that
-   follow the book's real method — not the refuted shortcut.
-4. **Never** convert "this is wrong" into `human-oversight`, a "framework
-   decision" issue, or an indefinite `blocked`. "Wrong" is work, not a wall.
-
-This mirrors `repair`'s "Two Outcomes, No Escalation": the terminal states are
-*fixed* or *reverted-and-replanned*, never a human ticket.
-
 ## Coordination Reference
 
 The `coordination` script handles all GitHub-based multi-agent coordination.
@@ -180,7 +132,7 @@ git rev-parse HEAD      # record starting commit
 **If the branch already exists** (common in reused worktrees): check for an
 open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
-main: `git checkout agent/<id> && git reset --hard origin/main`.
+master: `git checkout agent/<id> && git reset --hard origin/master`.
 
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
@@ -197,19 +149,8 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
-- **The theorem you're asked to prove is actually TRUE.** Before writing any
-  proof, consult the relevant domain skill (for Lean work,
-  `lean-formalization`) — it records *refuted constructions* and which
-  statements are known false. A green build means nothing if the statement
-  is false: a "sorry-free" body that leans on sorried companion lemmas whose
-  branches are unfillable-because-false is sorry-laundering, not a proof.
-  Concretely for this repo: the orientation-generic `*_kQ_isIndecomposable`
-  and `*_kQ_leaf_equalities` D̃/Ẽ/T(p,q,r) family is **decomposable / false
-  for reversed-leaf orientations** (#4566/#4548) — check those before
-  claiming any such issue; the fix is the homogeneous-tube redesign, not a
-  cleverer proof.
 
-If stale (or the target is refuted):
+If stale:
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
@@ -251,13 +192,6 @@ You may decompose when any of these is true:
 #    explicitly in the sub-issue body rather than relying on the warning.
 echo "body..." | coordination plan --label feature "Sub-task 1: ..."
 echo "body..." | coordination plan --label feature "Sub-task 2: ..."
-#    To capture a new issue number, parse the created /issues/<N> URL, NOT
-#    the trailing output: the title-keyword overlap warnings print *other*
-#    issue numbers after the URL, so `grep -oE '[0-9]+' | tail -1` grabs the
-#    wrong one. Use e.g.
-#      N=$(echo "body" | coordination plan --label feature "..." \
-#            | grep -oE '/issues/[0-9]+' | grep -oE '[0-9]+$' | head -1)
-#    or just re-query afterward: `gh issue list --search "<unique title> in:title"`.
 
 # 2. Link ordering dependencies if any sub-task must precede another.
 #    Do NOT add `depends-on: #<parent>` — the parent is about to be
