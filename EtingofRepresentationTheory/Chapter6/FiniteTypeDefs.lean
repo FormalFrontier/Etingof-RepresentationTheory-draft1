@@ -9,6 +9,22 @@ This file defines `AreIsomorphic` (isomorphism of quiver representations) and
 `IsFiniteTypeQuiver` (finite representation type). These are extracted from
 `Problem6_1_5_theorem.lean` to break a circular import dependency with
 `InfiniteTypeConstructions.lean`.
+
+## The two finiteness notions
+
+`IsFiniteTypeQuiver` is the book's literal definition (Etingof Problem 6.1.5):
+*finitely many isomorphism classes of (finite-dimensional) indecomposable
+representations.* This is the notion the orbit-counting argument (directive
+#4777) consumes, so it is the canonical one.
+
+`IsFiniteTypeQuiverDimVec` is the older, strictly weaker auxiliary notion: *the
+set of dimension vectors supporting an indecomposable is finite.* The two are
+**not** interchangeable — the orbit argument at a single dimension vector
+produces infinitely many iso classes whose indecomposable summands share
+finitely many dimension vectors, refuting the iso-class notion but not the
+dimension-vector notion. `IsFiniteTypeQuiverDimVec` is retained only because the
+(to-be-retired) explicit-construction track in `InfiniteTypeConstructions.lean`
+and the `FieldGeneric*` files are stated against it.
 -/
 
 section QuiverRepresentationIso
@@ -25,16 +41,19 @@ def Etingof.QuiverRepresentation.AreIsomorphic
 
 end QuiverRepresentationIso
 
-/-- A quiver on n vertices (with underlying graph given by adjacency matrix adj) is of
-**finite type** if for every algebraically closed field k and every orientation Q of
-the graph, the set of dimension vectors supporting an indecomposable representation
-is finite.
+/-- **Auxiliary (weaker) finiteness notion.** A quiver on `n` vertices (with
+underlying graph given by adjacency matrix `adj`) is of *dimension-vector finite
+type* if for every algebraically closed field `k` and every orientation `Q` of
+the graph, the set of dimension vectors supporting an indecomposable
+representation is finite.
 
-This is equivalent to there being only finitely many isomorphism classes of
-indecomposable representations, since for finite type quivers each dimension vector
-supports at most one indecomposable (up to isomorphism).
-Uses `QuiverRepresentation.IsIndecomposable` from Proposition 6.6.5. -/
-def Etingof.IsFiniteTypeQuiver (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
+This is implied by, but **not** equivalent to, the iso-class notion
+`IsFiniteTypeQuiver`: infinitely many iso classes can share finitely many
+dimension vectors. It is retained only for the explicit-construction track in
+`InfiniteTypeConstructions.lean` and the `FieldGeneric*` files, which are slated
+for retirement (directive #4777). Uses `QuiverRepresentation.IsIndecomposable`
+from Proposition 6.6.5. -/
+def Etingof.IsFiniteTypeQuiverDimVec (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
   ∀ (k : Type) [Field k] [IsAlgClosed k]
     (Q : @Quiver.{0, 0} (Fin n))
     [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)],
@@ -43,3 +62,26 @@ def Etingof.IsFiniteTypeQuiver (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Pr
         {d : Fin n → ℕ |
           ∃ (V : Etingof.QuiverRepresentation.{0, 0, 0, 0} k (Fin n)),
             V.IsIndecomposable ∧ ∀ v, Nonempty (V.obj v ≃ₗ[k] (Fin (d v) → k))}
+
+/-- A quiver on `n` vertices (with underlying graph given by adjacency matrix
+`adj`) is of **finite type** if for every algebraically closed field `k` and
+every orientation `Q` of the graph, there are only **finitely many isomorphism
+classes of finite-dimensional indecomposable representations**.
+
+We encode "finitely many iso classes" as the existence of a finite set `reps` of
+indecomposable representatives such that every finite-dimensional indecomposable
+is isomorphic (via `AreIsomorphic`) to one of them. This is the book's literal
+definition (Etingof Problem 6.1.5) and the notion the orbit-counting argument
+consumes. Uses `QuiverRepresentation.AreIsomorphic` and
+`QuiverRepresentation.IsIndecomposable` (Proposition 6.6.5). -/
+def Etingof.IsFiniteTypeQuiver (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) : Prop :=
+  ∀ (k : Type) [Field k] [IsAlgClosed k]
+    (Q : @Quiver.{0, 0} (Fin n))
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)],
+    @Etingof.IsOrientationOf n Q adj →
+      ∃ reps : Set (Etingof.QuiverRepresentation.{0, 0, 0, 0} k (Fin n)),
+        reps.Finite ∧
+        (∀ V ∈ reps, V.IsIndecomposable) ∧
+        ∀ (W : Etingof.QuiverRepresentation.{0, 0, 0, 0} k (Fin n)),
+          (∀ v, Module.Free k (W.obj v)) → (∀ v, Module.Finite k (W.obj v)) →
+            W.IsIndecomposable → ∃ V ∈ reps, W.AreIsomorphic V

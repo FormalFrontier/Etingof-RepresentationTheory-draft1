@@ -384,7 +384,7 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 /-- The cycle graph on k ≥ 3 vertices has infinite representation type. -/
 theorem cycle_not_finite_type (k : ℕ) (hk : 3 ≤ k) :
-    ¬ Etingof.IsFiniteTypeQuiver k (cycleAdj k hk) := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec k (cycleAdj k hk) := by
   intro hft
   letI := cycleQuiver k hk
   have hfin := @hft ℂ _ inferInstance (cycleQuiver k hk)
@@ -784,7 +784,7 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 /-- The star graph K_{1,4} has infinite representation type:
     for each m, there is an indecomposable rep with distinct dim vector. -/
 theorem star_not_finite_type :
-    ¬ Etingof.IsFiniteTypeQuiver 5 starAdj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec 5 starAdj := by
   intro hft
   letI := starQuiver
   have hfin := @hft ℂ _ inferInstance starQuiver
@@ -815,7 +815,7 @@ restriction to the image of φ equals adj_sub, we show that infinite representat
 type transfers from the subgraph to the full graph.
 
 The proof strategy:
-1. Given ¬ IsFiniteTypeQuiver m adj_sub, assume IsFiniteTypeQuiver n adj for contradiction.
+1. Given ¬ IsFiniteTypeQuiverDimVec m adj_sub, assume IsFiniteTypeQuiverDimVec n adj for contradiction.
 2. For any orientation Q_sub of adj_sub, extend it to an orientation Q of adj.
 3. Map each Q_sub-indecomposable to a Q-indecomposable via extension by zero.
 4. The dim vector injection gives a contradiction with finiteness. -/
@@ -912,11 +912,11 @@ theorem subgraph_infinite_type_transfer (φ : Fin m ↪ Fin n)
     (hadj_symm : adj.IsSymm)
     (hadj_noloop : ∀ v, adj v v ≠ 1)
     (hembed : ∀ i j, adj_sub i j = adj (φ i) (φ j))
-    (h_inf : ¬ Etingof.IsFiniteTypeQuiver m adj_sub) :
-    ¬ Etingof.IsFiniteTypeQuiver n adj := by
+    (h_inf : ¬ Etingof.IsFiniteTypeQuiverDimVec m adj_sub) :
+    ¬ Etingof.IsFiniteTypeQuiverDimVec n adj := by
   intro hft
   apply h_inf
-  -- Show IsFiniteTypeQuiver m adj_sub by mapping dim vectors into the finite n-graph set
+  -- Show IsFiniteTypeQuiverDimVec m adj_sub by mapping dim vectors into the finite n-graph set
   intro k _ _ Q_sub hss hori_sub
   -- Extend orientation to full graph
   letI Q_ext := extendOrientation φ adj Q_sub
@@ -1137,7 +1137,7 @@ theorem star_subgraph_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) �
     (hleaves_ne : ∀ i, leaves i ≠ center)
     (hadj_edge : ∀ i, adj center (leaves i) = 1)
     (hadj_indep : ∀ i j, adj (leaves i) (leaves j) = 0) :
-    ¬ Etingof.IsFiniteTypeQuiver n adj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec n adj := by
   -- Construct embedding φ : Fin 5 ↪ Fin n mapping star K_{1,4} into the graph
   -- φ maps: 0 ↦ center, k+1 ↦ leaves k
   have h_leaf (i : Fin 5) (h : i.val ≠ 0) : i.val - 1 < 4 := by omega
@@ -1195,7 +1195,7 @@ theorem tree_degree_ge_4_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n)
     -- Triangle-free: no two neighbors of the same vertex are adjacent
     (htri_free : ∀ v w₁ w₂, adj v w₁ = 1 → adj v w₂ = 1 → w₁ ≠ w₂ → adj w₁ w₂ = 0)
     (v : Fin n) (hv : 4 ≤ vertexDegree adj v) :
-    ¬ Etingof.IsFiniteTypeQuiver n adj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec n adj := by
   -- Extract 4 distinct neighbors from the neighbor set of v
   set S := Finset.univ.filter (fun w => adj v w = 1) with hS_def
   -- Get a subset of size 4
@@ -1945,7 +1945,7 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 /-- The extended Dynkin diagram D̃₅ has infinite representation type:
     for each m, there is an indecomposable rep with distinct dim vector. -/
 theorem d5tilde_not_finite_type :
-    ¬ Etingof.IsFiniteTypeQuiver 6 d5tildeAdj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec 6 d5tildeAdj := by
   intro hft
   letI := d5tildeQuiver
   have hfin := @hft ℂ _ inferInstance d5tildeQuiver
@@ -3174,7 +3174,7 @@ theorem dTildeRep_isIndecomposable (k m : ℕ) :
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 theorem dTilde_not_finite_type (k : ℕ) :
-    ¬ Etingof.IsFiniteTypeQuiver (k + 6) (dTildeAdj k) := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec (k + 6) (dTildeAdj k) := by
   intro hft
   letI := dTildeQuiver k
   have hfin := @hft ℂ _ inferInstance (dTildeQuiver k)
@@ -3247,7 +3247,7 @@ theorem etilde6v2Orientation_isOrientationOf :
 
 
 theorem etilde6_not_finite_type :
-    ¬ Etingof.IsFiniteTypeQuiver 7 etilde6Adj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec 7 etilde6Adj := by
   -- TRUE statement: Ẽ₆ is an affine (extended) Dynkin diagram and therefore
   -- has infinite representation type. The previous proof routed through an
   -- explicit single-nilpotent-twist construction that was shown UNSOUND
@@ -3296,7 +3296,7 @@ attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
 This follows because it contains Ẽ_6 = T_{2,2,2} as a subgraph, which itself has
 infinite representation type. -/
 theorem etilde8_not_finite_type :
-    ¬ Etingof.IsFiniteTypeQuiver 11 etilde8Adj :=
+    ¬ Etingof.IsFiniteTypeQuiverDimVec 11 etilde8Adj :=
   subgraph_infinite_type_transfer etilde6_to_etilde8 etilde8Adj etilde6Adj
     etilde8Adj_symm
     (fun v h => by linarith [etilde8Adj_diag v])
@@ -3390,7 +3390,7 @@ def etilde7Dim (m : ℕ) (v : Fin 8) : ℕ :=
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 theorem etilde7_not_finite_type :
-    ¬ Etingof.IsFiniteTypeQuiver 8 etilde7Adj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec 8 etilde7Adj := by
   -- TRUE statement: Ẽ₇ is an affine (extended) Dynkin diagram and therefore
   -- has infinite representation type. The previous proof routed through an
   -- explicit single-nilpotent-twist construction that was shown UNSOUND
@@ -3494,7 +3494,7 @@ def t125Dim (m : ℕ) (v : Fin 9) : ℕ :=
 attribute [-instance] CategoryTheory.CategoryStruct.toQuiver
   CategoryTheory.ReflQuiver.toQuiver in
 theorem t125_not_finite_type :
-    ¬ Etingof.IsFiniteTypeQuiver 9 t125Adj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec 9 t125Adj := by
   -- TRUE statement: T(1,2,5) is an affine (extended) Dynkin diagram and therefore
   -- has infinite representation type. The previous proof routed through an
   -- explicit single-nilpotent-twist construction that was shown UNSOUND
@@ -3532,7 +3532,7 @@ theorem triangle_infinite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (_h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (a b c : Fin n) (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c)
     (h_ab : adj a b = 1) (h_bc : adj b c = 1) (h_ac : adj a c = 1) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- Construct embedding φ : Fin 3 ↪ Fin n mapping 0 ↦ a, 1 ↦ b, 2 ↦ c
   let φ_fun : Fin 3 → Fin n := ![a, b, c]
   have hφ_inj : Function.Injective φ_fun := by
@@ -3567,14 +3567,14 @@ theorem graph_with_list_cycle_infinite_type {n : ℕ} (adj : Matrix (Fin n) (Fin
       adj (cycle.get ⟨k, by omega⟩) (cycle.get ⟨k + 1, hk⟩) = 1)
     (hclose : adj (cycle.get ⟨cycle.length - 1, by omega⟩)
                    (cycle.get ⟨0, by omega⟩) = 1) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- Strong induction on cycle length, quantified over all cycles of that length
   revert cycle hlen hnodup hedge hclose
   have key : ∀ m, (hm : 3 ≤ m) → ∀ (cyc : List (Fin n)), (hlen : cyc.length = m) → cyc.Nodup →
       (∀ k, (hk : k + 1 < cyc.length) →
         adj (cyc.get ⟨k, by omega⟩) (cyc.get ⟨k + 1, hk⟩) = 1) →
       (adj (cyc.get ⟨cyc.length - 1, by omega⟩) (cyc.get ⟨0, by omega⟩) = 1) →
-      ¬ IsFiniteTypeQuiver n adj := by
+      ¬ IsFiniteTypeQuiverDimVec n adj := by
     intro m
     induction m using Nat.strongRecOn with
     | _ m ih =>
@@ -3715,7 +3715,7 @@ theorem degree_ge_4_infinite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (v : Fin n) (hv : 4 ≤ vertexDegree adj v) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- Get 4 distinct neighbors of v
   set S := Finset.univ.filter (fun w => adj v w = 1) with hS_def
   have hS_card : 4 ≤ S.card := hv
@@ -3764,7 +3764,7 @@ theorem chordless_cycle_infinite_type {n k : ℕ} (adj : Matrix (Fin n) (Fin n) 
     (hk : 3 ≤ k)
     (φ : Fin k ↪ Fin n)
     (hembed : ∀ i j, cycleAdj k hk i j = adj (φ i) (φ j)) :
-    ¬ IsFiniteTypeQuiver n adj :=
+    ¬ IsFiniteTypeQuiverDimVec n adj :=
   subgraph_infinite_type_transfer φ adj (cycleAdj k hk) hsymm
     (fun v h => by linarith [hdiag v]) hembed (cycle_not_finite_type k hk)
 
@@ -4421,7 +4421,7 @@ private theorem adjacent_branches_infinite_type {n : ℕ} (adj : Matrix (Fin n) 
         (cycle.get ⟨0, by omega⟩) ≠ 1)
     (v₀ w : Fin n) (hv₀_deg : vertexDegree adj v₀ = 3)
     (hw_deg : vertexDegree adj w = 3) (hvw_adj : adj v₀ w = 1) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- adj_comm: adj i j = adj j i (from symmetry)
   have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
   -- ne_of_adj: adjacent vertices are distinct
@@ -4582,7 +4582,7 @@ private theorem embed_t125_in_tree {n : ℕ}
     (hu₁_ne_p₁ : u₁ ≠ p₁) (hu₁_ne_q₁ : u₁ ≠ q₁) (hp₁_ne_q₁ : p₁ ≠ q₁)
     (hp₂_ne_v₀ : p₂ ≠ v₀) (hq₂_ne_v₀ : q₂ ≠ v₀)
     (hq₃_ne_q₁ : q₃ ≠ q₁) (hq₄_ne_q₂ : q₄ ≠ q₂) (hq₅_ne_q₃ : q₅ ≠ q₃) :
-    ¬ Etingof.IsFiniteTypeQuiver n adj := by
+    ¬ Etingof.IsFiniteTypeQuiverDimVec n adj := by
   have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
   have ne_of_adj' : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
     rw [hab, hdiag] at h; exact one_ne_zero h.symm
@@ -6568,7 +6568,7 @@ private theorem single_branch_leaf_case {n : ℕ}
       0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x))
     (leaf : Fin n) (h_leaf_adj : adj v₀ leaf = 1)
     (h_leaf_deg : vertexDegree adj leaf = 1) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
   have ne_of_adj' : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
     rw [hab, hdiag] at h; exact one_ne_zero h.symm
@@ -8066,7 +8066,7 @@ private theorem single_branch_not_posdef_infinite_type {n : ℕ}
     (h_unique : ∀ w, vertexDegree adj w = 3 → w = v₀)
     (h_not_posdef : ¬ ∀ x : Fin n → ℤ, x ≠ 0 →
       0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x)) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   have adj_comm : ∀ i j, adj i j = adj j i := fun i j => hsymm.apply j i
   have ne_of_adj : ∀ a b, adj a b = 1 → a ≠ b := fun a b h hab => by
     rw [hab, hdiag] at h; exact one_ne_zero h.symm
@@ -9345,7 +9345,7 @@ private theorem non_adjacent_branches_infinite_type {n : ℕ}
     (h_deg : ∀ v, vertexDegree adj v < 4)
     (v₀ w : Fin n) (hv₀ : vertexDegree adj v₀ = 3) (hw : vertexDegree adj w = 3)
     (hne : w ≠ v₀) (h_no_adj_branch : ∀ u, adj v₀ u = 1 → vertexDegree adj u < 3) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- Case 1: If some pair of branch points is adjacent somewhere, use that directly
   by_cases h_adj_exists : ∃ x y, adj x y = 1 ∧ vertexDegree adj x = 3 ∧ vertexDegree adj y = 3
   · obtain ⟨x, y, hxy, hx, hy⟩ := h_adj_exists
@@ -9417,7 +9417,7 @@ private theorem non_adjacent_branches_infinite_type {n : ℕ}
     --   - T(1,2,5)       (when long arm at w beyond chain length)
     -- Subgraph transfer via `subgraph_infinite_type_transfer`.
     have leaf_case : ∀ leaf : Fin n, adj v₀ leaf = 1 → vertexDegree adj leaf = 1 →
-        ¬ IsFiniteTypeQuiver n adj := fun leaf h_leaf_adj h_leaf_deg => by
+        ¬ IsFiniteTypeQuiverDimVec n adj := fun leaf h_leaf_adj h_leaf_deg => by
       -- v₀ and w are not adjacent (no adjacent degree-3 pair exists)
       have h_v₀w_nonadj : adj v₀ w ≠ 1 := by
         intro hadj
@@ -10273,7 +10273,7 @@ theorem acyclic_branch_not_posdef_infinite_type {n : ℕ} (adj : Matrix (Fin n) 
     (h_has_branch : ∃ v, vertexDegree adj v = 3)
     (h_not_posdef : ¬ ∀ x : Fin n → ℤ, x ≠ 0 →
       0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x)) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   obtain ⟨v₀, hv₀⟩ := h_has_branch
   -- Does v₀ have an adjacent branch point?
   by_cases h_adj_branch : ∃ u, adj v₀ u = 1 ∧ vertexDegree adj u = 3
@@ -10318,7 +10318,7 @@ theorem not_posdef_infinite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
     (h_not_posdef : ¬ ∀ x : Fin n → ℤ, x ≠ 0 →
       0 < dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x)) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- Case 1: ∃ vertex with degree ≥ 4
   by_cases h_deg4 : ∃ v, 4 ≤ vertexDegree adj v
   · obtain ⟨v, hv⟩ := h_deg4
@@ -10379,7 +10379,7 @@ theorem non_ade_graph_not_finite_type {n : ℕ} (adj : Matrix (Fin n) (Fin n) �
         adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
     (h_not_ade : ¬ ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adj i j) :
-    ¬ IsFiniteTypeQuiver n adj := by
+    ¬ IsFiniteTypeQuiverDimVec n adj := by
   -- Step 1: ¬ADE → ¬IsDynkinDiagram (by Dynkin classification theorem)
   have h_not_dynkin : ¬ IsDynkinDiagram n adj := by
     intro hD
