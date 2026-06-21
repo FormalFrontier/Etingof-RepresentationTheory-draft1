@@ -149,6 +149,17 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **Cited "already-landed" dependencies actually exist.** Planner issue bodies
+  drift from reality — an issue can claim a prerequisite "Part 1 landed
+  (file `X.lean`, lemmas `foo`/`bar`)" when no such file or declaration was
+  ever merged. Before building on any such claim, `find`/`grep` for the named
+  files and declarations. If they are absent, the issue is mis-scoped: check
+  whether its real deliverable duplicates a *still-open* sibling/parent issue
+  (the "Part 1/Part 2" split may be a planner artifact). If so, `skip` →
+  replan with a comment naming the duplicate and recommending consolidation,
+  rather than re-deriving the phantom prerequisite. (Observed on #4849, whose
+  cited Part 1 `SchurWeylLDistinct.lean` never existed and whose real core
+  duplicated the open #4731.)
 
 If stale:
 ```
@@ -247,6 +258,21 @@ After each coherent chunk of changes:
 - Commit with conventional prefixes: `feat:`, `fix:`, `refactor:`, `test:`, `doc:`, `chore:`
 
 Each commit must compile. One logical change per commit.
+
+- **Never `git add -A` / `git add .` blindly in a reused worktree.** Worktrees
+  are recycled across sessions and often carry pre-existing uncommitted edits
+  (e.g. a stale skill change) that you did not make. A blind `add -A` sweeps
+  them into your commit and merges them as part of your PR — silently reverting
+  or duplicating other agents' work. Run `git status` first and `git add` only
+  the specific paths you intend to change. (Observed: a stale
+  `agent-worker-flow/SKILL.md` deletion got swept into #4868 and reverted a
+  merged skill note.)
+- **Before deleting a file or retiring a "track", grep the *whole* repo for
+  importers and symbol consumers, not just the chapter named in the issue.** A
+  deletion directive can under-scope cross-cutting consumers. (Observed:
+  `Chapter2/Theorem2_1_2.lean` consumed `not_posdef_infinite_type_per_kQ` from
+  a Chapter 6 file the directive told us to delete — it had to be rerouted
+  first.) Reroute or fix every consumer before `git rm`, then do a full build.
 
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
