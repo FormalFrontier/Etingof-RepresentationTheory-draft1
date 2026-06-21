@@ -155,6 +155,7 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 3. **Check it compiles.** Run `lake env lean <file>` — fix import and type errors before proceeding.
 
 **Common pitfalls:**
+- **No `-/` inside doc-comments.** A stray `-/` sequence in prose (e.g. writing `one-/two-sided`, or `f⁻¹/g`) closes the `/-! … -/` or `/-- … -/` block early, and the remaining text is parsed as commands — producing baffling "unexpected identifier; expected command" errors far from the real spot. Reword to `one- or two-sided`. Likewise avoid an accidental `/-` opening a nested comment.
 - Don't invent type classes. If Mathlib doesn't have a concept, use a `structure` or `def` with explicit fields.
 - Don't use `True` as a placeholder for propositions — it compiles but hides the real requirement.
 - Check that universe levels are consistent. Representation theory often needs `Type*` not `Type`.
