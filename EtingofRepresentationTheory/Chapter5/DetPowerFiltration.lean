@@ -179,4 +179,145 @@ theorem localRightRep_mem_filtrA (g : Matrix.GeneralLinearGroup (Fin N) k) (r : 
   rw [localRightRep_numToFiltr]
   exact Submodule.smul_mem _ _ (LinearMap.mem_range_self _ _)
 
+/-! ### The equivariant subquotient `A_r / A_{r-1} ≅ (A/det) ⊗ χ⁻ʳ` -/
+
+/-- Membership in the determinant submodule `(det) ⊆ A` is divisibility by
+`detPoly`. -/
+theorem mem_detSubmodule_iff (Q : MvPolynomial (Fin N × Fin N) k) :
+    Q ∈ detSubmodule k N ↔ detPoly k N ∣ Q := by
+  rw [detSubmodule, Submodule.restrictScalars_mem, Ideal.mem_span_singleton]
+  exact Iff.rfl
+
+/-- **The kernel characterisation of the filtration step** (`r ≥ 1`):
+`Q · det⁻ʳ ∈ A_{r-1} ↔ detPoly ∣ Q`. A numerator divisible by `det` cancels one
+`det⁻¹`, dropping the exponent; conversely a normal form of exponent `≤ r-1`
+forces `det ∣ Q` after clearing denominators. -/
+theorem numToFiltr_mem_filtrA_sub_one (r : ℕ) (hr : 1 ≤ r)
+    (Q : MvPolynomial (Fin N × Fin N) k) :
+    numToFiltr k N r Q ∈ filtrA k N (r - 1) ↔ detPoly k N ∣ Q := by
+  rw [mem_filtrA_iff_exists]
+  constructor
+  · rintro ⟨Q', hQ'⟩
+    -- clear denominators with `algebraMap_num_eq` at both exponents `r` and `r-1`.
+    have e1 : algebraMap _ (Localization.Away (detPoly k N)) Q
+        = numToFiltr k N r Q
+          * algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N) ^ r :=
+      algebraMap_num_eq (numToFiltr_apply r Q)
+    have e2 : algebraMap _ (Localization.Away (detPoly k N)) Q'
+        = numToFiltr k N r Q
+          * algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N) ^ (r - 1) :=
+      algebraMap_num_eq hQ'
+    refine ⟨Q', algebraMap_away_injective ?_⟩
+    have hpow : algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N) ^ r
+        = algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N)
+          * algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N) ^ (r - 1) := by
+      rw [← pow_succ']; congr 1; omega
+    rw [e1, map_mul, e2, hpow]; ring
+  · rintro ⟨Q', rfl⟩
+    refine ⟨Q', ?_⟩
+    have hsucc : (IsLocalization.Away.invSelf (detPoly k N) : Localization.Away (detPoly k N)) ^ r
+        = IsLocalization.Away.invSelf (detPoly k N)
+          * IsLocalization.Away.invSelf (detPoly k N) ^ (r - 1) := by
+      rw [← pow_succ']; congr 1; omega
+    rw [numToFiltr_apply, map_mul, hsucc,
+      show algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N)
+          * algebraMap _ (Localization.Away (detPoly k N)) Q'
+          * (IsLocalization.Away.invSelf (detPoly k N)
+            * IsLocalization.Away.invSelf (detPoly k N) ^ (r - 1))
+        = (algebraMap _ (Localization.Away (detPoly k N)) (detPoly k N)
+            * IsLocalization.Away.invSelf (detPoly k N))
+          * (algebraMap _ (Localization.Away (detPoly k N)) Q'
+            * IsLocalization.Away.invSelf (detPoly k N) ^ (r - 1)) from by ring,
+      IsLocalization.Away.mul_invSelf, one_mul]
+
+/-- The numerator extraction `A ≃ₗ A_r`: `numToFiltr r` is an injective linear
+map, so it is a linear isomorphism onto its range `A_r`. The inverse recovers the
+unique numerator `Q` of `f = Q · det⁻ʳ`. -/
+noncomputable def numEquiv (k : Type*) [Field k] (N : ℕ) (r : ℕ) :
+    MvPolynomial (Fin N × Fin N) k ≃ₗ[k] ↥(filtrA k N r) :=
+  LinearEquiv.ofInjective (numToFiltr k N r) (numToFiltr_injective r)
+
+@[simp] theorem numEquiv_coe_apply (r : ℕ) (Q : MvPolynomial (Fin N × Fin N) k) :
+    ((numEquiv k N r Q : ↥(filtrA k N r)) : Localization.Away (detPoly k N))
+      = numToFiltr k N r Q :=
+  rfl
+
+/-- **The subquotient map** `A_r ↠ A/det`: extract the numerator `Q` of
+`f = Q · det⁻ʳ` and reduce modulo `det`. Surjective with kernel `A_{r-1}`
+(`ker_filtrToQuot`), and `GL_N`-equivariant for the `χ⁻ʳ`-twisted action
+(`filtrToQuot_equivariant`). -/
+noncomputable def filtrToQuot (k : Type*) [Field k] (N : ℕ) (r : ℕ) :
+    ↥(filtrA k N r) →ₗ[k] (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+  (detSubmodule k N).mkQ.comp (numEquiv k N r).symm.toLinearMap
+
+@[simp] theorem filtrToQuot_numToFiltr (r : ℕ) (Q : MvPolynomial (Fin N × Fin N) k) :
+    filtrToQuot k N r ⟨numToFiltr k N r Q, LinearMap.mem_range_self _ _⟩
+      = Submodule.Quotient.mk Q := by
+  rw [filtrToQuot, LinearMap.comp_apply, LinearEquiv.coe_coe, Submodule.mkQ_apply]
+  congr 1
+  rw [LinearEquiv.symm_apply_eq]
+  exact Subtype.ext (numEquiv_coe_apply r Q).symm
+
+theorem filtrToQuot_surjective (r : ℕ) :
+    Function.Surjective (filtrToQuot k N r) :=
+  (Submodule.mkQ_surjective _).comp (numEquiv k N r).symm.surjective
+
+/-- **The kernel of the subquotient map is exactly `A_{r-1}`** (as a submodule of
+`A_r`). Combined with surjectivity this yields the iso `A_r / A_{r-1} ≅ A/det`. -/
+theorem ker_filtrToQuot (r : ℕ) (hr : 1 ≤ r) :
+    LinearMap.ker (filtrToQuot k N r)
+      = (filtrA k N (r - 1)).comap (filtrA k N r).subtype := by
+  ext x
+  obtain ⟨Q, rfl⟩ := (numEquiv k N r).surjective x
+  rw [LinearMap.mem_ker,
+    show filtrToQuot k N r (numEquiv k N r Q)
+        = Submodule.Quotient.mk Q from filtrToQuot_numToFiltr r Q,
+    Submodule.Quotient.mk_eq_zero, mem_detSubmodule_iff, Submodule.mem_comap,
+    Submodule.coe_subtype, numEquiv_coe_apply, numToFiltr_mem_filtrA_sub_one r hr]
+
+/-- **The subquotient isomorphism** `A_r / A_{r-1} ≃ₗ A/det`. The underlying
+module of `(A/det) ⊗ χ⁻ʳ = quotDetTwistRep` is `A/det`; the `χ⁻ʳ` twist enters
+the `GL_N`-action, recorded in `filtrToQuot_equivariant`. -/
+noncomputable def filtrQuotEquiv (k : Type*) [Field k] (N : ℕ) (r : ℕ) (hr : 1 ≤ r) :
+    (↥(filtrA k N r) ⧸ (filtrA k N (r - 1)).comap (filtrA k N r).subtype)
+      ≃ₗ[k] (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+  (Submodule.quotEquivOfEq _ _ (ker_filtrToQuot (k := k) (N := N) r hr).symm).trans
+    (LinearMap.quotKerEquivOfSurjective (filtrToQuot k N r) (filtrToQuot_surjective r))
+
+/-- The twisting scalar of `quotDetTwistRep` at `g`: the inverse determinant
+character `χ⁻ʳ` evaluates to `(det g)⁻ʳ`. -/
+theorem detChar_zpow_neg_apply (g : Matrix.GeneralLinearGroup (Fin N) k) (r : ℕ) :
+    ((detChar k N ^ (-(r : ℤ))) g : k) = ((g : Matrix (Fin N) (Fin N) k).det)⁻¹ ^ r := by
+  have happ : (detChar k N ^ (-(r : ℤ))) g = (detChar k N g) ^ (-(r : ℤ)) := rfl
+  rw [happ, zpow_neg, zpow_natCast, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val,
+    ← inv_pow]
+  rfl
+
+/-- **`GL_N`-equivariance of the subquotient map.** `filtrToQuot` intertwines the
+right-translation action `localRightRep` on `A_r` with the `χ⁻ʳ`-twisted quotient
+action `quotDetTwistRep = (A/det) ⊗ χ⁻ʳ` on `A/det`: the `det⁻ʳ` factor of a
+filtration element contributes exactly the `χ⁻ʳ` twist. -/
+theorem filtrToQuot_equivariant (g : Matrix.GeneralLinearGroup (Fin N) k) (r : ℕ)
+    (x : ↥(filtrA k N r)) :
+    filtrToQuot k N r
+        ⟨localRightRep k N g (x : Localization.Away (detPoly k N)),
+          localRightRep_mem_filtrA g r x.2⟩
+      = quotDetTwistRep k N r g (filtrToQuot k N r x) := by
+  obtain ⟨Q, rfl⟩ := (numEquiv k N r).surjective x
+  have hval : localRightRep k N g ((numEquiv k N r Q : ↥(filtrA k N r)) :
+        Localization.Away (detPoly k N))
+      = numToFiltr k N r
+          (((g : Matrix (Fin N) (Fin N) k).det)⁻¹ ^ r • polyRightRep k N g Q) := by
+    rw [numEquiv_coe_apply, localRightRep_numToFiltr, map_smul]
+  rw [show (⟨localRightRep k N g ((numEquiv k N r Q : ↥(filtrA k N r)) :
+            Localization.Away (detPoly k N)),
+          localRightRep_mem_filtrA g r (numEquiv k N r Q).2⟩ : ↥(filtrA k N r))
+        = ⟨numToFiltr k N r (((g : Matrix (Fin N) (Fin N) k).det)⁻¹ ^ r • polyRightRep k N g Q),
+            LinearMap.mem_range_self _ _⟩ from Subtype.ext hval,
+    filtrToQuot_numToFiltr,
+    show filtrToQuot k N r (numEquiv k N r Q)
+        = Submodule.Quotient.mk Q from filtrToQuot_numToFiltr r Q,
+    quotDetTwistRep, charTwistRep_apply, detChar_zpow_neg_apply, quotDetRep_mk,
+    Submodule.Quotient.mk_smul]
+
 end Etingof.DetPowerFiltration
