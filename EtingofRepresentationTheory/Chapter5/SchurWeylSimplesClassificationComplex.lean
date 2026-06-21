@@ -293,20 +293,30 @@ theorem schurWeyl_simples_isotypic_matching_complex
   obtain rfl : p = p' := h2
   rfl
 
-/-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
+/-- **Linear independence of the Schur-Weyl simple characters (isolated `sorry`,
+sub-issue of #4870).**
 
-The `ℂ`-specialization of `schurWeyl_simples_formalCharacter_classification_core`:
-given the equivariant decomposition data of `V^{⊗n}` (`V = Fin N → ℂ`, `n ≤ N`),
-there is an injective antitone-partition assignment `lam` with
-`char(Lᵢ) = schurPoly N (lam i)`.
+The formal characters of the pairwise non-isomorphic simple summands `L i` of
+`V^{⊗n}` (`V = Fin N → ℂ`, `n ≤ N`) produced by the equivariant decomposition are
+`ℚ`-linearly independent.
 
-The proof routes through the numerical identity
-(`schurWeyl_decomposition_numerical_identity`) and the isotypic matching
-(`schurWeyl_simples_isotypic_matching_complex`, an injective
-`φ : BoundedPartition N n ↪ ι` with `char(L (φ λ)) = schurPoly N λ.parts`); the
-residual content is the counting step `|ι| = |P|` (double-centralizer), which makes
-`φ` surjective so that `lam := φ⁻¹` is total. -/
-theorem schurWeyl_simples_formalCharacter_classification_core_complex
+This is the classical fact "characters of pairwise non-isomorphic irreducible
+representations are linearly independent" (Dedekind/Artin independence of
+characters, specialised to the formal `GL_N` character). It is the genuine
+remaining content of the counting step `|ι| = |P|`: combined with the numerical
+identity `schurWeyl_decomposition_numerical_identity` and the injective isotypic
+matching `φ`, it forces every abstract simple `L i` to be a Schur module, i.e.
+`φ` surjective (see `schurWeyl_simples_formalCharacter_classification_core_complex`).
+
+**Important — not circular.** The *existing*
+`glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent`
+(`SchurWeylSimplesClassification.lean`) derives the same conclusion, but *through*
+the still-sorried highest-weight classification core; using it here would make the
+ℂ-side classification depend on the very sorry it is meant to discharge. This
+lemma must instead be proved **directly** from `hLsimp`/`hLdist` (character
+independence), independently of the classification. Tracked as a sub-issue of
+#4870. -/
+theorem schurWeyl_simples_formalCharacter_linearIndependent_complex
     (N n : ℕ) (hN : n ≤ N)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module ℂ (S i)]
@@ -324,6 +334,54 @@ theorem schurWeyl_simples_formalCharacter_classification_core_complex
         (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
         (Representation.asModule (L i).ρ))
     (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))) :
+    LinearIndependent ℚ (fun i => formalCharacter ℂ N (L i)) := by
+  -- Classical character-independence content, isolated as a sub-issue of #4870.
+  sorry
+
+/-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
+
+The `ℂ`-specialization of `schurWeyl_simples_formalCharacter_classification_core`:
+given the equivariant decomposition data of `V^{⊗n}` (`V = Fin N → ℂ`, `n ≤ N`),
+there is an injective antitone-partition assignment `lam` with
+`char(Lᵢ) = schurPoly N (lam i)`.
+
+The proof routes through the numerical identity
+(`schurWeyl_decomposition_numerical_identity`) and the isotypic matching
+(`schurWeyl_simples_isotypic_matching_complex`, an injective
+`φ : BoundedPartition N n ↪ ι` with `char(L (φ λ)) = schurPoly N λ.parts`). The
+counting step `|ι| = |P|` (i.e. `φ` surjective, so `lam := φ⁻¹` is total) is
+obtained here sorry-free *as a reduction*: the numerical identity rewrites to a
+vanishing `ℚ`-combination of the characters `char(L i)`, whose linear independence
+(`schurWeyl_simples_formalCharacter_linearIndependent_complex`, the one remaining
+isolated `sorry`) forces every coefficient to vanish; the empty-fibre coefficients
+are `dim(Sᵢ)`, so the nonzero-multiplicity hypothesis `hSne` (each `S i ≠ 0`,
+supplied by simplicity at the call site) rules out indices outside `im φ`.
+
+`hSne` is necessary, not cosmetic: without it a degenerate decomposition with
+`S i₀ = 0` carries an unconstrained "ghost" simple `L i₀`, for which
+`char(L i₀) = schurPoly N λ` fails — so the classification is genuinely false for
+such data. The source decomposition
+`glTensorRep_equivariant_schurWeyl_decomposition` has each `S i` a *simple*
+`Sₙ`-module, hence `0 < dim(S i)`. -/
+theorem schurWeyl_simples_formalCharacter_classification_core_complex
+    (N n : ℕ) (hN : n ≤ N)
+    {ι : Type} [Fintype ι] [DecidableEq ι]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module ℂ (S i)]
+    [∀ i, Module.Finite ℂ (S i)]
+    (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (e : TensorPower ℂ (Fin N → ℂ) n ≃ₗ[ℂ]
+        (DirectSum ι (fun i => S i ⊗[ℂ] (L i : Type))))
+    (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+          (v : TensorPower ℂ (Fin N → ℂ) n),
+          e (glTensorRep ℂ N n g v) =
+            Representation.directSum (fun i =>
+              (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
+                (S i)).tprod (L i).ρ) g (e v))
+    (hLsimp : ∀ i, IsSimpleModule
+        (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+        (Representation.asModule (L i).ρ))
+    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+    (hSne : ∀ i, 0 < Module.finrank ℂ (S i)) :
     ∃ lam : ι → {l : Fin N → ℕ // Antitone l},
       Function.Injective lam ∧
       ∀ i, formalCharacter ℂ N (L i) = schurPoly N (lam i).val := by
@@ -335,13 +393,61 @@ theorem schurWeyl_simples_formalCharacter_classification_core_complex
   -- Isotypic matching (sorry-free): injective `φ : P ↪ ι`, `char(L (φ λ)) = schurPoly λ`.
   obtain ⟨φ, hφinj, hφchar⟩ :=
     schurWeyl_simples_isotypic_matching_complex N n hN L e he hLsimp
-  -- The ONLY remaining content: the counting equality `|ι| = |P|`, i.e. `φ` is
-  -- surjective (every abstract simple `L i` is a Schur module). By the
-  -- double-centralizer pairing (`Theorem5_18_4`), the number of simple GL-types in
-  -- `V^{⊗n}` equals the number of antitone partitions `λ` of `n` with `ℓ(λ) ≤ N`.
-  -- Deferred to a sub-issue; everything else below is sorry-free.
+  -- Surjectivity of `φ` (the counting equality `|ι| = |P|`) via the numerical
+  -- identity and linear independence of the simple characters. With each `L i`
+  -- pairwise non-isomorphic and simple, the characters `char(L i)` are
+  -- `ℚ`-independent (`schurWeyl_simples_formalCharacter_linearIndependent_complex`,
+  -- the isolated remaining content). The numerical identity
+  -- `∑ᵢ dim(Sᵢ)·char(Lᵢ) = ∑_λ dim(Specht_λ)·schurPoly λ` rewrites, via
+  -- `char(L (φ λ)) = schurPoly λ` and the injectivity of `φ`, to a single
+  -- vanishing `ℚ`-combination `∑ᵢ (dim(Sᵢ) - Cᵢ)·char(Lᵢ) = 0`, where `Cᵢ` is the
+  -- total Specht-multiplicity over the `φ`-fibre of `i`. Independence forces every
+  -- coefficient to vanish; for `i ∉ im φ` the fibre is empty so `dim(Sᵢ) = 0`,
+  -- contradicting `hSne`. Hence `φ` is surjective.
   have hφsurj : Function.Surjective φ := by
-    sorry
+    have hLI := schurWeyl_simples_formalCharacter_linearIndependent_complex
+      N n hN L e he hLsimp hLdist
+    have hnum := schurWeyl_decomposition_numerical_identity ℂ N n L e he
+    set v : ι → MvPolynomial (Fin N) ℚ := fun i => formalCharacter ℂ N (L i) with hvdef
+    -- Abstract the Specht-multiplicity coefficient on the partition side.
+    obtain ⟨mfun, hmeq⟩ : ∃ mfun : BoundedPartition N n → ℚ,
+        ∑ i, (Module.finrank ℂ (S i) : ℚ) • v i
+          = ∑ lam : BoundedPartition N n, mfun lam • schurPoly N lam.parts :=
+      ⟨_, hnum⟩
+    -- Pull the multiplicities back along `φ` and identify `schurPoly λ = char(L (φ λ))`.
+    have hfib : ∑ i : ι,
+          (∑ lam ∈ Finset.univ.filter (fun lam => φ lam = i), mfun lam) • v i
+        = ∑ lam : BoundedPartition N n, mfun lam • schurPoly N lam.parts := by
+      rw [← Finset.sum_fiberwise Finset.univ φ
+        (fun lam => mfun lam • schurPoly N lam.parts)]
+      refine Finset.sum_congr rfl fun i _ => ?_
+      rw [Finset.sum_smul]
+      refine Finset.sum_congr rfl fun lam hlam => ?_
+      have hli : φ lam = i := (Finset.mem_filter.mp hlam).2
+      rw [← hli]
+      simp only [hvdef]
+      rw [hφchar lam]
+    -- The vanishing `ℚ`-combination of the (independent) characters.
+    have hkey : ∑ i, ((Module.finrank ℂ (S i) : ℚ)
+        - ∑ lam ∈ Finset.univ.filter (fun lam => φ lam = i), mfun lam) • v i = 0 := by
+      simp only [sub_smul]
+      rw [Finset.sum_sub_distrib, hfib, ← hmeq, sub_self]
+    have hcoeff := (Fintype.linearIndependent_iff.mp hLI)
+      (fun i => (Module.finrank ℂ (S i) : ℚ)
+        - ∑ lam ∈ Finset.univ.filter (fun lam => φ lam = i), mfun lam) hkey
+    -- Empty `φ`-fibre would force `dim(Sᵢ) = 0`, contradicting `hSne`.
+    intro i₀
+    by_contra hni
+    have hempty : Finset.univ.filter (fun lam => φ lam = i₀)
+        = (∅ : Finset (BoundedPartition N n)) := by
+      rw [Finset.filter_eq_empty_iff]
+      intro lam _ h
+      exact hni ⟨lam, h⟩
+    have hd0 : (Module.finrank ℂ (S i₀) : ℚ)
+        - ∑ lam ∈ Finset.univ.filter (fun lam => φ lam = i₀), mfun lam = 0 := hcoeff i₀
+    rw [hempty, Finset.sum_empty, sub_zero] at hd0
+    have hz : Module.finrank ℂ (S i₀) = 0 := by exact_mod_cast hd0
+    exact (hSne i₀).ne' hz
   -- `φ` is bijective, so `lam := φ⁻¹` is a total injective antitone assignment.
   let φequiv : BoundedPartition N n ≃ ι := Equiv.ofBijective φ ⟨hφinj, hφsurj⟩
   refine ⟨fun i => ⟨(φequiv.symm i).parts, (φequiv.symm i).decreasing⟩, ?_, ?_⟩
