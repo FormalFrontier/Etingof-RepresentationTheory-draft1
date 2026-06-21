@@ -129,4 +129,88 @@ theorem mem_glWeightSpace_polyRight_iff (d : ℕ) (μ : Fin N → ℕ)
   rw [← polyOf_rho, ← map_smul]
   exact ⟨fun h => by rw [h], fun h => polyOf_injective d h⟩
 
+/-- The finite set of degree-`d` monomial exponents whose column-degree vector is
+`μ`: `s` with `∑_p s p = d` and `∑_i s(i,j) = μ_j` for every column `j`. -/
+def Dset (N d : ℕ) (μ : Fin N → ℕ) : Finset ((Fin N × Fin N) →₀ ℕ) :=
+  (Finset.univ.finsuppAntidiag d).filter (fun s => ∀ j, ∑ i, s (i, j) = μ j)
+
+theorem mem_Dset (d : ℕ) (μ : Fin N → ℕ) (s : (Fin N × Fin N) →₀ ℕ) :
+    s ∈ Dset N d μ ↔ (∑ p, s p = d) ∧ ∀ j, ∑ i, s (i, j) = μ j := by
+  simp only [Dset, Finset.mem_filter, Finset.mem_finsuppAntidiag]
+  constructor
+  · rintro ⟨⟨hsum, _⟩, hcol⟩; exact ⟨hsum, hcol⟩
+  · rintro ⟨hsum, hcol⟩; exact ⟨⟨hsum, Finset.subset_univ _⟩, hcol⟩
+
+omit [IsAlgClosed k] in
+/-- A degree-`d` monomial lies in the homogeneous component `A_d`. -/
+theorem monomial_mem_homog (d : ℕ) (s : (Fin N × Fin N) →₀ ℕ) (hs : ∑ p, s p = d) :
+    (monomial s (1 : k)) ∈ homogeneousSubmodule (Fin N × Fin N) k d := by
+  rw [mem_homogeneousSubmodule]
+  exact isHomogeneous_monomial 1 (by rw [Finsupp.degree_eq_sum]; exact hs)
+
+/-- **The `μ`-weight space of `A_d` maps onto the span of its column-degree-`μ`
+monomials.** Pushing the weight space into `k[Xᵢⱼ]` recovers exactly the span of
+the degree-`d` monomials with column-degree vector `μ`. -/
+theorem map_polyOf_glWeightSpace (d : ℕ) (μ : Fin N → ℕ) :
+    Submodule.map (polyOf d) (glWeightSpace k N (polyRightDegreeFDRep k N d) μ)
+      = Submodule.span k ((fun s => monomial s (1 : k)) '' (Dset N d μ : Set _)) := by
+  apply le_antisymm
+  · rintro _ ⟨w, hw, rfl⟩
+    replace hw := (mem_glWeightSpace_polyRight_iff d μ w).mp hw
+    rw [(polyOf d w).as_sum]
+    refine Submodule.sum_mem _ fun s hs => ?_
+    -- each monomial in the support has column degree `μ`, hence is a generator
+    have hsDset : s ∈ Dset N d μ := by
+      rw [mem_Dset]
+      refine ⟨?_, fun j => ?_⟩
+      · -- degree
+        have hH : (polyOf d w).IsHomogeneous d := polyOf_mem d w
+        have hd := hH (MvPolynomial.mem_support_iff.mp hs)
+        calc ∑ p, s p = s.degree := (Finsupp.degree_eq_sum s).symm
+          _ = Finsupp.weight (fun _ => 1) s := by rw [Finsupp.degree_eq_weight_one]
+          _ = d := hd
+      · -- column degree
+        by_contra hne
+        obtain ⟨t, ht⟩ := exists_unit_pow_ne k hne
+        have key := congrArg (coeff s) (hw j t)
+        rw [coeff_polyRightRep_diagUnit, coeff_smul, smul_eq_mul] at key
+        exact ht (mul_right_cancel₀ (MvPolynomial.mem_support_iff.mp hs) key)
+    have hsmul : (monomial s (coeff s (polyOf d w)) : MvPolynomial (Fin N × Fin N) k)
+        = coeff s (polyOf d w) • monomial s 1 := by
+      rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
+    rw [hsmul]
+    exact Submodule.smul_mem _ _
+      (Submodule.subset_span ⟨s, Finset.mem_coe.mpr hsDset, rfl⟩)
+  · rw [Submodule.span_le]
+    rintro _ ⟨s, hs, rfl⟩
+    rw [Finset.mem_coe, mem_Dset] at hs
+    obtain ⟨hdeg, hcol⟩ := hs
+    refine ⟨⟨monomial s 1, monomial_mem_homog d s hdeg⟩,
+      (mem_glWeightSpace_polyRight_iff d μ _).mpr (fun i t => ?_), rfl⟩
+    show polyRightRep k N (diagUnit k N i t) (monomial s (1 : k))
+      = (t : k) ^ μ i • monomial s (1 : k)
+    rw [polyRightRep_diagUnit_monomial, hcol i]
+
+/-- **The weight-space dimension equals the number of column-degree-`μ` monomials.**
+The pushforward isomorphism plus linear independence of distinct monomials. -/
+theorem finrank_glWeightSpace_eq_card (d : ℕ) (μ : Fin N → ℕ) :
+    Module.finrank k (glWeightSpace k N (polyRightDegreeFDRep k N d) μ)
+      = (Dset N d μ).card := by
+  have hrange : (fun s => monomial s (1 : k)) '' (Dset N d μ : Set _)
+      = Set.range (fun s : (Dset N d μ) => monomial (s : (Fin N × Fin N) →₀ ℕ) (1 : k)) := by
+    rw [show (fun s : (Dset N d μ) => monomial (s : (Fin N × Fin N) →₀ ℕ) (1 : k))
+          = (fun s => monomial s (1 : k)) ∘ Subtype.val from rfl,
+        Set.range_comp, Subtype.range_coe]
+  have hli : LinearIndependent k
+      (fun s : (Dset N d μ) => monomial (s : (Fin N × Fin N) →₀ ℕ) (1 : k)) := by
+    have hb := (basisMonomials (Fin N × Fin N) k).linearIndependent.comp
+      (fun s : (Dset N d μ) => (s : (Fin N × Fin N) →₀ ℕ)) Subtype.val_injective
+    have hfun : (fun s : (Dset N d μ) => monomial (s : (Fin N × Fin N) →₀ ℕ) (1 : k))
+        = ⇑(basisMonomials (Fin N × Fin N) k) ∘ (fun s : (Dset N d μ) => (s : (Fin N × Fin N) →₀ ℕ)) := by
+      funext s; simp [coe_basisMonomials]
+    rw [hfun]; exact hb
+  rw [(Submodule.equivMapOfInjective (polyOf d) (polyOf_injective d)
+        (glWeightSpace k N (polyRightDegreeFDRep k N d) μ)).finrank_eq,
+      map_polyOf_glWeightSpace, hrange, finrank_span_eq_card hli, Fintype.card_coe]
+
 end Etingof.CauchyWeightSpaceDimension
