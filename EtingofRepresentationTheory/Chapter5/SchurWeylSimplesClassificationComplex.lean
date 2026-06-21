@@ -5,6 +5,8 @@ import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
 import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 import EtingofRepresentationTheory.Chapter5.CharacterIndependence
 import EtingofRepresentationTheory.Chapter5.SchurWeylFormalCharacterIso
+import EtingofRepresentationTheory.Chapter5.TraceVanishingDensity
+import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 
 /-!
 # ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862)
@@ -297,38 +299,37 @@ theorem schurWeyl_simples_isotypic_matching_complex
   rfl
 
 /-- **Geometric core of the seam: torus-trace vanishing ⟹ all-of-`GL_N` trace vanishing
-(isolated `sorry`, density sub-issue of #4887).**
+(#4925, sub-issue #4932, sorry-free).**
 
-A `ℂ`-combination of the characters of finitely many *algebraic* (weight-space-spanning)
-`GL_N(ℂ)`-representations `L i` that vanishes at every diagonal torus element `diag(t)`
-vanishes at *every* group element `g`. This is the one genuinely geometric step of the
-character-independence seam, isolated here so the surrounding algebra
+A `ℂ`-combination of the characters of finitely many *algebraic* `GL_N(ℂ)`-representations
+`L i` that vanishes at every diagonal torus element `diag(t)` vanishes at *every* group
+element `g`. This is the one genuinely geometric step of the character-independence seam,
+isolated here so the surrounding algebra
 (`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero`) is otherwise sorry-free.
 
 The character `g ↦ trace_ℂ ((L i).ρ g)` of an algebraic representation is a *regular*
 (polynomial-in-the-entries-with-`det⁻¹`) and conjugation-invariant function of `g`; the
-combination is therefore a regular class function. Every diagonalizable matrix is
-conjugate to a diagonal torus element, so the combination already vanishes on all
-diagonalizable matrices, and these are Zariski-dense in `GL_N(ℂ)`, forcing vanishing
-everywhere. The density / regular-function infrastructure (diagonalizable matrices
-Zariski-dense in `GL_N`, or Chevalley restriction for conjugation-invariant regular
-functions) is **not yet in the project** and is tracked as a dedicated density sub-issue
-of #4887. The available scaffolding is `eq_of_eval_eq_on_gl`
-(`Chapter5/EvalEqOnGL.lean`), `evalGLAway_injective` (`Chapter5/DetLocalization.lean`),
-`MvPolynomial.funext`, and `aeval_formalCharacter_eq_trace`
-(`Chapter5/FormalCharacterTorusTrace.lean`). -/
+combination is therefore a regular class function. Every matrix with `N` distinct
+eigenvalues is conjugate to a diagonal torus element
+(`gl_conj_diagTorus_of_distinct_eigenvalues`, #4930), so the combination already vanishes on
+all such matrices, and these are Zariski-dense in `GL_N(ℂ)` (their complement is the zero
+locus of `det · discr`, #4931), forcing vanishing everywhere. The full assembly lives in
+`trace_combination_vanishes_of_torus_vanishes_of_algebraic` (`Chapter5/TraceVanishingDensity.lean`).
+
+The hypothesis is `IsAlgebraicRepresentation` (regularity of the character), strictly
+stronger than the previously-planned span condition `hLtop`: the latter does not by itself
+make an abstract-group representation's character regular. At the genuine call site each
+`L i` is a summand of the polynomial representation `V^{⊗n}`, hence algebraic. -/
 theorem trace_combination_vanishes_of_torus_vanishes
     (N : ℕ) {ι : Type} [Fintype ι]
     (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
-    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤)
+    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
     (c : ι → ℂ)
     (htorus : ∀ t : Fin N → ℂˣ,
         ∑ i, c i • LinearMap.trace ℂ (L i) ((L i).ρ (diagTorus ℂ N t)) = 0)
     (g : Matrix.GeneralLinearGroup (Fin N) ℂ) :
-    ∑ i, c i • LinearMap.trace ℂ (L i) ((L i).ρ g) = 0 := by
-  -- Density of diagonalizable matrices in `GL_N(ℂ)` + regularity of algebraic characters.
-  -- Tracked as a dedicated density sub-issue of #4887.
-  sorry
+    ∑ i, c i • LinearMap.trace ℂ (L i) ((L i).ρ g) = 0 :=
+  trace_combination_vanishes_of_torus_vanishes_of_algebraic N L hLalg c htorus g
 
 /-- **Seam: torus-trace vanishing ⟹ coefficient vanishing (Dedekind/Artin + density).**
 
@@ -361,7 +362,7 @@ sub-issue of #4887. Everything else here is sorry-free. -/
 theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
     (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
     (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
-    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤)
+    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
     (hLsimp : ∀ i, IsSimpleModule
         (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
         (Representation.asModule (L i).ρ))
@@ -407,7 +408,7 @@ theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
     intro a
     induction a using MonoidAlgebra.induction_on with
     | hM g =>
-        have hg0 := trace_combination_vanishes_of_torus_vanishes N L hLtop
+        have hg0 := trace_combination_vanishes_of_torus_vanishes N L hLalg
           (fun i => (c i : ℂ)) htorus g
         rw [LinearMap.sum_apply]
         simpa only [LinearMap.smul_apply, hbridge] using hg0
@@ -473,6 +474,7 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_complex
               (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
                 (S i)).tprod (L i).ρ) g (e v))
     (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤)
+    (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
     (hLsimp : ∀ i, IsSimpleModule
         (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
         (Representation.asModule (L i).ρ))
@@ -491,7 +493,7 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_complex
     simpa using h
   -- The seam (sub-issue of #4887): torus-trace vanishing ⟹ every coefficient vanishes.
   exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero
-    N L hLtop hLsimp hLdist c htorus
+    N L hLalg hLsimp hLdist c htorus
 
 /-- A `GL_N(ℂ)`-equivariant `ℂ`-linear map sends the `μ`-weight space of its source
 into the `μ`-weight space of its target: weight vectors map to weight vectors. -/
@@ -627,6 +629,112 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
           iSup_mono fun μ =>
             glWeightSpace_map_le_of_equivariant N (glTensorRep ℂ N n) (L i) q hq (fun j => μ j)
 
+/-- **Algebraicity transfers across an equivariant linear equivalence.** If `φ : Y ≃ₗ Y'`
+intertwines `ρ` and `ρ'`, then `ρ'` is algebraic whenever `ρ` is: the matrix coefficients
+in the transported basis `b.map φ` coincide with those of `ρ` in `b`. -/
+private theorem isAlgebraic_of_equivariant_linearEquiv {N : ℕ}
+    {Y Y' : Type*} [AddCommGroup Y] [Module ℂ Y] [Module.Finite ℂ Y]
+    [AddCommGroup Y'] [Module ℂ Y'] [Module.Finite ℂ Y']
+    {ρ : Matrix.GeneralLinearGroup (Fin N) ℂ → Y →ₗ[ℂ] Y}
+    {ρ' : Matrix.GeneralLinearGroup (Fin N) ℂ → Y' →ₗ[ℂ] Y'}
+    (φ : Y ≃ₗ[ℂ] Y')
+    (hφ : ∀ g y, φ (ρ g y) = ρ' g (φ y))
+    (h : Etingof.IsAlgebraicRepresentation N ρ) :
+    Etingof.IsAlgebraicRepresentation N ρ' := by
+  obtain ⟨m, b, P, hP⟩ := h
+  refine ⟨m, b.map φ, P, fun g a c => ?_⟩
+  have h2 : (b.map φ).repr (φ (ρ g (b c))) = b.repr (ρ g (b c)) := by
+    change (φ.symm.trans b.repr) (φ (ρ g (b c))) = b.repr (ρ g (b c))
+    rw [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
+  show (b.map φ).repr (ρ' g ((b.map φ) c)) a = evalAtGL g (P a c)
+  rw [show ((b.map φ) c) = φ (b c) from rfl, ← hφ, h2, hP g a c]
+
+/-- **The simple summands `L i` of `V^{⊗n}` are algebraic representations (#4932).**
+
+Each summand `L i` with nonzero multiplicity space (`0 < dim (S i)`) embeds
+`GL_N`-equivariantly into the polynomial representation `glTensorRep ℂ N n` (which is
+algebraic, `glTensorRep_isAlgebraic`), via `x ↦ e⁻¹ (lof i (s ⊗ x))` for a fixed
+`s ∈ S i`; a left inverse is the equivariant projection used in
+`schurWeyl_simple_summand_glWeightSpace_top`. Restricting the algebraic structure to the
+(invariant) image and transporting it back through the embedding gives algebraicity of
+`(L i).ρ`. This supplies the `IsAlgebraicRepresentation` hypothesis of
+`schurWeyl_simples_formalCharacter_linearIndependent_complex`. -/
+theorem schurWeyl_simple_summand_isAlgebraic
+    (N n : ℕ)
+    {ι : Type} [Fintype ι] [DecidableEq ι]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module ℂ (S i)]
+    [∀ i, Module.Finite ℂ (S i)]
+    (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (e : TensorPower ℂ (Fin N → ℂ) n ≃ₗ[ℂ]
+        (DirectSum ι (fun i => S i ⊗[ℂ] (L i : Type))))
+    (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+          (v : TensorPower ℂ (Fin N → ℂ) n),
+          e (glTensorRep ℂ N n g v) =
+            Representation.directSum (fun i =>
+              (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
+                (S i)).tprod (L i).ρ) g (e v))
+    (hSne : ∀ i, 0 < Module.finrank ℂ (S i)) :
+    ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ := by
+  classical
+  intro i
+  -- A basis vector `s₀ = bS i0 ∈ S i` and the dual coordinate `φ` with `φ s₀ = 1`.
+  let bS : Module.Basis (Fin (Module.finrank ℂ (S i))) ℂ (S i) := Module.finBasis ℂ (S i)
+  let i0 : Fin (Module.finrank ℂ (S i)) := ⟨0, hSne i⟩
+  let φ : (S i) →ₗ[ℂ] ℂ := bS.coord i0
+  have hφ1 : φ (bS i0) = 1 := by
+    show bS.coord i0 (bS i0) = 1
+    rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
+  -- The equivariant embedding `s : L i ↪ V^{⊗n}`, `x ↦ e⁻¹ (lof i (s₀ ⊗ x))`.
+  let s : (L i : Type) →ₗ[ℂ] TensorPower ℂ (Fin N → ℂ) n :=
+    e.symm.toLinearMap ∘ₗ
+      (DirectSum.lof ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i) ∘ₗ
+      (TensorProduct.mk ℂ (S i) (L i : Type) (bS i0))
+  have hs_apply : ∀ x : (L i : Type),
+      s x = e.symm (DirectSum.lof ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i (bS i0 ⊗ₜ x)) :=
+    fun _ => rfl
+  -- Equivariance of `s`.
+  have hs_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ) (x : (L i : Type)),
+      glTensorRep ℂ N n g (s x) = s ((L i).ρ g x) := by
+    intro g x
+    apply e.injective
+    rw [he, hs_apply, hs_apply, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply,
+      Representation.directSum_apply, DirectSum.lmap_lof, Representation.tprod_apply,
+      TensorProduct.map_tmul, Representation.trivial_apply]
+  -- The equivariant retraction `r : S i ⊗ L i → L i`, `a ⊗ x ↦ φ a • x`.
+  let r : (S i ⊗[ℂ] (L i : Type)) →ₗ[ℂ] (L i : Type) :=
+    (TensorProduct.lid ℂ (L i : Type)).toLinearMap ∘ₗ TensorProduct.map φ LinearMap.id
+  have hr_tmul : ∀ (a : S i) (x : (L i : Type)), r (a ⊗ₜ x) = φ a • x := by
+    intro a x; simp [r, TensorProduct.map_tmul, TensorProduct.lid_tmul]
+  -- `q := r ∘ component i ∘ e` is a left inverse of `s`, so `s` is injective.
+  let q : TensorPower ℂ (Fin N → ℂ) n →ₗ[ℂ] (L i : Type) :=
+    r ∘ₗ (DirectSum.component ℂ ι (fun j => S j ⊗[ℂ] (L j : Type)) i) ∘ₗ (e.toLinearMap)
+  have hqs : ∀ x : (L i : Type), q (s x) = x := by
+    intro x
+    simp only [q, s, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
+      LinearEquiv.apply_symm_apply, DirectSum.component.lof_self, TensorProduct.mk_apply]
+    rw [hr_tmul, hφ1, one_smul]
+  have hs_inj : Function.Injective s := Function.LeftInverse.injective hqs
+  -- `W = range s` is `glTensorRep`-invariant.
+  set W : Submodule ℂ (TensorPower ℂ (Fin N → ℂ) n) := LinearMap.range s with hW
+  have hWinv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ), ∀ v ∈ W, glTensorRep ℂ N n g v ∈ W := by
+    intro g v hv
+    obtain ⟨x, rfl⟩ := hv
+    exact ⟨(L i).ρ g x, (hs_equiv g x).symm⟩
+  -- `glTensorRep` restricted to `W` is algebraic (`glTensorRep_isAlgebraic` + `restrict`).
+  have hWalg : Etingof.IsAlgebraicRepresentation N
+      (fun g => (glTensorRep ℂ N n g).restrict (hWinv g)) :=
+    (Etingof.glTensorRep_isAlgebraic ℂ N n).restrict W hWinv
+  -- Transport algebraicity back through `s : L i ≃ W`.
+  let φW : (L i : Type) ≃ₗ[ℂ] W := LinearEquiv.ofInjective s hs_inj
+  have hφWval : ∀ y : (L i : Type), (φW y : TensorPower ℂ (Fin N → ℂ) n) = s y :=
+    fun _ => rfl
+  refine isAlgebraic_of_equivariant_linearEquiv φW.symm ?_ hWalg
+  intro g w
+  apply φW.injective
+  rw [LinearEquiv.apply_symm_apply]
+  apply Subtype.ext
+  rw [LinearMap.restrict_coe_apply, hφWval, ← hs_equiv, ← hφWval, LinearEquiv.apply_symm_apply]
+
 /-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
 
 The `ℂ`-specialization of `schurWeyl_simples_formalCharacter_classification_core`:
@@ -699,8 +807,10 @@ theorem schurWeyl_simples_formalCharacter_classification_core_complex
     have hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ),
         glWeightSpace ℂ N (L i) (fun j => μ j) = ⊤ :=
       schurWeyl_simple_summand_glWeightSpace_top N n hN L e he hSne
+    have hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ :=
+      schurWeyl_simple_summand_isAlgebraic N n L e he hSne
     have hLI := schurWeyl_simples_formalCharacter_linearIndependent_complex
-      N n hN L e he hLtop hLsimp hLdist
+      N n hN L e he hLtop hLalg hLsimp hLdist
     have hnum := schurWeyl_decomposition_numerical_identity ℂ N n L e he
     set v : ι → MvPolynomial (Fin N) ℚ := fun i => formalCharacter ℂ N (L i) with hvdef
     -- Abstract the Specht-multiplicity coefficient on the partition side.

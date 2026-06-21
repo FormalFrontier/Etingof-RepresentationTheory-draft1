@@ -207,7 +207,7 @@ private theorem partialTarget_empty_eq_one (σ : Equiv.Perm (Fin N)) :
     | inl j => exact (h j).1
     | inr i =>
       have := (h (σ⁻¹ i)).2
-      rwa [Equiv.Perm.apply_inv_self] at this
+      simpa only [Equiv.Perm.inv_def, Equiv.apply_symm_apply, Finsupp.zero_apply] using this
   · intro h; subst h; exact ⟨fun _ => trivial, fun j => ⟨Finsupp.zero_apply, Finsupp.zero_apply⟩⟩
 
 private theorem partialTarget_univ_eq (σ : Equiv.Perm (Fin N)) :

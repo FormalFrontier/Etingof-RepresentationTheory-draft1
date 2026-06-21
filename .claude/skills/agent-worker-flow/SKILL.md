@@ -258,6 +258,14 @@ After each coherent chunk of changes:
 
 Each commit must compile. One logical change per commit.
 
+**Stage explicit paths, not `git add -A`.** Reused worktrees often start with
+pre-existing uncommitted edits that are not yours (e.g. a stray skill tweak).
+`git add -A`/`git commit -am` sweeps them into your PR; `git status` at Step 2
+shows what is already dirty, and you should `git add <your-files>` only. If an
+unrelated change still lands in your history, restore it
+(`git checkout origin/main -- <path>`) before pushing — a squash keeps the PR
+diff clean, but a visible unrelated hunk can get the PR rejected.
+
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
 

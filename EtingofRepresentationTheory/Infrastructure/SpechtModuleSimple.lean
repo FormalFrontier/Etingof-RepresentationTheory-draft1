@@ -222,4 +222,180 @@ theorem SpechtModuleK_isSimpleModule (n : ℕ) (la : Nat.Partition n) :
       rw [show c = (f a)⁻¹ • (f a • c) from by rw [inv_smul_smul₀ hfa]]
       exact Submodule.smul_of_tower_mem N (f a)⁻¹ hcn₀_N
 
+/-! ### Simplicity over a general characteristic-zero field
+
+We lift `SpechtModuleK_isSimpleModule` from ℚ to an arbitrary field `k` of
+characteristic zero. The proof is structurally identical to the ℚ one; only the
+two field-specific ingredients change: the sandwich property (whose proportionality
+constants come from ℤ, so it works verbatim over any commutative ring) and the
+semisimplicity of `k[S_n]` (Maschke, valid in characteristic zero). -/
+
+/-- General-`k` sandwich property: `c * x * c = f x • c` for a `k`-linear functional `f`.
+
+This works over **any** commutative ring `k`, because the proportionality constants
+`β σ ∈ ℤ` are produced by `YoungSymmetrizerZ_sandwich_basis` over ℤ and merely cast
+into `k`; no injectivity of `ℤ → k` (hence no characteristic assumption) is needed. -/
+theorem YoungSymmetrizerK_sandwich_general (k : Type*) [CommRing k]
+    (n : ℕ) (la : Nat.Partition n) :
+    ∃ f : MonoidAlgebra k (Equiv.Perm (Fin n)) →ₗ[k] k, ∀ x,
+      YoungSymmetrizerK k n la * x * YoungSymmetrizerK k n la =
+        f x • YoungSymmetrizerK k n la := by
+  set ψ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k)
+  set cZ := YoungSymmetrizerZ n la
+  set cK := YoungSymmetrizerK k n la
+  have hψc : ψ cZ = cK := (YoungSymmetrizerK_eq_mapRange k n la).symm
+  -- For each basis element σ, get the proportionality constant from ℤ
+  have basis_prop : ∀ σ : Equiv.Perm (Fin n), ∃ β : ℤ,
+      cK * MonoidAlgebra.of k _ σ * cK = (β : k) • cK := by
+    intro σ
+    set β := (cZ * MonoidAlgebra.of ℤ _ σ * cZ) 1
+    refine ⟨β, ?_⟩
+    have hψσ : ψ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of k _ σ := by
+      change MonoidAlgebra.mapRangeRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+      rw [MonoidAlgebra.mapRangeRingHom_single, map_one]
+    have hZ := YoungSymmetrizerZ_sandwich_basis n la σ
+    calc cK * MonoidAlgebra.of k _ σ * cK
+        = ψ cZ * ψ (MonoidAlgebra.of ℤ _ σ) * ψ cZ := by rw [hψc, hψσ]
+      _ = ψ (cZ * MonoidAlgebra.of ℤ _ σ * cZ) := by rw [map_mul, map_mul]
+      _ = ψ (β • cZ) := by rw [hZ]
+      _ = (β : k) • cK := by rw [map_zsmul, hψc, Int.cast_smul_eq_zsmul]
+  -- Build the linear functional
+  choose β hβ using basis_prop
+  let f : MonoidAlgebra k (Equiv.Perm (Fin n)) →ₗ[k] k :=
+    Finsupp.lsum k (fun σ => (β σ : k) • (LinearMap.id : k →ₗ[k] k))
+  refine ⟨f, fun x => ?_⟩
+  induction x using Finsupp.induction_linear with
+  | zero => simp
+  | add x y hx hy =>
+    simp only [mul_add, add_mul, map_add, add_smul]
+    exact congr_arg₂ (· + ·) hx hy
+  | single σ r =>
+    have hf_single : f (Finsupp.single σ r) = (β σ : k) * r := by
+      change (Finsupp.lsum k (fun σ => (β σ : k) • (LinearMap.id : k →ₗ[k] k)))
+        (Finsupp.single σ r) = _
+      rw [Finsupp.lsum_single, LinearMap.smul_apply, LinearMap.id_apply, smul_eq_mul]
+    have hsingle : (Finsupp.single σ r : MonoidAlgebra k _) = r • MonoidAlgebra.of k _ σ := by
+      simp [MonoidAlgebra.of_apply, mul_one]
+    conv_lhs => rw [hsingle]
+    rw [Algebra.mul_smul_comm, Algebra.smul_mul_assoc, hβ, smul_smul, hf_single, mul_comm]
+
+/-- The coefficient of the identity in `YoungSymmetrizerK k` is `1` (any commutative ring). -/
+private lemma YoungSymmetrizerK_general_apply_one (k : Type*) [CommRing k]
+    (n : ℕ) (la : Nat.Partition n) :
+    YoungSymmetrizerK k n la 1 = 1 := by
+  rw [YoungSymmetrizerK_eq_mapRange k n la]
+  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+
+/-- `YoungSymmetrizerK k` is nonzero over any nontrivial commutative ring. -/
+private lemma YoungSymmetrizerK_general_ne_zero (k : Type*) [CommRing k] [Nontrivial k]
+    (n : ℕ) (la : Nat.Partition n) :
+    YoungSymmetrizerK k n la ≠ 0 := by
+  intro h
+  have := YoungSymmetrizerK_general_apply_one k n la
+  rw [h, Finsupp.zero_apply] at this
+  exact zero_ne_one this
+
+/-- The trace of left multiplication by `c` in `MonoidAlgebra k G` equals `|G| · c(1)`. -/
+private theorem monoidAlgebra_trace_mulLeft_eq_general (k : Type*) [CommRing k]
+    {G : Type*} [Group G] [Fintype G]
+    (c : MonoidAlgebra k G) :
+    LinearMap.trace k _ (LinearMap.mulLeft k c) = Fintype.card G * c 1 := by
+  classical
+  set b := MonoidAlgebra.basis G k
+  rw [LinearMap.trace_eq_matrix_trace k b]
+  simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply]
+  have hdiag : ∀ σ : G, b.repr (LinearMap.mulLeft k c (b σ)) σ = c 1 := by
+    intro σ
+    rw [LinearMap.mulLeft_apply, MonoidAlgebra.basis_apply]
+    have hrepr : ∀ (x : MonoidAlgebra k G) (g : G), b.repr x g = x g := fun _ _ => rfl
+    rw [hrepr, MonoidAlgebra.mul_single_apply, mul_one, mul_inv_cancel]
+  simp_rw [hdiag, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+
+/-- The scalar `α` from `c_λ² = α · c_λ` is nonzero over any characteristic-zero field.
+If `α = 0` then `c² = 0`, so left multiplication by `c` is nilpotent with trace `0`, but
+the trace equals `n! · c(1) = n! ≠ 0` in characteristic zero. -/
+theorem YoungSymmetrizerK_sq_scalar_ne_zero_general (k : Type*) [Field k] [CharZero k]
+    (n : ℕ) (la : Nat.Partition n) (α : k)
+    (hα_sq : YoungSymmetrizerK k n la * YoungSymmetrizerK k n la =
+      α • YoungSymmetrizerK k n la) :
+    α ≠ 0 := by
+  intro h0
+  rw [h0, zero_smul] at hα_sq
+  set c := YoungSymmetrizerK k n la with hc_def
+  have hnil : IsNilpotent (LinearMap.mulLeft k c) := by
+    refine ⟨2, LinearMap.ext fun x => ?_⟩
+    change (LinearMap.mulLeft k c) ((LinearMap.mulLeft k c) x) = 0
+    simp only [LinearMap.mulLeft_apply, ← mul_assoc, hα_sq, zero_mul]
+  have htr_nil := LinearMap.isNilpotent_trace_of_isNilpotent hnil
+  rw [isNilpotent_iff_eq_zero] at htr_nil
+  rw [monoidAlgebra_trace_mulLeft_eq_general] at htr_nil
+  have hone : c 1 = 1 := YoungSymmetrizerK_general_apply_one k n la
+  rw [hone, mul_one] at htr_nil
+  exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
+    (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
+
+/-- `|S_n|` is invertible in any characteristic-zero field, so `k[S_n]` is semisimple. -/
+instance neZero_card_perm_general (k : Type*) [Field k] [CharZero k] (n : ℕ) :
+    NeZero (Nat.card (Equiv.Perm (Fin n)) : k) :=
+  ⟨by exact_mod_cast Nat.card_pos.ne'⟩
+
+/-- The Specht module `V_λ = k[S_n]·c_λ` is a simple (irreducible) left `k[S_n]`-module,
+for any field `k` of characteristic zero. -/
+theorem SpechtModuleK_isSimpleModule_general (k : Type*) [Field k] [CharZero k]
+    (n : ℕ) (la : Nat.Partition n) :
+    IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (SpechtModuleK k n la) := by
+  rw [isSimpleModule_iff_isAtom]
+  obtain ⟨α, hα_eq⟩ := YoungSymmetrizerK_sq_scalar k n la
+  have hα_ne : α ≠ 0 := YoungSymmetrizerK_sq_scalar_ne_zero_general k n la α hα_eq
+  obtain ⟨f, hf⟩ := YoungSymmetrizerK_sandwich_general k n la
+  set c := YoungSymmetrizerK k n la with hc_def
+  refine ⟨?_, ?_⟩
+  · -- SpechtModuleK ≠ ⊥
+    intro h
+    have hc_mem : c ∈ SpechtModuleK k n la := Submodule.subset_span rfl
+    have hc_zero : (c : MonoidAlgebra k (Equiv.Perm (Fin n))) = 0 :=
+      (Submodule.mem_bot _).mp (h ▸ hc_mem)
+    exact YoungSymmetrizerK_general_ne_zero k n la hc_zero
+  · -- ∀ N < SpechtModuleK, N = ⊥
+    intro N hN
+    by_contra hN_ne_bot
+    have hN_le := le_of_lt hN
+    suffices c ∈ N by
+      exact ne_of_lt hN
+        (le_antisymm hN_le (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr this)))
+    obtain ⟨P, hP⟩ :=
+      (inferInstance : IsSemisimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n)))
+        (MonoidAlgebra k (Equiv.Perm (Fin n)))).exists_isCompl N
+    obtain ⟨n₀, hn₀, p₀, hp₀, hc_eq⟩ := Submodule.mem_sup.mp
+      (show c ∈ N ⊔ P from hP.sup_eq_top ▸ Submodule.mem_top)
+    obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp
+      (show n₀ ∈ SpechtModuleK k n la from hN_le hn₀)
+    have hcn₀ : c * n₀ = f a • c := by
+      rw [← ha]; change c * (a * c) = _; rw [← mul_assoc]; exact hf a
+    have hcn₀_N : c * n₀ ∈ N := N.smul_mem _ hn₀
+    by_cases hfa : f a = 0
+    · rw [hfa, zero_smul] at hcn₀
+      have hcc_cp₀ : c * c = c * p₀ := by
+        calc c * c = c * (n₀ + p₀) := by rw [hc_eq]
+          _ = c * n₀ + c * p₀ := mul_add _ _ _
+          _ = c * p₀ := by rw [hcn₀, zero_add]
+      have hαc_P : α • c ∈ P := by rw [← hα_eq, hcc_cp₀]; exact P.smul_mem _ hp₀
+      have h1 : α • n₀ ∈ N := Submodule.smul_of_tower_mem N α hn₀
+      have h2 : α • n₀ ∈ P := by
+        rw [show α • n₀ = α • c - α • p₀ from by rw [← hc_eq, smul_add, add_sub_cancel_right]]
+        exact P.sub_mem hαc_P (Submodule.smul_of_tower_mem P α hp₀)
+      have h3 : α • n₀ = 0 :=
+        (Submodule.mem_bot _).mp (hP.inf_eq_bot ▸ Submodule.mem_inf.mpr ⟨h1, h2⟩)
+      have hn₀_zero : n₀ = 0 := (smul_eq_zero.mp h3).resolve_left hα_ne
+      exfalso; apply hN_ne_bot; rw [eq_bot_iff]; intro x hx
+      have hc_P : c ∈ P := by rw [← hc_eq, hn₀_zero, zero_add]; exact hp₀
+      have hV_le_P : SpechtModuleK k n la ≤ P :=
+        Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hc_P)
+      exact (Submodule.mem_bot _).mpr
+        ((Submodule.mem_bot _).mp
+          (hP.inf_eq_bot ▸ Submodule.mem_inf.mpr ⟨hx, hV_le_P (hN_le hx)⟩))
+    · rw [hcn₀] at hcn₀_N
+      rw [show c = (f a)⁻¹ • (f a • c) from by rw [inv_smul_smul₀ hfa]]
+      exact Submodule.smul_of_tower_mem N (f a)⁻¹ hcn₀_N
+
 end Etingof
