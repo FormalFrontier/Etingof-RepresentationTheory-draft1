@@ -204,6 +204,95 @@ theorem simpleModule_iso_component_of_embeds
   obtain ⟨c, rfl⟩ := hm
   exact ⟨c, ⟨eTT'.trans (e'.trans (LinearEquiv.ofInjective _ (hlof_inj c)).symm)⟩⟩
 
+/-- **Isotypic matching half of the ℂ-side classification (sorry-free).**
+
+Given the equivariant decomposition data of `V^{⊗n}` (`V = Fin N → ℂ`, `n ≤ N`),
+there is an *injective* assignment `φ : BoundedPartition N n → ι` such that
+`char(L (φ λ)) = schurPoly N λ.parts` for every antitone partition `λ` of `n`
+(length `≤ N`).
+
+For each such `λ`, `SchurModule ℂ N λ.parts` is a simple `GL_N(ℂ)`-module
+(`schurModule_isSimple`) sitting inside `V^{⊗n}` as the submodule
+`SchurModuleSubmodule`; transporting it through the `R`-linear flattening
+(`schurWeyl_decomposition_asModule_flatten`) and matching it to a single simple
+component (`simpleModule_iso_component_of_embeds`) yields `SchurModule ℂ N λ.parts
+≅ L (φ λ)`, hence `char(L (φ λ)) = char(SchurModule ℂ N λ.parts) = schurPoly N
+λ.parts` (`formalCharacter_eq_of_asModule_linearEquiv`,
+`formalCharacter_schurModule_eq_schurPoly`). Injectivity of `φ` follows from
+`schurPoly_injective`.
+
+This is steps 1–2,4 of route 1; the surjectivity `|ι| = |P|` (the counting step)
+is the remaining content of `schurWeyl_simples_formalCharacter_classification_core_complex`. -/
+theorem schurWeyl_simples_isotypic_matching_complex
+    (N n : ℕ) (hN : n ≤ N)
+    {ι : Type} [Fintype ι] [DecidableEq ι]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module ℂ (S i)]
+    [∀ i, Module.Finite ℂ (S i)]
+    (L : ι → FDRep ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+    (e : TensorPower ℂ (Fin N → ℂ) n ≃ₗ[ℂ]
+        (DirectSum ι (fun i => S i ⊗[ℂ] (L i : Type))))
+    (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+          (v : TensorPower ℂ (Fin N → ℂ) n),
+          e (glTensorRep ℂ N n g v) =
+            Representation.directSum (fun i =>
+              (Representation.trivial ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ)
+                (S i)).tprod (L i).ρ) g (e v))
+    (hLsimp : ∀ i, IsSimpleModule
+        (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+        (Representation.asModule (L i).ρ)) :
+    ∃ φ : BoundedPartition N n → ι,
+      Function.Injective φ ∧
+      ∀ lam : BoundedPartition N n,
+        formalCharacter ℂ N (L (φ lam)) = schurPoly N lam.parts := by
+  classical
+  -- Per-partition matching: each Schur module is isomorphic to a single `L i`.
+  have hmatch : ∀ lam : BoundedPartition N n,
+      ∃ i : ι, formalCharacter ℂ N (L i) = schurPoly N lam.parts := by
+    rintro ⟨parts, hdecr, hsum⟩
+    subst hsum
+    -- Inclusion `SchurModuleSubmodule ↪ V^{⊗(∑parts)}` intertwines the two actions.
+    have hinter : ∀ (g : Matrix.GeneralLinearGroup (Fin N) ℂ)
+        (x : SchurModuleSubmodule ℂ N parts),
+        (SchurModuleSubmodule ℂ N parts).subtype (schurModuleRep ℂ N parts g x)
+          = glTensorRep ℂ N (∑ i, parts i) g
+              ((SchurModuleSubmodule ℂ N parts).subtype x) := by
+      intro g x
+      rfl
+    -- `R`-linear injection of the simple Schur module into `V^{⊗n}`.
+    haveI : IsSimpleModule (MonoidAlgebra ℂ (Matrix.GeneralLinearGroup (Fin N) ℂ))
+        (Representation.asModule (schurModuleRep ℂ N parts)) :=
+      schurModule_isSimple N parts hdecr hN
+    obtain ⟨ν, ⟨Φ⟩⟩ := simpleModule_iso_component_of_embeds
+      (Lsum := fun ν : Σ i : ι, Fin (Module.finrank ℂ (S i)) =>
+        Representation.asModule (L ν.1).ρ)
+      (fun ν => hLsimp ν.1)
+      (schurWeyl_decomposition_asModule_flatten ℂ N (∑ i, parts i) L e he)
+      (Representation.asModuleHomOfIntertwiner
+        (SchurModuleSubmodule ℂ N parts).subtype hinter)
+      (by
+        intro a b hab
+        exact Subtype.coe_injective hab)
+    refine ⟨ν.1, ?_⟩
+    have hchar := formalCharacter_eq_of_asModule_linearEquiv ℂ N
+      (schurModuleRep ℂ N parts) (L ν.1).ρ Φ
+    have hbridge : formalCharacter ℂ N (FDRep.of (L ν.1).ρ) = formalCharacter ℂ N (L ν.1) := rfl
+    have hschur : formalCharacter ℂ N (FDRep.of (schurModuleRep ℂ N parts))
+        = schurPoly N parts := formalCharacter_schurModule_eq_schurPoly ℂ N parts hdecr
+    rw [hbridge, hschur] at hchar
+    exact hchar.symm
+  -- Skolemize to a function and prove injectivity via `schurPoly_injective`.
+  choose φ hφ using hmatch
+  refine ⟨φ, ?_, hφ⟩
+  intro lam lam' heq
+  have h1 : schurPoly N lam.parts = schurPoly N lam'.parts := by
+    rw [← hφ lam, ← hφ lam', heq]
+  have h2 : lam.parts = lam'.parts :=
+    schurPoly_injective N _ _ lam.decreasing lam'.decreasing h1
+  obtain ⟨p, d, s⟩ := lam
+  obtain ⟨p', d', s'⟩ := lam'
+  obtain rfl : p = p' := h2
+  rfl
+
 /-- **ℂ-side highest-weight classification of the Schur-Weyl simples (issue #4862).**
 
 The `ℂ`-specialization of `schurWeyl_simples_formalCharacter_classification_core`:
@@ -212,9 +301,11 @@ there is an injective antitone-partition assignment `lam` with
 `char(Lᵢ) = schurPoly N (lam i)`.
 
 The proof routes through the numerical identity
-(`schurWeyl_decomposition_numerical_identity`) and the isotypic matching against
-the concrete simple submodules `SchurModule ℂ N λ`; the residual content is the
-counting step `|ι| = |P|` (double-centralizer). -/
+(`schurWeyl_decomposition_numerical_identity`) and the isotypic matching
+(`schurWeyl_simples_isotypic_matching_complex`, an injective
+`φ : BoundedPartition N n ↪ ι` with `char(L (φ λ)) = schurPoly N λ.parts`); the
+residual content is the counting step `|ι| = |P|` (double-centralizer), which makes
+`φ` surjective so that `lam := φ⁻¹` is total. -/
 theorem schurWeyl_simples_formalCharacter_classification_core_complex
     (N n : ℕ) (hN : n ≤ N)
     {ι : Type} [Fintype ι] [DecidableEq ι]
