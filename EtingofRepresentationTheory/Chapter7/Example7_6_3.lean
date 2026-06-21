@@ -21,15 +21,17 @@ property is captured by `UniversalEnvelopingAlgebra.lift`.
 
 open CategoryTheory
 
+attribute [local instance 100] LieRing.ofAssociativeRing
+
 /-- Frobenius reciprocity: induction is left adjoint to restriction for
 representations of finite groups. (Etingof Example 7.6.3(2))
 
 Given a group homomorphism φ : G →* H over a commutative ring k,
 the induction functor `Rep.indFunctor k φ` is left adjoint to the
-restriction functor `Action.res _ φ`. -/
+restriction functor `Rep.resFunctor φ`. -/
 noncomputable def Etingof.frobenius_reciprocity
     (k : Type u) {G H : Type u} [CommRing k] [Group G] [Group H] (φ : G →* H) :
-    Rep.indFunctor k φ ⊣ Action.res _ φ :=
+    Rep.indFunctor k φ ⊣ Rep.resFunctor φ :=
   Rep.indResAdjunction k φ
 
 /-- The universal enveloping algebra functor is left adjoint to the "underlying

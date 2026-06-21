@@ -11,7 +11,7 @@ there is a natural isomorphism:
 This is the fundamental adjunction between induction and restriction functors.
 
 Mathlib's `Rep.indResHomEquiv` provides a k-linear equivalence between
-`(Rep.ind H.subtype W ⟶ V)` and `(W ⟶ (Action.res _ H.subtype).obj V)`,
+`(Rep.ind H.subtype W ⟶ V)` and `(W ⟶ (Rep.resFunctor H.subtype).obj V)`,
 which is precisely Frobenius reciprocity stated as Ind ⊣ Res.
 
 ## Mathlib correspondence
@@ -19,7 +19,7 @@ which is precisely Frobenius reciprocity stated as Ind ⊣ Res.
 - `Rep.indResHomEquiv` — the k-linear equivalence (Frobenius reciprocity)
 - `Rep.indResAdjunction` — the categorical adjunction Ind ⊣ Res
 - `Rep.ind` — the induced representation functor
-- `Action.res` — the restriction functor
+- `Rep.resFunctor` — the restriction functor
 -/
 
 open CategoryTheory
@@ -32,5 +32,5 @@ theorem Etingof.Theorem5_10_1
     (k G : Type) [Field k] [Group G]
     (H : Subgroup G)
     (V : Rep k G) (W : Rep k ↥H) :
-    Nonempty ((Rep.ind H.subtype W ⟶ V) ≃ₗ[k] (W ⟶ (Action.res _ H.subtype).obj V)) :=
+    Nonempty ((Rep.ind H.subtype W ⟶ V) ≃ₗ[k] (W ⟶ (Rep.resFunctor H.subtype).obj V)) :=
   ⟨Rep.indResHomEquiv H.subtype W V⟩
