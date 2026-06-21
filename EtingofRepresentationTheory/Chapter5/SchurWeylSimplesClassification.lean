@@ -104,7 +104,7 @@ The deep step — "a simple polynomial `GL_N`-rep is character-determined ⇒
 residual `sorry` is isolated here so the reduction and headline corollary remain
 otherwise sorry-free. Tracked by issue #4721. -/
 theorem schurWeyl_simples_formalCharacter_classification_core
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -145,7 +145,7 @@ lands, the `Pairwise` conclusion is isolated here as a single `sorry`, mirroring
 schurPoly-classification API (`decompose_polynomial_gl_rep`, issue #4758) stays
 otherwise sorry-free. -/
 theorem glTensorRep_schurWeyl_simples_pairwise_distinct
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -180,7 +180,7 @@ the Schur-Weyl #6 assembly read the partition classification of the abstract
 simples without re-deriving the tensor-power decomposition data `(e, he, hLsimp,
 hLdist)` itself. -/
 theorem glTensorRep_schurWeyl_simples_schurPoly_classified
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -199,8 +199,8 @@ theorem glTensorRep_schurWeyl_simples_schurPoly_classified
     ∃ lam : ι → {l : Fin N → ℕ // Antitone l},
       Function.Injective lam ∧
       ∀ i, formalCharacter k N (L i) = schurPoly N (lam i).val :=
-  schurWeyl_simples_formalCharacter_classification_core k N n hN L e he hLsimp
-    (glTensorRep_schurWeyl_simples_pairwise_distinct k N n hN L e he hLsimp)
+  schurWeyl_simples_formalCharacter_classification_core k N n L e he hLsimp
+    (glTensorRep_schurWeyl_simples_pairwise_distinct k N n L e he hLsimp)
 
 /-- **Headline (sorry-free given the crux).** The formal characters of the
 abstract simple summands `L i` of `V^{⊗n}` (from
@@ -211,7 +211,7 @@ The proof obtains the partition classification from
 `schurWeyl_simples_formalCharacter_classification_core` and feeds it to the
 reduction `formalCharacter_linearIndependent_of_eq_schurPoly`. -/
 theorem glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ) (_hN : n ≤ N)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -230,7 +230,7 @@ theorem glTensorRep_schurWeyl_simples_formalCharacter_linearIndependent
     (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))) :
     LinearIndependent ℚ (fun i => formalCharacter k N (L i)) := by
   obtain ⟨lam, hlam_inj, hlam_char⟩ :=
-    schurWeyl_simples_formalCharacter_classification_core k N n hN L e he hLsimp hLdist
+    schurWeyl_simples_formalCharacter_classification_core k N n L e he hLsimp hLdist
   exact formalCharacter_linearIndependent_of_eq_schurPoly k N L lam hlam_inj hlam_char
 
 end Etingof

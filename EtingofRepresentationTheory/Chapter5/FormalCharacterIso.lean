@@ -751,7 +751,7 @@ with the action formula
 ((L_carrier i l) v)` collapse equivariance to a per-pure-tensor
 computation. -/
 theorem glTensorRep_equivariant_schurWeyl_decomposition
-    (N n : ℕ) (hN : n ≤ N) :
+    (N n : ℕ) (_hN : n ≤ N) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
@@ -775,7 +775,7 @@ theorem glTensorRep_equivariant_schurWeyl_decomposition
   -- h_act)` data as `_explicit`, plus `hL_simp : ∀ i, IsSimpleModule … (L i)`.
   obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simp, L_carrier,
       e, he, h_act⟩ :=
-    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
+    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
     fun i => hSi_fin i, L, hL_simp, ?_, ?_⟩
