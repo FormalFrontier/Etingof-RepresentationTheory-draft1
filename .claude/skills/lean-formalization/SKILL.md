@@ -591,6 +591,31 @@ lemma's `{M}`/`{S}` appear only in *instance* args and the conclusion (not in an
 value arg like `φ`), pass them explicitly (`(M := M) (S := S)`) or TC resolution stalls
 on a metavariable. See `Problem6_1_5_FieldEmbedding.lean`.
 
+### Orbit-map comorphism: generic matrices over the det-localization (Ch6, #4803)
+
+Building the comorphism `k[W] → B` of an orbit map `g ↦ g•v₀` into the principal-open
+coordinate ring `B` (the `det⁻¹`-localization the bridge above consumes). Four idioms:
+
+- **Index `MvPolynomial` by the sigma type, not `Fin N`.** Use
+  `GIdx m := Σ i, Fin (m i) × Fin (m i)` and `WIdx m := Σ i j, (i⟶j) × (Fin (m j) × Fin (m i))`
+  directly as the `MvPolynomial` index. `Fintype.card_sigma`/`card_prod` give the dimension
+  formulas (`gIdx_card = Σmᵢ²`, `wIdx_card = Σbᵢⱼmᵢmⱼ`). Defer the `Fin N`/`Fin M` form the
+  bridge wants to a `MvPolynomial.renameEquiv (Fintype.equivFin _)` at the assembly step.
+- **A polynomial (or determinant) is nonzero by *evaluating at a concrete point*, not by
+  Leibniz expansion.** For `detProd = ∏ᵢ det(genMat m i)`, build `evalId := aeval (fun w =>
+  if w.2.1 = w.2.2 then 1 else 0)` (the identity matrix), then `evalId detProd = ∏ det 1 = 1`
+  via `map_prod` + `AlgHom.map_det` + `Matrix.det_one`; a ring hom sends `0 ↦ 0`, so `≠ 0`.
+- **`AlgHom.map_det f M` produces `(f.mapMatrix M).det`, NOT `(M.map ⇑f).det`.** State the
+  "mapped matrix = 1" helper with `AlgHom.mapMatrix` (`simp [..., AlgHom.mapMatrix_apply,
+  Matrix.map_apply, Matrix.one_apply]`) so it rewrites after `map_det`.
+- **Parametrize the comorphism `def` over an *abstract* localization `B`**
+  (`[Algebra (MvPolynomial (GIdx m) k) B] [IsLocalization (Submonoid.powers (detProd m)) B]
+  [Algebra k B] [IsScalarTower k _ B]`), not a concrete `Localization`: there is no
+  `Algebra k (Localization S)` instance, and abstract `B` matches the bridge's style.
+  Det-units come from `IsLocalization.map_units B ⟨detProd, Submonoid.mem_powers _⟩` plus
+  `isUnit_of_dvd_unit (map_dvd _ (Finset.dvd_prod_of_mem ..))`; invert via
+  `Matrix.mul_nonsing_inv _ (isUnit_det ..)`. See `Problem6_1_5_OrbitComorphism.lean`.
+
 ### Norm-Based Contradiction (Analysis Proofs)
 
 For proofs requiring algebraic integer arguments (e.g., Lemma 5.4.5):
