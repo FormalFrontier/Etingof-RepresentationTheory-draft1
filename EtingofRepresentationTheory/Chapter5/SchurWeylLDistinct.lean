@@ -210,6 +210,7 @@ variable [IsAlgClosed k] [CharZero k]
 
 open scoped TensorProduct
 
+omit [IsAlgClosed k] [CharZero k] in
 /-- Every unit of `End k (Fin N → k)` is `Matrix.mulVecLin` of a `GL_N(k)`
 matrix (the units of `End k (Fin N → k)` are exactly the general linear group,
 via `Matrix.GeneralLinearGroup.toLin`). -/
