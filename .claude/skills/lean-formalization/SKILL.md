@@ -1476,6 +1476,23 @@ define both conversion directions in the SAME file as the type definition, or us
 **Stop after 3 failed approaches** — if `match`-based proof doesn't work, the issue is structural
 (needs upstream definition changes), not tactical.
 
+### Pattern 6: freeze a derived term before `rw [h]` substitutes its variable
+
+When a hypothesis `h : f = <expr>` is rewritten into a goal that *also* mentions
+`f` **inside** a derived term like `detExp f`, `Nat.find _`, `degree f`, etc.,
+`rw [h]` replaces **every** `f` — including the one inside `detExp f` — corrupting
+the exponent/index (symptom: the goal sprouts `detExp (<expr>)` where you wanted a
+plain `detExp f`). Freeze the derived term as an opaque local first:
+```lean
+obtain ⟨s, hsdef⟩ : ∃ s, detExp f = s := ⟨_, rfl⟩
+rw [hsdef] at h ⊢   -- now the goal/h talk about `s`, not `detExp f`
+rw [h]              -- safe: `s` contains no `f`
+-- recover at the end:  rw [hsdef] at <the ≤ fact>; omega
+```
+Cleaner than `nth_rewrite`/`conv` targeting because it removes the `f`-dependence
+everywhere at once. Use it whenever the minimal-exponent / `Nat.find` value of the
+very element you are rewriting appears in the goal.
+
 ## Issue Description Feasibility Check
 
 **Issue descriptions sometimes contain mathematically incorrect proof strategies.** Before committing to a proof approach described in an issue:
