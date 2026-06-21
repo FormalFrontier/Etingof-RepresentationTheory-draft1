@@ -327,9 +327,29 @@ theorem schurWeyl_simples_formalCharacter_classification_core_complex
     ∃ lam : ι → {l : Fin N → ℕ // Antitone l},
       Function.Injective lam ∧
       ∀ i, formalCharacter ℂ N (L i) = schurPoly N (lam i).val := by
-  -- Half 1 (numerical identity) is available sorry-free as
-  -- `schurWeyl_decomposition_numerical_identity ℂ N n L e he`.
-  -- Remaining: isotypic matching `φ : P ↪ ι` and counting `|ι| = |P|` (sub-issues).
-  sorry
+  -- Two BoundedPartitions with equal `parts` are equal (proof-irrelevant fields).
+  have hBP : ∀ {a b : BoundedPartition N n}, a.parts = b.parts → a = b := by
+    rintro ⟨p, d, s⟩ ⟨p', d', s'⟩ h
+    obtain rfl : p = p' := h
+    rfl
+  -- Isotypic matching (sorry-free): injective `φ : P ↪ ι`, `char(L (φ λ)) = schurPoly λ`.
+  obtain ⟨φ, hφinj, hφchar⟩ :=
+    schurWeyl_simples_isotypic_matching_complex N n hN L e he hLsimp
+  -- The ONLY remaining content: the counting equality `|ι| = |P|`, i.e. `φ` is
+  -- surjective (every abstract simple `L i` is a Schur module). By the
+  -- double-centralizer pairing (`Theorem5_18_4`), the number of simple GL-types in
+  -- `V^{⊗n}` equals the number of antitone partitions `λ` of `n` with `ℓ(λ) ≤ N`.
+  -- Deferred to a sub-issue; everything else below is sorry-free.
+  have hφsurj : Function.Surjective φ := by
+    sorry
+  -- `φ` is bijective, so `lam := φ⁻¹` is a total injective antitone assignment.
+  let φequiv : BoundedPartition N n ≃ ι := Equiv.ofBijective φ ⟨hφinj, hφsurj⟩
+  refine ⟨fun i => ⟨(φequiv.symm i).parts, (φequiv.symm i).decreasing⟩, ?_, ?_⟩
+  · intro i j hij
+    exact φequiv.symm.injective (hBP (congrArg Subtype.val hij))
+  · intro i
+    have hi : L (φ (φequiv.symm i)) = L i := congrArg L (φequiv.apply_symm_apply i)
+    rw [← hi]
+    exact hφchar (φequiv.symm i)
 
 end Etingof
