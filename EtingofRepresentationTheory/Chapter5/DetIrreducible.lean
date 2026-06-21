@@ -119,26 +119,72 @@ theorem prime_rename_of_injective {σ τ : Type*} {e : σ → τ}
   rw [hcomp, prime_rename_iff (Set.range e), hrw]
   exact MulEquiv.prime_iff (renameEquiv k (Equiv.ofInjective e he))
 
-/-- **Irreducibility of the generic determinant polynomial** (for `N ≥ 1`).
+/-- A variable does not occur in a polynomial exactly when its `degreeOf` is `0`. -/
+private lemma degreeOf_eq_zero_iff_notMem_vars {σ R : Type*} [CommSemiring R]
+    (j : σ) (p : MvPolynomial σ R) : degreeOf j p = 0 ↔ j ∉ p.vars := by
+  classical
+  rw [degreeOf_def, vars_def, Multiset.mem_toFinset]
+  exact Multiset.count_eq_zero
 
-Route (successor issue): induction on `N`. Cofactor-expand along column `0`
-(`Matrix.det_succ_column_zero`) to write `detPoly k (N+1) = X(0,0)·M₀₀ + R`,
-where `M₀₀` is the `(0,0)`-minor and `R` collects the other column-`0` terms;
-both are free of the variable `X(0,0)`. The minor `M₀₀` equals
-`rename ψ (detPoly k N)` for the injective `ψ : (i,j) ↦ (i.succ, j.succ)`, so it
-is prime by the induction hypothesis (`prime_rename_of_injective`). The
-coprimality `M₀₀ ∤ R` holds because substituting the column-`0` variables shows
-`M₀₀ ∣ R → M₀₀ ∣ M₁₀` for a second minor `M₁₀`, forcing the two distinct prime
-minors to be associate — impossible, as `M₁₀` involves a row-`0` variable absent
-from `M₀₀`. Finally `irreducible_C_mul_X_add_C` (with `a = M₀₀`, `b = R`) gives
-irreducibility through the single-variable isolation equivalence. -/
-theorem detPoly_irreducible (hN : 0 < N) : Irreducible (detPoly k N) := by
+/-- The index map carving out the `(i,·)`-minor of the generic `(n+1)×(n+1)`
+matrix: `(p,q) ↦ (i.succAbove p, q.succ)`. It is injective. -/
+private lemma minor_index_injective {n : ℕ} (i : Fin (n + 1)) :
+    Function.Injective (Prod.map i.succAbove (Fin.succ : Fin n → Fin (n + 1))) :=
+  (Fin.succAbove_right_injective).prodMap (Fin.succ_injective n)
+
+/-- The `(i,0)`-cofactor minor of the generic determinant is a `rename` of the
+generic determinant one size down. -/
+private lemma minor_det_eq_rename {n : ℕ} (i : Fin (n + 1)) :
+    ((Matrix.mvPolynomialX (Fin (n + 1)) (Fin (n + 1)) k).submatrix i.succAbove Fin.succ).det
+      = rename (Prod.map i.succAbove (Fin.succ : Fin n → Fin (n + 1))) (detPoly k n) := by
+  rw [detPoly, AlgHom.map_det]
+  congr 1
+  ext p q
+  simp [Matrix.submatrix_apply, Matrix.map_apply, Matrix.mvPolynomialX_apply]
+
+/-- The variable `X(0,0)` occurs in the generic determinant polynomial (for
+`m ≥ 1`): the determinant genuinely depends on the top-left entry, witnessed by
+evaluating at the identity matrix versus the identity with the `(0,0)` entry
+zeroed (det `1` versus `0`). -/
+private lemma mem_vars_detPoly {m : ℕ} :
+    ((0 : Fin (m + 1)), (0 : Fin (m + 1))) ∈ (detPoly k (m + 1)).vars := by
+  classical
+  by_contra hv
+  set g₁ : Fin (m + 1) × Fin (m + 1) → k := fun p => if p.1 = p.2 then (1 : k) else 0 with hg₁
+  set g₂ : Fin (m + 1) × Fin (m + 1) → k :=
+    fun p => if p = ((0 : Fin (m + 1)), (0 : Fin (m + 1))) then (0 : k)
+      else (if p.1 = p.2 then 1 else 0) with hg₂
+  have hcongr : eval g₁ (detPoly k (m + 1)) = eval g₂ (detPoly k (m + 1)) := by
+    apply eval₂Hom_congr' rfl _ rfl
+    intro i hi _
+    have hne : i ≠ ((0 : Fin (m + 1)), (0 : Fin (m + 1))) := by rintro rfl; exact hv hi
+    simp only [hg₁, hg₂, if_neg hne]
+  have hmat₁ : (Matrix.mvPolynomialX (Fin (m + 1)) (Fin (m + 1)) k).map (eval g₁)
+      = (1 : Matrix (Fin (m + 1)) (Fin (m + 1)) k) := by
+    ext i j
+    simp [Matrix.map_apply, Matrix.mvPolynomialX_apply, MvPolynomial.eval_X, Matrix.one_apply, hg₁]
+  have hmat₂ : (Matrix.mvPolynomialX (Fin (m + 1)) (Fin (m + 1)) k).map (eval g₂)
+      = Matrix.diagonal (fun i => if i = (0 : Fin (m + 1)) then (0 : k) else 1) := by
+    ext i j
+    rw [Matrix.map_apply, Matrix.mvPolynomialX_apply, MvPolynomial.eval_X, Matrix.diagonal_apply, hg₂]
+    by_cases hij : i = j
+    · subst hij; simp [Prod.ext_iff]
+    · simp [hij, Prod.ext_iff]
+  have hL : eval g₁ (detPoly k (m + 1)) = 1 := by
+    rw [detPoly, RingHom.map_det, RingHom.mapMatrix_apply, hmat₁, Matrix.det_one]
+  have hR : eval g₂ (detPoly k (m + 1)) = 0 := by
+    rw [detPoly, RingHom.map_det, RingHom.mapMatrix_apply, hmat₂, Matrix.det_diagonal]
+    exact Finset.prod_eq_zero (Finset.mem_univ (0 : Fin (m + 1))) (by simp)
+  rw [hL, hR] at hcongr
+  exact one_ne_zero hcongr
+
+/-- **Primeness of the generic determinant polynomial** (for `N ≥ 1`). -/
+theorem detPoly_prime (hN : 0 < N) : Prime (detPoly k N) := by
   sorry
 
-/-- **Primeness of the generic determinant polynomial** (for `N ≥ 1`): immediate
-from `detPoly_irreducible` since `MvPolynomial (Fin N × Fin N) k` is a unique
-factorisation monoid. -/
-theorem detPoly_prime (hN : 0 < N) : Prime (detPoly k N) :=
-  (UniqueFactorizationMonoid.irreducible_iff_prime).mp (detPoly_irreducible hN)
+/-- **Irreducibility of the generic determinant polynomial** (for `N ≥ 1`):
+immediate from `detPoly_prime`. -/
+theorem detPoly_irreducible (hN : 0 < N) : Irreducible (detPoly k N) :=
+  (detPoly_prime hN).irreducible
 
 end Etingof.DetLocalization
