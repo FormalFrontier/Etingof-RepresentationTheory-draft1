@@ -84,6 +84,7 @@ import EtingofRepresentationTheory.Chapter5.Lemma5_18_3
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 import EtingofRepresentationTheory.Chapter5.PrimitiveIdempotentSimplicity
 import EtingofRepresentationTheory.Chapter5.PolynomialTensorBridge
+import EtingofRepresentationTheory.Chapter5.EvalEqOnGL
 import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
 import EtingofRepresentationTheory.Chapter5.DetLocalization
 import EtingofRepresentationTheory.Chapter5.DetIrreducible
@@ -91,6 +92,8 @@ import EtingofRepresentationTheory.Chapter5.PolynomialGLRightAction
 import EtingofRepresentationTheory.Chapter5.LocalizationGLRightAction
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.DetPowerFiltration
+import EtingofRepresentationTheory.Chapter5.KernelLemmaK
+import EtingofRepresentationTheory.Chapter5.DetInvElim
 
 -- Section 5.19: Schur-Weyl Duality and Schur Functors
 import EtingofRepresentationTheory.Chapter5.Proposition5_19_1
