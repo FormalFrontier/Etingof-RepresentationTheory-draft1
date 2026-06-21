@@ -246,6 +246,8 @@ open Matrix MulAction
 variable {n : ℕ} [Quiver.{0} (Fin n)] [∀ i j : Fin n, Fintype (i ⟶ j)]
 
 set_option maxHeartbeats 800000 in
+-- The localization→fraction-field embedding and the matrix scaling computation push
+-- elaboration past the default heartbeat budget.
 /-- **Step 2(c) for `W(m)` / `G(m)`: the strict bound.** Over an infinite field with
 finitely many `G(m)`-orbits on `W(m)` and a nonzero dimension vector `m`, the
 coordinate dimension of the representation space is *strictly* less than that of the
@@ -320,10 +322,88 @@ theorem card_wIdx_lt_card_gIdx (m : Fin n → ℕ) (hm : m ≠ 0)
     with hφKdef
   have hφKinj : Function.Injective φK :=
     (IsFractionRing.injective _ _).comp hv₀
+  -- helper: `ψ` over the polynomial generators is the localization map into `K`
+  have hψP : ∀ r : MvPolynomial (GIdx m) k,
+      ψ (algebraMap (MvPolynomial (GIdx m) k)
+          (Localization (Submonoid.powers (detProd (k := k) m))) r)
+        = algebraMap (MvPolynomial (GIdx m) k) (FractionRing (MvPolynomial (GIdx m) k)) r := by
+    intro r
+    rw [hψdef]
+    change algebraMap (Localization (Submonoid.powers (detProd (k := k) m)))
+        (FractionRing (MvPolynomial (GIdx m) k))
+        (algebraMap (MvPolynomial (GIdx m) k) _ r) = _
+    rw [← RingHom.comp_apply, hcomp]
+  -- helper: generic-matrix entries
+  have hgenB : ∀ (ι : Fin n) (a b : Fin (m ι)),
+      genMatB (k := k) (B := Localization (Submonoid.powers (detProd (k := k) m))) m ι a b
+        = algebraMap (MvPolynomial (GIdx m) k)
+            (Localization (Submonoid.powers (detProd (k := k) m)))
+            (X ⟨ι, (a, b)⟩) := fun _ _ _ => rfl
   -- Part A: scaling-invariance of the image
   have hfix : ∀ lam : kˣ, ∀ w : WIdx m,
       scalingFieldEquiv (GIdx m) lam (φK (X w)) = φK (X w) := by
-    sorry
+    intro lam w
+    -- the three matrices over `K` (`v₀`-block is rectangular, so we use `Matrix.map`)
+    set Gj := (genMatB (k := k) m w.2.1).map ⇑ψ with hGjdef
+    set Vk := ((v₀ w.1 w.2.1 w.2.2.1).map
+      (algebraMap k (Localization (Submonoid.powers (detProd (k := k) m))))).map ⇑ψ with hVkdef
+    set Gi := (genMatB (k := k) m w.1).map ⇑ψ with hGidef
+    set GiInv := (genMatBInv (k := k) m w.1).map ⇑ψ with hGiInvdef
+    -- `φK (X w)` is the `(a,b)` entry of `Gⱼ · Vₖ · Gᵢ⁻¹`
+    have hφKw : φK (X w) = (Gj * Vk * GiInv) w.2.2.2.1 w.2.2.2.2 := by
+      rw [hGjdef, hVkdef, hGiInvdef, ← Matrix.map_mul, ← Matrix.map_mul, Matrix.map_apply,
+        hφKdef, AlgHom.comp_apply, orbitComorphism_X]
+    -- scaling sends a generic matrix `(genMatB m ι).map ψ ↦ λ·(…)`
+    have heGj : Gj.map ⇑(scalingFieldEquiv (GIdx m) lam) = (lam : k) • Gj := by
+      rw [hGjdef]; ext a b
+      simp only [Matrix.map_apply, Matrix.smul_apply]
+      rw [hgenB, hψP, scalingFieldEquiv_g]
+    have heGi : Gi.map ⇑(scalingFieldEquiv (GIdx m) lam) = (lam : k) • Gi := by
+      rw [hGidef]; ext a b
+      simp only [Matrix.map_apply, Matrix.smul_apply]
+      rw [hgenB, hψP, scalingFieldEquiv_g]
+    -- scaling fixes the (scalar) `v₀` block
+    have heVk : Vk.map ⇑(scalingFieldEquiv (GIdx m) lam) = Vk := by
+      rw [hVkdef]; ext a b
+      simp only [Matrix.map_apply]
+      rw [AlgHom.commutes, AlgEquiv.commutes]
+    -- the inverse relation, pushed through `ψ`
+    have hGiInv_rel : Gi * GiInv = 1 := by
+      rw [hGidef, hGiInvdef, ← Matrix.map_mul, genMatB_mul_inv]
+      exact Matrix.map_one _ (map_zero ψ) (map_one ψ)
+    -- scaling sends `Gᵢ⁻¹ ↦ λ⁻¹·Gᵢ⁻¹`
+    have heGiInv : GiInv.map ⇑(scalingFieldEquiv (GIdx m) lam) = (↑lam⁻¹ : k) • GiInv := by
+      have h1 : Gi.map ⇑(scalingFieldEquiv (GIdx m) lam)
+          * GiInv.map ⇑(scalingFieldEquiv (GIdx m) lam) = 1 := by
+        rw [← Matrix.map_mul, hGiInv_rel]
+        exact Matrix.map_one _ (map_zero _) (map_one _)
+      rw [heGi] at h1
+      have h2 : ((lam : k) • Gi) * ((↑lam⁻¹ : k) • GiInv) = 1 := by
+        rw [Matrix.smul_mul, Matrix.mul_smul, smul_smul, Units.mul_inv, one_smul, hGiInv_rel]
+      rw [← Matrix.inv_eq_right_inv h1]
+      exact Matrix.inv_eq_right_inv h2
+    -- assemble: `λ` and `λ⁻¹` cancel
+    have hmat : ((lam : k) • Gj) * Vk * ((↑lam⁻¹ : k) • GiInv) = Gj * Vk * GiInv := by
+      rw [Matrix.smul_mul, Matrix.smul_mul, Matrix.mul_smul, smul_smul, Units.mul_inv, one_smul]
+    rw [hφKw]
+    rw [show scalingFieldEquiv (GIdx m) lam ((Gj * Vk * GiInv) w.2.2.2.1 w.2.2.2.2)
+        = ((Gj * Vk * GiInv).map ⇑(scalingFieldEquiv (GIdx m) lam)) w.2.2.2.1 w.2.2.2.2 from rfl]
+    rw [Matrix.map_mul, Matrix.map_mul, heGj, heVk, heGiInv, hmat]
   exact card_lt_of_injective_scalingInvariant t₀ φK hφKinj hfix
+
+set_option linter.unusedFintypeInType false in
+/-- **The S2/S3 interface: the strict bound `dim W(m) < dim G(m)`.** Over an infinite
+field with finitely many `G(m)`-orbits on `W(m)` and nonzero `m`,
+`Module.finrank k (W(m)) < Module.finrank k (∏ᵢ Matrix (Fin mᵢ) (Fin mᵢ) k)`, i.e.
+`∑ᵢⱼ bᵢⱼ mᵢ mⱼ < ∑ᵢ mᵢ²`. This is the `−1` strict refinement of
+`repSpace_finrank_le_repGroup_ambient_finrank` and the directly-consumable `hstrict`
+hook for `Etingof.isDynkinDiagram_of_strict_finrank` (`Problem6_1_5_TitsBridge`). -/
+theorem repSpace_finrank_lt_repGroup_ambient_finrank (m : Fin n → ℕ) (hm : m ≠ 0)
+    [Finite (orbitRel.Quotient (repGroup k m) (repSpace (k := k) m))] :
+    Module.finrank k (repSpace (k := k) m)
+      < Module.finrank k (∀ i : Fin n, Matrix (Fin (m i)) (Fin (m i)) k) := by
+  have hlt := card_wIdx_lt_card_gIdx (k := k) m hm
+  rwa [wIdx_card, gIdx_card, ← repSpace_finrank (k := k) m,
+    ← repGroup_ambient_finrank (k := k) m] at hlt
 
 end Etingof.Problem6_1_5
