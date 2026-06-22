@@ -2134,6 +2134,48 @@ private theorem twistedPolytabloid_per_q_decomp
     · simp only [perQ_eq, Finset.mem_filter, Finset.mem_univ, true_and] at hq_eq
       exact tabloidDominates_congr hq_eq.1 rfl h_dom_τα
 
+/-- **R2.b — The residual lies in `V`** (the genuine crux of the Garnir
+straightening, validated but not yet formalized).
+
+From `twistedPolytabloid_per_q_decomp`, `f_w(σ) = twistedIHPart σ w + Δ` where
+`Δ := f_w(σ) − twistedIHPart σ w` has tabloid support bounded by `[σ]`. This
+lemma asserts the remaining content: `Δ ∈ V` (the SYT-polytabloid span).
+Combined with `twistedIHPart_mem_span` it gives `f_w(σ) ∈ V`, which together
+with the support bound and the R1 bridge `in_L_of_in_V_of_supp_bounded`
+discharges `garnir_twisted_in_lower_span` (see directly below).
+
+**Status: the single remaining `sorry` of the standard-basis development.**
+This is the validated-true crux that has resisted every shortcut; do NOT
+re-attempt a refuted route (see `progress/r2b-crux-strategy-refuted.md`,
+`progress/r2b-crux-is-column-antisymmetry.md`, `progress/r2b-redesign-direct-polytabloid.md`).
+The validated route (route 1 in issue #4881) is leading-term elimination over
+`Δ`'s `Finsupp (Tabloid) ℂ` support using the corrected invariant:
+
+> For col-std σ, any w, and any `M ∈ V` with `supp(f_w σ − M) ≼ [σ]`, every
+> dominance-maximal tabloid of `X := f_w σ − M` is column-standardizable, with
+> an IH-available representative `β'` (`[β'] ≼ [σ]`).
+
+Subtract `c·ψ_{β'}` for the dominance-maximal `β'` (discharged by `ih` since
+`β'` is col-std and lex-below σ), repeat. Termination measure: lex
+`(maxSrRankOfSupport X, cardOfSupportAtMaxSrRank X)`. Needs
+`exists_dominance_maximal` extended from SYT finsets to a general tabloid
+`Finsupp` support. -/
+private theorem twistedPolytabloid_residual_in_V
+    (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
+    (hrp : 0 < rowInvCount' (la := la) σ)
+    (w : Equiv.Perm (Fin n))
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T))) :
+    (twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w) ∈
+      Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+        polytabloidTab (n := n) (la := la) T)) := by
+  sorry
+
 /-- **Twisted polytabloid in lower span** (sub-sorry 2 of 2):
 For column-standard σ with row inversion, each Garnir permutation w that is
 **neither** column-preserving nor row-preserving produces a "twisted polytabloid"
@@ -2173,10 +2215,17 @@ Difficulty: 8. Combinatorial heart of the straightening theorem. -/
 private theorem garnir_twisted_in_lower_span
     (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
     (hrp : 0 < rowInvCount' (la := la) σ)
-    (G : Finset (Fin n))
-    (w : Equiv.Perm (Fin n)) (hw_supp : ∀ x, x ∉ G → w x = x)
-    (hw_ne : w ≠ 1) (hw_col : w ∉ ColumnSubgroup n la)
-    (hw_row : w ∉ RowSubgroup n la) :
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T)))
+    (_G : Finset (Fin n))
+    (w : Equiv.Perm (Fin n)) (_hw_supp : ∀ x, x ∉ _G → w x = x)
+    (_hw_ne : w ≠ 1) (_hw_col : w ∉ ColumnSubgroup n la)
+    (_hw_row : w ∉ RowSubgroup n la) :
     twistedPolytabloid (la := la) w σ ∈
     Submodule.span ℂ (Set.range (fun τ : {τ : Equiv.Perm (Fin n) //
         isColumnStandard' n la τ ∧
@@ -2184,7 +2233,24 @@ private theorem garnir_twisted_in_lower_span
             (toTabloid n la τ = toTabloid n la σ ∧
               rowInvCount' (la := la) τ < rowInvCount' (la := la) σ))} =>
       generalizedPolytabloidTab (n := n) (la := la) τ.val)) := by
-  sorry
+  -- `f_w(σ) ∈ V`: split off the IH-killable part and the residual.
+  have hres := twistedPolytabloid_residual_in_V σ hcs hrp w ih
+  have hIH_V := twistedIHPart_mem_span (la := la) σ w ih
+  have hsplit : twistedPolytabloid (la := la) w σ =
+      twistedIHPart (la := la) σ w +
+        (twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w) := by
+    abel
+  have hfw_V : twistedPolytabloid (la := la) w σ ∈
+      Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+        polytabloidTab (n := n) (la := la) T)) := by
+    rw [hsplit]; exact add_mem hIH_V hres
+  -- `f_w(σ)` has tabloid support bounded by `[σ]`.
+  have hfw_supp : ∀ α : Equiv.Perm (Fin n),
+      twistedPolytabloid (la := la) w σ (toTabloid n la α) ≠ 0 →
+      tabloidDominates la σ α :=
+    fun α hα => twistedPolytabloid_support_bound σ hcs w α hα
+  -- R1 bridge: `V` + support bound ⟹ membership in the lower span `L_σ`.
+  exact in_L_of_in_V_of_supp_bounded σ hcs hrp _ hfw_V hfw_supp
 
 set_option maxHeartbeats 1200000 in
 -- The long proof involves many module-level rewrites over a large sum,
@@ -2226,7 +2292,14 @@ strictly fewer row inversions via `rowInvCount'_swap_lt`, giving ψ_σ ∈ L
 directly (via `Or.inr`). -/
 private theorem garnir_straightening_step
     (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
-    (hrp : 0 < rowInvCount' (la := la) σ) :
+    (hrp : 0 < rowInvCount' (la := la) σ)
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T))) :
     generalizedPolytabloidTab (n := n) (la := la) σ ∈
       Submodule.span ℂ (Set.range (fun τ : {τ : Equiv.Perm (Fin n) //
           isColumnStandard' n la τ ∧
@@ -2300,7 +2373,7 @@ private theorem garnir_straightening_step
       hp_row_def] at hmem
     show f ⟨w, hw_supp, hw_ne⟩ ∈ L
     apply Submodule.smul_mem
-    exact garnir_twisted_in_lower_span σ hcs hrp G w hw_supp hw_ne hmem.1 hmem.2
+    exact garnir_twisted_in_lower_span σ hcs hrp ih G w hw_supp hw_ne hmem.1 hmem.2
   -- The Q part: each term equals ψ (since sign(w)² = 1 and twistedPolytabloid_col_eq)
   have h_col_term : ∀ w : T, p_col w → f w = ψ := by
     intro ⟨w, hw_supp, hw_ne⟩ hw_col
@@ -2813,7 +2886,21 @@ private theorem polytabloidTab_column_standard_in_span
     exact Submodule.subset_span ⟨T, rfl⟩
   · -- Inductive case: use Garnir straightening step.
     have hrp : 0 < rowInvCount' (la := la) τ' := by omega
-    have h_step := garnir_straightening_step τ' hcs_τ' hrp
+    -- Package the outer/inner strong-induction hypotheses into the single
+    -- lex-`(srRank, rowInvCount')` IH consumed by `garnir_straightening_step`.
+    have ih : ∀ ρ : Equiv.Perm (Fin n), isColumnStandard' n la ρ →
+        (srRank la ρ < srRank la τ' ∨
+          (srRank la ρ = srRank la τ' ∧
+            rowInvCount' (la := la) ρ < rowInvCount' (la := la) τ')) →
+        generalizedPolytabloidTab (n := n) (la := la) ρ ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T)) := by
+      intro ρ hρ hor
+      rcases hor with hlt | ⟨heq, hrlt⟩
+      · exact ih_outer (srRank la ρ) (by rw [hk_τ']; exact hlt) ρ rfl hρ
+      · exact ih_inner (rowInvCount' (la := la) ρ) (by omega) ρ rfl
+          (hk_τ'.trans heq.symm) hρ
+    have h_step := garnir_straightening_step τ' hcs_τ' hrp ih
     set S_syt := Set.range (fun T : StandardYoungTableau n la =>
       polytabloidTab (n := n) (la := la) T)
     -- Show the Garnir span is contained in the SYT span.
