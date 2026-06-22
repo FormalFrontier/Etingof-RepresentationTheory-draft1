@@ -517,7 +517,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
       have := hpt v
       rwa [smul_eq_zero, or_iff_right hne'] at this
     -- If all vectors are 0, then 𝟙 W = 0, contradicting simplicity
-    exact id_nonzero W (by ext v; simp [this v])
+    exact id_nonzero W (by ext v; simp [this v]; exact (map_zero _).symm)
   -- Step 3: ∑ c_i = 1
   have hc_sum : ∑ i, c i = 1 := by
     -- endo acts as c_i • id on W
@@ -545,7 +545,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
       have h := hsum_pt v
       have h2 : (∑ i, c i - 1) • v = 0 := by rw [sub_smul, h, one_smul, sub_self]
       rwa [smul_eq_zero, or_iff_right hne'] at h2
-    exact id_nonzero W (by ext v; simp [this v])
+    exact id_nonzero W (by ext v; simp [this v]; exact (map_zero _).symm)
   -- Step 4: Find i₀ with c_{i₀} = 1
   have hc_01 : ∀ i, c i = 0 ∨ c i = 1 := by
     intro i
@@ -602,7 +602,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
   -- W is nontrivial (from Simple)
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : W.V, w₀ ≠ 0 := by
     by_contra h; push_neg at h
-    exact id_nonzero W (by ext v; simp [h v])
+    exact id_nonzero W (by ext v; simp [h v]; exact (map_zero _).symm)
   -- Helper: projRingHom i₀ inverts iso.symm ∘ Pi.single i₀
   have hproj_single : ∀ X : Matrix (Fin (D.d i₀)) (Fin (D.d i₀)) k,
       D.projRingHom i₀ (D.iso.symm (Pi.single i₀ X)) = X := by

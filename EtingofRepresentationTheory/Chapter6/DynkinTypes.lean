@@ -1033,7 +1033,7 @@ private def E8_treePath : Fin 8 → Fin 8 → List (Fin 8) := fun i j =>
   | 7, 3 => [7, 2, 3] | 7, 4 => [7, 2, 3, 4] | 7, 5 => [7, 2, 3, 4, 5]
   | 7, 6 => [7, 2, 3, 4, 5, 6] | 7, 7 => [7]
 
-set_option maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 /-- E₈ is a Dynkin diagram. -/
 private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩

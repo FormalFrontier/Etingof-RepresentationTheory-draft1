@@ -47,15 +47,9 @@ def Etingof.QuiverRepresentation.IsSimpleAt
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)] : Prop :=
   Module.finrank k (ρ.obj i) = 1 ∧ ∀ j, j ≠ i → Module.finrank k (ρ.obj j) = 0
 
-/-- The canonical map ψ : V_i → ⊕_{i→j} V_j at a source vertex i. -/
-noncomputable def Etingof.QuiverRepresentation.sourceMap
-    {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
-    (ρ : Etingof.QuiverRepresentation k Q) (i : Q)
-    [Fintype (Etingof.ArrowsOutOf Q i)] :
-    ρ.obj i →ₗ[k] DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1) := by
-  classical
-  exact ∑ a : Etingof.ArrowsOutOf Q i,
-    (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1) a).comp (ρ.mapLinear a.2)
+-- `Etingof.QuiverRepresentation.sourceMap` is now provided by
+-- `Chapter6.Definition6_6_4` (imported above); the previous local copy here was a
+-- duplicate declaration and has been removed.
 
 /-- For an indecomposable representation at a sink, either V is the simple
 representation at i, or the canonical map ⊕_{j→i} V_j → V_i is surjective.

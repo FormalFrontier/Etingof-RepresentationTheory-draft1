@@ -151,27 +151,19 @@ private theorem Etingof.reflFunctorMinus_mkQ_ker
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i)
       (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  have h_di : inst_dec i i = .isTrue rfl := by
-    match inst_dec i i with
-    | .isTrue _ => rfl
-    | .isFalse h => exact absurd rfl h
-  suffices h : ∀ z :
-      DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1),
-      @Etingof.reflFunctorMinus_mkQ k _ Q inst_dec inst i hi ρ _ z =
-      @Etingof.reflFunctorMinus_mkQ k _ Q inst_dec inst i hi ρ _ 0 →
-      z ∈ LinearMap.range
-        (@Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ
-          i _) by
-    exact h y (by rw [hy, map_zero])
-  unfold Etingof.reflFunctorMinus_mkQ Etingof.reflectionFunctorMinus
-  simp only []
-  dsimp only [id]
-  rw [h_di]
-  intro z heq
-  simp only [] at heq
-  rw [map_zero, Submodule.mkQ_apply,
-    Submodule.Quotient.mk_eq_zero] at heq
-  exact heq
+  -- `reflFunctorMinus_mkQ = equivAt_eq.symm ∘ₗ Submodule.mkQ` (no discriminant `match`),
+  -- so `mkQ y = 0` forces `Submodule.mkQ _ y = 0` by injectivity of the equiv, i.e.
+  -- `y ∈ ker(Submodule.mkQ) = range(sourceMap)`.
+  have hz : Submodule.mkQ (LinearMap.range
+      (@Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ i _)) y = 0 := by
+    apply (@Etingof.reflFunctorMinus_equivAt_eq k _ Q inst_dec inst i hi ρ _).symm.injective
+    rw [map_zero]
+    have := hy
+    unfold Etingof.reflFunctorMinus_mkQ at this
+    rw [LinearMap.comp_apply, LinearEquiv.coe_coe] at this
+    exact this
+  rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hz
+  exact hz
 
 open Classical in
 set_option maxHeartbeats 3200000 in
@@ -190,18 +182,15 @@ private theorem Etingof.reflFunctorMinus_mkQ_surjective
   letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i)
       (fun a => ρ.obj a.1)) :=
     Etingof.addCommGroupOfRing (k := k)
-  have h_di : inst_dec i i = .isTrue rfl := by
-    match inst_dec i i with
-    | .isTrue _ => rfl
-    | .isFalse h => exact absurd rfl h
+  -- `reflFunctorMinus_mkQ = equivAt_eq.symm ∘ₗ Submodule.mkQ`, a composite of two
+  -- surjections (`Submodule.mkQ` is surjective, the equiv is bijective).
   intro z
-  revert z
-  unfold Etingof.reflFunctorMinus_mkQ Etingof.reflectionFunctorMinus
-  simp only []
-  dsimp only [id]
-  rw [h_di]
-  intro z
-  exact Submodule.mkQ_surjective _ z
+  unfold Etingof.reflFunctorMinus_mkQ
+  obtain ⟨w, hw⟩ := Submodule.mkQ_surjective
+    (LinearMap.range (@Etingof.QuiverRepresentation.sourceMap k _ Q inst ρ i _))
+    ((@Etingof.reflFunctorMinus_equivAt_eq k _ Q inst_dec inst i hi ρ _) z)
+  refine ⟨w, ?_⟩
+  rw [LinearMap.comp_apply, LinearEquiv.coe_coe, hw, LinearEquiv.symm_apply_apply]
 
 set_option maxHeartbeats 12800000 in
 -- reason: equivAt_eq composition + ker(sinkMap) ≃ V_i via injectivity
@@ -226,14 +215,10 @@ private noncomputable def Etingof.equivAt_eq_source
     ρ.obj i := by
   -- Upgrade to AddCommGroup (needed for quotient module)
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  -- Unfold F⁺ to expose ker(sinkMap of F⁻(ρ) at i)
-  unfold Etingof.reflectionFunctorPlus
-  simp only
-  refine match inst_dec i i with
-  | .isFalse h => absurd rfl h
-  | .isTrue _ => ?_
-  -- Now goal: ker(F⁻(ρ).sinkMap i) ≃ₗ[k] ρ.obj i
-  dsimp only [id]
+  -- Chart-based construction (mirrors the sink case `equivAt_eq_sink`): build the core equiv
+  -- `ker(F⁻(ρ).sinkMap i) ≃ ρ.obj i` and precompose the `reflFunctorPlus_equivAt_eq` chart
+  -- `F⁺(F⁻ρ).obj i ≃ ker(…)`, so no `Decidable` discriminant `match` is needed and `.symm`
+  -- stays readable downstream (see `equivAt_eq_source_chart`).
   classical
   let instR := @Etingof.reversedAtVertex Q _ inst i
   let ρ_minus := @Etingof.reflectionFunctorMinus k _ Q _ inst i hi ρ _
@@ -494,17 +479,70 @@ private noncomputable def Etingof.equivAt_eq_source
       (Phi x) h_Phi_x_mkQ
     have h_eq : f_ds v = x := Phi_inj (by rw [h_Phi_f_ds]; exact hv)
     exact ⟨v, Subtype.ext h_eq⟩
-  -- Construct the LinearEquiv directly (avoiding ofBijective.symm which causes
-  -- RingHomInvPair synthesis issues in downstream naturality proofs)
-  let g := Function.surjInv f_surj
-  have g_left : Function.LeftInverse g f :=
-    fun v => f_inj (Function.surjInv_eq f_surj (f v))
-  have g_right : Function.RightInverse g f := Function.surjInv_eq f_surj
-  exact
-  { f.inverse g g_left g_right with
-    invFun := f
-    left_inv := g_right
-    right_inv := g_left }
+  -- Core equiv `ker(F⁻(ρ).sinkMap i) ≃ ρ.obj i` as `(ofBijective f).symm` (so `core.symm = f`
+  -- is readable downstream via `LinearEquiv.ofBijective_apply`), then precompose the
+  -- `reflFunctorPlus_equivAt_eq` chart to land on `F⁺(F⁻ρ).obj i ≃ ρ.obj i`.
+  let core : ↥(LinearMap.ker (@Etingof.QuiverRepresentation.sinkMap k _ Q instR ρ_minus i)) ≃ₗ[k]
+      @Etingof.QuiverRepresentation.obj k Q _ inst ρ i :=
+    (LinearEquiv.ofBijective f ⟨f_inj, f_surj⟩).symm
+  exact (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ instR i
+    (@Etingof.isSource_reversedAtVertex_isSink Q _ inst i hi) ρ_minus).trans core
+
+set_option maxHeartbeats 6400000 in
+/-- The `b`-component of the underlying direct-sum value of `(equivAt_eq_source … hinj).symm y`.
+
+`equivAt_eq_source` is built as `{ f.inverse g … with invFun := f, … }`, so its `.symm`
+forward map is, by construction, `f = LinearMap.codRestrict … f_ds …`; taking `.val` strips
+the kernel-subtype wrapper and the `b`-component of `f_ds y` is, definitionally,
+`equivAt_ne⁻¹ (mapLinear (reversedArrow b.snd) y)`.  Stating this componentwise (so no
+`Fintype` is needed in the statement) and proving it by `rfl` lets the naturality proof read
+off the inverse equiv WITHOUT unfolding the `Decidable.casesOn` in `equivAt_eq_source`'s type
+(which fails the v4.29 motive check). -/
+private theorem Etingof.equivAt_eq_source_symm_component
+    {k : Type*} [Field k] {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    [Fintype (Etingof.ArrowsOutOf Q i)]
+    (hinj : Function.Injective (ρ.sourceMap i))
+    (y : @Etingof.QuiverRepresentation.obj k Q _ inst ρ i)
+    (b : @Etingof.ArrowsInto Q (@Etingof.reversedAtVertex Q _ inst i) i) :
+    let instR := @Etingof.reversedAtVertex Q _ inst i
+    let ρ_minus := @Etingof.reflectionFunctorMinus k _ Q _ inst i hi ρ _
+    let hi' := @Etingof.isSource_reversedAtVertex_isSink Q _ inst i hi
+    (DirectSum.component k (@Etingof.ArrowsInto Q instR i)
+        (fun b => @Etingof.QuiverRepresentation.obj k Q _ instR ρ_minus b.fst) b)
+      ((@Etingof.QuiverRepresentation.sinkMap k _ Q instR ρ_minus i).ker.subtype
+        ((@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ instR i hi' ρ_minus)
+          ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj).symm y))) =
+    (@Etingof.reflFunctorMinus_equivAt_ne k _ Q _ inst i hi ρ _ b.fst
+        (@Etingof.arrowsIntoReversed_ne Q _ inst i hi b)).symm
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ inst ρ i b.fst
+        (@Etingof.reversedArrow_ne_eq Q _ inst i b.fst
+          (@Etingof.arrowsIntoReversed_ne Q _ inst i hi b) b.snd) y) := by
+  intro instR ρ_minus hi'
+  haveI : Fintype (@Etingof.ArrowsInto Q instR i) :=
+    Fintype.ofEquiv _ (@Etingof.arrowReindexEquivSource Q _ inst i hi)
+  haveI : DecidableEq (@Etingof.ArrowsInto Q instR i) := Classical.decEq _
+  -- `equivAt_eq_source = P.trans core` with `P := reflFunctorPlus_equivAt_eq instR ρ_minus` and
+  -- `core := (ofBijective f).symm`, so `P (equivAt_eq_source.symm y) = core.symm y = f y`
+  -- (`apply_symm_apply` + `symm_symm` + `ofBijective_apply`), with `f = codRestrict f_ds`.
+  -- Reduce the inner kernel-inclusion value to `f_ds y = ∑ c, lof c (f_component c y)`, keeping
+  -- the (def-internal) `Fintype` instance, then extract the `b`-component.
+  unfold Etingof.equivAt_eq_source
+  rw [LinearEquiv.trans_symm, LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply,
+    LinearEquiv.symm_symm, LinearEquiv.ofBijective_apply]
+  erw [Submodule.coe_subtype, LinearMap.codRestrict_apply]
+  rw [LinearMap.sum_apply, map_sum, Finset.sum_eq_single b]
+  · simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
+    erw [DirectSum.component.lof_self]
+  · intro c _ hcb
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
+    erw [DirectSum.component.of]
+    exact dif_neg hcb
+  · intro h
+    exact absurd (@Finset.mem_univ _
+      (Fintype.ofEquiv _ (@Etingof.arrowReindexEquivSource Q _ inst i hi)) b) h
 
 set_option maxHeartbeats 6400000 in
 -- reason: equivAt_eq_source unfold + Decidable.casesOn match reduction
@@ -542,48 +580,28 @@ private theorem Etingof.equivAt_eq_source_naturality
           ((@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ instR i hi' ρ_minus) x))) =
     (@Etingof.QuiverRepresentation.mapLinear k Q _ inst ρ i b e)
       ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj) x) := by
-  -- Key insight: save the LinearEquiv property BEFORE unfolding.
-  -- After unfolding equivAt_eq_source, the LinearEquiv structure is expanded and
-  -- h_sym reduces to codRestrict(f_ds)(surjInv(x)) = x.
-  have h_sym :=
-    (@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ
-      _ _ _ hinj).symm_apply_apply x
-  simp only
-  revert h_sym x e
-  unfold Etingof.equivAt_eq_source Etingof.reflFunctorPlus_equivAt_eq
-    Etingof.reflectionFunctorPlus
-  simp only
-  refine match inst_dec i i with
-  | .isFalse h => absurd rfl h
-  | .isTrue _ => ?_
-  dsimp only [id]
-  intro e x h_sym
-  simp only [LinearEquiv.refl_apply, Submodule.coe_subtype]
-  -- Use a single dsimp pass to ensure h_sym and goal reduce consistently
-  dsimp [LinearMap.inverse, LinearMap.codRestrict] at h_sym ⊢
-  -- h_sym : codRestrict(f_ds)(surjInv(x)) = x
-  -- Extract val: f_ds(surjInv(x)) = ↑x
-  have h_val := congr_arg Subtype.val h_sym
-  dsimp [LinearMap.codRestrict] at h_val
-  conv_lhs => rw [← h_val]
-  -- Push application into sum, then push component through sum
-  simp only [LinearMap.sum_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
-  rw [map_sum]
-  -- Use conv to rewrite inside equivAt_ne arg (avoids dependent type motive issue)
-  conv_lhs =>
-    arg 2
-    rw [Finset.sum_eq_single
-      ⟨b, @Etingof.reversedArrow_eq_ne Q inst_dec
-        (@Etingof.reversedAtVertex Q _ inst i) i b hb
-        ((@Etingof.reversedAtVertex_twice Q inst_dec inst i).symm ▸ e)⟩
-      (fun c _ hc => by
-        erw [DirectSum.component.of]
-        exact dif_neg hc)
-      (fun h => absurd (@Finset.mem_univ _
-        (Fintype.ofEquiv _ (@Etingof.arrowReindexEquivSource Q inst_dec inst i hi)) _) h)]
-  erw [DirectSum.component.lof_self]
-  erw [LinearEquiv.apply_symm_apply,
-    @Etingof.reversedArrow_eq_ne_ne_eq_twice Q inst_dec inst i hi b hb e]
+  intro instR ρ_minus hi' arrow_R b_idx
+  -- Rewrite `x` as `E.symm (E x)` inside the inner `reflFunctorPlus_equivAt_eq` so the value of
+  -- the kernel inclusion is given by `equivAt_eq_source_symm_component` (which reads off the
+  -- inverse-equiv's underlying sum WITHOUT any `Decidable.casesOn` reduction on the live
+  -- discriminant — the v4.29-safe replacement for the old `unfold; match; dsimp [id]`).
+  have hx : x = (@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj).symm
+      ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj) x) :=
+    ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj).symm_apply_apply x).symm
+  -- The inner component-of-subtype is the `b_idx`-component of the inverse equiv's value.
+  have hcomp := @Etingof.equivAt_eq_source_symm_component k _ Q inst_dec inst i hi ρ _ _ _ hinj
+    ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj) x) b_idx
+  simp only at hcomp
+  conv_lhs => rw [show (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ instR i hi' ρ_minus) x =
+      (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ instR i hi' ρ_minus)
+        ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj).symm
+          ((@Etingof.equivAt_eq_source k _ Q inst_dec inst i hi ρ _ _ _ hinj) x))
+    from by rw [← hx]]
+  rw [hcomp]
+  -- Goal: equivAt_ne (equivAt_ne⁻¹ (mapLinear (reversedArrow b_idx.snd) (E x))) = mapLinear e (E x)
+  rw [LinearEquiv.apply_symm_apply]
+  -- `reversedArrow_ne_eq b_idx.snd = e` via the double-reversal round-trip identity.
+  rw [@Etingof.reversedArrow_eq_ne_ne_eq_twice Q inst_dec inst i hi b hb e]
 
 end Helpers
 

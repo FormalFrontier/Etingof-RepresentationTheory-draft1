@@ -86,8 +86,8 @@ private lemma finrank_biprod
   refine {
     toFun := fun v => ((biprod.fst : X ⊞ Y ⟶ X).hom.hom.hom v,
                         (biprod.snd : X ⊞ Y ⟶ Y).hom.hom.hom v)
-    map_add' := fun a b => by simp [map_add]
-    map_smul' := fun r a => by simp [map_smul]
+    map_add' := fun a b => Prod.ext (map_add _ _ _) (map_add _ _ _)
+    map_smul' := fun r a => Prod.ext (map_smul _ _ _) (map_smul _ _ _)
     invFun := fun p => (biprod.inl : X ⟶ X ⊞ Y).hom.hom.hom p.1 +
                         (biprod.inr : Y ⟶ X ⊞ Y).hom.hom.hom p.2
     left_inv := fun v => by

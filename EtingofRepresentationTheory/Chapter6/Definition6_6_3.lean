@@ -35,6 +35,132 @@ noncomputable def Etingof.QuiverRepresentation.sinkMap
   classical
   exact DirectSum.toModule k (Etingof.ArrowsInto Q i) (ρ.obj i) (fun a => ρ.mapLinear a.2)
 
+/-- Heterogeneous congruence for (non-dependent) function application, given the domain
+and codomain type equalities explicitly: equal (heterogeneously) functions applied to equal
+(heterogeneously) arguments give equal (heterogeneously) results. -/
+theorem Etingof.heq_apply
+    {α α' : Sort u} {β β' : Sort v} (hα : α = α') (hβ : β = β')
+    {f : α → β} {g : α' → β'} (hf : HEq f g)
+    {a : α} {a' : α'} (ha : HEq a a') : HEq (f a) (g a') := by
+  subst hα
+  subst hβ
+  cases ha
+  cases hf
+  rfl
+
+/-- Heterogeneous congruence between a `LinearMap` and its coercion to a bare function,
+given equalities of the domain/codomain types and heterogeneous equalities of their
+`AddCommMonoid`/`Module` instances. This bridges `HEq` of two `LinearMap` *objects*
+(living in different module structures) to `HEq` of their `⇑`-coerced functions, which is
+what `heq_apply` consumes. -/
+theorem Etingof.heq_linearMap_coe
+    {k : Type*} [CommSemiring k]
+    {α α' : Type u} {β β' : Type v}
+    {acα : AddCommMonoid α} {acβ : AddCommMonoid β}
+    {acα' : AddCommMonoid α'} {acβ' : AddCommMonoid β'}
+    {mα : @Module k α _ acα} {mβ : @Module k β _ acβ}
+    {mα' : @Module k α' _ acα'} {mβ' : @Module k β' _ acβ'}
+    (hα : α = α') (hβ : β = β')
+    (hacα : HEq acα acα') (hacβ : HEq acβ acβ')
+    (hmα : HEq mα mα') (hmβ : HEq mβ mβ')
+    {f : @LinearMap k k _ _ (RingHom.id k) α β acα acβ mα mβ}
+    {g : @LinearMap k k _ _ (RingHom.id k) α' β' acα' acβ' mα' mβ'}
+    (hf : HEq f g) :
+    HEq (⇑f) (⇑g) := by
+  subst hα
+  subst hβ
+  cases hacα
+  cases hacβ
+  cases hmα
+  cases hmβ
+  cases hf
+  rfl
+
+/-- The vertex-space type family of `reflectionFunctorPlus`, with the `Decidable`
+discriminant exposed as an explicit argument `d`. At `d = .isFalse _` this is `ρ.obj v`;
+at `d = .isTrue _` it is `ker(sinkMap i)`. -/
+def Etingof.reflFunctorPlus_objAt
+    {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
+    (ρ : Etingof.QuiverRepresentation k V) (i v : V) (d : Decidable (v = i)) : Type _ :=
+  @Decidable.casesOn _ (fun _ => Type _) d (fun _ => ρ.obj v) (fun _ => ↥(ρ.sinkMap i).ker)
+
+/-- `AddCommMonoid` on `reflFunctorPlus_objAt`, with the discriminant `d` explicit. -/
+noncomputable def Etingof.reflFunctorPlus_acmAt
+    {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
+    (ρ : Etingof.QuiverRepresentation k V) (i v : V) (d : Decidable (v = i)) :
+    AddCommMonoid (Etingof.reflFunctorPlus_objAt ρ i v d) :=
+  @Decidable.casesOn _ (fun d => AddCommMonoid (Etingof.reflFunctorPlus_objAt ρ i v d)) d
+    (fun _ => ρ.instAddCommMonoid v) (fun _ => Submodule.addCommMonoid (ρ.sinkMap i).ker)
+
+/-- `Module` on `reflFunctorPlus_objAt`, with the discriminant `d` explicit. -/
+noncomputable def Etingof.reflFunctorPlus_modAt
+    {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
+    (ρ : Etingof.QuiverRepresentation k V) (i v : V) (d : Decidable (v = i)) :
+    @Module k (Etingof.reflFunctorPlus_objAt ρ i v d) _ (Etingof.reflFunctorPlus_acmAt ρ i v d) :=
+  @Decidable.casesOn _
+    (fun d => @Module k (Etingof.reflFunctorPlus_objAt ρ i v d) _ (Etingof.reflFunctorPlus_acmAt ρ i v d)) d
+    (fun _ => ρ.instModule v) (fun _ => Submodule.module (ρ.sinkMap i).ker)
+
+/-- The arrow type of the reversed quiver, with both discriminants explicit. Definitionally
+equal to `ReversedAtVertexHom V i a b` (at `da = inst a i`, `db = inst b i`). -/
+def Etingof.reflFunctorPlus_arrowAt
+    {V : Type*} [Quiver V] (i a b : V)
+    (da : Decidable (a = i)) (db : Decidable (b = i)) : Type _ :=
+  @Decidable.casesOn _ (fun _ => Type _) da
+    (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
+      (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)))
+    (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
+      (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)))
+
+/-- The `mapLinear` field of `reflectionFunctorPlus`, with both discriminants explicit.
+Built by the same nested `@Decidable.casesOn` (with explicit motives) as the inline
+definition, so it is definitionally equal to it at `da = inst a i`, `db = inst b i`. -/
+noncomputable def Etingof.reflFunctorPlus_mapAt
+    {k : Type*} [CommSemiring k] {V : Type*} [Quiver V]
+    (ρ : Etingof.QuiverRepresentation k V) {i : V} (hi : Etingof.IsSink V i) (a b : V)
+    (da : Decidable (a = i)) (db : Decidable (b = i)) :
+    letI := Etingof.reflFunctorPlus_acmAt ρ i a da
+    letI := Etingof.reflFunctorPlus_acmAt ρ i b db
+    letI := Etingof.reflFunctorPlus_modAt ρ i a da
+    letI := Etingof.reflFunctorPlus_modAt ρ i b db
+    Etingof.reflFunctorPlus_arrowAt i a b da db →
+      (Etingof.reflFunctorPlus_objAt ρ i a da →ₗ[k] Etingof.reflFunctorPlus_objAt ρ i b db) :=
+  @Decidable.casesOn (a = i)
+    (fun da =>
+      letI := Etingof.reflFunctorPlus_acmAt ρ i a da
+      letI := Etingof.reflFunctorPlus_acmAt ρ i b db
+      letI := Etingof.reflFunctorPlus_modAt ρ i a da
+      letI := Etingof.reflFunctorPlus_modAt ρ i b db
+      Etingof.reflFunctorPlus_arrowAt i a b da db →
+        (Etingof.reflFunctorPlus_objAt ρ i a da →ₗ[k] Etingof.reflFunctorPlus_objAt ρ i b db))
+    da
+    (fun ha_ne => @Decidable.casesOn (b = i)
+      (fun db =>
+        letI := Etingof.reflFunctorPlus_acmAt ρ i b db
+        letI := Etingof.reflFunctorPlus_modAt ρ i b db
+        Etingof.reflFunctorPlus_arrowAt i a b (.isFalse ha_ne) db →
+          (ρ.obj a →ₗ[k] Etingof.reflFunctorPlus_objAt ρ i b db))
+      db
+      (fun _hb_ne => fun e => ρ.mapLinear e)
+      (fun _hb_eq => fun e => ((hi a).false e).elim))
+    (fun ha_eq => @Decidable.casesOn (b = i)
+      (fun db =>
+        letI := Etingof.reflFunctorPlus_acmAt ρ i a (.isTrue ha_eq)
+        letI := Etingof.reflFunctorPlus_acmAt ρ i b db
+        letI := Etingof.reflFunctorPlus_modAt ρ i a (.isTrue ha_eq)
+        letI := Etingof.reflFunctorPlus_modAt ρ i b db
+        Etingof.reflFunctorPlus_arrowAt i a b (.isTrue ha_eq) db →
+          (Etingof.reflFunctorPlus_objAt ρ i a (.isTrue ha_eq) →ₗ[k]
+            Etingof.reflFunctorPlus_objAt ρ i b db))
+      db
+      (fun _hb_ne => fun e =>
+        letI := Etingof.reflFunctorPlus_acmAt ρ i a (.isTrue ha_eq)
+        letI := Etingof.reflFunctorPlus_modAt ρ i a (.isTrue ha_eq)
+        (DirectSum.component k (Etingof.ArrowsInto V i)
+          (fun x => ρ.obj x.1) ⟨b, e⟩).comp (LinearMap.ker (ρ.sinkMap i)).subtype)
+      (fun hb_eq => fun e =>
+        ((hi b).false (ha_eq ▸ e)).elim))
+
 /-- The reflection functor F⁺ᵢ at a sink vertex i, sending representations of Q
 to representations of Q̄ᵢ (the quiver with arrows at i reversed).
 
@@ -47,6 +173,10 @@ The linear maps in the reversed quiver Q̄ᵢ are:
 - For arrows out of i in Q̄ᵢ (= reversed arrows into i in Q):
   ker(φ) ↪ ⊕_{j→i} ρ_j → ρ_j (inclusion then projection)
 
+The vertex spaces, instances, and arrow maps are built from the
+`reflFunctorPlus_objAt`/`acmAt`/`modAt`/`mapAt` helpers, which expose the shared
+`Decidable` discriminant as an explicit argument (preserving instance coherence).
+
 (Etingof Definition 6.6.3) -/
 noncomputable def Etingof.reflectionFunctorPlus
     {k : Type*} [CommSemiring k]
@@ -54,60 +184,12 @@ noncomputable def Etingof.reflectionFunctorPlus
     (i : V) (hi : Etingof.IsSink V i)
     (ρ : Etingof.QuiverRepresentation k V) :
     @Etingof.QuiverRepresentation k V _ (Etingof.reversedAtVertex V i) :=
-  -- φ : ⊕_{j→i} ρ_j → ρ_i, the canonical sink map
-  let φ := ρ.sinkMap i
-  -- Use Decidable.casesOn with the [DecidableEq V] instance to construct
-  -- obj, AddCommMonoid, and Module coherently. All three fields share the same
-  -- Decidable instance, so the type-level case-split computes correctly.
-  let dp : ∀ v, Decidable (v = i) := fun v => inst v i
-  let objAt : ∀ v, Decidable (v = i) → Type _ :=
-    fun v d => @Decidable.casesOn _ (fun _ => Type _) d (fun _ => ρ.obj v) (fun _ => ↥φ.ker)
-  let acmAt : ∀ v d, AddCommMonoid (objAt v d) :=
-    fun v d => @Decidable.casesOn _ (fun d => AddCommMonoid (objAt v d)) d
-      (fun _ => ρ.instAddCommMonoid v) (fun _ => Submodule.addCommMonoid φ.ker)
-  let modAt : ∀ v d, @Module k (objAt v d) _ (acmAt v d) :=
-    fun v d => @Decidable.casesOn _ (fun d => @Module k (objAt v d) _ (acmAt v d)) d
-      (fun _ => ρ.instModule v) (fun _ => Submodule.module φ.ker)
   @Etingof.QuiverRepresentation.mk k V _ (Etingof.reversedAtVertex V i)
-    (fun v => objAt v (dp v))
-    (fun v => acmAt v (dp v))
-    (fun v => modAt v (dp v))
-    (fun {a b} (e : Etingof.ReversedAtVertexHom V i a b) => by
-      -- Goal: objAt a (inst a i) →ₗ[k] objAt b (inst b i)
-      -- We use @Decidable.casesOn with EXPLICIT motives that parameterize
-      -- both the arrow type (@ite ... da ...) and objAt by the same variable da.
-      -- This ensures all ite/casesOn reduce together in each branch.
-      change objAt a (inst a i) →ₗ[k] objAt b (inst b i)
-      change @Etingof.ReversedAtVertexHom V inst _ i a b at e
-      unfold Etingof.ReversedAtVertexHom at e
-      revert e
-      -- Use nested @Decidable.casesOn with explicit motives that parameterize
-      -- BOTH the arrow type and objAt by the same variable (da/db).
-      -- Using Decidable.casesOn (not ite) for the arrow type ensures
-      -- the bound variable da appears in the compiled motive, enabling
-      -- definitional reduction when the proof matches on inst a i.
-      let arrowAt (da : Decidable (a = i)) (db : Decidable (b = i)) : Type _ :=
-        @Decidable.casesOn _ (fun _ => Type _) da
-          (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
-            (fun _ => (a ⟶ b)) (fun _ => (i ⟶ a)))
-          (fun _ => @Decidable.casesOn _ (fun _ => Type _) db
-            (fun _ => (b ⟶ i)) (fun _ => (a ⟶ b)))
-      exact @Decidable.casesOn (a = i)
-        (fun da => arrowAt da (inst b i) → objAt a da →ₗ[k] objAt b (inst b i))
-        (inst a i)
-        (fun ha_ne => @Decidable.casesOn (b = i)
-          (fun db => arrowAt (.isFalse ha_ne) db → ρ.obj a →ₗ[k] objAt b db)
-          (inst b i)
-          (fun _hb_ne => fun e => ρ.mapLinear e)
-          (fun hb_eq => fun e => ((hi a).false e).elim))
-        (fun ha_eq => @Decidable.casesOn (b = i)
-          (fun db => arrowAt (.isTrue ha_eq) db → objAt a (.isTrue ha_eq) →ₗ[k] objAt b db)
-          (inst b i)
-          (fun _hb_ne => fun e =>
-            (DirectSum.component k (Etingof.ArrowsInto V i)
-              (fun x => ρ.obj x.1) ⟨b, e⟩).comp (LinearMap.ker φ).subtype)
-          (fun hb_eq => fun e =>
-            ((hi b).false (ha_eq ▸ e)).elim)))
+    (fun v => Etingof.reflFunctorPlus_objAt ρ i v (inst v i))
+    (fun v => Etingof.reflFunctorPlus_acmAt ρ i v (inst v i))
+    (fun v => Etingof.reflFunctorPlus_modAt ρ i v (inst v i))
+    (fun {a b} (e : Etingof.ReversedAtVertexHom V i a b) =>
+      Etingof.reflFunctorPlus_mapAt ρ hi a b (inst a i) (inst b i) e)
 
 section ReflectionFunctorPlusAPI
 
@@ -125,7 +207,7 @@ theorem Etingof.reflFunctorPlus_obj_ne
     (ρ : Etingof.QuiverRepresentation k Q) (v : Q) (hv : v ≠ i) :
     @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorPlus Q i hi ρ) v = ρ.obj v := by
-  unfold Etingof.reflectionFunctorPlus
+  unfold Etingof.reflectionFunctorPlus Etingof.reflFunctorPlus_objAt
   simp only
   match hd : (‹DecidableEq Q› v i) with
   | .isTrue hvi => exact absurd hvi hv
@@ -138,45 +220,67 @@ theorem Etingof.reflFunctorPlus_obj_eq
     (ρ : Etingof.QuiverRepresentation k Q) :
     @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
       (Etingof.reflectionFunctorPlus Q i hi ρ) i = ↥(ρ.sinkMap i).ker := by
-  unfold Etingof.reflectionFunctorPlus
+  unfold Etingof.reflectionFunctorPlus Etingof.reflFunctorPlus_objAt
   simp only
   match hd : (‹DecidableEq Q› i i) with
   | .isTrue _ => rw [hd]
   | .isFalse hii => exact absurd rfl hii
 
-/-- `LinearEquiv` at vertex v ≠ i: `F⁺ᵢ(ρ).obj v ≃ₗ[k] ρ.obj v`.
-Defined as a pure term-mode match (no `by unfold` tactic block) to ensure
-clean definitional reduction when composed with other match-based definitions.
+/-- The vertex equivalence at `v ≠ i`, with the `Decidable` discriminant exposed as an
+explicit argument `d`. At `d = .isFalse _` this is the identity on `ρ.obj v`. -/
+noncomputable def Etingof.reflFunctorPlus_equivAtAt_ne
+    {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
+    {i : Q} (ρ : Etingof.QuiverRepresentation k Q) (v : Q) (hv : v ≠ i)
+    (d : Decidable (v = i)) :
+    letI := Etingof.reflFunctorPlus_acmAt ρ i v d
+    letI := Etingof.reflFunctorPlus_modAt ρ i v d
+    Etingof.reflFunctorPlus_objAt ρ i v d ≃ₗ[k] ρ.obj v :=
+  @Decidable.casesOn (v = i)
+    (fun d =>
+      letI := Etingof.reflFunctorPlus_acmAt ρ i v d
+      letI := Etingof.reflFunctorPlus_modAt ρ i v d
+      Etingof.reflFunctorPlus_objAt ρ i v d ≃ₗ[k] ρ.obj v)
+    d
+    (fun _ => LinearEquiv.refl k (ρ.obj v))
+    (fun hvi => absurd hvi hv)
 
-The return type `(reflectionFunctorPlus ...).obj v` delta-reduces in the kernel to
-`Decidable.casesOn (inst v i) (fun _ => ρ.obj v) (fun _ => ker(sinkMap))`, and the
-match on `inst v i` reduces this to `ρ.obj v` in the `.isFalse` branch. -/
+/-- `LinearEquiv` at vertex v ≠ i: `F⁺ᵢ(ρ).obj v ≃ₗ[k] ρ.obj v`.
+Defined via `reflFunctorPlus_equivAtAt_ne` at the live discriminant `inst v i`. -/
 noncomputable def Etingof.reflFunctorPlus_equivAt_ne
     {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
     (ρ : Etingof.QuiverRepresentation k Q) (v : Q) (hv : v ≠ i) :
     @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
-      (Etingof.reflectionFunctorPlus Q i hi ρ) v ≃ₗ[k] ρ.obj v := by
-  unfold Etingof.reflectionFunctorPlus
-  simp only
-  exact match inst v i with
-  | .isTrue hvi => absurd hvi hv
-  | .isFalse _ => LinearEquiv.refl k (ρ.obj v)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) v ≃ₗ[k] ρ.obj v :=
+  Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i)
+
+/-- The vertex equivalence at `i`, with the `Decidable` discriminant exposed as an explicit
+argument `d`. At `d = .isTrue _` this is the identity on `ker(sinkMap i)`. -/
+noncomputable def Etingof.reflFunctorPlus_equivAtAt_eq
+    {k : Type*} [CommSemiring k] {Q : Type*} [Quiver Q]
+    {i : Q} (ρ : Etingof.QuiverRepresentation k Q) (d : Decidable (i = i)) :
+    letI := Etingof.reflFunctorPlus_acmAt ρ i i d
+    letI := Etingof.reflFunctorPlus_modAt ρ i i d
+    Etingof.reflFunctorPlus_objAt ρ i i d ≃ₗ[k] ↥(ρ.sinkMap i).ker :=
+  @Decidable.casesOn (i = i)
+    (fun d =>
+      letI := Etingof.reflFunctorPlus_acmAt ρ i i d
+      letI := Etingof.reflFunctorPlus_modAt ρ i i d
+      Etingof.reflFunctorPlus_objAt ρ i i d ≃ₗ[k] ↥(ρ.sinkMap i).ker)
+    d
+    (fun hii => absurd rfl hii)
+    (fun _ => LinearEquiv.refl k ↥(ρ.sinkMap i).ker)
 
 /-- `LinearEquiv` at vertex i: `F⁺ᵢ(ρ).obj i ≃ₗ[k] ker(sinkMap i)`.
 This reduces the `Decidable.casesOn` in the `reflectionFunctorPlus` definition.
-Uses term-mode match for clean definitional reduction. -/
+Defined via `reflFunctorPlus_equivAtAt_eq` at the live discriminant `inst i i`. -/
 noncomputable def Etingof.reflFunctorPlus_equivAt_eq
     {k : Type*} [CommSemiring k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
     (ρ : Etingof.QuiverRepresentation k Q) :
     @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i)
-      (Etingof.reflectionFunctorPlus Q i hi ρ) i ≃ₗ[k] ↥(ρ.sinkMap i).ker := by
-  unfold Etingof.reflectionFunctorPlus
-  simp only
-  exact match inst i i with
-  | .isTrue _ => LinearEquiv.refl k ↥(ρ.sinkMap i).ker
-  | .isFalse hii => absurd rfl hii
+      (Etingof.reflectionFunctorPlus Q i hi ρ) i ≃ₗ[k] ↥(ρ.sinkMap i).ker :=
+  Etingof.reflFunctorPlus_equivAtAt_eq ρ (inst i i)
 
 /-- Convert a reversed-quiver arrow between non-sink vertices back to original.
 For a ≠ i and b ≠ i, `ReversedAtVertexHom Q i a b = a ⟶ b`, so the arrow is unchanged. -/
@@ -191,6 +295,24 @@ def Etingof.reversedArrow_ne_ne
   | .isTrue h, _ => absurd h ha
   | .isFalse _, .isTrue h => absurd h hb
   | .isFalse _, .isFalse _ => fun e => e
+
+/-- `reversedArrow_ne_ne ha hb` is the `cast` along `ReversedAtVertexHom_ne_ne`. -/
+theorem Etingof.reversedArrow_ne_ne_eq_cast
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a b : Q}
+    (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
+    Etingof.reversedArrow_ne_ne ha hb e =
+      cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e := by
+  have h_ai : inst a i = .isFalse ha := by
+    cases inst a i with | isTrue h => exact absurd h ha | isFalse _ => rfl
+  have h_bi : inst b i = .isFalse hb := by
+    cases inst b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
+  revert e
+  unfold Etingof.reversedArrow_ne_ne Etingof.ReversedAtVertexHom_ne_ne
+    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_ai, h_bi]
+  intro e; rfl
 
 set_option maxHeartbeats 1600000 in
 -- reason: unfolding reflectionFunctorPlus + equivAt_ne + match reduction
@@ -215,20 +337,75 @@ theorem Etingof.reflFunctorPlus_mapLinear_ne_ne
     ρ.mapLinear (Etingof.reversedArrow_ne_ne ha hb e)
       ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a ha) w) := by
   have h_da : inst a i = .isFalse ha := by
-    cases inst a i with
-    | isTrue h => exact absurd h ha
-    | isFalse _ => rfl
+    cases inst a i with | isTrue h => exact absurd h ha | isFalse _ => rfl
   have h_db : inst b i = .isFalse hb := by
-    cases inst b i with
-    | isTrue h => exact absurd h hb
-    | isFalse _ => rfl
-  revert e w
-  unfold Etingof.reflFunctorPlus_equivAt_ne Etingof.reversedArrow_ne_ne
-    Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_da, h_db]
-  intro e w
-  rfl
+    cases inst b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
+  -- (1) Function-level HEq of `mapAt` at the live discriminants vs. at the literal `isFalse`
+  -- branch. No element is applied, so `rw` on the discriminants is type-correct on v4.29.
+  -- At `.isFalse, .isFalse` the map iota-reduces to `ρ.mapLinear`.
+  have hmap : HEq
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) a b e)
+      (ρ.mapLinear (Etingof.reversedArrow_ne_ne ha hb e)) := by
+    have hf : HEq
+        (Etingof.reflFunctorPlus_mapAt ρ hi a b (inst a i) (inst b i))
+        (Etingof.reflFunctorPlus_mapAt ρ hi a b (.isFalse ha) (.isFalse hb)) := by
+      rw [h_da, h_db]
+    have he : HEq e (Etingof.reversedArrow_ne_ne ha hb e) := by
+      rw [Etingof.reversedArrow_ne_ne_eq_cast ha hb]; exact (cast_heq _ _).symm
+    refine Etingof.heq_apply (Etingof.ReversedAtVertexHom_ne_ne ha hb) ?_ hf he
+    rw [h_da, h_db]
+  -- (2) `equivAt_ne` is heterogeneously the identity (function level, via the parametrized
+  -- `equivAtAt_ne` and `rw` on the discriminant — again no element applied).
+  have heqv : ∀ (v : Q) (hv : v ≠ i),
+      HEq (⇑(Etingof.reflFunctorPlus_equivAt_ne hi ρ v hv)) (id : ρ.obj v → ρ.obj v) := by
+    intro v hv
+    have hdv : inst v i = .isFalse hv := by
+      cases inst v i with | isTrue h => exact absurd h hv | isFalse _ => rfl
+    show HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i))) _
+    rw [hdv]
+    rfl
+  -- (3) Assemble via HEq congruence.
+  have hwa : HEq ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a ha) w) w :=
+    (Etingof.heq_apply (Etingof.reflFunctorPlus_obj_ne hi ρ a ha) rfl (heqv a ha)
+      (cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ a ha) w).symm).trans
+      (cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ a ha) w)
+  -- Instance HEqs needed to bridge `hmap` (HEq of LinearMap objects) to HEq of coercions.
+  have hac_a : HEq
+      (Etingof.reflFunctorPlus_acmAt ρ i a (inst a i)) (ρ.instAddCommMonoid a) := by
+    rw [h_da]; rfl
+  have hac_b : HEq
+      (Etingof.reflFunctorPlus_acmAt ρ i b (inst b i)) (ρ.instAddCommMonoid b) := by
+    rw [h_db]; rfl
+  have hmo_a : HEq
+      (Etingof.reflFunctorPlus_modAt ρ i a (inst a i)) (ρ.instModule a) := by
+    rw [h_da]; rfl
+  have hmo_b : HEq
+      (Etingof.reflFunctorPlus_modAt ρ i b (inst b i)) (ρ.instModule b) := by
+    rw [h_db]; rfl
+  have hmapcoe : HEq
+      (⇑(@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) a b e))
+      (⇑(ρ.mapLinear (Etingof.reversedArrow_ne_ne ha hb e))) :=
+    Etingof.heq_linearMap_coe
+      (Etingof.reflFunctorPlus_obj_ne hi ρ a ha)
+      (Etingof.reflFunctorPlus_obj_ne hi ρ b hb)
+      hac_a hac_b hmo_a hmo_b hmap
+  have hmapw : HEq
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) a b e w)
+      (ρ.mapLinear (Etingof.reversedArrow_ne_ne ha hb e)
+        ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a ha) w)) :=
+    Etingof.heq_apply (Etingof.reflFunctorPlus_obj_ne hi ρ a ha)
+      (Etingof.reflFunctorPlus_obj_ne hi ρ b hb) hmapcoe hwa.symm
+  have hfinal := Etingof.heq_apply (Etingof.reflFunctorPlus_obj_ne hi ρ b hb) rfl (heqv b hb)
+    (cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ b hb)
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) a b e w)).symm
+  -- `hfinal : HEq (equivAt_ne b hb (mapLinear e w)) (cast (obj_ne b hb) (mapLinear e w))`
+  exact eq_of_heq (hfinal.trans ((cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ b hb)
+    (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) a b e w)).trans hmapw))
 
 /-- Convert a reversed-quiver arrow from i to b ≠ i back to the original b ⟶ i.
 For a = i and b ≠ i, `ReversedAtVertexHom Q i i b = b ⟶ i`. -/
@@ -243,6 +420,24 @@ def Etingof.reversedArrow_eq_ne
   | .isFalse h, _ => absurd rfl h
   | .isTrue _, .isTrue h => absurd h hb
   | .isTrue _, .isFalse _ => fun e => e
+
+/-- `reversedArrow_eq_ne hb` is the `cast` along `ReversedAtVertexHom_eq_ne`. -/
+theorem Etingof.reversedArrow_eq_ne_eq_cast
+    {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i b : Q}
+    (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) :
+    Etingof.reversedArrow_eq_ne hb e =
+      cast (Etingof.ReversedAtVertexHom_eq_ne rfl hb) e := by
+  have h_ii : inst i i = .isTrue rfl := by
+    cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
+  have h_bi : inst b i = .isFalse hb := by
+    cases inst b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
+  revert e
+  unfold Etingof.reversedArrow_eq_ne Etingof.ReversedAtVertexHom_eq_ne
+    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+  simp only []
+  rw [h_ii, h_bi]
+  intro e; rfl
 
 set_option maxHeartbeats 1600000 in
 -- reason: unfolding reflectionFunctorPlus + equivAt_eq/ne + match reduction
@@ -278,13 +473,82 @@ theorem Etingof.reflFunctorPlus_mapLinear_eq_ne
     cases inst b i with
     | isTrue h => exact absurd h hb
     | isFalse _ => rfl
-  revert e w
-  unfold Etingof.reflFunctorPlus_equivAt_ne Etingof.reflFunctorPlus_equivAt_eq
-    Etingof.reversedArrow_eq_ne
-    Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_da, h_db]
-  intro e w
-  rfl
+  -- The target linear map of the F⁺ map at (a = i, b ≠ i): inclusion of `ker` then
+  -- projection onto the `b`-component of the direct sum.
+  set RHSmap :=
+    (DirectSum.component k (Etingof.ArrowsInto Q i) (fun x => ρ.obj x.1)
+      ⟨b, Etingof.reversedArrow_eq_ne hb e⟩).comp (ρ.sinkMap i).ker.subtype with hRHS
+  -- (1) Function-level HEq of `mapAt` at the live discriminants vs. at the literal
+  -- `(isTrue, isFalse)` branch, where the map iota-reduces to `RHSmap`.
+  have hmap : HEq
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) i b e)
+      RHSmap := by
+    have hf : HEq
+        (Etingof.reflFunctorPlus_mapAt ρ hi i b (inst i i) (inst b i))
+        (Etingof.reflFunctorPlus_mapAt ρ hi i b (.isTrue rfl) (.isFalse hb)) := by
+      rw [h_da, h_db]
+    have he : HEq e (Etingof.reversedArrow_eq_ne hb e) := by
+      rw [Etingof.reversedArrow_eq_ne_eq_cast hb]; exact (cast_heq _ _).symm
+    refine Etingof.heq_apply (Etingof.ReversedAtVertexHom_eq_ne rfl hb) ?_ hf he
+    rw [h_da, h_db]
+  -- (2) `equivAt_eq` is heterogeneously the identity on `ker(sinkMap i)`.
+  have heqve : HEq (⇑(Etingof.reflFunctorPlus_equivAt_eq hi ρ))
+      (id : ↥(ρ.sinkMap i).ker → ↥(ρ.sinkMap i).ker) := by
+    have h_ii : inst i i = .isTrue rfl := by
+      cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
+    show HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_eq ρ (inst i i))) _
+    rw [h_ii]
+    rfl
+  have hwe : HEq ((Etingof.reflFunctorPlus_equivAt_eq hi ρ) w) w :=
+    (Etingof.heq_apply (Etingof.reflFunctorPlus_obj_eq hi ρ) rfl (heqve)
+      (cast_heq (Etingof.reflFunctorPlus_obj_eq hi ρ) w).symm).trans
+      (cast_heq (Etingof.reflFunctorPlus_obj_eq hi ρ) w)
+  -- (3) Instance HEqs to bridge `hmap` to HEq of coercions.
+  have hac_i : HEq
+      (Etingof.reflFunctorPlus_acmAt ρ i i (inst i i))
+      (Submodule.addCommMonoid (ρ.sinkMap i).ker) := by
+    rw [h_da]; rfl
+  have hac_b : HEq
+      (Etingof.reflFunctorPlus_acmAt ρ i b (inst b i)) (ρ.instAddCommMonoid b) := by
+    rw [h_db]; rfl
+  have hmo_i : HEq
+      (Etingof.reflFunctorPlus_modAt ρ i i (inst i i))
+      (Submodule.module (ρ.sinkMap i).ker) := by
+    rw [h_da]; rfl
+  have hmo_b : HEq
+      (Etingof.reflFunctorPlus_modAt ρ i b (inst b i)) (ρ.instModule b) := by
+    rw [h_db]; rfl
+  have hmapcoe : HEq
+      (⇑(@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) i b e))
+      (⇑RHSmap) :=
+    Etingof.heq_linearMap_coe
+      (Etingof.reflFunctorPlus_obj_eq hi ρ)
+      (Etingof.reflFunctorPlus_obj_ne hi ρ b hb)
+      hac_i hac_b hmo_i hmo_b hmap
+  -- (4) Apply the coercion-HEq to the transported input.
+  have hmapw : HEq
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) i b e w)
+      (RHSmap ((Etingof.reflFunctorPlus_equivAt_eq hi ρ) w)) :=
+    Etingof.heq_apply (Etingof.reflFunctorPlus_obj_eq hi ρ)
+      (Etingof.reflFunctorPlus_obj_ne hi ρ b hb) hmapcoe hwe.symm
+  -- (5) `equivAt_ne` is heterogeneously identity on `ρ.obj b`; combine.
+  have heqv : ∀ (v : Q) (hv : v ≠ i),
+      HEq (⇑(Etingof.reflFunctorPlus_equivAt_ne hi ρ v hv)) (id : ρ.obj v → ρ.obj v) := by
+    intro v hv
+    have hdv : inst v i = .isFalse hv := by
+      cases inst v i with | isTrue h => exact absurd h hv | isFalse _ => rfl
+    show HEq (⇑(Etingof.reflFunctorPlus_equivAtAt_ne ρ v hv (inst v i))) _
+    rw [hdv]
+    rfl
+  have hfinal := Etingof.heq_apply (Etingof.reflFunctorPlus_obj_ne hi ρ b hb) rfl (heqv b hb)
+    (cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ b hb)
+      (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorPlus Q i hi ρ) i b e w)).symm
+  exact eq_of_heq (hfinal.trans ((cast_heq (Etingof.reflFunctorPlus_obj_ne hi ρ b hb)
+    (@Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+      (Etingof.reflectionFunctorPlus Q i hi ρ) i b e w)).trans hmapw))
 
 end ReflectionFunctorPlusAPI

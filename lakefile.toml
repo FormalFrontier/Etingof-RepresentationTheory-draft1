@@ -8,11 +8,15 @@ pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
 maxSynthPendingDepth = 3
+# Lean v4.29 made `isDefEq` respect transparency; restore the prior behavior
+# project-wide (Mathlib's own v4.29 bump applies this flag per-declaration).
+# `weak.` keeps it harmless on toolchains where the option is absent.
+weak.backward.isDefEq.respectTransparency = false
 
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.28.1"
+rev = "v4.29.0-rc1"
 
 [[lean_lib]]
 name = "EtingofRepresentationTheory"

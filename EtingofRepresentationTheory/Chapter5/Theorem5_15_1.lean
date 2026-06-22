@@ -1233,7 +1233,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
       rw [Multiset.count_cons, ih m htlen]
       by_cases h : c = a
       · subst h; simp [List.count_cons_self]
-      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)]; omega
+      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)]
 
 /-- For a symmetric polynomial P, the coefficient at any vector v equals the
 coefficient at `(finsuppToPartition v hsum).toFinsupp`. This follows from the

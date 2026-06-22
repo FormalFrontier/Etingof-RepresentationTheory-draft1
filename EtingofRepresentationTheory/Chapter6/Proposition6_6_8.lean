@@ -74,19 +74,11 @@ theorem Etingof.Proposition6_6_8_sink
   · -- v = i: need finrankAt'(F⁺ᵢ(ρ), i) = -dim(V_i) + Σ dim(V_j)
     subst hv
     simp only [ite_true]
-    -- Reduce finrankAt' by matching on the Decidable instance
-    unfold Etingof.QuiverRepresentation.finrankAt' Etingof.reflectionFunctorPlus
-    simp only
-    -- After subst, i is gone and v represents the sink vertex.
-    -- Split on the Decidable instance for v = v.
-    match hd : (‹DecidableEq V› v v) with
-    | .isFalse hvv => exact absurd rfl hvv
-    | .isTrue _ =>
-      rw [hd]
-      -- Decidable.rec (isTrue h✝) computes to the kernel branch
-      dsimp only []
-      -- Fold sinkMap back (dsimp expands let φ := sinkMap i to DirectSum.toModule)
-      change (Module.finrank k ↥(ρ.sinkMap v).ker : ℤ) =
+    -- Reduce finrankAt' at the sink vertex via the `equivAt_eq` equivalence to the kernel,
+    -- avoiding any rewrite of the `Decidable` discriminant inside the `finrank` type (v4.29).
+    unfold Etingof.QuiverRepresentation.finrankAt'
+    rw [(Etingof.reflFunctorPlus_equivAt_eq hi ρ).finrank_eq]
+    · change (Module.finrank k ↥(ρ.sinkMap v).ker : ℤ) =
         -(Module.finrank k (ρ.obj v) : ℤ) +
         ∑ x : Etingof.ArrowsInto V v, (Module.finrank k (ρ.obj x.fst) : ℤ)
       -- Rank-nullity: finrank(target) + finrank(ker) = Σ finrank(components)
@@ -111,14 +103,10 @@ theorem Etingof.Proposition6_6_8_sink
       linarith
   · -- v ≠ i: need finrankAt'(F⁺ᵢ(ρ), v) = dim(V_v)
     simp only [hv, ite_false]
-    -- The reflection functor at v ≠ i returns ρ.obj v with the same instances.
-    -- We need to case-split on the Decidable instance to make casesOn reduce.
-    unfold Etingof.QuiverRepresentation.finrankAt' Etingof.reflectionFunctorPlus
-    simp only
-    -- Split on the decidable instance for v = i
-    match hd : (‹DecidableEq V› v i) with
-    | .isTrue hvi => exact absurd hvi hv
-    | .isFalse _ => rw [hd]
+    -- The reflection functor at v ≠ i returns ρ.obj v; transport finrank through the
+    -- `equivAt_ne` equivalence rather than rewriting the `Decidable` discriminant (v4.29).
+    unfold Etingof.QuiverRepresentation.finrankAt'
+    rw [(Etingof.reflFunctorPlus_equivAt_ne hi ρ v hv).finrank_eq]
 
 /-- At a source with injective map, the dimension vector transforms by the
 simple reflection: `d(F⁻ᵢ V) = sᵢ(d(V))`.
@@ -146,19 +134,16 @@ theorem Etingof.Proposition6_6_8_source
   · -- v = i: need finrankAt'(F⁻ᵢ(ρ), i) = -dim(V_i) + Σ dim(V_j)
     subst hv
     simp only [ite_true]
-    unfold Etingof.QuiverRepresentation.finrankAt' Etingof.reflectionFunctorMinus
-    simp only
-    match hd : (‹DecidableEq V› v v) with
-    | .isFalse hvv => exact absurd rfl hvv
-    | .isTrue _ =>
-      rw [hd]
-      dsimp only []
-      -- Provide AddCommGroup instances needed for quotient type
-      haveI : DecidableEq (Etingof.ArrowsOutOf V v) := Classical.decEq _
-      letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V v) (fun a => ρ.obj a.1)) :=
-        Etingof.addCommGroupOfRing (k := k)
-      letI : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
-      -- Goal: finrank of the cokernel (quotient by range of sourceMap)
+    -- Provide AddCommGroup instances needed for the quotient (cokernel) type.
+    haveI : DecidableEq (Etingof.ArrowsOutOf V v) := Classical.decEq _
+    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf V v) (fun a => ρ.obj a.1)) :=
+      Etingof.addCommGroupOfRing (k := k)
+    letI : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
+    -- Reduce finrankAt' at the source vertex via the `equivAt_eq` equivalence to the
+    -- cokernel, avoiding any rewrite of the `Decidable` discriminant (v4.29).
+    unfold Etingof.QuiverRepresentation.finrankAt'
+    rw [(Etingof.reflFunctorMinus_equivAt_eq hi ρ).finrank_eq]
+    · -- Goal: finrank of the cokernel (quotient by range of sourceMap)
       change (Module.finrank k ((DirectSum (Etingof.ArrowsOutOf V v) (fun a => ρ.obj a.1)) ⧸
           LinearMap.range (ρ.sourceMap v)) : ℤ) =
         -(Module.finrank k (ρ.obj v) : ℤ) +
@@ -187,8 +172,6 @@ theorem Etingof.Proposition6_6_8_source
       linarith
   · -- v ≠ i: need finrankAt'(F⁻ᵢ(ρ), v) = dim(V_v)
     simp only [hv, ite_false]
-    unfold Etingof.QuiverRepresentation.finrankAt' Etingof.reflectionFunctorMinus
-    simp only
-    match hd : (‹DecidableEq V› v i) with
-    | .isTrue hvi => exact absurd hvi hv
-    | .isFalse _ => rw [hd]
+    -- Transport finrank through the `equivAt_ne` equivalence to `ρ.obj v`.
+    unfold Etingof.QuiverRepresentation.finrankAt'
+    rw [(Etingof.reflFunctorMinus_equivAt_ne hi ρ v hv).finrank_eq]
