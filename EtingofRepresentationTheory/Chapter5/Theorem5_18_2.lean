@@ -23,6 +23,11 @@ to the Lie algebra action.
 
 open scoped TensorProduct
 
+-- `LieRing.ofAssociativeRing` is `local instance` only upstream (v4.31.0); re-enable it so
+-- `Module.End k V` is seen as a Lie ring for the `→ₗ⁅k⁆` actions below (the global
+-- `LieAlgebra.ofAssociativeAlgebra` depends on it).
+attribute [local instance 100] LieRing.ofAssociativeRing
+
 namespace Etingof.Theorem5_18_2
 
 variable (k : Type*) [Field k]
