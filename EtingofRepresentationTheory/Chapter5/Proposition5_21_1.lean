@@ -43,6 +43,33 @@ def vandermondeExps (N : ℕ) : Fin N → ℕ := fun j => N - 1 - j
 def shiftedExps (N : ℕ) (lam : Fin N → ℕ) : Fin N → ℕ :=
   fun j => lam j + (N - 1 - j)
 
+private lemma coeff_sign_smul_monomial {N : ℕ} (σ : Equiv.Perm (Fin N)) (s t : Fin N →₀ ℕ) :
+    MvPolynomial.coeff t (Equiv.Perm.sign σ • MvPolynomial.monomial s (1 : ℚ)) =
+      ((↑(Equiv.Perm.sign σ) : ℤ) : ℚ) * (if s = t then 1 else 0) := by
+  rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;>
+    by_cases h : s = t <;>
+      simp [hs, Units.smul_def, MvPolynomial.coeff_monomial, h]
+
+private lemma coeff_ne_zero_of_sign_smul_ne_zero {N : ℕ} (σ : Equiv.Perm (Fin N))
+    {d : Fin N →₀ ℕ} {p : MvPolynomial (Fin N) ℚ}
+    (h : MvPolynomial.coeff d (Equiv.Perm.sign σ • p) ≠ 0) :
+    MvPolynomial.coeff d p ≠ 0 := by
+  rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;>
+    simpa [hs, Units.smul_def] using h
+
+private lemma sign_smul_sub {N : ℕ} (σ : Equiv.Perm (Fin N))
+    (p q : MvPolynomial (Fin N) ℚ) :
+    Equiv.Perm.sign σ • (p - q) = Equiv.Perm.sign σ • p - Equiv.Perm.sign σ • q := by
+  rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs
+  · simp [hs]
+  · simp [hs, Units.smul_def, sub_eq_add_neg, add_comm]
+
+private lemma degree_sign_smul_monomial {N : ℕ} (m : MonomialOrder (Fin N))
+    (σ : Equiv.Perm (Fin N)) (s : Fin N →₀ ℕ) :
+    m.degree (Equiv.Perm.sign σ • MvPolynomial.monomial s (1 : ℚ)) = s := by
+  rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;>
+    simp [hs, Units.smul_def, MonomialOrder.degree_monomial]
+
 /-! ### Divisibility of alternants by the Vandermonde
 
 The key algebraic fact: for any exponent sequence `e`, the Vandermonde determinant
@@ -456,7 +483,7 @@ theorem alternant_coeff_kronecker {N : ℕ}
       from rfl, show ∏ j, (X (σ j) : MvPolynomial (Fin N) ℚ) ^ e j =
         ∏ i, X i ^ (e (σ.symm i)) from Fintype.prod_equiv σ _ _ (fun _ => by simp)]
     exact prod_X_pow_eq_monomial' _]
-  simp only [MvPolynomial.coeff_monomial]
+  simp only [coeff_sign_smul_monomial]
   have key : ∀ σ : Equiv.Perm (Fin N),
       (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm) = Finsupp.equivFunOnFinite.symm e') ↔
       (e ∘ ⇑σ.symm = e') := fun σ => Finsupp.equivFunOnFinite.symm.injective.eq_iff
@@ -479,12 +506,12 @@ theorem alternant_coeff_kronecker {N : ℕ}
       simp [Equiv.Perm.one_symm]
     · intro σ _ hne; simp only [key]; split_ifs with h
       · exact absurd (unique σ h).2 hne
-      · exact smul_zero _
+      · exact mul_zero _
     · intro h; exact absurd (Finset.mem_univ _) h
   · exact Finset.sum_eq_zero fun σ _ => by
       simp only [key]; split_ifs with h
       · exact absurd (unique σ h).1 heq
-      · exact smul_zero _
+      · exact mul_zero _
 
 /-- An antisymmetric polynomial whose coefficients at all strictly anti multi-indices
 are zero must be the zero polynomial. -/
@@ -539,9 +566,9 @@ theorem alternant_isHomogeneous {N : ℕ} (e : Fin N → ℕ) :
     (alternantMatrix N e).det.IsHomogeneous (∑ j : Fin N, e j) := by
   rw [Matrix.det_apply, show ∑ j : Fin N, e j = ∑ j : Fin N, 1 * e j by simp]
   apply MvPolynomial.IsHomogeneous.sum; intro σ _ d hd
-  rw [MvPolynomial.coeff_smul] at hd
   exact (MvPolynomial.IsHomogeneous.prod _ _ _ (fun j _ =>
-    (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j))) (right_ne_zero_of_mul hd)
+    (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j)))
+    (coeff_ne_zero_of_sign_smul_ne_zero σ hd)
 
 /-- Power-sum symmetric polynomials are homogeneous of degree `n`. -/
 theorem psumPart_isHomogeneous {n : ℕ} (N : ℕ) (μ : n.Partition) :
@@ -603,7 +630,9 @@ theorem Proposition5_21_1_univ
   rw [← sub_eq_zero]
   apply antisym_eq_zero
   · -- Antisymmetry of the difference
-    intro σ; rw [map_sub, smul_sub]; congr 1
+    intro σ
+    rw [map_sub, sign_smul_sub]
+    congr 1
     · rw [map_mul, rename_alternant_det, (psumPart_isSymmetric N μ) σ, smul_mul_assoc]
     · -- rename σ (∑ c • D) = sign σ • ∑ c • D
       trans ∑ lam : BoundedPartition N n, Equiv.Perm.sign σ •
@@ -766,7 +795,7 @@ theorem degLex_degree_alternantMatrix_det {N : ℕ} {e : Fin N → ℕ} (he : St
     have hc : (Equiv.Perm.sign σ • (1 : ℚ)) ≠ 0 := by
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;>
         simp [Units.smul_def]
-    rw [smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
+    exact degree_sign_smul_monomial m σ _
   -- Lower bound: `x^e` lies in the support (its coefficient is `1`).
   have hlower : Finsupp.equivFunOnFinite.symm e ≼[m] m.degree (alternantMatrix N e).det := by
     apply m.le_degree
