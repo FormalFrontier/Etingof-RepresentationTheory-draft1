@@ -259,6 +259,28 @@ theorem polyRight_iSup_glWeightSpace_eq_top {N : ℕ} (d : ℕ) :
         rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨s, hdeg, rfl⟩)
 
+/-- **Homogeneity of the weight spaces of `A_d`.** A nonzero `μ`-weight space of
+`A_d` forces `∑ μ = d`: every weight-`μ` vector is a combination of degree-`d`
+monomials with column-degree vector `μ` (`map_polyOf_glWeightSpace`), and each such
+monomial has total degree `∑ⱼ μ_j`, so the weight space is `⊥` unless `∑ μ = d`. -/
+theorem polyRight_glWeightSpace_homog {N : ℕ} (d : ℕ) (μ : Fin N → ℕ)
+    (h : glWeightSpace k N (polyRightDegreeFDRep k N d) μ ≠ ⊥) : ∑ i, μ i = d := by
+  classical
+  by_contra hne
+  apply h
+  have hDset : Dset N d μ = ∅ := by
+    rw [Finset.eq_empty_iff_forall_notMem]
+    intro s hs
+    rw [mem_Dset] at hs
+    obtain ⟨hsum, hcol⟩ := hs
+    apply hne
+    calc ∑ i, μ i = ∑ j, ∑ i, s (i, j) := Finset.sum_congr rfl (fun j _ => (hcol j).symm)
+      _ = ∑ p, s p := by rw [Fintype.sum_prod_type]; exact Finset.sum_comm.symm
+      _ = d := hsum
+  apply Submodule.map_injective_of_injective (polyOf_injective d)
+  rw [Submodule.map_bot, map_polyOf_glWeightSpace, hDset]
+  simp
+
 /-! ### The degree-`d` component of the determinant quotient as an `FDRep` -/
 
 /-- **The degree-`d` component `(A/det)_d`, as a subrepresentation of `quotDetRep`.**
@@ -285,6 +307,114 @@ noncomputable def quotDetDegreeFDRep (k : Type*) [Field k] (N d : ℕ) :
     inferInstanceAs (FiniteDimensional k
       ((MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d).map (Submodule.mkQ (detSubmodule k N))))
   FDRep.of (quotDetDegreeSubrep k N d).toRepresentation
+
+/-! ### Spanning and homogeneity of the weight spaces of `(A/det)_d` (issue #5063)
+
+The two structural facts about `M = quotDetDegreeFDRep k N d` consumed by the
+#4905 final assembly (`Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`):
+its weight spaces span (`quotDetDegree_iSup_glWeightSpace_eq_top`) and every nonzero
+weight space sits in degree `d` (`quotDetDegree_homog`). Both descend from the
+surjective `GL_N`-equivariant quotient projection `π : A_d → (A/det)_d` together
+with the corresponding facts for `A_d`. -/
+
+/-- The surjective `GL_N`-equivariant quotient projection `π : A_d → (A/det)_d`,
+sending a degree-`d` polynomial to its class in `A/det = k[Xᵢⱼ]/(det)`. -/
+noncomputable def quotDetDegreeProj (k : Type*) [Field k] (N d : ℕ) :
+    polyRightDegreeFDRep k N d →ₗ[k] quotDetDegreeFDRep k N d :=
+  (Submodule.mkQ (detSubmodule k N)).restrict
+    (fun _ (hx : _ ∈ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d) =>
+      Submodule.mem_map_of_mem hx)
+
+/-- `π` is surjective: every element of `(A/det)_d` is the class of a degree-`d`
+polynomial. -/
+theorem quotDetDegreeProj_surjective {N : ℕ} (d : ℕ) :
+    Function.Surjective (quotDetDegreeProj k N d) := by
+  rintro ⟨_, f, hf, rfl⟩
+  exact ⟨⟨f, hf⟩, rfl⟩
+
+/-- `π` is `GL_N`-equivariant (from `quotDetRep_mk`). -/
+theorem quotDetDegreeProj_equivariant {N : ℕ} (d : ℕ)
+    (g : Matrix.GeneralLinearGroup (Fin N) k) (v : polyRightDegreeFDRep k N d) :
+    quotDetDegreeProj k N d ((polyRightDegreeFDRep k N d).ρ g v)
+      = (quotDetDegreeFDRep k N d).ρ g (quotDetDegreeProj k N d v) := by
+  let eV : polyRightDegreeFDRep k N d →ₗ[k] MvPolynomial (Fin N × Fin N) k := polyOf d
+  let eW : quotDetDegreeFDRep k N d →ₗ[k] (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+    (quotDetDegreeSubrep k N d).toSubmodule.subtype
+  have eW_inj : Function.Injective eW := Subtype.coe_injective
+  have eV_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : polyRightDegreeFDRep k N d),
+      eV ((polyRightDegreeFDRep k N d).ρ g v) = polyRightRep k N g (eV v) := fun _ _ => rfl
+  have eW_rho : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (w : quotDetDegreeFDRep k N d),
+      eW ((quotDetDegreeFDRep k N d).ρ g w) = quotDetRep k N g (eW w) := fun _ _ => rfl
+  have eW_π : ∀ v, eW (quotDetDegreeProj k N d v) = Submodule.mkQ (detSubmodule k N) (eV v) :=
+    fun _ => rfl
+  apply eW_inj
+  rw [eW_π, eW_rho, eW_π, eV_rho]
+  simp only [Submodule.mkQ_apply, quotDetRep_mk]
+
+/-- **The weight spaces of `(A/det)_d` span.** The image under the surjective
+equivariant `π : A_d → (A/det)_d` of the spanning weight-space decomposition of
+`A_d` (`polyRight_iSup_glWeightSpace_eq_top`) is everything; each `A_d` weight space
+maps into the same-weight space of `(A/det)_d` (`glWeightSpace_map_le`). -/
+theorem quotDetDegree_iSup_glWeightSpace_eq_top {N : ℕ} (d : ℕ) :
+    ⨆ μ : Fin N →₀ ℕ,
+        glWeightSpace k N (quotDetDegreeFDRep k N d) (fun i => μ i) = ⊤ := by
+  have h1 : (⨆ μ : Fin N →₀ ℕ,
+        glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i)).map
+          (quotDetDegreeProj k N d)
+      = ⨆ μ : Fin N →₀ ℕ,
+          (glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i)).map
+            (quotDetDegreeProj k N d) :=
+    Submodule.map_iSup _ _
+  rw [polyRight_iSup_glWeightSpace_eq_top, Submodule.map_top,
+    LinearMap.range_eq_top.mpr (quotDetDegreeProj_surjective d)] at h1
+  have h2 : (⨆ μ : Fin N →₀ ℕ,
+        (glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ i)).map
+          (quotDetDegreeProj k N d))
+      ≤ ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (quotDetDegreeFDRep k N d) (fun i => μ i) :=
+    iSup_mono fun μ => glWeightSpace_map_le N _ _ (quotDetDegreeProj k N d)
+      (quotDetDegreeProj_equivariant d) _
+  exact top_le_iff.mp (h1 ▸ h2)
+
+/-- **Homogeneity of the weight spaces of `(A/det)_d`.** A nonzero `μ`-weight space
+forces `∑ μ = d`. Writing `μ` as a finsupp `μ₀`, the surjective equivariant `π`
+identifies `⊤ = range π` with `⨆_ν (A_d)_ν.map π`; only the degree-`d` weights `ν`
+contribute (`polyRight_glWeightSpace_homog`), and since `∑ μ ≠ d` every contributing
+`ν ≠ μ₀`, so `⨆_{ν ≠ μ₀} (A/det)_ν = ⊤`. Independence of the weight spaces
+(`glWeightSpace_iSupIndep`) then forces the `μ₀`-weight space to be `⊥`. -/
+theorem quotDetDegree_homog {N : ℕ} (d : ℕ) (μ : Fin N → ℕ)
+    (h : glWeightSpace k N (quotDetDegreeFDRep k N d) μ ≠ ⊥) : ∑ i, μ i = d := by
+  classical
+  by_contra hne
+  set μ₀ : Fin N →₀ ℕ := Finsupp.equivFunOnFinite.symm μ with hμ₀
+  have hμ₀μ : (fun i => μ₀ i) = μ := by funext i; rw [hμ₀]; simp
+  have hindep := glWeightSpace_iSupIndep k N (quotDetDegreeFDRep k N d)
+  have hdisj := hindep μ₀
+  have hsup : (⊤ : Submodule k (quotDetDegreeFDRep k N d))
+      ≤ ⨆ (ν : Fin N →₀ ℕ) (_ : ν ≠ μ₀),
+          glWeightSpace k N (quotDetDegreeFDRep k N d) (fun i => ν i) := by
+    have hrange : (⨆ ν : Fin N →₀ ℕ,
+          (glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => ν i)).map
+            (quotDetDegreeProj k N d)) = ⊤ := by
+      rw [← Submodule.map_iSup, polyRight_iSup_glWeightSpace_eq_top, Submodule.map_top,
+        LinearMap.range_eq_top.mpr (quotDetDegreeProj_surjective d)]
+    rw [← hrange]
+    refine iSup_le fun ν => ?_
+    by_cases hν : ν = μ₀
+    · rw [hν]
+      have hVbot : glWeightSpace k N (polyRightDegreeFDRep k N d) (fun i => μ₀ i) = ⊥ := by
+        by_contra hVne
+        have hsum : ∑ i, μ₀ i = d := polyRight_glWeightSpace_homog d (fun i => μ₀ i) hVne
+        exact hne (by simpa only [hμ₀μ] using hsum)
+      rw [hVbot, Submodule.map_bot]
+      exact bot_le
+    · exact le_iSup₂_of_le ν hν
+        (glWeightSpace_map_le N _ _ (quotDetDegreeProj k N d)
+          (quotDetDegreeProj_equivariant d) _)
+  rw [top_le_iff] at hsup
+  rw [hsup] at hdisj
+  have hbot := hdisj.eq_bot_of_le le_top
+  simp only [hμ₀μ] at hbot
+  exact h hbot
 
 /-! ### The determinant-character twist `A_e ⊗ χ` and its formal character -/
 
