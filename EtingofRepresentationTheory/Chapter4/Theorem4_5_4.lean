@@ -139,7 +139,7 @@ theorem card_fixedPoints_eq_card_conjugators (g h : G) :
       rw [inv_inv]
       have h1 : g * x = x * h := by
         calc g * x = g * x * h⁻¹ * h := by group
-          _ = x * h := by rw [hx]; group
+          _ = x * h := by rw [hx]
       calc x⁻¹ * g * x = x⁻¹ * (x * h) := by rw [mul_assoc, h1]
         _ = h := by rw [← mul_assoc, inv_mul_cancel, one_mul]
     · intro ⟨a, ha, hax⟩
