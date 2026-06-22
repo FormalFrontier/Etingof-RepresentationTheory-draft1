@@ -351,6 +351,8 @@ lemma exists_orthogonal_idempotents_for_simples
     -- Map through WA⁻¹ (ring homomorphism)
     have := horth_prod.map WA.symm.toRingEquiv.toRingHom
     convert this using 1
+    funext i
+    rfl
   -- Now only need to prove: ∃ injective σ with the rank property.
   -- This is the block-module correspondence for Wedderburn-Artin.
   --

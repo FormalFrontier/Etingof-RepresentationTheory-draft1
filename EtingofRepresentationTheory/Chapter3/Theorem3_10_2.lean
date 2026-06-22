@@ -201,8 +201,13 @@ noncomputable def homBSMul (b : B) (f : V₀ →ₗ[A] M) : V₀ →ₗ[A] M whe
     simp only [RingHom.id_apply]
     rw [f.map_smul, smul_comm a b]
 
-/-- The B-module instance on Hom_A(V₀, M). -/
-noncomputable instance homBModule : Module B (V₀ →ₗ[A] M) where
+/-- The B-module instance on Hom_A(V₀, M).
+
+Given low priority: when the scalar ring happens to coincide with the base field
+`k`, instance synthesis must prefer the canonical `LinearMap.module` structure
+rather than matching this instance with `B := k` (which would create a
+`Module k (V₀ →ₗ[A] M)` diamond). -/
+noncomputable instance (priority := low) homBModule : Module B (V₀ →ₗ[A] M) where
   smul := homBSMul V₀
   one_smul f := by ext v; exact one_smul B (f v)
   mul_smul b₁ b₂ f := by ext v; exact mul_smul b₁ b₂ (f v)
@@ -211,7 +216,7 @@ noncomputable instance homBModule : Module B (V₀ →ₗ[A] M) where
   add_smul b₁ b₂ f := by ext v; exact add_smul b₁ b₂ (f v)
   zero_smul f := by ext v; exact zero_smul B (f v)
 
-instance homIsScalarTowerKB : IsScalarTower k B (V₀ →ₗ[A] M) where
+instance (priority := low) homIsScalarTowerKB : IsScalarTower k B (V₀ →ₗ[A] M) where
   smul_assoc c b f := by
     ext v; show (c • b) • f v = c • (b • f v)
     exact smul_assoc c b (f v)

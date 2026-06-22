@@ -641,7 +641,13 @@ private theorem trivialFDRep_simple (G : Type) [Group G] [Fintype G] :
   let ρ := trivialRep G
   haveI : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := by
     rw [isSimpleModule_iff]
-    exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+    -- `Representation.instIsScalarTowerMonoidAlgebraAsModule` is declared with
+    -- `backward.isDefEq.respectTransparency false`; since v4.31 instance synthesis
+    -- runs with the stricter default, so re-enable it locally for the
+    -- `IsScalarTower ℂ k[G] ρ.asModule` argument required below.
+    set_option backward.isDefEq.respectTransparency false in
+    exact is_simple_module_of_finrank_eq_one (A := MonoidAlgebra ℂ G)
+      (Module.finrank_self ℂ)
   -- Step 2: Transfer to Simple in ModuleCat
   haveI : Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule) :=
     simple_of_isSimpleModule
