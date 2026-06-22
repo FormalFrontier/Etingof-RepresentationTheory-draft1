@@ -33,6 +33,12 @@ open scoped Classical
 private abbrev G' (n : ℕ) := Equiv.Perm (Fin n)
 private abbrev A' (n : ℕ) := MonoidAlgebra ℂ (G' n)
 
+private lemma monoidAlgebra_fintype_sum_apply {ι R G : Type*} [Fintype ι] [Semiring R]
+    (f : ι → MonoidAlgebra R G) (a : G) :
+    (∑ i, f i) a = ∑ i, f i a := by
+  classical
+  exact Finsupp.finset_sum_apply Finset.univ f a
+
 instance neZero_card_perm (n : ℕ) : NeZero (Nat.card (G' n) : ℂ) :=
   ⟨by exact_mod_cast Nat.card_pos.ne'⟩
 
@@ -70,7 +76,7 @@ private lemma trace_lmul_monoidAlgebra
     intro g
     -- repr is identity for this basis; lmul a x = a * x
     change (a * MonoidAlgebra.single g 1 : G →₀ ℂ) g = (a : G →₀ ℂ) 1
-    rw [MonoidAlgebra.mul_single_apply, mul_inv_cancel, mul_one]
+    exact (MonoidAlgebra.mul_single_apply a (1 : ℂ) g g).trans (by simp)
   simp only [this, Finset.sum_const, Finset.card_univ]
 
 /-- The sorted parts of a partition of n sum to n. -/
@@ -99,10 +105,8 @@ private lemma columnAntisymmetrizer_apply_mem (n : ℕ) (la : Nat.Partition n) (
     (hσ : σ ∈ ColumnSubgroup n la) :
     (ColumnAntisymmetrizer n la : A' n) σ = ((↑(Equiv.Perm.sign σ) : ℤ) : ℂ) := by
   simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply]
-  rw [Finsupp.finset_sum_apply]
-  rw [Finset.sum_congr rfl (fun i _ => show _ = _ from by
-    change ((↑(↑(Equiv.Perm.sign (i : G' n)) : ℤ) : ℂ) • (Finsupp.single (i : G' n) (1 : ℂ))) σ = _
-    rw [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply])]
+  rw [monoidAlgebra_fintype_sum_apply]
+  simp only [MonoidAlgebra.smul_single, smul_eq_mul, mul_one]
   rw [Finset.sum_eq_single (⟨σ, hσ⟩ : ↑(ColumnSubgroup n la))]
   · simp
   · intro q _ hq
@@ -115,10 +119,8 @@ private lemma columnAntisymmetrizer_apply_not_mem (n : ℕ) (la : Nat.Partition 
     (hσ : σ ∉ ColumnSubgroup n la) :
     (ColumnAntisymmetrizer n la : A' n) σ = 0 := by
   simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply]
-  rw [Finsupp.finset_sum_apply]
-  rw [Finset.sum_congr rfl (fun i _ => show _ = _ from by
-    change ((↑(↑(Equiv.Perm.sign (i : G' n)) : ℤ) : ℂ) • (Finsupp.single (i : G' n) (1 : ℂ))) σ = _
-    rw [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply])]
+  rw [monoidAlgebra_fintype_sum_apply]
+  simp only [MonoidAlgebra.smul_single, smul_eq_mul, mul_one]
   apply Finset.sum_eq_zero
   intro q _
   have : (q : G' n) ≠ σ := fun h => hσ (h ▸ q.prop)
@@ -133,31 +135,30 @@ private lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
   change (ColumnAntisymmetrizer n la * RowSymmetrizer n la : A' n) 1 = 1
   -- Expand b = ∑_q sign(q) · single q 1
   simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply, Finset.sum_mul]
-  rw [Finsupp.finset_sum_apply]
+  rw [monoidAlgebra_fintype_sum_apply]
   -- Each summand: (sign(q) • single(q, 1) * a)(1) = sign(q) * a(q⁻¹)
-  rw [Finset.sum_congr rfl (fun q _ => show _ = _ from by
-    rw [Algebra.smul_mul_assoc, Finsupp.smul_apply, smul_eq_mul,
-      MonoidAlgebra.single_mul_apply, one_mul, mul_one])]
+  simp only [Algebra.smul_mul_assoc]
   rw [Finset.sum_eq_single (⟨1, (ColumnSubgroup n la).one_mem⟩ : ↑(ColumnSubgroup n la))]
   · -- q = 1: sign(1) * a(1) = 1
-    simp only [Subgroup.coe_mk, inv_one, Equiv.Perm.sign_one, Int.cast_one,
-      Complex.ofReal_one, one_mul]
+    simp only [Equiv.Perm.sign_one]
     -- a(1) = RowSymmetrizer(1) = 1
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-    rw [Finsupp.finset_sum_apply,
+    simp only [Units.val_one, Int.cast_one, one_smul, MonoidAlgebra.single_mul_apply,
+      inv_one, mul_one, one_mul]
+    rw [monoidAlgebra_fintype_sum_apply,
       Finset.sum_eq_single (⟨1, (RowSubgroup n la).one_mem⟩ : ↑(RowSubgroup n la))]
-    · simp [Finsupp.single_apply]
+    · simp
     · intro p _ hp
       have hp_ne : (p : G' n) ≠ 1 := fun h => hp (Subtype.ext h)
-      simp [Finsupp.single_apply, hp_ne]
+      simp [hp_ne]
     · intro h; exact absurd (Finset.mem_univ _) h
   · -- q ≠ 1: sign(q) * a(q⁻¹) = 0 because q⁻¹ ∉ P (since P ∩ Q = {1})
     intro q _ hq
     have hq_ne : (q : G' n) ≠ 1 := fun h => hq (Subtype.ext h)
     suffices h : (RowSymmetrizer n la : A' n) (q : G' n)⁻¹ = 0 by
-      rw [h, mul_zero]
+      simp [MonoidAlgebra.smul_apply, MonoidAlgebra.single_mul_apply, h]
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-    rw [Finsupp.finset_sum_apply]
+    rw [monoidAlgebra_fintype_sum_apply]
     apply Finset.sum_eq_zero; intro p _
     rw [Finsupp.single_apply]
     split_ifs with h
