@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
 import EtingofRepresentationTheory.Chapter5.FormalCharacterTorusTrace
 import EtingofRepresentationTheory.Chapter5.CharacterIndependence
 import EtingofRepresentationTheory.Chapter5.TraceVanishingDensity
+import EtingofRepresentationTheory.Chapter5.GLRepAlgebraic
 
 /-!
 # Schur-Weyl #6: the formal character determines the isomorphism class
@@ -52,23 +53,27 @@ The iso-strength highest-weight uniqueness `simpleRep_iso_schurModule_of_formalC
 (this file) — "a simple polynomial `GL_N`-rep with character `S_λ` is `L_λ`", the natural
 strengthening of `schurWeyl_simples_formalCharacter_classification_core` (#4721, which only
 classifies characters) — is itself now **sorry-free in its own proof** (route B, #4901). It
-takes the polynomiality (weight saturation) of `L` as a hypothesis `hLtop` and runs the
-two-element-family `{L, L_λ}` character-independence argument, reducing to two isolated,
-genuinely-deep ingredients, each tracked as a sub-issue:
+takes the polynomiality (weight saturation) of `L` as a hypothesis `hLtop` and its algebraicity
+as `hLalg`, and runs the two-element-family `{L, L_λ}` character-independence argument, reducing
+to two isolated, genuinely-deep ingredients:
 
-* (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946);
+* (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946, `sorry`);
 * (b) `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` — the general-`k`
   torus→full-group Zariski-density character-independence seam (#4947, shares the density core
-  with the ℂ seam #4908).
+  with the ℂ seam #4908). **Now sorry-free** (algebraicity bridge #4983): it takes algebraicity
+  of each `L i` as a hypothesis (matching the ℂ seam), supplied at the call sites from the
+  polynomial source via `schurModule_isAlgebraic` and `IsAlgebraicRepresentation.of_linearEquiv`.
 
 There is no third "weight saturation from character" ingredient: the original (c)
 `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was **false** (`formalCharacter`
 does not see non-`ℕ` weights, so it cannot certify polynomiality of a simple — counterexample
-`det⁻¹ ⊗ Sym³(std)` at `N = 2`) and is retired (#4969). Polynomiality is instead threaded as
-the `hLtop` hypothesis and discharged at the real caller `iso_of_formalCharacter_eq_schurPoly`,
-where the simple summand `L (f 0)` is the equivariant image of the polynomial `M`; the
-`L_λ`-side uses the true `glWeightSpace_schurModule_iSup_eq_top`. Both rest on the elementary
-`glWeightSpace_iSup_eq_top_of_equivariant_surjective`.
+`det⁻¹ ⊗ Sym³(std)` at `N = 2`) and is retired (#4969). Both polynomiality (`hLtop`) and
+algebraicity (`hLalg`) are instead threaded as hypotheses and discharged at the real caller
+`iso_of_formalCharacter_eq_schurPoly`, where the simple summand `L (f 0)` is the equivariant
+image of the polynomial, algebraic `M`; the `L_λ`-side uses the true
+`glWeightSpace_schurModule_iSup_eq_top` and `schurModule_isAlgebraic`. Weight saturation rests
+on the elementary `glWeightSpace_iSup_eq_top_of_equivariant_surjective`, algebraicity on the
+analogous `IsAlgebraicRepresentation.of_linearEquiv`.
 
 The classification crux (#4721) and pairwise distinctness (#4731), reached through
 `decompose_polynomial_gl_rep`, are consumed transitively by the assembly below.
@@ -194,10 +199,10 @@ theorem schurModule_isSimple_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Ant
       (Representation.asModule (SchurModule k N lam).ρ) := by
   sorry
 
-/-- **General-`k` torus→full-group character independence (algebraic hypothesis,
-issue #4947).** For a finite family of pairwise non-isomorphic simple **algebraic**
-`GL_N(k)`-representations `L i`, a `ℚ`-combination `c` of their characters whose
-corresponding combination of *torus* traces vanishes at every diagonal torus element
+/-- **Ingredient (b): general-`k` torus→full-group character independence (issue #4947,
+algebraicity bridge #4983).** For a finite family of pairwise non-isomorphic simple
+**algebraic** `GL_N(k)`-representations `L i`, a `ℚ`-combination `c` of their characters
+whose corresponding combination of *torus* traces vanishes at every diagonal torus element
 has all coefficients zero.
 
 This is the general algebraically-closed characteristic-zero `k` analogue of the ℂ
@@ -207,11 +212,15 @@ independence of characters + the Zariski-density bridge), now driven by the gene
 density core `trace_combination_vanishes_of_torus_vanishes_of_algebraic`
 (`TraceVanishingDensity.lean`). The `ℂ` seam is the `k = ℂ` specialisation.
 
-The hypothesis is `hLalg` (regularity of each character), **not** `hLtop`
-(spanning `ℕ`-weight spaces): the density step requires the character combination to be
-a *regular* function, which `hLtop` does not provide for an abstract-group
-representation. See `TraceVanishingDensity.lean` and the `_general` wrapper below. -/
-theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_algebraic
+The hypothesis is `hLalg` (regularity of each character), **not** `hLtop` (spanning
+`ℕ`-weight spaces): the density step requires the character combination to be a *regular*
+function, which `hLtop` does not provide for an abstract-group representation. This matches
+the ℂ seam exactly. At the genuine call site (`simpleRep_iso_schurModule_of_formalCharacter_eq`
+below) each `L i` is supplied from its polynomial source — the Schur module via
+`schurModule_isAlgebraic`, the abstract simple via `IsAlgebraicRepresentation.of_linearEquiv`
+transport from the algebraic ambient rep — rather than manufactured from `hLtop` alone
+(which would be strictly stronger, hence false; see #4983). -/
+theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ)
@@ -269,39 +278,6 @@ theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_
   have : (c i : k) = 0 := Fintype.linearIndependent_iff.mp hLI (fun i => (c i : k)) hfun i
   exact_mod_cast this
 
-/-- **Ingredient (b): general-`k` torus→full-group character independence (issue #4947).**
-For a finite family of pairwise non-isomorphic simple polynomial
-(weight-space-spanning) `GL_N(k)`-representations, a `ℚ`-combination of their characters
-whose corresponding combination of *torus* traces vanishes at every diagonal torus element
-has all coefficients zero.
-
-The genuine content — the Zariski-density bridge extending torus-trace vanishing to all of
-`GL_N(k)` — is discharged by `..._general_of_algebraic` above (general-`k` density core,
-`TraceVanishingDensity.lean`). The **only** remaining gap is the algebraicity bridge: that
-each weight-space-spanning simple `L i` is an *algebraic* (regular) representation. This is
-genuinely stronger than `hLtop` for an abstract-group representation and is the open residual
-of #4947 (see the progress note / follow-up issue). At the genuine call site each `L i` is a
-polynomial constituent, so this bridge will be supplied from the algebraic source rather than
-manufactured from `hLtop` alone. -/
-theorem formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
-    (N : ℕ) {ι : Type} [Fintype ι] [DecidableEq ι]
-    (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (L i) (fun j => μ j) = ⊤)
-    (hLsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
-        (Representation.asModule (L i).ρ))
-    (hLdist : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
-    (c : ι → ℚ)
-    (htorus : ∀ t : Fin N → kˣ,
-        ∑ i, (c i : k) • LinearMap.trace k (L i) ((L i).ρ (diagTorus k N t)) = 0) :
-    ∀ i, c i = 0 := by
-  -- Algebraicity bridge: a weight-space-spanning simple representation is regular.
-  -- This is the open residual of #4947 (strictly stronger than `hLtop`); everything
-  -- downstream is discharged by the general-`k` density core.
-  have hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ := by
-    sorry
-  exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_algebraic
-    k N L hLalg hLsimp hLdist c htorus
-
 /-- **Highest-weight uniqueness (issue #4901/#4721, route B).** A *simple* polynomial
 `GL_N(k)`-representation whose formal character is the Schur polynomial `S_λ` (for an
 antitone `λ`) is isomorphic to the Schur module `L_λ`.
@@ -321,13 +297,21 @@ is *not* determined by `formalCharacter` for non-polynomial simples (e.g. `det�
 at `N = 2` has character `schurPoly 2 (1,0)` but does not saturate), so the would-be ingredient
 (c) `glWeightSpace_top_of_simple_formalCharacter_eq_schurPoly` was false and is retired (#4969).
 The `L_λ`-side saturation is the true `glWeightSpace_schurModule_iSup_eq_top`. The two remaining
-deep ingredients are isolated as the `sorry`s above (#4946 simplicity, #4947 independence). -/
+deep ingredients are isolated as the `sorry`s above (#4946 simplicity, #4947 independence).
+
+Algebraicity of `L` is likewise threaded in as the hypothesis `hLalg` (the genuine input to
+ingredient (b), which now takes algebraicity rather than the false `hLtop ⟹ regular` bridge;
+see #4983): the `L_λ`-side is supplied internally by `schurModule_isAlgebraic`. Like weight
+saturation, algebraicity is not determined by `formalCharacter`, so it must come from `L`'s
+polynomial source; at the genuine call site (`iso_of_formalCharacter_eq_schurPoly`) it
+transports from the algebraic ambient rep via `IsAlgebraicRepresentation.of_linearEquiv`. -/
 theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
     (lam : Fin N → ℕ) (hlam : Antitone lam)
     (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hLsimp : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule L.ρ))
     (hLtop : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N L (fun i => μ i) = ⊤)
+    (hLalg : Etingof.IsAlgebraicRepresentation N L.ρ)
     (h : formalCharacter k N L = schurPoly N lam) :
     Nonempty (L ≅ SchurModule k N lam) := by
   by_contra hno
@@ -347,6 +331,12 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
   have hsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule (![L, S] i).ρ) := by
     rw [Fin.forall_fin_two]; exact ⟨hLsimp, hSsimp⟩
+  -- Both members of the family are algebraic: `L` by hypothesis, `S = L_λ` by
+  -- `schurModule_isAlgebraic`. This is the genuine #4983 input to character independence.
+  have hSalg : Etingof.IsAlgebraicRepresentation N S.ρ := by
+    rw [hSdef]; exact schurModule_isAlgebraic N lam
+  have halg : ∀ i, Etingof.IsAlgebraicRepresentation N (![L, S] i).ρ := by
+    rw [Fin.forall_fin_two]; exact ⟨by simpa using hLalg, by simpa using hSalg⟩
   have hdist : Pairwise (fun i j => ¬ Nonempty ((![L, S] i) ≅ (![L, S] j))) := by
     have hsym : ¬ Nonempty (S ≅ L) := fun ⟨e⟩ => hno ⟨e.symm⟩
     intro i j hij
@@ -369,7 +359,7 @@ theorem simpleRep_iso_schurModule_of_formalCharacter_eq (N : ℕ)
       ![(1 : ℚ), -1] ![L, S] (fun i _ => htop i) hcharsum t
   -- Character independence (ingredient (b)) forces the coefficient `1` to vanish: absurd.
   have hzero := formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
-    k N ![L, S] htop hsimp hdist ![(1 : ℚ), -1] htorus
+    k N ![L, S] halg hsimp hdist ![(1 : ℚ), -1] htorus
   simpa using hzero 0
 
 /-- A polynomial `GL_N(k)`-representation whose formal character equals a Schur
@@ -490,9 +480,15 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
       (Representation.kEquivOfAsModuleEquiv hφ').toLinearMap
       (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ' g v)
       (Representation.kEquivOfAsModuleEquiv hφ').surjective h_span
+  -- Algebraicity of `L (f 0)` transports from the algebraic ambient rep `M` along the
+  -- `k`-linear GL-equivariant equivalence `hφ'` (`IsAlgebraicRepresentation.of_linearEquiv`, #4983).
+  have hLf0alg : Etingof.IsAlgebraicRepresentation N (L (f 0)).ρ :=
+    Etingof.IsAlgebraicRepresentation.of_linearEquiv
+      (Representation.kEquivOfAsModuleEquiv hφ')
+      (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ' g v) halg
   have hLS : Nonempty (L (f 0) ≅ SchurModule k N lam) :=
     simpleRep_iso_schurModule_of_formalCharacter_eq k N lam hlam (L (f 0)) (hLsimp (f 0))
-      hLf0top hchar0
+      hLf0top hLf0alg hchar0
   obtain ⟨isoML⟩ := hML
   obtain ⟨isoLS⟩ := hLS
   exact ⟨isoML ≪≫ isoLS⟩
