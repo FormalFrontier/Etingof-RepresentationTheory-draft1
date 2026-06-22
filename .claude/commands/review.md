@@ -39,6 +39,21 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
+**Soundness audits** (faithfulness of landed code, no edits expected):
+- Confirm `def`/`noncomputable def` bodies build the real object, not a
+  vacuous/`True`/defaulted placeholder. Read the body, not just the type.
+- The definitive check that nothing is vacuous via `sorry`: `#print axioms` on
+  each audited declaration (via a temporary scratch module importing the files;
+  delete it after). An honest declaration depends only on
+  `[propext, Classical.choice, Quot.sound]` — any `sorryAx` is a defect.
+- For "general-`k` lifts of an existing ℂ result," compare the lifted statement
+  against the ℂ original byte-for-byte: hypotheses no stronger, conclusion no
+  weaker, same normalization. A proof-irrelevant difference (e.g. the membership
+  term in a `LinearMap.restrict` binder) is fine — the maps are equal.
+- Record the conclusion (PASS, or one focused issue per defect with `replan` only
+  on the originating issue) in the progress handoff. Do not fix landed math
+  silently.
+
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by
