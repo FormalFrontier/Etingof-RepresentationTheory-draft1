@@ -465,8 +465,8 @@ private noncomputable def sytBranchingInvFun (n : ℕ) (la : Nat.Partition (n + 
     split_ifs with h₁ h₂ h₂
     · exfalso; rw [h₁] at hc; rw [h₂] at hc; exact Nat.lt_irrefl _ hc
     · exfalso; exact corner_no_right c₂
-        (by have := congr_arg Prod.fst h₁; simp at this; omega)
-        (by have := congr_arg Prod.snd h₁; simp at this; omega)
+        (by have := congr_arg Prod.fst h₁; (try simp at this); omega)
+        (by have := congr_arg Prod.snd h₁; (try simp at this); omega)
     · rw [h₂] at hr hc
       exact Fin.castSucc_lt_last _
     · exact Fin.castSucc_lt_castSucc_iff.mpr (t'.property.2.1
@@ -480,8 +480,8 @@ private noncomputable def sytBranchingInvFun (n : ℕ) (la : Nat.Partition (n + 
     split_ifs with h₁ h₂ h₂
     · exfalso; rw [h₁] at hr; rw [h₂] at hr; exact Nat.lt_irrefl _ hr
     · exfalso; exact corner_no_below c₂
-        (by have := congr_arg Prod.snd h₁; simp at this; omega)
-        (by have := congr_arg Prod.fst h₁; simp at this; omega)
+        (by have := congr_arg Prod.snd h₁; (try simp at this); omega)
+        (by have := congr_arg Prod.fst h₁; (try simp at this); omega)
     · exact Fin.castSucc_lt_last _
     · exact Fin.castSucc_lt_castSucc_iff.mpr (t'.property.2.2
         ⟨c₁.val, originalCell_mem_reduced (hcorner := hcorner) c₁.property h₁⟩
