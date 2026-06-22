@@ -208,6 +208,16 @@ echo "body..." | coordination plan --label feature "Sub-task 2: ..."
 #    superseded; depend on real predecessor sub-issues instead.
 coordination add-dep <sub2> <sub1>
 
+# 2b. Re-point DOWNSTREAM issues that depend on the parent. Any open issue
+#     with `depends-on: #<parent>` will read as "satisfied" once the parent
+#     closes, even though the real work moved to a sub-issue — a silent
+#     false-unblock that wastes a downstream worker's whole session.
+#     Find them and re-point to the sub-issue that actually carries the work:
+#       gh issue list --state open --search 'depends-on: #<parent> in:body'
+#       coordination add-dep <downstream> <sub-that-carries-the-dep>
+#     (Workers: in Step 4, never trust a closed `depends-on` at face value
+#     when the dep was a decomposed parent — verify the sub-issues landed.)
+
 # 3. Leave a machine-readable breadcrumb on the parent. The planner's
 #    replan-triage step keys off this exact `Decomposed into #X, #Y`
 #    phrasing — keep it on a single line at the start of the comment.
