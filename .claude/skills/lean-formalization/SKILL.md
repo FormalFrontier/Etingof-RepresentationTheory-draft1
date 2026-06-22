@@ -28,6 +28,14 @@ with `lake build <Module>` before debugging — the on-`main` file fails `lake e
 too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
 these instances.)
 
+**Reading background-build results: grep the teed log for `error:`, do not trust a
+wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
+`Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
+separate poller/`sleep`-loop you spawn to wait has its own exit status unrelated to
+the build's. Always confirm success by `grep -nE "error:|✖|Build completed" log`
+on the full teed file (and check `#print axioms` for `sorryAx`) — never infer "build
+passed" from a poller returning exit 0.
+
 **Build-environment recovery (shared `.lake/packages` across pod worktrees):**
 - `Lean exited with code 139` (SIGSEGV) on *dependency* files you did not touch has
   two distinct causes. (a) Corrupted Mathlib oleans from a concurrent `lake exe cache
