@@ -286,4 +286,117 @@ noncomputable def quotDetDegreeFDRep (k : Type*) [Field k] (N d : ℕ) :
       ((MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d).map (Submodule.mkQ (detSubmodule k N))))
   FDRep.of (quotDetDegreeSubrep k N d).toRepresentation
 
+/-! ### The determinant-character twist `A_e ⊗ χ` and its formal character -/
+
+/-- The degree-`e` homogeneous component `A_e` of `k[Xᵢⱼ]` twisted by the
+determinant character `χ = detChar`, as an `FDRep` on the same carrier as
+`polyRightDegreeFDRep k N e`. This is the left object `A_{d-N} ⊗ χ` of the
+per-degree short exact sequence. -/
+noncomputable def twistFDRep (k : Type*) [Field k] (N e : ℕ) :
+    FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+  haveI : FiniteDimensional k (polyRightHomogeneousSubrep k N e).toSubmodule :=
+    finiteDimensional_homogeneousSubmodule e
+  FDRep.of (charTwistRep (detChar k N) (polyRightHomogeneousSubrep k N e).toRepresentation)
+
+/-- The action of `twistFDRep` is `detChar`-scaled `polyRightDegreeFDRep` action. -/
+theorem twistFDRep_ρ_apply (e : ℕ) (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (v : twistFDRep k N e) :
+    (twistFDRep k N e).ρ g v
+      = (detChar k N g : k) • (polyRightDegreeFDRep k N e).ρ g v := by
+  show (charTwistRep (detChar k N) (polyRightHomogeneousSubrep k N e).toRepresentation) g v
+      = (detChar k N g : k) • (polyRightHomogeneousSubrep k N e).toRepresentation g v
+  rw [charTwistRep_apply]
+
+/-- **The twist shifts every weight up by one** (positive case): for `μ` with all
+coordinates `≥ 1`, the `μ`-weight space of `A_e ⊗ χ` is the `(μ-1)`-weight space of
+`A_e`. -/
+theorem glWeightSpace_twistFDRep_pos (e : ℕ) (μ : Fin N → ℕ) (hμ : ∀ i, 1 ≤ μ i) :
+    glWeightSpace k N (twistFDRep k N e) μ
+      = glWeightSpace k N (polyRightDegreeFDRep k N e) (fun i => μ i - 1) := by
+  ext v
+  rw [mem_glWeightSpace_iff, mem_glWeightSpace_iff]
+  refine forall_congr' fun i => forall_congr' fun t => ?_
+  rw [twistFDRep_ρ_apply, detChar_diagUnit_val]
+  constructor
+  · intro h
+    refine smul_right_injective _ (Units.ne_zero t) ?_
+    show (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N i t) v
+        = (t : k) • ((t : k) ^ (μ i - 1) • v)
+    rw [h, smul_smul, ← pow_succ', Nat.sub_add_cancel (hμ i)]
+  · intro h
+    rw [h, smul_smul, ← pow_succ', Nat.sub_add_cancel (hμ i)]
+
+/-- **The twist has no weight with a zero coordinate**: if some `μ j = 0` then the
+`μ`-weight space of `A_e ⊗ χ` is trivial (its weight vectors would have a negative
+`A_e`-weight). -/
+theorem glWeightSpace_twistFDRep_zero (e : ℕ) (μ : Fin N → ℕ) (j : Fin N) (hj : μ j = 0) :
+    glWeightSpace k N (twistFDRep k N e) μ = ⊥ := by
+  rw [eq_bot_iff]
+  intro v hv
+  rw [Submodule.mem_bot]
+  rw [mem_glWeightSpace_iff] at hv
+  apply polyOf_injective e
+  rw [map_zero]
+  ext s
+  rw [MvPolynomial.coeff_zero]
+  by_contra hcoeff
+  obtain ⟨t, ht⟩ := exists_unit_pow_ne_one k ((∑ l, s (l, j)) + 1) (by omega)
+  have hkey : (t : k) • (polyRightDegreeFDRep k N e).ρ (diagUnit k N j t) v = v := by
+    have := hv j t
+    rwa [twistFDRep_ρ_apply, detChar_diagUnit_val, hj, pow_zero, one_smul] at this
+  have hpoly := congrArg (polyOf e) hkey
+  rw [map_smul, polyOf_rho] at hpoly
+  have hc := congrArg (MvPolynomial.coeff s) hpoly
+  rw [MvPolynomial.coeff_smul, coeff_polyRightRep_diagUnit, smul_eq_mul,
+    ← mul_assoc, ← pow_succ'] at hc
+  exact ht (mul_right_cancel₀ hcoeff (by rw [hc, one_mul]))
+
+/-- All-ones exponent vector. -/
+private noncomputable def allOnes (N : ℕ) : Fin N →₀ ℕ :=
+  ∑ i : Fin N, Finsupp.single i 1
+
+private theorem allOnes_apply (N : ℕ) (i : Fin N) : allOnes N i = 1 := by
+  classical
+  simp only [allOnes, Finsupp.finset_sum_apply, Finsupp.single_apply,
+    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+
+private theorem prod_X_eq_monomial_allOnes (N : ℕ) :
+    (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ))
+      = MvPolynomial.monomial (allOnes N) 1 := by
+  classical
+  have hsupp : (allOnes N).support = Finset.univ := by
+    ext i; simp only [Finsupp.mem_support_iff, allOnes_apply, Finset.mem_univ, ne_eq,
+      one_ne_zero, not_false_eq_true]
+  rw [← MvPolynomial.prod_X_pow_eq_monomial, hsupp]
+  exact Finset.prod_congr rfl fun i _ => by rw [allOnes_apply, pow_one]
+
+set_option maxHeartbeats 800000 in
+/-- **The formal character of the determinant-character twist** `A_e ⊗ χ` is
+`(∏ᵢ Xᵢ) · char A_e`: twisting by `χ` shifts every weight by `(1,…,1)`. -/
+theorem formalCharacter_twistFDRep (e : ℕ) :
+    formalCharacter k N (twistFDRep k N e)
+      = (∏ i : Fin N, (MvPolynomial.X i : MvPolynomial (Fin N) ℚ))
+          * formalCharacter k N (polyRightDegreeFDRep k N e) := by
+  classical
+  rw [prod_X_eq_monomial_allOnes]
+  ext μ
+  rw [formalCharacter_coeff, MvPolynomial.coeff_monomial_mul']
+  by_cases hμ : allOnes N ≤ μ
+  · have hμ1 : ∀ i, 1 ≤ μ i := fun i => by
+      have := (Finsupp.le_def.mp hμ) i; rwa [allOnes_apply] at this
+    have harg : (fun i => μ i - 1) = (fun i => (μ - allOnes N) i) := by
+      funext i; rw [Finsupp.tsub_apply, allOnes_apply]
+    rw [if_pos hμ, one_mul, formalCharacter_coeff]
+    refine Nat.cast_inj.mpr ?_
+    rw [glWeightSpace_twistFDRep_pos e (fun i => μ i) hμ1]
+    exact congrArg
+      (fun w => Module.finrank k (glWeightSpace k N (polyRightDegreeFDRep k N e) w)) harg
+  · rw [if_neg hμ]
+    have hj : ∃ j, μ j = 0 := by
+      by_contra h; push_neg at h
+      exact hμ (Finsupp.le_def.mpr fun i => by rw [allOnes_apply]; have := h i; omega)
+    obtain ⟨j, hj0⟩ := hj
+    rw [glWeightSpace_twistFDRep_zero e (fun i => μ i) j hj0, finrank_bot,
+      Nat.cast_zero]
+
 end Etingof.CauchyDetQuotient
