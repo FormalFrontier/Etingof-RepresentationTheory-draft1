@@ -671,4 +671,152 @@ theorem quotDetDegreeFDRep_formalCharacter (d : ℕ) (hd : N ≤ d) :
   rw [hW, sub_eq_iff_eq_add]
   exact (Finset.sum_filter_add_sum_filter_not Finset.univ _ _).symm
 
+/-! ### `(A/det)_d` character as an antitone-indexed Schur sum (issue #5064)
+
+The #4905 final assembly `Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`
+consumes the character of `M = quotDetDegreeFDRep k N d` in the exact shape
+`∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val` with `S : Finset {l : Fin N → ℕ // Antitone l}`,
+`c : {l // Antitone l} → ℕ`, and every `ν ∈ S` carrying a zero coordinate. The two
+gaps from the part-B formula `quotDetDegreeFDRep_formalCharacter` are: translating the
+`BoundedPartition`-index / `ℚ`-coefficient into the antitone subtype with `ℕ`
+coefficients, and supplying the missing `d < N` case (where `det` has degree `N > d`,
+so `(A/det)_d ≅ A_d`). -/
+
+/-- **Schur dimensions are natural numbers.** For an antitone weight `l`, the value
+`s_l(1,…,1) = eval₁(schurPoly N l)` is a nonnegative integer: it is the dimension of the
+Schur module `L_l`, namely the sum over all weight monomials of the natural-number
+weight-space dimensions `dim (L_l)_μ = [x^μ] s_l` (`schurModule_weight_eq_schurPoly_coeff`). -/
+theorem schurPoly_eval_one_isNat (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
+    {N : ℕ} (l : Fin N → ℕ) (hl : Antitone l) :
+    ∃ m : ℕ, MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N l) = (m : ℚ) := by
+  classical
+  refine ⟨∑ d ∈ (schurPoly N l).support,
+      Module.finrank k (glWeightSpace k N (SchurModule k N l) (fun i => d i)), ?_⟩
+  rw [MvPolynomial.eval_eq', Nat.cast_sum]
+  refine Finset.sum_congr rfl (fun d _ => ?_)
+  rw [schurModule_weight_eq_schurPoly_coeff k N l hl d]
+  simp
+
+/-- The injection `BoundedPartition N d ↪ {l : Fin N → ℕ // Antitone l}` sending a
+bounded partition to its (antitone) sequence of parts. -/
+def boundedToAntitone {N d : ℕ} (ν : BoundedPartition N d) :
+    {l : Fin N → ℕ // Antitone l} :=
+  ⟨ν.parts, ν.decreasing⟩
+
+theorem boundedToAntitone_injective {N d : ℕ} :
+    Function.Injective (boundedToAntitone (N := N) (d := d)) := by
+  intro ν₁ ν₂ h
+  obtain ⟨p₁, d₁, s₁⟩ := ν₁
+  obtain ⟨p₂, d₂, s₂⟩ := ν₂
+  have hp : p₁ = p₂ := congrArg Subtype.val h
+  subst hp; rfl
+
+omit [IsAlgClosed k] [CharZero k] in
+/-- **For `d < N` the determinant ideal misses degree `d`.** Since `detPoly` is
+homogeneous of degree `N`, every nonzero element of the principal ideal `(det)` has
+degree `≥ N`, so the slice in degree `d < N` is trivial. -/
+theorem detSubmodule_inf_homogeneous_lt {N : ℕ} (d : ℕ) (hd : d < N) :
+    detSubmodule k N ⊓ MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d = ⊥ := by
+  rw [eq_bot_iff]
+  rintro x ⟨hxdet, hxhom⟩
+  rw [Submodule.mem_bot]
+  rw [← range_mulDet] at hxdet
+  obtain ⟨g, hg⟩ := LinearMap.mem_range.1 hxdet
+  have hx0 : MvPolynomial.homogeneousComponent d x = 0 := by
+    rw [← hg, mulDet_apply]
+    conv_lhs => rw [← MvPolynomial.sum_homogeneousComponent g, Finset.mul_sum, map_sum]
+    refine Finset.sum_eq_zero (fun j _ => ?_)
+    rw [MvPolynomial.homogeneousComponent_of_mem
+        ((MvPolynomial.mem_homogeneousSubmodule (N + j) _).2
+          (detPoly_isHomogeneous.mul (MvPolynomial.homogeneousComponent_isHomogeneous j g))),
+      if_neg (by omega)]
+  have hxeq : MvPolynomial.homogeneousComponent d x = x := by
+    rw [MvPolynomial.homogeneousComponent_of_mem hxhom, if_pos rfl]
+  rw [← hxeq]; exact hx0
+
+/-- **`(A/det)_d ≅ A_d` for `d < N`, at the level of formal characters.** When `d < N`
+the determinant ideal misses degree `d` (`detSubmodule_inf_homogeneous_lt`), so the
+quotient projection `π : A_d → (A/det)_d` is injective as well as surjective and
+`GL_N`-equivariant; hence the two reps have equal formal characters. -/
+theorem quotDetDegree_formalCharacter_eq_polyRight_of_lt {N : ℕ} (d : ℕ) (hd : d < N) :
+    formalCharacter k N (quotDetDegreeFDRep k N d)
+      = formalCharacter k N (polyRightDegreeFDRep k N d) := by
+  have hinj : Function.Injective (quotDetDegreeProj k N d) := by
+    rw [injective_iff_map_eq_zero]
+    intro v hv
+    have hco : Submodule.mkQ (detSubmodule k N) (polyOf d v) = 0 := by
+      have h := Subtype.ext_iff.mp hv
+      simpa only [quotDetDegreeProj, LinearMap.restrict_coe_apply, ZeroMemClass.coe_zero] using h
+    rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hco
+    have hv0 : polyOf d v = 0 := by
+      have hmem : polyOf d v ∈ (⊥ : Submodule k (MvPolynomial (Fin N × Fin N) k)) := by
+        rw [← detSubmodule_inf_homogeneous_lt d hd]
+        exact ⟨hco, polyOf_mem d v⟩
+      simpa using hmem
+    exact polyOf_injective d (by simpa using hv0)
+  haveI : Module.Finite k (polyRightHomogeneousSubrep k N d).toSubmodule :=
+    inferInstanceAs (Module.Finite k (polyRightDegreeFDRep k N d))
+  haveI : Module.Finite k (quotDetDegreeSubrep k N d).toSubmodule :=
+    inferInstanceAs (Module.Finite k (quotDetDegreeFDRep k N d))
+  exact (formalCharacter_eq_of_rep_iso k N
+    (polyRightHomogeneousSubrep k N d).toRepresentation
+    (quotDetDegreeSubrep k N d).toRepresentation
+    (LinearEquiv.ofBijective (quotDetDegreeProj k N d)
+      ⟨hinj, quotDetDegreeProj_surjective d⟩)
+    (fun g v => quotDetDegreeProj_equivariant d g v)).symm
+
+/-- **Character of `(A/det)_d` as a nonnegative `ℕ`-combination of distinct Schur
+polynomials indexed by antitone weights with a zero coordinate** (issue #5064, the
+#4905 glue). For every `d`, the formal character of the determinant-quotient degree
+component is `∑_{ν ∈ S} c_ν · S_ν` with `S` a finite set of antitone weights, each
+having `0` among its coordinates, and `c_ν ∈ ℕ`. This is the exact input shape
+consumed by `simple_constituent_formalCharacter_eq_schurPoly_mem`. -/
+theorem quotDetDegree_char_as_antitone_sum (N d : ℕ) :
+    ∃ (S : Finset {l : Fin N → ℕ // Antitone l}) (c : {l : Fin N → ℕ // Antitone l} → ℕ),
+      (∀ ν ∈ S, (0 : ℕ) ∈ Set.range ν.val) ∧
+      formalCharacter k N (quotDetDegreeFDRep k N d)
+        = ∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val := by
+  classical
+  have hc : ∀ ν : {l : Fin N → ℕ // Antitone l},
+      ((schurPoly_eval_one_isNat k ν.val ν.property).choose : ℚ)
+        = MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.val) :=
+    fun ν => ((schurPoly_eval_one_isNat k ν.val ν.property).choose_spec).symm
+  rcases Nat.lt_or_ge d N with hd | hd
+  · -- `d < N`: `(A/det)_d ≅ A_d`, the full degree-`d` Cauchy character; every bounded
+    -- partition of `d < N` has a zero part by pigeonhole.
+    refine ⟨(Finset.univ : Finset (BoundedPartition N d)).image boundedToAntitone,
+      fun ν => (schurPoly_eval_one_isNat k ν.val ν.property).choose, ?_, ?_⟩
+    · intro ν' hν'
+      rw [Finset.mem_image] at hν'
+      obtain ⟨ν, _, rfl⟩ := hν'
+      change (0 : ℕ) ∈ Set.range ν.parts
+      by_contra h
+      have hpos : ∀ i, 1 ≤ ν.parts i := fun i => by
+        rcases Nat.eq_zero_or_pos (ν.parts i) with h0 | h1
+        · exact absurd ⟨i, h0⟩ h
+        · exact h1
+      have hge : N ≤ ∑ i, ν.parts i := by
+        calc N = ∑ _i : Fin N, 1 := by simp
+          _ ≤ ∑ i, ν.parts i := Finset.sum_le_sum (fun i _ => hpos i)
+      rw [ν.sum_eq] at hge; omega
+    · rw [quotDetDegree_formalCharacter_eq_polyRight_of_lt d hd,
+        polyRightDegreeFDRep_formalCharacter k N d,
+        Finset.sum_image (fun x _ y _ h => boundedToAntitone_injective h)]
+      refine Finset.sum_congr rfl (fun ν _ => ?_)
+      have hval : (boundedToAntitone ν).val = ν.parts := rfl
+      rw [hc (boundedToAntitone ν), hval]
+  · -- `d ≥ N`: translate the part-B formula along `boundedToAntitone`.
+    refine ⟨(Finset.univ.filter
+        (fun ν : BoundedPartition N d => (0 : ℕ) ∈ Set.range ν.parts)).image boundedToAntitone,
+      fun ν => (schurPoly_eval_one_isNat k ν.val ν.property).choose, ?_, ?_⟩
+    · intro ν' hν'
+      rw [Finset.mem_image] at hν'
+      obtain ⟨ν, hν, rfl⟩ := hν'
+      exact (Finset.mem_filter.mp hν).2
+    · rw [quotDetDegreeFDRep_formalCharacter d hd,
+        Finset.sum_image (fun x _ y _ h => boundedToAntitone_injective h)]
+      refine Finset.sum_congr rfl (fun ν _ => ?_)
+      have hval : (boundedToAntitone ν).val = ν.parts := rfl
+      rw [hc (boundedToAntitone ν), hval]
+
 end Etingof.CauchyDetQuotient
