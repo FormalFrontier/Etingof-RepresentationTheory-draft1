@@ -227,6 +227,20 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### `k`-trace lemmas on a group-algebra submodule need `restrictScalars k`
+
+When generalizing a character/trace from `ℂ` to general `k` (the #4946 chain), the Specht-type
+modules are left ideals `SpechtModuleK k n la = k[S_n]·c_λ` — i.e. a `Submodule (MonoidAlgebra k G) (MonoidAlgebra k G)`
+(over the *algebra*), not a `Submodule k _`. Mathlib's `k`-trace lemmas (`LinearMap.trace_restrict_eq_of_forall_mem`,
+`LinearMap.trace_baseChange`) require a `Submodule k M`, so passing the algebra-submodule leaves `p`/`q` stuck as
+metavars. **Fix:** phrase the hypothesis and the `.restrict` over `(SpechtModuleK k n la).restrictScalars k` (same
+carrier, so the action `→ₗ[k]` on `↥(SpechtModuleK …)` is defeq to the one on `↥(… .restrictScalars k)`); close the
+final step with `exact` (which uses defeq) rather than `rw` (syntactic). Field-independence of such a trace then comes
+cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻¹c}) = (N₀:k)⁻¹·(M₀:k)` with `N₀,M₀ ∈ ℤ` from the
+ℤ-coefficients of `c_λ` (`YoungSymmetrizerZ` + `mapRangeRingHom`), so `χ_k = algebraMap ℚ k (χ_ℚ)` and ℂ injectivity
+transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
+`G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
+
 ### Heavy Instance Resolves Abstractly but Fails Concretely
 
 **A heavy instance (e.g. `centralizerModuleHom : Module ↥(centralizer …) (V →ₗ[A] E)`) that resolves for an *abstract* carrier `V` can fail fresh typeclass search for a *concrete* one (`V = Fin N → k`), at the same `synthInstance.maxHeartbeats` — it is structural, not a heartbeat shortfall (diagnosed across ~7 build cycles in #4860, `SchurWeylLDistinct.lean`).** Symptom: `failed to synthesize HSMul … ?m` (an `outParam` output stuck as a metavar) on a `•`/instance you wrote *freshly* in the concrete proof, while the *same* `•` typechecks when it comes from *specializing* a polymorphic lemma's signature. Two non-fixes and the fix:
