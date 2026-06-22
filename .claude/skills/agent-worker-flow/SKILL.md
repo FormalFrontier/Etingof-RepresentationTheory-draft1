@@ -319,6 +319,16 @@ Commit early and often. Each commit is a checkpoint.
 Build and test the project. Compare quality metrics with the starting values.
 Use `/second-opinion` if available.
 
+**If a full-build / aggregator check fails in a file you never touched, fetch and
+rebase onto the latest `origin/main` before investigating.** In this fast
+parallel-merge environment a freshly-merged PR can leave `main` transiently broken
+(a renamed lemma whose consumer still cites the old name), and the queue often
+merges the fix minutes later. Confirm the failing file is independent of your diff
+(`git diff --name-only origin/main..HEAD`; check it does not import your new
+module), then `git fetch origin main && git rebase origin/main` and rebuild — the
+breakage is frequently already gone. Don't spend time "fixing" a file outside your
+scope until you've ruled this out.
+
 **Review your diff against `origin/main`, not your starting commit:**
 ```bash
 git fetch origin
