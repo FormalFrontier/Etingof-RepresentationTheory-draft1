@@ -446,13 +446,19 @@ theorem alternant_coeff_kronecker {N : ℕ}
     {e e' : Fin N → ℕ} (he : StrictAnti e) (he' : StrictAnti e') :
     MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm e') (alternantMatrix N e).det =
     if e = e' then 1 else 0 := by
-  rw [Matrix.det_apply]; simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_smul]
+  rw [Matrix.det_apply]; simp only [MvPolynomial.coeff_sum]
   simp_rw [show ∀ σ : Equiv.Perm (Fin N), ∏ j, alternantMatrix N e (σ j) j =
       monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) 1 from fun σ => by
     rw [show ∏ j, alternantMatrix N e (σ j) j = ∏ j, (X (σ j) : MvPolynomial (Fin N) ℚ) ^ e j
       from rfl, show ∏ j, (X (σ j) : MvPolynomial (Fin N) ℚ) ^ e j =
         ∏ i, X i ^ (e (σ.symm i)) from Fintype.prod_equiv σ _ _ (fun _ => by simp)]
     exact prod_X_pow_eq_monomial' _]
+  simp_rw [show ∀ (x : Equiv.Perm (Fin N)),
+      coeff (Finsupp.equivFunOnFinite.symm e')
+        (Equiv.Perm.sign x • (monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑x.symm))) (1 : ℚ))
+        = Equiv.Perm.sign x • coeff (Finsupp.equivFunOnFinite.symm e')
+          ((monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑x.symm))) (1 : ℚ))
+        from fun x => MvPolynomial.coeff_smul _ _ _]
   simp only [MvPolynomial.coeff_monomial]
   have key : ∀ σ : Equiv.Perm (Fin N),
       (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm) = Finsupp.equivFunOnFinite.symm e') ↔
@@ -467,9 +473,9 @@ theorem alternant_coeff_kronecker {N : ℕ}
       · exact absurd hgt (not_lt.mpr (le_of_eq (congr_arg e heq.symm)))
       · exact absurd hgt (not_lt.mpr (le_of_lt (he hlt)))
     exact ⟨by rw [← h]; simp [show σ.symm = 1 from perm_eq_one_of_strictMono hmono],
-           by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono]; simp⟩
+           by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono]; rfl⟩
   split_ifs with heq
-  · rw [Finset.sum_eq_single 1]; · simp [heq]
+  · rw [Finset.sum_eq_single 1]; · simp [heq, Equiv.Perm.one_def]
     · intro σ _ hne; simp only [key]; split_ifs with h
       · exact absurd (unique σ h).2 hne
       · exact smul_zero _
@@ -527,14 +533,15 @@ private theorem strictAnti_gap {N : ℕ} {e : Fin N → ℕ} (he : StrictAnti e)
     have := ih i j' (by simp [j']; omega) (by simp [j', Fin.le_iff_val_le_val]; omega)
     have := he (show j' < j from by simp [j', Fin.lt_def]; omega); omega
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The alternant determinant is homogeneous of degree `∑ e_j`. -/
 theorem alternant_isHomogeneous {N : ℕ} (e : Fin N → ℕ) :
     (alternantMatrix N e).det.IsHomogeneous (∑ j : Fin N, e j) := by
   rw [Matrix.det_apply, show ∑ j : Fin N, e j = ∑ j : Fin N, 1 * e j by simp]
   apply MvPolynomial.IsHomogeneous.sum; intro σ _ d hd
-  rw [MvPolynomial.coeff_smul] at hd
+  rw [MvPolynomial.coeff_smul, Units.smul_def, zsmul_eq_mul, mul_ne_zero_iff] at hd
   exact (MvPolynomial.IsHomogeneous.prod _ _ _ (fun j _ =>
-    (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j))) (right_ne_zero_of_mul hd)
+    (MvPolynomial.isHomogeneous_X ℚ (σ j)).pow (e j))) hd.2
 
 /-- Power-sum symmetric polynomials are homogeneous of degree `n`. -/
 theorem psumPart_isHomogeneous {n : ℕ} (N : ℕ) (μ : n.Partition) :
@@ -565,6 +572,7 @@ theorem exists_bp_of_strictAnti_sum {N n : ℕ}
     simp only [vandermondeExps] at hsum; omega
   · funext j; simp only [shiftedExps, parts]; exact Nat.sub_add_cancel (hge j)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Frobenius character formula (universe form).** Stronger version of
 `Proposition5_21_1` where the indexing finset is `Finset.univ`: every
 power-sum partition expands as a sum over *all* bounded partitions, with
@@ -759,7 +767,9 @@ theorem degLex_degree_alternantMatrix_det {N : ℕ} {e : Fin N → ℕ} (he : St
     have hc : (Equiv.Perm.sign σ • (1 : ℚ)) ≠ 0 := by
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs <;> rw [hs] <;>
         simp [Units.smul_def]
-    rw [smul_monomial, MonomialOrder.degree_monomial, if_neg hc]
+    rw [show (Equiv.Perm.sign σ • monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ))
+        = monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (Equiv.Perm.sign σ • (1 : ℚ))
+      from smul_monomial _, MonomialOrder.degree_monomial, if_neg hc]
   -- Lower bound: `x^e` lies in the support (its coefficient is `1`).
   have hlower : Finsupp.equivFunOnFinite.symm e ≼[m] m.degree (alternantMatrix N e).det := by
     apply m.le_degree

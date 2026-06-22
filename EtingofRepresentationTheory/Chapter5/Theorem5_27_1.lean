@@ -969,10 +969,11 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
               σ.toSubmodule hσ_inv q₁ hq₁_out_mem g₁ hg₁_mem hg₁_nz hg₁_supp u
             -- f ∈ σ, f(q₁) = u, f(q) = 0 for q ≠ q₁
             -- f = Pi.single q₁ u by funext
-            convert hf_mem using 1
-            ext q; by_cases hq : q = q₁
-            · rw [hq, Pi.single_eq_same, hf_eq]
-            · rw [Pi.single_eq_of_ne hq, hf_supp q hq]
+            have hsingle_eq : (Pi.single q₁ u : (G ⧸ stabAux φ χ) → ↥U) = f := by
+              funext q; by_cases hq : q = q₁
+              · rw [hq, Pi.single_eq_same, hf_eq]
+              · rw [Pi.single_eq_of_ne hq, hf_supp q hq]
+            rw [hsingle_eq]; exact hf_mem
           -- For any coset q, Pi.single q u ∈ σ
           -- Transport via G-action: ρ(1, q.out) maps V_{q₁} to V_q
           intro q u
@@ -1049,6 +1050,7 @@ private lemma A_action_scalar {G A : Type} [Group G] [CommGroup A] [Fintype G]
   congr 1
   exact hrho _ (inv_mul_cancel q.out) _
 
+set_option backward.isDefEq.respectTransparency false in
 open Classical in
 private lemma inducedRepV_orbit_injectivity {G A : Type} [Group G] [CommGroup A] [Fintype G]
     (φ : G →* MulAut A) (χ₁ χ₂ : A →* ℂˣ)
@@ -1337,7 +1339,7 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
       (0 : A ⟶ B).hom.hom.hom x = 0 := by
     intro A B x
     show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
-    simp [ModuleCat.Hom.hom]; exact LinearMap.zero_apply x
+    simp [ModuleCat.Hom.hom]
   have hid : ∀ (A : FDRep ℂ H) (x : A.V),
       (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
   refine {
@@ -1462,8 +1464,8 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     have hcomm := ι.comm s
     -- At element level: ι.hom(ρ_U(s)(u)) = ρ_Wχ(s)(ι.hom(u))
     have h := congr_arg (fun (φ : U.V ⟶ (weightSpaceRep _ W χ hχ).V) =>
-      (φ.hom.hom u : ↥(weightSpace _ W χ)).val) hcomm
-    simp only [CategoryTheory.comp_apply] at h
+      ((CategoryTheory.ConcreteCategory.hom φ) u : ↥(weightSpace _ W χ)).val) hcomm
+    simp only [CategoryTheory.ConcreteCategory.comp_apply] at h
     exact h
   -- Helper: weight space property for ι_W targets
   have ws_prop : ∀ (u : ↥U) (b : A),

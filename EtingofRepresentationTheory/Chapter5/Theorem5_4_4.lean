@@ -265,7 +265,8 @@ private lemma class_sum_scalar_isIntegral
     -- Extract .hom.hom to get ModuleCat.Hom equality, then .hom for LinearMap
     have h2 := congr_arg (fun f : V.V ⟶ V.V => InducedCategory.Hom.hom f |>.hom) h1
     -- h2 relates σ to c • id at the LinearMap level
-    convert h2 using 1
+    rw [show (σ : V.V.obj →ₗ[ℂ] V.V.obj) = ModuleCat.Hom.hom σ_hom.hom.hom from rfl, h2]
+    rfl
   -- Step 3: c = C * χ(g) / d via trace computation
   have hc_val : c = (C : ℂ) * V.character g / (d : ℂ) := by
     have hdim_ne : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
@@ -300,7 +301,7 @@ private lemma class_sum_scalar_isIntegral
   -- The representation ring hom: ℤ[G] → End(V)
   let φ : MonoidAlgebra ℤ G →+* Module.End ℂ V.V.obj :=
     ((Representation.asAlgebraHom V.ρ).toRingHom).comp
-      (MonoidAlgebra.mapRangeRingHom G (Int.castRingHom ℂ))
+      (MonoidAlgebra.mapRingHom G (Int.castRingHom ℂ))
   -- φ(e) = σ = c • id
   have hφe : φ e = c • LinearMap.id := by
     have hφ_of : ∀ h : G, φ (MonoidAlgebra.of ℤ G h) = V.ρ h := by
@@ -308,14 +309,26 @@ private lemma class_sum_scalar_isIntegral
     show φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
     rw [map_sum]; simp_rw [hφ_of]; exact hc
   -- φ(e) is integral over ℤ; transfer via ring hom
-  have hφe_int : IsIntegral ℤ (φ e) := he.map φ.toIntAlgHom
+  have hφe_int : IsIntegral ℤ (φ e) := by
+    have hmap := RingHom.IsIntegralElem.map
+      (he : (algebraMap ℤ (MonoidAlgebra ℤ G)).IsIntegralElem e) φ
+    have hcomp : φ.comp (algebraMap ℤ (MonoidAlgebra ℤ G))
+        = algebraMap ℤ (Module.End ℂ V.V.obj) :=
+      RingHom.ext_int _ _
+    rw [hcomp] at hmap
+    exact hmap
   rw [hφe] at hφe_int
   -- Extract c from c • id using injectivity of algebraMap ℂ → End(V)
   haveI : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn
   exact (isIntegral_algHom_iff
     (IsScalarTower.toAlgHom ℤ ℂ (Module.End ℂ V.V.obj))
     (FaithfulSMul.algebraMap_injective ℂ (Module.End ℂ V.V.obj))).mp
-    (by convert hφe_int)
+    (by
+      have hcid : (IsScalarTower.toAlgHom ℤ ℂ (Module.End ℂ V.V.obj)) c
+          = c • (LinearMap.id : V.V.obj →ₗ[ℂ] V.V.obj) := by
+        rw [IsScalarTower.coe_toAlgHom', Algebra.algebraMap_eq_smul_one,
+          Module.End.one_eq_id]
+      rw [hcid]; exact hφe_int)
 
 /-! ### Helper: χ_V(g)/dim(V) is an algebraic integer when gcd(|C|, dim V) = 1
 
