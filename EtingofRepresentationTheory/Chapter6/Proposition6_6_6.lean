@@ -90,14 +90,9 @@ private noncomputable def Etingof.equivAt_eq_sink
     @Etingof.QuiverRepresentation.obj k Q _ inst ρ i := by
   -- Upgrade to AddCommGroup (needed for quotient module)
   letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
-  -- Eliminate Decidable.casesOn on (inst_dec i i) using `refine match` so that
-  -- inside the .isTrue branch, inst_dec i i reduces definitionally. This avoids
-  -- Eq.mpr wrappers from `rw [h_di]` that block external computation.
-  unfold Etingof.reflectionFunctorMinus
-  simp only
-  refine match inst_dec i i with
-  | .isFalse h => absurd rfl h
-  | .isTrue _ => ?_
+  -- Rather than reducing the `Decidable` discriminant (`refine match inst_dec i i`, which
+  -- fails the v4.29 motive check), we build the cokernel `≃ V_i` equiv below and precompose
+  -- the `reflFunctorMinus_equivAt_eq` chart (`F⁻(F⁺V).obj i ≃ coker`) at the very end.
   -- Goal: (⊕_{a : ArrowsOutOf Q̄ᵢ i} F⁺(V)_a.fst) ⧸ range(ψ') ≃ₗ[k] V_i
   -- Strategy: Φ = sinkMap after reindexing, then first isomorphism theorem
   classical
@@ -333,8 +328,76 @@ private noncomputable def Etingof.equivAt_eq_sink
               (fun b => Module.finrank k (ρ.obj b.fst))
           linarith [heq1, heq3, h_rn, h_surj, h_ds, h_reindex]
         exact (Etingof.exact_of_dim hfwd hΦsurj hψ_inj hdim).ge
-    -- Compose quotEquivOfEq with quotKerEquivOfSurjective
-    exact (Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦsurj)
+    -- Compose quotEquivOfEq with quotKerEquivOfSurjective, precomposed by the
+    -- `reflFunctorMinus_equivAt_eq` chart (`F⁻(F⁺V).obj i ≃ coker`) to land on the goal type
+    -- without reducing the `Decidable` discriminant.
+    exact (@Etingof.reflFunctorMinus_equivAt_eq k _ Q _
+      (@Etingof.reversedAtVertex Q _ inst i) i
+      (@Etingof.isSink_reversedAtVertex_isSource Q _ inst i hi)
+      (@Etingof.reflectionFunctorPlus k _ Q _ inst i hi ρ) _).trans
+      ((Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦsurj))
+
+/-- `equivAt_eq` cancels the `equivAt_eq.symm` in the definition of `mkQ`, leaving the
+plain cokernel quotient map. Non-private restatement of
+`Etingof.reflFunctorMinus_equivAt_eq_mkQ` (which is `private` and so not usable here);
+the bespoke `AddCommGroup` instances are threaded through the statement via `letI` so the
+produced `Submodule.mkQ` carries the matching instances. -/
+private theorem Etingof.reflFunctorMinus_equivAt_eq_mkQ'
+    {k : Type*} [CommRing k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [Fintype (Etingof.ArrowsOutOf Q i)]
+    (d : DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :
+    letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+      Etingof.addCommGroupOfRing (k := k)
+    Etingof.reflFunctorMinus_equivAt_eq hi ρ (Etingof.reflFunctorMinus_mkQ hi ρ d) =
+      Submodule.mkQ (LinearMap.range (ρ.sourceMap i)) d := by
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+    Etingof.addCommGroupOfRing (k := k)
+  unfold Etingof.reflFunctorMinus_mkQ
+  rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
+
+/-- The full first-isomorphism composite applied to `reflFunctorMinus_mkQ d` reduces to `Φ d`.
+
+`equivAt_eq_sink` is, by definition, the `trans` of three charts:
+`reflFunctorMinus_equivAt_eq`, `Submodule.quotEquivOfEq h`, and
+`LinearMap.quotKerEquivOfSurjective Φ hΦ`.  Applied to `reflFunctorMinus_mkQ d`, the first
+chart cancels `mkQ`'s `equivAt_eq.symm` chart (by `reflFunctorMinus_equivAt_eq_mkQ'`),
+leaving `Submodule.mkQ d`; the two remaining charts are `rfl` on quotient classes, so the
+whole thing collapses to `Φ d`.  Stating this generically (over an abstract surjective `Φ`
+and equality `h`) with the bespoke `AddCommGroup` instances threaded through the statement
+sidesteps the `instR`/`instDR` instance-diamond at the consumer site. -/
+private theorem Etingof.equivAt_eq_sink_charts_mkQ
+    {k : Type*} [Field k] {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i)
+    (ρ : Etingof.QuiverRepresentation k Q)
+    [Fintype (Etingof.ArrowsOutOf Q i)]
+    {W : Type*} [AddCommGroup W] [Module k W]
+    (Φ : (letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+          letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+            Etingof.addCommGroupOfRing (k := k)
+          DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) →ₗ[k] W)
+    (hΦ : Function.Surjective Φ)
+    (hker : (letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+             letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+               Etingof.addCommGroupOfRing (k := k)
+             LinearMap.range (ρ.sourceMap i)) = LinearMap.ker Φ)
+    (d : DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :
+    letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+    letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+      Etingof.addCommGroupOfRing (k := k)
+    ((Etingof.reflFunctorMinus_equivAt_eq hi ρ).trans
+        ((Submodule.quotEquivOfEq _ _ hker).trans (LinearMap.quotKerEquivOfSurjective Φ hΦ)))
+      (Etingof.reflFunctorMinus_mkQ hi ρ d) = Φ d := by
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun v => Etingof.addCommGroupOfRing (k := k)
+  letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+    Etingof.addCommGroupOfRing (k := k)
+  rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply,
+    Etingof.reflFunctorMinus_equivAt_eq_mkQ' hi ρ d,
+    Submodule.mkQ_apply, Submodule.quotEquivOfEq_mk,
+    LinearMap.quotKerEquivOfSurjective_apply_mk]
 
 end Helpers
 
@@ -397,37 +460,27 @@ theorem Etingof.Proposition6_6_6_sink
           -- Now goal:
           --   equivAt_eq_sink(mkQ(lof ⟨a,...⟩ (equivAt_ne_minus x))) =
           --   ρ.mapLinear(e)(equivAt_ne_plus(equivAt_ne_minus x))
-          -- Step 2: Unfold equivAt_eq_sink and reflFunctorMinus_mkQ, then
-          -- match on inst_dec i i to enter the .isTrue branch.
-          -- We do NOT unfold equivAt_ne or match on inst_dec a i — those
-          -- terms are already opaque API lemma results and don't need reduction.
-          revert x e
-          unfold Etingof.equivAt_eq_sink Etingof.reflFunctorMinus_mkQ
-            Etingof.reflectionFunctorMinus
-          simp only
-          refine match inst_dec i i with
-          | .isFalse h => absurd rfl h
-          | .isTrue _ => ?_
-          dsimp only [id]
-          intro x e
-          -- Now in .isTrue branch for inst_dec i i.
-          -- equivAt_eq_sink → (quotEquivOfEq.trans quotKerEquivOfSurjective)
-          -- reflFunctorMinus_mkQ → Submodule.mkQ
-          -- All relevant reductions are definitional (quotEquivOfEq_mk is rfl,
-          -- quotKerEquivOfSurjective_apply_mk is rfl, trans_apply is rfl).
-          -- Try dsimp to reduce everything without needing instance synthesis.
-          dsimp
-          -- Goal: Φ(lof ⟨a,...⟩ v) = mapLinear(e)(equivAt_ne_plus(equivAt_ne_minus x))
+          -- Step 2: `equivAt_eq_sink = (equivAt_eq).trans (quotEquivOfEq.trans
+          -- quotKerEquivOfSurjective)` and `reflFunctorMinus_mkQ = (equivAt_eq).symm ∘ mkQ`,
+          -- so the two `equivAt_eq` charts cancel (`apply_symm_apply`) — no discriminant
+          -- reduction needed.
+          -- Expand `equivAt_eq_sink` into its defining `trans` of three charts, then apply
+          -- the generic `equivAt_eq_sink_charts_mkQ`, which (with the bespoke `AddCommGroup`
+          -- instances threaded through its statement) cancels the `equivAt_eq` charts and
+          -- collapses the `quot*` charts on the quotient class, leaving `Φ (lof ⟨a,rev⟩ v)`.
+          letI : AddCommGroup (@Etingof.QuiverRepresentation.obj k Q _ inst ρ i) :=
+            @Etingof.addCommGroupOfRing k _ _
+              (@Etingof.QuiverRepresentation.instAddCommMonoid k Q _ inst ρ i)
+              (@Etingof.QuiverRepresentation.instModule k Q _ inst ρ i)
+          unfold Etingof.equivAt_eq_sink
+          simp only []
+          erw [@Etingof.equivAt_eq_sink_charts_mkQ k _ Q inst_dec instR i hi' ρ_plus _ _ _ _ _ _ _]
+          -- Goal: `Φ (lof ⟨a,rev⟩ v) = ρ.mapLinear e (equivAt_ne_plus v)`.
+          -- `DirectSum.toModule_lof` gives `ρ.mapLinear (origArrow ⟨a,rev⟩) (equivAt_ne_plus v)`;
+          -- only the arrow differs, closed by `reversedArrow_ne_eq_eq_ne_twice`.
           rw [DirectSum.toModule_lof]
-          -- Goal should now be:
-          -- Φ_component ⟨a,...⟩ (equivAt_ne_minus x) = mapLinear(e)(equivAt_ne_plus(equivAt_ne_minus x))
-          -- i.e. (mapLinear(origArrow ...) ∘ equivAt_ne_plus)(equivAt_ne_minus x) = ...
           simp only [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
-          -- Goal: mapLinear(origArrow ⟨a, rev_arrow⟩)(...) = mapLinear(e)(...)
-          -- Both sides apply to the same vector, just need arrow equality
-          congr 1
-          congr 1
-          exact @Etingof.reversedArrow_ne_eq_eq_ne_twice Q inst_dec inst i hi a ha e
+          rw [@Etingof.reversedArrow_ne_eq_eq_ne_twice Q inst_dec inst i hi a ha e]
         · -- a ≠ i, b ≠ i: use API lemmas compositionally
           simp only [dif_neg ha, dif_neg hb, LinearEquiv.trans_apply]
           -- After trans_apply, goal has explicit composition of the two equivs

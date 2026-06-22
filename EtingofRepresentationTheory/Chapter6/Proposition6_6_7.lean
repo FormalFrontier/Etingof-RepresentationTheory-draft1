@@ -68,21 +68,28 @@ theorem Etingof.reflFunctorPlus_map_from_sink_component
         (arrowsIntoReversed hi a) x) =
     DirectSum.component k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) a
       ((Etingof.reflFunctorPlus_equivAt_eq hi ρ x).val) := by
-  have h_da : inst i i = .isTrue rfl := by
-    cases inst i i with
-    | isTrue _ => rfl
-    | isFalse h => exact absurd rfl h
-  have h_db : inst a.1 i = .isFalse ha := by
-    cases inst a.1 i with
-    | isTrue h => exact absurd h ha
-    | isFalse _ => rfl
-  revert x
-  unfold Etingof.reflFunctorPlus_equivAt_ne Etingof.reflFunctorPlus_equivAt_eq
-    arrowsIntoReversed
-    Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_da, h_db]
-  intro x
+  -- Reduce to the general API lemma `reflFunctorPlus_mapLinear_eq_ne` (a = i, b = a.1 ≠ i),
+  -- avoiding the v4.29 discriminant rewrite.
+  -- `reversedArrow_eq_ne` undoes `arrowsIntoReversed`, recovering `a.2`.
+  have harr : Etingof.reversedArrow_eq_ne ha (arrowsIntoReversed hi a) = a.2 := by
+    have h_ii : inst i i = .isTrue rfl := by
+      cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
+    have h_ai : inst a.1 i = .isFalse ha := by
+      cases inst a.1 i with | isTrue h => exact absurd h ha | isFalse _ => rfl
+    rw [Etingof.reversedArrow_eq_ne_eq_cast ha]
+    obtain ⟨j, e⟩ := a
+    simp only at ha h_ai ⊢
+    unfold arrowsIntoReversed Etingof.ReversedAtVertexHom_eq_ne
+      Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
+    simp only []
+    rw [h_ii, h_ai]
+    rfl
+  rw [Etingof.reflFunctorPlus_mapLinear_eq_ne hi ρ ha (arrowsIntoReversed hi a) x]
+  -- The two sides differ only in the (definitionally `.val` = `ker.subtype`) coordinate
+  -- map and in the component index, which `harr` identifies with `a`.
+  -- `harr` rewrites only the arrow-component of the index; the component-value type
+  -- `ρ.obj _.fst` is unchanged (`a.fst` either way), so this rewrite is motive-safe.
+  rw [harr]
   rfl
 
 /-- Reflection functors preserve indecomposability at a sink:
@@ -115,17 +122,16 @@ theorem Etingof.Proposition6_6_7_sink
     right
     intro v
     -- Goal: Subsingleton ((reflectionFunctorPlus Q i hi ρ).obj v)
-    unfold reflectionFunctorPlus
-    simp only
-    -- Match on the DecidableEq instance to reduce Decidable.rec
-    match hd : (‹DecidableEq Q› v i) with
-    | .isTrue hvi =>
-      rw [hd]; dsimp only []
-      -- v = i: space is ker(sinkMap). All V_j (j ≠ i) are trivial, so direct sum is trivial.
-      -- Each component of the direct sum is subsingleton (all arrows into i come from j ≠ i)
-      have htrivial : ∀ (a : ArrowsInto Q i), Subsingleton (ρ.obj a.1) := by
+    -- Transport `Subsingleton` through the `equivAt` equivalences rather than reducing the
+    -- `Decidable` discriminant (v4.29 motive failure).
+    by_cases hvi : v = i
+    · subst hvi
+      -- v = i: space ≃ ker(sinkMap). All V_j (j ≠ i) trivial, so the direct sum (hence ker)
+      -- is trivial.
+      refine (Etingof.reflFunctorPlus_equivAt_eq hi ρ).symm.toEquiv.subsingleton_congr.mp ?_
+      have htrivial : ∀ (a : ArrowsInto Q v), Subsingleton (ρ.obj a.1) := by
         intro ⟨j, e⟩
-        have hj : j ≠ i := fun h => (hi j).false (h ▸ e)
+        have hj : j ≠ v := fun h => (hi j).false (h ▸ e)
         rcases subsingleton_or_nontrivial (ρ.obj j) with h | h
         · exact h
         · exfalso
@@ -133,11 +139,13 @@ theorem Etingof.Proposition6_6_7_sink
           have h2 := hsimple.2 j hj
           omega
       -- Direct sum of subsingleton modules is subsingleton, ker of map from it too
+      letI : ∀ (a : ArrowsInto Q v), Subsingleton (ρ.obj a.1) := htrivial
+      letI : Subsingleton (DirectSum (ArrowsInto Q v) (fun a => ρ.obj a.1)) := by
+        infer_instance
       exact subsingleton_of_forall_eq 0 fun ⟨x, _⟩ =>
         Subtype.ext (Subsingleton.eq_zero x)
-    | .isFalse hvi =>
-      rw [hd]; dsimp only []
-      -- v ≠ i: space is ρ.obj v, which has finrank 0 by IsSimpleAt
+    · -- v ≠ i: space ≃ ρ.obj v, which has finrank 0 by IsSimpleAt
+      refine (Etingof.reflFunctorPlus_equivAt_ne hi ρ v hvi).symm.toEquiv.subsingleton_congr.mp ?_
       rcases subsingleton_or_nontrivial (ρ.obj v) with h | h
       · exact h
       · exfalso
@@ -207,11 +215,9 @@ theorem Etingof.Proposition6_6_7_sink
         · exact not_subsingleton _ (htriv w hwi)
       -- Now show F⁺(V) is nontrivial at j
       refine ⟨j, ?_⟩
-      unfold Etingof.reflectionFunctorPlus
-      simp only
-      match hd : (‹DecidableEq Q› j i) with
-      | .isTrue hji => exact absurd hji hj
-      | .isFalse _ => rw [hd]; dsimp only []; exact hjnt
+      -- Transport `Nontrivial` through `equivAt_ne` (`F⁺(V).obj j ≃ₗ ρ.obj j`) rather than
+      -- reducing the `Decidable` discriminant (v4.29 motive failure).
+      exact (Etingof.reflFunctorPlus_equivAt_ne hi ρ j hj).toEquiv.nontrivial
     · -- F⁺(V) is indecomposable: given complementary subreps W₁, W₂ of F⁺(V),
       -- construct complementary subreps of V, use V's indecomposability.
       --
@@ -286,30 +292,24 @@ theorem Etingof.Proposition6_6_7_sink
             simp only [Etingof.QuiverRepresentation.sinkMap, DirectSum.toModule_lof]
             rfl
         · simp only [U₁, dif_neg hb']
-          -- Extract subrep property at (a', b') before clearing W₁
-          have hsubrep : ∀ (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b'),
-              ∀ x ∈ W₁ a', @Etingof.QuiverRepresentation.mapLinear k Q _
-                (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorPlus Q i hi ρ)
-                a' b' e x ∈ W₁ b' :=
-            fun e x hx => hW₁ e x hx
-          -- Generalize W₁ a' and W₁ b' to fresh variables
-          generalize W₁ a' = Sa at hw hsubrep ⊢
-          generalize W₁ b' = Sb at hsubrep ⊢
-          -- Clear everything that uses inst v i
-          clear hcompl hW₂ W₂ U₂ W₂_at U₁ W₁_at arrow_ne φ hnotsimple hρ hW₁ W₁
-          have h_da : ‹DecidableEq Q› a' i = .isFalse ha' := by
-            cases ‹DecidableEq Q› a' i with | isTrue h => exact absurd h ha' | isFalse _ => rfl
-          have h_db : ‹DecidableEq Q› b' i = .isFalse hb' := by
-            cases ‹DecidableEq Q› b' i with | isTrue h => exact absurd h hb' | isFalse _ => rfl
-          revert hw w e' hsubrep Sb Sa
-          unfold Etingof.reflFunctorPlus_equivAt_ne
-            Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-          simp only []
-          rw [h_da, h_db]
-          simp only []
-          intro e' w Sa hw Sb hsubrep
-          simp only [id, Submodule.map_id, LinearEquiv.refl_toLinearMap] at *
-          exact hsubrep e' w hw
+          -- The reversed-quiver arrow corresponding to `e'` (at a' ≠ i, b' ≠ i the hom-types
+          -- coincide). Transport the F⁺ map through `reflFunctorPlus_mapLinear_ne_ne` instead
+          -- of reducing the `Decidable` discriminant (v4.29 motive failure).
+          set ê : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b' :=
+            cast (Etingof.ReversedAtVertexHom_ne_ne ha' hb').symm e' with hê
+          have hêorig : Etingof.reversedArrow_ne_ne ha' hb' ê = e' := by
+            rw [Etingof.reversedArrow_ne_ne_eq_cast ha' hb', hê, cast_cast, cast_eq]
+          have hmem : @Etingof.QuiverRepresentation.mapLinear k Q _
+              (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorPlus Q i hi ρ)
+              a' b' ê ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a' ha').symm
+                ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a' ha') w)) ∈ W₁ b' := by
+            simp only [LinearEquiv.symm_apply_apply]
+            exact hW₁ ê _ hw
+          refine Submodule.mem_map.mpr ⟨_, hmem, ?_⟩
+          rw [LinearEquiv.coe_coe,
+            Etingof.reflFunctorPlus_mapLinear_ne_ne hi ρ ha' hb' ê _,
+            LinearEquiv.symm_apply_apply, hêorig]
+          rfl
       have hU₂_subrep : ∀ {a' b' : Q} (e' : a' ⟶ b'), ∀ x ∈ U₂ a', ρ.mapLinear e' x ∈ U₂ b' := by
         intro a' b' e' x hx
         have ha' : a' ≠ i := sink_no_out e'
@@ -328,27 +328,22 @@ theorem Etingof.Proposition6_6_7_sink
             simp only [Etingof.QuiverRepresentation.sinkMap, DirectSum.toModule_lof]
             rfl
         · simp only [U₂, dif_neg hb']
-          have hsubrep : ∀ (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b'),
-              ∀ x ∈ W₂ a', @Etingof.QuiverRepresentation.mapLinear k Q _
-                (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorPlus Q i hi ρ)
-                a' b' e x ∈ W₂ b' :=
-            fun e x hx => hW₂ e x hx
-          generalize W₂ a' = Sa at hw hsubrep ⊢
-          generalize W₂ b' = Sb at hsubrep ⊢
-          clear hcompl hW₁ W₁ U₁ W₁_at U₂ W₂_at arrow_ne φ hnotsimple hρ hW₂ W₂ hU₁_subrep
-          have h_da : ‹DecidableEq Q› a' i = .isFalse ha' := by
-            cases ‹DecidableEq Q› a' i with | isTrue h => exact absurd h ha' | isFalse _ => rfl
-          have h_db : ‹DecidableEq Q› b' i = .isFalse hb' := by
-            cases ‹DecidableEq Q› b' i with | isTrue h => exact absurd h hb' | isFalse _ => rfl
-          revert hw w e' hsubrep Sb Sa
-          unfold Etingof.reflFunctorPlus_equivAt_ne
-            Etingof.reflectionFunctorPlus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-          simp only []
-          rw [h_da, h_db]
-          simp only []
-          intro e' w Sa hw Sb hsubrep
-          simp only [id, Submodule.map_id, LinearEquiv.refl_toLinearMap] at *
-          exact hsubrep e' w hw
+          -- Same pattern as `hU₁_subrep`: transport through `reflFunctorPlus_mapLinear_ne_ne`.
+          set ê : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b' :=
+            cast (Etingof.ReversedAtVertexHom_ne_ne ha' hb').symm e' with hê
+          have hêorig : Etingof.reversedArrow_ne_ne ha' hb' ê = e' := by
+            rw [Etingof.reversedArrow_ne_ne_eq_cast ha' hb', hê, cast_cast, cast_eq]
+          have hmem : @Etingof.QuiverRepresentation.mapLinear k Q _
+              (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorPlus Q i hi ρ)
+              a' b' ê ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a' ha').symm
+                ((Etingof.reflFunctorPlus_equivAt_ne hi ρ a' ha') w)) ∈ W₂ b' := by
+            simp only [LinearEquiv.symm_apply_apply]
+            exact hW₂ ê _ hw
+          refine Submodule.mem_map.mpr ⟨_, hmem, ?_⟩
+          rw [LinearEquiv.coe_coe,
+            Etingof.reflFunctorPlus_mapLinear_ne_ne hi ρ ha' hb' ê _,
+            LinearEquiv.symm_apply_apply, hêorig]
+          rfl
       have hU_compl : ∀ v, IsCompl (U₁ v) (U₂ v) := by
         intro v
         by_cases hv : v = i
@@ -656,6 +651,7 @@ theorem Etingof.reversedArrow_arrowOut_eq
   unfold Etingof.arrowOutToReversed
   simp only [cast_cast, cast_eq]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Reflection functors preserve indecomposability at a source:
 F⁻ᵢ(V) is either indecomposable or zero.
 
@@ -681,15 +677,16 @@ theorem Etingof.Proposition6_6_7_source
   · -- V is simple at i → F⁻(V) is zero
     right
     intro v
-    unfold Etingof.reflectionFunctorMinus
-    simp only
-    match hd : (‹DecidableEq Q› v i) with
-    | .isTrue hvi =>
-      rw [hd]; dsimp only []
-      -- v = i: space is coker(sourceMap). All arrow targets j ≠ i have dim 0.
-      have htrivial : ∀ (a : Etingof.ArrowsOutOf Q i), Subsingleton (ρ.obj a.1) := by
+    -- Transport `Subsingleton` through the `equivAt` equivalences rather than reducing the
+    -- `Decidable` discriminant (v4.29 motive failure).
+    by_cases hvi : v = i
+    · subst hvi
+      -- v = i: space ≃ coker(sourceMap). All arrow targets j ≠ i have dim 0, so the direct
+      -- sum (hence its quotient) is trivial.
+      refine (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm.toEquiv.subsingleton_congr.mp ?_
+      have htrivial : ∀ (a : Etingof.ArrowsOutOf Q v), Subsingleton (ρ.obj a.1) := by
         intro ⟨j, e⟩
-        have hj : j ≠ i := by intro heq; rw [heq] at e; exact (hi i).false e
+        have hj : j ≠ v := by intro heq; rw [heq] at e; exact (hi v).false e
         rcases subsingleton_or_nontrivial (ρ.obj j) with h | h
         · exact h
         · exfalso
@@ -697,16 +694,15 @@ theorem Etingof.Proposition6_6_7_source
           have h2 := hsimple.2 j hj
           omega
       -- Direct sum is subsingleton (each component is)
-      haveI : Subsingleton (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+      haveI : Subsingleton (DirectSum (Etingof.ArrowsOutOf Q v) (fun a => ρ.obj a.1)) :=
         subsingleton_of_forall_eq 0 fun x => DFunLike.ext x 0 fun a => Subsingleton.eq_zero _
-      -- Quotient of subsingleton is subsingleton
+      -- Quotient of a subsingleton is subsingleton
       exact @Subsingleton.intro _ fun a b => by
         induction a using Quotient.ind
         induction b using Quotient.ind
         exact congr_arg (Quotient.mk _) (Subsingleton.elim _ _)
-    | .isFalse hvi =>
-      rw [hd]; dsimp only []
-      -- v ≠ i: space is ρ.obj v, which has finrank 0
+    · -- v ≠ i: space ≃ ρ.obj v, which has finrank 0 by IsSimpleAt
+      refine (Etingof.reflFunctorMinus_equivAt_ne hi ρ v hvi).symm.toEquiv.subsingleton_congr.mp ?_
       rcases subsingleton_or_nontrivial (ρ.obj v) with h | h
       · exact h
       · exfalso
@@ -758,11 +754,9 @@ theorem Etingof.Proposition6_6_7_source
         · exact not_subsingleton _ hVi
         · exact not_subsingleton _ (htriv w hwi)
       refine ⟨j, ?_⟩
-      unfold Etingof.reflectionFunctorMinus
-      simp only
-      match hd : (‹DecidableEq Q› j i) with
-      | .isTrue hji => exact absurd hji hj
-      | .isFalse _ => rw [hd]; dsimp only []; exact hjnt
+      -- Transport `Nontrivial` through `equivAt_ne` (`F⁻(V).obj j ≃ₗ ρ.obj j`) rather than
+      -- reducing the `Decidable` discriminant (v4.29 motive failure).
+      exact (Etingof.reflFunctorMinus_equivAt_ne hi ρ j hj).toEquiv.nontrivial
     · -- F⁻(V) is indecomposable: given complementary subreps W₁, W₂ of F⁻(V),
       -- construct complementary subreps of V, use V's indecomposability.
       intro W₁ W₂ hW₁ hW₂ hcompl
@@ -829,27 +823,23 @@ theorem Etingof.Proposition6_6_7_source
         · -- Arrow between a' ≠ i and b' ≠ i
           simp only [U₁, dif_neg ha', dif_neg hb'] at hx ⊢
           obtain ⟨w, hw, rfl⟩ := hx
-          have hsubrep : ∀ (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b'),
-              ∀ x ∈ W₁ a', @Etingof.QuiverRepresentation.mapLinear k Q _
-                (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorMinus Q i hi ρ)
-                a' b' e x ∈ W₁ b' :=
-            fun e x hx => hW₁ e x hx
-          generalize W₁ a' = Sa at hw hsubrep ⊢
-          generalize W₁ b' = Sb at hsubrep ⊢
-          clear hcompl hW₂ hW_at_compl W₂_at U₂ W₂ U₁ W₁_at arrow_ne hnotsimple hρ hW₁ W₁
-          have h_da : ‹DecidableEq Q› a' i = .isFalse ha' := by
-            cases ‹DecidableEq Q› a' i with | isTrue h => exact absurd h ha' | isFalse _ => rfl
-          have h_db : ‹DecidableEq Q› b' i = .isFalse hb' := by
-            cases ‹DecidableEq Q› b' i with | isTrue h => exact absurd h hb' | isFalse _ => rfl
-          revert hw w e' hsubrep Sb Sa
-          unfold Etingof.reflFunctorMinus_equivAt_ne
-            Etingof.reflectionFunctorMinus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-          simp only []
-          rw [h_da, h_db]
-          simp only []
-          intro e' w Sa hw Sb hsubrep
-          simp only [id, Submodule.map_id, LinearEquiv.refl_toLinearMap] at *
-          exact hsubrep e' w hw
+          -- Transport through `reflFunctorMinus_mapLinear_ne_ne` (a' ≠ i, b' ≠ i) instead of
+          -- reducing the `Decidable` discriminant (v4.29 motive failure).
+          set ê : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b' :=
+            cast (Etingof.ReversedAtVertexHom_ne_ne ha' hb').symm e' with hê
+          have hêorig : Etingof.reversedArrow_ne_ne ha' hb' ê = e' := by
+            rw [Etingof.reversedArrow_ne_ne_eq_cast ha' hb', hê, cast_cast, cast_eq]
+          have hmem : @Etingof.QuiverRepresentation.mapLinear k Q _
+              (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorMinus Q i hi ρ)
+              a' b' ê ((Etingof.reflFunctorMinus_equivAt_ne hi ρ a' ha').symm
+                ((Etingof.reflFunctorMinus_equivAt_ne hi ρ a' ha') w)) ∈ W₁ b' := by
+            simp only [LinearEquiv.symm_apply_apply]
+            exact hW₁ ê _ hw
+          refine Submodule.mem_map.mpr ⟨_, hmem, ?_⟩
+          rw [LinearEquiv.coe_coe,
+            Etingof.reflFunctorMinus_mapLinear_ne_ne hi ρ ha' hb' ê _,
+            LinearEquiv.symm_apply_apply, hêorig]
+          rfl
       have hU₂_subrep : ∀ {a' b' : Q} (e' : a' ⟶ b'),
           ∀ x ∈ U₂ a', ρ.mapLinear e' x ∈ U₂ b' := by
         intro a' b' e' x hx
@@ -860,27 +850,22 @@ theorem Etingof.Proposition6_6_7_source
           rw [Submodule.mem_iInf] at hx; exact hx ⟨b', e'⟩
         · simp only [U₂, dif_neg ha', dif_neg hb'] at hx ⊢
           obtain ⟨w, hw, rfl⟩ := hx
-          have hsubrep : ∀ (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b'),
-              ∀ x ∈ W₂ a', @Etingof.QuiverRepresentation.mapLinear k Q _
-                (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorMinus Q i hi ρ)
-                a' b' e x ∈ W₂ b' :=
-            fun e x hx => hW₂ e x hx
-          generalize W₂ a' = Sa at hw hsubrep ⊢
-          generalize W₂ b' = Sb at hsubrep ⊢
-          clear hcompl hW₁ hW_at_compl W₁_at U₁ W₁ U₂ W₂_at arrow_ne hnotsimple hρ hW₂ W₂ hU₁_subrep
-          have h_da : ‹DecidableEq Q› a' i = .isFalse ha' := by
-            cases ‹DecidableEq Q› a' i with | isTrue h => exact absurd h ha' | isFalse _ => rfl
-          have h_db : ‹DecidableEq Q› b' i = .isFalse hb' := by
-            cases ‹DecidableEq Q› b' i with | isTrue h => exact absurd h hb' | isFalse _ => rfl
-          revert hw w e' hsubrep Sb Sa
-          unfold Etingof.reflFunctorMinus_equivAt_ne
-            Etingof.reflectionFunctorMinus Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-          simp only []
-          rw [h_da, h_db]
-          simp only []
-          intro e' w Sa hw Sb hsubrep
-          simp only [id, Submodule.map_id, LinearEquiv.refl_toLinearMap] at *
-          exact hsubrep e' w hw
+          -- Same pattern as `hU₁_subrep`: transport through `reflFunctorMinus_mapLinear_ne_ne`.
+          set ê : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a' b' :=
+            cast (Etingof.ReversedAtVertexHom_ne_ne ha' hb').symm e' with hê
+          have hêorig : Etingof.reversedArrow_ne_ne ha' hb' ê = e' := by
+            rw [Etingof.reversedArrow_ne_ne_eq_cast ha' hb', hê, cast_cast, cast_eq]
+          have hmem : @Etingof.QuiverRepresentation.mapLinear k Q _
+              (Etingof.reversedAtVertex Q i) (Etingof.reflectionFunctorMinus Q i hi ρ)
+              a' b' ê ((Etingof.reflFunctorMinus_equivAt_ne hi ρ a' ha').symm
+                ((Etingof.reflFunctorMinus_equivAt_ne hi ρ a' ha') w)) ∈ W₂ b' := by
+            simp only [LinearEquiv.symm_apply_apply]
+            exact hW₂ ê _ hw
+          refine Submodule.mem_map.mpr ⟨_, hmem, ?_⟩
+          rw [LinearEquiv.coe_coe,
+            Etingof.reflFunctorMinus_mapLinear_ne_ne hi ρ ha' hb' ê _,
+            LinearEquiv.symm_apply_apply, hêorig]
+          rfl
       have hU_compl : ∀ v, IsCompl (U₁ v) (U₂ v) := by
         intro v
         by_cases hv : v = i
@@ -982,24 +967,19 @@ theorem Etingof.Proposition6_6_7_source
               exact hmem
             -- Step 9: z₁ ∈ range(ψ), extract x₁
             have hz₁_range : z₁ ∈ LinearMap.range ψ := by
-              have h_di : ‹DecidableEq Q› v v = .isTrue rfl := by
-                cases ‹DecidableEq Q› v v with | isTrue _ => rfl | isFalse h => exact absurd rfl h
               have hmkQ_eq : mkQ z₁ = mkQ 0 := by rw [hmkQ_z₁_zero, map_zero]
-              revert hmkQ_eq
-              show Etingof.reflFunctorMinus_mkQ hi ρ z₁ =
-                Etingof.reflFunctorMinus_mkQ hi ρ 0 →
-                z₁ ∈ LinearMap.range (ρ.sourceMap v)
-              unfold Etingof.reflFunctorMinus_mkQ Etingof.reflectionFunctorMinus
-                Etingof.QuiverRepresentation.sourceMap
-              simp only []
-              dsimp only [id]
-              rw [h_di]
-              simp only []
-              intro hmkQ_eq
+              -- `reflFunctorMinus_mkQ = (equivAt_eq).symm ∘ₗ Submodule.mkQ`, and the equivalence
+              -- is injective, so `mkQ z₁ = mkQ 0` gives `Submodule.mkQ z₁ = Submodule.mkQ 0`,
+              -- i.e. `z₁ ∈ range(sourceMap v)`.  Avoids reducing the `Decidable` discriminant.
               letI : ∀ w, AddCommGroup (ρ.obj w) := fun w => Etingof.addCommGroupOfRing (k := k)
               letI : AddCommGroup DS := Etingof.addCommGroupOfRing (k := k)
-              rw [Submodule.mkQ_apply, map_zero, Submodule.Quotient.mk_eq_zero] at hmkQ_eq
-              exact hmkQ_eq
+              have hsub : Submodule.mkQ (LinearMap.range (ρ.sourceMap v)) z₁ =
+                  Submodule.mkQ (LinearMap.range (ρ.sourceMap v)) 0 := by
+                apply (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm.injective
+                simpa only [Etingof.reflFunctorMinus_mkQ, LinearMap.comp_apply,
+                  LinearEquiv.coe_coe] using hmkQ_eq
+              rw [map_zero, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hsub
+              exact hsub
             obtain ⟨x₁, hx₁⟩ := hz₁_range
             -- Step 10: Extract component equality: ρ.mapLinear a.2 x₁ = y₁ a
             have hcomp₁ : ∀ a, ρ.mapLinear a.2 x₁ = y₁ a := by
@@ -1165,13 +1145,17 @@ theorem Etingof.Proposition6_6_7_source
           suffices h : ∀ z, (Etingof.reflFunctorMinus_mkQ hi ρ) z ∈ W' i by
             -- reflFunctorMinus_mkQ is surjective (Submodule.mkQ after unfolding)
             have hsurj : Function.Surjective (Etingof.reflFunctorMinus_mkQ hi ρ) := by
-              have h_di : ‹DecidableEq Q› i i = .isTrue rfl := by
-                cases ‹DecidableEq Q› i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
-              intro y; revert y
-              unfold Etingof.reflFunctorMinus_mkQ Etingof.reflectionFunctorMinus
-              simp only []; rw [h_di]; simp only []
-              intro y
-              exact ⟨y.out, y.out_eq⟩
+              -- `reflFunctorMinus_mkQ = (equivAt_eq).symm ∘ₗ Submodule.mkQ`, a composition of
+              -- surjections, avoiding any `Decidable` discriminant reduction.
+              letI : ∀ w, AddCommGroup (ρ.obj w) := fun w => Etingof.addCommGroupOfRing (k := k)
+              letI : AddCommGroup (DirectSum (Etingof.ArrowsOutOf Q i) (fun a => ρ.obj a.1)) :=
+                Etingof.addCommGroupOfRing (k := k)
+              have heq : (Etingof.reflFunctorMinus_mkQ hi ρ) =
+                  (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm.toLinearMap ∘ₗ
+                    Submodule.mkQ (LinearMap.range (ρ.sourceMap i)) := rfl
+              rw [heq]
+              exact (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm.surjective.comp
+                (Submodule.mkQ_surjective _)
             obtain ⟨z, rfl⟩ := hsurj x
             exact h z
           intro z

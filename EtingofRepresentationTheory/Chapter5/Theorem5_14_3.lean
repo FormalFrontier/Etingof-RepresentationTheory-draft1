@@ -670,7 +670,7 @@ lemma exists_orbIdx (σ : Equiv.Perm (Fin n)) :
   -- Both multisets equal fullCycleType n σ
   have hListMultiset : Finset.univ.val.map listFun = fullCycleType n σ := by
     simp only [listFun, Fin.univ_val_map]
-    rw [List.ofFn_getElem (l := list)]
+    rw [List.ofFn_getElem (xs := list)]
     exact Multiset.coe_toList _
   have hSizesMultiset : Finset.univ.val.map sizes = fullCycleType n σ := by
     rw [← orbitSizes_eq_fullCycleType]

@@ -61,7 +61,6 @@ private lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
     (parts.take r).sum + c < parts.sum := by
   have h1 : (parts.take r).sum + parts[r] ≤ (parts.take (r + 1)).sum := by
     rw [List.take_succ_eq_append_getElem hr, List.sum_append, List.sum_cons, List.sum_nil]
-    omega
   have h2 : (parts.take (r + 1)).sum ≤ parts.sum :=
     List.Sublist.sum_le_sum (List.take_sublist (r + 1) parts) (fun _ _ => Nat.zero_le _)
   omega

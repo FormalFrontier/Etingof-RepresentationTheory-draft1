@@ -397,7 +397,6 @@ theorem etilde7_prefixArm_comp_F (F : Type) [Field F] (m : ℕ) (x : Fin (m + 1)
   · rw [dif_pos (show i < 3 * (m + 1) from by omega), dif_pos (show i < 2 * (m + 1) from by omega),
         dif_pos (show i < m + 1 from h0),
         dif_pos (show 0 ≤ i ∧ i < 0 + (m + 1) from ⟨Nat.zero_le _, by omega⟩)]
-    simp only [Nat.sub_zero]
   · rw [dif_neg (show ¬(0 ≤ i ∧ i < 0 + (m + 1)) from by omega)]
     by_cases h1 : i < 3 * (m + 1)
     · rw [dif_pos h1]
