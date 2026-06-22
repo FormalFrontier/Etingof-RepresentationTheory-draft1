@@ -459,7 +459,7 @@ This is steps 1–2,4 of route 1; the surjectivity `|ι| = |P|` (the counting st
 is the remaining content of `schurWeyl_simples_formalCharacter_classification_core_complex`. -/
 theorem schurWeyl_simples_isotypic_matching_general
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -567,7 +567,7 @@ The assembly here is `sorry`-free; it reduces to the isolated general-`k` seam l
 (#4947) via the torus-trace connection (B). -/
 theorem schurWeyl_simples_formalCharacter_linearIndependent_general
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -647,7 +647,7 @@ general "algebraic ⟹ spanning ℕ-weight spaces" lemma, which is false (det⁻
 algebraic but carry negative weights). -/
 theorem schurWeyl_simple_summand_glWeightSpace_top
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -875,7 +875,7 @@ such data. The source decomposition
 `Sₙ`-module, hence `0 < dim(S i)`. -/
 theorem schurWeyl_simples_formalCharacter_classification_core_general
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
-    (N n : ℕ) (hN : n ≤ N)
+    (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
@@ -903,7 +903,7 @@ theorem schurWeyl_simples_formalCharacter_classification_core_general
     rfl
   -- Isotypic matching (sorry-free): injective `φ : P ↪ ι`, `char(L (φ λ)) = schurPoly λ`.
   obtain ⟨φ, hφinj, hφchar⟩ :=
-    schurWeyl_simples_isotypic_matching_general k N n hN L e he hLsimp
+    schurWeyl_simples_isotypic_matching_general k N n L e he hLsimp
   -- Surjectivity of `φ` (the counting equality `|ι| = |P|`) via the numerical
   -- identity and linear independence of the simple characters. With each `L i`
   -- pairwise non-isomorphic and simple, the characters `char(L i)` are
@@ -920,11 +920,11 @@ theorem schurWeyl_simples_formalCharacter_classification_core_general
     -- by `hSne`), hence algebraic: its weight spaces span (`hLtop`).
     have hLtop : ∀ i, ⨆ (μ : Fin N →₀ ℕ),
         glWeightSpace k N (L i) (fun j => μ j) = ⊤ :=
-      schurWeyl_simple_summand_glWeightSpace_top k N n hN L e he hSne
+      schurWeyl_simple_summand_glWeightSpace_top k N n L e he hSne
     have hLalg : ∀ i, Etingof.IsAlgebraicRepresentation N (L i).ρ :=
       schurWeyl_simple_summand_isAlgebraic k N n L e he hSne
     have hLI := schurWeyl_simples_formalCharacter_linearIndependent_general
-      k N n hN L e he hLtop hLalg hLsimp hLdist
+      k N n L e he hLtop hLalg hLsimp hLdist
     have hnum := schurWeyl_decomposition_numerical_identity k N n L e he
     set v : ι → MvPolynomial (Fin N) ℚ := fun i => formalCharacter k N (L i) with hvdef
     -- Abstract the Specht-multiplicity coefficient on the partition side.
@@ -1095,9 +1095,17 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
     have hpos : 0 < Module.finrank k (glWeightSpace k N M μ) :=
       Module.finrank_pos_iff.mpr (Submodule.nontrivial_iff_ne_bot.mpr hμ)
     exact weight_magnitude_of_formalCharacter_eq_schurPoly k N lam M h μ hpos
-  -- (2) Decompose `M.asModule` into abstract simples, schurPoly-classified.
-  obtain ⟨ι, hιFin, hιDec, L, hLsimp, ⟨lam_cl, lam_inj, hchar⟩, p, f, ⟨eM⟩⟩ :=
+  -- (2) Decompose `M.asModule` into abstract simples and the Schur-Weyl witnesses,
+  -- then read the schurPoly-classification off the (relocated) classification core.
+  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
+      p, f, ⟨eM⟩⟩ :=
     Etingof.PolynomialGLDecomposition.decompose_polynomial_gl_rep k N n M halg h_span h_homog
+  letI := hιFin; letI := hιDec
+  letI : ∀ i, AddCommGroup (S i) := hSacg
+  letI : ∀ i, Module k (S i) := hSmod
+  letI : ∀ i, Module.Finite k (S i) := hSfin
+  obtain ⟨lam_cl, lam_inj, hchar⟩ :=
+    schurWeyl_simples_formalCharacter_classification_core_general k N n L e he hLsimp hLdist hSne
   -- (3) Character match: `S_λ = ∑_j schurPoly N (lam_cl (f j))`.
   have hφ : Representation.asModule M.ρ ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)]
       Representation.asModule (Representation.directSum (fun j : Fin p => (L (f j)).ρ)) :=
