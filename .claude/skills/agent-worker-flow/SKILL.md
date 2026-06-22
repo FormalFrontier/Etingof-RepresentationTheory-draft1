@@ -144,6 +144,21 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
+**Before any `git reset --hard` (or `git checkout -- .`), run `git status`
+first.** A reused worktree often carries uncommitted edits (e.g. a prior
+session's in-progress skill tweak); `reset --hard` discards unstaged changes
+permanently — they are *not* recoverable via `git fsck`, since unstaged
+content is never hashed into an object. If `git status` shows anything you did
+not create this session, judge what it is before acting: genuine in-progress
+work (e.g. a half-finished skill tweak) should be stashed or committed (never
+`git stash -u`) before resetting; but a *stray clobber* — uncommitted deletions
+or reverts of committed content you did not make (a known hazard of reused
+worktrees; seen on `.claude/` files) — should be reverted with
+`git restore <files>` to HEAD, not stashed or committed, so the loss does not
+ride along into your PR or get hidden. The same caution applies later if a
+rebase reveals `main` has diverged from the branch you based on: resetting to
+`origin/main` is correct, but check `git status` first.
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
@@ -159,12 +174,24 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **An issue citing infrastructure as "landed in PR #N" is not proof it is on
+  `main`.** The PR may still be open with failing CI. Before starting, `grep`
+  `main` for the named symbols (defs/lemmas the issue says you can build on). If
+  they are absent, the issue is blocked on that PR, not ready — skip it.
 
 If stale:
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
+
+**When you skip an issue as blocked on an unmerged PR, spare the next worker:**
+check the sibling unclaimed issues for the same blocker and wire it in so they
+drop out of `list-unclaimed`. Use `coordination add-dep <sibling> <openIssue>`
+when an *open* issue tracks the blocker; if the blocker's tracking issue is
+already closed (e.g. a `replan`'d parent whose PR is still open), leave a short
+comment on the sibling naming the blocking PR instead, since `add-dep` only
+applies the `blocked` label for open dependencies.
 
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:
@@ -296,6 +323,16 @@ Commit early and often. Each commit is a checkpoint.
 
 Build and test the project. Compare quality metrics with the starting values.
 Use `/second-opinion` if available.
+
+**If a full-build / aggregator check fails in a file you never touched, fetch and
+rebase onto the latest `origin/main` before investigating.** In this fast
+parallel-merge environment a freshly-merged PR can leave `main` transiently broken
+(a renamed lemma whose consumer still cites the old name), and the queue often
+merges the fix minutes later. Confirm the failing file is independent of your diff
+(`git diff --name-only origin/main..HEAD`; check it does not import your new
+module), then `git fetch origin main && git rebase origin/main` and rebuild — the
+breakage is frequently already gone. Don't spend time "fixing" a file outside your
+scope until you've ruled this out.
 
 **Review your diff against `origin/main`, not your starting commit:**
 ```bash

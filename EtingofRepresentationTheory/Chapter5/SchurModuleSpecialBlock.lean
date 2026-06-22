@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
+import EtingofRepresentationTheory.Chapter5.SpechtBridgeGeneral
+import EtingofRepresentationTheory.Chapter5.SchurWeylSpecialBlockGeneral
 
 /-!
 # Theorem 5.22.1 (Schur-Weyl L_i, part C-4a sub-A): the special Schur-Weyl block
@@ -227,6 +229,171 @@ theorem exists_unique_special_block
     refine ⟨lab i, ?_, hlab i⟩
     intro hcontra
     exact hi (hUniq i iLam (hcontra.trans hLamEq.symm))
+
+/-! ## General-`k` analogues
+
+The three results above are hardcoded over ℂ. Below are their analogues over a general
+characteristic-zero algebraically closed field `k`, built on:
+
+* the general-`k` Specht bridge `trace_symGroupAction_eq_spechtModuleCharacterK` and the
+  iso wrapper `simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq`
+  (`SpechtBridgeGeneral.lean`, #4992);
+* the general-`k` off-block vanishing `youngSym_action_vanishes_off_block_general`
+  (`SchurWeylSpecialBlockGeneral.lean`, #5004);
+* the already-generic `youngSym_block_factorization` and `schurModuleSubmodule_ne_bot`.
+
+The general-`k` Specht character `spechtModuleCharacterK` (bridge) and `spechtBlockCharacterK`
+(off-block lemma) are definitionally equal, so the bridge's per-block label hypotheses feed the
+off-block lemma directly. The ℂ results above are left untouched for their existing call-sites. -/
+
+section General
+
+variable {k : Type} [Field k] [IsAlgClosed k] [CharZero k]
+
+/-- General-`k` analogue of `youngSymEndomorphism_ne_zero`: the Young symmetrizer endomorphism on
+`(k^N)^{⊗n}` is nonzero whenever `lam` is antitone, since its range
+`SchurModuleSubmodule k N lam` is nonzero by the Weyl character formula. -/
+theorem youngSymEndomorphism_ne_zero_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    youngSymEndomorphism k N lam ≠ 0 := by
+  intro h
+  apply schurModuleSubmodule_ne_bot (k := k) N lam hlam
+  change LinearMap.range (youngSymEndomorphism k N lam) = ⊥
+  rw [h, LinearMap.range_zero]
+
+set_option maxHeartbeats 3200000 in
+-- The `DirectSum`/`TensorProduct` extensionality reduction traverses the deep
+-- `Subalgebra → Subsemiring → Module` instance chain for `symGroupImage`, exceeding defaults.
+set_option synthInstance.maxHeartbeats 1200000 in
+omit [IsAlgClosed k] [CharZero k] in
+/-- General-`k` analogue of `youngSymEndomorphism_eq_zero_of_blocks_vanish`. -/
+private theorem youngSymEndomorphism_eq_zero_of_blocks_vanish_general
+    (N : ℕ) (lam : Fin N → ℕ)
+    {ι : Type} [DecidableEq ι]
+    (S : ι → Submodule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)))
+    (e : TensorPower k (Fin N → k) (∑ i, lam i) ≃ₗ[k]
+      DirectSum ι (fun i => ↥(S i) ⊗[k]
+        (↥(S i) →ₗ[↥(symGroupImage k (Fin N → k) (∑ i, lam i))]
+          TensorPower k (Fin N → k) (∑ i, lam i))))
+    (he : ∀ (i : ι) (v : ↥(S i))
+        (l : ↥(S i) →ₗ[↥(symGroupImage k (Fin N → k) (∑ i, lam i))]
+          TensorPower k (Fin N → k) (∑ i, lam i)),
+      e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v)
+    (hvanish : ∀ (i : ι) (v : ↥(S i)), youngSymEndomorphism k N lam v.val = 0) :
+    youngSymEndomorphism k N lam = 0 := by
+  have hcomp : (youngSymEndomorphism k N lam) ∘ₗ e.symm.toLinearMap = 0 := by
+    apply DirectSum.linearMap_ext
+    intro i
+    apply TensorProduct.ext'
+    intro v l
+    simp only [LinearMap.comp_apply, LinearMap.zero_comp, LinearMap.zero_apply,
+      DirectSum.lof_eq_of]
+    have hbf := youngSym_block_factorization k N lam S e he i v l
+    have hzero : youngSymElement k N lam • v = 0 := by
+      apply Subtype.ext
+      rw [Submodule.coe_smul, ZeroMemClass.coe_zero, Subalgebra.smul_def,
+        Module.End.smul_def, youngSymElement_val]
+      exact hvanish i v
+    rw [hzero, TensorProduct.zero_tmul, map_zero] at hbf
+    have := congrArg e.symm hbf
+    rwa [e.symm_apply_apply, map_zero] at this
+  refine LinearMap.ext fun x => ?_
+  have hx := LinearMap.congr_fun hcomp (e x)
+  rw [LinearMap.zero_apply, LinearMap.comp_apply] at hx
+  rwa [LinearEquiv.coe_coe, e.symm_apply_apply] at hx
+
+set_option maxHeartbeats 1600000 in
+-- Choosing per-block labels and discharging uniqueness/existence elaborates the deep
+-- `symGroupImage` `Subalgebra → Subsemiring → Module` instance chain repeatedly.
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **The unique special Schur-Weyl block (general `k`).** General-`k` analogue of
+`exists_unique_special_block`: given the explicit bimodule decomposition of `V^⊗n`
+(`V = Fin N → k`), there is a unique block index `iLam` whose Specht-module label is
+`weightToPartition N lam`. -/
+theorem exists_unique_special_block_general
+    (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam)
+    {ι : Type} [Fintype ι] [DecidableEq ι]
+    (S : ι → Submodule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)))
+    (hSimp : ∀ i, IsSimpleModule (↥(symGroupImage k (Fin N → k) (∑ i, lam i))) ↥(S i))
+    (hDist : ∀ i j,
+      Nonempty (↥(S i) ≃ₗ[↥(symGroupImage k (Fin N → k) (∑ i, lam i))] ↥(S j)) → i = j)
+    (hSfin : ∀ i, Module.Finite k ↥(S i))
+    (e : TensorPower k (Fin N → k) (∑ i, lam i) ≃ₗ[k]
+      DirectSum ι (fun i => ↥(S i) ⊗[k]
+        (↥(S i) →ₗ[↥(symGroupImage k (Fin N → k) (∑ i, lam i))]
+          TensorPower k (Fin N → k) (∑ i, lam i))))
+    (he : ∀ (i : ι) (v : ↥(S i))
+        (l : ↥(S i) →ₗ[↥(symGroupImage k (Fin N → k) (∑ i, lam i))]
+          TensorPower k (Fin N → k) (∑ i, lam i)),
+      e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)) = l v) :
+    ∃ iLam : ι,
+      (∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        LinearMap.trace k ↥((S iLam).restrictScalars k)
+          ((symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap.restrict
+            (p := (S iLam).restrictScalars k) (q := (S iLam).restrictScalars k)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S iLam) σ hv)) =
+          spechtModuleCharacterK k (∑ i, lam i) (weightToPartition N lam) σ) ∧
+      (∀ i, i ≠ iLam → ∃ la' : Nat.Partition (∑ i, lam i),
+        la' ≠ weightToPartition N lam ∧
+        ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+          LinearMap.trace k ↥((S i).restrictScalars k)
+            ((symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap.restrict
+              (p := (S i).restrictScalars k) (q := (S i).restrictScalars k)
+              (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S i) σ hv)) =
+            spechtModuleCharacterK k (∑ i, lam i) la' σ) := by
+  -- Per-block Specht labels with the trace property (β.2).
+  have hlabexists : ∀ i, ∃ la' : Nat.Partition (∑ i, lam i),
+      ∀ σ : Equiv.Perm (Fin (∑ i, lam i)),
+        LinearMap.trace k ↥((S i).restrictScalars k)
+          ((symGroupAction k (Fin N → k) (∑ i, lam i) σ).toLinearMap.restrict
+            (p := (S i).restrictScalars k) (q := (S i).restrictScalars k)
+            (fun _ hv => symGroupAction_mem_of_symGroupImage_submodule (S i) σ hv)) =
+          spechtModuleCharacterK k (∑ i, lam i) la' σ := by
+    intro i
+    haveI := hSimp i
+    exact trace_symGroupAction_eq_spechtModuleCharacterK (S i)
+  choose lab hlab using hlabexists
+  -- Uniqueness: distinct blocks carry distinct labels.
+  have hUniq : ∀ i j, lab i = lab j → i = j := by
+    intro i j hij
+    haveI := hSimp i
+    haveI := hSimp j
+    apply hDist i j
+    apply simpleSymGroupImageSubmodule_iso_of_spechtCharacterK_eq (S i) (S j) (lab i)
+      (hlab i)
+    intro σ
+    rw [hij]
+    exact hlab j σ
+  -- Existence: some block carries the label `weightToPartition N lam`.
+  have hExists : ∃ iLam, lab iLam = weightToPartition N lam := by
+    by_contra hcon
+    push_neg at hcon
+    -- Every block: `youngSymEndomorphism` vanishes on `S i` (β.3).
+    have hvanish : ∀ (i : ι) (v : ↥(S i)),
+        youngSymEndomorphism k N lam v.val = 0 := by
+      intro i v
+      haveI := hSimp i
+      haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
+      have hr := youngSym_action_vanishes_off_block_general N lam (S i) (lab i) (hlab i) (hcon i)
+      have hv0 := LinearMap.congr_fun hr v
+      rw [LinearMap.zero_apply] at hv0
+      have := congrArg Subtype.val hv0
+      rwa [LinearMap.restrict_coe_apply, ZeroMemClass.coe_zero] at this
+    -- Block factorization forces `youngSymEndomorphism k N lam = 0`.
+    exact youngSymEndomorphism_ne_zero_general N lam hlam
+      (youngSymEndomorphism_eq_zero_of_blocks_vanish_general N lam S e he hvanish)
+  obtain ⟨iLam, hLamEq⟩ := hExists
+  refine ⟨iLam, ?_, ?_⟩
+  · intro σ
+    have := hlab iLam σ
+    rwa [hLamEq] at this
+  · intro i hi
+    refine ⟨lab i, ?_, hlab i⟩
+    intro hcontra
+    exact hi (hUniq i iLam (hcontra.trans hLamEq.symm))
+
+end General
 
 end Etingof
 

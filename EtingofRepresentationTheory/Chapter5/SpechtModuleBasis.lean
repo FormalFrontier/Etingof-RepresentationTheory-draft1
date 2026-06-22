@@ -912,6 +912,48 @@ private theorem srRank_lt_of_tabloidStrictDominates
       -- σ dom τ, τ dom ρ, toTab σ = toTab ρ ⟹ toTab τ = toTab ρ
       exact hne_τρ (tabloidDominates_antisymm_toTabloid h.1 hdom_τρ heq)
 
+/-- `srRank` lifted to tabloids: the descent rank of any representative
+permutation. Well-defined because `srRank` is `toTabloid`-invariant
+(`srRank_eq_of_toTabloid_eq`). -/
+private noncomputable def srRankT (t : Tabloid n la) : ℕ :=
+  Quotient.liftOn t (srRank la)
+    (fun _ _ h => srRank_eq_of_toTabloid_eq (Quotient.sound h))
+
+@[simp] private theorem srRankT_toTabloid (σ : Equiv.Perm (Fin n)) :
+    srRankT (la := la) (toTabloid n la σ) = srRank la σ := rfl
+
+/-- **Dominance-maximal tabloid in a support.** Any nonzero element `X ∈ M^λ`
+has a permutation `β` with nonzero coefficient `X [β]` such that no other
+tabloid in `supp X` strictly dominates `[β]`. This is the dominance-maximal
+selector required by the leading-term elimination of the Garnir straightening
+(sub-B of #4995): it generalizes `exists_dominance_maximal` (which selects only
+within an SYT finset) to an arbitrary `Finsupp (Tabloid n la) ℂ` support.
+
+The proof selects a support tabloid of maximal `srRankT`; maximal descent rank
+forces dominance-maximality, since a strict dominator has strictly larger
+`srRank` (`srRank_lt_of_tabloidStrictDominates`). -/
+private theorem exists_tabloid_dominance_maximal
+    (X : TabloidRepresentation n la) (hX : X ≠ 0) :
+    ∃ β : Equiv.Perm (Fin n), X (toTabloid n la β) ≠ 0 ∧
+      ∀ γ : Equiv.Perm (Fin n), X (toTabloid n la γ) ≠ 0 →
+        tabloidDominates la γ β → toTabloid n la γ = toTabloid n la β := by
+  classical
+  have hne : X.support.Nonempty := Finsupp.support_nonempty_iff.mpr hX
+  obtain ⟨tmax, htmax_mem, htmax_max⟩ :=
+    Finset.exists_max_image X.support (srRankT (la := la)) hne
+  -- Choose a representative permutation β with `toTabloid β = tmax`.
+  obtain ⟨β, hβ_eq⟩ : ∃ β, toTabloid n la β = tmax := Quotient.exists_rep tmax
+  subst hβ_eq
+  refine ⟨β, Finsupp.mem_support_iff.mp htmax_mem, ?_⟩
+  intro γ hγ hdom
+  by_contra hne_tab
+  -- `γ` strictly dominates `β`, so `srRank β < srRank γ`, contradicting maximality.
+  have hstrict : tabloidStrictDominates la γ β := ⟨hdom, hne_tab⟩
+  have hlt : srRank la β < srRank la γ := srRank_lt_of_tabloidStrictDominates hstrict
+  have hle := htmax_max (toTabloid n la γ) (Finsupp.mem_support_iff.mpr hγ)
+  simp only [srRankT_toTabloid] at hle
+  omega
+
 /-! ### Column-restandardizer API for the whole-sum Garnir strategy
 
 The `garnirColReindex σ w q` packages the existence statement
@@ -2134,6 +2176,327 @@ private theorem twistedPolytabloid_per_q_decomp
     · simp only [perQ_eq, Finset.mem_filter, Finset.mem_univ, true_and] at hq_eq
       exact tabloidDominates_congr hq_eq.1 rfl h_dom_τα
 
+/-! ### Leading-term elimination measure (R2.b)
+
+The residual `X := f_w(σ) − M` (with `M ∈ V`) is straightened by repeatedly
+subtracting `c·ψ_{β'}` for the column-standardization `β'` of a
+dominance-maximal support tabloid. Each subtraction kills the maximal tabloid
+and only introduces strictly-lower ones, so the lexicographic measure
+`(maxSrRankSupp X, cardAtMaxSrRank X)` strictly decreases. We encode the lex
+pair as a single `ℕ` via the bound `cardAtMaxSrRank ≤ #(Tabloid n la)`. -/
+
+/-- The maximal `srRank` over the tabloid support of `X` (0 if `X = 0`). -/
+private noncomputable def maxSrRankSupp (X : TabloidRepresentation n la) : ℕ :=
+  X.support.sup (fun t => srRank la (Quotient.out t))
+
+/-- The number of support tabloids of `X` attaining the maximal `srRank`. -/
+private noncomputable def cardAtMaxSrRank (X : TabloidRepresentation n la) : ℕ :=
+  (X.support.filter (fun t => srRank la (Quotient.out t) = maxSrRankSupp X)).card
+
+/-- The single-`ℕ` lexicographic termination measure for leading-term
+elimination: `maxSrRankSupp` is the high word, `cardAtMaxSrRank` the low word
+(bounded by `#(Tabloid n la)`). -/
+private noncomputable def resMeasure (X : TabloidRepresentation n la) : ℕ :=
+  maxSrRankSupp X * (Fintype.card (Tabloid n la) + 1) + cardAtMaxSrRank X
+
+/-- **Leading-term elimination decreases the measure.** If `t₁` is a support
+tabloid of `X` of maximal `srRank`, `ψ`'s support below `t₁` (everything except
+`t₁` is strictly `srRank`-lower than `t₁`'s level), and the subtraction
+`X − c•ψ` annihilates `t₁`, then `resMeasure (X − c•ψ) < resMeasure X`. -/
+private theorem resMeasure_sub_lt
+    (X ψ : TabloidRepresentation n la) (c : ℂ) (t₁ : Tabloid n la)
+    (ht₁ : t₁ ∈ X.support)
+    (ht₁max : srRank la (Quotient.out t₁) = maxSrRankSupp X)
+    (hsub : (X - c • ψ) t₁ = 0)
+    (hψ_below : ∀ t, t ≠ t₁ → ψ t ≠ 0 →
+        srRank la (Quotient.out t) < maxSrRankSupp X) :
+    resMeasure (X - c • ψ) < resMeasure X := by
+  classical
+  set R := maxSrRankSupp X with hR
+  -- `ψ` vanishes on level-`R` tabloids other than `t₁`.
+  have hψ_zero_at_R : ∀ t, t ≠ t₁ → srRank la (Quotient.out t) = R → ψ t = 0 := by
+    intro t hne hlev
+    by_contra hne0
+    have := hψ_below t hne hne0
+    omega
+  -- The max level of `X − c•ψ` is `≤ R`.
+  have hmax_le : maxSrRankSupp (X - c • ψ) ≤ R := by
+    unfold maxSrRankSupp
+    apply Finset.sup_le
+    intro t ht
+    simp only [Finsupp.mem_support_iff, Finsupp.sub_apply, Finsupp.smul_apply,
+      smul_eq_mul] at ht
+    by_cases hXt : X t = 0
+    · have hψt : ψ t ≠ 0 := by
+        intro h; apply ht; rw [hXt, h, mul_zero, sub_zero]
+      by_cases htt₁ : t = t₁
+      · rw [htt₁]; omega
+      · exact le_of_lt (hψ_below t htt₁ hψt)
+    · have htmem : t ∈ X.support := Finsupp.mem_support_iff.mpr hXt
+      rw [hR]
+      exact Finset.le_sup (f := fun t => srRank la (Quotient.out t)) htmem
+  -- The level-`R` support of `X − c•ψ` is the level-`R` support of `X` minus `t₁`.
+  have hfilter : ((X - c • ψ).support.filter
+        (fun t => srRank la (Quotient.out t) = R)) =
+      (X.support.filter (fun t => srRank la (Quotient.out t) = R)).erase t₁ := by
+    apply Finset.ext
+    intro t
+    obtain ⟨a, rfl⟩ : ∃ a : Equiv.Perm (Fin n), toTabloid n la a = t :=
+      ⟨Quotient.out t, toTabloid_out t⟩
+    simp only [Finset.mem_filter, Finset.mem_erase, Finsupp.mem_support_iff]
+    constructor
+    · rintro ⟨hne0, hlev⟩
+      have htt₁ : toTabloid n la a ≠ t₁ := by
+        intro heq; rw [heq] at hne0; exact hne0 hsub
+      have hψ0 : ψ (toTabloid n la a) = 0 := hψ_zero_at_R _ htt₁ hlev
+      have hcψ0 : (c • ψ) (toTabloid n la a) = 0 := by
+        show c • ψ (toTabloid n la a) = 0
+        rw [hψ0, smul_zero]
+      have hXt : X (toTabloid n la a) ≠ 0 := by
+        have hXeq : X (toTabloid n la a) = (X - c • ψ) (toTabloid n la a) := by
+          rw [Finsupp.sub_apply, hcψ0, sub_zero]
+        rw [hXeq]; exact hne0
+      exact ⟨htt₁, hXt, hlev⟩
+    · rintro ⟨htt₁, hXt, hlev⟩
+      have hψ0 : ψ (toTabloid n la a) = 0 := hψ_zero_at_R _ htt₁ hlev
+      have hcψ0 : (c • ψ) (toTabloid n la a) = 0 := by
+        show c • ψ (toTabloid n la a) = 0
+        rw [hψ0, smul_zero]
+      refine ⟨?_, hlev⟩
+      show (X - c • ψ) (toTabloid n la a) ≠ 0
+      have hXeq : (X - c • ψ) (toTabloid n la a) = X (toTabloid n la a) := by
+        rw [Finsupp.sub_apply, hcψ0, sub_zero]
+      rw [hXeq]; exact hXt
+  have ht₁_in : t₁ ∈ X.support.filter (fun t => srRank la (Quotient.out t) = R) := by
+    rw [Finset.mem_filter]; exact ⟨ht₁, ht₁max⟩
+  have hReq : maxSrRankSupp X = R := hR.symm
+  -- Three facts feeding the lexicographic arithmetic comparison.
+  have fact3 : 0 < cardAtMaxSrRank X := by
+    unfold cardAtMaxSrRank
+    refine Finset.card_pos.mpr ⟨t₁, ?_⟩
+    rw [Finset.mem_filter]; exact ⟨ht₁, ht₁max.trans hR⟩
+  have fact4 : cardAtMaxSrRank (X - c • ψ) ≤ Fintype.card (Tabloid n la) := by
+    unfold cardAtMaxSrRank; exact Finset.card_le_univ _
+  have fact2 : maxSrRankSupp (X - c • ψ) = R →
+      cardAtMaxSrRank (X - c • ψ) = cardAtMaxSrRank X - 1 := by
+    intro hmeq
+    unfold cardAtMaxSrRank
+    simp only [hmeq, hReq]
+    rw [hfilter]
+    exact Finset.card_erase_of_mem ht₁_in
+  -- Generic comparison of the single-`ℕ` lex measure.
+  have harith : ∀ (a b m Q F : ℕ), m < Q → a ≤ F →
+      m * (F + 1) + a < Q * (F + 1) + b := by
+    intro a b m Q F hmQ haF
+    have h1 : m + 1 ≤ Q := hmQ
+    calc m * (F + 1) + a
+        ≤ m * (F + 1) + F := by omega
+      _ < m * (F + 1) + (F + 1) := by omega
+      _ = (m + 1) * (F + 1) := by ring
+      _ ≤ Q * (F + 1) := by gcongr
+      _ ≤ Q * (F + 1) + b := by omega
+  rcases eq_or_lt_of_le hmax_le with heq | hlt
+  · -- `maxSrRankSupp (X − c•ψ) = R`: the low word drops by one.
+    have hc2 := fact2 heq
+    unfold resMeasure
+    have hmeq' : maxSrRankSupp (X - c • ψ) = maxSrRankSupp X := by rw [heq, hReq]
+    rw [hmeq']
+    omega
+  · -- `maxSrRankSupp (X − c•ψ) < R`: the high word drops.
+    unfold resMeasure
+    have hmlt : maxSrRankSupp (X - c • ψ) < maxSrRankSupp X := by rw [hReq]; exact hlt
+    exact harith _ _ _ _ _ hmlt fact4
+
+/-- **R2.b invariant — the genuine James/Fulton column-straightening nut.**
+For column-standard `σ`, any `w`, and any `M ∈ V` with the residual
+`X := f_w(σ) − M` having support bounded by `[σ]`, every dominance-maximal
+tabloid `t₁` of `X` is column-standardizable: there is a column-standard
+`β'` with `[β'] = t₁` that is IH-available, i.e. either `[β']` is strictly
+dominated by `[σ]` (so `srRank β' < srRank σ`), or `[β'] = [σ]` with strictly
+fewer row inversions.
+
+This is the validated-true crux (route 1 of #4881) isolated as its own lemma;
+it is consumed by `twistedPolytabloid_residual_in_V` via leading-term
+elimination. Refuted routes (pointwise vanishing of `Δ`, cross-region
+involution, column-antisymmetry via the global stabiliser, and circular
+application of `tabloidSupport_straightening`) must NOT be re-attempted — see
+`progress/r2b-crux-strategy-refuted.md`,
+`progress/r2b-crux-is-column-antisymmetry.md`,
+`progress/r2b-redesign-direct-polytabloid.md`. -/
+private theorem twistedPolytabloid_residual_invariant
+    (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
+    (hrp : 0 < rowInvCount' (la := la) σ)
+    (w : Equiv.Perm (Fin n))
+    (M : TabloidRepresentation n la)
+    (hM : M ∈ Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+        polytabloidTab (n := n) (la := la) T)))
+    (hsupp : ∀ α : Equiv.Perm (Fin n),
+        (twistedPolytabloid (la := la) w σ - M) (toTabloid n la α) ≠ 0 →
+        tabloidDominates la σ α)
+    (t₁ : Tabloid n la)
+    (ht₁ : t₁ ∈ (twistedPolytabloid (la := la) w σ - M).support)
+    (hmax : ∀ t' ∈ (twistedPolytabloid (la := la) w σ - M).support,
+        tabloidDominates la (Quotient.out t') (Quotient.out t₁) → t' = t₁) :
+    ∃ β' : Equiv.Perm (Fin n), isColumnStandard' n la β' ∧
+      toTabloid n la β' = t₁ ∧
+      (srRank la β' < srRank la σ ∨
+        (srRank la β' = srRank la σ ∧
+          rowInvCount' (la := la) β' < rowInvCount' (la := la) σ)) := by
+  sorry
+
+/-- **R2.b — The residual lies in `V`** (the genuine crux of the Garnir
+straightening).
+
+From `twistedPolytabloid_per_q_decomp`, `f_w(σ) = twistedIHPart σ w + Δ` where
+`Δ := f_w(σ) − twistedIHPart σ w` has tabloid support bounded by `[σ]`. This
+lemma establishes the remaining content: `Δ ∈ V` (the SYT-polytabloid span).
+Combined with `twistedIHPart_mem_span` it gives `f_w(σ) ∈ V`, which together
+with the support bound and the R1 bridge `in_L_of_in_V_of_supp_bounded`
+discharges `garnir_twisted_in_lower_span` (see directly below).
+
+**The leading-term elimination assembly is now proved here**, by strong
+induction on the single-`ℕ` lexicographic `resMeasure`
+`= maxSrRankSupp X * (#Tabloid + 1) + cardAtMaxSrRank X`. At each step we pick a
+maximal-`srRank` support tabloid `t₁` (automatically dominance-maximal), invoke
+the column-straightening invariant `twistedPolytabloid_residual_invariant` to
+obtain its column-standard representative `β'` (`[β'] = [t₁]`, IH-available),
+subtract `c·ψ_{β'}` (in `V` by `ih`), and recurse: `resMeasure_sub_lt` shows the
+measure strictly drops. The only remaining `sorry` is the isolated invariant
+itself (the genuine James/Fulton nut). Do NOT re-attempt a refuted route (see
+`progress/r2b-crux-strategy-refuted.md`,
+`progress/r2b-crux-is-column-antisymmetry.md`,
+`progress/r2b-redesign-direct-polytabloid.md`). -/
+private theorem twistedPolytabloid_residual_in_V
+    (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
+    (hrp : 0 < rowInvCount' (la := la) σ)
+    (w : Equiv.Perm (Fin n))
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T))) :
+    (twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w) ∈
+      Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+        polytabloidTab (n := n) (la := la) T)) := by
+  classical
+  set V := Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+      polytabloidTab (n := n) (la := la) T)) with hV
+  -- Generalized claim: any `f_w σ − M` with `M ∈ V` and support `≼ [σ]` lies in
+  -- `V`, proved by strong induction on `resMeasure`.
+  suffices hmain : ∀ (N : ℕ) (M : TabloidRepresentation n la), M ∈ V →
+      (∀ α : Equiv.Perm (Fin n),
+          (twistedPolytabloid (la := la) w σ - M) (toTabloid n la α) ≠ 0 →
+          tabloidDominates la σ α) →
+      resMeasure (twistedPolytabloid (la := la) w σ - M) = N →
+      (twistedPolytabloid (la := la) w σ - M) ∈ V by
+    -- Apply with `M = twistedIHPart σ w`, whose residual support bound comes
+    -- from `twistedPolytabloid_per_q_decomp`.
+    obtain ⟨Δ, hΔeq, _hΔIH, hΔsupp⟩ := twistedPolytabloid_per_q_decomp σ hcs hrp w ih
+    have hΔval : twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w = Δ := by
+      rw [hΔeq]; abel
+    have hIH_V : twistedIHPart (la := la) σ w ∈ V := twistedIHPart_mem_span σ w ih
+    have hsupp : ∀ α : Equiv.Perm (Fin n),
+        (twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w)
+          (toTabloid n la α) ≠ 0 → tabloidDominates la σ α := by
+      intro α hα; rw [hΔval] at hα; exact hΔsupp α hα
+    exact hmain _ _ hIH_V hsupp rfl
+  intro N
+  induction N using Nat.strongRecOn with
+  | ind N IH =>
+  intro M hM hsupp hμ
+  by_cases hzero : twistedPolytabloid (la := la) w σ - M = 0
+  · rw [hzero]; exact Submodule.zero_mem V
+  · -- The support is nonempty; pick a maximal-`srRank` support tabloid `t₁`.
+    set X := twistedPolytabloid (la := la) w σ - M with hX
+    have hne : X.support.Nonempty := by
+      rw [Finsupp.support_nonempty_iff]; exact hzero
+    obtain ⟨t₁, ht₁, ht₁eq⟩ :=
+      Finset.exists_mem_eq_sup X.support hne (fun t => srRank la (Quotient.out t))
+    -- `ht₁eq : maxSrRankSupp X = srRank la (out t₁)`.
+    have ht₁max : srRank la (Quotient.out t₁) = maxSrRankSupp X := ht₁eq.symm
+    -- A maximal-`srRank` tabloid is dominance-maximal.
+    have hmax : ∀ t' ∈ X.support,
+        tabloidDominates la (Quotient.out t') (Quotient.out t₁) → t' = t₁ := by
+      intro t' ht' hdom
+      by_contra hne'
+      have hstrict : tabloidStrictDominates la (Quotient.out t') (Quotient.out t₁) := by
+        refine ⟨hdom, ?_⟩
+        rw [toTabloid_out, toTabloid_out]; exact hne'
+      have hlt := srRank_lt_of_tabloidStrictDominates hstrict
+      have hle : srRank la (Quotient.out t') ≤ maxSrRankSupp X := by
+        rw [maxSrRankSupp]
+        exact Finset.le_sup (f := fun t => srRank la (Quotient.out t)) ht'
+      omega
+    -- Invoke the column-straightening invariant.
+    obtain ⟨β', hβcs, hβtab, hβrank⟩ :=
+      twistedPolytabloid_residual_invariant σ hcs hrp w M hM hsupp t₁ ht₁ hmax
+    set ψ := generalizedPolytabloidTab (n := n) (la := la) β' with hψ
+    have hψV : ψ ∈ V := ih β' hβcs hβrank
+    -- Leading coefficient of `ψ` at `t₁` is `1`.
+    have hψ_t₁ : ψ t₁ = 1 := by
+      rw [hψ, ← hβtab]; exact generalizedPolytabloidTab_coeff_self β'
+    set c := X t₁ with hc
+    have hc_ne : c ≠ 0 := by
+      rw [hc]; exact Finsupp.mem_support_iff.mp ht₁
+    -- `dominates σ β'`: `t₁ = [β']` is in `supp X`.
+    have hdom_σβ' : tabloidDominates la σ β' := by
+      apply hsupp β'
+      rw [hβtab, ← hc]; exact hc_ne
+    -- The subtraction `X − c•ψ` annihilates `t₁`.
+    have hsub_t₁ : (X - c • ψ) t₁ = 0 := by
+      rw [Finsupp.sub_apply, Finsupp.smul_apply, smul_eq_mul, hψ_t₁, mul_one, ← hc,
+        sub_self]
+    -- Below `t₁`: every other support tabloid of `ψ` is strictly `srRank`-lower.
+    have hβ_lead := generalizedPolytabloidTab_leading_tabloid β' hβcs
+    have hψ_below : ∀ t, t ≠ t₁ → ψ t ≠ 0 →
+        srRank la (Quotient.out t) < maxSrRankSupp X := by
+      intro t htt₁ hψt
+      have hne_tab : toTabloid n la (Quotient.out t) ≠ toTabloid n la β' := by
+        rw [toTabloid_out, hβtab]; exact htt₁
+      have hψ_ne0 : ψ (toTabloid n la (Quotient.out t)) ≠ 0 := by
+        rw [toTabloid_out]; exact hψt
+      have hstrict := hβ_lead.2 (Quotient.out t) hne_tab hψ_ne0
+      have hlt := srRank_lt_of_tabloidStrictDominates hstrict
+      -- `srRank β' = srRank (out t₁)` since `[β'] = t₁`.
+      have hrankβ' : srRank la β' = srRank la (Quotient.out t₁) := by
+        apply srRank_eq_of_toTabloid_eq
+        rw [hβtab, toTabloid_out]
+      omega
+    -- Define `M' := M + c•ψ ∈ V`; then `X − c•ψ = f_w σ − M'`.
+    have hM'V : M + c • ψ ∈ V := add_mem hM (Submodule.smul_mem V c hψV)
+    have hX'eq : X - c • ψ = twistedPolytabloid (la := la) w σ - (M + c • ψ) := by
+      rw [hX]; abel
+    -- Support of `X − c•ψ` is still bounded by `[σ]`.
+    have hsupp' : ∀ α : Equiv.Perm (Fin n),
+        (twistedPolytabloid (la := la) w σ - (M + c • ψ)) (toTabloid n la α) ≠ 0 →
+        tabloidDominates la σ α := by
+      intro α hα
+      rw [← hX'eq, Finsupp.sub_apply, Finsupp.smul_apply, smul_eq_mul] at hα
+      by_cases hXα : X (toTabloid n la α) = 0
+      · -- then `ψ (toTabloid α) ≠ 0`, so `dominates β' α`, and `dominates σ β'`.
+        have hψα : ψ (toTabloid n la α) ≠ 0 := by
+          intro h; apply hα; rw [hXα, h, mul_zero, sub_zero]
+        have hdom_β'α := generalizedPolytabloidTab_coeff_dominance β' hβcs α hψα
+        exact tabloidDominates_trans hdom_σβ' hdom_β'α
+      · exact hsupp α hXα
+    -- The measure strictly decreases.
+    have hlt_measure : resMeasure (X - c • ψ) < resMeasure X :=
+      resMeasure_sub_lt X ψ c t₁ ht₁ ht₁max hsub_t₁ hψ_below
+    -- Apply the inductive hypothesis to `X − c•ψ = f_w σ − M'`.
+    have hX'V : twistedPolytabloid (la := la) w σ - (M + c • ψ) ∈ V := by
+      apply IH (resMeasure (twistedPolytabloid (la := la) w σ - (M + c • ψ)))
+      · rw [← hX'eq]; rw [hμ] at hlt_measure; exact hlt_measure
+      · exact hM'V
+      · exact hsupp'
+      · rfl
+    -- Reassemble: `X = (X − c•ψ) + c•ψ ∈ V`.
+    have hreassemble : X = (twistedPolytabloid (la := la) w σ - (M + c • ψ)) + c • ψ := by
+      rw [hX]; abel
+    rw [hreassemble]
+    exact add_mem hX'V (Submodule.smul_mem V c hψV)
+
 /-- **Twisted polytabloid in lower span** (sub-sorry 2 of 2):
 For column-standard σ with row inversion, each Garnir permutation w that is
 **neither** column-preserving nor row-preserving produces a "twisted polytabloid"
@@ -2173,10 +2536,17 @@ Difficulty: 8. Combinatorial heart of the straightening theorem. -/
 private theorem garnir_twisted_in_lower_span
     (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
     (hrp : 0 < rowInvCount' (la := la) σ)
-    (G : Finset (Fin n))
-    (w : Equiv.Perm (Fin n)) (hw_supp : ∀ x, x ∉ G → w x = x)
-    (hw_ne : w ≠ 1) (hw_col : w ∉ ColumnSubgroup n la)
-    (hw_row : w ∉ RowSubgroup n la) :
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T)))
+    (_G : Finset (Fin n))
+    (w : Equiv.Perm (Fin n)) (_hw_supp : ∀ x, x ∉ _G → w x = x)
+    (_hw_ne : w ≠ 1) (_hw_col : w ∉ ColumnSubgroup n la)
+    (_hw_row : w ∉ RowSubgroup n la) :
     twistedPolytabloid (la := la) w σ ∈
     Submodule.span ℂ (Set.range (fun τ : {τ : Equiv.Perm (Fin n) //
         isColumnStandard' n la τ ∧
@@ -2184,7 +2554,24 @@ private theorem garnir_twisted_in_lower_span
             (toTabloid n la τ = toTabloid n la σ ∧
               rowInvCount' (la := la) τ < rowInvCount' (la := la) σ))} =>
       generalizedPolytabloidTab (n := n) (la := la) τ.val)) := by
-  sorry
+  -- `f_w(σ) ∈ V`: split off the IH-killable part and the residual.
+  have hres := twistedPolytabloid_residual_in_V σ hcs hrp w ih
+  have hIH_V := twistedIHPart_mem_span (la := la) σ w ih
+  have hsplit : twistedPolytabloid (la := la) w σ =
+      twistedIHPart (la := la) σ w +
+        (twistedPolytabloid (la := la) w σ - twistedIHPart (la := la) σ w) := by
+    abel
+  have hfw_V : twistedPolytabloid (la := la) w σ ∈
+      Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+        polytabloidTab (n := n) (la := la) T)) := by
+    rw [hsplit]; exact add_mem hIH_V hres
+  -- `f_w(σ)` has tabloid support bounded by `[σ]`.
+  have hfw_supp : ∀ α : Equiv.Perm (Fin n),
+      twistedPolytabloid (la := la) w σ (toTabloid n la α) ≠ 0 →
+      tabloidDominates la σ α :=
+    fun α hα => twistedPolytabloid_support_bound σ hcs w α hα
+  -- R1 bridge: `V` + support bound ⟹ membership in the lower span `L_σ`.
+  exact in_L_of_in_V_of_supp_bounded σ hcs hrp _ hfw_V hfw_supp
 
 set_option maxHeartbeats 1200000 in
 -- The long proof involves many module-level rewrites over a large sum,
@@ -2226,7 +2613,14 @@ strictly fewer row inversions via `rowInvCount'_swap_lt`, giving ψ_σ ∈ L
 directly (via `Or.inr`). -/
 private theorem garnir_straightening_step
     (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
-    (hrp : 0 < rowInvCount' (la := la) σ) :
+    (hrp : 0 < rowInvCount' (la := la) σ)
+    (ih : ∀ τ' : Equiv.Perm (Fin n), isColumnStandard' n la τ' →
+        (srRank la τ' < srRank la σ ∨
+          (srRank la τ' = srRank la σ ∧
+            rowInvCount' (la := la) τ' < rowInvCount' (la := la) σ)) →
+        generalizedPolytabloidTab (n := n) (la := la) τ' ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T))) :
     generalizedPolytabloidTab (n := n) (la := la) σ ∈
       Submodule.span ℂ (Set.range (fun τ : {τ : Equiv.Perm (Fin n) //
           isColumnStandard' n la τ ∧
@@ -2300,7 +2694,7 @@ private theorem garnir_straightening_step
       hp_row_def] at hmem
     show f ⟨w, hw_supp, hw_ne⟩ ∈ L
     apply Submodule.smul_mem
-    exact garnir_twisted_in_lower_span σ hcs hrp G w hw_supp hw_ne hmem.1 hmem.2
+    exact garnir_twisted_in_lower_span σ hcs hrp ih G w hw_supp hw_ne hmem.1 hmem.2
   -- The Q part: each term equals ψ (since sign(w)² = 1 and twistedPolytabloid_col_eq)
   have h_col_term : ∀ w : T, p_col w → f w = ψ := by
     intro ⟨w, hw_supp, hw_ne⟩ hw_col
@@ -2813,7 +3207,21 @@ private theorem polytabloidTab_column_standard_in_span
     exact Submodule.subset_span ⟨T, rfl⟩
   · -- Inductive case: use Garnir straightening step.
     have hrp : 0 < rowInvCount' (la := la) τ' := by omega
-    have h_step := garnir_straightening_step τ' hcs_τ' hrp
+    -- Package the outer/inner strong-induction hypotheses into the single
+    -- lex-`(srRank, rowInvCount')` IH consumed by `garnir_straightening_step`.
+    have ih : ∀ ρ : Equiv.Perm (Fin n), isColumnStandard' n la ρ →
+        (srRank la ρ < srRank la τ' ∨
+          (srRank la ρ = srRank la τ' ∧
+            rowInvCount' (la := la) ρ < rowInvCount' (la := la) τ')) →
+        generalizedPolytabloidTab (n := n) (la := la) ρ ∈
+          Submodule.span ℂ (Set.range (fun T : StandardYoungTableau n la =>
+            polytabloidTab (n := n) (la := la) T)) := by
+      intro ρ hρ hor
+      rcases hor with hlt | ⟨heq, hrlt⟩
+      · exact ih_outer (srRank la ρ) (by rw [hk_τ']; exact hlt) ρ rfl hρ
+      · exact ih_inner (rowInvCount' (la := la) ρ) (by omega) ρ rfl
+          (hk_τ'.trans heq.symm) hρ
+    have h_step := garnir_straightening_step τ' hcs_τ' hrp ih
     set S_syt := Set.range (fun T : StandardYoungTableau n la =>
       polytabloidTab (n := n) (la := la) T)
     -- Show the Garnir span is contained in the SYT span.

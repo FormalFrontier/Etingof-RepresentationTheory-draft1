@@ -776,7 +776,7 @@ generator `diagUnit i t` acts by *exactly* `t ^ (μ i)` (by definition of
 by `t ^ (∑ᵢ μ i) = t ^ n` (`h_homog`). Since the weight spaces span (`h_span`),
 this extends to all of `M`: `M.ρ (scalarGL t) = t^n • id`. The general
 weight-span hypothesis is proven for Schur modules at
-`Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`. -/
+`SchurWeylFormalCharacterIso.glWeightSpace_schurModule_iSup_eq_top`. -/
 private theorem scalarGL_acts_as_pow (n : ℕ)
     [CharZero k] [IsAlgClosed k]
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -1087,7 +1087,7 @@ needs all weights in `ℕ^N`. Counterexample (`N = 2`, `n = 0`):
 `ℕ`-valued weight is `(0,0)`), but its degree-`0` matrix coefficients are not
 constant. `h_span` (equivalently: `M` is a genuinely *polynomial* — not merely
 rational/algebraic — representation) rules such cases out; it holds for Schur
-modules by `Proposition5_22_2.glWeightSpace_schurModule_iSup_eq_top`.
+modules by `SchurWeylFormalCharacterIso.glWeightSpace_schurModule_iSup_eq_top`.
 
 Proof strategy (the genuine mathematical content, deferred — see issue #4598
 decomposition): evaluate the matrix-coefficient identity at the scalar matrix

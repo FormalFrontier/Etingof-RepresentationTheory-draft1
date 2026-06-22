@@ -120,9 +120,17 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
       φ (L.ρ g v) = M.ρ g (φ v)) :
     ∃ ν ∈ S, 0 < c ν ∧ formalCharacter k N L = schurPoly N ν.val := by
   classical
-  -- (1) Decompose `M.asModule` into abstract simples, schurPoly-classified.
-  obtain ⟨ι, hιFin, hιDec, Lf, hLfsimp, ⟨lam_cl, lam_inj, hchar_cl⟩, p, f, ⟨eM⟩⟩ :=
+  -- (1) Decompose `M.asModule` into abstract simples and the Schur-Weyl witnesses,
+  -- then read the schurPoly-classification off the (relocated) classification core.
+  obtain ⟨ι, hιFin, hιDec, Sm, hSacg, hSmod, hSfin, Lf, hLfsimp, hLfdist, hSne, e, he,
+      p, f, ⟨eM⟩⟩ :=
     Etingof.PolynomialGLDecomposition.decompose_polynomial_gl_rep k N n M halg h_span h_homog
+  letI := hιFin; letI := hιDec
+  letI : ∀ i, AddCommGroup (Sm i) := hSacg
+  letI : ∀ i, Module k (Sm i) := hSmod
+  letI : ∀ i, Module.Finite k (Sm i) := hSfin
+  obtain ⟨lam_cl, lam_inj, hchar_cl⟩ :=
+    schurWeyl_simples_formalCharacter_classification_core_general k N n Lf e he hLfsimp hLfdist hSne
   -- (2) Push `formalCharacter` through the decomposition: `char M = ∑_j S_{lam_cl (f j)}`.
   have hφM : Representation.asModule M.ρ
       ≃ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)]

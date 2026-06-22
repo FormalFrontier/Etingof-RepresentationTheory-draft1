@@ -204,4 +204,48 @@ theorem glTensorRep_isAlgebraic (k : Type*) [Field k] (N n : ℕ) :
   refine Finset.prod_congr rfl fun m _ => ?_
   rw [evalAtGL_X_inl]
 
+/-! ### Algebraicity transfers along an equivariant linear equivalence -/
+
+/-- **Algebraicity transfers along an intertwining `k`-linear equivalence.** If `ρ` is
+an algebraic `GL_N(k)`-representation on `Y` and `e : Y ≃ₗ[k] Z` intertwines `ρ` with
+`σ` (`e (ρ g y) = σ g (e y)`), then `σ` is algebraic: its matrix coefficients in the
+transported basis `b.map e` are the very same polynomials as those of `ρ` in `b`.
+
+This lets the abstract simple summands produced by the equivariant decomposition of an
+algebraic representation inherit algebraicity from the ambient rep. -/
+theorem IsAlgebraicRepresentation.of_linearEquiv {k : Type*} [Field k] {N : ℕ}
+    {Y Z : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
+    [AddCommGroup Z] [Module k Z] [Module.Finite k Z]
+    {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
+    {σ : Matrix.GeneralLinearGroup (Fin N) k → Z →ₗ[k] Z}
+    (e : Y ≃ₗ[k] Z)
+    (hcomm : ∀ g y, e (ρ g y) = σ g (e y))
+    (h : Etingof.IsAlgebraicRepresentation N ρ) :
+    Etingof.IsAlgebraicRepresentation N σ := by
+  obtain ⟨m, b, P, hP⟩ := h
+  refine ⟨m, b.map e, P, fun g a c => ?_⟩
+  -- The image basis `b.map e` reproduces `b`'s coordinates after pushing `e` through.
+  have hbe : ∀ w, (b.map e).repr (e w) = b.repr w := by
+    intro w
+    rw [show (b.map e).repr = e.symm.trans b.repr from rfl, LinearEquiv.trans_apply,
+      LinearEquiv.symm_apply_apply]
+  rw [Module.Basis.map_apply, ← hcomm g (b c), hbe (ρ g (b c))]
+  exact hP g a c
+
+/-! ### The Schur module is algebraic -/
+
+/-- **The Schur module `L_λ` is algebraic.** `SchurModule k N lam` is the restriction of
+the (algebraic) tensor power `V^{⊗n}` to the Young-symmetrizer image
+`SchurModuleSubmodule`, so algebraicity is inherited from `glTensorRep_isAlgebraic` via
+`IsAlgebraicRepresentation.restrict`. (The det-twisted analogue is
+`detTwistedSchurModuleRep_isAlgebraic`.) -/
+theorem schurModule_isAlgebraic {k : Type*} [Field k] [IsAlgClosed k] (N : ℕ)
+    (lam : Fin N → ℕ) :
+    Etingof.IsAlgebraicRepresentation N (SchurModule k N lam).ρ := by
+  change Etingof.IsAlgebraicRepresentation N (FDRep.of (schurModuleRep k N lam)).ρ
+  rw [FDRep.of_ρ']
+  exact (glTensorRep_isAlgebraic k N (∑ i, lam i)).restrict
+    (SchurModuleSubmodule k N lam)
+    (fun g v hv => glTensorRep_mem_range k N lam g v hv)
+
 end Etingof

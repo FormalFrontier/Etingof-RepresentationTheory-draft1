@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.CauchyWeightSpaceDimension
 import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
+import EtingofRepresentationTheory.Chapter5.CauchySchurBasis
 
 /-!
 # Assembly of the right-`GL_N` Cauchy character identity
@@ -52,24 +53,24 @@ namespace Etingof.CauchyCharacterRight
 open MvPolynomial Etingof Etingof.PolynomialGLAction Etingof.PolyRightGrading
   Etingof.CauchyWeightSpaceDimension
 
-/-- **Sub-issue #4958 (symmetric-function Cauchy core), as a named dependency.**
+/-- **Symmetric-function Cauchy core.**
 For every weight `μ : Fin N →₀ ℕ` of total degree `d`, the Schur-basis Cauchy
 multiplicity sum at `y = 1^N` equals the multichoose count:
 
   `∑_ν s_ν(1^N) · (schurPoly N ν.parts).coeff μ = ∏_j C(μ_j + N − 1, N − 1)`.
 
-This is the right-hand-side coefficient of the Cauchy character identity; it is
-the symmetric-function content tracked by #4958 (the Schur-basis Cauchy identity
-specialised at `y = (1,…,1)` and truncated to degree `d`). The assembly
-`polyRightDegreeFDRep_formalCharacter` consumes it as a named dependency while it
-carries a `sorry`; the proof itself lands in #4958. -/
+This is the right-hand-side coefficient of the Cauchy character identity (the
+Schur-basis Cauchy identity specialised at `y = (1,…,1)` and truncated to degree
+`d`). The proof is `Etingof.CauchySchurBasis.cauchy_schur_coeff`; here the RHS is
+the cast of a `ℕ`-product, bridged by `Nat.cast_prod`. -/
 theorem cauchy_schur_coeff_multichoose (N d : ℕ) (μ : Fin N →₀ ℕ)
     (hμ : ∑ j, μ j = d) :
     ∑ ν : BoundedPartition N d,
         (MvPolynomial.eval (fun _ => (1 : ℚ)) (schurPoly N ν.parts))
           * (schurPoly N ν.parts).coeff μ
       = ((∏ j, (μ j + N - 1).choose (N - 1) : ℕ) : ℚ) := by
-  sorry -- #4958: Schur-basis Cauchy identity at y = 1^N (named dependency)
+  simpa [Nat.cast_prod] using
+    Etingof.CauchySchurBasis.cauchy_schur_coeff (N := N) (d := d) μ hμ
 
 /-- **The right-`GL_N` Cauchy character identity** (residual assembly of #4944).
 As a right-`GL_N`-representation, the total-degree-`d` part of `A = k[Xᵢⱼ]` is the

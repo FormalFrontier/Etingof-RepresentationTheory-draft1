@@ -106,11 +106,11 @@ namespace Matrix
 
 open Polynomial MvPolynomial
 
-variable {N : ℕ}
+variable {N : ℕ} {k : Type*} [Field k]
 
-/-- Over `ℂ`, a matrix whose discriminant is nonzero has separable
-characteristic polynomial. -/
-theorem charpoly_separable_of_discr_ne_zero (M : Matrix (Fin N) (Fin N) ℂ)
+/-- Over a characteristic-zero field, a matrix whose discriminant is nonzero has
+separable characteristic polynomial. -/
+theorem charpoly_separable_of_discr_ne_zero [CharZero k] (M : Matrix (Fin N) (Fin N) k)
     (hN : 0 < N) (h : M.discr ≠ 0) : M.charpoly.Separable := by
   have hpos : 0 < M.charpoly.natDegree := by
     rw [M.charpoly_natDegree_eq_dim]; simpa using hN
@@ -118,35 +118,36 @@ theorem charpoly_separable_of_discr_ne_zero (M : Matrix (Fin N) (Fin N) ℂ)
     natDegree_eq_of_degree_eq_some (degree_derivative_eq _ hpos)
   exact (discr_ne_zero_iff_separable hpos hd).mp h
 
-/-- Over `ℂ`, the eigenvalues (roots of the characteristic polynomial) of a
-matrix with nonzero discriminant are distinct. -/
-theorem charpoly_roots_nodup_of_discr_ne_zero (M : Matrix (Fin N) (Fin N) ℂ)
+/-- Over a characteristic-zero field, the eigenvalues (roots of the characteristic
+polynomial) of a matrix with nonzero discriminant are distinct. -/
+theorem charpoly_roots_nodup_of_discr_ne_zero [CharZero k] (M : Matrix (Fin N) (Fin N) k)
     (hN : 0 < N) (h : M.discr ≠ 0) : M.charpoly.roots.Nodup :=
   Polynomial.nodup_roots (charpoly_separable_of_discr_ne_zero M hN h)
 
-/-- Over `ℂ`, a matrix with nonzero discriminant has exactly `N` distinct
-eigenvalues. -/
-theorem card_roots_charpoly_of_discr_ne_zero (M : Matrix (Fin N) (Fin N) ℂ)
+/-- Over an algebraically closed characteristic-zero field, a matrix with nonzero
+discriminant has exactly `N` distinct eigenvalues. -/
+theorem card_roots_charpoly_of_discr_ne_zero [IsAlgClosed k] [CharZero k] [DecidableEq k]
+    (M : Matrix (Fin N) (Fin N) k)
     (hN : 0 < N) (h : M.discr ≠ 0) : M.charpoly.roots.toFinset.card = N := by
   rw [Multiset.toFinset_card_of_nodup (charpoly_roots_nodup_of_discr_ne_zero M hN h),
     ← (IsAlgClosed.splits M.charpoly).natDegree_eq_card_roots, M.charpoly_natDegree_eq_dim,
     Fintype.card_fin]
 
 /-- The discriminant of the characteristic polynomial, as a polynomial in the
-matrix entries `Xᵢⱼ`: the evaluation of `discrPoly N` at a matrix `M` is
+matrix entries `Xᵢⱼ`: the evaluation of `discrPoly k N` at a matrix `M` is
 `M.discr` (`Matrix.eval_discrPoly`). -/
-noncomputable def discrPoly (N : ℕ) : MvPolynomial (Fin N × Fin N) ℂ :=
-  (mvPolynomialX (Fin N) (Fin N) ℂ).discr
+noncomputable def discrPoly (k : Type*) [Field k] (N : ℕ) : MvPolynomial (Fin N × Fin N) k :=
+  (mvPolynomialX (Fin N) (Fin N) k).discr
 
-/-- Evaluating `discrPoly N` at the entries of a matrix `M` returns `M.discr`. -/
-theorem eval_discrPoly (N : ℕ) (x : Fin N × Fin N → ℂ) :
-    MvPolynomial.eval x (discrPoly N) = (Matrix.of fun i j => x (i, j)).discr := by
-  set M : Matrix (Fin N) (Fin N) ℂ := Matrix.of fun i j => x (i, j) with hM
-  have hMmap : (mvPolynomialX (Fin N) (Fin N) ℂ).map (MvPolynomial.eval x) = M := by
+/-- Evaluating `discrPoly k N` at the entries of a matrix `M` returns `M.discr`. -/
+theorem eval_discrPoly (N : ℕ) (x : Fin N × Fin N → k) :
+    MvPolynomial.eval x (discrPoly k N) = (Matrix.of fun i j => x (i, j)).discr := by
+  set M : Matrix (Fin N) (Fin N) k := Matrix.of fun i j => x (i, j) with hM
+  have hMmap : (mvPolynomialX (Fin N) (Fin N) k).map (MvPolynomial.eval x) = M := by
     ext i j
     simp only [Matrix.map_apply, mvPolynomialX_apply, MvPolynomial.eval_X, hM, Matrix.of_apply]
   have hchar : M.charpoly
-      = (mvPolynomialX (Fin N) (Fin N) ℂ).charpoly.map (MvPolynomial.eval x) := by
+      = (mvPolynomialX (Fin N) (Fin N) k).charpoly.map (MvPolynomial.eval x) := by
     rw [← hMmap, charpoly_map]
   rw [discrPoly]
   simp only [Matrix.discr]
@@ -154,20 +155,22 @@ theorem eval_discrPoly (N : ℕ) (x : Fin N × Fin N → ℂ) :
 
 /-- **The entry-wise charpoly-discriminant is a nonzero polynomial.** Hence the
 distinct-eigenvalue locus is the complement of a proper hypersurface, i.e.
-Zariski-dense, in the space of `N × N` matrices. -/
-theorem discrPoly_ne_zero (N : ℕ) (hN : 0 < N) : discrPoly N ≠ 0 := by
+Zariski-dense, in the space of `N × N` matrices. (Characteristic zero is used both
+for the witness `diag(0,1,…,N-1)` to have distinct entries and for the derivative
+degree to drop by exactly one.) -/
+theorem discrPoly_ne_zero [CharZero k] (N : ℕ) (hN : 0 < N) : discrPoly k N ≠ 0 := by
   intro hzero
-  set d : Fin N → ℂ := fun i => (i.val : ℂ) with hd
-  set x : Fin N × Fin N → ℂ := fun p => if p.1 = p.2 then d p.1 else 0 with hx
+  set d : Fin N → k := fun i => (i.val : k) with hd
+  set x : Fin N × Fin N → k := fun p => if p.1 = p.2 then d p.1 else 0 with hx
   have hM : (Matrix.of fun i j => x (i, j)) = Matrix.diagonal d := by
     ext i j; simp [hx, Matrix.diagonal_apply, Matrix.of_apply]
-  have heval : MvPolynomial.eval x (discrPoly N) = (Matrix.diagonal d).discr := by
+  have heval : MvPolynomial.eval x (discrPoly k N) = (Matrix.diagonal d).discr := by
     rw [eval_discrPoly, hM]
   rw [hzero, map_zero] at heval
   have hinj : Function.Injective d := by
     intro a b hab
     apply Fin.val_injective
-    have : (a.val : ℂ) = (b.val : ℂ) := hab
+    have : (a.val : k) = (b.val : k) := hab
     exact_mod_cast this
   have hsep : (Matrix.diagonal d).charpoly.Separable := by
     rw [charpoly_diagonal]
