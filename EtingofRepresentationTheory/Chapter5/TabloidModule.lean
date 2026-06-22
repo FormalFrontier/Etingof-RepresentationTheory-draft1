@@ -919,6 +919,89 @@ lemma exists_dominance_maximal
     · exact hfT'
     · rfl
 
+/-- Mutual dominance forces the same tabloid (antisymmetry of dominance at the
+tabloid level): if `σ₁` dominates `σ₂` and `σ₂` dominates `σ₁`, then they define
+the same tabloid. Special case of the squeeze lemma
+`tabloidDominates_antisymm_toTabloid` with `σ₃ := σ₁`. -/
+theorem tabloidDominates_antisymm {σ₁ σ₂ : Equiv.Perm (Fin n)}
+    (h₁₂ : tabloidDominates la σ₁ σ₂) (h₂₁ : tabloidDominates la σ₂ σ₁) :
+    toTabloid n la σ₂ = toTabloid n la σ₁ :=
+  tabloidDominates_antisymm_toTabloid h₁₂ h₂₁ rfl
+
+/-- `toTabloid` of a quotient representative recovers the tabloid: `[t.out] = t`. -/
+theorem toTabloid_out (t : Tabloid n la) :
+    toTabloid n la (Quotient.out t) = t :=
+  Quotient.out_eq t
+
+/-- **General-support dominance-maximal tabloid.** Among the tabloids in any
+nonempty `Finset (Tabloid n la)` (e.g. the support of a nonzero
+`X : TabloidRepresentation n la`), there is a dominance-maximal one `t₁`: every
+support tabloid `t'` that dominates `t₁` (comparing chosen representatives
+`Quotient.out`) is in fact equal to `t₁`.
+
+This is the general-`Finsupp`-support analogue of `exists_dominance_maximal`
+(which is stated for finsets of standard Young tableaux). It is the entry point
+for the leading-term elimination in the Garnir column-straightening crux: pick a
+dominance-maximal tabloid of the residual support, subtract the matching standard
+polytabloid, and recurse. Dominance is compared on the canonical representatives
+`Quotient.out t`; since dominance is well-defined on tabloids
+(`tabloidDominates_congr`), any other representatives agree via `toTabloid_out`. -/
+lemma exists_dominance_maximal_tabloid
+    (S : Finset (Tabloid n la)) (t₀ : Tabloid n la) (ht₀ : t₀ ∈ S) :
+    ∃ t₁ ∈ S, ∀ t' ∈ S,
+      tabloidDominates la (Quotient.out t') (Quotient.out t₁) → t' = t₁ := by
+  classical
+  -- Antisymmetry transported to tabloids via their `Quotient.out` representatives.
+  have hAntisymm : ∀ a b : Tabloid n la,
+      tabloidDominates la (Quotient.out a) (Quotient.out b) →
+      tabloidDominates la (Quotient.out b) (Quotient.out a) → a = b := by
+    intro a b hab hba
+    have := tabloidDominates_antisymm (la := la) hab hba
+    rw [toTabloid_out, toTabloid_out] at this
+    exact this.symm
+  -- Measure: count strict dominators of `t` inside `S`. Strong induction on it.
+  suffices hmain : ∀ (m : ℕ) (t : Tabloid n la), t ∈ S →
+      (S.filter fun t' =>
+        tabloidDominates la (Quotient.out t') (Quotient.out t) ∧ t' ≠ t).card = m →
+      ∃ t₁ ∈ S, ∀ t' ∈ S,
+        tabloidDominates la (Quotient.out t') (Quotient.out t₁) → t' = t₁ by
+    exact hmain _ t₀ ht₀ rfl
+  intro m
+  induction m using Nat.strongRecOn with
+  | ind m ih =>
+  intro t htS hcard
+  by_cases hmax : ∀ t' ∈ S,
+      tabloidDominates la (Quotient.out t') (Quotient.out t) → t' = t
+  · exact ⟨t, htS, hmax⟩
+  · -- `t` is not maximal: some `t'` strictly dominates it.
+    push_neg at hmax
+    obtain ⟨t', ht'S, hdom, hne⟩ := hmax
+    apply ih (S.filter fun t'' =>
+        tabloidDominates la (Quotient.out t'') (Quotient.out t') ∧ t'' ≠ t').card
+    · -- Strict decrease: badSet(t') ⊊ badSet(t).
+      rw [← hcard]
+      apply Finset.card_lt_card
+      rw [Finset.ssubset_iff_of_subset]
+      · -- `t'` is in badSet(t) but not in badSet(t').
+        refine ⟨t', ?_, ?_⟩
+        · simp only [Finset.mem_filter]
+          exact ⟨ht'S, hdom, hne⟩
+        · intro hmem
+          rw [Finset.mem_filter] at hmem
+          exact hmem.2.2 rfl
+      · -- badSet(t') ⊆ badSet(t).
+        intro t'' ht''
+        simp only [Finset.mem_filter] at ht'' ⊢
+        refine ⟨ht''.1, tabloidDominates_trans ht''.2.1 hdom, ?_⟩
+        intro heq
+        -- If t'' = t, then t dom t' and t' dom t force t' = t, contradicting hne.
+        apply hne
+        have hother : tabloidDominates la (Quotient.out t) (Quotient.out t') :=
+          heq ▸ ht''.2.1
+        exact hAntisymm t' t hdom hother
+    · exact ht'S
+    · rfl
+
 /-! ### Tabloid representation (free ℂ-module on tabloids)
 
 The tabloid representation M^λ is the free ℂ-module with basis indexed by tabloids.
