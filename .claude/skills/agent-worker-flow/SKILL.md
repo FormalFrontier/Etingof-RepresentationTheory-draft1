@@ -144,6 +144,16 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
+**Before any `git reset --hard` (or `git checkout -- .`), run `git status`
+first.** A reused worktree often carries uncommitted edits (e.g. a prior
+session's in-progress skill tweak); `reset --hard` discards unstaged changes
+permanently — they are *not* recoverable via `git fsck`, since unstaged
+content is never hashed into an object. If `git status` shows anything you did
+not create this session, stash or commit it (never `git stash -u`) before
+resetting. The same caution applies later if a rebase reveals `main` has
+diverged from the branch you based on: resetting to `origin/main` is correct,
+but check `git status` first.
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
@@ -159,12 +169,24 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **An issue citing infrastructure as "landed in PR #N" is not proof it is on
+  `main`.** The PR may still be open with failing CI. Before starting, `grep`
+  `main` for the named symbols (defs/lemmas the issue says you can build on). If
+  they are absent, the issue is blocked on that PR, not ready — skip it.
 
 If stale:
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
+
+**When you skip an issue as blocked on an unmerged PR, spare the next worker:**
+check the sibling unclaimed issues for the same blocker and wire it in so they
+drop out of `list-unclaimed`. Use `coordination add-dep <sibling> <openIssue>`
+when an *open* issue tracks the blocker; if the blocker's tracking issue is
+already closed (e.g. a `replan`'d parent whose PR is still open), leave a short
+comment on the sibling naming the blocking PR instead, since `add-dep` only
+applies the `blocked` label for open dependencies.
 
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:

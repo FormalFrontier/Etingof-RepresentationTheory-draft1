@@ -227,6 +227,20 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### `k`-trace lemmas on a group-algebra submodule need `restrictScalars k`
+
+When generalizing a character/trace from `ℂ` to general `k` (the #4946 chain), the Specht-type
+modules are left ideals `SpechtModuleK k n la = k[S_n]·c_λ` — i.e. a `Submodule (MonoidAlgebra k G) (MonoidAlgebra k G)`
+(over the *algebra*), not a `Submodule k _`. Mathlib's `k`-trace lemmas (`LinearMap.trace_restrict_eq_of_forall_mem`,
+`LinearMap.trace_baseChange`) require a `Submodule k M`, so passing the algebra-submodule leaves `p`/`q` stuck as
+metavars. **Fix:** phrase the hypothesis and the `.restrict` over `(SpechtModuleK k n la).restrictScalars k` (same
+carrier, so the action `→ₗ[k]` on `↥(SpechtModuleK …)` is defeq to the one on `↥(… .restrictScalars k)`); close the
+final step with `exact` (which uses defeq) rather than `rw` (syntactic). Field-independence of such a trace then comes
+cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻¹c}) = (N₀:k)⁻¹·(M₀:k)` with `N₀,M₀ ∈ ℤ` from the
+ℤ-coefficients of `c_λ` (`YoungSymmetrizerZ` + `mapRangeRingHom`), so `χ_k = algebraMap ℚ k (χ_ℚ)` and ℂ injectivity
+transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
+`G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
+
 ### Heavy Instance Resolves Abstractly but Fails Concretely
 
 **A heavy instance (e.g. `centralizerModuleHom : Module ↥(centralizer …) (V →ₗ[A] E)`) that resolves for an *abstract* carrier `V` can fail fresh typeclass search for a *concrete* one (`V = Fin N → k`), at the same `synthInstance.maxHeartbeats` — it is structural, not a heartbeat shortfall (diagnosed across ~7 build cycles in #4860, `SchurWeylLDistinct.lean`).** Symptom: `failed to synthesize HSMul … ?m` (an `outParam` output stuck as a metavar) on a `•`/instance you wrote *freshly* in the concrete proof, while the *same* `•` typechecks when it comes from *specializing* a polymorphic lemma's signature. Two non-fixes and the fix:
@@ -247,6 +261,35 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 | Finite group theory | `decide` (small groups) | case analysis |
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
+
+### `rw`/`simp` fail to match Finsupp applications over `Tabloid` (Ch5 TabloidModule)
+
+`Tabloid n la` is a `def` for `Quotient (TabloidSetoid n la)` (semireducible, NOT
+reducible). `rw` and `simp only` match at *reducible* transparency, so when an
+element `t` comes from `ext`/`Finset.ext` (typed `Quotient (TabloidSetoid …)`) a
+Finsupp value `ψ t` produced by `Finsupp.smul_apply`/`sub_apply` is **not
+syntactically equal** to a hand-written `ψ t` (or to a `ψ t = 0` from a lemma
+whose binder is `: Tabloid n la`), even though they are defeq. Symptom: `rw [h]`
+/`simp only [h]` reports "did not find pattern `ψ t`" or "unused" on a term that
+visibly contains `ψ t`. This cost ~7 build iterations in #4998. Workarounds, in
+order of preference:
+
+1. **Introduce an explicit representative.** After `apply Finset.ext; intro t`,
+   do `obtain ⟨a, rfl⟩ : ∃ a, toTabloid n la a = t := ⟨Quotient.out t, toTabloid_out t⟩`.
+   Now every Finsupp application is over `toTabloid n la a`, which `rw` matches
+   (this is why proofs like `twistedPolytabloid_per_q_decomp` that apply Finsupps
+   to `toTabloid n la α` never hit the gremlin).
+2. **Prefer `exact`/function application over `rw`.** Application typechecks up to
+   defeq, so `exact h₁ h₂`, `hEq ▸ h`, and `Finsupp.support_smul hmem` work where
+   `rw` fails. Reserve `rw` for terms you constructed yourself in the same goal.
+3. **`show` to a hand-written / defeq form.** `Finsupp.smul_apply` is `rfl`, so
+   `show c • ψ (toTabloid n la a) = 0` reaches a defeq goal whose hand-written
+   `ψ (…)` then matches a `rw [hψ0]`; `show … ≠ 0` likewise re-normalizes a
+   simp-mangled goal back so the next `rw` finds its pattern.
+
+Separately: `Finset.le_sup`/`Finset.exists_mem_eq_sup` over a `ℕ`-valued
+`f` need the `(f := fun t => …)` named argument, else instance resolution stalls
+on `OrderBot ?m`.
 
 ### Dependent Pi Types and Pi.single
 
@@ -538,6 +581,29 @@ A second, related trap in the same issue: a plan step asserted "the simple summa
 only *characters*, not the iso — that step needed a strictly stronger (deferred)
 lemma. Treat every "obviously follows" step in a plan as a claim to check against
 an actual existing declaration before committing to a sorry-free target.
+
+**Generalizing a ℂ lemma "in place" when its general-`k` support is downstream:
+put the general version in a NEW downstream file, don't edit the ℂ file.** A plan
+that says "lift `foo` (ℂ) to general `k` in `FooFile.lean`" is mis-scoped whenever
+`foo`'s proof needs general-`k` infrastructure (`SpechtModuleK_isSimpleModule_general`,
+`Theorem5_12_2_distinct_general`, `youngSymmetrizerK_annihilates_specht`, …) that
+lives in files which *import* `FooFile.lean` — editing in place is an import cycle.
+When the generalized lemma is **not itself consumed upstream** (only by a still-later
+assembly), the cleanest fix is a new *downstream* file importing both `FooFile.lean`
+and the general-`k` machinery; leave the ℂ original untouched. The "already generic"
+helpers in `FooFile.lean` (e.g. `trace_youngSymEndomorphism_restrict_eq_sum`,
+`youngSymEndomorphism_restrict_sq_scalar`) still apply by proof-irrelevance even when
+your `.restrict` supplies a different (defeq) membership proof, so you can re-state the
+theorems verbatim. Working over `k` throughout often *removes* ℂ-specific helpers (the
+ℚ→ℂ base-change `youngSym_sq_ℂ'` / `youngSymmetrizerK_complex_eq` vanish — the scalar
+comes straight from `YoungSymmetrizerK_sq_scalar k`). To stay independent of a sibling
+"general-`k` character" PR you can't import yet, define a local Specht character
+(`spechtBlockCharacterK := trace of left-mult-by-`of σ` on `SpechtModuleK`) that is
+*definitionally equal* to the bridge's `spechtModuleCharacterK`, so the eventual
+consumer reconciles `h_label` by `rfl`. (#5004: `SchurWeylSpecialBlockGeneral.lean`,
+the two `youngSym_action_*_general` lemmas — built first try this way.) **Check the
+import DAG of the support lemmas before writing any code; don't discover the cycle
+after editing the ℂ file.**
 
 **Multi-block tubes: don't fix the `_leaf_equalities` *statement shape* ahead of
 the center-collapse design.** For the ≥3-arm / >2-block-center tubes (Ẽ₆ #4638,
