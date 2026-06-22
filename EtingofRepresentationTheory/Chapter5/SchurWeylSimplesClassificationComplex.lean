@@ -338,7 +338,7 @@ instead proved **directly** from `hLtop`/`hLalg`/`hLsimp`/`hLdist` (character
 independence), independently of the classification.
 
 The assembly here is `sorry`-free; it reduces to the isolated general-`k` seam lemma
-`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_algebraic`
+`formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general`
 (#4947) via the torus-trace connection (B). -/
 theorem schurWeyl_simples_formalCharacter_linearIndependent_general
     (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
@@ -375,7 +375,7 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_general
     simpa using h
   -- The seam (#4947): torus-trace vanishing ⟹ every coefficient vanishes (general `k`,
   -- driven by the algebraicity of each summand `hLalg`).
-  exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general_of_algebraic
+  exact formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
     k N L hLalg hLsimp hLdist c htorus
 
 /-- A `GL_N(k)`-equivariant `k`-linear map sends the `μ`-weight space of its source

@@ -912,6 +912,48 @@ private theorem srRank_lt_of_tabloidStrictDominates
       -- σ dom τ, τ dom ρ, toTab σ = toTab ρ ⟹ toTab τ = toTab ρ
       exact hne_τρ (tabloidDominates_antisymm_toTabloid h.1 hdom_τρ heq)
 
+/-- `srRank` lifted to tabloids: the descent rank of any representative
+permutation. Well-defined because `srRank` is `toTabloid`-invariant
+(`srRank_eq_of_toTabloid_eq`). -/
+private noncomputable def srRankT (t : Tabloid n la) : ℕ :=
+  Quotient.liftOn t (srRank la)
+    (fun _ _ h => srRank_eq_of_toTabloid_eq (Quotient.sound h))
+
+@[simp] private theorem srRankT_toTabloid (σ : Equiv.Perm (Fin n)) :
+    srRankT (la := la) (toTabloid n la σ) = srRank la σ := rfl
+
+/-- **Dominance-maximal tabloid in a support.** Any nonzero element `X ∈ M^λ`
+has a permutation `β` with nonzero coefficient `X [β]` such that no other
+tabloid in `supp X` strictly dominates `[β]`. This is the dominance-maximal
+selector required by the leading-term elimination of the Garnir straightening
+(sub-B of #4995): it generalizes `exists_dominance_maximal` (which selects only
+within an SYT finset) to an arbitrary `Finsupp (Tabloid n la) ℂ` support.
+
+The proof selects a support tabloid of maximal `srRankT`; maximal descent rank
+forces dominance-maximality, since a strict dominator has strictly larger
+`srRank` (`srRank_lt_of_tabloidStrictDominates`). -/
+private theorem exists_tabloid_dominance_maximal
+    (X : TabloidRepresentation n la) (hX : X ≠ 0) :
+    ∃ β : Equiv.Perm (Fin n), X (toTabloid n la β) ≠ 0 ∧
+      ∀ γ : Equiv.Perm (Fin n), X (toTabloid n la γ) ≠ 0 →
+        tabloidDominates la γ β → toTabloid n la γ = toTabloid n la β := by
+  classical
+  have hne : X.support.Nonempty := Finsupp.support_nonempty_iff.mpr hX
+  obtain ⟨tmax, htmax_mem, htmax_max⟩ :=
+    Finset.exists_max_image X.support (srRankT (la := la)) hne
+  -- Choose a representative permutation β with `toTabloid β = tmax`.
+  obtain ⟨β, hβ_eq⟩ : ∃ β, toTabloid n la β = tmax := Quotient.exists_rep tmax
+  subst hβ_eq
+  refine ⟨β, Finsupp.mem_support_iff.mp htmax_mem, ?_⟩
+  intro γ hγ hdom
+  by_contra hne_tab
+  -- `γ` strictly dominates `β`, so `srRank β < srRank γ`, contradicting maximality.
+  have hstrict : tabloidStrictDominates la γ β := ⟨hdom, hne_tab⟩
+  have hlt : srRank la β < srRank la γ := srRank_lt_of_tabloidStrictDominates hstrict
+  have hle := htmax_max (toTabloid n la γ) (Finsupp.mem_support_iff.mpr hγ)
+  simp only [srRankT_toTabloid] at hle
+  omega
+
 /-! ### Column-restandardizer API for the whole-sum Garnir strategy
 
 The `garnirColReindex σ w q` packages the existence statement
