@@ -38,6 +38,14 @@ for semisimple Lie algebras, which is not in Mathlib.
 open scoped Matrix
 open Etingof
 
+-- `LieRing.ofAssociativeRing` (the commutator Lie structure on an associative
+-- ring) is only a *local* instance from v4.31 onward, to avoid a bracket diamond
+-- when the ring acts on itself. Re-enable it locally so `Module.End ℂ (Fin d → ℂ)`
+-- is seen as a Lie ring for the `→ₗ⁅ℂ⁆` codomain and the `compLieHom` instances
+-- below (the global `LieAlgebra.ofAssociativeAlgebra` depends on it). On v4.28.1
+-- it is already a global instance and this attribute is harmless.
+attribute [local instance 100] LieRing.ofAssociativeRing
+
 namespace Etingof.Sl2Irrep
 
 /-! ## The standard sl(2) triple -/

@@ -92,10 +92,10 @@ theorem restrictScalars_preservesProjectiveDimensionLT
     intro h
     cases n with
     | zero =>
-      have hproj : Projective X := (projective_iff_hasProjectiveDimensionLT_one X).mpr h
+      have hproj : Projective X := projective_iff_hasProjectiveDimensionLT_one.mpr h
       have : Projective ((restrictScalars f).obj X) :=
         Functor.PreservesProjectiveObjects.projective_obj hproj
-      exact (projective_iff_hasProjectiveDimensionLT_one _).mp this
+      exact projective_iff_hasProjectiveDimensionLT_one.mp this
     | succ k =>
       -- Take projective presentation: 0 → K → P → X → 0
       obtain ⟨pp⟩ := EnoughProjectives.presentation X
@@ -219,8 +219,9 @@ theorem ext_subsingleton_of_extendScalars [Small.{u} R] [Small.{u} S]
       -- g' is a cocycle for FP: FP.d(n+2, n+1) ≫ g' = 0
       have hg'_cocycle : FP.complex.d (n + 2) (n + 1) ≫ g' = 0 := by
         rw [hg'_def]
-        have : FP.complex.d (n + 2) (n + 1) = F.map (P.complex.d (n + 2) (n + 1)) := rfl
-        rw [this, ← Adjunction.homEquiv_naturality_left_symm]
+        change F.map (P.complex.d (n + 2) (n + 1)) ≫
+          (adj.homEquiv (P.complex.X (n + 1)) N).symm g = 0
+        rw [← Adjunction.homEquiv_naturality_left_symm]
         simp [hg]
       -- Form the S-side Ext element; by subsingleton it equals 0
       have he' : FP.extMk g' (n + 2) rfl hg'_cocycle = 0 := h.elim _ _
@@ -231,9 +232,9 @@ theorem ext_subsingleton_of_extendScalars [Small.{u} R] [Small.{u} S]
       -- Show P.d(n+1, n) ≫ φ = g (coboundary condition on the R-side)
       have hcoboundary : P.complex.d (n + 1) n ≫ φ = g := by
         rw [hφ_def, ← adj_homEquiv_naturality_left f (P.complex.d (n + 1) n) φ']
-        have : F.map (P.complex.d (n + 1) n) = FP.complex.d (n + 1) n := rfl
-        rw [this, hφ']
-        rw [hg'_def, Equiv.apply_symm_apply]
+        rw [hg'_def] at hφ'
+        exact (congrArg (adj.homEquiv (P.complex.X (n + 1)) N) hφ').trans
+          (Equiv.apply_symm_apply _ _)
       rw [← hge, P.extMk_eq_zero_iff g (n + 2) rfl hg n rfl]
       exact ⟨φ, hcoboundary⟩
     exact sub_eq_zero.mp hsub
