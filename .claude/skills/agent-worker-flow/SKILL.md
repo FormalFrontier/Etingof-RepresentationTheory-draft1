@@ -149,10 +149,15 @@ first.** A reused worktree often carries uncommitted edits (e.g. a prior
 session's in-progress skill tweak); `reset --hard` discards unstaged changes
 permanently — they are *not* recoverable via `git fsck`, since unstaged
 content is never hashed into an object. If `git status` shows anything you did
-not create this session, stash or commit it (never `git stash -u`) before
-resetting. The same caution applies later if a rebase reveals `main` has
-diverged from the branch you based on: resetting to `origin/main` is correct,
-but check `git status` first.
+not create this session, judge what it is before acting: genuine in-progress
+work (e.g. a half-finished skill tweak) should be stashed or committed (never
+`git stash -u`) before resetting; but a *stray clobber* — uncommitted deletions
+or reverts of committed content you did not make (a known hazard of reused
+worktrees; seen on `.claude/` files) — should be reverted with
+`git restore <files>` to HEAD, not stashed or committed, so the loss does not
+ride along into your PR or get hidden. The same caution applies later if a
+rebase reveals `main` has diverged from the branch you based on: resetting to
+`origin/main` is correct, but check `git status` first.
 
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
