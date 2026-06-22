@@ -568,6 +568,29 @@ only *characters*, not the iso — that step needed a strictly stronger (deferre
 lemma. Treat every "obviously follows" step in a plan as a claim to check against
 an actual existing declaration before committing to a sorry-free target.
 
+**Generalizing a ℂ lemma "in place" when its general-`k` support is downstream:
+put the general version in a NEW downstream file, don't edit the ℂ file.** A plan
+that says "lift `foo` (ℂ) to general `k` in `FooFile.lean`" is mis-scoped whenever
+`foo`'s proof needs general-`k` infrastructure (`SpechtModuleK_isSimpleModule_general`,
+`Theorem5_12_2_distinct_general`, `youngSymmetrizerK_annihilates_specht`, …) that
+lives in files which *import* `FooFile.lean` — editing in place is an import cycle.
+When the generalized lemma is **not itself consumed upstream** (only by a still-later
+assembly), the cleanest fix is a new *downstream* file importing both `FooFile.lean`
+and the general-`k` machinery; leave the ℂ original untouched. The "already generic"
+helpers in `FooFile.lean` (e.g. `trace_youngSymEndomorphism_restrict_eq_sum`,
+`youngSymEndomorphism_restrict_sq_scalar`) still apply by proof-irrelevance even when
+your `.restrict` supplies a different (defeq) membership proof, so you can re-state the
+theorems verbatim. Working over `k` throughout often *removes* ℂ-specific helpers (the
+ℚ→ℂ base-change `youngSym_sq_ℂ'` / `youngSymmetrizerK_complex_eq` vanish — the scalar
+comes straight from `YoungSymmetrizerK_sq_scalar k`). To stay independent of a sibling
+"general-`k` character" PR you can't import yet, define a local Specht character
+(`spechtBlockCharacterK := trace of left-mult-by-`of σ` on `SpechtModuleK`) that is
+*definitionally equal* to the bridge's `spechtModuleCharacterK`, so the eventual
+consumer reconciles `h_label` by `rfl`. (#5004: `SchurWeylSpecialBlockGeneral.lean`,
+the two `youngSym_action_*_general` lemmas — built first try this way.) **Check the
+import DAG of the support lemmas before writing any code; don't discover the cycle
+after editing the ℂ file.**
+
 **Multi-block tubes: don't fix the `_leaf_equalities` *statement shape* ahead of
 the center-collapse design.** For the ≥3-arm / >2-block-center tubes (Ẽ₆ #4638,
 Ẽ₇ #4746, and the entangled D̃₅ #4743) the eigenvalue site is a **separate
