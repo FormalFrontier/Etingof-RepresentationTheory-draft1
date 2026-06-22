@@ -248,6 +248,35 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+### `rw`/`simp` fail to match Finsupp applications over `Tabloid` (Ch5 TabloidModule)
+
+`Tabloid n la` is a `def` for `Quotient (TabloidSetoid n la)` (semireducible, NOT
+reducible). `rw` and `simp only` match at *reducible* transparency, so when an
+element `t` comes from `ext`/`Finset.ext` (typed `Quotient (TabloidSetoid …)`) a
+Finsupp value `ψ t` produced by `Finsupp.smul_apply`/`sub_apply` is **not
+syntactically equal** to a hand-written `ψ t` (or to a `ψ t = 0` from a lemma
+whose binder is `: Tabloid n la`), even though they are defeq. Symptom: `rw [h]`
+/`simp only [h]` reports "did not find pattern `ψ t`" or "unused" on a term that
+visibly contains `ψ t`. This cost ~7 build iterations in #4998. Workarounds, in
+order of preference:
+
+1. **Introduce an explicit representative.** After `apply Finset.ext; intro t`,
+   do `obtain ⟨a, rfl⟩ : ∃ a, toTabloid n la a = t := ⟨Quotient.out t, toTabloid_out t⟩`.
+   Now every Finsupp application is over `toTabloid n la a`, which `rw` matches
+   (this is why proofs like `twistedPolytabloid_per_q_decomp` that apply Finsupps
+   to `toTabloid n la α` never hit the gremlin).
+2. **Prefer `exact`/function application over `rw`.** Application typechecks up to
+   defeq, so `exact h₁ h₂`, `hEq ▸ h`, and `Finsupp.support_smul hmem` work where
+   `rw` fails. Reserve `rw` for terms you constructed yourself in the same goal.
+3. **`show` to a hand-written / defeq form.** `Finsupp.smul_apply` is `rfl`, so
+   `show c • ψ (toTabloid n la a) = 0` reaches a defeq goal whose hand-written
+   `ψ (…)` then matches a `rw [hψ0]`; `show … ≠ 0` likewise re-normalizes a
+   simp-mangled goal back so the next `rw` finds its pattern.
+
+Separately: `Finset.le_sup`/`Finset.exists_mem_eq_sup` over a `ℕ`-valued
+`f` need the `(f := fun t => …)` named argument, else instance resolution stalls
+on `OrderBot ?m`.
+
 ### Dependent Pi Types and Pi.single
 
 When working with `Pi.single` for dependent function types (e.g., `∀ i, Matrix (Fin (d i)) (Fin (d i)) k`), standard lemmas like `Pi.single_eq_same`, `Pi.single_add` do NOT work with `simp` because types differ across indices.
