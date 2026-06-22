@@ -460,8 +460,15 @@ theorem Lemma5_13_2
     (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu = 0 := by
   induction x using Finsupp.induction_linear with
-  | zero => simp
+  | zero =>
+    have hleft : RowSymmetrizer n la *
+        (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * ColumnAntisymmetrizer n mu = 0 := by
+      simp
+    exact hleft
   | add x y hx hy =>
+    let x' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := x
+    let y' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := y
+    change RowSymmetrizer n la * (x' + y') * ColumnAntisymmetrizer n mu = 0
     rw [mul_add, add_mul, hx, hy, add_zero]
   | single g c =>
     have h : (Finsupp.single g c : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) =
@@ -527,8 +534,15 @@ theorem Lemma5_13_2_general
     (x : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) :
     RowSymmetrizer n la * x * ColumnAntisymmetrizer n mu = 0 := by
   induction x using Finsupp.induction_linear with
-  | zero => simp
+  | zero =>
+    have hleft : RowSymmetrizer n la *
+        (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * ColumnAntisymmetrizer n mu = 0 := by
+      simp
+    exact hleft
   | add x y hx hy =>
+    let x' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := x
+    let y' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := y
+    change RowSymmetrizer n la * (x' + y') * ColumnAntisymmetrizer n mu = 0
     rw [mul_add, add_mul, hx, hy, add_zero]
   | single g c =>
     have hsg : (Finsupp.single g c : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) =
