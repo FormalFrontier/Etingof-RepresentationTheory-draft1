@@ -26,7 +26,7 @@ noncomputable section
 
 namespace Etingof
 
-variable (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
+variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- The determinant representation of `GL_N(k)`: the one-dimensional representation
 given by `g ↦ det(g)`. This is isomorphic to the top exterior power `∧^N(k^N)` as

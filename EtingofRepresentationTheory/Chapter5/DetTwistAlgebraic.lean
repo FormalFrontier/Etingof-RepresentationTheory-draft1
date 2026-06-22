@@ -35,7 +35,7 @@ Assembled from `glTensorRep_isAlgebraic` (the diagonal action is algebraic),
 `IsAlgebraicRepresentation.restrict` (restrict to the Schur module submodule,
 giving `schurModuleRep`), and `IsAlgebraicRepresentation.detTwist` (twist by the
 determinant character). -/
-theorem detTwistedSchurModuleRep_isAlgebraic (k : Type*) [Field k] [IsAlgClosed k]
+theorem detTwistedSchurModuleRep_isAlgebraic (k : Type) [Field k] [IsAlgClosed k]
     [CharZero k] (N : ℕ) (lam : Fin N → ℕ) :
     Etingof.IsAlgebraicRepresentation N
       (FDRep.of (detTwistedSchurModuleRep k N lam)).ρ := by
