@@ -158,8 +158,8 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
         row (σ a) ≠ row (σ b) := by
       intro a b hab hcol hrow
       have := h_exists (σ a) (σ b) (by intro h; exact hab (σ.injective h)) hrow
-      simp only [Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at this -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed
-      exact this hcol
+      have hcol_ne : col a ≠ col b := by simpa using this
+      exact hcol_ne hcol
     exfalso
     apply hσ
     -- We show σ ∈ P_λ · Q_λ by constructing q ∈ Q_λ and p = σ * q⁻¹ ∈ P_λ
@@ -363,8 +363,8 @@ theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
         show colOfPos parts k₁.val = colOfPos parts k₂.val
         rw [← hq_col k₁, ← hq_col k₂, hval]
       have h_absurd := h_exists (σ k₁) (σ k₂) hσne hrow_σ
-      simp only [Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at h_absurd -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed
-      exact h_absurd hcol_k
+      have hcol_ne : col k₁ ≠ col k₂ := by simpa using h_absurd
+      exact hcol_ne hcol_k
     -- q_fun is surjective (injective endomorphism of finite type)
     have q_surj := (Finite.injective_iff_surjective).mp q_inj
     -- Create the permutation q
@@ -451,8 +451,13 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
         RowSymmetrizer n la) g = 0 := by
       intro g
       have := Finsupp.ext_iff.mp heq g
-      rw [Finsupp.neg_apply] at this
-      exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination this)).resolve_left (by norm_num)
+      have hneg : (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
+          RowSymmetrizer n la) g =
+          - (ColumnAntisymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
+            RowSymmetrizer n la) g := by
+        simpa using this
+      exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination hneg)).resolve_left
+        (by norm_num)
     exact Finsupp.ext hg
   -- Proof of x = sign(u) • x:
   -- Insert of(t) before a_λ (absorbed), combine of(σ)*of(t)=of(σ*t)=of(u*σ),
@@ -514,8 +519,12 @@ private theorem dual_sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
         ColumnAntisymmetrizer n la) g = 0 := by
       intro g
       have := Finsupp.ext_iff.mp heq g
-      rw [Finsupp.neg_apply] at this
-      exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination this)).resolve_left
+      have hneg : (RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
+          ColumnAntisymmetrizer n la) g =
+          - (RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ *
+            ColumnAntisymmetrizer n la) g := by
+        simpa using this
+      exact (mul_eq_zero.mp (show (2 : ℂ) * _ = 0 by linear_combination hneg)).resolve_left
         (by norm_num)
     exact Finsupp.ext hg
   have h1 : RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la =
@@ -559,9 +568,20 @@ theorem Etingof.Lemma5_13_1
     Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))
   refine ⟨ℓ, fun x => ?_⟩
   induction x using Finsupp.induction_linear with
-  | zero => simp
+  | zero =>
+    have hleft : ColumnAntisymmetrizer n la *
+        (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * RowSymmetrizer n la = 0 := by
+      simp
+    have hright :
+        ℓ (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) • YoungSymmetrizer n la = 0 := by
+      simp
+    exact hleft.trans hright.symm
   | add x y hx hy =>
-    simp only [mul_add, add_mul, map_add, add_smul]
+    let x' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := x
+    let y' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := y
+    change ColumnAntisymmetrizer n la * (x' + y') * RowSymmetrizer n la =
+      ℓ (x' + y') • YoungSymmetrizer n la
+    rw [map_add, add_smul, mul_add, add_mul]
     exact congr_arg₂ (· + ·) hx hy
   | single σ r =>
     have hℓ : ℓ (Finsupp.single σ r) = f σ * r := by
@@ -598,9 +618,20 @@ theorem Etingof.Lemma5_13_1_dual
     Finsupp.lsum ℂ (fun σ => f σ • (LinearMap.id : ℂ →ₗ[ℂ] ℂ))
   refine ⟨ℓ, fun x => ?_⟩
   induction x using Finsupp.induction_linear with
-  | zero => simp
+  | zero =>
+    have hleft : RowSymmetrizer n la *
+        (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) * ColumnAntisymmetrizer n la = 0 := by
+      simp
+    have hright : ℓ (0 : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) •
+        (RowSymmetrizer n la * ColumnAntisymmetrizer n la) = 0 := by
+      simp
+    exact hleft.trans hright.symm
   | add x y hx hy =>
-    simp only [mul_add, add_mul, map_add, add_smul]
+    let x' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := x
+    let y' : MonoidAlgebra ℂ (Equiv.Perm (Fin n)) := y
+    change RowSymmetrizer n la * (x' + y') * ColumnAntisymmetrizer n la =
+      ℓ (x' + y') • (RowSymmetrizer n la * ColumnAntisymmetrizer n la)
+    rw [map_add, add_smul, mul_add, add_mul]
     exact congr_arg₂ (· + ·) hx hy
   | single σ r =>
     have hℓ : ℓ (Finsupp.single σ r) = f σ * r := by
