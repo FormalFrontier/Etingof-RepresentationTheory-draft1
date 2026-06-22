@@ -2889,6 +2889,14 @@ vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
   as a `LinearMap` *from the FDRep carrier* (`def polyOf := (homog…).subtype`). Use it
   to read elements / the `.ρ` action on the ambient module (`polyOf (M.ρ g w) =
   ambientRep g (polyOf w)` holds by `rfl`), sidestepping all `.V`/`FGModuleCat` coe pain.
+- **`rw` won't close `finrank ↥A = finrank ↥A` when `A` came from rewriting across two
+  *defeq-but-distinct* FDRep carriers** (e.g. after `rw [glWeightSpace_twistFDRep_pos]`
+  turning `glWeightSpace twistFDRep μ` into `glWeightSpace polyRightDegreeFDRep …`): the
+  two `↥(...)` carry mismatched `Module` instances, so the post-`rw` `rfl` silently fails
+  and you get "unsolved goals ⊢ ↑A = ↑A". Close it with a `congrArg` term instead:
+  `Nat.cast_inj.mpr (congrArg (fun w => Module.finrank k (glWeightSpace k N M w)) hweight)`
+  (or prove the `ℕ` equality first to dodge the extra `Nat.cast` layer). Same fix for any
+  `finrank`/`glWeightSpace` equality that "should be `rfl`" but isn't.
 - **Stars-and-bars count:** `#{f : Fin N → ℕ | ∑ f = m}` is `Finset.piAntidiag univ m`;
   its card is `Nat.multichoose N m` via `Finset.map_sym_eq_piAntidiag` +
   `Finset.sym_univ` + `Sym.card_sym_fin_eq_multichoose`. Then
