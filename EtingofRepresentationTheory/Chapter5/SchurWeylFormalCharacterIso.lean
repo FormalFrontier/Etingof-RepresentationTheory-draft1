@@ -194,10 +194,27 @@ theorem glWeightSpace_schurModule_iSup_eq_top (N : ℕ) (lam : Fin N → ℕ) :
 
 /-- **Ingredient (a): general-`k` Schur-module simplicity (isolated `sorry`, issue #4946).**
 The Schur module `L_λ = SchurModule k N lam` is a simple
-`MonoidAlgebra k (GL_N(k))`-module for any antitone `lam`. This is proven for `k = ℂ` as
-`schurModule_isSimple` (`SchurModuleSimple.lean`, via ℂ-specific Young-symmetrizer
-infrastructure); lifting it to a general algebraically-closed characteristic-zero field is
-the deliverable of #4946. -/
+`MonoidAlgebra k (GL_N(k))`-module for any antitone `lam`.
+
+The centralizer-level core is now proved over a general algebraically-closed
+characteristic-zero field as `schurModuleSubmodule_isSimple_centralizer_general`
+(`SchurModuleSimple.lean`), and the `hN : (∑ i, lam i) ≤ N` guard is **not** needed.
+Discharging this `sorry` is then a one-line mirror of the ℂ `schurModule_isSimple` final
+assembly: `schurModuleSubmodule_isSimple_centralizer_general` + the generic GL transfer
+`isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`.
+
+**Universe blocker (do not wire in place at `Type u`):** that general-`k` core lives in
+`Type` (universe `0`). It factors through the general-`k` Specht classification
+(`Theorem5_12_2_classification_general` → `IrrepDecomp k (Equiv.Perm (Fin n))`), and
+Mathlib's `Rep`/`FDRep` pin field and group to one common universe; since
+`S_n = Equiv.Perm (Fin n)` is `Type 0`, the whole Schur-Weyl/Specht core is intrinsically
+`Type 0`. This file's section variable is `k : Type u`, so consuming the proof forces the
+entire simplicity-dependent chain here (this theorem,
+`schurWeyl_simples_isotypic_matching_general`,
+`schurWeyl_simples_formalCharacter_classification_core_general`,
+`simpleRep_iso_schurModule_of_formalCharacter_eq`, `iso_of_formalCharacter_eq_schurPoly`) and
+its external consumers across Ch 5/6/9 down to `Type 0`. That project-wide universe lowering
+is the remaining work; see the #4946 follow-up issue. -/
 theorem schurModule_isSimple_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule (SchurModule k N lam).ρ) := by

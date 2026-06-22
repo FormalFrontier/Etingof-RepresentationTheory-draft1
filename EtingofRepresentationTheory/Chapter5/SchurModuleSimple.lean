@@ -328,6 +328,154 @@ theorem schurModule_isSimple
   apply Subtype.ext
   rfl
 
+/-! ## General-`k` track (issue #4946)
+
+The ℂ assembly above is mirrored over a general algebraically-closed
+characteristic-zero field `k`, using the general-`k` special-block inputs
+(`exists_unique_special_block_general`, `youngSym_action_vanishes_off_block_general`,
+`youngSym_action_on_special_block_rank_one_scaled_proj_general`) that have since
+landed. The `hN : (∑ i, lam i) ≤ N` hypothesis carried by the ℂ statements is
+**not** required here: `Theorem5_18_4_centralizers` needs only `[CharZero k]`, and
+`exists_unique_special_block_general` has no degree guard, so the simplicity
+argument goes through unconditionally.
+
+These lemmas bind `k : Type` (universe `0`) explicitly rather than reuse the file's
+`Type*` section variable: the general-`k` Specht classification they rest on
+(`exists_unique_special_block_general` → `Theorem5_12_2_classification_general` →
+`IrrepDecomp k (Equiv.Perm (Fin n))`) goes through `FDRep k (S_n)`, and Mathlib's
+`Rep`/`FDRep` pin the field and group to a common universe. Since `S_n` is `Type 0`,
+the field is forced to `Type 0` throughout the Schur-Weyl/Specht core. -/
+
+set_option maxHeartbeats 6400000 in
+set_option synthInstance.maxHeartbeats 3200000 in
+/-- **General-`k` analogue of `schurBlock_imageSubmoduleB_isSimple`.** The image of
+the Young symmetrizer `c = youngSymElement k N lam`, packaged as `imageSubmoduleB c`,
+is simple as a module over `centralizer(symGroupImage)`. Same proof as the ℂ version,
+driven by the general-`k` special-block lemmas; no `hN` degree guard is needed. -/
+theorem schurBlock_imageSubmoduleB_isSimple_general {k : Type} [Field k] [IsAlgClosed k]
+    [CharZero k] (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    IsSimpleModule
+      (↥(Subalgebra.centralizer k
+        (symGroupImage k (Fin N → k) (∑ i, lam i) :
+          Set (Module.End k (TensorPower k (Fin N → k) (∑ i, lam i))))))
+      ↥(imageSubmoduleB (youngSymElement k N lam)) := by
+  classical
+  -- sub-α: explicit bimodule decomposition.
+  obtain ⟨ι, _, _, S, hSimp, hDist, hSfin, _hLsimp, e, he⟩ :=
+    Theorem5_18_4_bimodule_decomposition_explicit
+      (k := k) (V := Fin N → k) (n := ∑ i, lam i)
+  haveI : IsSemisimpleModule (symGroupImage k (Fin N → k) (∑ i, lam i))
+      (TensorPower k (Fin N → k) (∑ i, lam i)) := IsSemisimpleRing.isSemisimpleModule
+  -- sub-A: the unique special block (general `k`).
+  obtain ⟨iLam, hLabel_iLam, hLabel_other⟩ :=
+    exists_unique_special_block_general N lam hlam S hSimp hDist hSfin e he
+  -- The scalar `α` with `c² = α • c`.
+  obtain ⟨α, hα_sq⟩ := YoungSymmetrizerK_sq_scalar k (∑ i, lam i) (weightToPartition N lam)
+  have hc_sq : youngSymElement k N lam * youngSymElement k N lam =
+      α • youngSymElement k N lam := by
+    apply Subtype.ext
+    rw [Subalgebra.coe_mul, Subalgebra.coe_smul, youngSymElement_val]
+    exact youngSymEndomorphism_sq_scalar k N lam α hα_sq
+  -- The per-block `k`-linear maps `f i = c|_{S i}`, written with the membership proof
+  -- that the general off-block / rank-one lemmas produce in their conclusions.
+  let f : ∀ i, ↥(S i) →ₗ[k] ↥(S i) := fun i =>
+    (youngSymEndomorphism k N lam).restrict
+      (p := (S i).restrictScalars k) (q := (S i).restrictScalars k)
+      (fun _ hv => (S i).smul_mem (youngSymElement k N lam) hv)
+  -- Block factorization (sub-(1)).
+  have hf_block : ∀ (i : ι) (v : ↥(S i))
+      (l : ↥(S i) →ₗ[symGroupImage k (Fin N → k) (∑ i, lam i)]
+        TensorPower k (Fin N → k) (∑ i, lam i)),
+      e ((youngSymElement k N lam).val (e.symm (DirectSum.of _ i (v ⊗ₜ[k] l)))) =
+        DirectSum.of _ i (f i v ⊗ₜ[k] l) := by
+    intro i v l
+    exact youngSym_block_factorization k N lam S e he i v l
+  -- sub-β: off blocks vanish.
+  have hf_zero : ∀ i, i ≠ iLam → f i = 0 := by
+    intro i hi
+    obtain ⟨la', hla'_ne, hla'_trace⟩ := hLabel_other i hi
+    haveI : Module.Finite k ↥((S i).restrictScalars k) := hSfin i
+    exact youngSym_action_vanishes_off_block_general N lam (S i) la' hla'_trace hla'_ne
+  -- sub-γ: rank-1 scaled projection on the special block.
+  haveI : Module.Finite k ↥((S iLam).restrictScalars k) := hSfin iLam
+  obtain ⟨α', π', hα'_ne, hπ'_idem, hπ'_rank, hf_eq_raw⟩ :=
+    youngSym_action_on_special_block_rank_one_scaled_proj_general N lam (S iLam) hLabel_iLam
+  have hf_eq : f iLam = α' • π' := hf_eq_raw
+  -- Reconcile `α' = α` using `f iLam² = α • f iLam` and `f iLam = α' • π'`.
+  have hf_sq : f iLam * f iLam = α • f iLam :=
+    youngSymEndomorphism_restrict_sq_scalar (k := k) N lam (S iLam) α hα_sq
+  have hπ'_ne : π' ≠ 0 := by
+    intro h0
+    rw [h0, LinearMap.range_zero, finrank_bot] at hπ'_rank
+    exact one_ne_zero hπ'_rank.symm
+  have hαeq : α' = α := by
+    have h1 : f iLam * f iLam = (α' * α') • π' := by
+      rw [hf_eq, smul_mul_smul_comm, hπ'_idem]
+    have h2 : α • f iLam = (α * α') • π' := by rw [hf_eq, smul_smul]
+    have key : (α' * α') • π' = (α * α') • π' := by rw [← h1, hf_sq, h2]
+    have hscal : α' * α' = α * α' := smul_left_injective k hπ'_ne key
+    exact mul_right_cancel₀ hα'_ne hscal
+  have hα_ne : α ≠ 0 := hαeq ▸ hα'_ne
+  have hf_special : f iLam = α • π' := by rw [hf_eq, hαeq]
+  -- Apply the interface.
+  exact image_of_primitive_idempotent_isSimple_centralizer
+    (youngSymElement k N lam) α hα_ne hc_sq S e he iLam (hSimp iLam)
+    f hf_block hf_zero π' hπ'_idem hπ'_rank hf_special
+
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 800000 in
+/-- **General-`k` analogue of `schurModuleSubmodule_isSimple_centralizer`.** The Schur
+module submodule `SchurModuleSubmodule k N λ`, viewed as a `diagonalActionImage k V n`-module,
+is simple. No `hN` degree guard is needed (see the section note above). -/
+theorem schurModuleSubmodule_isSimple_centralizer_general {k : Type} [Field k] [IsAlgClosed k]
+    [CharZero k] (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
+    IsSimpleModule
+      (↥(diagonalActionImage k (Fin N → k) (∑ i, lam i)))
+      (SchurModuleSubmodule k N lam) := by
+  classical
+  -- `diagonalActionImage = centralizer(symGroupImage)`.
+  have hBD : diagonalActionImage k (Fin N → k) (∑ i, lam i) =
+      Subalgebra.centralizer k
+        (symGroupImage k (Fin N → k) (∑ i, lam i) :
+          Set (Module.End k (TensorPower k (Fin N → k) (∑ i, lam i)))) :=
+    (Theorem5_18_4_centralizers k (Fin N → k) (∑ i, lam i)).2
+  -- The interface result: `imageSubmoduleB c` is simple over the centralizer.
+  have h1 := schurBlock_imageSubmoduleB_isSimple_general (k := k) N lam hlam
+  -- Ring iso induced by the subalgebra equality.
+  let φ : ↥(diagonalActionImage k (Fin N → k) (∑ i, lam i)) ≃+*
+      ↥(Subalgebra.centralizer k
+        (symGroupImage k (Fin N → k) (∑ i, lam i) :
+          Set (Module.End k (TensorPower k (Fin N → k) (∑ i, lam i))))) :=
+    (Subalgebra.equivOfEq _ _ hBD).toRingEquiv
+  haveI : RingHomInvPair φ.toRingHom φ.symm.toRingHom :=
+    ⟨by ext x; simpa using φ.symm_apply_apply x,
+      by ext x; simpa using φ.apply_symm_apply x⟩
+  haveI : RingHomInvPair φ.symm.toRingHom φ.toRingHom :=
+    ⟨by ext x; simpa using φ.apply_symm_apply x,
+      by ext x; simpa using φ.symm_apply_apply x⟩
+  -- The carrier identity `SchurModuleSubmodule = range c.val = imageSubmoduleB c`,
+  -- packaged as a `φ`-semilinear equiv.
+  let e : ↥(SchurModuleSubmodule k N lam) ≃ₛₗ[φ.toRingHom]
+      ↥(imageSubmoduleB (youngSymElement k N lam)) :=
+    { toFun := fun x => ⟨x.val, by rw [mem_imageSubmoduleB]; exact x.property⟩
+      map_add' := fun _ _ => rfl
+      map_smul' := fun a x => by
+        apply Subtype.ext
+        rw [schurModuleSubmodule_diagonalActionImage_smul_coe, SetLike.val_smul]
+        rfl
+      invFun := fun y => ⟨y.val, by
+        have hy := y.property; rw [mem_imageSubmoduleB] at hy; exact hy⟩
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl }
+  -- Transfer simplicity along the induced order isomorphism of submodule lattices.
+  have hso1 : IsSimpleOrder
+      (Submodule (↥(Subalgebra.centralizer k
+        (symGroupImage k (Fin N → k) (∑ i, lam i) :
+          Set (Module.End k (TensorPower k (Fin N → k) (∑ i, lam i))))))
+        ↥(imageSubmoduleB (youngSymElement k N lam))) := h1.toIsSimpleOrder
+  have hso2 := (Submodule.orderIsoMapComap e).isSimpleOrder_iff.mpr hso1
+  exact { toIsSimpleOrder := hso2 }
+
 end Etingof
 
 end
