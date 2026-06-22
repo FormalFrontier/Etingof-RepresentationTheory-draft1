@@ -59,10 +59,12 @@ theorem pm_koszul_injective
   have hshift : ∀ k, f k = xAct (f (k + 1)) := by
     intro k
     have := hdf (k + 1)
-    rw [Finsupp.sub_apply, show (Polynomial.X : Polynomial R) = Polynomial.monomial 1 1 from rfl,
+    change ((Polynomial.X : Polynomial R) • f) (k + 1) -
+        (PolynomialModule.map R xAct f) (k + 1) = 0 at this
+    rw [show (Polynomial.X : Polynomial R) = Polynomial.monomial 1 1 from rfl,
         PolynomialModule.monomial_smul_apply,
         if_pos (Nat.one_le_iff_ne_zero.mpr (Nat.succ_ne_zero k))] at this
-    simp only [Nat.add_sub_cancel, one_smul] at this
+    simp only [Nat.add_sub_cancel, one_smul, PolynomialModule.map] at this
     change f k - xAct (f (k + 1)) = 0 at this
     exact sub_eq_zero.mp this
   by_contra hf_ne
@@ -228,4 +230,3 @@ theorem finsupp_eval_sum {M : Type u} [AddCommGroup M] [Module R M]
   have hzero : ∀ k ∈ Finset.range (B + 2), k ∉ f.support → (φ ^ k) (f k) = 0 :=
     fun k _ hk => by simp [Finsupp.mem_support_iff] at hk; rw [hk, map_zero]
   exact (Finset.sum_subset hsub hzero).symm
-
