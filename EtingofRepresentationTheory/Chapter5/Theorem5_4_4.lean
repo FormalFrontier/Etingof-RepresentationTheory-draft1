@@ -312,7 +312,11 @@ private lemma class_sum_scalar_isIntegral
     show φ (∑ h : { h : G // IsConj g h }, MonoidAlgebra.of ℤ G h) = c • LinearMap.id
     rw [map_sum]; simp_rw [hφ_of]; exact hc
   -- φ(e) is integral over ℤ; transfer via ring hom
-  have hφe_int : IsIntegral ℤ (φ e) := he.map φ.toIntAlgHom
+  have hφe_int : IsIntegral ℤ (φ e) := by
+    rw [IsIntegral] at he ⊢
+    convert RingHom.IsIntegralElem.map he φ using 1
+    ext z
+    simp [φ]
   rw [hφe] at hφe_int
   -- Extract c from c • id using injectivity of algebraMap ℂ → End(V)
   haveI : Nontrivial V.V.obj := Module.nontrivial_of_finrank_pos hn

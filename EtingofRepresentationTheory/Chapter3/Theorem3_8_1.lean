@@ -207,7 +207,8 @@ theorem Etingof.krull_schmidt_existence (k : Type*) (A : Type*) (V : Type*)
       (∀ i, Etingof.IsIndecomposable A (W i)) ∧
       iSup W = ⊤ ∧ iSupIndep W := by
   obtain ⟨n, W, _, hindec, hsup, hind⟩ := krull_schmidt_existence_aux k A V
-    (Module.finrank k V) ⊤ (by simp [Submodule.restrictScalars_top])
+    (Module.finrank k V) ⊤
+    (by exact Submodule.finrank_le (Submodule.restrictScalars k (⊤ : Submodule A V)))
   exact ⟨n, W, hindec, hsup, hind⟩
 
 /-- Key step for Krull-Schmidt uniqueness: given an indecomposable direct summand W₀ in one
