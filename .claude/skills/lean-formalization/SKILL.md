@@ -291,6 +291,39 @@ Separately: `Finset.le_sup`/`Finset.exists_mem_eq_sup` over a `ℕ`-valued
 `f` need the `(f := fun t => …)` named argument, else instance resolution stalls
 on `OrderBot ?m`.
 
+### Assembling short exact sequences of `FDRep`s (Ch5 Cauchy det-quotient)
+
+Feeding `formalCharacter_add_of_shortExact` (or any map between FDReps built as
+`FDRep.of ρ`) hits three recurring defeq gremlins. Cost 4 build cycles in #5003
+(`CauchyDetQuotientDegree.lean`, `quotDetDegreeFDRep_formalCharacter`); the
+working pattern:
+
+1. **The carrier `↑(FDRep.of ρ).V` does NOT accept a `(u : MvPolynomial …)`
+   coercion.** SetLike isn't seen through the `FGModuleCat` wrapper, so
+   `(u : MvPolynomial …)` fails with "type mismatch: ↑(twistFDRep …).V". Extract
+   the underlying element with an explicit subtype map, like the existing
+   `polyOf d := (homogeneousSubmodule …).subtype` (its `polyOf_rho` is `rfl`).
+   Define one such `eU/eV/eW` per FDRep (ascribe its type `FDRep →ₗ[k] (ambient)`;
+   the domain unifies by defeq) and state the action/inclusion facts as
+   `rfl`-backed `have`s: `eU (M.ρ g u) = (ambient ρ) g (eU u)` and
+   `eV (ι u) = mulDet (eU u)` are all `fun _ _ => rfl`, since `FDRep.of_ρ'`,
+   `Subrepresentation.toRepresentation`, and `LinearMap.restrict` are definitional.
+2. **`let`-bound maps hide `LinearMap.restrict` from `rw`.** `rw
+   [LinearMap.restrict_coe_apply]` fails ("did not find pattern") when the map is a
+   local `let ι := … .restrict …`, because the goal shows the opaque `ι`, not
+   `restrict`. Don't rewrite with `restrict_coe_apply`; use the `rfl`-backed
+   per-`let` `have`s from (1), and prove injectivity via
+   `eU_inj := Subtype.coe_injective` then `apply mulDet_injective`.
+3. **A term-mode `calc … := (lemma …).symm` over `glWeightSpace` of an FDRep can
+   hang `isDefEq` (still timed out at 3.2M heartbeats).** Matching the calc's
+   stated endpoint against the lemma's type triggers whnf of the FDRep carriers;
+   if the weight-function arguments differ only by a beta-redex, Lean still unfolds
+   the whole rep. Replace the `calc` with `rw [glWeightSpace_twistFDRep_pos …
+   (fun i => …)]` supplying the weight **explicitly** (syntactic keyed matching, no
+   whnf), then `congr 1; funext i; simp only [Finsupp.add_apply, …]; omega`. The
+   SES assembly still needs `set_option maxHeartbeats` raised (~3200000) for the
+   rank-nullity character argument even after these fixes.
+
 ### Dependent Pi Types and Pi.single
 
 When working with `Pi.single` for dependent function types (e.g., `∀ i, Matrix (Fin (d i)) (Fin (d i)) k`), standard lemmas like `Pi.single_eq_same`, `Pi.single_add` do NOT work with `simp` because types differ across indices.
