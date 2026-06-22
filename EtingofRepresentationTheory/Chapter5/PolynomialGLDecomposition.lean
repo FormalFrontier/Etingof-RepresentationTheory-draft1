@@ -314,7 +314,8 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
       (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
       (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
-      (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j)))),
+      (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+      (_ : ∀ i, 0 < Module.finrank k (S i)),
       ∃ (e : TensorPower k (Fin N → k) n ≃ₗ[k]
           (DirectSum ι (fun i => S i ⊗[k] (L i : Type u)))),
         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
@@ -335,6 +336,12 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     fun _ => inferInstance, fun _ => inferInstance,
     fun i => hSi_fin i, L, hL_simple,
     schurWeyl_L_pairwise_distinct_of_explicit N n S' hS'_simp hS'_dist L L_carrier h_act,
+    (fun i => by
+      haveI := hS'_simp i
+      haveI := hSi_fin i
+      haveI : Nontrivial (↥(S' i)) :=
+        IsSimpleModule.nontrivial (symGroupImage k (Fin N → k) n) (↥(S' i))
+      exact Module.finrank_pos),
     ?_, ?_⟩
   · exact e
   intro g v
@@ -420,7 +427,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding
       (M := M) (halg := halg) (h_span := h_span) (h_homog := h_homog)
   -- (2) unified equivariant + simple Schur–Weyl decomposition of `V^{⊗n}`.
-  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, e, he⟩ :=
+  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, _hSne, e, he⟩ :=
     glTensorRep_schurWeyl_decomposition_equivariant_simple (k := k) (N := N) n
   -- schurPoly-classification of the abstract simples (#4758), read off the
   -- decomposition data `(e, he, hLsimp, hLdist)` via the classification crux
