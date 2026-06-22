@@ -56,10 +56,15 @@ theorem pm_koszul_injective
   intro f hf
   have hdf : ∀ n, ((Polynomial.X : Polynomial R) • f - PolynomialModule.map R xAct f) n = 0 := by
     intro n; exact DFunLike.congr_fun (LinearMap.mem_ker.mp hf) n
+  -- `PolynomialModule R N` now carries its own derived `FunLike` (distinct head from
+  -- `Finsupp.instFunLike`), so `Finsupp.sub_apply` no longer matches syntactically; the
+  -- coercions are defeq, so a local pointwise-subtraction lemma transports it.
+  have psub : ∀ (g₁ g₂ : PolynomialModule R N) (n : ℕ), (g₁ - g₂) n = g₁ n - g₂ n := by
+    intro g₁ g₂ n; exact Finsupp.sub_apply g₁ g₂ n
   have hshift : ∀ k, f k = xAct (f (k + 1)) := by
     intro k
     have := hdf (k + 1)
-    rw [Finsupp.sub_apply, show (Polynomial.X : Polynomial R) = Polynomial.monomial 1 1 from rfl,
+    rw [psub, show (Polynomial.X : Polynomial R) = Polynomial.monomial 1 1 from rfl,
         PolynomialModule.monomial_smul_apply,
         if_pos (Nat.one_le_iff_ne_zero.mpr (Nat.succ_ne_zero k))] at this
     simp only [Nat.add_sub_cancel, one_smul] at this
@@ -67,11 +72,13 @@ theorem pm_koszul_injective
     exact sub_eq_zero.mp this
   by_contra hf_ne
   have hsup : f.support.Nonempty := Finsupp.support_nonempty_iff.mpr hf_ne
-  set K := f.support.max' hsup
-  exact Finsupp.mem_support_iff.mp (Finset.max'_mem _ hsup)
-    (by rw [hshift K, show f (K + 1) = 0 from by
-      by_contra h'; exact Nat.not_succ_le_self K
-        (Finset.le_max' _ _ (Finsupp.mem_support_iff.mpr h')), map_zero])
+  -- State the vanishing with the `PolynomialModule` coercion (matching `hshift`); the final
+  -- `mem_support_iff` step bridges to the defeq `Finsupp` coercion via `exact`.
+  have key : f (f.support.max' hsup) = 0 := by
+    rw [hshift, show f (f.support.max' hsup + 1) = 0 from by
+      by_contra h'; exact Nat.not_succ_le_self (f.support.max' hsup)
+        (Finset.le_max' _ _ (Finsupp.mem_support_iff.mpr h')), map_zero]
+  exact Finsupp.mem_support_iff.mp (Finset.max'_mem _ hsup) key
 
 -- Coordinate map on the compHom tensor product: sends p ⊗ m to the Finsupp k ↦ p.coeff(k) • m
 -- The compHom Module instance is what extendScalars uses internally.
