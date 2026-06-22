@@ -49,7 +49,7 @@ private lemma trace_toGroupAlgebra_action (f : G → k) (V : FDRep k G) :
 private lemma toGroupAlgebra_injective (f : G → k) (h : toGroupAlgebra f = 0) : f = 0 := by
   ext g
   simp only [Pi.zero_apply]
-  have heval : (toGroupAlgebra f) g⁻¹ = 0 := by simp [h]
+  have heval : (toGroupAlgebra f) g⁻¹ = 0 := by rw [h]; rfl
   simp only [toGroupAlgebra] at heval
   rw [show (∑ x : G, MonoidAlgebra.single x⁻¹ (f x)) g⁻¹ =
     ∑ x : G, (MonoidAlgebra.single x⁻¹ (f x) : G →₀ k) g⁻¹ from
