@@ -326,6 +326,26 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### Universe constraint: `Type 0` vs `Type u` across the Schur-Weyl bridge (Ch5)
+
+Before generalizing a `GL_N(k)` result from `ℂ` to a general field, **check the universe of
+its dependency chain first** — it can be a hard blocker, not a mechanical edit.
+
+Mathlib's `Rep k G` / `FDRep k G` pin the **field and group to one common universe**. Anything
+factoring through `FDRep k (Equiv.Perm (Fin n))` (the symmetric-group / Specht / Wedderburn
+side — e.g. `IrrepDecomp k (Equiv.Perm (Fin n))`, `Theorem5_12_2_classification_general`) is
+therefore forced to `k : Type` (universe `0`), because `Equiv.Perm (Fin n) : Type 0`. You
+cannot lift it to `Type*`/`Type u` without abandoning `FDRep` (the symptom is
+`@IrrepDecomp k (G' n)` rejecting `k : Type u_1` with `G' n : Type 0`).
+
+By contrast the pure `GL_N(k)` side (`FDRep k (GL_N k)`, formal characters, torus traces) is
+universe-polymorphic, since `GL_N k` lives at `k`'s universe. So files like
+`SchurWeylFormalCharacterIso.lean` are written `variable (k : Type u)` and stay `Type u`
+**only while the Schur-Weyl simplicity ingredient is still a `sorry`**. Discharging that
+`sorry` with the real (`Type 0`) proof forces the entire simplicity-dependent chain — and its
+external consumers — down to `Type 0`. That cascade is a coordinated, multi-file change: scope
+it as its own issue, don't try to wedge it into a single feature session (cf. #4946 → #5054).
+
 #### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
 
 To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
