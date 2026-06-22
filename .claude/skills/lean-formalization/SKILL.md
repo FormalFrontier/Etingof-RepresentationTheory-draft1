@@ -16,6 +16,51 @@ lake exe cache get
 ```
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
+**Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
+<file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
+particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
+instance chains in this project (e.g. the `Subalgebra → Module.End` centralizer-module
+instances: `Module ↥(centralizer A) (V →ₗ[A] E)` from `centralizerModuleHom`) need depth
+3, so under `lake env lean` they throw **spurious** `synthInstanceFailed` errors that do
+not occur under `lake build`. If a file fails `lake env lean` with instance-synthesis
+errors on centralizer/Subalgebra hom-spaces but you suspect the proof is fine, re-check
+with `lake build <Module>` before debugging — the on-`main` file fails `lake env lean`
+too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
+these instances.)
+
+**Reading background-build results: grep the teed log for `error:`, do not trust a
+wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
+`Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
+separate poller/`sleep`-loop you spawn to wait has its own exit status unrelated to
+the build's. Always confirm success by `grep -nE "error:|✖|Build completed" log`
+on the full teed file (and check `#print axioms` for `sorryAx`) — never infer "build
+passed" from a poller returning exit 0.
+
+**Build-environment recovery (shared `.lake/packages` across pod worktrees):**
+- `Lean exited with code 139` (SIGSEGV) on *dependency* files you did not touch has
+  two distinct causes. (a) Corrupted Mathlib oleans from a concurrent `lake exe cache
+  get` writing the shared dir — fix with `lake exe cache get!`, then rebuild. (b)
+  **Memory pressure from build parallelism** — if the SAME heavy file builds fine in
+  isolation (`lake build EtingofRepresentationTheory.Chapter5.<File>`) but segfaults
+  during a big parallel build, it is OOM, not corruption. Build the heavy files one
+  at a time, then the target.
+- `failed to read file '...olean', incompatible header` means `main` bumped the Lean
+  toolchain mid-session. `lake exe cache get` only fetches **Mathlib** oleans, NOT
+  the upstream deps (batteries/aesop/Qq/importGraph/Cli/plausible) — those keep
+  old-toolchain oleans and keep throwing `incompatible header`. Recovery order:
+  1. `git fetch origin main`; if `origin/main:lean-toolchain` changed, rebase onto
+     `origin/main`.
+  2. The shared `.lake/packages/mathlib` checkout itself can lag the manifest
+     (`lake update` may not move it): `grep -A2 '"name": "mathlib"' lake-manifest.json`
+     for the pinned `rev`, then `git -C .lake/packages/mathlib checkout <rev>` so its
+     `lean-toolchain` matches the project.
+  3. `lake exe cache get`, then rebuild the stale upstream deps (`lake build Batteries
+     Aesop ...`, or just build your target and let lake regenerate them).
+- A **stale session in another worktree** still on the pre-bump toolchain can rebuild
+  the shared dep oleans back to the old version, re-corrupting your build in a loop.
+  Check `pgrep -fl 'v4.28'` (the old version); if a `lake`/`lean` from an obsolete
+  worktree is running, terminate that specific PID (targeted, not `pkill`).
+
 ## Pre-Flight Checklist (Before Starting Any Proof)
 
 Run this checklist before writing a single tactic. Skipping it has caused agents to waste entire context windows on dead-ends.
@@ -49,7 +94,9 @@ Run this checklist before writing a single tactic. Skipping it has caused agents
 
 4. **Estimate your context budget.** Difficulty 3/3 proofs consume 60-80% of a context window on average. If you're already past the midpoint of your session, consider claiming an easier item instead. Partial progress on a hard proof with no commit is worth zero — a completed easy proof is worth one sorry removed.
 
-5. **Check dependency readiness.** Verify that imports compile and key helper lemmas are sorry-free (or that sorry'd helpers won't block your proof). Use `lake build <module>` for the specific file. **For "mechanical glue"/aggregation issues, also audit that the *generality* of every input lemma matches the goal — closed/merged ≠ usable.** An issue can have all its named dependencies merged yet still be unwritable because the inputs are proved at a narrower generality than the target. Concretely (#2708, Schur-Weyl C-4a): the goal `schurModuleSubmodule_isSimple_centralizer` is over a generic alg-closed CharZero field `k`, but every per-block input it must feed (`trace_symGroupAction_eq_spechtModuleCharacter`:1029, `youngSym_action_vanishes_off_block`:2158, `youngSym_action_on_special_block_rank_one_scaled_proj`:2279) is hardcoded to `ℂ`, and generic `k` does not base-change from `ℂ`. `grep` the input lemmas' signatures for the field type before claiming. If they are `ℂ`-only while the goal is generic, the issue is mis-scoped: `coordination skip` to `replan` with the two paths (specialize the goal to `ℂ` — usually correct when the rest of that chapter's backbone is `ℂ`-only and nothing consumes the generic statement; or first generalize the inputs to generic `k`). Do not rewrite the goal's generality unilaterally.
+5. **Check dependency readiness.** Verify that imports compile and key helper lemmas are sorry-free (or that sorry'd helpers won't block your proof). Use `lake build <module>` for the specific file. **A "closed/merged" dependency can still fail to compile.** A `.lean` file absent from its `ChapterN.lean` aggregator is never built by CI, so it rots silently when an upstream lemma it cites changes signature. Before consuming a cited dependency, `grep "ChapterN.Module" EtingofRepresentationTheory/ChapterN.lean` to confirm it is in the build graph, then `lake build` that exact module — do not trust that #closed ⟹ compiles. **And when you create a new file, add it to the `ChapterN.lean` aggregator in the same PR** (otherwise it will not be CI-checked and the next signature change will break it undetected). Concretely (#4695): `KernelLemmaK.lean` (the #4694 kernel-lemma assembly) was never in the aggregator and had stopped compiling against the corrected `kernelLemmaK'`; the fix had to be made before the assembly could even be attempted. Note also: when wiring a low-level file (e.g. a localization stack) back into a higher-level one, watch for `import` cycles — if file `A` imports `B` only for one small lemma, relocate that lemma to a leaf (Mathlib-only) file imported by both, rather than creating the cycle.
+
+   Use `set -o pipefail` when piping `lake build` through `tee`/`tail` — otherwise the pipeline's exit code is `tee`'s `0` and a real build failure reads as success. **For "mechanical glue"/aggregation issues, also audit that the *generality* of every input lemma matches the goal — closed/merged ≠ usable.** An issue can have all its named dependencies merged yet still be unwritable because the inputs are proved at a narrower generality than the target. Concretely (#2708, Schur-Weyl C-4a): the goal `schurModuleSubmodule_isSimple_centralizer` is over a generic alg-closed CharZero field `k`, but every per-block input it must feed (`trace_symGroupAction_eq_spechtModuleCharacter`:1029, `youngSym_action_vanishes_off_block`:2158, `youngSym_action_on_special_block_rank_one_scaled_proj`:2279) is hardcoded to `ℂ`, and generic `k` does not base-change from `ℂ`. `grep` the input lemmas' signatures for the field type before claiming. If they are `ℂ`-only while the goal is generic, the issue is mis-scoped: `coordination skip` to `replan` with the two paths (specialize the goal to `ℂ` — usually correct when the rest of that chapter's backbone is `ℂ`-only and nothing consumes the generic statement; or first generalize the inputs to generic `k`). Do not rewrite the goal's generality unilaterally.
 
 6. **Code the framework before deep analysis.** When a proof has an obvious high-level structure (e.g., "use Schur's lemma + nonvanishing"), code that framework with sorry placeholders within the first 15 minutes. Don't spend the majority of your session analyzing whether the hard step is provable before writing any Lean. The framework commit has value even if the hard sorry remains — it reduces the problem for future agents. Deep mathematical analysis should happen AFTER the framework compiles, focused on the specific sorry goals.
 
@@ -75,14 +122,16 @@ The polytabloid definition was non-standard (T-dependent form `κ_T · of(τ) ·
 Before investing a full session in a hard proof, spend 5-10 minutes checking the statement is correct:
 
 1. **Instantiate with concrete examples.** If the theorem is about all graphs with property P, check P for the simplest non-trivial case.
-2. **Check boundary cases.** The hypothesis `h_dim : Module.finrank k M = Module.finrank k (SchurModule k N lam)` was added to `iso_of_formalCharacter_eq_schurPoly` after discovering a counterexample: `M = SchurModule ⊕ det⁻¹`.
+2. **Check boundary cases.** The hypothesis `h_dim : Module.finrank k M = Module.finrank k (SchurModule k N lam)` was added to `iso_of_formalCharacter_eq_schurPoly` after discovering a counterexample: `M = SchurModule ⊕ det⁻¹`. **`formalCharacter` is a *truncated* invariant — it records only `ℕ`-valued weight spaces and is blind to `det`-twists — so it is NOT a complete invariant, and SIMPLICITY does not rescue it.** Any lemma deriving "`M` is polynomial" (`⨆ μ, glWeightSpace = ⊤`) or "`M ≅ L_λ`" from `IsSimpleModule` + `formalCharacter M = schurPoly N lam` *alone* is **false** (#4948): counterexample `M = det⁻¹ ⊗ Sym³(std)`, `N=2` — simple, 4-dim, `formalCharacter = x₁+x₂ = schurPoly 2 (1,0)` (the `(-1,-1)` shift sends `(3,0),(2,1),(1,2),(0,3) ↦ (2,-1),(1,0),(0,1),(-1,2)`, only `(1,0),(0,1) ∈ ℕ²` survive) yet ℕ-weight spaces span only 2 of 4 dims and `M ≇ std`. Polynomiality must be a **threaded hypothesis** (`hLtop : ⨆ μ, glWeightSpace = ⊤`), discharged from the rep's actual polynomial source (e.g. transport `M`'s `h_span` to a simple summand `L` across the equivariant iso via `glWeightSpace_map_eq_of_rep_iso` + `Submodule.map_iSup`), never manufactured from simplicity. When a planner decomposes a hard theorem into "isolated `sorry` ingredients", an ingredient can itself be *unsound* — verify each ingredient is TRUE (seek a counterexample) before grinding on its proof.
 3. **If two "different" accounts/objects produce suspiciously similar data, investigate.**
 4. **Indecomposability of explicit affine-Dynkin reps: build a small decomposition first.** The Ch6 `*Rep_kQ_isIndecomposable` family (D̃/Ẽ/T(p,q,r), orientation-generic) is built from a single nilpotent twist `N`, which is **too weakly coupled** and yields *decomposable* reps. Already refuted for the sporadic cases (Ẽ₆/Ẽ₇/T(1,2,5), #4548, `progress/indecomposability-framework-investigation.md`) and for the D̃ family in **reversed-leaf** orientations (D̃₄ #4523 → #4566: explicit `m=1` complementary pair). The needed fix is the homogeneous-tube redesign, not a cleverer proof. Before claiming any open `d5/d6/d7/d8/dTilde/etilde/t125 *_kQ_isIndecomposable` issue, check #4566/#4548 — most are likely still false. A reversed leaf removes the coupling its forward edge supplied, so test a reversed orientation at `m=1` for `span`-level decompositions. (Note: the canonical all-sink D̃₄ `starRepGen_isIndecomposable` is genuinely indecomposable — only the orientation-generic statements are at risk.) **This also refutes the `*_kQ_leaf_equalities` sub-lemmas** (e.g. #2853, and the d6/d7/d8 analogs) that feed those `_isIndecomposable` theorems: the *mixed* orientations (one leaf pushed, one pulled at a shared center) force only an M-twisted relation `M(W⟨leaf⟩) = W⟨other⟩` with `M = (I−N)⁻¹` (derivable via `linearEquiv_invariant_isCompl_symm_mem` + `gammaInv_embed_general_F` + the v=2 `core_F`), and no edge supplies the leaf N-invariance needed to untwist it — so leaf equality is *false* there (D̃₅ m=1: `W⟨0⟩=span{(1,1)}`, forced `W⟨5⟩=(I−N)W⟨0⟩=span{(0,1)}`). Don't grind on a `_leaf_equalities` issue over arbitrary orientations; only the all-canonical and all-leaves-reversed branches are provable. **To land a sorry-free `_leaf_equalities`, restrict the statement rather than leaving bare sorries (#4743 for D̃₅):** add explicit Hom-direction hypotheses to the signature (`hc02/hc12/hc23 : Nonempty (@Quiver.Hom (Fin n) Q ⟨a⟩ ⟨b⟩)` pinning each canonical edge, plus a same-direction `Iff` for the two shared-center leaves, e.g. `hv3 : Nonempty (Hom 4 3) ↔ Nonempty (Hom 5 3)`), then discharge every off-restriction `rcases hOrient_edge` branch with `(hOrient.2.2 i j h_canonical h_reversed).elim` — `IsOrientationOf`'s third conjunct (`OrientationDefs.lean:41`) is exactly the antisymmetry "no arrows both ways". This keeps the existing case tree intact; only the previously-`sorry` leaves change to one-line contradictions (minimal diff). If the lemma is consumed generically (e.g. by `_isIndecomposable`, which only uses it in its all-canonical branch), **move the call into the branch that can supply the hypotheses** — there the canonical arrows give `⟨a02⟩ ⟨a12⟩ ⟨a23⟩` and same-direction `v3` leaves give `iff_of_true ⟨a43⟩ ⟨a53⟩`. Reusable across the open D̃₆/₇ leaf_equalities (#4722/#4689). **Construction tip for the homogeneous-tube `def` (sub-A of each shape, e.g. `t125Rep_kQ` #4559 mirroring `etilde7Rep_kQ` #4568):** the `*RepMap_kQ` match must produce `(Fin (*Dim m a) → F) →ₗ (Fin (*Dim m b) → F)`, and the leaf vertex has dimension `m+1` (not `1*(m+1)`) in `*Dim`. Since `1*(m+1)` is **not** defeq to `m+1`, the `a=1` block maps (`suffixBlockEmbed_F F 1 2`, `prefixBlockEmbed_F F 1 _`) fail to typecheck at the leaf — use `starEmbed2_F`/`starSecond_F` (suffix) or `starEmbed1_F`/`starFirst_F` (prefix), which produce the bare `Fin (m+1)` shape. The `2…6`-coefficient block maps are fine. To extract `>2` input blocks for a wide eigenvalue arm (T(1,2,5)'s arm 1 is `F^{3(m+1)}`), the fixed-`N` `blockEmbedAt_F` won't fit; use the general `blockEmbedAtN_F`/`blockProjAtN_F` (`FieldGenericT125.lean`, target dim a raw `ℕ`). **3-arm tube caveat (Ẽ₆/T(p,q,r), #4638): even the *all-canonical* "three leaf subspaces equal `W⟨leaf_i⟩` all equal" collapse is circular and NOT a usable stepping stone** — unlike D̃₄ where each arm's diagonal embed hits *both* center blocks (so `compl_le_forces_eq` gives `W⟨leaf⟩=W⟨1⟩=W⟨2⟩` for any pair), each tube arm embeds its leaf line into only 2 of the ≥3 center blocks. The proven membership criteria (`etilde6_arm{A,B,C}_criterion`, `FieldGenericETilde6.lean`) give `x∈W₁⟨2⟩ ↔ (0,x,x)∈W₁⟨0⟩`, `x∈W₁⟨4⟩ ↔ (x,0,x)∈W₁⟨0⟩`; the inclusion `W₁⟨2⟩≤W₁⟨4⟩` that `compl_le_forces_eq` needs is `(0,x,x)∈W₁⟨0⟩ ⟹ (x,0,x)∈W₁⟨0⟩`, **false** for general `W₁⟨0⟩` (e.g. `⟨(0,1,1)⟩`). Leaf-equality holds only because the surviving pairs are trivial — i.e. it is a *corollary* of indecomposability, not a route to it. The correct route (sub-C assembly) is the §3 **brick contradiction** consuming the criteria + `etilde6_arm*_plane_split` (each plane `π_i=(W₁⟨0⟩⊓π_i)⊕(W₂⟨0⟩⊓π_i)`) + the eigenvalue site, concluding `W₁⟨0⟩∈{⊥,⊤}` directly. **Once a shape's corrected homogeneous-tube `def` lands, its `_isIndecomposable` flips from false to TRUE — stop trying to refute it.** Scope construction and proof as *separate* deliverables (the ETilde6/7 + D̃₄ pattern): the `*Rep_kQ` def gains an explicit `(lam : F)` parameter with the fourth/eigenvalue arm = `starEmbedTube_F F lam m` (`λ•id + J`, a *square* Jordan block — relocated into `FieldGenericStar.lean`, #4648), the `*_not_finite_type_per_kQ` consumer fixes `lam = 1`, and the orientation-generic `_isIndecomposable` proof is sorried "for every lam", **deferred to a shared family-wide center-crux wall** (open across D̃₄ #4674 / D̃₅–D̃₈ / Ẽ₆ `etilde6Rep_kQ_isIndecomposable` / Ẽ₇). The worked canonical-orientation proof `starTubeRepGen_isIndecomposable` (`FieldGenericTube.lean`) + the leaf reductions `forward_leaf_subspace_eq`/`reversed_leaf_subspace_eq` + the center lemma `eigenvalue_jordan_invariant_compl_trivial_gen` are the assembly pieces. So: don't re-investigate whether these are tractable as one unit, and don't refute a shape whose corrected tube already landed — check the construction's arm map first.
 
 5. **"Follows via Schur's lemma / character matching" can be circular — check the nonzero-hom prerequisite.** When an issue claims a decomposition/iso "follows by Schur's lemma" from two reps being simple, remember Schur's lemma (`finrank_hom_simple_simple`) only gives `Hom ∈ {0,1}`-dim; concluding *iso* needs a **nonzero** equivariant map, which usually presupposes the very character/highest-weight match being sought. Example (#2493): identifying the abstract Schur-Weyl summand `Lᵢ` with `SchurModule k N λ` was claimed to follow from `Lᵢ` simple (C-3) + `SchurModule` simple (C-4) + Schur's lemma, but that route is circular — it needs `char(Lᵢ) = schurPoly N λ` (the highest-weight classification, downstream #2482/#2483) to produce the nonzero map. The character-level assembly (`formalCharacter(V^⊗n) = ∑_λ dim(Sλ)·sλ`) is reachable from C-1∘C-2; the concrete-module iso is not. Land the reachable character identity and route the classification gap to the downstream issue rather than forcing a circular "Schur's lemma" proof. Also: do not "rescue" such an iso with a pure `finrank`-equality `≃ₗ[k]` — it type-checks but is mathematically vacuous (any equal-dimension spaces are k-linearly isomorphic), violating the no-vacuous-theorems principle.
 6. **"Vanishes pointwise" lemmas about an element already known to lie in a span are usually false — refute by direct computation.** A lemma claiming an explicit element has *zero coefficient* at certain basis points (e.g. a residual `Δ`'s coefficient at tabloids with no column-standard rep, Ch5 Wall 3 R2.b.i #2769) is suspicious whenever the true reason `Δ` sits in the target span `V` is **global** rather than pointwise. If `Δ` equals a single polytabloid `±ψ_τ` (τ col-standard), it carries `±1` at *every* column-class of τ — including non-standardizable ones — so pointwise vanishing fails even though `Δ ∈ V` holds. Brute-force the smallest example by replicating the Lean definitional conventions exactly (`toTabloid` = entry→row map, `ColumnSubgroup`, `tabloidStrictDominates`, signed-polytabloid form of the construction), and **validate your model reproduces a known ground truth** (e.g. the design note's hand-computed values) before trusting a refutation. This refuted #2769 in minutes (`progress/r2bi-counterexample-check.py`, redesign tracked in #4584). **A hand-checked *confirmation* is no safer than a hand-checked refutation — brute-force both directions.** A prior meditate note (#2776, `progress/r3-bis-residual-cancellation.md` §3) claimed the *same* statement was TRUE via a cross-region involution, "validated on the running example; sign reversal verified" — the faithful brute force refuted it on that very example. When you assert a tricky combinatorial identity *holds*, run the script; never ship "verified by hand". And refuting the lemma does not refute the goal: the global span-membership a dead pointwise route was serving is often still true by a *direct* identification (here `Δ = ±ψ_τ`, discharged by the existing `(srRank, rowInvCount')` induction — see `progress/r2b-redesign-direct-polytabloid.md`). Also beware the inverse circularity trap: a "straightening" lemma that *consumes* `v ∈ V` as a hypothesis (e.g. `tabloidSupport_straightening`) cannot be the route that *establishes* `v ∈ V`; and a design note claiming a proof is "just re-packaging the internals of lemma X" is circular whenever X takes the goal as a hypothesis — check before adopting the plan. **When your validation script tests a *measure/ordering* condition (e.g. `srRank τ' < srRank σ`, IH-availability, dominance), pin the measure's DIRECTION to the codebase definition before trusting PASS/FAIL.** A flipped sign silently inverts the verdict: here `srRank σ = #{τ : σ strictly dominates τ}` counts tabloids *below* σ, so a tabloid dominated by σ has *smaller* srRank (IH-available) — an early script that counted tabloids *above* spuriously reported every constituent "above σ" and nearly condemned a sound route (Ch5 R2.b #4593, validated route → #4604/#4605). Re-derive one row by hand against the Lean `def` before reading the table.
 
-This saved 2+ sessions in Waves 47-49 by catching false statements early, an entire D̃₄ proof attempt (#4566), and a Ch5 Wall 3 R2.b.i attempt against a false pointwise-vanishing residual lemma (#2769 → #4584).
+7. **Character / multiplicity identities: dimension-count both sides (evaluate at all-ones) before attempting.** Any claimed `formalCharacter M = ∑_λ (coeff_λ)·S_λ` must match in *total dimension*: setting every torus variable to `1` makes each `S_λ` evaluate to `dim V_λ = s_λ(1,…,1)` and the LHS to `dim M`. This is a 30-second check that catches multiplicity errors instantly. It refuted #4944: `polyRightDegreeFDRep_formalCharacter` claimed the degree-`d` part `A_d` of `k[Xᵢⱼ]` had a *multiplicity-one* decomposition `formalCharacter k N A_d = ∑_{ν : BoundedPartition N d} schurPoly N ν.parts`, but for `N=2, d=1`, `dim A_1 = 4` (the four `Xᵢⱼ`) while `∑_ν dim V_ν = dim V_{(1,0)} = 2` — unequal, so false. The actual right-`GL_N` multiplicity is `dim S_ν(k^N) = s_ν(1,…,1)` (the left Schur-factor of the GL×GL Cauchy bi-rep `Sym^d(V⊗W) = ⊕_ν S_ν(V)⊗S_ν(W)`), **not** one. The fix is to correct the statement to the multiplicity-bearing form `∑_ν (eval 1 (schurPoly N ν.parts)) • schurPoly N ν.parts` (Cauchy at `x=1^N`) — and since a sorried *false* theorem is a landmine even unused, correct it openly (per "Definition seems wrong: don't silently work around bad definitions") rather than leaving it. Watch for "multiplicity one" / "each ν exactly once" claims about a *forgetful restriction* of a bi-representation: forgetting one factor of `V_λ ⊠ V_λ` leaves `dim V_λ` copies, never one (except `dim V_λ = 1`, i.e. powers of `det`). The qualitative *support* conclusion a consumer wants (e.g. "constituents of `A/det` have `ν_N = 0`") usually survives the multiplicity correction (the `dim V_{ν-(1,…,1)} = dim V_ν` factors cancel termwise), so re-spec the proof, don't abandon the consumer.
+
+This saved 2+ sessions in Waves 47-49 by catching false statements early, an entire D̃₄ proof attempt (#4566), a Ch5 Wall 3 R2.b.i attempt against a false pointwise-vanishing residual lemma (#2769 → #4584), and a research-level Cauchy proof attempt against a false multiplicity-one character identity (#4944).
 
 ### Sorry Decomposition as Primary Strategy
 
@@ -128,10 +177,13 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 3. **Check it compiles.** Run `lake env lean <file>` — fix import and type errors before proceeding.
 
 **Common pitfalls:**
+- **No `-/` inside doc-comments.** A stray `-/` sequence in prose (e.g. writing `one-/two-sided`, or `f⁻¹/g`) closes the `/-! … -/` or `/-- … -/` block early, and the remaining text is parsed as commands — producing baffling "unexpected identifier; expected command" errors far from the real spot. Reword to `one- or two-sided`. Likewise avoid an accidental `/-` opening a nested comment.
 - Don't invent type classes. If Mathlib doesn't have a concept, use a `structure` or `def` with explicit fields.
 - Don't use `True` as a placeholder for propositions — it compiles but hides the real requirement.
 - Check that universe levels are consistent. Representation theory often needs `Type*` not `Type`.
 - **WF-recursive definitions** (`termination_by`): Don't use `rw [f]` or `simp [f]` to unfold — they fail on WF-recursive functions. Instead, prove a separate `have` using `unfold f` (works inside `conv` blocks), or extract a standalone unfolding lemma.
+- **`Finset.prod`/`∏`-style products need `CommMonoid`.** `GL_N k`, `Matrix n n k`, and `Module.End` are non-commutative, so `∏ i, g i` over them does **not** typecheck (`failed to synthesize CommMonoid (GL …)`). For diagonal/torus elements that *do* commute, don't fight the typeclass: induct over the `Finset` with a partial helper (e.g. `diagTorusOn s` = the partial product over `s`, with `_empty`/`_insert`/`_univ` lemmas) and assemble one factor at a time via `map_mul`. See `Chapter5/FormalCharacterTorusTrace.lean`.
+- **Diagonalizing a distinct-eigenvalue matrix (conjugate to a diagonal) — full recipe.** Mathlib has no "distinct eigenvalues ⟹ diagonalizable" shortcut; build the eigenbasis. The chain (over an alg-closed field, here `ℂ`): roots of `A.charpoly` ↔ eigenvalues via `Matrix.mem_spectrum_iff_isRoot_charpoly` + `Matrix.spectrum_toLin'` + `Module.End.hasEigenvalue_iff_mem_spectrum`; `0` is not an eigenvalue of a unit via `spectrum.zero_mem_iff` (**`R` is an explicit arg — write `(spectrum.zero_mem_iff ℂ).mp`, not `spectrum.zero_mem_iff.mp`**, else "unknown constant `…mp`"); one eigenvector per eigenvalue is linearly independent via `Module.End.eigenvectors_linearIndependent'` (needs an *injective* eigenvalue family); `N` independent vectors in `Fin N → ℂ` give a basis via `basisOfLinearIndependentOfCardEqFinrank` (**needs `[Nonempty (Fin N)]` — handle `N = 0` separately; `GL_0` is a `Subsingleton`, close with `Subsingleton.elim`**); the column matrix `V := (Pi.basisFun ℂ (Fin N)).toMatrix ⇑b` is invertible via `Basis.invertibleToMatrix`, and `A * V = V * diagonal eigenvalues` follows columnwise from the eigenvector equation (`A *ᵥ vⱼ = tⱼ • vⱼ`), giving `A = V * D * V⁻¹` (`Matrix.mul_inv_of_invertible`). Package `h := unitOfInvertible V` (GL is `abbrev … := (Matrix …)ˣ`, so `unitOfInvertible` *is* a GL element), prove the GL equation via `Units.ext` + `Matrix.GeneralLinearGroup.coe_mul`/`coe_inv`. **Dot-notation gotcha: `f.HasEigenvalue` fails (`LinearMap.HasEigenvalue` does not exist) when `f : … →ₗ[R] …`; annotate `f : Module.End R M` so dot notation resolves to the `Module.End.*` API.** Full worked proof: `Chapter5/DiagonalizableConj.lean` (`gl_conj_diagTorus_of_distinct_eigenvalues`).
 
 ### 2. Scaffold: Set Up the Proof Structure
 
@@ -168,6 +220,42 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
+### Stuck `Module ?m (M i)` Metavariable Errors
+
+When working over a *family* `(M : ι → Type*) [∀ i, Module A (M i)] [∀ i, Module 𝕜 (M i)] [∀ i, IsScalarTower 𝕜 A (M i)]` (common for representation families), `lake build` errors like `typeclass instance problem is stuck … (i : ι) → Module ?m (M i)` mean a ring/field implicit was left undetermined. Three concrete causes, each with a one-line fix (diagnosed across ~5 build cycles in #4885, `CharacterIndependence.lean`):
+
+1. **An `abbrev`/`def` over the section `M` silently absorbs `M`'s instances.** `abbrev Pim : Type _ := ∀ i, M i` carries `[∀ i, Module A (M i)]` into its signature, so `Pim M` needs `A` — which `∀ i, M i` does not determine → stuck `Module ?A (M i)`. **Fix:** take a *fresh* type-family argument: `abbrev Pim (N : ι → Type*) : Type _ := ∀ i, N i`, then use `Pim M`.
+2. **A helper `def proj … : Pim M →ₗ[A] Pim M` has an implicit `A` invisible at use sites.** When applied (`proj M j x`), neither the argument nor result type mentions `A`, so `A` is a free metavariable. **Fix:** pin it with a named argument everywhere — `proj (A := A) M j x`.
+3. **A lemma statement / `LinearIndependent 𝕜 (fun i => f M i)` whose body doesn't pin `𝕜` or `A`.** Restating `Algebra.lsmul 𝕜 𝕜 (M i)` or `traceChar M i` standalone leaves the acting algebra/base field ambiguous. **Fix:** ascribe the codomain — `(traceChar M i : A →ₗ[𝕜] 𝕜)` — or route through a named `def repEnd (i) : A →ₐ[𝕜] End 𝕜 (M i)`.
+4. **In-proof `set M := fun i => asModule (L i).ρ` blocks instance search.** Abbreviating a type family with `set`/`let` inside a proof makes `M i` an opaque local fvar, so `Module A (M i)` / `IsScalarTower` / defeq like `asModule (L i).ρ = ↥(L i).V` no longer resolve (instances are registered on the *unfolded* `asModule (L i).ρ`). Symptoms: `failed to synthesize Ring (G →₀ ℂ)` and unsolved `trace ℂ (M i) … = trace ℂ ↑(L i).V …` defeq goals. **Fix:** don't abbreviate — inline `(fun i => Representation.asModule (L i).ρ)` at every call site (a literal lambda beta-reduces during instance search; an fvar does not). This is how the existing `hLsimp`-style hypotheses are written. Diagnosed across 2 build cycles in #4908.
+
+General rule: if an implicit type/ring/field appears only *inside* a definition's body (not in any argument or result type visible at the call site), pin it explicitly. Test a suspect term in isolation in `/tmp/foo.lean` — it compiles there when the surrounding context determines the implicit, which localizes the bug fast.
+
+### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
+
+`MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
+
+### `k`-trace lemmas on a group-algebra submodule need `restrictScalars k`
+
+When generalizing a character/trace from `ℂ` to general `k` (the #4946 chain), the Specht-type
+modules are left ideals `SpechtModuleK k n la = k[S_n]·c_λ` — i.e. a `Submodule (MonoidAlgebra k G) (MonoidAlgebra k G)`
+(over the *algebra*), not a `Submodule k _`. Mathlib's `k`-trace lemmas (`LinearMap.trace_restrict_eq_of_forall_mem`,
+`LinearMap.trace_baseChange`) require a `Submodule k M`, so passing the algebra-submodule leaves `p`/`q` stuck as
+metavars. **Fix:** phrase the hypothesis and the `.restrict` over `(SpechtModuleK k n la).restrictScalars k` (same
+carrier, so the action `→ₗ[k]` on `↥(SpechtModuleK …)` is defeq to the one on `↥(… .restrictScalars k)`); close the
+final step with `exact` (which uses defeq) rather than `rw` (syntactic). Field-independence of such a trace then comes
+cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻¹c}) = (N₀:k)⁻¹·(M₀:k)` with `N₀,M₀ ∈ ℤ` from the
+ℤ-coefficients of `c_λ` (`YoungSymmetrizerZ` + `mapRangeRingHom`), so `χ_k = algebraMap ℚ k (χ_ℚ)` and ℂ injectivity
+transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
+`G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
+
+### Heavy Instance Resolves Abstractly but Fails Concretely
+
+**A heavy instance (e.g. `centralizerModuleHom : Module ↥(centralizer …) (V →ₗ[A] E)`) that resolves for an *abstract* carrier `V` can fail fresh typeclass search for a *concrete* one (`V = Fin N → k`), at the same `synthInstance.maxHeartbeats` — it is structural, not a heartbeat shortfall (diagnosed across ~7 build cycles in #4860, `SchurWeylLDistinct.lean`).** Symptom: `failed to synthesize HSMul … ?m` (an `outParam` output stuck as a metavar) on a `•`/instance you wrote *freshly* in the concrete proof, while the *same* `•` typechecks when it comes from *specializing* a polymorphic lemma's signature. Two non-fixes and the fix:
+- `haveI hI : Module … := …` registers the instance but makes it **opaque** — the `•` no longer reduces (`show (c • f) v = c.val (f v)` fails defeq), and it **shadows** the canonical instance so APIs expecting the canonical one mismatch.
+- `letI hI := …` keeps it transparent (reduces) but **still shadows** — passing your term to a lemma whose signature used the canonical instance gives an "application type mismatch" unless your `letI` body is syntactically the canonical instance.
+- **Fix:** never write the offending notation freshly in the concrete proof. (a) Obtain the goal *by specialization* — `refine polymorphicLemma … ?_` so the `•` in the `?_` goal is substituted from the lemma's signature, not searched. (b) Add an **abstract** `:= rfl` rewrite lemma over a general `V` (where the instance resolves), e.g. `theorem c_smul_eq (f) : c • f = (centralizerToEndA … c).comp f := rfl`, and `simp only [c_smul_eq]` in the concrete proof to eliminate the `•` entirely. The concrete proof then stays instance-notation-free.
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
@@ -181,6 +269,68 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 | Finite group theory | `decide` (small groups) | case analysis |
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
+
+### `rw`/`simp` fail to match Finsupp applications over `Tabloid` (Ch5 TabloidModule)
+
+`Tabloid n la` is a `def` for `Quotient (TabloidSetoid n la)` (semireducible, NOT
+reducible). `rw` and `simp only` match at *reducible* transparency, so when an
+element `t` comes from `ext`/`Finset.ext` (typed `Quotient (TabloidSetoid …)`) a
+Finsupp value `ψ t` produced by `Finsupp.smul_apply`/`sub_apply` is **not
+syntactically equal** to a hand-written `ψ t` (or to a `ψ t = 0` from a lemma
+whose binder is `: Tabloid n la`), even though they are defeq. Symptom: `rw [h]`
+/`simp only [h]` reports "did not find pattern `ψ t`" or "unused" on a term that
+visibly contains `ψ t`. This cost ~7 build iterations in #4998. Workarounds, in
+order of preference:
+
+1. **Introduce an explicit representative.** After `apply Finset.ext; intro t`,
+   do `obtain ⟨a, rfl⟩ : ∃ a, toTabloid n la a = t := ⟨Quotient.out t, toTabloid_out t⟩`.
+   Now every Finsupp application is over `toTabloid n la a`, which `rw` matches
+   (this is why proofs like `twistedPolytabloid_per_q_decomp` that apply Finsupps
+   to `toTabloid n la α` never hit the gremlin).
+2. **Prefer `exact`/function application over `rw`.** Application typechecks up to
+   defeq, so `exact h₁ h₂`, `hEq ▸ h`, and `Finsupp.support_smul hmem` work where
+   `rw` fails. Reserve `rw` for terms you constructed yourself in the same goal.
+3. **`show` to a hand-written / defeq form.** `Finsupp.smul_apply` is `rfl`, so
+   `show c • ψ (toTabloid n la a) = 0` reaches a defeq goal whose hand-written
+   `ψ (…)` then matches a `rw [hψ0]`; `show … ≠ 0` likewise re-normalizes a
+   simp-mangled goal back so the next `rw` finds its pattern.
+
+Separately: `Finset.le_sup`/`Finset.exists_mem_eq_sup` over a `ℕ`-valued
+`f` need the `(f := fun t => …)` named argument, else instance resolution stalls
+on `OrderBot ?m`.
+
+### Assembling short exact sequences of `FDRep`s (Ch5 Cauchy det-quotient)
+
+Feeding `formalCharacter_add_of_shortExact` (or any map between FDReps built as
+`FDRep.of ρ`) hits three recurring defeq gremlins. Cost 4 build cycles in #5003
+(`CauchyDetQuotientDegree.lean`, `quotDetDegreeFDRep_formalCharacter`); the
+working pattern:
+
+1. **The carrier `↑(FDRep.of ρ).V` does NOT accept a `(u : MvPolynomial …)`
+   coercion.** SetLike isn't seen through the `FGModuleCat` wrapper, so
+   `(u : MvPolynomial …)` fails with "type mismatch: ↑(twistFDRep …).V". Extract
+   the underlying element with an explicit subtype map, like the existing
+   `polyOf d := (homogeneousSubmodule …).subtype` (its `polyOf_rho` is `rfl`).
+   Define one such `eU/eV/eW` per FDRep (ascribe its type `FDRep →ₗ[k] (ambient)`;
+   the domain unifies by defeq) and state the action/inclusion facts as
+   `rfl`-backed `have`s: `eU (M.ρ g u) = (ambient ρ) g (eU u)` and
+   `eV (ι u) = mulDet (eU u)` are all `fun _ _ => rfl`, since `FDRep.of_ρ'`,
+   `Subrepresentation.toRepresentation`, and `LinearMap.restrict` are definitional.
+2. **`let`-bound maps hide `LinearMap.restrict` from `rw`.** `rw
+   [LinearMap.restrict_coe_apply]` fails ("did not find pattern") when the map is a
+   local `let ι := … .restrict …`, because the goal shows the opaque `ι`, not
+   `restrict`. Don't rewrite with `restrict_coe_apply`; use the `rfl`-backed
+   per-`let` `have`s from (1), and prove injectivity via
+   `eU_inj := Subtype.coe_injective` then `apply mulDet_injective`.
+3. **A term-mode `calc … := (lemma …).symm` over `glWeightSpace` of an FDRep can
+   hang `isDefEq` (still timed out at 3.2M heartbeats).** Matching the calc's
+   stated endpoint against the lemma's type triggers whnf of the FDRep carriers;
+   if the weight-function arguments differ only by a beta-redex, Lean still unfolds
+   the whole rep. Replace the `calc` with `rw [glWeightSpace_twistFDRep_pos …
+   (fun i => …)]` supplying the weight **explicitly** (syntactic keyed matching, no
+   whnf), then `congr 1; funext i; simp only [Finsupp.add_apply, …]; omega`. The
+   SES assembly still needs `set_option maxHeartbeats` raised (~3200000) for the
+   rank-nullity character argument even after these fixes.
 
 ### Dependent Pi Types and Pi.single
 
@@ -216,6 +366,30 @@ Mathlib.GroupTheory.GroupAction.Basic
 ```
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
+
+#### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
+
+To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
+need that piece as an `FDRep`. Recipe (sorry-free):
+- finite-dimensionality of `MvPolynomial.homogeneousSubmodule (Fin N × Fin N) k d`:
+  it sits inside `MvPolynomial.restrictTotalDegree _ _ d` (a degree-`d`
+  homogeneous poly has total degree `≤ d` via `IsHomogeneous.totalDegree_le` +
+  `mem_restrictTotalDegree`), which is `Module.Finite` for finitely many vars —
+  conclude with `Submodule.finiteDimensional_of_le`.
+- package: take the existing `Subrepresentation` of the homogeneous component
+  (e.g. `polyRightHomogeneousSubrep`, `PolyRightGrading.lean`), then
+  `FDRep.of (subrep.toRepresentation)`. `FDRep.of` needs `[Module.Finite k V]`,
+  which the `FiniteDimensional` instance supplies (defeq over a field).
+- Gotcha: `open MvPolynomial` did **not** expose `homogeneousSubmodule` /
+  `restrictTotalDegree` / `mem_restrictTotalDegree` in an `instance` signature
+  under `relaxedAutoImplicit false` — fully qualify with `MvPolynomial.`.
+
+The canonical Fintype indexing set for "dominant weights `ν ∈ ℕ^N` of size `d`"
+is `BoundedPartition N d` (`Proposition5_21_1.lean`: antitone `ν : Fin N → ℕ`
+with `∑ ν = d`; has `Fintype` + `DecidableEq`). Use it to write a
+multiplicity-one decomposition as a single `Finset.sum`
+(`∑ ν : BoundedPartition N d, schurPoly N ν.parts`) — each `ν` once = mult one,
+no ad-hoc partition bookkeeping.
 
 ### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
 
@@ -390,6 +564,88 @@ reduces exactly to leaf `Λ`-invariance, the indecomposability crux) over a
 heroic full-closure attempt, and partial-PR. Confirm the tractability premise
 early — it sets scope and avoids rediscovering the obstruction from scratch.
 
+### Before creating a NEW named file, re-fetch main — concurrent sessions land it too
+
+Skill #4853 ("verify cited 'already-landed' deps exist") has a twin failure mode:
+the artifact you are about to **create** may already exist on `main`, landed by a
+**concurrent** session while you worked. If your branch base is several commits
+behind, `git fetch origin main` and check before you write `Chapter5/Foo.lean` —
+especially for a planned/obvious filename the whole pod is converging on. In
+#4695's kernel-lemma (K) assembly, a worker built `Chapter5/KernelLemmaK.lean`
+from scratch, then on rebase found `main` already had a complete sorry-free
+`KernelLemmaK.lean` from a sibling session; the entire branch (plus a follow-up
+issue resting on a gap the landed version sidestepped) was redundant and got
+closed. Cheap guard: `git fetch origin main && git show origin/main:<intended
+path>` (or `git log origin/main --oneline -15` for the area) right before the
+first `Write` of a new file. If it exists, build *on* it, not beside it. Bonus:
+the landed version often reveals a cleaner formulation — there, stating (K) over
+explicit **weight-vector generators** (each in a single `glWeightSpaceℤ`) made the
+descent need no torus-semisimplicity of `O`, which the abstract-submodule framing
+had wrongly demanded.
+
+### "Residual sorry" issue whose file isn't on main yet — prove the lemma in its home, don't skip
+
+A `... residual` issue often quotes a sorry'd theorem "in `Chapter5/FooAssembly.lean`"
+and gives a `lake build ...FooAssembly` verification — but that file ships with a
+**sibling PR still in progress** (claimed, no PR), so it does not exist on `main`.
+Do **not** `coordination skip` as "stale": the *deliverable* is the lemma's proof, and
+the lemma is almost always a standalone, reusable fact. Prove it in its natural
+building-block home (the file where its subject and ingredients live — e.g.
+`schurPoly_coeff_self_ne_zero` belongs in `Proposition5_21_1.lean` beside `schurPoly`,
+`schurPoly_mul_vandermonde`, `alternant_coeff_kronecker`), with the **exact signature**
+the issue quotes. The eventual assembly imports that home transitively
+(`KernelLemmaKPrime` → `Theorem5_22_1` → `Proposition5_21_1`), so when the sibling PR
+lands it deletes its sorry'd copy and calls your lemma. Note this hand-off in the PR
+body and progress file. (#4949: proved sorry-free in `Proposition5_21_1.lean` while the
+consuming `KernelLemmaKPrimeAssembly.lean` from #4923 was unlanded.) Watch for name
+collision: use the issue's exact theorem name so the sibling references rather than
+re-declares it.
+
+### Adding a hypothesis the consumer must supply: check the import direction first
+
+When an issue says "add hypothesis `h` to lemma `L`, the consumer supplies it",
+verify *before* editing `L`'s signature that the term the consumer will pass is
+reachable **without an import cycle**. A *property* lemma (`X_isAlgebraic`,
+`X_isSimple`, `X_isPolynomial`, …) is usually defined **downstream** of the object
+`X` it describes — but the consumer of `L` often lives in the same upstream file
+where `X` itself is defined, so it cannot import the downstream property. The plan
+will read as if `h := X_property` is a one-liner; it is an import cycle. Fix by
+extracting the *general* infrastructure the property is built from into an upstream
+file and proving the consumer's instance **inline**; leave only the concrete
+packaging downstream. (#4882: `iso_of_formalCharacter_eq_schurPoly` gained `halg`,
+but `detTwistedSchurModuleRep_isAlgebraic` lives in `DetTwistAlgebraic`, which
+imports `Proposition5_22_2` — where both the consumer *and* `detTwistedSchurModuleRep`
+live — a cycle. Resolved by extracting `GLRepAlgebraic.lean` with the reusable
+`glTensorRep_isAlgebraic` / `.restrict` / `.detTwist` and building `halg` inline.)
+A second, related trap in the same issue: a plan step asserted "the simple summand
+`≅ L_λ` at the asModule level" as if free, but the existing classification exposes
+only *characters*, not the iso — that step needed a strictly stronger (deferred)
+lemma. Treat every "obviously follows" step in a plan as a claim to check against
+an actual existing declaration before committing to a sorry-free target.
+
+**Generalizing a ℂ lemma "in place" when its general-`k` support is downstream:
+put the general version in a NEW downstream file, don't edit the ℂ file.** A plan
+that says "lift `foo` (ℂ) to general `k` in `FooFile.lean`" is mis-scoped whenever
+`foo`'s proof needs general-`k` infrastructure (`SpechtModuleK_isSimpleModule_general`,
+`Theorem5_12_2_distinct_general`, `youngSymmetrizerK_annihilates_specht`, …) that
+lives in files which *import* `FooFile.lean` — editing in place is an import cycle.
+When the generalized lemma is **not itself consumed upstream** (only by a still-later
+assembly), the cleanest fix is a new *downstream* file importing both `FooFile.lean`
+and the general-`k` machinery; leave the ℂ original untouched. The "already generic"
+helpers in `FooFile.lean` (e.g. `trace_youngSymEndomorphism_restrict_eq_sum`,
+`youngSymEndomorphism_restrict_sq_scalar`) still apply by proof-irrelevance even when
+your `.restrict` supplies a different (defeq) membership proof, so you can re-state the
+theorems verbatim. Working over `k` throughout often *removes* ℂ-specific helpers (the
+ℚ→ℂ base-change `youngSym_sq_ℂ'` / `youngSymmetrizerK_complex_eq` vanish — the scalar
+comes straight from `YoungSymmetrizerK_sq_scalar k`). To stay independent of a sibling
+"general-`k` character" PR you can't import yet, define a local Specht character
+(`spechtBlockCharacterK := trace of left-mult-by-`of σ` on `SpechtModuleK`) that is
+*definitionally equal* to the bridge's `spechtModuleCharacterK`, so the eventual
+consumer reconciles `h_label` by `rfl`. (#5004: `SchurWeylSpecialBlockGeneral.lean`,
+the two `youngSym_action_*_general` lemmas — built first try this way.) **Check the
+import DAG of the support lemmas before writing any code; don't discover the cycle
+after editing the ℂ file.**
+
 **Multi-block tubes: don't fix the `_leaf_equalities` *statement shape* ahead of
 the center-collapse design.** For the ≥3-arm / >2-block-center tubes (Ẽ₆ #4638,
 Ẽ₇ #4746, and the entangled D̃₅ #4743) the eigenvalue site is a **separate
@@ -478,6 +734,32 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   literals (not `(i : Fin 5)`) so the `mapLinear`/`starRepMap_kQ` match reduces
   definitionally for `change`/defeq steps.
 
+- **Upgrading a `k`-linear bijection to an `A`-linear equiv: prove `map_smul`
+  on the composite, do NOT transport the `A`-module (Ch5, #4926 biduality).**
+  When the target is `↥S ≃ₗ[A] ↥T` but the natural maps factor through a
+  hom-of-hom space `D := (↥S →ₗ[A] E) →ₗ[C] E` whose only canonical action is by
+  `↥(centralizer C)` (= `A` by double-centralizer), resist putting an
+  `A`-module on `D` via `Module.compHom`/scalar transport — the `map_smul`
+  obligations then force you to unfold `compHom` everywhere and the elaboration
+  is brutal. Instead: build *all* intermediate equivs `k`-linearly (the
+  curried-evaluation `↥S ≃ₗ[k] D` via `LinearEquiv.ofInjectiveOfFinrankEq`, the
+  precomposition via the already-`k`-linear `homCongrLeftOverSubring`), thread
+  them to a `Φ : ↥S ≃ₗ[k] ↥T`, then package the *final* `↥S ≃ₗ[A] ↥T` with the
+  explicit constructor `{ toFun := Φ, map_add' := Φ.map_add, invFun := Φ.symm,
+  left_inv := Φ.left_inv, right_inv := Φ.right_inv, map_smul' := fun a v => ... }`
+  and prove the lone `A`-`map_smul'` by hand (`apply (last equiv).injective; ext;
+  rewrite the definitional apply-formulas`). The double-hom space never needs an
+  `A`-module structure at all. Bonus: isolate the genuine content as a *pure
+  `k`-finrank* lemma (`finrank k ↥S = finrank k D`) whose statement mentions no
+  exotic module — clean to state and to attack separately.
+- **`centralizerModuleHom` firing twice needs an `IsScalarTower` companion
+  (Ch5, #4926).** To get `Module ↥(centralizer C) ((V →ₗ[A] E) →ₗ[C] E)` you
+  re-apply `Theorem5_18_1.centralizerModuleHom` with `C` in the `A`-slot; this
+  requires `IsScalarTower k ↥C (V →ₗ[A] E)`, which is NOT automatic. Provide it
+  (`smul_assoc r b f := LinearMap.ext fun v => by change (r•b).val (f v) = …;
+  rw [Subalgebra.coe_smul, LinearMap.smul_apply]`). Note: even *stating* this
+  instance (its `SMul` in the signature) overruns the default 20000 synth
+  heartbeats — bump `synthInstance.maxHeartbeats` on the instance itself.
 - **Bundled instances from a destructured existential are already usable — do
   NOT re-`haveI` them (Ch5, #4716).** Decomposition theorems
   (`glTensorRep_..._decomposition...`) return `∃ (S : ι → Type u)
@@ -503,6 +785,43 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
     fun i => Module.Free.of_divisionRing k (S i)`. For a `Type 0` basis index
     (needed when the result type demands `Type`, not `Type u`), use
     `Fin (Module.finrank k (S i))` with `Module.finBasis k (S i)`.
+
+### Proving `IsAlgebraicRepresentation` (Ch5 §5.23, #4756)
+
+`detTwistedSchurModuleRep_isAlgebraic` (`Chapter5/DetTwistAlgebraic.lean`) is the
+first algebraicity proof for a concrete rep, and ships **three reusable lemmas** —
+reach for these before re-deriving for any other `GL_N` rep (e.g. bare
+`schurModuleRep`, `glTensorRep`, further twists):
+
+- `glTensorRep_isAlgebraic` — the diagonal action is algebraic; matrix coefficient
+  in `tBasisAlg` is the monomial `∏ₘ X_{(h m, f m)}`.
+- `IsAlgebraicRepresentation.restrict (W) (hW)` — restrict to a `ρ`-invariant
+  submodule. (`schurModuleRep` algebraicity falls out as the intermediate step.)
+- `IsAlgebraicRepresentation.detTwist` — twist by the `det` character.
+
+Plus `evalAtGL_{mul,sum,prod,C,X_inl}`: `evalAtGL g` is `MvPolynomial.eval σ`, a
+ring hom, so it commutes with `*`/`∑`/`∏`/`C`; prove each by
+`simp only [Etingof.evalAtGL, map_mul]` etc. The det polynomial is `detPolyGL`
+(det of the generic `(Xᵢⱼ)` matrix); `evalAtGL g detPolyGL = det g` via
+`RingHom.map_det`.
+
+Three API gotchas that cost build cycles here:
+- **Tensor-basis coefficients:** `Basis.piTensorProduct_repr_tprod_apply` gives
+  `(piTensorProduct b).repr (⨂ₜ x) p = ∏ i, (b i).repr (x i) (p i)` — the clean way
+  to read a coefficient of `PiTensorProduct.map f (tprod …)`.
+- **`Matrix.col` has no `col_apply`.** `M.col j = Mᵀ`, so `(M.col j) i` is
+  *definitionally* `M i j` (via `transpose`/`of_apply`). After
+  `rw [Matrix.mulVec_single_one]` just close the entry goal with `rfl`, not a
+  `col_apply` simp (which does not exist).
+- **`Basis.repr_reindex_apply` needs full qualification** as
+  `Module.Basis.repr_reindex_apply` (and `Module.Basis.reindex_apply`); the bare
+  `Basis.`-prefixed forms fail to resolve. Use these to fit a non-`Fin`-indexed
+  basis (e.g. `tBasisAlg : Basis (Fin n → Fin N)`) into the `Fin m`-indexed
+  `IsAlgebraicRepresentation` predicate by reindexing through `Fintype.equivFin`.
+- **`let` not `set` for locals whose *defeq* you rely on** (here a projection `π`
+  and the functional `φ y = b'.repr (π y) a`): `set` introduces an *opaque* local,
+  so terms like `linearProjOfIsCompl_apply_left` (which mention the unfolded
+  expression) no longer typecheck against it, and `fun _ => rfl` proofs break.
 
 - **GL-element inverse coercion to `Matrix` is ambiguous — annotate, or use `.val`.**
   Writing `((g i)⁻¹ : Matrix _ _ k)` for `g i : GL (Fin p) k` (e.g. the base-change
@@ -584,6 +903,33 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   `LinearEquiv` by defeq. Prefer it over `rw [show ⟨…⟩ = g … from rfl, …]`, which
   fails on "pattern not found" because the post-`Subtype.ext` goal is not
   syntactically normalised.
+
+- **`set` reverts/shadows any hypothesis whose *type* mentions the set term —
+  spawns a `S✝` that no longer unifies (Ch5, #4731).** Proving over Schur-Weyl
+  hom-spaces `↥S →ₗ[symGroupImage k V n] TensorPower k V n`, writing
+  `set A := symGroupImage k V n` / `set E := TensorPower k V n` for brevity
+  abstracts those terms *inside* the types of `S`, `W`, `ψ`, forcing `set` to
+  revert and reintroduce them — the binder comes back as inaccessible `S✝` and a
+  later `exact`/`show` against the original `S` fails with a type mismatch. Only
+  `set` the term that does **not** appear in any in-scope binder's type (here the
+  centralizer `C`); leave `symGroupImage`/`TensorPower` written out literally.
+
+- **`Algebra.adjoin_induction` over a `Subalgebra` element: `obtain ⟨cval, hcmem⟩
+  := c` up front (Ch5, #4731).** The predicate
+  `p := fun x _ => ∀ (hx : x ∈ C) …, … (⟨x, hx⟩ : ↥C) • l …` produces a goal in
+  the `⟨cval, hcmem⟩` shape; if `c : ↥C` is still bundled, the final
+  `… hgen c.2 l` leaves `ψ (⟨↑c, _⟩ • l) = …` versus goal `ψ (c • l) = …`, which
+  is only `Subtype`-eta-defeq and a `show`/`exact` bridge **times out** (or hits
+  the `c✝` shadow from a prior `set`). Destructuring `c` first makes the goal
+  literally match. Mirror the model proof
+  `submodule_smul_mem_diagonalActionImage_of_unit_smul_mem`
+  (`SchurWeylGLTransfer.lean`); since the generating set is the *units* one
+  (`adjoin_unitsTensorPow_eq_diagonalActionImage`), no inner
+  `Submodule.span_induction` is needed. In the `mul` case apply the IH to the
+  *bundled* `(⟨y, hyC⟩ : ↥C) • l`, never the raw `y • l` (no `HSMul (End …)
+  (hom-space)`). These heavy `Module.End (TensorPower)` chains need
+  `maxHeartbeats 6400000 / synthInstance.maxHeartbeats 3200000`, matching the
+  source theorems.
 
 ### Fraction-field bridge: principal open shares the polynomial ring's k(g) (Ch6, #4783)
 
@@ -1742,6 +2088,8 @@ When promoting a `k`-linear intertwiner to a `MonoidAlgebra k G`-linear equivale
 
 The `map_smul'` of the `asModule`-to-`asModule` aux reduces to the carrier-level intertwiner via `rw [single_smul, single_smul, map_smul]; simp only [Representation.asModuleEquiv]; congr 1; exact <intertwiner>` (`asModuleEquiv` is `LinearEquiv.refl`, so it normalizes away with the def-unfold alone — `LinearEquiv.refl_apply` is then an unused simp arg).
 
+**Dot notation on a `Representation`-typed value resolves to `MonoidHom`, not your `Representation.*` lemmas.** `Representation k G V` is definitionally `G →* (V →ₗ[k] V)`, so for `ρ : Representation k G V` the term `ρ.myLemma` elaborates as `MonoidHom.myLemma ρ` and fails with `Invalid field 'myLemma': … does not contain MonoidHom.myLemma`. Even when you *defined* `Representation.myLemma`, you must call it with the **fully-qualified name** `Representation.myLemma ρ …` (not `ρ.myLemma`). This bit me defining `Representation.stableSubmodule` (#4902) — both the definition's own `@[simp]` mem-lemma and every call site needed the explicit `Representation.stableSubmodule ρ …` form.
+
 ## FDRep Morphism Extensionality Patterns
 
 FDRep morphisms are `Action.Hom` wrapping `FGModuleCat.Hom` wrapping `ModuleCat.Hom` wrapping `LinearMap`. Proving `f = g` for FDRep morphisms requires decomposing through all layers.
@@ -2564,3 +2912,109 @@ With both, containments come from pure invariance chaining
 (`hW₁_inv a20 _ (hW₁_inv a32 _ (hW₁_inv a43 p hp))`) and injectivity descends via
 `simp only [LinearMap.comp_apply, rep, repMap] at h` then the concrete
 `*ArmComp_F_injective` (term-mode defeq unfolds the `match` at the leaves).
+
+## Bundled-hom defeq blowup: `ρ g f = underlyingHom f` is cheap *only* in the defining file
+
+`polyRightRep g f = rTransAlgHom (↑g) f` (a `Representation` applied, vs the
+underlying `AlgHom`) holds by `rfl`. But proving it as a fresh `have ... := rfl`
+— or relying on the defeq through `exact`/`show` — in a **downstream** file
+**diverges at `whnf`** (times out even at 1.6M heartbeats): reconciling the two
+FunLike coercion paths (`Representation`/`LinearMap` vs `AlgHom`) forces Lean to
+whnf into `aeval`/the underlying function. The identical `rfl` is cheap *inside*
+the file where the rep is defined (its `_apply_X` lemmas already use it).
+
+Fix: put the equation as a named lemma in the **defining** file
+(`theorem foo_apply (g) (f) : ρ g f = underlyingHom (↑g) f := rfl`), then
+downstream use `rw [foo_apply]` — the proof is already compiled, so no `rfl`
+re-elaboration. After the `rw`, close with the underlying lemma but let Lean
+**infer the matrix/group argument with `_`** (`exact bar _ hf`, not `bar (↑g) hf`):
+pinning `↑g` yourself reintroduces a second coercion spelling and re-triggers the
+same whnf blowup. Symptom to recognize: `(deterministic) timeout at whnf` on a
+line that is "obviously" `rfl` or a trivial `exact`.
+
+**Same trap when proving `Commute`/equality *of* such endos** (e.g. left and
+right `GL_N`-actions on `k[Xᵢⱼ]` commute). `exact AlgHom.congr_fun h_comp f` —
+where `h_comp` equates the underlying `AlgHom.comp`s — blows up `whnf` (even at
+6.4M heartbeats): Lean reconciles the `Module.End` product form against the
+applied form through `aeval`. Make every step syntactic instead:
+1. `apply LinearMap.ext; intro f` — **not** bare `ext f`, which over-applies into
+   `MvPolynomial` *coefficient* extensionality (`f` becomes a `Finsupp` exponent).
+2. `rw [Module.End.mul_apply, Module.End.mul_apply, ρ_apply, σ_apply, …]` (all
+   `rfl`-lemmas) to reach the applied form on both sides.
+3. Normalise the underlying lemma the same way and close by matching, not defeq:
+   `have h2 := AlgHom.congr_fun h_comp f; rw [AlgHom.comp_apply, AlgHom.comp_apply] at h2; exact h2`.
+With the fully-syntactic route the proof needs **no** `maxHeartbeats` bump at all.
+
+## Extracting a simple sub-representation from an infinite-dim graded rep (#4922)
+
+`Chapter5/SimpleSubrepExtraction.lean` builds `exists_simple_subrep_of_quotDetRep`
+— from a nonzero `GL_N`-invariant submodule of `A/det` (infinite-dim) produce a
+simple `FDRep` constituent with an injective equivariant embedding. Reusable recipe
+when you need a *simple sub-representation* and `Theorem5_23_2_i` only gives the
+vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
+
+- **Finite-dim reduction in a graded rep:** lift a nonzero `w` to a polynomial of
+  total degree `D`; `MvPolynomial.restrictTotalDegree σ k D` is a ready
+  `Module.Finite k` submodule (instance), and the degree-preserving action keeps it
+  invariant (decompose into `homogeneousComponent`s + `IsHomogeneous.totalDegree_le`).
+  Push it through `mkQ` (`Module.Finite.map` is an instance) and intersect with the
+  invariant `W` for a *nonzero, finite-dim, invariant* `M₀ ≤ W`.
+- **Atom = simple sub-rep (the reusable lemma `Etingof.exists_isSimpleModule_le`):**
+  a nonzero `k[G]`-submodule of `ρ.asModule` finite over `k` is Artinian over `k[G]`
+  via `isArtinian_of_tower k inferInstance` (needs `IsScalarTower k k[G] ↥W`,
+  auto), so `isAtomic_of_orderBot_wellFounded_lt IsWellFounded.wf` gives an atom;
+  `isSimpleModule_iff_isAtom.mpr` + push forward along `W.subtype`
+  (`Submodule.equivMapOfInjective ... |>.symm` + `IsSimpleModule.congr`) gives the
+  simple submodule. (`IsArtinian` is an `abbrev` for `WellFoundedLT (Submodule …)`,
+  so `IsWellFounded.wf` supplies the `WellFounded` term directly.)
+- **`asModule` ↔ `asSubmodule` simplicity bridge:** packaging the atom as an
+  `FDRep.of σ.toRepresentation` forces proving `IsSimpleModule k[G]
+  (σ.toRepresentation).asModule`, which is NOT defeq to `IsSimpleModule k[G]
+  ↥σ.asSubmodule` (the `Module k[G]` instances differ — `:= h` fails). Build the
+  k[G]-linear equiv `(σ.toRepresentation).asModule ≃ₗ[k[G]] ↥σ.asSubmodule` by hand:
+  carriers coincide on `σ.toSubmodule` (use `σ.toRepresentation.asModuleEquiv`, which
+  is `LinearEquiv.refl`, to access `.1`/`.2`); `map_smul'` reduces via
+  `MonoidAlgebra.induction_linear`, and the `single g t` case closes by **`rfl`**
+  after `rw [Representation.single_smul, Representation.single_smul]` (both sides are
+  `t • ρ g y`). Then `IsSimpleModule.congr`. Mathlib's
+  `Subrepresentation.{asSubmodule, ofSubmodule', subrepresentationSubmoduleOrderIso}`
+  give the order iso between subrepresentations and `Submodule k[G] ρ.asModule`.
+- **Gotcha:** `MvPolynomial.mem_restrictTotalDegree` takes the index type `σ` and
+  the degree `m` as *explicit* positional args before `p` (`mem_restrictTotalDegree
+  (Fin N × Fin N) D p`), even though `R` is implicit — term-mode calls need all
+  three. `rw` forms infer them fine.
+- **`open MvPolynomial` inside `namespace Etingof.*` opens the WRONG namespace.**
+  `EvalEqOnGL.lean` declares an `Etingof.MvPolynomial` namespace, so a bare
+  `open MvPolynomial` inside any `namespace Etingof.Foo` resolves to *that* (the
+  relative match wins), and `monomial`/`coeff`/`C` come up as "unknown identifier"
+  (autoImplicit then mis-reports them as "function expected at monomial"). Use
+  `open _root_.MvPolynomial`. Same trap for any root namespace shadowed by an
+  `Etingof.<Name>` subnamespace.
+- **Reading the underlying object from an `FDRep.of σ.toRepresentation` carrier:**
+  `(FDRep.of ρ').ρ g w`'s coercion to the ambient type is not auto-inserted, but the
+  carrier is defeq to `↥σ.toSubmodule`, so `σ.toSubmodule.subtype` typechecks directly
+  as a `LinearMap` *from the FDRep carrier* (`def polyOf := (homog…).subtype`). Use it
+  to read elements / the `.ρ` action on the ambient module (`polyOf (M.ρ g w) =
+  ambientRep g (polyOf w)` holds by `rfl`), sidestepping all `.V`/`FGModuleCat` coe pain.
+- **`rw` won't close `finrank ↥A = finrank ↥A` when `A` came from rewriting across two
+  *defeq-but-distinct* FDRep carriers** (e.g. after `rw [glWeightSpace_twistFDRep_pos]`
+  turning `glWeightSpace twistFDRep μ` into `glWeightSpace polyRightDegreeFDRep …`): the
+  two `↥(...)` carry mismatched `Module` instances, so the post-`rw` `rfl` silently fails
+  and you get "unsolved goals ⊢ ↑A = ↑A". Close it with a `congrArg` term instead:
+  `Nat.cast_inj.mpr (congrArg (fun w => Module.finrank k (glWeightSpace k N M w)) hweight)`
+  (or prove the `ℕ` equality first to dodge the extra `Nat.cast` layer). Same fix for any
+  `finrank`/`glWeightSpace` equality that "should be `rfl`" but isn't.
+- **Stars-and-bars count:** `#{f : Fin N → ℕ | ∑ f = m}` is `Finset.piAntidiag univ m`;
+  its card is `Nat.multichoose N m` via `Finset.map_sym_eq_piAntidiag` +
+  `Finset.sym_univ` + `Sym.card_sym_fin_eq_multichoose`. Then
+  `Nat.multichoose_eq`/`Nat.choose_symm` give `= C(m+N-1, N-1)` (needs `N ≥ 1`, which
+  `Fin.pos j` supplies inside a `∏ j : Fin N`). For a product of independent column
+  counts, biject to `Fintype.piFinset (fun j => piAntidiag …)` and use
+  `Fintype.card_piFinset`.
+
+**Workflow note:** `lake build <YourNewLeafModule>` is authoritative for a leaf file
+that nothing else imports; building the *chapter aggregator* rebuilds all ~120
+project files from source (`lake exe cache get` only fetches Mathlib oleans, not the
+project's), which is slow and adds no signal for a leaf addition. After a clean
+standalone build, just grep for declaration-name collisions and trust CI for the
+full graph rather than waiting on the aggregator locally.

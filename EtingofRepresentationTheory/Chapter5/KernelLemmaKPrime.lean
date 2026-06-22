@@ -30,13 +30,21 @@ det⁻¹-elimination kernel lemma (K) (issue #4694, route doc
 
 ## The statement
 
-`kernelLemmaK'` : for `r ≥ 1` the supremum of all **nonnegative**-weight spaces
-of `(A/det) ⊗ χ⁻ʳ` is `⊥`. Equivalently (`kernelLemmaK'_submodule`), every
-right-`GL_N`-submodule all of whose torus weights lie in `ℕ^N` is `⊥`.
+`kernelLemmaK'` : for `r ≥ 1`, every right-`GL_N`-**subrepresentation** `W` of
+`(A/det) ⊗ χ⁻ʳ` all of whose torus weights lie in `ℕ^N` is `⊥`. The consumable
+corollary `kernelLemmaK'_submodule` rephrases this for an explicitly
+`GL_N`-invariant submodule.
 
 This is the form the #4694 det-power-filtration assembly consumes: the assembly
-produces a *nonzero* nonneg-weight submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and (K′)
-contradicts it.
+produces a *nonzero* nonneg-weight invariant submodule `W̄ ⊆ (A/det) ⊗ χ⁻ʳ`, and
+(K′) contradicts it.
+
+**Statement correction (issue #4847).** An earlier phrasing — "the supremum of
+all nonneg-weight *spaces* of `(A/det) ⊗ χ⁻ʳ` is `⊥`" — is **false**: a single
+nonneg-weight vector (e.g. the class of `X₁₁X₂₂`, weight `(0,0)` after the `χ⁻¹`
+twist) exists inside an irreducible whose `GL_N`-orbit also realizes negative
+weights. `GL_N`-invariance of `W` is essential and cannot be dropped; see the
+`kernelLemmaK'` docstring.
 
 ## Status
 
@@ -147,34 +155,144 @@ noncomputable def glWeightSpaceℤ (k : Type*) [Field k] (N : ℕ) {V : Type*}
   ⨅ (i : Fin N) (t : kˣ),
     LinearMap.ker (ρ (diagUnit k N i t) - (((t ^ μ i : kˣ) : k)) • LinearMap.id)
 
-/-! ### The kernel lemma (K′) -/
+/-! ### Reduction of (K′) to a lowest-weight existence core
 
-/-- **Kernel lemma (K′).** For `r ≥ 1`, the supremum of all *nonnegative*-weight
-spaces of the twisted quotient representation `(A/det) ⊗ χ⁻ʳ` is `⊥`: it has no
-nonzero vector whose right-torus weight lies in `ℕ^N`.
+`kernelLemmaK'` is assembled from two genuinely independent facts, isolating the
+research-level core from elementary linear algebra:
 
-The mathematics: by the `GL×GL`-equivariant Cauchy decomposition every
-irreducible constituent of `A/det = k[Xᵢⱼ]/(det)` has last highest-weight
-coordinate `ν_N = 0`; twisting by `χ⁻ʳ` (weight `(−r,…,−r)`) makes the last
-coordinate `ν_N − r = −r < 0`, so no weight is `≥ 0`. This Cauchy-decomposition
-core is tracked as a research-level residual `sorry` (follow-up sub-issue of
-#4826); the statement and all the objects it quantifies over are in place. -/
-theorem kernelLemmaK' (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
-    (r : ℕ) (hr : 1 ≤ r) :
-    (⨆ (μ : Fin N → ℕ), glWeightSpaceℤ k N (quotDetTwistRep k N r)
-      (fun i => (μ i : ℤ))) = ⊥ := by
-  sorry
+* `glWeightSpaceℤ_neg_not_mem_nonneg_span` (**elementary, glue**) — a nonzero
+  vector whose torus weight `μ` has a negative coordinate cannot lie in the span
+  of the nonnegative-weight spaces. This is the linear independence of distinct
+  torus weight spaces: the `ℕ^N`-weight span never reaches a strictly-negative
+  weight vector.
+* `quotDetTwist_nonzero_subrep_has_neg_weight` (**the genuine core**) — every
+  *nonzero* subrepresentation of `(A/det) ⊗ χ⁻ʳ` (`r ≥ 1`) contains a nonzero
+  torus-weight vector whose weight has a negative coordinate. This is the
+  highest/lowest-weight + `GL×GL`-equivariant Cauchy content: by complete
+  reducibility the subrep contains an irreducible `L` with highest weight `ν`,
+  the Cauchy decomposition forces `ν_N = 0` (constituents of `A/det`), and the
+  lowest weight of `L` (twisted) realizes the negative coordinate `−r` after the
+  `χ⁻ʳ` shift. It is tracked as a research-level residual `sorry` and decomposed
+  in a follow-up sub-issue; the `det · A ≅ A ⊗ χ` shift half is already
+  sorry-free in `DetShiftIso.lean`.
 
-/-- Consumable form of (K′): every submodule of `(A/det) ⊗ χ⁻ʳ` all of whose
-torus weights lie in `ℕ^N` (i.e. contained in the supremum of nonneg-weight
-spaces) is `⊥`. This is what the #4694 det-power-filtration assembly contradicts:
-it produces a *nonzero* such submodule. -/
-theorem kernelLemmaK'_submodule (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
-    (N : ℕ) (r : ℕ) (hr : 1 ≤ r)
-    {W : Submodule k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N)}
-    (hW : W ≤ ⨆ (μ : Fin N → ℕ),
-      glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (μ i : ℤ))) :
-    W = ⊥ :=
-  le_bot_iff.mp (le_of_le_of_eq hW (kernelLemmaK' k N r hr))
+Given both, (K′) is immediate: a nonzero subrep with all weights `≥ 0` would, by
+the core, contain a negative-weight vector, which the glue lemma forbids. -/
+
+/-- **Glue (elementary).** A nonzero vector `v` lying in the integer weight space
+`glWeightSpaceℤ … μ` for a weight `μ` with some negative coordinate cannot lie in
+the supremum of the nonnegative-weight spaces `⨆_{ν ∈ ℕ^N} glWeightSpaceℤ … ν`.
+
+This is the linear independence of distinct torus weight spaces: the diagonal
+torus acts on `glWeightSpaceℤ … μ` by the character `t ↦ t^{μ i}` and on each
+`glWeightSpaceℤ … ν` (`ν ∈ ℕ^N`) by `t ↦ t^{ν i}`; since `μ` has a coordinate
+`< 0` it differs from every `ν ∈ ℕ^N`, so the weight spaces are independent and
+`v ≠ 0` cannot be a finite sum of nonneg-weight vectors. -/
+theorem glWeightSpaceℤ_neg_not_mem_nonneg_span (k : Type*) [Field k] [CharZero k]
+    (N : ℕ) (r : ℕ) (μ : Fin N → ℤ) (hμ : ∃ i, μ i < 0)
+    {v : MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N}
+    (hv0 : v ≠ 0) (hv : v ∈ glWeightSpaceℤ k N (quotDetTwistRep k N r) μ) :
+    v ∉ ⨆ (ν : Fin N → ℕ),
+      glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (ν i : ℤ)) := by
+  obtain ⟨i, hi⟩ := hμ
+  set ρ := quotDetTwistRep k N r with hρ
+  -- The infinite-order torus element `t₀ = 2` (`k` has characteristic zero) and the
+  -- single torus operator `T = ρ(diag i t₀)` whose eigenspaces separate the weights.
+  set t₀ : kˣ := Units.mk0 (2 : k) (by norm_num) with ht₀def
+  have hcoe : ((t₀ : k)) = 2 := by rw [ht₀def]; rfl
+  set T : Module.End k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) :=
+    ρ (diagUnit k N i t₀) with hT
+  -- The `i`-th torus eigenvalue attached to an integer weight.
+  set e : ℤ → k := fun a => ((t₀ ^ a : kˣ) : k) with he
+  -- Any weight-`η` vector is a `T`-eigenvector with eigenvalue `e (η i)`.
+  have key : ∀ (w : MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N) (η : Fin N → ℤ),
+      w ∈ glWeightSpaceℤ k N ρ η → T w = e (η i) • w := by
+    intro w η hw
+    have hw' : w ∈ LinearMap.ker (ρ (diagUnit k N i t₀)
+        - (((t₀ ^ η i : kˣ) : k)) • LinearMap.id) :=
+      (Submodule.mem_iInf _).1 ((Submodule.mem_iInf _).1 hw i) t₀
+    rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      sub_eq_zero] at hw'
+    exact hw'
+  -- `e` is injective: `n ↦ 2^n` is injective over `ℚ` and `ℚ → k` is injective.
+  have he_inj : Function.Injective e := by
+    have htrans : ∀ n : ℤ, (2 : k) ^ n = algebraMap ℚ k ((2 : ℚ) ^ n) := by
+      intro n; rw [map_zpow₀, map_ofNat]
+    intro a b hab
+    have h2 : (2 : k) ^ a = (2 : k) ^ b := by
+      simpa only [he, Units.val_zpow_eq_zpow_val, hcoe] using hab
+    rw [htrans, htrans] at h2
+    have hQ : (2 : ℚ) ^ a = (2 : ℚ) ^ b := (algebraMap ℚ k).injective h2
+    exact zpow_right_injective₀ (by norm_num) (by norm_num) hQ
+  -- Eigenspace independence: `v` (eigenvalue `e (μ i)`, `μ i < 0`) cannot lie in the span
+  -- of the nonneg-weight spaces (eigenvalues `e m`, `m ∈ ℕ`).
+  intro hv_sup
+  have hμ_eig : v ∈ Module.End.eigenspace T (e (μ i)) :=
+    Module.End.mem_eigenspace_iff.2 (key v μ hv)
+  have hsup_le : (⨆ (ν : Fin N → ℕ), glWeightSpaceℤ k N ρ (fun j => (ν j : ℤ)))
+      ≤ ⨆ c ∈ Set.range (fun m : ℕ => e (m : ℤ)), Module.End.eigenspace T c := by
+    refine iSup_le fun ν w hw => ?_
+    refine Submodule.mem_iSup_of_mem (e ((ν i : ℤ))) ?_
+    exact Submodule.mem_iSup_of_mem ⟨ν i, rfl⟩
+      (Module.End.mem_eigenspace_iff.2 (key w (fun j => (ν j : ℤ)) hw))
+  have hnot : e (μ i) ∉ Set.range (fun m : ℕ => e (m : ℤ)) := by
+    rintro ⟨m, hm⟩
+    have := he_inj hm
+    omega
+  have hdis := (Module.End.eigenspaces_iSupIndep T).disjoint_biSup hnot
+  have hbot := disjoint_iff.1 hdis
+  have : v ∈ (⊥ : Submodule k _) :=
+    hbot ▸ Submodule.mem_inf.2 ⟨hμ_eig, hsup_le hv_sup⟩
+  exact hv0 ((Submodule.mem_bot _).1 this)
+
+/-- **Weight-space shift under the `χ⁻ʳ` twist.** Twisting `A/det` by `detChar⁻ʳ`
+shifts every torus weight down by `(r,…,r)`: a vector is a weight-`μ` vector of the
+twisted rep `(A/det) ⊗ χ⁻ʳ` exactly when it is a weight-`(μ + r)` vector of the
+untwisted quotient `A/det`. Indeed `det (diagUnit i t) = t`, so the twist rescales
+the diagonal action `diagUnit i t` by the scalar `t⁻ʳ` uniformly in `i`, sending a
+`t^{μ i + r}`-eigenvector of `quotDetRep` to a `t^{μ i}`-eigenvector of the twist.
+
+This is the bookkeeping ingredient that the lowest/highest-weight realization core
+(`quotDetTwist_nonzero_subrep_has_neg_weight`) uses to convert a weight-`ν` vector
+of `A/det` (with `ν ∈ ℕ^N`, `ν_N = 0`) into a weight-`(ν − r)` vector of the twist
+whose last coordinate `ν_N − r = −r` is negative. -/
+theorem glWeightSpaceℤ_quotDetTwist (k : Type*) [Field k] (N : ℕ) (r : ℕ)
+    (μ : Fin N → ℤ) :
+    glWeightSpaceℤ k N (quotDetTwistRep k N r) μ =
+      glWeightSpaceℤ k N (quotDetRep k N) (fun i => μ i + r) := by
+  simp only [glWeightSpaceℤ]
+  refine iInf_congr fun i => iInf_congr fun t => ?_
+  set g := diagUnit k N i t with hg
+  -- `det (diagUnit i t) = t`, so the twist evaluates to `t⁻ʳ • quotDetRep g`.
+  have hdet : detChar k N g = t := by
+    ext
+    change Matrix.det g.val = (t : k)
+    simp only [hg, diagUnit, Matrix.det_diagonal,
+      Finset.prod_update_of_mem (Finset.mem_univ i), Pi.one_apply]
+    simp [Finset.prod_eq_one (fun j _ => rfl)]
+  set c : k := ((t ^ (-(r : ℤ)) : kˣ) : k) with hc
+  have hcne : c ≠ 0 := Units.ne_zero _
+  have htwist : quotDetTwistRep k N r g = c • quotDetRep k N g := by
+    show ((detChar k N ^ (-(r : ℤ))) g : k) • quotDetRep k N g = _
+    rw [MonoidHom.zpow_apply, hdet]
+  -- The two diagonal-action eigenscalars are related by `c`: `c · t^{μ i + r} = t^{μ i}`.
+  have hscal : c * ((t ^ (μ i + (r : ℤ)) : kˣ) : k) = ((t ^ μ i : kˣ) : k) := by
+    have hexp : (-(r : ℤ)) + (μ i + (r : ℤ)) = μ i := by ring
+    rw [hc, ← Units.val_mul, ← zpow_add, hexp]
+  -- Factor the twisted operator through `c`, then strip the nonzero scalar off the kernel.
+  have factored : quotDetTwistRep k N r g - ((t ^ μ i : kˣ) : k) • LinearMap.id =
+      c • (quotDetRep k N g - ((t ^ (μ i + (r : ℤ)) : kˣ) : k) • LinearMap.id) := by
+    rw [htwist, smul_sub, smul_smul, hscal]
+  rw [factored, LinearMap.ker_smul _ _ hcne]
+
+/-! ### The kernel lemma (K′) — assembled in `KernelLemmaKPrimeAssembly.lean`
+
+The genuine core `quotDetTwist_nonzero_subrep_has_neg_weight`, together with the
+consumers `kernelLemmaK'` and `kernelLemmaK'_submodule`, is assembled in
+`KernelLemmaKPrimeAssembly.lean`. That file imports `CauchyDetQuotient` (the
+`ν_N = 0` part (a)) and `SimpleSubrepExtraction` (the simple-constituent
+extraction), both of which import *this* file, so the assembly cannot live here
+without an import cycle. The elementary glue `glWeightSpaceℤ_neg_not_mem_nonneg_span`
+above stays here, where the assembly reuses it. -/
 
 end Etingof.KernelLemmaKPrime

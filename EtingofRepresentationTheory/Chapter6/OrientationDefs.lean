@@ -40,6 +40,44 @@ def Etingof.IsOrientationOf {n : ℕ} (Q : Quiver (Fin n))
   (∀ i j : Fin n, adj i j = 1 → Nonempty (Q.Hom i j) ∨ Nonempty (Q.Hom j i)) ∧
   (∀ i j : Fin n, Nonempty (Q.Hom i j) → Nonempty (Q.Hom j i) → False)
 
+/-- The **standard orientation** of a simple graph `adj`: orient each edge `i — j`
+as the arrow `i ⟶ j` whenever `i < j`. Every simple graph admits an orientation, so
+this gives a canonical witness for the forward direction of Gabriel's theorem, where
+only the existence of *some* orientation of the abstract adjacency matrix is needed. -/
+def Etingof.standardOrientation {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) :
+    Quiver (Fin n) where
+  Hom i j := PLift (adj i j = 1 ∧ i < j)
+
+instance Etingof.standardOrientation_subsingleton {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ) (a b : Fin n) :
+    Subsingleton (@Quiver.Hom (Fin n) (Etingof.standardOrientation adj) a b) :=
+  ⟨fun ⟨_⟩ ⟨_⟩ => rfl⟩
+
+/-- The standard orientation is indeed an orientation of `adj`, for any symmetric
+`0/1` adjacency matrix with zero diagonal. -/
+theorem Etingof.standardOrientation_isOrientationOf {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ) (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0) :
+    Etingof.IsOrientationOf (Etingof.standardOrientation adj) adj := by
+  have adj_symm : ∀ i j, adj i j = adj j i := by
+    intro i j
+    have := congr_fun (congr_fun hsymm j) i
+    simpa [Matrix.transpose_apply] using this
+  refine ⟨fun i j hij => ?_, fun i j hij => ?_, fun i j hi hj => ?_⟩
+  · -- non-edges carry no arrows
+    constructor
+    rintro ⟨⟨he, _⟩⟩
+    exact hij he
+  · -- each edge is oriented in exactly one direction
+    have hne : i ≠ j := by
+      rintro rfl; rw [hdiag] at hij; exact one_ne_zero hij.symm
+    rcases lt_or_gt_of_ne hne with h | h
+    · exact Or.inl ⟨⟨hij, h⟩⟩
+    · exact Or.inr ⟨⟨by rw [adj_symm]; exact hij, h⟩⟩
+  · -- no edge is oriented both ways
+    obtain ⟨⟨_, hlt⟩⟩ := hi
+    obtain ⟨⟨_, hgt⟩⟩ := hj
+    exact absurd (hlt.trans hgt) (lt_irrefl i)
+
 /-- Reversing all arrows at a vertex preserves the orientation property. -/
 lemma Etingof.reversedAtVertex_isOrientationOf
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}

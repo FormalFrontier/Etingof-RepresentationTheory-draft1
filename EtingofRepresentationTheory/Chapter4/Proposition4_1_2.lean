@@ -50,11 +50,17 @@ theorem Etingof.Proposition4_1_2
   -- Λ ≠ 0
   have hΛne : Λ ≠ 0 := by
     intro heq
-    have h1 : (Λ : G →₀ k) 1 = 0 := by rw [heq]; rfl
-    rw [hΛ_def, Finsupp.coe_finset_sum, Finset.sum_apply] at h1
-    simp only [Finsupp.single_apply] at h1
-    rw [Finset.sum_ite_eq'] at h1
-    simp at h1
+    let evalOne : MonoidAlgebra k G →+ k :=
+      { toFun := fun x => x 1
+        map_zero' := rfl
+        map_add' := by intro x y; rfl }
+    have h1 : evalOne Λ = 0 := by rw [heq]; rfl
+    have hΛ1 : evalOne Λ = 1 := by
+      rw [hΛ_def]
+      rw [map_sum]
+      simp [evalOne, MonoidAlgebra.single_apply]
+    rw [hΛ1] at h1
+    exact one_ne_zero h1
   -- Centrality: Λ is in the center
   have hΛcentral : ∀ x : MonoidAlgebra k G, Λ * x = x * Λ := by
     intro x

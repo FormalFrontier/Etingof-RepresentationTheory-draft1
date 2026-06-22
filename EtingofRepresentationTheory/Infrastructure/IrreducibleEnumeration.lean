@@ -189,7 +189,8 @@ noncomputable def IrrepDecomp.columnFDRep [NeZero (Nat.card G : k)]
 lemma IrrepDecomp.finrank_columnFDRep [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
     Module.finrank k (D.columnFDRep i) = D.d i := by
-  simp [columnFDRep, FDRep.of]
+  rw [show Module.finrank k (D.columnFDRep i) = Module.finrank k (Fin (D.d i) → k) from rfl]
+  exact Module.finrank_fin_fun k
 
 /-! ### Bridge: IsSimpleModule → Simple (FDRep) -/
 
@@ -264,15 +265,19 @@ noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Na
       simp only [Submodule.mem_bot]
       constructor
       · intro hx
-        have : (D.columnRep i).asModuleEquiv x ∈ m'.carrier := by simpa using hx
-        rw [h] at this; simp at this
-        exact (D.columnRep i).asModuleEquiv.injective this
+        have hmem : (D.columnRep i).asModuleEquiv x ∈ m'.carrier := by
+          change (D.columnRep i).asModuleEquiv.symm ((D.columnRep i).asModuleEquiv x) ∈ m
+          rw [LinearEquiv.symm_apply_apply]; exact hx
+        rw [h] at hmem; simp at hmem
+        exact (D.columnRep i).asModuleEquiv.injective hmem
       · intro hx; rw [hx]; exact m.zero_mem
     | inr h =>
       right; ext x
       simp only [Submodule.mem_top, iff_true]
-      have : (D.columnRep i).asModuleEquiv x ∈ m'.carrier := by rw [h]; exact Submodule.mem_top
-      simpa using this
+      have hmem : (D.columnRep i).asModuleEquiv x ∈ m'.carrier := by
+        rw [h]; exact Submodule.mem_top
+      have h2 : (D.columnRep i).asModuleEquiv.symm ((D.columnRep i).asModuleEquiv x) ∈ m := hmem
+      rwa [LinearEquiv.symm_apply_apply] at h2
 
 /-- If `ρ.asModule` is simple over k[G], then `FDRep.of ρ` is Simple in FDRep k G. -/
 private noncomputable instance FDRep.simple_of_isSimpleModule_asModule [NeZero (Nat.card G : k)]
@@ -487,8 +492,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     -- endo acts as c_i • id on W, so endo(w) = c_i • w for all w
     have hcv : ∀ w : W.V, (D.centralIdemEndo W i).hom.hom w = c i • w := by
       intro w
-      have := congr_fun (congr_arg (fun f => f.hom.hom) (hc i).symm) w
-      simpa using this
+      exact congr_fun (congr_arg (fun f => f.hom.hom) (hc i).symm) w
     have hpt : ∀ v : W.V,
         (c i * c i - c i) • v = 0 := by
       intro v
@@ -520,8 +524,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     have hcv' : ∀ (i : Fin D.n) (w : W.V),
         (D.centralIdemEndo W i).hom.hom w = c i • w := by
       intro j w
-      have := congr_fun (congr_arg (fun f => f.hom.hom) (hc j).symm) w
-      simpa using this
+      exact congr_fun (congr_arg (fun f => f.hom.hom) (hc j).symm) w
     -- For any v: (∑ c_i) • v = ∑ c_i • v = ∑ e_i(v) = (∑ e_i)(v) = id(v) = v
     have hsum_pt : ∀ v : W.V, (∑ i, c i) • v = v := by
       intro v
@@ -570,8 +573,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
   have hid_pt : ∀ w : W,
       Representation.asAlgebraHom W.ρ (D.centralIdem i₀) w = w := by
     intro w
-    have := congr_arg (fun f => f.hom.hom w) hid
-    simpa [centralIdemEndo] using this
+    exact congr_arg (fun f => f.hom.hom w) hid
   -- Key algebraic identity: e_{i₀} * a = iso.symm (Pi.single i₀ (projRingHom i₀ a))
   have heidem_mul : ∀ a : MonoidAlgebra k G,
       D.centralIdem i₀ * a = D.iso.symm (Pi.single i₀ (D.projRingHom i₀ a)) := by
@@ -700,8 +702,7 @@ theorem IrrepDecomp.columnFDRep_surjective [NeZero (Nat.card G : k)]
     -- fHom = 0 means the underlying hom is 0
     have h2 : ∀ v : Fin (D.d i₀) → k, ∑ j, v j • φ j = 0 := by
       intro v
-      have := congr_arg (fun (f : D.columnFDRep i₀ ⟶ W) => f.hom.hom v) h
-      simpa [fHom] using this
+      exact congr_arg (fun (f : D.columnFDRep i₀ ⟶ W) => f.hom.hom v) h
     specialize h2 (Pi.single (M := fun _ => k) j₀ 1)
     -- φ j₀ = ∑ j, (Pi.single j₀ 1) j • φ j  (only j₀ term survives)
     have hs : ∑ j, (Pi.single (M := fun _ => k) j₀ 1) j • φ j = φ j₀ := by

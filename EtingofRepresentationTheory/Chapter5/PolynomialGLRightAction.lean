@@ -97,6 +97,13 @@ noncomputable def polyRightRep (k : Type*) [CommRing k] (N : ℕ) :
       = ∑ l, (g : Matrix (Fin N) (Fin N) k) l j • MvPolynomial.X (i, l) :=
   rTransAlgHom_X _ i j
 
+/-- The right-translation representation acts as the algebra endomorphism
+`rTransAlgHom`: `polyRightRep g f = rTransAlgHom (↑g) f`. -/
+theorem polyRightRep_apply (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (f : MvPolynomial (Fin N × Fin N) k) :
+    polyRightRep k N g f = rTransAlgHom (↑g) f :=
+  rfl
+
 /-- The generic determinant matrix `(rTransAlgHom M).mapMatrix mvPolynomialX`
 equals `mvPolynomialX * M.map C`: applying the column-mixing substitution to the
 generic matrix of variables is right multiplication by the constant matrix `M`. -/
@@ -134,5 +141,46 @@ theorem rTransAlgHom_mem_detIdeal (M : Matrix (Fin N) (Fin N) k)
   obtain ⟨q, rfl⟩ := hf
   rw [map_mul, rTransAlgHom_det]
   exact ⟨MvPolynomial.C M.det * rTransAlgHom M q, by ring⟩
+
+/-! ## The diagonal torus acts diagonally on monomials
+
+The right action mixes columns, so a **diagonal** matrix `diag(v)` scales each
+coordinate `X_{ij}` by the column entry `v_j`. Hence every monomial is a
+right-torus eigenvector: the monomial `X^s` is scaled by `∏_{(i,j)} v_j^{s(i,j)}`,
+whose torus weight is the vector of **column degrees** `μ_j = ∑_i s(i,j)`. This is
+the eigenbasis underlying the weight-space computation of the Cauchy character
+identity (`CauchyCharacterRight.lean`). -/
+
+/-- A **diagonal** matrix acts on a coordinate by scaling: `R_{diag v} X_{ij} = v_j • X_{ij}`.
+The right action mixes columns, so the diagonal entry `v_j` of column `j` is the
+eigenvalue of `X_{ij}` for every row `i`. -/
+@[simp] theorem rTransAlgHom_diagonal_X (v : Fin N → k) (p : Fin N × Fin N) :
+    rTransAlgHom (Matrix.diagonal v) (MvPolynomial.X p)
+      = v p.2 • MvPolynomial.X p := by
+  obtain ⟨i, j⟩ := p
+  rw [rTransAlgHom_X, Finset.sum_eq_single j]
+  · rw [Matrix.diagonal_apply_eq]
+  · intro l _ hl
+    rw [Matrix.diagonal_apply_ne v hl, zero_smul]
+  · intro h; exact absurd (Finset.mem_univ j) h
+
+/-- A **diagonal** matrix acts on a monomial by the scalar `∏_{(i,j)} v_j^{s(i,j)}`
+(the product of the column-coordinate weights), so every monomial is a right-torus
+eigenvector. Its torus weight is the vector of **column degrees**
+`μ_j = ∑_i s(i,j)`: collecting the product over rows, the eigenvalue is
+`∏_j v_j^{μ_j}`. -/
+theorem rTransAlgHom_diagonal_monomial (v : Fin N → k)
+    (s : (Fin N × Fin N) →₀ ℕ) (c : k) :
+    rTransAlgHom (Matrix.diagonal v) (MvPolynomial.monomial s c)
+      = (s.prod fun p e => v p.2 ^ e) • MvPolynomial.monomial s c := by
+  have hC : rTransAlgHom (Matrix.diagonal v) (MvPolynomial.C c) = MvPolynomial.C c := by
+    rw [← MvPolynomial.algebraMap_eq, AlgHom.commutes, MvPolynomial.algebraMap_eq]
+  have hP : rTransAlgHom (Matrix.diagonal v) (s.prod fun n e => MvPolynomial.X n ^ e)
+      = MvPolynomial.C (s.prod fun p e => v p.2 ^ e)
+        * (s.prod fun n e => MvPolynomial.X n ^ e) := by
+    simp only [Finsupp.prod, map_prod, map_pow, rTransAlgHom_diagonal_X,
+      MvPolynomial.smul_eq_C_mul, mul_pow, Finset.prod_mul_distrib]
+  rw [MvPolynomial.monomial_eq, map_mul, hC, hP, MvPolynomial.smul_eq_C_mul]
+  ring
 
 end Etingof.PolynomialGLAction

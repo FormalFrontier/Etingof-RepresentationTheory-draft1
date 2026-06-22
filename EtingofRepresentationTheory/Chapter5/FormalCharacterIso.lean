@@ -751,7 +751,7 @@ with the action formula
 ((L_carrier i l) v)` collapse equivariance to a per-pure-tensor
 computation. -/
 theorem glTensorRep_equivariant_schurWeyl_decomposition
-    (N n : ℕ) (hN : n ≤ N) :
+    (N n : ℕ) (_hN : n ≤ N) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
@@ -775,7 +775,7 @@ theorem glTensorRep_equivariant_schurWeyl_decomposition
   -- h_act)` data as `_explicit`, plus `hL_simp : ∀ i, IsSimpleModule … (L i)`.
   obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simp, L_carrier,
       e, he, h_act⟩ :=
-    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
+    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
     fun i => hSi_fin i, L, hL_simp, ?_, ?_⟩
@@ -1000,6 +1000,19 @@ private theorem glWeightSpace_glTensorRep_eq_span (N n : ℕ) (μ : Fin N →₀
     have heq : (fun i => (tensorWeight N f) i) = (fun i => μ i) := by
       funext i; rw [hf]
     rwa [heq] at hmem
+
+omit [CharZero k] in
+/-- The weight spaces of the tensor-power representation `V^⊗n` (`V = Fin N → k`)
+span the whole space: every standard tensor basis vector is a weight vector (of
+weight `tensorWeight N f`), and the standard tensor basis spans `V^⊗n`. -/
+theorem glTensorRep_iSup_glWeightSpace_eq_top (N n : ℕ) :
+    ⨆ (μ : Fin N →₀ ℕ),
+        glWeightSpace k N (FDRep.of (glTensorRep k N n)) (fun i => μ i) = ⊤ := by
+  classical
+  rw [eq_top_iff, ← (tensorStdBasis k N n).span_eq, Submodule.span_le]
+  rintro _ ⟨f, rfl⟩
+  exact Submodule.mem_iSup_of_mem (tensorWeight N f)
+    (tensorStdBasis_mem_glWeightSpace k N n f)
 
 omit [CharZero k] in
 /-- The dimension of the weight space at `μ` in `V^⊗n` equals the number of colorings

@@ -98,7 +98,7 @@ private lemma finrank_biprod
       have hzero : ∀ (A B : FDRep ℂ G) (x : A.V), (0 : A ⟶ B).hom.hom.hom x = 0 := by
         intro A B x
         show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
-        simp [ModuleCat.Hom.hom]
+        change (0 : A.V.obj →ₗ[ℂ] B.V.obj) x = 0
         exact LinearMap.zero_apply x
       have hid : ∀ (A : FDRep ℂ G) (x : A.V), (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
       ext <;> dsimp only

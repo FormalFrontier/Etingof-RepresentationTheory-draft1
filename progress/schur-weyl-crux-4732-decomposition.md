@@ -137,3 +137,36 @@ Specht-character-over-`k` (sub-α #4820 → #4821 route 1), or (2) the base-chan
 route in sub-β that drops sub-α. Route (2) looks substantially cheaper. Sub-α
 (#4820) is skipped back to `replan` pending that decision.
 
+
+---
+
+## Update (2026-06-21, session ba73b7ed) — the base-change route is a red herring; sub-α/sub-(a) is vacuous
+
+Re-decomposed #4821 into #4861 (sub-a: field-independence of `formalCharacter`)
+and #4862 (sub-b: ℂ-side classification), then **found #4861 already covered**:
+
+- `formalCharacter_glTensorRep_eq_pow` (`FormalCharacterIso.lean:1028`):
+  `formalCharacter k N (FDRep.of (glTensorRep k N n)) = (∑ᵢ Xᵢ)^n` — fixed
+  `MvPolynomial (Fin N) ℚ`, identical for every field. Field-independence of the
+  V^{⊗n} character is therefore *already a theorem*.
+- `sum_X_pow_eq_sum_finrank_smul_schurPoly` (`SchurWeylPolynomialIdentity.lean:134`):
+  `(∑ᵢ Xᵢ)^n = ∑_λ dim(Specht_λ)·schurPoly(λ)`.
+- `formalCharacter_tensorPower_eq_sum_character_L` (`FormalCharacterIso.lean:846`):
+  `char(V^{⊗n}) = ∑ᵢ dim(Sᵢ)·char(Lᵢ)`.
+
+Chaining these gives, **over a general alg-closed char-0 `k` with no base change**,
+the numerical identity `∑ᵢ dim(Sᵢ)·char(Lᵢ) = ∑_λ dim(Specht_λ)·schurPoly(λ)`.
+
+**Consequence:** there is no field-independence gap to close, so the "descent from
+ℂ" framing (this doc's earlier "Strategic consequence" section) does not buy
+anything — the polynomial identities it would transport are *already* `k`-free and
+`k`-general. #4861 was skipped (→ replan, planner to close as covered).
+
+The entire genuine crux is piece (b) #4862: upgrade the **numerical** identity to
+the **individual** matching `char(Lᵢ) = schurPoly(lam i)`, `lam` injective. Two
+halves, both directly over the given `k`:
+1. injective isotypic matching `SchurModule k N λ ≅ L_{φλ}` — open question whether
+   it needs SchurModule-simplicity-over-`k` (former sub-α, ℂ-rooted) or can read
+   simplicity off `hLsimp` + character-distinctness;
+2. surjectivity / counting `|ι| = |P|` via the double-centralizer pairing (deep;
+   decompose further).

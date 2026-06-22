@@ -2,6 +2,8 @@ import EtingofRepresentationTheory.Chapter5.FormalCharacterIso
 import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 import EtingofRepresentationTheory.Chapter5.PolynomialRepEmbedding
 import EtingofRepresentationTheory.Chapter5.SemisimpleIsotypic
+import EtingofRepresentationTheory.Chapter5.SchurWeylSimplesClassification
+import EtingofRepresentationTheory.Chapter5.SchurWeylLDistinct
 
 /-!
 # Schur-Weyl #5, Step E: a polynomial `GL_N`-rep is a direct sum of abstract simples
@@ -304,14 +306,16 @@ evaluation formula `he`), reconstructing the `GL_N`-action `ρ_i` exactly as
 simplicity (à la `Theorem5_18_4_GL_rep_decomposition_simple`'s `hL_simple`) over
 that one shared `ρ_i`. -/
 theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
-    [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N) :
+    [IsAlgClosed k] [CharZero k] (n : ℕ) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
       (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-      (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ)),
+      (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
+      (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+      (_ : ∀ i, 0 < Module.finrank k (S i)),
       ∃ (e : TensorPower k (Fin N → k) n ≃ₗ[k]
           (DirectSum ι (fun i => S i ⊗[k] (L i : Type u)))),
         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
@@ -327,10 +331,18 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
   -- formula `he`, and the action formula `h_act`).
   obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simple,
       L_carrier, e, he, h_act⟩ :=
-    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n hN
+    Theorem5_18_4_GL_rep_decomposition_explicit_simple k N n
   refine ⟨ι, hιFin, hιDec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance,
-    fun i => hSi_fin i, L, hL_simple, ?_, ?_⟩
+    fun i => hSi_fin i, L, hL_simple,
+    schurWeyl_L_pairwise_distinct_of_explicit N n S' hS'_simp hS'_dist L L_carrier h_act,
+    (fun i => by
+      haveI := hS'_simp i
+      haveI := hSi_fin i
+      haveI : Nontrivial (↥(S' i)) :=
+        IsSimpleModule.nontrivial (symGroupImage k (Fin N → k) n) (↥(S' i))
+      exact Module.finrank_pos),
+    ?_, ?_⟩
   · exact e
   intro g v
   -- Reduce equivariance to: (glTensorRep g) ∘ e.symm = e.symm ∘ directSum_action g.
@@ -386,6 +398,12 @@ ambient summand is, an `R`-linear identification `e` of the ambient
 `(V^{⊗n})^m`-module with `⨁_{c : κ} asModule (L (g c))`, and a submodule `M'`
 of that ambient module together with an `R`-linear iso `asModule M.ρ ≃ M'`.
 
+It also forwards the underlying Schur-Weyl decomposition witnesses `(S, e, he, hLdist,
+hSne)` of `glTensorRep_schurWeyl_decomposition_equivariant_simple`, so that downstream
+consumers can invoke the relocated classification core
+`schurWeyl_simples_formalCharacter_classification_core_general` directly (this replaces
+the previously pre-baked, and false-without-`hSne`, schurPoly-classification field).
+
 The hypothesis `h_span` — that the `ℕ`-indexed weight spaces span `M` — is
 **essential** (it says `M` is genuinely *polynomial*, not merely algebraic). It
 feeds `polynomial_homog_rep_equivariant_embedding` (#4598); without it the
@@ -393,14 +411,26 @@ statement is false, since `IsAlgebraicRepresentation` + `h_homog` admits the
 counterexample `M = Sym²(V) ⊗ det⁻¹` (`N = 2`, `n = 0`), which has no embedding
 into `V^{⊗0}`. -/
 theorem polynomial_homog_rep_asModule_embeds_directSum_simple
-    [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N)
+    [IsAlgClosed k] [CharZero k] (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
+      (S : ι → Type u) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i))
+      (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
       (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
+      (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+      (_ : ∀ i, 0 < Module.finrank k (S i))
+      (e : TensorPower k (Fin N → k) n ≃ₗ[k]
+          (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+      (_ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
+            (v : TensorPower k (Fin N → k) n),
+            e (glTensorRep k N n g v) =
+              Representation.directSum (fun i =>
+                (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+                  (S i)).tprod (L i).ρ) g (e v))
       (κ : Type) (_ : Finite κ) (gκ : κ → ι)
       (W : Type u) (_ : AddCommGroup W) (_ : Module (GLAlg k N) W)
       (_ : W ≃ₗ[GLAlg k N]
@@ -413,8 +443,12 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     Etingof.PolynomialRepEmbedding.polynomial_homog_rep_equivariant_embedding
       (M := M) (halg := halg) (h_span := h_span) (h_homog := h_homog)
   -- (2) unified equivariant + simple Schur–Weyl decomposition of `V^{⊗n}`.
-  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, e, he⟩ :=
-    glTensorRep_schurWeyl_decomposition_equivariant_simple (k := k) (N := N) n hN
+  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he⟩ :=
+    glTensorRep_schurWeyl_decomposition_equivariant_simple (k := k) (N := N) n
+  -- The Schur-Weyl decomposition witnesses `(S, e, he, hLdist, hSne)` are exposed
+  -- in the output (instead of a pre-baked schurPoly-classification): the downstream
+  -- consumers invoke the relocated classification core
+  -- `schurWeyl_simples_formalCharacter_classification_core_general` on them directly.
   haveI iSfree : ∀ i, Module.Free k (S i) := fun i => Module.Free.of_divisionRing k (S i)
   -- basis index of each multiplicity space, in `Type 0` so `κ` stays small.
   set β : ι → Type := fun i => Fin (Module.finrank k (S i)) with hβ
@@ -462,7 +496,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
   let ψ := (Eouter.toLinearMap ∘ₗ E2.toLinearMap ∘ₗ E1.toLinearMap) ∘ₗ φR
   have hψinj : Function.Injective ψ :=
     ((Eouter.injective.comp E2.injective).comp E1.injective).comp hφRinj
-  refine ⟨ι, hιFin, hιDec, L, hLsimp,
+  refine ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
     (Σ _ : Fin m, Σ i : ι, β i), inferInstance, (fun c => c.2.1),
     DirectSum (Σ _ : Fin m, Σ i : ι, β i) (fun c => Representation.asModule (L c.2.1).ρ),
     inferInstance, inferInstance, LinearEquiv.refl (GLAlg k N) _,
@@ -480,33 +514,60 @@ sum of the abstract simple summands `L i` of `V^{⊗n}`:
 Reading off `mult i := Nat.card {j // f j = i}` recovers the
 multiplicity-indexed form `M ≅ ⨁_i (Fin (mult i) → L i)`. The decomposition is
 stated for the *abstract* `L i` (not concrete Schur modules) to keep the
-dependency graph with the consumer #6 acyclic. -/
+dependency graph with the consumer #6 acyclic.
+
+In addition (issues #4758 / #4994 / #5024) the output forwards the Schur-Weyl
+decomposition witnesses `(S, e, he, hLdist, hSne)` over the SAME `L`. The Schur-Weyl
+#6 assembly (`iso_of_formalCharacter_eq_schurPoly`, #4745) feeds these to the relocated
+classification core `schurWeyl_simples_formalCharacter_classification_core_general` to
+obtain the injective schurPoly assignment `lam : ι → {antitone partitions}` with
+`formalCharacter k N (L i) = schurPoly N (lam i)`, and thereby force `p = 1`: the
+characters `char (L i)` are distinct Schur polynomials, hence linearly independent, so a
+single-`schurPoly` left side has a single summand. The classification is no longer
+pre-baked into this output (the former field was false without `hSne`), but computed by
+the consumer from the witnesses. -/
 theorem decompose_polynomial_gl_rep
-    [IsAlgClosed k] [CharZero k] (n : ℕ) (hN : n ≤ N)
+    [IsAlgClosed k] [CharZero k] (n : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (halg : Etingof.IsAlgebraicRepresentation N M.ρ)
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
+      (S : ι → Type u) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i))
+      (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
       (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
+      (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
+      (_ : ∀ i, 0 < Module.finrank k (S i))
+      (e : TensorPower k (Fin N → k) n ≃ₗ[k]
+          (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+      (_ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
+            (v : TensorPower k (Fin N → k) n),
+            e (glTensorRep k N n g v) =
+              Representation.directSum (fun i =>
+                (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
+                  (S i)).tprod (L i).ρ) g (e v))
       (p : ℕ) (f : Fin p → ι),
       Nonempty (Representation.asModule M.ρ ≃ₗ[GLAlg k N]
         DirectSum (Fin p) (fun j => Representation.asModule (L (f j)).ρ)) := by
   classical
   -- Embed `M.asModule` as a submodule `M'` of an ambient module `W` that is
   -- `R`-linearly a finite direct sum of the simple `L (gκ c)`.
-  obtain ⟨ι, hιFin, hιDec, L, hLsimp, κ, hκFin, gκ, W, hWacg, hWmod, e, M', ⟨eM⟩⟩ :=
-    polynomial_homog_rep_asModule_embeds_directSum_simple k N n hN M halg h_span h_homog
+  obtain ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
+      κ, hκFin, gκ, W, hWacg, hWmod, eW, M', ⟨eM⟩⟩ :=
+    polynomial_homog_rep_asModule_embeds_directSum_simple k N n M halg h_span h_homog
   -- The ambient summand family, indexed by `κ`.
   set Lsum : κ → Type u := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
   haveI : ∀ c, IsSimpleModule (GLAlg k N) (Lsum c) := fun c => hLsimp (gκ c)
   -- Apply the generic isotypic-extraction engine (#4600) to the submodule `M'`.
   obtain ⟨p, h, ⟨eM'⟩⟩ :=
     SemisimpleIsotypic.submodule_of_directSum_simple_iso_directSum
-      (R := GLAlg k N) Lsum (fun c => hLsimp (gκ c)) e M'
-  -- Compose: `M.asModule ≃ M' ≃ ⨁_{j} Lsum (h j) = ⨁_{j} asModule (L (gκ (h j)))`.
-  refine ⟨ι, hιFin, hιDec, L, hLsimp, p, fun j => gκ (h j), ⟨?_⟩⟩
+      (R := GLAlg k N) Lsum (fun c => hLsimp (gκ c)) eW M'
+  -- Compose: `M.asModule ≃ M' ≃ ⨁_{j} Lsum (h j) = ⨁_{j} asModule (L (gκ (h j)))`,
+  -- and forward the Schur-Weyl witnesses `(S, e, he, hLdist, hSne)` for the consumer's
+  -- classification-core call.
+  refine ⟨ι, hιFin, hιDec, S, hSacg, hSmod, hSfin, L, hLsimp, hLdist, hSne, e, he,
+    p, fun j => gκ (h j), ⟨?_⟩⟩
   exact eM.trans eM'
 
 end Etingof.PolynomialGLDecomposition
