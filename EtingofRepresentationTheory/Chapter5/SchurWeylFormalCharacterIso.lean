@@ -59,7 +59,7 @@ takes the polynomiality (weight saturation) of `L` as a hypothesis `hLtop` and i
 as `hLalg`, and runs the two-element-family `{L, L_λ}` character-independence argument, reducing
 to two isolated, genuinely-deep ingredients:
 
-* (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946, `sorry`);
+* (a) `schurModule_isSimple_general` — general-`k` Schur-module simplicity (#4946, #5054);
 * (b) `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` — the general-`k`
   torus→full-group Zariski-density character-independence seam (#4947, shares the density core
   with the ℂ seam #4908). **Now sorry-free** (algebraicity bridge #4983): it takes algebraicity
@@ -96,7 +96,6 @@ open scoped TensorProduct
 
 noncomputable section
 
-universe u
 
 namespace Representation
 
@@ -131,7 +130,7 @@ end Representation
 
 namespace Etingof
 
-variable (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- The formal character only depends on the underlying representation: rebuilding
 `M` as `FDRep.of M.ρ` does not change its character. -/
@@ -192,33 +191,41 @@ theorem glWeightSpace_schurModule_iSup_eq_top (N : ℕ) (lam : Fin N → ℕ) :
   rw [FDRep.of_ρ']
   exact (LinearMap.ext_iff.mp (glTensor_comm_youngSym k N lam g) v).symm
 
-/-- **Ingredient (a): general-`k` Schur-module simplicity (isolated `sorry`, issue #4946).**
+/-- **Ingredient (a): general-`k` Schur-module simplicity (issue #4946, #5054).**
 The Schur module `L_λ = SchurModule k N lam` is a simple
 `MonoidAlgebra k (GL_N(k))`-module for any antitone `lam`.
 
-The centralizer-level core is now proved over a general algebraically-closed
+The centralizer-level core is proved over a general algebraically-closed
 characteristic-zero field as `schurModuleSubmodule_isSimple_centralizer_general`
 (`SchurModuleSimple.lean`), and the `hN : (∑ i, lam i) ≤ N` guard is **not** needed.
-Discharging this `sorry` is then a one-line mirror of the ℂ `schurModule_isSimple` final
+This assembly is a one-line mirror of the ℂ `schurModule_isSimple` final
 assembly: `schurModuleSubmodule_isSimple_centralizer_general` + the generic GL transfer
 `isSimpleModule_monoidAlgebra_GL_of_centralizer_simple`.
 
-**Universe blocker (do not wire in place at `Type u`):** that general-`k` core lives in
-`Type` (universe `0`). It factors through the general-`k` Specht classification
+**Universe note:** that general-`k` core lives in `Type` (universe `0`). It factors
+through the general-`k` Specht classification
 (`Theorem5_12_2_classification_general` → `IrrepDecomp k (Equiv.Perm (Fin n))`), and
 Mathlib's `Rep`/`FDRep` pin field and group to one common universe; since
 `S_n = Equiv.Perm (Fin n)` is `Type 0`, the whole Schur-Weyl/Specht core is intrinsically
-`Type 0`. This file's section variable is `k : Type u`, so consuming the proof forces the
-entire simplicity-dependent chain here (this theorem,
-`schurWeyl_simples_isotypic_matching_general`,
+`Type 0`. Consuming the proof therefore forces the entire simplicity-dependent chain in
+this file (this theorem, `schurWeyl_simples_isotypic_matching_general`,
 `schurWeyl_simples_formalCharacter_classification_core_general`,
-`simpleRep_iso_schurModule_of_formalCharacter_eq`, `iso_of_formalCharacter_eq_schurPoly`) and
-its external consumers across Ch 5/6/9 down to `Type 0`. That project-wide universe lowering
-is the remaining work; see the #4946 follow-up issue. -/
+`simpleRep_iso_schurModule_of_formalCharacter_eq`, `iso_of_formalCharacter_eq_schurPoly`)
+and its external consumers across Ch 5/6/9 down to `Type 0`; the section variable here is
+accordingly `k : Type` (#5054). -/
 theorem schurModule_isSimple_general (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
       (Representation.asModule (SchurModule k N lam).ρ) := by
-  sorry
+  -- One-line mirror of the ℂ `schurModule_isSimple` assembly, driven by the
+  -- general-`k` centralizer core (`SchurModuleSimple.lean`). No `hN` guard needed.
+  haveI := schurModuleSubmodule_isSimple_centralizer_general (k := k) N lam hlam
+  refine isSimpleModule_monoidAlgebra_GL_of_centralizer_simple k
+    (N := N) (n := ∑ i, lam i)
+    (M := ↥(SchurModuleSubmodule k N lam))
+    (schurModuleRep k N lam) ?_
+  intro g x
+  apply Subtype.ext
+  rfl
 
 /-- **Ingredient (b): general-`k` torus→full-group character independence (issue #4947,
 algebraicity bridge #4983).** For a finite family of pairwise non-isomorphic simple
@@ -313,14 +320,14 @@ the left side comes from the abstract decomposition, the right side from
 `(∑ Xᵢ)^n = ∑_λ dim(Specht_λ)·schurPoly λ`. It does **not** by itself pin each
 `char(Lᵢ)` to a single Schur polynomial — that requires the isotypic geometry. -/
 theorem schurWeyl_decomposition_numerical_identity
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -356,14 +363,14 @@ construction of `polynomial_homog_rep_asModule_embeds_directSum_simple`
 ambient `V^{⊗n}` as a finite direct sum of simple `R`-modules — the input shape
 required by `SemisimpleIsotypic.submodule_of_directSum_simple_iso_directSum`. -/
 noncomputable def schurWeyl_decomposition_asModule_flatten
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -395,8 +402,8 @@ The `R`-linear `Φ` is upgraded to a `GL_N`-equivariant `k`-linear equivalence
 `R`-linearity, and `asModuleEquiv_map_smul` / `asAlgebraHom_of` (turning the `of g`
 action back into `σ g`). Then `formalCharacter_eq_of_rep_iso` applies. -/
 theorem formalCharacter_eq_of_asModule_linearEquiv
-    (k : Type u) [Field k] [IsAlgClosed k] (N : ℕ)
-    {V W : Type u} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (k : Type) [Field k] [IsAlgClosed k] (N : ℕ)
+    {V W : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
     [AddCommGroup W] [Module k W] [Module.Finite k W]
     (ρ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) V)
     (σ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) W)
@@ -475,14 +482,14 @@ component (`simpleModule_iso_component_of_embeds`) yields `SchurModule k N λ.pa
 This is steps 1–2,4 of route 1; the surjectivity `|ι| = |P|` (the counting step)
 is the remaining content of `schurWeyl_simples_formalCharacter_classification_core_complex`. -/
 theorem schurWeyl_simples_isotypic_matching_general
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -583,14 +590,14 @@ The assembly here is `sorry`-free; it reduces to the isolated general-`k` seam l
 `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general`
 (#4947) via the torus-trace connection (B). -/
 theorem schurWeyl_simples_formalCharacter_linearIndependent_general
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -623,11 +630,11 @@ theorem schurWeyl_simples_formalCharacter_linearIndependent_general
 /-- A `GL_N(k)`-equivariant `k`-linear map sends the `μ`-weight space of its source
 into the `μ`-weight space of its target: weight vectors map to weight vectors. -/
 private theorem glWeightSpace_map_le_of_equivariant
-    {k : Type u} [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
-    {V : Type u} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    {k : Type} [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
+    {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
     (ρV : Representation k (Matrix.GeneralLinearGroup (Fin N) k) V)
     (W : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
-    (f : V →ₗ[k] (W : Type u))
+    (f : V →ₗ[k] (W : Type))
     (hf : ∀ g v, f (ρV g v) = W.ρ g (f v)) (μ : Fin N → ℕ) :
     (glWeightSpace k N (FDRep.of ρV) μ).map f ≤ glWeightSpace k N W μ := by
   intro w hw
@@ -663,14 +670,14 @@ Note: this routes through the *polynomial* embedding into `glTensorRep`, not thr
 general "algebraic ⟹ spanning ℕ-weight spaces" lemma, which is false (det⁻¹ twists are
 algebraic but carry negative weights). -/
 theorem schurWeyl_simple_summand_glWeightSpace_top
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -689,14 +696,14 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
     show b.coord i0 (b i0) = 1
     rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
   -- The "evaluate the `S i`-factor against `φ`" map `r : S i ⊗ L i → L i`, `a ⊗ x ↦ φ a • x`.
-  let r : (S i ⊗[k] (L i : Type u)) →ₗ[k] (L i : Type u) :=
-    (TensorProduct.lid k (L i : Type u)).toLinearMap ∘ₗ TensorProduct.map φ LinearMap.id
-  have hr_tmul : ∀ (a : S i) (x : (L i : Type u)), r (a ⊗ₜ x) = φ a • x := by
+  let r : (S i ⊗[k] (L i : Type)) →ₗ[k] (L i : Type) :=
+    (TensorProduct.lid k (L i : Type)).toLinearMap ∘ₗ TensorProduct.map φ LinearMap.id
+  have hr_tmul : ∀ (a : S i) (x : (L i : Type)), r (a ⊗ₜ x) = φ a • x := by
     intro a x
     simp [r, TensorProduct.map_tmul, TensorProduct.lid_tmul]
   -- `r` is `GL_N`-equivariant for `(trivial ⊗ ρ_{L i})` and `ρ_{L i}` (trivial action on `S i`).
   have hr_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
-      (y : S i ⊗[k] (L i : Type u)),
+      (y : S i ⊗[k] (L i : Type)),
       r (((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k) (S i)).tprod
             (L i).ρ) g y) = (L i).ρ g (r y) := by
     intro g y
@@ -707,18 +714,18 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
           Representation.trivial_apply, hr_tmul, map_smul]
     | add y z hy hz => simp only [map_add, hy, hz]
   -- The equivariant surjection `q : V^{⊗n} → L i`: project `e` to the `i`-th summand, eval `φ`.
-  let q : TensorPower k (Fin N → k) n →ₗ[k] (L i : Type u) :=
-    r ∘ₗ (DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type u)) i) ∘ₗ (e.toLinearMap)
+  let q : TensorPower k (Fin N → k) n →ₗ[k] (L i : Type) :=
+    r ∘ₗ (DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type)) i) ∘ₗ (e.toLinearMap)
   -- Coordinate formula for the direct-sum representation.
-  have coord : ∀ (x : DirectSum ι (fun j => S j ⊗[k] (L j : Type u)))
+  have coord : ∀ (x : DirectSum ι (fun j => S j ⊗[k] (L j : Type)))
       (g : Matrix.GeneralLinearGroup (Fin N) k),
-      DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type u)) i
+      DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type)) i
           (Representation.directSum (fun j =>
             (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
               (S j)).tprod (L j).ρ) g x)
         = ((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k) (S i)).tprod
             (L i).ρ) g
-            (DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type u)) i x) := by
+            (DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type)) i x) := by
     intro x g
     change (DirectSum.lmap (fun m =>
       ((Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k) (S m)).tprod
@@ -736,7 +743,7 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
   -- `q` is surjective: `e.symm (of i (b i0 ⊗ x))` is a preimage of `x`.
   have hsurj : Function.Surjective q := by
     intro x
-    refine ⟨e.symm (DirectSum.lof k ι (fun j => S j ⊗[k] (L j : Type u)) i (b i0 ⊗ₜ x)), ?_⟩
+    refine ⟨e.symm (DirectSum.lof k ι (fun j => S j ⊗[k] (L j : Type)) i (b i0 ⊗ₜ x)), ?_⟩
     simp only [q, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.apply_symm_apply, DirectSum.component.lof_self]
     rw [hr_tmul, hφ, one_smul]
@@ -744,7 +751,7 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
   have hmap_top : Submodule.map q ⊤ = ⊤ := by
     rw [Submodule.map_top, LinearMap.range_eq_top.mpr hsurj]
   refine le_antisymm le_top ?_
-  calc (⊤ : Submodule k (L i : Type u))
+  calc (⊤ : Submodule k (L i : Type))
       = Submodule.map q ⊤ := hmap_top.symm
     _ = Submodule.map q (⨆ μ : Fin N →₀ ℕ,
           glWeightSpace k N (FDRep.of (glTensorRep k N n)) (fun j => μ j)) := by
@@ -760,7 +767,7 @@ theorem schurWeyl_simple_summand_glWeightSpace_top
 intertwines `ρ` and `ρ'`, then `ρ'` is algebraic whenever `ρ` is: the matrix coefficients
 in the transported basis `b.map φ` coincide with those of `ρ` in `b`. -/
 private theorem isAlgebraic_of_equivariant_linearEquiv
-    {k : Type u} [Field k] [IsAlgClosed k] [CharZero k] {N : ℕ}
+    {k : Type} [Field k] [IsAlgClosed k] [CharZero k] {N : ℕ}
     {Y Y' : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
     [AddCommGroup Y'] [Module k Y'] [Module.Finite k Y']
     {ρ : Matrix.GeneralLinearGroup (Fin N) k → Y →ₗ[k] Y}
@@ -788,14 +795,14 @@ algebraic, `glTensorRep_isAlgebraic`), via `x ↦ e⁻¹ (lof i (s ⊗ x))` for 
 `(L i).ρ`. This supplies the `IsAlgebraicRepresentation` hypothesis of
 `schurWeyl_simples_formalCharacter_linearIndependent_complex`. -/
 theorem schurWeyl_simple_summand_isAlgebraic
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -814,15 +821,15 @@ theorem schurWeyl_simple_summand_isAlgebraic
     show bS.coord i0 (bS i0) = 1
     rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
   -- The equivariant embedding `s : L i ↪ V^{⊗n}`, `x ↦ e⁻¹ (lof i (s₀ ⊗ x))`.
-  let s : (L i : Type u) →ₗ[k] TensorPower k (Fin N → k) n :=
+  let s : (L i : Type) →ₗ[k] TensorPower k (Fin N → k) n :=
     e.symm.toLinearMap ∘ₗ
-      (DirectSum.lof k ι (fun j => S j ⊗[k] (L j : Type u)) i) ∘ₗ
-      (TensorProduct.mk k (S i) (L i : Type u) (bS i0))
-  have hs_apply : ∀ x : (L i : Type u),
-      s x = e.symm (DirectSum.lof k ι (fun j => S j ⊗[k] (L j : Type u)) i (bS i0 ⊗ₜ x)) :=
+      (DirectSum.lof k ι (fun j => S j ⊗[k] (L j : Type)) i) ∘ₗ
+      (TensorProduct.mk k (S i) (L i : Type) (bS i0))
+  have hs_apply : ∀ x : (L i : Type),
+      s x = e.symm (DirectSum.lof k ι (fun j => S j ⊗[k] (L j : Type)) i (bS i0 ⊗ₜ x)) :=
     fun _ => rfl
   -- Equivariance of `s`.
-  have hs_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (x : (L i : Type u)),
+  have hs_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (x : (L i : Type)),
       glTensorRep k N n g (s x) = s ((L i).ρ g x) := by
     intro g x
     apply e.injective
@@ -830,14 +837,14 @@ theorem schurWeyl_simple_summand_isAlgebraic
       Representation.directSum_apply, DirectSum.lmap_lof, Representation.tprod_apply,
       TensorProduct.map_tmul, Representation.trivial_apply]
   -- The equivariant retraction `r : S i ⊗ L i → L i`, `a ⊗ x ↦ φ a • x`.
-  let r : (S i ⊗[k] (L i : Type u)) →ₗ[k] (L i : Type u) :=
-    (TensorProduct.lid k (L i : Type u)).toLinearMap ∘ₗ TensorProduct.map φ LinearMap.id
-  have hr_tmul : ∀ (a : S i) (x : (L i : Type u)), r (a ⊗ₜ x) = φ a • x := by
+  let r : (S i ⊗[k] (L i : Type)) →ₗ[k] (L i : Type) :=
+    (TensorProduct.lid k (L i : Type)).toLinearMap ∘ₗ TensorProduct.map φ LinearMap.id
+  have hr_tmul : ∀ (a : S i) (x : (L i : Type)), r (a ⊗ₜ x) = φ a • x := by
     intro a x; simp [r, TensorProduct.map_tmul, TensorProduct.lid_tmul]
   -- `q := r ∘ component i ∘ e` is a left inverse of `s`, so `s` is injective.
-  let q : TensorPower k (Fin N → k) n →ₗ[k] (L i : Type u) :=
-    r ∘ₗ (DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type u)) i) ∘ₗ (e.toLinearMap)
-  have hqs : ∀ x : (L i : Type u), q (s x) = x := by
+  let q : TensorPower k (Fin N → k) n →ₗ[k] (L i : Type) :=
+    r ∘ₗ (DirectSum.component k ι (fun j => S j ⊗[k] (L j : Type)) i) ∘ₗ (e.toLinearMap)
+  have hqs : ∀ x : (L i : Type), q (s x) = x := by
     intro x
     simp only [q, s, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.apply_symm_apply, DirectSum.component.lof_self, TensorProduct.mk_apply]
@@ -854,8 +861,8 @@ theorem schurWeyl_simple_summand_isAlgebraic
       (fun g => (glTensorRep k N n g).restrict (hWinv g)) :=
     (Etingof.glTensorRep_isAlgebraic k N n).restrict W hWinv
   -- Transport algebraicity back through `s : L i ≃ W`.
-  let φW : (L i : Type u) ≃ₗ[k] W := LinearEquiv.ofInjective s hs_inj
-  have hφWval : ∀ y : (L i : Type u), (φW y : TensorPower k (Fin N → k) n) = s y :=
+  let φW : (L i : Type) ≃ₗ[k] W := LinearEquiv.ofInjective s hs_inj
+  have hφWval : ∀ y : (L i : Type), (φW y : TensorPower k (Fin N → k) n) = s y :=
     fun _ => rfl
   refine isAlgebraic_of_equivariant_linearEquiv φW.symm ?_ hWalg
   intro g w
@@ -891,14 +898,14 @@ such data. The source decomposition
 `glTensorRep_equivariant_schurWeyl_decomposition` has each `S i` a *simple*
 `Sₙ`-module, hence `0 < dim(S i)`. -/
 theorem schurWeyl_simples_formalCharacter_classification_core_general
-    (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N n : ℕ)
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    {S : ι → Type u} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    {S : ι → Type} [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
     [∀ i, Module.Finite k (S i)]
     (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-        (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+        (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
     (he : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -1140,7 +1147,7 @@ theorem iso_of_formalCharacter_eq_schurPoly (N : ℕ)
         (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφ g v)
       rwa [formalCharacter_FDRep_of_ρ] at h0
     rw [hchar_eq,
-      formalCharacter_directSum k N (fun j : Fin p => (L (f j) : Type u))
+      formalCharacter_directSum k N (fun j : Fin p => (L (f j) : Type))
         (fun j : Fin p => (L (f j)).ρ)]
     refine Finset.sum_congr rfl (fun j _ => ?_)
     rw [formalCharacter_FDRep_of_ρ, hchar (f j)]

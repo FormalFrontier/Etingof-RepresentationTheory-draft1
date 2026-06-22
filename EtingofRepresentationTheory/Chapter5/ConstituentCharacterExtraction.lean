@@ -42,7 +42,6 @@ open CategoryTheory MvPolynomial DirectSum
 
 noncomputable section
 
-universe u
 
 namespace Etingof.ConstituentCharacterExtraction
 
@@ -91,7 +90,7 @@ end Etingof.ConstituentCharacterExtraction
 
 namespace Etingof
 
-variable (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- **Constituent-character extraction (issue #4962).** Let `M` be a polynomial
 `GL_N(k)`-representation (algebraic, weight-space-spanning, homogeneous of degree `n`) whose
@@ -146,7 +145,7 @@ theorem simple_constituent_formalCharacter_eq_schurPoly_mem (N n : ℕ)
         (fun g v => Representation.kEquivOfAsModuleEquiv_intertwines hφM g v)
       rwa [formalCharacter_FDRep_of_ρ] at h0
     rw [hchar_eq,
-      formalCharacter_directSum k N (fun j : Fin p => (Lf (f j) : Type u))
+      formalCharacter_directSum k N (fun j : Fin p => (Lf (f j) : Type))
         (fun j : Fin p => (Lf (f j)).ρ)]
     refine Finset.sum_congr rfl (fun j _ => ?_)
     rw [formalCharacter_FDRep_of_ρ, hchar_cl (f j)]
