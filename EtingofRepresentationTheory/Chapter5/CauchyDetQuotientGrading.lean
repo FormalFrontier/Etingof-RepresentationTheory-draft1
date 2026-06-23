@@ -1,6 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.CauchyDetQuotientDegree
-import EtingofRepresentationTheory.Chapter5.PolynomialGLDecomposition
+import EtingofRepresentationTheory.Chapter5.RepresentationAsModuleHom
 
 /-!
 # The right-`GL_N` grading of `A/det` and single-degree reduction
