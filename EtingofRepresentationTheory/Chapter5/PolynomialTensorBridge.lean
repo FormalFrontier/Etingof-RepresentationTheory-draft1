@@ -439,7 +439,9 @@ lemma polyRightTransl_prod (g : Matrix (Fin N) (Fin N) k) (f : Fin n → Fin N �
   rw [Finset.prod_mul_distrib]
   rw [show (∏ l : Fin n, MvPolynomial.C (R := k) (g (c l) (f l).2)) =
       MvPolynomial.C (∏ l : Fin n, g (c l) (f l).2) from
-    (map_prod (MvPolynomial.C (R := k)) _ _).symm]
+    -- v4.29.0: elaboration can no longer infer the index type for bare `C` in `map_prod`;
+    -- pin it down with an explicit type ascription on the ring hom.
+    (map_prod (M := k) (MvPolynomial.C (R := k) (σ := Fin N × Fin N)) _ _).symm]
   ring
 
 /-! ### Multiset-invariance of `symTensor`

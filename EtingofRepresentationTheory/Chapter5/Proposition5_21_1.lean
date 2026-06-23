@@ -242,13 +242,16 @@ private theorem X_sub_X_isRelPrime {N : ℕ} {i₁ j₁ i₂ j₂ : Fin N}
     fun hdvd => X_sub_X_not_associated h₁ h₂ hne
       ((X_sub_X_prime h₁.ne').associated_of_dvd (X_sub_X_prime h₂.ne') hdvd)
 
+-- v4.29.0: typeclass search for DecompositionMonoid (MvPolynomial (Fin N) ℚ) is slow here; bump the limit.
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The product `∏_{i<j} (X_j - X_i)` divides any alternant determinant. -/
 private theorem prod_dvd_alternant (N : ℕ) (e : Fin N → ℕ) :
     (∏ i : Fin N, ∏ j ∈ Finset.Ioi i,
       (MvPolynomial.X j - MvPolynomial.X i : MvPolynomial (Fin N) ℚ)) ∣
       (alternantMatrix N e).det := by
-  letI : GCDMonoid (MvPolynomial (Fin N) ℚ) :=
-    UniqueFactorizationMonoid.toGCDMonoid _
+  -- v4.29.0: dropping the GCDMonoid letI; its derived Nonempty (GCDMonoid) instance
+  -- competed with the UFM DecompositionMonoid path and made synthesis time out.
+  -- DecompositionMonoid synthesizes directly from the UFD instance.
   apply Fintype.prod_dvd_of_isRelPrime
   · -- Pairwise IsRelPrime of inner products
     intro i₁ i₂ hi

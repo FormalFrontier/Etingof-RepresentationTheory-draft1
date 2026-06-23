@@ -99,6 +99,9 @@ theorem exists_field_embedding_of_injective_mvPolynomial
       Function.Injective f :=
   exists_field_embedding_of_injective (AlgEquiv.refl) φ hφ
 
+-- v4.29.0: typeclass and whnf searches (SMul/Module B K from the local Algebra B K) got slower; bump limits.
+set_option synthInstance.maxHeartbeats 80000 in
+set_option maxHeartbeats 400000 in
 /-- **The field-embedding bridge (principal-open case).** When the base-change action
 `g_j · M · g_i⁻¹` forces inverses, the comorphism lands in a localization `B` of
 `k[g₁,…,g_M]` (e.g. `k[g_{pq}, det⁻¹]`, the coordinate ring of the principal open
@@ -132,6 +135,10 @@ theorem exists_field_embedding_of_injective_isLocalization
   have hunit : ∀ y : S, IsUnit (algebraMap P K (y : P)) := fun y =>
     IsLocalization.map_units K (⟨(y : P), hSle y.2⟩ : nonZeroDivisors P)
   letI algBK : Algebra B K := (IsLocalization.lift (M := S) (g := algebraMap P K) hunit).toAlgebra
+  -- v4.29.0: surface `SMul`/`Module B K` from `algBK` explicitly; otherwise typeclass search
+  -- for these from the local `Algebra B K` loops and times out.
+  letI smulBK : SMul B K := algBK.toSMul
+  letI moduleBK : Module B K := algBK.toModule
   have hcomp : (algebraMap B K).comp (algebraMap P B) = algebraMap P K := by
     change (IsLocalization.lift (M := S) (g := algebraMap P K) hunit).comp (algebraMap P B)
       = algebraMap P K

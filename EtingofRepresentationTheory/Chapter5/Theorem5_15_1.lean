@@ -2062,7 +2062,7 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
       rw [← Equiv.sum_comp σ]
       -- After reindexing: ∑ j, (if (σ⁻¹ (σ j)).val < k then mu_tf(σ j) else 0)
       congr 1; ext j
-      simp only [Equiv.Perm.inv_apply_self]
+      simp only [Equiv.Perm.coe_inv, Equiv.symm_apply_apply] -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed
       split_ifs with h
       · exact_mod_cast (hσ j).symm
       · rfl

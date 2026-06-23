@@ -166,11 +166,16 @@ private theorem directSum_rank_le_aleph0 (n : ℕ) :
       AlgIrrepGL.finite n lam k
     exact (Module.rank_lt_aleph0 k (F lam)).le
   calc Cardinal.sum (fun lam => Module.rank k (F lam))
-      ≤ _ := Cardinal.sum_le_iSup_lift _
+      -- v4.29.0: Cardinal.sum_le_iSup_lift renamed to Cardinal.sum_le_lift_mk_mul_iSup_lift
+      ≤ _ := Cardinal.sum_le_lift_mk_mul_iSup_lift _
     _ ≤ Cardinal.aleph0 * Cardinal.aleph0 := by
         apply mul_le_mul'
         · rw [Cardinal.lift_le_aleph0]; exact Cardinal.mk_le_aleph0
-        · exact h_sup
+        -- v4.29.0: the new lemma's RHS supremum carries an identity `lift.{0,u}`; rewrite it away.
+        · have hlift : (fun i => Cardinal.lift.{0} (Module.rank k (F i))) =
+              fun lam => Module.rank k (F lam) := by
+            funext lam; exact Cardinal.lift_id' _
+          rw [hlift]; exact h_sup
     _ = Cardinal.aleph0 := Cardinal.aleph0_mul_aleph0
 
 -- The one-row dominant weight (m, 0, ..., 0) : DominantWeight n

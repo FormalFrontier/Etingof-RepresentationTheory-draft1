@@ -491,7 +491,7 @@ private lemma invColor_const_zpow (la : Nat.Partition n) (σ : Equiv.Perm (Fin n
     have hinv : c.val (σ⁻¹ ((σ ^ (-(↑k : ℤ))) x)) =
         c.val ((σ ^ (-(↑k : ℤ))) x) := by
       have h := c.prop.1 (σ⁻¹ ((σ ^ (-(↑k : ℤ))) x))
-      simp only [Equiv.Perm.apply_inv_self] at h; exact h.symm
+      simp only [Equiv.Perm.coe_inv, Equiv.apply_symm_apply] at h; exact h.symm -- v4.29.0: Equiv.Perm.apply_inv_self renamed/removed
     rw [show (-(↑k : ℤ) - 1 : ℤ) = -1 + -(↑k : ℤ) from by ring,
       zpow_add, zpow_neg_one, Equiv.Perm.mul_apply, hinv, ih]
 

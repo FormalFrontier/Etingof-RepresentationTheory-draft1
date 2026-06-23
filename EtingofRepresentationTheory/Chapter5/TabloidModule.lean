@@ -107,7 +107,7 @@ theorem toTabloid_eq_iff_rowAssign (σ₁ σ₂ : Equiv.Perm (Fin n)) :
   · intro h k
     have hmem := h (σ₂ k)
     simp only [Equiv.Perm.coe_mul, Function.comp_apply,
-               Equiv.Perm.inv_apply_self] at hmem
+               Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at hmem -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed
     exact hmem
   · intro h k
     show rowOfPos la.sortedParts ((σ₁ * σ₂⁻¹) k).val = rowOfPos la.sortedParts k.val
@@ -820,13 +820,14 @@ theorem column_perm_dominance (T : StandardYoungTableau n la)
           · -- Left inverse: ψ⁻¹(ψ(e)) = e
             intro e _
             dsimp only
-            rw [Equiv.apply_symm_apply, Equiv.Perm.apply_inv_self,
+            -- v4.29.0: Equiv.Perm.apply_inv_self renamed/removed; unfold σ⁻¹ to σ.symm and use generic lemmas
+            simp only [Equiv.apply_symm_apply, Equiv.Perm.coe_inv, Equiv.apply_symm_apply,
                 Equiv.symm_apply_apply]
           · -- Right inverse: ψ(ψ⁻¹(e)) = e
             intro e _
             dsimp only
-            rw [Equiv.apply_symm_apply, Equiv.Perm.inv_apply_self,
-                Equiv.symm_apply_apply]
+            -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed; unfold σ⁻¹ to σ.symm and use generic lemmas
+            simp only [Equiv.apply_symm_apply, Equiv.Perm.coe_inv, Equiv.symm_apply_apply]
 
 /-- A non-identity column permutation strictly decreases dominance: for q ∈ Q_λ
 with q ≠ 1, the tabloid of σ_T strictly dominates the tabloid of q⁻¹ · σ_T.

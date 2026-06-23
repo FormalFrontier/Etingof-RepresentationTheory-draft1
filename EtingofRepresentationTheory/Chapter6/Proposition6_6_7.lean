@@ -651,6 +651,8 @@ theorem Etingof.reversedArrow_arrowOut_eq
   unfold Etingof.arrowOutToReversed
   simp only [cast_cast, cast_eq]
 
+-- v4.29.0: whnf/isDefEq/tactic-execution heartbeats grew past the 200000 default; bump.
+set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
 /-- Reflection functors preserve indecomposability at a source:
 F⁻ᵢ(V) is either indecomposable or zero.

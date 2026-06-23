@@ -1223,12 +1223,13 @@ private theorem colStd_column_perm_dominance
               simp only [ecol, Equiv.apply_symm_apply, hq_fwd]; exact he.2
           · intro e _
             dsimp only
-            rw [Equiv.apply_symm_apply, Equiv.Perm.apply_inv_self,
+            -- v4.29.0: Equiv.Perm.apply_inv_self renamed/removed; unfold σ⁻¹ to σ.symm and use generic lemmas
+            simp only [Equiv.apply_symm_apply, Equiv.Perm.coe_inv, Equiv.apply_symm_apply,
                 Equiv.symm_apply_apply]
           · intro e _
             dsimp only
-            rw [Equiv.apply_symm_apply, Equiv.Perm.inv_apply_self,
-                Equiv.symm_apply_apply]
+            -- v4.29.0: Equiv.Perm.inv_apply_self renamed/removed; unfold σ⁻¹ to σ.symm and use generic lemmas
+            simp only [Equiv.apply_symm_apply, Equiv.Perm.coe_inv, Equiv.symm_apply_apply]
 
 /-- The coefficient of `[σ]` in `ψ_σ` is 1, for any permutation σ.
 Generalizes `polytabloidTab_coeff_self` (which required σ = sytPerm T).
