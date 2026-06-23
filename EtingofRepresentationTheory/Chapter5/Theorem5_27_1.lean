@@ -271,8 +271,10 @@ private lemma sum_right_invariant_eq {G : Type*} [Group G] [Fintype G]
     -- The fiber over q has |H| elements by QuotientGroup.card_preimage_mk
     rw [show (Finset.univ.filter (fun h : G => (h : G ⧸ H) = q)).card =
         Fintype.card (QuotientGroup.mk (s := H) ⁻¹' {q}) from by
-      rw [Fintype.card_ofFinset]
-      congr 1; ext h; simp [Finset.mem_filter]]
+      rw [← Set.toFinset_card (QuotientGroup.mk (s := H) ⁻¹' {q})]
+      congr 1
+      ext h
+      simp [Finset.mem_filter]]
     rw [show Fintype.card (QuotientGroup.mk (s := H) ⁻¹' {q}) =
         Nat.card (QuotientGroup.mk (s := H) ⁻¹' {q}) from by
       rw [Nat.card_eq_fintype_card]]
@@ -524,15 +526,17 @@ open CategoryTheory in
 private noncomputable def simple_of_isSimpleModule_asModule'
     {k : Type} [Field k] {G : Type} [Group G]
     {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V] [Module.Free k V]
-    (ρ : Representation k G V) [IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
+    (ρ : Representation k G V)
+    [hρ : @IsSimpleModule (MonoidAlgebra k G) _ ρ.asModule _
+      (Representation.instModuleMonoidAlgebraAsModule ρ)] :
     Simple (FDRep.of ρ) := by
-  haveI : Simple (ModuleCat.of (MonoidAlgebra k G) ρ.asModule) :=
-    simple_of_isSimpleModule
+  letI : Module (MonoidAlgebra k G) ρ.asModule :=
+    Representation.instModuleMonoidAlgebraAsModule ρ
   let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)
   haveI : Simple
       (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) := by
-    change Simple (ModuleCat.of (MonoidAlgebra k G) ρ.asModule)
-    infer_instance
+    exact @simple_of_isSimpleModule (MonoidAlgebra k G) ρ.asModule _ _
+      (Representation.instModuleMonoidAlgebraAsModule ρ) hρ
   haveI : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
     simple_of_full_faithful_preservesMono'' E.functor _
   exact simple_of_full_faithful_preservesMono'' (forget₂ (FDRep k G) (Rep k G)) _
@@ -844,7 +848,10 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
     rw [heq]; exact h
   -- Use the IsSimpleModule → Simple bridge
   set ρ := inducedRep_raw φ χ U
-  haveI : IsSimpleModule (MonoidAlgebra ℂ (A ⋊[φ] G)) (Representation.asModule ρ) :=
+  letI : Module (MonoidAlgebra ℂ (A ⋊[φ] G)) (Representation.asModule ρ) :=
+    Representation.instModuleMonoidAlgebraAsModule ρ
+  haveI : @IsSimpleModule (MonoidAlgebra ℂ (A ⋊[φ] G)) _ (Representation.asModule ρ) _
+      (Representation.instModuleMonoidAlgebraAsModule ρ) :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp <| by
     -- IsIrreducible = IsSimpleOrder (Subrepresentation ρ)
     haveI : Nontrivial (Subrepresentation ρ) := by
@@ -1118,7 +1125,13 @@ private lemma inducedRepV_orbit_injectivity {G A : Type} [Group G] [CommGroup A]
       by_cases hq : q = q₁
       · subst hq; rfl
       · rw [hf_supp q hq, smul_zero, smul_zero]
-    rw [haction_f, map_smul, Pi.smul_apply] at hcomm_q₂
+    rw [haction_f] at hcomm_q₂
+    have hT_smul : T (((χ₁ ((φ q₁.out⁻¹ : MulAut A) a₀) : ℂˣ) : ℂ) • f) q₂ =
+        ((χ₁ ((φ q₁.out⁻¹ : MulAut A) a₀) : ℂˣ) : ℂ) • (T f) q₂ := by
+      change T (((χ₁ ((φ q₁.out⁻¹ : MulAut A) a₀) : ℂˣ) : ℂ) • f) q₂ =
+        (((χ₁ ((φ q₁.out⁻¹ : MulAut A) a₀) : ℂˣ) : ℂ) • (T f)) q₂
+      exact congr_fun (T.map_smul (((χ₁ ((φ q₁.out⁻¹ : MulAut A) a₀) : ℂˣ) : ℂ)) f) q₂
+    rw [hT_smul] at hcomm_q₂
     -- RHS: V₂.ρ ⟨a₀,1⟩ (Tf) at q₂ = c₂ • (Tf)(q₂)
     rw [A_action_scalar φ χ₂ U₂ a₀ (T f) q₂] at hcomm_q₂
     -- hcomm_q₂: c₁ • (Tf)(q₂) = c₂ • (Tf)(q₂)
@@ -1178,18 +1191,35 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
         ext x; exact Subsingleton.elim _ _))
   -- Restrict W to A via a ↦ (a,1). By Maschke, the ℂ[A]-module is semisimple.
   let ρ_A : Representation ℂ A W := (FDRep.ρ W).comp SemidirectProduct.inl
+  letI : Module (MonoidAlgebra ℂ A) ρ_A.asModule :=
+    Representation.instModuleMonoidAlgebraAsModule ρ_A
   haveI : NeZero (Nat.card A : ℂ) := ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
   -- Get a simple ℂ[A]-submodule (exists by semisimplicity + nontriviality)
   haveI : Nontrivial ρ_A.asModule := hnt
-  obtain ⟨m, hm⟩ := IsSemisimpleModule.exists_simple_submodule (MonoidAlgebra ℂ A) ρ_A.asModule
+  obtain ⟨m, hm⟩ := @IsSemisimpleModule.exists_simple_submodule (MonoidAlgebra ℂ A) _
+    ρ_A.asModule _ (Representation.instModuleMonoidAlgebraAsModule ρ_A) inferInstance inferInstance
   haveI := hm
   -- m is 1-dimensional over ℂ (A commutative, ℂ algebraically closed)
+  letI : Module ℂ ρ_A.asModule := Representation.instModuleAsModule ρ_A
+  let mℂ : Submodule ℂ ρ_A.asModule :=
+    @Submodule.restrictScalars ℂ (MonoidAlgebra ℂ A) ρ_A.asModule _ _ _
+      (Representation.instModuleAsModule ρ_A) (Representation.instModuleMonoidAlgebraAsModule ρ_A)
+      _ inferInstance m
+  letI : Module ℂ m := mℂ.module
+  haveI : IsScalarTower ℂ (MonoidAlgebra ℂ A) m := by infer_instance
   haveI : FiniteDimensional ℂ m :=
-    Module.Finite.of_injective (m.subtype.restrictScalars ℂ) Subtype.val_injective
+    have hfdρ : @FiniteDimensional ℂ ρ_A.asModule _ _
+        (Representation.instModuleAsModule ρ_A) :=
+      @LinearEquiv.finiteDimensional ℂ W _ _ inferInstance ρ_A.asModule _
+        (Representation.instModuleAsModule ρ_A) ρ_A.asModuleEquiv.symm inferInstance
+    @FiniteDimensional.of_injective ℂ m _ _ mℂ.module ρ_A.asModule _
+      (Representation.instModuleAsModule ρ_A) mℂ.subtype Subtype.val_injective hfdρ
   haveI : IsMulCommutative (MonoidAlgebra ℂ A) := ⟨⟨mul_comm⟩⟩
   haveI : Nontrivial m := IsSimpleModule.nontrivial (MonoidAlgebra ℂ A) ↥m
-  have h_dim : Module.finrank ℂ m = 1 :=
-    IsSimpleModule.finrank_eq_one_of_isMulCommutative (MonoidAlgebra ℂ A) m ℂ
+  have h_dim : Module.finrank ℂ m = 1 := by
+    have htower : IsScalarTower ℂ (MonoidAlgebra ℂ A) m := by infer_instance
+    exact @IsSimpleModule.finrank_eq_one_of_isMulCommutative (MonoidAlgebra ℂ A) m ℂ _ _ _ _
+      mℂ.module (SubmoduleClass.module m) htower hm inferInstance inferInstance inferInstance
   -- Pick nonzero v ∈ m; every element of m is a ℂ-multiple of v
   obtain ⟨v, hv_ne⟩ := exists_ne (0 : m)
   have h_basis := (finrank_eq_one_iff_of_nonzero' v hv_ne).mp h_dim
@@ -1206,7 +1236,12 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
     fun a => (h_basis (MonoidAlgebra.of ℂ A a • v)).choose_spec
   -- χ_val 1 = 1
   have hχ_one : χ_val 1 = 1 := by
-    apply h_inj; rw [hχ, map_one, one_smul, one_smul]
+    apply h_inj
+    rw [hχ, map_one]
+    ext
+    change (algebraMap ℂ (MonoidAlgebra ℂ A) (1 : ℂ)) • (v : ρ_A.asModule) =
+      (1 : ℂ) • (v : ρ_A.asModule)
+    rw [algebraMap_smul]
   -- χ_val is multiplicative
   have hχ_mul : ∀ a b, χ_val (a * b) = χ_val a * χ_val b := by
     intro a b; apply h_inj
@@ -1217,11 +1252,15 @@ private lemma exists_character_in_rep {G A : Type} [Group G] [CommGroup A]
       _ = MonoidAlgebra.of ℂ A a • (χ_val b • v) := by rw [← hχ b]
       _ = χ_val b • (MonoidAlgebra.of ℂ A a • v) := smul_comm ..
       _ = χ_val b • (χ_val a • v) := by rw [← hχ a]
-      _ = (χ_val a * χ_val b) • v := by rw [mul_comm, mul_smul]
+      _ = (χ_val a * χ_val b) • v := by
+            ext
+            change χ_val b • (χ_val a • (v : ρ_A.asModule)) =
+              (χ_val a * χ_val b) • (v : ρ_A.asModule)
+            rw [smul_smul, mul_comm]
   -- χ_val a ≠ 0 (since MonoidAlgebra.of a is invertible)
   have hχ_ne : ∀ a, χ_val a ≠ 0 := by
     intro a ha
-    have h1 : χ_val a • v = 0 := by rw [ha, zero_smul]
+    have h1 : χ_val a • v = 0 := by simp [ha]
     rw [hχ] at h1
     have h2 : v = 0 := by
       have := congr_arg (MonoidAlgebra.of ℂ A a⁻¹ • ·) h1
@@ -1342,7 +1381,7 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
       (0 : A ⟶ B).hom.hom.hom x = 0 := by
     intro A B x
     show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
-    simp [ModuleCat.Hom.hom] -- v4.29.0: simp now closes goal
+    simp [ModuleCat.Hom.hom]
   have hid : ∀ (A : FDRep ℂ H) (x : A.V),
       (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
   refine {
