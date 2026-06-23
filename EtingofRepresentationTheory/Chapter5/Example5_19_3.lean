@@ -232,6 +232,9 @@ private lemma π_tprod (v : Fin n → V) :
     π (PiTensorProduct.tprod k v) = exteriorPower.ιMulti k n v := by
   simp [π, PiTensorProduct.lift.tprod]
 
+-- rc4: instance search for `AddZeroClass ↥(⋀[k]^n V)` in the `add` case now exceeds
+-- the default 20000; bump the synthesis budget.
+set_option synthInstance.maxHeartbeats 40000 in
 private lemma π_symGroupAction (σ : Equiv.Perm (Fin n)) (x : TensorPower k V n) :
     π (symGroupAction k V n σ x) = ((Equiv.Perm.sign σ : ℤ) : k) • π x := by
   induction x using PiTensorProduct.induction_on with
