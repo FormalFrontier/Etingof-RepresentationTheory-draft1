@@ -133,7 +133,42 @@ theorem genEigenspace_diagTorus_eq_bot (N : ℕ)
     (lam : k)
     (hlam : ∀ ν : Fin N →₀ ℕ, glWeightSpace k N M (fun i => ν i) ≠ ⊥ → torusChar N t ν ≠ lam) :
     Module.End.genEigenspace (M.ρ (Etingof.diagTorus k N t)) lam ⊤ = ⊥ := by
-  sorry
+  classical
+  set fop : Module.End k M := M.ρ (Etingof.diagTorus k N t) with hfop
+  -- The generalised eigenspaces at the *supported* characters already span ⊤ (via H1).
+  have hGtop : (⨆ ν : {μ : Fin N →₀ ℕ // glWeightSpace k N M (fun i => μ i) ≠ ⊥},
+      fop.genEigenspace (torusChar N t ν.val) ⊤) = ⊤ := by
+    have h1 : ∀ ν : {μ : Fin N →₀ ℕ // glWeightSpace k N M (fun i => μ i) ≠ ⊥},
+        fop.genEigenspace (torusChar N t ν.val) ⊤ = glWeightSpace k N M (fun i => ν.val i) :=
+      fun ν => genEigenspace_diagTorus_eq_glWeightSpace N M t hinj hMtop ν.val ν.2
+    calc (⨆ ν : {μ : Fin N →₀ ℕ // glWeightSpace k N M (fun i => μ i) ≠ ⊥},
+            fop.genEigenspace (torusChar N t ν.val) ⊤)
+        = ⨆ ν : {μ : Fin N →₀ ℕ // glWeightSpace k N M (fun i => μ i) ≠ ⊥},
+            glWeightSpace k N M (fun i => ν.val i) := iSup_congr h1
+      _ = ⊤ := by
+          rw [eq_top_iff, ← hMtop]
+          refine iSup_le fun μ => ?_
+          by_cases hμ : glWeightSpace k N M (fun i => μ i) = ⊥
+          · rw [hμ]; exact bot_le
+          · exact le_iSup (fun ν : {μ : Fin N →₀ ℕ // glWeightSpace k N M (fun i => μ i) ≠ ⊥} =>
+              glWeightSpace k N M (fun i => ν.val i)) ⟨μ, hμ⟩
+  -- Independence of the *full* eigenspace family separates `lam` from the supported ones.
+  have hdisj := (iSupIndep_def.mp (Module.End.independent_genEigenspace fop ⊤)) lam
+  have hle : (⨆ ν : {μ : Fin N →₀ ℕ // glWeightSpace k N M (fun i => μ i) ≠ ⊥},
+      fop.genEigenspace (torusChar N t ν.val) ⊤)
+        ≤ ⨆ (ρ) (_ : ρ ≠ lam), fop.genEigenspace ρ ⊤ := by
+    refine iSup_le fun ν => ?_
+    exact le_iSup₂ (f := fun ρ (_ : ρ ≠ lam) => fop.genEigenspace ρ ⊤)
+      (torusChar N t ν.val) (hlam ν.val ν.2)
+  rw [eq_bot_iff]
+  calc fop.genEigenspace lam ⊤
+      = fop.genEigenspace lam ⊤ ⊓ ⊤ := by rw [inf_top_eq]
+    _ = fop.genEigenspace lam ⊤ ⊓ (⨆ ν : {μ : Fin N →₀ ℕ //
+          glWeightSpace k N M (fun i => μ i) ≠ ⊥}, fop.genEigenspace (torusChar N t ν.val) ⊤) := by
+        rw [hGtop]
+    _ ≤ fop.genEigenspace lam ⊤ ⊓ (⨆ (ρ) (_ : ρ ≠ lam), fop.genEigenspace ρ ⊤) :=
+        inf_le_inf_left _ hle
+    _ ≤ ⊥ := disjoint_iff_inf_le.mp hdisj
 
 /-- **Sub-of-spanning-is-spanning (the crux).** For a `GL_N`-invariant submodule `R` of a
 weight-spanning `FDRep` `M`, the weight spaces cut down to `R` still span `R`. -/
