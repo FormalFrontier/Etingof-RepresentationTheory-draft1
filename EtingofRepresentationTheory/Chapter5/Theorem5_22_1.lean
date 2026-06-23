@@ -1267,6 +1267,8 @@ private theorem youngSymEndomorphism_normalized_isIdempotent
     IsIdempotentElem (α⁻¹ • youngSymEndomorphism k' N lam) :=
   (youngSymEndomorphism_normalized_isProj k' N lam α hα hα_sq).isIdempotentElem
 
+-- v4.30: synthesizing `Module.Free ℚ (SchurModuleSubmodule …)` is slower; raise the limit.
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The trace of the normalized Young symmetrizer on V⊗n equals the dimension of the
 Schur module. This follows from `IsProj.trace`. -/
 private theorem trace_normalized_youngSym_eq_finrank
@@ -1584,6 +1586,8 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
 
 -- rc2: slower whnf/isDefEq; bump heartbeat budget for this core structural lemma
 set_option maxHeartbeats 400000 in
+-- v4.30: synthesizing `Module.Free k (LinearMap.range Φ)` is slower; raise the limit.
+set_option synthInstance.maxHeartbeats 80000 in
 /-- **Core structural lemma**: The finrank of the weight space of the Schur module
 over `k` equals the weight-restricted trace of the normalized Young symmetrizer over `ℚ`.
 

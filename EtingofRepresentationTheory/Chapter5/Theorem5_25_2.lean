@@ -1580,77 +1580,120 @@ private lemma Etingof.GL2.detCharEmbedding_mono
   haveI := Etingof.GL2.detChar_simple p n mu
   exact mono_of_nonzero_from_simple (Etingof.GL2.detCharEmbedding_ne_zero p n mu)
 
-set_option maxHeartbeats 4000000 in
+-- v4.30 refactor: the original `complementWProjection` built the whole FDRep morphism in one
+-- `where hom := FGModuleCat.ofHom { toFun, map_add', map_smul' }` term. Under v4.30 the new
+-- lazy isDefEq/whnf machinery times out unifying the morphism type against this giant term
+-- (whnf at the def header, tactic-execution blowups inside the `by` obligations). The fix is
+-- to split the data out: build the underlying `LinearMap` as its own def (each proof obligation
+-- now elaborates in a small local context, with no morphism-type unification overhead), then
+-- assemble the morphism cheaply from it. No statement is weakened; the defeq shape
+-- `complementWProjection.hom = FGModuleCat.ofHom complementWProjection_linearMap` is preserved,
+-- so the downstream `show`/`rfl` proofs still go through.
+
+/-- The projection as a linear map into the *ambient* space `GL2 p n → ℂ`
+    (no subtype/membership proofs entangled in the data). This is the heart of
+    the v4.30 fix: by landing in the bare function space the structure instance
+    elaboration no longer unifies an anonymous constructor against the `⊓`
+    submodule `complementWSubmodule`, which was driving the whnf/isDefEq blowup. -/
+private noncomputable def Etingof.GL2.complementWProjection_toAmbient
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.principalSeriesSubmodule p n mu mu →ₗ[ℂ] (GL2 p n → ℂ) where
+  toFun := fun ⟨f, hf⟩ g =>
+    f g - ((Fintype.card (GL2 p n) : ℂ)⁻¹ *
+      Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩) *
+      (mu (Matrix.GeneralLinearGroup.det g) : ℂ)
+  map_add' := fun ⟨a, ha⟩ ⟨b, hb⟩ => by
+    funext g
+    simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
+      Submodule.coe_subtype, Submodule.coe_add, Pi.add_apply, LinearMap.map_add]
+    ring
+  map_smul' := fun r ⟨a, ha⟩ => by
+    funext g
+    simp only [smul_eq_mul, Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
+      Submodule.coe_subtype, Submodule.coe_smul, Pi.smul_apply, RingHom.id_apply,
+      LinearMap.map_smul]
+    ring
+
+/-- The image of `complementWProjection_toAmbient` lands in `W_μ` (covariance + zero
+    augmentation). Proven separately so the membership obligation is not interleaved
+    with the structure-instance elaboration of the linear map. -/
+private lemma Etingof.GL2.complementWProjection_mem
+    (mu : (GaloisField p n)ˣ →* ℂˣ)
+    (f : Etingof.GL2.principalSeriesSubmodule p n mu mu) :
+    Etingof.GL2.complementWProjection_toAmbient p n mu f ∈
+      Etingof.GL2.complementWSubmodule p n mu := by
+  obtain ⟨f, hf⟩ := f
+  -- v4.30: unfold the ambient map's value by its equation lemma (`simp only [toAmbient]`)
+  -- rather than letting `show`/`change` drive whnf through the `LinearMap.mk`/match, which
+  -- loops under the new lazy whnf. After unfolding, both membership goals are plain arithmetic.
+  rw [Etingof.GL2.complementWSubmodule, Submodule.mem_inf]
+  simp only [Etingof.GL2.complementWProjection_toAmbient, LinearMap.coe_mk, AddHom.coe_mk]
+  refine ⟨?_, ?_⟩
+  · -- Covariance: the projected function is still B-covariant with character λ.
+    intro b g'
+    have hcov := hf b g'
+    have hdet := Etingof.GL2.detFun_mem_principalSeries p n mu b g'
+    simp only [Etingof.GL2.borelCharValue] at hcov hdet ⊢
+    rw [hcov, hdet]; ring
+  · -- Zero augmentation.
+    rw [LinearMap.mem_ker]
+    simp only [Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk]
+    simp_rw [sub_mul, Finset.sum_sub_distrib]
+    simp_rw [show ∀ g : GL2 p n,
+      (Fintype.card (GL2 p n) : ℂ)⁻¹ *
+        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
+        ↑(mu (Matrix.GeneralLinearGroup.det g)) *
+        ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ =
+      (Fintype.card (GL2 p n) : ℂ)⁻¹ *
+        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ from fun g => by
+      rw [mul_assoc, mul_assoc, Units.val_inv_eq_inv_val,
+        mul_inv_cancel₀ (Units.ne_zero _), mul_one]]
+    rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul,
+      ← mul_assoc, mul_inv_cancel₀ (Nat.cast_ne_zero.mpr Fintype.card_ne_zero),
+      one_mul]
+    simp only [Etingof.GL2.augOnPrincipalSeries, Etingof.GL2.augmentation,
+      LinearMap.comp_apply, Submodule.coe_subtype,
+      LinearMap.coe_mk, AddHom.coe_mk, sub_self]
+
+/-- The underlying ℂ-linear map of the projection V(μ,μ) → W_μ:
+    f ↦ f − (aug(f)/|G|)·(μ∘det), obtained by corestricting the ambient map to `W_μ`. -/
+private noncomputable def Etingof.GL2.complementWProjection_linearMap
+    (mu : (GaloisField p n)ˣ →* ℂˣ) :
+    Etingof.GL2.principalSeriesSubmodule p n mu mu →ₗ[ℂ]
+      Etingof.GL2.complementWSubmodule p n mu :=
+  (Etingof.GL2.complementWProjection_toAmbient p n mu).codRestrict _
+    (Etingof.GL2.complementWProjection_mem p n mu)
+
+/-- The projection linear map is G-equivariant (the `comm` obligation of the FDRep morphism). -/
+private lemma Etingof.GL2.complementWProjection_comm
+    (mu : (GaloisField p n)ˣ →* ℂˣ) (g : GL2 p n) :
+    (Etingof.GL2.complementWProjection_linearMap p n mu).comp
+        ((Etingof.GL2.principalSeriesRep p n mu mu g)) =
+      (Etingof.GL2.complementWRep p n mu g).comp
+        (Etingof.GL2.complementWProjection_linearMap p n mu) := by
+  apply LinearMap.ext; intro ⟨f, hf⟩
+  apply Subtype.ext; funext x
+  show f (x * g) -
+      (Fintype.card (GL2 p n) : ℂ)⁻¹ *
+        Etingof.GL2.augOnPrincipalSeries p n mu
+          (Etingof.GL2.principalSeriesRep p n mu mu g ⟨f, hf⟩) *
+        ↑(mu (Matrix.GeneralLinearGroup.det x)) =
+    f (x * g) -
+      (Fintype.card (GL2 p n) : ℂ)⁻¹ *
+        Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
+        ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
+  rw [Etingof.GL2.augOnPrincipalSeries_equivariant]
+  simp only [map_mul, Units.val_mul]
+  ring
+
 /-- The projection V(μ,μ) → W_μ: f ↦ f − (aug(f)/|G|)·(μ∘det), as a morphism in FDRep. -/
 private noncomputable def Etingof.GL2.complementWProjection
     (mu : (GaloisField p n)ˣ →* ℂˣ) :
     Etingof.GL2.principalSeries p n mu mu ⟶ Etingof.GL2.complementW p n mu where
-  hom := FGModuleCat.ofHom
-    { toFun := fun ⟨f, hf⟩ =>
-        let c := (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-          Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩
-        ⟨fun g => f g - c * (mu (Matrix.GeneralLinearGroup.det g) : ℂ),
-         ⟨fun b g' => by
-            have hcov := hf b g'
-            have hdet := Etingof.GL2.detFun_mem_principalSeries p n mu b g'
-            simp only [Etingof.GL2.borelCharValue] at hcov hdet ⊢
-            rw [hcov, hdet]; ring,
-          by
-            show (fun g => f g - (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-              Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
-              ↑(mu (Matrix.GeneralLinearGroup.det g))) ∈
-              LinearMap.ker (Etingof.GL2.augmentation p n mu)
-            rw [LinearMap.mem_ker]
-            simp only [Etingof.GL2.augmentation, LinearMap.coe_mk, AddHom.coe_mk]
-            simp_rw [sub_mul, Finset.sum_sub_distrib]
-            simp_rw [show ∀ g : GL2 p n,
-              (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-                Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
-                ↑(mu (Matrix.GeneralLinearGroup.det g)) *
-                ↑(mu (Matrix.GeneralLinearGroup.det g))⁻¹ =
-              (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-                Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ from fun g => by
-              rw [mul_assoc, mul_assoc, Units.val_inv_eq_inv_val,
-                mul_inv_cancel₀ (Units.ne_zero _), mul_one]]
-            rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul,
-              ← mul_assoc, mul_inv_cancel₀ (Nat.cast_ne_zero.mpr Fintype.card_ne_zero),
-              one_mul]
-            simp only [Etingof.GL2.augOnPrincipalSeries, Etingof.GL2.augmentation,
-              LinearMap.comp_apply, Submodule.coe_subtype,
-              LinearMap.coe_mk, AddHom.coe_mk, sub_self]⟩⟩
-      map_add' := fun ⟨a, ha⟩ ⟨b, hb⟩ => by
-        apply Subtype.ext; funext g
-        simp only [Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
-          Submodule.coe_subtype, Submodule.coe_add, Pi.add_apply, LinearMap.map_add]
-        ring
-      map_smul' := fun r ⟨a, ha⟩ => by
-        apply Subtype.ext; funext g
-        simp only [smul_eq_mul, Etingof.GL2.augOnPrincipalSeries, LinearMap.comp_apply,
-          Submodule.coe_subtype, Submodule.coe_smul, Pi.smul_apply, RingHom.id_apply,
-          LinearMap.map_smul]
-        ring }
+  hom := FGModuleCat.ofHom (Etingof.GL2.complementWProjection_linearMap p n mu)
   comm g := by
-    apply FGModuleCat.hom_ext; ext ⟨f, hf⟩
-    apply Subtype.ext; funext x
-    -- Both sides reduce to f(xg) - (1/|G|)·aug(f)·μ(det g)·μ(det x)
-    -- LHS: proj(g·f)(x) = f(xg) - (aug(g·f)/|G|)·μ(det x)
-    -- RHS: (g·proj(f))(x) = proj(f)(xg) = f(xg) - (aug(f)/|G|)·μ(det(xg))
-    --                      = f(xg) - (aug(f)/|G|)·μ(det x)·μ(det g)
-    -- These are equal because aug(g·f) = μ(det g)·aug(f)
-    simp only [Etingof.GL2.complementW, Etingof.GL2.complementWSubmodule,
-      Etingof.GL2.principalSeriesRep, Representation.ofMulAction]
-    show f (x * g) -
-        (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-          Etingof.GL2.augOnPrincipalSeries p n mu
-            (Etingof.GL2.principalSeriesRep p n mu mu g ⟨f, hf⟩) *
-          ↑(mu (Matrix.GeneralLinearGroup.det x)) =
-      f (x * g) -
-        (Fintype.card (GL2 p n) : ℂ)⁻¹ *
-          Etingof.GL2.augOnPrincipalSeries p n mu ⟨f, hf⟩ *
-          ↑(mu (Matrix.GeneralLinearGroup.det (x * g)))
-    rw [Etingof.GL2.augOnPrincipalSeries_equivariant]
-    simp only [map_mul, Units.val_mul]
-    ring
+    apply FGModuleCat.hom_ext
+    exact Etingof.GL2.complementWProjection_comm p n mu g
 
 /-- The scaled augmentation (1/|G|)·aug as a morphism V(μ,μ) → ℂ_μ in FDRep. -/
 private noncomputable def Etingof.GL2.scaledAugMorphism

@@ -1220,6 +1220,9 @@ lemma Etingof.complementaryChar_parabolic_val
     ∃ a : (GaloisField p n)ˣ,
       Etingof.GL2.complementarySeriesChar p n nu g =
       -((nu.comp (Etingof.GL2.scalarToElliptic p n) : (GaloisField p n)ˣ →* ℂˣ) a : ℂ) := by
+  -- v4.30: `open Classical in` only opens names, not instances; the `Finset.filter` below
+  -- needs a `DecidablePred (· ^ p ^ n = ·)` whose synthesis otherwise loops in `whnf`.
+  classical
   -- Step 1: charW₁(g) = 0 for parabolic g
   have hW : Etingof.GL2.charW₁ p n g = 0 := Etingof.charW₁_parabolic p n g hg
   -- Step 2: No conjugate of parabolic g lies in elliptic subgroup K.
@@ -1256,6 +1259,10 @@ lemma Etingof.complementaryChar_parabolic_val
       have hα_in_range : (α : GaloisField p (2 * n)) ∈ Set.range
           (algebraMap (GaloisField p n) (GaloisField p (2 * n))) := by
         haveI : Fintype (GaloisField p (2 * n)) := Fintype.ofFinite _
+        -- v4.30: synthesizing the real `DecidablePred` here loops in `whnf`; force the classical
+        -- instance explicitly so no search happens (the looping search outranks `classical`).
+        haveI : DecidablePred (fun x : GaloisField p (2 * n) => x ^ (p ^ n : ℕ) = x) :=
+          Classical.decPred _
         set fixed := Finset.univ.filter
           (fun x : GaloisField p (2 * n) => x ^ (p ^ n : ℕ) = x)
         set img := Finset.univ.image
