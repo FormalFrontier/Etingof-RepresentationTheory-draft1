@@ -1590,7 +1590,9 @@ theorem finrank_spechtModule_ge_card_syt :
     ((SpechtModule n la).restrictScalars ℂ)
   have hli_sub : LinearIndependent ℂ (fun T => (⟨polytabloidTab T, hmem T⟩ : S)) := by
     apply LinearIndependent.of_comp S.subtype
-    simpa using hli
+    -- v4.31: simp no longer reduces `Subtype.val ∘ (fun T => ⟨…, _⟩)` automatically;
+    -- name the reductions explicitly so the family matches `hli`.
+    simpa only [Function.comp_def, Submodule.coe_subtype] using hli
   -- |SYT| ≤ finrank(image)
   have h1 := hli_sub.fintype_card_le_finrank
   -- finrank(image) ≤ finrank(V_λ.restrictScalars ℂ)

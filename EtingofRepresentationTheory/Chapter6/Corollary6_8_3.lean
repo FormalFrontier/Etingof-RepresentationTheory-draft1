@@ -199,7 +199,8 @@ private lemma Etingof.parallel_reduce_and_recover
     -- i is a sink of Q_cur (from sinks condition at position 0)
     have hi_sink : @Etingof.IsSink (Fin n) Q_cur i := by
       have := hSinks 0 (by simp)
-      simp only [List.take_zero, Etingof.iteratedReversedAtVertices] at this
+      -- v4.31: `simp only [List.take_zero, Etingof.iteratedReversedAtVertices]` is now a
+      -- defeq no-op (`simp made no progress`); `this` already closes the goal by defeq.
       exact this
     -- Derive Fintype for ArrowsInto
     haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur

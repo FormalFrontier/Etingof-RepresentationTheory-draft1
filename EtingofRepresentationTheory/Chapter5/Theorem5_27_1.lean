@@ -1462,7 +1462,9 @@ private lemma exists_nonzero_map_from_induced {G A : Type} [Group G] [CommGroup 
     have hcomm := ι.comm s
     -- At element level: ι.hom(ρ_U(s)(u)) = ρ_Wχ(s)(ι.hom(u))
     have h := congr_arg (fun (φ : U.V ⟶ (weightSpaceRep _ W χ hχ).V) =>
-      (φ.hom.hom u : ↥(weightSpace _ W χ)).val) hcomm
+      (φ u : ↥(weightSpace _ W χ)).val) hcomm
+    -- v4.31: apply the morphism via the ConcreteCategory function coercion so
+    -- `CategoryTheory.comp_apply` fires (the old `.hom.hom u` projection no longer simplifies).
     simp only [CategoryTheory.comp_apply] at h
     exact h
   -- Helper: weight space property for ι_W targets

@@ -1423,7 +1423,9 @@ private lemma walk_admissible_ordering
     -- i is a sink of Q_cur (from hSinks at position 0)
     have hi_sink : @IsSink (Fin n) Q_cur i := by
       have := hSinks 0 (by simp)
-      simp only [List.take_zero, iteratedReversedAtVertices] at this
+      -- v4.31: `simp only [List.take_zero, iteratedReversedAtVertices] at this`
+      -- now makes no progress (the `take 0`/`[]`-case reductions are defeq and no
+      -- longer require simp); `this` is already defeq to the goal.
       exact this
     -- Derive instances
     haveI : ∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q_cur a b) := hSS_cur

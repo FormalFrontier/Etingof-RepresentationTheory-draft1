@@ -122,7 +122,7 @@ private lemma tensor_power_expansion
           PiTensorProduct.map
             (fun i => (S.piecewise (fun _ => f) (fun _ => LinearMap.id) i)) := by
   have h := map_add_expansion n (fun _ => f) (fun _ => t • LinearMap.id)
-  simp only at h
+  -- v4.31: `simp only at h` (a beta-reduction no-op here) now errors; drop it.
   rw [h]
   congr 1
   ext1 S

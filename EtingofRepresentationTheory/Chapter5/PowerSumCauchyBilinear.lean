@@ -1284,7 +1284,8 @@ private theorem signedEsp_split (N : ℕ) (j : Fin N) (m : ℕ) :
     have h1 : j ∉ T₁ := fun hm => hj ((Finset.mem_powersetCard.1 (Finset.mem_coe.mp hT₁)).1 hm)
     have h2 : j ∉ T₂ := fun hm => hj ((Finset.mem_powersetCard.1 (Finset.mem_coe.mp hT₂)).1 hm)
     have := congr_arg (·.erase j) h
-    simp only at this
+    -- v4.31: `simp only` no longer beta-reduces; use `beta_reduce` so the `rwa` below matches.
+    beta_reduce at this
     rwa [Finset.erase_insert h1, Finset.erase_insert h2] at this
 
 /-- The key identity: `e_s(univ\{j}) = ∑_{n=0}^{s} signedEsp(s-n) · yⱼ^n`.

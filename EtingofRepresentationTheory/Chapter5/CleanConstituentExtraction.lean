@@ -82,7 +82,10 @@ theorem subFDRep_isAlgebraic (N : ℕ)
     (hM : Etingof.IsAlgebraicRepresentation N M.ρ) :
     Etingof.IsAlgebraicRepresentation N (subFDRep M σ).ρ := by
   have hrestrict := hM.restrict σ.toSubmodule (fun g v hv => σ.apply_mem_toSubmodule g hv)
-  simpa only [subFDRep, FDRep.of_ρ'] using hrestrict
+  -- v4.31: `simpa only [subFDRep, FDRep.of_ρ']` over-unfolds the carrier/action and leaves
+  -- a differently-presented (but defeq) term; `(subFDRep M σ).ρ` is defeq to the restricted
+  -- action `σ.toRepresentation`, so `exact hrestrict` closes the goal directly.
+  exact hrestrict
 
 /-- **Composition-series character additivity.** Every algebraic, weight-spanning `FDRep` `M`
 admits a finite family of simple, algebraic, weight-spanning composition factors `W j` whose
@@ -474,7 +477,9 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
   have hone : (1 : ℚ)
       ≤ ∑ i ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = formalCharacter k N L), a i := by
     have hle := Finset.single_le_sum hnonneg hmem0
-    simpa using hle
+    -- v4.31: `simpa` no longer reduces `a (Sum.inl ())` to `1`, but it is defeq
+    -- (`Sum.elim (fun _ => 1) _ (Sum.inl ()) = 1`), so `exact hle` closes the goal.
+    exact hle
   rw [hbw0] at hone
   exact absurd hone (by norm_num)
 

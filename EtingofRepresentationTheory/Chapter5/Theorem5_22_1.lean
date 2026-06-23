@@ -1742,8 +1742,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
       sub_eq_zero] at hker
     have hval : glTensorRep k N n (diagUnit k N i t) v = (t : k) ^ (μ i : ℕ) • v := by
       have := congr_arg Subtype.val hker
-      simp only [FDRep.of_ρ', schurModuleRep, LinearMap.restrict_coe_apply,
-        Submodule.coe_smul_of_tower] at this
+      -- v4.31: the coercion/restrict reductions are now defeq; `this` already matches the goal.
       exact this
     -- Two ways to compute B.repr(ρ(diag) v)(g):
     -- (1) by repr_glTensorRep_diagUnit: t^|{j|g j=i}| * B.repr v g

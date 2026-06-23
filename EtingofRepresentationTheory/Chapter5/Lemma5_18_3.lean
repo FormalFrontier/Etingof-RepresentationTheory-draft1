@@ -503,8 +503,8 @@ private lemma fullDiag_le_diag [CharZero k] :
     change B i * B j = B j * B i
     simp only [B, ← PiTensorProduct.map_mul]
     congr 1; ext x
-    dsimp only [Pi.mul_apply]
-    by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all
+    -- v4.31: standalone `dsimp only [Pi.mul_apply]` makes no progress; fold it into simp_all.
+    by_cases hi : x = i <;> by_cases hj : x = j <;> simp_all [Pi.mul_apply]
   -- B_i^m = map(fun j => if j = i then f^m else id) (position operator of f^m)
   have hpow : ∀ i m, B i ^ m = PiTensorProduct.map
       (fun j => if j = i then f ^ m else LinearMap.id) := by

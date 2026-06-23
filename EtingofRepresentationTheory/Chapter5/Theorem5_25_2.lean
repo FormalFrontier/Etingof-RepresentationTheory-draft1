@@ -738,7 +738,9 @@ private lemma Etingof.GL2.principalSeries_nontrivial
     have hmem : f ∈ (⊥ : Subrepresentation
       (Etingof.GL2.principalSeriesRep p n chi1 chi2)).toSubmodule := by
       rw [heq]; exact Submodule.mem_top
-    simpa using hmem)
+    -- v4.31: `⊥.toSubmodule` no longer simplifies to the `⊥` submodule under `simpa`,
+    -- but it is defeq, so `Submodule.mem_bot` applies directly.
+    exact (Submodule.mem_bot ℂ).mp hmem)
 
 /-- Key construction: from any nonzero f ∈ S, produce g ∈ S
     with g(rep(none)) ≠ 0 and g(rep(some t)) = 0 for all t.
@@ -2126,7 +2128,8 @@ private lemma Etingof.GL2.complementW_simple
     exact nontrivial_of_ne ⊥ ⊤ (by
       intro heq; apply hfne
       have : f ∈ (⊥ : Subrepresentation ρ).toSubmodule := heq ▸ Submodule.mem_top
-      simpa using this)
+      -- v4.31: `⊥.toSubmodule` no longer simplifies under `simpa`; use `mem_bot` directly.
+      exact (Submodule.mem_bot ℂ).mp this)
   exact IsSimpleOrder.mk fun S => by
     by_cases hS : S = ⊥
     · exact Or.inl hS

@@ -746,7 +746,8 @@ theorem quotDetDegree_formalCharacter_eq_polyRight_of_lt {N : ℕ} (d : ℕ) (hd
     intro v hv
     have hco : Submodule.mkQ (detSubmodule k N) (polyOf d v) = 0 := by
       have h := Subtype.ext_iff.mp hv
-      simpa only [quotDetDegreeProj, LinearMap.restrict_coe_apply, ZeroMemClass.coe_zero] using h
+      -- v4.31: the restrict/coe reductions are now defeq; `h` already has the goal's type.
+      exact h
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hco
     have hv0 : polyOf d v = 0 := by
       have hmem : polyOf d v ∈ (⊥ : Submodule k (MvPolynomial (Fin N × Fin N) k)) := by

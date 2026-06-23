@@ -327,6 +327,8 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
         intro k
         change α' k = ((preadditiveCoyonedaObj P).map f).hom k
         conv_rhs => rw [hf]; simp [ModuleCat.hom_ofHom]
+        -- v4.31: the conv leaves the residual reflexivity goal `α' k = α' k`; close it.
+        rfl
       have hg_eq : g = α' (βm w) := by
         change g = βn (α (βm.symm (βm w)))
         simp only [LinearEquiv.symm_apply_apply]
@@ -412,6 +414,8 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
         intro k
         change α' k = ((preadditiveCoyonedaObj P).map f).hom k
         conv_rhs => rw [hf]; simp [ModuleCat.hom_ofHom]
+        -- v4.31: the conv leaves the residual reflexivity goal `α' k = α' k`; close it.
+        rfl
       rw [← hα'_eq]
       change φ (βn.symm (βn (α (βm.symm h)))) = 0
       rw [LinearEquiv.symm_apply_apply]

@@ -716,7 +716,8 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
               rw [if_pos]; right; right; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              rw [if_pos]; left; left; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+              -- v4.31: dsimp no longer reduces the Fin.val goals here; omega closes directly
+              rw [if_pos]; left; left; refine ⟨?_, ?_⟩ <;> omega
     · by_cases hj : j.val = n - 1
       · -- j = n-1, i on main path: route through n-3
         have hilt : i.val < n - 1 := by omega
@@ -788,7 +789,8 @@ private lemma Dn_isDynkin (n : ℕ) (hn : 4 ≤ n) :
             match k with
             | 0 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
-              rw [if_pos]; left; right; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
+              -- v4.31: dsimp no longer reduces the Fin.val goals here; omega closes directly
+              rw [if_pos]; left; right; refine ⟨?_, ?_⟩ <;> omega
             | 1 =>
               dsimp only [List.get]; simp only [DynkinType.adj]
               rw [if_pos]; right; left; refine ⟨?_, ?_⟩ <;> dsimp <;> omega
