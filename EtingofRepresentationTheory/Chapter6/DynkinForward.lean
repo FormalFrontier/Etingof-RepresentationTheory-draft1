@@ -380,7 +380,8 @@ lemma dynkin_edge_count {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
   -- Define the SimpleGraph corresponding to the adjacency matrix
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
-      symm := fun {i j} h => by change adj j i = 1; rw [hsymm.apply i j]; exact h
+      -- v4.31: `SimpleGraph.symm` is now `Std.Symm Adj` (field `symm : ∀ a b, r a b → r b a`).
+      symm := ⟨fun i j h => by change adj j i = 1; rw [hsymm.apply i j]; exact h⟩
       loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
   letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   -- Show G is connected
@@ -575,7 +576,8 @@ lemma path_walk_construction {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
           -- Build SimpleGraph from adj
           let G : SimpleGraph (Fin (k + 1)) :=
             { Adj := fun i j => adj i j = 1
-              symm := fun {i j} (h : adj i j = 1) => (hsymm.apply i j).trans h
+              -- v4.31: `SimpleGraph.symm` is now `Std.Symm Adj`.
+              symm := ⟨fun i j (h : adj i j = 1) => (hsymm.apply i j).trans h⟩
               loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
           haveI : DecidableRel G.Adj :=
             fun i j => show Decidable (adj i j = 1) from inferInstance

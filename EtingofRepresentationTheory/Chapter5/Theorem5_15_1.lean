@@ -2598,7 +2598,8 @@ theorem alternating_kostka_eq_delta {n : ℕ} (la nu : Nat.Partition n) :
     simp only [if_true]
     -- Isolate the rev permutation term
     have hrev_mem : rev ∈ Finset.univ := Finset.mem_univ _
-    rw [Finset.sum_eq_add_sum_diff_singleton_of_mem hrev_mem]
+    -- v4.31: `sum_eq_add_sum_diff_singleton_of_mem` renamed (`diff` → `sdiff`).
+    rw [Finset.sum_eq_add_sum_sdiff_singleton_of_mem hrev_mem]
     have hrev_le : permExponent n rev ≤ Nat.Partition.toFinsupp la + rhoShift n :=
       permExponent_revPerm n ▸ rhoShift_le_toFinsupp_add_rhoShift la
     -- Non-rev terms vanish: for π ≠ rev, sort(la+ρ-e_π) ▷ la, so m(sort(...), la) = 0

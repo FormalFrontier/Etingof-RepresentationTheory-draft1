@@ -18,7 +18,8 @@ private lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n)
   -- Build SimpleGraph and get a simple path from v to w
   let G : SimpleGraph (Fin n) :=
     { Adj := fun i j => adj i j = 1
-      symm := fun {i j} h => by change adj j i = 1; rw [hsymm.apply i j]; exact h
+      -- v4.31: `SimpleGraph.symm` is now `Std.Symm Adj`.
+      symm := ⟨fun i j h => by change adj j i = 1; rw [hsymm.apply i j]; exact h⟩
       loopless := ⟨fun i h => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
   haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
   haveI : Nonempty (Fin n) := ⟨v⟩
@@ -836,7 +837,8 @@ private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
       · -- Connectivity: removing a leaf preserves connectivity
         let G : SimpleGraph (Fin (k + 1)) :=
           { Adj := fun i j => adj i j = 1
-            symm := fun {i j} (h : adj i j = 1) => (hsymm.apply i j).trans h
+            -- v4.31: `SimpleGraph.symm` is now `Std.Symm Adj`.
+            symm := ⟨fun i j (h : adj i j = 1) => (hsymm.apply i j).trans h⟩
             loopless := ⟨fun i (h : adj i i = 1) => by linarith [hdiag i]⟩ }
         haveI : DecidableRel G.Adj :=
           fun i j => show Decidable (adj i j = 1) from inferInstance

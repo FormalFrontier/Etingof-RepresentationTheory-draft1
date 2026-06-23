@@ -21,6 +21,10 @@ property is captured by `UniversalEnvelopingAlgebra.lift`.
 
 open CategoryTheory
 
+-- v4.31: `LieRing.ofAssociativeRing` is no longer a global instance (only file-local in Mathlib);
+-- re-enable it locally so the Lie structure on `End`/`Module.End` is found.
+attribute [local instance] LieRing.ofAssociativeRing
+
 /-- Frobenius reciprocity: induction is left adjoint to restriction for
 representations of finite groups. (Etingof Example 7.6.3(2))
 
