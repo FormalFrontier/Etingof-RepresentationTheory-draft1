@@ -72,6 +72,10 @@ lemma Etingof.splits_X_pow_sub_X :
 obtained from IsSplittingField.lift. -/
 noncomputable def Etingof.galoisFieldAlgHom :
     GaloisField p n →ₐ[ZMod p] GaloisField p (2 * n) :=
+  letI : IsSplittingField (ZMod p) (GaloisField p n) (X ^ p ^ n - X : (ZMod p)[X]) := by
+    change IsSplittingField (ZMod p) ((X ^ p ^ n - X : (ZMod p)[X]).SplittingField)
+      (X ^ p ^ n - X)
+    infer_instance
   IsSplittingField.lift (GaloisField p n) (X ^ p ^ n - X)
     (Etingof.splits_X_pow_sub_X p n)
 
