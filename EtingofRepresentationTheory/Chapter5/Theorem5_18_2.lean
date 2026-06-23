@@ -23,6 +23,10 @@ to the Lie algebra action.
 
 open scoped TensorProduct
 
+-- v4.31: `LieRing.ofAssociativeRing` is no longer a global instance (only file-local in Mathlib);
+-- re-enable it locally so the Lie structure on `Module.End` is found.
+attribute [local instance] LieRing.ofAssociativeRing
+
 namespace Etingof.Theorem5_18_2
 
 variable (k : Type*) [Field k]

@@ -43,6 +43,10 @@ open LieModule Module
 
 namespace Etingof
 
+-- v4.31: `LieRing.ofAssociativeRing` is no longer a global instance (only file-local in Mathlib);
+-- re-enable it locally so the Lie structure on `End ℂ V` is found.
+attribute [local instance] LieRing.ofAssociativeRing
+
 /-! ## Primitive vector theory for sl(2)-modules
 
 We prove that every nontrivial finite-dimensional irreducible sl(2, ℂ)-module has a primitive

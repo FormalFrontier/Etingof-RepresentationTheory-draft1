@@ -138,7 +138,8 @@ private lemma ker_mk_le_ker_symSum :
   -- Build an AddCon from symSum's kernel
   let c : AddCon (⨂[k] (_ : Fin n), V) := AddCon.ker symSum.toAddMonoidHom
   have hle : addConGen (SymmetricPower.Rel k (Fin n) V) ≤ c :=
-    AddCon.addConGen_le (fun a b h => symSum_rel a b h)
+    -- v4.31: `AddCon.addConGen_le` is now an `Iff`.
+    AddCon.addConGen_le.mpr (fun a b h => symSum_rel a b h)
   -- mk x = 0 means x ≡ 0 mod addConGen(Rel)
   have hrel : (addConGen (SymmetricPower.Rel k (Fin n) V)) x 0 := by
     have hmk : (AddCon.mk' (addConGen (SymmetricPower.Rel k (Fin n) V))) x =
