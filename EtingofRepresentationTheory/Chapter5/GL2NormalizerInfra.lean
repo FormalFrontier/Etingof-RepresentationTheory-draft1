@@ -615,7 +615,8 @@ private lemma Etingof.GL2.frobenius_root_of_basefield_poly (hn : n ≠ 0)
     intro x; exact congrFun (FiniteField.coe_frobeniusAlgEquivOfAlgebraic _ _) x
   have key : Polynomial.aeval (φ.toAlgHom α) P = 0 := by
     rw [Polynomial.aeval_algHom_apply, hroot, map_zero]
-  convert key using 2
+  -- v4.31: `convert key using 2` leaves the residual `aeval (α^card) = aeval (φ α)`; close via `hφ_eq`.
+  rw [← hφ_eq α]; exact key
 
 /-- A degree-2 polynomial has at most 2 roots: any root equals one of two known distinct roots. -/
 private lemma Etingof.GL2.root_dichotomy_of_deg_two

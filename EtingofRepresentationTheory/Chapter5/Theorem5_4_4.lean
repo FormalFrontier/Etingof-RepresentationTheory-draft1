@@ -265,7 +265,11 @@ private lemma class_sum_scalar_isIntegral
     -- Extract .hom.hom to get ModuleCat.Hom equality, then .hom for LinearMap
     have h2 := congr_arg (fun f : V.V ⟶ V.V => InducedCategory.Hom.hom f |>.hom) h1
     -- h2 relates σ to c • id at the LinearMap level
-    convert h2 using 1
+    -- v4.31: `convert` no longer reduces the structure projections, so finish pointwise.
+    apply LinearMap.ext
+    intro v
+    have := congr_arg (fun f : V.V.obj →ₗ[ℂ] V.V.obj => f v) h2
+    exact this
   -- Step 3: c = C * χ(g) / d via trace computation
   have hc_val : c = (C : ℂ) * V.character g / (d : ℂ) := by
     have hdim_ne : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
@@ -315,7 +319,8 @@ private lemma class_sum_scalar_isIntegral
   exact (isIntegral_algHom_iff
     (IsScalarTower.toAlgHom ℤ ℂ (Module.End ℂ V.V.obj))
     (FaithfulSMul.algebraMap_injective ℂ (Module.End ℂ V.V.obj))).mp
-    (by convert hφe_int)
+    -- v4.31: `convert` leaves `IsScalarTower.toAlgHom … c = c • id`; close with algebraMap.
+    (by convert hφe_int using 2; simp [Algebra.algebraMap_eq_smul_one, Module.End.one_eq_id])
 
 /-! ### Helper: χ_V(g)/dim(V) is an algebraic integer when gcd(|C|, dim V) = 1
 

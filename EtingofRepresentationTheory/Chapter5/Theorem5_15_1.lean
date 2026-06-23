@@ -2086,7 +2086,9 @@ private theorem sorted_shifted_strict_dominates {n : ℕ}
           = ∑ j : Fin n, (if j.val < k then (v j : ℤ) else 0) := hLHS'.symm
         _ = ∑ i : Fin n, (if (σ⁻¹ i).val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := hLHS.symm
         _ ≤ ∑ i : Fin n, (if i.val < k then (Nat.Partition.toFinsupp mu i : ℤ) else 0) := by
-          convert hrearr using 2 <;> simp
+          -- v4.31: `convert ... using 2` now also exposes an instance-equality goal that `simp`
+          -- can't touch; close instance goals by `Subsingleton.elim`, cast goals by `simp`.
+          convert hrearr using 2 <;> first | rfl | simp | exact Subsingleton.elim _ _
         _ = (F k).sum (fun i => (Nat.Partition.toFinsupp mu i : ℤ)) := hRHS
     linarith
   · -- Inequality: finsuppToPartition(la + ρ - e_π) ≠ la

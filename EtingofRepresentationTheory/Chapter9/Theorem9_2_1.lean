@@ -350,7 +350,10 @@ lemma exists_orthogonal_idempotents_for_simples
       exact h_base.embedding ⟨σ, hσ_inj⟩
     -- Map through WA⁻¹ (ring homomorphism)
     have := horth_prod.map WA.symm.toRingEquiv.toRingHom
+    -- v4.31: `convert` no longer unfolds `Function.comp`; close the residual pointwise.
     convert this using 1
+    funext i
+    rfl
   -- Now only need to prove: ∃ injective σ with the rank property.
   -- This is the block-module correspondence for Wedderburn-Artin.
   --
