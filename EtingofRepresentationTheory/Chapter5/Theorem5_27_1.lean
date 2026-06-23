@@ -1337,7 +1337,7 @@ private lemma finrank_biprod' {H : Type} [Group H] [Fintype H]
       (0 : A ⟶ B).hom.hom.hom x = 0 := by
     intro A B x
     show (0 : A.V.obj ⟶ B.V.obj).hom x = 0
-    simp [ModuleCat.Hom.hom]; exact LinearMap.zero_apply x
+    simp [ModuleCat.Hom.hom] -- v4.29.0: simp now closes goal
   have hid : ∀ (A : FDRep ℂ H) (x : A.V),
       (𝟙 A : A ⟶ A).hom.hom.hom x = x := fun _ _ => rfl
   refine {

@@ -16,7 +16,7 @@ weak.backward.isDefEq.respectTransparency = false
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.29.0-rc8"
+rev = "v4.29.0"
 
 [[lean_lib]]
 name = "EtingofRepresentationTheory"
