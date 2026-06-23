@@ -815,6 +815,7 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
     simpa using this
 
 set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 40000 in -- rc2: slower instance search
 -- Schur's lemma + dimension counting requires more heartbeats
 /-- The number of copies in the R-linear decomposition `C_ν ≃ₗ[R] Fin k → V_ν`
 equals `spechtMultiplicity n mu nu = finrank Hom_R(U_μ, V_ν)`.
@@ -1233,7 +1234,7 @@ private lemma card_filter_getD_eq_count (l : List ℕ) (n : ℕ) (hn : l.length 
       rw [Multiset.count_cons, ih m htlen]
       by_cases h : c = a
       · subst h; simp [List.count_cons_self]
-      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)]
+      · rw [if_neg h, List.count_cons_of_ne (Ne.symm h)] <;> omega
 
 /-- For a symmetric polynomial P, the coefficient at any vector v equals the
 coefficient at `(finsuppToPartition v hsum).toFinsupp`. This follows from the

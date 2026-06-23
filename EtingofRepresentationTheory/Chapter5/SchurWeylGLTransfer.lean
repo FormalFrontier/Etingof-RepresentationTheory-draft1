@@ -489,6 +489,7 @@ theorem submodule_smul_mem_diagonalActionImage_of_unit_smul_mem
         (⟨b₂, h₂_mem⟩ : diagonalActionImage k V n) from rfl, mul_smul]
     exact hy₁
 
+set_option synthInstance.maxHeartbeats 40000 in -- rc2: slower instance search
 /-- Simplicity transfer: if `M` is a `diagonalActionImage`-simple module, then
 every k-subspace of `M` closed under the action of `g^⊗n` (for every unit `g`)
 is either `⊥` or `⊤`. -/

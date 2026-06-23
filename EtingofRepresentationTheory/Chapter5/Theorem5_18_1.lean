@@ -467,7 +467,7 @@ noncomputable instance centralizerModuleHom
 -- `Theorem5_18_1_bimodule_decomposition` needs more than 200000 synth
 -- heartbeats. Empirical minimum is ~310000 for both; 320000 is the value
 -- chosen with a small safety buffer (was 400000 / 400000 in #2504).
-set_option maxHeartbeats 320000 in
+set_option maxHeartbeats 800000 in -- rc2: isDefEq on the centralizer-wrapped subtype in `LinearMap.ext` overran 320000
 set_option synthInstance.maxHeartbeats 320000 in
 /-- The centralizer action on `V →ₗ[A] E` (post-composition) commutes with
 the standard `k`-action on `V →ₗ[A] E` (pointwise scaling). This follows
@@ -541,6 +541,7 @@ theorem postCompCentralizerMonoidHom_apply_apply
     (l : V →ₗ[A] E) (v : V) :
     postCompCentralizerMonoidHom k E A V b l v = b.val (l v) := rfl
 
+set_option maxHeartbeats 400000 in -- rc2: whnf in the isotypic-component calc overran default 200000
 set_option synthInstance.maxHeartbeats 400000 in
 /-- The natural bridge: every `A`-linear map from a simple submodule `V ≤ E`
 into `E` lands in the isotypic component `isotypicComponent A E V`. -/
@@ -672,7 +673,7 @@ theorem isSimpleModule_homA_centralizer
     change h (f v) = g v
     exact LinearMap.congr_fun hh v
 
-set_option maxHeartbeats 2000000 in
+set_option maxHeartbeats 3200000 in -- rc2: isDefEq in the per-component iso chain overran 2000000
 -- Heartbeats are bumped because the existential output has several universe-polymorphic
 -- ∀-binders whose instance synthesis (AddCommGroup / Module / SMulCommClass / Module.Finite
 -- over a subalgebra-wrapped ring) each triggers a deep `Subalgebra → Ring → Module.End`
@@ -763,7 +764,7 @@ theorem Theorem5_18_1_bimodule_decomposition
     fun _ => inferInstance,
     fun i => (↥(V' (φ.symm i)) →ₗ[A] E),
     fun _ => inferInstance, fun _ => inferInstance, fun _ => inferInstance,
-    fun _ => inferInstance,
+    fun i => centralizerModuleHom_smulCommClass k E (A := A) (V := ↥(V' (φ.symm i))),
     fun _ => inferInstance,
     ?_⟩
   · -- Distinctness: V i ≃[A] V j → i = j
