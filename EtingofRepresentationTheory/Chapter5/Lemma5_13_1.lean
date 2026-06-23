@@ -124,7 +124,14 @@ private theorem conj_swap_eq {n : ℕ} (σ : Equiv.Perm (Fin n)) (i j : Fin n) :
   Equiv.trans_swap_trans_symm i j σ
 
 open Pointwise in
-private theorem pigeonhole_transposition {n : ℕ} {la : Nat.Partition n}
+/-- **von Neumann / Young dichotomy.** For any `σ`, either `σ ∈ P_λ · Q_λ`, or
+there is a transposition `t` of two same-row positions whose conjugate
+`σ⁻¹ t σ` is a transposition of two same-column positions. (Stated as the
+negation of the `P_λ · Q_λ` membership.) This is the classical pigeonhole
+lemma underlying Young-symmetrizer theory; it is consumed both by
+`Etingof.Lemma5_13_1` here and by the twisted-polytabloid leading-term fact in
+`Chapter5.SpechtModuleBasis`. -/
+theorem pigeonhole_rowCol_dichotomy {n : ℕ} {la : Nat.Partition n}
     (σ : Equiv.Perm (Fin n))
     (hσ : σ ∉ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
       (ColumnSubgroup n la : Set (Equiv.Perm (Fin n)))) :
@@ -412,7 +419,7 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     exact Set.mem_mul.mpr ⟨q⁻¹, (ColumnSubgroup n la).inv_mem hq,
       p⁻¹, (RowSubgroup n la).inv_mem hp,
       show q⁻¹ * p⁻¹ = σ from by rw [← mul_inv_rev, hpq, inv_inv]⟩
-  obtain ⟨t, ht_swap, ht_row, ht_col'⟩ := pigeonhole_transposition σ⁻¹ hσ_inv
+  obtain ⟨t, ht_swap, ht_row, ht_col'⟩ := pigeonhole_rowCol_dichotomy σ⁻¹ hσ_inv
   -- ht_col' : (σ⁻¹)⁻¹ * t * σ⁻¹ = σ * t * σ⁻¹ ∈ Q_λ
   set u := σ * t * σ⁻¹ with hu_def
   have hu_col : u ∈ ColumnSubgroup n la := by
@@ -485,7 +492,7 @@ private theorem dual_sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
       (ColumnSubgroup n la : Set (Equiv.Perm (Fin n)))) :
     RowSymmetrizer n la * MonoidAlgebra.of ℂ _ σ * ColumnAntisymmetrizer n la = 0 := by
   classical
-  obtain ⟨t, ht_swap, ht_row, ht_col'⟩ := pigeonhole_transposition σ hσ
+  obtain ⟨t, ht_swap, ht_row, ht_col'⟩ := pigeonhole_rowCol_dichotomy σ hσ
   set u := σ⁻¹ * t * σ with hu_def
   have hu_col : u ∈ ColumnSubgroup n la := ht_col'
   have hσt : t * σ = σ * u := by simp [hu_def]; group
