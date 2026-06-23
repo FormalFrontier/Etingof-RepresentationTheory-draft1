@@ -500,6 +500,32 @@ If a blob file is empty, flag it rather than scaffolding from the title alone. T
 
 Prefer the most specific Mathlib module. Don't import `Mathlib.LinearAlgebra.DirectSum.Finite` when `Mathlib.Algebra.Module.Prod` suffices.
 
+### Verify "import-cleanliness" with a real transitive trace, never a grep or an agent claim
+
+When a task requires a file to avoid some module (e.g. the Chapter 5 `DetInvElim`-clean work for #5072/#5075/#5078: a file must NOT transitively import `DetInvElim`, else it creates a build cycle), do not trust a direct-import grep or a subagent's pollution claim — both miss/invent transitive edges. An Explore agent confidently mis-reported `FormalCharacterTorusTrace` as importing `DetInvElim` when it does not; a real trace caught it. Compute the transitive closure yourself before relying on it:
+
+```bash
+python3 - <<'PY'
+import os, re
+root="EtingofRepresentationTheory"; imports={}
+for dp,_,fs in os.walk(root):
+    for f in fs:
+        if f.endswith(".lean"):
+            mod="EtingofRepresentationTheory"+dp[len(root):].replace("/",".")+"."+f[:-5]
+            imports[mod.replace("..",".")]=[m.group(1) for line in open(os.path.join(dp,f))
+                if (m:=re.match(r'^import (EtingofRepresentationTheory\.[\w.]+)',line))]
+def trans(s,seen=None):
+    seen=seen or set()
+    for d in imports.get(s,[]):
+        if d not in seen: seen.add(d); trans(d,seen)
+    return seen
+target="EtingofRepresentationTheory.Chapter5.<File>"
+print([x for x in trans(target) if "DetInvElim" in x] or "CLEAN")
+PY
+```
+
+The lemma you need may live in a *polluted* file even though its own proof is clean (this is common — additivity/weight-space helpers stranded in files that import `DetInvElim` for unrelated reasons). The fix is to **relocate the clean statement+proof into a new file importing only clean ancestors**, leaving the polluted original in place; verify the new file with the trace above.
+
 ### Match Mathlib's generality for type class assumptions
 
 If Mathlib uses `[Semiring R]`, don't restrict to `[CommRing R]`. Use the same or a compatible assumption. Within a chapter, be consistent — don't use `[CommRing R]` in one definition and `[Ring R]` in the adjacent one.
