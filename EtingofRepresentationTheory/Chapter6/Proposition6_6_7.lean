@@ -39,14 +39,10 @@ def Etingof.arrowsIntoReversed
     {Q : Type*} [inst : DecidableEq Q] [Quiver Q]
     {i : Q} (hi : Etingof.IsSink Q i)
     (a : Etingof.ArrowsInto Q i) :
-    @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i a.1 := by
-  show Etingof.ReversedAtVertexHom Q i i a.1
-  unfold Etingof.ReversedAtVertexHom
-  have hne := arrowsInto_ne_sink hi a
-  exact match inst i i, inst a.1 i with
-  | .isTrue _, .isTrue h => absurd h hne
-  | .isTrue _, .isFalse _ => a.2
-  | .isFalse h, _ => absurd rfl h
+    @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i a.1 :=
+  -- Defined as the `cast` of the original arrow `a.2 : a.1 ⟶ i` along the type-equality lemma
+  -- (mirrors `reversedArrow_eq_ne`); keeps downstream `… = cast …` lemmas at `rfl` under v4.30.
+  cast (Etingof.ReversedAtVertexHom_eq_ne rfl (arrowsInto_ne_sink hi a)).symm a.2
 
 set_option maxHeartbeats 800000 in
 /-- The F⁺ map from i to a.1 (via the reversed arrow) composed with equivAt_ne
@@ -72,18 +68,11 @@ theorem Etingof.reflFunctorPlus_map_from_sink_component
   -- avoiding the v4.29 discriminant rewrite.
   -- `reversedArrow_eq_ne` undoes `arrowsIntoReversed`, recovering `a.2`.
   have harr : Etingof.reversedArrow_eq_ne ha (arrowsIntoReversed hi a) = a.2 := by
-    have h_ii : inst i i = .isTrue rfl := by
-      cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
-    have h_ai : inst a.1 i = .isFalse ha := by
-      cases inst a.1 i with | isTrue h => exact absurd h ha | isFalse _ => rfl
+    -- Both `reversedArrow_eq_ne` and `arrowsIntoReversed` are now `cast`s of `a.2`; the two
+    -- casts compose to a cast along `(a.1 ⟶ i) = (a.1 ⟶ i)`, which is the identity.
     rw [Etingof.reversedArrow_eq_ne_eq_cast ha]
-    obtain ⟨j, e⟩ := a
-    simp only at ha h_ai ⊢
-    unfold arrowsIntoReversed Etingof.ReversedAtVertexHom_eq_ne
-      Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-    simp only []
-    rw [h_ii, h_ai]
-    rfl
+    unfold Etingof.arrowsIntoReversed
+    rw [cast_cast, cast_eq]
   rw [Etingof.reflFunctorPlus_mapLinear_eq_ne hi ρ ha (arrowsIntoReversed hi a) x]
   -- The two sides differ only in the (definitionally `.val` = `ker.subtype`) coordinate
   -- map and in the component index, which `harr` identifies with `a`.
