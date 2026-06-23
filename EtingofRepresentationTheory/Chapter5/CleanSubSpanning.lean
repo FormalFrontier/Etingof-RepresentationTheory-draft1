@@ -69,14 +69,89 @@ private theorem eq_of_le_of_iSupIndep_of_iSup_eq {M' : Type*} [AddCommGroup M'] 
         rw [inf_comm]; exact disjoint_iff_inf_le.mp hdisj
     _ = A i := by simp
 
+/-- Base-`B` positional representation is injective on tuples with all coordinates `< B`. -/
+private theorem sum_base_pow_injOn {B : ℕ} (hB : 1 ≤ B) :
+    ∀ {n : ℕ} (f g : Fin n → ℕ), (∀ i, f i < B) → (∀ i, g i < B) →
+      (∑ i : Fin n, B ^ (i : ℕ) * f i) = (∑ i : Fin n, B ^ (i : ℕ) * g i) → f = g := by
+  intro n
+  induction n with
+  | zero => intro f g _ _ _; funext i; exact i.elim0
+  | succ n ih =>
+      intro f g hf hg h
+      have key : ∀ (p : Fin (n + 1) → ℕ),
+          (∑ i : Fin (n + 1), B ^ (i : ℕ) * p i)
+            = p 0 + B * ∑ i : Fin n, B ^ (i : ℕ) * p i.succ := by
+        intro p
+        rw [Fin.sum_univ_succ]
+        congr 1
+        · simp
+        · rw [Finset.mul_sum]
+          refine Finset.sum_congr rfl fun i _ => ?_
+          rw [Fin.val_succ, pow_succ']; ring
+      rw [key f, key g] at h
+      have h0 : f 0 = g 0 := by
+        have e1 : (f 0 + B * ∑ i : Fin n, B ^ (i : ℕ) * f i.succ) % B = f 0 := by
+          rw [Nat.add_mul_mod_self_left]; exact Nat.mod_eq_of_lt (hf 0)
+        have e2 : (g 0 + B * ∑ i : Fin n, B ^ (i : ℕ) * g i.succ) % B = g 0 := by
+          rw [Nat.add_mul_mod_self_left]; exact Nat.mod_eq_of_lt (hg 0)
+        rw [← e1, ← e2, h]
+      rw [h0] at h
+      have hSfg : (∑ i : Fin n, B ^ (i : ℕ) * f i.succ)
+          = ∑ i : Fin n, B ^ (i : ℕ) * g i.succ :=
+        Nat.eq_of_mul_eq_mul_left (by omega) (Nat.add_left_cancel h)
+      have htail := ih (fun i => f i.succ) (fun i => g i.succ)
+        (fun i => hf i.succ) (fun i => hg i.succ) hSfg
+      funext i
+      exact Fin.cases h0 (fun j => congrFun htail j) i
+
 /-- **A separating diagonal torus element exists.** Over the infinite field `k` there is a
 torus tuple `t` whose characters `χ_μ(t)` are pairwise distinct over the finite set of
-weights with nonzero weight space. -/
+weights with nonzero weight space. We take `t i = 2^(B^i)` for a base `B` exceeding every
+coordinate of a supported weight; then `χ_μ(t) = 2^(∑ μ_i B^i)`, and the base-`B` encodings
+are distinct, while `2` has infinite multiplicative order (`CharZero`). -/
 theorem exists_separating_torus (N : ℕ)
     (M : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) :
     ∃ t : Fin N → kˣ, Set.InjOn (torusChar N t)
       {μ : Fin N →₀ ℕ | glWeightSpace k N M (fun i => μ i) ≠ ⊥} := by
-  sorry
+  classical
+  have hpow2 : Function.Injective (fun n : ℕ => (2 : k) ^ n) := by
+    have h2 : (2 : k) = ((2 : ℕ) : k) := by norm_num
+    intro a b h
+    simp only [h2, ← Nat.cast_pow] at h
+    exact Nat.pow_right_injective (le_refl 2) (Nat.cast_injective h)
+  set S := (glWeightSpace_finite_support k N M).toFinset with hS
+  set B := (S.sup fun μ => ∑ i, μ i) + 1 with hBdef
+  have hB1 : 1 ≤ B := Nat.le_add_left 1 _
+  have hbound : ∀ μ ∈ S, ∀ i, μ i < B := by
+    intro μ hμ i
+    have h1 : μ i ≤ ∑ j, μ j :=
+      Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)
+    have h2 : (∑ j, μ j) ≤ S.sup fun μ => ∑ i, μ i :=
+      Finset.le_sup (f := fun μ : Fin N →₀ ℕ => ∑ i, μ i) hμ
+    omega
+  set u : kˣ := Units.mk0 (2 : k) (by norm_num) with hu
+  have huval : (u : k) = 2 := by rw [hu]; rfl
+  have hchar : ∀ ρ : Fin N →₀ ℕ,
+      torusChar N (fun i => u ^ (B ^ (i : ℕ))) ρ
+        = (2 : k) ^ (∑ i : Fin N, B ^ (i : ℕ) * ρ i) := by
+    intro ρ
+    have hterm : ∀ i : Fin N,
+        ((u ^ (B ^ (i : ℕ)) : kˣ) : k) ^ (ρ i) = (2 : k) ^ (B ^ (i : ℕ) * ρ i) := by
+      intro i
+      rw [Units.val_pow_eq_pow_val, huval, ← pow_mul]
+    simp only [torusChar, hterm]
+    rw [Finset.prod_pow_eq_pow_sum]
+  refine ⟨fun i => u ^ (B ^ (i : ℕ)), ?_⟩
+  intro μ hμ ν hν hμν
+  rw [Set.mem_setOf_eq] at hμ hν
+  have hμS : μ ∈ S := (glWeightSpace_finite_support k N M).mem_toFinset.mpr hμ
+  have hνS : ν ∈ S := (glWeightSpace_finite_support k N M).mem_toFinset.mpr hν
+  rw [hchar μ, hchar ν] at hμν
+  have hE : (∑ i : Fin N, B ^ (i : ℕ) * μ i) = ∑ i : Fin N, B ^ (i : ℕ) * ν i := hpow2 hμν
+  have hfun : (fun i => μ i) = (fun i => ν i) :=
+    sum_base_pow_injOn hB1 (fun i => μ i) (fun i => ν i)
+      (fun i => hbound μ hμS i) (fun i => hbound ν hνS i) hE
+  exact Finsupp.ext fun i => congrFun hfun i
 
 /-- Every weight vector of weight `μ` is an eigenvector of `M.ρ (diag t)` with eigenvalue
 `χ_μ(t)`, so the weight space sits inside the generalised eigenspace. -/
