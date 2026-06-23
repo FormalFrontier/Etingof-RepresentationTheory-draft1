@@ -638,23 +638,11 @@ private theorem Etingof.reversedArrow_eq_ne_eq_cast_def
     {i j : Q} (hj : j ≠ i)
     (e : Etingof.ReversedAtVertexHom Q i i j) :
     Etingof.reversedArrow_eq_ne hj e =
-    cast (Etingof.ReversedAtVertexHom_at_first_def hj) e := by
-  -- Both functions case-split on inst i i and inst j i.
-  -- Fix the Decidable values, then revert e and rw to reduce both sides.
-  have h_ii : inst i i = .isTrue rfl := by
-    match inst i i with
-    | .isTrue _ => rfl
-    | .isFalse h => exact absurd rfl h
-  have h_ji : inst j i = .isFalse hj := by
-    match inst j i with
-    | .isFalse _ => rfl
-    | .isTrue h => exact absurd h hj
-  revert e
-  unfold Etingof.reversedArrow_eq_ne Etingof.ReversedAtVertexHom_at_first_def
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ii, h_ji]
-  intro e; rfl
+    cast (Etingof.ReversedAtVertexHom_at_first_def hj) e :=
+  -- `reversedArrow_eq_ne hj e` is now *defined* as `cast (ReversedAtVertexHom_eq_ne rfl hj) e`;
+  -- both sides are `cast _ e`, equal by proof irrelevance of the type equalities (via `HEq`).
+  eq_of_heq ((cast_heq (Etingof.ReversedAtVertexHom_eq_ne rfl hj) e).trans
+    (cast_heq (Etingof.ReversedAtVertexHom_at_first_def hj) e).symm)
 
 /-- Round-trip: extracting the original arrow from a converted ArrowsInto
 gives back the original arrow. -/
@@ -863,17 +851,9 @@ theorem Etingof.reversedArrow_ne_ne_is_cast
     {i a b : Q} (ha : a ≠ i) (hb : b ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
     Etingof.reversedArrow_ne_ne ha hb e =
-    cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e := by
-  have h_ai : inst_dec a i = .isFalse ha := by
-    match inst_dec a i with | .isTrue h => exact absurd h ha | .isFalse _ => rfl
-  have h_bi : inst_dec b i = .isFalse hb := by
-    match inst_dec b i with | .isTrue h => exact absurd h hb | .isFalse _ => rfl
-  revert e
-  unfold Etingof.reversedArrow_ne_ne Etingof.ReversedAtVertexHom_ne_ne
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ai, h_bi]
-  intro e; rfl
+    cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e :=
+  -- `reversedArrow_ne_ne` is now *defined* as this cast.
+  rfl
 
 set_option maxHeartbeats 1600000 in
 -- reason: double-reversal cast simplification through Decidable.casesOn
@@ -910,17 +890,9 @@ theorem Etingof.reversedArrow_eq_ne_is_cast
     {i b : Q} (hb : b ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) :
     Etingof.reversedArrow_eq_ne hb e =
-    cast (Etingof.ReversedAtVertexHom_eq_ne (i := i) rfl hb) e := by
-  have h_ii : inst_dec i i = .isTrue rfl := by
-    match inst_dec i i with | .isTrue _ => rfl | .isFalse h => exact absurd rfl h
-  have h_bi : inst_dec b i = .isFalse hb := by
-    match inst_dec b i with | .isTrue h => exact absurd h hb | .isFalse _ => rfl
-  revert e
-  unfold Etingof.reversedArrow_eq_ne Etingof.ReversedAtVertexHom_eq_ne
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ii, h_bi]
-  intro e; rfl
+    cast (Etingof.ReversedAtVertexHom_eq_ne (i := i) rfl hb) e :=
+  -- `reversedArrow_eq_ne` is now *defined* as this cast.
+  rfl
 
 /-- `reversedArrow_ne_eq ha` is a cast through `ReversedAtVertexHom_ne_eq`. -/
 theorem Etingof.reversedArrow_ne_eq_is_cast
@@ -928,17 +900,9 @@ theorem Etingof.reversedArrow_ne_eq_is_cast
     {i a : Q} (ha : a ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) :
     Etingof.reversedArrow_ne_eq ha e =
-    cast (Etingof.ReversedAtVertexHom_ne_eq (i := i) ha rfl) e := by
-  have h_ai : inst_dec a i = .isFalse ha := by
-    match inst_dec a i with | .isTrue h => exact absurd h ha | .isFalse _ => rfl
-  have h_ii : inst_dec i i = .isTrue rfl := by
-    match inst_dec i i with | .isTrue _ => rfl | .isFalse h => exact absurd rfl h
-  revert e
-  unfold Etingof.reversedArrow_ne_eq Etingof.ReversedAtVertexHom_ne_eq
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ai, h_ii]
-  intro e; rfl
+    cast (Etingof.ReversedAtVertexHom_ne_eq (i := i) ha rfl) e :=
+  -- `reversedArrow_ne_eq` is now *defined* as this cast.
+  rfl
 
 set_option maxHeartbeats 1600000 in
 -- reason: double-reversal cast simplification through eq_ne + ne_eq path
