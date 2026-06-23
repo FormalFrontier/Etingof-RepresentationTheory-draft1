@@ -1318,29 +1318,30 @@ private lemma product_complement_decomp
       (∀ x ∈ V', A x ∈ W') ∧ (∀ x ∈ qV, A x ∈ qW) ∧
       (∀ x ∈ W', B x ∈ V') ∧ (∀ x ∈ qW, B x ∈ qV) := by
   set M := V'.prod W'
-  set projM := M.linearProjOfIsCompl C hcompl
+  set projM := M.projectionOnto C hcompl
   set proj : (V × W) →ₗ[ℂ] (V × W) := M.subtype.comp projM
   -- proj fixes M
   have hproj_M : ∀ x ∈ M, proj x = x := by
     intro x hx
     have : projM x = ⟨x, hx⟩ :=
-      Submodule.linearProjOfIsCompl_apply_left hcompl ⟨x, hx⟩
+      Submodule.projectionOnto_apply_left hcompl ⟨x, hx⟩
     simp [proj, this]
   -- proj kills C
   have hproj_C : ∀ x ∈ C, proj x = 0 := by
     intro x hx
-    have : projM x = 0 := Submodule.linearProjOfIsCompl_apply_right' hcompl x hx
+    -- v4.30: projectionOnto_apply_of_mem_right takes only the membership proof (x implicit)
+    have : projM x = 0 := Submodule.projectionOnto_apply_of_mem_right hcompl hx
     simp [proj, this]
   -- image ⊆ M
   have hproj_mem : ∀ x, proj x ∈ M := fun x => (projM x).2
   -- x - proj(x) ∈ C
   have hx_sub_proj : ∀ x, x - proj x ∈ C := by
     intro x
-    rw [← Submodule.linearProjOfIsCompl_ker hcompl, LinearMap.mem_ker,
+    rw [← Submodule.ker_projectionOnto hcompl, LinearMap.mem_ker,
       show projM (x - proj x) = projM x - projM (proj x) from map_sub _ _ _]
     have : projM (proj x) = projM x := by
       show projM ↑(projM x) = projM x
-      exact Submodule.linearProjOfIsCompl_apply_left hcompl (projM x)
+      exact Submodule.projectionOnto_apply_left hcompl (projM x)
     rw [this, sub_self]
   -- proj commutes with X
   set X := swapOp A B

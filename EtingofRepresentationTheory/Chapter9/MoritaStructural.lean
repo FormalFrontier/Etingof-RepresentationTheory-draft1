@@ -573,9 +573,9 @@ private theorem semisimple_iso_aux
       haveI : Module.Finite k ↥S₀ :=
         Module.Finite.of_injective (S₀.restrictScalars k).subtype Subtype.val_injective
       -- The projection is nonzero
-      have hne : S₀.linearProjOfIsCompl Q₀ hc ≠ 0 := by
+      have hne : S₀.projectionOnto Q₀ hc ≠ 0 := by
         intro h; obtain ⟨s₀, hs₀⟩ := exists_ne (0 : ↥S₀)
-        have := Submodule.linearProjOfIsCompl_apply_left hc s₀
+        have := Submodule.projectionOnto_apply_left hc s₀
         rw [h, LinearMap.zero_apply] at this; exact hs₀ this.symm
       -- But finrank Hom(N, S₀) = finrank Hom(M, S₀) = 0 (M subsingleton)
       have h0 : Module.finrank k (N →ₗ[R] ↥S₀) = 0 := by
@@ -600,9 +600,9 @@ private theorem semisimple_iso_aux
         obtain ⟨Q₀, hc⟩ := exists_isCompl S₀
         haveI : Module.Finite k ↥S₀ :=
           Module.Finite.of_injective (S₀.restrictScalars k).subtype Subtype.val_injective
-        have hne : S₀.linearProjOfIsCompl Q₀ hc ≠ 0 := by
+        have hne : S₀.projectionOnto Q₀ hc ≠ 0 := by
           intro h; obtain ⟨s₀, hs₀⟩ := exists_ne (0 : ↥S₀)
-          have := Submodule.linearProjOfIsCompl_apply_left hc s₀
+          have := Submodule.projectionOnto_apply_left hc s₀
           rw [h, LinearMap.zero_apply] at this; exact hs₀ this.symm
         have h0 : Module.finrank k (N →ₗ[R] ↥S₀) = 0 := by
           rw [← hhom]; exact Module.finrank_zero_of_subsingleton
@@ -629,9 +629,9 @@ private theorem semisimple_iso_aux
           ∃ f : N →ₗ[R] ↥S₀, f ≠ 0 ∧ Function.Surjective f := by
         -- Hom(M, S₀) is nontrivial via projection
         obtain ⟨Q', hMc'⟩ := exists_isCompl S₀
-        have hproj_ne : S₀.linearProjOfIsCompl Q' hMc' ≠ 0 := by
+        have hproj_ne : S₀.projectionOnto Q' hMc' ≠ 0 := by
           intro h; obtain ⟨s₀, hs₀⟩ := exists_ne (0 : ↥S₀)
-          have := Submodule.linearProjOfIsCompl_apply_left hMc' s₀
+          have := Submodule.projectionOnto_apply_left hMc' s₀
           rw [h, LinearMap.zero_apply] at this; exact hs₀ this.symm
         -- finrank Hom(M, S₀) > 0
         haveI : Module.Finite k (M →ₗ[R] ↥S₀) :=
@@ -1286,14 +1286,14 @@ lemma equiv_preserves_indecomposable
   · -- No nontrivial complemented submodules
     intro W₁ W₂ hc
     -- Construct the idempotent projection p : F(M) →ₗ F(M) onto W₁ along W₂
-    let proj := Submodule.linearProjOfIsCompl W₁ W₂ hc
+    let proj := Submodule.projectionOnto W₁ W₂ hc
     let p : (F.functor.obj M) →ₗ[B₂] (F.functor.obj M) :=
       W₁.subtype.comp proj
     have hp_idem : p.comp p = p := by
       ext x
       simp only [p, LinearMap.comp_apply, Submodule.subtype_apply]
       congr 1
-      exact Submodule.linearProjOfIsCompl_apply_left hc (proj x)
+      exact Submodule.projectionOnto_apply_left hc (proj x)
     -- Lift p to a categorical endomorphism of F(M)
     let p_cat : F.functor.obj M ⟶ F.functor.obj M := ModuleCat.ofHom p
     -- Use full faithfulness to get the preimage q : M ⟶ M
@@ -1328,7 +1328,7 @@ lemma equiv_preserves_indecomposable
       intro x hx
       have hp_x : p x = 0 := LinearMap.congr_fun hp_zero x
       -- proj is identity on W₁: proj ⟨x, hx⟩ = ⟨x, hx⟩
-      have hproj := Submodule.linearProjOfIsCompl_apply_left hc ⟨x, hx⟩
+      have hproj := Submodule.projectionOnto_apply_left hc ⟨x, hx⟩
       -- p x = ↑(proj x) = ↑⟨x, hx⟩ = x
       have : p x = x := by
         change (W₁.subtype (proj x)) = x

@@ -164,7 +164,8 @@ private theorem one_sub_xy_mul_geomTarget (n : ℕ) (i j : Fin n) :
   -- Case 1: e = 0
   by_cases h0 : e = 0
   · subst h0
-    have hle : ¬(m ≤ 0) := fun h => hm_ne_zero (le_antisymm h (zero_le m))
+    -- v4.30: `zero_le` made its argument implicit (here `m : CauchyVars n →₀ ℕ`).
+    have hle : ¬(m ≤ 0) := fun h => hm_ne_zero (le_antisymm h zero_le)
     simp only [Finsupp.coe_zero, Pi.zero_apply, zero_smul, ite_true, if_neg hle, sub_zero]
   -- Cases 2 and 3: e ≠ 0
   · rw [if_neg h0]

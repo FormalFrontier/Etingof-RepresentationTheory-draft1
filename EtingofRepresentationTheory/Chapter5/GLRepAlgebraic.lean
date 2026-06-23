@@ -119,7 +119,7 @@ theorem IsAlgebraicRepresentation.restrict {k : Type*} [Field k] {N : ℕ}
   let b' : Module.Basis (Fin (Module.finrank k W)) k W := Module.finBasis k W
   -- A linear projection `π : Y → W` that is a left inverse of the inclusion.
   obtain ⟨W', hWW'⟩ := W.exists_isCompl
-  let π : Y →ₗ[k] W := W.linearProjOfIsCompl W' hWW'
+  let π : Y →ₗ[k] W := W.projectionOnto W' hWW'
   have hπincl : ∀ w : W, π (W.subtype w) = w := fun w =>
     W.linearProjOfIsCompl_apply_left hWW' w
   refine ⟨Module.finrank k W, b',

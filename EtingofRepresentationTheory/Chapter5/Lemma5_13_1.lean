@@ -426,7 +426,9 @@ private theorem sandwich_not_mem {n : ℕ} {la : Nat.Partition n}
     have : σ⁻¹⁻¹ = σ := inv_inv σ
     rw [hu_def, ← this]; exact ht_col'
   -- Key relation: σ * t = u * σ
-  have hσt : σ * t = u * σ := by simp [hu_def]; group
+  -- v4.30: `group` no longer closes the post-`simp` goal; cancel σ⁻¹ * σ explicitly.
+  have hσt : σ * t = u * σ := by
+    rw [hu_def, mul_assoc, mul_assoc, inv_mul_cancel, mul_one]
   -- sign(u) = -1 (u is a conjugate of the transposition t)
   have hsign_u : (↑(↑(Equiv.Perm.sign u) : ℤ) : ℂ) = -1 := by
     have hsign_t : Equiv.Perm.sign t = -1 := by
