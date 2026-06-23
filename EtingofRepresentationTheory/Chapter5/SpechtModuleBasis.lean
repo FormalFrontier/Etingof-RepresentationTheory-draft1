@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.TabloidModule
+import EtingofRepresentationTheory.Chapter5.Lemma5_13_1
 
 /-!
 # Specht Module Dimension Theorem
@@ -1944,6 +1945,175 @@ private theorem twistedPolytabloid_support_bound
     tabloidDominates la σ α := by
   by_contra hnotdom
   exact hα_supp (twistedPolytabloid_apply_of_not_dominates σ hcs w α hnotdom)
+
+/-! ### Fact 1 — James leading-term fact for the twisted polytabloid (#5037)
+
+For column-standard `σ` and any `w`, the dominance-maximal support tabloid of
+`twistedPolytabloid w σ` is column-standard. The mechanism is the classical
+von Neumann dichotomy (`Etingof.pigeonhole_rowCol_dichotomy`):
+
+* If `w ∉ P_λ · Q_λ`, a single odd column element `h := w⁻¹ t w ∈ Q_λ` (with
+  `w h w⁻¹ = t ∈ P_λ`) drives a fixed-point-free, sign-reversing involution
+  `q ↦ q·h` on `Q_λ` under which the defining sum maps to its own negation, so
+  `f_w(σ) = 0` and the statement is vacuous.
+* If `w = p·q₀ ∈ P_λ · Q_λ`, then `[σ]` itself occurs with coefficient
+  `sign(q₀) = ±1` (the fibre over `[σ]` is the singleton `{q₀}`, since
+  `P_λ ∩ Q_λ = {1}`). Combined with `twistedPolytabloid_support_bound`
+  (everything in the support is weakly dominated by `[σ]`), `[σ]` is the unique
+  dominance-maximal support tabloid — and `σ` is column-standard.
+
+The earlier "global `H = Q ∩ w⁻¹Pw` coset" route was refuted *as a route to the
+residual `X = f_w − M`*; for `f_w` itself the all-or-nothing structure it
+produces is exactly what fact 1 needs. -/
+
+open scoped Pointwise in
+/-- If `w ∉ P_λ · Q_λ` then the twisted polytabloid vanishes. The von Neumann
+dichotomy supplies a same-column transposition `h := w⁻¹ t w ∈ Q_λ` whose
+conjugate `w h w⁻¹ = t` is a same-row transposition; the involution `q ↦ q·h`
+on `Q_λ` then reverses sign while preserving every tabloid `[w q⁻¹ σ]`, so the
+defining sum equals its own negation. -/
+private theorem twistedPolytabloid_eq_zero_of_not_mem_mul
+    (σ w : Equiv.Perm (Fin n))
+    (hw : w ∉ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
+              (ColumnSubgroup n la : Set (Equiv.Perm (Fin n)))) :
+    twistedPolytabloid (la := la) w σ = 0 := by
+  classical
+  obtain ⟨t, ht_swap, ht_row, ht_col⟩ := Etingof.pigeonhole_rowCol_dichotomy w hw
+  obtain ⟨i, j, hij, rfl⟩ := ht_swap
+  -- `h := w⁻¹ · swap i j · w ∈ Q_λ`, an odd element with `w h w⁻¹ = swap i j ∈ P_λ`.
+  set h : Equiv.Perm (Fin n) := w⁻¹ * Equiv.swap i j * w with hh_def
+  have hh_col : h ∈ ColumnSubgroup n la := ht_col
+  have ht_sign : Equiv.Perm.sign (Equiv.swap i j) = -1 := Equiv.Perm.sign_swap hij
+  have hh_sq : h * h = 1 := by
+    rw [hh_def]
+    calc w⁻¹ * Equiv.swap i j * w * (w⁻¹ * Equiv.swap i j * w)
+        = w⁻¹ * (Equiv.swap i j * Equiv.swap i j) * w := by group
+      _ = 1 := by rw [Equiv.swap_mul_self]; group
+  have hh_inv : (h : Equiv.Perm (Fin n))⁻¹ = h := inv_eq_of_mul_eq_one_right hh_sq
+  have hh_conj : w * h * w⁻¹ = Equiv.swap i j := by rw [hh_def]; group
+  have hh_sign : Equiv.Perm.sign h = -1 := by
+    rw [hh_def, map_mul, map_mul, map_inv, mul_right_comm, inv_mul_cancel, one_mul, ht_sign]
+  -- The sign-reversing, tabloid-preserving involution `φ : q ↦ q·h` on `Q_λ`.
+  let φ : ↥(ColumnSubgroup n la) ≃ ↥(ColumnSubgroup n la) :=
+    ⟨fun q => ⟨q.val * h, (ColumnSubgroup n la).mul_mem q.property hh_col⟩,
+     fun q => ⟨q.val * h, (ColumnSubgroup n la).mul_mem q.property hh_col⟩,
+     fun q => Subtype.ext (by show q.val * h * h = q.val; rw [mul_assoc, hh_sq, mul_one]),
+     fun q => Subtype.ext (by show q.val * h * h = q.val; rw [mul_assoc, hh_sq, mul_one])⟩
+  set F : ↥(ColumnSubgroup n la) → TabloidRepresentation n la := fun q =>
+    ((↑(↑(Equiv.Perm.sign q.val) : ℤ) : ℂ) •
+      Finsupp.single (toTabloid n la (w * q.val⁻¹ * σ)) (1 : ℂ)) with hF_def
+  have hfw : twistedPolytabloid (la := la) w σ = ∑ q, F q := rfl
+  -- Each term cancels its `φ`-image: `F (φ q) = - F q`.
+  have key : ∀ q : ↥(ColumnSubgroup n la), F q + F (φ q) = 0 := by
+    intro q
+    have hφval : (φ q).val = q.val * h := rfl
+    have hsign : ((↑(↑(Equiv.Perm.sign (φ q).val) : ℤ) : ℂ)) =
+        -((↑(↑(Equiv.Perm.sign q.val) : ℤ) : ℂ)) := by
+      rw [hφval, map_mul, hh_sign]; push_cast; ring
+    have htab : toTabloid n la (w * (φ q).val⁻¹ * σ) =
+        toTabloid n la (w * q.val⁻¹ * σ) := by
+      rw [toTabloid_eq_iff, hφval]
+      have heq : (w * (q.val * h)⁻¹ * σ) * (w * q.val⁻¹ * σ)⁻¹ = w * h⁻¹ * w⁻¹ := by
+        group
+      rw [heq, hh_inv, hh_conj]
+      exact ht_row
+    show ((↑(↑(Equiv.Perm.sign q.val) : ℤ) : ℂ) •
+          Finsupp.single (toTabloid n la (w * q.val⁻¹ * σ)) (1 : ℂ)) +
+        ((↑(↑(Equiv.Perm.sign (φ q).val) : ℤ) : ℂ) •
+          Finsupp.single (toTabloid n la (w * (φ q).val⁻¹ * σ)) (1 : ℂ)) = 0
+    rw [hsign, htab, neg_smul, add_neg_cancel]
+  have hreindex : (∑ q, F q) = ∑ q, F (φ q) := (Equiv.sum_comp φ F).symm
+  have hdouble : (∑ q, F q) + (∑ q, F q) = 0 := by
+    nth_rewrite 2 [hreindex]
+    rw [← Finset.sum_add_distrib]
+    exact Finset.sum_eq_zero (fun q _ => key q)
+  rw [hfw]
+  have h2 : (2 : ℂ) • (∑ q, F q) = 0 := by rw [two_smul]; exact hdouble
+  rcases smul_eq_zero.mp h2 with h | h
+  · exact absurd h two_ne_zero
+  · exact h
+
+open scoped Pointwise in
+/-- When `w ∈ P_λ · Q_λ`, the tabloid `[σ]` occurs in `twistedPolytabloid w σ`
+with coefficient `sign(q₀) = ±1`, where `w = p · q₀`. The fibre over `[σ]` is
+the singleton `{q₀}`: any `q ∈ Q_λ` with `[w q⁻¹ σ] = [σ]` forces `q₀ q⁻¹ ∈
+P_λ ∩ Q_λ = {1}`. -/
+private theorem twistedPolytabloid_apply_self_ne_zero_of_mem_mul
+    (σ w : Equiv.Perm (Fin n))
+    (hw : w ∈ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
+              (ColumnSubgroup n la : Set (Equiv.Perm (Fin n)))) :
+    twistedPolytabloid (la := la) w σ (toTabloid n la σ) ≠ 0 := by
+  classical
+  obtain ⟨p, hp, q₀, hq₀, hpq⟩ := Set.mem_mul.mp hw
+  -- `hpq : p * q₀ = w`.
+  rw [twistedPolytabloid, Finsupp.finset_sum_apply]
+  simp_rw [Finsupp.smul_apply, Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one,
+    mul_zero]
+  rw [Finset.sum_eq_single (⟨q₀, hq₀⟩ : ↥(ColumnSubgroup n la))]
+  · -- The `q₀` term: `[w q₀⁻¹ σ] = [p σ] = [σ]`, contributing `sign(q₀) ≠ 0`.
+    have hself : toTabloid n la (w * q₀⁻¹ * σ) = toTabloid n la σ := by
+      rw [toTabloid_eq_iff]
+      have : (w * q₀⁻¹ * σ) * σ⁻¹ = p := by rw [← hpq]; group
+      rw [this]; exact hp
+    rw [if_pos hself]
+    exact_mod_cast (Equiv.Perm.sign q₀).ne_zero
+  · -- Every other `q` gives `[w q⁻¹ σ] ≠ [σ]`.
+    intro q _ hqne
+    rw [if_neg]
+    intro htab
+    rw [toTabloid_eq_iff] at htab
+    -- `(w q⁻¹ σ) σ⁻¹ = w q⁻¹ ∈ P_λ`.
+    have hwq : w * q.val⁻¹ ∈ RowSubgroup n la := by
+      have h' : (w * q.val⁻¹ * σ) * σ⁻¹ = w * q.val⁻¹ := by group
+      rwa [h'] at htab
+    -- `q₀ q⁻¹ = p⁻¹ (w q⁻¹) ∈ P_λ` and `∈ Q_λ`, hence `= 1`, so `q = q₀`.
+    have hrow : q₀ * q.val⁻¹ ∈ RowSubgroup n la := by
+      have hmem : p⁻¹ * (w * q.val⁻¹) ∈ RowSubgroup n la :=
+        (RowSubgroup n la).mul_mem ((RowSubgroup n la).inv_mem hp) hwq
+      rwa [show p⁻¹ * (w * q.val⁻¹) = q₀ * q.val⁻¹ by rw [← hpq]; group] at hmem
+    have hcol : q₀ * q.val⁻¹ ∈ ColumnSubgroup n la :=
+      (ColumnSubgroup n la).mul_mem hq₀ ((ColumnSubgroup n la).inv_mem q.property)
+    have hone : q₀ * q.val⁻¹ = 1 :=
+      RowSubgroup_inter_ColumnSubgroup n la _ hrow hcol
+    exact hqne (Subtype.ext (mul_inv_eq_one.mp hone).symm)
+  · intro hq; exact absurd (Finset.mem_univ _) hq
+
+open scoped Pointwise in
+/-- **Fact 1 — James leading-term fact for the twisted polytabloid** (#5037).
+For column-standard `σ` and any `w`, every dominance-maximal support tabloid of
+`twistedPolytabloid w σ` is column-standard: if `[α]` lies in the support and no
+support tabloid strictly dominates it, then `[α] = [τ]` for a column-standard
+`τ` (indeed `τ = σ`, and `[α] = [σ]`).
+
+This is the genuine combinatorial nut of the Garnir column-straightening
+argument; see the section comment above for the mechanism. -/
+private theorem twistedPolytabloid_maximal_support_colStandard
+    (σ : Equiv.Perm (Fin n)) (hcs : isColumnStandard' n la σ)
+    (w : Equiv.Perm (Fin n)) (α : Equiv.Perm (Fin n))
+    (hα : twistedPolytabloid (la := la) w σ (toTabloid n la α) ≠ 0)
+    (hmax : ∀ β : Equiv.Perm (Fin n),
+        twistedPolytabloid (la := la) w σ (toTabloid n la β) ≠ 0 →
+        ¬ tabloidStrictDominates la β α) :
+    ∃ τ : Equiv.Perm (Fin n), isColumnStandard' n la τ ∧
+      toTabloid n la τ = toTabloid n la α := by
+  classical
+  -- `[α]` is weakly dominated by `[σ]` (support bound).
+  have hdom : tabloidDominates la σ α := twistedPolytabloid_support_bound σ hcs w α hα
+  -- `w ∈ P_λ · Q_λ`: otherwise `f_w(σ) = 0`, contradicting `hα`.
+  have hw : w ∈ (RowSubgroup n la : Set (Equiv.Perm (Fin n))) *
+              (ColumnSubgroup n la : Set (Equiv.Perm (Fin n))) := by
+    by_contra hw
+    rw [twistedPolytabloid_eq_zero_of_not_mem_mul σ w hw] at hα
+    exact hα (Finsupp.zero_apply)
+  -- Hence `[σ]` is in the support; `hmax` (applied at `β = σ`) forbids a strict
+  -- ascent, and weak dominance then forces `[σ] = [α]`.
+  have hσ_supp : twistedPolytabloid (la := la) w σ (toTabloid n la σ) ≠ 0 :=
+    twistedPolytabloid_apply_self_ne_zero_of_mem_mul σ w hw
+  have hnsd : ¬ tabloidStrictDominates la σ α := hmax σ hσ_supp
+  have heq : toTabloid n la σ = toTabloid n la α := by
+    by_contra hne
+    exact hnsd ⟨hdom, hne⟩
+  exact ⟨σ, hcs, heq⟩
 
 /-! ### Per-q decomposition for the twisted polytabloid (Wall 3 R2.a)
 
