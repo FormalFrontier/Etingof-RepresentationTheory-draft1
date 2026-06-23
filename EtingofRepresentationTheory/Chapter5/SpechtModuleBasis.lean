@@ -1431,6 +1431,74 @@ private theorem sytPerm_isRowStandard' (T : StandardYoungTableau n la) :
   simp only [Equiv.ofBijective_apply]
   exact T.prop.2.1 c₁ c₂ hrow' hcol'
 
+/-! ### Column-standardizable tabloids (de-risking building block for fact 2)
+
+A tabloid `t` is *column-standardizable* when it is realised by some
+column-standard permutation. Because a tabloid fixes the row of every entry
+(tabloids are right cosets of `RowSubgroup`), column-standardizing must use a
+*row* permutation of `t`, which is a genuine system-of-distinct-representatives /
+Hall problem on the per-row entry sets — it is NOT automatic.
+
+The clean characterization below identifies the column-standardizable tabloids
+with the standard-Young-tableau tabloids: `t` is column-standardizable iff
+`t = [σ_T]` for some SYT `T`. This is mathematically equivalent to the
+Gale-Ryser/dominance (Hall) inequality on the per-row cumulative entry counts,
+but is sharper and sorry-free: the order-statistics/Hall exchange argument that
+the raw dominance condition would require is already encapsulated in
+`column_standard_coset_has_syt'` (row-sorting a column-standard filling yields an
+SYT), so we route through SYTs rather than re-deriving Gale-Ryser from scratch.
+-/
+
+/-- A tabloid `t` is **column-standardizable** if it is realised by some
+column-standard permutation: there is `β'` with `isColumnStandard' n la β'` and
+`toTabloid n la β' = t`. This is the notion consumed by the column-violation
+Garnir involution at the core of fact 2 of the residual straightening. -/
+def tabloidColStandardizable (t : Tabloid n la) : Prop :=
+  ∃ β' : Equiv.Perm (Fin n), isColumnStandard' n la β' ∧ toTabloid n la β' = t
+
+/-- **Characterization (Hall/dominance via SYTs).** A tabloid is
+column-standardizable exactly when it is the tabloid of some standard Young
+tableau. The forward direction row-sorts a column-standard representative into an
+SYT (`column_standard_coset_has_syt'`); the backward direction uses that
+`sytPerm T` is itself column-standard (`sytPerm_isColumnStandard'`). -/
+theorem tabloidColStandardizable_iff_eq_sytToTabloid (t : Tabloid n la) :
+    tabloidColStandardizable t ↔
+      ∃ T : StandardYoungTableau n la, sytToTabloid n la T = t := by
+  constructor
+  · rintro ⟨β', hcs, hβ⟩
+    obtain ⟨T, p, hp, hβeq⟩ := column_standard_coset_has_syt' n la β' hcs
+    refine ⟨T, ?_⟩
+    show toTabloid n la (sytPerm n la T) = t
+    rw [← hβ, hβeq, toTabloid_eq_iff]
+    have hpinv : sytPerm n la T * (p * sytPerm n la T)⁻¹ = p⁻¹ := by group
+    rw [hpinv]
+    exact (RowSubgroup n la).inv_mem hp
+  · rintro ⟨T, hT⟩
+    exact ⟨sytPerm n la T, sytPerm_isColumnStandard' T, hT⟩
+
+/-- **Constructive existence direction** (the direction fact 2's involution core
+consumes): if `t` equals the tabloid of some SYT, then `t` has a column-standard
+representative. Witness: `sytPerm T`. -/
+theorem exists_isColumnStandard'_of_eq_sytToTabloid (t : Tabloid n la)
+    (h : ∃ T : StandardYoungTableau n la, sytToTabloid n la T = t) :
+    ∃ β' : Equiv.Perm (Fin n), isColumnStandard' n la β' ∧ toTabloid n la β' = t :=
+  (tabloidColStandardizable_iff_eq_sytToTabloid t).mpr h
+
+/-- **Easy direction.** A column-standard `β'` is, trivially, a column-standard
+representative of its own tabloid `[β']`. -/
+theorem tabloidColStandardizable_of_isColumnStandard' (β' : Equiv.Perm (Fin n))
+    (hcs : isColumnStandard' n la β') :
+    tabloidColStandardizable (toTabloid n la β') :=
+  ⟨β', hcs, rfl⟩
+
+/-- **Easy direction (condition form).** A column-standard `β'` satisfies the
+characterizing condition for its tabloid `[β']`: that tabloid equals `[σ_T]` for
+some SYT `T`. -/
+theorem eq_sytToTabloid_of_isColumnStandard' (β' : Equiv.Perm (Fin n))
+    (hcs : isColumnStandard' n la β') :
+    ∃ T : StandardYoungTableau n la, sytToTabloid n la T = toTabloid n la β' :=
+  (tabloidColStandardizable_iff_eq_sytToTabloid (toTabloid n la β')).mp ⟨β', hcs, rfl⟩
+
 /-- **Bridge lemma for Algorithm A on `twistedPolytabloid`.** For column-standard
 `σ` with positive row inversion count, an SYT `T` whose tabloid is dominated
 by `σ`'s contributes a `polytabloidTab T` that lies in the target span used
