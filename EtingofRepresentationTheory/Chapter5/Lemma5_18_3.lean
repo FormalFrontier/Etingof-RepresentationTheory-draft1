@@ -487,6 +487,7 @@ private lemma diag_le_fullDiag [CharZero k] :
 -- These pairwise commute, and their product Π_i B_i = f^⊗n (full diagonal generator).
 -- Newton's identity expresses Π_i B_i as a polynomial in power sums
 -- p_m = Σ_i B_i^m = Δ_n(f^m), which are generators of diag.
+set_option maxHeartbeats 800000 in -- rc2: Newton-identity transfer through adjoin subalgebra + noncommProd reductions overran default 200000
 omit [Module.Finite k V] in
 private lemma fullDiag_le_diag [CharZero k] :
     fullDiagonalSubalgebra k V n ≤ diagonalSubalgebra k V n := by

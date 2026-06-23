@@ -36,6 +36,8 @@ noncomputable def detRep (N : ℕ) :
   FDRep.of (((Algebra.lsmul k k k).toMonoidHom.comp (Units.coeHom k)).comp
     Matrix.GeneralLinearGroup.det)
 
+-- rc2: slower instance search; bump synthInstance budget for the `det • End` smul synthesis
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The determinant-twisted Schur module representation: `g ↦ det(g) • schurModuleRep(g)`.
 This is the representation on the same underlying vector space as `L_λ`, but with the
 GL_N action twisted by the determinant character. -/
@@ -117,6 +119,8 @@ private lemma det_diagUnit_val (N : ℕ) (i : Fin N) (t : kˣ) :
 
 
 -- The initial `simp only [glWeightSpace, ...]` unfold is expensive.
+-- rc2: slower instance search; bump synthInstance budget for the `t • End` smul synthesis
+set_option synthInstance.maxHeartbeats 80000 in
 set_option maxHeartbeats 800000 in
 /-- The weight space of the det-twisted module at weight `μ + 1` equals
 the weight space of the original Schur module at weight `μ`. -/

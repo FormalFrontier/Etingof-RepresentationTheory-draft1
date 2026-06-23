@@ -77,6 +77,8 @@ private theorem symGroupAlgHomToImageK_of (σ : Equiv.Perm (Fin n)) :
   rw [MonoidAlgebra.lift_of]
   rfl
 
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for this statement's defeq elaboration
+set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
 -- The `symGroupImage`-action synthesis traverses the deep `Subalgebra → Subsemiring → Module`
 -- instance chain exceeding the default heartbeats.
@@ -160,6 +162,8 @@ private theorem submoduleSemilinearIdK_bijective
     exact Subtype.ext_iff.mp h
   · rintro ⟨w, hw⟩; exact ⟨⟨w, hw⟩, rfl⟩
 
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for the RingHomSurjective isDefEq
+set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 200000 in
 -- The `RingHomSurjective` instance and bijective-semilinear transfer both invoke `Module`
 -- synthesis traversing the deep `Subalgebra → Subsemiring → Module` instance chain.
@@ -369,6 +373,8 @@ theorem simpleSubmodule_iso_of_spechtCharacterK_eq
   subst hμμ'
   exact ⟨transferToSymGroupImageEquivK S S' (eS.trans eS'.symm)⟩
 
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for the restricted-trace hypotheses' defeq
+set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 400000 in
 -- Elaborating the `IsSimpleModule (↥(symGroupImage …)) ↥S` hypotheses forces synthesis of the
 -- `Module ↥(symGroupImage …) ↥S` instance, traversing the deep `Subalgebra → Subsemiring →

@@ -831,6 +831,8 @@ theorem trace_youngSymEndomorphism_restrict_eq_sum
   intro σ _
   rw [LinearMap.map_smul, smul_eq_mul]
 
+-- rc2: slower instance search; bump synthInstance budget for the `α • restrict` elaboration
+set_option synthInstance.maxHeartbeats 80000 in
 /-- Companion: the squared Young symmetrizer endomorphism on `S` equals
 `α` times itself when `c_λ² = α · c_λ`. -/
 theorem youngSymEndomorphism_restrict_sq_scalar
@@ -1540,6 +1542,8 @@ lemma repr_glTensorRep_diagUnit (N n : ℕ) (i : Fin N) (t : kˣ)
     LinearMap.smul_apply, smul_eq_mul]
   exact hbasis f
 
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for this lemma
+set_option maxHeartbeats 400000 in
 /-- Off-diagonal entries of the Young symmetrizer vanish when weights differ. -/
 private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) (lam : Fin N → ℕ)
     (f g : Fin (∑ i, lam i) → Fin N)
@@ -1572,6 +1576,8 @@ private lemma youngSym_repr_zero_of_ne_weight (k' : Type*) [Field k'] (N : ℕ) 
     exact absurd (by rw [h, tensorWeight_comp_equiv] : tensorWeight N f = tensorWeight N g).symm hne
   · ring
 
+-- rc2: slower whnf/isDefEq; bump heartbeat budget for this core structural lemma
+set_option maxHeartbeats 400000 in
 /-- **Core structural lemma**: The finrank of the weight space of the Schur module
 over `k` equals the weight-restricted trace of the normalized Young symmetrizer over `ℚ`.
 
