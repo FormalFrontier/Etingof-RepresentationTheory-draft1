@@ -287,14 +287,12 @@ For a ≠ i and b ≠ i, `ReversedAtVertexHom Q i a b = a ⟶ b`, so the arrow i
 def Etingof.reversedArrow_ne_ne
     {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a b : Q}
     (ha : a ≠ i) (hb : b ≠ i)
-    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) : a ⟶ b := by
-  change @Etingof.ReversedAtVertexHom Q inst _ i a b at e
-  unfold Etingof.ReversedAtVertexHom at e
-  revert e
-  exact match inst a i, inst b i with
-  | .isTrue h, _ => absurd h ha
-  | .isFalse _, .isTrue h => absurd h hb
-  | .isFalse _, .isFalse _ => fun e => e
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) : a ⟶ b :=
+  -- Defined directly as the `cast` along the type-equality lemma. (Previously this matched on
+  -- `inst a i`/`inst b i` and returned `e`; under v4.30's stricter motive check the downstream
+  -- `… = cast …` lemmas could no longer reduce that match, so we make the cast definitional —
+  -- now every `reversedArrow_ne_ne_eq_cast`/`_is_cast` lemma holds by `rfl`.)
+  cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e
 
 /-- `reversedArrow_ne_ne ha hb` is the `cast` along `ReversedAtVertexHom_ne_ne`. -/
 theorem Etingof.reversedArrow_ne_ne_eq_cast
@@ -302,17 +300,9 @@ theorem Etingof.reversedArrow_ne_ne_eq_cast
     (ha : a ≠ i) (hb : b ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
     Etingof.reversedArrow_ne_ne ha hb e =
-      cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e := by
-  have h_ai : inst a i = .isFalse ha := by
-    cases inst a i with | isTrue h => exact absurd h ha | isFalse _ => rfl
-  have h_bi : inst b i = .isFalse hb := by
-    cases inst b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
-  revert e
-  unfold Etingof.reversedArrow_ne_ne Etingof.ReversedAtVertexHom_ne_ne
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ai, h_bi]
-  intro e; rfl
+      cast (Etingof.ReversedAtVertexHom_ne_ne ha hb) e :=
+  -- `reversedArrow_ne_ne` is now *defined* as this cast.
+  rfl
 
 set_option maxHeartbeats 1600000 in
 -- reason: unfolding reflectionFunctorPlus + equivAt_ne + match reduction
@@ -412,14 +402,9 @@ For a = i and b ≠ i, `ReversedAtVertexHom Q i i b = b ⟶ i`. -/
 def Etingof.reversedArrow_eq_ne
     {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i b : Q}
     (hb : b ≠ i)
-    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) : b ⟶ i := by
-  change @Etingof.ReversedAtVertexHom Q inst _ i i b at e
-  unfold Etingof.ReversedAtVertexHom at e
-  revert e
-  exact match inst i i, inst b i with
-  | .isFalse h, _ => absurd rfl h
-  | .isTrue _, .isTrue h => absurd h hb
-  | .isTrue _, .isFalse _ => fun e => e
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) : b ⟶ i :=
+  -- Defined directly as the `cast` along the type-equality lemma; see `reversedArrow_ne_ne`.
+  cast (Etingof.ReversedAtVertexHom_eq_ne rfl hb) e
 
 /-- `reversedArrow_eq_ne hb` is the `cast` along `ReversedAtVertexHom_eq_ne`. -/
 theorem Etingof.reversedArrow_eq_ne_eq_cast
@@ -427,17 +412,9 @@ theorem Etingof.reversedArrow_eq_ne_eq_cast
     (hb : b ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i b) :
     Etingof.reversedArrow_eq_ne hb e =
-      cast (Etingof.ReversedAtVertexHom_eq_ne rfl hb) e := by
-  have h_ii : inst i i = .isTrue rfl := by
-    cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
-  have h_bi : inst b i = .isFalse hb := by
-    cases inst b i with | isTrue h => exact absurd h hb | isFalse _ => rfl
-  revert e
-  unfold Etingof.reversedArrow_eq_ne Etingof.ReversedAtVertexHom_eq_ne
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ii, h_bi]
-  intro e; rfl
+      cast (Etingof.ReversedAtVertexHom_eq_ne rfl hb) e :=
+  -- `reversedArrow_eq_ne` is now *defined* as this cast.
+  rfl
 
 set_option maxHeartbeats 1600000 in
 -- reason: unfolding reflectionFunctorPlus + equivAt_eq/ne + match reduction

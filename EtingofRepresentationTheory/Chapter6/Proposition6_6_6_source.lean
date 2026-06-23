@@ -125,11 +125,10 @@ private theorem Etingof.sourceMap_sum_reindex
   -- a : ArrowsInto Q̄ᵢ i; show summands agree
   -- Both sides apply lof and mapLinear through the same sigma pair, just constructed differently
   obtain ⟨j, e⟩ := a
+  -- v4.30: `reversedArrow_ne_eq` is now definitionally a `cast`, so `simp` closes the goal
+  -- directly (the previous `congr`/`rw` cleanup steps are now redundant).
   simp only [arrowReindexEquivSource, Equiv.coe_fn_symm_mk,
     reversedArrow_ne_eq_is_cast, cast_cast]
-  congr 1
-  congr 1
-  rw [reversedArrow_ne_eq_is_cast]
 
 open Classical in
 set_option maxHeartbeats 3200000 in

@@ -27,6 +27,8 @@ example : IsSolvable (Equiv.Perm (Fin 3)) := by
       native_decide
     haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     haveI := isCyclic_of_prime_card hcard
+    -- v4.30: `mul_comm` on `A₃` needs a `CommGroup` instance; derive it from cyclicity.
+    letI := IsCyclic.commGroup (α := alternatingGroup (Fin 3))
     exact isSolvable_of_comm (fun a b => mul_comm a b)
   exact solvable_of_ker_le_range
     (alternatingGroup (Fin 3)).subtype

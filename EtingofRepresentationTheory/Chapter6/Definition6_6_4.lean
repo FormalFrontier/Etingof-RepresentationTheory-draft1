@@ -436,14 +436,9 @@ For a ≠ i, `ReversedAtVertexHom Q i a i = i ⟶ a`. -/
 def Etingof.reversedArrow_ne_eq
     {Q : Type*} [inst : DecidableEq Q] [Quiver Q] {i a : Q}
     (ha : a ≠ i)
-    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) : i ⟶ a := by
-  change @Etingof.ReversedAtVertexHom Q inst _ i a i at e
-  unfold Etingof.ReversedAtVertexHom at e
-  revert e
-  exact match inst a i, inst i i with
-  | .isTrue h, _ => absurd h ha
-  | .isFalse _, .isFalse h => absurd rfl h
-  | .isFalse _, .isTrue _ => fun e => e
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) : i ⟶ a :=
+  -- Defined directly as the `cast` along the type-equality lemma; see `reversedArrow_ne_ne`.
+  cast (Etingof.ReversedAtVertexHom_ne_eq ha rfl) e
 
 /-- `reversedArrow_ne_eq ha` is the `cast` along `ReversedAtVertexHom_ne_eq`. -/
 theorem Etingof.reversedArrow_ne_eq_eq_cast
@@ -451,17 +446,9 @@ theorem Etingof.reversedArrow_ne_eq_eq_cast
     (ha : a ≠ i)
     (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) :
     Etingof.reversedArrow_ne_eq ha e =
-      cast (Etingof.ReversedAtVertexHom_ne_eq ha rfl) e := by
-  have h_ai : inst a i = .isFalse ha := by
-    cases inst a i with | isTrue h => exact absurd h ha | isFalse _ => rfl
-  have h_ii : inst i i = .isTrue rfl := by
-    cases inst i i with | isTrue _ => rfl | isFalse h => exact absurd rfl h
-  revert e
-  unfold Etingof.reversedArrow_ne_eq Etingof.ReversedAtVertexHom_ne_eq
-    Etingof.reversedAtVertex Etingof.ReversedAtVertexHom
-  simp only []
-  rw [h_ai, h_ii]
-  intro e; rfl
+      cast (Etingof.ReversedAtVertexHom_ne_eq ha rfl) e :=
+  -- `reversedArrow_ne_eq` is now *defined* as this cast.
+  rfl
 
 /-- Canonical quotient map into F⁻ᵢ(ρ).obj i from the direct sum.
 Reduces the `Decidable.casesOn` at vertex i (which is `.isTrue` since i = i)
