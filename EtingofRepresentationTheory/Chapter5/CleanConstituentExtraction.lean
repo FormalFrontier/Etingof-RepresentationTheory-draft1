@@ -215,6 +215,29 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     (hφ_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
       φ (L.ρ g v) = M.ρ g (φ v)) :
     ∃ ν ∈ S, 0 < c ν ∧ formalCharacter k N L = schurPoly N ν.val := by
+  -- TODO(#5082 extractor tail): the composition-series infrastructure above
+  -- (`formalCharacter_eq_sum_simple_factors`, `subFDRep_iSup_glWeightSpace_eq_top`,
+  -- `subFDRep_isAlgebraic`) reduces this to a finite character-bookkeeping step. Plan:
+  --   1. Image subrep `σL : Subrepresentation M.ρ := ⟨LinearMap.range φ, _⟩` (invariant by
+  --      `hφ_equiv`); `e := (LinearEquiv.ofInjective φ hφ_inj).symm : σL.toSubmodule ≃ₗ L`.
+  --   2. `formalCharacter (subFDRep M σL) = formalCharacter L` via `formalCharacter_eq_of_rep_iso`
+  --      + `formalCharacter_FDRep_of_ρ`; `L` is algebraic (`IsAlgebraicRepresentation.of_linearEquiv`
+  --      from `subFDRep_isAlgebraic`) and weight-spanning (`glWeightSpace_iSup_eq_top_of_equivariant_surjective`
+  --      from `subFDRep_iSup_glWeightSpace_eq_top`).
+  --   3. SES + `formalCharacter_eq_sum_simple_factors` on `M ⧸ σL`:
+  --      `char M = char L + ∑_{j} char (W j)` with each `W j` simple algebraic spanning.
+  --   4. With `hchar` and `formalCharacter_schurModule_eq_schurPoly`, set `V ν := SchurModule k N ν.val`
+  --      (simple `schurModule_isSimple_general`, algebraic `schurModule_isAlgebraic`, char `S_ν`,
+  --      spanning: clean `SchurModule` spanning still needed — restrict `glTensorRep` (spanning by
+  --      `glTensorRep_iSup_glWeightSpace_eq_top`) to `SchurModuleSubmodule` and transfer).
+  --      Get `char L + ∑_j char (W j) - ∑_{ν∈S} c_ν char (V ν) = 0`.
+  --   5. Dedup the reps `{L} ∪ {W j} ∪ {V ν}` by character value (MvPolynomial DecidableEq;
+  --      pairwise non-iso of representatives = distinct characters via `formalCharacter_eq_of_rep_iso`),
+  --      feed the net coefficients through
+  --      `trace_combination_eq_zero_of_formalCharacter_combination_eq_zero` →
+  --      `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` to force every net
+  --      coefficient to 0. The class of `char L` then has positive `c`-mass, yielding `ν ∈ S` with
+  --      `0 < c ν` and `char L = schurPoly N ν.val`.
   sorry
 
 end Etingof
