@@ -706,10 +706,13 @@ lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2)
   -- Step 3: charpoly is preserved by conjugation
   set P := (Algebra.leftMulMatrix b (α₀ : GaloisField p (2 * n))).charpoly
   have hcharpoly_eq : (Algebra.leftMulMatrix b (β : GaloisField p (2 * n))).charpoly = P := by
+    -- v4.30: state the conjugate with the *matrix* inverse `(↑g)⁻¹` (not the units
+    -- field `g.inv`) so `charpoly_units_conj'` matches syntactically; otherwise the
+    -- `exact` loops in `whnf` trying to unify `g.inv` with `(↑g)⁻¹`.
     have hval : Algebra.leftMulMatrix b (β : GaloisField p (2 * n)) =
-        g.inv * Algebra.leftMulMatrix b (α₀ : GaloisField p (2 * n)) * g.val := by
+        (g.val)⁻¹ * Algebra.leftMulMatrix b (α₀ : GaloisField p (2 * n)) * g.val := by
       have h1 := hembed β; have h2 := hembed α₀
-      rw [← h1, ← h2, hβ]; simp [Units.val_mul]
+      rw [← h1, ← h2, hβ, ← Matrix.coe_units_inv]; simp [Units.val_mul]
     rw [hval]
     exact Matrix.charpoly_units_conj' g _
   -- Step 4: α₀ and β are roots of P, and α₀^q is also a root

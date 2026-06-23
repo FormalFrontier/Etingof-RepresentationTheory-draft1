@@ -406,19 +406,19 @@ private lemma krull_schmidt_find_iso_summand (k : Type*) (A : Type*) (V : Type*)
     have hπ₀_proj : IsCompl (W i₀) (LinearMap.ker π₀) :=
       LinearMap.isCompl_of_proj (fun x => LinearMap.congr_fun hπ₀_ι₀ x)
     -- C ≤ ker π₀: for v ∈ C, π₀ v = 0
-    -- Use: linearProjOfIsCompl (W i₀) C hIsCompl_W0_C has kernel C
+    -- Use: projectionOnto (W i₀) C hIsCompl_W0_C has kernel C
     -- and agrees with π₀ on W i₀ (both = id). Since they're both projections
     -- onto the same submodule with the same fixed point property, they agree.
-    -- So ker π₀ = ker (linearProjOfIsCompl) = C.
-    -- More directly: π₀ = linearProjOfIsCompl (W i₀) C hIsCompl_W0_C
+    -- So ker π₀ = ker (projectionOnto) = C.
+    -- More directly: π₀ = projectionOnto (W i₀) C hIsCompl_W0_C
     -- Both satisfy f ∘ subtype = id, and for projections in complemented spaces,
     -- there's a unique projection with given image and kernel.
     -- Use Submodule.linearProjOfIsCompl_eq_ofBijective or similar...
     -- Actually, let's use the uniqueness: if f, g : V →ₗ P are both
     -- left-inverses of subtype and P ⊕ ker f = V = P ⊕ ker g, then f = g.
-    -- Simpler: linearProjOfIsCompl satisfies f ∘ subtype = id and ker f = C.
+    -- Simpler: projectionOnto satisfies f ∘ subtype = id and ker f = C.
     -- Our π₀ satisfies π₀ ∘ subtype = id. The unique projection with this
-    -- property and range in the given complement is linearProjOfIsCompl.
+    -- property and range in the given complement is projectionOnto.
     -- C ≤ ker π₀: for v ∈ W i (i ≠ i₀), π₀ v = 0
     have hC_le : C ≤ LinearMap.ker π₀ := by
       -- C = ⨆ i ≠ i₀, W i. For v ∈ W i with i ≠ i₀, eW.symm v = DirectSum.of i ⟨v,_⟩

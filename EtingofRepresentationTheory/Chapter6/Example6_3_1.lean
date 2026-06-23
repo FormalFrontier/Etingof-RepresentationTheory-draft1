@@ -57,26 +57,27 @@ private lemma decomp_all_pairwise_compl {k : Type*} [Field k] (ρ : D₄Rep k)
   have hfr₃ := LinearMap.finrank_range_of_inj hinj₃
   have hn_ge : Module.finrank k ↥R₁ ≥ 2 := by omega
   -- Projections from V = R₁ ⊕ R₂
-  let π₁ := Submodule.linearProjOfIsCompl R₁ R₂ hc12
-  let π₂ := Submodule.linearProjOfIsCompl R₂ R₁ hc12.symm
+  let π₁ := Submodule.projectionOnto R₁ R₂ hc12
+  let π₂ := Submodule.projectionOnto R₂ R₁ hc12.symm
   -- Key property: v = R₁.subtype(π₁ v) + R₂.subtype(π₂ v)
   have decomp_v : ∀ v : ρ.V,
       v = R₁.subtype (π₁ v) + R₂.subtype (π₂ v) :=
-    fun v => (Submodule.IsCompl.projection_add_projection_eq_self hc12 v).symm
+    -- v4.30: renamed from Submodule.IsCompl.projection_add_projection_eq_self
+    fun v => (Submodule.projection_add_projection_eq_self hc12 v).symm
   -- Helper: for v ∈ R₁, π₁(v) = ⟨v, _⟩ and π₂(v) = 0
   have π₁_on_R₁ : ∀ (v : ↥R₁), π₁ (R₁.subtype v) = v :=
-    Submodule.linearProjOfIsCompl_apply_left hc12
+    Submodule.projectionOnto_apply_left hc12
   have π₂_on_R₁ : ∀ (v : ↥R₁), π₂ (R₁.subtype v) = 0 := fun v => by
     have : R₁.subtype v ∈ LinearMap.ker π₂ := by
-      rw [Submodule.linearProjOfIsCompl_ker hc12.symm]; exact v.2
+      rw [Submodule.ker_projectionOnto hc12.symm]; exact v.2
     exact LinearMap.mem_ker.mp this
   -- Helper: for v ∈ R₂, π₁(v) = 0 and π₂(v) = ⟨v, _⟩
   have π₁_on_R₂ : ∀ (v : ↥R₂), π₁ (R₂.subtype v) = 0 := fun v => by
     have : R₂.subtype v ∈ LinearMap.ker π₁ := by
-      rw [Submodule.linearProjOfIsCompl_ker hc12]; exact v.2
+      rw [Submodule.ker_projectionOnto hc12]; exact v.2
     exact LinearMap.mem_ker.mp this
   have π₂_on_R₂ : ∀ (v : ↥R₂), π₂ (R₂.subtype v) = v :=
-    Submodule.linearProjOfIsCompl_apply_left hc12.symm
+    Submodule.projectionOnto_apply_left hc12.symm
   -- π₁ ∘ ι₃ : R₃ → R₁ is injective
   have hπ₁ι₃_inj : Function.Injective (π₁.comp R₃.subtype) := by
     intro ⟨a, ha⟩ ⟨b, hb⟩ heq
@@ -85,7 +86,7 @@ private lemma decomp_all_pairwise_compl {k : Type*} [Field k] (ρ : D₄Rep k)
     have h_ker : a - b ∈ LinearMap.ker π₁ := by
       rw [LinearMap.mem_ker, map_sub, sub_eq_zero]
       exact heq
-    rw [Submodule.linearProjOfIsCompl_ker hc12] at h_ker
+    rw [Submodule.ker_projectionOnto hc12] at h_ker
     have : a - b ∈ R₂ ⊓ R₃ := ⟨h_ker, h_diff_R3⟩
     rw [h₂₃] at this; exact sub_eq_zero.mp ((Submodule.mem_bot k).mp this)
   have hdim_eq3_1 : Module.finrank k ↥R₃ = Module.finrank k ↥R₁ := by omega
@@ -99,7 +100,7 @@ private lemma decomp_all_pairwise_compl {k : Type*} [Field k] (ρ : D₄Rep k)
     have h_ker : a - b ∈ LinearMap.ker π₂ := by
       rw [LinearMap.mem_ker, map_sub, sub_eq_zero]
       exact heq
-    rw [Submodule.linearProjOfIsCompl_ker hc12.symm] at h_ker
+    rw [Submodule.ker_projectionOnto hc12.symm] at h_ker
     have : a - b ∈ R₁ ⊓ R₃ := ⟨h_ker, h_diff_R3⟩
     rw [h₁₃] at this; exact sub_eq_zero.mp ((Submodule.mem_bot k).mp this)
   have hdim_eq3_2 : Module.finrank k ↥R₃ = Module.finrank k ↥R₂ := by omega

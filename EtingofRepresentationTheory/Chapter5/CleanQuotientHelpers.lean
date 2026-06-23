@@ -61,7 +61,8 @@ theorem IsAlgebraicRepresentation.quotient {k : Type*} [Field k] {N : ℕ}
   have hsec : ∀ x : Y ⧸ K, K.mkQ (s x) = x := by
     intro x
     rw [Submodule.mkQ_apply]
-    exact Submodule.mk_quotientEquivOfIsCompl_apply K K' hK' x
+    -- v4.30: the submodules are now implicit (inferred from the `IsCompl` proof).
+    exact Submodule.mk_quotientEquivOfIsCompl_apply hK' x
   refine ⟨Module.finrank k (Y ⧸ K), b',
     fun a c => ∑ d, ∑ e,
       MvPolynomial.C (B.repr (s (b' c)) d) * P e d

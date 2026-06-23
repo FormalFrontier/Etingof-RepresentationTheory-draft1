@@ -882,7 +882,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
       · exact le_sup_of_le_right (le_iSup_of_le la (le_iSup_of_le h le_rfl))
     have h_compl : IsCompl C D := ⟨h_disj, h_codisj⟩
     -- R-linear projection onto C
-    set proj_C : U →ₗ[R] ↥C := Submodule.linearProjOfIsCompl C D h_compl
+    set proj_C : U →ₗ[R] ↥C := Submodule.projectionOnto C D h_compl
     -- Key fact: f vanishes on D for any R-linear map f : U → V
     have h_vanish_D : ∀ (f : U →ₗ[R] V) (d : U), d ∈ D → f d = 0 := by
       intro f d hd
@@ -908,10 +908,10 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
           rw [h_decomp]
           -- f vanishes on the D-component: u - subtype(proj_C u) ∈ D
           have h_mem_D : u - C.subtype (proj_C u) ∈ D := by
-            rw [← Submodule.linearProjOfIsCompl_ker h_compl]
+            rw [← Submodule.ker_projectionOnto h_compl]
             rw [LinearMap.mem_ker, map_sub]
             have : proj_C (C.subtype (proj_C u)) = proj_C u :=
-              Submodule.linearProjOfIsCompl_apply_left h_compl (proj_C u)
+              Submodule.projectionOnto_apply_left h_compl (proj_C u)
             rw [this, sub_self]
           rw [h_vanish_D f _ h_mem_D, add_zero]
         right_inv := fun g => by
@@ -919,7 +919,7 @@ private lemma multiplicity_eq_spechtMultiplicity (n : ℕ) (mu nu : Nat.Partitio
           change g.comp proj_C (C.subtype ⟨x, hx⟩) = g ⟨x, hx⟩
           simp only [LinearMap.comp_apply, Submodule.subtype_apply]
           congr 1
-          exact Submodule.linearProjOfIsCompl_apply_left h_compl ⟨x, hx⟩
+          exact Submodule.projectionOnto_apply_left h_compl ⟨x, hx⟩
         map_add' := fun f g => by apply LinearMap.ext; intro; simp [LinearMap.comp_apply]
         map_smul' := fun c f => by
           apply LinearMap.ext; intro x

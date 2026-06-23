@@ -470,9 +470,13 @@ theorem alternant_coeff_kronecker {N : ℕ}
       · exact absurd hgt (not_lt.mpr (le_of_eq (congr_arg e heq.symm)))
       · exact absurd hgt (not_lt.mpr (le_of_lt (he hlt)))
     exact ⟨by rw [← h]; simp [show σ.symm = 1 from perm_eq_one_of_strictMono hmono],
-           by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono]; simp⟩
+           -- v4.30: the rewrite chain already closes `σ = 1`, so no trailing `simp`.
+           by rw [← σ.symm_symm, perm_eq_one_of_strictMono hmono, Equiv.Perm.one_symm]⟩
   split_ifs with heq
-  · rw [Finset.sum_eq_single 1]; · simp [heq]
+  · rw [Finset.sum_eq_single 1]
+    · -- v4.30: simp normal form changed; reduce `σ = 1` summand to `1 • 1 = 1` explicitly.
+      subst heq
+      simp [Equiv.Perm.one_symm]
     · intro σ _ hne; simp only [key]; split_ifs with h
       · exact absurd (unique σ h).2 hne
       · exact smul_zero _
