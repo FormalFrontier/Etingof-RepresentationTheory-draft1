@@ -914,6 +914,9 @@ private theorem symGroupAlgHomToImage_of (σ : Equiv.Perm (Fin n)) :
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- rc4: the `whnf`/`isDefEq` change makes synthesising `HSMul ↥(symGroupImage) ↥S`
+-- (the submodule scalar action) exceed the default 200000 heartbeats; bump it.
+set_option maxHeartbeats 400000 in
 /-- Value-level description of the `↥(symGroupImage)`-action on a submodule
 `S ≤ V^⊗n` via `symGroupAlgHomToImage`: `(symGroupAlgHomToImage a • x).val`
 applies the endomorphism `symGroupAlgHom a` to `x.val`. -/
@@ -1004,6 +1007,9 @@ set_option synthInstance.maxHeartbeats 200000 in
 -- the bijective-semilinear-map transfer both invoke `Module` instance
 -- synthesis on the `S.restrictScalars ℂ` carrier, traversing the deep
 -- `Subalgebra → Subsemiring → Module` chain.
+-- rc4: the `whnf`/`isDefEq` change pushes the bijective-transfer `isDefEq`
+-- past the default 200000 heartbeats; bump it.
+set_option maxHeartbeats 400000 in
 /-- Simplicity of `↥S` as a `↥(symGroupImage)`-module transfers to simplicity
 of `↥(S.restrictScalars ℂ)` as a `SymGroupAlgebra n`-module. -/
 private theorem submoduleAsSymGroupAlgebra_isSimpleModule

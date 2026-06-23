@@ -101,10 +101,14 @@ private noncomputable def invariantsEquivIntertwining :
       Representation.IntertwiningMap (D.columnRep i) (D.columnRep i) where
   toFun f := {
     toLinearMap := f.val
-    isIntertwining' := fun g v => by
+    -- rc4: `isIntertwining'` is now a single composed-map equality per `g`
+    --   (`f ∘ₗ ρ g = ρ g ∘ₗ f`), so prove it pointwise via `LinearMap.ext`.
+    isIntertwining' := fun g => by
       have hf := f.property g
       rw [Representation.linHom_apply] at hf
       -- hf : ρ g ∘ₗ f.val ∘ₗ ρ g⁻¹ = f.val
+      apply LinearMap.ext; intro v
+      simp only [LinearMap.comp_apply]
       have key := LinearMap.congr_fun hf.symm ((D.columnRep i) g v)
       simp only [LinearMap.comp_apply, D.columnRep_inv_mul_cancel] at key
       exact key }
@@ -114,7 +118,8 @@ private noncomputable def invariantsEquivIntertwining :
       rw [Representation.linHom_apply]
       apply LinearMap.ext; intro v
       simp only [LinearMap.comp_apply]
-      have := f.isIntertwining' g ((D.columnRep i) g⁻¹ v)
+      -- rc4: use the `IntertwiningMap.isIntertwining` helper for the pointwise law
+      have := Representation.IntertwiningMap.isIntertwining _ _ f g ((D.columnRep i) g⁻¹ v)
       rw [D.columnRep_mul_inv_cancel] at this
       exact this.symm }
   left_inv _ := rfl

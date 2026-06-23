@@ -633,7 +633,10 @@ theorem isSimpleModule_monoidAlgebra_GL_of_centralizer_simple
 -- with `Subalgebra → Ring → Module.End` instance chains, and the per-i transport
 -- through `Subalgebra.equivOfEq` adds further `Module.compHom` synthesis cost
 -- (matching the budgets used by `_GL_rep_decomposition_explicit`).
-set_option maxHeartbeats 3200000 in
+-- rc4: the `whnf`/`isDefEq` change made the final anonymous-constructor elaboration
+-- (checking each component against the 11-binder dependent existential type) more
+-- expensive; raised from 3200000 to 4800000.
+set_option maxHeartbeats 4800000 in
 set_option synthInstance.maxHeartbeats 1600000 in
 /-- Schur-Weyl duality, part (iii), GL_N-representation form, with the
 **simplicity** clause for each `L i` summand.

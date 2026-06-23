@@ -229,6 +229,9 @@ private theorem schurPoly_ne_zero (N : ℕ) (lam : Fin N → ℕ) (hlam : Antito
 
 -- The SchurModuleSubmodule is nonzero for any antitone weight.
 -- Uses the Weyl character formula: ch(L_λ) = s_λ ≠ 0.
+-- rc4: synthesising `SMulZeroClass k ↥(glWeightSpace …)` now exceeds the default
+-- 20000 typeclass heartbeats; bump the synthesis budget.
+set_option synthInstance.maxHeartbeats 40000 in
 theorem schurModuleSubmodule_ne_bot (N : ℕ) (lam : Fin N → ℕ) (hlam : Antitone lam) :
     SchurModuleSubmodule k N lam ≠ ⊥ := by
   intro h
