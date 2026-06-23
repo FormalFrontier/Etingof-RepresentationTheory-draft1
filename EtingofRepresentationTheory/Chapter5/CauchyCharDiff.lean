@@ -1,5 +1,5 @@
 import Mathlib
-import EtingofRepresentationTheory.Chapter5.Proposition5_22_2
+import EtingofRepresentationTheory.Chapter5.SchurPolyShift
 
 /-!
 # The Cauchy character difference: the determinant shift removes the `ν_N ≥ 1` part
