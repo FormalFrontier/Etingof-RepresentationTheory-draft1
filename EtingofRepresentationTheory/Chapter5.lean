@@ -154,6 +154,8 @@ import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1
 import EtingofRepresentationTheory.Chapter5.Corollary5_26_3
 
+import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic
+
 -- Section 5.27: Representations of Semidirect Products
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 
