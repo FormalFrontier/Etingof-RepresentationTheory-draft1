@@ -197,6 +197,145 @@ theorem formalCharacter_eq_sum_simple_factors (N : ℕ)
         rw [← hWchar]
         exact formalCharacter_eq_sub_add_quotient M σ hsubspan hM
 
+/-- **Clean `SchurModule` weight-spanning.** The `ℕ`-weight spaces of `SchurModule k N lam`
+span it. This is the DetInvElim-clean replacement for the banned
+`glWeightSpace_schurModule_iSup_eq_top` (which lives in the polluted
+`SchurWeylFormalCharacterIso`): `SchurModule` is the image of the GL-equivariant
+`youngSymEndomorphism` applied to the weight-spanning `glTensorRep`, so spanning transfers
+through the equivariant surjection `LinearMap.rangeRestrict`. The proof body uses only clean
+infrastructure (`glTensorRep_iSup_glWeightSpace_eq_top`, `glTensor_comm_youngSym`). -/
+theorem schurModule_iSup_glWeightSpace_eq_top_clean (N : ℕ) (lam : Fin N → ℕ) :
+    ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N (SchurModule k N lam) (fun i => μ i) = ⊤ := by
+  refine glWeightSpace_iSup_eq_top_of_equivariant_surjective N
+    (FDRep.of (glTensorRep k N (∑ i, lam i))) (SchurModule k N lam)
+    (LinearMap.rangeRestrict (youngSymEndomorphism k N lam)) ?_
+    (LinearMap.surjective_rangeRestrict _)
+    (glTensorRep_iSup_glWeightSpace_eq_top k N (∑ i, lam i))
+  intro g v
+  apply Subtype.ext
+  change youngSymEndomorphism k N lam ((FDRep.of (glTensorRep k N (∑ i, lam i))).ρ g v)
+     = (glTensorRep k N (∑ i, lam i) g) (youngSymEndomorphism k N lam v)
+  rw [FDRep.of_ρ']
+  exact (LinearMap.ext_iff.mp (glTensor_comm_youngSym k N lam g) v).symm
+
+/-- **Isomorphic `FDRep`s have equal formal characters.** Extracts the `k`-linear intertwiner of
+a categorical `FDRep` isomorphism and feeds it to `formalCharacter_eq_of_rep_iso`. The
+contrapositive (distinct characters ⟹ non-isomorphic) is what supplies the pairwise-distinctness
+hypothesis of the torus-trace engine after dedup-by-character. -/
+theorem formalCharacter_eq_of_FDRep_iso (N : ℕ)
+    (X Y : FDRep k (Matrix.GeneralLinearGroup (Fin N) k)) (e : X ≅ Y) :
+    formalCharacter k N X = formalCharacter k N Y := by
+  have hint : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : X),
+      (FDRep.isoToLinearEquiv e) (X.ρ g v) = Y.ρ g ((FDRep.isoToLinearEquiv e) v) := by
+    intro g v
+    have h := FDRep.Iso.conj_ρ e g
+    have hconj : (FDRep.isoToLinearEquiv e).conj (X.ρ g) ((FDRep.isoToLinearEquiv e) v)
+        = (FDRep.isoToLinearEquiv e) (X.ρ g v) := by
+      simp only [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
+      rw [(FDRep.isoToLinearEquiv e).symm_apply_apply]
+    rw [h, hconj]
+  have h0 := formalCharacter_eq_of_rep_iso k N X.ρ Y.ρ (FDRep.isoToLinearEquiv e) hint
+  rwa [formalCharacter_FDRep_of_ρ, formalCharacter_FDRep_of_ρ] at h0
+
+/-- **Torus-trace character-independence engine (combined wrapper).** A vanishing ℚ-linear
+combination of formal characters of a finite family of *pairwise non-isomorphic*, simple,
+algebraic, weight-spanning `GL_N(k)`-representations forces every coefficient to vanish. Chains
+`trace_combination_eq_zero_of_formalCharacter_combination_eq_zero` (character ⟹ torus-trace
+combination) into `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general`
+(torus-trace ⟹ coefficients zero). -/
+theorem coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype ι]
+    (R : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ)
+    (hRsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (R i).ρ))
+    (hRspan : ∀ i, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (R i) (fun j => μ j) = ⊤)
+    (hRdist : Pairwise (fun i j => ¬ Nonempty ((R i) ≅ (R j))))
+    (a : ι → ℚ)
+    (hcomb : ∑ i, a i • formalCharacter k N (R i) = 0) :
+    ∀ i, a i = 0 := by
+  classical
+  refine formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general
+    (k := k) N R hRalg hRsimp hRdist a (fun t => ?_)
+  have hchar0 : ∑ i ∈ Finset.univ, a i • formalCharacter k N (R i) = 0 := by simpa using hcomb
+  have h := trace_combination_eq_zero_of_formalCharacter_combination_eq_zero
+    (k := k) (N := N) Finset.univ a R (fun i _ => hRspan i) hchar0 t
+  simpa using h
+
+/-- **Net coefficient at each character value vanishes (dedup-by-character).** For a finite family
+of simple, algebraic, weight-spanning `GL_N(k)`-representations with a vanishing ℚ-linear
+combination of formal characters, the *net* coefficient at every character value `w` — the sum of
+`a i` over all indices `i` whose representation has character `w` — is zero. Proved by deduplicating
+the family by character value into pairwise non-isomorphic representatives (distinct characters ⟹
+non-isomorphic, via `formalCharacter_eq_of_FDRep_iso`) and feeding the regrouped combination to
+`coeff_zero_of_char_combination_zero`. Kept generic in `R` so the dedup machinery never sees the
+caller's concrete `Sum.elim` family (which otherwise triggers a `whnf` defeq blowup). -/
+theorem net_coeff_zero_of_char_combination_zero (N : ℕ) {ι : Type} [Fintype ι]
+    (R : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
+    (hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ)
+    (hRsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+        (Representation.asModule (R i).ρ))
+    (hRspan : ∀ i, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (R i) (fun j => μ j) = ⊤)
+    (a : ι → ℚ)
+    (hcomb : ∑ i, a i • formalCharacter k N (R i) = 0)
+    (w : MvPolynomial (Fin N) ℚ) :
+    ∑ i ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = w), a i = 0 := by
+  classical
+  let χ : ι → MvPolynomial (Fin N) ℚ := fun i => formalCharacter k N (R i)
+  let reps : Finset (MvPolynomial (Fin N) ℚ) := Finset.image χ Finset.univ
+  by_cases hw : w ∈ reps
+  · have hpickex : ∀ w : {w // w ∈ reps}, ∃ i, χ i = w.1 := by
+      intro w
+      have hw := w.2
+      simp only [reps, Finset.mem_image, Finset.mem_univ, true_and] at hw
+      obtain ⟨i, hi⟩ := hw
+      exact ⟨i, hi⟩
+    choose pick hpick using hpickex
+    let Rep : {w // w ∈ reps} → FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+      fun w => R (pick w)
+    let b : {w // w ∈ reps} → ℚ :=
+      fun w => ∑ i ∈ Finset.univ.filter (fun i => χ i = w.1), a i
+    have hRepchar : ∀ w, formalCharacter k N (Rep w) = w.1 := fun w => hpick w
+    have hzero : ∑ w ∈ reps, (∑ i ∈ Finset.univ.filter (fun i => χ i = w), a i) • w = 0 := by
+      have h1 : ∑ w ∈ reps, (∑ i ∈ Finset.univ.filter (fun i => χ i = w), a i) • w
+          = ∑ w ∈ reps, ∑ i ∈ Finset.univ.filter (fun i => χ i = w), a i • χ i := by
+        refine Finset.sum_congr rfl (fun w _ => ?_)
+        rw [Finset.sum_smul]
+        refine Finset.sum_congr rfl (fun i hi => ?_)
+        rw [Finset.mem_filter] at hi
+        rw [hi.2]
+      rw [h1, Finset.sum_fiberwise_of_maps_to
+        (fun i _ => Finset.mem_image_of_mem χ (Finset.mem_univ i)) (fun i => a i • χ i)]
+      exact hcomb
+    have hRepcomb : ∑ w : {w // w ∈ reps}, b w • formalCharacter k N (Rep w) = 0 := by
+      have hstep : ∀ w : {w // w ∈ reps}, b w • formalCharacter k N (Rep w)
+          = (fun w0 => (∑ i ∈ Finset.univ.filter (fun i => χ i = w0), a i) • w0) w.1 := by
+        intro w; rw [hRepchar w]
+      rw [Finset.sum_congr rfl (fun w _ => hstep w),
+        Finset.sum_coe_sort reps
+          (fun w0 => (∑ i ∈ Finset.univ.filter (fun i => χ i = w0), a i) • w0)]
+      exact hzero
+    have hRepdist :
+        Pairwise (fun w w' : {w // w ∈ reps} => ¬ Nonempty ((Rep w) ≅ (Rep w'))) := by
+      intro w w' hww'
+      rintro ⟨e⟩
+      apply hww'
+      apply Subtype.ext
+      have h3 := formalCharacter_eq_of_FDRep_iso k N (Rep w) (Rep w') e
+      rw [hRepchar w, hRepchar w'] at h3
+      exact h3
+    have hb0 := coeff_zero_of_char_combination_zero k N Rep
+      (fun w => hRalg (pick w)) (fun w => hRsimp (pick w)) (fun w => hRspan (pick w))
+      hRepdist b hRepcomb
+    exact hb0 ⟨w, hw⟩
+  · have hempty : Finset.univ.filter (fun i => formalCharacter k N (R i) = w) = ∅ := by
+      rw [Finset.filter_eq_empty_iff]
+      intro i _ hi
+      have hmem : formalCharacter k N (R i) ∈ reps :=
+        Finset.mem_image_of_mem χ (Finset.mem_univ i)
+      rw [hi] at hmem
+      exact hw hmem
+    rw [hempty, Finset.sum_empty]
+
 /-- **DetInvElim-clean constituent-character extraction (#5082).** Same statement as the
 polluted `Etingof.simple_constituent_formalCharacter_eq_schurPoly_mem`, proved without
 `decompose_polynomial_gl_rep`. -/
@@ -215,30 +354,129 @@ theorem clean_simple_constituent_formalCharacter_eq_schurPoly_mem (N : ℕ)
     (hφ_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
       φ (L.ρ g v) = M.ρ g (φ v)) :
     ∃ ν ∈ S, 0 < c ν ∧ formalCharacter k N L = schurPoly N ν.val := by
-  -- TODO(#5082 extractor tail): the composition-series infrastructure above
-  -- (`formalCharacter_eq_sum_simple_factors`, `subFDRep_iSup_glWeightSpace_eq_top`,
-  -- `subFDRep_isAlgebraic`) reduces this to a finite character-bookkeeping step. Plan:
-  --   1. Image subrep `σL : Subrepresentation M.ρ := ⟨LinearMap.range φ, _⟩` (invariant by
-  --      `hφ_equiv`); `e := (LinearEquiv.ofInjective φ hφ_inj).symm : σL.toSubmodule ≃ₗ L`.
-  --   2. `formalCharacter (subFDRep M σL) = formalCharacter L` via `formalCharacter_eq_of_rep_iso`
-  --      + `formalCharacter_FDRep_of_ρ`; `L` is algebraic (`IsAlgebraicRepresentation.of_linearEquiv`
-  --      from `subFDRep_isAlgebraic`) and weight-spanning (`glWeightSpace_iSup_eq_top_of_equivariant_surjective`
-  --      from `subFDRep_iSup_glWeightSpace_eq_top`).
-  --   3. SES + `formalCharacter_eq_sum_simple_factors` on `M ⧸ σL`:
-  --      `char M = char L + ∑_{j} char (W j)` with each `W j` simple algebraic spanning.
-  --   4. With `hchar` and `formalCharacter_schurModule_eq_schurPoly`, set `V ν := SchurModule k N ν.val`
-  --      (simple `schurModule_isSimple_general`, algebraic `schurModule_isAlgebraic`, char `S_ν`,
-  --      spanning: clean `SchurModule` spanning still needed — restrict `glTensorRep` (spanning by
-  --      `glTensorRep_iSup_glWeightSpace_eq_top`) to `SchurModuleSubmodule` and transfer).
-  --      Get `char L + ∑_j char (W j) - ∑_{ν∈S} c_ν char (V ν) = 0`.
-  --   5. Dedup the reps `{L} ∪ {W j} ∪ {V ν}` by character value (MvPolynomial DecidableEq;
-  --      pairwise non-iso of representatives = distinct characters via `formalCharacter_eq_of_rep_iso`),
-  --      feed the net coefficients through
-  --      `trace_combination_eq_zero_of_formalCharacter_combination_eq_zero` →
-  --      `formalCharacter_simples_coeff_eq_zero_of_torus_trace_eq_zero_general` to force every net
-  --      coefficient to 0. The class of `char L` then has positive `c`-mass, yielding `ν ∈ S` with
-  --      `0 < c ν` and `char L = schurPoly N ν.val`.
-  sorry
+  classical
+  -- ### Step A: the image subrepresentation `σL ≅ L` (algebraic, weight-spanning).
+  let σL : Subrepresentation M.ρ :=
+    ⟨LinearMap.range φ, by
+      rintro g v ⟨w, rfl⟩
+      exact ⟨L.ρ g w, hφ_equiv g w⟩⟩
+  let e' : L ≃ₗ[k] (subFDRep M σL) := LinearEquiv.ofInjective φ hφ_inj
+  have he' : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
+      e' (L.ρ g v) = (subFDRep M σL).ρ g (e' v) := by
+    intro g v
+    apply subFDRep_subtype_injective M σL
+    rw [subFDRep_subtype_equivariant]
+    exact hφ_equiv g v
+  have he'symm : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : subFDRep M σL),
+      e'.symm ((subFDRep M σL).ρ g v) = L.ρ g (e'.symm v) := by
+    intro g v
+    apply e'.injective
+    rw [e'.apply_symm_apply, he', e'.apply_symm_apply]
+  have hsubalg : Etingof.IsAlgebraicRepresentation N (subFDRep M σL).ρ :=
+    subFDRep_isAlgebraic k N M σL halg
+  have hsubspan : ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (subFDRep M σL) (fun i => μ i) = ⊤ :=
+    subFDRep_iSup_glWeightSpace_eq_top k N M σL h_span
+  have hcharL : formalCharacter k N L = formalCharacter k N (subFDRep M σL) := by
+    have h0 := formalCharacter_eq_of_rep_iso k N L.ρ (subFDRep M σL).ρ e' he'
+    rwa [formalCharacter_FDRep_of_ρ, formalCharacter_FDRep_of_ρ] at h0
+  -- ### Step B: short-exact-sequence split `char M = char L + ∑_j char (W j)`.
+  have hquotalg : Etingof.IsAlgebraicRepresentation N (quotientFDRep M σL).ρ :=
+    quotientFDRep_isAlgebraic M σL halg
+  have hquotspan :
+      ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (quotientFDRep M σL) (fun i => μ i) = ⊤ :=
+    quotientFDRep_iSup_glWeightSpace_eq_top M σL h_span
+  obtain ⟨p, W, hWsimp, hWalg, hWspan, hWchar⟩ :=
+    formalCharacter_eq_sum_simple_factors k N (quotientFDRep M σL) hquotalg hquotspan
+  have hMdecomp : formalCharacter k N M
+      = formalCharacter k N L + ∑ j, formalCharacter k N (W j) := by
+    rw [formalCharacter_eq_sub_add_quotient M σL hsubspan h_span, ← hcharL, hWchar]
+  -- ### Step C: assemble the raw family `{L} ∪ {W j} ∪ {SchurModule ν}ᵥ` with coefficients.
+  let R : Unit ⊕ Fin p ⊕ {ν // ν ∈ S} → FDRep k (Matrix.GeneralLinearGroup (Fin N) k) :=
+    Sum.elim (fun _ => L) (Sum.elim W (fun ν => SchurModule k N ν.1.val))
+  let a : Unit ⊕ Fin p ⊕ {ν // ν ∈ S} → ℚ :=
+    Sum.elim (fun _ => 1) (Sum.elim (fun _ => 1) (fun ν => -(c ν.1 : ℚ)))
+  have hRsimp : ∀ i, IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (Representation.asModule (R i).ρ) := by
+    rintro (_ | j | ν)
+    · exact hLsimp
+    · exact hWsimp j
+    · exact schurModule_isSimple_general k N ν.1.val ν.1.property
+  have hRalg : ∀ i, Etingof.IsAlgebraicRepresentation N (R i).ρ := by
+    rintro (_ | j | ν)
+    · exact IsAlgebraicRepresentation.of_linearEquiv e'.symm he'symm hsubalg
+    · exact hWalg j
+    · exact schurModule_isAlgebraic (k := k) N ν.1.val
+  have hRspan : ∀ i, ⨆ μ : Fin N →₀ ℕ, glWeightSpace k N (R i) (fun j => μ j) = ⊤ := by
+    rintro (_ | j | ν)
+    · exact glWeightSpace_iSup_eq_top_of_equivariant_surjective N (subFDRep M σL) L
+        e'.symm.toLinearMap he'symm e'.symm.surjective hsubspan
+    · exact hWspan j
+    · exact schurModule_iSup_glWeightSpace_eq_top_clean k N ν.1.val
+  -- The vanishing character combination `char L + ∑_j char (W j) - ∑_{ν∈S} c_ν S_ν = char M - char M`.
+  have hcomb : ∑ i, a i • formalCharacter k N (R i) = 0 := by
+    have hsplit : ∑ i, a i • formalCharacter k N (R i)
+        = (formalCharacter k N L + ∑ j, formalCharacter k N (W j))
+          + (-∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val) := by
+      rw [Fintype.sum_sum_type, Fintype.sum_sum_type]
+      have hUnit : ∑ _x : Unit, a (Sum.inl _x) • formalCharacter k N (R (Sum.inl _x))
+          = formalCharacter k N L := by
+        simp only [Finset.univ_unique, Finset.sum_singleton]
+        show (1 : ℚ) • formalCharacter k N L = formalCharacter k N L
+        rw [one_smul]
+      have hW : ∑ j : Fin p, a (Sum.inr (Sum.inl j)) • formalCharacter k N (R (Sum.inr (Sum.inl j)))
+          = ∑ j, formalCharacter k N (W j) := by
+        refine Finset.sum_congr rfl (fun j _ => ?_)
+        show (1 : ℚ) • formalCharacter k N (W j) = formalCharacter k N (W j)
+        rw [one_smul]
+      have hV : ∑ ν : {ν // ν ∈ S},
+            a (Sum.inr (Sum.inr ν)) • formalCharacter k N (R (Sum.inr (Sum.inr ν)))
+          = -∑ ν ∈ S, (c ν : ℚ) • schurPoly N ν.val := by
+        rw [← Finset.sum_neg_distrib,
+          ← Finset.sum_coe_sort S (fun ν => -((c ν : ℚ) • schurPoly N ν.val))]
+        refine Finset.sum_congr rfl (fun ν _ => ?_)
+        show (-(c ν.1 : ℚ)) • formalCharacter k N (SchurModule k N ν.1.val)
+            = -((c ν.1 : ℚ) • schurPoly N ν.1.val)
+        rw [formalCharacter_schurModule_eq_schurPoly k N ν.1.val ν.1.property, neg_smul]
+      rw [hUnit, hW, hV, ← add_assoc]
+    rw [hsplit, ← hMdecomp, ← hchar, add_neg_cancel]
+  -- ### Step D: the net coefficient at every character value vanishes (dedup-by-character engine).
+  have hnet := net_coeff_zero_of_char_combination_zero k N R hRalg hRsimp hRspan a hcomb
+  -- ### Step E: read off the conclusion from the net coefficient at `char L`.
+  by_contra hcon
+  push_neg at hcon
+  -- `hcon : ∀ ν ∈ S, 0 < c ν → formalCharacter k N L ≠ schurPoly N ν.val`
+  have hcν0 : ∀ ν ∈ S, schurPoly N ν.val = formalCharacter k N L → c ν = 0 := by
+    intro ν hν heq
+    by_contra hc
+    exact hcon ν hν (Nat.pos_of_ne_zero hc) heq.symm
+  have hbw0 := hnet (formalCharacter k N L)
+  -- Every term in the net coefficient at `char L` is nonnegative, and `L` itself contributes `1`.
+  have hnonneg : ∀ i ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = formalCharacter k N L),
+      0 ≤ a i := by
+    intro i hi
+    rw [Finset.mem_filter] at hi
+    obtain ⟨_, hχi⟩ := hi
+    match i with
+    | Sum.inl () => show (0 : ℚ) ≤ 1; norm_num
+    | Sum.inr (Sum.inl j) => show (0 : ℚ) ≤ 1; norm_num
+    | Sum.inr (Sum.inr ν) =>
+        have hchareq : formalCharacter k N (SchurModule k N ν.1.val) = schurPoly N ν.1.val :=
+          formalCharacter_schurModule_eq_schurPoly k N ν.1.val ν.1.property
+        rw [show formalCharacter k N (R (Sum.inr (Sum.inr ν)))
+            = formalCharacter k N (SchurModule k N ν.1.val) from rfl, hchareq] at hχi
+        have hc0 : c ν.1 = 0 := hcν0 ν.1 ν.2 hχi
+        show (0 : ℚ) ≤ -(c ν.1 : ℚ)
+        rw [hc0]; norm_num
+  have hmem0 : (Sum.inl () : Unit ⊕ Fin p ⊕ {ν // ν ∈ S})
+      ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = formalCharacter k N L) := by
+    rw [Finset.mem_filter]
+    exact ⟨Finset.mem_univ _, rfl⟩
+  have hone : (1 : ℚ)
+      ≤ ∑ i ∈ Finset.univ.filter (fun i => formalCharacter k N (R i) = formalCharacter k N L), a i := by
+    have hle := Finset.single_le_sum hnonneg hmem0
+    simpa using hle
+  rw [hbw0] at hone
+  exact absurd hone (by norm_num)
 
 end Etingof
 
