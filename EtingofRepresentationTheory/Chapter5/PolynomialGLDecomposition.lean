@@ -143,7 +143,7 @@ theorem linearEquivFunOnFintype_tprodSplitEquiv_tmul (b : Module.Basis β k S)
   simp only [tprodSplitEquiv, LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply,
     TensorProduct.congr_tmul, LinearEquiv.refl_apply]
   funext i
-  simp [Finsupp.linearEquivFunOnFinite_apply, finsuppScalarLeft_apply_tmul_apply]
+  simp [Finsupp.linearEquivFunOnFinite_apply, TensorProduct.finsuppScalarLeft_apply_tmul_apply]
 
 /-- The `i`-th component of `tprodSplitEquiv` on a pure tensor. -/
 @[simp]
