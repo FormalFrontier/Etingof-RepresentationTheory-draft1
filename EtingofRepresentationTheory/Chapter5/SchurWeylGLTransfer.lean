@@ -208,7 +208,9 @@ theorem tensorPow_sub_smul_eq_sum_coeff (n : ℕ)
           ml (s.piecewise (fun _ : Fin n => f)
             (fun _ : Fin n => (-c) • (1 : Module.End k V))) :=
       ml.map_add_univ _ _
+    -- v4.31: `convert` no longer discharges the `ml g = PiTensorProduct.map g` defeq; close it via `rfl`.
     convert this using 1
+    rfl
   rw [lhs_eq]
   -- Step 2: Apply `map_piecewise_neg_smul_eq` to extract scalar from each summand.
   rw [Finset.sum_congr rfl (fun s _ => map_piecewise_neg_smul_eq k n f c s)]

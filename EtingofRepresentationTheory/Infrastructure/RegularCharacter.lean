@@ -48,7 +48,10 @@ theorem regularCharacter_ne_one [Finite G] (g : G) (hg : g ≠ 1) :
   simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
   apply Finset.sum_eq_zero
   intro h _
-  convert key h using 1
+  -- v4.31: `convert ... using 1` leaves a `basisSingleOne.repr` residual; rewrite it
+  -- to the plain coefficient application first.
+  rw [Finsupp.basisSingleOne_repr, LinearEquiv.refl_apply, Finsupp.coe_basisSingleOne]
+  exact key h
 
 open scoped Classical in
 /-- Combined form: `χ_reg(g)` equals `|G|` if `g = 1` and `0` otherwise. -/
@@ -221,8 +224,11 @@ private theorem regTrace_eq_card_mul [Fintype G]
   have := regularCharacter_eq (k := k) g
   rw [ofMulAction_eq_mulLeft] at this
   simp only [Finsupp.coe_basisSingleOne, Finsupp.single_apply]
+  -- v4.31: `convert this using 1` no longer reduces the ite; it splits into the
+  -- `mulLeft (single g 1) = mulLeft (of g)` defeq goal and the ite-arithmetic goal.
   convert this using 1
-  split_ifs <;> ring
+  · rfl
+  · split_ifs <;> ring
 
 /-- In a Wedderburn decomposition of `k[G]`, each block dimension `d_i` is nonzero in `k`.
 This is proved via the nondegeneracy of the coefficient-at-identity form on `k[G]`:

@@ -969,8 +969,13 @@ private lemma inducedRepV_simple {G A : Type} [Group G] [CommGroup A] [Fintype G
               σ.toSubmodule hσ_inv q₁ hq₁_out_mem g₁ hg₁_mem hg₁_nz hg₁_supp u
             -- f ∈ σ, f(q₁) = u, f(q) = 0 for q ≠ q₁
             -- f = Pi.single q₁ u by funext
+            -- v4.31: `convert … using 1` also spawns a (rfl) type-equality goal; the
+            -- function equality is the second goal, so prove it directly via funext.
+            -- v4.31: `convert … using 1` spawns a (rfl) type-equality goal alongside the
+            -- function-equality goal; `ext` can't see the latter, so use `funext` directly.
             convert hf_mem using 1
-            ext q; by_cases hq : q = q₁
+            · rfl
+            funext q; by_cases hq : q = q₁
             · rw [hq, Pi.single_eq_same, hf_eq]
             · rw [Pi.single_eq_of_ne hq, hf_supp q hq]
           -- For any coset q, Pi.single q u ∈ σ

@@ -3319,7 +3319,9 @@ private lemma charValue_reduce_to_n (N n : ℕ) (bp : BoundedPartition N n)
       obtain ⟨N'', rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : N' ≠ 0)
       have h0 := bp_trailing_zero_of_gt (N'' + 1) n bp' (by omega)
       have h0' : bp'.parts (Fin.last N'') = 0 := by
+        -- v4.31: `convert … using 2` no longer closes the residual `Fin` index equality.
         convert h0 using 2
+        simp [Fin.ext_iff]
       rw [charValue_remove_trailing_zero N'' n bp' h0' μ']
       rw [ihd N'' (bp'.dropLast N'' n h0') μ' (by omega)]
       congr 1

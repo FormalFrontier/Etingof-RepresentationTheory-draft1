@@ -271,7 +271,9 @@ private lemma genDet_irreducible (k' : Type*) [Field k'] (n : ℕ) (hn : 0 < n) 
         (MvPolynomial.totalDegree_X _)
         (fun x hx => isUnit_of_dvd_one (by
           have := hx (Finsupp.single ((0 : Fin 1), (0 : Fin 1)) 1)
-          rwa [MvPolynomial.coeff_X] at this))
+          -- v4.31: `coeff_X` leaves a reflexive `if` that no longer auto-reduces; `if_pos rfl` closes it.
+          rw [MvPolynomial.coeff_X, if_pos rfl] at this
+          exact this))
     | succ n =>
       have ih' := ih (by omega)
       -- Abbreviations for the generic matrix and its submatrices
