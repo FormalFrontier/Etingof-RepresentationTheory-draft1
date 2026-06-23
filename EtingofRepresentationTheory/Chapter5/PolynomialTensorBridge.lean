@@ -460,7 +460,7 @@ private noncomputable def matchingPerm {α : Type*} [DecidableEq α] :
   | 0, _, g, _ => ⟨Equiv.refl _, funext fun i => i.elim0⟩
   | n + 1, f, g, h =>
       let hg0_mem : g 0 ∈ Multiset.map f (Finset.univ : Finset (Fin (n+1))).val := by
-        rw [h]; exact Multiset.mem_map.mpr ⟨0, Finset.mem_univ _, rfl⟩
+        rw [h]; exact Multiset.mem_map.mpr ⟨0, Finset.mem_univ_val _, rfl⟩
       let l₀ : Fin (n+1) := Classical.choose (Multiset.mem_map.mp hg0_mem)
       let l₀_spec :
         l₀ ∈ (Finset.univ : Finset (Fin (n+1))).val ∧ f l₀ = g 0 :=

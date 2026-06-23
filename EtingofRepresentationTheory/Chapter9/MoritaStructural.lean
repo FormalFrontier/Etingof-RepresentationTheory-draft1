@@ -583,9 +583,7 @@ private theorem semisimple_iso_aux
       -- Module.Finite for Hom(N, S₀) over k via restrict-scalars injection
       haveI : Module.Finite k (N →ₗ[R] ↥S₀) :=
         Module.Finite.of_injective
-          { toFun := LinearMap.restrictScalars k
-            map_add' := fun f g => LinearMap.restrictScalars_add f g
-            map_smul' := fun c f => by ext; simp [LinearMap.restrictScalars, LinearMap.smul_apply] }
+          (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := ↥S₀) (R := k) (R₁ := k))
           (LinearMap.restrictScalars_injective k)
       -- finrank = 0 + Module.Finite + field → subsingleton Hom → contradiction
       have : Subsingleton (N →ₗ[R] ↥S₀) :=
@@ -610,10 +608,7 @@ private theorem semisimple_iso_aux
           rw [← hhom]; exact Module.finrank_zero_of_subsingleton
         haveI : Module.Finite k (N →ₗ[R] ↥S₀) :=
           Module.Finite.of_injective
-            { toFun := LinearMap.restrictScalars k
-              map_add' := fun f g => LinearMap.restrictScalars_add f g
-              map_smul' := fun c f => by
-                ext; simp [LinearMap.restrictScalars, LinearMap.smul_apply] }
+            (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := ↥S₀) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
         have : Subsingleton (N →ₗ[R] ↥S₀) :=
           (Module.finrank_zero_iff (R := k)).mp h0
@@ -641,10 +636,7 @@ private theorem semisimple_iso_aux
         -- finrank Hom(M, S₀) > 0
         haveI : Module.Finite k (M →ₗ[R] ↥S₀) :=
           Module.Finite.of_injective
-            { toFun := LinearMap.restrictScalars k
-              map_add' := fun f g => LinearMap.restrictScalars_add f g
-              map_smul' := fun c f => by
-                ext; simp [LinearMap.restrictScalars, LinearMap.smul_apply] }
+            (LinearMap.restrictScalarsₗ (S := R) (M := M) (N := ↥S₀) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
         have hM_pos : 0 < Module.finrank k (M →ₗ[R] ↥S₀) := by
           rw [Module.finrank_pos_iff (R := k)]
@@ -654,10 +646,7 @@ private theorem semisimple_iso_aux
           rw [hhom] at hM_pos; exact hM_pos
         haveI : Module.Finite k (N →ₗ[R] ↥S₀) :=
           Module.Finite.of_injective
-            { toFun := LinearMap.restrictScalars k
-              map_add' := fun f g => LinearMap.restrictScalars_add f g
-              map_smul' := fun c f => by
-                ext; simp [LinearMap.restrictScalars, LinearMap.smul_apply] }
+            (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := ↥S₀) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
         rw [Module.finrank_pos_iff (R := k)] at hN_pos
         obtain ⟨f, g, hfg⟩ := hN_pos
@@ -755,10 +744,7 @@ private theorem semisimple_iso_aux
         -- Derive Module.Finite for all Hom spaces
         haveI : Module.Finite k (M →ₗ[R] S) :=
           Module.Finite.of_injective
-            { toFun := LinearMap.restrictScalars k
-              map_add' := fun f g => LinearMap.restrictScalars_add f g
-              map_smul' := fun c f => by
-                ext; simp [LinearMap.restrictScalars, LinearMap.smul_apply] }
+            (LinearMap.restrictScalarsₗ (S := R) (M := M) (N := S) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
         haveI : Module.Finite k ((↥S₀ →ₗ[R] S) × (↥Q →ₗ[R] S)) :=
           Module.Finite.equiv eM
@@ -770,10 +756,7 @@ private theorem semisimple_iso_aux
             (LinearMap.inr k (↥S₀ →ₗ[R] S) (↥Q →ₗ[R] S)) LinearMap.inr_injective
         haveI : Module.Finite k (N →ₗ[R] S) :=
           Module.Finite.of_injective
-            { toFun := LinearMap.restrictScalars k
-              map_add' := fun f g => LinearMap.restrictScalars_add f g
-              map_smul' := fun c f => by
-                ext; simp [LinearMap.restrictScalars, LinearMap.smul_apply] }
+            (LinearMap.restrictScalarsₗ (S := R) (M := N) (N := S) (R := k) (R₁ := k))
             (LinearMap.restrictScalars_injective k)
         haveI : Module.Finite k ((↥T₀ →ₗ[R] S) × (↥(LinearMap.ker f) →ₗ[R] S)) :=
           Module.Finite.equiv eN
