@@ -919,6 +919,22 @@ Three API gotchas that cost build cycles here:
   `def` that takes the big equiv as an explicit **parameter** (`letI`-typed if it
   needs the `compHom` module instance); the body elaborates once with the equiv
   genuinely opaque. Then the caller is a one-line `exact ⟨transferDef S S' g⟩`.
+  **Same fix for a `let`-heavy finite-family dedup/choice proof over a CONCRETE
+  `Sum.elim` family** (Ch5 #5100, the clean constituent extractor): assembling
+  `{L} ∪ {W j} ∪ {V ν}` as `R := Sum.elim … (Sum.elim …)` and then running the
+  dedup-by-character machinery (`Finset.image`/`choose pick`/`Rep := fun w => R
+  (pick w)`/engine call) *inline* hit a genuine `(deterministic) timeout at whnf`
+  that did **not** clear even at `maxHeartbeats 6400000` — the `isDefEq` checks
+  (`Rep w = R (pick w)`, `χ (pick w) = formalCharacter (Rep w)`, the engine's
+  unification against the concrete `FDRep` carriers) loop while reducing `R`
+  through `Sum.elim` + `FDRep`/`FGModuleCat` coercions. Fix: extract the entire
+  dedup step into a standalone lemma quantified over an **abstract** `R : ι →
+  FDRep` (conclusion a plain `∑ i ∈ univ.filter (char (R i) = w), a i = 0`); its
+  body type-checks once with `R` opaque (no `Sum.elim` to reduce), and the caller
+  applies it to the concrete family in one line. After extraction the main theorem
+  compiled at the **default** budget. Heuristic: a `whnf` timeout that survives a
+  6.4M bump is a defeq *loop*, not a budget shortfall — relocate the offending
+  reduction behind an abstract parameter rather than raising heartbeats.
 
 - **Pin `f (N := N) (n := n)` on a hom application feeding a `•`** whose scalar
   type is being inferred (e.g. `(symGroupAlgHomToImage (N := N) (n := n) a) • x`).
