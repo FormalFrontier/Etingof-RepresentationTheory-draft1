@@ -75,6 +75,12 @@ namespace Etingof
 
 open Matrix Finset
 
+/-- Local restatement of the general `pow_eq_zero` removed from Mathlib in v4.30
+(only a `Complex.UnitDisc`-specific one remains); recovers `a = 0` from `a ^ n = 0`. -/
+private theorem pow_eq_zero {M₀ : Type*} [MonoidWithZero M₀] [NoZeroDivisors M₀]
+    {a : M₀} {n : ℕ} [NeZero n] (h : a ^ n = 0) : a = 0 :=
+  (pow_eq_zero_iff (NeZero.ne n)).mp h
+
 /-! ## Graph isomorphism preserves IsDynkinDiagram -/
 
 /-- If `adj'` is the image of `adj` under a graph isomorphism `σ`, and `adj` is a

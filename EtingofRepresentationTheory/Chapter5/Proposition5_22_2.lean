@@ -215,6 +215,8 @@ private lemma repr_glTensorRep_diagUnit_local (N n : ℕ) (i : Fin N) (t : kˣ)
     by_cases hgf : g = f <;> simp [hgf, c]
   exact LinearMap.congr_fun h_eq v
 
+-- v4.30: synthesizing `Module.Free k (glWeightSpace …)` is slower; raise the limit.
+set_option synthInstance.maxHeartbeats 80000 in
 private theorem formalCharacter_detTwist_eq_shift (N : ℕ) (lam : Fin N → ℕ)
     (hlam : Antitone lam) :
     formalCharacter k N (FDRep.of (detTwistedSchurModuleRep k N lam)) =

@@ -67,7 +67,7 @@ private lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
   omega
 
 /-- For sorted descending parts, c < parts[r] implies c < parts[r'] for r' ≤ r. -/
-private lemma col_exists_earlier_row (parts : List ℕ) (hSorted : parts.Sorted (· ≥ ·))
+private lemma col_exists_earlier_row (parts : List ℕ) (hSorted : parts.Pairwise (· ≥ ·))
     (r r' c : ℕ) (hr : r < parts.length) (hr' : r' < parts.length) (hle : r' ≤ r)
     (hc : c < parts[r]) : c < parts[r'] := by
   have : parts[r] ≤ parts[r'] := by

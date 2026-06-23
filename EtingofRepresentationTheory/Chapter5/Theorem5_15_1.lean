@@ -1979,7 +1979,8 @@ private lemma finsuppToPartition_toFinsupp_antitone {n : ℕ}
   change (finsuppToPartition v hsum).sortedParts.getD j.val 0 ≤
          (finsuppToPartition v hsum).sortedParts.getD i.val 0
   set sp := (finsuppToPartition v hsum).sortedParts
-  have hsorted : sp.Sorted (· ≥ ·) := Multiset.sort_sorted _ _
+  -- v4.30: `List.Sorted`/`Multiset.sort_sorted` removed; `Multiset.sort` now exposes `Pairwise`.
+  have hsorted : sp.Pairwise (· ≥ ·) := Multiset.pairwise_sort _ _
   by_cases hj : j.val < sp.length
   · have hi : i.val < sp.length := lt_of_le_of_lt hij hj
     simp only [List.getD_eq_getElem sp 0 hi, List.getD_eq_getElem sp 0 hj]
