@@ -92,10 +92,10 @@ theorem restrictScalars_preservesProjectiveDimensionLT
     intro h
     cases n with
     | zero =>
-      have hproj : Projective X := (projective_iff_hasProjectiveDimensionLT_one X).mpr h
+      have hproj : Projective X := projective_iff_hasProjectiveDimensionLT_one.mpr h
       have : Projective ((restrictScalars f).obj X) :=
         Functor.PreservesProjectiveObjects.projective_obj hproj
-      exact (projective_iff_hasProjectiveDimensionLT_one _).mp this
+      exact projective_iff_hasProjectiveDimensionLT_one.mp this
     | succ k =>
       -- Take projective presentation: 0 → K → P → X → 0
       obtain ⟨pp⟩ := EnoughProjectives.presentation X

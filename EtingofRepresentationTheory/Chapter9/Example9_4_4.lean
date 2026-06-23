@@ -62,9 +62,9 @@ theorem hasProjectiveDimensionLT_of_equivalence (E : C ≌ D) {X : C} :
     intro h
     cases n with
     | zero =>
-      have hproj : Projective X := (projective_iff_hasProjectiveDimensionLT_one X).mpr h
+      have hproj : Projective X := projective_iff_hasProjectiveDimensionLT_one.mpr h
       have : Projective (E.functor.obj X) := (E.map_projective_iff X).mpr hproj
-      exact (projective_iff_hasProjectiveDimensionLT_one _).mp this
+      exact projective_iff_hasProjectiveDimensionLT_one.mp this
     | succ m =>
       obtain ⟨pp⟩ := EnoughProjectives.presentation X
       let S : ShortComplex C := ShortComplex.mk (kernel.ι pp.f) pp.f (by simp)
@@ -124,10 +124,10 @@ private theorem extendScalars_preservesProjectiveDimensionLT
     intro h
     cases n with
     | zero =>
-      have hproj : Projective M := (projective_iff_hasProjectiveDimensionLT_one M).mpr h
+      have hproj : Projective M := projective_iff_hasProjectiveDimensionLT_one.mpr h
       have : Projective (F.obj M) :=
         Functor.PreservesProjectiveObjects.projective_obj hproj
-      exact (projective_iff_hasProjectiveDimensionLT_one _).mp this
+      exact projective_iff_hasProjectiveDimensionLT_one.mp this
     | succ k =>
       obtain ⟨pp⟩ := EnoughProjectives.presentation M
       let SC := ShortComplex.mk (kernel.ι pp.f) pp.f (by simp)
@@ -524,7 +524,7 @@ private theorem not_hasHomologicalDimensionLE_zero_polynomial
   -- Every R[X]-module has pd ≤ 0, so MA is projective
   have hpd : HasProjectiveDimensionLE MA 0 := hall MA
   have hproj : Projective MA :=
-    (projective_iff_hasProjectiveDimensionLT_one MA).mpr hpd
+    projective_iff_hasProjectiveDimensionLT_one.mpr hpd
   have hmod : Module.Projective (Polynomial R) A :=
     MA.projective_of_module_projective
   -- The surjection: R[X] → A sending p ↦ p • 1_A

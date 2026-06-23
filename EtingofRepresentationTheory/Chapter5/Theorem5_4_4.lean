@@ -300,7 +300,7 @@ private lemma class_sum_scalar_isIntegral
   -- The representation ring hom: ℤ[G] → End(V)
   let φ : MonoidAlgebra ℤ G →+* Module.End ℂ V.V.obj :=
     ((Representation.asAlgebraHom V.ρ).toRingHom).comp
-      (MonoidAlgebra.mapRangeRingHom G (Int.castRingHom ℂ))
+      (MonoidAlgebra.mapRingHom G (Int.castRingHom ℂ))
   -- φ(e) = σ = c • id
   have hφe : φ e = c • LinearMap.id := by
     have hφ_of : ∀ h : G, φ (MonoidAlgebra.of ℤ G h) = V.ρ h := by

@@ -32,10 +32,10 @@ def SpechtModuleK (k : Type*) [CommRing k] (n : ℕ) (la : Nat.Partition n) :
 /-! ### Sandwich property via base change from ℤ -/
 
 /-- The ring hom ℤ[S_n] → ℂ[S_n] is injective (since ℤ → ℂ is injective). -/
-private lemma mapRangeRingHom_int_complex_injective (n : ℕ) :
-    Function.Injective (MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n))
+private lemma mapRingHom_int_complex_injective (n : ℕ) :
+    Function.Injective (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n))
       (Int.castRingHom ℂ)) := by
-  rw [MonoidAlgebra.coe_mapRangeRingHom]
+  rw [MonoidAlgebra.coe_mapRingHom]
   exact Finsupp.mapRange_injective _ (map_zero _) Int.cast_injective
 
 /-- For each σ, the element c_ℤ * of(σ) * c_ℤ in ℤ[S_n] is proportional to c_ℤ.
@@ -50,17 +50,17 @@ theorem YoungSymmetrizerZ_sandwich_basis (n : ℕ) (la : Nat.Partition n)
     YoungSymmetrizerZ n la * MonoidAlgebra.of ℤ _ σ * YoungSymmetrizerZ n la =
       (YoungSymmetrizerZ n la * MonoidAlgebra.of ℤ _ σ * YoungSymmetrizerZ n la) 1 •
         YoungSymmetrizerZ n la := by
-  set φ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
+  set φ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
   set cZ := YoungSymmetrizerZ n la
   set y := cZ * MonoidAlgebra.of ℤ _ σ * cZ
   -- φ is injective
-  have hφ_inj := mapRangeRingHom_int_complex_injective n
+  have hφ_inj := mapRingHom_int_complex_injective n
   -- φ preserves c and of
   have hφc : φ cZ = YoungSymmetrizer n la :=
     (YoungSymmetrizer_eq_mapRange n la).symm
   have hφσ : φ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of ℂ _ σ := by
-    change MonoidAlgebra.mapRangeRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
-    rw [MonoidAlgebra.mapRangeRingHom_single, map_one]
+    change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+    rw [MonoidAlgebra.mapRingHom_single, map_one]
   -- Over ℂ: b * x * a = ℓ(x) • c (Lemma 5.13.1)
   obtain ⟨ℓ, hℓ⟩ := Etingof.Lemma5_13_1 n la
   -- The sandwich for c: c * x * c = ℓ(a * (x * b)) • c
@@ -93,7 +93,7 @@ theorem YoungSymmetrizerZ_sandwich_basis (n : ℕ) (la : Nat.Partition n)
       change f_val * ((cZ 1 : ℤ) : ℂ) = f_val
       rw [hcZ1, Int.cast_one, mul_one]
     have h2 : (φ y) (1 : Equiv.Perm (Fin n)) = ((y 1 : ℤ) : ℂ) := by
-      rw [MonoidAlgebra.coe_mapRangeRingHom]; rfl
+      rw [MonoidAlgebra.coe_mapRingHom]; rfl
     calc f_val = (f_val • φ cZ) 1 := h1.symm
       _ = (φ y) 1 := by rw [h_ℂ]
       _ = ((y 1 : ℤ) : ℂ) := h2
@@ -107,7 +107,7 @@ theorem YoungSymmetrizerK_sandwich_ℚ (n : ℕ) (la : Nat.Partition n) :
     ∃ f : AQ n →ₗ[ℚ] ℚ, ∀ x,
       YoungSymmetrizerK ℚ n la * x * YoungSymmetrizerK ℚ n la =
         f x • YoungSymmetrizerK ℚ n la := by
-  set ψ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
+  set ψ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
   set cZ := YoungSymmetrizerZ n la
   set cQ := YoungSymmetrizerK ℚ n la
   have hψc : ψ cZ = cQ := (YoungSymmetrizerK_eq_mapRange ℚ n la).symm
@@ -118,8 +118,8 @@ theorem YoungSymmetrizerK_sandwich_ℚ (n : ℕ) (la : Nat.Partition n) :
     set β := (cZ * MonoidAlgebra.of ℤ _ σ * cZ) 1
     refine ⟨β, ?_⟩
     have hψσ : ψ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of ℚ _ σ := by
-      change MonoidAlgebra.mapRangeRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
-      rw [MonoidAlgebra.mapRangeRingHom_single, map_one]
+      change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+      rw [MonoidAlgebra.mapRingHom_single, map_one]
     have hZ := YoungSymmetrizerZ_sandwich_basis n la σ
     calc cQ * MonoidAlgebra.of ℚ _ σ * cQ
         = ψ cZ * ψ (MonoidAlgebra.of ℤ _ σ) * ψ cZ := by rw [hψc, hψσ]
@@ -153,7 +153,7 @@ theorem YoungSymmetrizerK_sandwich_ℚ (n : ℕ) (la : Nat.Partition n) :
 private lemma YoungSymmetrizerK_ℚ_apply_one (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizerK ℚ n la 1 = 1 := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la]
-  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
 
 /-- YoungSymmetrizerK ℚ is nonzero. -/
 private lemma YoungSymmetrizerK_ℚ_ne_zero (n : ℕ) (la : Nat.Partition n) :
@@ -240,7 +240,7 @@ theorem YoungSymmetrizerK_sandwich_general (k : Type*) [CommRing k]
     ∃ f : MonoidAlgebra k (Equiv.Perm (Fin n)) →ₗ[k] k, ∀ x,
       YoungSymmetrizerK k n la * x * YoungSymmetrizerK k n la =
         f x • YoungSymmetrizerK k n la := by
-  set ψ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k)
+  set ψ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k)
   set cZ := YoungSymmetrizerZ n la
   set cK := YoungSymmetrizerK k n la
   have hψc : ψ cZ = cK := (YoungSymmetrizerK_eq_mapRange k n la).symm
@@ -251,8 +251,8 @@ theorem YoungSymmetrizerK_sandwich_general (k : Type*) [CommRing k]
     set β := (cZ * MonoidAlgebra.of ℤ _ σ * cZ) 1
     refine ⟨β, ?_⟩
     have hψσ : ψ (MonoidAlgebra.of ℤ _ σ) = MonoidAlgebra.of k _ σ := by
-      change MonoidAlgebra.mapRangeRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
-      rw [MonoidAlgebra.mapRangeRingHom_single, map_one]
+      change MonoidAlgebra.mapRingHom _ _ (Finsupp.single σ 1) = Finsupp.single σ 1
+      rw [MonoidAlgebra.mapRingHom_single, map_one]
     have hZ := YoungSymmetrizerZ_sandwich_basis n la σ
     calc cK * MonoidAlgebra.of k _ σ * cK
         = ψ cZ * ψ (MonoidAlgebra.of ℤ _ σ) * ψ cZ := by rw [hψc, hψσ]
@@ -284,7 +284,7 @@ private lemma YoungSymmetrizerK_general_apply_one (k : Type*) [CommRing k]
     (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizerK k n la 1 = 1 := by
   rw [YoungSymmetrizerK_eq_mapRange k n la]
-  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
 
 /-- `YoungSymmetrizerK k` is nonzero over any nontrivial commutative ring. -/
 private lemma YoungSymmetrizerK_general_ne_zero (k : Type*) [CommRing k] [Nontrivial k]

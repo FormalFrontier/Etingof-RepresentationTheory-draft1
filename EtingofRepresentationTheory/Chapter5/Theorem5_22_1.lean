@@ -70,15 +70,15 @@ def YoungSymmetrizerZ (n : ℕ) (la : Nat.Partition n) :
 /-- Base change maps `of ℤ g` to `of k g`. -/
 private theorem mapRange_of {G : Type*} [Monoid G] (R : Type*) [CommRing R]
     (f : ℤ →+* R) (g : G) :
-    MonoidAlgebra.mapRangeRingHom G f (MonoidAlgebra.of ℤ G g) = MonoidAlgebra.of R G g := by
-  change MonoidAlgebra.mapRangeRingHom G f (Finsupp.single g 1) = Finsupp.single g 1
-  rw [MonoidAlgebra.mapRangeRingHom_single, map_one]
+    MonoidAlgebra.mapRingHom G f (MonoidAlgebra.of ℤ G g) = MonoidAlgebra.of R G g := by
+  change MonoidAlgebra.mapRingHom G f (Finsupp.single g 1) = Finsupp.single g 1
+  rw [MonoidAlgebra.mapRingHom_single, map_one]
 
 /-- `YoungSymmetrizerK k` is the image of `YoungSymmetrizerZ` under the base change `ℤ → k`. -/
 theorem YoungSymmetrizerK_eq_mapRange (k : Type*) [CommRing k] (n : ℕ)
     (la : Nat.Partition n) :
     YoungSymmetrizerK k n la =
-      MonoidAlgebra.mapRangeRingHom _ (Int.castRingHom k) (YoungSymmetrizerZ n la) := by
+      MonoidAlgebra.mapRingHom _ (Int.castRingHom k) (YoungSymmetrizerZ n la) := by
   classical
   simp only [YoungSymmetrizerK, YoungSymmetrizerZ, map_mul, map_sum, map_zsmul,
     mapRange_of, ← Int.cast_smul_eq_zsmul k]
@@ -86,7 +86,7 @@ theorem YoungSymmetrizerK_eq_mapRange (k : Type*) [CommRing k] (n : ℕ)
 /-- The ℂ Young symmetrizer is the image of `YoungSymmetrizerZ` under base change `ℤ → ℂ`. -/
 theorem YoungSymmetrizer_eq_mapRange (n : ℕ) (la : Nat.Partition n) :
     YoungSymmetrizer n la =
-      MonoidAlgebra.mapRangeRingHom _ (Int.castRingHom ℂ) (YoungSymmetrizerZ n la) := by
+      MonoidAlgebra.mapRingHom _ (Int.castRingHom ℂ) (YoungSymmetrizerZ n la) := by
   classical
   simp only [YoungSymmetrizer, RowSymmetrizer, ColumnAntisymmetrizer, YoungSymmetrizerZ,
     map_mul, map_sum, map_zsmul, mapRange_of, ← Int.cast_smul_eq_zsmul ℂ]
@@ -125,8 +125,8 @@ theorem YoungSymmetrizerZ_apply_one (n : ℕ) (la : Nat.Partition n) :
   apply hinj
   -- (Int.castRingHom ℂ) (cZ 1) = (mapRange cZ)(1) = (YoungSymmetrizer)(1)
   rw [show (Int.castRingHom ℂ) (YoungSymmetrizerZ n la 1) =
-      (MonoidAlgebra.mapRangeRingHom _ (Int.castRingHom ℂ) (YoungSymmetrizerZ n la)) 1
-    from (MonoidAlgebra.mapRangeRingHom_apply (Int.castRingHom ℂ) _ _).symm]
+      (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℂ) (YoungSymmetrizerZ n la)) 1
+    from (MonoidAlgebra.mapRingHom_apply (Int.castRingHom ℂ) _ _).symm]
   rw [← YoungSymmetrizer_eq_mapRange, (Int.castRingHom ℂ).map_one]
   -- YoungSymmetrizer = ColumnAntisymmetrizer * RowSymmetrizer
   simp only [YoungSymmetrizer, RowSymmetrizer, ColumnAntisymmetrizer]
@@ -171,8 +171,8 @@ theorem YoungSymmetrizerK_sq_scalar (k : Type*) [CommRing k] [CharZero k]
   -- Key elements
   set cZ := YoungSymmetrizerZ n la
   set β : ℤ := (cZ * cZ) 1
-  set φ_ℂ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
-  set φ_k := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k)
+  set φ_ℂ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
+  set φ_k := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k)
   -- Relations to base change
   have h_ℂ : YoungSymmetrizer n la = φ_ℂ cZ := YoungSymmetrizer_eq_mapRange n la
   have h_k : YoungSymmetrizerK k n la = φ_k cZ := YoungSymmetrizerK_eq_mapRange k n la
@@ -184,14 +184,14 @@ theorem YoungSymmetrizerK_sq_scalar (k : Type*) [CommRing k] [CharZero k]
   -- Evaluating at identity: α_ℂ = Int.cast β
   have hα_eq : α_ℂ = (β : ℂ) := by
     have h1 := Finsupp.ext_iff.mp hmul 1
-    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℂ] at h1
     exact h1.symm
   -- Therefore: for all σ, (cZ * cZ)(σ) = β * cZ(σ)  (by injectivity of ℤ → ℂ)
   have hZ : cZ * cZ = β • cZ := by
     ext σ
     have h1 := Finsupp.ext_iff.mp hmul σ
-    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hα_eq, φ_ℂ] at h1
     -- h1 : (↑((cZ * cZ) σ) : ℂ) = ↑β * ↑(cZ σ)
     have h2 : ((cZ * cZ) σ : ℂ) = ((β * cZ σ : ℤ) : ℂ) := by push_cast; exact h1
@@ -1607,11 +1607,11 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
   set β : ℤ := (cZ * cZ) 1
   -- α = (β : ℚ)
   have hα_eq_β : α = (β : ℚ) := by
-    have h1 : (MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) (cZ * cZ) =
-        α • (MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) cZ := by
+    have h1 : (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) (cZ * cZ) =
+        α • (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)) cZ := by
       rw [map_mul]; exact (YoungSymmetrizerK_eq_mapRange ℚ n la) ▸ hα_sq
     have h2 := Finsupp.ext_iff.mp h1 1
-    simp only [MonoidAlgebra.mapRangeRingHom_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply,
       MonoidAlgebra.smul_apply, smul_eq_mul, mul_comm α] at h2
     -- h2 : (Int.castRingHom ℚ) ((cZ * cZ) 1) = (Int.castRingHom ℚ) (cZ 1) * α
     -- Goal: α = ↑β where β = (cZ * cZ) 1
@@ -1622,11 +1622,11 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
   -- cZ² = β • cZ over ℤ
   have hZ : cZ * cZ = β • cZ := by
     ext σ
-    have h_ℚ : (MonoidAlgebra.mapRangeRingHom _ (Int.castRingHom ℚ)) (cZ * cZ) =
-        (β : ℚ) • (MonoidAlgebra.mapRangeRingHom _ (Int.castRingHom ℚ)) cZ := by
+    have h_ℚ : (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℚ)) (cZ * cZ) =
+        (β : ℚ) • (MonoidAlgebra.mapRingHom _ (Int.castRingHom ℚ)) cZ := by
       rw [map_mul, ← hα_eq_β]; exact (YoungSymmetrizerK_eq_mapRange ℚ n la) ▸ hα_sq
     have h2 := Finsupp.ext_iff.mp h_ℚ σ
-    simp only [MonoidAlgebra.mapRangeRingHom_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply,
       MonoidAlgebra.smul_apply, smul_eq_mul] at h2
     rw [MonoidAlgebra.smul_apply, smul_eq_mul]
     -- h2 : (Int.castRingHom ℚ) ((cZ * cZ) σ) = ↑β * (Int.castRingHom ℚ) (cZ σ)
@@ -1844,7 +1844,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     apply Finset.sum_congr rfl; intro f _
     rw [youngSym_diagonal_entry k N lam f, Int.cast_sum]
     apply Finset.sum_congr rfl; intro σ _
-    rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRangeRingHom_apply]; norm_cast
+    rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRingHom_apply]; norm_cast
   -- Diagonal sum over ℚ = (D_ℤ : ℚ)
   have hD_ℚ : ∑ f ∈ wt_μ, (tensorStdBasis ℚ N n).repr
       (youngSymEndomorphism ℚ N lam ((tensorStdBasis ℚ N n) f)) f = (D_ℤ : ℚ) := by
@@ -1852,7 +1852,7 @@ private lemma finrank_glWeightSpace_eq_restricted_trace
     apply Finset.sum_congr rfl; intro f _
     rw [youngSym_diagonal_entry ℚ N lam f, Int.cast_sum]
     apply Finset.sum_congr rfl; intro σ _
-    rw [YoungSymmetrizerK_eq_mapRange ℚ n la, MonoidAlgebra.mapRangeRingHom_apply]; norm_cast
+    rw [YoungSymmetrizerK_eq_mapRange ℚ n la, MonoidAlgebra.mapRingHom_apply]; norm_cast
   -- Suffices: finrank * β = D_ℤ as integers
   suffices h_int : (Module.finrank k
       (glWeightSpace k N (SchurModule k N lam) fun i => (μ i : ℕ)) : ℤ) * β = D_ℤ by
@@ -2038,7 +2038,7 @@ theorem YoungSymmetrizerK_sq_scalar_ne_zero
   rw [monoidAlgebra_trace_mulLeft_eq'] at htr_nil
   have hone : c 1 = 1 := by
     rw [hc_def, YoungSymmetrizerK_eq_mapRange ℚ n la]
-    simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+    simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
   rw [hone, mul_one] at htr_nil
   exact (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
     (by rwa [Fintype.card_perm, Fintype.card_fin] at htr_nil)
@@ -2052,7 +2052,7 @@ to avoid circular imports (YoungSymTraceKronecker.lean imports this file). -/
 private lemma youngSym_coeff_cast' (n : ℕ) (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
     (YoungSymmetrizerK ℚ n la σ : ℂ) = YoungSymmetrizer n la σ := by
   rw [YoungSymmetrizerK_eq_mapRange ℚ n la, YoungSymmetrizer_eq_mapRange n la]
-  simp only [MonoidAlgebra.mapRangeRingHom_apply]
+  simp only [MonoidAlgebra.mapRingHom_apply]
   exact_mod_cast rfl
 
 /-- Transfer `c² = α·c` from ℚ to ℂ via the ℤ base change. -/
@@ -2062,21 +2062,21 @@ private lemma youngSym_sq_ℂ' (n : ℕ) (la : Nat.Partition n)
     YoungSymmetrizer n la * YoungSymmetrizer n la = (α : ℂ) • YoungSymmetrizer n la := by
   set cZ := YoungSymmetrizerZ n la
   set β : ℤ := (cZ * cZ) 1
-  set φ_ℚ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
-  set φ_ℂ := MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
+  set φ_ℚ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℚ)
+  set φ_ℂ := MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom ℂ)
   have h_ℚ : YoungSymmetrizerK ℚ n la = φ_ℚ cZ := YoungSymmetrizerK_eq_mapRange ℚ n la
   have h_ℂ : YoungSymmetrizer n la = φ_ℂ cZ := YoungSymmetrizer_eq_mapRange n la
   have hcZ1 : cZ 1 = 1 := YoungSymmetrizerZ_apply_one n la
   have hmul_ℚ : φ_ℚ (cZ * cZ) = α • φ_ℚ cZ := by rw [map_mul]; exact h_ℚ ▸ hα
   have hα_eq : α = (β : ℚ) := by
     have h1 := Finsupp.ext_iff.mp hmul_ℚ 1
-    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hcZ1, map_one, mul_one, φ_ℚ] at h1
     exact h1.symm
   have hZ : cZ * cZ = β • cZ := by
     ext σ
     have h1 := Finsupp.ext_iff.mp hmul_ℚ σ
-    simp only [MonoidAlgebra.mapRangeRingHom_apply, MonoidAlgebra.smul_apply,
+    simp only [MonoidAlgebra.mapRingHom_apply, MonoidAlgebra.smul_apply,
       smul_eq_mul, hα_eq, φ_ℚ] at h1
     have h2 : ((cZ * cZ) σ : ℚ) = ((β * cZ σ : ℤ) : ℚ) := by push_cast; exact h1
     have h3 : (cZ * cZ) σ = β * cZ σ := Int.cast_injective h2
@@ -2156,7 +2156,7 @@ private lemma mulLeft_youngSym_zero_of_ne' (n : ℕ) (la la' : Nat.Partition n) 
 private lemma youngSym_coeff_one' (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizer n la : MonoidAlgebra ℂ (Equiv.Perm (Fin n))) 1 = 1 := by
   rw [YoungSymmetrizer_eq_mapRange]
-  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
 
 /-- Sandwich proportionality: c * v = ((c * v)(1)) • c for v ∈ V_λ. -/
 private lemma mul_mem_specht_proportional' (n : ℕ) (la : Nat.Partition n)
