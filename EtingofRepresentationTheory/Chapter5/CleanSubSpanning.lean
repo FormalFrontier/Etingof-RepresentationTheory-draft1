@@ -46,6 +46,7 @@ variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
 private def torusChar (N : ℕ) (t : Fin N → kˣ) (μ : Fin N →₀ ℕ) : k :=
   ∏ i, (t i : k) ^ (μ i)
 
+omit [IsAlgClosed k] [CharZero k] in
 /-- **Squeeze for independent families.** If `A i ≤ B i` termwise, the `B i` are
 sup-independent, and the two families have the same supremum, then they agree termwise.
 Pure lattice fact (modular law + independence); no finite-dimensionality needed. -/
@@ -153,6 +154,7 @@ theorem exists_separating_torus (N : ℕ)
       (fun i => hbound μ hμS i) (fun i => hbound ν hνS i) hE
   exact Finsupp.ext fun i => congrFun hfun i
 
+omit [CharZero k] in
 /-- Every weight vector of weight `μ` is an eigenvector of `M.ρ (diag t)` with eigenvalue
 `χ_μ(t)`, so the weight space sits inside the generalised eigenspace. -/
 theorem glWeightSpace_le_genEigenspace_diagTorus (N : ℕ)
@@ -164,6 +166,7 @@ theorem glWeightSpace_le_genEigenspace_diagTorus (N : ℕ)
     simpa [torusChar] using Etingof.glWeightSpace_diagTorus_apply M (fun i => μ i) t hv
   exact Module.End.eigenspace_le_maxGenEigenspace (Module.End.mem_eigenspace_iff.mpr hev)
 
+omit [CharZero k] in
 /-- **Diagonalisation (matching).** For a separating torus, the generalised eigenspace of
 `f := M.ρ (diag t)` at the character `χ_ν(t)` is exactly the weight space `M_ν`. -/
 theorem genEigenspace_diagTorus_eq_glWeightSpace (N : ℕ)
