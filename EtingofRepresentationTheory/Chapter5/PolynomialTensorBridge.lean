@@ -256,7 +256,10 @@ lemma tensorToPoly_polyToTensor_eq_self (p : MvPolynomial (Fin N × Fin N) k)
     have hw := hp hcoeff_ne  -- weight 1 s = n
     -- weight 1 s = s.sum (fun _ => id) when s takes values in ℕ
     rw [Finsupp.weight_apply] at hw
-    simpa using hw
+    -- v4.31: `simpa` left a non-matching normal form; reduce `c • (1 : _→ℕ) i`
+    -- to `c` explicitly so `hw` matches the `fun _ => id` goal.
+    simp only [Pi.one_apply, smul_eq_mul, mul_one] at hw
+    exact hw
   -- Compute: monomial s c = c • monomial s 1
   rw [show MvPolynomial.monomial s (MvPolynomial.coeff s p) =
         MvPolynomial.coeff s p • MvPolynomial.monomial s (1 : k) from by
@@ -638,7 +641,10 @@ theorem polyToTensor_rightTransl_of_isHomogeneous (g : Matrix (Fin N) (Fin N) k)
     have hcoeff : MvPolynomial.coeff s p ≠ 0 := MvPolynomial.mem_support_iff.mp hs
     have hw := hp hcoeff
     rw [Finsupp.weight_apply] at hw
-    simpa using hw
+    -- v4.31: `simpa` left a non-matching normal form; reduce `c • (1 : _→ℕ) i`
+    -- to `c` explicitly so `hw` matches the `fun _ => id` goal.
+    simp only [Pi.one_apply, smul_eq_mul, mul_one] at hw
+    exact hw
   -- Pull out the scalar c := coeff s p (monomial s c = c • monomial s 1).
   rw [show MvPolynomial.monomial s (MvPolynomial.coeff s p) =
         (MvPolynomial.coeff s p) • MvPolynomial.monomial s (1 : k) from by

@@ -1093,7 +1093,9 @@ private lemma exists_complement_of_irreducible_quotient.{u} (d : ℕ) :
       have hQ_triv : ∀ (x : sl2) (v : V), (⁅x, v⁆ : V) ∈ N := by
         -- C = 0 on V/N (since c_irr = 0), so sl₂ acts trivially on V/N
         have hCQ : ∀ w : V ⧸ N, sl2_casimir (V := V ⧸ N) w = 0 := by
-          intro w; have := hQ_casimir w; simp [hc] at this; exact this
+          -- v4.31: `hQ_casimir` already has `c_irr` rewritten to 0 (line above),
+          -- so `hQ_casimir w : sl2_casimir w = 0` directly; the old `simp [hc]` is now a no-op.
+          intro w; exact hQ_casimir w
         have hQ_act := sl2_trivial_action_of_trivial_subquotients (fun _ v => hCQ v)
         intro x v
         have h1 := hQ_act x (LieSubmodule.Quotient.mk' N v)

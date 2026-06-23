@@ -215,7 +215,7 @@ private lemma altSum_mem_symAntisymmetric (x : TensorPower k V n) :
     (fun ρ => (((Equiv.Perm.sign τ : ℤ) : k) * ((Equiv.Perm.sign ρ : ℤ) : k)) •
       symGroupAction k V n ρ x)
     (fun ρ => ?_)
-  dsimp only
+  -- v4.31: `dsimp only` here now makes no progress; the goal is already reduced.
   -- ρ.trans τ = τ * ρ (in Perm, a.trans b = b * a)
   rw [show ρ.trans τ = τ * ρ from (Equiv.Perm.mul_def τ ρ).symm]
   -- sign(ρ) = sign(τ) * sign(τ * ρ): since sign(τ * ρ) = sign(τ) * sign(ρ)
@@ -268,8 +268,11 @@ private lemma altSum_eq_toTensorPower_comp_π :
     (fun σ => ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ.symm i)))
     (fun σ => ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ i)))
     (fun σ => ?_)
-  simp only [Equiv.inv_apply, Equiv.Perm.inv_def]
-  rw [sign_symm_eq_sign]
+  -- v4.31: `Equiv.inv_apply` no longer fires; rewrite `(Equiv.inv _) σ` to `σ.symm`
+  -- via `Equiv.Perm.inv_def`, then use `sign σ⁻¹ = sign σ`.
+  show ((Equiv.Perm.sign σ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ.symm i)) =
+      ((Equiv.Perm.sign σ⁻¹ : ℤ) : k) • (PiTensorProduct.tprod k) (fun i => v (σ⁻¹ i))
+  rw [Equiv.Perm.inv_def, sign_symm_eq_sign]
 
 /-- π ∘ toTensorPower = n! • id on ⋀^n V. -/
 private lemma π_comp_toTensorPower :

@@ -77,7 +77,9 @@ theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type*) [Field k]
   -- `W.toSubmodule` is nonzero.
   have hW₀ne : W.toSubmodule ≠ ⊥ := by
     intro h
-    exact hW (Subrepresentation.toSubmodule_injective (by simpa using h))
+    -- v4.31: `simpa` no longer normalizes `⊥.toSubmodule` to `⊥`, but they are defeq,
+    -- so `exact h` closes the `W.toSubmodule = ⊥.toSubmodule` goal directly.
+    exact hW (Subrepresentation.toSubmodule_injective h)
   -- The scalar attached to the twist is nonzero.
   -- `W.toSubmodule` is `quotDetRep`-invariant: the twist only rescales by a unit.
   have hW_inv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k),
@@ -191,7 +193,9 @@ theorem kernelLemmaK'_submodule (k : Type*) [Field k] [IsAlgClosed k] [CharZero 
   have hW'bot : W' = ⊥ := kernelLemmaK' k N r hr W' hW
   have : W'.toSubmodule = (⊥ : Subrepresentation (quotDetTwistRep k N r)).toSubmodule :=
     congrArg Subrepresentation.toSubmodule hW'bot
-  simpa [W'] using this
+  -- v4.31: `simpa` leaves `⊥.toSubmodule` unreduced; `W'.toSubmodule` is defeq `W` and
+  -- `⊥.toSubmodule` is defeq `⊥`, so `exact this` closes the `W = ⊥` goal.
+  exact this
 
 end Etingof.KernelLemmaKPrime
 

@@ -967,8 +967,10 @@ theorem Etingof.Proposition6_6_7_source
               have hsub : Submodule.mkQ (LinearMap.range (ρ.sourceMap v)) z₁ =
                   Submodule.mkQ (LinearMap.range (ρ.sourceMap v)) 0 := by
                 apply (Etingof.reflFunctorMinus_equivAt_eq hi ρ).symm.injective
-                simpa only [Etingof.reflFunctorMinus_mkQ, LinearMap.comp_apply,
-                  LinearEquiv.coe_coe] using hmkQ_eq
+                -- v4.31: simp no longer unfolds the `mkQ` def-abbreviation, but
+                -- `mkQ z = (equivAt_eq).symm (Submodule.mkQ z)` holds definitionally, so the
+                -- injective-image goal is defeq to `hmkQ_eq`.
+                exact hmkQ_eq
               rw [map_zero, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at hsub
               exact hsub
             obtain ⟨x₁, hx₁⟩ := hz₁_range

@@ -106,8 +106,9 @@ private lemma finrank_eq_one_of_all_scalar
     intro h
     have : v ∈ (⊥ : Subrepresentation V.ρ) :=
       h ▸ Submodule.subset_span (Set.mem_singleton v)
-    simp [Submodule.mem_bot] at this
-    exact hv this
+    -- v4.31: membership in `⊥ : Subrepresentation` is membership in its `⊥` submodule;
+    -- `simp [Submodule.mem_bot]` no longer fires on the SetLike form, so reduce by hand.
+    exact hv (Submodule.mem_bot ℂ |>.mp this)
   -- By IsSimpleOrder, σ = ⊤
   have htop : σ = ⊤ := (eq_bot_or_eq_top σ).resolve_left hne_bot
   -- span{v} = ⊤ → finrank = 1

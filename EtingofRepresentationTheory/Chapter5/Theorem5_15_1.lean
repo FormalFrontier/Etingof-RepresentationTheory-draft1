@@ -811,8 +811,11 @@ private lemma hom_from_wrong_isotypic_eq_zero (n : ℕ) (mu : Nat.Partition n)
     have e_SV := LinearEquiv.ofBijective (f.comp (Submodule.subtype S)) h_bij
     exact (spechtModule_noniso n la nu hla).false (e_S.symm.trans e_SV)
   · -- f ∘ S.subtype = 0
-    have := congr_fun (congr_arg DFunLike.coe h_zero) ⟨s, hs⟩
-    simpa using this
+    have h := congr_fun (congr_arg DFunLike.coe h_zero) ⟨s, hs⟩
+    -- v4.31: `simpa` no longer reduces `S.subtype ⟨s, hs⟩` to `s`; rewrite the
+    -- `LinearMap.comp`/`Submodule.subtype` applications explicitly, leaving `f s = 0`.
+    rw [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.zero_apply] at h
+    exact h
 
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 40000 in -- rc2: slower instance search

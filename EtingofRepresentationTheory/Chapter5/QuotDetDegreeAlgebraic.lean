@@ -188,7 +188,8 @@ theorem polyRightDegreeFDRep_isAlgebraic (k : Type*) [Field k] (N d : ℕ) :
         MvPolynomial.monomial (↑s : (Fin N × Fin N) →₀ ℕ) (1 : k)) := by
       have hcomp := (basisMonomials (Fin N × Fin N) k).linearIndependent.comp
         (fun s : {s // s ∈ S} => (↑s : (Fin N × Fin N) →₀ ℕ)) Subtype.val_injective
-      simpa only [Function.comp, coe_basisMonomials] using hcomp
+      -- v4.31: use `Function.comp_def` (bare `Function.comp` no longer unfolds the composition).
+      simpa only [Function.comp_def, coe_basisMonomials] using hcomp
     exact hb.of_comp (polyOf d)
   -- the monomials span the homogeneous component
   have hsp : ⊤ ≤ Submodule.span k (Set.range v) := by

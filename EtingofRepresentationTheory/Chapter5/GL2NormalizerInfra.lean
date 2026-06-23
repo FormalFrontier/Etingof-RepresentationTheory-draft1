@@ -840,7 +840,8 @@ lemma Etingof.GL2.normalizer_mem_dichotomy (hn : n ≠ 0) (hp2 : p ≠ 2)
       -- Multiply left by g, right by σ⁻¹:
       -- embed(α₀) g σ⁻¹ = g σ⁻¹ embed(α₀)
       have := congr_arg (g * · * σ⁻¹) hconj_eq
-      simp only [] at this
+      -- v4.31: `simp only []` no longer beta-reduces; use `beta_reduce` so the `rw` below matches.
+      beta_reduce at this
       rw [show g * (g⁻¹ * Etingof.GL2.fieldExtEmbed p n α₀ * g) * σ⁻¹ =
           Etingof.GL2.fieldExtEmbed p n α₀ * (g * σ⁻¹) from by group,
         show g * (σ⁻¹ * Etingof.GL2.fieldExtEmbed p n α₀ * σ) * σ⁻¹ =

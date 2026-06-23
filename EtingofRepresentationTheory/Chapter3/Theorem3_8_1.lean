@@ -797,7 +797,10 @@ private lemma krull_schmidt_uniqueness_aux (k : Type*) (A : Type*) [Field k] [Ri
           rw [show (⟨k.val, by omega⟩ : Fin (n - 1)) = k
             from Fin.ext rfl, hk, hi]
       refine ⟨Equiv.ofBijective σ_fun ⟨σ_inj, σ_surj⟩, fun i => ?_⟩
-      simp only [Equiv.ofBijective_apply]
+      -- v4.31: `simp only [Equiv.ofBijective_apply]` no longer fires here; the
+      -- application `Equiv.ofBijective σ_fun _ i` is defeq to `σ_fun i`, so use `show`
+      -- to expose `σ_fun i` for the `rw [hσ_eq]` steps below.
+      show Nonempty (↥(W i) ≃ₗ[A] ↥(W' (σ_fun i)))
       by_cases h : (i : ℕ) = 0
       · have hσ_eq : σ_fun i = j₀ := dif_pos h
         rw [hσ_eq]

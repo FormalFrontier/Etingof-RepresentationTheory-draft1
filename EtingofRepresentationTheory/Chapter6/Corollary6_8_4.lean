@@ -621,7 +621,7 @@ private lemma backward_construct_rep
       -- v is a sink of Q
       have hv_sink : @Etingof.IsSink (Fin n) Q v := by
         have := hSinks 0 (by simp)
-        simp only [List.take_zero, Etingof.iteratedReversedAtVertices] at this
+        -- v4.31: the `take 0` / `iteratedReversedAtVertices` reduction is now defeq; simp is a no-op.
         exact this
       -- Q_rev = reversedAtVertex Q v; v is source in Q_rev
       let Q_rev := @Etingof.reversedAtVertex (Fin n) _ Q v

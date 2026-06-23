@@ -724,7 +724,8 @@ private lemma Etingof.elliptic_sum_algebraic_core
     · -- For k ∉ K: LHS is 0 (first dite gives 0)
       intro k hk
       have hk' : k ∉ GL2.ellipticSubgroup p n := hk
-      simp only []
+      -- v4.31: bare `simp only []` no longer beta-reduces here (no-op); `split_ifs`
+      -- does the real work directly.
       split_ifs with hell
       · apply Finset.sum_eq_zero; intro z _
         simp only [dif_neg hk', zero_mul]

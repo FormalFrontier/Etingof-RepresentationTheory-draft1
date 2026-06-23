@@ -141,14 +141,17 @@ theorem simple_of_equivalence {C : Type u} [Category.{v} C]
       -- g' = F.inverse.map g ≫ unit.inv = 0
       -- So F.inverse.map g = 0 (compose with unit.hom on right)
       have h_inv_zero := congr_arg (· ≫ (F.unitIso.app X).hom) h0
-      simp [g', Category.assoc] at h_inv_zero
+      -- v4.31: simp no longer reduces `_ ≫ 𝟙 _` here automatically; add `Category.comp_id`.
+      simp only [g', Category.assoc, Iso.inv_hom_id, Category.comp_id,
+        zero_comp] at h_inv_zero
       -- F.inverse.map g = 0 implies g = 0 by faithfulness
       exact F.inverse.map_injective (by rw [h_inv_zero, Functor.map_zero])
     -- By simplicity, g' is iso
     haveI : IsIso g' := hSimp.mpr hg'_ne
     -- F.inverse.map g = g' ≫ unit.hom, which is iso
     have : F.inverse.map g = g' ≫ (F.unitIso.app X).hom := by
-      simp [g', Category.assoc]
+      -- v4.31: collapse `inv ≫ hom` then the `_ ≫ 𝟙 _` tail explicitly.
+      simp only [g', Category.assoc, Iso.inv_hom_id, Category.comp_id]
     haveI : IsIso (F.inverse.map g) := by rw [this]; exact IsIso.comp_isIso
     -- F reflects isos (it's an equivalence), so g is iso
     exact isIso_of_reflects_iso g F.inverse
