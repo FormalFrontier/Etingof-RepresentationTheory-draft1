@@ -148,7 +148,7 @@ omit [CharZero k] in
 private lemma youngSymK_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizerK k n la : MonoidAlgebra k (G n)) 1 = 1 := by
   rw [YoungSymmetrizerK_eq_mapRange]
-  simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+  simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
 
 omit [CharZero k] in
 /-- Sandwich proportionality: `c * v = ((c * v)(1)) • c` for `v ∈ V_λ`. -/

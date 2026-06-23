@@ -53,7 +53,7 @@ omit [CharZero k] in
 /-- The coefficient of `c_λ` at the identity is `1`. -/
 private lemma youngSymmetrizerK_apply_one (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizerK k n la) 1 = 1 := by
-  rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRangeRingHom_apply,
+  rw [YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRingHom_apply,
     YoungSymmetrizerZ_apply_one, map_one]
 
 omit [CharZero k] in
@@ -132,11 +132,11 @@ private lemma spechtModuleCharacterK_eq_intCast (n : ℕ) (la : Nat.Partition n)
   -- Now identify `α⁻¹` and the sum with the integer expressions.
   have hα_int : α = (((YoungSymmetrizerZ n la * YoungSymmetrizerZ n la) 1 : ℤ) : k) := by
     have hcc : c * c =
-        (MonoidAlgebra.mapRangeRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k))
+        (MonoidAlgebra.mapRingHom (Equiv.Perm (Fin n)) (Int.castRingHom k))
           (YoungSymmetrizerZ n la * YoungSymmetrizerZ n la) := by
       rw [hc, YoungSymmetrizerK_eq_mapRange k n la, ← map_mul]
     have hval : (c * c) 1 = (((YoungSymmetrizerZ n la * YoungSymmetrizerZ n la) 1 : ℤ) : k) := by
-      rw [hcc, MonoidAlgebra.mapRangeRingHom_apply]; rfl
+      rw [hcc, MonoidAlgebra.mapRingHom_apply]; rfl
     have : (c * c) 1 = α := by
       rw [hα, Finsupp.smul_apply, smul_eq_mul, youngSymmetrizerK_apply_one k n la, mul_one]
     rw [← this, hval]
@@ -144,7 +144,7 @@ private lemma spechtModuleCharacterK_eq_intCast (n : ℕ) (la : Nat.Partition n)
       = ((∑ τ : Equiv.Perm (Fin n), (YoungSymmetrizerZ n la) (τ⁻¹ * σ⁻¹ * τ) : ℤ) : k) := by
     push_cast
     refine Finset.sum_congr rfl (fun τ _ => ?_)
-    rw [hc, YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRangeRingHom_apply]
+    rw [hc, YoungSymmetrizerK_eq_mapRange k n la, MonoidAlgebra.mapRingHom_apply]
     rfl
   rw [hα_int, hsum]
 

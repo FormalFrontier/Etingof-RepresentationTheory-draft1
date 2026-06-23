@@ -147,7 +147,7 @@ theorem youngSymmetrizerK_sq_ne_zero (k : Type*) [Field k] [CharZero k] (n : ℕ
     (smul_eq_zero.mp hαc).resolve_left hα_ne
   have hone : (YoungSymmetrizerK k n la) 1 = 1 := by
     rw [YoungSymmetrizerK_eq_mapRange k n la]
-    simp [MonoidAlgebra.mapRangeRingHom_apply, YoungSymmetrizerZ_apply_one]
+    simp [MonoidAlgebra.mapRingHom_apply, YoungSymmetrizerZ_apply_one]
   rw [hc0] at hone
   simp at hone
 
