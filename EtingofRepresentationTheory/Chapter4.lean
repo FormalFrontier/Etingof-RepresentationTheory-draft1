@@ -16,6 +16,7 @@ import EtingofRepresentationTheory.Chapter4.Example4_3_S4
 
 -- Section 4.5: Orthogonality of Characters
 import EtingofRepresentationTheory.Chapter4.Theorem4_5_1
+import EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_5_1
 import EtingofRepresentationTheory.Chapter4.Theorem4_5_4
 
 -- Section 4.6: Unitary Representations
