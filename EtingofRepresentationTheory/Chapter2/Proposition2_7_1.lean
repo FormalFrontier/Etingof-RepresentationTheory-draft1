@@ -191,7 +191,10 @@ private lemma mul_mem_span {a b : WeylAlgebra k} (ha : a ∈ MonS k) (hb : b ∈
   · exact hb
 
 -- Spanning: the standard monomials span the Weyl algebra
-private lemma spanning :
+/-- The standard monomials `{xⁱyʲ : i, j ≥ 0}` span the Weyl algebra over any commutative
+ring `k` (no characteristic or domain hypotheses). This is the char-free half of
+Proposition 2.7.1 (i). -/
+theorem WeylAlgebra.monomials_span :
     ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2)) := by
   intro w _
   obtain ⟨a, rfl⟩ := RingQuot.mkAlgHom_surjective k (WeylAlgebraRel k) w
@@ -372,6 +375,6 @@ is a basis for the Weyl algebra as a `k`-module. -/
 theorem Proposition_2_7_1 [CharZero k] [NoZeroDivisors k] :
     LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) ∧
     ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2)) := by
-  exact ⟨linearIndep k, spanning k⟩
+  exact ⟨linearIndep k, WeylAlgebra.monomials_span k⟩
 
 end Etingof
