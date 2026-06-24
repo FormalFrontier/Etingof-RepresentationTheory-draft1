@@ -211,8 +211,100 @@ theorem Etingof.Example5_1_3_Q8 :
   -- `ρ(j) = [[√-1,0],[0,-√-1]]`, `ρ(k) = [[0,-√-1],[-√-1,0]]`. Its FS indicator is
   -- `-1`, witnessed by the invariant skew form `[[0,1],[-1,0]]`.
   refine ⟨Etingof.Q8.rho, ?_, ?_⟩
-  · -- Simplicity: the only `ρ`-invariant subspaces are `⊥` and `⊤`.
-    sorry
+  · -- Simplicity: the only `ρ`-invariant subspaces are `⊥` and `⊤`, since the diagonal
+    -- generator `A` and the swap `X` share no common eigenline.
+    -- Evaluate the two generators on an arbitrary vector.
+    have hAv : ∀ v : Fin 2 → ℂ, Etingof.Q8.rho (QuaternionGroup.a 1) v
+        = ![Complex.I * v 0, -Complex.I * v 1] := by
+      intro v
+      rw [Etingof.Q8.rho_apply]
+      show (Etingof.Q8.Mfun (QuaternionGroup.a 1)).mulVec v = _
+      simp only [Etingof.Q8.Mfun, show (1 : ZMod (2 * 2)).val = 1 from by decide, pow_one]
+      funext i; fin_cases i <;>
+        simp [Etingof.Q8.A, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+    have hXv : ∀ v : Fin 2 → ℂ, Etingof.Q8.rho (QuaternionGroup.xa 0) v
+        = ![v 1, -v 0] := by
+      intro v
+      rw [Etingof.Q8.rho_apply]
+      show (Etingof.Q8.Mfun (QuaternionGroup.xa 0)).mulVec v = _
+      simp only [Etingof.Q8.Mfun, show (0 : ZMod (2 * 2)).val = 0 from by decide, pow_zero,
+        mul_one]
+      funext i; fin_cases i <;>
+        simp [Etingof.Q8.X, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+    -- Reduce `IsSimpleModule` to `IsSimpleOrder` of the invariant-submodule lattice.
+    suffices hSO : IsSimpleOrder (Etingof.Q8.rho.invtSubmodule) by
+      haveI := (Representation.mapSubmodule Etingof.Q8.rho).isSimpleOrder_iff.mp hSO
+      exact ⟨⟩
+    refine { eq_bot_or_eq_top := fun a => ?_ }
+    have hinv : ∀ g, ∀ x ∈ (a : Submodule ℂ (Fin 2 → ℂ)),
+        Etingof.Q8.rho g x ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
+      intro g x hx
+      have hmem : (a : Submodule ℂ (Fin 2 → ℂ)) ∈ Module.End.invtSubmodule (Etingof.Q8.rho g) :=
+        (Representation.mem_invtSubmodule (ρ := Etingof.Q8.rho)).mp a.2 g
+      exact ((Module.End.mem_invtSubmodule_iff_forall_mem_of_mem
+        (f := Etingof.Q8.rho g)).mp hmem) x hx
+    rcases eq_or_ne (a : Submodule ℂ (Fin 2 → ℂ)) ⊥ with hbot | hbot
+    · exact Or.inl (Subtype.ext (by rw [Representation.invtSubmodule.coe_bot]; exact hbot))
+    · refine Or.inr (Subtype.ext ?_)
+      rw [Representation.invtSubmodule.coe_top]
+      -- Extract a nonzero vector and show both basis vectors lie in `a`.
+      obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff _).mp hbot
+      have he0 : (![1, 0] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) ∧
+          (![0, 1] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
+        by_cases hv1 : v 1 = 0
+        · -- `v = (v₀, 0)` with `v₀ ≠ 0`: scale to `e₀`, then apply `X` for `e₁`.
+          have hv0' : v 0 ≠ 0 := by
+            intro h; apply hv0; funext i; fin_cases i
+            · simpa using h
+            · simpa using hv1
+          have he0 : (![1, 0] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
+            have : (v 0)⁻¹ • v = (![1, 0] : Fin 2 → ℂ) := by
+              funext i; fin_cases i
+              · simpa using inv_mul_cancel₀ hv0'
+              · simpa [hv1]
+            rw [← this]; exact (a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ hv
+          have he1 : (![0, 1] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
+            have hx := hinv (QuaternionGroup.xa 0) _ he0
+            rw [hXv] at hx
+            have : (![(![1, 0] : Fin 2 → ℂ) 1, -(![1, 0] : Fin 2 → ℂ) 0] : Fin 2 → ℂ)
+                = -(![0, 1] : Fin 2 → ℂ) := by funext i; fin_cases i <;> simp
+            rw [this] at hx
+            simpa using (a : Submodule ℂ (Fin 2 → ℂ)).neg_mem hx
+          exact ⟨he0, he1⟩
+        · -- `v₁ ≠ 0`: form `I•v - A·v = (0, 2I v₁)`, scale to `e₁`, then apply `X` for `e₀`.
+          have hmem : (Complex.I • v - Etingof.Q8.rho (QuaternionGroup.a 1) v)
+              ∈ (a : Submodule ℂ (Fin 2 → ℂ)) :=
+            (a : Submodule ℂ (Fin 2 → ℂ)).sub_mem
+              ((a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ hv) (hinv _ _ hv)
+          have heq : Complex.I • v - Etingof.Q8.rho (QuaternionGroup.a 1) v
+              = ![0, 2 * Complex.I * v 1] := by
+            rw [hAv]; funext i; fin_cases i <;> simp [Pi.smul_apply] <;> ring
+          rw [heq] at hmem
+          have hc : (2 : ℂ) * Complex.I * v 1 ≠ 0 := by
+            simp [hv1, Complex.I_ne_zero]
+          have he1 : (![0, 1] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
+            have : (2 * Complex.I * v 1)⁻¹ • (![0, 2 * Complex.I * v 1] : Fin 2 → ℂ)
+                = (![0, 1] : Fin 2 → ℂ) := by
+              funext i; fin_cases i
+              · simp
+              · simpa using inv_mul_cancel₀ hc
+            rw [← this]; exact (a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ hmem
+          have he0 : (![1, 0] : Fin 2 → ℂ) ∈ (a : Submodule ℂ (Fin 2 → ℂ)) := by
+            have hx := hinv (QuaternionGroup.xa 0) _ he1
+            rw [hXv] at hx
+            have : (![(![0, 1] : Fin 2 → ℂ) 1, -(![0, 1] : Fin 2 → ℂ) 0] : Fin 2 → ℂ)
+                = (![1, 0] : Fin 2 → ℂ) := by funext i; fin_cases i <;> simp
+            rwa [this] at hx
+          exact ⟨he0, he1⟩
+      -- Two basis vectors span everything.
+      rw [eq_top_iff]
+      intro w _
+      have hw : w = w 0 • (![1, 0] : Fin 2 → ℂ) + w 1 • ![0, 1] := by
+        funext i; fin_cases i <;> simp
+      rw [hw]
+      exact (a : Submodule ℂ (Fin 2 → ℂ)).add_mem
+        ((a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ he0.1)
+        ((a : Submodule ℂ (Fin 2 → ℂ)).smul_mem _ he0.2)
   · -- Quaternionic type: the wedge form `B v w = v₀w₁ - v₁w₀` is skew, nondegenerate, and
     -- `Q₈`-invariant (every matrix lies in `SL₂`, so it preserves the determinant form).
     set B : (Fin 2 → ℂ) →ₗ[ℂ] (Fin 2 → ℂ) →ₗ[ℂ] ℂ :=
