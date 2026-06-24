@@ -89,6 +89,24 @@ theorem trivialPath_mul_trivialPath (i j : Q) :
   · subst h; rw [trivialPath_mul_self, if_pos rfl]
   · rw [trivialPath_mul_of_ne h, if_neg h]
 
+/-- The path-algebra basis element `aₑ = ofPath ⟨i, j, e.toPath⟩` of a single arrow `e : i ⟶ j`. -/
+noncomputable def ofArrow {i j : Q} (e : i ⟶ j) : PathAlgebra k Q :=
+  ofPath ⟨i, j, e.toPath⟩
+
+/-- The source idempotent absorbs an arrow on the left: `pᵢ · aₑ = aₑ` for `e : i ⟶ j`. -/
+theorem trivialPath_mul_ofArrow {i j : Q} (e : i ⟶ j) :
+    (trivialPath i : PathAlgebra k Q) * ofArrow e = ofArrow e := by
+  have h := trivialPath_mul_ofPath (k := k) i i j e.toPath
+  rw [if_pos rfl] at h
+  exact h
+
+/-- The target idempotent absorbs an arrow on the right: `aₑ · p_j = aₑ` for `e : i ⟶ j`. -/
+theorem ofArrow_mul_trivialPath {i j : Q} (e : i ⟶ j) :
+    (ofArrow e : PathAlgebra k Q) * trivialPath j = ofArrow e := by
+  have h := ofPath_mul_trivialPath (k := k) i j j e.toPath
+  rw [if_pos rfl] at h
+  exact h
+
 /-- **Remark 2.8.5, restated.** For a finite vertex set, the trivial-path idempotents sum to the
 unit: `∑ᵢ pᵢ = 1`. (Restatement of `sum_trivialPaths_eq_one` in terms of `trivialPath`.) -/
 theorem sum_trivialPath [Fintype Q] : (∑ i, trivialPath i : PathAlgebra k Q) = 1 := by
@@ -194,6 +212,53 @@ theorem isInternal_vertexSpace :
     rw [← hsum, LinearMap.sum_apply]
     exact Submodule.sum_mem _ fun i _ =>
       Submodule.mem_iSup_of_mem i (vertexProj_mem_vertexSpace i v)
+
+/-! ## Arrow maps and the forward functor `V ↦ (pᵢ V, aₑ ↾)`
+
+For an arrow `e : i ⟶ j`, left multiplication by `aₑ = ofArrow e` carries `Vⱼ = pⱼ V` into
+`Vᵢ = pᵢ V` (because `pᵢ · aₑ = aₑ`): it points `Vⱼ → Vᵢ`, the *opposite* direction to an arrow
+`i ⟶ j` of `Etingof.QuiverRepresentation k Q` (which carries `Vᵢ → Vⱼ`).
+
+This is the modelling decision flagged in the module docstring. We resolve it by assembling the
+data into a representation of the **opposite quiver** `Qᵒᵖ`: an arrow `op j ⟶ op i` of `Qᵒᵖ`
+(i.e. the opposite of `e : i ⟶ j`) carries `Vⱼ → Vᵢ`, exactly matching `arrowMap e`. So a left
+`P_Q`-module `V` yields the quiver representation `forwardRep : QuiverRepresentation k Qᵒᵖ` with
+vertex spaces `(Vᵢ)` and arrow maps the restricted left-multiplications. (Equivalently one could
+use right modules or `(P_Q)ᵒᵖ`; the opposite quiver keeps everything on the left-module side.)
+-/
+
+/-- Left multiplication by an arrow element lands in the source vertex space:
+`aₑ • x ∈ Vᵢ` for `e : i ⟶ j`, since `pᵢ · aₑ = aₑ`. (Holds for every `x : V`.) -/
+theorem ofArrow_smul_mem {i j : Q} (e : i ⟶ j) (x : V) :
+    (ofArrow e : PathAlgebra k Q) • x ∈ (vertexSpace i : Submodule k V) := by
+  refine ⟨(ofArrow e : PathAlgebra k Q) • x, ?_⟩
+  rw [vertexProj_apply, ← mul_smul, trivialPath_mul_ofArrow]
+
+/-- **Forward arrow map.** For an arrow `e : i ⟶ j`, the restricted left-multiplication by
+`aₑ = ofArrow e`, a `k`-linear map `Vⱼ → Vᵢ` between vertex spaces. Note the source-to-target
+convention makes this point `Vⱼ → Vᵢ` (opposite to an `i ⟶ j` arrow of a `QuiverRepresentation`
+of `Q`); see the opposite-quiver discussion above. -/
+noncomputable def arrowMap {i j : Q} (e : i ⟶ j) :
+    (vertexSpace j : Submodule k V) →ₗ[k] (vertexSpace i : Submodule k V) :=
+  LinearMap.restrict (moduleEnd (ofArrow e)) (fun x _ => ofArrow_smul_mem e x)
+
+@[simp] theorem arrowMap_coe_apply {i j : Q} (e : i ⟶ j) (x : (vertexSpace j : Submodule k V)) :
+    (arrowMap e x : V) = (ofArrow e : PathAlgebra k Q) • (x : V) :=
+  LinearMap.coe_restrict_apply _ _
+
+/-- **Forward direction of the bijection.** A left `P_Q`-module `V` gives a representation of the
+opposite quiver `Qᵒᵖ`: vertex spaces `Vᵢ = pᵢ V`, and for the opposite of an arrow `e : i ⟶ j`
+the restricted left-multiplication `arrowMap e : Vⱼ → Vᵢ`. The opposite quiver is forced by the
+source-to-target convention of `Definition2_8_4` (see the discussion above). -/
+noncomputable def forwardRep : Etingof.QuiverRepresentation k Qᵒᵖ where
+  obj X := (vertexSpace (V := V) X.unop : Submodule k V)
+  mapLinear {_X _Y} f := arrowMap f.unop
+
+@[simp] theorem forwardRep_obj (X : Qᵒᵖ) :
+    (forwardRep (k := k) (Q := Q) (V := V)).obj X = (vertexSpace X.unop : Submodule k V) := rfl
+
+@[simp] theorem forwardRep_mapLinear {X Y : Qᵒᵖ} (f : X ⟶ Y) :
+    (forwardRep (k := k) (Q := Q) (V := V)).mapLinear f = arrowMap f.unop := rfl
 
 end ModuleDecomposition
 
