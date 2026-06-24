@@ -235,6 +235,40 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### Building a fresh Finsupp-based algebra (path algebra, monoid-algebra-style): make the index `abbrev`, not `def`
+
+When constructing a new `*Algebra := Index →₀ k` with its own `Mul`/`Ring`/`Algebra`
+(e.g. `Etingof.PathAlgebra`, #5132), two binop/instance traps cost ~6 build cycles:
+
+1. **The *index* type must be a reducible `abbrev`, not a semireducible `def`.** If
+   `Index` is a `def` (e.g. `def QuiverPathIndex Q := Σ a b, Path a b`), then writing
+   `single ⟨i,i,nil⟩ a * single ⟨…⟩ b` with a *literal* anonymous-constructor index forces
+   the `*` binop to whnf the operand type to the raw `Σ …`, but instance search will **not**
+   unfold the `def` back when matching your `Mul (PathAlgebra k Q)` head — so it fails with
+   `failed to synthesize HMul (Σ … →₀ k) (Σ … →₀ k) ?m`. The same lemma stated over a
+   *variable* index `x : Index` compiles (type stays folded), which makes the failure look
+   random. Fix: `abbrev QuiverPathIndex …` (reducible) so binop and instance search agree.
+   The wrapper algebra itself can stay either way, but the cleanest is **also `abbrev`** so
+   the Finsupp `AddCommGroup`/`Module k` instances flow through and you only add
+   `Mul`/`NonUnitalNonAssocRing`/`Ring`/`Algebra`. Keep lemma statements *uniform* — either
+   all operands raw `Finsupp.single …` with one outer `: PathAlgebra k Q` ascription on the
+   product, or all wrapped; mixing ascribed and raw operands reintroduces the mismatch.
+2. **Inside a structure-update `{ src with … }`, use `(inferInstance : T)`, not
+   `inferInstanceAs T`.** The latter reports a spurious `inferInstanceAs failed, expected
+   type contains metavariables` + `expected structure` at the `{ … with }` even when `T` is
+   fully concrete. (Standalone `inferInstanceAs T :=` is fine; only the structure-source
+   position breaks.)
+
+Construction recipe that worked sorry-free: define `mulLinear : A →ₗ[k] A →ₗ[k] A` via
+`Finsupp.lsum k (fun x => (LinearMap.id).smulRight (Finsupp.lsum k fun y => …))` so the
+distributive laws are `map_add`/`map_zero` (no manual `Finsupp.sum` bookkeeping); build
+`NonUnitalNonAssocRing` from `{ (inferInstance : AddCommGroup A) with mul, left/right_distrib,
+zero_mul, mul_zero }` (each law a one-line `change mulLinear … = …; rw [map_add/map_zero]`);
+prove associativity at the basis level (`single_mul_single_assoc`, reducing partial
+concatenation to the underlying `comp_assoc` via `by_cases` + `subst` on the index-equality so
+the `h ▸` casts vanish, non-composable cases → `0`) then lift by `Finsupp.induction_linear`
+(case tags `zero`/`add`/`single`); add the unit via `Algebra.ofModule smul_mul mul_smul'`.
+
 ### `k`-trace lemmas on a group-algebra submodule need `restrictScalars k`
 
 When generalizing a character/trace from `ℂ` to general `k` (the #4946 chain), the Specht-type
