@@ -1,4 +1,6 @@
 import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.LinearAlgebra.Dimension.Free
+import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 
@@ -91,6 +93,127 @@ end Etingof
 
 namespace Etingof
 
+section PerX
+
+variable (k : Type*) (A : Type*) (X : Type*) (V : Type*)
+  [Field k] [IsAlgClosed k] [Ring A] [Algebra k A]
+  [AddCommGroup X] [Module k X] [Module A X] [IsScalarTower k A X]
+  [IsSimpleModule A X] [FiniteDimensional k X]
+  [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+  [FiniteDimensional k V]
+
+/-- The per-irreducible evaluation map `evalTensor : Hom_A(X, V) ⊗_k X → V`, `g ⊗ x ↦ g(x)`, is
+injective when `X` is a finite dimensional irreducible over an algebraically closed field `k` and
+`V` is finite dimensional.
+
+Choosing a `k`-basis `bⱼ` of `Hom_A(X, V)`, the assembled `A`-linear map
+`G : (Fin n →₀ X) → V`, `y ↦ ∑ⱼ bⱼ(yⱼ)`, factors the evaluation map through the basis-induced
+surjection `F : (Fin n →₀ X) → Hom_A(X, V) ⊗_k X`, `single j x ↦ bⱼ ⊗ x`. So it suffices that
+`G` is injective. A nonzero kernel element of `G` contains a simple submodule `S ≅ X`; the
+component maps `S → X` are scalars `cⱼ` (Corollary 2.3.10), and `∑ cⱼ bⱼ = 0` forces all `cⱼ = 0`
+by linear independence of the basis, which collapses `S` to `0`, contradicting simplicity. -/
+theorem evalTensor_injective : Function.Injective (evalTensor k A X V) := by
+  haveI : Module.Finite k (X →ₗ[A] V) :=
+    Module.Finite.of_injective (evalBilinear k A X V) (fun g g' h =>
+      LinearMap.ext fun x => LinearMap.congr_fun h x)
+  set n := Module.finrank k (X →ₗ[A] V) with hn
+  set b : Module.Basis (Fin n) k (X →ₗ[A] V) := Module.finBasis k (X →ₗ[A] V) with hb
+  -- the assembled A-linear map G : (Fin n →₀ X) → V, y ↦ ∑ⱼ bⱼ(yⱼ)
+  set G : (Fin n →₀ X) →ₗ[A] V := ∑ j, (b j).comp (Finsupp.lapply j) with hG_def
+  -- the basis-induced k-linear map F : (Fin n →₀ X) → Hom ⊗ X, single j x ↦ bⱼ ⊗ x
+  set F : (Fin n →₀ X) →ₗ[k] (X →ₗ[A] V) ⊗[k] X :=
+    ∑ j, (TensorProduct.mk k (X →ₗ[A] V) X (b j)).comp (Finsupp.lapply j) with hF_def
+  have hFsingle : ∀ (j : Fin n) (x : X), F (Finsupp.single j x) = b j ⊗ₜ[k] x := by
+    intro j x
+    simp only [hF_def, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
+      Finsupp.lapply_apply, TensorProduct.mk_apply]
+    rw [Finset.sum_eq_single j
+      (fun l _ hl => by rw [Finsupp.single_eq_of_ne hl, TensorProduct.tmul_zero])
+      (fun h => absurd (Finset.mem_univ j) h), Finsupp.single_eq_same]
+  have hGF : ∀ y : Fin n →₀ X, evalTensor k A X V (F y) = G y := by
+    intro y
+    simp only [hF_def, hG_def, LinearMap.coe_sum, Finset.sum_apply, map_sum,
+      LinearMap.comp_apply, Finsupp.lapply_apply, TensorProduct.mk_apply, evalTensor_tmul]
+  have hFsurj : Function.Surjective F := by
+    rw [← LinearMap.range_eq_top, eq_top_iff]
+    rintro t -
+    induction t using TensorProduct.induction_on with
+    | zero => exact zero_mem _
+    | tmul g x =>
+        rw [← b.sum_repr g, TensorProduct.sum_tmul]
+        refine Submodule.sum_mem _ fun j _ => ?_
+        rw [← TensorProduct.smul_tmul']
+        exact Submodule.smul_mem _ _ ⟨Finsupp.single j x, hFsingle j x⟩
+    | add p q hp hq => exact add_mem hp hq
+  -- the heart: G is injective
+  have hG : Function.Injective G := by
+    rw [← LinearMap.ker_eq_bot]
+    haveI : IsSemisimpleModule A (Fin n →₀ X) := inferInstance
+    haveI : IsSemisimpleModule A (LinearMap.ker G) := inferInstance
+    rcases IsSemisimpleModule.eq_bot_or_exists_simple_le (LinearMap.ker G) with
+      hbot | ⟨S, hSle, hSsimple⟩
+    · exact hbot
+    · exfalso
+      haveI := hSsimple
+      haveI : Nontrivial S := hSsimple.nontrivial
+      have hincl_inj : Function.Injective S.subtype := S.subtype_injective
+      -- some projection S → X is nonzero
+      have hex : ∃ j, ((Finsupp.lapply j).comp S.subtype : S →ₗ[A] X) ≠ 0 := by
+        by_contra hall
+        push Not at hall
+        obtain ⟨s, hs⟩ := exists_ne (0 : S)
+        apply hs
+        apply hincl_inj
+        rw [map_zero]
+        ext j
+        have h2 : ((Finsupp.lapply j).comp S.subtype) s = 0 := by rw [hall j]; rfl
+        simpa [Finsupp.lapply_apply] using h2
+      obtain ⟨j₀, hj₀⟩ := hex
+      have hbij : Function.Bijective ((Finsupp.lapply j₀).comp S.subtype) :=
+        ((Finsupp.lapply j₀).comp S.subtype).bijective_of_ne_zero hj₀
+      set e : S ≃ₗ[A] X := LinearEquiv.ofBijective _ hbij with he
+      -- component maps S → X are scalars
+      have hc : ∀ l : Fin n, ∃ c : k, ∀ x : X,
+          (S.subtype (e.symm x)) l = c • x := by
+        intro l
+        obtain ⟨c, hcl⟩ := Etingof.Corollary_2_3_10 (k := k)
+          (((Finsupp.lapply l).comp S.subtype).comp e.symm.toLinearMap)
+        refine ⟨c, fun x => ?_⟩
+        have := hcl x
+        simpa [Finsupp.lapply_apply] using this
+      choose c hc using hc
+      -- ∑ cₗ bₗ = 0
+      have hsum0 : (∑ l, c l • b l) = 0 := by
+        ext x
+        rw [LinearMap.sum_apply, LinearMap.zero_apply]
+        have hGz : G (S.subtype (e.symm x)) = 0 :=
+          LinearMap.mem_ker.mp (hSle (Submodule.coe_mem (e.symm x)))
+        have hGexp : G (S.subtype (e.symm x)) = ∑ l, b l ((S.subtype (e.symm x)) l) := by
+          simp only [hG_def, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
+            Finsupp.lapply_apply]
+        rw [hGz] at hGexp
+        rw [Finset.sum_congr rfl (fun l _ => ?_), ← hGexp]
+        rw [LinearMap.smul_apply, ← (b l).map_smul_of_tower (c l) x, hc l x]
+      have hc0 : ∀ l, c l = 0 :=
+        Fintype.linearIndependent_iff.mp b.linearIndependent c hsum0
+      haveI : Nontrivial X := IsSimpleModule.nontrivial (R := A) (M := X)
+      obtain ⟨x₀, hx₀⟩ := exists_ne (0 : X)
+      apply hx₀
+      have h1 : (S.subtype (e.symm x₀)) j₀ = x₀ := e.apply_symm_apply x₀
+      rw [hc j₀ x₀, hc0 j₀, zero_smul] at h1
+      exact h1.symm
+  -- conclude: evalTensor injective via surjectivity of F and injectivity of G
+  refine (injective_iff_map_eq_zero (evalTensor k A X V)).mpr fun t ht => ?_
+  obtain ⟨y, rfl⟩ := hFsurj t
+  rw [hGF y] at ht
+  rw [hG (ht.trans (map_zero G).symm), map_zero]
+
+end PerX
+
+end Etingof
+
+namespace Etingof
+
 open scoped DirectSum
 
 variable (k : Type*) (A : Type*) {ι : Type*} (X : ι → Type*) (V : Type*)
@@ -153,20 +276,118 @@ theorem evalDirectSum_surjective
     (fun _ _ => (LinearMap.range _).add_mem)
   exact simpleSubmodule_le_range_evalDirectSum k A X V hcomplete m.1 m.2 hy
 
+/-- The range of the per-`X i` evaluation map lands in the `X i`-isotypic component of `V`: a
+nonzero `g : X i →ₗ[A] V` is injective (Schur), so `g (X i) ≅ X i` is a simple submodule
+isomorphic to `X i`, hence inside `isotypicComponent A V (X i)`. -/
+theorem evalTensor_mem_isotypicComponent (i : ι) (t : (X i →ₗ[A] V) ⊗[k] X i) :
+    evalTensor k A (X i) V t ∈ isotypicComponent A V (X i) := by
+  induction t using TensorProduct.induction_on with
+  | zero => rw [map_zero]; exact zero_mem _
+  | tmul g x =>
+      rw [evalTensor_tmul]
+      by_cases hg : g = 0
+      · subst hg; simp
+      · have hker : LinearMap.ker g = ⊥ :=
+          (eq_bot_or_eq_top (LinearMap.ker g)).resolve_right
+            (fun h => hg (LinearMap.ker_eq_top.mp h))
+        have hginj : Function.Injective g := LinearMap.ker_eq_bot.mp hker
+        have hmem : LinearMap.range g ∈ {m : Submodule A V | Nonempty (m ≃ₗ[A] X i)} :=
+          ⟨(LinearEquiv.ofInjective g hginj).symm⟩
+        exact (le_sSup hmem) (LinearMap.mem_range_self g x)
+  | add p q hp hq => rw [map_add]; exact add_mem hp hq
+
+include k in
+/-- If the `X i`-isotypic component of `V` is nonzero then it is one of the (nontrivial) isotypic
+components of `V`: a nonzero summand provides a simple submodule of `V` isomorphic to `X i`. -/
+theorem mem_isotypicComponents_of_ne_bot (i : ι)
+    (hi : isotypicComponent A V (X i) ≠ ⊥) :
+    isotypicComponent A V (X i) ∈ isotypicComponents A V := by
+  obtain ⟨W, hWmem, -⟩ : ∃ W ∈ {m : Submodule A V | Nonempty (m ≃ₗ[A] X i)}, W ≠ ⊥ := by
+    by_contra h
+    push Not at h
+    exact hi (sSup_eq_bot.mpr h)
+  obtain ⟨e⟩ := hWmem
+  haveI : IsSimpleModule A W := IsSimpleModule.congr e
+  exact ⟨W, inferInstance, (e.isotypicComponent_eq).symm⟩
+
+include k in
+/-- Distinct non-isomorphic irreducibles have distinct isotypic components (when nonzero). -/
+theorem isotypicComponent_ne_of_ne
+    (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j)) (i j : ι) (hij : i ≠ j)
+    (hi : isotypicComponent A V (X i) ≠ ⊥) :
+    isotypicComponent A V (X i) ≠ isotypicComponent A V (X j) := by
+  intro heq
+  obtain ⟨W, hWmem, -⟩ : ∃ W ∈ {m : Submodule A V | Nonempty (m ≃ₗ[A] X i)}, W ≠ ⊥ := by
+    by_contra h
+    push Not at h
+    exact hi (sSup_eq_bot.mpr h)
+  have e : W ≃ₗ[A] X i := hWmem.some
+  haveI : IsSimpleModule A W := IsSimpleModule.congr e
+  haveI : IsSimpleModule A (⊤ : Submodule A W) := IsSimpleModule.congr Submodule.topEquiv
+  have hWle : W ≤ isotypicComponent A V (X j) := heq ▸ le_sSup (hWmem)
+  have hiso : IsIsotypicOfType A W (X j) := le_isotypicComponent_iff.mp hWle
+  obtain ⟨f⟩ := hiso ⊤
+  exact (hpair i j hij).false (e.symm.trans (Submodule.topEquiv.symm.trans f))
+
+include k in
+/-- The `X i`-isotypic components of `V` form an independent family, indexed by the pairwise
+non-isomorphic irreducibles `{X i}`. -/
+theorem iSupIndep_isotypicComponent
+    (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j)) :
+    iSupIndep (fun i => isotypicComponent A V (X i)) := by
+  rw [iSupIndep_def']
+  intro i
+  rcases eq_or_ne (isotypicComponent A V (X i)) ⊥ with hi | hi
+  · rw [hi]; exact disjoint_bot_left
+  · rw [← sSup_sdiff_singleton_bot]
+    refine (sSupIndep_isotypicComponents A V).disjoint_sSup
+      (mem_isotypicComponents_of_ne_bot k A X V i hi) ?_ ?_
+    · rintro c ⟨⟨j, -, rfl⟩, hcne⟩
+      exact mem_isotypicComponents_of_ne_bot k A X V j
+        (fun h => hcne (Set.mem_singleton_iff.mpr h))
+    · rintro ⟨⟨j, hj, hji⟩, -⟩
+      exact isotypicComponent_ne_of_ne k A X V hpair i j (Ne.symm hj) hi hji.symm
+
 /-- `evalDirectSum` is injective.
 
 Proof strategy (Schur, using `Etingof.Corollary_2_3_10` that `End_A(X i) = k·id`): if
 `∑ᵢ evalTensor (ξ i) = 0`, each summand `evalTensor (ξ i)` lies in the `X i`-isotypic component
-of `V`. By pairwise non-isomorphism these components are independent (`sSupIndep`), so each
-`evalTensor (ξ i) = 0`. The per-`X` map `evalTensor : Hom_A(X i, V) ⊗_k X i → V` is injective:
-choosing a `k`-basis `gⱼ` of `Hom_A(X i, V)`, a nonzero kernel element would give a simple
-submodule `S ≅ X i` of `(X i)ⁿ` inside `ker (yⱼ ↦ ∑ gⱼ(yⱼ))`; its component maps `X i → X i`
-are scalars `cⱼ` (Corollary 2.3.10), and `∑ cⱼ gⱼ = 0` forces all `cⱼ = 0`, contradicting
-simplicity. Hence `ξ i = 0`. -/
+of `V`. By pairwise non-isomorphism these components are independent (`iSupIndep`), so each
+`evalTensor (ξ i) = 0`. The per-`X` map `evalTensor : Hom_A(X i, V) ⊗_k X i → V` is injective
+(`Etingof.evalTensor_injective`). Hence `ξ i = 0`. -/
 theorem evalDirectSum_injective
     (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j)) :
     Function.Injective (evalDirectSum k A X V) := by
-  sorry
+  refine (injective_iff_map_eq_zero (evalDirectSum k A X V)).mpr fun ξ hξ => ?_
+  have hindep := iSupIndep_isotypicComponent k A X V hpair
+  -- evalDirectSum ξ expands to the sum of the per-component evaluations
+  have hexpand : evalDirectSum k A X V ξ = ∑ i, evalTensor k A (X i) V (ξ i) := by
+    conv_lhs => rw [← DirectSum.sum_univ_of ξ]
+    rw [map_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [evalDirectSum, ← DirectSum.lof_eq_of (R := k), DirectSum.toModule_lof]
+  rw [hexpand] at hξ
+  -- each summand vanishes by independence of the isotypic components
+  have hvi : ∀ i, evalTensor k A (X i) V (ξ i) = 0 := by
+    intro i
+    have hmemNi : evalTensor k A (X i) V (ξ i) ∈ isotypicComponent A V (X i) :=
+      evalTensor_mem_isotypicComponent k A X V i (ξ i)
+    have hneg : evalTensor k A (X i) V (ξ i)
+        = -∑ j ∈ Finset.univ.erase i, evalTensor k A (X j) V (ξ j) :=
+      eq_neg_of_add_eq_zero_left
+        ((Finset.add_sum_erase Finset.univ _ (Finset.mem_univ i)).trans hξ)
+    have hmemSup : evalTensor k A (X i) V (ξ i)
+        ∈ ⨆ (j) (_ : j ≠ i), isotypicComponent A V (X j) := by
+      rw [hneg]
+      refine neg_mem (Submodule.sum_mem _ fun j hj => ?_)
+      exact Submodule.mem_iSup_of_mem j (Submodule.mem_iSup_of_mem (Finset.ne_of_mem_erase hj)
+        (evalTensor_mem_isotypicComponent k A X V j (ξ j)))
+    have h0 := (hindep i).le_bot (Submodule.mem_inf.mpr ⟨hmemNi, hmemSup⟩)
+    simpa using h0
+  -- conclude ξ = 0 componentwise via per-X injectivity
+  ext i
+  rw [DirectSum.zero_apply]
+  exact evalTensor_injective k A (X i) V ((hvi i).trans (map_zero _).symm)
 
 /-- The Remark 3.1.3 isomorphism: for a semisimple finite dimensional representation `V`, the
 natural map `⨁_i Hom_A(X i, V) ⊗_k X i → V`, `g ⊗ x ↦ g(x)`, is a `k`-linear isomorphism,
