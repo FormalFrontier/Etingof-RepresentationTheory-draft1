@@ -195,9 +195,11 @@ Write `items.json` with an array of items, each having:
 
 Where `start_line` and `end_line` refer to line numbers within the page markdown files. `start_page` and `end_page` are logical page names (strings matching the `pdf/pages/` filenames without the `.pdf` extension, e.g. `"45"`, `"frontmatter-3"`, `"backmatter-1"`).
 
-Types: `theorem`, `lemma`, `proposition`, `corollary`, `definition`, `example`, `exercise`, `remark`, `discussion`, `introduction`, `preface`, `notation`, `bibliography`, `index`
+Types: `theorem`, `lemma`, `proposition`, `corollary`, `definition`, `example`, `exercise`, `remark`, `discussion`, `introduction`, `preface`, `notation`, `bibliography`, `index`, `derived`
 
-Once all the agents performing structure analysis have merged their PRs, run a **contiguity check** to verify that:
+**Derived items (overlay, not part of the partition).** A formalizable claim discovered *inside* an existing blob (e.g. a well-definedness assertion or dimension formula embedded in a discussion) is recorded as a `derived` item with extra fields: `derived_from` (the parent item id), `source_span` (the exact quoted sentence, for provenance), `claim` (a one-line normalized statement), and a `status` drawn from `accepted`, `rejected_duplicate`, `rejected_trivial`, `rejected_nonformal`, `rejected_already_covered`. Derived items are an **overlay on the text partition, not members of it**: the contiguity check below skips `type == "derived"`. They flow through the normal Phase 3 work loop once `accepted`, and are produced by the Stage 3.7 completeness audit, not by initial structure analysis.
+
+Once all the agents performing structure analysis have merged their PRs, run a **contiguity check** (over partition items only, skipping `derived`) to verify that:
 1. Every line of every page markdown file belongs to exactly one blob
 2. There are no gaps between consecutive blobs
 3. There are no overlaps
@@ -520,8 +522,11 @@ The review agent should update `progress/items.json` with the status transition,
 3. **Flag gaps:** Any claim without a corresponding Lean declaration is a coverage gap. The review **fails** if any gap exists. Every gap must be resolved by adding a Lean declaration. If a claim cannot be formalized yet, the item remains at `needs_definition` with a GitHub issue — `-- TODO` comments are acceptable as markers but do not satisfy the coverage audit.
 4. **Check non-trivial equivalences:** Whenever the textbook wording and the recalled Mathlib declaration are not definitionally equal (after unfolding notation), the .lean file must contain an explicit bridging `theorem` or a review note explaining why no bridge is needed (e.g., the definitions unfold to the same thing).
 5. **Check definition integrity:** No *data* is sorried, only proof obligations.
+6. **Check statement integrity (anti-vacuity):** No theorem/lemma/example may have a conclusion that is `True` (or another trivially-provable placeholder), and no hypothesis may be `True`. A `sorry`-free proof of a vacuous statement is *not* a formalization. Any such item fails review and takes status `statement_vacuous` (never `sorry_free`).
 
-The coverage audit checklist must appear in the review PR body so it is permanently visible, not performed only mentally.
+The coverage audit checklist must appear in the review PR body so it is permanently visible, not performed only mentally. The audit must also be recorded as durable state on the item in `progress/items.json` (not only in the PR body): a `claim_coverage` object listing the enumerated claims, each with a `verdict` of `formalized` (with `lean_decl`), `covered_elsewhere` (with `lean_decl`), or `non_formalizable` (with `reason`). An item does not reach `definition_verified` until its `claim_coverage` is present. This makes a skipped audit detectable by query rather than invisible.
+
+> **Discussion blobs and exercises are subject to this audit too**, not only numbered theorems and definitions. A discussion blob with no formalizable claims must be recorded as `non_formalizable` with a `reason` enumerating the claims considered and why each was excluded — `sorry_free` is not a valid resting state for a prose blob whose claims were never enumerated.
 
 The agent may create new issues if problems with the data scaffolding are discovered: sometimes getting definition right can be difficult, and may require large excursions to set up preliminary material, which may even not be explained in the book, or available in Mathlib. Do the research, and get it done anyway!
 
@@ -593,6 +598,8 @@ After every 50 merged PRs, a review agent must perform a status check. This prev
 The status check must:
 
 1. **Scan for definition-level sorries (regression check).** Re-run the Stage 3.2 scaffolding check. New definition-level sorries can be introduced during proof work when agents create helper definitions with sorry bodies. Any found must become issues — these are the highest priority, since they make downstream theorem statements vacuous.
+
+1b. **Scan for vacuous statements and missing claim-coverage (regression check).** Grep all item `.lean` files for theorem/lemma/example conclusions (or hypotheses) that are `True` or another trivially-provable placeholder — these pass as `sorry_free` while asserting nothing. Verify every formalizable item has a `claim_coverage` record (Stage 3.2) and every exercise has a `coverage` field (see Stage 3.7). Any vacuous statement or missing record is a finding and becomes an issue. **`sorry_free` must mean "real statement, real proof"**; the project's headline "formalized" metric must exclude `statement_vacuous`, `needs_statement`, and missing-`claim_coverage` items.
 
 2. **Identify the hardest remaining items.** This is a mathematical assessment, not just a sorry count. For each chapter with remaining work, identify the items that are hardest to complete, considering:
    - Mathematical depth and complexity (e.g., developing significant theory vs a routine calculation)
@@ -693,6 +700,28 @@ Write `UPSTREAMING.md` at the repository root. For each included candidate: the 
 Update `progress/items.json` with `"upstreaming_status"`: `"candidate"`, `"mathlib_covered"`, or `"rejected"`.
 
 **Verify:** `UPSTREAMING.md` exists. Every proof-polished item has an `upstreaming_status` in `progress/items.json`.
+
+### Stage 3.7: Completeness Audit (bounded)
+
+Runs once substantial Lean coverage exists (after most of Stage 3.5). Its job is to find *formalizable claims and exercises that were never reflected in Lean* — both claims embedded inside prose blobs and exercise/problem content. It is a **bounded risk-reduction audit, not an open-ended hunt, and it does not claim to prove completeness.**
+
+Guiding principle: **byte-coverage and claim-coverage are different metrics.** 100% of the book's text belonging to a blob (the Stage 1.6 contiguity check) is *not* evidence that every formalizable claim is in Lean. Reports must never present one as the other.
+
+Three steps, in order:
+
+1. **Deterministic pre-pass.** Mine every prose blob and exercise for high-yield claim signals (e.g. "(check it!)", "well-defined", "does not depend on", "is faithful/simple/irreducible", "if and only if", "this defines", dimension formulas, displayed equations in discussion/remark/introduction). Emit a seed list of candidate claims with provenance (item id + quoted sentence). Cheap, explainable, re-runnable.
+
+2. **Per-claim coverage check.** For each candidate, decide `covered_elsewhere` / `genuine_gap` / `non_formalizable` / `trivial` against the *actual* Lean — comparing declarations, signatures, and docstrings, not just names, since coverage is frequently folded into a neighbouring theorem. Use a different model for this judge than for the finder, to reduce shared blind spots. Genuine gaps become `accepted` `derived` items (see the items.json schema in Stage 1.6) with GitHub issues; the rest are recorded with a rejection status.
+
+3. **Bounded adversarial sweep.** For semantically-phrased claims the keyword pass misses, run independent adversarial finders over the high-risk blobs (those with displayed math or construction language). Each finding passes the same per-claim judge before becoming a `derived` item.
+
+**Exercise-coverage ratchet.** Exercises are high-value but their full coverage is **not** a precondition for declaring the formalization complete. Replace any blanket `sorry_free` on exercise items with an honest `coverage` field: `covered_full`, `covered_partial`, `not_started`, or `non_formalizable` (with `reason`), plus `lean_decl` pointer(s). Track multi-part problems (e.g. Problem 2.15.1 parts (a)-(n)) at sub-part granularity via `derived` items so partial credit and the live frontier are visible. Report a single monotonic metric (fraction of exercise sub-parts at `covered_partial` or better) that may only ratchet upward; report it separately from the release criteria, never as a release check.
+
+**Termination is a bounded audit certificate, not a completeness proof.** Record in `progress/coverage-audit/completeness-audit-wave-N.md`: which blobs were swept, which signal classes were checked, how many independent final sweeps returned zero accepted claims (target: 2 consecutive), and an explicit statement that residual risk remains. "Loop until dry" is an operational stopping heuristic inside a fixed budget, never a headline claim of completeness.
+
+**Output:** new `derived` items in `progress/items.json`; GitHub issues for accepted gaps; the audit certificate file; an updated exercise-coverage metric.
+
+**Verify:** the certificate file exists; every `accepted` derived item has an issue; every exercise item has a `coverage` field.
 
 ---
 
