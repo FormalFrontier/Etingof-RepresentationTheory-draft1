@@ -3090,8 +3090,8 @@
     "end_page": "109",
     "start_line": 5,
     "end_line": 10,
-    "status": "sorry_free",
-    "sorry_free": true
+    "status": "statement_formalized",
+    "sorry_free": false
   },
   {
     "id": "Chapter5/Remark5.9.2",
