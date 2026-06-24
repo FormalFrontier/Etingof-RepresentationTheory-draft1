@@ -210,4 +210,41 @@ theorem Etingof.Example5_1_3_Q8 :
   -- The 2-dimensional irrep uses the Pauli-type matrices `ρ(i) = [[0,1],[-1,0]]`,
   -- `ρ(j) = [[√-1,0],[0,-√-1]]`, `ρ(k) = [[0,-√-1],[-√-1,0]]`. Its FS indicator is
   -- `-1`, witnessed by the invariant skew form `[[0,1],[-1,0]]`.
-  sorry
+  refine ⟨Etingof.Q8.rho, ?_, ?_⟩
+  · -- Simplicity: the only `ρ`-invariant subspaces are `⊥` and `⊤`.
+    sorry
+  · -- Quaternionic type: the wedge form `B v w = v₀w₁ - v₁w₀` is skew, nondegenerate, and
+    -- `Q₈`-invariant (every matrix lies in `SL₂`, so it preserves the determinant form).
+    set B : (Fin 2 → ℂ) →ₗ[ℂ] (Fin 2 → ℂ) →ₗ[ℂ] ℂ :=
+      LinearMap.mk₂ ℂ (fun v w => v 0 * w 1 - v 1 * w 0)
+        (fun v v' w => by simp only [Pi.add_apply]; ring)
+        (fun c v w => by simp only [Pi.smul_apply, smul_eq_mul]; ring)
+        (fun v w w' => by simp only [Pi.add_apply]; ring)
+        (fun c v w => by simp only [Pi.smul_apply, smul_eq_mul]; ring) with hBdef
+    have hB : ∀ v w : Fin 2 → ℂ, B v w = v 0 * w 1 - v 1 * w 0 := fun v w => rfl
+    refine ⟨B, ?_, ?_, ?_⟩
+    · -- skew-symmetric
+      intro v w; rw [hB, hB]; ring
+    · -- nondegenerate
+      intro v hv
+      have h0 : v 0 = 0 := by have := hv ![0, 1]; rw [hB] at this; simpa using this
+      have h1 : v 1 = 0 := by have := hv ![1, 0]; rw [hB] at this; simpa using this
+      funext i; fin_cases i
+      · simpa using h0
+      · simpa using h1
+    · -- Q₈-invariant
+      intro g v w
+      have key : ∀ (N : Matrix (Fin 2) (Fin 2) ℂ) (x y : Fin 2 → ℂ),
+          B (N.mulVec x) (N.mulVec y) = N.det * B x y := by
+        intro N x y
+        rw [hB, hB]
+        simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.det_fin_two]
+        ring
+      rw [Etingof.Q8.rho_apply, Etingof.Q8.rho_apply, key]
+      have hdet : (Etingof.Q8.Mhom g).det = 1 := by
+        rcases g with k | k
+        · show (Etingof.Q8.Mfun (QuaternionGroup.a k)).det = 1
+          simp [Etingof.Q8.Mfun, Matrix.det_pow]
+        · show (Etingof.Q8.Mfun (QuaternionGroup.xa k)).det = 1
+          simp [Etingof.Q8.Mfun, Matrix.det_mul, Matrix.det_pow]
+      rw [hdet, one_mul]
