@@ -2193,6 +2193,26 @@ The `map_smul'` of the `asModule`-to-`asModule` aux reduces to the carrier-level
 
 **Dot notation on a `Representation`-typed value resolves to `MonoidHom`, not your `Representation.*` lemmas.** `Representation k G V` is definitionally `G →* (V →ₗ[k] V)`, so for `ρ : Representation k G V` the term `ρ.myLemma` elaborates as `MonoidHom.myLemma ρ` and fails with `Invalid field 'myLemma': … does not contain MonoidHom.myLemma`. Even when you *defined* `Representation.myLemma`, you must call it with the **fully-qualified name** `Representation.myLemma ρ …` (not `ρ.myLemma`). This bit me defining `Representation.stableSubmodule` (#4902) — both the definition's own `@[simp]` mem-lemma and every call site needed the explicit `Representation.stableSubmodule ρ …` form.
 
+## Hand-built codiscrete categories: discharge coherence with `rfl`, not `Subsingleton.elim`
+
+When constructing a small category by hand with singleton hom-sets
+(`Hom _ _ := PUnit`, `id _ := ⟨⟩`, `comp _ _ := ⟨⟩` — the codiscrete category, useful for
+the toy `C₁`/`C₂` of Ch7 §7.4), every law/naturality/coherence equation is an equality of
+`PUnit`-valued morphisms and closes by **`rfl`** via structure eta. Do **not** reach for
+`Subsingleton.elim _ _`: `Subsingleton (X ⟶ Y)` fails to synthesize because `⟶` does not
+reduce to `PUnit` through the `Category` instance at instance-resolution transparency
+(cost one build cycle in #5138). So `NatIso.ofComponents (fun _ => …) (fun _ => rfl)` and
+`functor_unitIso_comp _ := rfl` work where the `Subsingleton` forms don't. The `Category`
+structure's `id_comp`/`comp_id`/`assoc` fields can simply be omitted (their `by aesop_cat`
+defaults close trivially). For an equivalence `C₁ ≌ C₂` of two such categories, build it
+with `Equivalence.mk`-style fields and per-object isos `Iso.mk ⟨⟩ ⟨⟩` (or `Iso.refl _`
+where the objects are defeq). An equivalence then descends to a bijection of iso-classes
+of objects via `Quotient.map e.functor.obj (fun _ _ ⟨f⟩ => ⟨e.functor.mapIso f⟩)` with
+`left_inv`/`right_inv` from `e.unitIso`/`e.counitIso` and `Quotient.ind`/`Quotient.sound`
+(needs `attribute [local instance] CategoryTheory.isIsomorphicSetoid`); compose with
+`Equivalence.congrLeft` to get the iso-class bijection on functor categories `C₁ ⥤ D` vs
+`C₂ ⥤ D`.
+
 ## FDRep Morphism Extensionality Patterns
 
 FDRep morphisms are `Action.Hom` wrapping `FGModuleCat.Hom` wrapping `ModuleCat.Hom` wrapping `LinearMap`. Proving `f = g` for FDRep morphisms requires decomposing through all layers.
