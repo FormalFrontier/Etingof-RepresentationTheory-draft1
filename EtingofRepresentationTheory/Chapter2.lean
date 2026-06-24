@@ -40,6 +40,7 @@ import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter2.Definition2_8_8
 import EtingofRepresentationTheory.Chapter2.Definition2_8_9
 import EtingofRepresentationTheory.Chapter2.Definition2_8_10
+import EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection
 import EtingofRepresentationTheory.Chapter2.Example2_8_2
 
 -- Section 2.9: Lie Algebras
