@@ -44,11 +44,10 @@ namespace Etingof
 
 namespace PolynomialRepEmbedding
 
-universe u
 
 open PolynomialTensorBridge
 
-variable (k : Type u) [Field k] (N n : ℕ)
+variable (k : Type) [Field k] (N n : ℕ)
 
 /-- Splitting the right `(V^*)^⊗n` factor of `V^⊗n ⊗ (V^*)^⊗n` via the
 standard basis: `V^⊗n ⊗ (V^*)^⊗n ≃ₗ[k] (Fin n → Fin N) → V^⊗n`. The
@@ -589,7 +588,7 @@ namespace Etingof.PolynomialRepEmbedding
 
 open PolynomialTensorBridge
 
-variable (k : Type u) [Field k] (N : ℕ)
+variable (k : Type) [Field k] (N : ℕ)
 
 /-- Evaluating `polyRightTransl g p` at `h` coincides with evaluating `p` at
 the product matrix `h * g`. The algebra homs `eval_h ∘ polyRightTransl_g` and

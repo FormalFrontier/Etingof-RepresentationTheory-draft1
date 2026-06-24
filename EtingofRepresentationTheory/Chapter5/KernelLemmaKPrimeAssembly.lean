@@ -53,7 +53,7 @@ open MvPolynomial Etingof Etingof.PolynomialGLAction
 
 namespace Etingof.KernelLemmaKPrime
 
-variable {k : Type*} [Field k] {N : ℕ}
+variable {k : Type} [Field k] {N : ℕ}
 
 /-! ### The genuine core of (K′)
 
@@ -67,7 +67,7 @@ whose weight has a negative coordinate.
 
 Assembled from the simple-constituent extraction (#4922), the `ν_N = 0` Cauchy
 content (#4896 part (a)), and the twist weight-shift. -/
-theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type*) [Field k]
+theorem quotDetTwist_nonzero_subrep_has_neg_weight (k : Type) [Field k]
     [IsAlgClosed k] [CharZero k] (N : ℕ) (r : ℕ) (hr : 1 ≤ r)
     (W : Subrepresentation (quotDetTwistRep k N r)) (hW : W ≠ ⊥) :
     ∃ μ : Fin N → ℤ, (∃ i, μ i < 0) ∧
@@ -165,7 +165,7 @@ nonnegative is `⊥`.
 By the core `quotDetTwist_nonzero_subrep_has_neg_weight`, a nonzero such `W` would
 contain a negative-weight vector, contradicting the glue lemma
 `glWeightSpaceℤ_neg_not_mem_nonneg_span`. -/
-theorem kernelLemmaK' (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
+theorem kernelLemmaK' (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
     (r : ℕ) (hr : 1 ≤ r) (W : Subrepresentation (quotDetTwistRep k N r))
     (hW : W.toSubmodule ≤ ⨆ (μ : Fin N → ℕ),
       glWeightSpaceℤ k N (quotDetTwistRep k N r) (fun i => (μ i : ℤ))) :
@@ -180,7 +180,7 @@ theorem kernelLemmaK' (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N : �
 
 The `GL_N`-invariance hypothesis `hW_inv` is essential — without it the statement
 is false (see the note on `kernelLemmaK'` in `KernelLemmaKPrime.lean`). -/
-theorem kernelLemmaK'_submodule (k : Type*) [Field k] [IsAlgClosed k] [CharZero k]
+theorem kernelLemmaK'_submodule (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (N : ℕ) (r : ℕ) (hr : 1 ≤ r)
     {W : Submodule k (MvPolynomial (Fin N × Fin N) k ⧸ detSubmodule k N)}
     (hW_inv : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k),

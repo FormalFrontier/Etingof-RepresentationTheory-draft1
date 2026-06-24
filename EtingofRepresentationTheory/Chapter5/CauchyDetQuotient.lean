@@ -2,6 +2,10 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
 import EtingofRepresentationTheory.Chapter5.DetShiftIso
+import EtingofRepresentationTheory.Chapter5.CauchyDetQuotientGrading
+import EtingofRepresentationTheory.Chapter5.CauchyDetQuotientDegree
+import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic
+import EtingofRepresentationTheory.Chapter5.CleanConstituentExtraction
 
 /-!
 # Cauchy decomposition of the determinant quotient: constituents have `ν_N = 0`
@@ -78,8 +82,8 @@ build them, and this file fixes the **consumable statement** (top-down):
 3. the `GL_N × GL_N`-equivariant Cauchy multiplicity-one decomposition of
    `k[Xᵢⱼ]` (the research-level epic).
 
-The single `sorry` below is the assembly of (1)+(2)+(3) with the sorry-free
-det-shift; it is tracked by the successor issues filed against #4896.
+The theorem below is the assembly of (1)+(2)+(3) with the sorry-free det-shift,
+discharged sorry-free in #5113 from the four #5076 ingredients.
 -/
 
 namespace Etingof.KernelLemmaKPrime
@@ -108,9 +112,19 @@ twist subtracting `r ≥ 1` from `ν_N = 0`) — to discharge
 `quotDetTwist_nonzero_subrep_has_neg_weight`.
 
 The proof is the residual research-level core of #4896; see the file docstring
-for the decomposition into the three missing infrastructure pieces. -/
+for the decomposition into the three missing infrastructure pieces.
+
+`k` is fixed at `Type` (universe 0) rather than `Type*` because the assembly
+runs through the #5075 constituent-character extractor
+`clean_simple_constituent_formalCharacter_eq_schurPoly_mem`, whose Schur-Weyl /
+Specht / double-centralizer classification foundation is small-universe. The
+whole kernel-lemma consumer chain above this theorem
+(`KernelLemmaKPrimeAssembly`, `KernelLemmaK`, `DetInvElim`,
+`PolynomialRepEmbedding`, `PolynomialGLDecomposition`) is correspondingly
+specialized to `Type`; `k` is always a concrete algebraically-closed char-0
+field, so the universe polymorphism is unused (#5113). -/
 theorem quotDetRep_irreducible_constituent_lastWeight_zero
-    (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (N : ℕ)
     (L : FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
     (hLsimp : IsSimpleModule
       (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
@@ -121,6 +135,17 @@ theorem quotDetRep_irreducible_constituent_lastWeight_zero
       φ (L.ρ g v) = quotDetRep k N g (φ v)) :
     ∃ ν : Fin N → ℕ, Antitone ν ∧ (0 : ℕ) ∈ Set.range ν ∧
       formalCharacter k N L = schurPoly N ν := by
-  sorry
+  classical
+  obtain ⟨d, ψ, hψ_inj, hψ_equiv⟩ :=
+    Etingof.CauchyDetQuotient.exists_degree_embedding_of_simple k N L hLsimp φ hφ_inj hφ_equiv
+  obtain ⟨S, c, hS0, hchar⟩ :=
+    Etingof.CauchyDetQuotient.quotDetDegree_char_as_antitone_sum (k := k) N d
+  obtain ⟨ν, hνS, _hcpos, hcharL⟩ :=
+    clean_simple_constituent_formalCharacter_eq_schurPoly_mem k N
+      (Etingof.CauchyDetQuotient.quotDetDegreeFDRep k N d)
+      (Etingof.quotDetDegreeFDRep_isAlgebraic k N d)
+      (Etingof.CauchyDetQuotient.quotDetDegree_iSup_glWeightSpace_eq_top (k := k) (N := N) d)
+      S c hchar L hLsimp ψ hψ_inj hψ_equiv
+  exact ⟨ν.val, ν.property, hS0 ν hνS, hcharL⟩
 
 end Etingof.KernelLemmaKPrime

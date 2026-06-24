@@ -14,7 +14,7 @@ prerequisites now in place:
   (`DetPowerFiltration.lean`);
 * the representation-theoretic core (K′): for `r ≥ 1` the twisted quotient
   `(A/det) ⊗ χ⁻ʳ` has no nonzero nonneg-weight submodule
-  (`kernelLemmaK'_submodule`, currently a sorry'd dependency tracked by #4832).
+  (`kernelLemmaK'_submodule`, sorry-free as of #5113).
 
 ## (K), det-power-descent form
 
@@ -49,7 +49,7 @@ namespace Etingof.KernelLemmaK
 open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
   Etingof.LocalizationGLAction Etingof.KernelLemmaKPrime Etingof.DetPowerFiltration
 
-variable {k : Type*} [Field k] {N : ℕ}
+variable {k : Type} [Field k] {N : ℕ}
 
 /-! ### Weight-space bookkeeping -/
 
@@ -89,8 +89,7 @@ weight vectors with weights in `ℕ^N` (`hw`), spanning a right-`GL_N`-stable su
 (`hstable`), consists of honest polynomials: each `w i ∈ range (algebraMap A O)`.
 
 Proved by det-power descent against (K′) (`kernelLemmaK'`); see the module
-docstring. (K′) is currently a sorry'd dependency (#4832), as permitted for this
-assembly. -/
+docstring. (K′) is sorry-free as of #5113. -/
 theorem kernelLemmaK [IsAlgClosed k] [CharZero k] {ι : Type*} [Finite ι]
     (w : ι → Localization.Away (detPoly k N)) (μ : ι → (Fin N → ℕ))
     (hw : ∀ i, w i ∈ glWeightSpaceℤ k N (localRightRep k N) (fun j => (μ i j : ℤ)))

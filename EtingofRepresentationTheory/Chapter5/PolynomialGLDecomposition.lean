@@ -64,9 +64,8 @@ open CategoryTheory
 
 namespace Etingof.PolynomialGLDecomposition
 
-universe u
 
-variable (k : Type u) [Field k] (N : ℕ)
+variable (k : Type) [Field k] (N : ℕ)
 
 /-- Abbreviation for the group algebra of `GL_N(k)`, the ring over which the
 `GL_N`-equivariant decompositions are stated. -/
@@ -98,7 +97,7 @@ that one shared `ρ_i`. -/
 theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     [IsAlgClosed k] [CharZero k] (n : ℕ) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
-      (S : ι → Type u)
+      (S : ι → Type)
       (_ : ∀ i, AddCommGroup (S i))
       (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module.Finite k (S i))
@@ -107,7 +106,7 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
       (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
       (_ : ∀ i, 0 < Module.finrank k (S i)),
       ∃ (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-          (DirectSum ι (fun i => S i ⊗[k] (L i : Type u)))),
+          (DirectSum ι (fun i => S i ⊗[k] (L i : Type)))),
         ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
           (v : TensorPower k (Fin N → k) n),
           e (glTensorRep k N n g v) =
@@ -117,7 +116,7 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
   classical
   -- The combined explicit + simple decomposition supplies, over one shared
   -- `ρ_i`, the simplicity clause AND the explicit equivariance ingredients
-  -- (the iso `e` already typed in the `(L i : Type u)` family, the evaluation
+  -- (the iso `e` already typed in the `(L i : Type)` family, the evaluation
   -- formula `he`, and the action formula `h_act`).
   obtain ⟨ι, hιFin, hιDec, S', hS'_simp, hS'_dist, hSi_fin, L, hL_simple,
       L_carrier, e, he, h_act⟩ :=
@@ -146,7 +145,7 @@ theorem glTensorRep_schurWeyl_decomposition_equivariant_simple
     apply TensorProduct.ext'
     intro s l
     change (glTensorRep k N n g) (e.symm
-        (DirectSum.lof k ι (fun i => ↥(S' i) ⊗[k] (L i : Type u)) i
+        (DirectSum.lof k ι (fun i => ↥(S' i) ⊗[k] (L i : Type)) i
           (s ⊗ₜ[k] l))) =
       e.symm ((Representation.directSum (fun i =>
         (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
@@ -207,14 +206,14 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
-      (S : ι → Type u) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i))
+      (S : ι → Type) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
       (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
       (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
       (_ : ∀ i, 0 < Module.finrank k (S i))
       (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-          (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+          (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
       (_ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
             (v : TensorPower k (Fin N → k) n),
             e (glTensorRep k N n g v) =
@@ -222,7 +221,7 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
                 (Representation.trivial k (Matrix.GeneralLinearGroup (Fin N) k)
                   (S i)).tprod (L i).ρ) g (e v))
       (κ : Type) (_ : Finite κ) (gκ : κ → ι)
-      (W : Type u) (_ : AddCommGroup W) (_ : Module (GLAlg k N) W)
+      (W : Type) (_ : AddCommGroup W) (_ : Module (GLAlg k N) W)
       (_ : W ≃ₗ[GLAlg k N]
         DirectSum κ (fun c => Representation.asModule (L (gκ c)).ρ))
       (M' : Submodule (GLAlg k N) W),
@@ -245,14 +244,14 @@ theorem polynomial_homog_rep_asModule_embeds_directSum_simple
   -- (3) view `φ` as a `k`-linear map into the `DirectSum` over the finite index `Fin m`.
   set piToDS := (DirectSum.linearEquivFunOnFintype k (Fin m)
     (fun _ : Fin m => TensorPower k (Fin N → k) n)).symm with hpiToDS
-  set φ' : (M : Type u) →ₗ[k]
+  set φ' : (M : Type) →ₗ[k]
       DirectSum (Fin m) (fun _ : Fin m => TensorPower k (Fin N → k) n) :=
     piToDS.toLinearMap ∘ₗ φ with hφ'
   have hφ'inj : Function.Injective φ' := piToDS.injective.comp hφinj
   have hcoe : ∀ (w : Fin m → TensorPower k (Fin N → k) n) (a : Fin m),
       (piToDS w) a = w a := by intro w a; rw [hpiToDS]; rfl
   -- equivariance of `φ'` for the `Fin m`-fold `directSum` of `glTensorRep`.
-  have hφ'eq : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (x : (M : Type u)),
+  have hφ'eq : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (x : (M : Type)),
       φ' (M.ρ g x) =
         Representation.directSum (fun _ : Fin m => glTensorRep k N n) g (φ' x) := by
     intro g x
@@ -323,14 +322,14 @@ theorem decompose_polynomial_gl_rep
     (h_span : ⨆ (μ : Fin N →₀ ℕ), glWeightSpace k N M (fun i => μ i) = ⊤)
     (h_homog : ∀ μ : Fin N → ℕ, glWeightSpace k N M μ ≠ ⊥ → ∑ i, μ i = n) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
-      (S : ι → Type u) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i))
+      (S : ι → Type) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module.Finite k (S i))
       (L : ι → FDRep k (Matrix.GeneralLinearGroup (Fin N) k))
       (_ : ∀ i, IsSimpleModule (GLAlg k N) (Representation.asModule (L i).ρ))
       (_ : Pairwise (fun i j => ¬ Nonempty ((L i) ≅ (L j))))
       (_ : ∀ i, 0 < Module.finrank k (S i))
       (e : TensorPower k (Fin N → k) n ≃ₗ[k]
-          (DirectSum ι (fun i => S i ⊗[k] (L i : Type u))))
+          (DirectSum ι (fun i => S i ⊗[k] (L i : Type))))
       (_ : ∀ (g : Matrix.GeneralLinearGroup (Fin N) k)
             (v : TensorPower k (Fin N → k) n),
             e (glTensorRep k N n g v) =
@@ -347,7 +346,7 @@ theorem decompose_polynomial_gl_rep
       κ, hκFin, gκ, W, hWacg, hWmod, eW, M', ⟨eM⟩⟩ :=
     polynomial_homog_rep_asModule_embeds_directSum_simple k N n M halg h_span h_homog
   -- The ambient summand family, indexed by `κ`.
-  set Lsum : κ → Type u := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
+  set Lsum : κ → Type := fun c => Representation.asModule (L (gκ c)).ρ with hLsum
   haveI : ∀ c, IsSimpleModule (GLAlg k N) (Lsum c) := fun c => hLsimp (gκ c)
   -- Apply the generic isotypic-extraction engine (#4600) to the submodule `M'`.
   obtain ⟨p, h, ⟨eM'⟩⟩ :=
