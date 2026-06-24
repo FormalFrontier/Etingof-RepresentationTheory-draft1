@@ -33,29 +33,6 @@ Understand what the project currently claims to have achieved.
 - Read key top-level declarations/signatures (not full implementations)
 - Record current quality metrics as described in the project's CLAUDE.md
 
-  **Counting sorries accurately:** do NOT report `grep -rc sorry` as the sorry
-  count. This repo documents *where sorries are and are not* in docstrings
-  ("sorry-free", "isolated `sorry`", "sorry'd dependency (#N)"), which inflates
-  the raw grep by ~18× (e.g. 76 raw vs 4 real, as of #5018). Strip comments
-  first, then count whole-word `sorry` in the surviving code, and also check for
-  `axiom`/`admit` (sorry-equivalents that don't use the keyword). A
-  comment-stripping awk pass:
-  ```bash
-  cat > /tmp/sorrycount.awk <<'AWK'
-  BEGIN{depth=0}
-  {line=$0; out=""; i=1; L=length(line)
-   while(i<=L){two=substr(line,i,2)
-     if(depth>0){if(two=="-/"){depth--;i+=2;continue} if(two=="/-"){depth++;i+=2;continue} i++;continue}
-     else{if(two=="/-"){depth++;i+=2;continue} if(two=="--")break; out=out substr(line,i,1); i++}}
-   s=out
-   while(match(s,/(^|[^A-Za-z0-9_'"'"'])sorry([^A-Za-z0-9_'"'"']|$)/)){cnt++;print FILENAME":"FNR;s=substr(s,RSTART+RLENGTH-1)}}
-  END{print "REAL_SORRIES="cnt > "/dev/stderr"}
-  AWK
-  find EtingofRepresentationTheory -name '*.lean' | sort | xargs awk -f /tmp/sorrycount.awk
-  ```
-  Report both the raw `grep -rc` per-file numbers (the verification spot-checks
-  against these) AND the real comment-stripped count, and explain the gap.
-
 ### Step 5: Produce an updated progress document
 
 Write an updated progress document that:

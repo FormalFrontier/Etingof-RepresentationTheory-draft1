@@ -265,8 +265,12 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     ∃ (V : Type u) (W : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : Module A V)
       (_ : IsScalarTower k A V) (_ : FiniteDimensional k V) (_ : IsSimpleModule A V)
       (_ : AddCommGroup W) (_ : Module k W) (_ : Module B W)
-      (_ : IsScalarTower k B W) (_ : FiniteDimensional k W) (_ : IsSimpleModule B W),
-      Nonempty (M ≃ₗ[k] V ⊗[k] W) := by
+      (_ : IsScalarTower k B W) (_ : FiniteDimensional k W) (_ : IsSimpleModule B W)
+      (e : M ≃ₗ[k] V ⊗[k] W),
+      (∀ (a : A) (m : M),
+        e (a • m) = TensorProduct.map ((Algebra.lsmul k k V : A →ₐ[k] _) a) LinearMap.id (e m)) ∧
+      (∀ (b : B) (m : M),
+        e (b • m) = TensorProduct.map LinearMap.id ((Algebra.lsmul k k W : B →ₐ[k] _) b) (e m)) := by
   -- Step 1: M is Artinian as A-module, hence atomic; extract a simple A-submodule V₀
   haveI : IsArtinian A M := isArtinian_of_tower k (inferInstance : IsArtinian k M)
   have hM_ne : (⊤ : Submodule A M) ≠ ⊥ := by
@@ -372,8 +376,33 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     · intro i _ hi; simp [hi]
     · intro hj_mem
       exfalso; exact hj_mem (Finsupp.mem_support_iff.mpr (by intro h; exact hj h))
-  have ev_equiv : V₀ ⊗[k] W₀ ≃ₗ[k] M :=
-    LinearEquiv.ofBijective (evalMap V₀) ⟨hev_inj, hev_surj⟩
+  set ev_equiv : V₀ ⊗[k] W₀ ≃ₗ[k] M :=
+    LinearEquiv.ofBijective (evalMap V₀) ⟨hev_inj, hev_surj⟩ with hev_def
+  have ev_apply : ∀ x, ev_equiv x = evalMap V₀ x := by
+    intro x; rw [hev_def, LinearEquiv.ofBijective_apply]
+  -- The evaluation map is equivariant for both the A- and B-actions.
+  have hAeq : ∀ (a : A) (s : V₀ ⊗[k] W₀),
+      evalMap V₀ (TensorProduct.map ((Algebra.lsmul k k V₀ : A →ₐ[k] _) a) LinearMap.id s)
+        = a • evalMap V₀ s := by
+    intro a s
+    induction s using TensorProduct.induction_on with
+    | zero => simp
+    | tmul v f =>
+      rw [TensorProduct.map_tmul, LinearMap.id_apply, evalMap_tmul, evalMap_tmul]
+      simp only [Algebra.lsmul_coe]
+      exact f.map_smul a v
+    | add x y hx hy => simp only [map_add, smul_add, hx, hy]
+  have hBeq : ∀ (b : B) (s : V₀ ⊗[k] W₀),
+      evalMap V₀ (TensorProduct.map LinearMap.id ((Algebra.lsmul k k W₀ : B →ₐ[k] _) b) s)
+        = b • evalMap V₀ s := by
+    intro b s
+    induction s using TensorProduct.induction_on with
+    | zero => simp
+    | tmul v f =>
+      rw [TensorProduct.map_tmul, LinearMap.id_apply, evalMap_tmul, evalMap_tmul]
+      simp only [Algebra.lsmul_coe]
+      rfl
+    | add x y hx hy => simp only [map_add, smul_add, hx, hy]
   -- W₀ is finite-dimensional: V₀ ⊗ W₀ ≃ M is f.d., and V₀ is nonzero
   haveI : FiniteDimensional k W₀ := by
     -- Build injective k-linear map W₀ → (V₀ →ₗ[k] M)
@@ -466,4 +495,18 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     exact { toIsSimpleOrder := { eq_bot_or_eq_top := hsimple } }
   refine ⟨↥V₀, W₀, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
-    inferInstance, ⟨ev_equiv.symm⟩⟩
+    inferInstance, ev_equiv.symm, ?_, ?_⟩
+  · -- A-equivariance of `ev_equiv.symm`.
+    intro a m
+    apply ev_equiv.injective
+    rw [LinearEquiv.apply_symm_apply, ev_apply, hAeq]
+    have hsm : evalMap V₀ (ev_equiv.symm m) = m := by
+      rw [← ev_apply]; exact ev_equiv.apply_symm_apply m
+    rw [hsm]
+  · -- B-equivariance of `ev_equiv.symm`.
+    intro b m
+    apply ev_equiv.injective
+    rw [LinearEquiv.apply_symm_apply, ev_apply, hBeq]
+    have hsm : evalMap V₀ (ev_equiv.symm m) = m := by
+      rw [← ev_apply]; exact ev_equiv.apply_symm_apply m
+    rw [hsm]
