@@ -39,7 +39,7 @@ namespace Etingof.DetInvElim
 open MvPolynomial Etingof Etingof.DetLocalization Etingof.PolynomialGLAction
   Etingof.LocalizationGLAction Etingof.KernelLemmaKPrime Etingof.KernelLemmaK
 
-variable {k : Type*} [Field k] {N : ℕ}
+variable {k : Type} [Field k] {N : ℕ}
 
 /-! ### Right-translation intertwining -/
 
