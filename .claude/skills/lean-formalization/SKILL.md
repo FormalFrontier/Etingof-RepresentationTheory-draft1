@@ -369,6 +369,44 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### `IsSimpleModule k[G] ρ.asModule` for a *concrete* representation (Ch5 Example5.1.3 Q₈, #5124)
+
+To prove a hand-built representation `ρ : Representation k G V` is irreducible
+(its `asModule` is simple), do **not** reason about `Submodule k[G] ρ.asModule`
+directly — work with `ρ`-invariant `k`-subspaces of `V` and transport:
+
+- `Representation.mapSubmodule ρ : ρ.invtSubmodule ≃o Submodule k[G] ρ.asModule`
+  is the order iso (in `Mathlib.RepresentationTheory.Submodule`).
+- `OrderIso.isSimpleOrder_iff` turns `IsSimpleOrder ρ.invtSubmodule` into
+  `IsSimpleOrder (Submodule k[G] ρ.asModule)`. `IsSimpleModule` *extends* that
+  `IsSimpleOrder`, but its constructor has **no explicit fields** (the parent is
+  instance-implicit): do `suffices hSO : IsSimpleOrder ρ.invtSubmodule by
+  haveI := (Representation.mapSubmodule ρ).isSimpleOrder_iff.mp hSO; exact ⟨⟩`.
+- Build `IsSimpleOrder ρ.invtSubmodule` via
+  `refine { eq_bot_or_eq_top := fun a => ?_ }` (the `Nontrivial` parent comes
+  from the existing `[Nontrivial V]` instance). `a : ρ.invtSubmodule`; recover
+  the underlying subspace as `(a : Submodule k V)` and its invariance from
+  `(Module.End.mem_invtSubmodule_iff_forall_mem_of_mem (f := ρ g)).mp
+  ((Representation.mem_invtSubmodule (ρ := ρ)).mp a.2 g)` — both lemmas take the
+  endomorphism/representation **explicitly**, so pass `(f := …)`/`(ρ := …)` or
+  the bare `name.mp` reads as an unknown constant.
+- Then the math: `a ≠ ⊥` ⇒ pick `0 ≠ v ∈ a` (`(Submodule.ne_bot_iff _).mp`),
+  apply two generators (as explicit `Matrix.mulVec` evaluations) to manufacture
+  the standard basis vectors inside `a` via `smul_mem`/`sub_mem`/`neg_mem`, then
+  `eq_top` from "two basis vectors span". For a 2-dim rep this is the "diagonal
+  generator and swap share no common eigenline" argument.
+
+Build matrix reps as a `MonoidHom G →* Matrix n n k` composed with
+`Matrix.toLinAlgEquiv'` (a monoid hom into `End`); `ρ g v = (Mhom g).mulVec v`
+via `Matrix.toLinAlgEquiv'_apply`. **`ring` does not work on the noncommutative
+matrix ring** — for `A^4 = (A^2)^2` use `pow_mul`; for `(-1)^2` use
+`neg_one_sq`; reduce `A^a = A^b` (same base, `A^4=1`) to a `ZMod`-exponent
+equality with a `Nat.div_add_mod`/`pow_add`/`pow_mul` helper plus
+`ZMod.natCast_eq_natCast_iff`, then close non-`ring` modular facts (e.g.
+`3*i ≡ -i [4]`) with `decide`. An `SL₂` rep preserves the wedge form
+`B(v,w)=v₀w₁−v₁w₀` automatically: `B(Nv,Nw) = det N · B(v,w)` (a `Fin 2`
+`ring` identity), so invariance reduces to `det (ρ g) = 1`.
+
 #### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
 
 To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
