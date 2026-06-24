@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter5.Theorem5_1_5
 
 /-!
 # Corollary 5.1.6: Real Representations and Involutions
@@ -12,13 +13,28 @@ equals Σ dim(Vᵢ), where the sum runs over all irreducible representations.
 Follows from Theorem 5.1.5 by setting all FS indicators to 1.
 -/
 
-/-- If all irreducible representations of G are real (FS = 1), then the number
-of involutions equals the sum of their dimensions. (Etingof Corollary 5.1.6) -/
+open FDRep CategoryTheory
+
+universe u
+
+variable {k G : Type u} [Field k] [Group G] [Fintype G]
+
+/-- If all irreducible representations of G are real (Frobenius-Schur indicator
+= 1), then the number of involutions (elements with `g² = 1`) equals the sum of
+their dimensions. This specializes Theorem 5.1.5, whose right-hand side
+`∑ᵢ dim(Vᵢ) · FS(Vᵢ)` collapses to `∑ᵢ dim(Vᵢ)` when every `FS(Vᵢ) = 1`.
+(Etingof Corollary 5.1.6) -/
 theorem Etingof.Corollary5_1_6
-    (G : Type*) [Group G] [Fintype G] [DecidableEq G]
+    [DecidableEq G] [IsAlgClosed k] [NeZero (Nat.card G : k)]
+    [Invertible (Fintype.card G : k)]
+    (D : IrrepDecomp k G)
+    (V : Fin D.n → FDRep k G)
+    (hV : ∀ i, Simple (V i))
+    (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j)
     -- Hypothesis: all irreducible representations are of real type (FS indicator = 1)
-    (h_all_real : True) :  -- TODO: express "all FS indicators = 1" once indicator API exists
-    -- Number of involutions = Σ dim(Vᵢ)
-    True := by
-  trivial
-  -- TODO: Formalize once Theorem 5.1.5 and FS indicator are properly connected.
+    (h_all_real : ∀ i, (V i).frobeniusSchurIndicator = 1) :
+    (Finset.univ.filter (fun g : G => g * g = 1)).card =
+    ∑ i : Fin D.n, (Module.finrank k (V i) : k) := by
+  rw [Etingof.Theorem5_1_5 D V hV hinj]
+  refine Finset.sum_congr rfl (fun i _ => ?_)
+  rw [h_all_real i, mul_one]
