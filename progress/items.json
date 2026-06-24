@@ -2566,8 +2566,8 @@
     "end_page": "94",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free",
-    "sorry_free": true
+    "status": "statement_formalized",
+    "sorry_free": false
   },
   {
     "id": "Chapter5/Definition5.1.4",
