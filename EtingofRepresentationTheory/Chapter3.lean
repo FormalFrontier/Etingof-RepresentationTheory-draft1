@@ -6,6 +6,7 @@ import EtingofRepresentationTheory.Chapter3.Corollary3_2_1
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2
 import EtingofRepresentationTheory.Chapter3.Definition3_3_2
 import EtingofRepresentationTheory.Chapter3.Theorem3_3_1
+import EtingofRepresentationTheory.Chapter3.Remark3_3_4
 import EtingofRepresentationTheory.Chapter3.Definition3_4_1
 import EtingofRepresentationTheory.Chapter3.Lemma3_4_2
 import EtingofRepresentationTheory.Chapter3.Definition3_5_1
@@ -16,6 +17,7 @@ import EtingofRepresentationTheory.Chapter3.Corollary3_5_5
 import EtingofRepresentationTheory.Chapter3.Example3_5_6
 import EtingofRepresentationTheory.Chapter3.Definition3_5_7
 import EtingofRepresentationTheory.Chapter3.Proposition3_5_8
+import EtingofRepresentationTheory.Chapter3.Introduction3_6
 import EtingofRepresentationTheory.Chapter3.Theorem3_6_2
 import EtingofRepresentationTheory.Chapter3.Theorem3_7_1
 import EtingofRepresentationTheory.Chapter3.Theorem3_8_1
