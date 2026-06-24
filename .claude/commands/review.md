@@ -39,14 +39,6 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
-**Soundness audits** (Lean):
-- Counting sorries: use `grep -nw sorry <file>` and discard hits inside docstrings.
-  Plain `grep -c sorry` overcounts badly here because module docstrings pervasively
-  say "sorry-free" — an issue's stated sorry count may be stale or inflated by prose.
-- Confirm proofs really close: `#print axioms <result>` should show only
-  `propext, Classical.choice, Quot.sound`. Any `sorryAx` means a transitive sorry
-  even when the file itself greps clean.
-
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by

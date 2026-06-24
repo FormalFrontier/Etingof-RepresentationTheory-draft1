@@ -15,16 +15,6 @@ The `coordination` script handles all GitHub-based multi-agent coordination.
 Session UUID is available as `$POD_SESSION_ID` (exported by `pod`).
 The `gh` CLI defaults to the current repo, so `--repo` is not needed.
 
-**If `coordination` dies with `gh CLI not authenticated` but `gh api user` succeeds**,
-the stored token is valid for the API but `gh auth status` is failing (stale
-keyring/refresh state). Re-store the existing token without creating a new one:
-```bash
-TOK=$(awk '/^    oauth_token:/{print $2}' ~/.config/gh/hosts.yml | head -1)
-echo "$TOK" | gh auth login --hostname github.com --with-token
-```
-`gh auth status` then passes and `coordination` works. Do **not** run
-`gh auth refresh` (interactive — it hangs a non-interactive pod session).
-
 | Command | What it does |
 |---------|-------------|
 | `coordination orient` | List unclaimed/claimed issues, open PRs, PRs needing attention |
@@ -144,21 +134,6 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
-**Before any `git reset --hard` (or `git checkout -- .`), run `git status`
-first.** A reused worktree often carries uncommitted edits (e.g. a prior
-session's in-progress skill tweak); `reset --hard` discards unstaged changes
-permanently — they are *not* recoverable via `git fsck`, since unstaged
-content is never hashed into an object. If `git status` shows anything you did
-not create this session, judge what it is before acting: genuine in-progress
-work (e.g. a half-finished skill tweak) should be stashed or committed (never
-`git stash -u`) before resetting; but a *stray clobber* — uncommitted deletions
-or reverts of committed content you did not make (a known hazard of reused
-worktrees; seen on `.claude/` files) — should be reverted with
-`git restore <files>` to HEAD, not stashed or committed, so the loss does not
-ride along into your PR or get hidden. The same caution applies later if a
-rebase reveals `main` has diverged from the branch you based on: resetting to
-`origin/main` is correct, but check `git status` first.
-
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
@@ -174,24 +149,12 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
-- **An issue citing infrastructure as "landed in PR #N" is not proof it is on
-  `main`.** The PR may still be open with failing CI. Before starting, `grep`
-  `main` for the named symbols (defs/lemmas the issue says you can build on). If
-  they are absent, the issue is blocked on that PR, not ready — skip it.
 
 If stale:
 ```
 coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
-
-**When you skip an issue as blocked on an unmerged PR, spare the next worker:**
-check the sibling unclaimed issues for the same blocker and wire it in so they
-drop out of `list-unclaimed`. Use `coordination add-dep <sibling> <openIssue>`
-when an *open* issue tracks the blocker; if the blocker's tracking issue is
-already closed (e.g. a `replan`'d parent whose PR is still open), leave a short
-comment on the sibling naming the blocking PR instead, since `add-dep` only
-applies the `blocked` label for open dependencies.
 
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:
@@ -285,14 +248,6 @@ After each coherent chunk of changes:
 
 Each commit must compile. One logical change per commit.
 
-**Stage explicit paths, not `git add -A`.** Reused worktrees often start with
-pre-existing uncommitted edits that are not yours (e.g. a stray skill tweak).
-`git add -A`/`git commit -am` sweeps them into your PR; `git status` at Step 2
-shows what is already dirty, and you should `git add <your-files>` only. If an
-unrelated change still lands in your history, restore it
-(`git checkout origin/main -- <path>`) before pushing — a squash keeps the PR
-diff clean, but a visible unrelated hunk can get the PR rejected.
-
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
 
@@ -322,33 +277,8 @@ Commit early and often. Each commit is a checkpoint.
 ## Step 6: Verify
 
 Build and test the project. Compare quality metrics with the starting values.
+Review your diff: `git diff <starting-commit>..HEAD`.
 Use `/second-opinion` if available.
-
-**If a full-build / aggregator check fails in a file you never touched, fetch and
-rebase onto the latest `origin/main` before investigating.** In this fast
-parallel-merge environment a freshly-merged PR can leave `main` transiently broken
-(a renamed lemma whose consumer still cites the old name), and the queue often
-merges the fix minutes later. Confirm the failing file is independent of your diff
-(`git diff --name-only origin/main..HEAD`; check it does not import your new
-module), then `git fetch origin main && git rebase origin/main` and rebuild — the
-breakage is frequently already gone. Don't spend time "fixing" a file outside your
-scope until you've ruled this out.
-
-**Review your diff against `origin/main`, not your starting commit:**
-```bash
-git fetch origin
-git diff --stat origin/main..HEAD
-```
-This must show **only the files you intended to touch**. In a reused worktree the
-branch often starts *behind* `origin/main` (the session-start HEAD is an old
-commit), so `git diff <starting-commit>..HEAD` looks clean while the PR actually
-**reverts every file merged to main since your base** — shown as unexplained
-deletions. Note that an empty `git log origin/main..HEAD` does NOT mean
-up-to-date; it means HEAD is an *ancestor* of main (i.e. behind). If you see
-stray deletions, rebase before pushing:
-```bash
-git rebase origin/main      # then rebuild; force-push --force-with-lease if already pushed
-```
 
 ## Step 7: Publish
 
