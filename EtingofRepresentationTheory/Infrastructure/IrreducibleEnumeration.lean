@@ -239,7 +239,10 @@ private lemma IrrepDecomp.asModule_smul_eq_mulVec [NeZero (Nat.card G : k)]
 /-- The column vector representation's asModule is a simple k[G]-module. -/
 noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) (i : Fin D.n) :
-    IsSimpleModule (MonoidAlgebra k G) (D.columnRep i).asModule := by
+    @IsSimpleModule (MonoidAlgebra k G) _ (D.columnRep i).asModule _
+      (Representation.instModuleMonoidAlgebraAsModule (D.columnRep i)) := by
+  letI : Module (MonoidAlgebra k G) (D.columnRep i).asModule :=
+    Representation.instModuleMonoidAlgebraAsModule (D.columnRep i)
   haveI := D.d_pos i
   haveI : Nontrivial (D.columnRep i).asModule := by
     change Nontrivial (Fin (D.d i) → k); infer_instance
@@ -261,7 +264,7 @@ noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Na
           exact m.smul_mem a hw }
     cases (Matrix.instIsSimpleModule (D.d i)).eq_bot_or_eq_top m' with
     | inl h =>
-      left; ext x
+      left; apply SetLike.ext; intro x
       simp only [Submodule.mem_bot]
       constructor
       · intro hx
@@ -272,7 +275,7 @@ noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Na
         exact (D.columnRep i).asModuleEquiv.injective hmem
       · intro hx; rw [hx]; exact m.zero_mem
     | inr h =>
-      right; ext x
+      right; apply SetLike.ext; intro x
       simp only [Submodule.mem_top, iff_true]
       have hmem : (D.columnRep i).asModuleEquiv x ∈ m'.carrier := by
         rw [h]; exact Submodule.mem_top
@@ -282,12 +285,17 @@ noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Na
 /-- If `ρ.asModule` is simple over k[G], then `FDRep.of ρ` is Simple in FDRep k G. -/
 private noncomputable instance FDRep.simple_of_isSimpleModule_asModule [NeZero (Nat.card G : k)]
     {V : Type u} [AddCommGroup V] [Module k V] [Module.Finite k V]
-    (ρ : Representation k G V) [IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
+    (ρ : Representation k G V)
+    [hρ : @IsSimpleModule (MonoidAlgebra k G) _ ρ.asModule _
+      (Representation.instModuleMonoidAlgebraAsModule ρ)] :
     Simple (FDRep.of ρ) := by
+  letI : Module (MonoidAlgebra k G) ρ.asModule :=
+    Representation.instModuleMonoidAlgebraAsModule ρ
+  haveI := hρ
   let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)
   haveI : Simple (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) := by
-    change Simple (ModuleCat.of (MonoidAlgebra k G) ρ.asModule)
-    exact simple_of_isSimpleModule
+    exact @simple_of_isSimpleModule (MonoidAlgebra k G) ρ.asModule _ _
+      (Representation.instModuleMonoidAlgebraAsModule ρ) hρ
   haveI : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
     Simple.of_full_faithful_preservesMono E.functor _
   exact Simple.of_full_faithful_preservesMono (forget₂ (FDRep k G) (Rep k G)) _

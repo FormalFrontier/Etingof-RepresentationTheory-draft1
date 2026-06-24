@@ -236,15 +236,17 @@ private lemma columnAntisymmetrizer_apply_not_mem' (n : ℕ) (la : Nat.Partition
     (ColumnAntisymmetrizer n la : SymGroupAlgebra n) σ = 0 := by
   classical
   simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply]
-  rw [Finsupp.finset_sum_apply]
-  apply Finset.sum_eq_zero
-  intro q _
+  change (Finsupp.applyAddHom σ) (∑ q : ↥(ColumnSubgroup n la),
+    ((↑(↑(Equiv.Perm.sign (q : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
+      MonoidAlgebra.single (q : Equiv.Perm (Fin n)) (1 : ℂ))) = 0
+  rw [map_sum]
+  exact Fintype.sum_eq_zero _ (fun q => by
   change ((↑(↑(Equiv.Perm.sign (q : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
     (Finsupp.single (q : Equiv.Perm (Fin n)) (1 : ℂ))) σ = 0
   rw [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply]
   split_ifs with h
   · exact absurd (h ▸ q.prop) hσ
-  · ring
+  · ring)
 
 /-- The RowSymmetrizer is zero at permutations outside P_λ. -/
 private lemma rowSymmetrizer_apply_not_mem' (n : ℕ) (la : Nat.Partition n)
@@ -252,13 +254,15 @@ private lemma rowSymmetrizer_apply_not_mem' (n : ℕ) (la : Nat.Partition n)
     (RowSymmetrizer n la : SymGroupAlgebra n) σ = 0 := by
   classical
   simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-  rw [Finsupp.finset_sum_apply]
-  apply Finset.sum_eq_zero
-  intro p _
-  rw [Finsupp.single_apply]
-  split_ifs with h
-  · exact absurd (h ▸ p.prop) hσ
-  · rfl
+  change (Finsupp.applyAddHom σ) (∑ p : ↥(RowSubgroup n la),
+    MonoidAlgebra.single (p : Equiv.Perm (Fin n)) (1 : ℂ)) = 0
+  rw [map_sum]
+  exact Fintype.sum_eq_zero _ (fun p => by
+    simp only [Finsupp.applyAddHom_apply]
+    rw [Finsupp.single_apply]
+    split_ifs with h
+    · exact absurd (h ▸ p.prop) hσ
+    · rfl)
 
 /-! ### Support characterization of the Young symmetrizer
 
@@ -285,27 +289,13 @@ private theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
   obtain ⟨q', hq'_mem, p', hp'_mem, hg_eq⟩ :=
     Finset.mem_mul.mp (MonoidAlgebra.support_mul _ _ hmem)
   have hq'_col : q' ∈ ColumnSubgroup n la := by
-    simp only [ColumnAntisymmetrizer, MonoidAlgebra.of_apply] at hq'_mem
-    rw [Finsupp.mem_support_iff, Finsupp.finset_sum_apply] at hq'_mem
     by_contra h_not
-    apply hq'_mem
-    apply Finset.sum_eq_zero
-    intro ⟨r, hr⟩ _
-    rw [Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply]
-    split_ifs with heq
-    · exact absurd (heq ▸ hr) h_not
-    · ring
+    exact (Finsupp.mem_support_iff.mp hq'_mem)
+      (columnAntisymmetrizer_apply_not_mem' n la q' h_not)
   have hp'_row : p' ∈ RowSubgroup n la := by
-    simp only [RowSymmetrizer, MonoidAlgebra.of_apply] at hp'_mem
-    rw [Finsupp.mem_support_iff, Finsupp.finset_sum_apply] at hp'_mem
     by_contra h_not
-    apply hp'_mem
-    apply Finset.sum_eq_zero
-    intro ⟨r, hr⟩ _
-    rw [Finsupp.single_apply]
-    split_ifs with heq
-    · exact absurd (heq ▸ hr) h_not
-    · rfl
+    exact (Finsupp.mem_support_iff.mp hp'_mem)
+      (rowSymmetrizer_apply_not_mem' n la p' h_not)
   exact ⟨q', hq'_col, p', hp'_row, hg_eq.symm⟩
 
 /-- The coefficient of g in c_λ = b·a when g = q · p (q ∈ Q_λ, p ∈ P_λ) is sign(q). -/
@@ -328,10 +318,16 @@ private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
           (RowSymmetrizer n la : SymGroupAlgebra n) (q'.val⁻¹ * (q * p))) := by
     unfold ColumnAntisymmetrizer
     simp only [MonoidAlgebra.of_apply, Finset.sum_mul]
-    rw [Finsupp.finset_sum_apply (N := ℂ)]
-    congr 1; ext ⟨q', hq'⟩
-    rw [Algebra.smul_mul_assoc, Finsupp.smul_apply, smul_eq_mul,
-        MonoidAlgebra.single_mul_apply, one_mul]
+    change (Finsupp.applyAddHom (q * p)) (∑ q' : ↥(ColumnSubgroup n la),
+      (((↑(↑(Equiv.Perm.sign (q' : Equiv.Perm (Fin n))) : ℤ) : ℂ) •
+        MonoidAlgebra.single (q' : Equiv.Perm (Fin n)) (1 : ℂ)) * RowSymmetrizer n la)) =
+        ∑ q' : ↥(ColumnSubgroup n la),
+          ((↑(↑(Equiv.Perm.sign q'.val) : ℤ) : ℂ) *
+            (RowSymmetrizer n la : SymGroupAlgebra n) (q'.val⁻¹ * (q * p)))
+    rw [map_sum]
+    congr 1; ext q'
+    rw [Algebra.smul_mul_assoc]
+    simp [MonoidAlgebra.single_mul_apply]
   rw [heval]
   -- Only q' = q contributes: q'⁻¹ * (q * p) ∈ P_λ iff q' = q
   rw [Finset.sum_eq_single (⟨q, hq⟩ : ↥(ColumnSubgroup n la))]
@@ -339,10 +335,13 @@ private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     simp only [inv_mul_cancel_left]
     rw [show (RowSymmetrizer n la : SymGroupAlgebra n) p = 1 from by
       simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-      rw [Finsupp.finset_sum_apply]
+      change (Finsupp.applyAddHom p) (∑ p' : ↥(RowSubgroup n la),
+        MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)) = 1
+      rw [map_sum]
       rw [Finset.sum_eq_single (⟨p, hp⟩ : ↥(RowSubgroup n la))]
       · simp
       · intro ⟨p', _⟩ _ hne
+        simp only [Finsupp.applyAddHom_apply]
         rw [Finsupp.single_apply, if_neg (fun h => hne (Subtype.ext h))]
       · intro h; exact absurd (Finset.mem_univ _) h]
     ring
@@ -351,9 +350,12 @@ private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     suffices h : (RowSymmetrizer n la : SymGroupAlgebra n) (q'⁻¹ * (q * p)) = 0 by
       rw [h, mul_zero]
     simp only [RowSymmetrizer, MonoidAlgebra.of_apply]
-    rw [Finsupp.finset_sum_apply]
-    apply Finset.sum_eq_zero
-    intro ⟨p', hp'⟩ _
+    change (Finsupp.applyAddHom (q'⁻¹ * (q * p))) (∑ p' : ↥(RowSubgroup n la),
+      MonoidAlgebra.single (p' : Equiv.Perm (Fin n)) (1 : ℂ)) = 0
+    rw [map_sum]
+    apply Fintype.sum_eq_zero
+    intro ⟨p', hp'⟩
+    simp only [Finsupp.applyAddHom_apply]
     rw [Finsupp.single_apply]
     rw [if_neg]
     intro heq
