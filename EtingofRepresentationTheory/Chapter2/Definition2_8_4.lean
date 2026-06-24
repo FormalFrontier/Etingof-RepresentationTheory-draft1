@@ -35,7 +35,7 @@ valid path algebras. We use the source-to-target reading aligned with Mathlib's 
 namespace Etingof
 
 /-- The type of all oriented paths in a quiver: a triple (source, target, path). -/
-def QuiverPathIndex (Q : Type*) [Quiver Q] : Type _ :=
+abbrev QuiverPathIndex (Q : Type*) [Quiver Q] : Type _ :=
   Σ (a : Q) (b : Q), Quiver.Path a b
 
 namespace QuiverPathIndex
@@ -95,6 +95,26 @@ theorem compSingle_eq {a b d : Q} (p : Quiver.Path a b) (q : Quiver.Path b d) :
 theorem compSingle_eq_zero {a b c d : Q} (p : Quiver.Path a b) (q : Quiver.Path c d)
     (h : b ≠ c) : compSingle (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨c, d, q⟩ = (0 : PathAlgebra k Q) := by
   rw [compSingle, QuiverPathIndex.comp_eq_none _ _ h]; rfl
+
+/-- Multiplying a trivial path `p_i` on the left: the result is the original path if it starts at
+`i`, and zero otherwise. -/
+theorem compSingle_nil_left (i a b : Q) (p : Quiver.Path a b) :
+    compSingle (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) ⟨a, b, p⟩
+      = if i = a then Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) (1 : k) else 0 := by
+  by_cases h : i = a
+  · subst h
+    rw [compSingle_eq, Quiver.Path.nil_comp, if_pos rfl]
+  · rw [compSingle_eq_zero _ _ h, if_neg h]
+
+/-- Multiplying a trivial path `p_i` on the right: the result is the original path if it ends at
+`i`, and zero otherwise. -/
+theorem compSingle_nil_right (i a b : Q) (p : Quiver.Path a b) :
+    compSingle (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨i, i, Quiver.Path.nil⟩
+      = if b = i then Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex Q) (1 : k) else 0 := by
+  by_cases h : b = i
+  · subst h
+    rw [compSingle_eq, Quiver.Path.comp_nil, if_pos rfl]
+  · rw [compSingle_eq_zero _ _ h, if_neg h]
 
 variable (k Q)
 
@@ -206,6 +226,81 @@ whose multiplication is `k`-bilinear path concatenation. -/
 noncomputable instance : NonUnitalRing (PathAlgebra k Q) :=
   { (inferInstance : NonUnitalNonAssocRing (PathAlgebra k Q)) with
     mul_assoc := PathAlgebra.mul_assoc }
+
+/-- For a quiver with finitely many vertices, the sum `∑ᵢ pᵢ` of the trivial paths is the
+candidate unit of the path algebra (Remark 2.8.5). -/
+noncomputable def one [Fintype Q] : PathAlgebra k Q :=
+  ∑ i, Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k)
+
+noncomputable instance [Fintype Q] : One (PathAlgebra k Q) := ⟨one k Q⟩
+
+variable {k Q}
+
+theorem one_def [Fintype Q] :
+    (1 : PathAlgebra k Q) = ∑ i, Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) 1 :=
+  rfl
+
+/-- The sum of trivial paths is a left unit (Remark 2.8.5). -/
+protected theorem one_mul [Fintype Q] (f : PathAlgebra k Q) : (1 : PathAlgebra k Q) * f = f := by
+  induction f using Finsupp.induction_linear with
+  | zero => rw [mul_zero]
+  | add f g hf hg => rw [mul_add, hf, hg]
+  | single x a =>
+    obtain ⟨xa, xb, xp⟩ := x
+    rw [one_def, Finset.sum_mul]
+    have hterm : ∀ i : Q, (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k)
+        * Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a : PathAlgebra k Q)
+        = if i = xa then (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a : PathAlgebra k Q)
+          else 0 := by
+      intro i
+      rw [single_mul_single, compSingle_nil_left]
+      by_cases h : i = xa
+      · simp only [if_pos h, one_mul, Finsupp.smul_single, smul_eq_mul, mul_one]
+      · simp only [if_neg h, smul_zero]
+    rw [Finset.sum_congr rfl fun i _ => hterm i,
+      Finset.sum_ite_eq' Finset.univ xa, if_pos (Finset.mem_univ xa)]
+
+/-- The sum of trivial paths is a right unit (Remark 2.8.5). -/
+protected theorem mul_one [Fintype Q] (f : PathAlgebra k Q) : f * (1 : PathAlgebra k Q) = f := by
+  induction f using Finsupp.induction_linear with
+  | zero => rw [zero_mul]
+  | add f g hf hg => rw [add_mul, hf, hg]
+  | single x a =>
+    obtain ⟨xa, xb, xp⟩ := x
+    rw [one_def, Finset.mul_sum]
+    have hterm : ∀ i : Q, (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a
+        * Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k) : PathAlgebra k Q)
+        = if xb = i then (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a : PathAlgebra k Q)
+          else 0 := by
+      intro i
+      rw [single_mul_single, compSingle_nil_right]
+      by_cases h : xb = i
+      · simp only [if_pos h, mul_one, Finsupp.smul_single, smul_eq_mul]
+      · simp only [if_neg h, smul_zero]
+    rw [Finset.sum_congr rfl fun i _ => hterm i,
+      Finset.sum_ite_eq Finset.univ xb, if_pos (Finset.mem_univ xb)]
+
+variable (k Q)
+
+/-- The path algebra of a quiver with finitely many vertices is a unital ring: the multiplication
+is associative path concatenation, with unit `∑ᵢ pᵢ` (Remark 2.8.5). -/
+noncomputable instance [Fintype Q] : Ring (PathAlgebra k Q) :=
+  { (inferInstance : NonUnitalRing (PathAlgebra k Q)),
+    (inferInstance : One (PathAlgebra k Q)) with
+    one_mul := PathAlgebra.one_mul
+    mul_one := PathAlgebra.mul_one }
+
+/-- The path algebra of a quiver with finitely many vertices is a `k`-algebra (Remark 2.8.5).
+The algebra structure is provided by `Algebra.ofModule`, using that path-concatenation is
+`k`-bilinear (`smul_mul`, `mul_smul'`). -/
+noncomputable instance [Fintype Q] : Algebra k (PathAlgebra k Q) :=
+  Algebra.ofModule smul_mul mul_smul'
+
+/-- **Remark 2.8.5.** For a quiver with finitely many vertices, the sum of the trivial paths
+`∑ᵢ pᵢ` is the unit of the path algebra. -/
+theorem sum_trivialPaths_eq_one [Fintype Q] :
+    (∑ i, ofPath (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) : PathAlgebra k Q) = 1 := by
+  rw [one_def]; rfl
 
 end PathAlgebra
 
