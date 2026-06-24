@@ -298,6 +298,15 @@ otherwise spin on the PR. Another session will pick up any follow-up work
 (e.g. a "fix PR #N" issue if CI fails). Polling burns context and tokens
 for no benefit.
 
+**Editing a `create-pr`-generated body:** `coordination create-pr`
+auto-writes the body with a `Closes #<N>` line (that line is what
+auto-closes the issue on merge) and enables auto-merge. If you want a
+richer body, **append** to it with `gh pr edit --body-file` rather than
+overwriting — a plain overwrite drops the `Closes #<N>` line and the
+issue stays open after merge. Prepend `Closes #<N>` to your new body, or
+fetch the existing body first and add to it. After editing, re-confirm
+`gh pr view <N> --json autoMergeRequest` still shows auto-merge enabled.
+
 **Partial completion** (did NOT complete all deliverables):
 - Progress entry lists: completed deliverables, NOT-completed deliverables and why,
   whether unfinished work needs a new issue
