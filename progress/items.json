@@ -2215,7 +2215,8 @@
     "end_page": "72",
     "start_line": 15,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "proof_complete",
+    "sorry_free": true
   },
   {
     "id": "Chapter4/Theorem4.6.3",

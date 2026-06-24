@@ -225,11 +225,11 @@ private lemma innerToDual_surjective (c : InnerProductSpace.Core ℂ V) [FiniteD
 
 /-- The conjugate-linear equivalence `V ≃ V*` induced by a nondegenerate form in finite
 dimensions. -/
-private noncomputable def innerEquivDual (c : InnerProductSpace.Core ℂ V) [FiniteDimensional ℂ V] :
+noncomputable def innerEquivDual (c : InnerProductSpace.Core ℂ V) [FiniteDimensional ℂ V] :
     V ≃ₛₗ[starRingEnd ℂ] Module.Dual ℂ V :=
   LinearEquiv.ofBijective (innerToDual c) ⟨innerToDual_injective c, innerToDual_surjective c⟩
 
-@[simp] private lemma innerEquivDual_apply (c : InnerProductSpace.Core ℂ V) [FiniteDimensional ℂ V]
+@[simp] lemma innerEquivDual_apply (c : InnerProductSpace.Core ℂ V) [FiniteDimensional ℂ V]
     (v w : V) : innerEquivDual c v w = c.inner v w := rfl
 
 end Theorem4_6_2
