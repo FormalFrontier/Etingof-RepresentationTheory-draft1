@@ -20,6 +20,7 @@ import EtingofRepresentationTheory.Chapter3.Proposition3_5_8
 import EtingofRepresentationTheory.Chapter3.Introduction3_6
 import EtingofRepresentationTheory.Chapter3.Theorem3_6_2
 import EtingofRepresentationTheory.Chapter3.Theorem3_7_1
+import EtingofRepresentationTheory.Chapter3.Discussion_after_Theorem3_7_1
 import EtingofRepresentationTheory.Chapter3.Theorem3_8_1
 import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 import EtingofRepresentationTheory.Chapter3.Theorem3_10_2
