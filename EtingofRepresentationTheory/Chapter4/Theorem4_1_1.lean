@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 
 /-!
 # Theorem 4.1.1: Maschke's Theorem
@@ -18,6 +19,8 @@ Mathlib has `IsSemisimpleRing` and `MonoidAlgebra.instIsSemisimpleRing` for part
 The decomposition and dimension formula require additional work.
 -/
 
+universe u
+
 /-- Maschke's theorem, part (i): The group algebra k[G] is semisimple when the
 characteristic of k does not divide |G|. (Etingof Theorem 4.1.1) -/
 theorem Etingof.Theorem4_1_1_semisimple
@@ -31,13 +34,18 @@ theorem Etingof.Theorem4_1_1_semisimple
     exact h.ne_zero
   infer_instance
 
-/-- Maschke's theorem, part (ii): The sum-of-squares formula |G| = Σᵢ (dim Vᵢ)².
-This is now precisely stated as `IrrepDecomp.sum_sq_eq_card` in
-`EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration`. -/
+/-- Maschke's theorem, part (ii): the sum-of-squares formula `|G| = Σᵢ (dim Vᵢ)²`.
+
+Over an algebraically closed field `k` with `char k ∤ |G|`, the Wedderburn-Artin
+decomposition `k[G] ≃ₐ[k] Π i, Matrix (Fin (d i)) (Fin (d i)) k` exhibits the
+irreducible representations as the column-vector modules of the matrix blocks,
+with `d i` their dimensions. Comparing `k`-dimensions on both sides gives
+`Σᵢ (d i)² = |G|`. The decomposition data is packaged by `IrrepDecomp` and the
+dimension identity is `IrrepDecomp.sum_sq_eq_card`. -/
 theorem Etingof.Theorem4_1_1_sum_of_squares
-    (k : Type*) (G : Type*) [Field k] [Group G] [Fintype G]
-    [DecidableEq G] :
-    -- See `IrrepDecomp.sum_sq_eq_card` for the precise statement:
-    -- Given a Wedderburn-Artin decomposition D, ∑ i, (D.d i)² = |G|
-    True := by
-  trivial
+    (k : Type u) (G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    [NeZero (Nat.card G : k)] :
+    ∃ (n : ℕ) (d : Fin n → ℕ),
+      (∀ i, NeZero (d i)) ∧ ∑ i, (d i) ^ 2 = Fintype.card G :=
+  let D : IrrepDecomp k G := IrrepDecomp.mk'
+  ⟨D.n, D.d, D.d_pos, D.sum_sq_eq_card⟩
