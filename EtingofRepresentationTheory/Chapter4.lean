@@ -26,6 +26,7 @@ import EtingofRepresentationTheory.Chapter4.Remark4_5_3
 -- Section 4.6: Unitary Representations
 import EtingofRepresentationTheory.Chapter4.Definition4_6_1
 import EtingofRepresentationTheory.Chapter4.Theorem4_6_2
+import EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_6_2
 import EtingofRepresentationTheory.Chapter4.Theorem4_6_3
 
 -- Section 4.7: Orthogonality of Matrix Elements
