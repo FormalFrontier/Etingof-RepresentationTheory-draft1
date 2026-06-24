@@ -4,6 +4,7 @@ import Mathlib.LinearAlgebra.Basis.VectorSpace
 import Mathlib.Algebra.Algebra.Subalgebra.Lattice
 import Mathlib.Algebra.Polynomial.Derivative
 import Mathlib.Algebra.Polynomial.AlgebraMap
+import Mathlib.LinearAlgebra.Finsupp.LinearCombination
 
 /-!
 # Proposition 2.7.1: Basis for the Weyl Algebra
@@ -253,8 +254,11 @@ private lemma polyRep_rel :
     polyRepGen, Matrix.cons_val_zero, Matrix.cons_val_one]
   exact deriv_mul_polyMulX k
 
-/-- Algebra hom from the Weyl algebra to `End_k(k[X])`. -/
-private noncomputable def polyRep :
+/-- The **polynomial representation** of the Weyl algebra on `k[X]`, sending the generator
+`x` to multiplication by `X` and the generator `y` to the derivative `d/dX`. This is the
+representation `k[t]` of the Weyl algebra discussed in Section 2.7; it is faithful in
+characteristic zero (`WeylAlgebra.polyRep_injective`) but not in characteristic `p`. -/
+noncomputable def polyRep :
     WeylAlgebra k →ₐ[k] Module.End k (Polynomial k) :=
   RingQuot.liftAlgHom k ⟨polyRepFree k, polyRep_rel k⟩
 
@@ -299,16 +303,19 @@ private lemma polyRep_monomial_diag (i j : ℕ) :
 
 -- === Linear independence proof ===
 
-/-- The standard monomials of the Weyl algebra are linearly independent
-over any characteristic-zero integral domain. -/
-private lemma linearIndep [CharZero k] [NoZeroDivisors k] :
-    LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) := by
+/-- The images of the basis monomials `xⁱyʲ` under the polynomial representation `polyRep`
+(`x ↦ X·`, `y ↦ d/dX` on `k[X]`) are linearly independent over any characteristic-zero
+integral domain. This is the crux of faithfulness of `k[X]` in characteristic zero: an element
+in the kernel of `polyRep`, expanded in the (spanning) monomial basis, gives a linear relation
+among these images, forcing all coefficients to vanish. -/
+private lemma polyImage_linearIndep [CharZero k] [NoZeroDivisors k] :
+    LinearIndependent k (fun p : ℕ × ℕ => polyRep k (WeylAlgebra.monomial k p.1 p.2)) := by
   rw [linearIndependent_iff']
   intro s g hg
-  -- Applying polyRep and extracting coefficient m from evaluation at X^n gives 0
-  -- polyRep annihilates the linear combination
+  -- The relation among the images means polyRep annihilates the corresponding combination
+  -- of monomials; extracting coefficient m from evaluation at X^n then gives 0.
   have hpoly : polyRep k (∑ r ∈ s, g r • WeylAlgebra.monomial k r.1 r.2) = 0 := by
-    rw [hg, map_zero]
+    rw [map_sum]; simp_rw [map_smul]; exact hg
   -- Extract coefficient m from evaluation at X^n
   have hcoeff : ∀ (n m : ℕ),
       ∑ r ∈ s, g r *
@@ -366,6 +373,49 @@ private lemma linearIndep [CharZero k] [NoZeroDivisors k] :
     rw [polyRep_monomial_diag, Polynomial.coeff_C_mul_X_pow, if_pos rfl] at honly
     exact (mul_eq_zero.mp honly).resolve_right
       (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero j))
+
+/-- The standard monomials of the Weyl algebra are linearly independent
+over any characteristic-zero integral domain. -/
+private lemma linearIndep [CharZero k] [NoZeroDivisors k] :
+    LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) :=
+  (polyImage_linearIndep k).of_comp (polyRep k).toLinearMap
+
+/-- **Faithfulness of `k[X]` in characteristic zero (Discussion after Proposition 2.7.1).**
+The polynomial representation `polyRep` of the Weyl algebra on `k[X]` (`x ↦ X·`, `y ↦ d/dX`)
+is *faithful* — i.e. the algebra homomorphism `polyRep : WeylAlgebra k →ₐ[k] End k k[X]` is
+injective — whenever `k` is a characteristic-zero integral domain.
+
+This is the "check it!" claim of the book: `k[t]` is a faithful representation of the Weyl
+algebra in characteristic zero. It *fails* in characteristic `p`, where `(d/dt)^p Q = 0` for
+every polynomial `Q`; the char-free repair is the module `E = tᵃ k[a][t, t⁻¹]` of
+`FaithfulWeylModule.lean` (`WeylAlgebra.repE_injective`).
+
+The proof mirrors the linear-independence argument: the monomials `xⁱyʲ` span the Weyl algebra
+(`WeylAlgebra.monomials_span`, char-free) and their images under `polyRep` are linearly
+independent (`polyImage_linearIndep`), so `polyRep` is injective. -/
+theorem WeylAlgebra.polyRep_injective [CharZero k] [NoZeroDivisors k] :
+    Function.Injective (polyRep k) := by
+  classical
+  set mono : ℕ × ℕ → WeylAlgebra k := fun p => WeylAlgebra.monomial k p.1 p.2 with hmono
+  -- The monomials span (char-free), so linear combinations of them are surjective onto `A`.
+  have hsurj : Function.Surjective (Finsupp.linearCombination k mono) := by
+    rw [← LinearMap.range_eq_top, Finsupp.range_linearCombination]
+    exact top_le_iff.mp (WeylAlgebra.monomials_span k)
+  -- Their images under `polyRep` are linearly independent.
+  have hli : LinearIndependent k (fun p : ℕ × ℕ => polyRep k (mono p)) :=
+    polyImage_linearIndep k
+  rw [injective_iff_map_eq_zero (polyRep k)]
+  intro w hw
+  obtain ⟨f, rfl⟩ := hsurj w
+  have h0 : Finsupp.linearCombination k (fun p => polyRep k (mono p)) f = 0 := by
+    have hap : polyRep k (Finsupp.linearCombination k mono f)
+        = Finsupp.linearCombination k (fun p => polyRep k (mono p)) f := by
+      rw [Finsupp.linearCombination_apply, Finsupp.linearCombination_apply, map_finsuppSum]
+      simp only [map_smul]
+    rw [← hap]; exact hw
+  have hf : f = 0 :=
+    hli.finsuppLinearCombination_injective (h0.trans (map_zero _).symm)
+  rw [hf, map_zero]
 
 /-- **Proposition 2.7.1 (i)**: The standard monomials `{xⁱyʲ : i, j ≥ 0}` form a basis
 for the Weyl algebra `A` over `k`.
