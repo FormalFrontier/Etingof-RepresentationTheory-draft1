@@ -1,4 +1,5 @@
 import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.RingTheory.SimpleModule.Isotypic
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 
 /-!
@@ -85,5 +86,55 @@ noncomputable def evalTensorEquivOfIsSimple :
 @[simp]
 theorem evalTensorEquivOfIsSimple_tmul (g : V →ₗ[A] V) (x : V) :
     evalTensorEquivOfIsSimple k A V (g ⊗ₜ[k] x) = g x := rfl
+
+end Etingof
+
+namespace Etingof
+
+open scoped DirectSum
+
+variable (k : Type*) (A : Type*) {ι : Type*} (X : ι → Type*) (V : Type*)
+  [Field k] [IsAlgClosed k] [Ring A] [Algebra k A]
+  [Fintype ι] [DecidableEq ι]
+  [∀ i, AddCommGroup (X i)] [∀ i, Module k (X i)] [∀ i, Module A (X i)]
+  [∀ i, IsScalarTower k A (X i)]
+  [∀ i, IsSimpleModule A (X i)] [∀ i, FiniteDimensional k (X i)]
+  [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+  [FiniteDimensional k V] [IsSemisimpleModule A V]
+
+/-- The full natural map `f` of Remark 3.1.3, assembled from the per-irreducible evaluation
+maps `Etingof.evalTensor`. With `{X i}` a finite family of irreducibles, this is the `k`-linear
+map `⨁_i Hom_A(X i, V) ⊗_k X i → V`, `g ⊗ x ↦ g(x)`. -/
+noncomputable def evalDirectSum :
+    (⨁ i, (X i →ₗ[A] V) ⊗[k] X i) →ₗ[k] V :=
+  DirectSum.toModule k ι V (fun i => evalTensor k A (X i) V)
+
+@[simp]
+theorem evalDirectSum_lof_tmul (i : ι) (g : X i →ₗ[A] V) (x : X i) :
+    evalDirectSum k A X V (DirectSum.lof k ι (fun i => (X i →ₗ[A] V) ⊗[k] X i) i (g ⊗ₜ[k] x))
+      = g x := by
+  simp [evalDirectSum]
+
+/-- Schur vanishing: a homomorphism between non-isomorphic simple modules is zero. -/
+theorem linearMap_eq_zero_of_isEmpty_linearEquiv {Y Z : Type*}
+    [AddCommGroup Y] [Module A Y] [AddCommGroup Z] [Module A Z]
+    [IsSimpleModule A Y] [IsSimpleModule A Z]
+    (h : IsEmpty (Y ≃ₗ[A] Z)) (f : Y →ₗ[A] Z) : f = 0 := by
+  by_contra hf
+  exact h.elim (LinearEquiv.ofBijective f (f.bijective_of_ne_zero hf))
+
+/-- The Remark 3.1.3 isomorphism: for a semisimple finite dimensional representation `V`, the
+natural map `⨁_i Hom_A(X i, V) ⊗_k X i → V`, `g ⊗ x ↦ g(x)`, is a `k`-linear isomorphism,
+where `{X i}` is a complete set of pairwise non-isomorphic irreducibles.
+
+Following Etingof's reduction: `V` decomposes as a direct sum of its isotypic components, the
+map restricts on each summand to an isomorphism onto the corresponding component, and Schur's
+lemma kills the cross terms. -/
+noncomputable def evalDirectSumEquiv
+    (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j))
+    (hcomplete : ∀ (W : Submodule A V), IsSimpleModule A W → ∃ i, Nonempty (W ≃ₗ[A] X i)) :
+    (⨁ i, (X i →ₗ[A] V) ⊗[k] X i) ≃ₗ[k] V :=
+  LinearEquiv.ofBijective (evalDirectSum k A X V) (by
+    sorry)
 
 end Etingof
