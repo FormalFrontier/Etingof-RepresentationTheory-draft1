@@ -391,6 +391,29 @@ multiplicity-one decomposition as a single `Finset.sum`
 (`∑ ν : BoundedPartition N d, schurPoly N ν.parts`) — each `ν` once = mult one,
 no ad-hoc partition bookkeeping.
 
+#### `dim V_λ` for a *concrete* partition λ (Ch5 Example5.12.3, #5125)
+
+`Module.finrank ℂ (SpechtModule n la) = n! / ∏ h(i,j)` via
+`finrank_spechtModule_eq_card_syt_general` (`dim = |SYT|`,
+`CharValueHookFormula.lean`) then `card_standardYoungTableau_eq` (`|SYT| = n!/∏h`,
+`FRTHelpers.lean`). The only work left is the hook-length product for the shape —
+but **`decide` cannot evaluate it directly**: `YoungDiagram.rowLen`/`colLen` use
+`Nat.find` and `Nat.Partition.sortedParts` uses `Multiset.sort` (mergeSort),
+both well-founded recursions that the kernel will not reduce. Two-step fix
+(worked template in `Chapter5/Example5_12_3.lean`, reuse it verbatim):
+1. Rewrite hooks into a `Nat.find`-free product: `colLen c = #{rows longer than
+   c}` (`toYoungDiagram_colLen_eq`), giving `hookLengthProduct_eq_compute`.
+2. Pin `sortedParts = [explicit list]` with `sortedParts_eq_of` (proof: `μ.parts
+   = ↑L` by `rfl` + `L.Pairwise (·≥·)` by `decide`, closed by
+   `List.mergeSort_eq_self`), then `hookLengthProduct_eq_of` leaves a product
+   over `cellsOfRowLens L` that **is** kernel-reducible, so `by decide` finishes.
+The single-row/single-column hook product is `∏_{k<n}(n−k) = n!`
+(`prod_range_sub`, via `Finset.prod_range_reflect` +
+`Finset.prod_range_add_one_eq_factorial`), giving the general trivial- and
+sign-representation dimensions (`dim = 1`). The current Mathlib `Multiset.sort`
+API is `Pairwise`-based: there is no `List.Sorted`/`eq_of_perm_of_sorted`; use
+`Multiset.sort_cons`/`sort_singleton`/`coe_sort` + `List.mergeSort_eq_self`.
+
 ### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
 
 The per-(field, orientation) reps `<X>Rep_kQ` (`FieldGeneric{Star,D5/6/7Tilde,ETilde6/7,T125,Tube}.lean`) are built tactically: `noncomputable def … := by letI := Q; exact { obj := fun v => Fin (<X>Dim m v) → F, … }`. The structure projection `(<X>Rep_kQ …).obj ⟨v, _⟩` does **not** reduce to `Fin (k·(m+1)) → F` under the transparency that `Membership`-instance synthesis uses. Consequences when stating lemmas over the rep family `W : ∀ v, Submodule F ((<X>Rep_kQ …).obj v)`:
