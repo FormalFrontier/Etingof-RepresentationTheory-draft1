@@ -153,6 +153,21 @@ theorem evalDirectSum_surjective
     (fun _ _ => (LinearMap.range _).add_mem)
   exact simpleSubmodule_le_range_evalDirectSum k A X V hcomplete m.1 m.2 hy
 
+/-- `evalDirectSum` is injective.
+
+Proof strategy (Schur, using `Etingof.Corollary_2_3_10` that `End_A(X i) = k·id`): if
+`∑ᵢ evalTensor (ξ i) = 0`, each summand `evalTensor (ξ i)` lies in the `X i`-isotypic component
+of `V`. By pairwise non-isomorphism these components are independent (`sSupIndep`), so each
+`evalTensor (ξ i) = 0`. The per-`X` map `evalTensor : Hom_A(X i, V) ⊗_k X i → V` is injective:
+choosing a `k`-basis `gⱼ` of `Hom_A(X i, V)`, a nonzero kernel element would give a simple
+submodule `S ≅ X i` of `(X i)ⁿ` inside `ker (yⱼ ↦ ∑ gⱼ(yⱼ))`; its component maps `X i → X i`
+are scalars `cⱼ` (Corollary 2.3.10), and `∑ cⱼ gⱼ = 0` forces all `cⱼ = 0`, contradicting
+simplicity. Hence `ξ i = 0`. -/
+theorem evalDirectSum_injective
+    (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j)) :
+    Function.Injective (evalDirectSum k A X V) := by
+  sorry
+
 /-- The Remark 3.1.3 isomorphism: for a semisimple finite dimensional representation `V`, the
 natural map `⨁_i Hom_A(X i, V) ⊗_k X i → V`, `g ⊗ x ↦ g(x)`, is a `k`-linear isomorphism,
 where `{X i}` is a complete set of pairwise non-isomorphic irreducibles.
@@ -164,7 +179,7 @@ noncomputable def evalDirectSumEquiv
     (hpair : ∀ i j, i ≠ j → IsEmpty (X i ≃ₗ[A] X j))
     (hcomplete : ∀ (W : Submodule A V), IsSimpleModule A W → ∃ i, Nonempty (W ≃ₗ[A] X i)) :
     (⨁ i, (X i →ₗ[A] V) ⊗[k] X i) ≃ₗ[k] V :=
-  LinearEquiv.ofBijective (evalDirectSum k A X V) (by
-    sorry)
+  LinearEquiv.ofBijective (evalDirectSum k A X V)
+    ⟨evalDirectSum_injective k A X V hpair, evalDirectSum_surjective k A X V hcomplete⟩
 
 end Etingof
