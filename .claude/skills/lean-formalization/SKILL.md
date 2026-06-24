@@ -783,6 +783,40 @@ abbrev Etingof.Algebra (k : Type*) [CommRing k] (A : Type*) := Algebra k A
 
 This pattern covered 19/25 Chapter 2 definitions. Check `.refs.md` — if coverage is "exact match", alias first, prove later. Don't build custom definitions when Mathlib already has the concept.
 
+### Conjugate / restricted-scalars module synonyms (Ch4 #5182)
+
+To build a "twisted scalar action" vector space — e.g. the **conjugate**
+representation `V̄` (same `V`, same `G`-action, scalar `z • v = z̄ • v`) — use a
+**non-reducible** type synonym so instances don't leak from the original:
+
+```lean
+def Conjugate (V : Type u) : Type u := V                       -- NOT abbrev/@[reducible]
+instance : AddCommGroup (Conjugate V) := inferInstanceAs (AddCommGroup V)
+noncomputable instance : Module ℂ (Conjugate V) := Module.compHom V (starRingEnd ℂ)
+```
+
+`Module.compHom M f` (`f : S →+* R`, needs `[Module R M]`) gives `Module S M` with
+`s • m = f s • m`. Two gotchas that cost build cycles:
+
+1. **The `smul_def` reduction lemma is `rfl` — but only with `show V from v`, NOT
+   `(v : V)`.** `lemma smul_def (z) (v : Conjugate V) : z • v = (starRingEnd ℂ) z •
+   (show V from v) := rfl` works. Writing `(v : V)` instead makes the RHS `•`
+   re-resolve to the *conjugate* instance (`Conjugate V` is defeq `V`, so the
+   ascription doesn't pin the underlying-`V` action), which loops `simp [smul_def]`
+   to "maximum recursion depth" and leaves `smul_add _ _ _` unable to synthesize
+   `DistribSMul ℂ (Conjugate V)`. `show V from v` (`have this := v; this`) forces the
+   underlying-`V` action. (Do NOT hand-roll the `Module` axioms via `SMul` +
+   manual fields — `compHom` already discharges them; you only need `smul_def`.)
+2. **A `ℂ`-linear map lifts unchanged to the conjugate space.** `ρ g : V →ₗ[ℂ] V`
+   is automatically `ℂ`-linear `Conjugate V →ₗ[ℂ] Conjugate V`; prove its
+   `map_smul'` by `simp only [RingHom.id_apply, Conjugate.smul_def, map_smul]`.
+   Likewise a conjugate-**linear** equiv `V ≃ₛₗ[starRingEnd ℂ] W` becomes a genuine
+   `ℂ`-linear equiv `Conjugate V ≃ₗ[ℂ] W`: build the `LinearEquiv` reusing the
+   semilinear one's `toFun/invFun/left_inv/right_inv`, and discharge `map_smul'` via
+   `rw [Conjugate.smul_def, map_smulₛₗ]; simp` (the `starRingEnd (starRingEnd r) = r`
+   collapse). This is how `V̄ ≅ V*` reuses Theorem 4.6.2's nondegenerate
+   `innerEquivDual` (de-privatize it rather than duplicating the surjectivity proof).
+
 ### Type Class Instance Examples
 
 For "example" items that demonstrate a type satisfies a definition, use `inferInstance`:
