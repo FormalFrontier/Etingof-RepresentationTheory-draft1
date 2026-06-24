@@ -8,6 +8,9 @@ import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
 import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 import EtingofRepresentationTheory.Chapter4.Corollary4_2_4
 
+-- Section 4.4: Duals and Tensor Products
+import EtingofRepresentationTheory.Chapter4.Discussion_4_4
+
 -- Section 4.3: Examples
 import EtingofRepresentationTheory.Chapter4.Example4_3_S3
 import EtingofRepresentationTheory.Chapter4.Example4_3_Q8
@@ -16,6 +19,7 @@ import EtingofRepresentationTheory.Chapter4.Example4_3_S4
 
 -- Section 4.5: Orthogonality of Characters
 import EtingofRepresentationTheory.Chapter4.Theorem4_5_1
+import EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_5_1
 import EtingofRepresentationTheory.Chapter4.Theorem4_5_4
 
 -- Section 4.6: Unitary Representations
