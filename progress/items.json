@@ -6092,7 +6092,9 @@
     "end_page": "220",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "proof_partial",
+    "sorry_free": false,
+    "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib)."
   },
   {
     "id": "Chapter9/Definition9.7.1",
