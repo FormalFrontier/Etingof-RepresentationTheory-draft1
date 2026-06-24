@@ -8,6 +8,9 @@ import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
 import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 import EtingofRepresentationTheory.Chapter4.Corollary4_2_4
 
+-- Section 4.4: Duals and Tensor Products
+import EtingofRepresentationTheory.Chapter4.Discussion_4_4
+
 -- Section 4.3: Examples
 import EtingofRepresentationTheory.Chapter4.Example4_3_S3
 import EtingofRepresentationTheory.Chapter4.Example4_3_Q8
