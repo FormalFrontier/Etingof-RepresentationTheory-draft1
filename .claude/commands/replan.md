@@ -64,6 +64,13 @@ the following:
 - **Still valid, body stale**: update the issue body with current
   state, then remove the `replan` label.
 
+When creating a replacement or residual issue, the invocation is
+`coordination plan [--label L] [--critical-path] "title"` with the body
+piped on **stdin**. The command has **no `--help`**: any positional
+argument is taken literally as the issue title, so `coordination plan
+--help` silently creates a junk issue titled `--help`. Never probe it
+that way — pass the real title directly.
+
 Process **every** candidate from `list-replan` before exiting.
 
 ## Step 4: Exit
