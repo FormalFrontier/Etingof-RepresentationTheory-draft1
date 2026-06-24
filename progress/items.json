@@ -1326,7 +1326,9 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "sorry_free": true,
+    "notes": "Remark3_1_3.lean: constructs the canonical evaluation map evalTensor : (X →ₗ[A] V) ⊗[k] X → V, g⊗x ↦ g(x) (genuine data, no sorry), and proves the irreducible base case evalTensorEquivOfIsSimple (Hom_A(V,V) ⊗ V ≃ₗ[k] V via Schur, Corollary 2.3.10). Full ⊕-over-all-irreducibles assembly remains as follow-up."
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -1493,7 +1495,9 @@
     "end_page": "49",
     "start_line": 15,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "sorry_free": true,
+    "notes": "Remark3_3_4.lean: freeCover : (ι → A) →ₗ[A] X, (aᵢ) ↦ Σ aᵢ•bᵢ from a k-basis; freeCover_surjective; quotientEquivOfFreeCover ((ι → A)/ker ≃ₗ[A] X), i.e. X is a quotient of the free module Aⁿ."
   },
   {
     "id": "Chapter3/Introduction_to_3.4",
@@ -1633,7 +1637,9 @@
     "end_page": "52",
     "start_line": 3,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "sorry_free": true,
+    "notes": "Introduction3_6.lean: character_mul_comm (\u03c7_V(xy)=\u03c7_V(yx) via LinearMap.trace_mul_comm); commutatorSubmodule [A,A]; commutatorSubmodule_le_ker_character ([A,A] \u2286 ker \u03c7_V); characterQuotient (\u03c7_V factors through A/[A,A])."
   },
   {
     "id": "Chapter3/Exercise3.6.1",
@@ -1686,7 +1692,9 @@
     "end_page": "54",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "sorry_free": true,
+    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim."
   },
   {
     "id": "Chapter3/Introduction_to_3.8",
