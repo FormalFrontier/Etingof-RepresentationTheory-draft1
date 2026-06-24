@@ -48,6 +48,18 @@ noncomputable def comp : QuiverPathIndex Q → QuiverPathIndex Q → Option (Qui
   | ⟨a, b, p⟩, ⟨c, d, q⟩ =>
     if h : b = c then some ⟨a, d, p.comp (h ▸ q)⟩ else none
 
+/-- When the target of the first path equals the source of the second, the composite is their
+concatenation. -/
+theorem comp_eq_some {a b d : Q} (p : Quiver.Path a b) (q : Quiver.Path b d) :
+    comp (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨b, d, q⟩ = some ⟨a, d, p.comp q⟩ := by
+  simp [comp]
+
+/-- When the target of the first path does not match the source of the second, the composite is
+undefined (`none`). -/
+theorem comp_eq_none {a b c d : Q} (p : Quiver.Path a b) (q : Quiver.Path c d) (h : b ≠ c) :
+    comp (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨c, d, q⟩ = none := by
+  simp only [comp, dif_neg h]
+
 end QuiverPathIndex
 
 /-- The path algebra of a quiver `Q` over a field `k`, in the sense of Etingof Definition 2.8.4.
@@ -72,6 +84,17 @@ noncomputable def ofPath (x : QuiverPathIndex Q) : PathAlgebra k Q :=
 coefficient `1` when composable, and `0` otherwise. -/
 noncomputable def compSingle (x y : QuiverPathIndex Q) : PathAlgebra k Q :=
   (x.comp y).elim 0 (fun z => Finsupp.single z (1 : k))
+
+/-- On composable basis paths, `compSingle` is the single concatenated path. -/
+theorem compSingle_eq {a b d : Q} (p : Quiver.Path a b) (q : Quiver.Path b d) :
+    compSingle (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨b, d, q⟩
+      = Finsupp.single (⟨a, d, p.comp q⟩ : QuiverPathIndex Q) (1 : k) := by
+  rw [compSingle, QuiverPathIndex.comp_eq_some]; rfl
+
+/-- On non-composable basis paths, `compSingle` is zero. -/
+theorem compSingle_eq_zero {a b c d : Q} (p : Quiver.Path a b) (q : Quiver.Path c d)
+    (h : b ≠ c) : compSingle (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨c, d, q⟩ = (0 : PathAlgebra k Q) := by
+  rw [compSingle, QuiverPathIndex.comp_eq_none _ _ h]; rfl
 
 variable (k Q)
 
@@ -111,7 +134,7 @@ theorem mul_def (f g : PathAlgebra k Q) : f * g = mulLinear k Q f g := rfl
 /-- On basis paths the product is the concatenation `compSingle`, scaled by the product of the
 coefficients. -/
 theorem single_mul_single (x y : QuiverPathIndex Q) (a b : k) :
-    (Finsupp.single x a : PathAlgebra k Q) * (Finsupp.single y b : PathAlgebra k Q)
+    (Finsupp.single x a * Finsupp.single y b : PathAlgebra k Q)
       = (a * b) • compSingle x y := by
   rw [mul_def, mulLinear]
   simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq,
@@ -128,6 +151,61 @@ second argument). -/
 theorem mul_smul' (r : k) (a b : PathAlgebra k Q) : a * (r • b) = r • (a * b) := by
   change mulLinear k Q a (r • b) = r • mulLinear k Q a b
   rw [map_smul]
+
+/-- Associativity of the multiplication on three basis paths. This is where the associativity of
+path concatenation (`Quiver.Path.comp_assoc`) enters; the partial composition cases all collapse
+to `0`. -/
+theorem single_mul_single_assoc (x y z : QuiverPathIndex Q) (a b c : k) :
+    (Finsupp.single x a * Finsupp.single y b * Finsupp.single z c : PathAlgebra k Q)
+      = Finsupp.single x a * (Finsupp.single y b * Finsupp.single z c) := by
+  obtain ⟨xa, xb, xp⟩ := x
+  obtain ⟨yc, yd, yq⟩ := y
+  obtain ⟨ze, zf, zr⟩ := z
+  by_cases hbc : xb = yc
+  · subst hbc
+    by_cases hde : yd = ze
+    · subst hde
+      -- fully composable: reduces to associativity of path concatenation
+      rw [single_mul_single, compSingle_eq, smul_mul, single_mul_single, compSingle_eq,
+        single_mul_single, compSingle_eq, mul_smul', single_mul_single, compSingle_eq,
+        Quiver.Path.comp_assoc, smul_smul, smul_smul]
+      congr 1
+      ring
+    · -- composable on the left, not on the right
+      rw [single_mul_single, compSingle_eq, smul_mul, single_mul_single,
+        compSingle_eq_zero _ _ hde, smul_zero, smul_zero, single_mul_single,
+        compSingle_eq_zero _ _ hde, smul_zero, mul_zero]
+  · -- not composable on the left
+    by_cases hde : yd = ze
+    · subst hde
+      rw [single_mul_single, compSingle_eq_zero _ _ hbc, smul_zero, zero_mul,
+        single_mul_single, compSingle_eq, mul_smul', single_mul_single,
+        compSingle_eq_zero _ _ hbc, smul_zero, smul_zero]
+    · rw [single_mul_single, compSingle_eq_zero _ _ hbc, smul_zero, zero_mul,
+        single_mul_single, compSingle_eq_zero _ _ hde, smul_zero, mul_zero]
+
+/-- Associativity of path-algebra multiplication, reduced to the basis case via bilinearity. -/
+protected theorem mul_assoc (f g h : PathAlgebra k Q) : f * g * h = f * (g * h) := by
+  induction f using Finsupp.induction_linear with
+  | zero => simp only [zero_mul]
+  | add f1 f2 hf1 hf2 => rw [add_mul, add_mul, add_mul, hf1, hf2]
+  | single x a =>
+    induction g using Finsupp.induction_linear with
+    | zero => simp only [mul_zero, zero_mul]
+    | add g1 g2 hg1 hg2 => rw [mul_add, add_mul, add_mul, mul_add, hg1, hg2]
+    | single y b =>
+      induction h using Finsupp.induction_linear with
+      | zero => simp only [mul_zero]
+      | add h1 h2 hh1 hh2 => rw [mul_add, mul_add, mul_add, hh1, hh2]
+      | single z c => exact single_mul_single_assoc x y z a b c
+
+variable (k Q)
+
+/-- The path algebra is an (in general non-unital) associative `k`-algebra: an associative ring
+whose multiplication is `k`-bilinear path concatenation. -/
+noncomputable instance : NonUnitalRing (PathAlgebra k Q) :=
+  { (inferInstance : NonUnitalNonAssocRing (PathAlgebra k Q)) with
+    mul_assoc := PathAlgebra.mul_assoc }
 
 end PathAlgebra
 
