@@ -34,6 +34,7 @@ import EtingofRepresentationTheory.Chapter5.Lemma5_7_2
 
 -- Section 5.8: Induced Representations
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
+import EtingofRepresentationTheory.Chapter5.Remark5_8_2
 
 -- Section 5.9: Frobenius Formula
 import EtingofRepresentationTheory.Chapter5.Theorem5_9_1
