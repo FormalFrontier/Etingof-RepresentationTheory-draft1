@@ -369,6 +369,39 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### `FDRep R G` has *independent* universes for `R` and `G` (#5180)
+
+`abbrev FDRep (R : Type u) (G : Type v)` — the ring and the group live in
+*separate* universes. So `FDRep ℂ G` does **not** pin `G` to `Type 0`; with
+a file-level `variable {k G : Type u}`, `G` stays `Type u`. Don't assume
+`FDRep ℂ G` forces `G : Type 0`.
+
+Consequence when reusing a lemma that is *monomorphic* at `Type 0` (e.g.
+`Etingof.Corollary4_2_4 (G : Type) …`, characters-determine-the-rep) inside a
+`Type u` context: **do not** generalize the dependency to `Type u`. For the
+Maschke-based machinery (`Injective`/`Projective` instances from
+`FinGroupCharZero`), universe-polymorphic instance search blows past the
+heartbeat limit (a `whnf`/`Injective` timeout, not a real loop — bumping
+`synthInstance.maxHeartbeats` does not save it). Instead, give the *consuming*
+theorem an explicit `{G : Type}` binder (it shadows the polymorphic section
+`variable`, and only that theorem narrows to `Type 0`); leave the rest
+universe-polymorphic. Cost 3 build cycles in #5180 before reverting the
+generalization.
+
+#### Complex-character / `Matrix.PosDef` proofs need `open scoped ComplexOrder`
+
+`PartialOrder ℂ` and `StarOrderedRing ℂ` are scoped instances. Any proof using
+`Matrix.PosDef`/`PosSemidef` over `ℂ` (e.g. the averaged-Hermitian-form
+unitarization for `χ_V(g⁻¹) = conj χ_V(g)` in §4.4) fails with
+"failed to synthesize `PartialOrder ℂ`" until you `open scoped ComplexOrder`.
+The unitarization route itself (no eigenvalue/charpoly machinery needed): in a
+basis set `M h := toMatrix b b (V.ρ h)`; `H = ∑_h (M h)ᴴ * M h` is `PosDef`
+(`Matrix.posDef_sum` + `Matrix.IsUnit.posDef_star_left_conjugate_iff` +
+`Matrix.PosDef.one`) hence a unit, and `G`-invariant `(M g)ᴴ H (M g) = H`
+(reindex `h ↦ h*g` via `Equiv.sum_comp (Equiv.mulRight g)`); then
+`conj χ(g) = trace (M g)ᴴ = trace (M g)⁻¹ = χ(g⁻¹)` via
+`Matrix.trace_conjTranspose` and `trace_mul_cycle`.
+
 #### `IsSimpleModule k[G] ρ.asModule` for a *concrete* representation (Ch5 Example5.1.3 Q₈, #5124)
 
 To prove a hand-built representation `ρ : Representation k G V` is irreducible
