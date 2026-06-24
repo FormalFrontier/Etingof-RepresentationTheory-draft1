@@ -11,9 +11,11 @@ import EtingofRepresentationTheory.Chapter2.Definition2_2_5
 import EtingofRepresentationTheory.Chapter2.Definition2_2_6
 import EtingofRepresentationTheory.Chapter2.Proposition2_2_3
 import EtingofRepresentationTheory.Chapter2.Example2_2_4
+import EtingofRepresentationTheory.Chapter2.Discussion_commutativity_examples
 
 -- Section 2.3: Representations
 import EtingofRepresentationTheory.Chapter2.Definition2_3_1
+import EtingofRepresentationTheory.Chapter2.Discussion_2_5_well_defined
 import EtingofRepresentationTheory.Chapter2.Definition2_3_4
 import EtingofRepresentationTheory.Chapter2.Definition2_3_5
 import EtingofRepresentationTheory.Chapter2.Definition2_3_6
