@@ -1,4 +1,6 @@
 import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.LinearAlgebra.Dimension.Free
+import Mathlib.LinearAlgebra.LinearIndependent.Lemmas
 import Mathlib.RingTheory.SimpleModule.Isotypic
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 
@@ -86,6 +88,127 @@ noncomputable def evalTensorEquivOfIsSimple :
 @[simp]
 theorem evalTensorEquivOfIsSimple_tmul (g : V →ₗ[A] V) (x : V) :
     evalTensorEquivOfIsSimple k A V (g ⊗ₜ[k] x) = g x := rfl
+
+end Etingof
+
+namespace Etingof
+
+section PerX
+
+variable (k : Type*) (A : Type*) (X : Type*) (V : Type*)
+  [Field k] [IsAlgClosed k] [Ring A] [Algebra k A]
+  [AddCommGroup X] [Module k X] [Module A X] [IsScalarTower k A X]
+  [IsSimpleModule A X] [FiniteDimensional k X]
+  [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+  [FiniteDimensional k V]
+
+/-- The per-irreducible evaluation map `evalTensor : Hom_A(X, V) ⊗_k X → V`, `g ⊗ x ↦ g(x)`, is
+injective when `X` is a finite dimensional irreducible over an algebraically closed field `k` and
+`V` is finite dimensional.
+
+Choosing a `k`-basis `bⱼ` of `Hom_A(X, V)`, the assembled `A`-linear map
+`G : (Fin n →₀ X) → V`, `y ↦ ∑ⱼ bⱼ(yⱼ)`, factors the evaluation map through the basis-induced
+surjection `F : (Fin n →₀ X) → Hom_A(X, V) ⊗_k X`, `single j x ↦ bⱼ ⊗ x`. So it suffices that
+`G` is injective. A nonzero kernel element of `G` contains a simple submodule `S ≅ X`; the
+component maps `S → X` are scalars `cⱼ` (Corollary 2.3.10), and `∑ cⱼ bⱼ = 0` forces all `cⱼ = 0`
+by linear independence of the basis, which collapses `S` to `0`, contradicting simplicity. -/
+theorem evalTensor_injective : Function.Injective (evalTensor k A X V) := by
+  haveI : Module.Finite k (X →ₗ[A] V) :=
+    Module.Finite.of_injective (evalBilinear k A X V) (fun g g' h =>
+      LinearMap.ext fun x => LinearMap.congr_fun h x)
+  set n := Module.finrank k (X →ₗ[A] V) with hn
+  set b : Module.Basis (Fin n) k (X →ₗ[A] V) := Module.finBasis k (X →ₗ[A] V) with hb
+  -- the assembled A-linear map G : (Fin n →₀ X) → V, y ↦ ∑ⱼ bⱼ(yⱼ)
+  set G : (Fin n →₀ X) →ₗ[A] V := ∑ j, (b j).comp (Finsupp.lapply j) with hG_def
+  -- the basis-induced k-linear map F : (Fin n →₀ X) → Hom ⊗ X, single j x ↦ bⱼ ⊗ x
+  set F : (Fin n →₀ X) →ₗ[k] (X →ₗ[A] V) ⊗[k] X :=
+    ∑ j, (TensorProduct.mk k (X →ₗ[A] V) X (b j)).comp (Finsupp.lapply j) with hF_def
+  have hFsingle : ∀ (j : Fin n) (x : X), F (Finsupp.single j x) = b j ⊗ₜ[k] x := by
+    intro j x
+    simp only [hF_def, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
+      Finsupp.lapply_apply, TensorProduct.mk_apply]
+    rw [Finset.sum_eq_single j
+      (fun l _ hl => by rw [Finsupp.single_eq_of_ne hl, TensorProduct.tmul_zero])
+      (fun h => absurd (Finset.mem_univ j) h), Finsupp.single_eq_same]
+  have hGF : ∀ y : Fin n →₀ X, evalTensor k A X V (F y) = G y := by
+    intro y
+    simp only [hF_def, hG_def, LinearMap.coe_sum, Finset.sum_apply, map_sum,
+      LinearMap.comp_apply, Finsupp.lapply_apply, TensorProduct.mk_apply, evalTensor_tmul]
+  have hFsurj : Function.Surjective F := by
+    rw [← LinearMap.range_eq_top, eq_top_iff]
+    rintro t -
+    induction t using TensorProduct.induction_on with
+    | zero => exact zero_mem _
+    | tmul g x =>
+        rw [← b.sum_repr g, TensorProduct.sum_tmul]
+        refine Submodule.sum_mem _ fun j _ => ?_
+        rw [← TensorProduct.smul_tmul']
+        exact Submodule.smul_mem _ _ ⟨Finsupp.single j x, hFsingle j x⟩
+    | add p q hp hq => exact add_mem hp hq
+  -- the heart: G is injective
+  have hG : Function.Injective G := by
+    rw [← LinearMap.ker_eq_bot]
+    haveI : IsSemisimpleModule A (Fin n →₀ X) := inferInstance
+    haveI : IsSemisimpleModule A (LinearMap.ker G) := inferInstance
+    rcases IsSemisimpleModule.eq_bot_or_exists_simple_le (LinearMap.ker G) with
+      hbot | ⟨S, hSle, hSsimple⟩
+    · exact hbot
+    · exfalso
+      haveI := hSsimple
+      haveI : Nontrivial S := hSsimple.nontrivial
+      have hincl_inj : Function.Injective S.subtype := S.subtype_injective
+      -- some projection S → X is nonzero
+      have hex : ∃ j, ((Finsupp.lapply j).comp S.subtype : S →ₗ[A] X) ≠ 0 := by
+        by_contra hall
+        push_neg at hall
+        obtain ⟨s, hs⟩ := exists_ne (0 : S)
+        apply hs
+        apply hincl_inj
+        rw [map_zero]
+        ext j
+        have h2 : ((Finsupp.lapply j).comp S.subtype) s = 0 := by rw [hall j]; rfl
+        simpa [Finsupp.lapply_apply] using h2
+      obtain ⟨j₀, hj₀⟩ := hex
+      have hbij : Function.Bijective ((Finsupp.lapply j₀).comp S.subtype) :=
+        ((Finsupp.lapply j₀).comp S.subtype).bijective_of_ne_zero hj₀
+      set e : S ≃ₗ[A] X := LinearEquiv.ofBijective _ hbij with he
+      -- component maps S → X are scalars
+      have hc : ∀ l : Fin n, ∃ c : k, ∀ x : X,
+          (S.subtype (e.symm x)) l = c • x := by
+        intro l
+        obtain ⟨c, hcl⟩ := Etingof.Corollary_2_3_10 (k := k)
+          (((Finsupp.lapply l).comp S.subtype).comp e.symm.toLinearMap)
+        refine ⟨c, fun x => ?_⟩
+        have := hcl x
+        simpa [Finsupp.lapply_apply] using this
+      choose c hc using hc
+      -- ∑ cₗ bₗ = 0
+      have hsum0 : (∑ l, c l • b l) = 0 := by
+        ext x
+        rw [LinearMap.sum_apply, LinearMap.zero_apply]
+        have hGz : G (S.subtype (e.symm x)) = 0 :=
+          LinearMap.mem_ker.mp (hSle (Submodule.coe_mem (e.symm x)))
+        have hGexp : G (S.subtype (e.symm x)) = ∑ l, b l ((S.subtype (e.symm x)) l) := by
+          simp only [hG_def, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
+            Finsupp.lapply_apply]
+        rw [hGz] at hGexp
+        rw [Finset.sum_congr rfl (fun l _ => ?_), ← hGexp]
+        rw [LinearMap.smul_apply, ← (b l).map_smul_of_tower (c l) x, hc l x]
+      have hc0 : ∀ l, c l = 0 :=
+        Fintype.linearIndependent_iff.mp b.linearIndependent c hsum0
+      haveI : Nontrivial X := IsSimpleModule.nontrivial (R := A) (M := X)
+      obtain ⟨x₀, hx₀⟩ := exists_ne (0 : X)
+      apply hx₀
+      have h1 : (S.subtype (e.symm x₀)) j₀ = x₀ := e.apply_symm_apply x₀
+      rw [hc j₀ x₀, hc0 j₀, zero_smul] at h1
+      exact h1.symm
+  -- conclude: evalTensor injective via surjectivity of F and injectivity of G
+  refine (injective_iff_map_eq_zero (evalTensor k A X V)).mpr fun t ht => ?_
+  obtain ⟨y, rfl⟩ := hFsurj t
+  rw [hGF y] at ht
+  rw [hG (ht.trans (map_zero G).symm), map_zero]
+
+end PerX
 
 end Etingof
 
