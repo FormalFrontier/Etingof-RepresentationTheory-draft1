@@ -2204,8 +2204,8 @@
     "end_page": "71",
     "start_line": 5,
     "end_line": 14,
-    "status": "proof_partial",
-    "sorry_free": false
+    "status": "proof_complete",
+    "sorry_free": true
   },
   {
     "id": "Chapter4/Discussion_after_Theorem4.6.2",
