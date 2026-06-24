@@ -166,7 +166,13 @@ theorem Etingof.Lemma5_4_5
         · positivity
         · positivity
         · intro k _; rw [hnorm_one k]
-      rw [← Finset.smul_sum] at this
-      simp only [one_div, norm_smul, norm_inv, Real.norm_natCast] at this
-      rwa [inv_mul_lt_iff₀ (Nat.cast_pos.mpr hn), mul_one] at this
+      have hsum_mul :
+          (∑ k : Fin n, ((1 : ℝ) / n) • ε k) =
+            (n : ℂ)⁻¹ * ∑ k : Fin n, ε k := by
+        simp [one_div, Finset.mul_sum]
+      rw [hsum_mul] at this
+      simp only [norm_mul, norm_inv, Complex.norm_natCast] at this
+      have hlt_sum : ‖∑ k : Fin n, ε k‖ < (n : ℝ) * 1 :=
+        (inv_mul_lt_iff₀ (Nat.cast_pos.mpr hn)).1 (by simpa using this)
+      simpa [mul_one] using hlt_sum
     exact roots_of_unity_avg_norm_bound n hn ε hε hint hsum hlt

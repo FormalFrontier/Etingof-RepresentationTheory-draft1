@@ -789,13 +789,34 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
       (∑ p ∈ σ.support, (σ p * p.1) • (φ (toECorner he.1 (p.2 • m₂)) : eCorner he.1 N).val)
     rw [← Finset.sum_add_distrib]
     congr 1; ext p
-    rw [smul_add, toECorner_add, map_add, AddSubgroup.coe_add, smul_add]
+    have hφ : ((ConcreteCategory.hom φ)
+        (toECorner he.1 (p.2 • m₁) + toECorner he.1 (p.2 • m₂)) :
+        eCorner he.1 N).val =
+        ((ConcreteCategory.hom φ) (toECorner he.1 (p.2 • m₁)) :
+          eCorner he.1 N).val +
+        ((ConcreteCategory.hom φ) (toECorner he.1 (p.2 • m₂)) :
+          eCorner he.1 N).val := by
+      rw [← AddSubgroup.coe_add]
+      exact congrArg (fun x : eCorner he.1 N => (x : N))
+        ((ConcreteCategory.hom φ).map_add (toECorner he.1 (p.2 • m₁))
+          (toECorner he.1 (p.2 • m₂)))
+    rw [smul_add, toECorner_add, hφ, smul_add]
   -- Key identity: ∑ σ p * (p.1 * e * p.2) = 1
   have hσ1 : ∑ p ∈ σ.support, σ p * (p.1 * e * p.2) = 1 := by
     have := hσ; simp only [Finsupp.sum, smul_eq_mul] at this; exact this
   -- Coercion helper: (r •_{eAe} x : eCorner).val = (r : A) • (x : N)
   have coe_smul : ∀ (r : CornerRing (k := k) e) (x : eCorner he.1 N),
       ((r • x : eCorner he.1 N) : N) = (r : A) • (x : N) := fun _ _ => rfl
+  have coe_map_smul : ∀ (r : CornerRing (k := k) e) (x : eCorner he.1 M),
+      (φ (r • x) : eCorner he.1 N).val =
+        (r : A) • (φ x : eCorner he.1 N).val := by
+    intro r x
+    have hmap : (φ (r • x) : eCorner he.1 N).val =
+        (r • (φ x : eCorner he.1 N) : eCorner he.1 N).val :=
+      congrArg (fun y : eCorner he.1 N => (y : N))
+        ((ConcreteCategory.hom φ).map_smul r x)
+    rw [hmap]
+    exact coe_smul r ((ConcreteCategory.hom φ) x)
   -- Helper for the generator case: liftFun on e • n
   have lift_eCorner : ∀ (n : M),
       liftFun (e • n) = (φ (toECorner he.1 n) : eCorner he.1 N).val := by
@@ -811,7 +832,13 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
       intro p; apply Subtype.ext
       show e • (p.2 • (e • n)) = (e * p.2 * e) • (e • n)
       rw [mul_smul, mul_smul, eCorner_smul_of_idem he.1 n]
-    simp_rw [h1, map_smul, coe_smul, ← mul_smul, ← Finset.sum_smul]
+    rw [show ∑ p ∈ σ.support, (σ p * p.1) •
+        (φ (toECorner he.1 (p.2 • (e • n))) : eCorner he.1 N).val =
+        ∑ p ∈ σ.support, (σ p * p.1 * (e * p.2 * e)) •
+          (φ (toECorner he.1 n) : eCorner he.1 N).val by
+      apply Finset.sum_congr rfl
+      intro p hp
+      rw [h1 p, coe_map_smul, ← mul_smul], ← Finset.sum_smul]
     have hsum_e : ∑ p ∈ σ.support, σ p * p.1 * (e * p.2 * e) = e := by
       have : ∀ p ∈ σ.support, σ p * p.1 * (e * p.2 * e) =
           σ p * (p.1 * e * p.2) * e := fun p _ => by simp only [mul_assoc]
@@ -847,7 +874,13 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
         congr 1
         simp only [mul_assoc]
         rw [he.1.eq]
-      simp only [h_toE2, map_smul, coe_smul, ← mul_smul, ← Finset.sum_smul]
+      rw [show ∑ p ∈ σ.support, (σ p * p.1) •
+          (φ (toECorner he.1 ((p.2 * (r * e)) • n)) : eCorner he.1 N).val =
+          ∑ p ∈ σ.support, (σ p * p.1 * (e * (p.2 * r) * e)) •
+            (φ (toECorner he.1 n) : eCorner he.1 N).val by
+        apply Finset.sum_congr rfl
+        intro p hp
+        rw [h_toE2 p, coe_map_smul, ← mul_smul], ← Finset.sum_smul]
       -- Sum: ∑ σ_p * p.1 * (e * (p.2 * r) * e) = r * e
       have hsum_eq : ∑ p ∈ σ.support, σ p * p.1 * (e * (p.2 * r) * e) = r * e := by
         have : ∀ p ∈ σ.support, σ p * p.1 * (e * (p.2 * r) * e) =
@@ -888,10 +921,13 @@ private lemma cornerFunctor_full {e : A} (he : IsFullIdempotent e) :
     intro p; apply Subtype.ext
     show e • (p.2 • m) = (e * p.2 * e) • m
     rw [mul_smul, mul_smul, hm]
-  simp only [htoE, map_smul]
-  simp only [show ∀ (r : CornerRing (k := k) e) (x : eCorner he.1 N),
-      ((r • x : eCorner he.1 N) : N) = (r : A) • (x : N) from fun _ _ => rfl]
-  simp only [← mul_smul, ← Finset.sum_smul]
+  rw [show ∑ p ∈ σ.support, (σ p * p.1) •
+      (φ (toECorner he.1 (p.2 • m)) : eCorner he.1 N).val =
+      ∑ p ∈ σ.support, (σ p * p.1 * (e * p.2 * e)) •
+        (φ ⟨m, hm⟩ : eCorner he.1 N).val by
+    apply Finset.sum_congr rfl
+    intro p hp
+    rw [htoE p, coe_map_smul, ← mul_smul], ← Finset.sum_smul]
   -- Sum collapses: sum(sigma(p) * p.1 * e * p.2 * e) = 1 * e = e
   conv_lhs => arg 1; arg 2; ext p; rw [show σ p * p.1 * (e * p.2 * e) =
     σ p * (p.1 * e * p.2) * e by simp only [mul_assoc]]

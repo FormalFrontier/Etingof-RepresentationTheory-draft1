@@ -200,7 +200,9 @@ lemma eval_e_mem_cornerSubmodule (φ : Module.End A ↥(Submodule.span A ({e} : 
   -- e * φ(e) = φ(e) by A-linearity and e² = e
   have he_mem : (⟨e, Submodule.subset_span rfl⟩ : ↥(Submodule.span A ({e} : Set A))) =
       e • ⟨e, Submodule.subset_span rfl⟩ := by
-    ext; simp [smul_eq_mul, he.eq]
+    ext
+    change e = e * e
+    exact he.eq.symm
   have key : φ ⟨e, Submodule.subset_span rfl⟩ =
       e • φ ⟨e, Submodule.subset_span rfl⟩ := by
     conv_lhs => rw [he_mem]
@@ -223,8 +225,14 @@ private lemma rightMul_mem_leftIdeal {c : A} (hc : c ∈ cornerSubmodule (k := k
 noncomputable def rightMulEnd (c : CornerRing (k := k) e) :
     Module.End A ↥(Submodule.span A ({e} : Set A)) where
   toFun x := ⟨x.val * c.val, rightMul_mem_leftIdeal he c.prop x.val⟩
-  map_add' x y := by ext; simp [add_mul]
-  map_smul' a x := by ext; simp [smul_eq_mul, mul_assoc]
+  map_add' x y := by
+    ext
+    change ((x : A) + (y : A)) * (c : A) = (x : A) * (c : A) + (y : A) * (c : A)
+    rw [add_mul]
+  map_smul' a x := by
+    ext
+    change (a * (x : A)) * (c : A) = a * ((x : A) * (c : A))
+    rw [mul_assoc]
 
 /-- The ring anti-isomorphism `End_A(Ae) ≃+* (eAe)ᵒᵖ`.
 
@@ -277,9 +285,13 @@ noncomputable def endLeftIdealRingEquivCornerRingOp :
       have hlhs : (φ (ψ ⟨e, Submodule.subset_span rfl⟩)).val =
           b * (φ ⟨e, Submodule.subset_span rfl⟩).val := by
         have h1 : ψ ⟨e, Submodule.subset_span rfl⟩ = b • ⟨e, Submodule.subset_span rfl⟩ := by
-          ext; simp [smul_eq_mul, hb]
+          ext
+          change (ψ ⟨e, Submodule.subset_span rfl⟩).val = b * e
+          exact hb.symm
         rw [h1, map_smul]
-        simp [smul_eq_mul]
+        change b * (φ ⟨e, Submodule.subset_span rfl⟩).val =
+          b * (φ ⟨e, Submodule.subset_span rfl⟩).val
+        rfl
       -- RHS: (b * e) * φ(e).val = b * (e * φ(e).val) = b * φ(e).val
       have hrhs : (ψ ⟨e, Submodule.subset_span rfl⟩).val *
           (φ ⟨e, Submodule.subset_span rfl⟩).val =
