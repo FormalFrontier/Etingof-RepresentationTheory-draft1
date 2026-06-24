@@ -1,0 +1,461 @@
+{
+ "Chapter7": [
+  {
+   "item": "Chapter7/Discussion_after_Definition7.4.1",
+   "signals": "author_check+iff_equiv+thus_therefore",
+   "sentence": "In particular, the above categories $\\mathcal{C}_1$ and $\\mathcal{C}_2$ are equivalent (check it!)."
+  },
+  {
+   "item": "Chapter7/Introduction_7.4",
+   "signals": "iff_equiv",
+   "sentence": "Equivalence of categories When two algebraic or geometric objects are isomorphic, it is usually not a good idea to say that they are equal (i.e., literally the same)."
+  },
+  {
+   "item": "Chapter7/Introduction_7.4",
+   "signals": "iff_equiv",
+   "sentence": "This is accomplished by the definition of an equivalence of categories."
+  },
+  {
+   "item": "Chapter7/Discussion_after_Definition7.4.1",
+   "signals": "iff_equiv",
+   "sentence": "Also, the category **FSet** of finite sets is equivalent to the category whose objects are nonnegative integers, and morphisms are given by $$ \\operatorname{Hom}(m, n) = \\operatorname{Maps}(\\{1, \\ldots, m\\}, \\{1, \\ldots, n\\}). $$ Are these categories isomorphic?"
+  },
+  {
+   "item": "Chapter7/Discussion_after_Definition7.9.1",
+   "signals": "iff_equiv",
+   "sentence": "It is easy to show that if $F$ is an additive functor, then $F(X \\oplus Y)$ is canonically isomorphic to $F(X) \\oplus F(Y)$."
+  },
+  {
+   "item": "Chapter7/Introduction_7.5",
+   "signals": "property",
+   "sentence": "We say that $F$ is **representable** if there exists an object $X \\in \\mathcal{C}$ such that $F$ is isomorphic to the functor $\\operatorname{Hom}(X, ?)$."
+  },
+  {
+   "item": "Chapter7/Discussion_after_Definition7.6.1",
+   "signals": "dimformula",
+   "sentence": "This follows easily from the Yoneda lemma, since if **Table 1.** Dictionary between category theory and linear algebra. | Category theory | Linear algebra | |---|---| | Category $\\mathcal{C}$ | Vector space $V$ with a nondegenerate inner product | | The set of morphisms $\\operatorname{Hom}(X, Y)$ | "
+  },
+  {
+   "item": "Chapter7/Remark7.7.4",
+   "signals": "property",
+   "sentence": "This is why people prefer to use the standard definition, which is free from this drawback, even though it is more abstract."
+  },
+  {
+   "item": "Chapter7/Introduction_7.4",
+   "signals": "easy_assert",
+   "sentence": "It is easy to check that for any category $\\mathcal{D}$, there is a natural bijection between the collections of isomorphism classes of functors $\\mathcal{C}_1 \\to \\mathcal{D}$ and $\\mathcal{C}_2 \\to \\mathcal{D}$ (both are identified with the collection of isomorphism classes of objects of $\\mathcal"
+  },
+  {
+   "item": "Chapter7/Discussion_after_Definition7.8.1",
+   "signals": "easy_assert",
+   "sentence": "Clearly, such morphisms can be composed, which makes the class of all complexes over $\\mathcal{C}$ into a category, denoted $\\operatorname{Compl}(\\mathcal{C})$."
+  },
+  {
+   "item": "Chapter7/Discussion_after_Remark7.7.4",
+   "signals": "thus_therefore",
+   "sentence": "In particular, the categories in Example 7.7.2 are $k$-linear."
+  }
+ ],
+ "Chapter2": [
+  {
+   "item": "Chapter2/Discussion_faithful_example",
+   "signals": "author_check+property",
+   "sentence": "For example, $k[t]$ is a faithful representation of the Weyl algebra if $k$ has characteristic zero (check it!), but not in characteristic $p$, where $(d/dt)^p Q = 0$ for any polynomial $Q$."
+  },
+  {
+   "item": "Chapter2/Discussion_commutativity_examples",
+   "signals": "iff_equiv+property",
+   "sentence": "In case 5, $A$ is commutative if and only if $G$ is commutative."
+  },
+  {
+   "item": "Chapter2/Remark2.9.4",
+   "signals": "author_check",
+   "sentence": "Then $D := g'(0) : A \\to A$ is a derivation (check it!)."
+  },
+  {
+   "item": "Chapter2/Discussion_2.5_well_defined",
+   "signals": "welldef",
+   "sentence": "This is well defined because if $\\pi(a) = \\pi(a')$, then $$ \\pi(a'b) = \\pi(ab + (a' - a)b) = \\pi(ab) + \\pi((a' - a)b) = \\pi(ab) $$ because $(a' - a)b \\in Ib \\subseteq I = \\ker \\pi$, as $I$ is a right ideal; similarly, if $\\pi(b) = \\pi(b')$, then $$ \\pi(ab') = \\pi(ab + a(b' - b)) = \\pi(ab) + \\pi(a(b'"
+  },
+  {
+   "item": "Chapter2/Discussion_quiver_rep_bijection",
+   "signals": "iff_equiv",
+   "sentence": "Two paths $a, b$ can be concatenated to form the path $ab$ if and only if the final target of $a$ equals the first source of $b$. $P_Q$: let $\\mathbf{V} = \\bigoplus_i V_i$, let $p_i : \\mathbf{V} \\to V_i \\to \\mathbf{V}$ be the projection onto $V_i$, and for any path $p = h_1 \\ldots h_m$ let $a_p = x_"
+  },
+  {
+   "item": "Chapter2/Discussion_tensor_product_maps",
+   "signals": "welldef",
+   "sentence": "Namely, if $A : V \\to V'$ and $B : W \\to W'$ are linear maps, then one can define the linear map $A \\otimes B : V \\otimes W \\to V' \\otimes W'$ given by the formula $(A \\otimes B)(v \\otimes w) = Av \\otimes Bw$ (check that this is well defined!)."
+  },
+  {
+   "item": "Chapter2/Discussion_commutativity_examples",
+   "signals": "property",
+   "sentence": "For instance, in the above examples, $A$ is commutative in cases 1 and 2 but not commutative in cases 3 (if $\\dim V > 1$) and 4 (if $n > 1$)."
+  },
+  {
+   "item": "Chapter2/Discussion_proof_Corollary2.3.12",
+   "signals": "property",
+   "sentence": "Indeed, $$ \\rho(a)\\rho(b)v = \\rho(ab)v = \\rho(ba)v = \\rho(b)\\rho(a)v $$ (the second equality is true since the algebra is commutative)."
+  },
+  {
+   "item": "Chapter2/Discussion_proof_Corollary2.3.12",
+   "signals": "property",
+   "sentence": "But $V$ is irreducible, so $0$ and $V$ are the only subspaces of $V$."
+  },
+  {
+   "item": "Chapter2/Discussion_proof_Corollary2.3.12",
+   "signals": "dimformula",
+   "sentence": "This means that $\\dim V = 1$ (since $V \\neq 0$). $\\square$"
+  },
+  {
+   "item": "Chapter2/Discussion_faithful_example",
+   "signals": "property",
+   "sentence": "However, the representation $E = t^a k[a][t, t^{-1}]$, as we've seen, is faithful in any characteristic."
+  },
+  {
+   "item": "Chapter2/Discussion_pure_tensors",
+   "signals": "property",
+   "sentence": "Note that this tensor product is associative, in the sense that $(V_1 \\otimes V_2) \\otimes V_3$ can be naturally identified with $V_1 \\otimes (V_2 \\otimes V_3)$."
+  },
+  {
+   "item": "Chapter2/Remark2.8.5",
+   "signals": "easy_assert",
+   "sentence": "**Remark 2.8.5.** It is easy to see that if $Q$ is a finite set then $\\sum_{i \\in I} p_i = 1$, so $P_Q$ is an algebra with unit."
+  },
+  {
+   "item": "Chapter2/Discussion_quiver_rep_bijection",
+   "signals": "easy_assert",
+   "sentence": "It is clear that the above assignments $\\mathbf{V} \\mapsto (p_i \\mathbf{V})$ and $(V_i) \\mapsto \\bigoplus_i V_i$ are inverses of each other."
+  },
+  {
+   "item": "Chapter2/Remark2.9.14",
+   "signals": "easy_assert",
+   "sentence": "Clearly, such a derivation is determined by its action at the unit element $e \\in G$, so $\\operatorname{Lie}(G)$ can be identified as a vector space with the tangent space $T_e G$ to $G$ at $e$."
+  },
+  {
+   "item": "Chapter2/Discussion_2.9_Lie_groups",
+   "signals": "easy_assert",
+   "sentence": "One can show that this group has a natural structure of a connected Lie group, whose Lie algebra is $\\mathfrak{g}$ (even though it is not always a closed subgroup)."
+  },
+  {
+   "item": "Chapter2/Discussion_proof_Corollary2.3.10",
+   "signals": "thus_therefore",
+   "sentence": "Thus by Proposition 2.3.9 this operator is zero, hence the result. $\\square$"
+  },
+  {
+   "item": "Chapter2/Discussion_proof_Corollary2.3.12",
+   "signals": "thus_therefore",
+   "sentence": "Hence every subspace of $V$ is a subrepresentation."
+  },
+  {
+   "item": "Chapter2/Discussion_quiver_rep_bijection",
+   "signals": "thus_therefore",
+   "sentence": "Thus, we have a bijection between isomorphism classes of representations of the algebra $P_Q$ and of the quiver $Q$."
+  }
+ ],
+ "Chapter4": [
+  {
+   "item": "Chapter4/Discussion_after_Theorem4.5.1",
+   "signals": "iff_equiv+property",
+   "sentence": "Indeed, it implies that $V$ is irreducible if and only if $(\\chi_V, \\chi_V) = 1$."
+  },
+  {
+   "item": "Chapter4/Remark4.5.3",
+   "signals": "author_check",
+   "sentence": "Then one can define the characters by the formula $$\\chi_i(g) = \\sqrt{\\frac{|G|}{\\tilde{\\chi}_i(1)}} \\tilde{\\chi}_i(g)$$ (check it!)."
+  },
+  {
+   "item": "Chapter4/Discussion_4.4",
+   "signals": "iff_equiv",
+   "sentence": "Thus for complex representations $$\\chi_{V^*}(g) = \\chi_V(g^{-1}) = \\sum \\lambda_i^{-1} = \\sum \\overline{\\lambda_i} = \\overline{\\sum \\lambda_i} = \\overline{\\chi_V(g)}.$$ In particular, $V \\cong V^*$ as representations (not just as vector spaces) if and only if $\\chi_V(g) \\in \\mathbb{R}$ for all $g \\"
+  },
+  {
+   "item": "Chapter4/Discussion_after_Theorem4.5.1",
+   "signals": "property",
+   "sentence": "Theorem 4.5.1 gives a powerful method of checking if a given complex representation $V$ of a finite group $G$ is irreducible."
+  },
+  {
+   "item": "Chapter4/Remark4.5.3",
+   "signals": "property",
+   "sentence": "Namely, equip the space $F(G, \\mathbb{C})$ of complex-valued functions on $G$ with the convolution product $$(f * g)(z) = \\sum_{x, y \\in G : xy = z} f(x)g(y).$$ This product turns $F(G, \\mathbb{C})$ into an associative algebra, with unit $\\delta_e$ (the characteristic function of the unit $e \\in G$)"
+  },
+  {
+   "item": "Chapter4/Remark4.5.3",
+   "signals": "property",
+   "sentence": "Note that Frobenius defined representations at approximately the same time, but for some time it was not clear that there is a simple relation between irreducible representations and characters (namely, that irreducible characters are simply traces of group elements in irreducible representations)."
+  },
+  {
+   "item": "Chapter4/Discussion_after_Theorem4.6.2",
+   "signals": "property",
+   "sentence": "Theorem 4.6.2 implies that if $V$ is a finite dimensional representation of a finite group $G$, then the **complex conjugate representation** $\\overline{V}$ (i.e., the same space $V$ with the same addition and the same action of $G$, but complex conjugate action of scalars) is isomorphic to the dual"
+  },
+  {
+   "item": "Chapter4/Introduction_4.5",
+   "signals": "this_defines",
+   "sentence": "Orthogonality of characters We define a positive definite Hermitian inner product on $\\mathrm{F}_c(G, \\mathbb{C})$ (the space of central functions) by $$(f_1, f_2) = \\frac{1}{|G|} \\sum_{g \\in G} f_1(g)\\overline{f_2(g)}.$$ The following theorem says that characters of irreducible representations of $"
+  },
+  {
+   "item": "Chapter4/Remark4.5.5",
+   "signals": "easy_assert",
+   "sentence": "If $g$ and $h$ are not conjugate, this trace is clearly zero, since the matrix of the operator $x \\mapsto gxh^{-1}$ in the basis of group elements has zero diagonal entries."
+  },
+  {
+   "item": "Chapter4/Discussion_proof_Theorem4.10.2",
+   "signals": "this_defines",
+   "sentence": "We set $P_i = \\det_{V_i} L(\\mathbf{x})$."
+  }
+ ],
+ "Chapter3": [
+  {
+   "item": "Chapter3/Remark3.1.5",
+   "signals": "author_check",
+   "sentence": "The proof of this generalized version of Proposition 3.1.4 is the same as before (check it!)."
+  },
+  {
+   "item": "Chapter3/Discussion_after_Theorem3.7.1",
+   "signals": "welldef",
+   "sentence": "The Jordan-Holder theorem shows that the number $n$ of terms in a filtration of $V$ with irreducible successive quotients does not depend on the choice of a filtration and depends only on $V$."
+  },
+  {
+   "item": "Chapter3/Remark3.1.3",
+   "signals": "property",
+   "sentence": "Therefore one may assume that $V$ is irreducible."
+  },
+  {
+   "item": "Chapter3/Remark3.3.4",
+   "signals": "property",
+   "sentence": "Then there is a unique homomorphism $\\psi : A^n \\to X$ such that $\\psi(a_1, \\ldots, a_n) = \\sum_i a_i x_i$, and it is surjective."
+  },
+  {
+   "item": "Chapter3/Remark3.1.3",
+   "signals": "easy_assert",
+   "sentence": "Indeed, we have a natural map $f : \\bigoplus_X \\operatorname{Hom}(X, V) \\otimes X \\to V$, given by $g \\otimes x \\to g(x)$, $x \\in X$, $g \\in \\operatorname{Hom}(X, V)$, and it is easy to verify that this map is an isomorphism."
+  },
+  {
+   "item": "Chapter3/Discussion_after_Theorem3.7.1",
+   "signals": "easy_assert",
+   "sentence": "It is easy to see that $n$ is also the maximal length of a filtration of $V$ in which all the inclusions are strict."
+  },
+  {
+   "item": "Chapter3/Introduction_to_3.6",
+   "signals": "thus_therefore",
+   "sentence": "Thus, we may view the character as a mapping $\\chi_V : A/[A, A] \\to k$."
+  }
+ ],
+ "Chapter5": [
+  {
+   "item": "Chapter5/Discussion_hook_length_derivation",
+   "signals": "dimformula+this_defines",
+   "sentence": "Then, using the determinant formula for $\\Delta(x)$ and expanding the determinant as a sum over permutations, we get $$ \\dim V_\\lambda = \\sum_{s \\in S_N : l_j \\geq N - s(j)} (-1)^s \\frac{n!}{\\prod_j (l_j - N + s(j))!} $$ $$ = \\frac{n!}{l_1!"
+  },
+  {
+   "item": "Chapter5/Discussion_before_Theorem5.18.4",
+   "signals": "property+this_defines",
+   "sentence": "Now, the algebra $A$ is semisimple by Maschke's theorem, so the double centralizer theorem applies, and we get the following result, which goes under the name \"Schur-Weyl duality\" (as it was discovered by Schur and popularized by Weyl in his books *The theory of groups and quantum mechanics* and *Cl"
+  },
+  {
+   "item": "Chapter5/Remark5.8.2",
+   "signals": "iff_equiv",
+   "sentence": "**Remark 5.8.2.** In fact, $\\operatorname{Ind}_H^G V$ is naturally isomorphic to the representation $\\operatorname{Hom}_H(k[G], V)$."
+  },
+  {
+   "item": "Chapter5/Discussion_verification_of_Ind",
+   "signals": "welldef",
+   "sentence": "Let us check that $\\operatorname{Ind}_H^G V$ is well defined as a representation."
+  },
+  {
+   "item": "Chapter5/Discussion_footnote_5.15",
+   "signals": "iff_equiv",
+   "sentence": "--- ${}^2$Another way to see this is to note that $\\sigma(\\rho) \\leq \\rho$ lexicographically with equality if and only if $\\sigma = 1$, and subtracting both sides from the constant vector $\\lambda + \\rho$ shows that $\\lambda + \\rho - \\sigma(\\rho) \\geq \\lambda$ with equality if and only if $\\sigma = "
+  },
+  {
+   "item": "Chapter5/Remark5.26.2",
+   "signals": "iff_equiv",
+   "sentence": "**Remark 5.26.2.** Statement (ii) of Theorem 5.26.1 is equivalent to the same statement with $\\mathbb{Q}$-span replaced by $\\mathbb{C}$-span."
+  },
+  {
+   "item": "Chapter5/Remark5.26.2",
+   "signals": "iff_equiv",
+   "sentence": "Then both statements are equivalent to the condition that the rows of this matrix are linearly independent."
+  },
+  {
+   "item": "Chapter5/Introduction",
+   "signals": "property",
+   "sentence": "Frobenius-Schur indicator Suppose that $G$ is a finite group and $V$ is an irreducible representation of $G$ over $\\mathbb{C}$."
+  },
+  {
+   "item": "Chapter5/Discussion_hook_length_derivation",
+   "signals": "dimformula",
+   "sentence": "\\ldots l_N!} \\sum_{s \\in S_N} (-1)^s \\prod_j l_j(l_j - 1) \\ldots (l_j - N + s(j) + 1) $$ $$ = \\frac{n!}{\\prod_j l_j!} \\det(l_j(l_j - 1) \\ldots (l_j - N + i + 1)). $$ Using column reduction and the Vandermonde determinant formula, we see from this expression that $$ (5.17.1) \\qquad \\dim V_\\lambda = \\"
+  },
+  {
+   "item": "Chapter5/Discussion_computing_characters_of_L_lambda",
+   "signals": "dimformula",
+   "sentence": "Namely, let $\\dim V = N$, let $g \\in GL(V)$, and let $x_1, \\ldots, x_N$ be the eigenvalues of $g$ on $V$."
+  },
+  {
+   "item": "Chapter5/Remark5.23.3",
+   "signals": "dimformula",
+   "sentence": "For $\\dim V = 2$ one then recovers the representation theory of $\\mathfrak{sl}(2)$ studied in Problem 2.15.1."
+  },
+  {
+   "item": "Chapter5/Discussion_5.25.1",
+   "signals": "property",
+   "sentence": "To begin, let us find the conjugacy classes in $GL_2(\\mathbb{F}_q)$. | Representatives | Number of elements in a conjugacy class | Number of classes | |---|---|---| | Scalar $\\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix}$ | 1 (this is a central element) | $q - 1$ (one for every nonzero $x$) | | Parab"
+  },
+  {
+   "item": "Chapter5/Discussion_5.25.1",
+   "signals": "property",
+   "sentence": "These are the matrices whose characteristic polynomial is irreducible over $\\mathbb{F}_q$ and which therefore don't have eigenvalues in $\\mathbb{F}_q$."
+  },
+  {
+   "item": "Chapter5/Discussion_complementary_series_summary",
+   "signals": "property",
+   "sentence": "We have now shown that for any $\\nu$ with $\\nu^q \\neq \\nu$ the representation $Y_\\nu$ with the same character as $$W_1 \\otimes V_{\\alpha,1} - V_{\\alpha,1} - \\operatorname{Ind}_K^G \\mathbb{C}_\\nu$$ exists and is irreducible."
+  },
+  {
+   "item": "Chapter5/Discussion_5.11_examples",
+   "signals": "this_defines",
+   "sentence": "Using the Frobenius reciprocity, we obtain $\\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}^2 \\oplus \\mathbb{C}_+$ and $\\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}^2 \\oplus \\mathbb{C}_-$."
+  },
+  {
+   "item": "Chapter5/Discussion_5.11_examples",
+   "signals": "this_defines",
+   "sentence": "Then we obtain $\\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}_-$, $\\operatorname{Ind}_H^G \\mathbb{C}_\\epsilon = \\operatorname{Ind}_H^G \\mathbb{C}_{\\epsilon^2} = \\mathbb{C}^2$."
+  },
+  {
+   "item": "Chapter5/Introduction_5.14",
+   "signals": "easy_assert",
+   "sentence": "It is easy to see that $U_\\lambda$ can be alternatively defined as $U_\\lambda = \\mathbb{C}[S_n] a_\\lambda$."
+  },
+  {
+   "item": "Chapter5/Discussion_Schur_polynomials",
+   "signals": "easy_assert",
+   "sentence": "Let $$ D_\\lambda(x) = \\sum_{s \\in S_N} (-1)^s \\prod_{j=1}^{N} x_{s(j)}^{\\lambda_j + N - j} = \\det(x_i^{\\lambda_j + N - j}). $$ Define the polynomials $$ S_\\lambda(x) := \\frac{D_\\lambda(x)}{D_0(x)} $$ (clearly $D_0(x)$ is just $\\Delta(x)$)."
+  },
+  {
+   "item": "Chapter5/Discussion_Schur_polynomials",
+   "signals": "easy_assert",
+   "sentence": "It is easy to see that these are indeed polynomials, as $D_\\lambda$ is antisymmetric and therefore must be divisible by $\\Delta$."
+  },
+  {
+   "item": "Chapter5/Discussion_computing_characters_of_L_lambda",
+   "signals": "this_defines",
+   "sentence": "If $s \\in C_\\mathbf{i}$, we easily get that this trace equals $$ \\prod_m \\operatorname{Tr}(g^m)^{i_m} = \\prod_m H_m(x)^{i_m}. $$ On the other hand, by the Schur-Weyl duality $$ \\operatorname{Tr}_{V^{\\otimes n}}(g^{\\otimes n} s) = \\sum_\\lambda \\chi_\\lambda(C_\\mathbf{i}) \\operatorname{Tr}_{L_\\lambda}("
+  },
+  {
+   "item": "Chapter5/Remark5.23.3",
+   "signals": "easy_assert",
+   "sentence": "In particular, one can show that any finite dimensional representation of $\\mathfrak{sl}(V)$ is completely reducible and any irreducible representation is of the form $L_\\lambda$ (we will not do this here)."
+  },
+  {
+   "item": "Chapter5/Discussion_5.25.4",
+   "signals": "this_defines",
+   "sentence": "We get $$ \\chi \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix} = q(q - 1)\\nu(x), $$ $$ \\chi(A) = 0 \\quad \\text{for } A \\text{ parabolic or hyperbolic}, $$ $$ \\chi \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} = \\nu \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} + \\nu \\begin{pmatrix"
+  },
+  {
+   "item": "Chapter5/Discussion_5.25.4",
+   "signals": "this_defines",
+   "sentence": "Therefore, for $\\nu^q \\neq \\nu$ we get $\\frac{1}{2}q(q - 1)$ representations."
+  },
+  {
+   "item": "Chapter5/Discussion_semidirect_products",
+   "signals": "easy_assert",
+   "sentence": "The **semidirect product** $G \\ltimes A$ is defined to be the product $A \\times G$ with multiplication law $$(a_1, g_1)(a_2, g_2) = (a_1 g_1(a_2), g_1 g_2).$$ Clearly, $G$ and $A$ are subgroups of $G \\ltimes A$ in a natural way."
+  },
+  {
+   "item": "Chapter5/Discussion_semidirect_products",
+   "signals": "this_defines",
+   "sentence": "Then we define a representation $V_{(O,U)}$ of $G \\ltimes A$ as follows."
+  },
+  {
+   "item": "Chapter5/Discussion_semidirect_products",
+   "signals": "this_defines",
+   "sentence": "As a representation of $G$, we set $$ V_{(O,x,U)} = \\operatorname{Ind}_{G_x}^G U = \\{f : G \\to U | f(hg) = hf(g), h \\in G_x\\}. $$ Next, we introduce an additional action of $A$ on this space by $(af)(g) = x(g(a))f(g)$."
+  },
+  {
+   "item": "Chapter5/Discussion_semidirect_products",
+   "signals": "easy_assert",
+   "sentence": "Then it is easy to check that these two actions combine into an action of $G \\ltimes A$."
+  },
+  {
+   "item": "Chapter5/Discussion_semidirect_products",
+   "signals": "easy_assert",
+   "sentence": "Also, it is clear that this representation does not really depend on the choice of $x$, in the following sense."
+  },
+  {
+   "item": "Chapter5/Discussion_after_Definition5.23.1",
+   "signals": "thus_therefore",
+   "sentence": "For example, $V^{\\otimes n}$ and hence all $L_\\lambda$ are algebraic."
+  },
+  {
+   "item": "Chapter5/Discussion_after_Definition5.23.1",
+   "signals": "thus_therefore",
+   "sentence": "Thus we have attached a unique irreducible algebraic representation $L_\\lambda$ of $GL(V) = GL_N$ to any sequence $(\\lambda_1, \\ldots, \\lambda_N)$ of integers (not necessarily positive) such that $\\lambda_1 \\geq \\cdots \\geq \\lambda_N$."
+  },
+  {
+   "item": "Chapter5/Discussion_5.25.4",
+   "signals": "thus_therefore",
+   "sentence": "The character of this representation is $$ \\chi \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix} = q(q + 1)\\alpha(x), $$ $$ \\chi(A) = 0 \\quad \\text{for } A \\text{ parabolic or elliptic}, $$ $$ \\chi \\begin{pmatrix} x & 0 \\\\ 0 & y \\end{pmatrix} = \\alpha(x) + \\alpha(y). $$ Thus the \"virtual representation\""
+  },
+  {
+   "item": "Chapter5/Discussion_semidirect_products",
+   "signals": "thus_therefore",
+   "sentence": "Thus we will denote $V_{(O,x,U)}$ by $V_{(O,U)}$ (remembering, however, that $x$ has been fixed)."
+  }
+ ],
+ "Chapter9": [
+  {
+   "item": "Chapter9/Introduction_9.6",
+   "signals": "author_check",
+   "sentence": "Note that in such a category, Hom spaces are finite dimensional (check it!)."
+  },
+  {
+   "item": "Chapter9/Introduction_9.7",
+   "signals": "author_check",
+   "sentence": "Then all the projective generators of $\\mathcal{C}$ are the objects of the form $P_{\\mathbf{n}} := \\bigoplus_{i=1}^m n_i P_i$, where $n_i \\geq 1$ (check it!)."
+  },
+  {
+   "item": "Chapter9/Discussion_after_Definition9.7.1",
+   "signals": "easy_assert+property",
+   "sentence": "It is easy to see that this algebra is the only one of the $B_{\\mathbf{n}}$ for which $B_{\\mathbf{n}}/\\operatorname{Rad}(B_{\\mathbf{n}}) = \\bigoplus_i \\operatorname{Mat}_{n_i}(k)$ is commutative."
+  },
+  {
+   "item": "Chapter9/Introduction_9.7",
+   "signals": "iff_equiv",
+   "sentence": "Defining $B_{\\mathbf{n}} = B_{\\mathbf{n}}(\\mathcal{C}) := \\operatorname{End}(P_{\\mathbf{n}})^{\\mathrm{op}}$, we see that the algebras $B_{\\mathbf{n}}$ are all the finite dimensional algebras whose category of finite dimensional modules is equivalent to $\\mathcal{C}$."
+  },
+  {
+   "item": "Chapter9/Discussion_after_Definition9.7.1",
+   "signals": "this_defines+thus_therefore",
+   "sentence": "Thus, we obtain that Morita equivalence classes of finite dimensional algebras are the collections of the form $\\{B_{\\mathbf{n}}(\\mathcal{C}), \\mathbf{n} \\in \\mathbb{N}^m\\}$."
+  },
+  {
+   "item": "Chapter9/Discussion_after_Definition9.7.1",
+   "signals": "dimformula",
+   "sentence": "Note that the dimension of $B_{\\mathbf{n}}$ is $\\sum c_{ij} n_i n_j$, where $(c_{ij})$ is the Cartan matrix of $\\mathcal{C}$."
+  },
+  {
+   "item": "Chapter9/Discussion_after_Definition9.7.1",
+   "signals": "thus_therefore",
+   "sentence": "In particular, the algebra $B = B_{\\mathbf{n}}$ with the smallest possible dimension, $\\sum c_{ij}$, corresponds to the case when all $n_i = 1$, i.e., to the projective generator $P = \\bigoplus_i P_i$."
+  }
+ ],
+ "Chapter6": [
+  {
+   "item": "Chapter6/Discussion_after_Example6.3.1",
+   "signals": "welldef",
+   "sentence": "It appears as if the number of indecomposable representations does not depend on the orientation of the edges \u2014 and indeed Gabriel's theorem will generalize this observation."
+  },
+  {
+   "item": "Chapter6/Section6.8_heading",
+   "signals": "welldef",
+   "sentence": "We now consider the sequence $$ V^{(0)} = V, \\quad V^{(1)} = F_n^+ V, \\quad V^{(2)} = F_{n-1}^+ F_n^+ V, \\quad \\ldots. $$ This sequence is well defined because of the selected labeling: $n$ has to be a sink of $Q$, $n-1$ has to be a sink of $\\overline{Q}_n$ (where $\\overline{Q}_r$ is obtained from $"
+  },
+  {
+   "item": "Chapter6/Discussion_after_Corollary6.8.3",
+   "signals": "dimformula",
+   "sentence": "These two corollaries show that there are only finitely many indecomposable representations (since there are only finitely many roots) and that the dimension vector of each of them is a positive root."
+  }
+ ]
+}
