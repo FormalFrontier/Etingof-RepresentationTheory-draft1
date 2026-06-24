@@ -1433,6 +1433,28 @@ generating epis; `biproduct.mapIso (fun _ => e)` transports a progenerator acros
 of each summand. Krull–Schmidt (the *forward* "every progenerator is `⊕ n_i P_i`"
 direction) is not in Mathlib — isolate it as one documented `sorry` (#5153).
 
+**`finrank` of a biproduct Hom space (Ch9 §9.7 Cartan formula, #5144).** To prove
+`dim_k Hom(⊕ⱼ fⱼ, ⊕ₖ gₖ) = ∑ⱼ ∑ₖ dim_k Hom(fⱼ, gₖ)` (e.g. `dim B_𝐧 = ∑ c_{ij} n_i n_j`
+for `B_𝐧 = (End (multBiproduct P n))ᵐᵒᵖ`): Mathlib's `biproduct.matrixEquiv`
+(`(⨁ f ⟶ ⨁ g) ≃ ∀ j k, f j ⟶ g k`) exists but is a bare `Equiv` **restricted to
+`Type 0` index types** (`{J K : Type} [Finite J] [Finite K]`), so it does *not* apply when
+the biproduct index is `Σ i, Fin (n i) : Type v` (multBiproduct's index lives in the hom
+universe). Build your own *universe-polymorphic* `≃ₗ[k]` instead: `toFun m j l :=
+biproduct.ι f j ≫ m ≫ biproduct.π g l` (k-linear by `Linear.comp_smul`/`Linear.smul_comp`
+and `Preadditive.comp_add`/`add_comp`), `invFun M := biproduct.desc fun j => biproduct.lift
+fun l => M j l`; `left_inv`/`right_inv` close by `biproduct.hom_ext'` + `biproduct.hom_ext`
+then `simp` (`biproduct.ι_desc`/`lift_π`). Then `e.finrank_eq` + `Module.finrank_pi_fintype k`
+(applied twice for the nested Pi) gives additivity — `Module.Free` is free over a field
+(`Module.Free.of_divisionRing`, a global instance), `Module.Finite` from the §9.6
+Hom-finiteness (`IsFiniteAbelianCategoryOverField.finiteDimensional_hom`). For the
+opposite-algebra step `dim (End P)ᵐᵒᵖ = dim End P` use `MulOpposite.opLinearEquiv k`. Collapse
+the double sum over `Σ i, Fin (n i)` with `← Finset.univ_sigma_univ` + `Finset.sum_sigma`
+(the inner `Fin (n i)` sum is constant, so `Finset.sum_const` + `Fintype.card_fin` gives the
+`n_i` weight). **Gotcha:** when re-declaring section instance binders in a `def`/`theorem` to
+make one argument explicit (e.g. `def cartanEntry (k) … {C} [Category C] [Linear k C]`),
+include `[Preadditive C]` *before* `[Linear k C]` — `Linear` takes `Preadditive` as a
+parameter (does not extend it), so omitting it gives `failed to synthesize Preadditive C`.
+
 ## Quiver Representation Patterns
 
 Chapter 6 quiver representations use concrete finite-dimensional constructions rather than abstract quiver theory. This approach was discovered in Wave 4 (Examples 6.2.2-6.2.4) after three waves of zero progress with abstract approaches.
