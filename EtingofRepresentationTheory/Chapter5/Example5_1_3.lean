@@ -95,6 +95,110 @@ theorem Etingof.Example5_1_3_A5
   -- The five irreducibles `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵` all have real character values.
   sorry
 
+namespace Etingof.Q8
+
+open Matrix Complex QuaternionGroup
+
+/-- The order-4 generator `a ↦ A`, with `A = diag(√-1, -√-1)`. -/
+noncomputable def A : Matrix (Fin 2) (Fin 2) ℂ := !![Complex.I, 0; 0, -Complex.I]
+
+/-- The second generator `x ↦ X`, with `X = [[0,1],[-1,0]]`. -/
+def X : Matrix (Fin 2) (Fin 2) ℂ := !![0, 1; -1, 0]
+
+@[simp] lemma det_A : A.det = 1 := by
+  simp [A, Matrix.det_fin_two_of, Complex.I_mul_I]
+
+@[simp] lemma det_X : X.det = 1 := by
+  simp [X, Matrix.det_fin_two_of]
+
+lemma A_sq : A ^ 2 = -1 := by
+  rw [pow_two]; ext i j; fin_cases i <;> fin_cases j <;>
+    simp [A, Matrix.mul_apply, Fin.sum_univ_two, Complex.I_mul_I, Matrix.one_fin_two]
+
+lemma A_pow_four : A ^ 4 = 1 := by
+  have h : A ^ 4 = (A ^ 2) ^ 2 := by rw [← pow_mul]
+  rw [h, A_sq, neg_one_sq]
+
+/-- `X² = A² = -1`. -/
+lemma X_mul_X : X * X = A ^ 2 := by
+  rw [A_sq]; ext i j; fin_cases i <;> fin_cases j <;>
+    simp [X, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_fin_two]
+
+/-- The relation `A·X = X·A³` (equivalently `X⁻¹AX = A⁻¹`). -/
+lemma A_mul_X : A * X = X * A ^ 3 := by
+  have h3 : A ^ 3 = !![(-Complex.I), 0; 0, Complex.I] := by
+    rw [show (3 : ℕ) = 2 + 1 by rfl, pow_succ, A_sq]
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [A, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_fin_two]
+  rw [h3]; ext i j; fin_cases i <;> fin_cases j <;>
+    simp [A, X, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- `A^a` depends only on `a` mod 4. -/
+lemma A_pow_congr {a b : ℕ} (h : (a : ZMod 4) = (b : ZMod 4)) : A ^ a = A ^ b := by
+  have e : a % 4 = b % 4 := (ZMod.natCast_eq_natCast_iff a b 4).mp h
+  conv_lhs => rw [← Nat.div_add_mod a 4]
+  conv_rhs => rw [← Nat.div_add_mod b 4]
+  rw [pow_add, pow_add, pow_mul, pow_mul, A_pow_four, one_pow, one_pow, e]
+
+/-- Move a power of `A` across `X`: `A^m · X = X · A^{3m}`. -/
+lemma A_pow_mul_X : ∀ m : ℕ, A ^ m * X = X * A ^ (3 * m)
+  | 0 => by simp
+  | (m + 1) => by
+    rw [pow_succ, mul_assoc, A_mul_X, ← mul_assoc, A_pow_mul_X m, mul_assoc, ← pow_add,
+      show 3 * m + 3 = 3 * (m + 1) from by ring]
+
+/-- Conjugating `A^m` by `X`: `X · A^m · X = A^{2 + 3m}`. -/
+lemma X_mul_A_pow_mul_X (m : ℕ) : X * A ^ m * X = A ^ (2 + 3 * m) := by
+  rw [mul_assoc, A_pow_mul_X, ← mul_assoc, X_mul_X, ← pow_add]
+
+/-- The underlying matrix-valued function of the representation. -/
+noncomputable def Mfun : QuaternionGroup 2 → Matrix (Fin 2) (Fin 2) ℂ
+  | .a k => A ^ k.val
+  | .xa k => X * A ^ k.val
+
+/-- The representation `Q₈ → GL₂(ℂ)` as a monoid homomorphism into matrices. -/
+noncomputable def Mhom : QuaternionGroup 2 →* Matrix (Fin 2) (Fin 2) ℂ where
+  toFun := Mfun
+  map_one' := by
+    show Mfun 1 = 1
+    rw [QuaternionGroup.one_def]; simp [Mfun]
+  map_mul' := by
+    rintro (i | i) (j | j)
+    · show Mfun (a i * a j) = Mfun (a i) * Mfun (a j)
+      rw [QuaternionGroup.a_mul_a]
+      simp only [Mfun]
+      rw [← pow_add]
+      exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; ring)
+    · show Mfun (a i * xa j) = Mfun (a i) * Mfun (xa j)
+      rw [QuaternionGroup.a_mul_xa]
+      simp only [Mfun]
+      rw [← mul_assoc, A_pow_mul_X, mul_assoc, ← pow_add]
+      congr 1
+      exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; revert i j; decide)
+    · show Mfun (xa i * a j) = Mfun (xa i) * Mfun (a j)
+      rw [QuaternionGroup.xa_mul_a]
+      simp only [Mfun]
+      rw [mul_assoc, ← pow_add]
+      congr 1
+      exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; ring)
+    · show Mfun (xa i * xa j) = Mfun (xa i) * Mfun (xa j)
+      rw [QuaternionGroup.xa_mul_xa]
+      simp only [Mfun]
+      rw [← mul_assoc (X * A ^ i.val) X (A ^ j.val), X_mul_A_pow_mul_X, ← pow_add]
+      exact A_pow_congr (by push_cast [ZMod.natCast_val, ZMod.cast_id]; revert i j; decide)
+
+/-- The 2-dimensional representation of `Q₈` on `Fin 2 → ℂ`. -/
+noncomputable def rho : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ) where
+  toFun g := Matrix.toLinAlgEquiv' (Mhom g)
+  map_one' := by simp
+  map_mul' g h := by simp [map_mul]
+
+lemma rho_apply (g : QuaternionGroup 2) (v : Fin 2 → ℂ) :
+    rho g v = (Mhom g).mulVec v := by
+  simp [rho, Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply]
+
+end Etingof.Q8
+
 /-- The 2-dimensional irreducible representation of `Q₈ = QuaternionGroup 2` is of
 quaternionic type: there is a simple `ℂ[Q₈]`-module structure on `Fin 2 → ℂ`
 admitting a nondegenerate `Q₈`-invariant skew-symmetric bilinear form.
