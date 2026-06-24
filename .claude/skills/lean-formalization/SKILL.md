@@ -1788,6 +1788,21 @@ rw [Finset.sum_congr rfl (fun i _ => show _ = _ from by
 - `Finsupp.finset_sum_apply`: `(∑ i ∈ S, f i) a = ∑ i ∈ S, f i a`
 - `Finsupp.smul_apply`: `(b • v) a = b • v a` (definitional, but needs coercion via `change`)
 
+**Evaluating a `Finset.sum` of MonoidAlgebra elements at a point** (e.g. a central
+idempotent `(d/|G|) • ∑ g, χ(g) • single g 1` — averaging/Reynolds operators): the sum is
+elaborated at type `ℂ[G]`, so `Finsupp.finsetSum_apply` / `Finsupp.coe_finsetSum` /
+`Finsupp.smul_apply` all **fail to rewrite** with `Application type mismatch … has type ℂ[G]
+but is expected to have type G →₀ ℂ` (the coe lemmas want a bare `Finsupp`, and unification
+won't bridge the `def` at instances transparency). There is no `MonoidAlgebra.finset_sum_apply`.
+Route the evaluation-at-`z` through the additive hom instead:
+```lean
+rw [show (∑ g, f g) z = Finsupp.applyAddHom z (∑ g, f g) from rfl, map_sum]
+simp only [Finsupp.applyAddHom_apply]   -- now `∑ g, (f g) z`
+```
+Each *summand* `(c • single g 1) z` then simplifies with **plain** `simp [Finsupp.single_apply]`
+(plain `simp` sees through the MonoidAlgebra smul coe; a targeted `rw [Finsupp.smul_apply]` does
+not). Finish with `Finset.sum_ite_eq' Finset.univ z`. (#5183, `Chapter4/Remark4_5_3.lean`.)
+
 ## Mathlib API Naming Gotchas
 
 These naming mismatches have bitten multiple agents across waves 44-47. Check this list before reaching for `exact?` or `apply?`.
