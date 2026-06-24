@@ -1374,6 +1374,40 @@ When multiple sorry'd items exist, **prioritize completing already-started chain
 3. Infrastructure proofs (unblock 3+ items across chapters)
 4. Standalone proofs (no downstream dependents)
 
+### Categorical biproducts / progenerators (Ch9 §9.7, #5146)
+
+Building biproduct-based constructions in an abstract abelian category (the §9.7
+progenerator classification `multBiproduct P n = ⨁_{p : Σ i, Fin (n i)} P p.1` in
+`Introduction_9_7.lean`) hits three non-obvious instance facts:
+
+- **`Projective (⨁ g)` requires the index family in `Type v` (the hom universe), not an
+  arbitrary `Type w`.** Mathlib's instance is `{β : Type v} (g : β → C) [HasBiproduct g]
+  [∀ b, Projective (g b)] : Projective (⨁ g)`. A family indexed by `ι : Type w` with `w ≠
+  v` fails with `failed to synthesize Projective (⨁ ...)` (cost one build cycle). Fix:
+  constrain `ι : Type v` (matching `Category.{v}`). The finite-index Fintype `Σ i, Fin
+  (n i)` then also lands in `Type v`. `HasBiproduct` itself is fine over any `Finite`
+  index, so only the `Projective`/`Injective` biproduct instances force `Type v`.
+- **`HasFiniteBiproducts C` is NOT a global instance from `Abelian C`** (it is a
+  *theorem* `Abelian.hasFiniteBiproducts`, kept non-instance for performance). A `def`
+  whose statement mentions `⨁` needs it; add `[HasFiniteBiproducts C]` as an explicit
+  binder (callers in an abelian category discharge it with `haveI :=
+  Abelian.hasFiniteBiproducts`). The biproduct of a `Finite`-indexed family then resolves
+  via `hasBiproductsOfShape_finite`.
+- **The "indecomposable object" predicate is `CategoryTheory.Indecomposable`** (defined in
+  `Shapes/BinaryBiproducts.lean` *after* `end Limits`, so it lives in `CategoryTheory`,
+  not `CategoryTheory.Limits`): `¬IsZero X ∧ ∀ Y Z, (X ≅ Y ⊞ Z) → IsZero Y ∨ IsZero Z`,
+  needs `[HasBinaryBiproducts C]`.
+
+Useful idioms from the same file: realise `⨁ P` as a *retract* of `multBiproduct P n`
+(when each `n_i ≥ 1`) via a diagonal index inclusion `e i = ⟨i, 0⟩`, `s := biproduct.desc
+(fun i => biproduct.ι _ (e i))`, `r := biproduct.lift (fun i => biproduct.π _ (e i))`;
+`s ≫ r = 𝟙` by `biproduct.hom_ext'` + `biproduct.hom_ext` then `biproduct.ι_desc`/`lift_π`
+and `biproduct.ι_π` (the `dif_pos rfl`/`dif_neg (fun h => …(he h))` dite split, with
+`he : Function.Injective e`). A split epi `r` (`IsSplitEpi r := ⟨⟨s, key⟩⟩`) pulls back
+generating epis; `biproduct.mapIso (fun _ => e)` transports a progenerator across an iso
+of each summand. Krull–Schmidt (the *forward* "every progenerator is `⊕ n_i P_i`"
+direction) is not in Mathlib — isolate it as one documented `sorry` (#5153).
+
 ## Quiver Representation Patterns
 
 Chapter 6 quiver representations use concrete finite-dimensional constructions rather than abstract quiver theory. This approach was discovered in Wave 4 (Examples 6.2.2-6.2.4) after three waves of zero progress with abstract approaches.
