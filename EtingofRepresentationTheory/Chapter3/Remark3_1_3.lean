@@ -123,6 +123,36 @@ theorem linearMap_eq_zero_of_isEmpty_linearEquiv {Y Z : Type*}
   by_contra hf
   exact h.elim (LinearEquiv.ofBijective f (f.bijective_of_ne_zero hf))
 
+/-- Every simple `A`-submodule of `V` is contained in the range of `evalDirectSum`: if `W ≃ X i`
+then the inclusion `W ↪ V` is `g(e w) = w` for `g = W.subtype ∘ e⁻¹ ∈ Hom_A(X i, V)`, so each
+`w ∈ W` is hit. -/
+theorem simpleSubmodule_le_range_evalDirectSum
+    (hcomplete : ∀ (W : Submodule A V), IsSimpleModule A W → ∃ i, Nonempty (W ≃ₗ[A] X i))
+    (W : Submodule A V) (hW : IsSimpleModule A W) :
+    (W : Set V) ⊆ LinearMap.range (evalDirectSum k A X V) := by
+  obtain ⟨i, ⟨e⟩⟩ := hcomplete W hW
+  intro w hw
+  refine ⟨DirectSum.lof k ι _ i ((W.subtype ∘ₗ e.symm.toLinearMap) ⊗ₜ[k] e ⟨w, hw⟩), ?_⟩
+  rw [evalDirectSum_lof_tmul]
+  simp
+
+/-- `evalDirectSum` is surjective when `{X i}` is complete: `V` is the supremum of its simple
+`A`-submodules (semisimplicity), each of which lies in the range. -/
+theorem evalDirectSum_surjective
+    (hcomplete : ∀ (W : Submodule A V), IsSimpleModule A W → ∃ i, Nonempty (W ≃ₗ[A] X i)) :
+    Function.Surjective (evalDirectSum k A X V) := by
+  rw [← LinearMap.range_eq_top]
+  rw [eq_top_iff]
+  intro v _
+  have htop : v ∈ sSup { m : Submodule A V | IsSimpleModule A m } := by
+    rw [IsSemisimpleModule.sSup_simples_eq_top A V]; trivial
+  rw [sSup_eq_iSup'] at htop
+  refine Submodule.iSup_induction _
+    (motive := fun y => y ∈ LinearMap.range (evalDirectSum k A X V))
+    htop (fun m y hy => ?_) (LinearMap.range _).zero_mem
+    (fun _ _ => (LinearMap.range _).add_mem)
+  exact simpleSubmodule_le_range_evalDirectSum k A X V hcomplete m.1 m.2 hy
+
 /-- The Remark 3.1.3 isomorphism: for a semisimple finite dimensional representation `V`, the
 natural map `⨁_i Hom_A(X i, V) ⊗_k X i → V`, `g ⊗ x ↦ g(x)`, is a `k`-linear isomorphism,
 where `{X i}` is a complete set of pairwise non-isomorphic irreducibles.
