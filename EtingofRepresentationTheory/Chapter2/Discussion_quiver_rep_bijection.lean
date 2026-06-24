@@ -1,5 +1,9 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_3
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
+import Mathlib.Algebra.Algebra.Tower
+import Mathlib.RingTheory.Idempotents
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.Projection
 
 /-!
 # Discussion: quiver representations vs. path-algebra modules
@@ -90,5 +94,107 @@ unit: `∑ᵢ pᵢ = 1`. (Restatement of `sum_trivialPaths_eq_one` in terms of `
 theorem sum_trivialPath [Fintype Q] : (∑ i, trivialPath i : PathAlgebra k Q) = 1 := by
   simp only [trivialPath]
   exact sum_trivialPaths_eq_one k Q
+
+/-- The trivial-path idempotents `pᵢ` form a **complete family of orthogonal idempotents** in the
+path algebra of a finite quiver: `pᵢ² = pᵢ`, `pᵢ pⱼ = 0` for `i ≠ j`, and `∑ᵢ pᵢ = 1`. This is the
+algebraic input to the module-side decomposition `V = ⊕ᵢ pᵢ V` below. -/
+theorem completeOrthogonalIdempotents_trivialPath [Fintype Q] :
+    CompleteOrthogonalIdempotents (trivialPath (k := k) (Q := Q)) where
+  idem i := trivialPath_mul_self i
+  ortho := fun {_i _j} hij => trivialPath_mul_of_ne hij
+  complete := sum_trivialPath
+
+/-! ## Module side of the bijection: `V = ⊕ᵢ pᵢ V`
+
+Fix a left module `V` over the path algebra of a finite quiver. The trivial-path idempotents act
+on `V` as a complete family of orthogonal idempotent endomorphisms (`vertexProj`), whose ranges
+are the vertex spaces `Vᵢ = pᵢ V` (`vertexSpace`). Completeness and orthogonality give the
+internal direct-sum decomposition `V = ⊕ᵢ Vᵢ` (`isInternal_vertexSpace`).
+
+This is exactly the underlying-module content of the assignment `V ↦ (pᵢ V)` of the discussion:
+the decomposition `V ≅ ⊕ᵢ Vᵢ` is what makes `V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` mutually inverse on
+underlying modules. The vertex spaces inherit the arrow maps, and the full functor / iso-class
+bijection, sit on top of this decomposition (see the convention note above for the modelling
+choice the arrow maps force).
+-/
+
+section ModuleDecomposition
+
+variable [Fintype Q] {V : Type*} [AddCommGroup V] [Module k V]
+  [Module (PathAlgebra k Q) V] [IsScalarTower k (PathAlgebra k Q) V]
+
+/-- The action of the path algebra on a left module `V`, packaged as a `k`-algebra homomorphism
+into the endomorphism ring `Module.End k V` (left multiplication `a ↦ (a • ·)`). -/
+noncomputable def moduleEnd : PathAlgebra k Q →ₐ[k] Module.End k V :=
+  Algebra.lsmul k k V
+
+@[simp] theorem moduleEnd_apply (a : PathAlgebra k Q) (v : V) :
+    (moduleEnd : PathAlgebra k Q →ₐ[k] Module.End k V) a v = a • v := rfl
+
+/-- The vertex projection `pᵢ • -` acting on the module `V` (the action of the trivial-path
+idempotent `pᵢ`). -/
+noncomputable def vertexProj (i : Q) : Module.End k V :=
+  (moduleEnd : PathAlgebra k Q →ₐ[k] Module.End k V) (trivialPath i)
+
+theorem vertexProj_apply (i : Q) (v : V) :
+    (vertexProj i : Module.End k V) v = (trivialPath i : PathAlgebra k Q) • v := rfl
+
+/-- The vertex projections form a complete family of orthogonal idempotents in `End k V`: the
+image of `completeOrthogonalIdempotents_trivialPath` under the action homomorphism. -/
+theorem completeOrthogonalIdempotents_vertexProj :
+    CompleteOrthogonalIdempotents (fun i : Q => (vertexProj i : Module.End k V)) :=
+  completeOrthogonalIdempotents_trivialPath.map
+    (f := (moduleEnd : PathAlgebra k Q →ₐ[k] Module.End k V).toRingHom)
+
+/-- The `i`-th **vertex space** `Vᵢ = pᵢ V` of the module `V`, as a `k`-submodule (the range of
+the vertex projection). -/
+noncomputable def vertexSpace (i : Q) : Submodule k V :=
+  LinearMap.range (vertexProj i : Module.End k V)
+
+theorem vertexSpace_eq (i : Q) :
+    (vertexSpace i : Submodule k V) = LinearMap.range (vertexProj i : Module.End k V) := rfl
+
+theorem vertexProj_mem_vertexSpace (i : Q) (v : V) :
+    (vertexProj i : Module.End k V) v ∈ (vertexSpace i : Submodule k V) :=
+  LinearMap.mem_range_self _ v
+
+/-- A vertex projection fixes its own vertex space pointwise (idempotency). -/
+theorem vertexProj_eq_self_of_mem {i : Q} {x : V} (hx : x ∈ (vertexSpace i : Submodule k V)) :
+    (vertexProj i : Module.End k V) x = x := by
+  obtain ⟨y, rfl⟩ := hx
+  rw [← Module.End.mul_apply, (completeOrthogonalIdempotents_vertexProj.idem i).eq]
+
+/-- **Module side of the quiver-representation / path-module bijection.** For a left module `V`
+over the path algebra of a finite quiver, the vertex spaces `Vᵢ = pᵢ V` give an internal
+direct-sum decomposition `V = ⊕ᵢ Vᵢ`. This is the underlying-module content witnessing that the
+assignments `V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` are mutually inverse. -/
+theorem isInternal_vertexSpace :
+    DirectSum.IsInternal (fun i : Q => (vertexSpace i : Submodule k V)) := by
+  classical
+  rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
+  refine ⟨?_, ?_⟩
+  · -- independence: `pᵢ` is the identity on `Vᵢ` and zero on every other `Vⱼ`
+    rw [iSupIndep_def]
+    intro i
+    rw [Submodule.disjoint_def]
+    intro x hx hxsup
+    have hker : (⨆ (j) (_ : j ≠ i), (vertexSpace j : Submodule k V))
+        ≤ LinearMap.ker (vertexProj i : Module.End k V) := by
+      refine iSup₂_le fun j hj => ?_
+      rw [vertexSpace_eq, LinearMap.range_le_ker_iff]
+      exact completeOrthogonalIdempotents_vertexProj.ortho hj.symm
+    have h0 : (vertexProj i : Module.End k V) x = 0 := by
+      rw [← LinearMap.mem_ker]; exact hker hxsup
+    rw [← vertexProj_eq_self_of_mem hx, h0]
+  · -- spanning: every `v = ∑ᵢ pᵢ v` with `pᵢ v ∈ Vᵢ`
+    rw [eq_top_iff]
+    intro v _
+    have hsum : (∑ i : Q, (vertexProj i : Module.End k V)) v = v := by
+      rw [completeOrthogonalIdempotents_vertexProj.complete, Module.End.one_apply]
+    rw [← hsum, LinearMap.sum_apply]
+    exact Submodule.sum_mem _ fun i _ =>
+      Submodule.mem_iSup_of_mem i (vertexProj_mem_vertexSpace i v)
+
+end ModuleDecomposition
 
 end Etingof.PathAlgebra
