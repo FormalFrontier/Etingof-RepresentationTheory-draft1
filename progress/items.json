@@ -1326,9 +1326,9 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free",
-    "sorry_free": true,
-    "notes": "Remark3_1_3.lean: constructs the canonical evaluation map evalTensor : (X →ₗ[A] V) ⊗[k] X → V, g⊗x ↦ g(x) (genuine data, no sorry), and proves the irreducible base case evalTensorEquivOfIsSimple (Hom_A(V,V) ⊗ V ≃ₗ[k] V via Schur, Corollary 2.3.10). Full ⊕-over-all-irreducibles assembly remains as follow-up."
+    "status": "proof_partial",
+    "sorry_free": false,
+    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
