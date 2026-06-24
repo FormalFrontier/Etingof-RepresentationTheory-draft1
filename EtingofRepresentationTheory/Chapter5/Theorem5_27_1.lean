@@ -1808,3 +1808,277 @@ theorem Etingof.Theorem5_27_1
         rw [mul_comm, sum_reindex, sum_decomp]
       · -- Need: |H| ≠ 0
         exact Nat.cast_ne_zero.mpr (Fintype.card_pos.ne')
+
+/-!
+## Base-point independence of the little-group construction
+
+For a fixed orbit `O` of the dual `G`-action on `Â`, the representation
+`V_(O,x,U)` does not depend on the chosen base point `x ∈ O`.  Concretely, if
+`χ₂ = g · χ₁` (i.e. `dualSmulAux φ g χ₁ = χ₂`) and `U` is a representation of the
+stabilizer `G_{χ₁}`, then `g(U)` (the representation of `G_{χ₂}` obtained from `U`
+through the conjugation isomorphism `G_{χ₂} ≅ G_{χ₁}`) satisfies
+
+  `inducedRepV φ χ₂ (g(U)) ≅ inducedRepV φ χ₁ U`
+
+as representations of `A ⋊[φ] G`.  This is the "x-independence" claim of the
+discussion blob `blobs/Chapter5/Discussion_semidirect_products.md`.
+
+The intertwiner is, in the coset model `V_(O,x,U) = ((G ⧸ G_x) → U)`, the map
+`f ↦ (p ↦ ρ_U(w p) (f (p · g⁻¹)))` where `w p` is the bookkeeping element of
+`G_{χ₁}` correcting the difference between the chosen coset representatives.
+-/
+
+-- The action `dualSmulAux` is a left action of `G` on `Â`.
+private lemma dualSmulAux_mul {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) (s t : G) (χ : A →* ℂˣ) :
+    dualSmulAux φ s (dualSmulAux φ t χ) = dualSmulAux φ (s * t) χ := by
+  ext a
+  simp only [dualSmulAux, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, mul_inv_rev, map_mul,
+    MulAut.mul_apply]
+
+private lemma dualSmulAux_one {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) : dualSmulAux φ 1 χ = χ := by
+  ext a
+  simp only [dualSmulAux, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, inv_one, map_one,
+    MulAut.one_apply]
+
+-- Conjugation by `g⁻¹` sends `G_{χ₂}` into `G_{χ₁}` when `χ₂ = g · χ₁`.
+private lemma stabAux_conj_mem {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    {h : G} (hh : h ∈ stabAux φ χ₂) : g⁻¹ * h * g ∈ stabAux φ χ₁ := by
+  have hh' : dualSmulAux φ h χ₂ = χ₂ := hh
+  show dualSmulAux φ (g⁻¹ * h * g) χ₁ = χ₁
+  rw [← dualSmulAux_mul, ← dualSmulAux_mul, hg, hh', ← hg, dualSmulAux_mul, inv_mul_cancel,
+    dualSmulAux_one]
+
+-- Conjugation by `g` sends `G_{χ₁}` into `G_{χ₂}` when `χ₂ = g · χ₁`.
+private lemma stabAux_conj_mem' {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    {h : G} (hh : h ∈ stabAux φ χ₁) : g * h * g⁻¹ ∈ stabAux φ χ₂ := by
+  have hh' : dualSmulAux φ h χ₁ = χ₁ := hh
+  show dualSmulAux φ (g * h * g⁻¹) χ₂ = χ₂
+  rw [← hg, dualSmulAux_mul, show g * h * g⁻¹ * g = g * h from by group, ← dualSmulAux_mul, hh']
+
+-- The conjugation group homomorphism `G_{χ₂} →* G_{χ₁}`, `h ↦ g⁻¹ h g`.
+private noncomputable def conjStabHom {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂) :
+    ↥(stabAux φ χ₂) →* ↥(stabAux φ χ₁) where
+  toFun h := ⟨g⁻¹ * (h : G) * g, stabAux_conj_mem φ hg h.2⟩
+  map_one' := by apply Subtype.ext; simp
+  map_mul' a b := by apply Subtype.ext; simp only [Subgroup.coe_mul]; group
+
+@[simp] private lemma conjStabHom_coe {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (h : ↥(stabAux φ χ₂)) : ((conjStabHom φ hg h : ↥(stabAux φ χ₁)) : G) = g⁻¹ * h * g := rfl
+
+-- `g(U)`: the representation of `G_{χ₂}` obtained from `U` by `ρ_{g(U)}(h) = ρ_U(g⁻¹ h g)`.
+private noncomputable def transportRep {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) : FDRep ℂ ↥(stabAux φ χ₂) :=
+  FDRep.of ((FDRep.ρ U).comp (conjStabHom φ hg))
+
+private lemma transportRep_ρ_apply {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) (h : ↥(stabAux φ χ₂)) (v : ↥U) :
+    FDRep.ρ (transportRep φ hg U) h v = FDRep.ρ U (conjStabHom φ hg h) v := rfl
+
+-- The bijection on cosets `G ⧸ G_{χ₁} ≃ G ⧸ G_{χ₂}`, `[p] ↦ [p · g⁻¹]`.
+private noncomputable def cosetEquiv {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂) :
+    (G ⧸ stabAux φ χ₁) ≃ (G ⧸ stabAux φ χ₂) where
+  toFun p := QuotientGroup.mk (p.out * g⁻¹)
+  invFun r := QuotientGroup.mk (r.out * g)
+  left_inv p := by
+    have hmk : (QuotientGroup.mk ((QuotientGroup.mk (p.out * g⁻¹) :
+          G ⧸ stabAux φ χ₂).out) : G ⧸ stabAux φ χ₂) = QuotientGroup.mk (p.out * g⁻¹) :=
+      Quotient.out_eq' _
+    have ht2 : ((QuotientGroup.mk (p.out * g⁻¹) : G ⧸ stabAux φ χ₂).out)⁻¹ * (p.out * g⁻¹)
+        ∈ stabAux φ χ₂ := QuotientGroup.leftRel_apply.mp (Quotient.exact' hmk)
+    set r := (QuotientGroup.mk (p.out * g⁻¹) : G ⧸ stabAux φ χ₂).out
+    have hconj : g⁻¹ * (r⁻¹ * (p.out * g⁻¹)) * g ∈ stabAux φ χ₁ := stabAux_conj_mem φ hg ht2
+    have hgoal : (QuotientGroup.mk (r * g) : G ⧸ stabAux φ χ₁) = QuotientGroup.mk p.out :=
+      Quotient.sound' (QuotientGroup.leftRel_apply.mpr (by
+        have heq : (r * g)⁻¹ * p.out = g⁻¹ * (r⁻¹ * (p.out * g⁻¹)) * g := by group
+        rw [heq]; exact hconj))
+    exact hgoal.trans (Quotient.out_eq' p)
+  right_inv r := by
+    have hmk : (QuotientGroup.mk ((QuotientGroup.mk (r.out * g) :
+          G ⧸ stabAux φ χ₁).out) : G ⧸ stabAux φ χ₁) = QuotientGroup.mk (r.out * g) :=
+      Quotient.out_eq' _
+    have ht1 : ((QuotientGroup.mk (r.out * g) : G ⧸ stabAux φ χ₁).out)⁻¹ * (r.out * g)
+        ∈ stabAux φ χ₁ := QuotientGroup.leftRel_apply.mp (Quotient.exact' hmk)
+    set p := (QuotientGroup.mk (r.out * g) : G ⧸ stabAux φ χ₁).out
+    have hconj : g * (p⁻¹ * (r.out * g)) * g⁻¹ ∈ stabAux φ χ₂ := stabAux_conj_mem' φ hg ht1
+    have hgoal : (QuotientGroup.mk (p * g⁻¹) : G ⧸ stabAux φ χ₂) = QuotientGroup.mk r.out :=
+      Quotient.sound' (QuotientGroup.leftRel_apply.mpr (by
+        have heq : (p * g⁻¹)⁻¹ * r.out = g * (p⁻¹ * (r.out * g)) * g⁻¹ := by group
+        rw [heq]; exact hconj))
+    exact hgoal.trans (Quotient.out_eq' r)
+
+-- `cosetEquiv` commutes with the left `G`-action on the two coset spaces.
+private lemma cosetEquiv_smul {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (s : G) (p : G ⧸ stabAux φ χ₁) :
+    s⁻¹ • cosetEquiv φ hg p = cosetEquiv φ hg (s⁻¹ • p) := by
+  show s⁻¹ • (QuotientGroup.mk (p.out * g⁻¹) : G ⧸ stabAux φ χ₂)
+      = QuotientGroup.mk ((s⁻¹ • p).out * g⁻¹)
+  rw [MulAction.Quotient.smul_mk, smul_eq_mul]
+  apply Quotient.sound'
+  rw [QuotientGroup.leftRel_apply]
+  have hmem : p.out⁻¹ * s * (s⁻¹ • p).out ∈ stabAux φ χ₁ := transition_mem_stab φ χ₁ s p
+  have hconj : g * (p.out⁻¹ * s * (s⁻¹ • p).out) * g⁻¹ ∈ stabAux φ χ₂ :=
+    stabAux_conj_mem' φ hg hmem
+  have heq : (s⁻¹ * (p.out * g⁻¹))⁻¹ * ((s⁻¹ • p).out * g⁻¹)
+      = g * (p.out⁻¹ * s * (s⁻¹ • p).out) * g⁻¹ := by group
+  rw [heq]; exact hconj
+
+-- The bookkeeping element of `G_{χ₁}` correcting the coset-representative mismatch.
+private lemma wElt_mem {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (p : G ⧸ stabAux φ χ₁) :
+    p.out⁻¹ * (cosetEquiv φ hg p).out * g ∈ stabAux φ χ₁ := by
+  have hmk : (QuotientGroup.mk (cosetEquiv φ hg p).out : G ⧸ stabAux φ χ₂)
+      = QuotientGroup.mk (p.out * g⁻¹) := Quotient.out_eq' (cosetEquiv φ hg p)
+  set r := (cosetEquiv φ hg p).out
+  have ht2 : r⁻¹ * (p.out * g⁻¹) ∈ stabAux φ χ₂ :=
+    QuotientGroup.leftRel_apply.mp (Quotient.exact' hmk)
+  have hconj : g⁻¹ * (r⁻¹ * (p.out * g⁻¹))⁻¹ * g ∈ stabAux φ χ₁ :=
+    stabAux_conj_mem φ hg (inv_mem ht2)
+  have heq : p.out⁻¹ * r * g = g⁻¹ * (r⁻¹ * (p.out * g⁻¹))⁻¹ * g := by group
+  rw [heq]; exact hconj
+
+private noncomputable def wElt {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (p : G ⧸ stabAux φ χ₁) : ↥(stabAux φ χ₁) :=
+  ⟨p.out⁻¹ * (cosetEquiv φ hg p).out * g, wElt_mem φ hg p⟩
+
+@[simp] private lemma wElt_coe {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (p : G ⧸ stabAux φ χ₁) :
+    ((wElt φ hg p : ↥(stabAux φ χ₁)) : G) = p.out⁻¹ * (cosetEquiv φ hg p).out * g := rfl
+
+-- The character at coset `cosetEquiv φ hg p` (for `χ₂`) agrees with the one at `p` (for `χ₁`).
+private lemma coset_char_transfer {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (a : A) (p : G ⧸ stabAux φ χ₁) :
+    χ₂ ((φ (cosetEquiv φ hg p).out⁻¹ : MulAut A) a) = χ₁ ((φ p.out⁻¹ : MulAut A) a) := by
+  have hs : p.out⁻¹ * (cosetEquiv φ hg p).out * g ∈ stabAux φ χ₁ := wElt_mem φ hg p
+  set r := (cosetEquiv φ hg p).out
+  calc χ₂ ((φ r⁻¹ : MulAut A) a)
+      = χ₁ ((φ g⁻¹ : MulAut A) ((φ r⁻¹ : MulAut A) a)) := by
+        rw [← hg]; rfl
+    _ = χ₁ ((φ (g⁻¹ * r⁻¹) : MulAut A) a) := by rw [map_mul, MulAut.mul_apply]
+    _ = χ₁ ((φ ((p.out⁻¹ * r * g)⁻¹ * p.out⁻¹) : MulAut A) a) := by
+        rw [show g⁻¹ * r⁻¹ = (p.out⁻¹ * r * g)⁻¹ * p.out⁻¹ from by group]
+    _ = χ₁ ((φ (p.out⁻¹ * r * g)⁻¹ : MulAut A) ((φ p.out⁻¹ : MulAut A) a)) := by
+        rw [map_mul, MulAut.mul_apply]
+    _ = χ₁ ((φ p.out⁻¹ : MulAut A) a) := stab_char_inv φ χ₁ (inv_mem hs) _
+
+-- A `G_{χ₁}`-linear automorphism of `↥U` from a group element acting through `U`.
+private noncomputable def rhoEquiv {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ : A →* ℂˣ} (U : FDRep ℂ ↥(stabAux φ χ₁)) (s : ↥(stabAux φ χ₁)) :
+    (↥U) ≃ₗ[ℂ] (↥U) where
+  toFun := FDRep.ρ U s
+  map_add' := (FDRep.ρ U s).map_add
+  map_smul' := (FDRep.ρ U s).map_smul
+  invFun := FDRep.ρ U s⁻¹
+  left_inv x := by
+    show FDRep.ρ U s⁻¹ (FDRep.ρ U s x) = x
+    rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
+  right_inv x := by
+    show FDRep.ρ U s (FDRep.ρ U s⁻¹ x) = x
+    rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
+
+@[simp] private lemma rhoEquiv_apply {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ : A →* ℂˣ} (U : FDRep ℂ ↥(stabAux φ χ₁)) (s : ↥(stabAux φ χ₁))
+    (x : ↥U) : rhoEquiv φ U s x = FDRep.ρ U s x := rfl
+
+-- The base-point change linear equivalence on underlying spaces.
+private noncomputable def baseChangeEquiv {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) :
+    ((G ⧸ stabAux φ χ₂) → ↥U) ≃ₗ[ℂ] ((G ⧸ stabAux φ χ₁) → ↥U) :=
+  (LinearEquiv.funCongrLeft ℂ (↥U) (cosetEquiv φ hg)) ≪≫ₗ
+    LinearEquiv.piCongrRight (fun p => rhoEquiv φ U (wElt φ hg p))
+
+private lemma baseChangeEquiv_apply {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) (f : (G ⧸ stabAux φ χ₂) → ↥U) (p : G ⧸ stabAux φ χ₁) :
+    baseChangeEquiv φ hg U f p = FDRep.ρ U (wElt φ hg p) (f (cosetEquiv φ hg p)) := by
+  simp only [baseChangeEquiv, LinearEquiv.trans_apply, LinearEquiv.piCongrRight_apply,
+    LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, rhoEquiv_apply]
+
+-- Action formulas for `inducedRepV`, lifted from the `inducedRep_raw` versions.
+private lemma inducedRepV_A_apply {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stabAux φ χ)) (a : A)
+    (f : (G ⧸ stabAux φ χ) → ↥U) (q : G ⧸ stabAux φ χ) :
+    (inducedRepV φ χ U).ρ (⟨a, 1⟩ : A ⋊[φ] G) f q
+      = ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) • f q :=
+  A_action_at_coset φ χ U a f q
+
+private lemma inducedRepV_G_apply {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stabAux φ χ)) (s : G)
+    (f : (G ⧸ stabAux φ χ) → ↥U) (q : G ⧸ stabAux φ χ) :
+    (inducedRepV φ χ U).ρ (⟨1, s⟩ : A ⋊[φ] G) f q
+      = FDRep.ρ U ⟨q.out⁻¹ * s * (s⁻¹ • q).out, transition_mem_stab φ χ s q⟩ (f (s⁻¹ • q)) :=
+  G_action_at_coset φ χ U s f q
+
+private lemma rho_congr {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) {χ₁ : A →* ℂˣ} (U : FDRep ℂ ↥(stabAux φ χ₁))
+    {s₁ s₂ : ↥(stabAux φ χ₁)} (h : (s₁ : G) = (s₂ : G)) {y₁ y₂ : ↥U} (hy : y₁ = y₂) :
+    FDRep.ρ U s₁ y₁ = FDRep.ρ U s₂ y₂ := by rw [Subtype.ext h, hy]
+
+-- The base-point change map intertwines the `A`-action.
+private lemma baseChange_comm_A {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) (a : A) (f : (G ⧸ stabAux φ χ₂) → ↥U) :
+    baseChangeEquiv φ hg U ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ ⟨a, 1⟩ f)
+      = (inducedRepV φ χ₁ U).ρ ⟨a, 1⟩ (baseChangeEquiv φ hg U f) := by
+  funext p
+  rw [baseChangeEquiv_apply, inducedRepV_A_apply, map_smul, inducedRepV_A_apply,
+    baseChangeEquiv_apply, coset_char_transfer]
+
+-- The base-point change map intertwines the (induced) `G`-action.
+private lemma baseChange_comm_G {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) (s : G) (f : (G ⧸ stabAux φ χ₂) → ↥U) :
+    baseChangeEquiv φ hg U ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ ⟨1, s⟩ f)
+      = (inducedRepV φ χ₁ U).ρ ⟨1, s⟩ (baseChangeEquiv φ hg U f) := by
+  funext p
+  rw [baseChangeEquiv_apply, inducedRepV_G_apply, transportRep_ρ_apply, ← Module.End.mul_apply,
+    ← map_mul, inducedRepV_G_apply, baseChangeEquiv_apply, ← Module.End.mul_apply, ← map_mul]
+  have hcoset := cosetEquiv_smul φ hg s p
+  have hout : Quotient.out (s⁻¹ • cosetEquiv φ hg p) = Quotient.out (cosetEquiv φ hg (s⁻¹ • p)) :=
+    congrArg Quotient.out hcoset
+  exact rho_congr φ U
+    (by simp only [Subgroup.coe_mul, conjStabHom_coe, wElt_coe, hout]; group)
+    (congrArg f hcoset)
+
+-- The base-point change map intertwines the full `A ⋊[φ] G`-action.
+private lemma baseChange_comm {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) (x : A ⋊[φ] G) (f : (G ⧸ stabAux φ χ₂) → ↥U) :
+    baseChangeEquiv φ hg U ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x f)
+      = (inducedRepV φ χ₁ U).ρ x (baseChangeEquiv φ hg U f) := by
+  have hx : x = (⟨x.left, 1⟩ : A ⋊[φ] G) * ⟨1, x.right⟩ := by
+    apply SemidirectProduct.ext <;> simp
+  rw [hx, map_mul, Module.End.mul_apply, baseChange_comm_A, baseChange_comm_G,
+    ← Module.End.mul_apply, ← map_mul]
+
+/-- **Base-point independence of the little-group construction.**
+If `χ₂ = g · χ₁` (i.e. `dualSmulAux φ g χ₁ = χ₂`) and `U` is a representation of
+the stabilizer `G_{χ₁}`, then `inducedRepV φ χ₂ (transportRep φ hg U)` is
+isomorphic to `inducedRepV φ χ₁ U` as a representation of `A ⋊[φ] G`, where
+`transportRep φ hg U = g(U)` is `U` transported along the conjugation isomorphism
+`G_{χ₂} ≅ G_{χ₁}`.  This formalizes the claim in
+`blobs/Chapter5/Discussion_semidirect_products.md` that `V_(O,x,U)` does not
+depend on the choice of base point `x ∈ O`. -/
+theorem Etingof.inducedRepV_basepoint_independent {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) {χ₁ χ₂ : A →* ℂˣ} {g : G} (hg : dualSmulAux φ g χ₁ = χ₂)
+    (U : FDRep ℂ ↥(stabAux φ χ₁)) :
+    Nonempty (inducedRepV φ χ₂ (transportRep φ hg U) ≅ inducedRepV φ χ₁ U) :=
+  ⟨Action.mkIso (baseChangeEquiv φ hg U).toFGModuleCatIso (fun x => by
+    refine FGModuleCat.hom_ext (LinearMap.ext (fun v => ?_))
+    show (baseChangeEquiv φ hg U) ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x v)
+        = (inducedRepV φ χ₁ U).ρ x ((baseChangeEquiv φ hg U) v)
+    exact baseChange_comm φ hg U x v)⟩
