@@ -400,15 +400,46 @@ Definition 5.1.1: "every quaternionic representation is even-dimensional".)
 -/
 
 /-- A nondegenerate alternating bilinear form on a finite-dimensional space forces
-the dimension to be even (existence of a symplectic basis).
+the dimension to be even.
 
-Isolated pending the symplectic-basis even-rank theorem (not yet in Mathlib). -/
+The slick determinant argument (no symplectic basis needed): an alternating form
+is skew-symmetric, so its Gram matrix `M` in any basis satisfies `Mᵀ = -M`. Hence
+`det M = det Mᵀ = det (-M) = (-1)ⁿ det M`. If `n = finrank` were odd this gives
+`det M = -det M`, so `det M = 0` (characteristic `0`), contradicting the
+nondegeneracy `det M ≠ 0`. -/
 private theorem even_finrank_of_nondegenerate_alternating
     (B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ)
-    (_halt : ∀ v, B v v = 0)
-    (_hnondeg : ∀ v, (∀ w, B v w = 0) → v = 0) :
+    (halt : ∀ v, B v v = 0)
+    (hnondeg : ∀ v, (∀ w, B v w = 0) → v = 0) :
     Even (Module.finrank ℂ V) := by
-  sorry
+  -- Alternating ⟹ skew-symmetric: expand `B (v + w) (v + w) = 0`.
+  have hskew : ∀ v w, B v w = - B w v := by
+    intro v w
+    have h := halt (v + w)
+    simp only [map_add, LinearMap.add_apply, halt] at h
+    linear_combination h
+  by_contra hne
+  rw [Nat.not_even_iff_odd] at hne
+  -- Work with the Gram matrix `M` of `B` in the canonical finite basis.
+  set b := Module.finBasis ℂ V with hb
+  set M := LinearMap.BilinForm.toMatrix b B with hM
+  -- Nondegeneracy is literally the hypothesis, so `det M ≠ 0`.
+  have hnd : LinearMap.BilinForm.Nondegenerate B := by
+    rw [LinearMap.BilinForm.nondegenerate_iff_ker_eq_bot, LinearMap.ker_eq_bot']
+    intro m hm
+    exact hnondeg m (fun w => by rw [hm]; simp)
+  have hdet_ne : M.det ≠ 0 := (LinearMap.BilinForm.nondegenerate_iff_det_ne_zero b).mp hnd
+  -- Skew-symmetry of `B` makes `M` skew-symmetric.
+  have htrans : M.transpose = -M := by
+    ext i j
+    simp only [hM, Matrix.transpose_apply, Matrix.neg_apply, LinearMap.BilinForm.toMatrix_apply]
+    exact hskew (b j) (b i)
+  -- `det M = (-1)ⁿ det M`, and `n` odd forces `det M = 0`.
+  have h1 : M.det = (-1) ^ Module.finrank ℂ V * M.det := by
+    conv_lhs => rw [← Matrix.det_transpose M, htrans, Matrix.det_neg]
+    simp [Fintype.card_fin]
+  rw [hne.neg_one_pow] at h1
+  exact hdet_ne (by linear_combination (1 / 2 : ℂ) * h1)
 
 /-- **L3 — quaternionic ⟹ even-dimensional.** A representation of quaternionic
 type is even-dimensional. So an **odd-dimensional** representation cannot be of
