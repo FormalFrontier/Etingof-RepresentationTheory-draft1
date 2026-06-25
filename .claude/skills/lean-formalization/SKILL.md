@@ -957,11 +957,16 @@ Three API gotchas that cost build cycles here:
   *definitionally* `M i j` (via `transpose`/`of_apply`). After
   `rw [Matrix.mulVec_single_one]` just close the entry goal with `rfl`, not a
   `col_apply` simp (which does not exist).
-- **`Basis.repr_reindex_apply` needs full qualification** as
-  `Module.Basis.repr_reindex_apply` (and `Module.Basis.reindex_apply`); the bare
-  `Basis.`-prefixed forms fail to resolve. Use these to fit a non-`Fin`-indexed
-  basis (e.g. `tBasisAlg : Basis (Fin n → Fin N)`) into the `Fin m`-indexed
-  `IsAlgebraicRepresentation` predicate by reindexing through `Fintype.equivFin`.
+- **`Basis` is now `Module.Basis` — the bare type AND its lemmas need the prefix.**
+  Under this repo's Mathlib, `Basis` lives in `namespace Module`, so a signature
+  `(b : Basis ι ℂ V)` fails with `Unknown identifier 'Basis'` (cost one build cycle
+  in #5233) — write `Module.Basis ι ℂ V`. Dot notation (`b.coord`, `b.repr`,
+  `b.index_nonempty`) resolves fine, but *named* lemmas need full qualification:
+  `Module.Basis.coord_apply`, `Module.Basis.repr_self_apply`,
+  `Module.Basis.repr_reindex_apply`, `Module.Basis.reindex_apply` (the bare
+  `Basis.`-prefixed forms fail to resolve). The reindex lemmas fit a non-`Fin`-indexed
+  basis (e.g. `tBasisAlg : Module.Basis (Fin n → Fin N)`) into a `Fin m`-indexed
+  predicate via `Fintype.equivFin`.
 - **`let` not `set` for locals whose *defeq* you rely on** (here a projection `π`
   and the functional `φ y = b'.repr (π y) a`): `set` introduces an *opaque* local,
   so terms like `linearProjOfIsCompl_apply_left` (which mention the unfolded
