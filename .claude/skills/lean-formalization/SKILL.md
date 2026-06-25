@@ -476,6 +476,48 @@ sign-representation dimensions (`dim = 1`). The current Mathlib `Multiset.sort`
 API is `Pairwise`-based: there is no `List.Sorted`/`eq_of_perm_of_sorted`; use
 `Multiset.sort_cons`/`sort_singleton`/`coe_sort` + `List.mergeSort_eq_self`.
 
+#### Multiplicative character of a finite cyclic subgroup (e.g. `ℂ_ε` on `Z₃ = A₃`, #5248)
+
+To build a character `χ : ↥H →* ℂˣ` of a concrete cyclic subgroup `H ≤ G` sending a chosen
+generator `g₀ : ↥H` to a chosen unit `u : ℂˣ`, use `monoidHomOfForallMemZpowers`
+(`Mathlib/GroupTheory/SpecificGroups/Cyclic.lean`): `monoidHomOfForallMemZpowers (hg : ∀ x, x ∈
+Subgroup.zpowers g₀) (hg' : orderOf u ∣ orderOf g₀) : ↥H →* ℂˣ`, with
+`monoidHomOfForallMemZpowers_apply_gen` giving `χ g₀ = u`. Worked, sorry-free in
+`Chapter5/Discussion5_11_examples.lean` (`epsHom`, the cube-root character `ε(gen) = exp(2πi/3)`).
+**`decide` does NOT discharge the three obligations** — each needs a real proof:
+
+- **`g₀ ∈ H`** (here `finRotate 3 ∈ alternatingGroup (Fin 3)`): unfold the subgroup and rewrite to
+  the membership predicate first — `rw [Equiv.Perm.mem_alternatingGroup]; decide` (`decide` *does*
+  evaluate `sign (finRotate 3) = 1`, but not the bare `∈ alternatingGroup`, which lacks a
+  `Decidable` instance).
+- **`orderOf g₀ = n`** (`decide` on `orderOf` times out / no instance): use `orderOf_eq_prime`
+  (needs `haveI : Fact (Nat.Prime n)`) with `g₀ ^ n = 1` (by `Subtype.ext; decide` on the
+  underlying perm) and `g₀ ≠ 1` (`fun h => absurd (congrArg Subtype.val h) (by decide)`).
+- **`∀ x, x ∈ Subgroup.zpowers g₀`** (the `∃ k : ℤ` makes `decide` fail): prove `zpowers g₀ = ⊤`
+  via `Subgroup.eq_top_of_card_eq` + `rw [Nat.card_zpowers, orderOf_lemma, <subgroup-def>,
+  Nat.card_eq_fintype_card]; decide`, then `Subgroup.mem_top`.
+
+For the unit: `zeta3 := Units.mk0 (Complex.exp (2 * Real.pi * Complex.I / 3)) (Complex.exp_ne_zero _)`;
+`ζ³ = 1` by `Units.ext` then `← Complex.exp_nat_mul` + `Complex.exp_two_pi_mul_I` (push the `(3:ℕ)`
+cast through with `push_cast; ring` inside a `show`); `orderOf ζ ∣ orderOf g₀` from
+`orderOf_dvd_of_pow_eq_one`. Package `ℂ_ε := FDRep.of (charRep χ)`; simplicity is free from the
+existing `charRep_simple`.
+
+#### Scoping the §5.11 `S₃` induced-rep decompositions (#5248, partial)
+
+`Ind_H^G (1-dim char) ≅ ⊞ irreps` (Etingof §5.11) is **larger than one session** when the
+induced-character formula `Theorem5_9_1` is off-limits (still `sorry`). The issue-faithful route
+needs three reusable pieces, none yet built: (1) `character_biprod` (`FDRep` char additive on `⊞`,
+analogue of `FDRep.char_tensor`); (2) completeness of the `S₃` irrep catalogue, provable from
+`exists_simples_sum_finrank_sq_eq_card` (`Infrastructure/IrreducibleEnumeration.lean`) since
+`1²+1²+2²=6=|S₃|`; (3) the Frobenius LHS hom-dim `finrank (T ⟶ Ind_H ρ)` via `Rep.indResHomEquiv`
+(`Etingof.Theorem5_10_1`) reduced to a scalar product over `H`
+(`FDRep.scalar_product_char_eq_finrank_equivariant`) — this carries the riskiest plumbing, the
+FDRep↔Rep bridge between `FDRep.of (Representation.ind …)` and `Rep.ind …`. Finish each with
+`Etingof.iso_of_forall_finrank_hom_eq` (in `CharEqIso.lean`) + `FDRep.finrank_hom_simple_simple`
+for RHS multiplicities. Don't reach for `charEq_iso` here: it needs the induced character, exactly
+what the Frobenius route exists to avoid.
+
 ### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
 
 The per-(field, orientation) reps `<X>Rep_kQ` (`FieldGeneric{Star,D5/6/7Tilde,ETilde6/7,T125,Tube}.lean`) are built tactically: `noncomputable def … := by letI := Q; exact { obj := fun v => Fin (<X>Dim m v) → F, … }`. The structure projection `(<X>Rep_kQ …).obj ⟨v, _⟩` does **not** reduce to `Fin (k·(m+1)) → F` under the transparency that `Membership`-instance synthesis uses. Consequences when stating lemmas over the rep family `W : ∀ v, Submodule F ((<X>Rep_kQ …).obj v)`:
