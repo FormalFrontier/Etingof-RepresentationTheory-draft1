@@ -4,6 +4,8 @@ import Mathlib.Order.KrullDimension
 import Mathlib.Order.OrderIsoNat
 import Mathlib.CategoryTheory.Subobject.Lattice
 import Mathlib.CategoryTheory.Subobject.Limits
+import Mathlib.CategoryTheory.Abelian.Exact
+import Mathlib.CategoryTheory.Abelian.Pseudoelements
 import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
@@ -257,5 +259,89 @@ theorem exists_image_kernel_pow_stabilizes {X : C} (f : End X) :
   refine ⟨max N₁ N₂ + 1, Nat.succ_pos _, ?_, ?_⟩
   · rw [hN₁ (2 * (max N₁ N₂ + 1)) (by omega), hN₁ (max N₁ N₂ + 1) (by omega)]
   · rw [hN₂ (2 * (max N₁ N₂ + 1)) (by omega), hN₂ (max N₁ N₂ + 1) (by omega)]
+
+/-! ## Fitting stabilisation of the image restriction
+
+The combined image/kernel stabilisation upgrades to the statement Fitting's lemma actually consumes:
+at the stabilising power `n`, the image restriction
+`g' := image.ι (fⁿ) ≫ factorThruImage (fⁿ) : image (fⁿ) ⟶ image (fⁿ)` is an isomorphism. We argue
+on pseudoelements: `g'` is injective because `im (fⁿ) = im (f^{2n})` and `ker (fⁿ) = ker (f^{2n})`
+force any element killed by `g'` to vanish, and surjective because `im (fⁿ) = im (f^{2n})` lets every
+element of `im (fⁿ)` be hit. -/
+
+attribute [local instance] CategoryTheory.Abelian.Pseudoelement.objectToSort
+  CategoryTheory.Abelian.Pseudoelement.homToFun CategoryTheory.Abelian.Pseudoelement.overToSort
+
+/-- The kernel-subobject inclusion `ker g ↪ X → Y` is an exact short complex. -/
+private theorem exact_kernelSubobject_arrow {Y Z : C} (g : Y ⟶ Z) :
+    (ShortComplex.mk (kernelSubobject g).arrow g (kernelSubobject_arrow_comp g)).Exact := by
+  rw [ShortComplex.exact_iff_image_eq_kernel]
+  change imageSubobject (kernelSubobject g).arrow = kernelSubobject g
+  rw [imageSubobject_mono, Subobject.mk_arrow]
+
+/-- **Image restriction is an isomorphism at the stabilising power** — the precise finite-length
+input Fitting's lemma (`fitting_decomposition`, link 3/5) consumes. For an endomorphism `f` there is
+a positive `n` at which `image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an isomorphism. -/
+theorem exists_pow_stabilizes {X : C} (f : End X) :
+    ∃ n, 0 < n ∧ IsIso (Abelian.image.ι ((f : X ⟶ X) ^ n) ≫
+      Abelian.factorThruImage ((f : X ⟶ X) ^ n)) := by
+  obtain ⟨n, hn, him, hker⟩ := exists_image_kernel_pow_stabilizes f
+  refine ⟨n, hn, ?_⟩
+  set g : X ⟶ X := (f : X ⟶ X) ^ n with hg
+  set g2 : X ⟶ X := (f : X ⟶ X) ^ (2 * n) with hg2
+  set i := Abelian.image.ι g with hi
+  set p := Abelian.factorThruImage g with hp
+  have hpi : p ≫ i = g := Abelian.image.fac g
+  -- `i ∘ p` is the identity-up-to-`g`: `i (p y) = g y`.
+  have hint : ∀ y : X, i (p y) = g y := fun y => by
+    rw [← Abelian.Pseudoelement.comp_apply, hpi]
+  -- `g ≫ g = g2`, i.e. `f^n ≫ f^n = f^{2n}`.
+  have hsq : g ≫ g = g2 := by rw [hg, hg2, two_mul, pow_add, End.mul_def]
+  -- KER stabilisation on pseudoelements: `g2 w = 0 → g w = 0`.
+  have hKER : ∀ w : X, g2 w = 0 → g w = 0 := by
+    intro w hw
+    obtain ⟨a, ha⟩ := Abelian.Pseudoelement.pseudo_exact_of_exact
+      (exact_kernelSubobject_arrow g2) w hw
+    have hle : kernelSubobject g2 ≤ kernelSubobject g := hker.ge
+    have harrow : (kernelSubobject g2).arrow ≫ g = 0 := by
+      rw [← Subobject.ofLE_arrow hle, Category.assoc, kernelSubobject_arrow_comp, comp_zero]
+    rw [← ha, ← Abelian.Pseudoelement.comp_apply, harrow, Abelian.Pseudoelement.zero_apply]
+  -- IMAGE stabilisation on pseudoelements: `im g ⊆ im g2`.
+  have hIM : ∀ x u : X, g u = x → ∃ z, g2 z = x := by
+    intro x u hxu
+    have hle : imageSubobject g ≤ imageSubobject g2 := him.le
+    have hx2 : x = (imageSubobject g2).arrow
+        (Subobject.ofLE _ _ hle (factorThruImageSubobject g u)) := by
+      rw [← Abelian.Pseudoelement.comp_apply, Subobject.ofLE_arrow,
+        ← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]
+      exact hxu.symm
+    obtain ⟨z, hz⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi
+      (factorThruImageSubobject g2)
+      (Subobject.ofLE _ _ hle (factorThruImageSubobject g u))
+    exact ⟨z, by rw [hx2, ← hz, ← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]⟩
+  -- `i ≫ p` is mono and epi, hence iso.
+  haveI hmono : Mono (i ≫ p) := by
+    apply Abelian.Pseudoelement.mono_of_zero_of_map_zero
+    intro a ha
+    obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a
+    have hia : i a = g w := by rw [← hw, hint]
+    have hpia : p (i a) = 0 := by rw [← Abelian.Pseudoelement.comp_apply]; exact ha
+    have hFn_ia : g (i a) = 0 := by
+      rw [← hint (i a), hpia, Abelian.Pseudoelement.apply_zero]
+    have hw2n : g2 w = 0 := by
+      rw [← hsq, Abelian.Pseudoelement.comp_apply, ← hia, hFn_ia]
+    have hia0 : i a = 0 := by rw [hia, hKER w hw2n]
+    exact Abelian.Pseudoelement.zero_of_map_zero i
+      (Abelian.Pseudoelement.pseudo_injective_of_mono i) a hia0
+  haveI hepi : Epi (i ≫ p) := by
+    apply Abelian.Pseudoelement.epi_of_pseudo_surjective
+    intro a
+    obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a
+    have hia : i a = g w := by rw [← hw, hint]
+    obtain ⟨z, hz⟩ := hIM (i a) w hia.symm
+    refine ⟨p z, ?_⟩
+    apply Abelian.Pseudoelement.pseudo_injective_of_mono i
+    rw [Abelian.Pseudoelement.comp_apply, hint, hint, ← Abelian.Pseudoelement.comp_apply, hsq, hz]
+  exact isIso_of_mono_of_epi (i ≫ p)
 
 end Etingof
