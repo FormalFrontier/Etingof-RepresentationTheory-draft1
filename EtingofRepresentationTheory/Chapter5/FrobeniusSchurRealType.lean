@@ -93,6 +93,55 @@ theorem nondegenerate_of_invariant_of_simple
   rw [hker, Submodule.mem_bot] at hv'
   exact hv'
 
+open scoped TensorProduct
+
+/-- Trace of an endomorphism via a basis: `trace f = ∑ i, b.repr (f (b i)) i`. -/
+private lemma trace_eq_sum_repr_diag
+    {M : Type*} [AddCommGroup M] [Module ℂ M] [Module.Finite ℂ M]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℂ M) (f : M →ₗ[ℂ] M) :
+    LinearMap.trace ℂ M f = ∑ i, b.repr (f (b i)) i := by
+  rw [LinearMap.trace_eq_matrix_trace ℂ b f]
+  simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
+
+/-- **Swap-trace identity.** On `W ⊗ W` (for finite-dimensional `W`), the trace of
+`swap ∘ (A ⊗ B)` equals `trace (A ∘ B)`. This is the linear-algebra heart of the
+`χ(g²) = χ_{S²} − χ_{Λ²}` identity behind the Frobenius-Schur indicator. -/
+private lemma trace_comm_comp_map
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [Module.Finite ℂ W]
+    (A B : W →ₗ[ℂ] W) :
+    LinearMap.trace ℂ (W ⊗[ℂ] W)
+        ((TensorProduct.comm ℂ W W).toLinearMap ∘ₗ TensorProduct.map A B)
+      = LinearMap.trace ℂ W (A ∘ₗ B) := by
+  classical
+  set b := Module.finBasis ℂ W with hb
+  -- LHS via the tensor basis
+  rw [trace_eq_sum_repr_diag (b.tensorProduct b)
+        ((TensorProduct.comm ℂ W W).toLinearMap ∘ₗ TensorProduct.map A B),
+      Fintype.sum_prod_type]
+  -- simplify the diagonal tensor entries
+  have hLHS : ∀ i j, (b.tensorProduct b).repr
+        ((((TensorProduct.comm ℂ W W).toLinearMap ∘ₗ TensorProduct.map A B))
+          ((b.tensorProduct b) (i, j))) (i, j)
+        = b.repr (A (b i)) j * b.repr (B (b j)) i := by
+    intro i j
+    rw [Module.Basis.tensorProduct_apply]
+    simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearEquiv.coe_coe,
+      TensorProduct.comm_tmul, Module.Basis.tensorProduct_repr_tmul_apply, smul_eq_mul]
+  simp_rw [hLHS]
+  -- RHS via matrix product
+  rw [trace_eq_sum_repr_diag b (A ∘ₗ B)]
+  have hRHS : ∀ i, b.repr ((A ∘ₗ B) (b i)) i
+      = ∑ j, b.repr (A (b j)) i * b.repr (B (b i)) j := by
+    intro i
+    rw [LinearMap.comp_apply]
+    conv_lhs => rw [← Module.Basis.sum_repr b (B (b i))]
+    rw [map_sum, map_sum, Finset.sum_apply']
+    refine Finset.sum_congr rfl fun j _ => ?_
+    simp only [map_smul, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul]
+    ring
+  simp_rw [hRHS]
+  rw [Finset.sum_comm]
+
 variable [Fintype G] [DecidableEq G] [Module.Finite ℂ V]
 
 /-- **Existence of a nonzero invariant symmetric form when `FS = 1`** (steps 1–3
