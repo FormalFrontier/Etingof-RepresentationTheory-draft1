@@ -455,4 +455,100 @@ theorem even_finrank_of_isQuaternionicType
   have h2 : (2 : ℂ) * B v v = 0 := by linear_combination e
   exact (mul_eq_zero.mp h2).resolve_left (by norm_num)
 
+/-!
+## Self-dual dichotomy — real *or* quaternionic (no trace identity needed)
+
+If a simple representation has a **self-dual** character (`χ(g⁻¹) = χ(g)`, the
+hypothesis supplied by an *ambivalent* group via L2) then it is of real type or
+quaternionic type. The argument bypasses the still-isolated Frobenius-Schur trace
+identity: self-duality gives `⟨χ, χ⟩`-style positivity, so the space of invariant
+bilinear forms is nonzero; symmetrising / antisymmetrising any nonzero invariant
+form yields a nonzero invariant **symmetric** or **skew-symmetric** form, which is
+nondegenerate by simplicity. Combined with L3 this gives the workhorse corollary
+`isRealType_of_self_dual_of_odd_finrank`.
+-/
+
+/-- For a self-dual simple representation (`χ(g⁻¹) = χ(g)`), the space of invariant
+bilinear forms is nontrivial: there is a nonzero `G`-invariant bilinear form.
+
+The dimension of the invariant bilinear forms is
+`finrank (linHom ρ ρ.dual).invariants = (|G|)⁻¹ ∑_g χ(g⁻¹)²`
+(`card_inv_mul_sum_char_eq_finrank` + `char_linHom` + `char_dual`); self-duality
+rewrites this to the character orthonormality sum `(|G|)⁻¹ ∑_g χ(g) χ(g⁻¹) = 1`, so
+the dimension is `1 > 0`. -/
+theorem exists_nonzero_invariant_bilin_of_self_dual
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g) :
+    ∃ B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ, B ≠ 0 ∧ (∀ g v w, B (ρ g v) (ρ g w) = B v w) := by
+  haveI : Representation.IsIrreducible ρ :=
+    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ
+  haveI : Nonempty G := ⟨1⟩
+  haveI : Invertible (Nat.card G : ℂ) :=
+    invertibleOfNonzero (by simp only [ne_eq, Nat.cast_eq_zero]; exact Nat.card_pos.ne')
+  -- `finrank` of the invariant bilinear forms, cast to `ℂ`, equals `1`.
+  have hkey := Representation.card_inv_mul_sum_char_eq_finrank (Representation.linHom ρ ρ.dual)
+  have hortho := Representation.char_orthonormal ρ ρ
+  rw [if_pos ⟨Representation.Equiv.refl ρ⟩] at hortho
+  have hchar : ∀ g, (Representation.linHom ρ ρ.dual).character g
+      = ρ.character g * ρ.character g⁻¹ := fun g => by
+    rw [Representation.char_linHom, Representation.char_dual, hsd g]
+  rw [Finset.sum_congr rfl (fun g _ => hchar g), hortho] at hkey
+  have hfr : (Module.finrank ℂ ((Representation.linHom ρ ρ.dual).invariants) : ℂ) = 1 :=
+    hkey.symm
+  have hpos : 0 < Module.finrank ℂ ((Representation.linHom ρ ρ.dual).invariants) := by
+    rw [Nat.pos_iff_ne_zero]; intro h0; rw [h0] at hfr; norm_num at hfr
+  -- positive `finrank` ⟹ a nonzero invariant element ⟹ a nonzero invariant bilinear form.
+  haveI : Nontrivial ((Representation.linHom ρ ρ.dual).invariants) :=
+    Module.nontrivial_of_finrank_pos hpos
+  obtain ⟨x, hx0⟩ := exists_ne (0 : (Representation.linHom ρ ρ.dual).invariants)
+  refine ⟨x.1, fun h0 => hx0 (Subtype.ext h0), ?_⟩
+  intro g v w
+  have hmem : (Representation.linHom ρ ρ.dual) g⁻¹ x.1 = x.1 := x.2 g⁻¹
+  have h1 := LinearMap.congr_fun (LinearMap.congr_fun hmem v) w
+  simpa [Representation.linHom_apply, Representation.dual_apply,
+    Module.Dual.transpose_apply] using h1
+
+/-- **Self-dual dichotomy.** A simple complex representation with self-dual
+character (`χ(g⁻¹) = χ(g)`) is of real type or of quaternionic type: take a
+nonzero invariant bilinear form `B`; its symmetric part `B + Bᵀ` and skew part
+`B − Bᵀ` are both invariant and sum to `2B ≠ 0`, so one of them is a nonzero
+invariant symmetric / skew-symmetric form, nondegenerate by simplicity. -/
+theorem isRealType_or_isQuaternionicType_of_self_dual
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g) :
+    Etingof.IsRealType ρ ∨ Etingof.IsQuaternionicType ρ := by
+  obtain ⟨B, hBne, hBinv⟩ := exists_nonzero_invariant_bilin_of_self_dual ρ hρ hsd
+  have hflipinv : ∀ g v w, B.flip (ρ g v) (ρ g w) = B.flip v w := fun g v w => by
+    simp only [LinearMap.flip_apply]; exact hBinv g w v
+  by_cases hS : B + B.flip = 0
+  · -- `B` itself is skew-symmetric, nonzero, invariant ⟹ quaternionic type.
+    refine Or.inr ⟨B, ?_, nondegenerate_of_invariant_of_simple ρ hρ B hBne hBinv, hBinv⟩
+    intro v w
+    have h := LinearMap.congr_fun (LinearMap.congr_fun hS v) w
+    simp only [LinearMap.add_apply, LinearMap.zero_apply, LinearMap.flip_apply] at h
+    linear_combination h
+  · -- the symmetric part `B + Bᵀ` is nonzero, invariant ⟹ real type.
+    refine Or.inl ⟨B + B.flip, fun v w => ?_,
+      nondegenerate_of_invariant_of_simple ρ hρ _ hS (fun g v w => ?_), fun g v w => ?_⟩
+    · simp only [LinearMap.add_apply, LinearMap.flip_apply]; ring
+    · simp only [LinearMap.add_apply]; rw [hBinv, hflipinv]
+    · simp only [LinearMap.add_apply]; rw [hBinv, hflipinv]
+
+/-- **Odd-dimensional self-dual simple ⟹ real type.** The workhorse for the
+odd-dimensional irreducibles of an ambivalent group: a simple representation with
+self-dual character and odd dimension is of real type (dichotomy rules out complex
+type, L3 rules out quaternionic type). -/
+theorem isRealType_of_self_dual_of_odd_finrank
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g)
+    (hodd : Odd (Module.finrank ℂ V)) :
+    Etingof.IsRealType ρ := by
+  rcases isRealType_or_isQuaternionicType_of_self_dual ρ hρ hsd with h | h
+  · exact h
+  · exact absurd (even_finrank_of_isQuaternionicType ρ h)
+      (by rw [Nat.not_even_iff_odd]; exact hodd)
+
 end Etingof
