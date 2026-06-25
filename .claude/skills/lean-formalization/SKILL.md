@@ -3324,3 +3324,40 @@ full graph rather than waiting on the aggregator locally.
   (otherwise: `unexpected token 'set_option'; expected 'lemma'`). To silence
   `linter.unusedFintypeInType` on a theorem whose `[Fintype κ]` is only used to form `⨁` in the
   type, put `set_option linter.unusedFintypeInType false in` on the line *above* the docstring.
+- **Round-tripping a functor/decomposition through a *derived* module (e.g. `forwardRep`/
+  `vertexSpace` applied to `reverseModule R`) — three frictions that cost many iterations
+  (see `Chapter2/Discussion_quiver_rep_bijection.lean`):**
+  1. *Instances on the derived carrier.* A `noncomputable def` module structure (`reverseModule R :
+     Module (PathAlgebra k Q) (⊕ᵢ …)`) is not an instance. Threading `letI := reverseModule R;
+     haveI := …isScalarTower R` through *every* statement is fragile (the `letI` inside
+     `…isScalarTower`'s type leaves `k`/the tower stuck with metavariables). Instead
+     `attribute [local instance] reverseModule` once, then a clean
+     `local instance … : IsScalarTower k (PathAlgebra k Q) (⊕ᵢ …) := reverseModule_isScalarTower R`.
+     Even then, generic defs like `vertexProj`/`vertexSpace`/`forwardRep` leave `k` (and sometimes
+     `V`) floating → `IsScalarTower ?k …` / `Field ?k` "stuck" errors; pin them explicitly with
+     `(k := k) (V := …)` at the call site.
+  2. *Family-spelling defeq.* `DirectSum Q F` with `F i = R.obj (op i)` is *definitionally* but not
+     *syntactically* `⨁ i, ↥(vertexSpace i)`, so `DirectSum.coeLinearMap_lof` / `component.of` /
+     coercion-to-ambient (`(z : V)`) do not fire or even elaborate (the coercion resolver does not
+     see `R.obj (op i)` as a `SetLike` subtype). Bridge with a one-line `rfl`/defeq lemma stated in
+     the projection spelling (`coeV_lof i z : coeV (lof … i z) = (vertexSpace i).subtype z :=
+     DirectSum.coeLinearMap_lof _ i z`) and use `(submodule).subtype z` instead of `(z : V)`.
+  3. *Coe-head mismatch in naturality.* `apply Subtype.ext` yields `Subtype.val`, but
+     `arrowMap_coe_apply`/your `…_coe` lemmas are stated with the `SetLike`/`↑` coe, and a
+     structure field `app := (equiv).toLinearMap` puts a `toLinearMap`-coe between you and the
+     equiv-coe `…_coe` lemma — so `rw`/`simp` silently fail to match. Don't fight it lemma-by-lemma:
+     `change` the whole goal into a fully *definitionally-equal* computed form (here all the bridging
+     coe lemmas — `ofLinear` apply, `codRestrict`/`restrict` `.val`, `reverseModule_smul_def`,
+     `…_coe` — are `rfl`), e.g. `change lof Y.unop (R.mapLinear e x) = toEnd R (ofArrow e.unop)
+     (lof X.unop x)`, then finish with the *non*-`rfl` rewrites (`toEnd_ofPath`, `pathEnd_mk`, …).
+- **A `QuiverRepresentation` `obj` is only `AddCommMonoid`** (it is built over `CommSemiring k`).
+  So a module assembled from rep vertex spaces (`⊕ᵢ R.obj (op i)`) is *not* an `AddCommGroup`, and
+  any decomposition machinery requiring `[AddCommGroup V]` (e.g.
+  `DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top`, which needs subtraction) cannot be
+  applied to it. Keep the bulk of the machinery at `[AddCommMonoid V]` and split *only* the
+  group-requiring lemma (`isInternal_vertexSpace`) into its own `[AddCommGroup V]` section.
+- **There is no `QuiverRepresentation.Iso` reachable from Chapter 2** (it lives in Chapter 6, which
+  *imports* Chapter 2 — using it would be circular, and redefining it clashes). For a Chapter-2
+  representation isomorphism, use `Etingof.QuiverRepresentationHom k Q ρ₁ ρ₂` (note: `k` and `Q` are
+  *explicit*) and expose the per-vertex `LinearEquiv`s separately as the witness that the
+  components are isos.
