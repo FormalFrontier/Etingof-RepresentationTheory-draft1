@@ -1369,6 +1369,27 @@ For proving coefficient formulas in `MonoidAlgebra ℂ (Equiv.Perm (Fin n))`:
 the converse of `FDRep.char_iso`. **Use it, don't rebuild it** when a character
 identity needs upgrading to an isomorphism (e.g. induced-rep decompositions).
 
+**Permutation- and sub-representation characters (Ch5 §5.11 `stdRep`, #5263).** To
+get a permutation rep's character: `permRep g = ((g⁻¹).permMatrix ℂ).toLin'`
+(`Matrix.permMatrix_mulVec` + `Matrix.toLin'_apply`), then
+`LinearMap.trace … = Matrix.trace … = (Function.fixedPoints g⁻¹).ncard` via
+`Matrix.trace_toLin'_eq` + `Matrix.trace_permutation` — i.e. `χ(g) = #fix(g)`. For
+the character of an *invariant subspace* (e.g. the standard rep as the sum-zero
+`stdSub`), split the trace over an internal direct sum with its complement:
+`LinearMap.trace_eq_sum_trace_restrict` (needs `DirectSum.IsInternal N`, obtained for
+a two-element family via `DirectSum.isInternal_submodule_iff_isCompl` +
+`Submodule.isCompl_iff_disjoint`); the complementary trivial line contributes trace
+`1`, giving `χ_std(g) = #fix(g) − 1`. The `Subrepresentation.toRepresentation g`
+restriction is *defeq* to the `(permRep g).restrict _` term the trace lemma produces
+(proof-irrelevant `MapsTo`), so the sub-character matches by `change`. For simplicity
+via `FDRep.simple_iff_char_is_norm_one`, convert `∑_g χ(g)χ(g⁻¹)` to an **integer**
+`Finset` sum (`fixCard g := (univ.filter (g · = ·)).card`, `push_cast`) and close with
+`decide` — `Set.ncard`/`Function.fixedPoints` are noncomputable, so always bridge to a
+`Finset.filter` cardinality first. Pitfall: `linarith` does **not** work over `ℂ`
+(unordered) — use `eq_sub_iff_add_eq` / `linear_combination`. Lemmas in
+`Chapter5/Discussion5_11_examples.lean`: `permRep_eq_toLin'`, `trace_permRep`,
+`stdRep_character`, `stdRep_simple`.
+
 Two lessons that cost ~hours of deliberation here:
 
 1. **For FDRep iso-from-invariants, do the induction *inside* `FDRep`, not via
