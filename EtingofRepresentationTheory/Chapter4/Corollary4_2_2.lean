@@ -199,7 +199,7 @@ private noncomputable def AlgEquiv.centerLinearEquiv
 /-! #### Combine: n = |ConjClasses G| -/
 
 /-- The number of Wedderburn blocks equals the number of conjugacy classes. -/
-private theorem IrrepDecomp.n_eq_card_conjClasses' (D : IrrepDecomp k G) :
+theorem IrrepDecomp.n_eq_card_conjClasses' (D : IrrepDecomp k G) :
     D.n = Fintype.card (ConjClasses G) := by
   have h1 := (AlgEquiv.centerLinearEquiv D.iso).finrank_eq
   have h2 := finrank_center_pi_matrix D
