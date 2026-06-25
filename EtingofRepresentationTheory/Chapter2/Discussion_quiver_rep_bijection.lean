@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_8_3
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
+import EtingofRepresentationTheory.Chapter2.Definition2_8_10
 import Mathlib.Algebra.Algebra.Tower
 import Mathlib.RingTheory.Idempotents
 import Mathlib.Algebra.DirectSum.Module
@@ -138,7 +139,7 @@ choice the arrow maps force).
 
 section ModuleDecomposition
 
-variable [Fintype Q] {V : Type*} [AddCommGroup V] [Module k V]
+variable [Fintype Q] {V : Type*} [AddCommMonoid V] [Module k V]
   [Module (PathAlgebra k Q) V] [IsScalarTower k (PathAlgebra k Q) V]
 
 /-- The action of the path algebra on a left module `V`, packaged as a `k`-algebra homomorphism
@@ -181,37 +182,6 @@ theorem vertexProj_eq_self_of_mem {i : Q} {x : V} (hx : x ∈ (vertexSpace i : S
     (vertexProj i : Module.End k V) x = x := by
   obtain ⟨y, rfl⟩ := hx
   rw [← Module.End.mul_apply, (completeOrthogonalIdempotents_vertexProj.idem i).eq]
-
-/-- **Module side of the quiver-representation / path-module bijection.** For a left module `V`
-over the path algebra of a finite quiver, the vertex spaces `Vᵢ = pᵢ V` give an internal
-direct-sum decomposition `V = ⊕ᵢ Vᵢ`. This is the underlying-module content witnessing that the
-assignments `V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` are mutually inverse. -/
-theorem isInternal_vertexSpace :
-    DirectSum.IsInternal (fun i : Q => (vertexSpace i : Submodule k V)) := by
-  classical
-  rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
-  refine ⟨?_, ?_⟩
-  · -- independence: `pᵢ` is the identity on `Vᵢ` and zero on every other `Vⱼ`
-    rw [iSupIndep_def]
-    intro i
-    rw [Submodule.disjoint_def]
-    intro x hx hxsup
-    have hker : (⨆ (j) (_ : j ≠ i), (vertexSpace j : Submodule k V))
-        ≤ LinearMap.ker (vertexProj i : Module.End k V) := by
-      refine iSup₂_le fun j hj => ?_
-      rw [vertexSpace_eq, LinearMap.range_le_ker_iff]
-      exact completeOrthogonalIdempotents_vertexProj.ortho hj.symm
-    have h0 : (vertexProj i : Module.End k V) x = 0 := by
-      rw [← LinearMap.mem_ker]; exact hker hxsup
-    rw [← vertexProj_eq_self_of_mem hx, h0]
-  · -- spanning: every `v = ∑ᵢ pᵢ v` with `pᵢ v ∈ Vᵢ`
-    rw [eq_top_iff]
-    intro v _
-    have hsum : (∑ i : Q, (vertexProj i : Module.End k V)) v = v := by
-      rw [completeOrthogonalIdempotents_vertexProj.complete, Module.End.one_apply]
-    rw [← hsum, LinearMap.sum_apply]
-    exact Submodule.sum_mem _ fun i _ =>
-      Submodule.mem_iSup_of_mem i (vertexProj_mem_vertexSpace i v)
 
 /-! ## Arrow maps and the forward functor `V ↦ (pᵢ V, aₑ ↾)`
 
@@ -454,6 +424,46 @@ Both rest on the underlying-module decomposition `isInternal_vertexSpace` togeth
 naturality of the arrow maps, recorded below.
 -/
 
+section InternalDecomposition
+
+variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q]
+variable [Fintype Q] {V : Type*} [AddCommGroup V] [Module k V]
+  [Module (PathAlgebra k Q) V] [IsScalarTower k (PathAlgebra k Q) V]
+
+/-- **Module side of the quiver-representation / path-module bijection.** For a left module `V`
+over the path algebra of a finite quiver, the vertex spaces `Vᵢ = pᵢ V` give an internal
+direct-sum decomposition `V = ⊕ᵢ Vᵢ`. This is the underlying-module content witnessing that the
+assignments `V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` are mutually inverse. (Requires `AddCommGroup V`, the
+only place subtraction enters: the internal-decomposition criterion is stated for groups.) -/
+theorem isInternal_vertexSpace :
+    DirectSum.IsInternal (fun i : Q => (vertexSpace i : Submodule k V)) := by
+  classical
+  rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
+  refine ⟨?_, ?_⟩
+  · -- independence: `pᵢ` is the identity on `Vᵢ` and zero on every other `Vⱼ`
+    rw [iSupIndep_def]
+    intro i
+    rw [Submodule.disjoint_def]
+    intro x hx hxsup
+    have hker : (⨆ (j) (_ : j ≠ i), (vertexSpace j : Submodule k V))
+        ≤ LinearMap.ker (vertexProj i : Module.End k V) := by
+      refine iSup₂_le fun j hj => ?_
+      rw [vertexSpace_eq, LinearMap.range_le_ker_iff]
+      exact completeOrthogonalIdempotents_vertexProj.ortho hj.symm
+    have h0 : (vertexProj i : Module.End k V) x = 0 := by
+      rw [← LinearMap.mem_ker]; exact hker hxsup
+    rw [← vertexProj_eq_self_of_mem hx, h0]
+  · -- spanning: every `v = ∑ᵢ pᵢ v` with `pᵢ v ∈ Vᵢ`
+    rw [eq_top_iff]
+    intro v _
+    have hsum : (∑ i : Q, (vertexProj i : Module.End k V)) v = v := by
+      rw [completeOrthogonalIdempotents_vertexProj.complete, Module.End.one_apply]
+    rw [← hsum, LinearMap.sum_apply]
+    exact Submodule.sum_mem _ fun i _ =>
+      Submodule.mem_iSup_of_mem i (vertexProj_mem_vertexSpace i v)
+
+end InternalDecomposition
+
 section RoundTripHelpers
 
 variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q]
@@ -508,5 +518,99 @@ theorem ofPath_smul_eq_pathMap {a b : Q} (p : Quiver.Path a b) :
     rfl
 
 end ModuleRoundTrip
+
+section RepRoundTrip
+
+variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q] [Fintype Q]
+variable (R : Etingof.QuiverRepresentation k Qᵒᵖ)
+
+attribute [local instance] reverseModule
+
+local instance reverseModule_tower :
+    IsScalarTower k (PathAlgebra k Q) (DirectSum Q (reverseFam R)) :=
+  reverseModule_isScalarTower R
+
+/-- The vertex projection of the reverse module is the `i`-th-summand projection
+`lofᵢ ∘ componentᵢ` (the trivial path `pᵢ` acts as `pathEnd ⟨i,i,nil⟩`). -/
+theorem vertexProj_reverseModule (i : Q) (m : DirectSum Q (reverseFam R)) :
+    (vertexProj (k := k) (V := DirectSum Q (reverseFam R)) i) m
+      = DirectSum.lof k Q (reverseFam R) i (DirectSum.component k Q (reverseFam R) i m) := by
+  rw [vertexProj_apply, reverseModule_smul_def, trivialPath, toEnd_ofPath, pathEnd_mk]
+  simp only [LinearMap.comp_apply, pathMap_nil, LinearMap.id_coe, id_eq]
+
+/-- The `i`-th vertex space of the reverse module is the range of the `i`-th inclusion `lofᵢ`. -/
+theorem vertexSpace_reverseModule (i : Q) :
+    (vertexSpace (k := k) (V := DirectSum Q (reverseFam R)) i)
+      = LinearMap.range (DirectSum.lof k Q (reverseFam R) i) := by
+  apply le_antisymm
+  · rw [vertexSpace_eq]
+    rintro x ⟨v, rfl⟩
+    rw [vertexProj_reverseModule]
+    exact LinearMap.mem_range_self _ _
+  · rintro x ⟨y, rfl⟩
+    rw [vertexSpace_eq]
+    exact ⟨_, by rw [vertexProj_reverseModule, DirectSum.component.lof_self]⟩
+
+/-- On the reverse module, the `i`-th inclusion followed by the `i`-th projection is the identity on
+the vertex space: `lofᵢ (componentᵢ y) = y` for `y ∈ Vᵢ`. -/
+theorem lof_component_of_mem (i : Q)
+    (y : (vertexSpace (k := k) (V := DirectSum Q (reverseFam R)) i)) :
+    DirectSum.lof k Q (reverseFam R) i
+        (DirectSum.component k Q (reverseFam R) i (y : DirectSum Q (reverseFam R)))
+      = (y : DirectSum Q (reverseFam R)) := by
+  rw [← vertexProj_reverseModule]
+  exact vertexProj_eq_self_of_mem y.2
+
+/-- **Vertex-space recovery.** For a representation `R` of `Qᵒᵖ`, the `i`-th vertex space of the
+reverse module `reverseModule R` is canonically isomorphic to `R.obj (op i)` via the `i`-th
+inclusion `lofᵢ` (with inverse the `i`-th projection `componentᵢ`). -/
+noncomputable def repEquivAt (i : Q) :
+    R.obj (Opposite.op i) ≃ₗ[k] (vertexSpace (k := k) (V := DirectSum Q (reverseFam R)) i) :=
+  LinearEquiv.ofLinear
+    (LinearMap.codRestrict _ (DirectSum.lof k Q (reverseFam R) i)
+      (fun y => by rw [vertexSpace_reverseModule]; exact LinearMap.mem_range_self _ y))
+    ((DirectSum.component k Q (reverseFam R) i).comp
+      (Submodule.subtype (vertexSpace (k := k) (V := DirectSum Q (reverseFam R)) i)))
+    (by
+      refine LinearMap.ext fun y => ?_
+      apply Subtype.ext
+      simp only [LinearMap.comp_apply, LinearMap.codRestrict_apply, Submodule.subtype_apply,
+        LinearMap.id_coe, id_eq]
+      exact lof_component_of_mem R i y)
+    (by
+      refine LinearMap.ext fun x => ?_
+      simp only [LinearMap.comp_apply, LinearMap.codRestrict_apply, Submodule.subtype_apply,
+        DirectSum.component.lof_self, LinearMap.id_coe, id_eq])
+
+@[simp] theorem repEquivAt_coe (i : Q) (x : R.obj (Opposite.op i)) :
+    ((repEquivAt R i x : (vertexSpace (k := k) (V := DirectSum Q (reverseFam R)) i))
+        : DirectSum Q (reverseFam R))
+      = DirectSum.lof k Q (reverseFam R) i x :=
+  rfl
+
+/-- Naturality of the vertex-space-recovery isomorphisms: the arrow map of `forwardRep
+(reverseModule R)` corresponds, under `repEquivAt`, to the arrow map of `R`. -/
+theorem repEquivAt_naturality {X Y : Qᵒᵖ} (e : X ⟶ Y) (x : R.obj X) :
+    repEquivAt R Y.unop (R.mapLinear e x)
+      = (forwardRep (k := k) (V := DirectSum Q (reverseFam R))).mapLinear e (repEquivAt R X.unop x) := by
+  apply Subtype.ext
+  show DirectSum.lof k Q (reverseFam R) Y.unop (R.mapLinear e x)
+      = toEnd R (ofArrow e.unop) (DirectSum.lof k Q (reverseFam R) X.unop x)
+  rw [ofArrow, toEnd_ofPath, pathEnd_mk]
+  simp only [LinearMap.comp_apply, DirectSum.component.lof_self, pathMap_toPath]
+  rfl
+
+/-- **Representation round-trip.** A representation `R` of `Qᵒᵖ` maps to the representation
+`forwardRep (reverseModule R)` (turn `R` into a `P_Q`-module, then extract its vertex spaces) by a
+homomorphism of quiver representations whose component at each vertex is the linear *equivalence*
+`repEquivAt` — hence an isomorphism `R ≅ forwardRep (reverseModule R)`. Naturality is the identity
+`pathMap R e.toPath = R.mapLinear eᵒᵖ` packaged through the reverse-module action. -/
+noncomputable def repRoundTrip :
+    Etingof.QuiverRepresentationHom k Qᵒᵖ R
+      (forwardRep (k := k) (V := DirectSum Q (reverseFam R))) where
+  app v := (repEquivAt R v.unop).toLinearMap
+  naturality e x := repEquivAt_naturality R e x
+
+end RepRoundTrip
 
 end Etingof.PathAlgebra
