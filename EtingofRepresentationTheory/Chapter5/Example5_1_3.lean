@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_1_1
 import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
+import EtingofRepresentationTheory.Chapter5.FrobeniusSchurTraceIdentity
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_1_5
@@ -684,22 +685,20 @@ private lemma simple_FDRep_of_isSimpleModule [NeZero (Nat.card G : ℂ)]
     simple_of_full_faithful_preservesMono' E.functor _
   exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
 
-/-- **Isolated gap (Frobenius-Schur type dichotomy).** For a simple complex `FDRep`
-`W` with a self-dual character (`χ(g⁻¹) = χ(g)`, supplied by an ambivalent group), the
+/-- **Frobenius-Schur type dichotomy.** For a simple complex `FDRep` `W` with a
+self-dual character (`χ(g⁻¹) = χ(g)`, supplied by an ambivalent group), the
 Frobenius-Schur indicator is `±1`. Equivalently: `W` is of real or quaternionic type,
 never complex type. This is the Frobenius-Schur trace identity
-`FS = dim(Sym²V)^G − dim(Λ²V)^G ∈ {0, ±1}` together with self-duality forcing the
-total invariant-form dimension to `1`; it is the same content as the still-isolated
-trace identity in `FrobeniusSchurRealType.lean`
-(`exists_nonzero_invariant_symmetric_of_FS_eq_one`). Tracked separately; once filled,
-`Etingof.isRealType_of_A5_even_standard` and `Etingof.Example5_1_3_A5` become
-axiom-clean. -/
+`FS = dim(Sym²V)^G − dim(Λ²V)^G` together with self-duality forcing the total
+invariant-form dimension to `1`, proved as
+`Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple` in
+`FrobeniusSchurTraceIdentity.lean`. -/
 private lemma frobeniusSchurIndicator_pm_one_of_simple_selfDual
     [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
-    (W : FDRep ℂ G) (_hW : Simple W)
-    (_hsd : ∀ g, Representation.character W.ρ g⁻¹ = Representation.character W.ρ g) :
-    Etingof.frobeniusSchurIndicator W.ρ = 1 ∨ Etingof.frobeniusSchurIndicator W.ρ = -1 := by
-  sorry
+    (W : FDRep ℂ G) (hW : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule W.ρ))
+    (hsd : ∀ g, Representation.character W.ρ g⁻¹ = Representation.character W.ρ g) :
+    Etingof.frobeniusSchurIndicator W.ρ = 1 ∨ Etingof.frobeniusSchurIndicator W.ρ = -1 :=
+  Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple W.ρ hW hsd
 
 /-- **The 4-dimensional (standard) irreducible of `A₅` is of real type.** Every
 even-dimensional simple `ℂ[A₅]`-module is of real type.
@@ -719,9 +718,12 @@ Feeding these into the Cauchy-Schwarz endgame `frobeniusSchur_all_pos_general` f
 every `FS(Wᵢ) = 1`; the abstract `ρ` is isomorphic to some `Wᵢ` (Schur), so
 `FS(ρ) = 1` and `isRealType_of_frobeniusSchurIndicator_eq_one` finishes.
 
-The per-irreducible step `FS(Wᵢ) ∈ {±1}` is isolated as
-`frobeniusSchurIndicator_pm_one_of_simple_selfDual` (the Frobenius-Schur trace
-identity, still a `sorry`). -/
+The per-irreducible step `FS(Wᵢ) ∈ {±1}` is `frobeniusSchurIndicator_pm_one_of_simple_selfDual`,
+now proved via the Frobenius-Schur trace identity
+`Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple`
+(`FrobeniusSchurTraceIdentity.lean`). The remaining `sorry` in the axiom trace of this
+theorem comes only from `isRealType_of_frobeniusSchurIndicator_eq_one`'s dependency on
+`exists_nonzero_invariant_symmetric_of_FS_eq_one` (tracked as #5214). -/
 theorem Etingof.isRealType_of_A5_even_standard
     {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
@@ -766,7 +768,8 @@ theorem Etingof.isRealType_of_A5_even_standard
   -- Hence each `FS(Wᵢ) ∈ {±1}` (isolated gap).
   have hFSmem : ∀ i, Etingof.frobeniusSchurIndicator (W i).ρ = 1
       ∨ Etingof.frobeniusSchurIndicator (W i).ρ = -1 :=
-    fun i => frobeniusSchurIndicator_pm_one_of_simple_selfDual (W i) (hWs i) (hsdW i)
+    fun i => frobeniusSchurIndicator_pm_one_of_simple_selfDual (W i)
+      (D.isSimpleModule_columnRep_asModule i) (hsdW i)
   -- Package dimensions and indicators as integers for the endgame.
   set dd : Fin D.n → ℤ := fun i => (Module.finrank ℂ (W i) : ℤ) with hdd
   set ee : Fin D.n → ℤ :=
