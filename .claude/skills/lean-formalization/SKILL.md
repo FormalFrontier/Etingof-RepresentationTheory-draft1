@@ -3458,6 +3458,18 @@ full graph rather than waiting on the aggregator locally.
   explicit `End`-typed *variable* (a lemma parameter `(M : End (K ⊞ I))` with a hypothesis
   `hM : (M : K ⊞ I ⟶ K ⊞ I) = biprod.map a b`), then `M ^ n` resolves. Same for `f ^ n` on
   any constructed-then-ascribed morphism: bind it to a variable first.
+  - **Corollary (`set`-binding an End power as a bare morphism kills `^`, #5274).** `(f : X ⟶ X) ^ n`
+    *does* elaborate (Lean resolves `^` at `End X` because `f : End X` drives it), but
+    `set F : X ⟶ X := (f : X ⟶ X)` then `F ^ n` fails with `failed to synthesize HPow (X ⟶ X) ℕ ?` —
+    `F` is now a bare `X ⟶ X` fvar with no `End` head to trigger `End.monoid`. **Fix:** don't `set`
+    the base morphism; `set` the *whole power* instead — `set g : X ⟶ X := (f : X ⟶ X) ^ n with hg`,
+    `set g2 := (f : X ⟶ X) ^ (2 * n)` — and phrase the proof over the plain morphisms `g`, `g2`
+    (their type is `X ⟶ X`, no `^` needed downstream). `g ≫ g = g2` then closes by
+    `rw [hg, hg2, two_mul, pow_add, End.mul_def]` (the `End.mul_def` turns the `pow_add` `*` back
+    into `≫`).
+  - **Precedence: `^` binds *looser* than `≫`.** `(f : X ⟶ X) ^ n ≫ (f : X ⟶ X)` parses as
+    `(f : X ⟶ X) ^ (n ≫ (f : X ⟶ X))` (→ `CategoryStruct.comp n` type error). Always parenthesise
+    the power: `((f : X ⟶ X) ^ n) ≫ (f : X ⟶ X)`.
 - **Multiplication is *reversed* composition:** `End.mul_def : x * y = y ≫ x`, `End.one_def :
   (1 : End X) = 𝟙 X`. So `pow_succ` then `End.mul_def` turns `x ^ (n+1)` into `x ≫ x ^ n`. A
   block-power induction `(biprod.map a b) ^ n = biprod.map (a ^ n) (b ^ n)` closes with
@@ -3536,3 +3548,42 @@ full graph rather than waiting on the aggregator locally.
   representation isomorphism, use `Etingof.QuiverRepresentationHom k Q ρ₁ ρ₂` (note: `k` and `Q` are
   *explicit*) and expose the per-vertex `LinearEquiv`s separately as the witness that the
   components are isos.
+
+## Pseudoelement diagram chases in an abelian category (Fitting/Krull–Schmidt, #5274)
+
+`Abelian.Pseudoelement` (`Mathlib/CategoryTheory/Abelian/Pseudoelements.lean`) is the clean tool for
+"diagram chase" proofs that a categorical map is mono/epi/iso — e.g. that the image restriction
+`g' = image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is iso once the `im (fⁿ)` and `ker (fⁿ)` chains stabilise
+(`Etingof.exists_pow_stabilizes`, `Chapter9/KrullSchmidt/Length.lean`). Setup and gotchas:
+
+- **Activate the coercions with `attribute [local instance]`, NOT `open scoped`.** The sort coercion
+  `objectToSort` (lets `X : C` be the type of pseudoelements), `homToFun` (lets `f a` mean
+  pseudo-application), and `overToSort` are `scoped[Pseudoelement] attribute [instance]`, but
+  `open scoped Pseudoelement` / `open scoped CategoryTheory.Abelian.Pseudoelement` did **not** turn
+  them on (symptoms: `∀ y : X` → "type expected, got (X : C)"; `f a` → `Function expected at ?m`).
+  The reliable incantation (also given in the file's own header comment) is
+  `attribute [local instance] CategoryTheory.Abelian.Pseudoelement.objectToSort
+  CategoryTheory.Abelian.Pseudoelement.homToFun CategoryTheory.Abelian.Pseudoelement.overToSort`.
+  Qualify the lemmas fully (`Abelian.Pseudoelement.comp_apply` / `.apply_zero` / `.zero_apply` /
+  `.pseudo_exact_of_exact` / `.pseudo_surjective_of_epi` / `.pseudo_injective_of_mono` /
+  `.zero_of_map_zero` / `.mono_of_zero_of_map_zero` / `.epi_of_pseudo_surjective`) — bare
+  `comp_apply` collides with `CategoryTheory.comp_apply`.
+- **Prove mono/epi/iso the pseudoelement way.** `mono_of_zero_of_map_zero f : (∀ a, f a = 0 → a = 0)
+  → Mono f`; `epi_of_pseudo_surjective f : Function.Surjective f → Epi f`; then
+  `isIso_of_mono_of_epi f` (abelian is `Balanced`). `comp_apply f g a : (f ≫ g) a = g (f a)`,
+  `apply_zero f : f 0 = 0`, `zero_apply Q a : (0 : P ⟶ Q) a = 0` drive the algebra.
+- **Bridge subobject equality ⟷ pseudoelement membership via exactness.** To turn
+  `kernelSubobject g2 = kernelSubobject g` (a `Subobject` equality from chain stabilisation) into the
+  pseudoelement fact `g2 w = 0 → g w = 0`: build the exact short complex
+  `ShortComplex.mk (kernelSubobject g).arrow g (kernelSubobject_arrow_comp g)` — exact because
+  `imageSubobject (mono).arrow = Subobject.mk (.arrow) = that subobject` (`ShortComplex.exact_iff_image_eq_kernel`
+  + `imageSubobject_mono` + `Subobject.mk_arrow`) — then `pseudo_exact_of_exact` gives
+  `∃ a, (kernelSubobject g2).arrow a = w`, and `(kernelSubobject g).arrow ≫ g = 0`
+  (`kernelSubobject_arrow_comp`) finishes. Dually for images, use `factorThruImageSubobject`
+  (epi → `pseudo_surjective_of_epi`) and `imageSubobject_arrow_comp`.
+- **Never `rw` a morphism that also appears in a dependent type position.** `rw [← hpi]` to turn
+  `g (i a)` into `(p ≫ i)(i a)` fails with `motive is not type correct` because `g` reappears in the
+  type of `i = Abelian.image.ι g` (`i : Abelian.image g ⟶ X`). **Fix:** route through an
+  *intertwining application lemma* stated once as `∀ y, i (p y) = g y` (from `p ≫ i = g` via
+  `← comp_apply`), and rewrite with *that* (`← hint (i a)`) instead of rewriting `g` directly — it
+  never abstracts the `g` buried in `i`'s type.
