@@ -255,6 +255,29 @@ cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻�
 transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
 `G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
 
+### Scalar extension `ℂ ⊗_ℚ k[S_n]·c_λ ≅ ℂ[S_n]·c_λ` (Specht rational form, #5234)
+
+To prove the base-change compatibility "`SpechtModuleK ℂ` is the complexification of `SpechtModuleK ℚ`"
+as an `S_n`-rep iso (`Chapter5/SpechtBaseChangeComplex.lean`), the working recipe — avoiding any
+"rational vectors ℚ-indep ⇒ ℂ-indep" linear algebra:
+- **Do NOT reach for `MonoidAlgebra.scalarTensorEquiv`/`tensorEquiv`** (`ℂ ⊗_R R[M] ≃ₐ A[M]`): they require
+  `[CommMonoid M]`, so they are **unusable for `S_n` = `Equiv.Perm (Fin n)`** (non-commutative for `n ≥ 3`).
+- Build the map with `LinearMap.liftBaseChange ℂ (g : ↥V_ℚ →ₗ[ℚ] ℂ[S_n])`, `g v = j v` where
+  `j = MonoidAlgebra.mapRingHom (algebraMap ℚ ℂ)`. Get `j` as a `ℚ`-linear map via
+  `(jHom).toAddMonoidHom.toRatLinearMap` (every additive map of ℚ-spaces is ℚ-linear).
+- **Range** = `V_ℂ`: `LinearMap.range_liftBaseChange` gives `span ℂ (range g)`; finish by span double-inclusion
+  using `j c_ℚ = c_ℂ` and `j` multiplicative (⊇ via `Finsupp.induction_linear` on `b`, showing each
+  `b * c_ℂ ∈ span`, `of σ * c_ℂ = g ⟨of σ * c_ℚ, _⟩`).
+- **Injectivity** via flatness, *not* coordinates: factor `Ψ = TensorProduct.finsuppScalarRight ℚ ℂ ℂ G ∘ lTensor ℂ (incl)`.
+  `Module.Flat.lTensor_preserves_injective_linearMap` (ℂ free⇒flat over ℚ) makes `lTensor ℂ` of the injective
+  inclusion `V_ℚ ↪ ℚ[S_n]` injective; `finsuppScalarRight` is an equiv. NB `MonoidAlgebra ℚ G` is defeq `G →₀ ℚ`,
+  so `finsuppScalarRight` (four explicit args `R S M ι`; `N` is unused) applies even though `S_n` is non-commutative.
+- **Equivariance** (intertwines `LinearMap.baseChange ℂ (spechtModuleActionK ℚ …)` with `spechtModuleActionK ℂ …`):
+  one line, `j (of σ * x) = of σ * j x` + `mul_smul_comm`.
+- Corestrict: `(LinearEquiv.ofInjective Ψ hinj).trans (LinearEquiv.ofEq … range_eq)`; the target
+  `↥(p.restrictScalars ℂ)` is defeq to `↥p`, so the equiv lands in `↥(SpechtModuleK ℂ)` directly and
+  `(Φ t : ℂ[S_n]) = Ψ t` is `rfl`.
+
 ### Heavy Instance Resolves Abstractly but Fails Concretely
 
 **A heavy instance (e.g. `centralizerModuleHom : Module ↥(centralizer …) (V →ₗ[A] E)`) that resolves for an *abstract* carrier `V` can fail fresh typeclass search for a *concrete* one (`V = Fin N → k`), at the same `synthInstance.maxHeartbeats` — it is structural, not a heartbeat shortfall (diagnosed across ~7 build cycles in #4860, `SchurWeylLDistinct.lean`).** Symptom: `failed to synthesize HSMul … ?m` (an `outParam` output stuck as a metavar) on a `•`/instance you wrote *freshly* in the concrete proof, while the *same* `•` typechecks when it comes from *specializing* a polymorphic lemma's signature. Two non-fixes and the fix:
