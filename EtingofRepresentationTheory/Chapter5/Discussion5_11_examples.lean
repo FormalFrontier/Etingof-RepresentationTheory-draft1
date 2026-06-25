@@ -130,6 +130,188 @@ def stdSub : Subrepresentation permRep where
 /-- The standard (2-dimensional) irreducible representation `ℂ²` of `S₃`. -/
 def stdRep : FDRep ℂ S3 := FDRep.of stdSub.toRepresentation
 
+/-! ### Character and simplicity of `stdRep`
+
+The character of `stdRep` is computed by viewing `permRep` as the internal direct
+sum of the sum-zero subspace `stdSub` and the line of constant vectors. On constants
+`S₃` acts trivially, so `χ_permRep = χ_stdRep + 1`; and `χ_permRep(g)` is the number
+of fixed points of `g` (the trace of a permutation matrix). Hence
+`χ_stdRep(g) = #fix(g) − 1`, giving the values `(2, 0, −1)`. Norm-one of this
+character then yields simplicity. -/
+
+open Module
+
+/-- The all-ones vector `(1, 1, 1) ∈ Fin 3 → ℂ`, spanning the trivial line in `permRep`. -/
+def onesVec : Fin 3 → ℂ := fun _ => 1
+
+@[simp] lemma onesVec_apply (i : Fin 3) : onesVec i = 1 := rfl
+
+lemma onesVec_ne_zero : (onesVec : Fin 3 → ℂ) ≠ 0 := by
+  intro h; have := congrFun h 0; simp [onesVec] at this
+
+/-- `permRep` fixes the all-ones vector: it is a constant, hence permutation-invariant. -/
+@[simp] lemma permRep_onesVec (g : S3) : permRep g onesVec = onesVec := by
+  funext i; simp
+
+/-- The line of constant vectors, the trivial subrepresentation of `permRep`. -/
+def constLine : Submodule ℂ (Fin 3 → ℂ) := Submodule.span ℂ {onesVec}
+
+lemma mem_constLine {x : Fin 3 → ℂ} : x ∈ constLine ↔ ∃ c : ℂ, c • onesVec = x :=
+  Submodule.mem_span_singleton
+
+/-- `permRep g` is the linear map of the permutation matrix of `g⁻¹`; this lets us read
+its trace off as a count of fixed points. -/
+lemma permRep_eq_toLin' (g : S3) :
+    (permRep g) = ((g⁻¹ : S3).permMatrix ℂ).toLin' := by
+  apply LinearMap.ext; intro f; funext i
+  rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec, permRep_apply]
+  rfl
+
+/-- The trace of `permRep g` is the number of fixed points of `g⁻¹` (equivalently of `g`). -/
+lemma trace_permRep (g : S3) :
+    LinearMap.trace ℂ (Fin 3 → ℂ) (permRep g) = (Function.fixedPoints ⇑g⁻¹).ncard := by
+  rw [permRep_eq_toLin', Matrix.trace_toLin'_eq, Matrix.trace_permutation]
+
+/-- The number of fixed points of `g`, as a `Finset` cardinality (decidable, hence
+computable for concrete permutations). -/
+def fixCard (g : S3) : ℕ := (Finset.univ.filter (fun i : Fin 3 => g i = i)).card
+
+/-- A point is fixed by `g⁻¹` iff it is fixed by `g`. -/
+lemma perm_inv_fixed_iff (g : S3) (i : Fin 3) : g⁻¹ i = i ↔ g i = i := by
+  rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq, eq_comm]
+
+lemma fixedPoints_inv_ncard (g : S3) :
+    (Function.fixedPoints ⇑g⁻¹).ncard = fixCard g := by
+  rw [fixCard, ← Set.ncard_coe_finset]
+  congr 1
+  ext i
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+    Finset.mem_univ, true_and]
+  exact perm_inv_fixed_iff g i
+
+@[simp] lemma fixCard_inv (g : S3) : fixCard g⁻¹ = fixCard g := by
+  rw [fixCard, fixCard]
+  congr 1
+  ext i
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+  exact perm_inv_fixed_iff g i
+
+/-- **Character of `stdRep`.** For every `g : S₃`, `χ_stdRep(g) = #fix(g) − 1`. -/
+lemma stdRep_character (g : S3) :
+    stdRep.character g = (fixCard g : ℂ) - 1 := by
+  classical
+  -- The two complementary invariant subspaces: sum-zero and constants.
+  set N : Fin 2 → Submodule ℂ (Fin 3 → ℂ) := ![stdSub.toSubmodule, constLine] with hN
+  -- `sumLM` is surjective, so its kernel has dimension `2`.
+  have hsurj : Function.Surjective sumLM := by
+    intro c
+    refine ⟨Pi.single 0 c, ?_⟩
+    rw [sumLM_apply, Fin.sum_univ_three]
+    simp
+  have hkerdim : Module.finrank ℂ (LinearMap.ker sumLM) = 2 := by
+    have h := sumLM.finrank_range_add_finrank_ker
+    rw [LinearMap.range_eq_top.mpr hsurj, finrank_top, Module.finrank_self,
+      Module.finrank_pi] at h
+    simp only [Fintype.card_fin] at h
+    omega
+  have hsum1 : sumLM onesVec = 3 := by rw [sumLM_apply]; simp
+  -- `IsCompl` of the two summands, hence `IsInternal N`.
+  have hcompl : IsCompl stdSub.toSubmodule constLine := by
+    have hone : Module.finrank ℂ constLine = 1 := finrank_span_singleton onesVec_ne_zero
+    have hdim : Module.finrank ℂ (Fin 3 → ℂ) ≤
+        Module.finrank ℂ stdSub.toSubmodule + Module.finrank ℂ constLine := by
+      have hk : Module.finrank ℂ stdSub.toSubmodule = 2 := hkerdim
+      rw [hk, hone, Module.finrank_pi]
+      simp
+    refine (Submodule.isCompl_iff_disjoint _ _ hdim).mpr ?_
+    rw [Submodule.disjoint_def]
+    rintro x hxk hxc
+    rw [mem_constLine] at hxc
+    obtain ⟨c, rfl⟩ := hxc
+    have h0 : sumLM (c • onesVec) = 0 := hxk
+    rw [map_smul, hsum1, smul_eq_mul] at h0
+    have hc : c = 0 := by
+      rcases mul_eq_zero.mp h0 with h | h
+      · exact h
+      · norm_num at h
+    simp [hc]
+  have huniv : (Set.univ : Set (Fin 2)) = {0, 1} := by
+    ext i
+    simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]
+    omega
+  have hInternal : DirectSum.IsInternal N :=
+    (DirectSum.isInternal_submodule_iff_isCompl N (zero_ne_one) huniv).mpr hcompl
+  -- `permRep g` maps each summand into itself.
+  have hf0 : Set.MapsTo (permRep g) (N 0) (N 0) := stdSub.apply_mem_toSubmodule g
+  have hf1 : Set.MapsTo (permRep g) (N 1) (N 1) := by
+    intro x hx
+    change x ∈ constLine at hx
+    change permRep g x ∈ constLine
+    rw [mem_constLine] at hx ⊢
+    obtain ⟨c, rfl⟩ := hx
+    exact ⟨c, by rw [map_smul, permRep_onesVec]⟩
+  have hf : ∀ i, Set.MapsTo (permRep g) (N i) (N i) := Fin.forall_fin_two.mpr ⟨hf0, hf1⟩
+  -- Trace splits over the internal direct sum.
+  have htr := LinearMap.trace_eq_sum_trace_restrict hInternal hf
+  rw [trace_permRep, fixedPoints_inv_ncard, Fin.sum_univ_two] at htr
+  -- Identify the two restricted traces.
+  have hN0 : LinearMap.trace ℂ ↥(N 0) ((permRep g).restrict (hf 0)) = stdRep.character g := by
+    change LinearMap.trace ℂ ↥(stdSub.toSubmodule) (stdSub.toRepresentation g)
+      = LinearMap.trace ℂ ↥(stdSub.toSubmodule) ((FDRep.of stdSub.toRepresentation).ρ g)
+    rw [FDRep.of_ρ']
+  have hN1 : LinearMap.trace ℂ ↥(N 1) ((permRep g).restrict (hf 1)) = 1 := by
+    have hid : (permRep g).restrict (hf 1) = LinearMap.id := by
+      apply LinearMap.ext
+      intro x
+      apply Subtype.ext
+      have hx : (x : Fin 3 → ℂ) ∈ constLine := x.2
+      rw [mem_constLine] at hx
+      obtain ⟨c, hc⟩ := hx
+      change permRep g (x : Fin 3 → ℂ) = (x : Fin 3 → ℂ)
+      rw [← hc, map_smul, permRep_onesVec]
+    have hfin : Module.finrank ℂ ↥(N 1) = 1 := finrank_span_singleton onesVec_ne_zero
+    rw [hid, LinearMap.trace_id, hfin]
+    norm_num
+  rw [hN0, hN1] at htr
+  -- `#fix(g) = χ_stdRep(g) + 1`.
+  rw [eq_sub_iff_add_eq]
+  exact htr.symm
+
+/-- `χ_stdRep(1) = 2` (the dimension). -/
+lemma stdRep_char_one : stdRep.character 1 = 2 := by
+  rw [stdRep_character]
+  have : fixCard 1 = 3 := by decide
+  rw [this]; norm_num
+
+/-- `χ_stdRep` on a transposition is `0`. -/
+lemma stdRep_char_swap : stdRep.character (Equiv.swap (0 : Fin 3) 1) = 0 := by
+  rw [stdRep_character]
+  have : fixCard (Equiv.swap (0 : Fin 3) 1) = 1 := by decide
+  rw [this]; norm_num
+
+/-- `χ_stdRep` on a 3-cycle is `−1`. -/
+lemma stdRep_char_cycle : stdRep.character (finRotate 3) = -1 := by
+  rw [stdRep_character]
+  have : fixCard (finRotate 3) = 0 := by decide
+  rw [this]; norm_num
+
+/-- **`stdRep` is simple.** Its character has norm one:
+`∑_g χ(g)·χ(g⁻¹) = 1·2² + 3·0² + 2·(−1)² = 6 = |S₃|`. -/
+lemma stdRep_simple : Simple stdRep := by
+  rw [FDRep.simple_iff_char_is_norm_one]
+  have hterm : ∀ g : S3, stdRep.character g * stdRep.character g⁻¹
+      = (((fixCard g : ℤ) - 1) ^ 2 : ℤ) := by
+    intro g
+    rw [stdRep_character, stdRep_character, fixCard_inv]
+    push_cast
+    ring
+  rw [Finset.sum_congr rfl (fun g _ => hterm g)]
+  rw [← Int.cast_sum]
+  have hsum : ∑ g : S3, (((fixCard g : ℤ) - 1) ^ 2) = 6 := by decide
+  rw [hsum]
+  rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
+  norm_num
+
 /-! ## The cyclic subgroups -/
 
 /-- `Z₂ ≤ S₃`, generated by the transposition `(0 1)`. -/
