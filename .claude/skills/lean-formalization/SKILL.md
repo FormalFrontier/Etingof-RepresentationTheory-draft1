@@ -2987,6 +2987,18 @@ theorem my_theorem
 
 **Evidence:** Universe pinning resolved issues in Theorem5_18_4 (SchurModule universe annotations), IsFiniteTypeQuiver (pinned to `Type` to avoid universe mismatch), and BasicAlgebraExistence (explicit `Type u` throughout).
 
+**Specializing a general-`k` theorem to `ℂ` forces `G` to `Type 0` when a same-universe
+structure links them (#5256).** `IrrepDecomp (k G : Type u)` binds `k` *and* `G` to the
+**same** universe `u`. A general theorem written under `variable {k G : Type u}` compiles,
+but a corollary that fixes `k = ℂ` (which is `Type 0`) while leaving `G : Type u` fails with
+`@IrrepDecomp ℂ G … G has type Type u … expected Type` and a companion `FDRep.{0,u}` vs
+`FDRep.{0,0}` mismatch. Fix: open a `section` with `variable {G : Type} [Group G] [Fintype G]`
+for the ℂ-specialized declarations (the file's outer `variable {k G : Type u}` no longer
+applies inside). The A₅/`alternatingGroup (Fin 5)` application is `Type 0`, so this costs
+nothing downstream. General rule: when a co-indexed structure (`IrrepDecomp`, a paired
+`FDRep` family) ties two type parameters to one universe, you cannot fix one to a concrete
+`Type 0` type and leave the other polymorphic — pin both.
+
 ## Section Variable Auto-Inclusion Gotcha
 
 Lean 4 section variables declared with `variable (h : P)` are only auto-included
