@@ -1,6 +1,9 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_9_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_10_1
+import EtingofRepresentationTheory.Chapter5.CharEqIso
+import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 
 /-!
 # Discussion 5.11: Worked examples of induced representations for `S₃`
@@ -372,6 +375,145 @@ noncomputable def epsRep : FDRep ℂ ↥Z3 := FDRep.of (charRep epsHom)
 
 /-- `ℂ_ε` is simple (it is one-dimensional). -/
 lemma epsRep_simple : Simple epsRep := charRep_simple _
+
+/-! ## Multiplicity machinery: characters, dimensions, completeness
+
+The four decompositions are proved via Frobenius reciprocity, which computes the
+multiplicity of each irreducible in the induced representation. This section assembles
+the reusable inputs: symmetry of hom-space dimensions, the dimensions and pairwise
+non-isomorphism of the three irreducibles, and completeness of the catalogue
+`{trivRep, signRep, stdRep}` (every simple `S₃`-representation is isomorphic to one of
+them). -/
+
+open Module
+
+/-- Hom-space dimensions in `FDRep ℂ G` are symmetric: `dim Hom(V,W) = dim Hom(W,V)`.
+Both equal the (symmetric) scalar product of the two characters. -/
+theorem finrank_hom_symm {G : Type} [Group G] [Finite G] (V W : FDRep ℂ G) :
+    finrank ℂ (V ⟶ W) = finrank ℂ (W ⟶ V) := by
+  haveI : Fintype G := Fintype.ofFinite G
+  haveI : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  have hVW := FDRep.scalar_product_char_eq_finrank_equivariant V W
+  have hWV := FDRep.scalar_product_char_eq_finrank_equivariant W V
+  have hcast : (finrank ℂ (V ⟶ W) : ℂ) = (finrank ℂ (W ⟶ V) : ℂ) := by
+    rw [← hVW, ← hWV]
+    congr 1
+    rw [← Equiv.sum_comp (Equiv.inv G) (fun g => V.character g * W.character g⁻¹)]
+    refine Finset.sum_congr rfl (fun g _ => ?_)
+    show W.character g * V.character g⁻¹ = V.character g⁻¹ * W.character g⁻¹⁻¹
+    rw [inv_inv, mul_comm]
+  exact_mod_cast hcast
+
+/-! ### Characters and dimensions of the three irreducibles -/
+
+@[simp] lemma trivRep_character (g : S3) : trivRep.character g = 1 := by
+  rw [trivRep, charRep_character]; simp
+
+@[simp] lemma signRep_character (g : S3) : signRep.character g = (signHom g : ℂ) := by
+  rw [signRep, charRep_character]
+
+lemma signRep_char_swap : signRep.character (Equiv.swap (0 : Fin 3) 1) = -1 := by
+  rw [signRep_character, signHom]
+  simp [Equiv.Perm.sign_swap (by decide : (0 : Fin 3) ≠ 1)]
+
+lemma trivRep_finrank : finrank ℂ (trivRep : Type) = 1 := by
+  have h := FDRep.char_one trivRep
+  rw [trivRep_character] at h
+  exact_mod_cast h.symm
+
+lemma signRep_finrank : finrank ℂ (signRep : Type) = 1 := by
+  have h := FDRep.char_one signRep
+  rw [signRep_character, signHom] at h
+  simp only [MonoidHom.coe_comp, Function.comp_apply, map_one, Units.val_one] at h
+  exact_mod_cast h.symm
+
+lemma stdRep_finrank : finrank ℂ (stdRep : Type) = 2 := by
+  have h := FDRep.char_one stdRep
+  rw [stdRep_char_one] at h
+  exact_mod_cast h.symm
+
+/-! ### Pairwise non-isomorphism -/
+
+lemma trivRep_not_iso_signRep : ¬ Nonempty (trivRep ≅ signRep) := by
+  rintro ⟨e⟩
+  have h := congrFun (FDRep.char_iso e) (Equiv.swap (0 : Fin 3) 1)
+  rw [trivRep_character, signRep_char_swap] at h
+  norm_num at h
+
+lemma trivRep_not_iso_stdRep : ¬ Nonempty (trivRep ≅ stdRep) := by
+  rintro ⟨e⟩
+  have h := (FDRep.isoToLinearEquiv e).finrank_eq
+  rw [trivRep_finrank, stdRep_finrank] at h
+  norm_num at h
+
+lemma signRep_not_iso_stdRep : ¬ Nonempty (signRep ≅ stdRep) := by
+  rintro ⟨e⟩
+  have h := (FDRep.isoToLinearEquiv e).finrank_eq
+  rw [signRep_finrank, stdRep_finrank] at h
+  norm_num at h
+
+/-! ### Completeness of the catalogue -/
+
+instance : NeZero (Nat.card S3 : ℂ) :=
+  ⟨Nat.cast_ne_zero.mpr Nat.card_pos.ne'⟩
+
+/-- Every simple representation of `S₃` is isomorphic to `trivRep`, `signRep`, or `stdRep`.
+This follows from the Artin-Wedderburn dimension count `1² + 1² + 2² = 6 = |S₃|`: the three
+listed irreducibles are simple, pairwise non-isomorphic, and exhaust the squared-dimension
+budget, so no fourth simple can exist. -/
+theorem S3_simple_iso (S : FDRep ℂ S3) [Simple S] :
+    Nonempty (S ≅ trivRep) ∨ Nonempty (S ≅ signRep) ∨ Nonempty (S ≅ stdRep) := by
+  classical
+  obtain ⟨n, V, hsimple, hinj, hsurj, hsum⟩ := exists_simples_sum_finrank_sq_eq_card ℂ S3
+  obtain ⟨a, ⟨ea⟩⟩ := hsurj trivRep trivRep_simple
+  obtain ⟨b, ⟨eb⟩⟩ := hsurj signRep signRep_simple
+  obtain ⟨c, ⟨ec⟩⟩ := hsurj stdRep stdRep_simple
+  obtain ⟨s, ⟨es⟩⟩ := hsurj S inferInstance
+  -- dimensions of the three indices
+  have hda : finrank ℂ (V a : Type) = 1 := by
+    rw [← (FDRep.isoToLinearEquiv ea).finrank_eq, trivRep_finrank]
+  have hdb : finrank ℂ (V b : Type) = 1 := by
+    rw [← (FDRep.isoToLinearEquiv eb).finrank_eq, signRep_finrank]
+  have hdc : finrank ℂ (V c : Type) = 2 := by
+    rw [← (FDRep.isoToLinearEquiv ec).finrank_eq, stdRep_finrank]
+  -- a, b, c are distinct
+  have hab : a ≠ b := by
+    rintro rfl; exact trivRep_not_iso_signRep ⟨ea ≪≫ eb.symm⟩
+  have hac : a ≠ c := by
+    rintro rfl; exact trivRep_not_iso_stdRep ⟨ea ≪≫ ec.symm⟩
+  have hbc : b ≠ c := by
+    rintro rfl; exact signRep_not_iso_stdRep ⟨eb ≪≫ ec.symm⟩
+  -- s is one of a, b, c
+  have hs : s = a ∨ s = b ∨ s = c := by
+    by_contra hcon
+    push_neg at hcon
+    obtain ⟨hsa, hsb, hsc⟩ := hcon
+    -- {a,b,c,s} are four distinct indices; their squared dims sum to ≥ 7 > 6
+    have hsub : ({a, b, c, s} : Finset (Fin n)) ⊆ Finset.univ := Finset.subset_univ _
+    have hpos : 0 < finrank ℂ (V s : Type) := by
+      haveI := hsimple s
+      exact Etingof.finrank_pos_of_not_isZero (Simple.not_isZero (V s))
+    have hle : ∑ i ∈ ({a, b, c, s} : Finset (Fin n)), finrank ℂ (V i : Type) ^ 2 ≤
+        ∑ i, finrank ℂ (V i : Type) ^ 2 :=
+      Finset.sum_le_sum_of_subset_of_nonneg hsub (fun i _ _ => Nat.zero_le _)
+    have hcard : ∑ i ∈ ({a, b, c, s} : Finset (Fin n)), finrank ℂ (V i : Type) ^ 2 =
+        finrank ℂ (V a : Type) ^ 2 + finrank ℂ (V b : Type) ^ 2 +
+          finrank ℂ (V c : Type) ^ 2 + finrank ℂ (V s : Type) ^ 2 := by
+      rw [Finset.sum_insert (by simp [hab, hac, hsa.symm]),
+        Finset.sum_insert (by simp [hbc, hsb.symm]),
+        Finset.sum_insert (by simp [hsc.symm]), Finset.sum_singleton]
+      ring
+    have hcard6 : Fintype.card S3 = 6 := by decide
+    rw [hsum, hcard6] at hle
+    rw [hcard, hda, hdb, hdc] at hle
+    -- 1 + 1 + 4 + (≥1) ≤ 6 is impossible
+    have hsq : 1 ≤ finrank ℂ (V s : Type) ^ 2 := Nat.one_le_pow 2 _ hpos
+    omega
+  rcases hs with rfl | rfl | rfl
+  · exact Or.inl ⟨es ≪≫ ea.symm⟩
+  · exact Or.inr (Or.inl ⟨es ≪≫ eb.symm⟩)
+  · exact Or.inr (Or.inr ⟨es ≪≫ ec.symm⟩)
 
 /-! ## The induced representations and their decompositions
 
