@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_6_1
 import EtingofRepresentationTheory.Chapter9.Definition9_6_2
 import EtingofRepresentationTheory.Chapter9.Theorem9_6_4
+import EtingofRepresentationTheory.Chapter9.KrullSchmidt.Existence
+import EtingofRepresentationTheory.Chapter9.KrullSchmidt.Exchange
 import Mathlib.CategoryTheory.Limits.Shapes.Biproducts
 import Mathlib.CategoryTheory.Preadditive.Projective.Basic
 
@@ -38,9 +40,10 @@ The classification is the biconditional
   projective object of a finite abelian category decomposes (essentially uniquely) into
   indecomposable projectives, each of which is one of the `P_i`, and generation forces
   every `P_i` to appear. Krull–Schmidt for finite abelian / finite-length additive
-  categories is **not in Mathlib**, so this direction is isolated as the single
-  documented `sorry` in `Etingof.progenerator_decomposition`, tracked by its own
-  follow-up issue.
+  categories is **not in Mathlib**; it is built up in `Chapter9/KrullSchmidt/` and
+  consumed here. `Etingof.progenerator_decomposition` discharges this direction in full
+  from the existence (`KrullSchmidt/Existence.lean`) and exchange
+  (`KrullSchmidt/Exchange.lean`) links.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -146,25 +149,72 @@ and exhausting the indecomposable projectives up to isomorphism, with `⨁ P` a
 progenerator), then `Q ≅ ⊕_i n_i P_i` for a unique multiplicity vector `n` with every
 `n_i ≥ 1`.
 
-The proof requires the **Krull–Schmidt theorem** for finite abelian categories:
+The proof assembles the **Krull–Schmidt** links built in `Chapter9/KrullSchmidt/`:
 1. `Q`, being projective in a finite (finite-length) abelian category, decomposes as a
-   finite biproduct of indecomposable projective objects.
-2. Each indecomposable projective summand is isomorphic to a unique `P_i` (`hcomplete`,
-   `hdistinct`); collecting multiplicities gives `n : ι → ℕ` with `Q ≅ multBiproduct P n`.
-3. Because `Q` is a generator, `Hom(Q, S_i) ≠ 0` for the simple top `S_i = P_i / rad P_i`,
-   forcing `n_i ≥ 1` for every `i`.
-
-Krull–Schmidt for finite abelian / finite-length additive categories is not available in
-Mathlib, so this is the single isolated `sorry`. -/
+   finite biproduct `Q ≅ ⨁ f` of indecomposable projective objects
+   (`exists_indecomposable_projective_biproduct`).
+2. Each summand `f k` is isomorphic to a unique `P (g k)` (`hcomplete`, `hdistinct`);
+   the multiplicity `n i := #{k | g k = i}` and a reindexing of `⨁ f` along the fibre
+   bijection `(Σ i, Fin (n i)) ≃ κ` give `Q ≅ multBiproduct P n`.
+3. Because `Q` is a generator, every `P_i` is a quotient of `Q^m`, hence (being
+   projective) an indecomposable direct summand of a biproduct of the `f k`'s; the
+   exchange property (`indecomposable_summand_iso_factor`) matches it to some `f k`, and
+   `hdistinct` forces `g k = i`, so every fibre is nonempty, i.e. `n_i ≥ 1`. -/
 theorem progenerator_decomposition {ι : Type v} [Fintype ι] (P : ι → C)
     (hproj : ∀ i, Projective (P i)) (hindec : ∀ i, CategoryTheory.Indecomposable (P i))
     (hdistinct : ∀ i j, Nonempty (P i ≅ P j) → i = j)
     (hcomplete : ∀ R : C, Projective R → CategoryTheory.Indecomposable R → ∃ i, Nonempty (R ≅ P i))
     (hgen : IsProgenerator (⨁ P)) (Q : C) (hQ : IsProgenerator Q) :
     ∃ n : ι → ℕ, (∀ i, 1 ≤ n i) ∧ Nonempty (Q ≅ multBiproduct P n) := by
-  -- Krull–Schmidt: decompose `Q` into indecomposable projectives, identify each with a
-  -- `P_i`, and use generation to force each multiplicity to be positive. Not in Mathlib.
-  sorry
+  classical
+  -- Step 1: Krull–Schmidt existence decomposes the projective `Q` into a finite family `f`
+  -- of indecomposable projectives, with `e : Q ≅ ⨁ f`.
+  obtain ⟨κ, instκ, f, hf, ⟨e⟩⟩ := exists_indecomposable_projective_biproduct hQ.toProjective
+  haveI := instκ
+  -- Step 2: each summand `f k` is isomorphic to a unique `P (g k)` by completeness.
+  choose g hg using fun k => hcomplete (f k) (hf k).1 (hf k).2
+  -- the chosen iso `f k ≅ P (g k)`
+  let fiso : ∀ k, f k ≅ P (g k) := fun k => (hg k).some
+  -- the multiplicity of `P i` is the cardinality of the fibre `g⁻¹ i`.
+  set n : ι → ℕ := fun i => Fintype.card {k // g k = i} with hn
+  -- the reindexing bijection `(Σ i, Fin (n i)) ≃ κ`: split `κ` into fibres of `g`.
+  let σ : (Σ i, Fin (n i)) ≃ κ :=
+    (Equiv.sigmaCongrRight fun i => (Fintype.equivFin {k // g k = i}).symm).trans
+      (Equiv.sigmaFiberEquiv g)
+  -- the index of `σ p` lands in the fibre over `p.1`.
+  have hgσ : ∀ p : Σ i, Fin (n i), g (σ p) = p.1 := by
+    rintro ⟨i, a⟩
+    exact ((Fintype.equivFin {k // g k = i}).symm a).2
+  -- Step 3 (positivity): every `P i` occurs, so every fibre is nonempty.
+  have hpos : ∀ i, 1 ≤ n i := by
+    intro i
+    -- `P i` is projective and indecomposable; as a generator `Q ≅ ⨁ f` admits an epi
+    -- `⨁_{Fin m} Q ⟶ P i`, which splits since `P i` is projective.
+    haveI : Projective (P i) := hproj i
+    obtain ⟨m, hbp, π, hπ⟩ := hQ.epiFromBiproduct (P i)
+    haveI := hbp
+    haveI := hπ
+    let t : P i ⟶ (⨁ fun _ : Fin m => Q) := Projective.factorThru (𝟙 (P i)) π
+    have ht : t ≫ π = 𝟙 (P i) := Projective.factorThru_comp _ _
+    -- `⨁_{Fin m} Q ≅ ⨁ (over Fin m × κ) f`, a biproduct of indecomposables.
+    let E1 : (⨁ fun _ : Fin m => Q) ≅ ⨁ (fun p : Σ _ : Fin m, κ => f p.2) :=
+      biproduct.mapIso (fun _ : Fin m => e) ≪≫
+        biproductBiproductIso (fun _ : Fin m => κ) (fun _ : Fin m => f)
+    -- `P i` is therefore an indecomposable retract of `⨁ F`.
+    let F : (Σ _ : Fin m, κ) → C := fun p => f p.2
+    have hF : ∀ p, CategoryTheory.Indecomposable (F p) := fun p => (hf p.2).2
+    have hsr : (t ≫ E1.hom) ≫ (E1.inv ≫ π) = 𝟙 (P i) := by
+      rw [Category.assoc, ← Category.assoc E1.hom, E1.hom_inv_id, Category.id_comp, ht]
+    obtain ⟨p, ⟨iso⟩⟩ :=
+      indecomposable_summand_iso_factor F hF (hindec i) (t ≫ E1.hom) (E1.inv ≫ π) hsr
+    -- `P i ≅ F p = f p.2 ≅ P (g p.2)`, so `g p.2 = i` by distinctness.
+    have : i = g p.2 := hdistinct i (g p.2) ⟨iso ≪≫ fiso p.2⟩
+    exact Fintype.card_pos_iff.mpr ⟨⟨p.2, this.symm⟩⟩
+  -- Step 4: assemble `Q ≅ multBiproduct P n` by reindexing `⨁ f` along `σ` with the isos.
+  refine ⟨n, hpos, ⟨?_⟩⟩
+  let w : ∀ p : Σ i, Fin (n i), f (σ p) ≅ P p.1 :=
+    fun p => fiso (σ p) ≪≫ eqToIso (congrArg P (hgσ p))
+  exact e ≪≫ (biproduct.whiskerEquiv σ w).symm
 
 /-- **Etingof §9.7 classification of projective generators.**
 
