@@ -3270,3 +3270,34 @@ project files from source (`lake exe cache get` only fetches Mathlib oleans, not
 project's), which is slow and adds no signal for a leaf addition. After a clean
 standalone build, just grep for declaration-name collisions and trust CI for the
 full graph rather than waiting on the aggregator locally.
+
+## `End X` ring-structure gotchas (endomorphism-ring proofs: Krull–Schmidt, Morita)
+
+`CategoryTheory.End X := X ⟶ X` carries `Monoid`/`Ring` instances (preadditive), but
+`End X` is a *semireducible def* over the morphism type, and that bites instance search:
+
+- **`f ^ n` on an *ascribed* morphism fails to synthesize the power.** Writing
+  `(biprod.map a b : End (K ⊞ I)) ^ n` errors with `failed to synthesize HPow (K ⊞ I ⟶ K ⊞ I) ℕ`
+  — the ascription unfolds `End` to the `⟶` type *before* instance search, and `End.monoid`
+  is keyed on head symbol `End`, not `Quiver.Hom`. **Fix:** carry the endomorphism as an
+  explicit `End`-typed *variable* (a lemma parameter `(M : End (K ⊞ I))` with a hypothesis
+  `hM : (M : K ⊞ I ⟶ K ⊞ I) = biprod.map a b`), then `M ^ n` resolves. Same for `f ^ n` on
+  any constructed-then-ascribed morphism: bind it to a variable first.
+- **Multiplication is *reversed* composition:** `End.mul_def : x * y = y ≫ x`, `End.one_def :
+  (1 : End X) = 𝟙 X`. So `pow_succ` then `End.mul_def` turns `x ^ (n+1)` into `x ≫ x ^ n`. A
+  block-power induction `(biprod.map a b) ^ n = biprod.map (a ^ n) (b ^ n)` closes with
+  `rw [pow_succ, End.mul_def, ih, hM, biprodMap_comp]; congr 1` (rewrite `ih` *before* `hM` so
+  the `M ^ n` subterm is gone before `M` is substituted — otherwise you re-introduce
+  `(biprod.map a b) ^ n` and the HPow failure returns).
+- **`isUnit_iff_isIso` is in `CategoryTheory`, NOT `End`** (`open CategoryTheory` → bare
+  `isUnit_iff_isIso (f : End X) : IsUnit f ↔ IsIso f`). Pair with `End.isUnit_iff_isIso`-style
+  guesses being wrong.
+- **Transport nilpotence/units along an iso with `Iso.conj`** (`Mathlib/CategoryTheory/Conj.lean`):
+  `e.conj : End X ≃* End Y`, `e.conj_apply : e.conj f = e.inv ≫ f ≫ e.hom`. It is only a
+  `MulEquiv`, but `conj_apply` lets you compute `e.conj 0 = 0` by `simp`, so it carries
+  `IsNilpotent` (via `map_pow` + that zero fact) and `IsUnit` (`IsUnit.map e.conj`) both ways.
+  Conjugating `f = e.hom ≫ M ≫ e.inv` is exactly `f = e.symm.conj M` (`e.symm.inv = e.hom`).
+- **`ext` may not fire on `𝟙 (X ⊞ Y) = biprod.map …`;** use `apply biprod.hom_ext'` (out of a
+  biproduct, post-compose with `inl`/`inr`) or `biprod.hom_ext` (into one, with `fst`/`snd`),
+  then `simp`. `biprod.map`-composition (`biprod.map a b ≫ biprod.map c d = biprod.map (a≫c)(b≫d)`)
+  and `biprod.map 0 0 = 0` both close by `ext <;> simp` — there is no `biprod.map_id`/`map_map`.
