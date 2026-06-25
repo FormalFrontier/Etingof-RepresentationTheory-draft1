@@ -515,6 +515,49 @@ theorem S3_simple_iso (S : FDRep ℂ S3) [Simple S] :
   · exact Or.inr (Or.inl ⟨es ≪≫ eb.symm⟩)
   · exact Or.inr (Or.inr ⟨es ≪≫ ec.symm⟩)
 
+/-! ### Cyclic-subgroup enumeration -/
+
+/-- The transposition generator `(0 1)` of `Z₂`, as an element of the subgroup. -/
+def gen2 : ↥Z2 := ⟨Equiv.swap (0 : Fin 3) 1, Subgroup.mem_zpowers _⟩
+
+@[simp] lemma gen2_val : (gen2 : S3) = Equiv.swap 0 1 := rfl
+
+lemma gen2_orderOf : orderOf gen2 = 2 := by
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  apply orderOf_eq_prime
+  · apply Subtype.ext; decide
+  · intro h; exact absurd (congrArg Subtype.val h) (by decide)
+
+lemma swap01_orderOf : orderOf (Equiv.swap (0 : Fin 3) 1) = 2 := by
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  apply orderOf_eq_prime
+  · decide
+  · decide
+
+lemma gen2_zpowers : Subgroup.zpowers gen2 = ⊤ := by
+  apply Subgroup.eq_top_of_card_eq
+  rw [Nat.card_zpowers, gen2_orderOf, Z2, Nat.card_zpowers, swap01_orderOf]
+
+lemma gen3_zpowers_top : Subgroup.zpowers gen3 = ⊤ := by
+  apply Subgroup.eq_top_of_card_eq
+  rw [Nat.card_zpowers, gen3_orderOf, Z3, Nat.card_eq_fintype_card]
+  decide
+
+/-- A sum over a finite cyclic group `H = ⟨g⟩` (with `orderOf g = n`) enumerates as a sum of
+`f (gⁱ)` for `i : Fin n`. -/
+lemma sum_cyclic {H : Type} [Group H] [Fintype H] {g : H} {n : ℕ}
+    (hord : orderOf g = n) (hgtop : Subgroup.zpowers g = ⊤) (f : H → ℂ) :
+    ∑ h : H, f h = ∑ i : Fin n, f (g ^ (i : ℕ)) := by
+  have hfin : IsOfFinOrder g := isOfFinOrder_of_finite g
+  have hsurj : Function.Surjective (Subgroup.zpowers g).subtype := fun x =>
+    ⟨⟨x, hgtop ▸ Subgroup.mem_top x⟩, rfl⟩
+  let φ : ↥(Subgroup.zpowers g) ≃* H :=
+    MulEquiv.ofBijective (Subgroup.zpowers g).subtype ⟨Subtype.val_injective, hsurj⟩
+  let e : Fin n ≃ H := (finCongr hord.symm).trans ((finEquivZPowers hfin).trans φ.toEquiv)
+  have he : ∀ i : Fin n, e i = g ^ (i : ℕ) := fun i => rfl
+  rw [← Equiv.sum_comp e f]
+  exact Finset.sum_congr rfl fun i _ => by rw [he i]
+
 /-! ### Frobenius reciprocity at the dimension level -/
 
 /-- The character of the restriction `Res_H S` of `S` to a subgroup `H` is `S`'s character
@@ -553,6 +596,19 @@ theorem frobenius_finrank (H : Subgroup S3) {V : Type}
     rw [← (FDRep.forget₂HomLinearEquiv (FDRep.of ρ)
       ((Action.res (FGModuleCat ℂ) H.subtype).obj S)).finrank_eq, ← hWρ, ← hRes]
   rw [key]
+
+/-- The multiplicity of a simple `S` in the induced representation, as a scalar product over
+`H` of the restricted character of `S` against the inducing character. Combines hom-symmetry,
+Frobenius reciprocity, and the character/scalar-product bridge. -/
+lemma ind_finrank_eq_scalar (H : Subgroup S3) [Fintype ↥H] [Invertible (Fintype.card ↥H : ℂ)]
+    {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    (ρ : Representation ℂ ↥H V) (S : FDRep ℂ S3) :
+    (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 H ρ)) : ℂ)
+      = ⅟(Fintype.card ↥H : ℂ) • ∑ h : ↥H, S.character (h : S3) * (FDRep.of ρ).character h⁻¹ := by
+  rw [finrank_hom_symm, frobenius_finrank,
+    ← FDRep.scalar_product_char_eq_finrank_equivariant (FDRep.of ρ)
+      ((Action.res (FGModuleCat ℂ) H.subtype).obj S)]
+  simp only [resObj_character]
 
 /-! ## The induced representations and their decompositions
 
