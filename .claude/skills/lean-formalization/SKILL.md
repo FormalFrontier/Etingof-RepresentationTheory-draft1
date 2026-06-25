@@ -1360,6 +1360,52 @@ For proving coefficient formulas in `MonoidAlgebra ℂ (Equiv.Perm (Fin n))`:
 
 **Pattern:** Expand definitions → use `Finsupp.sum` / `Finset.sum` manipulation → simplify using subgroup membership predicates. The hardest part is usually showing that sums over subgroups telescope to 0 or 1 using intersection triviality (e.g., `row_col_inter_trivial'`: P_λ ∩ Q_λ = {1}).
 
+### Char-equality ⟹ iso, and FDRep semisimple-classification toolkit (Ch5 #5247)
+
+`Etingof.charEq_iso` (`Chapter5/CharEqIso.lean`) is **done and sorry-free**: for
+`V W : FDRep ℂ G` (finite `G`), `V.character = W.character → Nonempty (V ≅ W)`,
+the converse of `FDRep.char_iso`. **Use it, don't rebuild it** when a character
+identity needs upgrading to an isomorphism (e.g. induced-rep decompositions).
+
+Two lessons that cost ~hours of deliberation here:
+
+1. **For FDRep iso-from-invariants, do the induction *inside* `FDRep`, not via
+   `asModule` decomposition.** The categorical route reuses Mathlib's
+   `finrank_hom_simple_simple` and `scalar_product_char_eq_finrank_equivariant`
+   *directly* with zero `Representation.asModule`/`Rep ≌ ModuleCat k[G]` bridges
+   (which the module route needs in both directions, plus a module-level Schur).
+   Pattern: strong induction on `finrank ℂ (V : Type)`; peel a simple subobject
+   `S₀ ↪ V` via `CategoryTheory.exists_simple_subobject` (needs
+   `IsArtinianObject V`); it splits (`IsSplitMono` from `Injective S₀`, the
+   `FinGroupCharZero` instance, retraction `Injective.factorThru (𝟙 S₀) ι`); then
+   `splitSummand` gives `V ≅ S₀ ⊞ Q` and you match `Q` by induction. The
+   character hypothesis enters only once, via `finrank_hom_eq_of_character_eq`
+   (`= finrank ℂ (S ⟶ V)` for every `S`).
+
+2. **`IsArtinianObject (FDRep ℂ G)` is the one genuinely-missing Mathlib fact, and
+   it is provable in ~30 lines** (`instIsArtinianObjectFDRep`, now an instance):
+   give the subobject lattice the strictly-monotone `ℕ`-length `len s = finrank ℂ
+   (s : FDRep ℂ G)`, then `WellFoundedLT` via `Subrelation.wf` + `InvImage.wf …
+   wellFounded_lt` + `isArtinianObject_iff_not_strictAnti`. Strict monotonicity:
+   `a ≤ b` ⟹ `Subobject.ofLE a b h` mono ⟹ underlying linear map injective ⟹
+   `finrank ≤`; equality forces the underlying map bijective ⟹ an underlying
+   ModuleCat iso that the forgetful functor **reflects**, giving `a = b`. The
+   load-bearing forgetful is `Action.forget (FGModuleCat ℂ) G ⋙ forget₂
+   (FGModuleCat ℂ) (ModuleCat ℂ)` — it (a) preserves monos, (b) reflects isos, (c)
+   has `Fwd.obj X` underlying-defeq to `(X : Type)`, and (d) gives
+   `PreservesBinaryBiproduct` via `preservesBinaryBiproduct_of_preservesBinaryProduct`.
+   **Gotcha:** `forget₂ (FDRep ℂ G) (FGModuleCat ℂ)` does *not* auto-resolve
+   `Mono`/`ReflectsIsomorphisms`/`Subsingleton`-of-obj the way `Action.forget`
+   does — use `Action.forget`, not `forget₂`, as the first leg.
+
+Other reusable sorry-free lemmas now in that file: `finrank_biprod_obj`
+(`finrank ℂ (A ⊞ B) = finrank A + finrank B`), `finrank_hom_biprod`
+(hom-space additivity, via a hand-built `homBiprodEquiv : (S ⟶ A ⊞ B) ≃ₗ[ℂ] (S ⟶
+A) × (S ⟶ B)`), `splitSummand` (split mono ⟹ `Y ≅ X ⊞ cokernel`, via
+`isBilimitBinaryBiconeOfIsSplitMonoOfCokernel … |>.isLimit.conePointUniqueUpToIso
+(BinaryBiproduct.isLimit …)`), `homCongrRight` (post-compose iso ⟹ hom-space
+`≃ₗ`), and `isZero_of_finrank_eq_zero`.
+
 ### FDRep Categorical Plumbing
 
 Working with `FDRep` (finite-dimensional representations as a category) requires navigating multiple abstraction layers. This is the #1 blocker in Chapters 4-5.
