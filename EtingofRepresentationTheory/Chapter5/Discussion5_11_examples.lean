@@ -515,6 +515,45 @@ theorem S3_simple_iso (S : FDRep ℂ S3) [Simple S] :
   · exact Or.inr (Or.inl ⟨es ≪≫ eb.symm⟩)
   · exact Or.inr (Or.inr ⟨es ≪≫ ec.symm⟩)
 
+/-! ### Frobenius reciprocity at the dimension level -/
+
+/-- The character of the restriction `Res_H S` of `S` to a subgroup `H` is `S`'s character
+read at the underlying `S₃`-element. -/
+lemma resObj_character (H : Subgroup S3) (S : FDRep ℂ S3) (h : ↥H) :
+    FDRep.character ((Action.res (FGModuleCat ℂ) H.subtype).obj S) h = S.character (h : S3) := rfl
+
+/-- **Frobenius reciprocity (dimension form).** For a subgroup `H ≤ S₃`, a finite-dimensional
+`H`-representation `ρ`, and any `S₃`-representation `S`, the multiplicity of `S` in the induced
+representation equals the multiplicity of `ρ` in the restriction of `S` to `H`:
+`dim Hom_{S₃}(Ind_H ρ, S) = dim Hom_H(ρ, Res_H S)`.
+
+This passes to `Rep ℂ S₃` (where `Mathlib`'s induction lives), applies the adjunction
+`Rep.indResHomEquiv` (`Etingof.Theorem5_10_1`), and returns to `FDRep`. The induced object
+`FDRep.of (Definition5_8_1 H ρ)` is definitionally `Rep.ind H.subtype (Rep.of ρ)` after the
+forgetful functor, since `Definition5_8_1 H ρ = Representation.ind H.subtype ρ`. -/
+theorem frobenius_finrank (H : Subgroup S3) {V : Type}
+    [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    (ρ : Representation ℂ ↥H V) (S : FDRep ℂ S3) :
+    finrank ℂ (FDRep.of (Etingof.Definition5_8_1 H ρ) ⟶ S)
+      = finrank ℂ (FDRep.of ρ ⟶ (Action.res (FGModuleCat ℂ) H.subtype).obj S) := by
+  -- G-side: pass to `Rep ℂ S₃`.
+  rw [← (FDRep.forget₂HomLinearEquiv (FDRep.of (Etingof.Definition5_8_1 H ρ)) S).finrank_eq]
+  have hG : (forget₂ (FDRep ℂ S3) (Rep ℂ S3)).obj (FDRep.of (Etingof.Definition5_8_1 H ρ))
+      = Rep.ind H.subtype (Rep.of ρ) := rfl
+  rw [hG, (Rep.indResHomEquiv H.subtype (Rep.of ρ)
+      ((forget₂ (FDRep ℂ S3) (Rep ℂ S3)).obj S)).finrank_eq]
+  -- H-side: identify both objects with forgetful images of `FDRep`s, then return to `FDRep`.
+  have hWρ : Rep.of ρ = (forget₂ (FDRep ℂ ↥H) (Rep ℂ ↥H)).obj (FDRep.of ρ) := rfl
+  have hRes : (Rep.resFunctor H.subtype).obj ((forget₂ (FDRep ℂ S3) (Rep ℂ S3)).obj S)
+      = (forget₂ (FDRep ℂ ↥H) (Rep ℂ ↥H)).obj
+          ((Action.res (FGModuleCat ℂ) H.subtype).obj S) := rfl
+  have key : finrank ℂ (FDRep.of ρ ⟶ (Action.res (FGModuleCat ℂ) H.subtype).obj S)
+      = finrank ℂ (Rep.of ρ ⟶ (Rep.resFunctor H.subtype).obj
+          ((forget₂ (FDRep ℂ S3) (Rep ℂ S3)).obj S)) := by
+    rw [← (FDRep.forget₂HomLinearEquiv (FDRep.of ρ)
+      ((Action.res (FGModuleCat ℂ) H.subtype).obj S)).finrank_eq, ← hWρ, ← hRes]
+  rw [key]
+
 /-! ## The induced representations and their decompositions
 
 Each statement asserts an isomorphism of `S₃`-representations. The intended proof
