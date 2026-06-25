@@ -3301,3 +3301,26 @@ full graph rather than waiting on the aggregator locally.
   biproduct, post-compose with `inl`/`inr`) or `biprod.hom_ext` (into one, with `fst`/`snd`),
   then `simp`. `biprod.map`-composition (`biprod.map a b ≫ biprod.map c d = biprod.map (a≫c)(b≫d)`)
   and `biprod.map 0 0 = 0` both close by `ext <;> simp` — there is no `biprod.map_id`/`map_map`.
+- **`End X` is *noncommutative*, so most of Mathlib's `IsLocalRing` consumer API is unusable** —
+  it silently assumes `CommRing`/`CommSemiring` (or `IsDedekindFiniteMonoid`). Specifically
+  `IsLocalRing.isUnit_or_isUnit_one_sub_self` (CommRing), `isUnit_or_isUnit_of_isUnit_add` and
+  `nonunits_add` (CommSemiring), `isUnit_of_mul_isUnit_right` (comm), and
+  `IsIdempotentElem.iff_eq_one_of_isUnit` (`IsDedekindFiniteMonoid`) all fail to synthesize on
+  `End X`. **Re-derive from the class field `IsLocalRing.isUnit_or_isUnit_of_add_one {a b} (h : a +
+  b = 1) : IsUnit a ∨ IsUnit b`**, which holds for any `Semiring`. From it: `IsUnit a ∨ IsUnit (1 -
+  a)` via `(by abel : a + (1 - a) = 1)`; "unit summand of a unit finite sum" via
+  `Finset.sum_induction` with `nonunits` closure proved through `isUnit_or_isUnit_of_add_one`; and
+  "idempotent unit ⇒ `= 1`" by left-multiplying `a*a = a` by the inverse unit (works in any
+  `Monoid`). See `Chapter9/KrullSchmidt/Exchange.lean` for all four helpers.
+- **`IsIdempotentElem (g : End Z)` written with a type *ascription* `(g : End Z)` fails** with
+  `failed to synthesize Mul (Z ⟶ Z)` (the ascription unfolds `End` before instance search, same
+  semireducible-def bite as `^`). **Fix:** pass the type as the named implicit —
+  `IsIdempotentElem (M := End Z) g` with `g : Z ⟶ Z` — then feed `hg : g ≫ g = g` *directly*
+  (`IsIdempotentElem (M := End Z) g` is defeq to `g * g = g` is defeq to `g ≫ g = g`). For the
+  output, an idempotent in a local ring being `0`/`1` (End ring `1 = 𝟙` via `End.one_def`)
+  bridges back to morphism `g = 0 ∨ g = 𝟙 Z` cleanly; wrap this once and consume the morphism-level
+  result so callers never touch `End`-vs-`Hom` zero/one mismatches.
+- **`set_option … in` must precede the doc comment, not sit between `/-- … -/` and the theorem**
+  (otherwise: `unexpected token 'set_option'; expected 'lemma'`). To silence
+  `linter.unusedFintypeInType` on a theorem whose `[Fintype κ]` is only used to form `⨁` in the
+  type, put `set_option linter.unusedFintypeInType false in` on the line *above* the docstring.
