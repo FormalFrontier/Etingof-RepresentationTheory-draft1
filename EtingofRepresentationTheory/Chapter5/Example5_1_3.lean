@@ -4,6 +4,8 @@ import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Classification
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_1_5
+import EtingofRepresentationTheory.Chapter4.Corollary4_2_2
 
 /-!
 # Example 5.1.3: Type Classification for Specific Groups
@@ -598,26 +600,222 @@ lemma Etingof.A5_frobeniusSchur_all_pos
   have hTge : (18 : ℤ) ≤ T := by rw [hsum_def] at hsingle; linarith
   nlinarith [hcheb, hTge]
 
-/-- **The 4-dimensional (standard) irreducible of `A₅` is of real type.** Every
-even-dimensional simple `ℂ[A₅]`-module is the 4-dimensional standard representation
-`ℂ⁴` (the permutation representation on `Fin 5` minus the trivial line), which is
-realised by rational permutation matrices, hence of real type by L1
-(`isRealType_of_rational_form`).
+section A5EvenAssembly
 
-Isolated as a `sorry`: identifying an *abstract* even-dimensional simple module with
-the concrete standard representation needs the dimension classification of `A₅`'s
-irreducibles — five conjugacy classes, dims `{1, 3, 3, 4, 5}` via Frobenius
-divisibility (`dim ∣ |G|`) and `∑ dimᵢ² = 60`. That classification (and Frobenius
-divisibility in particular) is not yet available in Mathlib or this project; it is
-the sole remaining gap for Example 5.1.3 (A₅). Tracked separately. -/
+open CategoryTheory
+
+/-- **General-index Cauchy-Schwarz endgame.** The cardinality-`5`, arbitrary-index
+form of `Etingof.A5_frobeniusSchur_all_pos`: for any `5`-element index type `ι` with
+positive integer dimensions `d i ≥ 1` and indicators `ε i ∈ {±1}`, the two global
+identities `∑ d² = 60` and `∑ ε·d = 16` force every `ε i = 1`. This is the form the
+Wedderburn family of `A₅` (indexed by `Fin D.n` with `D.n = 5`) feeds into, sparing a
+`Fin D.n ≃ Fin 5` re-indexing. -/
+lemma Etingof.frobeniusSchur_all_pos_general {ι : Type*} [Fintype ι]
+    (hcard : Fintype.card ι = 5) (d ε : ι → ℤ)
+    (hd : ∀ i, 1 ≤ d i) (hε : ∀ i, ε i = 1 ∨ ε i = -1)
+    (hsq : ∑ i, d i ^ 2 = 60) (hcount : ∑ i, ε i * d i = 16) :
+    ∀ i, ε i = 1 := by
+  have hcheb : (∑ i, d i) ^ 2 ≤ 5 * ∑ i, d i ^ 2 := by
+    have h := sq_sum_le_card_mul_sum_sq (s := (Finset.univ : Finset ι)) (f := d)
+    rw [Finset.card_univ, hcard] at h
+    simpa using h
+  rw [hsq] at hcheb
+  set T := ∑ j, d j with hT
+  intro i
+  by_contra hi
+  have hneg : ε i = -1 := (hε i).resolve_left hi
+  have hf_nonneg : ∀ j ∈ (Finset.univ : Finset ι), (0 : ℤ) ≤ d j - ε j * d j := by
+    intro j _
+    rcases hε j with hj | hj
+    · rw [hj]; simp
+    · rw [hj]; nlinarith [hd j]
+  have hsum_def : ∑ j, (d j - ε j * d j) = T - 16 := by
+    rw [Finset.sum_sub_distrib, hcount, hT]
+  have hfi : (2 : ℤ) ≤ d i - ε i * d i := by rw [hneg]; nlinarith [hd i]
+  have hsingle : d i - ε i * d i ≤ ∑ j, (d j - ε j * d j) :=
+    Finset.single_le_sum hf_nonneg (Finset.mem_univ i)
+  have hTge : (18 : ℤ) ≤ T := by rw [hsum_def] at hsingle; linarith
+  nlinarith [hcheb, hTge]
+
+/-- The Frobenius-Schur indicator depends only on the character: equal-character
+representations have equal indicators (since `FS(ρ) = |G|⁻¹ ∑_g χ_ρ(g²)`). -/
+lemma Etingof.frobeniusSchurIndicator_eq_of_character_eq
+    {G : Type*} [Group G] [Fintype G] [DecidableEq G]
+    {V W : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    [AddCommGroup W] [Module ℂ W] [Module.Finite ℂ W]
+    (ρ : Representation ℂ G V) (σ : Representation ℂ G W)
+    (h : ∀ g, Representation.character ρ g = Representation.character σ g) :
+    Etingof.frobeniusSchurIndicator ρ = Etingof.frobeniusSchurIndicator σ := by
+  simp only [Etingof.frobeniusSchurIndicator]
+  congr 1
+  exact Finset.sum_congr rfl (fun g _ => h (g * g))
+
+variable {G : Type} [Group G] [Fintype G] [DecidableEq G]
+
+/-- A full faithful functor preserving monomorphisms reflects `Simple` objects. -/
+private lemma simple_of_full_faithful_preservesMono' {C D : Type*} [Category C] [Category D]
+    [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
+    (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms] (X : C)
+    [Simple (F.obj X)] : Simple X where
+  mono_isIso_iff_nonzero {Y} f := by
+    intro
+    constructor
+    · intro hiso
+      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
+    · intro hne
+      haveI : Mono (F.map f) := inferInstance
+      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+        (fun h => hne (F.map_injective (by rwa [F.map_zero])))
+      exact isIso_of_fully_faithful F f
+
+/-- Bridge: the module-level simplicity `IsSimpleModule (ℂ[G]) ρ.asModule` upgrades to
+categorical `Simple (FDRep.of ρ)`, via the `Rep ≃ Module ℂ[G]` equivalence. -/
+private lemma simple_FDRep_of_isSimpleModule [NeZero (Nat.card G : ℂ)]
+    {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    (ρ : Representation ℂ G V)
+    [IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule] :
+    Simple (FDRep.of ρ) := by
+  let E := Rep.equivalenceModuleMonoidAlgebra (k := ℂ) (G := G)
+  haveI : Simple (E.functor.obj ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ))) := by
+    change Simple (ModuleCat.of (MonoidAlgebra ℂ G) ρ.asModule)
+    exact simple_of_isSimpleModule
+  haveI : Simple ((forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of ρ)) :=
+    simple_of_full_faithful_preservesMono' E.functor _
+  exact simple_of_full_faithful_preservesMono' (forget₂ (FDRep ℂ G) (Rep ℂ G)) _
+
+/-- **Isolated gap (Frobenius-Schur type dichotomy).** For a simple complex `FDRep`
+`W` with a self-dual character (`χ(g⁻¹) = χ(g)`, supplied by an ambivalent group), the
+Frobenius-Schur indicator is `±1`. Equivalently: `W` is of real or quaternionic type,
+never complex type. This is the Frobenius-Schur trace identity
+`FS = dim(Sym²V)^G − dim(Λ²V)^G ∈ {0, ±1}` together with self-duality forcing the
+total invariant-form dimension to `1`; it is the same content as the still-isolated
+trace identity in `FrobeniusSchurRealType.lean`
+(`exists_nonzero_invariant_symmetric_of_FS_eq_one`). Tracked separately; once filled,
+`Etingof.isRealType_of_A5_even_standard` and `Etingof.Example5_1_3_A5` become
+axiom-clean. -/
+private lemma frobeniusSchurIndicator_pm_one_of_simple_selfDual
+    [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
+    (W : FDRep ℂ G) (_hW : Simple W)
+    (_hsd : ∀ g, Representation.character W.ρ g⁻¹ = Representation.character W.ρ g) :
+    Etingof.frobeniusSchurIndicator W.ρ = 1 ∨ Etingof.frobeniusSchurIndicator W.ρ = -1 := by
+  sorry
+
+/-- **The 4-dimensional (standard) irreducible of `A₅` is of real type.** Every
+even-dimensional simple `ℂ[A₅]`-module is of real type.
+
+The proof assembles the verified Frobenius-Schur foundations rather than exhibiting the
+concrete `{1, 3, 3, 4, 5}` dimension list. Working with the Wedderburn family
+`W = D.columnFDRep` of the group algebra `ℂ[A₅]`:
+
+* there are exactly `5` irreducibles (`D.n = #ConjClasses A₅ = 5`,
+  `IrrepDecomp.n_eq_card_conjClasses'`);
+* `∑ᵢ (dim Wᵢ)² = 60 = |A₅|` (`IrrepDecomp.sum_finrank_sq_eq_card`);
+* `∑ᵢ FS(Wᵢ)·dim Wᵢ = #{g : g² = 1} = 16` (`Etingof.frobeniusSchur_involution_count`);
+* each `FS(Wᵢ) ∈ {±1}` since `A₅` is ambivalent (`alternatingGroup_ambivalent` gives
+  self-dual characters, ruling out complex type).
+
+Feeding these into the Cauchy-Schwarz endgame `frobeniusSchur_all_pos_general` forces
+every `FS(Wᵢ) = 1`; the abstract `ρ` is isomorphic to some `Wᵢ` (Schur), so
+`FS(ρ) = 1` and `isRealType_of_frobeniusSchurIndicator_eq_one` finishes.
+
+The per-irreducible step `FS(Wᵢ) ∈ {±1}` is isolated as
+`frobeniusSchurIndicator_pm_one_of_simple_selfDual` (the Frobenius-Schur trace
+identity, still a `sorry`). -/
 theorem Etingof.isRealType_of_A5_even_standard
-    {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (alternatingGroup (Fin 5))) ρ.asModule)
     (hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g)
     (heven : Even (Module.finrank ℂ V)) :
     Etingof.IsRealType ρ := by
-  sorry
+  classical
+  -- It suffices to show the Frobenius-Schur indicator of `ρ` is `1`.
+  apply Etingof.isRealType_of_frobeniusSchurIndicator_eq_one ρ hρ
+  -- Order facts about `A₅`.
+  have hcard60 : Fintype.card (alternatingGroup (Fin 5)) = 60 := by native_decide
+  haveI hNZ : NeZero (Nat.card (alternatingGroup (Fin 5)) : ℂ) := by
+    refine ⟨?_⟩; rw [Nat.card_eq_fintype_card, hcard60]; norm_num
+  haveI hInv : Invertible (Fintype.card (alternatingGroup (Fin 5)) : ℂ) :=
+    invertibleOfNonzero (by rw [hcard60]; norm_num)
+  -- The Wedderburn-Artin family of irreducibles of `ℂ[A₅]`.
+  let D : IrrepDecomp ℂ (alternatingGroup (Fin 5)) := IrrepDecomp.mk'
+  let W : Fin D.n → FDRep ℂ (alternatingGroup (Fin 5)) := D.columnFDRep
+  have hWs : ∀ i, Simple (W i) := D.columnFDRep_simple
+  have hWi : ∀ i j, Nonempty ((W i) ≅ (W j)) → i = j := D.columnFDRep_injective
+  -- (1) There are exactly five irreducibles.
+  have h5 : Fintype.card (Fin D.n) = 5 := by
+    rw [Fintype.card_fin, D.n_eq_card_conjClasses']
+    native_decide
+  -- (2) Sum of squared dimensions equals `|A₅| = 60`.
+  have hsqN : ∑ i, (Module.finrank ℂ (W i)) ^ 2 = 60 := by
+    rw [D.sum_finrank_sq_eq_card W hWs hWi, hcard60]
+  -- (3) Frobenius-Schur involution count: `16 = ∑ FS(Wᵢ)·dim Wᵢ`.
+  have hcountC : ((Finset.univ.filter
+        (fun g : alternatingGroup (Fin 5) => g * g = 1)).card : ℂ)
+      = ∑ i, Etingof.frobeniusSchurIndicator (W i).ρ * (Module.finrank ℂ (W i) : ℂ) :=
+    Etingof.frobeniusSchur_involution_count D W hWs hWi
+  have hinv16 : (Finset.univ.filter
+      (fun g : alternatingGroup (Fin 5) => g * g = 1)).card = 16 := by native_decide
+  -- (4) `A₅` is ambivalent, so every `Wᵢ` has a self-dual character.
+  have hsdW : ∀ i, ∀ g, Representation.character (W i).ρ g⁻¹
+      = Representation.character (W i).ρ g := by
+    intro i g
+    obtain ⟨c, hc⟩ := isConj_iff.mp (Etingof.alternatingGroup_ambivalent g)
+    rw [← hc]; exact Representation.char_conj (W i).ρ g c
+  -- Hence each `FS(Wᵢ) ∈ {±1}` (isolated gap).
+  have hFSmem : ∀ i, Etingof.frobeniusSchurIndicator (W i).ρ = 1
+      ∨ Etingof.frobeniusSchurIndicator (W i).ρ = -1 :=
+    fun i => frobeniusSchurIndicator_pm_one_of_simple_selfDual (W i) (hWs i) (hsdW i)
+  -- Package dimensions and indicators as integers for the endgame.
+  set dd : Fin D.n → ℤ := fun i => (Module.finrank ℂ (W i) : ℤ) with hdd
+  set ee : Fin D.n → ℤ :=
+    fun i => if Etingof.frobeniusSchurIndicator (W i).ρ = 1 then (1 : ℤ) else -1 with hee
+  have hεval : ∀ i, Etingof.frobeniusSchurIndicator (W i).ρ = (ee i : ℂ) := by
+    intro i
+    rcases hFSmem i with h1 | h1
+    · rw [hee]; simp only [if_pos h1]; rw [h1]; norm_num
+    · have hne : Etingof.frobeniusSchurIndicator (W i).ρ ≠ 1 := by rw [h1]; norm_num
+      rw [hee]; simp only [if_neg hne]; rw [h1]; norm_num
+  have hd : ∀ i, 1 ≤ dd i := by
+    intro i
+    have hfpos : 0 < Module.finrank ℂ (W i) := by
+      rw [D.finrank_columnFDRep i]; exact Nat.pos_of_ne_zero (D.d_pos i).out
+    simp only [hdd]; exact_mod_cast hfpos
+  have hε : ∀ i, ee i = 1 ∨ ee i = -1 := by
+    intro i
+    by_cases h : Etingof.frobeniusSchurIndicator (W i).ρ = 1
+    · left; rw [hee]; simp only [if_pos h]
+    · right; rw [hee]; simp only [if_neg h]
+  have hsq : ∑ i, dd i ^ 2 = 60 := by
+    rw [hdd]
+    calc ∑ i, ((Module.finrank ℂ (W i) : ℤ)) ^ 2
+        = ((∑ i, (Module.finrank ℂ (W i)) ^ 2 : ℕ) : ℤ) := by push_cast; ring
+      _ = ((60 : ℕ) : ℤ) := by rw [hsqN]
+      _ = 60 := by norm_num
+  have hcount : ∑ i, ee i * dd i = 16 := by
+    have hC : ((16 : ℕ) : ℂ)
+        = ∑ i, Etingof.frobeniusSchurIndicator (W i).ρ * (Module.finrank ℂ (W i) : ℂ) := by
+      rw [← hinv16]; exact_mod_cast hcountC
+    have hC3 : ((∑ i, ee i * dd i : ℤ) : ℂ) = ((16 : ℤ) : ℂ) := by
+      rw [show ((16 : ℤ) : ℂ) = ((16 : ℕ) : ℂ) from by norm_num, hC]
+      push_cast [hdd]
+      refine Finset.sum_congr rfl (fun i _ => ?_)
+      rw [hεval i]
+    exact_mod_cast hC3
+  -- The endgame forces every indicator to be `+1`.
+  have hall : ∀ i, ee i = 1 :=
+    Etingof.frobeniusSchur_all_pos_general h5 dd ee hd hε hsq hcount
+  -- The abstract `ρ` is isomorphic to some `Wᵢ₀`, so `FS(ρ) = FS(Wᵢ₀) = 1`.
+  haveI := hρ
+  haveI hsimp : Simple (FDRep.of ρ) := simple_FDRep_of_isSimpleModule ρ
+  obtain ⟨i₀, ⟨iso⟩⟩ := D.columnFDRep_surjective (FDRep.of ρ) hsimp
+  have hchar : ∀ g, Representation.character ρ g = Representation.character (W i₀).ρ g :=
+    fun g => congrFun (FDRep.char_iso iso) g
+  rw [Etingof.frobeniusSchurIndicator_eq_of_character_eq ρ (W i₀).ρ hchar, hεval i₀, hall i₀]
+  norm_num
+
+end A5EvenAssembly
 
 /-- All irreducible representations of `A₅` are of real type. (Etingof Example 5.1.3)
 
@@ -628,7 +826,7 @@ real type by the self-dual dichotomy plus L3 (quaternionic ⟹ even-dimensional)
 the 4-dimensional standard representation — is rational, handled by
 `isRealType_of_A5_even_standard`. -/
 theorem Etingof.Example5_1_3_A5
-    {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (alternatingGroup (Fin 5))) ρ.asModule) :
     Etingof.IsRealType ρ := by
