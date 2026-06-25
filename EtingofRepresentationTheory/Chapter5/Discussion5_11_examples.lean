@@ -679,6 +679,33 @@ lemma indZ3_finrank_eq (χ : ↥Z3 →* ℂˣ) (S : FDRep ℂ S3) :
     inv_one, gen3_val, Subgroup.coe_pow, charRep_character, map_one, map_inv, Units.val_one,
     Units.val_inv_eq_inv_val]
 
+/-! ### Cube-root-of-unity arithmetic for `ℂ_ε` -/
+
+lemma epsHom_gen3 : epsHom gen3 = zeta3 :=
+  monoidHomOfForallMemZpowers_apply_gen _ _
+
+lemma zeta3_cube : (zeta3 : ℂ) ^ 3 = 1 := by
+  rw [← Units.val_pow_eq_pow_val, zeta3_pow_three, Units.val_one]
+
+lemma zeta3_inv : (zeta3 : ℂ)⁻¹ = (zeta3 : ℂ) ^ 2 :=
+  inv_eq_of_mul_eq_one_right (by
+    rw [show (zeta3 : ℂ) * (zeta3 : ℂ) ^ 2 = (zeta3 : ℂ) ^ 3 by ring, zeta3_cube])
+
+lemma zeta3_sq_inv : ((zeta3 : ℂ) ^ 2)⁻¹ = (zeta3 : ℂ) :=
+  inv_eq_of_mul_eq_one_right (by
+    rw [show (zeta3 : ℂ) ^ 2 * (zeta3 : ℂ) = (zeta3 : ℂ) ^ 3 by ring, zeta3_cube])
+
+lemma zeta3_primitive : IsPrimitiveRoot (zeta3 : ℂ) 3 := by
+  have h := Complex.isPrimitiveRoot_exp 3 (by norm_num)
+  rw [show (zeta3 : ℂ) = Complex.exp (2 * ↑Real.pi * Complex.I / 3) from rfl,
+    show (3 : ℂ) = ((3 : ℕ) : ℂ) by norm_num]
+  exact h
+
+lemma zeta3_sum : (zeta3 : ℂ) ^ 2 + (zeta3 : ℂ) + 1 = 0 := by
+  have h := zeta3_primitive.geom_sum_eq_zero (by norm_num : 1 < 3)
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, pow_zero, pow_one, zero_add] at h
+  linear_combination h
+
 /-! ## The induced representations and their decompositions
 
 Each statement asserts an isomorphism of `S₃`-representations. The intended proof
@@ -690,8 +717,7 @@ constituent by Frobenius reciprocity `Etingof.Theorem5_10_1`,
 together with completeness of the `S₃` irreducible catalogue `{trivRep, signRep, stdRep}`
 (provable from `exists_simples_sum_finrank_sq_eq_card`, since `1² + 1² + 2² = 6 = |S₃|`).
 
-The four statements below are all formalized; their proofs remain to be filled in along
-this route. -/
+All four decompositions below are proved sorry-free along this route. -/
 
 /-- `Ind_{Z₂}^{S₃} ℂ₊ ≅ ℂ² ⊕ ℂ₊`. (Etingof Discussion 5.11(1)) -/
 theorem indZ2_trivPlus_decomp :
@@ -849,7 +875,50 @@ theorem indZ3_trivPlus_decomp :
 /-- `Ind_{Z₃}^{S₃} ℂ_ε ≅ ℂ²`. (Etingof Discussion 5.11(2)) -/
 theorem indZ3_eps_decomp :
     Nonempty (FDRep.of (Etingof.Definition5_8_1 Z3 (charRep epsHom)) ≅ stdRep) := by
-  sorry
+  refine iso_of_forall_finrank_hom_eq _ _ _ rfl (fun S hS => ?_)
+  haveI : Simple S := hS
+  rcases S3_simple_iso S with h | h | h
+  · -- S ≅ trivRep : multiplicity 0 (ε ⊥ triv)
+    obtain ⟨e⟩ := h
+    have hc := FDRep.char_iso e
+    have hL : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z3 (charRep epsHom))) : ℂ)
+        = 0 := by
+      rw [indZ3_finrank_eq]
+      simp only [hc, trivRep_character, epsHom_gen3, map_one, map_pow,
+        Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, Units.val_one]
+      rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
+      push_cast; linear_combination zeta3_sum
+    have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
+      rw [FDRep.finrank_hom_simple_simple S stdRep,
+        if_neg (fun hh => trivRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+    rw [hR]; exact_mod_cast hL
+  · -- S ≅ signRep : multiplicity 0 (ε ⊥ sign)
+    obtain ⟨e⟩ := h
+    have hc := FDRep.char_iso e
+    have hL : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z3 (charRep epsHom))) : ℂ)
+        = 0 := by
+      rw [indZ3_finrank_eq]
+      simp only [hc, signRep_char_one, signRep_char_cycle, signRep_char_cycle_sq, epsHom_gen3,
+        map_one, map_pow, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, Units.val_one]
+      rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
+      push_cast; linear_combination zeta3_sum
+    have hR : finrank ℂ (S ⟶ stdRep) = 0 := by
+      rw [FDRep.finrank_hom_simple_simple S stdRep,
+        if_neg (fun hh => signRep_not_iso_stdRep ⟨e.symm ≪≫ hh.some⟩)]
+    rw [hR]; exact_mod_cast hL
+  · -- S ≅ stdRep : multiplicity 1 (ε appears once in Res_{Z₃} std)
+    obtain ⟨e⟩ := h
+    have hc := FDRep.char_iso e
+    have hL : (finrank ℂ (S ⟶ FDRep.of (Etingof.Definition5_8_1 Z3 (charRep epsHom))) : ℂ)
+        = 1 := by
+      rw [indZ3_finrank_eq]
+      simp only [hc, stdRep_char_one, stdRep_char_cycle, stdRep_char_cycle_sq, epsHom_gen3,
+        map_one, map_pow, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, Units.val_one]
+      rw [zeta3_inv, zeta3_sq_inv, invOf_smul_eq_iff, Z3_card, smul_eq_mul]
+      push_cast; linear_combination -zeta3_sum
+    have hR : finrank ℂ (S ⟶ stdRep) = 1 := by
+      rw [FDRep.finrank_hom_simple_simple S stdRep, if_pos ⟨e⟩]
+    rw [hR]; exact_mod_cast hL
 
 end Etingof.Discussion5_11
 
