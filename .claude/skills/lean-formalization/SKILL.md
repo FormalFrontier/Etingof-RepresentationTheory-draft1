@@ -2751,6 +2751,38 @@ From Phase 2 review patterns and Stage 3.2 proof experience (110+ merged PRs thr
 
 5. **`linarith` requires a linear order — use `linear_combination` over ℂ.** `linarith` only works on linearly ordered types (ℝ, ℤ, ℕ, etc.). For goals over ℂ like `a + b = 0 → a = -b`, use `linear_combination h` instead. The `linear_combination` tactic works over any commutative ring.
 
+### Counting solutions / orbits in `ZMod n` where `n` is a *symbolic* modulus (e.g. `q²−1`)
+
+Formalizing a "count the `ν ∈ K^∨` with property P" claim by modelling `K^∨ ≅ ZMod n`
+(Ch5 Discussion 5.25.4 / #5169, `Chapter5/Discussion5_25_4.lean`) hits two recurring traps:
+
+1. **`Finset.univ`/`.filter`/`.card` over `ZMod n` needs `Fintype (ZMod n)`, which only
+   exists given `[NeZero n]` — and the *statement* elaborates before any in-proof `haveI`.**
+   So a `def`/`theorem` whose *type* mentions `Finset.univ : Finset (ZMod (q²−1))` (or any
+   `.filter`/`.card` of it) must carry `[NeZero (q ^ 2 - 1)]` as an **instance binder**; you
+   cannot derive it inside the proof from a `(hq : 2 ≤ q)` Prop hypothesis (that's too late —
+   `Finset.univ` in the signature has already failed to synthesize `Fintype`). Put `[NeZero
+   (q ^ 2 - 1)]` on the def and on every theorem referencing it; lower-level lemmas whose
+   *statements* avoid `univ` (e.g. an `x.val` divisibility iff) can instead `haveI : NeZero
+   … := ⟨by …⟩` internally where they need `ZMod.val_lt`/`natCast_zmod_val`. Callers with a
+   concrete `q ≥ 2` discharge the instance trivially; an abstract caller does one `haveI`.
+
+2. **`rw [hfac]` to replace the modulus `n` (e.g. `q²−1 = (q−1)(q+1)`) gives "motive is not
+   type correct" whenever a `(x : ZMod n).val` term is in scope** — because `ZMod.val x =
+   @ZMod.val n x` has `n` as an *explicit argument*, and `x : ZMod n`, so rewriting `n`
+   retypes `x`. **Never rewrite the modulus on a hypothesis/goal containing `.val` of that
+   `ZMod`.** Instead rewrite in the *opposite* direction on a term where the product form
+   `(q−1)*(q+1)` does **not** overlap the `.val`: e.g. to turn goal `(q+1) ∣ x.val` into
+   `(q²−1) ∣ (q−1)*x.val`, do `rw [← mul_dvd_mul_iff_left hq1, ← hfac]` (the `← hfac`
+   collapses the freshly-introduced `(q−1)*(q+1)` divisor, leaving `x.val` untouched); to
+   prove `(q²−1) ∣ (q−1)*x.val`, build `h2 : (q−1)*(q+1) ∣ (q−1)*x.val` first then `rwa
+   [← hfac] at h2`; to bound `x.val < (q−1)*(q+1)`, `rw [← hfac]` then `exact ZMod.val_lt x`.
+   The fixed-point count itself is a clean `Finset.card_nbij'` between the fixed set and
+   `Finset.range (q−1)` via the multiples-of-`(q+1)` map `k ↦ ((q+1)*k : ZMod n)` (with
+   `ZMod.val_natCast_of_lt` for the round-trips); a fixed-point-free involution's orbit count
+   is `card/2`, proved by exhibiting a transversal (val-minimal element per pair) and
+   `Finset.card_union_of_disjoint` on `moved = reps ∪ reps.image f`.
+
 ## Breadth-vs-Depth Phase Awareness
 
 The project alternates between **breadth phases** (statement formalization) and **depth phases** (proof completion). Recognizing which phase you're in prevents misallocating effort.
