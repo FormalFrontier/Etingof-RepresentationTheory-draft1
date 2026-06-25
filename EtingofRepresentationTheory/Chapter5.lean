@@ -158,6 +158,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_25_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_25_2
 import EtingofRepresentationTheory.Chapter5.GL2CharacterValues
 import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
+import EtingofRepresentationTheory.Chapter5.Discussion5_25_4
 
 -- Section 5.26: Artin's Theorem
 import EtingofRepresentationTheory.Chapter5.Theorem5_26_1
