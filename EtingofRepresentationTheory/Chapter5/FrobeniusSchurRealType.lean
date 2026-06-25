@@ -123,4 +123,188 @@ theorem isRealType_of_frobeniusSchurIndicator_eq_one
     exists_nonzero_invariant_symmetric_of_FS_eq_one ρ hρ hFS
   exact ⟨B, hsym, nondegenerate_of_invariant_of_simple ρ hρ B hBne hinv, hinv⟩
 
+/-!
+## L1 — real / rational form ⟹ real type (the linchpin)
+
+The companion construction that does *not* route through the (still isolated)
+Frobenius-Schur trace identity: if a simple complex representation is realised by
+**real matrices** in some basis (every matrix entry of every `ρ g` is real — a
+genuine ℝ-scalar-extension structure, the "real form"), then averaging the
+standard coordinate symmetric form over `G` produces a nonzero `G`-invariant
+*symmetric* `ℂ`-bilinear form, which is nondegenerate by simplicity. So `ρ` is of
+real type. This is the workhorse for the rational matrix reps of `S₃`, `S₄`,
+`A₅`: realisation by rational matrices is a special case of a real form.
+
+The averaged form is `B(v, w) = ∑_{g ∈ G} ∑_i ⟨ρ g v, e_i⟩ ⟨ρ g w, e_i⟩` where
+`⟨·, e_i⟩ = b.coord i` are the coordinate functionals. Non-vanishing comes from
+positivity: each `B(e_{i₀}, e_{i₀}) = ∑_g ∑_i (matrix entry)²` has real entries,
+so its real part is `≥` the `g = 1` term `= 1`.
+-/
+
+section RealForm
+
+variable {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+/-- The standard coordinate symmetric bilinear form in the basis `b`, averaged over
+`G`: `B(v, w) = ∑_{g} ∑_i (b.coord i (ρ g v)) * (b.coord i (ρ g w))`. -/
+private noncomputable def avgCoordForm
+    (ρ : Representation ℂ G V) (b : Module.Basis ι ℂ V) : V →ₗ[ℂ] V →ₗ[ℂ] ℂ :=
+  ∑ g : G, (∑ i : ι,
+    (LinearMap.mul ℂ ℂ).compl₁₂ (b.coord i) (b.coord i)).compl₁₂ (ρ g) (ρ g)
+
+private theorem avgCoordForm_apply
+    (ρ : Representation ℂ G V) (b : Module.Basis ι ℂ V) (v w : V) :
+    avgCoordForm ρ b v w
+      = ∑ g : G, ∑ i : ι, (b.coord i (ρ g v)) * (b.coord i (ρ g w)) := by
+  simp only [avgCoordForm, LinearMap.sum_apply, LinearMap.compl₁₂_apply,
+    LinearMap.mul_apply']
+
+/-- **L1 (the linchpin).** A simple complex representation realised by **real
+matrices** in a basis `b` (a real form) is of real type. (Etingof, around
+Theorem 5.1.5.) -/
+theorem isRealType_of_real_form
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (b : Module.Basis ι ℂ V)
+    (hreal : ∀ (g : G) (i j : ι), (LinearMap.toMatrix b b (ρ g) i j).im = 0) :
+    Etingof.IsRealType ρ := by
+  haveI := hρ
+  haveI hNT : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  obtain ⟨i₀⟩ := b.index_nonempty
+  -- Symmetry: each summand is symmetric because multiplication on `ℂ` is.
+  have hsym : ∀ v w, avgCoordForm ρ b v w = avgCoordForm ρ b w v := by
+    intro v w
+    rw [avgCoordForm_apply, avgCoordForm_apply]
+    exact Finset.sum_congr rfl fun g _ => Finset.sum_congr rfl fun i _ => mul_comm _ _
+  -- `G`-invariance: reindex the average by `h ↦ h * g`.
+  have hmul : ∀ (g h : G) (x : V), ρ h (ρ g x) = ρ (h * g) x := by
+    intro g h x; rw [map_mul]; rfl
+  have hinv : ∀ g v w, avgCoordForm ρ b (ρ g v) (ρ g w) = avgCoordForm ρ b v w := by
+    intro g v w
+    rw [avgCoordForm_apply, avgCoordForm_apply,
+      ← Equiv.sum_comp (Equiv.mulRight g)
+        (fun h => ∑ i : ι, (b.coord i (ρ h v)) * (b.coord i (ρ h w)))]
+    refine Finset.sum_congr rfl fun h _ => Finset.sum_congr rfl fun i _ => ?_
+    simp only [Equiv.coe_mulRight]
+    rw [hmul g h v, hmul g h w]
+  -- Reading a coordinate of `ρ g` as a matrix entry — hence real.
+  have hcoord : ∀ (g : G) (i : ι),
+      b.coord i (ρ g (b i₀)) = LinearMap.toMatrix b b (ρ g) i i₀ := by
+    intro g i; rw [LinearMap.toMatrix_apply, Module.Basis.coord_apply]
+  -- Non-vanishing: the real part of `B (b i₀) (b i₀)` is `≥ 1`.
+  have hre : (avgCoordForm ρ b (b i₀) (b i₀)).re
+      = ∑ g : G, ∑ i : ι, ((b.coord i (ρ g (b i₀))).re) ^ 2 := by
+    rw [avgCoordForm_apply, Complex.re_sum]
+    refine Finset.sum_congr rfl fun g _ => ?_
+    rw [Complex.re_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    have him : (b.coord i (ρ g (b i₀))).im = 0 := by rw [hcoord]; exact hreal g i i₀
+    rw [Complex.mul_re, him, sq]; ring
+  have hnonneg : ∀ g : G, (0 : ℝ) ≤ ∑ i : ι, ((b.coord i (ρ g (b i₀))).re) ^ 2 :=
+    fun g => Finset.sum_nonneg fun i _ => sq_nonneg _
+  have hone : (∑ i : ι, ((b.coord i (ρ (1 : G) (b i₀))).re) ^ 2) = 1 := by
+    have : ∀ i : ι, b.coord i (ρ (1 : G) (b i₀)) = (if i = i₀ then (1 : ℂ) else 0) := by
+      intro i
+      rw [map_one, Module.End.one_apply, Module.Basis.coord_apply, Module.Basis.repr_self_apply]
+      simp [eq_comm]
+    simp only [this]
+    rw [Finset.sum_congr rfl (fun i _ => by split <;> simp : ∀ i ∈ Finset.univ,
+      ((if i = i₀ then (1 : ℂ) else 0).re) ^ 2 = (if i = i₀ then (1 : ℝ) else 0))]
+    simp
+  have hge : (1 : ℝ) ≤ (avgCoordForm ρ b (b i₀) (b i₀)).re := by
+    rw [hre, ← hone]
+    exact Finset.single_le_sum (fun g _ => hnonneg g) (Finset.mem_univ (1 : G))
+  have hval_ne : avgCoordForm ρ b (b i₀) (b i₀) ≠ 0 := by
+    intro h0
+    rw [h0] at hge
+    simp only [Complex.zero_re] at hge
+    linarith
+  have hBne : avgCoordForm ρ b ≠ 0 := by
+    intro h0
+    exact hval_ne (by rw [h0]; simp)
+  exact ⟨avgCoordForm ρ b, hsym,
+    nondegenerate_of_invariant_of_simple ρ hρ _ hBne hinv, hinv⟩
+
+/-- **L1 corollary — rational form ⟹ real type.** A simple complex representation
+realised by **rational matrices** in a basis is of real type (`ℚ ⊂ ℝ`): this is
+the direct workhorse for the rational reps of `S₃`, `S₄`, `A₅`. -/
+theorem isRealType_of_rational_form
+    (ρ : Representation ℂ G V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (b : Module.Basis ι ℂ V)
+    (hrat : ∀ (g : G) (i j : ι), ∃ q : ℚ, LinearMap.toMatrix b b (ρ g) i j = (q : ℂ)) :
+    Etingof.IsRealType ρ :=
+  isRealType_of_real_form ρ hρ b fun g i j => by
+    obtain ⟨q, hq⟩ := hrat g i j; rw [hq]; simp
+
+end RealForm
+
+/-!
+## L2 — ambivalent ⟹ real character
+
+If every `g ∈ G` is conjugate to its inverse (`G` is *ambivalent*), then every
+character value `χ(g) = tr(ρ g)` is real: `χ(g) = χ(g⁻¹)` by conjugacy-invariance
+of the character, and `χ(g⁻¹) = conj(χ(g))` always (the eigenvalues of `ρ g` are
+roots of unity). Hence `χ(g) = conj(χ(g))`, i.e. `χ(g).im = 0`.
+-/
+
+/-- For a finite-group complex representation, `χ(g⁻¹) = conj(χ(g))`: the
+eigenvalues of `ρ g` are roots of unity (since `g` has finite order), so
+`χ(g⁻¹) = ∑ λᵢ⁻¹ = ∑ conj λᵢ = conj(∑ λᵢ) = conj(χ(g))`.
+
+Isolated pending an unitarisability / eigenvalue-root-of-unity argument (not yet
+in Mathlib for `Representation`). -/
+private theorem character_inv_eq_conj (ρ : Representation ℂ G V) (g : G) :
+    Representation.character ρ g⁻¹ = starRingEnd ℂ (Representation.character ρ g) := by
+  sorry
+
+/-- **L2 — ambivalent ⟹ real character.** If every element of `G` is conjugate to
+its own inverse, then every character value of every complex representation is
+real (its imaginary part vanishes). Consequently `frobeniusSchurIndicator ρ` is
+real, hence `∈ {-1, 0, 1}` for simple `ρ`. (Etingof, around Theorem 5.1.5.) -/
+theorem character_im_eq_zero_of_ambivalent
+    (h : ∀ g : G, IsConj g g⁻¹) (ρ : Representation ℂ G V) (g : G) :
+    (Representation.character ρ g).im = 0 := by
+  -- Ambivalence: `χ(g⁻¹) = χ(g)` via conjugacy-invariance of the character.
+  obtain ⟨c, hc⟩ := isConj_iff.mp (h g)
+  have hconj : Representation.character ρ g⁻¹ = Representation.character ρ g := by
+    rw [← hc]; exact Representation.char_conj ρ g c
+  -- Combined with `χ(g⁻¹) = conj(χ(g))`: `χ(g)` is fixed by conjugation.
+  rw [character_inv_eq_conj] at hconj
+  exact Complex.conj_eq_iff_im.mp hconj
+
+/-!
+## L3 — quaternionic ⟹ even-dimensional
+
+A representation of quaternionic type carries a nondegenerate invariant
+*alternating* form, and a nondegenerate alternating form on a finite-dimensional
+space forces even dimension (symplectic basis). (Etingof, discussion after
+Definition 5.1.1: "every quaternionic representation is even-dimensional".)
+-/
+
+/-- A nondegenerate alternating bilinear form on a finite-dimensional space forces
+the dimension to be even (existence of a symplectic basis).
+
+Isolated pending the symplectic-basis even-rank theorem (not yet in Mathlib). -/
+private theorem even_finrank_of_nondegenerate_alternating
+    (B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ)
+    (_halt : ∀ v, B v v = 0)
+    (_hnondeg : ∀ v, (∀ w, B v w = 0) → v = 0) :
+    Even (Module.finrank ℂ V) := by
+  sorry
+
+/-- **L3 — quaternionic ⟹ even-dimensional.** A representation of quaternionic
+type is even-dimensional. So an **odd-dimensional** representation cannot be of
+quaternionic type: together with L2 (`odd dim + real character ⇒ FS ≠ 0`) this is
+the "odd dim + real character ⇒ real type" half of the classification. -/
+theorem even_finrank_of_isQuaternionicType
+    (ρ : Representation ℂ G V) (h : Etingof.IsQuaternionicType ρ) :
+    Even (Module.finrank ℂ V) := by
+  obtain ⟨B, hskew, hnondeg, _⟩ := h
+  refine even_finrank_of_nondegenerate_alternating B (fun v => ?_) hnondeg
+  -- `B v v = -(B v v)` in characteristic `0` forces `B v v = 0`.
+  have e : B v v = -(B v v) := hskew v v
+  have h2 : (2 : ℂ) * B v v = 0 := by linear_combination e
+  exact (mul_eq_zero.mp h2).resolve_left (by norm_num)
+
 end Etingof
