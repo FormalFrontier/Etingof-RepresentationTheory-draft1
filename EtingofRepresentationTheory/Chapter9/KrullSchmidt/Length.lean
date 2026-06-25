@@ -1,7 +1,10 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_6_1
 import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import Mathlib.Order.KrullDimension
+import Mathlib.Order.OrderIsoNat
 import Mathlib.CategoryTheory.Subobject.Lattice
+import Mathlib.CategoryTheory.Subobject.Limits
+import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
 /-!
@@ -116,5 +119,92 @@ This follows from `clength_additive` applied to the split short exact sequence
 `0 → Y → Y ⊞ Z → Z → 0` built from `biprod.inl` and `biprod.snd`. -/
 theorem clength_biprod (Y Z : C) : clength (Y ⊞ Z) = clength Y + clength Z := by
   sorry
+
+/-! ## Monotonicity of `clength` over the subobject lattice
+
+For an inclusion of subobjects `A ≤ B` of a fixed `X`, the canonical short exact sequence
+`0 → (A : C) → (B : C) → (B/A) → 0` (with `(A : C) → (B : C)` the inclusion `Subobject.ofLE`
+and `B/A` its cokernel) together with `clength_additive` gives `clength (A : C) ≤ clength (B : C)`,
+strictly so when `A < B` (then `B/A` is nonzero, so has positive length). This is the order-theoretic
+input that turns `clength` into a well-founded induction measure on `Subobject X`. -/
+
+/-- The composition-length identity attached to an inclusion `A ≤ B` of subobjects: the canonical
+short exact sequence `0 → (A : C) → (B : C) → cokernel (ofLE A B h) → 0` is exact, so
+`clength` is additive across it. -/
+theorem clength_ofLE_add_cokernel {X : C} {A B : Subobject X} (h : A ≤ B) :
+    clength (B : C) = clength (A : C) + clength (cokernel (Subobject.ofLE A B h)) := by
+  have hSE : (ShortComplex.cokernelSequence (Subobject.ofLE A B h)).ShortExact :=
+    ShortComplex.ShortExact.mk' (ShortComplex.cokernelSequence_exact _)
+      (inferInstanceAs (Mono (Subobject.ofLE A B h))) inferInstance
+  have hadd := clength_additive hSE
+  simpa using hadd
+
+/-- **Monotonicity of composition length.** A subobject contained in another has length at most
+that of the larger one. -/
+theorem clength_mono {X : C} {A B : Subobject X} (h : A ≤ B) :
+    clength (A : C) ≤ clength (B : C) := by
+  rw [clength_ofLE_add_cokernel h]; exact Nat.le_add_right _ _
+
+/-- **Strict monotonicity of composition length.** A proper subobject has strictly smaller length:
+the quotient `B/A` is then nonzero, contributing positive length via `clength_pos_of_not_isZero`. -/
+theorem clength_strictMono {X : C} {A B : Subobject X} (h : A < B) :
+    clength (A : C) < clength (B : C) := by
+  rw [clength_ofLE_add_cokernel h.le]
+  have hpos : 0 < clength (cokernel (Subobject.ofLE A B h.le)) := by
+    apply clength_pos_of_not_isZero
+    intro hZ
+    -- A zero cokernel makes `ofLE A B h.le` epi, hence (it is also mono) an iso, forcing `B ≤ A`.
+    have hπ : cokernel.π (Subobject.ofLE A B h.le) = 0 := hZ.eq_zero_of_tgt _
+    haveI : Epi (Subobject.ofLE A B h.le) := Abelian.epi_of_cokernel_π_eq_zero _ hπ
+    haveI : IsIso (Subobject.ofLE A B h.le) := isIso_of_mono_of_epi _
+    have hBA : B ≤ A :=
+      Subobject.le_of_comm (inv (Subobject.ofLE A B h.le)) (by
+        rw [← Subobject.ofLE_arrow h.le, IsIso.inv_hom_id_assoc])
+    exact absurd (le_antisymm h.le hBA) (ne_of_lt h)
+  omega
+
+/-! ## Chain conditions on the subobject lattice
+
+Strict monotonicity of `clength` makes the strict order on `Subobject X` a subrelation of the
+pullback of `<` on `ℕ`, hence well-founded: descending chains of subobjects stabilise. Ascending
+chains stabilise too, because `clength` is additionally *bounded* (by the length of the underlying
+object of `⊤`), so the non-decreasing `ℕ`-sequence `clength ∘ a` is eventually constant and strict
+monotonicity then pins the chain itself. Both directions are what Fitting's lemma consumes:
+the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)`. -/
+
+/-- The subobject lattice of any object satisfies the descending chain condition: `<` is
+well-founded. This is the categorical descending chain condition, with `clength` as the
+strictly-monotone `ℕ`-valued rank. -/
+instance wellFoundedLT_subobject {X : C} : WellFoundedLT (Subobject X) :=
+  ⟨Subrelation.wf (fun {_ _} h => clength_strictMono h) (InvImage.wf _ wellFounded_lt)⟩
+
+/-- **Descending chain condition.** An antitone chain of subobjects of `X` is eventually constant. -/
+theorem exists_eventually_constant_of_antitone {X : C} {a : ℕ → Subobject X}
+    (ha : Antitone a) : ∃ N, ∀ m ≥ N, a m = a N :=
+  (WellFoundedLT.antitone_chain_condition ha).imp fun _ h m hm => (h m hm).symm
+
+/-- A non-decreasing `ℕ`-sequence bounded above is eventually constant (the value stabilises at the
+index attaining its supremum). -/
+private theorem nat_eventually_constant_of_monotone_of_bddAbove {f : ℕ → ℕ}
+    (hf : Monotone f) {B : ℕ} (hB : ∀ n, f n ≤ B) : ∃ N, ∀ m ≥ N, f m = f N := by
+  have hne : (Set.range f).Nonempty := ⟨f 0, 0, rfl⟩
+  have hbdd : BddAbove (Set.range f) := ⟨B, by rintro _ ⟨n, rfl⟩; exact hB n⟩
+  obtain ⟨N, hN⟩ := Nat.sSup_mem hne hbdd
+  refine ⟨N, fun m hm => le_antisymm ?_ (hf hm)⟩
+  rw [hN]; exact le_csSup hbdd ⟨m, rfl⟩
+
+/-- **Ascending chain condition.** A monotone chain of subobjects of `X` is eventually constant.
+Unlike the descending case this uses that `clength` is bounded (every subobject lies below `⊤`),
+so the non-decreasing length sequence is eventually constant; strict monotonicity then upgrades
+constancy of the length to constancy of the chain. -/
+theorem exists_eventually_constant_of_monotone {X : C} {a : ℕ → Subobject X}
+    (ha : Monotone a) : ∃ N, ∀ m ≥ N, a m = a N := by
+  obtain ⟨N, hN⟩ := nat_eventually_constant_of_monotone_of_bddAbove
+    (f := fun n => clength (a n : C)) (fun _ _ h => clength_mono (ha h))
+    (B := clength ((⊤ : Subobject X) : C)) (fun _ => clength_mono le_top)
+  refine ⟨N, fun m hm => ?_⟩
+  rcases (ha hm).lt_or_eq with hlt | heq
+  · exact absurd (hN m hm) (by have := clength_strictMono hlt; omega)
+  · exact heq.symm
 
 end Etingof
