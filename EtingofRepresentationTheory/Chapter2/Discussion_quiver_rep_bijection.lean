@@ -439,4 +439,74 @@ theorem reverseModule_isScalarTower [Fintype Q] (R : Etingof.QuiverRepresentatio
 
 end ReverseDirection
 
+/-! ## The two round-trips: `forwardRep` and `reverseModule` are mutually inverse
+
+The discussion following Definition 2.8.4 asserts that the assignments `V ↦ (pᵢ V)`
+(`forwardRep`) and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` (`reverseModule`) are mutually inverse, hence give a bijection
+between isomorphism classes. We make both round-trips precise:
+
+* **Module round-trip** (`moduleRoundTrip`): a `P_Q`-linear isomorphism
+  `V ≅ reverseModule (forwardRep V)`.
+* **Representation round-trip** (`repRoundTrip`): an isomorphism of quiver representations
+  `R ≅ forwardRep (reverseModule R)`.
+
+Both rest on the underlying-module decomposition `isInternal_vertexSpace` together with the
+naturality of the arrow maps, recorded below.
+-/
+
+section RoundTripHelpers
+
+variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q]
+
+/-- The product of two basis paths is `compSingle`: `ofPath x · ofPath y = compSingle x y`. -/
+theorem ofPath_mul (x y : Etingof.QuiverPathIndex Q) :
+    (ofPath x : PathAlgebra k Q) * ofPath y = compSingle x y := by
+  rw [ofPath, ofPath, single_mul_single, one_mul, one_smul]
+
+/-- A basis path that ends in an arrow factors as the head path times the arrow:
+`ofPath ⟨a,b,p.cons e⟩ = ofPath ⟨a,c,p⟩ · aₑ`. -/
+theorem ofPath_cons {a c b : Q} (p : Quiver.Path a c) (e : c ⟶ b) :
+    (ofPath ⟨a, b, p.cons e⟩ : PathAlgebra k Q) = ofPath ⟨a, c, p⟩ * ofArrow e := by
+  have hidx : (⟨a, b, p.cons e⟩ : Etingof.QuiverPathIndex Q) = ⟨a, b, p.comp e.toPath⟩ := by
+    rw [Quiver.Hom.toPath, Quiver.Path.comp_cons, Quiver.Path.comp_nil]
+  rw [hidx, ofArrow, ofPath_mul, compSingle_eq, ofPath]
+
+omit [DecidableEq Q] in
+/-- The contravariant `pathMap` of a single-arrow path is the arrow map: for `e : a ⟶ b` of `Q`,
+`pathMap R e.toPath = R.mapLinear eᵒᵖ`. -/
+@[simp] theorem pathMap_toPath (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b : Q} (e : a ⟶ b) :
+    pathMap R e.toPath = R.mapLinear e.op := by
+  rw [Quiver.Hom.toPath, pathMap_cons, pathMap_nil, LinearMap.id_comp]
+
+end RoundTripHelpers
+
+section ModuleRoundTrip
+
+variable {k : Type*} {Q : Type*} [Field k] [Quiver Q] [DecidableEq Q] [Fintype Q]
+variable {V : Type*} [AddCommGroup V] [Module k V]
+  [Module (PathAlgebra k Q) V] [IsScalarTower k (PathAlgebra k Q) V]
+
+/-- **Naturality of the forward arrow maps on basis paths.** For a basis path `p : a ⟶* b`, left
+multiplication by `ofPath ⟨a,b,p⟩` on a vertex-space element `y ∈ Vᵦ` agrees with the composite of
+the forward arrow maps `pathMap (forwardRep V) p : Vᵦ → Vₐ`. This is the identity that pins the
+forward functor's arrow data to the genuine `P_Q`-action, proved by induction on `p`. -/
+theorem ofPath_smul_eq_pathMap {a b : Q} (p : Quiver.Path a b) :
+    ∀ (y : (vertexSpace b : Submodule k V)),
+      (ofPath ⟨a, b, p⟩ : PathAlgebra k Q) • (y : V)
+        = (vertexSpace a : Submodule k V).subtype (pathMap (forwardRep (V := V)) p y) := by
+  induction p with
+  | nil =>
+    intro y
+    rw [pathMap_nil, LinearMap.id_apply]
+    show (trivialPath a : PathAlgebra k Q) • (y : V) = (y : V)
+    rw [← vertexProj_apply]
+    exact vertexProj_eq_self_of_mem y.2
+  | cons p' e ih =>
+    intro y
+    rw [ofPath_cons p' e, mul_smul, ← arrowMap_coe_apply e y, ih (arrowMap e y), pathMap_cons,
+      LinearMap.comp_apply, forwardRep_mapLinear]
+    rfl
+
+end ModuleRoundTrip
+
 end Etingof.PathAlgebra
