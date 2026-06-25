@@ -503,12 +503,12 @@ forward functor's arrow data to the genuine `P_Q`-action, proved by induction on
 theorem ofPath_smul_eq_pathMap {a b : Q} (p : Quiver.Path a b) :
     ∀ (y : (vertexSpace b : Submodule k V)),
       (ofPath ⟨a, b, p⟩ : PathAlgebra k Q) • (y : V)
-        = (vertexSpace a : Submodule k V).subtype (pathMap (forwardRep (V := V)) p y) := by
+        = (vertexSpace a : Submodule k V).subtype (pathMap (forwardRep (k := k) (V := V)) p y) := by
   induction p with
   | nil =>
     intro y
     rw [pathMap_nil, LinearMap.id_apply]
-    show (trivialPath a : PathAlgebra k Q) • (y : V) = (y : V)
+    change (trivialPath a : PathAlgebra k Q) • (y : V) = (y : V)
     rw [← vertexProj_apply]
     exact vertexProj_eq_self_of_mem y.2
   | cons p' e ih =>
@@ -516,6 +516,87 @@ theorem ofPath_smul_eq_pathMap {a b : Q} (p : Quiver.Path a b) :
     rw [ofPath_cons p' e, mul_smul, ← arrowMap_coe_apply e y, ih (arrowMap e y), pathMap_cons,
       LinearMap.comp_apply, forwardRep_mapLinear]
     rfl
+
+attribute [local instance] reverseModule
+
+local instance forwardReverse_tower :
+    IsScalarTower k (PathAlgebra k Q) (DirectSum Q (reverseFam (forwardRep (k := k) (V := V)))) :=
+  reverseModule_isScalarTower (forwardRep (k := k) (V := V))
+
+/-- Abbreviation: the summing map `⊕ᵢ Vᵢ → V` of the internal decomposition, on the carrier of the
+reverse module of `forwardRep V`. -/
+private noncomputable abbrev coeV :
+    DirectSum Q (reverseFam (forwardRep (k := k) (V := V))) →ₗ[k] V :=
+  DirectSum.coeLinearMap (fun i => (vertexSpace (k := k) (V := V) i : Submodule k V))
+
+/-- The summing map sends the `i`-th inclusion of `z` to `z` itself (`coeV ∘ lofᵢ = subtype`).
+A `coeLinearMap_lof` restated through the `reverseFam` spelling of the family. -/
+private theorem coeV_lof (i : Q) (z : reverseFam (forwardRep (k := k) (V := V)) i) :
+    coeV (k := k) (V := V)
+        (DirectSum.lof k Q (reverseFam (forwardRep (k := k) (V := V))) i z)
+      = (vertexSpace (k := k) (V := V) i : Submodule k V).subtype z :=
+  DirectSum.coeLinearMap_lof (fun i => (vertexSpace (k := k) (V := V) i : Submodule k V)) i z
+
+/-- **Path action recovered.** Under the summing map `⊕ᵢ Vᵢ → V`, the reverse-direction
+endomorphism `pathEnd (forwardRep V) x` of a basis path `x` corresponds to left multiplication by
+`ofPath x` on `V`. The composable case uses the arrow-map naturality lemma `ofPath_smul_eq_pathMap`;
+the non-composable case uses the target-idempotent absorption `ofPath · p_c = 0`. -/
+theorem coeLinearMap_pathEnd (x : Etingof.QuiverPathIndex Q)
+    (m : DirectSum Q (reverseFam (forwardRep (k := k) (V := V)))) :
+    coeV (k := k) (V := V) (pathEnd (forwardRep (k := k) (V := V)) x m)
+      = (ofPath x : PathAlgebra k Q) • coeV (k := k) (V := V) m := by
+  obtain ⟨a, b, p⟩ := x
+  have key : (coeV (k := k) (V := V)).comp (pathEnd (forwardRep (k := k) (V := V)) ⟨a, b, p⟩)
+      = (moduleEnd (ofPath ⟨a, b, p⟩)).comp (coeV (k := k) (V := V)) := by
+    refine DirectSum.linearMap_ext k fun c => LinearMap.ext fun y => ?_
+    simp only [LinearMap.comp_apply, pathEnd_mk, moduleEnd_apply]
+    rw [coeV_lof, coeV_lof]
+    by_cases h : c = b
+    · subst h
+      rw [DirectSum.component.lof_self]
+      exact (ofPath_smul_eq_pathMap p y).symm
+    · rw [DirectSum.component.of, dif_neg h, map_zero, map_zero]
+      -- `ofPath ⟨a,b,p⟩ • ↑y = 0` since `y ∈ V_c` and `b ≠ c`
+      symm
+      have hy : (trivialPath c : PathAlgebra k Q) •
+            (vertexSpace (k := k) (V := V) c : Submodule k V).subtype y
+          = (vertexSpace (k := k) (V := V) c : Submodule k V).subtype y := by
+        rw [← vertexProj_apply]; exact vertexProj_eq_self_of_mem y.2
+      rw [← hy, ← mul_smul, ofPath_mul_trivialPath, if_neg (Ne.symm h), zero_smul]
+  have := LinearMap.congr_fun key m
+  simpa only [LinearMap.comp_apply, moduleEnd_apply] using this
+
+/-- The reverse-direction action `toEnd (forwardRep V)` corresponds, under the summing map, to the
+genuine `P_Q`-action on `V`. Reduces to `coeLinearMap_pathEnd` on basis paths by `k`-linearity. -/
+theorem coeLinearMap_toEnd (a : PathAlgebra k Q)
+    (m : DirectSum Q (reverseFam (forwardRep (k := k) (V := V)))) :
+    coeV (k := k) (V := V) (toEnd (forwardRep (k := k) (V := V)) a m)
+      = a • coeV (k := k) (V := V) m := by
+  induction a using Finsupp.induction_linear with
+  | zero => simp
+  | add a1 a2 h1 h2 => rw [map_add, LinearMap.add_apply, map_add, h1, h2, add_smul]
+  | single x c =>
+    have hs : (Finsupp.single x c : PathAlgebra k Q) = c • ofPath x := by
+      rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+    rw [hs, map_smul, LinearMap.smul_apply, map_smul, toEnd_ofPath, coeLinearMap_pathEnd,
+      smul_assoc]
+
+/-- **Module round-trip.** A left `P_Q`-module `V` over the path algebra of a finite quiver is
+isomorphic, as a `P_Q`-module, to `reverseModule (forwardRep V)` — the module obtained by extracting
+the vertex spaces `Vᵢ = pᵢ V` and reassembling them. The underlying `k`-linear isomorphism is the
+internal direct-sum decomposition `V ≅ ⊕ᵢ Vᵢ` (`isInternal_vertexSpace`); `P_Q`-linearity is
+`coeLinearMap_toEnd`. Together with `repRoundTrip` this realizes the discussion's claim that
+`V ↦ (pᵢ V)` and `(Vᵢ) ↦ ⊕ᵢ Vᵢ` are mutually inverse. -/
+noncomputable def moduleRoundTrip :
+    DirectSum Q (reverseFam (forwardRep (k := k) (V := V))) ≃ₗ[PathAlgebra k Q] V :=
+  let e : DirectSum Q (reverseFam (forwardRep (k := k) (V := V))) ≃ₗ[k] V :=
+    LinearEquiv.ofBijective (coeV (k := k) (V := V)) isInternal_vertexSpace
+  { toFun := e
+    map_add' := e.map_add
+    map_smul' := coeLinearMap_toEnd
+    invFun := e.symm
+    left_inv := e.left_inv
+    right_inv := e.right_inv }
 
 end ModuleRoundTrip
 
@@ -592,9 +673,10 @@ noncomputable def repEquivAt (i : Q) :
 (reverseModule R)` corresponds, under `repEquivAt`, to the arrow map of `R`. -/
 theorem repEquivAt_naturality {X Y : Qᵒᵖ} (e : X ⟶ Y) (x : R.obj X) :
     repEquivAt R Y.unop (R.mapLinear e x)
-      = (forwardRep (k := k) (V := DirectSum Q (reverseFam R))).mapLinear e (repEquivAt R X.unop x) := by
+      = (forwardRep (k := k) (V := DirectSum Q (reverseFam R))).mapLinear e
+          (repEquivAt R X.unop x) := by
   apply Subtype.ext
-  show DirectSum.lof k Q (reverseFam R) Y.unop (R.mapLinear e x)
+  change DirectSum.lof k Q (reverseFam R) Y.unop (R.mapLinear e x)
       = toEnd R (ofArrow e.unop) (DirectSum.lof k Q (reverseFam R) X.unop x)
   rw [ofArrow, toEnd_ofPath, pathEnd_mk]
   simp only [LinearMap.comp_apply, DirectSum.component.lof_self, pathMap_toPath]
