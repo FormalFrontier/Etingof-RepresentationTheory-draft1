@@ -36,11 +36,15 @@ skew-symmetric forms.
    submodule, proper (since `B ≠ 0`), hence `⊥` by simplicity. So `B` is
    nondegenerate.
 
-Step 4 (the nondegeneracy bridge) is fully proved below as
+Step 4 (the nondegeneracy bridge) is proved below as
 `Etingof.nondegenerate_of_invariant_of_simple`. Steps 1–3 — the existence of a
 nonzero invariant symmetric form, packaged as
 `Etingof.exists_nonzero_invariant_symmetric_of_FS_eq_one` — are the trace-identity
-heart and are currently isolated as a `sorry`.
+heart, proved via the swap operator on `Dual V ⊗ Dual V`: the averaging projector
+`P` onto the invariants and the symmetric-part projector `Pₛ = ½(1 + τ)P` satisfy
+`2 · trace Pₛ = trace P + trace(τ ∘ P) = dim Bil^G + FS(ρ)`, and
+`trace(τ ∘ P) = FS(ρ)` comes from `trace(swap ∘ (A ⊗ A)) = trace(A²)`. With
+`FS = 1` this forces `dim(sym ∩ Bil^G) ≥ 1`. The whole bridge is now sorry-free.
 -/
 
 open scoped MonoidAlgebra
@@ -93,6 +97,55 @@ theorem nondegenerate_of_invariant_of_simple
   rw [hker, Submodule.mem_bot] at hv'
   exact hv'
 
+open scoped TensorProduct
+
+/-- Trace of an endomorphism via a basis: `trace f = ∑ i, b.repr (f (b i)) i`. -/
+private lemma trace_eq_sum_repr_diag
+    {M : Type*} [AddCommGroup M] [Module ℂ M] [Module.Finite ℂ M]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℂ M) (f : M →ₗ[ℂ] M) :
+    LinearMap.trace ℂ M f = ∑ i, b.repr (f (b i)) i := by
+  rw [LinearMap.trace_eq_matrix_trace ℂ b f]
+  simp only [Matrix.trace, Matrix.diag_apply, LinearMap.toMatrix_apply]
+
+/-- **Swap-trace identity.** On `W ⊗ W` (for finite-dimensional `W`), the trace of
+`swap ∘ (A ⊗ B)` equals `trace (A ∘ B)`. This is the linear-algebra heart of the
+`χ(g²) = χ_{S²} − χ_{Λ²}` identity behind the Frobenius-Schur indicator. -/
+private lemma trace_comm_comp_map
+    {W : Type*} [AddCommGroup W] [Module ℂ W] [Module.Finite ℂ W]
+    (A B : W →ₗ[ℂ] W) :
+    LinearMap.trace ℂ (W ⊗[ℂ] W)
+        ((TensorProduct.comm ℂ W W).toLinearMap ∘ₗ TensorProduct.map A B)
+      = LinearMap.trace ℂ W (A ∘ₗ B) := by
+  classical
+  set b := Module.finBasis ℂ W with hb
+  -- LHS via the tensor basis
+  rw [trace_eq_sum_repr_diag (b.tensorProduct b)
+        ((TensorProduct.comm ℂ W W).toLinearMap ∘ₗ TensorProduct.map A B),
+      Fintype.sum_prod_type]
+  -- simplify the diagonal tensor entries
+  have hLHS : ∀ i j, (b.tensorProduct b).repr
+        ((((TensorProduct.comm ℂ W W).toLinearMap ∘ₗ TensorProduct.map A B))
+          ((b.tensorProduct b) (i, j))) (i, j)
+        = b.repr (A (b i)) j * b.repr (B (b j)) i := by
+    intro i j
+    rw [Module.Basis.tensorProduct_apply]
+    simp only [LinearMap.comp_apply, TensorProduct.map_tmul, LinearEquiv.coe_coe,
+      TensorProduct.comm_tmul, Module.Basis.tensorProduct_repr_tmul_apply, smul_eq_mul]
+  simp_rw [hLHS]
+  -- RHS via matrix product
+  rw [trace_eq_sum_repr_diag b (A ∘ₗ B)]
+  have hRHS : ∀ i, b.repr ((A ∘ₗ B) (b i)) i
+      = ∑ j, b.repr (A (b j)) i * b.repr (B (b i)) j := by
+    intro i
+    rw [LinearMap.comp_apply]
+    conv_lhs => rw [← Module.Basis.sum_repr b (B (b i))]
+    rw [map_sum, map_sum, Finset.sum_apply']
+    refine Finset.sum_congr rfl fun j _ => ?_
+    simp only [map_smul, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul]
+    ring
+  simp_rw [hRHS]
+  rw [Finset.sum_comm]
+
 variable [Fintype G] [DecidableEq G] [Module.Finite ℂ V]
 
 /-- **Existence of a nonzero invariant symmetric form when `FS = 1`** (steps 1–3
@@ -100,16 +153,161 @@ of the strategy above). For a simple complex representation `ρ` with
 `frobeniusSchurIndicator ρ = 1`, there is a nonzero `G`-invariant *symmetric*
 bilinear form on `V`.
 
-The proof is the trace-identity argument
-`dim(sym ∩ Bil^G) − dim(skew ∩ Bil^G) = FS(ρ)` together with the Schur bound
-`dim Bil^G ≤ 1`. Isolated as a `sorry` pending that computation. -/
+The proof uses the averaging projector `P` onto `Bil^G` and the symmetric-part
+projector `Pₛ = ½(1 + τ)P` (with `τ` the swap). Their traces give
+`2 · finrank(sym ∩ Bil^G) = finrank Bil^G + trace(τ ∘ P)` and the crux trace
+identity `trace(τ ∘ P) = FS(ρ)` (via `trace(swap ∘ (A ⊗ A)) = trace(A²)` on
+`Dual V ⊗ Dual V`). With `FS = 1` this forces `finrank(sym ∩ Bil^G) ≥ 1`. -/
 theorem exists_nonzero_invariant_symmetric_of_FS_eq_one
     (ρ : Representation ℂ G V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (hFS : Etingof.frobeniusSchurIndicator ρ = 1) :
     ∃ B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ,
       (∀ v w, B v w = B w v) ∧ B ≠ 0 ∧ (∀ g v w, B (ρ g v) (ρ g w) = B v w) := by
-  sorry
+  classical
+  haveI : Nonempty G := ⟨1⟩
+  haveI hcard : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos).ne')
+  -- the space of bilinear forms is the representation space of `linHom ρ ρ.dual`
+  set Bil := V →ₗ[ℂ] Module.Dual ℂ V with hBildef
+  set Λ := Representation.linHom ρ ρ.dual with hΛdef
+  haveI : Module.Finite ℂ Bil :=
+    inferInstanceAs (Module.Finite ℂ (V →ₗ[ℂ] Module.Dual ℂ V))
+  have hΛapp : ∀ (g : G) (C : Bil) (v w : V), (Λ g C) v w = C (ρ g⁻¹ v) (ρ g⁻¹ w) := by
+    intro g C v w
+    rw [hΛdef, Representation.linHom_apply]
+    simp only [LinearMap.comp_apply, Representation.dual_apply, Module.Dual.transpose_apply]
+  -- the swap (flip) operator, a `ℂ`-linear involution on `Bil`
+  set τ : Bil →ₗ[ℂ] Bil := (LinearMap.lflip : Bil ≃ₗ[ℂ] Bil).toLinearMap with hτdef
+  have hτ_apply : ∀ (C : Bil) (v w : V), τ C v w = C w v := fun C v w => rfl
+  have hτinvol : ∀ C : Bil, τ (τ C) = C := by
+    intro C; ext v w; rw [hτ_apply, hτ_apply]
+  -- `τ` commutes with each `Λ g`
+  have hτΛ : ∀ (g : G) (C : Bil), τ (Λ g C) = Λ g (τ C) := by
+    intro g C; ext v w
+    simp only [hτ_apply, hΛapp]
+  have hτinv : ∀ C ∈ Λ.invariants, τ C ∈ Λ.invariants := by
+    intro C hC
+    rw [Representation.mem_invariants] at hC ⊢
+    intro g; rw [← hτΛ g C, hC g]
+  -- the iso `Dual V ⊗ Dual V ≃ Bil`
+  set T := Module.Dual ℂ V ⊗[ℂ] Module.Dual ℂ V with hTdef
+  set E : T ≃ₗ[ℂ] Bil := dualTensorHomEquiv ℂ V (Module.Dual ℂ V) with hEdef
+  have hEapp : ∀ (φ ψ : Module.Dual ℂ V) (v : V), (E (φ ⊗ₜ[ℂ] ψ)) v = φ v • ψ := by
+    intro φ ψ v
+    have hE : E (φ ⊗ₜ[ℂ] ψ) = dualTensorHom ℂ V (Module.Dual ℂ V) (φ ⊗ₜ[ℂ] ψ) := by
+      rw [hEdef]; exact dualTensorHomEquivOfBasis_apply (Module.Free.chooseBasis ℂ V) _
+    rw [hE, dualTensorHom_apply]
+  have hEsymm : (E : T →ₗ[ℂ] Bil) ∘ₗ (E.symm : Bil →ₗ[ℂ] T) = LinearMap.id := by
+    ext x; simp
+  have hEsymm' : (E.symm : Bil →ₗ[ℂ] T) ∘ₗ (E : T →ₗ[ℂ] Bil) = LinearMap.id := by
+    ext x; simp
+  -- the per-`g` trace identity `trace (τ ∘ Λ g) = χ(g⁻¹ g⁻¹)`
+  have hg : ∀ g : G, LinearMap.trace ℂ Bil (τ ∘ₗ Λ g) = ρ.character (g⁻¹ * g⁻¹) := by
+    intro g
+    set Fg := (TensorProduct.comm ℂ (Module.Dual ℂ V) (Module.Dual ℂ V)).toLinearMap
+        ∘ₗ TensorProduct.map (ρ.dual g) (ρ.dual g) with hFg
+    have hINT : (τ ∘ₗ Λ g) ∘ₗ (E : T →ₗ[ℂ] Bil) = (E : T →ₗ[ℂ] Bil) ∘ₗ Fg := by
+      apply TensorProduct.ext'
+      intro φ ψ
+      refine LinearMap.ext fun v => LinearMap.ext fun w => ?_
+      have hL : ((τ ∘ₗ Λ g) ∘ₗ (E : T →ₗ[ℂ] Bil)) (φ ⊗ₜ[ℂ] ψ) v w
+          = φ (ρ g⁻¹ w) * ψ (ρ g⁻¹ v) := by
+        rw [LinearMap.comp_apply, LinearMap.comp_apply, hτ_apply, hΛapp,
+          LinearEquiv.coe_coe, hEapp, LinearMap.smul_apply, smul_eq_mul]
+      have hR : ((E : T →ₗ[ℂ] Bil) ∘ₗ Fg) (φ ⊗ₜ[ℂ] ψ) v w
+          = ψ (ρ g⁻¹ v) * φ (ρ g⁻¹ w) := by
+        rw [LinearMap.comp_apply, hFg, LinearMap.comp_apply, LinearEquiv.coe_coe,
+          LinearEquiv.coe_coe, TensorProduct.map_tmul, TensorProduct.comm_tmul, hEapp,
+          LinearMap.smul_apply]
+        simp only [Representation.dual_apply, Module.Dual.transpose_apply,
+          LinearMap.comp_apply, smul_eq_mul]
+      rw [hL, hR, mul_comm]
+    have e1 : (E : T →ₗ[ℂ] Bil) ∘ₗ (Fg ∘ₗ (E.symm : Bil →ₗ[ℂ] T)) = τ ∘ₗ Λ g := by
+      rw [← LinearMap.comp_assoc, ← hINT, LinearMap.comp_assoc, hEsymm, LinearMap.comp_id]
+    rw [← e1, LinearMap.trace_comp_comm', LinearMap.comp_assoc, hEsymm',
+      LinearMap.comp_id, hFg, trace_comm_comp_map]
+    rw [show ρ.dual g ∘ₗ ρ.dual g = ρ.dual (g * g) from by rw [map_mul]; rfl]
+    show ρ.dual.character (g * g) = ρ.character (g⁻¹ * g⁻¹)
+    rw [Representation.char_dual, mul_inv_rev]
+  -- the averaging projector onto invariants
+  set P := Representation.averageMap Λ with hPdef
+  have hPsum : P = (⅟(Fintype.card G : ℂ)) • ∑ g : G, Λ g := by
+    rw [hPdef]
+    simp only [Representation.averageMap, GroupAlgebra.average, map_smul, map_sum,
+      Representation.asAlgebraHom_of]
+  have hPmem : ∀ C, P C ∈ Λ.invariants := fun C => Λ.averageMap_invariant C
+  have hPfix : ∀ C ∈ Λ.invariants, P C = C := fun C hC => Λ.averageMap_id C hC
+  have hPidem : ∀ C, P (P C) = P C := fun C => Λ.averageMap_id (P C) (Λ.averageMap_invariant C)
+  -- **the trace identity**: `trace (τ ∘ P) = FS = 1`
+  have htrace : LinearMap.trace ℂ Bil (τ ∘ₗ P) = 1 := by
+    have hcomp : τ ∘ₗ P = (⅟(Fintype.card G : ℂ)) • ∑ g : G, (τ ∘ₗ Λ g) := by
+      rw [hPsum, ← Module.End.mul_eq_comp, mul_smul_comm, Finset.mul_sum]
+      rfl
+    rw [hcomp, map_smul, map_sum]
+    simp_rw [hg]
+    rw [show (∑ g : G, ρ.character (g⁻¹ * g⁻¹)) = ∑ g : G, ρ.character (g * g) from
+          Equiv.sum_comp (Equiv.inv G) (fun g => ρ.character (g * g))]
+    rw [invOf_eq_inv, smul_eq_mul]
+    exact hFS
+  have hP_trace : LinearMap.trace ℂ Bil P = (Module.finrank ℂ Λ.invariants : ℂ) := by
+    rw [hPdef]; exact (Λ.isProj_averageMap).trace
+  -- the symmetric-part projector `Psym = ½(P + τ P)`, projecting onto symmetric invariants
+  set Psym : Bil →ₗ[ℂ] Bil := (2⁻¹ : ℂ) • (P + τ ∘ₗ P) with hPsymdef
+  have hPsymapp : ∀ C, Psym C = (2⁻¹ : ℂ) • (P C + τ (P C)) := by
+    intro C
+    show ((2⁻¹ : ℂ) • (P + τ ∘ₗ P)) C = _
+    rw [LinearMap.smul_apply, LinearMap.add_apply, LinearMap.comp_apply]
+  have hτfixPsym : ∀ C, τ (Psym C) = Psym C := by
+    intro C
+    conv_rhs => rw [hPsymapp C]
+    rw [hPsymapp C, map_smul, map_add, hτinvol, add_comm]
+  have hPfixPsym : ∀ C, P (Psym C) = Psym C := by
+    intro C
+    conv_rhs => rw [hPsymapp C]
+    rw [hPsymapp C, map_smul, map_add, hPidem,
+      hPfix (τ (P C)) (hτinv (P C) (hPmem C))]
+  have hPsymInv : ∀ C, Psym C ∈ Λ.invariants := by
+    intro C; rw [hPsymapp]
+    exact Submodule.smul_mem _ _ (Submodule.add_mem _ (hPmem C) (hτinv (P C) (hPmem C)))
+  have hPsymidem : IsIdempotentElem Psym := by
+    apply LinearMap.ext; intro C
+    rw [Module.End.mul_apply, hPsymapp (Psym C), hPfixPsym C, hτfixPsym C,
+      ← two_smul ℂ (Psym C), smul_smul, show (2⁻¹ * 2 : ℂ) = 1 by norm_num, one_smul]
+  -- the rank counting: `2 · dim(symmetric invariants) = dim(invariants) + 1`
+  have hisproj := (LinearMap.isProj_range_iff_isIdempotentElem Psym).mpr hPsymidem
+  have hPsym_trace_eq : LinearMap.trace ℂ Bil Psym
+      = (Module.finrank ℂ (LinearMap.range Psym) : ℂ) := hisproj.trace
+  have hPsym_trace2 : LinearMap.trace ℂ Bil Psym
+      = (2⁻¹ : ℂ) * (LinearMap.trace ℂ Bil P + LinearMap.trace ℂ Bil (τ ∘ₗ P)) := by
+    rw [hPsymdef, map_smul, map_add, smul_eq_mul]
+  set d := Module.finrank ℂ Λ.invariants with hd
+  set s := Module.finrank ℂ (LinearMap.range Psym) with hs
+  have h2s : (2 : ℂ) * (s : ℂ) = (d : ℂ) + 1 := by
+    have : (s : ℂ) = (2⁻¹ : ℂ) * ((d : ℂ) + 1) := by
+      rw [← hPsym_trace_eq, hPsym_trace2, hP_trace, htrace]
+    rw [this]; ring
+  have hnat : 2 * s = d + 1 := by exact_mod_cast h2s
+  have hspos : 0 < s := by omega
+  -- extract a nonzero symmetric invariant form
+  haveI : Nontrivial (LinearMap.range Psym) := Module.nontrivial_of_finrank_pos hspos
+  obtain ⟨⟨B, hBmem⟩, hBne0⟩ := exists_ne (0 : (LinearMap.range Psym))
+  obtain ⟨C, hC⟩ := hBmem
+  have hBne : B ≠ 0 := fun h => hBne0 (Subtype.ext (by simpa using h))
+  have hBinv_mem : B ∈ Λ.invariants := hC ▸ hPsymInv C
+  refine ⟨B, ?_, hBne, ?_⟩
+  · -- symmetric: `τ B = B`
+    intro v w
+    have hsymB : τ B = B := by rw [← hC]; exact hτfixPsym C
+    have h := hτ_apply B w v
+    rw [hsymB] at h
+    exact h.symm
+  · -- invariant
+    intro g v w
+    have hinv : Λ g⁻¹ B = B := (Representation.mem_invariants _ _).mp hBinv_mem g⁻¹
+    have h := hΛapp g⁻¹ B v w
+    rw [hinv, inv_inv] at h
+    exact h.symm
 
 /-- **The FS-indicator bridge.** A simple complex representation whose
 Frobenius-Schur indicator equals `1` is of real type (Etingof, around
