@@ -248,15 +248,132 @@ of the character, and `χ(g⁻¹) = conj(χ(g))` always (the eigenvalues of `ρ 
 roots of unity). Hence `χ(g) = conj(χ(g))`, i.e. `χ(g).im = 0`.
 -/
 
+open Polynomial in
+/-- `reverse` is multiplicative over a `Multiset` of polynomials in a domain. -/
+private lemma reverse_multiset_prod {R : Type*} [CommRing R] [NoZeroDivisors R]
+    (s : Multiset R[X]) : s.prod.reverse = (s.map Polynomial.reverse).prod := by
+  induction s using Multiset.induction with
+  | empty =>
+    simp only [Multiset.prod_zero, Multiset.map_zero]
+    rw [show (1 : R[X]) = C 1 from (map_one C).symm, Polynomial.reverse_C]
+  | cons a s ih =>
+    rw [Multiset.prod_cons, Polynomial.reverse_mul_of_domain, ih, Multiset.map_cons,
+      Multiset.prod_cons]
+
+open Polynomial in
+/-- The reverse of the linear factor `X - a` (for `a ≠ 0`) has the single root `a⁻¹`. -/
+private lemma roots_reverse_X_sub_C {a : ℂ} (ha : a ≠ 0) :
+    ((X - C a).reverse).roots = {a⁻¹} := by
+  have hu : (-a) ≠ 0 := neg_ne_zero.mpr ha
+  have hrev : (X - C a).reverse = C ((Units.mk0 (-a) hu : ℂˣ) : ℂ) * X + C 1 := by
+    rw [Polynomial.reverse, natDegree_X_sub_C, sub_eq_add_neg, ← C_neg, reflect_add,
+      reflect_one_X, reflect_C, pow_one, Units.val_mk0, C_1]
+    ring
+  rw [hrev, roots_C_mul_X_add_C_of_IsUnit, Multiset.singleton_inj, mul_one,
+    Units.val_inv_eq_inv_val, Units.val_mk0, inv_neg, neg_neg]
+
+open Polynomial in
+/-- For a monic polynomial that splits over `ℂ` and has no zero root, the roots of its
+`reverse` are exactly the inverses of its roots. -/
+private lemma roots_reverse_eq_map_inv {p : ℂ[X]} (hsp : p.Splits)
+    (hm : p.Monic) (h0 : (0 : ℂ) ∉ p.roots) :
+    p.reverse.roots = p.roots.map (·⁻¹) := by
+  set R := p.roots with hR
+  have key : ∀ a ∈ R, ((X - C a).reverse).roots = ({a⁻¹} : Multiset ℂ) :=
+    fun a ha => roots_reverse_X_sub_C (fun h => h0 (h ▸ ha))
+  have hfact : p = (R.map (fun a => X - C a)).prod := hsp.eq_prod_roots_of_monic hm
+  rw [hfact, reverse_multiset_prod, Multiset.map_map, roots_multiset_prod,
+    Multiset.bind_map]
+  · simp only [Function.comp_apply]
+    rw [Multiset.bind_congr (g := fun a => ({a⁻¹} : Multiset ℂ)) (fun a ha => key a ha),
+      Multiset.bind_singleton]
+  · simp only [Multiset.mem_map, Function.comp_apply, not_exists, not_and]
+    exact fun a _ hcontra => X_sub_C_ne_zero a (Polynomial.reverse_eq_zero.mp hcontra)
+
+open Polynomial Matrix in
+/-- For a complex matrix `A` of finite multiplicative order, `tr(A⁻¹) = conj(tr A)`:
+the eigenvalues are roots of unity, so `tr(A⁻¹) = ∑ λᵢ⁻¹ = ∑ conj λᵢ = conj(∑ λᵢ)`. -/
+private lemma matrix_trace_inv_eq_conj {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (A : Matrix ι ι ℂ) {n : ℕ} (hn : 0 < n) (hpow : A ^ n = 1) :
+    A⁻¹.trace = starRingEnd ℂ A.trace := by
+  -- `A` is invertible since `A * A^(n-1) = 1` and `A^(n-1) * A = 1`.
+  have hr : A * A ^ (n - 1) = 1 := by rw [← pow_succ', Nat.sub_add_cancel hn]; exact hpow
+  have hl : A ^ (n - 1) * A = 1 := by rw [← pow_succ, Nat.sub_add_cancel hn]; exact hpow
+  have hunit : IsUnit A := ⟨⟨A, A ^ (n - 1), hr, hl⟩, rfl⟩
+  -- `A.charpoly` is monic and splits over `ℂ`.
+  have hmon : A.charpoly.Monic := A.charpoly_monic
+  have hsplit : A.charpoly.Splits := IsAlgClosed.splits _
+  -- No zero root: the product of the roots is `det A ≠ 0`.
+  have hdet : A.det ≠ 0 := isUnit_iff_ne_zero.mp ((Matrix.isUnit_iff_isUnit_det A).mp hunit)
+  have h0 : (0 : ℂ) ∉ A.charpoly.roots := by
+    intro hmem
+    have hprod : A.charpoly.roots.prod = 0 := Multiset.prod_eq_zero hmem
+    rw [← Matrix.det_eq_prod_roots_charpoly A] at hprod
+    exact hdet hprod
+  -- Each root `λ` of the characteristic polynomial is a root of unity.
+  have hroot : ∀ μ ∈ A.charpoly.roots, μ ^ n = 1 := by
+    intro μ hμ
+    have hev : Module.End.HasEigenvalue (Matrix.toLin' A) μ := by
+      rw [Module.End.hasEigenvalue_iff_isRoot_charpoly, Matrix.charpoly_toLin']
+      exact (Polynomial.mem_roots'.mp hμ).2
+    obtain ⟨v, hv_mem, hv0⟩ := hev.exists_hasEigenvector
+    have hveq : Matrix.toLin' A v = μ • v := Module.End.mem_eigenspace_iff.mp hv_mem
+    have key : ∀ k, (Matrix.toLin' A ^ k) v = μ ^ k • v := by
+      intro k
+      induction k with
+      | zero => simp
+      | succ m ih =>
+        rw [pow_succ, Module.End.mul_apply, hveq, map_smul, ih, smul_smul, ← pow_succ']
+    have hkey := key n
+    rw [← Matrix.toLin'_pow, hpow, Matrix.toLin'_one, LinearMap.id_apply] at hkey
+    have hsmul : (μ ^ n - 1) • v = 0 := by rw [sub_smul, one_smul, ← hkey, sub_self]
+    rcases smul_eq_zero.mp hsmul with h | h
+    · exact sub_eq_zero.mp h
+    · exact absurd h hv0
+  -- Star of a root of unity is its inverse.
+  have hstar : ∀ μ ∈ A.charpoly.roots, starRingEnd ℂ μ = μ⁻¹ := by
+    intro μ hμ
+    have hnorm : ‖μ‖ = 1 := by
+      have h1 : ‖μ‖ ^ n = 1 := by rw [← norm_pow, hroot μ hμ, norm_one]
+      exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) hn.ne').mp h1
+    exact (Complex.inv_eq_conj hnorm).symm
+  -- `tr(A⁻¹) = ∑ (roots A).map inv`.
+  have hinvtr : A⁻¹.trace = (A.charpoly.roots.map (·⁻¹)).sum := by
+    rw [Matrix.trace_eq_sum_roots_charpoly]
+    have hcp : A⁻¹.charpoly =
+        C ((-1) ^ Fintype.card ι * Ring.inverse A.det) * A.charpoly.reverse := by
+      rw [Matrix.charpoly_inv A hunit, ← Matrix.reverse_charpoly,
+        show ((-1 : ℂ[X]) ^ Fintype.card ι) = C ((-1 : ℂ) ^ Fintype.card ι) by
+          rw [map_pow, map_neg, map_one], ← C_mul]
+    have hc : (-1 : ℂ) ^ Fintype.card ι * Ring.inverse A.det ≠ 0 := by
+      apply mul_ne_zero (pow_ne_zero _ (by norm_num))
+      rw [Ring.inverse_eq_inv]
+      exact inv_ne_zero hdet
+    rw [hcp, roots_C_mul _ hc, roots_reverse_eq_map_inv hsplit hmon h0]
+  -- `conj(tr A) = ∑ conj(roots A) = ∑ (roots A).map inv`.
+  rw [hinvtr, Matrix.trace_eq_sum_roots_charpoly, map_multiset_sum]
+  exact congrArg Multiset.sum (Multiset.map_congr rfl (fun μ hμ => (hstar μ hμ).symm))
+
 /-- For a finite-group complex representation, `χ(g⁻¹) = conj(χ(g))`: the
 eigenvalues of `ρ g` are roots of unity (since `g` has finite order), so
-`χ(g⁻¹) = ∑ λᵢ⁻¹ = ∑ conj λᵢ = conj(∑ λᵢ) = conj(χ(g))`.
-
-Isolated pending an unitarisability / eigenvalue-root-of-unity argument (not yet
-in Mathlib for `Representation`). -/
+`χ(g⁻¹) = ∑ λᵢ⁻¹ = ∑ conj λᵢ = conj(∑ λᵢ) = conj(χ(g))`. -/
 private theorem character_inv_eq_conj (ρ : Representation ℂ G V) (g : G) :
     Representation.character ρ g⁻¹ = starRingEnd ℂ (Representation.character ρ g) := by
-  sorry
+  classical
+  -- Pass to a matrix `A := [ρ g]` in a basis; then `[ρ g⁻¹] = A⁻¹` and `A` has finite order.
+  let b := Module.finBasis ℂ V
+  let E := LinearMap.toMatrixAlgEquiv b
+  have hcg : Representation.character ρ g = (E (ρ g)).trace :=
+    LinearMap.trace_eq_matrix_trace ℂ b (ρ g)
+  have hcgi : Representation.character ρ g⁻¹ = (E (ρ g⁻¹)).trace :=
+    LinearMap.trace_eq_matrix_trace ℂ b (ρ g⁻¹)
+  have hpow : (E (ρ g)) ^ orderOf g = 1 := by
+    rw [← map_pow, ← map_pow ρ, pow_orderOf_eq_one, map_one, map_one]
+  have hinv : (E (ρ g))⁻¹ = E (ρ g⁻¹) := by
+    apply Matrix.inv_eq_left_inv
+    rw [← map_mul, ← map_mul ρ, inv_mul_cancel, map_one, map_one]
+  rw [hcg, hcgi, ← hinv]
+  exact matrix_trace_inv_eq_conj (E (ρ g)) (orderOf_pos g) hpow
 
 /-- **L2 — ambivalent ⟹ real character.** If every element of `G` is conjugate to
 its own inverse, then every character value of every complex representation is
