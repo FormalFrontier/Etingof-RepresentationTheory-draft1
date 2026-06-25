@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_1_1
+import EtingofRepresentationTheory.Chapter5.Definition5_1_4
+import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
 
 /-!
 # Example 5.1.3: Type Classification for Specific Groups
@@ -65,17 +67,313 @@ theorem Etingof.Example5_1_3_ZMod
   · exact hg1 h1
   · exact hg2 h1
 
+namespace Etingof.S3
+
+open Module (finrank)
+
+/-- A 3-cycle generator of `S₃`. -/
+def σ : Equiv.Perm (Fin 3) := finRotate 3
+/-- A transposition generator of `S₃`. -/
+def τ : Equiv.Perm (Fin 3) := Equiv.swap 0 1
+
+theorem σ_cube : σ ^ 3 = 1 := by decide
+theorem τ_sq : τ * τ = 1 := by decide
+theorem braid_rel : σ * τ = τ * σ * σ := by decide
+theorem σσσσ : σ * σ * (σ * σ) = σ := by decide
+theorem σ_ne : σ ≠ σ * σ := by decide
+theorem conj_eq : σ * σ = τ * (σ * τ⁻¹) := by decide
+theorem conj_back : σ * τ⁻¹ * τ = σ := by decide
+
+/-- The two generators generate all of `S₃`. -/
+theorem hclosure : Subgroup.closure ({σ, τ} : Set (Equiv.Perm (Fin 3))) = ⊤ := by
+  apply Equiv.Perm.closure_prime_cycle_swap
+  · rw [Fintype.card_fin]; exact Nat.prime_three
+  · exact isCycle_finRotate
+  · exact support_finRotate
+  · exact ⟨0, 1, by decide, rfl⟩
+
+variable {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+
+/-- A submodule invariant under both generators `ρ σ` and `ρ τ` is invariant under the
+whole representation. -/
+theorem gen_inv (ρ : Representation ℂ (Equiv.Perm (Fin 3)) V) (W : Submodule ℂ V)
+    (hσ : ∀ x ∈ W, ρ σ x ∈ W) (hτ : ∀ x ∈ W, ρ τ x ∈ W) :
+    W ∈ ρ.invtSubmodule := by
+  rw [ρ.mem_invtSubmodule]
+  intro g
+  rw [Module.End.mem_invtSubmodule_iff_forall_mem_of_mem]
+  have hmem : g ∈ Subgroup.closure ({σ, τ} : Set (Equiv.Perm (Fin 3))) := by
+    rw [hclosure]; trivial
+  refine Subgroup.closure_induction ?_ ?_ ?_ ?_ hmem
+  · intro x hx
+    rcases hx with hx | hx
+    · subst hx; exact hσ
+    · rw [Set.mem_singleton_iff] at hx; subst hx; exact hτ
+  · intro x hx; rw [map_one, Module.End.one_apply]; exact hx
+  · intro x y _ _ Px Py z hz
+    rw [map_mul, Module.End.mul_apply]; exact Px _ (Py _ hz)
+  · intro x _ Px z hz
+    have hxinj : Function.Injective (ρ x) := by
+      have hli : Function.LeftInverse (ρ x⁻¹) (ρ x) := fun w => by
+        rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
+      exact hli.injective
+    let fW : W →ₗ[ℂ] W := (ρ x).restrict Px
+    have hfWinj : Function.Injective fW := by
+      intro a b hab
+      apply Subtype.ext
+      apply hxinj
+      have ha : (fW a : V) = ρ x (a : V) := rfl
+      have hb : (fW b : V) = ρ x (b : V) := rfl
+      rw [← ha, ← hb, hab]
+    have hfWsurj : Function.Surjective fW := LinearMap.injective_iff_surjective.mp hfWinj
+    obtain ⟨a, ha⟩ := hfWsurj ⟨z, hz⟩
+    have haz : ρ x (a : V) = z := congrArg Subtype.val ha
+    have hxz : ρ x⁻¹ z = (a : V) := by
+      rw [← haz, ← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
+    rw [hxz]; exact a.2
+
+end Etingof.S3
+
 /-- All irreducible representations of `S₃` are of real type: any simple
 `ℂ[S₃]`-module carries a nondegenerate `S₃`-invariant symmetric bilinear form.
-(The character values of `S₃` are all integers.) (Etingof Example 5.1.3) -/
+
+The Frobenius–Schur indicator of any simple `ℂ[S₃]`-module equals `1`, so the bridge
+`Etingof.isRealType_of_frobeniusSchurIndicator_eq_one` gives real type. We compute
+`FS(ρ) = (1/6) ∑_{g} χ(g²) = (1/6)(4·dim V + χ(c) + χ(c²))` (the squares of the six
+elements are `1` four times and the two 3-cycles once each), and show
+`4·dim V + χ(c) + χ(c²) = 6` by splitting on whether the 3-cycle `c = σ` acts trivially
+(`E₁ = ker(ρσ - 1)` is `⊤`, forcing `dim V = 1` via the transposition's eigenvector) or
+not (`E₁ = ⊥`, giving `ρσ² + ρσ + 1 = 0` and `dim V = 2` via a pair of eigenvectors).
+(Etingof Example 5.1.3) -/
 theorem Etingof.Example5_1_3_S3
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (Equiv.Perm (Fin 3)) V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (Equiv.Perm (Fin 3))) ρ.asModule) :
     Etingof.IsRealType ρ := by
-  -- All three irreducibles `ℂ₊, ℂ₋, ℂ²` have integer (hence real) character values,
-  -- so their Frobenius–Schur indicator is `1`, i.e. they are of real type.
-  sorry
+  classical
+  apply Etingof.isRealType_of_frobeniusSchurIndicator_eq_one ρ hρ
+  -- It remains to show `frobeniusSchurIndicator ρ = 1`.
+  have hSO : IsSimpleOrder ρ.invtSubmodule :=
+    (Representation.mapSubmodule ρ).isSimpleOrder_iff.mpr hρ.toIsSimpleOrder
+  haveI := hSO
+  haveI : Nontrivial V := (Representation.invtSubmodule.nontrivial_iff ρ).mp inferInstance
+  -- The crux character identity.
+  have hkey : 4 * (Module.finrank ℂ V : ℂ)
+      + LinearMap.trace ℂ V (ρ Etingof.S3.σ)
+      + LinearMap.trace ℂ V (ρ (Etingof.S3.σ * Etingof.S3.σ)) = 6 := by
+    -- `ρ σ * ρ τ = ρ τ * ρ σ * ρ σ` (the braid relation `στ = τσ²`).
+    have hop : ρ Etingof.S3.σ * ρ Etingof.S3.τ
+        = ρ Etingof.S3.τ * ρ Etingof.S3.σ * ρ Etingof.S3.σ := by
+      rw [← map_mul ρ, ← map_mul ρ, ← map_mul ρ, Etingof.S3.braid_rel]
+    -- `χ(σ²) = χ(σ)` since `σ²` is conjugate to `σ`.
+    have hconj : LinearMap.trace ℂ V (ρ (Etingof.S3.σ * Etingof.S3.σ))
+        = LinearMap.trace ℂ V (ρ Etingof.S3.σ) := by
+      rw [Etingof.S3.conj_eq, map_mul, LinearMap.trace_mul_comm, ← map_mul, Etingof.S3.conj_back]
+    -- `E₁ = ker(ρσ - 1)` is `ρ`-invariant.
+    have hE1inv : LinearMap.ker (ρ Etingof.S3.σ - 1) ∈ ρ.invtSubmodule := by
+      apply Etingof.S3.gen_inv
+      · intro x hx
+        have hx' : ρ Etingof.S3.σ x = x := by
+          rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] at hx
+          exact hx
+        rw [hx', LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero]
+        exact hx'
+      · intro x hx
+        have hx' : ρ Etingof.S3.σ x = x := by
+          rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] at hx
+          exact hx
+        rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero]
+        calc ρ Etingof.S3.σ (ρ Etingof.S3.τ x)
+            = (ρ Etingof.S3.σ * ρ Etingof.S3.τ) x := by rw [Module.End.mul_apply]
+          _ = (ρ Etingof.S3.τ * ρ Etingof.S3.σ * ρ Etingof.S3.σ) x := by rw [hop]
+          _ = ρ Etingof.S3.τ (ρ Etingof.S3.σ (ρ Etingof.S3.σ x)) := by
+                rw [Module.End.mul_apply, Module.End.mul_apply]
+          _ = ρ Etingof.S3.τ x := by rw [hx', hx']
+    rcases hSO.eq_bot_or_eq_top (⟨_, hE1inv⟩ : ρ.invtSubmodule) with hb | ht
+    · -- `E₁ = ⊥`: `ρσ` has no eigenvalue `1`, so `dim V = 2` and `χ(σ) = -1`.
+      have hE : LinearMap.ker (ρ Etingof.S3.σ - 1) = ⊥ := by
+        have := congrArg Subtype.val hb
+        rwa [Representation.invtSubmodule.coe_bot] at this
+      have hsinj : Function.Injective ((ρ Etingof.S3.σ - 1 : Module.End ℂ V)) := by
+        rw [← LinearMap.ker_eq_bot]; exact hE
+      have hcube : (ρ Etingof.S3.σ) ^ 3 = 1 := by
+        rw [← map_pow, Etingof.S3.σ_cube, map_one]
+      have hquad : ((ρ Etingof.S3.σ) ^ 2 + ρ Etingof.S3.σ + 1 : Module.End ℂ V) = 0 := by
+        have hfactor : (ρ Etingof.S3.σ - 1) * ((ρ Etingof.S3.σ) ^ 2 + ρ Etingof.S3.σ + 1) = 0 := by
+          have h : (ρ Etingof.S3.σ - 1) * ((ρ Etingof.S3.σ) ^ 2 + ρ Etingof.S3.σ + 1)
+              = (ρ Etingof.S3.σ) ^ 3 - 1 := by noncomm_ring
+          rw [h, hcube, sub_self]
+        ext x
+        simp only [LinearMap.zero_apply]
+        apply hsinj
+        rw [map_zero, ← Module.End.mul_apply, hfactor, LinearMap.zero_apply]
+      have hsq : (ρ Etingof.S3.σ) ^ 2 = ρ (Etingof.S3.σ * Etingof.S3.σ) := by rw [map_mul, sq]
+      have htr : LinearMap.trace ℂ V (ρ Etingof.S3.σ)
+          + LinearMap.trace ℂ V (ρ Etingof.S3.σ) + (Module.finrank ℂ V : ℂ) = 0 := by
+        have h := congrArg (LinearMap.trace ℂ V) hquad
+        rw [map_add, map_add, LinearMap.trace_one, map_zero, hsq, hconj] at h
+        exact h
+      -- An eigenvector `v` of `ρσ`, eigenvalue `μ ≠ 1`, plus `ρτ v` (eigenvalue `μ²`).
+      obtain ⟨μ, hμev⟩ := Module.End.exists_eigenvalue (ρ Etingof.S3.σ)
+      obtain ⟨v, hv⟩ := hμev.exists_hasEigenvector
+      have hv0 : v ≠ 0 := hv.2
+      have hσv : ρ Etingof.S3.σ v = μ • v := hv.apply_eq_smul
+      have hμ1 : μ ≠ 1 := by
+        intro h
+        apply hv0
+        have hker : v ∈ LinearMap.ker (ρ Etingof.S3.σ - 1) := by
+          rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, hσv, h, one_smul,
+            sub_self]
+        rw [hE, Submodule.mem_bot] at hker; exact hker
+      have hμ3 : μ ^ 3 = 1 := by
+        have h1 : ((ρ Etingof.S3.σ) ^ 3) v = v := by rw [hcube, Module.End.one_apply]
+        rw [hv.pow_apply 3] at h1
+        have hh : (μ ^ 3 - 1) • v = 0 := by rw [sub_smul, h1, one_smul, sub_self]
+        rcases smul_eq_zero.mp hh with h | h
+        · exact sub_eq_zero.mp h
+        · exact absurd h hv0
+      have hμ2 : μ ^ 2 ≠ μ := by
+        intro h
+        have hμ0 : μ ≠ 0 := fun h0 => by rw [h0] at hμ3; norm_num at hμ3
+        apply hμ1
+        apply mul_left_cancel₀ hμ0
+        rw [mul_one, ← sq, h]
+      have hτinj : Function.Injective (ρ Etingof.S3.τ) := by
+        have hli : Function.LeftInverse (ρ Etingof.S3.τ⁻¹) (ρ Etingof.S3.τ) := fun w => by
+          rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
+        exact hli.injective
+      have hτv0 : ρ Etingof.S3.τ v ≠ 0 := fun h => hv0 (hτinj (by rw [h, map_zero]))
+      have hσu : ρ Etingof.S3.σ (ρ Etingof.S3.τ v) = μ ^ 2 • ρ Etingof.S3.τ v := by
+        calc ρ Etingof.S3.σ (ρ Etingof.S3.τ v)
+            = (ρ Etingof.S3.σ * ρ Etingof.S3.τ) v := by rw [Module.End.mul_apply]
+          _ = (ρ Etingof.S3.τ * ρ Etingof.S3.σ * ρ Etingof.S3.σ) v := by rw [hop]
+          _ = ρ Etingof.S3.τ (ρ Etingof.S3.σ (ρ Etingof.S3.σ v)) := by
+                rw [Module.End.mul_apply, Module.End.mul_apply]
+          _ = ρ Etingof.S3.τ (μ ^ 2 • v) := by rw [hσv, map_smul, hσv, smul_smul, ← sq]
+          _ = μ ^ 2 • ρ Etingof.S3.τ v := by rw [map_smul]
+      have hindep : LinearIndependent ℂ (![v, ρ Etingof.S3.τ v] : Fin 2 → V) := by
+        apply Module.End.eigenvectors_linearIndependent' (ρ Etingof.S3.σ)
+          (![μ, μ ^ 2] : Fin 2 → ℂ) ?_ (![v, ρ Etingof.S3.τ v])
+        · intro i
+          fin_cases i
+          · exact ⟨Module.End.mem_eigenspace_iff.mpr hσv, hv0⟩
+          · exact ⟨Module.End.mem_eigenspace_iff.mpr hσu, hτv0⟩
+        · intro i j hij
+          fin_cases i <;> fin_cases j <;>
+            simp_all [Matrix.cons_val_zero, Matrix.cons_val_one, eq_comm]
+      have hWinv : (Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V)) ∈ ρ.invtSubmodule := by
+        apply Etingof.S3.gen_inv
+        · intro x hx
+          have hle : Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V)
+              ≤ (Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V)).comap (ρ Etingof.S3.σ) := by
+            rw [Submodule.span_le]
+            rintro y (rfl | hy)
+            · rw [SetLike.mem_coe, Submodule.mem_comap, hσv]
+              exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert _ _))
+            · rw [Set.mem_singleton_iff] at hy; subst hy
+              rw [SetLike.mem_coe, Submodule.mem_comap, hσu]
+              exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert_of_mem _ rfl))
+          exact hle hx
+        · intro x hx
+          have hle : Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V)
+              ≤ (Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V)).comap (ρ Etingof.S3.τ) := by
+            rw [Submodule.span_le]
+            rintro y (rfl | hy)
+            · rw [SetLike.mem_coe, Submodule.mem_comap]
+              exact Submodule.subset_span (Set.mem_insert_of_mem _ rfl)
+            · rw [Set.mem_singleton_iff] at hy; subst hy
+              rw [SetLike.mem_coe, Submodule.mem_comap,
+                show ρ Etingof.S3.τ (ρ Etingof.S3.τ v) = v by
+                  rw [← Module.End.mul_apply, ← map_mul, Etingof.S3.τ_sq, map_one,
+                    Module.End.one_apply]]
+              exact Submodule.subset_span (Set.mem_insert _ _)
+          exact hle hx
+      have hWtop : Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V) = ⊤ := by
+        rcases hSO.eq_bot_or_eq_top (⟨_, hWinv⟩ : ρ.invtSubmodule) with h | h
+        · exfalso
+          have hb' : Submodule.span ℂ ({v, ρ Etingof.S3.τ v} : Set V) = ⊥ := by
+            have := congrArg Subtype.val h
+            rwa [Representation.invtSubmodule.coe_bot] at this
+          apply hv0
+          have : v ∈ (⊥ : Submodule ℂ V) := by
+            rw [← hb']; exact Submodule.subset_span (Set.mem_insert _ _)
+          rwa [Submodule.mem_bot] at this
+        · have := congrArg Subtype.val h
+          rwa [Representation.invtSubmodule.coe_top] at this
+      have hrange : Set.range (![v, ρ Etingof.S3.τ v] : Fin 2 → V) = {v, ρ Etingof.S3.τ v} := by
+        ext x
+        simp only [Set.mem_range, Fin.exists_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one,
+          Set.mem_insert_iff, Set.mem_singleton_iff, eq_comm]
+      let B : Module.Basis (Fin 2) ℂ V := Module.Basis.mk hindep (le_of_eq (by rw [hrange, hWtop]))
+      have hd2 : Module.finrank ℂ V = 2 := by rw [Module.finrank_eq_card_basis B]; simp
+      have hcast : (Module.finrank ℂ V : ℂ) = 2 := by rw [hd2]; norm_num
+      rw [hconj, hcast]
+      rw [hcast] at htr
+      linear_combination htr
+    · -- `E₁ = ⊤`: `ρσ = 1`, so `dim V = 1` via the transposition's eigenvector.
+      have hE : LinearMap.ker (ρ Etingof.S3.σ - 1) = ⊤ := by
+        have := congrArg Subtype.val ht
+        rwa [Representation.invtSubmodule.coe_top] at this
+      have hs1 : ρ Etingof.S3.σ = 1 := sub_eq_zero.mp (LinearMap.ker_eq_top.mp hE)
+      obtain ⟨ν, hνev⟩ := Module.End.exists_eigenvalue (ρ Etingof.S3.τ)
+      obtain ⟨w, hw⟩ := hνev.exists_hasEigenvector
+      have hw0 : w ≠ 0 := hw.2
+      have hτw : ρ Etingof.S3.τ w = ν • w := hw.apply_eq_smul
+      have hW'inv : (Submodule.span ℂ ({w} : Set V)) ∈ ρ.invtSubmodule := by
+        apply Etingof.S3.gen_inv
+        · intro x hx; rw [hs1, Module.End.one_apply]; exact hx
+        · intro x hx
+          have hle : Submodule.span ℂ ({w} : Set V)
+              ≤ (Submodule.span ℂ ({w} : Set V)).comap (ρ Etingof.S3.τ) := by
+            rw [Submodule.span_le, Set.singleton_subset_iff, SetLike.mem_coe,
+              Submodule.mem_comap, hτw]
+            exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
+          exact hle hx
+      have hW'top : Submodule.span ℂ ({w} : Set V) = ⊤ := by
+        rcases hSO.eq_bot_or_eq_top (⟨_, hW'inv⟩ : ρ.invtSubmodule) with h | h
+        · exfalso
+          have hb' : Submodule.span ℂ ({w} : Set V) = ⊥ := by
+            have := congrArg Subtype.val h
+            rwa [Representation.invtSubmodule.coe_bot] at this
+          apply hw0
+          have : w ∈ (⊥ : Submodule ℂ V) := by
+            rw [← hb']; exact Submodule.subset_span rfl
+          rwa [Submodule.mem_bot] at this
+        · have := congrArg Subtype.val h
+          rwa [Representation.invtSubmodule.coe_top] at this
+      have hd1 : Module.finrank ℂ V = 1 := by
+        have h1 : Module.finrank ℂ V
+            = Module.finrank ℂ (Submodule.span ℂ ({w} : Set V)) := by rw [hW'top, finrank_top]
+        rw [h1, finrank_span_singleton hw0]
+      have hcast : (Module.finrank ℂ V : ℂ) = 1 := by rw [hd1]; norm_num
+      have hT : LinearMap.trace ℂ V (ρ Etingof.S3.σ) = 1 := by
+        rw [hs1, LinearMap.trace_one, hcast]
+      have hT2 : LinearMap.trace ℂ V (ρ (Etingof.S3.σ * Etingof.S3.σ)) = 1 := by
+        rw [map_mul, hs1, mul_one, LinearMap.trace_one, hcast]
+      rw [hT, hT2, hcast]; norm_num
+  -- Assemble: reduce the indicator to the character identity.
+  unfold Etingof.frobeniusSchurIndicator
+  have hsum : ∑ g : Equiv.Perm (Fin 3), LinearMap.trace ℂ V (ρ (g * g))
+      = 4 * LinearMap.trace ℂ V (ρ 1) + LinearMap.trace ℂ V (ρ Etingof.S3.σ)
+        + LinearMap.trace ℂ V (ρ (Etingof.S3.σ * Etingof.S3.σ)) := by
+    rw [← Finset.sum_filter_add_sum_filter_not Finset.univ (fun g => g * g = 1)]
+    have e1 : ∑ g ∈ Finset.univ.filter (fun g : Equiv.Perm (Fin 3) => g * g = 1),
+        LinearMap.trace ℂ V (ρ (g * g))
+        = ∑ _g ∈ Finset.univ.filter (fun g : Equiv.Perm (Fin 3) => g * g = 1),
+          LinearMap.trace ℂ V (ρ 1) :=
+      Finset.sum_congr rfl (fun g hg => by rw [(Finset.mem_filter.mp hg).2])
+    have hc : (Finset.univ.filter (fun g : Equiv.Perm (Fin 3) => g * g = 1)).card = 4 := by decide
+    have e2 : (Finset.univ.filter (fun g : Equiv.Perm (Fin 3) => ¬ g * g = 1))
+        = {Etingof.S3.σ, Etingof.S3.σ * Etingof.S3.σ} := by decide
+    rw [e1, Finset.sum_const, hc, e2, Finset.sum_pair Etingof.S3.σ_ne, Etingof.S3.σσσσ]
+    simp only [nsmul_eq_mul, Nat.cast_ofNat]
+    ring
+  have htr1 : LinearMap.trace ℂ V (ρ 1) = (Module.finrank ℂ V : ℂ) := by
+    rw [map_one, LinearMap.trace_one]
+  have hcard : (Fintype.card (Equiv.Perm (Fin 3)) : ℂ) = 6 := by
+    rw [Fintype.card_perm, Fintype.card_fin]; norm_num
+  rw [hsum, htr1, hkey, hcard]
+  norm_num
 
 /-- All irreducible representations of `S₄` are of real type. (Etingof Example 5.1.3) -/
 theorem Etingof.Example5_1_3_S4
