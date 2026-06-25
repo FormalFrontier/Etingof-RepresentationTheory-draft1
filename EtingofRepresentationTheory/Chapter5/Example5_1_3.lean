@@ -532,14 +532,59 @@ theorem Etingof.Example5_1_3_S4
   exact isRealType_of_coordForm_transport ρ hρ ψ hψ c
     (Etingof.youngSymmetrizer_im_eq_zero 4 la) v₀ hv₀ hcne
 
-/-- All irreducible representations of `A₅` are of real type. (Etingof Example 5.1.3) -/
+set_option maxRecDepth 10000 in
+/-- **A₅ is ambivalent:** every element is conjugate to its inverse. A finite
+check over the 60 elements of `A₅` (`decide`). This is the input to L2 / the
+self-dual dichotomy: it makes every `A₅` character self-dual (`χ(g⁻¹) = χ(g)`). -/
+theorem Etingof.alternatingGroup_ambivalent (g : alternatingGroup (Fin 5)) :
+    IsConj g g⁻¹ := by
+  have h : ∀ h : alternatingGroup (Fin 5), ∃ c : alternatingGroup (Fin 5),
+      c * h * c⁻¹ = h⁻¹ := by decide
+  obtain ⟨c, hc⟩ := h g
+  exact isConj_iff.mpr ⟨c, hc⟩
+
+/-- **The 4-dimensional (standard) irreducible of `A₅` is of real type.** Every
+even-dimensional simple `ℂ[A₅]`-module is the 4-dimensional standard representation
+`ℂ⁴` (the permutation representation on `Fin 5` minus the trivial line), which is
+realised by rational permutation matrices, hence of real type by L1
+(`isRealType_of_rational_form`).
+
+Isolated as a `sorry`: identifying an *abstract* even-dimensional simple module with
+the concrete standard representation needs the dimension classification of `A₅`'s
+irreducibles — five conjugacy classes, dims `{1, 3, 3, 4, 5}` via Frobenius
+divisibility (`dim ∣ |G|`) and `∑ dimᵢ² = 60`. That classification (and Frobenius
+divisibility in particular) is not yet available in Mathlib or this project; it is
+the sole remaining gap for Example 5.1.3 (A₅). Tracked separately. -/
+theorem Etingof.isRealType_of_A5_even_standard
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+    (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ (alternatingGroup (Fin 5))) ρ.asModule)
+    (hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g)
+    (heven : Even (Module.finrank ℂ V)) :
+    Etingof.IsRealType ρ := by
+  sorry
+
+/-- All irreducible representations of `A₅` are of real type. (Etingof Example 5.1.3)
+
+`A₅` is ambivalent (`alternatingGroup_ambivalent`), so every character is self-dual
+(`χ(g⁻¹) = χ(g)`). The odd-dimensional irreducibles `ℂ, ℂ³₊, ℂ³₋, ℂ⁵` are then of
+real type by the self-dual dichotomy plus L3 (quaternionic ⟹ even-dimensional):
+`isRealType_of_self_dual_of_odd_finrank`. The single even-dimensional irreducible —
+the 4-dimensional standard representation — is rational, handled by
+`isRealType_of_A5_even_standard`. -/
 theorem Etingof.Example5_1_3_A5
     {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
     (ρ : Representation ℂ (alternatingGroup (Fin 5)) V)
     (hρ : IsSimpleModule (MonoidAlgebra ℂ (alternatingGroup (Fin 5))) ρ.asModule) :
     Etingof.IsRealType ρ := by
-  -- The five irreducibles `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵` all have real character values.
-  sorry
+  -- Ambivalence ⟹ self-dual character.
+  have hsd : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g := by
+    intro g
+    obtain ⟨c, hc⟩ := isConj_iff.mp (Etingof.alternatingGroup_ambivalent g)
+    rw [← hc]; exact Representation.char_conj ρ g c
+  rcases Nat.even_or_odd (Module.finrank ℂ V) with heven | hodd
+  · exact Etingof.isRealType_of_A5_even_standard ρ hρ hsd heven
+  · exact Etingof.isRealType_of_self_dual_of_odd_finrank ρ hρ hsd hodd
 
 namespace Etingof.Q8
 
