@@ -262,4 +262,181 @@ noncomputable def forwardRep : Etingof.QuiverRepresentation k Qᵒᵖ where
 
 end ModuleDecomposition
 
+/-! ## Reverse direction: `R ↦ ⊕ᵢ R.obj (op i)` as a left `P_Q`-module
+
+**Deliverable 3 of the bijection.** From a representation `R` of the opposite quiver `Qᵒᵖ` we
+build a left `P_Q`-module on `M = ⊕ᵢ R.obj (op i)`. A path `p : a ⟶* b` of `Q` acts by the
+composite of the arrow maps `R.mapLinear`, read **contravariantly**
+(`pathMap (cons p e) = pathMap p ∘ R.mapLinear eᵒᵖ`), sending the `b`-summand to the `a`-summand
+and zero on the other summands. The contravariant reading is exactly what turns the
+source-to-target product `single⟨a,b,p⟩·single⟨b,d,q⟩ = single⟨a,d,p.comp q⟩` into composition
+(`pathMap (p.comp q) = pathMap p ∘ pathMap q`), so the assignment is a genuine **left** action,
+packaged as an algebra hom `toEnd : P_Q →ₐ[k] End k M`. This resolves the anti-homomorphism
+subtlety flagged in the convention note: the opposite is absorbed into the contravariant
+`pathMap`, not into the algebra or the side of the module.
+-/
+
+section ReverseDirection
+
+/-- The vertex-space family `i ↦ R.obj (op i)` of a representation `R` of the opposite quiver. -/
+abbrev reverseFam (R : Etingof.QuiverRepresentation k Qᵒᵖ) (i : Q) : Type _ :=
+  R.obj (Opposite.op i)
+
+/-- The composite arrow map of a path `p : a ⟶* b` of `Q`, a `k`-linear map
+`R.obj (op b) → R.obj (op a)`. Defined **contravariantly**: `nil ↦ id` and
+`cons p e ↦ pathMap p ∘ R.mapLinear eᵒᵖ`. This is the action of the basis element `single ⟨a,b,p⟩`
+between the relevant vertex summands. -/
+noncomputable def pathMap (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b : Q}
+    (p : Quiver.Path a b) : reverseFam R b →ₗ[k] reverseFam R a :=
+  Quiver.Path.rec (motive := fun b _ => reverseFam R b →ₗ[k] reverseFam R a)
+    LinearMap.id (fun _ e ih => ih ∘ₗ R.mapLinear e.op) p
+
+omit [DecidableEq Q] in
+@[simp] theorem pathMap_nil (R : Etingof.QuiverRepresentation k Qᵒᵖ) (a : Q) :
+    pathMap R (Quiver.Path.nil : Quiver.Path a a) = LinearMap.id := rfl
+
+omit [DecidableEq Q] in
+@[simp] theorem pathMap_cons (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b c : Q}
+    (p : Quiver.Path a b) (e : b ⟶ c) :
+    pathMap R (p.cons e) = pathMap R p ∘ₗ R.mapLinear e.op := rfl
+
+omit [DecidableEq Q] in
+/-- **Path composition becomes endomorphism composition.** Because `pathMap` is contravariant,
+the composite path `p.comp q` (source-to-target) acts as `pathMap p ∘ pathMap q`. This is the
+identity that makes the path action a homomorphism rather than an anti-homomorphism. -/
+theorem pathMap_comp (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b d : Q}
+    (p : Quiver.Path a b) (q : Quiver.Path b d) :
+    pathMap R (p.comp q) = pathMap R p ∘ₗ pathMap R q := by
+  induction q with
+  | nil => simp
+  | cons q' e ih => simp only [Quiver.Path.comp_cons, pathMap_cons, ih, LinearMap.comp_assoc]
+
+/-- The endomorphism of `M = ⊕ᵢ R.obj (op i)` attached to a basis path `⟨a,b,p⟩`: project to the
+`b`-summand, apply `pathMap p`, inject into the `a`-summand. -/
+noncomputable def pathEnd (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    Etingof.QuiverPathIndex Q → Module.End k (DirectSum Q (reverseFam R))
+  | ⟨a, b, p⟩ =>
+      DirectSum.lof k Q (reverseFam R) a ∘ₗ pathMap R p ∘ₗ DirectSum.component k Q (reverseFam R) b
+
+theorem pathEnd_mk (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b : Q} (p : Quiver.Path a b) :
+    pathEnd R ⟨a, b, p⟩ =
+      DirectSum.lof k Q (reverseFam R) a ∘ₗ pathMap R p ∘ₗ
+        DirectSum.component k Q (reverseFam R) b :=
+  rfl
+
+/-- On composable basis paths the endomorphisms compose: `aₚ · a_q = a_{p∘q}` for `p : a ⟶* b`,
+`q : b ⟶* d`. The middle `component b ∘ lof b = id` cancels and `pathMap_comp` recombines. -/
+theorem pathEnd_comp (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b d : Q}
+    (p : Quiver.Path a b) (q : Quiver.Path b d) :
+    pathEnd R ⟨a, b, p⟩ * pathEnd R ⟨b, d, q⟩ = pathEnd R ⟨a, d, p.comp q⟩ := by
+  ext m
+  simp only [Module.End.mul_apply, pathEnd_mk, LinearMap.comp_apply,
+    DirectSum.component.lof_self, pathMap_comp]
+
+/-- On non-composable basis paths the endomorphisms compose to `0`: the middle `component b ∘ lof c`
+vanishes when `b ≠ c`. -/
+theorem pathEnd_comp_zero (R : Etingof.QuiverRepresentation k Qᵒᵖ) {a b c d : Q}
+    (p : Quiver.Path a b) (q : Quiver.Path c d) (h : b ≠ c) :
+    pathEnd R ⟨a, b, p⟩ * pathEnd R ⟨c, d, q⟩ = 0 := by
+  ext m
+  simp only [Module.End.mul_apply, pathEnd_mk, LinearMap.comp_apply, LinearMap.zero_apply]
+  rw [DirectSum.component.of, dif_neg (Ne.symm h), map_zero, map_zero]
+
+/-- The path action as a `k`-linear map `P_Q →ₗ End k M`: the `Finsupp`-extension of `pathEnd`. -/
+noncomputable def toEndₗ (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    PathAlgebra k Q →ₗ[k] Module.End k (DirectSum Q (reverseFam R)) :=
+  Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (pathEnd R x)
+
+theorem toEndₗ_single (R : Etingof.QuiverRepresentation k Qᵒᵖ) (x : Etingof.QuiverPathIndex Q)
+    (c : k) : toEndₗ R (Finsupp.single x c) = c • pathEnd R x := by
+  simp only [toEndₗ, Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
+
+theorem toEndₗ_ofPath (R : Etingof.QuiverRepresentation k Qᵒᵖ) (x : Etingof.QuiverPathIndex Q) :
+    toEndₗ R (ofPath x) = pathEnd R x := by
+  rw [ofPath, toEndₗ_single, one_smul]
+
+/-- `toEndₗ` sends a product of basis paths to the composition of their endomorphisms; both the
+composable and non-composable cases are covered by `pathEnd_comp`/`pathEnd_comp_zero`. -/
+theorem toEndₗ_compSingle (R : Etingof.QuiverRepresentation k Qᵒᵖ)
+    (x y : Etingof.QuiverPathIndex Q) :
+    toEndₗ R (compSingle x y) = pathEnd R x * pathEnd R y := by
+  obtain ⟨a, b, p⟩ := x
+  obtain ⟨c, d, q⟩ := y
+  by_cases h : b = c
+  · subst h
+    rw [compSingle_eq, toEndₗ_single, one_smul, pathEnd_comp]
+  · rw [compSingle_eq_zero _ _ h, map_zero, pathEnd_comp_zero R p q h]
+
+/-- `toEndₗ` is multiplicative: reduce to basis paths via bilinearity, then `toEndₗ_compSingle`. -/
+theorem toEndₗ_mul (R : Etingof.QuiverRepresentation k Qᵒᵖ) (f g : PathAlgebra k Q) :
+    toEndₗ R (f * g) = toEndₗ R f * toEndₗ R g := by
+  induction f using Finsupp.induction_linear with
+  | zero => simp
+  | add f1 f2 h1 h2 => rw [add_mul, map_add, map_add, h1, h2, add_mul]
+  | single x a =>
+    induction g using Finsupp.induction_linear with
+    | zero => simp
+    | add g1 g2 h1 h2 => rw [mul_add, map_add, map_add, h1, h2, mul_add]
+    | single y b =>
+      rw [single_mul_single, map_smul, toEndₗ_compSingle, toEndₗ_single, toEndₗ_single,
+        smul_mul_smul_comm]
+
+/-- For a finite vertex set, the inclusions and projections of the direct sum sum to the identity:
+`∑ᵢ lofᵢ ∘ componentᵢ = id`. This is the `∑ᵢ pᵢ = 1 ↦ id` content of the unit law. -/
+theorem sum_lof_comp_component [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    (∑ i : Q, DirectSum.lof k Q (reverseFam R) i ∘ₗ DirectSum.component k Q (reverseFam R) i)
+      = LinearMap.id := by
+  refine LinearMap.ext fun m => ?_
+  simp only [LinearMap.sum_apply, LinearMap.comp_apply, LinearMap.id_apply]
+  conv_rhs => rw [← DirectSum.sum_univ_of m]
+  exact Finset.sum_congr rfl fun i _ => by
+    rw [DirectSum.lof_eq_of, ← DirectSum.apply_eq_component]
+
+/-- `toEndₗ` is unital: `1 = ∑ᵢ pᵢ` maps to `∑ᵢ lofᵢ ∘ componentᵢ = id`. -/
+theorem toEndₗ_one [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    toEndₗ R 1 = 1 := by
+  rw [one_def, map_sum, Module.End.one_eq_id, ← sum_lof_comp_component R]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [toEndₗ_single, one_smul, pathEnd_mk, pathMap_nil, LinearMap.id_comp]
+
+/-- **Reverse direction of the bijection (deliverable 3).** The left `P_Q`-module structure on
+`M = ⊕ᵢ R.obj (op i)` induced by a representation `R` of the opposite quiver `Qᵒᵖ`, packaged as a
+`k`-algebra homomorphism `P_Q →ₐ[k] End k M`. On a basis path `⟨a,b,p⟩` it acts by `pathEnd`.
+Multiplicativity is `pathMap (p.comp q) = pathMap p ∘ pathMap q` (`toEndₗ_mul`); the unit law is
+`∑ᵢ pᵢ = 1 ↦ id` (`toEndₗ_one`). This is the genuine left-module action whose existence the issue
+requires (a real `def`, not a `sorry`). -/
+noncomputable def toEnd [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    PathAlgebra k Q →ₐ[k] Module.End k (DirectSum Q (reverseFam R)) :=
+  AlgHom.ofLinearMap (toEndₗ R) (toEndₗ_one R) (toEndₗ_mul R)
+
+@[simp] theorem toEnd_apply [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
+    (a : PathAlgebra k Q) : toEnd R a = toEndₗ R a := rfl
+
+@[simp] theorem toEnd_ofPath [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
+    (x : Etingof.QuiverPathIndex Q) : toEnd R (ofPath x) = pathEnd R x := by
+  rw [toEnd_apply, toEndₗ_ofPath]
+
+/-- The left `P_Q`-module structure on `M = ⊕ᵢ R.obj (op i)` from the reverse direction, obtained
+by restricting scalars along the algebra hom `toEnd R`. -/
+@[reducible] noncomputable def reverseModule [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    Module (PathAlgebra k Q) (DirectSum Q (reverseFam R)) :=
+  Module.compHom _ (toEnd R).toRingHom
+
+/-- The reverse-direction action is `a • m = toEnd R a m`. -/
+theorem reverseModule_smul_def [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ)
+    (a : PathAlgebra k Q) (m : DirectSum Q (reverseFam R)) :
+    (letI := reverseModule R; a • m) = toEnd R a m := rfl
+
+/-- The reverse-direction module is compatible with the ground field `k`: `k → P_Q → M` is a
+scalar tower, since `toEnd R` is `k`-linear. -/
+theorem reverseModule_isScalarTower [Fintype Q] (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
+    letI := reverseModule R
+    IsScalarTower k (PathAlgebra k Q) (DirectSum Q (reverseFam R)) := by
+  letI := reverseModule R
+  refine ⟨fun c a m => ?_⟩
+  change toEnd R (c • a) m = c • (toEnd R a) m
+  rw [map_smul, LinearMap.smul_apply]
+
+end ReverseDirection
+
 end Etingof.PathAlgebra
