@@ -543,6 +543,61 @@ theorem Etingof.alternatingGroup_ambivalent (g : alternatingGroup (Fin 5)) :
   obtain ⟨c, hc⟩ := h g
   exact isConj_iff.mpr ⟨c, hc⟩
 
+/-- **Arithmetic core of the A₅ real-type argument (the Cauchy-Schwarz endgame).**
+
+`A₅` has five irreducible representations (its number of conjugacy classes), with
+positive integer dimensions `d i` and Frobenius-Schur indicators `ε i ∈ {+1, -1}`.
+The value `0` is excluded because `A₅` is ambivalent (`alternatingGroup_ambivalent`),
+so no irreducible is of complex type. The two global identities
+
+* `∑ᵢ (d i)² = 60 = |A₅|`  (sum of squared dimensions equals the group order), and
+* `∑ᵢ (ε i)·(d i) = 16 = #{g ∈ A₅ : g² = 1}`  (the Frobenius-Schur involution count),
+
+together with the Cauchy-Schwarz bound `(∑ᵢ d i)² ≤ 5 · ∑ᵢ (d i)² = 300`
+(`sq_sum_le_card_mul_sum_sq`) force **every** indicator to be `+1`. Hence every
+`A₅` irreducible is of real type.
+
+This packages the combinatorial heart of the classification with no representation
+theory: a single `+1 → −1` sign flip on a dimension `d i ≥ 1` would raise `∑ᵢ d i`
+by `2·(d i) ≥ 2` to at least `18`, whose square `324` exceeds the Cauchy-Schwarz
+ceiling `300`. So the `{1, 3, 3, 4, 5}` dimension list never has to be exhibited;
+only the two sums and the count of `5` irreducibles are needed.
+
+The three inputs (`∑ d² = |G|`, the indicator count `= #{g : g² = 1}`, and
+`#irreps = #conjugacy classes = 5`) are the missing-from-Mathlib foundations that
+the even-dimensional `A₅` case is blocked on; this lemma is the verified endgame
+they feed into. -/
+lemma Etingof.A5_frobeniusSchur_all_pos
+    (d ε : Fin 5 → ℤ)
+    (hd : ∀ i, 1 ≤ d i)
+    (hε : ∀ i, ε i = 1 ∨ ε i = -1)
+    (hsq : ∑ i, d i ^ 2 = 60)
+    (hcount : ∑ i, ε i * d i = 16) :
+    ∀ i, ε i = 1 := by
+  -- Cauchy-Schwarz: `(∑ d)² ≤ card · ∑ d² = 5 · 60 = 300`.
+  have hcheb : (∑ i, d i) ^ 2 ≤ 5 * ∑ i, d i ^ 2 := by
+    have h := sq_sum_le_card_mul_sum_sq (s := (Finset.univ : Finset (Fin 5))) (f := d)
+    simpa using h
+  rw [hsq] at hcheb
+  set T := ∑ j, d j with hT
+  intro i
+  by_contra hi
+  have hneg : ε i = -1 := (hε i).resolve_left hi
+  -- The "defect" `d j - ε j · d j = (1 - ε j)·d j` is nonnegative everywhere, and is
+  -- `≥ 2` at the index `i` where the sign is `-1`.
+  have hf_nonneg : ∀ j ∈ (Finset.univ : Finset (Fin 5)), (0 : ℤ) ≤ d j - ε j * d j := by
+    intro j _
+    rcases hε j with hj | hj
+    · rw [hj]; simp
+    · rw [hj]; nlinarith [hd j]
+  have hsum_def : ∑ j, (d j - ε j * d j) = T - 16 := by
+    rw [Finset.sum_sub_distrib, hcount, hT]
+  have hfi : (2 : ℤ) ≤ d i - ε i * d i := by rw [hneg]; nlinarith [hd i]
+  have hsingle : d i - ε i * d i ≤ ∑ j, (d j - ε j * d j) :=
+    Finset.single_le_sum hf_nonneg (Finset.mem_univ i)
+  have hTge : (18 : ℤ) ≤ T := by rw [hsum_def] at hsingle; linarith
+  nlinarith [hcheb, hTge]
+
 /-- **The 4-dimensional (standard) irreducible of `A₅` is of real type.** Every
 even-dimensional simple `ℂ[A₅]`-module is the 4-dimensional standard representation
 `ℂ⁴` (the permutation representation on `Fin 5` minus the trivial line), which is
