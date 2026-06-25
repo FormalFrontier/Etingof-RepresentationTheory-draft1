@@ -503,20 +503,49 @@ cast through with `push_cast; ring` inside a `show`); `orderOf ζ ∣ orderOf g�
 `orderOf_dvd_of_pow_eq_one`. Package `ℂ_ε := FDRep.of (charRep χ)`; simplicity is free from the
 existing `charRep_simple`.
 
-#### Scoping the §5.11 `S₃` induced-rep decompositions (#5248, partial)
+#### §5.11 `S₃` induced-rep decompositions — DONE (#5248, all four sorry-free)
 
-`Ind_H^G (1-dim char) ≅ ⊞ irreps` (Etingof §5.11) is **larger than one session** when the
-induced-character formula `Theorem5_9_1` is off-limits (still `sorry`). The issue-faithful route
-needs three reusable pieces, none yet built: (1) `character_biprod` (`FDRep` char additive on `⊞`,
-analogue of `FDRep.char_tensor`); (2) completeness of the `S₃` irrep catalogue, provable from
-`exists_simples_sum_finrank_sq_eq_card` (`Infrastructure/IrreducibleEnumeration.lean`) since
-`1²+1²+2²=6=|S₃|`; (3) the Frobenius LHS hom-dim `finrank (T ⟶ Ind_H ρ)` via `Rep.indResHomEquiv`
-(`Etingof.Theorem5_10_1`) reduced to a scalar product over `H`
-(`FDRep.scalar_product_char_eq_finrank_equivariant`) — this carries the riskiest plumbing, the
-FDRep↔Rep bridge between `FDRep.of (Representation.ind …)` and `Rep.ind …`. Finish each with
-`Etingof.iso_of_forall_finrank_hom_eq` (in `CharEqIso.lean`) + `FDRep.finrank_hom_simple_simple`
-for RHS multiplicities. Don't reach for `charEq_iso` here: it needs the induced character, exactly
-what the Frobenius route exists to avoid.
+All four `Ind_H^G (1-dim char) ≅ ⊞ irreps` are proved in `Discussion5_11_examples.lean` via
+Frobenius reciprocity (`Etingof.Theorem5_10_1`), **not** the still-`sorry` `Theorem5_9_1`. The
+route fits in one session and the pieces are reusable for any small-group induced-rep decomposition:
+- `finrank_hom_symm` (`dim Hom(V,W)=dim Hom(W,V)` via the symmetric scalar product) — lets you flip
+  `finrank (S ⟶ Ind_H ρ)` to `finrank (Ind_H ρ ⟶ S)` so the categorical Frobenius (Ind on the left)
+  applies, then feed `Etingof.iso_of_forall_finrank_hom_eq` (needs `S ⟶ -`).
+- `frobenius_finrank`: the FDRep↔Rep bridge `dim Hom_{S₃}(Ind_H ρ,S)=dim Hom_H(ρ,Res_H S)`. The
+  feared plumbing was a non-issue — **all object identifications are `rfl`**:
+  `(forget₂ (FDRep ℂ G) (Rep ℂ G)).obj (FDRep.of (Representation.ind H.subtype ρ)) = Rep.ind
+  H.subtype (Rep.of ρ) := rfl` (because `Definition5_8_1 = Representation.ind`, `Rep.ind = Rep.of ∘
+  .ind`, and `forget₂_ρ`/carrier are defeq). Cross via `FDRep.forget₂HomLinearEquiv`, apply
+  `Rep.indResHomEquiv`, return; `Res_H S := (Action.res (FGModuleCat ℂ) H.subtype).obj S` with
+  `((Action.res _ f).obj S).ρ h = S.ρ (f h)` (`rfl`).
+- completeness `S3_simple_iso` from `exists_simples_sum_finrank_sq_eq_card` + the `1²+1²+2²=6` count.
+- `ind_finrank_eq_scalar` = multiplicity as `⅟|H| • ∑_{h:↥H} S.character ↑h * (charRep χ).character h⁻¹`
+  (`FDRep.scalar_product_char_eq_finrank_equivariant`), then `sum_cyclic` (enumerate `↥H` via
+  `finEquivZPowers`) reduces to a `Fin n` sum you evaluate at the conjugacy-class reps.
+Finish each theorem with `iso_of_forall_finrank_hom_eq`, casing `S` over the catalogue:
+LHS multiplicity from the scalar product, RHS from `FDRep.finrank_hom_simple_simple` + `finrank_hom_biprod`.
+
+Four gotchas that each cost a build cycle (watch for the analogues in any finite-group character work):
+1. **Concrete subgroups you need `Fintype`/`Invertible` instances on must be `abbrev`, not `def`.**
+   `def Z2 : Subgroup S3 := …` makes `↥Z2` opaque, so `Fintype ↥Z2` / `Invertible (card:ℂ)` fail to
+   synthesize at *statement* elaboration (the lemma won't even state). `abbrev` lets resolution see
+   through. (Switching `def`→`abbrev` then breaks any `rw [Z2]` — drop them; the abbrev unfolds
+   definitionally so `Nat.card_zpowers`/`mem_alternatingGroup` apply directly.)
+2. **`decide` on `Fintype.card ↥(Subgroup.zpowers g)` gets STUCK** (the Fintype routes through a
+   noncomputable `Classical.decPred`). Route the card through order instead:
+   `rw [← Nat.card_eq_fintype_card, Nat.card_zpowers, <orderOf g = n>]`. (`decide` *does* work for
+   `Fintype.card ↥(alternatingGroup (Fin 3))` — only the `zpowers` Fintype is classical.)
+3. **Under `open CategoryTheory`, bare `finrank_hom_simple_simple` resolves to the
+   `CategoryTheory` version** (which takes `k` as the first *explicit* arg), giving a baffling
+   `failed to synthesize Field ↑S.V`. Write `FDRep.finrank_hom_simple_simple S W` explicitly.
+4. **`⅟c • x = ↑m` arithmetic**: don't `rw` the card inside `⅟` (the `Invertible` instance is keyed
+   on the old term). Use `invOf_smul_eq_iff` (`⅟c • x = y ↔ x = c • y`) to clear the `⅟` first,
+   then `rw [<card lemma>, smul_eq_mul]; norm_num` (or `linear_combination` for the cube-root case).
+For `ℂ_ε`: `zeta3_primitive : IsPrimitiveRoot (zeta3:ℂ) 3` via `Complex.isPrimitiveRoot_exp 3`
+(`rw [show (3:ℂ)=((3:ℕ):ℂ) by norm_num]; exact h` to reconcile `/3` vs `/↑3`), then
+`IsPrimitiveRoot.geom_sum_eq_zero` gives `ζ²+ζ+1=0`; `ζ⁻¹=ζ²`, `(ζ²)⁻¹=ζ` via
+`inv_eq_of_mul_eq_one_right` + `ζ³=1`. Don't reach for `charEq_iso` here: it needs the induced
+character, exactly what the Frobenius route avoids.
 
 ### `_kQ` rep `obj` projection does not reduce in signatures (sporadic tube family)
 
