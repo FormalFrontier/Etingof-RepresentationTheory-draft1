@@ -349,6 +349,25 @@ split
 
 Key insight: `ext t` alone leaves dependent casts (`⋯ ▸ x`). Go deeper with `ext t r s` to reach scalar goals where `subst` eliminates the cast.
 
+### Recursive defs on inductives: use the recursor when you need `rfl` equation lemmas
+
+When you define a function on an inductive (e.g. `Quiver.Path`, recursing on `cons`) with
+**equation-compiler syntax** (`| _, nil => …` / `| _, cons p e => …`), the compiled term may use
+non-reducing `brecOn`, so the obvious `@[simp] theorem foo_nil … := rfl` / `foo_cons … := rfl`
+**fail** ("not definitionally equal" / `rfl : ?m = ?m` against the expected type). This cost a build
+cycle on `pathMap` (Ch2 #5222, `Discussion_quiver_rep_bijection.lean`). **Fix:** define it term-mode
+via the recursor with an explicit motive, then the equations are genuine `rfl`:
+```lean
+noncomputable def pathMap (R …) {a b : Q} (p : Quiver.Path a b) : … :=
+  Quiver.Path.rec (motive := fun b _ => …) LinearMap.id (fun _ e ih => ih ∘ₗ R.mapLinear e.op) p
+@[simp] theorem pathMap_nil  … := rfl   -- now works
+@[simp] theorem pathMap_cons … := rfl   -- now works
+```
+`induction p with | nil | cons …` still works on top of the recursor def (it just uses these simp
+lemmas). Separately: when a lemma over a section with `variable [DecidableEq Q]` does not actually
+use it (the `pathMap_*` lemmas don't), the `unusedDecidableInType` linter warns — prefix the lemma
+with `omit [DecidableEq Q] in` (placed *before* any docstring).
+
 ### Representation Theory Patterns
 
 This book covers:
