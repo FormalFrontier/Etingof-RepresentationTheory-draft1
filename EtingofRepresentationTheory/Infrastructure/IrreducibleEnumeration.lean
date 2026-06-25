@@ -755,3 +755,39 @@ theorem IrrepDecomp.d_eq_finrank [NeZero (Nat.card G : k)]
   -- finrank k (V i) = finrank k (columnFDRep (τ i)) = D.d (τ i) = D.d (σ i)
   rw [show (σ : Fin D.n → Fin D.n) i = τ i from rfl, ← D.finrank_columnFDRep (τ i)]
   exact (LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hτ i).some)).symm
+
+/-! ### Sum of squared dimensions of the irreducibles -/
+
+/-- **Artin-Wedderburn dimension count, dimension form.** For any complete set `V` of
+pairwise non-isomorphic simple `FDRep k G` objects indexed by `Fin D.n`, the sum of the
+squares of their `Module.finrank` equals `|G|`. This is `IrrepDecomp.sum_sq_eq_card`
+re-expressed in terms of the actual dimensions of chosen representatives rather than the
+Wedderburn block sizes, via the matching permutation from `IrrepDecomp.d_eq_finrank`. -/
+theorem IrrepDecomp.sum_finrank_sq_eq_card [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) (V : Fin D.n → FDRep k G)
+    (hV : ∀ i, Simple (V i))
+    (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) :
+    ∑ i, (Module.finrank k (V i)) ^ 2 = Fintype.card G := by
+  obtain ⟨σ, hσ⟩ := D.d_eq_finrank V hV hinj
+  calc ∑ i, (Module.finrank k (V i)) ^ 2
+      = ∑ i, (D.d (σ i)) ^ 2 := by
+        refine Finset.sum_congr rfl fun i _ => ?_; rw [hσ i]
+    _ = ∑ i, (D.d i) ^ 2 := Equiv.sum_comp σ (fun i => D.d i ^ 2)
+    _ = Fintype.card G := D.sum_sq_eq_card
+
+/-- **Existence form of the Artin-Wedderburn dimension count.** Every finite group `G`
+over an algebraically closed field `k` with `char(k) ∤ |G|` admits a finite family of
+pairwise non-isomorphic simple `FDRep k G` objects, complete (every simple is isomorphic
+to one of them), whose squared dimensions sum to `|G|`. Concretely the family is the set
+of column-vector representations `columnFDRep` of the Wedderburn-Artin decomposition. -/
+theorem exists_simples_sum_finrank_sq_eq_card (k G : Type u) [Field k] [IsAlgClosed k]
+    [Group G] [Fintype G] [NeZero (Nat.card G : k)] :
+    ∃ (n : ℕ) (V : Fin n → FDRep k G),
+      (∀ i, Simple (V i)) ∧
+      (∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) ∧
+      (∀ (W : FDRep k G), Simple W → ∃ i, Nonempty (W ≅ V i)) ∧
+      ∑ i, (Module.finrank k (V i)) ^ 2 = Fintype.card G := by
+  let D : IrrepDecomp k G := IrrepDecomp.mk'
+  refine ⟨D.n, D.columnFDRep, D.columnFDRep_simple, D.columnFDRep_injective,
+    D.columnFDRep_surjective, ?_⟩
+  exact D.sum_finrank_sq_eq_card D.columnFDRep D.columnFDRep_simple D.columnFDRep_injective
