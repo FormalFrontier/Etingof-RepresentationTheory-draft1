@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
 import EtingofRepresentationTheory.Infrastructure.RegularCharacter
+import EtingofRepresentationTheory.Chapter5.Definition5_1_4
 
 /-!
 # Theorem 5.1.5: Frobenius-Schur Theorem (Involution Count)
@@ -82,3 +83,40 @@ theorem Etingof.Theorem5_1_5
   rw [invOf_eq_inv]
   have hne : (Fintype.card G : k) ≠ 0 := Invertible.ne_zero _
   field_simp [hne]
+
+section ComplexIndicatorForm
+
+-- `IrrepDecomp ℂ G` requires `G` in the same universe as `ℂ`, i.e. `Type 0`.
+variable {G : Type} [Group G] [Fintype G]
+
+/-- The Definition 5.1.4 Frobenius-Schur indicator (`Etingof.frobeniusSchurIndicator`,
+on the underlying `Representation ℂ G ↥V`) agrees with the FDRep-level indicator
+`FDRep.frobeniusSchurIndicator`. Both are `|G|⁻¹ ∑_g χ_V(g²)`. -/
+lemma Etingof.frobeniusSchurIndicator_ρ_eq
+    [DecidableEq G] [Invertible (Fintype.card G : ℂ)]
+    (V : FDRep ℂ G) :
+    Etingof.frobeniusSchurIndicator V.ρ = V.frobeniusSchurIndicator := by
+  simp only [Etingof.frobeniusSchurIndicator, FDRep.frobeniusSchurIndicator,
+    FDRep.character, invOf_eq_inv, smul_eq_mul]
+
+/-- **Frobenius-Schur involution count (Definition 5.1.4 form, over ℂ).** The number of
+involutions `#{g : G | g² = 1}` equals `∑_i FS(Vᵢ) · dim Vᵢ`, where `i` ranges over the
+irreducible `ℂ[G]`-modules and `FS` is the Definition 5.1.4 Frobenius-Schur indicator
+(`Etingof.frobeniusSchurIndicator` of the underlying representation `(Vᵢ).ρ`).
+
+This restates `Etingof.Theorem5_1_5` with the bare-representation indicator, the form the
+A₅ real-type endgame (`Etingof.A5_frobeniusSchur_all_pos`) consumes. -/
+theorem Etingof.frobeniusSchur_involution_count
+    [DecidableEq G] [NeZero (Nat.card G : ℂ)] [Invertible (Fintype.card G : ℂ)]
+    (D : IrrepDecomp ℂ G)
+    (V : Fin D.n → FDRep ℂ G)
+    (hV : ∀ i, Simple (V i))
+    (hinj : ∀ i j, Nonempty ((V i) ≅ (V j)) → i = j) :
+    ((Finset.univ.filter (fun g : G => g * g = 1)).card : ℂ) =
+      ∑ i : Fin D.n,
+        Etingof.frobeniusSchurIndicator (V i).ρ * (Module.finrank ℂ (V i) : ℂ) := by
+  rw [Etingof.Theorem5_1_5 D V hV hinj]
+  refine Finset.sum_congr rfl (fun i _ => ?_)
+  rw [Etingof.frobeniusSchurIndicator_ρ_eq, mul_comm]
+
+end ComplexIndicatorForm
