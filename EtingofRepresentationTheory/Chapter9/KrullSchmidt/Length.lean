@@ -1,7 +1,12 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_6_1
 import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import Mathlib.Order.KrullDimension
+import Mathlib.Order.OrderIsoNat
 import Mathlib.CategoryTheory.Subobject.Lattice
+import Mathlib.CategoryTheory.Subobject.Limits
+import Mathlib.CategoryTheory.Abelian.Exact
+import Mathlib.CategoryTheory.Abelian.Pseudoelements
+import Mathlib.Algebra.Homology.ShortComplex.Exact
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
 
 /-!
@@ -116,5 +121,227 @@ This follows from `clength_additive` applied to the split short exact sequence
 `0 → Y → Y ⊞ Z → Z → 0` built from `biprod.inl` and `biprod.snd`. -/
 theorem clength_biprod (Y Z : C) : clength (Y ⊞ Z) = clength Y + clength Z := by
   sorry
+
+/-! ## Monotonicity of `clength` over the subobject lattice
+
+For an inclusion of subobjects `A ≤ B` of a fixed `X`, the canonical short exact sequence
+`0 → (A : C) → (B : C) → (B/A) → 0` (with `(A : C) → (B : C)` the inclusion `Subobject.ofLE`
+and `B/A` its cokernel) together with `clength_additive` gives `clength (A : C) ≤ clength (B : C)`,
+strictly so when `A < B` (then `B/A` is nonzero, so has positive length). This is the order-theoretic
+input that turns `clength` into a well-founded induction measure on `Subobject X`. -/
+
+/-- The composition-length identity attached to an inclusion `A ≤ B` of subobjects: the canonical
+short exact sequence `0 → (A : C) → (B : C) → cokernel (ofLE A B h) → 0` is exact, so
+`clength` is additive across it. -/
+theorem clength_ofLE_add_cokernel {X : C} {A B : Subobject X} (h : A ≤ B) :
+    clength (B : C) = clength (A : C) + clength (cokernel (Subobject.ofLE A B h)) := by
+  have hSE : (ShortComplex.cokernelSequence (Subobject.ofLE A B h)).ShortExact :=
+    ShortComplex.ShortExact.mk' (ShortComplex.cokernelSequence_exact _)
+      (inferInstanceAs (Mono (Subobject.ofLE A B h))) inferInstance
+  have hadd := clength_additive hSE
+  simpa using hadd
+
+/-- **Monotonicity of composition length.** A subobject contained in another has length at most
+that of the larger one. -/
+theorem clength_mono {X : C} {A B : Subobject X} (h : A ≤ B) :
+    clength (A : C) ≤ clength (B : C) := by
+  rw [clength_ofLE_add_cokernel h]; exact Nat.le_add_right _ _
+
+/-- **Strict monotonicity of composition length.** A proper subobject has strictly smaller length:
+the quotient `B/A` is then nonzero, contributing positive length via `clength_pos_of_not_isZero`. -/
+theorem clength_strictMono {X : C} {A B : Subobject X} (h : A < B) :
+    clength (A : C) < clength (B : C) := by
+  rw [clength_ofLE_add_cokernel h.le]
+  have hpos : 0 < clength (cokernel (Subobject.ofLE A B h.le)) := by
+    apply clength_pos_of_not_isZero
+    intro hZ
+    -- A zero cokernel makes `ofLE A B h.le` epi, hence (it is also mono) an iso, forcing `B ≤ A`.
+    have hπ : cokernel.π (Subobject.ofLE A B h.le) = 0 := hZ.eq_zero_of_tgt _
+    haveI : Epi (Subobject.ofLE A B h.le) := Abelian.epi_of_cokernel_π_eq_zero _ hπ
+    haveI : IsIso (Subobject.ofLE A B h.le) := isIso_of_mono_of_epi _
+    have hBA : B ≤ A :=
+      Subobject.le_of_comm (inv (Subobject.ofLE A B h.le)) (by
+        rw [← Subobject.ofLE_arrow h.le, IsIso.inv_hom_id_assoc])
+    exact absurd (le_antisymm h.le hBA) (ne_of_lt h)
+  omega
+
+/-! ## Chain conditions on the subobject lattice
+
+Strict monotonicity of `clength` makes the strict order on `Subobject X` a subrelation of the
+pullback of `<` on `ℕ`, hence well-founded: descending chains of subobjects stabilise. Ascending
+chains stabilise too, because `clength` is additionally *bounded* (by the length of the underlying
+object of `⊤`), so the non-decreasing `ℕ`-sequence `clength ∘ a` is eventually constant and strict
+monotonicity then pins the chain itself. Both directions are what Fitting's lemma consumes:
+the descending image chain `im (f^n)` and the ascending kernel chain `ker (f^n)`. -/
+
+/-- The subobject lattice of any object satisfies the descending chain condition: `<` is
+well-founded. This is the categorical descending chain condition, with `clength` as the
+strictly-monotone `ℕ`-valued rank. -/
+instance wellFoundedLT_subobject {X : C} : WellFoundedLT (Subobject X) :=
+  ⟨Subrelation.wf (fun {_ _} h => clength_strictMono h) (InvImage.wf _ wellFounded_lt)⟩
+
+/-- **Descending chain condition.** An antitone chain of subobjects of `X` is eventually constant. -/
+theorem exists_eventually_constant_of_antitone {X : C} {a : ℕ → Subobject X}
+    (ha : Antitone a) : ∃ N, ∀ m ≥ N, a m = a N :=
+  (WellFoundedLT.antitone_chain_condition ha).imp fun _ h m hm => (h m hm).symm
+
+/-- A non-decreasing `ℕ`-sequence bounded above is eventually constant (the value stabilises at the
+index attaining its supremum). -/
+private theorem nat_eventually_constant_of_monotone_of_bddAbove {f : ℕ → ℕ}
+    (hf : Monotone f) {B : ℕ} (hB : ∀ n, f n ≤ B) : ∃ N, ∀ m ≥ N, f m = f N := by
+  have hne : (Set.range f).Nonempty := ⟨f 0, 0, rfl⟩
+  have hbdd : BddAbove (Set.range f) := ⟨B, by rintro _ ⟨n, rfl⟩; exact hB n⟩
+  obtain ⟨N, hN⟩ := Nat.sSup_mem hne hbdd
+  refine ⟨N, fun m hm => le_antisymm ?_ (hf hm)⟩
+  rw [hN]; exact le_csSup hbdd ⟨m, rfl⟩
+
+/-- **Ascending chain condition.** A monotone chain of subobjects of `X` is eventually constant.
+Unlike the descending case this uses that `clength` is bounded (every subobject lies below `⊤`),
+so the non-decreasing length sequence is eventually constant; strict monotonicity then upgrades
+constancy of the length to constancy of the chain. -/
+theorem exists_eventually_constant_of_monotone {X : C} {a : ℕ → Subobject X}
+    (ha : Monotone a) : ∃ N, ∀ m ≥ N, a m = a N := by
+  obtain ⟨N, hN⟩ := nat_eventually_constant_of_monotone_of_bddAbove
+    (f := fun n => clength (a n : C)) (fun _ _ h => clength_mono (ha h))
+    (B := clength ((⊤ : Subobject X) : C)) (fun _ => clength_mono le_top)
+  refine ⟨N, fun m hm => ?_⟩
+  rcases (ha hm).lt_or_eq with hlt | heq
+  · exact absurd (hN m hm) (by have := clength_strictMono hlt; omega)
+  · exact heq.symm
+
+/-! ## Image and kernel chains of an endomorphism
+
+The descending image chain `im (f^n)` and ascending kernel chain `ker (f^n)` of an endomorphism
+`f : End X` both stabilise, directly from the chain conditions above. These are the finite-length
+inputs that Fitting's lemma (`fitting_decomposition`, link 3/5) consumes. -/
+
+/-- The image chain `n ↦ im (f^n)` of an endomorphism is descending: `im (f^{n+1}) ≤ im (f^n)`,
+because `f^{n+1} = f ≫ f^n` factors through `f^n`. -/
+theorem imageSubobject_pow_antitone {X : C} (f : End X) :
+    Antitone (fun n => imageSubobject ((f : X ⟶ X) ^ n)) := by
+  apply antitone_nat_of_succ_le
+  intro n
+  have hcomp : (f : X ⟶ X) ^ (n + 1) = (f : X ⟶ X) ≫ ((f : X ⟶ X) ^ n) := by rw [pow_succ]; rfl
+  change imageSubobject ((f : X ⟶ X) ^ (n + 1)) ≤ imageSubobject ((f : X ⟶ X) ^ n)
+  rw [hcomp]
+  exact imageSubobject_comp_le _ _
+
+/-- The kernel chain `n ↦ ker (f^n)` of an endomorphism is ascending: `ker (f^n) ≤ ker (f^{n+1})`,
+because `f^{n+1} = f^n ≫ f`. -/
+theorem kernelSubobject_pow_monotone {X : C} (f : End X) :
+    Monotone (fun n => kernelSubobject ((f : X ⟶ X) ^ n)) := by
+  apply monotone_nat_of_le_succ
+  intro n
+  have hcomp : (f : X ⟶ X) ^ (n + 1) = ((f : X ⟶ X) ^ n) ≫ (f : X ⟶ X) := by rw [pow_succ']; rfl
+  change kernelSubobject ((f : X ⟶ X) ^ n) ≤ kernelSubobject ((f : X ⟶ X) ^ (n + 1))
+  rw [hcomp]
+  exact kernelSubobject_comp_le _ _
+
+/-- The descending image chain of an endomorphism stabilises. -/
+theorem exists_imageSubobject_pow_stabilizes {X : C} (f : End X) :
+    ∃ N, ∀ m ≥ N, imageSubobject ((f : X ⟶ X) ^ m) = imageSubobject ((f : X ⟶ X) ^ N) :=
+  exists_eventually_constant_of_antitone (imageSubobject_pow_antitone f)
+
+/-- The ascending kernel chain of an endomorphism stabilises. -/
+theorem exists_kernelSubobject_pow_stabilizes {X : C} (f : End X) :
+    ∃ N, ∀ m ≥ N, kernelSubobject ((f : X ⟶ X) ^ m) = kernelSubobject ((f : X ⟶ X) ^ N) :=
+  exists_eventually_constant_of_monotone (kernelSubobject_pow_monotone f)
+
+/-- Both the image and kernel chains of an endomorphism stabilise simultaneously: there is a single
+positive `n` past which both have stabilised, witnessed by the equalities at `n` and `2 * n`.
+This is the precise finite-length input of Fitting's lemma. -/
+theorem exists_image_kernel_pow_stabilizes {X : C} (f : End X) :
+    ∃ n, 0 < n ∧
+      imageSubobject ((f : X ⟶ X) ^ n) = imageSubobject ((f : X ⟶ X) ^ (2 * n)) ∧
+      kernelSubobject ((f : X ⟶ X) ^ n) = kernelSubobject ((f : X ⟶ X) ^ (2 * n)) := by
+  obtain ⟨N₁, hN₁⟩ := exists_imageSubobject_pow_stabilizes f
+  obtain ⟨N₂, hN₂⟩ := exists_kernelSubobject_pow_stabilizes f
+  refine ⟨max N₁ N₂ + 1, Nat.succ_pos _, ?_, ?_⟩
+  · rw [hN₁ (2 * (max N₁ N₂ + 1)) (by omega), hN₁ (max N₁ N₂ + 1) (by omega)]
+  · rw [hN₂ (2 * (max N₁ N₂ + 1)) (by omega), hN₂ (max N₁ N₂ + 1) (by omega)]
+
+/-! ## Fitting stabilisation of the image restriction
+
+The combined image/kernel stabilisation upgrades to the statement Fitting's lemma actually consumes:
+at the stabilising power `n`, the image restriction
+`g' := image.ι (fⁿ) ≫ factorThruImage (fⁿ) : image (fⁿ) ⟶ image (fⁿ)` is an isomorphism. We argue
+on pseudoelements: `g'` is injective because `im (fⁿ) = im (f^{2n})` and `ker (fⁿ) = ker (f^{2n})`
+force any element killed by `g'` to vanish, and surjective because `im (fⁿ) = im (f^{2n})` lets every
+element of `im (fⁿ)` be hit. -/
+
+attribute [local instance] CategoryTheory.Abelian.Pseudoelement.objectToSort
+  CategoryTheory.Abelian.Pseudoelement.homToFun CategoryTheory.Abelian.Pseudoelement.overToSort
+
+/-- The kernel-subobject inclusion `ker g ↪ X → Y` is an exact short complex. -/
+private theorem exact_kernelSubobject_arrow {Y Z : C} (g : Y ⟶ Z) :
+    (ShortComplex.mk (kernelSubobject g).arrow g (kernelSubobject_arrow_comp g)).Exact := by
+  rw [ShortComplex.exact_iff_image_eq_kernel]
+  change imageSubobject (kernelSubobject g).arrow = kernelSubobject g
+  rw [imageSubobject_mono, Subobject.mk_arrow]
+
+/-- **Image restriction is an isomorphism at the stabilising power** — the precise finite-length
+input Fitting's lemma (`fitting_decomposition`, link 3/5) consumes. For an endomorphism `f` there is
+a positive `n` at which `image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an isomorphism. -/
+theorem exists_pow_stabilizes {X : C} (f : End X) :
+    ∃ n, 0 < n ∧ IsIso (Abelian.image.ι ((f : X ⟶ X) ^ n) ≫
+      Abelian.factorThruImage ((f : X ⟶ X) ^ n)) := by
+  obtain ⟨n, hn, him, hker⟩ := exists_image_kernel_pow_stabilizes f
+  refine ⟨n, hn, ?_⟩
+  set g : X ⟶ X := (f : X ⟶ X) ^ n with hg
+  set g2 : X ⟶ X := (f : X ⟶ X) ^ (2 * n) with hg2
+  set i := Abelian.image.ι g with hi
+  set p := Abelian.factorThruImage g with hp
+  have hpi : p ≫ i = g := Abelian.image.fac g
+  -- `i ∘ p` is the identity-up-to-`g`: `i (p y) = g y`.
+  have hint : ∀ y : X, i (p y) = g y := fun y => by
+    rw [← Abelian.Pseudoelement.comp_apply, hpi]
+  -- `g ≫ g = g2`, i.e. `f^n ≫ f^n = f^{2n}`.
+  have hsq : g ≫ g = g2 := by rw [hg, hg2, two_mul, pow_add, End.mul_def]
+  -- KER stabilisation on pseudoelements: `g2 w = 0 → g w = 0`.
+  have hKER : ∀ w : X, g2 w = 0 → g w = 0 := by
+    intro w hw
+    obtain ⟨a, ha⟩ := Abelian.Pseudoelement.pseudo_exact_of_exact
+      (exact_kernelSubobject_arrow g2) w hw
+    have hle : kernelSubobject g2 ≤ kernelSubobject g := hker.ge
+    have harrow : (kernelSubobject g2).arrow ≫ g = 0 := by
+      rw [← Subobject.ofLE_arrow hle, Category.assoc, kernelSubobject_arrow_comp, comp_zero]
+    rw [← ha, ← Abelian.Pseudoelement.comp_apply, harrow, Abelian.Pseudoelement.zero_apply]
+  -- IMAGE stabilisation on pseudoelements: `im g ⊆ im g2`.
+  have hIM : ∀ x u : X, g u = x → ∃ z, g2 z = x := by
+    intro x u hxu
+    have hle : imageSubobject g ≤ imageSubobject g2 := him.le
+    have hx2 : x = (imageSubobject g2).arrow
+        (Subobject.ofLE _ _ hle (factorThruImageSubobject g u)) := by
+      rw [← Abelian.Pseudoelement.comp_apply, Subobject.ofLE_arrow,
+        ← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]
+      exact hxu.symm
+    obtain ⟨z, hz⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi
+      (factorThruImageSubobject g2)
+      (Subobject.ofLE _ _ hle (factorThruImageSubobject g u))
+    exact ⟨z, by rw [hx2, ← hz, ← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]⟩
+  -- `i ≫ p` is mono and epi, hence iso.
+  haveI hmono : Mono (i ≫ p) := by
+    apply Abelian.Pseudoelement.mono_of_zero_of_map_zero
+    intro a ha
+    obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a
+    have hia : i a = g w := by rw [← hw, hint]
+    have hpia : p (i a) = 0 := by rw [← Abelian.Pseudoelement.comp_apply]; exact ha
+    have hFn_ia : g (i a) = 0 := by
+      rw [← hint (i a), hpia, Abelian.Pseudoelement.apply_zero]
+    have hw2n : g2 w = 0 := by
+      rw [← hsq, Abelian.Pseudoelement.comp_apply, ← hia, hFn_ia]
+    have hia0 : i a = 0 := by rw [hia, hKER w hw2n]
+    exact Abelian.Pseudoelement.zero_of_map_zero i
+      (Abelian.Pseudoelement.pseudo_injective_of_mono i) a hia0
+  haveI hepi : Epi (i ≫ p) := by
+    apply Abelian.Pseudoelement.epi_of_pseudo_surjective
+    intro a
+    obtain ⟨w, hw⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi p a
+    have hia : i a = g w := by rw [← hw, hint]
+    obtain ⟨z, hz⟩ := hIM (i a) w hia.symm
+    refine ⟨p z, ?_⟩
+    apply Abelian.Pseudoelement.pseudo_injective_of_mono i
+    rw [Abelian.Pseudoelement.comp_apply, hint, hint, ← Abelian.Pseudoelement.comp_apply, hsq, hz]
+  exact isIso_of_mono_of_epi (i ≫ p)
 
 end Etingof
