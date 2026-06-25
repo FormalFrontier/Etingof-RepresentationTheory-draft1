@@ -427,6 +427,22 @@ equality with a `Nat.div_add_mod`/`pow_add`/`pow_mul` helper plus
 `B(v,w)=v₀w₁−v₁w₀` automatically: `B(Nv,Nw) = det N · B(v,w)` (a `Fin 2`
 `ring` identity), so invariance reduces to `det (ρ g) = 1`.
 
+#### Simplicity of a *one-dimensional* `FDRep ℂ G` — use the character-norm criterion (Ch5 §5.11, #5170)
+
+For a 1-dim rep (e.g. `charRep χ` from a character `χ : G →* ℂˣ`, `g ↦ (χ g : ℂ) • LinearMap.id`),
+do **not** reach for the module-equivalence bridge (`is_simple_module_of_finrank_eq_one`
++ `Rep.equivalenceModuleMonoidAlgebra`) that `Theorem5_25_2` uses: for a *generic* `[Group G]`
+it fails `IsScalarTower ℂ (MonoidAlgebra ℂ G) ρ.asModule` synthesis (the instance exists but
+does not resolve through the abstract group), and `simple_of_full_faithful_preservesMono'` is a
+**private** helper in `Theorem5_25_2`, not Mathlib — you'd have to inline it. Instead use
+`FDRep.simple_iff_char_is_norm_one [CharZero k] [Fintype G] : Simple V ↔ ∑ g, V.character g *
+V.character g⁻¹ = Nat.card G`. For 1-dim the character is just `χ` (prove
+`(FDRep.of (charRep χ)).character g = (χ g : ℂ)` by `change … LinearMap.trace …; rw [FDRep.of_ρ',
+map_smul, LinearMap.trace_id]`), so each summand is `χ(g)·χ(g⁻¹) = χ(g·g⁻¹) = 1` and the sum is
+`|G|` by `Finset.sum_const`. Lint: put `[Finite G]` (not `[Fintype G]`) in the *type* and recover
+`haveI : Fintype G := Fintype.ofFinite G` in the proof, else `linter.unusedFintypeInType` fires.
+Full example: `Chapter5/Discussion5_11_examples.lean` (`charRep_simple`, `charRep_character`).
+
 #### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
 
 To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
