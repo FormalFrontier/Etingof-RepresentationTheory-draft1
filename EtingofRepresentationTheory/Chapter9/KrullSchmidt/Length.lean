@@ -207,4 +207,55 @@ theorem exists_eventually_constant_of_monotone {X : C} {a : ℕ → Subobject X}
   · exact absurd (hN m hm) (by have := clength_strictMono hlt; omega)
   · exact heq.symm
 
+/-! ## Image and kernel chains of an endomorphism
+
+The descending image chain `im (f^n)` and ascending kernel chain `ker (f^n)` of an endomorphism
+`f : End X` both stabilise, directly from the chain conditions above. These are the finite-length
+inputs that Fitting's lemma (`fitting_decomposition`, link 3/5) consumes. -/
+
+/-- The image chain `n ↦ im (f^n)` of an endomorphism is descending: `im (f^{n+1}) ≤ im (f^n)`,
+because `f^{n+1} = f ≫ f^n` factors through `f^n`. -/
+theorem imageSubobject_pow_antitone {X : C} (f : End X) :
+    Antitone (fun n => imageSubobject ((f : X ⟶ X) ^ n)) := by
+  apply antitone_nat_of_succ_le
+  intro n
+  have hcomp : (f : X ⟶ X) ^ (n + 1) = (f : X ⟶ X) ≫ ((f : X ⟶ X) ^ n) := by rw [pow_succ]; rfl
+  change imageSubobject ((f : X ⟶ X) ^ (n + 1)) ≤ imageSubobject ((f : X ⟶ X) ^ n)
+  rw [hcomp]
+  exact imageSubobject_comp_le _ _
+
+/-- The kernel chain `n ↦ ker (f^n)` of an endomorphism is ascending: `ker (f^n) ≤ ker (f^{n+1})`,
+because `f^{n+1} = f^n ≫ f`. -/
+theorem kernelSubobject_pow_monotone {X : C} (f : End X) :
+    Monotone (fun n => kernelSubobject ((f : X ⟶ X) ^ n)) := by
+  apply monotone_nat_of_le_succ
+  intro n
+  have hcomp : (f : X ⟶ X) ^ (n + 1) = ((f : X ⟶ X) ^ n) ≫ (f : X ⟶ X) := by rw [pow_succ']; rfl
+  change kernelSubobject ((f : X ⟶ X) ^ n) ≤ kernelSubobject ((f : X ⟶ X) ^ (n + 1))
+  rw [hcomp]
+  exact kernelSubobject_comp_le _ _
+
+/-- The descending image chain of an endomorphism stabilises. -/
+theorem exists_imageSubobject_pow_stabilizes {X : C} (f : End X) :
+    ∃ N, ∀ m ≥ N, imageSubobject ((f : X ⟶ X) ^ m) = imageSubobject ((f : X ⟶ X) ^ N) :=
+  exists_eventually_constant_of_antitone (imageSubobject_pow_antitone f)
+
+/-- The ascending kernel chain of an endomorphism stabilises. -/
+theorem exists_kernelSubobject_pow_stabilizes {X : C} (f : End X) :
+    ∃ N, ∀ m ≥ N, kernelSubobject ((f : X ⟶ X) ^ m) = kernelSubobject ((f : X ⟶ X) ^ N) :=
+  exists_eventually_constant_of_monotone (kernelSubobject_pow_monotone f)
+
+/-- Both the image and kernel chains of an endomorphism stabilise simultaneously: there is a single
+positive `n` past which both have stabilised, witnessed by the equalities at `n` and `2 * n`.
+This is the precise finite-length input of Fitting's lemma. -/
+theorem exists_image_kernel_pow_stabilizes {X : C} (f : End X) :
+    ∃ n, 0 < n ∧
+      imageSubobject ((f : X ⟶ X) ^ n) = imageSubobject ((f : X ⟶ X) ^ (2 * n)) ∧
+      kernelSubobject ((f : X ⟶ X) ^ n) = kernelSubobject ((f : X ⟶ X) ^ (2 * n)) := by
+  obtain ⟨N₁, hN₁⟩ := exists_imageSubobject_pow_stabilizes f
+  obtain ⟨N₂, hN₂⟩ := exists_kernelSubobject_pow_stabilizes f
+  refine ⟨max N₁ N₂ + 1, Nat.succ_pos _, ?_, ?_⟩
+  · rw [hN₁ (2 * (max N₁ N₂ + 1)) (by omega), hN₁ (max N₁ N₂ + 1) (by omega)]
+  · rw [hN₂ (2 * (max N₁ N₂ + 1)) (by omega), hN₂ (max N₁ N₂ + 1) (by omega)]
+
 end Etingof
