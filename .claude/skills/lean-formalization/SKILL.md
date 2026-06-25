@@ -1514,6 +1514,22 @@ progenerator classification `multBiproduct P n = ⨁_{p : Σ i, Fin (n i)} P p.1
   not `CategoryTheory.Limits`): `¬IsZero X ∧ ∀ Y Z, (X ≅ Y ⊞ Z) → IsZero Y ∨ IsZero Z`,
   needs `[HasBinaryBiproducts C]`.
 
+Two reusable helpers landed for the Krull–Schmidt *existence* link
+(`KrullSchmidt/Existence.lean`, #5206 — uniqueness/§9.7-assembly links will want both):
+- **`clength` is an iso-invariant** (`clength_eq_of_iso (e : X ≅ Y)`): `Subobject.mapIsoToOrderIso
+  e : Subobject X ≃o Subobject Y`, then `Order.height_orderIso` + `OrderIso.map_top` give equal
+  heights. Needed so a well-founded induction measure descends across a splitting iso `X ≅ Y ⊞ Z`.
+- **No Mathlib lemma for a biproduct over a `Sum`** (`⨁ (Sum.elim f₁ f₂) ≅ (⨁ f₁) ⊞ (⨁ f₂)`).
+  Build it explicitly: `hom := biprod.desc (biproduct.desc fun a => ι _ (.inl a)) (biproduct.desc
+  fun b => ι _ (.inr b))`, `inv := biproduct.desc fun k => match k with | .inl a => ι f₁ a ≫
+  biprod.inl | .inr b => ι f₂ b ≫ biprod.inr`; both `*_id` close by `biprod.hom_ext'`/
+  `biproduct.hom_ext'` + `rintro (a|b) <;> simp`. This is the step that concatenates two finite
+  indecomposable families over `κ₁ ⊕ κ₂`.
+- **`∃ (_ : Fintype κ) (f : κ → C), … ⨁ f` elaborates** because a `Sum`/`Exists`-bound hypothesis
+  of class type *is* a local instance, so `⨁ f` resolves inside the binder. But after `refine ⟨κ,
+  fin, f, …⟩` the supplied `fin` is **not** auto-registered for the remaining goals — add `haveI :=
+  fin` before referencing `⨁ f`/`biproduct.ι f` again, or `HasBiproduct f` fails.
+
 Useful idioms from the same file: realise `⨁ P` as a *retract* of `multBiproduct P n`
 (when each `n_i ≥ 1`) via a diagonal index inclusion `e i = ⟨i, 0⟩`, `s := biproduct.desc
 (fun i => biproduct.ι _ (e i))`, `r := biproduct.lift (fun i => biproduct.π _ (e i))`;
