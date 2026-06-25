@@ -427,6 +427,37 @@ equality with a `Nat.div_add_mod`/`pow_add`/`pow_mul` helper plus
 `B(v,w)=v₀w₁−v₁w₀` automatically: `B(Nv,Nw) = det N · B(v,w)` (a `Fin 2`
 `ring` identity), so invariance reduces to `det (ρ g) = 1`.
 
+#### "All irreps of `Sₙ` are of real/X type" — use the Specht classification, NOT per-irrep construction (Ch5 Example5.1.3 S₄, #5203)
+
+For an **arbitrary** simple `ρ : Representation ℂ (Equiv.Perm (Fin n)) V`, do not
+build the 5 (or however many) explicit irreps and prove "every simple is one of
+them" — that needs "#irreps = #conjugacy classes", which is **not in Mathlib**.
+The repo already has the full classification: **`Etingof.Theorem5_12_2_classification n M`**
+(in `Chapter5/Theorem5_12_2_Classification.lean`) gives, for any simple
+`SymGroupAlgebra n`-module `M`, a `λ` with `M ≃ₗ[ℂ[Sₙ]] SpechtModule n λ`. The
+classification is **axiom-clean** despite sorries in `PolytabloidBasis.lean` (those
+lemmas are not on its dependency path — verify with `#print axioms`).
+
+Two reusable tricks from #5203 (both landed in `Chapter5/Example5_1_3.lean`):
+
+- **Universe gap.** `Theorem5_12_2_classification` is stated for `M : Type` (univ 0)
+  but the rep goal has `V : Type*`. Don't transfer the representation. Instead embed
+  `ρ.asModule` as a left **ideal** `I ⊆ ℂ[Sₙ]` via
+  `IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule` (the `IsSemisimpleRing`
+  instance resolves automatically) — `I : Ideal ℂ[Sₙ]` lives in `Type 0` regardless
+  of `V`'s universe. Then classify `I`, compose the equivs, done.
+- **Real type via the group-algebra coordinate form.** `coordForm x y = ∑_g (x g)(y g)`
+  on `ℂ[G]` is symmetric and invariant under left multiplication
+  (`coordForm_of_mul`), and `coordForm c c = ∑_g (c g)² ≠ 0` when `c` has **real**
+  coefficients and is nonzero. `isRealType_of_coordForm_transport` packages this: a
+  simple `ρ` with a `ℂ`-linear intertwiner `ψ : V → ℂ[G]` (matching `ρ g` with left
+  mult) whose image holds a real nonzero `c = ψ v₀` is of real type — no explicit
+  rational/polytabloid basis needed. For Sₙ, `c = c_λ` the Young symmetrizer, which
+  has **integer** coefficients: `Etingof.YoungSymmetrizer_eq_mapRange` (base change
+  `ℤ → ℂ`) + `MonoidAlgebra.mapRingHom_apply` ⇒ `(c_λ x).im = 0`; nonzero from
+  `young_symmetrizer_sq_ne_zero`. This engine is group-generic — reusable for any
+  group once a real-coefficient cyclic generator of a simple left ideal is in hand.
+
 #### FDRep of a homogeneous polynomial component (Ch5 Cauchy/Schur-Weyl, #4934)
 
 To state a `formalCharacter` identity on a degree-`d` piece of `A = k[Xᵢⱼ]` you
