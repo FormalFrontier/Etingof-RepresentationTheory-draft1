@@ -77,11 +77,35 @@ instance : Neg Q5 := ⟨fun x => ⟨-x.re, -x.im⟩⟩
 instance : Mul Q5 := ⟨fun x y => ⟨x.re * y.re + 5 * x.im * y.im, x.re * y.im + x.im * y.re⟩⟩
 instance (n : ℕ) : OfNat Q5 n := ⟨⟨(OfNat.ofNat n : ℚ), 0⟩⟩
 
+theorem mk_re (a b : ℚ) : (Q5.mk a b).re = a := rfl
+theorem mk_im (a b : ℚ) : (Q5.mk a b).im = b := rfl
+theorem zero_re : (0 : Q5).re = 0 := rfl
+theorem zero_im : (0 : Q5).im = 0 := rfl
+theorem one_re : (1 : Q5).re = 1 := rfl
+theorem one_im : (1 : Q5).im = 0 := rfl
+theorem add_re (x y : Q5) : (x + y).re = x.re + y.re := rfl
+theorem add_im (x y : Q5) : (x + y).im = x.im + y.im := rfl
+theorem neg_re (x : Q5) : (-x).re = -x.re := rfl
+theorem neg_im (x : Q5) : (-x).im = -x.im := rfl
+theorem mul_re (x y : Q5) : (x * y).re = x.re * y.re + 5 * x.im * y.im := rfl
+theorem mul_im (x y : Q5) : (x * y).im = x.re * y.im + x.im * y.re := rfl
+theorem ofNat_re (n : ℕ) : (no_index (OfNat.ofNat n) : Q5).re = (OfNat.ofNat n : ℚ) :=
+  rfl
+theorem ofNat_im (n : ℕ) : (no_index (OfNat.ofNat n) : Q5).im = 0 := rfl
+
 /-- The embedding `ℚ → ℚ[√5]`. -/
 def ofRat (r : ℚ) : Q5 := ⟨r, 0⟩
 
+theorem ofRat_re (r : ℚ) : (ofRat r).re = r := rfl
+theorem ofRat_im (r : ℚ) : (ofRat r).im = 0 := rfl
+
 /-- A finite sum of `Q5` values, indexed by `Fin n`. -/
 def sumFin {n : ℕ} (f : Fin n → Q5) : Q5 := (List.ofFn f).foldr (· + ·) 0
+
+/-- Expand a 5-term `sumFin` into an explicit nested sum (the foldr over `List.ofFn`). -/
+theorem sumFin_five (f : Fin 5 → Q5) :
+    sumFin f = f 0 + (f 1 + (f 2 + (f 3 + (f 4 + 0)))) := by
+  simp only [sumFin, List.ofFn_succ, List.ofFn_zero, List.foldr_cons, List.foldr_nil]; rfl
 
 /-- The class-size-weighted inner product of two class functions,
 `⟪f, g⟫ = (1/|G|) Σ_c |class c| · f(c) · g(c)`.  All character values here are real, so no
@@ -1017,16 +1041,26 @@ def chiA5 : Fin 5 → Fin 5 → Q5 :=
     ![4,  1,  0, -1,          -1          ],
     ![5, -1,  1,  0,           0          ]]
 
-set_option linter.style.nativeDecide false in
-set_option maxHeartbeats 1000000 in
--- `native_decide` evaluates the full orthonormality computation symbolically over `Q5 = ℚ[√5]`, with the golden-ratio `√5` terms cancelling; the raised limit covers the `5 × 5` table of inner products.
 /-- The tabulated `A₅` characters are orthonormal, with the golden-ratio entries
 contributing genuine `√5` terms that cancel.  Combined with the fact that `A₅` has exactly 5
 conjugacy classes (`A5_conj_classes`), this certifies the five rows are the distinct
-irreducible characters of `A₅`. (Etingof Example 4.8.1) -/
+irreducible characters of `A₅`. (Etingof Example 4.8.1)
+
+Proved honestly (no `native_decide`): each of the 25 inner products is split into its rational
+`re`/`im` components (`Q5.ext`), the 5-term `sumFin` is unfolded (`Q5.sumFin_five`), and the
+resulting rational arithmetic -- in which the golden-ratio `√5` terms cancel -- is discharged
+by `norm_num`.  Kernel `decide` cannot evaluate this directly: the `ℚ`-normalisation of the
+`1/60` factor stalls the kernel. -/
 theorem A5_orthonormal (i j : Fin 5) :
     ip 60 sizesA5 (chiA5 i) (chiA5 j) = if i = j then 1 else 0 := by
-  fin_cases i <;> fin_cases j <;> native_decide
+  fin_cases i <;> fin_cases j <;>
+    (first | rw [if_pos rfl] | rw [if_neg (by decide)]) <;>
+    apply Q5.ext <;>
+    norm_num [ip, Q5.sumFin_five, sizesA5, chiA5, Q5.mk_re, Q5.mk_im, Q5.add_re, Q5.add_im,
+      Q5.mul_re, Q5.mul_im, Q5.neg_re, Q5.neg_im, Q5.zero_re, Q5.zero_im, Q5.one_re, Q5.one_im,
+      Q5.ofNat_re, Q5.ofNat_im, Q5.ofRat_re, Q5.ofRat_im, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four,
+      Matrix.head_cons, Matrix.tail_cons]
 
 /-! ### Genuine `A₅` representations: trivial `ℂ`, the 4-dim `ℂ⁴`, and the 5-dim `ℂ⁵`
 
