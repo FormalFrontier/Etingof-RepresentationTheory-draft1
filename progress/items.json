@@ -882,11 +882,10 @@
   "start_line": 22,
   "end_line": 35,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Book lists FIVE examples: (1) abelian Lie algebra (bracket = 0), (2) associative algebra with [a,b]=ab-ba, in particular gl(V)=End(V), (3) any subspace U closed under bracket, (4) the space Der(A) ...",
-  "fidelity_decl": "two example declarations (LieRing A from associative; LieAlgebra k (Module.End k V))",
-  "fidelity_issue": 5363
+  "fidelity_note": "All four book examples now formalized: (1) abelian Lie algebra built as type synonym `Abelian k V` with zero bracket, proven `IsLieAbelian`; (2) associative algebra `[a,b]=ab-ba` with End(V)=gl(V); (3) `LieSubalgebra k A` of an associative algebra; (4) `Derivation k A A` is a `LieAlgebra`, with the book's Leibniz rule and the commutator bracket recorded.",
+  "fidelity_decl": "Abelian k V (abelian); LieRing A / LieAlgebra k (End k V) (associative); LieSubalgebra k A; LieAlgebra k (Derivation k A A) (derivations)"
  },
  {
   "id": "Chapter2/Example2.9.2_continued",
