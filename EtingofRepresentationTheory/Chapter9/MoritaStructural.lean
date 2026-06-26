@@ -820,7 +820,7 @@ private theorem semisimple_iso_of_finrank_hom_eq
 private noncomputable def head_isomorphism [IsAlgClosed k]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
     (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
-    (_hB₁ : IsBasicAlgebra k B₁) (_hB₂ : IsBasicAlgebra k B₂)
+    (_hB₁ : IsBasicAlgebraSplit k B₁) (_hB₂ : IsBasicAlgebraSplit k B₂)
     (F : ModuleCat.{u} B₁ ≌ ModuleCat.{u} B₂) [F.functor.Linear k] :
     let Pt := (F.functor.obj (ModuleCat.of B₁ B₁) : Type u)
     let J₂ := Ring.jacobson B₂
@@ -938,7 +938,7 @@ private noncomputable def head_isomorphism [IsAlgClosed k]
 private noncomputable def exists_surjection_with_trivial_kernel_head [IsAlgClosed k]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
     (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
-    (_hB₁ : IsBasicAlgebra k B₁) (_hB₂ : IsBasicAlgebra k B₂)
+    (_hB₁ : IsBasicAlgebraSplit k B₁) (_hB₂ : IsBasicAlgebraSplit k B₂)
     (F : ModuleCat.{u} B₁ ≌ ModuleCat.{u} B₂) [F.functor.Linear k] :
     Σ' (f : (F.functor.obj (ModuleCat.of B₁ B₁)) →ₗ[B₂] B₂),
       Function.Surjective f ∧
@@ -1035,7 +1035,7 @@ projective module with head `≅ k^n` (one copy of each simple). -/
 private noncomputable def basic_morita_regular_module_iso [IsAlgClosed k]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
     (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
-    (_hB₁ : IsBasicAlgebra k B₁) (_hB₂ : IsBasicAlgebra k B₂)
+    (_hB₁ : IsBasicAlgebraSplit k B₁) (_hB₂ : IsBasicAlgebraSplit k B₂)
     (F : ModuleCat.{u} B₁ ≌ ModuleCat.{u} B₂) [F.functor.Linear k] :
     F.functor.obj (ModuleCat.of B₁ B₁) ≅ ModuleCat.of B₂ B₂ := by
   -- B₂ is Artinian (finite-dim over field)
@@ -1173,8 +1173,8 @@ private noncomputable def equivEndAlgEquiv [IsAlgClosed k]
 private lemma basic_morita_algEquiv [IsAlgClosed k]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
     (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
-    (_hB₁ : Etingof.IsBasicAlgebra.{u, u, u} k B₁)
-    (_hB₂ : Etingof.IsBasicAlgebra.{u, u, u} k B₂)
+    (_hB₁ : Etingof.IsBasicAlgebraSplit.{u, u, u} k B₁)
+    (_hB₂ : Etingof.IsBasicAlgebraSplit.{u, u, u} k B₂)
     (h : KLinearMoritaEquivalent k B₁ B₂) :
     Nonempty (B₁ ≃ₐ[k] B₂) := by
   obtain ⟨F, hlin⟩ := h
@@ -1201,7 +1201,7 @@ over an algebraically closed field and `B` is a basic finite-dimensional
 `k`-algebra that is Morita equivalent to `A`, then there exists an idempotent
 `e : A` such that `B` is isomorphic (as a `k`-algebra) to the corner ring `eAe`.
 
-The `IsBasicAlgebra k B` hypothesis is essential: without it the statement is
+The `IsBasicAlgebraSplit k B` hypothesis is essential: without it the statement is
 false. For example, `k` and `Mₙ(k)` are Morita equivalent, but `Mₙ(k)` cannot
 be realized as `eke` for any `e ∈ k`. The basic algebra is always the smallest
 representative in a Morita equivalence class, so it embeds as a corner ring of
@@ -1227,14 +1227,14 @@ equivalence proved in Theorem 9.6.4.
 theorem MoritaStructural [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A]
     (B : Type u) [Ring B] [Algebra k B] [Module.Finite k B]
-    (_hB : Etingof.IsBasicAlgebra.{u, u, u} k B)
+    (_hB : Etingof.IsBasicAlgebraSplit.{u, u, u} k B)
     (h : KLinearMoritaEquivalent k A B) :
     ∃ (e : A) (he : IsIdempotentElem e),
       Nonempty (@AlgEquiv k B (CornerRing (k := k) e) _ _
         (CornerRing.instRing he).toSemiring
         _ (@CornerRing.instAlgebra k _ A _ _ e he)) := by
   -- Step 1: Get a full idempotent e whose corner ring eAe is basic
-  obtain ⟨e, he_full, hbasic_corner⟩ := exists_full_idempotent_basic_corner k A
+  obtain ⟨e, he_full, hbasic_corner, _⟩ := exists_full_idempotent_basic_corner k A
   refine ⟨e, he_full.1, ?_⟩
   -- Step 2: Corner ring eAe is k-linearly Morita equivalent to A
   have hKLinCorner := klinear_morita_equiv_of_full_idempotent (k := k) he_full
@@ -1245,7 +1245,7 @@ theorem MoritaStructural [IsAlgClosed k]
   have hKLinBC : KLinearMoritaEquivalent k B (CornerRing (k := k) e) :=
     h.symm'.trans' hKLinCorner
   -- Step 4: Two basic k-linearly Morita equivalent algebras are isomorphic
-  have hbasic_corner' : IsBasicAlgebra.{_, _, u} k (CornerRing (k := k) e) :=
+  have hbasic_corner' : IsBasicAlgebraSplit.{_, _, u} k (CornerRing (k := k) e) :=
     fun M _ _ _ _ _ => hbasic_corner M
   exact basic_morita_algEquiv B (CornerRing (k := k) e) _hB hbasic_corner' hKLinBC
 

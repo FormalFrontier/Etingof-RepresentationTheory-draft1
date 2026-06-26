@@ -24,7 +24,7 @@ basic algebra B_A, and dim B_A ≤ dim A.
 Part (i) combines Theorem 9.6.4 (Morita equivalence via progenerator) with the
 theory of basic algebras from §9.7.
 
-Part (ii) uses the `Etingof.MoritaEquivalent` and `Etingof.IsBasicAlgebra`
+Part (ii) uses the `Etingof.MoritaEquivalent` and `Etingof.IsBasicAlgebraSplit`
 definitions from this project.
 
 ## Proof status
@@ -66,10 +66,10 @@ lemma Etingof.MoritaEquivalent.trans {A : Type u} [Ring A] {B : Type u} [Ring B]
   obtain ⟨e₂⟩ := h₂
   exact ⟨e₁.trans e₂⟩
 
-/-! ## Helper lemmas for IsBasicAlgebra -/
+/-! ## Helper lemmas for IsBasicAlgebraSplit -/
 
 /-- A field k is a basic algebra over itself: every simple k-module is 1-dimensional. -/
-lemma Etingof.isBasicAlgebra_field : Etingof.IsBasicAlgebra k k := by
+lemma Etingof.isBasicAlgebra_field : Etingof.IsBasicAlgebraSplit k k := by
   intro M _ hModA hSimp hModK hST
   -- The two Module k M instances (from A = k and from the explicit k-module) must agree
   -- via the IsScalarTower k k M condition
@@ -136,9 +136,8 @@ private noncomputable def Etingof.cornerRingAlgEquivOfUnit
 closed field k is Morita equivalent to some basic algebra B. That is, there exists
 a basic k-algebra B such that the module categories of A and B are equivalent.
 
-Note: The algebraic closure hypothesis is necessary — over non-algebraically-closed
-fields, division algebras can have dimension > 1, so the "all simples 1-dimensional"
-definition of basic cannot always be achieved.
+Here *basic* is the book's Definition 9.7.2 (`B/Rad(B)` commutative). The algebraic
+closure hypothesis is used in the construction of `B` as a corner ring `eAe`.
 
 (Etingof Corollary 9.7.3(i), algebra version) -/
 theorem Etingof.Corollary_9_7_3_i
@@ -155,7 +154,7 @@ theorem Etingof.Corollary_9_7_3_i_unique [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A]
     (B₁ : Type u) [Ring B₁] [Algebra k B₁] [Module.Finite k B₁]
     (B₂ : Type u) [Ring B₂] [Algebra k B₂] [Module.Finite k B₂]
-    (_hB₁ : Etingof.IsBasicAlgebra.{u, u, u} k B₁) (_hB₂ : Etingof.IsBasicAlgebra.{u, u, u} k B₂)
+    (_hB₁ : Etingof.IsBasicAlgebraSplit.{u, u, u} k B₁) (_hB₂ : Etingof.IsBasicAlgebraSplit.{u, u, u} k B₂)
     (h₁ : Etingof.KLinearMoritaEquivalent k A B₁)
     (h₂ : Etingof.KLinearMoritaEquivalent k A B₂) :
     Nonempty (B₁ ≃ₐ[k] B₂) := by
@@ -201,7 +200,7 @@ algebra B_A satisfies dim_k B_A ≤ dim_k A.
 theorem Etingof.Corollary_9_7_3_ii [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A]
     (B : Type u) [Ring B] [Algebra k B] [Module.Finite k B]
-    (_hB : Etingof.IsBasicAlgebra.{u, u, u} k B)
+    (_hB : Etingof.IsBasicAlgebraSplit.{u, u, u} k B)
     (hMor : Etingof.KLinearMoritaEquivalent k A B) :
     Module.finrank k B ≤ Module.finrank k A := by
   -- By the Morita structural theorem, B ≅ eAe for some idempotent e : A.
