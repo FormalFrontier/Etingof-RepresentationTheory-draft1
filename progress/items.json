@@ -1626,9 +1626,11 @@
     "end_page": "49",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free",
-    "fidelity": "unchecked",
-    "sorry_free": true
+    "status": "needs_statement",
+    "fidelity": "gap",
+    "sorry_free": true,
+    "fidelity_issue": 5322,
+    "fidelity_note": "Proves Set.Nonempty, not the two-sided-ideal claim."
   },
   {
     "id": "Chapter3/Proposition3.5.3",
@@ -2828,9 +2830,11 @@
     "end_page": "98",
     "start_line": 29,
     "end_line": 2,
-    "status": "sorry_free",
-    "fidelity": "unchecked",
-    "sorry_free": true
+    "status": "needs_statement",
+    "fidelity": "gap",
+    "sorry_free": true,
+    "fidelity_issue": 5323,
+    "fidelity_note": "Proves only IsAlgebraic of the sum, not the conjugate-sum structure."
   },
   {
     "id": "Chapter5/Problem5.2.7",
@@ -3857,9 +3861,11 @@
     "start_line": 5,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "unchecked",
+    "fidelity": "gap",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: All 3 parts (centralizers, semisimple, decomposition) have sorry. No active claimed issue. Depends on Double Centralizer Theorem (5.18.1). Ready for feature issue once 5.18.1 parts are proved."
+    "notes": "Triage 2026-03-18: All 3 parts (centralizers, semisimple, decomposition) have sorry. No active claimed issue. Depends on Double Centralizer Theorem (5.18.1). Ready for feature issue once 5.18.1 parts are proved.",
+    "fidelity_issue": 5326,
+    "fidelity_note": "Partition-decomposition form is vacuous (Classical.arbitrary reindex, L p := k); the bimodule forms in the file are genuine."
   },
   {
     "id": "Chapter5/Introduction_5.19",
@@ -3892,9 +3898,11 @@
     "end_page": "125",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free",
-    "fidelity": "unchecked",
-    "needs_statement": false
+    "status": "needs_statement",
+    "fidelity": "gap",
+    "needs_statement": false,
+    "fidelity_issue": 5326,
+    "fidelity_note": "Vacuous: unconstrained existential, no Sn/GL action, no Specht/irreducible content."
   },
   {
     "id": "Chapter5/Example5.19.3",
