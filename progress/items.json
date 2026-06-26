@@ -176,10 +176,10 @@
   "start_line": 2,
   "end_line": 4,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "The only Lean statement for this item is `example (A : Type*) [Ring A] : (1 : A) = 1 := rfl`, which is the vacuous tautology x = x. It asserts nothing about the unit property 1*a = a*1 = a from the...",
-  "fidelity_decl": "(anonymous) example (A) : (1 : A) = 1 := rfl",
+  "fidelity_note": "Replaced the vacuous `(1 : A) = 1` with `one_isUnit : 1 * a = a ∧ a * 1 = a`, asserting the two-sided identity property from the book.",
+  "fidelity_decl": "theorem one_isUnit (A) [Ring A] (a) : 1 * a = a ∧ a * 1 = a",
   "fidelity_issue": 5357
  },
  {
