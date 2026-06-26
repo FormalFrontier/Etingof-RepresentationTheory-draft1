@@ -1458,9 +1458,9 @@
   "start_line": 3,
   "end_line": 8,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "States only `IsSemisimpleModule A W` for a submodule W of a semisimple V (proved by `inferInstance`). This is a weak shadow of Prop 3.1.4. The book's content — W ≅ ⊕ r_i V_i with r_i ≤ n_i, and the...",
+  "fidelity_note": "Restated faithfully and proved sorry-free (#5370): for simple, finite-dimensional, pairwise-nonisomorphic V_i and W ≤ ⨁ᵢ (Fin nᵢ → Vᵢ), there exist rᵢ ≤ nᵢ with W ≅ ⨁ᵢ (Fin rᵢ → Vᵢ). Captures the multiplicity bound and the explicit isomorphism type via the isotypic decomposition of W plus a length-monotonicity argument; pairwise nonisomorphism confines each Vᵢ-isotypic part of V to the i-th summand. The book's matrix description of the inclusion φ (matrices Xᵢ with linearly independent rows) is not formalized.",
   "fidelity_decl": "Etingof.subrepresentation_of_semisimple",
   "fidelity_issue": 5370
  },
