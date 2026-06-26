@@ -1,0 +1,169 @@
+[
+  {
+    "id": "Chapter2/Theorem2.1.1",
+    "lean_decl": "Etingof.Theorem_2_1_1_i, Etingof.Theorem_2_1_1_ii",
+    "verdict": "verified",
+    "reason": "Part (i): existence of an irreducible sl(2,C)-module of each dim d (finrank = d AND IsIrreducible) conjoined with uniqueness (any two same-dim irreducibles are LieModule-isomorphic). Part (ii): complete reducibility as ComplementedLattice (LieSubmodule C sl2 V), the standard 'indecomposable=irreducible / direct sum of irreducibles' formulation. Both existence and uniqueness conjuncts present; non-vacuous (irreducibility + finrank constraints tie the modules to the claim). The 'realized in homogeneous polynomials of degree d-1' phrasing is descriptive; Lean uses the isomorphic standard model Fin d -> C, which is faithful."
+  },
+  {
+    "id": "Chapter2/Theorem2.1.2",
+    "lean_decl": "Etingof.Theorem_2_1_2",
+    "verdict": "verified",
+    "reason": "HasFiniteRepresentationType (genuinely: finitely many f.d. indecomposables covering all f.d. indecomposables up to iso) iff IsDynkinDiagram (symmetric 0-1 loopless connected adjacency with positive-definite Cartan form 2I-adj), which is exactly the ADE characterization (book Def 6.1.4). Orientation independence is captured because the RHS depends only on the undirected adjacency matrix. Non-vacuous: IsDynkinDiagram is the real positive-definiteness predicate, not a trivial restatement."
+  },
+  {
+    "id": "Chapter2/Definition2.2.1",
+    "lean_decl": "Etingof.AssociativeAlgebra",
+    "verdict": "verified",
+    "reason": "abbrev = Algebra k A (Field k, Ring A). Real Mathlib object encoding a unital associative k-algebra, matching the book's bilinear associative multiplication."
+  },
+  {
+    "id": "Chapter2/Definition2.2.2",
+    "lean_decl": "(anonymous) example (A) : (1 : A) = 1 := rfl",
+    "verdict": "gap",
+    "reason": "The only Lean statement for this item is `example (A : Type*) [Ring A] : (1 : A) = 1 := rfl`, which is the vacuous tautology x = x. It asserts nothing about the unit property 1*a = a*1 = a from the book. No declaration carries the definitional content of a two-sided identity.",
+    "dropped_conjunct": "the defining property 1*a = a*1 = a; the statement is literally `1 = 1`"
+  },
+  {
+    "id": "Chapter2/Proposition2.2.3",
+    "lean_decl": "Etingof.Proposition_2_2_3",
+    "verdict": "verified",
+    "reason": "Given e a two-sided identity (e*a=a for all a, a*e=a for all a), concludes e = 1. Faithfully asserts uniqueness of the unit; non-vacuous (hypotheses pin e to be an identity)."
+  },
+  {
+    "id": "Chapter2/Example2.2.4",
+    "lean_decl": "five anonymous `example ... := inferInstance`",
+    "verdict": "verified",
+    "reason": "Five examples assert Algebra k k, Algebra k (Polynomial k), Algebra k (Module.End k V), Algebra k (FreeAlgebra k n), Algebra k (MonoidAlgebra k G). inferInstance would fail if any were false, so each is a genuine (non-vacuous) assertion that the listed object is a k-algebra, covering all five book examples."
+  },
+  {
+    "id": "Chapter2/Definition2.2.5",
+    "lean_decl": "Etingof.CommutativeAlgebra",
+    "verdict": "verified",
+    "reason": "abbrev = Algebra k A with CommRing A. Real object; the CommRing requirement encodes ab = ba, matching the book."
+  },
+  {
+    "id": "Chapter2/Definition2.2.6",
+    "lean_decl": "Etingof.AlgebraHom",
+    "verdict": "verified",
+    "reason": "abbrev = A ->a[k] B (AlgHom). Bundles linearity, multiplicativity f(xy)=f(x)f(y), and f(1)=1 exactly as the book requires."
+  },
+  {
+    "id": "Chapter2/Definition2.3.1",
+    "lean_decl": "Etingof.Representation",
+    "verdict": "verified",
+    "reason": "abbrev = Module A V (Ring A, AddCommGroup V). Faithful to 'left A-module = representation rho : A -> End V'. The book's right-module variant is not aliased, but the headline definition (left module) is faithfully captured."
+  },
+  {
+    "id": "Chapter2/Remark2.3.2",
+    "lean_decl": "(none found)",
+    "verdict": "unsure",
+    "reason": "No Lean declaration for this remark in Chapter2/. The formalizable claim (over a commutative ring, left and right modules coincide via ma := am) is not formalized. Cannot judge fidelity of an absent statement; flagged for coverage."
+  },
+  {
+    "id": "Chapter2/Example2.3.3",
+    "lean_decl": "four anonymous examples (PUnit, Module A A, Module k V, FreeAlgebra)",
+    "verdict": "gap",
+    "reason": "Parts (1) zero module, (2) regular representation Module A A, (3) representation of k = vector space are genuine inferInstance assertions and fine. But part (4) is `example [Module (FreeAlgebra k (Fin 3)) V] : Module (FreeAlgebra k (Fin 3)) V := inferInstance` -- hypothesis equals goal, a vacuous restatement that asserts nothing about the book's claim that a representation of the free algebra is precisely a vector space with n arbitrary linear operators (the bijection rho <-> (rho(x_i))_i).",
+    "dropped_conjunct": "part (4): bijection between free-algebra representations and arbitrary tuples of linear operators (statement is hypothesis = goal)"
+  },
+  {
+    "id": "Chapter2/Definition2.3.4",
+    "lean_decl": "Etingof.Subrepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = Submodule A V. An A-submodule is exactly an A-invariant subspace, matching the book's invariance-under-all-rho(a) definition."
+  },
+  {
+    "id": "Chapter2/Definition2.3.5",
+    "lean_decl": "Etingof.IrreducibleRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = IsSimpleModule A V, which requires V nontrivial and only submodules bot and top -- exactly 'V != 0 and only subreps are 0 and V'."
+  },
+  {
+    "id": "Chapter2/Definition2.3.6",
+    "lean_decl": "Etingof.RepresentationHom",
+    "verdict": "verified",
+    "reason": "abbrev = V1 ->l[A] V2 (A-linear map). Captures the intertwining condition phi(av) = a phi(v). The isomorphism-of-representations notion is LinearEquiv, not separately aliased, but the headline 'homomorphism of representations' is faithful."
+  },
+  {
+    "id": "Chapter2/Definition2.3.7",
+    "lean_decl": "Etingof.DirectSumRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = V1 x V2 with the product module structure, the binary direct sum; action a(v1,v2)=(av1,av2) is the product Module instance, matching the book."
+  },
+  {
+    "id": "Chapter2/Definition2.3.8",
+    "lean_decl": "Etingof.IsIndecomposable",
+    "verdict": "verified",
+    "reason": "Real def: Nontrivial V AND for all W1 W2 submodules, IsCompl W1 W2 -> W1 = bot or W2 = bot. Faithful to 'nonzero and not isomorphic to a direct sum of two nonzero subrepresentations'. Non-degenerate body."
+  },
+  {
+    "id": "Chapter2/Proposition2.3.9",
+    "lean_decl": "Etingof.Proposition_2_3_9_injective, Etingof.Proposition_2_3_9_surjective",
+    "verdict": "verified",
+    "reason": "Part (i): IsSimpleModule R V1, phi != 0 => Injective phi. Part (ii): IsSimpleModule R V2, phi != 0 => Surjective phi. Both faithful over any ring/field (book emphasises field need not be alg closed; Ring R is even more general and fine). The book's closing 'thus both irreducible => isomorphism' is an immediate consequence of (i)+(ii) and is not separately stated, but both load-bearing parts are present and non-vacuous."
+  },
+  {
+    "id": "Chapter2/Corollary2.3.10",
+    "lean_decl": "Etingof.Corollary_2_3_10",
+    "verdict": "verified",
+    "reason": "Field k alg closed, V f.d. simple A-module, phi an A-linear endomorphism => exists c, for all v phi v = c . v. Faithfully asserts phi = lambda.Id. Non-vacuous (scalar c is tied to phi for all v)."
+  },
+  {
+    "id": "Chapter2/Remark2.3.11",
+    "lean_decl": "(none found)",
+    "verdict": "unsure",
+    "reason": "No Lean declaration. The remark's content (Corollary 2.3.10 fails over R, witnessed by A = C as an R-algebra, V = A) is a formalizable counterexample but is not formalized. Cannot judge fidelity of an absent statement."
+  },
+  {
+    "id": "Chapter2/Corollary2.3.12",
+    "lean_decl": "Etingof.Corollary_2_3_12",
+    "verdict": "verified",
+    "reason": "CommRing A as a k-algebra over alg-closed k, V f.d. simple => finrank k V = 1. Faithful. The book states only 'commutative algebra', but the result is false without algebraic closure (cf. Remark 2.3.11) and the book's proof invokes Cor 2.3.10 which needs it; the IsAlgClosed hypothesis is the implicit standing assumption, not a spurious strengthening."
+  },
+  {
+    "id": "Chapter2/Remark2.3.13",
+    "lean_decl": "(none found)",
+    "verdict": "unsure",
+    "reason": "No Lean declaration. The claim 'a 1-dimensional representation of any algebra is automatically irreducible' is formalizable (finrank = 1 => IsSimpleModule) but is not formalized in Chapter2/. Cannot judge fidelity of an absent statement; flagged for coverage."
+  },
+  {
+    "id": "Chapter2/Example2.3.14",
+    "lean_decl": "(anonymous) example IsSimpleModule k k; Etingof.Example_2_3_14_polynomial_reps",
+    "verdict": "gap",
+    "reason": "Part (1) k is simple: only the simplicity is asserted, fine as far as it goes. Part (2): Example_2_3_14_polynomial_reps faithfully proves simple k[x]-modules are 1-dimensional (finrank quotient by maximal ideal = 1). However the substantive content of the book's part (2) -- the classification of all f.d. INDECOMPOSABLE k[x]-representations as Jordan blocks V_{lambda,n} = (k^n, J_{lambda,n}), and the conclusion that indecomposable need not be irreducible -- is entirely absent. Only the irreducible (1-dim) sub-claim is formalized.",
+    "dropped_conjunct": "Jordan-block classification of indecomposable k[x]-representations and 'indecomposable need not be irreducible'"
+  },
+  {
+    "id": "Chapter2/Example2.3.14_continued",
+    "lean_decl": "(anonymous) example [Module (MonoidAlgebra k G) V] : Module (MonoidAlgebra k G) V := inferInstance",
+    "verdict": "gap",
+    "reason": "The statement has the k[G]-module hypothesis as its own goal (hypothesis = conclusion), a vacuous tautology. It asserts nothing about the book's claim that a representation of k[G] is the same data as a group homomorphism rho : G -> GL(V) (the equivalence rep-of-G <-> k[G]-module). No content carried.",
+    "dropped_conjunct": "equivalence between k[G]-module structures and group homomorphisms G -> GL(V)"
+  },
+  {
+    "id": "Chapter2/Proposition2.7.1",
+    "lean_decl": "Etingof.Proposition_2_7_1",
+    "verdict": "gap",
+    "reason": "Part (i) is faithfully formalized: LinearIndependent over (i,j) |-> x^i y^j AND span = top, i.e. {x^i y^j : i,j >= 0} is a basis of the Weyl algebra (over CharZero/NoZeroDivisors k, which covers the book's field setting). Non-vacuous. However part (ii) -- {x^i y^j : i,j in Z} is a basis of the q-Weyl algebra A_q -- is entirely absent from the formalization.",
+    "dropped_conjunct": "part (ii): basis {x^i y^j : i,j in Z} of the q-Weyl algebra A_q"
+  },
+  {
+    "id": "Chapter2/Remark2.7.2",
+    "lean_decl": "(none found)",
+    "verdict": "unsure",
+    "reason": "No Lean declaration. The remark (Weyl algebra = algebra of polynomial differential operators in one variable; notion of faithful representation) is partly definitional (faithful rep is Definition 2.7.3) but the 'Weyl = differential operators' identification is not formalized as a statement. Cannot judge fidelity of an absent statement."
+  },
+  {
+    "id": "Chapter2/Definition2.7.3",
+    "lean_decl": "Etingof.FaithfulRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = FaithfulSMul A V, which asserts the action map A -> End V is injective, exactly the book's definition of a faithful representation."
+  },
+  {
+    "id": "Chapter2/Definition2.8.1",
+    "lean_decl": "Etingof.QuiverDef",
+    "verdict": "verified",
+    "reason": "abbrev = Quiver V, providing Hom : V -> V -> Sort*, i.e. a directed multigraph allowing self-loops and multiple edges, matching the book's definition of a quiver."
+  }
+]

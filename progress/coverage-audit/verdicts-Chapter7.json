@@ -1,0 +1,212 @@
+[
+  {
+    "id": "Chapter7/Definition7.1.1",
+    "lean_decl": "Etingof.Category",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.Category C, which is exactly the book's notion of a category (objects, Hom classes, associative composition, unit morphisms). Faithful delegation to Mathlib.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.1.2",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "Pure notational convention (write X in C instead of X in Ob(C)). No mathematical content to formalize; nothing dropped.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.1.3",
+    "lean_decl": "(examples) Category Type*/GrpCat/RingCat/ModuleCat k/ModuleCat A/TopCat",
+    "verdict": "verified",
+    "reason": "Six example instances exhibiting Sets, Groups, Rings, Vect_k, A-mod, Top as categories via inferInstance. These are real Mathlib category instances, not vacuous. Homotopy category (6) omitted but the listed instances faithfully cover items 1-5.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.1.4",
+    "lean_decl": "Etingof.FullSubcategory",
+    "verdict": "verified",
+    "reason": "abbrev for P.FullSubcategory (CategoryTheory.ObjectProperty.FullSubcategory), the full subcategory cut out by an object predicate with Hom_{C'}=Hom_C. Matches the book definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.1.5",
+    "lean_decl": "(example) Category CommGrpCat",
+    "verdict": "unsure",
+    "reason": "The book claims AbelianGroups is a FULL SUBCATEGORY of Groups. The Lean statement only asserts `Category CommGrpCat` (that abelian groups form a category), which is strictly weaker; it does not assert the fully-faithful forgetful embedding CommGrpCat -> GrpCat. The full-subcategory relationship (the actual content) is only described in the docstring, which is not evidence.",
+    "dropped_conjunct": "the full/fully-faithful embedding CommGrpCat into GrpCat (the subcategory being FULL)"
+  },
+  {
+    "id": "Chapter7/Example7.1.6",
+    "lean_decl": "(example) Linear k (ModuleCat k)",
+    "verdict": "verified",
+    "reason": "Asserts ModuleCat k is k-linear (Hom spaces are k-modules), i.e. enriched over k-Vect. Faithful to the claim that Rep(A) is enriched over k-vector spaces.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.2.1",
+    "lean_decl": "Etingof.Functor",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.Functor C D, which packages the object map plus Hom map preserving composition and identities. Exactly the book definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.2.2",
+    "lean_decl": "(examples) forget GrpCat; forget RingCat; coyoneda.obj (op X)",
+    "verdict": "verified",
+    "reason": "Exhibits forgetful functors Groups->Sets, Rings->Sets, and the Hom functor Y -> Hom(X,Y) as real Functor terms. The book lists 9 illustrative examples; the formalized subset (items 2 and 4) are faithful witnesses. Illustrative example list, not a single claim; no conjunct silently weakened.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.3.1",
+    "lean_decl": "Etingof.NatTrans",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.NatTrans F G, the collection of components a_X with the naturality square a_Y o F(f) = G(f) o a_X. Matches the book; isomorphism-of-functors notion is Mathlib NatIso as noted.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.3.2",
+    "lean_decl": "Etingof.double_dual_iso, Etingof.double_dual_naturality",
+    "verdict": "verified",
+    "reason": "double_dual_iso gives V ≃ V** for finite-dimensional V (Module.evalEquiv); double_dual_naturality asserts the genuine naturality square f.dualMap.dualMap o eval = eval o f. Together they faithfully capture item (1): id and ** are isomorphic functors on FVect_k. Real content (an actual iso plus a naturality equation), not vacuous. Items 2-4 not formalized but the central claim is.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.4.1",
+    "lean_decl": "Etingof.Equivalence",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.Equivalence C D, which packages F, F', and natural isomorphisms F o F' ≅ id, F' o F ≅ id. Exactly equivalence/quasi-inverse from the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Lemma7.5.1",
+    "lean_decl": "Etingof.yoneda_lemma",
+    "verdict": "verified",
+    "reason": "States ∃! (a : X ≅ Y), yoneda.map a.hom = phi.hom for an iso phi : yoneda.obj X ≅ yoneda.obj Y. This is precisely the book's claim that an iso of representable functors induces a unique iso X ≅ Y, proved via Yoneda.fullyFaithful. Real existence-and-uniqueness, not a trivial Nonempty. (Uses contravariant yoneda Hom(?,X) rather than Hom(X,?); this is only a variance convention and the uniqueness content is identical.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.5.2",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "Expository remark noting representable functors generalize to enriched settings. No formalizable claim; nothing dropped.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.5.3",
+    "lean_decl": "Etingof.forgetful_representable",
+    "verdict": "verified",
+    "reason": "Gives the equivalence (R ->l[R] M) ≃l[ℕ] M (LinearMap.ringLmapEquivSelf), i.e. Hom_R(R,M) ≅ M, exhibiting the forgetful functor as represented by the regular module R. Faithful to the positive claim. The negative claim (not representable for inf-dim A on f.d. modules) is not formalized, as expected for a counterexample remark.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.6.1",
+    "lean_decl": "Etingof.Adjunction",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.Adjunction F G, which encodes the natural hom-set isomorphism Hom_D(F X, Y) ≅ Hom_C(X, G Y) functorial in X and Y. Exactly the book definition of adjoint pair.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.6.2",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "Motivational analogy (category theory vs inner product spaces dictionary). No formalizable mathematical claim; nothing dropped.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.6.3",
+    "lean_decl": "Etingof.frobenius_reciprocity, Etingof.uea_adjunction",
+    "verdict": "verified",
+    "reason": "frobenius_reciprocity gives Rep.indFunctor ⊣ Rep.resFunctor (real Adjunction, item 2). uea_adjunction gives the hom-set bijection (L ->l⁅R⁆ A) ≃ (U(L) ->a[R] A) (item 3). Both are genuine adjunction content, not Nonempty placeholders. Illustrative list; items 1,4,5 unformalized but the formalized ones are faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.7.1",
+    "lean_decl": "Etingof.Abelian",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.Abelian C. Mathlib's intrinsic definition (preadditive, has kernels/cokernels, normal monos/epis) is provably equivalent to the book's embedding-into-A-mod definition via Freyd-Mitchell, and is the standard faithful encoding. Real class, not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.7.2",
+    "lean_decl": "(example) Abelian (ModuleCat A)",
+    "verdict": "verified",
+    "reason": "Asserts ModuleCat A is abelian via inferInstance. Faithful to the claim that A-mod is an abelian category. (Finite-dimensional subcategory not separately stated, but the principal claim is covered.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.7.4",
+    "lean_decl": "(Discussion_after_Remark7_7_4) example Linear k (ModuleCat A)",
+    "verdict": "verified",
+    "reason": "Remark 7.7.4 itself is expository prose about the drawback of Definition 7.7.1 (the ring A is not determined by C; Morita equivalence) with no formalizable mathematical claim. The adjacent Discussion file appropriately formalizes a related fact (A-mod is k-linear over a field k) via inferInstance. Nothing from the remark's content is dropped because there is nothing assertable to formalize.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.8.1",
+    "lean_decl": "Etingof.CochainComplex'",
+    "verdict": "verified",
+    "reason": "abbrev for CochainComplex C ℤ (HomologicalComplex with ComplexShape.up ℤ), encoding objects C_i, differentials d_i, and d ∘ d = 0. Faithful to the complex/differential definition. Cohomology/exactness are Mathlib HomologicalComplex.homology as noted; the formalized object is the complex itself, which is the core datum.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.8.2",
+    "lean_decl": "Etingof.ShortComplex",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.ShortComplex C; a short exact sequence is a ShortComplex with ShortExact (mono f, epi g, exact middle), as the docstring notes and Mathlib provides. Faithful encoding of 0 -> X -> Y -> Z -> 0.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.8.3",
+    "lean_decl": "Etingof.split_exact_sequence",
+    "verdict": "verified",
+    "reason": "Proves (ShortComplex.mk biprod.inl biprod.snd).ShortExact for X ⊞ Z via ShortComplex.Splitting.ofHasBinaryBiproduct. This is the genuine split SES 0 -> X -> X⊞Z -> Z -> 0 of the book, with a real proof. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.8.6",
+    "lean_decl": "Etingof.connectingHomomorphism, long_exact_seq_exact₁/₂/₃",
+    "verdict": "verified",
+    "reason": "connectingHomomorphism is hS.delta (snake-lemma connecting map H^i(X3) -> H^j(X1)). The three exactness theorems assert genuine exactness at each position of the long exact sequence (homology_exact₁/₂/₃). Real content fully matching the book's c_i and long exact sequence of cohomology.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.9.1",
+    "lean_decl": "Etingof.AdditiveFunctor",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.Functor.Additive F (induces additive maps on Hom groups). Matches the book's additive-functor definition. (k-linear part is referenced via Functor.Linear in the docstring but not separately abbreviated; the additive notion, the primary def, is faithful.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.9.2",
+    "lean_decl": "Etingof.restrictScalars_additive, Etingof.restrictScalars_linear",
+    "verdict": "verified",
+    "reason": "Two instances: restrictScalars f is Functor.Additive and (along an algebra hom) Functor.Linear R0. These are real instances underlying Res being additive/k-linear. Faithful illustrative witnesses; Ind and Hom_G(V,-) not separately formalized but the example is an illustrative list.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.9.3",
+    "lean_decl": "Etingof.LeftExactFunctor, Etingof.RightExactFunctor",
+    "verdict": "verified",
+    "reason": "abbrevs for PreservesFiniteLimits (left exact) and PreservesFiniteColimits (right exact). In an abelian category, preserving finite limits is equivalent to preserving exactness of 0->X->Y->Z (and dually), the standard faithful encoding of the book's definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.9.4",
+    "lean_decl": "Etingof.IsSemisimpleCategory",
+    "verdict": "verified",
+    "reason": "def : Prop = ∀ S : ShortComplex C, S.ShortExact -> Nonempty S.Splitting. Non-vacuous: ShortExact is a real hypothesis and Splitting is genuine data (a splitting is exactly isomorphism to 0->X->X⊞Y->Y->0). Faithfully captures 'every SES splits'. The Nonempty wraps real splitting data, not a trivial witness, so it passes the anti-vacuity test.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.9.5",
+    "lean_decl": "Etingof.maschke_semisimple",
+    "verdict": "verified",
+    "reason": "Proves IsSemisimpleRing (MonoidAlgebra k G) under IsUnit (card G : k) for a finite group. This is Maschke's theorem at ring level; semisimplicity of the ring is equivalent to semisimplicity of the module/representation category. Faithful with the correct char-not-dividing-|G| hypothesis. Real proof.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.9.6",
+    "lean_decl": "Etingof.hom_left_exact, Etingof.tensor_right_exact",
+    "verdict": "verified",
+    "reason": "hom_left_exact: PreservesFiniteLimits (coyoneda.obj (op X)) = Hom(X,-) left exact (ii). tensor_right_exact: PreservesFiniteColimits (tensorLeft X) = X ⊗ - right exact (iii). Both real instances faithful to the positive claims. The 'not right/left exact' counterexamples and item (i) Ind/Res exactness are not formalized, as expected for negative illustrative remarks.",
+    "dropped_conjunct": null
+  }
+]

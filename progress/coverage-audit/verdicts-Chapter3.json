@@ -1,0 +1,191 @@
+[
+  {
+    "id": "Chapter3/Definition3.1.1",
+    "lean_decl": "Etingof.IsSemisimpleRepresentation",
+    "verdict": "gap",
+    "reason": "Defined as `IsSemisimpleModule k V` — semisimplicity over the base FIELD k, not over the algebra A. The algebra A does not appear in the definition at all. Every vector space over a field is semisimple, so this notion is vacuously true for every representation and fails to capture the book's notion (a representation of A that is a direct sum of irreducible A-subrepresentations). Should be `IsSemisimpleModule A V`.",
+    "dropped_conjunct": "the module structure over A (the whole point of 'representation of A')"
+  },
+  {
+    "id": "Chapter3/Example3.1.2",
+    "lean_decl": "Etingof.endomorphism_semisimple",
+    "verdict": "verified",
+    "reason": "States `IsSemisimpleModule A (Module.End k V)` for V a finite-dim simple A-module with scalar tower, i.e. End(V) is a semisimple A-representation. Faithful to the book's claim. The book's stronger 'isomorphic to nV' is realized by the private `evalMap`/`evalMap_bijective` giving an A-linear iso End_k(V) ≅ (Fin n → V); the public statement only asserts semisimplicity (terse but correct, not vacuous).",
+    "dropped_conjunct": "explicit isomorphism to nV is in private lemmas, not the public statement (minor)"
+  },
+  {
+    "id": "Chapter3/Proposition3.1.4",
+    "lean_decl": "Etingof.subrepresentation_of_semisimple",
+    "verdict": "gap",
+    "reason": "States only `IsSemisimpleModule A W` for a submodule W of a semisimple V (proved by `inferInstance`). This is a weak shadow of Prop 3.1.4. The book's content — W ≅ ⊕ r_i V_i with r_i ≤ n_i, and the inclusion is given by matrices X_i with linearly independent rows — is entirely absent. The multiplicity bound (r_i ≤ n_i) and the matrix description (the substance of the proposition) are not stated. The Lean claim holds for ANY semisimple module's submodule with no reference to the V_i decomposition or multiplicities.",
+    "dropped_conjunct": "W ≅ ⊕ r_i V_i with r_i ≤ n_i; matrix description of inclusion with linearly independent rows"
+  },
+  {
+    "id": "Chapter3/Remark3.1.5",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "No Lean formalization. The repo's Remark3_1_3.lean covers the DIFFERENT Remark 3.1.3 (canonical isotypic decomposition), not Remark 3.1.5. Remark 3.1.5 asserts Prop 3.1.4 generalizes when k is not algebraically closed / V not finite-dim, with X_i entries in the division algebra D_i = End_A(V_i). This generalization is not stated or proved anywhere in Chapter3.",
+    "dropped_conjunct": "entire remark (generalization of Prop 3.1.4 over non-closed k with entries in End_A(V_i))"
+  },
+  {
+    "id": "Chapter3/Lemma3.1.6",
+    "lean_decl": "Etingof.surjective_map_splits",
+    "verdict": "verified",
+    "reason": "States: for f : V → U surjective with V semisimple, there is a submodule W of V with Disjoint W (ker f) and W ⊔ ker f = ⊤ — i.e. W is a complement of the kernel, mapped isomorphically onto U. This is a faithful (and non-vacuous) rendering of 'there is J ⊆ I such that V_J is mapped isomorphically onto U': a complement of the kernel maps isomorphically onto the surjective image U. Both conjuncts (disjointness and codisjointness) are asserted.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Corollary3.2.1",
+    "lean_decl": "Etingof.irreducible_interpolation",
+    "verdict": "gap",
+    "reason": "Hypothesis is `LinearIndependent A v` (independence over the algebra A), but the book requires the v_i linearly independent over the field k. In a simple A-module any two distinct nonzero vectors are A-dependent (A acts surjectively onto V from any nonzero vector), so `LinearIndependent A v` forces n ≤ 1; the proof literally `exfalso`s the n ≥ 2 case. Thus the theorem is non-vacuous only for n ≤ 1 and the genuine content (interpolation through arbitrarily many k-independent vectors) is unreachable. The hypothesis is far stronger than the book's, collapsing the statement.",
+    "dropped_conjunct": "k-linear independence replaced by A-linear independence, collapsing the statement to n ≤ 1"
+  },
+  {
+    "id": "Chapter3/Theorem3.2.2",
+    "lean_decl": "Etingof.density_theorem_part1 / Etingof.density_theorem_part2",
+    "verdict": "verified",
+    "reason": "Part (i): `Function.Surjective (Algebra.lsmul k k V : A →ₐ[k] End k V)` — A → End(V) surjective, faithful. Part (ii): surjectivity of a ↦ (ρ_i(a))_i : A → ∀ i, End(V_i), with hypotheses V_i finite-dim simple and pairwise non-isomorphic (h_noniso via IsEmpty of LinearEquiv). Both genuinely assert surjectivity onto the full endomorphism algebra / product. Adds standard IsAlgClosed hypothesis (used legitimately for Schur).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.3.1",
+    "lean_decl": "Etingof.irreducible_reps_of_matrix_algebra",
+    "verdict": "gap",
+    "reason": "States only that a finite-dim simple module over a SINGLE matrix algebra Mat_d(k) is isomorphic to the standard rep (Fin d → k). The book's theorem is about A = ⊕_i Mat_{d_i}(k): its irreducibles are exactly V_1,...,V_r = k^{d_1},...,k^{d_r}, AND every finite-dim representation is a direct sum of copies of these. The direct-sum-of-matrix-algebras setting, the enumeration of all r irreducibles, and the 'every f.d. rep is a direct sum of copies of V_i' clause are all absent (only the single-factor uniqueness is proved).",
+    "dropped_conjunct": "the ⊕_i Mat_{d_i}(k) setting; that every finite-dim representation decomposes as a direct sum of the V_i"
+  },
+  {
+    "id": "Chapter3/Definition3.3.2",
+    "lean_decl": "Etingof.DualRepresentation",
+    "verdict": "unsure",
+    "reason": "Defined as `Module.Dual k V` = Hom_k(V,k), which is the correct underlying vector space of the dual representation. However the definition only packages the k-vector-space dual; it does NOT equip it with the A^op-module action (f·a)(v) = f(av) that is the actual content of Definition 3.3.2. The action — the defining data of the dual REPRESENTATION — is not constructed here. As a bare vector space the dual is fine, but the representation structure (the point of the definition) is missing.",
+    "dropped_conjunct": "the A^op-module / right-A-module action (f·a)(v) = f(av)"
+  },
+  {
+    "id": "Chapter3/Remark3.3.4",
+    "lean_decl": "Etingof.freeCover / freeCover_surjective / quotientEquivOfFreeCover",
+    "verdict": "verified",
+    "reason": "Constructs the genuine A-linear map ψ : A^n (= ι → A) → X, ψ(a) = ∑ a_i b_i (`freeCover`, real data not sorry'd), proves it surjective (`freeCover_surjective`), and gives X ≅ A^n / ker ψ (`quotientEquivOfFreeCover`). This faithfully captures the remark's content (X is a quotient of the free module A^n via the basis-induced surjection). Non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Definition3.4.1",
+    "lean_decl": "Etingof.Filtration",
+    "verdict": "verified",
+    "reason": "Defined as `RelSeries {p : Submodule A V × Submodule A V | p.1 < p.2}`, a finite strictly ascending chain of A-submodules. This faithfully models 0 = V_0 ⊂ V_1 ⊂ ... ⊂ V_n = V (strict inclusions). Genuine data, matches the book. (Endpoints ⊥/⊤ are not baked in, but the book's Def 3.4.1 is just 'a sequence of subrepresentations with strict inclusions'; specific endpoints are imposed where used.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Lemma3.4.2",
+    "lean_decl": "Etingof.exists_composition_series",
+    "verdict": "verified",
+    "reason": "States existence of a `CompositionSeries (Submodule A V)` with head = ⊥ and last = ⊤ for finite-dim V. A CompositionSeries has consecutive terms related by the covering relation ⋖, equivalent to successive quotients being simple (irreducible). This faithfully renders 'V admits a finite filtration 0=V_0⊂...⊂V_n=V with irreducible successive quotients'. Non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Definition3.5.1",
+    "lean_decl": "Etingof.Radical",
+    "verdict": "verified",
+    "reason": "Defined as `Ideal.jacobson ⊥` (the Jacobson radical = intersection of annihilators of all simple modules). This is exactly the book's Rad(A) = {elements acting by 0 in all irreducible representations} for a finite-dim algebra. Genuine data (an actual Ideal), correct correspondence.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Proposition3.5.2",
+    "lean_decl": "Etingof.radical_is_ideal / Etingof.radical_isTwoSided",
+    "verdict": "verified",
+    "reason": "FIXED (was #5322). `radical_is_ideal` asserts BOTH r*a ∈ Rad and a*r ∈ Rad (left AND right closure) for a ∈ Rad — the genuine two-sided content. `radical_isTwoSided` records the Mathlib `Ideal.IsTwoSided` instance. Not vacuous (not a `.Nonempty` shell); the right-multiplication closure (the actual content) is explicitly stated and proved.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Proposition3.5.3",
+    "lean_decl": "Etingof.nilpotent_ideal_le_radical / Etingof.radical_is_nilpotent",
+    "verdict": "verified",
+    "reason": "(i) `nilpotent_ideal_le_radical`: any nilpotent ideal I ≤ Ideal.jacobson ⊥, faithful. (ii) `radical_is_nilpotent`: IsNilpotent (Ideal.jacobson ⊥) for finite-dim A. Together with (i) these give 'Rad(A) is the largest nilpotent two-sided ideal' (the 'largest' is exactly: nilpotent ⇒ ⊆ Rad, and Rad itself nilpotent). Both conjuncts present and non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.5.4",
+    "lean_decl": "Etingof.structure_mod_radical",
+    "verdict": "verified",
+    "reason": "Given a complete set {V_i} of pairwise non-isomorphic finite-dim simple A-modules (h_noniso, h_complete), states A ⧸ Rad(A) ≃ₐ[k] ∏ End_k(V_i) as a k-algebra equivalence. This is the book's A/Rad(A) ≅ ⊕_i End(V_i) (finite product = sum). The finiteness of the index (Fintype ι) plus completeness encodes 'finitely many irreducibles'. Genuine algebra iso, non-vacuous. The 'finitely many' and 'finite-dim' clauses are encoded via the Fintype/FiniteDimensional hypotheses on a supplied complete family rather than derived, but the core isomorphism is faithful.",
+    "dropped_conjunct": "the 'only finitely many irreducibles up to iso' clause is taken as an input (Fintype ι + completeness) rather than proven"
+  },
+  {
+    "id": "Chapter3/Corollary3.5.5",
+    "lean_decl": "Etingof.sum_dim_sq_le_dim",
+    "verdict": "verified",
+    "reason": "States ∑_i (finrank k (V_i))^2 ≤ finrank k A for a complete pairwise-non-isomorphic family of finite-dim simple modules. Exactly the book's ∑ (dim V_i)^2 ≤ dim A. Non-vacuous; the squares and the inequality direction are correct.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Example3.5.6",
+    "lean_decl": "Etingof.radical_truncated_polynomial / Etingof.radical_upper_triangular (+ upperTriangularSubalgebra, strictlyUpperTriangularIdeal)",
+    "verdict": "verified",
+    "reason": "Part 1: `radical_truncated_polynomial` proves Ring.jacobson (k[x]/(x^n)) = (x) = span{root}, matching 'Rad = (x)'. Part 2: `upperTriangularSubalgebra` and `strictlyUpperTriangularIdeal` are genuinely constructed (real carriers with closure proofs, plus IsTwoSided instance), and `radical_upper_triangular` proves Rad(upper triangular) = strictly upper triangular. Both example computations are faithful and non-degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Definition3.5.7",
+    "lean_decl": "Etingof.IsSemisimpleAlgebra",
+    "verdict": "verified",
+    "reason": "Defined as `IsSemisimpleRing A`. For a finite-dim algebra, IsSemisimpleRing ⇔ Rad(A) = 0, matching the book's Def 3.5.7 (A semisimple iff Rad(A)=0). Correct Mathlib correspondence; not degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Proposition3.5.8",
+    "lean_decl": "Etingof.semisimple_algebra_equiv",
+    "verdict": "gap",
+    "reason": "States only (1)⇔(5): `IsSemisimpleRing A ↔ IsSemisimpleModule A A`, proved by `Iff.rfl`. The proposition asserts the equivalence of FIVE conditions: (1) Rad=0, (2) ∑(dim V_i)^2 = dim A, (3) A ≅ ⊕ Mat_{d_i}(k), (4) every f.d. rep completely reducible, (5) A completely reducible over itself. Conditions (2),(3),(4) and their equivalences are entirely missing; the proven (1)⇔(5) is essentially a definitional unfolding. Most of the proposition's content is dropped.",
+    "dropped_conjunct": "equivalences with (2) ∑(dim V_i)^2=dim A, (3) A≅⊕Mat_{d_i}(k), (4) every f.d. rep completely reducible"
+  },
+  {
+    "id": "Chapter3/Theorem3.6.2",
+    "lean_decl": "Etingof.characters_linearly_independent / Etingof.characters_basis_semisimple (+ Etingof.character)",
+    "verdict": "verified",
+    "reason": "`character` is genuinely defined as a ↦ tr(ρ_V(a)) (a Dual k A). (i) `characters_linearly_independent`: LinearIndependent k (fun i => character (V i)) for pairwise non-isomorphic finite-dim simples — faithful. (ii) `characters_basis_semisimple`: for semisimple A, every tracial functional f (f(ab)=f(ba)) lies in span of the characters; combined with (i)'s independence this is the basis-of-(A/[A,A])* claim (the dual of A/[A,A] is exactly the tracial functionals). Both parts non-vacuous and faithful; the 'basis of (A/[A,A])*' is rendered as spanning the tracial functionals plus independence.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.7.1",
+    "lean_decl": "Etingof.jordan_holder_equivalent / Etingof.jordan_holder_factors / Etingof.jordan_holder",
+    "verdict": "verified",
+    "reason": "FIXED (was #5328/#5329). `compositionFactor` genuinely realizes W_i = V_i/V_{i-1} as the quotient s(i+1)/(comap of s(i)). `jordan_holder_factors` states the full substance: ∃ σ : Fin s₁.length ≃ Fin s₂.length, ∀ i, Nonempty (compositionFactor s₁ i ≃ₗ[A] compositionFactor s₂ (σ i)) — a genuine bijection of index sets with isomorphic composition factors. `jordan_holder` gives n = m (length_eq). Both halves (equal length + permutation matching irreducible factors) are present and non-vacuous; the factor iso is a real linear equivalence, not a placeholder.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.8.1",
+    "lean_decl": "Etingof.krull_schmidt_existence / Etingof.krull_schmidt_uniqueness",
+    "verdict": "verified",
+    "reason": "Existence: ∃ n, W : Fin n → Submodule with each W i indecomposable, iSup W = ⊤, iSupIndep W (genuine internal direct sum into indecomposables). Uniqueness: any two such decompositions have n = m AND ∃ σ : Fin n ≃ Fin m with Nonempty (W i ≃ₗ[A] W' (σ i)) — equal count plus isomorphism-respecting permutation, i.e. uniqueness up to iso and order. Faithful to Krull-Schmidt; non-vacuous (IsIndecomposable from Def 2.3.8 requires nontriviality + no nontrivial complement).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Lemma3.8.2",
+    "lean_decl": "Etingof.endo_indecomposable_iso_or_nilpotent / Etingof.sum_nilpotent_endo_indecomposable",
+    "verdict": "verified",
+    "reason": "(i) `endo_indecomposable_iso_or_nilpotent`: for finite-dim indecomposable W, every θ : W →ₗ[A] W is Bijective ∨ IsNilpotent — exactly Lemma 3.8.2(i). (ii) `sum_nilpotent_endo_indecomposable`: a finite sum of nilpotent endomorphisms is nilpotent — Lemma 3.8.2(ii). Both faithful, non-vacuous, with the indecomposability hypothesis genuinely used.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Remark3.8.6",
+    "lean_decl": "(none in Chapter3)",
+    "verdict": "unsure",
+    "reason": "No Lean formalization of this remark within Chapter3. The remark observes Krull-Schmidt fails for infinite-dim modules but holds for finite-length modules. This is narrative/meta commentary; Chapter9/KrullSchmidt/Length.lean mentions finite length but is not a formalization of Remark 3.8.6's specific assertions. Low-value narrative remark; absence is defensible but it is uncovered.",
+    "dropped_conjunct": "entire remark (failure for infinite-dim, validity for finite-length modules)"
+  },
+  {
+    "id": "Chapter3/Theorem3.10.2",
+    "lean_decl": "Etingof.tensor_product_irreducible / Etingof.tensor_product_irreducible_classification",
+    "verdict": "verified",
+    "reason": "(i) `tensor_product_irreducible`: for finite-dim simple A-mod V and B-mod W over alg-closed k, every k-submodule U of V⊗W stable under all (a⊗b)-actions [TensorProduct.map of the lsmul maps] is ⊥ or ⊤ — genuine irreducibility of V⊗W as an A⊗B-rep, with actual actions wired in (NOT the vacuous '∃ S L, Nonempty iso' pattern flagged in calibration). (ii) `tensor_product_irreducible_classification`: any irreducible finite-dim M with commuting A,B actions is ≃ₗ[k] V⊗W for simple V (over A), simple W (over B), with explicit A- and B-equivariance of the iso. The evaluation map V₀ ⊗ Hom_A(V₀,M) → M is genuinely constructed, shown bijective, and W₀ shown simple. Faithful and non-vacuous. (Uniqueness of V,W is implicit in the construction rather than separately stated.)",
+    "dropped_conjunct": "explicit 'unique V and W' uniqueness clause of (ii) is not separately asserted (existence with full structure is given)"
+  },
+  {
+    "id": "Chapter3/Remark3.10.3",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "No Lean formalization. The remark notes Theorem 3.10.2(ii) (and sometimes (i)) fails for infinite-dim representations (Weyl algebra; A=B=V=W=ℂ(x)). Narrative/counterexample commentary; uncovered. Low-value remark, absence defensible.",
+    "dropped_conjunct": "entire remark (counterexamples to 3.10.2 in the infinite-dim case)"
+  }
+]

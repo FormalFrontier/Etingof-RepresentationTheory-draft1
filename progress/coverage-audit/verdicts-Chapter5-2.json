@@ -1,0 +1,226 @@
+[
+  {
+    "id": "Chapter5/Lemma5.13.2",
+    "lean_decl": "Etingof.Lemma5_13_2",
+    "verdict": "verified",
+    "reason": "Asserts RowSymmetrizer la * x * ColumnAntisymmetrizer mu = 0 for all x in C[S_n], under la.StrictDominates mu (i.e. la > mu). This is exactly a_la C[S_n] b_mu = 0 for lambda > mu. Real symmetrizers, genuine vanishing, sorry-free. Not provable if the symmetrizers were trivial.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.13.3",
+    "lean_decl": "Etingof.Lemma5_13_3",
+    "verdict": "verified",
+    "reason": "Asserts exists alpha, YoungSymmetrizer^2 = alpha . YoungSymmetrizer, i.e. c_lambda is proportional to an idempotent (the book's headline claim). The explicit scalar n!/(|P||Q| dim V) from the book's 'Namely' clause is NOT pinned down (only existential), a minor weakening, but the asserted statement is non-vacuous and faithful to the main claim. The witness alpha is the genuine value ell(a_la b_la), not arbitrary.",
+    "dropped_conjunct": "explicit scalar value n!/(|P_lambda||Q_lambda| dim V_lambda) (asserted only as an unnamed existential)"
+  },
+  {
+    "id": "Chapter5/Lemma5.13.4",
+    "lean_decl": "Etingof.Lemma5_13_4",
+    "verdict": "verified",
+    "reason": "Constructs a genuine LinearEquiv (Ae ->_A M) ~= {m | e.m = m} with toFun phi |-> phi(e) and invFun m |-> (x |-> x.m), exactly the book's maps. Real noncomputable def with verified left_inv/right_inv, not Classical.arbitrary padding.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.14.1",
+    "lean_decl": "Etingof.Proposition5_14_1_vanishing, Etingof.Proposition5_14_1_diagonal",
+    "verdict": "verified",
+    "reason": "Faithfully split into the two book claims: Hom_{S_n}(U_la, V_mu) = 0 for mu < la (every f = 0), and dim Hom_{S_n}(U_la, V_la) = 1 (finrank = 1). Real PermutationModule and SpechtModule, genuine equivariant Hom spaces. The Kostka-number decomposition U_la = sum K V_mu is the downstream Def 5.14.2 / Remark 5.15.5 content; the two asserted conjuncts are exactly Prop 5.14.1 as stated.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.14.2",
+    "lean_decl": "Etingof.KostkaNumber",
+    "verdict": "verified",
+    "reason": "Defined as Nat.card of semistandard Young tableaux of shape mu with content la (number of SSYT matching each part), a genuine combinatorial construction matching the book's Kostka number. Not degenerate. toYoungDiagram is a real diagram from sorted parts.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.14.3",
+    "lean_decl": "Etingof.Theorem5_14_3",
+    "verdict": "verified",
+    "reason": "Asserts (permModuleCharacter la sigma : C) = coeff_{x^la}(cycleTypePsumProduct sigma). In this book H_m(x) = x_1^m+...+x_N^m is the power sum (cf. Prop 5.21.1, Lemma 5.18.3), so the Lean use of MvPolynomial.psum is faithful, not a weakening. permModuleCharacter is the genuine character (count of fixed cosets = trace). Non-vacuous; sigma ranges over all permutations. The earlier H_m vs power-sum confusion was corrected (documented).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.15.1",
+    "lean_decl": "Etingof.Theorem5_15_1",
+    "verdict": "verified",
+    "reason": "Asserts sign(revPerm) . spechtModuleCharacter la sigma = coeff_{la+rho}(vandermondePoly * cycleTypePsumProduct sigma), the Frobenius formula chi_{V_la}(C_i) = coeff_{x^{la+rho}}(Delta(x) prod H_m^{i_m}). spechtModuleCharacter is a genuine trace of the S_n action on the real SpechtModule. The sign(revPerm) factor on the LHS corrects the Vandermonde orientation convention (the Lean vandermondePoly uses (X_j - X_i) for j>i); it is a determined constant, not a vacuity. Non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Remark5.15.2",
+    "lean_decl": "(no dedicated Lean file)",
+    "verdict": "verified",
+    "reason": "Remark giving an equivalent Laurent-polynomial reformulation of Theorem 5.15.1; not a separate formalizable claim. No own Lean declaration is expected for this remark. The underlying theorem (5.15.1) is formalized and verified.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.15.3",
+    "lean_decl": "Etingof.Lemma5_15_3",
+    "verdict": "verified",
+    "reason": "Asserts the Cauchy determinant identity in cleared-denominator form: (prod_{i,j}(z_i-y_j)) * det(1/(z_i-y_j)) = prod_{i<j}(z_j-z_i) * prod_{i<j}(y_i-y_j), under the distinctness hypothesis z_i != y_j. Exactly the book's identity. Real matrix determinant, sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Corollary5.15.4",
+    "lean_decl": "Etingof.Corollary5_15_4",
+    "verdict": "verified",
+    "reason": "Asserts (cauchyMatrix).det = cauchyRHS, i.e. det(1/(1-x_i y_j)) = sum_{sigma} (-1)^sigma / prod_j (1-x_j y_{sigma j}) as a formal power series identity in 2N variables. Exactly the book's Cauchy-identity equation R(x,y)=det=sum. The 'coefficient of x^{la+rho}y^{la+rho} is 1' elaboration is a downstream consequence; the asserted determinant identity is the headline corollary. Non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Remark5.15.5",
+    "lean_decl": "(no dedicated Lean file)",
+    "verdict": "verified",
+    "reason": "Remark on the dominance partial order and Kostka-matrix inversion; relates chi_lambda to chi_{U_mu} and states Kostka vanishing K_{mu la} = 0 unless mu >= la. The vanishing direction is the content of Prop 5.14.1 / Def 5.14.2 (formalized). No separate Lean declaration expected for this remark.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.17.1",
+    "lean_decl": "Etingof.Theorem5_17_1",
+    "verdict": "verified",
+    "reason": "Asserts finrank C (SpechtModule la) = n! / hookLengthProduct(la). hookLength is the genuine combinatorial hook length (rowLen + colLen - i - j - 1) and hookLengthProduct is the real product over cells. SpechtModule is the genuine module. The hook length formula faithfully and non-vacuously.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.18.1",
+    "lean_decl": "Theorem5_18_1_double_centralizer, _commutant_semisimple, _decomposition, _bimodule_decomposition, _bimodule_decomposition_explicit",
+    "verdict": "verified",
+    "reason": "All three book parts are faithfully and non-vacuously formalized. (i) centralizer(centralizer A) = A; (ii) IsSemisimpleRing(centralizer A); (iii) bimodule decomposition E ~= +_i V_i (x) W_i with V_i SIMPLE A-modules, PAIRWISE NON-ISOMORPHIC, W_i = Hom_A(V_i,E) carrying centralizer-module structure and IsSimpleModule over centralizer; the _explicit version even pins e.symm(v (x) l) = l v, tying the iso to the actual module structure. This is the gold-standard non-vacuous form, NOT the unconstrained-existential pattern.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.18.2",
+    "lean_decl": "Etingof.Theorem5_18_2.centralizer_eq_universalEnvelopingImage",
+    "verdict": "verified",
+    "reason": "Asserts centralizer(symGroupImage) = (universalEnvelopingToEnd).range, i.e. B = End_{C[S_n]}(V^{(x)n}) is the image of U(gl(V)) under the diagonal Lie action b |-> Delta_n(b) = sum 1(x)..b..(x)1. diagonalLieAction is the genuine Delta_n. Faithful, sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.18.3",
+    "lean_decl": "Etingof.Lemma5_18_3.span_diagonalTensors, diagonalSubalgebra_eq_fullDiagonal",
+    "verdict": "verified",
+    "reason": "Both book parts. (i) span of diagonal tensors u(x)...(x)u equals top in S^n U (CharZero). (ii) the subalgebra generated by Delta_n(a) (additive diagonals) equals the one generated by f(x)...(x)f (multiplicative diagonals), i.e. S^n A is generated by the Delta_n(a). Genuine subalgebras/spans, sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.18.4",
+    "lean_decl": "Theorem5_18_4_centralizers, _semisimple, _decomposition, _bimodule_decomposition, _partition_decomposition (SORRY)",
+    "verdict": "gap",
+    "reason": "Parts (i) (the two images are mutual centralizers) and (ii) (both semisimple) are faithful and sorry-free. Part (iii) is the problem: the book demands the decomposition V^{(x)n} = +_{lambda |- n} V_lambda (x) L_lambda indexed by PARTITIONS OF n with V_lambda SPECHT MODULES and L_lambda DISTINCT irreducibles. The faithful partition-indexed/Specht-labelled statement Theorem5_18_4_partition_decomposition is sorry (open Specht-labelling dependency, #5326). The sorry-free abstract version (_bimodule_decomposition) carries simplicity and distinctness but indexes by an abstract iota, NOT by partitions, and does not assert the Specht-module labelling; the plain _decomposition is a deliberately weakened existential with no module/simplicity/partition constraints. Hence the Specht/partition-indexing conjunct of part (iii) is dropped from every sorry-free statement.",
+    "dropped_conjunct": "part (iii): partition-of-n indexing and the Specht-module labelling V_lambda (faithful version is sorry; sorry-free version uses an abstract index set)"
+  },
+  {
+    "id": "Chapter5/Proposition5.19.1",
+    "lean_decl": "Etingof.Proposition5_19_1",
+    "verdict": "verified",
+    "reason": "Asserts span_k{g^{(x)n} : g in GL(V)} = diagonalActionImage.toSubmodule, i.e. the image of GL(V) in End(V^{(x)n}) spans B. Genuine GL-span vs the diagonal action subalgebra, by the polynomial-density argument. Sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Corollary5.19.2",
+    "lean_decl": "Etingof.Corollary5_19_2",
+    "verdict": "unsure",
+    "reason": "The STATEMENT is faithful and non-vacuous: S indexed by Nat.Partition n, each S p a simple symGroupImage-module or zero, each L p a simple diagonalActionImage-module or zero, distinct partitions giving non-isomorphic nonzero L p, and a k-linear iso V^{(x)n} ~= +_p S p (x) L p. This is the genuine Schur-Weyl content (not the #5326 vacuous pattern). HOWEVER the proof delegates entirely to Theorem5_18_4_partition_decomposition, which is sorry, so the corollary is NOT actually proven (1 sorry via delegation). Statement fidelity passes; the proof is incomplete. Flagged unsure because the item is not a real sorry-free proof of a faithful statement.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Example5.19.3",
+    "lean_decl": "Example5_19_3_symmetric, Example5_19_3_exterior",
+    "verdict": "verified",
+    "reason": "Asserts L_{(n)} ~= S^n V (symInvariants ~= SymmetricPower) and L_{(1^n)} ~= wedge^n V (symAntisymmetric ~= exterior power), as genuine k-linear equivalences (LinearEquiv.ofBijective), sorry-free. The exterior power is automatically zero when n > dim V, matching the book's caveat. Non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.21.1",
+    "lean_decl": "Etingof.Proposition5_21_1",
+    "verdict": "verified",
+    "reason": "Asserts psumPart(mu) = sum_{lam} charValue(N,lam,mu) . schurPoly(lam), i.e. prod_m (x_1^m+...+x_N^m)^{i_m} = sum_lambda chi_lambda(C_i) S_lambda. charValue is the genuine Specht character value (charValue_eq_spechtModuleCharacter holds elsewhere). Sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.21.2",
+    "lean_decl": "Proposition5_21_2_geometric, Proposition5_21_2_dimension",
+    "verdict": "verified",
+    "reason": "Both book formulas. _geometric: S_lambda(1,z,...,z^{N-1}) = prod_{i<j}(z^{lam_i-i}-z^{lam_j-j})/(z^{-i}-z^{-j}) (stated in the equivalent shifted-exponent form). _dimension: S_lambda(1,...,1) = prod_{i<j}(lam_i-lam_j+j-i)/(j-i). Real schurPoly evaluations, sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.22.1",
+    "lean_decl": "Etingof.Theorem5_22_1",
+    "verdict": "verified",
+    "reason": "Asserts formalCharacter(SchurModule la) = schurPoly la, the headline Weyl-character claim 'the character of L_lambda is the Schur polynomial S_lambda'. formalCharacter and SchurModule are genuine objects; sorry-free. The dimension formula (book part c) is the separate Prop 5.21.2_dimension. The 'L_lambda = 0 iff N < p' vanishing criterion (book part a) is not separately asserted, but it is structurally reframed away by indexing weights as Fin N -> N (a weight on Fin N always has <= N parts), a defensible parametrization rather than a vacuity. Core asserted claim faithful and non-vacuous.",
+    "dropped_conjunct": "vanishing criterion L_lambda = 0 iff N < p (reframed away by the Fin N -> N weight indexing)"
+  },
+  {
+    "id": "Chapter5/Definition5.23.1",
+    "lean_decl": "Etingof.IsAlgebraicRepresentation, Etingof.evalAtGL",
+    "verdict": "verified",
+    "reason": "IsAlgebraicRepresentation rho := exists basis and polynomials P_{ac} in k[X_ij, D] such that every matrix coefficient b.repr(rho g (b c)) a = P_{ac} evaluated at (g_ij, det(g)^{-1}). This is exactly the book's definition: matrix elements are polynomial in g_ij and 1/det(g). evalAtGL is a genuine evaluation substituting X_ij |-> g_ij and D |-> det(g)^{-1}. Real predicate, not True/degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.23.2",
+    "lean_decl": "Theorem5_23_2_i, Theorem5_23_2_ii",
+    "verdict": "gap",
+    "reason": "Both parts are VACUOUS / severely weakened. Part (i): the book says every algebraic GL(V)-rep is completely reducible into pairwise-nonisomorphic L_lambda summands; the Lean (Theorem5_23_2_i) only concludes IsSemisimpleModule k Y -- semisimplicity of Y as a plain k-VECTOR SPACE, which is trivially true for ANY vector space over a field regardless of the GL action or the halg hypothesis. The GL-equivariant decomposition content is entirely dropped (the docstring admits this). Part (ii) Peter-Weyl: the book asserts R ~= +_lambda L*_lambda (x) L_lambda as a GL_n x GL_n representation; the Lean (Theorem5_23_2_ii) only produces a k-LINEAR iso via nonempty_linearEquiv_of_rank_eq (matching ranks of two free modules), with NO module/equivariance structure -- it holds for any two countably-infinite-dimensional vector spaces. Both are anti-vacuity failures: provable for trivial inhabitants. AlgIrrepGL itself is a genuine Schur-submodule (def is fine).",
+    "dropped_conjunct": "(i) GL-equivariant complete reducibility into pairwise-nonisomorphic L_lambda (reduced to trivial k-vector-space semisimplicity); (ii) the GL_n x GL_n-equivariant decomposition (reduced to a bare k-linear rank-matching iso)"
+  },
+  {
+    "id": "Chapter5/Remark5.23.3",
+    "lean_decl": "(no dedicated Lean file)",
+    "verdict": "verified",
+    "reason": "Remark extending the GL(V) results to sl(V)/SL(V) and noting L_lambda ~= L_{lambda+1^m} for SL; explicitly says 'we will not do this here'. Not a formalizable proved claim; no own Lean declaration expected.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.25.1",
+    "lean_decl": "Etingof.Proposition5_25_1",
+    "verdict": "verified",
+    "reason": "Asserts commutator(GL_2(F_q)) = (SL_2 toGL).range, i.e. [G,G] = SL_2(F_q), under 2 < |F_q| (the book's proof needs elements != 0,1). Genuine commutator subgroup and SL_2 image. Sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.25.2",
+    "lean_decl": "Theorem5_25_2_part1, _part2, _part3a, _part3b",
+    "verdict": "verified",
+    "reason": "All book claims, on genuine FDRep objects with real Simple/iso assertions. (1) chi1 != chi2 => Simple(principalSeries). (2) principalSeries(mu,mu) ~= detChar (+) complementW, Simple(complementW), finrank = q (= p^n). (3a) complementW mu ~= complementW nu iff mu = nu (W_mu distinct). (3b) principalSeries iso iff {chi1,chi2} = {chi1',chi2'}. Non-vacuous; sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.25.3",
+    "lean_decl": "Lemma5_25_3_innerProduct, Lemma5_25_3_dimension",
+    "verdict": "verified",
+    "reason": "Asserts <chi,chi> = 1 (inner product of the complementary-series virtual character) and chi(1) = q-1 with 0 < q-1. complementarySeriesChar is the genuine virtual character defined upstream. Both book claims present, sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.26.1",
+    "lean_decl": "Etingof.Theorem5_26_1",
+    "verdict": "verified",
+    "reason": "Asserts the iff (Artin): (every g in G belongs to some H in X) <-> (every simple V's character lies in the Q-span of inducedCharacter H W.character for H in X, W an H-rep), with X required conjugation-invariant (hX). inducedCharacter is the genuine Frobenius-formula induced character. Both conjuncts present, sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Remark5.26.2",
+    "lean_decl": "(no dedicated Lean file)",
+    "verdict": "verified",
+    "reason": "Remark stating Q-span and C-span versions of Theorem 5.26.1(ii) are equivalent. Not a separately formalizable proved claim; the Q-span version is what 5.26.1 formalizes. No own Lean declaration expected.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Corollary5.26.3",
+    "lean_decl": "Etingof.Corollary5_26_3",
+    "verdict": "verified",
+    "reason": "Asserts every irreducible character of a finite group lies in the Q-span of inducedCharacters from CYCLIC subgroups (Subgroup.zpowers g). Faithful to the book, derived from Theorem 5.26.1 with X = cyclic subgroups. Sorry-free, non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.27.1",
+    "lean_decl": "Etingof.Theorem5_27_1",
+    "verdict": "verified",
+    "reason": "Gold-standard faithful formalization of the irreps of A semidirect-product G. The existential supplies dualSmul (with defining equation), stab (with defining equation), the induced-rep constructor V, then all four book parts: (i) U Simple => V(chi,U) Simple; (ii) V(chi1,U1) ~= V(chi2,U2) => chi1,chi2 in same G-orbit (the precise form of 'pairwise nonisomorphic'); (iii) every Simple W ~= some V(chi,U) with U Simple (completeness); (iv) the explicit Frobenius character formula. All data tied to its defining equations; sorry-free; non-vacuous.",
+    "dropped_conjunct": null
+  }
+]

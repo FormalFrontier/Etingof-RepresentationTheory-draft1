@@ -1,0 +1,163 @@
+[
+  {
+    "id": "Chapter4/Theorem4.1.1",
+    "lean_decl": "Etingof.Theorem4_1_1_semisimple, Etingof.Theorem4_1_1_sum_of_squares",
+    "verdict": "verified",
+    "reason": "Part (i): IsSemisimpleRing (MonoidAlgebra k G) under IsUnit (card G : k) — faithful to Maschke (i). Part (ii) sum-of-squares: ∃ n d, (∀ i, NeZero (d i)) ∧ ∑ (d i)^2 = card G. The existential is NOT vacuous: the witness is the genuine Wedderburn-Artin data IrrepDecomp.mk' (built from MonoidAlgebra.wedderburnArtin), d_pos is a real field of the structure, and sum_sq_eq_card is proven by comparing finranks. The d_i are the actual matrix-block sizes (= dims of irreducibles). The algebra-iso half of (ii) is captured inside IrrepDecomp.iso rather than restated, but the sum-of-squares conclusion it is asked to support is faithfully proven.",
+    "dropped_conjunct": "The explicit algebra isomorphism ψ: k[G] ≅ ⊕ End V_i of (ii) is not stated as a standalone theorem here; it lives as IrrepDecomp.iso (k[G] ≃ₐ ∏ Mat). The regular-rep decomposition ⊕ dim(V_i) V_i is also not separately asserted. These are mild understatements, not vacuity."
+  },
+  {
+    "id": "Chapter4/Proposition4.1.2",
+    "lean_decl": "Etingof.Proposition4_1_2",
+    "verdict": "verified",
+    "reason": "IsSemisimpleRing (MonoidAlgebra k G) → IsUnit (card G : k). Faithful converse of Maschke. Real sorry-free proof via the central element Λ = Σ_g g with Λ²=|G|·Λ and the idempotent-generator characterization of left ideals in a semisimple ring. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Example4.1.3",
+    "lean_decl": "Etingof.Example4_1_3",
+    "verdict": "gap",
+    "reason": "Hypothesis fidelity problem. The book claims every IRREDUCIBLE REPRESENTATION of ℤ/p in char p is trivial. The Lean hypothesis is `hirr : IsSimpleModule k V`, i.e. V is simple as a k-vector space (= 1-dimensional), which is NOT the book's hypothesis (representation-irreducibility, i.e. no proper ρ-invariant subspace). The Lean theorem silently assumes 1-dimensionality and skips the 'irreducible ⟹ 1-dim' step of the book's argument. The conclusion (ρ g = id, via the char-p nilpotency / freshman's-dream argument) is substantive and not vacuous, but the stated hypothesis is the wrong notion of irreducibility, so the theorem does not faithfully assert the book's claim.",
+    "dropped_conjunct": "Representation-irreducibility hypothesis replaced by k-module simplicity (1-dimensionality); the 'irreducible representation is 1-dimensional' content is dropped."
+  },
+  {
+    "id": "Chapter4/Theorem4.2.1",
+    "lean_decl": "Etingof.Theorem4_2_1 (+ Etingof.classFunction_eq_zero_of_orthogonal_simples)",
+    "verdict": "gap",
+    "reason": "Book claims irreducible characters form a BASIS of F_c(G,k) = spanning AND linearly independent. The Lean theorem Etingof.Theorem4_2_1 only proves the SPANNING half: every class function lies in span(simple characters). Linear independence (the other half of 'basis') is not asserted in this declaration; the docstring itself defers it to Theorem 4.5.1. A spanning-only statement is strictly weaker than the book's 'basis' claim. (The proof is genuine and non-vacuous; the issue is fidelity / a dropped conjunct.)",
+    "dropped_conjunct": "Linear independence of the irreducible characters (the 'is a basis' direction) — only spanning is formalized."
+  },
+  {
+    "id": "Chapter4/Corollary4.2.2",
+    "lean_decl": "Etingof.Corollary4_2_2",
+    "verdict": "verified",
+    "reason": "∃ n (V : Fin n → FDRep), all simple, pairwise non-isomorphic, every simple iso to one of them, AND n = card (ConjClasses G). The existential is fully constrained (a complete irredundant system of simples) and backed by the real IrrepDecomp; n_eq_card_conjClasses' is proven by the center-dimension argument. Faithful to '#irreps = #conjugacy classes'. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Corollary4.2.4",
+    "lean_decl": "Etingof.Corollary4_2_4",
+    "verdict": "verified",
+    "reason": "FDRep.character V = FDRep.character W → Nonempty (V ≅ W), over ℂ. Faithful: equal characters force isomorphism, proven via the semisimple-category Hom-dimension matching (Maschke + Schur). The book says 'char 0'; the Lean specializes to ℂ rather than a general algebraically-closed char-0 field — an acceptable narrowing (ℂ is the book's running field for this section). Conclusion is genuine and non-vacuous.",
+    "dropped_conjunct": "Generality: stated for ℂ specifically rather than an arbitrary characteristic-0 field."
+  },
+  {
+    "id": "Chapter4/Example4.3_FiniteAbelianGroups",
+    "lean_decl": "Etingof.Example4_3_FiniteAbelianGroups",
+    "verdict": "gap",
+    "reason": "Vacuous/trivial w.r.t. the book's claim. The book asserts every irreducible REPRESENTATION of a finite abelian group (over alg. closed field) is 1-dimensional — a fact that genuinely uses commutativity + algebraic closure. The Lean theorem hypothesis is `hirr : IsSimpleModule k V` (V simple as a k-vector space) and the conclusion `finrank k V = 1` is proven by `isSimpleModule_iff_finrank_eq_one` — a pure k-vector-space tautology. The representation `... ρ : Representation ...` does not even appear (no ρ argument is taken), and CommGroup/IsAlgClosed/CharZero are entirely unused. It proves 'a simple k-vector space is 1-dimensional', not 'irreducible representations of abelian G are 1-dim'. Decision test: provable with G trivial and the group structure removed.",
+    "dropped_conjunct": "The entire representation-theoretic content: the group action, commutativity, and 'irreducible as a representation' are all absent; the hypothesis is k-module simplicity, making the statement a triviality."
+  },
+  {
+    "id": "Chapter4/Example4.3_S3",
+    "lean_decl": "Etingof.Example4_3_S3_irreps_count, Etingof.Example4_3_S3_sum_of_squares",
+    "verdict": "verified",
+    "reason": "card (ConjClasses (Equiv.Perm (Fin 3))) = 3 (matches book's '3 conjugacy classes / 3 irreps') and 1^2+1^2+2^2 = card(Perm (Fin 3)) = 6 (matches dims 1,1,2 and |S3|=6). Numbers correct, proven by decide. Faithful to the formalizable numeric content of the example.",
+    "dropped_conjunct": "The explicit 2-dimensional matrices ρ((12)), ρ((123)) and the irreducibility argument are not formalized (only counts and the sum-of-squares identity)."
+  },
+  {
+    "id": "Chapter4/Example4.3_Q8",
+    "lean_decl": "Etingof.Example4_3_Q8_conj_classes, Etingof.Example4_3_Q8_sum_of_squares",
+    "verdict": "verified",
+    "reason": "card (ConjClasses (QuaternionGroup 2)) = 5 (QuaternionGroup 2 has order 4*2=8 = Q8; book says 5 classes) and 1^2+1^2+1^2+1^2+2^2 = card(QuaternionGroup 2) = 8 (matches dims 1,1,1,1,2 and |Q8|=8). Numbers correct.",
+    "dropped_conjunct": "The Pauli-matrix 2-dim representation (4.3.1) and the pullback of the four 1-dim reps from Q8/Z ≅ ℤ2×ℤ2 are not formalized (only counts + sum of squares)."
+  },
+  {
+    "id": "Chapter4/Example4.3_S4",
+    "lean_decl": "Etingof.Example4_3_S4_conj_classes, Etingof.Example4_3_S4_sum_of_squares",
+    "verdict": "verified",
+    "reason": "card (ConjClasses (Equiv.Perm (Fin 4))) = 5 (book: 5 classes) and 1^2+1^2+2^2+3^2+3^2 = card(Perm (Fin 4)) = 24 (matches dims 1,1,2,3,3 and |S4|=24). Numbers correct.",
+    "dropped_conjunct": "The geometric realizations (cube-rotation 3-dim rep, sign-twist, tetrahedron, zero-sum functions) are not formalized (only counts + sum of squares)."
+  },
+  {
+    "id": "Chapter4/Theorem4.5.1",
+    "lean_decl": "Etingof.Theorem4_5_1_i, Etingof.Theorem4_5_1_ii",
+    "verdict": "verified",
+    "reason": "(i) ⅟|G| • Σ_g χ_V(g) χ_W(g⁻¹) = finrank (W ⟶ V): faithful to (χ_V,χ_W) = dim Hom_G(W,V) (the inner product uses g⁻¹, the correct field-general analogue of complex conjugation χ_W̄). (ii) for Simple V, W over alg. closed k: same inner product = (1 if V≅W else 0) — faithful Kronecker-delta orthonormality. Both backed by FDRep.scalar_product_char_eq_finrank_equivariant / FDRep.char_orthonormal. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.5.4",
+    "lean_decl": "Etingof.Theorem4_5_4",
+    "verdict": "verified",
+    "reason": "Σ_i χ_{V_i}(g) χ_{V_i}(h⁻¹) = (|Z_G(g)| if IsConj g h else 0), over a complete irredundant system V of simples (hypotheses hV/hinj/hsurj). Faithful to column (second) orthogonality: book's χ̄_V(h) = χ_V(h⁻¹) over ℂ, the centralizer-cardinality value and the conjugacy condition both present. Real sorry-free proof via trace of x↦gxh⁻¹ computed two ways. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Remark4.5.5",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "No Lean declaration exists for Remark 4.5.5. items.json marks it status=sorry_free, fidelity=unchecked, but there is no Remark4_5_5.lean and no decl anywhere covering its content (the unitary-matrix U with rows = irreps, columns = conjugacy classes, U_{V,g}=χ_V(g)/√|Z_g|, orthonormal rows ⟹ unitary ⟹ orthonormal columns, giving an alternate proof of 4.5.4). Only Remark 4.5.3 is formalized (Remark4_5_3.lean). A claim-bearing 'done' item with no statement cannot be faithful; the sorry_free status is unjustified.",
+    "dropped_conjunct": "Entire remark: the matrix U and the unitarity / column-orthonormality argument are absent."
+  },
+  {
+    "id": "Chapter4/Definition4.6.1",
+    "lean_decl": "Etingof.UnitaryRepresentation",
+    "verdict": "verified",
+    "reason": "structure with field ρ : Representation ℂ G V and field unitary : ∀ g v w, ⟪ρ g v, ρ g w⟫ = ⟪v, w⟫, over V with InnerProductSpace ℂ V (a positive-definite Hermitian form). Data is genuinely constructed (no sorry). Faithfully captures 'representation + G-invariant positive-definite Hermitian form making ρ(g) unitary'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.6.2",
+    "lean_decl": "Etingof.Theorem4_6_2_existence, Etingof.Theorem4_6_2_uniqueness",
+    "verdict": "verified",
+    "reason": "Existence: any finite-dim ℂ-rep of a finite group admits a G-invariant positive-definite Hermitian form (∃ InnerProductSpace.Core c with c invariant), proven by Weyl averaging. Uniqueness: for irreducible V (Nontrivial + no proper ρ-invariant subspace), any two invariant forms satisfy c₂ = λ•c₁ with λ:ℝ, 0<λ — i.e. unique up to positive real scaling, via Schur. Both parts present, faithful, real sorry-free proofs. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.6.3",
+    "lean_decl": "Etingof.Theorem4_6_3",
+    "verdict": "verified",
+    "reason": "For any group G and a unitary rep (inner-product-preserving ρ) on finite-dim V: every ρ-invariant W has a ρ-invariant complement W' with IsCompl W W' (namely Wᗮ). Faithful to 'unitary rep is completely reducible'. Real proof. Correctly stated for arbitrary G (the book's proof needs only the invariant inner product), matching the note. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Remark4.6.4",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "No Lean declaration exists for Remark 4.6.4. items.json marks it status=sorry_free, but no Remark4_6_4.lean / decl covers its claim: for infinite groups (e.g. G=ℤ) there exist finite-dimensional representations that are indecomposable but not irreducible, hence not completely reducible and lacking a unitary structure. This is a formalizable existence claim with zero Lean coverage; sorry_free is unjustified.",
+    "dropped_conjunct": "Entire remark: existence of a finite-dim indecomposable-but-not-irreducible representation of an infinite group (witness G=ℤ) is absent."
+  },
+  {
+    "id": "Chapter4/Proposition4.7.1",
+    "lean_decl": "Etingof.Proposition4_7_1_i, Etingof.Proposition4_7_1_ii",
+    "verdict": "verified",
+    "reason": "(i) For non-isomorphic simples V≇W: ⅟|G| • Σ_g (ρ_V g)_{ij} (ρ_W g⁻¹)_{pq} = 0 — matrix elements of nonisomorphic irreducibles are orthogonal. (ii) For simple V: same sum = (⅟ dim V if i=q ∧ j=p else 0) — the δ/dim V relation (index pairing matches the ρ(g⁻¹) convention, faithful to the book's δ_{ii'}δ_{jj'}/dim V). Both backed by the averaging/Schur argument and the 1-dim endomorphism space. Not vacuous.",
+    "dropped_conjunct": "The 'matrix elements form an orthogonal basis of F(G,ℂ)' summary statement is not separately asserted (it follows from (i),(ii) + sum of squares), but the substantive orthogonality content is present."
+  },
+  {
+    "id": "Chapter4/Example4.8.1",
+    "lean_decl": "Etingof.Example4_8_1_Q8_conj_classes, Etingof.Example4_8_1_Q8_card, Etingof.Example4_8_1_A5_conj_classes",
+    "verdict": "gap",
+    "reason": "The example IS a set of three full character tables (Q8, S4, A5) with specific character values (e.g. χ_{ℂ²}(−1)=−2 for Q8; the golden-ratio entries (1±√5)/2 for A5's two 3-dim reps; the S4 cube-rotation values). The Lean formalizes only: Q8 has 5 conj classes, |Q8|=8, A5 has 5 conj classes. NONE of the asserted character-table values are formalized, and S4 is not addressed at all beyond what 4.3 covered. This is strictly weaker than the claim — the entire content (the character values) is missing.",
+    "dropped_conjunct": "All character-table entries for Q8, S4, A5 (every χ_V(g) value); the S4 table entirely; A5 class sizes and golden-ratio character values."
+  },
+  {
+    "id": "Chapter4/Example4.9.1",
+    "lean_decl": "Etingof.Example4_9_1_S3_conj_classes, Etingof.Example4_9_1_S3_card",
+    "verdict": "gap",
+    "reason": "The example IS three tensor-product multiplicity tables (S3, S4, A5), e.g. ℂ²⊗ℂ² = ℂ₊⊕ℂ₋⊕ℂ² for S3, and the full S4/A5 Clebsch-Gordan tables (including multiplicity-2 terms like 2ℂ⁵). The Lean formalizes only: S3 has 3 conj classes and |S3|=6. NO tensor-product decomposition / multiplicity is formalized for any group. The entire content of the example is absent; the stated theorems are far weaker than the claim.",
+    "dropped_conjunct": "All tensor-product multiplicities n_{ij}^k for S3, S4, A5 (every entry of all three tables)."
+  },
+  {
+    "id": "Chapter4/Definition4.10.1",
+    "lean_decl": "Etingof.FrobeniusDeterminant",
+    "verdict": "verified",
+    "reason": "noncomputable def FrobeniusDeterminant := det of the matrix with entries X(g*h⁻¹) in MvPolynomial G k. Real data, no sorry. Captures the group/Frobenius determinant as a degree-|G| polynomial in {x_g}. Note: the book writes entries x_{g_i g_j} whereas Lean uses x_{g_i g_j⁻¹}; this is the standard left-regular-representation convention (it makes det X_G = Algebra.norm of the generic group-algebra element), a variable relabeling that does not change the object up to renaming and is exactly what Theorem 4.10.2 factorizes. Acceptable.",
+    "dropped_conjunct": "Entry convention x_{g_i g_j⁻¹} vs the book's literal x_{g_i g_j} (mathematically a relabeling of variables)."
+  },
+  {
+    "id": "Chapter4/Theorem4.10.2",
+    "lean_decl": "Etingof.Theorem4_10_2",
+    "verdict": "verified",
+    "reason": "∃ r (P : Fin r → MvPolynomial G k), (∀ j, Irreducible (P j)) ∧ (∀ i≠j, ¬Associated (P i)(P j)) ∧ FrobeniusDeterminant = ∏ P_j^{(P_j).totalDegree} ∧ r = card (ConjClasses G). Every conjunct of the book is present: pairwise non-proportional (= non-associated) irreducible factors, each to its degree power, with r = #conjugacy classes. The existential is fully constrained and witnessed by the genuine blockPoly construction (blockPoly_irreducible, blockPoly_not_associated, frobeniusDet_eq_prod, n_eq_card_conjClasses all proven sorry-free). Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Lemma4.10.3",
+    "lean_decl": "Etingof.Lemma4_10_3",
+    "verdict": "verified",
+    "reason": "For n>0, Irreducible (det (genMatrix n)) where genMatrix n is the generic n×n matrix with entries X(i,j) over ℂ. Faithful to 'det Y is an irreducible polynomial in {y_ij}'. Real inductive proof (cofactor expansion + irreducible_mul_X_add). The 0<n hypothesis correctly excludes the degenerate n=0 (det=1, a unit). Not vacuous.",
+    "dropped_conjunct": null
+  }
+]
