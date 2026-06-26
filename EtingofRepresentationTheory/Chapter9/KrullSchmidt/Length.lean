@@ -84,6 +84,22 @@ theorem clength_eq_zero_of_isZero {X : C} (h : IsZero X) : clength X = 0 := by
   have hmin : IsMin (⊤ : Subobject X) := fun b _ => le_of_eq (Subsingleton.elim _ _)
   simp only [clength, Order.height_eq_zero.2 hmin, ENat.toNat_zero]
 
+/-- A **simple** object has composition length `1`: its subobject lattice is a two-element chain
+`⊥ < ⊤` (`IsSimpleOrder (Subobject X)`), so the top element covers the bottom and its height is `1`.
+This is the length-`1` base case of the Jordan–Hölder count: the value `clength_additive` returns
+on the simple quotients of a composition series. -/
+theorem clength_simple {X : C} (h : Simple X) : clength X = 1 := by
+  haveI : IsSimpleOrder (Subobject X) := (simple_iff_subobject_isSimpleOrder X).mp h
+  have hheight : Order.height (⊤ : Subobject X) = 1 := by
+    refine le_antisymm (Order.height_le_coe_iff.mpr ?_) ?_
+    · intro y hy
+      have hy0 : y = ⊥ := (IsSimpleOrder.eq_bot_or_eq_top y).resolve_right (ne_of_lt hy)
+      subst hy0
+      simp [Order.height_eq_zero.mpr isMin_bot]
+    · have := Order.height_add_one_le (bot_lt_top : (⊥ : Subobject X) < ⊤)
+      simpa [Order.height_eq_zero.mpr isMin_bot] using this
+  simp [clength, hheight]
+
 /-- An object has composition length `0` iff it is a zero object.
 
 The `←` direction is `clength_eq_zero_of_isZero`. The `→` direction needs that the height of
@@ -122,7 +138,23 @@ of which is in Mathlib. Tracked as a follow-up issue; see the module doc.
 
 Like `clength_eq_zero_iff`, a complete proof also needs the finite-length condition (otherwise the
 mixed case — `X₁` finite nonzero, `X₃` infinite length — fails: LHS `= 0` but RHS `≠ 0`), which
-`IsFiniteAbelianCategory` does not currently supply; see the `clength_eq_zero_iff` docstring. -/
+`IsFiniteAbelianCategory` does not currently supply; see the `clength_eq_zero_iff` docstring.
+
+**Confirmed route (toward #5324/#5325).** The base cases of the Jordan–Hölder count are now in place
+without further infrastructure: `clength_eq_zero_of_isZero` (length `0` on the zero object) and
+`clength_simple` (length `1` on a simple object, via Mathlib's `IsSimpleOrder (Subobject X)` for
+simple `X`). The remaining work is the *extension step*. The minimal categorical input is the
+Schreier order-reflecting lemma for the short exact sequence `0 → X₁ →ᶠ X₂ →ᵍ X₃ → 0`: for
+subobjects `A ≤ B` of `X₂`,
+`(Subobject.pullback f).obj A = (Subobject.pullback f).obj B` together with
+`imageSubobject (A.arrow ≫ g) = imageSubobject (B.arrow ≫ g)` forces `A = B`. This makes
+`B ↦ ((pullback f).obj B, imageSubobject (B.arrow ≫ g))` order-reflecting into
+`Subobject X₁ × Subobject X₃`, so every `LTSeries` in `Subobject X₂` has length
+`≤ Order.height ⊤ (X₁) + Order.height ⊤ (X₃)`; with `Order.height_le_coe_iff` that bounds the height
+of `⊤ : Subobject X₂`, giving finiteness (hence `clength_eq_zero_iff`) and, refined to equality, the
+additivity here. The Schreier lemma is exactly the categorical second isomorphism content missing
+from Mathlib; a pseudoelement diagram chase establishes it but needs a "factors through a subobject"
+(pseudoelement-membership) helper that Mathlib does not yet have. -/
 theorem clength_additive {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ = clength S.X₁ + clength S.X₃ := by
   sorry
