@@ -2953,6 +2953,8 @@ From Phase 2 review patterns and Stage 3.2 proof experience (110+ merged PRs thr
 
 5. **`linarith` requires a linear order — use `linear_combination` over ℂ.** `linarith` only works on linearly ordered types (ℝ, ℤ, ℕ, etc.). For goals over ℂ like `a + b = 0 → a = -b`, use `linear_combination h` instead. The `linear_combination` tactic works over any commutative ring.
 
+6. **sl(2)-triple bracket relations are stated with ℕ-smul — use `nsmul_lie`, not `smul_lie` (Ch2 #5307).** `Sl2Irrep.lie_h_e : ⁅sl2_h, sl2_e⁆ = 2 • sl2_e` and `lie_h_f : ⁅sl2_h, sl2_f⁆ = -(2 • sl2_f)` use **ℕ-smul** (`2 : ℕ`). In a module computation, after `rw [leibniz_lie .., lie_h_f, neg_lie]` you get `-⁅(2:ℕ) • sl2_f, m⁆`; `smul_lie` (the ℂ-scalar lemma) does **not** match the pattern `⁅?t • ?x, ?m⁆`. Use `nsmul_lie : ⁅n • x, m⁆ = n • ⁅x, m⁆`, then `two_nsmul` (or `push_cast`) to turn the resulting `(2:ℕ) • y : M` into something `module` closes. This is the workhorse for the highest-weight ladder (`fIter`/`lie_sl2_h_fIter`/`lie_sl2_e_fIter` in `Problem2_15_1_m_Module.lean`) feeding the #5301 Clebsch–Gordan module-iso assembly.
+
 ### Counting solutions / orbits in `ZMod n` where `n` is a *symbolic* modulus (e.g. `q²−1`)
 
 Formalizing a "count the `ν ∈ K^∨` with property P" claim by modelling `K^∨ ≅ ZMod n`
