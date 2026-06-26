@@ -285,10 +285,11 @@ theorem Theorem5_18_4_centralizers
 
 /-- Schur-Weyl duality, part (ii): The symmetric group and diagonal
 action subalgebras of End(V^⊗n) are both semisimple.
-(Etingof Theorem 5.18.4, part ii) -/
+(Etingof Theorem 5.18.4, part ii)
+
+This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed. -/
 theorem Theorem5_18_4_semisimple
-    [CharZero k]
-    (_hN : n ≤ Module.finrank k V) :
+    [CharZero k] :
     IsSemisimpleRing (symGroupImage k V n)
     ∧ IsSemisimpleRing (diagonalActionImage k V n) := by
   constructor
@@ -308,10 +309,23 @@ V^⊗n decomposes as a direct sum of tensor products of simple modules:
 where {S_i} are the distinct simple k[S_n]-modules (Specht modules)
 appearing in V^⊗n and {L_i} are the corresponding irreducible
 polynomial GL(V)-representations.
-(Etingof Theorem 5.18.4, part iii) -/
+(Etingof Theorem 5.18.4, part iii)
+
+**Weak form: do not cite this as Schur-Weyl part (iii).** The `S i` and `L i`
+here carry only an `AddCommGroup`/`Module k` structure; nothing links them to
+`A = symGroupImage` or `B = diagonalActionImage`, and no simplicity or
+distinctness is asserted. As a standalone statement it is near-vacuous (every
+`k`-vector space is a direct sum of tensor products of `k`-vector spaces). It is
+kept only as a stepping stone. The genuine content of part (iii), namely the
+`A`-module and `B`-module structures, simplicity of both factors, and pairwise
+non-isomorphism, is `Theorem5_18_4_bimodule_decomposition_full` (in
+`SchurWeylBimoduleFull.lean`).
+
+This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed (the
+index set enumerates only the simple `A`-modules that actually appear in
+`V^⊗n`). -/
 theorem Theorem5_18_4_decomposition
-    [CharZero k]
-    (_hN : n ≤ Module.finrank k V) :
+    [CharZero k] :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type (max u v)) (L : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
@@ -421,10 +435,11 @@ The `Module B`-structure is obtained via
 action of `centralizer(A)` on `Lᵢ`) together with the Schur-Weyl
 centralizer identity `centralizer(symGroupImage) = diagonalActionImage`
 from `Theorem5_18_4_centralizers`.
-(Etingof Theorem 5.18.4, part iii, bimodule form.) -/
+(Etingof Theorem 5.18.4, part iii, bimodule form.)
+
+This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed. -/
 theorem Theorem5_18_4_bimodule_decomposition
-    [IsAlgClosed k] [CharZero k]
-    (_hN : n ≤ Module.finrank k V) :
+    [IsAlgClosed k] [CharZero k] :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type (max u v))
       (_ : ∀ i, AddCommGroup (S i))

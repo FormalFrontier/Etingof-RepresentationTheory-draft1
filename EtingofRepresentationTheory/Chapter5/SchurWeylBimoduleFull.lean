@@ -64,10 +64,11 @@ on the `Lᵢ`), this strengthening asserts:
 * the `Lᵢ` are **pairwise non-isomorphic** as `B`-modules.
 
 These are exactly the `B`-side facts dropped from the earlier sorry-free statements.
+This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed (the
+index set enumerates only the simple `A`-modules that actually appear in `V^⊗n`).
 (Etingof Theorem 5.18.4, part iii, bimodule form, full multiplicity content.) -/
 theorem Theorem5_18_4_bimodule_decomposition_full
-    [IsAlgClosed k] [CharZero k]
-    (_hN : n ≤ Module.finrank k V) :
+    [IsAlgClosed k] [CharZero k] :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type (max u v))
       (_ : ∀ i, AddCommGroup (S i))
