@@ -622,12 +622,12 @@
   "start_line": 13,
   "end_line": 16,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "needs_statement": false,
-  "notes": "Both spanning and linear independence proved. Uses polynomial representation with CharZero + NoZeroDivisors.",
+  "notes": "Part (i): basis {x^i y^j : i,j>=0} of the Weyl algebra (Proposition_2_7_1, CharZero+NoZeroDivisors). Part (ii): basis {x^i y^j : i,j in Z} of the q-Weyl algebra (Proposition_2_7_1_ii), realized as the quantum torus / faithful left-regular representation on (Z x Z) ->o k; holds for every q in k^x.",
   "sorry_free": true,
-  "fidelity_note": "Part (i) is faithfully formalized: LinearIndependent over (i,j) |-> x^i y^j AND span = top, i.e. {x^i y^j : i,j >= 0} is a basis of the Weyl algebra (over CharZero/NoZeroDivisors k, which covers th...",
-  "fidelity_decl": "Etingof.Proposition_2_7_1",
+  "fidelity_note": "Both parts faithfully formalized. Part (i) Etingof.Proposition_2_7_1: LinearIndependent (i,j)|->x^i y^j AND span=top for the Weyl algebra. Part (ii) Etingof.Proposition_2_7_1_ii: LinearIndependent qMono AND qWeylAlgebra.toSubmodule = span(range qMono), i.e. {x^i y^j : i,j in Z} is a basis of A_q. Defining relations (yx=qxy, xx^-1=x^-1x=yy^-1=y^-1y=1) verified as qMono_relation_yx / qMono_*_mul_*.",
+  "fidelity_decl": "Etingof.Proposition_2_7_1_ii",
   "fidelity_issue": 5365
  },
  {
