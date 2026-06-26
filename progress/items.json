@@ -1529,11 +1529,10 @@
   "start_line": 1,
   "end_line": 4,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Hypothesis is `LinearIndependent A v` (independence over the algebra A), but the book requires the v_i linearly independent over the field k. In a simple A-module any two distinct nonzero vectors a...",
-  "fidelity_decl": "Etingof.irreducible_interpolation",
-  "fidelity_issue": 5368
+  "fidelity_note": "Restated with the book's hypothesis `LinearIndependent k v` (independence over the base field), replacing the vacuous `LinearIndependent A v` that forced n ≤ 1. Now proved as a corollary of the density theorem (Etingof.density_theorem_part1): k-independence yields a k-linear endomorphism f with f(v i)=w i (via Basis.span + LinearMap.exists_extend), and surjectivity of A → End_k V realizes f as a • -. Closes #5368.",
+  "fidelity_decl": "Etingof.irreducible_interpolation"
  },
  {
   "id": "Chapter3/Theorem3.2.2",
