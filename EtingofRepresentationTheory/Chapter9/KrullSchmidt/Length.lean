@@ -84,6 +84,22 @@ theorem clength_eq_zero_of_isZero {X : C} (h : IsZero X) : clength X = 0 := by
   have hmin : IsMin (⊤ : Subobject X) := fun b _ => le_of_eq (Subsingleton.elim _ _)
   simp only [clength, Order.height_eq_zero.2 hmin, ENat.toNat_zero]
 
+/-- A **simple** object has composition length `1`: its subobject lattice is a two-element chain
+`⊥ < ⊤` (`IsSimpleOrder (Subobject X)`), so the top element covers the bottom and its height is `1`.
+This is the length-`1` base case of the Jordan–Hölder count: the value `clength_additive` returns
+on the simple quotients of a composition series. -/
+theorem clength_simple {X : C} (h : Simple X) : clength X = 1 := by
+  haveI : IsSimpleOrder (Subobject X) := (simple_iff_subobject_isSimpleOrder X).mp h
+  have hheight : Order.height (⊤ : Subobject X) = 1 := by
+    refine le_antisymm (Order.height_le_coe_iff.mpr ?_) ?_
+    · intro y hy
+      have hy0 : y = ⊥ := (IsSimpleOrder.eq_bot_or_eq_top y).resolve_right (ne_of_lt hy)
+      subst hy0
+      simp [Order.height_eq_zero.mpr isMin_bot]
+    · have := Order.height_add_one_le (bot_lt_top : (⊥ : Subobject X) < ⊤)
+      simpa [Order.height_eq_zero.mpr isMin_bot] using this
+  simp [clength, hheight]
+
 /-- An object has composition length `0` iff it is a zero object.
 
 The `←` direction is `clength_eq_zero_of_isZero`. The `→` direction needs that the height of
