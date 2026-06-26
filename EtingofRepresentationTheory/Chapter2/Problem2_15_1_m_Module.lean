@@ -126,4 +126,44 @@ theorem lie_sl2_e_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   rw [pow_succ]
   linear_combination (-(-1 : ℂ) ^ (i : ℕ)) * key
 
+/-! ## The Casimir scalar on the highest-weight vectors
+
+The Casimir operator `C = EF + FE + H²/2` acts on a highest-weight vector `w` of
+weight `ν` by the scalar `ν(ν+2)/2`: since `E·w = 0`,
+`EF·w = ⁅E, F·w⁆ = ⁅⁅E,F⁆, w⁆ + ⁅F, E·w⁆ = H·w = ν·w` (Jacobi, `⁅E,F⁆ = H`),
+`FE·w = 0`, and `H²·w = ν²·w`, so `C·w = (ν + ν²/2)·w = (ν(ν+2)/2)·w`.
+
+On `cgHW λ μ k` the weight is `ν = λ+μ−2k`, giving the value
+`(λ+μ−2k)(λ+μ−2k+2)/2`. These scalars are pairwise distinct for
+`k = 0,…,min(λ,μ)` (the map `ν ↦ ν(ν+2)/2` is injective on `ν ≥ 0`), so the
+Casimir operator separates the Clebsch–Gordan summands — the tool used in the
+assembly of the full module isomorphism. -/
+
+/-- **Casimir scalar on the Clebsch–Gordan highest-weight vector.** The Casimir
+operator `C = EF + FE + H²/2` of `sl(2)` acts on `cgHW λ μ k` (a highest-weight
+vector of weight `ν = λ+μ−2k`) as the scalar `ν(ν+2)/2`. The distinct values of
+this scalar for different `k` separate the irreducible summands of `V_λ ⊗ V_μ`. -/
+theorem casimir_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
+    ⁅sl2_e, ⁅sl2_f, cgHW lam mu k hk⁆⁆
+        + ⁅sl2_f, ⁅sl2_e, cgHW lam mu k hk⁆⁆
+        + (2⁻¹ : ℂ) • ⁅sl2_h, ⁅sl2_h, cgHW lam mu k hk⁆⁆
+      = ((((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k + 2)) / 2)
+          • cgHW lam mu k hk := by
+  have hE : ⁅sl2_e, cgHW lam mu k hk⁆ = 0 := lie_sl2_e_cgHW lam mu k hk
+  have hH : ⁅sl2_h, cgHW lam mu k hk⁆
+      = ((lam : ℂ) + mu - 2 * k) • cgHW lam mu k hk := lie_sl2_h_cgHW lam mu k hk
+  -- `EF·w = ⁅⁅E,F⁆, w⁆ + ⁅F, E·w⁆ = H·w = ν·w` (Jacobi and `⁅E,F⁆ = H`).
+  have hEF : ⁅sl2_e, ⁅sl2_f, cgHW lam mu k hk⁆⁆
+      = ((lam : ℂ) + mu - 2 * k) • cgHW lam mu k hk := by
+    rw [leibniz_lie sl2_e sl2_f, lie_e_f, hH, hE, lie_zero, add_zero]
+  -- `FE·w = 0` since `E·w = 0`.
+  have hFE : ⁅sl2_f, ⁅sl2_e, cgHW lam mu k hk⁆⁆ = 0 := by rw [hE, lie_zero]
+  -- `H²·w = ν²·w`.
+  have hHH : ⁅sl2_h, ⁅sl2_h, cgHW lam mu k hk⁆⁆
+      = (((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k)) • cgHW lam mu k hk := by
+    rw [hH, lie_smul, hH, smul_smul]
+  rw [hEF, hFE, hHH, add_zero, smul_smul, ← add_smul]
+  congr 1
+  ring
+
 end Etingof.Sl2Irrep
