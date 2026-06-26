@@ -356,18 +356,21 @@ other summand zero. No `Module A`, `Module B`, simplicity, or distinctness
 constraint linked `S p`/`L p` to `p`, so the statement held for *any* nonzero
 `V^⊗n` and said nothing about partitions. See issue #5326.
 
-**Proof strategy (the genuinely missing dependency).** Start from the abstract
-`Theorem5_18_4_bimodule_decomposition`, whose index set `ι` enumerates the
-distinct simple `A = symGroupImage`-modules appearing in `V^⊗n`, each with its
-`B`-module partner. The remaining content is the *Specht labelling*: over an
-algebraically closed field of characteristic 0 the simple `k[Sₙ]`-modules are
-in bijection with `Nat.Partition n` via the Specht modules
-(`Etingof.SpechtModule` / `Etingof.Theorem5_12_2_irreducible`), inducing an
-injection `ι ↪ Nat.Partition n`. Re-index the bimodule decomposition along
-this genuine labelling (zero summands on partitions outside the image) to
-obtain the statement below. Formalizing that bijection between simple
-`symGroupImage`-modules and partitions is the open piece; the proof is `sorry`
-until it lands. -/
+**Proof strategy (the genuinely missing dependency).** Start from
+`Theorem5_18_4_bimodule_decomposition_full` (in `SchurWeylBimoduleFull.lean`),
+whose index set `ι` enumerates the distinct simple `A = symGroupImage`-modules
+appearing in `V^⊗n`, and which now carries the *full* `B`-side content
+sorry-free: each multiplicity space `Lᵢ` is a simple `diagonalActionImage`-module
+and the `Lᵢ` are pairwise non-isomorphic. The only remaining content is the
+re-indexing by an injection `ι ↪ Nat.Partition n`, which exists as soon as
+`Fintype.card ι ≤ Fintype.card (Nat.Partition n)`: each simple summand `Sᵢ`,
+restricted along the surjection `k[Sₙ] ↠ symGroupImage`, is a simple
+`k[Sₙ]`-module, and over an algebraically closed field of characteristic `0`
+there are at most `|ConjClasses (Perm (Fin n))| ≤ p(n)` of those
+(`Etingof.Corollary4_2_2`, general-`k`). Given the embedding, re-index the
+full bimodule decomposition (zero summands on partitions outside the image) to
+obtain the statement below. Proving that cardinality bound is the open piece;
+the proof is `sorry` until it lands. -/
 theorem Theorem5_18_4_partition_decomposition
     [IsAlgClosed k] [CharZero k]
     (hN : n ≤ Module.finrank k V) :
