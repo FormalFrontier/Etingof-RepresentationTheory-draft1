@@ -6512,9 +6512,9 @@
   "start_line": 13,
   "end_line": 16,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Book defines basic as 'B/Rad(B) commutative'. The Lean def IsBasicAlgebra k A := ∀ simple A-module M, finrank k M = 1 (all simples 1-dimensional). These coincide only over algebraically closed k: '...",
+  "fidelity_note": "Resolved (#5386): IsBasicAlgebra now faithfully asserts the book's literal condition 'A/Rad(A) commutative' (A ⧸ Ring.jacobson A commutative). The previous 'all simples 1-dimensional' reading is preserved as IsBasicAlgebraSplit and used over algebraically closed fields, where the two coincide.",
   "fidelity_decl": "Etingof.IsBasicAlgebra",
   "fidelity_issue": 5386
  },

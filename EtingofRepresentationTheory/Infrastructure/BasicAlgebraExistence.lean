@@ -239,7 +239,7 @@ lemma exists_full_idempotent_basic_corner
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
     ∃ (e : A) (he : IsFullIdempotent e),
-      @IsBasicAlgebra k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
+      @IsBasicAlgebraSplit k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
         (CornerRing.instAlgebra he.1) := by
   -- Step 1: A is Artinian (finite-dim over a field)
   haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
@@ -394,7 +394,7 @@ lemma exists_full_idempotent_basic_corner
         exact IsNilpotent.isUnit_one_sub
           (hker_nil j (by rwa [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem]))
       exact Ideal.eq_top_of_isUnit_mem I hxI hx_unit
-  have he_basic : @IsBasicAlgebra k _ (CornerRing (k := k) e)
+  have he_basic : @IsBasicAlgebraSplit k _ (CornerRing (k := k) e)
       (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1) := by
     letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
     letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
@@ -1298,7 +1298,7 @@ theorem exists_basic_morita_equivalent
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
-      IsBasicAlgebra k B ∧ MoritaEquivalent A B := by
+      IsBasicAlgebraSplit k B ∧ MoritaEquivalent A B := by
   obtain ⟨e, he, hbasic⟩ := exists_full_idempotent_basic_corner k A
   letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
   letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
