@@ -191,4 +191,32 @@ theorem casimir_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   congr 1
   ring
 
+/-- **The Casimir scalars separate the summands.** For `k, k' ≤ min(λ,μ)` the
+Casimir eigenvalues `(λ+μ−2k)(λ+μ−2k+2)/2` agree only when `k = k'`. The map
+`ν ↦ ν(ν+2)/2` is injective on `ν ≥ 0`, and here `ν = λ+μ−2k ≥ |λ−μ| ≥ 0`. This
+is what lets the Casimir operator pick out the distinct irreducible summands of
+`V_λ ⊗ V_μ`. -/
+theorem casimir_scalar_inj {k k' : ℕ} (hk : k ≤ min lam mu) (hk' : k' ≤ min lam mu)
+    (h : ((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k + 2)
+        = ((lam : ℂ) + mu - 2 * k') * ((lam : ℂ) + mu - 2 * k' + 2)) :
+    k = k' := by
+  -- `a(a+2) − b(b+2) = (a−b)(a+b+2)`, so the difference factors.
+  have hfactor :
+      (((lam : ℂ) + mu - 2 * k) - ((lam : ℂ) + mu - 2 * k'))
+        * (((lam : ℂ) + mu - 2 * k) + ((lam : ℂ) + mu - 2 * k') + 2) = 0 := by
+    linear_combination h
+  -- `a + b + 2 = (2λ+2μ+2) − (2k+2k') > 0` since `k + k' ≤ λ + μ`, hence nonzero.
+  have hsum :
+      ((lam : ℂ) + mu - 2 * k) + ((lam : ℂ) + mu - 2 * k') + 2
+        = ((2 * lam + 2 * mu + 2 : ℕ) : ℂ) - ((2 * k + 2 * k' : ℕ) : ℂ) := by
+    push_cast; ring
+  have hpos :
+      ((lam : ℂ) + mu - 2 * k) + ((lam : ℂ) + mu - 2 * k') + 2 ≠ 0 := by
+    rw [hsum, sub_ne_zero, Ne, Nat.cast_inj]; omega
+  -- Therefore `a − b = 0`, i.e. `2k = 2k'`.
+  have hab : ((lam : ℂ) + mu - 2 * k) - ((lam : ℂ) + mu - 2 * k') = 0 :=
+    (mul_eq_zero.mp hfactor).resolve_right hpos
+  have hkk : (k : ℂ) = (k' : ℂ) := by linear_combination (-2⁻¹ : ℂ) * hab
+  exact_mod_cast hkk
+
 end Etingof.Sl2Irrep
