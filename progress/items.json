@@ -1567,9 +1567,9 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "States only that a finite-dim simple module over a SINGLE matrix algebra Mat_d(k) is isomorphic to the standard rep (Fin d \u2192 k). The book's theorem is about A = \u2295_i Mat_{d_i}(k): its irreducibles a...",
+    "fidelity_note": "Now states the full book claim for A = \u2295_i Mat_{d_i}(k): (1) each standard rep V_j = k^{d_j} is a simple A-module; (2) every finite-dim simple A-module is isomorphic to some V_j; (3) every A-module is semisimple (a direct sum of simple submodules), which by (1)-(2) are copies of the V_j. Proven sorry-free (gap #5373 closed).",
     "fidelity_decl": "Etingof.irreducible_reps_of_matrix_algebra",
     "fidelity_issue": 5373
   },
