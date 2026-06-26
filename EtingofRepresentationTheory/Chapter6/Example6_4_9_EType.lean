@@ -77,10 +77,14 @@ private lemma E6_bound (x : Fin 6 → ℤ)
       sq_nonneg c, sq_nonneg (2*f-c-3)]
   intro i; fin_cases i <;> simp_all <;> omega
 
-set_option linter.style.nativeDecide false in
+-- Honest kernel `decide` over the 4^6 = 4096 candidate vectors (no native code).
+-- The whnf reduction of the filtered Pi-fintype needs raised recursion/heartbeat limits.
+set_option linter.style.maxHeartbeats false in
+set_option maxRecDepth 10000 in
+set_option maxHeartbeats 4000000 in
 private lemma E6_count :
     (rootCountFinset 6 Etingof.DynkinType.E6.adj 4).card = 36 := by
-  native_decide
+  decide
 
 /-- E₆ has 36 positive roots. (Etingof Example 6.4.9) -/
 theorem Etingof.Example_6_4_9_E6 :

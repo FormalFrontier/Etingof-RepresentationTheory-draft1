@@ -425,21 +425,18 @@ private lemma Dn_bound : ∀ (n : ℕ) (hn : 4 ≤ n) (x : Fin n → ℤ),
         have htail0_le : tail ⟨0, by omega⟩ ≤ 2 := by rw [htail0]; exact hx1_bound
         exact Dn_cascade_bound m hm' tail hq_tail htail0_le htail_pos
 
-set_option linter.style.nativeDecide false in
 private lemma D4_count :
     (rootCountFinset 4 (Etingof.DynkinType.D 4 le_rfl).adj 3).card = 12 := by
-  native_decide
+  decide
 
-set_option linter.style.nativeDecide false in
 private lemma D4_nonzero_count :
     ((rootCountFinset 4 (Etingof.DynkinType.D 4 le_rfl).adj 3).filter
       (fun v => v ⟨0, by omega⟩ ≠ 0)).card = 2 * (4 - 1) := by
-  native_decide
+  decide
 
-set_option linter.style.nativeDecide false in
 private lemma D5_count :
     (rootCountFinset 5 (Etingof.DynkinType.D 5 (by omega)).adj 3).card = 20 := by
-  native_decide
+  decide
 
 /-- Filtering rootCountFinset by v₀ = 0 and dropping the first coordinate
     gives a set with the same cardinality as rootCountFinset of D_m. -/
@@ -532,10 +529,9 @@ private def qFourFinset (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 0 < n
     decide (dotProduct (fun i => (v i : ℤ))
       ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun i => (v i : ℤ))) = 4)
 
-set_option linter.style.nativeDecide false in
 private lemma D4_qfour :
     (qFourFinset 4 (Etingof.DynkinType.D 4 le_rfl).adj).card = 1 := by
-  native_decide
+  decide
 
 /-- The q=4 count satisfies a recurrence: peeling off vertex 0. -/
 private lemma qFourFinset_peel (m : ℕ) (hm : 4 ≤ m) :
@@ -852,7 +848,6 @@ private lemma zero_union_qfour_card (m : ℕ) (hm : 4 ≤ m) :
     rw [hx] at hxqf; simp at hxqf
   rw [Finset.card_union_of_disjoint h_disj, Finset.card_singleton, qFourFinset_card m hm]
 
-set_option linter.style.nativeDecide false in
 /-- The D_n root count equals n*(n-1). -/
 private lemma Dn_count : ∀ (n : ℕ) (hn : 4 ≤ n),
     (rootCountFinset n (Etingof.DynkinType.D n hn).adj 3).card =
