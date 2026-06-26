@@ -50,17 +50,17 @@ which is needed for the uniqueness of basic algebras (Corollary 9.7.3).
 
 ## Implementation notes
 
-The full proofs require substantial infrastructure connecting categorical Morita
-equivalence (Theorem 9.6.4) with the concrete algebra-level isomorphism `B ≅ eAe`.
-The key steps are:
+The full proofs connect categorical Morita equivalence (Theorem 9.6.4) with the
+concrete algebra-level isomorphism `B ≅ eAe`. The key steps are:
 1. An equivalence `F : ModuleCat A ≌ ModuleCat B` sends the free module `A` to a
    progenerator `P` of `ModuleCat B`.
 2. `B ≅ End_B(P)ᵒᵖ` (Morita I).
 3. `End_B(P)ᵒᵖ ≅ eAe` where `e` is the idempotent corresponding to the
    projection onto the image of `A` under `F`.
 
-These steps are sorry'd pending formalization of the progenerator-to-algebra
-correspondence.
+The progenerator-to-algebra correspondence is formalized here via the
+endomorphism-ring route (`basic_morita_regular_module_iso`, `equivEndAlgEquiv`,
+`basic_morita_algEquiv`); `MoritaStructural` is proved with no `sorry`.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -220,10 +220,10 @@ Given an equivalence `F : ModuleCat B₁ ≌ ModuleCat B₂`:
 4. **Assembly**: `B₁ᵒᵖ ≅ End_{B₁}(B₁) ≅ End_{B₂}(F(B₁)) ≅ End_{B₂}(B₂) ≅ B₂ᵒᵖ`,
    hence `B₁ ≅ B₂`.
 
-### Blocked by
+### Step 2 in detail
 
-Step 2 requires showing `F(B₁) ≅ B₂` as `B₂`-modules. A proof without
-Krull-Schmidt proceeds as follows:
+Step 2 requires showing `F(B₁) ≅ B₂` as `B₂`-modules. This is formalized in
+`basic_morita_regular_module_iso` without Krull-Schmidt, as follows:
 
 1. `F(B₁)` is a projective generator of `ModuleCat B₂` (categorical argument).
 2. `F(B₁)/J·F(B₁) ≅ B₂/J·B₂` as `B₂/J`-modules, where `J = Ring.jacobson B₂`.
@@ -235,7 +235,7 @@ Krull-Schmidt proceeds as follows:
 4. Nakayama's lemma (`Submodule.FG.eq_bot_of_le_jacobson_smul`) shows `g̃ ∘ f̃` and
    `f̃ ∘ g̃` are surjective, hence isomorphisms (finite-dimensional).
 
-The main missing infrastructure is the primitive idempotent decomposition of
+The supporting infrastructure is the primitive idempotent decomposition of
 basic algebras and the characterization of the semisimple head `B/JB`.
 See also `exists_full_idempotent_basic_corner` in BasicAlgebraExistence.lean
 which constructs this decomposition for the Artin-Wedderburn quotient. -/
