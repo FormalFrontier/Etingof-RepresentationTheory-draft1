@@ -1682,7 +1682,8 @@
     "start_line": 7,
     "end_line": 4,
     "status": "sorry_free",
-    "sorry_free": true
+    "sorry_free": true,
+    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half."
   },
   {
     "id": "Chapter3/Discussion_after_Theorem3.7.1",
