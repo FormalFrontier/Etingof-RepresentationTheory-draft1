@@ -1,0 +1,128 @@
+[
+  {
+    "id": "Chapter9/Proposition9.1.1",
+    "lean_decl": "Etingof.idempotent_lifting_exists, Etingof.idempotent_lifting_conjugate",
+    "verdict": "verified",
+    "reason": "Part (i): ∃ e, IsIdempotentElem e ∧ mk I e = ebar — genuine lift of an arbitrary quotient idempotent through a nilpotent two-sided ideal. Part (ii) is stronger than the book's 'unique up to conjugation by 1+I': asserts ∃ u : Aˣ with (u-1) ∈ I and u*e₁*u⁻¹ = e₂, fully proven. Both faithful, no vacuity.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.1.2",
+    "lean_decl": "Etingof.IsCompleteOrthogonalIdempotents",
+    "verdict": "verified",
+    "reason": "abbrev for Mathlib CompleteOrthogonalIdempotents, which bundles eᵢeⱼ=δᵢⱼeᵢ and ∑eᵢ=1 over a Fintype index. Exactly the book's complete orthogonal idempotent system. Faithful delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Corollary9.1.3",
+    "lean_decl": "Etingof.lift_complete_orthogonal_idempotents",
+    "verdict": "verified",
+    "reason": "∃ e, CompleteOrthogonalIdempotents e ∧ ∀ i, mk I (e i) = ebar i. Lifts a complete orthogonal system through a nilpotent ideal, preserving the projection. Matches the book. Fully proven.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Theorem9.2.1",
+    "lean_decl": "Etingof.Theorem_9_2_1_i, Etingof.Theorem_9_2_1_ii, Etingof.Theorem_9_2_1_iii",
+    "verdict": "verified",
+    "reason": "(i) asserts existence of P : ι→Type with Projective, Finite, IsIndecomposable instances and dim Hom(Pᵢ,Mⱼ)=δᵢⱼ — all conjuncts present, not vacuous. (ii) Nonempty (A ≃ₗ[A] ⨁ i, Fin(dim Mᵢ)→Pᵢ): the full A=⊕(dim Mᵢ)Pᵢ decomposition. (iii) any indecomposable f.g. projective Q ≃ₗ some Pᵢ. The 4 sorries in the file are all proof-level (inside :=by blocks of the Wedderburn-Artin block-correspondence helpers exists_orthogonal_idempotents_for_simples / exists_complete_orthogonal_idempotents_for_simples), not in any def/instance data body; statements are faithful. Requires IsAlgClosed k (genuine, documented: over non-closed fields the rank-1 delta condition fails).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.2.2",
+    "lean_decl": "Etingof.ProjectiveCover",
+    "verdict": "verified",
+    "reason": "structure bundling a real carrier P with [Projective], IsIndecomposable, and a surjection P→ₗM with surjectivity proof. Genuine data (no sorry in the structure). Captures book's projective cover Pᵢ of Mᵢ (indecomposable projective surjecting onto Mᵢ).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Proposition9.2.3",
+    "lean_decl": "Etingof.projective_cover_hom_multiplicity",
+    "verdict": "verified",
+    "reason": "∀ i, dim_k Hom_A(Pᵢ,N) = compositionFactorMultiplicity s (Mᵢ). compositionFactorMultiplicity genuinely counts series quotients ≃ₗ Mᵢ. Proven by induction via Hom-exactness (finrank_hom_additive_of_projective) and the delta property. Faithful to [N:Mᵢ]. No sorry.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.3.1",
+    "lean_decl": "Etingof.algebraCartanMatrix",
+    "verdict": "verified",
+    "reason": "def algebraCartanMatrix (jhMultiplicity : Fin n → Fin n → ℕ) := Matrix.of jhMultiplicity. Real data (the matrix of supplied multiplicities), not a degenerate default. The multiplicity function is an explicit parameter (acknowledged: full JH multiplicity theory not yet assembled). Given the parameter it constructs exactly cᵢⱼ=[Pⱼ:Mᵢ]. Borderline-thin but faithful: it assembles the book's matrix, not a constant 0/⊤.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.4.1",
+    "lean_decl": "Etingof.projectiveDimension",
+    "verdict": "verified",
+    "reason": "noncomputable def = CategoryTheory.projectiveDimension on ModuleCat R, valued in WithBot ℕ∞ (⊥ for zero module, finite n, ⊤ for no finite resolution). Real Mathlib object, not a degenerate constant. Matches the book's pd(M) (Mathlib defines it via Ext-vanishing = shortest resolution length).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.4.3",
+    "lean_decl": "Etingof.HasHomologicalDimensionLE, Etingof.homologicalDimension",
+    "verdict": "verified",
+    "reason": "HasHomologicalDimensionLE R d := ∀ M, HasProjectiveDimensionLE M d (every module pd ≤ d — the book's condition). homologicalDimension := ⨅ d (_:HasHomologicalDimensionLE R d), d in ℕ∞ — the genuine infimum, ⊤ if none. Real construction, not degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Example9.4.4",
+    "lean_decl": "Etingof.Example_9_4_4",
+    "verdict": "verified",
+    "reason": "homologicalDimension (MvPolynomial (Fin n) k) = n, proven by le_antisymm — upper bound via Koszul/polynomial-extension induction (hasHomologicalDimensionLE_polynomial) and lower bound via augmentation-module non-projectivity (mvPolynomial_homologicalDimension_le_iff). Entire file sorry-free. Exact Hilbert syzygies statement.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.5.1",
+    "lean_decl": "Etingof.AreLinked, Etingof.Block (+ DirectlyExtLinked, ExtAdjacent, blockSetoid)",
+    "verdict": "verified",
+    "reason": "DirectlyExtLinked := Nontrivial (Ext X Y 1) (correctly Nontrivial, not Nonempty, since Ext is an AddCommGroup with a zero). ExtAdjacent = either direction. AreLinked := EqvGen (ExtOrIso) — the equivalence closure of Ext¹-adjacency-up-to-iso, exactly the book's chain relation. Block := Quotient of the induced setoid. Faithful, proven equivalence relation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Example9.5.2",
+    "lean_decl": "Etingof.semisimple_blocks_singleton, Etingof.local_artinian_single_block",
+    "verdict": "verified",
+    "reason": "(i) semisimple: any two linked simples are isomorphic (each simple its own block, ≅ category of vector spaces) — proven via Ext¹ subsingleton over semisimple. (ii) commutative local artinian: any two simples are linked (single block) — proven via unique simple R/m. Part (iii) (Problem 9.3.2 algebra) is omitted, but the book also only asserts it; the two stated claims are faithful and proven. No sorry.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.6.1",
+    "lean_decl": "Etingof.IsFiniteAbelianCategory",
+    "verdict": "verified",
+    "reason": "class extends Abelian C, EnoughProjectives C, plus a Fintype index ι of simpleObj with simple_simpleObj proofs and iso_of_simple completeness (every simple ≃ some representative). Captures 'enough projectives + finitely many simples up to iso'. Real bundling, not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.6.2",
+    "lean_decl": "Etingof.IsProgenerator",
+    "verdict": "verified",
+    "reason": "class extends Projective P with epiFromBiproduct: every X admits an epi from a finite biproduct of copies of P (i.e. quotient of a multiple of P). Both conjuncts of progenerator (projective + generator) present. Real construction.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Theorem9.6.4",
+    "lean_decl": "Etingof.Theorem_9_6_4, Etingof.Theorem_9_6_4_corollary",
+    "verdict": "verified",
+    "reason": "Theorem_9_6_4 proves preadditiveCoyonedaObjFG.IsEquivalence — full + faithful + essSurj all separately proven (file sorry-free), so F=Hom(P,-) is an actual equivalence C ≌ FGModuleCat (End P)ᵐᵒᵖ, both directions. Corollary gives Nonempty (C ≌ FGModuleCat (End P)ᵐᵒᵖ). Faithful to the book's 'F is an equivalence; every finite abelian cat ≃ modules over a f.d. algebra'. Adds hypothesis [IsNoetherianRing (End P)ᵐᵒᵖ] (auto-satisfied for finite-dim algebras), a mild over-specification, not a weakening of the conclusion.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.7.1",
+    "lean_decl": "Etingof.MoritaEquivalent (+ KLinearMoritaEquivalent)",
+    "verdict": "verified",
+    "reason": "MoritaEquivalent A B := Nonempty (ModuleCat A ≌ ModuleCat B) — equivalence of module categories, the book's definition. Uses full module category rather than fmod (documented; Mathlib has no standalone fmod category). KLinearMoritaEquivalent additionally requires k-linearity of the functor (needed pending Eilenberg-Watts). Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.7.2",
+    "lean_decl": "Etingof.IsBasicAlgebra",
+    "verdict": "gap",
+    "reason": "Book defines basic as 'B/Rad(B) commutative'. The Lean def IsBasicAlgebra k A := ∀ simple A-module M, finrank k M = 1 (all simples 1-dimensional). These coincide only over algebraically closed k: 'all simples 1-dim' ⇔ 'B/Rad = product of copies of k', which is STRICTLY STRONGER than 'B/Rad commutative' over non-closed fields (e.g. ℂ as ℝ-algebra has commutative B/Rad but a 2-dimensional simple). The Lean definition does not assert the book's stated condition; it captures only the algebraically-closed reading. All downstream consumers gate on IsAlgClosed k, so usage is sound, but the definition itself diverges from the book's literal statement.",
+    "dropped_conjunct": "book condition 'B/Rad(B) commutative' replaced by the strictly stronger 'every simple module is 1-dimensional' (equivalent only over algebraically closed fields)"
+  },
+  {
+    "id": "Chapter9/Corollary9.7.3",
+    "lean_decl": "Etingof.Corollary_9_7_3_i, Etingof.Corollary_9_7_3_i_unique, Etingof.Corollary_9_7_3_ii",
+    "verdict": "verified",
+    "reason": "(i) existence: ∃ basic B with MoritaEquivalent A B, delegating to exists_basic_morita_equivalent which is FULLY PROVEN (file BasicAlgebraExistence.lean is sorry-free; the 'we sorry'/'sorry'd' notes in comments are stale). (i) uniqueness: B₁ ≃ₐ[k] B₂ for two basic algebras Morita equiv to A, proven via MoritaStructural corner-ring dimension argument. (ii) dim B ≤ dim A, proven via B ≅ eAe and CornerRing.finrank_le. All require [IsAlgClosed k] (genuine, tied to the basic-algebra definition). No actual sorry. Note: faithfulness here inherits the Def 9.7.2 'basic' divergence (gap is recorded on that item).",
+    "dropped_conjunct": null
+  }
+]

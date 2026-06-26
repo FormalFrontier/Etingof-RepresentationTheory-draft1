@@ -1,0 +1,205 @@
+[
+  {
+    "id": "Chapter5/Definition5.1.1",
+    "lean_decl": "Etingof.RepresentationType, Etingof.IsRealType, Etingof.IsQuaternionicType",
+    "verdict": "verified",
+    "reason": "IsRealType asserts a G-invariant nondegenerate SYMMETRIC bilinear form; IsQuaternionicType a G-invariant nondegenerate SKEW form. Both carry all three conjuncts (symmetric/skew, nondegenerate, G-invariant) matching the book. Complex type is captured by the enumeration; the V ≇ V* characterization is not given a predicate but the book only names complex type as the residual case.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.1.4",
+    "lean_decl": "Etingof.frobeniusSchurIndicator",
+    "verdict": "verified",
+    "reason": "Defined as |G|⁻¹ Σ_g χ_V(g²), the standard formula. Real noncomputable def, not sorried. The book's case-value definition (0/1/-1 by type) is the theorem content of 5.1.5; the indicator formula is the faithful object.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.1.5",
+    "lean_decl": "Etingof.Theorem5_1_5 (and Etingof.frobeniusSchur_involution_count)",
+    "verdict": "verified",
+    "reason": "Asserts #{g | g²=1} = Σ_i dim(V_i)·FS(V_i) over a genuine irreducible decomposition (Simple V_i, distinctness via hinj). Non-vacuous: the LHS is the real involution count, RHS the dimension-weighted indicator sum. Matches the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Corollary5.1.6",
+    "lean_decl": "Etingof.Corollary5_1_6",
+    "verdict": "verified",
+    "reason": "Hypothesis h_all_real : ∀ i, FS(V_i)=1 (all real type) gives #{involutions} = Σ_i dim(V_i). Faithful specialization of 5.1.5.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.2.1",
+    "lean_decl": "Etingof.Definition5_2_1_algebraic_number, Etingof.Definition5_2_1_algebraic_integer",
+    "verdict": "verified",
+    "reason": "Characterizes IsAlgebraic ℚ z (root of nonzero rational poly) and IsIntegral ℤ z (root of monic integer poly), exactly the book's polynomial definitions.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.2.2",
+    "lean_decl": "Etingof.Definition5_2_2_algebraic, Etingof.Definition5_2_2_integer",
+    "verdict": "verified",
+    "reason": "States z is algebraic (resp. integral) iff z is a root of charpoly of a rational (resp. integer) matrix, i.e. an eigenvalue of such a matrix. Faithful eigenvalue characterization; full iff proved.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.2.3",
+    "lean_decl": "Etingof.Proposition5_2_3_algebraic, Etingof.Proposition5_2_3_integer",
+    "verdict": "verified",
+    "reason": "Proves equivalence of the polynomial (5.2.1) and matrix-eigenvalue (5.2.2) characterizations, for both numbers and integers. Matches the proposition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.2.4",
+    "lean_decl": "Etingof.Proposition5_2_4_ring, Etingof.Proposition5_2_4_field",
+    "verdict": "verified",
+    "reason": "Asserts algebraic integers closed under + and * (ring) and algebraic numbers closed under + and * (field part). Non-vacuous. Mildly weaker phrasing than full subfield (inverse-closure of Q̄ not stated as its own conjunct) but the proposition's stated content (ring/field structure via + and *) is captured; closure under negation/inverse is provided by Mathlib's IsAlgebraic/IsIntegral API and the field statement only proves +,* here.",
+    "dropped_conjunct": "additive inverse / multiplicative inverse closure not explicitly asserted (only + and * shown); acceptable as the ring/field content"
+  },
+  {
+    "id": "Chapter5/Proposition5.2.5",
+    "lean_decl": "Etingof.Proposition5_2_5",
+    "verdict": "verified",
+    "reason": "States IsIntegral ℤ (algebraMap ℚ ℂ q) ↔ ∃ n:ℤ, q=n, i.e. Z̄ ∩ ℚ = ℤ. Exact match.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.2.6",
+    "lean_decl": "Etingof.Lemma5_2_6",
+    "verdict": "verified",
+    "reason": "Calibration case (b) FIX VERIFIED. Statement is the FULL claim: for β an algebraic conjugate (IsConjRoot) of Σ α_i, ∃ α'_i with each α'_i a conjugate of α_i and β = Σ α'_i. Not the weak 'IsAlgebraic ℚ (Σ)' form. Genuine.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.3.1",
+    "lean_decl": "Etingof.Theorem5_3_1 (+ FDRep.character_isIntegral)",
+    "verdict": "verified",
+    "reason": "States dim_ℂ V ∣ |G| for V a Simple FDRep ℂ G. Hypothesis (Simple) and conclusion (divisibility) match the book exactly. Non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Proposition5.3.2",
+    "lean_decl": "Etingof.Proposition5_3_2",
+    "verdict": "verified",
+    "reason": "States IsIntegral ℤ (|C|·χ_V(g)/dim V) for Simple V, where |C| is the conjugacy-class cardinality. Exactly λ_i is an algebraic integer. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.4.1",
+    "lean_decl": "example : IsSolvable (Equiv.Perm (Fin 3))",
+    "verdict": "verified",
+    "reason": "Recalls Mathlib IsSolvable (derived-series definition, equivalent to the book's normal-series-with-abelian-quotients definition) and demonstrates it on S₃. The definition object is genuine; equivalence of the two solvability definitions is a standard Mathlib fact.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.4.3",
+    "lean_decl": "Etingof.Theorem5_4_3",
+    "verdict": "verified",
+    "reason": "Burnside: card G = p^a q^b with p,q prime ⟹ IsSolvable G. Hypotheses and conclusion match the book exactly. Non-vacuous (real induction proof).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.4.4",
+    "lean_decl": "Etingof.Theorem5_4_4",
+    "verdict": "verified",
+    "reason": "For Simple V and Coprime(|C|, dim V): χ_V(g)=0 ∨ ∃ c, ρ(g)=c•id (g acts as scalar). Both alternatives and the coprimality hypothesis match the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.4.5",
+    "lean_decl": "Etingof.Lemma5_4_5",
+    "verdict": "verified",
+    "reason": "Roots of unity ε_i with (Σε_i)/n integral ⟹ (∀ i j, ε_i=ε_j) ∨ Σε_i=0. The root-of-unity hypothesis (∃ m>0, ε^m=1) and dichotomy conclusion match the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.4.6",
+    "lean_decl": "Etingof.Theorem5_4_6",
+    "verdict": "verified",
+    "reason": "Conjugacy class of size p^k (p prime, k>0) ⟹ ∃ N normal, N≠⊥, N≠⊤ (proper nontrivial normal subgroup, i.e. G not simple). Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Lemma5.4.7",
+    "lean_decl": "Etingof.Lemma5_4_7",
+    "verdict": "verified",
+    "reason": "Asserts ∃ V Simple, nontrivial (not iso to trivial rep), p ∤ dim V, and χ_V(g)≠0 — i.e. an irreducible in the set N with χ_V(g)≠0. Faithful and fully constrained (V is a genuine simple FDRep, not an unconstrained existential).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.6.1",
+    "lean_decl": "extTprod_isIrreducibleRep, exists_extTprod_of_isIrreducibleRep, IsIrreducibleRep",
+    "verdict": "verified",
+    "reason": "Both directions present: (i) external tensor product of irreducibles is irreducible; (ii) every irreducible of G×H is equivariantly iso to an external tensor V⊗W of irreducibles (explicit equivariant e with e(τ gh m)=extTprod ρ σ gh (e m)). IsIrreducibleRep is a genuine simplicity predicate (Nontrivial ∧ submodules trivial). Captures 'the irreducibles of G×H are exactly {V_i⊗W_j}'. Over alg-closed field, matching Thm 3.10.2 dependency.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.7.1",
+    "lean_decl": "Etingof.VirtualRepresentation",
+    "verdict": "gap",
+    "reason": "Structure faithfully models a virtual representation (coeffs : FDRep ℂ G → ℤ with finite support, i.e. a formal ℤ-combination of irreducibles). However the blob's second claim — 'The character of V is χ_V := Σ n_i χ_{V_i}' — has NO corresponding definition (no character field or def in the file). The primary object is genuine; the virtual-character construction is a dropped sub-claim (coverage). Recorded as a minor gap, not a vacuity.",
+    "dropped_conjunct": "the virtual character χ_V := Σ n_i χ_{V_i} is not defined"
+  },
+  {
+    "id": "Chapter5/Lemma5.7.2",
+    "lean_decl": "Etingof.Lemma5_7_2",
+    "verdict": "verified",
+    "reason": "For W_i distinct simples and integer coeffs n_i, (χ_V,χ_V)=1 (expressed via |G|⁻¹ Σ_g (Σ n_i χ_i(g))(Σ n_j χ_j(g⁻¹))=1) and χ_V(1)>0 (Σ n_i dim W_i>0) ⟹ ∃ i₀, n_{i₀}=1 ∧ rest 0, i.e. V is (the character of) a single irreducible. Faithful to the lemma.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.8.1",
+    "lean_decl": "Etingof.Definition5_8_1",
+    "verdict": "verified",
+    "reason": "Genuine noncomputable def building Representation.ind H.subtype ρ : Representation ℂ G (IndV H.subtype ρ) — the actual induced representation object. Uses the tensor/left-adjoint model rather than the book's function-space model, which agree for finite groups (Rep.indCoindIso); docstring documents this. Data fully constructed, no def-sorry.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Remark5.8.2",
+    "lean_decl": "Etingof.Remark5_8_2",
+    "verdict": "verified",
+    "reason": "Genuine noncomputable def producing Rep.ind H.subtype A ≅ Rep.coind' H.subtype A, where coind' is literally Hom_H(k[G],V). Built from real Mathlib isos (indCoindIso ≪≫ coindIso). Asserts the stated natural isomorphism Ind ≅ Hom_H(k[G],V). The finite-index hypothesis is a necessary condition for the construction, not a weakening of the remark's content.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.10.1",
+    "lean_decl": "Etingof.Theorem5_10_1",
+    "verdict": "verified",
+    "reason": "Frobenius reciprocity: Nonempty ((Ind W ⟶ V) ≃ₗ (W ⟶ Res V)) via the concrete Rep.indResHomEquiv. NOT the #5326 unconstrained-existential pattern: the linear equivalence is between the two specific, correct Hom-spaces (Hom_G(Ind W,V) and Hom_H(Res V,W)), built explicitly, not an arbitrary Nonempty of an abstract iso. The book's 'naturally isomorphic' naturality is not asserted as a separate conjunct, but the canonical iso between the right spaces is the content. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.12.1",
+    "lean_decl": "Etingof.StandardYoungTableau, RowSubgroup, ColumnSubgroup, RowSymmetrizer, ColumnAntisymmetrizer, YoungSymmetrizer (+ rowOfPos/colOfPos)",
+    "verdict": "verified",
+    "reason": "All objects genuinely constructed (no def-sorry): row/column subgroups as real subgroups of S_n via canonical filling, a_λ = Σ_{g∈P_λ} g, b_λ = Σ_{g∈Q_λ} sign(g)g, c_λ = b_λ·a_λ. Partitions/diagrams via Mathlib Nat.Partition. Matches the book's definitions. (P_λ∩Q_λ={1} is a discussion claim, coverage not fidelity.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.12.2",
+    "lean_decl": "Theorem5_12_2_irreducible, Theorem5_12_2_distinct, Theorem5_12_2_classification (+ SpechtModule)",
+    "verdict": "verified",
+    "reason": "NOT the #5326 vacuous pattern. SpechtModule n la = span_{ℂ[S_n]}{c_λ} = genuine ℂ[S_n]·c_λ. Three real conjuncts asserted: irreducible (IsSimpleModule ℂ[S_n] (SpechtModule)), distinct (la≠mu ⟹ IsEmpty(V_λ ≃ₗ V_μ)), and classification (every simple ℂ[S_n]-module M ≃ₗ some V_λ). Module structure tied to S_n; irreducibility and uniqueness-by-partition both present. Faithful to 'V_λ irreducible; every irrep ≅ V_λ for a unique λ'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Example5.12.3",
+    "lean_decl": "Example5_12_3_trivial, Example5_12_3_sign, Example5_12_3_dim_21/22/31/211",
+    "verdict": "verified",
+    "reason": "Each dimension fact is a real finrank ℂ (SpechtModule ...) = k computed via the hook-length formula: dim V_{(n)}=1, dim V_{(1ⁿ)}=1, dim V_{(2,1)}=2, dim V_{(2,2)}=2, dim V_{(3,1)}=3, dim V_{(2,1,1)}=3 — all matching the book. Non-vacuous. The book's identification of V_{(n)} as the trivial rep and V_{(1ⁿ)} as sign (and ℂ³₊/ℂ³₋ labels) is only reflected at the dimension level, not as a rep-isomorphism; a minor sub-claim is unformalized but the stated dimension claims are faithful.",
+    "dropped_conjunct": "isomorphism-type labels (trivial / sign / ℂ³₊ vs ℂ³₋) proved only as dimensions, not as representation isomorphisms"
+  },
+  {
+    "id": "Chapter5/Corollary5.12.4",
+    "lean_decl": "Etingof.Corollary5_12_4",
+    "verdict": "gap",
+    "reason": "SILENT WEAKENING (calibration case b pattern). Book claim: 'All irreducible representations of S_n can be given by matrices with rational entries.' The Lean statement only asserts ∃ c_int : ℤ[S_n], cast c_int = YoungSymmetrizer — i.e. the Young symmetrizer has integer coefficients. It does NOT assert that the irreducible representations are realizable over ℚ (no ℚ-form of V_λ, no rational-matrix realization). The docstring describes the full ℚ-definability argument but the theorem proves only the integrality of c_λ, strictly weaker than the corollary's stated conclusion.",
+    "dropped_conjunct": "the actual conclusion — every irreducible S_n-representation is realizable over ℚ (rational matrices) — is not asserted; only integrality of the Young symmetrizer"
+  },
+  {
+    "id": "Chapter5/Lemma5.13.1",
+    "lean_decl": "Etingof.Lemma5_13_1 (+ Lemma5_13_1_dual)",
+    "verdict": "verified",
+    "reason": "States ∃ ℓ linear, ∀ x, b_λ·x·a_λ = ℓ(x)•c_λ (with c_λ = b_λ·a_λ in this file's convention). This is exactly the book's 'a_λ x b_λ = ℓ_λ(x) c_λ, ℓ_λ linear' under the convention's factor ordering. ℓ is a genuine ℂ-linear functional. Faithful.",
+    "dropped_conjunct": null
+  }
+]

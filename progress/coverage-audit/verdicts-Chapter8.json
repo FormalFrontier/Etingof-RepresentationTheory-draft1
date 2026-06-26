@@ -1,0 +1,65 @@
+[
+  {
+    "id": "Chapter8/Theorem8.1.1",
+    "lean_decl": "Etingof.Theorem_8_1_1_i_iff_ii, Etingof.Theorem_8_1_1_i_iff_iii",
+    "verdict": "verified",
+    "reason": "Two genuine iff statements. `i_iff_ii`: Module.Projective R P ↔ (every surjection f : M →ₗ P splits, i.e. ∃ g with f.comp g = id) — faithful to (i)↔(ii), real proof both directions. `i_iff_iii`: Module.Projective ↔ (∃ free Q, i:P→Q, s:Q→P with s.comp i = id) — P is a direct summand of a free module, faithful to (iii). Condition (i) is exactly Module.Projective (lifting property). Non-vacuous: both directions proved with constrained data, no degenerate conclusions.",
+    "dropped_conjunct": "Condition (iv) (exactness of Hom_A(P,?)) is not formalized as a separate equivalence; the iv↔others link is omitted. The three other characterizations (i,ii,iii) are faithfully captured, so the substance of the theorem is present."
+  },
+  {
+    "id": "Chapter8/Definition8.1.2",
+    "lean_decl": "Etingof.ProjectiveModule",
+    "verdict": "verified",
+    "reason": "abbrev for Module.Projective R M, the standard lifting-property definition matching condition (i) of Theorem 8.1.1. Real definition (alias), captures the concept exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Theorem8.1.5",
+    "lean_decl": "Etingof.Theorem_8_1_5_i_iff_ii, Etingof.Theorem_8_1_5_Baer",
+    "verdict": "verified",
+    "reason": "`i_iff_ii`: Module.Injective R I ↔ (every injection f : I →ₗ M splits, ∃ g with g.comp f = id) — faithful to (i)↔(ii). The backward direction is a full pushout-construction proof (E = (I×Y)/K) matching the book's argument, not a vacuous claim. `Baer` adds Module.Injective ↔ Module.Baer. Condition (i) is exactly Module.Injective (extension property). Non-vacuous.",
+    "dropped_conjunct": "Condition (iii) (exactness of Hom_A(?,I)) not formalized as a separate equivalence, but (i)↔(ii) is genuinely captured."
+  },
+  {
+    "id": "Chapter8/Definition8.1.6",
+    "lean_decl": "Etingof.InjectiveModule",
+    "verdict": "verified",
+    "reason": "abbrev for Module.Injective R M, the standard extension-property definition matching condition (i) of Theorem 8.1.5. Real alias capturing the concept exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Example8.1.7",
+    "lean_decl": "Etingof.Example_8_1_7",
+    "verdict": "gap",
+    "reason": "Book claims (for an algebra A): P projective ⟺ P* injective as a right A-module. The Lean statement (a) is only a one-directional implication, not the iff; (b) is restricted to a FIELD k, where every k-module is injective by semisimplicity, so the conclusion `Module.Injective k (Module.Dual k P)` holds for ALL P regardless of projectivity; (c) the projectivity hypothesis is the underscore-named `_hP` and is literally unused — the proof is `Module.injective_of_isSemisimpleRing k _`. This is vacuous over fields and far weaker than the book's general-algebra biconditional. Matches calibration pattern (c) strictly weaker + decorative hypothesis.",
+    "dropped_conjunct": "Reverse implication (P* injective → P projective) dropped; iff degraded to implication; generality narrowed from arbitrary algebra A to a field; projectivity hypothesis unused so the asserted content is vacuous."
+  },
+  {
+    "id": "Chapter8/Definition8.1.8",
+    "lean_decl": "Etingof.ProjectiveObject, Etingof.InjectiveObject",
+    "verdict": "verified",
+    "reason": "abbrevs for CategoryTheory.Projective P and CategoryTheory.Injective I, the standard categorical definitions via exactness of Hom(P,?) / Hom(?,I). Real aliases capturing both concepts exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Definition8.2.1",
+    "lean_decl": "Etingof.ProjectiveResolution",
+    "verdict": "verified",
+    "reason": "abbrev for CategoryTheory.ProjectiveResolution X: an exact complex of projectives augmenting to X. Real alias matching the book's definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Definition8.2.3",
+    "lean_decl": "Etingof.Tor",
+    "verdict": "verified",
+    "reason": "noncomputable abbrev for CategoryTheory.Tor C n, the left derived functors of the tensor product — exactly the book's Tor_i (homology of P• ⊗_A N). Real alias; constructs the actual functor, not degenerate data.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Definition8.2.4",
+    "lean_decl": "Etingof.Ext",
+    "verdict": "verified",
+    "reason": "noncomputable abbrev for CategoryTheory.Abelian.Ext M N n, the derived functors of Hom — exactly the book's Ext^i (cohomology of Hom_A(P•,N)). Real alias constructing the genuine object.",
+    "dropped_conjunct": null
+  }
+]

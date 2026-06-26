@@ -1,0 +1,184 @@
+[
+  {
+    "id": "Chapter2/Example2.8.2",
+    "lean_decl": "Etingof.Example_2_8_2 : Quiver (Fin 4)",
+    "verdict": "verified",
+    "reason": "Book gives a concrete quiver with 4 vertices and 3 arrows (0->1, 2->1, 3->0). The instance assigns Hom a b = Unit exactly on those three ordered pairs and Empty otherwise, faithfully realizing the displayed diagram. Not vacuous: arrows are genuinely present (Unit) and absent (Empty) at the correct vertices.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.3",
+    "lean_decl": "Etingof.QuiverRepresentation (structure)",
+    "verdict": "verified",
+    "reason": "Structure carries obj : Q -> Type* with per-vertex AddCommMonoid/Module instances (a k-module at each vertex) and mapLinear : (v -> w) -> obj v ->L[k] obj w (a linear map per arrow). This matches the book's assignment of a vector space to each vertex and a linear map x_h : V_{h'} -> V_{h''} to each edge. Real data, not degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.4",
+    "lean_decl": "Etingof.PathAlgebra (abbrev) + NonUnitalRing/Ring/Algebra instances",
+    "verdict": "verified",
+    "reason": "PathAlgebra k Q := QuiverPathIndex Q ->f k is the free k-module on oriented paths (basis = oriented paths), matching the book. Multiplication mulLinear is bilinear path concatenation, 0 when non-composable (single_mul_single, compSingle_eq_zero). Associativity proved (mul_assoc). The data is real and the concatenation law matches the footnote convention. Note: book reads ab='first b then a'; the file uses the opposite (Mathlib) order and documents this as the mutually opposite algebra. This is a documented convention choice, not a fidelity gap. Definition constructed, not degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.8.5",
+    "lean_decl": "Etingof.PathAlgebra.sum_trivialPaths_eq_one + One/Ring/Algebra instances (in Definition2_8_4.lean)",
+    "verdict": "verified",
+    "reason": "Claim: for a finite quiver, sum_i p_i = 1, so P_Q is unital. Covered in Definition2_8_4.lean: sum_trivialPaths_eq_one states (sum_i ofPath <i,i,nil>) = 1 under [Fintype Q], and one_mul/mul_one are proved making the Ring instance genuine. Faithful to the claim. (Item has no claim_coverage record in items.json, but the Lean content fully and faithfully asserts the claim.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.8.7",
+    "lean_decl": "(none)",
+    "verdict": "verified",
+    "reason": "Pure prose remark: 'in practice it is easier to consider a representation of a quiver as in Definition 2.8.3' plus a transitional sentence. No formalizable mathematical claim. No Lean statement exists, hence nothing can be unfaithful. (Strictly, items.json should carry a non_formalizable reason rather than sorry_free, but there is no fidelity gap.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.8",
+    "lean_decl": "Etingof.QuiverSubrepresentation (structure)",
+    "verdict": "verified",
+    "reason": "Structure carries carrier : forall v, Submodule k (rho.obj v) (a subspace W_i at each vertex) and map_mem : x in carrier v -> mapLinear e x in carrier w (the invariance x_h(W_{h'}) subseteq W_{h''}). Faithful to the book. The restriction x'_h = x_h|_{W_{h'}} is determined by map_mem and need not be separate data. Real data.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.9",
+    "lean_decl": "Etingof.QuiverRepresentation.directSum (noncomputable def)",
+    "verdict": "verified",
+    "reason": "obj v := rho1.obj v x rho2.obj v (vertex-wise direct sum) and mapLinear h := (rho1.mapLinear h).prodMap (rho2.mapLinear h) (arrow-wise direct sum of linear maps). This is exactly the vertex-wise/arrow-wise direct sum of the refs blob. Genuinely constructed object, not degenerate.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.10",
+    "lean_decl": "Etingof.QuiverRepresentationHom (structure)",
+    "verdict": "verified",
+    "reason": "Structure carries app : forall v, rho1.obj v ->L[k] rho2.obj v (a linear map phi_i per vertex) and naturality : app w (mapLinear e x) = mapLinear e (app v x) (the commuting square y_h o phi_{h'} = phi_{h''} o x_h). Faithful to the homomorphism definition. Real data plus genuine commuting condition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.9.1",
+    "lean_decl": "Etingof.LieAlgebraDef (abbrev) := LieAlgebra k L",
+    "verdict": "verified",
+    "reason": "Aliases Mathlib LieAlgebra k L under [LieRing L]; LieRing bakes in the Jacobi identity (the book's defining condition 2.9.1). Faithful recall of the standard definition. The Jacobi identity is genuinely present via the LieRing class, so not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.9.2",
+    "lean_decl": "two example declarations (LieRing A from associative; LieAlgebra k (Module.End k V))",
+    "verdict": "gap",
+    "reason": "Book lists FIVE examples: (1) abelian Lie algebra (bracket = 0), (2) associative algebra with [a,b]=ab-ba, in particular gl(V)=End(V), (3) any subspace U closed under bracket, (4) the space Der(A) of derivations of an algebra (linear maps satisfying the Leibniz rule). The Lean file only formalizes (2): example giving LieRing A from a ring, and LieAlgebra k (Module.End k V). Examples (1) abelian, (3) bracket-closed subspace, and (4) derivations Der(A) with the Leibniz rule are all absent. Item (4) in particular introduces the named concept of derivation/Der(A) which has no Lean declaration. Coverage gap.",
+    "dropped_conjunct": "abelian Lie algebra (1); bracket-closed subspace (3); derivations Der(A) with Leibniz rule (4)"
+  },
+  {
+    "id": "Chapter2/Example2.9.2_continued",
+    "lean_decl": "example (S : LieSubalgebra k L) : LieAlgebra k S",
+    "verdict": "verified",
+    "reason": "Book (5): a subspace closed under the bracket is a Lie subalgebra of g. The example exhibits LieAlgebra k S for S : LieSubalgebra k L, and Mathlib's LieSubalgebra is by definition a submodule closed under the bracket, so the named concept and its Lie-algebra structure are both witnessed. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.9.3",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "Book states Ado's theorem: any finite-dimensional Lie algebra is a Lie subalgebra of gl(V) for a suitable finite-dimensional V. This is a concrete, formalizable mathematical statement (an existence claim with a faithful embedding). No Lean declaration exists for it anywhere in Chapter2, and items.json records no non_formalizable reason. Genuine coverage gap (the claim is asserted nowhere).",
+    "dropped_conjunct": "the entire Ado embedding statement: exists finite-dim V and an injective Lie homomorphism g -> gl(V)"
+  },
+  {
+    "id": "Chapter2/Remark2.9.4",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "Book gives motivational discussion: D := g'(0) of a differentiable family of automorphisms is a derivation, and conversely e^{tD} is a 1-parameter family of automorphisms ('check it!'/'give a proof!'). These are formalizable claims but require differential-geometric machinery (1-parameter families of automorphisms, matrix exponential). There is no Lean declaration and no recorded non_formalizable assessment. Plausibly non_formalizable at this stage, but the claims were never enumerated/justified in items.json, so I cannot confirm it is correctly resting at sorry_free. Marked unsure pending a non_formalizable record or a formalization.",
+    "dropped_conjunct": "derivative of automorphism family is a derivation; exp(tD) is a 1-parameter automorphism family"
+  },
+  {
+    "id": "Chapter2/Definition2.9.6",
+    "lean_decl": "Etingof.LieAlgebraHom (abbrev) := L1 ->l[k] L2 (LieHom)",
+    "verdict": "verified",
+    "reason": "Aliases Mathlib LieHom (L1 ->l[k] L2), which is by definition a linear map preserving the bracket (phi[a,b]=[phi a, phi b]). Faithful recall of the book's definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.9.7",
+    "lean_decl": "Etingof.LieAlgebraRepresentation (abbrev) := LieModule k L V",
+    "verdict": "verified",
+    "reason": "Aliases LieModule k L V (with [LieRingModule L V]); a Lie module is exactly a vector space with a Lie homomorphism g -> End V (the LieRingModule action). Faithful recall. The Lie action is genuinely present via the required LieRingModule instance, so not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.9.8",
+    "lean_decl": "two example declarations (LieModule k L L; and a, b : L => [a,b]=[a,b] rfl)",
+    "verdict": "gap",
+    "reason": "Book lists three representations: (1) V=0 zero representation, (2) any vector space with rho=0 (trivial representation), (3) the adjoint representation V=g with rho(a)(b):=[a,b], whose existence is equivalent to the Jacobi identity. The Lean file's first example shows LieModule k L L (the adjoint module, fine for (3)'s existence), but its docstring mislabels it the trivial representation. (1) V=0 and (2) the genuine trivial representation (rho=0 on an arbitrary V) are not formalized. The second example, [a,b]=[a,b] by rfl, is vacuous (true for any a,b in any type with a bracket; replacing the bracket by anything still proves it) and asserts nothing about the adjoint representation being a representation. The substantive claim that the adjoint action IS a Lie-module action (equivalently the Jacobi identity content) is carried only by inferInstance on LieModule k L L; the explicit (1) and (2) are missing.",
+    "dropped_conjunct": "zero representation V=0 (1); trivial representation rho=0 on arbitrary V (2); second example is a vacuous rfl, not an adjoint-representation claim"
+  },
+  {
+    "id": "Chapter2/Definition2.9.9",
+    "lean_decl": "Etingof.UniversalEnvelopingAlgebraDef (abbrev) := UniversalEnvelopingAlgebra k L",
+    "verdict": "verified",
+    "reason": "Aliases Mathlib UniversalEnvelopingAlgebra k L, the associative algebra generated by g with the relations x*y - y*x = [x,y] (basis-dependent presentation of the book equals the universal one up to the standard equivalence). Faithful recall of a genuinely constructed object.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.9.10",
+    "lean_decl": "(none)",
+    "verdict": "verified",
+    "reason": "Pure meta-remark: 'this is not a very good definition since it depends on the choice of basis; later we give a basis-independent equivalent definition.' No formalizable mathematical claim of its own (the basis-independent definition is Definition 2.12.1(iii), separately formalized). Nothing to be unfaithful to; no fidelity gap.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.9.12",
+    "lean_decl": "example : Algebra k (UniversalEnvelopingAlgebra k L)",
+    "verdict": "gap",
+    "reason": "VACUOUS. Book: U(sl(2)) is generated by e, f, h with relations he-eh=2e, hf-fh=-2f, ef-fe=h. The Lean example merely asserts Algebra k (UniversalEnvelopingAlgebra k L) for an ARBITRARY Lie algebra L -- provable by inferInstance for any L (e.g. L=0). It says nothing about sl(2), the generators e/f/h, or the three relations. Replacing the key object (sl(2)) by anything trivial still proves it: textbook decision test fails.",
+    "dropped_conjunct": "sl(2) presentation: generators e,f,h with relations he-eh=2e, hf-fh=-2f, ef-fe=h"
+  },
+  {
+    "id": "Chapter2/Example2.9.13",
+    "lean_decl": "example : Algebra k (UniversalEnvelopingAlgebra k L)",
+    "verdict": "gap",
+    "reason": "VACUOUS. Book: U(H) for the Heisenberg Lie algebra H is generated by x, y, c with relations yx-xy=c, yc-cy=0, xc-cx=0, and the Weyl algebra is the quotient by c=1. The Lean example is identical to 2.9.12: Algebra k (UniversalEnvelopingAlgebra k L) for arbitrary L -- provable for any L. Nothing about the Heisenberg algebra, the generators, the relations, or the Weyl-algebra quotient is asserted. Anti-vacuity test fails.",
+    "dropped_conjunct": "Heisenberg presentation (generators x,y,c; relations yx-xy=c, [y,c]=[x,c]=0) and Weyl algebra = U(H)/(c-1)"
+  },
+  {
+    "id": "Chapter2/Remark2.9.14",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "Book is a long historical/motivational remark on Lie groups: Lie(G) as invariant derivations identified with T_e G, and Lie's correspondence (bijection between simply connected Lie groups and finite-dim real Lie algebras), plus differentiation/exponentiation of representations. These are deep formalizable statements requiring manifold/Lie-group theory. No Lean declaration and no recorded non_formalizable assessment. Likely legitimately non_formalizable at this stage, but absent an enumerated/justified record I cannot confirm sorry_free is the correct resting state. Marked unsure.",
+    "dropped_conjunct": "Lie's correspondence and Lie(G) = T_eG construction (no Lean statement)"
+  },
+  {
+    "id": "Chapter2/Definition2.11.1",
+    "lean_decl": "Etingof.TensorProductDef (abbrev) := V ⊗[k] W",
+    "verdict": "verified",
+    "reason": "Aliases Mathlib TensorProduct k V W, which is the standard quotient construction enforcing the bilinearity relations the book lists. Faithful recall of a genuinely constructed object.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.11.4",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "Book generalizes the tensor product to V ⊗_A W for a ring A, V a right A-module, W a left A-module (quotient of the free abelian group on v⊗w by the bilinearity relations and the balancing relation va⊗w - v⊗aw). This is the standard module tensor product over a noncommutative ring -- a distinct, formalizable construction (Mathlib TensorProduct of a right and left module). No Lean declaration exists and no non_formalizable record. Coverage gap (concept asserted nowhere).",
+    "dropped_conjunct": "tensor product V ⊗_A W over a ring A with the balancing relation va⊗w = v⊗aw"
+  },
+  {
+    "id": "Chapter2/Definition2.12.1",
+    "lean_decl": "Etingof.SymmetricAlgebraDef / ExteriorAlgebraDef / UniversalEnvelopingAlgebraCoordFree (abbrevs)",
+    "verdict": "verified",
+    "reason": "Three abbrevs alias SymmetricAlgebra k V, ExteriorAlgebra k V, UniversalEnvelopingAlgebra k L, matching (i) SV = TV/(v⊗w-w⊗v), (ii) ∧V = TV/(v⊗v), (iii) U(V) = TV/(v⊗w-w⊗v-[v,w]). All three named constructions are present and genuinely constructed in Mathlib. The grading decompositions SV=⊕S^nV and ∧V=⊕∧^nV and the basis identifications are stated in the blob as 'easy to see' asides; the core three definitions (the formalizable claims) are all covered. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.14.1",
+    "lean_decl": "Etingof.LieTensorProduct (abbrev) := TensorProduct k V W",
+    "verdict": "gap",
+    "reason": "The defining content is the LIE ACTION rho_{V⊗W}(x) = rho_V(x)⊗Id + Id⊗rho_W(x) (Leibniz rule). The Lean abbrev is merely := TensorProduct k V W, a PLAIN k-module with NO Lie action attached. The file imports only TensorProduct.Basic (not Mathlib.Algebra.Lie.TensorProduct), so no LieRingModule instance on the tensor product is in scope, and the [LieModule k L V]/[LieModule k L W] hypotheses are entirely unused. The Leibniz action lives only in the docstring, never in the statement. Per Stage 3.2 step 6-7: the object the book defines (the tensor-product REPRESENTATION) is not constructed; the alias is true/sorry-free but degenerate. Decision test fails.",
+    "dropped_conjunct": "the Lie module structure rho_{V⊗W}(x) = rho_V(x)⊗Id + Id⊗rho_W(x) (the entire defining content)"
+  },
+  {
+    "id": "Chapter2/Definition2.14.2",
+    "lean_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V",
+    "verdict": "gap",
+    "reason": "The defining content is the contragredient Lie action rho_{V*}(x) = -rho_V(x)* on the dual space. The Lean abbrev is merely := Module.Dual k V, a PLAIN k-module with NO Lie action. The file imports only Dual.Defs; no contragredient LieRingModule instance is constructed or in scope, and the [LieModule k L V] hypothesis is unused. The action -rho_V(x)* appears only in the docstring, never in the statement. The object the book defines (the dual REPRESENTATION) is not constructed; the alias is degenerate. Decision test fails.",
+    "dropped_conjunct": "the contragredient Lie module structure rho_{V*}(x) = -rho_V(x)* (the entire defining content)"
+  }
+]

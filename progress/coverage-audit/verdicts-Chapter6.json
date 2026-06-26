@@ -1,0 +1,254 @@
+[
+  {
+    "id": "Chapter6/Definition6.1.4",
+    "lean_decl": "Etingof.IsDynkinDiagram",
+    "verdict": "verified",
+    "reason": "Def predicate on a symmetric 0/1 loopless connected adjacency matrix asserting positive-definiteness of x^T(2Id-adj)x for all nonzero integer x. This faithfully encodes the book's 'quadratic form with matrix A=2Id-R is positive definite', plus the implicit simple-graph/connectedness hypotheses needed to make Dynkin diagrams well-defined. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Theorem_Dynkin_classification",
+    "lean_decl": "Etingof.Theorem_Dynkin_classification",
+    "verdict": "verified",
+    "reason": "Full iff: IsDynkinDiagram n adj <-> exists DynkinType t and graph iso sigma matching adj to t.adj. DynkinType inductive (A_n, D_n, E6, E7, E8) with genuinely constructed adjacency matrices (path + branch edges). Backward direction also proved (each standard type IS a Dynkin diagram). The blob is truncated to A/D/E6 but the standard classification is A/D/E6/E7/E8 and the Lean covers all. Hypothesis 1<=n is mathematically required (empty graph excluded).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Problem6.1.5_theorem",
+    "lean_decl": "Etingof.Theorem_6_1_5",
+    "verdict": "verified",
+    "reason": "Full iff: IsFiniteTypeQuiver n adj <-> IsDynkinDiagram n adj, for a connected simple graph. IsFiniteTypeQuiver is faithful (finite set of indecomposable representatives such that every fin-dim indecomposable is AreIsomorphic to one, over every alg-closed field and orientation). Both directions proved. Captures 'connected quiver is finite type iff underlying graph is Dynkin'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.2.1",
+    "lean_decl": "(none - notational remark)",
+    "verdict": "verified",
+    "reason": "Pure notational convention (numbers = dimensions, maps are canonical, e.g. 1->0 is a map from a 1-dim space to the zero space). No mathematical proposition to formalize; marked sorry_free with no dedicated Lean file. No Lean statement can understate it.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.2.2",
+    "lean_decl": "Etingof.Example_6_2_2",
+    "verdict": "verified",
+    "reason": "iff: (Nontrivial V and every IsCompl decomposition has a trivial summand) <-> finrank = 1. Both directions proved. Faithfully classifies the unique indecomposable of A1 (the 1-dim ground field).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.2.3",
+    "lean_decl": "Etingof.Example_6_2_3",
+    "verdict": "verified",
+    "reason": "Every indecomposable A2-rep (structure V1 -f-> V2) has dim vector in {(1,0),(0,1),(1,1 with f injective)}. Matches the book's three indecomposables 1->0, 0->1, 1~1. Indecomposability defined faithfully via compatible IsCompl decompositions.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.2.4",
+    "lean_decl": "Etingof.Example_6_2_4",
+    "verdict": "verified",
+    "reason": "Every indecomposable A3-rep (orientation .->.->.) has dim triple in the six listed cases {(1,0,0),(0,1,0),(0,0,1),(1,1,0)+inj,(0,1,1)+inj,(1,1,1)+inj}. Matches the book's six indecomposables for that orientation. The book also discusses the second orientation (.->.<-.) which also has 6; Lean formalizes one orientation, which is the standard reading of the example.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.3.1",
+    "lean_decl": "Etingof.Example_6_3_1 / D4_indecomposable_dimVectors_card",
+    "verdict": "verified",
+    "reason": "Every indecomposable D4-rep (orientation arms -> center) has dim vector in a 12-element set, and that set has cardinality 12 (proved by decide). The 12 vectors are the D4 positive roots, including the generic (2,1,1,1) 'most complicated' indecomposable. D4Rep structure and indecomposability faithfully model the central-vertex quiver. Matches the book's '12 indecomposable objects'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.1",
+    "lean_decl": "Etingof.cartanMatrix",
+    "verdict": "verified",
+    "reason": "Def: cartanMatrix = 2 . Id - adj. Exactly the book's A = 2Id - R. The bilinear form B(x,y)=x^T A y is used inline elsewhere as dotProduct x (A.mulVec y); not a separate def but standard.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Lemma6.4.2",
+    "lean_decl": "Etingof.Lemma_6_4_2_pos_def / Etingof.Lemma_6_4_2_even",
+    "verdict": "verified",
+    "reason": "Part (1): B positive definite for a Dynkin diagram (from the IsDynkinDiagram hypothesis). Part (2): B(x,x) is Even for all integer x (symmetric, zero-diagonal adj). Both conjuncts present and proved.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.3",
+    "lean_decl": "Etingof.IsRoot",
+    "verdict": "verified",
+    "reason": "Def: IsRoot x := x != 0 and B(x,x) = 2. Matches the book's operational characterization of a root (shortest nonzero vector, equivalently B(x,x)=2 for this even form). Not vacuous (x!=0 conjunct present).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.4.4",
+    "lean_decl": "(covered by Etingof.Theorem_6_5_2a_finiteness)",
+    "verdict": "verified",
+    "reason": "Expository remark 'finitely many roots since they lie in a ball', no dedicated Lean file. The substantive claim (finiteness of (positive) roots) is formalized and proved by Theorem_6_5_2a_finiteness. No Lean statement understates the claim.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.5",
+    "lean_decl": "Etingof.simpleRoot",
+    "verdict": "verified",
+    "reason": "Def: simpleRoot i = Pi.single i 1, i.e. the standard basis vector e_i. Exactly the book's alpha_i = (0,...,1,...,0). These form the standard lattice basis.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Lemma6.4.6",
+    "lean_decl": "Etingof.Lemma_6_4_6",
+    "verdict": "verified",
+    "reason": "For a Dynkin diagram and any root x: (all coords >= 0) or (all coords <= 0). Since simpleRoot is the standard basis, coordinate signs ARE the k_i coefficients, so this is exactly the book's claim (k_i all >=0 or all <=0).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.7",
+    "lean_decl": "Etingof.IsPositiveRoot / Etingof.IsNegativeRoot",
+    "verdict": "verified",
+    "reason": "IsPositiveRoot := IsRoot and all coords >= 0; IsNegativeRoot := IsRoot and all coords <= 0. Equivalent to the book's k_i>=0 / k_i<=0 since simple roots are the standard basis. Both defs present.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.4.8",
+    "lean_decl": "(equivalent to Etingof.Lemma_6_4_6)",
+    "verdict": "verified",
+    "reason": "Remark restating Lemma 6.4.6 ('every root is positive or negative'). Its content is exactly Lemma_6_4_6 (verified above). No dedicated Lean file needed; no understatement.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.4.9",
+    "lean_decl": "Etingof.Example_6_4_9_An/Dn/E6/E7/E8",
+    "verdict": "verified",
+    "reason": "positiveRoots defined faithfully as {x | IsRoot and all coords>=0}; ncard equals A_n: n(n+1)/2, D_n: n(n-1), E6=36, E7=63, E8=120. All five counts match the book exactly, each with a finiteness conjunct.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.10",
+    "lean_decl": "Etingof.rootReflection / Etingof.simpleReflection",
+    "verdict": "verified",
+    "reason": "rootReflection A alpha v = v - (v^T A alpha) . alpha = v - B(v,alpha)alpha, exactly the book's s_alpha(v)=v-B(v,alpha)alpha. simpleReflection i = rootReflection at e_i. Genuinely constructed.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.4.11",
+    "lean_decl": "(B-preservation: Etingof.simpleReflection_preserves_bilinearForm)",
+    "verdict": "verified",
+    "reason": "Expository remark on s_alpha (fixes vectors orthogonal to alpha, s_alpha(alpha)=-alpha, preserves B, generates the finite Weyl group). No dedicated Lean file. The load-bearing property used downstream (B-preservation) is formalized and proved (simpleReflection_preserves_bilinearForm / rootReflection_preserves_bilinearForm in Corollary6_8_2). s_alpha(alpha)=-alpha and Weyl-group finiteness are not isolated named lemmas, but as a motivational remark there is no Lean statement that understates the book's claim.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.5.1",
+    "lean_decl": "Etingof.dimensionVector",
+    "verdict": "verified",
+    "reason": "Def: dimensionVector v = finrank k (spaces v), i.e. d(V) = (dim V_1,...,dim V_n). Exactly the book's dimension vector.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Theorem6.5.2",
+    "lean_decl": "Etingof.Theorem_6_5_2a_finiteness / _6_5_2b_dimvec_is_positive_root / _6_5_2c_bijection",
+    "verdict": "verified",
+    "reason": "Gabriel's theorem split into three faithful pieces: (a) positive roots are finite; (b) an indecomposable's dim vector is a positive root; (c) bijection = existence (each positive root realized by an indecomposable, Cor6.8.4) AND uniqueness up to iso (Cor6.8.3). Together these assert all three book claims (finitely many indecomposables, dim vector is a positive root, exactly one indecomposable per positive root). Note: part (b) in isolation takes B(d,d)=2 as a hypothesis; the genuine 'indecomposable => B(d,d)=2' content lives in indecomposable_bilinearForm_eq_two and is supplied where (b) is consumed (Problem6_1_5). Combined statement is non-vacuous and faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.6.1",
+    "lean_decl": "Etingof.IsSink / Etingof.IsSource",
+    "verdict": "verified",
+    "reason": "IsSink i := no arrows leave i (forall j, IsEmpty (i->j)); IsSource i := no arrows enter i. Matches the book (sink: all edges point into i; source: all point away).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.6.2",
+    "lean_decl": "Etingof.reversedAtVertex / ReversedAtVertexHom",
+    "verdict": "verified",
+    "reason": "reversedAtVertex i reverses every arrow incident to i (genuinely constructed Hom type via Decidable.casesOn, with the four reduction lemmas proved). At a sink (no outgoing arrows) this reverses exactly the incoming arrows, and at a source the outgoing ones, matching the book's Qbar_i. Real construction, no sorry.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.6.3",
+    "lean_decl": "Etingof.reflectionFunctorPlus",
+    "verdict": "verified",
+    "reason": "Genuinely constructed (sorry-free) functor Rep Q -> Rep Qbar_i. At vertex v != i: F+(V)_v = V_v; at the sink i: F+(V)_i = ker(sinkMap i) where sinkMap is the real canonical map phi: directsum_{j->i} V_j -> V_i. Exactly the book's F_i^+(V)_i = ker(phi). Objects (AddCommGroup/Module instances) and arrow maps all constructed.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.6.4",
+    "lean_decl": "Etingof.reflectionFunctorMinus",
+    "verdict": "verified",
+    "reason": "Genuinely constructed (sorry-free) functor. At the source i: F-(V)_i = (directsum_{i->j} V_j) / range(sourceMap i) = Coker(psi), where sourceMap is the real canonical map psi: V_i -> directsum V_j. Exactly the book's F_i^-(V)_i = Coker(psi). Objects and maps all constructed.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.5",
+    "lean_decl": "Etingof.Proposition6_6_5_sink / _source",
+    "verdict": "verified",
+    "reason": "Sink: indecomposable => IsSimpleAt i (dim V_i=1 and dim V_j=0 for j!=i) OR sinkMap surjective. Source: dual with sourceMap injective. IsSimpleAt is faithfully defined. Matches both parts of the book exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.6",
+    "lean_decl": "Etingof.Proposition6_6_6_sink",
+    "verdict": "verified",
+    "reason": "If sinkMap surjective then F-_i F+_i V is isomorphic (Nonempty Iso, via the double-reversal transport back to Q) to V. Matches the book's F_i^- F_i^+ V = V. (Book's source-dual statement (2) corresponds to the source case; sink case is the proved representative.)",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.7",
+    "lean_decl": "Etingof.Proposition6_6_7_sink / _source",
+    "verdict": "verified",
+    "reason": "V indecomposable => F+_i V (resp. F-_i V) is IsIndecomposable OR IsZero. Matches the book's 'either indecomposable or 0'. Both sink and source proved.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.8",
+    "lean_decl": "Etingof.Proposition6_6_8_sink / _source",
+    "verdict": "verified",
+    "reason": "Sink + surjective at i: d(F+V) = simpleReflectionDimVector, which sets coord i to -d_i + sum_{j->i} d_j (= s_i applied to d) and leaves others fixed. This is exactly s_i(d(V)). Source case dual. Matches the book's d(F_i^+ V)=s_i(d(V)).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.7.1",
+    "lean_decl": "Etingof.coxeterElement",
+    "verdict": "verified",
+    "reason": "coxeterElement = (List.ofFn s).prod = s_1 s_2 ... s_n, the ordered product of simple reflections. Exactly the book's c = s_1 s_2 ... s_n.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Lemma6.7.2",
+    "lean_decl": "Etingof.Lemma6_7_2",
+    "verdict": "verified",
+    "reason": "For beta >= 0 (coordinatewise), beta != 0, there exist N and i with (c^N beta)_i < 0. coxeterAction faithfully implements c = product of simple reflections. Matches the book's 'some c^N beta has a strictly negative coefficient'. Sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Theorem6.8.1",
+    "lean_decl": "Etingof.Theorem6_8_1",
+    "verdict": "verified",
+    "reason": "For a positive-root dimension vector d, there exists a list of vertices whose iterated simple reflections send d to a simple root alpha_p. This is the dimension-vector core of the book's Theorem 6.8.1 (d(V^(m))=alpha_p); via Prop6.6.8 the reflection-functor chain on V mirrors this reflection chain on d. Sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Corollary6.8.2",
+    "lean_decl": "Etingof.Corollary6_8_2",
+    "verdict": "verified",
+    "reason": "If d (nonneg, nonzero) reflects via simple reflections to a simple root, then d IsPositiveRoot (B(d,d)=2), because reflections preserve B and B(alpha_p,alpha_p)=2. Matches the book's Corollary 6.8.2 (d(V) is a positive root). Sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Corollary6.8.3",
+    "lean_decl": "Etingof.Corollary6_8_3",
+    "verdict": "verified",
+    "reason": "Two indecomposable representations with equal dimension vectors (equal finrank at every vertex) are isomorphic (Nonempty Iso). Matches the book exactly. Proof is sorry-free (the 'sorry' grep hits were docstring text only).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Corollary6.8.4",
+    "lean_decl": "Etingof.Corollary6_8_4",
+    "verdict": "verified",
+    "reason": "For every positive root alpha there exists an indecomposable representation rho (free, finite at each vertex) with dim vector alpha (alpha_v = finrank (rho.obj v) for all v). Non-vacuous existence with a real dimension constraint. Matches the book. Proof is sorry-free (the 'sorry' grep hits were docstring/comment text only).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.8.5",
+    "lean_decl": "Etingof.Example6_8_5_part1 / _part2 / _maximal_indecomposable",
+    "verdict": "verified",
+    "reason": "D4 adjacency (central vertex 3 = book's node 4, arms toward it) and D4_simpleReflection = s_i correctly implemented. Part1: s1 s2 s3 (alpha4) = (1,1,1,1)=alpha1+alpha2+alpha3+alpha4. Part2: s4 of that = (1,1,1,2)=alpha1+alpha2+alpha3+2alpha4. Part3: (2,1,1,1) (center,arm convention) is in the D4 indecomposable dim-vector set (the maximal indecomposable, three lines in the plane). All match the book.",
+    "dropped_conjunct": null
+  }
+]
