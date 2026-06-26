@@ -3712,3 +3712,28 @@ full graph rather than waiting on the aggregator locally.
   *intertwining application lemma* stated once as `∀ y, i (p y) = g y` (from `p ≫ i = g` via
   `← comp_apply`), and rewrite with *that* (`← hint (i a)`) instead of rewriting `g` directly — it
   never abstracts the `g` buried in `i`'s type.
+- **`simp only [DynkinType.adj]` no longer unfolds the `match` (and cached oleans hide it).** In the
+  current toolchain, unfolding a `match`-defined function like `Etingof.DynkinType.adj` via its
+  equation lemma does **not** fire under `simp only`, so the older `E*_qf` Tits-form proofs
+  (`simp only [..., DynkinType.adj, Matrix.sub_apply, ...]; norm_num; ring`) leave the matrix
+  entries unreduced and `ring` fails. You will only see this on a **fresh** elaboration —
+  `lake build` reuses the cached `.olean` and reports success, so test a suspect lemma with
+  `lake env lean <file>` (or touch + rebuild) before trusting it. **Robust replacement** for any
+  `dotProduct x ((2•1 - adj).mulVec x)` computation: `rw [show (2•1 - adj) = !![...explicit Cartan
+  matrix...] from by decide]` (the 0/1 matrix equality is a fast kernel `decide`), then
+  `simp only [dotProduct, mulVec, Fin.sum_univ_seven/eight, Matrix.of_apply, Matrix.cons_val',
+  Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.cons_val_one,
+  Matrix.cons_val, Fin.isValue]; ring`.
+- **Replace `native_decide` on a large finite count by branch-decomposition + a histogram
+  convolution.** When a root/solution count enumerates `B^n` vectors (E₇ 5⁷, E₈ 7⁸ — too big for
+  kernel `decide`, OOM/hours), split the index set at a cut vertex `c` so the quadratic form is
+  additive `q = 2c² + q₁(c,g₁) + q₂(c,g₂)` over two small component groups. Reindex the count with
+  `Finset.card_bij'` through an explicit tuple equiv `(Fin n → Fin B) ≃ Fin B × G₁ × G₂` (prove the
+  form identity per `c` by the matrix-literal idiom above). Then count each `c`-slice with a
+  histogram convolution over the component **value lists** rather than the product: fold each list
+  into an assoc-list histogram **once** (`l.foldl addOne []`) and look up — this is what makes
+  kernel `decide` feasible (≤ `B⁴` work), since kernel reduction does **not** memoize repeated
+  `Finset.filter … |>.card`. The reflection `(finRange-flatMap value list : Multiset) = univ.val.map Q`
+  holds by `rfl` for **tuple** component types (raise `maxRecDepth`), but not cleanly for Pi types —
+  use `Fin 7 × Fin 7 × …`, not `Fin k → Fin 7`. See `Example6_4_9_EType.lean` (`pair_count_bridge`,
+  `E7_count`/`E8_count`) for the full pattern.
