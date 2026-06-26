@@ -1051,6 +1051,19 @@ Two traps recur when using Mathlib's `IsSemisimpleModule` / `IsSimpleModule` API
   `A`-module structure at all. Bonus: isolate the genuine content as a *pure
   `k`-finrank* lemma (`finrank k ↥S = finrank k D`) whose statement mentions no
   exotic module — clean to state and to attack separately.
+- **Transporting an existential across a subalgebra equality `h : centralizer A
+  = B`: `rw [← h]` the whole goal, do NOT `h ▸` each binder (Ch5, #5383).** When
+  the target is `∃ … (Module B Lᵢ) … (IsSimpleModule B Lᵢ) … (Lᵢ ≃ₗ[B] Lⱼ → …) …`
+  but every canonical datum lives over `centralizer A` (`centralizerModuleHom`,
+  `hL_simp` from `..._bimodule_decomposition_explicit`, `multiplicitySpace_Cdistinct`),
+  filling the binders with `h ▸ inferInstance` / `h ▸ hL_simp i` desyncs the
+  instances: later `IsSimpleModule`/`≃ₗ` binders expect the *transported* `Module B`
+  instance while your term carries the canonical one (type-mismatch on the instance
+  argument). Instead `rw [← h]` once at the top so the whole goal is back over
+  `centralizer A`, then `refine` with the canonical `inferInstance` / `hL_simp` /
+  `multiplicitySpace_Cdistinct … ⟨f⟩` directly. Single-binder `h ▸` (as in
+  `Theorem5_18_4_bimodule_decomposition`) is fine; *multiple interdependent
+  binders* are what break. See `SchurWeylBimoduleFull.lean`.
 - **`centralizerModuleHom` firing twice needs an `IsScalarTower` companion
   (Ch5, #4926).** To get `Module ↥(centralizer C) ((V →ₗ[A] E) →ₗ[C] E)` you
   re-apply `Theorem5_18_1.centralizerModuleHom` with `C` in the `A`-slot; this
