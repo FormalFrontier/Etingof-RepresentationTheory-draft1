@@ -299,7 +299,7 @@ private lemma DnQF_eq_dotProduct : ∀ (m : ℕ) (x : Fin (m + 4) → ℤ),
     simp only [DnQF]
     set C := 2 • (1 : Matrix (Fin 4) (Fin 4) ℤ) - DynkinType.adj (.D 4 (by omega))
     have hC : C = !![2,-1,0,0; -1,2,-1,-1; 0,-1,2,0; 0,-1,0,2] := by
-      ext i j; fin_cases i <;> fin_cases j <;> native_decide
+      ext i j; fin_cases i <;> fin_cases j <;> decide
     rw [hC]
     simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.cons_val, vecHead]
@@ -823,11 +823,11 @@ private def E6_treePath : Fin 6 → Fin 6 → List (Fin 6) := fun i j =>
 private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · -- Symmetry
-    exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> native_decide)
+    exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> decide)
   · -- Zero diagonal
-    intro i; fin_cases i <;> native_decide
+    intro i; fin_cases i <;> decide
   · -- 0-1 entries
-    intro i j; fin_cases i <;> fin_cases j <;> native_decide
+    intro i j; fin_cases i <;> fin_cases j <;> decide
   · -- Connectivity: provide explicit tree paths and verify
     intro i j
     refine ⟨E6_treePath i j, ?_, ?_, ?_⟩
@@ -837,7 +837,7 @@ private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
       fin_cases i <;> fin_cases j <;>
         simp only [E6_treePath, List.length_cons, List.length_nil, Nat.reduceAdd] at hk <;>
         rcases k with _ | (_ | (_ | (_ | _))) <;>
-        (first | omega | (dsimp only [E6_treePath, List.get]; native_decide))
+        (first | omega | (dsimp only [E6_treePath, List.get]; decide))
   · -- Positive definiteness via Cholesky sum-of-squares decomposition.
     -- The LDLᵀ factorization of the Cartan matrix 2I - adj_E6 gives
     -- D = diag(2, 3/2, 4/3, 5/4, 6/5, 1/2), all positive.
@@ -858,7 +858,7 @@ private lemma E6_isDynkin : IsDynkinDiagram 6 (DynkinType.adj .E6) := by
       set C := 2 • (1 : Matrix (Fin 6) (Fin 6) ℤ) - DynkinType.adj .E6
       have hC : C = !![2,-1,0,0,0,0; -1,2,-1,0,0,0; 0,-1,2,-1,0,-1;
                         0,0,-1,2,-1,0; 0,0,0,-1,2,0; 0,0,-1,0,0,2] := by
-        ext i j; fin_cases i <;> fin_cases j <;> native_decide
+        ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
       simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val, vecHead]
@@ -935,9 +935,9 @@ set_option maxHeartbeats 400000 in
 /-- E₇ is a Dynkin diagram. -/
 private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> native_decide)
-  · intro i; fin_cases i <;> native_decide
-  · intro i j; fin_cases i <;> fin_cases j <;> native_decide
+  · exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> decide)
+  · intro i; fin_cases i <;> decide
+  · intro i j; fin_cases i <;> fin_cases j <;> decide
   · -- Connectivity
     intro i j
     refine ⟨E7_treePath i j, ?_, ?_, ?_⟩
@@ -947,7 +947,7 @@ private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
       fin_cases i <;> fin_cases j <;>
         simp only [E7_treePath, List.length_cons, List.length_nil, Nat.reduceAdd] at hk <;>
         rcases k with _ | (_ | (_ | (_ | (_ | _)))) <;>
-        (first | omega | (dsimp only [E7_treePath, List.get]; native_decide))
+        (first | omega | (dsimp only [E7_treePath, List.get]; decide))
   · -- Positive definiteness via Cholesky SOS decomposition
     -- 420·q = 210(2a-b)² + 70(3b-2c)² + 35(4c-3d-3g)² + 21(5d-4e-3g)² +
     --         14(6e-5f-3g)² + 10(7f-3g)² + 120g²
@@ -964,7 +964,7 @@ private lemma E7_isDynkin : IsDynkinDiagram 7 (DynkinType.adj .E7) := by
       have hC : C = !![2,-1,0,0,0,0,0; -1,2,-1,0,0,0,0; 0,-1,2,-1,0,0,-1;
                         0,0,-1,2,-1,0,0; 0,0,0,-1,2,-1,0; 0,0,0,0,-1,2,0;
                         0,0,-1,0,0,0,2] := by
-        ext i j; fin_cases i <;> fin_cases j <;> native_decide
+        ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
       simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val]
@@ -1045,9 +1045,9 @@ set_option maxHeartbeats 1600000 in
 /-- E₈ is a Dynkin diagram. -/
 private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> native_decide)
-  · intro i; fin_cases i <;> native_decide
-  · intro i j; fin_cases i <;> fin_cases j <;> native_decide
+  · exact Matrix.IsSymm.ext (fun i j => by fin_cases i <;> fin_cases j <;> decide)
+  · intro i; fin_cases i <;> decide
+  · intro i j; fin_cases i <;> fin_cases j <;> decide
   · -- Connectivity
     intro i j
     refine ⟨E8_treePath i j, ?_, ?_, ?_⟩
@@ -1057,7 +1057,7 @@ private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
       fin_cases i <;> fin_cases j <;>
         simp only [E8_treePath, List.length_cons, List.length_nil, Nat.reduceAdd] at hk <;>
         rcases k with _ | (_ | (_ | (_ | (_ | (_ | _))))) <;>
-        (first | omega | (dsimp only [E8_treePath, List.get]; native_decide))
+        (first | omega | (dsimp only [E8_treePath, List.get]; decide))
   · -- Positive definiteness via Cholesky SOS decomposition
     -- 840·q = 420(2a-b)² + 140(3b-2c)² + 70(4c-3d-3h)² + 42(5d-4e-3h)² +
     --         28(6e-5f-3h)² + 20(7f-6g-3h)² + 15(8g-3h)² + 105h²
@@ -1074,7 +1074,7 @@ private lemma E8_isDynkin : IsDynkinDiagram 8 (DynkinType.adj .E8) := by
       have hC : C = !![2,-1,0,0,0,0,0,0; -1,2,-1,0,0,0,0,0; 0,-1,2,-1,0,0,0,-1;
                         0,0,-1,2,-1,0,0,0; 0,0,0,-1,2,-1,0,0; 0,0,0,0,-1,2,-1,0;
                         0,0,0,0,0,-1,2,0; 0,0,-1,0,0,0,0,2] := by
-        ext i j; fin_cases i <;> fin_cases j <;> native_decide
+        ext i j; fin_cases i <;> fin_cases j <;> decide
       rw [hC]
       simp [dotProduct, mulVec, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val]
