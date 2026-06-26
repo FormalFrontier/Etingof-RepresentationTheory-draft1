@@ -106,7 +106,24 @@ noncomputable instance : CommRing (classFunctions G) :=
 function is a class function. (Centre ↔ class functions.) -/
 theorem mem_classFunctions_iff (f : ConvolutionAlgebra G) :
     f ∈ classFunctions G ↔ IsClassFunction f := by
-  sorry
+  simp only [classFunctions, Subalgebra.mem_center_iff]
+  constructor
+  · -- Centrality ⇒ class function: test against `single y 1` and evaluate at `y * x`.
+    intro h x y
+    have happ := congrArg (fun F : ConvolutionAlgebra G => F (y * x)) (h (single y 1))
+    simp only [single_mul_apply, mul_single_apply, one_mul, mul_one] at happ
+    -- `happ : f (y⁻¹ * (y * x)) = f (y * x * y⁻¹)`
+    rw [show y⁻¹ * (y * x) = x by group] at happ
+    exact happ.symm
+  · -- Class function ⇒ centrality: compare the two convolution expansions termwise.
+    intro h b
+    ext z
+    rw [mul_apply_left, mul_apply_right]
+    refine Finsupp.sum_congr (fun g _ => ?_)
+    -- Pointwise: `(b g) * f (g⁻¹ * z) = f (z * g⁻¹) * (b g)`.
+    have hc := h (z * g⁻¹) g⁻¹
+    rw [show g⁻¹ * (z * g⁻¹) * g⁻¹⁻¹ = g⁻¹ * z by group] at hc
+    rw [mul_comm, hc]
 
 /-! ## Primitive idempotents and renormalized characters -/
 
@@ -150,7 +167,11 @@ theorem renormCharElt_apply (V : FDRep ℂ G) (z : G) :
 /-- The renormalized character `χ̃_V` is a class function (lies in the centre). -/
 theorem renormCharElt_mem_classFunctions (V : FDRep ℂ G) :
     renormCharElt V ∈ classFunctions G := by
-  sorry
+  rw [mem_classFunctions_iff]
+  intro x y
+  rw [renormCharElt_apply, renormCharElt_apply]
+  congr 1
+  exact V.char_conj x y
 
 /-- The **renormalized character** `χ̃_V ∈ F_c(G, ℂ)` of an irreducible representation `V`,
 as an element of the class-function algebra. -/
@@ -163,6 +184,20 @@ theorem renormChar_isPrimitiveIdempotent (V : FDRep ℂ G) [Simple V] :
     IsPrimitiveIdempotent (renormChar V) := by
   sorry
 
+/-- A simple `FDRep ℂ G` has positive finrank (it is a nonzero object, so cannot be
+the trivial module). -/
+private lemma finrank_pos_of_simple (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
+  by_contra h
+  push_neg at h
+  have h0 : Module.finrank ℂ V = 0 := Nat.le_zero.mp h
+  have hsub : Subsingleton V := Module.finrank_zero_iff.mp h0
+  have hsub2 : Subsingleton (V ⟶ V) := by
+    refine ⟨fun f g => ?_⟩
+    exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
+  have e1 : Module.finrank ℂ (V ⟶ V) = 1 := by rw [FDRep.finrank_hom_simple_simple]; simp
+  have e0 : Module.finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
+  omega
+
 /-- **Recovery formula** (Remark 4.5.3): the ordinary irreducible character is recovered
 from the renormalized character (primitive idempotent) by
 `χ_V(g) = √(|G| / χ̃_V(1)) · χ̃_V(g)`.
@@ -172,6 +207,18 @@ We express `√` as the existence of a square root `c` of `|G| / χ̃_V(1)` with
 theorem character_recovery (V : FDRep ℂ G) [Simple V] :
     ∃ c : ℂ, c ^ 2 = (Fintype.card G : ℂ) / renormCharElt V 1 ∧
       ∀ g : G, V.character g = c * renormCharElt V g := by
-  sorry
+  -- `χ_V(1) = dim V ≠ 0` since `V` is a nonzero (simple) representation.
+  have hd : V.character 1 ≠ 0 := by
+    rw [FDRep.char_one]
+    exact_mod_cast (finrank_pos_of_simple V).ne'
+  have hG : (Fintype.card G : ℂ) ≠ 0 := by
+    exact_mod_cast (Fintype.card_pos (α := G)).ne'
+  -- With our normalization the square-root witness is exactly `c = |G| / χ_V(1)`.
+  refine ⟨(Fintype.card G : ℂ) / V.character 1, ?_, ?_⟩
+  · rw [renormCharElt_apply]
+    field_simp
+  · intro g
+    rw [renormCharElt_apply]
+    field_simp
 
 end Etingof.Remark4_5_3
