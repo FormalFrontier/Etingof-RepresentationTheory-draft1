@@ -3,6 +3,10 @@ import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.FieldTheory.IsAlgClosed.Basic
 import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.Algebra.Polynomial.Module.AEval
+import Mathlib.RingTheory.Nilpotent.Lemmas
+import Mathlib.LinearAlgebra.Eigenspace.Minpoly
+import Mathlib.LinearAlgebra.Pi
 
 /-!
 # Example 2.3.14: Irreducible and Indecomposable Representations of k and k[x]
@@ -51,3 +55,284 @@ theorem Etingof.Example_2_3_14_polynomial_reps (k : Type*) [Field k] [IsAlgClose
   have hirr : Irreducible p := hprime.irreducible
   have hdeg : p.degree = 1 := IsAlgClosed.degree_eq_one_of_irreducible (k := k) hirr
   rwa [Polynomial.degree_eq_natDegree hne, Nat.cast_eq_one] at hdeg
+
+/-!
+## Part (2), continued: Jordan-block representations and indecomposability
+
+The substantive content of Etingof Example 2.3.14(2): the finite-dimensional indecomposable
+representations of `k[x]` are the Jordan blocks `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`. We build
+these as genuine `k[X]`-modules (`Module.AEval'` of the Jordan-block operator), prove they are
+indecomposable, and prove that for `n ≥ 2` they are *not* simple — giving the book's
+conclusion that an indecomposable representation need not be irreducible.
+
+The remaining half of the book's claim — that *every* finite-dimensional indecomposable
+`k[x]`-representation is isomorphic to some `V_{λ,n}` — is the existence-and-uniqueness of
+Jordan normal form, and is not formalized here.
+-/
+
+open Polynomial
+
+namespace Etingof.Example_2_3_14
+
+variable {k : Type*} [Field k]
+
+/-- The nilpotent down-shift on `Fin n → k`: it sends the basis vector `eᵢ` to `eᵢ₋₁`
+(and `e₀` to `0`). On coordinates, `(shift v) i = v (i+1)` (zero when `i+1 = n`). -/
+def shift (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) where
+  toFun v i := if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0
+  map_add' u v := by funext i; dsimp; split <;> simp
+  map_smul' c v := by funext i; dsimp; split <;> simp
+
+@[simp] lemma shift_apply (n : ℕ) (v : Fin n → k) (i : Fin n) :
+    shift n v i = if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0 := rfl
+
+/-- The Jordan block `J_{λ,n}`: in the standard basis, `J eᵢ = λ eᵢ + eᵢ₋₁`. -/
+def jordanBlock (lam : k) (n : ℕ) : (Fin n → k) →ₗ[k] (Fin n → k) :=
+  lam • LinearMap.id + shift n
+
+@[simp] lemma jordanBlock_apply (lam : k) (n : ℕ) (v : Fin n → k) (i : Fin n) :
+    jordanBlock lam n v i = lam * v i + (if h : (i : ℕ) + 1 < n then v ⟨i + 1, h⟩ else 0) := by
+  simp [jordanBlock, shift]
+
+/-- Iterating the shift `j` times lowers the index by `j`. -/
+lemma shift_pow_apply (n j : ℕ) (v : Fin n → k) (i : Fin n) :
+    ((shift n) ^ j) v i = if h : (i : ℕ) + j < n then v ⟨i + j, h⟩ else 0 := by
+  induction j generalizing v with
+  | zero => simp
+  | succ j ih =>
+    rw [pow_succ, Module.End.mul_apply, ih (shift n v)]
+    by_cases h : (i : ℕ) + (j + 1) < n
+    · have h1 : (i : ℕ) + j < n := by omega
+      rw [dif_pos h1]
+      simp only [shift_apply]
+      have h2 : ((⟨(i : ℕ) + j, h1⟩ : Fin n) : ℕ) + 1 < n := by omega
+      rw [dif_pos h2, dif_pos h]
+      exact congrArg v (Fin.ext (by simp; omega))
+    · rw [dif_neg (by omega : ¬ (i : ℕ) + (j + 1) < n)]
+      by_cases h1 : (i : ℕ) + j < n
+      · rw [dif_pos h1]
+        simp only [shift_apply]
+        rw [dif_neg (show ¬ ((⟨(i : ℕ) + j, h1⟩ : Fin n) : ℕ) + 1 < n by omega)]
+      · rw [dif_neg h1]
+
+lemma shift_nilpotent (n : ℕ) : IsNilpotent (shift n : (Fin n → k) →ₗ[k] (Fin n → k)) := by
+  refine ⟨n, ?_⟩
+  apply LinearMap.ext; intro v; funext i
+  rw [shift_pow_apply]
+  rw [dif_neg (by omega : ¬ (i : ℕ) + n < n)]
+  simp
+
+/-- The standard basis vector `e₀ = (1, 0, …, 0)`. It spans the (one-dimensional)
+eigenspace of the Jordan block for the eigenvalue `λ`. -/
+def e0 (n : ℕ) [NeZero n] : Fin n → k := Pi.single 0 1
+
+lemma e0_ne_zero (n : ℕ) [NeZero n] : (e0 n : Fin n → k) ≠ 0 := by
+  intro h
+  have : (e0 n : Fin n → k) 0 = (0 : Fin n → k) 0 := by rw [h]
+  simp [e0, Pi.single_eq_same] at this
+
+/-- `e₀` is an eigenvector of the Jordan block with eigenvalue `λ`: `J e₀ = λ e₀`. -/
+lemma jordanBlock_e0 (lam : k) (n : ℕ) [NeZero n] :
+    jordanBlock lam n (e0 n) = lam • (e0 n : Fin n → k) := by
+  funext i
+  rw [jordanBlock_apply]
+  have hz : (if h : (i : ℕ) + 1 < n then (e0 n : Fin n → k) ⟨i + 1, h⟩ else 0) = 0 := by
+    split
+    · apply Pi.single_eq_of_ne
+      intro hh; rw [Fin.ext_iff] at hh; simp at hh
+    · rfl
+  rw [hz, add_zero]
+  simp [Pi.smul_apply]
+
+/-- The kernel of the shift is contained in the line spanned by `e₀`. -/
+lemma ker_shift_le (n : ℕ) [NeZero n] :
+    LinearMap.ker (shift n) ≤ Submodule.span k {(e0 n : Fin n → k)} := by
+  intro v hv
+  rw [LinearMap.mem_ker] at hv
+  rw [Submodule.mem_span_singleton]
+  refine ⟨v 0, ?_⟩
+  funext j
+  simp only [e0, Pi.smul_apply, smul_eq_mul]
+  rcases Nat.eq_zero_or_pos (j : ℕ) with hj | hj
+  · have : j = 0 := Fin.ext hj
+    simp [this]
+  · rw [Pi.single_eq_of_ne (by intro h; rw [h] at hj; simp at hj), mul_zero]
+    -- v j = 0 because j = i+1 for i = j-1 and shift v = 0
+    have hjlt : (j : ℕ) < n := j.isLt
+    set i : Fin n := ⟨(j : ℕ) - 1, by omega⟩ with hi
+    have hival : (i : ℕ) = (j : ℕ) - 1 := by rw [hi]
+    have hlt : (i : ℕ) + 1 < n := by omega
+    have hv' := congrFun hv i
+    simp only [shift_apply, Pi.zero_apply] at hv'
+    rw [dif_pos hlt] at hv'
+    have hidx : (⟨(i : ℕ) + 1, hlt⟩ : Fin n) = j := Fin.ext (by change (i : ℕ) + 1 = (j : ℕ); omega)
+    rw [hidx] at hv'
+    exact hv'.symm
+
+/-- A nilpotent endomorphism of a nontrivial module has a nonzero kernel vector. -/
+lemma exists_mem_ker_of_isNilpotent {N : Type*} [AddCommGroup N] [Module k N] [Nontrivial N]
+    (g : N →ₗ[k] N) (hg : IsNilpotent g) : ∃ u : N, u ≠ 0 ∧ g u = 0 := by
+  by_contra h
+  rw [not_exists] at h
+  simp only [not_and] at h
+  -- h : ∀ u, u ≠ 0 → g u = 0 is impossible, so reformulate: ∀ u, g u = 0 → u = 0
+  have hinj : Function.Injective g := by
+    rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
+    intro x hx
+    by_contra hxne
+    exact h x hxne (LinearMap.mem_ker.mp hx)
+  obtain ⟨m, hm⟩ := hg
+  have hpow : ∀ j, Function.Injective ⇑((g ^ j : Module.End k N)) := by
+    intro j
+    induction j with
+    | zero => intro a b hab; simpa using hab
+    | succ j ih =>
+      rw [pow_succ]
+      intro a b hab
+      exact hinj (ih (by simpa only [Module.End.mul_apply] using hab))
+  have hzero := hpow m
+  rw [hm] at hzero
+  obtain ⟨a, b, hab⟩ := exists_pair_ne N
+  exact hab (hzero (by simp))
+
+/-- Every nonzero `J_{λ,n}`-invariant subspace contains the eigenvector `e₀`.
+This is the engine behind indecomposability: any two nonzero invariant subspaces meet in `e₀`. -/
+lemma e0_mem_of_invariant (lam : k) (n : ℕ) [NeZero n] {W : Submodule k (Fin n → k)}
+    (hW : W ≠ ⊥) (hinv : ∀ m ∈ W, jordanBlock lam n m ∈ W) :
+    (e0 n : Fin n → k) ∈ W := by
+  -- `W` is invariant under `shift = J - λ•id`.
+  have hshift : Set.MapsTo (shift n) (W : Set (Fin n → k)) (W : Set (Fin n → k)) := by
+    intro m hm
+    have hsub : shift n m = jordanBlock lam n m - lam • m := by
+      have : jordanBlock lam n m = lam • m + shift n m := by simp [jordanBlock]
+      rw [this]; abel
+    rw [hsub]
+    exact W.sub_mem (hinv m hm) (W.smul_mem lam hm)
+  have hnil : IsNilpotent ((shift n).restrict hshift) :=
+    Module.End.isNilpotent.restrict hshift (shift_nilpotent n)
+  have hnontriv : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW
+  obtain ⟨u, hune, hu0⟩ := exists_mem_ker_of_isNilpotent ((shift n).restrict hshift) hnil
+  -- `↑u` is a nonzero kernel vector of `shift`, hence a nonzero multiple of `e₀`.
+  have hu0' : shift n (u : Fin n → k) = 0 := by
+    have := congrArg (Subtype.val) hu0
+    rwa [LinearMap.restrict_apply] at this
+  have huker : (u : Fin n → k) ∈ Submodule.span k {(e0 n : Fin n → k)} :=
+    ker_shift_le n (LinearMap.mem_ker.mpr hu0')
+  rw [Submodule.mem_span_singleton] at huker
+  obtain ⟨c, hc⟩ := huker
+  have hcne : c ≠ 0 := by
+    rintro rfl
+    apply hune
+    apply Subtype.ext
+    simpa using hc.symm
+  -- `e₀ = c⁻¹ • ↑u ∈ W`.
+  have : (e0 n : Fin n → k) = c⁻¹ • (u : Fin n → k) := by
+    rw [← hc, smul_smul, inv_mul_cancel₀ hcne, one_smul]
+  rw [this]
+  exact W.smul_mem c⁻¹ u.2
+
+/-- A module is *indecomposable* if it is nontrivial and is not the internal direct sum of two
+proper submodules: any pair of complementary submodules has one of them trivial. -/
+def IsIndecomposable (R M : Type*) [Semiring R] [AddCommMonoid M] [Module R M] : Prop :=
+  Nontrivial M ∧ ∀ N P : Submodule R M, IsCompl N P → N = ⊥ ∨ P = ⊥
+
+/-- The Jordan-block representation `V_{λ,n} = (kⁿ, ρ(x) = J_{λ,n})`, realized as a genuine
+`k[X]`-module via `Module.AEval'`: the action of `X` is the Jordan block `J_{λ,n}`.
+(Etingof Example 2.3.14(2)) -/
+abbrev jordanRep (lam : k) (n : ℕ) := Module.AEval' (jordanBlock lam n)
+
+instance jordanRep_nontrivial (lam : k) (n : ℕ) [NeZero n] :
+    Nontrivial (jordanRep lam n) :=
+  (Module.AEval'.of (jordanBlock lam n)).symm.toEquiv.nontrivial
+
+/-- **The Jordan-block representations `V_{λ,n}` are indecomposable.**
+Any two nonzero `J`-invariant subspaces both contain the eigenvector `e₀`, so they cannot be
+complementary. (Etingof Example 2.3.14(2): "these representations are indecomposable".) -/
+theorem jordanRep_indecomposable (lam : k) (n : ℕ) [NeZero n] :
+    IsIndecomposable (Polynomial k) (jordanRep lam n) := by
+  set φ := jordanBlock lam n with hφ
+  set of := Module.AEval'.of φ with hof
+  refine ⟨inferInstance, ?_⟩
+  intro N P hcompl
+  by_contra hcon
+  rw [not_or] at hcon
+  obtain ⟨hN, hP⟩ := hcon
+  -- Pull a `k[X]`-submodule back to a `φ`-invariant `k`-subspace of `kⁿ`.
+  have invar : ∀ Q : Submodule (Polynomial k) (jordanRep lam n),
+      ∀ m : Fin n → k, of m ∈ Q → φ m ∈
+        ((Q.restrictScalars k).comap (of : (Fin n → k) →ₗ[k] jordanRep lam n)) := by
+    intro Q m hm
+    rw [Submodule.mem_comap, Submodule.restrictScalars_mem]
+    have : (Polynomial.X : Polynomial k) • of m ∈ Q := Q.smul_mem _ hm
+    rwa [Module.AEval'.X_smul_of] at this
+  -- For a nonzero `Q`, the pullback contains `e₀`.
+  have e0mem : ∀ Q : Submodule (Polynomial k) (jordanRep lam n), Q ≠ ⊥ →
+      of (e0 n) ∈ Q := by
+    intro Q hQ
+    set W : Submodule k (Fin n → k) :=
+      (Q.restrictScalars k).comap (of : (Fin n → k) →ₗ[k] jordanRep lam n) with hW
+    have hWmem : ∀ m : Fin n → k, m ∈ W ↔ of m ∈ Q := fun m => Iff.rfl
+    have hWbot : W ≠ ⊥ := by
+      rw [Submodule.ne_bot_iff] at hQ ⊢
+      obtain ⟨x, hxQ, hxne⟩ := hQ
+      refine ⟨of.symm x, ?_, ?_⟩
+      · rw [hWmem]; simpa using hxQ
+      · exact (map_ne_zero_iff of.symm of.symm.injective).mpr hxne
+    have hinv : ∀ m ∈ W, φ m ∈ W := by
+      intro m hm
+      rw [hWmem] at hm ⊢
+      exact invar Q m hm
+    have := e0_mem_of_invariant lam n hWbot hinv
+    rwa [hWmem] at this
+  have hNe : of (e0 n) ∈ N := e0mem N hN
+  have hPe : of (e0 n) ∈ P := e0mem P hP
+  have : of (e0 n) ∈ N ⊓ P := Submodule.mem_inf.mpr ⟨hNe, hPe⟩
+  rw [hcompl.inf_eq_bot] at this
+  rw [Submodule.mem_bot] at this
+  exact (map_ne_zero_iff of of.injective).mpr (e0_ne_zero n) this
+
+/-- **For `n ≥ 2`, the Jordan-block representation `V_{λ,n}` is not irreducible (not simple).**
+The eigenline `k · e₀` is a proper nonzero subrepresentation: `e₀` is fixed up to scalar by
+`J`, so the cyclic `k[X]`-submodule it generates is one-dimensional, hence not all of `kⁿ`.
+(Etingof Example 2.3.14(2): "an indecomposable representation need not be irreducible".) -/
+theorem jordanRep_not_isSimpleModule (lam : k) (n : ℕ) (hn : 2 ≤ n) :
+    ¬ IsSimpleModule (Polynomial k) (jordanRep lam n) := by
+  haveI : NeZero n := ⟨by omega⟩
+  set φ := jordanBlock lam n with hφ
+  set of := Module.AEval'.of φ with hof
+  intro hsimp
+  haveI := hsimp
+  -- The eigenline: the cyclic `k[X]`-submodule generated by `of e₀`.
+  set Q := Submodule.span (Polynomial k) {(of (e0 n) : jordanRep lam n)} with hQ
+  have hQbot : Q ≠ ⊥ := by
+    rw [hQ, Ne, Submodule.span_singleton_eq_bot]
+    exact (map_ne_zero_iff of of.injective).mpr (e0_ne_zero n)
+  have hQtop : Q = ⊤ := (eq_bot_or_eq_top Q).resolve_left hQbot
+  -- `e₁` lies in `⊤ = Q`, but every element of `Q` is a scalar multiple of `e₀`.
+  set e1 : Fin n → k := Pi.single ⟨1, hn⟩ 1 with he1
+  have he1mem : of e1 ∈ Q := hQtop ▸ Submodule.mem_top
+  rw [hQ, Submodule.mem_span_singleton] at he1mem
+  obtain ⟨a, ha⟩ := he1mem
+  -- Rewrite `a • of e₀` as `of ((eval lam a) • e₀)` using that `e₀` is an eigenvector.
+  have hsmul : a • of (e0 n) = of (a.eval lam • e0 n) := by
+    rw [← Module.AEval.of_aeval_smul]
+    congr 1
+    exact Module.End.aeval_apply_of_mem_apply_eq_smul (jordanBlock_e0 lam n)
+  rw [hsmul] at ha
+  have hvec : a.eval lam • e0 n = e1 := of.injective ha
+  -- Contradiction at coordinate `1`.
+  have := congrFun hvec ⟨1, hn⟩
+  rw [he1, Pi.single_eq_same] at this
+  simp only [e0, Pi.smul_apply, smul_eq_mul] at this
+  rw [Pi.single_eq_of_ne (by intro h; rw [Fin.ext_iff] at h; simp at h)] at this
+  simp at this
+
+/-- **An indecomposable representation need not be irreducible.**
+The Jordan-block representation `V_{0,2} = (k², J_{0,2})` (a single `2 × 2` nilpotent Jordan
+block) is an indecomposable `k[X]`-module that is not simple. (Etingof Example 2.3.14(2).) -/
+theorem exists_indecomposable_not_simple :
+    IsIndecomposable (Polynomial k) (jordanRep (0 : k) 2) ∧
+      ¬ IsSimpleModule (Polynomial k) (jordanRep (0 : k) 2) :=
+  ⟨jordanRep_indecomposable 0 2, jordanRep_not_isSimpleModule 0 2 le_rfl⟩
+
+end Etingof.Example_2_3_14
