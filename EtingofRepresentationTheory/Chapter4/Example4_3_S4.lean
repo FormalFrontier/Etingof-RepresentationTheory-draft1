@@ -21,10 +21,19 @@ The five irreducible representations:
 Uses `Equiv.Perm (Fin 4)` for S₄.
 -/
 
-/-- S₄ has exactly 5 conjugacy classes. (Etingof Example 4.3) -/
+-- `maxRecDepth` is raised because the kernel quotient enumeration
+-- (24 permutations of `Fin 4`, quotiented by conjugacy) recurses past
+-- the default limit.
+set_option maxRecDepth 10000 in
+/-- S₄ has exactly 5 conjugacy classes. (Etingof Example 4.3)
+
+The five conjugacy classes correspond to the five cycle types of `Fin 4`
+(equivalently, the five partitions of 4). The count is a finite kernel
+computation: enumerate the 24 permutations, quotient by conjugacy, and
+count the classes. -/
 theorem Etingof.Example4_3_S4_conj_classes :
     Fintype.card (ConjClasses (Equiv.Perm (Fin 4))) = 5 := by
-  native_decide
+  decide
 
 /-- The sum-of-squares formula for S₄: 1² + 1² + 2² + 3² + 3² = 24 = |S₄|. -/
 theorem Etingof.Example4_3_S4_sum_of_squares :

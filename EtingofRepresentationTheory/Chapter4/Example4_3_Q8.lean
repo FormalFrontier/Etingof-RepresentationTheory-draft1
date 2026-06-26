@@ -25,7 +25,7 @@ construction requires matrix algebra over ℂ.
 (Etingof Example 4.3) -/
 theorem Etingof.Example4_3_Q8_conj_classes :
     Fintype.card (ConjClasses (QuaternionGroup 2)) = 5 := by
-  native_decide
+  decide
 
 /-- The sum-of-squares formula for Q₈: 1² + 1² + 1² + 1² + 2² = 8 = |Q₈|. -/
 theorem Etingof.Example4_3_Q8_sum_of_squares :
