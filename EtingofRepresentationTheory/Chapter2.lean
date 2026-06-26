@@ -35,6 +35,7 @@ import EtingofRepresentationTheory.Chapter2.Example2_3_14_continued
 -- Section 2.7: Characters and the Weyl Algebra
 import EtingofRepresentationTheory.Chapter2.Definition2_7_3
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
+import EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii
 import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
 
 -- Section 2.8: Quivers
