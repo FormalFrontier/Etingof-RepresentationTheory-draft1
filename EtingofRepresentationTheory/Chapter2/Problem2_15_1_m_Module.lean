@@ -126,4 +126,97 @@ theorem lie_sl2_e_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   rw [pow_succ]
   linear_combination (-(-1 : ℂ) ^ (i : ℕ)) * key
 
+/-- The Clebsch–Gordan highest-weight vector `cgHW λ μ k` is nonzero: its
+`e_0 ⊗ e_k` coefficient is `(−1)^0 C(k,0) = 1`. We read it off with the linear
+functional `v ⊗ w ↦ v 0 · w k`, which sends `cgHW λ μ k` to `1`. -/
+theorem cgHW_ne_zero (k : ℕ) (hk : k ≤ min lam mu) : cgHW lam mu k hk ≠ 0 := by
+  have hkmu : k < mu + 1 := by omega
+  -- functional extracting the coefficient of `e_0 ⊗ e_k`
+  set φ : (Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ) →ₗ[ℂ] ℂ :=
+    TensorProduct.lift
+      ((LinearMap.mul ℂ ℂ).compl₁₂ (LinearMap.proj (0 : Fin (lam + 1)))
+        (LinearMap.proj (⟨k, hkmu⟩ : Fin (mu + 1)))) with hφ
+  have hval : φ (cgHW lam mu k hk) = 1 := by
+    rw [cgHW, map_sum]
+    rw [Finset.sum_eq_single (0 : Fin (k + 1))]
+    · simp [hφ, e_basis_apply]
+    · intro i _ hi
+      have hi' : (i : ℕ) ≠ 0 := fun h => hi (Fin.ext h)
+      simp only [hφ, map_smul, TensorProduct.lift.tmul, LinearMap.compl₁₂_apply,
+        LinearMap.proj_apply, LinearMap.mul_apply', e_basis_apply]
+      rw [if_neg (by rw [Fin.ext_iff]; simpa using hi'.symm)]
+      ring
+    · intro h; exact absurd (Finset.mem_univ _) h
+  intro h0
+  rw [h0, map_zero] at hval
+  exact zero_ne_one hval
+
+/-! ## The Casimir scalar on the highest-weight vectors
+
+The Casimir operator `C = EF + FE + H²/2` acts on a highest-weight vector `w` of
+weight `ν` by the scalar `ν(ν+2)/2`: since `E·w = 0`,
+`EF·w = ⁅E, F·w⁆ = ⁅⁅E,F⁆, w⁆ + ⁅F, E·w⁆ = H·w = ν·w` (Jacobi, `⁅E,F⁆ = H`),
+`FE·w = 0`, and `H²·w = ν²·w`, so `C·w = (ν + ν²/2)·w = (ν(ν+2)/2)·w`.
+
+On `cgHW λ μ k` the weight is `ν = λ+μ−2k`, giving the value
+`(λ+μ−2k)(λ+μ−2k+2)/2`. These scalars are pairwise distinct for
+`k = 0,…,min(λ,μ)` (the map `ν ↦ ν(ν+2)/2` is injective on `ν ≥ 0`), so the
+Casimir operator separates the Clebsch–Gordan summands — the tool used in the
+assembly of the full module isomorphism. -/
+
+/-- **Casimir scalar on the Clebsch–Gordan highest-weight vector.** The Casimir
+operator `C = EF + FE + H²/2` of `sl(2)` acts on `cgHW λ μ k` (a highest-weight
+vector of weight `ν = λ+μ−2k`) as the scalar `ν(ν+2)/2`. The distinct values of
+this scalar for different `k` separate the irreducible summands of `V_λ ⊗ V_μ`. -/
+theorem casimir_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
+    ⁅sl2_e, ⁅sl2_f, cgHW lam mu k hk⁆⁆
+        + ⁅sl2_f, ⁅sl2_e, cgHW lam mu k hk⁆⁆
+        + (2⁻¹ : ℂ) • ⁅sl2_h, ⁅sl2_h, cgHW lam mu k hk⁆⁆
+      = ((((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k + 2)) / 2)
+          • cgHW lam mu k hk := by
+  have hE : ⁅sl2_e, cgHW lam mu k hk⁆ = 0 := lie_sl2_e_cgHW lam mu k hk
+  have hH : ⁅sl2_h, cgHW lam mu k hk⁆
+      = ((lam : ℂ) + mu - 2 * k) • cgHW lam mu k hk := lie_sl2_h_cgHW lam mu k hk
+  -- `EF·w = ⁅⁅E,F⁆, w⁆ + ⁅F, E·w⁆ = H·w = ν·w` (Jacobi and `⁅E,F⁆ = H`).
+  have hEF : ⁅sl2_e, ⁅sl2_f, cgHW lam mu k hk⁆⁆
+      = ((lam : ℂ) + mu - 2 * k) • cgHW lam mu k hk := by
+    rw [leibniz_lie sl2_e sl2_f, lie_e_f, hH, hE, lie_zero, add_zero]
+  -- `FE·w = 0` since `E·w = 0`.
+  have hFE : ⁅sl2_f, ⁅sl2_e, cgHW lam mu k hk⁆⁆ = 0 := by rw [hE, lie_zero]
+  -- `H²·w = ν²·w`.
+  have hHH : ⁅sl2_h, ⁅sl2_h, cgHW lam mu k hk⁆⁆
+      = (((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k)) • cgHW lam mu k hk := by
+    rw [hH, lie_smul, hH, smul_smul]
+  rw [hEF, hFE, hHH, add_zero, smul_smul, ← add_smul]
+  congr 1
+  ring
+
+/-- **The Casimir scalars separate the summands.** For `k, k' ≤ min(λ,μ)` the
+Casimir eigenvalues `(λ+μ−2k)(λ+μ−2k+2)/2` agree only when `k = k'`. The map
+`ν ↦ ν(ν+2)/2` is injective on `ν ≥ 0`, and here `ν = λ+μ−2k ≥ |λ−μ| ≥ 0`. This
+is what lets the Casimir operator pick out the distinct irreducible summands of
+`V_λ ⊗ V_μ`. -/
+theorem casimir_scalar_inj {k k' : ℕ} (hk : k ≤ min lam mu) (hk' : k' ≤ min lam mu)
+    (h : ((lam : ℂ) + mu - 2 * k) * ((lam : ℂ) + mu - 2 * k + 2)
+        = ((lam : ℂ) + mu - 2 * k') * ((lam : ℂ) + mu - 2 * k' + 2)) :
+    k = k' := by
+  -- `a(a+2) − b(b+2) = (a−b)(a+b+2)`, so the difference factors.
+  have hfactor :
+      (((lam : ℂ) + mu - 2 * k) - ((lam : ℂ) + mu - 2 * k'))
+        * (((lam : ℂ) + mu - 2 * k) + ((lam : ℂ) + mu - 2 * k') + 2) = 0 := by
+    linear_combination h
+  -- `a + b + 2 = (2λ+2μ+2) − (2k+2k') > 0` since `k + k' ≤ λ + μ`, hence nonzero.
+  have hsum :
+      ((lam : ℂ) + mu - 2 * k) + ((lam : ℂ) + mu - 2 * k') + 2
+        = ((2 * lam + 2 * mu + 2 : ℕ) : ℂ) - ((2 * k + 2 * k' : ℕ) : ℂ) := by
+    push_cast; ring
+  have hpos :
+      ((lam : ℂ) + mu - 2 * k) + ((lam : ℂ) + mu - 2 * k') + 2 ≠ 0 := by
+    rw [hsum, sub_ne_zero, Ne, Nat.cast_inj]; omega
+  -- Therefore `a − b = 0`, i.e. `2k = 2k'`.
+  have hab : ((lam : ℂ) + mu - 2 * k) - ((lam : ℂ) + mu - 2 * k') = 0 :=
+    (mul_eq_zero.mp hfactor).resolve_right hpos
+  have hkk : (k : ℂ) = (k' : ℂ) := by linear_combination (-2⁻¹ : ℂ) * hab
+  exact_mod_cast hkk
+
 end Etingof.Sl2Irrep
