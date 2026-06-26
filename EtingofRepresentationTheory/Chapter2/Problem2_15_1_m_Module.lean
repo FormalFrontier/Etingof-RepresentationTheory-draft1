@@ -126,6 +126,31 @@ theorem lie_sl2_e_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   rw [pow_succ]
   linear_combination (-(-1 : ℂ) ^ (i : ℕ)) * key
 
+/-- The Clebsch–Gordan highest-weight vector `cgHW λ μ k` is nonzero: its
+`e_0 ⊗ e_k` coefficient is `(−1)^0 C(k,0) = 1`. We read it off with the linear
+functional `v ⊗ w ↦ v 0 · w k`, which sends `cgHW λ μ k` to `1`. -/
+theorem cgHW_ne_zero (k : ℕ) (hk : k ≤ min lam mu) : cgHW lam mu k hk ≠ 0 := by
+  have hkmu : k < mu + 1 := by omega
+  -- functional extracting the coefficient of `e_0 ⊗ e_k`
+  set φ : (Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ) →ₗ[ℂ] ℂ :=
+    TensorProduct.lift
+      ((LinearMap.mul ℂ ℂ).compl₁₂ (LinearMap.proj (0 : Fin (lam + 1)))
+        (LinearMap.proj (⟨k, hkmu⟩ : Fin (mu + 1)))) with hφ
+  have hval : φ (cgHW lam mu k hk) = 1 := by
+    rw [cgHW, map_sum]
+    rw [Finset.sum_eq_single (0 : Fin (k + 1))]
+    · simp [hφ, e_basis_apply]
+    · intro i _ hi
+      have hi' : (i : ℕ) ≠ 0 := fun h => hi (Fin.ext h)
+      simp only [hφ, map_smul, TensorProduct.lift.tmul, LinearMap.compl₁₂_apply,
+        LinearMap.proj_apply, LinearMap.mul_apply', e_basis_apply]
+      rw [if_neg (by rw [Fin.ext_iff]; simpa using hi'.symm)]
+      ring
+    · intro h; exact absurd (Finset.mem_univ _) h
+  intro h0
+  rw [h0, map_zero] at hval
+  exact zero_ne_one hval
+
 /-! ## The Casimir scalar on the highest-weight vectors
 
 The Casimir operator `C = EF + FE + H²/2` acts on a highest-weight vector `w` of
