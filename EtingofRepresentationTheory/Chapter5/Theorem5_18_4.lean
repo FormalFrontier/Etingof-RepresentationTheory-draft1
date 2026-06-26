@@ -330,58 +330,69 @@ theorem Theorem5_18_4_decomposition
     hV'_acg, hV'_mod, hW'_acg, hW'_mod, ⟨e⟩⟩
 
 /-- Schur-Weyl duality: partition-indexed decomposition of V^⊗n.
-This refines `Theorem5_18_4_decomposition` by re-indexing the decomposition
-by `Nat.Partition n`. Each summand `S p ⊗ L p` collects the components
-from the generic decomposition that are assigned to partition `p`.
-(Etingof Theorem 5.18.4, part iii) -/
+
+As an `(A ⊗[k] B)`-module (with `A = symGroupImage k V n` and
+`B = diagonalActionImage k V n`),
+  `V^⊗n ≅ ⨁_{λ ⊢ n} V_λ ⊗[k] L_λ`,
+where the sum ranges over partitions `λ` of `n`, each `V_λ` is the Specht
+module for `λ` (a simple `A`-module, or zero when `λ` does not appear), and
+each `L_λ` is a distinct irreducible `B`-module (an irreducible polynomial
+`GL(V)`-representation), or zero. This is the book's exact statement of
+Theorem 5.18.4(iii) / Corollary 5.19.2, indexed by `Nat.Partition n`.
+
+The existential carries the genuine content the book asserts:
+* each `S p` (= `V_λ`) carries a `Module (symGroupImage k V n)`-structure and
+  is simple or zero (`IsSimpleModule … ∨ Subsingleton`);
+* each `L p` (= `L_λ`) carries a `Module (diagonalActionImage k V n)`-structure
+  and is simple (irreducible) or zero;
+* distinct partitions give non-isomorphic nonzero `L p`;
+* the `k`-linear iso decomposes `V^⊗n` as `⨁_p S p ⊗[k] L p`.
+
+**Why a genuine restatement was needed.** The previous proof here was
+sorry-free but *vacuous*: it re-indexed the abstract decomposition along the
+constant map `fun _ => Classical.arbitrary (Nat.Partition n)` and set
+`L p := k`, collapsing all of `V^⊗n` onto one arbitrary partition with every
+other summand zero. No `Module A`, `Module B`, simplicity, or distinctness
+constraint linked `S p`/`L p` to `p`, so the statement held for *any* nonzero
+`V^⊗n` and said nothing about partitions. See issue #5326.
+
+**Proof strategy (the genuinely missing dependency).** Start from the abstract
+`Theorem5_18_4_bimodule_decomposition`, whose index set `ι` enumerates the
+distinct simple `A = symGroupImage`-modules appearing in `V^⊗n`, each with its
+`B`-module partner. The remaining content is the *Specht labelling*: over an
+algebraically closed field of characteristic 0 the simple `k[Sₙ]`-modules are
+in bijection with `Nat.Partition n` via the Specht modules
+(`Etingof.SpechtModule` / `Etingof.Theorem5_12_2_irreducible`), inducing an
+injection `ι ↪ Nat.Partition n`. Re-index the bimodule decomposition along
+this genuine labelling (zero summands on partitions outside the image) to
+obtain the statement below. Formalizing that bijection between simple
+`symGroupImage`-modules and partitions is the open piece; the proof is `sorry`
+until it lands. -/
 theorem Theorem5_18_4_partition_decomposition
     [IsAlgClosed k] [CharZero k]
     (hN : n ≤ Module.finrank k V) :
     ∃ (S : Nat.Partition n → Type (max u v))
-      (L : Nat.Partition n → Type u)
       (_ : ∀ p, AddCommGroup (S p))
       (_ : ∀ p, Module k (S p))
+      (_ : ∀ p, Module (symGroupImage k V n) (S p))
+      (L : Nat.Partition n → Type (max u v))
       (_ : ∀ p, AddCommGroup (L p))
-      (_ : ∀ p, Module k (L p)),
+      (_ : ∀ p, Module k (L p))
+      (_ : ∀ p, Module (diagonalActionImage k V n) (L p)),
+      -- each Specht summand `S p` is a simple `A`-module or zero
+      (∀ p, IsSimpleModule (symGroupImage k V n) (S p) ∨ Subsingleton (S p)) ∧
+      -- each `L p` is an irreducible `B`-module or zero
+      (∀ p, IsSimpleModule (diagonalActionImage k V n) (L p) ∨ Subsingleton (L p)) ∧
+      -- distinct partitions give non-isomorphic nonzero `L p`
+      (∀ p q, ¬ Subsingleton (L p) →
+        Nonempty (L p ≃ₗ[diagonalActionImage k V n] L q) → p = q) ∧
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum (Nat.Partition n)
           (fun p => S p ⊗[k] L p)) := by
-  -- Use the existing ι-indexed decomposition from Theorem 5.18.4(iii)
-  obtain ⟨ι, hι, hι_dec, S', L', hS'_acg, hS'_mod, hL'_acg, hL'_mod, ⟨e⟩⟩ :=
-    Theorem5_18_4_decomposition k V n hN
-  -- Re-index: choose any function f : ι → Nat.Partition n, then group
-  -- summands by fiber. Empty fibers contribute zero modules.
-  haveI : Nonempty (Nat.Partition n) :=
-    ⟨⟨Multiset.replicate n 1, fun {i} hi => by
-      simp [Multiset.mem_replicate] at hi; omega,
-      by simp⟩⟩
-  let f : ι → Nat.Partition n := fun _ => Classical.arbitrary _
-  -- Define S p as the fiber direct sum: ⊕_{i : f⁻¹(p)} (S' i ⊗ L' i)
-  -- Define L p = k (so S p ⊗ k ≅ S p via TensorProduct.rid)
-  let M : ι → Type (max u v) := fun i => S' i ⊗[k] L' i
-  refine ⟨fun p => DirectSum {i : ι // f i = p} (fun j => M j.val),
-          fun _ => k,
-          inferInstance, inferInstance, inferInstance, inferInstance, ⟨?_⟩⟩
-  -- Build the equivalence chain:
-  -- V⊗ⁿ ≃ ⊕_ι M ≃ ⊕_{Σ p, fiber} M ≃ ⊕_p (⊕_fiber M) ≃ ⊕_p ((⊕_fiber M) ⊗ k)
-  -- Step 2: re-index ⊕_ι M along the fiber equivalence
-  have e₂ := DirectSum.lequivCongrLeft (R := k)
-    (Equiv.sigmaFiberEquiv f).symm (M := M)
-  -- Step 3+4: sigma curry then tensor with k
-  -- sigmaLcurryEquiv : (R) → [Semiring R] → {ι} → {α : ι → Type} → {δ : (i : ι) → α i → Type} →
-  --   [DecidableEq ι] → [AddCommMonoid] → [Module] →
-  --   DirectSum (Σ x, α x) (fun i => δ i.1 i.2) ≃ₗ[R]
-  --     DirectSum ι (fun i => DirectSum (α i) (fun j => δ i j))
-  let e₃ := @DirectSum.sigmaLcurryEquiv k _ (Nat.Partition n)
-    (fun p => {j : ι // f j = p})
-    (fun p (j : {j : ι // f j = p}) => M j.val)
-    _ (fun _ _ => inferInstance) (fun _ _ => inferInstance)
-  -- Step 4: tensor with k via TensorProduct.rid
-  let e₄ := DFinsupp.mapRange.linearEquiv (R := k)
-    (fun p : Nat.Partition n => (TensorProduct.rid k
-      (DirectSum {j : ι // f j = p} (fun j => M j.val))).symm)
-  -- Now compose: V⊗ⁿ →[e] ⊕_ι M →[e₂] ⊕_Σ M →[e₃] ⊕_p(⊕_fiber M) →[e₄] ⊕_p(⊕_fiber M ⊗ k)
-  exact e.trans (e₂.trans (e₃.trans e₄))
+  -- Requires the Specht labelling of the simple `symGroupImage`-modules
+  -- (`ι ↪ Nat.Partition n`) to re-index `Theorem5_18_4_bimodule_decomposition`.
+  -- See the docstring and issue #5326.
+  sorry
 
 -- Heartbeat bumps match `Theorem5_18_1_bimodule_decomposition`: the deep
 -- `Subalgebra → Ring → Module.End` instance chain plus the `h_eq ▸` transport
