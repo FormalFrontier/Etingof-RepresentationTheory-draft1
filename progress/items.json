@@ -108,6 +108,7 @@
     "start_line": 18,
     "end_line": 25,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Complete: both parts (i) and (ii) proved. PR #1611 completed sl(2) complete reducibility.",
     "last_updated": "2026-03-23"
@@ -131,6 +132,7 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false
   },
   {
@@ -162,6 +164,7 @@
     "start_line": 1,
     "end_line": 1,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -173,6 +176,7 @@
     "start_line": 2,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -184,6 +188,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -205,6 +210,7 @@
     "start_line": 11,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -216,6 +222,7 @@
     "start_line": 23,
     "end_line": 23,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -237,6 +244,7 @@
     "start_line": 27,
     "end_line": 27,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -248,6 +256,7 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -258,7 +267,8 @@
     "end_page": "10",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Discussion_examples_intro",
@@ -279,6 +289,7 @@
     "start_line": 12,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -290,6 +301,7 @@
     "start_line": 21,
     "end_line": 23,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -301,6 +313,7 @@
     "start_line": 1,
     "end_line": 1,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -312,6 +325,7 @@
     "start_line": 2,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -323,6 +337,7 @@
     "start_line": 9,
     "end_line": 9,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -334,6 +349,7 @@
     "start_line": 10,
     "end_line": 11,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -365,6 +381,7 @@
     "start_line": 3,
     "end_line": 13,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -376,6 +393,7 @@
     "start_line": 14,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -386,7 +404,8 @@
     "end_page": "12",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Discussion_proof_Corollary2.3.10",
@@ -407,6 +426,7 @@
     "start_line": 21,
     "end_line": 21,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -417,7 +437,8 @@
     "end_page": "12",
     "start_line": 22,
     "end_line": 23,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Discussion_proof_Corollary2.3.12",
@@ -438,6 +459,7 @@
     "start_line": 9,
     "end_line": 15,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -450,6 +472,7 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -581,6 +604,7 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Both spanning and linear independence proved. Uses polynomial representation with CharZero + NoZeroDivisors.",
     "sorry_free": true
@@ -593,7 +617,8 @@
     "end_page": "18",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Definition2.7.3",
@@ -604,6 +629,7 @@
     "start_line": 21,
     "end_line": 21,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -645,6 +671,7 @@
     "start_line": 21,
     "end_line": 24,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -656,6 +683,7 @@
     "start_line": 25,
     "end_line": 30,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -677,6 +705,7 @@
     "start_line": 35,
     "end_line": 35,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -698,6 +727,7 @@
     "start_line": 2,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -708,7 +738,8 @@
     "end_page": "20",
     "start_line": 5,
     "end_line": 5,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Problem2.8.6",
@@ -738,7 +769,8 @@
     "end_page": "21",
     "start_line": 5,
     "end_line": 7,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Definition2.8.8",
@@ -749,6 +781,7 @@
     "start_line": 8,
     "end_line": 9,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -760,6 +793,7 @@
     "start_line": 10,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -781,6 +815,7 @@
     "start_line": 14,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -812,6 +847,7 @@
     "start_line": 16,
     "end_line": 21,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -823,6 +859,7 @@
     "start_line": 22,
     "end_line": 35,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -834,6 +871,7 @@
     "start_line": 1,
     "end_line": 1,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -844,7 +882,8 @@
     "end_page": "23",
     "start_line": 2,
     "end_line": 3,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Remark2.9.4",
@@ -854,7 +893,8 @@
     "end_page": "23",
     "start_line": 4,
     "end_line": 7,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Discussion_concrete_Lie_examples",
@@ -895,6 +935,7 @@
     "start_line": 7,
     "end_line": 9,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -906,6 +947,7 @@
     "start_line": 10,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -917,6 +959,7 @@
     "start_line": 11,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -928,6 +971,7 @@
     "start_line": 21,
     "end_line": 23,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -938,7 +982,8 @@
     "end_page": "24",
     "start_line": 24,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Exercise2.9.11",
@@ -959,6 +1004,7 @@
     "start_line": 3,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -970,6 +1016,7 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -980,7 +1027,8 @@
     "end_page": "25",
     "start_line": 13,
     "end_line": 15,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Discussion_2.9_Lie_groups",
@@ -1031,6 +1079,7 @@
     "start_line": 7,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1091,7 +1140,8 @@
     "end_page": "34",
     "start_line": 16,
     "end_line": 11,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter2/Exercise2.11.5",
@@ -1142,6 +1192,7 @@
     "start_line": 1,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1183,6 +1234,7 @@
     "start_line": 10,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1194,6 +1246,7 @@
     "start_line": 15,
     "end_line": 17,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1305,6 +1358,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1316,6 +1370,7 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1328,7 +1383,7 @@
     "end_line": 13,
     "status": "proof_partial",
     "sorry_free": false,
-    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
+    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : \u2a01_i Hom_A(X i,V)\u2297X i \u2192 V plus evalDirectSumEquiv (\u2243\u2097 via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -1349,6 +1404,7 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1359,7 +1415,8 @@
     "end_page": "45",
     "start_line": 9,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
@@ -1380,6 +1437,7 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1411,6 +1469,7 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1422,6 +1481,7 @@
     "start_line": 5,
     "end_line": 13,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "Both parts proved. Part (i) uses Jacobson density theorem for simple modules. Part (ii) applies density theorem to the product module via Schur's lemma decomposition.",
     "sorry_free": true
   },
@@ -1444,6 +1504,7 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1465,6 +1526,7 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1496,8 +1558,9 @@
     "start_line": 15,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true,
-    "notes": "Remark3_3_4.lean: freeCover : (ι → A) →ₗ[A] X, (aᵢ) ↦ Σ aᵢ•bᵢ from a k-basis; freeCover_surjective; quotientEquivOfFreeCover ((ι → A)/ker ≃ₗ[A] X), i.e. X is a quotient of the free module Aⁿ."
+    "notes": "Remark3_3_4.lean: freeCover : (\u03b9 \u2192 A) \u2192\u2097[A] X, (a\u1d62) \u21a6 \u03a3 a\u1d62\u2022b\u1d62 from a k-basis; freeCover_surjective; quotientEquivOfFreeCover ((\u03b9 \u2192 A)/ker \u2243\u2097[A] X), i.e. X is a quotient of the free module A\u207f."
   },
   {
     "id": "Chapter3/Introduction_to_3.4",
@@ -1518,6 +1581,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1529,6 +1593,7 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1550,6 +1615,7 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1561,6 +1627,7 @@
     "start_line": 17,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1572,6 +1639,7 @@
     "start_line": 21,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1583,6 +1651,7 @@
     "start_line": 5,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1594,6 +1663,7 @@
     "start_line": 23,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1605,6 +1675,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1616,6 +1687,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1627,6 +1699,7 @@
     "start_line": 11,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1660,6 +1733,7 @@
     "start_line": 13,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "All parts proved sorry-free: (i) linear independence of characters, (ii) characters span tracial functionals for semisimple algebras. Helper lemmas tracial_of_end_eq_scalar_trace and rep_map_injective_of_semisimple also proved.",
     "sorry_free": true
   },
@@ -1682,8 +1756,9 @@
     "start_line": 7,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true,
-    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half."
+    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s\u2081.Equivalent s\u2082; jordan_holder_factors gives the permutation \u03c3 with W\u1d62 \u2245 W'_{\u03c3 i} via Etingof.compositionFactor; jordan_holder retains the n = m length half."
   },
   {
     "id": "Chapter3/Discussion_after_Theorem3.7.1",
@@ -1695,7 +1770,7 @@
     "end_line": 8,
     "status": "sorry_free",
     "sorry_free": true,
-    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim."
+    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict \u2014 the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim."
   },
   {
     "id": "Chapter3/Introduction_to_3.8",
@@ -1716,6 +1791,7 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "note": "Existence sorry-free. Uniqueness: find_iso_summand + complement IsCompl proved. 1 sorry remains in inductive step (IH application plumbing).",
     "sorry_free": true
   },
@@ -1728,6 +1804,7 @@
     "start_line": 15,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1778,7 +1855,8 @@
     "end_page": "56",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter3/Introduction_to_3.9",
@@ -1879,6 +1957,7 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "All sorries resolved.",
     "sorry_free": true
   },
@@ -1890,7 +1969,8 @@
     "end_page": "59",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
@@ -1921,6 +2001,7 @@
     "start_line": 11,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1942,6 +2023,7 @@
     "start_line": 23,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1953,6 +2035,7 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -1984,6 +2067,7 @@
     "start_line": 23,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "All sorries resolved. hd_ne proved via trace nondegeneracy (IrrepDecomp.d_cast_ne_zero).",
     "sorry_free": true
   },
@@ -1996,6 +2080,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "All sorries resolved.",
     "sorry_free": true
   },
@@ -2018,6 +2103,7 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2039,6 +2125,7 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2050,6 +2137,7 @@
     "start_line": 3,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2061,6 +2149,7 @@
     "start_line": 11,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2082,6 +2171,7 @@
     "start_line": 11,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2113,6 +2203,7 @@
     "start_line": 3,
     "end_line": 30,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2164,6 +2255,7 @@
     "start_line": 3,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2174,7 +2266,8 @@
     "end_page": "70",
     "start_line": 15,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter4/Introduction_4.6",
@@ -2195,6 +2288,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2206,6 +2300,7 @@
     "start_line": 5,
     "end_line": 14,
     "status": "proof_complete",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2228,6 +2323,7 @@
     "start_line": 3,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2248,7 +2344,8 @@
     "end_page": "72",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter4/Introduction_4.7",
@@ -2269,6 +2366,7 @@
     "start_line": 15,
     "end_line": 24,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2290,6 +2388,7 @@
     "start_line": 28,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2311,6 +2410,7 @@
     "start_line": 9,
     "end_line": 31,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2332,6 +2432,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2353,6 +2454,7 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "All sorries resolved: blockPoly_irreducible proved via retraction argument",
     "sorry_free": true
   },
@@ -2375,6 +2477,7 @@
     "start_line": 19,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2546,6 +2649,7 @@
     "start_line": 7,
     "end_line": 11,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2588,6 +2692,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2599,6 +2704,7 @@
     "start_line": 9,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2610,6 +2716,7 @@
     "start_line": 21,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "has_true_hypothesis": true,
     "sorry_free": true
   },
@@ -2642,6 +2749,7 @@
     "start_line": 29,
     "end_line": 29,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2653,6 +2761,7 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2664,6 +2773,7 @@
     "start_line": 3,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2685,6 +2795,7 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2696,6 +2807,7 @@
     "start_line": 11,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2717,6 +2829,7 @@
     "start_line": 29,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2737,7 +2850,8 @@
     "end_page": "98",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Introduction_5.3",
@@ -2758,6 +2872,7 @@
     "start_line": 15,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2769,6 +2884,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2810,6 +2926,7 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2820,7 +2937,8 @@
     "end_page": "100",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Theorem5.4.3",
@@ -2831,6 +2949,7 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2852,6 +2971,7 @@
     "start_line": 21,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2873,6 +2993,7 @@
     "start_line": 25,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2894,6 +3015,7 @@
     "start_line": 9,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "All helper lemmas proved (character_isIntegral, scalar_contradicts_simplicity, nontrivial_irrep_dim_ge_two). Sorry-free since PRs #793, #801.",
     "sorry_free": true
   },
@@ -2906,6 +3028,7 @@
     "start_line": 23,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2967,6 +3090,7 @@
     "start_line": 3,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -2988,6 +3112,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -3009,6 +3134,7 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -3030,6 +3156,7 @@
     "start_line": 1,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -3040,7 +3167,8 @@
     "end_page": "108",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Discussion_verification_of_Ind",
@@ -3060,7 +3188,8 @@
     "end_page": "108",
     "start_line": 19,
     "end_line": 26,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Problem5.8.4",
@@ -3111,7 +3240,8 @@
     "end_page": "109",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
@@ -3142,6 +3272,7 @@
     "start_line": 7,
     "end_line": 34,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3214,6 +3345,7 @@
     "start_line": 29,
     "end_line": 9,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -3235,6 +3367,7 @@
     "start_line": 19,
     "end_line": 25,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "youngSymmetrizer_identity_coeff proved, cascading to young_symmetrizer_sq_ne_zero and Theorem5_12_2_irreducible. Only Theorem5_12_2_classification (every simple is some V_\u03bb) has sorry.",
     "sorry_free": true
@@ -3248,6 +3381,7 @@
     "start_line": 26,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -3259,6 +3393,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3291,6 +3426,7 @@
     "start_line": 15,
     "end_line": 23,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Full proof complete modulo pigeonhole_transposition combinatorial lemma (1 sorry). Algebraic structure proven: absorption case, sign-reversing involution case, linear extension.",
     "sorry_free": true
@@ -3324,6 +3460,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Fully proved. pigeonhole_transposition proved via column fiber decomposition + double counting identity.",
     "sorry_free": true
@@ -3337,6 +3474,7 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3349,6 +3487,7 @@
     "start_line": 13,
     "end_line": 13,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3391,6 +3530,7 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Both vanishing and diagonal parts fully proved (0 sorries in file).",
     "sorry_free": true
@@ -3404,6 +3544,7 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -3435,6 +3576,7 @@
     "start_line": 1,
     "end_line": 9,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
     "notes": "fixedCosets_eq_card_colorings sorry remaining. Submitted to Aristotle. Main theorem proved modulo this helper.",
@@ -3459,6 +3601,7 @@
     "start_line": 15,
     "end_line": 18,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true
   },
   {
@@ -3469,7 +3612,8 @@
     "end_page": "118",
     "start_line": 19,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
@@ -3500,6 +3644,7 @@
     "start_line": 22,
     "end_line": 26,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Cauchy determinant identity by induction with row operations.",
     "sorry_free": true
@@ -3533,6 +3678,7 @@
     "start_line": 5,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3544,7 +3690,8 @@
     "end_page": "120",
     "start_line": 11,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Introduction_5.16",
@@ -3615,6 +3762,7 @@
     "start_line": 3,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Triage 2026-03-18: 1 sorry (the main theorem). Active claimed issue #984. Import issues from earlier attempts are resolved. Leave for that agent.",
     "sorry_free": true
@@ -3638,6 +3786,7 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Part (i) proved via Jacobson density theorem. Parts (ii) and (iii) still sorry.",
     "sorry_free": true
@@ -3661,6 +3810,7 @@
     "start_line": 5,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "notes": "(\u2287) direction fully proved. (\u2286) direction needs Schur-Weyl duality / first fundamental theorem of invariant theory \u2014 prove it here. 1 sorry remains.",
     "sorry_free": true
@@ -3674,6 +3824,7 @@
     "start_line": 15,
     "end_line": 35,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -3706,6 +3857,7 @@
     "start_line": 5,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Triage 2026-03-18: All 3 parts (centralizers, semisimple, decomposition) have sorry. No active claimed issue. Depends on Double Centralizer Theorem (5.18.1). Ready for feature issue once 5.18.1 parts are proved."
   },
@@ -3728,6 +3880,7 @@
     "start_line": 21,
     "end_line": 27,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3740,6 +3893,7 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false
   },
   {
@@ -3751,6 +3905,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Symmetric part (Example5_19_3_symmetric) is sorry_free. Exterior part (Example5_19_3_exterior) still has sorry due to coercion issues between ExteriorAlgebra and PiTensorProduct.",
     "sorry_free": true
@@ -3804,6 +3959,7 @@
     "start_line": 17,
     "end_line": 32,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true,
     "notes": "Proved in PR #1808 (antisymmetric basis decomposition)."
@@ -3827,6 +3983,7 @@
     "start_line": 1,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
     "sorry_free": true
@@ -3859,7 +4016,8 @@
     "end_page": "132",
     "start_line": 33,
     "end_line": 37,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Discussion_after_Theorem5.22.1",
@@ -3902,6 +4060,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -3924,6 +4083,7 @@
     "start_line": 13,
     "end_line": 21,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false
   },
   {
@@ -3944,7 +4104,8 @@
     "end_page": "134",
     "start_line": 5,
     "end_line": 7,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Introduction_5.24",
@@ -4015,6 +4176,7 @@
     "start_line": 37,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -4047,6 +4209,7 @@
     "start_line": 15,
     "end_line": 34,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false
   },
   {
@@ -4078,6 +4241,7 @@
     "start_line": 22,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "aristotle_projects": {
       "innerProduct": "962da88d-5e9e-4e8a-a792-1550f1974c1c",
@@ -4112,7 +4276,8 @@
     "end_page": "144",
     "start_line": 25,
     "end_line": 29,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Remark5.26.2",
@@ -4122,7 +4287,8 @@
     "end_page": "145",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
@@ -4143,6 +4309,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4173,7 +4340,8 @@
     "end_page": "147",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter5/Exercise5.27.2",
@@ -4254,6 +4422,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4275,6 +4444,7 @@
     "start_line": 7,
     "end_line": 27,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false
   },
   {
@@ -4316,6 +4486,7 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false
   },
   {
@@ -4356,7 +4527,8 @@
     "end_page": "154",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter6/Example6.2.2",
@@ -4367,6 +4539,7 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4379,6 +4552,7 @@
     "start_line": 15,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4391,6 +4565,7 @@
     "start_line": 21,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4413,6 +4588,7 @@
     "start_line": 15,
     "end_line": 74,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Triage 2026-03-18: 959-line file with only 1 sorry remaining (decomp_dim_ge_three, line 559). Active claimed issue #981. Very close to completion.",
     "sorries": 0,
@@ -4447,6 +4623,7 @@
     "start_line": 7,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4458,6 +4635,7 @@
     "start_line": 21,
     "end_line": 38,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4470,6 +4648,7 @@
     "start_line": 39,
     "end_line": 46,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4480,7 +4659,8 @@
     "end_page": "164",
     "start_line": 47,
     "end_line": 47,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter6/Definition6.4.5",
@@ -4491,6 +4671,7 @@
     "start_line": 1,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4502,6 +4683,7 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4513,6 +4695,7 @@
     "start_line": 15,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4523,7 +4706,8 @@
     "end_page": "166",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter6/Example6.4.9",
@@ -4534,6 +4718,7 @@
     "start_line": 19,
     "end_line": 21,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "aristotle_projects": {
       "Dn_bound": "9f0c4ab7-5906-4bd0-b188-410df0f4e548",
@@ -4550,6 +4735,7 @@
     "start_line": 22,
     "end_line": 29,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4560,7 +4746,8 @@
     "end_page": "167",
     "start_line": 30,
     "end_line": 37,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter6/Section6.5_heading",
@@ -4581,6 +4768,7 @@
     "start_line": 40,
     "end_line": 47,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4602,6 +4790,7 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "notes": "Part (a) finiteness sorry-free. Part (b) sorry-free. Part (c) still sorry (needs reflection functors)."
   },
@@ -4624,6 +4813,7 @@
     "start_line": 5,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4635,6 +4825,7 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4656,6 +4847,7 @@
     "start_line": 21,
     "end_line": 35,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4677,6 +4869,7 @@
     "start_line": 3,
     "end_line": 26,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4688,6 +4881,7 @@
     "start_line": 27,
     "end_line": 18,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -4700,6 +4894,7 @@
     "start_line": 19,
     "end_line": 32,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_count": 2
   },
   {
@@ -4711,6 +4906,7 @@
     "start_line": 33,
     "end_line": 26,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "notes": "Proved in PR #1800 (Decidable.casesOn workarounds for source case).",
     "sorry_free": true
   },
@@ -4723,6 +4919,7 @@
     "start_line": 27,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Sink case (part 1) fully proved via rank-nullity. Source case (part 2) blocked by Definition 6.6.4 sorry (cokernel type needs AddCommGroup).",
     "sorry_free": true
@@ -4746,6 +4943,7 @@
     "start_line": 15,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4757,6 +4955,7 @@
     "start_line": 21,
     "end_line": 26,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4779,6 +4978,7 @@
     "start_line": 1,
     "end_line": 28,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4801,6 +5001,7 @@
     "start_line": 31,
     "end_line": 46,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4813,6 +5014,7 @@
     "start_line": 47,
     "end_line": 30,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true
   },
   {
@@ -4834,6 +5036,7 @@
     "start_line": 33,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "attention_needed": "statement fixed: added IsOrientationOf hypothesis and pinned universe (#1094)"
   },
@@ -4846,6 +5049,7 @@
     "start_line": 15,
     "end_line": 28,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -4919,6 +5123,7 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4929,7 +5134,8 @@
     "end_page": "182",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter7/Example7.1.3",
@@ -4940,6 +5146,7 @@
     "start_line": 17,
     "end_line": 28,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4961,6 +5168,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4972,6 +5180,7 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -4993,6 +5202,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5014,6 +5224,7 @@
     "start_line": 15,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5035,6 +5246,7 @@
     "start_line": 5,
     "end_line": 25,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5056,6 +5268,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5067,6 +5280,7 @@
     "start_line": 9,
     "end_line": 15,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -5089,6 +5303,7 @@
     "start_line": 1,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5120,6 +5335,7 @@
     "start_line": 23,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5130,7 +5346,8 @@
     "end_page": "188",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter7/Example7.5.3",
@@ -5141,6 +5358,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -5163,6 +5381,7 @@
     "start_line": 13,
     "end_line": 14,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5183,7 +5402,8 @@
     "end_page": "189",
     "start_line": 22,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter7/Example7.6.3",
@@ -5194,6 +5414,7 @@
     "start_line": 1,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5225,6 +5446,7 @@
     "start_line": 17,
     "end_line": 17,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5236,6 +5458,7 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5266,7 +5489,8 @@
     "end_page": "191",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "unchecked"
   },
   {
     "id": "Chapter7/Discussion_after_Remark7.7.4",
@@ -5297,6 +5521,7 @@
     "start_line": 15,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5318,6 +5543,7 @@
     "start_line": 13,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5329,6 +5555,7 @@
     "start_line": 21,
     "end_line": 21,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5360,6 +5587,7 @@
     "start_line": 21,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5391,6 +5619,7 @@
     "start_line": 21,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5412,6 +5641,7 @@
     "start_line": 25,
     "end_line": 26,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5423,6 +5653,7 @@
     "start_line": 27,
     "end_line": 51,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5434,6 +5665,7 @@
     "start_line": 1,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5445,6 +5677,7 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -5467,6 +5700,7 @@
     "start_line": 13,
     "end_line": 24,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "hom_left_exact via inferInstance (coyoneda); tensor_right_exact via inferInstance (MonoidalClosed left adjoint)",
     "sorry_free": true
@@ -5540,6 +5774,7 @@
     "start_line": 11,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5551,6 +5786,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5592,6 +5828,7 @@
     "start_line": 23,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5603,6 +5840,7 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5614,6 +5852,7 @@
     "start_line": 19,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5635,6 +5874,7 @@
     "start_line": 23,
     "end_line": 26,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5656,6 +5896,7 @@
     "start_line": 3,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5677,6 +5918,7 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5688,6 +5930,7 @@
     "start_line": 17,
     "end_line": 22,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5789,6 +6032,7 @@
     "start_line": 9,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": true,
     "sorry_free": true
   },
@@ -5801,6 +6045,7 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5812,6 +6057,7 @@
     "start_line": 7,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -5834,6 +6080,7 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "All sorries proved. PR #1692 proved h\u03c3_surj (last sorry)."
   },
@@ -5846,6 +6093,7 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -5858,6 +6106,7 @@
     "start_line": 13,
     "end_line": 27,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "All sorry placeholders filled. Proof uses rank-nullity and induction on composition series length.",
     "sorry_free": true
@@ -5881,6 +6130,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -5913,6 +6163,7 @@
     "start_line": 15,
     "end_line": 18,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5934,6 +6185,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -5945,6 +6197,7 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "attention_needed": false,
     "notes": "Hilbert syzygy theorem: the book proves this via Koszul resolution in Problem 8.2.10(iv). Follow the book's proof. High priority."
@@ -5988,6 +6241,7 @@
     "start_line": 19,
     "end_line": 4,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -6000,6 +6254,7 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "sorry_free": true
   },
@@ -6032,6 +6287,7 @@
     "start_line": 17,
     "end_line": 20,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "IsFiniteAbelianCategory class: extends Abelian + EnoughProjectives, with finite indexing type for simple objects",
     "sorry_free": true
@@ -6045,6 +6301,7 @@
     "start_line": 21,
     "end_line": 2,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "IsProgenerator class: extends Projective, requires epi from finite biproduct of copies",
     "sorry_free": true
@@ -6078,6 +6335,7 @@
     "start_line": 7,
     "end_line": 10,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Triage (2026-03-18): 3/4 components proved (isSeparator, faithful, full). Only essSurj remains sorry. Design issue: functor targets ModuleCat (all modules) but Etingof theorem is about finite-dimensional modules. essSurj likely requires restricting target to finitely generated modules or a custom finite-dimensional module category. Needs formalization redesign before proof work.",
     "attention_needed": false,
@@ -6104,7 +6362,7 @@
     "end_line": 6,
     "status": "proof_partial",
     "sorry_free": false,
-    "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib)."
+    "note": "Projective-generator classification (P_n = \u2295 n_i P_i, n_i \u2265 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib)."
   },
   {
     "id": "Chapter9/Definition9.7.1",
@@ -6115,6 +6373,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -6136,6 +6395,7 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "sorry_free": true
   },
   {
@@ -6147,6 +6407,7 @@
     "start_line": 17,
     "end_line": 19,
     "status": "sorry_free",
+    "fidelity": "unchecked",
     "needs_statement": false,
     "notes": "Sorry-free since wave 28. Sorry pushed to Infrastructure/BasicAlgebraExistence.",
     "attention_needed": false,

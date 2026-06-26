@@ -704,7 +704,7 @@ Update `progress/items.json` with `"upstreaming_status"`: `"candidate"`, `"mathl
 
 ### Stage 3.7: Completeness Audit (bounded)
 
-Runs once substantial Lean coverage exists (after most of Stage 3.5). Its job is to find *formalizable claims and exercises that were never reflected in Lean* — both claims embedded inside prose blobs and exercise/problem content. It is a **bounded risk-reduction audit, not an open-ended hunt, and it does not claim to prove completeness.**
+Runs once substantial Lean coverage exists (after most of Stage 3.5). It has two arms: (1) **coverage** — find *formalizable claims and exercises never reflected in Lean* (the three steps below); (2) **fidelity** — verify *already-formalized statements faithfully assert their claims* (the fidelity sweep below). It is a **bounded risk-reduction audit, not an open-ended hunt, and it does not claim to prove completeness.**
 
 Guiding principle: **byte-coverage and claim-coverage are different metrics.** 100% of the book's text belonging to a blob (the Stage 1.6 contiguity check) is *not* evidence that every formalizable claim is in Lean. Reports must never present one as the other.
 
@@ -716,13 +716,15 @@ Three steps, in order:
 
 3. **Bounded adversarial sweep.** For semantically-phrased claims the keyword pass misses, run independent adversarial finders over the high-risk blobs (those with displayed math or construction language). Each finding passes the same per-claim judge before becoming a `derived` item.
 
+**Fidelity sweep (the second arm).** Where coverage asks "is every claim *somewhere* in Lean?", fidelity asks the converse: "does every *already-formalized* statement faithfully assert its claim?" — the gap that let vacuous or silently-weakened theorems pass as `sorry_free`. Worklist: every claim-bearing item (`theorem`/`proposition`/`lemma`/`corollary`/`definition`/`example`/`remark`) marked done, tracked by a `fidelity` field in `progress/items.json` — `unchecked` (default), `verified`, or `gap` (with `fidelity_issue`). For each, apply Stage 3.2 steps 6–7 against the item's blob, judged by a different model than formalized it and calibrated on the confirmed examples (issues #5322, #5323, #5326). Order the queue by risk first — headline theorems, `∃ Type`/`Nonempty`/`rfl`-equality conclusions, long-docstring/short-statement mismatches — using signals only to triage, never to decide. A `gap` opens a repair issue and reverts the item from `sorry_free`. **Metric:** report fidelity-verified as a fraction of the worklist, separate from `sorry_free`; the completion figure is the *minimum* of coverage and fidelity, and may not be called complete until the sweep reaches two consecutive dry waves.
+
 **Exercise-coverage ratchet.** Exercises are high-value but their full coverage is **not** a precondition for declaring the formalization complete. Replace any blanket `sorry_free` on exercise items with an honest `coverage` field: `covered_full`, `covered_partial`, `not_started`, or `non_formalizable` (with `reason`), plus `lean_decl` pointer(s). Track multi-part problems (e.g. Problem 2.15.1 parts (a)-(n)) at sub-part granularity via `derived` items so partial credit and the live frontier are visible. Report a single monotonic metric (fraction of exercise sub-parts at `covered_partial` or better) that may only ratchet upward; report it separately from the release criteria, never as a release check.
 
 **Termination is a bounded audit certificate, not a completeness proof.** Record in `progress/coverage-audit/completeness-audit-wave-N.md`: which blobs were swept, which signal classes were checked, how many independent final sweeps returned zero accepted claims (target: 2 consecutive), and an explicit statement that residual risk remains. "Loop until dry" is an operational stopping heuristic inside a fixed budget, never a headline claim of completeness.
 
 **Output:** new `derived` items in `progress/items.json`; GitHub issues for accepted gaps; the audit certificate file; an updated exercise-coverage metric.
 
-**Verify:** the certificate file exists; every `accepted` derived item has an issue; every exercise item has a `coverage` field.
+**Verify:** the certificate file exists; every `accepted` derived item has an issue; every exercise item has a `coverage` field; every claim-bearing done item has a `fidelity` value and every `gap` has a `fidelity_issue`.
 
 ---
 
