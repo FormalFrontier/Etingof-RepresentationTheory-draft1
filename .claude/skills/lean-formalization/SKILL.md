@@ -1010,6 +1010,34 @@ noncomputable instance : Module ℂ (Conjugate V) := Module.compHom V (starRingE
    collapse). This is how `V̄ ≅ V*` reuses Theorem 4.6.2's nondegenerate
    `innerEquivDual` (de-privatize it rather than duplicating the surjectivity proof).
 
+### Building a custom structure on a `Prod`/`Fin → k` type synonym: `Prod.fst_add` won't fire — add `rfl` projection lemmas (Ch2 #5362)
+
+When constructing a concrete Lie algebra / representation on a non-reducible synonym
+`def Heisenberg k := k × k × k` (with `AddCommGroup`/`Module` via `inferInstanceAs`) and adding
+your own `Bracket`/`LieRing`, the proofs of the algebra axioms (`add_lie`, `lie_smul`, …) reduce
+to component identities — but **the generic `Prod.fst_add`/`Prod.snd_add`/`Prod.smul_fst` simp
+lemmas do NOT match**, because the synonym's `+`/`•` resolve through *its own* (defeq but not
+syntactic) instance head, not `Prod.instAdd`/`Prod.instSMul`. Symptom: after `simp only [bracket_def,
+Prod.fst_add, …]` the goal still shows an un-reduced `((0,0,A) + (0,0,B)).1` (or `(x+y).2.1`), and
+the following `ring` fails treating it as an opaque atom. Fix: state the projections as your own
+`@[simp]`-`rfl` lemmas over the synonym and use *those* —
+```lean
+@[simp] theorem add_fst (a b : Heisenberg k) : (a + b).1 = a.1 + b.1 := rfl   -- + snd_fst/snd_snd
+@[simp] theorem zero_fst : (0 : Heisenberg k).1 = 0 := rfl                     -- + the others
+@[simp] theorem smul_fst (t : k) (a : Heisenberg k) : (t • a).1 = t • a.1 := rfl
+```
+then `apply <your @[ext] lemma> <;> simp only [bracket_def, add_fst, …, smul_eq_mul] <;> ring`. Two
+companions: (i) a non-reducible `def` (not `abbrev`) keeps the `Bracket`/`LieRing` instances from
+leaking onto bare `k × k × k` project-wide — worth the extra `rfl` lemmas. (ii) `0 : synonym` is
+*not* rewritten to a constructor triple by `simp`, so a goal `(0,0,0) = 0` needs your `@[ext]`
+lemma (which splits to the `zero_fst` projections), not bare `simp`. For the genuine content
+(e.g. the U(ℋ) Heisenberg relations `YX−XY=C`, …), map the Lie brackets into the enveloping algebra
+via `LieHom.map_lie` + `LieRing.of_associative_ring_bracket` (the associative bracket `⁅a,b⁆=a*b−b*a`);
+these relations are specific to the presentation and so genuinely non-vacuous. A noncommutative
+quotient like the Weyl algebra `U(ℋ)/(c−1)` needs `RingCon` (`TwoSidedIdeal.span {…}.ringCon`,
+`RingCon.mk'`, `RingCon.eq`, `TwoSidedIdeal.rel_iff`/`subset_span`), **not** `Ideal.Quotient`
+(commutative-only). Worked, axiom-clean in `Chapter2/Example2_9_13.lean`.
+
 ### Type Class Instance Examples
 
 For "example" items that demonstrate a type satisfies a definition, use `inferInstance`:
