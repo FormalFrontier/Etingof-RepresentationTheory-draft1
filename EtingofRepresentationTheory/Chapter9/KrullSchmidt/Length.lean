@@ -100,6 +100,46 @@ theorem clength_simple {X : C} (h : Simple X) : clength X = 1 := by
       simpa [Order.height_eq_zero.mpr isMin_bot] using this
   simp [clength, hheight]
 
+/-- The subobject lattice of a **zero object** is finite-dimensional as an order: it is a
+singleton, hence `Unique`. This is the base case of the finite-length induction that routes the
+§9.6 standing assumption ("every object has finite length") into the `clength` API. -/
+theorem finiteDimensionalOrder_subobject_of_isZero {X : C} (h : IsZero X) :
+    FiniteDimensionalOrder (Subobject X) := by
+  haveI := Subobject.subsingleton_of_isZero h
+  haveI : Nonempty (Subobject X) := ⟨⊤⟩
+  haveI : Unique (Subobject X) := Unique.mk' _
+  infer_instance
+
+/-- The height of `⊤ : Subobject X` is finite whenever the subobject lattice is finite-dimensional
+as an order (the order-theoretic form of "`X` has finite length"). Mirrors Mathlib's
+`Order.coheight_lt_top`. -/
+theorem height_top_lt_top {X : C} [FiniteDimensionalOrder (Subobject X)] :
+    Order.height (⊤ : Subobject X) < ⊤ := by
+  rw [← WithBot.coe_lt_coe]
+  apply lt_of_le_of_lt (Order.height_le_krullDim (⊤ : Subobject X))
+  simpa using (Order.krullDim_ne_top_of_finiteDimensionalOrder
+    (α := Subobject X)).lt_top
+
+/-- **`clength_eq_zero_iff`, discharged under the finite-length hypothesis.** When the subobject
+lattice of `X` is finite-dimensional as an order — the order-theoretic form of the §9.6 standing
+assumption that every object has finite length — composition length `0` characterises the zero
+object in *both* directions. This is the honest content of the `→` direction of
+`clength_eq_zero_iff`: it needs exactly that `Order.height (⊤ : Subobject X)` is finite (here
+`height_top_lt_top`), so that `clength X = 0` forces `Order.height ⊤ = 0`, i.e. `⊤` is minimal and
+`Subobject X` is a singleton. The unconditional `clength_eq_zero_iff` below then follows the moment
+that finiteness is available from the ambient category; see #5324 for the wiring. -/
+theorem clength_eq_zero_iff_of_finiteDimensionalOrder {X : C}
+    [FiniteDimensionalOrder (Subobject X)] : clength X = 0 ↔ IsZero X := by
+  refine ⟨fun h => ?_, clength_eq_zero_of_isZero⟩
+  have h0 : Order.height (⊤ : Subobject X) = 0 := by
+    rw [clength, ENat.toNat_eq_zero] at h
+    exact h.resolve_right (ne_of_lt height_top_lt_top)
+  have hmin : IsMin (⊤ : Subobject X) := Order.height_eq_zero.mp h0
+  by_contra hX
+  haveI := Subobject.nontrivial_of_not_isZero hX
+  refine not_subsingleton (Subobject X) ⟨fun a b => ?_⟩
+  rw [le_antisymm (le_top : a ≤ ⊤) (hmin le_top), le_antisymm (le_top : b ≤ ⊤) (hmin le_top)]
+
 /-- An object has composition length `0` iff it is a zero object.
 
 The `←` direction is `clength_eq_zero_of_isZero`. The `→` direction needs that the height of
@@ -115,11 +155,25 @@ of all modules over `k[x]/(x²)` satisfies the class — one simple `k`, enough 
 infinite-length objects, for which `clength = 0` while the object is nonzero, falsifying the `→`
 direction.) The missing ingredient is the finite-length condition, currently carried separately by
 `HasFiniteLength` / `IsFiniteAbelianCategoryOverField`. Discharging this `→` direction therefore
-first requires routing that condition into the `clength` API; tracked as a follow-up issue. -/
+first requires routing that condition into the `clength` API; tracked as a follow-up issue (#5324).
+
+**Math already discharged.** The mathematical content of the `→` direction is complete and unconditional
+in `clength_eq_zero_iff_of_finiteDimensionalOrder` above, which assumes exactly the order-theoretic
+finite-length condition `FiniteDimensionalOrder (Subobject X)`. All that remains for #5324 is *wiring*:
+make that condition available from the ambient category. Two faithful options:
+* carry `Etingof.IsFiniteAbelianCategoryOverField` (which already supplies `finiteLength : ∀ X,
+  HasFiniteLength X`, the §9.6 standing assumption), and prove `HasFiniteLength X →
+  FiniteDimensionalOrder (Subobject X)` (base cases `finiteDimensionalOrder_subobject_of_isZero` and
+  the simple case are immediate; the short-exact extension step is the `clength_additive` crux below);
+* or add the finite-length standing assumption to `IsFiniteAbelianCategory` itself (no instance of that
+  class is hand-constructed in the project, so this is non-breaking) — but note Etingof's Definition
+  9.6.1 proper is just "enough projectives + finitely many simples"; finite length is the *section*
+  standing assumption (`Introduction_9.6`), so this is a definition-fidelity call for a planner. -/
 theorem clength_eq_zero_iff {X : C} : clength X = 0 ↔ IsZero X := by
   refine ⟨?_, clength_eq_zero_of_isZero⟩
-  -- Requires finiteness of `Order.height (⊤ : Subobject X)`, i.e. the finite-length condition,
-  -- which `IsFiniteAbelianCategory` does not currently supply (see docstring above).
+  -- The `→` math is `clength_eq_zero_iff_of_finiteDimensionalOrder`; it needs finiteness of
+  -- `Order.height (⊤ : Subobject X)`, which `IsFiniteAbelianCategory` does not currently supply
+  -- (see docstring above). #5324 wires the §9.6 finite-length standing assumption in.
   sorry
 
 /-- A nonzero object has positive composition length.
@@ -151,10 +205,22 @@ subobjects `A ≤ B` of `X₂`,
 `B ↦ ((pullback f).obj B, imageSubobject (B.arrow ≫ g))` order-reflecting into
 `Subobject X₁ × Subobject X₃`, so every `LTSeries` in `Subobject X₂` has length
 `≤ Order.height ⊤ (X₁) + Order.height ⊤ (X₃)`; with `Order.height_le_coe_iff` that bounds the height
-of `⊤ : Subobject X₂`, giving finiteness (hence `clength_eq_zero_iff`) and, refined to equality, the
-additivity here. The Schreier lemma is exactly the categorical second isomorphism content missing
-from Mathlib; a pseudoelement diagram chase establishes it but needs a "factors through a subobject"
-(pseudoelement-membership) helper that Mathlib does not yet have. -/
+of `⊤ : Subobject X₂`, giving finiteness (hence `clength_eq_zero_iff` via
+`clength_eq_zero_iff_of_finiteDimensionalOrder`) and, refined to equality, the additivity here.
+
+The Schreier lemma is the categorical second isomorphism content, and it is **reachable** with current
+Mathlib (the earlier "missing helper" note was too pessimistic):
+* the pseudoelement difference helper exists — `Abelian.Pseudoelement.sub_of_eq_image`
+  (`f x = f y → ∃ z, f z = 0 ∧ ∀ g, g y = 0 → g z = g x`), used with
+  `Abelian.Pseudoelement.pseudo_pullback` / `pseudo_exact_of_exact` exactly as in
+  `exists_pow_stabilizes` below; or
+* Mathlib's categorical snake lemma (`Mathlib.Algebra.Homology.ShortComplex.SnakeLemma`) yields the
+  second isomorphism theorem and hence the reflecting lemma directly.
+
+Two residual gaps for the *equality* (not just the height bound): (1) Mathlib has no product-order
+height lemma `height (a, b) = height a + height b`, so that arithmetic must be proved here; (2) the
+reverse inequality needs splicing composition series of `X₁` and `X₃` (the embedding gives only `≤`).
+The finiteness corollary alone already discharges `clength_eq_zero_iff` (see #5324). -/
 theorem clength_additive {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ = clength S.X₁ + clength S.X₃ := by
   sorry
