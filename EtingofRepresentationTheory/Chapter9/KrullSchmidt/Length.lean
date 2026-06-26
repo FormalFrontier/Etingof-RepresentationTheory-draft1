@@ -90,37 +90,53 @@ The `←` direction is `clength_eq_zero_of_isZero`. The `→` direction needs th
 `⊤ : Subobject X` is *finite* in a finite abelian category (`Order.height ... ≠ ⊤`); only then does
 `(Order.height ⊤).toNat = 0` force `Order.height ⊤ = 0`, i.e. `X` zero (via
 `Subobject.nontrivial_of_not_isZero`). That finiteness is the same categorical Jordan–Hölder input
-as `clength_additive`; see the module doc. -/
+as `clength_additive`; see the module doc.
+
+**Definitional gap.** This finiteness is *not* available from `IsFiniteAbelianCategory` alone: that
+class only requires `Abelian`, `EnoughProjectives`, and finitely many simple objects up to
+isomorphism — it does **not** require every object to have finite length. (Concretely, the category
+of all modules over `k[x]/(x²)` satisfies the class — one simple `k`, enough projectives — yet has
+infinite-length objects, for which `clength = 0` while the object is nonzero, falsifying the `→`
+direction.) The missing ingredient is the finite-length condition, currently carried separately by
+`HasFiniteLength` / `IsFiniteAbelianCategoryOverField`. Discharging this `→` direction therefore
+first requires routing that condition into the `clength` API; tracked as a follow-up issue. -/
 theorem clength_eq_zero_iff {X : C} : clength X = 0 ↔ IsZero X := by
   refine ⟨?_, clength_eq_zero_of_isZero⟩
-  -- Requires finiteness of `Order.height (⊤ : Subobject X)` in a finite abelian category.
+  -- Requires finiteness of `Order.height (⊤ : Subobject X)`, i.e. the finite-length condition,
+  -- which `IsFiniteAbelianCategory` does not currently supply (see docstring above).
   sorry
 
 /-- A nonzero object has positive composition length.
 
-`Subobject.nontrivial_of_not_isZero` gives `⊤ ≠ ⊥`, hence `¬ IsMin ⊤` and `Order.height ⊤ ≠ 0`;
-positivity of `clength = (Order.height ⊤).toNat` additionally needs `Order.height ⊤ ≠ ⊤`, the
-finiteness input discussed in the module doc. -/
-theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X := by
-  -- Requires finiteness of `Order.height (⊤ : Subobject X)` in a finite abelian category.
-  sorry
+This is the contrapositive of `clength_eq_zero_iff`: `0 < clength X ↔ clength X ≠ 0 ↔ ¬ IsZero X`.
+All of its finiteness content is therefore concentrated in `clength_eq_zero_iff`. -/
+theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X :=
+  Nat.pos_of_ne_zero fun hz => h (clength_eq_zero_iff.mp hz)
 
 /-- **Additivity of composition length over short exact sequences** — the Krull–Schmidt crux.
 
 For a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, the composition length is additive. This is the
 categorical Jordan–Hölder content: it follows from wiring `JordanHolderLattice` onto `Subobject X`
 (supplying `IsModularLattice (Subobject X)` and the categorical second isomorphism theorem), neither
-of which is in Mathlib. Tracked as a follow-up issue; see the module doc. -/
+of which is in Mathlib. Tracked as a follow-up issue; see the module doc.
+
+Like `clength_eq_zero_iff`, a complete proof also needs the finite-length condition (otherwise the
+mixed case — `X₁` finite nonzero, `X₃` infinite length — fails: LHS `= 0` but RHS `≠ 0`), which
+`IsFiniteAbelianCategory` does not currently supply; see the `clength_eq_zero_iff` docstring. -/
 theorem clength_additive {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ = clength S.X₁ + clength S.X₃ := by
   sorry
 
 /-- Composition length is additive over biproducts: `clength (Y ⊞ Z) = clength Y + clength Z`.
 
-This follows from `clength_additive` applied to the split short exact sequence
-`0 → Y → Y ⊞ Z → Z → 0` built from `biprod.inl` and `biprod.snd`. -/
+This follows from `clength_additive` applied to the canonical split short exact sequence
+`0 → Y → Y ⊞ Z → Z → 0` built from `biprod.inl` and `biprod.snd`, whose section and retraction
+are `biprod.inr` and `biprod.fst`. -/
 theorem clength_biprod (Y Z : C) : clength (Y ⊞ Z) = clength Y + clength Z := by
-  sorry
+  have spl :
+      (ShortComplex.mk (biprod.inl : Y ⟶ Y ⊞ Z) (biprod.snd : Y ⊞ Z ⟶ Z) (by simp)).Splitting :=
+    { r := biprod.fst, s := biprod.inr, f_r := by simp, s_g := by simp, id := biprod.total }
+  exact clength_additive spl.shortExact
 
 /-! ## Monotonicity of `clength` over the subobject lattice
 
