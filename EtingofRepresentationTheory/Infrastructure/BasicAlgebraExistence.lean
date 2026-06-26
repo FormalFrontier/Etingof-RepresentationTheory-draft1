@@ -65,6 +65,17 @@ idempotents for which the corner ring `eAe` is Morita equivalent to `A`. -/
 def IsFullIdempotent {A : Type*} [Ring A] (e : A) : Prop :=
   IsIdempotentElem e ∧ Ideal.span {a * e * b | (a : A) (b : A)} = ⊤
 
+/-- If every left multiple `w * c` is nilpotent (e.g. `c` lies in a nil two-sided
+ideal), then `c` lies in the Jacobson radical of `R`. -/
+theorem mem_jacobson_of_forall_isNilpotent_left_mul {R : Type*} [Ring R] {c : R}
+    (h : ∀ w : R, IsNilpotent (w * c)) : c ∈ Ring.jacobson R := by
+  rw [← Ideal.jacobson_bot, Ideal.mem_jacobson_iff]
+  intro y
+  obtain ⟨b, hb⟩ := (h y).isUnit_one_add.exists_left_inv
+  refine ⟨b, ?_⟩
+  rw [mul_add, mul_one, ← mul_assoc] at hb
+  rw [Ideal.mem_bot, add_comm (b * y * c) b, hb, sub_self]
+
 /-! ## Helper: Existence of full idempotent with basic corner ring
 
 For a finite-dimensional algebra `A` over an algebraically closed field `k`,
@@ -239,7 +250,9 @@ lemma exists_full_idempotent_basic_corner
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
     ∃ (e : A) (he : IsFullIdempotent e),
-      @IsBasicAlgebraSplit k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
+      @IsBasicAlgebraSplit.{u, u, u} k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
+        (CornerRing.instAlgebra he.1) ∧
+      @IsBasicAlgebra k _ (CornerRing (k := k) e) (CornerRing.instRing he.1)
         (CornerRing.instAlgebra he.1) := by
   -- Step 1: A is Artinian (finite-dim over a field)
   haveI : IsArtinianRing A := IsArtinianRing.of_finite k A
@@ -394,8 +407,10 @@ lemma exists_full_idempotent_basic_corner
         exact IsNilpotent.isUnit_one_sub
           (hker_nil j (by rwa [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem]))
       exact Ideal.eq_top_of_isUnit_mem I hxI hx_unit
-  have he_basic : @IsBasicAlgebraSplit k _ (CornerRing (k := k) e)
-      (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1) := by
+  have he_basic : (@IsBasicAlgebraSplit.{u, u, u} k _ (CornerRing (k := k) e)
+      (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1)) ∧
+      (@IsBasicAlgebra k _ (CornerRing (k := k) e)
+      (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1)) := by
     letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he_full.1
     letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he_full.1
     -- === Part A: φ(q(e)) = constant function E₁₁ ===
@@ -473,6 +488,24 @@ lemma exists_full_idempotent_basic_corner
       have hval : (x ^ (n + 1) : CornerRing (k := k) e).val = (0 : A) :=
         (corner_pow n).trans (by rw [pow_succ, hxn, zero_mul])
       exact Subtype.ext hval
+    -- === Faithful basic condition (Definition 9.7.2): eAe/Rad(eAe) commutative ===
+    -- For any x y, the commutator xy - yx maps to 0 under the ring hom π into the
+    -- commutative ring `∏ k`, so it lies in `ker π`, a nil two-sided ideal, hence
+    -- in the Jacobson radical.  Therefore the radical quotient is commutative.
+    have hfaithful : @IsBasicAlgebra k _ (CornerRing (k := k) e)
+        (CornerRing.instRing he_full.1) (CornerRing.instAlgebra he_full.1) := by
+      intro xq yq
+      obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective xq
+      obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective yq
+      rw [← map_mul, ← map_mul, Ideal.Quotient.eq]
+      apply mem_jacobson_of_forall_isNilpotent_left_mul
+      intro w
+      apply hπ_ker_nilpotent_elem
+      rw [RingHom.mem_ker, map_mul]
+      have hc : π (x * y - y * x) = 0 := by
+        rw [map_sub, map_mul, map_mul, mul_comm (π x) (π y), sub_self]
+      rw [hc, mul_zero]
+    refine ⟨?_, hfaithful⟩
     -- === Part F: ker π annihilates simple modules ===
     -- If a ∈ ker π and a•m ≠ 0, then by simplicity m = (ba)•m for some b,
     -- so m = (ba)^N•m = 0 (ba is nilpotent in ker π), contradiction.
@@ -1288,8 +1321,8 @@ lemma klinear_morita_equiv_of_full_idempotent
   exact cornerFunctor_linear_k (k := k) he.1
 
 /-- **Basic algebra existence**: For a finite-dimensional algebra `A` over an
-algebraically closed field `k`, there exists a basic algebra `B` (all simple
-modules 1-dimensional) that is Morita equivalent to `A`.
+algebraically closed field `k`, there exists a basic algebra `B` (Definition 9.7.2:
+`B/Rad(B)` commutative) that is Morita equivalent to `A`.
 
 This is the constructive core of Corollary 9.7.3(i). The witness `B` is
 a corner ring `eAe` where `e` is a sum of lifted primitive idempotents,
@@ -1298,8 +1331,8 @@ theorem exists_basic_morita_equivalent
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
-      IsBasicAlgebraSplit k B ∧ MoritaEquivalent A B := by
-  obtain ⟨e, he, hbasic⟩ := exists_full_idempotent_basic_corner k A
+      IsBasicAlgebra k B ∧ MoritaEquivalent A B := by
+  obtain ⟨e, he, _, hbasic⟩ := exists_full_idempotent_basic_corner k A
   letI : Ring (CornerRing (k := k) e) := CornerRing.instRing he.1
   letI : Algebra k (CornerRing (k := k) e) := CornerRing.instAlgebra he.1
   exact ⟨CornerRing (k := k) e,

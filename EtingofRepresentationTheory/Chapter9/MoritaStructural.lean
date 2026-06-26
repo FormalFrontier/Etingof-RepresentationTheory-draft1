@@ -1234,7 +1234,7 @@ theorem MoritaStructural [IsAlgClosed k]
         (CornerRing.instRing he).toSemiring
         _ (@CornerRing.instAlgebra k _ A _ _ e he)) := by
   -- Step 1: Get a full idempotent e whose corner ring eAe is basic
-  obtain ⟨e, he_full, hbasic_corner⟩ := exists_full_idempotent_basic_corner k A
+  obtain ⟨e, he_full, hbasic_corner, _⟩ := exists_full_idempotent_basic_corner k A
   refine ⟨e, he_full.1, ?_⟩
   -- Step 2: Corner ring eAe is k-linearly Morita equivalent to A
   have hKLinCorner := klinear_morita_equiv_of_full_idempotent (k := k) he_full

@@ -136,15 +136,14 @@ private noncomputable def Etingof.cornerRingAlgEquivOfUnit
 closed field k is Morita equivalent to some basic algebra B. That is, there exists
 a basic k-algebra B such that the module categories of A and B are equivalent.
 
-Note: The algebraic closure hypothesis is necessary — over non-algebraically-closed
-fields, division algebras can have dimension > 1, so the "all simples 1-dimensional"
-definition of basic cannot always be achieved.
+Here *basic* is the book's Definition 9.7.2 (`B/Rad(B)` commutative). The algebraic
+closure hypothesis is used in the construction of `B` as a corner ring `eAe`.
 
 (Etingof Corollary 9.7.3(i), algebra version) -/
 theorem Etingof.Corollary_9_7_3_i
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] [IsAlgClosed k] :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
-      Etingof.IsBasicAlgebraSplit k B ∧ Etingof.MoritaEquivalent A B :=
+      Etingof.IsBasicAlgebra k B ∧ Etingof.MoritaEquivalent A B :=
   Etingof.exists_basic_morita_equivalent k A
 
 /-- **Corollary 9.7.3(i), uniqueness**: The basic algebra B from part (i) is unique
