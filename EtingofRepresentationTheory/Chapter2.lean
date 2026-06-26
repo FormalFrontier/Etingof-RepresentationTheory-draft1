@@ -2,6 +2,7 @@
 import EtingofRepresentationTheory.Chapter2.Sl2Defs
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m
+import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 

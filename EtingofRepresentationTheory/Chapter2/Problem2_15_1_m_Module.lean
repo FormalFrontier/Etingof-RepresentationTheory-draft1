@@ -74,4 +74,56 @@ theorem lie_sl2_h_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
   push_cast [Nat.cast_sub hik]
   ring
 
+/-- The `e_{i-1} ⊗ e_{k-i}` summand of `⁅E, cgHW⁆` (the raising operator acting on the
+first tensor factor). -/
+private noncomputable def cgA (k : ℕ) (hk : k ≤ min lam mu) (i : Fin (k + 1)) :
+    (Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ) :=
+  (((-1) ^ (i : ℕ) * (k.choose (i : ℕ) : ℂ)) * (i : ℕ)) •
+    (e_basis (lam + 1) ⟨(i : ℕ) - 1, by omega⟩ ⊗ₜ[ℂ]
+      e_basis (mu + 1) ⟨k - (i : ℕ), by omega⟩)
+
+/-- The `e_i ⊗ e_{k-i-1}` summand of `⁅E, cgHW⁆` (the raising operator acting on the
+second tensor factor). -/
+private noncomputable def cgB (k : ℕ) (hk : k ≤ min lam mu) (i : Fin (k + 1)) :
+    (Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ) :=
+  (((-1) ^ (i : ℕ) * (k.choose (i : ℕ) : ℂ)) * ((k - (i : ℕ) : ℕ) : ℂ)) •
+    (e_basis (lam + 1) ⟨(i : ℕ), by omega⟩ ⊗ₜ[ℂ]
+      e_basis (mu + 1) ⟨k - (i : ℕ) - 1, by omega⟩)
+
+/-- `cgHW λ μ k` is annihilated by the raising operator `E`: it is a highest-weight
+vector. After grouping `⁅E, ·⁆` by basis tensor, the coefficient of `e_i ⊗ e_{k-1-i}`
+is `(i+1)c_{i+1} + (k-i)c_i = 0`, which is Pascal's absorption identity. -/
+theorem lie_sl2_e_cgHW (k : ℕ) (hk : k ≤ min lam mu) :
+    ⁅sl2_e, cgHW lam mu k hk⁆ = 0 := by
+  rw [cgHW, lie_sum]
+  have hterm : ∀ i : Fin (k + 1),
+      ⁅sl2_e, ((-1) ^ (i : ℕ) * (k.choose (i : ℕ) : ℂ)) •
+        (e_basis (lam + 1) ⟨(i : ℕ), by omega⟩ ⊗ₜ[ℂ]
+          e_basis (mu + 1) ⟨k - (i : ℕ), by omega⟩)⁆
+        = cgA lam mu k hk i + cgB lam mu k hk i := by
+    intro i
+    rw [lie_smul, lie_tmul,
+      lie_sl2_e_e_basis (lam + 1) (i : ℕ) (by omega),
+      lie_sl2_e_e_basis (mu + 1) (k - (i : ℕ)) (by omega),
+      ← TensorProduct.smul_tmul', TensorProduct.tmul_smul, smul_add, smul_smul, smul_smul]
+    rfl
+  rw [Finset.sum_congr rfl (fun i _ => hterm i), Finset.sum_add_distrib]
+  conv_lhs =>
+    rw [Fin.sum_univ_succ (cgA lam mu k hk), Fin.sum_univ_castSucc (cgB lam mu k hk)]
+  rw [show cgA lam mu k hk 0 = 0 by simp [cgA],
+    show cgB lam mu k hk (Fin.last k) = 0 by simp [cgB, Fin.val_last],
+    zero_add, add_zero, ← Finset.sum_add_distrib]
+  apply Finset.sum_eq_zero
+  intro i _
+  have hik : (i : ℕ) ≤ k := by omega
+  have key : (k.choose ((i : ℕ) + 1) : ℂ) * (((i : ℕ) + 1 : ℕ) : ℂ)
+      = (k.choose (i : ℕ) : ℂ) * ((k - (i : ℕ) : ℕ) : ℂ) := by
+    exact_mod_cast Nat.choose_succ_right_eq k (i : ℕ)
+  simp only [cgA, cgB, Fin.val_succ, Fin.coe_castSucc,
+    Nat.add_sub_cancel, Nat.sub_sub]
+  rw [← add_smul]
+  convert zero_smul ℂ _ using 2
+  rw [pow_succ]
+  linear_combination (-(-1 : ℂ) ^ (i : ℕ)) * key
+
 end Etingof.Sl2Irrep
