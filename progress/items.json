@@ -1294,10 +1294,9 @@
   "start_line": 15,
   "end_line": 17,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "The defining content is the contragredient Lie action rho_{V*}(x) = -rho_V(x)* on the dual space. The Lean abbrev is merely := Module.Dual k V, a PLAIN k-module with NO Lie action. The file imports...",
-  "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V",
+  "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V, with contragredient LieRingModule/LieModule structure (Mathlib.Algebra.Lie.Basic) and characterizing lemma lieDualRepresentation_lie_apply : ⁅x,f⁆ v = -f ⁅x,v⁆",
   "fidelity_issue": 5356
  },
  {
