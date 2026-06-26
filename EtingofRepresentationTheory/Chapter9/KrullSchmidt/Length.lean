@@ -138,7 +138,23 @@ of which is in Mathlib. Tracked as a follow-up issue; see the module doc.
 
 Like `clength_eq_zero_iff`, a complete proof also needs the finite-length condition (otherwise the
 mixed case — `X₁` finite nonzero, `X₃` infinite length — fails: LHS `= 0` but RHS `≠ 0`), which
-`IsFiniteAbelianCategory` does not currently supply; see the `clength_eq_zero_iff` docstring. -/
+`IsFiniteAbelianCategory` does not currently supply; see the `clength_eq_zero_iff` docstring.
+
+**Confirmed route (toward #5324/#5325).** The base cases of the Jordan–Hölder count are now in place
+without further infrastructure: `clength_eq_zero_of_isZero` (length `0` on the zero object) and
+`clength_simple` (length `1` on a simple object, via Mathlib's `IsSimpleOrder (Subobject X)` for
+simple `X`). The remaining work is the *extension step*. The minimal categorical input is the
+Schreier order-reflecting lemma for the short exact sequence `0 → X₁ →ᶠ X₂ →ᵍ X₃ → 0`: for
+subobjects `A ≤ B` of `X₂`,
+`(Subobject.pullback f).obj A = (Subobject.pullback f).obj B` together with
+`imageSubobject (A.arrow ≫ g) = imageSubobject (B.arrow ≫ g)` forces `A = B`. This makes
+`B ↦ ((pullback f).obj B, imageSubobject (B.arrow ≫ g))` order-reflecting into
+`Subobject X₁ × Subobject X₃`, so every `LTSeries` in `Subobject X₂` has length
+`≤ Order.height ⊤ (X₁) + Order.height ⊤ (X₃)`; with `Order.height_le_coe_iff` that bounds the height
+of `⊤ : Subobject X₂`, giving finiteness (hence `clength_eq_zero_iff`) and, refined to equality, the
+additivity here. The Schreier lemma is exactly the categorical second isomorphism content missing
+from Mathlib; a pseudoelement diagram chase establishes it but needs a "factors through a subobject"
+(pseudoelement-membership) helper that Mathlib does not yet have. -/
 theorem clength_additive {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ = clength S.X₁ + clength S.X₃ := by
   sorry
