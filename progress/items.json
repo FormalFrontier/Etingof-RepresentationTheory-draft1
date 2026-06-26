@@ -2202,11 +2202,10 @@
   "start_line": 21,
   "end_line": 2,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Vacuous/trivial w.r.t. the book's claim. The book asserts every irreducible REPRESENTATION of a finite abelian group (over alg. closed field) is 1-dimensional — a fact that genuinely uses commutati...",
-  "fidelity_decl": "Etingof.Example4_3_FiniteAbelianGroups",
-  "fidelity_issue": 5375
+  "fidelity_note": "Statement now takes a genuine representation `ρ : Representation k G V` with representation-irreducibility hypothesis `IsSimpleModule (MonoidAlgebra k G) ρ.asModule` and concludes `finrank k V = 1`. The group-algebra `k[G]` is commutative because `G` is, so the result follows from Etingof Cor 2.3.12 (`IsSimpleModule.finrank_eq_one_of_isMulCommutative`), genuinely using commutativity and algebraic closure.",
+  "fidelity_decl": "Etingof.Example4_3_FiniteAbelianGroups"
  },
  {
   "id": "Chapter4/Example4.3_S3",
