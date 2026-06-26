@@ -39,6 +39,7 @@ import EtingofRepresentationTheory.Chapter5.Definition5_8_1
 import EtingofRepresentationTheory.Chapter5.Remark5_8_2
 
 -- Section 5.9: Frobenius Formula
+import EtingofRepresentationTheory.Chapter5.TraceCoinvariants
 import EtingofRepresentationTheory.Chapter5.Theorem5_9_1
 
 -- Section 5.10: Frobenius Reciprocity
