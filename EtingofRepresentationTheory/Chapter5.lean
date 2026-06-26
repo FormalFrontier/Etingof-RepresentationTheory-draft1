@@ -64,6 +64,7 @@ import EtingofRepresentationTheory.Chapter5.Lemma5_13_3
 import EtingofRepresentationTheory.Chapter5.Lemma5_13_4
 
 -- Section 5.14: Kostka Numbers
+import EtingofRepresentationTheory.Chapter5.Introduction5_14
 import EtingofRepresentationTheory.Chapter5.Proposition5_14_1
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
 import EtingofRepresentationTheory.Chapter5.Theorem5_14_3
