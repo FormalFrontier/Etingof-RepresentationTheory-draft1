@@ -1819,6 +1819,31 @@ Two reusable helpers landed for the Krull–Schmidt *existence* link
   fin, f, …⟩` the supplied `fin` is **not** auto-registered for the remaining goals — add `haveI :=
   fin` before referencing `⨁ f`/`biproduct.ι f` again, or `HasBiproduct f` fails.
 
+**Krull–Schmidt *uniqueness* (`krullSchmidt_unique`, #5480) — the two heavy categorical
+ingredients are ALREADY in Mathlib; don't hand-bash them.** Before reimplementing biproduct
+matrix algebra, reach for:
+- **Cancellation = `CategoryTheory.Biprod.isoElim`** (`Preadditive/Biproducts.lean`): given
+  `f : X₁ ⊞ X₂ ≅ Y₁ ⊞ Y₂` with `[IsIso (biprod.inl ≫ f.hom ≫ biprod.fst)]` (top-left entry
+  invertible), it produces `X₂ ≅ Y₂` by Gaussian elimination. This is the whole Schur-complement
+  cancellation — the feared ~hundreds-of-lines step. Sibling `Biprod.gaussian`/`unipotentUpper`/
+  `unipotentLower`/`isoElim'` for the component-level forms.
+- **Peeling one summand off `⨁ g`** uses `biproduct.toSubtype g p` / `biproduct.fromSubtype g p`
+  (`Limits/Shapes/Biproducts.lean`), with `Subtype.restrict p g = fun i' => g i'.val` as the
+  sub-biproduct index. They are *definitionally* `biproduct.lift (fun _ => π …)` /
+  `biproduct.desc (fun j => ι _ j.val)`, and crucially `biproduct.fromSubtype_toSubtype = 𝟙`,
+  `toSubtype_fromSubtype = biproduct.map …`, plus simp lemmas `ι_toSubtype`/`fromSubtype_π`
+  (dite on `p j`). So `peelIso g i₀ : ⨁ g ≅ g i₀ ⊞ ⨁ Subtype.restrict (· ≠ i₀) g` is built with
+  `hom := biprod.lift (π g i₀) (toSubtype g (·≠i₀))`, `inv := biprod.desc (ι g i₀) (fromSubtype …)`
+  and the iso laws close by `biprod.hom_ext'`+`biprod.hom_ext`+`simp` (the inr-snd corner is
+  exactly `fromSubtype_toSubtype`). State the codomain with `Subtype.restrict` (NOT
+  `fun i' => g i'.val`) so that corner's `𝟙` matches syntactically. Pin the top-left entry of the
+  peeled iso to a chosen component with `@[reassoc (attr := simp)]` `peelIso_inv_inl`/`hom_fst`.
+- To find the matching `m₀` whose component is *iso* (not just "some iso exists"), reuse the local
+  endomorphism-ring sum argument of the exchange lemma but conclude `IsIso (s ≫ biproduct.π Z m₀)`
+  (the `⟨⟨rr, hαrr, he1⟩⟩` already proves the component is the iso). Assemble the reindexing
+  `κ ≃ μ` from `Equiv.sumCompl (· = k₀)`/`sumCongr`; `sumCompl_symm_apply_of_pos/neg` need the
+  predicate pinned (`(p := (· = k))`) — bare `rfl` leaves `p` as `Eq ?m` and the rewrite fails.
+
 Useful idioms from the same file: realise `⨁ P` as a *retract* of `multBiproduct P n`
 (when each `n_i ≥ 1`) via a diagonal index inclusion `e i = ⟨i, 0⟩`, `s := biproduct.desc
 (fun i => biproduct.ι _ (e i))`, `r := biproduct.lift (fun i => biproduct.π _ (e i))`;
