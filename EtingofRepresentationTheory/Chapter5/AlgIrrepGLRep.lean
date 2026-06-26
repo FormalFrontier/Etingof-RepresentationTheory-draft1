@@ -123,6 +123,69 @@ theorem isSimpleModule_charTwistRep (c : G →* kˣ) (ρ : Representation k G V)
     intro x
     exact (hmemP x).mp ((Representation.mem_stableSubmodule ρ P hP x).mp (h x))
 
+/-- **Character-twist invariance of semisimplicity.** If `ρ.asModule` is a semisimple
+`k[G]`-module, then so is `(charTwistRep c ρ).asModule`. Twisting `ρ` by a
+one-dimensional character `c : G →* kˣ` rescales each `ρ g` by the unit `c g`, so a
+`k`-subspace is `ρ`-stable iff it is `charTwistRep c ρ`-stable: the two `k[G]`-submodule
+lattices are carrier-identical, hence order-isomorphic, and `ComplementedLattice`
+(= semisimplicity) transports across the order isomorphism.
+
+This is the reusable "untwist" step for transferring complete reducibility across a
+`det^s`-twist (cf. `Theorem5_23_2_i`). -/
+theorem isSemisimpleModule_charTwistRep (c : G →* kˣ) (ρ : Representation k G V)
+    [hss : IsSemisimpleModule (MonoidAlgebra k G) ρ.asModule] :
+    IsSemisimpleModule (MonoidAlgebra k G) (charTwistRep c ρ).asModule := by
+  -- carrier of a `charTwistRep c ρ`-submodule is `ρ`-stable
+  have hPρ : ∀ (W : Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule)
+      (g : G), ∀ x ∈ W.restrictScalars k, ρ g (ρ.asModuleEquiv x) ∈ W.restrictScalars k := by
+    intro W g x hx
+    have heq : ρ g (ρ.asModuleEquiv x) =
+        ((c g)⁻¹ : k) • ((MonoidAlgebra.single g (1 : k)) •
+          (show (charTwistRep c ρ).asModule from x)) := by
+      rw [Representation.single_smul, one_smul, charTwistRep_apply, smul_smul,
+        inv_mul_cancel₀ (Units.ne_zero (c g)), one_smul]
+      rfl
+    rw [heq]
+    exact (W.restrictScalars k).smul_mem _ (W.smul_mem _ hx)
+  -- carrier of a `ρ`-submodule is `charTwistRep c ρ`-stable
+  have hPχ : ∀ (V' : Submodule (MonoidAlgebra k G) ρ.asModule)
+      (g : G), ∀ x ∈ V'.restrictScalars k,
+        (charTwistRep c ρ) g ((charTwistRep c ρ).asModuleEquiv x) ∈ V'.restrictScalars k := by
+    intro V' g x hx
+    have heq : (charTwistRep c ρ) g ((charTwistRep c ρ).asModuleEquiv x) =
+        ((c g : k)) • ((MonoidAlgebra.single g (1 : k)) • (show ρ.asModule from x)) := by
+      rw [Representation.single_smul, one_smul, charTwistRep_apply]
+      rfl
+    rw [heq]
+    exact (V'.restrictScalars k).smul_mem _ (V'.smul_mem _ hx)
+  -- carrier-preserving order isomorphism of the two `k[G]`-submodule lattices
+  let toρ : Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule →
+      Submodule (MonoidAlgebra k G) ρ.asModule :=
+    fun W => Representation.stableSubmodule ρ (W.restrictScalars k) (hPρ W)
+  let toχ : Submodule (MonoidAlgebra k G) ρ.asModule →
+      Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule :=
+    fun V' => Representation.stableSubmodule (charTwistRep c ρ) (V'.restrictScalars k) (hPχ V')
+  have mem_toρ : ∀ (W : Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule)
+      (x : ρ.asModule), x ∈ toρ W ↔ x ∈ W :=
+    fun W x => Representation.mem_stableSubmodule ρ _ (hPρ W) x
+  have mem_toχ : ∀ (V' : Submodule (MonoidAlgebra k G) ρ.asModule)
+      (x : (charTwistRep c ρ).asModule), x ∈ toχ V' ↔ x ∈ V' :=
+    fun V' x => Representation.mem_stableSubmodule (charTwistRep c ρ) _ (hPχ V') x
+  let e : Submodule (MonoidAlgebra k G) (charTwistRep c ρ).asModule ≃o
+      Submodule (MonoidAlgebra k G) ρ.asModule :=
+    { toFun := toρ
+      invFun := toχ
+      left_inv := fun W => SetLike.ext fun x => by rw [mem_toχ, mem_toρ]
+      right_inv := fun V' => SetLike.ext fun x => by rw [mem_toρ, mem_toχ]
+      map_rel_iff' := by
+        intro W₁ W₂
+        constructor
+        · intro h x hx
+          exact (mem_toρ W₂ x).mp (h ((mem_toρ W₁ x).mpr hx))
+        · intro h x hx
+          exact (mem_toρ W₂ x).mpr (h ((mem_toρ W₁ x).mp hx)) }
+  exact (isSemisimpleModule_iff _ _).mpr e.symm.complementedLattice
+
 end CharTwistSimple
 
 /-! ## The genuine representation `AlgIrrepGLRep` -/
