@@ -486,10 +486,10 @@
   "start_line": 1,
   "end_line": 2,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "The statement has the k[G]-module hypothesis as its own goal (hypothesis = conclusion), a vacuous tautology. It asserts nothing about the book's claim that a representation of k[G] is the same data...",
-  "fidelity_decl": "(anonymous) example [Module (MonoidAlgebra k G) V] : Module (MonoidAlgebra k G) V := inferInstance",
+  "fidelity_note": "The book claims a representation of the group algebra A = k[G] is \"the same thing\" as a representation of G, i.e. a vector space V with a group homomorphism rho : G -> GL(V). Formalized as two genuine bijections (Equiv), replacing the prior vacuous tautology Module k[G] V -> Module k[G] V. repEquivAlgHom: Representation k G V is equiv to (k[G] -> _a[k] Module.End k V), i.e. a representation of G is the same data as an algebra homomorphism out of k[G] (= a k-compatible k[G]-module structure on V). repEquivGL: Representation k G V is equiv to (G ->* (V ~=_l[k] V)), i.e. the same data as a group homomorphism rho : G -> GL(V) into the general linear group of invertible linear maps; invertibility is automatic because G is a group. Characterizing simp/rfl lemmas (repEquivAlgHom_apply_single, repEquivGL_apply, repEquivGL_symm_apply) pin down that the bijections are the intended maps (rho g acts as rho g), not arbitrary relabellings.",
+  "fidelity_decl": "Etingof.Example_2_3_14_continued.repEquivAlgHom; Etingof.Example_2_3_14_continued.repEquivGL",
   "fidelity_issue": 5359
  },
  {
