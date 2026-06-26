@@ -294,10 +294,9 @@
   "start_line": 12,
   "end_line": 20,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Parts (1) zero module, (2) regular representation Module A A, (3) representation of k = vector space are genuine inferInstance assertions and fine. But part (4) is `example [Module (FreeAlgebra k (...",
-  "fidelity_decl": "four anonymous examples (PUnit, Module A A, Module k V, FreeAlgebra)",
+  "fidelity_decl": "four anonymous examples (PUnit, Module A A, Module k V, free-algebra rep bijection)",
   "fidelity_issue": 5360
  },
  {

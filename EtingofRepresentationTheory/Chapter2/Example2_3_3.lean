@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Module.Basic
 import Mathlib.Algebra.FreeAlgebra
+import Mathlib.Algebra.Algebra.Bilinear
 
 /-!
 # Example 2.3.3: Examples of Representations
@@ -24,8 +25,27 @@ example (A : Type*) [Ring A] : Module A A := inferInstance
 example (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V] :
     Module k V := inferInstance
 
-/-- A representation of the free algebra k⟨x₁, …, xₙ⟩ on V is determined by n arbitrary
-linear operators on V. (Etingof Example 2.3.3(4)) -/
-example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V]
-    [Module (FreeAlgebra k (Fin 3)) V] :
-    Module (FreeAlgebra k (Fin 3)) V := inferInstance
+/-- A representation of an algebra `A` on `V` is precisely an algebra homomorphism
+`A →ₐ[k] Module.End k V`.
+
+For the free algebra `A = k⟨x₁, …, xₙ⟩`, the universal property says such a homomorphism
+is determined by, and freely choosable as, an arbitrary `n`-tuple of linear operators
+`(ρ(x₁), …, ρ(xₙ)) : Fin n → Module.End k V`. The bijection `ρ ↔ (ρ(xᵢ))ᵢ` is exactly
+`FreeAlgebra.lift`. (Etingof Example 2.3.3(4)) -/
+example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] (n : ℕ) :
+    (Fin n → Module.End k V) ≃ (FreeAlgebra k (Fin n) →ₐ[k] Module.End k V) :=
+  FreeAlgebra.lift k
+
+/-- Unfolding the bijection in one direction: the operators recovered from a representation
+`ρ` are its values `ρ(xᵢ)` on the generators `xᵢ = FreeAlgebra.ι k i`. -/
+example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] (n : ℕ)
+    (ρ : FreeAlgebra k (Fin n) →ₐ[k] Module.End k V) (i : Fin n) :
+    (FreeAlgebra.lift k).symm ρ i = ρ (FreeAlgebra.ι k i) :=
+  congrFun (FreeAlgebra.lift_symm_apply k ρ) i
+
+/-- Unfolding the bijection in the other direction: from any tuple of operators `f`,
+the resulting representation sends the generator `xᵢ` to `f i`. -/
+example (k : Type*) [CommRing k] (V : Type*) [AddCommGroup V] [Module k V] (n : ℕ)
+    (f : Fin n → Module.End k V) (i : Fin n) :
+    FreeAlgebra.lift k f (FreeAlgebra.ι k i) = f i :=
+  FreeAlgebra.lift_ι_apply f i
