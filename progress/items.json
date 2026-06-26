@@ -2743,10 +2743,10 @@
   "start_line": 7,
   "end_line": 11,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
   "fidelity_issue": 5389,
-  "fidelity_note": "Wave-2 (Sonnet, depth) downgrade of a wave-1 `verified`. Book Def 5.1.1 defines THREE types (complex/real/quaternionic); Lean defines `IsRealType` and `IsQuaternionicType` but **no `IsComplexType` pre"
+  "fidelity_note": "Fixed (#5389): added `Etingof.IsComplexType` (V ≇ V*, i.e. no G-equivariant iso to the dual rep `ρ.dual`), completing the third case of Def 5.1.1. Coherence proved: `not_isComplexType_of_isRealType` and `not_isComplexType_of_isQuaternionicType` via `exists_equivariant_dual_equiv_of_invariant_nondegenerate` (a nondegenerate G-invariant form gives V ≅ V*). All three types now formalized."
  },
  {
   "id": "Chapter5/Discussion_after_Definition5.1.1",
