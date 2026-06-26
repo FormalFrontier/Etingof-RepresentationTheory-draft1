@@ -25,3 +25,23 @@ structure Etingof.VirtualRepresentation
   coeffs : FDRep ℂ G → ℤ
   /-- Only finitely many coefficients are nonzero. -/
   finite_support : Set.Finite { V | coeffs V ≠ 0 }
+
+namespace Etingof.VirtualRepresentation
+
+variable {G : Type} [Group G] [Fintype G]
+
+/-- The (virtual) character of a virtual representation `V = Σ nᵢ Vᵢ` is the
+function `χ_V := Σ nᵢ χ_{Vᵢ}`, the corresponding integer combination of the
+characters of the constituents. The sum ranges over the (finite) support of the
+coefficient function. (Etingof Definition 5.7.1) -/
+noncomputable def character (V : VirtualRepresentation G) (g : G) : ℂ :=
+  ∑ W ∈ V.finite_support.toFinset, (V.coeffs W : ℂ) * W.character g
+
+/-- The character of the zero virtual representation (all coefficients zero) is zero. -/
+@[simp]
+theorem character_zero (g : G)
+    (h : Set.Finite { V : FDRep ℂ G | (0 : FDRep ℂ G → ℤ) V ≠ 0 }) :
+    character ⟨0, h⟩ g = 0 := by
+  simp [character]
+
+end Etingof.VirtualRepresentation

@@ -3210,9 +3210,9 @@
   "start_line": 9,
   "end_line": 10,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Structure faithfully models a virtual representation (coeffs : FDRep ℂ G → ℤ with finite support, i.e. a formal ℤ-combination of irreducibles). However the blob's second claim — 'The character of V...",
+  "fidelity_note": "Structure models a virtual representation (coeffs : FDRep ℂ G → ℤ with finite support). The dropped second claim — the virtual character χ_V := Σ nᵢ χ_{Vᵢ} — is now defined as VirtualRepresentation.character, a finite sum over the support of (coeffs W : ℂ) * W.character. Gap closed (#5382).",
   "fidelity_decl": "Etingof.VirtualRepresentation",
   "fidelity_issue": 5382
  },
