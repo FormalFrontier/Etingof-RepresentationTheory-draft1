@@ -29,21 +29,47 @@ variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- **Theorem 5.23.2 (i)**: Every finite-dimensional algebraic representation of
 `GL_n(k)` is completely reducible. That is, if `ρ` is an algebraic representation
-of `GL_n(k)` on a finite-dimensional `k`-vector space `Y`, then `Y` is a
-semisimple module under the induced action.
+of `GL_n(k)` on a finite-dimensional `k`-vector space `Y`, then `Y` decomposes as
+a direct sum of irreducible subrepresentations.
+
+This is stated faithfully as semisimplicity of `Y` **as a module over the group
+algebra `k[GL_n(k)]`** — i.e. semisimplicity of the representation `ρ`, which is
+the precise meaning of "completely reducible". This is genuine `GL_n`-equivariant
+content: the group algebra `k[GL_n(k)]` is *not* a semisimple ring (`GL_n(k)` is
+infinite), so this is NOT automatic for an arbitrary module; it holds precisely
+because the representation is *algebraic*.
+
+(Contrast the previous formalization, which asserted only `IsSemisimpleModule k Y`
+— semisimplicity of `Y` as a plain `k`-vector space — which is trivially true for
+*any* vector space over a field and carries no representation-theoretic content.)
+
+**Proof (Etingof, §5.23).** There is an equivariant embedding `ξ : Y → Y ⊗ R`,
+`⟨u, ξ(v)⟩(g) = u(g v)` for `u ∈ Y*` (with trivial `GL`-action on the first
+tensor factor), so it suffices to treat a subrepresentation `Y ⊆ Rᵐ`. Every
+element of `R = k[gᵢⱼ][1/det]` is a polynomial in `gᵢⱼ` times a nonpositive power
+of `det(g)`, so `R` is a quotient of a direct sum of representations
+`Sʳ(V ⊗ V*) ⊗ (∧ᴺ V*)^{⊗s}` (trivial `GL`-action on the `V*` factor). Hence `Y`
+embeds into a direct sum of representations `V^{⊗n} ⊗ (∧ᴺ V*)^{⊗s}`, each of which
+is completely reducible by Schur-Weyl duality (Theorem 5.18.4 / 5.22.1); a
+subrepresentation of a semisimple module is semisimple, so `Y` is semisimple.
+
+The finer statement of the book — that the irreducible summands are the `Lλ` and
+are pairwise nonisomorphic — is the highest-weight classification, which requires
+the GL-rep classification infrastructure (cf. `iso_of_formalCharacter_eq_schurPoly`)
+and is tracked separately.
 (Etingof Theorem 5.23.2, part i) -/
 theorem Theorem5_23_2_i
     (n : ℕ)
     {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
-    (ρ : Matrix.GeneralLinearGroup (Fin n) k →* (Y →ₗ[k] Y))
-    (halg : Etingof.IsAlgebraicRepresentation n ρ) :
-    IsSemisimpleModule k Y :=
-  -- Every module over a field is semisimple, since fields are semisimple rings
-  -- (DivisionRing.isSimpleRing + IsArtinianRing → IsSemisimpleRing → IsSemisimpleModule).
-  -- The representation-theoretic content (GL_n-equivariant decomposition into
-  -- irreducible summands L_λ) is captured by the formal character theory in
-  -- Theorem 5.22.1 rather than by this type-theoretic statement.
-  inferInstance
+    (ρ : Representation k (Matrix.GeneralLinearGroup (Fin n) k) Y)
+    (halg : Etingof.IsAlgebraicRepresentation n ⇑ρ) :
+    IsSemisimpleModule
+      (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) ρ.asModule := by
+  -- The GL_n(k)-reductivity theorem. See the docstring for the book's proof; the
+  -- key ingredient (complete reducibility of `V^{⊗n} ⊗ (∧ᴺ V*)^{⊗s}` via
+  -- Schur-Weyl duality) is the GL_N complete-reducibility infrastructure that is
+  -- still being built (long-term blocker; see project notes).
+  sorry
 
 /-- The coordinate ring of `GL_n(k)`: the polynomial ring `k[Xᵢⱼ, D]` where `D`
 represents `1/det`. This models the algebra `R` of regular (polynomial) functions
@@ -119,9 +145,18 @@ noncomputable instance AlgIrrepGLDual.module (n : ℕ) (lam : DominantWeight n)
 decomposes as `R ≅ ⊕_λ L*_λ ⊗ L_λ`, where the sum ranges over all dominant weights
 `λ = (λ₁ ≥ ⋯ ≥ λ_n)` with `λᵢ ∈ ℤ`, and `L*_λ` is the contragredient of `L_λ`.
 
-Stated as a `k`-linear isomorphism between the coordinate ring and the direct sum.
-The equivariance with respect to the `GL_n × GL_n`-action is part of the proof
-obligation.
+**⚠ Partial formalization.** The statement below asserts only a *bare `k`-linear*
+isomorphism `R ≃ₗ[k] ⊕_λ L*_λ ⊗ L_λ`, proved by matching ranks
+(`nonempty_linearEquiv_of_rank_eq`): both sides are countably-infinite-dimensional
+free `k`-modules for `n ≥ 1`, so this iso holds for *any* two such modules and
+carries **no** `GL_n × GL_n`-equivariant content — the actual mathematical theorem.
+Capturing the full Peter-Weyl decomposition (a `GL_n × GL_n`-equivariant iso)
+requires representation structures that do not yet exist in the project: a
+`GL_n × GL_n`-action on the *localized* coordinate ring `k[gᵢⱼ][1/det]` (including
+the `1/det` variable, on which `(g,h)` acts by `det(g)/det(h)`), the GL-action on
+each `Lλ` / `L*_λ` (the det-twisted `schurModuleRep`), and the matching
+`GL_n × GL_n`-action on the direct sum. This equivariant strengthening is tracked
+as a follow-up issue (the rank iso below is retained only as scaffolding for it).
 (Etingof Theorem 5.23.2, part ii) -/
 -- The rank of the coordinate ring `k[GL_n]` equals the rank of the direct sum
 -- `⊕_λ L*_λ ⊗ L_λ` over all dominant weights. Both sides are free `k`-modules;

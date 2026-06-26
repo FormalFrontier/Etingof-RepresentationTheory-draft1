@@ -4193,12 +4193,13 @@
     "end_page": "133",
     "start_line": 13,
     "end_line": 21,
-    "status": "sorry_free",
+    "status": "proof_partial",
     "fidelity": "gap",
     "needs_statement": false,
-    "fidelity_note": "Both parts are VACUOUS / severely weakened. Part (i): the book says every algebraic GL(V)-rep is completely reducible into pairwise-nonisomorphic L_lambda summands; the Lean (Theorem5_23_2_i) only ...",
+    "fidelity_note": "Part (i) FIXED (#5384): Theorem5_23_2_i now states genuine complete reducibility (IsSemisimpleModule k[GL_n] rho.asModule), non-vacuous; proof sorried (GL_n complete-reducibility blocker). Part (ii) still VACUOUS: Theorem5_23_2_ii is a bare k-linear rank-matching iso with no GL x GL-equivariant content; docstring now flags this honestly. Full equivariant Peter-Weyl tracked in #5396. Set fidelity=verified only when BOTH parts assert the full book claim.",
     "fidelity_decl": "Theorem5_23_2_i, Theorem5_23_2_ii",
-    "fidelity_issue": 5384
+    "fidelity_issue": 5384,
+    "followup_issue": 5396
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.23.2",
