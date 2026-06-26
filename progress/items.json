@@ -2500,10 +2500,9 @@
   "start_line": 9,
   "end_line": 31,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "The example IS three tensor-product multiplicity tables (S3, S4, A5), e.g. ℂ²⊗ℂ² = ℂ₊⊕ℂ₋⊕ℂ² for S3, and the full S4/A5 Clebsch-Gordan tables (including multiplicity-2 terms like 2ℂ⁵). The Lean form...",
-  "fidelity_decl": "Etingof.Example4_9_1_S3_conj_classes, Etingof.Example4_9_1_S3_card",
+  "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_mult, Etingof.Example4_9_1.S4_tensor_mult, Etingof.Example4_9_1.A5_tensor_mult, Etingof.Example4_9_1.S3_tensor_decomp, Etingof.Example4_9_1.S4_tensor_decomp, Etingof.Example4_9_1.A5_tensor_decomp, Etingof.Example4_9_1.S3_orthonormal, Etingof.Example4_9_1.S4_orthonormal, Etingof.Example4_9_1.A5_orthonormal",
   "fidelity_issue": 5377
  },
  {
