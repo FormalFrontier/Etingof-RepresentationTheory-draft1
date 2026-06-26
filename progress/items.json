@@ -990,11 +990,10 @@
   "start_line": 11,
   "end_line": 20,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Book lists three representations: (1) V=0 zero representation, (2) any vector space with rho=0 (trivial representation), (3) the adjoint representation V=g with rho(a)(b):=[a,b], whose existence is...",
-  "fidelity_decl": "two example declarations (LieModule k L L; and a, b : L => [a,b]=[a,b] rfl)",
-  "fidelity_issue": 5364
+  "notes": "Fidelity gap #5364 fixed: all three representations formalized — (1) zero rep on PUnit, (2) trivial rep (TrivialLieModule, rho=0) on arbitrary V, (3) adjoint rep via LieAlgebra.ad with rho(a)(b)=[a,b] and bracket-preservation (Jacobi identity).",
+  "last_updated": "2026-06-26"
  },
  {
   "id": "Chapter2/Definition2.9.9",
