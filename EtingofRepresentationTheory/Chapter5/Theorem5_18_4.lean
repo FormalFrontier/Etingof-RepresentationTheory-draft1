@@ -302,34 +302,38 @@ theorem Theorem5_18_4_semisimple
     haveI := symGroupImage_faithfulSMul k V n
     exact Theorem5_18_1_commutant_semisimple k (TensorPower k V n) (symGroupImage k V n)
 
-/-- Schur-Weyl duality, part (iii): Decomposition of V^⊗n.
+/-- Schur-Weyl duality, part (iii), over an arbitrary characteristic-zero field.
 
-V^⊗n decomposes as a direct sum of tensor products of simple modules:
-  V^⊗n ≅ ⊕_i S_i ⊗ L_i
-where {S_i} are the distinct simple k[S_n]-modules (Specht modules)
-appearing in V^⊗n and {L_i} are the corresponding irreducible
-polynomial GL(V)-representations.
-(Etingof Theorem 5.18.4, part iii)
+`V^⊗n` decomposes as a direct sum
+  `V^⊗n ≅ ⊕_i S_i ⊗ L_i`
+where each `S_i` is a **simple module over `A = symGroupImage k V n`** (the image
+of `k[Sₙ]`), i.e. a Specht-type module, and each `L_i` is a multiplicity space.
+Equivalently: `V^⊗n` is a semisimple `A`-module, exhibited together with an
+explicit decomposition into simple `A`-summands.
 
-**Weak form: do not cite this as Schur-Weyl part (iii).** The `S i` and `L i`
-here carry only an `AddCommGroup`/`Module k` structure; nothing links them to
-`A = symGroupImage` or `B = diagonalActionImage`, and no simplicity or
-distinctness is asserted. As a standalone statement it is near-vacuous (every
-`k`-vector space is a direct sum of tensor products of `k`-vector spaces). It is
-kept only as a stepping stone. The genuine content of part (iii), namely the
-`A`-module and `B`-module structures, simplicity of both factors, and pairwise
-non-isomorphism, is `Theorem5_18_4_bimodule_decomposition_full` (in
-`SchurWeylBimoduleFull.lean`).
+The genuine content is the `Module A`-structure together with `IsSimpleModule A`
+on every `S_i`: this is what makes the decomposition a statement about `k[Sₙ]`
+acting on `V^⊗n`, not a content-free factorisation of a vector space.
+
+This version assumes only `CharZero k` (Maschke), so it holds over fields that
+are not algebraically closed; correspondingly it does not assert distinctness of
+the `S_i` or any structure on the `L_i` beyond `Module k`. The algebraically
+closed refinement — pairwise non-isomorphic `S_i`, `L_i` an irreducible
+polynomial `GL(V)`-representation, both sides simple — is
+`Theorem5_18_4_bimodule_decomposition_full` (in `SchurWeylBimoduleFull.lean`).
 
 This holds for every `n`; no `n ≤ Module.finrank k V` hypothesis is needed (the
 index set enumerates only the simple `A`-modules that actually appear in
-`V^⊗n`). -/
+`V^⊗n`).
+(Etingof Theorem 5.18.4, part iii.) -/
 theorem Theorem5_18_4_decomposition
     [CharZero k] :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι)
       (S : ι → Type (max u v)) (L : ι → Type u)
       (_ : ∀ i, AddCommGroup (S i))
       (_ : ∀ i, Module k (S i))
+      (_ : ∀ i, Module (symGroupImage k V n) (S i))
+      (_ : ∀ i, IsSimpleModule (symGroupImage k V n) (S i))
       (_ : ∀ i, AddCommGroup (L i))
       (_ : ∀ i, Module k (L i)),
       Nonempty (TensorPower k V n ≃ₗ[k]
@@ -341,7 +345,7 @@ theorem Theorem5_18_4_decomposition
     Theorem5_18_1_decomposition k
       (TensorPower k V n) (symGroupImage k V n)
   exact ⟨ι, hι, hι_dec, V', W',
-    hV'_acg, hV'_mod, hW'_acg, hW'_mod, ⟨e⟩⟩
+    hV'_acg, hV'_mod, hV'_Amod, hV'_simp, hW'_acg, hW'_mod, ⟨e⟩⟩
 
 /-- Schur-Weyl duality: partition-indexed decomposition of V^⊗n.
 
