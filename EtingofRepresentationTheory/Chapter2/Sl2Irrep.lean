@@ -311,11 +311,75 @@ private lemma rhoLieHom_sl2_f_eq (d : ℕ) : rhoLieHom d sl2_f = rhoF d := by
   rw [key, h00, h01, h10]; simp
 
 /-- Standard basis vector e_k in Fin d → ℂ. -/
-private def e_basis (d : ℕ) (k : Fin d) : Fin d → ℂ := Pi.single k 1
+def e_basis (d : ℕ) (k : Fin d) : Fin d → ℂ := Pi.single k 1
 
-private theorem e_basis_apply (d : ℕ) (k j : Fin d) :
+theorem e_basis_apply (d : ℕ) (k j : Fin d) :
     e_basis d k j = if j = k then 1 else 0 := by
   simp [e_basis, Pi.single_apply]
+
+/-! ### Action of the standard triple on basis vectors
+
+The Lie module action of `sl(2)` on `V_d` agrees with `rhoLieHom`; on the standard
+basis `e_0, …, e_{d-1}` the triple `h, e, f` acts by the explicit formulas below.
+These are the boundary-free statements used by the Clebsch–Gordan computation. -/
+
+/-- The Lie module action on `V_d` is given by `rhoLieHom`. -/
+theorem lie_eq_rhoLieHom (d : ℕ) (x : sl2) (v : Fin d → ℂ) :
+    ⁅x, v⁆ = rhoLieHom d x v := rfl
+
+/-- `h` acts diagonally on basis vectors: `⁅h, e_i⁆ = (d - 1 - 2i) • e_i`. -/
+theorem lie_sl2_h_e_basis (d : ℕ) (i : Fin d) :
+    ⁅sl2_h, e_basis d i⁆ = ((d : ℂ) - 1 - 2 * (i : ℕ)) • e_basis d i := by
+  rw [lie_eq_rhoLieHom, rhoLieHom_sl2_h_eq]
+  ext k
+  simp only [rhoH, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
+    e_basis_apply]
+  by_cases hk : k = i
+  · subst hk; simp
+  · simp [hk]
+
+/-- `e` (raising) on basis vectors: `⁅e, e_i⁆ = i • e_{i-1}` (and `0` at `i = 0`,
+since the scalar `i` vanishes). -/
+theorem lie_sl2_e_e_basis (d : ℕ) (i : ℕ) (hi : i < d) :
+    ⁅sl2_e, e_basis d ⟨i, hi⟩⁆ = (i : ℂ) • e_basis d ⟨i - 1, by omega⟩ := by
+  rw [lie_eq_rhoLieHom, rhoLieHom_sl2_e_eq]
+  ext k
+  have hkd : (k : ℕ) < d := k.isLt
+  simp only [rhoE, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
+    e_basis_apply, Fin.ext_iff, Fin.mk.injEq]
+  by_cases hk : (k : ℕ) + 1 < d
+  · simp only [hk, dite_true]
+    rcases Nat.eq_zero_or_pos i with hi0 | hipos
+    · subst hi0
+      rw [if_neg (by omega : ¬ (k : ℕ) + 1 = 0)]; push_cast; ring
+    · by_cases hki : (k : ℕ) + 1 = i
+      · rw [if_pos hki, if_pos (by omega : (k : ℕ) = i - 1), ← hki]; push_cast; ring
+      · rw [if_neg hki, if_neg (by omega : ¬ (k : ℕ) = i - 1)]; ring
+  · simp only [hk, dite_false, mul_zero]
+    rcases Nat.eq_zero_or_pos i with hi0 | hipos
+    · subst hi0; simp
+    · rw [if_neg (by omega : ¬ (k : ℕ) = i - 1)]; ring
+
+/-- `f` (lowering) on basis vectors below the top: `⁅f, e_i⁆ = (d - 1 - i) • e_{i+1}`
+when `i + 1 < d`. -/
+theorem lie_sl2_f_e_basis (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
+    ⁅sl2_f, e_basis d ⟨i, by omega⟩⁆ = ((d : ℂ) - 1 - (i : ℕ)) • e_basis d ⟨i + 1, hi⟩ := by
+  rw [lie_eq_rhoLieHom, rhoLieHom_sl2_f_eq]
+  ext k
+  have hkd : (k : ℕ) < d := k.isLt
+  simp only [rhoF, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
+    e_basis_apply, Fin.ext_iff, Fin.mk.injEq]
+  by_cases hk : 0 < (k : ℕ)
+  · simp only [hk, dite_true]
+    by_cases hki : (k : ℕ) - 1 = i
+    · rw [if_pos hki, if_pos (by omega : (k : ℕ) = i + 1)]
+      have hkc : ((k : ℕ) : ℂ) = (i : ℂ) + 1 := by
+        have : (k : ℕ) = i + 1 := by omega
+        rw [this]; push_cast; ring
+      rw [hkc]; push_cast; ring
+    · rw [if_neg hki, if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
+  · simp only [dif_neg hk, mul_zero]
+    rw [if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
 
 /-- V_d is irreducible as an sl(2)-module (for d ≥ 1). -/
 theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
