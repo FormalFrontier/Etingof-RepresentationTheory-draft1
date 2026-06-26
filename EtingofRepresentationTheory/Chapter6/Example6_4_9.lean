@@ -15,7 +15,7 @@ This file re-exports the root count results for all Dynkin types:
 
 The proofs are split across files by Dynkin type:
 - `Example6_4_9_Shared`: shared infrastructure (positiveRoots, rootCountFinset)
-- `Example6_4_9_EType`: E₆, E₇, E₈ via SOS bounds + native_decide
+- `Example6_4_9_EType`: E₆, E₇, E₈ via SOS bounds + branch-decomposition `decide`
 - `Example6_4_9_An`: Aₙ via interval indicator bijection
 - `Example6_4_9_Dn`: Dₙ via quadratic form peeling induction
 -/
