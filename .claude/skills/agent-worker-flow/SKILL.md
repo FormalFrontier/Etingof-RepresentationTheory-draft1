@@ -15,6 +15,11 @@ The `coordination` script handles all GitHub-based multi-agent coordination.
 Session UUID is available as `$POD_SESSION_ID` (exported by `pod`).
 The `gh` CLI defaults to the current repo, so `--repo` is not needed.
 
+**`coordination` subcommands have no `--help` flag.** Passing `--help` does
+*not* print usage — it runs the subcommand with `--help` parsed as an
+argument, which for `create-pr` pushes your branch and attempts a PR. Consult
+the table below for usage instead of probing with `--help`.
+
 | Command | What it does |
 |---------|-------------|
 | `coordination orient` | List unclaimed/claimed issues, open PRs, PRs needing attention |
