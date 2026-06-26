@@ -1651,6 +1651,39 @@ To prove a ring homomorphism from a semisimple ring is injective:
 
 **Lean tip:** May need explicit universe parameters (`.{v}`) to make the Jacobson radical API work with the correct universe level.
 
+### Jacobson radical over a *noncommutative* ring (#5386)
+
+`Ideal.mem_jacobson_bot` (`x ∈ jacobson ⊥ ↔ ∀ y, IsUnit (x*y+1)`) lives in the
+`CommRing` section of `Jacobson/Ideal.lean` — it does **not** apply to a
+noncommutative ring (e.g. a corner ring `eAe`). For `Ring.jacobson R` (the
+`Module.jacobson R R` abbrev) use instead `Ideal.jacobson_bot : Ideal.jacobson ⊥
+= Ring.jacobson R` plus the Ring-section `Ideal.mem_jacobson_iff {x} : x ∈
+jacobson I ↔ ∀ y, ∃ z, z*y*x + z - 1 ∈ I`. A reusable consequence (now in
+`Infrastructure/BasicAlgebraExistence.lean`): a `c` with every *left* multiple
+`w*c` nilpotent (i.e. `c` in a nil two-sided ideal — typically `ker` of a ring
+hom into a commutative ring) lies in `Ring.jacobson R`:
+`rw [← Ideal.jacobson_bot, Ideal.mem_jacobson_iff]; intro y; obtain ⟨b, hb⟩ :=
+(h y).isUnit_one_add.exists_left_inv; …` (the left inverse `b` of `1 + y*c`
+witnesses `z`). `IsNilpotent.isUnit_one_add : IsUnit (1 + r)` and
+`isUnit_add_one : IsUnit (r + 1)` are the nilpotent→unit lemmas; `linear_combination`
+does NOT close the final `b*y*c + b - 1 = 0` over a noncommutative ring — finish
+with `add_comm` + the inverse equation + `sub_self`.
+
+### Fidelity-gap *definition* changes: check whether downstream uses the content (#5386)
+
+Before reworking a flagged definition (fidelity sweep, epic #5338), grep how
+downstream consumers take it: a hypothesis bound with a leading underscore
+(`_hB : IsBasicAlgebra k B`) is **unused**, so changing the definition's meaning
+does not touch those proofs — only the *constructors* that must produce a term
+break. This makes many fidelity-definition fixes far lower-risk than the
+blast-radius grep suggests. Pattern that worked: make the decl faithful, keep the
+old (stronger) predicate under a new name (`…Split`) for the unused internal
+hypotheses, and reproduce the faithful form at the few constructor sites (often
+reusing existing structure — e.g. the corner ring's `eAe →+* ∏ k` hom gives
+radical-quotient commutativity directly). When discarding one conjunct of a
+multi-universe predicate via `obtain ⟨…, _, …⟩`, pin its universes
+(`IsBasicAlgebraSplit.{u,u,u}`) or you get "contains universe level metavariables".
+
 ## Mathlib Gap Handling
 
 When you discover a Mathlib API gap during formalization, follow this escalation ladder:
