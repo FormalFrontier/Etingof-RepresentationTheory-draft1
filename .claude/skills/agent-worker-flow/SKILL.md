@@ -298,6 +298,18 @@ otherwise spin on the PR. Another session will pick up any follow-up work
 (e.g. a "fix PR #N" issue if CI fails). Polling burns context and tokens
 for no benefit.
 
+**`progress/items.json` merge conflicts — take theirs, re-apply your one item.**
+`items.json` is touched by nearly every worker and is periodically regenerated/
+reindented on `main`, so even a one-line edit (e.g. flipping one item's
+`fidelity`/`status`) routinely conflicts against the *entire* file (a single
+`<<<<<<< … >>>>>>>` block spanning the whole document — git finds no common
+anchor lines). Do **not** hand-merge the block. Instead:
+`git checkout origin/main -- progress/items.json`, then re-apply only your single
+item's field change with an `Edit` (match `main`'s current indentation),
+`python3 -c "import json; json.load(open('progress/items.json'))"` to validate,
+`git add` and commit the merge. This preserves every other agent's updates and
+avoids corrupting the file.
+
 **Partial completion** (did NOT complete all deliverables):
 - Progress entry lists: completed deliverables, NOT-completed deliverables and why,
   whether unfinished work needs a new issue
