@@ -486,6 +486,19 @@ directly — work with `ρ`-invariant `k`-subspaces of `V` and transport:
   `eq_top` from "two basis vectors span". For a 2-dim rep this is the "diagonal
   generator and swap share no common eigenline" argument.
 
+**Faithful "completely reducible / semisimple" statement (anti-vacuity, #5384).**
+To say a representation `ρ : Representation k G V` is *completely reducible*, write
+`IsSemisimpleModule (MonoidAlgebra k G) ρ.asModule` — semisimplicity of the
+*`k[G]`-module*. Do **NOT** write `IsSemisimpleModule k V`: over a field every
+vector space is semisimple, so that conclusion is **vacuous** and carries zero
+representation content (this was the exact bug in `Theorem5_23_2_i`). The `k[G]`
+form is genuine content precisely because `k[G]` is not a semisimple ring for
+infinite `G` (e.g. `GL_n(k)`). Type `ρ` as `Representation` (not a bare `→*`) so
+`.asModule` resolves. Same anti-vacuity smell elsewhere: a Peter-Weyl / decomposition
+`X ≅ ⊕ …` stated as a bare `k`-linear (or rank-matching `nonempty_linearEquiv_of_rank_eq`)
+iso is vacuous — the real claim is a `G`-(or `G×G`-)*equivariant* iso, which needs
+the actual `Representation` structures on both sides.
+
 Build matrix reps as a `MonoidHom G →* Matrix n n k` composed with
 `Matrix.toLinAlgEquiv'` (a monoid hom into `End`); `ρ g v = (Mhom g).mulVec v`
 via `Matrix.toLinAlgEquiv'_apply`. **`ring` does not work on the noncommutative
