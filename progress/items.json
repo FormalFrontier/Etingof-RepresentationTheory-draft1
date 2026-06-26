@@ -2145,11 +2145,11 @@
     "start_line": 23,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "notes": "All sorries resolved. hd_ne proved via trace nondegeneracy (IrrepDecomp.d_cast_ne_zero).",
+    "fidelity": "verified",
+    "notes": "All sorries resolved. hd_ne proved via trace nondegeneracy (IrrepDecomp.d_cast_ne_zero). Basis claim now complete: spanning (Etingof.Theorem4_2_1) + linear independence (Etingof.Theorem4_2_1_linearIndependent, via FDRep.char_orthonormal) = irreducible characters form a basis of Fc(G,k).",
     "sorry_free": true,
-    "fidelity_note": "Book claims irreducible characters form a BASIS of F_c(G,k) = spanning AND linearly independent. The Lean theorem Etingof.Theorem4_2_1 only proves the SPANNING half: every class function lies in sp...",
-    "fidelity_decl": "Etingof.Theorem4_2_1 (+ Etingof.classFunction_eq_zero_of_orthogonal_simples)",
+    "fidelity_note": "Resolved (#5380): the dropped linear-independence conjunct is now proved as Etingof.Theorem4_2_1_linearIndependent. Spanning + independence together assert the book's 'basis' claim.",
+    "fidelity_decl": "Etingof.Theorem4_2_1 + Etingof.Theorem4_2_1_linearIndependent",
     "fidelity_issue": 5380
   },
   {

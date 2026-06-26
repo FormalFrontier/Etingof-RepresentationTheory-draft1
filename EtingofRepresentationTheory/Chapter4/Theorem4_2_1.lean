@@ -8,10 +8,17 @@ import EtingofRepresentationTheory.Infrastructure.RegularCharacter
 If k is algebraically closed and char(k) does not divide |G|, the characters of irreducible
 representations of G form a basis of the space Fc(G, k) of class functions on G.
 
-We state this as: every class function (a function G → k constant on conjugacy classes)
-lies in the k-linear span of characters of simple (irreducible) FDRep objects.
-Linear independence of distinct irreducible characters follows from orthogonality
-(Theorem 4.5.1 / `FDRep.char_orthonormal`).
+We state the *basis* claim as two complementary theorems:
+
+* `Etingof.Theorem4_2_1` (spanning): every class function (a function G → k constant on
+  conjugacy classes) lies in the k-linear span of characters of simple (irreducible) FDRep
+  objects.
+* `Etingof.Theorem4_2_1_linearIndependent` (independence): the characters of simple
+  representations are k-linearly independent, following from orthogonality
+  (Theorem 4.5.1 / `FDRep.char_orthonormal`).
+
+Spanning + linear independence is exactly the statement that the irreducible characters
+form a basis of `Fc(G, k)`.
 
 ## Proof strategy
 
@@ -269,3 +276,62 @@ theorem Etingof.Theorem4_2_1
     set S := ∑ g, f g * (D.columnFDRep j).character g⁻¹
     show S = (⅟(Fintype.card G : k) * S) * (Fintype.card G : k)
     rw [mul_comm (⅟_ * S) _, ← mul_assoc, mul_invOf_self, one_mul]
+
+open Etingof.Theorem4_2_1_aux in
+/-- Linear independence of irreducible characters: the characters of simple (irreducible)
+representations of `G` are k-linearly independent. Together with `Etingof.Theorem4_2_1`
+(spanning) this gives that the irreducible characters form a *basis* of the space of class
+functions `Fc(G, k)` (Etingof Theorem 4.2.1). Independence is the orthogonality direction,
+following from `FDRep.char_orthonormal` (Theorem 4.5.1). -/
+theorem Etingof.Theorem4_2_1_linearIndependent
+    {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+    [Invertible (Fintype.card G : k)] :
+    LinearIndependent k
+      (Subtype.val : ↥(FDRep.character '' { V : FDRep k G | Simple V }) → (G → k)) := by
+  classical
+  rw [linearIndependent_iff']
+  intro s g hsum i₀ hi₀
+  -- For each element of the set, choose a simple representation realising it as a character.
+  choose V hVmem hVchar using fun i : ↥(FDRep.character '' { V : FDRep k G | Simple V }) => i.2
+  -- Helper: invert the `⅟|G|` normalisation appearing in `char_orthonormal`.
+  have hinv : ∀ (x y : k), ⅟(Fintype.card G : k) * x = y → x = (Fintype.card G : k) * y := by
+    intro x y h
+    rw [← h, ← mul_assoc, mul_invOf_self, one_mul]
+  -- Apply the orthogonality functional `f ↦ ∑ x, f x * χ_{V i₀}(x⁻¹)` to the zero combination.
+  have happly : ∑ x : G,
+      (∑ i ∈ s, g i • (i : G → k)) x * (V i₀).character x⁻¹ = 0 := by
+    rw [hsum]; simp
+  -- Expand the functional as a sum over `i ∈ s` of `g i * ⟨χ_{V i}, χ_{V i₀}⟩`.
+  have hexpand : ∑ x : G, (∑ i ∈ s, g i • (i : G → k)) x * (V i₀).character x⁻¹
+      = ∑ i ∈ s, g i * (∑ x : G, (i : G → k) x * (V i₀).character x⁻¹) := by
+    simp_rw [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Finset.sum_mul]
+    rw [Finset.sum_comm]
+    simp_rw [mul_assoc, ← Finset.mul_sum]
+  -- Only the diagonal term `i = i₀` survives, contributing `g i₀ * |G|`.
+  have hdiag : ∑ i ∈ s, g i * (∑ x : G, (i : G → k) x * (V i₀).character x⁻¹)
+      = g i₀ * (Fintype.card G : k) := by
+    rw [Finset.sum_eq_single i₀]
+    · congr 1
+      rw [← hVchar i₀]
+      haveI : Simple (V i₀) := hVmem i₀
+      have h := FDRep.char_orthonormal (V i₀) (V i₀)
+      rw [smul_eq_mul, if_pos ⟨Iso.refl _⟩] at h
+      exact (hinv _ _ h).trans (mul_one _)
+    · intro i _ hne
+      have hval_ne : (i : G → k) ≠ (i₀ : G → k) := Subtype.coe_injective.ne hne
+      have hchar_ne : (V i).character ≠ (V i₀).character := by
+        rw [hVchar i, hVchar i₀]; exact hval_ne
+      have hno_iso : ¬ Nonempty (V i ≅ V i₀) := fun ⟨e⟩ => hchar_ne (FDRep.char_iso e)
+      have hzero : (∑ x : G, (i : G → k) x * (V i₀).character x⁻¹) = 0 := by
+        rw [← hVchar i]
+        haveI : Simple (V i) := hVmem i
+        haveI : Simple (V i₀) := hVmem i₀
+        have h := FDRep.char_orthonormal (V i) (V i₀)
+        rw [smul_eq_mul, if_neg hno_iso] at h
+        exact (hinv _ _ h).trans (mul_zero _)
+      rw [hzero, mul_zero]
+    · intro h; exact absurd hi₀ h
+  -- Conclude `g i₀ * |G| = 0`, hence `g i₀ = 0` since `|G|` is invertible in `k`.
+  have hfin : g i₀ * (Fintype.card G : k) = 0 := by
+    rw [← hdiag, ← hexpand]; exact happly
+  exact (mul_eq_zero.mp hfin).resolve_right (Invertible.ne_zero _)
