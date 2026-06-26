@@ -117,6 +117,112 @@ theorem casimir_lowest_weight (μ : ℂ) (x : M) (hF : ⁅sl2_f, x⁆ = 0)
 
 end Casimir
 
+section Central
+
+variable {M : Type*} [AddCommGroup M] [Module ℂ M]
+  [LieRingModule sl2 M] [LieModule ℂ sl2 M]
+
+-- Re-enable the Lie ring structure on the associative ring `Module.End ℂ M` so that
+-- `LieHom.map_lie` (bracket preservation of `LieModule.toEnd`) and the commutator
+-- bracket `⁅a, b⁆ = a * b - b * a` are available. Local to this section.
+attribute [local instance 100] LieRing.ofAssociativeRing
+
+omit [LieRingModule sl2 M] [LieModule ℂ sl2 M] in
+/-- The commutator bracket on `Module.End ℂ M` is a derivation of the associative
+product: `⁅a, b * c⁆ = ⁅a, b⁆ * c + b * ⁅a, c⁆`. -/
+private theorem lie_mul' (a b c : Module.End ℂ M) :
+    ⁅a, b * c⁆ = ⁅a, b⁆ * c + b * ⁅a, c⁆ := by
+  simp only [Ring.lie_def]; noncomm_ring
+
+/-- `C` commutes with `E` (`= ⁅sl2_e, ·⁆`): `⁅E, C⁆ = 0`. The Casimir's commutator
+with the raising operator vanishes via `⁅E,E⁆ = 0`, `⁅E,F⁆ = H`, `⁅E,H⁆ = -2E`. -/
+private theorem lie_e_casimir : ⁅LieModule.toEnd ℂ sl2 M sl2_e, casimir M⁆ = 0 := by
+  rw [casimir]
+  set E := LieModule.toEnd ℂ sl2 M sl2_e with hE
+  set F := LieModule.toEnd ℂ sl2 M sl2_f with hF
+  set H := LieModule.toEnd ℂ sl2 M sl2_h with hH
+  have bEF : ⁅E, F⁆ = H := by rw [hE, hF, hH, ← LieHom.map_lie, lie_e_f]
+  have bHE : ⁅H, E⁆ = 2 • E := by rw [hH, hE, ← LieHom.map_lie, lie_h_e, map_nsmul]
+  have bEH : ⁅E, H⁆ = -(2 • E) := by rw [(lie_skew E H).symm, bHE]
+  rw [lie_add, lie_add, lie_mul', lie_mul', lie_smul, lie_mul']
+  simp only [lie_self, bEF, bEH, zero_mul, mul_zero, add_zero, zero_add,
+    neg_mul, mul_neg, smul_mul_assoc, mul_smul_comm]
+  module
+
+/-- `C` commutes with `F` (`= ⁅sl2_f, ·⁆`): `⁅F, C⁆ = 0`, via `⁅F,E⁆ = -H`,
+`⁅F,H⁆ = 2F`, `⁅F,F⁆ = 0`. -/
+private theorem lie_f_casimir : ⁅LieModule.toEnd ℂ sl2 M sl2_f, casimir M⁆ = 0 := by
+  rw [casimir]
+  set E := LieModule.toEnd ℂ sl2 M sl2_e with hE
+  set F := LieModule.toEnd ℂ sl2 M sl2_f with hF
+  set H := LieModule.toEnd ℂ sl2 M sl2_h with hH
+  have bFE : ⁅F, E⁆ = -H := by
+    rw [(lie_skew F E).symm, hF, hE, hH, ← LieHom.map_lie, lie_e_f]
+  have bHF : ⁅H, F⁆ = -(2 • F) := by
+    rw [hH, hF, ← LieHom.map_lie, lie_h_f, map_neg, map_nsmul]
+  have bFH : ⁅F, H⁆ = 2 • F := by rw [(lie_skew F H).symm, bHF, neg_neg]
+  rw [lie_add, lie_add, lie_mul', lie_mul', lie_smul, lie_mul']
+  simp only [lie_self, bFE, bFH, zero_mul, mul_zero, add_zero, zero_add,
+    neg_mul, mul_neg, smul_mul_assoc, mul_smul_comm]
+  module
+
+/-- `C` commutes with `H` (`= ⁅sl2_h, ·⁆`): `⁅H, C⁆ = 0`, via `⁅H,E⁆ = 2E`,
+`⁅H,F⁆ = -2F`, `⁅H,H⁆ = 0`. -/
+private theorem lie_h_casimir : ⁅LieModule.toEnd ℂ sl2 M sl2_h, casimir M⁆ = 0 := by
+  rw [casimir]
+  set E := LieModule.toEnd ℂ sl2 M sl2_e with hE
+  set F := LieModule.toEnd ℂ sl2 M sl2_f with hF
+  set H := LieModule.toEnd ℂ sl2 M sl2_h with hH
+  have bHE : ⁅H, E⁆ = 2 • E := by rw [hH, hE, ← LieHom.map_lie, lie_h_e, map_nsmul]
+  have bHF : ⁅H, F⁆ = -(2 • F) := by
+    rw [hH, hF, ← LieHom.map_lie, lie_h_f, map_neg, map_nsmul]
+  rw [lie_add, lie_add, lie_mul', lie_mul', lie_smul, lie_mul']
+  simp only [lie_self, bHE, bHF, zero_mul, mul_zero, add_zero,
+    neg_mul, mul_neg, smul_mul_assoc, mul_smul_comm]
+  module
+
+/-- Every element of `sl(2)` is the `ℂ`-combination `X = X₀₁·e + X₁₀·f + X₀₀·h` of the
+standard triple, read off from its matrix entries (the `(1,1)` entry is `-X₀₀` by
+tracelessness). -/
+theorem sl2_decomp (x : sl2) :
+    x = (x.val 0 1) • sl2_e + (x.val 1 0) • sl2_f + (x.val 0 0) • sl2_h := by
+  apply Subtype.ext
+  push_cast
+  simp only [sl2_e, sl2_f, sl2_h,
+    LieAlgebra.SpecialLinear.val_single, LieAlgebra.SpecialLinear.val_singleSubSingle]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.single, sl2_traceless x]
+
+/-- The Casimir commutes with the action of every `x ∈ sl(2)`: `⁅toEnd x, C⁆ = 0`.
+By `ℂ`-bilinearity of the bracket this reduces to the three generators `e, f, h`. -/
+theorem casimir_lie_toEnd (x : sl2) :
+    ⁅LieModule.toEnd ℂ sl2 M x, casimir M⁆ = 0 := by
+  rw [sl2_decomp x, map_add, map_add, map_smul, map_smul, map_smul,
+    add_lie, add_lie, smul_lie, smul_lie, smul_lie,
+    lie_e_casimir, lie_f_casimir, lie_h_casimir, smul_zero, smul_zero, smul_zero,
+    add_zero, add_zero]
+
+/-- **The Casimir operator is central (Problem 2.15.1(g)).** On any `sl(2)`-module `M`,
+`C = casimir M` commutes with the `sl(2)`-action: `⁅x, C m⁆ = C ⁅x, m⁆` for all
+`x ∈ sl(2)` and `m ∈ M`. This is the book's "`C` commutes with `E`, `F`, `H`" at the
+general-module level, and is the prerequisite for part (h): the generalized eigenspaces
+of the central operator `C` are sub-`sl(2)`-modules. -/
+theorem casimir_central (x : sl2) (m : M) :
+    ⁅x, casimir M m⁆ = casimir M ⁅x, m⁆ := by
+  have hcomm : LieModule.toEnd ℂ sl2 M x * casimir M
+      = casimir M * LieModule.toEnd ℂ sl2 M x := by
+    have h := casimir_lie_toEnd (M := M) x
+    rwa [Ring.lie_def, sub_eq_zero] at h
+  calc ⁅x, casimir M m⁆
+      = LieModule.toEnd ℂ sl2 M x (casimir M m) := (LieModule.toEnd_apply_apply ..).symm
+    _ = (LieModule.toEnd ℂ sl2 M x * casimir M) m := (Module.End.mul_apply ..).symm
+    _ = (casimir M * LieModule.toEnd ℂ sl2 M x) m := by rw [hcomm]
+    _ = casimir M (LieModule.toEnd ℂ sl2 M x m) := Module.End.mul_apply ..
+    _ = casimir M ⁅x, m⁆ := by rw [LieModule.toEnd_apply_apply]
+
+end Central
+
 /-! ## The complete-reducibility conclusion
 
 The statement of complete reducibility, recorded in its cleanest equivalent form for a
