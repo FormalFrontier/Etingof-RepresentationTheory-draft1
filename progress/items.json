@@ -2745,8 +2745,10 @@
     "start_line": 7,
     "end_line": 11,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "gap",
+    "sorry_free": true,
+    "fidelity_issue": 5389,
+    "fidelity_note": "Wave-2 (Sonnet, depth) downgrade of a wave-1 `verified`. Book Def 5.1.1 defines THREE types (complex/real/quaternionic); Lean defines `IsRealType` and `IsQuaternionicType` but **no `IsComplexType` pre"
   },
   {
     "id": "Chapter5/Discussion_after_Definition5.1.1",
@@ -2788,8 +2790,9 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "unsure",
+    "sorry_free": true,
+    "fidelity_note": "FS defined by formula not by-type; confirm formula\u2194type theorem exists (wave-2 pilot)."
   },
   {
     "id": "Chapter5/Theorem5.1.5",
@@ -2891,8 +2894,10 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "gap",
+    "sorry_free": true,
+    "fidelity_issue": 5390,
+    "fidelity_note": "Wave-2 (Sonnet, depth) downgrade of a wave-1 `verified`. Book Prop 5.2.4(ii): \u211a\u0304 is a FIELD (\u03b1\u22600 algebraic \u21d2 \u03b1\u207b\u00b9 algebraic). Lean `Proposition5_2_4_field` only proves closure under + and \u00d7 (ring), the"
   },
   {
     "id": "Chapter5/Proposition5.2.5",
