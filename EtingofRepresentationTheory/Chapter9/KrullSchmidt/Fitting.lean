@@ -30,16 +30,22 @@ needs the descending image chain `im (f^n)` and the ascending kernel chain `ker 
 *stabilise*. That stabilisation is exactly the finite-length input of `KrullSchmidt/Length.lean`:
 the chains are measured by `Etingof.clength`, whose finiteness/monotonicity is the (still `sorry`-d)
 categorical Jordan–Hölder content of link 1/5. The Fitting decomposition `fitting_decomposition`
-is therefore stated here in the convenient block-conjugation form
+is stated here in the convenient block-conjugation form
 
 ```
 f = e.hom ≫ biprod.map fK fI ≫ e.inv,   IsNilpotent fK,   IsIso fI,
 ```
 
-and its proof is deferred to that finite-length infrastructure (documented `sorry`, tracked as a
-follow-up). **Everything downstream of it in this file — the nilpotent-or-iso dichotomy and the
-local-ring property — is proved unconditionally from that statement**, so once the Fitting
-decomposition is discharged the whole link closes with no further work.
+and is **proved** from the single finite-length input `Etingof.exists_pow_stabilizes`: at the
+stabilising power `n` the image restriction `g' := image.ι (fⁿ) ≫ factorThruImage (fⁿ)` is an
+isomorphism. Given that iso the whole construction is elementary abelian-category algebra:
+`factorThruImage (fⁿ)` becomes a split epi (section `(g')⁻¹ ≫ image.ι (fⁿ)`), its kernel and image
+split `X` as a biproduct, `f` is block-diagonal because it preserves both summands (the kernel
+summand directly, the image summand because `f` maps `im (fⁿ)` into `im (fⁿ⁺¹) ⊆ im (fⁿ)`), and the
+two blocks are read off from `(fK)ⁿ = (fⁿ)|_K = 0` and `(fI)ⁿ = (fⁿ)|_I = g'`. The only `sorry`
+upstream is in the `clength_*` finiteness lemmas that `exists_pow_stabilizes` rests on.
+**Everything downstream of `fitting_decomposition` in this file — the nilpotent-or-iso dichotomy and
+the local-ring property — is proved unconditionally from its statement.**
 
 The two reductions are elementary once the block form is in hand:
 
@@ -118,18 +124,132 @@ private theorem isNilpotent_conj {X Y : C} (e : X ≅ Y) {g : End X} (h : IsNilp
 biproduct splitting `X ≅ K ⊞ I` conjugating `f` into a block-diagonal map `fK ⊞ fI` with `fK`
 nilpotent and `fI` an isomorphism.
 
-`K` is the eventual kernel `ker (f^n)` and `I` the eventual image `im (f^n)` for `n` large enough
-that both chains have stabilised. Stabilisation is the finite-length content of
-`KrullSchmidt/Length.lean` (the still-`sorry`-d categorical Jordan–Hölder input); see the module
-doc. The downstream dichotomy and local-ring results below are proved unconditionally from this
-statement. -/
+`K` is the kernel `ker (factorThruImage (fⁿ)) = ker (fⁿ)` and `I` the eventual image `im (fⁿ)` for
+the stabilising power `n` supplied by `Etingof.exists_pow_stabilizes` (the finite-length content of
+`KrullSchmidt/Length.lean`, which rests on the still-`sorry`-d `clength_*` lemmas); see the module
+doc for the proof outline. The downstream dichotomy and local-ring results below are proved
+unconditionally from this statement. -/
 theorem fitting_decomposition {X : C} (f : End X) :
     ∃ (K I : C) (e : X ≅ K ⊞ I) (fK : End K) (fI : End I),
       IsNilpotent fK ∧ IsIso (fI : I ⟶ I) ∧
         (f : X ⟶ X) = e.hom ≫ biprod.map (fK : K ⟶ K) (fI : I ⟶ I) ≫ e.inv := by
-  -- Requires stabilisation of the `im (f^n)`/`ker (f^n)` chains, i.e. finiteness of `clength`
-  -- in a finite abelian category (the categorical Jordan–Hölder input of link 1/5).
-  sorry
+  -- Step 1: stabilising power `n` and the iso `g' := i ≫ p` on the eventual image.
+  obtain ⟨n, hn, hiso⟩ := exists_pow_stabilizes f
+  set g : X ⟶ X := (f : X ⟶ X) ^ n with hg
+  set I : C := Abelian.image g with hI
+  set i : I ⟶ X := Abelian.image.ι g with hi
+  set p : X ⟶ I := Abelian.factorThruImage g with hp
+  have hpi : p ≫ i = g := by rw [hp, hi]; exact Abelian.image.fac g
+  haveI hmono_i : Mono i := by rw [hi]; infer_instance
+  haveI : IsIso (i ≫ p) := hiso
+  -- `g` commutes with `f`, and the kernel inclusion of `p` kills `g`.
+  have hcomm : (f : X ⟶ X) ≫ g = g ≫ (f : X ⟶ X) := by
+    have h1 : (f : X ⟶ X) ≫ g = (f : X ⟶ X) ^ (n + 1) := by rw [hg, pow_succ]; rfl
+    have h2 : g ≫ (f : X ⟶ X) = (f : X ⟶ X) ^ (n + 1) := by rw [hg, pow_succ']; rfl
+    rw [h1, h2]
+  have hKg : kernel.ι p ≫ g = 0 := by
+    rw [← hpi, ← Category.assoc, kernel.condition, zero_comp]
+  -- Step 2: split the epi `p` with the explicit section `s := (g')⁻¹ ≫ i`.
+  set s : I ⟶ X := inv (i ≫ p) ≫ i with hs
+  have hsp : s ≫ p = 𝟙 I := by rw [hs, Category.assoc, IsIso.inv_hom_id]
+  -- The `K`-projector idempotent `eK := 𝟙 - p ≫ s` and the kernel object `K := ker p`.
+  set eK : X ⟶ X := 𝟙 X - p ≫ s with heK
+  have heKp : eK ≫ p = 0 := by
+    rw [heK, Preadditive.sub_comp, Category.id_comp, Category.assoc, hsp, Category.comp_id,
+      sub_self]
+  have hieK : i ≫ eK = 0 := by
+    rw [heK, Preadditive.comp_sub, Category.comp_id, ← Category.assoc, hs, ← Category.assoc,
+      IsIso.hom_inv_id, Category.id_comp, sub_self]
+  set K : C := kernel p with hK
+  set fstB : X ⟶ K := kernel.lift p eK heKp with hfstB
+  have hfst_ι : fstB ≫ kernel.ι p = eK := kernel.lift_ι p eK heKp
+  -- Step 3: assemble the bilimit binary bicone with point `X`.
+  have hbinl_fst : kernel.ι p ≫ fstB = 𝟙 K := by
+    rw [← cancel_mono (kernel.ι p), Category.assoc, hfst_ι, Category.id_comp, heK,
+      Preadditive.comp_sub, Category.comp_id, ← Category.assoc, kernel.condition, zero_comp,
+      sub_zero]
+  have hbinr_fst : s ≫ fstB = 0 := by
+    rw [← cancel_mono (kernel.ι p), Category.assoc, hfst_ι, zero_comp, heK, Preadditive.comp_sub,
+      Category.comp_id, ← Category.assoc, hsp, Category.id_comp, sub_self]
+  set b : BinaryBicone K I :=
+    { pt := X
+      fst := fstB
+      snd := p
+      inl := kernel.ι p
+      inr := s
+      inl_fst := hbinl_fst
+      inl_snd := kernel.condition p
+      inr_fst := hbinr_fst
+      inr_snd := hsp } with hb
+  have htotal : b.fst ≫ b.inl + b.snd ≫ b.inr = 𝟙 b.pt := by
+    change fstB ≫ kernel.ι p + p ≫ s = 𝟙 X
+    rw [hfst_ι, heK, sub_add_cancel]
+  have hbil : b.IsBilimit := isBinaryBilimitOfTotal b htotal
+  set e : X ≅ K ⊞ I := biprod.uniqueUpToIso K I hbil with he
+  have ehom : e.hom = biprod.lift fstB p := biprod.uniqueUpToIso_hom K I hbil
+  have einv : e.inv = biprod.desc (kernel.ι p) s := biprod.uniqueUpToIso_inv K I hbil
+  -- Step 4: the block restrictions and block-diagonality of `f`.
+  set fK : End K := kernel.ι p ≫ (f : X ⟶ X) ≫ fstB with hfK
+  set fI : End I := s ≫ (f : X ⟶ X) ≫ p with hfI
+  -- Off-diagonal A: `f` preserves `K = ker p`.
+  have hA : kernel.ι p ≫ (f : X ⟶ X) ≫ p = 0 := by
+    rw [← cancel_mono i, zero_comp, Category.assoc, Category.assoc, hpi, hcomm, ← Category.assoc,
+      hKg, zero_comp]
+  -- `f` preserves the image: `i ≫ f` factors through `i`.
+  have hif : (inv (i ≫ p) ≫ i ≫ (f : X ⟶ X) ≫ p) ≫ i = i ≫ (f : X ⟶ X) := by
+    calc (inv (i ≫ p) ≫ i ≫ (f : X ⟶ X) ≫ p) ≫ i
+        = inv (i ≫ p) ≫ i ≫ (f : X ⟶ X) ≫ (p ≫ i) := by simp only [Category.assoc]
+      _ = inv (i ≫ p) ≫ i ≫ ((f : X ⟶ X) ≫ g) := by rw [hpi]
+      _ = inv (i ≫ p) ≫ i ≫ (g ≫ (f : X ⟶ X)) := by rw [hcomm]
+      _ = inv (i ≫ p) ≫ (i ≫ p) ≫ i ≫ (f : X ⟶ X) := by rw [← hpi]; simp only [Category.assoc]
+      _ = i ≫ (f : X ⟶ X) := by rw [IsIso.inv_hom_id_assoc]
+  -- `i ≫ f ≫ eK = 0`: the image summand is killed by the `K`-projector.
+  have hifeK : i ≫ (f : X ⟶ X) ≫ eK = 0 := by
+    rw [← Category.assoc, ← hif, Category.assoc, hieK, comp_zero]
+  -- Off-diagonal B: `f` preserves `I = im g`.
+  have hB : s ≫ (f : X ⟶ X) ≫ fstB = 0 := by
+    rw [hs, ← cancel_mono (kernel.ι p), zero_comp]
+    simp only [Category.assoc]
+    rw [hfst_ι, hifeK, comp_zero]
+  -- Block-diagonality: `e.inv ≫ f ≫ e.hom = fK ⊞ fI`.
+  have hmap : e.inv ≫ (f : X ⟶ X) ≫ e.hom = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
+    apply biprod.hom_ext' <;> apply biprod.hom_ext <;>
+      simp only [einv, ehom, Category.assoc, biprod.inl_desc_assoc, biprod.inr_desc_assoc,
+        biprod.lift_fst, biprod.lift_snd, biprod.inl_map_assoc, biprod.inr_map_assoc,
+        biprod.inl_fst, biprod.inl_snd, biprod.inr_fst, biprod.inr_snd, Category.comp_id,
+        comp_zero, hfK, hfI, hA, hB]
+  refine ⟨K, I, e, fK, fI, ?_, ?_, ?_⟩
+  · -- Step 5a: `fK` is nilpotent — `fK ^ n = 0`.
+    refine ⟨n, ?_⟩
+    have hM : (e.conj f : K ⊞ I ⟶ K ⊞ I) = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
+      rw [Iso.conj_apply]; exact hmap
+    have hpow2 : biprod.map ((fK ^ n : End K) : K ⟶ K) ((fI ^ n : End I) : I ⟶ I)
+        = e.inv ≫ g ≫ e.hom := by
+      rw [← biprodMap_pow fK fI (e.conj f) hM n, ← map_pow, Iso.conj_apply]
+    have h := congrArg (fun m => biprod.inl ≫ m ≫ biprod.fst) hpow2
+    simp only [einv, ehom, Category.assoc, biprod.inl_map_assoc, biprod.inl_fst,
+      biprod.inl_desc_assoc, biprod.lift_fst, Category.comp_id] at h
+    rw [← Category.assoc, hKg, zero_comp] at h
+    exact h
+  · -- Step 5b: `fI` is an iso — `fI ^ n = i ≫ p` is an iso.
+    have hM : (e.conj f : K ⊞ I ⟶ K ⊞ I) = biprod.map (fK : K ⟶ K) (fI : I ⟶ I) := by
+      rw [Iso.conj_apply]; exact hmap
+    have hpow2 : biprod.map ((fK ^ n : End K) : K ⟶ K) ((fI ^ n : End I) : I ⟶ I)
+        = e.inv ≫ g ≫ e.hom := by
+      rw [← biprodMap_pow fK fI (e.conj f) hM n, ← map_pow, Iso.conj_apply]
+    have hsgp : s ≫ g ≫ p = i ≫ p := by
+      calc s ≫ g ≫ p = (s ≫ p) ≫ (i ≫ p) := by rw [← hpi]; simp only [Category.assoc]
+        _ = i ≫ p := by rw [hsp, Category.id_comp]
+    have h := congrArg (fun m => biprod.inr ≫ m ≫ biprod.snd) hpow2
+    simp only [einv, ehom, Category.assoc, biprod.inr_map_assoc, biprod.inr_snd,
+      biprod.inr_desc_assoc, biprod.lift_snd, Category.comp_id] at h
+    rw [hsgp] at h
+    have hisoFn : IsIso ((fI ^ n : End I) : I ⟶ I) := by rw [h]; infer_instance
+    exact (isUnit_iff_isIso fI).mp
+      ((isUnit_pow_iff hn.ne').mp ((isUnit_iff_isIso (fI ^ n : End I)).mpr hisoFn))
+  · -- Step 4 (packaging): conjugate the block map back to `f`.
+    rw [← hmap]
+    simp only [Category.assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id, Category.comp_id]
 
 /-- **Endomorphisms of an indecomposable are nilpotent or invertible.** From the Fitting
 decomposition `X ≅ K ⊞ I`, indecomposability forces one of `K`, `I` to be zero: if `K` is zero both
