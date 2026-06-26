@@ -546,6 +546,15 @@ theorem Etingof.alternatingGroup_ambivalent (g : alternatingGroup (Fin 5)) :
   obtain ⟨c, hc⟩ := h g
   exact isConj_iff.mpr ⟨c, hc⟩
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 1000000 in
+/-- **A₅ has exactly five conjugacy classes.** An honest finite computation over the
+60 elements of `A₅` via kernel-checked `decide` on the `ConjClasses` quotient (no
+compiled evaluation). This is the input to the count of irreducibles
+`D.n = #ConjClasses A₅ = 5`. -/
+theorem Etingof.card_conjClasses_alternatingGroup_five :
+    Fintype.card (ConjClasses (alternatingGroup (Fin 5))) = 5 := by decide
+
 /-- **Arithmetic core of the A₅ real-type argument (the Cauchy-Schwarz endgame).**
 
 `A₅` has five irreducible representations (its number of conjugacy classes), with
@@ -700,6 +709,7 @@ private lemma frobeniusSchurIndicator_pm_one_of_simple_selfDual
     Etingof.frobeniusSchurIndicator W.ρ = 1 ∨ Etingof.frobeniusSchurIndicator W.ρ = -1 :=
   Etingof.frobeniusSchurIndicator_eq_pm_one_of_self_dual_simple W.ρ hW hsd
 
+set_option maxRecDepth 10000 in
 /-- **The 4-dimensional (standard) irreducible of `A₅` is of real type.** Every
 even-dimensional simple `ℂ[A₅]`-module is of real type.
 
@@ -735,7 +745,8 @@ theorem Etingof.isRealType_of_A5_even_standard
   -- It suffices to show the Frobenius-Schur indicator of `ρ` is `1`.
   apply Etingof.isRealType_of_frobeniusSchurIndicator_eq_one ρ hρ
   -- Order facts about `A₅`.
-  have hcard60 : Fintype.card (alternatingGroup (Fin 5)) = 60 := by native_decide
+  have hcard60 : Fintype.card (alternatingGroup (Fin 5)) = 60 := by
+    rw [card_alternatingGroup, Fintype.card_fin]; rfl
   haveI hNZ : NeZero (Nat.card (alternatingGroup (Fin 5)) : ℂ) := by
     refine ⟨?_⟩; rw [Nat.card_eq_fintype_card, hcard60]; norm_num
   haveI hInv : Invertible (Fintype.card (alternatingGroup (Fin 5)) : ℂ) :=
@@ -748,7 +759,7 @@ theorem Etingof.isRealType_of_A5_even_standard
   -- (1) There are exactly five irreducibles.
   have h5 : Fintype.card (Fin D.n) = 5 := by
     rw [Fintype.card_fin, D.n_eq_card_conjClasses']
-    native_decide
+    exact Etingof.card_conjClasses_alternatingGroup_five
   -- (2) Sum of squared dimensions equals `|A₅| = 60`.
   have hsqN : ∑ i, (Module.finrank ℂ (W i)) ^ 2 = 60 := by
     rw [D.sum_finrank_sq_eq_card W hWs hWi, hcard60]
@@ -758,7 +769,7 @@ theorem Etingof.isRealType_of_A5_even_standard
       = ∑ i, Etingof.frobeniusSchurIndicator (W i).ρ * (Module.finrank ℂ (W i) : ℂ) :=
     Etingof.frobeniusSchur_involution_count D W hWs hWi
   have hinv16 : (Finset.univ.filter
-      (fun g : alternatingGroup (Fin 5) => g * g = 1)).card = 16 := by native_decide
+      (fun g : alternatingGroup (Fin 5) => g * g = 1)).card = 16 := by decide
   -- (4) `A₅` is ambivalent, so every `Wᵢ` has a self-dual character.
   have hsdW : ∀ i, ∀ g, Representation.character (W i).ρ g⁻¹
       = Representation.character (W i).ρ g := by
