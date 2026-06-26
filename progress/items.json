@@ -2475,10 +2475,10 @@
   "start_line": 28,
   "end_line": 2,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "The example IS a set of three full character tables (Q8, S4, A5) with specific character values (e.g. χ_{ℂ²}(−1)=−2 for Q8; the golden-ratio entries (1±√5)/2 for A5's two 3-dim reps; the S4 cube-ro...",
-  "fidelity_decl": "Etingof.Example4_8_1_Q8_conj_classes, Etingof.Example4_8_1_Q8_card, Etingof.Example4_8_1_A5_conj_classes",
+  "fidelity_note": "Resolved by #5376: all three character tables (Q8, S4, A5) are now encoded verbatim as explicit class functions over Q5 = ℚ[√5] (carrying the golden-ratio A5 entries (1±√5)/2 and the Q8 value χ_{ℂ²}(−1)=−2), and each table's rows are proved orthonormal. Orthonormality together with the proved conjugacy-class counts (5 for each of Q8, S4, A5) certifies the rows are exactly the irreducible characters; S4 is now addressed directly with its full table.",
+  "fidelity_decl": "Etingof.Example4_8_1.Q8_orthonormal, Etingof.Example4_8_1.S4_orthonormal, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_Q8_conj_classes, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_A5_conj_classes",
   "fidelity_issue": 5376
  },
  {
