@@ -1279,10 +1279,10 @@
   "start_line": 10,
   "end_line": 14,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "The defining content is the LIE ACTION rho_{V⊗W}(x) = rho_V(x)⊗Id + Id⊗rho_W(x) (Leibniz rule). The Lean abbrev is merely := TensorProduct k V W, a PLAIN k-module with NO Lie action attached. The f...",
-  "fidelity_decl": "Etingof.LieTensorProduct (abbrev) := TensorProduct k V W",
+  "fidelity_note": "Resolved (#5355): file now imports Mathlib.Algebra.Lie.TensorProduct, so the LieRingModule/LieModule instances on V ⊗ W are in scope and LieTensorProduct carries the Leibniz Lie action. The defining identity rho_{V⊗W}(x) = rho_V(x)⊗Id + Id⊗rho_W(x) is asserted and proven as Etingof.LieTensorProduct.lie_tmul.",
+  "fidelity_decl": "Etingof.LieTensorProduct (abbrev) := TensorProduct k V W; Etingof.LieTensorProduct.lie_tmul",
   "fidelity_issue": 5355
  },
  {
