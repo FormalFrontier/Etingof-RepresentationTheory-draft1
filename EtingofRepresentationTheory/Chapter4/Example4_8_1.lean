@@ -1493,6 +1493,106 @@ lemma irrepA5_character_book (i : Fin 3) (j : Fin 5) :
     (irrepA5 i).character (classRepA5 j) = Q5toC (chiA5 (rowA5 i) j) := by
   rw [irrepA5_character, chiA5_eq_tblA5]
 
+/-! #### Phase B: the central 5-cycle class-sum splits `Λ²(ℂ⁴)`
+
+The 5-cycle class-sum acts on `Λ²(ℂ⁴)` as a central element `z = Σ_{g∈A₅} ρ(g·r·g⁻¹)`
+(`r` a 5-cycle, the sum running over all of `A₅`, which makes centrality immediate).  Its
+minimal polynomial is `z² − 20·z − 400 = 0`, with the two roots `μ⁺ = 10 + 10√5 = 20φ` and
+`μ⁻ = 10 − 10√5 = 20φ'` (`φ = (1+√5)/2`).  The two eigenspaces are the two genuine
+3-dimensional icosahedral subrepresentations `ℂ³₊`, `ℂ³₋`. -/
+
+/-- The 5-cycle class representative whose `A₅`-class-sum is the central element splitting
+`Λ²(ℂ⁴)`. -/
+def r5 : G := classRepA5 3
+
+/-- The central element `z = Σ_{g∈A₅} ρ(g·r·g⁻¹)` on `Λ²(ℂ⁴)`, where `r` is a 5-cycle.
+Summing over **all** of `A₅` (rather than over the conjugacy class) makes the centrality
+proof a one-line reindexing.  Equal to `5·(class-sum)` since the centralizer of a 5-cycle
+has order 5. -/
+def zEnd : Module.End ℂ ↥lam2Sub.toSubmodule :=
+  ∑ g : G, lam2Sub.toRepresentation (g * r5 * g⁻¹)
+
+/-- **Centrality of `z`.** `z` commutes with every `ρ(h)`, by the reindexing
+`h·z·h⁻¹ = Σ_g ρ((hg)·r·(hg)⁻¹) = z`. -/
+lemma zEnd_central (h : G) : Commute (lam2Sub.toRepresentation h) zEnd := by
+  show lam2Sub.toRepresentation h * zEnd = zEnd * lam2Sub.toRepresentation h
+  rw [zEnd, Finset.mul_sum, Finset.sum_mul,
+    ← Equiv.sum_comp (Equiv.mulLeft h⁻¹)
+      (fun g => lam2Sub.toRepresentation h * lam2Sub.toRepresentation (g * r5 * g⁻¹))]
+  refine Finset.sum_congr rfl fun g _ => ?_
+  simp only [Equiv.coe_mulLeft]
+  rw [← map_mul, ← map_mul]
+  congr 1
+  group
+
+/-- The same central element realised as an **ambient** operator on `W4 ⊗ W4` (the sum of
+`(ρ_V ⊗ ρ_V)(g·r·g⁻¹)` over all `g`).  It restricts to `zEnd` on `range asym`, commutes both
+with the diagonal action and with the antisymmetriser `asym`, and preserves `range asym`.
+Working ambiently keeps the carrier one nesting level deep (a submodule of `W4 ⊗ W4`, like
+`lam2Sub`), which avoids the subtype-of-subtype typeclass diamond and sets up the minimal
+polynomial computation. -/
+def Zamb : Module.End ℂ (W4 ⊗[ℂ] W4) :=
+  ∑ g : G, (rhoV.tprod rhoV) (g * r5 * g⁻¹)
+
+/-- **Centrality of the ambient `Z`.** `Z` commutes with every `(ρ_V ⊗ ρ_V)(h)`, by the
+reindexing `h·Z·h⁻¹ = Σ_g ρ((hg)·r·(hg)⁻¹) = Z`. -/
+lemma Zamb_comm (h : G) : Commute ((rhoV.tprod rhoV) h) Zamb := by
+  show (rhoV.tprod rhoV) h * Zamb = Zamb * (rhoV.tprod rhoV) h
+  rw [Zamb, Finset.mul_sum, Finset.sum_mul,
+    ← Equiv.sum_comp (Equiv.mulLeft h⁻¹)
+      (fun g => (rhoV.tprod rhoV) h * (rhoV.tprod rhoV) (g * r5 * g⁻¹))]
+  refine Finset.sum_congr rfl fun g _ => ?_
+  simp only [Equiv.coe_mulLeft]
+  rw [← map_mul, ← map_mul]
+  congr 1
+  group
+
+/-- `Z` commutes with the antisymmetriser `asym` (each summand does, by `asym_comm`). -/
+lemma Zamb_comm_asym : Commute asym Zamb := by
+  show asym * Zamb = Zamb * asym
+  rw [Zamb, Finset.mul_sum, Finset.sum_mul]
+  exact Finset.sum_congr rfl fun g _ => asym_comm (g * r5 * g⁻¹)
+
+/-- `Z` preserves the antisymmetric subspace `range asym = Λ²(ℂ⁴)`. -/
+lemma Zamb_mapsTo : ∀ v ∈ lam2Sub.toSubmodule, Zamb v ∈ lam2Sub.toSubmodule := by
+  intro v hv
+  rw [Zamb, LinearMap.sum_apply]
+  exact Submodule.sum_mem _ fun g _ => lam2Sub.apply_mem_toSubmodule (g * r5 * g⁻¹) hv
+
+/-! #### The two eigenvalues and the genuine eigenspace subrepresentations -/
+
+/-- The eigenvalue `μ⁺ = 10 + 10√5 = 20·φ` of `z` on `ℂ³₊`. -/
+noncomputable def muPlus : ℂ := 10 + 10 * (Real.sqrt 5 : ℂ)
+
+/-- The eigenvalue `μ⁻ = 10 − 10√5 = 20·φ'` of `z` on `ℂ³₋`. -/
+noncomputable def muMinus : ℂ := 10 - 10 * (Real.sqrt 5 : ℂ)
+
+/-- `ℂ³₊` as a subrepresentation of `repC4 ⊗ repC4`: the antisymmetric tensors that also lie in
+the `μ⁺`-eigenspace of the central `Z`.  Invariance of the eigenspace factor is
+`mapsTo_genEigenspace_of_comm` applied to the centrality of `Z`; invariance of `range asym` is
+Phase A's `lam2Sub.apply_mem_toSubmodule`. -/
+def repC3plusSub : Subrepresentation (rhoV.tprod rhoV) where
+  toSubmodule := lam2Sub.toSubmodule ⊓ Module.End.eigenspace Zamb muPlus
+  apply_mem_toSubmodule h v hv := by
+    rw [Submodule.mem_inf] at hv ⊢
+    exact ⟨lam2Sub.apply_mem_toSubmodule h hv.1,
+      Module.End.mapsTo_genEigenspace_of_comm (Zamb_comm h).symm muPlus 1 hv.2⟩
+
+/-- `ℂ³₋` as a subrepresentation of `repC4 ⊗ repC4`: the antisymmetric tensors in the
+`μ⁻`-eigenspace of `Z`. -/
+def repC3minusSub : Subrepresentation (rhoV.tprod rhoV) where
+  toSubmodule := lam2Sub.toSubmodule ⊓ Module.End.eigenspace Zamb muMinus
+  apply_mem_toSubmodule h v hv := by
+    rw [Submodule.mem_inf] at hv ⊢
+    exact ⟨lam2Sub.apply_mem_toSubmodule h hv.1,
+      Module.End.mapsTo_genEigenspace_of_comm (Zamb_comm h).symm muMinus 1 hv.2⟩
+
+/-- `ℂ³₊`, the first genuine 3-dimensional icosahedral representation of `A₅`. -/
+def repC3plus : FDRep ℂ G := FDRep.of repC3plusSub.toRepresentation
+
+/-- `ℂ³₋`, the second genuine 3-dimensional icosahedral representation of `A₅`. -/
+def repC3minus : FDRep ℂ G := FDRep.of repC3minusSub.toRepresentation
+
 end
 
 end A5
