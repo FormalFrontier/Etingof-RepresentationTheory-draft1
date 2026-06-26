@@ -1,6 +1,9 @@
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Lie.Submodule
 import Mathlib.LinearAlgebra.Dimension.Finite
+import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.Analysis.Complex.Polynomial.Basic
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!
@@ -222,6 +225,70 @@ theorem casimir_central (x : sl2) (m : M) :
     _ = casimir M ⁅x, m⁆ := by rw [LieModule.toEnd_apply_apply]
 
 end Central
+
+section GenEigenspaceDecomp
+
+variable {M : Type*} [AddCommGroup M] [Module ℂ M]
+  [LieRingModule sl2 M] [LieModule ℂ sl2 M]
+
+/-- The Casimir operator commutes with the action of every `x ∈ sl(2)` — the
+operator-algebra (`Commute`) form of `casimir_central`. -/
+theorem commute_casimir_toEnd (x : sl2) :
+    Commute (casimir M) (LieModule.toEnd ℂ sl2 M x) := by
+  change casimir M * LieModule.toEnd ℂ sl2 M x = LieModule.toEnd ℂ sl2 M x * casimir M
+  apply LinearMap.ext
+  intro m
+  simp only [Module.End.mul_apply, LieModule.toEnd_apply_apply]
+  exact (casimir_central x m).symm
+
+/-- **The generalized eigenspace of the Casimir operator for eigenvalue `a`, as an
+`sl(2)`-submodule.** Because `casimir M` commutes with the `sl(2)`-action
+(`commute_casimir_toEnd`), each of its generalized eigenspaces is invariant under the
+action, so it is a genuine subrepresentation. This is the precise meaning of the book's
+"the generalized eigenspace decomposition of `C` is a decomposition of representations"
+in part (h). -/
+noncomputable def casimirGenEigenspace (a : ℂ) : LieSubmodule ℂ sl2 M where
+  toSubmodule := (casimir M).maxGenEigenspace a
+  lie_mem := by
+    intro x m hm
+    have hmap := Module.End.mapsTo_maxGenEigenspace_of_comm
+      (commute_casimir_toEnd (M := M) x) a
+    rw [show ⁅x, m⁆ = LieModule.toEnd ℂ sl2 M x m from (LieModule.toEnd_apply_apply ..).symm]
+    exact hmap hm
+
+@[simp] theorem casimirGenEigenspace_toSubmodule (a : ℂ) :
+    (casimirGenEigenspace (M := M) a : Submodule ℂ M) = (casimir M).maxGenEigenspace a :=
+  rfl
+
+/-- The Casimir generalized eigenspaces are independent (as subrepresentations). -/
+theorem casimirGenEigenspace_iSupIndep : iSupIndep (casimirGenEigenspace (M := M)) := by
+  rw [← LieSubmodule.iSupIndep_toSubmodule]
+  simpa only [casimirGenEigenspace_toSubmodule] using
+    Module.End.independent_maxGenEigenspace (casimir M)
+
+variable [FiniteDimensional ℂ M]
+
+/-- In finite dimensions, the Casimir generalized eigenspaces span the whole module
+(`ℂ` is algebraically closed). -/
+theorem casimirGenEigenspace_iSup_eq_top :
+    ⨆ a, casimirGenEigenspace (M := M) a = ⊤ := by
+  rw [← LieSubmodule.iSup_toSubmodule_eq_top]
+  simpa only [casimirGenEigenspace_toSubmodule] using
+    Module.End.iSup_maxGenEigenspace_eq_top (casimir M)
+
+/-- **The generalized-eigenspace decomposition of the Casimir is an internal direct sum of
+subrepresentations — the structural heart of Problem 2.15.1(h).** A finite-dimensional
+`sl(2)`-module is the internal direct sum of the Casimir generalized eigenspaces
+`casimirGenEigenspace a`, each of which is an `sl(2)`-submodule. Consequently an
+*indecomposable* finite-dimensional `sl(2)`-module has a single Casimir eigenvalue: this is
+the input to parts (i)–(k). -/
+theorem casimirGenEigenspace_isInternal :
+    DirectSum.IsInternal (fun a => (casimirGenEigenspace (M := M) a : Submodule ℂ M)) :=
+  DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top
+    ((LieSubmodule.iSupIndep_toSubmodule).mpr casimirGenEigenspace_iSupIndep)
+    ((LieSubmodule.iSup_toSubmodule_eq_top).mpr casimirGenEigenspace_iSup_eq_top)
+
+end GenEigenspaceDecomp
 
 /-! ## The complete-reducibility conclusion
 
