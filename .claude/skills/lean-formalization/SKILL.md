@@ -241,6 +241,44 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### Induced rep `Ind_H^G ℂ ≅ k[G]·a` as `Representation.Equiv`, and the MonoidAlgebra/Finsupp instance wall (#5171)
+
+Goal: `Etingof.Definition5_8_1 H (trivial) ≅ ℂ[G]·a` (left ideal). Recipe in
+`Chapter5/Introduction5_14.lean` (sorry-free). Source is Mathlib's
+`Representation.ind φ ρ` on `Coinvariants (tprod ((leftRegular).comp φ) ρ)` over
+`(G →₀ ℂ) ⊗ ℂ`; build the forward map `⟦δ_g ⊗ c⟧ ↦ c·(g⁻¹·a)` via `Coinvariants.lift f0 hinv`
+(invariance = `of p * a = a` for `p ∈ H`, proved reindexing the subgroup sum by `Equiv.mulLeft`);
+corestrict to `LinearMap.range (mulRight ℂ a)`; bijectivity from a normalised left inverse
+(factor `1/|H|`, the `|H|`-fold coinvariant collapse) for injectivity and a section
+`Ffull (sMap z) = z·a` for surjectivity; equivariance on `IndV.mk` generators via `ind_mk`.
+Package with `Representation.Equiv.mk linEquiv intertwine` (the bundled bare-`Representation` iso —
+better target than a `Rep` `≅` here; `(mk e he)` wants `he : ∀ g, ↑e ∘ₗ ρ g = σ g ∘ₗ ↑e`).
+
+**The instance wall** (cost ~5 build cycles — `MonoidAlgebra ℂ G` and `G →₀ ℂ` carry *different*
+`AddCommMonoid`/`Module` instances on the same carrier, defeq but not syntactically equal):
+- `LinearMap.comp` (`∘ₗ`) and `LinearMap`-equality *types* reject a middle/codomain that is
+  `MonoidAlgebra` on one side and `G →₀ ℂ` on the other ("not type-correct under instances
+  transparency"). Bridge with an **all-`rfl` identity `LinearEquiv toFinsuppLE : MonoidAlgebra ℂ G ≃ₗ (G →₀ ℂ)`**
+  (`toFun := id`, every field `rfl` — it compiles), and compose maps from `Finsupp.lsum`/
+  `linearCombination` (which produce `G →₀ ℂ` domains) with `toFinsuppLE.toLinearMap` to retype.
+- A bare `Finsupp.single h r * (algebra)` fails to elaborate (`Finsupp` has **no `Mul`**);
+  write `MonoidAlgebra.single h r` (an abbrev for `Finsupp.single`, but typed in `MonoidAlgebra`)
+  in any multiplied position — *including lemma statements*, where there's no context to coerce.
+- A lambda body `MonoidAlgebra.of … h * a` inside `lsum`/`linearCombination` (expected type a
+  metavar) gets `of …` whnf'd to `G →₀ ℂ` and loses `Mul` → `HMul (G →₀ ℂ) (MonoidAlgebra) ?`.
+  Define such maps as `LinearMap.mulRight ℂ a ∘ₗ (a map landing in MonoidAlgebra)` instead of
+  multiplying inside the lambda.
+- **Never `rw` a `leftRegular`/`ofMulAction` term (lives on `G →₀ ℂ`) applied to a
+  `MonoidAlgebra`-typed argument** — the rewrite motive is heterogeneous and fails. For the
+  *target* left-multiplication action, use a `MonoidAlgebra`-native rep
+  `leftMulRep g := LinearMap.mulLeft ℂ (of g)` (then `leftMulRep g x = of g * x` is `rfl`), not
+  `subrepresentation (leftRegular …)`. Note a def that doesn't *use* `la` won't bind it — call it
+  `leftMulRep n`, not `leftMulRep n la`.
+- `Representation.IndV.mk` is a **reducible abbrev**, so `simp`/`ext_ring` unfold it to
+  `Coinvariants.mk … (TensorProduct.mk … (single h 1) c)` and then `Representation.ind_mk`/
+  `Ffull_IndVmk` no longer pattern-match. Re-fold with `change Ffull (… (IndV.mk … h 1)) = …`
+  before the `rw` chain.
+
 ### `k`-trace lemmas on a group-algebra submodule need `restrictScalars k`
 
 When generalizing a character/trace from `ℂ` to general `k` (the #4946 chain), the Specht-type
