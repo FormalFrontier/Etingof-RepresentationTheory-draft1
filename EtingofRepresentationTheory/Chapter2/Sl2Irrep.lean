@@ -510,4 +510,80 @@ theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
   | zero => exact e0_mem
   | succ j ih => exact step_up j hj (ih (by omega))
 
+/-! ## The Casimir operator (Problem 2.15.1(g))
+
+The Casimir operator `C = EF + FE + H²/2` acts on the `d`-dimensional irreducible
+representation `V_d` as the scalar `(d-1)(d+1)/2`. Writing `d = λ + 1`, so that
+`V_d = V_λ` is the `(λ+1)`-dimensional irreducible, this is the book's value
+`λ(λ+2)/2`.
+
+The proof is a direct computation: on the standard basis vector `e_k` the
+three summands `EF`, `FE`, `H²/2` contribute coefficients whose sum is
+independent of `k`, equal to `(d-1)(d+1)/2`. In particular the scalar nature is
+established without invoking Schur's lemma. -/
+
+/-- The Casimir endomorphism `C = EF + FE + H²/2` of `End ℂ V_d`, with `E`, `F`,
+`H` the raising, lowering and diagonal operators. This is the book's
+normalisation `C = EF + FE + H²/2` (Problem 2.15.1(g)). -/
+private theorem casimir_rhoEFH (d : ℕ) :
+    rhoE d * rhoF d + rhoF d * rhoE d + (2⁻¹ : ℂ) • (rhoH d * rhoH d)
+      = (((d : ℂ) - 1) * ((d : ℂ) + 1) / 2) • (1 : Module.End ℂ (Fin d → ℂ)) := by
+  apply LinearMap.ext; intro v; funext k
+  simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.mul_apply,
+    Pi.add_apply, Pi.smul_apply, smul_eq_mul, Module.End.one_apply,
+    rhoH, rhoE, rhoF, LinearMap.coe_mk, AddHom.coe_mk]
+  have hfin_k : ∀ (h : (k : ℕ) < d), (⟨(k : ℕ), h⟩ : Fin d) = k :=
+    fun _ => by ext; rfl
+  by_cases he : (k : ℕ) + 1 < d <;> by_cases hf : 0 < (k : ℕ)
+  · -- Interior: k+1 < d, k > 0
+    simp only [he, hf, dite_true,
+      show 0 < (k : ℕ) + 1 from by omega,
+      show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
+      show (k : ℕ) - 1 + 1 = (k : ℕ) from by omega,
+      show (k : ℕ) < d from k.isLt, hfin_k k.isLt]
+    simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
+    push_cast; ring
+  · -- k+1 < d, k = 0
+    have hk0 : (k : ℕ) = 0 := by omega
+    simp only [he, hf, dite_true, dite_false, mul_zero, add_zero,
+      show 0 < (k : ℕ) + 1 from by omega,
+      show (k : ℕ) + 1 - 1 = (k : ℕ) from by omega,
+      hfin_k k.isLt]
+    simp only [hk0]; push_cast; ring
+  · -- k+1 ≥ d (k = d-1), k > 0
+    simp only [he, hf, dite_true, dite_false, mul_zero,
+      show (k : ℕ) - 1 + 1 = (k : ℕ) from by omega,
+      show (k : ℕ) < d from k.isLt, hfin_k k.isLt]
+    simp only [Nat.cast_sub (show 1 ≤ (k : ℕ) from by omega)]
+    have hkd1 : (k : ℕ) + 1 = d := by omega
+    push_cast [← hkd1]; ring
+  · -- k+1 ≥ d, k = 0 ⟹ d ≤ 1
+    have hk0 : (k : ℕ) = 0 := by omega
+    have hd1 : d = 1 := by omega
+    subst hd1
+    simp only [hk0, zero_add]
+    push_cast; ring
+
+/-- **Casimir acts as a scalar (Problem 2.15.1(g)).** On the `d`-dimensional
+irreducible representation `V_d`, the Casimir operator `C = EF + FE + H²/2`
+acts as the scalar `(d-1)(d+1)/2`. Here `E = ρ(e)`, `F = ρ(f)`, `H = ρ(h)` are
+the images of the standard `sl(2)`-triple under the representation. -/
+theorem casimir_eq_scalar (d : ℕ) :
+    rhoLieHom d sl2_e * rhoLieHom d sl2_f
+        + rhoLieHom d sl2_f * rhoLieHom d sl2_e
+        + (2⁻¹ : ℂ) • (rhoLieHom d sl2_h * rhoLieHom d sl2_h)
+      = (((d : ℂ) - 1) * ((d : ℂ) + 1) / 2) • (1 : Module.End ℂ (Fin d → ℂ)) := by
+  rw [rhoLieHom_sl2_e_eq, rhoLieHom_sl2_f_eq, rhoLieHom_sl2_h_eq, casimir_rhoEFH]
+
+/-- **Casimir eigenvalue on `V_λ` (Problem 2.15.1(g)).** With the book's indexing
+`V_λ = V_{λ+1}` (the `(λ+1)`-dimensional irreducible), the Casimir operator
+`C = EF + FE + H²/2` acts as the scalar `λ(λ+2)/2`. -/
+theorem casimir_eq_scalar_lambda (lam : ℕ) :
+    rhoLieHom (lam + 1) sl2_e * rhoLieHom (lam + 1) sl2_f
+        + rhoLieHom (lam + 1) sl2_f * rhoLieHom (lam + 1) sl2_e
+        + (2⁻¹ : ℂ) • (rhoLieHom (lam + 1) sl2_h * rhoLieHom (lam + 1) sl2_h)
+      = (((lam : ℂ) * ((lam : ℂ) + 2)) / 2) • (1 : Module.End ℂ (Fin (lam + 1) → ℂ)) := by
+  rw [casimir_eq_scalar (lam + 1)]
+  push_cast; ring_nf
+
 end Etingof.Sl2Irrep
