@@ -434,6 +434,47 @@ theorem Theorem_2_1_1_i (d : ℕ+) :
     subst hneq
     exact ⟨sl2_irrep_equiv hirrV hirrW mV mW nV PV PW⟩
 
+/-- **Problem 2.15.1(f): uniqueness of the irreducible representation in each dimension.**
+Every `(lam + 1)`-dimensional irreducible representation `V` of `sl(2, ℂ)` is isomorphic, as
+a Lie module, to the standard irreducible `V_lam = Fin (lam + 1) → ℂ` constructed in
+`Sl2Irrep`. (The book's existence/irreducibility direction is `Sl2Irrep.irrep_isIrreducible`;
+this is the uniqueness direction.)
+
+The proof follows the book: pick a primitive (highest weight) vector `v` in `V`
+(`exists_primitiveVector`), so that `v, F·v, …, Fᶫᵃᵐ·v` is a basis of `V`
+(`primitiveOrbit_basis`); the same construction in the standard `V_lam` produces a matching
+basis, and the linear map identifying the two f-orbits intertwines the `sl(2)`-action
+(`sl2_irrep_equiv`). The common weight is forced to be `lam` by the dimension count
+(`primitiveVector_dim`). -/
+theorem Problem_2_15_1_f (lam : ℕ)
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    [LieRingModule sl2 V] [LieModule ℂ sl2 V]
+    (hdimV : Module.finrank ℂ V = lam + 1)
+    (hirrV : LieModule.IsIrreducible ℂ sl2 V) :
+    Nonempty (V ≃ₗ⁅ℂ, sl2⁆ (Fin (lam + 1) → ℂ)) := by
+  -- The standard `(lam+1)`-dimensional irreducible from `Sl2Irrep`.
+  haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero lam⟩
+  have hirrW : LieModule.IsIrreducible ℂ sl2 (Fin (lam + 1) → ℂ) :=
+    Sl2Irrep.irrep_isIrreducible (lam + 1)
+  have hdimW : Module.finrank ℂ (Fin (lam + 1) → ℂ) = lam + 1 :=
+    Sl2Irrep.irrep_finrank (lam + 1)
+  have hntV : Nontrivial V := by
+    rw [← finrank_pos_iff (R := ℂ), hdimV]; omega
+  have hntW : Nontrivial (Fin (lam + 1) → ℂ) := by
+    rw [← finrank_pos_iff (R := ℂ), hdimW]; omega
+  -- Primitive vectors in both modules, with natural-number weights.
+  obtain ⟨mV, μV, PV⟩ := exists_primitiveVector hirrV
+  obtain ⟨mW, μW, PW⟩ := exists_primitiveVector hirrW
+  obtain ⟨nV, hnV⟩ := PV.exists_nat
+  obtain ⟨nW, hnW⟩ := PW.exists_nat
+  rw [hnV] at PV; rw [hnW] at PW
+  -- Each weight is pinned down to `lam` by the dimension.
+  have hdV := primitiveVector_dim hirrV mV nV PV
+  have hdW := primitiveVector_dim hirrW mW nW PW
+  have hnVeq : nV = lam := by omega
+  have hnWeq : nW = lam := by omega
+  exact ⟨sl2_irrep_equiv hirrV hirrW mV mW lam (hnVeq ▸ PV) (hnWeq ▸ PW)⟩
+
 /-! ## Casimir element and complete reducibility
 
 The Casimir element C = h² + 2ef + 2fe of sl(2) commutes with the action of sl(2) on any
