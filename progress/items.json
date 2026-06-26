@@ -1409,9 +1409,9 @@
   "start_line": 9,
   "end_line": 10,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Defined as `IsSemisimpleModule k V` — semisimplicity over the base FIELD k, not over the algebra A. The algebra A does not appear in the definition at all. Every vector space over a field is semisi...",
+  "fidelity_note": "Redefined as `IsSemisimpleModule A V` — semisimplicity over the algebra A (the representation's module structure), matching the book's 'direct sum of irreducible representations'. Fixed in #5369.",
   "fidelity_decl": "Etingof.IsSemisimpleRepresentation",
   "fidelity_issue": 5369
  },
