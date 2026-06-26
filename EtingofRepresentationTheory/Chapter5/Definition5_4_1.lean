@@ -23,8 +23,8 @@ example : IsSolvable (Equiv.Perm (Fin 3)) := by
   -- A₃ is commutative (order 3, cyclic), hence solvable.
   haveI : IsSolvable (alternatingGroup (Fin 3)) := by
     have hcard : Nat.card (alternatingGroup (Fin 3)) = 3 := by
-      rw [Nat.card_eq_fintype_card]
-      native_decide
+      rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
+      rfl
     haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     haveI := isCyclic_of_prime_card hcard
     -- v4.30: `mul_comm` on `A₃` needs a `CommGroup` instance; derive it from cyclicity.
