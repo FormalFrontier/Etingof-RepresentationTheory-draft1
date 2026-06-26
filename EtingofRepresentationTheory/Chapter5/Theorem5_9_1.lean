@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
+import EtingofRepresentationTheory.Chapter5.TraceCoinvariants
 
 /-!
 # Theorem 5.9.1: Frobenius Formula for Induced Characters
@@ -44,7 +45,11 @@ directly here (currently `sorry`).
 -/
 
 open Representation
+open scoped TensorProduct
 
+set_option maxHeartbeats 800000 in
+-- reason: composing `TensorProduct.map` rewrites and the tensor-trace factorisation over the
+-- large module `(G →₀ ℂ) ⊗ V` exceeds the default heartbeat budget.
 /-- **Frobenius formula** (Etingof Theorem 5.9.1, averaged form).
 
 The character of the induced representation `Ind_H^G V` at `g` equals the
@@ -67,13 +72,61 @@ theorem Etingof.Theorem5_9_1
             if h : x * g * x⁻¹ ∈ H then
               LinearMap.trace ℂ V (ρ ⟨x * g * x⁻¹, h⟩)
             else 0 := by
-  -- Proof strategy (Etingof, Discussion proof of Theorem 5.9.1):
-  --   Decompose `Ind_H^G V = ⨁_σ V_σ` over right cosets `σ ∈ H\G`, where
-  --   `V_σ = {f ∈ Ind V | f(g) = 0 ∀ g ∉ σ}`. Then `χ(g) = Σ_σ χ_σ(g)`, the
-  --   sum of diagonal block traces. A coset summand contributes `0` unless
-  --   `σ g = σ`; when `σ g = σ`, writing `x_σ g = h x_σ` with
-  --   `h = x_σ g x_σ⁻¹ ∈ H`, the map `α : V_σ → V`, `α(f) = f(x_σ)` is an
-  --   isomorphism intertwining `g` on `V_σ` with `ρ(h)` on `V`, so
-  --   `χ_σ(g) = χ_V(x_σ g x_σ⁻¹)`. Summing and averaging over the `|H|`
-  --   elements of each coset yields the stated formula.
-  sorry
+  -- We use the averaged form directly, via the abstract trace-on-coinvariants identity
+  -- `Etingof.trace_coinvariantsMap`. The induced representation is `Coinvariants τ` for
+  -- `τ = (left regular on ℂ[G]) ⊗ ρ` restricted to `H`, and `Ind_H^G ρ g` is the descent of
+  -- the right-shift `Ψ : single x ⊗ v ↦ single (x g⁻¹) ⊗ v` on `ℂ[G] ⊗ V`. The crux lemma gives
+  --   `χ(g) = (1/|H|) Σ_{h∈H} tr_{ℂ[G]⊗V}(τ(h) ∘ Ψ)`.
+  -- Each summand factors as a tensor trace: `τ(h) ∘ Ψ = (single x ↦ single (h x g⁻¹)) ⊗ ρ(h)`,
+  -- whose ℂ[G]-trace counts `{x : h x g⁻¹ = x} = {x : x g x⁻¹ = h}`. Summing over `h ∈ H` and
+  -- swapping the order of summation collapses each `x` to the single eigenvalue `tr_V ρ(x g x⁻¹)`
+  -- (when `x g x⁻¹ ∈ H`), giving the averaged Frobenius formula.
+  classical
+  haveI : Invertible (Fintype.card H : ℂ) :=
+    invertibleOfNonzero (by exact_mod_cast (Fintype.card_pos (α := H)).ne')
+  -- `Ind_H^G ρ g` is the descent of the right-shift `Ψ` to the coinvariants `Coinvariants τ`,
+  -- so the crux lemma applies.
+  rw [show Etingof.Definition5_8_1 H ρ g = Representation.ind H.subtype ρ g from rfl,
+    Representation.ind_apply, Etingof.trace_coinvariantsMap]
+  congr 1
+  set τ : Representation ℂ H ((G →₀ ℂ) ⊗[ℂ] V) :=
+    Representation.tprod ((Representation.leftRegular ℂ G).comp H.subtype) ρ with hτ
+  -- `τ h` as a tensor product of the (left-regular shift, `ρ h`).
+  have hτh : ∀ h : H,
+      τ h = TensorProduct.map (Representation.leftRegular ℂ G (↑h : G)) (ρ h) := by
+    intro h; rw [hτ, Representation.tprod_apply]; rfl
+  -- The shift on `ℂ[G]` commutes with left-translation by `↑h`.
+  have hshift : ∀ h : H,
+      Representation.leftRegular ℂ G (↑h : G) ∘ₗ Finsupp.lmapDomain ℂ ℂ (· * g⁻¹)
+        = Finsupp.lmapDomain ℂ ℂ (fun x => (↑h : G) * x * g⁻¹) := by
+    intro h
+    refine Finsupp.lhom_ext fun y r => ?_
+    simp [Representation.leftRegular, Representation.ofMulAction_single,
+      Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, mul_assoc]
+  -- Compute each twisted trace as a tensor trace.
+  have hper : ∀ h : H,
+      LinearMap.trace ℂ ((G →₀ ℂ) ⊗[ℂ] V)
+          (τ h ∘ₗ (Finsupp.lmapDomain ℂ ℂ (· * g⁻¹)).rTensor V)
+        = (∑ x : G, if (↑h : G) * x * g⁻¹ = x then (1 : ℂ) else 0)
+            * LinearMap.trace ℂ V (ρ h) := by
+    intro h
+    have hmap : τ h ∘ₗ (Finsupp.lmapDomain ℂ ℂ (· * g⁻¹)).rTensor V
+        = TensorProduct.map (Finsupp.lmapDomain ℂ ℂ (fun x => (↑h : G) * x * g⁻¹)) (ρ h) := by
+      rw [hτh h, LinearMap.rTensor_def, ← TensorProduct.map_comp, hshift h, LinearMap.comp_id]
+    rw [hmap, LinearMap.trace_tensorProduct', Etingof.trace_lmapDomain]
+  rw [Finset.sum_congr rfl (fun h _ => hper h)]
+  -- Distribute, swap the order of summation, and collapse each fibre.
+  simp_rw [Finset.sum_mul]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun x _ => ?_
+  have hcollapse : ∀ h : H,
+      (if (↑h : G) * x * g⁻¹ = x then (1 : ℂ) else 0) * LinearMap.trace ℂ V (ρ h)
+        = if (↑h : G) = x * g * x⁻¹ then LinearMap.trace ℂ V (ρ h) else 0 := by
+    intro h
+    have hiff : ((↑h : G) * x * g⁻¹ = x) ↔ ((↑h : G) = x * g * x⁻¹) := by
+      rw [mul_inv_eq_iff_eq_mul, eq_mul_inv_iff_mul_eq]
+    by_cases hc : (↑h : G) = x * g * x⁻¹
+    · rw [if_pos (hiff.mpr hc), if_pos hc, one_mul]
+    · rw [if_neg (fun hh => hc (hiff.mp hh)), if_neg hc, zero_mul]
+  rw [Finset.sum_congr rfl (fun h _ => hcollapse h),
+    Etingof.sum_subtype_ite_coe H (x * g * x⁻¹) (fun h => LinearMap.trace ℂ V (ρ h))]
