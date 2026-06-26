@@ -2497,9 +2497,10 @@
   "start_line": 9,
   "end_line": 31,
   "status": "sorry_free",
-  "fidelity": "verified",
+  "fidelity": "gap",
   "sorry_free": true,
-  "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_mult, Etingof.Example4_9_1.S4_tensor_mult, Etingof.Example4_9_1.A5_tensor_mult, Etingof.Example4_9_1.S3_tensor_decomp, Etingof.Example4_9_1.S4_tensor_decomp, Etingof.Example4_9_1.A5_tensor_decomp, Etingof.Example4_9_1.S3_orthonormal, Etingof.Example4_9_1.S4_orthonormal, Etingof.Example4_9_1.A5_orthonormal",
+  "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.irrep_char, Etingof.Example4_9_1.stdRep_character",
+  "fidelity_note": "S3 table now genuine: real FDRep representations (trivRep/signRep/stdRep), trace-based characters, multiplicity identity chi_i*chi_j = sum_k n_ijk chi_k proved over all of S3 and phrased on FDRep tensor products (no native_decide, axiom-clean). Vacuous native_decide orthonormality certificates for S3/S4/A5 removed. S4 and A5 genuine tables tracked in #5442 and #5443.",
   "fidelity_issue": 5377
  },
  {
