@@ -2107,9 +2107,9 @@
   "start_line": 13,
   "end_line": 14,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Hypothesis fidelity problem. The book claims every IRREDUCIBLE REPRESENTATION of ℤ/p in char p is trivial. The Lean hypothesis is `hirr : IsSimpleModule k V`, i.e. V is simple as a k-vector space (...",
+  "fidelity_note": "Fixed (#5374): hypothesis now `IsSimpleModule (MonoidAlgebra k (Multiplicative (ZMod p))) ρ.asModule`, i.e. genuine representation-irreducibility (Representation.IsIrreducible), matching the book's claim. Proof: ρ g - 1 is a nilpotent self-intertwiner (ℤ/p abelian), so by Schur it is injective-or-zero; nilpotency rules out injective, hence ρ g = id.",
   "fidelity_decl": "Etingof.Example4_1_3",
   "fidelity_issue": 5374
  },
