@@ -98,12 +98,10 @@ theorem clength_eq_zero_iff {X : C} : clength X = 0 ↔ IsZero X := by
 
 /-- A nonzero object has positive composition length.
 
-`Subobject.nontrivial_of_not_isZero` gives `⊤ ≠ ⊥`, hence `¬ IsMin ⊤` and `Order.height ⊤ ≠ 0`;
-positivity of `clength = (Order.height ⊤).toNat` additionally needs `Order.height ⊤ ≠ ⊤`, the
-finiteness input discussed in the module doc. -/
-theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X := by
-  -- Requires finiteness of `Order.height (⊤ : Subobject X)` in a finite abelian category.
-  sorry
+This is the contrapositive of `clength_eq_zero_iff`: `0 < clength X ↔ clength X ≠ 0 ↔ ¬ IsZero X`.
+All of its finiteness content is therefore concentrated in `clength_eq_zero_iff`. -/
+theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X :=
+  Nat.pos_of_ne_zero fun hz => h (clength_eq_zero_iff.mp hz)
 
 /-- **Additivity of composition length over short exact sequences** — the Krull–Schmidt crux.
 
@@ -117,10 +115,14 @@ theorem clength_additive {S : ShortComplex C} (hS : S.ShortExact) :
 
 /-- Composition length is additive over biproducts: `clength (Y ⊞ Z) = clength Y + clength Z`.
 
-This follows from `clength_additive` applied to the split short exact sequence
-`0 → Y → Y ⊞ Z → Z → 0` built from `biprod.inl` and `biprod.snd`. -/
+This follows from `clength_additive` applied to the canonical split short exact sequence
+`0 → Y → Y ⊞ Z → Z → 0` built from `biprod.inl` and `biprod.snd`, whose section and retraction
+are `biprod.inr` and `biprod.fst`. -/
 theorem clength_biprod (Y Z : C) : clength (Y ⊞ Z) = clength Y + clength Z := by
-  sorry
+  have spl :
+      (ShortComplex.mk (biprod.inl : Y ⟶ Y ⊞ Z) (biprod.snd : Y ⊞ Z ⟶ Z) (by simp)).Splitting :=
+    { r := biprod.fst, s := biprod.inr, f_r := by simp, s_g := by simp, id := biprod.total }
+  exact clength_additive spl.shortExact
 
 /-! ## Monotonicity of `clength` over the subobject lattice
 
