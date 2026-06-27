@@ -72,6 +72,20 @@ def IsEquivariantEquiv {G W₁ W₂ : Type*} [Monoid G] [Field k]
     (e : W₁ ≃ₗ[k] W₂) : Prop :=
   ∀ (g : G) (x : W₁), e (ρ₁ g x) = ρ₂ g (e x)
 
+/-- The inverse of an equivariant equivalence is equivariant for the reversed
+pair. The matrix-coefficient map of Peter-Weyl is naturally built in the
+`peterWeylRHS → R` direction (`u ⊗ v ↦` matrix coefficient); this lemma transports
+its equivariance to the `R ≃ peterWeylRHS` direction demanded by
+`Theorem5_23_2_ii_equivariant`. -/
+theorem IsEquivariantEquiv.symm {G W₁ W₂ : Type*} [Monoid G] [Field k]
+    [AddCommGroup W₁] [Module k W₁] [AddCommGroup W₂] [Module k W₂]
+    {ρ₁ : Representation k G W₁} {ρ₂ : Representation k G W₂}
+    {e : W₁ ≃ₗ[k] W₂} (he : IsEquivariantEquiv ρ₁ ρ₂ e) :
+    IsEquivariantEquiv ρ₂ ρ₁ e.symm := by
+  intro g y
+  apply e.injective
+  rw [e.apply_symm_apply, he g (e.symm y), e.apply_symm_apply]
+
 /-- **Theorem 5.23.2(ii) — Peter-Weyl for `GL_n(k)`.** The coordinate ring
 `R = k[gᵢⱼ][1/det]`, as a representation of `GL_n × GL_n` under the left/right
 translation bi-action `(g, h) · φ = L_g R_h φ` (`localBiRep`), is
