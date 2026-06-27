@@ -20,12 +20,74 @@ embedding, re-index the full bimodule decomposition (zero summands on partitions
 outside the image) to obtain the statement.
 -/
 
-open scoped TensorProduct
+open scoped TensorProduct DirectSum
 open Etingof
 
 namespace Etingof
 
 universe u v
+
+/-! ### Generic `DirectSum` plumbing for the partition reindexing -/
+
+section DirectSumHelpers
+
+/-- Apply a family of linear equivalences summand-wise to a direct sum. -/
+noncomputable def directSumCongrRight {R : Type*} [Semiring R] {ι : Type*} [DecidableEq ι]
+    {A B : ι → Type*} [∀ i, AddCommMonoid (A i)] [∀ i, Module R (A i)]
+    [∀ i, AddCommMonoid (B i)] [∀ i, Module R (B i)]
+    (f : ∀ i, A i ≃ₗ[R] B i) : (⨁ i, A i) ≃ₗ[R] ⨁ i, B i :=
+  LinearEquiv.ofLinear
+    (DirectSum.toModule R ι _ (fun i => (DirectSum.lof R ι B i).comp (f i).toLinearMap))
+    (DirectSum.toModule R ι _ (fun i => (DirectSum.lof R ι A i).comp (f i).symm.toLinearMap))
+    (by
+      refine DirectSum.linearMap_ext R fun i => ?_
+      ext x
+      simp [DirectSum.toModule_lof])
+    (by
+      refine DirectSum.linearMap_ext R fun i => ?_
+      ext x
+      simp [DirectSum.toModule_lof])
+
+/-- Linear version of `DFinsupp.sigmaCurryEquiv`: a sigma-indexed direct sum is an
+iterated direct sum. -/
+noncomputable def directSumSigmaLequiv {R : Type*} [Semiring R] {ι : Type*} [DecidableEq ι]
+    {α : ι → Type*} [∀ i, DecidableEq (α i)]
+    (δ : ∀ i, α i → Type*) [∀ i j, AddCommMonoid (δ i j)] [∀ i j, Module R (δ i j)] :
+    (⨁ s : (Σ i, α i), δ s.1 s.2) ≃ₗ[R] ⨁ i, ⨁ j, δ i j :=
+  { DirectSum.sigmaLcurry R (δ := δ) with
+    invFun := DirectSum.sigmaLuncurry R (δ := δ)
+    left_inv := (DFinsupp.sigmaCurryEquiv (δ := δ)).left_inv
+    right_inv := (DFinsupp.sigmaCurryEquiv (δ := δ)).right_inv }
+
+/-- A direct sum over a unique index type collapses to its single summand. -/
+noncomputable def directSumUniqueEquiv {R : Type*} [Semiring R] {ι : Type*} [DecidableEq ι]
+    [Unique ι] (M : ι → Type*) [∀ i, AddCommMonoid (M i)] [∀ i, Module R (M i)] :
+    (⨁ i, M i) ≃ₗ[R] M default :=
+  { toFun := fun f => f default
+    map_add' := fun f g => DFinsupp.add_apply f g default
+    map_smul' := fun r f => DFinsupp.smul_apply r f default
+    invFun := fun x => DirectSum.lof R ι M default x
+    left_inv := fun f => by
+      refine DFinsupp.ext fun i => ?_
+      rw [Subsingleton.elim i default]
+      simp
+    right_inv := fun x => by simp }
+
+/-- Tensor product of two direct sums over a `Subsingleton` index collapses to the
+direct sum of the summand-wise tensor products. -/
+noncomputable def directSumTensorSubsingleton {k : Type*} [CommRing k]
+    {F : Type*} [Fintype F] [DecidableEq F] [Subsingleton F]
+    (A B : F → Type*) [∀ f, AddCommGroup (A f)] [∀ f, Module k (A f)]
+    [∀ f, AddCommGroup (B f)] [∀ f, Module k (B f)] :
+    ((⨁ f, A f) ⊗[k] (⨁ f, B f)) ≃ₗ[k] ⨁ f, (A f ⊗[k] B f) :=
+  let g : F × F ≃ F :=
+    { toFun := Prod.fst
+      invFun := fun f => (f, f)
+      left_inv := fun p => Prod.ext rfl (Subsingleton.elim _ _)
+      right_inv := fun _ => rfl }
+  (TensorProduct.directSum k k A B) ≪≫ₗ DirectSum.lequivCongrLeft k g
+
+end DirectSumHelpers
 
 variable (k : Type u) [Field k]
   (V : Type v) [AddCommGroup V] [Module k V] [Module.Finite k V]
