@@ -74,6 +74,7 @@ theorem Theorem5_18_4_bimodule_decomposition_full
       (_ : ∀ i, AddCommGroup (S i))
       (_ : ∀ i, Module k (S i))
       (_ : ∀ i, Module (symGroupImage k V n) (S i))
+      (_ : ∀ i, IsScalarTower k (symGroupImage k V n) (S i))
       (_ : ∀ i, IsSimpleModule (symGroupImage k V n) (S i))
       (_ : ∀ i j, Nonempty (S i ≃ₗ[symGroupImage k V n] S j) → i = j)
       (_ : ∀ i, Module.Finite k (S i))
@@ -102,6 +103,7 @@ theorem Theorem5_18_4_bimodule_decomposition_full
   rw [← h_eq]
   refine ⟨ι, hι, hι_dec, fun i => ↥(S' i),
     fun _ => inferInstance, fun _ => inferInstance, fun _ => inferInstance,
+    fun _ => inferInstance,
     hS'_simp, hS'_dist, hS'_fin,
     fun i => (↥(S' i) →ₗ[symGroupImage k V n] TensorPower k V n),
     fun _ => inferInstance, fun _ => inferInstance,

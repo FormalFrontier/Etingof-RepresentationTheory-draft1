@@ -1,4 +1,4 @@
-import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
+import EtingofRepresentationTheory.Chapter5.SchurWeylPartition
 
 /-!
 # Corollary 5.19.2: Schur-Weyl Decomposition

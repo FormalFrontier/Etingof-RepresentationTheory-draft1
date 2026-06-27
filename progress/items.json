@@ -3953,12 +3953,12 @@
   "start_line": 5,
   "end_line": 16,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "needs_statement": false,
-  "notes": "Triage 2026-03-18: All 3 parts (centralizers, semisimple, decomposition) have sorry. No active claimed issue. Depends on Double Centralizer Theorem (5.18.1). Ready for feature issue once 5.18.1 parts are proved.",
-  "fidelity_note": "Parts (i) (the two images are mutual centralizers) and (ii) (both semisimple) are faithful and sorry-free. Part (iii) is the problem: the book demands the decomposition V^{(x)n} = +_{lambda |- n} V...",
-  "fidelity_decl": "Theorem5_18_4_centralizers, _semisimple, _decomposition, _bimodule_decomposition, _partition_decomposition (SORRY)",
-  "fidelity_issue": 5383
+  "notes": "Triage 2026-03-18: parts (i) (centralizers) and (ii) (semisimple) faithful and sorry-free. Part (iii) (partition-indexed decomposition) completed #5405: Theorem5_18_4_partition_decomposition is sorry-free, indexing the bimodule decomposition by Nat.Partition n via the Specht-labelling embedding ι ↪ p(n).",
+  "fidelity_note": "All three parts are now faithful and sorry-free. Part (iii) is Theorem5_18_4_partition_decomposition (in SchurWeylPartition.lean): V^⊗n ≅ ⊕_{λ⊢n} S_λ ⊗ L_λ with S_λ simple-or-zero over symGroupImage, L_λ simple-or-zero over diagonalActionImage, distinct nonzero L_λ. The Specht labelling uses card_le_card_partition (card ι ≤ p(n)) via card_le_card_conjClasses' / Corollary 4.2.2.",
+  "fidelity_decl": "Theorem5_18_4_centralizers, _semisimple, _decomposition, _bimodule_decomposition, _bimodule_decomposition_full, _partition_decomposition",
+  "fidelity_issue": 5405
  },
  {
   "id": "Chapter5/Introduction_5.19",
