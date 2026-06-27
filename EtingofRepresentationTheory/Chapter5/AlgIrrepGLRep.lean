@@ -248,4 +248,36 @@ theorem algIrrepGLRep_isSimple (n : ℕ) (lam : DominantWeight n)
   exact isSimpleModule_charTwistRep (detChar ℂ n ^ (-(lam.shift : ℤ)))
     (schurModuleRep ℂ n lam.toNatWeight)
 
+/-! ## The dual representation and bare-`Representation` forms
+
+For the Peter-Weyl decomposition we need the underlying `Representation`s with
+carriers *literally* `AlgIrrepGL`/`AlgIrrepGLDual` (so they tensor and sum to the
+right-hand side of Theorem 5.23.2(ii)). `algIrrepGLRepρ` is the det-twisted
+Schur-module representation as a bare `Representation` (its carrier is
+definitionally `AlgIrrepGL n lam k`, matching `(AlgIrrepGLRep n lam k).ρ`). -/
+
+/-- The genuine irreducible algebraic representation `L_λ` as a bare
+`Representation` on the carrier `AlgIrrepGL n lam k`: the Schur module twisted by
+`det^{-λ.shift}`. Equals `(AlgIrrepGLRep n lam k).ρ` up to the carrier coercion. -/
+noncomputable def algIrrepGLRepρ (n : ℕ) (lam : DominantWeight n)
+    (k : Type*) [Field k] [IsAlgClosed k] :
+    Representation k (Matrix.GeneralLinearGroup (Fin n) k) (AlgIrrepGL n lam k) :=
+  charTwistRep (detChar k n ^ (-(lam.shift : ℤ))) (schurModuleRep k n lam.toNatWeight)
+
+/-- The contragredient `L*_λ` as an `FDRep`: by the highest-weight classification
+for `GL_n`, the dual of `L_λ` is `L_{-w₀λ}`, so `AlgIrrepGLRepDual` is just
+`AlgIrrepGLRep` at the `w₀`-twisted weight. Its carrier is definitionally
+`AlgIrrepGLDual n lam k`. -/
+noncomputable def AlgIrrepGLRepDual (n : ℕ) (lam : DominantWeight n)
+    (k : Type*) [Field k] [IsAlgClosed k] :
+    FDRep k (Matrix.GeneralLinearGroup (Fin n) k) :=
+  AlgIrrepGLRep n lam.w0Twist k
+
+/-- The contragredient `L*_λ` as a bare `Representation` on the carrier
+`AlgIrrepGLDual n lam k`. -/
+noncomputable def algIrrepGLRepDualρ (n : ℕ) (lam : DominantWeight n)
+    (k : Type*) [Field k] [IsAlgClosed k] :
+    Representation k (Matrix.GeneralLinearGroup (Fin n) k) (AlgIrrepGLDual n lam k) :=
+  algIrrepGLRepρ n lam.w0Twist k
+
 end Etingof

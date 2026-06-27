@@ -145,6 +145,13 @@ noncomputable instance AlgIrrepGLDual.module (n : ℕ) (lam : DominantWeight n)
 decomposes as `R ≅ ⊕_λ L*_λ ⊗ L_λ`, where the sum ranges over all dominant weights
 `λ = (λ₁ ≥ ⋯ ≥ λ_n)` with `λᵢ ∈ ℤ`, and `L*_λ` is the contragredient of `L_λ`.
 
+**Superseded by the genuine equivariant statement.** The genuine
+`GL_n × GL_n`-equivariant Peter-Weyl isomorphism is now
+`Theorem5_23_2_ii_equivariant` in `Chapter5.Theorem5_23_2_PeterWeyl` (#5396): it
+intertwines the left/right translation bi-action on `R = k[gᵢⱼ][1/det]`
+(`localBiRep`) with the action on `⊕_λ L*_λ ⊗ L_λ` (`peterWeylRHS`). The bare
+rank iso below is retained only as scaffolding.
+
 **⚠ Partial formalization.** The statement below asserts only a *bare `k`-linear*
 isomorphism `R ≃ₗ[k] ⊕_λ L*_λ ⊗ L_λ`, proved by matching ranks
 (`nonempty_linearEquiv_of_rank_eq`): both sides are countably-infinite-dimensional
