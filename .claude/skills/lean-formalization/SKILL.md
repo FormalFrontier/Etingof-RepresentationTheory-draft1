@@ -1239,6 +1239,19 @@ Three API gotchas that cost build cycles here:
   `rfl`-equal to `toMatrix' e`, which makes the orbit↔iso intertwining a clean
   `toMatrix'`/`toLin'` round-trip. Rectangular matrices need `Matrix.mul_one`/
   `Matrix.mul_assoc`, **not** the monoid `mul_one`/`mul_assoc`.
+  - **Transpose superscript `ᵀ` needs `open scoped Matrix`** (notation-only, safe to add
+    next to the existing `open`s); without it you get `unexpected token 'ᵀ'`.
+  - **Building a `GL_N →* GL_N` (e.g. `glInvTranspose : g ↦ (g⁻¹)ᵀ`, #5536):** define the
+    *function* first as a named `def` returning a `Units` anonymous constructor
+    `⟨(↑g⁻¹)ᵀ, (↑g)ᵀ, val_inv, inv_val⟩` (the two unit proofs are `rw [← Matrix.transpose_mul,
+    ← Matrix.GeneralLinearGroup.coe_mul, mul_inv_cancel/inv_mul_cancel, coe_one, transpose_one]`),
+    give it a `@[simp] … _coe : ↑(fun g) = (↑g⁻¹)ᵀ := rfl` lemma, THEN wrap in the `MonoidHom`
+    with `toFun := fun`. Do **not** try to `show`/`change` the goal after `Units.ext` to a
+    hand-written `(↑g⁻¹)ᵀ`: the coercion of a `Units` *literal* `↑{val := …}` does not reduce
+    syntactically, and an ascription like `((1 : GL)⁻¹ : Matrix …)` mis-elaborates to `(↑1)⁻¹`
+    (coerce-then-`Matrix.inv`) rather than `↑(1⁻¹)`. Instead prove `map_one'`/`map_mul'` by
+    `apply Units.ext` then `rw [Units.val_mul, the_coe_lemma, …]` — the `rfl` coe lemma is what
+    bridges literal↔reduced. `map_mul'` uses `mul_inv_rev` + `coe_mul` + `transpose_mul`.
 
 - **`DirectSum ι L` semisimple/finite instances** resolve through the `Π₀`
   (`DFinsupp`) instances: `inferInstanceAs (IsSemisimpleModule R (Π₀ i, L i))`.
