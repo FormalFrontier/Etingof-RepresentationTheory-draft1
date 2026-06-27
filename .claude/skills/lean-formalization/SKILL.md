@@ -557,6 +557,33 @@ need that piece as an `FDRep`. Recipe (sorry-free):
   `restrictTotalDegree` / `mem_restrictTotalDegree` in an `instance` signature
   under `relaxedAutoImplicit false` — fully qualify with `MvPolynomial.`.
 
+#### Universe 0 + explicit `(k : Type)` in the GL-rep decomposition cluster (#5478)
+
+The polynomial-decomposition machinery (`decompose_polynomial_gl_rep`,
+`polynomialRep_isSemisimple`, anything built on `FDRep.of` of a GL-rep) is pinned
+to **universe 0**: their files open with `variable (k : Type) ... (N : ℕ)`, not
+`Type*`. Two consequences when *consuming* these from an upstream theorem (e.g.
+discharging `Theorem5_23_2_i`, and the same will hit part (ii)):
+- **Specialize the carrier too.** It is not enough to set `k : Type`; the
+  representation carrier `Y` must also be `Type` (universe 0), because `FDRep.of`
+  forces it. Symptom if you forget: `Representation.{0,0,u} … but expected
+  Representation.{0,0,0}`. (Contrast the general advice elsewhere that reps
+  "often need `Type*`" — this cluster is the exception.)
+- **`k` and `N` are explicit positional args.** `polynomialRep_isSemisimple` etc.
+  take `k` then `N` *before* the `FDRep`/hypothesis args, since the section
+  `variable (k : Type) (N : ℕ)` uses `()`. Call as
+  `polynomialRep_isSemisimple k n (FDRep.of …) (…)`. Symptom if you omit them:
+  the `FDRep` binds to `k`, giving nonsense like `failed to synthesize Field ↑(…).V`
+  and a stray hypothesis of type `ℕ`.
+- Assembly chain that works: `IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`
+  (det-clearing) → `charTwistRep (detChar k n ^ s) ρ` (its `⇑` is `fun g =>
+  det(g)^s • ρ g` via `MonoidHom.pow_apply` + `Units.val_pow_eq_pow_val`) →
+  `polynomialRep_isSemisimple` → untwist by `(detChar k n ^ s)⁻¹` with
+  `isSemisimpleModule_charTwistRep` (`charTwistRep c⁻¹ (charTwistRep c ρ) = ρ`
+  closes by `rw [charTwistRep_apply, charTwistRep_apply, smul_smul, ← Units.val_mul,
+  ← MonoidHom.mul_apply, inv_mul_cancel, MonoidHom.one_apply, Units.val_one,
+  one_smul]`). `charTwistRep`/`detChar` live in `Etingof.KernelLemmaKPrime`.
+
 The canonical Fintype indexing set for "dominant weights `ν ∈ ℕ^N` of size `d`"
 is `BoundedPartition N d` (`Proposition5_21_1.lean`: antitone `ν : Fin N → ℕ`
 with `∑ ν = d`; has `Fintype` + `DecidableEq`). Use it to write a
