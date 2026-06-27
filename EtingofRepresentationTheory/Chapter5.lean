@@ -124,6 +124,7 @@ import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrimeAssembly
 import EtingofRepresentationTheory.Chapter5.DetPowerFiltration
 import EtingofRepresentationTheory.Chapter5.KernelLemmaK
 import EtingofRepresentationTheory.Chapter5.DetInvElim
+import EtingofRepresentationTheory.Chapter5.FormalCharacterDual
 
 -- Section 5.19: Schur-Weyl Duality and Schur Functors
 import EtingofRepresentationTheory.Chapter5.Proposition5_19_1
