@@ -232,6 +232,111 @@ theorem IsAlgebraicRepresentation.of_linearEquiv {k : Type*} [Field k] {N : ℕ}
   rw [Module.Basis.map_apply, ← hcomm g (b c), hbe (ρ g (b c))]
   exact hP g a c
 
+/-! ### Algebraicity is preserved by the linear dual -/
+
+/-- The point at which `evalAtGL g` evaluates the coordinate ring: the matrix-entry
+variable `Xᵢⱼ ↦ gᵢⱼ` and the extra variable `D ↦ det(g)⁻¹`. -/
+noncomputable def evalAtGLpt {k : Type*} [Field k] {N : ℕ}
+    (g : Matrix.GeneralLinearGroup (Fin N) k) : Etingof.GLCoordVars N → k :=
+  Sum.elim (fun ij : Fin N × Fin N => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+           (fun _ => ((g : Matrix (Fin N) (Fin N) k).det)⁻¹)
+
+theorem evalAtGL_eq_eval {k : Type*} [Field k] {N : ℕ}
+    (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (p : MvPolynomial (Etingof.GLCoordVars N) k) :
+    Etingof.evalAtGL g p = MvPolynomial.eval (evalAtGLpt g) p := rfl
+
+/-- Evaluation of the extra coordinate variable `D` at `g`: it is `det(g)⁻¹`. -/
+theorem evalAtGL_X_inr {k : Type*} [Field k] {N : ℕ}
+    (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    Etingof.evalAtGL g (MvPolynomial.X (Sum.inr ()))
+      = ((g : Matrix (Fin N) (Fin N) k).det)⁻¹ := by
+  change MvPolynomial.eval _ (MvPolynomial.X (Sum.inr ())) = _
+  rw [MvPolynomial.eval_X]
+  rfl
+
+/-- The adjugate of the generic matrix `(Xᵢⱼ)` evaluates at `g` to the adjugate of `g`:
+`evalAtGL g` is a ring hom carrying `Xᵢⱼ ↦ gᵢⱼ`, and the adjugate commutes with ring homs
+(`RingHom.map_adjugate`). -/
+theorem evalAtGL_adjugate {k : Type*} [Field k] {N : ℕ}
+    (g : Matrix.GeneralLinearGroup (Fin N) k) (a b : Fin N) :
+    Etingof.evalAtGL g
+        ((Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).adjugate a b)
+      = (g : Matrix (Fin N) (Fin N) k).adjugate a b := by
+  have hmap : (MvPolynomial.eval (evalAtGLpt g)).mapMatrix
+        (Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j)))
+      = (g : Matrix (Fin N) (Fin N) k) := by
+    ext a' b'
+    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.of_apply]
+    exact evalAtGL_X_inl g a' b'
+  rw [evalAtGL_eq_eval]
+  calc MvPolynomial.eval (evalAtGLpt g)
+          ((Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).adjugate a b)
+      = ((MvPolynomial.eval (evalAtGLpt g)).mapMatrix
+          ((Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).adjugate)) a b :=
+        rfl
+    _ = (Matrix.adjugate ((MvPolynomial.eval (evalAtGLpt g)).mapMatrix
+          (Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))))) a b := by
+        rw [RingHom.map_adjugate]
+    _ = (g : Matrix (Fin N) (Fin N) k).adjugate a b := by rw [hmap]
+
+/-- The substitution `σ` on the coordinate ring `k[Xᵢⱼ, D]` that realises evaluation at
+the *inverse* matrix: `Xᵢⱼ ↦ D · adjugate(X)ᵢⱼ` (the `(i,j)` entry of `X⁻¹ = det(X)⁻¹ · adj X`)
+and `D ↦ det(X)` (so `det(g⁻¹)⁻¹ = det g`). -/
+noncomputable def invSubst (k : Type*) [Field k] (N : ℕ) :
+    Etingof.GLCoordVars N → MvPolynomial (Etingof.GLCoordVars N) k :=
+  Sum.elim
+    (fun ij : Fin N × Fin N => MvPolynomial.X (Sum.inr ()) *
+      (Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).adjugate ij.1 ij.2)
+    (fun _ => detPolyGL k N)
+
+/-- **`invSubst` realises evaluation at the inverse matrix.** For any polynomial `p` in the
+coordinate ring, evaluating `bind₁ invSubst p` at `g` gives the same value as evaluating `p`
+at `g⁻¹`. The entries of `g⁻¹` are `det(g)⁻¹ · adjugate(g)` (a polynomial in the `Xᵢⱼ, D`)
+and `det(g⁻¹)⁻¹ = det g`, so the per-variable substitution matches the inverse evaluation
+point. -/
+theorem evalAtGL_bind₁_invSubst {k : Type*} [Field k] {N : ℕ}
+    (g : Matrix.GeneralLinearGroup (Fin N) k)
+    (p : MvPolynomial (Etingof.GLCoordVars N) k) :
+    Etingof.evalAtGL g (MvPolynomial.bind₁ (invSubst k N) p) = Etingof.evalAtGL g⁻¹ p := by
+  have hvar : (fun i => Etingof.evalAtGL g (invSubst k N i)) = evalAtGLpt g⁻¹ := by
+    funext i
+    cases i with
+    | inl ij =>
+        obtain ⟨a, b⟩ := ij
+        show Etingof.evalAtGL g
+            (MvPolynomial.X (Sum.inr ()) *
+              (Matrix.of fun i j : Fin N => MvPolynomial.X (R := k) (Sum.inl (i, j))).adjugate a b)
+          = ((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k) a b
+        rw [evalAtGL_mul, evalAtGL_X_inr, evalAtGL_adjugate,
+          Matrix.GeneralLinearGroup.coe_inv, Matrix.inv_def, Matrix.smul_apply, smul_eq_mul,
+          Ring.inverse_eq_inv]
+    | inr u =>
+        show Etingof.evalAtGL g (detPolyGL k N)
+          = (((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k).det)⁻¹
+        rw [evalAtGL_detPolyGL, Matrix.GeneralLinearGroup.val_det_apply,
+          Matrix.GeneralLinearGroup.coe_inv, Matrix.det_nonsing_inv, Ring.inverse_eq_inv, inv_inv]
+  rw [evalAtGL_eq_eval, evalAtGL_eq_eval, ← MvPolynomial.aeval_eq_eval, MvPolynomial.aeval_bind₁,
+    MvPolynomial.aeval_eq_eval]
+  rw [show (fun i => MvPolynomial.aeval (evalAtGLpt g) (invSubst k N i)) = evalAtGLpt g⁻¹ from hvar]
+
+/-- **The linear dual of an algebraic representation is algebraic.** If `ρ` is an algebraic
+`GL_N(k)`-representation on `Y`, the contragredient `Representation.dual ρ` on `Module.Dual k Y`
+is again algebraic. In the dual basis `b.dualBasis`, the `(a,c)`-matrix coefficient of
+`(dual ρ) g` is `b.repr (ρ g⁻¹ (b a)) c`, the `(c,a)`-coefficient of `ρ` read at `g⁻¹`; the
+inverse evaluation is absorbed into the polynomials by the substitution `invSubst`
+(`evalAtGL_bind₁_invSubst`). -/
+theorem IsAlgebraicRepresentation.dual {k : Type*} [Field k] {N : ℕ}
+    {Y : Type*} [AddCommGroup Y] [Module k Y] [Module.Finite k Y]
+    (ρ : Representation k (Matrix.GeneralLinearGroup (Fin N) k) Y)
+    (h : Etingof.IsAlgebraicRepresentation N ρ) :
+    Etingof.IsAlgebraicRepresentation N (Representation.dual ρ) := by
+  obtain ⟨m, b, P, hP⟩ := h
+  refine ⟨m, b.dualBasis, fun a c => MvPolynomial.bind₁ (invSubst k N) (P c a), fun g a c => ?_⟩
+  rw [evalAtGL_bind₁_invSubst, Representation.dual_apply, Module.Dual.transpose_apply,
+    Module.Basis.dualBasis_repr, LinearMap.comp_apply, Module.Basis.dualBasis_apply]
+  exact hP g⁻¹ c a
+
 /-! ### The Schur module is algebraic -/
 
 /-- **The Schur module `L_λ` is algebraic.** `SchurModule k N lam` is the restriction of
