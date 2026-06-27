@@ -184,6 +184,37 @@ theorem card_le_card_conjClasses
     _ = ncc := Fintype.card_fin ncc
     _ = Fintype.card (ConjClasses G) := hncc
 
+/-- **Counting bound, general-universe form.** Any `Fintype`-indexed family of
+pairwise non-isomorphic simple `k[G]`-modules, finite-dimensional over `k`, has
+cardinality at most `|ConjClasses G|`. The modules may live in any universe: each
+is transported to its `k`-linear small model `Fin (finrank k (M i)) → k`, which
+lives in `k`'s universe, before applying `card_le_card_conjClasses`. -/
+theorem card_le_card_conjClasses'
+    {ι : Type w} [Fintype ι]
+    (M : ι → Type w') [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
+    [∀ i, Module.Finite k (M i)]
+    [∀ i, Module (MonoidAlgebra k G) (M i)]
+    [∀ i, IsScalarTower k (MonoidAlgebra k G) (M i)]
+    [∀ i, IsSimpleModule (MonoidAlgebra k G) (M i)]
+    (hdist : ∀ i j, Nonempty (M i ≃ₗ[MonoidAlgebra k G] M j) → i = j) :
+    Fintype.card ι ≤ Fintype.card (ConjClasses G) := by
+  haveI : ∀ i, Module.Free k (M i) := fun i => Module.Free.of_divisionRing k (M i)
+  -- small model: `N i := Fin (finrank k (M i)) → k`, in `k`'s universe
+  set N : ι → Type u := fun i => Fin (Module.finrank k (M i)) → k with hN
+  let e : ∀ i, M i ≃ₗ[k] N i := fun i => (Module.finBasis k (M i)).equivFun
+  letI modN : ∀ i, Module (MonoidAlgebra k G) (N i) := fun i =>
+    transportModule (R := MonoidAlgebra k G) (e i)
+  haveI towN : ∀ i, IsScalarTower k (MonoidAlgebra k G) (N i) := fun i =>
+    transportModule_isScalarTower (R := MonoidAlgebra k G) (e i)
+  let eR : ∀ i, M i ≃ₗ[MonoidAlgebra k G] N i := fun i =>
+    transportLinearEquiv (R := MonoidAlgebra k G) (e i)
+  haveI simpN : ∀ i, IsSimpleModule (MonoidAlgebra k G) (N i) := fun i =>
+    IsSimpleModule.congr (eR i).symm
+  have hdistN : ∀ i j, Nonempty (N i ≃ₗ[MonoidAlgebra k G] N j) → i = j := by
+    intro i j ⟨f⟩
+    exact hdist i j ⟨(eR i) ≪≫ₗ f ≪≫ₗ (eR j).symm⟩
+  exact card_le_card_conjClasses (k := k) (G := G) N hdistN
+
 end Count
 
 end Etingof
