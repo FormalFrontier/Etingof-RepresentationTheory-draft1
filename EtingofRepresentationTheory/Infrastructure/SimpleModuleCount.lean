@@ -119,4 +119,71 @@ noncomputable def repOfModuleAsModuleEquiv :
 
 end RepOfModule
 
+/-! ### The counting bound -/
+
+section Count
+
+open MonoidAlgebra
+
+variable {k : Type u} [Field k] [IsAlgClosed k]
+  {G : Type v} [Group G] [Fintype G] [DecidableEq G]
+  [Invertible (Fintype.card G : k)]
+
+/-- An isomorphism of `FDRep k G` between two `repOfModule`s yields a `k[G]`-linear
+equivalence of the underlying modules. -/
+noncomputable def linearEquivOfFDRepIso
+    {M N : Type u} [AddCommGroup M] [Module k M] [Module.Finite k M]
+    [Module (MonoidAlgebra k G) M] [IsScalarTower k (MonoidAlgebra k G) M]
+    [AddCommGroup N] [Module k N] [Module.Finite k N]
+    [Module (MonoidAlgebra k G) N] [IsScalarTower k (MonoidAlgebra k G) N]
+    (α : FDRep.of (repOfModule (k := k) (G := G) M) ≅ FDRep.of (repOfModule (k := k) (G := G) N)) :
+    M ≃ₗ[MonoidAlgebra k G] N :=
+  letI F := forget₂ (FDRep k G) (Rep k G)
+  let β := F.mapIso α
+  let γ := Rep.toModuleMonoidAlgebra.mapIso β
+  (repOfModuleAsModuleEquiv (k := k) (G := G) M).symm ≪≫ₗ
+    γ.toLinearEquiv ≪≫ₗ repOfModuleAsModuleEquiv (k := k) (G := G) N
+
+/-- **Counting bound, small-universe form.** Any `Fintype`-indexed family of
+pairwise non-isomorphic simple `k[G]`-modules, finite-dimensional over `k` and
+living in `k`'s universe, has cardinality at most `|ConjClasses G|`. -/
+theorem card_le_card_conjClasses
+    {ι : Type w} [Fintype ι]
+    (M : ι → Type u) [∀ i, AddCommGroup (M i)] [∀ i, Module k (M i)]
+    [∀ i, Module.Finite k (M i)]
+    [∀ i, Module (MonoidAlgebra k G) (M i)]
+    [∀ i, IsScalarTower k (MonoidAlgebra k G) (M i)]
+    [∀ i, IsSimpleModule (MonoidAlgebra k G) (M i)]
+    (hdist : ∀ i j, Nonempty (M i ≃ₗ[MonoidAlgebra k G] M j) → i = j) :
+    Fintype.card ι ≤ Fintype.card (ConjClasses G) := by
+  haveI : NeZero (Nat.card G : k) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card]
+    exact (isUnit_of_invertible (Fintype.card G : k)).ne_zero
+  -- each `M i` carries a simple `asModule`, hence `FDRep.of (repOfModule (M i))` is simple
+  haveI hsimp_asmod : ∀ i, IsSimpleModule (MonoidAlgebra k G)
+      (repOfModule (k := k) (G := G) (M i)).asModule := fun i =>
+    IsSimpleModule.congr (repOfModuleAsModuleEquiv (k := k) (G := G) (M i))
+  haveI hsimp_fd : ∀ i, Simple (FDRep.of (repOfModule (k := k) (G := G) (M i))) := fun i =>
+    inferInstance
+  -- the complete list of simples from Corollary 4.2.2
+  obtain ⟨ncc, Vcc, _hVsimp, _hVinj, hVsurj, hncc⟩ := Etingof.Corollary4_2_2 (k := k) (G := G)
+  -- map each `i` to the index of the matching `Vcc`
+  choose c hc using fun i => hVsurj _ (hsimp_fd i)
+  have hc_inj : Function.Injective c := by
+    intro i j hij
+    refine hdist i j ?_
+    obtain ⟨αi⟩ := hc i
+    obtain ⟨αj⟩ := hc j
+    have : Nonempty (FDRep.of (repOfModule (k := k) (G := G) (M i)) ≅
+        FDRep.of (repOfModule (k := k) (G := G) (M j))) :=
+      ⟨αi ≪≫ (by rw [hij]; exact αj.symm)⟩
+    obtain ⟨α⟩ := this
+    exact ⟨linearEquivOfFDRepIso α⟩
+  calc Fintype.card ι ≤ Fintype.card (Fin ncc) := Fintype.card_le_of_injective c hc_inj
+    _ = ncc := Fintype.card_fin ncc
+    _ = Fintype.card (ConjClasses G) := hncc
+
+end Count
+
 end Etingof
