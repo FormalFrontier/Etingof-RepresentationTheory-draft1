@@ -5958,10 +5958,10 @@
   "end_page": "207",
   "start_line": 19,
   "end_line": 20,
-  "status": "statement_formalized",
+  "status": "proved",
   "fidelity": "verified",
-  "sorry_free": false,
-  "fidelity_note": "Statement now asserts the full biconditional `Module.Projective A P ↔ Module.Injective Aᵐᵒᵖ (Module.Dual k P)` over a general algebra with the contragredient right-A-module structure on the dual; hypothesis `[FiniteDimensional k A]` is necessary (without it the RHS is flatness, not projectivity). Proof deferred: needs Lambek (k-dual flat⟺injective) + Bass (perfect ring flat⟹projective), neither in Mathlib.",
+  "sorry_free": true,
+  "fidelity_note": "Proves the biconditional `Module.Projective A P ↔ Module.Injective Aᵐᵒᵖ (Module.Dual k P)` with the contragredient right-A-module structure on the dual, in the book's standing finite-dimensional setting (`[FiniteDimensional k A]`, `[FiniteDimensional k P]`). Forward direction `projective_dual_injective` needs no finiteness; converse `dual_injective_projective` is elementary finite-dimensional duality (finite free cover, split the dual injection via injectivity of P*, transport back through `Module.evalEquiv : P ≃ P**`), avoiding the Lambek+Bass infrastructure (absent from Mathlib) that the infinite-dimensional-P statement would require.",
   "fidelity_decl": "Etingof.Example_8_1_7",
   "fidelity_issue": 5385
  },
