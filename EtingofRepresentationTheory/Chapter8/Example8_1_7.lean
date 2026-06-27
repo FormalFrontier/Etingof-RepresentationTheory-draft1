@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Module.Injective
+import Mathlib.LinearAlgebra.Finsupp.LSum
 import Mathlib.Algebra.Algebra.Tower
 import Mathlib.Algebra.Algebra.Opposite
 import Mathlib.Algebra.Module.Equiv.Opposite
@@ -38,17 +39,21 @@ finite dimensional, and it is *mathematically necessary*, not decorative:
 
 ## Proof status
 
-The biconditional is still a `sorry`, but the **injective cogenerator** at its heart is now
-available sorry-free as `Etingof.Example817.dual_regular_injective`: for any `k`-algebra `A`,
-the contragredient right module `A* = Module.Dual k A` is injective. This is the `P = A` case
-of the forward implication and the genuine mathematical crux; it is proved directly via Baer's
-criterion plus extension of `k`-functionals, with no tensor product.
+The **forward direction** `P` projective ⟹ `P*` injective is now available sorry-free as
+`Etingof.Example817.projective_dual_injective`, for *any* `k`-algebra `A` (no finite
+dimensionality needed). Its crux is the **injective cogenerator**
+`Etingof.Example817.dual_regular_injective`: for any `k`-algebra `A`, the contragredient right
+module `A* = Module.Dual k A` is injective (the `P = A` case), proved directly via Baer's
+criterion plus extension of `k`-functionals, with no tensor product. The general case passes
+from `A*` to `P*` by writing `P` as a retract of a free module `P →₀ A`, dualising
+contravariantly (`contragredientMap`), identifying `(P →₀ A)* ≃ ∀ p, A*` (`freeDualEquiv`), and
+combining "a product of injectives is injective" (`Module.Injective.pi`) with a retract argument
+carried out at the level of Baer's criterion (so it survives the universe gap between `P*` and
+`(P →₀ A)*`).
 
-The remaining gap to the full biconditional needs:
-* the forward direction for general `P` (pass from `A*` to `P*` via direct summands of free
-  modules: `Module.Injective.pi` for products of duals of free modules, plus a retract lemma);
-* the converse, which over a finite dimensional algebra uses that such algebras are left perfect
-  and that over a left perfect ring flat ⟹ projective (Bass).
+The remaining gap to the full biconditional is:
+* the converse `P*` injective ⟹ `P` projective, which over a finite dimensional algebra uses
+  that such algebras are left perfect and that over a left perfect ring flat ⟹ projective (Bass).
 
 Note that the originally planned route through "`P` flat ⟺ `P*` injective" (Lambek for the
 `k`-linear dual) cannot be stated as written: `Module.Flat A P` requires `A` commutative
@@ -157,6 +162,110 @@ theorem dual_regular_injective :
   change g ⟨x, hx⟩ (a • (1 : A)) = g ⟨x, hx⟩ a
   rw [smul_eq_mul, mul_one]
 
+/-! ## Forward direction: `P` projective ⟹ `P*` injective
+
+We build the contravariant dual functor on morphisms, identify the dual of a free module
+with a product of copies of `A*`, and combine "product of injectives is injective" with a
+universe-robust retract argument at the level of Baer's criterion. -/
+
+/-- Transfer of injectivity along a split injection (retract): if `r ∘ i = id` with `M`
+injective, then `N` is injective. Proved directly from the universal lifting property, so it
+is free of `Small` hypotheses (but requires `M` and `N` in the same universe). -/
+theorem injective_of_leftInverse {R : Type*} [Ring R] {M N : Type w}
+    [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+    (i : N →ₗ[R] M) (r : M →ₗ[R] N) (h : r ∘ₗ i = LinearMap.id)
+    (hM : Module.Injective R M) : Module.Injective R N :=
+  ⟨fun X Y _ _ _ _ f hf g => by
+    obtain ⟨t, ht⟩ := hM.out f hf (i ∘ₗ g)
+    exact ⟨r ∘ₗ t, fun x => by
+      have h1 : t (f x) = i (g x) := ht x
+      change r (t (f x)) = g x
+      rw [h1]; exact LinearMap.congr_fun h (g x)⟩⟩
+
+section Functor
+
+variable {M N : Type*}
+  [AddCommGroup M] [Module k M] [Module A M] [IsScalarTower k A M]
+  [AddCommGroup N] [Module k N] [Module A N] [IsScalarTower k A N]
+
+/-- The **contragredient (dual) functor on morphisms**: an `A`-linear map `f : M →ₗ[A] N`
+induces, by `k`-linear precomposition, an `Aᵐᵒᵖ`-linear map `N* →ₗ[Aᵐᵒᵖ] M*` between the
+contragredient duals. This is the action of the contravariant functor `Hom_k(-, k)` on arrows. -/
+def contragredientMap (f : M →ₗ[A] N) : Module.Dual k N →ₗ[Aᵐᵒᵖ] Module.Dual k M where
+  toFun φ := φ ∘ₗ f.restrictScalars k
+  map_add' φ ψ := by ext m; rfl
+  map_smul' a φ := by
+    ext m
+    simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.coe_restrictScalars,
+      contragredient_smul_apply, RingHom.id_apply]
+    rw [f.map_smul]
+
+@[simp]
+theorem contragredientMap_apply (f : M →ₗ[A] N) (φ : Module.Dual k N) (m : M) :
+    contragredientMap k A f φ m = φ (f m) :=
+  rfl
+
+end Functor
+
+/-- The dual of the free module `P →₀ A` is, as a contragredient right `A`-module, the product
+`∀ p : P, A*` of copies of the dual of the regular module. The underlying `k`-linear bijection is
+`Finsupp.lsum`; the content here is that it intertwines the contragredient `Aᵐᵒᵖ`-actions. -/
+noncomputable def freeDualEquiv :
+    Module.Dual k (P →₀ A) ≃ₗ[Aᵐᵒᵖ] (P → Module.Dual k A) where
+  toFun φ := fun p => φ ∘ₗ Finsupp.lsingle (R := k) p
+  map_add' φ ψ := by ext p a; rfl
+  map_smul' a φ := by
+    ext p b
+    simp only [LinearMap.coe_comp, Function.comp_apply, Finsupp.lsingle_apply,
+      contragredient_smul_apply, Pi.smul_apply, RingHom.id_apply, Finsupp.smul_single]
+  invFun g := Finsupp.lsum (R := k) k g
+  left_inv φ := by
+    have hsymm : (fun p => φ ∘ₗ Finsupp.lsingle (R := k) p) = (Finsupp.lsum (R := k) k).symm φ := by
+      funext p; exact (Finsupp.lsum_symm_apply (S := k) φ p).symm
+    change Finsupp.lsum (R := k) k (fun p => φ ∘ₗ Finsupp.lsingle (R := k) p) = φ
+    rw [hsymm, LinearEquiv.apply_symm_apply]
+  right_inv g := by
+    funext p
+    exact Finsupp.lsum_comp_lsingle (S := k) g p
+
+/-- **Forward direction of Example 8.1.7.** Over any `k`-algebra `A`, if a left `A`-module `P`
+is projective then its contragredient dual `P* = Module.Dual k P` is injective as a right
+`A`-module (modelled over `Aᵐᵒᵖ`).
+
+`P` is a retract of the free module `P →₀ A`; dualising contravariantly makes `P*` a retract of
+`(P →₀ A)* ≃ ∀ p, A*`, a product of injectives (`dual_regular_injective`). The retract step is
+performed at the level of Baer's criterion so that it is robust under the universe gap between
+`P*` and `(P →₀ A)*`. No `[FiniteDimensional k A]` is needed. -/
+theorem projective_dual_injective.{uk, uA, uP}
+    {k : Type uk} [Field k] {A : Type uA} [Ring A] [Algebra k A]
+    {P : Type uP} [AddCommGroup P] [Module k P] [Module A P] [IsScalarTower k A P]
+    [Module.Projective A P] :
+    Module.Injective Aᵐᵒᵖ (Module.Dual k P) := by
+  -- `P` is a retract of the free module `F = P →₀ A`.
+  obtain ⟨s, hs⟩ := (Module.projective_def' (R := A) (P := P)).mp ‹_›
+  set π : (P →₀ A) →ₗ[A] P := Finsupp.linearCombination A id with hπ
+  -- `F*` is injective: it is the product `∀ p, A*` of injectives.
+  haveI sA : Small.{max uA uk} Aᵐᵒᵖ := small_max.{uk, uA} Aᵐᵒᵖ
+  have hpi : Module.Injective Aᵐᵒᵖ (P → Module.Dual k A) :=
+    @Module.Injective.pi Aᵐᵒᵖ _ P (fun _ : P => Module.Dual k A) sA _ _
+      (fun _ => dual_regular_injective k A)
+  have hF : Module.Injective Aᵐᵒᵖ (Module.Dual k (P →₀ A)) :=
+    injective_of_leftInverse (freeDualEquiv k A P).toLinearMap
+      (freeDualEquiv k A P).symm.toLinearMap (by ext x; simp) hpi
+  -- Retract `P* ◁ F*` at the level of Baer's criterion (universe-robust).
+  haveI sB : Small.{max uP uA uk} Aᵐᵒᵖ := small_max.{max uP uk, uA} Aᵐᵒᵖ
+  have hBF : Module.Baer Aᵐᵒᵖ (Module.Dual k (P →₀ A)) := Module.Baer.of_injective hF
+  have hid : ∀ ψ : Module.Dual k P,
+      contragredientMap k A s (contragredientMap k A π ψ) = ψ := by
+    intro ψ; ext m
+    simp only [contragredientMap_apply]
+    rw [show π (s m) = m from LinearMap.congr_fun hs m]
+  apply Module.Baer.injective
+  intro I g
+  obtain ⟨g', hg'⟩ := hBF I ((contragredientMap k A π) ∘ₗ g)
+  refine ⟨(contragredientMap k A s) ∘ₗ g', fun x hx => ?_⟩
+  rw [LinearMap.comp_apply, hg' x hx, LinearMap.comp_apply, hid]
+
 end Etingof.Example817
 
 /-- **Example 8.1.7.** Let `A` be an algebra and `P` be a left `A`-module. Then `P` is
@@ -172,4 +281,12 @@ theorem Etingof.Example_8_1_7
     (A : Type*) [Ring A] [Algebra k A] [FiniteDimensional k A]
     (P : Type*) [AddCommGroup P] [Module k P] [Module A P] [IsScalarTower k A P] :
     Module.Projective A P ↔ Module.Injective Aᵐᵒᵖ (Module.Dual k P) := by
-  sorry
+  refine ⟨fun hP => ?_, fun hInj => ?_⟩
+  · -- Forward direction: holds for any algebra (no finite-dimensionality needed).
+    haveI := hP
+    exact Etingof.Example817.projective_dual_injective
+  · -- Converse (`P*` injective ⟹ `P` projective): the Bass direction. Over a finite
+    -- dimensional — a fortiori left perfect — algebra every flat module is projective, and
+    -- `P*` injective forces `P` flat (Lambek). This direction is the genuine remaining gap;
+    -- see issue #5476 and the module docstring.
+    sorry
