@@ -246,12 +246,13 @@ theorem evalAtGL_eq_eval {k : Type*} [Field k] {N : ℕ}
     (p : MvPolynomial (Etingof.GLCoordVars N) k) :
     Etingof.evalAtGL g p = MvPolynomial.eval (evalAtGLpt g) p := rfl
 
-/-- Evaluation of the extra coordinate variable `D` at `g`: it is `det(g)⁻¹`. -/
+/-- Evaluation of the extra coordinate variable `D = X (Sum.inr ())` at `g`: it is
+`det(g)⁻¹`. -/
 theorem evalAtGL_X_inr {k : Type*} [Field k] {N : ℕ}
-    (g : Matrix.GeneralLinearGroup (Fin N) k) :
-    Etingof.evalAtGL g (MvPolynomial.X (Sum.inr ()))
+    (g : Matrix.GeneralLinearGroup (Fin N) k) (u : Unit) :
+    Etingof.evalAtGL g (MvPolynomial.X (Sum.inr u))
       = ((g : Matrix (Fin N) (Fin N) k).det)⁻¹ := by
-  change MvPolynomial.eval _ (MvPolynomial.X (Sum.inr ())) = _
+  change MvPolynomial.eval _ (MvPolynomial.X (Sum.inr u)) = _
   rw [MvPolynomial.eval_X]
   rfl
 

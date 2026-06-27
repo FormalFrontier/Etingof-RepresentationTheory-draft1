@@ -58,15 +58,8 @@ open Etingof.DetLocalization Etingof.LocalizationGLAction Etingof.DetInvElim
 
 /-! ## Two small `evalAtGL` helpers and the `det⁻¹`-twist of an algebraic rep -/
 
-/-- Evaluating the formal inverse variable `D = X (Sum.inr ())` at `g ∈ GL_n`
-gives `det(g)⁻¹`. -/
-theorem evalAtGL_X_inr {k : Type*} [Field k] {N : ℕ}
-    (g : Matrix.GeneralLinearGroup (Fin N) k) (u : Unit) :
-    Etingof.evalAtGL g (MvPolynomial.X (Sum.inr u)) =
-      ((g : Matrix (Fin N) (Fin N) k).det)⁻¹ := by
-  change MvPolynomial.eval _ (MvPolynomial.X (Sum.inr u)) = _
-  rw [MvPolynomial.eval_X]
-  rfl
+-- `evalAtGL_X_inr` (evaluation of the formal inverse variable `D` at `g`) lives upstream
+-- in `GLRepAlgebraic.lean`.
 
 /-- `evalAtGL g` is a ring hom, so it commutes with powers. -/
 theorem evalAtGL_pow {k : Type*} [Field k] {N : ℕ}
