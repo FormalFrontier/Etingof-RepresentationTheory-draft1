@@ -33,6 +33,7 @@ powers of `detPoly` to units of `O`, so `IsLocalization.liftAlgHom` extends it t
 namespace Etingof.LocalizationGLAction
 
 open MvPolynomial Etingof.PolynomialGLAction Etingof.DetLocalization
+open scoped Matrix
 
 variable {k : Type*} [Field k] {N : ℕ}
 
@@ -104,19 +105,61 @@ theorem isUnit_lTransToAway_detPoly_pow (g : Matrix.GeneralLinearGroup (Fin N) k
   · exact IsLocalization.Away.algebraMap_isUnit
       (S := Localization.Away (detPoly k N)) (detPoly k N)
 
+/-- The inverse-transpose of `g ∈ GL_N` as an element of `GL_N`: the matrix
+`(g⁻¹)ᵀ`, with inverse `gᵀ`. -/
+noncomputable def glInvTransposeFun (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    Matrix.GeneralLinearGroup (Fin N) k :=
+  ⟨((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k)ᵀ,
+   ((g : Matrix (Fin N) (Fin N) k))ᵀ,
+   by rw [← Matrix.transpose_mul, ← Matrix.GeneralLinearGroup.coe_mul, mul_inv_cancel,
+      Matrix.GeneralLinearGroup.coe_one, Matrix.transpose_one],
+   by rw [← Matrix.transpose_mul, ← Matrix.GeneralLinearGroup.coe_mul, inv_mul_cancel,
+      Matrix.GeneralLinearGroup.coe_one, Matrix.transpose_one]⟩
+
+@[simp] theorem glInvTransposeFun_coe (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    ((glInvTransposeFun g : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k)
+      = ((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k)ᵀ :=
+  rfl
+
+/-- The inverse-transpose monoid hom `GL_N → GL_N`, `g ↦ (g⁻¹)ᵀ`. This is the
+`GL_N`-automorphism that converts Etingof's left action `φ ↦ φ(g⁻¹ ·)` into the
+transpose substitution that `lTransAlgHom` realizes: `lTransAlgHom M` implements
+`Mᵀ`-multiplication, and we want `Mᵀ = g⁻¹`, i.e. `M = (g⁻¹)ᵀ`. -/
+noncomputable def glInvTranspose :
+    Matrix.GeneralLinearGroup (Fin N) k →* Matrix.GeneralLinearGroup (Fin N) k where
+  toFun := glInvTransposeFun
+  map_one' := by
+    apply Units.ext
+    rw [glInvTransposeFun_coe, inv_one, Matrix.GeneralLinearGroup.coe_one, Matrix.transpose_one]
+  map_mul' g₁ g₂ := by
+    apply Units.ext
+    rw [Units.val_mul, glInvTransposeFun_coe, glInvTransposeFun_coe, glInvTransposeFun_coe,
+      mul_inv_rev, Matrix.GeneralLinearGroup.coe_mul, Matrix.transpose_mul]
+
+@[simp] theorem glInvTranspose_coe (g : Matrix.GeneralLinearGroup (Fin N) k) :
+    ((glInvTranspose g : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k)
+      = ((g⁻¹ : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k)ᵀ :=
+  rfl
+
 /-- The left-translation `k`-algebra endomorphism of `O = A[det⁻¹]` attached to
-`g ∈ GL_N`: the localization extension of `lTransAlgHom (g : Matrix)`. -/
+`g ∈ GL_N`, implementing Etingof's action `φ ↦ φ(g⁻¹ ·)`: the localization
+extension of `lTransAlgHom ((g⁻¹)ᵀ)`. Since `lTransAlgHom M` realizes the
+substitution `X_{ij} ↦ (Mᵀ X)_{ij}`, taking `M = (g⁻¹)ᵀ` gives `X ↦ g⁻¹ X`. -/
 noncomputable def localLeftAlgHom (g : Matrix.GeneralLinearGroup (Fin N) k) :
     Localization.Away (detPoly k N) →ₐ[k] Localization.Away (detPoly k N) :=
-  IsLocalization.liftAlgHom (f := lTransToAway (g : Matrix (Fin N) (Fin N) k))
-    (isUnit_lTransToAway_detPoly_pow g)
+  IsLocalization.liftAlgHom
+    (f := lTransToAway ((glInvTranspose g : Matrix.GeneralLinearGroup (Fin N) k) :
+      Matrix (Fin N) (Fin N) k))
+    (isUnit_lTransToAway_detPoly_pow (glInvTranspose g))
 
-/-- `localLeftAlgHom g` extends the left translation on `A`: on the image of
-`a ∈ A` it is `algebraMap (lTransAlgHom (g) a)`. -/
+/-- `localLeftAlgHom g` extends the inverse-transpose left translation on `A`: on
+the image of `a ∈ A` it is `algebraMap (lTransAlgHom ((g⁻¹)ᵀ) a)`. -/
 @[simp] theorem localLeftAlgHom_algebraMap (g : Matrix.GeneralLinearGroup (Fin N) k)
     (a : MvPolynomial (Fin N × Fin N) k) :
     localLeftAlgHom g (algebraMap _ (Localization.Away (detPoly k N)) a)
-      = algebraMap _ _ (lTransAlgHom (g : Matrix (Fin N) (Fin N) k) a) := by
+      = algebraMap _ _ (lTransAlgHom
+          ((glInvTranspose g : Matrix.GeneralLinearGroup (Fin N) k) :
+            Matrix (Fin N) (Fin N) k) a) := by
   simp only [localLeftAlgHom, IsLocalization.coe_liftAlgHom, IsLocalization.lift_eq]
   rfl
 
@@ -134,7 +177,7 @@ theorem localLeftAlgHom_one :
       (algebraMap (MvPolynomial (Fin N × Fin N) k) (Localization.Away (detPoly k N)) a)
     = AlgHom.id k (Localization.Away (detPoly k N))
       (algebraMap (MvPolynomial (Fin N × Fin N) k) (Localization.Away (detPoly k N)) a)
-  rw [localLeftAlgHom_algebraMap, AlgHom.id_apply, Units.val_one, lTransAlgHom_one,
+  rw [localLeftAlgHom_algebraMap, AlgHom.id_apply, map_one, Units.val_one, lTransAlgHom_one,
     AlgHom.id_apply]
 
 /-- Multiplicativity: `localLeftAlgHom (g₁ g₂) = localLeftAlgHom g₁ ∘ localLeftAlgHom g₂`. -/
@@ -152,7 +195,7 @@ theorem localLeftAlgHom_mul (g₁ g₂ : Matrix.GeneralLinearGroup (Fin N) k) :
     = (localLeftAlgHom g₁).comp (localLeftAlgHom g₂)
       (algebraMap (MvPolynomial (Fin N × Fin N) k) (Localization.Away (detPoly k N)) a)
   rw [localLeftAlgHom_algebraMap, AlgHom.comp_apply, localLeftAlgHom_algebraMap,
-    localLeftAlgHom_algebraMap, Units.val_mul, lTransAlgHom_mul, AlgHom.comp_apply]
+    localLeftAlgHom_algebraMap, map_mul, Units.val_mul, lTransAlgHom_mul, AlgHom.comp_apply]
 
 /-- The **left-translation representation of `GL_N` on `O = A[det⁻¹]`**:
 `g ↦ localLeftAlgHom g`. -/
@@ -172,12 +215,15 @@ noncomputable def localLeftRep (k : Type*) [Field k] (N : ℕ) :
     localLeftRep k N g x = localLeftAlgHom g x :=
   rfl
 
-/-- **The structure map `A → O` is left-`GL_N`-equivariant.** -/
+/-- **The structure map `A → O` is left-`GL_N`-equivariant**, where `A` carries
+the inverse-transposed left translation `polyLeftRep (glInvTranspose g)` (so the
+substitution is `X ↦ g⁻¹ X`, matching Etingof's localization action). -/
 theorem localLeftRep_algebraMap (g : Matrix.GeneralLinearGroup (Fin N) k)
     (a : MvPolynomial (Fin N × Fin N) k) :
     localLeftRep k N g (algebraMap _ (Localization.Away (detPoly k N)) a)
-      = algebraMap _ _ (polyLeftRep k N g a) :=
-  localLeftAlgHom_algebraMap g a
+      = algebraMap _ _ (polyLeftRep k N (glInvTranspose g) a) := by
+  rw [polyLeftRep_apply]
+  exact localLeftAlgHom_algebraMap g a
 
 /-! ## The two one-sided actions commute -/
 
@@ -203,7 +249,8 @@ theorem localLeftAlgHom_comp_localRightAlgHom
     localLeftAlgHom_algebraMap, localLeftAlgHom_algebraMap, localRightAlgHom_algebraMap]
   -- reduce to commutation on `A` and apply `lTransAlgHom_comp_rTransAlgHom`
   have hcomm := AlgHom.congr_fun (lTransAlgHom_comp_rTransAlgHom
-    (g : Matrix (Fin N) (Fin N) k) (h : Matrix (Fin N) (Fin N) k)) a
+    ((glInvTranspose g : Matrix.GeneralLinearGroup (Fin N) k) : Matrix (Fin N) (Fin N) k)
+    (h : Matrix (Fin N) (Fin N) k)) a
   rw [AlgHom.comp_apply, AlgHom.comp_apply] at hcomm
   rw [hcomm]
 
@@ -236,5 +283,69 @@ noncomputable def localBiRep (k : Type*) [Field k] (N : ℕ) :
     (x : Localization.Away (detPoly k N)) :
     localBiRep k N (g, h) x = localLeftAlgHom g (localRightAlgHom h x) :=
   rfl
+
+/-! ## Left-translation intertwining for `evalGLAway` -/
+
+/-- Evaluating `lTransAlgHom M p` at `g` coincides with evaluating `p` at the
+product matrix `Mᵀ · g`: the substitution `X_{ij} ↦ ∑_l M_{li} X_{lj}`
+(`lTransAlgHom_X`) followed by `X ↦ g` gives `(Mᵀ·g)_{ij}`. This is the left
+analogue of `eval_rTransAlgHom`. -/
+lemma eval_lTransAlgHom (M g : Matrix (Fin N) (Fin N) k)
+    (p : MvPolynomial (Fin N × Fin N) k) :
+    MvPolynomial.eval (fun ij : Fin N × Fin N => g ij.1 ij.2) (lTransAlgHom M p)
+      = MvPolynomial.eval (fun ij : Fin N × Fin N => (Mᵀ * g) ij.1 ij.2) p := by
+  classical
+  suffices halgs :
+      (MvPolynomial.aeval (fun ij : Fin N × Fin N => g ij.1 ij.2)).comp
+          (lTransAlgHom M) =
+        (MvPolynomial.aeval (fun ij : Fin N × Fin N => (Mᵀ * g) ij.1 ij.2) :
+          MvPolynomial (Fin N × Fin N) k →ₐ[k] k) by
+    have := AlgHom.congr_fun halgs p
+    simpa [AlgHom.comp_apply, MvPolynomial.aeval_eq_eval] using this
+  apply MvPolynomial.algHom_ext
+  rintro ⟨i, j⟩
+  rw [AlgHom.comp_apply, lTransAlgHom_X, map_sum, MvPolynomial.aeval_X, Matrix.mul_apply]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [map_smul, MvPolynomial.aeval_X, smul_eq_mul, Matrix.transpose_apply]
+
+/-- **Left-translation intertwining for `evalGLAway`.** Etingof's left translation
+of the localization element `x ∈ O = A[det⁻¹]` by `g₀ ∈ GL_N`, evaluated at `g`,
+is `x` evaluated at `g₀⁻¹ · g`: `evalGLAway (localLeftRep g₀ x) g = evalGLAway x (g₀⁻¹ · g)`.
+This is the left analogue of `evalGLAway_localRightRep`. -/
+lemma evalGLAway_localLeftRep (g₀ g : Matrix.GeneralLinearGroup (Fin N) k)
+    (x : Localization.Away (detPoly k N)) :
+    evalGLAway (localLeftRep k N g₀ x) g = evalGLAway x (g₀⁻¹ * g) := by
+  -- both sides are ring homs `O →+* k` in `x`; check on `algebraMap A O`.
+  have key : ∀ a : MvPolynomial (Fin N × Fin N) k,
+      evalGLAway (localLeftRep k N g₀
+          (algebraMap (MvPolynomial (Fin N × Fin N) k) _ a)) g
+        = evalGLAway (algebraMap _ _ a) (g₀⁻¹ * g) := by
+    intro a
+    rw [localLeftRep_apply, localLeftAlgHom_algebraMap, evalGLAway_algebraMap,
+      evalGLAway_algebraMap, evalGLHom_apply, evalGLHom_apply]
+    show MvPolynomial.eval (fun ij : Fin N × Fin N => (g : Matrix (Fin N) (Fin N) k) ij.1 ij.2)
+        (lTransAlgHom
+          ((glInvTranspose g₀ : Matrix.GeneralLinearGroup (Fin N) k) :
+            Matrix (Fin N) (Fin N) k) a) = _
+    rw [eval_lTransAlgHom]
+    -- `((g₀⁻¹)ᵀ)ᵀ · g = g₀⁻¹ · g = ↑(g₀⁻¹ * g)`, definitionally.
+    rfl
+  -- package as ring homs and use the localization extension principle.
+  let F : Localization.Away (detPoly k N) →+* k :=
+    (Pi.evalRingHom (fun _ : Matrix.GeneralLinearGroup (Fin N) k => k) g).comp
+      (evalGLAway.comp (localLeftAlgHom g₀).toRingHom)
+  let G : Localization.Away (detPoly k N) →+* k :=
+    (Pi.evalRingHom (fun _ : Matrix.GeneralLinearGroup (Fin N) k => k) (g₀⁻¹ * g)).comp evalGLAway
+  have hFG : F = G := by
+    apply IsLocalization.ringHom_ext (Submonoid.powers (detPoly k N))
+    apply RingHom.ext
+    intro a
+    simp only [F, G, RingHom.comp_apply, Pi.evalRingHom_apply, AlgHom.toRingHom_eq_coe,
+      AlgHom.coe_toRingHom]
+    rw [← localLeftRep_apply]
+    exact key a
+  have hx := RingHom.congr_fun hFG x
+  simpa only [F, G, RingHom.comp_apply, Pi.evalRingHom_apply, AlgHom.toRingHom_eq_coe,
+    AlgHom.coe_toRingHom, ← localLeftRep_apply] using hx
 
 end Etingof.LocalizationGLAction
