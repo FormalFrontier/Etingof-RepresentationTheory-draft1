@@ -355,6 +355,10 @@ as an `S_n`-rep iso (`Chapter5/SpechtBaseChangeComplex.lean`), the working recip
 - `letI hI := …` keeps it transparent (reduces) but **still shadows** — passing your term to a lemma whose signature used the canonical instance gives an "application type mismatch" unless your `letI` body is syntactically the canonical instance.
 - **Fix:** never write the offending notation freshly in the concrete proof. (a) Obtain the goal *by specialization* — `refine polymorphicLemma … ?_` so the `•` in the `?_` goal is substituted from the lemma's signature, not searched. (b) Add an **abstract** `:= rfl` rewrite lemma over a general `V` (where the instance resolves), e.g. `theorem c_smul_eq (f) : c • f = (centralizerToEndA … c).comp f := rfl`, and `simp only [c_smul_eq]` in the concrete proof to eliminate the `•` entirely. The concrete proof then stays instance-notation-free.
 
+### Destructuring an existential with chained instance fields → `letI`, not `haveI`
+
+When you `obtain ⟨ι, _, S, acgS, modkS, …⟩` from a `∃ … (S) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i)) …` and re-register the fields as instances, **`haveI : ∀ i, AddCommGroup (S i) := acgS` makes a *fresh opaque copy* `this`**, but the next field `modkS : ∀ i, @Module k (S i) _ (acgS i)` still mentions the *original* `acgS`. TC then has two incompatible `AddCommMonoid (S i)` paths (`this i` vs `acgS i`) and every downstream `Module`/`DirectSum`/`IsSimpleModule.congr` fails with `Type mismatch … (acgS i) vs (this i)`. **Fix:** use `letI := acgS` (transparent, no type annotation) for the *data* instances (`AddCommGroup`, `Module`, …) so `this i` reduces to `acgS i`; `haveI` is fine for `Prop` instances (`IsSimpleModule`, `IsScalarTower` — proof-irrelevant). Diagnosed in one cycle in #5405 (`SchurWeylPartition.lean`). To expose such a tower for a *submodule* carrier `S i = ↥(S' i)` from the producing theorem, just add `(_ : ∀ i, IsScalarTower k A (S i))` to its existential and discharge with `fun _ => inferInstance`.
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
