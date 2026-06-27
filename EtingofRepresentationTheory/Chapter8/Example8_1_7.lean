@@ -1,6 +1,9 @@
 import Mathlib.Algebra.Module.Projective
 import Mathlib.Algebra.Module.Injective
 import Mathlib.Algebra.Algebra.Tower
+import Mathlib.Algebra.Algebra.Opposite
+import Mathlib.Algebra.Module.Equiv.Opposite
+import Mathlib.LinearAlgebra.Basis.VectorSpace
 import Mathlib.LinearAlgebra.Dual.Defs
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 
@@ -35,11 +38,23 @@ finite dimensional, and it is *mathematically necessary*, not decorative:
 
 ## Proof status
 
-The proof requires two pieces of homological infrastructure not currently in Mathlib:
-Lambek's theorem for the `k`-linear dual (`P` flat ⟺ `Module.Dual k P` injective as a
-right module over an injective cogenerator) and Bass's characterization of perfect rings
-(over a left perfect ring, flat ⟹ projective). It is left as a `sorry` and tracked for
-follow-up; the *statement* is the faithful content of Example 8.1.7.
+The biconditional is still a `sorry`, but the **injective cogenerator** at its heart is now
+available sorry-free as `Etingof.Example817.dual_regular_injective`: for any `k`-algebra `A`,
+the contragredient right module `A* = Module.Dual k A` is injective. This is the `P = A` case
+of the forward implication and the genuine mathematical crux; it is proved directly via Baer's
+criterion plus extension of `k`-functionals, with no tensor product.
+
+The remaining gap to the full biconditional needs:
+* the forward direction for general `P` (pass from `A*` to `P*` via direct summands of free
+  modules: `Module.Injective.pi` for products of duals of free modules, plus a retract lemma);
+* the converse, which over a finite dimensional algebra uses that such algebras are left perfect
+  and that over a left perfect ring flat ⟹ projective (Bass).
+
+Note that the originally planned route through "`P` flat ⟺ `P*` injective" (Lambek for the
+`k`-linear dual) cannot be stated as written: `Module.Flat A P` requires `A` commutative
+(`Module.Flat` is declared over a `CommSemiring`), whereas here `A` is an arbitrary algebra,
+and the balanced tensor product `X ⊗_A P` over a noncommutative `A` is absent from Mathlib.
+The cogenerator route above sidesteps both obstructions.
 -/
 
 namespace Etingof.Example817
@@ -81,6 +96,66 @@ noncomputable instance contragredient : Module Aᵐᵒᵖ (Module.Dual k P) wher
 theorem contragredient_smul_apply (a : Aᵐᵒᵖ) (φ : Module.Dual k P) (p : P) :
     (a • φ) p = φ (a.unop • p) :=
   rfl
+
+/-- The contragredient `Aᵐᵒᵖ`-action and the base `k`-action on `P*` form a scalar tower:
+the `k`-vector space structure on `P*` is the one underlying the contragredient module. -/
+instance contragredient_isScalarTower : IsScalarTower k Aᵐᵒᵖ (Module.Dual k P) where
+  smul_assoc c a φ := by
+    ext p
+    change φ ((c • a).unop • p) = c • φ (a.unop • p)
+    rw [unop_smul, smul_assoc, map_smul]
+
+/-- **The dual of the regular module is injective.** For a `k`-algebra `A`, the contragredient
+right `A`-module `A* = Module.Dual k A` is injective.
+
+This is the injective cogenerator at the heart of Example 8.1.7: it is the special case `P = A`
+of the forward implication "`P` projective ⟹ `P*` injective" (a free module is projective), and
+the general statement is obtained from it by passing to direct summands of free modules.
+
+The proof is Baer's criterion: a right-`A`-linear map `g` from a right ideal `I ⊆ A` into `A*`
+is the same datum as the `k`-functional `x ↦ g(x)(1)` on `I`; since `k` is a field this functional
+extends to all of `A` (`LinearMap.exists_extend`), and the extension `γ'` reconstitutes a
+right-`A`-linear extension `g'(y)(a) = γ'(op a · y)` of `g`. No tensor product is needed. -/
+theorem dual_regular_injective :
+    Module.Injective Aᵐᵒᵖ (Module.Dual k A) := by
+  apply Module.Baer.injective
+  intro I g
+  -- `eval1` : evaluation of a functional at `1`.
+  let eval1 : Module.Dual k A →ₗ[k] k :=
+    { toFun := fun φ => φ 1, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
+  -- the `k`-linear inclusion of the ideal (viewed over `k`) into the ideal.
+  let restr : (I.restrictScalars k) →ₗ[k] I :=
+    { toFun := fun v => ⟨v.1, v.2⟩, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
+  -- `γ` : the underlying `k`-functional on the ideal, `γ x = g x 1`.
+  let γ : (I.restrictScalars k) →ₗ[k] k := eval1 ∘ₗ (g.restrictScalars k) ∘ₗ restr
+  -- Extend `γ` to all of `Aᵐᵒᵖ` since `k` is a field.
+  obtain ⟨γ', hγ'⟩ := γ.exists_extend
+  -- `g'` : the extension, `g' y a = γ' (op a * y)`.
+  refine ⟨{ toFun := fun y =>
+              γ' ∘ₗ (LinearMap.mulRight k y) ∘ₗ (opLinearEquiv k (M := A)).toLinearMap
+            map_add' := fun y z => by ext a; simp [mul_add]
+            map_smul' := fun b y => by
+              ext a
+              simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.mulRight_apply,
+                LinearEquiv.coe_coe, coe_opLinearEquiv, contragredient_smul_apply,
+                RingHom.id_apply, smul_eq_mul]
+              rw [op_mul, op_unop, ← mul_assoc] }, ?_⟩
+  intro x hx
+  ext a
+  simp only [LinearMap.coe_mk, AddHom.coe_mk, LinearMap.coe_comp, Function.comp_apply,
+    LinearMap.mulRight_apply, LinearEquiv.coe_coe, coe_opLinearEquiv]
+  -- `op a * x ∈ I` because `I` is a right ideal of `A`, i.e. a left ideal of `Aᵐᵒᵖ`.
+  have hmem : op a * x ∈ I := I.smul_mem (op a) hx
+  have hext : γ' (op a * x) = g ⟨op a * x, hmem⟩ (1 : A) := by
+    have h1 : γ' (op a * x) = γ ⟨op a * x, hmem⟩ :=
+      LinearMap.congr_fun hγ' (⟨op a * x, hmem⟩ : I.restrictScalars k)
+    rw [h1]; rfl
+  rw [hext]
+  have hsm : (⟨op a * x, hmem⟩ : I) = (op a) • (⟨x, hx⟩ : I) := by
+    apply Subtype.ext; rfl
+  rw [hsm, map_smul, contragredient_smul_apply]
+  change g ⟨x, hx⟩ (a • (1 : A)) = g ⟨x, hx⟩ a
+  rw [smul_eq_mul, mul_one]
 
 end Etingof.Example817
 
