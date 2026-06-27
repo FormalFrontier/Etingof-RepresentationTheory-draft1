@@ -85,6 +85,56 @@ end Untwist
 
 variable {k : Type*} [Field k] [IsAlgClosed k] [CharZero k]
 
+/-- **Both `det^s`-twisted contragredient models land on a common Schur module
+(analytic core).** For a large enough determinant twist `det^s`, there is a single
+non-negative weight `ν` such that *both* twisted models are `GL_n`-equivariantly
+isomorphic to the bare Schur module `SchurModuleSubmodule k n ν` (action
+`schurModuleRep k n ν`):
+
+* the Schur-module contragredient `L_{w₀λ}` twisted by `det^s` (carrier
+  `AlgIrrepGLDual n lam k`, action `charTwistRep (det^s) algIrrepGLRepDualρ`), and
+* the linear dual `L_λ^∨` twisted by `det^s` (carrier
+  `Module.Dual k (AlgIrrepGL n lam k)`, action `charTwistRep (det^s) (ρ.dual)`).
+
+This bundles the entire analytic content of the contragredient identity. The
+intended route applies the GL char→iso keystone `iso_of_formalCharacter_eq_schurPoly`
+(`SchurWeylFormalCharacterIso.lean`) to each twisted model: both are polynomial
+(algebraic, with spanning `ℕ`-weight spaces) with formal character `schurPoly N ν`,
+so each is identified with the *same* Schur module `SchurModuleSubmodule k n ν`.
+
+Two facts feed the character computation (each warrants its own sub-issue):
+
+* (a) `formalCharacter (ρ.dual)` is `formalCharacter ρ` read at inverse torus weights
+  (the dual rep negates weights);
+* (b) the inverted-variable Schur identity `s_λ(x⁻¹)·(x₁⋯x_n)^s = s_{w₀λ+s}(x)`, which
+  makes the `det^s`-twisted dual character a genuine Schur polynomial.
+
+The `det^s`-twisted Schur-module side is the easier half: for `s ≥ (lam.w0Twist).shift`
+it is the determinant-shift of a Schur module, identified with a Schur module by
+iterating Proposition 5.22.2 (`schurModule_shift_iso_detTwist`). The hard half is the
+linear-dual side, which needs (a) and (b).
+
+Once this common model is available, the equivariant equivalence
+`AlgIrrepGLDual ≃ₗ Module.Dual` is obtained by composing the two identifications
+(`exists_detTwist_equivariantEquiv_dual`, sorry-free below).
+
+Sorried pending facts (a) and (b); tracked in
+https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5526. -/
+theorem exists_common_schurModule_model_detTwist_dual (n : ℕ) (lam : DominantWeight n)
+    (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] :
+    ∃ (s : ℕ) (ν : Fin n → ℕ),
+      Nonempty
+        { e : AlgIrrepGLDual n lam k ≃ₗ[k] SchurModuleSubmodule k n ν //
+          ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGLDual n lam k),
+            e (charTwistRep (detChar k n ^ s) (algIrrepGLRepDualρ n lam k) g v)
+              = schurModuleRep k n ν g (e v) }
+      ∧ Nonempty
+        { e : Module.Dual k (AlgIrrepGL n lam k) ≃ₗ[k] SchurModuleSubmodule k n ν //
+          ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : Module.Dual k (AlgIrrepGL n lam k)),
+            e (charTwistRep (detChar k n ^ s) ((algIrrepGLRepρ n lam k).dual) g v)
+              = schurModuleRep k n ν g (e v) } := by
+  sorry
+
 /-- **The `det^s`-twisted models of the contragredient agree (character input).**
 For a large enough determinant twist `det^s`, the Schur-module contragredient
 `L_{w₀λ}` (carrier `AlgIrrepGLDual n lam k`, action `algIrrepGLRepDualρ`) and the
@@ -111,7 +161,17 @@ theorem exists_detTwist_equivariantEquiv_dual (n : ℕ) (lam : DominantWeight n)
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGLDual n lam k),
           e (charTwistRep (detChar k n ^ s) (algIrrepGLRepDualρ n lam k) g v)
             = charTwistRep (detChar k n ^ s) ((algIrrepGLRepρ n lam k).dual) g (e v) } := by
-  sorry
+  -- Both twisted models land on the same bare Schur module `L_ν` (action
+  -- `schurModuleRep k n ν`), via the analytic core. Compose the two identifications:
+  -- `AlgIrrepGLDual --eA--> L_ν --eB.symm--> Module.Dual`.
+  obtain ⟨s, ν, ⟨eA, heA⟩, ⟨eB, heB⟩⟩ :=
+    exists_common_schurModule_model_detTwist_dual n lam k
+  refine ⟨s, ⟨eA.trans eB.symm, ?_⟩⟩
+  intro g v
+  -- `eB` is injective, so it suffices to compare after applying `eB`.
+  apply eB.injective
+  rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, eB.apply_symm_apply,
+    heA g v, heB g (eB.symm (eA v)), eB.apply_symm_apply]
 
 /-- **The contragredient identity `L*_λ ≅ L_λ^∨` for `GL_n`.** A `GL_n`-equivariant
 `k`-linear isomorphism identifying the Schur-module realization of the
