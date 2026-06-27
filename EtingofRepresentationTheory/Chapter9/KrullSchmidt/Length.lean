@@ -49,13 +49,15 @@ Consequently the **additivity** of `clength` over short exact sequences,
 clength S.X₂ = clength S.X₁ + clength S.X₃,
 ```
 
-is the genuine categorical Jordan–Hölder content and is the hard part of this link. It is stated
-here (top-down) and its proof — which requires either wiring `JordanHolderLattice` onto
-`Subobject X` or a direct Schreier-refinement argument, together with finiteness of the height in a
-finite abelian category — is left as a documented `sorry`, tracked as a follow-up issue. The
-`clength_eq_zero` characterisation is proved in the (unconditional) "zero ⇒ length zero"
-direction; its converse, and positivity for nonzero objects, both require the same finiteness
-input and are likewise isolated.
+is the genuine categorical Jordan–Hölder content and is the hard part of this link. It is now
+**proved** (`clength_additive`), sorry-free, as `le_antisymm` of the two one-sided bounds:
+`clength_add_le` (the modularity-free lower bound, via the down-interval isomorphism
+`height_mk_eq_height_top` and the epi-side inequality `height_top_le_coheight_kernel`) and
+`clength_le_add` (the Schreier-refinement upper bound, via the order-reflecting embedding
+`Subobject X₂ ↪ Subobject X₁ × Subobject X₃` of `Φ_reflecting` and the product-order height bound
+`height_prod_le`). Finiteness of the height in a finite abelian category comes from the §9.6
+standing assumption recorded as `FiniteDimensionalOrder (Subobject X)`. The
+`clength_eq_zero` characterisation is likewise proved in both directions.
 
 This top-down split lets the downstream consumers (existence-of-decomposition and Fitting's-lemma
 sub-issues of #5153) build against the final `clength` API immediately.
@@ -68,6 +70,9 @@ open CategoryTheory CategoryTheory.Limits
 namespace Etingof
 
 variable {C : Type u} [Category.{v} C] [IsFiniteAbelianCategory C]
+
+attribute [local instance] CategoryTheory.Abelian.Pseudoelement.objectToSort
+  CategoryTheory.Abelian.Pseudoelement.homToFun CategoryTheory.Abelian.Pseudoelement.overToSort
 
 /-- The **composition length** of an object `X` of a finite abelian category: the height of the
 top element of the subobject lattice `Subobject X`. For a finite-length object this equals the
@@ -247,6 +252,41 @@ private theorem height_add_coheight_le_height_top {α : Type*} [Preorder α] [Or
       ≤ Order.height ((p₁.smash p₂ hconnect).last) := Order.length_le_height_last
     _ ≤ Order.height (⊤ : α) := Order.height_mono le_top
 
+/-- **Product-order height bound.** In a product of preorders the height of a pair is at most the
+sum of the heights of its coordinates. A strictly increasing chain ending at `(a, b)` grows by a
+strict step in at least one coordinate at each link (`Prod.lt_iff`), so its length is bounded by the
+heights of `a` and `b` together. This is the pure order-theoretic half of the categorical
+Jordan–Hölder upper bound: composed with the order-reflecting embedding
+`Subobject X₂ ↪ Subobject X₁ × Subobject X₃` it yields
+`height ⊤(X₂) ≤ height ⊤(X₁) + height ⊤(X₃)`. -/
+private theorem height_prod_le {α : Type*} {β : Type*} [Preorder α] [Preorder β] (a : α) (b : β) :
+    Order.height ((a, b) : α × β) ≤ Order.height a + Order.height b := by
+  apply Order.height_le
+  intro p hlast
+  suffices h : ∀ q : LTSeries (α × β),
+      (q.length : ℕ∞) ≤ Order.height (q.last).1 + Order.height (q.last).2 by
+    have hp := h p
+    rw [hlast] at hp
+    exact hp
+  intro q
+  induction q using RelSeries.inductionOn' with
+  | singleton x => simp
+  | snoc p x hx ih =>
+    rw [RelSeries.snoc_length, RelSeries.last_snoc]
+    have hx' : p.last < x := hx
+    push_cast
+    rcases Prod.lt_iff.mp hx' with ⟨h1, h2⟩ | ⟨h1, h2⟩
+    · calc (p.length : ℕ∞) + 1
+          ≤ (Order.height (p.last).1 + Order.height (p.last).2) + 1 := add_le_add ih le_rfl
+        _ = (Order.height (p.last).1 + 1) + Order.height (p.last).2 := by rw [add_right_comm]
+        _ ≤ Order.height x.1 + Order.height x.2 :=
+              add_le_add (Order.height_add_one_le h1) (Order.height_mono h2)
+    · calc (p.length : ℕ∞) + 1
+          ≤ (Order.height (p.last).1 + Order.height (p.last).2) + 1 := add_le_add ih le_rfl
+        _ = Order.height (p.last).1 + (Order.height (p.last).2 + 1) := by rw [add_assoc]
+        _ ≤ Order.height x.1 + Order.height x.2 :=
+              add_le_add (Order.height_mono h1) (Order.height_add_one_le h2)
+
 /-- Pulling the bottom subobject back along `g` recovers the kernel subobject: `g⁻¹(0) = ker g`.
 The forward inclusion is `le_kernelSubobject` (the pullback arrow composes to `0`); the reverse
 is the pullback universal property (`IsPullback.lift`) applied to the kernel inclusion and the zero
@@ -350,33 +390,144 @@ private theorem clength_add_le {S : ShortComplex C} (hS : S.ShortExact) :
   rw [← ENat.toNat_add h1 h3]
   exact ENat.toNat_le_toNat (height_top_add_le hS) h2
 
+/-- **Pseudoelement membership in a pullback subobject.** If a pseudoelement `x : X` and a
+pseudoelement `b` of a subobject `y` of `Y` agree after pushing into `Y` (`y.arrow b = f x`), then
+`x` comes from a pseudoelement of the preimage subobject `(pullback f).obj y`. This is the lift
+across the pullback square `Subobject.isPullback f y`, transported to the concrete limit cone via
+`IsPullback.isoPullback` so that `Abelian.Pseudoelement.pseudo_pullback` applies. -/
+private theorem mem_pullback_obj {X Y : C} (f : X ⟶ Y) (y : Subobject Y) {x : X} {b : (y : C)}
+    (h : y.arrow b = f x) :
+    ∃ w : ((Subobject.pullback f).obj y : C), ((Subobject.pullback f).obj y).arrow w = x := by
+  obtain ⟨s, _, hs2⟩ := Abelian.Pseudoelement.pseudo_pullback h
+  refine ⟨(Subobject.isPullback f y).isoPullback.inv s, ?_⟩
+  rw [← Abelian.Pseudoelement.comp_apply, IsPullback.isoPullback_inv_snd]
+  exact hs2
+
+/-- **Order-reflecting step of the Schreier embedding.** For a short exact sequence
+`0 → X₁ →ᶠ X₂ →ᵍ X₃ → 0` and subobjects `A ≤ B` of `X₂`, if `A` and `B` have the same preimage along
+`f` (`(pullback f).obj A = (pullback f).obj B`) and the same image along `g`
+(`imageSubobject (A.arrow ≫ g) = imageSubobject (B.arrow ≫ g)`), then `B ≤ A`, hence `A = B`.
+
+This is the genuine categorical (second-isomorphism-theorem) content. We show the inclusion
+`ι := ofLE A B` is epi by a pseudoelement chase: a pseudoelement `b` of `B` has `g (B.arrow b)` in
+the common image, so `g (A.arrow a₀) = g (B.arrow b)` for some `a₀` of `A`; the "difference"
+`z` (`Abelian.Pseudoelement.sub_of_eq_image`) satisfies `g z = 0`, so `z ∈ im f = ker g`, and lies
+in `B`; the preimage equality then forces `z ∈ A`, whence `B.arrow b ∈ A` and `ι` is surjective on
+pseudoelements. Epi + mono = iso gives `B ≤ A`. -/
+private theorem Φ_reflecting {S : ShortComplex C} (hS : S.ShortExact) {A B : Subobject S.X₂}
+    (hAB : A ≤ B) (h1 : (Subobject.pullback S.f).obj A = (Subobject.pullback S.f).obj B)
+    (h2 : imageSubobject (A.arrow ≫ S.g) = imageSubobject (B.arrow ≫ S.g)) :
+    B ≤ A := by
+  haveI := hS.mono_f
+  set ι : (A : C) ⟶ (B : C) := Subobject.ofLE A B hAB with hι
+  haveI : Mono ι := mono_of_mono_fac (Subobject.ofLE_arrow hAB)
+  -- It suffices to show `ι` is epi: then it is an iso and `B ≤ A`.
+  suffices hEpi : Epi ι by
+    haveI := hEpi
+    haveI : IsIso ι := isIso_of_mono_of_epi ι
+    exact Subobject.le_of_comm (inv ι)
+      (by rw [← Subobject.ofLE_arrow hAB, IsIso.inv_hom_id_assoc])
+  apply Abelian.Pseudoelement.epi_of_pseudo_surjective
+  intro b
+  -- Reduce `∃ a, ι a = b` to `∃ a, A.arrow a = B.arrow b`.
+  suffices hh : ∃ a, A.arrow a = B.arrow b by
+    obtain ⟨a, ha⟩ := hh
+    refine ⟨a, ?_⟩
+    apply Abelian.Pseudoelement.pseudo_injective_of_mono B.arrow
+    rw [← Abelian.Pseudoelement.comp_apply, hι, Subobject.ofLE_arrow, ha]
+  -- Step 1: `g (B.arrow b)` lies in `image (A.arrow ≫ g)`; extract `a₀`.
+  have hle : imageSubobject (B.arrow ≫ S.g) ≤ imageSubobject (A.arrow ≫ S.g) := h2.ge
+  obtain ⟨a₀, ha₀⟩ := Abelian.Pseudoelement.pseudo_surjective_of_epi
+    (factorThruImageSubobject (A.arrow ≫ S.g))
+    (Subobject.ofLE _ _ hle (factorThruImageSubobject (B.arrow ≫ S.g) b))
+  have hgeq : S.g (A.arrow a₀) = S.g (B.arrow b) := by
+    have lhs : (A.arrow ≫ S.g) a₀
+        = (imageSubobject (A.arrow ≫ S.g)).arrow
+            (factorThruImageSubobject (A.arrow ≫ S.g) a₀) := by
+      rw [← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]
+    have rhs : (B.arrow ≫ S.g) b
+        = (imageSubobject (B.arrow ≫ S.g)).arrow
+            (factorThruImageSubobject (B.arrow ≫ S.g) b) := by
+      rw [← Abelian.Pseudoelement.comp_apply, imageSubobject_arrow_comp]
+    have e : (A.arrow ≫ S.g) a₀ = (B.arrow ≫ S.g) b := by
+      rw [lhs, rhs, ha₀, ← Abelian.Pseudoelement.comp_apply, Subobject.ofLE_arrow]
+    rwa [Abelian.Pseudoelement.comp_apply, Abelian.Pseudoelement.comp_apply] at e
+  -- Step 2: form the "difference" `z` with `g z = 0`.
+  obtain ⟨z, hz0, hzprop⟩ :=
+    Abelian.Pseudoelement.sub_of_eq_image S.g (B.arrow b) (A.arrow a₀) hgeq.symm
+  -- `cokernel.π A.arrow` kills `A.arrow a₀`.
+  have hcAA0 : (cokernel.π A.arrow) (A.arrow a₀) = 0 := by
+    rw [← Abelian.Pseudoelement.comp_apply, cokernel.condition,
+      Abelian.Pseudoelement.zero_apply]
+  -- So `cokernel.π A.arrow (B.arrow b) = cokernel.π A.arrow z`.
+  have hbz : (cokernel.π A.arrow) (B.arrow b) = (cokernel.π A.arrow) z :=
+    (hzprop _ (cokernel.π A.arrow) hcAA0).symm
+  -- Step 3: `z ∈ B`.
+  have hcBA0 : (cokernel.π B.arrow) (A.arrow a₀) = 0 := by
+    have hAa : A.arrow a₀ = B.arrow (ι a₀) := by
+      rw [← Abelian.Pseudoelement.comp_apply, hι, Subobject.ofLE_arrow]
+    rw [hAa, ← Abelian.Pseudoelement.comp_apply, cokernel.condition,
+      Abelian.Pseudoelement.zero_apply]
+  have hzB : (cokernel.π B.arrow) z = 0 := by
+    rw [hzprop _ (cokernel.π B.arrow) hcBA0, ← Abelian.Pseudoelement.comp_apply,
+      cokernel.condition, Abelian.Pseudoelement.zero_apply]
+  obtain ⟨b', hb'⟩ := Abelian.Pseudoelement.pseudo_exact_of_exact
+    (ShortComplex.cokernelSequence_exact B.arrow) z hzB
+  -- Step 4: `z ∈ A`, using `g z = 0` (so `z ∈ im f`) and the preimage equality `h1`.
+  have hcAz : (cokernel.π A.arrow) z = 0 := by
+    obtain ⟨x₁, hx₁⟩ := Abelian.Pseudoelement.pseudo_exact_of_exact hS.exact z hz0
+    have hcone : B.arrow b' = S.f x₁ := hb'.trans hx₁.symm
+    obtain ⟨w, hw⟩ := mem_pullback_obj S.f B hcone
+    have hw'arrow : ((Subobject.pullback S.f).obj A).arrow (Subobject.ofLE _ _ h1.ge w) = x₁ := by
+      rw [← Abelian.Pseudoelement.comp_apply, Subobject.ofLE_arrow, hw]
+    have ha' : A.arrow (Subobject.pullbackπ S.f A (Subobject.ofLE _ _ h1.ge w)) = z := by
+      rw [← Abelian.Pseudoelement.comp_apply, (Subobject.isPullback S.f A).w,
+        Abelian.Pseudoelement.comp_apply, hw'arrow, hx₁]
+    rw [← ha', ← Abelian.Pseudoelement.comp_apply, cokernel.condition,
+      Abelian.Pseudoelement.zero_apply]
+  -- Conclude `B.arrow b ∈ A`.
+  have hfin : (cokernel.π A.arrow) (B.arrow b) = 0 := by rw [hbz, hcAz]
+  exact Abelian.Pseudoelement.pseudo_exact_of_exact
+    (ShortComplex.cokernelSequence_exact A.arrow) (B.arrow b) hfin
+
 /-- **Upper bound (lengths)** — the genuine Schreier half of categorical Jordan–Hölder.
 `clength X₂ ≤ clength X₁ + clength X₃` for a short exact sequence `0 → X₁ →ᶠ X₂ →ᵍ X₃ → 0`.
 
-The lower bound (`clength_add_le`) is now fully proved from the down-interval isomorphism
-`height_mk_eq_height_top` and the epi-side inequality `height_top_le_coheight_kernel`, both
-modularity-free. The reverse inequality is the irreducible Schreier-refinement content that Mathlib
-lacks (`Mathlib/CategoryTheory/Noetherian.lean` flags Stacks-`0FCK` as future work): in a general
-finite-dimensional order `height ⊤ ≤ height a + coheight a` is *false*, so this direction genuinely
-needs the subobject-lattice structure of an abelian category, not just order theory.
-
-**Route.** The map `Φ : Subobject X₂ → Subobject X₁ × Subobject X₃`,
-`Φ B = ((Subobject.pullback S.f).obj B, imageSubobject (B.arrow ≫ S.g))`, is monotone in both
-coordinates and *order-reflecting*: for `A' ≤ B'` with
-`(pullback S.f).obj A' = (pullback S.f).obj B'`
-and `imageSubobject (A'.arrow ≫ S.g) = imageSubobject (B'.arrow ≫ S.g)`, a diagram chase
-(pseudoelements via `Abelian.Pseudoelement.sub_of_eq_image`, or the second isomorphism theorem from
-the snake lemma `Mathlib.Algebra.Homology.ShortComplex.SnakeLemma`) gives `B' ≤ A'`, so `A' = B'`.
-Monotone + reflecting makes `Φ` strictly monotone, so `height ⊤(X₂) ≤ height (Φ ⊤)` in the product
-order, and `height` of a product is bounded by the sum of the factor heights, giving
-`height ⊤(X₂) ≤ height ⊤(X₁) + height ⊤(X₃)`; `ENat.toNat` then transports this to `clength`.
-
-Isolated as the single remaining sorry of the additivity crux (tracked as issue #5520); the
-reflecting lemma (the categorical content) and the product-order height bound (pure order theory)
-are the two clean sub-pieces. -/
+The map `Φ B = ((pullback f).obj B, imageSubobject (B.arrow ≫ g)) : Subobject X₂ → Subobject X₁ ×
+Subobject X₃` is monotone in both coordinates and order-reflecting (`Φ_reflecting`), hence strictly
+monotone. So `height ⊤(X₂) ≤ height (Φ ⊤)` (`height_le_height_apply_of_strictMono`), and the
+product-order bound `height_prod_le` together with monotonicity of `height` gives
+`height ⊤(X₂) ≤ height ⊤(X₁) + height ⊤(X₃)`; `ENat.toNat` transports this to `clength`. -/
 private theorem clength_le_add {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ ≤ clength S.X₁ + clength S.X₃ := by
-  sorry
+  haveI := hS.mono_f
+  set Φ : Subobject S.X₂ → Subobject S.X₁ × Subobject S.X₃ :=
+    fun B => ((Subobject.pullback S.f).obj B, imageSubobject (B.arrow ≫ S.g)) with hΦ
+  have hmono : Monotone Φ := by
+    intro A B hAB
+    refine Prod.mk_le_mk.mpr ⟨leOfHom ((Subobject.pullback S.f).map (homOfLE hAB)), ?_⟩
+    have he : A.arrow ≫ S.g = Subobject.ofLE A B hAB ≫ (B.arrow ≫ S.g) := by
+      rw [← Category.assoc, Subobject.ofLE_arrow]
+    rw [he]
+    exact imageSubobject_comp_le _ _
+  have hsm : StrictMono Φ := by
+    intro A B hAB
+    refine lt_of_le_of_ne (hmono hAB.le) ?_
+    intro hEq
+    exact absurd (le_antisymm hAB.le
+      (Φ_reflecting hS hAB.le (congrArg Prod.fst hEq) (congrArg Prod.snd hEq))) (ne_of_lt hAB)
+  have hheight : Order.height (⊤ : Subobject S.X₂)
+      ≤ Order.height (⊤ : Subobject S.X₁) + Order.height (⊤ : Subobject S.X₃) :=
+    calc Order.height (⊤ : Subobject S.X₂)
+        ≤ Order.height (Φ ⊤) := Order.height_le_height_apply_of_strictMono Φ hsm ⊤
+      _ ≤ Order.height (Φ ⊤).1 + Order.height (Φ ⊤).2 := height_prod_le _ _
+      _ ≤ Order.height (⊤ : Subobject S.X₁) + Order.height (⊤ : Subobject S.X₃) :=
+          add_le_add (Order.height_mono le_top) (Order.height_mono le_top)
+  have h1 : Order.height (⊤ : Subobject S.X₁) ≠ ⊤ := height_top_lt_top.ne
+  have h3 : Order.height (⊤ : Subobject S.X₃) ≠ ⊤ := height_top_lt_top.ne
+  simp only [clength]
+  rw [← ENat.toNat_add h1 h3]
+  exact ENat.toNat_le_toNat hheight (WithTop.add_ne_top.mpr ⟨h1, h3⟩)
 
 /-- **Additivity of composition length over short exact sequences** — the Krull–Schmidt crux.
 
@@ -554,9 +705,6 @@ at the stabilising power `n`, the image restriction
 on pseudoelements: `g'` is injective because `im (fⁿ) = im (f^{2n})` and `ker (fⁿ) = ker (f^{2n})`
 force any element killed by `g'` to vanish, and surjective because `im (fⁿ) = im (f^{2n})` lets every
 element of `im (fⁿ)` be hit. -/
-
-attribute [local instance] CategoryTheory.Abelian.Pseudoelement.objectToSort
-  CategoryTheory.Abelian.Pseudoelement.homToFun CategoryTheory.Abelian.Pseudoelement.overToSort
 
 /-- The kernel-subobject inclusion `ker g ↪ X → Y` is an exact short complex. -/
 private theorem exact_kernelSubobject_arrow {Y Z : C} (g : Y ⟶ Z) :
