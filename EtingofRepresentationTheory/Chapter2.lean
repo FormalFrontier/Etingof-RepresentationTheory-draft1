@@ -61,6 +61,7 @@ import EtingofRepresentationTheory.Chapter2.Example2_9_13
 
 -- Section 2.11-2.12: Tensor Products, Symmetric/Exterior Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_11_1
+import EtingofRepresentationTheory.Chapter2.Remark2_11_4
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
 
 -- Section 2.14: Tensor/Dual Representations of Lie Algebras

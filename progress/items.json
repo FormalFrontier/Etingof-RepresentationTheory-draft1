@@ -1178,9 +1178,9 @@
   "start_line": 16,
   "end_line": 11,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "Book generalizes the tensor product to V ⊗_A W for a ring A, V a right A-module, W a left A-module (quotient of the free abelian group on v⊗w by the bilinearity relations and the balancing relation...",
-  "fidelity_decl": "(none)",
+  "fidelity": "verified",
+  "fidelity_note": "Formalized in Chapter2/Remark2_11_4.lean: Etingof.TensorProductOverRing A V W constructs V ⊗_A W for an arbitrary ring A (right A-module V, left A-module W) as the quotient of FreeAbelianGroup (V × W) by the bilinearity and balancing relations (tensorRelations). The three book relations are discharged as add_tmul, tmul_add, smul_tmul. Not in Mathlib: TensorProduct requires CommSemiring.",
+  "fidelity_decl": "Etingof.TensorProductOverRing",
   "fidelity_issue": 5366
  },
  {
