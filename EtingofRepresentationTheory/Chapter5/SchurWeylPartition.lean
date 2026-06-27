@@ -212,6 +212,81 @@ theorem Theorem5_18_4_partition_decomposition
       Nonempty (TensorPower k V n ≃ₗ[k]
         DirectSum (Nat.Partition n)
           (fun p => S p ⊗[k] L p)) := by
-  sorry
+  classical
+  obtain ⟨ι, fι, dι, S, acgS, modkS, modAS, towS, simpS, distS, finS,
+      L, acgL, modkL, modBL, simpL, hLdist, ⟨iso⟩⟩ :=
+    Theorem5_18_4_bimodule_decomposition_full k V n
+  haveI := fι; haveI := dι
+  letI := acgS
+  letI := modkS
+  letI := modAS
+  haveI := towS
+  haveI := simpS
+  haveI := finS
+  letI := acgL
+  letI := modkL
+  letI := modBL
+  haveI := simpL
+  -- the Specht labelling
+  have hcard : Fintype.card ι ≤ Fintype.card (Nat.Partition n) :=
+    card_le_card_partition k V n S distS
+  obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le hcard
+  -- the fibre over each partition: empty or a singleton
+  set Fib : Nat.Partition n → Type := fun p => { i : ι // e i = p } with hFib
+  haveI fibSub : ∀ p, Subsingleton (Fib p) := fun p =>
+    ⟨fun a b => Subtype.ext (e.injective (a.2.trans b.2.symm))⟩
+  -- the partition-indexed families: direct sums over the fibres
+  refine ⟨fun p => ⨁ j : Fib p, S j.1, fun _ => inferInstance, fun _ => inferInstance,
+    fun _ => inferInstance, fun p => ⨁ j : Fib p, L j.1,
+    fun _ => inferInstance, fun _ => inferInstance, fun _ => inferInstance, ?_, ?_, ?_, ?_⟩
+  · -- each `S' p` is simple or subsingleton
+    intro p
+    by_cases hp : Nonempty (Fib p)
+    · haveI : Nonempty (Fib p) := hp
+      haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
+      exact Or.inl (IsSimpleModule.congr
+        (directSumUniqueEquiv (R := symGroupImage k V n) (fun j : Fib p => S j.1)))
+    · rw [not_nonempty_iff] at hp
+      haveI : IsEmpty (Fib p) := hp
+      exact Or.inr inferInstance
+  · -- each `L' p` is simple or subsingleton
+    intro p
+    by_cases hp : Nonempty (Fib p)
+    · haveI : Nonempty (Fib p) := hp
+      haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hp)
+      exact Or.inl (IsSimpleModule.congr
+        (directSumUniqueEquiv (R := diagonalActionImage k V n) (fun j : Fib p => L j.1)))
+    · rw [not_nonempty_iff] at hp
+      haveI : IsEmpty (Fib p) := hp
+      exact Or.inr inferInstance
+  · -- distinctness of the nonzero `L' p`
+    rintro p q hp_nss ⟨f⟩
+    have hpne : Nonempty (Fib p) := by
+      by_contra h
+      rw [not_nonempty_iff] at h
+      haveI : IsEmpty (Fib p) := h
+      exact hp_nss inferInstance
+    haveI : Nonempty (Fib p) := hpne
+    haveI : Unique (Fib p) := uniqueOfSubsingleton (Classical.choice hpne)
+    have hqne : Nonempty (Fib q) := by
+      by_contra h
+      rw [not_nonempty_iff] at h
+      haveI : IsEmpty (Fib q) := h
+      haveI : Subsingleton (⨁ j : Fib q, L j.1) := inferInstance
+      exact hp_nss ⟨fun a b => f.injective (Subsingleton.elim (f a) (f b))⟩
+    haveI : Nonempty (Fib q) := hqne
+    haveI : Unique (Fib q) := uniqueOfSubsingleton (Classical.choice hqne)
+    let eqp := directSumUniqueEquiv (R := diagonalActionImage k V n) (fun j : Fib p => L j.1)
+    let eqq := directSumUniqueEquiv (R := diagonalActionImage k V n) (fun j : Fib q => L j.1)
+    have hidx := hLdist (default : Fib p).1 (default : Fib q).1 ⟨eqp.symm ≪≫ₗ f ≪≫ₗ eqq⟩
+    calc p = e (default : Fib p).1 := (default : Fib p).2.symm
+      _ = e (default : Fib q).1 := by rw [hidx]
+      _ = q := (default : Fib q).2
+  · -- the decomposition iso
+    refine ⟨iso ≪≫ₗ ?_⟩
+    refine DirectSum.lequivCongrLeft k (Equiv.sigmaFiberEquiv (e : ι → Nat.Partition n)).symm
+      ≪≫ₗ directSumSigmaLequiv (R := k) (fun p (j : Fib p) => S j.1 ⊗[k] L j.1)
+      ≪≫ₗ directSumCongrRight (fun p =>
+        (directSumTensorSubsingleton (fun j : Fib p => S j.1) (fun j : Fib p => L j.1)).symm)
 
 end Etingof
