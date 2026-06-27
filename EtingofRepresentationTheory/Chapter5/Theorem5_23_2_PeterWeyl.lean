@@ -171,25 +171,107 @@ theorem nonempty_equivariantEquiv_of_bijective
     exact peterWeylMap_equivariant n k g h x
   exact ⟨e.symm, he.symm⟩
 
-/-- **Injectivity of the assembled matrix-coefficient map** — distinct-irreducible
-orthogonality (Schur orthogonality across summands). The kernel of `peterWeylMap` is a
-`GL_n × GL_n`-subrepresentation of `⊕_λ L*_λ ⊗ L_λ`; since the `L_λ` are pairwise
-non-isomorphic (`algIrrepGLRep_isSimple` makes each `L_λ` simple, so `L*_λ ⊗ L_λ` is a
-multiplicity-free family of `GL_n × GL_n`-irreducibles via the external tensor), that
-kernel is a sub-sum of the summands, hence trivial once `peterWeylMap` is shown nonzero on
-each summand. Per-summand nontriviality comes from the nondegenerate contragredient pairing
-(`algIrrepDualPairing_nondegenerate`) evaluated through the faithful functions-on-`GL` model
-(`evalGLAway_peterWeylSummandMap`): the matrix coefficients `g ↦ ⟨u, ρ_λ(g) v⟩` of a single
-irreducible `L_λ` are linearly independent.
+/-- **Assembly lemma (pure linear algebra): a direct-sum coproduct is injective when each
+summand map is injective and their ranges are independent.** If `f i : N i →ₗ M` is injective
+for every `i` and the family of ranges `range (f i)` is `iSupIndep`, then the coproduct
+`DirectSum.toModule R ι M f : (⨁ i, N i) →ₗ M` is injective.
 
-This is one of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The
-present proof obligation is the cross-summand linear independence; the within-summand and
-across-summand orthogonality currently rest on the simplicity infrastructure
-(`algIrrepGLRep_isSimple`, presently `ℂ`-only and degree-constrained, with the general route
-tracked in `progress/schurModule-isSimple-general-route.md`). Tracked as issue #5549. -/
-theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
-    Function.Injective (peterWeylMap n k) := by
+Proof: corestrict each `f i` to its range, `f i = (range (f i)).subtype ∘ rangeRestrict (f i)`.
+Then `toModule R ι M f = (lsum (subtype)) ∘ (mapRange rangeRestrict)`. The right factor is
+injective because each `rangeRestrict (f i)` is (injectivity of `f i`); the left factor is
+injective by `iSupIndep.dfinsupp_lsum_injective`. This is the structural skeleton of
+Peter-Weyl injectivity: the two genuinely representation-theoretic facts it consumes are the
+per-summand injectivity and the independence of the ranges. -/
+theorem injective_toModule_of_iSupIndep_range
+    {R : Type*} [Ring R] {ι : Type*} [DecidableEq ι]
+    {N : ι → Type*} [∀ i, AddCommGroup (N i)] [∀ i, Module R (N i)]
+    {M : Type*} [AddCommGroup M] [Module R M]
+    (f : ∀ i, N i →ₗ[R] M) (hf : ∀ i, Function.Injective (f i))
+    (hindep : iSupIndep (fun i => LinearMap.range (f i))) :
+    Function.Injective (DirectSum.toModule R ι M f) := by
+  -- `f i` factors as `subtype ∘ rangeRestrict`.
+  have hfeq : (fun i => ((LinearMap.range (f i)).subtype).comp ((f i).rangeRestrict)) = f := by
+    funext i; exact LinearMap.subtype_comp_codRestrict (f i) _ _
+  -- `toModule f = (lsum subtype) ∘ (mapRange rangeRestrict)` pointwise.
+  have hcomp : ∀ x, DirectSum.toModule R ι M f x
+      = (DFinsupp.lsum ℕ (fun i => (LinearMap.range (f i)).subtype))
+          (DFinsupp.mapRange.linearMap (fun i => (f i).rangeRestrict) x) := by
+    intro x
+    rw [DFinsupp.sum_mapRange_index.linearMap, hfeq]
+    rfl
+  -- Left factor injective: ranges are independent.
+  have h1 : Function.Injective
+      (DFinsupp.lsum ℕ (fun i => (LinearMap.range (f i)).subtype)) :=
+    hindep.dfinsupp_lsum_injective
+  -- Right factor injective: each corestriction is injective.
+  have h2 : Function.Injective
+      (DFinsupp.mapRange.linearMap (fun i => (f i).rangeRestrict)) := by
+    have hcoe : ⇑(DFinsupp.mapRange.linearMap (fun i => (f i).rangeRestrict))
+        = DFinsupp.mapRange (fun i => ⇑((f i).rangeRestrict)) (fun i => map_zero _) := rfl
+    rw [hcoe, DFinsupp.mapRange_injective]
+    refine fun i => LinearMap.ker_eq_bot.mp ?_
+    rw [LinearMap.ker_rangeRestrict]
+    exact LinearMap.ker_eq_bot.mpr (hf i)
+  intro a b hab
+  apply h2
+  apply h1
+  rw [← hcomp, ← hcomp, hab]
+
+/-- **Per-summand injectivity (within-summand Schur orthogonality / Burnside density).**
+The single-irreducible matrix-coefficient map `peterWeylSummandMap n lam k : L*_λ ⊗ L_λ →ₗ R`,
+`u ⊗ v ↦ (g ↦ ⟨u, ρ_λ(g) v⟩)`, is injective: the matrix coefficients of one irreducible are
+linearly independent.
+
+Read through the faithful functions-on-`GL` model `evalGLAway_peterWeylSummandMap`, a nonzero
+`z = ∑ uᵢ ⊗ vᵢ` in the kernel gives a linear functional `T ↦ ∑ ⟨uᵢ, T vᵢ⟩` on `End_k(L_λ)`
+that vanishes on every `ρ_λ(g)`; by Burnside density (the image of the group algebra in
+`End_k(L_λ)` is everything, since `L_λ` is simple and `k` is algebraically closed —
+`Module.Finite.toModuleEnd_moduleEnd_surjective`) the functional vanishes on all of
+`End_k(L_λ)`, and nondegeneracy of the contragredient pairing
+(`algIrrepDualPairing_nondegenerate`) forces `z = 0`.
+
+BLOCKED: the Burnside/nondegeneracy route currently rests on `algIrrepGLRep_isSimple`, which is
+`ℂ`-only and degree-constrained (`∑ lam.toNatWeight ≤ n`); the general-`k`, all-weights
+generalization is tracked in `progress/schurModule-isSimple-general-route.md` (issue #4946). -/
+theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (lam : DominantWeight n) :
+    Function.Injective (peterWeylSummandMap n lam k) := by
   sorry
+
+/-- **Cross-summand independence (distinct-irreducible Schur orthogonality).** The ranges of
+the per-summand maps `peterWeylSummandMap n lam k` (the matrix coefficients of `L_λ` inside `R`)
+form an `iSupIndep` family: matrix coefficients of pairwise non-isomorphic irreducibles are
+linearly independent across distinct weights.
+
+Equivariantly, each range is the `GL_n × GL_n`-isotypic component for the simple external-tensor
+module `L*_λ ⊗ L_λ`; distinct `λ` give non-isomorphic simples (distinguished by formal
+character / highest weight), so the isotypic components are independent. This is the
+across-summand half of Peter-Weyl orthogonality.
+
+BLOCKED: rests on simplicity and non-isomorphism of the `L_λ`, i.e. on `algIrrepGLRep_isSimple`
+(presently `ℂ`-only, `∑ lam.toNatWeight ≤ n`) and the external-tensor simplicity of
+`L*_λ ⊗ L_λ` as a `GL_n × GL_n`-module; general route in
+`progress/schurModule-isSimple-general-route.md` (issue #4946). -/
+theorem peterWeylSummandMap_range_iSupIndep
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
+    iSupIndep (fun lam => LinearMap.range (peterWeylSummandMap n lam k)) := by
+  sorry
+
+/-- **Injectivity of the assembled matrix-coefficient map** — distinct-irreducible
+orthogonality (Schur orthogonality across summands). `peterWeylMap` is the direct-sum coproduct
+`DirectSum.toModule` of the per-summand maps `peterWeylSummandMap`; by the pure-linear-algebra
+assembly `injective_toModule_of_iSupIndep_range` it is injective once each per-summand map is
+injective (`peterWeylSummandMap_injective`, within-summand Burnside density) and the ranges are
+independent (`peterWeylSummandMap_range_iSupIndep`, across-summand orthogonality).
+
+This is one of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The two
+representation-theoretic inputs both currently rest on the simplicity infrastructure
+(`algIrrepGLRep_isSimple`, presently `ℂ`-only and degree-constrained, with the general route
+tracked in `progress/schurModule-isSimple-general-route.md`, issue #4946). Tracked as #5549. -/
+theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
+    Function.Injective (peterWeylMap n k) :=
+  injective_toModule_of_iSupIndep_range _
+    (peterWeylSummandMap_injective n k) (peterWeylSummandMap_range_iSupIndep n k)
 
 /-- **Surjectivity of the assembled matrix-coefficient map** — the Cauchy decomposition of
 `R = k[gᵢⱼ][1/det]`: every regular function on `GL_n` is a finite sum of matrix coefficients.
