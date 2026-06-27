@@ -148,33 +148,18 @@ The `←` direction is `clength_eq_zero_of_isZero`. The `→` direction needs th
 `Subobject.nontrivial_of_not_isZero`). That finiteness is the same categorical Jordan–Hölder input
 as `clength_additive`; see the module doc.
 
-**Definitional gap.** This finiteness is *not* available from `IsFiniteAbelianCategory` alone: that
-class only requires `Abelian`, `EnoughProjectives`, and finitely many simple objects up to
-isomorphism — it does **not** require every object to have finite length. (Concretely, the category
-of all modules over `k[x]/(x²)` satisfies the class — one simple `k`, enough projectives — yet has
-infinite-length objects, for which `clength = 0` while the object is nonzero, falsifying the `→`
-direction.) The missing ingredient is the finite-length condition, currently carried separately by
-`HasFiniteLength` / `IsFiniteAbelianCategoryOverField`. Discharging this `→` direction therefore
-first requires routing that condition into the `clength` API; tracked as a follow-up issue (#5324).
-
-**Math already discharged.** The mathematical content of the `→` direction is complete and unconditional
-in `clength_eq_zero_iff_of_finiteDimensionalOrder` above, which assumes exactly the order-theoretic
-finite-length condition `FiniteDimensionalOrder (Subobject X)`. All that remains for #5324 is *wiring*:
-make that condition available from the ambient category. Two faithful options:
-* carry `Etingof.IsFiniteAbelianCategoryOverField` (which already supplies `finiteLength : ∀ X,
-  HasFiniteLength X`, the §9.6 standing assumption), and prove `HasFiniteLength X →
-  FiniteDimensionalOrder (Subobject X)` (base cases `finiteDimensionalOrder_subobject_of_isZero` and
-  the simple case are immediate; the short-exact extension step is the `clength_additive` crux below);
-* or add the finite-length standing assumption to `IsFiniteAbelianCategory` itself (no instance of that
-  class is hand-constructed in the project, so this is non-breaking) — but note Etingof's Definition
-  9.6.1 proper is just "enough projectives + finitely many simples"; finite length is the *section*
-  standing assumption (`Introduction_9.6`), so this is a definition-fidelity call for a planner. -/
-theorem clength_eq_zero_iff {X : C} : clength X = 0 ↔ IsZero X := by
-  refine ⟨?_, clength_eq_zero_of_isZero⟩
-  -- The `→` math is `clength_eq_zero_iff_of_finiteDimensionalOrder`; it needs finiteness of
-  -- `Order.height (⊤ : Subobject X)`, which `IsFiniteAbelianCategory` does not currently supply
-  -- (see docstring above). #5324 wires the §9.6 finite-length standing assumption in.
-  sorry
+**Finiteness routing (#5324).** This finiteness is *not* derivable from the bare data of an abelian
+category with enough projectives and finitely many simples: that data does **not** force every
+object to have finite length. (Concretely, the category of all modules over `k[x]/(x²)` has one
+simple `k` and enough projectives yet has infinite-length objects, for which `clength = 0` while the
+object is nonzero, falsifying the `→` direction.) The missing ingredient is the §9.6
+finite-length standing assumption, which `Etingof.IsFiniteAbelianCategory` now records
+order-theoretically as `FiniteDimensionalOrder (Subobject X)` for every object `X` (see
+`Definition9_6_1.lean`). That instance is in scope here, so the unconditional statement follows
+immediately from `clength_eq_zero_iff_of_finiteDimensionalOrder`, whose proof is the honest `→`
+math. -/
+theorem clength_eq_zero_iff {X : C} : clength X = 0 ↔ IsZero X :=
+  clength_eq_zero_iff_of_finiteDimensionalOrder
 
 /-- A nonzero object has positive composition length.
 
