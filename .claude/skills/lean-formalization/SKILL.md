@@ -327,6 +327,29 @@ cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻�
 transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
 `G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
 
+### Contragredient dual `Module.Dual k P` needs a hand-rolled `IsScalarTower` (Ch8 duality, #5475)
+
+The contragredient right-`A`-action on `P* = Module.Dual k P` (`(a • φ) p = φ (a.unop • p)`,
+modelled as `Module Aᵐᵒᵖ (Module.Dual k P)`) is a *custom* instance, so Lean does **not**
+automatically know `IsScalarTower k Aᵐᵒᵖ (Module.Dual k P)`. Any `g.restrictScalars k` /
+`LinearMap.map_smul_of_tower` on a map into (or out of) the dual then fails with
+`failed to synthesize LinearMap.CompatibleSMul … k Aᵐᵒᵖ`. **Fix:** register it once —
+```
+instance : IsScalarTower k Aᵐᵒᵖ (Module.Dual k P) where
+  smul_assoc c a φ := by ext p; change φ ((c • a).unop • p) = c • φ (a.unop • p);
+                         rw [unop_smul, smul_assoc, map_smul]
+```
+(`unop` is `k`-linear, `IsScalarTower k A P` gives `smul_assoc` on `P`, `φ` is `k`-linear).
+Then `restrictScalars` works. **Injective cogenerator pattern (Example 8.1.7, #5475):**
+`Module.Dual k A` (dual of the regular module) is injective as a right `A`-module — prove it
+with `Module.Baer.injective`: a right-`A`-linear `g : I → A*` from a right ideal is the
+`k`-functional `x ↦ g x 1`; extend that over `k` with `LinearMap.exists_extend` (field), and
+rebuild the right-`A`-linear extension as `g' y a = γ' (op a * y)`. No tensor product needed.
+This is the achievable, well-typed core of "flat ⟺ dual injective": the literal
+`Module.Flat A P` is **ill-typed** for noncommutative `A` (`Module.Flat` is over a
+`CommSemiring`), and the balanced tensor `X ⊗_A P` over noncommutative `A` is absent from
+Mathlib — do not chase that route. Worked example: `Chapter8/Example8_1_7.lean`.
+
 ### Scalar extension `ℂ ⊗_ℚ k[S_n]·c_λ ≅ ℂ[S_n]·c_λ` (Specht rational form, #5234)
 
 To prove the base-change compatibility "`SpechtModuleK ℂ` is the complexification of `SpechtModuleK ℚ`"
