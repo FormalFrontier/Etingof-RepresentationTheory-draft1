@@ -5,6 +5,7 @@ import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 import Mathlib.Algebra.DirectSum.Module
 import Mathlib.Analysis.Complex.Polynomial.Basic
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
+import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 
 /-!
 # Complete reducibility of finite-dimensional `sl(2)`-representations (Problem 2.15.1(h)–(k))
@@ -54,8 +55,9 @@ reduction (an indecomposable finite-dimensional module is `≅ V_λ`), remain fo
 
 The final complete-reducibility statement `complete_reducibility` is recorded here
 in its cleanest equivalent form — *every `sl(2)`-submodule of a finite-dimensional
-module has an `sl(2)`-complement* — with the proof left as `sorry` pending the
-(h)–(k) assembly, which is being tracked as dependency-ordered follow-up issues.
+module has an `sl(2)`-complement* — and discharged from `Theorem_2_1_1_ii`
+(Etingof Theorem 2.1.1(ii)), the project's sorry-free Casimir-argument proof that the
+lattice of `sl(2)`-submodules of a finite-dimensional module is complemented.
 
 The Casimir computations rely only on the `sl(2)`-triple bracket relations
 `⁅E,F⁆ = H`, `⁅H,E⁆ = 2E`, `⁅H,F⁆ = -2F` (`Sl2Irrep.lie_e_f` etc.) and the Leibniz
@@ -384,8 +386,9 @@ end Indecomposable
 The statement of complete reducibility, recorded in its cleanest equivalent form for a
 finite-dimensional module: every `sl(2)`-submodule has an `sl(2)`-complement (this is
 the meaning of "semisimple"; for finite-dimensional modules it is equivalent to being a
-direct sum of irreducibles, hence of `V_λ`'s by the classification (f)). The proof, by
-the book's Casimir argument (h)–(k), is left as `sorry` and tracked as follow-up. -/
+direct sum of irreducibles, hence of `V_λ`'s by the classification (f)). The proof is
+read off from `Theorem_2_1_1_ii`, the project's sorry-free proof of the same fact via
+the book's Casimir argument (h)–(k). -/
 
 section CompleteReducibility
 
@@ -397,14 +400,18 @@ variable {M : Type*} [AddCommGroup M] [Module ℂ M] [FiniteDimensional ℂ M]
 `sl(2)`-module `M` has an `sl(2)`-complement `N'` (`IsCompl N N'`). Equivalently, `M`
 is a direct sum of irreducible subrepresentations, each isomorphic to some `V_λ`.
 
-The intended proof is the book's elementary Casimir argument: reduce to showing an
-indecomposable finite-dimensional `sl(2)`-module is irreducible, using that the
-generalized eigenspaces of the central Casimir operator `casimir M` are
-subrepresentations (parts (h)–(k)), with `casimir_highest_weight` /
-`casimir_lowest_weight` as the eigenvalue inputs. -/
+The book's elementary Casimir argument — reduce to showing an indecomposable
+finite-dimensional `sl(2)`-module is irreducible, using that the generalized
+eigenspaces of the central Casimir operator `casimir M` are subrepresentations
+(parts (h)–(k)), with `casimir_highest_weight` / `casimir_lowest_weight` as the
+eigenvalue inputs — is carried out in this project as `Theorem_2_1_1_ii`
+(Etingof Theorem 2.1.1(ii), `Chapter2/Theorem2_1_1.lean`), which establishes that
+the lattice of `sl(2)`-submodules of a finite-dimensional module is complemented.
+We read off the complement of a single submodule from that. -/
 theorem complete_reducibility (N : LieSubmodule ℂ sl2 M) :
-    ∃ N' : LieSubmodule ℂ sl2 M, IsCompl N N' := by
-  sorry
+    ∃ N' : LieSubmodule ℂ sl2 M, IsCompl N N' :=
+  haveI : ComplementedLattice (LieSubmodule ℂ sl2 M) := Theorem_2_1_1_ii M
+  exists_isCompl N
 
 end CompleteReducibility
 
