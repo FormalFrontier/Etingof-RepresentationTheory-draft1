@@ -79,6 +79,16 @@ theorem isEquivariant_of_charTwist (c : G →* kˣ)
   rw [charTwistRep_apply, charTwistRep_apply, map_smul] at h
   exact smul_right_injective W₂ (Units.ne_zero (c g)) h
 
+/-- **Composing two character twists.** Twisting a representation by the character
+`c₂` and then by `c₁` is the same as twisting once by the product character
+`c₁ * c₂`: each twist multiplies the action by a scalar, and scalars compose. This
+collapses the stacked `det^s ∘ det^{-(shift:ℤ)}` twists on `algIrrepGLRepDualρ` into
+a single `det`-power twist. -/
+theorem charTwistRep_charTwistRep (c₁ c₂ : G →* kˣ) (ρ : Representation k G W₁) :
+    charTwistRep c₁ (charTwistRep c₂ ρ) = charTwistRep (c₁ * c₂) ρ := by
+  ext g v
+  simp only [charTwistRep_apply, MonoidHom.mul_apply, Units.val_mul, smul_smul]
+
 end Untwist
 
 /-! ## The contragredient identity -/
@@ -118,7 +128,25 @@ Once this common model is available, the equivariant equivalence
 `AlgIrrepGLDual ≃ₗ Module.Dual` is obtained by composing the two identifications
 (`exists_detTwist_equivariantEquiv_dual`, sorry-free below).
 
-Sorried pending facts (a) and (b); tracked in
+**Status / decomposition.** Facts (a) and (b) are now closed:
+(a) `formalCharacter_dual_coeff_eq` (`FormalCharacterDual.lean`, #5533) and
+(b) `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`, #5534). The reusable glue
+`charTwistRep_charTwistRep` (above, sorry-free) collapses the stacked
+`det^s ∘ det^{-(shift:ℤ)}` twists into a single `det`-power twist. The remaining
+assembly is split into two halves:
+
+* the Schur-module half (keystone-free; iterate Prop 5.22.2) — issue #5543;
+* the linear-dual half (keystone `iso_of_formalCharacter_eq_schurPoly` consuming
+  (a)+(b)) — issue #5544.
+
+**The shared-`ν` crux.** The two halves must land on the *same* `ν`. The Schur half
+naturally yields `ν_Schur = (lam.w0Twist).toNatWeight + t` (with `s = t + (lam.w0Twist).shift`),
+while the dual half via (b) yields `ν_dual = w0ShiftWeight n lam.toNatWeight s`. A naive
+comparison gives `ν_dual = ν_Schur - lam.shift` (the `algIrrepGLRepρ` factor carries a
+`det^{-lam.shift}` twist), so `s` must be chosen to absorb *both* `(lam.w0Twist).shift`
+and `lam.shift`. Do not guess `s`/`ν`: a wrong choice sorries a false sub-statement.
+
+Sorried pending the two-half assembly (#5543, #5544); tracked in
 https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5526. -/
 theorem exists_common_schurModule_model_detTwist_dual (n : ℕ) (lam : DominantWeight n)
     (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] :
