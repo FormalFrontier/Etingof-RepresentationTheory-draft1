@@ -79,6 +79,16 @@ theorem isEquivariant_of_charTwist (c : G →* kˣ)
   rw [charTwistRep_apply, charTwistRep_apply, map_smul] at h
   exact smul_right_injective W₂ (Units.ne_zero (c g)) h
 
+/-- **Composing two character twists.** Twisting a representation by the character
+`c₂` and then by `c₁` is the same as twisting once by the product character
+`c₁ * c₂`: each twist multiplies the action by a scalar, and scalars compose. This
+collapses the stacked `det^s ∘ det^{-(shift:ℤ)}` twists on `algIrrepGLRepDualρ` into
+a single `det`-power twist. -/
+theorem charTwistRep_charTwistRep (c₁ c₂ : G →* kˣ) (ρ : Representation k G W₁) :
+    charTwistRep c₁ (charTwistRep c₂ ρ) = charTwistRep (c₁ * c₂) ρ := by
+  ext g v
+  simp only [charTwistRep_apply, MonoidHom.mul_apply, Units.val_mul, smul_smul]
+
 end Untwist
 
 /-! ## The contragredient identity -/
