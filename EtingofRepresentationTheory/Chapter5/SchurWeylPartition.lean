@@ -1,0 +1,155 @@
+import EtingofRepresentationTheory.Chapter5.SchurWeylBimoduleFull
+import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
+
+/-!
+# Schur-Weyl duality, part (iii): partition-indexed decomposition
+
+This file finishes Schur-Weyl duality by re-indexing the abstract bimodule
+decomposition `Theorem5_18_4_bimodule_decomposition_full` by partitions of `n`,
+giving the book's statement `Theorem5_18_4_partition_decomposition` (Etingof
+Theorem 5.18.4(iii) / Corollary 5.19.2), sorry-free.
+
+The one genuinely missing piece is the **Specht labelling**: an injection
+`ι ↪ Nat.Partition n` of the abstract index set into partitions of `n`. It exists
+as soon as `Fintype.card ι ≤ Fintype.card (Nat.Partition n)`. Each simple summand
+`Sᵢ`, restricted along the surjection `k[Sₙ] ↠ symGroupImage`, is a simple
+`k[Sₙ]`-module, and over an algebraically closed field of characteristic `0` there
+are at most `|ConjClasses (Perm (Fin n))| ≤ p(n)` of those
+(`Etingof.card_le_card_conjClasses'` repackaging `Etingof.Corollary4_2_2`). Given the
+embedding, re-index the full bimodule decomposition (zero summands on partitions
+outside the image) to obtain the statement.
+-/
+
+open scoped TensorProduct
+open Etingof
+
+namespace Etingof
+
+universe u v
+
+variable (k : Type u) [Field k]
+  (V : Type v) [AddCommGroup V] [Module k V] [Module.Finite k V]
+  (n : ℕ)
+
+/-! ### `|ConjClasses(Sₙ)| ≤ p(n)` (reconstructed from the private proof in
+`Theorem5_12_2_Distinct`). -/
+
+/-- The cycle-type map `ConjClasses(Sₙ) → Nat.Partition n`. -/
+private def conjClassToPartition :
+    ConjClasses (Equiv.Perm (Fin n)) → Nat.Partition n :=
+  Quotient.lift
+    (fun σ => (Fintype.card_fin n) ▸ σ.partition)
+    (fun _ _ h => congrArg (Fintype.card_fin n ▸ ·) (Equiv.Perm.partition_eq_of_isConj.mp h))
+
+private lemma conjClassToPartition_injective :
+    Function.Injective (conjClassToPartition n) := by
+  intro a b h
+  obtain ⟨a, rfl⟩ := a.mk_surjective
+  obtain ⟨b, rfl⟩ := b.mk_surjective
+  change (Fintype.card_fin n ▸ a.partition) = (Fintype.card_fin n ▸ b.partition) at h
+  rw [ConjClasses.mk_eq_mk_iff_isConj]
+  apply Equiv.Perm.partition_eq_of_isConj.mpr
+  have : ∀ (m : ℕ) (hm : m = n) (p q : m.Partition),
+      (hm ▸ p : Nat.Partition n) = (hm ▸ q : Nat.Partition n) → p = q := by
+    intro m hm; subst hm; intro p q hpq; exact hpq
+  exact this _ (Fintype.card_fin n) _ _ h
+
+/-- `|ConjClasses(Sₙ)| ≤ |Nat.Partition n|`, via the injection by cycle type. -/
+private lemma card_conjClasses_le_card_partition :
+    Fintype.card (ConjClasses (Equiv.Perm (Fin n))) ≤ Fintype.card (Nat.Partition n) :=
+  Fintype.card_le_of_injective _ (conjClassToPartition_injective n)
+
+/-! ### The surjection `k[Sₙ] ↠ symGroupImage`. -/
+
+/-- The corestriction of `symGroupAlgHom` to its image `symGroupImage k V n`, as a
+surjective `k`-algebra homomorphism `k[Sₙ] →ₐ[k] ↥(symGroupImage k V n)`. -/
+noncomputable def symGroupAlgHomToImage :
+    MonoidAlgebra k (Equiv.Perm (Fin n)) →ₐ[k] ↥(symGroupImage k V n) :=
+  AlgHom.codRestrict (symGroupAlgHom k V n) (symGroupImage k V n)
+    (fun a => by rw [← symGroupAlgHom_range]; exact ⟨a, rfl⟩)
+
+theorem symGroupAlgHomToImage_val (a : MonoidAlgebra k (Equiv.Perm (Fin n))) :
+    (symGroupAlgHomToImage k V n a : Module.End k (TensorPower k V n)) =
+      symGroupAlgHom k V n a := rfl
+
+theorem symGroupAlgHomToImage_surjective :
+    Function.Surjective (symGroupAlgHomToImage k V n) := by
+  intro b
+  obtain ⟨a, ha⟩ : (b : Module.End k (TensorPower k V n)) ∈ (symGroupAlgHom k V n).range := by
+    rw [symGroupAlgHom_range]; exact b.prop
+  exact ⟨a, Subtype.ext ha⟩
+
+/-! ### The cardinality bound `Fintype.card ι ≤ p(n)`. -/
+
+/-- `n!` is invertible in a characteristic-zero field; packaged as the
+`Invertible (Fintype.card (Perm (Fin n)) : k)` instance needed for Corollary 4.2.2. -/
+noncomputable instance invertible_card_perm [CharZero k] :
+    Invertible (Fintype.card (Equiv.Perm (Fin n)) : k) := by
+  apply invertibleOfNonzero
+  rw [Fintype.card_perm, Fintype.card_fin]
+  exact Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
+
+/-- **The crux.** For any family of pairwise non-isomorphic simple
+`symGroupImage k V n`-modules (finite over `k`) indexed by a `Fintype` `ι`, we have
+`card ι ≤ p(n)`. Restricting along the surjection `k[Sₙ] ↠ symGroupImage` turns each
+into a simple `k[Sₙ]`-module, and there are at most `|ConjClasses(Sₙ)| ≤ p(n)` of
+those (Corollary 4.2.2). -/
+theorem card_le_card_partition [IsAlgClosed k] [CharZero k]
+    {ι : Type} [Fintype ι]
+    (S : ι → Type*) [∀ i, AddCommGroup (S i)] [∀ i, Module k (S i)]
+    [∀ i, Module.Finite k (S i)]
+    [∀ i, Module (symGroupImage k V n) (S i)]
+    [∀ i, IsScalarTower k (symGroupImage k V n) (S i)]
+    [∀ i, IsSimpleModule (symGroupImage k V n) (S i)]
+    (hdist : ∀ i j, Nonempty (S i ≃ₗ[symGroupImage k V n] S j) → i = j) :
+    Fintype.card ι ≤ Fintype.card (Nat.Partition n) := by
+  set q := symGroupAlgHomToImage k V n with hq
+  have hq_surj := symGroupAlgHomToImage_surjective k V n
+  -- restrict scalars along `q : k[Sₙ] →ₐ symGroupImage`
+  letI modS : ∀ i, Module (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+    Module.compHom (S i) q.toRingHom
+  have hsmul : ∀ (i) (r : MonoidAlgebra k (Equiv.Perm (Fin n))) (x : S i),
+      r • x = q r • x := fun i r x => rfl
+  haveI towS : ∀ i, IsScalarTower k (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i => by
+    refine ⟨fun c r x => ?_⟩
+    rw [hsmul, hsmul, map_smul, smul_assoc]
+  haveI : RingHomSurjective q.toRingHom := ⟨hq_surj⟩
+  haveI simpS : ∀ i, IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) (S i) := fun i =>
+    isSimpleModule_of_surjective_ringHom q.toRingHom (hsmul i)
+  have hdist' : ∀ i j,
+      Nonempty (S i ≃ₗ[MonoidAlgebra k (Equiv.Perm (Fin n))] S j) → i = j := by
+    intro i j ⟨f⟩
+    refine hdist i j ⟨?_⟩
+    refine { f.toAddEquiv with map_smul' := fun a x => ?_ }
+    obtain ⟨r, rfl⟩ := hq_surj a
+    change f (q r • x) = q r • f x
+    rw [← hsmul, ← hsmul, f.map_smul]
+  calc Fintype.card ι
+      ≤ Fintype.card (ConjClasses (Equiv.Perm (Fin n))) :=
+        card_le_card_conjClasses' (k := k) (G := Equiv.Perm (Fin n)) S hdist'
+    _ ≤ Fintype.card (Nat.Partition n) := card_conjClasses_le_card_partition n
+
+/-! ### The partition-indexed decomposition. -/
+
+/-- Schur-Weyl duality: partition-indexed decomposition of `V^⊗n`. -/
+theorem Theorem5_18_4_partition_decomposition
+    [IsAlgClosed k] [CharZero k]
+    (hN : n ≤ Module.finrank k V) :
+    ∃ (S : Nat.Partition n → Type (max u v))
+      (_ : ∀ p, AddCommGroup (S p))
+      (_ : ∀ p, Module k (S p))
+      (_ : ∀ p, Module (symGroupImage k V n) (S p))
+      (L : Nat.Partition n → Type (max u v))
+      (_ : ∀ p, AddCommGroup (L p))
+      (_ : ∀ p, Module k (L p))
+      (_ : ∀ p, Module (diagonalActionImage k V n) (L p)),
+      (∀ p, IsSimpleModule (symGroupImage k V n) (S p) ∨ Subsingleton (S p)) ∧
+      (∀ p, IsSimpleModule (diagonalActionImage k V n) (L p) ∨ Subsingleton (L p)) ∧
+      (∀ p q, ¬ Subsingleton (L p) →
+        Nonempty (L p ≃ₗ[diagonalActionImage k V n] L q) → p = q) ∧
+      Nonempty (TensorPower k V n ≃ₗ[k]
+        DirectSum (Nat.Partition n)
+          (fun p => S p ⊗[k] L p)) := by
+  sorry
+
+end Etingof

@@ -347,73 +347,13 @@ theorem Theorem5_18_4_decomposition
   exact ⟨ι, hι, hι_dec, V', W',
     hV'_acg, hV'_mod, hV'_Amod, hV'_simp, hW'_acg, hW'_mod, ⟨e⟩⟩
 
-/-- Schur-Weyl duality: partition-indexed decomposition of V^⊗n.
-
-As an `(A ⊗[k] B)`-module (with `A = symGroupImage k V n` and
-`B = diagonalActionImage k V n`),
-  `V^⊗n ≅ ⨁_{λ ⊢ n} V_λ ⊗[k] L_λ`,
-where the sum ranges over partitions `λ` of `n`, each `V_λ` is the Specht
-module for `λ` (a simple `A`-module, or zero when `λ` does not appear), and
-each `L_λ` is a distinct irreducible `B`-module (an irreducible polynomial
-`GL(V)`-representation), or zero. This is the book's exact statement of
-Theorem 5.18.4(iii) / Corollary 5.19.2, indexed by `Nat.Partition n`.
-
-The existential carries the genuine content the book asserts:
-* each `S p` (= `V_λ`) carries a `Module (symGroupImage k V n)`-structure and
-  is simple or zero (`IsSimpleModule … ∨ Subsingleton`);
-* each `L p` (= `L_λ`) carries a `Module (diagonalActionImage k V n)`-structure
-  and is simple (irreducible) or zero;
-* distinct partitions give non-isomorphic nonzero `L p`;
-* the `k`-linear iso decomposes `V^⊗n` as `⨁_p S p ⊗[k] L p`.
-
-**Why a genuine restatement was needed.** The previous proof here was
-sorry-free but *vacuous*: it re-indexed the abstract decomposition along the
-constant map `fun _ => Classical.arbitrary (Nat.Partition n)` and set
-`L p := k`, collapsing all of `V^⊗n` onto one arbitrary partition with every
-other summand zero. No `Module A`, `Module B`, simplicity, or distinctness
-constraint linked `S p`/`L p` to `p`, so the statement held for *any* nonzero
-`V^⊗n` and said nothing about partitions. See issue #5326.
-
-**Proof strategy (the genuinely missing dependency).** Start from
-`Theorem5_18_4_bimodule_decomposition_full` (in `SchurWeylBimoduleFull.lean`),
-whose index set `ι` enumerates the distinct simple `A = symGroupImage`-modules
-appearing in `V^⊗n`, and which now carries the *full* `B`-side content
-sorry-free: each multiplicity space `Lᵢ` is a simple `diagonalActionImage`-module
-and the `Lᵢ` are pairwise non-isomorphic. The only remaining content is the
-re-indexing by an injection `ι ↪ Nat.Partition n`, which exists as soon as
-`Fintype.card ι ≤ Fintype.card (Nat.Partition n)`: each simple summand `Sᵢ`,
-restricted along the surjection `k[Sₙ] ↠ symGroupImage`, is a simple
-`k[Sₙ]`-module, and over an algebraically closed field of characteristic `0`
-there are at most `|ConjClasses (Perm (Fin n))| ≤ p(n)` of those
-(`Etingof.Corollary4_2_2`, general-`k`). Given the embedding, re-index the
-full bimodule decomposition (zero summands on partitions outside the image) to
-obtain the statement below. Proving that cardinality bound is the open piece;
-the proof is `sorry` until it lands. -/
-theorem Theorem5_18_4_partition_decomposition
-    [IsAlgClosed k] [CharZero k]
-    (hN : n ≤ Module.finrank k V) :
-    ∃ (S : Nat.Partition n → Type (max u v))
-      (_ : ∀ p, AddCommGroup (S p))
-      (_ : ∀ p, Module k (S p))
-      (_ : ∀ p, Module (symGroupImage k V n) (S p))
-      (L : Nat.Partition n → Type (max u v))
-      (_ : ∀ p, AddCommGroup (L p))
-      (_ : ∀ p, Module k (L p))
-      (_ : ∀ p, Module (diagonalActionImage k V n) (L p)),
-      -- each Specht summand `S p` is a simple `A`-module or zero
-      (∀ p, IsSimpleModule (symGroupImage k V n) (S p) ∨ Subsingleton (S p)) ∧
-      -- each `L p` is an irreducible `B`-module or zero
-      (∀ p, IsSimpleModule (diagonalActionImage k V n) (L p) ∨ Subsingleton (L p)) ∧
-      -- distinct partitions give non-isomorphic nonzero `L p`
-      (∀ p q, ¬ Subsingleton (L p) →
-        Nonempty (L p ≃ₗ[diagonalActionImage k V n] L q) → p = q) ∧
-      Nonempty (TensorPower k V n ≃ₗ[k]
-        DirectSum (Nat.Partition n)
-          (fun p => S p ⊗[k] L p)) := by
-  -- Requires the Specht labelling of the simple `symGroupImage`-modules
-  -- (`ι ↪ Nat.Partition n`) to re-index `Theorem5_18_4_bimodule_decomposition`.
-  -- See the docstring and issue #5326.
-  sorry
+-- The partition-indexed form of Schur-Weyl duality,
+-- `Theorem5_18_4_partition_decomposition`, is proved sorry-free in
+-- `EtingofRepresentationTheory.Chapter5.SchurWeylPartition`. It cannot live here:
+-- its proof re-indexes `Theorem5_18_4_bimodule_decomposition_full`
+-- (in `SchurWeylBimoduleFull.lean`, which imports this file) along an injection
+-- `ι ↪ Nat.Partition n` obtained from the cardinality bound
+-- `Fintype.card ι ≤ Fintype.card (Nat.Partition n)`. See issue #5405.
 
 -- Heartbeat bumps match `Theorem5_18_1_bimodule_decomposition`: the deep
 -- `Subalgebra → Ring → Module.End` instance chain plus the `h_eq ▸` transport
