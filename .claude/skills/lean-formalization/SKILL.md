@@ -3621,6 +3621,37 @@ vacuous `IsSemisimpleModule k` (k-vector-space) semisimplicity:
   `t • ρ g y`). Then `IsSimpleModule.congr`. Mathlib's
   `Subrepresentation.{asSubmodule, ofSubmodule', subrepresentationSubmoduleOrderIso}`
   give the order iso between subrepresentations and `Submodule k[G] ρ.asModule`.
+  **Cleaner reusable build of that same `↥σ.asSubmodule ≃ₗ[k[G]] σ.toRepresentation.asModule`
+  bridge** (no by-hand `map_smul'`, #5487 `asSubmodule_semisimple_of_toRep`,
+  `Chapter5/PolynomialGLSemisimple.lean`): the inclusion `σ.toSubmodule.subtype` is a
+  `k`-intertwiner `σ.toRepresentation → ρ` (`hf := fun _ _ => rfl`), so
+  `Representation.asModuleHomOfIntertwiner σ.toSubmodule.subtype hf` is a `k[G]`-linear
+  `σ.toRepresentation.asModule →ₗ[k[G]] ρ.asModule`, injective (its function *is* `subtype`
+  via `asModuleHomOfIntertwiner_apply`, so `Subtype.coe_injective`), with
+  `LinearMap.range = σ.asSubmodule` (`SetLike.ext`; `mem_range ↔ ∈ σ.toSubmodule ↔
+  mem_asSubmodule_iff`). `(LinearEquiv.ofInjective F _).trans (LinearEquiv.ofEq _ _ hrange)`
+  then `IsSemisimpleModule.congr`. NB `LinearEquiv.refl` between the two does NOT typecheck —
+  the `Module k[G]` instances (`Submodule.module` restriction vs `Representation.asModule`)
+  are not defeq. (`asModuleHomOfIntertwiner` lives in `namespace Representation`, so qualify
+  it `Representation.asModuleHomOfIntertwiner` from another namespace.)
+
+- **Total-degree grading of a polynomial `GL_N`-rep into `GL`-stable homogeneous pieces
+  (#5487, the general reductivity reduction):** to remove the homogeneity hypothesis of
+  `decompose_polynomial_gl_rep` (which needs all weights concentrated in one total degree),
+  the `GL`-stable degree-`d` component is `degComponent d := ⨆_{∑μ=d} glWeightSpace μ`. Its
+  `GL`-stability is NOT free from the weight-space definition (`GL` does not preserve
+  individual weight spaces) — prove `degComponent d = eigenspace(M.ρ(scalarGL t₀), t₀^d)`
+  for a central scalar `t₀` of infinite order (`(2:k)` in char 0), then it is an eigenspace
+  of a *central* operator (`scalarGL` central via `Matrix.scalar_commute`), hence `GL`-stable.
+  The eigenspace identity is the generic modular-lattice fact `T i ≤ E i` + `iSupIndep E`
+  (here `Module.End.eigenspaces_iSupIndep`, reindexed by the injective `d ↦ t₀^d`) +
+  `⨆ T = ⊤` ⟹ `T = E` (`eq_of_le_iSupIndep_iSup_top`). Each component's `h_span`/`h_homog`
+  come from `glWeightSpace_restrict` (weight space of a sub-rep = `comap subtype` of the
+  ambient's) + `glWeightSpace_iSupIndep`; assemble all degrees with
+  `isSemisimpleModule_of_isSemisimpleModule_submodule'` (its `⨆ p = ⊤` proved through
+  `restrictScalars` back to the `k`-level `⨆ degComponent = ⊤`). `scalarGL_eq_noncommProd`
+  is `private` in `PolynomialRepEmbedding` — copy it locally if you need the
+  `scalarGL t = ∏ᵢ diagUnit i t` product to compute the scalar action on a weight space.
 - **Gotcha:** `MvPolynomial.mem_restrictTotalDegree` takes the index type `σ` and
   the degree `m` as *explicit* positional args before `p` (`mem_restrictTotalDegree
   (Fin N × Fin N) D p`), even though `R` is implicit — term-mode calls need all
