@@ -566,7 +566,17 @@ need that piece as an `FDRep`. Recipe (sorry-free):
 The polynomial-decomposition machinery (`decompose_polynomial_gl_rep`,
 `polynomialRep_isSemisimple`, anything built on `FDRep.of` of a GL-rep) is pinned
 to **universe 0**: their files open with `variable (k : Type) ... (N : ℕ)`, not
-`Type*`. Two consequences when *consuming* these from an upstream theorem (e.g.
+`Type*`. **The whole det-localization / functions-on-`GL` stack is in the same
+boat** — `evalGLAway`, `coordToAway`, `evalGLAway_smul`, `evalGLAway_localRightRep`,
+`evalGLAway_localLeftRep` (`DetLocalization`/`DetInvElim`/`LocalizationGLBiAction`)
+all expect `k : Type`. The symptom of consuming them under `Type*` is NOT a clean
+universe error: `rw`/explicit-arg use of `evalGLAway_smul (..) (coordToAway (P a c))`
+reports `Application type mismatch … P a c has type MvPolynomial.{0,u_1} … but is
+expected to have type MvPolynomial.{0,0}`, or a bare `rw [evalGLAway_smul]` simply
+fails to find its `•` pattern. Fix: set the consuming file's `variable (k : Type)`
+(not `Type*`). This is exactly how #5516 (`PeterWeylMatrixCoeff.lean`, the
+per-weight matrix-coefficient map `peterWeylSummandMap`) was built. Two consequences
+when *consuming* these from an upstream theorem (e.g.
 discharging `Theorem5_23_2_i`, and the same will hit part (ii)):
 - **Specialize the carrier too.** It is not enough to set `k : Type`; the
   representation carrier `Y` must also be `Type` (universe 0), because `FDRep.of`
