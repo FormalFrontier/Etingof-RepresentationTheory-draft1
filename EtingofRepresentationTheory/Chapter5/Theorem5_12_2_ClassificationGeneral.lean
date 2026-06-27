@@ -32,9 +32,9 @@ namespace Etingof
 noncomputable section
 open scoped Classical
 
-universe u
+universe u w
 
-variable (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+variable (k : Type u) [Field k] [IsAlgClosed k] [CharZero k]
 
 private abbrev G' (n : ℕ) := Equiv.Perm (Fin n)
 private abbrev A' (n : ℕ) := MonoidAlgebra k (G' n)
@@ -159,7 +159,7 @@ private lemma centralIdem'_comm (n : ℕ) (D : IrrepDecomp k (G' n))
 
 /-- For a simple `A'(n)`-module, exactly one central idempotent acts as identity. -/
 private lemma exists_unique_block (n : ℕ) (D : IrrepDecomp k (G' n))
-    (L : Type) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L] :
+    (L : Type w) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L] :
     ∃! j : Fin D.n, ∀ l : L, centralIdem' k n D j • l = l := by
   have hsum : ∀ l : L, l = ∑ j, centralIdem' k n D j • l := by
     intro l; conv_lhs => rw [← one_smul (A' k n) l, ← centralIdem'_sum k n D]; rw [Finset.sum_smul]
@@ -204,17 +204,17 @@ private lemma exists_unique_block (n : ℕ) (D : IrrepDecomp k (G' n))
 
 /-- The block assignment for a simple submodule of `A'(n)`. -/
 private noncomputable def blockOf (n : ℕ) (D : IrrepDecomp k (G' n))
-    (L : Type) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L] :
+    (L : Type w) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L] :
     Fin D.n :=
   (exists_unique_block k n D L).choose
 
 private lemma blockOf_spec (n : ℕ) (D : IrrepDecomp k (G' n))
-    (L : Type) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L] :
+    (L : Type w) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L] :
     ∀ l : L, centralIdem' k n D (blockOf k n D L) • l = l :=
   (exists_unique_block k n D L).choose_spec.1
 
 private lemma blockOf_unique (n : ℕ) (D : IrrepDecomp k (G' n))
-    (L : Type) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L]
+    (L : Type w) [AddCommGroup L] [Module (A' k n) L] [IsSimpleModule (A' k n) L]
     (j : Fin D.n) (hj : ∀ l : L, centralIdem' k n D j • l = l) :
     j = blockOf k n D L :=
   (exists_unique_block k n D L).choose_spec.2 j hj
@@ -444,7 +444,7 @@ private lemma blockOf_specht_injective_general (n : ℕ) (D : IrrepDecomp k (G' 
 This follows from `#partitions(n) = #conjugacy_classes(S_n) = #Wedderburn_blocks(k[S_n])`,
 ensuring that the Specht modules exhaust all Wedderburn blocks. -/
 private lemma exists_young_symmetrizer_nontrivial_general (n : ℕ)
-    (M : Type) [AddCommGroup M] [Module (A' k n) M]
+    (M : Type w) [AddCommGroup M] [Module (A' k n) M]
     [IsSimpleModule (A' k n) M] :
     ∃ la : Nat.Partition n, ∃ m : M, YoungSymmetrizerK k n la • m ≠ 0 := by
   by_contra h
@@ -501,7 +501,7 @@ private lemma exists_young_symmetrizer_nontrivial_general (n : ℕ)
 /-- The evaluation linear map from a Specht module `V_λ` to `M`, sending `v` to `v • m₀`.
 This is `k[S_n]`-linear since the action on `V_λ ⊆ k[S_n]` is left multiplication. -/
 private noncomputable def spechtEvalMap (n : ℕ) (la : Nat.Partition n)
-    (M : Type) [AddCommGroup M] [Module (A' k n) M] (m₀ : M) :
+    (M : Type w) [AddCommGroup M] [Module (A' k n) M] (m₀ : M) :
     (SpechtModuleK k n la) →ₗ[A' k n] M where
   toFun v := (v : A' k n) • m₀
   map_add' v w := by
@@ -519,7 +519,7 @@ The proof strategy: for a simple `M`, some Young symmetrizer `c_λ` acts nontriv
 The evaluation map `V_λ → M`, `v ↦ v · m₀`, is then a nonzero `k[S_n]`-linear map between
 simple modules. By Schur's lemma, it is an isomorphism. -/
 theorem Theorem5_12_2_classification_general
-    (n : ℕ) (M : Type) [AddCommGroup M] [Module (A' k n) M]
+    (n : ℕ) (M : Type w) [AddCommGroup M] [Module (A' k n) M]
     [IsSimpleModule (A' k n) M] :
     ∃ la : Nat.Partition n,
       Nonempty (M ≃ₗ[A' k n] (SpechtModuleK k n la)) := by
@@ -535,6 +535,25 @@ theorem Theorem5_12_2_classification_general
     SpechtModuleK_isSimpleModule_general k n la
   have hf_bij := LinearMap.bijective_of_ne_zero hf_ne
   exact ⟨la, ⟨(LinearEquiv.ofBijective f hf_bij).symm⟩⟩
+
+/-- **Mixed-universe restatement** of `Theorem5_12_2_classification_general`, with the group
+algebra `k[Sₙ]` spelled out (rather than the private `A'` abbreviation) and the module universe
+`w` explicitly independent of the field universe `u`.
+
+This is the form consumed by `Theorem5_18_4_partition_decomposition` (#5493): the simple
+Schur-Weyl summands `Sᵢ : Type (max u v)` are, restricted along the surjection
+`k[Sₙ] ↠ symGroupImage k V n`, simple `k[Sₙ]`-modules, hence (over an algebraically closed
+field of characteristic `0`) isomorphic to Specht modules `SpechtModuleK k n λᵢ`; the resulting
+map `i ↦ λᵢ` is the injection `ι ↪ Nat.Partition n` needed to re-index the decomposition. The
+file is a leaf with respect to `Theorem5_18_4.lean`, so the discharge can import it without a
+cycle. -/
+theorem classification_general_u
+    (n : ℕ) (M : Type w) [AddCommGroup M]
+    [Module (MonoidAlgebra k (Equiv.Perm (Fin n))) M]
+    [IsSimpleModule (MonoidAlgebra k (Equiv.Perm (Fin n))) M] :
+    ∃ la : Nat.Partition n,
+      Nonempty (M ≃ₗ[MonoidAlgebra k (Equiv.Perm (Fin n))] SpechtModuleK k n la) :=
+  Theorem5_12_2_classification_general k n M
 
 end
 

@@ -22,9 +22,9 @@ char(k) ∤ |G|, we establish:
 
 open CategoryTheory
 
-universe u
+universe u v
 
-variable {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+variable {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G] [Fintype G]
 
 /-! ### Finite-dimensionality and semisimplicity of k[G] -/
 
@@ -55,7 +55,7 @@ theorem MonoidAlgebra.wedderburnArtin [Finite G] [NeZero (Nat.card G : k)] :
 /-- Bundled Wedderburn-Artin decomposition data for the group algebra `k[G]`.
 Packages the number of irreducible representations `n`, their dimensions `d`,
 and the algebra isomorphism. -/
-structure IrrepDecomp (k G : Type u) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
+structure IrrepDecomp (k : Type u) (G : Type v) [Field k] [IsAlgClosed k] [Group G] [Fintype G]
     [NeZero (Nat.card G : k)] where
   /-- Number of isomorphism classes of irreducible representations -/
   n : ℕ
@@ -780,7 +780,7 @@ over an algebraically closed field `k` with `char(k) ∤ |G|` admits a finite fa
 pairwise non-isomorphic simple `FDRep k G` objects, complete (every simple is isomorphic
 to one of them), whose squared dimensions sum to `|G|`. Concretely the family is the set
 of column-vector representations `columnFDRep` of the Wedderburn-Artin decomposition. -/
-theorem exists_simples_sum_finrank_sq_eq_card (k G : Type u) [Field k] [IsAlgClosed k]
+theorem exists_simples_sum_finrank_sq_eq_card (k : Type u) (G : Type v) [Field k] [IsAlgClosed k]
     [Group G] [Fintype G] [NeZero (Nat.card G : k)] :
     ∃ (n : ℕ) (V : Fin n → FDRep k G),
       (∀ i, Simple (V i)) ∧

@@ -19,11 +19,11 @@ We use the center dimension argument:
 
 open FDRep CategoryTheory
 
-universe u
+universe u v
 
 section CenterDimension
 
-variable {k G : Type u} [Field k] [IsAlgClosed k] [Group G] [Fintype G] [DecidableEq G]
+variable {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G] [Fintype G] [DecidableEq G]
   [NeZero (Nat.card G : k)]
 
 /-! #### Helper: characterize center of MonoidAlgebra -/
@@ -213,7 +213,7 @@ of conjugacy classes: there exist exactly `Fintype.card (ConjClasses G)` pairwis
 non-isomorphic simple representations, and every simple representation is isomorphic
 to one of them. (Etingof Corollary 4.2.2) -/
 theorem Etingof.Corollary4_2_2
-    {G : Type u} [Group G] [Fintype G] [DecidableEq G]
+    {G : Type v} [Group G] [Fintype G] [DecidableEq G]
     {k : Type u} [Field k] [IsAlgClosed k]
     [Invertible (Fintype.card G : k)] :
     ∃ (n : ℕ) (V : Fin n → FDRep k G),
