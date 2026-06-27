@@ -168,6 +168,56 @@ All of its finiteness content is therefore concentrated in `clength_eq_zero_iff`
 theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X :=
   Nat.pos_of_ne_zero fun hz => h (clength_eq_zero_iff.mp hz)
 
+/-- For a mono `f : X ⟶ Y` and a subobject `b ≤ Subobject.mk f`, applying `map f` to the pullback of
+`b` along `f` recovers `b`. Together with `Subobject.pullback_map_self` this exhibits `map f` and
+`pullback f` as mutually inverse between `Subobject X` and the down-set `{b | b ≤ mk f}` of
+`Subobject Y`. -/
+private theorem map_pullback_of_le {X Y : C} (f : X ⟶ Y) [Mono f] {b : Subobject Y}
+    (hb : b ≤ Subobject.mk f) :
+    (Subobject.map f).obj ((Subobject.pullback f).obj b) = b := by
+  have hfac : Subobject.ofLEMk b f hb ≫ f = b.arrow := Subobject.ofLEMk_comp hb
+  set a₁ : Subobject X := Subobject.mk (Subobject.ofLEMk b f hb) with ha₁
+  have hb_eq : (Subobject.map f).obj a₁ = b := by
+    rw [ha₁, Subobject.map_mk,
+      Subobject.mk_eq_mk_of_comm _ b.arrow (Iso.refl _) (by simp [hfac]), Subobject.mk_arrow]
+  calc (Subobject.map f).obj ((Subobject.pullback f).obj b)
+      = (Subobject.map f).obj ((Subobject.pullback f).obj ((Subobject.map f).obj a₁)) := by
+        rw [hb_eq]
+    _ = (Subobject.map f).obj a₁ := by rw [Subobject.pullback_map_self]
+    _ = b := hb_eq
+
+/-- **Down-interval isomorphism.** For a mono `f : X ⟶ Y`, the height of the subobject `Subobject.mk f`
+of `Y` equals the height of `⊤ : Subobject X`. Indeed `map f` is a strict-monotone order isomorphism
+of `Subobject X` onto the down-set `{b | b ≤ mk f}`, so it preserves heights (`height_eq_of_strictMono`)
+and carries `⊤` to `mk f`. This is the `[⊥, mk f] ≅ Subobject X` half of categorical additivity. -/
+private theorem height_mk_eq_height_top {X Y : C} (f : X ⟶ Y) [Mono f] :
+    Order.height (Subobject.mk f : Subobject Y) = Order.height (⊤ : Subobject X) := by
+  have hmono : Monotone (fun a : Subobject X => (Subobject.map f).obj a) :=
+    fun a b h => leOfHom ((Subobject.map f).map (homOfLE h))
+  have hsm : StrictMono (fun a : Subobject X => (Subobject.map f).obj a) :=
+    hmono.strictMono_of_injective (Subobject.map_obj_injective f)
+  have hcond : ∀ (a : Subobject X) (b : Subobject Y),
+      b < (Subobject.map f).obj a → ∃ a', a' < a ∧ (Subobject.map f).obj a' = b := by
+    intro a b hba
+    have hble : b ≤ Subobject.mk f := by
+      refine hba.le.trans ?_
+      have h : (Subobject.map f).obj a ≤ (Subobject.map f).obj ⊤ := hmono (le_top : a ≤ ⊤)
+      rwa [Subobject.map_top] at h
+    refine ⟨(Subobject.pullback f).obj b, lt_of_le_of_ne ?_ ?_, map_pullback_of_le f hble⟩
+    · have h1 : (Subobject.pullback f).obj b
+          ≤ (Subobject.pullback f).obj ((Subobject.map f).obj a) :=
+        leOfHom ((Subobject.pullback f).map (homOfLE hba.le))
+      rwa [Subobject.pullback_map_self] at h1
+    · intro heq
+      have hcontra : (Subobject.map f).obj a = b := by
+        rw [← heq]; exact map_pullback_of_le f hble
+      rw [hcontra] at hba
+      exact lt_irrefl _ hba
+  have hres := Order.height_eq_of_strictMono
+    (fun a : Subobject X => (Subobject.map f).obj a) hsm hcond ⊤
+  rw [Subobject.map_top] at hres
+  exact hres.symm
+
 /-- In a finite-dimensional order with a top element, the height of any element plus its coheight is
 bounded by the height of the top: concatenate (`RelSeries.smash`) a maximal strictly increasing chain
 ending at `a` with one starting at `a`; the result is a chain ending below `⊤`. This needs **no
