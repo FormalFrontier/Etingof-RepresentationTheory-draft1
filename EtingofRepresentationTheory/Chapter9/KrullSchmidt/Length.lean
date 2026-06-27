@@ -168,6 +168,85 @@ All of its finiteness content is therefore concentrated in `clength_eq_zero_iff`
 theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X :=
   Nat.pos_of_ne_zero fun hz => h (clength_eq_zero_iff.mp hz)
 
+/-- For a mono `f : X ⟶ Y` and a subobject `b ≤ Subobject.mk f`, applying `map f` to the pullback
+of `b` along `f` recovers `b`. Together with `Subobject.pullback_map_self` this exhibits `map f`
+and `pullback f` as mutually inverse between `Subobject X` and the down-set `{b | b ≤ mk f}` of
+`Subobject Y`. -/
+private theorem map_pullback_of_le {X Y : C} (f : X ⟶ Y) [Mono f] {b : Subobject Y}
+    (hb : b ≤ Subobject.mk f) :
+    (Subobject.map f).obj ((Subobject.pullback f).obj b) = b := by
+  have hfac : Subobject.ofLEMk b f hb ≫ f = b.arrow := Subobject.ofLEMk_comp hb
+  set a₁ : Subobject X := Subobject.mk (Subobject.ofLEMk b f hb) with ha₁
+  have hb_eq : (Subobject.map f).obj a₁ = b := by
+    rw [ha₁, Subobject.map_mk,
+      Subobject.mk_eq_mk_of_comm _ b.arrow (Iso.refl _) (by simp [hfac]), Subobject.mk_arrow]
+  calc (Subobject.map f).obj ((Subobject.pullback f).obj b)
+      = (Subobject.map f).obj ((Subobject.pullback f).obj ((Subobject.map f).obj a₁)) := by
+        rw [hb_eq]
+    _ = (Subobject.map f).obj a₁ := by rw [Subobject.pullback_map_self]
+    _ = b := hb_eq
+
+/-- **Down-interval isomorphism.** For a mono `f : X ⟶ Y`, the height of the subobject
+`Subobject.mk f` of `Y` equals the height of `⊤ : Subobject X`. Indeed `map f` is a strict-monotone
+order isomorphism of `Subobject X` onto the down-set `{b | b ≤ mk f}`, so it preserves heights
+(`height_eq_of_strictMono`) and carries `⊤` to `mk f`. This is the `[⊥, mk f] ≅ Subobject X` half
+of categorical additivity. -/
+private theorem height_mk_eq_height_top {X Y : C} (f : X ⟶ Y) [Mono f] :
+    Order.height (Subobject.mk f : Subobject Y) = Order.height (⊤ : Subobject X) := by
+  have hmono : Monotone (fun a : Subobject X => (Subobject.map f).obj a) :=
+    fun a b h => leOfHom ((Subobject.map f).map (homOfLE h))
+  have hsm : StrictMono (fun a : Subobject X => (Subobject.map f).obj a) :=
+    hmono.strictMono_of_injective (Subobject.map_obj_injective f)
+  have hcond : ∀ (a : Subobject X) (b : Subobject Y),
+      b < (Subobject.map f).obj a → ∃ a', a' < a ∧ (Subobject.map f).obj a' = b := by
+    intro a b hba
+    have hble : b ≤ Subobject.mk f := by
+      refine hba.le.trans ?_
+      have h : (Subobject.map f).obj a ≤ (Subobject.map f).obj ⊤ := hmono (le_top : a ≤ ⊤)
+      rwa [Subobject.map_top] at h
+    refine ⟨(Subobject.pullback f).obj b, lt_of_le_of_ne ?_ ?_, map_pullback_of_le f hble⟩
+    · have h1 : (Subobject.pullback f).obj b
+          ≤ (Subobject.pullback f).obj ((Subobject.map f).obj a) :=
+        leOfHom ((Subobject.pullback f).map (homOfLE hba.le))
+      rwa [Subobject.pullback_map_self] at h1
+    · intro heq
+      have hcontra : (Subobject.map f).obj a = b := by
+        rw [← heq]; exact map_pullback_of_le f hble
+      rw [hcontra] at hba
+      exact lt_irrefl _ hba
+  have hres := Order.height_eq_of_strictMono
+    (fun a : Subobject X => (Subobject.map f).obj a) hsm hcond ⊤
+  rw [Subobject.map_top] at hres
+  exact hres.symm
+
+/-- In a finite-dimensional order with a top element, the height of any element plus its coheight is
+bounded by the height of the top: concatenate (`RelSeries.smash`) a maximal strictly increasing
+chain ending at `a` with one starting at `a`; the result is a chain ending below `⊤`. This needs
+**no modularity** and is the order-theoretic input to the lower bound
+`clength X₁ + clength X₃ ≤ clength X₂` for a short exact sequence (with `a` the image of `X₁`
+inside `X₂`). -/
+private theorem height_add_coheight_le_height_top {α : Type*} [Preorder α] [OrderTop α]
+    [FiniteDimensionalOrder α] (a : α) :
+    Order.height a + Order.coheight a ≤ Order.height (⊤ : α) := by
+  have hh : Order.height a ≠ ⊤ := by
+    have hlt : Order.height a < ⊤ := by
+      rw [← WithBot.coe_lt_coe]
+      apply lt_of_le_of_lt (Order.height_le_krullDim a)
+      simpa using Order.krullDim_ne_top_of_finiteDimensionalOrder.lt_top
+    exact hlt.ne
+  obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.mp hh
+  obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.mp (Order.coheight_lt_top a).ne
+  obtain ⟨p₁, hlast, hlen₁⟩ := Order.exists_series_of_height_eq_coe a hn.symm
+  obtain ⟨p₂, hhead, hlen₂⟩ := Order.exists_series_of_coheight_eq_coe a hm.symm
+  have hconnect : p₁.last = p₂.head := by rw [hlast, hhead]
+  have hsl : (p₁.smash p₂ hconnect).length = p₁.length + p₂.length := rfl
+  have key : Order.height a + Order.coheight a = ((p₁.smash p₂ hconnect).length : ℕ∞) := by
+    rw [← hn, ← hm, hsl, hlen₁, hlen₂, Nat.cast_add]
+  rw [key]
+  calc ((p₁.smash p₂ hconnect).length : ℕ∞)
+      ≤ Order.height ((p₁.smash p₂ hconnect).last) := Order.length_le_height_last
+    _ ≤ Order.height (⊤ : α) := Order.height_mono le_top
+
 /-- **Additivity of composition length over short exact sequences** — the Krull–Schmidt crux.
 
 For a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, the composition length is additive. This is the
@@ -179,33 +258,34 @@ Like `clength_eq_zero_iff`, a complete proof also needs the finite-length condit
 mixed case — `X₁` finite nonzero, `X₃` infinite length — fails: LHS `= 0` but RHS `≠ 0`), which
 `IsFiniteAbelianCategory` does not currently supply; see the `clength_eq_zero_iff` docstring.
 
-**Confirmed route (toward #5324/#5325).** The base cases of the Jordan–Hölder count are now in place
-without further infrastructure: `clength_eq_zero_of_isZero` (length `0` on the zero object) and
-`clength_simple` (length `1` on a simple object, via Mathlib's `IsSimpleOrder (Subobject X)` for
-simple `X`). The remaining work is the *extension step*. The minimal categorical input is the
-Schreier order-reflecting lemma for the short exact sequence `0 → X₁ →ᶠ X₂ →ᵍ X₃ → 0`: for
-subobjects `A ≤ B` of `X₂`,
-`(Subobject.pullback f).obj A = (Subobject.pullback f).obj B` together with
-`imageSubobject (A.arrow ≫ g) = imageSubobject (B.arrow ≫ g)` forces `A = B`. This makes
-`B ↦ ((pullback f).obj B, imageSubobject (B.arrow ≫ g))` order-reflecting into
-`Subobject X₁ × Subobject X₃`, so every `LTSeries` in `Subobject X₂` has length
-`≤ Order.height ⊤ (X₁) + Order.height ⊤ (X₃)`; with `Order.height_le_coe_iff` that bounds the height
-of `⊤ : Subobject X₂`, giving finiteness (hence `clength_eq_zero_iff` via
-`clength_eq_zero_iff_of_finiteDimensionalOrder`) and, refined to equality, the additivity here.
+**Route, with the modularity-free reformulation now scaffolded (#5325).** Write `A := mk S.f` for the
+image of `X₁` inside `X₂` (`= ker S.g` by exactness). The whole proof factors through two height
+identities for `A` plus a clean order bound — *no* `IsModularLattice` / `JordanHolderLattice` instance
+is needed (those are sufficient but not necessary):
 
-The Schreier lemma is the categorical second isomorphism content, and it is **reachable** with current
-Mathlib (the earlier "missing helper" note was too pessimistic):
-* the pseudoelement difference helper exists — `Abelian.Pseudoelement.sub_of_eq_image`
-  (`f x = f y → ∃ z, f z = 0 ∧ ∀ g, g y = 0 → g z = g x`), used with
-  `Abelian.Pseudoelement.pseudo_pullback` / `pseudo_exact_of_exact` exactly as in
-  `exists_pow_stabilizes` below; or
-* Mathlib's categorical snake lemma (`Mathlib.Algebra.Homology.ShortComplex.SnakeLemma`) yields the
-  second isomorphism theorem and hence the reflecting lemma directly.
+* `height A = height (⊤ : Subobject X₁)` — the down-interval `[⊥, A] ≅ Subobject X₁`. **Proved** as
+  `height_mk_eq_height_top S.f` above (via `Subobject.map S.f` and `map_pullback_of_le`).
+* `coheight A = height (⊤ : Subobject X₃)` — the up-interval `[A, ⊤] ≅ Subobject X₃`. *Remaining.*
+  Dual to the previous one, but the up-set is the image of `Subobject.pullback S.g` for the **epi**
+  `S.g`; this needs `Subobject.pullback S.g` strictly monotone, i.e. injective for an epi (provable
+  from the pullback square `(pullback g T).arrow ≫ g = pullbackπ ≫ T.arrow` with `pullbackπ` epi by
+  `Abelian.epi_fst_of_isLimit`, giving `imageSubobject ((pullback g T).arrow ≫ g) = T`), together with
+  `coheight_eq_of_strictMono` or the explicit splice (using `(pullback S.g).obj ⊥ = A`).
 
-Two residual gaps for the *equality* (not just the height bound): (1) Mathlib has no product-order
-height lemma `height (a, b) = height a + height b`, so that arithmetic must be proved here; (2) the
-reverse inequality needs splicing composition series of `X₁` and `X₃` (the embedding gives only `≤`).
-The finiteness corollary alone already discharges `clength_eq_zero_iff` (see #5324). -/
+Granting both, the **lower bound** `clength X₁ + clength X₃ ≤ clength X₂` is immediate from
+`height_add_coheight_le_height_top A` (the modularity-free order lemma above):
+`height ⊤(X₁) + height ⊤(X₃) = height A + coheight A ≤ height ⊤(X₂)`.
+
+The **upper bound** `clength X₂ ≤ clength X₁ + clength X₃` is the genuine Schreier content: for
+subobjects `A' ≤ B'` of `X₂`, `(pullback S.f).obj A' = (pullback S.f).obj B'` together with
+`imageSubobject (A'.arrow ≫ S.g) = imageSubobject (B'.arrow ≫ S.g)` forces `A' = B'`, so
+`B' ↦ ((pullback S.f).obj B', imageSubobject (B'.arrow ≫ S.g))` is order-reflecting into
+`Subobject X₁ × Subobject X₃` and every `LTSeries` in `Subobject X₂` has length
+`≤ height ⊤(X₁) + height ⊤(X₃)`. The reflecting lemma is reachable today via
+`Abelian.Pseudoelement.sub_of_eq_image` (used with `pseudo_pullback` / `pseudo_exact_of_exact` as in
+`exists_pow_stabilizes` below) or Mathlib's snake lemma
+(`Mathlib.Algebra.Homology.ShortComplex.SnakeLemma`). `le_antisymm` of the two bounds is the
+additivity here. -/
 theorem clength_additive {S : ShortComplex C} (hS : S.ShortExact) :
     clength S.X₂ = clength S.X₁ + clength S.X₃ := by
   sorry

@@ -15,11 +15,6 @@ The `coordination` script handles all GitHub-based multi-agent coordination.
 Session UUID is available as `$POD_SESSION_ID` (exported by `pod`).
 The `gh` CLI defaults to the current repo, so `--repo` is not needed.
 
-**`coordination` subcommands have no `--help` flag.** Passing `--help` does
-*not* print usage — it runs the subcommand with `--help` parsed as an
-argument, which for `create-pr` pushes your branch and attempts a PR. Consult
-the table below for usage instead of probing with `--help`.
-
 | Command | What it does |
 |---------|-------------|
 | `coordination orient` | List unclaimed/claimed issues, open PRs, PRs needing attention |
@@ -75,18 +70,6 @@ residual scope. See "Assess Scope" (Step 4b) for the full procedure.
 open. `check-blocked` (run by `pod` each loop) removes `blocked` when
 all dependencies close. Blocked issues are excluded from
 `list-unclaimed` and `queue-depth`.
-
-A `blocked` issue can be **stale**: its `depends-on` dependency was
-satisfied by a merged PR but the dependency *issue* stayed open (GitHub
-does not always auto-close a linked issue on squash-merge, e.g. when the
-PR landed on a non-default branch or the squash dropped the `Closes #N`
-line). `check-blocked` only keys off the dependency's open/closed state,
-so it never clears the label in this case and the blocked issue is stuck
-forever. If you find a dependency issue whose deliverable is already in
-`main` (`git grep` the merged symbol; check `gh pr list --search "<dep#>
-in:body" --state merged`), close the stale dependency with a forward link
-to the merging PR, then run `coordination check-blocked` to release the
-downstream issue.
 
 **Branch naming**: `agent/<first-8-chars-of-UUID>`
 **Plan files**: `plans/<UUID-prefix>.md`
