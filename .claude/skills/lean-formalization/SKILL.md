@@ -3561,6 +3561,32 @@ applied form through `aeval`. Make every step syntactic instead:
    `have h2 := AlgHom.congr_fun h_comp f; rw [AlgHom.comp_apply, AlgHom.comp_apply] at h2; exact h2`.
 With the fully-syntactic route the proof needs **no** `maxHeartbeats` bump at all.
 
+### Degree-bound `Finset.sup` over an `AlgEquiv`-image: two whnf traps (#5486)
+
+When `s` is a uniform degree bound `Finset.univ.sup (… natDegree (E (P …)) …)` for a heavy
+algebra-equiv `E` (e.g. `glCoordToPoly : k[Xᵢⱼ,det⁻¹] ≃ₐ Polynomial k[Xᵢⱼ]`), two separate
+`(deterministic) timeout at whnf`/`isDefEq` traps appear, *both* because Lean eagerly
+whnf-reduces `E` (the AlgEquiv `trans`/FunLike coercion) when a defeq check stalls. Symptom:
+the timeout is reported at the **enclosing `theorem`/docstring line** (col 0), not the real
+tactic — bisect with `sorry` to find which `have` is at fault. Fixes (`Chapter5/DetClearing.lean`):
+
+1. **`set s := …sup… with hs_def` makes `s` an opaque fvar**, so a term like
+   `Finset.le_sup … : f x ≤ Finset.univ.sup f` no longer unifies with the goal `… ≤ s`, and
+   Lean whnf-loops trying. **Fix:** `rw [hs_def]` to unfold `s` *before* `exact Finset.le_sup …`.
+2. **A pair-indexed `Finset.sup (fun p : ι × κ => … E (P p.1 p.2) …)`** then forces
+   `isDefEq` to compare `P (a,c).1 (a,c).2` with the goal's literal `P a c` — and that
+   `Prod.fst`/`Prod.snd` projection comparison whnf-reduces `E` into a timeout. **Fix:** use a
+   **nested** `sup (fun a => sup (fun c => … E (P a c) …))` so every `P a c` appears literally;
+   bound via `le_trans (Finset.le_sup (mem_univ c)) (Finset.le_sup (mem_univ a))`, each `f`
+   given explicitly. No projection ⇒ no whnf.
+
+General rule reinforced (see the two bullets above and the abstract-scalar trick): never let
+`rw`/`ring`/`exact`/`isDefEq` traverse a heavy `AlgEquiv`/`eval`/`det` term while searching for
+a pattern or checking a defeq. Bridge equalities with `congrArg <explicit-motive-λ>` (no
+kabstract search), prove per-term field arithmetic over **abstract scalars** `(have key : ∀ A D : k, …)`
+then `exact key _ _ _`, and pin a polynomial→`Polynomial` factorization (`evalAtGL = eval₂ … ∘ E`)
+once via `MvPolynomial.ringHom_ext` on generators rather than unfolding `E`.
+
 ## Extracting a simple sub-representation from an infinite-dim graded rep (#4922)
 
 `Chapter5/SimpleSubrepExtraction.lean` builds `exists_simple_subrep_of_quotDetRep`
