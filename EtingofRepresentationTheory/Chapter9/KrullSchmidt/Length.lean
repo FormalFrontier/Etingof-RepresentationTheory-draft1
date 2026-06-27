@@ -168,6 +168,33 @@ All of its finiteness content is therefore concentrated in `clength_eq_zero_iff`
 theorem clength_pos_of_not_isZero {X : C} (h : ¬ IsZero X) : 0 < clength X :=
   Nat.pos_of_ne_zero fun hz => h (clength_eq_zero_iff.mp hz)
 
+/-- In a finite-dimensional order with a top element, the height of any element plus its coheight is
+bounded by the height of the top: concatenate (`RelSeries.smash`) a maximal strictly increasing chain
+ending at `a` with one starting at `a`; the result is a chain ending below `⊤`. This needs **no
+modularity** and is the order-theoretic input to the lower bound `clength X₁ + clength X₃ ≤ clength X₂`
+for a short exact sequence (with `a` the image of `X₁` inside `X₂`). -/
+private theorem height_add_coheight_le_height_top {α : Type*} [Preorder α] [OrderTop α]
+    [FiniteDimensionalOrder α] (a : α) :
+    Order.height a + Order.coheight a ≤ Order.height (⊤ : α) := by
+  have hh : Order.height a ≠ ⊤ := by
+    have hlt : Order.height a < ⊤ := by
+      rw [← WithBot.coe_lt_coe]
+      apply lt_of_le_of_lt (Order.height_le_krullDim a)
+      simpa using Order.krullDim_ne_top_of_finiteDimensionalOrder.lt_top
+    exact hlt.ne
+  obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.mp hh
+  obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.mp (Order.coheight_lt_top a).ne
+  obtain ⟨p₁, hlast, hlen₁⟩ := Order.exists_series_of_height_eq_coe a hn.symm
+  obtain ⟨p₂, hhead, hlen₂⟩ := Order.exists_series_of_coheight_eq_coe a hm.symm
+  have hconnect : p₁.last = p₂.head := by rw [hlast, hhead]
+  have hsl : (p₁.smash p₂ hconnect).length = p₁.length + p₂.length := rfl
+  have key : Order.height a + Order.coheight a = ((p₁.smash p₂ hconnect).length : ℕ∞) := by
+    rw [← hn, ← hm, hsl, hlen₁, hlen₂, Nat.cast_add]
+  rw [key]
+  calc ((p₁.smash p₂ hconnect).length : ℕ∞)
+      ≤ Order.height ((p₁.smash p₂ hconnect).last) := Order.length_le_height_last
+    _ ≤ Order.height (⊤ : α) := Order.height_mono le_top
+
 /-- **Additivity of composition length over short exact sequences** — the Krull–Schmidt crux.
 
 For a short exact sequence `0 → X₁ → X₂ → X₃ → 0`, the composition length is additive. This is the
