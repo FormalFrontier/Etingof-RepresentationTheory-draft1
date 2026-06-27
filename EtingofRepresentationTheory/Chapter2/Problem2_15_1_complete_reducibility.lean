@@ -39,6 +39,19 @@ The reusable **Casimir eigenvalue toolkit** at the level of an *arbitrary*
   `Cx = μ(μ-2)/2 · x`. This is **the key sub-lemma of (j)** (the book's
   "if `Fx = 0` and `Hx = μx` then `Cx = μ(μ-2)/2·x`").
 
+Building on the centrality of `C` (`casimir_central`), the generalized eigenspaces of `C`
+are subrepresentations (`casimirGenEigenspace`), and in finite dimensions they decompose the
+module (`casimirGenEigenspace_isInternal`). The book's **part (h)** then follows:
+
+* `Indecomposable M`: `M` is nonzero and has no nontrivial direct-sum decomposition into
+  subrepresentations.
+* `casimir_eq_single_genEigenspace`: on a finite-dimensional indecomposable module the Casimir
+  operator has a **single eigenvalue** — some `casimirGenEigenspace a` is the whole module —
+  with `casimirGenEigenspace_top_unique` giving uniqueness of that eigenvalue.
+
+Pinning the single eigenvalue to the book's `λ(λ+2)/2` with `λ ∈ ℕ`, and the (i)–(k)
+reduction (an indecomposable finite-dimensional module is `≅ V_λ`), remain follow-up work.
+
 The final complete-reducibility statement `complete_reducibility` is recorded here
 in its cleanest equivalent form — *every `sl(2)`-submodule of a finite-dimensional
 module has an `sl(2)`-complement* — with the proof left as `sorry` pending the
@@ -289,6 +302,82 @@ theorem casimirGenEigenspace_isInternal :
     ((LieSubmodule.iSup_toSubmodule_eq_top).mpr casimirGenEigenspace_iSup_eq_top)
 
 end GenEigenspaceDecomp
+
+section Indecomposable
+
+variable {M : Type*} [AddCommGroup M] [Module ℂ M]
+  [LieRingModule sl2 M] [LieModule ℂ sl2 M]
+
+/-- An `sl(2)`-module `M` is **indecomposable** if it is nonzero and admits no nontrivial
+direct-sum decomposition into subrepresentations: whenever two `sl(2)`-submodules `N, N'`
+are complementary (`IsCompl N N'`, i.e. `M = N ⊕ N'`), one of them is `⊥`. This is the
+hypothesis under which the book's part (h) shows the Casimir operator has a single
+eigenvalue, and the building block of the (h)–(k) reduction (an indecomposable
+finite-dimensional `sl(2)`-module is irreducible). -/
+def Indecomposable (M : Type*) [AddCommGroup M] [Module ℂ M]
+    [LieRingModule sl2 M] [LieModule ℂ sl2 M] : Prop :=
+  Nontrivial M ∧ ∀ N N' : LieSubmodule ℂ sl2 M, IsCompl N N' → N = ⊥ ∨ N' = ⊥
+
+variable [FiniteDimensional ℂ M]
+
+/-- **Problem 2.15.1(h): the Casimir operator has a single eigenvalue on an indecomposable
+module.** On a finite-dimensional *indecomposable* `sl(2)`-module the generalized eigenspaces
+of the central Casimir operator give an internal direct-sum decomposition into
+subrepresentations (`casimirGenEigenspace_isInternal`); indecomposability forces all but one
+summand to vanish, so there is an `a : ℂ` whose Casimir generalized eigenspace is the whole
+module. This is the book's "`C` has only one eigenvalue on `V`". -/
+theorem casimir_eq_single_genEigenspace (hM : Indecomposable M) :
+    ∃ a : ℂ, casimirGenEigenspace (M := M) a = ⊤ := by
+  obtain ⟨hnt, hindec⟩ := hM
+  haveI : Nontrivial M := hnt
+  -- Some generalized eigenspace is nonzero — otherwise their supremum (`= ⊤`) would be `⊥`.
+  have hexists : ∃ a, casimirGenEigenspace (M := M) a ≠ ⊥ := by
+    by_contra h
+    push_neg at h
+    have hbot : (⨆ a, casimirGenEigenspace (M := M) a) = ⊥ := by simp only [h, iSup_bot]
+    rw [casimirGenEigenspace_iSup_eq_top] at hbot
+    exact bot_ne_top hbot.symm
+  obtain ⟨a₀, ha₀⟩ := hexists
+  refine ⟨a₀, ?_⟩
+  -- Split `M` as `genEig a₀ ⊕ (⨆ a ≠ a₀, genEig a)`: independent (disjoint) and spanning.
+  have hdisj : Disjoint (casimirGenEigenspace (M := M) a₀)
+      (⨆ (a) (_ : a ≠ a₀), casimirGenEigenspace (M := M) a) :=
+    casimirGenEigenspace_iSupIndep a₀
+  have hsup : casimirGenEigenspace (M := M) a₀
+      ⊔ (⨆ (a) (_ : a ≠ a₀), casimirGenEigenspace (M := M) a) = ⊤ := by
+    rw [← iSup_split_single (casimirGenEigenspace (M := M)) a₀,
+      casimirGenEigenspace_iSup_eq_top]
+  have hcompl : IsCompl (casimirGenEigenspace (M := M) a₀)
+      (⨆ (a) (_ : a ≠ a₀), casimirGenEigenspace (M := M) a) :=
+    ⟨hdisj, codisjoint_iff.mpr hsup⟩
+  -- Indecomposability: one summand is `⊥`. The first is nonzero, so the second is `⊥`,
+  -- whence `genEig a₀ = ⊤`.
+  rcases hindec _ _ hcompl with h | h
+  · exact absurd h ha₀
+  · rw [h, sup_bot_eq] at hsup
+    exact hsup
+
+omit [FiniteDimensional ℂ M] in
+/-- The single Casimir generalized eigenvalue of an indecomposable module is unique: if two
+Casimir generalized eigenspaces are each the whole (nonzero) module, the eigenvalues coincide.
+Together with `casimir_eq_single_genEigenspace` this is the full "single eigenvalue" content of
+part (h). -/
+theorem casimirGenEigenspace_top_unique [Nontrivial M] {a b : ℂ}
+    (ha : casimirGenEigenspace (M := M) a = ⊤)
+    (hb : casimirGenEigenspace (M := M) b = ⊤) : a = b := by
+  by_contra hab
+  -- `genEig a = ⊤` is disjoint from `⨆ j ≠ a, genEig j`, which contains `genEig b`.
+  have hdisj := casimirGenEigenspace_iSupIndep (M := M) a
+  rw [ha] at hdisj
+  have hYbot : (⨆ (j) (_ : j ≠ a), casimirGenEigenspace (M := M) j) = ⊥ :=
+    disjoint_top.mp hdisj.symm
+  have hble : casimirGenEigenspace (M := M) b
+      ≤ ⨆ (j) (_ : j ≠ a), casimirGenEigenspace (M := M) j :=
+    le_iSup₂ (f := fun j (_ : j ≠ a) => casimirGenEigenspace (M := M) j) b fun h => hab h.symm
+  rw [hYbot, le_bot_iff, hb] at hble
+  exact bot_ne_top hble.symm
+
+end Indecomposable
 
 /-! ## The complete-reducibility conclusion
 
