@@ -283,7 +283,7 @@ noncomputable instance IrrepDecomp.isSimpleModule_columnRep_asModule [NeZero (Na
       rwa [LinearEquiv.symm_apply_apply] at h2
 
 /-- If `ρ.asModule` is simple over k[G], then `FDRep.of ρ` is Simple in FDRep k G. -/
-private noncomputable instance FDRep.simple_of_isSimpleModule_asModule [NeZero (Nat.card G : k)]
+noncomputable instance FDRep.simple_of_isSimpleModule_asModule [NeZero (Nat.card G : k)]
     {V : Type u} [AddCommGroup V] [Module k V] [Module.Finite k V]
     (ρ : Representation k G V)
     [hρ : @IsSimpleModule (MonoidAlgebra k G) _ ρ.asModule _
