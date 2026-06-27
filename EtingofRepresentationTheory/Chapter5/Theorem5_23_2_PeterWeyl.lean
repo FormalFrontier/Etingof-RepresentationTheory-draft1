@@ -171,15 +171,54 @@ theorem nonempty_equivariantEquiv_of_bijective
     exact peterWeylMap_equivariant n k g h x
   exact ⟨e.symm, he.symm⟩
 
-/-- **Bijectivity of the assembled matrix-coefficient map** (the Cauchy decomposition).
-This is the sole remaining representation-theoretic input to the Peter-Weyl capstone:
-the matrix coefficients of the pairwise-distinct irreducibles `L_λ` are linearly
-independent and span `R = k[gᵢⱼ][1/det]`. Its proof is the Cauchy decomposition
-machinery (`PolynomialGLDecomposition.lean`, `CauchyDetQuotient*`) and is assembled
-separately. -/
-theorem peterWeylMap_bijective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
-    Function.Bijective (peterWeylMap n k) := by
+/-- **Injectivity of the assembled matrix-coefficient map** — distinct-irreducible
+orthogonality (Schur orthogonality across summands). The kernel of `peterWeylMap` is a
+`GL_n × GL_n`-subrepresentation of `⊕_λ L*_λ ⊗ L_λ`; since the `L_λ` are pairwise
+non-isomorphic (`algIrrepGLRep_isSimple` makes each `L_λ` simple, so `L*_λ ⊗ L_λ` is a
+multiplicity-free family of `GL_n × GL_n`-irreducibles via the external tensor), that
+kernel is a sub-sum of the summands, hence trivial once `peterWeylMap` is shown nonzero on
+each summand. Per-summand nontriviality comes from the nondegenerate contragredient pairing
+(`algIrrepDualPairing_nondegenerate`) evaluated through the faithful functions-on-`GL` model
+(`evalGLAway_peterWeylSummandMap`): the matrix coefficients `g ↦ ⟨u, ρ_λ(g) v⟩` of a single
+irreducible `L_λ` are linearly independent.
+
+This is one of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The
+present proof obligation is the cross-summand linear independence; the within-summand and
+across-summand orthogonality currently rest on the simplicity infrastructure
+(`algIrrepGLRep_isSimple`, presently `ℂ`-only and degree-constrained, with the general route
+tracked in `progress/schurModule-isSimple-general-route.md`). Tracked as issue #5549. -/
+theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
+    Function.Injective (peterWeylMap n k) := by
   sorry
+
+/-- **Surjectivity of the assembled matrix-coefficient map** — the Cauchy decomposition of
+`R = k[gᵢⱼ][1/det]`: every regular function on `GL_n` is a finite sum of matrix coefficients.
+Each homogeneous degree-`d` piece of the polynomial ring `k[gᵢⱼ]` decomposes, as a right-`GL_n`
+representation, into irreducible Schur constituents
+(`CauchyCharacterRightAssembly.polyRightDegreeFDRep_formalCharacter`,
+`PolynomialGLDecomposition.decompose_polynomial_gl_rep`); inverting the determinant and using
+that the constituents of the determinant quotient are exactly the polynomial irreducibles
+(`CauchyDetQuotient.quotDetRep_irreducible_constituent_lastWeight_zero`) exhibits `R` as the sum
+over all dominant weights `λ` of the `L*_λ ⊗ L_λ` isotypic block, i.e. `peterWeylMap` hits every
+element of `R`.
+
+This is the second of the two genuine Cauchy/Peter-Weyl halves of `peterWeylMap_bijective`. The
+Cauchy machinery it consumes (`Cauchy*`, `PolynomialGL*`) is sorry-free; the present obligation is
+its assembly at the level of the localization `R`, i.e. transporting the per-degree polynomial
+decomposition across the determinant localization to the spanning statement for matrix
+coefficients. Tracked as issue #5550. -/
+theorem peterWeylMap_surjective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
+    Function.Surjective (peterWeylMap n k) := by
+  sorry
+
+/-- **Bijectivity of the assembled matrix-coefficient map** (the Cauchy decomposition).
+This is the remaining representation-theoretic input to the Peter-Weyl capstone: the matrix
+coefficients of the pairwise-distinct irreducibles `L_λ` are linearly independent
+(`peterWeylMap_injective`) and span `R = k[gᵢⱼ][1/det]` (`peterWeylMap_surjective`). Bijectivity
+is the conjunction of the two; each half is its own genuine Cauchy/orthogonality theorem. -/
+theorem peterWeylMap_bijective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
+    Function.Bijective (peterWeylMap n k) :=
+  ⟨peterWeylMap_injective n k, peterWeylMap_surjective n k⟩
 
 /-- **Theorem 5.23.2(ii) — Peter-Weyl for `GL_n(k)`.** The coordinate ring
 `R = k[gᵢⱼ][1/det]`, as a representation of `GL_n × GL_n` under the left/right
