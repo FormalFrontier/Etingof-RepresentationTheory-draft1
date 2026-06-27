@@ -1,5 +1,5 @@
 import Mathlib
-import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
+import EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core
 import EtingofRepresentationTheory.Chapter5.KernelLemmaKPrime
 import EtingofRepresentationTheory.Chapter5.SchurModuleSimple
 

@@ -1,6 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
-import EtingofRepresentationTheory.Chapter5.Theorem5_23_2
+import EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core
 import EtingofRepresentationTheory.Chapter5.SpechtBridgeGeneral
 import EtingofRepresentationTheory.Chapter5.SchurWeylSpecialBlockGeneral
 
