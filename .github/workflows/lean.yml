@@ -28,6 +28,25 @@ jobs:
         with:
           size: 8G
       - uses: actions/checkout@v5
+      - name: Forbid native_decide (trust-hole guard)
+        run: |
+          # native_decide compiles the goal to native code and trusts the Lean
+          # compiler + runtime — it is outside the kernel, so every use is an
+          # unverified assertion. It is FORBIDDEN in this project. Fail fast (before
+          # the long build) on any genuine native_decide tactic use or linter
+          # disable. The filter mirrors the project's "tight" metric so prose/
+          # docstring mentions ("we avoid native_decide") do not trip the guard.
+          hits=$(git grep -nE '(^|[^-A-Za-z.])native_decide([^A-Za-z]|$)' -- 'EtingofRepresentationTheory/**/*.lean' \
+            | grep -vE ':[0-9]+:[[:space:]]*(--|/-|\*)' \
+            | grep -vE '`native_decide`|no native_decide|not .*native_decide|honest.*decide|SOS bounds . native' || true)
+          disables=$(git grep -nE 'set_option[[:space:]]+linter\.style\.nativeDecide[[:space:]]+false' -- 'EtingofRepresentationTheory/**/*.lean' || true)
+          if [ -n "$hits" ] || [ -n "$disables" ]; then
+            echo "::error::FORBIDDEN native_decide / linter.style.nativeDecide disable found — replace with an honest proof:"
+            [ -n "$hits" ] && echo "$hits"
+            [ -n "$disables" ] && echo "$disables"
+            exit 1
+          fi
+          echo "OK: no native_decide in EtingofRepresentationTheory."
       - uses: leanprover/lean-action@v1
         with:
           use-github-cache: false
