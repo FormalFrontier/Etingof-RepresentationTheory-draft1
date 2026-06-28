@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter6/Definition6.6.3",
+    "lean_decl": "Etingof.reflectionFunctorPlus",
+    "verdict": "verified",
+    "reason": "The book defines F_i^+(V)_k = V_k for k ≠ i and F_i^+(V)_i = ker(φ : ⊕_{j→i} V_j → V_i). The Lean definition constructs a genuine QuiverRepresentation on the reversed quiver, with vertex spaces exactly as specified (non-sink vertices unchanged via reflFunctorPlus_objAt isFalse branch = ρ.obj v; sink vertex via isTrue branch = ↥(sinkMap i).ker). The sinkMap is the canonical sum of representation maps. API lemmas reflFunctorPlus_equivAt_ne and reflFunctorPlus_equivAt_eq confirm the definitional equalities. The definition is a genuine construction (noncomputable def), not a sorry. Strictly faithful to the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.6.4",
+    "lean_decl": "Etingof.reflectionFunctorMinus",
+    "verdict": "verified",
+    "reason": "The book defines F_i^-(V)_k = V_k for k ≠ i and F_i^-(V)_i = Coker(ψ) = (⊕_{i→j} V_j) / Im ψ. The Lean definition constructs a genuine QuiverRepresentation on the reversed quiver. At the source vertex i (isTrue branch) the type is (DirectSum (ArrowsOutOf V i) (fun a => ρ.obj a.1)) ⧸ LinearMap.range (ρ.sourceMap i), which is exactly the cokernel of the source map. API lemma reflFunctorMinus_obj_eq confirms this. The maps for arrows not touching i are ρ.mapLinear; for arrows into i in the reversed quiver (= arrows out of i in Q), the map is lof composed with mkQ. Fully faithful to the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.7.1",
+    "lean_decl": "Etingof.coxeterElement",
+    "verdict": "gap",
+    "reason": "The book defines the Coxeter element c = s_1 s_2 ⋯ s_n as a product of simple reflections in the Weyl group W of the quiver. The Lean definition is: `noncomputable def Etingof.coxeterElement (n : ℕ) (W : Type*) [Group W] (s : Fin n → W) : W := (List.ofFn s).prod`. This is a generic group element from an arbitrary indexed family in an abstract group — it does not connect to the Dynkin diagram, the root system, or the specific simple reflections s_i (as reflections on the root lattice ℝⁿ). The actual Coxeter action used in Lemma6_7_2 is the separate `Etingof.coxeterAction` def (in Lemma6_7_2.lean), which correctly computes the composition of simple reflections on Fin n → ℤ. The declared coxeterElement def is thus a disconnected stub — it provides no mathematical content about the quiver Weyl group. This is strictly weaker than the book: the book's Coxeter element lives in a specific Weyl group and acts on the root lattice, but the Lean def is just list product in an arbitrary group with no ties to the Cartan/Dynkin structure.",
+    "dropped_conjunct": "Connection to root system and Dynkin diagram; the def is not used anywhere and coxeterAction is used instead"
+  },
+  {
+    "id": "Chapter6/Example6.2.2",
+    "lean_decl": "Etingof.Example_6_2_2",
+    "verdict": "verified",
+    "reason": "The book states: the only indecomposable representation of A_1 is the 1-dimensional space (the ground field). The Lean theorem gives an iff: (Nontrivial V ∧ ∀ p q : Submodule k V, IsCompl p q → p = ⊥ ∨ q = ⊥) ↔ Module.finrank k V = 1. This correctly captures: (1) nontriviality avoids the zero module, (2) the direct-sum indecomposability condition, and (3) the characterization as precisely rank 1. The proof is complete (no sorry). The equivalence faithfully formalizes the classification.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.2.3",
+    "lean_decl": "Etingof.Example_6_2_3",
+    "verdict": "verified",
+    "reason": "The book classifies the 3 indecomposable A_2 representations: (1,0), (0,1), (1,1) with f injective (= isomorphism). The Lean theorem states every indecomposable A₂Rep has (finrank V₁, finrank V₂) ∈ {(1,0), (0,1), (1,1)} with f injective in the last case. A₂Rep.Indecomposable uses the internal direct sum decomposition compatibility condition, which correctly models indecomposability of quiver representations. The proof is complete, using rank-nullity and the A1 result. Fully faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.2.4",
+    "lean_decl": "Etingof.Example_6_2_4",
+    "verdict": "verified",
+    "reason": "The book classifies 6 indecomposable A_3 representations (→→ orientation): (1,0,0), (0,1,0), (0,0,1), (1,1,0) with f injective, (0,1,1) with g injective, (1,1,1) with f,g injective. The book also covers the →← orientation but the Lean formalization covers the linear quiver A₃ (→→) with the six dimension types. The A₃Rep.Indecomposable definition uses the natural 3-variable compatible decomposition condition. The theorem enumerates exactly the 6 cases with appropriate injectivity conditions. The proof is complete. The formalization covers the primary case analyzed in detail; the book mentions the second orientation (→←) only briefly ('very similarly'), and does not prove it separately. This is an acceptable scope choice given the book's emphasis. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.3.1",
+    "lean_decl": "Etingof.Example_6_3_1",
+    "verdict": "verified",
+    "reason": "The book classifies indecomposable D_4 representations (with one specific orientation, 3 arrows pointing to central vertex) and finds 12 indecomposables, with dimension vectors equal to the 12 positive roots of D_4. The Lean theorem `Etingof.Example_6_3_1` proves: every indecomposable D₄Rep has dimVector ∈ D₄_indecomposable_dimVectors. The companion theorem `D₄_indecomposable_dimVectors_card` proves this set has cardinality 12 (by decide). The D₄Rep structure models the specific orientation (3 arms → center). The proof handles all cases: ker-based splits for each arm, the triple-subspace problem (via the `decomp_*` lemmas), and the classification_injective case. The argument is genuine — not vacuous. Faithful to the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.4.9",
+    "lean_decl": "Etingof.Example_6_4_9_An, Etingof.Example_6_4_9_Dn, Etingof.Example_6_4_9_E6, Etingof.Example_6_4_9_E7, Etingof.Example_6_4_9_E8",
+    "verdict": "verified",
+    "reason": "The book states: A_{N-1} has N(N-1)/2 positive roots; D_n has n(n-1) positive roots; E_6 has 36, E_7 has 63, E_8 has 120. The Lean theorems prove: (1) Example_6_4_9_An: Set.ncard of positiveRoots for A_n = n*(n+1)/2, matching the book's A_{N-1} formula (N=n+1 gives n(n+1)/2); (2) Example_6_4_9_Dn: Set.ncard = n*(n-1); (3) E6/E7/E8: ncard = 36/63/120. The positiveRoots def is {x | IsRoot n adj x ∧ ∀ i, 0 ≤ x i} which correctly captures positive roots. The An formula n*(n+1)/2 matches the book's N(N-1)/2 for the A_{N-1} diagram with N-1 vertices (book says 'n(n+1)/2' for A_n). All theorems are proved (the EType proofs use decide with SOS bounds). Fully faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Example6.8.5",
+    "lean_decl": "Etingof.Example6_8_5_part1, Etingof.Example6_8_5_part2, Etingof.Example6_8_5_maximal_indecomposable",
+    "verdict": "gap",
+    "reason": "The book states that applying reflection functors F_3^- F_2^- F_1^- to V_{α_4} yields V_{α_1+α_2+α_3+α_4}, and then F_4^- yields V_{α_1+α_2+α_3+2α_4} (the inclusion of three lines into the plane). The Lean formalization computes this at the level of dimension vectors / simple reflection action on ℤ^4 (via D₄_simpleReflection, a purely combinatorial function on Fin 4 → ℤ). The key gap: the theorems compute that the simple reflection formula s_i on dimension vectors gives the stated results — but this is NOT the same as applying the actual reflection functors F_i^- (from Definition6_6_4) to the representation V_{α_4}. The book's example is about the categorical action of the functors on actual representations; the Lean proof is only about the numerical action on dimension vectors via the Cartan matrix formula. The identification 'F_i^- acts on dimension vectors by s_i' is a theorem (Gabriel's theorem / BGP theory) that is not proved here — it is assumed implicitly. The third part (Example6_8_5_maximal_indecomposable) checks membership in D₄_indecomposable_dimVectors by decide, which is fine for that part. The overall example is thus only partially verified: the dimension vector arithmetic is correct but the connection to the actual reflection functors is missing.",
+    "dropped_conjunct": "The connection between applying F_i^- to V_{α_j} and the simple reflection action on dimension vectors — the categorical content of the example is unproved"
+  },
+  {
+    "id": "Chapter6/Lemma6.4.2",
+    "lean_decl": "Etingof.Lemma_6_4_2_pos_def, Etingof.Lemma_6_4_2_even",
+    "verdict": "verified",
+    "reason": "The book states: (1) B is positive definite (from definition of Dynkin diagram); (2) B(x,x) is always even for x ∈ ℤ^n. The Lean code proves both parts. Lemma_6_4_2_pos_def extracts positive definiteness from the IsDynkinDiagram condition. Lemma_6_4_2_even proves evenness of dotProduct x ((2•1-adj).mulVec x) by splitting into diagonal (2·Σx_i²) and off-diagonal (Σ_{i<j} a_{ij}x_ix_j) parts, using symmetry to show the off-diagonal sum is even. Both proofs are complete, faithful to the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Lemma6.4.6",
+    "lean_decl": "Etingof.Lemma_6_4_6",
+    "verdict": "verified",
+    "reason": "The book states: for any root α = Σ k_i α_i, either all k_i ≥ 0 or all k_i ≤ 0. The Lean theorem proves: for x satisfying IsRoot n adj x (= B(x,x) = 2 and x ≠ 0), either ∀ i, 0 ≤ x i or ∀ i, x i ≤ 0. The proof strategy matches the book exactly: assume ∃ i₀ with x i₀ < 0 and ∃ j₀ with x j₀ > 0; define β = max(x,0), γ = min(x,0); show B(β,β) ≥ 2 and B(γ,γ) ≥ 2 (using pos. def. + evenness from Lemma 6.4.2); show cross terms ≥ 0 (using adj ∈ {0,1} and disjoint support); conclude B(x,x) ≥ 4, contradicting B(x,x) = 2. Complete proof, no sorry. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Lemma6.7.2",
+    "lean_decl": "Etingof.Lemma6_7_2",
+    "verdict": "verified",
+    "reason": "The book states: for β = Σ k_i α_i with k_i ≥ 0 not all zero, some c^N β has a negative coefficient. The Lean theorem proves: for β : Fin n → ℤ with ∀ i, 0 ≤ β i and β ≠ 0 (and hDynkin), ∃ N : ℕ, ∃ i : Fin n, coxeterActionIter n adj N β i < 0. The proof is the telescoping argument from the book: (1) coxeterAction preserves B (simpleReflection_preserves_bilinearForm); (2) orbits are finite (finite_lattice_points_with_B_value); (3) coxeterAction is periodic; (4) sum S = Σ c^k β is a c-fixed point; (5) c has no nonzero fixed point (coxeterAction_fixed_zero, proved via the telescoping intermediateState argument); (6) S = 0 contradicts β ≠ 0, so not all iterates are nonneg. The proof is complete and follows the book's proof strategy. Faithful.",
+    "dropped_conjunct": null
+  }
+]

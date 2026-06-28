@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter2/Corollary2.3.10",
+    "lean_decl": "Etingof.Corollary_2_3_10",
+    "verdict": "verified",
+    "reason": "Theorem states: for V finite-dimensional irreducible A-module over algebraically closed field k, any A-endomorphism φ : V →ₗ[A] V equals c • id for some c : k. This is exactly Schur's lemma for algebraically closed fields (Etingof Cor 2.3.10). Proof delegates to IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed, which exists in Mathlib.RepresentationTheory.AlgebraRepresentation.Basic with the correct signature. All hypotheses match the book (IsAlgClosed k, IsSimpleModule A V, FiniteDimensional k V). Non-vacuous: requires IsSimpleModule, fails without it.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Corollary2.3.12",
+    "lean_decl": "Etingof.Corollary_2_3_12",
+    "verdict": "verified",
+    "reason": "Lean adds [IsAlgClosed k] which the book's blob does not state explicitly, but the corollary follows Cor 2.3.10 and the proof uses Schur's lemma (which requires alg closed). Mathlib's IsSimpleModule.finrank_eq_one_of_isMulCommutative carries IsAlgClosed in its variable section and cannot be proved without it. The book's proof implicitly assumes the same context. The conclusion Module.finrank k V = 1 faithfully matches '1-dimensional'. Non-vacuous: proof fails for non-simple modules.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.11.1",
+    "lean_decl": "Etingof.TensorProductDef",
+    "verdict": "verified",
+    "reason": "abbrev aliases TensorProduct k V W (notation V ⊗[k] W), which is exactly the quotient of the free module on formal symbols v ⊗ w by bilinearity relations, as in Definition 2.11.1. Mathlib's TensorProduct is constructed precisely this way. The abbrev genuinely refers to the right object.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.12.1",
+    "lean_decl": "Etingof.SymmetricAlgebraDef / Etingof.ExteriorAlgebraDef / Etingof.UniversalEnvelopingAlgebraCoordFree",
+    "verdict": "verified",
+    "reason": "Three abbrevs alias SymmetricAlgebra k V, ExteriorAlgebra k V, and UniversalEnvelopingAlgebra k L. Mathlib's SymmetricAlgebra is RingQuot of TensorAlgebra by SymRel (commutativity of generators, matching v⊗w - w⊗v = 0), ExteriorAlgebra quotients by v*v=0 generators, and UniversalEnvelopingAlgebra quotients by [v,w]-v⊗w+w⊗v. All three match Etingof Definition 2.12.1 (i)-(iii) exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.14.1",
+    "lean_decl": "Etingof.LieTensorProduct / Etingof.LieTensorProduct.lie_tmul",
+    "verdict": "verified",
+    "reason": "abbrev LieTensorProduct = TensorProduct k V W with [LieRingModule L V] [LieModule k L V] [LieRingModule L W] [LieModule k L W] in scope. Importing Mathlib.Algebra.Lie.TensorProduct brings TensorProduct.LieModule.lieRingModule and lieModule instances into scope, so the abbrev genuinely carries the Lie action (not merely a k-module). The companion theorem lie_tmul proves ⁅x, v ⊗ₜ w⁆ = ⁅x,v⁆ ⊗ₜ w + v ⊗ₜ ⁅x,w⁆, verified by delegation to TensorProduct.LieModule.lie_tmul_right which exists in Mathlib with exactly this statement. This is the Leibniz rule ρ_{V⊗W}(x) = ρ_V(x)⊗Id + Id⊗ρ_W(x) of Definition 2.14.1. Not vacuous: requires genuine LieModule structure.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.14.2",
+    "lean_decl": "Etingof.LieDualRepresentation / Etingof.lieDualRepresentation_lie_apply",
+    "verdict": "verified",
+    "reason": "abbrev LieDualRepresentation = Module.Dual k V. Mathlib.Algebra.Lie.Basic provides Module.Dual.instLieRingModule and Module.Dual.instLieModule with bracket ⁅x,f⁆(m) = -f(⁅x,m⁆), i.e. ρ_{V*}(x) = -ρ_V(x)^T. The companion theorem lieDualRepresentation_lie_apply proves (⁅x,f⁆ : LieDualRepresentation k L V) v = -f ⁅x,v⁆, which is faithful to book Definition 2.14.2 (ρ_{V*}(x) = -ρ_V(x)*). Two inferInstance examples confirm LieRingModule and LieModule instances are present. The file builds cleanly. Not vacuous: the lie_apply equation would fail for a plain dual without the Lie action.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.2.1",
+    "lean_decl": "Etingof.AssociativeAlgebra",
+    "verdict": "gap",
+    "reason": "Book Definition 2.2.1 defines a NON-UNITAL associative algebra: a vector space with bilinear multiplication satisfying associativity only. The Lean abbrev uses [Ring A] which requires a multiplicative unit (1 : A with one_mul and mul_one). The book explicitly defers the unit to Definition 2.2.2, making 2.2.1 genuinely non-unital. The Lean definition adds a strictly stronger constraint (existence of unit) not present in the book. The correct Mathlib type would be NonUnitalAlgebra k A or NonUnitalNonAssocAlgebra k A restricted to associative. This is a silent strengthening (added 'unital' adjective not in the book definition).",
+    "dropped_conjunct": "book definition is non-unital; Lean requires [Ring A] (has multiplicative unit)"
+  },
+  {
+    "id": "Chapter2/Definition2.2.2",
+    "lean_decl": "EtingofRepresentationTheory.Chapter2.one_isUnit",
+    "verdict": "gap",
+    "reason": "Book Definition 2.2.2 DEFINES the concept of 'unit in an associative algebra'. The Lean formalization is a theorem one_isUnit : [Ring A] → (a : A) → 1 * a = a ∧ a * 1 = a, which merely demonstrates that the already-existing ring element 1 satisfies the unit property. This is vacuous as a definition: the theorem is provably true for any Ring A and says nothing about whether a 'unit' concept is newly defined. The actual concept is baked into [Ring A]'s MulOneClass, which was already required in Definition2_2_1. The formalization records a proof of an axiom rather than a definition of a concept. Decision test: provable for any [Ring A] regardless of mathematical content — passes trivially. Should instead be a typeclass abbreviation or an 'abbrev Etingof.HasUnit A := One A' capturing the existential definition.",
+    "dropped_conjunct": "not a definition, just a proof of axioms already in Ring A; concept of 'unit' is not freshly defined"
+  },
+  {
+    "id": "Chapter2/Definition2.2.5",
+    "lean_decl": "Etingof.CommutativeAlgebra",
+    "verdict": "verified",
+    "reason": "abbrev CommutativeAlgebra = Algebra k A with [CommRing A]. CommRing A captures ab=ba for all a,b, which is exactly Definition 2.2.5's commutativity condition. The Algebra k A ensures the vector space structure and k-linearity. Faithful match.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.2.6",
+    "lean_decl": "Etingof.AlgebraHom",
+    "verdict": "verified",
+    "reason": "abbrev AlgebraHom = A →ₐ[k] B (AlgHom k A B). AlgHom requires: (1) linearity f(ax)=af(x), (2) f(xy)=f(x)f(y) (ring hom), (3) f(1)=1. Book Definition 2.2.6 requires: linear map with f(xy)=f(x)f(y) and f(1)=1. All three conditions match. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.3.1",
+    "lean_decl": "Etingof.Representation",
+    "verdict": "verified",
+    "reason": "abbrev Representation = Module A V. Mathlib's Module A V is exactly a left A-module (vector space V with A-action compatible with ring structure), corresponding to a homomorphism ρ : A → End(V). The book defines left A-module as the primary object ('representation') with right module mentioned secondarily as 'Similarly...'. The primary formalization (left module) is captured faithfully. Omission of a parallel right-module abbrev is minor and consistent with Mathlib's left-module convention; the right module concept exists in Mathlib as Module Aᵒᵖ V.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.3.4",
+    "lean_decl": "Etingof.Subrepresentation",
+    "verdict": "verified",
+    "reason": "abbrev Subrepresentation = Submodule A V. Mathlib's Submodule A V is a subgroup closed under the A-action, exactly the book's 'subspace W ⊂ V invariant under all ρ(a)'. The examples (0 and V are always subrepresentations) correspond to Submodule.bot and Submodule.top. Faithful match.",
+    "dropped_conjunct": null
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "Chapter2/Remark2.3.2",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "No Lean declaration exists for this remark. The book states a formalizable mathematical fact: for a commutative ring A, a left A-module M becomes a right A-module via ma := am, and vice versa, so left and right A-modules are identified. This is a concrete proposition (e.g., a construction of a `Module.rightModule` instance from a `Module` over a commutative ring). The same-model pass noted this absence; no progress has been made since. The remark has mathematical content that is formalizeable and is not captured anywhere in the Lean codebase.",
+    "dropped_conjunct": "The equivalence of left and right module structures over commutative rings via ma := am is not formalized."
+  },
+  {
+    "id": "Chapter2/Remark2.7.2",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "No dedicated Lean declaration. The remark has two parts: (1) the Weyl algebra A can be viewed as the algebra of polynomial differential operators in one variable t (interpretive observation about Proposition 2.7.1); (2) it introduces the notion of a faithful representation, which IS formalized in Definition2.7.3. Part (1) is an informal observation with no crisp Lean statement. Part (2) is covered by Definition2.7.3. Overall: no gap on the faithful-rep content; the polynomial-differential-operators observation is purely interpretive and has no standalone Lean statement. Marking unsure because there is no formalization of the explicit statement that the Weyl algebra equals End(k[t]) via the polynomial differential operator action, beyond the Proposition 2.7.1 content.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.8.5",
+    "lean_decl": "Etingof.PathAlgebra.sum_trivialPaths_eq_one",
+    "verdict": "verified",
+    "reason": "The book claims: if Q is a finite set (finite vertex quiver), then sum_i p_i = 1, so P_Q is a unital algebra. The Lean file Definition2_8_4.lean has `theorem sum_trivialPaths_eq_one [Fintype Q] : (∑ i, ofPath (...trivial path...) : PathAlgebra k Q) = 1` and also the `noncomputable instance [Fintype Q] : Algebra k (PathAlgebra k Q)`. Both the unit equation and the algebra-with-unit structure are present. The statement is faithful to the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.8.7",
+    "lean_decl": "(none)",
+    "verdict": "verified",
+    "reason": "The remark is purely expository: 'In practice, it is generally easier to consider a representation of a quiver as in Definition 2.8.3.' It contains no mathematical claim beyond recommending an equivalent perspective. There is nothing to formalize; the verified verdict is appropriate for a remark with no formal content.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.9.10",
+    "lean_decl": "(none)",
+    "verdict": "verified",
+    "reason": "The remark is purely meta-mathematical: 'This is not a very good definition since it depends on the choice of a basis.' No mathematical claim is made that requires formalization. The same-model pass correctly marked this verified.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.9.14",
+    "lean_decl": "(none)",
+    "verdict": "gap",
+    "reason": "The remark contains substantive mathematical content: Lie(G) consists of G-invariant derivations of C^inf(G), identified as a vector space with T_e G; and Lie's correspondence (bijection between isomorphism classes of simply connected Lie groups over R and finite-dimensional real Lie algebras). No Lean declaration exists. The motivational parts (differentiation/exponentiation of representations) are also unformalized. While much of this is standard differential geometry not expected to be proved in this project, the items.json already marks it 'unsure' with a fidelity note acknowledging no declaration. Upgrading to gap: there is formalizable mathematical content (at least the functorial assignment Lie(G) ↦ Lie algebra, or a statement of Lie's theorem) that is entirely absent.",
+    "dropped_conjunct": "Lie's correspondence theorem (bijection between simply connected Lie groups and finite-dimensional Lie algebras) is not formalized."
+  },
+  {
+    "id": "Chapter2/Remark2.9.4",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "The remark contains mathematical exercises: (a) if g(t) is a differentiable family of automorphisms with g(0)=id, then D=g'(0) is a derivation; (b) if D is a derivation then e^{tD} is a 1-parameter family of automorphisms. Both are labeled 'check it!' and 'give a proof!' in the book. These are verifiable propositions but are presented as exercises left to the reader, not as formal statements. No Lean declaration exists. The motivational narrative (Lie algebras arise as infinitesimal automorphisms) is informal. Marking unsure rather than gap because the remark's content is exercise-level and it is not clear the project has a policy of formalizing inline exercises from remarks.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Theorem2.1.1",
+    "lean_decl": "Etingof.Theorem_2_1_1_i / Etingof.Theorem_2_1_1_ii",
+    "verdict": "verified",
+    "reason": "Part (i): `Theorem_2_1_1_i (d : ℕ+)` states existence (∃ V with finrank ℂ V = d and IsIrreducible) and uniqueness (any two irreducibles of dimension d are isomorphic as Lie modules, witnessed by Nonempty (V ≃ₗ⁅ℂ, sl2⁆ W)). This faithfully captures the book's 'exactly one irreducible representation of each dimension, up to equivalence.' The book's explicit polynomial construction is used in the existence proof via Sl2Irrep but is not re-stated in the top-level signature, which is standard—the statement is an existence-and-uniqueness claim, not a constructive formula claim. Part (ii): `Theorem_2_1_1_ii` states `ComplementedLattice (LieSubmodule ℂ sl2 V)`, which is the correct Lean rendering of 'every finite-dimensional representation is completely reducible / direct sum of irreducibles.' Both theorems have substantive proofs (no sorry). Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Theorem2.1.2",
+    "lean_decl": "Etingof.Theorem_2_1_2",
+    "verdict": "verified",
+    "reason": "The Lean theorem states: for an algebraically closed field k, a connected quiver on Fin n (with no multiple arrows, [Subsingleton (a ⟶ b)], and with a fixed orientation IsOrientationOf), `HasFiniteRepresentationType k n ↔ IsDynkinDiagram n (quiverUndirectedAdj n)`. The book claims: finite type property does not depend on orientation, and the finite-type connected graphs are exactly A_n, D_n, E_6, E_7, E_8. The Lean formulation matches: `IsDynkinDiagram` is defined as precisely the combinatorial characterization of ADE Dynkin diagrams (symmetric 0-1 adjacency, no loops, connected, positive-definite Cartan form), which is the standard equivalent characterization of the ADE list. The Lean statement works over any algebraically closed field (the book notes validity without this assumption in a footnote, but the formalization over alg. closed is the standard and non-vacuous formulation). The orientation-independence is implicit: the theorem's conclusion depends only on the underlying adjacency matrix `quiverUndirectedAdj n`, not on the quiver orientation. Faithful.",
+    "dropped_conjunct": null
+  }
+]

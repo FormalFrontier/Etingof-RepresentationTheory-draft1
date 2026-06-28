@@ -1,0 +1,44 @@
+[
+  {
+    "id": "Chapter5/Theorem5.27.1",
+    "lean_decl": "Etingof.Theorem5_27_1",
+    "verdict": "gap",
+    "reason": "Part (ii) is strictly weaker than the book. The book states the representations V(O,U) are 'pairwise nonisomorphic,' meaning distinct (orbit, irrep) pairs yield non-isomorphic representations. The Lean statement only asserts that V(χ₁,U₁) ≅ V(χ₂,U₂) implies χ₁ and χ₂ are in the same G-orbit (∃ g, dualSmul g χ₁ = χ₂). It drops the second half: that the stabilizer representations U₁ and U₂ (conjugated to a common stabilizer) must be isomorphic. A pair with the same orbit but non-isomorphic U-components would still be incorrectly allowed by the Lean statement. Parts (i), (iii), (iv) match the book faithfully.",
+    "dropped_conjunct": "When V(χ₁,U₁) ≅ V(χ₂,U₂), not only must χ₁ and χ₂ lie in the same orbit, but the stabilizer representations U₁ and U₂ (transferred to a common stabilizer via the conjugating element) must be isomorphic"
+  },
+  {
+    "id": "Chapter5/Theorem5.3.1",
+    "lean_decl": "Etingof.Theorem5_3_1",
+    "verdict": "verified",
+    "reason": "States `Module.finrank ℂ V ∣ Fintype.card G` for G finite, V : FDRep ℂ G, Simple V. This is exactly the book's 'dim V divides |G|' for an irreducible complex representation of a finite group. The proof uses Proposition 5.3.2, character orthonormality, and Proposition 5.2.5 as expected from the book. Faithful and non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.4.3",
+    "lean_decl": "Etingof.Theorem5_4_3",
+    "verdict": "verified",
+    "reason": "States `IsSolvable G` for G finite with `Fintype.card G = p ^ a * q ^ b`, p and q primes. This exactly matches Burnside's theorem as stated in the book. The proof correctly uses Theorem 5.4.6 (conjugacy class of prime power size forces a normal subgroup) via induction on |G|. Non-vacuous and faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.4.4",
+    "lean_decl": "Etingof.Theorem5_4_4",
+    "verdict": "verified",
+    "reason": "States: for irreducible V (FDRep ℂ G, Simple V), g ∈ G, gcd(|C_g|, dim V) = 1, either V.character g = 0 or ∃ c : ℂ, V.ρ g = c • LinearMap.id. This is exactly the book's 'either χ_V(g) = 0 or g acts as a scalar on V.' The scalar c is necessarily a root of unity (eigenvalue of ρ(g) of finite order), which the book implies. The statement is faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.4.6",
+    "lean_decl": "Etingof.Theorem5_4_6",
+    "verdict": "verified",
+    "reason": "States: if G finite and has a conjugacy class of size p^k (p prime, k > 0), then ∃ N : Subgroup G, N.Normal ∧ N ≠ ⊥ ∧ N ≠ ⊤. This is exactly the book's 'G has a proper nontrivial normal subgroup (i.e., G is not simple).' The proof structure (splitting into trivial rep, p-divisible reps, and non-p-divisible reps) follows the book. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.6.1",
+    "lean_decl": "Etingof.extTprod_isIrreducibleRep, Etingof.exists_extTprod_of_isIrreducibleRep",
+    "verdict": "gap",
+    "reason": "Two gaps: (1) The book states the result 'over a field k (of any characteristic),' but the Lean formalization requires [IsAlgClosed k] for both the irreducibility direction (extTprod_isIrreducibleRep) and the exhaustion direction (exists_extTprod_of_isIrreducibleRep). Over an arbitrary non-algebraically-closed field, the result is false, so algebraic closure is mathematically necessary—but the book claims more generality than is formalized. (2) There is no single named declaration Etingof.Theorem5_6_1; the book's theorem is split into two unnamed-as-theorem lemmas without a wrapper that captures both parts simultaneously. The use of a local irreducibility predicate (IsIrreducibleRep) rather than Mathlib's Simple also introduces a layer of translation not present in the book.",
+    "dropped_conjunct": "The field k in the book is stated as arbitrary (any characteristic), but Lean requires IsAlgClosed k; also no unified Etingof.Theorem5_6_1 declaration exists"
+  }
+]

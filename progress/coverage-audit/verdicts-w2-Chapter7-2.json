@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter7/Definition7.9.4",
+    "lean_decl": "Etingof.IsSemisimpleCategory",
+    "verdict": "verified",
+    "reason": "The book defines a semisimple abelian category as one where every short exact sequence splits (is isomorphic to 0→X→X⊕Y→Y→0). The Lean definition `∀ (S : ShortComplex C), S.ShortExact → Nonempty S.Splitting` captures exactly this: `S.Splitting` consists of a retraction of S.f and section of S.g satisfying the compatibility condition, which is precisely the splitting criterion. In abelian categories, having such a splitting is equivalent to the sequence being isomorphic to the direct-sum sequence. The `Nonempty` wrapper is correct (existence, not canonical choice). Faithful Mathlib-delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.1.3",
+    "lean_decl": "anonymous examples (6 `example` declarations)",
+    "verdict": "gap",
+    "reason": "The book lists 6 categories in Example 7.1.3: (1) Sets, (2) Groups, Rings, (3) Vect_k, (4) Rep(A), (5) topological spaces, (6) homotopy category of topological spaces. The Lean file covers items 1–5 (Type*, GrpCat, RingCat, ModuleCat k, ModuleCat A, TopCat) but omits item 6 (the homotopy category). Mathlib has `HomotopyCategory` in `Mathlib.AlgebraicTopology.Homotopy.Basic`. The docstring silently drops sub-item 6.",
+    "dropped_conjunct": "homotopy category of topological spaces (Example 7.1.3(6))"
+  },
+  {
+    "id": "Chapter7/Example7.1.5",
+    "lean_decl": "anonymous examples using forget₂ CommGrpCat GrpCat",
+    "verdict": "verified",
+    "reason": "The book claims AbelianGroups is a full subcategory of Groups. The Lean proves: (1) `(forget₂ CommGrpCat GrpCat).Full`, (2) `(forget₂ CommGrpCat GrpCat).Faithful`, and (3) `(forget₂ CommGrpCat GrpCat).FullyFaithful` via `Functor.FullyFaithful.ofFullyFaithful`. Full + Faithful is the precise categorical definition of 'full subcategory'. Faithful Mathlib-delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.1.6",
+    "lean_decl": "anonymous example using Linear k (ModuleCat k)",
+    "verdict": "gap",
+    "reason": "The book says the category Rep(A) of representations of a k-algebra A is enriched over k-Vect. The correct formalization requires showing `Linear k (ModuleCat A)` for a k-algebra A (using `ModuleCat.Algebra.instLinear` which says: if S is an S₀-algebra, then ModuleCat S is S₀-linear). The Lean file only shows `Linear k (ModuleCat k)` — the self-enrichment of k-Vect over itself — which is the degenerate case A = k. The general claim (ModuleCat A is k-linear for a k-algebra A) is not formalized. The inferInstance would typecheck for the general case if the correct type were given.",
+    "dropped_conjunct": "k-linearity of ModuleCat A for a general k-algebra A (not just A = k)"
+  },
+  {
+    "id": "Chapter7/Example7.2.2",
+    "lean_decl": "anonymous examples (3 `example` declarations)",
+    "verdict": "gap",
+    "reason": "The book has 9 distinct sub-items in Example 7.2.2. The Lean file formalizes only: (2-partial) the forgetful functor Groups→Sets (correct, via `forget GrpCat`) and Rings→Sets (but the book says Rings→AbelianGroups, not Rings→Sets — wrong codomain); (4-partial) the covariant Hom functor Y↦Hom(X,Y) via `coyoneda`. Missing entirely: (1) one-object categories = monoids; (3) opposite category and V↦V* functor Vect→Vect^op; (5) X↦Fun(X,ℤ) functor Sets→Rings^op; (6) quiver path categories and quiver representations; (7) Ind_K^G and Res_K^G functors; (8) direct sum, tensor product, Schur functors; (9) reflection functors. Additionally, the forgetful functor Rings→AbelianGroups (book claim 2) is shown only as Rings→Types (wrong codomain).",
+    "dropped_conjunct": "sub-items 1, 3, 5, 6, 7, 8, 9 entirely absent; sub-item 2 has wrong codomain (Types instead of AbelianGroups) for Rings functor"
+  },
+  {
+    "id": "Chapter7/Example7.3.2",
+    "lean_decl": "Etingof.double_dual_iso, Etingof.double_dual_naturality",
+    "verdict": "gap",
+    "reason": "The book has 4 sub-items in Example 7.3.2. The Lean file only addresses sub-item 1 (partially): `double_dual_iso` gives the equivalence V ≃ₗ V** for finite-free modules, and `double_dual_naturality` gives the naturality square. But: (a) the file does not produce an actual `NatIso` between the identity functor and the double-dual functor on a category; (b) sub-item 2 (id NOT isomorphic to ** on Vect_k for infinite-dim V) is not formalized; (c) sub-item 3 (End(forgetful functor A-mod→Vect) = A) is not formalized; (d) sub-item 4 (End(Id_{A-mod}) = center of A) is not formalized. Sub-items 2–4 are standard results with Mathlib support (or provable) but are absent.",
+    "dropped_conjunct": "sub-items 2 (id not iso to ** on Vect_k), 3 (End F = A), 4 (End Id = center A)"
+  },
+  {
+    "id": "Chapter7/Example7.5.3",
+    "lean_decl": "Etingof.forgetful_representable",
+    "verdict": "verified",
+    "reason": "The book claims the forgetful functor A-mod → Vect_k is representable by the free rank-1 module A. The Lean provides `LinearMap.ringLmapEquivSelf R ℕ M : (R →ₗ[R] M) ≃ₗ[ℕ] M`, which is the hom-set bijection Hom_R(R, M) ≅ M, faithfully capturing the representability claim. The ≃ₗ[ℕ] (ℕ-linear) is correct (the natural bijection is additive but the naturality in M holds at the module level). The second part of the example (finite-dim restriction is not representable) is informal and not a separate mathematical claim. Faithful Mathlib-delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.6.3",
+    "lean_decl": "Etingof.frobenius_reciprocity, Etingof.uea_adjunction",
+    "verdict": "gap",
+    "reason": "The book lists 5 adjunction examples. The Lean formalizes 2: (2) `frobenius_reciprocity` proves `Rep.indFunctor k φ ⊣ Rep.resFunctor φ` (Ind ⊣ Res) — but the book says 'Res_K^G is left adjoint to Ind_K^G' (Res ⊣ Ind), which is the OPPOSITE direction. Mathlib's `indResAdjunction` gives Ind ⊣ Res (the standard Frobenius reciprocity direction: Hom_G(Ind M, N) ≅ Hom_K(M, Res N)), so Lean is mathematically correct, but it contradicts the book's stated direction. (3) `uea_adjunction` gives the hom-set bijection for UEA ✓. Missing entirely: (1) V⊗ ⊣ V*⊗ for group/Lie algebra reps; (4) GL₁ ⊣ k[G] (group algebra adjunction); (5) tensor algebra and symmetric algebra adjunctions.",
+    "dropped_conjunct": "sub-items 1 (V⊗ ⊣ V*⊗), 4 (GL₁ ⊣ k[G]), 5 (TV ⊣ forget, SV ⊣ forget); sub-item 2 direction reversed from book"
+  },
+  {
+    "id": "Chapter7/Example7.7.2",
+    "lean_decl": "anonymous example: Abelian (ModuleCat A)",
+    "verdict": "gap",
+    "reason": "The book explicitly claims BOTH (a) the category of modules over A and (b) the category of finite-dimensional modules over A are abelian. The Lean file only proves (a): `example (A : Type*) [Ring A] : Abelian (ModuleCat A) := inferInstance`. The finite-dimensional module category (b) is absent. Mathlib has `FGModuleCat k` (finitely-generated modules over a field k) and proves `Abelian (FGModuleCat k)` in `Mathlib.Algebra.Category.FGModuleCat.Abelian`, which covers the field case. The general-algebra case is not in Mathlib (it's false without Noetherian hypothesis), but the field case is a well-defined formalizable claim that is missing.",
+    "dropped_conjunct": "category of finite-dimensional modules over A is abelian (Example 7.7.2, second claim)"
+  },
+  {
+    "id": "Chapter7/Example7.8.3",
+    "lean_decl": "Etingof.split_exact_sequence",
+    "verdict": "verified",
+    "reason": "The book claims the sequence 0→X→X⊕Z→Z→0 (with canonical maps) is a short exact sequence and is called split. The Lean proves `(ShortComplex.mk biprod.inl biprod.snd _).ShortExact` via `(ShortComplex.Splitting.ofHasBinaryBiproduct X Z).shortExact`. This correctly asserts the specific sequence is short exact and the proof witnesses a splitting. The 'trivial extension' characterization is informal language, not a separate formal claim. Faithful Mathlib-delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Example7.9.2",
+    "lean_decl": "Etingof.restrictScalars_additive, Etingof.restrictScalars_linear",
+    "verdict": "gap",
+    "reason": "The book claims Ind_K^G, Res_K^G, and Hom_G(V,?) in group representation theory are additive and k-linear. The Lean file proves these properties only for `ModuleCat.restrictScalars` (the algebraic restriction-of-scalars functor), not for the actual group-representation functors `Rep.resFunctor` or `Rep.indFunctor` acting on `Rep k G`. The docstring calls these 'underlying' instances, but the formal statements do not mention group representations. Missing: (1) additivity/linearity of `Rep.indFunctor` directly; (2) additivity/linearity of `Rep.resFunctor` directly; (3) the Hom_G(V,?) functor is not addressed at all.",
+    "dropped_conjunct": "Ind_K^G additivity/linearity on Rep k G; Hom_G(V,?) additivity/linearity"
+  },
+  {
+    "id": "Chapter7/Example7.9.5",
+    "lean_decl": "Etingof.maschke_semisimple",
+    "verdict": "gap",
+    "reason": "The book claims the category of representations of a finite group G over a field of characteristic not dividing |G| is semisimple (in the sense of Definition 7.9.4: every SES splits). The Lean proves `IsSemisimpleRing (MonoidAlgebra k G)` — that the group algebra k[G] is a semisimple ring. This is related but different from the categorical statement: it does not invoke or produce `Etingof.IsSemisimpleCategory (Rep k G)` (defined in Definition7.9.4.lean, not imported). The bridge 'IsSemisimpleRing R → Etingof.IsSemisimpleCategory (ModuleCat R)' is not formalized in the file. The book's claim is about the CATEGORY being semisimple (every SES splits), not about the group ring being a semisimple ring.",
+    "dropped_conjunct": "Etingof.IsSemisimpleCategory (Rep k G) — the categorical semisimplicity conclusion"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter4/Corollary4.2.2",
+    "lean_decl": "Etingof.Corollary4_2_2",
+    "verdict": "verified",
+    "reason": "Book claims: number of isomorphism classes of irreducible representations = number of conjugacy classes (when |G| ≠ 0 in k). Lean states this as an existential over n : ℕ with (i) Simple V_i, (ii) distinct-up-to-iso, (iii) surjective onto simple objects, and (iv) n = Fintype.card (ConjClasses G). This is a faithful and complete rendering. Hypothesis uses Invertible (Fintype.card G : k) which matches the book's '|G| ≠ 0 in k'. The proof via IrrepDecomp + center-dimension argument is complete with no sorries.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Corollary4.2.4",
+    "lean_decl": "Etingof.Corollary4_2_4",
+    "verdict": "verified",
+    "reason": "Book claims: in char 0, χ_V = χ_W implies V ≅ W. Lean restricts to ℂ (characteristic 0 instance) and proves Nonempty (V ≅ W) from FDRep.character V = FDRep.character W. Restricting to ℂ is strictly faithful to the book (which says 'k has characteristic 0' and works over ℂ throughout the examples). The proof is elaborate (semisimplicity induction via Maschke) and sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Definition4.10.1",
+    "lean_decl": "Etingof.FrobeniusDeterminant",
+    "verdict": "gap",
+    "reason": "The book defines X_G as the matrix with entries a_{ij} = x_{g_i g_j} (product g_i * g_j, NOT g_i * g_j^{-1}). The Lean definition uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h⁻¹)`, i.e. entries x_{g * h^{-1}}. This is a different matrix from the book's x_{g * h}. The book's definition indexes variables by g_i g_j (forward product); the Lean definition by g_i g_j^{-1} (inverse). These are isomorphic as polynomials (by variable relabeling h ↦ h^{-1}) but the stated object does not match the book's stated definition. This is a misalignment in the defining formula, not just a style choice.",
+    "dropped_conjunct": "Book uses x_{g_i g_j}, Lean uses x_{g * h^{-1}}"
+  },
+  {
+    "id": "Chapter4/Definition4.6.1",
+    "lean_decl": "Etingof.UnitaryRepresentation",
+    "verdict": "verified",
+    "reason": "Book: a unitary rep is a rep on a complex f.d. space V with G-invariant positive-definite Hermitian form, i.e. (ρ(g)v, ρ(g)w) = (v,w). Lean structure: ρ : Representation ℂ G V with NormedAddCommGroup V, InnerProductSpace ℂ V, and unitary : ∀ g v w, ⟪ρ g v, ρ g w⟫ = ⟪v, w⟫. InnerProductSpace ℂ V encodes both positive-definiteness and the Hermitian form. The structure faithfully captures the definition. It's a def/structure so no sorry issue.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Example4.1.3",
+    "lean_decl": "Etingof.Example4_1_3",
+    "verdict": "verified",
+    "reason": "Book: over a field of char p, every irreducible rep of ℤ/pℤ is trivial. Lean proves ∀ g, ρ g = LinearMap.id under hypothesis IsSimpleModule (MonoidAlgebra k (Multiplicative (ZMod p))) ρ.asModule, which is genuine representation-irreducibility (not IsSimpleModule k V). The proof (freshman's dream + Schur's lemma via Representation.IsIrreducible.injective_or_eq_zero) is complete and sorry-free. Module.Finite is needed to have finrank defined; the book implicitly assumes finite-dimensional. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Example4.3_FiniteAbelianGroups",
+    "lean_decl": "Etingof.Example4_3_FiniteAbelianGroups",
+    "verdict": "verified",
+    "reason": "Book: all irreducible reps of finite abelian groups over alg-closed fields are 1-dimensional. Lean proves Module.finrank k V = 1 under hypothesis IsSimpleModule (MonoidAlgebra k G) ρ.asModule (genuine rep-irreducibility over the group algebra). The book's other content (G^∨ ≅ G, canonical double-dual isomorphism) is not formalized, but the item title and primary claim (1-dimensionality) is faithful. The docstring explicitly notes which additional claims are outside scope.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Example4.3_Q8",
+    "lean_decl": "Etingof.Example4_3_Q8_conj_classes, Etingof.Example4_3_Q8_sum_of_squares",
+    "verdict": "gap",
+    "reason": "The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The Lean file only proves: (1) Q8 has 5 conjugacy classes (by decide), and (2) 1^2+1^2+1^2+1^2+2^2 = 8 (by decide). There is no formalized 2-dimensional representation, no proof of simplicity of any of the five representations, and no character computation. The sum-of-squares theorem is a purely numerical `decide` check with no link to actual representations. The book's substantive content (Pauli matrix representation, irreducibility, character table) is entirely absent. This is significantly weaker than what the book claims.",
+    "dropped_conjunct": "No actual representations constructed; no simplicity proved; no character values verified"
+  },
+  {
+    "id": "Chapter4/Example4.3_S3",
+    "lean_decl": "Etingof.Example4_3_S3_irreps_count, Etingof.Example4_3_S3_sum_of_squares",
+    "verdict": "gap",
+    "reason": "Same structural issue as Example4.3_Q8. The book describes the three irreducible representations of S3 (trivial, sign, and 2-dimensional standard rep via symmetries of equilateral triangle) and proves the 2-dim rep is irreducible. The Lean file only provides two `decide` computations: 3 conjugacy classes and 1^2+1^2+2^2=6. No representations are constructed, no irreducibility is proved, and no character values are verified. (Note: genuine S3 reps ARE constructed in Example4_9_1.lean under Etingof.Example4_9_1, but the Example4_3_S3.lean item itself is just numerical checks.)",
+    "dropped_conjunct": "No actual representations constructed; no irreducibility proved"
+  },
+  {
+    "id": "Chapter4/Example4.3_S4",
+    "lean_decl": "Etingof.Example4_3_S4_conj_classes, Etingof.Example4_3_S4_sum_of_squares",
+    "verdict": "gap",
+    "reason": "Same structural issue as Q8 and S3. Book describes 5 irreps of S4 (trivial, sign, 2-dim pullback from S3, 3-dim rotation rep C3+, 3-dim C3-). Lean only proves: 5 conjugacy classes (by decide, with maxRecDepth 10000) and 1^2+1^2+2^2+3^2+3^2=24 (by decide). No representations constructed, no irreducibility proved, no character values. (Genuine S4 reps are in Example4_8_1.lean under namespace S4, but not here.)",
+    "dropped_conjunct": "No actual representations constructed; no irreducibility proved"
+  },
+  {
+    "id": "Chapter4/Example4.8.1",
+    "lean_decl": "Etingof.Example4_8_1_Q8_*, Etingof.Example4_8_1_S4_*, Etingof.Example4_8_1_A5_*",
+    "verdict": "gap",
+    "reason": "For Q8 and S4: complete. All 5 representations are constructed as genuine FDRep objects, simplicity proved via norm-one criterion (no native_decide), characters computed and matched to table values, pairwise non-isomorphism proved. For A5: only 3 of 5 representations are formalized (trivial ℂ, ℂ⁴, ℂ⁵). The two 3-dimensional icosahedral representations ℂ³₊ and ℂ³₋ are defined as subrepresentations (repC3plus, repC3minus via eigenspace decomposition) but are NOT included in irrepA5 (Fin 3 → FDRep), NOT proved simple, NOT proved to have the tabulated golden-ratio character values, and are not referenced in the public Etingof.* theorems. The A5 public API (Etingof.Example4_8_1_A5_irrep : Fin 3 → ...) covers only 3 of the 5 rows of the table. The book states all five A5 rows explicitly. The A5_orthonormal theorem (orthonormality of all 5 rows of chiA5) is proved but for the tabulated numbers only, not linked to genuine representations for rows 1 and 2.",
+    "dropped_conjunct": "A5: ℂ³₊ and ℂ³₋ simplicity and character values unproved; irrepA5 covers only Fin 3"
+  },
+  {
+    "id": "Chapter4/Example4.9.1",
+    "lean_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character",
+    "verdict": "gap",
+    "reason": "The book's Example 4.9.1 gives tensor-product multiplicity tables for S3, S4, AND A5. The Lean formalization covers only S3. The S4 and A5 tables are explicitly noted in the file as deferred ('The S₄ and A₅ tables require their full irreducible catalogues... those genuine constructions are tracked as follow-up work and are deliberately not shipped here'). For S3, the formalization is thorough: genuine reps constructed, characters computed, multiplicity identity proved for all group elements, phrased both as character identity and as tensor product identity. But two-thirds of the book's content is absent.",
+    "dropped_conjunct": "S4 and A5 tensor product tables entirely absent"
+  },
+  {
+    "id": "Chapter4/Lemma4.10.3",
+    "lean_decl": "Etingof.Lemma4_10_3",
+    "verdict": "verified",
+    "reason": "Book: det(Y) for an n×n matrix Y with independent variable entries is an irreducible polynomial. Lean proves Irreducible (det (genMatrix n)) for all n > 0, where genMatrix n is the generic matrix with MvPolynomial.X (i,j) entries. Proof is by induction with cofactor expansion, using a custom irreducible_mul_X_add lemma. The statement is a faithful formalization. No sorries. The book's proof strategy (specialize to a cyclic-shift matrix) is replaced by a cofactor-based induction, but the statement is identical.",
+    "dropped_conjunct": null
+  }
+]

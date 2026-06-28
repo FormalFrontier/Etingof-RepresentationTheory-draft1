@@ -1,0 +1,44 @@
+[
+  {
+    "id": "Chapter9/Example9.4.4",
+    "lean_decl": "Etingof.Example_9_4_4",
+    "verdict": "verified",
+    "reason": "States `Etingof.homologicalDimension (MvPolynomial (Fin n) k) = n` for `[Field k]` and all `n : ℕ`. Both directions (upper bound via Koszul induction and lower bound via augmentation module non-projectivity) are proved. Faithfully captures the book's claim that the homological dimension of k[x₁,…,xₙ] equals n.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Example9.5.2",
+    "lean_decl": "Etingof.semisimple_blocks_singleton, Etingof.local_artinian_single_block",
+    "verdict": "gap",
+    "reason": "Three gaps: (1) Part (i) book says 'each block is equivalent to the category of vector spaces (and thus has only one simple object)'; Lean only proves that any two linked simple modules over a semisimple ring are isomorphic — the 'equivalent to VecSpaces' content (covering all modules in a block, not just simples) is absent. (2) Part (iii) about the algebra from Problem 9.3.2 having one block is entirely absent from the Lean file. (3) The existing semisimple theorem proves `Nonempty (X ≅ Y)` for linked simples — the block-equivalence-to-VecSpaces claim is strictly stronger (it is a statement about the whole block subcategory, not just simple objects).",
+    "dropped_conjunct": "Part (i): 'equivalent to category of vector spaces' (only proves simples in same block are isomorphic); Part (iii): entirely missing (algebra from Problem 9.3.2 has one block)"
+  },
+  {
+    "id": "Chapter9/Proposition9.1.1",
+    "lean_decl": "Etingof.idempotent_lifting_exists, Etingof.idempotent_lifting_conjugate",
+    "verdict": "verified",
+    "reason": "Part (i) `Etingof.idempotent_lifting_exists` asserts existence of an idempotent lift (real proof via Mathlib's `exists_isIdempotentElem_eq_of_ker_isNilpotent`). Part (ii) `Etingof.idempotent_lifting_conjugate` explicitly constructs the conjugating unit `u ∈ 1 + I` and proves `↑u * e₁ * ↑u⁻¹ = e₂`. Both parts are faithful to the book statement with full proofs (no sorry).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Proposition9.2.3",
+    "lean_decl": "Etingof.projective_cover_hom_multiplicity",
+    "verdict": "verified",
+    "reason": "States `Module.finrank k (P i →ₗ[A] N) = Etingof.compositionFactorMultiplicity s (M i)` where `compositionFactorMultiplicity` is defined as counting composition factors linearly isomorphic to `M i` in the composition series `s`. The definition is non-trivial (custom `compositionFactorMultiplicity` rather than a sorry'd placeholder) and the theorem provides the correct identification. The statement is faithful to the book: dim Hom_A(Pᵢ, N) = multiplicity of Mᵢ in the Jordan-Hölder series of N.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Theorem9.2.1",
+    "lean_decl": "Etingof.Theorem_9_2_1_i, Etingof.Theorem_9_2_1_ii, Etingof.Theorem_9_2_1_iii",
+    "verdict": "verified",
+    "reason": "All three parts are stated and proved (with some sorry'd sub-lemmas in the construction but the main theorem statements are real, not vacuous). Part (i) gives existence and uniqueness (up to iso) of indecomposable projective covers with dim Hom(Pᵢ, Mⱼ) = δᵢⱼ. Part (ii) gives A ≅ ⊕ᵢ (dim Mᵢ)·Pᵢ. Part (iii) says any indecomposable f.g. projective is isomorphic to some Pᵢ. The hypothesis `[IsAlgClosed k]` is appropriate for the chapter's context. The statements faithfully capture the book.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Theorem9.6.4",
+    "lean_decl": "Etingof.Theorem_9_6_4, Etingof.Theorem_9_6_4_corollary",
+    "verdict": "unsure",
+    "reason": "The main theorem `Etingof.Theorem_9_6_4` requires `[IsNoetherianRing (End P)ᵐᵒᵖ]` as an explicit hypothesis, which is not stated in the book. In the book's setting (finite abelian category) this is automatically true since End(P) is a finite-dimensional k-algebra, but the Lean theorem does not establish this automatically — it requires the caller to supply it. The corollary `Etingof.Theorem_9_6_4_corollary` has the same extra hypothesis. The functor `preadditiveCoyonedaObjFG` lands in `FGModuleCat (End P)ᵐᵒᵖ` rather than `ModuleCat` of a finite-dimensional k-algebra, which is correct but the corollary wording 'modules over a finite dimensional k-algebra' is not fully captured (no explicit k-algebra finiteness in the type). Marking unsure rather than gap because the mathematics is correct in the intended setting.",
+    "dropped_conjunct": "Hypothesis `[IsNoetherianRing (End P)ᵐᵒᵖ]` is an additional assumption not in the book statement; the corollary does not explicitly state that the endomorphism ring is a finite-dimensional k-algebra."
+  }
+]

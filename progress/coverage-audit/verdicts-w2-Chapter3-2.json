@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter3/Proposition3.1.4",
+    "lean_decl": "Etingof.subrepresentation_of_semisimple",
+    "verdict": "verified",
+    "reason": "Book claims W ≅ ⊕ rᵢVᵢ with rᵢ ≤ nᵢ, plus a structural description of the inclusion by matrices Xᵢ with linearly independent rows. The Lean theorem proves the isomorphism type and the multiplicity bound (both rᵢ ≤ nᵢ and the explicit isomorphism W ≃ₗ[A] ⊕ rᵢVᵢ) via a full isotypic-component argument. The matrix description of the embedding is bonus expository content not part of the core mathematical statement; its omission is noted in the docstring. The core statement is faithfully captured.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Proposition3.5.2",
+    "lean_decl": "Etingof.radical_isTwoSided",
+    "verdict": "verified",
+    "reason": "Book: Rad(A) is a two-sided ideal. Lean proves Ideal.jacobson ⊥ carries IsTwoSided (via inferInstance), and also provides radical_is_ideal showing both left and right multiplication closure explicitly. Perfect fidelity.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Proposition3.5.3",
+    "lean_decl": "Etingof.nilpotent_ideal_le_radical / Etingof.radical_is_nilpotent",
+    "verdict": "verified",
+    "reason": "Book claims (i) any nilpotent two-sided ideal I ⊆ Rad(A), and (ii) Rad(A) is nilpotent (hence largest nilpotent ideal). Both parts are formalized: nilpotent_ideal_le_radical proves (i) and radical_is_nilpotent proves (ii), using IsArtinianRing.isNilpotent_jacobson_bot. Both are over a finite-dimensional algebra over a field.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Proposition3.5.8",
+    "lean_decl": "Etingof.semisimple_algebra_equiv",
+    "verdict": "verified",
+    "reason": "Book states a 5-way equivalence (1)⟺(2)⟺(3)⟺(4)⟺(5) for semisimple algebras. The Lean theorem uses List.TFAE with all 5 conditions and proves all necessary implications via tfae_have: 1→2, 2→1, 1→3, 3→1, 1→4, 4→5, 5→1. This covers the full 5-way equivalence. Algebraically-closed field hypothesis is present as required by Wedderburn–Artin for (3).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Remark3.10.3",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "No Lean file exists for this item. The book remark notes that Theorem 3.10.2(ii) typically fails for infinite-dimensional representations (e.g. Weyl algebra in char 0, or A=B=V=W=ℂ(x) where A⊗B is not a field). This is a counterexample/explanatory remark with no positive mathematical statement to formalize. Items.json confirms status 'sorry_free' with fidelity_decl '(none)'. As a narrative counterexample remark, non-formalization is expected, but the audit task asks to check it — it is uncovered.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Remark3.3.4",
+    "lean_decl": "Etingof.freeCover_surjective / Etingof.quotientEquivOfFreeCover",
+    "verdict": "verified",
+    "reason": "Book: every n-dimensional representation X of A is a quotient of Aⁿ via the unique A-linear map ψ(a₁,…,aₙ) = ∑ aᵢxᵢ. Lean defines freeCover, proves freeCover_surjective (ψ is surjective), and provides quotientEquivOfFreeCover (the isomorphism Aⁿ/ker(ψ) ≃ₗ[A] X). Full fidelity.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Remark3.8.6",
+    "lean_decl": "(none)",
+    "verdict": "unsure",
+    "reason": "No Lean file exists for this item. The book remark states that Krull-Schmidt fails for infinite-dimensional modules but holds for modules of finite length. This is meta-commentary about scope of a theorem. Items.json confirms fidelity_decl '(none in Chapter3)'. The positive statement (Krull-Schmidt for finite-length modules) is a theorem that could in principle be formalized, but this remark simply notes the fact. Uncovered.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.10.2",
+    "lean_decl": "Etingof.tensor_product_irreducible / Etingof.tensor_product_irreducible_classification",
+    "verdict": "gap",
+    "reason": "Book Theorem 3.10.2(ii): any irreducible M of A⊗B has the form V⊗W for **unique** V and W. The Lean theorem tensor_product_irreducible_classification proves existence (∃ V W ...) but entirely drops the uniqueness claim. The conclusion is existential with no uniqueness quantifier (∃! or ∀ ... → isomorphic). Part (i) (tensor product of irreducibles is irreducible) is faithfully formalized in tensor_product_irreducible. Part (ii) drops the uniqueness conjunct.",
+    "dropped_conjunct": "Uniqueness of V and W in Theorem 3.10.2(ii): the book states M ≅ V⊗W for unique irreducible V of A and W of B; Lean only proves ∃ V W, not ∃! V W or any uniqueness-up-to-isomorphism statement."
+  },
+  {
+    "id": "Chapter3/Theorem3.2.2",
+    "lean_decl": "Etingof.density_theorem_part1 / Etingof.density_theorem_part2",
+    "verdict": "verified",
+    "reason": "Book: (i) for irreducible V, A → End(V) is surjective; (ii) for pairwise non-isomorphic irreducibles V₁,…,Vᵣ, the combined map A → ⊕ End(Vᵢ) is surjective. Both parts are proven. Part (i) uses the Jacobson density theorem (Module.Finite.toModuleEnd_moduleEnd_surjective) via Schur's lemma. Part (ii) handles the multi-component case via off-diagonal vanishing and Schur's lemma.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.3.1",
+    "lean_decl": "Etingof.irreducible_reps_of_matrix_algebra",
+    "verdict": "verified",
+    "reason": "Book: for A = ⊕ᵢ Mat_{dᵢ}(k), the irreducible representations are V₁=k^{d₁},…,Vᵣ=k^{dᵣ}, and any finite-dimensional representation is a direct sum of copies of these. Lean proves all three components: (1) each Vⱼ is a simple A-module (isSimpleModule_vModuleProd), (2) every finite-dimensional simple A-module is isomorphic to some Vⱼ (exists_iso_vModuleProd), and (3) every A-module is semisimple (isSemisimpleModule_of_matrixProd). Full fidelity.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.5.4",
+    "lean_decl": "Etingof.structure_mod_radical",
+    "verdict": "verified",
+    "reason": "Book: A has finitely many irreducible representations (all finite-dimensional), and A/Rad(A) ≅ ⊕ᵢ End(Vᵢ). Lean proves the algebra isomorphism A/Rad(A) ≃ₐ[k] ∏ᵢ End_k(Vᵢ) given a complete set of non-isomorphic irreducibles. Finiteness of the number of irreducibles is implicit (ι is Fintype). Full fidelity.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.6.2",
+    "lean_decl": "Etingof.characters_linearly_independent / Etingof.characters_basis_semisimple",
+    "verdict": "verified",
+    "reason": "Book: (i) characters of distinct irreducibles are linearly independent; (ii) for semisimple A, they form a basis of (A/[A,A])*. Part (i) is exactly proven as characters_linearly_independent. For part (ii), characters_basis_semisimple proves that every tracial functional f (satisfying f(ab)=f(ba)) lies in span{χᵢ}. Since (A/[A,A])* is exactly the space of tracial functionals on A, this combined with part (i) (linear independence) gives that the characters are a basis. The formulation as 'every tracial f ∈ span' is equivalent to the book's 'form a basis of (A/[A,A])*' (spanning direction) when combined with linear independence. Faithful-but-terse.",
+    "dropped_conjunct": null
+  }
+]
