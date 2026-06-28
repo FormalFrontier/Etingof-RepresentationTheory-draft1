@@ -8,6 +8,7 @@ import EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso
 import EtingofRepresentationTheory.Chapter5.RightTranslationHull
 import EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp
 import EtingofRepresentationTheory.Chapter5.RealizationCoreAnalytic
+import EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf
 
 /-!
 # Theorem 5.23.2(ii): the genuine `GL_n × GL_n`-equivariant Peter-Weyl decomposition
@@ -510,6 +511,70 @@ theorem localRightRep_mem_iSup_range_peterWeylSummandMap
 -- `Etingof.exists_detTwistNeg_schurModule_realization_of_simple` is now proved sorry-free in
 -- `Chapter5/RealizationCoreAnalytic.lean` (imported above) and is used directly below.
 
+/-- **Det-shift packaging, parameterized core.** Given a dominant weight `lam` whose integer
+entries are `lam.val i = ν i − r` (antitone `ν`), the irreducible `algIrrepGLRepρ n lam k` is
+`GL_n`-equivariantly isomorphic to the `det^{-r}`-twisted Schur module
+`charTwistRep (det^{-r}) (schurModuleRep k n ν)`.
+
+The key arithmetic: `lam.shift ≤ r`, and with `c := r − lam.shift` one has (uniformly in `n`,
+including the boundary `r < ν(last)` where `lam.shift = 0`) `ν i = lam.toNatWeight i + c`. So
+`ν` is the `c`-fold determinant shift of `lam.toNatWeight`, identified with it by iterating
+Proposition 5.22.2 (`charTwist_detPow_iso_schurShift`). Twisting that iterated iso by `det^{-r}`
+and collapsing `det^{-r} · det^c = det^{-lam.shift}` (via `charTwistRep_charTwistRep`) matches the
+`det^{-lam.shift}`-twist defining `algIrrepGLRepρ`. -/
+private theorem aux_detShift_packaging
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (r : ℕ) (ν : Fin n → ℕ) (lam : DominantWeight n)
+    (hval : ∀ i, lam.val i = (ν i : ℤ) - r) :
+    Nonempty { e : AlgIrrepGL n lam k ≃ₗ[k] SchurModuleSubmodule k n ν //
+      ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
+        e (algIrrepGLRepρ n lam k g v)
+          = charTwistRep (detChar k n ^ (-(r : ℤ))) (schurModuleRep k n ν) g (e v) } := by
+  -- `lam.val i + lam.shift ≥ 0`, so `lam.toNatWeight` recovers `lam.val + lam.shift` exactly.
+  have hnonneg : ∀ i, 0 ≤ lam.val i + (lam.shift : ℤ) := by
+    intro i
+    obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 :=
+      ⟨n - 1, (Nat.succ_pred_eq_of_pos (Fin.pos i)).symm⟩
+    have hlast : lam.val (Fin.last m) ≤ lam.val i := lam.property (Fin.le_last i)
+    change 0 ≤ lam.val i + (((-(lam.val (Fin.last m))).toNat : ℕ) : ℤ)
+    omega
+  have hcast : ∀ i, (lam.toNatWeight i : ℤ) = lam.val i + (lam.shift : ℤ) := by
+    intro i
+    change (((lam.val i + (lam.shift : ℤ)).toNat : ℕ) : ℤ) = lam.val i + (lam.shift : ℤ)
+    rw [Int.toNat_of_nonneg (hnonneg i)]
+  -- The shift is bounded by `r` because `ν(last) ≥ 0`.
+  have hshift_le : lam.shift ≤ r := by
+    cases n with
+    | zero => exact Nat.zero_le r
+    | succ m =>
+        have hvl := hval (Fin.last m)
+        change (-(lam.val (Fin.last m))).toNat ≤ r
+        omega
+  -- `ν` is the `c`-fold determinant shift of `lam.toNatWeight`.
+  set c : ℕ := r - lam.shift with hc
+  have hnu : ∀ i, ν i = lam.toNatWeight i + c := by
+    intro i
+    have h1 := hcast i
+    have h2 := hval i
+    omega
+  have hνeq : (fun i => lam.toNatWeight i + c) = ν := funext (fun i => (hnu i).symm)
+  -- The product character collapse `det^{-r} · det^c = det^{-lam.shift}`.
+  have hchar : detChar k n ^ (-(r : ℤ)) * detChar k n ^ c
+      = detChar k n ^ (-(lam.shift : ℤ)) := by
+    rw [← zpow_natCast (detChar k n) c, ← zpow_add]
+    congr 1
+    omega
+  -- Iterate Proposition 5.22.2: `det^c ⊗ L_{lam.toNatWeight} ≅ L_{lam.toNatWeight + c} = L_ν`.
+  rw [← hνeq]
+  obtain ⟨e₀, he₀⟩ :=
+    charTwist_detPow_iso_schurShift k n lam.toNatWeight lam.toNatWeight_antitone c
+  refine ⟨e₀, ?_⟩
+  intro g v
+  -- Twist the iterated iso once more by `det^{-r}` and collapse the stacked twists.
+  have key := (Intertwines.charTwist (detChar k n ^ (-(r : ℤ))) he₀) g v
+  rw [charTwistRep_charTwistRep, hchar] at key
+  exact key
+
 /-- **Realization core, det-shift packaging half (step 6 of issue #5602).** A `det^{-r}`-twisted
 Schur module `charTwistRep (det^{-r}) (schurModuleRep k n ν)` (antitone `ν`) is equivariantly
 isomorphic to the irreducible `algIrrepGLRepρ n lam k` for a concrete dominant weight `lam`.
@@ -531,7 +596,10 @@ theorem exists_dominantWeight_algIrrepGL_iso_detTwistNeg_schurModule
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
           e (algIrrepGLRepρ n lam k g v)
             = charTwistRep (detChar k n ^ (-(r : ℤ))) (schurModuleRep k n ν) g (e v) } :=
-  sorry
+  -- Set `lam.val := ν − r` (antitone since `ν` is) and apply the parameterized core.
+  ⟨⟨fun i => (ν i : ℤ) - r,
+      fun _ _ hij => sub_le_sub_right (by exact_mod_cast hν hij) (r : ℤ)⟩,
+    aux_detShift_packaging n k r ν _ (fun _ => rfl)⟩
 
 /-- **Realization core.** A simple, finite-dimensional `localRightRep`-subrepresentation `S` of
 `R = Localization.Away (detPoly k n)` is realized by a concrete dominant weight: there is a
