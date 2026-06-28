@@ -29,6 +29,7 @@ import EtingofRepresentationTheory.Chapter4.Definition4_6_1
 import EtingofRepresentationTheory.Chapter4.Theorem4_6_2
 import EtingofRepresentationTheory.Chapter4.Discussion_after_Theorem4_6_2
 import EtingofRepresentationTheory.Chapter4.Theorem4_6_3
+import EtingofRepresentationTheory.Chapter4.Remark4_6_4
 
 -- Section 4.7: Orthogonality of Matrix Elements
 import EtingofRepresentationTheory.Chapter4.Proposition4_7_1
