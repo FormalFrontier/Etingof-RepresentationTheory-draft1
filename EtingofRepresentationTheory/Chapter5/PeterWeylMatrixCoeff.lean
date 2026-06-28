@@ -263,4 +263,59 @@ theorem peterWeylSummandMap_equivariant
   -- `g⁻¹ * (y * h)` versus `(g⁻¹ * y) * h`: associativity.
   rw [mul_assoc]
 
+/-! ## Step 4: matrix-coefficient correspondence for equivariant maps `L_λ → R` -/
+
+/-- **Matrix-coefficient correspondence (Step 4 of §5.23(ii)).** Any `GL_n`-equivariant
+`k`-linear map `ι : L_λ → R = A[det⁻¹]` intertwining the Schur-module action
+`algIrrepGLRepρ` with the right-translation representation `localRightRep` realizes each
+`ι v` as a matrix coefficient of the per-summand map: there is a contragredient vector
+`u ∈ L*_λ` with `ι v = peterWeylSummandMap (u ⊗ v)` for every `v`.
+
+Concretely `u = e⁻¹(ε ∘ ι)` where `ε φ = evalGLAway φ 1` is evaluation at the identity
+and `e = algIrrepGLDualIso`. The matrix coefficient of `ι` at `v`,
+`g ↦ ε(localRightRep g (ι v)) = evalGLAway (ι v) g`, equals `⟨u, ρ(g) v⟩` through
+`evalGLAway`, and `evalGLAway`-injectivity (`evalGLAway_injective`, `k` infinite via
+`CharZero`) upgrades the pointwise identity to equality in `R`. -/
+theorem equivariant_eq_peterWeylSummandMap
+    (ι : AlgIrrepGL n lam k →ₗ[k] Localization.Away (detPoly k n))
+    (hι : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
+      ι (algIrrepGLRepρ n lam k g v) = localRightRep k n g (ι v))
+    (v : AlgIrrepGL n lam k) :
+    ∃ u : AlgIrrepGLDual n lam k,
+      ι v = peterWeylSummandMap n lam k (u ⊗ₜ[k] v) := by
+  -- `ε ∘ ι` as a linear functional `L_λ → k`, `w ↦ evalGLAway (ι w) 1`.
+  let epsIota : AlgIrrepGL n lam k →ₗ[k] k :=
+    { toFun := fun w => evalGLAway (ι w) 1
+      map_add' := fun w w' => by rw [map_add, map_add]; rfl
+      map_smul' := fun c w => by
+        rw [map_smul, RingHom.id_apply, evalGLAway_smul, Pi.smul_apply, smul_eq_mul] }
+  -- Transport this functional back through the contragredient identity to get `u`.
+  refine ⟨(algIrrepGLDualIso n lam k).symm epsIota, ?_⟩
+  -- The chosen `u` pairs against any `w` as `ε(ι w) = evalGLAway (ι w) 1`.
+  have hpair : ∀ w, algIrrepDualPairing n lam k
+      ((algIrrepGLDualIso n lam k).symm epsIota ⊗ₜ[k] w) = evalGLAway (ι w) 1 := by
+    intro w
+    rw [algIrrepDualPairing_tmul, LinearEquiv.apply_symm_apply, contractLeft_apply]
+    rfl
+  -- Compare in the faithful functions-on-`GL` model.
+  apply evalGLAway_injective
+  funext g
+  rw [evalGLAway_peterWeylSummandMap, hpair (algIrrepGLRepρ n lam k g v), hι,
+    evalGLAway_localRightRep, one_mul]
+
+/-- **Image of an equivariant map lands in the per-summand range.** Packaging
+`equivariant_eq_peterWeylSummandMap`: for any `GL_n`-equivariant `ι : L_λ → R`
+intertwining `algIrrepGLRepρ` with right translation `localRightRep`, the image of `ι`
+is contained in `LinearMap.range (peterWeylSummandMap n lam k)`. This is the inclusion
+that, summed over all equivariant copies of `L_λ` inside `R`, drives surjectivity of the
+Peter-Weyl summand map onto the `L_λ`-isotypic part of `R`. -/
+theorem equivariant_range_le_peterWeylSummandMap
+    (ι : AlgIrrepGL n lam k →ₗ[k] Localization.Away (detPoly k n))
+    (hι : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
+      ι (algIrrepGLRepρ n lam k g v) = localRightRep k n g (ι v)) :
+    LinearMap.range ι ≤ LinearMap.range (peterWeylSummandMap n lam k) := by
+  rintro _ ⟨v, rfl⟩
+  obtain ⟨u, hu⟩ := equivariant_eq_peterWeylSummandMap n lam k ι hι v
+  exact ⟨u ⊗ₜ[k] v, hu.symm⟩
+
 end Etingof
