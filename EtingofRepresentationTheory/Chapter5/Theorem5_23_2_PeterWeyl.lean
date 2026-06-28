@@ -44,7 +44,7 @@ noncomputable section
 
 namespace Etingof
 
-open Etingof.LocalizationGLAction Etingof.DetLocalization
+open Etingof.LocalizationGLAction Etingof.DetLocalization Etingof.KernelLemmaKPrime
 
 variable {k : Type*}
 
@@ -505,6 +505,74 @@ theorem localRightRep_mem_iSup_range_peterWeylSummandMap
   · rw [map_zero]; exact Submodule.zero_mem _
   · intro a b ha hb; rw [map_add]; exact Submodule.add_mem _ ha hb
 
+/-- **Realization core, analytic half (steps 1–5 of issue #5602).** A simple, finite-dimensional
+`localRightRep`-subrepresentation `S` of `R = Localization.Away (detPoly k n)` is, after a
+`det^{-r}`-twist, equivariantly isomorphic to a Schur module `SchurModuleSubmodule k n ν` for some
+common-denominator exponent `r` and antitone `ν`. Concretely: there is a `k`-linear equivalence
+`f : SchurModuleSubmodule k n ν ≃ₗ[k] S.toSubmodule` intertwining the `det^{-r}`-twisted Schur action
+`charTwistRep (det^{-r}) (schurModuleRep k n ν)` with `S.toRepresentation`.
+
+This packages the genuinely analytic content of the realization core, isolated as a sorry for
+independent attack. Route (mirror `rightHull_isSemisimple`, `RightTranslationHullDecomp.lean`):
+1. **Common denominator + det^r twist into polynomials.** `S` is finite-dimensional; pick a basis,
+   apply `exists_invSelf_normalForm` (`DetLocalization.lean`) to each basis vector and take the max
+   exponent `r`, so `det^r · S ⊆ algebraMap '' A` where `A = k[Xᵢⱼ]`. The `det^r`-multiplication
+   map (via `numEmbed`/`numEmbed_intertwines`) exhibits `M := charTwistRep (detChar k n ^ r)
+   S.toRepresentation` as a subrepresentation of bounded-degree polynomials; mirror
+   `boundedSubrep`/`boundedRightRep_isAlgebraic`/`IsAlgebraicRepresentation.restrict`/`.of_linearEquiv`
+   to obtain `M` algebraic (`Etingof.IsAlgebraicRepresentation`).
+2. **Homogeneity of a simple.** `M ⊆ A` and the total-degree grading of `A` is right-translation
+   stable (`polyRightHomogeneousSubrep`, `polyRightRep_isHomogeneous`, `PolyRightGrading.lean`).
+   `M` is simple (twist of the simple `S`, `isSemisimpleModule_charTwistRep` /
+   `LinearEquiv.isSimpleModule_iff`), so exactly one graded piece is nonzero: `M` is homogeneous of
+   a single degree `d`.
+3. **Weight-spanning.** `M` is a polynomial representation, so its `ℕ`-valued weight spaces span
+   (`PolynomialWeightSaturation.lean`).
+4. **Character is a single Schur polynomial.** Apply
+   `simple_constituent_formalCharacter_eq_schurPoly_mem` (`ConstituentCharacterExtraction.lean`):
+   from algebraic + weight-spanning + homogeneous + simple, obtain antitone `ν` with
+   `formalCharacter k n (FDRep.of M) = schurPoly n ν`.
+5. **Iso to the Schur module.** Apply `simpleRep_iso_schurModule_of_formalCharacter_eq`
+   (`SchurWeylFormalCharacterIso.lean`) to get `M ≅ SchurModule k n ν`, i.e. an equivariant
+   `e₁ : schurModuleRep k n ν ≅ M`. Untwist `M = charTwistRep (det^r) S.toRepresentation` by `det^{-r}`
+   to get `f := e₁⁻¹` intertwining `charTwistRep (det^{-r}) (schurModuleRep k n ν)` with
+   `S.toRepresentation`. -/
+theorem exists_detTwistNeg_schurModule_realization_of_simple
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (S : Subrepresentation (localRightRep k n))
+    [FiniteDimensional k S.toSubmodule]
+    (hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (Subrepresentation.asSubmodule S)) :
+    ∃ (r : ℕ) (ν : Fin n → ℕ) (_hν : Antitone ν),
+      Nonempty { f : SchurModuleSubmodule k n ν ≃ₗ[k] S.toSubmodule //
+        ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : SchurModuleSubmodule k n ν),
+          f (charTwistRep (detChar k n ^ (-(r : ℤ))) (schurModuleRep k n ν) g v)
+            = S.toRepresentation g (f v) } :=
+  sorry
+
+/-- **Realization core, det-shift packaging half (step 6 of issue #5602).** A `det^{-r}`-twisted
+Schur module `charTwistRep (det^{-r}) (schurModuleRep k n ν)` (antitone `ν`) is equivariantly
+isomorphic to the irreducible `algIrrepGLRepρ n lam k` for a concrete dominant weight `lam`.
+
+This is the subtle det-shift bookkeeping isolated as a sorry. **Caveat (issue #5602):**
+`DominantWeight.shift` is not free data — `algIrrepGLRepρ n lam k =
+charTwistRep (det^{-lam.shift}) (schurModuleRep k n lam.toNatWeight)` with `lam.toNatWeight =
+lam.val + lam.shift`, and setting `lam.val := ν − r` gives `lam.shift = (r − ν(last)).toNat`, so
+`lam.toNatWeight = ν − ν(last)·1`, equal to `ν` only when `ν(last) = 0`. Identifying
+`charTwistRep (det^{-r}) (schurModuleRep k n ν)` with `algIrrepGLRepρ n lam k` therefore requires the
+det-shift iso `schurModule_shift_iso_detTwist` (Proposition 5.22.2) iterated `ν(last)` times (compare
+`ContragredientIdentity.lean`, which iterates 5.22.2 for the same bookkeeping). Both sides carry
+highest weight `ν − r·1`, so they are isomorphic. -/
+theorem exists_dominantWeight_algIrrepGL_iso_detTwistNeg_schurModule
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (r : ℕ) (ν : Fin n → ℕ) (hν : Antitone ν) :
+    ∃ (lam : DominantWeight n),
+      Nonempty { e : AlgIrrepGL n lam k ≃ₗ[k] SchurModuleSubmodule k n ν //
+        ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
+          e (algIrrepGLRepρ n lam k g v)
+            = charTwistRep (detChar k n ^ (-(r : ℤ))) (schurModuleRep k n ν) g (e v) } :=
+  sorry
+
 /-- **Realization core.** A simple, finite-dimensional `localRightRep`-subrepresentation `S` of
 `R = Localization.Away (detPoly k n)` is realized by a concrete dominant weight: there is a
 `λ : DominantWeight n` and a `GL_n`-equivariant `k`-linear map
@@ -512,16 +580,13 @@ theorem localRightRep_mem_iSup_range_peterWeylSummandMap
 action `localRightRep`, whose range is exactly `S.toSubmodule`.
 
 This is the genuinely missing highest-weight-classification step of the Cauchy/Peter-Weyl
-spanning argument. Its construction (issue #5599): pick a common denominator exponent `r` so that
-`det^r · S ⊆ A = k[Xᵢⱼ]` (`exists_invSelf_normalForm` on a basis of `S`); the `det^r`-multiplication
-map intertwines `localRightRep` on `S` with right translation on a finite-dimensional space of
-polynomials, exhibiting `M := charTwistRep (detChar^r) S.toRepresentation` as a simple, algebraic
-(`boundedRightRep_isAlgebraic`), weight-spanning, single-degree-homogeneous polynomial
-`GL_n`-representation. By `decompose_polynomial_gl_rep` together with simplicity its formal
-character is a single Schur polynomial `schurPoly N ν`, so `iso_of_formalCharacter_eq_schurPoly`
-gives a `GL_n`-equivariant iso `M ≅ SchurModule k n ν`. Setting `λ.val := ν − r` (with
-`λ.shift = r`, so `λ.toNatWeight = ν`) and untwisting by `det^{-r}` produces the equivariant iso
-`AlgIrrepGL n λ k ≃ S`; composing with the inclusion `S ↪ R` yields `ι`. -/
+spanning argument. The proof composes the two halves above (issue #5602): the analytic core
+`exists_detTwistNeg_schurModule_realization_of_simple` supplies `(r, ν, f)` with
+`f : charTwistRep (det^{-r}) (schurModuleRep k n ν) ≅ S.toRepresentation`, and the det-shift
+packaging `exists_dominantWeight_algIrrepGL_iso_detTwistNeg_schurModule` supplies `lam` and
+`e : algIrrepGLRepρ n lam k ≅ charTwistRep (det^{-r}) (schurModuleRep k n ν)`. Composing `f ∘ e`
+gives an equivariant `AlgIrrepGL n λ k ≃ S.toSubmodule`; postcomposing with the inclusion
+`S.toSubmodule ↪ R` yields `ι` (step 7). -/
 theorem exists_dominantWeight_equivariant_realization
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (S : Subrepresentation (localRightRep k n))
@@ -532,7 +597,30 @@ theorem exists_dominantWeight_equivariant_realization
       (∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
         ι (algIrrepGLRepρ n lam k g v) = localRightRep k n g (ι v)) ∧
       LinearMap.range ι = S.toSubmodule := by
-  sorry
+  -- Step 1–5: realize a `det^{-r}`-twist of `S` as a Schur module.
+  obtain ⟨r, ν, hν, hf_ne⟩ :=
+    exists_detTwistNeg_schurModule_realization_of_simple n k S hSsimple
+  obtain ⟨f, hf⟩ := hf_ne
+  -- Step 6: package the `det^{-r}`-twisted Schur module as the irreducible `algIrrepGLRepρ`.
+  obtain ⟨lam, he_ne⟩ :=
+    exists_dominantWeight_algIrrepGL_iso_detTwistNeg_schurModule n k r ν hν
+  obtain ⟨e, he⟩ := he_ne
+  -- Compose `f ∘ e : AlgIrrepGL n lam k ≃ₗ[k] S.toSubmodule`, intertwining `algIrrepGLRepρ` with
+  -- the restricted right-translation action `S.toRepresentation`.
+  set fe : AlgIrrepGL n lam k ≃ₗ[k] S.toSubmodule := e.trans f with hfe
+  have hfe_equiv : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
+      fe (algIrrepGLRepρ n lam k g v) = S.toRepresentation g (fe v) := by
+    intro g v
+    simp only [hfe, LinearEquiv.trans_apply]
+    rw [he, hf]
+  -- Step 7: postcompose with the inclusion `S.toSubmodule ↪ R`.
+  refine ⟨lam, S.toSubmodule.subtype ∘ₗ fe.toLinearMap, ?_, ?_⟩
+  · intro g v
+    show ((fe (algIrrepGLRepρ n lam k g v) : S.toSubmodule) : Localization.Away (detPoly k n))
+        = localRightRep k n g ((fe v : S.toSubmodule) : Localization.Away (detPoly k n))
+    rw [hfe_equiv]
+    exact LinearMap.coe_restrict_apply (S.apply_mem_toSubmodule g) (fe v)
+  · rw [LinearMap.range_comp, LinearEquiv.range, Submodule.map_top, Submodule.range_subtype]
 
 /-- **Realization of a simple right-translation subrepresentation as a matrix-coefficient block.**
 Every simple, finite-dimensional `localRightRep`-subrepresentation `S` of
