@@ -450,6 +450,21 @@ working pattern:
    SES assembly still needs `set_option maxHeartbeats` raised (~3200000) for the
    rank-nullity character argument even after these fixes.
 
+### `evalGLAway` / `IsLocalization.Away.lift` rewrites blow up out of context (Ch5 det-localization)
+
+`evalGLAway : Localization.Away (detPoly k N) →+* (GL → k)` is `IsLocalization.Away.lift …`.
+Stating a *fresh* identity about it (e.g. `evalGLAway (localRightRep g φ) 1 = evalGLAway φ g`)
+and proving it by `rw [evalGLAway_localRightRep]` or by `have h := evalGLAway_localRightRep g 1 φ`
+**fails both ways**: `rw` reports "pattern not found" on a pattern that is *visually identical* to
+the goal (the hidden `IsLocalization` instance arg won't unify), and the term application hits a
+`whnf`/`isDefEq` timeout even at `maxHeartbeats 2000000`. The very same lemma rewrites fine
+*inside* the file that proved it (e.g. `DetInvElim`), because there the goal already carries the
+instance in the right shape. **Guidance:** don't repackage `evalGLAway` identities as standalone
+lemmas in a new file; invoke `evalGLAway_localRightRep` (and friends) directly within a proof
+context that already produced the localization term by rewriting, so the instance shape matches.
+If you must state one fresh, expect to reproduce the original lemma's proof (the
+`IsLocalization.ringHom_ext` localization-extension route), not to reuse it by `rw`/application.
+
 ### Dependent Pi Types and Pi.single
 
 When working with `Pi.single` for dependent function types (e.g., `∀ i, Matrix (Fin (d i)) (Fin (d i)) k`), standard lemmas like `Pi.single_eq_same`, `Pi.single_add` do NOT work with `simp` because types differ across indices.
