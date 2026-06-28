@@ -650,6 +650,22 @@ discharging `Theorem5_23_2_i`, and the same will hit part (ii)):
   closes by `rw [charTwistRep_apply, charTwistRep_apply, smul_smul, ← Units.val_mul,
   ← MonoidHom.mul_apply, inv_mul_cancel, MonoidHom.one_apply, Units.val_one,
   one_smul]`). `charTwistRep`/`detChar` live in `Etingof.KernelLemmaKPrime`.
+- **Weight-spanning (`⨆ glWeightSpace = ⊤`) of a `det`-twist needs the twist to be genuinely
+  *polynomial*, not just algebraic — clear at a LARGE enough exponent (#5606).** Algebraicity
+  (k[X,D] coefficients) does NOT give weight-spanning (the `det⁻¹` counterexample), and
+  `IsAlgebraicRepresentation` has no transport (`.restrict`/`.of_linearEquiv`) to
+  `IsPolynomialRepresentation`. The clean route: get the `det^{r₀}`-twist algebraic (e.g. via the
+  basis det-clearing mirroring `rightHull_isSemisimple`, `detTwist_clearing` in
+  `RealizationCoreAnalytic.lean`), then `IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`
+  (`DetClearing.lean`) gives an `s` with the *further* `det^s`-twist polynomial. Clear instead at
+  `r := r₀ + s`: the `det^{r₀+s}`-twist is `fun g => det(g)^s • (det^{r₀}·ρ) g`, which equals
+  `charTwistRep (detChar^{r₀+s}) ρ` (prove by `funext g; ext x; rw [LinearMap.smul_apply,
+  charTwistRep_apply, charTwistRep_apply, smul_smul]; congr 1; rw [show det g = detChar g from rfl,
+  MonoidHom.pow_apply, MonoidHom.pow_apply, Units.val_pow_eq_pow_val, Units.val_pow_eq_pow_val,
+  pow_add]; ring`), so `hfun ▸ hPoly₀ : IsPolynomialRepresentation …`, and weight-spanning then
+  comes free from `polynomial_rep_iSup_glWeightSpace_eq_top` (`PolynomialWeightSaturation.lean`).
+  The det-clearing `φ` (basis denominators) also works at `r₀+s ≥ r₀`, so factor the clearing into a
+  parameterised lemma and call it twice (at `r₀` for algebraicity→`s`, at `r₀+s` for the output).
 
 The canonical Fintype indexing set for "dominant weights `ν ∈ ℕ^N` of size `d`"
 is `BoundedPartition N d` (`Proposition5_21_1.lean`: antitone `ν : Fin N → ℕ`

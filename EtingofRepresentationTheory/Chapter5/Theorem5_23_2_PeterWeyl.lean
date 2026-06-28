@@ -7,6 +7,7 @@ import EtingofRepresentationTheory.Chapter5.CrossSummandMatrixCoeff
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso
 import EtingofRepresentationTheory.Chapter5.RightTranslationHull
 import EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp
+import EtingofRepresentationTheory.Chapter5.RealizationCoreAnalytic
 
 /-!
 # Theorem 5.23.2(ii): the genuine `GL_n × GL_n`-equivariant Peter-Weyl decomposition
@@ -505,50 +506,9 @@ theorem localRightRep_mem_iSup_range_peterWeylSummandMap
   · rw [map_zero]; exact Submodule.zero_mem _
   · intro a b ha hb; rw [map_add]; exact Submodule.add_mem _ ha hb
 
-/-- **Realization core, analytic half (steps 1–5 of issue #5602).** A simple, finite-dimensional
-`localRightRep`-subrepresentation `S` of `R = Localization.Away (detPoly k n)` is, after a
-`det^{-r}`-twist, equivariantly isomorphic to a Schur module `SchurModuleSubmodule k n ν` for some
-common-denominator exponent `r` and antitone `ν`. Concretely: there is a `k`-linear equivalence
-`f : SchurModuleSubmodule k n ν ≃ₗ[k] S.toSubmodule` intertwining the `det^{-r}`-twisted Schur action
-`charTwistRep (det^{-r}) (schurModuleRep k n ν)` with `S.toRepresentation`.
-
-This packages the genuinely analytic content of the realization core, isolated as a sorry for
-independent attack. Route (mirror `rightHull_isSemisimple`, `RightTranslationHullDecomp.lean`):
-1. **Common denominator + det^r twist into polynomials.** `S` is finite-dimensional; pick a basis,
-   apply `exists_invSelf_normalForm` (`DetLocalization.lean`) to each basis vector and take the max
-   exponent `r`, so `det^r · S ⊆ algebraMap '' A` where `A = k[Xᵢⱼ]`. The `det^r`-multiplication
-   map (via `numEmbed`/`numEmbed_intertwines`) exhibits `M := charTwistRep (detChar k n ^ r)
-   S.toRepresentation` as a subrepresentation of bounded-degree polynomials; mirror
-   `boundedSubrep`/`boundedRightRep_isAlgebraic`/`IsAlgebraicRepresentation.restrict`/`.of_linearEquiv`
-   to obtain `M` algebraic (`Etingof.IsAlgebraicRepresentation`).
-2. **Homogeneity of a simple.** `M ⊆ A` and the total-degree grading of `A` is right-translation
-   stable (`polyRightHomogeneousSubrep`, `polyRightRep_isHomogeneous`, `PolyRightGrading.lean`).
-   `M` is simple (twist of the simple `S`, `isSemisimpleModule_charTwistRep` /
-   `LinearEquiv.isSimpleModule_iff`), so exactly one graded piece is nonzero: `M` is homogeneous of
-   a single degree `d`.
-3. **Weight-spanning.** `M` is a polynomial representation, so its `ℕ`-valued weight spaces span
-   (`PolynomialWeightSaturation.lean`).
-4. **Character is a single Schur polynomial.** Apply
-   `simple_constituent_formalCharacter_eq_schurPoly_mem` (`ConstituentCharacterExtraction.lean`):
-   from algebraic + weight-spanning + homogeneous + simple, obtain antitone `ν` with
-   `formalCharacter k n (FDRep.of M) = schurPoly n ν`.
-5. **Iso to the Schur module.** Apply `simpleRep_iso_schurModule_of_formalCharacter_eq`
-   (`SchurWeylFormalCharacterIso.lean`) to get `M ≅ SchurModule k n ν`, i.e. an equivariant
-   `e₁ : schurModuleRep k n ν ≅ M`. Untwist `M = charTwistRep (det^r) S.toRepresentation` by `det^{-r}`
-   to get `f := e₁⁻¹` intertwining `charTwistRep (det^{-r}) (schurModuleRep k n ν)` with
-   `S.toRepresentation`. -/
-theorem exists_detTwistNeg_schurModule_realization_of_simple
-    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
-    (S : Subrepresentation (localRightRep k n))
-    [FiniteDimensional k S.toSubmodule]
-    (hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
-      (Subrepresentation.asSubmodule S)) :
-    ∃ (r : ℕ) (ν : Fin n → ℕ) (_hν : Antitone ν),
-      Nonempty { f : SchurModuleSubmodule k n ν ≃ₗ[k] S.toSubmodule //
-        ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : SchurModuleSubmodule k n ν),
-          f (charTwistRep (detChar k n ^ (-(r : ℤ))) (schurModuleRep k n ν) g v)
-            = S.toRepresentation g (f v) } :=
-  sorry
+-- **Realization core, analytic half (steps 1–5 of issue #5602):**
+-- `Etingof.exists_detTwistNeg_schurModule_realization_of_simple` is now proved sorry-free in
+-- `Chapter5/RealizationCoreAnalytic.lean` (imported above) and is used directly below.
 
 /-- **Realization core, det-shift packaging half (step 6 of issue #5602).** A `det^{-r}`-twisted
 Schur module `charTwistRep (det^{-r}) (schurModuleRep k n ν)` (antitone `ν`) is equivariantly
