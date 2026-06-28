@@ -72,38 +72,25 @@ theorem polyRightDegree_char_as_antitone_sum
 
 /-! ### Step 1 — det-clearing: the `det^r`-twist of `S` is a polynomial representation -/
 
-/-- **Det-clearing (issue #5606, step 1).** A finite-dimensional `localRightRep`-subrepresentation
-`S` of `R = Localization.Away (detPoly k n)`, after a common-denominator `det^r`-twist, embeds
-`GL_n`-equivariantly into the polynomial ring `k[Xᵢⱼ]` (with its right-translation action
-`polyRightRep`). Consequently the twist `M := charTwistRep (det^r) S.toRepresentation` is algebraic,
-and its `ℕ`-weight spaces span. Mirror of `rightHull_isSemisimple`'s det-clearing, applied to the
-subspace `S.toSubmodule` instead of a single element's hull. -/
-theorem exists_detTwist_polyEmbedding_of_simple_subrep
+/-- **Parameterised det-clearing (issue #5606, step 1).** For any exponent `r` clearing every
+denominator of a basis `B` of the finite-dimensional carrier, the `det^r`-twist
+`M := charTwistRep (det^r) S.toRepresentation` is algebraic and embeds `GL_n`-equivariantly into the
+polynomial ring `k[Xᵢⱼ]` (with its right-translation action `polyRightRep`). Mirror of
+`rightHull_isSemisimple`'s det-clearing, applied to the subspace `S.toSubmodule` instead of a single
+element's hull. -/
+theorem detTwist_clearing
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (S : Subrepresentation (localRightRep k n))
-    [FiniteDimensional k S.toSubmodule] :
-    ∃ r : ℕ,
+    [FiniteDimensional k S.toSubmodule]
+    {m : ℕ} (B : Module.Basis (Fin m) k S.toSubmodule) (r : ℕ)
+    (hr_ge : ∀ i, detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)) ≤ r) :
       Etingof.IsAlgebraicRepresentation n
         ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) ∧
-      (⨆ μ : Fin n →₀ ℕ,
-        glWeightSpace k n
-          (FDRep.of (charTwistRep (detChar k n ^ r) S.toRepresentation)) (fun i => μ i) = ⊤) ∧
       ∃ φ : S.toSubmodule →ₗ[k] MvPolynomial (Fin n × Fin n) k,
         Function.Injective φ ∧
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : S.toSubmodule),
           φ (charTwistRep (detChar k n ^ r) S.toRepresentation g v) = polyRightRep k n g (φ v) := by
   classical
-  haveI : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
-  -- A basis of the finite-dimensional carrier.
-  let B : Module.Basis (Fin (Module.finrank k S.toSubmodule)) k S.toSubmodule :=
-    Module.finBasis k S.toSubmodule
-  -- Common-denominator exponent: the max `det`-power exponent over the basis.
-  set r : ℕ := Finset.univ.sup
-    (fun i => detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n))) with hr
-  have hr_ge : ∀ i, detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)) ≤ r :=
-    fun i => Finset.le_sup
-      (f := fun i => detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)))
-      (Finset.mem_univ i)
   -- Clearing: each basis vector is `det^{-r}` times an explicit polynomial.
   have hclear : ∀ i, ∃ P : MvPolynomial (Fin n × Fin n) k,
       (S.toSubmodule.subtype (B i) : Localization.Away (detPoly k n)) = numEmbed r P := by
@@ -200,10 +187,8 @@ theorem exists_detTwist_polyEmbedding_of_simple_subrep
       ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) :=
     ((boundedRightRep_isAlgebraic k n d).restrict U hU_inv).of_linearEquiv e hcomm
   -- The polynomial embedding `φ = subtype ∘ U.subtype ∘ e.symm`.
-  refine ⟨r, hMalg, ?_,
+  refine ⟨hMalg,
     (boundedSubrep k n d).toSubmodule.subtype ∘ₗ U.subtype ∘ₗ e.symm.toLinearMap, ?_, ?_⟩
-  · -- weight-spanning of the polynomial representation `M`
-    sorry
   · -- injectivity
     exact (Submodule.injective_subtype _).comp
       ((Submodule.injective_subtype U).comp e.symm.injective)
@@ -221,6 +206,63 @@ theorem exists_detTwist_polyEmbedding_of_simple_subrep
           = (boundedSubrep k n d).toRepresentation g (U.subtype (e.symm v)) from
         LinearMap.restrict_coe_apply _ (hU_inv g) (e.symm v)]
     exact boundedSubrep_toRepresentation_coe d g (U.subtype (e.symm v))
+
+/-- **Det-clearing into a polynomial representation (issue #5606, step 1).** A finite-dimensional
+`localRightRep`-subrepresentation `S` of `R = Localization.Away (detPoly k n)`, after a
+common-denominator `det^r`-twist with `r` chosen large enough, is a genuine **polynomial**
+representation: it is algebraic, its `ℕ`-weight spaces span, and it embeds `GL_n`-equivariantly into
+`k[Xᵢⱼ]`. The clearing exponent is taken `r = r₀ + s`, where `r₀` clears the basis denominators and
+`s` (from `IsAlgebraicRepresentation.exists_detPow_twist_isPolynomial`) makes the twist det⁻¹-free;
+weight-spanning then follows from `polynomial_rep_iSup_glWeightSpace_eq_top`. -/
+theorem exists_detTwist_polyEmbedding_of_simple_subrep
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (S : Subrepresentation (localRightRep k n))
+    [FiniteDimensional k S.toSubmodule] :
+    ∃ r : ℕ,
+      Etingof.IsAlgebraicRepresentation n
+        ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) ∧
+      (⨆ μ : Fin n →₀ ℕ,
+        glWeightSpace k n
+          (FDRep.of (charTwistRep (detChar k n ^ r) S.toRepresentation)) (fun i => μ i) = ⊤) ∧
+      ∃ φ : S.toSubmodule →ₗ[k] MvPolynomial (Fin n × Fin n) k,
+        Function.Injective φ ∧
+        ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : S.toSubmodule),
+          φ (charTwistRep (detChar k n ^ r) S.toRepresentation g v) = polyRightRep k n g (φ v) := by
+  classical
+  haveI : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
+  let B : Module.Basis (Fin (Module.finrank k S.toSubmodule)) k S.toSubmodule :=
+    Module.finBasis k S.toSubmodule
+  -- The basis-clearing exponent `r₀`.
+  set r₀ : ℕ := Finset.univ.sup
+    (fun i => detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n))) with hr₀def
+  have hr₀ : ∀ i, detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)) ≤ r₀ :=
+    fun i => Finset.le_sup
+      (f := fun i => detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)))
+      (Finset.mem_univ i)
+  -- Algebraicity of the `det^{r₀}`-twist, then a polynomial exponent `s` on top of it.
+  obtain ⟨hMalg₀, -⟩ := detTwist_clearing n k S B r₀ hr₀
+  obtain ⟨s, hPoly₀⟩ := hMalg₀.exists_detPow_twist_isPolynomial
+  -- Clear at the *polynomial* exponent `r := r₀ + s`.
+  have hr : ∀ i, detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)) ≤ r₀ + s :=
+    fun i => le_trans (hr₀ i) (Nat.le_add_right r₀ s)
+  obtain ⟨hMalg, φ, hφ_inj, hφ_equiv⟩ := detTwist_clearing n k S B (r₀ + s) hr
+  refine ⟨r₀ + s, hMalg, ?_, φ, hφ_inj, hφ_equiv⟩
+  -- The `det^{r₀+s}`-twist is `det^s • (det^{r₀}·S)`, hence polynomial, hence weight-spanning.
+  have hfun : (fun g => (Matrix.GeneralLinearGroup.det g : k) ^ s •
+        (charTwistRep (detChar k n ^ r₀) S.toRepresentation) g)
+      = ⇑(charTwistRep (detChar k n ^ (r₀ + s)) S.toRepresentation) := by
+    funext g
+    ext x
+    rw [LinearMap.smul_apply, charTwistRep_apply, charTwistRep_apply, smul_smul]
+    congr 1
+    have hd : (Matrix.GeneralLinearGroup.det g : k) = (detChar k n g : k) := rfl
+    rw [hd, MonoidHom.pow_apply, MonoidHom.pow_apply, Units.val_pow_eq_pow_val,
+      Units.val_pow_eq_pow_val, pow_add]
+    ring
+  have hPoly : IsPolynomialRepresentation n
+      ⇑(charTwistRep (detChar k n ^ (r₀ + s)) S.toRepresentation) := hfun ▸ hPoly₀
+  exact polynomial_rep_iSup_glWeightSpace_eq_top
+    (FDRep.of (charTwistRep (detChar k n ^ (r₀ + s)) S.toRepresentation)) hPoly
 
 /-! ### Steps 2–3 — single-degree reduction for a simple polynomial representation -/
 
