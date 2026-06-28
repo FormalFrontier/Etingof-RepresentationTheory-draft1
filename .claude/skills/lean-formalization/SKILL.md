@@ -521,6 +521,41 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### Dual / contragredient representation as a genuine opposite-module instance (#5593, twins #5355/#5356)
+
+A recurring fidelity-gap family: a "dual representation `V*`" definition aliased to
+the bare dual carrier (`abbrev DualRep k V := Module.Dual k V`) drops its *defining
+data* — the contragredient action — and is flagged as a `gap`. The fix is to
+**construct the action as a real instance**, not just keep the carrier. For an
+algebra rep (`V` an `A`-module over base ring `k`, `[SMulCommClass A k V]`), the
+dual `Module.Dual k V` is a left `Aᵐᵒᵖ`-module via `(op a • f)(v) = f(a • v)`:
+
+```lean
+instance : SMul Aᵐᵒᵖ (Module.Dual k V) where
+  smul a f := f.comp (DistribSMul.toLinearMap k V a.unop)   -- (a • f) v = f (a.unop • v), rfl
+instance : Module Aᵐᵒᵖ (Module.Dual k V) where
+  one_smul f := by ext v; simp
+  mul_smul a b f := by ext v; simp [mul_smul]               -- unop reverses: (a*b).unop = b.unop*a.unop
+  add_smul a b f := by ext v; simp [add_smul]
+  …                                                          -- smul_zero/smul_add/zero_smul: ext v; simp
+```
+
+Then a `@[simp]` lemma `(a • f) v = f (a.unop • v)` (proof `rfl`) records the book's
+defining equation, and an `example : Module Aᵐᵒᵖ (DualRep …) := inferInstance`
+witnesses it. The Lie-algebra twin (#5356, `Definition2_14_2.lean`) instead reuses
+Mathlib's prebuilt `Module.Dual.instLieRingModule`. Worked example:
+`Chapter3/Definition3_3_2.lean`. Two general syntax traps that each cost a build cycle:
+
+- **`Aᵒᵖ` is `Opposite` (category theory); the multiplicative opposite is `Aᵐᵒᵖ`
+  (`MulOpposite`).** Using `ᵒᵖ` for an algebra gives a bare `expected token` parse
+  error. Import `Mathlib.Algebra.Module.Opposite` for the notation and `Module Aᵐᵒᵖ`
+  prerequisites, and `Mathlib.Algebra.Algebra.Defs` if you reference `Algebra k A`.
+- **`omit [Inst] in` must precede the docstring AND the attributes**, i.e.
+  `omit [Algebra k A] in` / `/-- … -/` / `@[simp]` / `theorem …`, in that order.
+  Placing it after the docstring (or after `@[simp]`) is a parse error. Use it to
+  silence the "automatically included section variable unused" warning for a lemma
+  (e.g. the `rfl` defining-equation lemma) that doesn't touch every section variable.
+
 #### `IsSimpleModule k[G] ρ.asModule` for a *concrete* representation (Ch5 Example5.1.3 Q₈, #5124)
 
 To prove a hand-built representation `ρ : Representation k G V` is irreducible
