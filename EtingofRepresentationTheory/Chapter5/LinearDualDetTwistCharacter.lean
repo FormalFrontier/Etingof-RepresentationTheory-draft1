@@ -182,4 +182,127 @@ theorem coeff_formalCharacter_detTwist_dual (n : ℕ) (lam : DominantWeight n)
   rw [show (fun i => -((μ i : ℤ) - ((s + lam.shift : ℕ) : ℤ)))
         = (fun i : Fin n => ((s + lam.shift : ℕ) : ℤ) - (μ i : ℤ)) from by funext i; omega]
 
+/-! ## Schur-module integer weight spaces as `schurPoly` coefficients
+
+Two helper lemmas (the issue's **(S1)** and **(S2)**) turn each integer weight-space
+dimension of a Schur module into a `schurPoly` coefficient. They feed the assembly
+of the deliverable below. -/
+
+/-- **(S1)** For an antitone weight `lz` and a nonnegative target weight `w'`, the
+integer weight-space dimension of the Schur module `L_{lz}` at `w'` is the
+`schurPoly` coefficient at `w'`:
+`dim (L_{lz})_{w'} = [x^{w'}] s_{lz}`.
+
+This is `schurModule_weight_eq_schurPoly_coeff` transported from the `ℕ`-weight
+space `glWeightSpace` to the integer weight space `glWeightSpaceℤ`. -/
+theorem finrank_glWeightSpaceℤ_schurModule_natWeight (k : Type) [Field k] [IsAlgClosed k]
+    [CharZero k] (n : ℕ) (lz : Fin n → ℕ) (hlz : Antitone lz) (w' : Fin n → ℕ) :
+    (Module.finrank k (glWeightSpaceℤ k n (schurModuleRep k n lz)
+        (fun i => (w' i : ℤ))) : ℚ)
+      = (schurPoly n lz).coeff (Finsupp.equivFunOnFinite.symm w') := by
+  have h := schurModule_weight_eq_schurPoly_coeff k n lz hlz (Finsupp.equivFunOnFinite.symm w')
+  rw [glWeightSpace_eq_glWeightSpaceℤ k n (SchurModule k n lz)
+      (Finsupp.equivFunOnFinite.symm w')] at h
+  simp only [SchurModule, FDRep.of_ρ'] at h
+  rw [← h]
+  rfl
+
+/-- **(S2)** The Schur module `L_{lz}` carries only nonnegative torus weights: its
+integer weight space at any weight with a strictly negative coordinate is `0`.
+
+Proof: take a torus weight eigenbasis (`exists_weight_eigenbasis` +
+`glWeightSpace_schurModule_iSup_eq_top`); by `finrank_glWeightSpaceℤ_of_eigenbasis`
+the dimension counts eigenvectors of weight `w`, but every eigenvector has an
+`ℕ`-valued weight `≥ 0`, so none matches a `w` with a negative coordinate. -/
+theorem finrank_glWeightSpaceℤ_schurModule_neg (k : Type) [Field k] [IsAlgClosed k]
+    [CharZero k] (n : ℕ) (lz : Fin n → ℕ) (w : Fin n → ℤ) (i₀ : Fin n) (hi₀ : w i₀ < 0) :
+    Module.finrank k (glWeightSpaceℤ k n (schurModuleRep k n lz) w) = 0 := by
+  obtain ⟨d, v, wt, hv⟩ := DetInvElim.exists_weight_eigenbasis (SchurModule k n lz)
+    (glWeightSpace_schurModule_iSup_eq_top k n lz)
+  have hvℤ : ∀ (c : Fin d) (i : Fin n) (t : kˣ),
+      (schurModuleRep k n lz) (diagUnit k n i t) (v c)
+        = ((t ^ (wt c i : ℤ) : kˣ) : k) • v c := by
+    intro c i t
+    rw [Units.val_zpow_eq_zpow_val, zpow_natCast]
+    exact hv c i t
+  rw [finrank_glWeightSpaceℤ_of_eigenbasis k n d (schurModuleRep k n lz) v
+      (fun c i => (wt c i : ℤ)) hvℤ w, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+  intro c _ hc
+  have h : ((wt c i₀ : ℤ)) = w i₀ := congrFun hc i₀
+  omega
+
+/-! ## The inverted-Schur coefficient bridge (residual pure-polynomial content)
+
+This is the genuine content remaining after the representation-theoretic reduction:
+the coefficientwise form of the inverted-variable Schur identity
+`s_ν(x) = (x₁⋯x_N)^m · s_{lz}(x⁻¹)`, where `ν = w0ShiftWeight n lz m`. It says the
+weight-`μ` coefficient of `s_ν` equals the weight-`(m·1 − μ)` coefficient of `s_{lz}`
+when `μ ≤ m·1` pointwise, and vanishes otherwise. -/
+
+/-- **The inverted-Schur coefficient bridge.** For antitone `lz : Fin n → ℕ` and a
+shift `m` with `lz j ≤ m` for all `j`, the coefficient of `x^μ` in the `w₀`-twisted,
+`m`-shifted Schur polynomial `s_ν` (`ν = w0ShiftWeight n lz m`) equals the
+complemented coefficient of `s_{lz}`:
+
+```
+[x^μ] s_ν = if (∀ i, μ i ≤ m) then [x^{m·1 − μ}] s_{lz} else 0.
+```
+
+This is the honest, coefficientwise avatar of `s_λ(x⁻¹)·(x₁⋯x_N)^m = s_ν(x)`. It is
+extracted from `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`) by the
+alternant-coefficient/box-reversal mechanism.
+
+TODO(#5565): replace the `sorry` with the box-reversal proof. Route: prove
+`schurPoly n ν = revBox_m (schurPoly n lz)` (per-variable box reversal
+`monomial c ↦ monomial (m·1 − c)`) via `mul_right_cancel₀` against the Vandermonde,
+using `schurPoly_inverseShift` and the Schur per-coordinate weight bound
+`[x^μ] s_{lz} ≠ 0 ⟹ μ i ≤ lz 0`. See issue #5565 for the full plan. -/
+theorem schurPoly_w0Shift_coeff (n : ℕ) (lz : Fin n → ℕ) (hlz : Antitone lz) (m : ℕ)
+    (hs : ∀ j, lz j ≤ m) (μ : Fin n →₀ ℕ) :
+    (schurPoly n (w0ShiftWeight n lz m)).coeff μ
+      = if _h : ∀ i, μ i ≤ m
+        then (schurPoly n lz).coeff (Finsupp.equivFunOnFinite.symm (fun i => m - μ i))
+        else 0 := by
+  sorry
+
+/-! ## The deliverable: formal character of the `det^s`-twisted linear dual -/
+
+/-- **Formal character of the `det^s`-twisted linear dual `L_λ^∨`** (issue #5553,
+parent #5544 / #5535). For `s` large (`hs : ∀ i, lam.toNatWeight i ≤ s + lam.shift`),
+
+```
+formalCharacter k n (FDRep.of (charTwistRep (det^s) ((algIrrepGLRepρ).dual)))
+  = schurPoly n (w0ShiftWeight n lam.toNatWeight (s + lam.shift)).
+```
+
+Assembled coefficientwise: `coeff_formalCharacter_detTwist_dual` rewrites the left
+coefficient as a Schur-module integer weight-space dimension; **(S1)**/**(S2)**
+(`finrank_glWeightSpaceℤ_schurModule_natWeight`/`_neg`) turn that into a `schurPoly`
+coefficient (or `0`); and the inverted-Schur bridge `schurPoly_w0Shift_coeff`
+matches it against the right coefficient. -/
+theorem formalCharacter_detTwist_linearDual_eq_schurPoly (n : ℕ) (lam : DominantWeight n)
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k] (s : ℕ)
+    (hs : ∀ i, lam.toNatWeight i ≤ s + lam.shift) :
+    formalCharacter k n
+        (FDRep.of (charTwistRep (detChar k n ^ s) ((algIrrepGLRepρ n lam k).dual)))
+      = schurPoly n (w0ShiftWeight n lam.toNatWeight (s + lam.shift)) := by
+  apply MvPolynomial.ext
+  intro μ
+  rw [coeff_formalCharacter_detTwist_dual n lam k s μ]
+  set lz := lam.toNatWeight with hlz_def
+  set m := s + lam.shift with hm_def
+  have hlz : Antitone lz := lam.toNatWeight_antitone
+  rw [schurPoly_w0Shift_coeff n lz hlz m hs μ]
+  by_cases hμ : ∀ i, μ i ≤ m
+  · rw [dif_pos hμ,
+       show (fun i => (m : ℤ) - (μ i : ℤ)) = (fun i => ((m - μ i : ℕ) : ℤ)) from by
+         funext i; have := hμ i; omega,
+       finrank_glWeightSpaceℤ_schurModule_natWeight k n lz hlz (fun i => m - μ i)]
+  · rw [dif_neg hμ]
+    push_neg at hμ
+    obtain ⟨i₀, hi₀⟩ := hμ
+    rw [finrank_glWeightSpaceℤ_schurModule_neg k n lz (fun i => (m : ℤ) - (μ i : ℤ)) i₀
+      (by omega)]
+    simp
+
 end Etingof
