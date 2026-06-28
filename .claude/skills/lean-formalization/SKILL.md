@@ -3626,6 +3626,26 @@ top so the whole proof lives on the underlying carrier, then `rw [dual_charTwist
 charTwistRep_charTwistRep, …]` are ordinary same-carrier rewrites. Diagnosed building
 `coeff_formalCharacter_detTwist_dual` (#5553, `LinearDualDetTwistCharacter.lean`).
 
+**A second instance path collides here: `FDRep`/`ModuleCat` vs native.** When you build a
+weight eigenbasis with `exists_weight_eigenbasis (SchurModule k n lz)`, the resulting
+`v : Basis _ k ↑(SchurModule k n lz).V` (and its `v.dualBasis`) carries the *FDRep* module
+instances (`…V.obj.isModule`), which are **defeq-but-not-syntactically** the native
+`SchurModuleSubmodule`/`schurModuleRep` instances that `algIrrepGLRepρ` is *defined*
+through. Feeding `v.dualBasis` into `dual_diagUnit_dualBasis`/`charTwistRep_apply` over a
+goal phrased with native `schurModuleRep` then errors mid-`rw`
+("`AddCommMonoid (↥… →ₗ k)` vs `↑M.V`"). **Fix:** phrase the whole `h_span`/eigenbasis
+derivation through `(SchurModule k n lz).ρ` (defeq to `schurModuleRep`, but carrying the
+*same FDRep instances as `v`*) — i.e. `change` `M.ρ` to the nested twist written with
+`(SchurModule k n lz).ρ`, and call `dual_diagUnit_dualBasis _ _ ((SchurModule k n lz).ρ) v …`.
+Conversely, side goals with **no** eigenbasis vector in them (e.g. `IsAlgebraicRepresentation`
+of the same `M.ρ`, fed by `IsAlgebraicRepresentation.dual (schurModuleRep …)`) should stay on
+the **native** `schurModuleRep` form — pick the instance path that matches the *other* terms
+in the goal. Also note `schurModule_isAlgebraic`/`iso_of_formalCharacter_eq_schurPoly` take
+`k` as their first *explicit* arg (`variable (k : Type)`), while `schurModule_isAlgebraic`'s
+`k` is unconstrained by `(N) (lam)` — pass `(k := k)` or it stalls on `IsAlgClosed ?m`.
+Diagnosed building `linearDual_half_detTwist_contragredient` (#5544,
+`LinearDualContragredientHalf.lean`).
+
 ### Degree-bound `Finset.sup` over an `AlgEquiv`-image: two whnf traps (#5486)
 
 When `s` is a uniform degree bound `Finset.univ.sup (… natDegree (E (P …)) …)` for a heavy
