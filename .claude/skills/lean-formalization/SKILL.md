@@ -3598,6 +3598,23 @@ applied form through `aeval`. Make every step syntactic instead:
    `have h2 := AlgHom.congr_fun h_comp f; rw [AlgHom.comp_apply, AlgHom.comp_apply] at h2; exact h2`.
 With the fully-syntactic route the proof needs **no** `maxHeartbeats` bump at all.
 
+### Unfolding a representation across a defeq carrier-alias: `change`, not `rw [… from rfl]`
+
+When a representation's carrier is a `def`-alias (e.g. `AlgIrrepGL n lam k :=
+↥(SchurModuleSubmodule k n lam.toNatWeight)`, `Theorem5_23_2Core.lean`) and you want
+to unfold the rep to its concrete form (e.g. `algIrrepGLRepρ n lam k =
+charTwistRep (detChar^…) (schurModuleRep …)`), do **not** use
+`rw [show algIrrepGLRepρ … = charTwistRep … from rfl]`. Even though the equation is
+`rfl`, `rw` fails: the LHS carries the *alias* instances (`Module.Dual k (AlgIrrepGL …)`)
+while the RHS carries the *underlying* ones (`Module.Dual k ↥(SchurModuleSubmodule …)`),
+so the rewrite motive over a dependent `glWeightSpaceℤ …`/`finrank` is ill-typed
+("application type mismatch … `LinearMap.addCommGroup` vs `…toAddCommMonoid`"). Use
+`change <goal with the rep unfolded>` instead — it reconciles the two instance paths by
+defeq at default transparency (which unfolds the semireducible alias). Do this once at the
+top so the whole proof lives on the underlying carrier, then `rw [dual_charTwistRep,
+charTwistRep_charTwistRep, …]` are ordinary same-carrier rewrites. Diagnosed building
+`coeff_formalCharacter_detTwist_dual` (#5553, `LinearDualDetTwistCharacter.lean`).
+
 ### Degree-bound `Finset.sup` over an `AlgEquiv`-image: two whnf traps (#5486)
 
 When `s` is a uniform degree bound `Finset.univ.sup (… natDegree (E (P …)) …)` for a heavy
