@@ -414,11 +414,11 @@
   "start_line": 17,
   "end_line": 17,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: book states Cor 2.3.10 (Schur over alg-closed field, Etingof.Corollary_2_3_10) is false over R, with explicit witness A=C as an R-algebra, V=A. Elementary self-contained formalizable counterexample; formalized nowhere. See #5589.",
-  "fidelity_decl": "(none found)",
+  "fidelity": "verified",
+  "fidelity_note": "Wave-2 adjudication (unsure->gap), resolved by #5589. Formalized: Etingof.Remark_2_3_11 states the conclusion of Cor 2.3.10 with k:=R is false; Etingof.Remark_2_3_11_witness gives the explicit witness (A=C as R-algebra, V=A=C, phi = multiplication by i is C-linear but not a real scalar).",
+  "fidelity_decl": "Etingof.Remark_2_3_11, Etingof.Remark_2_3_11_witness",
   "fidelity_issue": 5589,
-  "last_updated": "2026-06-28"
+  "last_updated": "2026-06-29"
  },
  {
   "id": "Chapter2/Discussion_proof_Corollary2.3.10",
