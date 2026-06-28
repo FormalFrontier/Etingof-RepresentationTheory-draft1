@@ -218,14 +218,14 @@ theorem WeylAlgebra.monomials_span :
 -- === Polynomial representation for linear independence proof ===
 
 /-- Left multiplication by `X` as a `k`-linear endomorphism of `k[X]`. -/
-private noncomputable def polyMulX : Module.End k (Polynomial k) where
+noncomputable def polyMulX : Module.End k (Polynomial k) where
   toFun p := Polynomial.X * p
   map_add' := mul_add _
   map_smul' c p := by
     simp only [RingHom.id_apply]
     exact Algebra.mul_smul_comm c Polynomial.X p
 
-private lemma polyMulX_apply (p : Polynomial k) :
+lemma polyMulX_apply (p : Polynomial k) :
     polyMulX k p = Polynomial.X * p := rfl
 
 /-- The Leibniz rule: `D ∘ (X * ·) = (X * ·) ∘ D + id` in `End_k(k[X])`. -/
@@ -262,12 +262,12 @@ noncomputable def polyRep :
     WeylAlgebra k →ₐ[k] Module.End k (Polynomial k) :=
   RingQuot.liftAlgHom k ⟨polyRepFree k, polyRep_rel k⟩
 
-private lemma polyRep_x :
+lemma polyRep_x :
     polyRep k (WeylAlgebra.x k) = polyMulX k := by
   simp [polyRep, WeylAlgebra.x, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
     polyRepFree, FreeAlgebra.lift_ι_apply, polyRepGen]
 
-private lemma polyRep_y :
+lemma polyRep_y :
     polyRep k (WeylAlgebra.y k) =
     (Polynomial.derivative : Module.End k (Polynomial k)) := by
   simp [polyRep, WeylAlgebra.y, WeylAlgebra.mk, RingQuot.liftAlgHom_mkAlgHom_apply,
