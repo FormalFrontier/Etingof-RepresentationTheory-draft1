@@ -55,6 +55,7 @@ import EtingofRepresentationTheory.Chapter2.Definition2_9_7
 import EtingofRepresentationTheory.Chapter2.Definition2_9_9
 import EtingofRepresentationTheory.Chapter2.Example2_9_2
 import EtingofRepresentationTheory.Chapter2.Example2_9_2_continued
+import EtingofRepresentationTheory.Chapter2.Remark2_9_3
 import EtingofRepresentationTheory.Chapter2.Example2_9_8
 import EtingofRepresentationTheory.Chapter2.Example2_9_12
 import EtingofRepresentationTheory.Chapter2.Example2_9_13
