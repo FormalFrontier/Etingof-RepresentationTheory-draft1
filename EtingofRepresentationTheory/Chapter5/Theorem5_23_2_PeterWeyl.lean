@@ -220,6 +220,40 @@ theorem injective_toModule_of_iSupIndep_range
   apply h1
   rw [← hcomp, ← hcomp, hab]
 
+/-- **Pure linear algebra: the range of a `DirectSum.toModule` coproduct is the supremum of the
+per-summand ranges.** `range (DirectSum.toModule R ι M f) = ⨆ i, range (f i)`. The forward
+inclusion runs over the `DirectSum.induction_on` generators (each `of i y ↦ f i y` via
+`DirectSum.toModule_lof`); the reverse factors `f i = (toModule f) ∘ lof i`, so each summand range
+is `≤` the coproduct range (`LinearMap.range_comp_le_range`). This is the surjectivity counterpart
+of `injective_toModule_of_iSupIndep_range`: it reduces `peterWeylMap` surjectivity to the spanning
+statement `⨆_λ range (peterWeylSummandMap n λ k) = ⊤`. -/
+theorem range_toModule_eq_iSup_range
+    {R : Type*} [Semiring R] {ι : Type*} [DecidableEq ι]
+    {N : ι → Type*} [∀ i, AddCommMonoid (N i)] [∀ i, Module R (N i)]
+    {M : Type*} [AddCommMonoid M] [Module R M]
+    (f : ∀ i, N i →ₗ[R] M) :
+    LinearMap.range (DirectSum.toModule R ι M f) = ⨆ i, LinearMap.range (f i) := by
+  apply le_antisymm
+  · intro x hx
+    rw [LinearMap.mem_range] at hx
+    obtain ⟨a, rfl⟩ := hx
+    induction a using DirectSum.induction_on with
+    | zero => simp
+    | of i y =>
+        have hval : DirectSum.toModule R ι M f (DirectSum.of N i y) = f i y := by
+          erw [DirectSum.toModule_lof]
+        rw [hval]
+        exact Submodule.mem_iSup_of_mem i (LinearMap.mem_range_self _ _)
+    | add a b ha hb =>
+        rw [map_add]
+        exact Submodule.add_mem _ ha hb
+  · rw [iSup_le_iff]
+    intro i
+    have hfi : f i = (DirectSum.toModule R ι M f).comp (DirectSum.lof R ι N i) :=
+      LinearMap.ext fun y => (DirectSum.toModule_lof R i y).symm
+    rw [hfi]
+    exact LinearMap.range_comp_le_range _ _
+
 /-- **General-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module (issue #5559).**
 `algIrrepGLRepρ n lam k` is the `det^{-λ.shift}`-twist of the Schur module
 `schurModuleRep k n lam.toNatWeight`; det-twisting preserves simplicity
@@ -418,6 +452,46 @@ theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [C
   injective_toModule_of_iSupIndep_range _
     (peterWeylSummandMap_injective n k) (peterWeylSummandMap_range_iSupIndep n k)
 
+/-- **The Cauchy spanning statement — the crux of Peter-Weyl surjectivity.** The matrix
+coefficients of all the irreducibles `L_λ` together span the whole coordinate ring
+`R = k[gᵢⱼ][1/det]`: the ranges of the per-summand maps `peterWeylSummandMap n λ k` have
+supremum `⊤`. Equivalent to `peterWeylMap_surjective` (via `range_toModule_eq_iSup_range`), and
+the sole remaining representation-theoretic obligation of `peterWeylMap_bijective`.
+
+**Intended proof route (Etingof §5.23(ii), the Cauchy decomposition of `R`).** This is the
+abstract Peter-Weyl "every regular function is a matrix coefficient" argument:
+
+1. *Finite-dimensional right-translation hull.* Every `φ ∈ R = Localization.Away (detPoly k n)`
+   has normal form `Q · det^{-r}` (`exists_invSelf_normalForm`); right translation
+   (`localRightRep`) multiplies `det^{-r}` by the scalar `det(g)^{-r}` and acts on `Q` preserving
+   total degree, so the span `W_φ` of the right-translates of `φ` is a finite-dimensional
+   `localRightRep`-invariant submodule of `R`.
+
+2. *Algebraicity / complete reducibility of the hull.* After the `det^{r}`-twist, `W_φ` is a
+   polynomial representation, hence (Theorem 5.23.2(i), `polynomialRep_isSemisimple` /
+   `decompose_polynomial_gl_rep`) completely reducible into the irreducibles `L_λ`; untwisting by
+   `det^{-r}` shifts the constituent weights down by `r·(1,…,1)`, ranging over all dominant `λ`
+   (`quotDetRep_irreducible_constituent_lastWeight_zero` characterizes the constituents of the
+   determinant quotient as exactly the polynomial irreducibles).
+
+3. *`φ` is a matrix coefficient of its hull.* Through the faithful functions-on-`GL` model
+   `evalGLAway`, `φ(g) = ε(localRightRep g φ)` where `ε` is "evaluation at the identity"; so `φ`
+   is a matrix coefficient of `(W_φ, localRightRep, ε)`.
+
+4. *Matrix-coefficient correspondence (the genuine bridge).* A `GL`-equivariant inclusion
+   `L_λ ↪ R` (a summand of `W_φ`) has its matrix coefficients realized exactly by
+   `peterWeylSummandMap n λ k`; hence the matrix coefficient of `W_φ`, decomposed across the
+   `L_λ` summands, lies in `⨆_λ range (peterWeylSummandMap n λ k)`.
+
+The genuinely missing infrastructure is the matrix-coefficient correspondence of step 4 (relating
+the abstract `peterWeylSummandMap`, built from the algebraicity-witness basis, to arbitrary
+`GL`-maps `L_λ → R`) together with the finite-dimensional-hull machinery of steps 1–2. None of
+this bridge exists yet; tracked as a sub-issue of #5550. -/
+theorem peterWeylSummandMap_iSup_range_eq_top
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
+    ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) = ⊤ := by
+  sorry
+
 /-- **Surjectivity of the assembled matrix-coefficient map** — the Cauchy decomposition of
 `R = k[gᵢⱼ][1/det]`: every regular function on `GL_n` is a finite sum of matrix coefficients.
 Each homogeneous degree-`d` piece of the polynomial ring `k[gᵢⱼ]` decomposes, as a right-`GL_n`
@@ -436,7 +510,10 @@ decomposition across the determinant localization to the spanning statement for 
 coefficients. Tracked as issue #5550. -/
 theorem peterWeylMap_surjective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     Function.Surjective (peterWeylMap n k) := by
-  sorry
+  rw [← LinearMap.range_eq_top]
+  unfold peterWeylMap
+  rw [range_toModule_eq_iSup_range]
+  exact peterWeylSummandMap_iSup_range_eq_top n k
 
 /-- **Bijectivity of the assembled matrix-coefficient map** (the Cauchy decomposition).
 This is the remaining representation-theoretic input to the Peter-Weyl capstone: the matrix
