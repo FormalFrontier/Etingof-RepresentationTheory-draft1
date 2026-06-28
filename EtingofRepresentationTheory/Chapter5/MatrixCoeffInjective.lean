@@ -95,7 +95,44 @@ surjective. -/
 theorem Representation.asAlgebraHom_surjective_of_isSimpleModule (ρ : Representation k G V)
     [IsSimpleModule (MonoidAlgebra k G) ρ.asModule] :
     Function.Surjective ⇑(Representation.asAlgebraHom ρ) := by
-  sorry
+  classical
+  -- `M = ρ.asModule` is finite over its endomorphism ring `End_{k[G]} M` (Jacobson input).
+  haveI : Module.Finite (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule :=
+    Module.Finite.of_restrictScalars_finite k
+      (Module.End (MonoidAlgebra k G) ρ.asModule) ρ.asModule
+  -- Schur's lemma over `k` algebraically closed: `End_{k[G]} M = k` (every endomorphism scalar).
+  have hschur := IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed
+    (A := MonoidAlgebra k G) (V := ρ.asModule) k
+  intro T
+  -- Transport `T` to an endomorphism of `M = ρ.asModule` (instances live there).
+  set e := Representation.asModuleEquiv ρ with he
+  set Tas : ρ.asModule →ₗ[k] ρ.asModule :=
+    e.symm.toLinearMap ∘ₗ T ∘ₗ e.toLinearMap with hTas
+  -- `Tas` commutes with the scalars `End_{k[G]} M`, hence is `End_{k[G]} M`-linear.
+  have hTsmul : ∀ (f : Module.End (MonoidAlgebra k G) ρ.asModule) (m : ρ.asModule),
+      Tas (f • m) = f • Tas m := by
+    intro f m
+    obtain ⟨r, hr⟩ := hschur.surjective f
+    have hf : ∀ x : ρ.asModule, f • x = r • x := by
+      intro x
+      rw [← hr, Algebra.algebraMap_eq_smul_one, smul_assoc, one_smul]
+    rw [hf m, hf (Tas m), map_smul]
+  let T' : ρ.asModule →ₗ[Module.End (MonoidAlgebra k G) ρ.asModule] ρ.asModule :=
+    { toFun := Tas, map_add' := Tas.map_add, map_smul' := hTsmul }
+  -- Jacobson density: `T'` is `m ↦ a • m` for some `a ∈ k[G]`.
+  obtain ⟨a, ha⟩ :=
+    Module.Finite.toModuleEnd_moduleEnd_surjective (R := MonoidAlgebra k G) (M := ρ.asModule) T'
+  refine ⟨a, ?_⟩
+  ext v
+  -- `a • (e.symm v) = Tas (e.symm v)`; apply `e` and simplify both sides.
+  have hm : a • e.symm v = Tas (e.symm v) := LinearMap.congr_fun ha (e.symm v)
+  have hkey := congrArg e hm
+  rw [Representation.asModuleEquiv_map_smul] at hkey
+  -- LHS: `asAlgebraHom ρ a (e (e.symm v)) = asAlgebraHom ρ a v`.
+  -- RHS: `e (Tas (e.symm v)) = T (e (e.symm v)) = T v`.
+  simp only [hTas, LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply,
+    he] at hkey
+  exact hkey
 
 /-- The `k`-linear span of `{ρ g}` is all of `End k V`. -/
 theorem Representation.span_range_eq_top_of_isSimpleModule (ρ : Representation k G V)
