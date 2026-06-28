@@ -40,6 +40,7 @@ import EtingofRepresentationTheory.Chapter2.Definition2_7_3
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii
 import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
+import EtingofRepresentationTheory.Chapter2.Remark2_7_2
 
 -- Section 2.8: Quivers
 import EtingofRepresentationTheory.Chapter2.Definition2_8_1
