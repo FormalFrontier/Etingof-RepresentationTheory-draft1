@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
 import EtingofRepresentationTheory.Chapter5.LocalizationGLBiAction
 import EtingofRepresentationTheory.Chapter5.PeterWeylMatrixCoeff
+import EtingofRepresentationTheory.Chapter5.MatrixCoeffInjective
 
 /-!
 # Theorem 5.23.2(ii): the genuine `GL_n × GL_n`-equivariant Peter-Weyl decomposition
@@ -230,13 +231,66 @@ that vanishes on every `ρ_λ(g)`; by Burnside density (the image of the group a
 `End_k(L_λ)`, and nondegeneracy of the contragredient pairing
 (`algIrrepDualPairing_nondegenerate`) forces `z = 0`.
 
-BLOCKED: the Burnside/nondegeneracy route currently rests on `algIrrepGLRep_isSimple`, which is
-`ℂ`-only and degree-constrained (`∑ lam.toNatWeight ≤ n`); the general-`k`, all-weights
-generalization is tracked in `progress/schurModule-isSimple-general-route.md` (issue #4946). -/
+The representation-theoretic content (Burnside density + trace-form nondegeneracy) is
+discharged sorry-free by the abstract engine
+`matrixCoeff_injective_of_isSimpleModule` (`MatrixCoeffInjective.lean`): a kernel
+element `z`, read through the unconditional contragredient iso `algIrrepGLDualIso`
+into `Module.Dual k L_λ ⊗ L_λ`, satisfies `contractLeft (id ⊗ ρ g) z' = 0` for every
+`g` (the matrix-coefficient identity `evalGLAway_peterWeylSummandMap`); Burnside
+density (`Representation.span_range_eq_top_of_isSimpleModule`, from Schur over
+`IsAlgClosed k` plus Jacobson density) and trace nondegeneracy then force `z' = 0`.
+
+The **only** remaining input is the general-`k`, all-weights simplicity of `L_λ` as a
+`k[GL_n]`-module — the `ℂ`-only, degree-constrained `algIrrepGLRep_isSimple` lifted to
+general `k`, tracked in `progress/schurModule-isSimple-general-route.md` (issue #4946).
+That single `IsSimpleModule` hypothesis is the lone `sorry` below. -/
 theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (lam : DominantWeight n) :
     Function.Injective (peterWeylSummandMap n lam k) := by
-  sorry
+  -- The sole remaining gap: general-`k`, all-weights simplicity of `L_λ` (issue #4946).
+  haveI hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (algIrrepGLRepρ n lam k).asModule := by
+    sorry
+  rw [injective_iff_map_eq_zero]
+  intro z hz
+  -- Transport the kernel element into `Module.Dual k L_λ ⊗ L_λ`.
+  set z' : Module.Dual k (AlgIrrepGL n lam k) ⊗[k] AlgIrrepGL n lam k :=
+    TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id z with hz'
+  -- Matrix-coefficient identity in transported form, for an arbitrary tensor `w`.
+  have key : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k)
+      (w : AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k),
+      contractLeft k (AlgIrrepGL n lam k)
+          (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g)
+            (TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id w))
+        = evalGLAway (peterWeylSummandMap n lam k w) g := by
+    intro g w
+    induction w using TensorProduct.induction_on with
+    | zero => simp
+    | tmul u v =>
+        rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
+          evalGLAway_peterWeylSummandMap, algIrrepDualPairing_tmul]
+        rfl
+    | add a b ha hb => simp only [map_add, ha, hb]
+  -- The transported element satisfies the Burnside hypothesis.
+  have hcond : ∀ g, contractLeft k (AlgIrrepGL n lam k)
+      (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g) z') = 0 := by
+    intro g
+    rw [hz', key g z, hz, map_zero]
+  -- Burnside density + trace nondegeneracy: `z' = 0`, hence `z = 0`.
+  have hz'0 : z' = 0 :=
+    matrixCoeff_injective_of_isSimpleModule (algIrrepGLRepρ n lam k) z' hcond
+  have hinj : Function.Injective (TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap
+      (LinearMap.id : AlgIrrepGL n lam k →ₗ[k] AlgIrrepGL n lam k)) := by
+    have hmap : TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap
+        (LinearMap.id : AlgIrrepGL n lam k →ₗ[k] AlgIrrepGL n lam k)
+        = (TensorProduct.congr (algIrrepGLDualIso n lam k)
+            (LinearEquiv.refl k (AlgIrrepGL n lam k))).toLinearMap := by
+      rw [TensorProduct.toLinearMap_congr]; rfl
+    rw [hmap]
+    exact (TensorProduct.congr (algIrrepGLDualIso n lam k) _).injective
+  apply hinj
+  rw [map_zero]
+  exact hz'.symm.trans hz'0
 
 /-- **Cross-summand independence (distinct-irreducible Schur orthogonality).** The ranges of
 the per-summand maps `peterWeylSummandMap n lam k` (the matrix coefficients of `L_λ` inside `R`)
