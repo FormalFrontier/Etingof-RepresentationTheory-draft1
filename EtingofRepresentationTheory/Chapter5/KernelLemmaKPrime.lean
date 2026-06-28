@@ -125,6 +125,16 @@ noncomputable def charTwistRep (c : G →* kˣ) (ρ : Representation k G V) :
     (g : G) (v : V) : charTwistRep c ρ g v = (c g : k) • ρ g v :=
   rfl
 
+/-- **Composing two character twists.** Twisting a representation by the character
+`c₂` and then by `c₁` is the same as twisting once by the product character
+`c₁ * c₂`: each twist multiplies the action by a scalar, and scalars compose. This
+collapses the stacked `det^s ∘ det^{-(shift:ℤ)}` twists on `algIrrepGLRepDualρ` into
+a single `det`-power twist. -/
+theorem charTwistRep_charTwistRep (c₁ c₂ : G →* kˣ) (ρ : Representation k G V) :
+    charTwistRep c₁ (charTwistRep c₂ ρ) = charTwistRep (c₁ * c₂) ρ := by
+  ext g v
+  simp only [charTwistRep_apply, MonoidHom.mul_apply, Units.val_mul, smul_smul]
+
 /-! ### The determinant character and the twisted quotient `(A/det) ⊗ χ⁻ʳ` -/
 
 /-- The determinant character `χ : GL_N(k) →* kˣ`, `g ↦ det g`. Its right-torus

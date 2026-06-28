@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
+import EtingofRepresentationTheory.Chapter5.SchurModuleContragredientHalf
+import EtingofRepresentationTheory.Chapter5.LinearDualContragredientHalf
 
 /-!
 # The contragredient identity `L*_λ ≅ L_λ^∨` for `GL_n`
@@ -37,8 +39,8 @@ The two pieces are factored cleanly:
   `charTwistRep c ρ₂` is, after cancelling the invertible scalar `c g`, an
   equivariant equivalence between `ρ₁` and `ρ₂`. This is the reusable glue that
   removes the `det^s` twist once the twisted models are matched.
-* `exists_detTwist_equivariantEquiv_dual` (**character-identity input, sorried**,
-  tracked separately) — for a large enough `det^s`-twist, the Schur-module
+* `exists_detTwist_equivariantEquiv_dual` (**now sorry-free**, assembled from the two
+  halves #5543/#5544) — for a large enough `det^s`-twist, the Schur-module
   contragredient and the linear dual are equivariantly isomorphic, via
   `iso_of_formalCharacter_eq_schurPoly` applied to both polynomial models. This is
   where the two analytic facts live: (a) `formalCharacter (ρ.dual)` evaluates `ρ`'s
@@ -79,16 +81,6 @@ theorem isEquivariant_of_charTwist (c : G →* kˣ)
   rw [charTwistRep_apply, charTwistRep_apply, map_smul] at h
   exact smul_right_injective W₂ (Units.ne_zero (c g)) h
 
-/-- **Composing two character twists.** Twisting a representation by the character
-`c₂` and then by `c₁` is the same as twisting once by the product character
-`c₁ * c₂`: each twist multiplies the action by a scalar, and scalars compose. This
-collapses the stacked `det^s ∘ det^{-(shift:ℤ)}` twists on `algIrrepGLRepDualρ` into
-a single `det`-power twist. -/
-theorem charTwistRep_charTwistRep (c₁ c₂ : G →* kˣ) (ρ : Representation k G W₁) :
-    charTwistRep c₁ (charTwistRep c₂ ρ) = charTwistRep (c₁ * c₂) ρ := by
-  ext g v
-  simp only [charTwistRep_apply, MonoidHom.mul_apply, Units.val_mul, smul_smul]
-
 end Untwist
 
 /-! ## The contragredient identity -/
@@ -128,28 +120,31 @@ Once this common model is available, the equivariant equivalence
 `AlgIrrepGLDual ≃ₗ Module.Dual` is obtained by composing the two identifications
 (`exists_detTwist_equivariantEquiv_dual`, sorry-free below).
 
-**Status / decomposition.** Facts (a) and (b) are now closed:
+**Status / decomposition (now sorry-free).** Facts (a) and (b) are closed:
 (a) `formalCharacter_dual_coeff_eq` (`FormalCharacterDual.lean`, #5533) and
 (b) `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`, #5534). The reusable glue
-`charTwistRep_charTwistRep` (above, sorry-free) collapses the stacked
-`det^s ∘ det^{-(shift:ℤ)}` twists into a single `det`-power twist. The remaining
-assembly is split into two halves:
+`charTwistRep_charTwistRep` (`KernelLemmaKPrime.lean`, sorry-free) collapses the stacked
+`det^s ∘ det^{-(shift:ℤ)}` twists into a single `det`-power twist. The two halves are:
 
-* the Schur-module half (keystone-free; iterate Prop 5.22.2) — issue #5543;
-* the linear-dual half (keystone `iso_of_formalCharacter_eq_schurPoly` consuming
-  (a)+(b)) — issue #5544.
+* the Schur-module half `schurModule_half_detTwist_contragredient`
+  (`SchurModuleContragredientHalf.lean`, keystone-free; iterate Prop 5.22.2) — issue #5543;
+* the linear-dual half `linearDual_half_detTwist_contragredient`
+  (`LinearDualContragredientHalf.lean`, keystone `iso_of_formalCharacter_eq_schurPoly`
+  consuming (a)+(b)) — issue #5544.
 
-**The shared-`ν` crux.** The two halves must land on the *same* `ν`. The Schur half
-naturally yields `ν_Schur = (lam.w0Twist).toNatWeight + t` (with `s = t + (lam.w0Twist).shift`),
-while the dual half via (b) yields `ν_dual = w0ShiftWeight n lam.toNatWeight s`. A naive
-comparison gives `ν_dual = ν_Schur - lam.shift` (the `algIrrepGLRepρ` factor carries a
-`det^{-lam.shift}` twist), so `s` must be chosen to absorb *both* `(lam.w0Twist).shift`
-and `lam.shift`. Do not guess `s`/`ν`: a wrong choice sorries a false sub-statement.
+**The shared-`ν` crux (resolved below).** The two halves must land on the *same* `ν`.
+The Schur half (parameter `t`) yields `ν_Schur = (lam.w0Twist).toNatWeight + t`
+(with `s = t + (lam.w0Twist).shift`), while the dual half (parameter `s`) yields
+`ν_dual = w0ShiftWeight n lam.toNatWeight (s + lam.shift)`. Taking `t = 0` fixes
+`s = (lam.w0Twist).shift` and `ν = (lam.w0Twist).toNatWeight`; the arithmetic identity
+`hνeq : w0ShiftWeight n lam.toNatWeight ((lam.w0Twist).shift + lam.shift)
+= (lam.w0Twist).toNatWeight` (each side `(lam.w0Twist).shift - lam_{rev j}` over `ℤ`,
+the `lam.shift` columns cancelling) reconciles the dual half onto the shared `ν`.
 
-Sorried pending the two-half assembly (#5543, #5544); tracked in
+Assembled from the two halves (#5543, #5544); the keystone forces `k : Type`. Tracked in
 https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5526. -/
 theorem exists_common_schurModule_model_detTwist_dual (n : ℕ) (lam : DominantWeight n)
-    (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] :
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ∃ (s : ℕ) (ν : Fin n → ℕ),
       Nonempty
         { e : AlgIrrepGLDual n lam k ≃ₗ[k] SchurModuleSubmodule k n ν //
@@ -161,7 +156,53 @@ theorem exists_common_schurModule_model_detTwist_dual (n : ℕ) (lam : DominantW
           ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : Module.Dual k (AlgIrrepGL n lam k)),
             e (charTwistRep (detChar k n ^ s) ((algIrrepGLRepρ n lam k).dual) g v)
               = schurModuleRep k n ν g (e v) } := by
-  sorry
+  -- The two halves are coupled through a shared weight `ν`. Take the Schur half's
+  -- parameter `t = 0`, so the common twist is `s = (lam.w0Twist).shift` and the common
+  -- weight is `ν = (lam.w0Twist).toNatWeight`. The Schur half lands there by construction;
+  -- the dual half lands on `w0ShiftWeight n lam.toNatWeight (s + lam.shift)`, which the
+  -- arithmetic below (`hνeq`) reconciles with `(lam.w0Twist).toNatWeight`.
+  -- The torus shift normalizing a dominant weight is large enough: `λ_i + shift ≥ 0`.
+  have hnonneg : ∀ (lz : DominantWeight n) (i : Fin n), 0 ≤ lz.val i + (lz.shift : ℤ) := by
+    intro lz i
+    obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, (Nat.succ_pred_eq_of_pos (Fin.pos i)).symm⟩
+    have hlast : lz.val (Fin.last m) ≤ lz.val i := lz.property (Fin.le_last i)
+    change 0 ≤ lz.val i + (((-(lz.val (Fin.last m))).toNat : ℕ) : ℤ)
+    omega
+  -- `λ.toNatWeight` recovers `λ`: `(λ.toNatWeight i : ℤ) = λ_i + shift`.
+  have hcast : ∀ (lz : DominantWeight n) (i : Fin n),
+      (lz.toNatWeight i : ℤ) = lz.val i + (lz.shift : ℤ) := by
+    intro lz i
+    change (((lz.val i + (lz.shift : ℤ)).toNat : ℕ) : ℤ) = lz.val i + (lz.shift : ℤ)
+    rw [Int.toNat_of_nonneg (hnonneg lz i)]
+  -- The bound feeding the dual half: `λ.toNatWeight i ≤ (lam.w0Twist).shift + lam.shift`.
+  have hs : ∀ i, lam.toNatWeight i ≤ (lam.w0Twist).shift + lam.shift := by
+    intro i
+    have h1 : (lam.toNatWeight i : ℤ) = lam.val i + (lam.shift : ℤ) := hcast lam i
+    have h2 : 0 ≤ (lam.w0Twist).val (Fin.rev i) + ((lam.w0Twist).shift : ℤ) :=
+      hnonneg (lam.w0Twist) (Fin.rev i)
+    have h3 : (lam.w0Twist).val (Fin.rev i) = -lam.val i := by
+      change -lam.val (Fin.rev (Fin.rev i)) = -lam.val i
+      rw [Fin.rev_rev]
+    omega
+  -- The shared-weight reconciliation: both halves land on `(lam.w0Twist).toNatWeight`.
+  have hνeq : w0ShiftWeight n lam.toNatWeight ((lam.w0Twist).shift + lam.shift)
+      = (lam.w0Twist).toNatWeight := by
+    funext j
+    have hA : (lam.toNatWeight (Fin.rev j) : ℤ) = lam.val (Fin.rev j) + (lam.shift : ℤ) :=
+      hcast lam (Fin.rev j)
+    have hB : ((lam.w0Twist).toNatWeight j : ℤ)
+        = (lam.w0Twist).val j + ((lam.w0Twist).shift : ℤ) := hcast (lam.w0Twist) j
+    have hw0 : (lam.w0Twist).val j = -lam.val (Fin.rev j) := rfl
+    change ((lam.w0Twist).shift + lam.shift) - lam.toNatWeight (Fin.rev j)
+      = (lam.w0Twist).toNatWeight j
+    omega
+  refine ⟨(lam.w0Twist).shift, (lam.w0Twist).toNatWeight, ?_, ?_⟩
+  · -- Schur half with `t = 0`: twist power `0 + (lam.w0Twist).shift`, weight defeq to `ν`.
+    rw [show (lam.w0Twist).shift = 0 + (lam.w0Twist).shift from (Nat.zero_add _).symm]
+    exact schurModule_half_detTwist_contragredient n lam k 0
+  · -- Dual half with `s = (lam.w0Twist).shift`; `hνeq` matches its weight to `ν`.
+    rw [← hνeq]
+    exact linearDual_half_detTwist_contragredient n lam k (lam.w0Twist).shift hs
 
 /-- **The `det^s`-twisted models of the contragredient agree (character input).**
 For a large enough determinant twist `det^s`, the Schur-module contragredient
@@ -180,10 +221,10 @@ equivariant equivalence. Two facts feed the character computation:
 * the inverted-variable Schur identity `s_λ(x⁻¹)·(x₁⋯x_n)^s = s_{w₀λ+s}(x)`, which
   makes the `det^s`-twisted dual character a genuine Schur polynomial.
 
-Sorried pending those two facts; tracked in
+Now sorry-free via `exists_common_schurModule_model_detTwist_dual`; tracked in
 https://github.com/FormalFrontier/Etingof-RepresentationTheory-draft1/issues/5526. -/
 theorem exists_detTwist_equivariantEquiv_dual (n : ℕ) (lam : DominantWeight n)
-    (k : Type*) [Field k] [IsAlgClosed k] [CharZero k] :
+    (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ∃ s : ℕ, Nonempty
       { e : AlgIrrepGLDual n lam k ≃ₗ[k] Module.Dual k (AlgIrrepGL n lam k) //
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGLDual n lam k),
@@ -212,7 +253,7 @@ The proof matches the two models after a common `det^s`-twist
 elementary `isEquivariant_of_charTwist`. With this in hand the canonical evaluation
 pairing `contractLeft` (`Chapter5/ContragredientPairing.lean`) retypes onto
 `AlgIrrepGLDual ⊗ AlgIrrepGL`. -/
-theorem algIrrepGLDual_iso_linearDual (n : ℕ) (lam : DominantWeight n) (k : Type*)
+theorem algIrrepGLDual_iso_linearDual (n : ℕ) (lam : DominantWeight n) (k : Type)
     [Field k] [IsAlgClosed k] [CharZero k] :
     Nonempty
       { e : AlgIrrepGLDual n lam k ≃ₗ[k] Module.Dual k (AlgIrrepGL n lam k) //
