@@ -231,6 +231,114 @@ theorem finrank_glWeightSpaceℤ_schurModule_neg (k : Type) [Field k] [IsAlgClos
   have h : ((wt c i₀ : ℤ)) = w i₀ := congrFun hc i₀
   omega
 
+/-! ## The Schur per-coordinate degree bound (crux for box reversal)
+
+The genuine new content needed to run the box-reversal proof: every monomial of
+`schurPoly N lz` has each variable-exponent `≤ lz`'s largest part. We prove the
+sharper statement `degreeOf t (schurPoly N lz) ≤ m` whenever `lz j ≤ m` for all
+`j`, by single-variable degree additivity over the integral domain
+`MvPolynomial (Fin N) ℚ`: from `schurPoly · Δ = a_{λ+δ}` we get
+`degreeOf t (schurPoly) + degreeOf t Δ = degreeOf t a_{λ+δ}`, and the two
+alternant degrees are bounded by `m + (N-1)` and below by `N-1`. -/
+
+section DegreeBound
+
+open _root_.MvPolynomial
+
+/-- Each variable-degree of the alternant `a_e` is bounded by any bound on the
+exponent sequence `e`: every Leibniz monomial of the determinant is
+`±(x₁^{e_{σ⁻¹ 1}}⋯)`, whose `X_t`-degree is `e_{σ⁻¹ t} ≤ B`. -/
+private lemma degreeOf_alternant_le (N : ℕ) (e : Fin N → ℕ) (B : ℕ)
+    (hB : ∀ j, e j ≤ B) (t : Fin N) :
+    (alternantMatrix N e).det.degreeOf t ≤ B := by
+  rw [Matrix.det_apply]
+  refine le_trans (MvPolynomial.degreeOf_sum_le t _ _) (Finset.sup_le ?_)
+  intro σ _
+  have hprod : (∏ i, alternantMatrix N e (σ i) i)
+      = monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := by
+    rw [show (∏ i, alternantMatrix N e (σ i) i)
+          = ∏ i, (X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i from rfl,
+      show (∏ i, (X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i)
+          = ∏ i, X i ^ (e (σ.symm i)) from Fintype.prod_equiv σ _ _ (fun _ => by simp)]
+    exact prod_X_pow_eq_monomial' _
+  rw [hprod, Units.smul_def, ← Int.cast_smul_eq_zsmul ℚ, smul_eq_C_mul]
+  refine le_trans (degreeOf_C_mul_le _ t _) ?_
+  rw [degreeOf_monomial_eq _ t one_ne_zero]
+  have : (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) t = e (σ.symm t) := by
+    simp [Finsupp.equivFunOnFinite]
+  rw [this]; exact hB _
+
+/-- The Vandermonde exponent sequence is strictly antitone. -/
+private lemma vandermondeExps_strictAnti (N : ℕ) : StrictAnti (vandermondeExps N) := by
+  intro i j hij
+  simp only [vandermondeExps]
+  have hj := j.isLt
+  have : (i : ℕ) < (j : ℕ) := hij
+  omega
+
+/-- The Vandermonde determinant has full `X_t`-degree `N-1` in every variable: it
+contains a monomial with `X_t`-exponent `N-1` (move the leading exponent into
+slot `t` via a transposition; antisymmetry keeps its coefficient `±1`). -/
+private lemma vandermonde_degreeOf_ge (N : ℕ) (t : Fin N) :
+    N - 1 ≤ (alternantMatrix N (vandermondeExps N)).det.degreeOf t := by
+  have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) t.isLt
+  set i0 : Fin N := ⟨0, hN⟩ with hi0
+  set σ : Equiv.Perm (Fin N) := Equiv.swap i0 t with hσ
+  have hcoeff1 : MvPolynomial.coeff
+      (Finsupp.equivFunOnFinite.symm (vandermondeExps N))
+        (alternantMatrix N (vandermondeExps N)).det = 1 := by
+    rw [alternant_coeff_kronecker (vandermondeExps_strictAnti N) (vandermondeExps_strictAnti N),
+      if_pos rfl]
+  set d : Fin N →₀ ℕ :=
+    Finsupp.mapDomain σ (Finsupp.equivFunOnFinite.symm (vandermondeExps N)) with hd
+  have hrename : MvPolynomial.coeff d
+      (MvPolynomial.rename σ (alternantMatrix N (vandermondeExps N)).det) = 1 := by
+    rw [hd, MvPolynomial.coeff_rename_mapDomain σ σ.injective _ _, hcoeff1]
+  rw [rename_alternant_det, MvPolynomial.coeff_smul] at hrename
+  have hne : MvPolynomial.coeff d (alternantMatrix N (vandermondeExps N)).det ≠ 0 := by
+    intro hzero; rw [hzero, smul_zero] at hrename; exact one_ne_zero hrename.symm
+  have hsymm : σ.symm t = i0 := by rw [hσ, Equiv.symm_swap, Equiv.swap_apply_right]
+  have hdt : d t = N - 1 := by
+    have h1 : d t = vandermondeExps N i0 := by
+      rw [hd, Finsupp.mapDomain_equiv_apply, hsymm, Finsupp.coe_equivFunOnFinite_symm]
+    rw [h1]; simp only [vandermondeExps, hi0, Fin.val_mk, Nat.sub_zero]
+  calc N - 1 = d t := hdt.symm
+    _ ≤ (alternantMatrix N (vandermondeExps N)).det.degreeOf t :=
+        MvPolynomial.monomial_le_degreeOf t (MvPolynomial.mem_support_iff.mpr hne)
+
+/-- **The Schur per-coordinate degree bound.** For `lz` with `lz j ≤ m` for all
+`j`, every variable-degree of `schurPoly N lz` is at most `m`. Equivalently, every
+monomial `c` with `(schurPoly N lz).coeff c ≠ 0` has `c i ≤ m` for all `i`. This is
+the no-truncation guarantee that lets box reversal recover `schurPoly` exactly. -/
+theorem schurPoly_degreeOf_le (N : ℕ) (lz : Fin N → ℕ) (m : ℕ)
+    (hs : ∀ j, lz j ≤ m) (t : Fin N) :
+    (schurPoly N lz).degreeOf t ≤ m := by
+  by_cases hsp : schurPoly N lz = 0
+  · rw [hsp, MvPolynomial.degreeOf_zero]; exact Nat.zero_le _
+  · have hΔ := alternantMatrix_vandermondeExps_det_ne_zero N
+    have hmul : (schurPoly N lz).degreeOf t
+          + (alternantMatrix N (vandermondeExps N)).det.degreeOf t
+        = (alternantMatrix N (shiftedExps N lz)).det.degreeOf t := by
+      rw [← MvPolynomial.degreeOf_mul_eq hsp hΔ, schurPoly_mul_vandermonde]
+    have ha : (alternantMatrix N (shiftedExps N lz)).det.degreeOf t ≤ m + (N - 1) := by
+      refine degreeOf_alternant_le N _ _ (fun j => ?_) t
+      simp only [shiftedExps]; have := hs j; have : N - 1 - (j : ℕ) ≤ N - 1 := Nat.sub_le _ _
+      omega
+    have hΔge : N - 1 ≤ (alternantMatrix N (vandermondeExps N)).det.degreeOf t :=
+      vandermonde_degreeOf_ge N t
+    have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) t.isLt
+    omega
+
+/-- Coefficient-level form of `schurPoly_degreeOf_le`: any monomial in the support
+of `schurPoly N lz` has all exponents `≤ m`. -/
+theorem schurPoly_coeff_le (N : ℕ) (lz : Fin N → ℕ) (m : ℕ)
+    (hs : ∀ j, lz j ≤ m) {c : Fin N →₀ ℕ}
+    (hc : (schurPoly N lz).coeff c ≠ 0) (i : Fin N) : c i ≤ m :=
+  le_trans (MvPolynomial.monomial_le_degreeOf i (MvPolynomial.mem_support_iff.mpr hc))
+    (schurPoly_degreeOf_le N lz m hs i)
+
+end DegreeBound
+
 /-! ## The inverted-Schur coefficient bridge (residual pure-polynomial content)
 
 This is the genuine content remaining after the representation-theoretic reduction:
