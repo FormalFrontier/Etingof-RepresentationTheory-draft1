@@ -116,8 +116,67 @@ theorem exists_polyRightDegree_embedding_of_simple
     ∃ (d : ℕ) (ψ : L →ₗ[k] polyRightDegreeFDRep k N d),
       Function.Injective ψ ∧
       (∀ (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
-        ψ (L.ρ g v) = (polyRightDegreeFDRep k N d).ρ g (ψ v)) :=
-  sorry
+        ψ (L.ρ g v) = (polyRightDegreeFDRep k N d).ρ g (ψ v)) := by
+  classical
+  haveI := hLsimp
+  -- For each degree `d`, the equivariant map `ψ d : L → A_d`, namely `homogeneousComponent d ∘ φ`.
+  let ψ : ∀ d, L →ₗ[k] polyRightDegreeFDRep k N d := fun d =>
+    LinearMap.codRestrict (polyRightHomogeneousSubrep k N d).toSubmodule
+      ((MvPolynomial.homogeneousComponent d).comp φ)
+      (fun v => MvPolynomial.homogeneousComponent_mem d (φ v))
+  -- carrier value of `ψ d`
+  have hψ_val : ∀ d (v : L),
+      (polyRightHomogeneousSubrep k N d).toSubmodule.subtype (ψ d v)
+        = MvPolynomial.homogeneousComponent d (φ v) := fun _ _ => rfl
+  -- the carrier action of `polyRightDegreeFDRep` is `polyRightRep`
+  have hρ_coe : ∀ d (g : Matrix.GeneralLinearGroup (Fin N) k)
+      (z : polyRightDegreeFDRep k N d),
+      (polyRightHomogeneousSubrep k N d).toSubmodule.subtype ((polyRightDegreeFDRep k N d).ρ g z)
+        = polyRightRep k N g ((polyRightHomogeneousSubrep k N d).toSubmodule.subtype z) :=
+    fun d g z => LinearMap.restrict_coe_apply (polyRightRep k N g)
+      ((polyRightHomogeneousSubrep k N d).apply_mem_toSubmodule g) z
+  -- equivariance of `ψ d`
+  have hψ_equiv : ∀ d (g : Matrix.GeneralLinearGroup (Fin N) k) (v : L),
+      ψ d (L.ρ g v) = (polyRightDegreeFDRep k N d).ρ g (ψ d v) := by
+    intro d g v
+    apply Submodule.injective_subtype (polyRightHomogeneousSubrep k N d).toSubmodule
+    rw [hψ_val, hρ_coe, hψ_val, hφ_equiv, homogeneousComponent_polyRightRep]
+  -- Schur: each `ψ d` is zero or injective
+  have hschur : ∀ d, Function.Injective (ψ d) ∨ ψ d = 0 := by
+    intro d
+    let Ψ : Representation.asModule L.ρ
+        →ₗ[MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k)]
+          Representation.asModule (polyRightDegreeFDRep k N d).ρ :=
+      Representation.asModuleHomOfIntertwiner (ψ d) (hψ_equiv d)
+    rcases eq_bot_or_eq_top (LinearMap.ker Ψ) with hker | hker
+    · exact Or.inl fun a b h => LinearMap.ker_eq_bot.1 hker h
+    · refine Or.inr ?_
+      have hΨ0 : Ψ = 0 := LinearMap.ker_eq_top.1 hker
+      ext v
+      change Ψ v = 0
+      rw [hΨ0, LinearMap.zero_apply]
+  -- some `ψ d` is injective
+  haveI : Nontrivial L :=
+    IsSimpleModule.nontrivial (R := MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin N) k))
+      (M := Representation.asModule L.ρ)
+  obtain ⟨v, hv0⟩ := exists_ne (0 : L)
+  have hexists : ∃ d, Function.Injective (ψ d) := by
+    by_contra hcon
+    push_neg at hcon
+    have hzero : ∀ d, ψ d = 0 := fun d => (hschur d).resolve_left (hcon d)
+    -- `φ v = ∑_d homogeneousComponent d (φ v)`, but every component vanishes
+    have hdecomp : (∑ d ∈ Finset.range ((φ v).totalDegree + 1),
+        MvPolynomial.homogeneousComponent d (φ v)) = φ v :=
+      MvPolynomial.sum_homogeneousComponent (φ v)
+    have hzeroterm : ∀ d, MvPolynomial.homogeneousComponent d (φ v) = 0 := by
+      intro d
+      rw [← hψ_val d v, hzero d, LinearMap.zero_apply]
+      rfl
+    have hφv0 : φ v = 0 := by
+      rw [← hdecomp]; exact Finset.sum_eq_zero fun d _ => hzeroterm d
+    exact hv0 (hφ_inj (by rw [hφv0, map_zero]))
+  obtain ⟨d, hd⟩ := hexists
+  exact ⟨d, ψ d, hd, hψ_equiv d⟩
 
 /-! ### Assembly -/
 

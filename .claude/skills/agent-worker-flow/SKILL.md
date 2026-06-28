@@ -287,13 +287,6 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 - Decisions made, key patterns discovered
 - What remains, quality metric deltas
 
-**Commit AND push the progress file BEFORE `create-pr`.** `create-pr` enables
-auto-merge, which can squash-merge the PR within seconds — before a progress commit
-you push afterwards reaches main, stranding it on the (then-deleted) branch. Order:
-write progress → `git add -A && git commit` → `git push` → `create-pr`. (If you only
-realize after, the handoff still survives in the issue breadcrumb / sub-issue bodies,
-but the per-turn file will be missing from main.)
-
 **Full completion:**
 ```bash
 git push -u origin <branch>

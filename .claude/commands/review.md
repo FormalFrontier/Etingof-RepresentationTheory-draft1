@@ -39,32 +39,6 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
-## Fidelity-audit issues (Stage 3.7, epic #5338)
-
-If your issue is a fidelity sweep or an adjudication of `unsure` verdicts, read the
-latest `progress/coverage-audit/fidelity-wave-*.md` for calibration, then for each item
-re-read its blob + Lean declaration (different model than formalized it) and resolve to
-`verified` or `gap`. Recording convention (do not rediscover from git):
-
-- **In `progress/items.json`**, set on the item: `fidelity` (`verified`/`gap`),
-  `fidelity_note` (your reasoning), `fidelity_decl` (the declaration name, or
-  `(none found)`), and for gaps `fidelity_issue: <N>`. Leave `status`/`sorry_free` as-is;
-  the project metric is `min(sorry_free fraction, fidelity-verified fraction)`, so a `gap`
-  is excluded from the fidelity count without touching the sorry arm.
-- **Open one issue per gap.** Two kinds:
-  - *No declaration but formalizable claim* → title `Missing formalization: <ItemID>`,
-    labels `review,agent-plan`.
-  - *Declaration present but vacuous/strictly weaker* → title `Fidelity gap: <ItemID>`,
-    labels `bug,feature,agent-plan`.
-  Body: header citing epic #5338 / parent issue + Item / Lean decl / Why flagged / Dropped
-  / Fix lines (mirror an existing wave-1 issue, e.g. #5357 or #5366).
-- **Calibration:** absence is `verified` (not a gap) when the content needs out-of-scope
-  machinery (manifolds, analysis) or is a hard low-value infinite-dim narrative; it is a
-  `gap` when the claim is clean, self-contained, and formalizable at this level. A
-  definition that constructs the right object via a provably-equivalent encoding is
-  faithful; a faithful statement whose *proof* has a `sorry` is still `verified` (that is
-  the sorry arm, not fidelity).
-
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by
