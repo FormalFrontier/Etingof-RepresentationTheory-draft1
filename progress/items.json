@@ -271,11 +271,11 @@
   "start_line": 9,
   "end_line": 10,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: over a commutative ring, a left module is a right module via m a := a m; formalizable claim, formalized nowhere. Low value but genuine. See #5591.",
-  "fidelity_decl": "(none found)",
+  "fidelity": "verified",
+  "fidelity_note": "Formalized in EtingofRepresentationTheory/Chapter2/Remark2_3_2.lean: over a commutative ring, a left A-module becomes a right A-module (Module Aᵐᵒᵖ M) via m a := a m (rightModuleOfLeft, with rightModuleOfLeft_smul) and conversely (leftModuleOfRight). Closes #5591.",
+  "fidelity_decl": "Etingof.rightModuleOfLeft, Etingof.leftModuleOfRight",
   "fidelity_issue": 5591,
-  "last_updated": "2026-06-28"
+  "last_updated": "2026-06-29"
  },
  {
   "id": "Chapter2/Discussion_examples_intro",
