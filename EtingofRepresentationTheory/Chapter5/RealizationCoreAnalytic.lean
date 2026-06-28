@@ -91,8 +91,136 @@ theorem exists_detTwist_polyEmbedding_of_simple_subrep
       ∃ φ : S.toSubmodule →ₗ[k] MvPolynomial (Fin n × Fin n) k,
         Function.Injective φ ∧
         ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : S.toSubmodule),
-          φ (charTwistRep (detChar k n ^ r) S.toRepresentation g v) = polyRightRep k n g (φ v) :=
-  sorry
+          φ (charTwistRep (detChar k n ^ r) S.toRepresentation g v) = polyRightRep k n g (φ v) := by
+  classical
+  haveI : Module.Finite k S.toSubmodule := ‹FiniteDimensional k S.toSubmodule›
+  -- A basis of the finite-dimensional carrier.
+  let B : Module.Basis (Fin (Module.finrank k S.toSubmodule)) k S.toSubmodule :=
+    Module.finBasis k S.toSubmodule
+  -- Common-denominator exponent: the max `det`-power exponent over the basis.
+  set r : ℕ := Finset.univ.sup
+    (fun i => detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n))) with hr
+  have hr_ge : ∀ i, detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)) ≤ r :=
+    fun i => Finset.le_sup
+      (f := fun i => detExp ((S.toSubmodule.subtype (B i)) : Localization.Away (detPoly k n)))
+      (Finset.mem_univ i)
+  -- Clearing: each basis vector is `det^{-r}` times an explicit polynomial.
+  have hclear : ∀ i, ∃ P : MvPolynomial (Fin n × Fin n) k,
+      (S.toSubmodule.subtype (B i) : Localization.Away (detPoly k n)) = numEmbed r P := by
+    intro i
+    obtain ⟨Q, hQ⟩ :=
+      detExp_spec (S.toSubmodule.subtype (B i) : Localization.Away (detPoly k n))
+    refine ⟨Q * detPoly k n ^ (r - detExp (S.toSubmodule.subtype (B i))), ?_⟩
+    conv_lhs => rw [hQ]
+    rw [numEmbed_apply, map_mul, map_pow, mul_assoc]
+    congr 1
+    -- `invSelf^e = algebraMap(detPoly)^(r - e) * invSelf^r`, where `e = detExp ↑(B i) ≤ r`.
+    rw [show (IsLocalization.Away.invSelf (detPoly k n) : Localization.Away (detPoly k n)) ^ r
+          = IsLocalization.Away.invSelf (detPoly k n)
+              ^ (r - detExp (S.toSubmodule.subtype (B i)))
+            * IsLocalization.Away.invSelf (detPoly k n)
+              ^ (detExp (S.toSubmodule.subtype (B i))) from by
+        rw [← pow_add, Nat.sub_add_cancel (hr_ge i)],
+      ← mul_assoc, algebraMap_detPoly_pow_mul_invSelf_pow, one_mul]
+  choose P hP using hclear
+  -- Degree bound for the cleared numerators.
+  set d : ℕ := Finset.univ.sup (fun i => (P i).totalDegree) with hd
+  -- The numerator embedding restricted to bounded-degree polynomials, landing in `R`.
+  set ι : (boundedSubrep k n d).toSubmodule →ₗ[k] Localization.Away (detPoly k n) :=
+    (numEmbed r).comp (boundedSubrep k n d).toSubmodule.subtype with hι
+  have hι_apply : ∀ w : (boundedSubrep k n d).toSubmodule,
+      ι w = numEmbed r (w : MvPolynomial (Fin n × Fin n) k) := fun _ => rfl
+  have hι_inj : Function.Injective ι :=
+    (numEmbed_injective r).comp (Submodule.injective_subtype _)
+  -- `ι` intertwines bounded right translation with the `det^r`-twisted localization action.
+  have hinter : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (w : (boundedSubrep k n d).toSubmodule),
+      ι ((boundedSubrep k n d).toRepresentation g w)
+        = charTwistRep (detChar k n ^ r) (localRightRep k n) g (ι w) := by
+    intro g w
+    rw [hι_apply, boundedSubrep_toRepresentation_coe, hι_apply, numEmbed_intertwines]
+  -- `S.toSubmodule` lies in the image of `ι` (clearing the basis).
+  have hIII : S.toSubmodule ≤ LinearMap.range ι := by
+    have hspan : S.toSubmodule
+        = Submodule.span k (Set.range (fun i =>
+            (S.toSubmodule.subtype (B i) : Localization.Away (detPoly k n)))) := by
+      conv_lhs => rw [← Submodule.map_subtype_top S.toSubmodule, ← B.span_eq,
+        Submodule.map_span]
+      rw [← Set.range_comp]
+      rfl
+    rw [hspan, Submodule.span_le]
+    rintro _ ⟨i, rfl⟩
+    rw [SetLike.mem_coe, LinearMap.mem_range]
+    refine ⟨⟨P i, ?_⟩, ?_⟩
+    · show P i ∈ (boundedSubrep k n d).toSubmodule
+      exact (MvPolynomial.mem_restrictTotalDegree _ _ _).mpr
+        (Finset.le_sup (f := fun i => (P i).totalDegree) (Finset.mem_univ i))
+    · rw [hι_apply]; exact (hP i).symm
+  -- The preimage subspace, invariant under bounded right translation.
+  set U : Submodule k (boundedSubrep k n d).toSubmodule :=
+    Submodule.comap ι S.toSubmodule with hU
+  have hU_inv : ∀ g, ∀ v ∈ U, (boundedSubrep k n d).toRepresentation g v ∈ U := by
+    intro g v hv
+    rw [hU, Submodule.mem_comap] at hv ⊢
+    rw [hinter, charTwistRep_apply]
+    exact Submodule.smul_mem _ _ (S.apply_mem_toSubmodule g hv)
+  haveI : Module.Finite k U := inferInstance
+  -- `ι` carries `U` isomorphically onto `S.toSubmodule`.
+  have hmap : U.map ι = S.toSubmodule := by
+    rw [hU, Submodule.map_comap_eq, inf_eq_right.mpr hIII]
+  let e : U ≃ₗ[k] S.toSubmodule :=
+    (Submodule.equivMapOfInjective ι hι_inj U).trans (LinearEquiv.ofEq _ _ hmap)
+  have he_coe : ∀ y : U,
+      (e y : Localization.Away (detPoly k n)) = ι (y : (boundedSubrep k n d).toSubmodule) := by
+    intro y
+    show ((LinearEquiv.ofEq _ _ hmap) (Submodule.equivMapOfInjective ι hι_inj U y) :
+        Localization.Away (detPoly k n)) = _
+    rw [LinearEquiv.coe_ofEq_apply, Submodule.coe_equivMapOfInjective_apply]
+  have hS_coe : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (z : S.toSubmodule),
+      ((S.toRepresentation g z : Localization.Away (detPoly k n)))
+        = localRightRep k n g (z : Localization.Away (detPoly k n)) :=
+    fun g z => LinearMap.restrict_coe_apply (localRightRep k n g)
+      (S.apply_mem_toSubmodule g) z
+  -- `e` intertwines the restricted bounded action with the `det^r`-twisted `S`-action.
+  have hcomm : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (y : U),
+      e (((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g) y)
+        = charTwistRep (detChar k n ^ r) S.toRepresentation g (e y) := by
+    intro g y
+    apply Subtype.ext
+    have hL : (↑(e (((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g) y)) :
+        Localization.Away (detPoly k n))
+        = charTwistRep (detChar k n ^ r) (localRightRep k n) g (ι (y : _)) := by
+      rw [he_coe, LinearMap.restrict_coe_apply, hinter]
+    have hR : (↑(charTwistRep (detChar k n ^ r) S.toRepresentation g (e y)) :
+        Localization.Away (detPoly k n))
+        = charTwistRep (detChar k n ^ r) (localRightRep k n) g (ι (y : _)) := by
+      rw [charTwistRep_apply, Submodule.coe_smul, hS_coe, he_coe, charTwistRep_apply]
+    rw [hL, hR]
+  -- The twisted `S`-action is algebraic.
+  have hMalg : Etingof.IsAlgebraicRepresentation n
+      ⇑(charTwistRep (detChar k n ^ r) S.toRepresentation) :=
+    ((boundedRightRep_isAlgebraic k n d).restrict U hU_inv).of_linearEquiv e hcomm
+  -- The polynomial embedding `φ = subtype ∘ U.subtype ∘ e.symm`.
+  refine ⟨r, hMalg, ?_,
+    (boundedSubrep k n d).toSubmodule.subtype ∘ₗ U.subtype ∘ₗ e.symm.toLinearMap, ?_, ?_⟩
+  · -- weight-spanning of the polynomial representation `M`
+    sorry
+  · -- injectivity
+    exact (Submodule.injective_subtype _).comp
+      ((Submodule.injective_subtype U).comp e.symm.injective)
+  · -- equivariance
+    intro g v
+    show (boundedSubrep k n d).toSubmodule.subtype (U.subtype (e.symm
+        (charTwistRep (detChar k n ^ r) S.toRepresentation g v)))
+      = polyRightRep k n g ((boundedSubrep k n d).toSubmodule.subtype (U.subtype (e.symm v)))
+    have hsymm : e.symm (charTwistRep (detChar k n ^ r) S.toRepresentation g v)
+        = ((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g) (e.symm v) := by
+      apply e.injective
+      rw [e.apply_symm_apply, hcomm, e.apply_symm_apply]
+    rw [hsymm,
+      show U.subtype ((((boundedSubrep k n d).toRepresentation g).restrict (hU_inv g)) (e.symm v))
+          = (boundedSubrep k n d).toRepresentation g (U.subtype (e.symm v)) from
+        LinearMap.restrict_coe_apply _ (hU_inv g) (e.symm v)]
+    exact boundedSubrep_toRepresentation_coe d g (U.subtype (e.symm v))
 
 /-! ### Steps 2–3 — single-degree reduction for a simple polynomial representation -/
 
