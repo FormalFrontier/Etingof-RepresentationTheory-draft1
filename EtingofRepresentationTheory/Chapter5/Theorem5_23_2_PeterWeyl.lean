@@ -5,6 +5,8 @@ import EtingofRepresentationTheory.Chapter5.PeterWeylMatrixCoeff
 import EtingofRepresentationTheory.Chapter5.MatrixCoeffInjective
 import EtingofRepresentationTheory.Chapter5.CrossSummandMatrixCoeff
 import EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso
+import EtingofRepresentationTheory.Chapter5.RightTranslationHull
+import EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp
 
 /-!
 # Theorem 5.23.2(ii): the genuine `GL_n × GL_n`-equivariant Peter-Weyl decomposition
@@ -452,6 +454,41 @@ theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [C
   injective_toModule_of_iSupIndep_range _
     (peterWeylSummandMap_injective n k) (peterWeylSummandMap_range_iSupIndep n k)
 
+/-- **Hull-spanning bridge (the remaining Cauchy obligation, steps 2–4).** Every element of the
+finite-dimensional right-translation hull `rightHull φ` of `φ ∈ R = Localization.Away (detPoly k n)`
+lies in the supremum `⨆_λ range (peterWeylSummandMap n λ k)` of the per-summand matrix-coefficient
+ranges.
+
+**Intended proof route.** The hull `rightHull φ`, with the right-translation action `localRightRep`,
+is a finite-dimensional semisimple `k[GL_n]`-module (`rightHull_isSemisimple`, #5577). Decompose it
+into simple submodules (`IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp` /
+`SimpleSubrepExtraction.exists_isSimpleModule_le`); it suffices to show each simple submodule
+`S ≤ rightHull φ` lies in `⨆_λ range (peterWeylSummandMap n λ k)`, since `rightHull φ` is their
+join and the supremum is a submodule.
+
+For a single simple submodule `S`: `S` is a simple algebraic `GL_n`-representation (a constituent of
+the algebraic hull), so by the highest-weight classification
+(`iso_of_formalCharacter_eq_schurPoly`, identifying a simple with a Schur module / `AlgIrrepGL`
+through its formal character) there is a dominant weight `λ` and a `GL_n`-equivariant linear
+isomorphism `e : AlgIrrepGL n λ k ≃ₗ[k] S` intertwining `algIrrepGLRepρ n λ k` with the
+`localRightRep`-action on `S`. Composing with the (equivariant) inclusion `S ↪ R` yields a
+`GL_n`-equivariant map `ι : AlgIrrepGL n λ k →ₗ[k] R` intertwining `algIrrepGLRepρ` with
+`localRightRep`, whence `S = range ι ≤ range (peterWeylSummandMap n λ k)` by the step-4
+correspondence `equivariant_range_le_peterWeylSummandMap` (#5578). Summing over the simple
+constituents gives `rightHull φ ≤ ⨆_λ range (peterWeylSummandMap n λ k)`.
+
+**Status.** The genuinely missing infrastructure is the *realization* step: turning a simple
+constituent `S ≤ R` of the hull into a concrete `λ` together with the equivariant isomorphism
+`AlgIrrepGL n λ k ≃ S` (the highest-weight classification wired to submodules of `R`). The
+semisimplicity (#5577) and the matrix-coefficient correspondence (#5578) are in place; this lemma
+records the remaining obligation as a single isolated statement. -/
+theorem rightHull_le_iSup_range_peterWeylSummandMap
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (φ : Localization.Away (detPoly k n)) :
+    RightTranslationHull.rightHull φ ≤
+      ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) := by
+  sorry
+
 /-- **The Cauchy spanning statement — the crux of Peter-Weyl surjectivity.** The matrix
 coefficients of all the irreducibles `L_λ` together span the whole coordinate ring
 `R = k[gᵢⱼ][1/det]`: the ranges of the per-summand maps `peterWeylSummandMap n λ k` have
@@ -483,14 +520,20 @@ abstract Peter-Weyl "every regular function is a matrix coefficient" argument:
    `peterWeylSummandMap n λ k`; hence the matrix coefficient of `W_φ`, decomposed across the
    `L_λ` summands, lies in `⨆_λ range (peterWeylSummandMap n λ k)`.
 
-The genuinely missing infrastructure is the matrix-coefficient correspondence of step 4 (relating
-the abstract `peterWeylSummandMap`, built from the algebraicity-witness basis, to arbitrary
-`GL`-maps `L_λ → R`) together with the finite-dimensional-hull machinery of steps 1–2. None of
-this bridge exists yet; tracked as a sub-issue of #5550. -/
+The matrix-coefficient correspondence of step 4 is now available
+(`equivariant_range_le_peterWeylSummandMap`, #5578), and the hull machinery of steps 1–2 is in
+place (`RightTranslationHull.self_mem_rightHull`, `RightTranslationHull.rightHull_isSemisimple`,
+#5577). What remains is the *realization* half of steps 2–4: identifying each simple constituent
+of the semisimple hull with a concrete `L_λ = AlgIrrepGL n λ k` via a `GL_n`-equivariant
+inclusion into `R`. That is isolated as the bridge lemma
+`rightHull_le_iSup_range_peterWeylSummandMap` below. -/
 theorem peterWeylSummandMap_iSup_range_eq_top
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) = ⊤ := by
-  sorry
+  rw [eq_top_iff]
+  intro φ _
+  exact rightHull_le_iSup_range_peterWeylSummandMap n k φ
+    (RightTranslationHull.self_mem_rightHull φ)
 
 /-- **Surjectivity of the assembled matrix-coefficient map** — the Cauchy decomposition of
 `R = k[gᵢⱼ][1/det]`: every regular function on `GL_n` is a finite sum of matrix coefficients.
