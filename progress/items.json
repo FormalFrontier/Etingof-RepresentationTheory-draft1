@@ -2342,9 +2342,9 @@
   "start_line": 15,
   "end_line": 17,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "No Lean declaration exists for Remark 4.5.5. items.json marks it status=sorry_free, fidelity=unchecked, but there is no Remark4_5_5.lean and no decl anywhere covering its content (the unitary-matri...",
-  "fidelity_decl": "(none)",
+  "fidelity": "verified",
+  "fidelity_note": "Formalized in Chapter4/Remark4_5_5.lean. The character matrix U (rows = irreducibles indexed by ConjClasses G to encode squareness from Thm 4.5.2, columns = conjugacy classes, entries chi_V(g_c)/sqrt|Z_{g_c}|) is built explicitly. character_matrix_mul_conjTranspose proves rows orthonormal (U Uᴴ = 1) by reindexing the first orthogonality relation (FDRep.char_orthonormal, Thm 4.5.1) over conjugacy classes via |c.carrier|*|Z|=|G|; character_matrix_conjTranspose_mul derives unitarity (Uᴴ U = 1) from squareness; column_orthogonality reads off the second orthogonality relation. Sorry-free.",
+  "fidelity_decl": "Etingof.Remark4_5_5.column_orthogonality",
   "fidelity_issue": 5378
  },
  {

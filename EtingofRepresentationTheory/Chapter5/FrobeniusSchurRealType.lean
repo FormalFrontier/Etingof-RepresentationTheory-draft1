@@ -555,7 +555,7 @@ private lemma matrix_trace_inv_eq_conj {ι : Type*} [Fintype ι] [DecidableEq ι
 /-- For a finite-group complex representation, `χ(g⁻¹) = conj(χ(g))`: the
 eigenvalues of `ρ g` are roots of unity (since `g` has finite order), so
 `χ(g⁻¹) = ∑ λᵢ⁻¹ = ∑ conj λᵢ = conj(∑ λᵢ) = conj(χ(g))`. -/
-private theorem character_inv_eq_conj (ρ : Representation ℂ G V) (g : G) :
+theorem character_inv_eq_conj (ρ : Representation ℂ G V) (g : G) :
     Representation.character ρ g⁻¹ = starRingEnd ℂ (Representation.character ρ g) := by
   classical
   -- Pass to a matrix `A := [ρ g]` in a basis; then `[ρ g⁻¹] = A⁻¹` and `A` has finite order.
