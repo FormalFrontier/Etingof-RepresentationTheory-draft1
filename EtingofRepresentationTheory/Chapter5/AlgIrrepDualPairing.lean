@@ -110,7 +110,7 @@ end AbstractPerfect
 
 /-! ## The contragredient identity iso as data -/
 
-variable (n : ℕ) (lam : DominantWeight n) (k : Type*)
+variable (n : ℕ) (lam : DominantWeight n) (k : Type)
   [Field k] [IsAlgClosed k] [CharZero k]
 
 /-- A choice of the contragredient-identity isomorphism
