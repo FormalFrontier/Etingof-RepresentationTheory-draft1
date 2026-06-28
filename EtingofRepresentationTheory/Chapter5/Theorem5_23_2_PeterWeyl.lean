@@ -218,6 +218,25 @@ theorem injective_toModule_of_iSupIndep_range
   apply h1
   rw [← hcomp, ← hcomp, hab]
 
+/-- **General-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module (issue #5559).**
+`algIrrepGLRepρ n lam k` is the `det^{-λ.shift}`-twist of the Schur module
+`schurModuleRep k n lam.toNatWeight`; det-twisting preserves simplicity
+(`isSimpleModule_charTwistRep`), so this reduces to general-`k`, all-weights Schur-module
+simplicity `schurModule_isSimple_general` (no `∑ λ ≤ n` degree guard needed). This lifts
+the `ℂ`-only, degree-constrained `algIrrepGLRep_isSimple` (`AlgIrrepGLRep.lean`) to a
+general algebraically-closed characteristic-zero field, and is the shared simplicity input
+for `peterWeylSummandMap_injective` (#5555), `peterWeylSummandMap_range_iSupIndep` (#5556),
+and `peterWeylMap_injective` (#5549). -/
+theorem algIrrepGLRepρ_isSimpleModule (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (lam : DominantWeight n) :
+    IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (algIrrepGLRepρ n lam k).asModule := by
+  haveI : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (Representation.asModule (schurModuleRep k n lam.toNatWeight)) :=
+    schurModule_isSimple_general k n lam.toNatWeight lam.toNatWeight_antitone
+  unfold algIrrepGLRepρ
+  exact isSimpleModule_charTwistRep _ (schurModuleRep k n lam.toNatWeight)
+
 /-- **Per-summand injectivity (within-summand Schur orthogonality / Burnside density).**
 The single-irreducible matrix-coefficient map `peterWeylSummandMap n lam k : L*_λ ⊗ L_λ →ₗ R`,
 `u ⊗ v ↦ (g ↦ ⟨u, ρ_λ(g) v⟩)`, is injective: the matrix coefficients of one irreducible are
@@ -240,17 +259,15 @@ into `Module.Dual k L_λ ⊗ L_λ`, satisfies `contractLeft (id ⊗ ρ g) z' = 0
 density (`Representation.span_range_eq_top_of_isSimpleModule`, from Schur over
 `IsAlgClosed k` plus Jacobson density) and trace nondegeneracy then force `z' = 0`.
 
-The **only** remaining input is the general-`k`, all-weights simplicity of `L_λ` as a
-`k[GL_n]`-module — the `ℂ`-only, degree-constrained `algIrrepGLRep_isSimple` lifted to
-general `k`, tracked in `progress/schurModule-isSimple-general-route.md` (issue #4946).
-That single `IsSimpleModule` hypothesis is the lone `sorry` below. -/
+The general-`k`, all-weights simplicity of `L_λ` as a `k[GL_n]`-module — the lift of the
+`ℂ`-only, degree-constrained `algIrrepGLRep_isSimple` — is supplied sorry-free by
+`algIrrepGLRepρ_isSimpleModule` (above, issue #5559), so this proof is now sorry-free. -/
 theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (lam : DominantWeight n) :
     Function.Injective (peterWeylSummandMap n lam k) := by
-  -- The sole remaining gap: general-`k`, all-weights simplicity of `L_λ` (issue #4946).
+  -- General-`k`, all-weights simplicity of `L_λ` (issue #5559), factored above.
   haveI hsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
-      (algIrrepGLRepρ n lam k).asModule := by
-    sorry
+      (algIrrepGLRepρ n lam k).asModule := algIrrepGLRepρ_isSimpleModule n k lam
   rw [injective_iff_map_eq_zero]
   intro z hz
   -- Transport the kernel element into `Module.Dual k L_λ ⊗ L_λ`.
@@ -270,12 +287,12 @@ theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClose
         rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
           evalGLAway_peterWeylSummandMap, algIrrepDualPairing_tmul]
         rfl
-    | add a b ha hb => simp only [map_add, ha, hb]
+    | add a b ha hb => simp only [map_add, Pi.add_apply, ha, hb]
   -- The transported element satisfies the Burnside hypothesis.
   have hcond : ∀ g, contractLeft k (AlgIrrepGL n lam k)
       (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g) z') = 0 := by
     intro g
-    rw [hz', key g z, hz, map_zero]
+    rw [hz', key g z, hz, map_zero, Pi.zero_apply]
   -- Burnside density + trace nondegeneracy: `z' = 0`, hence `z = 0`.
   have hz'0 : z' = 0 :=
     matrixCoeff_injective_of_isSimpleModule (algIrrepGLRepρ n lam k) z' hcond
