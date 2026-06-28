@@ -196,6 +196,38 @@ Some sorries may represent genuinely hard formalization work beyond current Math
 
 **Never accept a sorry silently.** Document it in an issue with: what's needed, why it's hard, and what would unblock it.
 
+### Bounding a semisimple `k[G]`-module's decomposition by a `G`-stable `k`-submodule (Peter-Weyl/Cauchy reduction, #5587)
+
+When a research-level sorry "`hull ≤ T`" can't be fully discharged, the high-value move is to prove
+the *reduction* sorry-free and relocate the sorry to a sharper per-simple lemma. The reusable recipe
+(landed in `Theorem5_23_2_PeterWeyl.rightHull_le_iSup_range_peterWeylSummandMap`) for "a finite-dim
+semisimple `localRightRep`-hull lies in a `G`-stable `k`-submodule `T = ⨆ ...`":
+- **Package `T` as a `k[G]`-submodule.** Prove `T` is `G`-stable (`∀ g, ∀ x ∈ T, ρ g x ∈ T`; for a
+  `⨆` of equivariant-map ranges this is `Submodule.iSup_induction` over the join + per-summand
+  stability from the `(1,g)`-specialization of the bi-equivariance lemma), then
+  `T_KG := Representation.stableSubmodule ρ T hstable`. `Representation.mem_stableSubmodule` is
+  `Iff.rfl`, and `T_KG.restrictScalars k = T` by `SetLike.ext` + `restrictScalars_mem` + that iff.
+- **Decompose the hull through the equivariant inclusion.** `incl := asModuleHomOfIntertwiner
+  hull.subtype hsub : asModule hull.toRep →ₗ[k[G]] asModule ρ` (intertwiner via
+  `LinearMap.restrict_coe_apply`); `(LinearMap.range incl).restrictScalars k = hull` (reduce to
+  `LinearMap.range hull.subtype` then `Submodule.range_subtype`). Then `range incl = map incl ⊤ =
+  map incl (sSup simples)` via `IsSemisimpleModule.sSup_simples_eq_top k[G] (asModule hull.toRep)`
+  (note the `IsSemisimpleModule.` namespace) + `sSup_eq_iSup` + `Submodule.map_iSup` ×2 + `iSup_le`.
+- **Bound each simple piece.** For a simple `p : Submodule k[G] (asModule hull.toRep)`,
+  `Subrepresentation.ofSubmodule' (Submodule.map incl p)` is the realized subrep of `ρ`;
+  `asSubmodule (ofSubmodule' N) = N` by `rfl` so simplicity transfers via
+  `(LinearEquiv.isSimpleModule_iff (Submodule.equivMapOfInjective incl _ p)).mp`; it lies in the hull
+  via `LinearMap.map_le_range` (NOTE: `LinearMap.`, not `Submodule.`). Feed it to the per-simple
+  realization lemma.
+- **Restrict scalars back.** `hull = (range incl).restrictScalars k ≤ T_KG.restrictScalars k = T`
+  via `Submodule.restrictScalars_mono (S := k)` (its first explicit arg is the scalar subring `S`).
+
+Two false friends that each cost a build cycle: (a) the deprecation hint
+`LinearMap.restrict_coe_apply → LinearMap.coe_restrict_apply` is **wrong** — the replacement has a
+different signature ("Function expected"); keep `restrict_coe_apply` (a harmless warning CI ignores).
+(b) `Submodule.iSup_induction` after `intro x hx` fixes the motive to the literal goal, not
+`fun y => P y` — pass `(motive := fun y => ...)` explicitly.
+
 ## Translation Pipeline
 
 Formalizing an item follows three stages: **translate**, **scaffold**, **prove**.
