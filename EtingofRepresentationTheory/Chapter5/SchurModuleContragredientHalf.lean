@@ -1,4 +1,4 @@
-import EtingofRepresentationTheory.Chapter5.ContragredientIdentity
+import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
 import EtingofRepresentationTheory.Chapter5.Proposition5_22_2
 
 /-!

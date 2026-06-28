@@ -906,10 +906,10 @@
   "end_page": "23",
   "start_line": 2,
   "end_line": 3,
-  "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "Book states Ado's theorem: any finite-dimensional Lie algebra is a Lie subalgebra of gl(V) for a suitable finite-dimensional V. This is a concrete, formalizable mathematical statement (an existence...",
-  "fidelity_decl": "(none)",
+  "status": "sorry",
+  "fidelity": "verified",
+  "fidelity_note": "Ado's theorem now asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over a characteristic-zero field, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Proof is sorry: the book states Ado's theorem without proof and it is not available in Mathlib.",
+  "fidelity_decl": "Etingof.ado",
   "fidelity_issue": 5367
  },
  {

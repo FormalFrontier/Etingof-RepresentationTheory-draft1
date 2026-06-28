@@ -1,4 +1,4 @@
-import EtingofRepresentationTheory.Chapter5.ContragredientIdentity
+import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
 import EtingofRepresentationTheory.Chapter5.DualCharTwist
 import EtingofRepresentationTheory.Chapter5.FormalCharacterDual
 import EtingofRepresentationTheory.Chapter5.SchurPolyInverseShift
