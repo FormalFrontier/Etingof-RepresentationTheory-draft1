@@ -132,6 +132,34 @@ theorem crossMatrixCoeff_indep
   haveI := hsimp j
   exact matrixCoeff_injective_of_isSimpleModule (ρ j) (z j) hzj
 
+/-- **`Finset`-indexed cross-summand independence.** The same statement as
+`crossMatrixCoeff_indep`, packaged over a `Finset s` of an arbitrary index type `Λ`
+(the family `V`, `ρ` is defined on all of `Λ`, the simplicity/distinctness and the
+vanishing hypothesis only over `s`). This is the form consumed by the Peter-Weyl
+`iSupIndep` assembly. -/
+theorem crossMatrixCoeff_indep_finset {Λ : Type*}
+    (V : Λ → Type*) [∀ lam, AddCommGroup (V lam)] [∀ lam, Module k (V lam)]
+    [∀ lam, Module.Finite k (V lam)]
+    (ρ : ∀ lam, Representation k G (V lam))
+    (s : Finset Λ)
+    (hsimp : ∀ lam, IsSimpleModule (MonoidAlgebra k G) (ρ lam).asModule)
+    (hdist : ∀ lam ∈ s, ∀ mu ∈ s, lam ≠ mu →
+      ¬ Nonempty ((ρ lam).asModule ≃ₗ[MonoidAlgebra k G] (ρ mu).asModule))
+    (z : ∀ lam, Module.Dual k (V lam) ⊗[k] V lam)
+    (hz : ∀ g : G, ∑ lam ∈ s, contractLeft k (V lam)
+      (TensorProduct.map LinearMap.id (ρ lam g) (z lam)) = 0)
+    (lam : Λ) (hlam : lam ∈ s) : z lam = 0 :=
+  crossMatrixCoeff_indep (k := k) (G := G) (ι := {lam // lam ∈ s})
+    (fun i => ρ i.1)
+    (fun i => hsimp i.1)
+    (fun i j hij => hdist i.1 i.2 j.1 j.2 (fun h => hij (Subtype.ext h)))
+    (fun i => z i.1)
+    (fun g => by
+      rw [Finset.sum_coe_sort s (fun lam => contractLeft k (V lam)
+        (TensorProduct.map LinearMap.id (ρ lam g) (z lam)))]
+      exact hz g)
+    ⟨lam, hlam⟩
+
 end
 
 end Etingof

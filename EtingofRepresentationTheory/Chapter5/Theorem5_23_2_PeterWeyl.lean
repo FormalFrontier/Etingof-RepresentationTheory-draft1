@@ -3,6 +3,8 @@ import EtingofRepresentationTheory.Chapter5.AlgIrrepGLRep
 import EtingofRepresentationTheory.Chapter5.LocalizationGLBiAction
 import EtingofRepresentationTheory.Chapter5.PeterWeylMatrixCoeff
 import EtingofRepresentationTheory.Chapter5.MatrixCoeffInjective
+import EtingofRepresentationTheory.Chapter5.CrossSummandMatrixCoeff
+import EtingofRepresentationTheory.Chapter5.AlgIrrepGLNonIso
 
 /-!
 # Theorem 5.23.2(ii): the genuine `GL_n × GL_n`-equivariant Peter-Weyl decomposition
@@ -309,24 +311,96 @@ theorem peterWeylSummandMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClose
   rw [map_zero]
   exact hz'.symm.trans hz'0
 
+/-- **Transported matrix-coefficient identity.** The contraction of `id ⊗ ρ_λ(g)` against the
+contragredient-transported tensor `(algIrrepGLDualIso ⊗ id) w` reads off the matrix coefficient
+of `w` through the faithful functions-on-`GL` model `evalGLAway`. This is the per-`g` bridge that
+feeds the abstract cross-summand engine `crossMatrixCoeff_indep_finset`; it is the
+single-summand `key` of `peterWeylSummandMap_injective`, factored for reuse across summands. -/
+theorem evalGLAway_peterWeylSummandMap_contractLeft
+    (n : ℕ) (lam : DominantWeight n) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (g : Matrix.GeneralLinearGroup (Fin n) k)
+    (w : AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k) :
+    contractLeft k (AlgIrrepGL n lam k)
+        (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g)
+          (TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id w))
+      = evalGLAway (peterWeylSummandMap n lam k w) g := by
+  induction w using TensorProduct.induction_on with
+  | zero => simp
+  | tmul u v =>
+      rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
+        evalGLAway_peterWeylSummandMap, algIrrepDualPairing_tmul]
+      rfl
+  | add a b ha hb => simp only [map_add, Pi.add_apply, ha, hb]
+
+/-- **Finite-family matrix-coefficient independence across summands.** If a finite sum of
+per-summand matrix coefficients vanishes in `R`, then each summand vanishes. This is the
+representation-theoretic core: through `evalGLAway` (faithful) and the transported identity
+above, the hypothesis becomes the abstract cross-summand hypothesis fed to
+`crossMatrixCoeff_indep_finset` (simplicity `algIrrepGLRepρ_isSimpleModule` + non-isomorphism
+`algIrrepGLRepρ_noniso`), which forces the transported tensors to vanish; `evalGLAway`
+injectivity then forces each summand map value to vanish. -/
+theorem peterWeylSummandMap_finsetSum_eq_zero
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (s : Finset (DominantWeight n))
+    (z : ∀ lam, AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k)
+    (hsum : ∑ lam ∈ s, peterWeylSummandMap n lam k (z lam) = 0) :
+    ∀ lam ∈ s, peterWeylSummandMap n lam k (z lam) = 0 := by
+  -- The transported tensors `(algIrrepGLDualIso ⊗ id)(z lam)` vanish, by the abstract engine.
+  have hzero : ∀ lam ∈ s,
+      TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id (z lam) = 0 := by
+    intro lam0 hlam0
+    refine crossMatrixCoeff_indep_finset (k := k)
+      (G := Matrix.GeneralLinearGroup (Fin n) k)
+      (fun lam => AlgIrrepGL n lam k) (fun lam => algIrrepGLRepρ n lam k) s
+      (fun lam => algIrrepGLRepρ_isSimpleModule n k lam)
+      (fun lam _ mu _ hne => algIrrepGLRepρ_noniso n k hne)
+      (fun lam => TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id (z lam))
+      ?_ lam0 hlam0
+    intro g
+    have hterm : ∀ lam ∈ s, contractLeft k (AlgIrrepGL n lam k)
+        (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g)
+          (TensorProduct.map (algIrrepGLDualIso n lam k).toLinearMap LinearMap.id (z lam)))
+        = evalGLAway (peterWeylSummandMap n lam k (z lam)) g :=
+      fun lam _ => evalGLAway_peterWeylSummandMap_contractLeft n lam k g (z lam)
+    rw [Finset.sum_congr rfl hterm, ← Finset.sum_apply, ← map_sum, hsum, map_zero]
+    rfl
+  -- A vanishing transported tensor forces the summand value to vanish (`evalGLAway` injective).
+  intro lam0 hlam0
+  apply evalGLAway_injective
+  funext g
+  rw [← evalGLAway_peterWeylSummandMap_contractLeft n lam0 k g (z lam0), hzero lam0 hlam0]
+  simp
+
 /-- **Cross-summand independence (distinct-irreducible Schur orthogonality).** The ranges of
 the per-summand maps `peterWeylSummandMap n lam k` (the matrix coefficients of `L_λ` inside `R`)
 form an `iSupIndep` family: matrix coefficients of pairwise non-isomorphic irreducibles are
 linearly independent across distinct weights.
 
-Equivariantly, each range is the `GL_n × GL_n`-isotypic component for the simple external-tensor
-module `L*_λ ⊗ L_λ`; distinct `λ` give non-isomorphic simples (distinguished by formal
-character / highest weight), so the isotypic components are independent. This is the
-across-summand half of Peter-Weyl orthogonality.
-
-BLOCKED: rests on simplicity and non-isomorphism of the `L_λ`, i.e. on `algIrrepGLRep_isSimple`
-(presently `ℂ`-only, `∑ lam.toNatWeight ≤ n`) and the external-tensor simplicity of
-`L*_λ ⊗ L_λ` as a `GL_n × GL_n`-module; general route in
-`progress/schurModule-isSimple-general-route.md` (issue #4946). -/
+The argument lives entirely on the right `GL_n`-action: through the faithful functions-on-`GL`
+model `evalGLAway`, a finite vanishing combination of matrix coefficients of the simple,
+pairwise non-isomorphic `L_λ` is killed by the abstract Jacobson-density engine
+`crossMatrixCoeff_indep_finset` (no external-tensor `GL_n × GL_n` simplicity needed). The two
+representation-theoretic inputs are the general-`k` simplicity `algIrrepGLRepρ_isSimpleModule`
+(#5559) and the highest-weight non-isomorphism `algIrrepGLRepρ_noniso`. This is the
+across-summand half of Peter-Weyl orthogonality. -/
 theorem peterWeylSummandMap_range_iSupIndep
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k] :
     iSupIndep (fun lam => LinearMap.range (peterWeylSummandMap n lam k)) := by
-  sorry
+  classical
+  rw [iSupIndep_iff_finsetSum_eq_zero_imp_eq_zero]
+  intro s v hv hsum
+  -- Choose a preimage `z lam` with `peterWeylSummandMap (z lam) = v lam` for each `lam ∈ s`.
+  set z : ∀ lam, AlgIrrepGLDual n lam k ⊗[k] AlgIrrepGL n lam k :=
+    fun lam => if h : lam ∈ s then (LinearMap.mem_range.mp (hv lam h)).choose else 0 with hzdef
+  have hzv : ∀ lam ∈ s, peterWeylSummandMap n lam k (z lam) = v lam := by
+    intro lam h
+    simp only [z, dif_pos h]
+    exact (LinearMap.mem_range.mp (hv lam h)).choose_spec
+  have hsum' : ∑ lam ∈ s, peterWeylSummandMap n lam k (z lam) = 0 := by
+    rw [Finset.sum_congr rfl hzv]; exact hsum
+  intro lam0 hlam0
+  rw [← hzv lam0 hlam0]
+  exact peterWeylSummandMap_finsetSum_eq_zero n k s z hsum' lam0 hlam0
 
 /-- **Injectivity of the assembled matrix-coefficient map** — distinct-irreducible
 orthogonality (Schur orthogonality across summands). `peterWeylMap` is the direct-sum coproduct
