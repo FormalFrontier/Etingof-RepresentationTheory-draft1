@@ -231,6 +231,255 @@ theorem finrank_glWeightSpaceℤ_schurModule_neg (k : Type) [Field k] [IsAlgClos
   have h : ((wt c i₀ : ℤ)) = w i₀ := congrFun hc i₀
   omega
 
+/-! ## The Schur per-coordinate degree bound (crux for box reversal)
+
+The genuine new content needed to run the box-reversal proof: every monomial of
+`schurPoly N lz` has each variable-exponent `≤ lz`'s largest part. We prove the
+sharper statement `degreeOf t (schurPoly N lz) ≤ m` whenever `lz j ≤ m` for all
+`j`, by single-variable degree additivity over the integral domain
+`MvPolynomial (Fin N) ℚ`: from `schurPoly · Δ = a_{λ+δ}` we get
+`degreeOf t (schurPoly) + degreeOf t Δ = degreeOf t a_{λ+δ}`, and the two
+alternant degrees are bounded by `m + (N-1)` and below by `N-1`. -/
+
+section DegreeBound
+
+open _root_.MvPolynomial
+
+/-- Each variable-degree of the alternant `a_e` is bounded by any bound on the
+exponent sequence `e`: every Leibniz monomial of the determinant is
+`±(x₁^{e_{σ⁻¹ 1}}⋯)`, whose `X_t`-degree is `e_{σ⁻¹ t} ≤ B`. -/
+private lemma degreeOf_alternant_le (N : ℕ) (e : Fin N → ℕ) (B : ℕ)
+    (hB : ∀ j, e j ≤ B) (t : Fin N) :
+    (alternantMatrix N e).det.degreeOf t ≤ B := by
+  rw [Matrix.det_apply]
+  refine le_trans (MvPolynomial.degreeOf_sum_le t _ _) (Finset.sup_le ?_)
+  intro σ _
+  have hprod : (∏ i, alternantMatrix N e (σ i) i)
+      = monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) := by
+    rw [show (∏ i, alternantMatrix N e (σ i) i)
+          = ∏ i, (X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i from rfl,
+      show (∏ i, (X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i)
+          = ∏ i, X i ^ (e (σ.symm i)) from Fintype.prod_equiv σ _ _ (fun _ => by simp)]
+    exact prod_X_pow_eq_monomial' _
+  rw [hprod, Units.smul_def, ← Int.cast_smul_eq_zsmul ℚ, smul_eq_C_mul]
+  refine le_trans (degreeOf_C_mul_le _ t _) ?_
+  rw [degreeOf_monomial_eq _ t one_ne_zero]
+  have : (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) t = e (σ.symm t) := by
+    simp [Finsupp.equivFunOnFinite]
+  rw [this]; exact hB _
+
+/-- The Vandermonde exponent sequence is strictly antitone. -/
+private lemma vandermondeExps_strictAnti (N : ℕ) : StrictAnti (vandermondeExps N) := by
+  intro i j hij
+  simp only [vandermondeExps]
+  have hj := j.isLt
+  have : (i : ℕ) < (j : ℕ) := hij
+  omega
+
+/-- The Vandermonde determinant has full `X_t`-degree `N-1` in every variable: it
+contains a monomial with `X_t`-exponent `N-1` (move the leading exponent into
+slot `t` via a transposition; antisymmetry keeps its coefficient `±1`). -/
+private lemma vandermonde_degreeOf_ge (N : ℕ) (t : Fin N) :
+    N - 1 ≤ (alternantMatrix N (vandermondeExps N)).det.degreeOf t := by
+  have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) t.isLt
+  set i0 : Fin N := ⟨0, hN⟩ with hi0
+  set σ : Equiv.Perm (Fin N) := Equiv.swap i0 t with hσ
+  have hcoeff1 : MvPolynomial.coeff
+      (Finsupp.equivFunOnFinite.symm (vandermondeExps N))
+        (alternantMatrix N (vandermondeExps N)).det = 1 := by
+    rw [alternant_coeff_kronecker (vandermondeExps_strictAnti N) (vandermondeExps_strictAnti N),
+      if_pos rfl]
+  set d : Fin N →₀ ℕ :=
+    Finsupp.mapDomain σ (Finsupp.equivFunOnFinite.symm (vandermondeExps N)) with hd
+  have hrename : MvPolynomial.coeff d
+      (MvPolynomial.rename σ (alternantMatrix N (vandermondeExps N)).det) = 1 := by
+    rw [hd, MvPolynomial.coeff_rename_mapDomain σ σ.injective _ _, hcoeff1]
+  rw [rename_alternant_det, MvPolynomial.coeff_smul] at hrename
+  have hne : MvPolynomial.coeff d (alternantMatrix N (vandermondeExps N)).det ≠ 0 := by
+    intro hzero; rw [hzero, smul_zero] at hrename; exact one_ne_zero hrename.symm
+  have hsymm : σ.symm t = i0 := by rw [hσ, Equiv.symm_swap, Equiv.swap_apply_right]
+  have hdt : d t = N - 1 := by
+    have h1 : d t = vandermondeExps N i0 := by
+      rw [hd, Finsupp.mapDomain_equiv_apply, hsymm, Finsupp.coe_equivFunOnFinite_symm]
+    rw [h1]; simp only [vandermondeExps, hi0, Fin.val_mk, Nat.sub_zero]
+  calc N - 1 = d t := hdt.symm
+    _ ≤ (alternantMatrix N (vandermondeExps N)).det.degreeOf t :=
+        MvPolynomial.monomial_le_degreeOf t (MvPolynomial.mem_support_iff.mpr hne)
+
+/-- **The Schur per-coordinate degree bound.** For `lz` with `lz j ≤ m` for all
+`j`, every variable-degree of `schurPoly N lz` is at most `m`. Equivalently, every
+monomial `c` with `(schurPoly N lz).coeff c ≠ 0` has `c i ≤ m` for all `i`. This is
+the no-truncation guarantee that lets box reversal recover `schurPoly` exactly. -/
+theorem schurPoly_degreeOf_le (N : ℕ) (lz : Fin N → ℕ) (m : ℕ)
+    (hs : ∀ j, lz j ≤ m) (t : Fin N) :
+    (schurPoly N lz).degreeOf t ≤ m := by
+  by_cases hsp : schurPoly N lz = 0
+  · rw [hsp, MvPolynomial.degreeOf_zero]; exact Nat.zero_le _
+  · have hΔ := alternantMatrix_vandermondeExps_det_ne_zero N
+    have hmul : (schurPoly N lz).degreeOf t
+          + (alternantMatrix N (vandermondeExps N)).det.degreeOf t
+        = (alternantMatrix N (shiftedExps N lz)).det.degreeOf t := by
+      rw [← MvPolynomial.degreeOf_mul_eq hsp hΔ, schurPoly_mul_vandermonde]
+    have ha : (alternantMatrix N (shiftedExps N lz)).det.degreeOf t ≤ m + (N - 1) := by
+      refine degreeOf_alternant_le N _ _ (fun j => ?_) t
+      simp only [shiftedExps]; have := hs j; have : N - 1 - (j : ℕ) ≤ N - 1 := Nat.sub_le _ _
+      omega
+    have hΔge : N - 1 ≤ (alternantMatrix N (vandermondeExps N)).det.degreeOf t :=
+      vandermonde_degreeOf_ge N t
+    have hN : 0 < N := lt_of_le_of_lt (Nat.zero_le _) t.isLt
+    omega
+
+/-- Coefficient-level form of `schurPoly_degreeOf_le`: any monomial in the support
+of `schurPoly N lz` has all exponents `≤ m`. -/
+theorem schurPoly_coeff_le (N : ℕ) (lz : Fin N → ℕ) (m : ℕ)
+    (hs : ∀ j, lz j ≤ m) {c : Fin N →₀ ℕ}
+    (hc : (schurPoly N lz).coeff c ≠ 0) (i : Fin N) : c i ≤ m :=
+  le_trans (MvPolynomial.monomial_le_degreeOf i (MvPolynomial.mem_support_iff.mpr hc))
+    (schurPoly_degreeOf_le N lz m hs i)
+
+end DegreeBound
+
+/-! ## Per-variable box reversal `revBox`
+
+The linear map `revBox D : monomial c ↦ monomial (D·1 − c)` (truncated subtraction
+in each coordinate). It is **not** an algebra hom, but it is graded-multiplicative
+on exponent-bounded polynomials: `revBox (D+E) (P·Q) = revBox D P · revBox E Q`
+when `P`'s exponents are `≤ D` and `Q`'s are `≤ E`. On alternants it acts by
+complementing the exponent sequence, and on the Vandermonde it is the reversal
+permutation. These three facts assemble the inverted-Schur identity. -/
+
+section BoxReversal
+
+open _root_.MvPolynomial
+
+/-- Box reversal of an exponent vector: `revExp D c i = D - c i`. -/
+def revExp (N D : ℕ) (c : Fin N →₀ ℕ) : Fin N →₀ ℕ :=
+  Finsupp.equivFunOnFinite.symm (fun i => D - c i)
+
+@[simp] lemma revExp_apply (N D : ℕ) (c : Fin N →₀ ℕ) (i : Fin N) :
+    revExp N D c i = D - c i := rfl
+
+/-- Box reversal of a polynomial: the linear map sending `monomial c a` to
+`monomial (D·1 − c) a`. -/
+noncomputable def revBox (N D : ℕ) :
+    MvPolynomial (Fin N) ℚ →ₗ[ℚ] MvPolynomial (Fin N) ℚ :=
+  Finsupp.lsum ℚ (fun e => monomial (revExp N D e))
+
+@[simp] lemma revBox_monomial (N D : ℕ) (c : Fin N →₀ ℕ) (a : ℚ) :
+    revBox N D (monomial c a) = monomial (revExp N D c) a := by
+  show Finsupp.lsum ℚ (fun e => monomial (revExp N D e)) (monomial c a) = _
+  rw [show (monomial c a : MvPolynomial (Fin N) ℚ) = Finsupp.single c a from
+      (single_eq_monomial c a).symm, Finsupp.lsum_single]
+
+/-- Box reversal as a sum over the support. -/
+lemma revBox_eq_sum (N D : ℕ) (P : MvPolynomial (Fin N) ℚ) :
+    revBox N D P = ∑ c ∈ P.support, monomial (revExp N D c) (P.coeff c) := by
+  conv_lhs => rw [P.as_sum]
+  rw [map_sum]
+  exact Finset.sum_congr rfl (fun c _ => revBox_monomial N D c _)
+
+/-- Box reversal of the exponent sum splits when the exponents are bounded. -/
+lemma revExp_add (N D E : ℕ) (c d : Fin N →₀ ℕ)
+    (hc : ∀ i, c i ≤ D) (hd : ∀ i, d i ≤ E) :
+    revExp N (D + E) (c + d) = revExp N D c + revExp N E d := by
+  apply Finsupp.ext; intro i
+  rw [Finsupp.add_apply, revExp_apply, revExp_apply, revExp_apply, Finsupp.add_apply]
+  have := hc i; have := hd i; omega
+
+/-- **Graded multiplicativity of box reversal.** -/
+lemma revBox_mul (N D E : ℕ) (P Q : MvPolynomial (Fin N) ℚ)
+    (hP : ∀ c ∈ P.support, ∀ i, c i ≤ D) (hQ : ∀ d ∈ Q.support, ∀ i, d i ≤ E) :
+    revBox N (D + E) (P * Q) = revBox N D P * revBox N E Q := by
+  have key : revBox N (D + E) (P * Q)
+      = ∑ c ∈ P.support, ∑ d ∈ Q.support,
+          monomial (revExp N D c) (P.coeff c) * monomial (revExp N E d) (Q.coeff d) := by
+    conv_lhs => rw [P.as_sum, Q.as_sum]
+    rw [Finset.sum_mul_sum, map_sum]
+    refine Finset.sum_congr rfl (fun c hc => ?_)
+    rw [map_sum]
+    refine Finset.sum_congr rfl (fun d hd => ?_)
+    rw [monomial_mul, revBox_monomial, revExp_add N D E c d (hP c hc) (hQ d hd), ← monomial_mul]
+  rw [key, revBox_eq_sum, revBox_eq_sum, Finset.sum_mul_sum]
+
+/-- The Leibniz expansion of an alternant determinant as a sum of signed monomials. -/
+lemma alternant_det_eq_sum (N : ℕ) (e : Fin N → ℕ) :
+    (alternantMatrix N e).det
+      = ∑ σ : Equiv.Perm (Fin N),
+          monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm))
+            (((Equiv.Perm.sign σ : ℤ) : ℚ)) := by
+  rw [Matrix.det_apply]
+  refine Finset.sum_congr rfl (fun σ _ => ?_)
+  rw [show (∏ i, alternantMatrix N e (σ i) i)
+        = monomial (Finsupp.equivFunOnFinite.symm (e ∘ ⇑σ.symm)) (1 : ℚ) from by
+      rw [show (∏ i, alternantMatrix N e (σ i) i)
+            = ∏ i, (X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i from rfl,
+        show (∏ i, (X (σ i) : MvPolynomial (Fin N) ℚ) ^ e i)
+            = ∏ i, X i ^ (e (σ.symm i)) from Fintype.prod_equiv σ _ _ (fun _ => by simp)]
+      exact prod_X_pow_eq_monomial' _]
+  rw [Units.smul_def, ← Int.cast_smul_eq_zsmul ℚ, smul_eq_C_mul, C_mul_monomial, mul_one]
+
+/-- **Box reversal complements an alternant's exponent sequence.** -/
+lemma revBox_alternant (N D : ℕ) (e : Fin N → ℕ) :
+    revBox N D (alternantMatrix N e).det = (alternantMatrix N (fun j => D - e j)).det := by
+  rw [alternant_det_eq_sum, map_sum, alternant_det_eq_sum]
+  refine Finset.sum_congr rfl (fun σ _ => ?_)
+  rw [revBox_monomial]
+  congr 1
+
+/-- **Box reversal of the Vandermonde is the column-reversal permutation.** -/
+lemma revBox_vandermonde (N : ℕ) :
+    revBox N (N - 1) (alternantMatrix N (vandermondeExps N)).det
+      = (↑↑(Fin.revPerm (n := N)).sign : MvPolynomial (Fin N) ℚ)
+          * (alternantMatrix N (vandermondeExps N)).det := by
+  rw [revBox_alternant]
+  have hexp : (fun j => (N - 1) - vandermondeExps N j)
+      = (fun j => vandermondeExps N (Fin.rev j)) := by
+    funext j; simp only [vandermondeExps, Fin.val_rev]; have := j.isLt; omega
+  rw [hexp]
+  have hmat : alternantMatrix N (fun j => vandermondeExps N (Fin.rev j))
+      = (alternantMatrix N (vandermondeExps N)).submatrix id Fin.revPerm := by
+    ext i j
+    simp only [alternantMatrix, Matrix.of_apply, Matrix.submatrix_apply, id_eq, Fin.revPerm_apply]
+  rw [hmat, Matrix.det_permute']
+
+/-- **Coefficient formula for box reversal** under the no-truncation hypothesis. -/
+lemma revBox_coeff (N D : ℕ) (P : MvPolynomial (Fin N) ℚ)
+    (hP : ∀ c ∈ P.support, ∀ i, c i ≤ D) (μ : Fin N →₀ ℕ) :
+    (revBox N D P).coeff μ
+      = if (∀ i, μ i ≤ D) then P.coeff (revExp N D μ) else 0 := by
+  rw [revBox_eq_sum, MvPolynomial.coeff_sum]
+  simp only [MvPolynomial.coeff_monomial]
+  by_cases hμ : ∀ i, μ i ≤ D
+  · rw [if_pos hμ, Finset.sum_eq_single (revExp N D μ)]
+    · have hinv : revExp N D (revExp N D μ) = μ := by
+        apply Finsupp.ext; intro i; rw [revExp_apply, revExp_apply]; have := hμ i; omega
+      rw [if_pos hinv]
+    · intro c hc hcne
+      rw [if_neg]
+      intro heq
+      apply hcne
+      apply Finsupp.ext; intro i
+      rw [revExp_apply]
+      have h2 : (revExp N D c) i = μ i := by rw [heq]
+      rw [revExp_apply] at h2
+      have := hP c hc i
+      omega
+    · intro hnotin
+      rw [MvPolynomial.notMem_support_iff.mp hnotin]
+      simp
+  · rw [if_neg hμ]
+    apply Finset.sum_eq_zero
+    intro c hc
+    rw [if_neg]
+    intro heq
+    apply hμ
+    intro i
+    have h2 : (revExp N D c) i = μ i := by rw [heq]
+    rw [revExp_apply] at h2
+    omega
+
+end BoxReversal
+
 /-! ## The inverted-Schur coefficient bridge (residual pure-polynomial content)
 
 This is the genuine content remaining after the representation-theoretic reduction:
@@ -250,20 +499,66 @@ complemented coefficient of `s_{lz}`:
 
 This is the honest, coefficientwise avatar of `s_λ(x⁻¹)·(x₁⋯x_N)^m = s_ν(x)`. It is
 extracted from `schurPoly_inverseShift` (`SchurPolyInverseShift.lean`) by the
-alternant-coefficient/box-reversal mechanism.
-
-TODO(#5565): replace the `sorry` with the box-reversal proof. Route: prove
-`schurPoly n ν = revBox_m (schurPoly n lz)` (per-variable box reversal
-`monomial c ↦ monomial (m·1 − c)`) via `mul_right_cancel₀` against the Vandermonde,
-using `schurPoly_inverseShift` and the Schur per-coordinate weight bound
-`[x^μ] s_{lz} ≠ 0 ⟹ μ i ≤ lz 0`. See issue #5565 for the full plan. -/
+box-reversal mechanism: we prove the polynomial identity
+`schurPoly n ν = revBox m (schurPoly n lz)` by cancelling the Vandermonde
+(`mul_right_cancel₀`), using `schurPoly_inverseShift`, `revBox`'s graded
+multiplicativity, and the Schur per-coordinate degree bound `schurPoly_coeff_le`
+(every exponent `≤ m`) to guarantee no truncation; then read off coefficients via
+`revBox_coeff`. -/
 theorem schurPoly_w0Shift_coeff (n : ℕ) (lz : Fin n → ℕ) (hlz : Antitone lz) (m : ℕ)
     (hs : ∀ j, lz j ≤ m) (μ : Fin n →₀ ℕ) :
     (schurPoly n (w0ShiftWeight n lz m)).coeff μ
       = if _h : ∀ i, μ i ≤ m
         then (schurPoly n lz).coeff (Finsupp.equivFunOnFinite.symm (fun i => m - μ i))
         else 0 := by
-  sorry
+  have hΔ : (alternantMatrix n (vandermondeExps n)).det ≠ 0 :=
+    alternantMatrix_vandermondeExps_det_ne_zero n
+  have hc2 : (↑↑(Fin.revPerm (n := n)).sign : MvPolynomial (Fin n) ℚ)
+      * ↑↑(Fin.revPerm (n := n)).sign = 1 := by
+    rcases Int.units_eq_one_or (Fin.revPerm (n := n)).sign with h | h <;> simp [h]
+  have hboundS : ∀ d ∈ (schurPoly n lz).support, ∀ i, d i ≤ m :=
+    fun d hd i => schurPoly_coeff_le n lz m hs (MvPolynomial.mem_support_iff.mp hd) i
+  have hboundD : ∀ d ∈ (alternantMatrix n (vandermondeExps n)).det.support, ∀ i, d i ≤ n - 1 :=
+    fun d hd i => le_trans (MvPolynomial.monomial_le_degreeOf i hd)
+      (degreeOf_alternant_le n (vandermondeExps n) (n - 1)
+        (fun j => by simp only [vandermondeExps]; omega) i)
+  -- `Δ = sgn(w₀) · revBox_{N-1} Δ`.
+  have hΔrev : (alternantMatrix n (vandermondeExps n)).det
+      = (↑↑(Fin.revPerm (n := n)).sign : MvPolynomial (Fin n) ℚ)
+          * revBox n (n - 1) (alternantMatrix n (vandermondeExps n)).det := by
+    rw [revBox_vandermonde, ← mul_assoc, hc2, one_mul]
+  -- The box-reversed product equals `sgn(w₀) · A` with `A` the complement alternant.
+  have hRHS : revBox n m (schurPoly n lz) * (alternantMatrix n (vandermondeExps n)).det
+      = (↑↑(Fin.revPerm (n := n)).sign : MvPolynomial (Fin n) ℚ)
+          * (alternantMatrix n (fun j => (m + n - 1) - shiftedExps n lz j)).det := by
+    have step1 : revBox n m (schurPoly n lz)
+          * revBox n (n - 1) (alternantMatrix n (vandermondeExps n)).det
+        = (alternantMatrix n (fun j => (m + n - 1) - shiftedExps n lz j)).det := by
+      rw [← revBox_mul n m (n - 1) (schurPoly n lz)
+            (alternantMatrix n (vandermondeExps n)).det hboundS hboundD,
+        schurPoly_mul_vandermonde, revBox_alternant]
+      have hfe : (fun j => (m + (n - 1)) - shiftedExps n lz j)
+          = (fun j : Fin n => (m + n - 1) - shiftedExps n lz j) := by
+        funext j; have := j.isLt; omega
+      rw [hfe]
+    calc revBox n m (schurPoly n lz) * (alternantMatrix n (vandermondeExps n)).det
+        = revBox n m (schurPoly n lz)
+            * (↑↑(Fin.revPerm (n := n)).sign
+                * revBox n (n - 1) (alternantMatrix n (vandermondeExps n)).det) := by
+              rw [← hΔrev]
+      _ = (↑↑(Fin.revPerm (n := n)).sign : MvPolynomial (Fin n) ℚ)
+            * (revBox n m (schurPoly n lz)
+                * revBox n (n - 1) (alternantMatrix n (vandermondeExps n)).det) := by ring
+      _ = _ := by rw [step1]
+  -- The main polynomial identity `schurPoly ν = revBox m (schurPoly lz)`.
+  have hid : schurPoly n (w0ShiftWeight n lz m) = revBox n m (schurPoly n lz) := by
+    have hIS := schurPoly_inverseShift n lz m hs
+    apply mul_right_cancel₀ hΔ
+    rw [hRHS, hIS, ← mul_assoc, hc2, one_mul]
+  rw [hid, revBox_coeff n m (schurPoly n lz) hboundS μ]
+  by_cases hμ : ∀ i, μ i ≤ m
+  · rw [dif_pos hμ, if_pos hμ]; rfl
+  · rw [dif_neg hμ, if_neg hμ]
 
 /-! ## The deliverable: formal character of the `det^s`-twisted linear dual -/
 

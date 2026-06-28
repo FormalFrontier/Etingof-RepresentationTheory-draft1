@@ -262,6 +262,17 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
+### `open MvPolynomial` inside `namespace Etingof` opens the wrong namespace
+
+Several Ch5 files declare `namespace MvPolynomial` *inside* `namespace Etingof`
+(e.g. `EvalEqOnGL.lean`, `PolynomialWeightSaturation.lean`), so `Etingof.MvPolynomial`
+exists. A bare `open MvPolynomial` from inside `namespace Etingof` resolves to that
+(near-empty) `Etingof.MvPolynomial` and silently shadows root Mathlib `MvPolynomial`
+— `monomial`, `X`, `degreeOf_sum_le`, `smul_eq_C_mul`, etc. then all read as
+"Unknown identifier" even though `open MvPolynomial` is right there. **Fix:** write
+`open _root_.MvPolynomial`. (Cost one build cycle in #5565.) Same pattern applies to
+any namespace the repo redeclares under `Etingof`.
+
 ### Stuck `Module ?m (M i)` Metavariable Errors
 
 When working over a *family* `(M : ι → Type*) [∀ i, Module A (M i)] [∀ i, Module 𝕜 (M i)] [∀ i, IsScalarTower 𝕜 A (M i)]` (common for representation families), `lake build` errors like `typeclass instance problem is stuck … (i : ι) → Module ?m (M i)` mean a ring/field implicit was left undetermined. Three concrete causes, each with a one-line fix (diagnosed across ~5 build cycles in #4885, `CharacterIndependence.lean`):
