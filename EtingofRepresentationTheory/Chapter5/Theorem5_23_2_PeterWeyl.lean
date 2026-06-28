@@ -454,6 +454,89 @@ theorem peterWeylMap_injective (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [C
   injective_toModule_of_iSupIndep_range _
     (peterWeylSummandMap_injective n k) (peterWeylSummandMap_range_iSupIndep n k)
 
+set_option maxHeartbeats 800000 in
+/-- **Right-translation stability of a per-summand range.** Each
+`LinearMap.range (peterWeylSummandMap n lam k)` (the `L_λ`-isotypic matrix coefficients) is stable
+under right translation `localRightRep k n g`: right translation acts within the summand as the
+`L_λ`-action `algIrrepGLRepρ n lam k g`, which is the `(1, g)`-specialization of the bi-equivariance
+`peterWeylSummandMap_equivariant`. -/
+theorem localRightRep_mapsTo_range_peterWeylSummandMap
+    (n : ℕ) (lam : DominantWeight n) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (g : Matrix.GeneralLinearGroup (Fin n) k) :
+    ∀ x ∈ LinearMap.range (peterWeylSummandMap n lam k),
+      localRightRep k n g x ∈ LinearMap.range (peterWeylSummandMap n lam k) := by
+  -- `localBiRep (1, g)` is just `localRightRep g`.
+  have hbi1 : ∀ w, localBiRep k n (1, g) w = localRightRep k n g w := by
+    intro w
+    rw [localBiRep_apply, ← localLeftRep_apply, map_one, Module.End.one_apply,
+      ← localRightRep_apply]
+  -- The defining intertwining identity: `R_g ∘ pwsm = pwsm ∘ (id ⊗ ρ(g))`.
+  have key : ∀ z, peterWeylSummandMap n lam k
+        (TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g) z)
+      = localRightRep k n g (peterWeylSummandMap n lam k z) := by
+    intro z
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | tmul u v =>
+      rw [TensorProduct.map_tmul, LinearMap.id_apply]
+      have he := peterWeylSummandMap_equivariant n lam k 1 g u v
+      rw [show algIrrepGLRepDualρ n lam k 1 u = u from by rw [map_one]; rfl] at he
+      rw [he, hbi1]
+    | add z₁ z₂ h₁ h₂ => simp only [map_add, h₁, h₂]
+  rintro _ ⟨z, rfl⟩
+  exact ⟨TensorProduct.map LinearMap.id (algIrrepGLRepρ n lam k g) z, key z⟩
+
+/-- **The full matrix-coefficient span is right-translation stable.** The supremum
+`⨆_λ range (peterWeylSummandMap n λ k)` is a `localRightRep`-invariant subspace of `R`, being a
+join of the right-stable per-summand ranges. -/
+theorem localRightRep_mem_iSup_range_peterWeylSummandMap
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (g : Matrix.GeneralLinearGroup (Fin n) k) :
+    ∀ x ∈ (⨆ lam, LinearMap.range (peterWeylSummandMap n lam k)),
+      localRightRep k n g x ∈ ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) := by
+  intro x hx
+  refine Submodule.iSup_induction
+    (fun lam => LinearMap.range (peterWeylSummandMap n lam k))
+    (motive := fun y => localRightRep k n g y ∈
+      ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k)) hx ?_ ?_ ?_
+  · intro lam y hy
+    exact Submodule.mem_iSup_of_mem lam
+      (localRightRep_mapsTo_range_peterWeylSummandMap n lam k g y hy)
+  · rw [map_zero]; exact Submodule.zero_mem _
+  · intro a b ha hb; rw [map_add]; exact Submodule.add_mem _ ha hb
+
+/-- **Realization of a simple right-translation subrepresentation as a matrix-coefficient block.**
+Every simple, finite-dimensional `localRightRep`-subrepresentation `S` of
+`R = Localization.Away (detPoly k n)` lies in the supremum
+`⨆_λ range (peterWeylSummandMap n λ k)` of the per-summand matrix-coefficient ranges.
+
+This is the genuinely missing *realization* step of the Cauchy/Peter-Weyl spanning argument
+(Etingof §5.23(ii), steps 2–4). A simple `localRightRep`-subrepresentation `S ↪ R` is a simple
+algebraic `GL_n`-representation; by the highest-weight classification
+(`iso_of_formalCharacter_eq_schurPoly` / `simpleRep_iso_schurModule_of_formalCharacter_eq`,
+identifying a simple by its formal character as a Schur polynomial) there is a dominant weight
+`λ : DominantWeight n` and a `GL_n`-equivariant isomorphism `e : AlgIrrepGL n λ k ≃ₗ[k] S`
+intertwining `algIrrepGLRepρ n λ k` with the `localRightRep`-action on `S`. Composing with the
+equivariant inclusion `S ↪ R` yields an equivariant `ι : AlgIrrepGL n λ k →ₗ[k] R`, whence
+`S.toSubmodule = LinearMap.range ι ≤ LinearMap.range (peterWeylSummandMap n λ k)` by
+`equivariant_range_le_peterWeylSummandMap` (#5578).
+
+**Note (the missing realization infrastructure).** Identifying the abstract simple constituent `S`
+with a concrete `AlgIrrepGL n λ k` requires (a) twisting `S` by `det^r` (the normal-form exponent)
+to a *polynomial* simple, (b) reading off its character as a Schur polynomial `schurPoly N ν`, (c)
+constructing the dominant weight `λ` (with `λ.toNatWeight = ν` after the shift) and the untwisted
+equivariant iso. The classification core (`iso_of_formalCharacter_eq_schurPoly`) is in place but is
+phrased for polynomial (`shift = 0`) Schur modules; wiring it to a det-twisted subrepresentation of
+`R` is the remaining work. -/
+theorem simpleSubrep_localRightRep_le_iSup_range
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (S : Subrepresentation (localRightRep k n))
+    [FiniteDimensional k S.toSubmodule]
+    (hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (Subrepresentation.asSubmodule S)) :
+    S.toSubmodule ≤ ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) := by
+  sorry
+
 /-- **Hull-spanning bridge (the remaining Cauchy obligation, steps 2–4).** Every element of the
 finite-dimensional right-translation hull `rightHull φ` of `φ ∈ R = Localization.Away (detPoly k n)`
 lies in the supremum `⨆_λ range (peterWeylSummandMap n λ k)` of the per-summand matrix-coefficient
@@ -487,7 +570,91 @@ theorem rightHull_le_iSup_range_peterWeylSummandMap
     (φ : Localization.Away (detPoly k n)) :
     RightTranslationHull.rightHull φ ≤
       ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) := by
-  sorry
+  classical
+  set T : Submodule k (Localization.Away (detPoly k n)) :=
+    ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) with hT
+  -- `T` is `localRightRep`-stable, so it packages as a `k[GL_n]`-submodule of `R`.
+  have hT_stable : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k),
+      ∀ x ∈ T, localRightRep k n g ((localRightRep k n).asModuleEquiv x) ∈ T := by
+    intro g x hx
+    exact localRightRep_mem_iSup_range_peterWeylSummandMap n k g x hx
+  set T_KG : Submodule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (localRightRep k n).asModule :=
+    Representation.stableSubmodule (localRightRep k n) T hT_stable with hTKG
+  have hTKG_restrict : T_KG.restrictScalars k = T := by
+    apply SetLike.ext; intro x
+    rw [Submodule.restrictScalars_mem, hTKG, Representation.mem_stableSubmodule]
+  -- The hull as a subrepresentation, finite-dimensional and semisimple.
+  set H : Subrepresentation (localRightRep k n) := RightTranslationHull.rightHullSubrep φ with hH
+  haveI hfin : FiniteDimensional k (RightTranslationHull.rightHull φ) :=
+    RightTranslationHull.rightHull_finiteDimensional φ
+  haveI hss := RightTranslationHull.rightHull_isSemisimple k φ
+  -- The `k[GL_n]`-linear inclusion `asModule H.toRepresentation ↪ asModule (localRightRep)`.
+  have hsub : ∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (x : H.toSubmodule),
+      H.toSubmodule.subtype (H.toRepresentation g x)
+        = localRightRep k n g (H.toSubmodule.subtype x) :=
+    fun g x => LinearMap.restrict_coe_apply (localRightRep k n g)
+      (H.apply_mem_toSubmodule g) x
+  set incl :
+      Representation.asModule H.toRepresentation →ₗ[MonoidAlgebra k
+        (Matrix.GeneralLinearGroup (Fin n) k)] Representation.asModule (localRightRep k n) :=
+    Representation.asModuleHomOfIntertwiner H.toSubmodule.subtype hsub with hincl
+  have hincl_apply : ∀ x, incl x = H.toSubmodule.subtype x := fun x => rfl
+  -- `range incl` (as `k`-submodule) is exactly the hull.
+  have hrange_restrict : (LinearMap.range incl).restrictScalars k
+      = RightTranslationHull.rightHull φ := by
+    have hset : (LinearMap.range incl).restrictScalars k
+        = LinearMap.range H.toSubmodule.subtype := by
+      apply SetLike.ext; intro x
+      rw [Submodule.restrictScalars_mem, LinearMap.mem_range, LinearMap.mem_range]
+      constructor
+      · rintro ⟨z, rfl⟩; exact ⟨z, rfl⟩
+      · rintro ⟨z, rfl⟩; exact ⟨z, rfl⟩
+    rw [hset, Submodule.range_subtype]; rfl
+  -- Each simple `k[GL_n]`-submodule `p` of `asModule H.toRep` maps into `T_KG`.
+  have hbound : ∀ p ∈ {m : Submodule (MonoidAlgebra k
+      (Matrix.GeneralLinearGroup (Fin n) k)) (Representation.asModule H.toRepresentation) |
+      IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k)) m},
+      Submodule.map incl p ≤ T_KG := by
+    intro p hp
+    -- `incl` is injective (it is the subtype inclusion).
+    have hincl_inj : Function.Injective incl := by
+      intro a b hab
+      apply Subtype.coe_injective
+      have : H.toSubmodule.subtype a = H.toSubmodule.subtype b := by
+        rw [← hincl_apply, ← hincl_apply, hab]
+      simpa using this
+    -- `map incl p ≅ p` is simple, and lies inside the (finite-dimensional) hull.
+    have hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+        (Subrepresentation.asSubmodule
+          (Subrepresentation.ofSubmodule' (Submodule.map incl p))) :=
+      (LinearEquiv.isSimpleModule_iff (Submodule.equivMapOfInjective incl hincl_inj p)).mp hp
+    have hSsub : (Subrepresentation.ofSubmodule' (Submodule.map incl p)).toSubmodule
+        ≤ RightTranslationHull.rightHull φ := by
+      rw [← hrange_restrict]
+      intro y hy
+      rw [Submodule.restrictScalars_mem]
+      exact (LinearMap.map_le_range (f := incl) (p := p)) hy
+    haveI : FiniteDimensional k
+        (Subrepresentation.ofSubmodule' (Submodule.map incl p)).toSubmodule :=
+      Submodule.finiteDimensional_of_le hSsub
+    have hreal := simpleSubrep_localRightRep_le_iSup_range n k
+      (Subrepresentation.ofSubmodule' (Submodule.map incl p)) hSsimple
+    intro y hy
+    exact hreal ((Subrepresentation.mem_ofSubmodule'_iff).mpr hy)
+  -- Assemble: `range incl ≤ T_KG`, restrict scalars, and identify with the hull.
+  have hrange_le : LinearMap.range incl ≤ T_KG := by
+    rw [← Submodule.map_top,
+      ← IsSemisimpleModule.sSup_simples_eq_top (MonoidAlgebra k
+        (Matrix.GeneralLinearGroup (Fin n) k)) (Representation.asModule H.toRepresentation),
+      sSup_eq_iSup, Submodule.map_iSup]
+    refine iSup_le fun p => ?_
+    rw [Submodule.map_iSup]
+    exact iSup_le fun hp => hbound p hp
+  calc RightTranslationHull.rightHull φ
+      = (LinearMap.range incl).restrictScalars k := hrange_restrict.symm
+    _ ≤ T_KG.restrictScalars k := Submodule.restrictScalars_mono (S := k) hrange_le
+    _ = T := hTKG_restrict
 
 /-- **The Cauchy spanning statement — the crux of Peter-Weyl surjectivity.** The matrix
 coefficients of all the irreducibles `L_λ` together span the whole coordinate ring
