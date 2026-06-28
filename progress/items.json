@@ -451,11 +451,11 @@
   "start_line": 22,
   "end_line": 23,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: '1-dim rep of any algebra is automatically irreducible' is elementary and formalizable (finrank k V = 1 -> IsSimpleModule A V) but formalized nowhere. See #5590.",
-  "fidelity_decl": "(none found)",
+  "fidelity": "verified",
+  "fidelity_note": "Formalized as Etingof.Remark_2_3_13 (finrank k V = 1 -> IsSimpleModule A V) in EtingofRepresentationTheory/Chapter2/Remark2_3_13.lean. Wave-2 gap closed (#5590).",
+  "fidelity_decl": "Etingof.Remark_2_3_13",
   "fidelity_issue": 5590,
-  "last_updated": "2026-06-28"
+  "last_updated": "2026-06-29"
  },
  {
   "id": "Chapter2/Discussion_proof_Corollary2.3.12",
