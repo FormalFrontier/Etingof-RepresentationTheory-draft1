@@ -36,6 +36,21 @@ the build's. Always confirm success by `grep -nE "error:|✖|Build completed" lo
 on the full teed file (and check `#print axioms` for `sorryAx`) — never infer "build
 passed" from a poller returning exit 0.
 
+**Before filling a `sorry`, build the file *with the `sorry` still in place* to
+capture the true baseline error set.** A `sorry` whose surrounding `have`/`haveI`
+block hard-times-out (e.g. an expensive `isDefEq`/`whnf` during elaboration) aborts
+the whole declaration, so Lean never reports later tactic errors in the same proof —
+they are *masked*, not absent. After you fill the sorry and the declaration elaborates
+further, those pre-existing errors surface and look like *you* introduced them. Don't
+assume new errors are yours: `git stash` your edit and rebuild (or build at HEAD) to
+confirm whether the committed file already failed. Diagnosed in #5559: filling one
+simplicity `sorry` revealed two `Pi.add_apply`/`Pi.zero_apply` residual goals that were
+already broken on `main` (simp-normal-form drift), masked behind the sorry block's
+elaboration timeout. Also note: a theorem whose own body is sorry-free can still report
+`sorryAx` via a transitive **def-level** dependency (here `algIrrepGLDualIso` ←
+`ContragredientIdentity.lean`); that is a separate, out-of-scope sorry, not a regression
+in your proof.
+
 **Build-environment recovery (shared `.lake/packages` across pod worktrees):**
 - `Lean exited with code 139` (SIGSEGV) on *dependency* files you did not touch has
   two distinct causes. (a) Corrupted Mathlib oleans from a concurrent `lake exe cache
