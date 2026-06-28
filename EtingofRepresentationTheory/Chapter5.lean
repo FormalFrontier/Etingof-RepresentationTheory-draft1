@@ -38,6 +38,7 @@ import EtingofRepresentationTheory.Chapter5.Lemma5_7_2
 import EtingofRepresentationTheory.Chapter5.Definition5_8_1
 import EtingofRepresentationTheory.Chapter5.Remark5_8_2
 import EtingofRepresentationTheory.Chapter5.RightTranslationHull
+import EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp
 
 -- Section 5.9: Frobenius Formula
 import EtingofRepresentationTheory.Chapter5.TraceCoinvariants
