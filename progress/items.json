@@ -2422,9 +2422,9 @@
   "start_line": 9,
   "end_line": 10,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "No Lean declaration exists for Remark 4.6.4. items.json marks it status=sorry_free, but no Remark4_6_4.lean / decl covers its claim: for infinite groups (e.g. G=ℤ) there exist finite-dimensional re...",
-  "fidelity_decl": "(none)",
+  "fidelity": "verified",
+  "fidelity_note": "Formalized in EtingofRepresentationTheory/Chapter4/Remark4_6_4.lean. The representation of the infinite group ℤ (Multiplicative ℤ) on ℂ² by powers of the unipotent Jordan block J_{1,2} is built as repZ; repZ_indecomposable and repZ_not_irreducible establish it is indecomposable but not irreducible, and Etingof.Remark4_6_4 packages the existence statement (with Infinite (Multiplicative ℤ)).",
+  "fidelity_decl": "Etingof.Remark4_6_4",
   "fidelity_issue": 5379
  },
  {
