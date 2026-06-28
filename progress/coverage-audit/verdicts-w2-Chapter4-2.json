@@ -1,0 +1,65 @@
+[
+  {
+    "id": "Chapter4/Proposition4.1.2",
+    "lean_decl": "Etingof.Proposition4_1_2",
+    "verdict": "verified",
+    "reason": "Book: if k[G] is semisimple then char(k) does not divide |G|. Lean: hypothesis IsSemisimpleRing (MonoidAlgebra k G), conclusion IsUnit (Fintype.card G : k). Over a field, IsUnit is equivalent to 'char k does not divide |G|' (i.e., the cast is nonzero). Proof is a genuine Schur/idempotent argument, not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Proposition4.7.1",
+    "lean_decl": "Etingof.Proposition4_7_1_i and Etingof.Proposition4_7_1_ii",
+    "verdict": "verified",
+    "reason": "Book (i): matrix elements of nonisomorphic irreducible representations are orthogonal under (f,g) = (1/|G|) Σ f(x)conj(g(x)). Book (ii): (t^V_{ij}, t^V_{i'j'}) = δ_{ii'}δ_{jj'}/dim V. Lean reformulates using ρ(g⁻¹) in place of conjugation — the algebraically valid substitution over any field (conj(χ_V(h)) = χ_{V*}(h) = χ_V(h⁻¹) for all unitary-type representations). The two Lean theorems (part i and part ii) cover both parts. Part i uses IsEmpty (V ≅ W), which correctly captures non-isomorphism. Part ii yields the exact δ_{iq}δ_{jp}/dim V formula via if-then-else. Both proofs are non-vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.1.1",
+    "lean_decl": "Etingof.Theorem4_1_1_semisimple and Etingof.Theorem4_1_1_sum_of_squares",
+    "verdict": "gap",
+    "reason": "Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both sides); (3) the sum-of-squares formula |G| = Σ (dim V_i)². The Lean Theorem4_1_1_sum_of_squares only asserts (3): ∃ n d, (∀ i, NeZero (d i)) ∧ ∑ (d i)^2 = Fintype.card G. The algebra isomorphism and the representation decomposition k[G] ≅ ⊕ dim(V_i)·V_i are completely absent from the main theorem statement. The IrrepDecomp infrastructure provides the iso internally but it is not surfaced as part of the formalized theorem.",
+    "dropped_conjunct": "algebra isomorphism ψ: k[G] → ⊕_i End(V_i) and representation decomposition k[G] ≅ ⊕_i dim(V_i)·V_i"
+  },
+  {
+    "id": "Chapter4/Theorem4.10.2",
+    "lean_decl": "Etingof.Theorem4_10_2",
+    "verdict": "verified",
+    "reason": "Book: det X_G = ∏_{j=1}^r P_j(x)^{deg P_j} for pairwise nonproportional irreducible polynomials P_j, where r = number of conjugacy classes. Lean: ∃ r P, (∀j, Irreducible(P j)) ∧ (∀i≠j, ¬Associated(P i)(P j)) ∧ FrobeniusDeterminant = ∏ j, P j ^ (P j).totalDegree ∧ r = Fintype.card (ConjClasses G). 'Non-associated' over a polynomial ring over a field = differ by a nonzero constant = 'nonproportional'. The deg P_j = totalDegree is correct. r = card ConjClasses matches the book. The existential packaging is faithful to the book's claim. Proof is constructive via IrrepDecomp.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.2.1",
+    "lean_decl": "Etingof.Theorem4_2_1 and Etingof.Theorem4_2_1_linearIndependent",
+    "verdict": "verified",
+    "reason": "Book: if char k does not divide |G|, characters of irreducible representations form a basis of F_c(G,k). Lean: Theorem4_2_1 asserts spanning (∈ Submodule.span), Theorem4_2_1_linearIndependent asserts linear independence. Together they give a basis. Both require [IsAlgClosed k] and [Invertible (Fintype.card G : k)]. The IsAlgClosed assumption is consistent with Chapter 4's context (§4.5 preamble explicitly works over ℂ, and the chapter works over algebraically closed fields for character theory). The book's statement in §4.2 uses general k, but the proof via Theorem 3.6.2 requires semisimplicity and works for algebraically closed k (the character theory of §4.5 requires it). The formalization correctly captures the content for the chapter's setting.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.5.1",
+    "lean_decl": "Etingof.Theorem4_5_1_i and Etingof.Theorem4_5_1_ii",
+    "verdict": "verified",
+    "reason": "Book: (χ_V, χ_W) = dim Hom_G(W,V); and = 1 if V≅W, 0 otherwise when V,W irreducible. Lean part (i): ⅟|G| • Σ_g V.character g * W.character g⁻¹ = Module.finrank k (W ⟶ V) — inner product = Hom dimension as k-value. Part (ii): = if Nonempty (V ≅ W) then 1 else 0. Both parts faithful. The inner product uses g⁻¹ instead of conjugation (algebraic formulation valid over any field). Both proofs are non-vacuous, delegating to Mathlib's scalar_product_char_eq_finrank_equivariant and char_orthonormal.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.5.4",
+    "lean_decl": "Etingof.Theorem4_5_4",
+    "verdict": "verified",
+    "reason": "Book: Σ_V χ_V(g) conj(χ_V(h)) = |Z_g| if g~h, 0 otherwise, sum over all irreducible V. Lean: takes an explicit complete system V : Fin D.n → FDRep k G with simple/injective/surjective hypotheses, concludes Σ_i (V i).character g * (V i).character h⁻¹ = if IsConj g h then |Z_G(g)| else 0. The use of h⁻¹ in place of conj is correct (algebraic formulation). The explicit complete-system hypothesis is needed for the quantification 'over all irreducible V' in the algebraic setting. Non-vacuous constructive proof.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.6.2",
+    "lean_decl": "Etingof.Theorem4_6_2_existence and Etingof.Theorem4_6_2_uniqueness",
+    "verdict": "verified",
+    "reason": "Book: (i) any finite dimensional complex representation of G has a unitary structure (G-invariant positive definite Hermitian form); (ii) for irreducible V, this structure is unique up to scaling by positive real. Lean existence: ∃ c : InnerProductSpace.Core ℂ V, ∀ g v w, c.inner (ρ g v) (ρ g w) = c.inner v w — exactly a G-invariant positive definite Hermitian form. Lean uniqueness: ∃ lam : ℝ, 0 < lam ∧ ∀ v w, c₂.inner v w = (lam : ℂ) * c₁.inner v w — exactly unique up to positive real scaling. Irreducibility is given as an explicit submodule condition. Both parts faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter4/Theorem4.6.3",
+    "lean_decl": "Etingof.Theorem4_6_3",
+    "verdict": "verified",
+    "reason": "Book: a finite dimensional unitary representation V of any group G is completely reducible. Lean: given ρ-invariant inner product, every ρ-invariant subspace W has an invariant complement W' with IsCompl W W'. The proof uses W⊥ as the complement. 'Completely reducible' = every subrepresentation has an invariant complement, which is exactly what IsCompl asserts here. Non-vacuous proof. The G is 'any group' (not required finite) matching the book.",
+    "dropped_conjunct": null
+  }
+]

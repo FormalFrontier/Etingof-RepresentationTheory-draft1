@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter7/Definition7.1.1",
+    "lean_decl": "Etingof.Category",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.Category (C : Type*) := CategoryTheory.Category C. Faithful alias of the exact Mathlib notion. CategoryTheory.Category encodes all the data and axioms (objects, hom-sets, composition, associativity, identity) from the book's Definition 7.1.1.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.1.4",
+    "lean_decl": "Etingof.FullSubcategory",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.FullSubcategory ... := P.FullSubcategory. Mathlib's ObjectProperty.FullSubcategory uses InducedCategory, where Hom(X,Y) = Hom_C(X.obj, Y.obj) — exactly the book's condition that hom-sets are inherited from C. The inclusion functor ι is marked Full and Faithful (homMk_surjective + fullyFaithfulι). The book's two conditions (objects are a subclass, hom-sets equal those of C) are both captured.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.2.1",
+    "lean_decl": "Etingof.Functor",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.Functor C D [Category C] [Category D] := CategoryTheory.Functor C D. Direct alias of the exact Mathlib notion, which encodes the object map, morphism map, preservation of composition (map_comp), and preservation of identity (map_id).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.3.1",
+    "lean_decl": "Etingof.NatTrans",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.NatTrans F G := CategoryTheory.NatTrans F G. Faithful alias. CategoryTheory.NatTrans encodes the component maps a_X : F(X) → G(X) with the naturality condition a_Y ∘ F(f) = G(f) ∘ a_X. Natural isomorphisms are handled by CategoryTheory.NatIso, which is the standard Mathlib treatment.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.4.1",
+    "lean_decl": "Etingof.Equivalence",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.Equivalence C D ... := CategoryTheory.Equivalence C D. Faithful alias. Mathlib's Equivalence carries functors F, G and natural isomorphisms F ⋙ G ≅ 𝟭 C and G ⋙ F ≅ 𝟭 D, matching the book's definition of equivalence via quasi-inverse with isomorphisms to identity functors.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.6.1",
+    "lean_decl": "Etingof.Adjunction",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.Adjunction F G := CategoryTheory.Adjunction F G. Mathlib's Adjunction is defined via unit and counit with triangle identities, which is equivalent to the book's hom-set isomorphism definition (the isomorphism ξ_{XY} : Hom_D(F(X),Y) ≅ Hom_C(X,G(Y)) is derived as Adjunction.homEquiv and is functorial in X and Y). Both definitions are standard and provably equivalent.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.7.1",
+    "lean_decl": "Etingof.Abelian",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.Abelian C [Category C] := CategoryTheory.Abelian C. The book's extrinsic definition (equivalent to a full subcategory of A-mod closed under finite direct sums, kernels, cokernels, images) and Mathlib's intrinsic definition (preadditive, has kernels and cokernels, normal mono/epi) are provably equivalent by the Freyd-Mitchell embedding theorem, which Mathlib has. Using the intrinsic definition is the standard formalization approach and is faithful to the mathematical concept.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.8.1",
+    "lean_decl": "Etingof.CochainComplex'",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.CochainComplex' C ... := CochainComplex C ℤ. CochainComplex C ℤ is HomologicalComplex with ComplexShape.up ℤ, which encodes: objects C_i (i ∈ ℤ), differentials d_i : C_i → C_{i+1} with d_{i+1} ∘ d_i = 0, and cohomology H^i = Ker(d_i)/Im(d_{i-1}) via HomologicalComplex.homology. Exactness is captured by CategoryTheory.Exact. All concepts from the blob (complex, differentials, cohomology, exact sequence) are present in this Mathlib type.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.8.2",
+    "lean_decl": "Etingof.ShortComplex",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.ShortComplex C ... := CategoryTheory.ShortComplex C. The book defines 'short exact sequence' as an exact sequence 0 → X → Y → Z → 0. Mathlib's ShortComplex carries the data (f : X ⟶ Y, g : Y ⟶ Z with g ∘ f = 0) and ShortExact is the property (exactness at all three positions). The alias faithfully captures the concept; ShortExact is a property on ShortComplex, not a separate type, which is the correct Mathlib encoding.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.8.6",
+    "lean_decl": "Etingof.connectingHomomorphism",
+    "verdict": "verified",
+    "reason": "The file declares Etingof.connectingHomomorphism (aliases ShortComplex.ShortExact.δ), Etingof.long_exact_seq_exact₁ (exactness at C-position), Etingof.long_exact_seq_exact₂ (exactness at middle), and Etingof.long_exact_seq_exact₃ (exactness at A-position). Together these formalize both the connecting homomorphism and the full long exact sequence of cohomology as stated in the book. The three exactness theorems witness that the sequence ⋯ → H^i(A•) → H^i(B•) → H^i(C•) → H^{i+1}(A•) → ⋯ is exact at every position.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Definition7.9.1",
+    "lean_decl": "Etingof.AdditiveFunctor",
+    "verdict": "gap",
+    "reason": "The book's Definition 7.9.1 defines TWO concepts: (1) an additive functor (induces homomorphisms on Hom groups), and (2) a k-linear functor (induces k-linear maps on Hom spaces, for k-linear categories). The Lean file declares only Etingof.AdditiveFunctor (aliasing CategoryTheory.Functor.Additive). There is no declaration for the k-linear functor concept (Etingof.LinearFunctor or equivalent aliasing Functor.Linear, which exists in Mathlib as CategoryTheory.Functor.Linear in LinearFunctor.lean). The second half of the definition is dropped.",
+    "dropped_conjunct": "k-linear functor (F is k-linear if it induces k-linear maps between Hom spaces for k-linear categories)"
+  },
+  {
+    "id": "Chapter7/Definition7.9.3",
+    "lean_decl": "Etingof.LeftExactFunctor",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.LeftExactFunctor F := PreservesFiniteLimits F and abbrev Etingof.RightExactFunctor F := PreservesFiniteColimits F. In an abelian category, left exact (0→X→Y→Z exact implies 0→F(X)→F(Y)→F(Z) exact) is equivalent to preserving finite limits, and right exact is equivalent to preserving finite colimits. This equivalence is a standard theorem in homological algebra and is established in Mathlib. The exact functor concept (both simultaneously) follows by combining the two declarations.",
+    "dropped_conjunct": null
+  }
+]

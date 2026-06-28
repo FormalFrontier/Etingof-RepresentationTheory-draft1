@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter2/Definition2.9.6",
+    "lean_decl": "Etingof.LieAlgebraHom",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.LieAlgebraHom = L₁ →ₗ⁅k⁆ L₂. The book defines a Lie algebra homomorphism as a linear map φ with φ([a,b]) = [φ(a),φ(b)]; LieHom R L₁ L₂ in Mathlib is precisely that. The alias is not merely a docstring rename — it binds the right typeclass constraints (CommRing, LieRing, LieAlgebra on both sides) and resolves to the correct Mathlib type. Faithful alias of the correct object.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.9.7",
+    "lean_decl": "Etingof.LieAlgebraRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.LieAlgebraRepresentation = LieModule k L V. The book defines a Lie algebra representation as a vector space V with a Lie algebra homomorphism ρ: 𝔤 → End V. LieModule k L V encodes this: the scalar action ⁅·,·⁆ of L on V satisfies the Lie module axioms, which are equivalent to ρ: L → End V being a Lie algebra homomorphism. Faithful alias.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.9.9",
+    "lean_decl": "Etingof.UniversalEnvelopingAlgebraDef",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.UniversalEnvelopingAlgebraDef = UniversalEnvelopingAlgebra k L. The book defines U(𝔤) as the associative algebra with generators xᵢ and defining relations xᵢxⱼ - xⱼxᵢ = Σcᵏᵢⱼxₖ (i.e. the bracket). Mathlib's UniversalEnvelopingAlgebra R L is constructed as exactly that quotient and satisfies the universal property. Faithful alias.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.2.4",
+    "lean_decl": "(five anonymous examples)",
+    "verdict": "verified",
+    "reason": "Five anonymous `example` declarations, each exhibiting `Algebra k X` for (1) k itself, (2) Polynomial k, (3) Module.End k V, (4) FreeAlgebra k n, (5) MonoidAlgebra k G. The book lists exactly these five algebras and asks us to confirm they are algebras over k; each `inferInstance` check confirms the correct Mathlib algebra structure exists. The hypotheses (CommRing k, Group G, etc.) are appropriate. None of the examples has a hypothesis equal to its goal or is trivially satisfied for wrong reasons. Verified.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.8.2",
+    "lean_decl": "Etingof.Example_2_8_2",
+    "verdict": "verified",
+    "reason": "instance Etingof.Example_2_8_2 : Quiver (Fin 4). The book depicts a quiver with 4 vertices (0,1,2,3) and 3 arrows: 0→1, 2→1, 3→0. The Lean code encodes exactly these three arrows as Unit Hom-sets and Empty elsewhere. The vertex set Fin 4 is correct. Faithful concrete construction.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.9.2_continued",
+    "lean_decl": "(anonymous example)",
+    "verdict": "verified",
+    "reason": "example (S : LieSubalgebra k L) : LieAlgebra k S := inferInstance. The book says any subspace 𝔞 of 𝔤 closed under the bracket is a Lie subalgebra. The Lean declaration shows that any LieSubalgebra in Mathlib inherits a LieAlgebra instance — confirming that Mathlib's LieSubalgebra correctly models the book's concept. The example is not vacuous: the hypothesis is a LieSubalgebra (which encodes the closure condition), and the conclusion is the LieAlgebra structure on it. Verified.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Example2.9.8",
+    "lean_decl": "(multiple anonymous examples for cases 1, 2, 3)",
+    "verdict": "verified",
+    "reason": "All three representations are formalized: (1) zero rep — LieAlgebraRepresentation k L (TrivialLieModule k L PUnit) with Subsingleton witness; (2) trivial rep — LieAlgebraRepresentation k L (TrivialLieModule k L V) with explicit ρ=0 check (⁅a,v⁆ = 0 := rfl); (3) adjoint rep — LieAlgebraRepresentation k L L as inferInstance, PLUS the Lie hom L →ₗ⁅k⁆ End k L as LieAlgebra.ad k L, PLUS ad_apply confirming ρ(a)(b) = [a,b], PLUS bracket-preservation (Jacobi identity). The adjoint example has genuine mathematical content — it explicitly exhibits the three pieces the book requires. Not vacuous.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Proposition2.2.3",
+    "lean_decl": "Etingof.Proposition_2_2_3",
+    "verdict": "verified",
+    "reason": "theorem Etingof.Proposition_2_2_3 (M : Type*) [MulOneClass M] (e : M) (he_left : ∀ a, e * a = a) (he_right : ∀ a, a * e = a) : e = 1. The book says 'if a unit exists, it is unique'. The theorem takes an arbitrary element e satisfying both left- and right-unit laws and deduces e = 1 (the canonical unit). This is the correct uniqueness statement. Proof is short (simp at this; exact this) but the statement is right.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Proposition2.3.9",
+    "lean_decl": "Etingof.Proposition_2_3_9_injective / Etingof.Proposition_2_3_9_surjective",
+    "verdict": "verified",
+    "reason": "Two theorems. (i) If V₁ is IsSimpleModule R and φ : V₁ →ₗ[R] V₂ with φ ≠ 0, then Function.Injective φ. (ii) If V₂ is IsSimpleModule R and φ : V₁ →ₗ[R] V₂ with φ ≠ 0, then Function.Surjective φ. The book states Schur's lemma exactly this way — nonzero hom from an irreducible is injective, to an irreducible is surjective, hence iso if both irreducible. The corollary (isomorphism when both irreducible) is a direct consequence of (i)+(ii) and is not a missing conjunct. The book works over 'any field F (not necessarily algebraically closed)'; the Lean statements use [Ring R] without field or algebraic closure, which is actually more general. Verified.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Proposition2.7.1",
+    "lean_decl": "Etingof.Proposition_2_7_1 / Etingof.Proposition_2_7_1_ii",
+    "verdict": "verified",
+    "reason": "Part (i) — theorem Etingof.Proposition_2_7_1 [CharZero k] [NoZeroDivisors k]: LinearIndependent k (fun p : ℕ×ℕ => WeylAlgebra.monomial k p.1 p.2) ∧ ⊤ ≤ Submodule.span k (Set.range (fun p => WeylAlgebra.monomial k p.1 p.2)). This is exactly 'the monomials xⁱyʲ form a basis'. The CharZero and NoZeroDivisors hypotheses are mathematically necessary: over a characteristic-p field the Weyl algebra is not the same object and the basis claim is false. The book's proof also uses characteristic-0 reasoning (the module E = tᵃk[a][t,t⁻¹]). Part (ii) — theorem Etingof.Proposition_2_7_1_ii: LinearIndependent k (qMono k q) ∧ (qWeylAlgebra k q).toSubmodule = Submodule.span k (Set.range (qMono k q)). This covers all q ∈ kˣ with no char constraint, matching the book. Both parts faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Remark2.3.11",
+    "lean_decl": "(none found)",
+    "verdict": "gap",
+    "reason": "The book states: 'Corollary 2.3.10 is false over the reals: take A = ℂ (as an ℝ-algebra) and V = A.' No Lean declaration exists for this item. The remark contains a concrete counterexample that is formalizable: one must exhibit an ℝ-algebra A, a simple A-module V, and an A-endomorphism of V that is NOT a scalar multiple of the identity. This is a coverage gap — the item has status 'sorry_free' only because no file for it exists, not because the content is formalized.",
+    "dropped_conjunct": "Counterexample: φ : V → V A-linear with V = A = ℂ over ℝ that is not a scalar (e.g. multiplication by i), showing Corollary 2.3.10 fails without algebraic closure."
+  },
+  {
+    "id": "Chapter2/Remark2.3.13",
+    "lean_decl": "(none found)",
+    "verdict": "gap",
+    "reason": "The book states: 'A 1-dimensional representation of any algebra is automatically irreducible.' No Lean declaration exists for this item. The claim is formalizable: if [Module R V] with finrank k V = 1 (or Unique up to scalar) then IsSimpleModule R V. This is a mathematical theorem that requires proof, not just a docstring. No formalization exists in Chapter2/ or elsewhere in the project for this specific statement.",
+    "dropped_conjunct": "Theorem: finrank k V = 1 → IsSimpleModule R V (any algebra R)."
+  }
+]

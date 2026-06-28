@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter6/Corollary6.8.2",
+    "lean_decl": "Etingof.Corollary6_8_2",
+    "verdict": "gap",
+    "reason": "The book states: 'Let Q be a quiver, and let V be any indecomposable representation. Then d(V) is a positive root.' The Lean statement takes d : Fin n → ℤ as a bare vector (not the dimension vector of an actual quiver representation) and requires the caller to supply an explicit witness `hreflect : ∃ (vertices : List (Fin n)) (p : Fin n), iteratedSimpleReflection ... vertices d = simpleRoot n p`. The book statement is a theorem about indecomposable representations; the Lean statement is a purely combinatorial implication about integer vectors that already know the reflection sequence exists. The existential witness is the hard part that needs Theorem 6.8.1, and by requiring it as a hypothesis the theorem is strictly weaker than what the book claims (the book guarantees d is a positive root for ALL indecomposable reps, not just those for which the user has already found the reflection chain). The connection to actual quiver representations is completely absent from the statement.",
+    "dropped_conjunct": "The hypothesis `hreflect` requires the user to supply the reflection chain externally; the book's corollary should derive this from Theorem 6.8.1 applied to the indecomposable representation V, not take it as input."
+  },
+  {
+    "id": "Chapter6/Corollary6.8.3",
+    "lean_decl": "Etingof.Corollary6_8_3",
+    "verdict": "verified",
+    "reason": "Book: 'Let V, V' be indecomposable representations of Q such that d(V) = d(V'). Then V ≅ V'.' Lean: theorem over indecomposable QuiverRepresentations ρ₁ ρ₂ on a Dynkin quiver Q with ∀ v, finrank k (ρ₁.obj v) = finrank k (ρ₂.obj v), concludes Nonempty (QuiverRepresentation.Iso ρ₁ ρ₂). The `Nonempty (Iso ...)` idiom is the legitimate isomorphism formulation here. The proof is fully constructed (no sorry in the main theorem body; the internal helper parallel_reduce_and_recover has no sorry). The statement faithfully captures the book claim.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Corollary6.8.4",
+    "lean_decl": "Etingof.Corollary6_8_4",
+    "verdict": "verified",
+    "reason": "Book: 'For every positive root α, there is an indecomposable representation V with d(V) = α.' Lean: theorem taking a positive root α (IsPositiveRoot n adj α), an orientation Q of a Dynkin diagram, and concluding existence of an indecomposable QuiverRepresentation ρ with finrank k (ρ.obj v) = α v at every vertex. The proof is complete (no sorry in the main theorem Etingof.Corollary6_8_4). The statement faithfully captures the book claim.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.1.4",
+    "lean_decl": "Etingof.IsDynkinDiagram",
+    "verdict": "verified",
+    "reason": "Book: 'Γ is a Dynkin diagram if the quadratic form on ℝⁿ with matrix A is positive definite.' Lean defines IsDynkinDiagram n adj as: (1) adj.IsSymm, (2) no self-loops adj i i = 0, (3) adj i j ∈ {0,1}, (4) connectivity (path-connected), (5) positive definiteness of 2·Id - adj on ℤⁿ (x ≠ 0 → 0 < xᵀ(2·Id-adj)x). The book works over ℝ but positive definiteness over ℤ is equivalent here (integer vectors suffice for a lattice argument). All five conditions faithfully encode the book's definition of a Dynkin diagram.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.1",
+    "lean_decl": "Etingof.cartanMatrix",
+    "verdict": "verified",
+    "reason": "Book: 'Cartan matrix A = 2·Id - R.' Lean: def Etingof.cartanMatrix n adj := 2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj. Exact match. The bilinear form B(x,y) = xᵀAy is not a separate definition but is used inline as dotProduct x (cartanMatrix.mulVec y) throughout, which is faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.10",
+    "lean_decl": "Etingof.rootReflection, Etingof.simpleReflection",
+    "verdict": "verified",
+    "reason": "Book: sα(v) = v - B(v,α)·α; simple reflections sᵢ = sαᵢ. Lean: rootReflection n A α v := v - (dotProduct v (A.mulVec α)) • α; simpleReflection n A i := rootReflection n A (Pi.single i 1). Both definitions are exact matches of the book formulas.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.3",
+    "lean_decl": "Etingof.IsRoot",
+    "verdict": "verified",
+    "reason": "Book: 'A root is a nonzero vector x ∈ ℤⁿ such that B(x,x) = 2.' Lean: IsRoot n adj x := x ≠ 0 ∧ dotProduct x ((2 • 1 - adj).mulVec x) = 2. Exact match — (2·Id - adj) is the Cartan matrix, and dotProduct x (A.mulVec x) = B(x,x).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.5",
+    "lean_decl": "Etingof.simpleRoot",
+    "verdict": "verified",
+    "reason": "Book: 'αᵢ = (0,…,1,…,0) with 1 in position i.' Lean: simpleRoot n i := Pi.single i 1. Exact match — Pi.single i 1 is the standard basis vector eᵢ in ℤⁿ.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.4.7",
+    "lean_decl": "Etingof.IsPositiveRoot, Etingof.IsNegativeRoot",
+    "verdict": "verified",
+    "reason": "Book: 'A root α = Σᵢ kᵢ αᵢ is positive if all kᵢ ≥ 0; negative if all kᵢ ≤ 0.' Lean: IsPositiveRoot n adj x := IsRoot n adj x ∧ ∀ i, 0 ≤ x i; IsNegativeRoot n adj x := IsRoot n adj x ∧ ∀ i, x i ≤ 0. Since αᵢ are the standard basis vectors, the coordinates of x in the simple root basis are exactly x i. Faithful match.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.5.1",
+    "lean_decl": "Etingof.dimensionVector",
+    "verdict": "gap",
+    "reason": "Book: 'The dimension vector d(V) = (dim V₁, …, dim Vₙ) of a quiver representation V.' Lean defines dimensionVector as a function V → ℕ taking bare type families `spaces : V → Type*` with separate AddCommGroup/Module/FiniteDimensional instances, not a QuiverRepresentation. This means dimensionVector is disconnected from the QuiverRepresentation structure used everywhere else in the chapter — throughout Corollaries 6.8.2–6.8.4, dimension vectors of actual representations are expressed as `fun v => Module.finrank k (ρ.obj v)` directly, never via this definition. The definition exists but is not the one used, and it doesn't take a QuiverRepresentation as input (the book's d(V) is defined on representations, not bare type families). This is a structural mismatch: the definition is present but unused and not connected to the main formalization.",
+    "dropped_conjunct": "The definition should take a QuiverRepresentation as input rather than bare type families; as written it is orphaned from the rest of the chapter."
+  },
+  {
+    "id": "Chapter6/Definition6.6.1",
+    "lean_decl": "Etingof.IsSink, Etingof.IsSource",
+    "verdict": "verified",
+    "reason": "Book: 'A sink is a vertex i where all edges point toward i (no outgoing); a source is a vertex where all edges point away (no incoming).' Lean: IsSink V i := ∀ j, IsEmpty (i ⟶ j); IsSource V i := ∀ j, IsEmpty (j ⟶ i). Exact match of the standard quiver-theory definitions.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Definition6.6.2",
+    "lean_decl": "Etingof.reversedAtVertex, Etingof.ReversedAtVertexHom",
+    "verdict": "verified",
+    "reason": "Book: 'Q̄ᵢ is the quiver obtained from Q by reversing all arrows pointing into (resp. out of) vertex i.' Lean: ReversedAtVertexHom V i a b maps: (a≠i, b≠i) → a⟶b (unchanged); (a=i, b≠i) → b⟶i (arrow b→i becomes i→b); (a≠i, b=i) → i⟶a (arrow a→i becomes i→a); (a=i, b=i) → a⟶b (self-loop unchanged). This correctly implements local reversal at vertex i. reversedAtVertex then uses this Hom type. Faithful to the book.",
+    "dropped_conjunct": null
+  }
+]

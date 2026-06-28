@@ -1,0 +1,65 @@
+[
+  {
+    "id": "Chapter8/Theorem8.1.1",
+    "lean_decl": "Etingof.Theorem_8_1_1_i_iff_ii, Etingof.Theorem_8_1_1_i_iff_iii",
+    "verdict": "gap",
+    "reason": "The book's Theorem 8.1.1 states that four conditions (i)-(iv) are equivalent. The Lean file formalizes only two pairs: (i)↔(ii) and (i)↔(iii). Condition (iv) — 'the functor Hom_A(P,?) is exact' — is mentioned only in comments but has no corresponding Lean theorem. This is a dropped conjunct: the full 4-way equivalence is not established.",
+    "dropped_conjunct": "Condition (iv): the functor Hom_A(P,?) is exact. The biconditional Theorem_8_1_1_i_iff_iv is absent."
+  },
+  {
+    "id": "Chapter8/Definition8.1.2",
+    "lean_decl": "Etingof.ProjectiveModule",
+    "verdict": "gap",
+    "reason": "The abbrev uses [CommRing R] but the book's definition (and the book's running algebra setting) is over a general ring. The corresponding Theorem 8.1.1 file uses [Ring R]. Module.Projective in Mathlib requires only [Semiring R]. Narrowing to CommRing silently excludes non-commutative rings, which are central to the book's module theory.",
+    "dropped_conjunct": "[CommRing R] instead of [Ring R]; the book defines projective modules over general (possibly non-commutative) rings."
+  },
+  {
+    "id": "Chapter8/Theorem8.1.5",
+    "lean_decl": "Etingof.Theorem_8_1_5_i_iff_ii, Etingof.Theorem_8_1_5_Baer",
+    "verdict": "gap",
+    "reason": "The book's Theorem 8.1.5 states three conditions (i)-(iii) are equivalent. The Lean file formalizes (i)↔(ii) and adds Baer's criterion. Condition (iii) — 'the functor Hom_A(?,I) is exact' — is mentioned in the module docstring but has no corresponding Lean theorem. Baer's criterion is not one of the book's three stated conditions. A dropped conjunct and a substituted non-book statement.",
+    "dropped_conjunct": "Condition (iii): the functor Hom_A(?,I) is exact. The biconditional Theorem_8_1_5_i_iff_iii is absent; instead Baer's criterion (not in book statement) is given."
+  },
+  {
+    "id": "Chapter8/Definition8.1.6",
+    "lean_decl": "Etingof.InjectiveModule",
+    "verdict": "verified",
+    "reason": "Aliases Module.Injective R M (the extension property) over [Ring R]. Module.Injective uses [Ring R] in Mathlib. The book defines injective via any of conditions (i)-(iii) of Theorem 8.1.5, which includes the extension property as condition (i). Faithful and correctly typed.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Definition8.1.8",
+    "lean_decl": "Etingof.ProjectiveObject, Etingof.InjectiveObject",
+    "verdict": "gap",
+    "reason": "The abbrevs alias CategoryTheory.Projective and CategoryTheory.Injective, which are defined via the lifting property (factoring through epimorphisms) over an arbitrary Category C. The book explicitly says 'projective object in an abelian category C such that Hom_C(P,?) is exact' — the definition is via exactness and the ambient category is required to be abelian. The Lean abbrevs: (1) use [Category C] not [Abelian C], so they apply to any category; (2) characterize via lifting property, not exactness. In abelian categories these are equivalent, but the abbrev is typed too weakly and uses a different (lifting) characterization than the book's (exactness).",
+    "dropped_conjunct": "Abelian category constraint dropped (Category C instead of Abelian C); characterization is via lifting property rather than exactness of Hom as stated in book."
+  },
+  {
+    "id": "Chapter8/Example8.1.7",
+    "lean_decl": "Etingof.Example_8_1_7",
+    "verdict": "verified",
+    "reason": "The Lean statement is a faithful biconditional: Module.Projective A P ↔ Module.Injective Aᵐᵒᵖ (Module.Dual k P), with [FiniteDimensional k A] which is the book's standing assumption (and mathematically necessary for the equivalence — without it the RHS characterizes flatness, not projectivity). The contragredient module structure is explicitly constructed as a noncomputable instance with the defining equation verified. The proof is sorry'd but the statement is faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Definition8.2.1",
+    "lean_decl": "Etingof.ProjectiveResolution",
+    "verdict": "verified",
+    "reason": "Aliases CategoryTheory.ProjectiveResolution X in an abelian category. Mathlib's ProjectiveResolution is a chain complex of projective objects with a quasi-iso to the single object X, which is exactly the book's exact sequence ... → P2 → P1 → P0 → M → 0 with all Pᵢ projective. Faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter8/Definition8.2.3",
+    "lean_decl": "Etingof.Tor",
+    "verdict": "gap",
+    "reason": "The book defines Tor_i^A(M,N) where M is a RIGHT A-module and N is a LEFT A-module, computed via a projective resolution of M and tensoring with N over A (an asymmetric construction). The Lean abbrev aliases CategoryTheory.Tor C n : C ⥤ C ⥤ C, which is the derived functor of the tensor product in a SINGLE monoidal abelian category C — both arguments come from the same category. This cannot model the book's Tor, which is defined over the ring A with M and N in different module categories (right-A-modules and left-A-modules respectively). The abbrev is a category-theoretic Tor that can only handle the commutative/bimodule case, not the general ring case of the book.",
+    "dropped_conjunct": "The book's Tor takes a right A-module and a left A-module (two distinct categories); the Lean abbrev requires both arguments from the same monoidal category."
+  },
+  {
+    "id": "Chapter8/Definition8.2.4",
+    "lean_decl": "Etingof.Ext",
+    "verdict": "verified",
+    "reason": "Aliases CategoryTheory.Abelian.Ext M N n, defined via shifted morphisms in the derived category with [HasExt C]. The book defines Ext^i_A(M,N) as cohomology of the Hom complex applied to a projective resolution of M — this is precisely the right derived functor of Hom, which is what Abelian.Ext computes. For the module case, M and N are both objects of ModuleCat A (left modules), which is an abelian category. Faithful mapping.",
+    "dropped_conjunct": null
+  }
+]

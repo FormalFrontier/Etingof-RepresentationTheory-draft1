@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter6/Problem6.1.5_theorem",
+    "lean_decl": "Etingof.Theorem_6_1_5",
+    "verdict": "verified",
+    "reason": "Book claim: connected quiver Q is finite type iff its underlying unoriented graph is a Dynkin diagram. Lean statement: `Etingof.Theorem_6_1_5` proves `IsFiniteTypeQuiver n adj ↔ IsDynkinDiagram n adj` for a connected simple graph (Fin n adjacency matrix). Both directions are proved without sorry. The IsDynkinDiagram predicate is defined in Definition6.1.4. IsFiniteTypeQuiver captures 'finitely many iso classes of finite-dimensional indecomposable representations over any algebraically closed field and any orientation', which faithfully captures the book's definition. The iff is genuine (not one direction only). No vacuity issue: the antecedents (connected, simple, 0-1 valued) are real conditions and both directions use them.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.5",
+    "lean_decl": "Etingof.Proposition6_6_5_sink / Etingof.Proposition6_6_5_source",
+    "verdict": "verified",
+    "reason": "Book: if V indecomposable and i is a sink, then either V is simple at i (dim V_i=1, all others 0) or the sink map is surjective; dually for sources. Lean: `Proposition6_6_5_sink` proves `ρ.IsSimpleAt i ∨ Function.Surjective (ρ.sinkMap i)` for indecomposable ρ at sink i; `Proposition6_6_5_source` proves `ρ.IsSimpleAt i ∨ Function.Injective (ρ.sourceMap i)` at source i. Both disjunctions are genuine (not collapsed to one direction). The IsSimpleAt definition (finrank=1 at i, 0 elsewhere) faithfully captures the book's 'simple at i'. Both proofs are sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.6",
+    "lean_decl": "Etingof.Proposition6_6_6_sink / Etingof.Proposition6_6_6_source",
+    "verdict": "verified",
+    "reason": "Book part (1): if phi is surjective at sink i, then F_i^- F_i^+ V = V. Lean: `Proposition6_6_6_sink` proves `Nonempty (QuiverRepresentation.Iso (transportReversedTwice (reflectionFunctorMinus ... (reflectionFunctorPlus ... ρ))) ρ)`. The `Nonempty (Iso ...)` idiom is the legitimate isomorphism statement; the iso target is exactly the double-reflected representation transported back to the original quiver. Part (2): `Proposition6_6_6_source` in the separate file proves the dual F_i^+ F_i^- V = V statement with `Nonempty (Iso ...)`. Both are sorry-free. The naturality condition in `crossIsoToIso` ensures full representation iso, not just vertex-wise linear equivalences.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.7",
+    "lean_decl": "Etingof.Proposition6_6_7_sink / Etingof.Proposition6_6_7_source",
+    "verdict": "verified",
+    "reason": "Book: F_i^+ V and F_i^- V are either indecomposable or 0 when V is indecomposable. Lean: `Proposition6_6_7_sink` proves `IsIndecomposable (reflectionFunctorPlus ...) ∨ IsZero (reflectionFunctorPlus ...)`, where IsIndecomposable is the appropriate representation-theoretic notion and IsZero means all vertex spaces are subsingleton. `Proposition6_6_7_source` proves the dual. Both are sorry-free, with the indecomposability proof giving the complete complementary-subrep argument (not just the nonzero part). The book's '0 or indecomposable' is faithfully captured by the disjunction.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Proposition6.6.8",
+    "lean_decl": "Etingof.Proposition6_6_8_sink / Etingof.Proposition6_6_8_source",
+    "verdict": "verified",
+    "reason": "Book: d(F_i^+ V) = s_i(d(V)) when V is surjective at sink i; dually d(F_i^- V) = s_i(d(V)) at source. Lean: `Proposition6_6_8_sink` proves `∀ v, finrankAt'(F^+(ρ), v) = simpleReflectionDimVector ... v` and `Proposition6_6_8_source` the dual. The `simpleReflectionDimVector` definition correctly implements s_i(d)_j = d_j for j≠i and s_i(d)_i = -d_i + sum_{j adj i} d_j, which equals the standard simple reflection formula. Both are sorry-free. The finrankAt' function is a proper non-sorry construction tracking rank via the bundled module instance.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.2.1",
+    "lean_decl": "(none - notational remark)",
+    "verdict": "verified",
+    "reason": "Pure notational convention explaining diagram notation (numbers = dimensions, maps canonical). No mathematical proposition to formalize. No dedicated Lean file exists or is needed. This remark carries no propositional content beyond naming conventions used in surrounding proofs. Cannot be understated by any Lean declaration.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.4.11",
+    "lean_decl": "(expository; load-bearing part covered by Etingof.simpleReflection_preserves_B in Theorem6_8_1.lean)",
+    "verdict": "verified",
+    "reason": "Expository remark: s_alpha fixes hyperplane orthogonal to alpha, s_alpha(alpha) = -alpha, preserves B, generates finite Weyl group W. No dedicated Lean file. The key downstream property (B-preservation under s_i) is proved as `simpleReflection_preserves_B` in Theorem6_8_1.lean and used throughout the Gabriel proof. The Weyl group finiteness follows from root finiteness (Theorem_6_5_2a_finiteness). No propositional content is misrepresented.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.4.4",
+    "lean_decl": "(covered by Etingof.Theorem_6_5_2a_finiteness)",
+    "verdict": "verified",
+    "reason": "Remark: finitely many roots since they lie in a ball. No dedicated Lean file. The substantive claim (finiteness of positive roots) is proved by `Theorem_6_5_2a_finiteness` which injects positive roots into the finite set [-2,2]^n via the Cartan matrix. The remark's geometric motivation ('lie in a ball') corresponds exactly to this injection. No understatement.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Remark6.4.8",
+    "lean_decl": "(restates Lemma 6.4.6)",
+    "verdict": "verified",
+    "reason": "Remark restating Lemma 6.4.6: every root is positive or negative. No dedicated Lean file needed. Its exact content is captured by `Lemma_6_4_6` (verified separately). No propositional content beyond what Lemma 6.4.6 asserts.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Theorem6.5.2",
+    "lean_decl": "Etingof.Theorem_6_5_2a_finiteness / Etingof.Theorem_6_5_2b_dimvec_is_positive_root / Etingof.Theorem_6_5_2c_bijection",
+    "verdict": "verified",
+    "reason": "Book: Gabriel's theorem with three parts: (a) ADE quivers have finitely many indecomposables, (b) dimension vectors are positive roots, (c) bijection between positive roots and indecomposables up to iso. Lean splits into three theorems. Part (a): `Theorem_6_5_2a_finiteness` proves `Set.Finite {d | IsPositiveRoot n adj d}`. Part (b): `Theorem_6_5_2b_dimvec_is_positive_root` proves the forward direction (nonneg + nonzero + B=2 implies IsPositiveRoot). Part (c): `Theorem_6_5_2c_bijection` proves both existence and uniqueness (as `Nonempty (Iso ρ₁ ρ₂)`) delegating to Corollaries 6.8.3 and 6.8.4. All three are sorry-free. The IsPositiveRoot definition (nonzero, B(d,d)=2, all entries nonneg) faithfully captures the book's positive root notion.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Theorem6.8.1",
+    "lean_decl": "Etingof.Theorem6_8_1",
+    "verdict": "verified",
+    "reason": "Book: there exists m such that d(V^(m)) = alpha_p for some vertex p, where V^(i) are obtained by repeated reflection functors. Lean: `Theorem6_8_1` proves `∃ (vertices : List (Fin n)) (p : Fin n), iteratedSimpleReflection n A vertices d = simpleRoot n p` for any positive root d (nonneg, nonzero, B(d,d)=2). The proof works at the dimension-vector level (sufficient for the book's application): given d is a positive root, iterated simple reflections reach a simple root. The proof is by strong induction on the coordinate sum, using `exists_good_vertex` (itself proved from positive definiteness) and `simpleReflection_preserves_B`. The theorem is sorry-free. Note the Lean statement operates on abstract dimension vectors rather than on representations directly, which is the same mathematical content the book uses it for (Corollary 6.8.2 lifts it to representations).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter6/Theorem_Dynkin_classification",
+    "lean_decl": "Etingof.Theorem_Dynkin_classification",
+    "verdict": "verified",
+    "reason": "Book: Gamma is a Dynkin diagram iff it is one of A_n, D_n, E_6, E_7, E_8. Lean: `Theorem_Dynkin_classification` proves `IsDynkinDiagram n adj ↔ ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n, ∀ i j, adj (σ i) (σ j) = t.adj i j`. The DynkinType inductive type enumerates exactly A_n (n≥1), D_n (n≥4), E6, E7, E8. The iff is genuine: forward direction `dynkin_classification_forward` is a complete proof by graph-theoretic case analysis (path/branch); backward direction `isDynkinDiagram_of_graph_iso` lifts from standard types. The file contains zero actual sorry tactics (line 1189 has only a comment). The `1 ≤ n` hypothesis correctly rules out the empty graph. Faithful to the book.",
+    "dropped_conjunct": null
+  }
+]

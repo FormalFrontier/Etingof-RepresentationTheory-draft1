@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter9/Corollary9.1.3",
+    "lean_decl": "Etingof.lift_complete_orthogonal_idempotents",
+    "verdict": "verified",
+    "reason": "The theorem directly matches the book: given a nilpotent ideal I and a complete system of orthogonal idempotents in A/I, it produces a lift in A. Delegated faithfully to Mathlib's CompleteOrthogonalIdempotents.lift_of_isNilpotent_ker. No sorry, no dropped conjunct.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Corollary9.7.3",
+    "lean_decl": "Etingof.Corollary_9_7_3_i / Etingof.Corollary_9_7_3_i_unique / Etingof.Corollary_9_7_3_ii",
+    "verdict": "gap",
+    "reason": "The book's part (i) asserts 'Any finite abelian category C is equivalent to the category of finite dimensional modules over a unique basic algebra B(C).' Lean only proves the algebra-to-algebra version (given a finite-dim algebra A, find a basic Morita-equivalent B) — labeled '(algebra version)' in the docstring. The categorical form (input is an abstract finite abelian category, not an algebra) is entirely absent. Part (ii) (dim B_A ≤ dim A) and uniqueness are faithfully formalized. The file explicitly acknowledges the categorical gap at line 44: 'Part (i) existence delegates to exists_basic_morita_equivalent ... sorry'd pending construction'. Separately the docstring on Corollary_9_7_3_i says the dependency is sorry'd, but inspection of BasicAlgebraExistence.lean shows no actual sorry keyword — the implementation is complete. However, the categorical form of part (i) remains a genuine dropped conjunct.",
+    "dropped_conjunct": "Book part (i): 'Any finite abelian category C is equivalent to fmod over a unique basic algebra B(C)' — only the algebra-input version is formalized; the abstract-category form is missing."
+  },
+  {
+    "id": "Chapter9/Definition9.1.2",
+    "lean_decl": "Etingof.IsCompleteOrthogonalIdempotents",
+    "verdict": "verified",
+    "reason": "The book defines a complete system of orthogonal idempotents as elements e_1,...,e_n with e_i*e_j = delta_ij*e_i and sum e_i = 1. The Lean abbrev delegates to Mathlib's CompleteOrthogonalIdempotents which encodes exactly these conditions. Faithful delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.2.2",
+    "lean_decl": "Etingof.ProjectiveCover",
+    "verdict": "unsure",
+    "reason": "The book says 'the projective module P_i is called the projective cover of M_i' where P_i is characterized by Theorem 9.2.1: unique indecomposable projective with dim Hom(P_i, M_j) = delta_ij. The Lean structure captures: projective + indecomposable + surjection onto M. However, the standard projective cover definition requires the surjection to be ESSENTIAL (no proper submodule surjects onto M). The book's refs explicitly mention 'essential epimorphism' (Definition9.2.2.refs.md). The Lean structure omits essentiality, capturing only 'projective indecomposable with surjection'. This may be weaker, but in the context of finite-dimensional algebras over an algebraically closed field, the indecomposability + surjection + Theorem 9.2.1 characterization may make essentiality redundant. Classified unsure because the book's blob is minimal ('P_i is called the projective cover') and doesn't spell out essentiality in Definition 9.2.2 itself.",
+    "dropped_conjunct": "Possible dropped conjunct: essentiality of the surjection (not mentioned in the blob but is part of standard projective cover theory and referenced in refs.md)."
+  },
+  {
+    "id": "Chapter9/Definition9.3.1",
+    "lean_decl": "Etingof.algebraCartanMatrix",
+    "verdict": "gap",
+    "reason": "The book defines the Cartan matrix of A as the specific matrix with entries c_ij = [P_j : M_i] (Jordan-Holder multiplicity of M_i in P_j). The Lean definition takes any arbitrary function jhMultiplicity : Fin n -> Fin n -> ℕ and wraps it as Matrix.of jhMultiplicity. The definition is entirely unconstrained: it accepts ANY function, not necessarily the Jordan-Holder multiplicity function of any algebra. No algebra input, no simple/projective module data. The definition constructs nothing — it is effectively just a type alias for Matrix.of. Under the PLAN.md §3.2 step 6 decision test: this passes trivially for any input, meaning the real mathematical object (the Cartan matrix of a specific algebra A) is not constructed. The def body 'Matrix.of jhMultiplicity' is degenerate: the parameter name says jhMultiplicity but there is no constraint that this is actually a Jordan-Hölder multiplicity function.",
+    "dropped_conjunct": "The entire content of the definition: the function jhMultiplicity is unconstrained, so no actual Cartan matrix of any algebra is constructed."
+  },
+  {
+    "id": "Chapter9/Definition9.4.1",
+    "lean_decl": "Etingof.projectiveDimension",
+    "verdict": "verified",
+    "reason": "The book defines projective dimension as the length of the shortest finite projective resolution, or infinity if none exists. The Lean definition delegates to CategoryTheory.projectiveDimension on ModuleCat R, which computes exactly this via Ext vanishing. The WithBot ℕ∞ return type faithfully represents the finite/infinite cases. Faithful Mathlib delegation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.4.3",
+    "lean_decl": "Etingof.HasHomologicalDimensionLE / Etingof.homologicalDimension",
+    "verdict": "verified",
+    "reason": "The book defines: A has homological dimension ≤ d if every module has projective dimension ≤ d; the homological dimension is the smallest such d (or infinity). The Lean definitions match exactly: HasHomologicalDimensionLE quantifies over all ModuleCat R objects, and homologicalDimension takes the infimum over all valid d. Both use CategoryTheory.HasProjectiveDimensionLE faithfully.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.5.1",
+    "lean_decl": "Etingof.DirectlyExtLinked / Etingof.AreLinked / Etingof.Block",
+    "verdict": "verified",
+    "reason": "The book defines: X, Y are linked if there is a chain X = M_0,...,M_n = Y with Ext^1(M_i, M_{i+1}) ≠ 0 or Ext^1(M_{i+1}, M_i) ≠ 0 for each i; every X is linked to itself. Block = equivalence class under this relation. The Lean definitions faithfully encode this: DirectlyExtLinked uses Nontrivial (Abelian.Ext X Y 1) (correct: Ext is an AddCommGroup so nonempty is wrong; nontrivial is right), ExtAdjacent adds both directions, AreLinked is EqvGen of ExtOrIso (adding isomorphism as reflexivity), Block is the quotient type. Extension from simple modules to all ModuleCat R objects is natural and does not weaken the definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.6.1",
+    "lean_decl": "Etingof.IsFiniteAbelianCategory",
+    "verdict": "verified",
+    "reason": "Definition 9.6.1 in the book gives exactly two conditions: enough projectives and finitely many simple objects. The Lean class extends Abelian C and EnoughProjectives C, adds a Fintype-indexed family of representative simples, and asserts every simple is isomorphic to one in the family. This faithfully captures the book's definition. The broader section intro mentions k-linearity and finite-length objects, but Definition 9.6.1 itself only states the two conditions.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.6.2",
+    "lean_decl": "Etingof.IsProgenerator",
+    "verdict": "verified",
+    "reason": "The book defines: P is a projective generator if it is projective and every object is a quotient of a 'multiple of P' (direct sum of copies). The Lean class extends Projective P and adds epiFromBiproduct: every X admits an epimorphism from a finite biproduct of copies of P. This faithfully captures the book's definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.7.1",
+    "lean_decl": "Etingof.MoritaEquivalent / Etingof.KLinearMoritaEquivalent",
+    "verdict": "verified",
+    "reason": "The book defines: A and B are Morita equivalent if A-fmod and B-fmod are equivalent. The Lean definition MoritaEquivalent is Nonempty (ModuleCat A ≌ ModuleCat B). The KLinearMoritaEquivalent adds k-linearity for the k-algebra setting. Using full ModuleCat rather than finite-dimensional modules is a standard extension (the categories are equivalent iff their full module categories are equivalent for Noetherian rings). Both definitions are faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter9/Definition9.7.2",
+    "lean_decl": "Etingof.IsBasicAlgebra / Etingof.IsBasicAlgebraSplit",
+    "verdict": "verified",
+    "reason": "The book defines: B is basic if B/Rad(B) is commutative. The Lean IsBasicAlgebra is exactly this: ∀ x y : A ⧸ Ring.jacobson A, x * y = y * x. The stronger IsBasicAlgebraSplit (every simple module is 1-dimensional over k) is correctly flagged as equivalent to IsBasicAlgebra only over algebraically closed fields, with detailed docstring explanation. The file also provides IsBasicAlgebra.of_commutative as a sanity lemma. Both definitions are faithful.",
+    "dropped_conjunct": null
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter2/Definition2.3.5",
+    "lean_decl": "Etingof.IrreducibleRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = IsSimpleModule A V. Mathlib's IsSimpleModule extends IsSimpleOrder (Submodule R M), meaning exactly two submodules (⊥ and ⊤). IsSimpleModule.nontrivial shows it implies Nontrivial M, so the zero module is excluded. This faithfully captures 'V ≠ 0 is irreducible iff only subrepresentations are 0 and V'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.3.6",
+    "lean_decl": "Etingof.RepresentationHom",
+    "verdict": "verified",
+    "reason": "abbrev = V₁ →ₗ[A] V₂. An A-linear map is exactly a linear operator commuting with the A-action: φ(av) = aφ(v). The Hom_A(V₁,V₂) notation corresponds precisely to LinearMap.domRestrict and the Lean type.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.3.7",
+    "lean_decl": "Etingof.DirectSumRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = V₁ × V₂. Mathlib's product module gives exactly the componentwise action a(v₁,v₂) = (av₁,av₂), matching the book's a(v₁⊕v₂) = av₁⊕av₂.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.3.8",
+    "lean_decl": "Etingof.IsIndecomposable",
+    "verdict": "verified",
+    "reason": "Lean defines: Nontrivial V ∧ ∀ (W₁ W₂ : Submodule A V), IsCompl W₁ W₂ → W₁ = ⊥ ∨ W₂ = ⊥. The book says 'not isomorphic to a direct sum of two nonzero representations'. For modules these are equivalent: every internal direct sum decomposition corresponds bijectively to pairs of complementary submodules. The helper theorem not_exists_nontrivial_compl spells out the negation form. Faithful-but-uses-submodule-formulation.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.7.3",
+    "lean_decl": "Etingof.FaithfulRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev = FaithfulSMul A V. FaithfulSMul A V asserts that distinct elements of A act differently on V (injectivity of the action map ρ : A → End V), matching the book's 'ρ is injective'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.1",
+    "lean_decl": "Etingof.QuiverDef",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.QuiverDef V = Quiver V. Mathlib's Quiver provides Hom : V → V → Sort*, allowing multiple edges between any pair (v ⟶ w may have multiple inhabitants) and self-loops (v ⟶ v). Exactly matches 'directed graph, possibly with self-loops and/or multiple edges'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.3",
+    "lean_decl": "Etingof.QuiverRepresentation",
+    "verdict": "verified",
+    "reason": "structure with obj : Q → Type* (vector space at each vertex) and mapLinear : ∀ {v w}, (v ⟶ w) → obj v →ₗ[k] obj w (linear map at each arrow). Precisely captures the book's 'assignment to each vertex i of a vector space Vᵢ and to each edge h of a linear map x_h : V_{h'} → V_{h''}'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.4",
+    "lean_decl": "Etingof.PathAlgebra",
+    "verdict": "verified",
+    "reason": "PathAlgebra k Q = QuiverPathIndex Q →₀ k (free k-module on oriented paths). Full ring structure is genuinely constructed: NonUnitalNonAssocRing via bilinear mulLinear, associativity proved via single_mul_single_assoc, unit (∑ trivial paths) proved for Fintype Q. This is a genuine construction, not a sorry'd definition. The book's path algebra definition is fully captured including the concatenation multiplication rule.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.8",
+    "lean_decl": "Etingof.QuiverSubrepresentation",
+    "verdict": "verified",
+    "reason": "structure with carrier : ∀ v, Submodule k (ρ.obj v) and map_mem : ∀ e x, x ∈ carrier v → ρ.mapLinear e x ∈ carrier w. Captures W_i ⊆ V_i and x_h(W_{h'}) ⊆ W_{h''}. The restriction x'_h = x_h|_{W_{h'}} is implicit in the Submodule framework (the map is the original map restricted to the subspace).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.9",
+    "lean_decl": "Etingof.QuiverRepresentation.directSum",
+    "verdict": "unsure",
+    "reason": "The blob file is empty (no book text was extracted for this item), so direct comparison against the book statement is impossible. The Lean construction (obj v := ρ₁.obj v × ρ₂.obj v; mapLinear h := prodMap) is the standard vertex-wise and arrow-wise direct sum, which is mathematically correct. But without the blob, we cannot rule out that the book's definition has additional structure (e.g., a universal property stated as part of the definition). Marked unsure pending blob population.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.8.10",
+    "lean_decl": "Etingof.QuiverRepresentationHom",
+    "verdict": "verified",
+    "reason": "The blob file is empty but the refs file confirms: 'Morphisms as families of linear maps commuting with edge maps'. The Lean structure has app : ∀ v, ρ₁.obj v →ₗ[k] ρ₂.obj v and naturality : ∀ (e : v ⟶ w) x, app w (ρ₁.mapLinear e x) = ρ₂.mapLinear e (app v x). This is exactly y_h ∘ φ_{h'} = φ_{h''} ∘ x_h for every arrow h, matching the standard definition confirmed by refs.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter2/Definition2.9.1",
+    "lean_decl": "Etingof.LieAlgebraDef",
+    "verdict": "verified",
+    "reason": "abbrev = LieAlgebra k L (with LieRing L hypothesis). LieRing L includes: bilinearity of bracket, antisymmetry [a,a]=0, and the Jacobi identity. LieAlgebra k L adds k-bilinearity over CommRing k. The blob only mentions Jacobi (as the distinguishing axiom beyond bilinearity/antisymmetry), but the Lean formulation correctly includes all axioms of a Lie algebra. The book's partial statement in the blob is not missing anything from the Lean side.",
+    "dropped_conjunct": null
+  }
+]

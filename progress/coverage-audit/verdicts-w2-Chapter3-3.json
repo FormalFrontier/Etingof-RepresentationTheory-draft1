@@ -1,0 +1,16 @@
+[
+  {
+    "id": "Chapter3/Theorem3.7.1",
+    "lean_decl": "Etingof.jordan_holder_equivalent / Etingof.jordan_holder_factors / Etingof.jordan_holder",
+    "verdict": "verified",
+    "reason": "The book states two conclusions: (1) n=m (length equality) and (2) existence of a permutation σ such that W_{σ(i)} ≅ W'_i. All three Lean declarations together cover both conjuncts faithfully. `Etingof.jordan_holder_equivalent` proves `CompositionSeries.Equivalent s₁ s₂` (which encodes both length equality and factor isomorphisms via Mathlib's Jordan-Hölder infrastructure). `Etingof.jordan_holder_factors` explicitly extracts `∃ σ : Fin s₁.length ≃ Fin s₂.length, ∀ i, Nonempty (compositionFactor s₁ i ≃ₗ[A] compositionFactor s₂ (σ i))`, which is exactly the book's permutation-and-isomorphism conclusion. `Etingof.jordan_holder` extracts `s₁.length = s₂.length`. The hypotheses `hs₁_bot : s₁.head = ⊥`, `hs₁_top : s₁.last = ⊤` correspond to the book's filtrations starting at 0 and ending at V. The covering relation in `CompositionSeries (Submodule A V)` is `⋖`, which corresponds to successive quotients being simple (irreducible) modules. Not vacuous: the main content is delegated to `CompositionSeries.jordan_holder`, a non-trivial Mathlib theorem. No dropped conjuncts.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Theorem3.8.1",
+    "lean_decl": "Etingof.krull_schmidt_existence / Etingof.krull_schmidt_uniqueness",
+    "verdict": "verified",
+    "reason": "The book states existence and uniqueness (up to isomorphism and order) of a decomposition into indecomposable summands. Both parts are formalized. Existence (`Etingof.krull_schmidt_existence`): gives `∃ n W, (∀ i, IsIndecomposable A (W i)) ∧ iSup W = ⊤ ∧ iSupIndep W`, which correctly captures an internal direct sum decomposition into indecomposables. Uniqueness (`Etingof.krull_schmidt_uniqueness`): given two decompositions, proves `n = m ∧ ∃ σ : Fin n ≃ Fin m, ∀ i, Nonempty (W i ≃ₗ[A] W' (σ i))`, covering both the count equality and the permutation-with-isomorphisms conclusion. The field `k` assumption is standard for finite-dimensional representation theory and matches the book's setup (the book works over an algebraically closed field k). `Etingof.IsIndecomposable` is a genuine non-vacuous definition (Nontrivial V ∧ no nontrivial complemented submodules). The proof is a self-contained induction, not delegated to a trivial Mathlib lemma. No dropped conjuncts.",
+    "dropped_conjunct": null
+  }
+]

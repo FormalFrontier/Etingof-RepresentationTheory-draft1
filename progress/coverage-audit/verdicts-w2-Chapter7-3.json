@@ -1,0 +1,44 @@
+[
+  {
+    "id": "Chapter7/Example7.9.6",
+    "lean_decl": "Etingof.hom_left_exact, Etingof.tensor_right_exact",
+    "verdict": "gap",
+    "reason": "Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Example7_9_2.lean; exactness is a strictly stronger claim requiring a separate proof). (2) Part (iii) — tensor_right_exact restricts to `[CommRing R]` while the book claims right exactness of `X ⊗_A -` for any right A-module X over an arbitrary ring A. The CommRing constraint is necessary for Mathlib's monoidal closed structure on ModuleCat, but it silently drops the general-ring case. (3) The negative-direction counterexamples (Hom not right exact; tensor not left exact) are mentioned in comments but not formalized — arguable whether these are formalizable, but they are explicit claims in the blob.",
+    "dropped_conjunct": "Part (i): Ind_K^G exact; Res_K^G exact. Part (iii): right exactness for non-commutative A (only CommRing covered)."
+  },
+  {
+    "id": "Chapter7/Lemma7.5.1",
+    "lean_decl": "Etingof.yoneda_lemma",
+    "verdict": "verified",
+    "reason": "The theorem `∃! (a : X ≅ Y), yoneda.map a.hom = φ.hom` faithfully captures the book's claim: given any isomorphism φ : Hom(?,X) ≅ Hom(?,Y) of representable presheaves, there exists a unique isomorphism a : X ≅ Y inducing φ (i.e., yoneda.map a.hom = φ.hom). The proof uses Yoneda.fullyFaithful to construct and identify a_φ = preimageIso φ and proves uniqueness via isoEquiv.injective. Note: Lean uses the contravariant yoneda embedding (Hom(?,X)) while the book's text says Hom(X,?); these are dual conventions for the same uniqueness result and the Lean formulation is entirely standard. The proof is sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.1.2",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "The remark is purely notational: 'We will write X ∈ C instead of X ∈ Ob(C).' This introduces no mathematical claim, proposition, or construction — it is a shorthand notation convention. No Lean declaration is appropriate, and the absence of one correctly reflects non-formalizability. The items.json entry has no claim_coverage field (a process gap under PLAN.md §3.2), but from a statement-fidelity standpoint there is nothing to misrepresent.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.5.2",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "The remark notes that representable functors generalize to enriched categories (e.g., Ab-enriched or Vect-enriched). This is an expository observation pointing to a generalization; the book makes no formal claim here and proves nothing. No Lean declaration is appropriate. Non-formalizable by content. The items.json lacks a claim_coverage field (process gap) but there is no statement fidelity issue.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.6.2",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "The remark is purely motivational: it explains the terminology 'left and right adjoint' by analogy with adjoint operators on inner product spaces, via a dictionary table. No mathematical claim is made or proved. Non-formalizable by content. No Lean declaration is appropriate. The items.json lacks a claim_coverage field (process gap) but there is no statement fidelity issue.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter7/Remark7.7.4",
+    "lean_decl": null,
+    "verdict": "verified",
+    "reason": "The remark discusses a conceptual drawback of Definition 7.7.1 (abelian category defined as a full subcategory of R-mod): two different rings can have equivalent module categories (Morita equivalent rings), and many important abelian categories have no manageable ring at all. The book names the concept of Morita equivalence here but does not prove any result about it (Morita equivalence is developed and proved in Chapter 9). The content is expository/historical, non-formalizable as stated. Morita equivalence itself is formalized in Chapter 9 (Theorem9_6_4, Corollary9_7_3). No statement fidelity gap.",
+    "dropped_conjunct": null
+  }
+]

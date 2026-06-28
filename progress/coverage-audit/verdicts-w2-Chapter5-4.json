@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter5/Remark5.8.3",
+    "lean_decl": null,
+    "verdict": "gap",
+    "reason": "No Lean declaration found. The file EtingofRepresentationTheory/Chapter5/Remark5_8_2.lean exists and contains only Remark5_8_2 (Ind ≅ CoInd). No file or declaration for Remark5_8_3 (dim(Ind_H^G V) = dim V · (G:H)) exists anywhere in Chapter5. items.json marks it sorry_free/unchecked but there is no code.",
+    "dropped_conjunct": "entire statement: dim(Ind_H^G V) = dim V · (G:H)"
+  },
+  {
+    "id": "Chapter5/Remark5.9.2",
+    "lean_decl": null,
+    "verdict": "gap",
+    "reason": "No Lean declaration found for Remark5.9.2. No file matching Remark5_9_2.lean exists in Chapter5, and grep finds no declaration with this name. The Frobenius character formula χ(g) = (1/|H|) ∑_{x∈G: xgx⁻¹∈H} χ_V(xgx⁻¹) is not formalized.",
+    "dropped_conjunct": "entire statement: Frobenius character formula for induced character"
+  },
+  {
+    "id": "Chapter5/Theorem5.10.1",
+    "lean_decl": "Etingof.Theorem5_10_1",
+    "verdict": "gap",
+    "reason": "Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) ≅ Hom_H(Res V, W) (i.e., Res ⊣ CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, V) ≅ Hom_H(W, Res V)). The Lean declaration is `Nonempty ((Rep.ind H.subtype W ⟶ V) ≃ₗ[k] (W ⟶ (Rep.resFunctor H.subtype).obj V))`, i.e., Hom_G(Ind W, V) ≅ Hom_H(W, Res V). The book writes it as Hom_G(V, Ind W) ≅ Hom_H(Res V, W) — the Lean has the domain/codomain roles flipped relative to the book's stated form.",
+    "dropped_conjunct": "book's stated direction: Hom_G(V, Ind W) ≅ Hom_H(Res V, W)"
+  },
+  {
+    "id": "Chapter5/Theorem5.12.2",
+    "lean_decl": "Theorem5_12_2_irreducible, Theorem5_12_2_distinct, Theorem5_12_2_classification",
+    "verdict": "verified",
+    "reason": "Three separate theorems cover all parts: (1) SpechtModule n la is irreducible under left ℂ[S_n]-multiplication; (2) Specht modules for distinct partitions are non-isomorphic; (3) every simple ℂ[S_n]-module is isomorphic to some SpechtModule. Matches the book's Theorem 5.12.2 in full.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.14.3",
+    "lean_decl": "Theorem5_14_3",
+    "verdict": "gap",
+    "reason": "Book states χ_{U_λ}(C_i) = coeff of x^λ in ∏ H_m(x)^{i_m} (complete homogeneous symmetric polynomials). Lean uses `cycleTypePsumProduct` = ∏ psum_m^{i_m} (power sum symmetric polynomials p_m = Σ xᵢᵐ). The file's own docstring says 'Previous version used hsymm (H_m), which is incorrect' — the developer believes the book's stated H_m is a typo and the proof uses p_m. Regardless, the Lean statement diverges from the book's written theorem.",
+    "dropped_conjunct": "book uses H_m (complete homogeneous); Lean uses p_m (power sum)"
+  },
+  {
+    "id": "Chapter5/Theorem5.15.1",
+    "lean_decl": "Theorem5_15_1",
+    "verdict": "gap",
+    "reason": "Book states χ_{V_λ}(C_i) = coeff of x^{λ+ρ} in Δ(x) · ∏ H_m(x)^{i_m}. Lean: `(sign(revPerm)) • spechtModuleCharacter n la σ = MvPolynomial.coeff (toFinsupp la + rhoShift n) (vandermondePoly n * cycleTypePsumProduct n σ)`. vandermondePoly is Δ(x) and cycleTypePsumProduct is ∏ psum_m^{i_m} — same psum-vs-H_m substitution as Theorem5.14.3. The factor sign(revPerm) is also not in the book statement.",
+    "dropped_conjunct": "book uses H_m; Lean uses psum p_m; extra sign(revPerm) factor on LHS"
+  },
+  {
+    "id": "Chapter5/Theorem5.17.1",
+    "lean_decl": "Theorem5_17_1",
+    "verdict": "verified",
+    "reason": "`Module.finrank ℂ (SpechtModule n la) = n.factorial / la.toYoungDiagram.hookLengthProduct` matches the hook length formula dim V_λ = n! / ∏ h(i,j) exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.18.1",
+    "lean_decl": "Theorem5_18_1_double_centralizer, Theorem5_18_1_commutant_semisimple, Theorem5_18_1_bimodule_decomposition_explicit",
+    "verdict": "verified",
+    "reason": "Parts (i) and (ii) are straightforwardly formalized. For part (iii), `Theorem5_18_1_bimodule_decomposition_explicit` proves E ≃ₗ[k] ⊕_i V_i ⊗[k] (V_i →ₗ[A] E) with: V_i simple A-modules, non-isomorphic across i, and (V_i →ₗ[A] E) proved to be simple B-modules (where B = centralizer(A)). The index set ι witnesses the natural bijection between irreps. This captures the full content of the book's decomposition E = ⊕ V_i ⊗ W_i with W_i irreps of B and natural bijection.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.18.2",
+    "lean_decl": "centralizer_eq_universalEnvelopingImage",
+    "verdict": "verified",
+    "reason": "`Subalgebra.centralizer k (symGroupImage k V n) = (universalEnvelopingToEnd k V n).range` states B = centralizer(A) equals the image of U(gl(V)) in End(V^⊗n). The [CharZero k] hypothesis (needed for n! invertibility) is appropriate. Matches the book's Theorem 5.18.2.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.22.1",
+    "lean_decl": "Theorem5_22_1",
+    "verdict": "verified",
+    "reason": "`formalCharacter k N (SchurModule k N lam) = schurPoly N lam` captures the book's main claim that char(L_λ) = Schur polynomial S_λ(x) for N ≥ p. The dimension formula follows from the character. The 'L_λ = 0 iff N < p' condition is handled implicitly by SchurModule being defined only for the non-zero case. Faithful-but-terse.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.25.2",
+    "lean_decl": "Etingof.Theorem5_25_2_part1, Etingof.Theorem5_25_2_part2, Etingof.Theorem5_25_2_part3a, Etingof.Theorem5_25_2_part3b",
+    "verdict": "verified",
+    "reason": "Part (1): `Simple (principalSeries p n chi1 chi2)` when chi1 ≠ chi2. Part (2): `principalSeries p n mu mu ≅ detChar p n mu ⊞ complementW p n mu` with `Simple (complementW p n mu)` and `finrank ℂ (complementW p n mu).V = p^n`. Part (3a): `Nonempty (complementW p n mu ≅ complementW p n nu) ↔ mu = nu`. Part (3b): `Nonempty (principalSeries p n chi1 chi2 ≅ principalSeries p n chi1' chi2') ↔ {chi1,chi2} = {chi1',chi2'}` for chi1≠chi2, chi1'≠chi2'. All three parts of the book theorem are covered.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Theorem5.26.1",
+    "lean_decl": "Etingof.Theorem5_26_1",
+    "verdict": "verified",
+    "reason": "Full biconditional: (∀ g ∈ G, ∃ H ∈ X, g ∈ H) ↔ (every simple FDRep ℂ G is in the ℚ-span of induced characters from H ∈ X). Matches the book's Artin's theorem (covering property ↔ induced characters span all irreps) exactly.",
+    "dropped_conjunct": null
+  }
+]

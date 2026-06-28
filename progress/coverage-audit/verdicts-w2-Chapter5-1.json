@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter5/Corollary5.12.4",
+    "lean_decl": "Etingof.Corollary5_12_4",
+    "verdict": "verified",
+    "reason": "States: for every simple ℂ[Sₙ]-module M, there exists a partition λ such that M ≅ V_λ (Specht module), V_λ^ℚ is a simple ℚ[Sₙ]-module, and V_λ is the complexification of V_λ^ℚ via an Sₙ-equivariant ℂ-linear isomorphism (equivariance proved on simple tensors). This faithfully captures 'all irred reps of Sₙ can be given by rational matrices'. Proof is sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Corollary5.15.4",
+    "lean_decl": "Etingof.Corollary5_15_4",
+    "verdict": "verified",
+    "reason": "States det(cauchyMatrix N k) = cauchyRHS N k as a formal MvPowerSeries identity in 2N variables over a Field k. The cauchyMatrix entries are invOfUnit(1 - X_i * Y_j) 1, which is the geometric-series inverse of 1 - X_i Y_j (constant coeff = 1 so unit 1 is correct). The proof reindexes by σ ↦ σ⁻¹ and the product-reindex, which is exactly the book's determinant-expansion argument. Sorry-free.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Corollary5.19.2",
+    "lean_decl": "Etingof.Corollary5_19_2",
+    "verdict": "gap",
+    "reason": "The statement is rich and correct (existential over Nat.Partition n with the right simplicity and distinctness constraints), but the proof body is a single 'sorry' delegated to Theorem5_18_4_partition_decomposition (in Theorem5_18_4.lean line 416: 'sorry'). The theorem itself is not proved. This is a sorry-blocked theorem, not a vacuous one, but per the audit criteria it is a gap.",
+    "dropped_conjunct": "proof is sorry (Theorem5_18_4_partition_decomposition line 416)"
+  },
+  {
+    "id": "Chapter5/Corollary5.26.3",
+    "lean_decl": "Etingof.Corollary5_26_3",
+    "verdict": "verified",
+    "reason": "States: for any G and any simple FDRep ℂ G V, V.character lies in the ℚ-span of induced characters from cyclic subgroups. Delegates to Etingof.Theorem5_26_1 (which is sorry-free). The span-mono step correctly restricts from all subgroups in X to cyclic ones. Faithful to the book's statement.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.12.1",
+    "lean_decl": "Etingof.RowSubgroup, Etingof.ColumnSubgroup, Etingof.YoungSymmetrizer, Etingof.StandardYoungTableau",
+    "verdict": "verified",
+    "reason": "All objects are genuinely constructed: StandardYoungTableau as a subtype of bijections with row/column monotonicity conditions; RowSubgroup and ColumnSubgroup as actual Subgroup structures with carrier defined via rowOfPos/colOfPos; YoungSymmetrizer as ColumnAntisymmetrizer * RowSymmetrizer in the group algebra. No sorry in any definiens. Matches the book's Definition 5.12.1 fully.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.14.2",
+    "lean_decl": "Etingof.KostkaNumber",
+    "verdict": "verified",
+    "reason": "Defined as Nat.card of semistandard Young tableaux of shape μ.toYoungDiagram satisfying the content condition (for each k, number of cells with entry k equals the k-th part of λ). This matches the combinatorial definition of Kostka numbers. The definiens constructs the real object.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.23.1",
+    "lean_decl": "Etingof.IsAlgebraicRepresentation",
+    "verdict": "verified",
+    "reason": "Defined as a Prop: there exist m, a basis b of Y, and polynomials P a c ∈ MvPolynomial (GLCoordVars n) k such that for all g ∈ GL_n(k) and all a c : Fin m, the (a,c)-th matrix coefficient of ρ(g) equals evalAtGL g (P a c). evalAtGL substitutes g_ij ↦ g_{ij} and the extra variable ↦ det(g)⁻¹. This matches the book's definition (matrix elements in k[g_ij][1/det(g)]).",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Definition5.4.1",
+    "lean_decl": "none (example only)",
+    "verdict": "gap",
+    "reason": "The file contains no named def/theorem/abbrev for Definition 5.4.1. The definition of solvability is delegated to Mathlib's IsSolvable (which is a correct alias), but the file only contains an 'example : IsSolvable (Equiv.Perm (Fin 3))' — an unnamed example, not a named declaration. Downstream items cannot reference this. Additionally, the example proof uses 'native_decide' (a trust hole), violating the forbid-native_decide policy. The formalization item produces no citable named declaration.",
+    "dropped_conjunct": "no named Lean declaration; native_decide used in proof"
+  },
+  {
+    "id": "Chapter5/Definition5.7.1",
+    "lean_decl": "Etingof.VirtualRepresentation",
+    "verdict": "gap",
+    "reason": "The 'coeffs' field has type 'FDRep ℂ G → ℤ', a function on ALL FDReps, not restricted to irreducible (simple) ones. The book defines a virtual representation as an 'integer linear combination of irreducible representations'. The structure is more permissive: any FDRep can appear in the support, including reducible ones. The 'character' computation then sums W.character g over arbitrary W in the support — for a non-simple W, this is NOT the decomposed character formula the book intends. The missing constraint is 'CategoryTheory.Simple W' on the support elements.",
+    "dropped_conjunct": "coeffs domain is all FDRep ℂ G, not just simple ones; irreducibility of support elements not enforced"
+  },
+  {
+    "id": "Chapter5/Definition5.8.1",
+    "lean_decl": "Etingof.Definition5_8_1",
+    "verdict": "verified",
+    "reason": "Defined as 'Representation.ind H.subtype ρ' — Mathlib's general induced representation along the subgroup inclusion. The file acknowledges that Etingof uses the function-space (coinduction) model while Mathlib uses the tensor model, and notes they agree for finite groups (Rep.indCoindIso). The underlying module type is Representation.IndV H.subtype ρ. The definiens constructs the real representation, not a docstring alias.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter5/Example5.12.3",
+    "lean_decl": "Etingof.Example5_12_3.Example5_12_3_trivial, Example5_12_3_sign, Example5_12_3_dim_21, Example5_12_3_dim_22, Example5_12_3_dim_31, Example5_12_3_dim_211",
+    "verdict": "gap",
+    "reason": "The book says 'V_{(n)} is the trivial representation' and 'V_{(1,...,1)} is the sign representation'. The Lean theorems only prove 'Module.finrank ℂ (SpechtModule n (rowPartition n hn)) = 1' (and similarly for sign). Dimension 1 is necessary but not sufficient: the book's claim is an isomorphism of representations, not merely a dimension count. The isomorphism to the trivial (resp. sign) ℂ[Sₙ]-module is dropped. For n=3,4 cases, only dimension is proved (not explicit module structure as ℂ², ℂ³₋, ℂ³₊).",
+    "dropped_conjunct": "isomorphism to trivial/sign representation (only dimension 1 proved, not rep-type)"
+  },
+  {
+    "id": "Chapter5/Example5.19.3",
+    "lean_decl": "Etingof.Example5_19_3_symmetric, Etingof.Example5_19_3_exterior",
+    "verdict": "gap",
+    "reason": "The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariants k V n ≃ₗ[k] SymmetricPower k (Fin n) V)' and 'Nonempty (symAntisymmetric k V n ≃ₗ[k] ⋀[k]^n V)'. Two conjuncts are dropped: (1) GL(V)-equivariance of the isomorphism (the statement type is ≃ₗ[k] not an equivariant equiv), (2) irreducibility of SⁿV and ∧ⁿV as GL(V)-modules.",
+    "dropped_conjunct": "GL(V)-equivariance of isomorphism; irreducibility of SⁿV and ∧ⁿV as GL(V)-modules"
+  }
+]

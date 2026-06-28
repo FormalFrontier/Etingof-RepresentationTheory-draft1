@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Chapter3/Corollary3.2.1",
+    "lean_decl": "Etingof.irreducible_interpolation",
+    "verdict": "verified",
+    "reason": "Statement matches book exactly. Section 3.2 opens 'Let A be an algebra over an algebraically closed field k', so [IsAlgClosed k] in the Lean hypothesis is correct. The claim — for linearly independent v_i and any w_i, there exists a ∈ A with a•v_i = w_i — is faithfully captured. The Lean proof routes through the density theorem (Theorem 3.2.2) rather than Proposition 3.1.4 directly, but the STATEMENT is correct.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Corollary3.5.5",
+    "lean_decl": "Etingof.sum_dim_sq_le_dim",
+    "verdict": "verified",
+    "reason": "Statement matches book: ∑_i (dim V_i)^2 ≤ dim A where V_i are the irreducible representations of A. The Lean parameterizes the collection as a Fintype ι with pairwise-non-iso hypothesis and a completeness hypothesis (h_complete). Note: h_complete appears in the signature but not in the proof body, so it is logically unused — but its presence is intended to read the theorem as 'for ALL irreducibles', which matches the book's intent. The bound itself is correct and h_complete does not cause vacuity or weakening.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Definition3.1.1",
+    "lean_decl": "Etingof.IsSemisimpleRepresentation",
+    "verdict": "verified",
+    "reason": "abbrev IsSemisimpleRepresentation A V := IsSemisimpleModule A V. The semisimplicity is explicitly over the algebra A (not over k). The docstring explicitly notes this and warns against the vacuous alternative. IsSemisimpleModule A V (every A-submodule has a complement) is the correct Mathlib encoding of 'direct sum of irreducible A-subrepresentations'.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Definition3.3.2",
+    "lean_decl": "Etingof.DualRepresentation",
+    "verdict": "gap",
+    "reason": "The definition is 'abbrev Etingof.DualRepresentation (k : Type*) (V : Type*) [CommSemiring k] [AddCommMonoid V] [Module k V] := Module.Dual k V'. The parameter A is absent — there is no [Ring A], no [Module A V], and no MulOpposite A in scope. The book's Definition 3.3.2 defines V* specifically as a REPRESENTATION OF A^op: the action (f·a)(v) := f(av) is the essential data. The Lean definition drops the entire A^op-module structure and records only the k-vector space V* = Hom_k(V,k). This is a 'def fails to construct the real object' gap: the representation-of-A^op structure is completely absent.",
+    "dropped_conjunct": "A^op-module structure: (f·a)(v) := f(av)"
+  },
+  {
+    "id": "Chapter3/Definition3.4.1",
+    "lean_decl": "Etingof.Filtration",
+    "verdict": "gap",
+    "reason": "The definition is 'abbrev Etingof.Filtration A V := RelSeries {p : Submodule A V × Submodule A V | p.1 < p.2}'. A RelSeries with this relation is a strictly ascending chain of submodules of any length, with NO constraint that the first term equals ⊥ (zero) or the last term equals ⊤ (all of V). The book's Definition 3.4.1 requires specifically 0 = V_0 ⊂ V_1 ⊂ ⋯ ⊂ V_n = V — a filtration OF V that starts at 0 and ends at V. The Lean type models 'a chain of submodules' not 'a filtration of V': any chain between arbitrary submodules qualifies. The dropped conjuncts are the boundary conditions head = ⊥ and last = ⊤.",
+    "dropped_conjunct": "head = ⊥ (starts at zero) and last = ⊤ (ends at V)"
+  },
+  {
+    "id": "Chapter3/Definition3.5.1",
+    "lean_decl": "Etingof.Radical",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.Radical A := Ideal.jacobson ⊥. The Jacobson radical (intersection of all maximal left ideals) coincides with the set of elements acting by 0 in all irreducible representations for any ring — this is not specific to finite-dimensional algebras and is a standard theorem. The choice of Ideal.jacobson ⊥ is the correct Mathlib encoding. Note: Example3_5_6 uses Ring.jacobson rather than Ideal.jacobson ⊥, which may be a consistency issue in the project but does not affect this definition.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Definition3.5.7",
+    "lean_decl": "Etingof.IsSemisimpleAlgebra",
+    "verdict": "verified",
+    "reason": "abbrev Etingof.IsSemisimpleAlgebra A := IsSemisimpleRing A. The book defines semisimple as Rad(A) = 0. For finite-dimensional algebras, Rad(A) = 0 is equivalent to IsSemisimpleRing (every module is semisimple), which is the Artin-Wedderburn characterization. IsSemisimpleRing is the standard Mathlib representation of this notion. The definition is faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Example3.1.2",
+    "lean_decl": "Etingof.endomorphism_semisimple",
+    "verdict": "verified",
+    "reason": "The book says End(V) with left-multiplication by A is a semisimple A-representation isomorphic to nV (n copies of V). The Lean theorem proves IsSemisimpleModule A (Module.End k V), which is exactly that End_k(V) is a semisimple A-module. The isomorphism to n copies of V is implicit in the proof (via evalMap bijection to Fin n → V). The statement faithfully captures the book's claim.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Example3.5.6",
+    "lean_decl": "Etingof.radical_truncated_polynomial / Etingof.radical_upper_triangular",
+    "verdict": "verified",
+    "reason": "Both theorems use Ring.jacobson while Definition3_5_1 uses Ideal.jacobson ⊥. Mathlib proves these are equal: `Ideal.jacobson_bot : Ideal.jacobson ⊥ = Ring.jacobson R` (Mathlib/RingTheory/Jacobson/Ideal.lean line 78). So there is no inconsistency. The mathematical content is correct: (1) Rad(k[x]/(x^n)) = (x), proven by showing (x) is maximal and x is nilpotent hence in the radical; (2) Rad(upper triangular matrices) = strictly upper triangular matrices, proven via diagonal extraction ring homomorphisms and nilpotency of strictly upper triangular elements. Both claims match the book exactly.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Lemma3.1.6",
+    "lean_decl": "Etingof.surjective_map_splits",
+    "verdict": "verified",
+    "reason": "The book says: given a surjective map f from ⊕_i V_i (irreducibles) to U, there exists J ⊆ I such that f|_{V_J} is an isomorphism onto U. The Lean statement generalizes to IsSemisimpleModule A V (which is equivalent: semisimple = direct sum of simples) and asserts ∃ W, Disjoint W (ker f) ∧ W ⊔ ker f = ⊤, which is exactly the splitting condition (W is isomorphic to U via f). This is a faithful generalization, not a weakening.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Lemma3.4.2",
+    "lean_decl": "Etingof.exists_composition_series",
+    "verdict": "verified",
+    "reason": "The book says: every finite-dimensional representation admits a filtration 0=V_0⊂...⊂V_n=V with irreducible successive quotients. The Lean states ∃ s : CompositionSeries (Submodule A V), s.head = ⊥ ∧ s.last = ⊤. CompositionSeries in Mathlib is exactly a filtration with simple (= irreducible A-module) successive quotients, and head = ⊥, last = ⊤ ensures it starts at 0 and ends at V. This is faithful.",
+    "dropped_conjunct": null
+  },
+  {
+    "id": "Chapter3/Lemma3.8.2",
+    "lean_decl": "Etingof.endo_indecomposable_iso_or_nilpotent / Etingof.sum_nilpotent_endo_indecomposable",
+    "verdict": "verified",
+    "reason": "Part (i): book says any endomorphism θ of indecomposable W is either an isomorphism or nilpotent. Lean: Function.Bijective θ ∨ IsNilpotent θ. For a linear map of finite-dimensional modules, bijective = isomorphism, so this is faithful. Part (ii): book says sum of nilpotent endomorphisms is nilpotent. Lean: ∀ θ : Fin n → End A W, (∀ i, IsNilpotent (θ i)) → IsNilpotent (∑ i, θ i). Both parts are faithful. The Etingof.IsIndecomposable definition (Nontrivial V ∧ ∀ W₁ W₂, IsCompl W₁ W₂ → W₁=⊥ ∨ W₂=⊥) correctly captures indecomposability.",
+    "dropped_conjunct": null
+  }
+]
