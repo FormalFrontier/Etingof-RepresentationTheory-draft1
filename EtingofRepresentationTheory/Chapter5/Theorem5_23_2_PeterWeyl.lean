@@ -505,29 +505,44 @@ theorem localRightRep_mem_iSup_range_peterWeylSummandMap
   · rw [map_zero]; exact Submodule.zero_mem _
   · intro a b ha hb; rw [map_add]; exact Submodule.add_mem _ ha hb
 
+/-- **Realization core.** A simple, finite-dimensional `localRightRep`-subrepresentation `S` of
+`R = Localization.Away (detPoly k n)` is realized by a concrete dominant weight: there is a
+`λ : DominantWeight n` and a `GL_n`-equivariant `k`-linear map
+`ι : AlgIrrepGL n λ k →ₗ[k] R` intertwining `algIrrepGLRepρ n λ k` with the right-translation
+action `localRightRep`, whose range is exactly `S.toSubmodule`.
+
+This is the genuinely missing highest-weight-classification step of the Cauchy/Peter-Weyl
+spanning argument. Its construction (issue #5599): pick a common denominator exponent `r` so that
+`det^r · S ⊆ A = k[Xᵢⱼ]` (`exists_invSelf_normalForm` on a basis of `S`); the `det^r`-multiplication
+map intertwines `localRightRep` on `S` with right translation on a finite-dimensional space of
+polynomials, exhibiting `M := charTwistRep (detChar^r) S.toRepresentation` as a simple, algebraic
+(`boundedRightRep_isAlgebraic`), weight-spanning, single-degree-homogeneous polynomial
+`GL_n`-representation. By `decompose_polynomial_gl_rep` together with simplicity its formal
+character is a single Schur polynomial `schurPoly N ν`, so `iso_of_formalCharacter_eq_schurPoly`
+gives a `GL_n`-equivariant iso `M ≅ SchurModule k n ν`. Setting `λ.val := ν − r` (with
+`λ.shift = r`, so `λ.toNatWeight = ν`) and untwisting by `det^{-r}` produces the equivariant iso
+`AlgIrrepGL n λ k ≃ S`; composing with the inclusion `S ↪ R` yields `ι`. -/
+theorem exists_dominantWeight_equivariant_realization
+    (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
+    (S : Subrepresentation (localRightRep k n))
+    [FiniteDimensional k S.toSubmodule]
+    (hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
+      (Subrepresentation.asSubmodule S)) :
+    ∃ (lam : DominantWeight n) (ι : AlgIrrepGL n lam k →ₗ[k] Localization.Away (detPoly k n)),
+      (∀ (g : Matrix.GeneralLinearGroup (Fin n) k) (v : AlgIrrepGL n lam k),
+        ι (algIrrepGLRepρ n lam k g v) = localRightRep k n g (ι v)) ∧
+      LinearMap.range ι = S.toSubmodule := by
+  sorry
+
 /-- **Realization of a simple right-translation subrepresentation as a matrix-coefficient block.**
 Every simple, finite-dimensional `localRightRep`-subrepresentation `S` of
 `R = Localization.Away (detPoly k n)` lies in the supremum
 `⨆_λ range (peterWeylSummandMap n λ k)` of the per-summand matrix-coefficient ranges.
 
-This is the genuinely missing *realization* step of the Cauchy/Peter-Weyl spanning argument
-(Etingof §5.23(ii), steps 2–4). A simple `localRightRep`-subrepresentation `S ↪ R` is a simple
-algebraic `GL_n`-representation; by the highest-weight classification
-(`iso_of_formalCharacter_eq_schurPoly` / `simpleRep_iso_schurModule_of_formalCharacter_eq`,
-identifying a simple by its formal character as a Schur polynomial) there is a dominant weight
-`λ : DominantWeight n` and a `GL_n`-equivariant isomorphism `e : AlgIrrepGL n λ k ≃ₗ[k] S`
-intertwining `algIrrepGLRepρ n λ k` with the `localRightRep`-action on `S`. Composing with the
-equivariant inclusion `S ↪ R` yields an equivariant `ι : AlgIrrepGL n λ k →ₗ[k] R`, whence
-`S.toSubmodule = LinearMap.range ι ≤ LinearMap.range (peterWeylSummandMap n λ k)` by
-`equivariant_range_le_peterWeylSummandMap` (#5578).
-
-**Note (the missing realization infrastructure).** Identifying the abstract simple constituent `S`
-with a concrete `AlgIrrepGL n λ k` requires (a) twisting `S` by `det^r` (the normal-form exponent)
-to a *polynomial* simple, (b) reading off its character as a Schur polynomial `schurPoly N ν`, (c)
-constructing the dominant weight `λ` (with `λ.toNatWeight = ν` after the shift) and the untwisted
-equivariant iso. The classification core (`iso_of_formalCharacter_eq_schurPoly`) is in place but is
-phrased for polynomial (`shift = 0`) Schur modules; wiring it to a det-twisted subrepresentation of
-`R` is the remaining work. -/
+By the realization core `exists_dominantWeight_equivariant_realization`, `S.toSubmodule` is the range
+of a `GL_n`-equivariant `ι : AlgIrrepGL n λ k →ₗ[k] R`; the step-4 correspondence
+`equivariant_range_le_peterWeylSummandMap` (#5578) places that range inside
+`range (peterWeylSummandMap n λ k) ≤ ⨆_λ …`. -/
 theorem simpleSubrep_localRightRep_le_iSup_range
     (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [CharZero k]
     (S : Subrepresentation (localRightRep k n))
@@ -535,7 +550,11 @@ theorem simpleSubrep_localRightRep_le_iSup_range
     (hSsimple : IsSimpleModule (MonoidAlgebra k (Matrix.GeneralLinearGroup (Fin n) k))
       (Subrepresentation.asSubmodule S)) :
     S.toSubmodule ≤ ⨆ lam, LinearMap.range (peterWeylSummandMap n lam k) := by
-  sorry
+  obtain ⟨lam, ι, hι_equiv, hrange⟩ :=
+    exists_dominantWeight_equivariant_realization n k S hSsimple
+  rw [← hrange]
+  exact (equivariant_range_le_peterWeylSummandMap n lam k ι hι_equiv).trans
+    (le_iSup (fun lam => LinearMap.range (peterWeylSummandMap n lam k)) lam)
 
 /-- **Hull-spanning bridge (the remaining Cauchy obligation, steps 2–4).** Every element of the
 finite-dimensional right-translation hull `rightHull φ` of `φ ∈ R = Localization.Away (detPoly k n)`
