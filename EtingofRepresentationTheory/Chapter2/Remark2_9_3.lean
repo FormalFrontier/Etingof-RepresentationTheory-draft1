@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+import Batteries.Util.ProofWanted
 import EtingofRepresentationTheory.Chapter2.Definition2_9_1
 
 /-!
@@ -19,10 +20,10 @@ theorem in this form, with `𝔤𝔩(V)` realised as `Module.End k V` carrying i
 We state Ado's theorem over a field of characteristic zero, the setting in which it was
 originally proved; the extension to fields of positive characteristic is Iwasawa's theorem.
 Etingof states the result without proof, and it is genuinely deep — it is not available in
-Mathlib. We therefore assert the statement faithfully and leave the proof as `sorry`, matching
-the book's own treatment (a remark stating a famous theorem). The mathematical content captured
-here is the existence of a finite-dimensional faithful representation of an arbitrary
-finite-dimensional Lie algebra.
+Mathlib. Since the book explicitly disavows a proof, we record it with `proof_wanted`: the
+statement is elaborated and typechecked as a genuine proposition, but no proof term, `sorry`, or
+axiom is introduced. The mathematical content captured here is the existence of a
+finite-dimensional faithful representation of an arbitrary finite-dimensional Lie algebra.
 -/
 
 namespace Etingof
@@ -42,10 +43,9 @@ space `V`. Equivalently, `L` admits a faithful (injective) finite-dimensional re
 `ρ : L →ₗ⁅k⁆ End(V)`.
 
 The proof is omitted: Ado's theorem is stated without proof in the book and is not available in
-Mathlib. -/
-theorem ado [FiniteDimensional k L] :
+Mathlib. We record it via `proof_wanted` — no `sorry`, no axiom. -/
+proof_wanted ado [FiniteDimensional k L] :
     ∃ (V : Type u) (_ : AddCommGroup V) (_ : Module k V) (_ : FiniteDimensional k V)
-      (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ := by
-  sorry
+      (ρ : L →ₗ⁅k⁆ Module.End k V), Function.Injective ρ
 
 end Etingof
