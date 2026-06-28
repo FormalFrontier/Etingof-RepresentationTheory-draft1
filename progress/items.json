@@ -271,9 +271,11 @@
   "start_line": 9,
   "end_line": 10,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "No Lean declaration for this remark in Chapter2/. The formalizable claim (over a commutative ring, left and right modules coincide via ma := am) is not formalized. Cannot judge fidelity of an absen...",
-  "fidelity_decl": "(none found)"
+  "fidelity": "gap",
+  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: over a commutative ring, a left module is a right module via m a := a m; formalizable claim, formalized nowhere. Low value but genuine. See #5591.",
+  "fidelity_decl": "(none found)",
+  "fidelity_issue": 5591,
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter2/Discussion_examples_intro",
@@ -412,9 +414,11 @@
   "start_line": 17,
   "end_line": 17,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "No Lean declaration. The remark's content (Corollary 2.3.10 fails over R, witnessed by A = C as an R-algebra, V = A) is a formalizable counterexample but is not formalized. Cannot judge fidelity of...",
-  "fidelity_decl": "(none found)"
+  "fidelity": "gap",
+  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: book states Cor 2.3.10 (Schur over alg-closed field, Etingof.Corollary_2_3_10) is false over R, with explicit witness A=C as an R-algebra, V=A. Elementary self-contained formalizable counterexample; formalized nowhere. See #5589.",
+  "fidelity_decl": "(none found)",
+  "fidelity_issue": 5589,
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter2/Discussion_proof_Corollary2.3.10",
@@ -447,9 +451,11 @@
   "start_line": 22,
   "end_line": 23,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "No Lean declaration. The claim 'a 1-dimensional representation of any algebra is automatically irreducible' is formalizable (finrank = 1 => IsSimpleModule) but is not formalized in Chapter2/. Canno...",
-  "fidelity_decl": "(none found)"
+  "fidelity": "gap",
+  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: '1-dim rep of any algebra is automatically irreducible' is elementary and formalizable (finrank k V = 1 -> IsSimpleModule A V) but formalized nowhere. See #5590.",
+  "fidelity_decl": "(none found)",
+  "fidelity_issue": 5590,
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter2/Discussion_proof_Corollary2.3.12",
@@ -638,9 +644,11 @@
   "start_line": 17,
   "end_line": 20,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "No Lean declaration. The remark (Weyl algebra = algebra of polynomial differential operators in one variable; notion of faithful representation) is partly definitional (faithful rep is Definition 2...",
-  "fidelity_decl": "(none found)"
+  "fidelity": "gap",
+  "fidelity_note": "Wave-2 adjudication (unsure->gap). Coverage gap: the 'Weyl algebra = polynomial differential operators on k[t]' identification (faithful action by mult-by-t and d/dt) is formalizable and formalized nowhere. (Faithful-rep notion is Definition 2.7.3, covered separately.) See #5592.",
+  "fidelity_decl": "(none found)",
+  "fidelity_issue": 5592,
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter2/Definition2.7.3",
@@ -921,9 +929,10 @@
   "start_line": 4,
   "end_line": 7,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "Book gives motivational discussion: D := g'(0) of a differentiable family of automorphisms is a derivation, and conversely e^{tD} is a 1-parameter family of automorphisms ('check it!'/'give a proof...",
-  "fidelity_decl": "(none)"
+  "fidelity": "verified",
+  "fidelity_note": "Wave-2 adjudication (unsure->verified). Motivational remark: D=g'(0) of a differentiable family of automorphisms is a derivation, and e^{tD} is a 1-parameter family of automorphisms ('check it!'/'give a proof!'). Stated via differentiable families / analytic exponentials (differential-geometric framing) and posed as reader exercises; out of scope, absence defensible.",
+  "fidelity_decl": "(none — narrative)",
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter2/Discussion_concrete_Lie_examples",
@@ -1063,9 +1072,10 @@
   "start_line": 13,
   "end_line": 15,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "Book is a long historical/motivational remark on Lie groups: Lie(G) as invariant derivations identified with T_e G, and Lie's correspondence (bijection between simply connected Lie groups and finit...",
-  "fidelity_decl": "(none)"
+  "fidelity": "verified",
+  "fidelity_note": "Wave-2 adjudication (unsure->verified). Historical/motivational remark on Lie groups: Lie(G) as invariant derivations = T_e G, and Lie's correspondence (simply-connected Lie groups <-> finite-dim real Lie algebras). Requires manifold/Lie-group theory far out of scope of this elementary formalization; absence is the correct resting state.",
+  "fidelity_decl": "(none — narrative)",
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter2/Discussion_2.9_Lie_groups",
@@ -1584,10 +1594,12 @@
   "start_line": 9,
   "end_line": 12,
   "status": "sorry_free",
-  "fidelity": "unsure",
+  "fidelity": "gap",
   "sorry_free": true,
-  "fidelity_note": "Defined as `Module.Dual k V` = Hom_k(V,k), which is the correct underlying vector space of the dual representation. However the definition only packages the k-vector-space dual; it does NOT equip i...",
-  "fidelity_decl": "Etingof.DualRepresentation"
+  "fidelity_note": "Wave-2 adjudication (unsure->gap). Statement weaker: the abbrev packages only the bare k-vector-space dual (no algebra A, no representation rho), omitting the defining A^op-action (f.a)(v)=f(av). Same pattern as gaps #5355/#5356. See #5593.",
+  "fidelity_decl": "Etingof.DualRepresentation (k V) := Module.Dual k V",
+  "fidelity_issue": 5593,
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
@@ -1918,9 +1930,10 @@
   "start_line": 11,
   "end_line": 12,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "No Lean formalization of this remark within Chapter3. The remark observes Krull-Schmidt fails for infinite-dim modules but holds for finite-length modules. This is narrative/meta commentary; Chapte...",
-  "fidelity_decl": "(none in Chapter3)"
+  "fidelity": "verified",
+  "fidelity_note": "Wave-2 adjudication (unsure->verified). Narrative remark: Krull-Schmidt fails for infinite-dimensional modules but holds for finite-length modules. The positive (finite-length) content is Chapter 9 material; this remark is meta-commentary, absence defensible.",
+  "fidelity_decl": "(none — narrative)",
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter3/Introduction_to_3.9",
@@ -2034,9 +2047,10 @@
   "start_line": 17,
   "end_line": 18,
   "status": "sorry_free",
-  "fidelity": "unsure",
-  "fidelity_note": "No Lean formalization. The remark notes Theorem 3.10.2(ii) (and sometimes (i)) fails for infinite-dim representations (Weyl algebra; A=B=V=W=ℂ(x)). Narrative/counterexample commentary; uncovered. L...",
-  "fidelity_decl": "(none)"
+  "fidelity": "verified",
+  "fidelity_note": "Wave-2 adjudication (unsure->verified). Narrative remark that Thm 3.10.2(i)/(ii) typically fail for infinite-dimensional representations (Weyl algebra; A=B=V=W=C(x), C(x) (x) C(x) not a field). Hard infinite-dimensional counterexample, low formalization value; absence defensible.",
+  "fidelity_decl": "(none — narrative)",
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
@@ -2780,9 +2794,11 @@
   "start_line": 7,
   "end_line": 8,
   "status": "sorry_free",
-  "fidelity": "unsure",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "FS defined by formula not by-type; confirm formula↔type theorem exists (wave-2 pilot)."
+  "fidelity_note": "Wave-2 adjudication (unsure->verified). The def constructs the genuine FS indicator object via the standard equivalent character formula (1/|G|) sum_g chi_V(g^2) (the book gives this very formula). The book's type trichotomy (0 complex / 1 real / -1 quaternionic) is tied to the formula by downstream theorems Etingof.Theorem5_1_5 and isRealType_of_frobeniusSchurIndicator_eq_one (Chapter5/FrobeniusSchurRealType.lean). A definition constructs an object rather than asserting a proposition; the object is correct and connected to the type characterization.",
+  "fidelity_decl": "Etingof.frobeniusSchurIndicator",
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter5/Theorem5.1.5",
@@ -3991,10 +4007,11 @@
   "start_line": 1,
   "end_line": 2,
   "status": "sorry_free",
-  "fidelity": "unsure",
+  "fidelity": "verified",
   "needs_statement": false,
-  "fidelity_note": "The STATEMENT is faithful and non-vacuous: S indexed by Nat.Partition n, each S p a simple symGroupImage-module or zero, each L p a simple diagonalActionImage-module or zero, distinct partitions gi...",
-  "fidelity_decl": "Etingof.Corollary5_19_2"
+  "fidelity_note": "Wave-2 adjudication (unsure->verified). Statement is faithful and non-vacuous: partition-indexed (Nat.Partition n) decomposition V^(x)n ~= (+)_p S p (x) L p with each S p a simple symGroupImage-module (or Subsingleton), each L p a simple diagonalActionImage-module (or Subsingleton), and distinct partitions giving non-isomorphic L p. The final iso conjunct (TensorPower nonzero) defeats the all-zero trivial witness, so it is not vacuous. (Proof delegates to Theorem5_18_4_partition_decomposition, whose sorry is the separate Specht-labelling dependency #5326/#5383 — a sorry-arm matter, not a fidelity one.)",
+  "fidelity_decl": "Etingof.Corollary5_19_2",
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter5/Example5.19.3",
@@ -5284,10 +5301,12 @@
   "start_line": 5,
   "end_line": 6,
   "status": "sorry_free",
-  "fidelity": "unsure",
+  "fidelity": "gap",
   "sorry_free": true,
-  "fidelity_note": "The book claims AbelianGroups is a FULL SUBCATEGORY of Groups. The Lean statement only asserts `Category CommGrpCat` (that abelian groups form a category), which is strictly weaker; it does not ass...",
-  "fidelity_decl": "(example) Category CommGrpCat"
+  "fidelity_note": "Wave-2 adjudication (unsure->gap). Strictly weaker: asserts only that abelian groups form a category, not the book's 'full subcategory of Groups' (forget2 CommGrpCat GrpCat full+faithful). See #5594.",
+  "fidelity_decl": "example : Category CommGrpCat := inferInstance",
+  "fidelity_issue": 5594,
+  "last_updated": "2026-06-28"
  },
  {
   "id": "Chapter7/Discussion_after_Example7.1.5",
