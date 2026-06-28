@@ -1594,12 +1594,12 @@
   "start_line": 9,
   "end_line": 12,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Wave-2 adjudication (unsure->gap). Statement weaker: the abbrev packages only the bare k-vector-space dual (no algebra A, no representation rho), omitting the defining A^op-action (f.a)(v)=f(av). Same pattern as gaps #5355/#5356. See #5593.",
-  "fidelity_decl": "Etingof.DualRepresentation (k V) := Module.Dual k V",
+  "fidelity_note": "Wave-2 gap (#5593) resolved: dual representation now carries the defining contragredient action. DualRepresentation k A V has carrier Module.Dual k V equipped with an explicit Module A^mop instance (instModuleMulOppositeDual) acting by (op a . f)(v) = f(a.v), witnessed by the simp lemma dualRepresentation_smul_apply. Matches the fixes to #5355/#5356.",
+  "fidelity_decl": "Etingof.DualRepresentation (k A V) := Module.Dual k V, with Module A^mop instance (op a . f)(v) = f(a.v)",
   "fidelity_issue": 5593,
-  "last_updated": "2026-06-28"
+  "last_updated": "2026-06-29"
  },
  {
   "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
