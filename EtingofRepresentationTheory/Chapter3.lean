@@ -2,6 +2,7 @@ import EtingofRepresentationTheory.Chapter3.Definition3_1_1
 import EtingofRepresentationTheory.Chapter3.Example3_1_2
 import EtingofRepresentationTheory.Chapter3.Proposition3_1_4
 import EtingofRepresentationTheory.Chapter3.Remark3_1_3
+import EtingofRepresentationTheory.Chapter3.Remark3_1_5
 import EtingofRepresentationTheory.Chapter3.Lemma3_1_6
 import EtingofRepresentationTheory.Chapter3.Corollary3_2_1
 import EtingofRepresentationTheory.Chapter3.Theorem3_2_2

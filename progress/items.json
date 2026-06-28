@@ -1467,10 +1467,9 @@
   "start_line": 9,
   "end_line": 2,
   "status": "sorry_free",
-  "fidelity": "gap",
-  "fidelity_note": "No Lean formalization. The repo's Remark3_1_3.lean covers the DIFFERENT Remark 3.1.3 (canonical isotypic decomposition), not Remark 3.1.5. Remark 3.1.5 asserts Prop 3.1.4 generalizes when k is not ...",
-  "fidelity_decl": "(none)",
-  "fidelity_issue": 5372
+  "fidelity": "verified",
+  "fidelity_note": "Formalized in Chapter3/Remark3_1_5.lean. The classification (Prop 3.1.4) is already proved over an arbitrary ring with arbitrary simple modules (no algebraic closure, no finite-dimensionality): re-exported as subrepresentation_general. The new content - matrix entries in D_i = End_A(V_i) - is homMatrixEquiv: Hom_A(Fin r -> V, Fin n -> V) = Matrix over End_A(V). D_i is a division ring by Schur (end_divisionRing). \"Linearly independent rows\" = injectivity is captured by injective_iff_rows_linearIndependent.",
+  "fidelity_decl": "Etingof.Remark315.subrepresentation_general, Etingof.Remark315.homMatrixEquiv, Etingof.Remark315.injective_iff_rows_linearIndependent"
  },
  {
   "id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
