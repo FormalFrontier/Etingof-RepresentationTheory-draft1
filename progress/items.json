@@ -5301,12 +5301,12 @@
   "start_line": 5,
   "end_line": 6,
   "status": "sorry_free",
-  "fidelity": "gap",
+  "fidelity": "verified",
   "sorry_free": true,
-  "fidelity_note": "Wave-2 adjudication (unsure->gap). Strictly weaker: asserts only that abelian groups form a category, not the book's 'full subcategory of Groups' (forget2 CommGrpCat GrpCat full+faithful). See #5594.",
-  "fidelity_decl": "example : Category CommGrpCat := inferInstance",
+  "fidelity_note": "Resolved #5594: now states the full-subcategory content directly. (forget2 CommGrpCat GrpCat) is Full, Faithful, and FullyFaithful, exactly Etingof's claim that abelian groups form a full subcategory of groups.",
+  "fidelity_decl": "example : (forget₂ CommGrpCat GrpCat).FullyFaithful",
   "fidelity_issue": 5594,
-  "last_updated": "2026-06-28"
+  "last_updated": "2026-06-29"
  },
  {
   "id": "Chapter7/Discussion_after_Example7.1.5",
