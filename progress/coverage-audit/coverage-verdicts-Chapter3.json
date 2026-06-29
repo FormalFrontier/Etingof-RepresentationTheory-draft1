@@ -1,0 +1,232 @@
+[
+  {
+    "blob_id": "Chapter3/Discussion_after_Lemma3.1.6",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Now we are ready to prove Proposition 3.1.4. Let $W$ be a submodule of $V := \\bigoplus_X V_X \\otimes X$, where $\\dim V < \\infty$. We claim that $W = \\bigoplus_X W_X \\otimes X$ for some vector spaces $W_X \\subseteq V_X$.",
+        "claim": "Every submodule of a semisimple representation decomposes into isotypic components — this is used transitively in Proposition3_1_4.lean.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.subrepresentation_of_semisimple",
+        "reason": "The structural claim that W decomposes as a direct sum of isotypic pieces is the content of Etingof.subrepresentation_of_semisimple in Proposition3_1_4.lean. The discussion is a proof-sketch bridging Lemma 3.1.6 to Proposition 3.1.4; the result it establishes is already formalized.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Discussion_after_Theorem3.7.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "The Jordan-Holder theorem shows that the number $n$ of terms in a filtration of $V$ with irreducible successive quotients does not depend on the choice of a filtration and depends only on $V$. This number is called the **length** of $V$.",
+        "claim": "The length of V is well-defined (independent of the filtration).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.jordanHolder_length_isGreatest_strict",
+        "reason": "This fact is implicit in the module length infrastructure used in Discussion_after_Theorem3_7_1.lean (Module.length_compositionSeries proves uniqueness).",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "It is easy to see that $n$ is also the maximal length of a filtration of $V$ in which all the inclusions are strict.",
+        "claim": "The length n equals the maximal length of a strictly increasing filtration of V.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.jordanHolder_length_isGreatest_strict",
+        "reason": "Directly formalized as theorem jordanHolder_length_isGreatest_strict in EtingofRepresentationTheory/Chapter3/Discussion_after_Theorem3_7_1.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Discussion_alternative_proof_of_Proposition3.1.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Then $f$ is injective (respectively surjective, an isomorphism) if and only if all the $f_X$ are.",
+        "claim": "A morphism between semisimple representations is injective/surjective/iso iff all component maps f_X are.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.subrepresentation_of_semisimple",
+        "reason": "This is an auxiliary lemma in the proof of Proposition 3.1.4, whose formalization in Proposition3_1_4.lean encapsulates the full argument via isotypic decomposition without needing this intermediate step as a standalone declaration.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Now, suppose $V = \\bigoplus_{i \\in I} V_i$ with $V_i$ irreducible, and $f : V \\to U$ is a surjective homomorphism.",
+        "claim": "A surjective homomorphism from a semisimple representation induces surjective component maps.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.subrepresentation_of_semisimple",
+        "reason": "This is part of the alternative proof sketch for Proposition 3.1.4. The full result is formalized; this intermediate step is not needed as an independent declaration.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Discussion_before_Definition3.3.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Discussion_before_Proposition3.1.4",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Discussion_before_Theorem3.10.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Discussion_proof_of_Theorem3.10.2",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Therefore, the map $A \\otimes B \\to \\operatorname{End} V \\otimes \\operatorname{End} W = \\operatorname{End}(V \\otimes W)$ is surjective.",
+        "claim": "The density theorem implies A⊗B → End(V⊗W) is surjective when A→End(V) and B→End(W) are.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.tensor_product_irreducible",
+        "reason": "Used inside the proof of Etingof.tensor_product_irreducible in Theorem3_10_2.lean (see the hU_end block applying hdens_A and hdens_B).",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Thus, $V \\otimes W$ is irreducible.",
+        "claim": "The tensor product of irreducible representations V and W is irreducible as an (A⊗B)-representation.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.tensor_product_irreducible",
+        "reason": "Directly formalized as theorem Etingof.tensor_product_irreducible in Theorem3_10_2.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Then $J$ is a nilpotent ideal in $A \\otimes B$, as $\\operatorname{Rad}(A)$ and $\\operatorname{Rad}(B)$ are nilpotent.",
+        "claim": "Rad(A)⊗B + A⊗Rad(B) is a nilpotent ideal in A⊗B.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.tensor_product_irreducible_classification",
+        "reason": "This is a step within the proof of Etingof.tensor_product_irreducible_classification; the book's proof sketch goes through the radical computation but the Lean proof takes a different (direct) route using the isotypic/Artinian approach. The nilpotency step is subsumed by the overall classification theorem.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "$$(A \\otimes B)/\\operatorname{Rad}(A \\otimes B) = A/\\operatorname{Rad}(A) \\otimes B/\\operatorname{Rad}(B).$$",
+        "claim": "There is an algebra isomorphism (A⊗B)/Rad(A⊗B) ≅ A/Rad(A) ⊗ B/Rad(B).",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This formula appears in the book's proof sketch but the Lean proof of Theorem 3.10.2(ii) uses a completely different approach (Artinian/atomic argument) that bypasses this step. The formula is an interesting standalone result but the book treats it only as a proof step, and it is not separately asserted as a theorem. Formalizing it would require explicit radical computation for tensor products, which is a non-trivial infrastructure item not needed by existing proofs.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Now, $M$ is an irreducible representation of $(A \\otimes B)/\\operatorname{Rad}(A \\otimes B)$, so it is clearly of the form $M = V \\otimes W$, where $V$ is an irreducible rep of $A/\\operatorname{Rad}(A)$ and $W$ is an irreducible rep of $B/\\operatorname{Rad}(B)$.",
+        "claim": "Every irreducible (A⊗B)-module has the form V⊗W with V irreducible over A and W irreducible over B (and V, W are unique).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.tensor_product_irreducible_classification",
+        "reason": "Formalized as Etingof.tensor_product_irreducible_classification (existence) and Etingof.tensor_product_irreducible_classification_unique (uniqueness) in Theorem3_10_2.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "First, the given representations are clearly irreducible, since for any $v \\neq 0$, $w \\in V_i$, there exists $a \\in A$ such that $av = w$.",
+        "claim": "The standard representations V_i = k^{d_i} of Mat_{d_i}(k) are irreducible.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "isSimpleModule_vModuleProd",
+        "reason": "Formalized as isSimpleModule_vModuleProd in Theorem3_3_1.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "But $A^{n*} \\cong A^n$ as representations of $A$ (check it!).",
+        "claim": "The dual of A^n is isomorphic to A^n as an A-module (using the transpose anti-isomorphism Mat_d(k) ≅ Mat_d(k)^op).",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is a parenthetical exercise ('check it!') in the book's proof sketch, not a named result. The Lean proof of Theorem 3.3.1 uses a completely different (more direct) approach via the isotypic decomposition, so this fact is not needed and not formalized as a standalone item. The claim is formalizable in principle but is not a gap given the actual Lean proof strategy.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Thus, the dual map $\\phi^* : X \\longrightarrow A^{n*}$ is injective.",
+        "claim": "The dual of a surjection is injective.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is a basic linear-algebra fact (LinearMap.dualMap_surjective/injective duality) available in Mathlib and used implicitly in many proofs. It is not a gap specific to this book's content.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "The map $\\phi$ is clearly surjective, as $k \\subset A$.",
+        "claim": "The map φ : A^n → X* sending (a_1,...,a_n) to a_1 y_1+...+a_n y_n is surjective.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is an elementary surjectivity argument (span of a basis via the k-algebra structure); not a standalone gap.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Discussion_proof_of_Theorem3.8.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Since $g$ is an isomorphism, we get $v = 0$, as desired.",
+        "claim": "In the inductive step of the Krull-Schmidt uniqueness proof, the map h : B → B' is an isomorphism.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.krull_schmidt_uniqueness",
+        "reason": "This proof step is the key argument in the Krull-Schmidt uniqueness proof. The full uniqueness statement is formalized as Etingof.krull_schmidt_uniqueness in Theorem3_8_1.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Introduction",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.10",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.4",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.5",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.6",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "If $[A, A]$ is the span of commutators $[x, y] := xy - yx$ over all $x, y \\in A$, then $[A, A] \\subseteq \\ker \\chi_V$. Thus, we may view the character as a mapping $\\chi_V : A/[A, A] \\to k$.",
+        "claim": "The commutator submodule [A,A] lies in the kernel of the character, so χ_V factors through A/[A,A].",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.commutatorSubmodule_le_ker_character",
+        "reason": "Formalized as Etingof.commutatorSubmodule_le_ker_character and Etingof.characterQuotient in Introduction3_6.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.7",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.8",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter3/Introduction_to_3.9",
+    "swept_result": "none",
+    "claims": []
+  }
+]

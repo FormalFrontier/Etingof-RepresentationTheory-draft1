@@ -1,0 +1,292 @@
+[
+  {
+    "blob_id": "Chapter7/Introduction",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.1",
+    "swept_result": "non_formalizable",
+    "claims": [
+      {
+        "source_span": "For a serious acquaintance with category theory, the reader may use, for instance, the classical book [**McL**].",
+        "claim": "Bibliographic reference to Mac Lane's book; no mathematical proposition stated.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure bibliographic recommendation. The rest of the blob is historical/motivational framing, not a formalizable claim.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "the functors between two given categories themselves form a category",
+        "claim": "The collection of functors C → D is a category (with natural transformations as morphisms).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.Functor.category",
+        "reason": "Mathlib's `CategoryTheory.Functor.category` instance provides this automatically; the project uses it throughout Chapter 7. No standalone project-level declaration needed.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "for any category D, there is a natural bijection between the collections of isomorphism classes of functors C₁ → D and C₂ → D",
+        "claim": "For any category D, there is a natural bijection between iso-classes of functors C₁ → D and C₂ → D, where C₁ (one-object) and C₂ (two mutually inverse objects) are equivalent.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.functorIsoClassesEquiv",
+        "reason": "Formally proved in `EtingofRepresentationTheory/Chapter7/Introduction_7_4.lean` as `Etingof.functorIsoClassesEquiv`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "This is accomplished by the definition of an equivalence of categories.",
+        "claim": "Motivational/definitional transition; the formal definition of equivalence is Definition 7.4.1, not a proposition here.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This sentence introduces the next definition, not a standalone formalizable claim.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.5",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Not every functor is representable, but if a representing object X exists, then it is unique.",
+        "claim": "If F is represented by X and also by Y (i.e., there is an isomorphism Hom(X,?) ≅ Hom(Y,?)), then X ≅ Y canonically.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.yoneda_lemma",
+        "reason": "The uniqueness-of-representing-object claim is proved in `EtingofRepresentationTheory/Chapter7/Lemma7_5_1.lean` as `Etingof.yoneda_lemma`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "We say that F is representable if there exists an object X ∈ C such that F is isomorphic to the functor Hom(X, ?).",
+        "claim": "Definition of representable functor.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.Functor.IsRepresentable",
+        "reason": "This is a definition, not a proposition. Mathlib's `Functor.IsRepresentable` and `Functor.RepresentableBy` cover it. The project uses these in `Example7_5_3.lean` and `Lemma7_5_1.lean`.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.6",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.7",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.8",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.9",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Introduction_7.10",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Example7.1.3",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "Categories with this property (that Hom(X,Y) is a set for any X, Y) are called locally small",
+        "claim": "Definition of locally small category.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This is a terminological definition, not a proposition. In Lean 4/Mathlib, all categories are 'locally small' by type-theoretic construction; no separate formalization needed.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Example7.1.5",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "one says that C is enriched over another category D ... the composition Hom(Y,Z) × Hom(X,Y) → Hom(X,Z) is a morphism in D",
+        "claim": "Definition of enriched category. Pure definitional/motivational content.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Introduces the concept of enriched categories by reference to [McL]. No specific proposition is stated that isn't already in Mathlib's enriched category infrastructure.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Definition7.2.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "functors can be composed in an obvious way. Also, any category has the identity functor.",
+        "claim": "Functors compose and there is an identity functor for each category.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.Functor.comp",
+        "reason": "Covered by Mathlib: `CategoryTheory.Functor.comp` (composition) and `CategoryTheory.Functor.id` (identity). Both are used throughout the project.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Definition7.4.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "the above categories C₁ and C₂ are equivalent (check it!)",
+        "claim": "The categories C₁ (one object, identity only) and C₂ (two mutually inverse objects) are equivalent.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.cat₁EquivCat₂",
+        "reason": "Proved in `EtingofRepresentationTheory/Chapter7/Discussion_after_Definition7_4_1.lean` as `Etingof.cat₁EquivCat₂`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "the category FSet of finite sets is equivalent to the category whose objects are nonnegative integers, and morphisms are given by Hom(m,n) = Maps({1,...,m},{1,...,n})",
+        "claim": "The category FSet of finite sets is equivalent to the category with objects ℕ and morphisms Fin m → Fin n.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "FintypeCat.Skeleton.equivalence",
+        "reason": "Formalized in `EtingofRepresentationTheory/Chapter7/Discussion_after_Definition7_4_1.lean` via `FintypeCat.Skeleton.equivalence`.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Definition7.6.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "if it does, it is unique and can be constructed canonically ... This follows easily from the Yoneda lemma",
+        "claim": "Left/right adjoints are unique when they exist (follows from Yoneda).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.Adjunction.adjunctionUnique",
+        "reason": "Uniqueness of adjoints is a standard Mathlib fact, and the representability formulation is covered in `EtingofRepresentationTheory/Chapter7/Discussion_after_Definition7_6_1.lean`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "F(X) represents the functor Y ↦ Hom(X, G(Y)) and G(Y) represents the functor X ↦ Hom(F(X), Y)",
+        "claim": "For an adjunction F ⊣ G: F(X) corepresents Y ↦ Hom(X, G(Y)), and G(Y) represents X ↦ Hom(F(X), Y).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.adjunction_corepresents",
+        "reason": "Both claims are explicitly formalized in `EtingofRepresentationTheory/Chapter7/Discussion_after_Definition7_6_1.lean` as `Etingof.adjunction_corepresents` and `Etingof.adjunction_represents`.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Example7.6.3",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "One can give many more examples, spanning many fields. These examples show that adjoint functors are ubiquitous in mathematics.",
+        "claim": "Meta-commentary, no specific mathematical proposition.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure editorial commentary, not a formalizable claim.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Definition7.8.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "such morphisms can be composed, which makes the class of all complexes over C into a category, denoted Compl(C)",
+        "claim": "The collection of complexes over an abelian category C, with chain maps as morphisms, forms a category Compl(C).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.instCategoryHomologicalComplex",
+        "reason": "Mathlib's `instance : Category (HomologicalComplex V c)` at line 244 of `Algebra/Homology/HomologicalComplex.lean` provides this automatically. The project's `Etingof.CochainComplex'` inherits this instance.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Definition7.9.1",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
+        "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "No project-level declaration for this. Mathlib has `preservesFiniteBiproductsOfAdditive` (in `CategoryTheory/Preadditive/AdditiveFunctor.lean`) which gives `PreservesFiniteBiproducts F` for any `[F.Additive]`, from which `F.obj (X ⊞ Y) ≅ F.obj X ⊞ F.obj Y` follows. But the project's `Definition7_9_1.lean` only defines `AdditiveFunctor` and does not state or prove this preservation property.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Problem7.7.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "in an abelian category, Hom(X,Y) is an abelian group for each X, Y, compositions are group homomorphisms, there is the zero object, the notions of monomorphism and epimorphism, and every morphism has a kernel, a cokernel, and an image",
+        "claim": "Consequences of the abelian category axioms (all Hom-sets are abelian groups, zero object exists, kernels/cokernels exist, etc.).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.Abelian",
+        "reason": "These are all instances/consequences of `CategoryTheory.Abelian` in Mathlib, automatically available for any `[Abelian C]`.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Remark7.7.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Let k be a field. We say that an abelian category C is k-linear if the groups Hom_C(X,Y) are equipped with a structure of a vector space over k and composition maps are k-linear in each argument.",
+        "claim": "Definition of k-linear abelian category.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "CategoryTheory.Linear",
+        "reason": "Mathlib's `CategoryTheory.Linear k C` class captures this exactly.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "In particular, the categories in Example 7.7.2 are k-linear.",
+        "claim": "For a field k and k-algebra A, ModuleCat A is a k-linear abelian category.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.ModuleCat_kLinear",
+        "reason": "Formally verified in `EtingofRepresentationTheory/Chapter7/Discussion_after_Remark7_7_4.lean` via `inferInstance` for `Linear k (ModuleCat A)`.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_after_Example7.9.5",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "Note that in a semisimple category, any additive functor is automatically exact on both sides.",
+        "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C → D is both left and right exact.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "No project-level declaration or proof of this. The project defines `Etingof.IsSemisimpleCategory` in `Definition7_9_4.lean` and additive functors in `Definition7_9_1.lean`, but the theorem connecting them is absent. Mathlib also has no direct statement of this form (search across Mathlib/CategoryTheory returned nothing). The proof sketch: in a semisimple category every short exact sequence 0→X→Y→Z→0 splits as Y≅X⊕Z; an additive functor sends this to 0→F(X)→F(X)⊕F(Z)→F(Z)→0 which is exact.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter7/Discussion_7.10",
+    "swept_result": "none",
+    "claims": []
+  }
+]

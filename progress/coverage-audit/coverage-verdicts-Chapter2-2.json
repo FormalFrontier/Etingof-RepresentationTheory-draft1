@@ -1,0 +1,308 @@
+[
+  {
+    "blob_id": "Chapter2/Discussion_after_Proposition2.2.3",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "From now on, by an algebra A we will mean an associative algebra with a unit.",
+        "claim": "Definitional remark: algebra = associative with unit from here on.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure notational/terminological convention, not a proposition or construction.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_after_Theorem2.1.1",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "A quiver is an oriented graph Q ... We will show that a representation of a quiver Q is the same thing as a representation of a certain algebra P_Q called the path algebra of Q.",
+        "claim": "Forward-looking remark about quiver/path-algebra correspondence; no new claim here.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Motivational text announcing a result proved elsewhere; not itself a statable claim in this blob.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_after_Theorem2.1.2",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "As a final example consider the representation theory of finite groups ... any finite dimensional representation of A is a direct sum of irreducible representations (Maschke's theorem).",
+        "claim": "Motivational preview of Maschke's theorem, Frobenius divisibility, Burnside. No new formalizeable claim in this discussion blob itself.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure motivation/preview text; the theorems are stated and proved in their own blobs.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_commutativity_examples",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "In case 5, A is commutative if and only if G is commutative.",
+        "claim": "The group algebra k[G] is commutative iff G is commutative.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.monoidAlgebra_mul_comm_iff",
+        "reason": "Exactly formalized as an iff theorem in Discussion_commutativity_examples.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "A is commutative in cases 1 and 2 but not commutative in cases 3 (if dim V > 1) and 4 (if n > 1).",
+        "claim": "End(V) is noncommutative for dim V > 1; FreeAlgebra k (Fin n) is noncommutative for n > 1.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.single_not_commute (supporting lemma) + two anonymous examples in Discussion_commutativity_examples.lean",
+        "reason": "Both noncommutativity witnesses are formalized as `example` declarations in the same file.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_concrete_Lie_examples",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "Here are a few more concrete examples of Lie algebras: (1) R^3 with [u,v] = u×v ... (2) sl(n) ... with [h,e]=2e, [h,f]=-2f, [e,f]=h. (3) Heisenberg Lie algebra with [y,x]=c, [y,c]=[x,c]=0.",
+        "claim": "These specific algebras satisfy the Lie algebra axioms under the given brackets.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "The Lie algebra structures on gl(n)/sl(n)/matrix subalgebras are standard Mathlib instances; this is naming/listing known structures, not a new claim requiring separate formalization.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_concrete_Lie_examples_continued",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "(4) aff(1) ... with [X,Y]=Y. (5) so(n), the space of skew-symmetric n×n matrices, with [a,b]=ab-ba.",
+        "claim": "aff(1) and so(n) are Lie algebras under the given brackets.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "Standard matrix Lie algebras, their structures are Mathlib instances. This blob is examples enumeration, not a novel claim.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_examples_intro",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "Here are some examples of representations.",
+        "claim": "No substantive claim.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Single-sentence section header with no mathematical content.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_faithful_example",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "k[t] is a faithful representation of the Weyl algebra if k has characteristic zero (check it!), but not in characteristic p, where (d/dt)^p Q = 0 for any polynomial Q.",
+        "claim": "The polynomial representation k[t] of the Weyl algebra is faithful iff char k = 0; in char p, (d/dt)^p = 0 on k[t].",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Proposition2_7_1.lean (faithful in char 0); FaithfulWeylModule.lean discusses char p failure in docstring context",
+        "reason": "The polynomial representation faithfulness in char 0 is handled by Proposition2_7_1.lean. The char-p failure is noted in FaithfulWeylModule.lean's module docstring. Both aspects are accounted for.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "the representation E = t^a k[a][t, t^{-1}], as we've seen, is faithful in any characteristic.",
+        "claim": "The Weyl-algebra representation E = t^a k[a][t, t^{-1}] is faithful in any characteristic.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.repE_injective",
+        "reason": "Precisely formalized as FaithfulWeylModule.lean: `theorem repE_injective : Function.Injective (repE k)` over any nontrivial commutative ring k.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_irreducible_vs_indecomposable",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "It is obvious that an irreducible representation is indecomposable. On the other hand, we will see below that the converse statement is false in general.",
+        "claim": "Every irreducible representation is indecomposable.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is immediate from definitions: if V has no proper nonzero subrepresentations, then any decomposition V = A ⊕ B forces one summand to be 0. Trivially provable, not a named theorem.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_path_algebra_intro",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "It turns out that the theory of representations of quivers is a part of the theory of representations of algebras in the sense that for each quiver Q, there exists a certain algebra P_Q, called the path algebra of Q, such that a representation of the quiver Q is 'the same' as a representation of the algebra P_Q.",
+        "claim": "Motivational announcement of the quiver/path-algebra bijection; not itself a new claim.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This is a forward pointer to a result formalized in Definition2_8_3/4 and Discussion_quiver_rep_bijection. No independent claim here.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_proof_Corollary2.3.10",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Let λ be an eigenvalue of φ (a root of the characteristic polynomial of φ). It exists since k is an algebraically closed field. Then the operator φ − λId is an intertwining operator V → V, which is not an isomorphism (since its determinant is zero). Thus by Proposition 2.3.9 this operator is zero, hence the result.",
+        "claim": "Proof of Corollary 2.3.10: any endomorphism of a finite-dimensional irreducible representation over an algebraically closed field is a scalar.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Corollary_2_3_10",
+        "reason": "The conclusion is fully formalized in Corollary2_3_10.lean via `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`. The proof sketch here is of the statement already covered.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_proof_Corollary2.3.12",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "ρ(a)ρ(b)v = ρ(ab)v = ρ(ba)v = ρ(b)ρ(a)v (the second equality is true since the algebra is commutative). Thus, by Schur's lemma, ρ(a) is a scalar operator for any a ∈ A. Hence every subspace of V is a subrepresentation. But V is irreducible, so 0 and V are the only subspaces of V. This means that dim V = 1 (since V ≠ 0).",
+        "claim": "Proof of Corollary 2.3.12: every irreducible finite-dimensional representation of a commutative algebra (over algebraically closed field) is 1-dimensional.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Corollary_2_3_12",
+        "reason": "The conclusion `Module.finrank k V = 1` is fully formalized in Corollary2_3_12.lean. All steps of the proof sketch are captured via Mathlib's `IsSimpleModule.finrank_eq_one_of_isMulCommutative`.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_pure_tensors",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "Note that this tensor product is associative, in the sense that (V_1 ⊗ V_2) ⊗ V_3 can be naturally identified with V_1 ⊗ (V_2 ⊗ V_3).",
+        "claim": "There is a natural (canonical) isomorphism (V_1 ⊗ V_2) ⊗ V_3 ≅ V_1 ⊗ (V_2 ⊗ V_3) of k-vector spaces.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "No Lean declaration in Chapter2 formalizes this specific associativity statement. Definition2_11_1.lean only defines the tensor product as an abbreviation for Mathlib's TensorProduct; it does not state or prove associativity. Mathlib has `TensorProduct.assoc` but no declaration in the project explicitly references it for this discussion blob.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "in general, there are elements of V ⊗ W which are not pure tensors.",
+        "claim": "Not every element of V ⊗ W is a pure tensor.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is a standard fact about tensor products (e.g. in dimension ≥ 2, entangled tensors exist), and is not a named theorem the project needs to formalize separately.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_quiver_irreducible_indecomposable",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "a nonzero representation (V_i) of a quiver Q is said to be irreducible if its only subrepresentations are (0) and (V_i) itself, and it is said to be indecomposable if it is not isomorphic to a direct sum of two nonzero representations.",
+        "claim": "Definitional restatement of irreducibility and indecomposability for quiver representations.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This is a verbatim restatement of definitions already captured in the definition blobs for QuiverRepresentation.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_quiver_notation",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "We denote the set of vertices of the quiver Q as I and the set of edges as E. For an edge h ∈ E, let h', h'' denote the source and target of h.",
+        "claim": "Purely notational conventions.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Notation setup only; no mathematical claim.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_quiver_rep_bijection",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Two paths a, b can be concatenated to form the path ab if and only if the final target of a equals the first source of b.",
+        "claim": "Path concatenation condition: paths a : x →* y and b : y' →* z can be concatenated iff target(a) = source(b).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Quiver.Path.comp (Mathlib); Etingof.PathAlgebra.compSingle_eq / compSingle_eq_zero",
+        "reason": "This is encoded structurally in Mathlib's Quiver.Path.comp and in the compSingle family in Discussion_quiver_rep_bijection.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "It is clear that the above assignments V ↦ (p_i V) and (V_i) ↦ ⊕_i V_i are inverses of each other. Thus, we have a bijection between isomorphism classes of representations of the algebra P_Q and of the quiver Q.",
+        "claim": "The assignments V ↦ (p_i V) and (V_i) ↦ ⊕_i V_i are mutually inverse, giving a bijection between isomorphism classes of P_Q-modules and quiver representations.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.PathAlgebra.moduleRoundTrip, Etingof.PathAlgebra.repRoundTrip",
+        "reason": "Both round-trips are fully formalized in Discussion_quiver_rep_bijection.lean: moduleRoundTrip gives a P_Q-linear isomorphism V ≅ reverseModule(forwardRep V), and repRoundTrip gives a quiver-representation isomorphism R ≅ forwardRep(reverseModule R).",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_tensor_product_maps",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "if A : V → V' and B : W → W' are linear maps, then one can define the linear map A ⊗ B : V ⊗ W → V' ⊗ W' given by the formula (A ⊗ B)(v ⊗ w) = Av ⊗ Bw (check that this is well defined!).",
+        "claim": "Given linear maps A : V → V' and B : W → W', there exists a well-defined linear map A ⊗ B : V ⊗ W → V' ⊗ W' satisfying (A ⊗ B)(v ⊗ w) = Av ⊗ Bw.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "No declaration in Chapter2 explicitly formalizes the tensor product of two linear maps (the bilinear map construction TensorProduct.map). While Mathlib has TensorProduct.map, no Chapter2 file references or wraps it for this discussion blob. The book's 'check that this is well defined!' is a genuine formalization target not yet covered.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Discussion_tensors_type",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "If V is finite dimensional with basis e_i, ... a basis of E is the set of vectors e_{i_1} ⊗ ⋯ ⊗ e_{i_n} ⊗ e^{j_1} ⊗ ⋯ ⊗ e^{j_m}",
+        "claim": "The space of tensors of type (m,n), E = V^⊗n ⊗ (V*)^⊗m, has basis indexed by (i_1,...,i_n, j_1,...,j_m).",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is a consequence of the standard basis theorem for tensor products and is not a named result that the project needs to formalize separately.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Physicists define a tensor as a collection of such multidimensional tables T_B attached to every basis B in V, which change according to a certain rule when the basis B is changed.",
+        "claim": "Description of physicist's change-of-basis rule for tensors.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This is motivational/definitional exposition about physicist's convention; not a statable proposition.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter2/Introduction",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "# Chapter 2: Basic notions of representation theory\n## 2.1. What is representation theory?",
+        "claim": "Section heading only.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure structural/organizational text.",
+        "dedup_issue": null
+      }
+    ]
+  }
+]

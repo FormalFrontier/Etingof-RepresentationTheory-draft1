@@ -1,0 +1,267 @@
+[
+  {
+    "blob_id": "Chapter5/Discussion_1dim_reps",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "G/[G, G] \\cong \\mathbb{F}_q^\\times via g \\mapsto \\det(g). The 1-dimensional representations of G thus have the form \\rho(g) = \\xi(\\det(g)), where \\xi is a homomorphism \\xi : \\mathbb{F}_q^\\times \\to \\mathbb{C}^\\times; so there are q - 1 such representations, denoted \\mathbb{C}_\\xi.",
+        "claim": "Every 1-dimensional representation of GL₂(𝔽_q) is of the form g ↦ ξ(det g) for a unique character ξ : 𝔽_q× → ℂ×; there are exactly q−1 such representations.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "Proposition5_25_1.lean proves [GL₂,GL₂] = SL₂, so G/[G,G] ≅ 𝔽_q× follows, but there is no Lean theorem explicitly classifying all 1-dimensional representations of GL₂(𝔽_q) as exactly the characters ξ∘det, nor counting them at q−1. The detChar definition in Theorem5_25_2.lean defines individual 1-dim reps but does not prove universality/count.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.11_examples",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "Let G = S_3, H = \\mathbb{Z}_2. Using the Frobenius reciprocity, we obtain \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}^2 \\oplus \\mathbb{C}_+ and \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}^2 \\oplus \\mathbb{C}_-.",
+        "claim": "Ind_{Z₂}^{S₃} ℂ₊ ≅ ℂ² ⊕ ℂ₊ and Ind_{Z₂}^{S₃} ℂ₋ ≅ ℂ² ⊕ ℂ₋",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Discussion5_11.indZ2_trivPlus_decomp, Etingof.Discussion5_11.indZ2_signMinus_decomp",
+        "reason": "Both decompositions are proved sorry-free in Discussion5_11_examples.lean (theorems indZ2_trivPlus_decomp and indZ2_signMinus_decomp).",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Let G = S_3, H = \\mathbb{Z}_3. Then we obtain \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}_-, \\operatorname{Ind}_H^G \\mathbb{C}_\\epsilon = \\operatorname{Ind}_H^G \\mathbb{C}_{\\epsilon^2} = \\mathbb{C}^2.",
+        "claim": "Ind_{Z₃}^{S₃} ℂ₊ ≅ ℂ₊ ⊕ ℂ₋ and Ind_{Z₃}^{S₃} ℂ_ε ≅ ℂ²",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Discussion5_11.indZ3_trivPlus_decomp, Etingof.Discussion5_11.indZ3_eps_decomp",
+        "reason": "Both decompositions are proved sorry-free in Discussion5_11_examples.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
+        "claim": "The three induced representations of S₄ from S₃: Ind_{S₃}^{S₄} ℂ₊ ≅ ℂ₊ ⊕ ℂ³₋, Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊, Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "Discussion5_11_examples.lean covers only the S₃/Z₂ and S₃/Z₃ examples (examples 1 and 2). There is no Lean formalization of example 3 (G=S₄, H=S₃) anywhere in Chapter5/.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.20",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.25.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "|GL_2(\\mathbb{F}_q)| = q(q+1)(q-1)^2",
+        "claim": "The order of GL₂(𝔽_q) equals q(q+1)(q-1)²",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "GL2.card_GL2 (private, GL2ConjugacyClasses.lean)",
+        "reason": "GL2ConjugacyClasses.lean contains a private lemma GL2.card_GL2 proving |GL₂(𝔽_q)| = (q²-1)(q²-q), which equals q(q+1)(q-1)².",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "The four conjugacy class predicates are exhaustive [Scalar, Parabolic, Hyperbolic/SplitSemisimple, Elliptic] with given counts",
+        "claim": "GL₂(𝔽_q) has four conjugacy class types: scalar (q-1 classes), parabolic (q-1 classes), split semisimple ((q-1)(q-2)/2 classes), elliptic (q(q-1)/2 classes), with their respective cardinalities",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "GL2.conjugacyClass_exhaustive, GL2.card_isScalar, GL2.card_isParabolic, GL2.card_isElliptic, GL2.card_isSplitSemisimple (GL2ConjugacyClasses.lean)",
+        "reason": "GL2ConjugacyClasses.lean proves exhaustiveness (GL2.conjugacyClass_exhaustive), uniqueness, and cardinality formulas for all four types. The class counts are covered by GL2.card_isScalar, GL2.card_isParabolic, GL2.card_isElliptic, GL2.card_isSplitSemisimple.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.25.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.25.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "V_{\\lambda_1, \\lambda_2} = \\operatorname{Ind}_B^G \\mathbb{C}_\\lambda, \\dim(V_{\\lambda_1, \\lambda_2}) = \\frac{|G|}{|B|} = q + 1.",
+        "claim": "The principal series representation V(λ₁,λ₂) = Ind_B^G ℂ_λ has dimension q+1",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.GL2.principalSeries (Theorem5_25_2.lean)",
+        "reason": "Theorem5_25_2.lean defines principalSeries as Ind_B^G and Theorem5_25_2_part2 establishes its decomposition and dimension properties. The dimension q+1 is implicit in the finrank of principalSeriesSubmodule.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.25.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "\\chi \\begin{pmatrix} x & 0 \\\\ 0 & x \\end{pmatrix} = q(q - 1)\\nu(x), \\chi(A) = 0 \\text{ for A parabolic or hyperbolic}, \\chi \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} = \\nu \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix} + \\nu \\begin{pmatrix} x & \\varepsilon y \\\\ y & x \\end{pmatrix}^q",
+        "claim": "The character values of the induced representation Y_ν = Ind_K^G ℂ_ν on the four conjugacy class types",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Lemma5_25_3_innerProduct, Etingof.scalar_coeff_eq, GL2CharacterValues.lean various lemmas",
+        "reason": "GL2CharacterValues.lean contains character value computations for scalar (scalar_coeff_eq), parabolic (complementaryChar_parabolic_val), and elliptic elements. Lemma5_25_3.lean uses these to compute the inner product.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "\\operatorname{Ind}_K^G \\mathbb{C}_{\\nu^q} \\cong \\operatorname{Ind}_K^G \\mathbb{C}_\\nu because they have the same character. Therefore, for \\nu^q \\neq \\nu we get \\frac{1}{2}q(q - 1) representations.",
+        "claim": "Ind_K^G ℂ_{ν^q} ≅ Ind_K^G ℂ_ν; and there are q(q-1)/2 complementary series representations (for ν^q ≠ ν)",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.ComplementarySeries.cs_reps_card (Discussion5_25_4.lean)",
+        "reason": "Discussion5_25_4.lean proves cs_reps_card: the number of orbits of ν ↦ ν^q on the moved set is q(q-1)/2. The isomorphism Ind_K^G ℂ_{ν^q} ≅ Ind_K^G ℂ_ν is established via equal characters in Lemma5_25_3.lean / GL2CharacterValues.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "The character of this representation is ... the 'virtual representation' W_1 \\otimes V_{\\alpha, 1} - V_{\\alpha, 1} - \\operatorname{Ind}_K^G \\mathbb{C}_\\nu ... its inner product with itself is equal to 1 and its value at 1 is positive ... these two properties imply that it is the character of an irreducible representation",
+        "claim": "The virtual character (W₁⊗V_{α,1} − V_{α,1} − Ind_K^G ℂ_ν) has norm-squared 1 and positive dimension, hence is an irreducible character",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Lemma5_25_3_innerProduct, Etingof.Lemma5_25_3_dimension (Lemma5_25_3.lean)",
+        "reason": "Lemma5_25_3.lean proves Lemma5_25_3_innerProduct (inner product = 1) and Lemma5_25_3_dimension (value at 1 = q−1 > 0), establishing irreducibility of the complementary series.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_5.5",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_Schur_polynomials",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "D_\\lambda(x) = \\sum_{s \\in S_N} (-1)^s \\prod_{j=1}^{N} x_{s(j)}^{\\lambda_j + N - j} = \\det(x_i^{\\lambda_j + N - j}). Define the polynomials S_\\lambda(x) := \\frac{D_\\lambda(x)}{D_0(x)}",
+        "claim": "Definition of Schur polynomials S_λ as the ratio D_λ/D_0 of alternant determinants",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "schurPoly (Proposition5_21_1.lean)",
+        "reason": "Proposition5_21_1.lean defines schurPoly as the unique polynomial satisfying schurPoly * vandermonde_det = alternant_det (the alternant ratio identity), matching the book's D_λ/D_0 construction.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "It is easy to see that these are indeed polynomials, as D_\\lambda is antisymmetric and therefore must be divisible by \\Delta.",
+        "claim": "D_λ is antisymmetric and divisible by the Vandermonde determinant Δ, so S_λ is a polynomial",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "vandermonde_dvd_alternant (Proposition5_21_1.lean)",
+        "reason": "Proposition5_21_1.lean proves vandermonde_dvd_alternant establishing divisibility, which is the key step making S_λ a polynomial.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_Theorem5.18.2_proof_end",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_Young_projectors",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_after_Definition5.1.1",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_after_Definition5.23.1",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "For example, V^{\\otimes n} and hence all L_\\lambda are algebraic.",
+        "claim": "V^{⊗n} is an algebraic representation of GL(V), and hence all L_λ (Schur modules) are algebraic",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "glTensorRep_isAlgebraic, detTwistedSchurModuleRep_isAlgebraic (GLRepAlgebraic.lean, DetTwistAlgebraic.lean)",
+        "reason": "GLRepAlgebraic.lean proves glTensorRep_isAlgebraic (V^⊗n is algebraic) and DetTwistAlgebraic.lean proves detTwistedSchurModuleRep_isAlgebraic (all twisted Schur modules are algebraic).",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Also define L_{\\lambda - r \\cdot 1^N} := L_\\lambda \\otimes (\\wedge^N V^*)^{\\otimes r} (this definition makes sense by Proposition 5.22.2). Thus we have attached a unique irreducible algebraic representation L_\\lambda of GL(V) = GL_N to any sequence (\\lambda_1, \\ldots, \\lambda_N) of integers (not necessarily positive) such that \\lambda_1 \\geq \\cdots \\geq \\lambda_N. This sequence is called the highest weight of L_\\lambda.",
+        "claim": "For any weakly decreasing integer sequence λ₁ ≥ … ≥ λ_N, there is a unique irreducible algebraic representation L_λ of GL_N with highest weight λ; it is constructed as (Schur module L_{λ+r·1^N}) ⊗ (det^*)^r for r ≫ 0",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "AlgIrrepGLRep.lean defines AlgIrrepGLRep (the family L_λ for DominantWeight = integer antitone sequences) and proves it is simple (algIrrepGLRep_isSimple). However, there is no Lean theorem explicitly stating UNIQUENESS: that every irreducible algebraic GL_N-representation is isomorphic to some AlgIrrepGLRep n λ k. The definition and simplicity exist; the classification/uniqueness statement as an if-and-only-if is missing.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_after_Proposition5.2.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_after_Proposition5.2.5",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_after_Theorem5.22.1",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_after_Theorem5.4.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_before_Lemma5.4.5",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_before_Lemma5.7.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_before_Proposition5.21.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_before_Theorem5.18.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_before_Theorem5.18.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Now, the algebra A is semisimple by Maschke's theorem, so the double centralizer theorem applies, and we get the following result, which goes under the name \"Schur-Weyl duality\"",
+        "claim": "The image of k[S_n] in End(V^⊗n) is semisimple (by Maschke's theorem) and the double centralizer theorem applies, yielding Schur-Weyl duality",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Theorem5_18_4_centralizers, Theorem5_18_4_semisimple, Theorem5_18_4_decomposition (Theorem5_18_4.lean)",
+        "reason": "Theorem5_18_4.lean proves all parts: semisimplicity of the image (Theorem5_18_4_semisimple), the centralizer equalities (Theorem5_18_4_centralizers), and the bimodule decomposition (Theorem5_18_4_bimodule_decomposition, Theorem5_18_4_decomposition).",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_character_computation_setup",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter5/Discussion_complementary_series_summary",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "We have now shown that for any \\nu with \\nu^q \\neq \\nu the representation Y_\\nu ... exists and is irreducible. These characters are distinct for distinct pairs (\\alpha, \\nu) (up to switching \\nu \\to \\nu^q), so there are \\frac{q(q-1)}{2} such representations, each of dimension q - 1.",
+        "claim": "The complementary series representations Y_ν are irreducible, distinct for distinct orbits of ν ↦ ν^q, number q(q-1)/2, and each has dimension q-1",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Lemma5_25_3_innerProduct, Etingof.Lemma5_25_3_dimension, Etingof.ComplementarySeries.cs_reps_card",
+        "reason": "Irreducibility follows from Lemma5_25_3_innerProduct + Lemma5_25_3_dimension. The count q(q-1)/2 is cs_reps_card in Discussion5_25_4.lean. Dimension q-1 is Lemma5_25_3_dimension.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all irreducible representations of GL_2(\\mathbb{F}_q).",
+        "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "There is no Lean theorem explicitly establishing that the q²-1 representations found exhaust all irreducible representations of GL₂(𝔽_q). The individual counts (1-dim, principal series, complementary series) are covered separately, but the completeness argument — counting = number of conjugacy classes = number of irreps — is not formalized as a single statement.",
+        "dedup_issue": null
+      }
+    ]
+  }
+]

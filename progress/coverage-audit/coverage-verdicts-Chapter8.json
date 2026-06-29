@@ -1,0 +1,76 @@
+[
+  {
+    "blob_id": "Chapter8/Introduction",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter8/Introduction_8.1",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter8/Discussion_after_Exercise8.1.4",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "There is also a notion of an injective module, which is dual to the notion of a projective module. Namely, we have the following theorem.",
+        "claim": "Existence of a dual notion of injective module (introduction to Theorem 8.1.5)",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Purely transitional prose pointing to Theorem 8.1.5; no standalone proposition is being stated. The actual mathematical content is in the numbered theorem that follows, which is formalized in Theorem8_1_5.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter8/Discussion_after_Example8.1.7",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Theorem 8.1.1(iv) and Theorem 8.1.5(iii) can be used to define a projective and an injective object in any abelian category. Namely, we make the following definition.",
+        "claim": "The module characterizations of projective (Hom_A(P,?) exact) and injective (Hom_A(?,I) exact) generalize to define projective and injective objects in any abelian category.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.ProjectiveObject / Etingof.InjectiveObject (EtingofRepresentationTheory/Chapter8/Definition8_1_8.lean)",
+        "reason": "Definition8_1_8.lean directly formalizes projective and injective objects in abelian categories as CategoryTheory.Projective and CategoryTheory.Injective, precisely capturing the content of this prose remark. The blob is motivation for that definition.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter8/Introduction_8.2",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "the functors $M \\otimes_A ?$ and $\\operatorname{Hom}_A(M, ?)$ (where $M$ is a right, respectively left, $A$-module) on the category of left $A$-modules are, in general, not exact (they are only exact on one side)",
+        "claim": "Tensor product M⊗_A? is right exact but not left exact; Hom_A(M,?) is left exact but not right exact.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.tensor_right_exact / Etingof.hom_left_exact (EtingofRepresentationTheory/Chapter7/Example7_9_6.lean)",
+        "reason": "The blob itself cross-references 'Example 7.9.6', which is formalized in Chapter7/Example7_9_6.lean with instances for left exactness of Hom and right exactness of tensor. Covered by the Chapter 7 formalization.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "The job of the functors $\\mathrm{Tor}_i^A(M, ?)$ and $\\mathrm{Ext}^i_A(M, ?)$ is to quantify the extent to which the functors $M \\otimes_A ?$ and $\\mathrm{Hom}_A(M, ?)$ fail to be exact. Namely, these functors are defined as follows.",
+        "claim": "Motivational description of Tor and Ext as derived functors quantifying failure of exactness (points to Definitions 8.2.3 and 8.2.4).",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Purely motivational prose; the actual definitions are in Definition8.2.3.md and Definition8.2.4.md, already formalized in Definition8_2_3.lean and Definition8_2_4.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter8/Discussion_after_Problem8.2.8",
+    "swept_result": "trivial",
+    "claims": [
+      {
+        "source_span": "In a similar way one can define Tor and Ext groups in any abelian category which has **enough projectives**; i.e., any object is a quotient of a projective object (this condition insures that every object has a projective resolution).",
+        "claim": "An abelian category has enough projectives (every object is a quotient of a projective) if and only if every object has a projective resolution; under this condition, Tor and Ext can be defined.",
+        "verdict": "trivial",
+        "lean_decl": "CategoryTheory.EnoughProjectives (Mathlib) / HasProjectiveResolutions (Mathlib)",
+        "reason": "The condition 'enough projectives' is CategoryTheory.EnoughProjectives in Mathlib, and Mathlib provides the instance EnoughProjectives → HasProjectiveResolutions. The Chapter8 Lean files already use HasProjectiveResolutions directly (Definition8_2_3.lean). The prose is a definitional remark and the content is fully captured by Mathlib infrastructure; there is no novel gap to formalize in this project.",
+        "dedup_issue": null
+      }
+    ]
+  }
+]

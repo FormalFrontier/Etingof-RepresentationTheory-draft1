@@ -1,0 +1,27 @@
+[
+  {
+    "blob_id": "Frontmatter/BlankPage1",
+    "swept_result": "non_formalizable",
+    "claims": []
+  },
+  {
+    "blob_id": "Frontmatter/BlankPage2",
+    "swept_result": "non_formalizable",
+    "claims": []
+  },
+  {
+    "blob_id": "Frontmatter/TitlePage",
+    "swept_result": "non_formalizable",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter1/Discussion_BookOrganization",
+    "swept_result": "non_formalizable",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter1/Introduction",
+    "swept_result": "non_formalizable",
+    "claims": []
+  }
+]

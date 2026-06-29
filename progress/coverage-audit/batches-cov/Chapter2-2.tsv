@@ -1,0 +1,20 @@
+blob_id	type	kind	prior_verdict	seed_claims
+Chapter2/Discussion_after_Proposition2.2.3	discussion	no-signal		
+Chapter2/Discussion_after_Theorem2.1.1	discussion	no-signal		
+Chapter2/Discussion_after_Theorem2.1.2	discussion	no-signal		
+Chapter2/Discussion_commutativity_examples	discussion	CANDIDATE	unknown	In case 5, $A$ is commutative if and only if $G$ is commutative. || For instance, in the above examples, $A$ is commutative in cases 1 and 2 but not commutative in cases 3 (if $\dim V > 1$) and 4 (if $n > 1$).
+Chapter2/Discussion_concrete_Lie_examples	discussion	no-signal		
+Chapter2/Discussion_concrete_Lie_examples_continued	discussion	no-signal		
+Chapter2/Discussion_examples_intro	discussion	no-signal		
+Chapter2/Discussion_faithful_example	discussion	CANDIDATE	unknown	For example, $k[t]$ is a faithful representation of the Weyl algebra if $k$ has characteristic zero (check it!), but not in characteristic $p$, where $(d/dt)^p Q = 0$ for any polynomial $Q$. || However, the representation $E = t^a k[a][t, t^{-1}]$, as we've seen, is faithful in any characteristic.
+Chapter2/Discussion_irreducible_vs_indecomposable	discussion	no-signal		
+Chapter2/Discussion_path_algebra_intro	discussion	no-signal		
+Chapter2/Discussion_proof_Corollary2.3.10	discussion	CANDIDATE	unknown	Thus by Proposition 2.3.9 this operator is zero, hence the result. $\square$
+Chapter2/Discussion_proof_Corollary2.3.12	discussion	CANDIDATE	unknown	Indeed, $$ \rho(a)\rho(b)v = \rho(ab)v = \rho(ba)v = \rho(b)\rho(a)v $$ (the second equality is true since the algebra is commutative). || But $V$ is irreducible, so $0$ and $V$ are the only subspaces of $V$. || This means that $\dim V = 1$ (since $V \neq 0$). $\square$ || Hence every subspace of $V$ is a subrepresentation.
+Chapter2/Discussion_pure_tensors	discussion	CANDIDATE	unknown	Note that this tensor product is associative, in the sense that $(V_1 \otimes V_2) \otimes V_3$ can be naturally identified with $V_1 \otimes (V_2 \otimes V_3)$.
+Chapter2/Discussion_quiver_irreducible_indecomposable	discussion	no-signal		
+Chapter2/Discussion_quiver_notation	discussion	no-signal		
+Chapter2/Discussion_quiver_rep_bijection	discussion	CANDIDATE	unknown	Two paths $a, b$ can be concatenated to form the path $ab$ if and only if the final target of $a$ equals the first source of $b$. $P_Q$: let $\mathbf{V} = \bigoplus_i V_i$, let $p_i : \mathbf{V} \to V_i \to \mathbf{V}$ be the projection onto $V_i$, and for any path $p = h_1 \ldots h_m$ let $a_p = x_ || It is clear that the above assignments $\mathbf{V} \mapsto (p_i \mathbf{V})$ and $(V_i) \mapsto \bigoplus_i V_i$ are inverses of each other. || Thus, we have a bijection between isomorphism classes of representations of the algebra $P_Q$ and of the quiver $Q$.
+Chapter2/Discussion_tensor_product_maps	discussion	CANDIDATE	unknown	Namely, if $A : V \to V'$ and $B : W \to W'$ are linear maps, then one can define the linear map $A \otimes B : V \otimes W \to V' \otimes W'$ given by the formula $(A \otimes B)(v \otimes w) = Av \otimes Bw$ (check that this is well defined!).
+Chapter2/Discussion_tensors_type	discussion	no-signal		
+Chapter2/Introduction	introduction	no-signal		

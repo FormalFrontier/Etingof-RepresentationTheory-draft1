@@ -1,0 +1,20 @@
+blob_id	type	kind	prior_verdict	seed_claims
+Chapter2/Discussion_2.10_continued	discussion	no-signal		
+Chapter2/Discussion_2.10_heading	discussion	no-signal		
+Chapter2/Discussion_2.11_heading	discussion	no-signal		
+Chapter2/Discussion_2.12_heading	discussion	no-signal		
+Chapter2/Discussion_2.13_heading	discussion	no-signal		
+Chapter2/Discussion_2.14_heading	discussion	no-signal		
+Chapter2/Discussion_2.15_heading	discussion	no-signal		
+Chapter2/Discussion_2.16_heading	discussion	no-signal		
+Chapter2/Discussion_2.1_irreducible_indecomposable	discussion	no-signal		
+Chapter2/Discussion_2.1_overview	discussion	no-signal		
+Chapter2/Discussion_2.2_intro	discussion	no-signal		
+Chapter2/Discussion_2.4_heading	discussion	no-signal		
+Chapter2/Discussion_2.5_heading	discussion	no-signal		
+Chapter2/Discussion_2.5_well_defined	discussion	CANDIDATE	gap	This is well defined because if $\pi(a) = \pi(a')$, then $$ \pi(a'b) = \pi(ab + (a' - a)b) = \pi(ab) + \pi((a' - a)b) = \pi(ab) $$ because $(a' - a)b \in Ib \subseteq I = \ker \pi$, as $I$ is a right ideal; similarly, if $\pi(b) = \pi(b')$, then $$ \pi(ab') = \pi(ab + a(b' - b)) = \pi(ab) + \pi(a(b'
+Chapter2/Discussion_2.6	discussion	no-signal		
+Chapter2/Discussion_2.7_intro	discussion	no-signal		
+Chapter2/Discussion_2.9_Lie_groups	discussion	CANDIDATE	unknown	One can show that this group has a natural structure of a connected Lie group, whose Lie algebra is $\mathfrak{g}$ (even though it is not always a closed subgroup).
+Chapter2/Discussion_2.9_heading	discussion	no-signal		
+Chapter2/Discussion_Schur_intro	discussion	no-signal		

@@ -1,0 +1,25 @@
+blob_id	type	kind	prior_verdict	seed_claims
+Chapter5/Discussion_1dim_reps	discussion	no-signal		
+Chapter5/Discussion_5.11_examples	discussion	CANDIDATE	gap	Using the Frobenius reciprocity, we obtain $\operatorname{Ind}_H^G \mathbb{C}_+ = \mathbb{C}^2 \oplus \mathbb{C}_+$ and $\operatorname{Ind}_H^G \mathbb{C}_- = \mathbb{C}^2 \oplus \mathbb{C}_-$. || Then we obtain $\operatorname{Ind}_H^G \mathbb{C}_+ = \mathbb{C}_+ \oplus \mathbb{C}_-$, $\operatorname{Ind}_H^G \mathbb{C}_\epsilon = \operatorname{Ind}_H^G \mathbb{C}_{\epsilon^2} = \mathbb{C}^2$.
+Chapter5/Discussion_5.20	discussion	no-signal		
+Chapter5/Discussion_5.25.1	discussion	CANDIDATE	unknown	To begin, let us find the conjugacy classes in $GL_2(\mathbb{F}_q)$. | Representatives | Number of elements in a conjugacy class | Number of classes | |---|---|---| | Scalar $\begin{pmatrix} x & 0 \\ 0 & x \end{pmatrix}$ | 1 (this is a central element) | $q - 1$ (one for every nonzero $x$) | | Parab || These are the matrices whose characteristic polynomial is irreducible over $\mathbb{F}_q$ and which therefore don't have eigenvalues in $\mathbb{F}_q$.
+Chapter5/Discussion_5.25.2	discussion	no-signal		
+Chapter5/Discussion_5.25.3	discussion	no-signal		
+Chapter5/Discussion_5.25.4	discussion	CANDIDATE	gap	"We get $$ \chi \begin{pmatrix} x & 0 \\ 0 & x \end{pmatrix} = q(q - 1)\nu(x), $$ $$ \chi(A) = 0 \quad \text{for } A \text{ parabolic or hyperbolic}, $$ $$ \chi \begin{pmatrix} x & \varepsilon y \\ y & x \end{pmatrix} = \nu \begin{pmatrix} x & \varepsilon y \\ y & x \end{pmatrix} + \nu \begin{pmatrix || Therefore, for $\nu^q \neq \nu$ we get $\frac{1}{2}q(q - 1)$ representations. || The character of this representation is $$ \chi \begin{pmatrix} x & 0 \\ 0 & x \end{pmatrix} = q(q + 1)\alpha(x), $$ $$ \chi(A) = 0 \quad \text{for } A \text{ parabolic or elliptic}, $$ $$ \chi \begin{pmatrix} x & 0 \\ 0 & y \end{pmatrix} = \alpha(x) + \alpha(y). $$ Thus the ""virtual representation"""
+Chapter5/Discussion_5.5	discussion	no-signal		
+Chapter5/Discussion_Schur_polynomials	discussion	CANDIDATE	unknown	Let $$ D_\lambda(x) = \sum_{s \in S_N} (-1)^s \prod_{j=1}^{N} x_{s(j)}^{\lambda_j + N - j} = \det(x_i^{\lambda_j + N - j}). $$ Define the polynomials $$ S_\lambda(x) := \frac{D_\lambda(x)}{D_0(x)} $$ (clearly $D_0(x)$ is just $\Delta(x)$). || It is easy to see that these are indeed polynomials, as $D_\lambda$ is antisymmetric and therefore must be divisible by $\Delta$.
+Chapter5/Discussion_Theorem5.18.2_proof_end	discussion	no-signal		
+Chapter5/Discussion_Young_projectors	discussion	no-signal		
+Chapter5/Discussion_after_Definition5.1.1	discussion	no-signal		
+Chapter5/Discussion_after_Definition5.23.1	discussion	CANDIDATE	unknown	For example, $V^{\otimes n}$ and hence all $L_\lambda$ are algebraic. || Thus we have attached a unique irreducible algebraic representation $L_\lambda$ of $GL(V) = GL_N$ to any sequence $(\lambda_1, \ldots, \lambda_N)$ of integers (not necessarily positive) such that $\lambda_1 \geq \cdots \geq \lambda_N$.
+Chapter5/Discussion_after_Proposition5.2.3	discussion	no-signal		
+Chapter5/Discussion_after_Proposition5.2.5	discussion	no-signal		
+Chapter5/Discussion_after_Theorem5.22.1	discussion	no-signal		
+Chapter5/Discussion_after_Theorem5.4.3	discussion	no-signal		
+Chapter5/Discussion_before_Lemma5.4.5	discussion	no-signal		
+Chapter5/Discussion_before_Lemma5.7.2	discussion	no-signal		
+Chapter5/Discussion_before_Proposition5.21.2	discussion	no-signal		
+Chapter5/Discussion_before_Theorem5.18.2	discussion	no-signal		
+Chapter5/Discussion_before_Theorem5.18.4	discussion	CANDIDATE	unknown	"Now, the algebra $A$ is semisimple by Maschke's theorem, so the double centralizer theorem applies, and we get the following result, which goes under the name ""Schur-Weyl duality"" (as it was discovered by Schur and popularized by Weyl in his books *The theory of groups and quantum mechanics* and *Cl"
+Chapter5/Discussion_character_computation_setup	discussion	no-signal		
+Chapter5/Discussion_complementary_series_summary	discussion	CANDIDATE	unknown	We have now shown that for any $\nu$ with $\nu^q \neq \nu$ the representation $Y_\nu$ with the same character as $$W_1 \otimes V_{\alpha,1} - V_{\alpha,1} - \operatorname{Ind}_K^G \mathbb{C}_\nu$$ exists and is irreducible.

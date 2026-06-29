@@ -1,0 +1,18 @@
+blob_id	type	kind	prior_verdict	seed_claims
+Chapter6/Definition6.6.3_maps	discussion	no-signal		
+Chapter6/Discussion_after_Corollary6.8.3	discussion	CANDIDATE	unknown	These two corollaries show that there are only finitely many indecomposable representations (since there are only finitely many roots) and that the dimension vector of each of them is a positive root.
+Chapter6/Discussion_after_Definition6.1.4	discussion	no-signal		
+Chapter6/Discussion_after_Example6.3.1	discussion	CANDIDATE	unknown	It appears as if the number of indecomposable representations does not depend on the orientation of the edges — and indeed Gabriel's theorem will generalize this observation.
+Chapter6/Discussion_after_Theorem6.8.1	discussion	no-signal		
+Chapter6/Discussion_before_Definition6.6.3	discussion	no-signal		
+Chapter6/Discussion_before_Theorem6.5.2	discussion	no-signal		
+Chapter6/Introduction	introduction	no-signal		
+Chapter6/Section6.1_heading	discussion	no-signal		
+Chapter6/Section6.2_heading	discussion	no-signal		
+Chapter6/Section6.3_heading	discussion	no-signal		
+Chapter6/Section6.4_heading	discussion	no-signal		
+Chapter6/Section6.5_heading	discussion	no-signal		
+Chapter6/Section6.6_heading	discussion	no-signal		
+Chapter6/Section6.7_heading	discussion	no-signal		
+Chapter6/Section6.8_heading	discussion	CANDIDATE	unknown	We now consider the sequence $$ V^{(0)} = V, \quad V^{(1)} = F_n^+ V, \quad V^{(2)} = F_{n-1}^+ F_n^+ V, \quad \ldots. $$ This sequence is well defined because of the selected labeling: $n$ has to be a sink of $Q$, $n-1$ has to be a sink of $\overline{Q}_n$ (where $\overline{Q}_r$ is obtained from $
+Chapter6/Section6.9_heading	discussion	no-signal		

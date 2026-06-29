@@ -1,0 +1,62 @@
+[
+ {
+  "blob": "Chapter5/Discussion_1dim_reps",
+  "claim": "Every 1-dimensional representation of GL₂(𝔽_q) is of the form g ↦ ξ(det g) for a unique character ξ : 𝔽_q× → ℂ×; there are exactly q−1 such representations.",
+  "source_span": "G/[G, G] \\cong \\mathbb{F}_q^\\times via g \\mapsto \\det(g). The 1-dimensional representations of G thus have the form \\rho(g) = \\xi(\\det(g)), where \\xi is a homomorphism \\xi : \\mathbb{F}_q^\\times \\to \\mathbb{C}^\\times; so there are q - 1 such representations, denoted \\mathbb{C}_\\xi.",
+  "reason": "Proposition5_25_1.lean proves [GL₂,GL₂] = SL₂, so G/[G,G] ≅ 𝔽_q× follows, but there is no Lean theorem explicitly classifying all 1-dimensional representations of GL₂(𝔽_q) as exactly the characters ξ∘det, nor counting them at q−1. The detChar definition in Theorem5_25_2.lean defines individual 1-dim reps but does not prove universality/count."
+ },
+ {
+  "blob": "Chapter5/Discussion_5.11_examples",
+  "claim": "The three induced representations of S₄ from S₃: Ind_{S₃}^{S₄} ℂ₊ ≅ ℂ₊ ⊕ ℂ³₋, Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊, Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊",
+  "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
+  "reason": "Discussion5_11_examples.lean covers only the S₃/Z₂ and S₃/Z₃ examples (examples 1 and 2). There is no Lean formalization of example 3 (G=S₄, H=S₃) anywhere in Chapter5/."
+ },
+ {
+  "blob": "Chapter5/Discussion_after_Definition5.23.1",
+  "claim": "For any weakly decreasing integer sequence λ₁ ≥ … ≥ λ_N, there is a unique irreducible algebraic representation L_λ of GL_N with highest weight λ; it is constructed as (Schur module L_{λ+r·1^N}) ⊗ (det^*)^r for r ≫ 0",
+  "source_span": "Also define L_{\\lambda - r \\cdot 1^N} := L_\\lambda \\otimes (\\wedge^N V^*)^{\\otimes r} (this definition makes sense by Proposition 5.22.2). Thus we have attached a unique irreducible algebraic representation L_\\lambda of GL(V) = GL_N to any sequence (\\lambda_1, \\ldots, \\lambda_N) of integers (not necessarily positive) such that \\lambda_1 \\geq \\cdots \\geq \\lambda_N. This sequence is called the highest weight of L_\\lambda.",
+  "reason": "AlgIrrepGLRep.lean defines AlgIrrepGLRep (the family L_λ for DominantWeight = integer antitone sequences) and proves it is simple (algIrrepGLRep_isSimple). However, there is no Lean theorem explicitly stating UNIQUENESS: that every irreducible algebraic GL_N-representation is isomorphic to some AlgIrrepGLRep n λ k. The definition and simplicity exist; the classification/uniqueness statement as an if-and-only-if is missing."
+ },
+ {
+  "blob": "Chapter5/Discussion_complementary_series_summary",
+  "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
+  "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all irreducible representations of GL_2(\\mathbb{F}_q).",
+  "reason": "There is no Lean theorem explicitly establishing that the q²-1 representations found exhaust all irreducible representations of GL₂(𝔽_q). The individual counts (1-dim, principal series, complementary series) are covered separately, but the completeness argument — counting = number of conjugacy classes = number of irreps — is not formalized as a single statement."
+ },
+ {
+  "blob": "Chapter7/Discussion_after_Definition7.9.1",
+  "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
+  "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
+  "reason": "No project-level declaration for this. Mathlib has `preservesFiniteBiproductsOfAdditive` (in `CategoryTheory/Preadditive/AdditiveFunctor.lean`) which gives `PreservesFiniteBiproducts F` for any `[F.Additive]`, from which `F.obj (X ⊞ Y) ≅ F.obj X ⊞ F.obj Y` follows. But the project's `Definition7_9_1.lean` only defines `AdditiveFunctor` and does not state or prove this preservation property."
+ },
+ {
+  "blob": "Chapter7/Discussion_after_Example7.9.5",
+  "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C → D is both left and right exact.",
+  "source_span": "Note that in a semisimple category, any additive functor is automatically exact on both sides.",
+  "reason": "No project-level declaration or proof of this. The project defines `Etingof.IsSemisimpleCategory` in `Definition7_9_4.lean` and additive functors in `Definition7_9_1.lean`, but the theorem connecting them is absent. Mathlib also has no direct statement of this form (search across Mathlib/CategoryTheory returned nothing). The proof sketch: in a semisimple category every short exact sequence 0→X→Y→Z→0 splits as Y≅X⊕Z; an additive functor sends this to 0→F(X)→F(X)⊕F(Z)→F(Z)→0 which is exact."
+ },
+ {
+  "blob": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+  "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V → Etingof.IsIndecomposable A V.",
+  "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
+  "reason": "The project defines both `IsSimpleModule A V` (Mathlib) and `Etingof.IsIndecomposable A V` (Definition2_3_8.lean) but has no theorem connecting them in the module-theoretic setting. Mathlib has `indecomposable_of_simple` only for categorical objects (CategoryTheory.Simple), not for the project's `Etingof.IsIndecomposable`. The 'not vice versa' direction is covered by `Example2_3_14.lean` (exists_indecomposable_not_simple)."
+ },
+ {
+  "blob": "Chapter5/Discussion_footnote_5.15",
+  "claim": "For sigma in S_N acting on rho = (N-1, N-2, ..., 0): sigma(rho) <=_lex rho with equality iff sigma = 1; equivalently lambda + rho - sigma(rho) >=_lex lambda with equality iff sigma = 1.",
+  "source_span": "$\\sigma(\\rho) \\leq \\rho$ lexicographically with equality if and only if $\\sigma = 1$, and subtracting both sides from the constant vector $\\lambda + \\rho$ shows that $\\lambda + \\rho - \\sigma(\\rho) \\geq \\lambda$ with equality if and only if $\\sigma = 1$.",
+  "reason": "This is a standalone statable combinatorial proposition about the lexicographic comparison of sigma(rho) and rho for sigma in S_N. It appears as a footnote used to justify the key argument in the proof of Theorem 5.15.1 (Frobenius character formula). No Lean declaration states or proves this lex-ordering claim directly. Theorem5_15_1.lean contains 'rev_of_permExponent_eq_rhoShift' (permExponent = rhoShift iff pi = revPerm), which is a related private lemma for a specific permutation, but it does not state the lex inequality for general sigma, nor the 'mu >= lambda with equality iff sigma = 1' reformulation that the footnote asserts."
+ },
+ {
+  "blob": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+  "claim": "The weight mu = <lambda + rho - sigma(rho)> satisfies mu > lambda or mu = lambda; equality holds iff sigma = 1.",
+  "source_span": "$\\mu = \\langle\\lambda + \\rho - \\sigma(\\rho)\\rangle$ is obtained from $\\lambda$ by adding vectors of the form $e_i - e_j$, $i < j$, which implies that $\\mu > \\lambda$ or $\\mu = \\lambda$, and the case $\\mu = \\lambda$ arises only if $\\sigma = 1$.",
+  "reason": "This is the same combinatorial claim as in Discussion_footnote_5.15 but stated in a slightly different form (mu obtained from lambda by adding e_i - e_j). No standalone Lean declaration proves this mu >= lambda with equality iff sigma = 1 property. It is a key step in the proof of Theorem 5.15.1 but is not separately formalized."
+ },
+ {
+  "blob": "Chapter5/Discussion_5.25.1",
+  "claim": "The number of conjugacy classes of each type in GL₂(𝔽_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q²-1.",
+  "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
+  "reason": "Wave-1 said this was 'covered by GL2.card_isScalar, GL2.card_isParabolic, GL2.card_isElliptic, GL2.card_isSplitSemisimple', but those theorems count the total NUMBER OF ELEMENTS of each type, not the NUMBER OF CONJUGACY CLASSES of each type. For example, GL2.card_isParabolic = (q-1)(q²-1) counts parabolic elements; the claim that there are exactly q-1 parabolic conjugacy classes (each of size q²-1) is a distinct statement. The ConjClasses type is never used for GL2 anywhere in Chapter5/. There is no named theorem stating |{parabolic conjugacy classes}| = q-1, |{split-semisimple classes}| = (q-1)(q-2)/2, or |{elliptic classes}| = q(q-1)/2. The total count q²-1 is also unformalized and is needed for the completeness argument in Discussion_complementary_series_summary."
+ }
+]
