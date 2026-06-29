@@ -152,22 +152,39 @@ private lemma IrrepDecomp.projRingHom_smul' [NeZero (Nat.card G : k)]
   simp [IrrepDecomp.projRingHom]
 
 /-- The Frobenius determinant equals the product of block polynomials raised to their
-respective dimensions. -/
-private lemma IrrepDecomp.frobeniusDet_eq_prod [NeZero (Nat.card G : k)]
+respective dimensions, up to the sign of the inversion permutation `g ↦ g⁻¹` on `G`.
+
+The book's matrix `X_G` has entries `x_{gᵢgⱼ}` (a forward product), whereas the matrix
+of the regular-representation operator `L(x) = ∑ x_g ρ(g)` has entries `x_{gᵢgⱼ⁻¹}` and
+its determinant is the algebra norm of `∑ x_g g`. The two matrices differ by the column
+permutation `h ↦ h⁻¹`, hence their determinants differ by the sign of that permutation.
+This sign is a unit and is absorbed into the irreducible factors in Theorem 4.10.2. -/
+private lemma IrrepDecomp.frobeniusDet_eq_signSmul_prod [NeZero (Nat.card G : k)]
     (D : IrrepDecomp k G) :
-    Etingof.FrobeniusDeterminant k G = ∏ i : Fin D.n, D.blockPoly i ^ D.d i := by
+    Etingof.FrobeniusDeterminant k G =
+      ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i := by
   -- Use funext: reduce to showing equality for all evaluations σ : G → k
   haveI : Infinite k := IsAlgClosed.instInfinite
   apply MvPolynomial.funext
   intro σ
   -- Define the group algebra element corresponding to σ
   set a : MonoidAlgebra k G := ∑ s : G, σ s • MonoidAlgebra.of k G s with ha_def
-  -- Evaluate LHS: det of group matrix
+  -- Evaluate LHS: determinant of the book's forward group matrix `x_{gᵢgⱼ}`
   have hLHS : MvPolynomial.eval σ (Etingof.FrobeniusDeterminant k G) =
-      (Matrix.of fun g h : G => σ (g * h⁻¹)).det := by
+      (Matrix.of fun g h : G => σ (g * h)).det := by
     unfold Etingof.FrobeniusDeterminant
     rw [RingHom.map_det]
     congr 1; ext g h; simp [Matrix.map, Matrix.of_apply, MvPolynomial.eval_X]
+  -- The forward matrix is the operator matrix with columns permuted by inversion
+  have hPerm : (Matrix.of fun g h : G => σ (g * h)).det =
+      ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) *
+        (Matrix.of fun g h : G => σ (g * h⁻¹)).det := by
+    have hsub : (Matrix.of fun g h : G => σ (g * h)) =
+        (Matrix.of fun g h : G => σ (g * h⁻¹)).submatrix id (Equiv.inv G) := by
+      ext g h
+      simp [Matrix.submatrix_apply, Equiv.inv_apply]
+    rw [hsub]
+    exact Matrix.det_permute' (Equiv.inv G) _
   -- Evaluate RHS: product of block determinants
   have hRHS : MvPolynomial.eval σ (∏ i : Fin D.n, D.blockPoly i ^ D.d i) =
       ∏ i : Fin D.n, (MvPolynomial.eval σ (D.blockPoly i)) ^ D.d i := by
@@ -185,7 +202,7 @@ private lemma IrrepDecomp.frobeniusDet_eq_prod [NeZero (Nat.card G : k)]
     rw [ha_def, map_sum]
     simp only [D.projRingHom_smul' i, Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul]
     apply Finset.sum_congr rfl; intro g _; ring
-  -- The LHS matrix det equals Algebra.norm k a
+  -- The operator matrix det equals Algebra.norm k a
   have hLHS_eq : (Matrix.of fun g h : G => σ (g * h⁻¹)).det = Algebra.norm k a := by
     rw [Algebra.norm_eq_matrix_det (Finsupp.basisSingleOne (R := k))]
     congr 1
@@ -194,11 +211,18 @@ private lemma IrrepDecomp.frobeniusDet_eq_prod [NeZero (Nat.card G : k)]
     change σ (g * h⁻¹) = (∑ s : G, σ s • MonoidAlgebra.of k G s : MonoidAlgebra k G) (g * h⁻¹)
     rw [Finsupp.finset_sum_apply]
     simp [MonoidAlgebra.of_apply, Finsupp.smul_apply, Finsupp.single_apply]
+  -- Evaluate the scalar smul on the RHS
+  have hsmul : MvPolynomial.eval σ
+      (((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) • ∏ i : Fin D.n, D.blockPoly i ^ D.d i) =
+      ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) *
+        MvPolynomial.eval σ (∏ i : Fin D.n, D.blockPoly i ^ D.d i) := by
+    rw [MvPolynomial.smul_eq_C_mul, map_mul, MvPolynomial.eval_C]
   -- Chain the equalities
-  rw [hLHS, hRHS]
+  rw [hLHS, hPerm, hLHS_eq, hsmul]
+  congr 1
+  -- Now: Algebra.norm k a = ∏ i, (projRingHom i a).det ^ d i  (= eval σ ∏ blockPoly^d)
+  rw [hRHS]
   simp_rw [hblock_eq]
-  rw [hLHS_eq]
-  -- Now: Algebra.norm k a = ∏ i, (projRingHom i a).det ^ d i
   rw [show Algebra.norm k a = Algebra.norm k (D.iso a) from
     (Algebra.norm_eq_of_algEquiv D.iso a).symm]
   rw [Algebra.norm_pi k]
@@ -969,10 +993,86 @@ theorem Etingof.Theorem4_10_2
     rw [h]; exact (isUnit_of_invertible _).ne_zero
   -- Get the Wedderburn-Artin decomposition
   let D := IrrepDecomp.mk' (k := k) (G := G)
-  -- Provide witnesses and proofs
-  refine ⟨D.n, D.blockPoly, D.blockPoly_irreducible, D.blockPoly_not_associated,
-    ?_, D.n_eq_card_conjClasses⟩
-  -- Show: FrobeniusDeterminant = ∏ blockPoly ^ totalDegree
-  conv_lhs => rw [D.frobeniusDet_eq_prod]
-  congr 1; ext i
-  rw [D.blockPoly_totalDegree i]
+  -- The sign of the inversion permutation `g ↦ g⁻¹` (a unit `±1` in `k`).
+  set s : k := ((Equiv.Perm.sign (Equiv.inv G) : ℤ) : k) with hs_def
+  have hsne : s ≠ 0 := by
+    rcases Int.units_eq_one_or (Equiv.Perm.sign (Equiv.inv G)) with h | h <;>
+      simp [hs_def, h]
+  -- There is at least one Wedderburn block (the number of blocks is the number of
+  -- conjugacy classes, which is positive).
+  have hn : 0 < D.n := by
+    rw [D.n_eq_card_conjClasses]
+    haveI : Nonempty (ConjClasses G) := ⟨ConjClasses.mk 1⟩
+    exact Fintype.card_pos
+  set j0 : Fin D.n := ⟨0, hn⟩ with hj0_def
+  haveI := D.d_pos j0
+  have hd0 : 0 < D.d j0 := Nat.pos_of_ne_zero (NeZero.ne _)
+  -- Choose a `d₀`-th root of the sign (exists since `k` is algebraically closed); scaling
+  -- the `0`-th block polynomial by this constant absorbs the sign into the factorization.
+  obtain ⟨c, hc⟩ := IsAlgClosed.exists_pow_nat_eq s hd0
+  have hc0 : c ≠ 0 := by
+    rintro rfl; rw [zero_pow hd0.ne'] at hc; exact hsne hc.symm
+  have hCc : IsUnit (C c : MvPolynomial G k) := (Ne.isUnit hc0).map MvPolynomial.C
+  -- The adjusted family of irreducible factors.
+  set P : Fin D.n → MvPolynomial G k :=
+    Function.update D.blockPoly j0 (C c * D.blockPoly j0) with hP_def
+  -- Each adjusted factor is associated to the corresponding block polynomial.
+  have hPassoc : ∀ j, Associated (P j) (D.blockPoly j) := by
+    intro j
+    by_cases hj : j = j0
+    · subst hj; rw [hP_def, Function.update_self]
+      exact associated_unit_mul_left _ _ hCc
+    · rw [hP_def, Function.update_of_ne hj]
+  -- Scaling by a nonzero constant preserves the total degree.
+  have hle1 : (C c * D.blockPoly j0).totalDegree ≤ (D.blockPoly j0).totalDegree := by
+    have h := totalDegree_mul (C c) (D.blockPoly j0)
+    rwa [totalDegree_C, zero_add] at h
+  have hle2 : (D.blockPoly j0).totalDegree ≤ (C c * D.blockPoly j0).totalDegree := by
+    have hrw : D.blockPoly j0 = C c⁻¹ * (C c * D.blockPoly j0) := by
+      rw [← mul_assoc, ← C_mul, inv_mul_cancel₀ hc0, C_1, one_mul]
+    have h := totalDegree_mul (C c⁻¹) (C c * D.blockPoly j0)
+    rw [totalDegree_C, zero_add] at h
+    rwa [← hrw] at h
+  have hPdeg0 : (C c * D.blockPoly j0).totalDegree = (D.blockPoly j0).totalDegree :=
+    le_antisymm hle1 hle2
+  -- The total degree of each adjusted factor equals the block dimension.
+  have hexp : ∀ j, (P j).totalDegree = D.d j := by
+    intro j
+    by_cases hj : j = j0
+    · subst hj; rw [hP_def, Function.update_self, hPdeg0, D.blockPoly_totalDegree]
+    · rw [hP_def, Function.update_of_ne hj, D.blockPoly_totalDegree]
+  -- Provide witnesses and proofs.
+  refine ⟨D.n, P, ?_, ?_, ?_, D.n_eq_card_conjClasses⟩
+  · -- Irreducibility
+    intro j
+    by_cases hj : j = j0
+    · subst hj; rw [hP_def, Function.update_self]
+      exact (irreducible_isUnit_mul hCc).mpr (D.blockPoly_irreducible j0)
+    · rw [hP_def, Function.update_of_ne hj]; exact D.blockPoly_irreducible j
+  · -- Pairwise non-associated
+    intro i j hij hassoc
+    exact D.blockPoly_not_associated i j hij
+      (((hPassoc i).symm.trans hassoc).trans (hPassoc j))
+  · -- Factorization: FrobeniusDeterminant = ∏ P j ^ (P j).totalDegree
+    have hprodexp : (∏ j : Fin D.n, P j ^ (P j).totalDegree)
+        = ∏ j : Fin D.n, P j ^ D.d j :=
+      Finset.prod_congr rfl (fun j _ => by rw [hexp j])
+    have hPj0 : P j0 = C c * D.blockPoly j0 := by rw [hP_def, Function.update_self]
+    have herase : (∏ j ∈ Finset.univ.erase j0, P j ^ D.d j)
+        = ∏ j ∈ Finset.univ.erase j0, D.blockPoly j ^ D.d j :=
+      Finset.prod_congr rfl (fun j hj => by
+        rw [hP_def, Function.update_of_ne (Finset.ne_of_mem_erase hj)])
+    rw [D.frobeniusDet_eq_signSmul_prod, ← hs_def, hprodexp]
+    symm
+    calc ∏ j : Fin D.n, P j ^ D.d j
+        = P j0 ^ D.d j0 * ∏ j ∈ Finset.univ.erase j0, P j ^ D.d j :=
+          (Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ j0)).symm
+      _ = (C c * D.blockPoly j0) ^ D.d j0 *
+            ∏ j ∈ Finset.univ.erase j0, D.blockPoly j ^ D.d j := by rw [hPj0, herase]
+      _ = C s * (D.blockPoly j0 ^ D.d j0 *
+            ∏ j ∈ Finset.univ.erase j0, D.blockPoly j ^ D.d j) := by
+          rw [mul_pow, ← C_pow, hc, mul_assoc]
+      _ = C s * ∏ j : Fin D.n, D.blockPoly j ^ D.d j := by
+          rw [Finset.mul_prod_erase Finset.univ (fun j => D.blockPoly j ^ D.d j)
+            (Finset.mem_univ j0)]
+      _ = s • ∏ j : Fin D.n, D.blockPoly j ^ D.d j := C_mul'
