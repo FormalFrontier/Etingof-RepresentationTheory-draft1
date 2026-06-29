@@ -2045,7 +2045,8 @@
     "fidelity": "gap",
     "notes": "All sorries resolved.",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book Theorem 3.10.2(ii): any irreducible M of A⊗B has the form V⊗W for **unique** V and W. The Lean theorem tensor_product_irreducible_classification proves existence (∃ V W ...) but entire"
+    "fidelity_note": "[fidelity] Book Theorem 3.10.2(ii): any irreducible M of A⊗B has the form V⊗W for **unique** V and W. The Lean theorem tensor_product_irreducible_classification proves existence (∃ V W ...) but entire",
+    "fidelity_issue": 5614
   },
   {
     "id": "Chapter3/Remark3.10.3",
@@ -4116,7 +4117,8 @@
     "needs_statement": true,
     "sorry_free": true,
     "notes": "Proved in PR #1808 (antisymmetric basis decomposition).",
-    "fidelity_note": "[fidelity] Book: ∏_m (x_1^m+⋯+x_N^m)^{i_m} = ∑_{λ: ℓ(λ)≤N} χ_λ(C_i) S_λ(x), where the sum ranges over ALL partitions of n with at most N parts. Lean's canonical declaration is: ∃ (lams : Finset (Bound"
+    "fidelity_note": "[fidelity] Book: ∏_m (x_1^m+⋯+x_N^m)^{i_m} = ∑_{λ: ℓ(λ)≤N} χ_λ(C_i) S_λ(x), where the sum ranges over ALL partitions of n with at most N parts. Lean's canonical declaration is: ∃ (lams : Finset (Bound",
+    "fidelity_issue": 5615
   },
   {
     "id": "Chapter5/Discussion_before_Proposition5.21.2",
