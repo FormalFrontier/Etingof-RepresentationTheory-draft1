@@ -3645,9 +3645,9 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The 'coeffs' field has type 'FDRep ℂ G → ℤ', a function on ALL FDReps, not restricted to irreducible (simple) ones. The book defines a virtual representation as an 'integer linear combinati",
+    "fidelity_note": "[fidelity] Resolved (#5382): added the 'support_simple' field requiring every representation with a nonzero coefficient to be a Simple (irreducible) object, so the structure now models an integer combination of irreducibles as the book demands. The virtual character is defined in 'character'.",
     "fidelity_decl": "Etingof.VirtualRepresentation",
     "fidelity_issue": 5382
   },
