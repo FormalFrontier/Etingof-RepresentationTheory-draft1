@@ -2042,10 +2042,10 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "notes": "All sorries resolved.",
+    "fidelity": "faithful",
+    "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614).",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book Theorem 3.10.2(ii): any irreducible M of A⊗B has the form V⊗W for **unique** V and W. The Lean theorem tensor_product_irreducible_classification proves existence (∃ V W ...) but entire",
+    "fidelity_note": "[resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V ≅ V' as A-modules, W ≅ W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
     "fidelity_issue": 5614
   },
   {

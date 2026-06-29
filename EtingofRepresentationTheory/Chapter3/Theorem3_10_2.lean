@@ -510,3 +510,224 @@ theorem Etingof.tensor_product_irreducible_classification.{u}
     have hsm : evalMap V₀ (ev_equiv.symm m) = m := by
       rw [← ev_apply]; exact ev_equiv.apply_symm_apply m
     rw [hsm]
+
+/-! ## Part 3: Uniqueness of the factors
+
+Theorem 3.10.2(ii) of Etingof asserts not merely that an irreducible representation `M`
+of `A ⊗ B` has the form `V ⊗ W`, but that `V` and `W` are **unique** (up to isomorphism).
+We record this as a companion theorem: any two `A`-`B`-equivariant factorizations of the
+same module agree up to isomorphism of the factors.
+
+The proof is Schur's lemma applied to the `A`-action. An `A`-`B`-equivariant equivalence
+`e : V ⊗ W ≃ V' ⊗ W'` is in particular `A`-linear (with `A` acting on the left factors).
+Fixing `0 ≠ w₀ ∈ W` and a functional `ψ : W' → k`, the map
+`v ↦ rid (map id ψ (e (v ⊗ w₀)))` is an `A`-linear map `V → V'`; for a suitable `ψ` it is
+nonzero, hence an isomorphism by Schur's lemma. Uniqueness of `W` follows by symmetry,
+applying the same lemma to the factor-swapped equivalence `W ⊗ V ≃ W' ⊗ V'`. -/
+
+section Part3Helpers
+
+open scoped TensorProduct
+
+/-- A nonzero vector in a finite-dimensional space is detected by some linear functional. -/
+private theorem exists_functional_ne_zero {k V : Type*} [Field k]
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V] {v : V} (hv : v ≠ 0) :
+    ∃ φ : V →ₗ[k] k, φ v ≠ 0 := by
+  classical
+  let bV := Module.finBasis k V
+  have hrepr : bV.repr v ≠ 0 := fun h => hv (bV.repr.injective (by simp [h]))
+  obtain ⟨i, hi⟩ := Finsupp.ne_iff.mp hrepr
+  simp only [Finsupp.zero_apply] at hi
+  exact ⟨bV.coord i, by simpa [Module.Basis.coord_apply] using hi⟩
+
+/-- A nonzero pure tensor of two nonzero vectors over a field. -/
+private theorem tmul_ne_zero {k V W : Type*} [Field k]
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    [AddCommGroup W] [Module k W] [FiniteDimensional k W]
+    {v : V} {w : W} (hv : v ≠ 0) (hw : w ≠ 0) : v ⊗ₜ[k] w ≠ 0 := by
+  obtain ⟨φ, hφ⟩ := exists_functional_ne_zero (k := k) hv
+  obtain ⟨ψ, hψ⟩ := exists_functional_ne_zero (k := k) hw
+  intro h
+  apply mul_ne_zero hφ hψ
+  have := congrArg (fun z => TensorProduct.lid k k (TensorProduct.map φ ψ z)) h
+  simpa [TensorProduct.map_tmul, TensorProduct.lid_tmul] using this
+
+/-- For a nonzero element of `V ⊗ W` (both finite-dimensional over a field) there exist
+functionals `φ`, `ψ` whose contraction is nonzero. -/
+private theorem exists_contraction_ne_zero {k V W : Type*} [Field k]
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    [AddCommGroup W] [Module k W] [FiniteDimensional k W]
+    {t : V ⊗[k] W} (ht : t ≠ 0) :
+    ∃ (φ : V →ₗ[k] k) (ψ : W →ₗ[k] k),
+      TensorProduct.lid k k (TensorProduct.map φ ψ t) ≠ 0 := by
+  classical
+  let bV := Module.finBasis k V
+  let coeffs := TensorProduct.equivFinsuppOfBasisLeft bV t
+  have hcoeffs_ne : coeffs ≠ 0 := by
+    intro h
+    apply ht
+    have : t = (TensorProduct.equivFinsuppOfBasisLeft bV).symm coeffs :=
+      ((TensorProduct.equivFinsuppOfBasisLeft bV).symm_apply_apply t).symm
+    rw [this, h, map_zero]
+  obtain ⟨i₀, hi₀⟩ := Finsupp.ne_iff.mp hcoeffs_ne
+  simp only [Finsupp.zero_apply] at hi₀
+  set w₀ := coeffs i₀ with hw₀_def
+  let bW := Module.finBasis k W
+  have hrepr_ne : bW.repr w₀ ≠ 0 :=
+    fun h => hi₀ (bW.repr.injective (by simp [h]))
+  obtain ⟨j₀, hj₀⟩ := Finsupp.ne_iff.mp hrepr_ne
+  simp only [Finsupp.zero_apply] at hj₀
+  refine ⟨bV.coord i₀, bW.coord j₀, ?_⟩
+  suffices hc : TensorProduct.lid k k (TensorProduct.map (bV.coord i₀) (bW.coord j₀) t)
+      = (bW.repr w₀) j₀ by rw [hc]; exact hj₀
+  have hu_decomp : t = (TensorProduct.equivFinsuppOfBasisLeft bV).symm coeffs :=
+    ((TensorProduct.equivFinsuppOfBasisLeft bV).symm_apply_apply t).symm
+  conv_lhs => rw [hu_decomp]
+  rw [TensorProduct.equivFinsuppOfBasisLeft_symm_apply, Finsupp.sum]
+  simp only [map_sum, TensorProduct.map_tmul, TensorProduct.lid_tmul,
+    Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply]
+  rw [Finset.sum_eq_single i₀]
+  · simp [hw₀_def]
+  · intro i _ hi; simp [hi]
+  · intro h; exact absurd (Finsupp.mem_support_iff.mpr hi₀) h
+
+/-- Contraction by `φ` of a right-partial contraction by `ψ` equals the full contraction. -/
+private theorem lid_map_eq_apply_rid {k V' W' : Type*} [Field k]
+    [AddCommGroup V'] [Module k V'] [AddCommGroup W'] [Module k W']
+    (φ : V' →ₗ[k] k) (ψ : W' →ₗ[k] k) (z : V' ⊗[k] W') :
+    φ ((TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ z))
+      = TensorProduct.lid k k (TensorProduct.map φ ψ z) := by
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | tmul v' w' =>
+    simp only [TensorProduct.map_tmul, LinearMap.id_apply, TensorProduct.rid_tmul,
+      map_smul, smul_eq_mul, TensorProduct.lid_tmul]
+    ring
+  | add x y hx hy => simp [map_add, hx, hy]
+
+/-- The right-partial contraction `rid ∘ map id ψ` intertwines the left `A`-action
+`map (lsmul a) id` with the `A`-action on `V'`. -/
+private theorem rid_mapψ_lsmul {k A V' W' : Type*} [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup V'] [Module k V'] [Module A V'] [IsScalarTower k A V']
+    [AddCommGroup W'] [Module k W']
+    (ψ : W' →ₗ[k] k) (a : A) (z : V' ⊗[k] W') :
+    (TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ
+        (TensorProduct.map ((Algebra.lsmul k k V' : A →ₐ[k] _) a) LinearMap.id z))
+      = a • (TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ z) := by
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | tmul v' w' =>
+    simp only [TensorProduct.map_tmul, LinearMap.id_apply, Algebra.lsmul_coe,
+      TensorProduct.rid_tmul]
+    exact smul_comm (ψ w') a v'
+  | add x y hx hy => simp only [map_add, smul_add, hx, hy]
+
+end Part3Helpers
+
+open scoped TensorProduct in
+/-- Uniqueness of the left factor in `V ⊗ W ≃ V' ⊗ W'`. If `V` and `V'` are simple
+`A`-modules and `e` is an `A`-equivariant equivalence (with `A` acting on the left factors)
+and the right factor `W` is nontrivial, then `V ≅ V'` as `A`-modules. This is Schur's lemma:
+a suitable contraction of `e` provides a nonzero, hence bijective, `A`-linear map `V → V'`. -/
+theorem Etingof.tensor_left_factor_unique
+    {k A V W V' W' : Type*} [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V] [FiniteDimensional k V]
+    [AddCommGroup W] [Module k W] [FiniteDimensional k W] [Nontrivial W]
+    [AddCommGroup V'] [Module k V'] [Module A V'] [IsScalarTower k A V'] [FiniteDimensional k V']
+    [AddCommGroup W'] [Module k W'] [FiniteDimensional k W']
+    [IsSimpleModule A V] [IsSimpleModule A V']
+    (e : V ⊗[k] W ≃ₗ[k] V' ⊗[k] W')
+    (hA : ∀ (a : A) (x : V ⊗[k] W),
+        e (TensorProduct.map ((Algebra.lsmul k k V : A →ₐ[k] _) a) LinearMap.id x)
+          = TensorProduct.map ((Algebra.lsmul k k V' : A →ₐ[k] _) a) LinearMap.id (e x)) :
+    Nonempty (V ≃ₗ[A] V') := by
+  classical
+  haveI := IsSimpleModule.nontrivial A V
+  obtain ⟨w₀, hw₀⟩ := exists_ne (0 : W)
+  -- For each `ψ : W' → k`, the contraction is a genuine `A`-linear map `V → V'`.
+  let T : (W' →ₗ[k] k) → (V →ₗ[A] V') := fun ψ =>
+    { toFun := fun v =>
+        (TensorProduct.rid k V') (TensorProduct.map LinearMap.id ψ (e (v ⊗ₜ[k] w₀)))
+      map_add' := fun x y => by simp only [TensorProduct.add_tmul, map_add]
+      map_smul' := fun a v => by
+        simp only [RingHom.id_apply]
+        have hsmul : (a • v) ⊗ₜ[k] w₀
+            = TensorProduct.map ((Algebra.lsmul k k V : A →ₐ[k] _) a) LinearMap.id (v ⊗ₜ[k] w₀) := by
+          rw [TensorProduct.map_tmul]; simp [Algebra.lsmul_coe]
+        rw [hsmul, hA, rid_mapψ_lsmul] }
+  -- Some `ψ` makes `T ψ` nonzero.
+  have hex : ∃ ψ : W' →ₗ[k] k, T ψ ≠ 0 := by
+    by_contra h
+    push_neg at h
+    obtain ⟨v₁, hv₁⟩ := exists_ne (0 : V)
+    have ht : e (v₁ ⊗ₜ[k] w₀) ≠ 0 :=
+      fun hz => tmul_ne_zero hv₁ hw₀ (e.injective (hz.trans (map_zero e).symm))
+    obtain ⟨φ, ψ, hφψ⟩ := exists_contraction_ne_zero ht
+    apply hφψ
+    have hTψ : (TensorProduct.rid k V')
+        (TensorProduct.map LinearMap.id ψ (e (v₁ ⊗ₜ[k] w₀))) = 0 := by
+      calc (TensorProduct.rid k V')
+              (TensorProduct.map LinearMap.id ψ (e (v₁ ⊗ₜ[k] w₀)))
+          = T ψ v₁ := rfl
+        _ = (0 : V →ₗ[A] V') v₁ := by rw [h ψ]
+        _ = 0 := rfl
+    calc TensorProduct.lid k k (TensorProduct.map φ ψ (e (v₁ ⊗ₜ[k] w₀)))
+        = φ ((TensorProduct.rid k V')
+            (TensorProduct.map LinearMap.id ψ (e (v₁ ⊗ₜ[k] w₀)))) :=
+          (lid_map_eq_apply_rid φ ψ _).symm
+      _ = φ 0 := by rw [hTψ]
+      _ = 0 := map_zero φ
+  obtain ⟨ψ, hψ⟩ := hex
+  exact ⟨LinearEquiv.ofBijective (T ψ) (LinearMap.bijective_of_ne_zero hψ)⟩
+
+open scoped TensorProduct in
+/-- The factor-swap equivalence `comm` intertwines `map f g` with `map g f`. -/
+private theorem comm_map_apply {k M N M' N' : Type*} [CommSemiring k]
+    [AddCommMonoid M] [Module k M] [AddCommMonoid N] [Module k N]
+    [AddCommMonoid M'] [Module k M'] [AddCommMonoid N'] [Module k N']
+    (f : M →ₗ[k] M') (g : N →ₗ[k] N') (x : M ⊗[k] N) :
+    (TensorProduct.comm k M' N') (TensorProduct.map f g x)
+      = TensorProduct.map g f ((TensorProduct.comm k M N) x) := by
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul m n => simp [TensorProduct.map_tmul, TensorProduct.comm_tmul]
+  | add p q hp hq => simp [map_add, hp, hq]
+
+open scoped TensorProduct in
+/-- Uniqueness in Etingof Theorem 3.10.2(ii): the factors `V` and `W` of an irreducible
+representation `M ≅ V ⊗ W` of `A ⊗ B` are unique up to isomorphism. Concretely, any
+`A`-`B`-equivariant equivalence `e : V ⊗ W ≃ V' ⊗ W'` between two factorizations into
+simple modules forces `V ≅ V'` as `A`-modules and `W ≅ W'` as `B`-modules.
+
+Together with `Etingof.tensor_product_irreducible_classification` (existence), this is the
+full content of the book's "for **unique** `V` and `W`": two factorizations of the same `M`
+yield such an `e` by composing the two equivalences. -/
+theorem Etingof.tensor_product_irreducible_classification_unique
+    {k A B V W V' W' : Type*} [Field k]
+    [Ring A] [Algebra k A] [Ring B] [Algebra k B]
+    [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V] [FiniteDimensional k V]
+    [AddCommGroup W] [Module k W] [Module B W] [IsScalarTower k B W] [FiniteDimensional k W]
+    [AddCommGroup V'] [Module k V'] [Module A V'] [IsScalarTower k A V'] [FiniteDimensional k V']
+    [AddCommGroup W'] [Module k W'] [Module B W'] [IsScalarTower k B W'] [FiniteDimensional k W']
+    [IsSimpleModule A V] [IsSimpleModule A V'] [IsSimpleModule B W] [IsSimpleModule B W']
+    (e : V ⊗[k] W ≃ₗ[k] V' ⊗[k] W')
+    (hA : ∀ (a : A) (x : V ⊗[k] W),
+        e (TensorProduct.map ((Algebra.lsmul k k V : A →ₐ[k] _) a) LinearMap.id x)
+          = TensorProduct.map ((Algebra.lsmul k k V' : A →ₐ[k] _) a) LinearMap.id (e x))
+    (hB : ∀ (b : B) (x : V ⊗[k] W),
+        e (TensorProduct.map LinearMap.id ((Algebra.lsmul k k W : B →ₐ[k] _) b) x)
+          = TensorProduct.map LinearMap.id ((Algebra.lsmul k k W' : B →ₐ[k] _) b) (e x)) :
+    Nonempty (V ≃ₗ[A] V') ∧ Nonempty (W ≃ₗ[B] W') := by
+  haveI := IsSimpleModule.nontrivial A V
+  haveI := IsSimpleModule.nontrivial B W
+  refine ⟨Etingof.tensor_left_factor_unique e hA, ?_⟩
+  -- Swap the tensor factors: `ê : W ⊗ V ≃ W' ⊗ V'` is `B`-equivariant on the left.
+  let ê : W ⊗[k] V ≃ₗ[k] W' ⊗[k] V' :=
+    (TensorProduct.comm k W V).trans (e.trans (TensorProduct.comm k V' W'))
+  refine Etingof.tensor_left_factor_unique (A := B) (V := W) (W := V) (V' := W') (W' := V') ê ?_
+  intro b x
+  change (TensorProduct.comm k V' W') (e ((TensorProduct.comm k W V)
+        (TensorProduct.map ((Algebra.lsmul k k W : B →ₐ[k] _) b) LinearMap.id x)))
+      = TensorProduct.map ((Algebra.lsmul k k W' : B →ₐ[k] _) b) LinearMap.id
+          ((TensorProduct.comm k V' W') (e ((TensorProduct.comm k W V) x)))
+  rw [comm_map_apply, hB, comm_map_apply]
