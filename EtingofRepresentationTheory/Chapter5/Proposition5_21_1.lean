@@ -572,11 +572,15 @@ theorem exists_bp_of_strictAnti_sum {N n : ℕ}
     simp only [vandermondeExps] at hsum; omega
   · funext j; simp only [shiftedExps, parts]; exact Nat.sub_add_cancel (hge j)
 
-/-- **Frobenius character formula (universe form).** Stronger version of
-`Proposition5_21_1` where the indexing finset is `Finset.univ`: every
-power-sum partition expands as a sum over *all* bounded partitions, with
-coefficients given by `charValue`. -/
-theorem Proposition5_21_1_univ
+/-- **Proposition 5.21.1** (Etingof) — **Frobenius character formula.** Every
+power-sum partition expands as a sum over *all* bounded partitions of `n` with
+at most `N` parts, with coefficients given by `charValue`:
+`p_μ(x) = ∑_{λ : ℓ(λ) ≤ N} χ_λ(C_μ) S_λ(x)`.
+
+The indexing finset is `Finset.univ`, so the book's claim that the expansion
+ranges over *all* partitions with `≤ N` parts is captured faithfully by the
+statement itself (not as an existential over some unspecified finset). -/
+theorem Proposition5_21_1
     {n : ℕ} (N : ℕ) (μ : n.Partition) :
     (MvPolynomial.psumPart (Fin N) ℚ μ : MvPolynomial (Fin N) ℚ) =
       ∑ lam : BoundedPartition N n,
@@ -662,19 +666,10 @@ theorem Proposition5_21_1_univ
       have : filt.card = 1 := by omega
       rw [this, one_nsmul]
 
-/-- **Proposition 5.21.1** (Etingof). Every power-sum partition decomposes
-as a sum of Schur polynomials weighted by character values: there exists
-a finset of bounded partitions over which the expansion holds.
-
-This is the existential form; for the universe form (which fixes the
-indexing finset to `Finset.univ`), see `Proposition5_21_1_univ`. -/
-theorem Proposition5_21_1
-    {n : ℕ} (N : ℕ) (μ : n.Partition) :
-    ∃ (lams : Finset (BoundedPartition N n)),
-      (MvPolynomial.psumPart (Fin N) ℚ μ : MvPolynomial (Fin N) ℚ) =
-        ∑ lam ∈ lams,
-          (charValue N lam μ : ℚ) • schurPoly N lam.parts :=
-  ⟨Finset.univ, Proposition5_21_1_univ N μ⟩
+/-- Alias for `Proposition5_21_1`, retained for downstream references that
+name the `Finset.univ` ("universe") form explicitly. The canonical statement
+is `Proposition5_21_1` itself. -/
+alias Proposition5_21_1_univ := Proposition5_21_1
 
 /-! ## Leading term of the alternant determinant and Schur polynomial
 
