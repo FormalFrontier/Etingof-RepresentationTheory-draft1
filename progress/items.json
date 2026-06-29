@@ -4113,11 +4113,9 @@
     "start_line": 17,
     "end_line": 32,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "needs_statement": true,
+    "fidelity": "faithful",
     "sorry_free": true,
-    "notes": "Proved in PR #1808 (antisymmetric basis decomposition).",
-    "fidelity_note": "[fidelity] Book: ∏_m (x_1^m+⋯+x_N^m)^{i_m} = ∑_{λ: ℓ(λ)≤N} χ_λ(C_i) S_λ(x), where the sum ranges over ALL partitions of n with at most N parts. Lean's canonical declaration is: ∃ (lams : Finset (Bound",
+    "notes": "Proved in PR #1808 (antisymmetric basis decomposition). Fidelity gap (#5615) resolved: canonical `Proposition5_21_1` is now the faithful `Finset.univ` sum over ALL bounded partitions (was a weaker existential); `Proposition5_21_1_univ` retained as an alias.",
     "fidelity_issue": 5615
   },
   {
