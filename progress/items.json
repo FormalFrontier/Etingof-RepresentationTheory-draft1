@@ -2552,9 +2552,9 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "ok",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book defines X_G as the matrix with entries a_{ij} = x_{g_i g_j} (product g_i * g_j, NOT g_i * g_j^{-1}). The Lean definition uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h⁻¹)`,",
+    "fidelity_note": "Fixed in #5620: the Lean definition now uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h)`, matching the book's entries a_{ij} = x_{g_i g_j}. Theorem 4.10.2's proof tracks the inversion-permutation sign that relates X_G to the regular-representation operator matrix and absorbs it into the irreducible factors.",
     "fidelity_issue": 5620
   },
   {
