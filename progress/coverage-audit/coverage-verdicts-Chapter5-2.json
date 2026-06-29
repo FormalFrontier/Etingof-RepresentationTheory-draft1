@@ -1,0 +1,354 @@
+[
+  {
+    "blob_id": "Chapter5/Discussion_computing_characters_of_L_lambda",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "If $s \\in C_\\mathbf{i}$, we easily get that this trace equals $\\prod_m \\operatorname{Tr}(g^m)^{i_m} = \\prod_m H_m(x)^{i_m}$.",
+        "claim": "The trace Tr_{V^n}(g^n s) for s in cycle-type class C_i equals prod_m H_m(x)^{i_m} where H_m(x) = sum x_j^m are the power sums.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Proposition5_21_1, Etingof.Theorem5_22_1",
+        "reason": "This trace identity is the key computation that drives Proposition5_21_1 (psumPart = sum charValue . schurPoly) and Theorem5_22_1 (formalCharacter of SchurModule = schurPoly). The trace formula is implicit in the proof of Proposition5_21_1 (via psumPart_eq_psumPart). The headline result chi_{L_lambda}(g) = S_lambda(eigenvalues) is Theorem5_22_1. The intermediate step 'compare to Prop 5.21.1 using linear independence of character table columns' is a proof-internal argument, not a separately statable top-level proposition.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "by the Schur-Weyl duality $\\operatorname{Tr}_{V^{\\otimes n}}(g^{\\otimes n} s) = \\sum_\\lambda \\chi_\\lambda(C_\\mathbf{i}) \\operatorname{Tr}_{L_\\lambda}(g)$.",
+        "claim": "The bimodule decomposition V^n = sum_lambda V_lambda tensor L_lambda implies Tr_{V^n}(g^n . s) = sum_lambda chi_lambda(C_i) Tr_{L_lambda}(g).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Theorem5_18_4_bimodule_decomposition (Theorem5_18_4.lean), Etingof.Theorem5_22_1",
+        "reason": "The Schur-Weyl bimodule decomposition is Theorem5_18_4_bimodule_decomposition (sorry-free abstract version). The character-trace consequence is implicit in the Schur-Weyl formal character iso (SchurWeylFormalCharacterIso.lean). Theorem5_22_1 assembles the final chi_{L_lambda} = S_lambda result. The intermediate trace-factoring step is proof-internal.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_end_of_Lemma5.13.1_proof",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "Any two elements in the first row of $T$ must be in different columns of $T'$, so there exists $q'_1 \\in Q'_\\lambda$ which moves all these elements to the first row.",
+        "claim": "Proof step in Lemma 5.13.1: from T and T' being two standard Young tableaux for the same lambda, the column-group Q' can be used to align their first rows.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This is a proof-method description (constructive argument within the proof of Lemma 5.13.1) with no standalone statable proposition. It is narrative proof scaffolding, not a separately assertable claim.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_footnote_5.15",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "$\\sigma(\\rho) \\leq \\rho$ lexicographically with equality if and only if $\\sigma = 1$, and subtracting both sides from the constant vector $\\lambda + \\rho$ shows that $\\lambda + \\rho - \\sigma(\\rho) \\geq \\lambda$ with equality if and only if $\\sigma = 1$.",
+        "claim": "For sigma in S_N acting on rho = (N-1, N-2, ..., 0): sigma(rho) <=_lex rho with equality iff sigma = 1; equivalently lambda + rho - sigma(rho) >=_lex lambda with equality iff sigma = 1.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "This is a standalone statable combinatorial proposition about the lexicographic comparison of sigma(rho) and rho for sigma in S_N. It appears as a footnote used to justify the key argument in the proof of Theorem 5.15.1 (Frobenius character formula). No Lean declaration states or proves this lex-ordering claim directly. Theorem5_15_1.lean contains 'rev_of_permExponent_eq_rhoShift' (permExponent = rhoShift iff pi = revPerm), which is a related private lemma for a specific permutation, but it does not state the lex inequality for general sigma, nor the 'mu >= lambda with equality iff sigma = 1' reformulation that the footnote asserts.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_hook_length_derivation",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "$(5.17.1) \\qquad \\dim V_\\lambda = \\frac{n!}{\\prod_j l_j!} \\prod_{1 \\leq i < j \\leq N} (l_i - l_j)$",
+        "claim": "Dimension formula dim V_lambda = (n! / prod l_j!) * prod_{i<j}(l_i - l_j) where l_j = lambda_j + N - j.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "charValue_trivialCycleType_eq_frobeniusDetForm, hookLengthProduct_mul_vandermonde_eq_prod_factorial (CharValueHookFormula.lean)",
+        "reason": "The Vandermonde-determinant intermediate form dim V_lambda = n! prod(l_i - l_j) / prod l_j! is formalized as charValue_trivialCycleType_eq_frobeniusDetForm and related lemmas in CharValueHookFormula.lean. The hook length formula (the final step) is Theorem5_17_1.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Using column reduction and the Vandermonde determinant formula, we see from this expression that $\\dim V_\\lambda = \\frac{n!}{\\prod_j l_j!} \\det(l_j^{N-i})$",
+        "claim": "The determinant det(l_j^{N-i}) = prod_{i<j}(l_i - l_j) (Vandermonde identity applied to the intermediate dim formula).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "hookLengthProduct_mul_vandermonde_eq_prod_factorial (CharValueHookFormula.lean)",
+        "reason": "The Vandermonde reduction step is part of hookLengthProduct_mul_vandermonde_eq_prod_factorial which converts the determinant form to the hook-length product. Covered within the CharValueHookFormula infrastructure.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_lexicographic_ordering",
+    "swept_result": "trivial",
+    "claims": [
+      {
+        "source_span": "Let us introduce the **lexicographic ordering** on partitions: $\\lambda > \\mu$ if the first nonvanishing $\\lambda_i - \\mu_i$ is positive.",
+        "claim": "Definition of lexicographic ordering on partitions: lambda > mu if first nonzero lambda_i - mu_i is positive.",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This is a definition, not a proposition/theorem. Mathlib already has Nat.Partition with standard orderings. The lexicographic order is a straightforward naming convention used in the book. Not a formalizable claim (proposition/theorem/construction gap).",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "The representations $W_\\mu$, $V_{\\lambda_1, \\lambda_2}$, $\\lambda_1 \\neq \\lambda_2$ are called principal series representations.",
+        "claim": "The principal series representations of GL_2(F_q) are defined to be the W_mu and V_{chi1,chi2} with chi1 != chi2.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.GL2.principalSeries (Theorem5_25_2.lean)",
+        "reason": "The principalSeries construction is formalized as Etingof.GL2.principalSeries in Theorem5_25_2.lean. The naming is a definition (not a theorem), and the object is constructed.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_principal_series_name",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "The representations $W_\\mu$, $V_{\\lambda_1, \\lambda_2}$, $\\lambda_1 \\neq \\lambda_2$ are called principal series representations.",
+        "claim": "Definition/naming of principal series representations of GL_2(F_q).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.GL2.principalSeries (Theorem5_25_2.lean)",
+        "reason": "principalSeries is defined in Theorem5_25_2.lean. The naming is a definition, not a theorem, and it is already formalized.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
+    "swept_result": "gap",
+    "claims": [
+      {
+        "source_span": "$(\\theta_\\lambda, \\theta_\\lambda) = \\frac{1}{n!} \\sum_{\\mathbf{i}} |C_{\\mathbf{i}}| \\theta_\\lambda(C_{\\mathbf{i}})^2$",
+        "claim": "The inner product (theta_lambda, theta_lambda) is computed as the coefficient of x^{lambda+rho} y^{lambda+rho} in R(x,y) = Delta(x)Delta(y) / prod(1-x_i y_j).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_15_1, Etingof.Corollary5_15_4 (Theorem5_15_1.lean, Corollary5_15_4.lean)",
+        "reason": "The inner product computation that shows (theta_lambda, theta_lambda) = 1 is the key step that completes the proof of Theorem 5.15.1 (chi_lambda = theta_lambda). The Cauchy identity step is Corollary5_15_4. The 'coefficient of x^{la+rho}y^{la+rho} in Delta(x)Delta(y)/prod(1-x_i y_j) equals 1' is the content of Corollary5_15_4 assembled in Theorem5_15_1. The formula |C_i| = n! / prod m^{i_m} i_m! is standard and used inside the proof.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "$|C_{\\mathbf{i}}| = \\frac{n!}{\\prod_m m^{i_m} i_m!}$",
+        "claim": "The size of the conjugacy class C_i in S_n is n! / prod m^{i_m} i_m!.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_15_1 (proof-internal)",
+        "reason": "This combinatorial formula for cycle-type class size is used internally in the proof of Theorem5_15_1. No standalone Lean declaration, but it is a standard combinatorics fact (available via Mathlib's cycle-type machinery) and covered in the assembly of Theorem5_15_1.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "$\\mu = \\langle\\lambda + \\rho - \\sigma(\\rho)\\rangle$ is obtained from $\\lambda$ by adding vectors of the form $e_i - e_j$, $i < j$, which implies that $\\mu > \\lambda$ or $\\mu = \\lambda$, and the case $\\mu = \\lambda$ arises only if $\\sigma = 1$.",
+        "claim": "The weight mu = <lambda + rho - sigma(rho)> satisfies mu > lambda or mu = lambda; equality holds iff sigma = 1.",
+        "verdict": "genuine_gap",
+        "lean_decl": null,
+        "reason": "This is the same combinatorial claim as in Discussion_footnote_5.15 but stated in a slightly different form (mu obtained from lambda by adding e_i - e_j). No standalone Lean declaration proves this mu >= lambda with equality iff sigma = 1 property. It is a key step in the proof of Theorem 5.15.1 but is not separately formalized.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Lemma5.13.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "the statement immediately follows from the fact that $\\operatorname{Hom}_A(A, M) \\cong M$ and the decomposition $A = Ae \\oplus A(1 - e)$.",
+        "claim": "Hom_A(A, M) ~= M (Yoneda for modules) and A = Ae + A(1-e) (decomposition by idempotent), together implying Hom_A(Ae, M) ~= eM.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Lemma5_13_4",
+        "reason": "The conclusion Hom_A(Ae, M) ~= eM is exactly Lemma5_13_4 (a LinearEquiv). The proof uses these standard facts internally. No separate declarations are needed for the intermediate steps.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Lemma5.15.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "The proportionality coefficient (which is equal to 1) is found by induction by multiplying both sides by $z_N - y_N$ and then setting $z_N = y_N$.",
+        "claim": "The proportionality coefficient in the Cauchy determinant identity equals 1 (verified by induction: multiply by z_N - y_N, set z_N = y_N).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Lemma5_15_3",
+        "reason": "Lemma5_15_3 states the Cauchy determinant identity with coefficient 1 (it's an equation, not just proportionality). The proof that the coefficient is 1 is contained within Lemma5_15_3's proof.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Proposition5.14.1",
+    "swept_result": "covered",
+    "claims": [],
+    "notes": "No-signal blob: the proof of Prop 5.14.1 is sketched but the blob contains only proof-method narrative ('By Lemmas 5.13.3 and 5.13.4, Hom(U_la, V_mu) = a_la C[S_n] a_mu b_mu, and the result follows from Lemmas 5.13.1 and 5.13.2'). All claims are formalized in Proposition5_14_1_vanishing and Proposition5_14_1_diagonal."
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.12.2",
+    "swept_result": "covered",
+    "claims": [],
+    "notes": "No-signal blob: proof narrative for Theorem 5.12.2 referencing Lemmas 5.13.x. The theorem itself (V_lambda irreducible, distinct, exhausting all irreps) is covered by Theorem5_12_2 and related files."
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.15.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "we claim that this function has the property $\\theta_\\lambda = \\sum_{\\mu \\geq \\lambda} L_{\\mu\\lambda} \\chi_\\mu$, where $L_{\\mu\\lambda}$ are integers and $L_{\\lambda\\lambda} = 1$.",
+        "claim": "theta_lambda = sum_{mu >= lambda} L_{mu,lambda} chi_mu with L_{la,la} = 1 (upper-triangular decomposition in terms of Specht characters).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_15_1",
+        "reason": "This upper-triangularity step is used inside the proof of Theorem5_15_1 to conclude that theta_lambda = chi_lambda. The result is assembled in Theorem5_15_1. No separate Lean declaration for the upper-triangularity step, but it is a proof-internal claim, not a standalone theorem.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.23.2",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "It is easy to see that $\\xi$ is a homomorphism of representations (where the action of $GL(V)$ on the first component of $Y \\otimes R$ is trivial).",
+        "claim": "The embedding xi: Y -> Y tensor R defined by (u, xi(v))(g) = u(gv) is a GL(V)-equivariant map (homomorphism of representations).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Theorem5_23_2_i (Theorem5_23_2.lean)",
+        "reason": "The embedding xi and its equivariance is a key proof step inside Theorem5_23_2_i. The equivariance of the det-clearing reduction is formalized within the proof. No separate lemma, but it is a proof-internal construction.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Thus, it suffices to prove the theorem for a subrepresentation $Y \\subset R^m$.",
+        "claim": "Every algebraic GL(V)-representation embeds into R^m for some m, so it suffices to prove complete reducibility for subrepresentations of R^m.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Theorem5_23_2_i (Theorem5_23_2.lean), PolynomialRepEmbedding.lean",
+        "reason": "The polynomial-rep embedding step (reducing algebraic reps to polynomial ones via det-clearing) is formalized in Theorem5_23_2_i and PolynomialRepEmbedding.lean / PolynomialGLDecomposition.lean. The reduction 'algebraic => polynomial => submodule of R^m' is the core of the Theorem5_23_2_i proof.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.26.1",
+    "swept_result": "covered",
+    "claims": [],
+    "notes": "No-signal blob: proof of Theorem 5.26.1 (Artin's theorem on induced characters). The theorem is fully formalized in Etingof.Theorem5_26_1. The proof narrative describes the two-direction implications and references Frobenius reciprocity (Theorem5_10_1)."
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.3.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "$\\sum_{C_i} \\lambda_i \\overline{\\chi_V(g_{C_i})} = \\frac{|G|}{\\dim V}$, and since $\\frac{|G|}{\\dim V} \\in \\mathbb{Q}$ and $\\sum_{C_i} \\lambda_i \\overline{\\chi_V(g_{C_i})} \\in \\overline{\\mathbb{Z}}$, by Proposition 5.2.5, $\\frac{|G|}{\\dim V} \\in \\mathbb{Z}$.",
+        "claim": "|G| / dim V is an integer (a consequence of |G|/dim V being both rational and an algebraic integer, hence in Z).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_3_1",
+        "reason": "This is the key step in the proof of Theorem 5.3.1 (dim V | |G|). The final conclusion dim V | |G| is formalized as Etingof.Theorem5_3_1. The intermediate step 'sum lambda_i chi-bar = |G|/dim V' is a proof-internal calculation within Theorem5_3_1.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Then $G$ is simple, and by Theorem 5.4.6, it cannot have a conjugacy class of order $p^k$ or $q^k$, $k \\geq 1$. So the order of any conjugacy class in $G$ either equals 1 or is divisible by $pq$. Adding the orders of conjugacy classes and equating the sum to $p^a q^b$, we see that there has to be more than one conjugacy class consisting just of one element. So $G$ has a nontrivial center, which gives a contradiction.",
+        "claim": "Proof of Burnside's theorem: a nonsolvable simple group of order p^a q^b leads to a contradiction via conjugacy class size counting.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_4_3",
+        "reason": "Burnside's theorem is fully formalized as Etingof.Theorem5_4_3 in Theorem5_4_3.lean. The proof proceeds by strong induction and uses Theorem5_4_6 (as in the book). The class-counting argument is internalized in the proof.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.4.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Thus, by Lemma 5.4.5, we get that either $\\varepsilon_1 = \\cdots = \\varepsilon_n$ or $\\varepsilon_1 + \\cdots + \\varepsilon_n = \\chi_V(g) = 0$.",
+        "claim": "If chi_V(g)/n is an algebraic integer and each epsilon_i is a root of unity, then either all epsilon_i are equal (g acts by scalar) or chi_V(g) = 0.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_4_4",
+        "reason": "This dichotomy (scalar action or chi=0) is the key conclusion of Theorem 5.4.4, formalized as Etingof.Theorem5_4_4. The gcd argument and algebraic-integer reasoning are proof-internal steps.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.4.6",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Theorem 5.4.4 implies that $g$ (and hence any element of $C$) acts by a scalar in $V$. Now let $H$ be the subgroup of $G$ generated by elements $ab^{-1}$, $a, b \\in C$. It is normal and acts trivially in $V$, so $H \\neq G$, as $V$ is nontrivial. Also $H \\neq 1$, since $|C| > 1$.",
+        "claim": "If C is a conjugacy class of prime-power order with chi_V(g) != 0, then g acts by scalar; the subgroup H generated by ab^{-1} (a,b in C) is a proper nontrivial normal subgroup.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem5_4_6",
+        "reason": "Theorem 5.4.6 (existence of proper normal subgroup given a prime-power conjugacy class with nonzero character value) is fully formalized. The proof steps (Theorem5_4_4 gives scalar action, then H is proper nontrivial normal) are internal to Theorem5_4_6.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
+    "swept_result": "covered",
+    "claims": [],
+    "notes": "No-signal blob: proof of Theorem 5.9.1 (Frobenius formula for induced characters). The block-trace computation chi(g) = sum_{sigma: sigma g = sigma} chi_V(x_sigma g x_sigma^{-1}) is exactly Etingof.Theorem5_9_1 (in the averaged form). All the proof mechanics (V_sigma decomposition, chi_sigma computation) are internal to the Lean proof."
+  },
+  {
+    "blob_id": "Chapter5/Discussion_semidirect_products",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "The **semidirect product** $G \\ltimes A$ is defined to be the product $A \\times G$ with multiplication law $(a_1, g_1)(a_2, g_2) = (a_1 g_1(a_2), g_1 g_2)$.",
+        "claim": "Semidirect product G ltimes A has multiplication (a1,g1)(a2,g2) = (a1 g1(a2), g1 g2).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "SemidirectProduct (Mathlib)",
+        "reason": "SemidirectProduct is a Mathlib definition with exactly this multiplication law, referenced in Theorem5_27_1.lean.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "As a representation of $G$, we set $V_{(O,x,U)} = \\operatorname{Ind}_{G_x}^G U = \\{f : G \\to U | f(hg) = hf(g), h \\in G_x\\}$. Next, we introduce an additional action of $A$ on this space by $(af)(g) = x(g(a))f(g)$.",
+        "claim": "Construction of the induced representation V_{(O,U)} of G ltimes A from an orbit O in A^vee, a character x in O, stabilizer G_x, and irrep U of G_x, with the A-action (af)(g) = x(g(a))f(g).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "inducedRepV (private, Theorem5_27_1.lean), Etingof.Theorem5_27_1",
+        "reason": "The construction V_{(O,U)} = inducedRepV is formalized as a private noncomputable def in Theorem5_27_1.lean with exactly the given G-action (Ind_{G_x}^G U) and A-action (af)(g) = x(g(a))f(g). The representation is the key input to Etingof.Theorem5_27_1.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Also, it is clear that this representation does not really depend on the choice of $x$, in the following sense. Let $x, y \\in O$ and $g \\in G$ be such that $gx = y$, and let $g(U)$ be the representation of $G_y$ obtained from the representation $U$ of $G_x$ by the action of $g$. Then $V_{(O,x,U)}$ is (naturally) isomorphic to $V_{(O,y,g(U))}$.",
+        "claim": "V_{(O,x,U)} ~= V_{(O,y,g(U))} naturally (independence of base point in the orbit).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.inducedRepV_basepoint_independent (Theorem5_27_1.lean)",
+        "reason": "Exactly Etingof.inducedRepV_basepoint_independent (line 2076), which states Nonempty(inducedRepV phi chi2 (transportRep phi hg U) ~= inducedRepV phi chi1 U) where hg: dualSmulAux phi g chi1 = chi2. This is a sorry-free isomorphism.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Discussion_verification_of_Ind",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "$g(f)(hx) = f(hxg) = \\rho_V(h) f(xg) = \\rho_V(h) g(f)(x)$, and $g(g'(f))(x) = g'(f)(xg) = f(xgg') = (gg')(f)(x)$.",
+        "claim": "The induced representation Ind_H^G V is well-defined: the right-shift action g.f(x) = f(xg) satisfies the H-equivariance and the group-action axioms.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Definition5_8_1 (Definition5_8_1.lean), Representation.ind (Mathlib)",
+        "reason": "The well-definedness of Ind_H^G V is encoded in the Lean type system through Definition5_8_1 (which delegates to Mathlib's Representation.ind). Mathlib's Representation.ind already carries the well-definedness proof. No separate standalone statement is needed.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Introduction",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Suppose that $G$ is a finite group and $V$ is an irreducible representation of $G$ over $\\mathbb{C}$.",
+        "claim": "Section-opening sentence introducing the setup for the Frobenius-Schur indicator.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "This is a section-introduction sentence, not a mathematical claim. It sets up the context (G finite group, V irreducible complex rep) for the definitions that follow (Definition5_1_1, Definition5_1_4). No separate formalization needed.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter5/Introduction_5.10",
+    "swept_result": "none",
+    "claims": [],
+    "notes": "No-signal blob: section heading '5.10. Frobenius reciprocity' plus one sentence 'A very important result about induced representations is the Frobenius reciprocity theorem which connects Ind and Res.' No formalizable mathematical claim."
+  },
+  {
+    "blob_id": "Chapter5/Introduction_5.11",
+    "swept_result": "none",
+    "claims": [],
+    "notes": "No-signal blob: section heading '5.11. Examples' plus 'Here are some examples of induced representations'. No formalizable mathematical claim."
+  }
+]

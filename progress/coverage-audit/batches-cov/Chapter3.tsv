@@ -1,0 +1,20 @@
+blob_id	type	kind	prior_verdict	seed_claims
+Chapter3/Discussion_after_Lemma3.1.6	discussion	no-signal		
+Chapter3/Discussion_after_Theorem3.7.1	discussion	CANDIDATE	gap	The Jordan-Holder theorem shows that the number $n$ of terms in a filtration of $V$ with irreducible successive quotients does not depend on the choice of a filtration and depends only on $V$. || It is easy to see that $n$ is also the maximal length of a filtration of $V$ in which all the inclusions are strict.
+Chapter3/Discussion_alternative_proof_of_Proposition3.1.4	discussion	CANDIDATE	unknown	Then $f$ is injective (respectively surjective, an isomorphism) if and only if all the $f_X$ are. || Now, suppose $V = \bigoplus_{i \in I} V_i$ with $V_i$ irreducible, and $f : V \to U$ is a surjective homomorphism.
+Chapter3/Discussion_before_Definition3.3.2	discussion	no-signal		
+Chapter3/Discussion_before_Proposition3.1.4	discussion	no-signal		
+Chapter3/Discussion_before_Theorem3.10.2	discussion	no-signal		
+Chapter3/Discussion_proof_of_Theorem3.10.2	discussion	CANDIDATE	unknown	Thus, we see that $$(A \otimes B)/\operatorname{Rad}(A \otimes B) = A/\operatorname{Rad}(A) \otimes B/\operatorname{Rad}(B).$$ Now, $M$ is an irreducible representation of $(A \otimes B)/\operatorname{Rad}(A \otimes B)$, so it is clearly of the form $M = V \otimes W$, where $V$ is an irreducible rep || Therefore, the map $A \otimes B \to \operatorname{End} V \otimes \operatorname{End} W = \operatorname{End}(V \otimes W)$ is surjective. || Thus, $V \otimes W$ is irreducible. || Then $J$ is a nilpotent ideal in $A \otimes B$, as $\operatorname{Rad}(A)$ and $\operatorname{Rad}(B)$ are nilpotent.
+Chapter3/Discussion_proof_of_Theorem3.3.1	discussion	CANDIDATE	unknown	But $A^{n*} \cong A^n$ as representations of $A$ (check it!). || Thus, the dual map $\phi^* : X \longrightarrow A^{n*}$ is injective. || **Proof of Theorem 3.3.1.** First, the given representations are clearly irreducible, since for any $v \neq 0$, $w \in V_i$, there exists $a \in A$ such that $av = w$. || The map $\phi$ is clearly surjective, as $k \subset A$.
+Chapter3/Discussion_proof_of_Theorem3.8.1	discussion	CANDIDATE	unknown	Since $g$ is an isomorphism, we get $v = 0$, as desired.
+Chapter3/Introduction	introduction	no-signal		
+Chapter3/Introduction_to_3.10	introduction	no-signal		
+Chapter3/Introduction_to_3.2	introduction	no-signal		
+Chapter3/Introduction_to_3.3	introduction	no-signal		
+Chapter3/Introduction_to_3.4	introduction	no-signal		
+Chapter3/Introduction_to_3.5	introduction	no-signal		
+Chapter3/Introduction_to_3.6	introduction	CANDIDATE	gap	Thus, we may view the character as a mapping $\chi_V : A/[A, A] \to k$.
+Chapter3/Introduction_to_3.7	introduction	no-signal		
+Chapter3/Introduction_to_3.8	introduction	no-signal		
+Chapter3/Introduction_to_3.9	introduction	no-signal		

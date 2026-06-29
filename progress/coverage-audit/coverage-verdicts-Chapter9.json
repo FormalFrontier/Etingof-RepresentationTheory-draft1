@@ -1,0 +1,120 @@
+[
+  {
+    "blob_id": "Chapter9/Discussion_after_Definition9.7.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Note that the dimension of $B_{\\mathbf{n}}$ is $\\sum c_{ij} n_i n_j$, where $(c_{ij})$ is the Cartan matrix of $\\mathcal{C}$.",
+        "claim": "dim_k(B_n) = sum_{i,j} c_{ij} n_i n_j where c_{ij} = dim_k Hom(P_i, P_j)",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.finrank_cartanAlgebra",
+        "reason": "Proved in full in EtingofRepresentationTheory/Chapter9/Discussion_after_Definition9_7_1.lean: `theorem Etingof.finrank_cartanAlgebra (P : ι → C) (n : ι → ℕ) : finrank k ((End (multBiproduct P n))ᵐᵒᵖ) = ∑ i, ∑ j, cartanEntry k P i j * n i * n j`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "In particular, the algebra $B = B_{\\mathbf{n}}$ with the smallest possible dimension, $\\sum c_{ij}$, corresponds to the case when all $n_i = 1$",
+        "claim": "The minimum dimension sum c_{ij} is achieved iff all n_i = 1",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.finrank_cartanAlgebra_eq_sum_cartan_iff",
+        "reason": "Proved in Discussion_after_Definition9_7_1.lean: `theorem Etingof.finrank_cartanAlgebra_eq_sum_cartan_iff` gives the biconditional; the lower bound is `Etingof.sum_cartan_le_finrank_cartanAlgebra` and the base case `Etingof.finrank_cartanAlgebra_one`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "It is easy to see that this algebra is the only one of the $B_{\\mathbf{n}}$ for which $B_{\\mathbf{n}}/\\operatorname{Rad}(B_{\\mathbf{n}}) = \\bigoplus_i \\operatorname{Mat}_{n_i}(k)$ is commutative.",
+        "claim": "The semisimple quotient prod_i Mat_{n_i}(k) is commutative iff all n_i = 1",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.semisimpleQuotient_comm_iff",
+        "reason": "Proved in Discussion_after_Definition9_7_1.lean: `theorem Etingof.semisimpleQuotient_comm_iff {ι : Type*} (n : ι → ℕ) (hn : ∀ i, 1 ≤ n i) : (∀ x y : (∀ i, Matrix (Fin (n i)) (Fin (n i)) k), x * y = y * x) ↔ ∀ i, n i = 1`.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Thus, we obtain that Morita equivalence classes of finite dimensional algebras are the collections of the form $\\{B_{\\mathbf{n}}(\\mathcal{C}), \\mathbf{n} \\in \\mathbb{N}^m\\}$.",
+        "claim": "The Morita equivalence class of C is exactly {B_n(C) | n in N^m, all n_i >= 1}",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.nonempty_fgModuleCat_equivalence_of_isBn",
+        "reason": "Formalized in Introduction_9_7_Morita.lean: `Etingof.nonempty_fgModuleCat_equivalence_of_isBn` (all B_n are Morita equivalent) and `Etingof.ringEquiv_endOp_iff_isBn` (the B_n are exactly all algebras whose module category is C).",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter9/Discussion_before_Theorem9.6.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Let $B = \\operatorname{End}(P)^{\\mathrm{op}}$ ... Consider the functor $F : \\mathcal{C} \\to B\\text{-fmod}$ given by the formula $F(M) = \\operatorname{Hom}(P, M)$.",
+        "claim": "Construction of the functor F(M) = Hom(P, M) : C -> B-fmod where B = End(P)^op",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.IsProgenerator.preadditiveCoyonedaObjFG",
+        "reason": "The functor is constructed in Theorem9_6_4.lean as `Etingof.IsProgenerator.preadditiveCoyonedaObjFG` (noncomputable def). The blob is setup prose for Theorem 9.6.4, which is fully formalized.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter9/Introduction",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.1",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.4",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.5",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.6",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Note that in such a category, Hom spaces are finite dimensional (check it!).",
+        "claim": "In a k-linear finite abelian category where every object has finite length and End(X) = k for all simple X, every Hom space is finite dimensional",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom",
+        "reason": "Fully proved in Introduction_9_6.lean: `theorem Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom (X Y : C) : FiniteDimensional k (X ⟶ Y)` by double induction on filtration length using left-exactness of Hom and Schur's lemma.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter9/Introduction_9.7",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Then all the projective generators of $\\mathcal{C}$ are the objects of the form $P_{\\mathbf{n}} := \\bigoplus_{i=1}^m n_i P_i$, where $n_i \\geq 1$ (check it!).",
+        "claim": "An object Q is a projective generator of C iff Q is isomorphic to bigoplus_i n_i P_i for some n_i >= 1",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.progenerator_iff_multBiproduct",
+        "reason": "Fully proved in Introduction_9_7.lean: `theorem Etingof.progenerator_iff_multBiproduct` is an iff; the backward direction `Etingof.isProgenerator_multBiproduct` and forward direction `Etingof.progenerator_decomposition` (using Krull-Schmidt built in KrullSchmidt/) are both complete.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Defining $B_{\\mathbf{n}} = B_{\\mathbf{n}}(\\mathcal{C}) := \\operatorname{End}(P_{\\mathbf{n}})^{\\mathrm{op}}$, we see that the algebras $B_{\\mathbf{n}}$ are all the finite dimensional algebras whose category of finite dimensional modules is equivalent to $\\mathcal{C}$.",
+        "claim": "The algebras B_n = End(P_n)^op are exactly all algebras A with A-fmod equivalent to C",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.ringEquiv_endOp_iff_isBn",
+        "reason": "Proved in Introduction_9_7_Morita.lean: `theorem Etingof.ringEquiv_endOp_iff_isBn` gives the biconditional that A is iso to (End Q)^op for some progenerator Q iff A is iso to some B_n.",
+        "dedup_issue": null
+      }
+    ]
+  }
+]

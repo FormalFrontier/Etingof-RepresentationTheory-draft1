@@ -1,0 +1,10 @@
+[
+  {
+    "blob_id": "Chapter5/Discussion_5.25.1",
+    "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
+    "claim": "The number of conjugacy classes of each type in GL₂(𝔽_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q²-1.",
+    "verdict": "genuine_gap",
+    "lean_decl": null,
+    "reason": "Wave-1 said this was 'covered by GL2.card_isScalar, GL2.card_isParabolic, GL2.card_isElliptic, GL2.card_isSplitSemisimple', but those theorems count the total NUMBER OF ELEMENTS of each type, not the NUMBER OF CONJUGACY CLASSES of each type. For example, GL2.card_isParabolic = (q-1)(q²-1) counts parabolic elements; the claim that there are exactly q-1 parabolic conjugacy classes (each of size q²-1) is a distinct statement. The ConjClasses type is never used for GL2 anywhere in Chapter5/. There is no named theorem stating |{parabolic conjugacy classes}| = q-1, |{split-semisimple classes}| = (q-1)(q-2)/2, or |{elliptic classes}| = q(q-1)/2. The total count q²-1 is also unformalized and is needed for the completeness argument in Discussion_complementary_series_summary."
+  }
+]

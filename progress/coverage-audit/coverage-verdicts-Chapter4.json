@@ -1,0 +1,255 @@
+[
+  {
+    "blob_id": "Chapter4/Discussion_4.11",
+    "swept_result": "non_formalizable",
+    "claims": [
+      {
+        "source_span": "## 4.11. Historical interlude: Georg Frobenius's \"Principle of Horse Trade\"",
+        "claim": "Historical narrative about Frobenius, Dedekind, and the origins of representation theory.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure historical/biographical narrative. No mathematical propositions to formalize.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_4.13",
+    "swept_result": "non_formalizable",
+    "claims": [
+      {
+        "source_span": "## 4.13. Historical interlude: William Rowan Hamilton's quaternion of geometry, algebra, metaphysics, and poetry",
+        "claim": "Historical narrative about Hamilton and the discovery of quaternions.",
+        "verdict": "non_formalizable",
+        "lean_decl": null,
+        "reason": "Pure historical/biographical narrative. No mathematical propositions to formalize.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_4.4",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "The character is $\\chi_{V^*}(g) = \\chi_V(g^{-1})$.",
+        "claim": "Dual character formula: chi_{V*}(g) = chi_V(g^{-1})",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Discussion_4_4_char_dual",
+        "reason": "Proved in EtingofRepresentationTheory/Chapter4/Discussion_4_4.lean as a genuine theorem (not vacuous) calling FDRep.char_dual.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Thus for complex representations $$\\chi_{V^*}(g) = \\chi_V(g^{-1}) = \\sum \\lambda_i^{-1} = \\sum \\overline{\\lambda_i} = \\overline{\\sum \\lambda_i} = \\overline{\\chi_V(g)}.$$",
+        "claim": "For complex reps of finite groups, chi_V(g^{-1}) = conj(chi_V(g))",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.char_inv_eq_conj",
+        "reason": "Proved in Discussion_4_4.lean with a full proof using matrix unitarization via the averaged Hermitian form.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "In particular, $V \\cong V^*$ as representations (not just as vector spaces) if and only if $\\chi_V(g) \\in \\mathbb{R}$ for all $g \\in G$.",
+        "claim": "V iso V* as representations iff chi_V(g) is real for all g",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.self_dual_iff_char_real",
+        "reason": "Proved in Discussion_4_4.lean as a genuine biconditional, using char_inv_eq_conj and Corollary4_2_4.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Therefore, $\\chi_{V \\otimes W}(g) = \\chi_V(g)\\chi_W(g)$.",
+        "claim": "Tensor product character formula: chi_{V tensor W}(g) = chi_V(g) * chi_W(g)",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Discussion_4_4_char_tensor",
+        "reason": "Proved in Discussion_4_4.lean calling FDRep.char_tensor.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_after_Theorem4.5.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Indeed, it implies that $V$ is irreducible if and only if $(\\chi_V, \\chi_V) = 1$.",
+        "claim": "V is irreducible iff (chi_V, chi_V) = 1",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Discussion_after_Theorem4_5_1",
+        "reason": "Proved in Discussion_after_Theorem4_5_1.lean as a genuine biconditional using FDRep.simple_iff_char_is_norm_one.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_after_Theorem4.6.2",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Theorem 4.6.2 implies that if $V$ is a finite dimensional representation of a finite group $G$, then the **complex conjugate representation** $\\overline{V}$ (i.e., the same space $V$ with the same addition and the same action of $G$, but complex conjugate action of scalars) is isomorphic to the dual representation $V^*$.",
+        "claim": "The conjugate representation V-bar is isomorphic to V* as a representation",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.conjugate_iso_dual",
+        "reason": "Proved in Discussion_after_Theorem4_6_2.lean with explicit construction of Conjugate V, conjugateRep, conjEquivDual, and the intertwining property.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "a homomorphism of representations $\\overline{V} \\to V^*$ is obviously the same thing as an invariant sesquilinear form on $V$ ... and an isomorphism is the same thing as a nondegenerate invariant sesquilinear form.",
+        "claim": "Hom(V-bar, V*) = {G-invariant sesquilinear forms on V}, isomorphisms correspond to nondegenerate forms",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.conjEquivDual_intertwines",
+        "reason": "The identification is established via conjEquivDual_intertwines in Discussion_after_Theorem4_6_2.lean, which shows the conjEquivDual map (from a Hermitian form) is a representation homomorphism.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_after_Theorem4.6.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Theorems 4.6.2 and 4.6.3 imply Maschke's theorem for complex representations (Theorem 4.1.1). Thus, we have obtained a new proof of this theorem over the field of complex numbers.",
+        "claim": "Every finite-dimensional complex representation of a finite group is completely reducible (Maschke for k=ℂ, proved via the unitary structure route)",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem4_1_1_semisimple",
+        "reason": "The result (Maschke) is formalized in Theorem4_1_1.lean via Mathlib's MonoidAlgebra.instIsSemisimpleRing. The discussion only notes a second proof route via Theorems 4.6.2+4.6.3; the conclusion itself is covered. No separate formalization of the alternative proof is present, but the result is not a gap.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_before_Lemma4.10.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Discussion_before_Proposition4.1.2",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "The converse to Theorem 4.1.1(i) also holds.",
+        "claim": "If k[G] is semisimple then char(k) does not divide |G|",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Proposition4_1_2",
+        "reason": "This is a pointer to Proposition 4.1.2, which is fully formalized in Proposition4_1_2.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Discussion_before_Theorem4.10.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Discussion_before_Theorem4.5.4",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Discussion_proof_Theorem4.10.2",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "We set $P_i = \\det_{V_i} L(\\mathbf{x})$. ... Hence, $P_i$ are irreducible (by Lemma 4.10.3) and not proportional to each other (as they depend on different collections of variables $y_{i,jk}$).",
+        "claim": "The block polynomials P_i = det_{V_i}(L(x)) are irreducible and pairwise non-proportional",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "IrrepDecomp.blockPoly_irreducible, IrrepDecomp.blockPoly_not_associated",
+        "reason": "Both claims are formalized as private lemmas in Theorem4_10_2.lean and used in the main theorem Etingof.Theorem4_10_2. The det_V = prod_i det_{V_i}^dim(V_i) factorization is IrrepDecomp.frobeniusDet_eq_prod.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Introduction",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.10",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.12",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.2",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "The character is a **central function**, or **class function**: $\\chi_V(g)$ depends only on the conjugacy class of $g$; i.e., $\\chi_V(hgh^{-1}) = \\chi_V(g)$.",
+        "claim": "chi_V(hgh^{-1}) = chi_V(g) for all h, g in G",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "FDRep.char_conj",
+        "reason": "This is Mathlib's FDRep.char_conj, used directly in multiple Chapter4 Lean files (e.g., Theorem4_2_1.lean, Remark4_5_3.lean).",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.5",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "We define a positive definite Hermitian inner product on $\\mathrm{F}_c(G, \\mathbb{C})$ (the space of central functions) by $$(f_1, f_2) = \\frac{1}{|G|} \\sum_{g \\in G} f_1(g)\\overline{f_2(g)}.$$",
+        "claim": "Definition of Hermitian inner product on F_c(G,C)",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "Introduction blob defining the inner product used in the following theorem. The formula (with g^{-1} in place of conj for characters) is baked into Theorem4_5_1 as the expression '⅟(Fintype.card G) • ∑ g, V.character g * W.character g⁻¹'. The inner product itself is not defined as a named standalone definition in the Lean code; it appears only inline in Theorem4_5_1. No new formalizable gap since the definition's only role is to set up Theorem 4.5.1.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "The following theorem says that characters of irreducible representations of $G$ form an orthonormal basis of $F_c(G, \\mathbb{C})$ under this inner product.",
+        "claim": "Irreducible characters form an orthonormal basis of F_c(G,C)",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem4_5_1_ii, Etingof.Remark4_5_5",
+        "reason": "This is the content of Theorem 4.5.1(ii) and Remark4_5_5 (character_matrix_mul_conjTranspose, character_matrix_conjTranspose_mul), which together say the character matrix is unitary = characters are an orthonormal basis.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.6",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.7",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.8",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "Due to Theorems 4.5.1 and 4.5.4, the rows and columns of a character table are orthonormal with respect to the appropriate inner products.",
+        "claim": "Rows and columns of the character table are orthonormal",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "character_matrix_mul_conjTranspose, character_matrix_conjTranspose_mul",
+        "reason": "Both row and column orthonormality are proved in Remark4_5_5.lean.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter4/Introduction_4.9",
+    "swept_result": "none",
+    "claims": [
+      {
+        "source_span": "Character tables allow us to compute the tensor product multiplicities $N^k_{ij}$ using $$V_i \\otimes V_j = \\sum N^k_{ij} V_k, \\quad N^k_{ij} = (\\chi_i \\chi_j, \\chi_k).$$",
+        "claim": "Tensor product multiplicities: N^k_{ij} = (chi_i * chi_j, chi_k)",
+        "verdict": "trivial",
+        "lean_decl": null,
+        "reason": "This introductory blob states the tensor multiplicity formula as a consequence of Theorem 4.5.1(i). No standalone Lean formalization of the general formula N^k_{ij} = (chi_i chi_j, chi_k) exists. However, this is an introduction blob pointing to Example 4.9.1. The general formula is a direct corollary of Theorem4_5_1_i and FDRep.char_tensor; it is not formalized separately. Classifying as trivial since the general abstract formula is an immediate consequence of already-proved results rather than requiring new infrastructure.",
+        "dedup_issue": null
+      }
+    ]
+  }
+]

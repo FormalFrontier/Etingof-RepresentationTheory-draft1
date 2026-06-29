@@ -7,7 +7,11 @@
     "end_page": "frontmatter-1",
     "start_line": 1,
     "end_line": 5,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Frontmatter/BlankPage1",
@@ -17,7 +21,11 @@
     "end_page": "frontmatter-2",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Frontmatter/TableOfContents",
@@ -37,7 +45,11 @@
     "end_page": "frontmatter-8",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter1/Introduction",
@@ -47,7 +59,11 @@
     "end_page": "2",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter1/Discussion_BookOrganization",
@@ -57,7 +73,11 @@
     "end_page": "3",
     "start_line": 5,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter1/Acknowledgments",
@@ -77,7 +97,11 @@
     "end_page": "5",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.1_overview",
@@ -87,7 +111,11 @@
     "end_page": "5",
     "start_line": 5,
     "end_line": 11,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.1_irreducible_indecomposable",
@@ -97,7 +125,11 @@
     "end_page": "6",
     "start_line": 1,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter2/Theorem2.1.1",
@@ -121,7 +153,11 @@
     "end_page": "7",
     "start_line": 26,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Theorem2.1.2",
@@ -143,7 +179,11 @@
     "end_page": "8",
     "start_line": 8,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.2_intro",
@@ -153,7 +193,11 @@
     "end_page": "8",
     "start_line": 11,
     "end_line": 15,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.2.1",
@@ -204,7 +248,11 @@
     "end_page": "9",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Example2.2.4",
@@ -238,7 +286,11 @@
     "end_page": "9",
     "start_line": 24,
     "end_line": 26,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter2/Definition2.2.6",
@@ -287,7 +339,11 @@
     "end_page": "10",
     "start_line": 11,
     "end_line": 11,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Example2.3.3",
@@ -371,7 +427,11 @@
     "end_page": "11",
     "start_line": 12,
     "end_line": 15,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_Schur_intro",
@@ -381,7 +441,11 @@
     "end_page": "12",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Proposition2.3.9",
@@ -430,7 +494,11 @@
     "end_page": "12",
     "start_line": 18,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter2/Corollary2.3.12",
@@ -467,7 +535,11 @@
     "end_page": "13",
     "start_line": 1,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter2/Example2.3.14",
@@ -548,7 +620,11 @@
     "end_page": "15",
     "start_line": 2,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "trivial"
+    }
   },
   {
     "id": "Chapter2/Problem2.4.1",
@@ -568,7 +644,11 @@
     "end_page": "15",
     "start_line": 16,
     "end_line": 19,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.5_well_defined",
@@ -578,7 +658,11 @@
     "end_page": "16",
     "start_line": 1,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter2/Problem2.5.1",
@@ -608,7 +692,11 @@
     "end_page": "17",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.7_intro",
@@ -618,7 +706,11 @@
     "end_page": "17",
     "start_line": 5,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Proposition2.7.1",
@@ -671,7 +763,11 @@
     "end_page": "18",
     "start_line": 22,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter2/Problem2.7.4",
@@ -725,7 +821,11 @@
     "end_page": "19",
     "start_line": 31,
     "end_line": 34,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.8.3",
@@ -747,7 +847,11 @@
     "end_page": "20",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.8.4",
@@ -790,7 +894,11 @@
     "end_page": "21",
     "start_line": 17,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter2/Remark2.8.7",
@@ -836,7 +944,11 @@
     "end_page": "21",
     "start_line": 11,
     "end_line": 13,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.8.10",
@@ -868,7 +980,11 @@
     "end_page": "22",
     "start_line": 12,
     "end_line": 15,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.9.1",
@@ -945,7 +1061,11 @@
     "end_page": "23",
     "start_line": 8,
     "end_line": 31,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_concrete_Lie_examples_continued",
@@ -955,7 +1075,11 @@
     "end_page": "24",
     "start_line": 1,
     "end_line": 5,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Exercise2.9.5",
@@ -1089,7 +1213,11 @@
     "end_page": "26",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "non_formalizable"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.10_heading",
@@ -1099,7 +1227,11 @@
     "end_page": "30",
     "start_line": 7,
     "end_line": 7,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.10_continued",
@@ -1109,7 +1241,11 @@
     "end_page": "31",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_2.11_heading",
@@ -1119,7 +1255,11 @@
     "end_page": "31",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.11.1",
@@ -1151,7 +1291,11 @@
     "end_page": "32",
     "start_line": 38,
     "end_line": 3,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "trivial"
+    }
   },
   {
     "id": "Chapter2/Discussion_tensors_type",
@@ -1161,7 +1305,11 @@
     "end_page": "32",
     "start_line": 4,
     "end_line": 19,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Discussion_tensor_product_maps",
@@ -1171,7 +1319,11 @@
     "end_page": "33",
     "start_line": 20,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "trivial"
+    }
   },
   {
     "id": "Chapter2/Problem2.11.3",
@@ -1235,7 +1387,11 @@
     "end_page": "35",
     "start_line": 27,
     "end_line": 33,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "trivial"
+    }
   },
   {
     "id": "Chapter2/Definition2.12.1",
@@ -1257,7 +1413,11 @@
     "end_page": "36",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Problem2.13.1",
@@ -1277,7 +1437,11 @@
     "end_page": "37",
     "start_line": 9,
     "end_line": 9,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Definition2.14.1",
@@ -1327,7 +1491,11 @@
     "end_page": "37",
     "start_line": 21,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Problem2.15.1",
@@ -1347,7 +1515,11 @@
     "end_page": "39",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter2/Problem2.16.1",
@@ -1407,7 +1579,11 @@
     "end_page": "43",
     "start_line": 1,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Definition3.1.1",
@@ -1456,7 +1632,11 @@
     "end_page": "44",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Proposition3.1.4",
@@ -1494,7 +1674,11 @@
     "end_page": "45",
     "start_line": 3,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter3/Lemma3.1.6",
@@ -1516,7 +1700,11 @@
     "end_page": "45",
     "start_line": 17,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.2",
@@ -1526,7 +1714,11 @@
     "end_page": "45",
     "start_line": 23,
     "end_line": 27,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Corollary3.2.1",
@@ -1563,7 +1755,11 @@
     "end_page": "47",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Theorem3.3.1",
@@ -1588,7 +1784,11 @@
     "end_page": "47",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Definition3.3.2",
@@ -1614,7 +1814,11 @@
     "end_page": "47",
     "start_line": 13,
     "end_line": 21,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter3/Problem3.3.3",
@@ -1647,7 +1851,11 @@
     "end_page": "49",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Definition3.4.1",
@@ -1683,7 +1891,11 @@
     "end_page": "49",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Definition3.5.1",
@@ -1794,7 +2006,11 @@
     "end_line": 10,
     "status": "sorry_free",
     "sorry_free": true,
-    "notes": "Introduction3_6.lean: character_mul_comm (χ_V(xy)=χ_V(yx) via LinearMap.trace_mul_comm); commutatorSubmodule [A,A]; commutatorSubmodule_le_ker_character ([A,A] ⊆ ker χ_V); characterQuotient (χ_V factors through A/[A,A])."
+    "notes": "Introduction3_6.lean: character_mul_comm (χ_V(xy)=χ_V(yx) via LinearMap.trace_mul_comm); commutatorSubmodule [A,A]; commutatorSubmodule_le_ker_character ([A,A] ⊆ ker χ_V); characterQuotient (χ_V factors through A/[A,A]).",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter3/Exercise3.6.1",
@@ -1827,7 +2043,11 @@
     "end_page": "53",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Theorem3.7.1",
@@ -1852,7 +2072,11 @@
     "end_line": 8,
     "status": "sorry_free",
     "sorry_free": true,
-    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim."
+    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim.",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter3/Introduction_to_3.8",
@@ -1862,7 +2086,11 @@
     "end_page": "54",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Theorem3.8.1",
@@ -1897,7 +2125,11 @@
     "end_page": "55",
     "start_line": 7,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter3/Problem3.8.3",
@@ -1952,7 +2184,11 @@
     "end_page": "56",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Problem3.9.1",
@@ -2012,7 +2248,11 @@
     "end_page": "59",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Exercise3.10.1",
@@ -2032,7 +2272,11 @@
     "end_page": "59",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter3/Theorem3.10.2",
@@ -2072,7 +2316,11 @@
     "end_page": "60",
     "start_line": 19,
     "end_line": 7,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter4/Introduction",
@@ -2082,7 +2330,11 @@
     "end_page": "61",
     "start_line": 1,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Theorem4.1.1",
@@ -2106,7 +2358,11 @@
     "end_page": "62",
     "start_line": 21,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Proposition4.1.2",
@@ -2153,7 +2409,11 @@
     "end_page": "63",
     "start_line": 17,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Theorem4.2.1",
@@ -2214,7 +2474,11 @@
     "end_page": "64",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Example4.3_FiniteAbelianGroups",
@@ -2290,7 +2554,11 @@
     "end_page": "67",
     "start_line": 3,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter4/Introduction_4.5",
@@ -2300,7 +2568,11 @@
     "end_page": "68",
     "start_line": 25,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Theorem4.5.1",
@@ -2322,7 +2594,11 @@
     "end_page": "68",
     "start_line": 31,
     "end_line": 32,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter4/Problem4.5.2",
@@ -2352,7 +2628,11 @@
     "end_page": "70",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Theorem4.5.4",
@@ -2388,7 +2668,11 @@
     "end_page": "71",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Definition4.6.1",
@@ -2423,7 +2707,11 @@
     "start_line": 15,
     "end_line": 2,
     "status": "proof_complete",
-    "sorry_free": true
+    "sorry_free": true,
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter4/Theorem4.6.3",
@@ -2445,7 +2733,11 @@
     "end_page": "72",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter4/Remark4.6.4",
@@ -2469,7 +2761,11 @@
     "end_page": "72",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Proposition4.7.1",
@@ -2491,7 +2787,11 @@
     "end_page": "74",
     "start_line": 25,
     "end_line": 27,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Example4.8.1",
@@ -2516,7 +2816,11 @@
     "end_page": "77",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Example4.9.1",
@@ -2541,7 +2845,11 @@
     "end_page": "78",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Definition4.10.1",
@@ -2565,7 +2873,11 @@
     "end_page": "78",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Theorem4.10.2",
@@ -2588,7 +2900,11 @@
     "end_page": "78",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Lemma4.10.3",
@@ -2610,7 +2926,11 @@
     "end_page": "79",
     "start_line": 23,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter4/Discussion_4.11",
@@ -2620,7 +2940,11 @@
     "end_page": "83",
     "start_line": 21,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "non_formalizable"
+    }
   },
   {
     "id": "Chapter4/Introduction_4.12",
@@ -2630,7 +2954,11 @@
     "end_page": "83",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter4/Problem4.12.1",
@@ -2750,7 +3078,11 @@
     "end_page": "92",
     "start_line": 13,
     "end_line": 5,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "non_formalizable"
+    }
   },
   {
     "id": "Chapter5/Introduction",
@@ -2760,7 +3092,11 @@
     "end_page": "93",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Definition5.1.1",
@@ -2784,7 +3120,11 @@
     "end_page": "93",
     "start_line": 12,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Problem5.1.2",
@@ -2865,7 +3205,11 @@
     "end_page": "95",
     "start_line": 25,
     "end_line": 28,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Definition5.2.1",
@@ -2911,7 +3255,11 @@
     "end_page": "96",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Proposition5.2.4",
@@ -2946,7 +3294,11 @@
     "end_page": "97",
     "start_line": 23,
     "end_line": 28,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Lemma5.2.6",
@@ -2991,7 +3343,11 @@
     "end_page": "98",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.3.1",
@@ -3025,7 +3381,11 @@
     "end_page": "100",
     "start_line": 9,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Exercise5.3.3",
@@ -3045,7 +3405,11 @@
     "end_page": "100",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Definition5.4.1",
@@ -3091,7 +3455,11 @@
     "end_page": "100",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.4.4",
@@ -3113,7 +3481,11 @@
     "end_page": "100",
     "start_line": 23,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Lemma5.4.5",
@@ -3135,7 +3507,11 @@
     "end_page": "101",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Theorem5.4.6",
@@ -3170,7 +3546,11 @@
     "end_page": "102",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.4.3",
@@ -3180,7 +3560,11 @@
     "end_page": "102",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Introduction_5.5",
@@ -3190,7 +3574,11 @@
     "end_page": "102",
     "start_line": 19,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.5",
@@ -3200,7 +3588,11 @@
     "end_page": "106",
     "start_line": 21,
     "end_line": 7,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Introduction_5.6",
@@ -3210,7 +3602,11 @@
     "end_page": "107",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.6.1",
@@ -3234,7 +3630,11 @@
     "end_page": "107",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Definition5.7.1",
@@ -3259,7 +3659,11 @@
     "end_page": "107",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Lemma5.7.2",
@@ -3281,7 +3685,11 @@
     "end_page": "107",
     "start_line": 17,
     "end_line": 21,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Definition5.8.1",
@@ -3314,7 +3722,11 @@
     "end_page": "108",
     "start_line": 9,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Remark5.8.3",
@@ -3357,7 +3769,11 @@
     "end_page": "109",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.9.1",
@@ -3391,7 +3807,11 @@
     "end_page": "110",
     "start_line": 15,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Introduction_5.10",
@@ -3401,7 +3821,11 @@
     "end_page": "110",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.10.1",
@@ -3446,7 +3870,11 @@
     "end_page": "112",
     "start_line": 2,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.11_examples",
@@ -3456,7 +3884,11 @@
     "end_page": "112",
     "start_line": 7,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Problem5.11.1",
@@ -3476,7 +3908,11 @@
     "end_page": "112",
     "start_line": 25,
     "end_line": 28,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Definition5.12.1",
@@ -3498,7 +3934,11 @@
     "end_page": "113",
     "start_line": 10,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.12.2",
@@ -3561,7 +4001,11 @@
     "end_page": "114",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Lemma5.13.1",
@@ -3585,7 +4029,11 @@
     "end_page": "115",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_lexicographic_ordering",
@@ -3595,7 +4043,11 @@
     "end_page": "115",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "trivial"
+    }
   },
   {
     "id": "Chapter5/Lemma5.13.2",
@@ -3645,7 +4097,11 @@
     "end_page": "116",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.12.2",
@@ -3655,7 +4111,11 @@
     "end_page": "116",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Introduction_5.14",
@@ -3665,7 +4125,11 @@
     "end_page": "116",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Proposition5.14.1",
@@ -3701,7 +4165,11 @@
     "end_page": "116",
     "start_line": 17,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Discussion_character_computation_setup",
@@ -3711,7 +4179,11 @@
     "end_page": "116",
     "start_line": 23,
     "end_line": 27,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.14.3",
@@ -3737,7 +4209,11 @@
     "end_page": "118",
     "start_line": 10,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.15.1",
@@ -3771,7 +4247,11 @@
     "end_page": "118",
     "start_line": 23,
     "end_line": 27,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Frobenius_character_formula",
@@ -3781,7 +4261,11 @@
     "end_page": "119",
     "start_line": 1,
     "end_line": 21,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Lemma5.15.3",
@@ -3805,7 +4289,11 @@
     "end_page": "119",
     "start_line": 27,
     "end_line": 29,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Discussion_proof_of_Lemma5.15.3",
@@ -3815,7 +4303,11 @@
     "end_page": "120",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Corollary5.15.4",
@@ -3849,7 +4341,11 @@
     "end_page": "120",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Problem5.16.1",
@@ -3889,7 +4385,11 @@
     "end_page": "121",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_hook_length_derivation",
@@ -3899,7 +4399,11 @@
     "end_page": "122",
     "start_line": 11,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Theorem5.17.1",
@@ -3923,7 +4427,11 @@
     "end_page": "122",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.18.1",
@@ -3948,7 +4456,11 @@
     "end_page": "123",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.18.2",
@@ -3985,7 +4497,11 @@
     "end_page": "124",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.4",
@@ -3995,7 +4511,11 @@
     "end_page": "124",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Theorem5.18.4",
@@ -4021,7 +4541,11 @@
     "end_page": "124",
     "start_line": 17,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Proposition5.19.1",
@@ -4075,7 +4599,11 @@
     "end_page": "125",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.20",
@@ -4085,7 +4613,11 @@
     "end_page": "130",
     "start_line": 7,
     "end_line": 5,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Introduction_5.21",
@@ -4095,7 +4627,11 @@
     "end_page": "131",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_Schur_polynomials",
@@ -4105,7 +4641,11 @@
     "end_page": "131",
     "start_line": 3,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Proposition5.21.1",
@@ -4129,7 +4669,11 @@
     "end_page": "131",
     "start_line": 33,
     "end_line": 33,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Proposition5.21.2",
@@ -4154,7 +4698,11 @@
     "end_page": "132",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_computing_characters_of_L_lambda",
@@ -4164,7 +4712,11 @@
     "end_page": "132",
     "start_line": 17,
     "end_line": 32,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Theorem5.22.1",
@@ -4185,7 +4737,11 @@
     "end_page": "133",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Proposition5.22.2",
@@ -4207,7 +4763,11 @@
     "end_page": "133",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Definition5.23.1",
@@ -4230,7 +4790,11 @@
     "end_page": "133",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Theorem5.23.2",
@@ -4256,7 +4820,11 @@
     "end_page": "134",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Remark5.23.3",
@@ -4277,7 +4845,11 @@
     "end_page": "135",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Problem5.24.1",
@@ -4307,7 +4879,11 @@
     "end_page": "135",
     "start_line": 19,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.25.1",
@@ -4317,7 +4893,11 @@
     "end_page": "137",
     "start_line": 21,
     "end_line": 34,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.25.2",
@@ -4327,7 +4907,11 @@
     "end_page": "137",
     "start_line": 35,
     "end_line": 36,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Proposition5.25.1",
@@ -4350,7 +4934,11 @@
     "end_page": "138",
     "start_line": 21,
     "end_line": 40,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.25.3",
@@ -4360,7 +4948,11 @@
     "end_page": "139",
     "start_line": 41,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Theorem5.25.2",
@@ -4382,7 +4974,11 @@
     "end_page": "141",
     "start_line": 35,
     "end_line": 36,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Discussion_5.25.4",
@@ -4392,7 +4988,11 @@
     "end_page": "143",
     "start_line": 37,
     "end_line": 21,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Lemma5.25.3",
@@ -4418,7 +5018,11 @@
     "end_page": "144",
     "start_line": 15,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter5/Introduction_5.26",
@@ -4428,7 +5032,11 @@
     "end_page": "144",
     "start_line": 23,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Theorem5.26.1",
@@ -4460,7 +5068,11 @@
     "end_page": "145",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Corollary5.26.3",
@@ -4482,7 +5094,11 @@
     "end_page": "145",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter5/Discussion_semidirect_products",
@@ -4492,7 +5108,11 @@
     "end_page": "146",
     "start_line": 11,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter5/Theorem5.27.1",
@@ -4535,7 +5155,11 @@
     "end_page": "149",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Section6.1_heading",
@@ -4545,7 +5169,11 @@
     "end_page": "149",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Problem6.1.1",
@@ -4597,7 +5225,11 @@
     "end_page": "150",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Theorem_Dynkin_classification",
@@ -4681,7 +5313,11 @@
     "end_page": "154",
     "start_line": 7,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Remark6.2.1",
@@ -4741,7 +5377,11 @@
     "end_page": "158",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Example6.3.1",
@@ -4766,7 +5406,11 @@
     "end_page": "164",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter6/Section6.4_heading",
@@ -4776,7 +5420,11 @@
     "end_page": "164",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Definition6.4.1",
@@ -4921,7 +5569,11 @@
     "end_page": "167",
     "start_line": 38,
     "end_line": 39,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Definition6.5.1",
@@ -4944,7 +5596,11 @@
     "end_page": "167",
     "start_line": 48,
     "end_line": 48,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Theorem6.5.2",
@@ -4968,7 +5624,11 @@
     "end_page": "168",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Definition6.6.1",
@@ -5002,7 +5662,11 @@
     "end_page": "168",
     "start_line": 19,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Definition6.6.3",
@@ -5024,7 +5688,11 @@
     "end_page": "169",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter6/Definition6.6.4",
@@ -5098,7 +5766,11 @@
     "end_page": "173",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Definition6.7.1",
@@ -5135,7 +5807,11 @@
     "end_page": "174",
     "start_line": 27,
     "end_line": 43,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter6/Theorem6.8.1",
@@ -5158,7 +5834,11 @@
     "end_page": "175",
     "start_line": 29,
     "end_line": 30,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Corollary6.8.2",
@@ -5195,7 +5875,11 @@
     "end_page": "176",
     "start_line": 31,
     "end_line": 32,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter6/Corollary6.8.4",
@@ -5233,7 +5917,11 @@
     "end_page": "177",
     "start_line": 29,
     "end_line": 30,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter6/Problem6.9.1",
@@ -5274,7 +5962,11 @@
     "end_page": "181",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Introduction_7.1",
@@ -5284,7 +5976,11 @@
     "end_page": "181",
     "start_line": 5,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "non_formalizable"
+    }
   },
   {
     "id": "Chapter7/Definition7.1.1",
@@ -5331,7 +6027,11 @@
     "end_page": "183",
     "start_line": 29,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Definition7.1.4",
@@ -5368,7 +6068,11 @@
     "end_page": "183",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Example7.1.6",
@@ -5392,7 +6096,11 @@
     "end_page": "183",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Definition7.2.1",
@@ -5414,7 +6122,11 @@
     "end_page": "184",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Example7.2.2",
@@ -5438,7 +6150,11 @@
     "end_page": "185",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Definition7.3.1",
@@ -5475,7 +6191,11 @@
     "end_page": "186",
     "start_line": 1,
     "end_line": 13,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Definition7.4.1",
@@ -5497,7 +6217,11 @@
     "end_page": "187",
     "start_line": 5,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Introduction_7.5",
@@ -5507,7 +6231,11 @@
     "end_page": "187",
     "start_line": 15,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Lemma7.5.1",
@@ -5553,7 +6281,11 @@
     "end_page": "188",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Definition7.6.1",
@@ -5575,7 +6307,11 @@
     "end_page": "189",
     "start_line": 15,
     "end_line": 21,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Remark7.6.2",
@@ -5610,7 +6346,11 @@
     "end_page": "190",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Introduction_7.7",
@@ -5620,7 +6360,11 @@
     "end_page": "190",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Definition7.7.1",
@@ -5666,7 +6410,11 @@
     "end_page": "191",
     "start_line": 7,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Remark7.7.4",
@@ -5687,7 +6435,11 @@
     "end_page": "191",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Introduction_7.8",
@@ -5697,7 +6449,11 @@
     "end_page": "191",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Definition7.8.1",
@@ -5719,7 +6475,11 @@
     "end_page": "192",
     "start_line": 3,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter7/Definition7.8.2",
@@ -5795,7 +6555,11 @@
     "end_page": "194",
     "start_line": 19,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Definition7.9.1",
@@ -5819,7 +6583,11 @@
     "end_page": "194",
     "start_line": 23,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter7/Example7.9.2",
@@ -5882,7 +6650,11 @@
     "end_page": "195",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "gap"
+    }
   },
   {
     "id": "Chapter7/Example7.9.6",
@@ -5928,7 +6700,11 @@
     "end_page": "196",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter7/Discussion_7.10",
@@ -5938,7 +6714,11 @@
     "end_page": "204",
     "start_line": 3,
     "end_line": 3,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter8/Introduction",
@@ -5948,7 +6728,11 @@
     "end_page": "205",
     "start_line": 1,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter8/Introduction_8.1",
@@ -5958,7 +6742,11 @@
     "end_page": "205",
     "start_line": 7,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter8/Theorem8.1.1",
@@ -6016,7 +6804,11 @@
     "end_page": "206",
     "start_line": 19,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter8/Theorem8.1.5",
@@ -6067,7 +6859,11 @@
     "end_page": "207",
     "start_line": 21,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter8/Definition8.1.8",
@@ -6090,7 +6886,11 @@
     "end_page": "208",
     "start_line": 27,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter8/Definition8.2.1",
@@ -6188,7 +6988,11 @@
     "end_page": "210",
     "start_line": 41,
     "end_line": 41,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "trivial"
+    }
   },
   {
     "id": "Chapter8/Exercise8.2.9",
@@ -6218,7 +7022,11 @@
     "end_page": "213",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter9/Introduction_9.1",
@@ -6228,7 +7036,11 @@
     "end_page": "213",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter9/Proposition9.1.1",
@@ -6276,7 +7088,11 @@
     "end_page": "214",
     "start_line": 11,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter9/Theorem9.2.1",
@@ -6330,7 +7146,11 @@
     "end_page": "216",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter9/Definition9.3.1",
@@ -6365,7 +7185,11 @@
     "end_page": "216",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter9/Definition9.4.1",
@@ -6443,7 +7267,11 @@
     "end_page": "217",
     "start_line": 15,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "none"
+    }
   },
   {
     "id": "Chapter9/Definition9.5.1",
@@ -6491,7 +7319,11 @@
     "end_page": "218",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter9/Definition9.6.1",
@@ -6539,7 +7371,11 @@
     "end_page": "219",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter9/Theorem9.6.4",
@@ -6579,7 +7415,11 @@
     "end_line": 6,
     "status": "proof_partial",
     "sorry_free": false,
-    "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib)."
+    "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib).",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter9/Definition9.7.1",
@@ -6601,7 +7441,11 @@
     "end_page": "220",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "coverage_swept": {
+      "wave": 1,
+      "result": "covered"
+    }
   },
   {
     "id": "Chapter9/Definition9.7.2",
@@ -6654,5 +7498,78 @@
     "start_line": 1,
     "end_line": 19,
     "status": "sorry_free"
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter2/Discussion_2.1_irreducible_indecomposable",
+    "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
+    "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V → Etingof.IsIndecomposable A V.",
+    "status": "accepted",
+    "coverage_issue": 5676
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Discussion_1dim_reps",
+    "source_span": "G/[G, G] \\cong \\mathbb{F}_q^\\times via g \\mapsto \\det(g). The 1-dimensional representations of G thus have the form \\rho(g) = \\xi(\\det(g)), where \\xi is a homomorphism \\xi : \\mathbb{F}_q^\\times \\to \\mathbb{C}^\\times; so there are q - 1 such representations, denoted \\mathbb{C}_\\xi.",
+    "claim": "Every 1-dimensional representation of GL₂(𝔽_q) is of the form g ↦ ξ(det g) for a unique character ξ : 𝔽_q× → ℂ×; there are exactly q−1 such representations.",
+    "status": "accepted",
+    "coverage_issue": 5677
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Discussion_5.11_examples",
+    "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
+    "claim": "The three induced representations of S₄ from S₃: Ind_{S₃}^{S₄} ℂ₊ ≅ ℂ₊ ⊕ ℂ³₋, Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊, Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊",
+    "status": "accepted",
+    "coverage_issue": 5678
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Discussion_5.25.1",
+    "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
+    "claim": "The number of conjugacy classes of each type in GL₂(𝔽_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q²-1.",
+    "status": "accepted",
+    "coverage_issue": 5679
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Discussion_after_Definition5.23.1",
+    "source_span": "Also define L_{\\lambda - r \\cdot 1^N} := L_\\lambda \\otimes (\\wedge^N V^*)^{\\otimes r} (this definition makes sense by Proposition 5.22.2). Thus we have attached a unique irreducible algebraic representation L_\\lambda of GL(V) = GL_N to any sequence (\\lambda_1, \\ldots, \\lambda_N) of integers (not nec",
+    "claim": "For any weakly decreasing integer sequence λ₁ ≥ … ≥ λ_N, there is a unique irreducible algebraic representation L_λ of GL_N with highest weight λ; it is constructed as (Schur module L_{λ+r·1^N}) ⊗ (det^*)^r for r ≫ 0",
+    "status": "accepted",
+    "coverage_issue": 5680
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Discussion_complementary_series_summary",
+    "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all i",
+    "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
+    "status": "accepted",
+    "coverage_issue": 5681
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter5/Discussion_footnote_5.15",
+    "source_span": "$\\sigma(\\rho) \\leq \\rho$ lexicographically with equality if and only if $\\sigma = 1$, and subtracting both sides from the constant vector $\\lambda + \\rho$ shows that $\\lambda + \\rho - \\sigma(\\rho) \\geq \\lambda$ with equality if and only if $\\sigma = 1$.",
+    "claim": "For sigma in S_N acting on rho = (N-1, N-2, ..., 0): sigma(rho) <=_lex rho with equality iff sigma = 1; equivalently lambda + rho - sigma(rho) >=_lex lambda with equality iff sigma = 1.",
+    "status": "accepted",
+    "coverage_issue": 5682,
+    "note": "same claim also appears in Chapter5/Discussion_proof_of_Frobenius_character_formula"
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter7/Discussion_after_Definition7.9.1",
+    "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
+    "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
+    "status": "accepted",
+    "coverage_issue": 5683
+  },
+  {
+    "type": "derived",
+    "derived_from": "Chapter7/Discussion_after_Example7.9.5",
+    "source_span": "Note that in a semisimple category, any additive functor is automatically exact on both sides.",
+    "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C → D is both left and right exact.",
+    "status": "accepted",
+    "coverage_issue": 5684
   }
 ]

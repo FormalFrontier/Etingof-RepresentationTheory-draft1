@@ -1,0 +1,139 @@
+[
+  {
+    "blob_id": "Chapter6/Definition6.6.3_maps",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "Also, all maps stay the same except those now pointing out of $i$; these are replaced by compositions of the inclusion of $\\ker \\varphi$ into $\\bigoplus_{j \\to i} V_j$ with the projections $\\bigoplus_{j \\to i} V_j \\to V_i$.",
+        "claim": "For the reflection functor F⁺ᵢ, the linear maps in Q̄ᵢ out of vertex i (i.e., reversed arrows from i to j ≠ i) are given by the composition: ker(φ) ↪ ⊕_{j→i} V_j → V_j (inclusion of kernel then projection onto the j-component).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.reflFunctorPlus_mapLinear_eq_ne",
+        "reason": "Theorem reflFunctorPlus_mapLinear_eq_ne in Definition6_6_3.lean (line 428) proves exactly this: at (a=i, b≠i) the F⁺ map sends an element of ker(sinkMap) to the b-component of its inclusion in ⊕V_j, stated via LinearEquiv transport: equivAt_ne (mapLinear e w) = component ⟨b, reversedArrow_eq_ne e⟩ (subtype (equivAt_eq w)). The declaration is non-sorry and non-vacuous.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter6/Discussion_after_Corollary6.8.3",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "These two corollaries show that there are only finitely many indecomposable representations (since there are only finitely many roots)",
+        "claim": "For a Dynkin quiver, there are only finitely many indecomposable representations (up to isomorphism).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem_6_5_2a_finiteness",
+        "reason": "Theorem_6_5_2a_finiteness (Theorem6_5_2.lean, line 159) proves Set.Finite {d | IsPositiveRoot n adj d}. Combined with Theorem_6_5_2c_bijection (line 215), which gives a bijection between positive roots and isomorphism classes of indecomposables for any Dynkin orientation, the finiteness of indecomposable isomorphism classes follows. The Problem6_1_5_theorem.lean (Etingof.Theorem_6_1_5) assembles this into IsFiniteTypeQuiver for the Dynkin direction. All non-sorry.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "that the dimension vector of each of them is a positive root",
+        "claim": "The dimension vector of every indecomposable representation of a Dynkin quiver is a positive root (i.e., B(d,d)=2, d≥0, d≠0).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Corollary6_8_2",
+        "reason": "Etingof.Corollary6_8_2 in Corollary6_8_2.lean proves exactly this: given that d is the dimension vector of an indecomposable representation of a Dynkin quiver (encoded via hreflect), IsPositiveRoot n adj d holds. Non-sorry.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter6/Discussion_after_Definition6.1.4",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Discussion_after_Example6.3.1",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "It appears as if the number of indecomposable representations does not depend on the orientation of the edges — and indeed Gabriel's theorem will generalize this observation.",
+        "claim": "For a fixed Dynkin graph, different orientations have the same number of indecomposable representations (up to isomorphism).",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.Theorem_6_5_2c_bijection",
+        "reason": "This is an informal observation and forward-pointer to Gabriel's theorem. The underlying formal content is covered by Theorem_6_5_2c_bijection: for any orientation Q of the Dynkin graph adj, the set of indecomposable isomorphism classes bijects with {positive roots of adj}. Since the positive roots are independent of the orientation Q (they depend only on adj), any two orientations have the same count. The orientation-independence itself is not stated as a standalone theorem, but it is an immediate consequence of Theorem_6_5_2c_bijection and the orientation-independence of IsPositiveRoot. The blob text is explicitly informal ('it appears as if') and framed as motivation. Verdict: covered rather than genuine_gap.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter6/Discussion_after_Theorem6.8.1",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Discussion_before_Definition6.6.3",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Discussion_before_Theorem6.5.2",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Introduction",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.1_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.2_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.3_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.4_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.5_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.6_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.7_heading",
+    "swept_result": "none",
+    "claims": []
+  },
+  {
+    "blob_id": "Chapter6/Section6.8_heading",
+    "swept_result": "covered",
+    "claims": [
+      {
+        "source_span": "This sequence is well defined because of the selected labeling: $n$ has to be a sink of $Q$, $n-1$ has to be a sink of $\\overline{Q}_n$ (where $\\overline{Q}_r$ is obtained from $Q$ by reversing all the arrows at the vertex $r$) and so on.",
+        "claim": "Every Dynkin quiver orientation admits an admissible ordering (labeling) such that each vertex is a sink of the quiver obtained after reversing all previous vertices in the ordering.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.admissibleOrdering_exists",
+        "reason": "Etingof.admissibleOrdering_exists in CoxeterInfrastructure.lean (line 636) proves exactly this: ∃ ordering, IsAdmissibleOrdering Q ordering, where IsAdmissibleOrdering requires each vertex ordering[k] to be a sink of iteratedReversedAtVertices Q (ordering.take k). Non-sorry.",
+        "dedup_issue": null
+      },
+      {
+        "source_span": "Furthermore, we note that $V^{(n)}$ is a representation of $Q$ again, since every arrow has been reversed twice (since we applied a reflection functor to every vertex).",
+        "claim": "Reversing all arrows at all n vertices of a quiver (one for each vertex) returns the quiver to its original state.",
+        "verdict": "covered_elsewhere",
+        "lean_decl": "Etingof.iteratedReversedAtVertices_perm_eq",
+        "reason": "Theorem iteratedReversedAtVertices_perm_eq in CoxeterInfrastructure.lean (line 525) proves: for any permutation σ of all vertices, iteratedReversedAtVertices Q σ = Q. The proof notes each edge gets reversed twice (once for each endpoint). Non-sorry.",
+        "dedup_issue": null
+      }
+    ]
+  },
+  {
+    "blob_id": "Chapter6/Section6.9_heading",
+    "swept_result": "none",
+    "claims": []
+  }
+]

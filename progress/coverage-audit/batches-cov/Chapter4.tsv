@@ -1,0 +1,22 @@
+blob_id	type	kind	prior_verdict	seed_claims
+Chapter4/Discussion_4.11	discussion	no-signal		
+Chapter4/Discussion_4.13	discussion	no-signal		
+Chapter4/Discussion_4.4	discussion	CANDIDATE	gap	Thus for complex representations $$\chi_{V^*}(g) = \chi_V(g^{-1}) = \sum \lambda_i^{-1} = \sum \overline{\lambda_i} = \overline{\sum \lambda_i} = \overline{\chi_V(g)}.$$ In particular, $V \cong V^*$ as representations (not just as vector spaces) if and only if $\chi_V(g) \in \mathbb{R}$ for all $g \
+Chapter4/Discussion_after_Theorem4.5.1	discussion	CANDIDATE	gap	Indeed, it implies that $V$ is irreducible if and only if $(\chi_V, \chi_V) = 1$. || Theorem 4.5.1 gives a powerful method of checking if a given complex representation $V$ of a finite group $G$ is irreducible.
+Chapter4/Discussion_after_Theorem4.6.2	discussion	CANDIDATE	gap	Theorem 4.6.2 implies that if $V$ is a finite dimensional representation of a finite group $G$, then the **complex conjugate representation** $\overline{V}$ (i.e., the same space $V$ with the same addition and the same action of $G$, but complex conjugate action of scalars) is isomorphic to the dual
+Chapter4/Discussion_after_Theorem4.6.3	discussion	no-signal		
+Chapter4/Discussion_before_Lemma4.10.3	discussion	no-signal		
+Chapter4/Discussion_before_Proposition4.1.2	discussion	no-signal		
+Chapter4/Discussion_before_Theorem4.10.2	discussion	no-signal		
+Chapter4/Discussion_before_Theorem4.5.4	discussion	no-signal		
+Chapter4/Discussion_proof_Theorem4.10.2	discussion	CANDIDATE	unknown	We set $P_i = \det_{V_i} L(\mathbf{x})$.
+Chapter4/Introduction	introduction	no-signal		
+Chapter4/Introduction_4.10	introduction	no-signal		
+Chapter4/Introduction_4.12	introduction	no-signal		
+Chapter4/Introduction_4.2	introduction	no-signal		
+Chapter4/Introduction_4.3	introduction	no-signal		
+Chapter4/Introduction_4.5	introduction	CANDIDATE	unknown	Orthogonality of characters We define a positive definite Hermitian inner product on $\mathrm{F}_c(G, \mathbb{C})$ (the space of central functions) by $$(f_1, f_2) = \frac{1}{|G|} \sum_{g \in G} f_1(g)\overline{f_2(g)}.$$ The following theorem says that characters of irreducible representations of $
+Chapter4/Introduction_4.6	introduction	no-signal		
+Chapter4/Introduction_4.7	introduction	no-signal		
+Chapter4/Introduction_4.8	introduction	no-signal		
+Chapter4/Introduction_4.9	introduction	no-signal		
