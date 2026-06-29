@@ -1311,61 +1311,6 @@ lemma finrank_hom_leftIdeal_eq
 
 end Etingof.Theorem921
 
-/-- **Theorem 9.2.1(i)**: Existence of projective covers with the Kronecker delta Hom property.
-
-For each simple module Mᵢ over a finite-dimensional algebra A, there exists an indecomposable
-finitely generated projective module Pᵢ such that dim Hom_A(Pᵢ, Mⱼ) = δᵢⱼ.
-
-More precisely: given a finite family of pairwise non-isomorphic simple A-modules `M`,
-for each index `i` there exists a type `P i` carrying the structure of an indecomposable
-projective A-module, together with a proof that dim_k Hom_A(P i, M j) = if i = j then 1 else 0.
-(Etingof Theorem 9.2.1(i)) -/
-theorem Etingof.Theorem_9_2_1_i
-    [IsAlgClosed k]
-    {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
-    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
-    [∀ i, SMulCommClass A k (M i)]
-    [∀ i, IsSimpleModule A (M i)]
-    (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
-    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S]
-      [IsSimpleModule A S], ∃ i, Nonempty (S ≃ₗ[A] M i)) :
-    ∃ (P : ι → Type uA)
-      (_ : ∀ i, AddCommGroup (P i))
-      (_ : ∀ i, Module A (P i))
-      (_ : ∀ i, Module k (P i))
-      (_ : ∀ i, IsScalarTower k A (P i))
-      (_ : ∀ i, SMulCommClass A k (P i))
-      (_ : ∀ i, Module.Projective A (P i))
-      (_ : ∀ i, Module.Finite A (P i))
-      (_ : ∀ i, Etingof.IsIndecomposable A (P i)),
-      ∀ i j, Module.finrank k (P i →ₗ[A] M j) =
-        if i = j then 1 else 0 := by
-  -- Step 1: A is artinian (finite-dimensional algebra over a field)
-  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
-  -- Step 2: Get orthogonal idempotents from Wedderburn-Artin
-  obtain ⟨e, he_idem, he_orth, he_dim⟩ :=
-    Theorem921.exists_orthogonal_idempotents_for_simples
-      (k := k) M hM
-  -- Step 3: Define P i = Submodule.span A {e i} (= left ideal Ae_i)
-  -- The Hom dimension property follows from he_dim and the
-  -- Hom ≅ eM isomorphism.
-  have hdim_hom : ∀ i j, Module.finrank k
-      (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M j) =
-      if i = j then 1 else 0 := by
-    intro i j
-    rw [Theorem921.finrank_hom_leftIdeal_eq (k := k)
-      (e i) (he_idem i)]
-    exact he_dim i j
-  exact ⟨fun i => ↥(Submodule.span A ({e i} : Set A)),
-    inferInstance, inferInstance, inferInstance, inferInstance,
-    inferInstance,
-    fun i => Theorem921.leftIdeal_projective (e i) (he_idem i),
-    fun i => Theorem921.leftIdeal_finite (e i),
-    fun i => Theorem921.leftIdeal_indecomposable_of_hom_delta
-      (k := k) M hM hM_exhaustive (e i) (he_idem i) i
-      (hdim_hom i),
-    hdim_hom⟩
 
 /-! ### Local endomorphism ring and uniqueness of indecomposable projectives
 
@@ -1505,6 +1450,103 @@ theorem Etingof.indecomposable_projective_iso_of_hom
   exact ⟨LinearEquiv.ofBijective f ⟨f_inj, f_surj⟩⟩
 
 end LocalEndomorphismRing
+
+/-- **Theorem 9.2.1(i)**: Existence and uniqueness of projective covers with the
+Kronecker delta Hom property.
+
+For each simple module Mᵢ over a finite-dimensional algebra A, there exists an indecomposable
+finitely generated projective module Pᵢ such that dim Hom_A(Pᵢ, Mⱼ) = δᵢⱼ, and this Pᵢ is
+unique up to isomorphism.
+
+More precisely: given a finite family of pairwise non-isomorphic simple A-modules `M`,
+for each index `i` there exists a type `P i` carrying the structure of an indecomposable
+projective A-module, together with a proof that dim_k Hom_A(P i, M j) = if i = j then 1 else 0.
+The uniqueness clause records that any indecomposable finitely generated projective module `Q`
+with the same Kronecker delta Hom property at index `i` is isomorphic to `P i` — matching the
+book's statement that `P_i` is the *unique* such module.
+(Etingof Theorem 9.2.1(i)) -/
+theorem Etingof.Theorem_9_2_1_i
+    [IsAlgClosed k]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type uA) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)]
+    [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
+    (hM_exhaustive : ∀ (S : Type uA) [AddCommGroup S] [Module A S]
+      [IsSimpleModule A S], ∃ i, Nonempty (S ≃ₗ[A] M i)) :
+    ∃ (P : ι → Type uA)
+      (_ : ∀ i, AddCommGroup (P i))
+      (_ : ∀ i, Module A (P i))
+      (_ : ∀ i, Module k (P i))
+      (_ : ∀ i, IsScalarTower k A (P i))
+      (_ : ∀ i, SMulCommClass A k (P i))
+      (_ : ∀ i, Module.Projective A (P i))
+      (_ : ∀ i, Module.Finite A (P i))
+      (_ : ∀ i, Etingof.IsIndecomposable A (P i)),
+      (∀ i j, Module.finrank k (P i →ₗ[A] M j) =
+        if i = j then 1 else 0) ∧
+      -- Uniqueness up to isomorphism: any indecomposable f.g. projective `Q` with the
+      -- same delta Hom property at index `i` is isomorphic to `P i`.
+      (∀ i (Q : Type uA) [AddCommGroup Q] [Module A Q] [Module k Q]
+          [IsScalarTower k A Q] [SMulCommClass A k Q]
+          [Module.Projective A Q] [Module.Finite A Q],
+        Etingof.IsIndecomposable A Q →
+        (∀ j, Module.finrank k (Q →ₗ[A] M j) = if i = j then 1 else 0) →
+        Nonempty (Q ≃ₗ[A] P i)) := by
+  -- Step 1: A is artinian (finite-dimensional algebra over a field)
+  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  -- Step 2: Get orthogonal idempotents from Wedderburn-Artin
+  obtain ⟨e, he_idem, he_orth, he_dim⟩ :=
+    Theorem921.exists_orthogonal_idempotents_for_simples
+      (k := k) M hM
+  -- Step 3: Define P i = Submodule.span A {e i} (= left ideal Ae_i)
+  -- The Hom dimension property follows from he_dim and the
+  -- Hom ≅ eM isomorphism.
+  have hdim_hom : ∀ i j, Module.finrank k
+      (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M j) =
+      if i = j then 1 else 0 := by
+    intro i j
+    rw [Theorem921.finrank_hom_leftIdeal_eq (k := k)
+      (e i) (he_idem i)]
+    exact he_dim i j
+  refine ⟨fun i => ↥(Submodule.span A ({e i} : Set A)),
+    inferInstance, inferInstance, inferInstance, inferInstance,
+    inferInstance,
+    fun i => Theorem921.leftIdeal_projective (e i) (he_idem i),
+    fun i => Theorem921.leftIdeal_finite (e i),
+    fun i => Theorem921.leftIdeal_indecomposable_of_hom_delta
+      (k := k) M hM hM_exhaustive (e i) (he_idem i) i
+      (hdim_hom i),
+    hdim_hom, ?_⟩
+  -- Uniqueness clause: any indecomposable f.g. projective `Q` with the delta Hom
+  -- property at index `i` is isomorphic to `P i = A·e i`, via Fitting's lemma
+  -- (`Etingof.indecomposable_projective_iso_of_hom`).
+  intro i Q _ _ _ _ _ _ _ hQ_indec hQ_delta
+  haveI : Nontrivial Q := hQ_indec.1
+  haveI : FiniteDimensional k Q := Module.Finite.trans A Q
+  haveI : Module.Finite A (↥(Submodule.span A ({e i} : Set A))) :=
+    Theorem921.leftIdeal_finite (e i)
+  haveI : FiniteDimensional k (↥(Submodule.span A ({e i} : Set A))) :=
+    Module.Finite.trans A _
+  haveI : Module.Projective A (↥(Submodule.span A ({e i} : Set A))) :=
+    Theorem921.leftIdeal_projective (e i) (he_idem i)
+  -- A nonzero map Q → M i exists since dim Hom(Q, M i) = 1
+  have hQdim : Module.finrank k (Q →ₗ[A] M i) = 1 := by simpa using hQ_delta i
+  haveI : Nontrivial (Q →ₗ[A] M i) :=
+    Module.nontrivial_of_finrank_pos (R := k) (by rw [hQdim]; norm_num)
+  obtain ⟨φ, hφ⟩ := exists_ne (0 : Q →ₗ[A] M i)
+  -- A nonzero map P i → M i exists since dim Hom(P i, M i) = 1
+  have hPdim : Module.finrank k
+      (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i) = 1 := by
+    simpa using hdim_hom i i
+  haveI : Nontrivial (↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i) :=
+    Module.nontrivial_of_finrank_pos (R := k) (by rw [hPdim]; norm_num)
+  obtain ⟨ψ, hψ⟩ := exists_ne
+    (0 : ↥(Submodule.span A ({e i} : Set A)) →ₗ[A] M i)
+  exact Etingof.indecomposable_projective_iso_of_hom (k := k) hQ_indec
+    (Theorem921.leftIdeal_indecomposable_of_hom_delta (k := k) M hM hM_exhaustive
+      (e i) (he_idem i) i (hdim_hom i)) φ hφ ψ hψ
 
 section CompleteSystem
 
