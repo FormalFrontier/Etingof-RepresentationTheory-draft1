@@ -62,3 +62,16 @@
 
 ## Caveat
 Wave 2 is depth but still single-judge per item (Sonnet) and strict about multi-part examples; treat `partial-example`/`structural` as needing a policy decision, not automatic bugs. Not a dry wave — a wave 3 should Codex-tiebreak the disputes and re-check repairs.
+
+
+## Codex cross-vendor tiebreak — outcomes
+- **5.14.3 / 5.15.1** (H_m vs power-sum): `lean-correct` — power sums are right; the book's H_m would be wrong (S₂ counterexample). Marked verified.
+- **8.1.8** (projective object: lifting vs Hom-exactness): `faithful` — equivalent in abelian categories. Marked verified.
+- **5.10.1** (Frobenius reciprocity direction): `gap` — Lean proves Ind⊣Res form, book states the other; bridge not formalized. Filed.
+
+## Wave-2 issues filed
+- Statement-fidelity: #5616–#5631 (+ pre-existing for 3.10.2, 5.21.1).
+- Complete-the-example: #5632–#5648.
+- Coverage (formalizable-missing): #5649–#5657.
+- Marked `non_formalizable` (no issue): Remark2.9.14.
+- Structural (content exists under another name, no issue): Definition5.4.1, Proposition5.21.2.
