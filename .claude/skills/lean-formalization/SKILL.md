@@ -28,6 +28,9 @@ with `lake build <Module>` before debugging — the on-`main` file fails `lake e
 too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
 these instances.)
 
+**`intro`-ing instance binders from a bundled goal: use bare `_`, never re-ascribe.**
+When a conclusion bundles instance-implicit binders (e.g. `∃ P …, … ∧ (∀ i (Q : Type) [AddCommGroup Q] [Module A Q] [Module k Q] [IsScalarTower k A Q] …, …)`, as in `Theorem_9_2_1_i`'s uniqueness clause), `intro i Q _ _ _ _ _ _ _ h₁ h₂` registers each `[…]` binder as a **local instance** automatically — downstream `Module.Finite.trans A Q`, `nontrivial_of_finrank_pos`, etc. then find them. Do **not** name them and "re-register" with `haveI iST : IsScalarTower k A Q := hST`: that synthesises a *fresh* `AddCommMonoid`/`SMul` for the ascription's type, creating an instance **diamond** vs. the `hAcg.toAddCommMonoid` the intro'd binder carries, and you get `synthInstanceFailed`/`Type mismatch … synthesized _iMod inferred hMod`. Bare `_` intros avoid the diamond entirely. (Also: a theorem whose proof needs a lemma must be **placed after** that lemma in the file — if a bundled clause uses a result from a later `section`, move the whole theorem below that section; instance-failure is not always the real cause, an unknown-identifier ordering bug can masquerade as one.)
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
