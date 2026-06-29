@@ -3937,7 +3937,8 @@
     "fidelity": "verified",
     "needs_statement": false,
     "notes": "Part (i) proved via Jacobson density theorem. Parts (ii) and (iii) still sorry.",
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_note": "verified; wave-4 Codex false-alarm was a narrow-pointer artifact (double-centralizer/semisimplicity are sibling decls)"
   },
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.2",
@@ -4958,7 +4959,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": true,
-    "notes": "Part (a) finiteness sorry-free. Part (b) sorry-free. Part (c) still sorry (needs reflection functors)."
+    "notes": "Part (a) finiteness sorry-free. Part (b) sorry-free. Part (c) still sorry (needs reflection functors).",
+    "fidelity_note": "verified (parts a/b/c distributed); combined decl weak — tightening tracked in #5670"
   },
   {
     "id": "Chapter6/Section6.6_heading",
@@ -6287,9 +6289,11 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "verified",
+    "fidelity": "gap",
     "needs_statement": false,
-    "notes": "All sorries proved. PR #1692 proved hσ_surj (last sorry)."
+    "notes": "All sorries proved. PR #1692 proved hσ_surj (last sorry).",
+    "fidelity_issue": 5669,
+    "fidelity_note": "[fidelity] wave-4 Codex: book says \"unique\" P_i; Lean omits uniqueness conjunct"
   },
   {
     "id": "Chapter9/Definition9.2.2",
