@@ -166,7 +166,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book Definition 2.2.1 defines a NON-UNITAL associative algebra: a vector space with bilinear multiplication satisfying associativity only. The Lean abbrev uses [Ring A] which requires a mul"
+    "fidelity_note": "[fidelity] Book Definition 2.2.1 defines a NON-UNITAL associative algebra: a vector space with bilinear multiplication satisfying associativity only. The Lean abbrev uses [Ring A] which requires a mul",
+    "fidelity_issue": 5616
   },
   {
     "id": "Chapter2/Definition2.2.2",
@@ -181,7 +182,7 @@
     "sorry_free": true,
     "fidelity_note": "[fidelity] Book Definition 2.2.2 DEFINES the concept of 'unit in an associative algebra'. The Lean formalization is a theorem one_isUnit : [Ring A] → (a : A) → 1 * a = a ∧ a * 1 = a, which merely demo",
     "fidelity_decl": "theorem one_isUnit (A) [Ring A] (a) : 1 * a = a ∧ a * 1 = a",
-    "fidelity_issue": 5357
+    "fidelity_issue": 5617
   },
   {
     "id": "Chapter2/Proposition2.2.3",
@@ -275,7 +276,7 @@
     "fidelity": "gap",
     "fidelity_note": "[coverage] No Lean declaration exists for this remark. The book states a formalizable mathematical fact: for a commutative ring A, a left A-module M becomes a right A-module via ma := am, and vice ver",
     "fidelity_decl": "Etingof.rightModuleOfLeft, Etingof.leftModuleOfRight",
-    "fidelity_issue": 5591,
+    "fidelity_issue": 5650,
     "last_updated": "2026-06-29"
   },
   {
@@ -418,7 +419,7 @@
     "fidelity": "gap",
     "fidelity_note": "[coverage] The book states: 'Corollary 2.3.10 is false over the reals: take A = ℂ (as an ℝ-algebra) and V = A.' No Lean declaration exists for this item. The remark contains a concrete counterexample ",
     "fidelity_decl": "Etingof.Remark_2_3_11, Etingof.Remark_2_3_11_witness",
-    "fidelity_issue": 5589,
+    "fidelity_issue": 5651,
     "last_updated": "2026-06-29"
   },
   {
@@ -455,7 +456,7 @@
     "fidelity": "gap",
     "fidelity_note": "[coverage] The book states: 'A 1-dimensional representation of any algebra is automatically irreducible.' No Lean declaration exists for this item. The claim is formalizable: if [Module R V] with finr",
     "fidelity_decl": "Etingof.Remark_2_3_13",
-    "fidelity_issue": 5590,
+    "fidelity_issue": 5649,
     "last_updated": "2026-06-29"
   },
   {
@@ -1074,9 +1075,9 @@
     "end_page": "25",
     "start_line": 13,
     "end_line": 15,
-    "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage] The remark contains substantive mathematical content: Lie(G) consists of G-invariant derivations of C^inf(G), identified as a vector space with T_e G; and Lie's correspondence (bijection be",
+    "status": "non_formalizable",
+    "fidelity": "n/a",
+    "fidelity_note": "prose remark, not formalizable (e.g. Lie group / differential geometry); was wrongly sorry_free",
     "fidelity_decl": "(none — narrative)",
     "last_updated": "2026-06-28"
   },
@@ -1602,7 +1603,7 @@
     "sorry_free": true,
     "fidelity_note": "[partial-example] The definition is 'abbrev Etingof.DualRepresentation (k : Type*) (V : Type*) [CommSemiring k] [AddCommMonoid V] [Module k V] := Module.Dual k V'. The parameter A is absent — there is",
     "fidelity_decl": "Etingof.DualRepresentation (k A V) := Module.Dual k V, with Module A^mop instance (op a . f)(v) = f(a.v)",
-    "fidelity_issue": 5593,
+    "fidelity_issue": 5618,
     "last_updated": "2026-06-29"
   },
   {
@@ -1659,7 +1660,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The definition is 'abbrev Etingof.Filtration A V := RelSeries {p : Submodule A V × Submodule A V | p.1 < p.2}'. A RelSeries with this relation is a strictly ascending chain of submodules of"
+    "fidelity_note": "[fidelity] The definition is 'abbrev Etingof.Filtration A V := RelSeries {p : Submodule A V × Submodule A V | p.1 < p.2}'. A RelSeries with this relation is a strictly ascending chain of submodules of",
+    "fidelity_issue": 5619
   },
   {
     "id": "Chapter3/Lemma3.4.2",
@@ -2090,7 +2092,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both "
+    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both ",
+    "fidelity_issue": 5656
   },
   {
     "id": "Chapter4/Discussion_before_Proposition4.1.2",
@@ -2235,7 +2238,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Same structural issue as Example4.3_Q8. The book describes the three irreducible representations of S3 (trivial, sign, and 2-dimensional standard rep via symmetries of equilateral tr"
+    "fidelity_note": "[partial-example] Same structural issue as Example4.3_Q8. The book describes the three irreducible representations of S3 (trivial, sign, and 2-dimensional standard rep via symmetries of equilateral tr",
+    "fidelity_issue": 5633
   },
   {
     "id": "Chapter4/Example4.3_Q8",
@@ -2248,7 +2252,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L"
+    "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L",
+    "fidelity_issue": 5632
   },
   {
     "id": "Chapter4/Exercise4.3.1",
@@ -2271,7 +2276,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Same structural issue as Q8 and S3. Book describes 5 irreps of S4 (trivial, sign, 2-dim pullback from S3, 3-dim rotation rep C3+, 3-dim C3-). Lean only proves: 5 conjugacy classes (b"
+    "fidelity_note": "[partial-example] Same structural issue as Q8 and S3. Book describes 5 irreps of S4 (trivial, sign, 2-dim pullback from S3, 3-dim rotation rep C3+, 3-dim C3-). Lean only proves: 5 conjugacy classes (b",
+    "fidelity_issue": 5634
   },
   {
     "id": "Chapter4/Discussion_4.4",
@@ -2497,7 +2503,7 @@
     "sorry_free": true,
     "fidelity_note": "[partial-example] For Q8 and S4: complete. All 5 representations are constructed as genuine FDRep objects, simplicity proved via norm-one criterion (no native_decide), characters computed and matched ",
     "fidelity_decl": "Etingof.Example4_8_1_Q8_simple, Etingof.Example4_8_1_Q8_character, Etingof.Example4_8_1_S4_simple, Etingof.Example4_8_1_S4_character, Etingof.Example4_8_1_S4_pairwise, Etingof.Example4_8_1_S4_conj_classes, Etingof.Example4_8_1_S4_card, Etingof.Example4_8_1.A5_orthonormal, Etingof.Example4_8_1_A5_conj_classes",
-    "fidelity_issue": 5376
+    "fidelity_issue": 5635
   },
   {
     "id": "Chapter4/Introduction_4.9",
@@ -2522,7 +2528,7 @@
     "sorry_free": true,
     "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.irrep_char, Etingof.Example4_9_1.stdRep_character",
     "fidelity_note": "[partial-example] The book's Example 4.9.1 gives tensor-product multiplicity tables for S3, S4, AND A5. The Lean formalization covers only S3. The S4 and A5 tables are explicitly noted in the file as ",
-    "fidelity_issue": 5377
+    "fidelity_issue": 5636
   },
   {
     "id": "Chapter4/Introduction_4.10",
@@ -2545,7 +2551,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book defines X_G as the matrix with entries a_{ij} = x_{g_i g_j} (product g_i * g_j, NOT g_i * g_j^{-1}). The Lean definition uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h⁻¹)`,"
+    "fidelity_note": "[fidelity] The book defines X_G as the matrix with entries a_{ij} = x_{g_i g_j} (product g_i * g_j, NOT g_i * g_j^{-1}). The Lean definition uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h⁻¹)`,",
+    "fidelity_issue": 5620
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.10.2",
@@ -2970,7 +2977,8 @@
     "end_line": 12,
     "status": "sorry_free",
     "fidelity": "gap",
-    "fidelity_note": "[coverage] Book: Remark 5.2.8 is a self-contained mathematical exercise proving that β = ∏_{g≠1} |χ_V(g^j)|^2 is an integer by an explicit arithmetic argument: (1) g↦g^j is a bijection on G for gcd(j,"
+    "fidelity_note": "[coverage] Book: Remark 5.2.8 is a self-contained mathematical exercise proving that β = ∏_{g≠1} |χ_V(g^j)|^2 is an integer by an explicit arithmetic argument: (1) g↦g^j is a bijection on G for gcd(j,",
+    "fidelity_issue": 5654
   },
   {
     "id": "Chapter5/Introduction_5.3",
@@ -3045,9 +3053,9 @@
     "start_line": 7,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[coverage] The file contains no named def/theorem/abbrev for Definition 5.4.1. The definition of solvability is delegated to Mathlib's IsSolvable (which is a correct alias), but the file only contains"
+    "fidelity_note": "content exists under a different name; structural, not a fidelity gap"
   },
   {
     "id": "Chapter5/Remark5.4.2",
@@ -3212,7 +3220,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Two gaps: (1) The book states the result 'over a field k (of any characteristic),' but the Lean formalization requires [IsAlgClosed k] for both the irreducibility direction (extTprod_isIrre"
+    "fidelity_note": "[fidelity] Two gaps: (1) The book states the result 'over a field k (of any characteristic),' but the Lean formalization requires [IsAlgClosed k] for both the irreducibility direction (extTprod_isIrre",
+    "fidelity_issue": 5622
   },
   {
     "id": "Chapter5/Introduction_5.7",
@@ -3314,7 +3323,8 @@
     "end_line": 26,
     "status": "sorry_free",
     "fidelity": "gap",
-    "fidelity_note": "[coverage] No Lean declaration found. The file EtingofRepresentationTheory/Chapter5/Remark5_8_2.lean exists and contains only Remark5_8_2 (Ind ≅ CoInd). No file or declaration for Remark5_8_3 (dim(Ind"
+    "fidelity_note": "[coverage] No Lean declaration found. The file EtingofRepresentationTheory/Chapter5/Remark5_8_2.lean exists and contains only Remark5_8_2 (Ind ≅ CoInd). No file or declaration for Remark5_8_3 (dim(Ind",
+    "fidelity_issue": 5652
   },
   {
     "id": "Chapter5/Problem5.8.4",
@@ -3367,7 +3377,8 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "gap",
-    "fidelity_note": "[coverage] No Lean declaration found for Remark5.9.2. No file matching Remark5_9_2.lean exists in Chapter5, and grep finds no declaration with this name. The Frobenius character formula χ(g) = (1/|H|)"
+    "fidelity_note": "[coverage] No Lean declaration found for Remark5.9.2. No file matching Remark5_9_2.lean exists in Chapter5, and grep finds no declaration with this name. The Frobenius character formula χ(g) = (1/|H|)",
+    "fidelity_issue": 5653
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
@@ -3401,7 +3412,8 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) ≅ Hom_H(Res V, W) (i.e., Res ⊣ CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, "
+    "fidelity_note": "[fidelity] Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) ≅ Hom_H(Res V, W) (i.e., Res ⊣ CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, ",
+    "fidelity_issue": 5621
   },
   {
     "id": "Chapter5/Problem5.10.2",
@@ -3510,7 +3522,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says 'V_{(n)} is the trivial representation' and 'V_{(1,...,1)} is the sign representation'. The Lean theorems only prove 'Module.finrank ℂ (SpechtModule n (rowPartition n h"
+    "fidelity_note": "[partial-example] The book says 'V_{(n)} is the trivial representation' and 'V_{(1,...,1)} is the sign representation'. The Lean theorems only prove 'Module.finrank ℂ (SpechtModule n (rowPartition n h",
+    "fidelity_issue": 5637
   },
   {
     "id": "Chapter5/Corollary5.12.4",
@@ -3706,12 +3719,12 @@
     "start_line": 1,
     "end_line": 9,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": true,
     "aristotle_project_id": "d6d0df76-8214-4097-ac8f-c191f819a556",
     "notes": "fixedCosets_eq_card_colorings sorry remaining. Submitted to Aristotle. Main theorem proved modulo this helper.",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book states χ_{U_λ}(C_i) = coeff of x^λ in ∏ H_m(x)^{i_m} (complete homogeneous symmetric polynomials). Lean uses `cycleTypePsumProduct` = ∏ psum_m^{i_m} (power sum symmetric polynomials p_"
+    "fidelity_note": "Codex cross-vendor tiebreak: faithful"
   },
   {
     "id": "Chapter5/Introduction_5.15",
@@ -3732,9 +3745,9 @@
     "start_line": 15,
     "end_line": 18,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": true,
-    "fidelity_note": "[fidelity] Book states χ_{V_λ}(C_i) = coeff of x^{λ+ρ} in Δ(x) · ∏ H_m(x)^{i_m}. Lean: `(sign(revPerm)) • spechtModuleCharacter n la σ = MvPolynomial.coeff (toFinsupp la + rhoShift n) (vandermondePoly"
+    "fidelity_note": "Codex cross-vendor tiebreak: faithful"
   },
   {
     "id": "Chapter5/Remark5.15.2",
@@ -4028,9 +4041,9 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
-    "fidelity_note": "[fidelity] The statement is rich and correct (existential over Nat.Partition n with the right simplicity and distinctness constraints), but the proof body is a single 'sorry' delegated to Theorem5_18_",
+    "fidelity_note": "statement faithful; proof has a tracked sorry (not a fidelity gap)",
     "fidelity_decl": "Etingof.Corollary5_19_2",
     "last_updated": "2026-06-28"
   },
@@ -4047,7 +4060,8 @@
     "needs_statement": false,
     "notes": "Symmetric part (Example5_19_3_symmetric) is sorry_free. Exterior part (Example5_19_3_exterior) still has sorry due to coercion issues between ExteriorAlgebra and PiTensorProduct.",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant"
+    "fidelity_note": "[partial-example] The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant",
+    "fidelity_issue": 5638
   },
   {
     "id": "Chapter5/Introduction_5.20",
@@ -4123,11 +4137,11 @@
     "start_line": 1,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Both Proposition5_21_2_geometric and Proposition5_21_2_dimension proved (PR #1161).",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Book Proposition 5.21.2 has a canonical name; the Lean file has no declaration named Etingof.Proposition5_21_2. Instead the two parts are split into Proposition5_21_2_geometric and Proposit"
+    "fidelity_note": "content exists under a different name; structural, not a fidelity gap"
   },
   {
     "id": "Chapter5/Introduction_5.22",
@@ -4487,7 +4501,8 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "gap",
-    "fidelity_note": "[partial-example] Part (ii) is strictly weaker than the book. The book states the representations V(O,U) are 'pairwise nonisomorphic,' meaning distinct (orbit, irrep) pairs yield non-isomorphic repres"
+    "fidelity_note": "[partial-example] Part (ii) is strictly weaker than the book. The book states the representations V(O,U) are 'pairwise nonisomorphic,' meaning distinct (orbit, irrep) pairs yield non-isomorphic repres",
+    "fidelity_issue": 5623
   },
   {
     "id": "Chapter5/Exercise5.27.2",
@@ -5092,7 +5107,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book defines the Coxeter element c = s_1 s_2 ⋯ s_n as a product of simple reflections in the Weyl group W of the quiver. The Lean definition is: `noncomputable def Etingof.coxete"
+    "fidelity_note": "[partial-example] The book defines the Coxeter element c = s_1 s_2 ⋯ s_n as a product of simple reflections in the Weyl group W of the quiver. The Lean definition is: `noncomputable def Etingof.coxete",
+    "fidelity_issue": 5625
   },
   {
     "id": "Chapter6/Lemma6.7.2",
@@ -5152,7 +5168,8 @@
     "fidelity": "gap",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book states: 'Let Q be a quiver, and let V be any indecomposable representation. Then d(V) is a positive root.' The Lean statement takes d : Fin n → ℤ as a bare vector (not the dimensio"
+    "fidelity_note": "[coverage] The book states: 'Let Q be a quiver, and let V be any indecomposable representation. Then d(V) is a positive root.' The Lean statement takes d : Fin n → ℤ as a bare vector (not the dimensio",
+    "fidelity_issue": 5624
   },
   {
     "id": "Chapter6/Corollary6.8.3",
@@ -5201,7 +5218,8 @@
     "fidelity": "gap",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book states that applying reflection functors F_3^- F_2^- F_1^- to V_{α_4} yields V_{α_1+α_2+α_3+α_4}, and then F_4^- yields V_{α_1+α_2+α_3+2α_4} (the inclusion of three lines in"
+    "fidelity_note": "[partial-example] The book states that applying reflection functors F_3^- F_2^- F_1^- to V_{α_4} yields V_{α_1+α_2+α_3+α_4}, and then F_4^- yields V_{α_1+α_2+α_3+2α_4} (the inclusion of three lines in",
+    "fidelity_issue": 5639
   },
   {
     "id": "Chapter6/Section6.9_heading",
@@ -5298,7 +5316,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book lists 6 categories in Example 7.1.3: (1) Sets, (2) Groups, Rings, (3) Vect_k, (4) Rep(A), (5) topological spaces, (6) homotopy category of topological spaces. The Lean file "
+    "fidelity_note": "[partial-example] The book lists 6 categories in Example 7.1.3: (1) Sets, (2) Groups, Rings, (3) Vect_k, (4) Rep(A), (5) topological spaces, (6) homotopy category of topological spaces. The Lean file ",
+    "fidelity_issue": 5640
   },
   {
     "id": "Chapter7/Discussion_after_Example7.1.3",
@@ -5358,7 +5377,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says the category Rep(A) of representations of a k-algebra A is enriched over k-Vect. The correct formalization requires showing `Linear k (ModuleCat A)` for a k-algebra A ("
+    "fidelity_note": "[partial-example] The book says the category Rep(A) of representations of a k-algebra A is enriched over k-Vect. The correct formalization requires showing `Linear k (ModuleCat A)` for a k-algebra A (",
+    "fidelity_issue": 5641
   },
   {
     "id": "Chapter7/Introduction_7.2",
@@ -5403,7 +5423,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book has 9 distinct sub-items in Example 7.2.2. The Lean file formalizes only: (2-partial) the forgetful functor Groups→Sets (correct, via `forget GrpCat`) and Rings→Sets (but th"
+    "fidelity_note": "[partial-example] The book has 9 distinct sub-items in Example 7.2.2. The Lean file formalizes only: (2-partial) the forgetful functor Groups→Sets (correct, via `forget GrpCat`) and Rings→Sets (but th",
+    "fidelity_issue": 5642
   },
   {
     "id": "Chapter7/Introduction_7.3",
@@ -5439,7 +5460,8 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book has 4 sub-items in Example 7.3.2. The Lean file only addresses sub-item 1 (partially): `double_dual_iso` gives the equivalence V ≃ₗ V** for finite-free modules, and `double_"
+    "fidelity_note": "[partial-example] The book has 4 sub-items in Example 7.3.2. The Lean file only addresses sub-item 1 (partially): `double_dual_iso` gives the equivalence V ≃ₗ V** for finite-free modules, and `double_",
+    "fidelity_issue": 5643
   },
   {
     "id": "Chapter7/Introduction_7.4",
@@ -5573,7 +5595,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book lists 5 adjunction examples. The Lean formalizes 2: (2) `frobenius_reciprocity` proves `Rep.indFunctor k φ ⊣ Rep.resFunctor φ` (Ind ⊣ Res) — but the book says 'Res_K^G is left adjo"
+    "fidelity_note": "[fidelity] The book lists 5 adjunction examples. The Lean formalizes 2: (2) `frobenius_reciprocity` proves `Rep.indFunctor k φ ⊣ Rep.resFunctor φ` (Ind ⊣ Res) — but the book says 'Res_K^G is left adjo",
+    "fidelity_issue": 5644
   },
   {
     "id": "Chapter7/Discussion_after_Example7.6.3",
@@ -5618,7 +5641,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book explicitly claims BOTH (a) the category of modules over A and (b) the category of finite-dimensional modules over A are abelian. The Lean file only proves (a): `example (A :"
+    "fidelity_note": "[partial-example] The book explicitly claims BOTH (a) the category of modules over A and (b) the category of finite-dimensional modules over A are abelian. The Lean file only proves (a): `example (A :",
+    "fidelity_issue": 5645
   },
   {
     "id": "Chapter7/Problem7.7.3",
@@ -5780,7 +5804,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book's Definition 7.9.1 defines TWO concepts: (1) an additive functor (induces homomorphisms on Hom groups), and (2) a k-linear functor (induces k-linear maps on Hom spaces, for k-linea"
+    "fidelity_note": "[coverage] The book's Definition 7.9.1 defines TWO concepts: (1) an additive functor (induces homomorphisms on Hom groups), and (2) a k-linear functor (induces k-linear maps on Hom spaces, for k-linea",
+    "fidelity_issue": 5655
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.9.1",
@@ -5803,7 +5828,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book claims Ind_K^G, Res_K^G, and Hom_G(V,?) in group representation theory are additive and k-linear. The Lean file proves these properties only for `ModuleCat.restrictScalars` "
+    "fidelity_note": "[partial-example] The book claims Ind_K^G, Res_K^G, and Hom_G(V,?) in group representation theory are additive and k-linear. The Lean file proves these properties only for `ModuleCat.restrictScalars` ",
+    "fidelity_issue": 5646
   },
   {
     "id": "Chapter7/Definition7.9.3",
@@ -5841,7 +5867,8 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book claims the category of representations of a finite group G over a field of characteristic not dividing |G| is semisimple (in the sense of Definition 7.9.4: every SES splits). The L"
+    "fidelity_note": "[fidelity] The book claims the category of representations of a finite group G over a field of characteristic not dividing |G| is semisimple (in the sense of Definition 7.9.4: every SES splits). The L",
+    "fidelity_issue": 5626
   },
   {
     "id": "Chapter7/Discussion_after_Example7.9.5",
@@ -5866,7 +5893,8 @@
     "needs_statement": false,
     "notes": "hom_left_exact via inferInstance (coyoneda); tensor_right_exact via inferInstance (MonoidalClosed left adjoint)",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam"
+    "fidelity_note": "[coverage] Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam",
+    "fidelity_issue": 5647
   },
   {
     "id": "Chapter7/Exercise7.9.7",
@@ -5939,7 +5967,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book's Theorem 8.1.1 states that four conditions (i)-(iv) are equivalent. The Lean file formalizes only two pairs: (i)↔(ii) and (i)↔(iii). Condition (iv) — 'the functor Hom_A(P,?"
+    "fidelity_note": "[partial-example] The book's Theorem 8.1.1 states that four conditions (i)-(iv) are equivalent. The Lean file formalizes only two pairs: (i)↔(ii) and (i)↔(iii). Condition (iv) — 'the functor Hom_A(P,?",
+    "fidelity_issue": 5629
   },
   {
     "id": "Chapter8/Definition8.1.2",
@@ -5952,7 +5981,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The abbrev uses [CommRing R] but the book's definition (and the book's running algebra setting) is over a general ring. The corresponding Theorem 8.1.1 file uses [Ring R]. Module.Pro"
+    "fidelity_note": "[partial-example] The abbrev uses [CommRing R] but the book's definition (and the book's running algebra setting) is over a general ring. The corresponding Theorem 8.1.1 file uses [Ring R]. Module.Pro",
+    "fidelity_issue": 5627
   },
   {
     "id": "Chapter8/Problem8.1.3",
@@ -5995,7 +6025,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book's Theorem 8.1.5 states three conditions (i)-(iii) are equivalent. The Lean file formalizes (i)↔(ii) and adds Baer's criterion. Condition (iii) — 'the functor Hom_A(?,I) is exact' —"
+    "fidelity_note": "[fidelity] The book's Theorem 8.1.5 states three conditions (i)-(iii) are equivalent. The Lean file formalizes (i)↔(ii) and adds Baer's criterion. Condition (iii) — 'the functor Hom_A(?,I) is exact' —",
+    "fidelity_issue": 5630
   },
   {
     "id": "Chapter8/Definition8.1.6",
@@ -6043,9 +6074,9 @@
     "start_line": 23,
     "end_line": 26,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The abbrevs alias CategoryTheory.Projective and CategoryTheory.Injective, which are defined via the lifting property (factoring through epimorphisms) over an arbitrary Category C. The book "
+    "fidelity_note": "Codex cross-vendor tiebreak: faithful"
   },
   {
     "id": "Chapter8/Introduction_8.2",
@@ -6090,7 +6121,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book defines Tor_i^A(M,N) where M is a RIGHT A-module and N is a LEFT A-module, computed via a projective resolution of M and tensoring with N over A (an asymmetric construction)"
+    "fidelity_note": "[partial-example] The book defines Tor_i^A(M,N) where M is a RIGHT A-module and N is a LEFT A-module, computed via a projective resolution of M and tensoring with N over A (an asymmetric construction)",
+    "fidelity_issue": 5628
   },
   {
     "id": "Chapter8/Definition8.2.4",
@@ -6305,7 +6337,8 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book defines the Cartan matrix of A as the specific matrix with entries c_ij = [P_j : M_i] (Jordan-Holder multiplicity of M_i in P_j). The Lean definition takes any arbitrary function j"
+    "fidelity_note": "[fidelity] The book defines the Cartan matrix of A as the specific matrix with entries c_ij = [P_j : M_i] (Jordan-Holder multiplicity of M_i in P_j). The Lean definition takes any arbitrary function j",
+    "fidelity_issue": 5631
   },
   {
     "id": "Chapter9/Problem9.3.2",
@@ -6430,7 +6463,8 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[coverage] Three gaps: (1) Part (i) book says 'each block is equivalent to the category of vector spaces (and thus has only one simple object)'; Lean only proves that any two linked simple modules ove"
+    "fidelity_note": "[coverage] Three gaps: (1) Part (i) book says 'each block is equivalent to the category of vector spaces (and thus has only one simple object)'; Lean only proves that any two linked simple modules ove",
+    "fidelity_issue": 5648
   },
   {
     "id": "Chapter9/Problem9.5.3",
@@ -6590,7 +6624,8 @@
     "notes": "Sorry-free since wave 28. Sorry pushed to Infrastructure/BasicAlgebraExistence.",
     "attention_needed": false,
     "last_updated": "2026-03-23",
-    "fidelity_note": "[coverage] The book's part (i) asserts 'Any finite abelian category C is equivalent to the category of finite dimensional modules over a unique basic algebra B(C).' Lean only proves the algebra-to-alg"
+    "fidelity_note": "[coverage] The book's part (i) asserts 'Any finite abelian category C is equivalent to the category of finite dimensional modules over a unique basic algebra B(C).' Lean only proves the algebra-to-alg",
+    "fidelity_issue": 5657
   },
   {
     "id": "Backmatter/ReferencesHistorical",
