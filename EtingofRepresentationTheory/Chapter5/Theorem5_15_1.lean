@@ -13,6 +13,12 @@ The character of the Specht module V_λ evaluated at conjugacy class C_i is:
 where ρ = (n-1, n-2, ..., 1, 0), Δ(x) = ∏_{i<j} (xⱼ - xᵢ) is the
 Vandermonde determinant, and p_m are power sum symmetric polynomials.
 
+The book (Etingof, Theorem 5.15.1) writes this with `H_m(x)`, but `H_m` is *defined*
+on p. 116 as `Σⱼ xⱼᵐ` — the power sum (a non-standard use of `H`, which usually means
+the complete homogeneous symmetric polynomial). So the book's `H_m` is our `p_m`; the
+formalization is faithful to the book. (Reading `H_m` as complete-homogeneous would give
+the wrong characters — e.g. the sign character of S₂ on a transposition.)
+
 ## Formalization approach
 
 The character of the Specht module V_λ is defined as the trace of left

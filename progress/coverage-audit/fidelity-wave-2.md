@@ -65,7 +65,7 @@ Wave 2 is depth but still single-judge per item (Sonnet) and strict about multi-
 
 
 ## Codex cross-vendor tiebreak — outcomes
-- **5.14.3 / 5.15.1** (H_m vs power-sum): `lean-correct` — power sums are right; the book's H_m would be wrong (S₂ counterexample). Marked verified.
+- **5.14.3 / 5.15.1** (H_m vs power-sum): `lean-correct`, and **no book typo**. The book (Etingof p.116) *defines* `H_m(x) := Σⱼ xⱼᵐ` — the power sum (a non-standard use of the letter `H`) — so the book's `H_m` is exactly the Lean's `p_m`. Power sums are required (reading `H_m` as complete-homogeneous fails the S₂ sign-character check); the Lean is faithful. The earlier "book typo" framing (here and in the Lean docstrings) was wrong and has been corrected. Marked verified.
 - **8.1.8** (projective object: lifting vs Hom-exactness): `faithful` — equivalent in abelian categories. Marked verified.
 - **5.10.1** (Frobenius reciprocity direction): `gap` — Lean proves Ind⊣Res form, book states the other; bridge not formalized. Filed.
 
