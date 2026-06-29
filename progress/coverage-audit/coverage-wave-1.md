@@ -7,7 +7,8 @@ Sweep of all **211 prose blobs** (type discussion/introduction; exercises and pr
 - **Wave 1 (full):** 12 batches, every one of the 211 prose blobs read and judged against current `main`. Result: 126 none · 62 covered · 9 non_formalizable · 4 trivial · 10 gap-blobs (11 claims).
 - **Wave 2 (adversarial):** skeptical re-sweep of the 35 displayed-math blobs wave-1 marked none/covered. Found **1** new gap (Ch5 conjugacy-class counts, `Discussion_5.25.1`); Ch2/3/4/6/7 confirmed dry.
 - **Codex tiebreak:** the two Ch2 tensor candidates (`Discussion_pure_tensors`, `Discussion_tensor_product_maps`) ruled `trivial_mathlib` (`TensorProduct.assoc`/`.map`) — excluded from gaps.
-- **Wave 3 (dry-confirmation, Ch5):** BLOCKED — the Claude subagent token rotated mid-run ("Not logged in"). Not completed; see residual risk.
+- **Wave 3 (dry-confirmation, Ch5):** DRY — re-read all 17 Ch5 displayed-math blobs, 0 new gaps. (A first attempt was blocked by a Claude subagent token rotation; re-run after re-auth.)
+- **Wave 4 (final dry-confirmation, all high-risk):** DRY — re-read all 35 high-risk blobs (Ch5 + Ch2/3/4/6/7), 0 new gaps.
 
 ## Genuine coverage gaps filed (9 issues + `derived` items)
 
@@ -50,5 +51,5 @@ Sweep of all **211 prose blobs** (type discussion/introduction; exercises and pr
 
 ## Residual risk / termination
 
-- This is a bounded audit, NOT a completeness proof. Wave 1 was a full read; wave 2 was adversarial over the high-risk subset and near-dry (1 residual). **Two consecutive dry waves were NOT formally achieved** — the wave-3 dry-confirmation was blocked by a Claude-auth token rotation. Re-running wave 3 (Ch5 displayed-math blobs) is the one remaining step for strict termination.
+- This is a bounded audit, NOT a completeness proof. Wave 1 was a full read of all 211 prose blobs; waves 2–4 were adversarial re-sweeps of the 35 high-risk (displayed-math) blobs. **Two consecutive dry waves WERE achieved:** Ch2/3/4/6/7 were dry in wave 2 and again in wave 4; Ch5 was dry in wave 3 and again in wave 4. Strict loop-until-2-dry termination met.
 - Single-judge-per-claim with cross-vendor tiebreak on disputes; residual false-negatives possible, concentrated in Ch5 (the densest chapter).
