@@ -22,11 +22,17 @@ of the partition λ (under the relabeling given by g). This "monochromatic"
 condition is captured exactly by the power sum polynomial p_m = Σᵢ xᵢᵐ,
 where each term xᵢᵐ represents placing an entire m-cycle into row i.
 
-**Note**: An earlier version of this file incorrectly used `MvPolynomial.hsymm`
-(complete homogeneous symmetric polynomials). The hsymm polynomial
-H_m = Σ_{|α|=m} x^α allows distributing m elements across multiple rows,
-but cycles must go to a single row. The power sum p_m = Σᵢ xᵢᵐ correctly
-enforces this constraint.
+**Book notation (important)**: Etingof (p. 116) writes this formula with `H_m(x)`,
+but *defines* `H_m(x) := Σⱼ xⱼᵐ` — the **power sum** (a non-standard use of the letter
+`H`, which conventionally denotes the complete homogeneous symmetric polynomial). So the
+book's `H_m` is exactly our `p_m`; the formalization agrees with the book and there is
+no typo in the book.
+
+**Note**: An earlier version of this file used Mathlib's `MvPolynomial.hsymm` — the
+*complete homogeneous* polynomial `Σ_{|α|=m} x^α`, which is NOT the book's `H_m`. That
+allows distributing m elements across multiple rows, but each cycle must go to a single
+row, so it gives the wrong characters. The power sum `p_m = Σᵢ xᵢᵐ` (= the book's `H_m`)
+correctly enforces this constraint.
 
 ## Mathlib correspondence
 
@@ -56,8 +62,10 @@ in σ (including fixed points as 1-cycles). The power sum polynomial p_m = Σᵢ
 each cycle is assigned to a single row, which is the correct generating function for
 permutation module characters.
 
-**Previous version used hsymm (H_m), which is incorrect**: H_m allows distributing m
-elements across rows, but each cycle must go entirely to one row. -/
+**Previous version used Mathlib's `hsymm` (complete homogeneous), which is incorrect**:
+it allows distributing m elements across rows, but each cycle must go entirely to one
+row. (The book's `H_m`, p. 116, is *defined* as the power sum `Σⱼ xⱼᵐ` = our `p_m`, not
+the complete homogeneous polynomial — so power sums match the book.) -/
 noncomputable def cycleTypePsumProduct (n : ℕ) (σ : Equiv.Perm (Fin n)) :
     MvPolynomial (Fin n) ℂ :=
   (σ.cycleType.map (MvPolynomial.psum (Fin n) ℂ)).prod *
