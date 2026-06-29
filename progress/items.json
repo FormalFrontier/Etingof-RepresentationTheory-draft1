@@ -1658,9 +1658,9 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The definition is 'abbrev Etingof.Filtration A V := RelSeries {p : Submodule A V × Submodule A V | p.1 < p.2}'. A RelSeries with this relation is a strictly ascending chain of submodules of",
+    "fidelity_note": "[fidelity, resolved #5619] Etingof.Filtration is now a structure bundling the ascending chain (RelSeries) with the two boundary conditions head_eq_bot (V₀ = ⊥) and last_eq_top (Vₙ = ⊤), matching the book's 0 = V₀ ⊂ ⋯ ⊂ Vₙ = V.",
     "fidelity_issue": 5619
   },
   {
