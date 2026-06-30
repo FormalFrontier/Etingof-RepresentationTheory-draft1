@@ -1682,15 +1682,18 @@ private lemma indecomposable_reduces_to_simpleRoot
           ρ', hFree', hFinite', hIndecomp',
           fun v => by rw [Function.iterate_succ', Function.comp_apply]; exact hDimVec' v⟩
 
-/-- The dimension vector of an indecomposable representation of a Dynkin quiver
-satisfies B(d, d) = 2 (not just ≤ 2).
+/-- **Corollary 6.8.2.** Let `Q` be a Dynkin quiver and let `V` be any indecomposable
+representation. Then the dimension vector `d(V)` is a positive root.
 
-The proof uses `indecomposable_reduces_to_simpleRoot` to find reflections reducing d(V) to a
-simple root αₚ, then applies `Corollary6_8_2` (bilinear form preservation through
-reflections) to conclude B(d(V), d(V)) = B(αₚ, αₚ) = 2.
-
-This theorem resolves `indecomposable_titsForm_le_two` in `Corollary6_8_3.lean`. -/
-theorem indecomposable_bilinearForm_eq_two
+This is the faithful statement of the book's corollary: it quantifies over an arbitrary
+indecomposable representation `ρ` of an orientation `Q` of the Dynkin diagram `adj`, and
+concludes `IsPositiveRoot n adj d(V)`. The reflection sequence reducing `d(V)` to a simple
+root is *produced* from the representation by the representation-level Theorem 6.8.1
+(`indecomposable_reduces_to_simpleRoot`); it is not assumed. The purely combinatorial core
+— that any nonnegative nonzero vector reducible to a simple root is a positive root — is
+`Etingof.isPositiveRoot_of_iteratedReflection_eq_simpleRoot`.
+(Etingof Corollary 6.8.2) -/
+theorem Corollary6_8_2
     (hDynkin : IsDynkinDiagram n adj)
     {k : Type*} [Field k]
     {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
@@ -1698,8 +1701,7 @@ theorem indecomposable_bilinearForm_eq_two
     (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
     [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
     (hρ : ρ.IsIndecomposable) :
-    dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
-      ((cartanMatrix n adj).mulVec (fun v => (Module.finrank k (ρ.obj v) : ℤ))) = 2 := by
+    IsPositiveRoot n adj (fun v => (Module.finrank k (ρ.obj v) : ℤ)) := by
   set d := fun v => (Module.finrank k (ρ.obj v) : ℤ) with hd_def
   -- d is nonneg (finranks are nonneg)
   have hd_pos : ∀ v, 0 ≤ d v := fun v => Int.natCast_nonneg _
@@ -1715,12 +1717,28 @@ theorem indecomposable_bilinearForm_eq_two
     exact not_nontrivial (ρ.obj v) hv
   -- By rep-level Theorem 6.8.1: reflections reduce d to a simple root
   obtain ⟨vertices, p, hrefl⟩ := indecomposable_reduces_to_simpleRoot hDynkin hOrient ρ hρ
-  -- By Corollary 6.8.2: d is a positive root
-  have hroot := Corollary6_8_2 hDynkin d hd_pos hd_nonzero ⟨vertices, p, hrefl⟩
-  -- Extract B(d, d) = 2 from IsPositiveRoot
-  -- IsPositiveRoot = (d ≠ 0 ∧ B(d,d) = 2) ∧ (∀ i, 0 ≤ d i)
-  -- where B uses (2 • 1 - adj) = cartanMatrix n adj
-  exact hroot.1.2
+  -- Combinatorial core: a nonneg nonzero vector reducible to a simple root is a positive root
+  exact isPositiveRoot_of_iteratedReflection_eq_simpleRoot hDynkin d hd_pos hd_nonzero
+    ⟨vertices, p, hrefl⟩
+
+/-- The dimension vector of an indecomposable representation of a Dynkin quiver
+satisfies B(d, d) = 2 (not just ≤ 2).
+
+A direct consequence of the faithful Corollary 6.8.2: `IsPositiveRoot` packages exactly
+`B(d, d) = 2` together with `d ≠ 0` and nonnegativity.
+
+This theorem resolves `indecomposable_titsForm_le_two` in `Corollary6_8_3.lean`. -/
+theorem indecomposable_bilinearForm_eq_two
+    (hDynkin : IsDynkinDiagram n adj)
+    {k : Type*} [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)} (hOrient : IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)]
+    (ρ : @QuiverRepresentation.{_, 0, 0, 0} k (Fin n) _ Q)
+    [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)]
+    (hρ : ρ.IsIndecomposable) :
+    dotProduct (fun v => (Module.finrank k (ρ.obj v) : ℤ))
+      ((cartanMatrix n adj).mulVec (fun v => (Module.finrank k (ρ.obj v) : ℤ))) = 2 :=
+  (Corollary6_8_2 hDynkin hOrient ρ hρ).1.2
 
 /-! ## Admissible sinks for replicated orderings
 
