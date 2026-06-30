@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Module.Injective
 import Mathlib.LinearAlgebra.Quotient.Defs
+import Mathlib.LinearAlgebra.Isomorphisms
 
 /-!
 # Theorem 8.1.5: Equivalent characterizations of injective modules
@@ -16,11 +17,23 @@ a morphism μ : M → I such that μ ∘ α = ν.
 
 ## Mathlib correspondence
 
-`Module.Injective` captures condition (i) (the extension property). Baer's criterion
-(`Module.Baer`) provides an equivalent characterization via extension from ideals.
+`Module.Injective` captures condition (i) (the extension property).
 
 - `Module.Injective` : the extension property (condition (i))
-- `Module.Baer.iff_injective` : equivalence with Baer's criterion
+- `Etingof.Theorem_8_1_5_i_iff_ii` : equivalence of (i) and (ii)
+- `Etingof.Theorem_8_1_5_i_iff_iii` : equivalence of (i) and (iii)
+
+Condition (iii) — exactness of the contravariant functor `Hom_A(?, I)` — is formalized as
+preservation of short exact sequences: for every short exact sequence `0 → K → M → N → 0`,
+applying `Hom_A(?, I)` yields the short exact sequence
+`0 → Hom(N,I) → Hom(M,I) → Hom(K,I) → 0`. Because `Hom_A(?, I)` is contravariant and always
+left exact, the only nontrivial conjunct (surjectivity onto `Hom(K,I)`) is precisely the
+extension property, hence injectivity of `I`.
+
+`Module.Baer` provides a further, supplementary characterization (extension from ideals of
+`R`); it is not one of the book's three conditions but is recorded below as a related result.
+
+- `Module.Baer.iff_injective` : equivalence with Baer's criterion (supplementary)
 -/
 
 universe u v
@@ -80,9 +93,72 @@ theorem Etingof.Theorem_8_1_5_i_iff_ii
     rw [← key x]
     exact congr_fun (congr_arg DFunLike.coe hr) (g x)
 
+/-- **Part (i) ↔ (iii)**: I is injective if and only if the contravariant functor
+`Hom_A(?, I)` is exact.
+
+Exactness of `Hom_A(?, I)` is formalized as preservation of short exact sequences: for every
+short exact sequence `0 → K →[ι] M →[π] N → 0` (i.e. `ι` injective, `π` surjective, and
+`range ι = ker π`), the image sequence
+`0 → Hom(N,I) →[· ∘ π] Hom(M,I) →[· ∘ ι] Hom(K,I) → 0` is again short exact:
+pre-composition with `π` is injective, its range is the kernel of pre-composition with `ι`,
+and pre-composition with `ι` is surjective.
+
+The first two conjuncts (left exactness of contravariant `Hom`) hold for every module `I`;
+the surjectivity conjunct is exactly the extension property, hence injectivity.
+(Etingof Theorem 8.1.5, equivalence of conditions (i) and (iii)) -/
+theorem Etingof.Theorem_8_1_5_i_iff_iii
+    (R : Type u) [Ring R]
+    (I : Type v) [AddCommGroup I] [Module R I] [Small.{v} R] :
+    Module.Injective R I ↔
+      (∀ {K M N : Type v} [AddCommGroup K] [AddCommGroup M] [AddCommGroup N]
+        [Module R K] [Module R M] [Module R N]
+        (ι : K →ₗ[R] M) (π : M →ₗ[R] N),
+        Function.Injective ι → Function.Surjective π →
+        LinearMap.range ι = LinearMap.ker π →
+        Function.Injective (fun g : N →ₗ[R] I => g ∘ₗ π) ∧
+        (∀ h : M →ₗ[R] I, h ∘ₗ ι = 0 ↔ ∃ g : N →ₗ[R] I, g ∘ₗ π = h) ∧
+        Function.Surjective (fun h : M →ₗ[R] I => h ∘ₗ ι)) := by
+  constructor
+  · intro hI K M N _ _ _ _ _ _ ι π hι hπ hexact
+    have hπι : π ∘ₗ ι = 0 := by
+      ext k
+      have hk : ι k ∈ LinearMap.ker π := hexact ▸ LinearMap.mem_range_self ι k
+      simpa [LinearMap.mem_ker] using hk
+    refine ⟨?_, ?_, ?_⟩
+    · intro a b hab
+      ext n
+      obtain ⟨m, rfl⟩ := hπ n
+      simpa using LinearMap.congr_fun hab m
+    · intro h
+      constructor
+      · intro hπh
+        have hrk : LinearMap.range ι ≤ LinearMap.ker h := by
+          rintro _ ⟨k, rfl⟩
+          simpa [LinearMap.mem_ker] using LinearMap.congr_fun hπh k
+        have hkh : LinearMap.ker π ≤ LinearMap.ker h := hexact ▸ hrk
+        refine ⟨(LinearMap.ker π).liftQ h hkh ∘ₗ
+          (π.quotKerEquivOfSurjective hπ).symm.toLinearMap, ?_⟩
+        ext m
+        simp only [LinearMap.comp_apply, LinearEquiv.coe_coe,
+          LinearMap.quotKerEquivOfSurjective_symm_apply, Submodule.liftQ_apply]
+      · rintro ⟨g, rfl⟩
+        rw [LinearMap.comp_assoc, hπι, LinearMap.comp_zero]
+    · intro f
+      obtain ⟨g, hg⟩ := hI.out ι hι f
+      exact ⟨g, LinearMap.ext hg⟩
+  · intro hex
+    constructor
+    intro N M _ _ _ _ α hα ν
+    obtain ⟨-, -, hsurj⟩ := hex α (LinearMap.range α).mkQ hα
+      (Submodule.mkQ_surjective _) (Submodule.ker_mkQ _).symm
+    obtain ⟨g, hg⟩ := hsurj ν
+    exact ⟨g, fun x => by simpa using LinearMap.congr_fun hg x⟩
+
 /-- **Baer's criterion**: I is injective if and only if every linear map from an ideal of R
 to I extends to a linear map from R to I.
-(Etingof Theorem 8.1.5, relates to the extension property) -/
+
+This is a supplementary characterization, not one of the book's three conditions.
+(Etingof Theorem 8.1.5, related result) -/
 theorem Etingof.Theorem_8_1_5_Baer
     (R : Type u) [Ring R]
     (I : Type v) [AddCommGroup I] [Module R I] [Small.{v} R] :
