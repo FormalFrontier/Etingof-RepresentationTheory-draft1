@@ -364,6 +364,294 @@ lemma rotRep_simple : Simple rotRep := by
   rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
   norm_num
 
+/-! ## The 2-dimensional representation `ℂ²`
+
+`S₄` acts on the three partitions of `{0,1,2,3}` into two pairs; the kernel of this action
+is the Klein four group `V₄ = {e, (01)(23), (02)(13), (03)(12)}`, so the action factors
+through `S₄/V₄ ≅ S₃`.  The 2-dimensional representation `ℂ²` is the sum-zero subrepresentation
+of the associated 3-dimensional permutation representation — exactly the pullback of the
+standard representation of `S₃`.
+
+The three partitions are indexed by `Fin 3`: `0 = {01|23}`, `1 = {02|13}`, `2 = {03|12}`.
+A partition is determined by the unordered pair containing `0`, so partition `i` is `{0, i+1}`
+together with its complement, and `σ` sends partition `i` to the partition whose pair-type is
+that of `{σ 0, σ (i+1)}`. -/
+
+/-- Index of the pair-partition containing the unordered pair `{a, b}` (for `a ≠ b`).
+`0 = {01|23}`, `1 = {02|13}`, `2 = {03|12}`. -/
+def pairIdx (a b : Fin 4) : Fin 3 :=
+  if (a.val = 0 ∧ b.val = 1) ∨ (a.val = 1 ∧ b.val = 0) ∨
+     (a.val = 2 ∧ b.val = 3) ∨ (a.val = 3 ∧ b.val = 2) then 0
+  else if (a.val = 0 ∧ b.val = 2) ∨ (a.val = 2 ∧ b.val = 0) ∨
+          (a.val = 1 ∧ b.val = 3) ∨ (a.val = 3 ∧ b.val = 1) then 1
+  else 2
+
+/-- The action of `σ ∈ S₄` on the three partitions: `σ` sends partition `i` (the pair
+`{0, i+1}`) to the partition containing `{σ 0, σ (i+1)}`. -/
+def actFun (σ : S4) (i : Fin 3) : Fin 3 := pairIdx (σ 0) (σ i.succ)
+
+lemma actFun_one (i : Fin 3) : actFun 1 i = i := by revert i; decide
+
+set_option maxRecDepth 10000 in
+lemma actFun_mul (σ τ : S4) (i : Fin 3) :
+    actFun (σ * τ) i = actFun σ (actFun τ i) := by revert σ τ i; decide
+
+/-- The action of `σ` on the three partitions, packaged as a permutation of `Fin 3`. -/
+def actEquiv (σ : S4) : Equiv.Perm (Fin 3) where
+  toFun := actFun σ
+  invFun := actFun σ⁻¹
+  left_inv i := by rw [actFun_mul (σ⁻¹) σ i |>.symm, inv_mul_cancel, actFun_one]
+  right_inv i := by rw [actFun_mul σ (σ⁻¹) i |>.symm, mul_inv_cancel, actFun_one]
+
+@[simp] lemma actEquiv_apply (σ : S4) (i : Fin 3) : actEquiv σ i = actFun σ i := rfl
+
+/-- The permutation action of `S₄` on the three partitions, as a group homomorphism
+`S₄ →* Perm (Fin 3)`.  Its kernel is the Klein four group `V₄`. -/
+def actHom : S4 →* Equiv.Perm (Fin 3) where
+  toFun := actEquiv
+  map_one' := by ext i; simp [actFun_one]
+  map_mul' a b := by ext i; simp [Equiv.Perm.mul_apply, actFun_mul]
+
+@[simp] lemma actHom_apply (σ : S4) (i : Fin 3) : actHom σ i = actFun σ i := rfl
+
+/-- The permutation representation of `S₄` on `Fin 3 → ℂ` (functions on the three
+partitions): `σ` acts by `f ↦ f ∘ (actHom σ)⁻¹`. -/
+def permRep3 : Representation ℂ S4 (Fin 3 → ℂ) where
+  toFun σ := LinearMap.funLeft ℂ ℂ (⇑(actHom σ)⁻¹)
+  map_one' := by
+    refine LinearMap.ext fun f => ?_; funext i
+    simp [LinearMap.funLeft_apply]
+  map_mul' a b := by
+    refine LinearMap.ext fun f => ?_; funext i
+    simp only [map_mul, Module.End.mul_apply, LinearMap.funLeft_apply, mul_inv_rev,
+      Equiv.Perm.coe_mul, Function.comp_apply]
+
+@[simp] lemma permRep3_apply (σ : S4) (f : Fin 3 → ℂ) (i : Fin 3) :
+    permRep3 σ f i = f ((actHom σ)⁻¹ i) := rfl
+
+/-- The sum map `(Fin 3 → ℂ) →ₗ[ℂ] ℂ`. -/
+def sumLM3 : (Fin 3 → ℂ) →ₗ[ℂ] ℂ := ∑ i, LinearMap.proj i
+
+@[simp] lemma sumLM3_apply (f : Fin 3 → ℂ) : sumLM3 f = ∑ i, f i := by
+  simp [sumLM3, Finset.sum_apply]
+
+/-- The 2-dimensional representation `ℂ²` as the sum-zero subrepresentation of `permRep3`. -/
+def twoDimSub : Subrepresentation permRep3 where
+  toSubmodule := LinearMap.ker sumLM3
+  apply_mem_toSubmodule σ f hf := by
+    simp only [LinearMap.mem_ker, sumLM3_apply] at hf ⊢
+    calc ∑ i, permRep3 σ f i = ∑ i, f ((actHom σ)⁻¹ i) := by
+            refine Finset.sum_congr rfl fun i _ => ?_; rw [permRep3_apply]
+      _ = ∑ i, f i := Equiv.sum_comp ((actHom σ)⁻¹) f
+      _ = 0 := hf
+
+/-- The 2-dimensional irreducible representation `ℂ²` of `S₄`. -/
+def twoDimRep : FDRep ℂ S4 := FDRep.of twoDimSub.toRepresentation
+
+/-! ### Character of the 2-dimensional representation -/
+
+/-- The all-ones vector on the three partitions. -/
+def onesVec3 : Fin 3 → ℂ := fun _ => 1
+
+@[simp] lemma onesVec3_apply (i : Fin 3) : onesVec3 i = 1 := rfl
+
+lemma onesVec3_ne_zero : (onesVec3 : Fin 3 → ℂ) ≠ 0 := by
+  intro h; have := congrFun h 0; simp [onesVec3] at this
+
+@[simp] lemma permRep3_onesVec3 (g : S4) : permRep3 g onesVec3 = onesVec3 := by
+  funext i; simp
+
+/-- The line of constant vectors in `Fin 3 → ℂ`. -/
+def constLine3 : Submodule ℂ (Fin 3 → ℂ) := Submodule.span ℂ {onesVec3}
+
+lemma mem_constLine3 {x : Fin 3 → ℂ} : x ∈ constLine3 ↔ ∃ c : ℂ, c • onesVec3 = x :=
+  Submodule.mem_span_singleton
+
+lemma permRep3_eq_toLin' (g : S4) :
+    (permRep3 g) = (((actHom g)⁻¹).permMatrix ℂ).toLin' := by
+  apply LinearMap.ext; intro f; funext i
+  rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec, permRep3_apply]
+  rfl
+
+lemma trace_permRep3 (g : S4) :
+    LinearMap.trace ℂ (Fin 3 → ℂ) (permRep3 g)
+      = (Function.fixedPoints ⇑(actHom g)⁻¹).ncard := by
+  rw [permRep3_eq_toLin', Matrix.trace_toLin'_eq, Matrix.trace_permutation]
+
+/-- The number of partitions fixed by `g` (decidable). -/
+def fix3Card (g : S4) : ℕ := (Finset.univ.filter (fun i : Fin 3 => actFun g i = i)).card
+
+lemma actHom_inv_fixed_iff (g : S4) (i : Fin 3) : (actHom g)⁻¹ i = i ↔ actFun g i = i := by
+  rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq, eq_comm, actHom_apply]
+
+lemma fixedPoints_actHom_inv_ncard (g : S4) :
+    (Function.fixedPoints ⇑(actHom g)⁻¹).ncard = fix3Card g := by
+  rw [fix3Card, ← Set.ncard_coe_finset]
+  congr 1
+  ext i
+  simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+    Finset.mem_univ, true_and]
+  exact actHom_inv_fixed_iff g i
+
+/-- **Character of `twoDimRep`.** `χ(g) = #{partitions fixed by g} − 1`. -/
+lemma twoDimRep_character (g : S4) :
+    twoDimRep.character g = (fix3Card g : ℂ) - 1 := by
+  classical
+  set N : Fin 2 → Submodule ℂ (Fin 3 → ℂ) := ![twoDimSub.toSubmodule, constLine3] with hN
+  have hsurj : Function.Surjective sumLM3 := by
+    intro c
+    refine ⟨Pi.single 0 c, ?_⟩
+    rw [sumLM3_apply, Fin.sum_univ_three]
+    simp
+  have hkerdim : Module.finrank ℂ (LinearMap.ker sumLM3) = 2 := by
+    have h := sumLM3.finrank_range_add_finrank_ker
+    rw [LinearMap.range_eq_top.mpr hsurj, finrank_top, Module.finrank_self,
+      Module.finrank_pi] at h
+    simp only [Fintype.card_fin] at h
+    omega
+  have hsum1 : sumLM3 onesVec3 = 3 := by rw [sumLM3_apply]; simp
+  have hcompl : IsCompl twoDimSub.toSubmodule constLine3 := by
+    have hone : Module.finrank ℂ constLine3 = 1 := finrank_span_singleton onesVec3_ne_zero
+    have hdim : Module.finrank ℂ (Fin 3 → ℂ) ≤
+        Module.finrank ℂ twoDimSub.toSubmodule + Module.finrank ℂ constLine3 := by
+      have hk : Module.finrank ℂ twoDimSub.toSubmodule = 2 := hkerdim
+      rw [hk, hone, Module.finrank_pi]
+      simp
+    refine (Submodule.isCompl_iff_disjoint _ _ hdim).mpr ?_
+    rw [Submodule.disjoint_def]
+    rintro x hxk hxc
+    rw [mem_constLine3] at hxc
+    obtain ⟨c, rfl⟩ := hxc
+    have h0 : sumLM3 (c • onesVec3) = 0 := hxk
+    rw [map_smul, hsum1, smul_eq_mul] at h0
+    have hc : c = 0 := by
+      rcases mul_eq_zero.mp h0 with h | h
+      · exact h
+      · norm_num at h
+    simp [hc]
+  have huniv : (Set.univ : Set (Fin 2)) = {0, 1} := by
+    ext i
+    simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]
+    omega
+  have hInternal : DirectSum.IsInternal N :=
+    (DirectSum.isInternal_submodule_iff_isCompl N (zero_ne_one) huniv).mpr hcompl
+  have hf0 : Set.MapsTo (permRep3 g) (N 0) (N 0) := twoDimSub.apply_mem_toSubmodule g
+  have hf1 : Set.MapsTo (permRep3 g) (N 1) (N 1) := by
+    intro x hx
+    change x ∈ constLine3 at hx
+    change permRep3 g x ∈ constLine3
+    rw [mem_constLine3] at hx ⊢
+    obtain ⟨c, rfl⟩ := hx
+    exact ⟨c, by rw [map_smul, permRep3_onesVec3]⟩
+  have hf : ∀ i, Set.MapsTo (permRep3 g) (N i) (N i) := Fin.forall_fin_two.mpr ⟨hf0, hf1⟩
+  have htr := LinearMap.trace_eq_sum_trace_restrict hInternal hf
+  rw [trace_permRep3, fixedPoints_actHom_inv_ncard, Fin.sum_univ_two] at htr
+  have hN0 : LinearMap.trace ℂ ↥(N 0) ((permRep3 g).restrict (hf 0)) = twoDimRep.character g := by
+    change LinearMap.trace ℂ ↥(twoDimSub.toSubmodule) (twoDimSub.toRepresentation g)
+      = LinearMap.trace ℂ ↥(twoDimSub.toSubmodule) ((FDRep.of twoDimSub.toRepresentation).ρ g)
+    rw [FDRep.of_ρ']
+  have hN1 : LinearMap.trace ℂ ↥(N 1) ((permRep3 g).restrict (hf 1)) = 1 := by
+    have hid : (permRep3 g).restrict (hf 1) = LinearMap.id := by
+      apply LinearMap.ext
+      intro x
+      apply Subtype.ext
+      have hx : (x : Fin 3 → ℂ) ∈ constLine3 := x.2
+      rw [mem_constLine3] at hx
+      obtain ⟨c, hc⟩ := hx
+      change permRep3 g (x : Fin 3 → ℂ) = (x : Fin 3 → ℂ)
+      rw [← hc, map_smul, permRep3_onesVec3]
+    have hfin : Module.finrank ℂ ↥(N 1) = 1 := finrank_span_singleton onesVec3_ne_zero
+    rw [hid, LinearMap.trace_id, hfin]
+    norm_num
+  rw [hN0, hN1] at htr
+  rw [eq_sub_iff_add_eq]
+  exact htr.symm
+
+/-- **The 2-dimensional representation `ℂ²` is irreducible** (Etingof Example 4.3).  Proved
+from its character: `∑_g χ(g)·χ(g⁻¹) = 1·2² + 3·2² + 8·1² = 24 = |S₄|` (with `χ = fix₃ − 1`,
+the fixed-partition count minus one). -/
+lemma twoDimRep_simple : Simple twoDimRep := by
+  rw [FDRep.simple_iff_char_is_norm_one]
+  have hterm : ∀ g : S4, twoDimRep.character g * twoDimRep.character g⁻¹
+      = (((fix3Card g : ℤ) - 1) * ((fix3Card g⁻¹ : ℤ) - 1) : ℤ) := by
+    intro g
+    rw [twoDimRep_character, twoDimRep_character]
+    push_cast
+    ring
+  rw [Finset.sum_congr rfl (fun g _ => hterm g)]
+  rw [← Int.cast_sum]
+  have hsum : ∑ g : S4, (((fix3Card g : ℤ) - 1) * ((fix3Card g⁻¹ : ℤ) - 1)) = 24 := by decide
+  rw [hsum]
+  rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
+  norm_num
+
+/-! ## `ℂ³₊` and `ℂ³₋` are distinct -/
+
+/-- **`ℂ³₊` and `ℂ³₋` are not isomorphic** (Etingof Example 4.3): on a transposition `g`,
+`det g|_{ℂ³₊} = 1` while `det g|_{ℂ³₋} = (−1)³ = −1`, which shows up here as differing
+character values, `χ_{ℂ³₋}((01)) = 1 ≠ −1 = χ_{ℂ³₊}((01))`. -/
+lemma stdRep_character_ne_rotRep_character :
+    stdRep.character (Equiv.swap 0 1) ≠ rotRep.character (Equiv.swap 0 1) := by
+  rw [stdRep_character, rotRep_character, show fixCard (Equiv.swap (0 : Fin 4) 1) = 2 from by decide,
+    show Equiv.Perm.sign (Equiv.swap (0 : Fin 4) 1) = -1 from by decide]
+  norm_num
+
+/-! ## Dimensions: the sum-of-squares decomposition `1² + 1² + 2² + 3² + 3² = 24` -/
+
+/-- `dim ℂ₊ = 1`. -/
+lemma trivRep_finrank : finrank ℂ (trivRep : Type) = 1 := by
+  have h := FDRep.char_one trivRep
+  rw [show trivRep = FDRep.of (charRep (1 : S4 →* ℂˣ)) from rfl, charRep_character] at h
+  simp only [map_one, Units.val_one] at h
+  exact_mod_cast h.symm
+
+/-- `dim ℂ₋ = 1`. -/
+lemma signRep_finrank : finrank ℂ (signRep : Type) = 1 := by
+  have h := FDRep.char_one signRep
+  rw [show signRep = FDRep.of (charRep signHom) from rfl, charRep_character] at h
+  simp only [map_one, Units.val_one] at h
+  exact_mod_cast h.symm
+
+/-- `χ_{ℂ²}(1) = 2`. -/
+lemma twoDimRep_char_one : twoDimRep.character 1 = 2 := by
+  rw [twoDimRep_character, show fix3Card (1 : S4) = 3 from by decide]; norm_num
+
+/-- `χ_{ℂ³₋}(1) = 3`. -/
+lemma stdRep_char_one : stdRep.character 1 = 3 := by
+  rw [stdRep_character, show fixCard (1 : S4) = 4 from by decide]; norm_num
+
+/-- `χ_{ℂ³₊}(1) = 3`. -/
+lemma rotRep_char_one : rotRep.character 1 = 3 := by
+  rw [rotRep_character, show fixCard (1 : S4) = 4 from by decide, map_one, Units.val_one]
+  norm_num
+
+/-- `dim ℂ² = 2`. -/
+lemma twoDimRep_finrank : finrank ℂ (twoDimRep : Type) = 2 := by
+  have h := FDRep.char_one twoDimRep
+  rw [twoDimRep_char_one] at h
+  exact_mod_cast h.symm
+
+/-- `dim ℂ³₋ = 3`. -/
+lemma stdRep_finrank : finrank ℂ (stdRep : Type) = 3 := by
+  have h := FDRep.char_one stdRep
+  rw [stdRep_char_one] at h
+  exact_mod_cast h.symm
+
+/-- `dim ℂ³₊ = 3`. -/
+lemma rotRep_finrank : finrank ℂ (rotRep : Type) = 3 := by
+  have h := FDRep.char_one rotRep
+  rw [rotRep_char_one] at h
+  exact_mod_cast h.symm
+
+/-- The dimensions `1, 1, 2, 3, 3` of the five irreducible representations realise the
+sum-of-squares decomposition `1² + 1² + 2² + 3² + 3² = 24 = |S₄|`. (Etingof Example 4.3) -/
+theorem irreps_dim_sum_of_squares :
+    finrank ℂ (trivRep : Type) ^ 2 + finrank ℂ (signRep : Type) ^ 2
+      + finrank ℂ (twoDimRep : Type) ^ 2 + finrank ℂ (stdRep : Type) ^ 2
+      + finrank ℂ (rotRep : Type) ^ 2 = Fintype.card S4 := by
+  rw [trivRep_finrank, signRep_finrank, twoDimRep_finrank, stdRep_finrank, rotRep_finrank]
+  decide
+
 end Etingof.Example4_3_S4
 
 end
