@@ -84,18 +84,20 @@ end BilinearFormPreservation
 
 section Corollary
 
-/-- The dimension vector of any indecomposable representation of a Dynkin quiver
-is a positive root.
+/-- Combinatorial core of Corollary 6.8.2: a nonnegative nonzero integer vector that
+some sequence of simple reflections carries to a simple root is a positive root.
 
-Given that d is the dimension vector of an indecomposable representation of a
-Dynkin quiver (so d ≥ 0, d ≠ 0, and by Theorem 6.8.1 there exist reflections
-reducing d to a simple root), we conclude that d is a positive root:
-d ≠ 0, B(d, d) = 2, and all coordinates are nonneg.
+Given `d ≥ 0`, `d ≠ 0`, and a reflection sequence reducing `d` to a simple root `αₚ`,
+we conclude `d` is a positive root: `d ≠ 0`, `B(d, d) = 2`, and all coordinates nonneg.
+The proof reduces to: simple reflections preserve `B`, and `B(αₚ, αₚ) = 2` for any
+simple root `αₚ`.
 
-The proof reduces to: simple reflections preserve B, and B(αₚ, αₚ) = 2 for
-any simple root αₚ.
-(Etingof Corollary 6.8.2) -/
-theorem Etingof.Corollary6_8_2
+This is the purely combinatorial implication. The faithful statement of Corollary 6.8.2
+— that the dimension vector of *any* indecomposable representation of a Dynkin quiver is
+a positive root — is `Etingof.Corollary6_8_2`, which supplies the reflection sequence from
+the representation-level Theorem 6.8.1 (`indecomposable_reduces_to_simpleRoot`) rather than
+taking it as a hypothesis. -/
+theorem Etingof.isPositiveRoot_of_iteratedReflection_eq_simpleRoot
     {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hDynkin : Etingof.IsDynkinDiagram n adj)
     (d : Fin n → ℤ)
