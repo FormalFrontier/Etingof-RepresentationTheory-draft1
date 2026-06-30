@@ -539,4 +539,78 @@ theorem Example5_19_3_exterior_equivariant
   simp only [Example5_19_3_exteriorEquiv_apply, symAntisymmetricMap, LinearMap.coe_restrict_apply]
   exact π_map g x.val
 
+/-! ### Irreducibility (Problem 4.12.3)
+
+The book closes Example 5.19.3 by asserting that `L_{(n)} = SⁿV` and `L_{(1ⁿ)} = ∧ⁿV` are
+*irreducible* `GL(V)`-representations, "except that `∧ⁿV` is zero if `n > dim V`", citing
+Problem 4.12.3 for the irreducibility.
+
+Two pieces of that final sentence:
+
+* The parenthetical vanishing `∧ⁿV = 0` for `n > dim V` is proved below
+  (`Example5_19_3_exterior_subsingleton_of_dim_lt`): a genuine, complete result.
+
+* The irreducibility itself is the content of **Problem 4.12.3**, whose proof is the
+  distinct-eigenvalue / transvection argument:
+  pick a diagonal `H ∈ GL(V)` whose action on the representation has pairwise distinct
+  eigenvalues, so any subrepresentation `W` is spanned by a subset `S` of the eigenbasis;
+  then use invariance under the transvections `ρ(1 + E_{ij})` (`i ≠ j`) to force `S` to be
+  the whole basis once it is nonempty. Formalizing it is a standalone multi-step
+  development (it needs the symmetric-power monomial basis — *absent* from Mathlib, which
+  only has `Module.Basis.exteriorPower` for the exterior side — a generic diagonal with
+  distinct weights, the spectral-spanning lemma "an invariant subspace of a diagonalizable
+  operator with distinct eigenvalues is spanned by eigenvectors", and the transvection
+  orbit-connectivity argument). It is tracked as its own issue and is **not** proved here.
+
+To record the irreducibility claim precisely — rather than dropping it silently — the
+exact propositions are pinned below as `Prop`-valued definitions referencing the actual
+`GL(V)`-actions already constructed in this file (`symmetricPowerMap` on `SⁿV` and
+`exteriorPower.map n` on `∧ⁿV`). A subrepresentation is a submodule stable under the action
+of every `g ∈ GL(V)` (`g : V ≃ₗ[k] V`); irreducibility says the only such submodules are
+`⊥` and `⊤`. Proving `Example5_19_3_symmetric_irreducible` / `Example5_19_3_exterior_irreducible`
+is exactly the remaining Problem 4.12.3 work. -/
+
+/-- Book fidelity (Example 5.19.3, parenthetical): `∧ⁿV` is the zero representation when
+`n > dim V`. Over a field, `finrank (⋀ⁿV) = C(dim V, n) = 0` for `n > dim V`, so `∧ⁿV` is a
+subsingleton. -/
+theorem Example5_19_3_exterior_subsingleton_of_dim_lt
+    {k : Type} [Field k]
+    {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    {n : ℕ} (hn : Module.finrank k V < n) :
+    Subsingleton (⋀[k]^n V) := by
+  have h0 : Module.finrank k (⋀[k]^n V) = 0 := by
+    rw [exteriorPower.finrank_eq, Nat.choose_eq_zero_of_lt hn]
+  exact Module.finrank_zero_iff.mp h0
+
+/-- The precise irreducibility claim for `L_{(n)} = SⁿV` (Problem 4.12.3, the first half of
+the irreducibility assertion in Example 5.19.3): every `GL(V)`-subrepresentation of the
+symmetric power — i.e. every submodule stable under `symmetricPowerMap g` for all
+`g ∈ GL(V)` — is either `⊥` or `⊤`.
+
+This records the statement faithfully against the `GL(V)`-action already constructed here.
+Its proof is the distinct-eigenvalue / transvection argument of Problem 4.12.3 and is
+deferred (see the section docstring above); it is **not** asserted to hold by this
+definition, which merely names the proposition. -/
+def Example5_19_3_symmetric_irreducible
+    {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (n : ℕ) : Prop :=
+  ∀ W : Submodule k (SymmetricPower k (Fin n) V),
+    (∀ g : V ≃ₗ[k] V, ∀ w ∈ W, symmetricPowerMap (g : V →ₗ[k] V) w ∈ W) →
+      W = ⊥ ∨ W = ⊤
+
+/-- The precise irreducibility claim for `L_{(1ⁿ)} = ∧ⁿV` (Problem 4.12.3, the second half
+of the irreducibility assertion in Example 5.19.3, valid for `n ≤ dim V`; for `n > dim V`
+the space is zero, see `Example5_19_3_exterior_subsingleton_of_dim_lt`): every
+`GL(V)`-subrepresentation of the exterior power — i.e. every submodule stable under
+`exteriorPower.map n g` for all `g ∈ GL(V)` — is either `⊥` or `⊤`.
+
+As with the symmetric case, this names the proposition faithfully against the action built
+in this file; its proof (Problem 4.12.3) is deferred and is not asserted here. -/
+def Example5_19_3_exterior_irreducible
+    {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (n : ℕ) : Prop :=
+  ∀ W : Submodule k (⋀[k]^n V),
+    (∀ g : V ≃ₗ[k] V, ∀ w ∈ W, exteriorPower.map n (g : V →ₗ[k] V) w ∈ W) →
+      W = ⊥ ∨ W = ⊤
+
 end Etingof
