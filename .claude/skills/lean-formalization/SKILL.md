@@ -369,6 +369,37 @@ as an `S_n`-rep iso (`Chapter5/SpechtBaseChangeComplex.lean`), the working recip
   `↥(p.restrictScalars ℂ)` is defeq to `↥p`, so the equiv lands in `↥(SpechtModuleK ℂ)` directly and
   `(Φ t : ℂ[S_n]) = Ψ t` is `rfl`.
 
+### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
+
+A recurring Chapter 5 fidelity-gap shape: the book says "`V_{(n)}` is the *trivial*
+representation" / "`V_{(1ⁿ)}` is the *sign* representation", but the Lean only proves
+`Module.finrank ℂ (SpechtModule n …) = 1`. Dimension `1` is necessary but **not**
+sufficient — `Sₙ` has two one-dimensional reps, so the count cannot distinguish them.
+State the genuine `ℂ[Sₙ]`-module claim instead: every `σ` acts as the identity (trivial)
+resp. as `sign σ` (sign). Worked end-to-end in `Chapter5/Example5_12_3.lean`
+(`Example5_12_3_trivial_rep`, `Example5_12_3_sign_rep`), sorry-free. The recipe, in two
+cheap pieces:
+- **Generator transformation** `of(σ) · c_λ = χ • c_λ` (χ = 1 resp. `sign σ`). For the two
+  extremes one of the row/column subgroups is everything and the other is trivial: for
+  `(n)`, `Q_λ = {1}` so `ColumnAntisymmetrizer = 1` and `c_λ = a_λ`, and `P_λ = Sₙ` so
+  `of_row_mul_RowSymmetrizer` (Lemma5_13_1) gives `of(σ)·c_λ = c_λ`; dually for `(1ⁿ)`,
+  `of_col_mul_ColumnAntisymmetrizer` gives the `sign σ` scaling. The subgroup
+  characterizations are direct `rowOfPos`/`colOfPos` computations on the literal
+  `[n]` / `List.replicate n 1` (no `Nat.find`), and "`b_λ = 1`" comes from a `Unique`
+  instance on the trivial subgroup + `simp [ColumnAntisymmetrizer, …, Fintype.card_unique]`.
+- **Collapse the module to `ℂ·c_λ`** so the action on *every* `v ∈ V` is forced by its
+  action on the generator. `span ℂ {c_λ} ≤ V.restrictScalars ℂ` (since `c_λ ∈ V`), both
+  have `finrank ℂ = 1` (`finrank_span_singleton hc_ne` and the already-proved `dim = 1`,
+  which holds by `rfl` over `restrictScalars` — `↥(V.restrictScalars ℂ)` is defeq `↥V`),
+  so `Submodule.eq_of_le_of_finrank_le` gives equality. Then any `v` is `z • c_λ`
+  (`mem_span_singleton`) and `↑(of σ • v) = of σ * (z • c_λ) = z • (χ • c_λ) = χ • ↑v`
+  via `Algebra.mul_smul_comm` + the generator lemma + `smul_comm`; `Subtype.ext` closes it.
+  Get `c_λ ≠ 0` for free from `dim = 1` (if `c_λ = 0`, `V = ⊥`, `finrank = 0` by
+  `Module.finrank_zero_of_subsingleton`). The collapse step is packaged as the reusable
+  `spechtModule_smul_eq` — feed it `dim = 1` + the generator transformation. Note `↑(χ • v)`
+  needs `Submodule.coe_smul_of_tower` (ℂ in the tower), while `↑(of σ • v)` uses
+  `Submodule.coe_smul` (the algebra ring); `smul_eq_mul` turns the latter into `*`.
+
 ### Heavy Instance Resolves Abstractly but Fails Concretely
 
 **A heavy instance (e.g. `centralizerModuleHom : Module ↥(centralizer …) (V →ₗ[A] E)`) that resolves for an *abstract* carrier `V` can fail fresh typeclass search for a *concrete* one (`V = Fin N → k`), at the same `synthInstance.maxHeartbeats` — it is structural, not a heartbeat shortfall (diagnosed across ~7 build cycles in #4860, `SchurWeylLDistinct.lean`).** Symptom: `failed to synthesize HSMul … ?m` (an `outParam` output stuck as a metavar) on a `•`/instance you wrote *freshly* in the concrete proof, while the *same* `•` typechecks when it comes from *specializing* a polymorphic lemma's signature. Two non-fixes and the fix:
