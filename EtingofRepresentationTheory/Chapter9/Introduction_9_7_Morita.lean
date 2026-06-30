@@ -23,9 +23,10 @@ and, in the Discussion after Definition 9.7.1, its global restatement:
 
 This file formalizes both claims, building on three already-proven pieces:
 
-* `Etingof.Theorem_9_6_4_corollary` — for any progenerator `P` of a finite abelian
-  category `𝒞`, `𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ`. This is the Morita identification:
-  the endomorphism algebra of a progenerator realizes `𝒞` as its module category.
+* `Etingof.Theorem_9_6_4_corollary_of_isNoetherian` — for any progenerator `P` of a finite
+  abelian category `𝒞` with `(End P)ᵐᵒᵖ` Noetherian, `𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ`. This is
+  the ring-level Morita identification: the endomorphism algebra of a progenerator realizes
+  `𝒞` as its module category. (The over-a-field headline is `Etingof.Theorem_9_6_4`.)
 * `Etingof.progenerator_iff_multBiproduct` — the §9.7 classification: an object `Q` is
   a progenerator **iff** `Q ≅ P_𝐧 := ⊕ᵢ nᵢ Pᵢ` for some multiplicities `nᵢ ≥ 1`.
 * `Etingof.isProgenerator_multBiproduct` — each `P_𝐧` with all `nᵢ ≥ 1` is a
@@ -97,7 +98,7 @@ theorem nonempty_equivalence_fgModuleCat_Bn
     Nonempty (C ≌ FGModuleCat.{v} (Bn P n)) := by
   haveI : ∀ i, Projective (P i) := hproj
   haveI : IsProgenerator (multBiproduct P n) := isProgenerator_multBiproduct P n hn
-  exact Theorem_9_6_4_corollary C (multBiproduct P n)
+  exact Theorem_9_6_4_corollary_of_isNoetherian C (multBiproduct P n)
 
 /-- **§9.7 capstone biconditional.** Let `P : ι → 𝒞` be the indecomposable projectives of
 the finite abelian category `𝒞` (each indecomposable, pairwise non-isomorphic, exhausting
