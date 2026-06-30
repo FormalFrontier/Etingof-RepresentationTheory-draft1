@@ -6757,9 +6757,9 @@
     "start_line": 11,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book's Theorem 8.1.1 states that four conditions (i)-(iv) are equivalent. The Lean file formalizes only two pairs: (i)↔(ii) and (i)↔(iii). Condition (iv) — 'the functor Hom_A(P,?",
+    "fidelity_note": "Condition (iv) — exactness of the functor Hom_A(P,?) — is now formalized as Theorem_8_1_1_i_iff_iv (preservation of short exact sequences). All four conditions (i)-(iv) are established as equivalent (pairwise with (i)). Fixed in #5629.",
     "fidelity_issue": 5629
   },
   {
