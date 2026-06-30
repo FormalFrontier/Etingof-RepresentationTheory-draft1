@@ -6333,9 +6333,9 @@
     "start_line": 1,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book lists 5 adjunction examples. The Lean formalizes 2: (2) `frobenius_reciprocity` proves `Rep.indFunctor k φ ⊣ Rep.resFunctor φ` (Ind ⊣ Res) — but the book says 'Res_K^G is left adjo",
+    "fidelity_note": "[fidelity resolved #5644] All 5 adjunction examples now formalized: (1) tensor_dual_adjunction_left/right (V*⊗ biadjoint to V⊗ in rigid FDRep), (2) both directions — frobenius_reciprocity (Ind ⊣ Res) and frobenius_reciprocity_res_ind (the book's Res ⊣ Ind, finite index), (3) uea_adjunction, (4) group_algebra_adjunction (GL₁ ⊣ k[G]), (5) tensor_algebra_adjunction and symmetric_algebra_adjunction.",
     "fidelity_issue": 5644
   },
   {
