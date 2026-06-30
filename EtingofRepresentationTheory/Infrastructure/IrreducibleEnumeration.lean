@@ -192,6 +192,17 @@ lemma IrrepDecomp.finrank_columnFDRep [NeZero (Nat.card G : k)]
   rw [show Module.finrank k (D.columnFDRep i) = Module.finrank k (Fin (D.d i) → k) from rfl]
   exact Module.finrank_fin_fun k
 
+/-- The Wedderburn-Artin **algebra isomorphism** `ψ : k[G] ≃ₐ[k] ⊕ᵢ End(Vᵢ)` of
+Theorem 4.1.1(ii), phrased with the endomorphism algebras `End(Vᵢ)` of the irreducible
+representations in place of the matrix algebras. Here `Vᵢ = D.columnFDRep i` is the `i`-th
+irreducible representation, whose underlying space is `Fin (D.d i) → k`, so each
+endomorphism factor `End(Vᵢ)` is the matrix factor `Matrix (Fin (D.d i)) (Fin (D.d i)) k`
+re-expressed via `Matrix.toLinAlgEquiv'`. -/
+noncomputable def IrrepDecomp.endIso [NeZero (Nat.card G : k)]
+    (D : IrrepDecomp k G) :
+    MonoidAlgebra k G ≃ₐ[k] Π i, Module.End k (D.columnFDRep i) :=
+  D.iso.trans (AlgEquiv.piCongrRight fun i => Matrix.toLinAlgEquiv')
+
 /-! ### Bridge: IsSimpleModule → Simple (FDRep) -/
 
 /-- A full faithful functor preserving monomorphisms reflects Simple objects. -/
