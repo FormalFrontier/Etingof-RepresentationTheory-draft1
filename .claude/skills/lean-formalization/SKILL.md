@@ -616,6 +616,20 @@ not by hand-building counits:
   (`Res ⊣ Ind`/`Res ⊣ Coind`, finite index, since `Ind ≅ Coind`). Before treating an
   adjoint-direction discrepancy as a real gap, grep for the other-direction adjunction;
   record both with docstrings explaining the biadjointness rather than "fixing" one.
+- **A fidelity finding of "the bridge linking the computed shadow to the real
+  object is assumed implicitly" — check whether that bridge is already a proved
+  Proposition in the project before treating it as a doc-only caveat or a big new
+  theorem.** (#5639, Example 6.8.5: the example computed the reflection-functor
+  action via an ad-hoc combinatorial `D₄_simpleReflection` on `Fin 4 → ℤ`,
+  disconnected from the functors F⁻ᵢ. But `Etingof.Proposition6_6_8_source` already
+  proves the BGP bridge `d(F⁻ᵢ V) = sᵢ(d(V))` sorry-free.) The fix is neither
+  documentation-only nor a new bridge theorem: **re-express the example with the
+  genuine infrastructure** the proved Proposition is stated over — here
+  `Etingof.simpleReflection`/`Etingof.cartanMatrix`/`Etingof.simpleRoot` (Defs
+  6.4.10/6.4.1/6.4.5) in place of the ad-hoc copies — and cite the Proposition in
+  the docstring. The numerics stay `decide`-able and the functor↔shadow identification
+  stops being implicit. Grep the relevant Proposition/Corollary files (e.g. the
+  `_source`/`_sink` dimension-vector lemmas) before assuming the connection is missing.
 
 #### `IsSimpleModule k[G] ρ.asModule` for a *concrete* representation (Ch5 Example5.1.3 Q₈, #5124)
 
