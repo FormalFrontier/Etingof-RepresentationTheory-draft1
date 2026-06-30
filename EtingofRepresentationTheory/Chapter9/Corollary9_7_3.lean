@@ -38,10 +38,24 @@ as a corner ring of the other, forcing equal dimensions, hence the corner
 rings are the full algebras.
 
 Part (i) existence delegates to `exists_basic_morita_equivalent` from
-`Infrastructure.BasicAlgebraExistence`, which is sorry'd pending construction
-of the basic algebra from Wedderburn-Artin decomposition and idempotent lifting.
+`Infrastructure.BasicAlgebraExistence`, which is fully proved (sorry-free):
+the basic algebra is constructed as a corner ring `eAe` from the
+Wedderburn-Artin decomposition of `A / rad(A)` and idempotent lifting.
 The statement requires `IsAlgClosed k` since over non-algebraically-closed fields,
 simple modules need not be 1-dimensional.
+
+## Scope: algebra version vs. categorical form
+
+The book's part (i) is stated for an abstract `k`-linear finite abelian category
+`𝒞`: *any* such `𝒞` is equivalent to the finite-dimensional modules over a unique
+basic algebra `B(𝒞)`. What is formalized here is the **algebra version**: the input
+is a finite-dimensional algebra `A` (Theorem `Etingof.Corollary_9_7_3_i`), not an
+abstract category. The categorical input form is **not yet formalized**; it would
+compose `Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for a
+progenerator `P`) with the algebra version, and additionally requires (a) existence
+of a progenerator in an abstract finite abelian category, and (b) reconciling
+`FGModuleCat` with the full `ModuleCat` used by `Etingof.MoritaEquivalent`. The
+categorical form is tracked as a separate formalization item (issue #5738).
 -/
 
 variable (k : Type u) [Field k]

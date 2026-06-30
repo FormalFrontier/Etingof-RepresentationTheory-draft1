@@ -244,8 +244,8 @@ it decomposes as a product of matrix algebras. This gives us orthogonal idempote
 (one primitive per block) which can be lifted to A. The sum is a full idempotent with
 basic corner ring.
 
-This is the key construction: we sorry the existence statement but decompose
-the proof obligations clearly. -/
+This is the key construction: the existence statement is fully proved, with the
+proof obligations decomposed clearly below. -/
 lemma exists_full_idempotent_basic_corner
     (k : Type u) [Field k] [IsAlgClosed k]
     (A : Type u) [Ring A] [Algebra k A] [Module.Finite k A] :
