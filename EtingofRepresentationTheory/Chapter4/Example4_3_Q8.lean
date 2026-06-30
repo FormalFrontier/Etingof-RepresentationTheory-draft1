@@ -176,4 +176,13 @@ theorem rep_k : rep (xa 3) = rhoK := by
 theorem rep_neg_one : rep (a 2) = -1 := by
   rw [rep_a, show ((2 : ZMod (2 * 2)).val) = 2 from rfl]; exact rhoI_sq
 
+/-- The same 2-dimensional representation packaged as a Mathlib `Representation`
+of Q₈ on `ℂ²`, by viewing each Pauli matrix as a linear endomorphism. -/
+noncomputable def repLin : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ) :=
+  (Matrix.toLinAlgEquiv' (R := ℂ) (n := Fin 2)).toAlgHom.toMonoidHom.comp rep
+
+/-- The representation `repLin` acts on the 2-dimensional space `ℂ²`. -/
+theorem repLin_dim : Module.finrank ℂ (Fin 2 → ℂ) = 2 := by
+  simp
+
 end Etingof.Example4_3_Q8
