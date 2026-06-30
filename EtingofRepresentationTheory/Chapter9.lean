@@ -9,6 +9,7 @@ import EtingofRepresentationTheory.Chapter9.Definition9_4_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 import EtingofRepresentationTheory.Chapter9.Example9_4_4
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
+import EtingofRepresentationTheory.Chapter9.Problem9_3_2
 import EtingofRepresentationTheory.Chapter9.Example9_5_2
 import EtingofRepresentationTheory.Chapter9.Definition9_6_1
 import EtingofRepresentationTheory.Chapter9.Introduction_9_6

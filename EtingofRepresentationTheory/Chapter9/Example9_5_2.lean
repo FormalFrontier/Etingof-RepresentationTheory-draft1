@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
+import EtingofRepresentationTheory.Chapter9.Problem9_3_2
 import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
 import Mathlib.RingTheory.SimpleModule.InjectiveProjective
@@ -39,11 +40,13 @@ finer `AreLinked` statement records that no larger module is linked to a simple.
 the Etingof "≃ Vec" subcategory equivalence would require an isotypic-subcategory definition
 not present in Definition 9.5.1.
 
-Part (iii) — "the algebra of Problem 9.3.2 has one block" — requires first *constructing*
-that generators-and-relations algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` and then proving
-`Ext¹` between its two one-dimensional simples is nonzero (the linking is via a genuine
-nonsplit extension, not an isomorphism). That construction is tracked as its own work item
-(Problem 9.3.2) and is not formalized here.
+Part (iii) — "the algebra of Problem 9.3.2 has one block" — is now formalized. The
+generators-and-relations algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` is constructed in
+`Chapter9/Problem9_3_2.lean`, together with its two non-isomorphic one-dimensional simple
+modules `S₊` and `S₋`. The two simples are linked by a genuine nonsplit extension
+`0 → S₋ → P₊ → S₊ → 0`, so `Ext¹(S₊, S₋) ≠ 0`; this is exactly the regime that part (i)
+(semisimple) excludes. We re-export the resulting `Etingof.AreLinked` statement as
+`Etingof.problem_9_3_2_single_block` below.
 -/
 
 universe v u
@@ -124,3 +127,14 @@ theorem Etingof.local_artinian_single_block
       inv := ModuleCat.ofHom e.symm.toLinearMap
       hom_inv_id := by ext x; exact e.symm_apply_apply x
       inv_hom_id := by ext x; exact e.apply_symm_apply x }
+
+/-- The algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` of Problem 9.3.2 has a single block:
+its two non-isomorphic simple modules `S₊` and `S₋` are `Etingof.AreLinked`, via the nonsplit
+extension `0 → S₋ → P₊ → S₊ → 0` (so `Ext¹(S₊, S₋) ≠ 0`). Unlike parts (i) and (ii), the
+linking here is a genuine nonsplit extension rather than an isomorphism.
+(Etingof Example 9.5.2 (iii); see `Chapter9/Problem9_3_2.lean` for the construction.) -/
+theorem Etingof.problem_9_3_2_single_block :
+    Etingof.AreLinked Etingof.Problem932.A
+      (ModuleCat.of _ Etingof.Problem932.Splus)
+      (ModuleCat.of _ Etingof.Problem932.Sminus) :=
+  Etingof.Problem932.areLinked
