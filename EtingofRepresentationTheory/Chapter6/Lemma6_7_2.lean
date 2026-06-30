@@ -14,12 +14,12 @@ assumption, (3) sum of periodic orbit is a fixed point hence zero, contradicting
 β ≠ 0.
 -/
 
-/-- The action of the Coxeter element on a vector in ℤⁿ. -/
+/-- The action of the Coxeter element on a vector in ℤⁿ. This is just the Coxeter
+element of Definition 6.7.1 applied to `v`; it is kept as a named abbreviation so the
+proofs below read in terms of the *action* on the root lattice. -/
 def Etingof.coxeterAction (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
     (v : Fin n → ℤ) : Fin n → ℤ :=
-  let A := Etingof.cartanMatrix n adj
-  (List.ofFn (fun i : Fin n => Etingof.simpleReflection n A i)).foldr
-    (· ∘ ·) id v
+  Etingof.coxeterElement n adj v
 
 /-- Iterated action of the Coxeter element: c^N applied to a vector. -/
 def Etingof.coxeterActionIter (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ)
@@ -68,7 +68,7 @@ private lemma coxeterAction_preserves_B
     dotProduct (coxeterAction n adj v)
       ((cartanMatrix n adj).mulVec (coxeterAction n adj v)) =
     dotProduct v ((cartanMatrix n adj).mulVec v) := by
-  unfold coxeterAction; apply foldr_preserves_B
+  unfold coxeterAction coxeterElement; apply foldr_preserves_B
   intro f hf u; simp only [List.mem_ofFn] at hf
   obtain ⟨i, rfl⟩ := hf
   exact simpleReflection_preserves_bilinearForm _
@@ -199,7 +199,7 @@ private theorem simpleReflection_injective
 private theorem coxeterAction_injective
     (hDynkin : IsDynkinDiagram n adj) :
     Function.Injective (coxeterAction n adj) := by
-  unfold coxeterAction
+  unfold coxeterAction coxeterElement
   set A := cartanMatrix n adj
   suffices ∀ (fs : List ((Fin n → ℤ) → Fin n → ℤ)),
       (∀ f ∈ fs, Function.Injective f) →
@@ -250,7 +250,7 @@ private theorem coxeterAction_periodic
 private theorem coxeterAction_add (v w : Fin n → ℤ) :
     coxeterAction n adj (v + w) =
     coxeterAction n adj v + coxeterAction n adj w := by
-  unfold coxeterAction
+  unfold coxeterAction coxeterElement
   set A := cartanMatrix n adj
   suffices h : ∀ (fs : List ((Fin n → ℤ) → Fin n → ℤ)),
       (∀ f ∈ fs, ∀ a b : Fin n → ℤ, f (a + b) = f a + f b) →
@@ -277,7 +277,7 @@ private theorem coxeterAction_add (v w : Fin n → ℤ) :
 /-- The Coxeter action applied to 0 gives 0. -/
 private theorem coxeterAction_zero :
     coxeterAction n adj 0 = 0 := by
-  unfold coxeterAction
+  unfold coxeterAction coxeterElement
   set A := cartanMatrix n adj
   suffices ∀ fs : List ((Fin n → ℤ) → Fin n → ℤ),
       (∀ g ∈ fs, g 0 = 0) → fs.foldr (· ∘ ·) id 0 = 0 by
@@ -401,7 +401,7 @@ private lemma intermediateState_full
     (v : Fin n → ℤ) :
     intermediateState (cartanMatrix n adj) v n =
     coxeterAction n adj v := by
-  unfold coxeterAction
+  unfold coxeterAction coxeterElement
   rw [intermediateState_eq_drop_foldr _ v n le_rfl]
   simp
 
