@@ -2,6 +2,10 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter6.Example6_3_1
 import EtingofRepresentationTheory.Chapter6.Definition6_6_4
 import EtingofRepresentationTheory.Chapter6.Definition6_5_1
+import EtingofRepresentationTheory.Chapter6.Definition6_4_1
+import EtingofRepresentationTheory.Chapter6.Definition6_4_5
+import EtingofRepresentationTheory.Chapter6.Definition6_4_10
+import EtingofRepresentationTheory.Chapter6.Proposition6_6_8
 
 /-!
 # Example 6.8.5: Reflection Functors on D₄
@@ -25,12 +29,27 @@ functor computations require the custom functor infrastructure from Definitions
 ## Formalization approach
 
 We state the example as a theorem about dimension vectors: starting from the
-simple representation at vertex 4 (dimension vector α₄ = (0,0,0,1) in the
-(V₁,V₂,V₃,V₄) basis), successive applications of reflection functors F⁻ᵢ
-transform the dimension vector according to the simple reflection formula
-sᵢ(d)_j = d_j - A_ij · d_i. We state the concrete computation results:
-  F⁻₁ F⁻₂ F⁻₃ (α₄) = α₁ + α₂ + α₃ + α₄ = (1,1,1,1)
-  F⁻₄ F⁻₁ F⁻₂ F⁻₃ (α₄) = α₁ + α₂ + α₃ + 2α₄ = (1,1,1,2)
+simple representation at vertex 4 (dimension vector α₄ = `Etingof.simpleRoot 4 3`
+in the (V₁,V₂,V₃,V₄) basis), successive applications of reflection functors F⁻ᵢ
+transform the dimension vector according to the simple reflection sᵢ.
+
+Crucially, the simple reflections here are the *genuine* root-lattice reflections
+`Etingof.simpleReflection 4 (Etingof.cartanMatrix 4 D₄_adj) i` from Definition
+6.4.10 (sᵢ(x) = x − B(x, αᵢ)·αᵢ), built from the D₄ Cartan matrix of Definition
+6.4.1. This is the same object whose connection to the *categorical* action of the
+reflection functor is proved in **Proposition 6.6.8**:
+`Etingof.Proposition6_6_8_source` shows that for a source vertex `i` with injective
+source map, `d(F⁻ᵢ V) = sᵢ(d(V))` — the dimension vector of the reflection-functor
+image equals the simple reflection of the dimension vector. So the dimension-vector
+arithmetic below is not a disconnected combinatorial analogue: it faithfully tracks
+the action of the functors F⁻ᵢ on actual representations, with the
+functor-to-reflection identification supplied by the proved Proposition 6.6.8 (and
+the `simpleReflectionDimVector_eq_simpleReflection` bridge relating its
+arrow-indexed reflection to `Etingof.simpleReflection`).
+
+We state the concrete computation results:
+  s₁ s₂ s₃ (α₄) = α₁ + α₂ + α₃ + α₄ = (1,1,1,1)
+  s₄ s₁ s₂ s₃ (α₄) = α₁ + α₂ + α₃ + 2α₄ = (1,1,1,2)
 and that the final dimension vector (1,1,1,2) corresponds to an indecomposable
 (being the maximal positive root of D₄).
 -/
@@ -43,41 +62,48 @@ def Etingof.D₄_adj : Matrix (Fin 4) (Fin 4) ℤ :=
      0, 0, 0, 1;
      1, 1, 1, 0]
 
-/-- The Cartan matrix of D₄: A = 2·Id - adj. -/
+/-- The Cartan matrix of D₄, defined as `Etingof.cartanMatrix 4 D₄_adj` (= 2·Id − adj,
+Definition 6.4.1). -/
 def Etingof.D₄_cartan : Matrix (Fin 4) (Fin 4) ℤ :=
-  !![2, 0, 0, -1;
-     0, 2, 0, -1;
-     0, 0, 2, -1;
-     -1, -1, -1, 2]
+  Etingof.cartanMatrix 4 Etingof.D₄_adj
 
-/-- The simple reflection sᵢ on dimension vectors for the D₄ Cartan matrix:
-sᵢ(x)_j = x_j for j ≠ i, sᵢ(x)_i = x_i - Σ_k A_{ik} x_k.
-Equivalently, sᵢ(x) = x - (Aᵢ · x) eᵢ where Aᵢ is the i-th row of A. -/
-def Etingof.D₄_simpleReflection (i : Fin 4) (x : Fin 4 → ℤ) : Fin 4 → ℤ :=
-  fun j => if j = i then x i - Finset.univ.sum (fun k => Etingof.D₄_cartan i k * x k)
-           else x j
+/-- The Cartan matrix of D₄ has the expected explicit entries. -/
+theorem Etingof.D₄_cartan_eq :
+    Etingof.D₄_cartan =
+      !![2, 0, 0, -1;
+         0, 2, 0, -1;
+         0, 0, 2, -1;
+         -1, -1, -1, 2] := by
+  decide
 
-/-- The dimension vector α₄ = (0,0,0,1): the simple root at vertex 4. -/
-def Etingof.D₄_α₄ : Fin 4 → ℤ := ![0, 0, 0, 1]
+/-- The dimension vector α₄: the simple root at vertex 4 (index 3),
+`Etingof.simpleRoot 4 3` (Definition 6.4.5). -/
+def Etingof.D₄_α₄ : Fin 4 → ℤ := Etingof.simpleRoot 4 3
 
 /-- **Example 6.8.5, Part 1 (Etingof)**: Applying the sequence of simple reflections
-s₁, s₂, s₃ (corresponding to reflection functors F⁻₁, F⁻₂, F⁻₃) to the dimension
-vector α₄ = (0,0,0,1) yields the dimension vector (1,1,1,1) = α₁+α₂+α₃+α₄. -/
+s₁, s₂, s₃ (the dimension-vector action of the reflection functors F⁻₁, F⁻₂, F⁻₃,
+by Proposition 6.6.8) to the dimension vector α₄ yields the dimension vector
+(1,1,1,1) = α₁+α₂+α₃+α₄.
+
+The reflections are the genuine root-lattice reflections of Definition 6.4.10
+applied to the D₄ Cartan matrix, so this is the dimension vector of
+`F⁻₁ F⁻₂ F⁻₃ V_{α₄}`. -/
 theorem Etingof.Example6_8_5_part1 :
-    Etingof.D₄_simpleReflection 0
-      (Etingof.D₄_simpleReflection 1
-        (Etingof.D₄_simpleReflection 2 Etingof.D₄_α₄)) =
+    Etingof.simpleReflection 4 Etingof.D₄_cartan 0
+      (Etingof.simpleReflection 4 Etingof.D₄_cartan 1
+        (Etingof.simpleReflection 4 Etingof.D₄_cartan 2 Etingof.D₄_α₄)) =
     ![1, 1, 1, 1] := by
   decide
 
 /-- **Example 6.8.5, Part 2 (Etingof)**: Further applying the simple reflection s₄
-(corresponding to reflection functor F⁻₄) to the dimension vector (1,1,1,1) yields
-the dimension vector (1,1,1,2) = α₁+α₂+α₃+2α₄, the maximal positive root of D₄. -/
+(the dimension-vector action of F⁻₄, by Proposition 6.6.8) to the dimension vector
+(1,1,1,1) yields the dimension vector (1,1,1,2) = α₁+α₂+α₃+2α₄, the maximal positive
+root of D₄ — the dimension vector of `F⁻₄ F⁻₁ F⁻₂ F⁻₃ V_{α₄}`. -/
 theorem Etingof.Example6_8_5_part2 :
-    Etingof.D₄_simpleReflection 3
-      (Etingof.D₄_simpleReflection 0
-        (Etingof.D₄_simpleReflection 1
-          (Etingof.D₄_simpleReflection 2 Etingof.D₄_α₄))) =
+    Etingof.simpleReflection 4 Etingof.D₄_cartan 3
+      (Etingof.simpleReflection 4 Etingof.D₄_cartan 0
+        (Etingof.simpleReflection 4 Etingof.D₄_cartan 1
+          (Etingof.simpleReflection 4 Etingof.D₄_cartan 2 Etingof.D₄_α₄))) =
     ![1, 1, 1, 2] := by
   decide
 
