@@ -1632,183 +1632,6 @@ private lemma inducedRepV_completeness {G A : Type} [Group G] [CommGroup A]
   -- Step 4: By Frobenius reciprocity + Schur, V(χ,U) ≅ W
   exact ⟨χ, U, hU_simple, (exists_nonzero_map_from_induced φ χ W hW hχ U hU_simple ι hι_ne).map CategoryTheory.Iso.symm⟩
 
-open Classical in
-/-- Classification of irreducible representations of semidirect products G ⋉ A
-via the orbit method: they are parametrized by pairs (O, U) where O is a
-G-orbit on the character group Â and U is an irreducible representation of
-the stabilizer G_χ for a representative χ ∈ O.
-
-The statement asserts the existence of:
-- A dual G-action on Â = (A →* ℂˣ) given by (g · χ)(a) = χ(φ(g⁻¹)(a))
-- For each χ, a stabilizer subgroup G_χ ≤ G
-- A construction V(χ, U) producing a representation of A ⋊[φ] G
-
-satisfying irreducibility, injectivity on orbits, surjectivity onto all
-irreducibles, and the explicit character formula. (Etingof Theorem 5.27.1) -/
-theorem Etingof.Theorem5_27_1
-    (G A : Type) [Group G] [CommGroup A] [Fintype G] [Fintype A]
-    (φ : G →* MulAut A) :
-    ∃ (-- The dual G-action on Â: (g · χ)(a) = χ(φ(g⁻¹)(a))
-       dualSmul : G → (A →* ℂˣ) → (A →* ℂˣ))
-      (_ : ∀ g χ a, dualSmul g χ a = χ ((φ g⁻¹ : MulAut A) a))
-      (-- Stabilizer G_χ = {g ∈ G | g · χ = χ}
-       stab : (A →* ℂˣ) → Subgroup G)
-      (_ : ∀ χ g, g ∈ stab χ ↔ dualSmul g χ = χ)
-      (-- The construction V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
-       V : (χ : A →* ℂˣ) → FDRep ℂ ↥(stab χ) → FDRep ℂ (A ⋊[φ] G)),
-      -- (i) V(χ, U) is irreducible when U is irreducible
-      (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
-        CategoryTheory.Simple U → CategoryTheory.Simple (V χ U)) ∧
-      -- (ii) V(χ₁, U₁) ≅ V(χ₂, U₂) implies χ₁ and χ₂ are in the same G-orbit
-      (∀ (χ₁ χ₂ : A →* ℂˣ)
-        (U₁ : FDRep ℂ ↥(stab χ₁)) (U₂ : FDRep ℂ ↥(stab χ₂)),
-        CategoryTheory.Simple U₁ → CategoryTheory.Simple U₂ →
-        Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) →
-        ∃ g : G, dualSmul g χ₁ = χ₂) ∧
-      -- (iii) Every irreducible representation of A ⋊[φ] G arises as V(χ, U)
-      (∀ (W : FDRep ℂ (A ⋊[φ] G)), CategoryTheory.Simple W →
-        ∃ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
-          CategoryTheory.Simple U ∧ Nonempty (W ≅ V χ U)) ∧
-      -- (iv) Character formula
-      (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
-        CategoryTheory.Simple U →
-        ∀ (a : A) (g : G),
-          (V χ U).character ⟨a, g⟩ =
-            (Fintype.card ↥(stab χ) : ℂ)⁻¹ *
-              ∑ h : G, if hh : h * g * h⁻¹ ∈ stab χ
-                then (χ ((φ h : MulAut A) a) : ℂ) *
-                  U.character ⟨h * g * h⁻¹, hh⟩
-                else 0) := by
-  -- Provide the dual action, stabilizer, and induced representation constructions
-  refine ⟨dualSmulAux φ, fun g χ a => rfl, stabAux φ, fun χ g => Iff.rfl, ?_⟩
-  -- Use the concrete induced representation V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
-  refine ⟨fun χ U => inducedRepV φ χ U, ?_, ?_, ?_, ?_⟩
-  -- (i) Irreducibility: V(χ, U) is irreducible when U is irreducible
-  · exact fun χ U hU => inducedRepV_simple φ χ U hU
-  -- (ii) Orbit injectivity: iso implies same G-orbit
-  · exact fun χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso =>
-      inducedRepV_orbit_injectivity φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
-  -- (iii) Completeness: every irrep arises as some V(χ, U)
-  · exact fun W hW => inducedRepV_completeness φ W hW
-  -- (iv) Character formula
-  · intro χ U _hU a g
-    classical
-    change (LinearMap.trace ℂ ((G ⧸ stabAux φ χ) → ↥U))
-        ((inducedRepV φ χ U).ρ ⟨a, g⟩) = _
-    -- The action has twisted permutation form: T f q = L q (f (σ q))
-    have hTwist : ∀ (f : G ⧸ stabAux φ χ → ↥U) (q : G ⧸ stabAux φ χ),
-        (inducedRepV φ χ U).ρ ⟨a, g⟩ f q =
-        (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) •
-          FDRep.ρ U ⟨q.out⁻¹ * g * (g⁻¹ • q).out,
-            transition_mem_stab φ χ g q⟩)
-        (f (g⁻¹ • q)) := fun f q => rfl
-    have step1 := trace_twisted_permutation (g⁻¹ • ·)
-      (fun q => ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) •
-        FDRep.ρ U ⟨q.out⁻¹ * g * (g⁻¹ • q).out,
-          transition_mem_stab φ χ g q⟩) _ hTwist
-    rw [step1]
-    -- Goal: ∑ q, if g⁻¹•q = q then trace(c•ρ(s)) else 0
-    --     = |H|⁻¹ * ∑ h:G, if h*g*h⁻¹ ∈ H then χ(φ(h)a) * char(h*g*h⁻¹) else 0
-    -- Define the per-element function f on G
-    -- f(h) = if h*g*h⁻¹ ∈ H then χ(φ(h)(a)) * U.character ⟨h*g*h⁻¹, _⟩ else 0
-    -- Strategy: show both sides equal ∑ q, f(q.out⁻¹)
-    -- Step 2: Both sides equal ∑ q, F(q)
-    -- Use trans to go through an intermediate form
-    -- LHS → intermediate: coset_fixed_iff + trace linearity
-    -- intermediate → RHS: fiber sum decomposition
-    trans (∑ q : G ⧸ stabAux φ χ,
-      if hq : q.out⁻¹ * g * q.out ∈ stabAux φ χ then
-        ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) *
-          U.character ⟨q.out⁻¹ * g * q.out, hq⟩
-      else 0)
-    · -- LHS = intermediate
-      apply Finset.sum_congr rfl
-      intro q _
-      by_cases hq : q.out⁻¹ * g * q.out ∈ stabAux φ χ
-      · have hfixed : g⁻¹ • q = q := (coset_fixed_iff _ g q).mpr hq
-        have hout : (g⁻¹ • q).out = q.out := congrArg Quotient.out hfixed
-        simp only [hfixed, ite_true, dif_pos hq, map_smul, smul_eq_mul, FDRep.character]
-      · have hnotfixed : g⁻¹ • q ≠ q :=
-          fun h => hq ((coset_fixed_iff _ g q).mp h)
-        simp [hnotfixed, dif_neg hq]
-    · -- Need: ∑ q F(q) = |H|⁻¹ * ∑ h f(h)
-      -- Equivalently: ∑ h f(h) = |H| * ∑ q F(q)
-      -- where F(q) = f(q.out⁻¹) with f(h) = if hgh⁻¹∈H then χ(φ(h)a)*char(hgh⁻¹) else 0
-      -- Step 1: Show ∑ q, F(q) = ∑ q, f(q.out⁻¹)
-      -- Step 2: ∑ h, f(h) = ∑ h, f(h⁻¹) (involution)
-      -- Step 3: f∘inv is right-H-invariant
-      -- Step 4: ∑ h, (f∘inv)(h) = |H| * ∑ q, (f∘inv)(q.out) = |H| * ∑ q, f(q.out⁻¹)
-      -- Suffices to show |H| * ∑ q F(q) = ∑ h f(h), then multiply by |H|⁻¹
-      rw [eq_comm, inv_mul_eq_div, div_eq_iff]
-      · -- Need: ∑ h, f(h) = (∑ q, F(q)) * |H|
-        -- Proof outline:
-        -- (A) f is left-H-invariant: f(sh) = f(h) for s ∈ H
-        --     because (sh)g(sh)⁻¹ = s(hgh⁻¹)s⁻¹ ∈ H ↔ hgh⁻¹ ∈ H,
-        --     χ(φ(sh)(a)) = χ(φ(h)(a)) by stab_char_inv,
-        --     char(sts⁻¹) = char(t) by FDRep.char_mul_comm
-        -- (B) ∑ h, f(h) = ∑ h, f(h⁻¹) by Equiv.sum_comp (MulEquiv.inv G)
-        -- (C) g := f∘inv is right-H-invariant (from A)
-        -- (D) ∑ h, g(h) = |H| * ∑ q, g(q.out) by groupEquivQuotientProdSubgroup
-        -- (E) g(q.out) = f(q.out⁻¹) = F(q) since q.out⁻¹*g*(q.out⁻¹)⁻¹ = q.out⁻¹*g*q.out
-        -- Define g(h) = the "inverted" summand, which is right-H-invariant
-        -- g(h) = if h⁻¹*g*h ∈ H then χ(φ(h⁻¹)(a))*char(h⁻¹*g*h) else 0
-        -- Note: h⁻¹*g*(h⁻¹)⁻¹ = h⁻¹*g*h, so g(h) = f(h⁻¹) where f is the original
-        -- ∑ h, f(h) = ∑ h, g(h) by reindexing
-        -- g is right-H-invariant ⟹ ∑ h, g(h) = |H| * ∑ q, g(q.out) = |H| * ∑ q, F(q)
-        let H := stabAux φ χ
-        -- Define g directly to avoid `set`/`dif` issues
-        let gfun : G → ℂ := fun h =>
-          if hh : h⁻¹ * g * h ∈ H then
-            ((χ ((φ h⁻¹ : MulAut A) a) : ℂˣ) : ℂ) *
-              U.character ⟨h⁻¹ * g * h, hh⟩
-          else 0
-        -- Step 1: ∑ h, (original summand) = ∑ h, gfun h (by h ↦ h⁻¹)
-        have sum_reindex : (∑ h : G, (if hh : h * g * h⁻¹ ∈ H then
-              ((χ ((φ h : MulAut A) a) : ℂˣ) : ℂ) *
-                U.character ⟨h * g * h⁻¹, hh⟩
-            else 0)) = ∑ h : G, gfun h := by
-          apply Fintype.sum_equiv (Equiv.inv G)
-          intro h; simp only [Equiv.inv_apply, gfun, inv_inv]
-        -- Step 2: gfun is right-H-invariant
-        have gfun_right_inv : ∀ (h : G) (s : ↥H), gfun (h * ↑s) = gfun h := by
-          intro h s; simp only [gfun]
-          -- (h*s)⁻¹ * g * (h*s) = s⁻¹ * (h⁻¹ * g * h) * s
-          have heq : (h * ↑s)⁻¹ * g * (h * ↑s) = (↑s)⁻¹ * (h⁻¹ * g * h) * ↑s := by group
-          -- H-membership equivalence under conjugation
-          have hmem_iff : (h * ↑s)⁻¹ * g * (h * ↑s) ∈ H ↔ h⁻¹ * g * h ∈ H := by
-            rw [heq]
-            constructor
-            · intro ht
-              have h1 := H.mul_mem (H.mul_mem s.2 ht) (H.inv_mem s.2)
-              rwa [show ↑s * ((↑s)⁻¹ * (h⁻¹ * g * h) * ↑s) *
-                (↑s)⁻¹ = h⁻¹ * g * h from by group] at h1
-            · exact fun ht =>
-                H.mul_mem (H.mul_mem (H.inv_mem s.2) ht) s.2
-          by_cases hmem : h⁻¹ * g * h ∈ H
-          · rw [dif_pos hmem, dif_pos (hmem_iff.mpr hmem)]
-            congr 1
-            · -- χ part: χ(φ((h*s)⁻¹)(a)) = χ(φ(h⁻¹)(a))
-              -- (h*s)⁻¹ = s⁻¹*h⁻¹, so φ((h*s)⁻¹)(a) = φ(s⁻¹)(φ(h⁻¹)(a))
-              -- Then χ(φ(s⁻¹)(x)) = χ(x) by stab_char_inv since s⁻¹ ∈ H
-              congr 1
-              rw [mul_inv_rev, map_mul, MulAut.mul_apply]
-              exact stab_char_inv φ χ (H.inv_mem s.2) _
-            · -- character part: char(s⁻¹*(h⁻¹*g*h)*s) = char(h⁻¹*g*h)
-              -- Rewrite the subtype element as a conjugate
-              have key : (⟨(h * ↑s)⁻¹ * g * (h * ↑s), hmem_iff.mpr hmem⟩ : ↥H) =
-                  ⟨(↑s)⁻¹, H.inv_mem s.2⟩ * ⟨h⁻¹ * g * h, hmem⟩ *
-                    ⟨(↑s)⁻¹, H.inv_mem s.2⟩⁻¹ := by
-                ext; simp [Subgroup.coe_mul]; group
-              rw [key]
-              exact FDRep.char_conj U ⟨h⁻¹ * g * h, hmem⟩ ⟨(↑s)⁻¹, H.inv_mem s.2⟩
-          · rw [dif_neg hmem, dif_neg (hmem_iff.not.mpr hmem)]
-        -- Step 3: decompose ∑ h, gfun h = |H| * ∑ q, gfun q.out
-        have sum_decomp := sum_right_invariant_eq H gfun gfun_right_inv
-        -- Step 4: gfun(q.out) = F(q) since q.out⁻¹ * g * q.out matches
-        rw [mul_comm, sum_reindex, sum_decomp]
-      · -- Need: |H| ≠ 0
-        exact Nat.cast_ne_zero.mpr (Fintype.card_pos.ne')
-
 /-!
 ## Base-point independence of the little-group construction
 
@@ -2082,3 +1905,451 @@ theorem Etingof.inducedRepV_basepoint_independent {G A : Type} [Group G] [CommGr
     show (baseChangeEquiv φ hg U) ((inducedRepV φ χ₂ (transportRep φ hg U)).ρ x v)
         = (inducedRepV φ χ₁ U).ρ x ((baseChangeEquiv φ hg U) v)
     exact baseChange_comm φ hg U x v)⟩
+
+-- ===========================================================================
+-- (ii)(b): at a *fixed* character χ, the induced representation V(χ, U) determines
+-- the inducing representation U up to isomorphism.  This is the "U is determined by
+-- V_x as a G_x-module" half of Etingof Theorem 5.27.1(ii): an isomorphism of the
+-- induced representations restricts to an isomorphism of their χ-weight spaces, each
+-- of which is U (resp. U') sitting at the base coset of the identity.
+-- ===========================================================================
+
+-- The base coset of the identity has a representative lying in the stabilizer.
+private lemma base_coset_out_mem {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) :
+    (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out ∈ stabAux φ χ := by
+  have h := QuotientGroup.leftRel_apply.mp
+    (Quotient.exact' (QuotientGroup.out_eq' (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)))
+  simpa using (stabAux φ χ).inv_mem h
+
+-- The base coset has character χ: χ(φ(q₀.out⁻¹)(a)) = χ(a).
+private lemma base_coset_char {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) (a : A) :
+    (χ ((φ (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ : MulAut A) a) : ℂˣ) = χ a := by
+  have hmem : dualSmulAux φ (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out χ = χ :=
+    base_coset_out_mem φ χ
+  have := DFunLike.ext_iff.mp hmem a
+  simpa [dualSmulAux, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom] using this
+
+-- Any stabilizer element fixes the base coset of the identity.
+private lemma stab_smul_base {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) {g : G} (hg : g ∈ stabAux φ χ) :
+    g • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = QuotientGroup.mk (1 : G) := by
+  rw [MulAction.Quotient.smul_mk, smul_eq_mul, mul_one]
+  exact Quotient.sound' (QuotientGroup.leftRel_apply.mpr (by
+    simpa using (stabAux φ χ).inv_mem hg))
+
+-- The conjugate of a stabilizer element by the base representative stays in the stabilizer.
+private lemma base_conj_mem {G A : Type} [Group G] [CommGroup A]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) {s : G} (hs : s ∈ stabAux φ χ) :
+    (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
+        (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out ∈ stabAux φ χ :=
+  (stabAux φ χ).mul_mem
+    ((stabAux φ χ).mul_mem ((stabAux φ χ).inv_mem (base_coset_out_mem φ χ)) hs)
+    (base_coset_out_mem φ χ)
+
+-- W3: the G-action of a stabilizer element on the base-supported function.
+open Classical in
+private lemma single_base_G_action {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stabAux φ χ))
+    {s : G} (hs : s ∈ stabAux φ χ) (u : ↥U) :
+    (inducedRepV φ χ U).ρ ⟨1, s⟩ (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)
+      = Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+          (FDRep.ρ U ⟨(QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
+            (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out, base_conj_mem φ χ hs⟩ u) := by
+  classical
+  funext q
+  rw [inducedRepV_G_apply]
+  by_cases hq : q = (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+  · subst hq
+    have hsmul : s⁻¹ • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+        = QuotientGroup.mk (1 : G) := stab_smul_base φ χ ((stabAux φ χ).inv_mem hs)
+    rw [Pi.single_eq_same]
+    have harg : (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u :
+        (G ⧸ stabAux φ χ) → ↥U)
+        (s⁻¹ • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)) = u := by
+      rw [hsmul, Pi.single_eq_same]
+    exact rho_congr φ U (by
+      show (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
+          (s⁻¹ • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)).out
+        = (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out⁻¹ * s *
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out
+      rw [hsmul]) harg
+  · have hne : s⁻¹ • q ≠ (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) := by
+      intro h
+      apply hq
+      have hq' : q = s • (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) := by
+        rw [← h, smul_inv_smul]
+      rw [hq', stab_smul_base φ χ hs]
+    rw [Pi.single_eq_of_ne hne, map_zero, Pi.single_eq_of_ne hq]
+
+-- The fixed-character U-determination: V(χ, U) ≅ V(χ, U') gives U ≅ U'.
+open Classical in
+private noncomputable def inducedRepV_U_iso {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) (U U' : FDRep ℂ ↥(stabAux φ χ))
+    (e : inducedRepV φ χ U ≅ inducedRepV φ χ U') : U ≅ U' := by
+  classical
+  set c : G := (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ).out with hc
+  have hc_mem : c ∈ stabAux φ χ := base_coset_out_mem φ χ
+  set T := FDRep.isoToLinearEquiv e with hTdef
+  have hT_comm : ∀ (ag : A ⋊[φ] G) (f : (G ⧸ stabAux φ χ) → ↥U),
+      T ((inducedRepV φ χ U).ρ ag f) = (inducedRepV φ χ U').ρ ag (T f) := by
+    intro ag f
+    have h := FDRep.Iso.conj_ρ e ag
+    show T (((inducedRepV φ χ U).ρ ag) f) = ((inducedRepV φ χ U').ρ ag) (T f)
+    simp only [h, LinearEquiv.conj_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
+    change T (((inducedRepV φ χ U).ρ ag) f)
+      = T (((inducedRepV φ χ U).ρ ag) (T.symm (T f)))
+    rw [LinearEquiv.symm_apply_apply]
+  -- the A-eigen equation for the base-supported function (function-typed f₀)
+  have hEig : ∀ (V : FDRep ℂ ↥(stabAux φ χ)) (w : ↥V) (a : A),
+      (inducedRepV φ χ V).ρ ⟨a, 1⟩
+          (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) w)
+        = ((χ a : ℂˣ) : ℂ) •
+          (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) w :
+            (G ⧸ stabAux φ χ) → ↥V) := by
+    intro V w a
+    funext q
+    rw [A_action_scalar φ χ V a _ q, Pi.smul_apply]
+    by_cases hq : q = (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+    · subst hq; rw [Pi.single_eq_same, base_coset_char]
+    · rw [Pi.single_eq_of_ne hq, smul_zero, smul_zero]
+  -- T (base-supported) is again base-supported
+  have hSF : ∀ (u : ↥U) (q : G ⧸ stabAux φ χ),
+      q ≠ (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) →
+      (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) q = 0 := by
+    intro u q hq
+    have hEig' : ∀ a, (inducedRepV φ χ U').ρ ⟨a, 1⟩
+        (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+        = ((χ a : ℂˣ) : ℂ) •
+          (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) := by
+      intro a
+      have hcomm := hT_comm ⟨a, 1⟩ (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)
+      rw [hEig U u a, map_smul] at hcomm
+      exact hcomm.symm
+    obtain ⟨a, ha⟩ := coset_char_witness φ χ
+      (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) q (Ne.symm hq)
+    rw [base_coset_char] at ha
+    have hco := congr_fun (hEig' a) q
+    rw [A_action_scalar φ χ U' a _ q, Pi.smul_apply] at hco
+    have hsub : (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) - ((χ a : ℂˣ) : ℂ)) •
+        (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) q = 0 := by
+      rw [sub_smul, sub_eq_zero]; exact hco
+    rcases smul_eq_zero.mp hsub with h | h
+    · exfalso; apply ha; symm; exact_mod_cast sub_eq_zero.mp h
+    · exact h
+  have hSF' : ∀ (u : ↥U') (q : G ⧸ stabAux φ χ),
+      q ≠ (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) →
+      (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) q = 0 := by
+    intro u q hq
+    have hT_comm_symm : ∀ (ag : A ⋊[φ] G) (f : (G ⧸ stabAux φ χ) → ↥U'),
+        (inducedRepV φ χ U).ρ ag (T.symm f) = T.symm ((inducedRepV φ χ U').ρ ag f) := by
+      intro ag f
+      have := hT_comm ag (T.symm f)
+      rw [LinearEquiv.apply_symm_apply] at this
+      rw [← this, LinearEquiv.symm_apply_apply]
+    have hEig' : ∀ a, (inducedRepV φ χ U).ρ ⟨a, 1⟩
+        (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+        = ((χ a : ℂˣ) : ℂ) •
+          (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) := by
+      intro a
+      rw [hT_comm_symm, hEig U' u a, map_smul]
+    obtain ⟨a, ha⟩ := coset_char_witness φ χ
+      (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) q (Ne.symm hq)
+    rw [base_coset_char] at ha
+    have hco := congr_fun (hEig' a) q
+    rw [A_action_scalar φ χ U a _ q, Pi.smul_apply] at hco
+    have hsub : (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) - ((χ a : ℂˣ) : ℂ)) •
+        (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)) q = 0 := by
+      rw [sub_smul, sub_eq_zero]; exact hco
+    rcases smul_eq_zero.mp hsub with h | h
+    · exfalso; apply ha; symm; exact_mod_cast sub_eq_zero.mp h
+    · exact h
+  -- reconstruction of the full function from its base value
+  have hSFeq : ∀ u : ↥U,
+      T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)
+        = Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+            ((T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+              (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)) := by
+    intro u; funext q
+    by_cases hq : q = (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+    · subst hq; rw [Pi.single_eq_same]
+    · rw [Pi.single_eq_of_ne hq]; exact hSF u q hq
+  have hSFeq' : ∀ u : ↥U',
+      T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u)
+        = Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+            ((T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+              (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)) := by
+    intro u; funext q
+    by_cases hq : q = (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+    · subst hq; rw [Pi.single_eq_same]
+    · rw [Pi.single_eq_of_ne hq]; exact hSF' u q hq
+  -- linearity of the base-evaluation map
+  have hF_add : ∀ x y : ↥U,
+      (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (x + y)))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+      = (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) x))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+        + (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) y))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) := by
+    intro x y; simp only [Pi.single_add, map_add]; rfl
+  have hF_smul : ∀ (r : ℂ) (x : ↥U),
+      (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (r • x)))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+      = r • (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) x))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) := by
+    intro r x; simp only [Pi.single_smul, map_smul]; rfl
+  let eU : ↥U ≃ₗ[ℂ] ↥U' :=
+    { toFun := fun u => (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+        (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+      map_add' := hF_add
+      map_smul' := hF_smul
+      invFun := fun u => (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+        (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+      left_inv := by
+        intro u
+        show (T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+          ((T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+            (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ))))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = u
+        rw [← hSFeq u, LinearEquiv.symm_apply_apply, Pi.single_eq_same]
+      right_inv := by
+        intro u
+        show (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ)
+          ((T.symm (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+            (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ))))
+          (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = u
+        rw [← hSFeq' u, LinearEquiv.apply_symm_apply, Pi.single_eq_same] }
+  -- equivariance of eU
+  have hEquiv : ∀ (s : ↥(stabAux φ χ)) (u : ↥U),
+      eU (FDRep.ρ U s u) = FDRep.ρ U' s (eU u) := by
+    intro s u
+    have hcs_mem : c * (s : G) * c⁻¹ ∈ stabAux φ χ :=
+      (stabAux φ χ).mul_mem ((stabAux φ χ).mul_mem hc_mem s.2) ((stabAux φ χ).inv_mem hc_mem)
+    have hEQ : ∀ (V : FDRep ℂ ↥(stabAux φ χ)) (w : ↥V),
+        Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (FDRep.ρ V s w)
+          = (inducedRepV φ χ V).ρ ⟨1, c * (s : G) * c⁻¹⟩
+              (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) w) := by
+      intro V w
+      rw [single_base_G_action φ χ V hcs_mem w]
+      congr 1
+      exact (rho_congr φ V (by simp only [hc]; group) rfl).symm
+    set w : ↥U' := (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) u))
+      (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) with hw
+    show (T (Pi.single (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) (FDRep.ρ U s u)))
+        (QuotientGroup.mk (1 : G) : G ⧸ stabAux φ χ) = FDRep.ρ U' s w
+    rw [hEQ U u, hT_comm, hSFeq u, ← hEQ U' w, Pi.single_eq_same]
+  exact Action.mkIso eU.toFGModuleCatIso (fun s => by
+    refine FGModuleCat.hom_ext (LinearMap.ext (fun u => ?_))
+    show eU (FDRep.ρ U s u) = FDRep.ρ U' s (eU u)
+    exact hEquiv s u)
+
+-- (ii) full classification: V(χ₁, U₁) ≅ V(χ₂, U₂) implies there is g with χ₂ = g · χ₁
+-- AND U₂ is isomorphic to the transport g(U₁) of U₁ to the stabilizer of χ₂.
+private lemma inducedRepV_orbit_classification {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ₁ χ₂ : A →* ℂˣ)
+    (U₁ : FDRep ℂ ↥(stabAux φ χ₁)) (U₂ : FDRep ℂ ↥(stabAux φ χ₂))
+    (hU₁ : CategoryTheory.Simple U₁) (hU₂ : CategoryTheory.Simple U₂)
+    (hiso : Nonempty (inducedRepV φ χ₁ U₁ ≅ inducedRepV φ χ₂ U₂)) :
+    ∃ (g : G) (hg : dualSmulAux φ g χ₁ = χ₂),
+      Nonempty (U₂ ≅ transportRep φ hg U₁) := by
+  obtain ⟨g, hg⟩ := inducedRepV_orbit_injectivity φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
+  refine ⟨g, hg, ?_⟩
+  obtain ⟨e⟩ := hiso
+  obtain ⟨e0⟩ := Etingof.inducedRepV_basepoint_independent φ hg U₁
+  -- e0 : V(χ₂, g(U₁)) ≅ V(χ₁, U₁); compose with e to land at V(χ₂, U₂)
+  have e1 : inducedRepV φ χ₂ (transportRep φ hg U₁) ≅ inducedRepV φ χ₂ U₂ := e0.trans e
+  exact ⟨(inducedRepV_U_iso φ χ₂ (transportRep φ hg U₁) U₂ e1).symm⟩
+
+
+
+
+
+
+open Classical in
+/-- Classification of irreducible representations of semidirect products G ⋉ A
+via the orbit method: they are parametrized by pairs (O, U) where O is a
+G-orbit on the character group Â and U is an irreducible representation of
+the stabilizer G_χ for a representative χ ∈ O.
+
+The statement asserts the existence of:
+- A dual G-action on Â = (A →* ℂˣ) given by (g · χ)(a) = χ(φ(g⁻¹)(a))
+- For each χ, a stabilizer subgroup G_χ ≤ G
+- A construction V(χ, U) producing a representation of A ⋊[φ] G
+- A transport g(U) of a stabilizer representation along an orbit element
+
+satisfying irreducibility, pairwise non-isomorphism (an isomorphism
+V(χ₁, U₁) ≅ V(χ₂, U₂) forces both that χ₂ = g · χ₁ for some g and that
+U₂ ≅ g(U₁)), surjectivity onto all irreducibles, and the explicit character
+formula. (Etingof Theorem 5.27.1) -/
+theorem Etingof.Theorem5_27_1
+    (G A : Type) [Group G] [CommGroup A] [Fintype G] [Fintype A]
+    (φ : G →* MulAut A) :
+    ∃ (-- The dual G-action on Â: (g · χ)(a) = χ(φ(g⁻¹)(a))
+       dualSmul : G → (A →* ℂˣ) → (A →* ℂˣ))
+      (_ : ∀ g χ a, dualSmul g χ a = χ ((φ g⁻¹ : MulAut A) a))
+      (-- Stabilizer G_χ = {g ∈ G | g · χ = χ}
+       stab : (A →* ℂˣ) → Subgroup G)
+      (_ : ∀ χ g, g ∈ stab χ ↔ dualSmul g χ = χ)
+      (-- The construction V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
+       V : (χ : A →* ℂˣ) → FDRep ℂ ↥(stab χ) → FDRep ℂ (A ⋊[φ] G))
+      (-- Transport of a stabilizer representation along an orbit element: g(U) is U
+       -- pulled back through the conjugation isomorphism G_{χ₂} ≅ G_{χ₁}
+       transport : (g : G) → (χ₁ χ₂ : A →* ℂˣ) → dualSmul g χ₁ = χ₂ →
+         FDRep ℂ ↥(stab χ₁) → FDRep ℂ ↥(stab χ₂)),
+      -- (i) V(χ, U) is irreducible when U is irreducible
+      (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
+        CategoryTheory.Simple U → CategoryTheory.Simple (V χ U)) ∧
+      -- (ii) The V(χ, U) are pairwise nonisomorphic: V(χ₁, U₁) ≅ V(χ₂, U₂) forces both
+      -- that χ₁ and χ₂ lie in the same G-orbit (∃ g, χ₂ = g · χ₁) and that, after
+      -- transporting U₁ to the stabilizer of χ₂ via that orbit element, U₂ ≅ g(U₁).
+      (∀ (χ₁ χ₂ : A →* ℂˣ)
+        (U₁ : FDRep ℂ ↥(stab χ₁)) (U₂ : FDRep ℂ ↥(stab χ₂)),
+        CategoryTheory.Simple U₁ → CategoryTheory.Simple U₂ →
+        Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) →
+        ∃ (g : G) (hg : dualSmul g χ₁ = χ₂),
+          Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁)) ∧
+      -- (iii) Every irreducible representation of A ⋊[φ] G arises as V(χ, U)
+      (∀ (W : FDRep ℂ (A ⋊[φ] G)), CategoryTheory.Simple W →
+        ∃ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
+          CategoryTheory.Simple U ∧ Nonempty (W ≅ V χ U)) ∧
+      -- (iv) Character formula
+      (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
+        CategoryTheory.Simple U →
+        ∀ (a : A) (g : G),
+          (V χ U).character ⟨a, g⟩ =
+            (Fintype.card ↥(stab χ) : ℂ)⁻¹ *
+              ∑ h : G, if hh : h * g * h⁻¹ ∈ stab χ
+                then (χ ((φ h : MulAut A) a) : ℂ) *
+                  U.character ⟨h * g * h⁻¹, hh⟩
+                else 0) := by
+  -- Provide the dual action, stabilizer, and induced representation constructions
+  refine ⟨dualSmulAux φ, fun g χ a => rfl, stabAux φ, fun χ g => Iff.rfl, ?_⟩
+  -- Use the concrete induced representation V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
+  refine ⟨fun χ U => inducedRepV φ χ U,
+    fun _ _ _ hg U₁ => transportRep φ hg U₁, ?_, ?_, ?_, ?_⟩
+  -- (i) Irreducibility: V(χ, U) is irreducible when U is irreducible
+  · exact fun χ U hU => inducedRepV_simple φ χ U hU
+  -- (ii) Classification: iso forces same G-orbit and isomorphic transported U-component
+  · exact fun χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso =>
+      inducedRepV_orbit_classification φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
+  -- (iii) Completeness: every irrep arises as some V(χ, U)
+  · exact fun W hW => inducedRepV_completeness φ W hW
+  -- (iv) Character formula
+  · intro χ U _hU a g
+    classical
+    change (LinearMap.trace ℂ ((G ⧸ stabAux φ χ) → ↥U))
+        ((inducedRepV φ χ U).ρ ⟨a, g⟩) = _
+    -- The action has twisted permutation form: T f q = L q (f (σ q))
+    have hTwist : ∀ (f : G ⧸ stabAux φ χ → ↥U) (q : G ⧸ stabAux φ χ),
+        (inducedRepV φ χ U).ρ ⟨a, g⟩ f q =
+        (((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) •
+          FDRep.ρ U ⟨q.out⁻¹ * g * (g⁻¹ • q).out,
+            transition_mem_stab φ χ g q⟩)
+        (f (g⁻¹ • q)) := fun f q => rfl
+    have step1 := trace_twisted_permutation (g⁻¹ • ·)
+      (fun q => ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) •
+        FDRep.ρ U ⟨q.out⁻¹ * g * (g⁻¹ • q).out,
+          transition_mem_stab φ χ g q⟩) _ hTwist
+    rw [step1]
+    -- Goal: ∑ q, if g⁻¹•q = q then trace(c•ρ(s)) else 0
+    --     = |H|⁻¹ * ∑ h:G, if h*g*h⁻¹ ∈ H then χ(φ(h)a) * char(h*g*h⁻¹) else 0
+    -- Define the per-element function f on G
+    -- f(h) = if h*g*h⁻¹ ∈ H then χ(φ(h)(a)) * U.character ⟨h*g*h⁻¹, _⟩ else 0
+    -- Strategy: show both sides equal ∑ q, f(q.out⁻¹)
+    -- Step 2: Both sides equal ∑ q, F(q)
+    -- Use trans to go through an intermediate form
+    -- LHS → intermediate: coset_fixed_iff + trace linearity
+    -- intermediate → RHS: fiber sum decomposition
+    trans (∑ q : G ⧸ stabAux φ χ,
+      if hq : q.out⁻¹ * g * q.out ∈ stabAux φ χ then
+        ((χ ((φ q.out⁻¹ : MulAut A) a) : ℂˣ) : ℂ) *
+          U.character ⟨q.out⁻¹ * g * q.out, hq⟩
+      else 0)
+    · -- LHS = intermediate
+      apply Finset.sum_congr rfl
+      intro q _
+      by_cases hq : q.out⁻¹ * g * q.out ∈ stabAux φ χ
+      · have hfixed : g⁻¹ • q = q := (coset_fixed_iff _ g q).mpr hq
+        have hout : (g⁻¹ • q).out = q.out := congrArg Quotient.out hfixed
+        simp only [hfixed, ite_true, dif_pos hq, map_smul, smul_eq_mul, FDRep.character]
+      · have hnotfixed : g⁻¹ • q ≠ q :=
+          fun h => hq ((coset_fixed_iff _ g q).mp h)
+        simp [hnotfixed, dif_neg hq]
+    · -- Need: ∑ q F(q) = |H|⁻¹ * ∑ h f(h)
+      -- Equivalently: ∑ h f(h) = |H| * ∑ q F(q)
+      -- where F(q) = f(q.out⁻¹) with f(h) = if hgh⁻¹∈H then χ(φ(h)a)*char(hgh⁻¹) else 0
+      -- Step 1: Show ∑ q, F(q) = ∑ q, f(q.out⁻¹)
+      -- Step 2: ∑ h, f(h) = ∑ h, f(h⁻¹) (involution)
+      -- Step 3: f∘inv is right-H-invariant
+      -- Step 4: ∑ h, (f∘inv)(h) = |H| * ∑ q, (f∘inv)(q.out) = |H| * ∑ q, f(q.out⁻¹)
+      -- Suffices to show |H| * ∑ q F(q) = ∑ h f(h), then multiply by |H|⁻¹
+      rw [eq_comm, inv_mul_eq_div, div_eq_iff]
+      · -- Need: ∑ h, f(h) = (∑ q, F(q)) * |H|
+        -- Proof outline:
+        -- (A) f is left-H-invariant: f(sh) = f(h) for s ∈ H
+        --     because (sh)g(sh)⁻¹ = s(hgh⁻¹)s⁻¹ ∈ H ↔ hgh⁻¹ ∈ H,
+        --     χ(φ(sh)(a)) = χ(φ(h)(a)) by stab_char_inv,
+        --     char(sts⁻¹) = char(t) by FDRep.char_mul_comm
+        -- (B) ∑ h, f(h) = ∑ h, f(h⁻¹) by Equiv.sum_comp (MulEquiv.inv G)
+        -- (C) g := f∘inv is right-H-invariant (from A)
+        -- (D) ∑ h, g(h) = |H| * ∑ q, g(q.out) by groupEquivQuotientProdSubgroup
+        -- (E) g(q.out) = f(q.out⁻¹) = F(q) since q.out⁻¹*g*(q.out⁻¹)⁻¹ = q.out⁻¹*g*q.out
+        -- Define g(h) = the "inverted" summand, which is right-H-invariant
+        -- g(h) = if h⁻¹*g*h ∈ H then χ(φ(h⁻¹)(a))*char(h⁻¹*g*h) else 0
+        -- Note: h⁻¹*g*(h⁻¹)⁻¹ = h⁻¹*g*h, so g(h) = f(h⁻¹) where f is the original
+        -- ∑ h, f(h) = ∑ h, g(h) by reindexing
+        -- g is right-H-invariant ⟹ ∑ h, g(h) = |H| * ∑ q, g(q.out) = |H| * ∑ q, F(q)
+        let H := stabAux φ χ
+        -- Define g directly to avoid `set`/`dif` issues
+        let gfun : G → ℂ := fun h =>
+          if hh : h⁻¹ * g * h ∈ H then
+            ((χ ((φ h⁻¹ : MulAut A) a) : ℂˣ) : ℂ) *
+              U.character ⟨h⁻¹ * g * h, hh⟩
+          else 0
+        -- Step 1: ∑ h, (original summand) = ∑ h, gfun h (by h ↦ h⁻¹)
+        have sum_reindex : (∑ h : G, (if hh : h * g * h⁻¹ ∈ H then
+              ((χ ((φ h : MulAut A) a) : ℂˣ) : ℂ) *
+                U.character ⟨h * g * h⁻¹, hh⟩
+            else 0)) = ∑ h : G, gfun h := by
+          apply Fintype.sum_equiv (Equiv.inv G)
+          intro h; simp only [Equiv.inv_apply, gfun, inv_inv]
+        -- Step 2: gfun is right-H-invariant
+        have gfun_right_inv : ∀ (h : G) (s : ↥H), gfun (h * ↑s) = gfun h := by
+          intro h s; simp only [gfun]
+          -- (h*s)⁻¹ * g * (h*s) = s⁻¹ * (h⁻¹ * g * h) * s
+          have heq : (h * ↑s)⁻¹ * g * (h * ↑s) = (↑s)⁻¹ * (h⁻¹ * g * h) * ↑s := by group
+          -- H-membership equivalence under conjugation
+          have hmem_iff : (h * ↑s)⁻¹ * g * (h * ↑s) ∈ H ↔ h⁻¹ * g * h ∈ H := by
+            rw [heq]
+            constructor
+            · intro ht
+              have h1 := H.mul_mem (H.mul_mem s.2 ht) (H.inv_mem s.2)
+              rwa [show ↑s * ((↑s)⁻¹ * (h⁻¹ * g * h) * ↑s) *
+                (↑s)⁻¹ = h⁻¹ * g * h from by group] at h1
+            · exact fun ht =>
+                H.mul_mem (H.mul_mem (H.inv_mem s.2) ht) s.2
+          by_cases hmem : h⁻¹ * g * h ∈ H
+          · rw [dif_pos hmem, dif_pos (hmem_iff.mpr hmem)]
+            congr 1
+            · -- χ part: χ(φ((h*s)⁻¹)(a)) = χ(φ(h⁻¹)(a))
+              -- (h*s)⁻¹ = s⁻¹*h⁻¹, so φ((h*s)⁻¹)(a) = φ(s⁻¹)(φ(h⁻¹)(a))
+              -- Then χ(φ(s⁻¹)(x)) = χ(x) by stab_char_inv since s⁻¹ ∈ H
+              congr 1
+              rw [mul_inv_rev, map_mul, MulAut.mul_apply]
+              exact stab_char_inv φ χ (H.inv_mem s.2) _
+            · -- character part: char(s⁻¹*(h⁻¹*g*h)*s) = char(h⁻¹*g*h)
+              -- Rewrite the subtype element as a conjugate
+              have key : (⟨(h * ↑s)⁻¹ * g * (h * ↑s), hmem_iff.mpr hmem⟩ : ↥H) =
+                  ⟨(↑s)⁻¹, H.inv_mem s.2⟩ * ⟨h⁻¹ * g * h, hmem⟩ *
+                    ⟨(↑s)⁻¹, H.inv_mem s.2⟩⁻¹ := by
+                ext; simp [Subgroup.coe_mul]; group
+              rw [key]
+              exact FDRep.char_conj U ⟨h⁻¹ * g * h, hmem⟩ ⟨(↑s)⁻¹, H.inv_mem s.2⟩
+          · rw [dif_neg hmem, dif_neg (hmem_iff.not.mpr hmem)]
+        -- Step 3: decompose ∑ h, gfun h = |H| * ∑ q, gfun q.out
+        have sum_decomp := sum_right_invariant_eq H gfun gfun_right_inv
+        -- Step 4: gfun(q.out) = F(q) since q.out⁻¹ * g * q.out matches
+        rw [mul_comm, sum_reindex, sum_decomp]
+      · -- Need: |H| ≠ 0
+        exact Nat.cast_ne_zero.mpr (Fintype.card_pos.ne')
