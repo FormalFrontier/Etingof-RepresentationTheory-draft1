@@ -118,4 +118,62 @@ noncomputable def repFun : QuaternionGroup 2 → Matrix (Fin 2) (Fin 2) ℂ
 
 theorem natCast_val (i : ZMod 4) : ((i.val : ℕ) : ZMod 4) = i := ZMod.natCast_rightInverse i
 
+/-- ρ(i)² = ρ(j)², both equal to `-Id`. -/
+theorem rhoJ_sq_eq_rhoI_sq : rhoJ ^ 2 = rhoI ^ 2 := by rw [rhoJ_sq, rhoI_sq]
+
+/-- The conjugation identity that drives the `xa · xa` case:
+`ρ(j)·ρ(i)ᵖ·ρ(j) = ρ(i)²·ρ(i)³ᵖ`. -/
+theorem rhoJ_mul_pow_mul_rhoJ (p : ℕ) :
+    rhoJ * rhoI ^ p * rhoJ = rhoI ^ 2 * rhoI ^ (3 * p) := by
+  rw [mul_assoc, rhoI_pow_mul_rhoJ, ← mul_assoc, ← sq, rhoJ_sq_eq_rhoI_sq]
+
+/-- The 2-dimensional representation `V = ℂ²` of (4.3.1), as a monoid homomorphism
+`Q₈ = QuaternionGroup 2 →* Matrix (Fin 2) (Fin 2) ℂ`. The generator `a 1` (the quaternion
+`i`) maps to ρ(i) and `xa 0` (the quaternion `j`) maps to ρ(j). -/
+noncomputable def rep : QuaternionGroup 2 →* Matrix (Fin 2) (Fin 2) ℂ where
+  toFun := repFun
+  map_one' := by
+    show repFun (a 0) = 1
+    simp only [repFun_a, ZMod.val_zero, pow_zero]
+  map_mul' := by
+    rintro (i | i) (j | j)
+    · -- a i * a j = a (i + j)
+      simp only [a_mul_a, repFun_a, ← pow_add]
+      exact rhoI_pow_congr (by revert i j; decide)
+    · -- a i * xa j = xa (j - i)
+      simp only [a_mul_xa, repFun_a, repFun_xa]
+      rw [← mul_assoc, rhoI_pow_mul_rhoJ, mul_assoc, ← pow_add]
+      congr 1
+      exact rhoI_pow_congr (by revert i j; decide)
+    · -- xa i * a j = xa (i + j)
+      simp only [xa_mul_a, repFun_a, repFun_xa, mul_assoc, ← pow_add]
+      congr 1
+      exact rhoI_pow_congr (by revert i j; decide)
+    · -- xa i * xa j = a (2 + j - i)
+      simp only [xa_mul_xa, repFun_a, repFun_xa]
+      rw [← mul_assoc, rhoJ_mul_pow_mul_rhoJ, mul_assoc, ← pow_add, ← pow_add]
+      exact rhoI_pow_congr (by revert i j; decide)
+
+/-! ### Generator values -/
+
+@[simp] theorem rep_a (i : ZMod 4) : rep (a i) = rhoI ^ i.val := rfl
+@[simp] theorem rep_xa (i : ZMod 4) : rep (xa i) = rhoJ * rhoI ^ i.val := rfl
+
+/-- ρ(i) = the first Pauli matrix, the image of the generator `a 1`. -/
+theorem rep_i : rep (a 1) = rhoI := by
+  rw [rep_a, show ((1 : ZMod (2 * 2)).val) = 1 from rfl, pow_one]
+
+/-- ρ(j) = the second Pauli matrix, the image of the generator `xa 0`. -/
+theorem rep_j : rep (xa 0) = rhoJ := by
+  rw [rep_xa, show ((0 : ZMod (2 * 2)).val) = 0 from rfl, pow_zero, mul_one]
+
+/-- ρ(k) = the third Pauli matrix; `k = ij` corresponds to `a 1 * xa 0 = xa 3`. -/
+theorem rep_k : rep (xa 3) = rhoK := by
+  rw [rep_xa, show ((3 : ZMod (2 * 2)).val) = 3 from rfl, rhoI_pow_three, mul_neg,
+    ← rhoI_mul_rhoJ_anticomm, rhoI_mul_rhoJ]
+
+/-- ρ(-1) = -Id: the central element `-1 = a 2` of Q₈ acts as `-Id`, as in (4.3.1). -/
+theorem rep_neg_one : rep (a 2) = -1 := by
+  rw [rep_a, show ((2 : ZMod (2 * 2)).val) = 2 from rfl]; exact rhoI_sq
+
 end Etingof.Example4_3_Q8
