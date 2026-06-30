@@ -6819,9 +6819,9 @@
     "start_line": 23,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book's Theorem 8.1.5 states three conditions (i)-(iii) are equivalent. The Lean file formalizes (i)↔(ii) and adds Baer's criterion. Condition (iii) — 'the functor Hom_A(?,I) is exact' —",
+    "fidelity_note": "Condition (iii) (exactness of Hom_A(?,I)) now formalized as Etingof.Theorem_8_1_5_i_iff_iii, mirroring Theorem_8_1_1_i_iff_iv. All three book conditions (i)-(iii) present; Baer's criterion retained as a clearly-labelled supplementary result.",
     "fidelity_issue": 5630
   },
   {
