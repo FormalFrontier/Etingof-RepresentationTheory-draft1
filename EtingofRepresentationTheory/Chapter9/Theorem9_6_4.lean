@@ -1,14 +1,17 @@
 import EtingofRepresentationTheory.Chapter9.Definition9_6_1
 import EtingofRepresentationTheory.Chapter9.Definition9_6_2
 import EtingofRepresentationTheory.Chapter9.Definition9_7_1
+import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import Mathlib.CategoryTheory.Preadditive.Yoneda.Basic
 import Mathlib.CategoryTheory.Equivalence
 import Mathlib.CategoryTheory.Generator.Preadditive
 import Mathlib.CategoryTheory.Abelian.Yoneda
 import Mathlib.Algebra.Category.FGModuleCat.Basic
+import Mathlib.Algebra.Algebra.Opposite
+import Mathlib.RingTheory.Finiteness.Basic
 import Mathlib.RingTheory.Noetherian.Basic
 
-universe u v
+universe u v w
 
 /-!
 # Theorem 9.6.4: Morita equivalence theorem
@@ -439,10 +442,39 @@ instance Etingof.IsProgenerator.essSurj_preadditiveCoyonedaObjFG
     inv_hom_id := by apply InducedCategory.hom_ext; ext x; exact full_iso.right_inv x
   }⟩⟩
 
-/-- **Theorem 9.6.4 (Morita equivalence)**: Let 𝒞 be a finite
-abelian category and P a progenerator. Then Hom(P, -) is an equivalence from 𝒞 to
-the category of finitely generated (End P)ᵒᵖ-modules. -/
-theorem Etingof.Theorem_9_6_4
+/-- In a `k`-linear finite abelian category over a field, the opposite endomorphism ring
+`(End P)ᵐᵒᵖ` of any object `P` is a Noetherian ring.
+
+Every `Hom`-space — in particular `End P` — is finite dimensional over `k`
+(`Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom`, the §9.6 "check it!"),
+hence so is `(End P)ᵐᵒᵖ`, and a finite dimensional algebra over a field is Noetherian.
+
+This discharges the `IsNoetherianRing (End P)ᵐᵒᵖ` side condition of the Morita theorem
+`Etingof.Theorem_9_6_4`: the book (Etingof §9.6) assumes only a finite abelian category
+*over a field `k`*, never a separate Noetherian hypothesis, because it is automatic in that
+setting. -/
+theorem Etingof.isNoetherianRing_endOp_of_overField
+    {k : Type w} [Field k] {C : Type u} [Category.{v} C]
+    [Etingof.IsFiniteAbelianCategory C] [Linear k C]
+    [Etingof.IsFiniteAbelianCategoryOverField k C] (P : C) :
+    IsNoetherianRing (End P)ᵐᵒᵖ := by
+  haveI : FiniteDimensional k (End P) :=
+    Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom P P
+  -- `(End P)ᵐᵒᵖ` is finite dimensional over `k` (Mathlib transports finiteness to the
+  -- opposite), hence Noetherian as a `k`-module, hence Noetherian as a ring.
+  haveI : IsNoetherian k (End P)ᵐᵒᵖ := inferInstance
+  exact isNoetherian_of_tower k inferInstance
+
+/-- **Morita equivalence, ring-level engine.** For a progenerator `P` of a finite abelian
+category with `(End P)ᵐᵒᵖ` Noetherian, `Hom(P, -)` is an equivalence onto finitely
+generated `(End P)ᵐᵒᵖ`-modules.
+
+This is strictly more general than the book's Theorem 9.6.4 (`Etingof.Theorem_9_6_4`): it
+needs no `k`-linear structure, only the abstract Noetherian condition that makes the
+essential-surjectivity argument go through. The book's over-a-field hypothesis is recovered
+by `Etingof.Theorem_9_6_4`, which derives the Noetherian instance; the bare ring-level
+development of §9.7 uses this engine directly. -/
+theorem Etingof.Theorem_9_6_4_of_isNoetherian
     {C : Type u} [Category.{v} C]
     [Etingof.IsFiniteAbelianCategory C]
     {P : C} [hp : Etingof.IsProgenerator P]
@@ -462,14 +494,45 @@ theorem Etingof.Theorem_9_6_4
         obtain ⟨g, hg⟩ := hF.map_surjective f.hom
         exact ⟨g, InducedCategory.hom_ext hg⟩ }
 
-/-- **Corollary of Theorem 9.6.4**: Any finite abelian category is equivalent to
-finitely generated modules over some ring. If P is a projective generator, then
-C ≌ (End P)ᵒᵖ-fgmod. (Etingof Theorem 9.6.4, corollary) -/
-theorem Etingof.Theorem_9_6_4_corollary
+/-- **Theorem 9.6.4 (Morita equivalence)**: Let 𝒞 be a `k`-linear finite
+abelian category over a field and P a progenerator. Then Hom(P, -) is an equivalence
+from 𝒞 to the category of finitely generated (End P)ᵒᵖ-modules.
+
+Matching the book, the Noetherian condition on `(End P)ᵐᵒᵖ` is *derived* from the
+over-a-field structure (`Etingof.isNoetherianRing_endOp_of_overField`) rather than carried
+as a separate hypothesis; the work is done by the ring-level engine
+`Etingof.Theorem_9_6_4_of_isNoetherian`. -/
+theorem Etingof.Theorem_9_6_4
+    {k : Type w} [Field k] {C : Type u} [Category.{v} C]
+    [Etingof.IsFiniteAbelianCategory C] [Linear k C]
+    [Etingof.IsFiniteAbelianCategoryOverField k C]
+    {P : C} [hp : Etingof.IsProgenerator P] :
+    hp.preadditiveCoyonedaObjFG.IsEquivalence :=
+  haveI : IsNoetherianRing (End P)ᵐᵒᵖ :=
+    Etingof.isNoetherianRing_endOp_of_overField (k := k) P
+  Etingof.Theorem_9_6_4_of_isNoetherian
+
+/-- **Corollary of the Morita engine** (ring-level): a finite abelian category with a
+progenerator `P` whose `(End P)ᵐᵒᵖ` is Noetherian is equivalent to finitely generated
+`(End P)ᵐᵒᵖ`-modules. Used by the bare ring-level §9.7 development. -/
+theorem Etingof.Theorem_9_6_4_corollary_of_isNoetherian
     (C : Type u) [Category.{v} C]
     [Etingof.IsFiniteAbelianCategory C]
     (P : C) [hp : Etingof.IsProgenerator P]
     [IsNoetherianRing (End P)ᵐᵒᵖ] :
     Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) := by
-  have := @Etingof.Theorem_9_6_4 C _ _ P hp _
+  haveI := Etingof.Theorem_9_6_4_of_isNoetherian (P := P)
   exact ⟨hp.preadditiveCoyonedaObjFG.asEquivalence⟩
+
+/-- **Corollary of Theorem 9.6.4**: Any `k`-linear finite abelian category over a field is
+equivalent to finitely generated modules over some ring. If P is a projective generator,
+then C ≌ (End P)ᵒᵖ-fgmod. (Etingof Theorem 9.6.4, corollary) -/
+theorem Etingof.Theorem_9_6_4_corollary
+    {k : Type w} [Field k] (C : Type u) [Category.{v} C]
+    [Etingof.IsFiniteAbelianCategory C] [Linear k C]
+    [Etingof.IsFiniteAbelianCategoryOverField k C]
+    (P : C) [hp : Etingof.IsProgenerator P] :
+    Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) :=
+  haveI : IsNoetherianRing (End P)ᵐᵒᵖ :=
+    Etingof.isNoetherianRing_endOp_of_overField (k := k) P
+  Etingof.Theorem_9_6_4_corollary_of_isNoetherian C P
