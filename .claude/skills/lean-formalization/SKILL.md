@@ -184,6 +184,10 @@ In endgame, **decomposing a hard sorry into 2-4 smaller sorries is often more va
 
 **Evidence:** Problem6_1_5_theorem (1→0), Theorem2_1_2 (1→2 smaller), InfiniteTypeConstructions (0→4 targeted), PolytabloidBasis (3→0 via restructure) — all used decomposition as the winning strategy.
 
+### Recording an out-of-reach claim when sorry is disallowed (fidelity sweeps)
+
+Fidelity-review issues (epic #5338) often say "prove conjunct X, no sorry/nd; if out of reach, add an explicit scope note rather than silently dropping it." That bans both a sorried theorem *and* pure prose. The lever that satisfies both: **record the precise claim as a `Prop`-valued `def` against the real objects already in the file** — e.g. `def Foo_irreducible (n) : Prop := ∀ W : Submodule …, (∀ g : V ≃ₗ[k] V, … stable under the actual GL(V)-action …) → W = ⊥ ∨ W = ⊤`. A `Prop`-def *asserts nothing* (it names a statement, can't be `exact`ed as a proof), so it is not a vacuous/false claim and not a sorry; it pins the exact formulation the tracking issue must discharge, against the concrete action maps (no drift). Pair it with a one-paragraph section docstring stating the book's proof strategy + the concrete obstruction + the tracking issue. Also land any genuinely-provable *sub*-conjunct in the same PR (e.g. the parenthetical `∧ⁿV = 0` for `n > dim V` via `exteriorPower.finrank_eq` + `Module.finrank_zero_iff`) so the PR carries real proved content, not just a recorded statement. Worked example: `Chapter5/Example5_19_3.lean` (#5638 → statements `Example5_19_3_symmetric_irreducible`/`_exterior_irreducible` pinned, vanishing proved; full proof tracked in #5715).
+
 ### When to Accept a Long-Term Sorry
 
 Some sorries may represent genuinely hard formalization work beyond current Mathlib infrastructure. Accept them when:
