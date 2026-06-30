@@ -560,6 +560,32 @@ Mathlib's prebuilt `Module.Dual.instLieRingModule`. Worked example:
   silence the "automatically included section variable unused" warning for a lemma
   (e.g. the `rfl` defining-equation lemma) that doesn't touch every section variable.
 
+#### Adjunction / universal-property examples — Mathlib usually has both directions (#5644, Example7.6.3)
+
+Lists of "adjoint functor" examples (Etingof 7.6.3: `V⊗ ⊣ V*⊗`, `Res ⊣ Ind`, UEA,
+group algebra, tensor/symmetric algebra) almost all reduce to a Mathlib universal
+property or a packaged adjunction — formalize each as the relevant equivalence,
+not by hand-building counits:
+- Algebra free-object adjunctions → the `.lift` hom-set `≃`: `UniversalEnvelopingAlgebra.lift`,
+  `MonoidAlgebra.lift` (`(G →* A) ≃ (k[G] →ₐ[k] A)`), `TensorAlgebra.lift`,
+  `SymmetricAlgebra.lift`. For the book's `GL₁(A) = Aˣ` phrasing, pre-compose with
+  the units bijection `(G →* Aˣ) ≃ (G →* A)` (`MonoidHom.toHomUnits` / `Units.coeHom`);
+  note `MonoidHom.toHomUnitsMulEquiv` needs `CommMonoid`, so for noncommutative `A`
+  build the plain `Equiv` by hand (`left_inv`/`right_inv` by `ext; simp`). These `.lift`
+  defs are `noncomputable` — mark the wrapper `noncomputable def`.
+- Tensor/dual biadjunction → in the rigid category `FDRep k G` (rigid for `[Field k]
+  [Group G]`), `CategoryTheory.tensorLeftAdjunction Y Y' : tensorLeft Y' ⊣ tensorLeft Y`
+  from the exact pairing. With `V`'s right dual `Vᘁ` (`= V*`): `tensorLeftAdjunction V Vᘁ`
+  gives `V*⊗ ⊣ V⊗`; for the reverse, `tensorLeft V ⊣ tensorLeft Vᘁ`, supply
+  `haveI : ExactPairing Vᘁ V := BraidedCategory.exactPairing_swap V Vᘁ` (FDRep is braided)
+  then `tensorLeftAdjunction Vᘁ V`. Together they witness "V*⊗ is left *and* right adjoint".
+- **A fidelity finding of "Lean states the OPPOSITE adjoint direction from the book"
+  is often a non-issue: Mathlib ships both directions.** Frobenius reciprocity has
+  `Rep.indResAdjunction` (`Ind ⊣ Res`) *and* `Rep.resIndAdjunction`/`Rep.resCoindAdjunction`
+  (`Res ⊣ Ind`/`Res ⊣ Coind`, finite index, since `Ind ≅ Coind`). Before treating an
+  adjoint-direction discrepancy as a real gap, grep for the other-direction adjunction;
+  record both with docstrings explaining the biadjointness rather than "fixing" one.
+
 #### `IsSimpleModule k[G] ρ.asModule` for a *concrete* representation (Ch5 Example5.1.3 Q₈, #5124)
 
 To prove a hand-built representation `ρ : Representation k G V` is irreducible
