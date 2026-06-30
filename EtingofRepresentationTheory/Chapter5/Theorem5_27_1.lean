@@ -2176,9 +2176,12 @@ The statement asserts the existence of:
 - A dual G-action on Â = (A →* ℂˣ) given by (g · χ)(a) = χ(φ(g⁻¹)(a))
 - For each χ, a stabilizer subgroup G_χ ≤ G
 - A construction V(χ, U) producing a representation of A ⋊[φ] G
+- A transport g(U) of a stabilizer representation along an orbit element
 
-satisfying irreducibility, injectivity on orbits, surjectivity onto all
-irreducibles, and the explicit character formula. (Etingof Theorem 5.27.1) -/
+satisfying irreducibility, pairwise non-isomorphism (an isomorphism
+V(χ₁, U₁) ≅ V(χ₂, U₂) forces both that χ₂ = g · χ₁ for some g and that
+U₂ ≅ g(U₁)), surjectivity onto all irreducibles, and the explicit character
+formula. (Etingof Theorem 5.27.1) -/
 theorem Etingof.Theorem5_27_1
     (G A : Type) [Group G] [CommGroup A] [Fintype G] [Fintype A]
     (φ : G →* MulAut A) :
@@ -2189,16 +2192,23 @@ theorem Etingof.Theorem5_27_1
        stab : (A →* ℂˣ) → Subgroup G)
       (_ : ∀ χ g, g ∈ stab χ ↔ dualSmul g χ = χ)
       (-- The construction V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
-       V : (χ : A →* ℂˣ) → FDRep ℂ ↥(stab χ) → FDRep ℂ (A ⋊[φ] G)),
+       V : (χ : A →* ℂˣ) → FDRep ℂ ↥(stab χ) → FDRep ℂ (A ⋊[φ] G))
+      (-- Transport of a stabilizer representation along an orbit element: g(U) is U
+       -- pulled back through the conjugation isomorphism G_{χ₂} ≅ G_{χ₁}
+       transport : (g : G) → (χ₁ χ₂ : A →* ℂˣ) → dualSmul g χ₁ = χ₂ →
+         FDRep ℂ ↥(stab χ₁) → FDRep ℂ ↥(stab χ₂)),
       -- (i) V(χ, U) is irreducible when U is irreducible
       (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
         CategoryTheory.Simple U → CategoryTheory.Simple (V χ U)) ∧
-      -- (ii) V(χ₁, U₁) ≅ V(χ₂, U₂) implies χ₁ and χ₂ are in the same G-orbit
+      -- (ii) The V(χ, U) are pairwise nonisomorphic: V(χ₁, U₁) ≅ V(χ₂, U₂) forces both
+      -- that χ₁ and χ₂ lie in the same G-orbit (∃ g, χ₂ = g · χ₁) and that, after
+      -- transporting U₁ to the stabilizer of χ₂ via that orbit element, U₂ ≅ g(U₁).
       (∀ (χ₁ χ₂ : A →* ℂˣ)
         (U₁ : FDRep ℂ ↥(stab χ₁)) (U₂ : FDRep ℂ ↥(stab χ₂)),
         CategoryTheory.Simple U₁ → CategoryTheory.Simple U₂ →
         Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) →
-        ∃ g : G, dualSmul g χ₁ = χ₂) ∧
+        ∃ (g : G) (hg : dualSmul g χ₁ = χ₂),
+          Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁)) ∧
       -- (iii) Every irreducible representation of A ⋊[φ] G arises as V(χ, U)
       (∀ (W : FDRep ℂ (A ⋊[φ] G)), CategoryTheory.Simple W →
         ∃ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
@@ -2216,12 +2226,13 @@ theorem Etingof.Theorem5_27_1
   -- Provide the dual action, stabilizer, and induced representation constructions
   refine ⟨dualSmulAux φ, fun g χ a => rfl, stabAux φ, fun χ g => Iff.rfl, ?_⟩
   -- Use the concrete induced representation V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
-  refine ⟨fun χ U => inducedRepV φ χ U, ?_, ?_, ?_, ?_⟩
+  refine ⟨fun χ U => inducedRepV φ χ U,
+    fun _ _ _ hg U₁ => transportRep φ hg U₁, ?_, ?_, ?_, ?_⟩
   -- (i) Irreducibility: V(χ, U) is irreducible when U is irreducible
   · exact fun χ U hU => inducedRepV_simple φ χ U hU
-  -- (ii) Orbit injectivity: iso implies same G-orbit
+  -- (ii) Classification: iso forces same G-orbit and isomorphic transported U-component
   · exact fun χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso =>
-      inducedRepV_orbit_injectivity φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
+      inducedRepV_orbit_classification φ χ₁ χ₂ U₁ U₂ hU₁ hU₂ hiso
   -- (iii) Completeness: every irrep arises as some V(χ, U)
   · exact fun W hW => inducedRepV_completeness φ W hW
   -- (iv) Character formula
