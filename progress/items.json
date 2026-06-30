@@ -3965,7 +3965,7 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says 'V_{(n)} is the trivial representation' and 'V_{(1,...,1)} is the sign representation'. The Lean theorems only prove 'Module.finrank ℂ (SpechtModule n (rowPartition n h",
+    "fidelity_note": "Trivial/sign claims now proved at the representation level: Example5_12_3_trivial_rep (every σ acts as identity on V_{(n)}) and Example5_12_3_sign_rep (every σ acts as sign σ on V_{(1ⁿ)}). Residual: the n=3,4 cases (ℂ², ℂ³₋, ℂ³₊) are still identified only by dimension, not by an explicit equivariant isomorphism to the named irreps.",
     "fidelity_issue": 5637
   },
   {
