@@ -11,9 +11,24 @@ to review sessions.
 
 Use `coordination list-unclaimed --label review` to find work for this session type.
 
+## Fidelity-audit issues are content fixes, not refactors
+
+Many `review`-labelled issues (e.g. from the fidelity sweep, epic #5338) are
+**not** code-quality reviews — they are audit findings that a Lean item is
+weaker than, or absent versus, the book. The body reads "Finding: ... gap ...
+Re-confirm before fixing." For these: (1) re-confirm each gap against the blob
+and the Lean file, (2) **fix** the Lean content (strengthen/add the
+statement+proof), not just comment on it. Treat them with the
+`agent-worker-flow` execute/verify/publish loop, and the lean-formalization
+skill, exactly like a `feature`. If a finding has several gaps and one is large
+new infrastructure (a from-scratch algebra, a first-of-its-kind `Ext` proof),
+close the tractable gaps and ship `coordination create-pr <N> --partial`,
+linking the dedicated issue for the residual rather than stubbing it.
+
 ## Review Focus Areas
 
-Each session should pick **one or two** focus areas and go deep, rather than
+If the issue is a genuine code-quality review (not a fidelity fix above), each
+session should pick **one or two** focus areas and go deep, rather than
 superficially covering everything. The issue body will specify what to focus on.
 Rotate through these areas across sessions:
 
