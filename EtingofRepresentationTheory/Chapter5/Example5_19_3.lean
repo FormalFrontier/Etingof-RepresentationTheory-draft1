@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
+import EtingofRepresentationTheory.Chapter5.ExteriorIrreducible
 
 /-!
 # Example 5.19.3: Schur Functors for Special Partitions
@@ -545,30 +546,30 @@ The book closes Example 5.19.3 by asserting that `L_{(n)} = SⁿV` and `L_{(1ⁿ
 *irreducible* `GL(V)`-representations, "except that `∧ⁿV` is zero if `n > dim V`", citing
 Problem 4.12.3 for the irreducibility.
 
-Two pieces of that final sentence:
+Three pieces of that final sentence:
 
 * The parenthetical vanishing `∧ⁿV = 0` for `n > dim V` is proved below
   (`Example5_19_3_exterior_subsingleton_of_dim_lt`): a genuine, complete result.
 
-* The irreducibility itself is the content of **Problem 4.12.3**, whose proof is the
-  distinct-eigenvalue / transvection argument:
-  pick a diagonal `H ∈ GL(V)` whose action on the representation has pairwise distinct
-  eigenvalues, so any subrepresentation `W` is spanned by a subset `S` of the eigenbasis;
-  then use invariance under the transvections `ρ(1 + E_{ij})` (`i ≠ j`) to force `S` to be
-  the whole basis once it is nonempty. Formalizing it is a standalone multi-step
-  development (it needs the symmetric-power monomial basis — *absent* from Mathlib, which
-  only has `Module.Basis.exteriorPower` for the exterior side — a generic diagonal with
-  distinct weights, the spectral-spanning lemma "an invariant subspace of a diagonalizable
-  operator with distinct eigenvalues is spanned by eigenvectors", and the transvection
-  orbit-connectivity argument). It is tracked as its own issue and is **not** proved here.
+* **The exterior half is now fully proved** (`Example5_19_3_exterior_irreducible`, via
+  `Etingof.exteriorPower_eq_bot_or_top` in `Chapter5.ExteriorIrreducible`). The reusable heart of
+  Problem 4.12.3 — "an invariant subspace of a diagonal operator with pairwise distinct eigenvalues
+  is spanned by a subset of the eigenbasis", and "connectivity of the eigenbasis under the group
+  forces irreducibility" — is packaged abstractly in `Chapter5.DiagonalCoordinate`. For `∧ⁿV` the
+  diagonal element `diag(2^(2⁰), …, 2^(2^{d-1}))` has distinct eigenvalues on `Module.Basis.exteriorPower`,
+  and the permutation matrices (transitive on `n`-subsets) supply the connectivity.
 
-To record the irreducibility claim precisely — rather than dropping it silently — the
-exact propositions are pinned below as `Prop`-valued definitions referencing the actual
-`GL(V)`-actions already constructed in this file (`symmetricPowerMap` on `SⁿV` and
-`exteriorPower.map n` on `∧ⁿV`). A subrepresentation is a submodule stable under the action
-of every `g ∈ GL(V)` (`g : V ≃ₗ[k] V`); irreducibility says the only such submodules are
-`⊥` and `⊤`. Proving `Example5_19_3_symmetric_irreducible` / `Example5_19_3_exterior_irreducible`
-is exactly the remaining Problem 4.12.3 work. -/
+* **The symmetric half (`Example5_19_3_symmetric_irreducible`) remains open.** The same
+  `DiagonalCoordinate` criterion applies, but it requires a *monomial basis of `SⁿV`* indexed by
+  degree-`n` monomials — which is **absent from Mathlib** (only the exterior basis
+  `Module.Basis.exteriorPower` exists; the symmetric-power universal property is a Mathlib TODO).
+  Permutations are *not* transitive on monomials, so the connectivity genuinely needs the
+  transvections `ρ(1 + E_{ij})` of the book's Hint. Building that basis and the transvection
+  connectivity is the remaining work; the criterion is ready to consume them.
+
+The symmetric claim is pinned below as a `Prop`-valued definition referencing the actual
+`GL(V)`-action (`symmetricPowerMap` on `SⁿV`): a subrepresentation is a submodule stable under
+every `g ∈ GL(V)` (`g : V ≃ₗ[k] V`); irreducibility says the only such submodules are `⊥` and `⊤`. -/
 
 /-- Book fidelity (Example 5.19.3, parenthetical): `∧ⁿV` is the zero representation when
 `n > dim V`. Over a field, `finrank (⋀ⁿV) = C(dim V, n) = 0` for `n > dim V`, so `∧ⁿV` is a
@@ -587,10 +588,13 @@ the irreducibility assertion in Example 5.19.3): every `GL(V)`-subrepresentation
 symmetric power — i.e. every submodule stable under `symmetricPowerMap g` for all
 `g ∈ GL(V)` — is either `⊥` or `⊤`.
 
-This records the statement faithfully against the `GL(V)`-action already constructed here.
-Its proof is the distinct-eigenvalue / transvection argument of Problem 4.12.3 and is
-deferred (see the section docstring above); it is **not** asserted to hold by this
-definition, which merely names the proposition. -/
+This records the statement faithfully against the `GL(V)`-action already constructed here. Its
+proof reduces, via `Etingof.DiagonalCoordinate.eq_bot_or_eq_top_of_connected`, to (i) a monomial
+basis of `SⁿV` with the diagonal element acting by distinct eigenvalues, and (ii) the transvection
+connectivity of that basis. Step (i) needs the symmetric-power monomial basis, currently absent
+from Mathlib (see the section docstring above), so the proof is deferred; it is **not** asserted to
+hold by this definition, which merely names the proposition. The exterior analogue
+`Example5_19_3_exterior_irreducible` *is* fully proved. -/
 def Example5_19_3_symmetric_irreducible
     {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
     (n : ℕ) : Prop :=
@@ -598,19 +602,26 @@ def Example5_19_3_symmetric_irreducible
     (∀ g : V ≃ₗ[k] V, ∀ w ∈ W, symmetricPowerMap (g : V →ₗ[k] V) w ∈ W) →
       W = ⊥ ∨ W = ⊤
 
-/-- The precise irreducibility claim for `L_{(1ⁿ)} = ∧ⁿV` (Problem 4.12.3, the second half
-of the irreducibility assertion in Example 5.19.3, valid for `n ≤ dim V`; for `n > dim V`
-the space is zero, see `Example5_19_3_exterior_subsingleton_of_dim_lt`): every
-`GL(V)`-subrepresentation of the exterior power — i.e. every submodule stable under
-`exteriorPower.map n g` for all `g ∈ GL(V)` — is either `⊥` or `⊤`.
+/-- **Irreducibility of `L_{(1ⁿ)} = ∧ⁿV`** (Problem 4.12.3, the second half of the irreducibility
+assertion in Example 5.19.3; for `n > dim V` the space is zero, see
+`Example5_19_3_exterior_subsingleton_of_dim_lt`): every `GL(V)`-subrepresentation of the exterior
+power — i.e. every submodule stable under `exteriorPower.map n g` for all `g ∈ GL(V)` — is either
+`⊥` or `⊤`.
 
-As with the symmetric case, this names the proposition faithfully against the action built
-in this file; its proof (Problem 4.12.3) is deferred and is not asserted here. -/
-def Example5_19_3_exterior_irreducible
-    {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
-    (n : ℕ) : Prop :=
-  ∀ W : Submodule k (⋀[k]^n V),
+This is a genuine, complete proof of Problem 4.12.3 for the exterior power, following the book's
+Hint: the diagonal element `diag(2^(2⁰), …, 2^(2^{d-1}))` has pairwise distinct eigenvalues on the
+monomial basis `e_{i₁} ∧ ⋯ ∧ e_{iₙ}` of `∧ⁿV` (the eigenvalues are `2^(∑ 2^{iⱼ})`, distinct by
+binary uniqueness), so any subrepresentation is spanned by a subset of that basis; and the
+permutation matrices, acting transitively on the `n`-subsets, then force a nonzero subrepresentation
+to be everything. See `Etingof.exteriorPower_eq_bot_or_top` for the proof. The hypothesis
+`[CharZero k]` (the book works over `ℂ`) is essential: over small finite fields the diagonal element
+with distinct eigenvalues need not exist. -/
+theorem Example5_19_3_exterior_irreducible
+    {k : Type} [Field k] [CharZero k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (n : ℕ) :
+    ∀ W : Submodule k (⋀[k]^n V),
     (∀ g : V ≃ₗ[k] V, ∀ w ∈ W, exteriorPower.map n (g : V →ₗ[k] V) w ∈ W) →
-      W = ⊥ ∨ W = ⊤
+      W = ⊥ ∨ W = ⊤ :=
+  fun W hW => Etingof.exteriorPower_eq_bot_or_top W hW
 
 end Etingof
