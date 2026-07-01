@@ -1772,6 +1772,52 @@ lemma zEnd_sq_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * zEnd)
     rw [← Nat.card_eq_fintype_card, card_G]; norm_num
   rw [hr5, hcard]; norm_num
 
+/-! #### The two eigenvalues `μ± = 10 ± 10√5` and the minimal polynomial `X² − 20X − 400`
+
+The eigenvalues of `z` on the two 3-dimensional eigenspaces are `μ± = 10 ± 10√5 = 20φ, 20φ'`.
+These are exactly the two roots of `X² − 20X − 400`: their sum is `20` and their product is
+`−400`, and their difference is `20√5` (the `√5` that produces the golden-ratio characters).
+These identities are the algebraic content of the minimal polynomial `z² − 20z − 400 = 0`. -/
+
+/-- `μ⁺ + μ⁻ = 20` — the trace of the companion `X² − 20X − 400`, i.e. `z² = 20z + 400·1`. -/
+lemma muPlus_add_muMinus : muPlus + muMinus = 20 := by
+  simp only [muPlus, muMinus]; ring
+
+/-- `√5² = 5` in `ℂ`, the single irrational identity feeding the eigenvalue arithmetic. -/
+lemma sqrt5_sq : (Real.sqrt 5 : ℂ) ^ 2 = 5 := by
+  rw [← Complex.ofReal_pow, Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 5)]; norm_num
+
+/-- `μ⁺ · μ⁻ = −400` — the constant term of the companion `X² − 20X − 400`. -/
+lemma muPlus_mul_muMinus : muPlus * muMinus = -400 := by
+  simp only [muPlus, muMinus]; ring_nf; rw [sqrt5_sq]; norm_num
+
+/-- `μ⁺ − μ⁻ = 20√5` — the golden-ratio-producing gap between the two eigenvalues, the
+denominator in `χ₊(g) = (S(g) − μ⁻·χ_{Λ²}(g))/(μ⁺ − μ⁻)`. -/
+lemma muPlus_sub_muMinus : muPlus - muMinus = 20 * (Real.sqrt 5 : ℂ) := by
+  simp only [muPlus, muMinus]; ring
+
+/-! #### `χ_{Λ²} = χ₊ + χ₋`: the honest character of `Λ²(ℂ⁴)` is the sum of the two book rows -/
+
+/-- `Q5toC` is additive. -/
+lemma Q5toC_add (a b : Q5) : Q5toC (a + b) = Q5toC a + Q5toC b := by
+  simp only [Q5toC, Q5.add_re, Q5.add_im]; push_cast; ring
+
+/-- **The character of `Λ²(ℂ⁴)` is the sum of the two golden-ratio rows `χ₊ + χ₋`.**  The honest
+trace `χ_{Λ²} = (6, 0, −2, 1, 1)` (`lam2_character`) equals `chiA5 1 + chiA5 2` at every class:
+row 1 is `(3, 0, −1, φ, φ')`, row 2 is `(3, 0, −1, φ', φ)`, and `φ + φ' = 1` makes the two
+`√5` contributions cancel on the 5-cycle classes.  Combined with `A5_orthonormal` (rows 1 and 2
+are orthonormal, and orthogonal to rows 0/3/4), this exhibits `Λ²(ℂ⁴)` as the multiplicity-free
+sum of the two 3-dimensional icosahedral constituents `ℂ³₊ ⊕ ℂ³₋` — the character-level
+statement underlying the eigenspace split of the central `z`. -/
+lemma lam2_character_eq_sum (j : Fin 5) :
+    lam2.character (classRepA5 j) = Q5toC (chiA5 1 j) + Q5toC (chiA5 2 j) := by
+  rw [lam2_character, ← Q5toC_add, Q5toC]
+  fin_cases j <;>
+    simp only [chiA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.head_cons, Matrix.tail_cons] <;>
+    norm_num [Q5.add_re, Q5.add_im, Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re,
+      Q5.neg_im, Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im]
+
 end
 
 end A5
