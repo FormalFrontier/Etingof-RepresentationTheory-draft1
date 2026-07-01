@@ -133,6 +133,7 @@ import EtingofRepresentationTheory.Chapter5.FormalCharacterDual
 import EtingofRepresentationTheory.Chapter5.Proposition5_19_1
 import EtingofRepresentationTheory.Chapter5.Corollary5_19_2
 import EtingofRepresentationTheory.Chapter5.Example5_19_3
+import EtingofRepresentationTheory.Chapter5.SymmetricPowerBasis
 
 -- Section 5.21: Schur Polynomials
 import EtingofRepresentationTheory.Chapter5.Proposition5_21_1
