@@ -1601,6 +1601,26 @@ lemma zEnd_central (h : G) : Commute (lam2Sub.toRepresentation h) zEnd := by
   congr 1
   group
 
+/-- **Trace of `z` on `Λ²(ℂ⁴)` is `60`.**  Each summand `ρ(g·r·g⁻¹)` is a conjugate of the
+5-cycle `r`, on which `χ_{Λ²} = 1` (`lam2_character 3`); the constant `1` summed over the 60
+elements of `A₅` gives `60`.  Equivalently `tr z = 3·μ⁺ + 3·μ⁻ = 60`, one of the two trace
+identities pinning the golden-ratio eigenvalues `μ± = 10 ± 10√5` (the second being `tr z² = 3600`,
+giving `μ⁺ + μ⁻ = 20`, `μ⁺·μ⁻ = −400`, i.e. the minimal polynomial `z² − 20z − 400`). -/
+lemma zEnd_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) zEnd = 60 := by
+  have hchar : ∀ x : G,
+      LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (lam2Sub.toRepresentation x)
+        = lam2.character x := fun x => rfl
+  have hterm : ∀ g : G,
+      LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (lam2Sub.toRepresentation (g * r5 * g⁻¹)) = 1 := by
+    intro g
+    rw [hchar, FDRep.char_conj, r5]
+    simpa using lam2_character 3
+  rw [zEnd, map_sum, Finset.sum_congr rfl (fun g _ => hterm g), Finset.sum_const,
+    Finset.card_univ, nsmul_eq_mul, mul_one]
+  have hcard : (Fintype.card G : ℂ) = 60 := by
+    rw [← Nat.card_eq_fintype_card, card_G]; norm_num
+  rw [hcard]
+
 /-- The same central element realised as an **ambient** operator on `W4 ⊗ W4` (the sum of
 `(ρ_V ⊗ ρ_V)(g·r·g⁻¹)` over all `g`).  It restricts to `zEnd` on `range asym`, commutes both
 with the diagonal action and with the antisymmetriser `asym`, and preserves `range asym`.
