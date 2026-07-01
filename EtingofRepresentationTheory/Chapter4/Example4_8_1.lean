@@ -1446,6 +1446,48 @@ lemma lam2_character (j : Fin 5) :
     norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
 
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- **`Λ²(ℂ⁴)` is multiplicity-free: `dim_ℂ End_G(Λ²(ℂ⁴)) = 2`.**
+
+By `FDRep.scalar_product_char_eq_finrank_equivariant`, the dimension of the space of
+`A₅`-equivariant endomorphisms of `Λ²(ℂ⁴)` equals the character scalar product
+`⟨χ_{Λ²}, χ_{Λ²}⟩ = ⅟60 · ∑_{g} χ_{Λ²}(g)·χ_{Λ²}(g⁻¹)`.  Writing `χ_{Λ²}(g) = ½·P(g)` with the
+**integer** `P(g) = (fix₅(g) − 1)² − (fix₅(g²) − 1)` (from `lam2_char_formula` and `repC4_char`;
+the character is real, `χ(g⁻¹) = χ(g)`), the sum is `¼·∑_g P(g)² = ¼·480 = 120`, evaluated by an
+honest `decide` over the 60 elements of `A₅` (no `native_decide`).  Hence `120/60 = 2`.
+
+Consequently `Λ²(ℂ⁴)` decomposes as a direct sum of **two distinct** irreducible constituents —
+these are precisely the two 3-dimensional icosahedral representations `ℂ³₊`, `ℂ³₋`.  Because the
+endomorphism algebra is only 2-dimensional, the three endomorphisms `1, Z, Z²` (for the central
+`Z = Zamb` of Phase B) are linearly dependent, which is the linchpin for the minimal polynomial
+`Z² − 20·Z − 400 = 0` splitting `Λ²(ℂ⁴)` into the two golden-ratio eigenspaces. -/
+lemma lam2_hom_finrank : Module.finrank ℂ (lam2 ⟶ lam2) = 2 := by
+  haveI : Invertible (Fintype.card G : ℂ) := by
+    have h60 : Fintype.card G = 60 := by rw [← Nat.card_eq_fintype_card, card_G]
+    rw [h60]; exact invertibleOfNonzero (by norm_num)
+  have key := FDRep.scalar_product_char_eq_finrank_equivariant lam2 lam2
+  -- Each squared character term is `¼·P(g)²` with `P(g)` the integer defined above.
+  have hterm : ∀ g : G, lam2.character g * lam2.character g⁻¹
+      = (4⁻¹ : ℂ) * ((((((S4.fixCardM (G := G) (α := Fin 5) g : ℤ) - 1) ^ 2
+          - ((S4.fixCardM (G := G) (α := Fin 5) (g * g) : ℤ) - 1)) ^ 2 : ℤ) : ℂ)) := by
+    intro g
+    rw [lam2_char_formula, lam2_char_formula]
+    simp only [repC4_char, S4.fixCardM_inv]
+    rw [show g⁻¹ * g⁻¹ = (g * g)⁻¹ from by group, S4.fixCardM_inv]
+    push_cast; ring
+  rw [Finset.sum_congr rfl (fun g _ => hterm g), ← Finset.mul_sum, ← Int.cast_sum] at key
+  have hZ : ∑ g : G, ((((S4.fixCardM (G := G) (α := Fin 5) g : ℤ) - 1) ^ 2
+      - ((S4.fixCardM (G := G) (α := Fin 5) (g * g) : ℤ) - 1)) ^ 2) = 480 := by decide
+  rw [hZ] at key
+  have h60 : Fintype.card G = 60 := by rw [← Nat.card_eq_fintype_card, card_G]
+  -- `key : ⅟(card G) • (¼ · 480 : ℂ) = ↑(finrank ℂ (lam2 ⟶ lam2))`; the LHS is `2`.
+  rw [invOf_eq_inv, smul_eq_mul, h60] at key
+  have hval : ((60 : ℕ) : ℂ)⁻¹ * ((4⁻¹ : ℂ) * ((480 : ℤ) : ℂ)) = (2 : ℂ) := by
+    push_cast; norm_num
+  rw [hval] at key
+  exact_mod_cast key.symm
+
 /-! #### The three representations, characters, and pairwise non-isomorphism -/
 
 /-- The integer character table for the three rows realised here (`ℂ`, `ℂ⁴`, `ℂ⁵`). -/
