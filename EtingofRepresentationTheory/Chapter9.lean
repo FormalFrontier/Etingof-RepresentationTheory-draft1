@@ -21,6 +21,7 @@ import EtingofRepresentationTheory.Chapter9.Definition9_7_1
 import EtingofRepresentationTheory.Chapter9.Discussion_after_Definition9_7_1
 import EtingofRepresentationTheory.Chapter9.Definition9_7_2
 import EtingofRepresentationTheory.Chapter9.Corollary9_7_3
+import EtingofRepresentationTheory.Chapter9.Corollary9_7_3Categorical
 import EtingofRepresentationTheory.Chapter9.MoritaStructural
 
 /-!

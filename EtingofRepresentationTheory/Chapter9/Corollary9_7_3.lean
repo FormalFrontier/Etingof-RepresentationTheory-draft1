@@ -50,12 +50,17 @@ The book's part (i) is stated for an abstract `k`-linear finite abelian category
 `𝒞`: *any* such `𝒞` is equivalent to the finite-dimensional modules over a unique
 basic algebra `B(𝒞)`. What is formalized here is the **algebra version**: the input
 is a finite-dimensional algebra `A` (Theorem `Etingof.Corollary_9_7_3_i`), not an
-abstract category. The categorical input form is **not yet formalized**; it would
-compose `Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for a
-progenerator `P`) with the algebra version, and additionally requires (a) existence
-of a progenerator in an abstract finite abelian category, and (b) reconciling
-`FGModuleCat` with the full `ModuleCat` used by `Etingof.MoritaEquivalent`. The
-categorical form is tracked as a separate formalization item (issue #5738).
+abstract category. The categorical input form is formalized (partially) as
+`Etingof.Corollary_9_7_3_i_categorical` in `Corollary9_7_3Categorical.lean`: it
+composes `Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for a
+progenerator `P`) with the algebra version applied to `A = (End P)ᵐᵒᵖ`, carrying the
+progenerator `P` as an explicit hypothesis (there is no theorem yet that an abstract
+finite abelian category *has* a progenerator). One gap remains: the two conclusions
+`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` and `MoritaEquivalent (End P)ᵐᵒᵖ B` are not yet stitched
+into a single `𝒞 ≌ FGModuleCat B`, because that requires restricting the Morita
+equivalence from the full `ModuleCat` used by `Etingof.MoritaEquivalent` to the
+finitely generated subcategory (proving a Morita equivalence preserves finite
+generation). That FG-restriction is tracked as a follow-up formalization item.
 -/
 
 variable (k : Type u) [Field k]
