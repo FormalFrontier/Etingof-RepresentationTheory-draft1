@@ -521,11 +521,11 @@
     "start_line": 22,
     "end_line": 23,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage] The book states: 'A 1-dimensional representation of any algebra is automatically irreducible.' No Lean declaration exists for this item. The claim is formalizable: if [Module R V] with finr",
+    "fidelity": "verified",
+    "fidelity_note": "The wave-2 coverage finding ('No Lean declaration exists') is a false negative: the formalization landed in PR #5604 (issue #5590) as EtingofRepresentationTheory/Chapter2/Remark2_3_13.lean and is imported into Chapter2.lean. Etingof.Remark_2_3_13 states exactly the book's claim: for a representation V of an algebra A over a field k (AddCommGroup V, Module k V, Module A V, IsScalarTower k A V), Module.finrank k V = 1 implies IsSimpleModule A V. Proof: 1-dimensionality gives IsSimpleModule k V (isSimpleModule_iff_finrank_eq_one), then simplicity transports along restriction of scalars since every A-submodule restricts to a k-submodule with the same carrier. sorry-free; builds cleanly.",
     "fidelity_decl": "Etingof.Remark_2_3_13",
     "fidelity_issue": 5649,
-    "last_updated": "2026-06-29"
+    "last_updated": "2026-07-01"
   },
   {
     "id": "Chapter2/Discussion_proof_Corollary2.3.12",
