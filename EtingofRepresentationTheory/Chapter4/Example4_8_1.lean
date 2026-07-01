@@ -1446,6 +1446,48 @@ lemma lam2_character (j : Fin 5) :
     norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
 
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- **`Λ²(ℂ⁴)` is multiplicity-free: `dim_ℂ End_G(Λ²(ℂ⁴)) = 2`.**
+
+By `FDRep.scalar_product_char_eq_finrank_equivariant`, the dimension of the space of
+`A₅`-equivariant endomorphisms of `Λ²(ℂ⁴)` equals the character scalar product
+`⟨χ_{Λ²}, χ_{Λ²}⟩ = ⅟60 · ∑_{g} χ_{Λ²}(g)·χ_{Λ²}(g⁻¹)`.  Writing `χ_{Λ²}(g) = ½·P(g)` with the
+**integer** `P(g) = (fix₅(g) − 1)² − (fix₅(g²) − 1)` (from `lam2_char_formula` and `repC4_char`;
+the character is real, `χ(g⁻¹) = χ(g)`), the sum is `¼·∑_g P(g)² = ¼·480 = 120`, evaluated by an
+honest `decide` over the 60 elements of `A₅` (no `native_decide`).  Hence `120/60 = 2`.
+
+Consequently `Λ²(ℂ⁴)` decomposes as a direct sum of **two distinct** irreducible constituents —
+these are precisely the two 3-dimensional icosahedral representations `ℂ³₊`, `ℂ³₋`.  Because the
+endomorphism algebra is only 2-dimensional, the three endomorphisms `1, Z, Z²` (for the central
+`Z = Zamb` of Phase B) are linearly dependent, which is the linchpin for the minimal polynomial
+`Z² − 20·Z − 400 = 0` splitting `Λ²(ℂ⁴)` into the two golden-ratio eigenspaces. -/
+lemma lam2_hom_finrank : Module.finrank ℂ (lam2 ⟶ lam2) = 2 := by
+  haveI : Invertible (Fintype.card G : ℂ) := by
+    have h60 : Fintype.card G = 60 := by rw [← Nat.card_eq_fintype_card, card_G]
+    rw [h60]; exact invertibleOfNonzero (by norm_num)
+  have key := FDRep.scalar_product_char_eq_finrank_equivariant lam2 lam2
+  -- Each squared character term is `¼·P(g)²` with `P(g)` the integer defined above.
+  have hterm : ∀ g : G, lam2.character g * lam2.character g⁻¹
+      = (4⁻¹ : ℂ) * ((((((S4.fixCardM (G := G) (α := Fin 5) g : ℤ) - 1) ^ 2
+          - ((S4.fixCardM (G := G) (α := Fin 5) (g * g) : ℤ) - 1)) ^ 2 : ℤ) : ℂ)) := by
+    intro g
+    rw [lam2_char_formula, lam2_char_formula]
+    simp only [repC4_char, S4.fixCardM_inv]
+    rw [show g⁻¹ * g⁻¹ = (g * g)⁻¹ from by group, S4.fixCardM_inv]
+    push_cast; ring
+  rw [Finset.sum_congr rfl (fun g _ => hterm g), ← Finset.mul_sum, ← Int.cast_sum] at key
+  have hZ : ∑ g : G, ((((S4.fixCardM (G := G) (α := Fin 5) g : ℤ) - 1) ^ 2
+      - ((S4.fixCardM (G := G) (α := Fin 5) (g * g) : ℤ) - 1)) ^ 2) = 480 := by decide
+  rw [hZ] at key
+  have h60 : Fintype.card G = 60 := by rw [← Nat.card_eq_fintype_card, card_G]
+  -- `key : ⅟(card G) • (¼ · 480 : ℂ) = ↑(finrank ℂ (lam2 ⟶ lam2))`; the LHS is `2`.
+  rw [invOf_eq_inv, smul_eq_mul, h60] at key
+  have hval : ((60 : ℕ) : ℂ)⁻¹ * ((4⁻¹ : ℂ) * ((480 : ℤ) : ℂ)) = (2 : ℂ) := by
+    push_cast; norm_num
+  rw [hval] at key
+  exact_mod_cast key.symm
+
 /-! #### The three representations, characters, and pairwise non-isomorphism -/
 
 /-- The integer character table for the three rows realised here (`ℂ`, `ℂ⁴`, `ℂ⁵`). -/
@@ -1559,6 +1601,26 @@ lemma zEnd_central (h : G) : Commute (lam2Sub.toRepresentation h) zEnd := by
   congr 1
   group
 
+/-- **Trace of `z` on `Λ²(ℂ⁴)` is `60`.**  Each summand `ρ(g·r·g⁻¹)` is a conjugate of the
+5-cycle `r`, on which `χ_{Λ²} = 1` (`lam2_character 3`); the constant `1` summed over the 60
+elements of `A₅` gives `60`.  Equivalently `tr z = 3·μ⁺ + 3·μ⁻ = 60`, one of the two trace
+identities pinning the golden-ratio eigenvalues `μ± = 10 ± 10√5` (the second being `tr z² = 3600`,
+giving `μ⁺ + μ⁻ = 20`, `μ⁺·μ⁻ = −400`, i.e. the minimal polynomial `z² − 20z − 400`). -/
+lemma zEnd_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) zEnd = 60 := by
+  have hchar : ∀ x : G,
+      LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (lam2Sub.toRepresentation x)
+        = lam2.character x := fun x => rfl
+  have hterm : ∀ g : G,
+      LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (lam2Sub.toRepresentation (g * r5 * g⁻¹)) = 1 := by
+    intro g
+    rw [hchar, FDRep.char_conj, r5]
+    simpa using lam2_character 3
+  rw [zEnd, map_sum, Finset.sum_congr rfl (fun g _ => hterm g), Finset.sum_const,
+    Finset.card_univ, nsmul_eq_mul, mul_one]
+  have hcard : (Fintype.card G : ℂ) = 60 := by
+    rw [← Nat.card_eq_fintype_card, card_G]; norm_num
+  rw [hcard]
+
 /-- The same central element realised as an **ambient** operator on `W4 ⊗ W4` (the sum of
 `(ρ_V ⊗ ρ_V)(g·r·g⁻¹)` over all `g`).  It restricts to `zEnd` on `range asym`, commutes both
 with the diagonal action and with the antisymmetriser `asym`, and preserves `range asym`.
@@ -1626,6 +1688,89 @@ def repC3plus : FDRep ℂ G := FDRep.of repC3plusSub.toRepresentation
 
 /-- `ℂ³₋`, the second genuine 3-dimensional icosahedral representation of `A₅`. -/
 def repC3minus : FDRep ℂ G := FDRep.of repC3minusSub.toRepresentation
+
+/-! #### The eigenspace character numerator `S(g) = tr(z ∘ ρ(g))`
+
+The two 3-dimensional icosahedral characters are recovered from `Λ²(ℂ⁴)` by the linear system
+`χ₊ + χ₋ = χ_{Λ²}` and `μ⁺·χ₊ + μ⁻·χ₋ = S`, where `S(g) := tr(z·ρ(g))` and `z` acts as the
+scalar `μ⁺` on `ℂ³₊` and `μ⁻` on `ℂ³₋`.  Solving gives the golden-ratio entries
+`χ₊(g) = (S(g) − μ⁻·χ_{Λ²}(g))/(μ⁺ − μ⁻)`.  Here we compute the honest 60-term group sum
+`S = (60, 0, −20, 60, −40)` at the five class representatives. -/
+
+/-- `tr(z·ρ(g))` written as the honest character sum `∑_{h∈A₅} χ_{Λ²}(h·r·h⁻¹·g)`, using that
+`z = ∑_h ρ(h·r·h⁻¹)` and that `ρ` is a monoid homomorphism. -/
+lemma zEnd_comp_char (g : G) :
+    LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation g)
+      = ∑ h : G, lam2.character (h * r5 * h⁻¹ * g) := by
+  have hchar : ∀ x : G, LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (lam2Sub.toRepresentation x)
+      = lam2.character x := fun _ => rfl
+  rw [zEnd, Finset.sum_mul, map_sum]
+  refine Finset.sum_congr rfl fun h _ => ?_
+  rw [← map_mul, hchar]
+
+-- honest `decide` of the character sum over 5×60 group elements; no `native_decide`
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- **The eigenspace character numerator `S(g) = tr(z·ρ(g))` at the five class representatives is
+`(60, 0, −20, 60, −40)`.**  Each value is the honest 60-term sum `∑_h χ_{Λ²}(h·r·h⁻¹·g)`, with
+`χ_{Λ²}(y) = ½·((fix₅(y) − 1)² − (fix₅(y²) − 1))` evaluated by `decide` over the 60 elements of
+`A₅` (no `native_decide`).  Together with `χ_{Λ²} = (6, 0, −2, 1, 1)` and `z = μ⁺` on `ℂ³₊`,
+`z = μ⁻` on `ℂ³₋`, this pins the golden-ratio characters `χ₊ = (3, 0, −1, φ, φ')`,
+`χ₋ = (3, 0, −1, φ', φ)`. -/
+lemma zEnd_comp_char_val (j : Fin 5) :
+    LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation (classRepA5 j))
+      = (![60, 0, -20, 60, -40] j : ℂ) := by
+  rw [zEnd_comp_char]
+  have hchar : ∀ y : G, lam2.character y
+      = (2⁻¹ : ℂ) * ((((S4.fixCardM (G := G) (α := Fin 5) y : ℤ) - 1) ^ 2
+          - ((S4.fixCardM (G := G) (α := Fin 5) (y * y) : ℤ) - 1) : ℤ) : ℂ) := by
+    intro y
+    rw [lam2_char_formula, repC4_char, repC4_char]
+    push_cast; ring
+  have key : ∀ i : Fin 5,
+      (∑ h : G, (((S4.fixCardM (G := G) (α := Fin 5) (h * r5 * h⁻¹ * classRepA5 i) : ℤ) - 1) ^ 2
+        - ((S4.fixCardM (G := G) (α := Fin 5) ((h * r5 * h⁻¹ * classRepA5 i)
+            * (h * r5 * h⁻¹ * classRepA5 i)) : ℤ) - 1)))
+      = ![120, 0, -40, 120, -80] i := by decide
+  rw [Finset.sum_congr rfl (fun h _ => hchar _), ← Finset.mul_sum, ← Int.cast_sum, key j]
+  fin_cases j <;> norm_num
+
+/-- **`tr(z²) = 3600` on `Λ²(ℂ⁴)`.**  Since `z` is central (`zEnd_central`), each summand of
+`z² = ∑_g z·ρ(g·r·g⁻¹)` has the same trace as `z·ρ(r)` (conjugation invariance of the trace):
+`tr(z·ρ(g·r·g⁻¹)) = tr(ρ(g)·z·ρ(r)·ρ(g)⁻¹) = tr(z·ρ(r))`.  Summing the constant over the 60
+elements of `A₅` gives `60·tr(z·ρ(r)) = 60·60 = 3600` (using `zEnd_comp_char_val 3`, as
+`r = classRepA5 3`).  With `tr(z) = 60` (`zEnd_trace`) and `dim_ℂ End_G(Λ²) = 2`
+(`lam2_hom_finrank`), this is the second trace identity: writing `z² = a·1 + b·z` in the
+2-dimensional endomorphism algebra, `tr(z²) = 6a + 60b = 3600` and `tr(z) = 60` combine (with
+`dim ℂ³₊ = dim ℂ³₋ = 3`, so `b = μ⁺ + μ⁻ = 20`) to give `a = 400`, i.e. the minimal polynomial
+`z² − 20·z − 400 = 0` with roots `μ± = 10 ± 10√5`. -/
+lemma zEnd_sq_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * zEnd) = 3600 := by
+  have hconj : ∀ g : G,
+      LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation (g * r5 * g⁻¹))
+        = LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation r5) := by
+    intro g
+    have hc : lam2Sub.toRepresentation g * zEnd = zEnd * lam2Sub.toRepresentation g :=
+      (zEnd_central g).eq
+    have hrw : zEnd * lam2Sub.toRepresentation (g * r5 * g⁻¹)
+        = lam2Sub.toRepresentation g * (zEnd * lam2Sub.toRepresentation r5)
+            * lam2Sub.toRepresentation g⁻¹ := by
+      rw [map_mul, map_mul]
+      simp only [← mul_assoc]
+      rw [hc]
+    rw [hrw, LinearMap.trace_mul_comm, ← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
+  have hz2 : zEnd * zEnd = ∑ g : G, zEnd * lam2Sub.toRepresentation (g * r5 * g⁻¹) := by
+    rw [← Finset.mul_sum]; rfl
+  rw [hz2, map_sum, Finset.sum_congr rfl (fun g _ => hconj g), Finset.sum_const, Finset.card_univ,
+    nsmul_eq_mul]
+  have hr5 : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation r5) = 60 := by
+    have h := zEnd_comp_char_val 3
+    rw [show classRepA5 3 = r5 from rfl] at h
+    rw [h]
+    norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+  have hcard : (Fintype.card G : ℂ) = 60 := by
+    rw [← Nat.card_eq_fintype_card, card_G]; norm_num
+  rw [hr5, hcard]; norm_num
 
 end
 

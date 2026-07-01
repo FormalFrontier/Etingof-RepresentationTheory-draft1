@@ -1,6 +1,6 @@
 import Mathlib.RepresentationTheory.Induced
 import Mathlib.RepresentationTheory.FiniteIndex
-import Mathlib.RepresentationTheory.FdRep
+import Mathlib.RepresentationTheory.FDRep
 import Mathlib.Algebra.Lie.UniversalEnveloping
 import Mathlib.Algebra.MonoidAlgebra.Basic
 import Mathlib.LinearAlgebra.TensorAlgebra.Basic
