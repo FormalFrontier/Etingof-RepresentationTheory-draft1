@@ -1655,6 +1655,25 @@ lemma Zamb_mapsTo : ∀ v ∈ lam2Sub.toSubmodule, Zamb v ∈ lam2Sub.toSubmodul
   rw [Zamb, LinearMap.sum_apply]
   exact Submodule.sum_mem _ fun g _ => lam2Sub.apply_mem_toSubmodule (g * r5 * g⁻¹) hv
 
+/-- **`z` is the restriction of the ambient `Z` to `Λ²(ℂ⁴)`.**  Both are the same 60-term group
+sum `Σ_g ρ(g·r·g⁻¹)`: `zEnd` restricts each summand to `lam2Sub` (Phase B, where the traces are
+computed), while `Zamb` keeps it ambient on `W4 ⊗ W4` (Phase C, where the eigenspaces defining
+`ℂ³₊`, `ℂ³₋` live).  Coercing `zEnd v` back to `W4 ⊗ W4` recovers `Z` applied to the coercion —
+the identity transporting the trace / minimal-polynomial data of `z` onto the `Z`-eigenspaces. -/
+lemma zEnd_coe (v : ↥lam2Sub.toSubmodule) :
+    ((zEnd v : ↥lam2Sub.toSubmodule) : W4 ⊗[ℂ] W4) = Zamb (v : W4 ⊗[ℂ] W4) := by
+  simp only [zEnd, Zamb, LinearMap.sum_apply, Submodule.coe_sum]
+  rfl
+
+/-- **The `μ`-eigenspaces of `z` and of `Z` correspond under `Λ²(ℂ⁴) ↪ W4 ⊗ W4`.**  A vector of
+`Λ²(ℂ⁴)` is a `μ`-eigenvector of the intrinsic `zEnd` iff its ambient image is a `μ`-eigenvector
+of `Zamb`.  Immediate from `zEnd_coe`. -/
+lemma zEnd_eigenspace_iff (μ : ℂ) (v : ↥lam2Sub.toSubmodule) :
+    v ∈ Module.End.eigenspace zEnd μ
+      ↔ (v : W4 ⊗[ℂ] W4) ∈ Module.End.eigenspace Zamb μ := by
+  rw [Module.End.mem_eigenspace_iff, Module.End.mem_eigenspace_iff, Subtype.ext_iff, zEnd_coe,
+    Submodule.coe_smul]
+
 /-! #### The two eigenvalues and the genuine eigenspace subrepresentations -/
 
 /-- The eigenvalue `μ⁺ = 10 + 10√5 = 20·φ` of `z` on `ℂ³₊`. -/
@@ -1688,6 +1707,51 @@ def repC3plus : FDRep ℂ G := FDRep.of repC3plusSub.toRepresentation
 
 /-- `ℂ³₋`, the second genuine 3-dimensional icosahedral representation of `A₅`. -/
 def repC3minus : FDRep ℂ G := FDRep.of repC3minusSub.toRepresentation
+
+/-- **The carrier of `ℂ³₊` is the image of the `μ⁺`-eigenspace of the intrinsic `z`.**  The
+subrepresentation `ℂ³₊ = Λ²(ℂ⁴) ⊓ ker(Z − μ⁺)` is exactly the `μ⁺`-eigenspace of `zEnd` inside
+`Λ²(ℂ⁴)`, pushed forward along the inclusion `Λ²(ℂ⁴) ↪ W4 ⊗ W4` (`zEnd_eigenspace_iff`). -/
+lemma repC3plusSub_toSubmodule_eq :
+    repC3plusSub.toSubmodule
+      = (Module.End.eigenspace zEnd muPlus).map lam2Sub.toSubmodule.subtype := by
+  ext x
+  rw [show repC3plusSub.toSubmodule
+      = lam2Sub.toSubmodule ⊓ Module.End.eigenspace Zamb muPlus from rfl,
+    Submodule.mem_inf, Submodule.mem_map]
+  constructor
+  · rintro ⟨hx, hxe⟩
+    exact ⟨⟨x, hx⟩, (zEnd_eigenspace_iff muPlus ⟨x, hx⟩).mpr hxe, rfl⟩
+  · rintro ⟨⟨y, hy⟩, hye, rfl⟩
+    exact ⟨hy, (zEnd_eigenspace_iff muPlus ⟨y, hy⟩).mp hye⟩
+
+/-- **The carrier of `ℂ³₋` is the image of the `μ⁻`-eigenspace of the intrinsic `z`.** -/
+lemma repC3minusSub_toSubmodule_eq :
+    repC3minusSub.toSubmodule
+      = (Module.End.eigenspace zEnd muMinus).map lam2Sub.toSubmodule.subtype := by
+  ext x
+  rw [show repC3minusSub.toSubmodule
+      = lam2Sub.toSubmodule ⊓ Module.End.eigenspace Zamb muMinus from rfl,
+    Submodule.mem_inf, Submodule.mem_map]
+  constructor
+  · rintro ⟨hx, hxe⟩
+    exact ⟨⟨x, hx⟩, (zEnd_eigenspace_iff muMinus ⟨x, hx⟩).mpr hxe, rfl⟩
+  · rintro ⟨⟨y, hy⟩, hye, rfl⟩
+    exact ⟨hy, (zEnd_eigenspace_iff muMinus ⟨y, hy⟩).mp hye⟩
+
+/-- **`dim ℂ³₊ = dim(μ⁺-eigenspace of `z`)`.**  Reduces the dimension of the icosahedral
+representation `ℂ³₊` to the eigenspace dimension of the single 6-dimensional operator `z` on
+`Λ²(ℂ⁴)` — the last combinatorial input still needed (`= 3`, via the minimal polynomial
+`z² = 20z + 400` and `tr z = 60`) to prove `ℂ³₊` genuinely 3-dimensional. -/
+lemma repC3plusSub_finrank_eq :
+    Module.finrank ℂ repC3plusSub.toSubmodule
+      = Module.finrank ℂ (Module.End.eigenspace zEnd muPlus) := by
+  rw [repC3plusSub_toSubmodule_eq, Submodule.finrank_map_subtype_eq]
+
+/-- **`dim ℂ³₋ = dim(μ⁻-eigenspace of `z`)`.** -/
+lemma repC3minusSub_finrank_eq :
+    Module.finrank ℂ repC3minusSub.toSubmodule
+      = Module.finrank ℂ (Module.End.eigenspace zEnd muMinus) := by
+  rw [repC3minusSub_toSubmodule_eq, Submodule.finrank_map_subtype_eq]
 
 /-! #### The eigenspace character numerator `S(g) = tr(z ∘ ρ(g))`
 
