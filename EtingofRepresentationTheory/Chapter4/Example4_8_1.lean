@@ -1689,6 +1689,52 @@ def repC3plus : FDRep ℂ G := FDRep.of repC3plusSub.toRepresentation
 /-- `ℂ³₋`, the second genuine 3-dimensional icosahedral representation of `A₅`. -/
 def repC3minus : FDRep ℂ G := FDRep.of repC3minusSub.toRepresentation
 
+/-! #### The eigenspace character numerator `S(g) = tr(z ∘ ρ(g))`
+
+The two 3-dimensional icosahedral characters are recovered from `Λ²(ℂ⁴)` by the linear system
+`χ₊ + χ₋ = χ_{Λ²}` and `μ⁺·χ₊ + μ⁻·χ₋ = S`, where `S(g) := tr(z·ρ(g))` and `z` acts as the
+scalar `μ⁺` on `ℂ³₊` and `μ⁻` on `ℂ³₋`.  Solving gives the golden-ratio entries
+`χ₊(g) = (S(g) − μ⁻·χ_{Λ²}(g))/(μ⁺ − μ⁻)`.  Here we compute the honest 60-term group sum
+`S = (60, 0, −20, 60, −40)` at the five class representatives. -/
+
+/-- `tr(z·ρ(g))` written as the honest character sum `∑_{h∈A₅} χ_{Λ²}(h·r·h⁻¹·g)`, using that
+`z = ∑_h ρ(h·r·h⁻¹)` and that `ρ` is a monoid homomorphism. -/
+lemma zEnd_comp_char (g : G) :
+    LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation g)
+      = ∑ h : G, lam2.character (h * r5 * h⁻¹ * g) := by
+  have hchar : ∀ x : G, LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (lam2Sub.toRepresentation x)
+      = lam2.character x := fun _ => rfl
+  rw [zEnd, Finset.sum_mul, map_sum]
+  refine Finset.sum_congr rfl fun h _ => ?_
+  rw [← map_mul, hchar]
+
+-- honest `decide` of the character sum over 5×60 group elements; no `native_decide`
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- **The eigenspace character numerator `S(g) = tr(z·ρ(g))` at the five class representatives is
+`(60, 0, −20, 60, −40)`.**  Each value is the honest 60-term sum `∑_h χ_{Λ²}(h·r·h⁻¹·g)`, with
+`χ_{Λ²}(y) = ½·((fix₅(y) − 1)² − (fix₅(y²) − 1))` evaluated by `decide` over the 60 elements of
+`A₅` (no `native_decide`).  Together with `χ_{Λ²} = (6, 0, −2, 1, 1)` and `z = μ⁺` on `ℂ³₊`,
+`z = μ⁻` on `ℂ³₋`, this pins the golden-ratio characters `χ₊ = (3, 0, −1, φ, φ')`,
+`χ₋ = (3, 0, −1, φ', φ)`. -/
+lemma zEnd_comp_char_val (j : Fin 5) :
+    LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * lam2Sub.toRepresentation (classRepA5 j))
+      = (![60, 0, -20, 60, -40] j : ℂ) := by
+  rw [zEnd_comp_char]
+  have hchar : ∀ y : G, lam2.character y
+      = (2⁻¹ : ℂ) * ((((S4.fixCardM (G := G) (α := Fin 5) y : ℤ) - 1) ^ 2
+          - ((S4.fixCardM (G := G) (α := Fin 5) (y * y) : ℤ) - 1) : ℤ) : ℂ) := by
+    intro y
+    rw [lam2_char_formula, repC4_char, repC4_char]
+    push_cast; ring
+  have key : ∀ i : Fin 5,
+      (∑ h : G, (((S4.fixCardM (G := G) (α := Fin 5) (h * r5 * h⁻¹ * classRepA5 i) : ℤ) - 1) ^ 2
+        - ((S4.fixCardM (G := G) (α := Fin 5) ((h * r5 * h⁻¹ * classRepA5 i)
+            * (h * r5 * h⁻¹ * classRepA5 i)) : ℤ) - 1)))
+      = ![120, 0, -40, 120, -80] i := by decide
+  rw [Finset.sum_congr rfl (fun h _ => hchar _), ← Finset.mul_sum, ← Int.cast_sum, key j]
+  fin_cases j <;> norm_num
+
 end
 
 end A5
