@@ -2385,9 +2385,9 @@
     "start_line": 11,
     "end_line": 20,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both ",
+    "fidelity_note": "Wave-5 re-audit (Opus, #5341): gap #5656 repaired by merged PR #5712. Theorem4_1_1_algebra_iso now surfaces k[G] ≃ₐ[k] Π i, Module.End k (V i) with the V i simple, pairwise non-iso, and complete, plus |G| = Σ (dim V_i)² tied to actual finranks — defeating the weak-existential vacuity of the old sum-of-squares-only statement. Faithful.",
     "fidelity_issue": 5656
   },
   {
@@ -2545,9 +2545,9 @@
     "start_line": 3,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Same structural issue as Example4.3_Q8. The book describes the three irreducible representations of S3 (trivial, sign, and 2-dimensional standard rep via symmetries of equilateral tr",
+    "fidelity_note": "Wave-5 re-audit (Opus, #5341): gap #5633 repaired by merged PR #5707. Three FDRep ℂ S3 genuinely constructed (trivRep, signRep, stdRep=sum-zero subrep of perm rep); stdRep_simple proved via FDRep.simple_iff_char_is_norm_one from a real character computation; irreps_dim_sum_of_squares tied to actual finranks. Faithful.",
     "fidelity_issue": 5633
   },
   {
@@ -2561,8 +2561,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book's Example 4.3 for Q8 explicitly describes the 2-dimensional representation via Pauli matrices (4.3.1) and states the five representations include a genuine 2-dimensional one. The L",
-    "fidelity_issue": 5632
+    "fidelity_note": "Wave-5 re-audit (Opus, #5341): gap #5632 was closed by merged PR #5708 but the repair is INCOMPLETE — item remains a gap (new tracking issue #5831). PR #5708 genuinely constructed the 2-dim Pauli rep (rep/repLin, quaternion relations proven), but (1) no irreducibility (Simple) proof for any rep, (2) the four 1-dim pullback reps are absent, (3) sum-of-squares is a bare decide not tied to finranks. Book claims five *irreducible* reps; irreducibility is silently dropped (Stage 3.2 step 7).",
+    "fidelity_issue": 5831
   },
   {
     "id": "Chapter4/Exercise4.3.1",
@@ -2584,9 +2584,9 @@
     "start_line": 11,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Same structural issue as Q8 and S3. Book describes 5 irreps of S4 (trivial, sign, 2-dim pullback from S3, 3-dim rotation rep C3+, 3-dim C3-). Lean only proves: 5 conjugacy classes (b",
+    "fidelity_note": "Wave-5 re-audit (Opus, #5341): gap #5634 repaired by merged PR #5711. Five FDRep ℂ S4 genuinely constructed (trivRep, signRep, twoDimRep, stdRep, rotRep); each proved Simple via character norm-one; distinctness of the two 3-dim reps via differing char on a transposition; sum-of-squares from actual dims. Faithful.",
     "fidelity_issue": 5634
   },
   {
@@ -2662,7 +2662,8 @@
     "end_page": "69",
     "start_line": 11,
     "end_line": 19,
-    "status": "proof_partial"
+    "status": "sorry_free",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.5.4",
@@ -2904,7 +2905,7 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "ok",
+    "fidelity": "verified",
     "sorry_free": true,
     "fidelity_note": "Fixed in #5620: the Lean definition now uses `Matrix.of fun (g h : G) => MvPolynomial.X (g * h)`, matching the book's entries a_{ij} = x_{g_i g_j}. Theorem 4.10.2's proof tracks the inversion-permutation sign that relates X_G to the regular-representation operator matrix and absorbs it into the irreducible factors.",
     "fidelity_issue": 5620
