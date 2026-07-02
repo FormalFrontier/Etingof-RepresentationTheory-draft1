@@ -4843,7 +4843,10 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "ok",
+    "sorry_free": true,
+    "fidelity_note": "Added in #5729: EtingofRepresentationTheory/Chapter5/Remark5_23_3.lean. Genuinely proves the load-bearing content: the simultaneous constant shift Etingof.DominantWeight.constShift (lam -> lam + c*1^N), the shift-equivalence setoid shiftSetoid, and the parameter type Etingof.SLWeightParam n := Quotient (shiftSetoid n) -- Etingof's parametrization of SL(V)-irreducibles by dominant weights up to a simultaneous constant shift -- plus Etingof.specialLinear_det_eq_one (det = 1 on SL_N, the source of the identification). The two book-disavowed / infrastructure-heavy assertions are recorded via proof_wanted (no sorry, no axiom): Etingof.algIrrepGL_finrank_constShift (dim L_lam = dim L_{lam+c*1^N}, the statable dimension-level shadow of the SL(V) isomorphism) and Etingof.sl_finiteDimensional_completely_reducible (complete reducibility of finite-dimensional sl_N-modules, stated as every LieSubmodule having a complement, mirroring the sl(2) case Etingof.Sl2Irrep.complete_reducibility of Problem 2.15.1, which the book omits: 'we will not do this here').",
+    "fidelity_issue": 5729
   },
   {
     "id": "Chapter5/Introduction_5.24",
