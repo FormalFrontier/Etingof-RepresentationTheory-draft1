@@ -25,23 +25,13 @@ immediately with `ABORT: no issue number provided`.
    `coordination claim <N> --label <type>`. Do **NOT** use
    `coordination list-unclaimed` — you are not picking from the
    queue.
-   - **Exception — triage worker types (`replan`, `plan`).** These
-     skills never claim: `replan` edits issues directly and produces
-     no PR, and `coordination claim` deliberately **refuses**
-     `replan`-labelled issues (`CLAIM FAILED: … needs replan`).
-     Do **not** treat that refusal as an abort. Instead confirm the
-     issue is a valid candidate for your type (`coordination
-     list-replan` for replan) and follow that skill's own lifecycle.
 4. **If the claim fails** (issue already claimed by another agent,
    issue closed, issue not labelled with the worker type, etc.),
    exit immediately. Print `ABORT: claim failed for #<N>` and do
-   nothing else. No worktree commits, no branches, no PR. (Does not
-   apply to the triage exception in step 3 — a `needs replan` refusal
-   there is expected, not a failure.)
+   nothing else. No worktree commits, no branches, no PR.
 5. Once the claim succeeds, **execute the issue end-to-end**
    following the standard worker flow for the matched type
-   (implementation, build, tests, commit, push, open PR). For triage
-   types, execute the skill's direct-edit lifecycle instead (no PR).
+   (implementation, build, tests, commit, push, open PR).
 6. Run `/reflect` before finishing.
 
 ## Hard constraints

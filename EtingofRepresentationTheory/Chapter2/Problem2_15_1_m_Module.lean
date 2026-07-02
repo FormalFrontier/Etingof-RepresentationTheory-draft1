@@ -101,6 +101,57 @@ theorem lie_sl2_e_fIter (ν : ℂ) (w : M) (hE : ⁅sl2_e, w⁆ = 0) (hH : ⁅sl
 
 end Ladder
 
+/-! ## Reducing intertwining to the generators `h, e, f`
+
+A linear map between `sl(2)`-modules is a Lie-module hom as soon as it intertwines the
+three standard generators `h, e, f`: every `X ∈ sl(2)` is the combination
+`X₀₀·h + X₀₁·e + X₁₀·f` (tracelessness makes `X₁₁ = −X₀₀` redundant), so the action of
+`X` is a linear combination of the actions of `h, e, f`. -/
+
+section Intertwine
+
+/-- Any element of `sl(2)` decomposes on the standard triple:
+`X = X₀₀ • h + X₀₁ • e + X₁₀ • f`. -/
+theorem sl2_decomp (X : sl2) :
+    X = X.val 0 0 • sl2_h + X.val 0 1 • sl2_e + X.val 1 0 • sl2_f := by
+  apply Subtype.ext
+  have htr : X.val 1 1 = -X.val 0 0 := sl2_traceless X
+  ext i j
+  show X.val i j
+    = (X.val 0 0 • sl2_h.val + X.val 0 1 • sl2_e.val + X.val 1 0 • sl2_f.val) i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [sl2_h, sl2_e, sl2_f, LieAlgebra.SpecialLinear.val_single,
+      LieAlgebra.SpecialLinear.val_singleSubSingle, Matrix.add_apply, Matrix.smul_apply,
+      Matrix.sub_apply, Matrix.single, smul_eq_mul] <;>
+    simp [htr]
+
+variable {V W : Type*} [AddCommGroup V] [Module ℂ V] [LieRingModule sl2 V] [LieModule ℂ sl2 V]
+  [AddCommGroup W] [Module ℂ W] [LieRingModule sl2 W] [LieModule ℂ sl2 W]
+
+/-- A linear map between `sl(2)`-modules intertwining the standard generators `h, e, f`
+intertwines the action of every `X ∈ sl(2)`. -/
+theorem map_lie_of_gens (φ : V →ₗ[ℂ] W)
+    (hh : ∀ v, φ ⁅sl2_h, v⁆ = ⁅sl2_h, φ v⁆)
+    (he : ∀ v, φ ⁅sl2_e, v⁆ = ⁅sl2_e, φ v⁆)
+    (hf : ∀ v, φ ⁅sl2_f, v⁆ = ⁅sl2_f, φ v⁆)
+    (x : sl2) (v : V) : φ ⁅x, v⁆ = ⁅x, φ v⁆ := by
+  conv_lhs => rw [sl2_decomp x]
+  conv_rhs => rw [sl2_decomp x]
+  simp only [add_lie, smul_lie, map_add, map_smul, hh, he, hf]
+
+/-- Package a linear map intertwining the generators as a Lie-module hom. -/
+def lieHomOfGens (φ : V →ₗ[ℂ] W)
+    (hh : ∀ v, φ ⁅sl2_h, v⁆ = ⁅sl2_h, φ v⁆)
+    (he : ∀ v, φ ⁅sl2_e, v⁆ = ⁅sl2_e, φ v⁆)
+    (hf : ∀ v, φ ⁅sl2_f, v⁆ = ⁅sl2_f, φ v⁆) :
+    V →ₗ⁅ℂ,sl2⁆ W :=
+  { φ with map_lie' := fun {x v} => map_lie_of_gens φ hh he hf x v }
+
+@[simp] theorem lieHomOfGens_apply (φ : V →ₗ[ℂ] W) (hh he hf) (v : V) :
+    lieHomOfGens φ hh he hf v = φ v := rfl
+
+end Intertwine
+
 variable (lam mu : ℕ)
 
 /-- The tensor product `V_λ ⊗ V_μ` carries the derivation `sl(2)`-action
