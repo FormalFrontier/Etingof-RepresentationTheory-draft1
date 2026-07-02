@@ -179,13 +179,6 @@ theorem Etingof.Theorem_6_5_2a_finiteness
   -- By injectivity, the domain is also finite
   exact himg_fin.of_finite_image (hC_inj.injOn.mono (Set.subset_univ _))
 
-/-- Gabriel's theorem (combined, part a): the set of positive roots is finite. -/
-theorem Etingof.Theorem_6_5_2_Gabriels_theorem
-    {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
-    (hDynkin : Etingof.IsDynkinDiagram n adj) :
-    Set.Finite {d : Fin n → ℤ | Etingof.IsPositiveRoot n adj d} :=
-  Etingof.Theorem_6_5_2a_finiteness hDynkin
-
 end Finiteness
 
 /-- Part (b) of Gabriel's theorem: the dimension vector of any indecomposable
@@ -242,3 +235,67 @@ theorem Etingof.Theorem_6_5_2c_bijection
     have h1 := hdim₁ v
     have h2 := hdim₂ v
     omega
+
+universe u in
+/-- **Gabriel's theorem (combined).** For a Dynkin quiver `Q` (given by its
+symmetric adjacency matrix `adj`, with `Q` an orientation of `adj`) over any
+field `k`, all three parts hold at once:
+
+* **(a)** the set of positive roots is finite;
+* **(b)** the dimension vector of every finite-dimensional indecomposable
+  representation is a positive root — as a genuine implication `indecomposable ⇒
+  positive root`, discharging the `B(d,d) = 2` hypothesis of the standalone part
+  (b) via `indecomposable_bilinearForm_eq_two`;
+* **(c)** for each positive root `α` there is exactly one indecomposable
+  representation (up to isomorphism) with dimension vector `α`.
+
+This is the faithful canonical statement: the three parts are the ones stated
+separately above (`Theorem_6_5_2a_finiteness`, `Theorem_6_5_2b_dimvec_is_positive_root`,
+`Theorem_6_5_2c_bijection`), assembled here so the canonical name asserts the
+whole theorem on its own.
+(Etingof Theorem 6.5.2) -/
+theorem Etingof.Theorem_6_5_2_Gabriels_theorem
+    {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hDynkin : Etingof.IsDynkinDiagram n adj)
+    (k : Type u) [Field k]
+    {Q : @Quiver.{0, 0} (Fin n)}
+    (hQ : Etingof.IsOrientationOf Q adj)
+    [∀ (a b : Fin n), Subsingleton (@Quiver.Hom (Fin n) Q a b)] :
+    -- (a) finiteness of positive roots
+    (Set.Finite {d : Fin n → ℤ | Etingof.IsPositiveRoot n adj d}) ∧
+    -- (b) every finite-dimensional indecomposable has a positive-root dimension vector
+    (∀ (ρ : @Etingof.QuiverRepresentation.{u, 0, 0, 0} k (Fin n) _ Q)
+      [∀ v, Module.Free k (ρ.obj v)] [∀ v, Module.Finite k (ρ.obj v)],
+      ρ.IsIndecomposable →
+      Etingof.IsPositiveRoot n adj (fun v => (Module.finrank k (ρ.obj v) : ℤ))) ∧
+    -- (c) each positive root has a unique indecomposable realizer
+    (∀ (α : Fin n → ℤ), Etingof.IsPositiveRoot n adj α →
+      (∃ (ρ : @Etingof.QuiverRepresentation.{u, 0, u, _} k (Fin n) _ Q)
+        (_ : ∀ v, Module.Free k (ρ.obj v)) (_ : ∀ v, Module.Finite k (ρ.obj v)),
+        ρ.IsIndecomposable ∧ ∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ.obj v))) ∧
+      (∀ (ρ₁ ρ₂ : @Etingof.QuiverRepresentation.{u, 0, 0, 0} k (Fin n) _ Q)
+        [∀ v, Module.Free k (ρ₁.obj v)] [∀ v, Module.Finite k (ρ₁.obj v)]
+        [∀ v, Module.Free k (ρ₂.obj v)] [∀ v, Module.Finite k (ρ₂.obj v)],
+        ρ₁.IsIndecomposable → ρ₂.IsIndecomposable →
+        (∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ₁.obj v))) →
+        (∀ v, (α v : ℤ) = ↑(Module.finrank k (ρ₂.obj v))) →
+        Nonempty (Etingof.QuiverRepresentation.Iso ρ₁ ρ₂))) := by
+  refine ⟨Etingof.Theorem_6_5_2a_finiteness hDynkin, ?_, ?_⟩
+  · -- (b): indecomposable ⇒ positive root
+    intro ρ _ _ hρ
+    refine Etingof.Theorem_6_5_2b_dimvec_is_positive_root hDynkin _
+      (fun _ => Int.natCast_nonneg _) ?_ ?_
+    · -- the dimension vector is nonzero: an indecomposable is nontrivial at some vertex
+      obtain ⟨v, hv⟩ := hρ.1
+      intro heq
+      have hv0 : Module.finrank k (ρ.obj v) = 0 := by
+        have h := congr_fun heq v
+        simpa using h
+      letI : AddCommGroup (ρ.obj v) := Etingof.addCommGroupOfRing (k := k)
+      haveI : Subsingleton (ρ.obj v) := Module.finrank_zero_iff.mp hv0
+      exact not_nontrivial (ρ.obj v) hv
+    · -- B(d, d) = 2 (Tits form on an indecomposable dimension vector)
+      exact Etingof.indecomposable_bilinearForm_eq_two hDynkin hQ ρ hρ
+  · -- (c): from the standalone bijection theorem
+    intro α hα
+    exact Etingof.Theorem_6_5_2c_bijection hDynkin k hQ α hα
