@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Proposition5_2_5
+import EtingofRepresentationTheory.Chapter5.Theorem5_3_1
 
 /-!
 # Remark 5.2.8: A modification of the vanishing-of-characters argument
@@ -113,5 +114,51 @@ theorem not_isIntegral_rat_mem_Ioo {q : ℚ}
   have hn0 : (0 : ℤ) < n := by exact_mod_cast h0
   have hn1 : n < 1 := by exact_mod_cast h1
   omega
+
+/-!
+## The algebraic-integer half of Steps 3-5
+
+The final contradiction needs two facts about `β := ∏_{g ≠ 1} |χ_V(g)|²`:
+
+* `β` is **rational** — this is the content of Steps 3-4 (Galois invariance in
+  `ℚ(ζ_N)`), which requires cyclotomic / Galois infrastructure and is tracked in
+  the foundation sub-issue;
+* `β` is an **algebraic integer** — established here, `sorry`-free, from the fact
+  that character values are algebraic integers (`FDRep.character_isIntegral`).
+
+Given both, `not_isIntegral_rat_mem_Ioo` closes the argument once `0 < β < 1`.
+The integrality half below needs none of the blocked infrastructure.
+-/
+
+open scoped ComplexConjugate
+
+/-- The complex conjugate of an algebraic integer in `ℂ` is again an algebraic
+integer: conjugation `z ↦ conj z` is a `ℤ`-algebra automorphism of `ℂ`, so it
+preserves integrality over `ℤ`. -/
+theorem isIntegral_conj {z : ℂ} (hz : IsIntegral ℤ z) : IsIntegral ℤ (conj z) :=
+  hz.map (Complex.conjAe.restrictScalars ℤ).toAlgHom
+
+set_option linter.unusedFintypeInType false in
+/-- The squared modulus `|χ_V(g)|²` of a character value is an algebraic integer:
+`|χ_V(g)|² = χ_V(g) · conj(χ_V(g))` is a product of algebraic integers
+(`FDRep.character_isIntegral`), and the algebraic integers form a ring. -/
+theorem isIntegral_normSq_character {G : Type} [Group G] [Fintype G]
+    (V : FDRep ℂ G) (g : G) :
+    IsIntegral ℤ ((Complex.normSq (V.character g) : ℂ)) := by
+  rw [← Complex.mul_conj]
+  exact (FDRep.character_isIntegral V g).mul (isIntegral_conj (FDRep.character_isIntegral V g))
+
+set_option linter.unusedFintypeInType false in
+/-- **The algebraic-integer half of Remark 5.2.8.** For any finite set `s` of group
+elements, `∏_{g ∈ s} |χ_V(g)|²` is an algebraic integer. Taking
+`s = G ∖ {1}` this is exactly "`β` is a product of algebraic integers, hence an
+algebraic integer" — the input to `not_isIntegral_rat_mem_Ioo` that does not depend
+on the cyclotomic Galois argument (Steps 3-4). -/
+theorem isIntegral_prod_normSq_character {G : Type} [Group G] [Fintype G]
+    (V : FDRep ℂ G) (s : Finset G) :
+    IsIntegral ℤ (∏ g ∈ s, (Complex.normSq (V.character g) : ℂ)) := by
+  have h : (∏ g ∈ s, (Complex.normSq (V.character g) : ℂ)) ∈ integralClosure ℤ ℂ :=
+    prod_mem (fun g _ => isIntegral_normSq_character V g)
+  exact h
 
 end Etingof.Remark5_2_8
