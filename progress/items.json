@@ -3803,8 +3803,8 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage] No Lean declaration found for Remark5.9.2. No file matching Remark5_9_2.lean exists in Chapter5, and grep finds no declaration with this name. The Frobenius character formula χ(g) = (1/|H|)",
+    "fidelity": "faithful",
+    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula χ(g) = (1/|H|) · Σ_{x∈G : xgx⁻¹∈H} χ_V(xgx⁻¹). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement — see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = ℂ (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean.",
     "fidelity_issue": 5653
   },
   {

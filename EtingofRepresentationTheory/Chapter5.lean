@@ -43,6 +43,7 @@ import EtingofRepresentationTheory.Chapter5.RightTranslationHullDecomp
 -- Section 5.9: Frobenius Formula
 import EtingofRepresentationTheory.Chapter5.TraceCoinvariants
 import EtingofRepresentationTheory.Chapter5.Theorem5_9_1
+import EtingofRepresentationTheory.Chapter5.Remark5_9_2
 
 -- Section 5.10: Frobenius Reciprocity
 import EtingofRepresentationTheory.Chapter5.Theorem5_10_1
