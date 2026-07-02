@@ -39,6 +39,28 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
+## Fidelity-audit review items (Stage 3.7 sweep, epic #5338)
+
+Some `review` issues are fidelity audits, not code-improvement passes. These ask you
+to set each item's `fidelity` field in `progress/items.json` to `verified` or `gap`
+by applying PLAN.md Stage 3.2 steps 6–7 (anti-vacuity, then conjunct-by-conjunct
+no-silent-weakening) against the item's blob, judged with a **different model** than
+formalized it and calibrated on #5322/#5323/#5326. Record findings in
+`progress/coverage-audit/fidelity-wave-N.md`. A `gap` opens a `bug`+`review` repair
+issue linked to the audit issue.
+
+- **Re-audit `gap` items whose repair issue has closed with a merged PR** — a closed
+  repair issue is NOT proof of faithfulness. Repairs are sometimes merged having added
+  the object but silently dropped a conjunct (seen with Q8 #5632/#5708: 2-dim rep built,
+  but irreducibility and the four 1-dim reps still missing → stayed a gap under new
+  issue #5831). Re-run steps 6–7 against the current Lean before flipping to `verified`.
+- **Cross-check sibling items formalized in one PR batch** against each other — a
+  divergence (e.g. two of three parallel examples prove `Simple` and the third does not)
+  is a reliable tell that the odd one out's repair is incomplete.
+- **Normalize non-schema `fidelity` values** (e.g. `ok`) to `verified`/`gap`, and
+  reconcile stale `status` (e.g. a `proof_partial` item that is actually sorry-free) by
+  checking `lake build` — that rot is separate from `fidelity`.
+
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by
