@@ -7542,8 +7542,10 @@
     "derived_from": "Chapter5/Discussion_5.25.1",
     "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
     "claim": "The number of conjugacy classes of each type in GL₂(𝔽_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q²-1.",
-    "status": "accepted",
-    "coverage_issue": 5679
+    "status": "statement_formalized",
+    "coverage_issue": 5679,
+    "lean_file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
+    "note": "First instantiation of ConjClasses for GL₂. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq (total = q²-1) stated with sorry proofs (need constant class-size lemmas)."
   },
   {
     "type": "derived",
