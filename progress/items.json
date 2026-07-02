@@ -593,7 +593,8 @@
     "end_page": "14",
     "start_line": 4,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.3.17",
@@ -613,7 +614,8 @@
     "end_page": "15",
     "start_line": 14,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.4_heading",
@@ -637,7 +639,8 @@
     "end_page": "15",
     "start_line": 15,
     "end_line": 15,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.5_heading",
@@ -675,7 +678,8 @@
     "end_page": "16",
     "start_line": 19,
     "end_line": 19,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.5.2",
@@ -685,7 +689,8 @@
     "end_page": "16",
     "start_line": 20,
     "end_line": 29,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.6",
@@ -780,7 +785,8 @@
     "end_page": "19",
     "start_line": 25,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.7.5",
@@ -790,7 +796,8 @@
     "end_page": "19",
     "start_line": 9,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Definition2.8.1",
@@ -887,7 +894,8 @@
     "end_page": "20",
     "start_line": 6,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_quiver_rep_bijection",
@@ -973,7 +981,8 @@
     "end_page": "22",
     "start_line": 15,
     "end_line": 11,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.9_heading",
@@ -1092,7 +1101,8 @@
     "end_page": "24",
     "start_line": 6,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Definition2.9.6",
@@ -1164,7 +1174,8 @@
     "end_page": "25",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Example2.9.12",
@@ -1284,7 +1295,8 @@
     "end_page": "31",
     "start_line": 23,
     "end_line": 37,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_pure_tensors",
@@ -1336,7 +1348,8 @@
     "end_page": "33",
     "start_line": 2,
     "end_line": 15,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Remark2.11.4",
@@ -1360,7 +1373,8 @@
     "end_page": "34",
     "start_line": 12,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.11.6",
@@ -1382,7 +1396,8 @@
     "end_page": "35",
     "start_line": 25,
     "end_line": 26,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.12_heading",
@@ -1432,7 +1447,8 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.14_heading",
@@ -1486,7 +1502,8 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Discussion_2.15_heading",
@@ -1534,7 +1551,8 @@
     "end_page": "40",
     "start_line": 18,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.16.2",
@@ -1544,7 +1562,8 @@
     "end_page": "40",
     "start_line": 5,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.16.3",
@@ -1554,7 +1573,8 @@
     "end_page": "40",
     "start_line": 7,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.16.4",
@@ -1564,7 +1584,8 @@
     "end_page": "40",
     "start_line": 13,
     "end_line": 13,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter2/Problem2.16.5",
@@ -1574,7 +1595,8 @@
     "end_page": "41",
     "start_line": 14,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Introduction",
@@ -1833,7 +1855,8 @@
     "end_page": "48",
     "start_line": 1,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Remark3.3.4",
@@ -2025,7 +2048,8 @@
     "end_page": "52",
     "start_line": 11,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Theorem3.6.2",
@@ -2157,7 +2181,8 @@
     "end_page": "56",
     "start_line": 15,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Problem3.8.5",
@@ -2167,7 +2192,8 @@
     "end_page": "56",
     "start_line": 5,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Remark3.8.6",
@@ -2206,7 +2232,8 @@
     "end_page": "57",
     "start_line": 15,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Problem3.9.2",
@@ -2216,7 +2243,8 @@
     "end_page": "57",
     "start_line": 13,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Problem3.9.3",
@@ -2226,7 +2254,8 @@
     "end_page": "57",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Problem3.9.4",
@@ -2236,7 +2265,8 @@
     "end_page": "58",
     "start_line": 1,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Problem3.9.5",
@@ -2246,7 +2276,8 @@
     "end_page": "59",
     "start_line": 13,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Introduction_to_3.10",
@@ -2270,7 +2301,8 @@
     "end_page": "59",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter3/Discussion_before_Theorem3.10.2",
@@ -2407,7 +2439,8 @@
     "end_page": "63",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Introduction_4.2",
@@ -2460,7 +2493,8 @@
     "end_page": "64",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Corollary4.2.4",
@@ -2538,7 +2572,8 @@
     "end_page": "66",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Example4.3_S4",
@@ -2616,7 +2651,8 @@
     "end_page": "69",
     "start_line": 33,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Remark4.5.3",
@@ -2976,7 +3012,8 @@
     "end_page": "83",
     "start_line": 9,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.2",
@@ -2986,7 +3023,8 @@
     "end_page": "84",
     "start_line": 15,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.3",
@@ -3006,7 +3044,8 @@
     "end_page": "84",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.5",
@@ -3016,7 +3055,8 @@
     "end_page": "85",
     "start_line": 19,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.6",
@@ -3026,7 +3066,8 @@
     "end_page": "85",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.7",
@@ -3036,7 +3077,8 @@
     "end_page": "86",
     "start_line": 9,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.8",
@@ -3046,7 +3088,8 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.9",
@@ -3056,7 +3099,8 @@
     "end_page": "87",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.10",
@@ -3066,7 +3110,8 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Problem4.12.11",
@@ -3076,7 +3121,8 @@
     "end_page": "88",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter4/Discussion_4.13",
@@ -3142,7 +3188,8 @@
     "end_page": "94",
     "start_line": 15,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Example5.1.3",
@@ -3203,7 +3250,8 @@
     "end_page": "95",
     "start_line": 23,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.2",
@@ -3328,7 +3376,8 @@
     "end_page": "98",
     "start_line": 3,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "partially_formalized",
+    "coverage_note": "Part (b) β-integrality embedded in Chapter5/Remark5_2_8.lean; full remark open (#5654/#5772)"
   },
   {
     "id": "Chapter5/Remark5.2.8",
@@ -3402,7 +3451,8 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.4",
@@ -3757,7 +3807,8 @@
     "end_page": "108",
     "start_line": 27,
     "end_line": 28,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Exercise5.8.5",
@@ -3767,7 +3818,8 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.9",
@@ -3858,7 +3910,8 @@
     "end_page": "110",
     "start_line": 35,
     "end_line": 35,
-    "status": "sorry_free"
+    "status": "formalized",
+    "coverage_note": "Proved (embedded) in Chapter5/Theorem5_10_1.lean"
   },
   {
     "id": "Chapter5/Discussion_Problem5.10.2_parts",
@@ -3868,7 +3921,8 @@
     "end_page": "112",
     "start_line": 1,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "partially_formalized",
+    "coverage_note": "Related content in Chapter5/Theorem5_27_1.lean / DetClearing.lean"
   },
   {
     "id": "Chapter5/Introduction_5.11",
@@ -3906,7 +3960,8 @@
     "end_page": "112",
     "start_line": 13,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.12",
@@ -3999,7 +4054,8 @@
     "end_page": "114",
     "start_line": 9,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.13",
@@ -4363,7 +4419,8 @@
     "end_page": "120",
     "start_line": 21,
     "end_line": 25,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Problem5.16.2",
@@ -4373,7 +4430,8 @@
     "end_page": "121",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Problem5.16.3",
@@ -4383,7 +4441,8 @@
     "end_page": "121",
     "start_line": 3,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.17",
@@ -4870,7 +4929,8 @@
     "end_page": "135",
     "start_line": 3,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Problem5.24.2",
@@ -4880,7 +4940,8 @@
     "end_page": "135",
     "start_line": 15,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Introduction_5.25",
@@ -5147,7 +5208,8 @@
     "end_page": "147",
     "start_line": 15,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter5/Exercise5.27.3",
@@ -5157,7 +5219,8 @@
     "end_page": "147",
     "start_line": 17,
     "end_line": 17,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter6/Introduction",
@@ -5215,7 +5278,8 @@
     "end_page": "150",
     "start_line": 1,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter6/Definition6.1.4",
@@ -5263,7 +5327,8 @@
     "end_page": "151",
     "start_line": 1,
     "end_line": 43,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter6/Problem6.1.3_continued_tildeE",
@@ -5273,7 +5338,8 @@
     "end_page": "152",
     "start_line": 1,
     "end_line": 34,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter6/Problem6.1.5",
@@ -5315,7 +5381,8 @@
     "end_page": "154",
     "start_line": 21,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter6/Section6.2_heading",
@@ -5954,7 +6021,8 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter6/Problem6.9.3",
@@ -5964,7 +6032,8 @@
     "end_page": "179",
     "start_line": 25,
     "end_line": 5,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Introduction",
@@ -6412,7 +6481,8 @@
     "end_page": "191",
     "start_line": 3,
     "end_line": 6,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Discussion_after_Problem7.7.3",
@@ -6525,7 +6595,8 @@
     "end_page": "193",
     "start_line": 1,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Problem7.8.5",
@@ -6535,7 +6606,8 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Definition7.8.6",
@@ -6557,7 +6629,8 @@
     "end_page": "194",
     "start_line": 23,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Introduction_7.9",
@@ -6692,7 +6765,8 @@
     "end_page": "195",
     "start_line": 25,
     "end_line": 26,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Exercise7.9.8",
@@ -6702,7 +6776,8 @@
     "end_page": "195",
     "start_line": 27,
     "end_line": 29,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter7/Introduction_7.10",
@@ -6796,7 +6871,8 @@
     "end_page": "206",
     "start_line": 9,
     "end_line": 16,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Exercise8.1.4",
@@ -6806,7 +6882,8 @@
     "end_page": "206",
     "start_line": 17,
     "end_line": 18,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Discussion_after_Exercise8.1.4",
@@ -6924,7 +7001,8 @@
     "end_page": "208",
     "start_line": 9,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Definition8.2.3",
@@ -6960,7 +7038,8 @@
     "end_page": "209",
     "start_line": 23,
     "end_line": 8,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Problem8.2.6",
@@ -6970,7 +7049,8 @@
     "end_page": "210",
     "start_line": 9,
     "end_line": 22,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Problem8.2.7",
@@ -6980,7 +7060,8 @@
     "end_page": "210",
     "start_line": 23,
     "end_line": 26,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Problem8.2.8",
@@ -6990,7 +7071,8 @@
     "end_page": "210",
     "start_line": 27,
     "end_line": 40,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Discussion_after_Problem8.2.8",
@@ -7014,7 +7096,8 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter8/Problem8.2.10",
@@ -7225,7 +7308,8 @@
     "end_page": "217",
     "start_line": 19,
     "end_line": 2,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter9/Definition9.4.3",
@@ -7261,7 +7345,8 @@
     "end_page": "217",
     "start_line": 7,
     "end_line": 10,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter9/Problem9.4.6",
@@ -7271,7 +7356,8 @@
     "end_page": "217",
     "start_line": 11,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter9/Introduction_9.5",
@@ -7323,7 +7409,8 @@
     "end_page": "218",
     "start_line": 7,
     "end_line": 12,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter9/Introduction_9.6",
@@ -7375,7 +7462,8 @@
     "end_page": "219",
     "start_line": 3,
     "end_line": 4,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter9/Discussion_before_Theorem9.6.4",
@@ -7417,7 +7505,8 @@
     "end_page": "219",
     "start_line": 11,
     "end_line": 29,
-    "status": "sorry_free"
+    "status": "not_formalized",
+    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
     "id": "Chapter9/Introduction_9.7",
