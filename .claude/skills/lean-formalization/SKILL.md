@@ -580,6 +580,34 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### Galois fixed-field arguments on character values: transport *into* the subfield, don't extend automorphisms to ℂ (#5772)
+
+Character-theoretic rationality/integrality proofs (e.g. "β is fixed by every
+`ζ ↦ ζʲ`, hence rational") end at
+`IsGalois.mem_range_algebraMap_iff_fixed x : x ∈ range (algebraMap F E) ↔ ∀ φ : E ≃ₐ[F] E, φ x = x`
+(namespace `IsGalois`, **not** `IntermediateField`). The target `x` must live in a
+finite Galois `E` — for cyclotomic work take `E = K = ℚ⟮ζ⟯` as an
+`IntermediateField ℚ ℂ` (`ζ := Complex.isPrimitiveRoot_exp N hN.ne'`;
+`IsCyclotomicExtension {N} ℚ K` via
+`IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic` +
+`IsPrimitiveRoot.adjoin_isCyclotomicExtension`; then
+`IsCyclotomicExtension.isGalois`/`.finiteDimensional`).
+
+The trap: character values are `ℂ`-traces, so the eigenvalue computation lives in
+`ℂ`, but `φ : K ≃ₐ[ℚ] K` acts on `K`. Do **not** try to extend `φ` to a ring endo
+of `ℂ` — that needs transcendence-basis machinery Mathlib does not cleanly provide
+(`IsAlgClosed.lift` needs the *source* algebraic over the base, which `ℂ/ℚ` is not).
+Instead **build the character value as an element of `K`** and push `φ` through it:
+each eigenvalue `μ` of `ρ(g)` is an `N`-th root of unity, hence lies in `K` (all
+`N`-th roots of unity do, since `ζ` is primitive), so lift the trace decomposition
+`χ_V(g) = ∑_μ (dim Eμ)·μ` to `x_g := ∑ (dim Eμ : K) · ⟨μ, _⟩ ∈ K` (sum over
+`hfin.toFinset.attach`; membership from `IsPrimitiveRoot.eq_pow_of_pow_eq_one` +
+`pow_mem`). Then `algebraMap K ℂ x_g = χ_V(g)`, and since `φ` raises roots of unity
+to the `j`-th power (`IsPrimitiveRoot.autToPow_spec`, `j` coprime via
+`ZMod.val_coe_unit_coprime`), `algebraMap K ℂ (φ x_g) = χ_V(gʲ)`; injectivity of
+`algebraMap K ℂ` gives `φ x_g = x_{gʲ}`, and reindexing `g ↦ gʲ` restores the
+product. Finish with `IsScalarTower.algebraMap_apply ℚ K ℂ` to land back in `ℂ`.
+
 #### Dual / contragredient representation as a genuine opposite-module instance (#5593, twins #5355/#5356)
 
 A recurring fidelity-gap family: a "dual representation `V*`" definition aliased to
