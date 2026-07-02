@@ -1982,6 +1982,79 @@ lemma zEnd_not_scalar (c : ℂ) : zEnd ≠ c • 1 := by
   have hc10 : c = 10 := by linear_combination h1 / 6
   rw [hc10] at h2; norm_num at h2
 
+set_option maxRecDepth 4000 in
+set_option maxHeartbeats 1600000 in
+-- The `Action.Hom` / `FGModuleCat` composition unfolds through several category layers, so the
+-- definitional-equality checks (`comm`, and the `rfl` transport lemmas) exceed the default
+-- recursion depth and heartbeat budget.
+/-- **THE degree-2 relation `z² = a·z + b·1` in `End_{A₅}(Λ²(ℂ⁴))`.**
+
+Because `z = zEnd` is `A₅`-equivariant (`zEnd_central`), so is its square, so both — together with
+the identity — package as morphisms in the categorical Hom-space `lam2 ⟶ lam2`, which is
+`2`-dimensional (`lam2_hom_finrank`).  Three vectors `{1, z, z²}` in a `2`-dimensional space are
+linearly dependent.  Pushing that dependency through the (ℂ-linear) forgetful map to
+`End ℂ ↥lam2Sub.toSubmodule` gives `c₀·1 + c₁·z + c₂·z² = 0` with the `cᵢ` not all zero.  The
+`z²`-coefficient `c₂` must be nonzero: otherwise `{1, z}` would be linearly dependent, contradicting
+`zEnd_not_scalar`.  Dividing by `c₂` exhibits `z²` in the span of `{1, z}`, i.e. `∃ a b, z² = a·z +
+b·1`.  This is the linchpin for the eigenspace split `z² = 20·z + 400·1`. -/
+lemma zEnd_sq_eq_aux : ∃ a b : ℂ, zEnd * zEnd = a • zEnd + b • 1 := by
+  -- Package `zEnd` as a categorical endomorphism of `lam2` (equivariant via `zEnd_central`).
+  let zHom : lam2 ⟶ lam2 :=
+    { hom := FGModuleCat.ofHom zEnd
+      comm := fun g => by
+        ext v
+        exact congr_fun (congr_arg DFunLike.coe (zEnd_central g).symm) v }
+  -- The forgetful "underlying linear map" functional, packaged as a ℂ-linear map.
+  let Φ : (lam2 ⟶ lam2) →ₗ[ℂ] Module.End ℂ (↥lam2Sub.toSubmodule) :=
+    { toFun := fun f => f.hom.hom.hom
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  have hid : Φ (𝟙 lam2) = 1 := rfl
+  have hz : Φ zHom = zEnd := rfl
+  have hzz : Φ (zHom ≫ zHom) = zEnd * zEnd := rfl
+  -- `1 ≠ 0` in the endomorphism algebra (its trace is `6 ≠ 0`).
+  have hone : (1 : Module.End ℂ (↥lam2Sub.toSubmodule)) ≠ 0 := by
+    intro h
+    have htr : LinearMap.trace ℂ (↥lam2Sub.toSubmodule)
+        (1 : Module.End ℂ (↥lam2Sub.toSubmodule)) = 6 := by
+      rw [Module.End.one_eq_id, LinearMap.trace_id, lam2_finrank]; norm_num
+    rw [h, map_zero] at htr; norm_num at htr
+  -- Three vectors in a `2`-dimensional space are linearly dependent.
+  have hdep : ¬ LinearIndependent ℂ
+      (![𝟙 lam2, zHom, zHom ≫ zHom] : Fin 3 → (lam2 ⟶ lam2)) := by
+    intro hli
+    have h := hli.fintype_card_le_finrank
+    rw [lam2_hom_finrank, Fintype.card_fin] at h; omega
+  rw [Fintype.not_linearIndependent_iff] at hdep
+  obtain ⟨c, hsum, i₀, hne⟩ := hdep
+  -- Push the dependency through `Φ`.
+  have himg : c 0 • (1 : Module.End ℂ (↥lam2Sub.toSubmodule)) + c 1 • zEnd
+      + c 2 • (zEnd * zEnd) = 0 := by
+    have hkey := congr_arg Φ hsum
+    rw [map_zero, map_sum, Fin.sum_univ_three] at hkey
+    simpa only [map_smul, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+      Matrix.cons_val_two, Matrix.tail_cons, hid, hz, hzz] using hkey
+  -- The `z²`-coefficient is nonzero.
+  have hc2 : c 2 ≠ 0 := by
+    intro h2
+    rw [h2, zero_smul, add_zero] at himg
+    by_cases h1 : c 1 = 0
+    · rw [h1, zero_smul, add_zero] at himg
+      have hc0 : c 0 = 0 := (smul_eq_zero.mp himg).resolve_right hone
+      fin_cases i₀ <;> simp_all
+    · refine zEnd_not_scalar (-((c 1)⁻¹ * c 0)) ?_
+      -- Scale the relation by `c₁⁻¹` (avoids the `Module.End` neg/sub instance diamond).
+      have hscaled := congrArg (fun x => (c 1)⁻¹ • x) himg
+      simp only [smul_add, smul_zero, smul_smul, inv_mul_cancel₀ h1, one_smul] at hscaled
+      apply eq_of_sub_eq_zero
+      rw [← hscaled]; module
+  -- Divide by `c₂` to exhibit `z²` in the span of `{1, z}`.
+  refine ⟨-((c 2)⁻¹ * c 1), -((c 2)⁻¹ * c 0), ?_⟩
+  have hscaled := congrArg (fun x => (c 2)⁻¹ • x) himg
+  simp only [smul_add, smul_zero, smul_smul, inv_mul_cancel₀ hc2, one_smul] at hscaled
+  apply eq_of_sub_eq_zero
+  rw [← hscaled]; module
+
 /-! #### The two eigenvalues `μ± = 10 ± 10√5` and the minimal polynomial `X² − 20X − 400`
 
 The eigenvalues of `z` on the two 3-dimensional eigenspaces are `μ± = 10 ± 10√5 = 20φ, 20φ'`.
