@@ -39,6 +39,32 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
+## Fidelity-audit reconciliation (Stage 3.7 sweep issues)
+
+When a fidelity-audit issue's items already carry verdicts from a prior
+partial pass (common: an earlier wave set `verified`/`gap`/`faithful` and
+opened repair issues but never wrote a wave certificate), do **not** trust
+the existing verdicts:
+
+- **Re-audit the previously-`verified` items too**, not just `gap`/`unchecked`
+  ones. Prior passes miss real gaps — re-auditing routinely refutes some
+  `verified` items (e.g. a multi-part example/definition whose second clause or
+  a named sub-notion is absent, or a docstring that promises more than the decl
+  asserts).
+- **Reconcile merged repairs against the *current* Lean.** For each `gap` whose
+  repair issue has closed/merged, read the post-repair file: flip to `verified`
+  only if the fix is genuinely faithful and non-vacuous, and drop the stale
+  `fidelity_issue`/`fidelity_note`.
+- **Reopen (or open) a repair issue for every residual gap.** A partial repair
+  that merged and closed its issue still leaves an open gap — reopen it with a
+  residual-scope comment, or open a fresh `bug`+`review` issue linked to the
+  audit issue.
+- **Normalize non-standard labels** (`faithful` → `verified`) so the final
+  state is only `verified` or `gap`.
+- Judge with a **different model** than the author, and use parallel
+  sub-auditors + adjudication for scale. Write the wave certificate to
+  `progress/coverage-audit/fidelity-wave-N.md`.
+
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by
