@@ -663,6 +663,44 @@ private lemma centralizerCard_elliptic {g : GL2' p n} (hg : GL2.IsElliptic g) :
   rw [centralizerCard_of_nonscalar hns hr]
   simp
 
+/-- `|GL₂(𝔽_q)| = (q²−1)(q²−q)`. -/
+private lemma card_GL2_eq :
+    Fintype.card (GL2' p n)
+      = (Fintype.card (GaloisField p n) ^ 2 - 1)
+        * (Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n)) := by
+  have h := Matrix.card_GL_field (𝔽 := GaloisField p n) 2
+  rw [Nat.card_eq_fintype_card] at h
+  rw [h]; simp [Fin.prod_univ_two, pow_zero, pow_one]
+
+/-- `q = pⁿ ≥ 3` when `p ≠ 2`. -/
+private lemma card_ge_three (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    3 ≤ Fintype.card (GaloisField p n) := by
+  rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+  have hp3 : 3 ≤ p := by have := hp.out.two_le; omega
+  calc 3 ≤ p := hp3
+    _ = p ^ 1 := (pow_one p).symm
+    _ ≤ p ^ n := Nat.pow_le_pow_right (by omega) (Nat.one_le_iff_ne_zero.mpr hn)
+
+/-- **Bridge to a per-type count.** Given a conjugation-closed type `P` with constant
+centralizer order `d`, if the type has `cardS` elements, each class has `classSize`
+elements (`= |G|/d > 0`), and `target · classSize = cardS`, then there are exactly
+`target` classes of type `P`. -/
+private lemma count_from_bridge {P : GL2' p n → Prop}
+    (hclosed : ∀ g ∈ {g : GL2' p n | P g}, ∀ x : GL2' p n,
+      x * g * x⁻¹ ∈ {g : GL2' p n | P g})
+    {d : ℕ}
+    (hd : ∀ g ∈ {g : GL2' p n | P g},
+      Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n))) = d)
+    {cardS target classSize : ℕ}
+    (hSncard : {g : GL2' p n | P g}.ncard = cardS)
+    (hclass : Fintype.card (GL2' p n) / d = classSize)
+    (hpos : 0 < classSize)
+    (harith : target * classSize = cardS) :
+    (ConjClasses.mk '' {g : GL2' p n | P g}).ncard = target := by
+  have hbridge := ncard_conjClasses_image_mul_centralizerCard hclosed hd
+  rw [hSncard, hclass] at hbridge
+  exact Nat.eq_of_mul_eq_mul_right hpos (hbridge.trans harith.symm)
+
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
 nonzero scalar `x` (matching `GL2.card_isScalar`). -/
 theorem numScalarClasses_eq (hn : n ≠ 0) :
@@ -691,7 +729,38 @@ parabolic elements `(q−1)(q²−1)` (`GL2.card_isParabolic`) by the class size
 `q²−1` gives `q − 1`. -/
 theorem numParabolicClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     numParabolicClasses (p := p) (n := n) = Fintype.card (GaloisField p n) - 1 := by
-  sorry
+  simp only [numParabolicClasses]
+  have hq3 := card_ge_three (p := p) (n := n) hp2 hn
+  have hqe : Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n)
+      = Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) := by
+    obtain ⟨m, hm⟩ :=
+      Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+    rw [hm]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    have : (m + 1) ^ 2 = (m + 1) * m + (m + 1) := by ring
+    omega
+  apply count_from_bridge (P := fun g => GL2.IsParabolic g)
+    (cardS := (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) ^ 2 - 1))
+    (target := Fintype.card (GaloisField p n) - 1)
+    (classSize := Fintype.card (GaloisField p n) ^ 2 - 1)
+  case hclosed =>
+    intro g hg x
+    simp only [Set.mem_setOf_eq] at hg ⊢
+    exact GL2.isParabolic_of_isConj (isConj_iff.mpr ⟨x, rfl⟩) hg
+  case hd =>
+    intro g hg
+    simp only [Set.mem_setOf_eq] at hg
+    exact centralizerCard_parabolic hg
+  case hSncard =>
+    rw [show {g : GL2' p n | GL2.IsParabolic g}
+        = ↑(Finset.univ.filter (fun g : GL2' p n => GL2.IsParabolic g)) from by ext g; simp,
+      Set.ncard_coe_finset, GL2.card_isParabolic hp2 hn]
+  case hclass =>
+    rw [card_GL2_eq, hqe]
+    exact Nat.mul_div_cancel _ (Nat.mul_pos (by omega) (by omega))
+  case hpos =>
+    have : 1 < Fintype.card (GaloisField p n) ^ 2 := by nlinarith [hq3]
+    omega
+  case harith => ring
 
 /-- **Split-semisimple count.** There are `(q−1)(q−2)/2` split-semisimple
 (hyperbolic) conjugacy classes, one for each unordered pair `{x, y}` of distinct
