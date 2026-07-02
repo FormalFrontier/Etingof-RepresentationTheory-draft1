@@ -137,6 +137,16 @@ master: `git checkout agent/<id> && git reset --hard origin/master`.
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
+**Editing `progress/items.json` (any session, especially review/fidelity
+audits that bulk-update `fidelity`/`status` fields):** edit surgically —
+`grep -n` the item id, Read those ~15 lines, `Edit` just the field value, and
+drop any now-stale `fidelity_note`. Never `json.load`+`json.dump` the whole
+file: the reserializer reflows indentation/key-order/unicode into a
+multi-thousand-line diff against the shared 13k-line file (it only stays clean
+by luck if your dump params happen to match). When flipping a `gap` back to
+`verified`, also remove its `fidelity_issue` and confirm the linked repair
+issue actually merged. (Full rationale in the `lean-formalization` skill.)
+
 ## Step 3: Codebase Orientation
 
 Read the specific files mentioned in the plan/issue. Understand the current state
