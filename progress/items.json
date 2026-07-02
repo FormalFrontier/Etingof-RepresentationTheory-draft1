@@ -1826,12 +1826,12 @@
     "start_line": 9,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The definition is 'abbrev Etingof.DualRepresentation (k : Type*) (V : Type*) [CommSemiring k] [AddCommMonoid V] [Module k V] := Module.Dual k V'. The parameter A is absent — there is",
+    "fidelity_note": "[fidelity verified, wave-5] Repair #5618 (CLOSED) added the algebra parameter A: DualRepresentation k A V := Module.Dual k V now carries the contragredient Aᵐᵒᵖ-action via instance instModuleMulOppositeDual, with defining-equation theorem dualRepresentation_smul_apply proving (a • f) v = f (a.unop • v) — matching the book's (f·a)(v) = f(av). The A^op-representation is genuinely constructed. No vacuous/weakened statement remains.",
     "fidelity_decl": "Etingof.DualRepresentation (k A V) := Module.Dual k V, with Module A^mop instance (op a . f)(v) = f(a.v)",
     "fidelity_issue": 5618,
-    "last_updated": "2026-06-29"
+    "last_updated": "2026-07-02"
   },
   {
     "id": "Chapter3/Discussion_proof_of_Theorem3.3.1",
@@ -1894,10 +1894,11 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[fidelity, resolved #5619] Etingof.Filtration is now a structure bundling the ascending chain (RelSeries) with the two boundary conditions head_eq_bot (V₀ = ⊥) and last_eq_top (Vₙ = ⊤), matching the book's 0 = V₀ ⊂ ⋯ ⊂ Vₙ = V.",
-    "fidelity_issue": 5619
+    "fidelity_note": "[fidelity verified, wave-5] Repair #5619 (CLOSED) replaced the bare RelSeries abbrev with a structure bundling the strictly-ascending chain and both boundary conditions head_eq_bot (V₀ = ⊥) and last_eq_top (Vₙ = ⊤), matching the book's 0 = V₀ ⊂ ⋯ ⊂ Vₙ = V. No dropped conjunct.",
+    "fidelity_issue": 5619,
+    "last_updated": "2026-07-02"
   },
   {
     "id": "Chapter3/Lemma3.4.2",
@@ -2204,8 +2205,8 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "partial",
-    "fidelity_note": "[coverage/needs_completion] wave-3; #5662: existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring formalized in Chapter3/Remark3_8_6.lean over an arbitrary ring (no algebraically closed field); uniqueness (Krull-Schmidt-Azumaya exchange) remains as follow-up",
+    "fidelity": "verified",
+    "fidelity_note": "[fidelity verified, wave-5] The formalized declarations (isNilpotent_or_isUnit_of_finiteLength_indecomposable = Fitting's lemma, isLocalRing_end_of_finiteLength_indecomposable, exists_indecomposable_decomposition) are each faithful and non-vacuous; none is presented as full Krull-Schmidt while silently weaker. The uniqueness half (Krull-Schmidt-Azumaya) for the finite-length setting is a coverage follow-up (repair #5662, CLOSED, uniqueness explicitly noted as follow-up), not a fidelity gap: no vacuous/weakened statement masquerades under this item. Full uniqueness for the finite-dimensional case is faithfully proved in Theorem 3.8.1 (krull_schmidt_uniqueness).",
     "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition",
     "last_updated": "2026-07-02",
     "fidelity_issue": 5662
@@ -2327,11 +2328,12 @@
     "start_line": 13,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614).",
     "sorry_free": true,
-    "fidelity_note": "[resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V ≅ V' as A-modules, W ≅ W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
-    "fidelity_issue": 5614
+    "fidelity_note": "[fidelity verified, wave-5] Part (i) tensor_product_irreducible (V⊗W irreducible) and part (ii) existence tensor_product_irreducible_classification are faithful. Repair #5614 (CLOSED) restored the dropped uniqueness conjunct as companion theorem tensor_product_irreducible_classification_unique: any two A-B-equivariant factorizations give V ≃ₗ[A] V' and W ≃ₗ[B] W', i.e. the book's 'unique V and W' (up to iso). No dropped conjunct.",
+    "fidelity_issue": 5614,
+    "last_updated": "2026-07-02"
   },
   {
     "id": "Chapter3/Remark3.10.3",
@@ -2342,8 +2344,8 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
-    "fidelity": "covered",
-    "fidelity_note": "[resolved #5663] Formalized the core obstruction: ratFunc_tensor_ratFunc_not_isField proves ¬ IsField (RatFunc ℂ ⊗[ℂ] RatFunc ℂ), witnessing the failure of Theorem 3.10.2(i) for infinite dimensional representations (A=B=V=W=ℂ(x)). Witness element X⊗1-1⊗X is nonzero (via shift alg hom X↦X+1) but not a unit (multiplication map lmul' sends it to 0).",
+    "fidelity": "verified",
+    "fidelity_note": "[fidelity verified, wave-5] Repair #5663 (CLOSED) formalized the concrete counterexample of the remark: ratFunc_tensor_ratFunc_not_isField proves ¬ IsField (RatFunc ℂ ⊗[ℂ] RatFunc ℂ), witnessing the failure of Theorem 3.10.2(i) for A=B=V=W=ℂ(x). Faithful, non-vacuous (explicit nonzero non-unit witness).",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
     "last_updated": "2026-07-02",
     "fidelity_issue": 5663
