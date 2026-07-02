@@ -163,6 +163,7 @@ Reusable pieces and the gotchas that each cost a build cycle:
 Induced-representation / coset-model gotchas (`Chapter5/Theorem5_27_1.lean`, `inducedRepV` on `(G ⧸ stab) → U`), each cost a build cycle:
 - **Carrier-vs-function-type friction.** `inducedRepV φ χ U := FDRep.of (V := (G ⧸ H) → U) …`, so its carrier `↑(inducedRepV φ χ U).V` is *defeq* but not *syntactically* equal to `(G ⧸ H) → U`. Mixing the two breaks `rw`/`simp`: feeding a literal `Pi.single q₀ u` into `weightSpace`'s `LinearMap.id`/`LinearMap.sub_apply` machinery (carrier instances) clashes with `A_action_scalar`/`inducedRepV_A_apply` (which type `f : (G ⧸ H) → U`), giving `AddCommMonoid` mismatch / "target not type-correct under instances". Fixes: (a) **prefer the function-level A-eigenvalue equation** `ρ⟨a,1⟩ f = χ(a) • f` over `weightSpace` membership — the proven idiom (see `inducedRepV_orbit_injectivity`'s `haction_f`); (b) keep the eigenvector as a `set f₀ : (G ⧸ H) → U := Pi.single q₀ u` **function-typed local**, not a bare literal in a carrier slot; (c) an *opaque* carrier term `T f₀` (output of a `LinearEquiv`) feeds `A_action_scalar φ χ U a (T f₀) q` fine — only literal `Pi.single` with baked instances bites.
 - **`MulAction G (G ⧸ stab)` instance fails on `⟦1⟧` literals.** `g • (⟦(1:G)⟧ : G ⧸ stab)` errors `failed to synthesize HSMul G (Quotient (QuotientGroup.leftRel …))` — the instance is keyed on `HasQuotient.Quotient`, and the `⟦·⟧`/`Quotient.mk` head doesn't match. Use **`QuotientGroup.mk (1 : G)`** (its result type *is* the `HasQuotient` form) everywhere the base coset is smul'd. (A variable `q : G ⧸ stab` smul's fine; only the literal is poisoned. `set q₀ := ⟦1⟧` dodges the smul error, but a `set` fvar then won't `rw`-match a lemma stated with raw `mk`, so for cross-lemma `rw` keep `QuotientGroup.mk (1:G)` raw, no `set`.)
+- **`Quotient.mk''` over `QuotientGroup.rightRel H` needs its setoid pinned (cost ~3 build cycles, `Chapter5/Remark5_8_3.lean`).** `rightRel H` is *not* a `Setoid` instance (only `leftRel`/`G ⧸ H` is), so a bare `Quotient.mk'' g` or `(Quotient.mk'' g).out` in a `def`/`have` leaves `don't know how to synthesize implicit argument s₁` / `⊢ Setoid G`. **Fix: ascribe the type at every occurrence** — `(Quotient.mk'' g : Quotient (QuotientGroup.rightRel H)).out` — or pass `(s₁ := QuotientGroup.rightRel H)` to `Quotient.mk_out'`/`out_eq'`. Inside a coset-evaluation `LinearEquiv`, the `Quotient (rightRel H) → V` domain pins `mk''` in `toFun`/`invFun` for free, but standalone `have`s in `left_inv`/`right_inv` do not — ascribe there. Useful lemmas: `Quotient.eq''.mpr (QuotientGroup.rightRel_apply.mpr …)` to build `mk'' a = mk'' b` (`rightRel_apply : rightRel s x y ↔ y * x⁻¹ ∈ s`), `Quotient.mk_out'`, `Quotient.out_eq'`, `QuotientGroup.card_quotient_rightRel` (= `card (G ⧸ H)`); index via `Subgroup.index_eq_card`, `Fintype` via `Subgroup.fintypeQuotientOfFiniteIndex`. Also **`group` treats `H.subtype s` and `↑s` as distinct atoms** — `rw [Subgroup.subtype_apply]` (`H.subtype s = ↑s`) before `group`, but note it also rewrites `H.subtype s` *inside* `mk''(H.subtype s * g)`, so apply your `mk''`-equality rewrites (e.g. `hout`) first. To prove `dim(Ind_H^G V) = dim V · (G:H)`: `Rep.indToCoind`/`coindToInd` give `IndV ≃ₗ coindV` (finite index), then a hand-built `coindV ≃ₗ (Quotient (rightRel H) → V)` by evaluation at `.out`, then `Module.finrank_pi_fintype` — see `Etingof.Remark5_8_3`.
 
 Three gotchas that each cost a build cycle:
 1. **`@[simp] a_zero : (a 0 : QuaternionGroup n) = 1`** (and `DihedralGroup.r_zero`, etc.) silently rewrites the identity element under any `simp`/`norm_num`, so a per-element value lemma keyed on `a 0` stops matching (the term becomes `1`). Use **`norm_num [-QuaternionGroup.a_zero, …]`** (or `simp only` with an explicit list that excludes it). Watch the dual: `FDRep.char_one` (`χ 1 = finrank`) then fires on the `1` and derails a 2-dim trace computation.
@@ -542,36 +543,6 @@ noncomputable def pathMap (R …) {a b : Q} (p : Quiver.Path a b) : … :=
 lemmas). Separately: when a lemma over a section with `variable [DecidableEq Q]` does not actually
 use it (the `pathMap_*` lemmas don't), the `unusedDecidableInType` linter warns — prefix the lemma
 with `omit [DecidableEq Q] in` (placed *before* any docstring).
-
-### Operator exponentials `exp (t • D)` for derivations/one-parameter groups (Ch2 Remark 2.9.4, #5661)
-
-Formalizing "`exp(tD)` is a one-parameter family of automorphisms" over `A →L[𝕜] A` hits two
-Mathlib walls. Both cost real debugging on #5661; recognize them up front.
-
-1. **`NormedSpace.exp_add_of_commute` is unavailable on operator algebras.** It (and `isUnit_exp`,
-   `exp_neg`) live in a section requiring `[NormedAlgebra ℚ 𝔸]`, and the only general instance
-   (`normedAlgebraRat`) needs `𝔸` a `NormedDivisionRing`. `A →L[ℝ] A` is not one, so
-   `NormedAlgebra ℚ (A →L[ℝ] A)` does **not** synthesize. **Do not** reach for `exp_add`. Instead get
-   every identity (`exp((s+t)•D)=exp(s•D)*exp(t•D)`, the inverse `exp(-t•D)`, multiplicativity,
-   unitality) from **ODE uniqueness** `ODE_solution_unique_univ (K := ‖D‖₊) (s := fun _ => Set.univ)`:
-   each curve `s ↦ exp(s•D) x` solves the linear ODE `w' = D ∘ w` with `(D.lipschitz).lipschitzOnWith`
-   as the Lipschitz field; compare two such curves with equal initial value. The per-point derivative
-   is `(hasDerivAt_exp_smul_const' D s).clm_apply (hasDerivAt_const s a)` giving
-   `HasDerivAt (fun s => exp(s•D) a) (D (exp(s•D) a)) s` after `simpa [mul_apply_eq_comp]`
-   (`(f * g) x = f (g x)`; `ContinuousLinearMap.mul_apply` is deprecated → `mul_apply_eq_comp`).
-   The multiplicative curve's derivative uses the Leibniz rule to rewrite `D (v s)`; the constant
-   curve for unitality needs `D 1 = 0` (from `D(1*1)=D1*1+1*D1`). Only real time `t : ℝ` works
-   (`ODE_solution_unique_univ` is over `ℝ`) — but "one-parameter" *is* real, so state it over `ℝ` and
-   note the `ℂ` case is identical in the docstring rather than fighting `Module ℝ (A →L[ℂ] A)`
-   (which also fails to synthesize).
-
-2. **Generic `smul` simp/rw lemmas silently miss the operator smul.** `exp (t • D)` pins a
-   nonstandard `SMul ℝ (A →L[ℝ] A)` instance for which bare `rw [zero_smul]` / `rw [add_smul]` fail
-   ("did not find pattern") and plain `simp` makes no progress on `exp (0 • D) = 1`. **Pass explicit
-   arguments:** `rw [zero_smul ℝ D, exp_zero]`, `rw [add_smul s t D]`. For a vector-valued chain rule
-   (`d/ds exp((s+t)•D)`), use `.scomp` not `.comp` (`(hasDerivAt_exp_smul_const' D (s+t)).scomp s h2`,
-   then `simpa [Function.comp, mul_apply_eq_comp]`); and let the composed `HasDerivAt`'s type be
-   inferred — annotating it with a fresh `A →L[ℝ] A` reintroduces the instance-diamond mismatch.
 
 ### Representation Theory Patterns
 
