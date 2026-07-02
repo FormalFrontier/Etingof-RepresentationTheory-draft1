@@ -432,6 +432,23 @@ When you `obtain ⟨ι, _, S, acgS, modkS, …⟩` from a `∃ … (S) (_ : ∀ 
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
+
+When a class field's type interleaves implicit and explicit binders (e.g.
+`CategoryTheory.Congruence`'s `comp_left {X Y Z} (f) {g g'} : r g g' → …`),
+both named-argument (`comp_left f h := …`) and `:= fun f h => …` forms mis-bind
+— Lean's implicit-lambda insertion assigns your names to the wrong positions and
+you get baffling "argument has type `Y ⟶ Z`" errors. This bites hardest when the
+relation `r` is a *pullback* (`fun f g => Homotopic f.hom g.hom`) so the
+hypothesis type doesn't reduce as written. Fix: use tactic mode and `intro`
+**every** binder explicitly, `:= by intro X Y Z f g g' h; exact …`. Cost 4
+build cycles on `Chapter7/Example7_1_3.lean` (#5640, homotopy category of spaces
+as `CategoryTheory.Quotient TopCat homotopyRel`). That file is also the reusable
+template for "build a quotient category": give `r : HomRel C`, prove
+`Congruence r` (`equivalence` from the relation's `Equivalence`; `comp_left`/
+`comp_right` from its composition-compatibility lemma), then
+`abbrev Q := CategoryTheory.Quotient r` gets its `Category` instance for free.
+
 ### `rw`/`simp` fail to match Finsupp applications over `Tabloid` (Ch5 TabloidModule)
 
 `Tabloid n la` is a `def` for `Quotient (TabloidSetoid n la)` (semireducible, NOT
