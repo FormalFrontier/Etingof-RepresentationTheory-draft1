@@ -1369,7 +1369,9 @@
     "end_page": "35",
     "start_line": 15,
     "end_line": 24,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "note": "Covered-inline audit conclusion (completeness audit #5726, epic #5338): this problem is NOT separately formalized. Its only narrative citation is the Discussion in the proof of Problem 5.10.2, which uses part (b) — the k[G]-bimodule tensor-hom adjunction — to conclude Theorem 5.10.1. That load-bearing conclusion is formalized directly and completely in Chapter5/Theorem5_10_1.lean as Etingof.Theorem5_10_1, obtained from Mathlib's Rep.indResHomEquiv (the native Ind ⊣ Res adjunction) rather than through the bimodule route, so Theorem 5.10.1 does not silently assume this problem. The Discussion of Problem 5.10.2 carrying the citation has no Lean file, and Remark 2.11.4's TensorProductOverRing (the V ⊗_B W of this problem) is imported by no downstream file. The bimodule associativity (a) and tensor-hom adjunction (b) are self-contained exercises with no formalized consumer; a faithful formalization would require building a full bimodule/universal-property API on the bare-quotient TensorProductOverRing. See Chapter2/Problem2_11_6.lean for the coverage record."
   },
   {
     "id": "Chapter2/Exercise2.11.7",

@@ -20,6 +20,15 @@ which is precisely Frobenius reciprocity stated as Ind ⊣ Res.
 - `Rep.indResAdjunction` — the categorical adjunction Ind ⊣ Res
 - `Rep.ind` — the induced representation functor
 - `Action.res` — the restriction functor
+
+## Book route vs. this formalization (completeness audit, epic #5338)
+
+The book concludes Theorem 5.10.1 from the tensor-hom adjunction of Problem
+2.11.6(b) applied to the `k[G]`-bimodule `k[G]` (see the Discussion in the proof
+of Problem 5.10.2). This formalization instead obtains the same equivalence
+directly from Mathlib's `Rep.indResHomEquiv`, so it does **not** depend on
+Problem 2.11.6. See `Chapter2/Problem2_11_6.lean` for the audit conclusion that
+Problem 2.11.6 is not load-bearing for any formalized content.
 -/
 
 open CategoryTheory
