@@ -203,4 +203,24 @@ theorem algIrrepGLRepρ_noniso (n : ℕ) (k : Type) [Field k] [IsAlgClosed k] [C
     exact_mod_cast congrArg (Nat.cast : ℕ → ℤ) hi
   omega
 
+/-- **Uniqueness of the highest weight (the complete-invariant classification).**
+The dominant integer weight `λ` is a complete invariant of the irreducible algebraic
+representation `L_λ = algIrrepGLRepρ n λ k`: two of these irreducibles are isomorphic
+as `k[GL_n]`-modules **iff** their highest weights coincide. This is the faithful
+Lean rendering of the book's assertion (Discussion after Definition 5.23.1) that to
+every weakly-decreasing integer sequence `λ₁ ≥ ⋯ ≥ λ_N` there is attached a *unique*
+irreducible algebraic representation `L_λ`, whose highest weight is `λ`. The forward
+direction is `algIrrepGLRepρ_noniso`; the reverse is the identity isomorphism. -/
+theorem algIrrepGLRepρ_iso_iff_eq (n : ℕ) (k : Type) [Field k] [IsAlgClosed k]
+    [CharZero k] {lam mu : DominantWeight n} :
+    Nonempty ((algIrrepGLRepρ n lam k).asModule ≃ₗ[MonoidAlgebra k
+        (Matrix.GeneralLinearGroup (Fin n) k)] (algIrrepGLRepρ n mu k).asModule) ↔
+      lam = mu := by
+  constructor
+  · intro h
+    by_contra hne
+    exact algIrrepGLRepρ_noniso n k hne h
+  · rintro rfl
+    exact ⟨LinearEquiv.refl _ _⟩
+
 end Etingof
