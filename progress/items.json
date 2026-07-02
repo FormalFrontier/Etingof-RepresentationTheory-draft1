@@ -7480,13 +7480,12 @@
     "start_line": 17,
     "end_line": 19,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "needs_statement": false,
-    "notes": "Sorry-free since wave 28. Sorry pushed to Infrastructure/BasicAlgebraExistence.",
+    "notes": "Sorry-free since wave 28 (algebra version). Categorical input form landed as Corollary_9_7_3_i_categorical_fgModule (#5738): for a k-linear finite abelian category over an alg-closed field with progenerator P, produces basic B with the single equivalence C ≌ FGModuleCat B. FG-restriction of Morita equivalence in Infrastructure/MoritaFGRestriction.",
     "attention_needed": false,
-    "last_updated": "2026-03-23",
-    "fidelity_note": "[coverage] The book's part (i) asserts 'Any finite abelian category C is equivalent to the category of finite dimensional modules over a unique basic algebra B(C).' Lean only proves the algebra-to-alg",
-    "fidelity_issue": 5657
+    "last_updated": "2026-07-02",
+    "fidelity_issue": 5738
   },
   {
     "id": "Backmatter/ReferencesHistorical",
