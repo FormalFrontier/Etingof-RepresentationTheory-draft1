@@ -2139,7 +2139,10 @@
     "end_page": "55",
     "start_line": 13,
     "end_line": 14,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "note": "Covered-inline: Lemma3_8_2 and Theorem3_8_1 are formalized over an arbitrary [Field k] (no IsAlgClosed), using the Fitting decomposition in place of the book's generalized-eigenspace argument. Chapter3/Problem3_8_3.lean names the general-field citation targets (endo_iso_or_nilpotent, sum_nilpotent_endo, krull_schmidt_existence/uniqueness).",
+    "sorry_free": true
   },
   {
     "id": "Chapter3/Problem3.8.4",
