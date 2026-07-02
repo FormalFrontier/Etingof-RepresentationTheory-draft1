@@ -2,6 +2,11 @@ import Mathlib.Algebra.Algebra.Equiv
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Data.Nat.Factorial.Basic
 import Mathlib.LinearAlgebra.Pi
+import Mathlib.Algebra.Polynomial.Module.AEval
+import Mathlib.Algebra.Polynomial.Div
+import Mathlib.Algebra.Polynomial.RingDivision
+import Mathlib.Algebra.Module.PID
+import Mathlib.Algebra.DirectSum.Module
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!
@@ -15,25 +20,29 @@ form, give each nilpotent Jordan block `J_{0,n}` an `sl(2)`-structure coming fro
 the irreducible `V_n`, and assemble the direct sum; uniqueness then follows from
 the classification of representations (part (f)).
 
-This file formalizes the **constructive heart** of that argument: the single
-Jordan block. We exhibit, for every `n`, an `sl(2)`-representation on `V_n =
-Fin n → ℂ` whose raising operator `E = ρ(e)` is *exactly* the standard nilpotent
-Jordan shift `J_{0,n}` (`e_i ↦ e_{i-1}`, `e_0 ↦ 0`).
+This file formalizes the **existence** half of part (l), in full generality.
 
-The representation is obtained by conjugating the irreducible representation
-`rhoLieHom n` (from `Sl2Irrep.lean`) by the diagonal rescaling `e_k ↦ k! · e_k`.
-On `V_n`, `ρ(e)` already acts as the shift `e_k ↦ k · e_{k-1}` with nonzero
-coefficients, so it is a single Jordan block; the factorial rescaling normalises
-those coefficients to `1`, turning `ρ(e)` into the standard shift `J_{0,n}`.
+We first exhibit, for every `n`, an `sl(2)`-representation on `V_n = Fin n → ℂ`
+whose raising operator `E = ρ(e)` is *exactly* the standard nilpotent Jordan shift
+`J_{0,n}` (`e_i ↦ e_{i-1}`, `e_0 ↦ 0`), obtained by conjugating the irreducible
+representation `rhoLieHom n` (from `Sl2Irrep.lean`) by the diagonal rescaling
+`e_k ↦ k! · e_k`.
+
+We then handle an *arbitrary* finite dimensional `V` and nilpotent
+`A : Module.End ℂ V` (`exists_sl2Rep_of_nilpotent`). Since Mathlib has no explicit
+Jordan-basis decomposition of a nilpotent endomorphism, we build one from the PID
+structure theorem: viewing `V` as a torsion `ℂ[X]`-module with `X` acting as `A`
+(`Module.AEval' A`), `Module.torsion_by_prime_power_decomposition` for the prime `X`
+splits it into cyclic blocks `ℂ[X] ⧸ (Xᵉⁱ)`, each of which is `Fin eᵢ → ℂ` with `X`
+acting as `jordanShift eᵢ` (`blockQuotEquiv`). The block-diagonal assembly and
+transport (`sl2Pi`, `sl2Transport`, `exists_sl2Rep_of_conj_piShift`) then finish.
 
 ## Scope
 
-This is part (l) for a single block. The two remaining pieces — assembling an
-arbitrary nilpotent `A` (via its Jordan decomposition into blocks) into an
-`sl(2)`-representation with `E = A`, and uniqueness up to isomorphism via the
-classification (f) — are tracked as follow-up issues. Mathlib does not currently
-provide an explicit Jordan-basis decomposition of a nilpotent endomorphism, which
-is the missing ingredient for the general assembly.
+Existence is complete for arbitrary nilpotent `A`. The remaining piece — uniqueness
+up to isomorphism via the classification (part (f)) — additionally depends on the
+`sl₂` complete-reducibility results (parts (h)–(k)), and is tracked as follow-up
+work.
 -/
 
 open Etingof
@@ -213,10 +222,10 @@ Together they reduce **general existence** (Problem 2.15.1(l) for an arbitrary
 nilpotent `A`) to the Jordan normal form theorem: once a nilpotent `A` is conjugate
 to a block-diagonal sum of standard shifts `⨁ᵢ J_{0,nᵢ}` — which is exactly the
 statement that `A` has a Jordan basis — it carries an `sl(2)`-structure with `E = A`.
-This is `exists_sl2Rep_of_conj_piShift`. The remaining ingredient, an explicit
-Jordan-basis decomposition of a nilpotent endomorphism, is not yet in Mathlib
-(it must be built from the PID structure theorem via the `ℂ[X]`-module `Module.AEval`)
-and is tracked as follow-up work. -/
+This is `exists_sl2Rep_of_conj_piShift`. The remaining ingredient — an explicit
+Jordan-basis decomposition of a nilpotent endomorphism, absent from Mathlib — is
+built below from the PID structure theorem via the `ℂ[X]`-module `Module.AEval`,
+completing general existence in `exists_sl2Rep_of_nilpotent`. -/
 
 /-- **Block-diagonal assembly.** A finite (indeed arbitrary) family of
 `sl(2)`-representations `ρ i` on spaces `W i` assembles into an
@@ -284,5 +293,200 @@ theorem exists_sl2Rep_of_conj_piShift {V : Type*} [AddCommGroup V] [Module ℂ V
   apply LinearMap.ext; intro v
   rw [sl2Transport_apply, hE, LinearEquiv.lieConj_apply, LinearEquiv.conj_apply_apply,
     LinearEquiv.symm_symm, ← hA v, LinearEquiv.symm_apply_apply]
+
+/-! ## The Jordan basis of a nilpotent operator, via the `ℂ[X]`-module structure
+
+To turn an *arbitrary* nilpotent `A : Module.End ℂ V` into a block-diagonal sum of
+standard shifts, we build a Jordan basis. Mathlib has no explicit Jordan-basis
+decomposition of a nilpotent endomorphism, so we construct it here from the PID
+structure theorem, following the route flagged in the item.
+
+Give `V` the `ℂ[X]`-module structure in which `X` acts as `A` (`Module.AEval' A`).
+Nilpotency of `A` makes this module torsion (annihilated by `Xⁿ`), so
+`Module.torsion_by_prime_power_decomposition` with the prime `X` decomposes it as a
+finite direct sum of cyclic modules `ℂ[X] ⧸ (Xᵉ)`. Each such cyclic quotient is,
+`ℂ`-linearly, the block space `Fin e → ℂ` on which multiplication by `X` becomes the
+standard nilpotent shift `jordanShift e` (`blockQuotEquiv`). Transporting `A` across
+the assembled equivalence realises it as the block-diagonal sum
+`⨁ᵢ jordanShift (eᵢ)`, which is exactly the Jordan-basis hypothesis consumed by
+`exists_sl2Rep_of_conj_piShift`.
+-/
+
+open Polynomial
+open scoped DirectSum
+
+/-- The `ℂ`-linear map reading off the reversed low-degree coefficients of a polynomial:
+`p ↦ (fun k => p.coeff (e-1-k))`. This is the coordinate map of the block basis
+`X^{e-1}, X^{e-2}, …, X, 1`; multiplication by `X` becomes the standard shift under it. -/
+noncomputable def blockCoeffMap (e : ℕ) : Polynomial ℂ →ₗ[ℂ] (Fin e → ℂ) :=
+  LinearMap.pi fun k : Fin e => Polynomial.lcoeff ℂ (e - 1 - (k : ℕ))
+
+@[simp] theorem blockCoeffMap_apply (e : ℕ) (p : Polynomial ℂ) (k : Fin e) :
+    blockCoeffMap e p k = p.coeff (e - 1 - (k : ℕ)) := rfl
+
+/-- The ideal `(Xᵉ) ≤ ℂ[X]` annihilates the reversed low-degree coefficients. -/
+theorem blockSpan_le_ker_blockCoeffMap (e : ℕ) :
+    ((Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}).restrictScalars ℂ)
+      ≤ LinearMap.ker (blockCoeffMap e) := by
+  intro x hx
+  rw [Submodule.restrictScalars_mem, Submodule.mem_span_singleton] at hx
+  obtain ⟨c, rfl⟩ := hx
+  rw [LinearMap.mem_ker]
+  ext k
+  simp only [blockCoeffMap_apply, Pi.zero_apply]
+  have hdvd : (X : Polynomial ℂ) ^ e ∣ c • (X : Polynomial ℂ) ^ e :=
+    ⟨c, by rw [smul_eq_mul]; ring⟩
+  exact (Polynomial.X_pow_dvd_iff.mp hdvd) _ (by omega)
+
+/-- The forward block map, descended to the cyclic quotient `ℂ[X] ⧸ (Xᵉ)`. -/
+noncomputable def blockForward (e : ℕ) :
+    (Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) →ₗ[ℂ] (Fin e → ℂ) :=
+  Submodule.liftQ ((Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}).restrictScalars ℂ)
+    (blockCoeffMap e) (blockSpan_le_ker_blockCoeffMap e)
+
+@[simp] theorem blockForward_mk (e : ℕ) (p : Polynomial ℂ) :
+    blockForward e (Submodule.Quotient.mk p) = blockCoeffMap e p := rfl
+
+/-- The inverse block map: a coefficient vector `v` to the truncated polynomial
+`∑ⱼ v j · X^{e-1-j}`, then to its class in `ℂ[X] ⧸ (Xᵉ)`. -/
+noncomputable def blockPolyOf (e : ℕ) : (Fin e → ℂ) →ₗ[ℂ] Polynomial ℂ :=
+  ∑ j : Fin e, (Polynomial.monomial (e - 1 - (j : ℕ))).comp (LinearMap.proj j)
+
+theorem blockPolyOf_apply (e : ℕ) (v : Fin e → ℂ) :
+    blockPolyOf e v = ∑ j : Fin e, Polynomial.monomial (e - 1 - (j : ℕ)) (v j) := by
+  simp only [blockPolyOf, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
+    LinearMap.proj_apply]
+
+theorem blockPolyOf_coeff (e : ℕ) (v : Fin e → ℂ) (d : ℕ) :
+    (blockPolyOf e v).coeff d = ∑ j : Fin e, (if e - 1 - (j : ℕ) = d then v j else 0) := by
+  rw [blockPolyOf_apply, Polynomial.finsetSum_coeff]
+  exact Finset.sum_congr rfl fun j _ => Polynomial.coeff_monomial
+
+/-- The inverse block map as a `ℂ`-linear map `(Fin e → ℂ) → ℂ[X] ⧸ (Xᵉ)`. -/
+noncomputable def blockBackward (e : ℕ) :
+    (Fin e → ℂ) →ₗ[ℂ] (Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :=
+  ((Submodule.mkQ _).restrictScalars ℂ).comp (blockPolyOf e)
+
+@[simp] theorem blockBackward_apply (e : ℕ) (v : Fin e → ℂ) :
+    blockBackward e v = Submodule.Quotient.mk (blockPolyOf e v) := rfl
+
+theorem blockForward_backward (e : ℕ) (v : Fin e → ℂ) :
+    blockForward e (blockBackward e v) = v := by
+  ext k
+  rw [blockBackward_apply, blockForward_mk, blockCoeffMap_apply, blockPolyOf_coeff]
+  rw [Finset.sum_eq_single k]
+  · rw [if_pos rfl]
+  · intro j _ hjk
+    refine if_neg fun h => hjk ?_
+    have hj := j.isLt; have hk := k.isLt
+    exact Fin.ext (by omega)
+  · intro h; exact absurd (Finset.mem_univ k) h
+
+theorem blockBackward_forward (e : ℕ)
+    (q : Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :
+    blockBackward e (blockForward e q) = q := by
+  induction q using Submodule.Quotient.induction_on with
+  | H p =>
+    rw [blockForward_mk, blockBackward_apply, Submodule.Quotient.eq, Submodule.mem_span_singleton]
+    have hdvd : (X : Polynomial ℂ) ^ e ∣ (blockPolyOf e (blockCoeffMap e p) - p) := by
+      rw [Polynomial.X_pow_dvd_iff]
+      intro d hd
+      rw [Polynomial.coeff_sub, blockPolyOf_coeff]
+      simp only [blockCoeffMap_apply]
+      rw [Finset.sum_eq_single (⟨e - 1 - d, by omega⟩ : Fin e)]
+      · simp only []
+        rw [if_pos (by omega)]
+        have : e - 1 - (e - 1 - d) = d := by omega
+        rw [this]; ring
+      · intro j _ hj
+        refine if_neg fun h => hj (Fin.ext ?_)
+        simp only []; omega
+      · intro h; exact absurd (Finset.mem_univ _) h
+    obtain ⟨c, hc⟩ := hdvd
+    exact ⟨c, by rw [smul_eq_mul, mul_comm]; exact hc.symm⟩
+
+/-- The block coordinate identification `ℂ[X] ⧸ (Xᵉ) ≃ₗ[ℂ] Fin e → ℂ`. Under it,
+multiplication by `X` corresponds to the standard nilpotent shift `jordanShift e`
+(see `blockQuotEquiv_X_smul`). -/
+noncomputable def blockQuotEquiv (e : ℕ) :
+    (Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) ≃ₗ[ℂ] (Fin e → ℂ) :=
+  { blockForward e with
+    invFun := blockBackward e
+    left_inv := blockBackward_forward e
+    right_inv := blockForward_backward e }
+
+@[simp] theorem blockQuotEquiv_apply (e : ℕ)
+    (q : Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :
+    blockQuotEquiv e q = blockForward e q := rfl
+
+/-- Multiplication by `X` on the cyclic quotient `ℂ[X] ⧸ (Xᵉ)` becomes the standard
+nilpotent Jordan shift `jordanShift e` under the block identification. -/
+theorem blockQuotEquiv_X_smul (e : ℕ)
+    (q : Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e}) :
+    blockQuotEquiv e ((X : Polynomial ℂ) • q) = jordanShift e (blockQuotEquiv e q) := by
+  induction q using Submodule.Quotient.induction_on with
+  | H p =>
+    simp only [blockQuotEquiv_apply]
+    rw [show (X : Polynomial ℂ) • (Submodule.Quotient.mk p :
+          Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ e})
+          = Submodule.Quotient.mk (X * p) from by
+        rw [← Submodule.Quotient.mk_smul]; congr 1]
+    rw [blockForward_mk, blockForward_mk]
+    ext k
+    rw [blockCoeffMap_apply, jordanShift_apply]
+    by_cases hk : (k : ℕ) + 1 < e
+    · rw [dif_pos hk, blockCoeffMap_apply]
+      have : e - 1 - (k : ℕ) = (e - 1 - ((k : ℕ) + 1)) + 1 := by omega
+      rw [this, coeff_X_mul]
+    · rw [dif_neg hk]
+      have h0 : e - 1 - (k : ℕ) = 0 := by omega
+      rw [h0]; exact coeff_X_mul_zero p
+
+/-! ## General existence via the PID structure theorem -/
+
+/-- Nilpotency of `A` makes the `ℂ[X]`-module `Module.AEval' A` (where `X` acts as `A`)
+a torsion module for the prime `X`: every element is annihilated by a power of `X`. -/
+theorem aeval'_isTorsion {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (A : Module.End ℂ V) (hA : IsNilpotent A) :
+    Module.IsTorsion' (Module.AEval' A) (Submonoid.powers (X : Polynomial ℂ)) := by
+  obtain ⟨N, hN⟩ := hA
+  intro x
+  refine ⟨⟨(X : Polynomial ℂ) ^ N, N, rfl⟩, ?_⟩
+  obtain ⟨m, rfl⟩ := (Module.AEval'.of A).surjective x
+  change (X : Polynomial ℂ) ^ N • Module.AEval'.of A m = 0
+  rw [Module.AEval'.X_pow_smul_of]
+  have : A ^ N • m = (0 : V) := by rw [hN]; simp
+  rw [this, map_zero]
+
+/-- **General existence (Jacobson–Morozov, Problem 2.15.1(l)).** For a finite dimensional
+complex vector space `V` and *any* nilpotent operator `A : V → V`, there is an
+`sl(2)`-representation `ρ` on `V` with `ρ(e) = A`.
+
+The proof produces a Jordan basis: viewing `V` as a torsion `ℂ[X]`-module with `X` acting
+as `A`, the PID structure theorem splits it into cyclic blocks `ℂ[X] ⧸ (Xᵉⁱ)`, each of
+which is `Fin eᵢ → ℂ` with `X` acting as the standard shift `jordanShift eᵢ`
+(`blockQuotEquiv`). The resulting linear isomorphism intertwines `A` with the
+block-diagonal sum `⨁ᵢ jordanShift eᵢ`, and `exists_sl2Rep_of_conj_piShift` assembles the
+representation. -/
+theorem exists_sl2Rep_of_nilpotent {V : Type*} [AddCommGroup V] [Module ℂ V]
+    [FiniteDimensional ℂ V] (A : Module.End ℂ V) (hA : IsNilpotent A) :
+    ∃ ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V, ρ sl2_e = A := by
+  -- Decompose the torsion `ℂ[X]`-module `AEval' A` into cyclic blocks `ℂ[X] ⧸ (X^{k i})`.
+  obtain ⟨d, k, ⟨Ψ⟩⟩ := Module.torsion_by_prime_power_decomposition (R := Polynomial ℂ)
+    (M := Module.AEval' A) Polynomial.irreducible_X (aeval'_isTorsion A hA)
+  -- The block-diagonal `ℂ`-linear Jordan-basis isomorphism `V ≃ₗ[ℂ] Π i, Fin (k i) → ℂ`.
+  set funOn := DirectSum.linearEquivFunOnFintype (Polynomial ℂ) (Fin d)
+    (fun i => Polynomial ℂ ⧸ Submodule.span (Polynomial ℂ) {(X : Polynomial ℂ) ^ (k i)}) with hfunOn
+  set e : V ≃ₗ[ℂ] (∀ i : Fin d, Fin (k i) → ℂ) :=
+    (Module.AEval'.of A) ≪≫ₗ (Ψ.restrictScalars ℂ) ≪≫ₗ (funOn.restrictScalars ℂ) ≪≫ₗ
+      (LinearEquiv.piCongrRight fun i => blockQuotEquiv (k i)) with he
+  refine exists_sl2Rep_of_conj_piShift k A e ?_
+  intro v
+  funext i
+  simp only [he, LinearEquiv.trans_apply, LinearEquiv.restrictScalars_apply,
+    LinearEquiv.piCongrRight_apply, LinearMap.coe_piMap, Pi.map_apply]
+  rw [show Module.AEval'.of A (A v) = (X : Polynomial ℂ) • Module.AEval'.of A v from
+      (Module.AEval'.X_smul_of A v).symm, map_smul, map_smul, Pi.smul_apply,
+      blockQuotEquiv_X_smul]
 
 end Etingof.Sl2Irrep
