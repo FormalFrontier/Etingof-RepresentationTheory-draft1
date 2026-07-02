@@ -4948,7 +4948,8 @@
     "status": "sorry_free",
     "coverage_swept": {
       "wave": 1,
-      "result": "gap"
+      "result": "formalized",
+      "note": "Classification of 1-dim reps of GL2(F_q) as xi∘det (bijection) + count q-1 formalized in Chapter5/Discussion_1dim_reps.lean (#5677)."
     }
   },
   {
