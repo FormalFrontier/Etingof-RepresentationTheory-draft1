@@ -543,6 +543,36 @@ lemmas). Separately: when a lemma over a section with `variable [DecidableEq Q]`
 use it (the `pathMap_*` lemmas don't), the `unusedDecidableInType` linter warns — prefix the lemma
 with `omit [DecidableEq Q] in` (placed *before* any docstring).
 
+### Operator exponentials `exp (t • D)` for derivations/one-parameter groups (Ch2 Remark 2.9.4, #5661)
+
+Formalizing "`exp(tD)` is a one-parameter family of automorphisms" over `A →L[𝕜] A` hits two
+Mathlib walls. Both cost real debugging on #5661; recognize them up front.
+
+1. **`NormedSpace.exp_add_of_commute` is unavailable on operator algebras.** It (and `isUnit_exp`,
+   `exp_neg`) live in a section requiring `[NormedAlgebra ℚ 𝔸]`, and the only general instance
+   (`normedAlgebraRat`) needs `𝔸` a `NormedDivisionRing`. `A →L[ℝ] A` is not one, so
+   `NormedAlgebra ℚ (A →L[ℝ] A)` does **not** synthesize. **Do not** reach for `exp_add`. Instead get
+   every identity (`exp((s+t)•D)=exp(s•D)*exp(t•D)`, the inverse `exp(-t•D)`, multiplicativity,
+   unitality) from **ODE uniqueness** `ODE_solution_unique_univ (K := ‖D‖₊) (s := fun _ => Set.univ)`:
+   each curve `s ↦ exp(s•D) x` solves the linear ODE `w' = D ∘ w` with `(D.lipschitz).lipschitzOnWith`
+   as the Lipschitz field; compare two such curves with equal initial value. The per-point derivative
+   is `(hasDerivAt_exp_smul_const' D s).clm_apply (hasDerivAt_const s a)` giving
+   `HasDerivAt (fun s => exp(s•D) a) (D (exp(s•D) a)) s` after `simpa [mul_apply_eq_comp]`
+   (`(f * g) x = f (g x)`; `ContinuousLinearMap.mul_apply` is deprecated → `mul_apply_eq_comp`).
+   The multiplicative curve's derivative uses the Leibniz rule to rewrite `D (v s)`; the constant
+   curve for unitality needs `D 1 = 0` (from `D(1*1)=D1*1+1*D1`). Only real time `t : ℝ` works
+   (`ODE_solution_unique_univ` is over `ℝ`) — but "one-parameter" *is* real, so state it over `ℝ` and
+   note the `ℂ` case is identical in the docstring rather than fighting `Module ℝ (A →L[ℂ] A)`
+   (which also fails to synthesize).
+
+2. **Generic `smul` simp/rw lemmas silently miss the operator smul.** `exp (t • D)` pins a
+   nonstandard `SMul ℝ (A →L[ℝ] A)` instance for which bare `rw [zero_smul]` / `rw [add_smul]` fail
+   ("did not find pattern") and plain `simp` makes no progress on `exp (0 • D) = 1`. **Pass explicit
+   arguments:** `rw [zero_smul ℝ D, exp_zero]`, `rw [add_smul s t D]`. For a vector-valued chain rule
+   (`d/ds exp((s+t)•D)`), use `.scomp` not `.comp` (`(hasDerivAt_exp_smul_const' D (s+t)).scomp s h2`,
+   then `simpa [Function.comp, mul_apply_eq_comp]`); and let the composed `HasDerivAt`'s type be
+   inferred — annotating it with a fresh `A →L[ℝ] A` reintroduces the instance-diamond mismatch.
+
 ### Representation Theory Patterns
 
 This book covers:
