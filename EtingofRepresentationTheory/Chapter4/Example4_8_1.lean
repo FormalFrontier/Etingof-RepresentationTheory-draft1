@@ -2251,6 +2251,231 @@ lemma lam2_character_eq_sum (j : Fin 5) :
     norm_num [Q5.add_re, Q5.add_im, Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re,
       Q5.neg_im, Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im]
 
+/-! #### The golden-ratio characters `χ₊, χ₋` of `ℂ³₊, ℂ³₋`
+
+The two 3-dimensional icosahedral characters are recovered from the honest trace data on
+`Λ²(ℂ⁴)` by the linear system `χ₊ + χ₋ = χ_{Λ²}` and `μ⁺·χ₊ + μ⁻·χ₋ = tr(z·ρ(g))`, using
+that the central `z` acts as the scalar `μ⁺` on `ℂ³₊` and `μ⁻` on `ℂ³₋`.  Solving (the system
+is invertible since `μ⁺ − μ⁻ = 20√5 ≠ 0`) gives the golden-ratio rows `χ₊ = (3,0,-1,φ,φ')`,
+`χ₋ = (3,0,-1,φ',φ)`. -/
+
+-- The doubly-nested eigenspace subtype `↥E ⊆ ↥Λ²(ℂ⁴) ⊆ W4 ⊗ W4` makes instance synthesis and
+-- the definitional-equality checks in `trace_conj'` expensive, so both budgets are raised.
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 800000 in
+/-- **Trace transport across the inclusion `Λ²(ℂ⁴) ↪ W4 ⊗ W4`.**  For a subrepresentation `S`
+whose carrier is the pushforward `E.map (Λ²(ℂ⁴) ↪ W4 ⊗ W4)` of a `g`-invariant subspace `E` of
+`Λ²(ℂ⁴)`, the character of `S` at `g` equals the trace of the intrinsic action `ρ(g)|E`.  The
+conjugating equivalence `e : E ≃ S.toSubmodule` (built by `LinearEquiv.ofBijective` from the
+inclusion `E ↪ Λ²(ℂ⁴) ↪ W4 ⊗ W4` corestricted to `S`) intertwines the two actions, so
+`LinearMap.trace_conj'` identifies the traces. -/
+private lemma character_eq_restrict_trace
+    (S : Subrepresentation (rhoV.tprod rhoV))
+    (E : Submodule ℂ (↥lam2Sub.toSubmodule))
+    (hSE : S.toSubmodule = E.map lam2Sub.toSubmodule.subtype)
+    (g : G)
+    (hmaps : Set.MapsTo (lam2Sub.toRepresentation g) E E) :
+    (FDRep.of S.toRepresentation).character g
+      = LinearMap.trace ℂ ↥E ((lam2Sub.toRepresentation g).restrict hmaps) := by
+  -- Pin the `AddCommGroup` instance on the (doubly-nested) `↥E` so the intertwiner `e` and the
+  -- traces below share it with `trace_conj'` (avoiding a `Submodule.addCommMonoid` diamond).
+  letI : AddCommGroup (↥E) := E.addCommGroup
+  -- The intertwiner `e : E ≃ S.toSubmodule`, the inclusion `E ↪ Λ²(ℂ⁴) ↪ W4 ⊗ W4` corestricted.
+  have hmapsInto : ∀ x : ↥E,
+      lam2Sub.toSubmodule.subtype (E.subtype x) ∈ S.toSubmodule := by
+    intro x; rw [hSE]; exact Submodule.mem_map_of_mem x.2
+  set g0 : ↥E →ₗ[ℂ] ↥S.toSubmodule :=
+    (lam2Sub.toSubmodule.subtype ∘ₗ E.subtype).codRestrict S.toSubmodule hmapsInto with hg0
+  have hg0_inj : Function.Injective g0 := by
+    intro a b hab
+    have h : (E.subtype a : ↥lam2Sub.toSubmodule) = E.subtype b := by
+      apply lam2Sub.toSubmodule.injective_subtype
+      simpa [hg0, LinearMap.codRestrict_apply, LinearMap.comp_apply] using Subtype.ext_iff.mp hab
+    exact E.injective_subtype h
+  have hg0_surj : Function.Surjective g0 := by
+    intro z
+    obtain ⟨w, hw, hwz⟩ := Submodule.mem_map.mp
+      (show (z : W4 ⊗[ℂ] W4) ∈ E.map lam2Sub.toSubmodule.subtype by rw [← hSE]; exact z.2)
+    exact ⟨⟨w, hw⟩, Subtype.ext hwz⟩
+  set e : ↥E ≃ₗ[ℂ] ↥S.toSubmodule := LinearEquiv.ofBijective g0 ⟨hg0_inj, hg0_surj⟩ with he
+  have hecoe : ∀ w : ↥E, ((e w : ↥S.toSubmodule) : W4 ⊗[ℂ] W4)
+      = ((w : ↥lam2Sub.toSubmodule) : W4 ⊗[ℂ] W4) := by
+    intro w
+    simp only [he, LinearEquiv.ofBijective_apply, hg0, LinearMap.codRestrict_apply,
+      LinearMap.comp_apply, Submodule.coe_subtype]
+  -- `S`'s action is the conjugate of `ρ(g)|E` by the intertwiner `e`.
+  have hconj : S.toRepresentation g
+      = e.conj ((lam2Sub.toRepresentation g).restrict hmaps) := by
+    refine LinearMap.ext fun y => Subtype.ext ?_
+    rw [LinearEquiv.conj_apply_apply]
+    have hLHS : ((S.toRepresentation g y : ↥S.toSubmodule) : W4 ⊗[ℂ] W4)
+        = (rhoV.tprod rhoV) g (y : W4 ⊗[ℂ] W4) := rfl
+    have hRHS : ((e ((lam2Sub.toRepresentation g).restrict hmaps (e.symm y)) : ↥S.toSubmodule)
+          : W4 ⊗[ℂ] W4)
+        = (rhoV.tprod rhoV) g (y : W4 ⊗[ℂ] W4) := by
+      rw [hecoe]
+      have hcoe : (((lam2Sub.toRepresentation g).restrict hmaps (e.symm y) : ↥E)
+            : ↥lam2Sub.toSubmodule)
+          = lam2Sub.toRepresentation g ((e.symm y : ↥E) : ↥lam2Sub.toSubmodule) :=
+        LinearMap.coe_restrict_apply hmaps (e.symm y)
+      rw [hcoe]
+      have hcoe2 : ((lam2Sub.toRepresentation g ((e.symm y : ↥E) : ↥lam2Sub.toSubmodule)
+            : ↥lam2Sub.toSubmodule) : W4 ⊗[ℂ] W4)
+          = (rhoV.tprod rhoV) g (((e.symm y : ↥E) : ↥lam2Sub.toSubmodule) : W4 ⊗[ℂ] W4) := rfl
+      rw [hcoe2]
+      congr 1
+      have hsy := hecoe (e.symm y)
+      rw [LinearEquiv.apply_symm_apply] at hsy
+      exact hsy.symm
+    rw [hLHS, hRHS]
+  -- Trace is invariant under the conjugation `e` (`trace_conj'`).
+  show LinearMap.trace ℂ ↥S.toSubmodule (S.toRepresentation g)
+      = LinearMap.trace ℂ ↥E ((lam2Sub.toRepresentation g).restrict hmaps)
+  rw [hconj]
+  exact LinearMap.trace_conj' _ e
+
+/-- The intrinsic action `ρ(g)` preserves the `μ⁺`-eigenspace of `z`, since `z` is central. -/
+private lemma mapsTo_eigenspace_muPlus (g : G) :
+    Set.MapsTo (lam2Sub.toRepresentation g)
+      (Module.End.eigenspace zEnd muPlus : Set _) (Module.End.eigenspace zEnd muPlus : Set _) :=
+  Module.End.mapsTo_genEigenspace_of_comm (zEnd_central g).symm muPlus 1
+
+/-- The intrinsic action `ρ(g)` preserves the `μ⁻`-eigenspace of `z`. -/
+private lemma mapsTo_eigenspace_muMinus (g : G) :
+    Set.MapsTo (lam2Sub.toRepresentation g)
+      (Module.End.eigenspace zEnd muMinus : Set _) (Module.End.eigenspace zEnd muMinus : Set _) :=
+  Module.End.mapsTo_genEigenspace_of_comm (zEnd_central g).symm muMinus 1
+
+/-- `χ₊(g) = tr(ρ(g)|E⁺)`: the character of `ℂ³₊` is the trace of the intrinsic action on the
+`μ⁺`-eigenspace of `z`. -/
+private lemma repC3plus_character_eq_trace (g : G) :
+    repC3plus.character g
+      = LinearMap.trace ℂ ↥(Module.End.eigenspace zEnd muPlus)
+          ((lam2Sub.toRepresentation g).restrict (mapsTo_eigenspace_muPlus g)) :=
+  character_eq_restrict_trace repC3plusSub _ repC3plusSub_toSubmodule_eq g
+    (mapsTo_eigenspace_muPlus g)
+
+/-- `χ₋(g) = tr(ρ(g)|E⁻)`. -/
+private lemma repC3minus_character_eq_trace (g : G) :
+    repC3minus.character g
+      = LinearMap.trace ℂ ↥(Module.End.eigenspace zEnd muMinus)
+          ((lam2Sub.toRepresentation g).restrict (mapsTo_eigenspace_muMinus g)) :=
+  character_eq_restrict_trace repC3minusSub _ repC3minusSub_toSubmodule_eq g
+    (mapsTo_eigenspace_muMinus g)
+
+-- Decomposing over the two eigenspaces of `z` and restricting `z·ρ(g)` there runs into the same
+-- doubly-nested subtype, so the instance/heartbeat/recursion budgets are raised.
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxRecDepth 4000 in
+set_option maxHeartbeats 800000 in
+/-- **The two trace equations for the eigenspace characters.**  Decomposing `Λ²(ℂ⁴)` as the
+internal direct sum `E⁺ ⊕ E⁻` of the two eigenspaces of `z` (`eigenspace_isCompl`) and applying
+`LinearMap.trace_eq_sum_trace_restrict` to `ρ(g)` and to `z·ρ(g)` gives, respectively,
+`χ₊(g) + χ₋(g) = χ_{Λ²}(g)` and `μ⁺·χ₊(g) + μ⁻·χ₋(g) = tr(z·ρ(g))` (using that `z` acts as the
+scalar `μ⁺` on `E⁺` and `μ⁻` on `E⁻`). -/
+private lemma repC3_character_system (g : G) :
+    repC3plus.character g + repC3minus.character g = lam2.character g
+      ∧ muPlus * repC3plus.character g + muMinus * repC3minus.character g
+          = LinearMap.trace ℂ ↥lam2Sub.toSubmodule (zEnd * lam2Sub.toRepresentation g) := by
+  classical
+  haveI : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
+    FiniteDimensional.of_finrank_pos (by rw [lam2_finrank]; norm_num)
+  set N : Fin 2 → Submodule ℂ (↥lam2Sub.toSubmodule)
+    := ![Module.End.eigenspace zEnd muPlus, Module.End.eigenspace zEnd muMinus] with hN
+  have huniv : (Set.univ : Set (Fin 2)) = {0, 1} := by
+    ext i; simp only [Set.mem_univ, Set.mem_insert_iff, Set.mem_singleton_iff, true_iff]; omega
+  have hInternal : DirectSum.IsInternal N :=
+    (DirectSum.isInternal_submodule_iff_isCompl N zero_ne_one huniv).mpr eigenspace_isCompl
+  haveI : ∀ i, Module.Finite ℂ ↥(N i) := fun i => inferInstance
+  haveI : ∀ i, Module.Free ℂ ↥(N i) := fun i => Module.Free.of_divisionRing ℂ (↥(N i))
+  -- `ρ(g)` preserves each eigenspace.
+  have hf : ∀ i, Set.MapsTo (lam2Sub.toRepresentation g) (↑(N i)) (↑(N i)) :=
+    Fin.forall_fin_two.mpr ⟨mapsTo_eigenspace_muPlus g, mapsTo_eigenspace_muMinus g⟩
+  -- `z·ρ(g)` preserves each eigenspace.
+  have hMmaps : ∀ i, Set.MapsTo (zEnd * lam2Sub.toRepresentation g) (↑(N i)) (↑(N i)) :=
+    Fin.forall_fin_two.mpr
+      ⟨fun x hx => Module.End.mapsTo_genEigenspace_of_comm (Commute.refl zEnd) muPlus 1
+          (mapsTo_eigenspace_muPlus g hx),
+       fun x hx => Module.End.mapsTo_genEigenspace_of_comm (Commute.refl zEnd) muMinus 1
+          (mapsTo_eigenspace_muMinus g hx)⟩
+  -- On `E⁺`, `z·ρ(g) = μ⁺·ρ(g)`; on `E⁻`, `z·ρ(g) = μ⁻·ρ(g)`.
+  have hM0 : (zEnd * lam2Sub.toRepresentation g).restrict (hMmaps 0)
+      = muPlus • (lam2Sub.toRepresentation g).restrict (hf 0) := by
+    refine LinearMap.ext fun x => Subtype.ext ?_
+    have hmem : lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
+        ∈ Module.End.eigenspace zEnd muPlus := hf 0 x.2
+    show zEnd (lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule))
+        = muPlus • lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
+    exact Module.End.mem_eigenspace_iff.mp hmem
+  have hM1 : (zEnd * lam2Sub.toRepresentation g).restrict (hMmaps 1)
+      = muMinus • (lam2Sub.toRepresentation g).restrict (hf 1) := by
+    refine LinearMap.ext fun x => Subtype.ext ?_
+    have hmem : lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
+        ∈ Module.End.eigenspace zEnd muMinus := hf 1 x.2
+    show zEnd (lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule))
+        = muMinus • lam2Sub.toRepresentation g (x : ↥lam2Sub.toSubmodule)
+    exact Module.End.mem_eigenspace_iff.mp hmem
+  refine ⟨?_, ?_⟩
+  · have key := LinearMap.trace_eq_sum_trace_restrict hInternal hf
+    rw [Fin.sum_univ_two] at key
+    rw [repC3plus_character_eq_trace, repC3minus_character_eq_trace]
+    exact key.symm
+  · have keyM := LinearMap.trace_eq_sum_trace_restrict hInternal hMmaps
+    rw [Fin.sum_univ_two, hM0, hM1, map_smul, map_smul, smul_eq_mul, smul_eq_mul] at keyM
+    rw [repC3plus_character_eq_trace, repC3minus_character_eq_trace]
+    exact keyM.symm
+
+/-- **`χ₊`, the character of `ℂ³₊`, is the golden-ratio row `(3, 0, -1, φ, φ')`.**  Solving the
+`2×2` trace system `χ₊ + χ₋ = (6,0,-2,1,1)`, `μ⁺·χ₊ + μ⁻·χ₋ = (60,0,-20,60,-40)` for `χ₊`
+gives `χ₊ = (S − μ⁻·χ_{Λ²})/(μ⁺ − μ⁻)`, matching `chiA5 1` at each class (the `√5` terms
+resolving via `sqrt5_sq`). (Etingof Example 4.8.1) -/
+lemma repC3plus_character (j : Fin 5) :
+    repC3plus.character (classRepA5 j) = Q5toC (chiA5 1 j) := by
+  obtain ⟨e1, e2⟩ := repC3_character_system (classRepA5 j)
+  rw [lam2_character] at e1
+  rw [zEnd_comp_char_val] at e2
+  have hne : muPlus - muMinus ≠ 0 := by rw [muPlus_sub_muMinus]; exact twentyRootFive_ne_zero
+  refine mul_left_cancel₀ hne ?_
+  rw [show (muPlus - muMinus) * repC3plus.character (classRepA5 j)
+      = (![60, 0, -20, 60, -40] j : ℂ) - muMinus * (![6, 0, -2, 1, 1] j : ℂ) from by
+    linear_combination e2 - muMinus * e1]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, muPlus, muMinus, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons,
+      Matrix.tail_cons, Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im,
+      Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im]
+  -- `norm_num` closes class `1`; classes `0, 2` are rational and close by `ring`, while the
+  -- 5-cycle classes `3, 4` need the `√5² = 5` relation.
+  · ring
+  · ring
+  · linear_combination (-10 : ℂ) * hs
+  · linear_combination (10 : ℂ) * hs
+
+/-- **`χ₋`, the character of `ℂ³₋`, is the golden-ratio row `(3, 0, -1, φ', φ)`.**  Solving the
+same trace system for `χ₋` gives `χ₋ = (μ⁺·χ_{Λ²} − S)/(μ⁺ − μ⁻)`, matching `chiA5 2` at each
+class. (Etingof Example 4.8.1) -/
+lemma repC3minus_character (j : Fin 5) :
+    repC3minus.character (classRepA5 j) = Q5toC (chiA5 2 j) := by
+  obtain ⟨e1, e2⟩ := repC3_character_system (classRepA5 j)
+  rw [lam2_character] at e1
+  rw [zEnd_comp_char_val] at e2
+  have hne : muPlus - muMinus ≠ 0 := by rw [muPlus_sub_muMinus]; exact twentyRootFive_ne_zero
+  refine mul_left_cancel₀ hne ?_
+  rw [show (muPlus - muMinus) * repC3minus.character (classRepA5 j)
+      = muPlus * (![6, 0, -2, 1, 1] j : ℂ) - (![60, 0, -20, 60, -40] j : ℂ) from by
+    linear_combination muPlus * e1 - e2]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, muPlus, muMinus, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons,
+      Matrix.tail_cons, Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im,
+      Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im]
+  · ring
+  · ring
+  · linear_combination (10 : ℂ) * hs
+  · linear_combination (-10 : ℂ) * hs
+
 end
 
 end A5
