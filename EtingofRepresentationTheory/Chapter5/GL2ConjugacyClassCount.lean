@@ -554,6 +554,64 @@ private lemma centralizerCard_eq_card_units {g : GL2' p n} (hns : ¬ GL2.IsScala
   rw [(Nat.card_congr (Equiv.ofBijective f hbij)).symm, Nat.card_eq_fintype_card,
     Fintype.card_subtype]
 
+/-- **Centralizer order of a non-scalar element**, in terms of the per-`β` root count `r`
+of the determinant quadratic: `|C_G(g)| = q² − (1 + (q−1)·r)`. Combines the
+commutant-units description (`centralizerCard_eq_card_units`) with the fiberwise det-zero
+count (`card_detZero_pairs`). -/
+private lemma centralizerCard_of_nonscalar {g : GL2' p n} (hns : ¬ GL2.IsScalar g)
+    {r : ℕ} (hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = r) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) ^ 2
+        - (1 + (Fintype.card (GaloisField p n) - 1) * r) := by
+  rw [centralizerCard_eq_card_units hns]
+  have hz := card_detZero_pairs (A := g.val) hr
+  simp only [ne_eq]
+  rw [Finset.filter_not, Finset.card_univ_diff, Fintype.card_prod, hz, ← pow_two]
+
+/-- The determinant discriminant `((tr)·β)² − 4·(det)·β² = β²·disc(g)`. -/
+private lemma quadDisc_eq (g : GL2' p n) (β : GaloisField p n) :
+    ((g.val 0 0 + g.val 1 1) * β) ^ 2
+      - 4 * 1 * ((g.val 0 0 * g.val 1 1 - g.val 0 1 * g.val 1 0) * β ^ 2)
+      = β ^ 2 * GL2.disc g := by
+  rw [GL2.disc_eq]; ring
+
+/-- Rewrite the `α`-fiber `{α : det (α•1+β•g) = 0}` as the quadratic filter
+`{α : α² + (tr·β)·α + (det·β²) = 0}`. -/
+private lemma alphaFiber_eq (g : GL2' p n) (β : GaloisField p n) :
+    (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0))
+      = (Finset.univ.filter (fun α : GaloisField p n =>
+        (1 : GaloisField p n) * α ^ 2 + ((g.val 0 0 + g.val 1 1) * β) * α
+          + (g.val 0 0 * g.val 1 1 - g.val 0 1 * g.val 1 0) * β ^ 2 = 0)) := by
+  apply Finset.filter_congr
+  intro α _
+  rw [det_smul_one_add_smul]
+  constructor <;> intro h <;> linear_combination h
+
+/-- Centralizer order of a **parabolic** element is `q(q−1)`. -/
+private lemma centralizerCard_parabolic {g : GL2' p n} (hg : GL2.IsParabolic g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) := by
+  obtain ⟨hdisc, hns⟩ := hg
+  have hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = 1 := by
+    intro β _
+    rw [alphaFiber_eq]
+    apply Etingof.quadratic_one_root_zero_disc _ _ _ one_ne_zero
+    rw [quadDisc_eq, hdisc, mul_zero]
+  rw [centralizerCard_of_nonscalar hns hr]
+  obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Fintype.card_ne_zero (α := GaloisField p n))
+  rw [hm]
+  simp only [Nat.succ_sub_one, Nat.succ_eq_add_one, mul_one]
+  have e1 : (m + 1) ^ 2 = m ^ 2 + 2 * m + 1 := by ring
+  have e2 : (m + 1) * m = m ^ 2 + m := by ring
+  omega
+
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
 nonzero scalar `x` (matching `GL2.card_isScalar`). -/
 theorem numScalarClasses_eq (hn : n ≠ 0) :
