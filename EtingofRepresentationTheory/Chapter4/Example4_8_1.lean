@@ -1882,6 +1882,78 @@ lemma zEnd_sq_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * zEnd)
     rw [← Nat.card_eq_fintype_card, card_G]; norm_num
   rw [hr5, hcard]; norm_num
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 2000000000 in
+-- honest `decide` of the character double-sum over 60×60 group elements (no `native_decide`);
+-- the 3600-term sum is ~12× the scale of `zEnd_comp_char_val`, so the heartbeat/recursion limits
+-- are raised accordingly (the class-index reduction fallback is unavailable until `classIdxA5`
+-- lands).
+/-- **`tr(z³) = 96000` on `Λ²(ℂ⁴)`.**  Mirrors `zEnd_sq_trace` one level up: since `z²` is
+central (`zEnd_central` twice), each summand of `z³ = ∑_g z²·ρ(g·r·g⁻¹)` has the same trace as
+`z²·ρ(r)` (conjugation invariance of the trace), giving `tr(z³) = 60·tr(z²·ρ(r))`.  Then
+`z²·ρ(r) = ∑_h z·ρ(h·r·h⁻¹·r)` (unfolding one `z`), so `tr(z²·ρ(r)) = ∑_h tr(z·ρ(h·r·h⁻¹·r))
+= ∑_h ∑_{h'} χ_{Λ²}(h'·r·h'⁻¹·h·r·h⁻¹·r)` via `zEnd_comp_char`, the honest 60×60 = 3600-term
+group double sum, evaluated by `decide` (no `native_decide`) to `2⁻¹·3200 = 1600`.  Hence
+`tr(z³) = 60·1600 = 96000`.  With `tr(z) = 60` and `tr(z²) = 3600`, the linear trace system
+`tr(z²) = a·tr(z) + 6b`, `tr(z³) = a·tr(z²) + b·tr(z)` pins `a = 20`, `b = 400`, i.e. the minimal
+polynomial `z² − 20·z − 400 = 0` with roots `μ± = 10 ± 10√5`. -/
+lemma zEnd_cube_trace :
+    LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * zEnd * zEnd) = 96000 := by
+  -- `z³ = ∑_g z²·ρ(g·r·g⁻¹)`; each summand's trace equals `tr(z²·ρ(r))` since `z²` is central.
+  have hconj : ∀ g : G,
+      LinearMap.trace ℂ (↥lam2Sub.toSubmodule)
+          (zEnd * zEnd * lam2Sub.toRepresentation (g * r5 * g⁻¹))
+        = LinearMap.trace ℂ (↥lam2Sub.toSubmodule)
+          (zEnd * zEnd * lam2Sub.toRepresentation r5) := by
+    intro g
+    have hcomm : Commute (lam2Sub.toRepresentation g) (zEnd * zEnd) :=
+      (zEnd_central g).mul_right (zEnd_central g)
+    have hrw : zEnd * zEnd * lam2Sub.toRepresentation (g * r5 * g⁻¹)
+        = lam2Sub.toRepresentation g * (zEnd * zEnd * lam2Sub.toRepresentation r5)
+            * lam2Sub.toRepresentation g⁻¹ := by
+      rw [map_mul, map_mul, ← mul_assoc, ← mul_assoc, ← hcomm.eq,
+        mul_assoc (lam2Sub.toRepresentation g)]
+    rw [hrw, LinearMap.trace_mul_comm, ← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
+  have hz3 : zEnd * zEnd * zEnd
+      = ∑ g : G, zEnd * zEnd * lam2Sub.toRepresentation (g * r5 * g⁻¹) := by
+    rw [← Finset.mul_sum]; rfl
+  rw [hz3, map_sum, Finset.sum_congr rfl (fun g _ => hconj g), Finset.sum_const,
+    Finset.card_univ, nsmul_eq_mul]
+  -- `tr(z²·ρ(r)) = 1600`: unfold one `z` so `z²·ρ(r) = ∑_h z·ρ(h·r·h⁻¹·r)`.
+  have hexpand : zEnd * zEnd * lam2Sub.toRepresentation r5
+      = ∑ h : G, zEnd * lam2Sub.toRepresentation (h * r5 * h⁻¹ * r5) := by
+    rw [show (zEnd * zEnd : Module.End ℂ ↥lam2Sub.toSubmodule)
+          = ∑ h : G, zEnd * lam2Sub.toRepresentation (h * r5 * h⁻¹) by
+        rw [← Finset.mul_sum]; rfl, Finset.sum_mul]
+    refine Finset.sum_congr rfl fun h _ => ?_
+    rw [mul_assoc, ← map_mul]
+  have hr5 : LinearMap.trace ℂ (↥lam2Sub.toSubmodule)
+      (zEnd * zEnd * lam2Sub.toRepresentation r5) = 1600 := by
+    rw [hexpand, map_sum,
+      Finset.sum_congr rfl (fun h _ => zEnd_comp_char (h * r5 * h⁻¹ * r5))]
+    have hchar : ∀ y : G, lam2.character y
+        = (2⁻¹ : ℂ) * ((((S4.fixCardM (G := G) (α := Fin 5) y : ℤ) - 1) ^ 2
+            - ((S4.fixCardM (G := G) (α := Fin 5) (y * y) : ℤ) - 1) : ℤ) : ℂ) := by
+      intro y
+      rw [lam2_char_formula, repC4_char, repC4_char]
+      push_cast; ring
+    have key :
+        (∑ h : G, ∑ h' : G,
+          (((S4.fixCardM (G := G) (α := Fin 5)
+                (h' * r5 * h'⁻¹ * (h * r5 * h⁻¹ * r5)) : ℤ) - 1) ^ 2
+            - ((S4.fixCardM (G := G) (α := Fin 5)
+                ((h' * r5 * h'⁻¹ * (h * r5 * h⁻¹ * r5))
+                  * (h' * r5 * h'⁻¹ * (h * r5 * h⁻¹ * r5))) : ℤ) - 1)))
+          = 3200 := by decide
+    rw [Finset.sum_congr rfl (fun h _ =>
+        Finset.sum_congr rfl (fun h' _ => hchar (h' * r5 * h'⁻¹ * (h * r5 * h⁻¹ * r5))))]
+    simp only [← Finset.mul_sum, ← Int.cast_sum]
+    rw [key]
+    norm_num
+  have hcard : (Fintype.card G : ℂ) = 60 := by
+    rw [← Nat.card_eq_fintype_card, card_G]; norm_num
+  rw [hr5, hcard]; norm_num
+
 /-- **`dim_ℂ Λ²(ℂ⁴) = 6`.**  The value of the character at the identity (`FDRep.char_one`),
 equal to `lam2_character 0 = 6` since `classRepA5 0 = 1`.  This is the dimension `tr 1` that the
 two eigenspaces of `z` must add up to (`3 + 3 = 6`). -/
