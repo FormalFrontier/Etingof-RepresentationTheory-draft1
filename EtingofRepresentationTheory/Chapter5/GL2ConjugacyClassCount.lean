@@ -247,6 +247,100 @@ private lemma exists_smul_add_smul_of_commute {A M : Matrix (Fin 2) (Fin 2) F}
       rw [div_mul_eq_mul_div, eq_div_iff hb]; linear_combination hM10
     · ring
 
+/-- For a non-scalar 2×2 matrix `A`, the map `(α, β) ↦ α • 1 + β • A` is injective:
+`1` and `A` are linearly independent. -/
+private lemma smul_one_add_smul_injective {A : Matrix (Fin 2) (Fin 2) F}
+    (hns : ¬ (A 0 1 = 0 ∧ A 1 0 = 0 ∧ A 0 0 = A 1 1)) :
+    Function.Injective
+      (fun ab : F × F => ab.1 • (1 : Matrix (Fin 2) (Fin 2) F) + ab.2 • A) := by
+  rintro ⟨α, β⟩ ⟨α', β'⟩ h
+  simp only at h
+  have e00 : α + β * A 0 0 = α' + β' * A 0 0 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 0) 0
+  have e01 : β * A 0 1 = β' * A 0 1 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 0) 1
+  have e10 : β * A 1 0 = β' * A 1 0 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 1) 0
+  have e11 : α + β * A 1 1 = α' + β' * A 1 1 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 1) 1
+  have hβ : β = β' := by
+    by_contra hne
+    have hd : β - β' ≠ 0 := sub_ne_zero.mpr hne
+    have hA01 : A 0 1 = 0 := by
+      have hz : (β - β') * A 0 1 = 0 := by linear_combination e01
+      exact (mul_eq_zero.mp hz).resolve_left hd
+    have hA10 : A 1 0 = 0 := by
+      have hz : (β - β') * A 1 0 = 0 := by linear_combination e10
+      exact (mul_eq_zero.mp hz).resolve_left hd
+    have hAd : A 0 0 = A 1 1 := by
+      have hz : (β - β') * (A 0 0 - A 1 1) = 0 := by linear_combination e00 - e11
+      exact sub_eq_zero.mp ((mul_eq_zero.mp hz).resolve_left hd)
+    exact hns ⟨hA01, hA10, hAd⟩
+  have hα : α = α' := by rw [hβ] at e00; linear_combination e00
+  exact Prod.ext hα hβ
+
+/-- The determinant of `α • 1 + β • A` is the quadratic form
+`α² + tr(A)·αβ + det(A)·β²`. -/
+private lemma det_smul_one_add_smul (A : Matrix (Fin 2) (Fin 2) F) (α β : F) :
+    Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A)
+      = α ^ 2 + (A 0 0 + A 1 1) * (α * β)
+        + (A 0 0 * A 1 1 - A 0 1 * A 1 0) * β ^ 2 := by
+  have h00 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 0 0 = α + β * A 0 0 := by
+    simp [Matrix.one_apply]
+  have h01 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 0 1 = β * A 0 1 := by
+    simp [Matrix.one_apply]
+  have h10 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 1 0 = β * A 1 0 := by
+    simp [Matrix.one_apply]
+  have h11 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 1 1 = α + β * A 1 1 := by
+    simp [Matrix.one_apply]
+  rw [Matrix.det_fin_two, h00, h01, h10, h11]; ring
+
+variable [Fintype F] [DecidableEq F]
+
+/-- Number of pairs `(α, β)` with `det (α • 1 + β • A) = 0`, given that for every
+`β ≠ 0` the number of `α` making the determinant vanish is a constant `r`. The `β = 0`
+row contributes the single pair `(0, 0)`, and each of the `q − 1` nonzero rows
+contributes `r`. -/
+private lemma card_detZero_pairs {A : Matrix (Fin 2) (Fin 2) F} {r : ℕ}
+    (hr : ∀ β : F, β ≠ 0 →
+      (Finset.univ.filter (fun α : F =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) = 0)).card = r) :
+    (Finset.univ.filter (fun ab : F × F =>
+        Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) F) + ab.2 • A) = 0)).card
+      = 1 + (Fintype.card F - 1) * r := by
+  -- Fiber over the second coordinate `β`.
+  have key : (Finset.univ.filter (fun ab : F × F =>
+        Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) F) + ab.2 • A) = 0)).card
+      = ∑ β : F, (Finset.univ.filter (fun α : F =>
+          Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) = 0)).card := by
+    simp_rw [Finset.card_filter]
+    rw [Fintype.sum_prod_type, Finset.sum_comm]
+  rw [key, ← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ (0 : F))]
+  -- `β = 0` row: `det (α•1) = α² = 0` iff `α = 0`.
+  have hf0 : (Finset.univ.filter (fun α : F =>
+      Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + (0 : F) • A) = 0)).card = 1 := by
+    have hrw : (Finset.univ.filter (fun α : F =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + (0 : F) • A) = 0))
+        = {(0 : F)} := by
+      ext α
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+      rw [det_smul_one_add_smul]
+      constructor
+      · intro h
+        have hα : α ^ 2 = 0 := by linear_combination h
+        exact pow_eq_zero_iff (by norm_num) |>.mp hα
+      · intro h; rw [h]; ring
+    rw [hrw, Finset.card_singleton]
+  -- Nonzero rows: each contributes `r`.
+  have hsum : ∑ β ∈ Finset.univ.erase (0 : F),
+      (Finset.univ.filter (fun α : F =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) = 0)).card
+      = (Fintype.card F - 1) * r := by
+    rw [Finset.sum_congr rfl (fun β hβ => hr β (Finset.ne_of_mem_erase hβ))]
+    rw [Finset.sum_const, smul_eq_mul, Finset.card_erase_of_mem (Finset.mem_univ _),
+      Finset.card_univ]
+  rw [hf0, hsum]
+
 end MatrixCommutant
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
