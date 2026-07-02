@@ -58,7 +58,7 @@ Clebsch-Gordan, Jacobson-Morozov open.
 - [ ] `Chapter2/Problem2.16.5`
 - [ ] `Chapter3/Problem3.3.3`
 - [ ] `Chapter3/Exercise3.6.1`
-- [ ] `Chapter3/Problem3.8.3`
+- [x] `Chapter3/Problem3.8.3` (covered-inline; see `Chapter3/Problem3_8_3.lean`)
 - [ ] `Chapter3/Problem3.8.4`
 - [ ] `Chapter3/Problem3.8.5`
 - [ ] `Chapter3/Problem3.9.1`
