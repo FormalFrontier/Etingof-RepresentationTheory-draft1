@@ -52,15 +52,22 @@ The **root-of-unity content of Step 3** is also formalized here, `sorry`-free:
 
 ## What remains (foundation sub-issue)
 
-**Step 4** — that `β` is fixed by the automorphism `ζ ↦ ζʲ` of `K = ℚ(ζ_N)` (via
-the identity `σ_j(χ_V(g)) = χ_V(gʲ)`, so `σ_j(β) = ∏_{g≠1} |χ_V(gʲ)|² = β` by
-Step 2), forcing `β ∈ ℚ` — requires the cyclotomic field `ℚ(ζ_N)` as a Lean object,
-the Galois action of `Gal(ℚ(ζ_N)/ℚ) ≅ (ℤ/Nℤ)ˣ`, and the representation-theoretic
-identity `σ_j(χ_V(g)) = χ_V(gʲ)` (`σ_j` sends each root-of-unity eigenvalue `λ` of
-`ρ(g)` to `λʲ`, and the eigenvalues of `ρ(gʲ) = ρ(g)ʲ` are the `λʲ`). That is a
-large, standalone foundation and is tracked as a separate sub-issue; this file lands
-the elementary steps, the closing contradiction, the algebraic-integer half, and the
-root-of-unity content of Step 3 incrementally.
+**Step 4 (representation-theoretic core)** — the identity `σ_j(χ_V(g)) = χ_V(gʲ)`
+for a ring endomorphism `σ_j` of `ℂ` raising every `N`-th root of unity to its
+`j`-th power — is now formalized here, `sorry`-free, as `character_ringHom_pow`. Its
+proof is a clean eigenvalue computation: `ρ(g)` is semisimple (its minimal
+polynomial divides the squarefree `X^N - 1`), so `V` splits into eigenspaces and
+`trace(ρ(g)ᵏ) = ∑_μ (dim Eμ)·μᵏ` (`trace_pow_eq_sum_eigenvalues`); applying `σ_j`
+moves the exponent from `1` to `j`. Combined with Step 2 this gives `σ_j(β) = β`
+(`ringHom_prod_char_inv`) for `β = ∏_{g≠1} χ_V(g)·χ_V(g⁻¹)`, the honest polynomial
+form of `∏_{g≠1} |χ_V(g)|²`.
+
+What still remains is the *field-theoretic* half of Step 4: producing the
+automorphisms `σ_j` from `Gal(ℚ(ζ_N)/ℚ) ≅ (ℤ/Nℤ)ˣ`, and deducing `β ∈ ℚ` from "`β`
+is fixed by every `σ_j`" (fixed field of the full Galois group is `ℚ`). That needs
+the cyclotomic field `ℚ(ζ_N)` as a Lean object (`IsCyclotomicExtension` / `IsGalois`)
+and, together with the still-unformalized `0 < β < 1` bound of Problem 5.2.7(b), is
+tracked as a separate sub-issue.
 -/
 
 namespace Etingof.Remark5_2_8
@@ -235,5 +242,141 @@ theorem character_eq_sum_rootsOfUnity {G : Type} [Group G] [Fintype G]
         (LinearMap.toMatrix b b f).charpoly.roots.sum :=
       Matrix.trace_eq_sum_roots_charpoly _
     simpa only [LinearMap.charpoly_toMatrix] using h1
+
+/-!
+## Step 4: the Galois automorphism `ζ ↦ ζʲ` sends `χ_V(g)` to `χ_V(gʲ)`
+
+The remaining representation-theoretic content of Step 4 is the identity
+`σ_j(χ_V(g)) = χ_V(gʲ)`, where `σ_j : ζ ↦ ζʲ` is (the restriction to `ℚ(ζ_N)` of)
+a ring endomorphism of `ℂ` that raises every `N`-th root of unity to its `j`-th
+power. The proof is a clean eigenvalue computation and needs *no* cyclotomic-field
+infrastructure: it only uses that `σ_j` powers roots of unity.
+
+The key linear-algebra input is that a finite-order operator `f` (`f^N = 1`) over
+`ℂ` is semisimple — its minimal polynomial divides the squarefree `X^N - 1` — hence
+diagonalizable, so `V` decomposes as the internal direct sum of the eigenspaces of
+`f`. On the `μ`-eigenspace `f^k` acts as `μ^k`, so
+`trace(f^k) = ∑_μ (dim Eμ) · μ^k` (`trace_pow_eq_sum_eigenvalues`). Applying `σ_j`
+to `χ_V(g) = trace(ρ(g)) = ∑_μ (dim Eμ) · μ` moves the exponent from `1` to `j`
+(each `μ` is an `N`-th root of unity, and `σ_j` fixes the integer dimensions),
+landing on `∑_μ (dim Eμ) · μʲ = trace(ρ(g)ʲ) = trace(ρ(gʲ)) = χ_V(gʲ)`.
+
+Combined with Step 2 (`prod_ne_one_pow`) this yields `σ_j(β) = β` for
+`β = ∏_{g≠1} χ_V(g)·χ_V(g⁻¹)` (`ringHom_prod_char_inv`), the honest polynomial form
+of `∏_{g≠1} |χ_V(g)|²`. What still remains — landing `β ∈ ℚ` from "fixed by every
+`σ_j`" — is the pure cyclotomic-Galois field theory (`IsCyclotomicExtension`,
+`Gal(ℚ(ζ_N)/ℚ) ≅ (ℤ/Nℤ)ˣ`, fixed field `= ℚ`) and, together with the unformalized
+`0 < β < 1` bound of Problem 5.2.7(b), is tracked separately.
+-/
+
+/-- For `x` in the `μ`-eigenspace of `f`, one has `fᵏ x = μᵏ • x`. -/
+theorem pow_apply_of_mem_eigenspace {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (f : Module.End ℂ V) (μ : ℂ) {x : V} (hx : x ∈ Module.End.eigenspace f μ) (m : ℕ) :
+    (f ^ m) x = μ ^ m • x := by
+  induction m with
+  | zero => simp
+  | succ m ih =>
+      rw [pow_succ', Module.End.mul_apply, ih, map_smul,
+        (Module.End.mem_eigenspace_iff.mp hx), smul_smul, ← pow_succ]
+
+/-- An eigenvalue of a finite-order operator is a root of unity: if `f^N = 1` and
+`μ` is an eigenvalue of `f`, then `μ^N = 1`. -/
+theorem eigenvalue_pow_eq_one {V : Type*} [AddCommGroup V] [Module ℂ V]
+    (f : Module.End ℂ V) {N : ℕ} (hf : f ^ N = 1) {μ : ℂ}
+    (hμ : Module.End.eigenspace f μ ≠ ⊥) : μ ^ N = 1 := by
+  obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff _).mp hμ
+  have hpow := pow_apply_of_mem_eigenspace f μ hv N
+  rw [hf, Module.End.one_apply] at hpow
+  have hz : (μ ^ N - 1) • v = 0 := by rw [sub_smul, one_smul, ← hpow, sub_self]
+  rcases smul_eq_zero.mp hz with h | h
+  · exact sub_eq_zero.mp h
+  · exact absurd h hv0
+
+open Polynomial in
+/-- **Trace-power-sum for a finite-order operator over `ℂ`.** If `f^N = 1`
+(`N > 0`) then, `f` being semisimple, `V` splits as the direct sum of the
+eigenspaces of `f`, and the trace of `fᵏ` is `∑_μ (dim Eμ)·μᵏ` summed over the
+eigenvalues `μ`. This is the linear-algebra core of Step 4: taking `k = 1` gives
+`χ_V(g)` and `k = j` gives `χ_V(gʲ)`, with the *same* eigenspace dimensions. -/
+theorem trace_pow_eq_sum_eigenvalues {V : Type*} [AddCommGroup V] [Module ℂ V]
+    [FiniteDimensional ℂ V] (f : Module.End ℂ V) {N : ℕ} (hN : 0 < N)
+    (hf : f ^ N = 1) (k : ℕ)
+    (hfin : {μ : ℂ | Module.End.eigenspace f μ ≠ ⊥}.Finite) :
+    LinearMap.trace ℂ V (f ^ k) =
+      ∑ μ ∈ hfin.toFinset, (Module.finrank ℂ (Module.End.eigenspace f μ) : ℂ) * μ ^ k := by
+  -- `f` is semisimple: `X^N - 1` is squarefree and annihilates `f`.
+  have hsep : (X ^ N - 1 : ℂ[X]).Separable :=
+    Polynomial.X_pow_sub_one_separable_iff.mpr (by exact_mod_cast hN.ne')
+  have haeval : (aeval f) (X ^ N - 1 : ℂ[X]) = 0 := by simp [map_sub, hf]
+  have hss : f.IsSemisimple :=
+    Module.End.isSemisimple_of_squarefree_aeval_eq_zero hsep.squarefree haeval
+  -- Eigenspace decomposition of `V`.
+  have hInternal : DirectSum.IsInternal (Module.End.eigenspace f) :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top _).mpr
+      ⟨f.eigenspaces_iSupIndep, hss.iSup_eigenspace_eq_top⟩
+  -- `f^k` maps each eigenspace to itself.
+  have hmaps : ∀ μ : ℂ, Set.MapsTo (f ^ k)
+      (Module.End.eigenspace f μ) (Module.End.eigenspace f μ) := by
+    intro μ x hx
+    rw [pow_apply_of_mem_eigenspace f μ hx k]
+    exact (Module.End.eigenspace f μ).smul_mem _ hx
+  classical
+  rw [LinearMap.trace_eq_sum_trace_restrict' hInternal hfin hmaps]
+  apply Finset.sum_congr rfl
+  intro μ _
+  -- The restriction of `f^k` to the `μ`-eigenspace is `μ^k • id`.
+  have hrestrict : (f ^ k).restrict (hmaps μ) = (μ ^ k) • LinearMap.id := by
+    ext x
+    simp only [LinearMap.coe_restrict_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      Submodule.coe_smul]
+    exact pow_apply_of_mem_eigenspace f μ x.2 k
+  rw [hrestrict, LinearMap.map_smul, LinearMap.trace_id, smul_eq_mul, mul_comm]
+
+set_option linter.unusedFintypeInType false in
+/-- **Step 4 of Remark 5.2.8 (representation-theoretic core).** Let `σ` be a ring
+endomorphism of `ℂ` raising every `|G|`-th root of unity to its `j`-th power (the
+arithmetic of the cyclotomic automorphism `ζ ↦ ζʲ`). Then `σ` sends the character
+value `χ_V(g)` to `χ_V(gʲ)`. -/
+theorem character_ringHom_pow {G : Type} [Group G] [Fintype G]
+    (V : FDRep ℂ G) (g : G) {j : ℕ} (σ : ℂ →+* ℂ)
+    (hσ : ∀ μ : ℂ, μ ^ Nat.card G = 1 → σ μ = μ ^ j) :
+    σ (V.character g) = V.character (g ^ j) := by
+  classical
+  set f := V.ρ g with hf_def
+  have hN : 0 < Nat.card G := Nat.card_pos
+  have hf : f ^ Nat.card G = 1 := by
+    rw [hf_def, ← map_pow, Nat.card_eq_fintype_card, pow_card_eq_one, map_one]
+  have hfin : {μ : ℂ | Module.End.eigenspace f μ ≠ ⊥}.Finite :=
+    Module.End.finite_hasEigenvalue f
+  have e1 := trace_pow_eq_sum_eigenvalues f hN hf 1 hfin
+  have ej := trace_pow_eq_sum_eigenvalues f hN hf j hfin
+  simp only [pow_one] at e1
+  have hchar_g : V.character g = LinearMap.trace ℂ V f := rfl
+  have hchar_gj : V.character (g ^ j) = LinearMap.trace ℂ V (f ^ j) := by
+    rw [hf_def, ← map_pow]; rfl
+  rw [hchar_g, hchar_gj, e1, ej, map_sum]
+  apply Finset.sum_congr rfl
+  intro μ hμ
+  have hμmem : Module.End.eigenspace f μ ≠ ⊥ := (Set.Finite.mem_toFinset hfin).mp hμ
+  rw [map_mul, map_natCast, hσ μ (eigenvalue_pow_eq_one f hf hμmem)]
+
+/-- **`σ_j` fixes `β` (Step 4, combined with Step 2).** For `j` coprime to `|G|` and
+a ring endomorphism `σ` of `ℂ` raising every `|G|`-th root of unity to its `j`-th
+power, the product `β = ∏_{g ≠ 1} χ_V(g)·χ_V(g⁻¹)` (the honest polynomial form of
+`∏_{g ≠ 1} |χ_V(g)|²`) is fixed: `σ(β) = β`. Indeed `σ` maps each factor
+`χ_V(g)·χ_V(g⁻¹)` to `χ_V(gʲ)·χ_V((gʲ)⁻¹)` by `character_ringHom_pow`, and
+reindexing along `g ↦ gʲ` (`prod_ne_one_pow`) restores the original product. -/
+theorem ringHom_prod_char_inv {G : Type} [Group G] [Fintype G] [DecidableEq G]
+    (V : FDRep ℂ G) {j : ℕ} (hj : (Nat.card G).Coprime j) (σ : ℂ →+* ℂ)
+    (hσ : ∀ μ : ℂ, μ ^ Nat.card G = 1 → σ μ = μ ^ j) :
+    σ (∏ g ∈ univ.filter (· ≠ 1), V.character g * V.character g⁻¹)
+      = ∏ g ∈ univ.filter (· ≠ 1), V.character g * V.character g⁻¹ := by
+  rw [map_prod]
+  have step : ∀ g : G, σ (V.character g * V.character g⁻¹)
+      = V.character (g ^ j) * V.character (g ^ j)⁻¹ := by
+    intro g
+    rw [map_mul, character_ringHom_pow V g σ hσ, character_ringHom_pow V g⁻¹ σ hσ, inv_pow]
+  simp_rw [step]
+  exact prod_ne_one_pow hj (fun g => V.character g * V.character g⁻¹)
 
 end Etingof.Remark5_2_8
