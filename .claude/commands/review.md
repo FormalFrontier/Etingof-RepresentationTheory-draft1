@@ -39,6 +39,26 @@ Rotate through these areas across sessions:
 **Security**:
 - Check for new issues in recent code, verify past fixes
 
+## Fidelity audits (Stage 3.7)
+
+If your issue is a per-chapter fidelity audit (epic #5338), two things recur:
+
+- **Editing `progress/items.json`:** change `fidelity`/`status` fields **surgically**
+  — `grep -n` the item id, Read those ~15 lines, and `Edit` just the value. Never
+  `json.load`+`json.dump` the whole file: the reserializer reflows indentation
+  (the file is `indent=2`), key order, and unicode, producing a multi-thousand-line
+  diff against the shared file. If you must script a bulk update, match the exact
+  serialization (`indent=2, ensure_ascii=False`, no trailing newline) and check
+  `git diff --stat` before committing.
+- **Residual non-canonical verdicts:** a chapter's items may already be labeled by
+  prior waves with non-canonical values (`faithful`/`partial`/`covered`) or a stale
+  `gap` whose repair issue is already CLOSED. Don't re-audit from scratch — query
+  items.json for non-canonical `fidelity` values, confirm each linked repair issue
+  is CLOSED and the current Lean genuinely matches the book, then normalize to
+  `verified`/`gap`. Reserve `gap` for a *present* statement that is vacuous or
+  silently weaker; honestly-named partial coverage (e.g. an "existence half" with
+  no masquerading full-theorem decl) is a coverage follow-up, not a fidelity gap.
+
 ## Updating Skills
 
 When you discover a recurring pattern or encounter a situation not covered by
