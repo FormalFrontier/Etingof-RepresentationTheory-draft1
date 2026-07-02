@@ -7015,7 +7015,9 @@
     "end_page": "212",
     "start_line": 5,
     "end_line": 1,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "note": "Covered-inline (completeness audit #5723, epic #5338): the only narrative citation of this problem is Example 9.4.4, which uses part (iv) — the Hilbert syzygies theorem — to conclude that the homological dimension of k[x₁,…,xₙ] is n. That load-bearing conclusion is proved directly and completely in Chapter9/Example9_4_4.lean as Etingof.Example_9_4_4 (for finite dimensional V over a field, SV is the polynomial ring k[x₁,…,xₙ] with n = dim V). Example 9.4.4 does NOT route through the explicit Koszul resolution; it reproves the needed result via a degree-one Koszul SES plus induction, so it does not silently assume this problem. The explicit Koszul resolution (i), the SW resolution (ii), the bimodule resolution (iii), and the Ext/Tor(k,k) computation (v) are self-contained exercises not separately formalized and not depended on by any later item. See Chapter8/Problem8_2_10.lean for the coverage record."
   },
   {
     "id": "Chapter9/Introduction",
