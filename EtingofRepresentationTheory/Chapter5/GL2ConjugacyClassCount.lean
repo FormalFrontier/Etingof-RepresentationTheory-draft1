@@ -483,6 +483,77 @@ lemma disjoint_conjImage {P Q : GL2' p n → Prop}
 
 variable [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2' p n)]
 
+/-- For a **non-scalar** `g ∈ GL₂(𝔽_q)`, the centralizer order equals the number of
+pairs `(α, β) ∈ 𝔽_q²` with `det (α • 1 + β • g) ≠ 0`. The centralizer of `g` in the
+matrix ring is the 2-dimensional commutant algebra `{α • 1 + β • g}`
+(`exists_smul_add_smul_of_commute`, `smul_one_add_smul_injective`), whose units are
+exactly those combinations with nonzero determinant. -/
+private lemma centralizerCard_eq_card_units {g : GL2' p n} (hns : ¬ GL2.IsScalar g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = (Finset.univ.filter (fun ab : GaloisField p n × GaloisField p n =>
+          Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+            + ab.2 • g.val) ≠ 0)).card := by
+  have hns' : ¬ (g.val 0 1 = 0 ∧ g.val 1 0 = 0 ∧ g.val 0 0 = g.val 1 1) :=
+    fun h => hns ((GL2.isScalar_iff g).mpr h)
+  -- `α•1+β•g` commutes with `g`.
+  have hcomm_mat : ∀ α β : GaloisField p n,
+      (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) * g.val
+        = g.val * (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) := by
+    intro α β
+    rw [Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.smul_mul,
+      Matrix.mul_smul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one]
+  -- Value of `mkOfDetNeZero`.
+  have hvalMk : ∀ (α β : GaloisField p n)
+      (h : Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) ≠ 0),
+      (Matrix.GeneralLinearGroup.mkOfDetNeZero
+        (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) h).val
+        = α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val := by
+    intro α β h
+    simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+      Matrix.unitOfDetInvertible]
+  -- The bijection between good pairs and the centralizer.
+  let f : {ab : GaloisField p n × GaloisField p n //
+      Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + ab.2 • g.val) ≠ 0}
+      → ↥(Subgroup.centralizer ({g} : Set (GL2' p n))) := fun ab =>
+    ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero
+        (ab.1.1 • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + ab.1.2 • g.val) ab.2, by
+      rw [Subgroup.mem_centralizer_iff]
+      rintro y hy
+      rw [Set.mem_singleton_iff] at hy; subst hy
+      apply Units.ext
+      rw [Units.val_mul, Units.val_mul, hvalMk]
+      exact (hcomm_mat ab.1.1 ab.1.2).symm⟩
+  have hbij : Function.Bijective f := by
+    refine ⟨?_, ?_⟩
+    · rintro ⟨⟨α, β⟩, hab⟩ ⟨⟨α', β'⟩, hab'⟩ heq
+      have hvv : α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val
+          = α' • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β' • g.val := by
+        have h1 := congrArg
+          (fun u : ↥(Subgroup.centralizer ({g} : Set (GL2' p n))) => (u : GL2' p n).val) heq
+        simpa [f, hvalMk] using h1
+      exact Subtype.ext (smul_one_add_smul_injective hns' (A := g.val) hvv)
+    · rintro ⟨M, hM⟩
+      rw [Subgroup.mem_centralizer_iff] at hM
+      have hcomm : M.val * g.val = g.val * M.val := by
+        have hgm := hM g (Set.mem_singleton g)
+        have h2 := congrArg (fun u : GL2' p n => u.val) hgm
+        rw [Units.val_mul, Units.val_mul] at h2
+        exact h2.symm
+      obtain ⟨α, β, hαβ⟩ := exists_smul_add_smul_of_commute hns' hcomm
+      have hMdet : Matrix.det M.val ≠ 0 := by
+        have hu := M.isUnit
+        rw [Matrix.isUnit_iff_isUnit_det] at hu
+        exact hu.ne_zero
+      have hdet : Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+          + β • g.val) ≠ 0 := by rw [← hαβ]; exact hMdet
+      refine ⟨⟨(α, β), hdet⟩, ?_⟩
+      apply Subtype.ext
+      apply Units.ext
+      show (Matrix.GeneralLinearGroup.mkOfDetNeZero _ hdet).val = M.val
+      rw [hvalMk]; exact hαβ.symm
+  rw [(Nat.card_congr (Equiv.ofBijective f hbij)).symm, Nat.card_eq_fintype_card,
+    Fintype.card_subtype]
+
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
 nonzero scalar `x` (matching `GL2.card_isScalar`). -/
 theorem numScalarClasses_eq (hn : n ≠ 0) :
