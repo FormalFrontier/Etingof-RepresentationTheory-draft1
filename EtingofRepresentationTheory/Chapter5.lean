@@ -195,6 +195,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_25_1
 import EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps
 import EtingofRepresentationTheory.Chapter5.Theorem5_25_2
 import EtingofRepresentationTheory.Chapter5.GL2CharacterValues
+import EtingofRepresentationTheory.Chapter5.GL2ConjugacyClassCount
 import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
 import EtingofRepresentationTheory.Chapter5.Discussion5_25_4
 
