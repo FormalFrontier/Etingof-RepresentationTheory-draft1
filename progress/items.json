@@ -920,7 +920,9 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "fidelity_note": "wave-5 (#5339, Opus re-audit): purely narrative (advises using Definition 2.8.3's viewpoint for quiver reps); no crisp formalizable claim, no declaration. Correctly non_formalizable; resting at verified with this justification record.",
+    "last_updated": "2026-07-02"
   },
   {
     "id": "Chapter2/Definition2.8.8",
@@ -971,7 +973,9 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true
+    "sorry_free": true,
+    "fidelity_note": "wave-5 (#5339, Opus re-audit): Lean QuiverRepresentationHom (per-vertex component maps + naturality) is a correct standard definition, but the book blob is EMPTY (1 byte) — a Stage-1.7 transcription gap, so fidelity cannot be checked against book text. Re-extract tracked in #5829 (mirrors #5666 for the sibling 2.8.9). Not a statement gap; verified on construction merits pending blob re-extraction.",
+    "last_updated": "2026-07-02"
   },
   {
     "id": "Chapter2/Problem2.8.11",
@@ -1164,7 +1168,9 @@
     "start_line": 24,
     "end_line": 24,
     "status": "sorry_free",
-    "fidelity": "verified"
+    "fidelity": "verified",
+    "fidelity_note": "wave-5 (#5339, Opus re-audit): purely narrative meta-comment on Definition 2.9.9 (basis-dependence, to be replaced by a basis-independent definition later); no crisp formalizable claim, no declaration. Correctly non_formalizable; resting at verified with this justification record.",
+    "last_updated": "2026-07-02"
   },
   {
     "id": "Chapter2/Exercise2.9.11",
