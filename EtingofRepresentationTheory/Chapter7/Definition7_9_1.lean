@@ -1,4 +1,5 @@
 import Mathlib.CategoryTheory.Linear.Basic
+import Mathlib.CategoryTheory.Linear.LinearFunctor
 import Mathlib.CategoryTheory.Preadditive.AdditiveFunctor
 
 /-!
@@ -23,3 +24,13 @@ abbrev Etingof.AdditiveFunctor {C : Type*} {D : Type*} [CategoryTheory.Category 
     [CategoryTheory.Category D] [CategoryTheory.Preadditive C]
     [CategoryTheory.Preadditive D] (F : CategoryTheory.Functor C D) :=
   CategoryTheory.Functor.Additive F
+
+/-- A `k`-linear functor between `k`-linear categories, in the sense of the
+second half of Etingof Definition 7.9.1: `F` induces `k`-linear maps between
+Hom spaces. This is `CategoryTheory.Functor.Linear` in Mathlib. -/
+abbrev Etingof.LinearFunctor (k : Type*) [Semiring k] {C : Type*} {D : Type*}
+    [CategoryTheory.Category C] [CategoryTheory.Category D]
+    [CategoryTheory.Preadditive C] [CategoryTheory.Preadditive D]
+    [CategoryTheory.Linear k C] [CategoryTheory.Linear k D]
+    (F : CategoryTheory.Functor C D) :=
+  CategoryTheory.Functor.Linear k F
