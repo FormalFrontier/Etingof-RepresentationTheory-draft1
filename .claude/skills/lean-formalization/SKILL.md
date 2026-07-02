@@ -955,6 +955,8 @@ example (A : Type*) [Ring A] (a : A) : 1 * a = a := one_mul a
 
 If a blob file is empty, flag it rather than scaffolding from the title alone. Title-only scaffolding produces low-quality formalizations.
 
+**Blob filenames can be off-by-one / mislabeled — confirm the actual statement, don't trust the filename.** Blob extraction sometimes shifts numbered items across files, especially where a Problem's text is split by a page break or interleaved with the preceding discussion. Before formalizing item `X.Y.Z`, grep the book prose for the literal `X.Y.Z` label (it appears in the text, e.g. `**Problem X.Y.Z.**`) and read the statement there, rather than assuming `blobs/<Chapter>/<Item X.Y.Z>.md` holds it. (#5727: `Problem3.8.3.md` actually contained Problem 3.8.4(i)'s text; the real Problem 3.8.3 — "prove Lemma 3.8.2 without algebraic closure" — lived inside `Discussion_proof_of_Theorem3.8.1.md`.)
+
 ### Use minimal imports
 
 Prefer the most specific Mathlib module. Don't import `Mathlib.LinearAlgebra.DirectSum.Finite` when `Mathlib.Algebra.Module.Prod` suffices.
