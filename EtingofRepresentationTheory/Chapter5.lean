@@ -14,6 +14,7 @@ import EtingofRepresentationTheory.Chapter5.Proposition5_2_3
 import EtingofRepresentationTheory.Chapter5.Proposition5_2_4
 import EtingofRepresentationTheory.Chapter5.Proposition5_2_5
 import EtingofRepresentationTheory.Chapter5.Lemma5_2_6
+import EtingofRepresentationTheory.Chapter5.Remark5_2_8
 
 -- Section 5.3: Divisibility and Integrality
 import EtingofRepresentationTheory.Chapter5.Theorem5_3_1
