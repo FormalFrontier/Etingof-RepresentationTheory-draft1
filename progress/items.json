@@ -2178,10 +2178,10 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage/needs_completion] wave-3",
-    "fidelity_decl": "(none — narrative)",
-    "last_updated": "2026-06-28",
+    "fidelity": "partial",
+    "fidelity_note": "[coverage/needs_completion] wave-3; #5662: existence + Fitting's lemma (nilpotent-or-unit) + local endomorphism ring formalized in Chapter3/Remark3_8_6.lean over an arbitrary ring (no algebraically closed field); uniqueness (Krull-Schmidt-Azumaya exchange) remains as follow-up",
+    "fidelity_decl": "Etingof.isNilpotent_or_isUnit_of_finiteLength_indecomposable, Etingof.isLocalRing_end_of_finiteLength_indecomposable, Etingof.exists_indecomposable_decomposition",
+    "last_updated": "2026-07-02",
     "fidelity_issue": 5662
   },
   {
