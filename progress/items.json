@@ -5663,9 +5663,9 @@
     "start_line": 40,
     "end_line": 47,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[structural] Book: 'The dimension vector d(V) = (dim V₁, …, dim Vₙ) of a quiver representation V.' Lean defines dimensionVector as a function V → ℕ taking bare type families `spaces : V → Type*` with "
+    "fidelity_note": "verified (wave-6, Opus): def genuinely constructs d(V)=finrank of vertex spaces; the prior [structural] gap (no fidelity_issue) reflected only input-type packaging, not a real defect"
   },
   {
     "id": "Chapter6/Discussion_before_Theorem6.5.2",
@@ -5860,10 +5860,9 @@
     "start_line": 15,
     "end_line": 20,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book defines the Coxeter element c = s_1 s_2 ⋯ s_n as a product of simple reflections in the Weyl group W of the quiver. The Lean definition is: `noncomputable def Etingof.coxete",
-    "fidelity_issue": 5625
+    "fidelity_note": "verified (wave-6, Opus): coxeterElement now folds the genuine root-lattice simpleReflections of the Cartan matrix (c=s_1…s_n); prior gap #5625 resolved (merged)"
   },
   {
     "id": "Chapter6/Lemma6.7.2",
@@ -5928,11 +5927,10 @@
     "start_line": 31,
     "end_line": 46,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[coverage] The book states: 'Let Q be a quiver, and let V be any indecomposable representation. Then d(V) is a positive root.' The Lean statement takes d : Fin n → ℤ as a bare vector (not the dimensio",
-    "fidelity_issue": 5624
+    "fidelity_note": "verified (wave-6, Opus): now quantifies over an arbitrary indecomposable rep and concludes IsPositiveRoot(d(V)), reflection chain produced via Thm 6.8.1 not assumed; prior gap #5624 resolved (merged)"
   },
   {
     "id": "Chapter6/Corollary6.8.3",
@@ -5982,11 +5980,10 @@
     "start_line": 15,
     "end_line": 28,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book states that applying reflection functors F_3^- F_2^- F_1^- to V_{α_4} yields V_{α_1+α_2+α_3+α_4}, and then F_4^- yields V_{α_1+α_2+α_3+2α_4} (the inclusion of three lines in",
-    "fidelity_issue": 5639
+    "fidelity_note": "verified (wave-6, Opus): parts 1/2/3 use the genuine D₄ root-lattice simpleReflections (functor↔reflection bridge = Prop 6.6.8), (2,1,1,1)∈D₄ indecomposable dim-vectors; prior gap #5639 resolved (merged)"
   },
   {
     "id": "Chapter6/Section6.9_heading",
