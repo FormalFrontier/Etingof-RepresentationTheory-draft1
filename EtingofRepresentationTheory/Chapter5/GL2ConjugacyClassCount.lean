@@ -701,6 +701,12 @@ private lemma count_from_bridge {P : GL2' p n → Prop}
   rw [hSncard, hclass] at hbridge
   exact Nat.eq_of_mul_eq_mul_right hpos (hbridge.trans harith.symm)
 
+/-- For `2 ∣ a`, `(a / 2) * b = (a * b) / 2`. -/
+private lemma half_mul (a b : ℕ) (h : 2 ∣ a) : a / 2 * b = a * b / 2 := by
+  obtain ⟨k, rfl⟩ := h
+  rw [Nat.mul_div_cancel_left k (by norm_num : 0 < 2),
+    show 2 * k * b = 2 * (k * b) by ring, Nat.mul_div_cancel_left _ (by norm_num : 0 < 2)]
+
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
 nonzero scalar `x` (matching `GL2.card_isScalar`). -/
 theorem numScalarClasses_eq (hn : n ≠ 0) :
@@ -786,7 +792,46 @@ elements `q²(q−1)²/2` (`GL2.card_isElliptic`) by `q(q−1)` gives `q(q−1)/
 theorem numEllipticClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     numEllipticClasses (p := p) (n := n) =
       Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2 := by
-  sorry
+  simp only [numEllipticClasses]
+  have hq3 := card_ge_three (p := p) (n := n) hp2 hn
+  have hqodd : Odd (Fintype.card (GaloisField p n)) := by
+    rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+    exact (Nat.Prime.odd_of_ne_two hp.out hp2).pow
+  obtain ⟨m, hm⟩ := hqodd
+  have hq1 : Fintype.card (GaloisField p n) - 1 = 2 * m := by omega
+  have hq9 : 9 ≤ Fintype.card (GaloisField p n) ^ 2 := by
+    calc (9 : ℕ) = 3 ^ 2 := by norm_num
+      _ ≤ _ := Nat.pow_le_pow_left hq3 2
+  apply count_from_bridge (P := fun g => GL2.IsElliptic g)
+    (cardS := Fintype.card (GaloisField p n) ^ 2 * (Fintype.card (GaloisField p n) - 1) ^ 2 / 2)
+    (target := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2)
+    (classSize := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1))
+  case hclosed =>
+    intro g hg x
+    simp only [Set.mem_setOf_eq] at hg ⊢
+    have h := (GL2.isElliptic_conj_iff g x⁻¹).mpr hg
+    rwa [inv_inv] at h
+  case hd =>
+    intro g hg
+    simp only [Set.mem_setOf_eq] at hg
+    exact centralizerCard_elliptic hg
+  case hSncard =>
+    rw [show {g : GL2' p n | GL2.IsElliptic g}
+        = ↑(Finset.univ.filter (fun g : GL2' p n => GL2.IsElliptic g)) from by ext g; simp,
+      Set.ncard_coe_finset, GL2.card_isElliptic hp2 hn]
+  case hclass =>
+    rw [card_GL2_eq,
+      Nat.mul_div_cancel_left _
+        (by omega : 0 < Fintype.card (GaloisField p n) ^ 2 - 1)]
+    obtain ⟨k, hk⟩ :=
+      Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+    rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
+    omega
+  case hpos => exact Nat.mul_pos (by omega) (by omega)
+  case harith =>
+    rw [half_mul _ _ ⟨Fintype.card (GaloisField p n) * m, by rw [hq1]; ring⟩]
+    congr 1; ring
 
 /-- **Partition of the class set.** The total number of conjugacy classes of
 `GL₂(𝔽_q)` is the sum of the four type counts. Proved fully: the four type
