@@ -60,6 +60,109 @@ Carrying these out rigorously requires the constant class-size lemmas
 which are a separate, substantial piece of infrastructure.
 -/
 
+/-! ## A class-count bridge
+
+The three deferred per-type counts all follow the same recipe: divide the number
+of *elements* of a type by the (constant) *size* of a conjugacy class of that
+type. The size of the class of `g` is `|G| / |C_G(g)|` by orbit–stabilizer, so if
+the centralizer order is constant equal to `d` across a conjugation-closed set
+`S`, then every class contained in `S` has `|G| / d` elements and
+
+  `(number of classes in S) · (|G| / d) = |S|`.
+
+The lemma `ncard_conjClasses_image_mul_centralizerCard` below packages exactly
+this, for an arbitrary finite group. Each per-type count then supplies the
+type's element set `S`, its conjugation-closedness, and the constant centralizer
+order `d`, and reads off the class count. -/
+
+section ConjClassCount
+
+open scoped Classical
+
+variable {G : Type*} [Group G] [Fintype G]
+
+/-- **Orbit–stabilizer for conjugacy.** The fiber of `ConjClasses.mk` over a class
+`c` (i.e. the conjugacy class itself) has cardinality `|G| / |C_G(g_c)|`, phrased
+multiplicatively: `|fiber c| · |C_G(g_c)| = |G|`, where `g_c = c.out`. -/
+private lemma fiber_card_mul_centralizerCard (c : ConjClasses G) :
+    (Finset.univ.filter (fun a : G => ConjClasses.mk a = c)).card
+      * Nat.card (Subgroup.centralizer ({Quotient.out c} : Set G)) = Fintype.card G := by
+  classical
+  have hcarrier :
+      (Finset.univ.filter (fun a : G => ConjClasses.mk a = c)) = c.carrier.toFinset := by
+    ext a; simp [ConjClasses.mem_carrier_iff_mk_eq]
+  have hmk : ConjClasses.mk (Quotient.out c) = c := by
+    rw [← ConjClasses.quotient_mk_eq_mk]; exact Quotient.out_eq c
+  have horb : MulAction.orbit (ConjAct G) (Quotient.out c) = c.carrier := by
+    rw [ConjAct.orbit_eq_carrier_conjClasses, hmk]
+  have hstab : Nat.card (Subgroup.centralizer ({Quotient.out c} : Set G))
+      = Fintype.card (MulAction.stabilizer (ConjAct G) (Quotient.out c)) := by
+    rw [Subgroup.nat_card_centralizer_nat_card_stabilizer, Nat.card_eq_fintype_card]
+  rw [hcarrier, Set.toFinset_card, Fintype.card_congr (Equiv.setCongr horb.symm), hstab,
+    MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) (Quotient.out c),
+    ConjAct.card]
+
+/-- **Class-count bridge.** Let `S` be a conjugation-closed subset of a finite group
+`G` on which the centralizer order is constant equal to `d`. Then the number of
+conjugacy classes meeting `S`, namely `(ConjClasses.mk '' S).ncard`, times the
+common class size `|G| / d`, equals `|S|`.
+
+Each class contained in `S` has `|G| / d` elements by orbit–stabilizer
+(`fiber_card_mul_centralizerCard`); summing over the classes gives `|S|`. -/
+theorem ncard_conjClasses_image_mul_centralizerCard {S : Set G}
+    (hclosed : ∀ g ∈ S, ∀ x : G, x * g * x⁻¹ ∈ S)
+    {d : ℕ} (hd : ∀ g ∈ S, Nat.card (Subgroup.centralizer ({g} : Set G)) = d) :
+    (ConjClasses.mk '' S).ncard * (Fintype.card G / d) = S.ncard := by
+  classical
+  haveI : Fintype S := Fintype.ofFinite _
+  -- Membership transfers along conjugacy: a conjugate of an element of `S` is in `S`.
+  have hmem : ∀ {a b : G}, b ∈ S → IsConj a b → a ∈ S := by
+    intro a b hb hconj
+    rw [isConj_iff] at hconj
+    obtain ⟨x, hx⟩ := hconj
+    have hmemx : x⁻¹ * b * (x⁻¹)⁻¹ ∈ S := hclosed b hb x⁻¹
+    have hax : a = x⁻¹ * b * (x⁻¹)⁻¹ := by rw [← hx]; group
+    rw [hax]; exact hmemx
+  set t : Finset (ConjClasses G) := S.toFinset.image ConjClasses.mk with ht
+  have himg : ConjClasses.mk '' S = (↑t : Set (ConjClasses G)) := by
+    rw [ht, Finset.coe_image, Set.coe_toFinset]
+  -- Every fiber over a class in `t` has exactly `|G| / d` elements.
+  have hfiber : ∀ c ∈ t, (S.toFinset.filter (fun a => ConjClasses.mk a = c)).card
+      = Fintype.card G / d := by
+    intro c hc
+    rw [ht, Finset.mem_image] at hc
+    obtain ⟨b, hbf, hbc⟩ := hc
+    rw [Set.mem_toFinset] at hbf
+    -- The fiber inside `S` is the whole fiber, since `S` is conjugation-closed.
+    have hfe : S.toFinset.filter (fun a => ConjClasses.mk a = c)
+        = Finset.univ.filter (fun a => ConjClasses.mk a = c) := by
+      ext a
+      simp only [Finset.mem_filter, Finset.mem_univ, Set.mem_toFinset, true_and]
+      refine ⟨fun h => h.2, fun h => ⟨?_, h⟩⟩
+      have hconj : IsConj a b := ConjClasses.mk_eq_mk_iff_isConj.mp (h.trans hbc.symm)
+      exact hmem hbf hconj
+    have hout : Quotient.out c ∈ S := by
+      have hmkc : ConjClasses.mk (Quotient.out c) = c := by
+        rw [← ConjClasses.quotient_mk_eq_mk]; exact Quotient.out_eq c
+      have hconj : IsConj (Quotient.out c) b :=
+        ConjClasses.mk_eq_mk_iff_isConj.mp (hmkc.trans hbc.symm)
+      exact hmem hbf hconj
+    have hkey := fiber_card_mul_centralizerCard c
+    rw [hd _ hout] at hkey
+    have hdpos : 0 < d := by
+      have hpos : 0 < Nat.card (Subgroup.centralizer ({Quotient.out c} : Set G)) := Nat.card_pos
+      rw [hd _ hout] at hpos; exact hpos
+    rw [hfe, ← hkey, Nat.mul_div_cancel _ hdpos]
+  -- Sum the fiber cardinalities over the classes.
+  have hH : ∀ a ∈ S.toFinset, ConjClasses.mk a ∈ t := by
+    intro a ha; rw [ht]; exact Finset.mem_image_of_mem _ ha
+  have hsum : S.toFinset.card = t.card * (Fintype.card G / d) := by
+    rw [Finset.card_eq_sum_card_fiberwise hH, Finset.sum_congr rfl hfiber,
+      Finset.sum_const, smul_eq_mul]
+  rw [himg, Set.ncard_coe_finset, Set.ncard_eq_toFinset_card', hsum]
+
+end ConjClassCount
+
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
 
 private abbrev GL2' := Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)
