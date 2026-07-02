@@ -2074,6 +2074,43 @@ make one argument explicit (e.g. `def cartanEntry (k) … {C} [Category C] [Line
 include `[Preadditive C]` *before* `[Linear k C]` — `Linear` takes `Preadditive` as a
 parameter (does not extend it), so omitting it gives `failed to synthesize Preadditive C`.
 
+### Morita/any equivalence of module categories preserves finite generation (Ch9 #5738)
+
+To restrict `E : ModuleCat R ≌ ModuleCat S` to `FGModuleCat R ≌ FGModuleCat S` (the
+`FGModuleCat`-vs-`ModuleCat` reconciliation of Corollary 9.7.3(i) — the split-conjunct
+gap): feed `CategoryTheory.Equivalence.congrFullSubcategory E hobj` with
+`hobj : (ModuleCat.isFG S).inverseImage E.functor = ModuleCat.isFG R` (`FGModuleCat R =
+(ModuleCat.isFG R).FullSubcategory`), i.e. `∀ M, Module.Finite S (E.functor.obj M) ↔
+Module.Finite R M` (prove by `funext M; exact propext (…)`; also supply the instance
+`(ModuleCat.isFG S).IsClosedUnderIsomorphisms` via `of_iso e hX := Module.Finite.equiv
+e.toLinearEquiv`). Sorry-free, axiom-clean in `Infrastructure/MoritaFGRestriction.lean`.
+The whole thing is ~250 lines; the crux and its reusable pieces:
+- **This is NOT formal from additivity** — it needs the regular module being a compact
+  generator. The clean proof: `E.inverse.obj (of S S)` is f.g. over `R` (`inverse_regular_finite`);
+  (F1) `Module.Finite S (E.functor.obj (of R R))` = `inverse_regular_finite E.symm`; then
+  `functor_finite_of_finite` transports f.g. and `finite_functor_iff` gives the iff (reflection via
+  the unit iso `E.unitIso.app M`). No k-linearity, no Noetherian, no compactness API needed.
+- **Core `inverse_regular_finite`:** the regular module is a separator (`isSeparator_regular`,
+  proved directly à la `ModuleCat.isSeparator` via `LinearMap.toSpanSingleton`), so
+  `G := E.functor.obj (of R R)` is a separator of `ModuleCat S` (`IsSeparator.of_equivalence`).
+  Show `⨆ (φ : G ⟶ of S S), range φ.hom = ⊤` by feeding the separator `f = ofHom N.mkQ`, `g = 0`
+  (every `h : G ⟶ of S S` has `h ≫ mkQ = 0` since `range ⊆ N`), forcing `mkQ = 0` hence `N = ⊤`.
+  Then `1 ∈ N`; extract a finite family via `Submodule.mem_iSup_iff_exists_finset` +
+  `mem_iSup_finset_iff_exists_sum`, build `Φ := biproduct.desc g : ⨁ⁿ G ⟶ of S S` (epi, since
+  `1 ∈ range Φ.hom`), and `E.inverse.map Φ` is a surjection onto `E.inverse (of S S)` from an
+  `E.inverse`-image of a finite biproduct (f.g. by `finite_functor_biproduct`).
+- **`finite_functor_biproduct`** (`F` additive, `f : Fin n → ModuleCat R`, each `F.obj (f i)`
+  f.g. ⟹ `F.obj (⨁ f)` f.g.): `(F.mapBiproduct f).trans (ModuleCat.biproductIsoPi _)` then
+  `Module.Finite.pi` + `Module.Finite.equiv e.symm.toLinearEquiv`.
+- **Gotchas:** `IsSeparator`, `Functor.PreservesEpimorphisms`,
+  `Functor.preservesEpimorphisms_of_adjunction` need the `Functor.` prefix even under
+  `open CategoryTheory` (get epi-preservation from `E.toAdjunction`/`E.symm.toAdjunction`).
+  `ModuleCat.biproductIsoPi` requires the index in **`Type 0`** (`{J : Type}`), so a `Finset`
+  index (`{x // x ∈ t} : Type u`) must be reindexed to `Fin t.card` via `t.equivFin` (reindex sums
+  with `Fintype.sum_equiv e.symm _ _ (fun i => rfl)` + `Finset.sum_coe_sort`). `E.symm.inverse =
+  E.functor` is defeq — close with `exact`, not `simpa [Equivalence.symm_inverse]` (the simp lemma
+  does not fire). `Submodule.eq_top_iff'` (not bare `eq_top_iff'`).
+
 ## Quiver Representation Patterns
 
 Chapter 6 quiver representations use concrete finite-dimensional constructions rather than abstract quiver theory. This approach was discovered in Wave 4 (Examples 6.2.2-6.2.4) after three waves of zero progress with abstract approaches.
