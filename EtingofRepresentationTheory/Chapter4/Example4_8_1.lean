@@ -1107,6 +1107,52 @@ def classRepA5 : Fin 5 → G :=
     ⟨(Equiv.swap 0 4 * Equiv.swap 0 3 * Equiv.swap 0 2 * Equiv.swap 0 1) ^ 2,
       Equiv.Perm.mem_alternatingGroup.mpr (by decide)⟩]
 
+/-! #### Conjugacy-class index machinery
+
+The five conjugacy classes of `A₅` are `Id, (123), (12)(34), (12345), (13245)` with sizes
+`1, 20, 15, 12, 12` (matching `sizesA5`).  Four of the five are already separated by the number
+of fixed points of the natural action on `Fin 5` (`5, 2, 1, 0`); the two fixed-point-free
+5-cycle classes are separated by a conjugacy test against `classRepA5 3`.  All specifications
+are honest `decide`s over the 60 elements (no `native_decide`). -/
+
+/-- The index (in `Fin 5`) of the conjugacy class of `g ∈ A₅`.  The identity, 3-cycles and
+double transpositions are recognised by their `5, 2, 1` fixed points on `Fin 5`; the two
+5-cycle classes (both fixed-point-free) are told apart by a conjugacy test against
+`classRepA5 3`. -/
+def classIdxA5 (g : G) : Fin 5 :=
+  if S4.fixCardM (G := G) (α := Fin 5) g = 5 then 0
+  else if S4.fixCardM (G := G) (α := Fin 5) g = 2 then 1
+  else if S4.fixCardM (G := G) (α := Fin 5) g = 1 then 2
+  else if ∃ c : G, c * classRepA5 3 * c⁻¹ = g then 3
+  else 4
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+-- honest `decide` over the 60 elements of A₅ (conjugacy search per element); no `native_decide`
+/-- Every `g ∈ A₅` is conjugate to its class representative `classRepA5 (classIdxA5 g)`
+(honest `decide` over the 60 elements, no `native_decide`).  Combine with `isConj_iff` to
+recover `IsConj (classRepA5 (classIdxA5 g)) g`. -/
+lemma classIdxA5_spec (g : G) : ∃ c : G, c * classRepA5 (classIdxA5 g) * c⁻¹ = g := by
+  revert g; decide
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+-- honest `decide` over the 60 elements of A₅ (class index per element); no `native_decide`
+/-- The five conjugacy classes have sizes `1, 20, 15, 12, 12`, matching `sizesA5` (honest
+`decide` over the 60 elements). -/
+lemma classIdxA5_card (j : Fin 5) :
+    (Finset.univ.filter fun g => classIdxA5 g = j).card = ![1, 20, 15, 12, 12] j := by
+  revert j; decide
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+-- honest `decide` over the 5 representatives × 60 conjugators of A₅; no `native_decide`
+/-- The conjugacy classes of `A₅` are real: every class representative is conjugate to its own
+inverse (honest `decide` over the 60 elements). -/
+lemma classRepA5_inv_conj (j : Fin 5) :
+    ∃ c : G, c * classRepA5 j * c⁻¹ = (classRepA5 j)⁻¹ := by
+  revert j; decide
+
 /-! #### The trivial representation `ℂ` -/
 
 /-- The trivial representation `ℂ` of `A₅`. -/
