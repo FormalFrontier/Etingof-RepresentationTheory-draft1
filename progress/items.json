@@ -2310,10 +2310,10 @@
     "start_line": 17,
     "end_line": 18,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage/needs_completion] wave-3",
-    "fidelity_decl": "(none — narrative)",
-    "last_updated": "2026-06-28",
+    "fidelity": "covered",
+    "fidelity_note": "[resolved #5663] Formalized the core obstruction: ratFunc_tensor_ratFunc_not_isField proves ¬ IsField (RatFunc ℂ ⊗[ℂ] RatFunc ℂ), witnessing the failure of Theorem 3.10.2(i) for infinite dimensional representations (A=B=V=W=ℂ(x)). Witness element X⊗1-1⊗X is nonzero (via shift alg hom X↦X+1) but not a unit (multiplication map lmul' sends it to 0).",
+    "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
+    "last_updated": "2026-07-02",
     "fidelity_issue": 5663
   },
   {

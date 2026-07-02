@@ -28,6 +28,7 @@ import EtingofRepresentationTheory.Chapter3.Lemma3_8_2
 import EtingofRepresentationTheory.Chapter3.Problem3_8_3
 import EtingofRepresentationTheory.Chapter3.Remark3_8_6
 import EtingofRepresentationTheory.Chapter3.Theorem3_10_2
+import EtingofRepresentationTheory.Chapter3.Remark3_10_3
 
 /-!
 # Chapter 3: Representations of Finite Groups: Basic Results
