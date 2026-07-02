@@ -50,17 +50,19 @@ The book's part (i) is stated for an abstract `k`-linear finite abelian category
 `𝒞`: *any* such `𝒞` is equivalent to the finite-dimensional modules over a unique
 basic algebra `B(𝒞)`. What is formalized here is the **algebra version**: the input
 is a finite-dimensional algebra `A` (Theorem `Etingof.Corollary_9_7_3_i`), not an
-abstract category. The categorical input form is formalized (partially) as
-`Etingof.Corollary_9_7_3_i_categorical` in `Corollary9_7_3Categorical.lean`: it
-composes `Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for a
-progenerator `P`) with the algebra version applied to `A = (End P)ᵐᵒᵖ`, carrying the
-progenerator `P` as an explicit hypothesis (there is no theorem yet that an abstract
-finite abelian category *has* a progenerator). One gap remains: the two conclusions
-`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` and `MoritaEquivalent (End P)ᵐᵒᵖ B` are not yet stitched
-into a single `𝒞 ≌ FGModuleCat B`, because that requires restricting the Morita
-equivalence from the full `ModuleCat` used by `Etingof.MoritaEquivalent` to the
-finitely generated subcategory (proving a Morita equivalence preserves finite
-generation). That FG-restriction is tracked as a follow-up formalization item.
+abstract category. The categorical input form is formalized as
+`Etingof.Corollary_9_7_3_i_categorical_fgModule` in `Corollary9_7_3Categorical.lean`:
+for a `k`-linear finite abelian category `𝒞` over an algebraically closed field with a
+progenerator `P`, it produces a basic `k`-algebra `B` together with a single equivalence
+`𝒞 ≌ FGModuleCat B` — the book's part (i) exactly. It composes
+`Etingof.Theorem_9_6_4_corollary` (`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` for the progenerator `P`,
+carried as an explicit hypothesis since there is no theorem yet that an abstract finite
+abelian category *has* a progenerator) with the algebra version applied to
+`A = (End P)ᵐᵒᵖ`. The two conjuncts are stitched into `𝒞 ≌ FGModuleCat B` via
+`Etingof.MoritaEquivalent.fgModuleCatEquiv` (`Infrastructure/MoritaFGRestriction.lean`),
+which restricts a Morita equivalence `ModuleCat A ≌ ModuleCat B` to the finitely
+generated subcategories by proving it preserves finite generation (the image of the
+regular module under an equivalence is again finitely generated).
 -/
 
 variable (k : Type u) [Field k]

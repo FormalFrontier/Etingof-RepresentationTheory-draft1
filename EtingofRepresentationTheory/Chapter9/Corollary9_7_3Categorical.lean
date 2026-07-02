@@ -2,6 +2,7 @@ import EtingofRepresentationTheory.Chapter9.Corollary9_7_3
 import EtingofRepresentationTheory.Chapter9.Theorem9_6_4
 import EtingofRepresentationTheory.Chapter9.Introduction_9_6
 import EtingofRepresentationTheory.Infrastructure.BasicAlgebraExistence
+import EtingofRepresentationTheory.Infrastructure.MoritaFGRestriction
 
 /-!
 # Corollary 9.7.3(i), categorical input form
@@ -88,3 +89,35 @@ theorem Etingof.Corollary_9_7_3_i_categorical
   obtain ⟨B, instR, instA, instF, hbasic, hmor⟩ :=
     Etingof.exists_basic_morita_equivalent k (End P)ᵐᵒᵖ
   exact ⟨B, instR, instA, instF, hbasic, hcat, hmor⟩
+
+/-- **Corollary 9.7.3(i), categorical input form — single equivalence.** This closes
+gap 2 of issue #5738: the two conjuncts of `Etingof.Corollary_9_7_3_i_categorical`
+(`𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` and `(End P)ᵐᵒᵖ` Morita equivalent to a basic `B`) are
+stitched into the single book statement `𝒞 ≌ FGModuleCat B` with `B` basic.
+
+Let `𝒞` be a `k`-linear finite abelian category over an algebraically closed field `k`
+with a progenerator `P`. Then there is a basic `k`-algebra `B` such that `𝒞` is equivalent
+to the category of finite-dimensional `B`-modules.
+
+The Morita equivalence `(End P)ᵐᵒᵖ ≌ B` restricts to the finitely generated module
+subcategories via `Etingof.MoritaEquivalent.fgModuleCatEquiv`, and composing with
+Theorem 9.6.4's `𝒞 ≌ FGModuleCat (End P)ᵐᵒᵖ` gives the single equivalence.
+(Etingof Corollary 9.7.3(i), categorical form) -/
+theorem Etingof.Corollary_9_7_3_i_categorical_fgModule
+    {k : Type v} [Field k] [IsAlgClosed k]
+    (C : Type u) [Category.{v} C]
+    [Etingof.IsFiniteAbelianCategory C] [Linear k C]
+    [Etingof.IsFiniteAbelianCategoryOverField k C]
+    (P : C) [hp : Etingof.IsProgenerator P] :
+    ∃ (B : Type v) (_ : Ring B) (_ : Algebra k B) (_ : Module.Finite k B),
+      Etingof.IsBasicAlgebra k B ∧ Nonempty (C ≌ FGModuleCat.{v} B) := by
+  haveI : FiniteDimensional k (End P) :=
+    @Etingof.IsFiniteAbelianCategoryOverField.finiteDimensional_hom k _ C _ _ _ _ P P
+  haveI : Module.Finite k (End P)ᵐᵒᵖ := inferInstance
+  have hcat : Nonempty (C ≌ FGModuleCat.{v} (End P)ᵐᵒᵖ) :=
+    Etingof.Theorem_9_6_4_corollary (k := k) C P
+  obtain ⟨B, instR, instA, instF, hbasic, hmor⟩ :=
+    Etingof.exists_basic_morita_equivalent k (End P)ᵐᵒᵖ
+  obtain ⟨eFG⟩ := Etingof.MoritaEquivalent.fgModuleCatEquiv hmor
+  obtain ⟨eC⟩ := hcat
+  exact ⟨B, instR, instA, instF, hbasic, ⟨eC.trans eFG⟩⟩
