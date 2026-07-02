@@ -6090,9 +6090,9 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "faithful",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says the category Rep(A) of representations of a k-algebra A is enriched over k-Vect. The correct formalization requires showing `Linear k (ModuleCat A)` for a k-algebra A (",
+    "fidelity_note": "Resolved (#5641): generalized from Linear k (ModuleCat k) to Linear k (ModuleCat A) for a k-algebra A, via ModuleCat.linearOverField.",
     "fidelity_issue": 5641
   },
   {
