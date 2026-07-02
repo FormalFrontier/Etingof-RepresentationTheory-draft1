@@ -3200,7 +3200,8 @@
     "start_line": 5,
     "end_line": 6,
     "status": "statement_formalized",
-    "sorry_free": false
+    "sorry_free": false,
+    "fidelity": "verified"
   },
   {
     "id": "Chapter5/Definition5.1.4",
@@ -3388,8 +3389,9 @@
     "start_line": 11,
     "end_line": 12,
     "status": "proof_partial",
-    "fidelity": "partial",
-    "note": "Partially formalized (issue #5654, epic #5338) in Chapter5/Remark5_2_8.lean, replacing the earlier doc-only false closure. The remark is an alternative proof of the vanishing statement of Problem 5.2.7(b), decomposing into five steps. Three are formalized as real sorry-free theorems: Step 1 (pow_coprime_bijective) g ↦ gʲ is a bijection G → G for gcd(|G|,j)=1; Step 2 (prod_ne_one_pow) reindexing the product over G∖{1} along that bijection gives ∏_{g≠1} f(gʲ) = ∏_{g≠1} f(g), i.e. ∏_{g≠1}|χ_V(gʲ)|² = β; Step 5 + contradiction (not_isIntegral_rat_mem_Ioo) no rational algebraic integer lies in (0,1), built on Etingof.Proposition5_2_5. Also formalized sorry-free: the algebraic-integer half (isIntegral_prod_normSq_character, β is a product of algebraic integers) and the root-of-unity content of Step 3 (character_eq_sum_rootsOfUnity: each χ_V(g) is a sum of N-th roots of unity, N=|G|, since the eigenvalues of ρ(g) are roots of its charpoly and ρ(g) has order dividing N — placing β in ℚ(ζ_N)). Step 4 (representation-theoretic core) is now formalized sorry-free (#5772): character_ringHom_pow proves σ(χ_V(g)) = χ_V(gʲ) for any ring endomorphism σ of ℂ raising every N-th root of unity to its j-th power, via the trace-power-sum trace_pow_eq_sum_eigenvalues (ρ(g) is semisimple as its minpoly divides squarefree X^N-1, so V splits into eigenspaces and trace(ρ(g)ᵏ)=∑_μ (dim Eμ)·μᵏ); combined with Step 2, ringHom_prod_char_inv gives σ(β)=β for β=∏_{g≠1} χ_V(g)·χ_V(g⁻¹). The remaining field-theoretic half of Step 4 (producing σ_j from Gal(ℚ(ζ_N)/ℚ)≅(ℤ/Nℤ)ˣ and deducing β∈ℚ from fixed-by-all-σ_j), plus the unformalized 0<β<1 bound of Problem 5.2.7(b), remain tracked as foundation sub-issue #5772."
+    "fidelity": "gap",
+    "note": "Partially formalized (issue #5654, epic #5338) in Chapter5/Remark5_2_8.lean, replacing the earlier doc-only false closure. The remark is an alternative proof of the vanishing statement of Problem 5.2.7(b), decomposing into five steps. Three are formalized as real sorry-free theorems: Step 1 (pow_coprime_bijective) g ↦ gʲ is a bijection G → G for gcd(|G|,j)=1; Step 2 (prod_ne_one_pow) reindexing the product over G∖{1} along that bijection gives ∏_{g≠1} f(gʲ) = ∏_{g≠1} f(g), i.e. ∏_{g≠1}|χ_V(gʲ)|² = β; Step 5 + contradiction (not_isIntegral_rat_mem_Ioo) no rational algebraic integer lies in (0,1), built on Etingof.Proposition5_2_5. Also formalized sorry-free: the algebraic-integer half (isIntegral_prod_normSq_character, β is a product of algebraic integers) and the root-of-unity content of Step 3 (character_eq_sum_rootsOfUnity: each χ_V(g) is a sum of N-th roots of unity, N=|G|, since the eigenvalues of ρ(g) are roots of its charpoly and ρ(g) has order dividing N — placing β in ℚ(ζ_N)). Step 4 (representation-theoretic core) is now formalized sorry-free (#5772): character_ringHom_pow proves σ(χ_V(g)) = χ_V(gʲ) for any ring endomorphism σ of ℂ raising every N-th root of unity to its j-th power, via the trace-power-sum trace_pow_eq_sum_eigenvalues (ρ(g) is semisimple as its minpoly divides squarefree X^N-1, so V splits into eigenspaces and trace(ρ(g)ᵏ)=∑_μ (dim Eμ)·μᵏ); combined with Step 2, ringHom_prod_char_inv gives σ(β)=β for β=∏_{g≠1} χ_V(g)·χ_V(g⁻¹). The remaining field-theoretic half of Step 4 (producing σ_j from Gal(ℚ(ζ_N)/ℚ)≅(ℤ/Nℤ)ˣ and deducing β∈ℚ from fixed-by-all-σ_j), plus the unformalized 0<β<1 bound of Problem 5.2.7(b), remain tracked as foundation sub-issue #5772.",
+    "fidelity_issue": 5654
   },
   {
     "id": "Chapter5/Introduction_5.3",
@@ -3794,10 +3796,9 @@
     "start_line": 19,
     "end_line": 26,
     "status": "sorry_free",
-    "fidelity": "ok",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism.",
-    "fidelity_issue": 5652
+    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism."
   },
   {
     "id": "Chapter5/Problem5.8.4",
@@ -3844,7 +3845,8 @@
     "start_line": 5,
     "end_line": 10,
     "status": "statement_formalized",
-    "sorry_free": false
+    "sorry_free": false,
+    "fidelity": "verified"
   },
   {
     "id": "Chapter5/Remark5.9.2",
@@ -3855,9 +3857,8 @@
     "start_line": 11,
     "end_line": 14,
     "status": "sorry_free",
-    "fidelity": "faithful",
-    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula χ(g) = (1/|H|) · Σ_{x∈G : xgx⁻¹∈H} χ_V(xgx⁻¹). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement — see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = ℂ (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean.",
-    "fidelity_issue": 5653
+    "fidelity": "verified",
+    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula χ(g) = (1/|H|) · Σ_{x∈G : xgx⁻¹∈H} χ_V(xgx⁻¹). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement — see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = ℂ (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean."
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
@@ -4723,10 +4724,9 @@
     "start_line": 17,
     "end_line": 32,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Proved in PR #1808 (antisymmetric basis decomposition). Fidelity gap (#5615) resolved: canonical `Proposition5_21_1` is now the faithful `Finset.univ` sum over ALL bounded partitions (was a weaker existential); `Proposition5_21_1_univ` retained as an alias.",
-    "fidelity_issue": 5615
+    "notes": "Proved in PR #1808 (antisymmetric basis decomposition). Fidelity gap (#5615) resolved: canonical `Proposition5_21_1` is now the faithful `Finset.univ` sum over ALL bounded partitions (was a weaker existential); `Proposition5_21_1_univ` retained as an alias."
   },
   {
     "id": "Chapter5/Discussion_before_Proposition5.21.2",
@@ -4820,7 +4820,8 @@
     "end_line": 6,
     "status": "statement_formalized",
     "attention_note": "Statement and proof structure complete, but the proof delegates to the Schur-Weyl character-classification chain, which still has sorries.",
-    "notes": "Triage 2026-06-22: Theorem5_22_1 (SchurModule) is now sorry_free, so the 2026-03-18 blocker is resolved. Proposition5_22_2 itself compiles, but its proof routes through iso_of_formalCharacter_eq_schurPoly (SchurWeylFormalCharacterIso.lean), whose cone carries the Cluster A sorries: schurWeyl_simples_formalCharacter_classification_core and glTensorRep_schurWeyl_simples_pairwise_distinct (SchurWeylSimplesClassification.lean), detInv_elim_of_polynomial (PolynomialRepEmbedding.lean), and kernelLemmaK' (KernelLemmaKPrime.lean). Tracked transitively-honest as statement_formalized until those land."
+    "notes": "Triage 2026-06-22: Theorem5_22_1 (SchurModule) is now sorry_free, so the 2026-03-18 blocker is resolved. Proposition5_22_2 itself compiles, but its proof routes through iso_of_formalCharacter_eq_schurPoly (SchurWeylFormalCharacterIso.lean), whose cone carries the Cluster A sorries: schurWeyl_simples_formalCharacter_classification_core and glTensorRep_schurWeyl_simples_pairwise_distinct (SchurWeylSimplesClassification.lean), detInv_elim_of_polynomial (PolynomialRepEmbedding.lean), and kernelLemmaK' (KernelLemmaKPrime.lean). Tracked transitively-honest as statement_formalized until those land.",
+    "fidelity": "verified"
   },
   {
     "id": "Chapter5/Introduction_5.23",
@@ -4902,10 +4903,9 @@
     "start_line": 5,
     "end_line": 7,
     "status": "sorry_free",
-    "fidelity": "ok",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Added in #5729: EtingofRepresentationTheory/Chapter5/Remark5_23_3.lean. Genuinely proves the load-bearing content: the simultaneous constant shift Etingof.DominantWeight.constShift (lam -> lam + c*1^N), the shift-equivalence setoid shiftSetoid, and the parameter type Etingof.SLWeightParam n := Quotient (shiftSetoid n) -- Etingof's parametrization of SL(V)-irreducibles by dominant weights up to a simultaneous constant shift -- plus Etingof.specialLinear_det_eq_one (det = 1 on SL_N, the source of the identification). The two book-disavowed / infrastructure-heavy assertions are recorded via proof_wanted (no sorry, no axiom): Etingof.algIrrepGL_finrank_constShift (dim L_lam = dim L_{lam+c*1^N}, the statable dimension-level shadow of the SL(V) isomorphism) and Etingof.sl_finiteDimensional_completely_reducible (complete reducibility of finite-dimensional sl_N-modules, stated as every LieSubmodule having a complement, mirroring the sl(2) case Etingof.Sl2Irrep.complete_reducibility of Problem 2.15.1, which the book omits: 'we will not do this here').",
-    "fidelity_issue": 5729
+    "fidelity_note": "Added in #5729: EtingofRepresentationTheory/Chapter5/Remark5_23_3.lean. Genuinely proves the load-bearing content: the simultaneous constant shift Etingof.DominantWeight.constShift (lam -> lam + c*1^N), the shift-equivalence setoid shiftSetoid, and the parameter type Etingof.SLWeightParam n := Quotient (shiftSetoid n) -- Etingof's parametrization of SL(V)-irreducibles by dominant weights up to a simultaneous constant shift -- plus Etingof.specialLinear_det_eq_one (det = 1 on SL_N, the source of the identification). The two book-disavowed / infrastructure-heavy assertions are recorded via proof_wanted (no sorry, no axiom): Etingof.algIrrepGL_finrank_constShift (dim L_lam = dim L_{lam+c*1^N}, the statable dimension-level shadow of the SL(V) isomorphism) and Etingof.sl_finiteDimensional_completely_reducible (complete reducibility of finite-dimensional sl_N-modules, stated as every LieSubmodule having a complement, mirroring the sl(2) case Etingof.Sl2Irrep.complete_reducibility of Problem 2.15.1, which the book omits: 'we will not do this here')."
   },
   {
     "id": "Chapter5/Introduction_5.24",
