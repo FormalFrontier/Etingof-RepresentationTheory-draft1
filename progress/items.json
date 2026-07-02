@@ -6092,10 +6092,8 @@
     "start_line": 17,
     "end_line": 28,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[partial-example] The book lists 6 categories in Example 7.1.3: (1) Sets, (2) Groups, Rings, (3) Vect_k, (4) Rep(A), (5) topological spaces, (6) homotopy category of topological spaces. The Lean file ",
-    "fidelity_issue": 5640
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Discussion_after_Example7.1.3",
@@ -6161,10 +6159,8 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "faithful",
-    "sorry_free": true,
-    "fidelity_note": "Resolved (#5641): generalized from Linear k (ModuleCat k) to Linear k (ModuleCat A) for a k-algebra A, via ModuleCat.linearOverField.",
-    "fidelity_issue": 5641
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Introduction_7.2",
@@ -6215,10 +6211,8 @@
     "start_line": 5,
     "end_line": 25,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[partial-example] The book has 9 distinct sub-items in Example 7.2.2. The Lean file formalizes only: (2-partial) the forgetful functor Groups→Sets (correct, via `forget GrpCat`) and Rings→Sets (but th",
-    "fidelity_issue": 5642
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Introduction_7.3",
@@ -6347,9 +6341,11 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "needs_statement": false,
-    "sorry_free": true
+    "fidelity": "gap",
+    "needs_statement": true,
+    "sorry_free": true,
+    "fidelity_note": "[fidelity wave 7] Book states BOTH (1) forgetful A-mod→Vect_k is representable by M=A, and (2) for infinite-dimensional A restricted to finite-dim modules the forgetful functor is in general NOT representable (e.g. A = c_00(ℤ)). Lean formalizes only (1) via ringLmapEquivSelf; the non-representability counterexample is absent.",
+    "fidelity_issue": 5838
   },
   {
     "id": "Chapter7/Introduction_7.6",
@@ -6411,10 +6407,8 @@
     "start_line": 1,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "faithful",
-    "sorry_free": true,
-    "fidelity_note": "[fidelity resolved #5644] All 5 adjunction examples now formalized: (1) tensor_dual_adjunction_left/right (V*⊗ biadjoint to V⊗ in rigid FDRep), (2) both directions — frobenius_reciprocity (Ind ⊣ Res) and frobenius_reciprocity_res_ind (the book's Res ⊣ Ind, finite index), (3) uea_adjunction, (4) group_algebra_adjunction (GL₁ ⊣ k[G]), (5) tensor_algebra_adjunction and symmetric_algebra_adjunction.",
-    "fidelity_issue": 5644
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Discussion_after_Example7.6.3",
@@ -6465,10 +6459,8 @@
     "start_line": 1,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[partial-example] The book explicitly claims BOTH (a) the category of modules over A and (b) the category of finite-dimensional modules over A are abelian. The Lean file only proves (a): `example (A :",
-    "fidelity_issue": 5645
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Problem7.7.3",
@@ -6543,8 +6535,11 @@
     "start_line": 15,
     "end_line": 2,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "gap",
+    "needs_statement": true,
+    "sorry_free": true,
+    "fidelity_note": "[fidelity wave 7] Definition 7.8.1 names four notions: complex, differentials, cohomology H^i=Ker(d_i)/Im(d_{i-1}), exact-in-i-th-term, exact sequence. Lean declares only Etingof.CochainComplex' (the complex object); cohomology and exactness are named in the docstring's Mathlib-correspondence but have no Lean declaration (docstring/decl mismatch).",
+    "fidelity_issue": 5839
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.8.1",
@@ -6569,8 +6564,11 @@
     "start_line": 13,
     "end_line": 20,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "sorry_free": true
+    "fidelity": "gap",
+    "needs_statement": true,
+    "sorry_free": true,
+    "fidelity_note": "[fidelity wave 7] Definition 7.8.2 defines a short EXACT sequence (0→X→Y→Z→0 exact; X→Y mono, Y→Z epi, Y/X→Z iso). Lean declares Etingof.ShortComplex := CategoryTheory.ShortComplex (a short complex, satisfied by the zero complex); the defining ShortExact predicate is dropped.",
+    "fidelity_issue": 5840
   },
   {
     "id": "Chapter7/Example7.8.3",
@@ -6652,10 +6650,8 @@
     "start_line": 21,
     "end_line": 22,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[coverage] The book's Definition 7.9.1 defines TWO concepts: (1) an additive functor (induces homomorphisms on Hom groups), and (2) a k-linear functor (induces k-linear maps on Hom spaces, for k-linea",
-    "fidelity_issue": 5655
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Discussion_after_Definition7.9.1",
@@ -6680,10 +6676,8 @@
     "start_line": 25,
     "end_line": 26,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[partial-example] The book claims Ind_K^G, Res_K^G, and Hom_G(V,?) in group representation theory are additive and k-linear. The Lean file proves these properties only for `ModuleCat.restrictScalars` ",
-    "fidelity_issue": 5646
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Definition7.9.3",
@@ -6718,11 +6712,9 @@
     "start_line": 9,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
-    "sorry_free": true,
-    "fidelity_note": "[fidelity] The book claims the category of representations of a finite group G over a field of characteristic not dividing |G| is semisimple (in the sense of Definition 7.9.4: every SES splits). The L",
-    "fidelity_issue": 5626
+    "sorry_free": true
   },
   {
     "id": "Chapter7/Discussion_after_Example7.9.5",
