@@ -163,7 +163,6 @@ Reusable pieces and the gotchas that each cost a build cycle:
 Induced-representation / coset-model gotchas (`Chapter5/Theorem5_27_1.lean`, `inducedRepV` on `(G ⧸ stab) → U`), each cost a build cycle:
 - **Carrier-vs-function-type friction.** `inducedRepV φ χ U := FDRep.of (V := (G ⧸ H) → U) …`, so its carrier `↑(inducedRepV φ χ U).V` is *defeq* but not *syntactically* equal to `(G ⧸ H) → U`. Mixing the two breaks `rw`/`simp`: feeding a literal `Pi.single q₀ u` into `weightSpace`'s `LinearMap.id`/`LinearMap.sub_apply` machinery (carrier instances) clashes with `A_action_scalar`/`inducedRepV_A_apply` (which type `f : (G ⧸ H) → U`), giving `AddCommMonoid` mismatch / "target not type-correct under instances". Fixes: (a) **prefer the function-level A-eigenvalue equation** `ρ⟨a,1⟩ f = χ(a) • f` over `weightSpace` membership — the proven idiom (see `inducedRepV_orbit_injectivity`'s `haction_f`); (b) keep the eigenvector as a `set f₀ : (G ⧸ H) → U := Pi.single q₀ u` **function-typed local**, not a bare literal in a carrier slot; (c) an *opaque* carrier term `T f₀` (output of a `LinearEquiv`) feeds `A_action_scalar φ χ U a (T f₀) q` fine — only literal `Pi.single` with baked instances bites.
 - **`MulAction G (G ⧸ stab)` instance fails on `⟦1⟧` literals.** `g • (⟦(1:G)⟧ : G ⧸ stab)` errors `failed to synthesize HSMul G (Quotient (QuotientGroup.leftRel …))` — the instance is keyed on `HasQuotient.Quotient`, and the `⟦·⟧`/`Quotient.mk` head doesn't match. Use **`QuotientGroup.mk (1 : G)`** (its result type *is* the `HasQuotient` form) everywhere the base coset is smul'd. (A variable `q : G ⧸ stab` smul's fine; only the literal is poisoned. `set q₀ := ⟦1⟧` dodges the smul error, but a `set` fvar then won't `rw`-match a lemma stated with raw `mk`, so for cross-lemma `rw` keep `QuotientGroup.mk (1:G)` raw, no `set`.)
-- **`Quotient.mk''` over `QuotientGroup.rightRel H` needs its setoid pinned (cost ~3 build cycles, `Chapter5/Remark5_8_3.lean`).** `rightRel H` is *not* a `Setoid` instance (only `leftRel`/`G ⧸ H` is), so a bare `Quotient.mk'' g` or `(Quotient.mk'' g).out` in a `def`/`have` leaves `don't know how to synthesize implicit argument s₁` / `⊢ Setoid G`. **Fix: ascribe the type at every occurrence** — `(Quotient.mk'' g : Quotient (QuotientGroup.rightRel H)).out` — or pass `(s₁ := QuotientGroup.rightRel H)` to `Quotient.mk_out'`/`out_eq'`. Inside a coset-evaluation `LinearEquiv`, the `Quotient (rightRel H) → V` domain pins `mk''` in `toFun`/`invFun` for free, but standalone `have`s in `left_inv`/`right_inv` do not — ascribe there. Useful lemmas: `Quotient.eq''.mpr (QuotientGroup.rightRel_apply.mpr …)` to build `mk'' a = mk'' b` (`rightRel_apply : rightRel s x y ↔ y * x⁻¹ ∈ s`), `Quotient.mk_out'`, `Quotient.out_eq'`, `QuotientGroup.card_quotient_rightRel` (= `card (G ⧸ H)`); index via `Subgroup.index_eq_card`, `Fintype` via `Subgroup.fintypeQuotientOfFiniteIndex`. Also **`group` treats `H.subtype s` and `↑s` as distinct atoms** — `rw [Subgroup.subtype_apply]` (`H.subtype s = ↑s`) before `group`, but note it also rewrites `H.subtype s` *inside* `mk''(H.subtype s * g)`, so apply your `mk''`-equality rewrites (e.g. `hout`) first. To prove `dim(Ind_H^G V) = dim V · (G:H)`: `Rep.indToCoind`/`coindToInd` give `IndV ≃ₗ coindV` (finite index), then a hand-built `coindV ≃ₗ (Quotient (rightRel H) → V)` by evaluation at `.out`, then `Module.finrank_pi_fintype` — see `Etingof.Remark5_8_3`.
 
 Three gotchas that each cost a build cycle:
 1. **`@[simp] a_zero : (a 0 : QuaternionGroup n) = 1`** (and `DihedralGroup.r_zero`, etc.) silently rewrites the identity element under any `simp`/`norm_num`, so a per-element value lemma keyed on `a 0` stops matching (the term becomes `1`). Use **`norm_num [-QuaternionGroup.a_zero, …]`** (or `simp only` with an explicit list that excludes it). Watch the dual: `FDRep.char_one` (`χ 1 = finrank`) then fires on the `1` and derails a 2-dim trace computation.
@@ -432,6 +431,23 @@ When you `obtain ⟨ι, _, S, acgS, modkS, …⟩` from a `∃ … (S) (_ : ∀ 
 | Finite group theory | `decide` (small groups) | case analysis |
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
+
+### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
+
+When a class field's type interleaves implicit and explicit binders (e.g.
+`CategoryTheory.Congruence`'s `comp_left {X Y Z} (f) {g g'} : r g g' → …`),
+both named-argument (`comp_left f h := …`) and `:= fun f h => …` forms mis-bind
+— Lean's implicit-lambda insertion assigns your names to the wrong positions and
+you get baffling "argument has type `Y ⟶ Z`" errors. This bites hardest when the
+relation `r` is a *pullback* (`fun f g => Homotopic f.hom g.hom`) so the
+hypothesis type doesn't reduce as written. Fix: use tactic mode and `intro`
+**every** binder explicitly, `:= by intro X Y Z f g g' h; exact …`. Cost 4
+build cycles on `Chapter7/Example7_1_3.lean` (#5640, homotopy category of spaces
+as `CategoryTheory.Quotient TopCat homotopyRel`). That file is also the reusable
+template for "build a quotient category": give `r : HomRel C`, prove
+`Congruence r` (`equivalence` from the relation's `Equivalence`; `comp_left`/
+`comp_right` from its composition-compatibility lemma), then
+`abbrev Q := CategoryTheory.Quotient r` gets its `Category` instance for free.
 
 ### `rw`/`simp` fail to match Finsupp applications over `Tabloid` (Ch5 TabloidModule)
 
