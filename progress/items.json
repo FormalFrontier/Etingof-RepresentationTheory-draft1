@@ -7655,7 +7655,8 @@
     "derived_from": "Chapter7/Discussion_after_Definition7.9.1",
     "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
     "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
-    "status": "accepted",
+    "status": "formalized",
+    "lean_ref": "Chapter7/Definition7_9_1.lean (Etingof.AdditiveFunctor.mapBiprod)",
     "coverage_issue": 5683
   },
   {
