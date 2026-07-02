@@ -248,6 +248,8 @@ After each coherent chunk of changes:
 
 Each commit must compile. One logical change per commit.
 
+**Editing `progress/items.json`** (any worker type — feature, review/audit, summarize): edit it **surgically** with `Edit` on the exact field lines. Never rewrite it via `json.load`+`json.dump` — the reserializer reflows indentation/key-order/unicode and produces a multi-thousand-line diff on the 13k-line shared file (caught only by `git diff --stat`). If you must script a bulk field update, dump with `indent=2` and re-check `git diff --stat` before committing. See `lean-formalization/SKILL.md` ("Status tracking lag") for the full rationale.
+
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
 
