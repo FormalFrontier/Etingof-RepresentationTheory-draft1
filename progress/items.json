@@ -3744,8 +3744,9 @@
     "start_line": 19,
     "end_line": 26,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage] No Lean declaration found. The file EtingofRepresentationTheory/Chapter5/Remark5_8_2.lean exists and contains only Remark5_8_2 (Ind ≅ CoInd). No file or declaration for Remark5_8_3 (dim(Ind",
+    "fidelity": "ok",
+    "sorry_free": true,
+    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism.",
     "fidelity_issue": 5652
   },
   {
