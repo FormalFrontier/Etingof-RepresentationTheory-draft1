@@ -381,6 +381,19 @@ theorem lie_sl2_f_e_basis (d : ℕ) (i : ℕ) (hi : i + 1 < d) :
   · simp only [dif_neg hk, mul_zero]
     rw [if_neg (by omega : ¬ (k : ℕ) = i + 1)]; ring
 
+/-- `f` (lowering) annihilates the top basis vector `e_{d-1}`: there is no `e_d`. -/
+theorem lie_sl2_f_e_basis_top (d : ℕ) (i : ℕ) (hi : i < d) (htop : i + 1 = d) :
+    ⁅sl2_f, e_basis d ⟨i, hi⟩⁆ = 0 := by
+  rw [lie_eq_rhoLieHom, rhoLieHom_sl2_f_eq]
+  ext k
+  have hkd : (k : ℕ) < d := k.isLt
+  simp only [rhoF, LinearMap.coe_mk, AddHom.coe_mk, Pi.smul_apply, smul_eq_mul,
+    e_basis_apply, Pi.zero_apply, Fin.ext_iff, Fin.mk.injEq]
+  by_cases hk : 0 < (k : ℕ)
+  · simp only [hk, dite_true]
+    rw [if_neg (by omega : ¬ (k : ℕ) - 1 = i)]; ring
+  · simp only [hk, dite_false, mul_zero]
+
 /-- V_d is irreducible as an sl(2)-module (for d ≥ 1). -/
 theorem irrep_isIrreducible (d : ℕ) [NeZero d] :
     letI := irrepLieRingModule d
