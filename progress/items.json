@@ -1050,10 +1050,10 @@
     "start_line": 4,
     "end_line": 7,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage/needs_completion] wave-3",
-    "fidelity_decl": "(none — narrative)",
-    "last_updated": "2026-06-28",
+    "fidelity": "faithful",
+    "fidelity_note": "wave-3 resolved (#5661): both 'check it'/'give a proof' claims formalized in EtingofRepresentationTheory/Chapter2/Remark2_9_4.lean — g'(0) is a derivation (hasDerivAt_leibniz), exp(tD) is a one-parameter family of algebra automorphisms (expDeriv_map_mul, expDeriv_map_one, expDeriv_add, expDerivAut). Sorry-free, standard axioms only.",
+    "fidelity_decl": "Etingof.Remark2_9_4.hasDerivAt_leibniz, expDeriv_map_mul, expDerivAut",
+    "last_updated": "2026-07-02",
     "fidelity_issue": 5661
   },
   {
