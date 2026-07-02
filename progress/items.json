@@ -7545,7 +7545,7 @@
     "status": "statement_formalized",
     "coverage_issue": 5679,
     "lean_file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-    "note": "First instantiation of ConjClasses for GL₂. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq, card_conjClasses_eq (total = q²-1) stated with sorry proofs (need constant class-size lemmas)."
+    "note": "First instantiation of ConjClasses for GL₂. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. card_conjClasses_eq_sum (total = sum of the four type counts) now proved in full: the type predicates transfer across conjugacy and are exhaustive, so their ConjClasses.mk-images partition ConjClasses(GL₂). card_conjClasses_eq (total = q²-1) is now DERIVED from that partition plus the four counts and the arithmetic identity (q odd ⇒ divisions exact); it carries no direct sorry. Remaining sorries: numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq (need constant class-size / centralizer-order lemmas)."
   },
   {
     "type": "derived",

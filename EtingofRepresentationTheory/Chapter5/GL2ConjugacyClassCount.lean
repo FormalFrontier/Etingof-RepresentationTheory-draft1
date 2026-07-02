@@ -34,12 +34,21 @@ image. This is the first instantiation of `ConjClasses` for GL₂ in the project
   scalar matrix is central, so its conjugacy class is a singleton and
   `ConjClasses.mk` is injective on the scalar set; the count therefore equals
   the number of scalar *elements*, which is `q − 1` by `GL2.card_isScalar`.
+* The **partition** `GL2.card_conjClasses_eq_sum` is proved fully: the total
+  `Nat.card (ConjClasses (GL₂))` equals the sum of the four type counts, because
+  the type predicates transfer across conjugacy (`GL2.isScalar_of_isConj` etc.)
+  and are exhaustive, so their `ConjClasses.mk`-images partition the class set.
+* The **grand total** `GL2.card_conjClasses_eq = q² − 1` is then *derived* from
+  the partition plus the four per-type counts and the arithmetic identity
+  `(q−1) + (q−1) + (q−1)(q−2)/2 + q(q−1)/2 = q² − 1` (valid since `q = pⁿ` is
+  odd, so both divisions are exact). It carries no `sorry` of its own; it only
+  inherits the deferred per-type counts below.
 
 ## What is deferred (top-down `sorry`s, with the book's argument recorded)
 
-The parabolic / split-semisimple / elliptic counts and the grand total `q² − 1`
-are stated but their proofs are deferred. Each follows the book by dividing the
-element count of a type by the (constant) size of a class of that type:
+The parabolic / split-semisimple / elliptic per-type counts are stated but their
+proofs are deferred. Each follows the book by dividing the element count of a
+type by the (constant) size of a class of that type:
 
 * parabolic:        `(q−1)(q²−1) / (q²−1)      = q−1`
 * split semisimple: `(q−1)(q−2)q(q+1)/2 / (q²+q) = (q−1)(q−2)/2`
@@ -157,6 +166,38 @@ lemma eq_of_isConj_of_isScalar {g h : GL2' p n} (hg : GL2.IsScalar g)
   have hgh : g = c * g * c⁻¹ := Units.ext this.symm
   rw [hgh, hc]
 
+/-- `IsScalar` transfers across conjugacy (it is a class function). -/
+lemma isScalar_of_isConj {g h : GL2' p n} (hc : IsConj g h) (hg : GL2.IsScalar g) :
+    GL2.IsScalar h := by
+  rw [isConj_iff] at hc
+  obtain ⟨c, rfl⟩ := hc
+  simpa using (isScalar_conj_iff g c⁻¹).mpr hg
+
+/-- `IsParabolic` transfers across conjugacy. -/
+lemma isParabolic_of_isConj {g h : GL2' p n} (hc : IsConj g h) (hg : GL2.IsParabolic g) :
+    GL2.IsParabolic h := by
+  rw [isConj_iff] at hc
+  obtain ⟨c, rfl⟩ := hc
+  simpa using (isParabolic_conj_iff g c⁻¹).mpr hg
+
+/-- `IsSplitSemisimple` transfers across conjugacy. -/
+lemma isSplitSemisimple_of_isConj {g h : GL2' p n} (hc : IsConj g h)
+    (hg : GL2.IsSplitSemisimple g) : GL2.IsSplitSemisimple h := by
+  rw [isConj_iff] at hc
+  obtain ⟨c, rfl⟩ := hc
+  simpa using (isSplitSemisimple_conj_iff g c⁻¹).mpr hg
+
+/-- Two type-images under `ConjClasses.mk` are disjoint provided no conjugate pair
+realises both predicates. This is the class-level version of the element-level
+disjointness facts `GL2.isScalar_not_isParabolic` etc. -/
+lemma disjoint_conjImage {P Q : GL2' p n → Prop}
+    (hPQ : ∀ g h, IsConj g h → P g → Q h → False) :
+    Disjoint (ConjClasses.mk '' {g : GL2' p n | P g})
+      (ConjClasses.mk '' {g : GL2' p n | Q g}) := by
+  rw [Set.disjoint_left]
+  rintro c ⟨g, hg, rfl⟩ ⟨h, hh, hmk⟩
+  exact hPQ g h ((ConjClasses.mk_eq_mk_iff_isConj.mp hmk).symm) hg hh
+
 variable [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2' p n)]
 
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
@@ -215,13 +256,97 @@ theorem numEllipticClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
       Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2 := by
   sorry
 
+/-- **Partition of the class set.** The total number of conjugacy classes of
+`GL₂(𝔽_q)` is the sum of the four type counts. Proved fully: the four type
+predicates are conjugation-invariant (`isScalar_of_isConj` etc.) and exhaustive
+(`GL2.conjugacyClass_exhaustive`), so pushing them through `ConjClasses.mk`
+partitions `ConjClasses (GL₂)` into four disjoint pieces. -/
+theorem card_conjClasses_eq_sum :
+    Nat.card (ConjClasses (GL2' p n)) =
+      numScalarClasses (p := p) (n := n) + numParabolicClasses (p := p) (n := n) +
+        numSplitSemisimpleClasses (p := p) (n := n) + numEllipticClasses (p := p) (n := n) := by
+  haveI : Finite (GL2' p n) := Finite.of_fintype _
+  haveI : Finite (ConjClasses (GL2' p n)) :=
+    Finite.of_surjective ConjClasses.mk ConjClasses.mk_surjective
+  simp only [numScalarClasses, numParabolicClasses, numSplitSemisimpleClasses, numEllipticClasses]
+  set CS := ConjClasses.mk '' {g : GL2' p n | GL2.IsScalar g} with hCS
+  set CP := ConjClasses.mk '' {g : GL2' p n | GL2.IsParabolic g} with hCP
+  set CSS := ConjClasses.mk '' {g : GL2' p n | GL2.IsSplitSemisimple g} with hCSS
+  set CE := ConjClasses.mk '' {g : GL2' p n | GL2.IsElliptic g} with hCE
+  -- The four type-images cover every conjugacy class.
+  have hcover : (Set.univ : Set (ConjClasses (GL2' p n))) = CS ∪ CP ∪ CSS ∪ CE := by
+    ext c
+    simp only [Set.mem_univ, Set.mem_union, true_iff]
+    obtain ⟨g, rfl⟩ := ConjClasses.mk_surjective c
+    rcases GL2.conjugacyClass_exhaustive g with h | h | h | h
+    · exact Or.inl (Or.inl (Or.inl (Set.mem_image_of_mem _ h)))
+    · exact Or.inl (Or.inl (Or.inr (Set.mem_image_of_mem _ h)))
+    · exact Or.inl (Or.inr (Set.mem_image_of_mem _ h))
+    · exact Or.inr (Set.mem_image_of_mem _ h)
+  -- Pairwise disjointness of the four type-images, from element-level disjointness.
+  have dSP : Disjoint CS CP := GL2.disjoint_conjImage
+    (fun g h hc hg hh => hh.2 (GL2.isScalar_of_isConj hc hg))
+  have dSSS : Disjoint CS CSS := GL2.disjoint_conjImage
+    (fun g h hc hg hh => GL2.isScalar_not_isSplitSemisimple h (GL2.isScalar_of_isConj hc hg) hh)
+  have dSE : Disjoint CS CE := GL2.disjoint_conjImage
+    (fun g h hc hg hh => GL2.isScalar_not_isElliptic h (GL2.isScalar_of_isConj hc hg) hh)
+  have dPSS : Disjoint CP CSS := GL2.disjoint_conjImage
+    (fun g h hc hg hh =>
+      GL2.isParabolic_not_isSplitSemisimple h (GL2.isParabolic_of_isConj hc hg) hh)
+  have dPE : Disjoint CP CE := GL2.disjoint_conjImage
+    (fun g h hc hg hh => GL2.isParabolic_not_isElliptic h (GL2.isParabolic_of_isConj hc hg) hh)
+  have dSSE : Disjoint CSS CE := GL2.disjoint_conjImage
+    (fun g h hc hg hh =>
+      GL2.isSplitSemisimple_not_isElliptic h (GL2.isSplitSemisimple_of_isConj hc hg) hh)
+  have hSPuSS : Disjoint (CS ∪ CP) CSS := disjoint_sup_left.mpr ⟨dSSS, dPSS⟩
+  have hSPSSuE : Disjoint (CS ∪ CP ∪ CSS) CE :=
+    disjoint_sup_left.mpr ⟨disjoint_sup_left.mpr ⟨dSE, dPE⟩, dSSE⟩
+  rw [← Set.ncard_univ, hcover, Set.ncard_union_eq hSPSSuE, Set.ncard_union_eq hSPuSS,
+    Set.ncard_union_eq dSP]
+
 /-- **Total count.** `GL₂(𝔽_q)` has `q² − 1` conjugacy classes altogether — the
 sum of the four type counts `(q−1) + (q−1) + (q−1)(q−2)/2 + q(q−1)/2 = q²−1`.
-This is the number of irreducible representations of `GL₂(𝔽_q)`. -/
+This is the number of irreducible representations of `GL₂(𝔽_q)`. Derived from the
+fully-proved partition `card_conjClasses_eq_sum` and the four per-type counts. -/
 theorem card_conjClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     Nat.card (ConjClasses (GL2' p n)) =
       Fintype.card (GaloisField p n) ^ 2 - 1 := by
-  sorry
+  rw [card_conjClasses_eq_sum, numScalarClasses_eq hn, numParabolicClasses_eq hp2 hn,
+    numSplitSemisimpleClasses_eq hp2 hn, numEllipticClasses_eq hp2 hn]
+  set q := Fintype.card (GaloisField p n) with hq
+  -- `q = pⁿ` is odd and at least 3, so the two `/2` divisions are exact.
+  have hp3 : 3 ≤ p := by have := hp.out.two_le; omega
+  have hqval : q = p ^ n := by
+    rw [hq, ← Nat.card_eq_fintype_card]; exact GaloisField.card p n hn
+  have hqodd : Odd q := by
+    rw [hqval]; exact (Nat.Prime.odd_of_ne_two hp.out hp2).pow
+  have hq3 : 3 ≤ q := by
+    rw [hqval]
+    calc 3 ≤ p := hp3
+      _ = p ^ 1 := (pow_one p).symm
+      _ ≤ p ^ n := Nat.pow_le_pow_right (by omega) (by omega)
+  obtain ⟨m, hm⟩ := hqodd
+  have hm1 : 1 ≤ m := by omega
+  have hq1 : q - 1 = 2 * m := by omega
+  have hq2 : q - 2 = 2 * m - 1 := by omega
+  have hdiv1 : (q - 1) * (q - 2) / 2 = m * (q - 2) := by
+    rw [hq1, show 2 * m * (q - 2) = 2 * (m * (q - 2)) from by ring]
+    exact Nat.mul_div_cancel_left _ (by norm_num)
+  have hdiv2 : q * (q - 1) / 2 = q * m := by
+    rw [hq1, show q * (2 * m) = 2 * (q * m) from by ring]
+    exact Nat.mul_div_cancel_left _ (by norm_num)
+  have hkey : m * (q - 2) + q * m = 4 * m ^ 2 := by
+    rw [hq2, hm]
+    have h4 : (2 * m - 1) + (2 * m + 1) = 4 * m := by omega
+    calc m * (2 * m - 1) + (2 * m + 1) * m
+        = m * ((2 * m - 1) + (2 * m + 1)) := by ring
+      _ = m * (4 * m) := by rw [h4]
+      _ = 4 * m ^ 2 := by ring
+  have hRHS : q ^ 2 - 1 = 4 * m ^ 2 + 4 * m := by
+    have : q ^ 2 = 4 * m ^ 2 + 4 * m + 1 := by rw [hm]; ring
+    omega
+  rw [hdiv1, hdiv2, hq1]
+  omega
 
 end Counts
 
