@@ -559,17 +559,14 @@ Three pieces of that final sentence:
   diagonal element `diag(2^(2⁰), …, 2^(2^{d-1}))` has distinct eigenvalues on `Module.Basis.exteriorPower`,
   and the permutation matrices (transitive on `n`-subsets) supply the connectivity.
 
-* **The symmetric half (`Example5_19_3_symmetric_irreducible`) remains open.** The same
-  `DiagonalCoordinate` criterion applies, but it requires a *monomial basis of `SⁿV`* indexed by
-  degree-`n` monomials — which is **absent from Mathlib** (only the exterior basis
-  `Module.Basis.exteriorPower` exists; the symmetric-power universal property is a Mathlib TODO).
-  Permutations are *not* transitive on monomials, so the connectivity genuinely needs the
-  transvections `ρ(1 + E_{ij})` of the book's Hint. Building that basis and the transvection
-  connectivity is the remaining work; the criterion is ready to consume them.
-
-The symmetric claim is pinned below as a `Prop`-valued definition referencing the actual
-`GL(V)`-action (`symmetricPowerMap` on `SⁿV`): a subrepresentation is a submodule stable under
-every `g ∈ GL(V)` (`g : V ≃ₗ[k] V`); irreducibility says the only such submodules are `⊥` and `⊤`. -/
+* **The symmetric half is now fully proved** (`Etingof.Example5_19_3_symmetric_irreducible`, in
+  `Chapter5.SymmetricIrreducible`). The same `DiagonalCoordinate` criterion applies, but it requires
+  a *monomial basis of `SⁿV`* indexed by degree-`n` monomials — absent from Mathlib — built as the
+  symmetrized-orbit sums of the tensor basis (`Chapter5.SymmetricPowerBasis`). Because permutations
+  act trivially on monomials, the connectivity genuinely needs the transvections `ρ(1 + E_{ij})` of
+  the book's Hint (`Chapter5.SymmetricTransvection`), and the distinct eigenvalues come from the
+  diagonal element `diag(p₀, …, p_{d-1})` of the first `d` primes (unique factorisation). That
+  theorem lives downstream because it consumes the `symmetricPowerMap` action defined here. -/
 
 /-- Book fidelity (Example 5.19.3, parenthetical): `∧ⁿV` is the zero representation when
 `n > dim V`. Over a field, `finrank (⋀ⁿV) = C(dim V, n) = 0` for `n > dim V`, so `∧ⁿV` is a
@@ -582,25 +579,6 @@ theorem Example5_19_3_exterior_subsingleton_of_dim_lt
   have h0 : Module.finrank k (⋀[k]^n V) = 0 := by
     rw [exteriorPower.finrank_eq, Nat.choose_eq_zero_of_lt hn]
   exact Module.finrank_zero_iff.mp h0
-
-/-- The precise irreducibility claim for `L_{(n)} = SⁿV` (Problem 4.12.3, the first half of
-the irreducibility assertion in Example 5.19.3): every `GL(V)`-subrepresentation of the
-symmetric power — i.e. every submodule stable under `symmetricPowerMap g` for all
-`g ∈ GL(V)` — is either `⊥` or `⊤`.
-
-This records the statement faithfully against the `GL(V)`-action already constructed here. Its
-proof reduces, via `Etingof.DiagonalCoordinate.eq_bot_or_eq_top_of_connected`, to (i) a monomial
-basis of `SⁿV` with the diagonal element acting by distinct eigenvalues, and (ii) the transvection
-connectivity of that basis. Step (i) needs the symmetric-power monomial basis, currently absent
-from Mathlib (see the section docstring above), so the proof is deferred; it is **not** asserted to
-hold by this definition, which merely names the proposition. The exterior analogue
-`Example5_19_3_exterior_irreducible` *is* fully proved. -/
-def Example5_19_3_symmetric_irreducible
-    {k : Type} [Field k] {V : Type} [AddCommGroup V] [Module k V] [Module.Finite k V]
-    (n : ℕ) : Prop :=
-  ∀ W : Submodule k (SymmetricPower k (Fin n) V),
-    (∀ g : V ≃ₗ[k] V, ∀ w ∈ W, symmetricPowerMap (g : V →ₗ[k] V) w ∈ W) →
-      W = ⊥ ∨ W = ⊤
 
 /-- **Irreducibility of `L_{(1ⁿ)} = ∧ⁿV`** (Problem 4.12.3, the second half of the irreducibility
 assertion in Example 5.19.3; for `n > dim V` the space is zero, see
