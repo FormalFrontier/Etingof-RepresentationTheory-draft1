@@ -6191,7 +6191,7 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[partial-example] Sub-items (1) and (3)-(4) now formalized: `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality); `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, sub-item 1 second half); `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A, sub-item 3); `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A), sub-item 4). Remaining: (a) an actual CategoryTheory NatIso id ≅ ** on FVect_k, and (b) sub-item (2), the FVect_k' functor F(V)=V* with V≅F(V) but F not iso to id (needs GL(V)-representation argument).",
+    "fidelity_note": "[near-complete] All four sub-items formalized. Sub-item (1): `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality), plus `doubleDualFunctor`/`doubleDualNatIso` giving the actual CategoryTheory NatIso `𝟭 ≅ (·)**` on `FGModuleCat k` (Etingof's FVect_k), and `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, second half). Sub-item (2): `linearEquiv_dual_iff_finiteDimensional` (V ≅ V* iff finite-dim, the positive half of the FVect'_k functor F(V)=V*). Sub-item (3): `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A). Sub-item (4): `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A)). Only remaining gap: sub-item (2)'s *non-naturality* claim (F not naturally iso to id via the GL(V)-representation obstruction), which needs the groupoid FVect'_k + functor F built as CategoryTheory objects; deferred to dedicated future work.",
     "fidelity_issue": 5643
   },
   {

@@ -2,6 +2,7 @@ import Mathlib.LinearAlgebra.Dual.Lemmas
 import Mathlib.LinearAlgebra.Dual.Defs
 import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.Algebra.Algebra.Tower
+import Mathlib.Algebra.Category.FGModuleCat.Basic
 
 /-!
 # Example 7.3.2: Examples of Natural Transformations
@@ -69,6 +70,74 @@ theorem Etingof.linearEquiv_dualDual_iff_finiteDimensional (k V : Type u)
     exact absurd heq (lt_trans h₁ h₂).ne
   · haveI := h
     exact ⟨Module.evalEquiv k V⟩
+
+/-!
+## Example 7.3.2(1), categorical form: the natural isomorphism `𝟭 ≅ (·)**`
+
+The pointwise iso (`double_dual_iso`) and its naturality square (`double_dual_naturality`)
+together say that the identity and double-dual *functors* on the category of
+finite-dimensional vector spaces are naturally isomorphic. We package this as an
+actual `CategoryTheory.NatIso` on `FGModuleCat k`, the category Etingof calls
+`FVect_k`. The double-dual functor sends `V ↦ V**` and `f ↦ f.dualMap.dualMap`; the
+natural isomorphism to the identity has components the evaluation equivalences
+`a_V : V ≃ V**`, `a_V(u)(g) = g(u)` (Mathlib's `Module.evalEquiv`), whose naturality is
+`Module.Dual.eval_naturality`.
+-/
+
+open CategoryTheory in
+/-- The double-dual endofunctor `V ↦ V**` on the category `FGModuleCat k` of
+finite-dimensional `k`-vector spaces (`FVect_k`). It acts on a morphism `f` by
+`f ↦ f.dualMap.dualMap`; functoriality is definitional
+(`LinearMap.dualMap_comp_dualMap`). (Etingof Example 7.3.2(1)) -/
+noncomputable def Etingof.doubleDualFunctor (k : Type u) [Field k] :
+    FGModuleCat.{u} k ⥤ FGModuleCat.{u} k where
+  obj V := FGModuleCat.of k (Module.Dual k (Module.Dual k V))
+  map {V W} f := FGModuleCat.ofHom f.hom.hom.dualMap.dualMap
+  map_id V := by ext x; rfl
+  map_comp f g := by ext x; rfl
+
+open CategoryTheory in
+/-- **Example 7.3.2(1), categorical form.** On the category `FGModuleCat k` of
+finite-dimensional vector spaces (Etingof's `FVect_k`), the identity functor is
+naturally isomorphic to the double-dual functor `(·)**`. The isomorphism has
+components the standard evaluation maps `a_V : V → V**`, `a_V(u)(g) = g(u)`; naturality
+is `Module.Dual.eval_naturality`. Contrast `linearEquiv_dualDual_iff_finiteDimensional`:
+on all of `Vect_k` no such isomorphism exists. -/
+noncomputable def Etingof.doubleDualNatIso (k : Type u) [Field k] :
+    𝟭 (FGModuleCat.{u} k) ≅ Etingof.doubleDualFunctor k :=
+  NatIso.ofComponents
+    (fun V => (Module.evalEquiv k (V : Type u)).toFGModuleCatIso)
+    (fun {V W} f => by
+      ext x
+      exact (LinearMap.congr_fun (Module.Dual.eval_naturality f.hom.hom) x).symm)
+
+/-!
+## Example 7.3.2(2): the functor `V ↦ V*` on `FVect'_k`
+
+Let `FVect'_k` be the groupoid of finite-dimensional `k`-vector spaces with *isomorphisms*
+as morphisms, and `F : FVect'_k → FVect'_k` the functor `V ↦ V*`, `a ↦ (a*)⁻¹`. Etingof's
+point is that `F` is *pointwise* isomorphic to the identity (`V ≅ V*` for every `V`) yet is
+*not naturally isomorphic* to it: a natural iso would give, for every `V`, an isomorphism
+`V ≅ V*` compatible with the `GL(V)`-action, which is impossible because `V` and `V*` are
+inequivalent as `GL(V)`-representations.
+
+We record the positive half — `V` is isomorphic to `V*` exactly when it is finite-dimensional
+(Mathlib's `Basis.linearEquiv_dual_iff_finiteDimensional`, an Erdős–Kaplansky consequence, the
+same dichotomy `linearEquiv_dualDual_iff_finiteDimensional` gives for the double dual). The
+*non-naturality* is the deeper content of the example; formalizing it requires building the
+groupoid `FVect'_k`, the functor `F`, and the `GL(V)`-representation obstruction, and is left
+to dedicated future work.
+-/
+
+/-- **Example 7.3.2(2), positive part.** A vector space `V` over a field `k` is linearly
+isomorphic to its dual `V*` if and only if it is finite-dimensional. This is why the functor
+`F : V ↦ V*` of Etingof's Example 7.3.2(2) is pointwise isomorphic to the identity on the
+category `FVect'_k` of finite-dimensional spaces. (The deeper claim — that `F` is nonetheless
+*not naturally* isomorphic to the identity — is discussed above but not formalized here.) -/
+theorem Etingof.linearEquiv_dual_iff_finiteDimensional (k V : Type u)
+    [Field k] [AddCommGroup V] [Module k V] :
+    Nonempty (V ≃ₗ[k] Module.Dual k V) ↔ FiniteDimensional k V :=
+  Basis.linearEquiv_dual_iff_finiteDimensional
 
 /-!
 ## Example 7.3.2(3): `End(F) = A` for the forgetful functor `F : A-mod → Vect_k`
