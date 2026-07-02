@@ -32,6 +32,7 @@ import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 import EtingofRepresentationTheory.Chapter2.Remark2_3_11
 import EtingofRepresentationTheory.Chapter2.Remark2_3_13
 import EtingofRepresentationTheory.Chapter2.Problem2_3_15
+import EtingofRepresentationTheory.Chapter2.Problem2_3_17
 import EtingofRepresentationTheory.Chapter2.Corollary2_3_12
 import EtingofRepresentationTheory.Chapter2.Example2_3_14
 import EtingofRepresentationTheory.Chapter2.Example2_3_14_continued
