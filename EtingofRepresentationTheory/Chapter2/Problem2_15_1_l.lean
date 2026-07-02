@@ -1,5 +1,7 @@
 import Mathlib.Algebra.Algebra.Equiv
+import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Data.Nat.Factorial.Basic
+import Mathlib.LinearAlgebra.Pi
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!
@@ -199,5 +201,88 @@ Jordan block `J_{0,n}`. -/
 theorem exists_sl2Rep_jordanShift (n : ℕ) :
     ∃ ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ (Fin n → ℂ), ρ sl2_e = jordanShift n :=
   ⟨sl2RepOfBlock n, sl2RepOfBlock_e n⟩
+
+/-! ## Assembling representations: block-diagonal sum and transport
+
+Two operations turn the single-block structure into the general case. First,
+`sl2Pi` assembles a finite family of `sl(2)`-representations `ρ i` on spaces `W i`
+into a single representation on the product `Π i, W i`, acting block-diagonally.
+Second, `sl2Transport` moves a representation across a linear isomorphism.
+
+Together they reduce **general existence** (Problem 2.15.1(l) for an arbitrary
+nilpotent `A`) to the Jordan normal form theorem: once a nilpotent `A` is conjugate
+to a block-diagonal sum of standard shifts `⨁ᵢ J_{0,nᵢ}` — which is exactly the
+statement that `A` has a Jordan basis — it carries an `sl(2)`-structure with `E = A`.
+This is `exists_sl2Rep_of_conj_piShift`. The remaining ingredient, an explicit
+Jordan-basis decomposition of a nilpotent endomorphism, is not yet in Mathlib
+(it must be built from the PID structure theorem via the `ℂ[X]`-module `Module.AEval`)
+and is tracked as follow-up work. -/
+
+/-- **Block-diagonal assembly.** A finite (indeed arbitrary) family of
+`sl(2)`-representations `ρ i` on spaces `W i` assembles into an
+`sl(2)`-representation on the product `Π i, W i`, acting on each factor
+independently: `(sl2Pi ρ x v) i = ρ i x (v i)`. -/
+noncomputable def sl2Pi {ι : Type*} {W : ι → Type*}
+    [∀ i, AddCommGroup (W i)] [∀ i, Module ℂ (W i)]
+    (ρ : ∀ i, sl2 →ₗ⁅ℂ⁆ Module.End ℂ (W i)) :
+    sl2 →ₗ⁅ℂ⁆ Module.End ℂ (∀ i, W i) where
+  toFun x := LinearMap.piMap fun i => ρ i x
+  map_add' x y := by
+    apply LinearMap.ext; intro v; funext j
+    simp only [LinearMap.coe_piMap, Pi.map_apply, map_add, LinearMap.add_apply, Pi.add_apply]
+  map_smul' r x := by
+    apply LinearMap.ext; intro v; funext j
+    simp only [LinearMap.coe_piMap, Pi.map_apply, map_smul, RingHom.id_apply,
+      LinearMap.smul_apply, Pi.smul_apply]
+  map_lie' {x y} := by
+    apply LinearMap.ext; intro v; funext j
+    simp only [LinearMap.coe_piMap, Pi.map_apply, LieHom.map_lie,
+      LieRing.of_associative_ring_bracket, LinearMap.sub_apply, Pi.sub_apply,
+      Module.End.mul_apply]
+
+@[simp]
+theorem sl2Pi_apply {ι : Type*} {W : ι → Type*}
+    [∀ i, AddCommGroup (W i)] [∀ i, Module ℂ (W i)]
+    (ρ : ∀ i, sl2 →ₗ⁅ℂ⁆ Module.End ℂ (W i)) (x : sl2) (v : ∀ i, W i) (j : ι) :
+    sl2Pi ρ x v j = ρ j x (v j) := rfl
+
+/-- The raising operator of the assembled representation is the block-diagonal sum
+of the individual raising operators. -/
+theorem sl2Pi_e {ι : Type*} {W : ι → Type*}
+    [∀ i, AddCommGroup (W i)] [∀ i, Module ℂ (W i)]
+    (ρ : ∀ i, sl2 →ₗ⁅ℂ⁆ Module.End ℂ (W i)) :
+    sl2Pi ρ sl2_e = LinearMap.piMap fun i => ρ i sl2_e := rfl
+
+/-- **Transport along an isomorphism.** A linear isomorphism `e : V ≃ₗ W` carries an
+`sl(2)`-representation `ρ` on `W` to one on `V`, by conjugation. -/
+noncomputable def sl2Transport {V W : Type*} [AddCommGroup V] [Module ℂ V]
+    [AddCommGroup W] [Module ℂ W] (e : V ≃ₗ[ℂ] W)
+    (ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ W) : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V :=
+  (e.symm.lieConj.toLieHom).comp ρ
+
+theorem sl2Transport_apply {V W : Type*} [AddCommGroup V] [Module ℂ V]
+    [AddCommGroup W] [Module ℂ W] (e : V ≃ₗ[ℂ] W)
+    (ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ W) (x : sl2) :
+    sl2Transport e ρ x = e.symm.lieConj (ρ x) := rfl
+
+/-- **General existence, reduced to Jordan normal form.** If a nilpotent operator
+`A` on `V` is conjugate (via a linear iso `e`) to the block-diagonal sum of standard
+shifts `⨁ᵢ J_{0,nᵢ}` — i.e. `A` has a Jordan basis — then `V` carries an
+`sl(2)`-representation with `E = A`. This is the assembly step of Problem 2.15.1(l);
+the outstanding input is the existence of such a Jordan basis for every nilpotent
+`A`, which is the Jordan normal form theorem. -/
+theorem exists_sl2Rep_of_conj_piShift {V : Type*} [AddCommGroup V] [Module ℂ V]
+    {ι : Type*} (n : ι → ℕ) (A : Module.End ℂ V)
+    (e : V ≃ₗ[ℂ] ∀ i, Fin (n i) → ℂ)
+    (hA : ∀ v, e (A v) = LinearMap.piMap (fun i => jordanShift (n i)) (e v)) :
+    ∃ ρ : sl2 →ₗ⁅ℂ⁆ Module.End ℂ V, ρ sl2_e = A := by
+  refine ⟨sl2Transport e (sl2Pi fun i => sl2RepOfBlock (n i)), ?_⟩
+  have hE : (sl2Pi fun i => sl2RepOfBlock (n i)) sl2_e
+      = LinearMap.piMap fun i => jordanShift (n i) := by
+    rw [sl2Pi_e]
+    congr 1; funext i; exact sl2RepOfBlock_e (n i)
+  apply LinearMap.ext; intro v
+  rw [sl2Transport_apply, hE, LinearEquiv.lieConj_apply, LinearEquiv.conj_apply_apply,
+    LinearEquiv.symm_symm, ← hA v, LinearEquiv.symm_apply_apply]
 
 end Etingof.Sl2Irrep
