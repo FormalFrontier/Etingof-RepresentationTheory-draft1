@@ -6188,7 +6188,7 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book has 4 sub-items in Example 7.3.2. The Lean file only addresses sub-item 1 (partially): `double_dual_iso` gives the equivalence V ≃ₗ V** for finite-free modules, and `double_",
+    "fidelity_note": "[partial-example] Sub-items (1) and (3)-(4) now formalized: `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality); `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, sub-item 1 second half); `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A, sub-item 3); `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A), sub-item 4). Remaining: (a) an actual CategoryTheory NatIso id ≅ ** on FVect_k, and (b) sub-item (2), the FVect_k' functor F(V)=V* with V≅F(V) but F not iso to id (needs GL(V)-representation argument).",
     "fidelity_issue": 5643
   },
   {

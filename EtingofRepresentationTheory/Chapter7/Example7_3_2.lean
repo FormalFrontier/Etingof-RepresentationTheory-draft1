@@ -21,6 +21,8 @@ modules) and its naturality by `Module.Dual.eval_naturality`. Finite-dimensional
 modules over a field are automatically reflexive (`IsReflexive.of_finite_of_free`).
 -/
 
+universe u v
+
 /-- The canonical evaluation map gives a linear equivalence `V ≃ₗ[k] V**` for any
 finite-dimensional vector space V over a field k. (Etingof Example 7.3.2(1))
 
@@ -42,6 +44,31 @@ theorem Etingof.double_dual_naturality
     [Module k V] [Module k W] (f : V →ₗ[k] W) :
     f.dualMap.dualMap ∘ₗ Module.Dual.eval k V = Module.Dual.eval k W ∘ₗ f :=
   Module.Dual.eval_naturality f
+
+/-- **Example 7.3.2(1), second half.** On the category `Vect_k` of *all* vector
+spaces the identity and double-dual functors are *not* isomorphic. Concretely, `V` is
+linearly isomorphic to its double dual `V**` if and only if `V` is finite-dimensional:
+in infinite dimension the double dual is strictly larger
+(`Module.rank k V < Module.rank k V** `, an Erdős–Kaplansky consequence), so no
+isomorphism — let alone a natural one — can exist. Contrast with `double_dual_iso`,
+which supplies the isomorphism in the finite-dimensional case. -/
+theorem Etingof.linearEquiv_dualDual_iff_finiteDimensional (k V : Type u)
+    [Field k] [AddCommGroup V] [Module k V] :
+    Nonempty (V ≃ₗ[k] Module.Dual k (Module.Dual k V)) ↔ FiniteDimensional k V := by
+  refine ⟨fun ⟨e⟩ ↦ ?_, fun h ↦ ?_⟩
+  · rw [FiniteDimensional, ← Module.rank_lt_aleph0_iff]
+    by_contra! contra
+    have h₁ : Module.rank k V < Module.rank k (Module.Dual k V) := by
+      simpa using lift_rank_lt_rank_dual (K := k) (V := V) contra
+    have hℵ : Cardinal.aleph0 ≤ Module.rank k (Module.Dual k V) := le_trans contra h₁.le
+    have h₂ : Module.rank k (Module.Dual k V)
+        < Module.rank k (Module.Dual k (Module.Dual k V)) := by
+      simpa using lift_rank_lt_rank_dual (K := k) (V := Module.Dual k V) hℵ
+    have heq : Module.rank k V = Module.rank k (Module.Dual k (Module.Dual k V)) := by
+      simpa using e.lift_rank_eq
+    exact absurd heq (lt_trans h₁ h₂).ne
+  · haveI := h
+    exact ⟨Module.evalEquiv k V⟩
 
 /-!
 ## Example 7.3.2(3): `End(F) = A` for the forgetful functor `F : A-mod → Vect_k`
@@ -66,8 +93,6 @@ families multiplies the elements in the same order: `a • (b • m) = (a*b) •
 one composes `A`-linear self-maps of the *single* module `A`; here the elements act
 uniformly on all modules by left multiplication.
 -/
-
-universe u v
 
 /-- **Example 7.3.2(3).** A natural endomorphism `η` of the forgetful functor
 `F : A-mod → Vect_k` — a `k`-linear map `η M : M →ₗ[k] M` for every `A`-module `M`,
@@ -102,3 +127,53 @@ theorem Etingof.forgetful_smul_comp
     (a b : A) (m : M) :
     a • b • m = (a * b) • m :=
   (mul_smul a b m).symm
+
+/-!
+## Example 7.3.2(4): `End(Id_{A-mod}) = Z(A)`
+
+A natural endomorphism of the *identity* functor on `A-mod` is a family of *`A`-linear*
+maps `η_M : M → M`, one per `A`-module `M`, natural in `M`. As in sub-item (3) the
+family is determined by `c := η_A 1`: naturality against right multiplication
+`r_m : A → M`, `x ↦ x • m`, forces `η_M m = c • m`. But now the maps are `A`-linear,
+and `A`-linearity of `η_A` itself pins `c` down further — it must be *central*. Indeed
+`η_A a = c • a` (determination) while `η_A a = η_A (a • 1) = a • c` (`A`-linearity), so
+`c * a = a * c` for every `a ∈ A`. Thus the natural endomorphisms of the identity
+functor are exactly the central elements: `End(Id_{A-mod}) = Z(A)`.
+-/
+
+/-- **Example 7.3.2(4).** A natural endomorphism `η` of the identity functor on
+`A-mod` — an `A`-linear map `η M : M →ₗ[A] M` for every `A`-module `M`, natural in
+`M` — acts on every module as scalar multiplication by the single element
+`η A 1 ∈ A`. This is the exact analogue of `forgetful_natEnd_eq_smul`, now with
+`A`-linear (rather than merely `k`-linear) components. -/
+theorem Etingof.idFunctor_natEnd_eq_smul
+    {A : Type u} [Ring A]
+    (η : ∀ (M : Type u) [AddCommGroup M] [Module A M], M →ₗ[A] M)
+    (hnat : ∀ {M N : Type u} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
+              (f : M →ₗ[A] N), f.comp (η M) = (η N).comp f)
+    {M : Type u} [AddCommGroup M] [Module A M] (m : M) :
+    η M m = η A 1 • m := by
+  -- Right multiplication `r_m : A → M`, `x ↦ x • m`, is `A`-linear.
+  have h := hnat (M := A) (N := M) (LinearMap.toSpanSingleton A M m)
+  -- Evaluate the naturality square at `1 ∈ A`.
+  have h1 := LinearMap.congr_fun h 1
+  simpa only [LinearMap.comp_apply, LinearMap.toSpanSingleton_apply, one_smul] using h1.symm
+
+/-- **Example 7.3.2(4).** The element `η A 1` determining a natural endomorphism of the
+identity functor on `A-mod` lies in the center of `A`: `A`-linearity of `η A`, combined
+with the determination `Etingof.idFunctor_natEnd_eq_smul`, forces `η A 1` to commute
+with every element of `A`. Together with the determination this is the statement
+`End(Id_{A-mod}) = Z(A)`. -/
+theorem Etingof.idFunctor_natEnd_central
+    {A : Type u} [Ring A]
+    (η : ∀ (M : Type u) [AddCommGroup M] [Module A M], M →ₗ[A] M)
+    (hnat : ∀ {M N : Type u} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N]
+              (f : M →ₗ[A] N), f.comp (η M) = (η N).comp f)
+    (b : A) : η A 1 * b = b * η A 1 := by
+  -- Determination applied to the regular module `A` at the element `b`.
+  have hdet := Etingof.idFunctor_natEnd_eq_smul η hnat (M := A) b
+  -- `A`-linearity of `η A` evaluated at `b • 1`.
+  have hlin : η A (b • (1 : A)) = b • η A 1 := (η A).map_smul b 1
+  rw [smul_eq_mul, mul_one] at hlin
+  rw [hlin] at hdet
+  simpa only [smul_eq_mul] using hdet.symm
