@@ -1836,6 +1836,34 @@ lemma zEnd_sq_trace : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) (zEnd * zEnd)
     rw [← Nat.card_eq_fintype_card, card_G]; norm_num
   rw [hr5, hcard]; norm_num
 
+/-- **`dim_ℂ Λ²(ℂ⁴) = 6`.**  The value of the character at the identity (`FDRep.char_one`),
+equal to `lam2_character 0 = 6` since `classRepA5 0 = 1`.  This is the dimension `tr 1` that the
+two eigenspaces of `z` must add up to (`3 + 3 = 6`). -/
+lemma lam2_finrank : Module.finrank ℂ (↥lam2Sub.toSubmodule) = 6 := by
+  have h : (Module.finrank ℂ lam2 : ℂ) = 6 := by
+    rw [← FDRep.char_one lam2, show (1 : G) = classRepA5 0 from rfl, lam2_character]
+    norm_num
+  exact_mod_cast h
+
+/-- **`z` is not a scalar operator on `Λ²(ℂ⁴)`.**  If `z = c·1`, then `tr z = 6c = 60` forces
+`c = 10`, but then `tr z² = 6c² = 600 ≠ 3600` (`zEnd_sq_trace`).  Hence `{1, z}` are linearly
+independent in the 2-dimensional endomorphism algebra `End_{A₅}(Λ²)` (`lam2_hom_finrank`), so
+they are a basis: `z` satisfies a minimal polynomial of degree exactly `2` (the linchpin for the
+eigenspace split `z² = 20z + 400`). -/
+lemma zEnd_not_scalar (c : ℂ) : zEnd ≠ c • 1 := by
+  intro hc
+  have htr1 : LinearMap.trace ℂ (↥lam2Sub.toSubmodule)
+      (1 : Module.End ℂ ↥lam2Sub.toSubmodule) = 6 := by
+    rw [Module.End.one_eq_id, LinearMap.trace_id, lam2_finrank]; norm_num
+  have h1 : c * 6 = 60 := by
+    have h := zEnd_trace
+    rwa [hc, map_smul, htr1, smul_eq_mul] at h
+  have h2 : c * c * 6 = 3600 := by
+    have h := zEnd_sq_trace
+    rwa [hc, smul_mul_smul_comm, one_mul, map_smul, htr1, smul_eq_mul] at h
+  have hc10 : c = 10 := by linear_combination h1 / 6
+  rw [hc10] at h2; norm_num at h2
+
 /-! #### The two eigenvalues `μ± = 10 ± 10√5` and the minimal polynomial `X² − 20X − 400`
 
 The eigenvalues of `z` on the two 3-dimensional eigenspaces are `μ± = 10 ± 10√5 = 20φ, 20φ'`.
