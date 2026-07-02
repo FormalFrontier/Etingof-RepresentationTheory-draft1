@@ -26,6 +26,17 @@ sum of its `V i`-isotypic components `C i`, each `C i ≅ Fin (r i) → V i`, an
 because `C i` embeds (length-monotonically) into the `V i`-isotypic component of `V`, which
 is the `i`-th summand `Fin (n i) → V i` of length `n i`. Pairwise nonisomorphism is what
 confines the `V i`-isotypic part of `V` to the `i`-th summand.
+
+## Relation to Problem 2.3.15
+
+The book's proof extracts an irreducible subrepresentation `P ⊆ W` "by Problem 2.3.15".
+This formalization does **not** route through that problem: the ambient `⊕ᵢ nᵢ Vᵢ` is a
+finite direct sum of simples, hence semisimple, so existence of a simple submodule of any
+submodule comes directly from `IsSemisimpleModule.eq_bot_or_exists_simple_le` (used inside
+`iSupIndep` and `htop` below). That is a legitimate stronger route — it needs no
+finite-dimensionality — so Proposition 3.1.4 does not silently assume Problem 2.3.15. The
+book problem itself is formalized in `Chapter2/Problem2_3_15.lean`
+(`Etingof.exists_isSimpleModule_of_finite`).
 -/
 
 open Module

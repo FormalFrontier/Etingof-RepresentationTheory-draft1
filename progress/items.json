@@ -580,7 +580,9 @@
     "end_page": "14",
     "start_line": 3,
     "end_line": 3,
-    "status": "sorry_free"
+    "status": "sorry_free",
+    "fidelity": "verified",
+    "note": "Formalized (completeness audit #5724, epic #5338) in Chapter2/Problem2_3_15.lean. Part (a): Etingof.exists_isSimpleModule_of_finite — a nonzero finite dimensional representation of a k-algebra A (an A-module finite over k, IsScalarTower k A V) has a simple A-submodule, via Artinian-over-k ⇒ Artinian-over-A (isArtinian_of_tower) ⇒ atomic submodule lattice ⇒ atom = simple submodule. Part (b): Etingof.not_exists_isSimpleModule_polynomial — the regular representation of k[x] on itself has no simple submodule (no minimal nonzero ideal, since (x·s) is strictly smaller and nonzero). Audit finding: Proposition 3.1.4 (Etingof.subrepresentation_of_semisimple) does NOT silently assume this problem; its Lean proof gets simple submodules from IsSemisimpleModule.eq_bot_or_exists_simple_le because the ambient ⊕ᵢ nᵢ Vᵢ is a finite sum of simples, hence semisimple. The group-representation form already existed as Etingof.exists_isSimpleModule_le (Chapter5/SimpleSubrepExtraction.lean)."
   },
   {
     "id": "Chapter2/Problem2.3.16",
