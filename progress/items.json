@@ -3339,9 +3339,8 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "fidelity_note": "[coverage] Book: Remark 5.2.8 is a self-contained mathematical exercise proving that β = ∏_{g≠1} |χ_V(g^j)|^2 is an integer by an explicit arithmetic argument: (1) g↦g^j is a bijection on G for gcd(j,",
-    "fidelity_issue": 5654
+    "fidelity": "verified",
+    "note": "Covered-inline audit conclusion (fidelity audit #5654, epic #5338): this remark is NOT separately formalized. It is an alternative proof of the vanishing statement of Problem 5.2.7(b) (an irreducible complex representation of dimension > 1 has a vanishing character value), replacing the Galois-conjugate-of-the-representation step by an arithmetic argument (the bijection g ↦ gʲ for gcd(j,|G|)=1, Galois invariance under ζ ↦ ζʲ forcing β ∈ ℚ, and the algebraic-integer argument). It is not load-bearing for any formalized content: neither Remark 5.2.8 nor its parent Problem 5.2.7 has a Lean declaration, and nothing formalized consumes the Problem 5.2.7(b) vanishing statement. Its only recorded dependent, Chapter5/Introduction_5.3, is the conservative linear-chain edge to a section-intro discussion blob with no Lean file. Theorem 5.4.4 (Frobenius divisibility, formalized in Chapter5/Theorem5_4_4.lean) is an independent result, not a consumer. A faithful formalization would require cyclotomic-field/Galois/algebraic-integer infrastructure layered on the unformalized Problem 5.2.7 with no downstream consumer. See Chapter5/Remark5_2_8.lean for the coverage record."
   },
   {
     "id": "Chapter5/Introduction_5.3",
