@@ -146,7 +146,7 @@ private lemma exists_indecomposable_decomposition_aux
         exact ⟨0, Fin.elim0, nofun, nofun, by simp, iSupIndep_subsingleton _⟩
       have hS_nt : Nontrivial ↥S := Submodule.nontrivial_iff_ne_bot.mpr hS_triv
       unfold Etingof.IsIndecomposable at hIndec
-      push_neg at hIndec
+      push Not at hIndec
       obtain ⟨M', N', hCompl, hM'ne, hN'ne⟩ := hIndec hS_nt
       have hSup' : M' ⊔ N' = ⊤ := codisjoint_iff.mp hCompl.codisjoint
       have hInf' : M' ⊓ N' = ⊥ := disjoint_iff.mp hCompl.disjoint
