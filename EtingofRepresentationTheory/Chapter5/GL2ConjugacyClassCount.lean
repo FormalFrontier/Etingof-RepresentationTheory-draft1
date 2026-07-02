@@ -163,6 +163,92 @@ theorem ncard_conjClasses_image_mul_centralizerCard {S : Set G}
 
 end ConjClassCount
 
+/-! ## Commutant of a non-scalar 2×2 matrix
+
+For a non-scalar `A : Matrix (Fin 2) (Fin 2) F`, the commutant
+`{M : M * A = A * M}` is exactly `{α • 1 + β • A}`, a 2-dimensional space (`A` and `1`
+are linearly independent, and any commuting matrix is a combination of them). Over a
+finite field of `q` elements this space has `q²` elements, and the invertible ones — the
+centralizer of `A` in `GLₙ` — are exactly the `(α, β)` with `det (α • 1 + β • A) ≠ 0`.
+The determinant is the quadratic form `α² + tr(A)·αβ + det(A)·β²`, whose number of zeros
+is governed by the discriminant `tr² − 4·det = disc(A)`, giving the three per-type
+centralizer orders. -/
+
+section MatrixCommutant
+
+variable {F : Type*} [Field F]
+
+/-- Every matrix commuting with a non-scalar 2×2 matrix `A` is a linear combination
+`α • 1 + β • A`. -/
+private lemma exists_smul_add_smul_of_commute {A M : Matrix (Fin 2) (Fin 2) F}
+    (hns : ¬ (A 0 1 = 0 ∧ A 1 0 = 0 ∧ A 0 0 = A 1 1))
+    (hcomm : M * A = A * M) :
+    ∃ α β : F, M = α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A := by
+  -- Entrywise commutation equations.
+  have E00 := congrFun (congrFun hcomm 0) 0
+  have E01 := congrFun (congrFun hcomm 0) 1
+  have E10 := congrFun (congrFun hcomm 1) 0
+  have E11 := congrFun (congrFun hcomm 1) 1
+  simp only [Matrix.mul_apply, Fin.sum_univ_two] at E00 E01 E10 E11
+  -- Given a chosen `α β`, reduce `M = α•1+β•A` to the four entry equations.
+  have fin4 : ∀ α β : F,
+      M 0 0 = α + β * A 0 0 → M 0 1 = β * A 0 1 →
+      M 1 0 = β * A 1 0 → M 1 1 = α + β * A 1 1 →
+      M = α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A := by
+    intro α β h00 h01 h10 h11
+    ext i j
+    fin_cases i <;> fin_cases j
+    · simpa [Matrix.one_apply] using h00
+    · simpa [Matrix.one_apply] using h01
+    · simpa [Matrix.one_apply] using h10
+    · simpa [Matrix.one_apply] using h11
+  by_cases hb : A 0 1 = 0
+  · by_cases hc : A 1 0 = 0
+    · -- Diagonal non-scalar case: `A 0 0 ≠ A 1 1`.
+      have had : A 0 0 ≠ A 1 1 := fun h => hns ⟨hb, hc, h⟩
+      have hne : A 0 0 - A 1 1 ≠ 0 := sub_ne_zero.mpr had
+      set β := (M 0 0 - M 1 1) / (A 0 0 - A 1 1) with hβ
+      refine ⟨M 1 1 - β * A 1 1, β, fin4 _ _ ?_ ?_ ?_ ?_⟩
+      · rw [hβ]; field_simp; ring
+      · -- M 0 1 = β * A 0 1 = 0
+        rw [hb, mul_zero]
+        have hz : M 0 1 * (A 1 1 - A 0 0) = 0 := by rw [hb] at E01; linear_combination E01
+        exact (mul_eq_zero.mp hz).resolve_right (fun h => (Ne.symm had) (sub_eq_zero.mp h))
+      · rw [hc, mul_zero]
+        have hz : M 1 0 * (A 0 0 - A 1 1) = 0 := by rw [hc] at E10; linear_combination E10
+        exact (mul_eq_zero.mp hz).resolve_right (fun h => hne h)
+      · ring
+    · -- `A 0 1 = 0`, `A 1 0 ≠ 0`.
+      set β := M 1 0 / A 1 0 with hβ
+      refine ⟨M 1 1 - β * A 1 1, β, fin4 _ _ ?_ ?_ ?_ ?_⟩
+      · -- M 0 0 = α + β * A 0 0
+        rw [hβ]
+        have hM00 : M 0 0 - M 1 1 = M 1 0 / A 1 0 * (A 0 0 - A 1 1) := by
+          rw [div_mul_eq_mul_div, eq_div_iff hc]; linear_combination -E10
+        linear_combination hM00
+      · -- M 0 1 = β * A 0 1 = 0
+        rw [hb, mul_zero]
+        have hz : M 0 1 * A 1 0 = 0 := by rw [hb] at E00; linear_combination E00
+        exact (mul_eq_zero.mp hz).resolve_right hc
+      · rw [hβ]; field_simp
+      · ring
+  · -- `A 0 1 ≠ 0`.
+    set β := M 0 1 / A 0 1 with hβ
+    refine ⟨M 1 1 - β * A 1 1, β, fin4 _ _ ?_ ?_ ?_ ?_⟩
+    · -- M 0 0 = α + β * A 0 0
+      rw [hβ]
+      have hM00 : M 0 0 - M 1 1 = M 0 1 / A 0 1 * (A 0 0 - A 1 1) := by
+        rw [div_mul_eq_mul_div, eq_div_iff hb]; linear_combination E01
+      linear_combination hM00
+    · rw [hβ]; field_simp
+    · -- M 1 0 = β * A 1 0
+      rw [hβ]
+      have hM10 : M 1 0 * A 0 1 = M 0 1 * A 1 0 := by linear_combination E11
+      rw [div_mul_eq_mul_div, eq_div_iff hb]; linear_combination hM10
+    · ring
+
+end MatrixCommutant
+
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
 
 private abbrev GL2' := Matrix.GeneralLinearGroup (Fin 2) (GaloisField p n)
