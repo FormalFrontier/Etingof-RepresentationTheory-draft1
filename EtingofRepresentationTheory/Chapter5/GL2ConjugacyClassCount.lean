@@ -42,22 +42,29 @@ image. This is the first instantiation of `ConjClasses` for GL₂ in the project
   the partition plus the four per-type counts and the arithmetic identity
   `(q−1) + (q−1) + (q−1)(q−2)/2 + q(q−1)/2 = q² − 1` (valid since `q = pⁿ` is
   odd, so both divisions are exact). It carries no `sorry` of its own; it only
-  inherits the deferred per-type counts below.
+  inherits the per-type counts below.
 
-## What is deferred (top-down `sorry`s, with the book's argument recorded)
+## The three per-type counts (proved)
 
-The parabolic / split-semisimple / elliptic per-type counts are stated but their
-proofs are deferred. Each follows the book by dividing the element count of a
-type by the (constant) size of a class of that type:
+The parabolic / split-semisimple / elliptic per-type counts are proved by the
+book's recipe: divide the element count of a type by the (constant) size of a
+class of that type:
 
 * parabolic:        `(q−1)(q²−1) / (q²−1)      = q−1`
 * split semisimple: `(q−1)(q−2)q(q+1)/2 / (q²+q) = (q−1)(q−2)/2`
 * elliptic:         `q²(q−1)²/2 / (q²−q)         = q(q−1)/2`
 * total:            `(q−1)+(q−1)+(q−1)(q−2)/2+q(q−1)/2 = q²−1`.
 
-Carrying these out rigorously requires the constant class-size lemmas
-(centralizer orders `q²−1`, `q²+q`, `q²−q` for the three non-central types),
-which are a separate, substantial piece of infrastructure.
+The constant class-size lemmas come from the centralizer orders `q(q−1)`,
+`(q−1)²`, `q²−1` (parabolic, split-semisimple, elliptic). These are computed
+uniformly in `centralizerCard_parabolic`, `centralizerCard_splitSemisimple`,
+`centralizerCard_elliptic`: for a non-scalar `g`, the centralizer in the matrix
+ring is the 2-dimensional commutant algebra `{α • 1 + β • g}`
+(`exists_smul_add_smul_of_commute`), and its units — the group centralizer — are
+counted by the number of `(α, β)` with `det (α • 1 + β • g) ≠ 0`, which the
+determinant quadratic `α² + tr·αβ + det·β²` (discriminant `disc g`) resolves into
+the three type-dependent values via the quadratic root counts. The per-type
+counts then feed the class-count bridge `count_from_bridge`.
 -/
 
 /-! ## A class-count bridge
@@ -162,6 +169,186 @@ theorem ncard_conjClasses_image_mul_centralizerCard {S : Set G}
   rw [himg, Set.ncard_coe_finset, Set.ncard_eq_toFinset_card', hsum]
 
 end ConjClassCount
+
+/-! ## Commutant of a non-scalar 2×2 matrix
+
+For a non-scalar `A : Matrix (Fin 2) (Fin 2) F`, the commutant
+`{M : M * A = A * M}` is exactly `{α • 1 + β • A}`, a 2-dimensional space (`A` and `1`
+are linearly independent, and any commuting matrix is a combination of them). Over a
+finite field of `q` elements this space has `q²` elements, and the invertible ones — the
+centralizer of `A` in `GLₙ` — are exactly the `(α, β)` with `det (α • 1 + β • A) ≠ 0`.
+The determinant is the quadratic form `α² + tr(A)·αβ + det(A)·β²`, whose number of zeros
+is governed by the discriminant `tr² − 4·det = disc(A)`, giving the three per-type
+centralizer orders. -/
+
+section MatrixCommutant
+
+variable {F : Type*} [Field F]
+
+/-- Every matrix commuting with a non-scalar 2×2 matrix `A` is a linear combination
+`α • 1 + β • A`. -/
+private lemma exists_smul_add_smul_of_commute {A M : Matrix (Fin 2) (Fin 2) F}
+    (hns : ¬ (A 0 1 = 0 ∧ A 1 0 = 0 ∧ A 0 0 = A 1 1))
+    (hcomm : M * A = A * M) :
+    ∃ α β : F, M = α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A := by
+  -- Entrywise commutation equations.
+  have E00 := congrFun (congrFun hcomm 0) 0
+  have E01 := congrFun (congrFun hcomm 0) 1
+  have E10 := congrFun (congrFun hcomm 1) 0
+  have E11 := congrFun (congrFun hcomm 1) 1
+  simp only [Matrix.mul_apply, Fin.sum_univ_two] at E00 E01 E10 E11
+  -- Given a chosen `α β`, reduce `M = α•1+β•A` to the four entry equations.
+  have fin4 : ∀ α β : F,
+      M 0 0 = α + β * A 0 0 → M 0 1 = β * A 0 1 →
+      M 1 0 = β * A 1 0 → M 1 1 = α + β * A 1 1 →
+      M = α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A := by
+    intro α β h00 h01 h10 h11
+    ext i j
+    fin_cases i <;> fin_cases j
+    · simpa [Matrix.one_apply] using h00
+    · simpa [Matrix.one_apply] using h01
+    · simpa [Matrix.one_apply] using h10
+    · simpa [Matrix.one_apply] using h11
+  by_cases hb : A 0 1 = 0
+  · by_cases hc : A 1 0 = 0
+    · -- Diagonal non-scalar case: `A 0 0 ≠ A 1 1`.
+      have had : A 0 0 ≠ A 1 1 := fun h => hns ⟨hb, hc, h⟩
+      have hne : A 0 0 - A 1 1 ≠ 0 := sub_ne_zero.mpr had
+      set β := (M 0 0 - M 1 1) / (A 0 0 - A 1 1) with hβ
+      refine ⟨M 1 1 - β * A 1 1, β, fin4 _ _ ?_ ?_ ?_ ?_⟩
+      · rw [hβ]; field_simp; ring
+      · -- M 0 1 = β * A 0 1 = 0
+        rw [hb, mul_zero]
+        have hz : M 0 1 * (A 1 1 - A 0 0) = 0 := by rw [hb] at E01; linear_combination E01
+        exact (mul_eq_zero.mp hz).resolve_right (fun h => (Ne.symm had) (sub_eq_zero.mp h))
+      · rw [hc, mul_zero]
+        have hz : M 1 0 * (A 0 0 - A 1 1) = 0 := by rw [hc] at E10; linear_combination E10
+        exact (mul_eq_zero.mp hz).resolve_right (fun h => hne h)
+      · ring
+    · -- `A 0 1 = 0`, `A 1 0 ≠ 0`.
+      set β := M 1 0 / A 1 0 with hβ
+      refine ⟨M 1 1 - β * A 1 1, β, fin4 _ _ ?_ ?_ ?_ ?_⟩
+      · -- M 0 0 = α + β * A 0 0
+        rw [hβ]
+        have hM00 : M 0 0 - M 1 1 = M 1 0 / A 1 0 * (A 0 0 - A 1 1) := by
+          rw [div_mul_eq_mul_div, eq_div_iff hc]; linear_combination -E10
+        linear_combination hM00
+      · -- M 0 1 = β * A 0 1 = 0
+        rw [hb, mul_zero]
+        have hz : M 0 1 * A 1 0 = 0 := by rw [hb] at E00; linear_combination E00
+        exact (mul_eq_zero.mp hz).resolve_right hc
+      · rw [hβ]; field_simp
+      · ring
+  · -- `A 0 1 ≠ 0`.
+    set β := M 0 1 / A 0 1 with hβ
+    refine ⟨M 1 1 - β * A 1 1, β, fin4 _ _ ?_ ?_ ?_ ?_⟩
+    · -- M 0 0 = α + β * A 0 0
+      rw [hβ]
+      have hM00 : M 0 0 - M 1 1 = M 0 1 / A 0 1 * (A 0 0 - A 1 1) := by
+        rw [div_mul_eq_mul_div, eq_div_iff hb]; linear_combination E01
+      linear_combination hM00
+    · rw [hβ]; field_simp
+    · -- M 1 0 = β * A 1 0
+      rw [hβ]
+      have hM10 : M 1 0 * A 0 1 = M 0 1 * A 1 0 := by linear_combination E11
+      rw [div_mul_eq_mul_div, eq_div_iff hb]; linear_combination hM10
+    · ring
+
+/-- For a non-scalar 2×2 matrix `A`, the map `(α, β) ↦ α • 1 + β • A` is injective:
+`1` and `A` are linearly independent. -/
+private lemma smul_one_add_smul_injective {A : Matrix (Fin 2) (Fin 2) F}
+    (hns : ¬ (A 0 1 = 0 ∧ A 1 0 = 0 ∧ A 0 0 = A 1 1)) :
+    Function.Injective
+      (fun ab : F × F => ab.1 • (1 : Matrix (Fin 2) (Fin 2) F) + ab.2 • A) := by
+  rintro ⟨α, β⟩ ⟨α', β'⟩ h
+  simp only at h
+  have e00 : α + β * A 0 0 = α' + β' * A 0 0 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 0) 0
+  have e01 : β * A 0 1 = β' * A 0 1 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 0) 1
+  have e10 : β * A 1 0 = β' * A 1 0 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 1) 0
+  have e11 : α + β * A 1 1 = α' + β' * A 1 1 := by
+    simpa [Matrix.one_apply] using congrFun (congrFun h 1) 1
+  have hβ : β = β' := by
+    by_contra hne
+    have hd : β - β' ≠ 0 := sub_ne_zero.mpr hne
+    have hA01 : A 0 1 = 0 := by
+      have hz : (β - β') * A 0 1 = 0 := by linear_combination e01
+      exact (mul_eq_zero.mp hz).resolve_left hd
+    have hA10 : A 1 0 = 0 := by
+      have hz : (β - β') * A 1 0 = 0 := by linear_combination e10
+      exact (mul_eq_zero.mp hz).resolve_left hd
+    have hAd : A 0 0 = A 1 1 := by
+      have hz : (β - β') * (A 0 0 - A 1 1) = 0 := by linear_combination e00 - e11
+      exact sub_eq_zero.mp ((mul_eq_zero.mp hz).resolve_left hd)
+    exact hns ⟨hA01, hA10, hAd⟩
+  have hα : α = α' := by rw [hβ] at e00; linear_combination e00
+  exact Prod.ext hα hβ
+
+/-- The determinant of `α • 1 + β • A` is the quadratic form
+`α² + tr(A)·αβ + det(A)·β²`. -/
+private lemma det_smul_one_add_smul (A : Matrix (Fin 2) (Fin 2) F) (α β : F) :
+    Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A)
+      = α ^ 2 + (A 0 0 + A 1 1) * (α * β)
+        + (A 0 0 * A 1 1 - A 0 1 * A 1 0) * β ^ 2 := by
+  have h00 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 0 0 = α + β * A 0 0 := by
+    simp [Matrix.one_apply]
+  have h01 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 0 1 = β * A 0 1 := by
+    simp [Matrix.one_apply]
+  have h10 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 1 0 = β * A 1 0 := by
+    simp [Matrix.one_apply]
+  have h11 : (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) 1 1 = α + β * A 1 1 := by
+    simp [Matrix.one_apply]
+  rw [Matrix.det_fin_two, h00, h01, h10, h11]; ring
+
+variable [Fintype F] [DecidableEq F]
+
+/-- Number of pairs `(α, β)` with `det (α • 1 + β • A) = 0`, given that for every
+`β ≠ 0` the number of `α` making the determinant vanish is a constant `r`. The `β = 0`
+row contributes the single pair `(0, 0)`, and each of the `q − 1` nonzero rows
+contributes `r`. -/
+private lemma card_detZero_pairs {A : Matrix (Fin 2) (Fin 2) F} {r : ℕ}
+    (hr : ∀ β : F, β ≠ 0 →
+      (Finset.univ.filter (fun α : F =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) = 0)).card = r) :
+    (Finset.univ.filter (fun ab : F × F =>
+        Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) F) + ab.2 • A) = 0)).card
+      = 1 + (Fintype.card F - 1) * r := by
+  -- Fiber over the second coordinate `β`.
+  have key : (Finset.univ.filter (fun ab : F × F =>
+        Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) F) + ab.2 • A) = 0)).card
+      = ∑ β : F, (Finset.univ.filter (fun α : F =>
+          Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) = 0)).card := by
+    simp_rw [Finset.card_filter]
+    rw [Fintype.sum_prod_type, Finset.sum_comm]
+  rw [key, ← Finset.add_sum_erase Finset.univ _ (Finset.mem_univ (0 : F))]
+  -- `β = 0` row: `det (α•1) = α² = 0` iff `α = 0`.
+  have hf0 : (Finset.univ.filter (fun α : F =>
+      Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + (0 : F) • A) = 0)).card = 1 := by
+    have hrw : (Finset.univ.filter (fun α : F =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + (0 : F) • A) = 0))
+        = {(0 : F)} := by
+      ext α
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
+      rw [det_smul_one_add_smul]
+      constructor
+      · intro h
+        have hα : α ^ 2 = 0 := by linear_combination h
+        exact pow_eq_zero_iff (by norm_num) |>.mp hα
+      · intro h; rw [h]; ring
+    rw [hrw, Finset.card_singleton]
+  -- Nonzero rows: each contributes `r`.
+  have hsum : ∑ β ∈ Finset.univ.erase (0 : F),
+      (Finset.univ.filter (fun α : F =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) F) + β • A) = 0)).card
+      = (Fintype.card F - 1) * r := by
+    rw [Finset.sum_congr rfl (fun β hβ => hr β (Finset.ne_of_mem_erase hβ))]
+    rw [Finset.sum_const, smul_eq_mul, Finset.card_erase_of_mem (Finset.mem_univ _),
+      Finset.card_univ]
+  rw [hf0, hsum]
+
+end MatrixCommutant
 
 variable (p : ℕ) [hp : Fact (Nat.Prime p)] (n : ℕ)
 
@@ -303,6 +490,230 @@ lemma disjoint_conjImage {P Q : GL2' p n → Prop}
 
 variable [Fintype (GaloisField p n)] [DecidableEq (GaloisField p n)] [Fintype (GL2' p n)]
 
+/-- For a **non-scalar** `g ∈ GL₂(𝔽_q)`, the centralizer order equals the number of
+pairs `(α, β) ∈ 𝔽_q²` with `det (α • 1 + β • g) ≠ 0`. The centralizer of `g` in the
+matrix ring is the 2-dimensional commutant algebra `{α • 1 + β • g}`
+(`exists_smul_add_smul_of_commute`, `smul_one_add_smul_injective`), whose units are
+exactly those combinations with nonzero determinant. -/
+private lemma centralizerCard_eq_card_units {g : GL2' p n} (hns : ¬ GL2.IsScalar g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = (Finset.univ.filter (fun ab : GaloisField p n × GaloisField p n =>
+          Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+            + ab.2 • g.val) ≠ 0)).card := by
+  have hns' : ¬ (g.val 0 1 = 0 ∧ g.val 1 0 = 0 ∧ g.val 0 0 = g.val 1 1) :=
+    fun h => hns ((GL2.isScalar_iff g).mpr h)
+  -- `α•1+β•g` commutes with `g`.
+  have hcomm_mat : ∀ α β : GaloisField p n,
+      (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) * g.val
+        = g.val * (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) := by
+    intro α β
+    rw [Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.smul_mul,
+      Matrix.mul_smul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one]
+  -- Value of `mkOfDetNeZero`.
+  have hvalMk : ∀ (α β : GaloisField p n)
+      (h : Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) ≠ 0),
+      (Matrix.GeneralLinearGroup.mkOfDetNeZero
+        (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) h).val
+        = α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val := by
+    intro α β h
+    simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.GeneralLinearGroup.mk',
+      Matrix.unitOfDetInvertible]
+  -- The bijection between good pairs and the centralizer.
+  let f : {ab : GaloisField p n × GaloisField p n //
+      Matrix.det (ab.1 • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + ab.2 • g.val) ≠ 0}
+      → ↥(Subgroup.centralizer ({g} : Set (GL2' p n))) := fun ab =>
+    ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero
+        (ab.1.1 • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + ab.1.2 • g.val) ab.2, by
+      rw [Subgroup.mem_centralizer_iff]
+      rintro y hy
+      rw [Set.mem_singleton_iff] at hy; subst hy
+      apply Units.ext
+      rw [Units.val_mul, Units.val_mul, hvalMk]
+      exact (hcomm_mat ab.1.1 ab.1.2).symm⟩
+  have hbij : Function.Bijective f := by
+    refine ⟨?_, ?_⟩
+    · rintro ⟨⟨α, β⟩, hab⟩ ⟨⟨α', β'⟩, hab'⟩ heq
+      have hvv : α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val
+          = α' • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β' • g.val := by
+        have h1 := congrArg
+          (fun u : ↥(Subgroup.centralizer ({g} : Set (GL2' p n))) => (u : GL2' p n).val) heq
+        simpa [f, hvalMk] using h1
+      exact Subtype.ext (smul_one_add_smul_injective hns' (A := g.val) hvv)
+    · rintro ⟨M, hM⟩
+      rw [Subgroup.mem_centralizer_iff] at hM
+      have hcomm : M.val * g.val = g.val * M.val := by
+        have hgm := hM g (Set.mem_singleton g)
+        have h2 := congrArg (fun u : GL2' p n => u.val) hgm
+        rw [Units.val_mul, Units.val_mul] at h2
+        exact h2.symm
+      obtain ⟨α, β, hαβ⟩ := exists_smul_add_smul_of_commute hns' hcomm
+      have hMdet : Matrix.det M.val ≠ 0 := by
+        have hu := M.isUnit
+        rw [Matrix.isUnit_iff_isUnit_det] at hu
+        exact hu.ne_zero
+      have hdet : Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n))
+          + β • g.val) ≠ 0 := by rw [← hαβ]; exact hMdet
+      refine ⟨⟨(α, β), hdet⟩, ?_⟩
+      apply Subtype.ext
+      apply Units.ext
+      show (Matrix.GeneralLinearGroup.mkOfDetNeZero _ hdet).val = M.val
+      rw [hvalMk]; exact hαβ.symm
+  rw [(Nat.card_congr (Equiv.ofBijective f hbij)).symm, Nat.card_eq_fintype_card,
+    Fintype.card_subtype]
+
+/-- **Centralizer order of a non-scalar element**, in terms of the per-`β` root count `r`
+of the determinant quadratic: `|C_G(g)| = q² − (1 + (q−1)·r)`. Combines the
+commutant-units description (`centralizerCard_eq_card_units`) with the fiberwise det-zero
+count (`card_detZero_pairs`). -/
+private lemma centralizerCard_of_nonscalar {g : GL2' p n} (hns : ¬ GL2.IsScalar g)
+    {r : ℕ} (hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = r) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) ^ 2
+        - (1 + (Fintype.card (GaloisField p n) - 1) * r) := by
+  rw [centralizerCard_eq_card_units hns]
+  have hz := card_detZero_pairs (A := g.val) hr
+  simp only [ne_eq]
+  rw [Finset.filter_not, Finset.card_univ_sdiff, Fintype.card_prod, hz, ← pow_two]
+
+/-- The determinant discriminant `((tr)·β)² − 4·(det)·β² = β²·disc(g)`. -/
+private lemma quadDisc_eq (g : GL2' p n) (β : GaloisField p n) :
+    ((g.val 0 0 + g.val 1 1) * β) ^ 2
+      - 4 * 1 * ((g.val 0 0 * g.val 1 1 - g.val 0 1 * g.val 1 0) * β ^ 2)
+      = β ^ 2 * GL2.disc g := by
+  rw [GL2.disc_eq]; ring
+
+/-- Rewrite the `α`-fiber `{α : det (α•1+β•g) = 0}` as the quadratic filter
+`{α : α² + (tr·β)·α + (det·β²) = 0}`. -/
+private lemma alphaFiber_eq (g : GL2' p n) (β : GaloisField p n) :
+    (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0))
+      = (Finset.univ.filter (fun α : GaloisField p n =>
+        (1 : GaloisField p n) * α ^ 2 + ((g.val 0 0 + g.val 1 1) * β) * α
+          + (g.val 0 0 * g.val 1 1 - g.val 0 1 * g.val 1 0) * β ^ 2 = 0)) := by
+  apply Finset.filter_congr
+  intro α _
+  rw [det_smul_one_add_smul]
+  constructor <;> intro h <;> linear_combination h
+
+/-- Centralizer order of a **parabolic** element is `q(q−1)`. -/
+private lemma centralizerCard_parabolic {g : GL2' p n} (hg : GL2.IsParabolic g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) := by
+  obtain ⟨hdisc, hns⟩ := hg
+  have hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = 1 := by
+    intro β _
+    rw [alphaFiber_eq]
+    apply Etingof.quadratic_one_root_zero_disc _ _ _ one_ne_zero
+    rw [quadDisc_eq, hdisc, mul_zero]
+  rw [centralizerCard_of_nonscalar hns hr]
+  obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Fintype.card_ne_zero (α := GaloisField p n))
+  rw [hm]
+  simp only [Nat.succ_sub_one, Nat.succ_eq_add_one, mul_one]
+  have e1 : (m + 1) ^ 2 = m ^ 2 + 2 * m + 1 := by ring
+  have e2 : (m + 1) * m = m ^ 2 + m := by ring
+  omega
+
+/-- In `GaloisField p n` with `p ≠ 2`, `2 ≠ 0`. -/
+private lemma two_ne_zero_galoisField (hp2 : p ≠ 2) : (2 : GaloisField p n) ≠ 0 := by
+  intro h
+  have hchar2 : CharP (GaloisField p n) 2 :=
+    (CharP.charP_iff_prime_eq_zero (by norm_num)).mpr h
+  have hp_char : CharP (GaloisField p n) p :=
+    charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
+  exact hp2 (CharP.eq (GaloisField p n) hp_char hchar2)
+
+/-- Centralizer order of a **split-semisimple** element is `(q−1)²`. -/
+private lemma centralizerCard_splitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
+    (hg : GL2.IsSplitSemisimple g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = (Fintype.card (GaloisField p n) - 1) ^ 2 := by
+  obtain ⟨hdne, hsq⟩ := hg
+  have hns : ¬ GL2.IsScalar g := fun hsc => GL2.isScalar_not_isSplitSemisimple g hsc ⟨hdne, hsq⟩
+  haveI : NeZero (2 : GaloisField p n) := ⟨two_ne_zero_galoisField hp2⟩
+  have hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = 2 := by
+    intro β hβ
+    rw [alphaFiber_eq]
+    refine Etingof.quadratic_two_roots _ _ _ one_ne_zero ?_ ?_
+    · rw [quadDisc_eq]; exact mul_ne_zero (pow_ne_zero 2 hβ) hdne
+    · rw [quadDisc_eq]; exact IsSquare.mul ⟨β, by ring⟩ hsq
+  rw [centralizerCard_of_nonscalar hns hr]
+  obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Fintype.card_ne_zero (α := GaloisField p n))
+  rw [hm]
+  simp only [Nat.succ_sub_one, Nat.succ_eq_add_one, mul_one]
+  have e1 : (m + 1) ^ 2 = m ^ 2 + 2 * m + 1 := by ring
+  omega
+
+/-- Centralizer order of an **elliptic** element is `q² − 1`. -/
+private lemma centralizerCard_elliptic {g : GL2' p n} (hg : GL2.IsElliptic g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) ^ 2 - 1 := by
+  have hns : ¬ GL2.IsScalar g := fun hsc => GL2.isScalar_not_isElliptic g hsc hg
+  have hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = 0 := by
+    intro β hβ
+    rw [alphaFiber_eq]
+    refine Etingof.quadratic_no_roots _ _ _ one_ne_zero ?_
+    rw [quadDisc_eq]
+    rintro ⟨s, hs⟩
+    exact hg ⟨s * β⁻¹, by field_simp; linear_combination hs⟩
+  rw [centralizerCard_of_nonscalar hns hr]
+  simp
+
+/-- `|GL₂(𝔽_q)| = (q²−1)(q²−q)`. -/
+private lemma card_GL2_eq :
+    Fintype.card (GL2' p n)
+      = (Fintype.card (GaloisField p n) ^ 2 - 1)
+        * (Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n)) := by
+  have h := Matrix.card_GL_field (𝔽 := GaloisField p n) 2
+  rw [Nat.card_eq_fintype_card] at h
+  rw [h]; simp [Fin.prod_univ_two, pow_zero, pow_one]
+
+/-- `q = pⁿ ≥ 3` when `p ≠ 2`. -/
+private lemma card_ge_three (hp2 : p ≠ 2) (hn : n ≠ 0) :
+    3 ≤ Fintype.card (GaloisField p n) := by
+  rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+  have hp3 : 3 ≤ p := by have := hp.out.two_le; omega
+  calc 3 ≤ p := hp3
+    _ = p ^ 1 := (pow_one p).symm
+    _ ≤ p ^ n := Nat.pow_le_pow_right (by omega) (Nat.one_le_iff_ne_zero.mpr hn)
+
+/-- **Bridge to a per-type count.** Given a conjugation-closed type `P` with constant
+centralizer order `d`, if the type has `cardS` elements, each class has `classSize`
+elements (`= |G|/d > 0`), and `target · classSize = cardS`, then there are exactly
+`target` classes of type `P`. -/
+private lemma count_from_bridge {P : GL2' p n → Prop}
+    (hclosed : ∀ g ∈ {g : GL2' p n | P g}, ∀ x : GL2' p n,
+      x * g * x⁻¹ ∈ {g : GL2' p n | P g})
+    {d : ℕ}
+    (hd : ∀ g ∈ {g : GL2' p n | P g},
+      Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n))) = d)
+    {cardS target classSize : ℕ}
+    (hSncard : {g : GL2' p n | P g}.ncard = cardS)
+    (hclass : Fintype.card (GL2' p n) / d = classSize)
+    (hpos : 0 < classSize)
+    (harith : target * classSize = cardS) :
+    (ConjClasses.mk '' {g : GL2' p n | P g}).ncard = target := by
+  have hbridge := ncard_conjClasses_image_mul_centralizerCard hclosed hd
+  rw [hSncard, hclass] at hbridge
+  exact Nat.eq_of_mul_eq_mul_right hpos (hbridge.trans harith.symm)
+
+/-- For `2 ∣ a`, `(a / 2) * b = (a * b) / 2`. -/
+private lemma half_mul (a b : ℕ) (h : 2 ∣ a) : a / 2 * b = a * b / 2 := by
+  obtain ⟨k, rfl⟩ := h
+  rw [Nat.mul_div_cancel_left k (by norm_num : 0 < 2),
+    show 2 * k * b = 2 * (k * b) by ring, Nat.mul_div_cancel_left _ (by norm_num : 0 < 2)]
+
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
 nonzero scalar `x` (matching `GL2.card_isScalar`). -/
 theorem numScalarClasses_eq (hn : n ≠ 0) :
@@ -331,7 +742,38 @@ parabolic elements `(q−1)(q²−1)` (`GL2.card_isParabolic`) by the class size
 `q²−1` gives `q − 1`. -/
 theorem numParabolicClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     numParabolicClasses (p := p) (n := n) = Fintype.card (GaloisField p n) - 1 := by
-  sorry
+  simp only [numParabolicClasses]
+  have hq3 := card_ge_three (p := p) (n := n) hp2 hn
+  have hqe : Fintype.card (GaloisField p n) ^ 2 - Fintype.card (GaloisField p n)
+      = Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) := by
+    obtain ⟨m, hm⟩ :=
+      Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+    rw [hm]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    have : (m + 1) ^ 2 = (m + 1) * m + (m + 1) := by ring
+    omega
+  apply count_from_bridge (P := fun g => GL2.IsParabolic g)
+    (cardS := (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) ^ 2 - 1))
+    (target := Fintype.card (GaloisField p n) - 1)
+    (classSize := Fintype.card (GaloisField p n) ^ 2 - 1)
+  case hclosed =>
+    intro g hg x
+    simp only [Set.mem_setOf_eq] at hg ⊢
+    exact GL2.isParabolic_of_isConj (isConj_iff.mpr ⟨x, rfl⟩) hg
+  case hd =>
+    intro g hg
+    simp only [Set.mem_setOf_eq] at hg
+    exact centralizerCard_parabolic hg
+  case hSncard =>
+    rw [show {g : GL2' p n | GL2.IsParabolic g}
+        = ↑(Finset.univ.filter (fun g : GL2' p n => GL2.IsParabolic g)) from by ext g; simp,
+      Set.ncard_coe_finset, GL2.card_isParabolic hp2 hn]
+  case hclass =>
+    rw [card_GL2_eq, hqe]
+    exact Nat.mul_div_cancel _ (Nat.mul_pos (by omega) (by omega))
+  case hpos =>
+    have : 1 < Fintype.card (GaloisField p n) ^ 2 := by nlinarith [hq3]
+    omega
+  case harith => ring
 
 /-- **Split-semisimple count.** There are `(q−1)(q−2)/2` split-semisimple
 (hyperbolic) conjugacy classes, one for each unordered pair `{x, y}` of distinct
@@ -345,7 +787,52 @@ centralizer of `diag(x,y)` with `x ≠ y` is the diagonal torus, of order
 theorem numSplitSemisimpleClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     numSplitSemisimpleClasses (p := p) (n := n) =
       (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) - 2) / 2 := by
-  sorry
+  simp only [numSplitSemisimpleClasses]
+  have hq3 := card_ge_three (p := p) (n := n) hp2 hn
+  have hqodd : Odd (Fintype.card (GaloisField p n)) := by
+    rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+    exact (Nat.Prime.odd_of_ne_two hp.out hp2).pow
+  obtain ⟨m, hm⟩ := hqodd
+  have hq1 : Fintype.card (GaloisField p n) - 1 = 2 * m := by omega
+  have hGLfact : Fintype.card (GL2' p n)
+      = (Fintype.card (GaloisField p n) - 1) ^ 2
+        * (Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1)) := by
+    rw [card_GL2_eq]
+    obtain ⟨k, hk⟩ :=
+      Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+    rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    have h1 : (k + 1) ^ 2 - 1 = k ^ 2 + 2 * k := by
+      have : (k + 1) ^ 2 = k ^ 2 + 2 * k + 1 := by ring
+      omega
+    have h2 : (k + 1) ^ 2 - (k + 1) = (k + 1) * k := by
+      have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
+      omega
+    rw [h1, h2]; ring
+  apply count_from_bridge (P := fun g => GL2.IsSplitSemisimple g)
+    (cardS := (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) - 2)
+      * Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1) / 2)
+    (target := (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) - 2) / 2)
+    (classSize := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1))
+  case hclosed =>
+    intro g hg x
+    simp only [Set.mem_setOf_eq] at hg ⊢
+    exact GL2.isSplitSemisimple_of_isConj (isConj_iff.mpr ⟨x, rfl⟩) hg
+  case hd =>
+    intro g hg
+    simp only [Set.mem_setOf_eq] at hg
+    exact centralizerCard_splitSemisimple hp2 hg
+  case hSncard =>
+    rw [show {g : GL2' p n | GL2.IsSplitSemisimple g}
+        = ↑(Finset.univ.filter (fun g : GL2' p n => GL2.IsSplitSemisimple g)) from by ext g; simp,
+      Set.ncard_coe_finset, GL2.card_isSplitSemisimple hp2 hn]
+  case hclass =>
+    rw [hGLfact]
+    exact Nat.mul_div_cancel_left _ (pow_pos (by omega) 2)
+  case hpos => exact Nat.mul_pos (by omega) (by omega)
+  case harith =>
+    rw [half_mul _ _
+      ⟨m * (Fintype.card (GaloisField p n) - 2), by rw [hq1]; ring⟩]
+    congr 1; ring
 
 /-- **Elliptic count.** There are `q(q−1)/2` elliptic conjugacy classes (the
 representatives `[[x, εy],[y, x]]` with `y ≠ 0`, identified up to `y ↦ −y`).
@@ -357,7 +844,46 @@ elements `q²(q−1)²/2` (`GL2.card_isElliptic`) by `q(q−1)` gives `q(q−1)/
 theorem numEllipticClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     numEllipticClasses (p := p) (n := n) =
       Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2 := by
-  sorry
+  simp only [numEllipticClasses]
+  have hq3 := card_ge_three (p := p) (n := n) hp2 hn
+  have hqodd : Odd (Fintype.card (GaloisField p n)) := by
+    rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+    exact (Nat.Prime.odd_of_ne_two hp.out hp2).pow
+  obtain ⟨m, hm⟩ := hqodd
+  have hq1 : Fintype.card (GaloisField p n) - 1 = 2 * m := by omega
+  have hq9 : 9 ≤ Fintype.card (GaloisField p n) ^ 2 := by
+    calc (9 : ℕ) = 3 ^ 2 := by norm_num
+      _ ≤ _ := Nat.pow_le_pow_left hq3 2
+  apply count_from_bridge (P := fun g => GL2.IsElliptic g)
+    (cardS := Fintype.card (GaloisField p n) ^ 2 * (Fintype.card (GaloisField p n) - 1) ^ 2 / 2)
+    (target := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1) / 2)
+    (classSize := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) - 1))
+  case hclosed =>
+    intro g hg x
+    simp only [Set.mem_setOf_eq] at hg ⊢
+    have h := (GL2.isElliptic_conj_iff g x⁻¹).mpr hg
+    rwa [inv_inv] at h
+  case hd =>
+    intro g hg
+    simp only [Set.mem_setOf_eq] at hg
+    exact centralizerCard_elliptic hg
+  case hSncard =>
+    rw [show {g : GL2' p n | GL2.IsElliptic g}
+        = ↑(Finset.univ.filter (fun g : GL2' p n => GL2.IsElliptic g)) from by ext g; simp,
+      Set.ncard_coe_finset, GL2.card_isElliptic hp2 hn]
+  case hclass =>
+    rw [card_GL2_eq,
+      Nat.mul_div_cancel_left _
+        (by omega : 0 < Fintype.card (GaloisField p n) ^ 2 - 1)]
+    obtain ⟨k, hk⟩ :=
+      Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+    rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
+    omega
+  case hpos => exact Nat.mul_pos (by omega) (by omega)
+  case harith =>
+    rw [half_mul _ _ ⟨Fintype.card (GaloisField p n) * m, by rw [hq1]; ring⟩]
+    congr 1; ring
 
 /-- **Partition of the class set.** The total number of conjugacy classes of
 `GL₂(𝔽_q)` is the sum of the four type counts. Proved fully: the four type

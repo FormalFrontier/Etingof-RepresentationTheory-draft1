@@ -256,14 +256,6 @@ Pushed-but-not-PR'd work is effectively lost — nobody will find it.
 - If 20+ minutes have passed without a commit, stop and commit now.
 - Use `coordination create-pr N --partial` as soon as you have useful
   progress, even if incomplete. This saves the work as a visible PR.
-- **Lean: commit + create-pr the moment the targeted `lake build <module>`
-  passes — do NOT hold the commit waiting on a full-library build.** The
-  whole-project build is CI's job, and a one-shot session frequently ends
-  (time or quota) while a background full build is still running, losing
-  100% of the work even though the real change already compiled. If you
-  want extra assurance, push the PR first (CI runs the full build) and
-  only then start any local full build. Never let an uncommitted change
-  sit behind a `lake build` that compiles all of Mathlib.
 
 **Failure handling:**
 - Build fails on pre-existing issue → log and work around
