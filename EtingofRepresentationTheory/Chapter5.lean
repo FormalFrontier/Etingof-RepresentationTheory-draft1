@@ -192,6 +192,7 @@ import EtingofRepresentationTheory.Chapter5.DiagonalizableConj
 
 -- Section 5.25: Representations of GL₂(𝔽_q)
 import EtingofRepresentationTheory.Chapter5.Proposition5_25_1
+import EtingofRepresentationTheory.Chapter5.Discussion_1dim_reps
 import EtingofRepresentationTheory.Chapter5.Theorem5_25_2
 import EtingofRepresentationTheory.Chapter5.GL2CharacterValues
 import EtingofRepresentationTheory.Chapter5.Lemma5_25_3
