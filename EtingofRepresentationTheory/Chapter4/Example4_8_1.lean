@@ -2079,6 +2079,156 @@ denominator in `χ₊(g) = (S(g) − μ⁻·χ_{Λ²}(g))/(μ⁺ − μ⁻)`. -/
 lemma muPlus_sub_muMinus : muPlus - muMinus = 20 * (Real.sqrt 5 : ℂ) := by
   simp only [muPlus, muMinus]; ring
 
+/-- `20√5 ≠ 0` — the denominator `μ⁺ − μ⁻` of the spectral projection is invertible. -/
+lemma twentyRootFive_ne_zero : (20 * (Real.sqrt 5 : ℂ)) ≠ 0 :=
+  mul_ne_zero (by norm_num) (by
+    rw [Ne, Complex.ofReal_eq_zero]
+    exact ne_of_gt (Real.sqrt_pos.mpr (by norm_num)))
+
+/-! #### The pinned minimal polynomial `z² = 20·z + 400·1` and the 3+3 eigenspace split
+
+The linear-dependence lemma `zEnd_sq_eq_aux` only says `z² = a·z + b·1` for *some* `(a, b)`.
+Taking traces of that relation and of `z·(z² = a·z + b·1)` against the three computed values
+`tr z = 60`, `tr z² = 3600`, `tr z³ = 96000` gives the linear system `60a + 6b = 3600`,
+`3600a + 60b = 96000`, whose unique solution is `(a, b) = (20, 400)`.  This pins the minimal
+polynomial `z² − 20z − 400 = (z − μ⁺)(z − μ⁻)`, from which the two eigenspaces are the range and
+kernel of the spectral projection `P⁺ = (μ⁺ − μ⁻)⁻¹(z − μ⁻)`. -/
+
+/-- **THE pinned degree-2 relation `z² = 20·z + 400·1`.**  Solving the `2×2` trace system
+`60a + 6b = tr z² = 3600`, `3600a + 60b = tr z³ = 96000` fixes the coefficients `(a, b) = (20, 400)`
+in `zEnd_sq_eq_aux`.  Equivalently `z² − 20z − 400 = (z − μ⁺)(z − μ⁻) = 0`, the minimal polynomial
+whose roots are the golden-ratio eigenvalues `μ± = 10 ± 10√5`. -/
+lemma zEnd_sq_eq : zEnd * zEnd = (20 : ℂ) • zEnd + (400 : ℂ) • 1 := by
+  obtain ⟨a, b, hab⟩ := zEnd_sq_eq_aux
+  have htr1 : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) 1 = 6 := by
+    rw [Module.End.one_eq_id, LinearMap.trace_id, lam2_finrank]; norm_num
+  -- Trace of `z² = a·z + b·1`: `3600 = 60a + 6b`.
+  have e1 : (3600 : ℂ) = a * 60 + b * 6 := by
+    have h := congr_arg (LinearMap.trace ℂ (↥lam2Sub.toSubmodule)) hab
+    rwa [zEnd_sq_trace, map_add, map_smul, map_smul, zEnd_trace, htr1, smul_eq_mul,
+      smul_eq_mul] at h
+  -- Multiply the relation by `z` and take traces: `96000 = 3600a + 60b`.
+  have hcube : zEnd * zEnd * zEnd = a • (zEnd * zEnd) + b • zEnd := by
+    conv_lhs => rw [hab]
+    rw [add_mul, smul_mul_assoc, smul_mul_assoc, one_mul]
+  have e2 : (96000 : ℂ) = a * 3600 + b * 60 := by
+    have h := congr_arg (LinearMap.trace ℂ (↥lam2Sub.toSubmodule)) hcube
+    rwa [zEnd_cube_trace, map_add, map_smul, map_smul, zEnd_sq_trace, zEnd_trace, smul_eq_mul,
+      smul_eq_mul] at h
+  have ha : a = 20 := by linear_combination (1 / 300 : ℂ) * e1 + (-1 / 3000 : ℂ) * e2
+  have hb : b = 400 := by linear_combination (-1 / 5 : ℂ) * e1 + (1 / 300 : ℂ) * e2
+  rw [ha, hb] at hab
+  exact hab
+
+/-- The **spectral projection onto the `μ⁺`-eigenspace**, `P⁺ = (μ⁺ − μ⁻)⁻¹·(z − μ⁻·1)`.  Because
+`(z − μ⁺)(z − μ⁻) = 0` and `μ⁺ − μ⁻ = 20√5`, this is idempotent with range `ker(z − μ⁺)` and
+kernel `ker(z − μ⁻)`, so its trace counts `dim ℂ³₊`. -/
+noncomputable def zProjPlus : Module.End ℂ ↥lam2Sub.toSubmodule :=
+  (20 * (Real.sqrt 5 : ℂ))⁻¹ • (zEnd - muMinus • 1)
+
+set_option maxHeartbeats 800000 in
+-- The `IsProj` obligations unfold `zProjPlus` and the eigenspace membership through several
+-- submodule-coercion layers, so the definitional-equality checks exceed the default budget.
+/-- `P⁺` is a projection **onto the `μ⁺`-eigenspace of `z`**: it maps every vector into that
+eigenspace (`z·P⁺ = μ⁺·P⁺`, from the minimal polynomial) and fixes it pointwise (`P⁺ = 1` there,
+since `(μ⁺ − μ⁻)⁻¹(μ⁺ − μ⁻) = 1`). -/
+lemma zProjPlus_isProj : LinearMap.IsProj (Module.End.eigenspace zEnd muPlus) zProjPlus := by
+  -- Minimal polynomial in `(μ⁺+μ⁻, μ⁺·μ⁻)` form, then the key `(z − μ⁺)(z − μ⁻) = 0` rearrangement.
+  have hkey : zEnd * zEnd = (muPlus + muMinus) • zEnd - (muPlus * muMinus) • 1 := by
+    rw [zEnd_sq_eq, muPlus_add_muMinus, muPlus_mul_muMinus]; module
+  have hzP : zEnd * (zEnd - muMinus • 1) = muPlus • (zEnd - muMinus • 1) := by
+    rw [mul_sub zEnd zEnd (muMinus • 1), mul_smul_comm, mul_one, hkey,
+      smul_sub muPlus zEnd (muMinus • 1), smul_smul]
+    module
+  refine ⟨fun x => ?_, fun x hx => ?_⟩
+  · -- `P⁺ x` lies in the `μ⁺`-eigenspace.
+    rw [Module.End.mem_eigenspace_iff]
+    have hop : zEnd * zProjPlus = muPlus • zProjPlus := by
+      rw [zProjPlus, mul_smul_comm, hzP, smul_comm]
+    have h := congr_arg (fun f : Module.End ℂ (↥lam2Sub.toSubmodule) => f x) hop
+    simpa [Module.End.mul_apply] using h
+  · -- `P⁺` fixes the `μ⁺`-eigenspace pointwise.
+    rw [Module.End.mem_eigenspace_iff] at hx
+    rw [zProjPlus, LinearMap.smul_apply, LinearMap.sub_apply, LinearMap.smul_apply,
+      Module.End.one_apply, hx, ← sub_smul, smul_smul, muPlus_sub_muMinus,
+      inv_mul_cancel₀ twentyRootFive_ne_zero, one_smul]
+
+/-- **The kernel of `P⁺` is the `μ⁻`-eigenspace of `z`.**  Since `(μ⁺ − μ⁻)⁻¹ ≠ 0`, `P⁺ x = 0`
+iff `(z − μ⁻)x = 0`, i.e. `z x = μ⁻·x`. -/
+lemma ker_zProjPlus : LinearMap.ker zProjPlus = Module.End.eigenspace zEnd muMinus := by
+  ext x
+  rw [LinearMap.mem_ker, Module.End.mem_eigenspace_iff, zProjPlus, LinearMap.smul_apply,
+    smul_eq_zero]
+  constructor
+  · rintro (h | h)
+    · exact absurd h (inv_ne_zero twentyRootFive_ne_zero)
+    · rwa [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, sub_eq_zero] at h
+  · intro h
+    refine Or.inr ?_
+    rw [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, sub_eq_zero]
+    exact h
+
+/-- **`tr P⁺ = 3`.**  Linearity of the trace gives `tr P⁺ = (20√5)⁻¹(tr z − μ⁻·tr 1)
+= (20√5)⁻¹(60 − 6μ⁻) = (20√5)⁻¹·60√5 = 3`.  Via `LinearMap.IsProj.trace` this equals
+`dim(μ⁺-eigenspace)`. -/
+lemma trace_zProjPlus : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) zProjPlus = 3 := by
+  have htr1 : LinearMap.trace ℂ (↥lam2Sub.toSubmodule) 1 = 6 := by
+    rw [Module.End.one_eq_id, LinearMap.trace_id, lam2_finrank]; norm_num
+  rw [zProjPlus,
+    LinearMap.map_smul (LinearMap.trace ℂ (↥lam2Sub.toSubmodule)) (20 * (Real.sqrt 5 : ℂ))⁻¹
+      (zEnd - muMinus • 1),
+    LinearMap.map_sub (LinearMap.trace ℂ (↥lam2Sub.toSubmodule)) zEnd (muMinus • 1),
+    LinearMap.map_smul (LinearMap.trace ℂ (↥lam2Sub.toSubmodule)) muMinus 1,
+    zEnd_trace, htr1, smul_eq_mul, smul_eq_mul, muMinus,
+    show (60 : ℂ) - (10 - 10 * (Real.sqrt 5 : ℂ)) * 6 = (20 * (Real.sqrt 5 : ℂ)) * 3 from by ring,
+    ← mul_assoc, inv_mul_cancel₀ twentyRootFive_ne_zero, one_mul]
+
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance synthesis for the thrice-nested eigenspace subtype (`↥(ker(z − μ⁺) ⊆ Λ²(ℂ⁴) ⊆ W4 ⊗ W4)`)
+-- exceeds the default `synthInstance` budget, so `IsProj.trace`'s `Module.Free`/`Module.Finite`
+-- arguments need a larger limit.
+/-- **`dim(μ⁺-eigenspace of `z`) = 3`.**  `LinearMap.IsProj.trace` identifies the trace of the
+projection `P⁺` with the dimension of its range; `trace_zProjPlus` computes that trace as `3`. -/
+lemma eigenspace_muPlus_finrank :
+    Module.finrank ℂ (Module.End.eigenspace zEnd muPlus) = 3 := by
+  haveI : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
+    FiniteDimensional.of_finrank_pos (by rw [lam2_finrank]; norm_num)
+  haveI : Module.Free ℂ (↥(Module.End.eigenspace zEnd muPlus)) :=
+    Module.Free.of_divisionRing ℂ (↥(Module.End.eigenspace zEnd muPlus))
+  haveI : Module.Free ℂ (↥(LinearMap.ker zProjPlus)) :=
+    Module.Free.of_divisionRing ℂ (↥(LinearMap.ker zProjPlus))
+  have h := zProjPlus_isProj.trace
+  rw [trace_zProjPlus] at h
+  exact_mod_cast h.symm
+
+/-- **The two eigenspaces are complementary**, `Λ²(ℂ⁴) = ℂ³₊ ⊕ ℂ³₋`.  `P⁺` is a projection onto
+the `μ⁺`-eigenspace with kernel the `μ⁻`-eigenspace (`ker_zProjPlus`), so `LinearMap.IsProj.isCompl`
+gives the direct-sum decomposition. -/
+lemma eigenspace_isCompl :
+    IsCompl (Module.End.eigenspace zEnd muPlus) (Module.End.eigenspace zEnd muMinus) := by
+  have h := zProjPlus_isProj.isCompl
+  rwa [ker_zProjPlus] at h
+
+/-- **`dim(μ⁻-eigenspace of `z`) = 3`.**  The two eigenspaces are complementary in the
+`6`-dimensional `Λ²(ℂ⁴)` (`eigenspace_isCompl`, `lam2_finrank`), and the `μ⁺`-eigenspace has
+dimension `3`, so the `μ⁻`-eigenspace has dimension `6 − 3 = 3`. -/
+lemma eigenspace_muMinus_finrank :
+    Module.finrank ℂ (Module.End.eigenspace zEnd muMinus) = 3 := by
+  haveI : FiniteDimensional ℂ (↥lam2Sub.toSubmodule) :=
+    FiniteDimensional.of_finrank_pos (by rw [lam2_finrank]; norm_num)
+  have hsum := Submodule.finrank_add_eq_of_isCompl eigenspace_isCompl
+  rw [eigenspace_muPlus_finrank, lam2_finrank] at hsum
+  omega
+
+/-- **`dim ℂ³₊ = 3`.**  Combines `repC3plusSub_finrank_eq` (the carrier is the `μ⁺`-eigenspace of
+`z`, pushed forward along `Λ²(ℂ⁴) ↪ W4 ⊗ W4`) with `eigenspace_muPlus_finrank`. -/
+lemma repC3plus_finrank : Module.finrank ℂ repC3plusSub.toSubmodule = 3 := by
+  rw [repC3plusSub_finrank_eq, eigenspace_muPlus_finrank]
+
+/-- **`dim ℂ³₋ = 3`.**  Combines `repC3minusSub_finrank_eq` with `eigenspace_muMinus_finrank`. -/
+lemma repC3minus_finrank : Module.finrank ℂ repC3minusSub.toSubmodule = 3 := by
+  rw [repC3minusSub_finrank_eq, eigenspace_muMinus_finrank]
+
 /-! #### `χ_{Λ²} = χ₊ + χ₋`: the honest character of `Λ²(ℂ⁴)` is the sum of the two book rows -/
 
 /-- `Q5toC` is additive. -/
