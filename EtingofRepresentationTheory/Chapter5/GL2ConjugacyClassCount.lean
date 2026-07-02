@@ -42,22 +42,29 @@ image. This is the first instantiation of `ConjClasses` for GL₂ in the project
   the partition plus the four per-type counts and the arithmetic identity
   `(q−1) + (q−1) + (q−1)(q−2)/2 + q(q−1)/2 = q² − 1` (valid since `q = pⁿ` is
   odd, so both divisions are exact). It carries no `sorry` of its own; it only
-  inherits the deferred per-type counts below.
+  inherits the per-type counts below.
 
-## What is deferred (top-down `sorry`s, with the book's argument recorded)
+## The three per-type counts (proved)
 
-The parabolic / split-semisimple / elliptic per-type counts are stated but their
-proofs are deferred. Each follows the book by dividing the element count of a
-type by the (constant) size of a class of that type:
+The parabolic / split-semisimple / elliptic per-type counts are proved by the
+book's recipe: divide the element count of a type by the (constant) size of a
+class of that type:
 
 * parabolic:        `(q−1)(q²−1) / (q²−1)      = q−1`
 * split semisimple: `(q−1)(q−2)q(q+1)/2 / (q²+q) = (q−1)(q−2)/2`
 * elliptic:         `q²(q−1)²/2 / (q²−q)         = q(q−1)/2`
 * total:            `(q−1)+(q−1)+(q−1)(q−2)/2+q(q−1)/2 = q²−1`.
 
-Carrying these out rigorously requires the constant class-size lemmas
-(centralizer orders `q²−1`, `q²+q`, `q²−q` for the three non-central types),
-which are a separate, substantial piece of infrastructure.
+The constant class-size lemmas come from the centralizer orders `q(q−1)`,
+`(q−1)²`, `q²−1` (parabolic, split-semisimple, elliptic). These are computed
+uniformly in `centralizerCard_parabolic`, `centralizerCard_splitSemisimple`,
+`centralizerCard_elliptic`: for a non-scalar `g`, the centralizer in the matrix
+ring is the 2-dimensional commutant algebra `{α • 1 + β • g}`
+(`exists_smul_add_smul_of_commute`), and its units — the group centralizer — are
+counted by the number of `(α, β)` with `det (α • 1 + β • g) ≠ 0`, which the
+determinant quadratic `α² + tr·αβ + det·β²` (discriminant `disc g`) resolves into
+the three type-dependent values via the quadratic root counts. The per-type
+counts then feed the class-count bridge `count_from_bridge`.
 -/
 
 /-! ## A class-count bridge
@@ -569,7 +576,7 @@ private lemma centralizerCard_of_nonscalar {g : GL2' p n} (hns : ¬ GL2.IsScalar
   rw [centralizerCard_eq_card_units hns]
   have hz := card_detZero_pairs (A := g.val) hr
   simp only [ne_eq]
-  rw [Finset.filter_not, Finset.card_univ_diff, Fintype.card_prod, hz, ← pow_two]
+  rw [Finset.filter_not, Finset.card_univ_sdiff, Fintype.card_prod, hz, ← pow_two]
 
 /-- The determinant discriminant `((tr)·β)² − 4·(det)·β² = β²·disc(g)`. -/
 private lemma quadDisc_eq (g : GL2' p n) (β : GaloisField p n) :
@@ -780,7 +787,52 @@ centralizer of `diag(x,y)` with `x ≠ y` is the diagonal torus, of order
 theorem numSplitSemisimpleClasses_eq (hp2 : p ≠ 2) (hn : n ≠ 0) :
     numSplitSemisimpleClasses (p := p) (n := n) =
       (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) - 2) / 2 := by
-  sorry
+  simp only [numSplitSemisimpleClasses]
+  have hq3 := card_ge_three (p := p) (n := n) hp2 hn
+  have hqodd : Odd (Fintype.card (GaloisField p n)) := by
+    rw [Fintype.card_eq_nat_card, GaloisField.card p n hn]
+    exact (Nat.Prime.odd_of_ne_two hp.out hp2).pow
+  obtain ⟨m, hm⟩ := hqodd
+  have hq1 : Fintype.card (GaloisField p n) - 1 = 2 * m := by omega
+  have hGLfact : Fintype.card (GL2' p n)
+      = (Fintype.card (GaloisField p n) - 1) ^ 2
+        * (Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1)) := by
+    rw [card_GL2_eq]
+    obtain ⟨k, hk⟩ :=
+      Nat.exists_eq_succ_of_ne_zero (show Fintype.card (GaloisField p n) ≠ 0 by omega)
+    rw [hk]; simp only [Nat.succ_sub_one, Nat.add_sub_cancel, Nat.succ_eq_add_one]
+    have h1 : (k + 1) ^ 2 - 1 = k ^ 2 + 2 * k := by
+      have : (k + 1) ^ 2 = k ^ 2 + 2 * k + 1 := by ring
+      omega
+    have h2 : (k + 1) ^ 2 - (k + 1) = (k + 1) * k := by
+      have : (k + 1) ^ 2 = (k + 1) * k + (k + 1) := by ring
+      omega
+    rw [h1, h2]; ring
+  apply count_from_bridge (P := fun g => GL2.IsSplitSemisimple g)
+    (cardS := (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) - 2)
+      * Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1) / 2)
+    (target := (Fintype.card (GaloisField p n) - 1) * (Fintype.card (GaloisField p n) - 2) / 2)
+    (classSize := Fintype.card (GaloisField p n) * (Fintype.card (GaloisField p n) + 1))
+  case hclosed =>
+    intro g hg x
+    simp only [Set.mem_setOf_eq] at hg ⊢
+    exact GL2.isSplitSemisimple_of_isConj (isConj_iff.mpr ⟨x, rfl⟩) hg
+  case hd =>
+    intro g hg
+    simp only [Set.mem_setOf_eq] at hg
+    exact centralizerCard_splitSemisimple hp2 hg
+  case hSncard =>
+    rw [show {g : GL2' p n | GL2.IsSplitSemisimple g}
+        = ↑(Finset.univ.filter (fun g : GL2' p n => GL2.IsSplitSemisimple g)) from by ext g; simp,
+      Set.ncard_coe_finset, GL2.card_isSplitSemisimple hp2 hn]
+  case hclass =>
+    rw [hGLfact]
+    exact Nat.mul_div_cancel_left _ (pow_pos (by omega) 2)
+  case hpos => exact Nat.mul_pos (by omega) (by omega)
+  case harith =>
+    rw [half_mul _ _
+      ⟨m * (Fintype.card (GaloisField p n) - 2), by rw [hq1]; ring⟩]
+    congr 1; ring
 
 /-- **Elliptic count.** There are `q(q−1)/2` elliptic conjugacy classes (the
 representatives `[[x, εy],[y, x]]` with `y ≠ 0`, identified up to `y ↦ −y`).
