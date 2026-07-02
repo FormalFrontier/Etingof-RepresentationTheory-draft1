@@ -612,6 +612,57 @@ private lemma centralizerCard_parabolic {g : GL2' p n} (hg : GL2.IsParabolic g) 
   have e2 : (m + 1) * m = m ^ 2 + m := by ring
   omega
 
+/-- In `GaloisField p n` with `p ≠ 2`, `2 ≠ 0`. -/
+private lemma two_ne_zero_galoisField (hp2 : p ≠ 2) : (2 : GaloisField p n) ≠ 0 := by
+  intro h
+  have hchar2 : CharP (GaloisField p n) 2 :=
+    (CharP.charP_iff_prime_eq_zero (by norm_num)).mpr h
+  have hp_char : CharP (GaloisField p n) p :=
+    charP_of_injective_algebraMap (algebraMap (ZMod p) (GaloisField p n)).injective p
+  exact hp2 (CharP.eq (GaloisField p n) hp_char hchar2)
+
+/-- Centralizer order of a **split-semisimple** element is `(q−1)²`. -/
+private lemma centralizerCard_splitSemisimple (hp2 : p ≠ 2) {g : GL2' p n}
+    (hg : GL2.IsSplitSemisimple g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = (Fintype.card (GaloisField p n) - 1) ^ 2 := by
+  obtain ⟨hdne, hsq⟩ := hg
+  have hns : ¬ GL2.IsScalar g := fun hsc => GL2.isScalar_not_isSplitSemisimple g hsc ⟨hdne, hsq⟩
+  haveI : NeZero (2 : GaloisField p n) := ⟨two_ne_zero_galoisField hp2⟩
+  have hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = 2 := by
+    intro β hβ
+    rw [alphaFiber_eq]
+    refine Etingof.quadratic_two_roots _ _ _ one_ne_zero ?_ ?_
+    · rw [quadDisc_eq]; exact mul_ne_zero (pow_ne_zero 2 hβ) hdne
+    · rw [quadDisc_eq]; exact IsSquare.mul ⟨β, by ring⟩ hsq
+  rw [centralizerCard_of_nonscalar hns hr]
+  obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Fintype.card_ne_zero (α := GaloisField p n))
+  rw [hm]
+  simp only [Nat.succ_sub_one, Nat.succ_eq_add_one, mul_one]
+  have e1 : (m + 1) ^ 2 = m ^ 2 + 2 * m + 1 := by ring
+  omega
+
+/-- Centralizer order of an **elliptic** element is `q² − 1`. -/
+private lemma centralizerCard_elliptic {g : GL2' p n} (hg : GL2.IsElliptic g) :
+    Nat.card (Subgroup.centralizer ({g} : Set (GL2' p n)))
+      = Fintype.card (GaloisField p n) ^ 2 - 1 := by
+  have hns : ¬ GL2.IsScalar g := fun hsc => GL2.isScalar_not_isElliptic g hsc hg
+  have hr : ∀ β : GaloisField p n, β ≠ 0 →
+      (Finset.univ.filter (fun α : GaloisField p n =>
+        Matrix.det (α • (1 : Matrix (Fin 2) (Fin 2) (GaloisField p n)) + β • g.val) = 0)).card
+        = 0 := by
+    intro β hβ
+    rw [alphaFiber_eq]
+    refine Etingof.quadratic_no_roots _ _ _ one_ne_zero ?_
+    rw [quadDisc_eq]
+    rintro ⟨s, hs⟩
+    exact hg ⟨s * β⁻¹, by field_simp; linear_combination hs⟩
+  rw [centralizerCard_of_nonscalar hns hr]
+  simp
+
 /-- **Scalar count.** There are `q − 1` scalar conjugacy classes, one for each
 nonzero scalar `x` (matching `GL2.card_isScalar`). -/
 theorem numScalarClasses_eq (hn : n ≠ 0) :
