@@ -7516,7 +7516,8 @@
     "derived_from": "Chapter2/Discussion_2.1_irreducible_indecomposable",
     "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
     "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V → Etingof.IsIndecomposable A V.",
-    "status": "accepted",
+    "status": "formalized",
+    "lean_ref": "Chapter2/Discussion_2_1_irreducible_indecomposable.lean (Etingof.IsIndecomposable.of_isSimpleModule)",
     "coverage_issue": 5676
   },
   {
