@@ -1534,19 +1534,22 @@ lemma lam2_hom_finrank : Module.finrank ℂ (lam2 ⟶ lam2) = 2 := by
   rw [hval] at key
   exact_mod_cast key.symm
 
-/-! #### The three representations, characters, and pairwise non-isomorphism -/
+/-! #### Integer-character helper rows: `ℂ` (row 0), `ℂ⁴` (row 3), `ℂ⁵` (row 5)
 
-/-- The integer character table for the three rows realised here (`ℂ`, `ℂ⁴`, `ℂ⁵`). -/
+These three representations have rational (indeed integer) characters, so their character rows
+are packaged in the integer helper table `tblA5` and bridged to `chiA5` via `chiA5_eq_tblA5`.
+The full five-representation API (including the golden-ratio rows `ℂ³₊`, `ℂ³₋`) is assembled
+below, after the golden-ratio characters are available. -/
+
+/-- The integer character table for the three rational rows realised here (`ℂ`, `ℂ⁴`, `ℂ⁵`). -/
 def tblA5 : Fin 3 → Fin 5 → ℤ :=
   ![![1,  1,  1,  1,  1],
     ![4,  1,  0, -1, -1],
     ![5, -1,  1,  0,  0]]
 
-/-- The three genuine representations, indexed `0,1,2` as `ℂ, ℂ⁴, ℂ⁵`. -/
-def irrepA5 : Fin 3 → FDRep ℂ G := ![repTriv, repC4, repC5]
-
-/-- The rows of `chiA5` realised here: `ℂ` is row 0, `ℂ⁴` is row 3, `ℂ⁵` is row 4. -/
-def rowA5 : Fin 3 → Fin 5 := ![0, 3, 4]
+/-- The rows of `chiA5` realised by the three rational (integer-character) rows: `ℂ` is row 0,
+`ℂ⁴` is row 3, `ℂ⁵` is row 4.  Bridges the integer helper table `tblA5` to `chiA5`. -/
+def rowA5int : Fin 3 → Fin 5 := ![0, 3, 4]
 
 lemma repTriv_character (j : Fin 5) : repTriv.character (classRepA5 j) = (tblA5 0 j : ℂ) := by
   rw [repTriv_char]
@@ -1571,49 +1574,15 @@ lemma repC5_character (j : Fin 5) : repC5.character (classRepA5 j) = (tblA5 2 j 
     norm_num [tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
 
-/-- The character of `irrepA5 i` at the class representative `classRepA5 j` equals
-`tblA5 i j`. -/
-lemma irrepA5_character (i : Fin 3) (j : Fin 5) :
-    (irrepA5 i).character (classRepA5 j) = (tblA5 i j : ℂ) := by
-  fin_cases i
-  · exact repTriv_character j
-  · exact repC4_character j
-  · exact repC5_character j
-
-lemma irrepA5_simple (i : Fin 3) : Simple (irrepA5 i) := by
-  fin_cases i
-  · exact repTriv_simple
-  · exact repC4_simple
-  · exact repC5_simple
-
-lemma tblA5_injective : Function.Injective tblA5 := by decide
-
-/-- The three representations are pairwise non-isomorphic (their characters differ). -/
-lemma irrepA5_pairwise (i j : Fin 3) (hij : i ≠ j) : ¬ Nonempty (irrepA5 i ≅ irrepA5 j) := by
-  rintro ⟨e⟩
-  apply hij
-  have hchar : (irrepA5 i).character = (irrepA5 j).character := FDRep.char_iso e
-  have hrow : ∀ c, tblA5 i c = tblA5 j c := fun c => by
-    have h2 : ((tblA5 i c : ℤ) : ℂ) = ((tblA5 j c : ℤ) : ℂ) := by
-      rw [← irrepA5_character, ← irrepA5_character, hchar]
-    exact_mod_cast h2
-  exact tblA5_injective (funext hrow)
-
 /-! #### Bridge to the tabulated `Q5` values of `chiA5` -/
 
 /-- Rows `0, 3, 4` of `chiA5` are rational and equal the integer rows of `tblA5`. -/
 lemma chiA5_eq_tblA5 (i : Fin 3) (j : Fin 5) :
-    Q5toC (chiA5 (rowA5 i) j) = (tblA5 i j : ℂ) := by
-  have him : (chiA5 (rowA5 i) j).im = 0 := by fin_cases i <;> fin_cases j <;> decide
-  have hre : (chiA5 (rowA5 i) j).re = ((tblA5 i j : ℤ) : ℚ) := by
+    Q5toC (chiA5 (rowA5int i) j) = (tblA5 i j : ℂ) := by
+  have him : (chiA5 (rowA5int i) j).im = 0 := by fin_cases i <;> fin_cases j <;> decide
+  have hre : (chiA5 (rowA5int i) j).re = ((tblA5 i j : ℤ) : ℚ) := by
     fin_cases i <;> fin_cases j <;> decide
   rw [Q5toC, him, hre]; push_cast; ring
-
-/-- The character of `irrepA5 i` at `classRepA5 j` equals the tabulated `Q5` value
-`chiA5 (rowA5 i) j`. -/
-lemma irrepA5_character_book (i : Fin 3) (j : Fin 5) :
-    (irrepA5 i).character (classRepA5 j) = Q5toC (chiA5 (rowA5 i) j) := by
-  rw [irrepA5_character, chiA5_eq_tblA5]
 
 /-! #### Phase B: the central 5-cycle class-sum splits `Λ²(ℂ⁴)`
 
@@ -2476,6 +2445,175 @@ lemma repC3minus_character (j : Fin 5) :
   · linear_combination (10 : ℂ) * hs
   · linear_combination (-10 : ℂ) * hs
 
+/-! #### Simplicity of the golden-ratio representations `ℂ³₊`, `ℂ³₋`
+
+Both are simple by the norm-one character criterion `FDRep.simple_iff_char_is_norm_one`.  The
+norm sum `∑_g χ(g)·χ(g⁻¹)` is reduced fiberwise over the five conjugacy classes: every `g` is
+conjugate to `classRepA5 (classIdxA5 g)` (`classIdxA5_spec`) and every class representative is
+conjugate to its inverse (`classRepA5_inv_conj`), so each summand equals
+`χ(classRepA5 (classIdxA5 g))²`.  Collecting fibers (`Finset.sum_fiberwise'`, `classIdxA5_card`)
+gives `1·3² + 20·0² + 15·(−1)² + 12·φ² + 12·φ'² = 9 + 15 + 36 = 60 = |A₅|`, where the
+golden-ratio squares sum to `φ² + φ'² = 3` via `√5² = 5` (`sqrt5_sq`). -/
+
+set_option maxHeartbeats 1000000 in
+-- the fiberwise reduction of the 60-term norm sum plus the golden-ratio square arithmetic
+-- (`norm_num` over the five classes) exceeds the default heartbeat budget; no `native_decide`
+/-- **`ℂ³₊` is simple.**  Norm-one character sum, reduced fiberwise over the five conjugacy
+classes to `1·9 + 20·0 + 15·1 + 12·φ² + 12·φ'² = 60`. (Etingof Example 4.8.1) -/
+lemma repC3plus_simple : Simple repC3plus := by
+  rw [FDRep.simple_iff_char_is_norm_one, card_G]
+  have hterm : ∀ g : G, repC3plus.character g * repC3plus.character g⁻¹
+      = repC3plus.character (classRepA5 (classIdxA5 g)) ^ 2 := by
+    have hclass : ∀ a b : G, (∃ c, c * a * c⁻¹ = b) →
+        repC3plus.character b = repC3plus.character a := by
+      rintro a b ⟨c, rfl⟩; rw [FDRep.char_conj]
+    intro g
+    obtain ⟨c, hc⟩ := classIdxA5_spec g
+    obtain ⟨d, hd⟩ := classRepA5_inv_conj (classIdxA5 g)
+    have h1 : repC3plus.character g = repC3plus.character (classRepA5 (classIdxA5 g)) :=
+      hclass _ _ ⟨c, hc⟩
+    have hAinv : repC3plus.character (classRepA5 (classIdxA5 g))⁻¹
+        = repC3plus.character (classRepA5 (classIdxA5 g)) :=
+      hclass _ _ ⟨d, hd⟩
+    have hginv : repC3plus.character g⁻¹
+        = repC3plus.character (classRepA5 (classIdxA5 g))⁻¹ := by
+      refine hclass _ _ ⟨c, ?_⟩
+      conv_rhs => rw [← hc]
+      group
+    rw [h1, hginv, hAinv]; ring
+  rw [Finset.sum_congr rfl (fun g _ => hterm g)]
+  rw [show (∑ g : G, repC3plus.character (classRepA5 (classIdxA5 g)) ^ 2)
+        = ∑ j : Fin 5, ∑ _g ∈ Finset.univ.filter (fun g => classIdxA5 g = j),
+            repC3plus.character (classRepA5 j) ^ 2
+      from (Finset.sum_fiberwise' Finset.univ classIdxA5
+        (fun j => repC3plus.character (classRepA5 j) ^ 2)).symm]
+  simp only [Finset.sum_const, classIdxA5_card, nsmul_eq_mul]
+  rw [Fin.sum_univ_five, repC3plus_character 0, repC3plus_character 1, repC3plus_character 2,
+    repC3plus_character 3, repC3plus_character 4]
+  have hs := sqrt5_sq
+  norm_num [Q5toC, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+    Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+    Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im,
+    Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im]
+  linear_combination (6 : ℂ) * hs
+
+set_option maxHeartbeats 1000000 in
+-- the fiberwise reduction of the 60-term norm sum plus the golden-ratio square arithmetic
+-- (`norm_num` over the five classes) exceeds the default heartbeat budget; no `native_decide`
+/-- **`ℂ³₋` is simple.**  Same fiberwise norm-one computation as `repC3plus_simple`, with the
+golden-ratio entries on the two 5-cycle classes interchanged (the norm sum is unchanged).
+(Etingof Example 4.8.1) -/
+lemma repC3minus_simple : Simple repC3minus := by
+  rw [FDRep.simple_iff_char_is_norm_one, card_G]
+  have hterm : ∀ g : G, repC3minus.character g * repC3minus.character g⁻¹
+      = repC3minus.character (classRepA5 (classIdxA5 g)) ^ 2 := by
+    have hclass : ∀ a b : G, (∃ c, c * a * c⁻¹ = b) →
+        repC3minus.character b = repC3minus.character a := by
+      rintro a b ⟨c, rfl⟩; rw [FDRep.char_conj]
+    intro g
+    obtain ⟨c, hc⟩ := classIdxA5_spec g
+    obtain ⟨d, hd⟩ := classRepA5_inv_conj (classIdxA5 g)
+    have h1 : repC3minus.character g = repC3minus.character (classRepA5 (classIdxA5 g)) :=
+      hclass _ _ ⟨c, hc⟩
+    have hAinv : repC3minus.character (classRepA5 (classIdxA5 g))⁻¹
+        = repC3minus.character (classRepA5 (classIdxA5 g)) :=
+      hclass _ _ ⟨d, hd⟩
+    have hginv : repC3minus.character g⁻¹
+        = repC3minus.character (classRepA5 (classIdxA5 g))⁻¹ := by
+      refine hclass _ _ ⟨c, ?_⟩
+      conv_rhs => rw [← hc]
+      group
+    rw [h1, hginv, hAinv]; ring
+  rw [Finset.sum_congr rfl (fun g _ => hterm g)]
+  rw [show (∑ g : G, repC3minus.character (classRepA5 (classIdxA5 g)) ^ 2)
+        = ∑ j : Fin 5, ∑ _g ∈ Finset.univ.filter (fun g => classIdxA5 g = j),
+            repC3minus.character (classRepA5 j) ^ 2
+      from (Finset.sum_fiberwise' Finset.univ classIdxA5
+        (fun j => repC3minus.character (classRepA5 j) ^ 2)).symm]
+  simp only [Finset.sum_const, classIdxA5_card, nsmul_eq_mul]
+  rw [Fin.sum_univ_five, repC3minus_character 0, repC3minus_character 1, repC3minus_character 2,
+    repC3minus_character 3, repC3minus_character 4]
+  have hs := sqrt5_sq
+  norm_num [Q5toC, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+    Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+    Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im,
+    Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im]
+  linear_combination (6 : ℂ) * hs
+
+/-! #### The five irreducible representations of `A₅`: characters, simplicity, pairwise non-iso
+
+Assembling the trivial `ℂ`, the two golden-ratio rotation reps `ℂ³₊`, `ℂ³₋`, and the
+permutation reps `ℂ⁴`, `ℂ⁵` as the five rows of `chiA5`, in order.  These are the five distinct
+irreducible characters of `A₅`. -/
+
+/-- The five genuine irreducible representations of `A₅`, indexed `0..4` as
+`ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵` — matching the five rows of `chiA5`. -/
+def irrepA5 : Fin 5 → FDRep ℂ G := ![repTriv, repC3plus, repC3minus, repC4, repC5]
+
+/-- The rows of `chiA5` realised here are in order: `irrepA5 i` is row `i`. -/
+def rowA5 : Fin 5 → Fin 5 := id
+
+/-- Each of the five representations is simple (irreducible). -/
+lemma irrepA5_simple (i : Fin 5) : Simple (irrepA5 i) := by
+  fin_cases i
+  · exact repTriv_simple
+  · exact repC3plus_simple
+  · exact repC3minus_simple
+  · exact repC4_simple
+  · exact repC5_simple
+
+/-- The character of `irrepA5 i` at `classRepA5 j` equals the tabulated `Q5` value
+`chiA5 (rowA5 i) j = chiA5 i j`.  Rows `0, 3, 4` bridge through the integer table `tblA5`; rows
+`1, 2` are the golden-ratio characters `repC3plus_character`, `repC3minus_character`. -/
+lemma irrepA5_character_book (i j : Fin 5) :
+    (irrepA5 i).character (classRepA5 j) = Q5toC (chiA5 (rowA5 i) j) := by
+  simp only [rowA5, id_eq]
+  fin_cases i
+  · exact (repTriv_character j).trans (chiA5_eq_tblA5 0 j).symm
+  · exact repC3plus_character j
+  · exact repC3minus_character j
+  · exact (repC4_character j).trans (chiA5_eq_tblA5 1 j).symm
+  · exact (repC5_character j).trans (chiA5_eq_tblA5 2 j).symm
+
+/-- The five representations are pairwise non-isomorphic (their characters differ).  Distinct
+dimensions separate every pair except `ℂ³₊, ℂ³₋`, which are told apart on the 5-cycle class
+`(12345)` by the golden-ratio value `√5 ≠ 0` (`sqrt5_sq`, no irrationality machinery).
+(Etingof Example 4.8.1) -/
+lemma irrepA5_pairwise (i j : Fin 5) (hij : i ≠ j) : ¬ Nonempty (irrepA5 i ≅ irrepA5 j) := by
+  rintro ⟨e⟩
+  apply hij
+  have hchar : (irrepA5 i).character = (irrepA5 j).character := FDRep.char_iso e
+  have hc : ∀ c : Fin 5, Q5toC (chiA5 i c) = Q5toC (chiA5 j c) := by
+    intro c
+    have h := congrFun hchar (classRepA5 c)
+    rw [irrepA5_character_book, irrepA5_character_book] at h
+    simpa only [rowA5, id_eq] using h
+  -- Injectivity of `Q5toC` on the rational dimension column (class 0).
+  have inj0 : ∀ a b : Fin 5, Q5toC (chiA5 a 0) = Q5toC (chiA5 b 0) → chiA5 a 0 = chiA5 b 0 := by
+    intro a b h
+    have ha : (chiA5 a 0).im = 0 := by fin_cases a <;> decide
+    have hb : (chiA5 b 0).im = 0 := by fin_cases b <;> decide
+    rw [Q5toC, Q5toC, ha, hb] at h
+    simp only [Rat.cast_zero, zero_mul, add_zero] at h
+    exact Q5.ext (by exact_mod_cast h) (ha.trans hb.symm)
+  have hdim : chiA5 i 0 = chiA5 j 0 := inj0 i j (hc 0)
+  -- The two 3-dimensional rows differ on the 5-cycle class `3` by `√5 ≠ 0`.
+  have golden : ¬ (Q5toC (chiA5 1 3) = Q5toC (chiA5 2 3)) := by
+    simp only [Q5toC, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im]
+    intro h
+    have hz : (Real.sqrt 5 : ℂ) = 0 := by linear_combination h
+    have hsq := sqrt5_sq
+    rw [hz] at hsq
+    norm_num at hsq
+  fin_cases i <;> fin_cases j <;>
+    first
+      | rfl
+      | (revert hdim; decide)
+      | exact absurd (hc 3) golden
+      | exact absurd (hc 3).symm golden
+
 end
 
 end A5
@@ -2587,30 +2725,31 @@ theorem Etingof.Example4_8_1_A5_card :
     Fintype.card (alternatingGroup (Fin 5)) = 60 := by
   rw [card_alternatingGroup, Fintype.card_fin]; decide
 
-/-- The three genuine `A₅` representations realised here, indexed `0,1,2` as `ℂ, ℂ⁴, ℂ⁵`
-(the trivial, 4-dimensional, and 5-dimensional rows of `chiA5`). -/
+/-- The five genuine irreducible `A₅` representations, indexed `0..4` as `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵`
+(the five rows of `chiA5`, in order). -/
 noncomputable def Etingof.Example4_8_1_A5_irrep :
-    Fin 3 → FDRep ℂ (alternatingGroup (Fin 5)) := Etingof.Example4_8_1.A5.irrepA5
+    Fin 5 → FDRep ℂ (alternatingGroup (Fin 5)) := Etingof.Example4_8_1.A5.irrepA5
 
-/-- Each of the three `A₅` representations is simple (irreducible), proved via the norm-one
+/-- Each of the five `A₅` representations is simple (irreducible), proved via the norm-one
 character criterion `FDRep.simple_iff_char_is_norm_one` (no `native_decide`).
 (Etingof Example 4.8.1) -/
-theorem Etingof.Example4_8_1_A5_simple (i : Fin 3) :
+theorem Etingof.Example4_8_1_A5_simple (i : Fin 5) :
     CategoryTheory.Simple (Etingof.Example4_8_1_A5_irrep i) :=
   Etingof.Example4_8_1.A5.irrepA5_simple i
 
-/-- The character (trace) of the `i`-th `A₅` representation (`ℂ, ℂ⁴, ℂ⁵`) at the `j`-th class
-representative `(Id, (123), (12)(34), (12345), (13245))` equals the tabulated value
-`chiA5 (rowA5 i) j` (rows `0, 3, 4`).  This connects the trivial, 4-dim, and 5-dim rows of the
-table to actual representations. (Etingof Example 4.8.1) -/
-theorem Etingof.Example4_8_1_A5_character (i : Fin 3) (j : Fin 5) :
+/-- The character (trace) of the `i`-th `A₅` representation (`ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵`) at the `j`-th
+class representative `(Id, (123), (12)(34), (12345), (13245))` equals the tabulated value
+`chiA5 (rowA5 i) j = chiA5 i j`, including the golden-ratio entries `(1 ± √5)/2` of `ℂ³₊, ℂ³₋`.
+This connects every row of the `A₅` table to an actual representation. (Etingof Example 4.8.1) -/
+theorem Etingof.Example4_8_1_A5_character (i j : Fin 5) :
     (Etingof.Example4_8_1_A5_irrep i).character (Etingof.Example4_8_1.A5.classRepA5 j)
       = Etingof.Example4_8_1.Q5toC
           (Etingof.Example4_8_1.chiA5 (Etingof.Example4_8_1.A5.rowA5 i) j) :=
   Etingof.Example4_8_1.A5.irrepA5_character_book i j
 
-/-- The three `A₅` representations `ℂ, ℂ⁴, ℂ⁵` are pairwise non-isomorphic (their characters
-differ). (Etingof Example 4.8.1) -/
-theorem Etingof.Example4_8_1_A5_pairwise (i j : Fin 3) (hij : i ≠ j) :
+/-- The five `A₅` representations `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵` are pairwise non-isomorphic (their
+characters differ).  Five distinct simples together with five conjugacy classes exhibit the
+complete character table. (Etingof Example 4.8.1) -/
+theorem Etingof.Example4_8_1_A5_pairwise (i j : Fin 5) (hij : i ≠ j) :
     ¬ Nonempty (Etingof.Example4_8_1_A5_irrep i ≅ Etingof.Example4_8_1_A5_irrep j) :=
   Etingof.Example4_8_1.A5.irrepA5_pairwise i j hij
