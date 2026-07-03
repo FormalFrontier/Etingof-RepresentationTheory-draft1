@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Example4_8_1
 
 /-!
 # Example 4.9.1: Tensor Product Multiplicities
@@ -41,10 +42,24 @@ characters* (traces of real representations), with no `native_decide`:
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.  This is the character form of
   `V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.
 
-The `S₄` and `A₅` tables require their full irreducible catalogues (for `A₅`, the two
-3-dimensional icosahedral representations with golden-ratio character values over `ℚ(√5)`);
-those genuine constructions are tracked as follow-up work and are deliberately **not**
-shipped here as orthonormality certificates.
+## Genuine formalization (A₅)
+
+The `A₅` table is formalized the same way, reusing the genuine irreducible catalogue built in
+`Example4_8_1` (`Etingof.Example4_8_1.A5`): the trivial `ℂ`, the two 3-dimensional icosahedral
+representations `ℂ³₊`, `ℂ³₋` (whose characters take the golden-ratio values `(1 ± √5)/2` on the
+two classes of 5-cycles, hence live over `ℚ(√5)`), the 4-dimensional `ℂ⁴` (deleted permutation
+representation on `Fin 5`), and the 5-dimensional `ℂ⁵`.  Because the characters are class
+functions, the multiplicity identity for every `g` reduces to the five conjugacy classes via
+`Etingof.Example4_8_1.A5.classIdxA5_spec` and `FDRep.char_conj`, and there it is the tabulated
+`ℚ(√5)` arithmetic (`nA5_char`), with the `√5` terms handled by `√5² = 5`.
+
+* `A5_tensor_character` — `χ_i(g) · χ_j(g) = Σ_k n_{ij}^k · χ_k(g)` for every `g`, from the real
+  characters (traces) of the five representations — no `native_decide`.
+* `A5_tensor_product_character` — the same identity on the genuine tensor product
+  `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
+
+The `S₄` table likewise requires its full irreducible catalogue (`Example4_3_S4`); that entry is
+tracked as follow-up work.
 
 ## Mathlib correspondence
 
@@ -341,6 +356,119 @@ theorem S3_conj_classes :
 theorem S3_card :
     Fintype.card (Equiv.Perm (Fin 3)) = 6 := by
   decide
+
+/-! ## The tensor-product multiplicity table of `A₅`
+
+The genuine irreducible catalogue of `A₅ = alternatingGroup (Fin 5)` is built in `Example4_8_1`
+as `Etingof.Example4_8_1.A5.irrepA5 = ![repTriv, repC3plus, repC3minus, repC4, repC5]`, indexed
+`0..4` as `ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵` — matching the five rows of the character table `chiA5` over
+`ℚ(√5)`.  We reuse it verbatim, exactly as the `S₃` table above uses its own catalogue.
+
+The multiplicity identity is proved over `ℚ(√5)` (`Etingof.Example4_8_1.Q5`), where the `√5²`
+relation is baked into the ring multiplication, so the `5·5·5` class-by-class check is pure
+rational arithmetic (`nA5_char_Q5`, no `√5` reasoning).  It is transported to `ℂ` through the
+ring-homomorphism properties of `Q5toC` (`Q5toC_mul`, `Q5toC_add`), and lifted from the five
+conjugacy classes to every group element because characters are class functions
+(`irrepA5_char_eq`). -/
+
+section A5
+open Etingof.Example4_8_1 Etingof.Example4_8_1.A5
+
+/-- Tensor-product multiplicity table of `A₅`, read off Etingof's `A₅` table in Example 4.9.1.
+`nA5 i j k` is the multiplicity of the `k`-th irreducible `irrepA5 k` in `irrepA5 i ⊗ irrepA5 j`
+(indices `0..4 = ℂ, ℂ³₊, ℂ³₋, ℂ⁴, ℂ⁵`).  Note the multiplicity-2 constituents in
+`ℂ⁴ ⊗ ℂ⁵ = ℂ³₊ ⊕ ℂ³₋ ⊕ 2ℂ⁵ ⊕ ℂ⁴` and `ℂ⁵ ⊗ ℂ⁵ = ℂ ⊕ ℂ³₊ ⊕ ℂ³₋ ⊕ 2ℂ⁴ ⊕ 2ℂ⁵`. -/
+def nA5 : Fin 5 → Fin 5 → Fin 5 → ℕ :=
+  ![![![1,0,0,0,0], ![0,1,0,0,0], ![0,0,1,0,0], ![0,0,0,1,0], ![0,0,0,0,1]],
+    ![![0,1,0,0,0], ![1,1,0,0,1], ![0,0,0,1,1], ![0,0,1,1,1], ![0,1,1,1,1]],
+    ![![0,0,1,0,0], ![0,0,0,1,1], ![1,0,1,0,1], ![0,1,0,1,1], ![0,1,1,1,1]],
+    ![![0,0,0,1,0], ![0,0,1,1,1], ![0,1,0,1,1], ![1,1,1,1,1], ![0,1,1,1,2]],
+    ![![0,0,0,0,1], ![0,1,1,1,1], ![0,1,1,1,1], ![0,1,1,1,2], ![1,1,1,2,2]]]
+
+/-- Each `A₅` character is a class function: `χ_i(g)` equals the tabulated `ℚ(√5)` value
+`chiA5 i (classIdxA5 g)` at the conjugacy class of `g`.  Combines `classIdxA5_spec` (every `g`
+is conjugate to its class representative) with `FDRep.char_conj` and the class-representative
+character values `irrepA5_character_book`. -/
+lemma irrepA5_char_eq (i : Fin 5) (g : A5.G) :
+    (A5.irrepA5 i).character g = Q5toC (chiA5 i (A5.classIdxA5 g)) := by
+  obtain ⟨c, hc⟩ := A5.classIdxA5_spec g
+  have key : (A5.irrepA5 i).character g
+      = (A5.irrepA5 i).character (A5.classRepA5 (A5.classIdxA5 g)) := by
+    rw [← FDRep.char_conj (A5.irrepA5 i) (A5.classRepA5 (A5.classIdxA5 g)) c, hc]
+  rw [key]
+  simpa only [A5.rowA5, id_eq] using A5.irrepA5_character_book i (A5.classIdxA5 g)
+
+/-- `n : ℕ` as an element of `ℚ(√5)`, with zero `√5`-part. -/
+def q5Nat (n : ℕ) : Q5 := ⟨(n : ℚ), 0⟩
+
+/-- `Q5toC` sends the rational element `q5Nat n` to the complex number `n`. -/
+lemma Q5toC_q5Nat (n : ℕ) : Q5toC (q5Nat n) = (n : ℂ) := by
+  simp [Q5toC, q5Nat]
+
+/-- `Q5toC : ℚ(√5) → ℂ` is multiplicative.  The `ℚ(√5)`-multiplication bakes in `√5² = 5`, so
+the two sides differ only by the `√5²` term, discharged by `sqrt5_sq`. -/
+lemma Q5toC_mul (a b : Q5) : Q5toC (a * b) = Q5toC a * Q5toC b := by
+  have hs := A5.sqrt5_sq
+  simp only [Q5toC, Q5.mul_re, Q5.mul_im]
+  push_cast
+  linear_combination (-((a.im : ℂ) * (b.im : ℂ))) * hs
+
+-- the `5·5·5 = 125`-way `fin_cases` split, each closed by rational `norm_num` on `re`/`im`,
+-- exceeds the default heartbeat budget; the work is pure rational arithmetic (no `native_decide`)
+set_option maxHeartbeats 2000000 in
+/-- The tabulated multiplicity identity, computed entirely in `ℚ(√5)`:
+`χ_i(j) · χ_{i'}(j) = Σ_k n_{ii'}^k · χ_k(j)` at each of the five conjugacy classes `j`.  Because
+the `ℚ(√5)`-product already incorporates `√5² = 5`, this is a `5·5·5` case split closed by pure
+rational `norm_num` on the `re`/`im` components — no `√5` reasoning, no `ℂ` arithmetic. -/
+lemma nA5_char_Q5 (i i' j : Fin 5) :
+    chiA5 i j * chiA5 i' j
+      = q5Nat (nA5 i i' 0) * chiA5 0 j + q5Nat (nA5 i i' 1) * chiA5 1 j
+        + q5Nat (nA5 i i' 2) * chiA5 2 j + q5Nat (nA5 i i' 3) * chiA5 3 j
+        + q5Nat (nA5 i i' 4) * chiA5 4 j := by
+  fin_cases i <;> fin_cases i' <;> fin_cases j <;>
+    apply Q5.ext <;>
+    norm_num [nA5, chiA5, q5Nat, Q5.mul_re, Q5.mul_im, Q5.add_re, Q5.add_im,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.one_re, Q5.one_im, Q5.zero_re, Q5.zero_im,
+      Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im]
+
+/-- The tabulated multiplicity identity `χ_i(j) · χ_{i'}(j) = Σ_k n_{ii'}^k · χ_k(j)`, transported
+from `ℚ(√5)` (`nA5_char_Q5`) to `ℂ` via the ring-homomorphism properties of `Q5toC`. -/
+lemma nA5_char (i i' j : Fin 5) :
+    Q5toC (chiA5 i j) * Q5toC (chiA5 i' j)
+      = ∑ k, (nA5 i i' k : ℂ) * Q5toC (chiA5 k j) := by
+  rw [← Q5toC_mul, nA5_char_Q5, Fin.sum_univ_five]
+  simp only [Q5toC_add, Q5toC_mul, Q5toC_q5Nat]
+
+/-- **Tensor-product multiplicity identity for `A₅`** (Etingof Example 4.9.1).  For every group
+element `g` and all `i, j`, the product of the two irreducible characters decomposes as the
+tabulated integer combination of irreducible characters:
+`χ_i(g) · χ_j(g) = Σ_k n_{ij}^k · χ_k(g)`.  Proved from the actual characters (traces) of the
+five genuine representations of `A₅` — no `native_decide`, no orthonormality certificate. -/
+theorem A5_tensor_character (i j : Fin 5) (g : A5.G) :
+    (A5.irrepA5 i).character g * (A5.irrepA5 j).character g
+      = ∑ k, (nA5 i j k : ℂ) * (A5.irrepA5 k).character g := by
+  simp only [irrepA5_char_eq]
+  exact nA5_char i j (A5.classIdxA5 g)
+
+/-- **Tensor-product decomposition for `A₅`** phrased on genuine `FDRep` tensor products:
+`(V_i ⊗ V_j).character g = Σ_k n_{ij}^k · χ_k(g)`, i.e. the character form of
+`V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.  (Etingof Example 4.9.1) -/
+theorem A5_tensor_product_character (i j : Fin 5) (g : A5.G) :
+    (A5.irrepA5 i ⊗ A5.irrepA5 j).character g
+      = ∑ k, (nA5 i j k : ℂ) * (A5.irrepA5 k).character g := by
+  rw [FDRep.char_tensor, Pi.mul_apply]
+  exact A5_tensor_character i j g
+
+/-- `A₅` has exactly 5 conjugacy classes, hence 5 irreducible representations
+(the trivial `ℂ`, the two icosahedral `ℂ³₊, ℂ³₋`, and the permutation reps `ℂ⁴, ℂ⁵`).
+(Etingof Example 4.9.1) -/
+theorem A5_conj_classes :
+    Fintype.card (ConjClasses (alternatingGroup (Fin 5))) = 5 :=
+  Etingof.Example4_8_1_A5_conj_classes
+
+end A5
 
 end Etingof.Example4_9_1
 
