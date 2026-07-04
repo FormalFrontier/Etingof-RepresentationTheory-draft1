@@ -10,6 +10,9 @@ lemma / corollary / definition / example / remark), per
 Method: PLAN.md Stage 3.2 steps 6–7 — anti-vacuity decision test, then
 conjunct-by-conjunct fidelity of the Lean statement against the book blob.
 Calibrated on confirmed examples #5322, #5323, #5326.
+Cross-vendor check: OpenAI Codex independently reviewed all five judgment
+calls below and concurred with every verdict (9/9 verified, no downgrades),
+with one caveat noted under Definition8.1.8.
 
 ## Context
 
@@ -109,7 +112,10 @@ Only `progress/items.json` and this file were touched — no Lean changes.
   — and the extra generality (`[Category C]` rather than `[Abelian C]`) is a
   conservative extension of the same kind accepted (indeed demanded) in the
   #5627 repair. Adjudication provenance moved here from the item's
-  `fidelity_note`. **verified**.
+  `fidelity_note`. Wave-8 Codex concurrence adds the caveat that this is the
+  weakest bridge in the chapter — documented rather than formalized in-file;
+  an explicit abelian-category bridge theorem (lifting ⟺ Hom-exactness)
+  would strengthen it, but its absence is not a fidelity gap. **verified**.
 - **Definition8.2.1** — `Etingof.ProjectiveResolution` =
   `CategoryTheory.ProjectiveResolution X` over `[Abelian C]`: a chain complex
   of projectives with a quasi-isomorphism to `X`, i.e. exactly the book's
