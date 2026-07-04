@@ -6833,10 +6833,8 @@
     "start_line": 11,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "faithful",
-    "sorry_free": true,
-    "fidelity_note": "Condition (iv) — exactness of the functor Hom_A(P,?) — is now formalized as Theorem_8_1_1_i_iff_iv (preservation of short exact sequences). All four conditions (i)-(iv) are established as equivalent (pairwise with (i)). Fixed in #5629.",
-    "fidelity_issue": 5629
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Definition8.1.2",
@@ -6847,10 +6845,8 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[partial-example] The abbrev uses [CommRing R] but the book's definition (and the book's running algebra setting) is over a general ring. The corresponding Theorem 8.1.1 file uses [Ring R]. Module.Pro",
-    "fidelity_issue": 5627
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Problem8.1.3",
@@ -6897,10 +6893,8 @@
     "start_line": 23,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "faithful",
-    "sorry_free": true,
-    "fidelity_note": "Condition (iii) (exactness of Hom_A(?,I)) now formalized as Etingof.Theorem_8_1_5_i_iff_iii, mirroring Theorem_8_1_1_i_iff_iv. All three book conditions (i)-(iii) present; Baer's criterion retained as a clearly-labelled supplementary result.",
-    "fidelity_issue": 5630
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Definition8.1.6",
@@ -6924,10 +6918,7 @@
     "end_line": 20,
     "status": "proved",
     "fidelity": "verified",
-    "sorry_free": true,
-    "fidelity_decl": "Etingof.Example_8_1_7",
-    "fidelity_issue": 5385,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Discussion_after_Example8.1.7",
@@ -6953,8 +6944,7 @@
     "end_line": 26,
     "status": "sorry_free",
     "fidelity": "verified",
-    "sorry_free": true,
-    "fidelity_note": "Codex cross-vendor tiebreak: faithful"
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Introduction_8.2",
@@ -7002,10 +6992,8 @@
     "start_line": 11,
     "end_line": 16,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "sorry_free": true,
-    "fidelity_note": "[partial-example] The book defines Tor_i^A(M,N) where M is a RIGHT A-module and N is a LEFT A-module, computed via a projective resolution of M and tensoring with N over A (an asymmetric construction)",
-    "fidelity_issue": 5628
+    "fidelity": "verified",
+    "sorry_free": true
   },
   {
     "id": "Chapter8/Definition8.2.4",
