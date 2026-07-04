@@ -7177,11 +7177,10 @@
     "start_line": 17,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "All sorries proved. PR #1692 proved hσ_surj (last sorry).",
-    "fidelity_issue": 5669,
-    "fidelity_note": "[fidelity] wave-4 Codex: book says \"unique\" P_i; Lean omits uniqueness conjunct"
+    "fidelity_note": "wave-4 gap #5669 (dropped uniqueness of P_i) repaired: Theorem_9_2_1_i now carries the uniqueness conjunct via Fitting's lemma; wave-9 re-verified"
   },
   {
     "id": "Chapter9/Definition9.2.2",
@@ -7192,11 +7191,10 @@
     "start_line": 11,
     "end_line": 12,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] wave-3",
-    "fidelity_issue": 5664
+    "fidelity_note": "wave-3 gap #5664 (missing essential-epi condition) repaired via PR #5702: ProjectiveCover now bundles surjection_essential; wave-9 re-verified"
   },
   {
     "id": "Chapter9/Proposition9.2.3",
@@ -7235,11 +7233,10 @@
     "start_line": 5,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] The book defines the Cartan matrix of A as the specific matrix with entries c_ij = [P_j : M_i] (Jordan-Holder multiplicity of M_i in P_j). The Lean definition takes any arbitrary function j",
-    "fidelity_issue": 5631
+    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. Residual noted in wave-9: the prose observation 'positive diagonal entries' has no Lean lemma"
   },
   {
     "id": "Chapter9/Problem9.3.2",
@@ -7359,9 +7356,11 @@
     "start_line": 19,
     "end_line": 4,
     "status": "sorry_free",
-    "fidelity": "verified",
-    "needs_statement": false,
-    "sorry_free": true
+    "fidelity": "gap",
+    "needs_statement": true,
+    "sorry_free": true,
+    "fidelity_note": "[fidelity wave 9] Book defines linking on SIMPLE modules via chains of simples with Ext¹ ≠ 0, and the k-th block as the subcategory of objects whose JH factors lie in one class S_k. Lean AreLinked is EqvGen on ALL of ModuleCat (chains through arbitrary modules), strictly coarser on simples (over A₁ × A₂ a direct sum N₁ ⊕ N₂ links simples from different book blocks); Etingof.Block quotients all modules and drops the JH-factor condition entirely. Silent divergence, not an adjudicated scope note.",
+    "fidelity_issue": 5850
   },
   {
     "id": "Chapter9/Example9.5.2",
@@ -7372,11 +7371,10 @@
     "start_line": 5,
     "end_line": 6,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[coverage] Three gaps: (1) Part (i) book says 'each block is equivalent to the category of vector spaces (and thus has only one simple object)'; Lean only proves that any two linked simple modules ove",
-    "fidelity_issue": 5648
+    "fidelity_note": "wave-2 gap #5648 (three findings) repaired via PRs #5730/#5734 and re-confirmed in #5648: (i) semisimple_areLinked_iff_iso + semisimple_blocks_singleton, (ii) local_artinian_single_block, (iii) problem_9_3_2_single_block via genuine nonsplit extension; wave-9 re-verified. Residuals noted in wave-9: (i)'s '≃ Vec' captured at the one-simple-object level per adjudicated scope note; (iii) does not prove S₊/S₋ exhaust the simples"
   },
   {
     "id": "Chapter9/Problem9.5.3",
@@ -7465,14 +7463,13 @@
     "start_line": 7,
     "end_line": 10,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Triage (2026-03-18): 3/4 components proved (isSeparator, faithful, full). Only essSurj remains sorry. Design issue: functor targets ModuleCat (all modules) but Etingof theorem is about finite-dimensional modules. essSurj likely requires restricting target to finitely generated modules or a custom finite-dimensional module category. Needs formalization redesign before proof work.",
     "attention_needed": false,
     "sorries": 0,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] wave-3",
-    "fidelity_issue": 5665
+    "fidelity_note": "wave-3 gap #5665 (extra [IsNoetherianRing (End P)ᵐᵒᵖ] hypothesis) repaired: Theorem_9_6_4 and Theorem_9_6_4_corollary now derive it via isNoetherianRing_endOp_of_overField from the book's over-a-field hypotheses; Noetherian-hypothesis variants retained as labeled ring-level engines; wave-9 re-verified"
   },
   {
     "id": "Chapter9/Problem9.6.5",
@@ -7539,8 +7536,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_decl": "Etingof.IsBasicAlgebra",
-    "fidelity_issue": 5386,
-    "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
+    "fidelity_note": "wave-1 gap #5386, repaired concurrently, wave-2 re-verified; wave-9 removed stale fidelity_issue (issue closed, repair on main)"
   },
   {
     "id": "Chapter9/Corollary9.7.3",
@@ -7551,12 +7547,12 @@
     "start_line": 17,
     "end_line": 19,
     "status": "sorry_free",
-    "fidelity": "faithful",
+    "fidelity": "verified",
     "needs_statement": false,
     "notes": "Sorry-free since wave 28 (algebra version). Categorical input form landed as Corollary_9_7_3_i_categorical_fgModule (#5738): for a k-linear finite abelian category over an alg-closed field with progenerator P, produces basic B with the single equivalence C ≌ FGModuleCat B. FG-restriction of Morita equivalence in Infrastructure/MoritaFGRestriction.",
     "attention_needed": false,
-    "last_updated": "2026-07-02",
-    "fidelity_issue": 5738
+    "last_updated": "2026-07-04",
+    "fidelity_note": "wave-9: normalized nonstandard 'faithful' value; #5738 gap 2 closed by Corollary_9_7_3_i_categorical_fgModule (single equivalence C ≌ FGModuleCat B with B basic), uniqueness by Corollary_9_7_3_i_unique, dim bound by Corollary_9_7_3_ii. Residual noted in wave-9: progenerator P carried as hypothesis (gap 1 of #5738), consistent with the audited Theorem 9.6.4 formalization"
   },
   {
     "id": "Backmatter/ReferencesHistorical",
