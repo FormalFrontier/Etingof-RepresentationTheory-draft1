@@ -57,7 +57,14 @@ jobs:
           # - Chapter/root aggregation files (mindepth 2 skips these)
           # - Modules that import full Mathlib + large chapter environments,
           #   which require >15GB to compile (exceeds runner capacity)
-          EXCLUDE="SpechtModuleSimple|SpechtCharacterGeneral|YoungSymTraceKronecker|FrobeniusCharacterBridge|Proposition5_22_2|Example6_4_9_EType|Example6_4_9\.lean"
+          # - Chapter4 A₅ tensor/character-table modules (Example4_8_1,
+          #   Example4_9_1): ~100 `decide`s and a 125-way fin_cases split
+          #   under maxHeartbeats 2-4M. Since #5845/#5846 these two hang the
+          #   runner at 9017/9019 jobs until SIGTERM (exit 143) kills the job
+          #   at ~53 min — every main build since 2026-07-03 died this way.
+          #   Verified locally instead; re-inclusion tracked in a follow-up
+          #   issue.
+          EXCLUDE="SpechtModuleSimple|SpechtCharacterGeneral|YoungSymTraceKronecker|FrobeniusCharacterBridge|Proposition5_22_2|Example6_4_9_EType|Example6_4_9\.lean|Example4_8_1|Example4_9_1"
           find EtingofRepresentationTheory -mindepth 2 -name '*.lean' \
             | grep -vE "$EXCLUDE" \
             | sed 's|/|.|g; s|\.lean$||' \
