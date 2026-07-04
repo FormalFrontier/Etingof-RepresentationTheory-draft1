@@ -7359,7 +7359,7 @@
     "fidelity": "gap",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 9] Book defines linking on SIMPLE modules via chains of simples with Ext¹ ≠ 0, and the k-th block as the subcategory of objects whose JH factors lie in one class S_k. Lean AreLinked is EqvGen on ALL of ModuleCat (chains through arbitrary modules), strictly coarser on simples (over A₁ × A₂ a direct sum N₁ ⊕ N₂ links simples from different book blocks); Etingof.Block quotients all modules and drops the JH-factor condition entirely. Silent divergence, not an adjudicated scope note.",
+    "fidelity_note": "[fidelity wave 9] Book defines linking on SIMPLE modules via chains of simples with Ext¹ ≠ 0, and the k-th block as the subcategory of objects whose JH factors lie in one class S_k. Lean AreLinked is EqvGen on ALL of ModuleCat (chains through arbitrary modules), strictly coarser on simples (concrete: over A = k[ε]/ε² × k[ε]/ε² with X, Y the simples of the two factors, N = X ⊕ Y gives Ext¹(X,N) ≠ 0 and Ext¹(N,Y) ≠ 0 since Ext¹(k,k) ≠ 0 over k[ε]/ε², so AreLinked X Y — yet X, Y lie in different book blocks, as Ext between simples of different factors vanishes); Etingof.Block quotients all modules and drops the JH-factor condition entirely. Silent divergence, not an adjudicated scope note.",
     "fidelity_issue": 5850
   },
   {

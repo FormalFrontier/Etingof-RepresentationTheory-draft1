@@ -35,6 +35,11 @@ changes.
 - **verified: 17**
 - **gap: 1** — Definition9.5.1 (#5850, new).
 
+Method caveat: no `lake build` was run (no Lean files changed in this wave);
+statements were inspected in the current checked-in code on `main`, and
+`sorry` absence in the audited files was checked by grep, not by compilation.
+The repairs themselves were build-verified by CI on their own merged PRs.
+
 ### Gap → verified reconciliations (5; merged repairs confirmed faithful)
 
 - **Theorem9.2.1** (was gap #5669, dropped uniqueness) — `Theorem_9_2_1_i` now
@@ -100,9 +105,13 @@ changes.
   k-th block 𝒞ₖ as the subcategory of objects whose Jordan–Hölder factors lie
   in one class Sₖ. The Lean `AreLinked := Relation.EqvGen (ExtOrIso R)` is
   defined on **all** of `ModuleCat R`, so chains may pass through arbitrary
-  modules — strictly coarser on simples: over `A₁ × A₂`, a mixed direct sum
-  `N₁ ⊕ N₂` links simples from different book blocks (Ext¹(X, N₁⊕N₂) ≠ 0 and
-  Ext¹(N₁⊕N₂, Y) ≠ 0 with X, N₁ in block 1 and N₂, Y in block 2). Moreover
+  modules — strictly coarser on simples. Concrete counterexample (confirmed by
+  Codex cross-vendor review): over `A = k[ε]/ε² × k[ε]/ε²` with `X`, `Y` the
+  simples of the two factors, the mixed direct sum `N = X ⊕ Y` gives
+  `Ext¹(X, N) ≠ 0` and `Ext¹(N, Y) ≠ 0` (since `Ext¹(k, k) ≠ 0` over
+  `k[ε]/ε²`), so `AreLinked X Y` — yet `X` and `Y` lie in different book
+  blocks, because Ext between simples of different product factors vanishes
+  and a book chain of simples cannot cross the factors. Moreover
   `Etingof.Block := Quotient (blockSetoid R)` quotients all modules and drops
   the JH-factor condition entirely, producing spurious classes corresponding
   to no Sₖ. The divergence is not flagged in the file — a silent weakening
