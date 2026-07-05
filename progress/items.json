@@ -2875,11 +2875,10 @@
     "start_line": 9,
     "end_line": 31,
     "status": "sorry_free",
-    "fidelity": "gap",
+    "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.irrep_char, Etingof.Example4_9_1.stdRep_character",
-    "fidelity_note": "[partial-example] The book's Example 4.9.1 gives tensor-product multiplicity tables for S3, S4, AND A5. The Lean formalization covers only S3. The S4 and A5 tables are explicitly noted in the file as ",
-    "fidelity_issue": 5636
+    "fidelity_decl": "Etingof.Example4_9_1.S3_tensor_character, Etingof.Example4_9_1.S3_tensor_product_character, Etingof.Example4_9_1.A5_tensor_character, Etingof.Example4_9_1.A5_tensor_product_character, Etingof.Example4_9_1.S4_tensor_character, Etingof.Example4_9_1.S4_tensor_product_character",
+    "fidelity_note": "All three book tables (S3, S4, A5) are formalized from genuine trace-based characters of the actual irreducible representations, with the multiplicity identity proved for every group element and phrased both as a character identity and on genuine FDRep tensor products. No native_decide."
   },
   {
     "id": "Chapter4/Introduction_4.10",
