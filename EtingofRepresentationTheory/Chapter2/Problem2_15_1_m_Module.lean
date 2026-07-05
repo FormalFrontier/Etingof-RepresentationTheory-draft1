@@ -1,4 +1,5 @@
 import Mathlib.Algebra.Lie.TensorProduct
+import Mathlib.Algebra.Lie.DirectSum
 import Mathlib.Data.Nat.Choose.Basic
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.Dimension.Constructions
@@ -723,5 +724,110 @@ theorem clebsch_gordan_isInternal :
   DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top
     ((LieSubmodule.iSupIndep_toSubmodule).mpr (cgN_iSupIndep lam mu))
     (cgN_iSupP_eq_top lam mu)
+
+/-! ### The explicit `sl(2)`-module isomorphism `V_λ ⊗ V_μ ≅ ⨁_k V_{λ+μ−2k}`
+
+We upgrade the internal decomposition to a genuine `sl(2)`-module isomorphism onto the
+external direct sum `⨁_k V_{λ+μ−2k}`. The intertwiner is assembled from the per-summand
+intertwiners `cgLieHom` by the universal property of the direct sum; it is a Lie-module hom
+(the bracket on `⨁` is componentwise), injective and surjective by the dimension count, hence
+an isomorphism. -/
+
+/-- The intertwiner `⨁_k V_{λ+μ−2k} → V_λ ⊗ V_μ` glued from the per-summand `cgLieHom`. -/
+noncomputable def cgBigMap :
+    (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) →ₗ[ℂ]
+      ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) :=
+  DirectSum.toModule ℂ _ _
+    (fun k => (cgLieHom lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt)).toLinearMap)
+
+theorem cgBigMap_lof (k : Fin (min lam mu + 1)) (w : Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) :
+    cgBigMap lam mu (DirectSum.lof ℂ _ _ k w)
+      = cgLieHom lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt) w := by
+  rw [cgBigMap, DirectSum.toModule_lof]
+  rfl
+
+/-- The `sl(2)`-bracket on `⨁_k V_{λ+μ−2k}` is componentwise on the standard inclusions:
+`⁅x, lof k w⁆ = lof k ⁅x, w⁆`. -/
+theorem lie_lof (x : sl2) (k : Fin (min lam mu + 1))
+    (w : Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) :
+    ⁅x, DirectSum.lof ℂ (Fin (min lam mu + 1))
+        (fun k => Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ) k w⁆
+      = DirectSum.lof ℂ _ _ k ⁅x, w⁆ := by
+  apply DirectSum.ext
+  intro j
+  rw [DirectSum.lie_module_bracket_apply]
+  by_cases hjk : j = k
+  · subst hjk
+    rw [DirectSum.lof_eq_of, DirectSum.of_eq_same, DirectSum.lof_eq_of, DirectSum.of_eq_same]
+  · rw [DirectSum.lof_eq_of, DirectSum.of_eq_of_ne _ _ _ hjk, DirectSum.lof_eq_of,
+      DirectSum.of_eq_of_ne _ _ _ hjk, lie_zero]
+
+/-- `cgBigMap` intertwines the action of every `x ∈ sl(2)`: it is a Lie-module hom. -/
+theorem cgBigMap_lie (x : sl2)
+    (v : ⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) :
+    cgBigMap lam mu ⁅x, v⁆ = ⁅x, cgBigMap lam mu v⁆ := by
+  have key : (cgBigMap lam mu).comp (LieModule.toEnd ℂ sl2 _ x)
+           = (LieModule.toEnd ℂ sl2 _ x).comp (cgBigMap lam mu) := by
+    refine DirectSum.linearMap_ext ℂ fun k => ?_
+    refine LinearMap.ext fun w => ?_
+    simp only [LinearMap.comp_apply, LieModule.toEnd_apply_apply]
+    rw [lie_lof, cgBigMap_lof, cgBigMap_lof]
+    exact LieModuleHom.map_lie _ x w
+  have := LinearMap.congr_fun key v
+  simpa only [LinearMap.comp_apply, LieModule.toEnd_apply_apply] using this
+
+/-- `cgBigMap` packaged as an `sl(2)`-module hom `⨁_k V_{λ+μ−2k} → V_λ ⊗ V_μ`. -/
+noncomputable def cgBigLieHom :
+    (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) →ₗ⁅ℂ,sl2⁆
+      ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) :=
+  lieHomOfGens (cgBigMap lam mu)
+    (cgBigMap_lie lam mu sl2_h) (cgBigMap_lie lam mu sl2_e) (cgBigMap_lie lam mu sl2_f)
+
+/-- `cgBigMap` is surjective: its range contains every summand `cgN λ μ k`, and those span
+`V_λ ⊗ V_μ` (`cgN_iSupP_eq_top`). -/
+theorem cgBigMap_surjective : Function.Surjective (cgBigMap lam mu) := by
+  rw [← LinearMap.range_eq_top, eq_top_iff, ← cgN_iSupP_eq_top lam mu]
+  refine iSup_le fun k => ?_
+  rw [SetLike.le_def]
+  intro y hy
+  simp only [LieSubmodule.mem_toSubmodule, cgN, LieSubmodule.mem_map] at hy
+  obtain ⟨w, -, rfl⟩ := hy
+  exact ⟨DirectSum.lof ℂ _ _ k w, cgBigMap_lof lam mu k w⟩
+
+/-- `cgBigMap` is bijective: surjective, and injective because domain and codomain have the
+same dimension `(λ+1)(μ+1) = Σ_k (λ+μ−2k+1)`. -/
+theorem cgBigMap_bijective : Function.Bijective (cgBigMap lam mu) := by
+  haveI : FiniteDimensional ℂ
+      (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) :=
+    Module.Finite.equiv
+      (DirectSum.linearEquivFunOnFintype ℂ (Fin (min lam mu + 1))
+        (fun k => Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)).symm
+  have hcard : Module.finrank ℂ
+        (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ))
+      = Module.finrank ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) := by
+    rw [Module.finrank_directSum, tensor_finrank, ← cgN_sum_finrank lam mu]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    haveI : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
+    exact irrep_finrank _
+  exact ⟨(LinearMap.injective_iff_surjective_of_finrank_eq_finrank hcard).mpr
+    (cgBigMap_surjective lam mu), cgBigMap_surjective lam mu⟩
+
+/-- The `sl(2)`-module isomorphism `(⨁_k V_{λ+μ−2k}) ≃ V_λ ⊗ V_μ`. -/
+noncomputable def cgModuleEquiv :
+    (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ)) ≃ₗ⁅ℂ,sl2⁆
+      ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) :=
+  { LinearEquiv.ofBijective (cgBigLieHom lam mu).toLinearMap (cgBigMap_bijective lam mu) with
+    map_lie' := fun {x m} => (cgBigLieHom lam mu).map_lie x m }
+
+/-- **The full Clebsch–Gordan module isomorphism (Problem 2.15.1(m)).** The tensor product
+`V_λ ⊗ V_μ` of two irreducible `sl(2)`-representations decomposes as the direct sum of
+irreducibles `⨁_{k=0}^{min(λ,μ)} V_{λ+μ−2k}`, as an isomorphism of `sl(2)`-modules. This is
+the module-level upgrade of the character identity `clebsch_gordan_charPoly`, assembled by the
+book's route (highest-weight vectors + dimension count + distinct Casimir scalars, avoiding
+Weyl complete reducibility). -/
+theorem clebsch_gordan_module_iso :
+    Nonempty (((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) ≃ₗ⁅ℂ,sl2⁆
+      (⨁ k : Fin (min lam mu + 1), (Fin (lam + mu - 2 * (k : ℕ) + 1) → ℂ))) :=
+  ⟨(cgModuleEquiv lam mu).symm⟩
 
 end Etingof.Sl2Irrep
