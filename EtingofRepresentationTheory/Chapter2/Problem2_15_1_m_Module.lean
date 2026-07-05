@@ -38,7 +38,7 @@ scalars `casimir_eq_scalar_lambda`), and that these exhaust `V_λ ⊗ V_μ` by t
 dimension count `clebsch_gordan_dim` — is tracked as follow-up work.
 -/
 
-open scoped TensorProduct
+open scoped TensorProduct DirectSum
 open Etingof Etingof.Sl2Irrep
 
 namespace Etingof.Sl2Irrep
@@ -653,5 +653,75 @@ theorem cgN_iSupIndep : iSupIndep (cgN lam mu) := by
     exact casimir_scalar_inj lam mu hk hk' hprod
   exact ((casimirGenEigenspace_iSupIndep).comp hginj).mono
     (cgN_le_casimirGenEigenspace lam mu)
+
+/-- Each Clebsch–Gordan summand has the dimension of the irreducible it models:
+`dim (cgN λ μ k) = λ+μ−2k+1`, read off from the isomorphism `cgSubrep_iso`. -/
+theorem cgN_finrank (k : Fin (min lam mu + 1)) :
+    Module.finrank ℂ (cgN lam mu k) = lam + mu - 2 * (k : ℕ) + 1 := by
+  haveI : NeZero (lam + mu - 2 * (k : ℕ) + 1) := ⟨Nat.succ_ne_zero _⟩
+  obtain ⟨e⟩ := cgSubrep_iso lam mu (k : ℕ) (Nat.lt_succ_iff.mp k.isLt)
+  have he := e.toLinearEquiv.finrank_eq
+  rw [irrep_finrank] at he
+  exact he.symm
+
+/-- The tensor product `V_λ ⊗ V_μ` has dimension `(λ+1)(μ+1)`. -/
+theorem tensor_finrank :
+    Module.finrank ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) = (lam + 1) * (mu + 1) := by
+  haveI : NeZero (lam + 1) := ⟨Nat.succ_ne_zero _⟩
+  haveI : NeZero (mu + 1) := ⟨Nat.succ_ne_zero _⟩
+  rw [Module.finrank_tensorProduct, irrep_finrank, irrep_finrank]
+
+/-- The Clebsch–Gordan summand dimensions sum to `dim (V_λ ⊗ V_μ)`: this is the
+dimension-count `clebsch_gordan_dim` reindexed over `Fin (min(λ,μ)+1)`. -/
+theorem cgN_sum_finrank :
+    (∑ k : Fin (min lam mu + 1), (lam + mu - 2 * (k : ℕ) + 1)) = (lam + 1) * (mu + 1) := by
+  have h := clebsch_gordan_dim lam mu
+  have hcast : ((∑ k : Fin (min lam mu + 1), (lam + mu - 2 * (k : ℕ) + 1) : ℕ) : ℤ)
+      = (((lam + 1) * (mu + 1) : ℕ) : ℤ) := by
+    rw [Fin.sum_univ_eq_sum_range (fun k => lam + mu - 2 * k + 1) (min lam mu + 1)]
+    push_cast
+    linear_combination -h
+  exact_mod_cast hcast
+
+/-- **Exhaustion.** The Clebsch–Gordan summands span `V_λ ⊗ V_μ`: `⨆_k cgN λ μ k = ⊤`.
+Independence makes the total dimension `Σ_k (λ+μ−2k+1)`, which by `clebsch_gordan_dim`
+equals `(λ+1)(μ+1) = dim (V_λ ⊗ V_μ)`, so the summands leave nothing out. -/
+theorem cgN_iSupP_eq_top :
+    (⨆ k, (cgN lam mu k : Submodule ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)))) = ⊤ := by
+  set P : Fin (min lam mu + 1) →
+      Submodule ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)) :=
+    fun k => (cgN lam mu k : Submodule ℂ _) with hP
+  have hindep : iSupIndep P :=
+    (LieSubmodule.iSupIndep_toSubmodule).mpr (cgN_iSupIndep lam mu)
+  have hinj : Function.Injective (DirectSum.coeLinearMap P) :=
+    hindep.dfinsupp_lsum_injective
+  -- `⨁ P k ≃ ⨆ P k` via the injective canonical map, so `dim (⨆ P) = Σ dim (P k)`.
+  have hequiv : (⨁ k, P k) ≃ₗ[ℂ] ↥(⨆ k, P k) :=
+    (LinearEquiv.ofInjective (DirectSum.coeLinearMap P) hinj).trans
+      (LinearEquiv.ofEq _ _ (DirectSum.range_coeLinearMap (A := P)))
+  have hfr : Module.finrank ℂ ↥(⨆ k, P k) = (lam + 1) * (mu + 1) := by
+    rw [← hequiv.finrank_eq, Module.finrank_directSum]
+    rw [← cgN_sum_finrank lam mu]
+    exact Finset.sum_congr rfl (fun k _ => cgN_finrank lam mu k)
+  apply Submodule.eq_top_of_finrank_eq
+  rw [hfr, tensor_finrank]
+
+/-- **Deliverable 3a (exhaustion, Lie-submodule form).** The Clebsch–Gordan summands span
+`V_λ ⊗ V_μ` as subrepresentations. -/
+theorem cgN_iSup_eq_top : (⨆ k, cgN lam mu k) = ⊤ := by
+  rw [← LieSubmodule.iSup_toSubmodule_eq_top]
+  exact cgN_iSupP_eq_top lam mu
+
+/-- **Deliverable 3 (internal direct-sum decomposition).** `V_λ ⊗ V_μ` is the internal direct
+sum of the Clebsch–Gordan summands `cgN λ μ k`, `k = 0,…,min(λ,μ)`. Together with the
+per-summand isomorphisms `cgSubrep_iso` (`cgN λ μ k ≅ V_{λ+μ−2k}`) this is the Clebsch–Gordan
+decomposition `V_λ ⊗ V_μ ≅ ⨁_k V_{λ+μ−2k}` at the level of an internal decomposition. -/
+theorem clebsch_gordan_isInternal :
+    DirectSum.IsInternal
+      (fun k => (cgN lam mu k :
+        Submodule ℂ ((Fin (lam + 1) → ℂ) ⊗[ℂ] (Fin (mu + 1) → ℂ)))) :=
+  DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top
+    ((LieSubmodule.iSupIndep_toSubmodule).mpr (cgN_iSupIndep lam mu))
+    (cgN_iSupP_eq_top lam mu)
 
 end Etingof.Sl2Irrep
