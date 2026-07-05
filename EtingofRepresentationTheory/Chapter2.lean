@@ -5,6 +5,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_15_1_complete_reducibility
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_l
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module
+import EtingofRepresentationTheory.Chapter2.Problem2_15_1_n
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 
