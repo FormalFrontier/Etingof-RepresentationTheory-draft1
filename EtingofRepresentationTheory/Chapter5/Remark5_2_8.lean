@@ -536,4 +536,46 @@ theorem character_prod_rat {G : Type} [Group G] [Fintype G] [DecidableEq G]
   obtain ⟨q, hq⟩ := (IsGalois.mem_range_algebraMap_iff_fixed βK).mpr hfix
   exact ⟨q, by rw [← hβ, ← hq, IsScalarTower.algebraMap_apply ℚ K ℂ q]⟩
 
+/-!
+## The remark, assembled: `β` integer ⟹ contradiction
+
+The pieces above compose into the closing move of the remark, "Deduce that `β` is
+an integer, and derive a contradiction." Write `β = ∏_{g ≠ 1} χ_V(g)·χ_V(g⁻¹)` (the
+honest polynomial form of `∏_{g ≠ 1} |χ_V(g)|²`). We have shown:
+
+* `β` is **rational** — `character_prod_rat` produces the witnessing `q : ℚ` with
+  `algebraMap ℚ ℂ q = β` (Steps 3-4);
+* `β` is an **algebraic integer** — each factor `χ_V(g)`, `χ_V(g⁻¹)` is
+  (`FDRep.character_isIntegral`), and algebraic integers are closed under products.
+
+So `q` is a rational algebraic integer. The remaining input the remark inherits
+from the main argument of Problem 5.2.7(b) is the bound `0 < β < 1`, i.e. `0 < q < 1`;
+given it, `not_isIntegral_rat_mem_Ioo` closes the contradiction. The capstone below
+takes that bound as a hypothesis (it is Problem 5.2.7(b)'s deliverable, not this
+remark's) and derives `False`, exhibiting the full logical spine of the remark as a
+single `sorry`-free theorem.
+-/
+
+set_option linter.unusedFintypeInType false in
+/-- **Remark 5.2.8, assembled.** Let `β = ∏_{g ≠ 1} χ_V(g)·χ_V(g⁻¹)` and let `q : ℚ`
+be the rational value of `β` supplied by `character_prod_rat` (Steps 3-4). If the
+Problem 5.2.7(b) bound `0 < β < 1` holds — i.e. `0 < q < 1` — then `False`.
+
+This is the remark's closing "deduce that `β` is an integer, and derive a
+contradiction": `q` is a rational algebraic integer (each character value is integral
+over `ℤ` and products of algebraic integers are algebraic integers), so
+`not_isIntegral_rat_mem_Ioo` applies. The only hypothesis not established elsewhere in
+this file is `0 < q < 1`, which is exactly the main argument of Problem 5.2.7(b). -/
+theorem beta_rat_not_mem_Ioo {G : Type} [Group G] [Fintype G] [DecidableEq G]
+    (V : FDRep ℂ G) {q : ℚ}
+    (hq : algebraMap ℚ ℂ q =
+      ∏ g ∈ univ.filter (· ≠ 1), V.character g * V.character g⁻¹)
+    (h0 : 0 < q) (h1 : q < 1) : False := by
+  refine not_isIntegral_rat_mem_Ioo ?_ h0 h1
+  have hmem : (∏ g ∈ univ.filter (· ≠ 1), V.character g * V.character g⁻¹)
+      ∈ integralClosure ℤ ℂ :=
+    prod_mem fun g _ =>
+      mul_mem (FDRep.character_isIntegral V g) (FDRep.character_isIntegral V g⁻¹)
+  rw [hq]; exact hmem
+
 end Etingof.Remark5_2_8
