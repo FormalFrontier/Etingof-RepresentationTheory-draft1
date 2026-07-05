@@ -58,8 +58,20 @@ functions, the multiplicity identity for every `g` reduces to the five conjugacy
 * `A5_tensor_product_character` — the same identity on the genuine tensor product
   `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
 
-The `S₄` table likewise requires its full irreducible catalogue (`Example4_3_S4`); that entry is
-tracked as follow-up work.
+## Genuine formalization (S₄)
+
+The `S₄` table is formalized the same way, reusing the genuine irreducible catalogue built in
+`Example4_8_1` (`Etingof.Example4_8_1.S4.irrepS4`): the trivial `ℂ₊`, the sign `ℂ₋`, the
+2-dimensional `ℂ²` (deleted conjugation-on-partitions representation), and the two 3-dimensionals
+`ℂ³₋` (deleted permutation representation on `Fin 4`) and `ℂ³₊ = ℂ³₋ ⊗ sign`.  Every `S₄`
+character value is a rational integer (the table `Etingof.Example4_8_1.S4.tbl`), so the
+multiplicity identity for every `g` reduces — via `Etingof.Example4_8_1.S4.classRepS4` and
+`FDRep.char_conj` — to a pure integer `5·5·5` case split (`nS4_char_int`), with no `√5`.
+
+* `S4_tensor_character` — `χ_i(g) · χ_j(g) = Σ_k n_{ij}^k · χ_k(g)` for every `g`, from the real
+  characters (traces) of the five representations — no `native_decide`.
+* `S4_tensor_product_character` — the same identity on the genuine tensor product
+  `V_i ⊗ V_j` of `FDRep`s, via `FDRep.char_tensor`.
 
 ## Mathlib correspondence
 
@@ -469,6 +481,102 @@ theorem A5_conj_classes :
   Etingof.Example4_8_1_A5_conj_classes
 
 end A5
+
+/-! ## The tensor-product multiplicity table of `S₄`
+
+The genuine irreducible catalogue of `S₄ = Equiv.Perm (Fin 4)` is built in `Example4_8_1` as
+`Etingof.Example4_8_1.S4.irrepS4 = ![trivRepS4, signRepS4, repC2, repStdPlus, repStd]`, indexed
+`0..4` as `ℂ₊, ℂ₋, ℂ², ℂ³₊, ℂ³₋` — matching the five rows of the integer character table `tbl`.
+We reuse it verbatim, exactly as the `S₃` and `A₅` tables above use their own catalogues.
+
+Unlike `A₅`, every `S₄` character value is a rational integer (`tbl`), so the multiplicity
+identity is pure integer arithmetic — no `√5`.  As for `A₅`, the identity for every group element
+reduces to the five conjugacy classes because characters are class functions (`irrepS4_char_eq`),
+and there it is the tabulated integer `5·5·5` case split (`nS4_char_int`). -/
+
+section S4
+open Etingof.Example4_8_1 Etingof.Example4_8_1.S4
+
+/-- Tensor-product multiplicity table of `S₄`, read off Etingof's `S₄` table in Example 4.9.1.
+`nS4 i j k` is the multiplicity of the `k`-th irreducible `irrepS4 k` in `irrepS4 i ⊗ irrepS4 j`
+(indices `0..4 = ℂ₊, ℂ₋, ℂ², ℂ³₊, ℂ³₋`).  For instance
+`ℂ³₊ ⊗ ℂ³₊ = ℂ₊ ⊕ ℂ² ⊕ ℂ³₊ ⊕ ℂ³₋` and `ℂ³₊ ⊗ ℂ³₋ = ℂ₋ ⊕ ℂ² ⊕ ℂ³₊ ⊕ ℂ³₋`. -/
+def nS4 : Fin 5 → Fin 5 → Fin 5 → ℕ :=
+  ![![![1,0,0,0,0], ![0,1,0,0,0], ![0,0,1,0,0], ![0,0,0,1,0], ![0,0,0,0,1]],
+    ![![0,1,0,0,0], ![1,0,0,0,0], ![0,0,1,0,0], ![0,0,0,0,1], ![0,0,0,1,0]],
+    ![![0,0,1,0,0], ![0,0,1,0,0], ![1,1,1,0,0], ![0,0,0,1,1], ![0,0,0,1,1]],
+    ![![0,0,0,1,0], ![0,0,0,0,1], ![0,0,0,1,1], ![1,0,1,1,1], ![0,1,1,1,1]],
+    ![![0,0,0,0,1], ![0,0,0,1,0], ![0,0,0,1,1], ![0,1,1,1,1], ![1,0,1,1,1]]]
+
+/-- The index (in `Fin 5`) of the conjugacy class of `g : S₄`, matching the columns of `tbl`
+(`Id, (12), (12)(34), (123), (1234)`).  The identity, transpositions and 3-cycles are recognised
+by their `4, 2, 1` fixed points on `Fin 4`; the two fixed-point-free classes are told apart by the
+sign (`+1` for the even double transpositions, `−1` for the odd 4-cycles). -/
+def classIdxS4 (g : S4) : Fin 5 :=
+  if fixCardM (G := S4) (α := Fin 4) g = 4 then 0
+  else if fixCardM (G := S4) (α := Fin 4) g = 2 then 1
+  else if fixCardM (G := S4) (α := Fin 4) g = 1 then 3
+  else if Equiv.Perm.sign g = 1 then 2
+  else 4
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+-- honest `decide` over the 24 elements of S₄ (conjugacy search per element); no `native_decide`
+/-- Every `g : S₄` is conjugate to its class representative `classRepS4 (classIdxS4 g)`
+(honest `decide` over the 24 elements, no `native_decide`). -/
+lemma classIdxS4_spec (g : S4) : ∃ c : S4, c * classRepS4 (classIdxS4 g) * c⁻¹ = g := by
+  revert g; decide
+
+/-- Each `S₄` character is a class function: `χ_i(g)` equals the tabulated integer value
+`tbl i (classIdxS4 g)` at the conjugacy class of `g`.  Combines `classIdxS4_spec` with
+`FDRep.char_conj` and the class-representative character values `irrepS4_character`. -/
+lemma irrepS4_char_eq (i : Fin 5) (g : S4) :
+    (irrepS4 i).character g = (tbl i (classIdxS4 g) : ℂ) := by
+  obtain ⟨c, hc⟩ := classIdxS4_spec g
+  have key : (irrepS4 i).character g
+      = (irrepS4 i).character (classRepS4 (classIdxS4 g)) := by
+    rw [← FDRep.char_conj (irrepS4 i) (classRepS4 (classIdxS4 g)) c, hc]
+  rw [key, irrepS4_character]
+
+/-- The tabulated multiplicity identity `χ_i(c) · χ_{i'}(c) = Σ_k n_{ii'}^k · χ_k(c)` at each of
+the five conjugacy classes `c`, computed with the integer table `tbl` — a pure integer `5·5·5`
+case split closed by honest `decide` (no `native_decide`). -/
+lemma nS4_char_int (i i' c : Fin 5) :
+    tbl i c * tbl i' c
+      = (nS4 i i' 0 : ℤ) * tbl 0 c + (nS4 i i' 1 : ℤ) * tbl 1 c + (nS4 i i' 2 : ℤ) * tbl 2 c
+        + (nS4 i i' 3 : ℤ) * tbl 3 c + (nS4 i i' 4 : ℤ) * tbl 4 c := by
+  fin_cases i <;> fin_cases i' <;> fin_cases c <;> decide
+
+/-- **Tensor-product multiplicity identity for `S₄`** (Etingof Example 4.9.1).  For every group
+element `g` and all `i, j`, the product of the two irreducible characters decomposes as the
+tabulated integer combination of irreducible characters:
+`χ_i(g) · χ_j(g) = Σ_k n_{ij}^k · χ_k(g)`.  Proved from the actual characters (traces) of the
+five genuine representations of `S₄` — no `native_decide`, no orthonormality certificate. -/
+theorem S4_tensor_character (i j : Fin 5) (g : S4) :
+    (irrepS4 i).character g * (irrepS4 j).character g
+      = ∑ k, (nS4 i j k : ℂ) * (irrepS4 k).character g := by
+  simp only [irrepS4_char_eq, Fin.sum_univ_five]
+  have hc := congrArg (fun z : ℤ => (z : ℂ)) (nS4_char_int i j (classIdxS4 g))
+  push_cast at hc ⊢
+  linear_combination hc
+
+/-- **Tensor-product decomposition for `S₄`** phrased on genuine `FDRep` tensor products:
+`(V_i ⊗ V_j).character g = Σ_k n_{ij}^k · χ_k(g)`, i.e. the character form of
+`V_i ⊗ V_j ≅ ⊕_k n_{ij}^k V_k`.  (Etingof Example 4.9.1) -/
+theorem S4_tensor_product_character (i j : Fin 5) (g : S4) :
+    (irrepS4 i ⊗ irrepS4 j).character g
+      = ∑ k, (nS4 i j k : ℂ) * (irrepS4 k).character g := by
+  rw [FDRep.char_tensor, Pi.mul_apply]
+  exact S4_tensor_character i j g
+
+/-- `S₄` has exactly 5 conjugacy classes, hence 5 irreducible representations
+(the trivial `ℂ₊`, sign `ℂ₋`, standard `ℂ²`, and the two 3-dimensionals `ℂ³₊, ℂ³₋`).
+(Etingof Example 4.9.1) -/
+theorem S4_conj_classes :
+    Fintype.card (ConjClasses (Equiv.Perm (Fin 4))) = 5 :=
+  Etingof.Example4_8_1_S4_conj_classes
+
+end S4
 
 end Etingof.Example4_9_1
 
