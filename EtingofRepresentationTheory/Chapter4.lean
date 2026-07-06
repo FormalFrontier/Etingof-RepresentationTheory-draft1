@@ -46,5 +46,6 @@ import EtingofRepresentationTheory.Chapter4.Lemma4_10_3
 -- Section 4.1, 4.12: Exercises (statement pass)
 import EtingofRepresentationTheory.Chapter4.Problem4_1_4
 import EtingofRepresentationTheory.Chapter4.Problem4_12_4
+import EtingofRepresentationTheory.Chapter4.Problem4_12_10
 
 /-! # Chapter 4: Representations of Finite Groups: Further Results -/

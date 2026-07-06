@@ -3117,8 +3117,8 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 8,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean (tensor-power form via diagTensorPow, sorry proof, statement pass)."
   },
   {
     "id": "Chapter4/Problem4.12.11",
