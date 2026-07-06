@@ -6477,8 +6477,8 @@
     "end_page": "191",
     "start_line": 3,
     "end_line": 6,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Problem7_7_3.lean (Etingof.Problem7_7_3), sorry proof."
   },
   {
     "id": "Chapter7/Discussion_after_Problem7.7.3",
@@ -6597,8 +6597,8 @@
     "end_page": "193",
     "start_line": 1,
     "end_line": 8,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Exercise7_8_4.lean (Etingof.Exercise7_8_4 + _split + _not_abelianGroups), sorry proofs."
   },
   {
     "id": "Chapter7/Problem7.8.5",
@@ -6608,8 +6608,8 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom), sorry proof."
   },
   {
     "id": "Chapter7/Definition7.8.6",
@@ -6761,8 +6761,8 @@
     "end_page": "195",
     "start_line": 25,
     "end_line": 26,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Exercise7_9_7.lean (Etingof.Exercise7_9_7), sorry proof."
   },
   {
     "id": "Chapter7/Exercise7.9.8",
