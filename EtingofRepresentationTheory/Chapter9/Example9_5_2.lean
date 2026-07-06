@@ -20,25 +20,20 @@ is only one simple module — the residue field).
 
 ## Scope of this file
 
-Part (i) is captured at the level the project's `Etingof.AreLinked` definition supports.
-That definition (Definition 9.5.1) links *all* modules — not only the simple ones — by
-`Ext¹`-adjacency, so over a semisimple ring, where `Ext¹` vanishes identically, the linking
-relation collapses to isomorphism. We therefore prove the sharp statement
-`Etingof.semisimple_areLinked_iff_iso`: over a semisimple ring **every** block is a single
-isomorphism class, covering all modules in a block, not just the simple ones. The original
-`Etingof.semisimple_blocks_singleton` (linked simples are isomorphic, hence each block has a
-unique simple object) is an immediate corollary.
+Part (i) is captured through the project's `Etingof.AreLinked` relation, which — faithful to
+Definition 9.5.1 — links **simple** modules via chains of *simple* modules connected by
+`Ext¹`-adjacency. Over a semisimple ring `Ext¹` vanishes identically, so the linking relation
+on simples collapses to isomorphism. We prove `Etingof.semisimple_areLinked_iff_iso`: for
+simple `X, Y`, `AreLinked X Y ↔ X ≅ Y`, i.e. each block contains a single isomorphism class of
+simple objects. `Etingof.semisimple_blocks_singleton` is the forward direction.
 
 Note the relationship to the book's phrasing "each block is equivalent to the category of
 vector spaces". Etingof's block attached to a simple `S` is the full subcategory of modules
-whose Jordan–Hölder factors are all `≅ S`; over a semisimple ring that subcategory is the
-isotypic component `{S^{⊕n}}`, equivalent to vector spaces with `n` the dimension. The
-project's `AreLinked` relation partitions *more finely* — because `Ext¹ = 0` forbids any
-nonsplit extension, `S` and `S^{⊕2}` end up in different `AreLinked`-blocks. Both viewpoints
-agree on the load-bearing consequence formalized here, "one simple object per block"; the
-finer `AreLinked` statement records that no larger module is linked to a simple. Promoting
-the Etingof "≃ Vec" subcategory equivalence would require an isotypic-subcategory definition
-not present in Definition 9.5.1.
+whose Jordan–Hölder factors are all in `S`'s linking class (the predicate `Etingof.InBlock`);
+over a semisimple ring that subcategory is the isotypic component `{S^{⊕n}}`, equivalent to
+vector spaces. The statement formalized here is the load-bearing consequence "one simple object
+per block". Promoting the Etingof "≃ Vec" subcategory equivalence would require an
+isotypic-subcategory equivalence beyond the scope of Definition 9.5.1.
 
 Part (iii) — "the algebra of Problem 9.3.2 has one block" — is now formalized. The
 generators-and-relations algebra `A = ℂ⟨g, x⟩ / (gx + xg, x², g² - 1)` is constructed in
@@ -68,20 +63,22 @@ theorem Etingof.semisimple_not_extAdjacent
     haveI := Abelian.Ext.subsingleton_of_projective B A 0
     exact not_nontrivial _ h
 
-/-- For a semisimple ring, the linking relation collapses to isomorphism for **all** modules
-(not just simple ones): two modules are linked iff they are isomorphic. Equivalently, each
-block is a single isomorphism class. This is the "covering all modules in a block" content of
-Etingof Example 9.5.2 (i) ("each block is equivalent to the category of vector spaces"): since
-`Ext¹` vanishes over a semisimple ring, there are no nonsplit extensions to enlarge a block
-beyond one isomorphism class. -/
+/-- For a semisimple ring, the linking relation on **simple** modules collapses to isomorphism:
+two simple modules are linked iff they are isomorphic. Equivalently, each block contains a
+single isomorphism class of simples. This is Etingof Example 9.5.2 (i) ("each block is
+equivalent to the category of vector spaces, and thus has only one simple object"): since
+`Ext¹` vanishes over a semisimple ring, the only chains between simples are isomorphisms. -/
 theorem Etingof.semisimple_areLinked_iff_iso
     (R : Type u) [Ring R] [Small.{v} R] [IsSemisimpleRing R]
-    (X Y : ModuleCat.{v} R) :
+    (X Y : ModuleCat.{v} R) (hX : IsSimpleModule R X) (hY : IsSimpleModule R Y) :
     Etingof.AreLinked R X Y ↔ Nonempty (X ≅ Y) := by
-  refine ⟨fun hlinked => ?_, fun e => Etingof.areLinked_of_iso R e.some⟩
+  refine ⟨fun hlinked => ?_, fun e => Etingof.areLinked_of_iso R hX hY e.some⟩
   -- With `ExtAdjacent` empty, the only base relation is isomorphism; induct on `EqvGen`.
+  -- The simplicity hypotheses are not needed here, and would be reverted by the induction.
+  clear hX hY
   induction hlinked with
   | rel _ _ h =>
+    obtain ⟨_, _, h⟩ := h
     rcases h with h | h
     · exact absurd h (Etingof.semisimple_not_extAdjacent R _ _)
     · exact h
@@ -94,16 +91,15 @@ theorem Etingof.semisimple_areLinked_iff_iso
     obtain ⟨e₂⟩ := ih₂
     exact ⟨e₁ ≪≫ e₂⟩
 
-/-- For a semisimple ring, any two non-isomorphic simple modules have
-`Ext¹ = 0` in both directions, so each simple module forms its own block.
-(Etingof Example 9.5.2 (i)) -/
+/-- For a semisimple ring, any two linked simple modules are isomorphic, so each simple module
+forms its own block. (Etingof Example 9.5.2 (i)) -/
 theorem Etingof.semisimple_blocks_singleton
     (R : Type u) [Ring R] [Small.{v} R] [IsSemisimpleRing R]
     (X Y : ModuleCat.{v} R)
-    (_hX : IsSimpleModule R X) (_hY : IsSimpleModule R Y)
+    (hX : IsSimpleModule R X) (hY : IsSimpleModule R Y)
     (hlinked : Etingof.AreLinked R X Y) :
     Nonempty (X ≅ Y) :=
-  (Etingof.semisimple_areLinked_iff_iso R X Y).mp hlinked
+  (Etingof.semisimple_areLinked_iff_iso R X Y hX hY).mp hlinked
 
 /-- For a commutative local artinian ring, there is only one simple module (up to
 isomorphism), so all modules belong to a single block.
@@ -122,7 +118,7 @@ theorem Etingof.local_artinian_single_block
   subst hIm; subst hJm
   -- Now eX : X ≃ₗ[R] R ⧸ m and eY : Y ≃ₗ[R] R ⧸ m, so X ≅ Y
   have e : X ≃ₗ[R] Y := eX.trans eY.symm
-  exact Etingof.areLinked_of_iso R
+  exact Etingof.areLinked_of_iso R hX hY
     { hom := ModuleCat.ofHom e.toLinearMap
       inv := ModuleCat.ofHom e.symm.toLinearMap
       hom_inv_id := by ext x; exact e.symm_apply_apply x
