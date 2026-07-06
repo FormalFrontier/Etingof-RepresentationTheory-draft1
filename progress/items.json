@@ -593,8 +593,8 @@
     "end_page": "14",
     "start_line": 4,
     "end_line": 12,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "partially_formalized",
+    "coverage_note": "Part (a) formalized in Chapter2/Problem2_3_16.lean (#5883): Etingof.centralAction (central z acts as an A-linear endomorphism), Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (the central character as a k-algebra homomorphism, via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul (z acts by χ_V(z)), Etingof.exists_central_scalar. Parts (b) (indecomposable: ρ(z) has a single eigenvalue) and (c) (ρ(z) need not be scalar) remain — tracked in a follow-up sub-issue."
   },
   {
     "id": "Chapter2/Problem2.3.17",
