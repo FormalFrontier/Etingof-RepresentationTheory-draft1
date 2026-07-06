@@ -428,6 +428,8 @@ theorem directlyExtLinked :
 This is Etingof Example 9.5.2 (iii). -/
 theorem areLinked :
     Etingof.AreLinked A (ModuleCat.of A Splus) (ModuleCat.of A Sminus) :=
-  Relation.EqvGen.rel _ _ (Or.inl (Or.inl directlyExtLinked))
+  Relation.EqvGen.rel _ _
+    ⟨(inferInstance : IsSimpleModule A Splus), (inferInstance : IsSimpleModule A Sminus),
+      Or.inl (Or.inl directlyExtLinked)⟩
 
 end Etingof.Problem932
