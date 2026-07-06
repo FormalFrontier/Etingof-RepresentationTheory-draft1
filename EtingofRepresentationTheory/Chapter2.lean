@@ -90,9 +90,13 @@ import EtingofRepresentationTheory.Chapter2.Problem2_11_3
 import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
 
+-- Section 2.13: The Dehn invariant
+import EtingofRepresentationTheory.Chapter2.Problem2_13_1
+
 -- Section 2.14: Tensor/Dual Representations of Lie Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_14_1
 import EtingofRepresentationTheory.Chapter2.Definition2_14_2
+import EtingofRepresentationTheory.Chapter2.Problem2_14_3
 
 -- Section 2.16: Lie's theorem and related classification problems
 import EtingofRepresentationTheory.Chapter2.Problem2_16_1
