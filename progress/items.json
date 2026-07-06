@@ -7045,7 +7045,7 @@
     "end_page": "210",
     "start_line": 23,
     "end_line": 26,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
