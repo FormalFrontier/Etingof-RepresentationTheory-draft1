@@ -85,6 +85,7 @@ import EtingofRepresentationTheory.Chapter2.Remark2_9_4
 import EtingofRepresentationTheory.Chapter2.Example2_9_8
 import EtingofRepresentationTheory.Chapter2.Example2_9_12
 import EtingofRepresentationTheory.Chapter2.Example2_9_13
+import EtingofRepresentationTheory.Chapter2.Exercise2_9_5
 import EtingofRepresentationTheory.Chapter2.Exercise2_9_11
 
 -- Section 2.11-2.12: Tensor Products, Symmetric/Exterior Algebras
@@ -94,6 +95,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_11_3
 import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_2
 import EtingofRepresentationTheory.Chapter2.Exercise2_11_5
+import EtingofRepresentationTheory.Chapter2.Exercise2_11_7
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
 
 -- Section 2.13: The Dehn invariant
