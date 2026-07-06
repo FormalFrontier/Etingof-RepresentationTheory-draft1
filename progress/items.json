@@ -2249,8 +2249,10 @@
     "end_page": "57",
     "start_line": 13,
     "end_line": 16,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "sorry_free": false,
+    "fidelity": "verified",
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_2.lean"
   },
   {
     "id": "Chapter3/Problem3.9.3",
