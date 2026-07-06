@@ -2186,7 +2186,7 @@
     "start_line": 15,
     "end_line": 4,
     "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Decomposed out of #5896 into #5923 (statement pass): needs base-change module infrastructure (TensorProduct.Algebra.module, a deliberate non-instance) distinct from the other five 3.8/3.9 exercises."
   },
   {
     "id": "Chapter3/Problem3.8.5",
