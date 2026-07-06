@@ -2582,8 +2582,8 @@
     "end_page": "66",
     "start_line": 9,
     "end_line": 10,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean (right-regular rep of QuaternionGroup 2; covariant subspace invariant + finrank 2 + irreducible; sorry proofs, statement pass)."
   },
   {
     "id": "Chapter4/Example4.3_S4",
@@ -3020,8 +3020,8 @@
     "end_page": "83",
     "start_line": 9,
     "end_line": 14,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean (DihedralGroup N: (a) every irreducible is 1- or 2-dim; (b) V⊗V decomposition as character identity χ_V²=1+χ_sign+χ_V2; sorry proofs, statement pass)."
   },
   {
     "id": "Chapter4/Problem4.12.2",
@@ -3129,8 +3129,8 @@
     "end_page": "88",
     "start_line": 9,
     "end_line": 12,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy; sorry proofs, statement pass)."
   },
   {
     "id": "Chapter4/Discussion_4.13",
