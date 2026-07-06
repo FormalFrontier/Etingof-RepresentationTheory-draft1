@@ -224,6 +224,8 @@ import EtingofRepresentationTheory.Chapter5.Problem5_16_3
 import EtingofRepresentationTheory.Chapter5.Problem5_24_1
 import EtingofRepresentationTheory.Chapter5.Problem5_24_2
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Affine
+import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Dihedral
+import EtingofRepresentationTheory.Chapter5.Exercise5_27_2_Heisenberg
 import EtingofRepresentationTheory.Chapter5.Exercise5_27_3
 
 /-! # Chapter 5: Representations of the Symmetric Group -/
