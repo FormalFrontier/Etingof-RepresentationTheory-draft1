@@ -12,11 +12,18 @@ Y/X → Z is an isomorphism. Short exact sequences correspond to extensions of Z
 
 ## Mathlib correspondence
 
-Exact match: `CategoryTheory.ShortComplex` and `CategoryTheory.ShortComplex.ShortExact`.
+Exact match: `CategoryTheory.ShortComplex` bundled with the defining predicate
+`CategoryTheory.ShortComplex.ShortExact`. The latter records that `S.f` is a
+mono (injectivity of `X → Y`), `S.g` is an epi (surjectivity of `Y → Z`), and
+`S` is exact at `Y` (equivalently the induced `Y/X → Z` is an isomorphism).
 -/
 
-/-- A short complex in an abelian category, in the sense of Etingof Definition 7.8.2.
-A short exact sequence is a `ShortComplex` satisfying `ShortExact`.
-This is `CategoryTheory.ShortComplex` in Mathlib. -/
-abbrev Etingof.ShortComplex (C : Type*) [CategoryTheory.Category C]
-    [CategoryTheory.Limits.HasZeroMorphisms C] := CategoryTheory.ShortComplex C
+/-- A short exact sequence `0 → X → Y → Z → 0` in an abelian category, in the
+sense of Etingof Definition 7.8.2. It is a `CategoryTheory.ShortComplex`
+together with a proof that it is `ShortComplex.ShortExact`: `X → Y` injective,
+`Y → Z` surjective, and exact at `Y`. Bundling the `ShortExact` predicate is
+what distinguishes a short *exact* sequence from a bare short complex (which the
+zero complex would also satisfy). -/
+def Etingof.ShortExactSequence (C : Type*) [CategoryTheory.Category C]
+    [CategoryTheory.Limits.HasZeroMorphisms C] :=
+  {S : CategoryTheory.ShortComplex C // S.ShortExact}
