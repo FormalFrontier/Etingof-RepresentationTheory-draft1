@@ -92,7 +92,7 @@
   {
     "id": "Chapter2/Introduction",
     "type": "introduction",
-    "title": "Chapter 2: Basic notions of representation theory — chapter heading and Section 2.1 heading",
+    "title": "Chapter 2: Basic notions of representation theory \u2014 chapter heading and Section 2.1 heading",
     "start_page": "5",
     "end_page": "5",
     "start_line": 1,
@@ -224,8 +224,8 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Book Definition 2.2.2 DEFINES the concept of 'unit in an associative algebra'. The Lean formalization is a theorem one_isUnit : [Ring A] → (a : A) → 1 * a = a ∧ a * 1 = a, which merely demo",
-    "fidelity_decl": "theorem one_isUnit (A) [Ring A] (a) : 1 * a = a ∧ a * 1 = a",
+    "fidelity_note": "[fidelity] Book Definition 2.2.2 DEFINES the concept of 'unit in an associative algebra'. The Lean formalization is a theorem one_isUnit : [Ring A] \u2192 (a : A) \u2192 1 * a = a \u2227 a * 1 = a, which merely demo",
+    "fidelity_decl": "theorem one_isUnit (A) [Ring A] (a) : 1 * a = a \u2227 a * 1 = a",
     "fidelity_issue": 5617
   },
   {
@@ -482,7 +482,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "[resolved #5651] Wave-2 audit finding was stale. The counterexample was formalized after the audit ran (PR #5601, issue #5589): Etingof.Remark_2_3_11_witness exhibits multiplication by i as a ℂ-linear (hence A-linear for A = ℂ) endomorphism of the irreducible ℝ-representation V = ℂ that is not a real scalar operator, and Etingof.Remark_2_3_11 states that the conclusion of Corollary 2.3.10 fails over ℝ. Sorry-free; builds cleanly; imported by Chapter2.lean.",
+    "fidelity_note": "[resolved #5651] Wave-2 audit finding was stale. The counterexample was formalized after the audit ran (PR #5601, issue #5589): Etingof.Remark_2_3_11_witness exhibits multiplication by i as a \u2102-linear (hence A-linear for A = \u2102) endomorphism of the irreducible \u211d-representation V = \u2102 that is not a real scalar operator, and Etingof.Remark_2_3_11 states that the conclusion of Corollary 2.3.10 fails over \u211d. Sorry-free; builds cleanly; imported by Chapter2.lean.",
     "fidelity_decl": "Etingof.Remark_2_3_11, Etingof.Remark_2_3_11_witness",
     "fidelity_issue": 5651,
     "last_updated": "2026-07-02"
@@ -554,7 +554,7 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{λ,n} are now built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e₀) and proved not simple for n≥2 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). Remaining (noted in file): the completeness half — that every f.d. indecomposable k[x]-rep is some V_{λ,n} — is Jordan normal form existence/uniqueness, which the book cites rather than proves and which is not formalized here.",
+    "fidelity_note": "Part (1): k is the only simple/indecomposable k-module (IsSimpleModule k k). Part (2): the 1-dim irreducibles are classified (Example_2_3_14_polynomial_reps: simple k[x]-modules are 1-dimensional). The Jordan-block reps V_{\u03bb,n} are now built as genuine k[X]-modules (jordanRep = Module.AEval' of jordanBlock), proved indecomposable (jordanRep_indecomposable, via: every nonzero J-invariant subspace contains the eigenvector e\u2080) and proved not simple for n\u22652 (jordanRep_not_isSimpleModule), giving the book's conclusion 'indecomposable need not be irreducible' (exists_indecomposable_not_simple, witness V_{0,2}). Remaining (noted in file): the completeness half \u2014 that every f.d. indecomposable k[x]-rep is some V_{\u03bb,n} \u2014 is Jordan normal form existence/uniqueness, which the book cites rather than proves and which is not formalized here.",
     "fidelity_decl": "Etingof.Example_2_3_14.jordanRep_indecomposable; Etingof.Example_2_3_14.jordanRep_not_isSimpleModule; Etingof.Example_2_3_14.exists_indecomposable_not_simple",
     "fidelity_issue": 5358
   },
@@ -583,7 +583,7 @@
     "end_line": 3,
     "status": "sorry_free",
     "fidelity": "verified",
-    "note": "Formalized (completeness audit #5724, epic #5338) in Chapter2/Problem2_3_15.lean. Part (a): Etingof.exists_isSimpleModule_of_finite — a nonzero finite dimensional representation of a k-algebra A (an A-module finite over k, IsScalarTower k A V) has a simple A-submodule, via Artinian-over-k ⇒ Artinian-over-A (isArtinian_of_tower) ⇒ atomic submodule lattice ⇒ atom = simple submodule. Part (b): Etingof.not_exists_isSimpleModule_polynomial — the regular representation of k[x] on itself has no simple submodule (no minimal nonzero ideal, since (x·s) is strictly smaller and nonzero). Audit finding: Proposition 3.1.4 (Etingof.subrepresentation_of_semisimple) does NOT silently assume this problem; its Lean proof gets simple submodules from IsSemisimpleModule.eq_bot_or_exists_simple_le because the ambient ⊕ᵢ nᵢ Vᵢ is a finite sum of simples, hence semisimple. The group-representation form already existed as Etingof.exists_isSimpleModule_le (Chapter5/SimpleSubrepExtraction.lean)."
+    "note": "Formalized (completeness audit #5724, epic #5338) in Chapter2/Problem2_3_15.lean. Part (a): Etingof.exists_isSimpleModule_of_finite \u2014 a nonzero finite dimensional representation of a k-algebra A (an A-module finite over k, IsScalarTower k A V) has a simple A-submodule, via Artinian-over-k \u21d2 Artinian-over-A (isArtinian_of_tower) \u21d2 atomic submodule lattice \u21d2 atom = simple submodule. Part (b): Etingof.not_exists_isSimpleModule_polynomial \u2014 the regular representation of k[x] on itself has no simple submodule (no minimal nonzero ideal, since (x\u00b7s) is strictly smaller and nonzero). Audit finding: Proposition 3.1.4 (Etingof.subrepresentation_of_semisimple) does NOT silently assume this problem; its Lean proof gets simple submodules from IsSemisimpleModule.eq_bot_or_exists_simple_le because the ambient \u2295\u1d62 n\u1d62 V\u1d62 is a finite sum of simples, hence semisimple. The group-representation form already existed as Etingof.exists_isSimpleModule_le (Chapter5/SimpleSubrepExtraction.lean)."
   },
   {
     "id": "Chapter2/Problem2.3.16",
@@ -594,7 +594,7 @@
     "start_line": 4,
     "end_line": 12,
     "status": "partially_formalized",
-    "coverage_note": "Part (a) formalized in Chapter2/Problem2_3_16.lean (#5883): Etingof.centralAction (central z acts as an A-linear endomorphism), Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (the central character as a k-algebra homomorphism, via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul (z acts by χ_V(z)), Etingof.exists_central_scalar. Parts (b) (indecomposable: ρ(z) has a single eigenvalue) and (c) (ρ(z) need not be scalar) remain — tracked in a follow-up sub-issue."
+    "coverage_note": "Part (a) formalized in Chapter2/Problem2_3_16.lean (#5883): Etingof.centralAction (central z acts as an A-linear endomorphism), Etingof.centralCharacter : Subalgebra.center k A \u2192\u2090[k] k (the central character as a k-algebra homomorphism, via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul (z acts by \u03c7_V(z)), Etingof.exists_central_scalar. Parts (b) (indecomposable: \u03c1(z) has a single eigenvalue) and (c) (\u03c1(z) need not be scalar) remain \u2014 tracked in a follow-up sub-issue."
   },
   {
     "id": "Chapter2/Problem2.3.17",
@@ -615,12 +615,12 @@
     "start_line": 14,
     "end_line": 1,
     "status": "sorry_free",
-    "coverage_note": "Formalized (#5884) in Chapter2/Problem2_3_18.lean as Etingof.Problem_2_3_18: for a ℂ-algebra A and an irreducible A-module V with Module.rank ℂ V ≤ ℵ₀, every φ : V →ₗ[A] V is scalar (∃ c, ∀ v, φ v = c • v). Proof follows Etingof's hint: D = Module.End A V is a division ring (Module.End.instDivisionRing / Schur); D is countably dimensional via injective ℂ-linear evaluation D → V at a nonzero vector; a non-scalar φ is transcendental over ℂ (else minpoly has degree 1 since ℂ is algebraically closed and D is a domain); the field ℂ(φ) is realized as the double centralizer Subalgebra.centralizer ℂ (Set.centralizer {φ}) (a commutative division subring, hence IsField.toField), inside which Transcendental.linearIndependent_sub_inv gives the uncountable ℂ-linearly independent family {(φ-a)⁻¹}, transported to D along the injective inclusion; then 𝔠 = #ℂ ≤ rank ℂ D ≤ ℵ₀ contradicts ℵ₀ < 𝔠. #print axioms: propext, Classical.choice, Quot.sound only."
+    "coverage_note": "Formalized (#5884) in Chapter2/Problem2_3_18.lean as Etingof.Problem_2_3_18: for a \u2102-algebra A and an irreducible A-module V with Module.rank \u2102 V \u2264 \u2135\u2080, every \u03c6 : V \u2192\u2097[A] V is scalar (\u2203 c, \u2200 v, \u03c6 v = c \u2022 v). Proof follows Etingof's hint: D = Module.End A V is a division ring (Module.End.instDivisionRing / Schur); D is countably dimensional via injective \u2102-linear evaluation D \u2192 V at a nonzero vector; a non-scalar \u03c6 is transcendental over \u2102 (else minpoly has degree 1 since \u2102 is algebraically closed and D is a domain); the field \u2102(\u03c6) is realized as the double centralizer Subalgebra.centralizer \u2102 (Set.centralizer {\u03c6}) (a commutative division subring, hence IsField.toField), inside which Transcendental.linearIndependent_sub_inv gives the uncountable \u2102-linearly independent family {(\u03c6-a)\u207b\u00b9}, transported to D along the injective inclusion; then \ud835\udd20 = #\u2102 \u2264 rank \u2102 D \u2264 \u2135\u2080 contradicts \u2135\u2080 < \ud835\udd20. #print axioms: propext, Classical.choice, Quot.sound only."
   },
   {
     "id": "Chapter2/Discussion_2.4_heading",
     "type": "discussion",
-    "title": "Section 2.4 Ideals — heading and definitions",
+    "title": "Section 2.4 Ideals \u2014 heading and definitions",
     "start_page": "15",
     "end_page": "15",
     "start_line": 2,
@@ -645,7 +645,7 @@
   {
     "id": "Chapter2/Discussion_2.5_heading",
     "type": "discussion",
-    "title": "Section 2.5 Quotients — heading and definition of quotient algebra",
+    "title": "Section 2.5 Quotients \u2014 heading and definition of quotient algebra",
     "start_page": "15",
     "end_page": "15",
     "start_line": 16,
@@ -709,7 +709,7 @@
   {
     "id": "Chapter2/Discussion_2.7_intro",
     "type": "discussion",
-    "title": "Section 2.7: Examples of algebras — Weyl algebra and q-Weyl algebra",
+    "title": "Section 2.7: Examples of algebras \u2014 Weyl algebra and q-Weyl algebra",
     "start_page": "17",
     "end_page": "17",
     "start_line": 5,
@@ -785,8 +785,7 @@
     "end_page": "19",
     "start_line": 25,
     "end_line": 8,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized"
   },
   {
     "id": "Chapter2/Problem2.7.5",
@@ -981,13 +980,12 @@
     "end_page": "22",
     "start_line": 15,
     "end_line": 11,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized"
   },
   {
     "id": "Chapter2/Discussion_2.9_heading",
     "type": "discussion",
-    "title": "Section 2.9: Lie algebras — heading and skew-symmetric bilinear map",
+    "title": "Section 2.9: Lie algebras \u2014 heading and skew-symmetric bilinear map",
     "start_page": "22",
     "end_page": "22",
     "start_line": 12,
@@ -1046,7 +1044,7 @@
     "end_line": 3,
     "status": "sorry",
     "fidelity": "verified",
-    "fidelity_note": "Ado's theorem now asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over a characteristic-zero field, there exists a finite-dimensional V and an injective LieHom L →ₗ⁅k⁆ Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Proof is sorry: the book states Ado's theorem without proof and it is not available in Mathlib.",
+    "fidelity_note": "Ado's theorem now asserted in Lean as Etingof.ado (Chapter2/Remark2_9_3.lean): for a finite-dimensional Lie algebra L over a characteristic-zero field, there exists a finite-dimensional V and an injective LieHom L \u2192\u2097\u2045k\u2046 Module.End k V (a faithful finite-dimensional representation). Statement faithful to the book claim. Proof is sorry: the book states Ado's theorem without proof and it is not available in Mathlib.",
     "fidelity_decl": "Etingof.ado",
     "fidelity_issue": 5367
   },
@@ -1060,7 +1058,7 @@
     "end_line": 7,
     "status": "sorry_free",
     "fidelity": "faithful",
-    "fidelity_note": "wave-3 resolved (#5661): both 'check it'/'give a proof' claims formalized in EtingofRepresentationTheory/Chapter2/Remark2_9_4.lean — g'(0) is a derivation (hasDerivAt_leibniz), exp(tD) is a one-parameter family of algebra automorphisms (expDeriv_map_mul, expDeriv_map_one, expDeriv_add, expDerivAut). Sorry-free, standard axioms only.",
+    "fidelity_note": "wave-3 resolved (#5661): both 'check it'/'give a proof' claims formalized in EtingofRepresentationTheory/Chapter2/Remark2_9_4.lean \u2014 g'(0) is a derivation (hasDerivAt_leibniz), exp(tD) is a one-parameter family of algebra automorphisms (expDeriv_map_mul, expDeriv_map_one, expDeriv_add, expDerivAut). Sorry-free, standard axioms only.",
     "fidelity_decl": "Etingof.Remark2_9_4.hasDerivAt_leibniz, expDeriv_map_mul, expDerivAut",
     "last_updated": "2026-07-02",
     "fidelity_issue": 5661
@@ -1139,7 +1137,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Fidelity gap #5364 fixed: all three representations formalized — (1) zero rep on PUnit, (2) trivial rep (TrivialLieModule, rho=0) on arbitrary V, (3) adjoint rep via LieAlgebra.ad with rho(a)(b)=[a,b] and bracket-preservation (Jacobi identity).",
+    "notes": "Fidelity gap #5364 fixed: all three representations formalized \u2014 (1) zero rep on PUnit, (2) trivial rep (TrivialLieModule, rho=0) on arbitrary V, (3) adjoint rep via LieAlgebra.ad with rho(a)(b)=[a,b] and bracket-preservation (Jacobi identity).",
     "last_updated": "2026-06-26",
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
   },
@@ -1188,8 +1186,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "sl(2) constructed concretely (k×k×k with brackets ⁅h,e⁆=2e, ⁅h,f⁆=-2f, ⁅e,f⁆=h). sl2_universal_relations proves the book's defining relations HE-EH=2E, HF-FH=-2F, EF-FE=H in U(sl(2)) via ι's map_lie -- specific to the sl(2) presentation, not provable for arbitrary L. Replaces the prior vacuous inferInstance example. Axiom-clean.",
-    "fidelity_decl": "theorem sl2_universal_relations : HE-EH=2E ∧ HF-FH=-2F ∧ EF-FE=H (in U(sl(2)))"
+    "fidelity_note": "sl(2) constructed concretely (k\u00d7k\u00d7k with brackets \u2045h,e\u2046=2e, \u2045h,f\u2046=-2f, \u2045e,f\u2046=h). sl2_universal_relations proves the book's defining relations HE-EH=2E, HF-FH=-2F, EF-FE=H in U(sl(2)) via \u03b9's map_lie -- specific to the sl(2) presentation, not provable for arbitrary L. Replaces the prior vacuous inferInstance example. Axiom-clean.",
+    "fidelity_decl": "theorem sl2_universal_relations : HE-EH=2E \u2227 HF-FH=-2F \u2227 EF-FE=H (in U(sl(2)))"
   },
   {
     "id": "Chapter2/Example2.9.13",
@@ -1202,8 +1200,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Heisenberg Lie algebra ℋ constructed concretely (k×k×k with central bracket ⁅y,x⁆=c). heisenberg_universal_relations proves the book's defining relations YX-XY=C, YC-CY=0, XC-CX=0 in U(ℋ) via ι's map_lie -- specific to the Heisenberg presentation, not provable for arbitrary L. weyl_c_eq_one proves c=1 in the RingCon quotient U(ℋ)/(c-1). Axiom-clean.",
-    "fidelity_decl": "theorem heisenberg_universal_relations : YX-XY=C ∧ YC-CY=0 ∧ XC-CX=0 (in U(ℋ))"
+    "fidelity_note": "Heisenberg Lie algebra \u210b constructed concretely (k\u00d7k\u00d7k with central bracket \u2045y,x\u2046=c). heisenberg_universal_relations proves the book's defining relations YX-XY=C, YC-CY=0, XC-CX=0 in U(\u210b) via \u03b9's map_lie -- specific to the Heisenberg presentation, not provable for arbitrary L. weyl_c_eq_one proves c=1 in the RingCon quotient U(\u210b)/(c-1). Axiom-clean.",
+    "fidelity_decl": "theorem heisenberg_universal_relations : YX-XY=C \u2227 YC-CY=0 \u2227 XC-CX=0 (in U(\u210b))"
   },
   {
     "id": "Chapter2/Remark2.9.14",
@@ -1216,7 +1214,7 @@
     "status": "non_formalizable",
     "fidelity": "n/a",
     "fidelity_note": "prose remark, not formalizable (e.g. Lie group / differential geometry); was wrongly sorry_free",
-    "fidelity_decl": "(none — narrative)",
+    "fidelity_decl": "(none \u2014 narrative)",
     "last_updated": "2026-06-28"
   },
   {
@@ -1236,7 +1234,7 @@
   {
     "id": "Chapter2/Discussion_2.10_heading",
     "type": "discussion",
-    "title": "Section 2.10: Historical interlude — Sophus Lie's trials and transformations",
+    "title": "Section 2.10: Historical interlude \u2014 Sophus Lie's trials and transformations",
     "start_page": "26",
     "end_page": "30",
     "start_line": 7,
@@ -1264,7 +1262,7 @@
   {
     "id": "Chapter2/Discussion_2.11_heading",
     "type": "discussion",
-    "title": "Section 2.11: Tensor products — heading and introduction",
+    "title": "Section 2.11: Tensor products \u2014 heading and introduction",
     "start_page": "31",
     "end_page": "31",
     "start_line": 3,
@@ -1361,7 +1359,7 @@
     "end_line": 11,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "Formalized in Chapter2/Remark2_11_4.lean: Etingof.TensorProductOverRing A V W constructs V ⊗_A W for an arbitrary ring A (right A-module V, left A-module W) as the quotient of FreeAbelianGroup (V × W) by the bilinearity and balancing relations (tensorRelations). The three book relations are discharged as add_tmul, tmul_add, smul_tmul. Not in Mathlib: TensorProduct requires CommSemiring.",
+    "fidelity_note": "Formalized in Chapter2/Remark2_11_4.lean: Etingof.TensorProductOverRing A V W constructs V \u2297_A W for an arbitrary ring A (right A-module V, left A-module W) as the quotient of FreeAbelianGroup (V \u00d7 W) by the bilinearity and balancing relations (tensorRelations). The three book relations are discharged as add_tmul, tmul_add, smul_tmul. Not in Mathlib: TensorProduct requires CommSemiring.",
     "fidelity_decl": "Etingof.TensorProductOverRing",
     "fidelity_issue": 5366
   },
@@ -1386,7 +1384,7 @@
     "end_line": 24,
     "status": "sorry_free",
     "fidelity": "verified",
-    "note": "Covered-inline audit conclusion (completeness audit #5726, epic #5338): this problem is NOT separately formalized. Its only narrative citation is the Discussion in the proof of Problem 5.10.2, which uses part (b) — the k[G]-bimodule tensor-hom adjunction — to conclude Theorem 5.10.1. That load-bearing conclusion is formalized directly and completely in Chapter5/Theorem5_10_1.lean as Etingof.Theorem5_10_1, obtained from Mathlib's Rep.indResHomEquiv (the native Ind ⊣ Res adjunction) rather than through the bimodule route, so Theorem 5.10.1 does not silently assume this problem. The Discussion of Problem 5.10.2 carrying the citation has no Lean file, and Remark 2.11.4's TensorProductOverRing (the V ⊗_B W of this problem) is imported by no downstream file. The bimodule associativity (a) and tensor-hom adjunction (b) are self-contained exercises with no formalized consumer; a faithful formalization would require building a full bimodule/universal-property API on the bare-quotient TensorProductOverRing. See Chapter2/Problem2_11_6.lean for the coverage record."
+    "note": "Covered-inline audit conclusion (completeness audit #5726, epic #5338): this problem is NOT separately formalized. Its only narrative citation is the Discussion in the proof of Problem 5.10.2, which uses part (b) \u2014 the k[G]-bimodule tensor-hom adjunction \u2014 to conclude Theorem 5.10.1. That load-bearing conclusion is formalized directly and completely in Chapter5/Theorem5_10_1.lean as Etingof.Theorem5_10_1, obtained from Mathlib's Rep.indResHomEquiv (the native Ind \u22a3 Res adjunction) rather than through the bimodule route, so Theorem 5.10.1 does not silently assume this problem. The Discussion of Problem 5.10.2 carrying the citation has no Lean file, and Remark 2.11.4's TensorProductOverRing (the V \u2297_B W of this problem) is imported by no downstream file. The bimodule associativity (a) and tensor-hom adjunction (b) are self-contained exercises with no formalized consumer; a faithful formalization would require building a full bimodule/universal-property API on the bare-quotient TensorProductOverRing. See Chapter2/Problem2_11_6.lean for the coverage record."
   },
   {
     "id": "Chapter2/Exercise2.11.7",
@@ -1402,7 +1400,7 @@
   {
     "id": "Chapter2/Discussion_2.12_heading",
     "type": "discussion",
-    "title": "Section 2.12: The tensor algebra — heading and introduction",
+    "title": "Section 2.12: The tensor algebra \u2014 heading and introduction",
     "start_page": "35",
     "end_page": "35",
     "start_line": 27,
@@ -1428,7 +1426,7 @@
   {
     "id": "Chapter2/Discussion_2.13_heading",
     "type": "discussion",
-    "title": "Section 2.13: Hilbert's third problem — heading",
+    "title": "Section 2.13: Hilbert's third problem \u2014 heading",
     "start_page": "36",
     "end_page": "36",
     "start_line": 17,
@@ -1453,7 +1451,7 @@
   {
     "id": "Chapter2/Discussion_2.14_heading",
     "type": "discussion",
-    "title": "Section 2.14: Tensor products and duals of representations of Lie algebras — heading",
+    "title": "Section 2.14: Tensor products and duals of representations of Lie algebras \u2014 heading",
     "start_page": "37",
     "end_page": "37",
     "start_line": 9,
@@ -1490,7 +1488,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V, with contragredient LieRingModule/LieModule structure (Mathlib.Algebra.Lie.Basic) and characterizing lemma lieDualRepresentation_lie_apply : ⁅x,f⁆ v = -f ⁅x,v⁆",
+    "fidelity_decl": "Etingof.LieDualRepresentation (abbrev) := Module.Dual k V, with contragredient LieRingModule/LieModule structure (Mathlib.Algebra.Lie.Basic) and characterizing lemma lieDualRepresentation_lie_apply : \u2045x,f\u2046 v = -f \u2045x,v\u2046",
     "fidelity_issue": 5356,
     "fidelity_note": "wave-1 gap, repaired concurrently, wave-2 re-verified"
   },
@@ -1508,7 +1506,7 @@
   {
     "id": "Chapter2/Discussion_2.15_heading",
     "type": "discussion",
-    "title": "Section 2.15: Representations of sl(2) — heading and introduction",
+    "title": "Section 2.15: Representations of sl(2) \u2014 heading and introduction",
     "start_page": "37",
     "end_page": "37",
     "start_line": 21,
@@ -1532,7 +1530,7 @@
   {
     "id": "Chapter2/Discussion_2.16_heading",
     "type": "discussion",
-    "title": "Section 2.16: Problems on Lie algebras — heading",
+    "title": "Section 2.16: Problems on Lie algebras \u2014 heading",
     "start_page": "39",
     "end_page": "39",
     "start_line": 17,
@@ -1573,8 +1571,7 @@
     "end_page": "40",
     "start_line": 7,
     "end_line": 12,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized"
   },
   {
     "id": "Chapter2/Problem2.16.4",
@@ -1601,7 +1598,7 @@
   {
     "id": "Chapter3/Introduction",
     "type": "introduction",
-    "title": "Chapter 3: General results of representation theory — introduction and Section 3.1 heading",
+    "title": "Chapter 3: General results of representation theory \u2014 introduction and Section 3.1 heading",
     "start_page": "43",
     "end_page": "43",
     "start_line": 1,
@@ -1649,7 +1646,7 @@
     "end_line": 13,
     "status": "proof_partial",
     "sorry_free": false,
-    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
+    "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : \u2a01_i Hom_A(X i,V)\u2297X i \u2192 V plus evalDirectSumEquiv (\u2243\u2097 via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
   },
   {
     "id": "Chapter3/Discussion_before_Proposition3.1.4",
@@ -1736,7 +1733,7 @@
   {
     "id": "Chapter3/Introduction_to_3.2",
     "type": "introduction",
-    "title": "Section 3.2: The density theorem — heading and setup",
+    "title": "Section 3.2: The density theorem \u2014 heading and setup",
     "start_page": "45",
     "end_page": "45",
     "start_line": 23,
@@ -1777,7 +1774,7 @@
   {
     "id": "Chapter3/Introduction_to_3.3",
     "type": "introduction",
-    "title": "Section 3.3: Representations of direct sums of matrix algebras — heading and setup",
+    "title": "Section 3.3: Representations of direct sums of matrix algebras \u2014 heading and setup",
     "start_page": "47",
     "end_page": "47",
     "start_line": 1,
@@ -1828,7 +1825,7 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The definition is 'abbrev Etingof.DualRepresentation (k : Type*) (V : Type*) [CommSemiring k] [AddCommMonoid V] [Module k V] := Module.Dual k V'. The parameter A is absent — there is",
+    "fidelity_note": "[partial-example] The definition is 'abbrev Etingof.DualRepresentation (k : Type*) (V : Type*) [CommSemiring k] [AddCommMonoid V] [Module k V] := Module.Dual k V'. The parameter A is absent \u2014 there is",
     "fidelity_decl": "Etingof.DualRepresentation (k A V) := Module.Dual k V, with Module A^mop instance (op a . f)(v) = f(a.v)",
     "fidelity_issue": 5618,
     "last_updated": "2026-06-29"
@@ -1871,12 +1868,12 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Remark3_3_4.lean: freeCover : (ι → A) →ₗ[A] X, (aᵢ) ↦ Σ aᵢ•bᵢ from a k-basis; freeCover_surjective; quotientEquivOfFreeCover ((ι → A)/ker ≃ₗ[A] X), i.e. X is a quotient of the free module Aⁿ."
+    "notes": "Remark3_3_4.lean: freeCover : (\u03b9 \u2192 A) \u2192\u2097[A] X, (a\u1d62) \u21a6 \u03a3 a\u1d62\u2022b\u1d62 from a k-basis; freeCover_surjective; quotientEquivOfFreeCover ((\u03b9 \u2192 A)/ker \u2243\u2097[A] X), i.e. X is a quotient of the free module A\u207f."
   },
   {
     "id": "Chapter3/Introduction_to_3.4",
     "type": "introduction",
-    "title": "Section 3.4: Filtrations — heading and setup",
+    "title": "Section 3.4: Filtrations \u2014 heading and setup",
     "start_page": "49",
     "end_page": "49",
     "start_line": 3,
@@ -1898,7 +1895,7 @@
     "status": "sorry_free",
     "fidelity": "faithful",
     "sorry_free": true,
-    "fidelity_note": "[fidelity, resolved #5619] Etingof.Filtration is now a structure bundling the ascending chain (RelSeries) with the two boundary conditions head_eq_bot (V₀ = ⊥) and last_eq_top (Vₙ = ⊤), matching the book's 0 = V₀ ⊂ ⋯ ⊂ Vₙ = V.",
+    "fidelity_note": "[fidelity, resolved #5619] Etingof.Filtration is now a structure bundling the ascending chain (RelSeries) with the two boundary conditions head_eq_bot (V\u2080 = \u22a5) and last_eq_top (V\u2099 = \u22a4), matching the book's 0 = V\u2080 \u2282 \u22ef \u2282 V\u2099 = V.",
     "fidelity_issue": 5619
   },
   {
@@ -1916,7 +1913,7 @@
   {
     "id": "Chapter3/Introduction_to_3.5",
     "type": "introduction",
-    "title": "Section 3.5: Finite dimensional algebras — heading",
+    "title": "Section 3.5: Finite dimensional algebras \u2014 heading",
     "start_page": "49",
     "end_page": "49",
     "start_line": 13,
@@ -2029,14 +2026,14 @@
   {
     "id": "Chapter3/Introduction_to_3.6",
     "type": "introduction",
-    "title": "Section 3.6: Characters of representations — heading and character definition",
+    "title": "Section 3.6: Characters of representations \u2014 heading and character definition",
     "start_page": "52",
     "end_page": "52",
     "start_line": 3,
     "end_line": 10,
     "status": "sorry_free",
     "sorry_free": true,
-    "notes": "Introduction3_6.lean: character_mul_comm (χ_V(xy)=χ_V(yx) via LinearMap.trace_mul_comm); commutatorSubmodule [A,A]; commutatorSubmodule_le_ker_character ([A,A] ⊆ ker χ_V); characterQuotient (χ_V factors through A/[A,A]).",
+    "notes": "Introduction3_6.lean: character_mul_comm (\u03c7_V(xy)=\u03c7_V(yx) via LinearMap.trace_mul_comm); commutatorSubmodule [A,A]; commutatorSubmodule_le_ker_character ([A,A] \u2286 ker \u03c7_V); characterQuotient (\u03c7_V factors through A/[A,A]).",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -2071,7 +2068,7 @@
   {
     "id": "Chapter3/Introduction_to_3.7",
     "type": "introduction",
-    "title": "Section 3.7: The Jordan-Holder theorem — heading and overview",
+    "title": "Section 3.7: The Jordan-Holder theorem \u2014 heading and overview",
     "start_page": "53",
     "end_page": "53",
     "start_line": 3,
@@ -2093,7 +2090,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s₁.Equivalent s₂; jordan_holder_factors gives the permutation σ with Wᵢ ≅ W'_{σ i} via Etingof.compositionFactor; jordan_holder retains the n = m length half."
+    "notes": "Full theorem now exposed (#5328): jordan_holder_equivalent gives s\u2081.Equivalent s\u2082; jordan_holder_factors gives the permutation \u03c3 with W\u1d62 \u2245 W'_{\u03c3 i} via Etingof.compositionFactor; jordan_holder retains the n = m length half."
   },
   {
     "id": "Chapter3/Discussion_after_Theorem3.7.1",
@@ -2105,7 +2102,7 @@
     "end_line": 8,
     "status": "sorry_free",
     "sorry_free": true,
-    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict — the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim.",
+    "notes": "Discussion_after_Theorem3_7_1.lean: jordanHolder_length_isGreatest_strict \u2014 the composition-series length n is IsGreatest among lengths of strictly-increasing submodule filtrations (LTSeries), via Module.length_compositionSeries and Order.LTSeries.length_le_krullDim.",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -2114,7 +2111,7 @@
   {
     "id": "Chapter3/Introduction_to_3.8",
     "type": "introduction",
-    "title": "Section 3.8: The Krull-Schmidt theorem — heading",
+    "title": "Section 3.8: The Krull-Schmidt theorem \u2014 heading",
     "start_page": "54",
     "end_page": "54",
     "start_line": 9,
@@ -2217,7 +2214,7 @@
   {
     "id": "Chapter3/Introduction_to_3.9",
     "type": "introduction",
-    "title": "Section 3.9: Problems — heading",
+    "title": "Section 3.9: Problems \u2014 heading",
     "start_page": "56",
     "end_page": "56",
     "start_line": 13,
@@ -2288,7 +2285,7 @@
   {
     "id": "Chapter3/Introduction_to_3.10",
     "type": "introduction",
-    "title": "Section 3.10: Representations of tensor products — heading and setup",
+    "title": "Section 3.10: Representations of tensor products \u2014 heading and setup",
     "start_page": "59",
     "end_page": "59",
     "start_line": 5,
@@ -2338,7 +2335,7 @@
     "fidelity": "faithful",
     "notes": "All sorries resolved. Uniqueness of V, W (Theorem 3.10.2(ii)'s '**unique** V and W') added as companion theorem Etingof.tensor_product_irreducible_classification_unique (#5614).",
     "sorry_free": true,
-    "fidelity_note": "[resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V ≅ V' as A-modules, W ≅ W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
+    "fidelity_note": "[resolved #5614] Existence is tensor_product_irreducible_classification; uniqueness up to isomorphism is the companion tensor_product_irreducible_classification_unique (V \u2245 V' as A-modules, W \u2245 W' as B-modules for any two A-B-equivariant factorizations), via Schur's lemma.",
     "fidelity_issue": 5614
   },
   {
@@ -2351,7 +2348,7 @@
     "end_line": 18,
     "status": "sorry_free",
     "fidelity": "covered",
-    "fidelity_note": "[resolved #5663] Formalized the core obstruction: ratFunc_tensor_ratFunc_not_isField proves ¬ IsField (RatFunc ℂ ⊗[ℂ] RatFunc ℂ), witnessing the failure of Theorem 3.10.2(i) for infinite dimensional representations (A=B=V=W=ℂ(x)). Witness element X⊗1-1⊗X is nonzero (via shift alg hom X↦X+1) but not a unit (multiplication map lmul' sends it to 0).",
+    "fidelity_note": "[resolved #5663] Formalized the core obstruction: ratFunc_tensor_ratFunc_not_isField proves \u00ac IsField (RatFunc \u2102 \u2297[\u2102] RatFunc \u2102), witnessing the failure of Theorem 3.10.2(i) for infinite dimensional representations (A=B=V=W=\u2102(x)). Witness element X\u22971-1\u2297X is nonzero (via shift alg hom X\u21a6X+1) but not a unit (multiplication map lmul' sends it to 0).",
     "fidelity_decl": "EtingofRepresentationTheory.Chapter3.Remark3_10_3.ratFunc_tensor_ratFunc_not_isField",
     "last_updated": "2026-07-02",
     "fidelity_issue": 5663
@@ -2373,7 +2370,7 @@
   {
     "id": "Chapter4/Introduction",
     "type": "introduction",
-    "title": "Chapter 4: Representations of finite groups: Basic results — introduction and Section 4.1 heading",
+    "title": "Chapter 4: Representations of finite groups: Basic results \u2014 introduction and Section 4.1 heading",
     "start_page": "61",
     "end_page": "61",
     "start_line": 1,
@@ -2395,7 +2392,7 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism ψ: k[G] → ⊕_i End(V_i); (2) that ψ is also an isomorphism of representations (G acts by left multiplication on both ",
+    "fidelity_note": "[coverage] Book part (ii) asserts three things: (1) an explicit algebra isomorphism \u03c8: k[G] \u2192 \u2295_i End(V_i); (2) that \u03c8 is also an isomorphism of representations (G acts by left multiplication on both ",
     "fidelity_issue": 5656
   },
   {
@@ -2614,7 +2611,7 @@
   {
     "id": "Chapter4/Introduction_4.5",
     "type": "introduction",
-    "title": "Section 4.5: Orthogonality of characters — Hermitian inner product on class functions",
+    "title": "Section 4.5: Orthogonality of characters \u2014 Hermitian inner product on class functions",
     "start_page": "67",
     "end_page": "68",
     "start_line": 25,
@@ -2708,7 +2705,7 @@
     "end_line": 17,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "Formalized in Chapter4/Remark4_5_5.lean. The character matrix U (rows = irreducibles indexed by ConjClasses G to encode squareness from Thm 4.5.2, columns = conjugacy classes, entries chi_V(g_c)/sqrt|Z_{g_c}|) is built explicitly. character_matrix_mul_conjTranspose proves rows orthonormal (U Uᴴ = 1) by reindexing the first orthogonality relation (FDRep.char_orthonormal, Thm 4.5.1) over conjugacy classes via |c.carrier|*|Z|=|G|; character_matrix_conjTranspose_mul derives unitarity (Uᴴ U = 1) from squareness; column_orthogonality reads off the second orthogonality relation. Sorry-free.",
+    "fidelity_note": "Formalized in Chapter4/Remark4_5_5.lean. The character matrix U (rows = irreducibles indexed by ConjClasses G to encode squareness from Thm 4.5.2, columns = conjugacy classes, entries chi_V(g_c)/sqrt|Z_{g_c}|) is built explicitly. character_matrix_mul_conjTranspose proves rows orthonormal (U U\u1d34 = 1) by reindexing the first orthogonality relation (FDRep.char_orthonormal, Thm 4.5.1) over conjugacy classes via |c.carrier|*|Z|=|G|; character_matrix_conjTranspose_mul derives unitarity (U\u1d34 U = 1) from squareness; column_orthogonality reads off the second orthogonality relation. Sorry-free.",
     "fidelity_decl": "Etingof.Remark4_5_5.column_orthogonality",
     "fidelity_issue": 5378
   },
@@ -2801,7 +2798,7 @@
     "end_line": 10,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "Formalized in EtingofRepresentationTheory/Chapter4/Remark4_6_4.lean. The representation of the infinite group ℤ (Multiplicative ℤ) on ℂ² by powers of the unipotent Jordan block J_{1,2} is built as repZ; repZ_indecomposable and repZ_not_irreducible establish it is indecomposable but not irreducible, and Etingof.Remark4_6_4 packages the existence statement (with Infinite (Multiplicative ℤ)).",
+    "fidelity_note": "Formalized in EtingofRepresentationTheory/Chapter4/Remark4_6_4.lean. The representation of the infinite group \u2124 (Multiplicative \u2124) on \u2102\u00b2 by powers of the unipotent Jordan block J_{1,2} is built as repZ; repZ_indecomposable and repZ_not_irreducible establish it is indecomposable but not irreducible, and Etingof.Remark4_6_4 packages the existence statement (with Infinite (Multiplicative \u2124)).",
     "fidelity_decl": "Etingof.Remark4_6_4",
     "fidelity_issue": 5379
   },
@@ -2834,7 +2831,7 @@
   {
     "id": "Chapter4/Introduction_4.8",
     "type": "introduction",
-    "title": "Section 4.8: Character tables — definition and examples of S_3, A_4",
+    "title": "Section 4.8: Character tables \u2014 definition and examples of S_3, A_4",
     "start_page": "73",
     "end_page": "74",
     "start_line": 25,
@@ -2891,7 +2888,7 @@
   {
     "id": "Chapter4/Introduction_4.10",
     "type": "introduction",
-    "title": "Section 4.10: Frobenius determinant — group determinant setup",
+    "title": "Section 4.10: Frobenius determinant \u2014 group determinant setup",
     "start_page": "78",
     "end_page": "78",
     "start_line": 1,
@@ -2986,7 +2983,7 @@
   {
     "id": "Chapter4/Discussion_4.11",
     "type": "discussion",
-    "title": "Section 4.11: Historical interlude — Georg Frobenius's Principle of Horse Trade",
+    "title": "Section 4.11: Historical interlude \u2014 Georg Frobenius's Principle of Horse Trade",
     "start_page": "79",
     "end_page": "83",
     "start_line": 21,
@@ -3134,7 +3131,7 @@
   {
     "id": "Chapter4/Discussion_4.13",
     "type": "discussion",
-    "title": "Section 4.13: Historical interlude — William Rowan Hamilton's quaternion of geometry, algebra, metaphysics, and poetry",
+    "title": "Section 4.13: Historical interlude \u2014 William Rowan Hamilton's quaternion of geometry, algebra, metaphysics, and poetry",
     "start_page": "88",
     "end_page": "92",
     "start_line": 13,
@@ -3148,7 +3145,7 @@
   {
     "id": "Chapter5/Introduction",
     "type": "introduction",
-    "title": "Chapter 5: Representations of finite groups: Further results — introduction and Section 5.1 heading",
+    "title": "Chapter 5: Representations of finite groups: Further results \u2014 introduction and Section 5.1 heading",
     "start_page": "93",
     "end_page": "93",
     "start_line": 1,
@@ -3171,7 +3168,7 @@
     "fidelity": "verified",
     "sorry_free": true,
     "fidelity_issue": 5389,
-    "fidelity_note": "Fixed (#5389): added `Etingof.IsComplexType` (V ≇ V*, i.e. no G-equivariant iso to the dual rep `ρ.dual`), completing the third case of Def 5.1.1. Coherence proved: `not_isComplexType_of_isRealType` and `not_isComplexType_of_isQuaternionicType` via `exists_equivariant_dual_equiv_of_invariant_nondegenerate` (a nondegenerate G-invariant form gives V ≅ V*). All three types now formalized."
+    "fidelity_note": "Fixed (#5389): added `Etingof.IsComplexType` (V \u2247 V*, i.e. no G-equivariant iso to the dual rep `\u03c1.dual`), completing the third case of Def 5.1.1. Coherence proved: `not_isComplexType_of_isRealType` and `not_isComplexType_of_isQuaternionicType` via `exists_equivariant_dual_equiv_of_invariant_nondegenerate` (a nondegenerate G-invariant form gives V \u2245 V*). All three types now formalized."
   },
   {
     "id": "Chapter5/Discussion_after_Definition5.1.1",
@@ -3336,7 +3333,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Wave-2 gap fixed (#5390): Proposition5_2_4_field now asserts and proves inverse-closure (x≠0 → IsAlgebraic ℚ x⁻¹) via IsAlgebraic.inv, in addition to + and × closure. Full field claim of book Prop 5.2.4(ii)."
+    "fidelity_note": "Wave-2 gap fixed (#5390): Proposition5_2_4_field now asserts and proves inverse-closure (x\u22600 \u2192 IsAlgebraic \u211a x\u207b\u00b9) via IsAlgebraic.inv, in addition to + and \u00d7 closure. Full field claim of book Prop 5.2.4(ii)."
   },
   {
     "id": "Chapter5/Proposition5.2.5",
@@ -3385,7 +3382,7 @@
     "start_line": 3,
     "end_line": 10,
     "status": "partially_formalized",
-    "coverage_note": "Part (b) β-integrality embedded in Chapter5/Remark5_2_8.lean; full remark open (#5654/#5772)"
+    "coverage_note": "Part (b) \u03b2-integrality embedded in Chapter5/Remark5_2_8.lean; full remark open (#5654/#5772)"
   },
   {
     "id": "Chapter5/Remark5.2.8",
@@ -3397,7 +3394,7 @@
     "end_line": 12,
     "status": "proof_partial",
     "fidelity": "verified",
-    "note": "Formalized (issue #5654, epic #5338) in Chapter5/Remark5_2_8.lean, replacing the earlier doc-only false closure. The remark is an alternative proof of the vanishing statement of Problem 5.2.7(b), decomposing into five steps. Three are formalized as real sorry-free theorems: Step 1 (pow_coprime_bijective) g ↦ gʲ is a bijection G → G for gcd(|G|,j)=1; Step 2 (prod_ne_one_pow) reindexing the product over G∖{1} along that bijection gives ∏_{g≠1} f(gʲ) = ∏_{g≠1} f(g), i.e. ∏_{g≠1}|χ_V(gʲ)|² = β; Step 5 + contradiction (not_isIntegral_rat_mem_Ioo) no rational algebraic integer lies in (0,1), built on Etingof.Proposition5_2_5. Also formalized sorry-free: the algebraic-integer half (isIntegral_prod_normSq_character, β is a product of algebraic integers) and the root-of-unity content of Step 3 (character_eq_sum_rootsOfUnity: each χ_V(g) is a sum of N-th roots of unity, N=|G|, since the eigenvalues of ρ(g) are roots of its charpoly and ρ(g) has order dividing N — placing β in ℚ(ζ_N)). Step 4 (representation-theoretic core) is now formalized sorry-free (#5772): character_ringHom_pow proves σ(χ_V(g)) = χ_V(gʲ) for any ring endomorphism σ of ℂ raising every N-th root of unity to its j-th power, via the trace-power-sum trace_pow_eq_sum_eigenvalues (ρ(g) is semisimple as its minpoly divides squarefree X^N-1, so V splits into eigenspaces and trace(ρ(g)ᵏ)=∑_μ (dim Eμ)·μᵏ); combined with Step 2, ringHom_prod_char_inv gives σ(β)=β for β=∏_{g≠1} χ_V(g)·χ_V(g⁻¹). The field-theoretic half of Step 4 together with Step 3 (β∈ℚ) is now formalized sorry-free (#5772): character_prod_rat realizes the cyclotomic field K=ℚ(ζ_N) as the intermediate field ℚ⟮ζ⟯⊆ℂ for a primitive N-th root ζ, lifts β to β_K∈K (each character value is a ℤ-combination of N-th roots of unity, all lying in K), shows β_K is fixed by the whole Galois group Gal(K/ℚ) (each automorphism raises roots of unity to a fixed power ζ↦ζʲ via IsPrimitiveRoot.autToPow_spec, so φ(χ_V(g))=χ_V(gʲ) after transporting the eigenvalue decomposition into K, and reindexing along g↦gʲ restores the product), and concludes β_K∈ℚ from IsGalois.mem_range_algebraMap_iff_fixed (fixed field of the full Galois group is the base field). All five steps are composed into the capstone beta_rat_not_mem_Ioo (Remark 5.2.8, assembled): given the rational q with algebraMap ℚ ℂ q = β from character_prod_rat, and the bound 0<q<1, it derives False — β is a product of algebraic integers (FDRep.character_isIntegral), hence a rational algebraic integer, so not_isIntegral_rat_mem_Ioo applies. The one hypothesis not established in this file is 0<β<1, the main argument of Problem 5.2.7(b) (a separate item), taken as a hypothesis by the capstone. The remark's own content is thus fully formalized sorry-free; status stays proof_partial only because the self-contained contradiction relies on that external 5.2.7(b) bound.",
+    "note": "Formalized (issue #5654, epic #5338) in Chapter5/Remark5_2_8.lean, replacing the earlier doc-only false closure. The remark is an alternative proof of the vanishing statement of Problem 5.2.7(b), decomposing into five steps. Three are formalized as real sorry-free theorems: Step 1 (pow_coprime_bijective) g \u21a6 g\u02b2 is a bijection G \u2192 G for gcd(|G|,j)=1; Step 2 (prod_ne_one_pow) reindexing the product over G\u2216{1} along that bijection gives \u220f_{g\u22601} f(g\u02b2) = \u220f_{g\u22601} f(g), i.e. \u220f_{g\u22601}|\u03c7_V(g\u02b2)|\u00b2 = \u03b2; Step 5 + contradiction (not_isIntegral_rat_mem_Ioo) no rational algebraic integer lies in (0,1), built on Etingof.Proposition5_2_5. Also formalized sorry-free: the algebraic-integer half (isIntegral_prod_normSq_character, \u03b2 is a product of algebraic integers) and the root-of-unity content of Step 3 (character_eq_sum_rootsOfUnity: each \u03c7_V(g) is a sum of N-th roots of unity, N=|G|, since the eigenvalues of \u03c1(g) are roots of its charpoly and \u03c1(g) has order dividing N \u2014 placing \u03b2 in \u211a(\u03b6_N)). Step 4 (representation-theoretic core) is now formalized sorry-free (#5772): character_ringHom_pow proves \u03c3(\u03c7_V(g)) = \u03c7_V(g\u02b2) for any ring endomorphism \u03c3 of \u2102 raising every N-th root of unity to its j-th power, via the trace-power-sum trace_pow_eq_sum_eigenvalues (\u03c1(g) is semisimple as its minpoly divides squarefree X^N-1, so V splits into eigenspaces and trace(\u03c1(g)\u1d4f)=\u2211_\u03bc (dim E\u03bc)\u00b7\u03bc\u1d4f); combined with Step 2, ringHom_prod_char_inv gives \u03c3(\u03b2)=\u03b2 for \u03b2=\u220f_{g\u22601} \u03c7_V(g)\u00b7\u03c7_V(g\u207b\u00b9). The field-theoretic half of Step 4 together with Step 3 (\u03b2\u2208\u211a) is now formalized sorry-free (#5772): character_prod_rat realizes the cyclotomic field K=\u211a(\u03b6_N) as the intermediate field \u211a\u27ee\u03b6\u27ef\u2286\u2102 for a primitive N-th root \u03b6, lifts \u03b2 to \u03b2_K\u2208K (each character value is a \u2124-combination of N-th roots of unity, all lying in K), shows \u03b2_K is fixed by the whole Galois group Gal(K/\u211a) (each automorphism raises roots of unity to a fixed power \u03b6\u21a6\u03b6\u02b2 via IsPrimitiveRoot.autToPow_spec, so \u03c6(\u03c7_V(g))=\u03c7_V(g\u02b2) after transporting the eigenvalue decomposition into K, and reindexing along g\u21a6g\u02b2 restores the product), and concludes \u03b2_K\u2208\u211a from IsGalois.mem_range_algebraMap_iff_fixed (fixed field of the full Galois group is the base field). All five steps are composed into the capstone beta_rat_not_mem_Ioo (Remark 5.2.8, assembled): given the rational q with algebraMap \u211a \u2102 q = \u03b2 from character_prod_rat, and the bound 0<q<1, it derives False \u2014 \u03b2 is a product of algebraic integers (FDRep.character_isIntegral), hence a rational algebraic integer, so not_isIntegral_rat_mem_Ioo applies. The one hypothesis not established in this file is 0<\u03b2<1, the main argument of Problem 5.2.7(b) (a separate item), taken as a hypothesis by the capstone. The remark's own content is thus fully formalized sorry-free; status stays proof_partial only because the self-contained contradiction relies on that external 5.2.7(b) bound.",
     "fidelity_issue": 5654
   },
   {
@@ -3635,7 +3632,7 @@
   {
     "id": "Chapter5/Introduction_5.5",
     "type": "introduction",
-    "title": "Section 5.5: Historical interlude — William Burnside",
+    "title": "Section 5.5: Historical interlude \u2014 William Burnside",
     "start_page": "102",
     "end_page": "102",
     "start_line": 19,
@@ -3677,7 +3674,7 @@
   {
     "id": "Chapter5/Theorem5.6.1",
     "type": "theorem",
-    "title": "Irreducible representations of G x H are tensor products V_i ⊗ W_j",
+    "title": "Irreducible representations of G x H are tensor products V_i \u2297 W_j",
     "start_page": "107",
     "end_page": "107",
     "start_line": 3,
@@ -3746,7 +3743,7 @@
   {
     "id": "Chapter5/Introduction_5.8",
     "type": "introduction",
-    "title": "Section 5.8: Induced representations — restriction and induction",
+    "title": "Section 5.8: Induced representations \u2014 restriction and induction",
     "start_page": "107",
     "end_page": "107",
     "start_line": 17,
@@ -3805,12 +3802,12 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank ℂ (IndV H.subtype ρ) = finrank ℂ V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the ℂ-linear equivalence coindV ≅ (right cosets → V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_σ)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind ≅ Coind isomorphism."
+    "fidelity_note": "Fixed in #5652: added EtingofRepresentationTheory/Chapter5/Remark5_8_3.lean. `Etingof.Remark5_8_3` proves `finrank \u2102 (IndV H.subtype \u03c1) = finrank \u2102 V * H.index` for a finite index subgroup and finite-dimensional V. The proof follows the book: `Etingof.coindVEquivPi` is the \u2102-linear equivalence coindV \u2245 (right cosets \u2192 V) given by evaluation at chosen coset representatives (Etingof's observation that f is determined by {f(x_\u03c3)}), and `Etingof.indVLinearEquivCoindV` transfers this to the tensor model IndV via Mathlib's finite-index Ind \u2245 Coind isomorphism."
   },
   {
     "id": "Chapter5/Problem5.8.4",
     "type": "exercise",
-    "title": "Transitivity of induction: Ind_H^G Ind_K^H V ≅ Ind_K^G V",
+    "title": "Transitivity of induction: Ind_H^G Ind_K^H V \u2245 Ind_K^G V",
     "start_page": "108",
     "end_page": "108",
     "start_line": 27,
@@ -3865,7 +3862,7 @@
     "end_line": 14,
     "status": "sorry_free",
     "fidelity": "verified",
-    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula χ(g) = (1/|H|) · Σ_{x∈G : xgx⁻¹∈H} χ_V(xgx⁻¹). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement — see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = ℂ (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean."
+    "fidelity_note": "[resolved #5653] Coverage gap closed by PR for #5653: EtingofRepresentationTheory/Chapter5/Remark5_9_2.lean now provides Etingof.Remark_5_9_2, stating the averaged Frobenius character formula \u03c7(g) = (1/|H|) \u00b7 \u03a3_{x\u2208G : xgx\u207b\u00b9\u2208H} \u03c7_V(xgx\u207b\u00b9). The wave-2 finding was correct that no declaration named Remark5_9_2 existed, but the remark's mathematical content was already fully formalized: Etingof.Theorem5_9_1 was proved directly in the averaged form (choosing a transversal of H\\G is awkward to formalize, so the averaged phrasing is the primary statement \u2014 see Theorem5_9_1.lean's module docstring). Remark_5_9_2 records that averaged formula under the book item's name, deriving it from Theorem5_9_1 over k = \u2102 (characteristic 0, so the 'char coprime to |H|' hypothesis holds automatically). sorry-free; axioms [propext, Classical.choice, Quot.sound]; imported into Chapter5.lean."
   },
   {
     "id": "Chapter5/Discussion_proof_of_Theorem5.9.1",
@@ -3898,7 +3895,7 @@
   {
     "id": "Chapter5/Theorem5.10.1",
     "type": "theorem",
-    "title": "Frobenius reciprocity: Hom_G(V, Ind W) ≅ Hom_H(Res V, W)",
+    "title": "Frobenius reciprocity: Hom_G(V, Ind W) \u2245 Hom_H(Res V, W)",
     "start_page": "110",
     "end_page": "110",
     "start_line": 7,
@@ -3907,7 +3904,7 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity] Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) ≅ Hom_H(Res V, W) (i.e., Res ⊣ CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, ",
+    "fidelity_note": "[fidelity] Wrong adjunction direction. Book states Frobenius reciprocity as Hom_G(V, Ind_H^G W) \u2245 Hom_H(Res V, W) (i.e., Res \u22a3 CoInd direction, or equivalently: Ind is left adjoint gives Hom_G(Ind W, ",
     "fidelity_issue": 5621
   },
   {
@@ -4022,7 +4019,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "youngSymmetrizer_identity_coeff proved, cascading to young_symmetrizer_sq_ne_zero and Theorem5_12_2_irreducible. Only Theorem5_12_2_classification (every simple is some V_λ) has sorry.",
+    "notes": "youngSymmetrizer_identity_coeff proved, cascading to young_symmetrizer_sq_ne_zero and Theorem5_12_2_irreducible. Only Theorem5_12_2_classification (every simple is some V_\u03bb) has sorry.",
     "sorry_free": true
   },
   {
@@ -4036,7 +4033,7 @@
     "status": "sorry_free",
     "fidelity": "gap",
     "sorry_free": true,
-    "fidelity_note": "Trivial/sign claims now proved at the representation level: Example5_12_3_trivial_rep (every σ acts as identity on V_{(n)}) and Example5_12_3_sign_rep (every σ acts as sign σ on V_{(1ⁿ)}). Residual: the n=3,4 cases (ℂ², ℂ³₋, ℂ³₊) are still identified only by dimension, not by an explicit equivariant isomorphism to the named irreps.",
+    "fidelity_note": "Trivial/sign claims now proved at the representation level: Example5_12_3_trivial_rep (every \u03c3 acts as identity on V_{(n)}) and Example5_12_3_sign_rep (every \u03c3 acts as sign \u03c3 on V_{(1\u207f)}). Residual: the n=3,4 cases (\u2102\u00b2, \u2102\u00b3\u208b, \u2102\u00b3\u208a) are still identified only by dimension, not by an explicit equivariant isomorphism to the named irreps.",
     "fidelity_issue": 5637
   },
   {
@@ -4151,7 +4148,7 @@
   {
     "id": "Chapter5/Lemma5.13.4",
     "type": "lemma",
-    "title": "Hom_A(Ae, M) ≅ eM for idempotent e (continues to missing page)",
+    "title": "Hom_A(Ae, M) \u2245 eM for idempotent e (continues to missing page)",
     "start_page": "115",
     "end_page": "115",
     "start_line": 13,
@@ -4497,7 +4494,7 @@
   {
     "id": "Chapter5/Introduction_5.18",
     "type": "introduction",
-    "title": "Section 5.18: Schur-Weyl duality for gl(V) — Double Centralizer Theorem",
+    "title": "Section 5.18: Schur-Weyl duality for gl(V) \u2014 Double Centralizer Theorem",
     "start_page": "122",
     "end_page": "122",
     "start_line": 17,
@@ -4526,7 +4523,7 @@
   {
     "id": "Chapter5/Discussion_before_Theorem5.18.2",
     "type": "discussion",
-    "title": "Application of Double Centralizer Theorem to V^{⊗n}",
+    "title": "Application of Double Centralizer Theorem to V^{\u2297n}",
     "start_page": "123",
     "end_page": "123",
     "start_line": 3,
@@ -4540,7 +4537,7 @@
   {
     "id": "Chapter5/Theorem5.18.2",
     "type": "theorem",
-    "title": "B is the image of U(gl(V)) acting on V^{⊗n}",
+    "title": "B is the image of U(gl(V)) acting on V^{\u2297n}",
     "start_page": "123",
     "end_page": "123",
     "start_line": 5,
@@ -4548,13 +4545,13 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": true,
-    "notes": "(⊇) direction fully proved. (⊆) direction needs Schur-Weyl duality / first fundamental theorem of invariant theory — prove it here. 1 sorry remains.",
+    "notes": "(\u2287) direction fully proved. (\u2286) direction needs Schur-Weyl duality / first fundamental theorem of invariant theory \u2014 prove it here. 1 sorry remains.",
     "sorry_free": true
   },
   {
     "id": "Chapter5/Lemma5.18.3",
     "type": "lemma",
-    "title": "S^n U is spanned by u⊗...⊗u; S^n A is generated by Delta_n(a)",
+    "title": "S^n U is spanned by u\u2297...\u2297u; S^n A is generated by Delta_n(a)",
     "start_page": "123",
     "end_page": "123",
     "start_line": 15,
@@ -4595,7 +4592,7 @@
   {
     "id": "Chapter5/Theorem5.18.4",
     "type": "theorem",
-    "title": "Schur-Weyl duality: V^{⊗n} = ⊕ V_lambda ⊗ L_lambda",
+    "title": "Schur-Weyl duality: V^{\u2297n} = \u2295 V_lambda \u2297 L_lambda",
     "start_page": "124",
     "end_page": "124",
     "start_line": 5,
@@ -4603,8 +4600,8 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Triage 2026-03-18: parts (i) (centralizers) and (ii) (semisimple) faithful and sorry-free. Part (iii) (partition-indexed decomposition) completed #5405: Theorem5_18_4_partition_decomposition is sorry-free, indexing the bimodule decomposition by Nat.Partition n via the Specht-labelling embedding ι ↪ p(n).",
-    "fidelity_note": "All three parts are now faithful and sorry-free. Part (iii) is Theorem5_18_4_partition_decomposition (in SchurWeylPartition.lean): V^⊗n ≅ ⊕_{λ⊢n} S_λ ⊗ L_λ with S_λ simple-or-zero over symGroupImage, L_λ simple-or-zero over diagonalActionImage, distinct nonzero L_λ. The Specht labelling uses card_le_card_partition (card ι ≤ p(n)) via card_le_card_conjClasses' / Corollary 4.2.2.",
+    "notes": "Triage 2026-03-18: parts (i) (centralizers) and (ii) (semisimple) faithful and sorry-free. Part (iii) (partition-indexed decomposition) completed #5405: Theorem5_18_4_partition_decomposition is sorry-free, indexing the bimodule decomposition by Nat.Partition n via the Specht-labelling embedding \u03b9 \u21aa p(n).",
+    "fidelity_note": "All three parts are now faithful and sorry-free. Part (iii) is Theorem5_18_4_partition_decomposition (in SchurWeylPartition.lean): V^\u2297n \u2245 \u2295_{\u03bb\u22a2n} S_\u03bb \u2297 L_\u03bb with S_\u03bb simple-or-zero over symGroupImage, L_\u03bb simple-or-zero over diagonalActionImage, distinct nonzero L_\u03bb. The Specht labelling uses card_le_card_partition (card \u03b9 \u2264 p(n)) via card_le_card_conjClasses' / Corollary 4.2.2.",
     "fidelity_decl": "Theorem5_18_4_centralizers, _semisimple, _decomposition, _bimodule_decomposition, _bimodule_decomposition_full, _partition_decomposition",
     "fidelity_issue": 5405
   },
@@ -4625,7 +4622,7 @@
   {
     "id": "Chapter5/Proposition5.19.1",
     "type": "proposition",
-    "title": "Image of GL(V) in End(V^{⊗n}) spans B",
+    "title": "Image of GL(V) in End(V^{\u2297n}) spans B",
     "start_page": "124",
     "end_page": "124",
     "start_line": 21,
@@ -4653,7 +4650,7 @@
   {
     "id": "Chapter5/Example5.19.3",
     "type": "example",
-    "title": "L_lambda for partitions (n) and (1^n): S^nV and Λ^nV",
+    "title": "L_lambda for partitions (n) and (1^n): S^nV and \u039b^nV",
     "start_page": "125",
     "end_page": "125",
     "start_line": 3,
@@ -4663,13 +4660,13 @@
     "needs_statement": false,
     "notes": "Symmetric part (Example5_19_3_symmetric) is sorry_free. Exterior part (Example5_19_3_exterior) still has sorry due to coercion issues between ExteriorAlgebra and PiTensorProduct.",
     "sorry_free": true,
-    "fidelity_note": "[partial-example] The book says L_{(n)} = SⁿV and L_{(1ⁿ)} = ∧ⁿV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant",
+    "fidelity_note": "[partial-example] The book says L_{(n)} = S\u207fV and L_{(1\u207f)} = \u2227\u207fV as GL(V)-representations, and that these are irreducible. The Lean statements prove only k-linear isomorphisms: 'Nonempty (symInvariant",
     "fidelity_issue": 5638
   },
   {
     "id": "Chapter5/Introduction_5.20",
     "type": "introduction",
-    "title": "Section 5.20: Historical interlude — Hermann Weyl",
+    "title": "Section 5.20: Historical interlude \u2014 Hermann Weyl",
     "start_page": "125",
     "end_page": "125",
     "start_line": 5,
@@ -4820,7 +4817,7 @@
   {
     "id": "Chapter5/Proposition5.22.2",
     "type": "proposition",
-    "title": "L_{lambda+1^N} ≅ L_lambda ⊗ Λ^N V",
+    "title": "L_{lambda+1^N} \u2245 L_lambda \u2297 \u039b^N V",
     "start_page": "133",
     "end_page": "133",
     "start_line": 3,
@@ -4931,7 +4928,7 @@
   {
     "id": "Chapter5/Problem5.24.1",
     "type": "exercise",
-    "title": "V'_lambda ≅ V_lambda and V_lambda ⊗ C_- = V_{lambda*}",
+    "title": "V'_lambda \u2245 V_lambda and V_lambda \u2297 C_- = V_{lambda*}",
     "start_page": "135",
     "end_page": "135",
     "start_line": 3,
@@ -5008,7 +5005,7 @@
   {
     "id": "Chapter5/Discussion_1dim_reps",
     "type": "discussion",
-    "title": "G/[G,G] ≅ F_q^× and description of 1-dimensional representations C_xi",
+    "title": "G/[G,G] \u2245 F_q^\u00d7 and description of 1-dimensional representations C_xi",
     "start_page": "138",
     "end_page": "138",
     "start_line": 21,
@@ -5017,13 +5014,13 @@
     "coverage_swept": {
       "wave": 1,
       "result": "formalized",
-      "note": "Classification of 1-dim reps of GL2(F_q) as xi∘det (bijection) + count q-1 formalized in Chapter5/Discussion_1dim_reps.lean (#5677)."
+      "note": "Classification of 1-dim reps of GL2(F_q) as xi\u2218det (bijection) + count q-1 formalized in Chapter5/Discussion_1dim_reps.lean (#5677)."
     }
   },
   {
     "id": "Chapter5/Discussion_5.25.3",
     "type": "discussion",
-    "title": "Section 5.25.3: Principal series representations — setup of B, V_{lambda_1,lambda_2}",
+    "title": "Section 5.25.3: Principal series representations \u2014 setup of B, V_{lambda_1,lambda_2}",
     "start_page": "138",
     "end_page": "139",
     "start_line": 41,
@@ -5063,7 +5060,7 @@
   {
     "id": "Chapter5/Discussion_5.25.4",
     "type": "discussion",
-    "title": "Section 5.25.4: Complementary series representations — setup and character computation",
+    "title": "Section 5.25.4: Complementary series representations \u2014 setup and character computation",
     "start_page": "141",
     "end_page": "143",
     "start_line": 37,
@@ -5197,7 +5194,7 @@
   {
     "id": "Chapter5/Theorem5.27.1",
     "type": "theorem",
-    "title": "Classification of irreducible representations of semidirect products G ⋉ A",
+    "title": "Classification of irreducible representations of semidirect products G \u22c9 A",
     "start_page": "146",
     "end_page": "147",
     "start_line": 11,
@@ -5700,7 +5697,7 @@
     "fidelity": "verified",
     "needs_statement": true,
     "notes": "Part (a) finiteness sorry-free. Part (b) sorry-free. Part (c) still sorry (needs reflection functors).",
-    "fidelity_note": "verified (parts a/b/c distributed); combined decl weak — tightening tracked in #5670"
+    "fidelity_note": "verified (parts a/b/c distributed); combined decl weak \u2014 tightening tracked in #5670"
   },
   {
     "id": "Chapter6/Section6.6_heading",
@@ -5869,7 +5866,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_note": "verified (wave-6, Opus): coxeterElement now folds the genuine root-lattice simpleReflections of the Cartan matrix (c=s_1…s_n); prior gap #5625 resolved (merged)"
+    "fidelity_note": "verified (wave-6, Opus): coxeterElement now folds the genuine root-lattice simpleReflections of the Cartan matrix (c=s_1\u2026s_n); prior gap #5625 resolved (merged)"
   },
   {
     "id": "Chapter6/Lemma6.7.2",
@@ -5990,7 +5987,7 @@
     "fidelity": "verified",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "verified (wave-6, Opus): parts 1/2/3 use the genuine D₄ root-lattice simpleReflections (functor↔reflection bridge = Prop 6.6.8), (2,1,1,1)∈D₄ indecomposable dim-vectors; prior gap #5639 resolved (merged)"
+    "fidelity_note": "verified (wave-6, Opus): parts 1/2/3 use the genuine D\u2084 root-lattice simpleReflections (functor\u2194reflection bridge = Prop 6.6.8), (2,1,1,1)\u2208D\u2084 indecomposable dim-vectors; prior gap #5639 resolved (merged)"
   },
   {
     "id": "Chapter6/Section6.9_heading",
@@ -6139,7 +6136,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "sorry_free": true,
-    "fidelity_decl": "example : (forget₂ CommGrpCat GrpCat).FullyFaithful",
+    "fidelity_decl": "example : (forget\u2082 CommGrpCat GrpCat).FullyFaithful",
     "fidelity_issue": 5594,
     "last_updated": "2026-06-29"
   },
@@ -6259,7 +6256,7 @@
     "fidelity": "gap",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[near-complete] All four sub-items formalized. Sub-item (1): `double_dual_iso`/`double_dual_naturality` (finite-dim V ≃ₗ V** + naturality), plus `doubleDualFunctor`/`doubleDualNatIso` giving the actual CategoryTheory NatIso `𝟭 ≅ (·)**` on `FGModuleCat k` (Etingof's FVect_k), and `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, second half). Sub-item (2): `linearEquiv_dual_iff_finiteDimensional` (V ≅ V* iff finite-dim, the positive half of the FVect'_k functor F(V)=V*). Sub-item (3): `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A). Sub-item (4): `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A)). Only remaining gap: sub-item (2)'s *non-naturality* claim (F not naturally iso to id via the GL(V)-representation obstruction), which needs the groupoid FVect'_k + functor F built as CategoryTheory objects; deferred to dedicated future work.",
+    "fidelity_note": "[near-complete] All four sub-items formalized. Sub-item (1): `double_dual_iso`/`double_dual_naturality` (finite-dim V \u2243\u2097 V** + naturality), plus `doubleDualFunctor`/`doubleDualNatIso` giving the actual CategoryTheory NatIso `\ud835\udfed \u2245 (\u00b7)**` on `FGModuleCat k` (Etingof's FVect_k), and `linearEquiv_dualDual_iff_finiteDimensional` (infinite-dim V not iso to V**, second half). Sub-item (2): `linearEquiv_dual_iff_finiteDimensional` (V \u2245 V* iff finite-dim, the positive half of the FVect'_k functor F(V)=V*). Sub-item (3): `forgetful_natEnd_eq_smul`/`forgetful_smul_comp` (End(forgetful F)=A). Sub-item (4): `idFunctor_natEnd_eq_smul`/`idFunctor_natEnd_central` (End(Id_{A-mod})=Z(A)). Only remaining gap: sub-item (2)'s *non-naturality* claim (F not naturally iso to id via the GL(V)-representation obstruction), which needs the groupoid FVect'_k + functor F built as CategoryTheory objects; deferred to dedicated future work.",
     "fidelity_issue": 5643
   },
   {
@@ -6351,7 +6348,7 @@
     "fidelity": "resolved",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 7, resolved #5838] Both claims now formalized. (1) forgetful A-mod→Vect_k representable by M=A via ringLmapEquivSelf. (2) non-representability on finite-dim modules: over A=k[x] (equivalent infinite-dim algebra; book's c_00(ℤ) is non-unital, outside Mathlib's Module framework), forgetful_not_representable shows no finite-dim module M=(V,S) can represent the forgetful functor, since every finite-dim S has a scalar μ (non-eigenvalue) with Hom_A(M,ℂ_μ)=0 despite dim ℂ_μ=1.",
+    "fidelity_note": "[fidelity wave 7, resolved #5838] Both claims now formalized. (1) forgetful A-mod\u2192Vect_k representable by M=A via ringLmapEquivSelf. (2) non-representability on finite-dim modules: over A=k[x] (equivalent infinite-dim algebra; book's c_00(\u2124) is non-unital, outside Mathlib's Module framework), forgetful_not_representable shows no finite-dim module M=(V,S) can represent the forgetful functor, since every finite-dim S has a scalar \u03bc (non-eigenvalue) with Hom_A(M,\u2102_\u03bc)=0 despite dim \u2102_\u03bc=1.",
     "fidelity_issue": 5838
   },
   {
@@ -6574,7 +6571,7 @@
     "fidelity": "gap",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 7] Definition 7.8.2 defines a short EXACT sequence (0→X→Y→Z→0 exact; X→Y mono, Y→Z epi, Y/X→Z iso). Lean declares Etingof.ShortComplex := CategoryTheory.ShortComplex (a short complex, satisfied by the zero complex); the defining ShortExact predicate is dropped.",
+    "fidelity_note": "[fidelity wave 7] Definition 7.8.2 defines a short EXACT sequence (0\u2192X\u2192Y\u2192Z\u21920 exact; X\u2192Y mono, Y\u2192Z epi, Y/X\u2192Z iso). Lean declares Etingof.ShortComplex := CategoryTheory.ShortComplex (a short complex, satisfied by the zero complex); the defining ShortExact predicate is dropped.",
     "fidelity_issue": 5840
   },
   {
@@ -6626,7 +6623,7 @@
   {
     "id": "Chapter7/Problem7.8.7",
     "type": "exercise",
-    "title": "Tensor product of complexes and Künneth formula",
+    "title": "Tensor product of complexes and K\u00fcnneth formula",
     "start_page": "193",
     "end_page": "194",
     "start_line": 23,
@@ -6750,7 +6747,7 @@
     "needs_statement": false,
     "notes": "hom_left_exact via inferInstance (coyoneda); tensor_right_exact via inferInstance (MonoidalClosed left adjoint)",
     "sorry_free": true,
-    "fidelity_note": "[coverage] Three distinct gaps: (1) Part (i) — Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam",
+    "fidelity_note": "[coverage] Three distinct gaps: (1) Part (i) \u2014 Ind_K^G and Res_K^G exactness is ENTIRELY absent. No Lean declaration exists for either functor being exact (only additivity and linearity appear in Exam",
     "fidelity_issue": 5647
   },
   {
@@ -7093,7 +7090,7 @@
     "end_line": 1,
     "status": "sorry_free",
     "fidelity": "verified",
-    "note": "Covered-inline (completeness audit #5723, epic #5338): the only narrative citation of this problem is Example 9.4.4, which uses part (iv) — the Hilbert syzygies theorem — to conclude that the homological dimension of k[x₁,…,xₙ] is n. That load-bearing conclusion is proved directly and completely in Chapter9/Example9_4_4.lean as Etingof.Example_9_4_4 (for finite dimensional V over a field, SV is the polynomial ring k[x₁,…,xₙ] with n = dim V). Example 9.4.4 does NOT route through the explicit Koszul resolution; it reproves the needed result via a degree-one Koszul SES plus induction, so it does not silently assume this problem. The explicit Koszul resolution (i), the SW resolution (ii), the bimodule resolution (iii), and the Ext/Tor(k,k) computation (v) are self-contained exercises not separately formalized and not depended on by any later item. See Chapter8/Problem8_2_10.lean for the coverage record."
+    "note": "Covered-inline (completeness audit #5723, epic #5338): the only narrative citation of this problem is Example 9.4.4, which uses part (iv) \u2014 the Hilbert syzygies theorem \u2014 to conclude that the homological dimension of k[x\u2081,\u2026,x\u2099] is n. That load-bearing conclusion is proved directly and completely in Chapter9/Example9_4_4.lean as Etingof.Example_9_4_4 (for finite dimensional V over a field, SV is the polynomial ring k[x\u2081,\u2026,x\u2099] with n = dim V). Example 9.4.4 does NOT route through the explicit Koszul resolution; it reproves the needed result via a degree-one Koszul SES plus induction, so it does not silently assume this problem. The explicit Koszul resolution (i), the SW resolution (ii), the bimodule resolution (iii), and the Ext/Tor(k,k) computation (v) are self-contained exercises not separately formalized and not depended on by any later item. See Chapter8/Problem8_2_10.lean for the coverage record."
   },
   {
     "id": "Chapter9/Introduction",
@@ -7186,7 +7183,7 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "All sorries proved. PR #1692 proved hσ_surj (last sorry).",
+    "notes": "All sorries proved. PR #1692 proved h\u03c3_surj (last sorry).",
     "fidelity_note": "wave-4 gap #5669 (dropped uniqueness of P_i) repaired: Theorem_9_2_1_i now carries the uniqueness conjunct via Fitting's lemma; wave-9 re-verified"
   },
   {
@@ -7243,7 +7240,7 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i →ₗ[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. Residual noted in wave-9: the prose observation 'positive diagonal entries' has no Lean lemma"
+    "fidelity_note": "wave-2 gap #5631 (degenerate wrapper of arbitrary function) repaired: algebraCartanMatrix is now genuinely constructed as c_ij = finrank k (P i \u2192\u2097[A] P j), the book's dim Hom_A(P_i, P_j); wave-9 re-verified. Residual noted in wave-9: the prose observation 'positive diagonal entries' has no Lean lemma"
   },
   {
     "id": "Chapter9/Problem9.3.2",
@@ -7366,7 +7363,7 @@
     "fidelity": "faithful",
     "needs_statement": true,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 9 → fixed #5850] Linking now gated on simple modules: the base relation Etingof.ExtOrIsoSimple carries IsSimpleModule side conditions on both endpoints, so every chain step connects two simples (the coarser all-modules chain that linked X, Y across a product A₁ × A₂ via N = N₁ ⊕ N₂ no longer exists). Blocks are the JH-factor subcategories: Etingof.IsCompositionFactor (simple subquotient), Etingof.InBlock S M (all JH factors of M linked to S), and Etingof.Block = quotient of the simple objects by linking (the index set B).",
+    "fidelity_note": "[fidelity wave 9 \u2192 fixed #5850] Linking now gated on simple modules: the base relation Etingof.ExtOrIsoSimple carries IsSimpleModule side conditions on both endpoints, so every chain step connects two simples (the coarser all-modules chain that linked X, Y across a product A\u2081 \u00d7 A\u2082 via N = N\u2081 \u2295 N\u2082 no longer exists). Blocks are the JH-factor subcategories: Etingof.IsCompositionFactor (simple subquotient), Etingof.InBlock S M (all JH factors of M linked to S), and Etingof.Block = quotient of the simple objects by linking (the index set B).",
     "fidelity_issue": 5850
   },
   {
@@ -7381,7 +7378,7 @@
     "fidelity": "verified",
     "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "wave-2 gap #5648 (three findings) repaired via PRs #5730/#5734 and re-confirmed in #5648: (i) semisimple_areLinked_iff_iso + semisimple_blocks_singleton, (ii) local_artinian_single_block, (iii) problem_9_3_2_single_block via genuine nonsplit extension; wave-9 re-verified. Residuals noted in wave-9: (i)'s '≃ Vec' captured at the one-simple-object level per adjudicated scope note; (iii) does not prove S₊/S₋ exhaust the simples"
+    "fidelity_note": "wave-2 gap #5648 (three findings) repaired via PRs #5730/#5734 and re-confirmed in #5648: (i) semisimple_areLinked_iff_iso + semisimple_blocks_singleton, (ii) local_artinian_single_block, (iii) problem_9_3_2_single_block via genuine nonsplit extension; wave-9 re-verified. Residuals noted in wave-9: (i)'s '\u2243 Vec' captured at the one-simple-object level per adjudicated scope note; (iii) does not prove S\u208a/S\u208b exhaust the simples"
   },
   {
     "id": "Chapter9/Problem9.5.3",
@@ -7476,7 +7473,7 @@
     "attention_needed": false,
     "sorries": 0,
     "sorry_free": true,
-    "fidelity_note": "wave-3 gap #5665 (extra [IsNoetherianRing (End P)ᵐᵒᵖ] hypothesis) repaired: Theorem_9_6_4 and Theorem_9_6_4_corollary now derive it via isNoetherianRing_endOp_of_overField from the book's over-a-field hypotheses; Noetherian-hypothesis variants retained as labeled ring-level engines; wave-9 re-verified"
+    "fidelity_note": "wave-3 gap #5665 (extra [IsNoetherianRing (End P)\u1d50\u1d52\u1d56] hypothesis) repaired: Theorem_9_6_4 and Theorem_9_6_4_corollary now derive it via isNoetherianRing_endOp_of_overField from the book's over-a-field hypotheses; Noetherian-hypothesis variants retained as labeled ring-level engines; wave-9 re-verified"
   },
   {
     "id": "Chapter9/Problem9.6.5",
@@ -7499,7 +7496,7 @@
     "end_line": 6,
     "status": "proof_partial",
     "sorry_free": false,
-    "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib).",
+    "note": "Projective-generator classification (P_n = \u2295 n_i P_i, n_i \u2265 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib).",
     "coverage_swept": {
       "wave": 1,
       "result": "covered"
@@ -7556,10 +7553,10 @@
     "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
-    "notes": "Sorry-free since wave 28 (algebra version). Categorical input form landed as Corollary_9_7_3_i_categorical_fgModule (#5738): for a k-linear finite abelian category over an alg-closed field with progenerator P, produces basic B with the single equivalence C ≌ FGModuleCat B. FG-restriction of Morita equivalence in Infrastructure/MoritaFGRestriction.",
+    "notes": "Sorry-free since wave 28 (algebra version). Categorical input form landed as Corollary_9_7_3_i_categorical_fgModule (#5738): for a k-linear finite abelian category over an alg-closed field with progenerator P, produces basic B with the single equivalence C \u224c FGModuleCat B. FG-restriction of Morita equivalence in Infrastructure/MoritaFGRestriction.",
     "attention_needed": false,
     "last_updated": "2026-07-04",
-    "fidelity_note": "wave-9: normalized nonstandard 'faithful' value; #5738 gap 2 closed by Corollary_9_7_3_i_categorical_fgModule (single equivalence C ≌ FGModuleCat B with B basic), uniqueness by Corollary_9_7_3_i_unique, dim bound by Corollary_9_7_3_ii. Residual noted in wave-9: progenerator P carried as hypothesis (gap 1 of #5738), consistent with the audited Theorem 9.6.4 formalization"
+    "fidelity_note": "wave-9: normalized nonstandard 'faithful' value; #5738 gap 2 closed by Corollary_9_7_3_i_categorical_fgModule (single equivalence C \u224c FGModuleCat B with B basic), uniqueness by Corollary_9_7_3_i_unique, dim bound by Corollary_9_7_3_ii. Residual noted in wave-9: progenerator P carried as hypothesis (gap 1 of #5738), consistent with the audited Theorem 9.6.4 formalization"
   },
   {
     "id": "Backmatter/ReferencesHistorical",
@@ -7585,7 +7582,7 @@
     "type": "derived",
     "derived_from": "Chapter2/Discussion_2.1_irreducible_indecomposable",
     "source_span": "Obviously, irreducible implies indecomposable, but not vice versa.",
-    "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V → Etingof.IsIndecomposable A V.",
+    "claim": "Every irreducible (simple) representation is indecomposable: IsSimpleModule A V \u2192 Etingof.IsIndecomposable A V.",
     "status": "formalized",
     "lean_ref": "Chapter2/Discussion_2_1_irreducible_indecomposable.lean (Etingof.IsIndecomposable.of_isSimpleModule)",
     "coverage_issue": 5676
@@ -7594,7 +7591,7 @@
     "type": "derived",
     "derived_from": "Chapter5/Discussion_1dim_reps",
     "source_span": "G/[G, G] \\cong \\mathbb{F}_q^\\times via g \\mapsto \\det(g). The 1-dimensional representations of G thus have the form \\rho(g) = \\xi(\\det(g)), where \\xi is a homomorphism \\xi : \\mathbb{F}_q^\\times \\to \\mathbb{C}^\\times; so there are q - 1 such representations, denoted \\mathbb{C}_\\xi.",
-    "claim": "Every 1-dimensional representation of GL₂(𝔽_q) is of the form g ↦ ξ(det g) for a unique character ξ : 𝔽_q× → ℂ×; there are exactly q−1 such representations.",
+    "claim": "Every 1-dimensional representation of GL\u2082(\ud835\udd3d_q) is of the form g \u21a6 \u03be(det g) for a unique character \u03be : \ud835\udd3d_q\u00d7 \u2192 \u2102\u00d7; there are exactly q\u22121 such representations.",
     "status": "accepted",
     "coverage_issue": 5677
   },
@@ -7602,27 +7599,27 @@
     "type": "derived",
     "derived_from": "Chapter5/Discussion_5.11_examples",
     "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
-    "claim": "The three induced representations of S₄ from S₃: Ind_{S₃}^{S₄} ℂ₊ ≅ ℂ₊ ⊕ ℂ³₋, Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊, Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊",
+    "claim": "The three induced representations of S\u2084 from S\u2083: Ind_{S\u2083}^{S\u2084} \u2102\u208a \u2245 \u2102\u208a \u2295 \u2102\u00b3\u208b, Ind_{S\u2083}^{S\u2084} \u2102\u208b \u2245 \u2102\u208b \u2295 \u2102\u00b3\u208a, Ind_{S\u2083}^{S\u2084} \u2102\u00b2 \u2245 \u2102\u00b2 \u2295 \u2102\u00b3\u208b \u2295 \u2102\u00b3\u208a",
     "status": "accepted",
     "coverage_issue": 5678,
     "lean_file": "EtingofRepresentationTheory/Chapter5/Discussion5_11_S4S3.lean",
-    "note": "All three isomorphisms proved sorry-free (issue #5797): indH_triv_decomp, indH_sign_decomp, indH_twoDim_decomp. S₃ realised as the point-stabiliser H ≤ S₄ via Equiv.Perm.extendDomainHom; group-generic Frobenius reciprocity (frobenius_finrank_gen / ind_finrank_eq_scalar_gen) reduces each multiplicity to a character scalar product over H, evaluated by decide after transporting the sum to S₃, then matched against Schur biproduct multiplicities on each of the five S₄-irreducibles."
+    "note": "All three isomorphisms proved sorry-free (issue #5797): indH_triv_decomp, indH_sign_decomp, indH_twoDim_decomp. S\u2083 realised as the point-stabiliser H \u2264 S\u2084 via Equiv.Perm.extendDomainHom; group-generic Frobenius reciprocity (frobenius_finrank_gen / ind_finrank_eq_scalar_gen) reduces each multiplicity to a character scalar product over H, evaluated by decide after transporting the sum to S\u2083, then matched against Schur biproduct multiplicities on each of the five S\u2084-irreducibles."
   },
   {
     "type": "derived",
     "derived_from": "Chapter5/Discussion_5.25.1",
     "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
-    "claim": "The number of conjugacy classes of each type in GL₂(𝔽_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q²-1.",
+    "claim": "The number of conjugacy classes of each type in GL\u2082(\ud835\udd3d_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q\u00b2-1.",
     "status": "statement_formalized",
     "coverage_issue": 5679,
     "lean_file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-    "note": "First instantiation of ConjClasses for GL₂. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. card_conjClasses_eq_sum (total = sum of the four type counts) now proved in full: the type predicates transfer across conjugacy and are exhaustive, so their ConjClasses.mk-images partition ConjClasses(GL₂). card_conjClasses_eq (total = q²-1) is now DERIVED from that partition plus the four counts and the arithmetic identity (q odd ⇒ divisions exact); it carries no direct sorry. Remaining sorries: numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq (need constant class-size / centralizer-order lemmas)."
+    "note": "First instantiation of ConjClasses for GL\u2082. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. card_conjClasses_eq_sum (total = sum of the four type counts) now proved in full: the type predicates transfer across conjugacy and are exhaustive, so their ConjClasses.mk-images partition ConjClasses(GL\u2082). card_conjClasses_eq (total = q\u00b2-1) is now DERIVED from that partition plus the four counts and the arithmetic identity (q odd \u21d2 divisions exact); it carries no direct sorry. Remaining sorries: numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq (need constant class-size / centralizer-order lemmas)."
   },
   {
     "type": "derived",
     "derived_from": "Chapter5/Discussion_after_Definition5.23.1",
     "source_span": "Also define L_{\\lambda - r \\cdot 1^N} := L_\\lambda \\otimes (\\wedge^N V^*)^{\\otimes r} (this definition makes sense by Proposition 5.22.2). Thus we have attached a unique irreducible algebraic representation L_\\lambda of GL(V) = GL_N to any sequence (\\lambda_1, \\ldots, \\lambda_N) of integers (not nec",
-    "claim": "For any weakly decreasing integer sequence λ₁ ≥ … ≥ λ_N, there is a unique irreducible algebraic representation L_λ of GL_N with highest weight λ; it is constructed as (Schur module L_{λ+r·1^N}) ⊗ (det^*)^r for r ≫ 0",
+    "claim": "For any weakly decreasing integer sequence \u03bb\u2081 \u2265 \u2026 \u2265 \u03bb_N, there is a unique irreducible algebraic representation L_\u03bb of GL_N with highest weight \u03bb; it is constructed as (Schur module L_{\u03bb+r\u00b71^N}) \u2297 (det^*)^r for r \u226b 0",
     "status": "accepted",
     "coverage_issue": 5680
   },
@@ -7630,7 +7627,7 @@
     "type": "derived",
     "derived_from": "Chapter5/Discussion_complementary_series_summary",
     "source_span": "We have thus found q - 1 1-dimensional representations of G, \\frac{q(q-1)}{2} principal series representations, and \\frac{q(q-1)}{2} complementary series representations, for a total of q^2 - 1 representations, i.e., the number of conjugacy classes in G. This implies that we have in fact found all i",
-    "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q²-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL₂(𝔽_q)",
+    "claim": "The total count (q-1) + q(q-1)/2 + q(q-1)/2 = q\u00b2-1 equals the number of conjugacy classes, so the listed representations are all irreducible representations of GL\u2082(\ud835\udd3d_q)",
     "status": "accepted",
     "coverage_issue": 5681
   },
@@ -7646,8 +7643,8 @@
   {
     "type": "derived",
     "derived_from": "Chapter7/Discussion_after_Definition7.9.1",
-    "source_span": "It is easy to show that if F is an additive functor, then F(X ⊕ Y) is canonically isomorphic to F(X) ⊕ F(Y).",
-    "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X ⊞ Y) ≅ F(X) ⊞ F(Y) canonically.",
+    "source_span": "It is easy to show that if F is an additive functor, then F(X \u2295 Y) is canonically isomorphic to F(X) \u2295 F(Y).",
+    "claim": "An additive functor F between preadditive categories with biproducts satisfies F(X \u229e Y) \u2245 F(X) \u229e F(Y) canonically.",
     "status": "formalized",
     "lean_ref": "Chapter7/Definition7_9_1.lean (Etingof.AdditiveFunctor.mapBiprod)",
     "coverage_issue": 5683
@@ -7656,7 +7653,7 @@
     "type": "derived",
     "derived_from": "Chapter7/Discussion_after_Example7.9.5",
     "source_span": "Note that in a semisimple category, any additive functor is automatically exact on both sides.",
-    "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C → D is both left and right exact.",
+    "claim": "For a semisimple abelian category C (every short exact sequence splits), any additive functor F : C \u2192 D is both left and right exact.",
     "status": "accepted",
     "coverage_issue": 5684
   }

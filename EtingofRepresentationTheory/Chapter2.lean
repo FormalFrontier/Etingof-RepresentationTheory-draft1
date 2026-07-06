@@ -58,6 +58,7 @@ import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1_ii
 import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
 import EtingofRepresentationTheory.Chapter2.Remark2_7_2
+import EtingofRepresentationTheory.Chapter2.Problem2_7_4
 
 -- Section 2.8: Quivers
 import EtingofRepresentationTheory.Chapter2.Definition2_8_1
@@ -68,6 +69,7 @@ import EtingofRepresentationTheory.Chapter2.Definition2_8_9
 import EtingofRepresentationTheory.Chapter2.Definition2_8_10
 import EtingofRepresentationTheory.Chapter2.Discussion_quiver_rep_bijection
 import EtingofRepresentationTheory.Chapter2.Example2_8_2
+import EtingofRepresentationTheory.Chapter2.Problem2_8_11
 
 -- Section 2.9: Lie Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_9_1
@@ -100,5 +102,6 @@ import EtingofRepresentationTheory.Chapter2.Problem2_14_3
 
 -- Section 2.16: Lie's theorem and related classification problems
 import EtingofRepresentationTheory.Chapter2.Problem2_16_1
+import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 
 /-! # Chapter 2: General Results of Representation Theory -/
