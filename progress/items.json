@@ -3034,8 +3034,8 @@
     "end_page": "84",
     "start_line": 15,
     "end_line": 12,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p constructed (order p³); (a) existence/uniqueness of R_z on the generators, (b) irreducible iff z≠1, (c) p² one-dim reps + R_1 decomposition, (d) dimension dichotomy (1 or p). Sorry proofs, statement pass (#5944)."
   },
   {
     "id": "Chapter4/Problem4.12.3",
@@ -3067,7 +3067,7 @@
     "start_line": 19,
     "end_line": 4,
     "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Split off from #5944 into follow-up statement-pass issue #5948: a faithful statement needs icosahedron geometry (A₅ acting on 12 vertices / 20 faces / 30 edges) and the A₅ irreducibles/character table, neither in Mathlib. Verified decompositions recorded in #5948."
   },
   {
     "id": "Chapter4/Problem4.12.6",
@@ -3077,8 +3077,8 @@
     "end_page": "85",
     "start_line": 5,
     "end_line": 8,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean: affine ax+b group over a finite field K constructed (order q(q-1)); q-1 one-dim reps, the zero-sum representation V (dim q-1) with invariance and irreducibility, and the dimension dichotomy (1 or q-1). Sorry proofs, statement pass (#5944)."
   },
   {
     "id": "Chapter4/Problem4.12.7",
@@ -3099,8 +3099,8 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 2,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean: (a) every finite subgroup of SO(3) is cyclic, dihedral, A₄, S₄, or A₅ (disjunction of MulEquivs); (b) SU(2) double-cover relation |H| = |h(H)| or 2|h(H)| via SU(2)→SO(3). Sorry proofs, statement pass (#5944)."
   },
   {
     "id": "Chapter4/Problem4.12.9",
@@ -3110,8 +3110,8 @@
     "end_page": "87",
     "start_line": 3,
     "end_line": 4,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean (imports 4.12.2): character of R_z (p·z^{-c} on center, 0 off-center) and tensor-product characters (R_z⊗R_w ≅ p·R_{zw} for zw≠1; p² central character for zw=1). Sorry proofs, statement pass (#5944)."
   },
   {
     "id": "Chapter4/Problem4.12.10",
