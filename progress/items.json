@@ -639,7 +639,7 @@
     "end_page": "15",
     "start_line": 15,
     "end_line": 15,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
@@ -678,7 +678,7 @@
     "end_page": "16",
     "start_line": 19,
     "end_line": 19,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
@@ -689,7 +689,7 @@
     "end_page": "16",
     "start_line": 20,
     "end_line": 29,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
@@ -1174,7 +1174,7 @@
     "end_page": "25",
     "start_line": 1,
     "end_line": 2,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
@@ -1348,7 +1348,7 @@
     "end_page": "33",
     "start_line": 2,
     "end_line": 15,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
@@ -1551,7 +1551,7 @@
     "end_page": "40",
     "start_line": 18,
     "end_line": 4,
-    "status": "not_formalized",
+    "status": "statement_formalized",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
