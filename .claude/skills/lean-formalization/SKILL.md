@@ -384,6 +384,37 @@ as an `S_n`-rep iso (`Chapter5/SpechtBaseChangeComplex.lean`), the working recip
   `↥(p.restrictScalars ℂ)` is defeq to `↥p`, so the equiv lands in `↥(SpechtModuleK ℂ)` directly and
   `(Φ t : ℂ[S_n]) = Ψ t` is `rfl`.
 
+### Base-change module `L ⊗[K] V` over `L ⊗[K] A` — build it, `TensorProduct.Algebra.module` fails (#5896/#5923, Problem 3.8.4)
+
+To state anything about "`V ⊗_K L` as an `A ⊗_K L`-module" (scalar extension of a
+representation to a field extension `L/K`), you need `Module (L ⊗[K] A) (L ⊗[K] V)` — and
+**Mathlib has no such instance**. Two traps that cost real time:
+- **Use Mathlib's scalar-on-left `L ⊗[K] V`, not the book's `V ⊗_K L`.** The `L`-on-right
+  factor of `V ⊗[K] L` has no `Module L` instance; `TensorProduct.leftModule` only acts on the
+  left factor. `L ⊗[K] V ≅ V ⊗_K L` canonically — note the swap in a docstring and move on.
+- **`TensorProduct.Algebra.module` does not elaborate here** (it is a deliberate non-instance;
+  the planner's suggestion to use it is a dead end). Even after supplying `Module A (L⊗V)` on
+  the right factor + `SMulCommClass`/`IsScalarTower` by hand, `TensorProduct.Algebra.module`
+  still fails to find `IsScalarTower K L (L⊗V)` *inside* its own elaboration (the same goal
+  resolves standalone — a fragile diamond on the two scalar actions).
+
+**Working recipe** (all real `def`s, no data-sorry; `Chapter3/Problem3_8_4.lean`,
+`rep`/`repTensor`/`bcMod`): base-change the representation through `End`, then use the
+universal property of the tensor algebra, then `compHom`:
+```
+rep       : A →ₐ[K] Module.End L (L ⊗[K] V) := (Module.End.baseChangeHom K L V).comp (Algebra.lsmul K K V)
+repTensor : (L ⊗[K] A) →ₐ[L] Module.End L (L ⊗[K] V) := AlgHom.liftEquiv K L A (Module.End L (L ⊗[K] V)) rep
+bcMod     : Module (L ⊗[K] A) (L ⊗[K] V) := Module.compHom (L ⊗[K] V) (R := Module.End L (L ⊗[K] V)) repTensor.toRingHom
+```
+Key lemmas: `Algebra.lsmul K K V : A →ₐ[K] End K V` (the `A`-action, needs `IsScalarTower K A V`);
+`Module.End.baseChangeHom K L V : End K V →ₐ[K] End L (L ⊗[K] V)` (base change of endos, from
+`LinearMap.baseChange`); `AlgHom.liftEquiv R S A B : (A →ₐ[R] B) ≃ (S ⊗[R] A →ₐ[S] B)` (needs
+`IsScalarTower R S B`). Pin `R := Module.End …` explicitly in `compHom` or `V` stays a metavar.
+Once `bcMod` is a (file-scoped) instance, `Module L (L⊗A)`, `Algebra L (L⊗A)` and
+`FiniteDimensional L (L ⊗[K] V)` all resolve, and `≃ₗ[L ⊗[K] A]` statements typecheck.
+Encode "`X` is a direct summand of `Y`" as a split injection `∃ i p, p ∘ₗ i = id` (avoids
+quantifying over a complement type/universe).
+
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 
 A recurring Chapter 5 fidelity-gap shape: the book says "`V_{(n)}` is the *trivial*
