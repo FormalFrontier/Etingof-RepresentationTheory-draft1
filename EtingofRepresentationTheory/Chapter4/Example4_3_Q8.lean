@@ -133,7 +133,7 @@ theorem rhoJ_mul_pow_mul_rhoJ (p : ℕ) :
 noncomputable def rep : QuaternionGroup 2 →* Matrix (Fin 2) (Fin 2) ℂ where
   toFun := repFun
   map_one' := by
-    show repFun (a 0) = 1
+    change repFun (a 0) = 1
     simp only [repFun_a, ZMod.val_zero, pow_zero]
   map_mul' := by
     rintro (i | i) (j | j)
@@ -184,5 +184,269 @@ noncomputable def repLin : Representation ℂ (QuaternionGroup 2) (Fin 2 → ℂ
 /-- The representation `repLin` acts on the 2-dimensional space `ℂ²`. -/
 theorem repLin_dim : Module.finrank ℂ (Fin 2 → ℂ) = 2 := by
   simp
+
+open CategoryTheory Module
+
+/-! ## The four 1-dimensional representations (pulled back from `Q₈/Z(Q₈) ≅ ℤ₂ × ℤ₂`)
+
+The center of `Q₈` is `Z(Q₈) = {±1}` and the quotient `Q₈/Z(Q₈) ≅ ℤ₂ × ℤ₂` is abelian
+with four 1-dimensional representations.  Pulled back along the quotient map
+`q : Q₈ → Q₈/Z(Q₈)` these give four 1-dimensional representations of `Q₈`.  Concretely a
+1-dimensional character `χ` of `Q₈` is determined by the two signs `α = χ(i)` and
+`β = χ(j)` with `α² = β² = 1` — it necessarily kills the commutators and the center, so it
+factors through `Q₈/Z(Q₈)`.  The four sign choices `(±1, ±1)` give the four characters. -/
+
+/-- If `α² = 1` then `α^m` depends only on the parity of `m`. -/
+theorem pow_eq_of_parity {α : ℂ} (hα : α ^ 2 = 1) {m n : ℕ} (h : m % 2 = n % 2) :
+    α ^ m = α ^ n := by
+  conv_lhs => rw [← Nat.div_add_mod m 2]
+  conv_rhs => rw [← Nat.div_add_mod n 2]
+  rw [pow_add, pow_add, pow_mul, pow_mul, hα, one_pow, one_pow, h]
+
+/-- The underlying function of a 1-dimensional character: `a i ↦ α^i`, `xa i ↦ β·α^i`. -/
+def chiFun (α β : ℂ) : QuaternionGroup 2 → ℂ
+  | .a i => α ^ i.val
+  | .xa i => β * α ^ i.val
+
+/-- The 1-dimensional character of `Q₈` determined by `α = χ(i)` and `β = χ(j)` with
+`α² = β² = 1`.  These are the four characters of the abelianization `Q₈/Z(Q₈) ≅ ℤ₂ × ℤ₂`. -/
+def chiHom (α β : ℂ) (hα : α ^ 2 = 1) (hβ : β ^ 2 = 1) : QuaternionGroup 2 →* ℂ where
+  toFun := chiFun α β
+  map_one' := by change chiFun α β (a 0) = 1; change α ^ (0 : ZMod 4).val = 1; simp
+  map_mul' x y := by
+    rcases x with i | i <;> rcases y with j | j
+    · -- a i * a j = a (i + j)
+      change chiFun α β (a i * a j) = chiFun α β (a i) * chiFun α β (a j)
+      rw [a_mul_a]
+      change α ^ (i + j).val = α ^ i.val * α ^ j.val
+      have hp : (i + j).val % 2 = (i.val + j.val) % 2 := by revert i j; decide
+      rw [← pow_add]
+      exact pow_eq_of_parity hα hp
+    · -- a i * xa j = xa (j - i)
+      change chiFun α β (a i * xa j) = chiFun α β (a i) * chiFun α β (xa j)
+      rw [a_mul_xa]
+      change β * α ^ (j - i).val = α ^ i.val * (β * α ^ j.val)
+      have hp : (j - i).val % 2 = (i.val + j.val) % 2 := by revert i j; decide
+      have e : α ^ i.val * (β * α ^ j.val) = β * α ^ (i.val + j.val) := by rw [pow_add]; ring
+      rw [e]
+      exact congrArg (β * ·) (pow_eq_of_parity hα hp)
+    · -- xa i * a j = xa (i + j)
+      change chiFun α β (xa i * a j) = chiFun α β (xa i) * chiFun α β (a j)
+      rw [xa_mul_a]
+      change β * α ^ (i + j).val = β * α ^ i.val * α ^ j.val
+      have hp : (i + j).val % 2 = (i.val + j.val) % 2 := by revert i j; decide
+      rw [mul_assoc, ← pow_add]
+      exact congrArg (β * ·) (pow_eq_of_parity hα hp)
+    · -- xa i * xa j = a (2 + j - i)
+      change chiFun α β (xa i * xa j) = chiFun α β (xa i) * chiFun α β (xa j)
+      rw [xa_mul_xa]
+      change α ^ ((2 : ZMod 4) + j - i).val = β * α ^ i.val * (β * α ^ j.val)
+      have hp : ((2 : ZMod 4) + j - i).val % 2 = (i.val + j.val) % 2 := by revert i j; decide
+      have e : β * α ^ i.val * (β * α ^ j.val) = β ^ 2 * α ^ (i.val + j.val) := by
+        rw [pow_add]; ring
+      rw [e, hβ, one_mul]
+      exact pow_eq_of_parity hα hp
+
+/-- The 1-dimensional representation on `ℂ` attached to a multiplicative character. -/
+def oneDimRep (χ : QuaternionGroup 2 →* ℂ) : Representation ℂ (QuaternionGroup 2) ℂ where
+  toFun g := χ g • LinearMap.id
+  map_one' := by rw [map_one, one_smul]; rfl
+  map_mul' g h := by
+    ext
+    simp only [map_mul, Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
+      smul_smul]
+
+/-- The character of a 1-dimensional representation is the defining homomorphism. -/
+lemma oneDim_char (χ : QuaternionGroup 2 →* ℂ) (g : QuaternionGroup 2) :
+    (FDRep.of (oneDimRep χ)).character g = χ g := by
+  rw [show (FDRep.of (oneDimRep χ)).character g = LinearMap.trace ℂ ℂ (oneDimRep χ g) from rfl]
+  change LinearMap.trace ℂ ℂ (χ g • LinearMap.id) = χ g
+  rw [map_smul, LinearMap.trace_id]
+  simp
+
+/-- The trivial character `ℂ₊₊`, `χ(i) = χ(j) = 1`. -/
+def chiPP : QuaternionGroup 2 →* ℂ := chiHom 1 1 (by norm_num) (by norm_num)
+/-- The character `ℂ₊₋`, `χ(i) = 1`, `χ(j) = -1`. -/
+def chiPM : QuaternionGroup 2 →* ℂ := chiHom 1 (-1) (by norm_num) (by norm_num)
+/-- The character `ℂ₋₊`, `χ(i) = -1`, `χ(j) = 1`. -/
+def chiMP : QuaternionGroup 2 →* ℂ := chiHom (-1) 1 (by norm_num) (by norm_num)
+/-- The character `ℂ₋₋`, `χ(i) = χ(j) = -1`. -/
+def chiMM : QuaternionGroup 2 →* ℂ := chiHom (-1) (-1) (by norm_num) (by norm_num)
+
+/-- The four 1-dimensional irreducible representations, as objects of `FDRep ℂ Q₈`. -/
+noncomputable def repPP : FDRep ℂ (QuaternionGroup 2) := FDRep.of (oneDimRep chiPP)
+noncomputable def repPM : FDRep ℂ (QuaternionGroup 2) := FDRep.of (oneDimRep chiPM)
+noncomputable def repMP : FDRep ℂ (QuaternionGroup 2) := FDRep.of (oneDimRep chiMP)
+noncomputable def repMM : FDRep ℂ (QuaternionGroup 2) := FDRep.of (oneDimRep chiMM)
+
+/-! ## Enumeration of `Q₈` and the norm-one sums -/
+
+/-- An explicit enumeration of the eight elements of `Q₈`. -/
+def enum : Fin 8 → QuaternionGroup 2 :=
+  ![a 0, a 1, a 2, a 3, xa 0, xa 1, xa 2, xa 3]
+
+lemma enum_bijective : Function.Bijective enum := by
+  rw [Fintype.bijective_iff_injective_and_card]
+  exact ⟨by decide, by decide⟩
+
+/-- A sum over `Q₈` is the sum of its eight values. -/
+lemma sum_univ_Q8 (f : QuaternionGroup 2 → ℂ) :
+    ∑ g, f g = f (a 0) + f (a 1) + f (a 2) + f (a 3)
+             + f (xa 0) + f (xa 1) + f (xa 2) + f (xa 3) := by
+  rw [← Equiv.sum_comp (Equiv.ofBijective enum enum_bijective) f, Fin.sum_univ_eight]
+  simp only [Equiv.ofBijective_apply, enum]
+  rfl
+
+/-- Norm-one identity for a 1-dimensional character: `∑_g χ(g)·χ(g⁻¹) = |Q₈|`. -/
+lemma oneDim_norm (χ : QuaternionGroup 2 →* ℂ) :
+    ∑ g : QuaternionGroup 2, (FDRep.of (oneDimRep χ)).character g
+      * (FDRep.of (oneDimRep χ)).character g⁻¹ = Nat.card (QuaternionGroup 2) := by
+  have hone : ∀ g : QuaternionGroup 2, χ g * χ g⁻¹ = 1 := fun g => by
+    rw [← map_mul, mul_inv_cancel, map_one]
+  simp only [oneDim_char]
+  rw [Finset.sum_congr rfl (fun g _ => hone g), Finset.sum_const, Finset.card_univ,
+    nsmul_eq_mul, mul_one, Nat.card_eq_fintype_card]
+
+/-! ## The 2-dimensional representation `repLin` as an `FDRep`, and its character -/
+
+/-- The 2-dimensional representation of (4.3.1) packaged as an object of `FDRep ℂ Q₈`. -/
+noncomputable def repFD : FDRep ℂ (QuaternionGroup 2) := FDRep.of repLin
+
+lemma repLin_apply (g : QuaternionGroup 2) (v : Fin 2 → ℂ) :
+    repLin g v = (rep g).mulVec v := by
+  change (Matrix.toLinAlgEquiv' (rep g)) v = _
+  rw [Matrix.toLinAlgEquiv'_apply]
+
+/-- The 2-dimensional character is the matrix trace of `rep`. -/
+lemma char2_eq (g : QuaternionGroup 2) :
+    repFD.character g = (rep g).trace := by
+  rw [show repFD.character g = LinearMap.trace ℂ (Fin 2 → ℂ) (repLin g) from rfl]
+  have h : repLin g = Matrix.toLin' (rep g) := by
+    apply LinearMap.ext; intro v
+    rw [repLin_apply, Matrix.toLin'_apply]
+  rw [h, Matrix.trace_toLin'_eq]
+
+/-! 2-dimensional character values at the eight elements: `χ(1) = 2`, `χ(-1) = -2`, and `0`
+on all six elements of order 4. -/
+
+lemma char2_a0 : repFD.character (a 0) = 2 := by
+  rw [char2_eq, rep_a, show (0 : ZMod (2 * 2)).val = 0 from rfl, pow_zero]
+  simp
+
+lemma char2_a1 : repFD.character (a 1) = 0 := by
+  rw [char2_eq, rep_a, show (1 : ZMod (2 * 2)).val = 1 from rfl, pow_one]
+  simp [rhoI, Matrix.trace_fin_two]
+
+lemma char2_a2 : repFD.character (a 2) = -2 := by
+  rw [char2_eq, rep_a, show (2 : ZMod (2 * 2)).val = 2 from rfl, rhoI_sq]
+  simp
+
+lemma char2_a3 : repFD.character (a 3) = 0 := by
+  rw [char2_eq, rep_a, show (3 : ZMod (2 * 2)).val = 3 from rfl, rhoI_pow_three]
+  simp [rhoI, Matrix.trace_fin_two]
+
+lemma char2_xa0 : repFD.character (xa 0) = 0 := by
+  rw [char2_eq, rep_xa, show (0 : ZMod (2 * 2)).val = 0 from rfl, pow_zero, mul_one]
+  simp [rhoJ, Matrix.trace_fin_two]
+
+lemma char2_xa1 : repFD.character (xa 1) = 0 := by
+  rw [char2_eq, rep_xa, show (1 : ZMod (2 * 2)).val = 1 from rfl, pow_one]
+  simp [rhoJ, rhoI, Matrix.trace_fin_two]
+
+lemma char2_xa2 : repFD.character (xa 2) = 0 := by
+  rw [char2_eq, rep_xa, show (2 : ZMod (2 * 2)).val = 2 from rfl, rhoI_sq]
+  simp [rhoJ, Matrix.trace_fin_two]
+
+lemma char2_xa3 : repFD.character (xa 3) = 0 := by
+  rw [char2_eq, rep_xa, show (3 : ZMod (2 * 2)).val = 3 from rfl, rhoI_pow_three]
+  simp [rhoJ, rhoI, Matrix.trace_fin_two]
+
+/-- Norm-one identity for the 2-dimensional representation: `∑_g χ(g)·χ(g⁻¹) = |Q₈| = 8`. -/
+lemma twoDim_norm :
+    ∑ g : QuaternionGroup 2, repFD.character g * repFD.character g⁻¹
+      = Nat.card (QuaternionGroup 2) := by
+  rw [sum_univ_Q8 (fun g => repFD.character g * repFD.character g⁻¹)]
+  simp only [show (a 0 : QuaternionGroup 2)⁻¹ = a 0 from by decide,
+    show (a 1 : QuaternionGroup 2)⁻¹ = a 3 from by decide,
+    show (a 2 : QuaternionGroup 2)⁻¹ = a 2 from by decide,
+    show (a 3 : QuaternionGroup 2)⁻¹ = a 1 from by decide,
+    show (xa 0 : QuaternionGroup 2)⁻¹ = xa 2 from by decide,
+    show (xa 1 : QuaternionGroup 2)⁻¹ = xa 3 from by decide,
+    show (xa 2 : QuaternionGroup 2)⁻¹ = xa 0 from by decide,
+    show (xa 3 : QuaternionGroup 2)⁻¹ = xa 1 from by decide,
+    char2_a0, char2_a1, char2_a2, char2_a3, char2_xa0, char2_xa1, char2_xa2, char2_xa3]
+  rw [show Nat.card (QuaternionGroup 2) = 8 from by
+    rw [Nat.card_eq_fintype_card, QuaternionGroup.card]]
+  norm_num
+
+/-! ## Irreducibility of all five representations
+
+Each of the five representations is simple, via the character norm-one criterion
+`∑_g χ(g)·χ(g⁻¹) = |G|` (`FDRep.simple_iff_char_is_norm_one`). -/
+
+/-- `ℂ₊₊` is irreducible. -/
+lemma repPP_simple : Simple repPP :=
+  (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chiPP)
+/-- `ℂ₊₋` is irreducible. -/
+lemma repPM_simple : Simple repPM :=
+  (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chiPM)
+/-- `ℂ₋₊` is irreducible. -/
+lemma repMP_simple : Simple repMP :=
+  (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chiMP)
+/-- `ℂ₋₋` is irreducible. -/
+lemma repMM_simple : Simple repMM :=
+  (FDRep.simple_iff_char_is_norm_one _).mpr (oneDim_norm chiMM)
+
+/-- **The 2-dimensional representation of (4.3.1) is irreducible** (Etingof Example 4.3).
+Proved from its character: `∑_g χ(g)·χ(g⁻¹) = 2² + (−2)² = 8 = |Q₈|`. -/
+lemma repFD_simple : Simple repFD :=
+  (FDRep.simple_iff_char_is_norm_one _).mpr twoDim_norm
+
+/-! ## Dimensions: the sum-of-squares decomposition `1² + 1² + 1² + 1² + 2² = 8` -/
+
+lemma repPP_finrank : finrank ℂ (repPP : Type) = 1 := by
+  have h := FDRep.char_one repPP
+  rw [show repPP = FDRep.of (oneDimRep chiPP) from rfl, oneDim_char, map_one] at h
+  exact_mod_cast h.symm
+
+lemma repPM_finrank : finrank ℂ (repPM : Type) = 1 := by
+  have h := FDRep.char_one repPM
+  rw [show repPM = FDRep.of (oneDimRep chiPM) from rfl, oneDim_char, map_one] at h
+  exact_mod_cast h.symm
+
+lemma repMP_finrank : finrank ℂ (repMP : Type) = 1 := by
+  have h := FDRep.char_one repMP
+  rw [show repMP = FDRep.of (oneDimRep chiMP) from rfl, oneDim_char, map_one] at h
+  exact_mod_cast h.symm
+
+lemma repMM_finrank : finrank ℂ (repMM : Type) = 1 := by
+  have h := FDRep.char_one repMM
+  rw [show repMM = FDRep.of (oneDimRep chiMM) from rfl, oneDim_char, map_one] at h
+  exact_mod_cast h.symm
+
+lemma repFD_finrank : finrank ℂ (repFD : Type) = 2 := by
+  have h := FDRep.char_one repFD
+  rw [show (1 : QuaternionGroup 2) = a 0 from QuaternionGroup.one_def, char2_a0] at h
+  exact_mod_cast h.symm
+
+/-- The dimensions `1, 1, 1, 1, 2` of the five irreducible representations realise the
+sum-of-squares decomposition `1² + 1² + 1² + 1² + 2² = 8 = |Q₈|`, now tied to the actual
+`finrank` of the constructed irreducibles. (Etingof Example 4.3) -/
+theorem irreps_dim_sum_of_squares :
+    finrank ℂ (repPP : Type) ^ 2 + finrank ℂ (repPM : Type) ^ 2
+      + finrank ℂ (repMP : Type) ^ 2 + finrank ℂ (repMM : Type) ^ 2
+      + finrank ℂ (repFD : Type) ^ 2 = Fintype.card (QuaternionGroup 2) := by
+  rw [repPP_finrank, repPM_finrank, repMP_finrank, repMM_finrank, repFD_finrank]
+  decide
+
+/-! ## The center `Z(Q₈) = {±1}` -/
+
+/-- **The center of `Q₈` is `{1, -1} = {a 0, a 2}`** (Etingof Example 4.3).  Here `a 2 = -1`
+is the central element acting as `-Id` (see `rep_neg_one`). -/
+theorem mem_center_iff (g : QuaternionGroup 2) :
+    g ∈ Subgroup.center (QuaternionGroup 2) ↔ g = a 0 ∨ g = a 2 := by
+  rw [Subgroup.mem_center_iff]
+  revert g
+  decide
 
 end Etingof.Example4_3_Q8
