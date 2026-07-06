@@ -4143,3 +4143,17 @@ full graph rather than waiting on the aggregator locally.
   *intertwining application lemma* stated once as `∀ y, i (p y) = g y` (from `p ≫ i = g` via
   `← comp_apply`), and rewrite with *that* (`← hint (i a)`) instead of rewriting `g` directly — it
   never abstracts the `g` buried in `i`'s type.
+- **`FGModuleCat` / `Core`-groupoid naturality extraction (#5643, `Chapter7/Example7_3_2.lean`).**
+  Etingof's `FVect'_k` (f.d. spaces, isomorphisms only) is `CategoryTheory.Core (FGModuleCat k)`;
+  a functor out of it is `where obj X := Core.mk …; map f := ⟨…f.iso…⟩` (`CoreHom` wraps an `X.of ≅
+  Y.of`). To turn a `NatIso`/`NatTrans` naturality square into a plain linear-map equation, apply
+  `congrArg (fun p => p.iso.hom.hom.hom)` to `ε.hom.naturality g`, then `simp only [Functor.id_map,
+  coreCategory_comp_iso, Iso.trans_hom, FGModuleCat.hom_hom_comp, LinearEquiv.toFGModuleCatIso_hom,
+  <your F_map .iso rfl-lemma>]`. Two Mathlib gaps bite: (a) **no roundtrip lemma**
+  `isoToLinearEquiv (e.toFGModuleCatIso) = e` — prove it inline by `LinearEquiv.toLinearMap_injective;
+  ext x; rfl` (or just `ext x; rfl`); (b) **`ModuleCat.Hom.hom (ConcreteCategory.ofHom φ).hom = φ` is
+  `rfl` but has NO simp lemma**, so `simp` leaves `ofHom` noise stuck. Don't fight it: **re-ascribe the
+  stuck hypothesis to its clean defeq type** — `have hx2 : (η (a x)) (a w) = (η x) (a.symm (a w)) := hx`
+  typechecks through all the rfl-reductions at once — then finish with the one genuinely-non-rfl step
+  (`rw [LinearEquiv.symm_apply_apply] at hx2`). A component of a `NatIso` is bijective via
+  `(FGModuleCat.isoToLinearEquiv (ε.hom.app X).iso).bijective`.
