@@ -53,6 +53,8 @@ import EtingofRepresentationTheory.Chapter4.Problem4_12_2
 import EtingofRepresentationTheory.Chapter4.Problem4_12_4
 import EtingofRepresentationTheory.Chapter4.Problem4_12_6
 import EtingofRepresentationTheory.Chapter4.Problem4_12_7
+import EtingofRepresentationTheory.Chapter4.Problem4_12_8
+import EtingofRepresentationTheory.Chapter4.Problem4_12_9
 import EtingofRepresentationTheory.Chapter4.Problem4_12_10
 import EtingofRepresentationTheory.Chapter4.Problem4_12_11
 
