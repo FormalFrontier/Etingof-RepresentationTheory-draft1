@@ -7,6 +7,7 @@ import Mathlib.Algebra.Polynomial.Div
 import Mathlib.Algebra.Polynomial.RingDivision
 import Mathlib.Algebra.Module.PID
 import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Sl2Irrep
 
 /-!
@@ -115,6 +116,78 @@ theorem jordanShift_pow_eq_zero (n : ℕ) : jordanShift n ^ n = 0 := by
 
 theorem jordanShift_isNilpotent (n : ℕ) : IsNilpotent (jordanShift n) :=
   ⟨n, jordanShift_pow_eq_zero n⟩
+
+/-! ## Nullity of the powers of a single Jordan block
+
+The Jordan type of a nilpotent operator is recorded by its **nullity sequence**
+`k ↦ dim ker (Eᵏ)`. For a single standard block `J_{0,n}` this sequence is
+`k ↦ min k n`: `Jᵏ` annihilates exactly the coordinates from index `k` upward, so its
+kernel is spanned by the first `min k n` basis vectors. This is the elementary
+linear-algebra invariant underlying the *uniqueness* half of Problem 2.15.1(l) — the
+multiset of Jordan block sizes of a nilpotent operator is recoverable from this sequence,
+and hence so is the `sl(2)`-isomorphism type of a module by its raising operator. -/
+
+/-- Membership in `ker (J_{0,n}^k)`: a vector is killed by `Jᵏ` exactly when all of its
+coordinates from index `k` upward vanish. -/
+theorem mem_ker_jordanShift_pow (n k : ℕ) (v : Fin n → ℂ) :
+    v ∈ LinearMap.ker (jordanShift n ^ k) ↔ ∀ j : Fin n, k ≤ (j : ℕ) → v j = 0 := by
+  rw [LinearMap.mem_ker]
+  constructor
+  · intro h j hj
+    have hidx : ((j : ℕ) - k) + k < n := by have := j.isLt; omega
+    have hc := congrFun h ⟨(j : ℕ) - k, by omega⟩
+    rw [jordanShift_pow_apply, dif_pos hidx, Pi.zero_apply] at hc
+    rwa [show (⟨(j : ℕ) - k + k, hidx⟩ : Fin n) = j from
+      Fin.ext (show (j : ℕ) - k + k = (j : ℕ) by omega)] at hc
+  · intro h
+    funext i
+    rw [jordanShift_pow_apply, Pi.zero_apply]
+    by_cases hlt : (i : ℕ) + k < n
+    · rw [dif_pos hlt]; exact h ⟨(i : ℕ) + k, hlt⟩ (Nat.le_add_left k (i : ℕ))
+    · rw [dif_neg hlt]
+
+/-- **Nullity of a Jordan block (block-size-from-nullity toolkit).** The kernel of the
+`k`-th power of the standard block `J_{0,n}` has dimension `min k n`. Equivalently, the
+nullity sequence `k ↦ dim ker (J_{0,n}^k)` of a single block of size `n` is `k ↦ min k n`.
+-/
+theorem jordanShift_pow_ker_finrank (n k : ℕ) :
+    Module.finrank ℂ (LinearMap.ker (jordanShift n ^ k)) = min k n := by
+  -- The kernel is spanned by the standard basis vectors `e_i` with `i < k`.
+  set ι := {i : Fin n // (i : ℕ) < k} with hι
+  have hli : LinearIndependent ℂ (fun i : ι => Pi.basisFun ℂ (Fin n) i.1) :=
+    (Pi.basisFun ℂ (Fin n)).linearIndependent.comp Subtype.val Subtype.val_injective
+  have hspan : LinearMap.ker (jordanShift n ^ k)
+      = Submodule.span ℂ (Set.range (fun i : ι => Pi.basisFun ℂ (Fin n) i.1)) := by
+    refine le_antisymm ?_ ?_
+    · -- `ker ≤ span`: expand `w` in the standard basis and drop the high coordinates.
+      intro w hw
+      have hz := (mem_ker_jordanShift_pow n k w).mp hw
+      have hrepr : w = ∑ j : Fin n, w j • Pi.basisFun ℂ (Fin n) j := by
+        conv_lhs => rw [← (Pi.basisFun ℂ (Fin n)).sum_repr w]
+        simp only [Pi.basisFun_repr]
+      rw [hrepr]
+      refine Submodule.sum_mem _ fun j _ => ?_
+      by_cases hjk : (j : ℕ) < k
+      · exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨⟨j, hjk⟩, rfl⟩)
+      · rw [hz j (by omega), zero_smul]; exact Submodule.zero_mem _
+    · -- `span ≤ ker`: each spanning basis vector lies in the kernel.
+      rw [Submodule.span_le]
+      rintro _ ⟨i, rfl⟩
+      rw [SetLike.mem_coe, mem_ker_jordanShift_pow]
+      intro j hj
+      simp only [Pi.basisFun_apply, Pi.single_apply]
+      rw [if_neg]
+      rintro rfl
+      exact absurd i.2 (by omega)
+  rw [hspan, finrank_span_eq_card hli]
+  -- `card {i : Fin n // i.val < k} = min k n`.
+  rw [← Fintype.card_fin (min k n)]
+  refine Fintype.card_congr
+    { toFun := fun i => ⟨(i.1 : ℕ), lt_min i.2 i.1.isLt⟩
+      invFun := fun j => ⟨⟨(j : ℕ), lt_of_lt_of_le j.isLt (min_le_right k n)⟩,
+        lt_of_lt_of_le j.isLt (min_le_left k n)⟩
+      left_inv := fun i => Subtype.ext (Fin.ext rfl)
+      right_inv := fun j => Fin.ext rfl }
 
 /-! ## The diagonal factorial rescaling -/
 
