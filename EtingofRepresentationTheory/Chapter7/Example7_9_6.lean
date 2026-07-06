@@ -3,6 +3,8 @@ import Mathlib.CategoryTheory.Limits.Preserves.Finite
 import Mathlib.Algebra.Category.ModuleCat.Monoidal.Closed
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 import Mathlib.Algebra.Category.ModuleCat.Descent
+import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.Data.ZMod.Basic
 
 /-!
 # Example 7.9.6: Exactness Properties of Standard Functors
@@ -32,8 +34,11 @@ explicitly in `Etingof.extendScalars_exact_of_flat`.
 
 Left exactness of `Hom` (part (ii)) is available via the covariant Yoneda functor
 `coyoneda.obj (op X)`, which preserves all limits. The negative direction
-(failure of right exactness) is a separate computation with the explicit
-sequence above and is not formalized here.
+(failure of right exactness) is formalized concretely in
+`Etingof.hom_not_right_exact`: applying `Hom(ℤ/2ℤ, -)` to the surjection
+`ℤ ↠ ℤ/2ℤ` from the sequence above does not give a surjection, because
+`Hom(ℤ/2ℤ, ℤ) = 0` (`Etingof.subsingleton_hom_zmod_int`) while
+`Hom(ℤ/2ℤ, ℤ/2ℤ) ≠ 0`.
 
 For the tensor functor (part (iii)), Mathlib's monoidal closed structure on
 `ModuleCat` is defined over a commutative ring, so the categorical statement
@@ -41,7 +46,9 @@ For the tensor functor (part (iii)), Mathlib's monoidal closed structure on
 claim is for `X ⊗_A -` over an arbitrary (possibly noncommutative) ring `A`; the
 general noncommutative monoidal statement is not currently expressible through
 Mathlib's `ModuleCat` monoidal API. The negative direction (failure of left
-exactness) is again a separate computation and is not formalized here.
+exactness) is formalized concretely in `Etingof.tensor_not_left_exact`: applying
+`ℤ/2ℤ ⊗ -` to the injection `(· * 2) : ℤ ↪ ℤ` gives a non-injective map, because
+it kills the nonzero element `1 ⊗ 1` (`Etingof.tmul_one_one_ne_zero`).
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -113,6 +120,40 @@ instance hom_left_exact {C : Type*} [Category C] (X : C) :
     PreservesFiniteLimits (coyoneda.obj (Opposite.op X)) :=
   inferInstance
 
+/-- `Hom(ℤ/2ℤ, ℤ) = 0`: every `ℤ`-linear map `ℤ/2ℤ → ℤ` vanishes, because every
+element of `ℤ/2ℤ` is 2-torsion while `ℤ` is torsion-free. This is the source of
+the failure of right exactness in Etingof Example 7.9.6(ii). -/
+theorem subsingleton_hom_zmod_int : Subsingleton (ZMod 2 →ₗ[ℤ] ℤ) := by
+  refine ⟨fun φ ψ => ?_⟩
+  suffices h : ∀ χ : ZMod 2 →ₗ[ℤ] ℤ, χ = 0 by rw [h φ, h ψ]
+  intro χ
+  ext x
+  rw [LinearMap.zero_apply]
+  have h2 : (2 : ℤ) • x = 0 := by
+    have : ((2 : ℤ) : ZMod 2) = 0 := by decide
+    rw [zsmul_eq_mul, this, zero_mul]
+  have hmap := χ.map_smul (2 : ℤ) x
+  rw [h2, map_zero, smul_eq_mul] at hmap
+  omega
+
+/-- `Hom(ℤ/2ℤ, -)` is **not** right exact. Concretely, for any surjection
+`g : ℤ ↠ ℤ/2ℤ` (in particular the one from `0 → ℤ → ℤ → ℤ/2ℤ → 0`), the induced
+post-composition map `Hom(ℤ/2ℤ, ℤ) → Hom(ℤ/2ℤ, ℤ/2ℤ)` is not surjective: the
+identity of `ℤ/2ℤ` is not in its image, since the source `Hom(ℤ/2ℤ, ℤ)` is zero
+while the target is not. (Etingof Example 7.9.6(ii), negative direction) -/
+theorem hom_not_right_exact (g : ℤ →ₗ[ℤ] ZMod 2) :
+    ¬ Function.Surjective (fun φ : ZMod 2 →ₗ[ℤ] ℤ => g.comp φ) := by
+  haveI := subsingleton_hom_zmod_int
+  intro hsurj
+  obtain ⟨φ, hφ⟩ := hsurj LinearMap.id
+  rw [Subsingleton.elim φ 0] at hφ
+  simp only [LinearMap.comp_zero] at hφ
+  have h1 : (0 : ZMod 2 →ₗ[ℤ] ZMod 2) (1 : ZMod 2)
+      = (LinearMap.id : ZMod 2 →ₗ[ℤ] ZMod 2) (1 : ZMod 2) := by
+    rw [hφ]
+  simp only [LinearMap.zero_apply, LinearMap.id_coe, id_eq] at h1
+  exact absurd h1.symm (by decide)
+
 /-! ## Part (iii): right exactness of the tensor functor -/
 
 /-- The tensor product functor `X ⊗ -` is right exact: it preserves finite colimits.
@@ -132,5 +173,31 @@ formalized here. -/
 instance tensor_right_exact {R : Type*} [CommRing R] (X : ModuleCat R) :
     PreservesFiniteColimits (MonoidalCategory.tensorLeft X) :=
   inferInstance
+
+/-- `(1 : ℤ/2ℤ) ⊗ (1 : ℤ) ≠ 0` in `ℤ/2ℤ ⊗_ℤ ℤ`: under the canonical isomorphism
+`ℤ/2ℤ ⊗_ℤ ℤ ≃ ℤ/2ℤ` it maps to `1 ≠ 0`. This is the nonzero element killed by the
+tensored injection in `Etingof.tensor_not_left_exact`. -/
+theorem tmul_one_one_ne_zero : ((1 : ZMod 2) ⊗ₜ[ℤ] (1 : ℤ)) ≠ 0 := by
+  intro h
+  have himg : (TensorProduct.rid ℤ (ZMod 2)) ((1 : ZMod 2) ⊗ₜ[ℤ] (1 : ℤ)) = 0 := by
+    rw [h, map_zero]
+  simp only [TensorProduct.rid_tmul, one_smul] at himg
+  exact one_ne_zero himg
+
+/-- `ℤ/2ℤ ⊗ -` is **not** left exact. Applying `lTensor (ℤ/2ℤ)` to the injection
+`(· * 2) : ℤ ↪ ℤ` (the map in `0 → ℤ → ℤ → ℤ/2ℤ → 0`) yields a non-injective map:
+it sends the nonzero element `1 ⊗ 1` to `1 ⊗ 2 = (2 • 1) ⊗ 1 = 0 ⊗ 1 = 0`.
+(Etingof Example 7.9.6(iii), negative direction) -/
+theorem tensor_not_left_exact :
+    ¬ Function.Injective
+      (LinearMap.lTensor (ZMod 2) (LinearMap.lsmul ℤ ℤ (2 : ℤ))) := by
+  intro hinj
+  apply tmul_one_one_ne_zero
+  apply hinj
+  rw [map_zero, LinearMap.lTensor_tmul, LinearMap.lsmul_apply,
+    ← TensorProduct.smul_tmul]
+  have : (2 : ℤ) • (1 : ZMod 2) = 0 := by
+    rw [zsmul_eq_mul, show ((2 : ℤ) : ZMod 2) = 0 from by decide, zero_mul]
+  rw [this, TensorProduct.zero_tmul]
 
 end Etingof
