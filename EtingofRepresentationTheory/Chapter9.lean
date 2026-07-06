@@ -25,6 +25,7 @@ import EtingofRepresentationTheory.Chapter9.Corollary9_7_3Categorical
 import EtingofRepresentationTheory.Chapter9.MoritaStructural
 import EtingofRepresentationTheory.Chapter9.Problem9_4_2
 import EtingofRepresentationTheory.Chapter9.Problem9_4_5
+import EtingofRepresentationTheory.Chapter9.Problem9_4_6
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3
 import EtingofRepresentationTheory.Chapter9.Exercise9_6_3
 
