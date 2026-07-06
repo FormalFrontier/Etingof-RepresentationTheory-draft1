@@ -3258,8 +3258,8 @@
     "end_page": "95",
     "start_line": 23,
     "end_line": 24,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Exercise5_1_7.lean states existence of a nontrivial irreducible complex rep that is not of real type (¬ IsRealType), sorry proof."
   },
   {
     "id": "Chapter5/Introduction_5.2",
@@ -3460,8 +3460,8 @@
     "end_page": "100",
     "start_line": 3,
     "end_line": 4,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Exercise5_3_3.lean states that every nontrivial irreducible rep of an odd-order group is of complex type (Etingof.IsComplexType), sorry proof."
   },
   {
     "id": "Chapter5/Introduction_5.4",
@@ -3815,8 +3815,8 @@
     "end_page": "108",
     "start_line": 27,
     "end_line": 28,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Problem5_8_4.lean states the G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G, sorry proof."
   },
   {
     "id": "Chapter5/Exercise5.8.5",
@@ -3826,8 +3826,8 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Exercise5_8_5.lean states Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi, sorry proof."
   },
   {
     "id": "Chapter5/Introduction_5.9",
@@ -4438,8 +4438,8 @@
     "end_page": "121",
     "start_line": 1,
     "end_line": 2,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Problem5_16_2.lean states that the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda), sorry proof."
   },
   {
     "id": "Chapter5/Problem5.16.3",
@@ -4936,8 +4936,8 @@
     "end_page": "135",
     "start_line": 3,
     "end_line": 14,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Problem5_24_1.lean states part (a), the S_n-equivariant iso C[S_n]·(a_lambda b_lambda) ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda, sorry proof. Part (b) (sign twist V_lambda ⊗ C_- = V_{lambda*}) deferred: needs conjugate-partition infrastructure."
   },
   {
     "id": "Chapter5/Problem5.24.2",
