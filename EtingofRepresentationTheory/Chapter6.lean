@@ -1,8 +1,12 @@
 import EtingofRepresentationTheory.Chapter6.Definition6_1_4
 import EtingofRepresentationTheory.Chapter6.Problem6_1_1
+import EtingofRepresentationTheory.Chapter6.Problem6_1_3
 import EtingofRepresentationTheory.Chapter6.DynkinTypes
 import EtingofRepresentationTheory.Chapter6.DynkinForward
 import EtingofRepresentationTheory.Chapter6.Theorem_Dynkin_classification
+import EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_E7_E8
+import EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE
+import EtingofRepresentationTheory.Chapter6.Problem6_1_6
 import EtingofRepresentationTheory.Chapter6.FiniteTypeDefs
 import EtingofRepresentationTheory.Chapter6.DecompositionExistence
 import EtingofRepresentationTheory.Chapter6.Problem6_1_5_theorem
@@ -58,5 +62,7 @@ import EtingofRepresentationTheory.Chapter6.Example6_8_5
 
 -- Section 6.9: Problems
 import EtingofRepresentationTheory.Chapter6.Problem6_9_1
+import EtingofRepresentationTheory.Chapter6.Problem6_9_2
+import EtingofRepresentationTheory.Chapter6.Problem6_9_3
 
 /-! # Chapter 6: Quiver Representations -/
