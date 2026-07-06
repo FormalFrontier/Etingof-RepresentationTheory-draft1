@@ -1293,8 +1293,7 @@
     "end_page": "31",
     "start_line": 23,
     "end_line": 37,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized"
   },
   {
     "id": "Chapter2/Discussion_pure_tensors",
@@ -1371,8 +1370,7 @@
     "end_page": "34",
     "start_line": 12,
     "end_line": 14,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized"
   },
   {
     "id": "Chapter2/Problem2.11.6",
@@ -1560,8 +1558,7 @@
     "end_page": "40",
     "start_line": 5,
     "end_line": 6,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized"
   },
   {
     "id": "Chapter2/Problem2.16.3",

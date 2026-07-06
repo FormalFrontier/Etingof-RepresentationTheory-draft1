@@ -90,6 +90,8 @@ import EtingofRepresentationTheory.Chapter2.Definition2_11_1
 import EtingofRepresentationTheory.Chapter2.Remark2_11_4
 import EtingofRepresentationTheory.Chapter2.Problem2_11_3
 import EtingofRepresentationTheory.Chapter2.Problem2_11_6
+import EtingofRepresentationTheory.Chapter2.Exercise2_11_2
+import EtingofRepresentationTheory.Chapter2.Exercise2_11_5
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
 
 -- Section 2.13: The Dehn invariant
@@ -102,6 +104,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_14_3
 
 -- Section 2.16: Lie's theorem and related classification problems
 import EtingofRepresentationTheory.Chapter2.Problem2_16_1
+import EtingofRepresentationTheory.Chapter2.Problem2_16_2
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
 
 /-! # Chapter 2: General Results of Representation Theory -/
