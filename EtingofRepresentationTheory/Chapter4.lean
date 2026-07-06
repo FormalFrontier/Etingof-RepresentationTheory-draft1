@@ -51,6 +51,7 @@ import EtingofRepresentationTheory.Chapter4.Exercise4_3_1
 import EtingofRepresentationTheory.Chapter4.Problem4_12_1
 import EtingofRepresentationTheory.Chapter4.Problem4_12_2
 import EtingofRepresentationTheory.Chapter4.Problem4_12_4
+import EtingofRepresentationTheory.Chapter4.Problem4_12_5
 import EtingofRepresentationTheory.Chapter4.Problem4_12_6
 import EtingofRepresentationTheory.Chapter4.Problem4_12_7
 import EtingofRepresentationTheory.Chapter4.Problem4_12_8
