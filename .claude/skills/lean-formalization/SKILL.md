@@ -4026,6 +4026,13 @@ full graph rather than waiting on the aggregator locally.
   - **Precedence: `^` binds *looser* than `≫`.** `(f : X ⟶ X) ^ n ≫ (f : X ⟶ X)` parses as
     `(f : X ⟶ X) ^ (n ≫ (f : X ⟶ X))` (→ `CategoryStruct.comp n` type error). Always parenthesise
     the power: `((f : X ⟶ X) ^ n) ≫ (f : X ⟶ X)`.
+  - **Same trap with `∘ₗ` (LinearMap composition):** `∘ₗ` binds *tighter* than `^`, so
+    `B ^ k ∘ₗ φ` parses as `B ^ (k ∘ₗ φ)` (→ `HPow (End N) (M →ₗ N)` / "argument k has type ℕ but
+    expected M →ₗ N" error). Parenthesise the power in both the *statement type* and the proof:
+    `(B ^ k) ∘ₗ φ`. Companion facts for such power-composition inductions on `Module.End`:
+    `Module.End.mul_eq_comp : f * g = f.comp g`, `Module.End.one_eq_id`, and `pow_succ` (`a^(k+1) =
+    a^k * a`) — a clean `intertwine_pow` (`B∘ₗφ = φ∘ₗA ⟹ (B^k)∘ₗφ = φ∘ₗ(A^k)`) is
+    `simp only [pow_succ, Module.End.mul_eq_comp]; rw [comp_assoc, h, ← comp_assoc, ih, comp_assoc]`.
 - **Multiplication is *reversed* composition:** `End.mul_def : x * y = y ≫ x`, `End.one_def :
   (1 : End X) = 𝟙 X`. So `pow_succ` then `End.mul_def` turns `x ^ (n+1)` into `x ≫ x ^ n`. A
   block-power induction `(biprod.map a b) ^ n = biprod.map (a ^ n) (b ^ n)` closes with
