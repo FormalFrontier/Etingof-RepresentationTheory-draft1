@@ -2407,6 +2407,29 @@ These tactics need `CommSemiring`. Use manual algebra (`calc` blocks with `mul_a
 ### Status
 Non-commutative tensor products remain the hardest infrastructure gap. No clean resolution exists in Mathlib. The balanced quotient approach works but requires ~100 lines of boilerplate per use site.
 
+### Workaround 4: Realizing the subfield `k(x)` inside a division ring (Problem 2.3.18, #5884)
+To get a *field* `E` containing a transcendental element `x` of a division ring `D` (e.g. for
+`Transcendental.linearIndependent_sub_inv`, the Dixmier / infinite-dim Schur argument), you cannot
+lift a fraction field into `D`: `IsFractionRing.lift`, `IsLocalization.lift`, and
+`RatFunc.liftMonoidWithZeroHom` **all require a commutative codomain**. Instead build the
+**double centralizer** as one subalgebra:
+```lean
+set K : Subalgebra k D := Subalgebra.centralizer k (Set.centralizer ({x} : Set D))
+```
+- `K` is commutative: `{x} ⊆ centralizer {x}` (x commutes with itself), so `Set.centralizer_subset`
+  gives `S'' ⊆ S'`; then any two elements of `K = S''` commute (one lies in `S'`, the other
+  centralizes `S'`).
+- `K` is closed under inverses via `Set.inv_mem_centralizer₀` (`x ∈ K` carrier is defeq to
+  `x ∈ Set.centralizer (Set.centralizer {x})`, so `a.2` feeds it directly — no `rw` on the
+  `Subalgebra`, which fails with "motive is not type correct").
+- Prove `IsField K` (`exists_pair_ne`, `mul_comm`, `mul_inv_cancel` with `b := (a:D)⁻¹`) then
+  `letI : Field K := hIsField.toField`.
+- `K` gives `Algebra k K` and an injective `k`-algebra inclusion `K.val` for free; transport
+  `LinearIndependent` to `D` with `LinearIndependent.map'` + `map_inv₀ K.val`.
+Fix `V : Type` (universe 0) so `#ℂ`, `rank ℂ V`, `rank ℂ (End A V)` share `Cardinal.{0}` and the
+same-universe `LinearIndependent.cardinal_le_rank` / `LinearMap.rank_le_of_injective` apply without
+`Cardinal.lift` juggling. See `Chapter2/Problem2_3_18.lean`.
+
 ## Type-Level If/Else Diamond Issue
 
 When defining a structure whose `obj` field branches on vertex equality (e.g., `if v = i then T₁ else T₂`), Lean's typeclass system creates a diamond:
