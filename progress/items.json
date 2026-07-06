@@ -5219,8 +5219,8 @@
     "end_page": "147",
     "start_line": 15,
     "end_line": 16,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass across three files, each redoing one Problem via Theorem 5.27.1. (4.12.6) Exercise5_27_2_Affine.lean: affine ax+b group over a finite field as Multiplicative K rtimes Kˣ, q irreducibles (q-1 of dim 1, one of dim q-1). (4.12.1(a)) Exercise5_27_2_Dihedral.lean: dihedral D_N (Mathlib DihedralGroup) as ZMod N rtimes ZMod 2 via inversion; classification by parity (N odd: two dim-1, (N-1)/2 dim-2; N even: four dim-1, (N-2)/2 dim-2). (4.12.2) Exercise5_27_2_Heisenberg.lean: Heisenberg group over F_p constructed as (ZMod p x ZMod p) rtimes ZMod p via the shear automorphism; p^2 irreducibles of dim 1 and p-1 of dim p. All sorry proofs."
   },
   {
     "id": "Chapter5/Exercise5.27.3",
