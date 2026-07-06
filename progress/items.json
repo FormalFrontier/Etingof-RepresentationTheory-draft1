@@ -7490,8 +7490,8 @@
     "end_page": "219",
     "start_line": 11,
     "end_line": 29,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean states the existence of a quasi-inverse tensor functor G (with the natural map ξ) to F = preadditiveCoyonedaObjFG, bundling parts (i) F∘G≅Id, (ii) ξ epi, (iii) ξ iso. Proof sorry'd."
   },
   {
     "id": "Chapter9/Introduction_9.7",
