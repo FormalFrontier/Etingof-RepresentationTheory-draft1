@@ -45,6 +45,13 @@ import EtingofRepresentationTheory.Chapter2.Corollary2_3_12
 import EtingofRepresentationTheory.Chapter2.Example2_3_14
 import EtingofRepresentationTheory.Chapter2.Example2_3_14_continued
 
+-- Section 2.4: Ideals
+import EtingofRepresentationTheory.Chapter2.Problem2_4_1
+
+-- Section 2.5: Cyclic representations
+import EtingofRepresentationTheory.Chapter2.Problem2_5_1
+import EtingofRepresentationTheory.Chapter2.Problem2_5_2
+
 -- Section 2.7: Characters and the Weyl Algebra
 import EtingofRepresentationTheory.Chapter2.Definition2_7_3
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
@@ -74,15 +81,24 @@ import EtingofRepresentationTheory.Chapter2.Remark2_9_4
 import EtingofRepresentationTheory.Chapter2.Example2_9_8
 import EtingofRepresentationTheory.Chapter2.Example2_9_12
 import EtingofRepresentationTheory.Chapter2.Example2_9_13
+import EtingofRepresentationTheory.Chapter2.Exercise2_9_11
 
 -- Section 2.11-2.12: Tensor Products, Symmetric/Exterior Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_11_1
 import EtingofRepresentationTheory.Chapter2.Remark2_11_4
+import EtingofRepresentationTheory.Chapter2.Problem2_11_3
 import EtingofRepresentationTheory.Chapter2.Problem2_11_6
 import EtingofRepresentationTheory.Chapter2.Definition2_12_1
+
+-- Section 2.13: The Dehn invariant
+import EtingofRepresentationTheory.Chapter2.Problem2_13_1
 
 -- Section 2.14: Tensor/Dual Representations of Lie Algebras
 import EtingofRepresentationTheory.Chapter2.Definition2_14_1
 import EtingofRepresentationTheory.Chapter2.Definition2_14_2
+import EtingofRepresentationTheory.Chapter2.Problem2_14_3
+
+-- Section 2.16: Lie's theorem and related classification problems
+import EtingofRepresentationTheory.Chapter2.Problem2_16_1
 
 /-! # Chapter 2: General Results of Representation Theory -/
