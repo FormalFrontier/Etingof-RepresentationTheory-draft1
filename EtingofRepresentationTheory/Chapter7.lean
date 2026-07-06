@@ -31,6 +31,10 @@ import EtingofRepresentationTheory.Chapter7.Example7_8_3
 import EtingofRepresentationTheory.Chapter7.Example7_9_2
 import EtingofRepresentationTheory.Chapter7.Example7_9_5
 import EtingofRepresentationTheory.Chapter7.Example7_9_6
+import EtingofRepresentationTheory.Chapter7.Exercise7_8_4
+import EtingofRepresentationTheory.Chapter7.Problem7_7_3
+import EtingofRepresentationTheory.Chapter7.Problem7_8_5
+import EtingofRepresentationTheory.Chapter7.Exercise7_9_7
 
 /-!
 # Chapter 7: Introduction to Categories
