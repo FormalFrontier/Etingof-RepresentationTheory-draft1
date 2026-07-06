@@ -7338,8 +7338,8 @@
     "end_page": "217",
     "start_line": 11,
     "end_line": 14,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass in Chapter9/Problem9_4_6.lean (#5928): (i) homologicalDimension_pathAlgebra_eq_one, homologicalDimension_freeAlgebra_eq_one; (ii) cartanMatrix_pathAlgebra_eq_pathCount. Proofs sorry."
   },
   {
     "id": "Chapter9/Introduction_9.5",
