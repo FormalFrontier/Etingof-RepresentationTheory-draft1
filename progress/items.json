@@ -614,8 +614,8 @@
     "end_page": "15",
     "start_line": 14,
     "end_line": 1,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Formalized (#5884) in Chapter2/Problem2_3_18.lean as Etingof.Problem_2_3_18: for a ℂ-algebra A and an irreducible A-module V with Module.rank ℂ V ≤ ℵ₀, every φ : V →ₗ[A] V is scalar (∃ c, ∀ v, φ v = c • v). Proof follows Etingof's hint: D = Module.End A V is a division ring (Module.End.instDivisionRing / Schur); D is countably dimensional via injective ℂ-linear evaluation D → V at a nonzero vector; a non-scalar φ is transcendental over ℂ (else minpoly has degree 1 since ℂ is algebraically closed and D is a domain); the field ℂ(φ) is realized as the double centralizer Subalgebra.centralizer ℂ (Set.centralizer {φ}) (a commutative division subring, hence IsField.toField), inside which Transcendental.linearIndependent_sub_inv gives the uncountable ℂ-linearly independent family {(φ-a)⁻¹}, transported to D along the injective inclusion; then 𝔠 = #ℂ ≤ rank ℂ D ≤ ℵ₀ contradicts ℵ₀ < 𝔠. #print axioms: propext, Classical.choice, Quot.sound only."
   },
   {
     "id": "Chapter2/Discussion_2.4_heading",
