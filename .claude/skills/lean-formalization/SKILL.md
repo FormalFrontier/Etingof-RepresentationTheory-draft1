@@ -986,6 +986,8 @@ If a blob file is empty, flag it rather than scaffolding from the title alone. T
 
 Prefer the most specific Mathlib module. Don't import `Mathlib.LinearAlgebra.DirectSum.Finite` when `Mathlib.Algebra.Module.Prod` suffices.
 
+**But import the numeric type's instances explicitly.** This project does not `import Mathlib`, so `ℂ`/`ℝ` instances are not transitive. Using `ℂ` without `import Mathlib.Data.Complex.Basic` fails with `Unknown identifier 'ℂ'` or `failed to synthesize Semiring ℂ` (and `ℝ` needs `Mathlib.Data.Real.Basic` / a topology import for `C(ℝ, ℝ)`). When a statement mentions `ℂ`/`ℝ`, add the numeric-type import up front — this bit twice in one session (Problems 3.9.5, 3.9.2). Similarly, `Etingof.IsIndecomposable` needs `import EtingofRepresentationTheory.Chapter2.Definition2_3_8`.
+
 ### Verify "import-cleanliness" with a real transitive trace, never a grep or an agent claim
 
 When a task requires a file to avoid some module (e.g. the Chapter 5 `DetInvElim`-clean work for #5072/#5075/#5078: a file must NOT transitively import `DetInvElim`, else it creates a build cycle), do not trust a direct-import grep or a subagent's pollution claim — both miss/invent transitive edges. An Explore agent confidently mis-reported `FormalCharacterTorusTrace` as importing `DetInvElim` when it does not; a real trace caught it. Compute the transitive closure yourself before relying on it:
