@@ -121,23 +121,78 @@ point is that `F` is *pointwise* isomorphic to the identity (`V ≅ V*` for ever
 `V ≅ V*` compatible with the `GL(V)`-action, which is impossible because `V` and `V*` are
 inequivalent as `GL(V)`-representations.
 
-We record the positive half — `V` is isomorphic to `V*` exactly when it is finite-dimensional
-(Mathlib's `Basis.linearEquiv_dual_iff_finiteDimensional`, an Erdős–Kaplansky consequence, the
-same dichotomy `linearEquiv_dualDual_iff_finiteDimensional` gives for the double dual). The
-*non-naturality* is the deeper content of the example; formalizing it requires building the
-groupoid `FVect'_k`, the functor `F`, and the `GL(V)`-representation obstruction, and is left
-to dedicated future work.
+The positive half — `V ≅ V*` exactly when `V` is finite-dimensional — is
+`linearEquiv_dual_iff_finiteDimensional` (Mathlib's
+`Basis.linearEquiv_dual_iff_finiteDimensional`, an Erdős–Kaplansky consequence, the same
+dichotomy `linearEquiv_dualDual_iff_finiteDimensional` gives for the double dual).
+
+The deeper content — *non-naturality* — is `dual_gl_natural_eq_zero` and its corollary
+`not_bijective_of_gl_natural_dual` below. The naturality of a would-be isomorphism `η : Id ≅ F`
+at the object `V`, tested against the automorphisms `a ∈ GL(V) = V ≃ₗ[k] V`, is exactly the
+`GL(V)`-equivariance square `a* ∘ η_V ∘ a = η_V`; a `k`-bilinear reading of this square,
+`B(a u, a w) = B(u, w)` for `B(u, w) := η_V u w`, says `B` is a `GL(V)`-*invariant* bilinear
+form. Over any field with a scalar `l ≠ 0`, `l² ≠ 1` (e.g. any field with more than three
+elements) the scalar automorphisms `a = l • 𝟙` already force `l² · B = B`, hence `B = 0` and
+`η_V = 0`. So no natural family can consist of isomorphisms once `V ≠ 0`: `F` is not naturally
+isomorphic to the identity, precisely because `V ≇ V*` as `GL(V)`-representations.
 -/
 
 /-- **Example 7.3.2(2), positive part.** A vector space `V` over a field `k` is linearly
 isomorphic to its dual `V*` if and only if it is finite-dimensional. This is why the functor
 `F : V ↦ V*` of Etingof's Example 7.3.2(2) is pointwise isomorphic to the identity on the
-category `FVect'_k` of finite-dimensional spaces. (The deeper claim — that `F` is nonetheless
-*not naturally* isomorphic to the identity — is discussed above but not formalized here.) -/
+category `FVect'_k` of finite-dimensional spaces. -/
 theorem Etingof.linearEquiv_dual_iff_finiteDimensional (k V : Type u)
     [Field k] [AddCommGroup V] [Module k V] :
     Nonempty (V ≃ₗ[k] Module.Dual k V) ↔ FiniteDimensional k V :=
   Basis.linearEquiv_dual_iff_finiteDimensional
+
+/-- **Example 7.3.2(2), non-naturality obstruction.** Let `k` be a field containing a scalar
+`l ≠ 0` with `l² ≠ 1` (any field with more than three elements). If `η : V →ₗ[k] V*` is
+*natural with respect to `GL(V)`* — meaning for every linear automorphism `a : V ≃ₗ[k] V` the
+square `a* ∘ η ∘ a = η` commutes (equivalently, the bilinear form `B(u, w) = η u w` is
+`GL(V)`-invariant: `B(a u, a w) = B(u, w)`) — then `η = 0`.
+
+This is the `GL(V)`-representation obstruction behind Etingof's remark that the functor
+`F : V ↦ V*` on `FVect'_k` is not naturally isomorphic to the identity: only the scalar
+automorphisms `a = l • 𝟙` are used, and they already force `l² · B = B`, hence `B = 0`. -/
+theorem Etingof.dual_gl_natural_eq_zero
+    {k V : Type u} [Field k] [AddCommGroup V] [Module k V]
+    (η : V →ₗ[k] Module.Dual k V)
+    (hnat : ∀ a : V ≃ₗ[k] V, (a : V →ₗ[k] V).dualMap ∘ₗ η ∘ₗ (a : V →ₗ[k] V) = η)
+    (hk : ∃ l : k, l ≠ 0 ∧ l ^ 2 ≠ 1) :
+    η = 0 := by
+  obtain ⟨l, hl0, hl1⟩ := hk
+  -- The scalar automorphism `a = l • 𝟙` of `V`.
+  set a : V ≃ₗ[k] V := LinearEquiv.smulOfNeZero k V l hl0 with ha
+  ext u w
+  -- Evaluate the `GL(V)`-invariance square for `a` at `(u, w)`.
+  have h := LinearMap.congr_fun (LinearMap.congr_fun (hnat a) u) w
+  simp only [ha, LinearMap.comp_apply, LinearMap.dualMap_apply,
+    LinearEquiv.coe_coe, LinearEquiv.smulOfNeZero_apply, map_smul,
+    LinearMap.smul_apply, smul_eq_mul] at h
+  -- `h : l * (l * η u w) = η u w`, i.e. `l² · (η u w) = η u w`.
+  have hzero : (l * l - 1) * η u w = 0 := by
+    rw [sub_mul, one_mul, mul_assoc, h, sub_self]
+  rcases mul_eq_zero.mp hzero with hcoeff | hval
+  · exact absurd (by rw [sq]; exact sub_eq_zero.mp hcoeff) hl1
+  · simpa using hval
+
+/-- **Example 7.3.2(2), non-naturality corollary.** Over a field with a scalar `l ≠ 0`,
+`l² ≠ 1` (any field with more than three elements), no `GL(V)`-natural family can consist of
+isomorphisms when `V ≠ 0`. Concretely, a `GL(V)`-natural `η : V →ₗ[k] V*` is forced to be `0`
+(`dual_gl_natural_eq_zero`), hence not bijective. This is why the functor `F : V ↦ V*` on
+`FVect'_k` — pointwise isomorphic to the identity by `linearEquiv_dual_iff_finiteDimensional` —
+is nonetheless *not naturally isomorphic* to the identity functor. -/
+theorem Etingof.not_bijective_of_gl_natural_dual
+    {k V : Type u} [Field k] [AddCommGroup V] [Module k V] [Nontrivial V]
+    (η : V →ₗ[k] Module.Dual k V)
+    (hnat : ∀ a : V ≃ₗ[k] V, (a : V →ₗ[k] V).dualMap ∘ₗ η ∘ₗ (a : V →ₗ[k] V) = η)
+    (hk : ∃ l : k, l ≠ 0 ∧ l ^ 2 ≠ 1) :
+    ¬ Function.Bijective η := by
+  intro hbij
+  have hη0 : η = 0 := Etingof.dual_gl_natural_eq_zero η hnat hk
+  obtain ⟨v, hv⟩ := exists_ne (0 : V)
+  exact hv (hbij.injective (by rw [hη0]; simp))
 
 /-!
 ## Example 7.3.2(3): `End(F) = A` for the forgetful functor `F : A-mod → Vect_k`
