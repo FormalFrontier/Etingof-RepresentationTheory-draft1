@@ -863,6 +863,34 @@ cast through with `push_cast; ring` inside a `show`); `orderOf ζ ∣ orderOf g�
 `orderOf_dvd_of_pow_eq_one`. Package `ℂ_ε := FDRep.of (charRep χ)`; simplicity is free from the
 existing `charRep_simple`.
 
+#### Building `MulAut (Multiplicative A)` from a coordinate formula (semidirect-product `φ`, #5920)
+
+To apply `Etingof.Theorem5_27_1` you must exhibit the group as `A ⋊[φ] G` with `A` a `CommGroup`,
+so `φ : G →* MulAut A`. For `A = Multiplicative (ZMod n)` (dihedral, inversion) or `A = Multiplicative
+(ZMod p × ZMod p)` (Heisenberg, the shear `(b,c) ↦ (b, c+a·b)`), build each automorphism as a `MulAut
+(Multiplicative …) where` giving `toFun/invFun` in `ofAdd (… toAdd x …)` coordinates. Gotchas that cost
+several build cycles (`Chapter5/Exercise5_27_2_Heisenberg.lean`, sorry-free defs):
+- **The lemma names `Multiplicative.toAdd_mul` / `Multiplicative.toAdd_ofAdd` do NOT exist.** Both facts
+  hold **by `rfl`** (`Multiplicative` is a type synonym), so don't `simp [those]` — instead `apply
+  Multiplicative.toAdd.injective` and work with the underlying `ZMod …` (Prod) goal directly.
+- Inside the `MulAut … where` block, prove `left_inv`/`right_inv`/`map_mul'` by `apply
+  Multiplicative.toAdd.injective; apply Prod.ext; · rfl · show <snd-component eqn>; ring`.
+- For *standalone* `@[simp] lemma φ_zero : shear 0 = 1` and `φ_add : shear (a+a') = shear a * shear a'`
+  (needed for `map_one'`/`map_mul'` of the `G →* MulAut A` hom), start `refine MulEquiv.ext fun x => ?_`
+  then `rw [MulAut.one_apply]` (resp. `MulAut.mul_apply`) to reduce `(1) x`/`(f*g) x` — **without this rw
+  the RHS is stuck and `apply Prod.ext` fails to unify** — then `apply Multiplicative.toAdd.injective`,
+  `show <reduced Prod pair> = <reduced Prod pair>` (both sides fully spelled out; defeq closes the
+  `show`), and finish `apply Prod.ext; · rfl · show …; ring`.
+- The `G →* MulAut A` hom's `map_one'`/`map_mul'`: `toAdd (1 : Multiplicative _) = 0` and `toAdd (a*a')
+  = toAdd a + toAdd a'` are `rfl`, so discharge by `show shear 0 = 1; exact shear_zero` / `show shear
+  (toAdd a + toAdd a') = _; exact shear_add …` (a `show` to the defeq-reduced form, not a named rewrite).
+
+The classification theorem itself is a statement-pass `sorry` with an **existential** shape (`∃ n (W :
+Fin n → FDRep ℂ G), simple ∧ pairwise-noniso ∧ complete ∧ dimension-profile`) — mirror
+`Exercise5_27_2_Affine.lean`; you do NOT need to construct the individual irreps to state the
+classification. (Or, when Mathlib already has the group, e.g. `DihedralGroup N`, state it on that
+directly and record the semidirect structure only in the docstring — `Exercise5_27_2_Dihedral.lean`.)
+
 #### §5.11 `S₃` induced-rep decompositions — DONE (#5248, all four sorry-free)
 
 All four `Ind_H^G (1-dim char) ≅ ⊞ irreps` are proved in `Discussion5_11_examples.lean` via
