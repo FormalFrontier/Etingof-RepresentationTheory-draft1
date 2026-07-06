@@ -47,8 +47,11 @@ import EtingofRepresentationTheory.Chapter4.Lemma4_10_3
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 import EtingofRepresentationTheory.Chapter4.Problem4_5_2
 import EtingofRepresentationTheory.Chapter4.Problem4_1_4
+import EtingofRepresentationTheory.Chapter4.Exercise4_3_1
+import EtingofRepresentationTheory.Chapter4.Problem4_12_1
 import EtingofRepresentationTheory.Chapter4.Problem4_12_4
 import EtingofRepresentationTheory.Chapter4.Problem4_12_7
 import EtingofRepresentationTheory.Chapter4.Problem4_12_10
+import EtingofRepresentationTheory.Chapter4.Problem4_12_11
 
 /-! # Chapter 4: Representations of Finite Groups: Further Results -/
