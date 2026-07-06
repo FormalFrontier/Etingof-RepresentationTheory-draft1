@@ -795,8 +795,8 @@
     "end_page": "19",
     "start_line": 9,
     "end_line": 20,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean (center trivial + simple ring when q not root of unity; center generators in root-of-unity case; determinant obstruction q^{dim V}=1; irreducible dim = orderOf q). Statements only, proofs sorried."
   },
   {
     "id": "Chapter2/Definition2.8.1",
@@ -893,8 +893,8 @@
     "end_page": "20",
     "start_line": 6,
     "end_line": 16,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean (vertex idempotents + arrow generators; generation adjoin = top; four defining relations; universal property). Statements only, proofs sorried."
   },
   {
     "id": "Chapter2/Discussion_quiver_rep_bijection",
@@ -1588,8 +1588,8 @@
     "end_page": "41",
     "start_line": 14,
     "end_line": 1,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_16_5.lean (U_q(sl2) constructed via RingQuot with 5 defining relations proved; classification statements sorried: highest weight vector, non-root-of-unity eigenvalue, root-of-unity dimension bound)."
   },
   {
     "id": "Chapter3/Introduction",
