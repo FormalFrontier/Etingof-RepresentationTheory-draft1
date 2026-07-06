@@ -21,7 +21,9 @@ form, give each nilpotent Jordan block `J_{0,n}` an `sl(2)`-structure coming fro
 the irreducible `V_n`, and assemble the direct sum; uniqueness then follows from
 the classification of representations (part (f)).
 
-This file formalizes the **existence** half of part (l), in full generality.
+This file formalizes the **existence** half of part (l), in full generality. The
+*uniqueness* half is assembled in `Problem2_15_1_l_uniqueness.lean` (which imports this
+file and the classification-based `Sl2JordanTypeIso.lean`).
 
 We first exhibit, for every `n`, an `sl(2)`-representation on `V_n = Fin n → ℂ`
 whose raising operator `E = ρ(e)` is *exactly* the standard nilpotent Jordan shift
@@ -40,10 +42,10 @@ transport (`sl2Pi`, `sl2Transport`, `exists_sl2Rep_of_conj_piShift`) then finish
 
 ## Scope
 
-Existence is complete for arbitrary nilpotent `A`. The remaining piece — uniqueness
-up to isomorphism via the classification (part (f)) — additionally depends on the
-`sl₂` complete-reducibility results (parts (h)–(k)), and is tracked as follow-up
-work.
+Existence is complete for arbitrary nilpotent `A`. Uniqueness up to isomorphism
+(`sl2Rep_unique_of_e_eq`) and the bundled part-(l) statement (`jacobsonMorozov_sl2`) are in
+`Problem2_15_1_l_uniqueness.lean`, resting on the classification of representations via
+`Sl2JordanTypeIso.lean`.
 -/
 
 open Etingof
