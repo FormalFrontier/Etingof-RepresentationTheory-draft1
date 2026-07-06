@@ -1099,8 +1099,8 @@
     "end_page": "24",
     "start_line": 6,
     "end_line": 6,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Chapter2/Exercise2_9_5.lean: states so(3) ≅ (ℝ³, ×) as Nonempty (Orthogonal.so (Fin 3) ℝ ≃ₗ⁅ℝ⁆ (Fin 3 → ℝ)) (Cross.lieRing local instance + constructed LieAlgebra ℝ), with the concrete example (1)/(5) facts (bracket = cross product; mem_so ↔ skew-symmetric) proved. The hat-map LieEquiv construction is sorry (statement pass). Exercise refers to the concrete Lie-algebra list (Discussion_concrete_Lie_examples), not Example 2.9.2."
   },
   {
     "id": "Chapter2/Definition2.9.6",
@@ -1392,8 +1392,8 @@
     "end_page": "35",
     "start_line": 25,
     "end_line": 26,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Chapter2/Exercise2_11_7.lean: M ⊗[A] N is an A-module for a commutative ring A (TensorProduct.instModule via inferInstance), with the action lemmas a•(m⊗ₜn) = (a•m)⊗ₜn = m⊗ₜ(a•n). Sorry-free. NOTE: blobs/Chapter2/Exercise2.11.7.md is mis-extracted (holds the trailing clause of Problem 2.11.6(b)); the real statement is confirmed against source/original.pdf p.35 and matches this title."
   },
   {
     "id": "Chapter2/Discussion_2.12_heading",
