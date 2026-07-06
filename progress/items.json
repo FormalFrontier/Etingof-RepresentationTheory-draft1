@@ -3972,8 +3972,8 @@
     "end_page": "112",
     "start_line": 13,
     "end_line": 24,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Problem5_11_1.lean states the decomposition into A5 irreducibles (repTriv/repC3plus/repC3minus/repC4/repC5) of representations induced from irreducibles of the subgroups Z2, Z3, Z5, A4, Z2xZ2. Phrased for an arbitrary subgroup of the relevant order (all such are conjugate in A5) and an arbitrary irreducible inducing character distinguished by dimension and triviality, via Etingof.Definition5_8_1 and FDRep biproducts. 11 theorems, sorry proofs."
   },
   {
     "id": "Chapter5/Introduction_5.12",
