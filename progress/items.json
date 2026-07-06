@@ -6340,10 +6340,10 @@
     "start_line": 7,
     "end_line": 8,
     "status": "sorry_free",
-    "fidelity": "gap",
-    "needs_statement": true,
+    "fidelity": "resolved",
+    "needs_statement": false,
     "sorry_free": true,
-    "fidelity_note": "[fidelity wave 7] Book states BOTH (1) forgetful A-mod→Vect_k is representable by M=A, and (2) for infinite-dimensional A restricted to finite-dim modules the forgetful functor is in general NOT representable (e.g. A = c_00(ℤ)). Lean formalizes only (1) via ringLmapEquivSelf; the non-representability counterexample is absent.",
+    "fidelity_note": "[fidelity wave 7, resolved #5838] Both claims now formalized. (1) forgetful A-mod→Vect_k representable by M=A via ringLmapEquivSelf. (2) non-representability on finite-dim modules: over A=k[x] (equivalent infinite-dim algebra; book's c_00(ℤ) is non-unital, outside Mathlib's Module framework), forgetful_not_representable shows no finite-dim module M=(V,S) can represent the forgetful functor, since every finite-dim S has a scalar μ (non-eigenvalue) with Hom_A(M,ℂ_μ)=0 despite dim ℂ_μ=1.",
     "fidelity_issue": 5838
   },
   {
