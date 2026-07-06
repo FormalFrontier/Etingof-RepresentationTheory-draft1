@@ -53,6 +53,7 @@ import EtingofRepresentationTheory.Chapter5.Theorem5_10_1
 -- Section 5.11: Worked examples of induced representations (S₃)
 import EtingofRepresentationTheory.Chapter5.Discussion5_11_examples
 import EtingofRepresentationTheory.Chapter5.Discussion5_11_S4S3
+import EtingofRepresentationTheory.Chapter5.Problem5_11_1
 
 -- Section 5.12: Specht Modules and Young Tableaux
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
