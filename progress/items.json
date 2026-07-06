@@ -4420,8 +4420,8 @@
     "end_page": "120",
     "start_line": 21,
     "end_line": 25,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Problem5_16_1.lean states the branching rule for S_n in S_{n+1}. (a) restriction character of V_mu equals the sum of characters of V_lambda over R(mu) = {lambda subset mu}; (b) the Frobenius-reciprocity multiplicity of V_lambda in Ind V_mu is the indicator of A(mu) = {mu subset lambda}. R(mu)/A(mu) via YoungDiagram containment. Sorry proofs."
   },
   {
     "id": "Chapter5/Problem5.16.2",
@@ -4940,8 +4940,8 @@
     "end_page": "135",
     "start_line": 15,
     "end_line": 18,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Problem5_24_2.lean states R_{k,N} (invariant subalgebra of MvPolynomial on k-tuples of N x N matrices under simultaneous conjugation, via infimum of AlgHom equalizers) equals Algebra.adjoin of the trace-of-word functions T_w = Tr(w(X_1..X_k)). Sorry proof."
   },
   {
     "id": "Chapter5/Introduction_5.25",
@@ -5219,8 +5219,8 @@
     "end_page": "147",
     "start_line": 17,
     "end_line": 17,
-    "status": "not_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "statement_formalized",
+    "coverage_note": "Statement pass: Chapter5/Exercise5_27_3.lean states, over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), that the character formula (iv) implies the classification properties (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Sorry proof."
   },
   {
     "id": "Chapter6/Introduction",
