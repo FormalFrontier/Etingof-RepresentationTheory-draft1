@@ -108,4 +108,84 @@ theorem piShift_pow_ker_finrank {ι : Type*} [Fintype ι] (n : ι → ℕ) (k : 
   rw [piMap_pow_ker_finrank]
   exact Finset.sum_congr rfl fun i _ => jordanShift_pow_ker_finrank (n i) k
 
+/-! ## Multiset inversion
+
+The nullity sequence `k ↦ ∑_{a ∈ s} min k a` of a multiset `s` of positive integers
+determines `s`. The lever is the first difference: `null(k+1) − null(k)` equals the
+number of parts of size `≥ k+1`, and that count function determines the multiset.
+-/
+
+namespace NullitySeq
+
+/-- The number of parts of `s` of size `≥ k`. -/
+def geCount (s : Multiset ℕ) (k : ℕ) : ℕ := (s.filter (fun a => k ≤ a)).card
+
+/-- The nullity value `∑_{a ∈ s} min k a`. -/
+def nullity (s : Multiset ℕ) (k : ℕ) : ℕ := (s.map (fun a => min k a)).sum
+
+/-- Cons rule for the nullity value. -/
+theorem nullity_cons (a : ℕ) (s : Multiset ℕ) (m : ℕ) :
+    nullity (a ::ₘ s) m = min m a + nullity s m := by
+  simp only [nullity, Multiset.map_cons, Multiset.sum_cons]
+
+/-- Cons rule for the `geCount` function. -/
+theorem geCount_cons (a : ℕ) (s : Multiset ℕ) (k : ℕ) :
+    geCount (a ::ₘ s) k = (if k ≤ a then 1 else 0) + geCount s k := by
+  simp only [geCount, Multiset.filter_cons, Multiset.card_add]
+  congr 1
+  by_cases h : k ≤ a <;> simp [h]
+
+/-- **First difference of the nullity sequence.** Passing from `k` to `k+1` increases the
+nullity by exactly the number of parts of size `≥ k+1`:
+`null(k+1) = null(k) + geCount(k+1)`. -/
+theorem nullity_succ (s : Multiset ℕ) (k : ℕ) :
+    nullity s (k + 1) = nullity s k + geCount s (k + 1) := by
+  induction s using Multiset.induction_on with
+  | empty => simp [nullity, geCount]
+  | cons a s ih =>
+    rw [nullity_cons, nullity_cons, geCount_cons, ih]
+    have hmin : min (k + 1) a = min k a + (if k + 1 ≤ a then 1 else 0) := by
+      split <;> omega
+    rw [hmin]; ring
+
+/-- **Recovering the count from the `geCount` function.** The multiplicity of `v` in `s`
+is the drop `geCount(v) − geCount(v+1)` (parts `≥ v` that are not `≥ v+1`):
+`geCount(v) = count v s + geCount(v+1)`. -/
+theorem geCount_eq_count_add (s : Multiset ℕ) (v : ℕ) :
+    geCount s v = Multiset.count v s + geCount s (v + 1) := by
+  induction s using Multiset.induction_on with
+  | empty => simp [geCount]
+  | cons a s ih =>
+    rw [geCount_cons, geCount_cons, Multiset.count_cons, ih]
+    have hsplit : (if v ≤ a then (1 : ℕ) else 0)
+        = (if v = a then 1 else 0) + (if v + 1 ≤ a then 1 else 0) := by
+      split_ifs <;> omega
+    rw [hsplit]; ring
+
+end NullitySeq
+
+/-- **The nullity sequence is a complete invariant of the multiset of block sizes
+(Problem 2.15.1(l), multiset inversion).** Two multisets of positive integers with the same
+nullity sequence `k ↦ ∑_{a ∈ s} min k a` are equal. Equivalently, the multiset of Jordan
+block sizes of a nilpotent operator is recovered from its nullity sequence. -/
+theorem nullitySeq_injective {s t : Multiset ℕ} (hs : 0 ∉ s) (ht : 0 ∉ t)
+    (h : ∀ k, NullitySeq.nullity s k = NullitySeq.nullity t k) : s = t := by
+  -- The `geCount` functions agree from the first differences of the nullity sequences.
+  have hge : ∀ j, NullitySeq.geCount s (j + 1) = NullitySeq.geCount t (j + 1) := by
+    intro j
+    have hs' := NullitySeq.nullity_succ s j
+    have ht' := NullitySeq.nullity_succ t j
+    rw [h j, h (j + 1)] at hs'
+    rw [ht'] at hs'
+    exact (Nat.add_left_cancel hs').symm
+  -- Hence the multiplicity functions agree, so the multisets are equal.
+  refine Multiset.ext.mpr fun v => ?_
+  rcases Nat.eq_zero_or_pos v with rfl | hv
+  · rw [Multiset.count_eq_zero.mpr hs, Multiset.count_eq_zero.mpr ht]
+  · obtain ⟨w, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : v ≠ 0)
+    have e1 := NullitySeq.geCount_eq_count_add s (w + 1)
+    have e2 := NullitySeq.geCount_eq_count_add t (w + 1)
+    rw [hge w, hge (w + 1), e2] at e1
+    exact (Nat.add_right_cancel e1).symm
+
 end Etingof.Sl2Irrep
