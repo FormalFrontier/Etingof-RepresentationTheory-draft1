@@ -226,6 +226,7 @@ Read the item's blob text and its `.refs.md` file (Mathlib coverage + external s
 
 **Common pitfalls:**
 - **No `-/` inside doc-comments.** A stray `-/` sequence in prose (e.g. writing `one-/two-sided`, or `f⁻¹/g`) closes the `/-! … -/` or `/-- … -/` block early, and the remaining text is parsed as commands — producing baffling "unexpected identifier; expected command" errors far from the real spot. Reword to `one- or two-sided`. Likewise avoid an accidental `/-` opening a nested comment.
+- **Never use `λ` as a bound-variable name.** In Lean 4 `λ` is the reserved lambda keyword, so `fun λ => …`, `∑ λ ∈ s, …`, or `(λ : Nat.Partition n)` all produce cryptic parse errors (`unexpected token '=>'`, `unexpected token 'λ'`). This bites constantly in the partition/Young-diagram chapters where `λ` is the natural mathematical name — use `la` (the codebase convention) or `lam`. The book's `λ` in prose inside doc-comments is fine.
 - Don't invent type classes. If Mathlib doesn't have a concept, use a `structure` or `def` with explicit fields.
 - Don't use `True` as a placeholder for propositions — it compiles but hides the real requirement.
 - Check that universe levels are consistent. Representation theory often needs `Type*` not `Type`.
