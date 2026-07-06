@@ -7,6 +7,7 @@ import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_m_Module
 import EtingofRepresentationTheory.Chapter2.Problem2_15_1_n
 import EtingofRepresentationTheory.Chapter2.Sl2NullitySequence
+import EtingofRepresentationTheory.Chapter2.Sl2SemisimpleDecomposition
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_1
 import EtingofRepresentationTheory.Chapter2.Theorem2_1_2
 
