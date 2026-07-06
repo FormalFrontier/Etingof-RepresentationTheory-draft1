@@ -106,5 +106,6 @@ import EtingofRepresentationTheory.Chapter2.Problem2_14_3
 import EtingofRepresentationTheory.Chapter2.Problem2_16_1
 import EtingofRepresentationTheory.Chapter2.Problem2_16_2
 import EtingofRepresentationTheory.Chapter2.Problem2_16_3
+import EtingofRepresentationTheory.Chapter2.Problem2_16_4
 
 /-! # Chapter 2: General Results of Representation Theory -/
