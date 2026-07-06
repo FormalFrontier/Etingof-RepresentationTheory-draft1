@@ -211,4 +211,12 @@ import EtingofRepresentationTheory.Chapter5.QuotDetDegreeAlgebraic
 -- Section 5.27: Representations of Semidirect Products
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 
+-- Chapter 5 exercises (statement pass)
+import EtingofRepresentationTheory.Chapter5.Exercise5_1_7
+import EtingofRepresentationTheory.Chapter5.Exercise5_3_3
+import EtingofRepresentationTheory.Chapter5.Exercise5_8_5
+import EtingofRepresentationTheory.Chapter5.Problem5_8_4
+import EtingofRepresentationTheory.Chapter5.Problem5_16_2
+import EtingofRepresentationTheory.Chapter5.Problem5_24_1
+
 /-! # Chapter 5: Representations of the Symmetric Group -/

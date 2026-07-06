@@ -1,0 +1,135 @@
+import Mathlib
+import EtingofRepresentationTheory.Chapter6.Definition6_1_4
+import EtingofRepresentationTheory.Chapter6.DynkinTypes
+import EtingofRepresentationTheory.Chapter6.Problem6_1_3
+
+/-!
+# Problem 6.1.3 (continued): `E₇`, `E₈`, and parts (a)–(d)
+
+> - `E₇`, `E₈`: the two remaining exceptional diagrams (a path with a branch at
+>   the third vertex).
+>
+> **(a)** Compute the determinant of `A` where `Γ = Aₙ, Dₙ`. (Use the row
+> decomposition rule, and write down a recursive equation for it.) Deduce by
+> Sylvester's criterion that `Aₙ, Dₙ` are Dynkin diagrams.
+>
+> **(b)** Compute the determinants of `A` for `E₆, E₇, E₈` (use row decomposition
+> and reduce to (a)). Show they are Dynkin diagrams.
+>
+> **(c)** Show that if `Γ` is a Dynkin diagram, it cannot have cycles. For this,
+> show that `det(A) = 0` for the cycle graph (all vertices labeled `1`), by
+> showing the sum of rows is `0`. Thus `Γ` has to be a tree.
+>
+> **(d)** Show that if `Γ` is a Dynkin diagram, it cannot have vertices with four
+> or more incoming edges and that `Γ` can have no more than one vertex with three
+> incoming edges.
+
+Here `A = 2·Id - R` is the Cartan-type matrix of Problem 6.1.3, and
+`Etingof.IsDynkinDiagram` (Definition 6.1.4) is exactly "`A` is positive
+definite". The determinant values are the standard connection indices:
+`det Aₙ = n+1`, `det Dₙ = 4`, `det E₆ = 3`, `det E₇ = 2`, `det E₈ = 1`.
+
+We reuse the standard adjacency matrices `Etingof.DynkinType.adj`.
+-/
+
+namespace Etingof.Problem6_1_3_E7E8
+
+open Matrix Finset
+
+/-- The Cartan matrix `A = 2·Id - adj(t)` of a standard Dynkin type `t`. -/
+def cartan (t : DynkinType) : Matrix (Fin t.rank) (Fin t.rank) ℤ :=
+  2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj
+
+/-- The degree (number of incident edges) of vertex `v` in the graph with
+adjacency matrix `adj`. -/
+def vertexDegree {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (v : Fin n) : ℕ :=
+  (univ.filter (fun j => adj v j = 1)).card
+
+/-! ## Part (a): determinants of `Aₙ` and `Dₙ`, and they are Dynkin diagrams -/
+
+/-- **(a)** `det A = n + 1` for the path graph `Aₙ`. -/
+theorem det_cartan_A (n : ℕ) (hn : 1 ≤ n) :
+    (cartan (DynkinType.A n hn)).det = (n : ℤ) + 1 := by
+  sorry
+
+/-- **(a)** `det A = 4` for `Dₙ`. -/
+theorem det_cartan_D (n : ℕ) (hn : 4 ≤ n) :
+    (cartan (DynkinType.D n hn)).det = 4 := by
+  sorry
+
+/-- **(a)** `Aₙ` is a Dynkin diagram (its Cartan form is positive definite),
+deduced from `det > 0` of all leading minors via Sylvester's criterion. -/
+theorem isDynkinDiagram_A (n : ℕ) (hn : 1 ≤ n) :
+    IsDynkinDiagram (DynkinType.A n hn).rank (DynkinType.A n hn).adj := by
+  sorry
+
+/-- **(a)** `Dₙ` is a Dynkin diagram. -/
+theorem isDynkinDiagram_D (n : ℕ) (hn : 4 ≤ n) :
+    IsDynkinDiagram (DynkinType.D n hn).rank (DynkinType.D n hn).adj := by
+  sorry
+
+/-! ## Part (b): determinants of `E₆, E₇, E₈`, and they are Dynkin diagrams -/
+
+/-- **(b)** `det A = 3` for `E₆`. -/
+theorem det_cartan_E6 : (cartan DynkinType.E6).det = 3 := by
+  sorry
+
+/-- **(b)** `det A = 2` for `E₇`. -/
+theorem det_cartan_E7 : (cartan DynkinType.E7).det = 2 := by
+  sorry
+
+/-- **(b)** `det A = 1` for `E₈`. -/
+theorem det_cartan_E8 : (cartan DynkinType.E8).det = 1 := by
+  sorry
+
+/-- **(b)** `E₆, E₇, E₈` are Dynkin diagrams. -/
+theorem isDynkinDiagram_E :
+    IsDynkinDiagram DynkinType.E6.rank DynkinType.E6.adj ∧
+    IsDynkinDiagram DynkinType.E7.rank DynkinType.E7.adj ∧
+    IsDynkinDiagram DynkinType.E8.rank DynkinType.E8.adj := by
+  sorry
+
+/-! ## Part (c): a Dynkin diagram is a tree (no cycles) -/
+
+/-- The adjacency matrix of the `n`-cycle `Ãₙ₋₁`: vertex `i` is joined to
+`i ± 1 (mod n)`. -/
+def cycleAdj (n : ℕ) : Matrix (Fin n) (Fin n) ℤ :=
+  fun i j => if (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val then 1 else 0
+
+/-- **(c)** The all-ones vector lies in the kernel of the cycle's Cartan matrix:
+each row of `2·Id - R` sums to `0` because every vertex of a cycle has degree `2`
+("the sum of rows is `0`"). -/
+theorem cycle_cartan_mulVec_one_eq_zero (n : ℕ) (hn : 3 ≤ n) :
+    (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - cycleAdj n).mulVec (fun _ => 1) = 0 := by
+  sorry
+
+/-- **(c)** Consequently the Cartan matrix of a cycle is singular: `det A = 0`,
+so a cycle is never a Dynkin diagram. -/
+theorem cycle_cartan_det_zero (n : ℕ) (hn : 3 ≤ n) :
+    (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - cycleAdj n).det = 0 := by
+  sorry
+
+/-- **(c)** A Dynkin diagram is a **tree**: being connected (part of
+`IsDynkinDiagram`) and positive definite forces the number of edges to be
+`n - 1` (equivalently, `Γ` has no cycle). We record the tree condition as
+"the total number of ordered adjacent pairs is `2·(n-1)`". -/
+theorem isDynkinDiagram_isTree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) :
+    (∑ i, ∑ j, adj i j) = 2 * ((n : ℤ) - 1) := by
+  sorry
+
+/-! ## Part (d): degree restrictions on a Dynkin diagram -/
+
+/-- **(d)** A Dynkin diagram has no vertex with four or more incident edges. -/
+theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (v : Fin n) : vertexDegree adj v ≤ 3 := by
+  sorry
+
+/-- **(d)** A Dynkin diagram has at most one vertex of degree three (at most one
+branch point). -/
+theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hD : IsDynkinDiagram n adj) (v w : Fin n)
+    (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by
+  sorry
+
+end Etingof.Problem6_1_3_E7E8

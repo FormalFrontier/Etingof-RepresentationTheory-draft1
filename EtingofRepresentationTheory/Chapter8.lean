@@ -9,6 +9,10 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_1
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.Problem8_2_10
+import EtingofRepresentationTheory.Chapter8.Problem8_1_3
+import EtingofRepresentationTheory.Chapter8.Exercise8_1_4
+import EtingofRepresentationTheory.Chapter8.Exercise8_2_2
+import EtingofRepresentationTheory.Chapter8.Problem8_2_5
 
 /-!
 # Chapter 8: Homological Algebra
