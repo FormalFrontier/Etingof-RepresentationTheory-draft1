@@ -7596,7 +7596,9 @@
     "source_span": "Let G = S_4, H = S_3. Then \\operatorname{Ind}_H^G \\mathbb{C}_+ = \\mathbb{C}_+ \\oplus \\mathbb{C}^3_-, \\operatorname{Ind}_H^G \\mathbb{C}_- = \\mathbb{C}_- \\oplus \\mathbb{C}^3_+, \\operatorname{Ind}_H^G \\mathbb{C}^2 = \\mathbb{C}^2 \\oplus \\mathbb{C}^3_- \\oplus \\mathbb{C}^3_+.",
     "claim": "The three induced representations of S₄ from S₃: Ind_{S₃}^{S₄} ℂ₊ ≅ ℂ₊ ⊕ ℂ³₋, Ind_{S₃}^{S₄} ℂ₋ ≅ ℂ₋ ⊕ ℂ³₊, Ind_{S₃}^{S₄} ℂ² ≅ ℂ² ⊕ ℂ³₋ ⊕ ℂ³₊",
     "status": "accepted",
-    "coverage_issue": 5678
+    "coverage_issue": 5678,
+    "lean_file": "EtingofRepresentationTheory/Chapter5/Discussion5_11_S4S3.lean",
+    "note": "All three isomorphisms proved sorry-free (issue #5797): indH_triv_decomp, indH_sign_decomp, indH_twoDim_decomp. S₃ realised as the point-stabiliser H ≤ S₄ via Equiv.Perm.extendDomainHom; group-generic Frobenius reciprocity (frobenius_finrank_gen / ind_finrank_eq_scalar_gen) reduces each multiplicity to a character scalar product over H, evaluated by decide after transporting the sum to S₃, then matched against Schur biproduct multiplicities on each of the five S₄-irreducibles."
   },
   {
     "type": "derived",
