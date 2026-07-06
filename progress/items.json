@@ -2178,8 +2178,11 @@
     "end_page": "56",
     "start_line": 15,
     "end_line": 4,
-    "status": "not_formalized",
-    "coverage_note": "Decomposed out of #5896 into #5923 (statement pass): needs base-change module infrastructure (TensorProduct.Algebra.module, a deliberate non-instance) distinct from the other five 3.8/3.9 exercises."
+    "status": "statement_formalized",
+    "sorry_free": false,
+    "fidelity": "verified",
+    "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_8_4.lean",
+    "coverage_note": "Statement pass (#5896/#5923). Base-change module infrastructure built directly (rep/repTensor/bcMod: L ⊗[K] V as an L ⊗[K] A-module, via Module.End.baseChangeHom + AlgHom.liftEquiv + Module.compHom, since TensorProduct.Algebra.module is not a global instance). Parts (i) iso_of_baseChange_iso and (ii) directSummand_of_baseChange_directSummand (Noether-Deuring) stated with sorry proofs; (ii) encodes direct summand as a split injection. Uses L ⊗[K] V for the book's V ⊗_K L (Mathlib scalar-on-left convention)."
   },
   {
     "id": "Chapter3/Problem3.8.5",
