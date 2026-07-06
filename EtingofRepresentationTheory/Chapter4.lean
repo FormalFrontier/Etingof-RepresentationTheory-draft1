@@ -44,6 +44,8 @@ import EtingofRepresentationTheory.Chapter4.Theorem4_10_2
 import EtingofRepresentationTheory.Chapter4.Lemma4_10_3
 
 -- Section 4.1, 4.12: Exercises (statement pass)
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Chapter4.Problem4_5_2
 import EtingofRepresentationTheory.Chapter4.Problem4_1_4
 import EtingofRepresentationTheory.Chapter4.Problem4_12_4
 import EtingofRepresentationTheory.Chapter4.Problem4_12_10
