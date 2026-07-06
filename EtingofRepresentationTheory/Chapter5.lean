@@ -218,8 +218,11 @@ import EtingofRepresentationTheory.Chapter5.Exercise5_8_5
 import EtingofRepresentationTheory.Chapter5.Problem5_1_2
 import EtingofRepresentationTheory.Chapter5.Problem5_8_4
 import EtingofRepresentationTheory.Chapter5.Problem5_12_5
+import EtingofRepresentationTheory.Chapter5.Problem5_16_1
 import EtingofRepresentationTheory.Chapter5.Problem5_16_2
 import EtingofRepresentationTheory.Chapter5.Problem5_16_3
 import EtingofRepresentationTheory.Chapter5.Problem5_24_1
+import EtingofRepresentationTheory.Chapter5.Problem5_24_2
+import EtingofRepresentationTheory.Chapter5.Exercise5_27_3
 
 /-! # Chapter 5: Representations of the Symmetric Group -/
