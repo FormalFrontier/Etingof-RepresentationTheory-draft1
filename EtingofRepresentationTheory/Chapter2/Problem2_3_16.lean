@@ -4,6 +4,7 @@ import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.Nilpotent.Basic
 import Mathlib.Algebra.DualNumber
 import EtingofRepresentationTheory.Chapter2.Problem2_3_15
+import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 
 /-!
 # Problem 2.3.16: The central character
@@ -120,20 +121,8 @@ theorem exists_central_scalar (z : Subalgebra.center k A) :
 ## Part (b): the indecomposable case
 -/
 
-/-- A representation (module) `V` is **indecomposable** if it is nonzero and admits no nontrivial
-direct-sum decomposition: whenever `V = N₁ ⊕ N₂` as subrepresentations, one of the summands is
-zero. -/
-def IsIndecomposable (A V : Type*) [Ring A] [AddCommGroup V] [Module A V] : Prop :=
-  Nontrivial V ∧ ∀ N₁ N₂ : Submodule A V, IsCompl N₁ N₂ → N₁ = ⊥ ∨ N₂ = ⊥
-
-namespace IsIndecomposable
-
-variable {A V : Type*} [Ring A] [AddCommGroup V] [Module A V]
-
-theorem nontrivial (h : IsIndecomposable A V) : Nontrivial V := h.1
-
-end IsIndecomposable
-
+/- Indecomposability of a representation is `Etingof.IsIndecomposable` (Definition 2.3.8):
+`V` is nonzero and admits no nontrivial direct-sum decomposition. -/
 section Indecomposable
 
 variable {k : Type*} [Field k]
@@ -202,7 +191,7 @@ character `χ_V(z)` well defined. -/
 theorem indecEigenvalue_unique (hV : IsIndecomposable A V) (z : Subalgebra.center k A) {χ χ' : k}
     (h : IsNilpotent (centralAction (V := V) z - χ • (1 : Module.End A V)))
     (h' : IsNilpotent (centralAction (V := V) z - χ' • (1 : Module.End A V))) : χ = χ' := by
-  haveI : Nontrivial V := hV.nontrivial
+  haveI : Nontrivial V := hV.1
   set a : Module.End A V := centralAction (V := V) z with ha
   -- `a - χ•1` and `a - χ'•1` commute (they differ by a central scalar), so their difference
   -- `(χ' - χ)•1` is nilpotent.
@@ -232,7 +221,7 @@ any irreducible subrepresentation of `V`, so `χ_V(z)` is the scalar by which `z
 theorem exists_centralCharacter_isNilpotent (hV : IsIndecomposable A V) :
     ∃ χ_V : Subalgebra.center k A →ₐ[k] k, ∀ z : Subalgebra.center k A,
       IsNilpotent (centralAction (V := V) z - (χ_V z) • (1 : Module.End A V)) := by
-  haveI : Nontrivial V := hV.nontrivial
+  haveI : Nontrivial V := hV.1
   -- Pick an irreducible subrepresentation `S ≤ V` (Problem 2.3.15).
   obtain ⟨S, hS⟩ := exists_isSimpleModule_of_finite (k := k) (A := A) (V := V)
   haveI : IsSimpleModule A S := hS
@@ -251,5 +240,46 @@ theorem exists_centralCharacter_isNilpotent (hV : IsIndecomposable A V) :
   exact centralAction_sub_smul_isNilpotent hV z hv₀ heig
 
 end Indecomposable
+
+/-!
+## Part (c): `ρ(z)` need not be a scalar operator
+
+The regular representation of the dual numbers `k[ε] = k[x]/(x²)` on itself is a two dimensional
+indecomposable representation (`k[ε]` is a local ring). The element `ε` is central (the ring is
+commutative) and nilpotent, and it acts on the regular representation by the non-scalar operator
+`v ↦ ε · v`. So the single eigenvalue of part (b) — here `χ_V(ε) = 0` — does *not* imply that
+`ρ(z)` is a scalar operator.
+-/
+
+section DualNumberCounterexample
+
+open DualNumber TrivSqZeroExt
+
+variable {k : Type*} [Field k]
+
+/-- The central element `ε` of the regular representation of the dual numbers `k[ε]`, as a member
+of `Z(k[ε])` (which is all of `k[ε]`, since the ring is commutative). -/
+def epsCenter : Subalgebra.center k (DualNumber k) :=
+  ⟨ε, Subalgebra.mem_center_iff.mpr fun b => commute_eps_right b⟩
+
+@[simp] theorem epsCenter_coe : (epsCenter (k := k) : DualNumber k) = ε := rfl
+
+/-- **Problem 2.3.16(c).** On the regular representation of the dual numbers `k[ε]`, the central
+element `ε` does *not* act by a scalar operator: there is no `c : k` for which the operator
+`ρ(ε) : v ↦ ε · v` equals the scalar operator `v ↦ c • v`. Together with part (b) (`ε` acts with
+the single eigenvalue `0`), this shows a central element can act with a single eigenvalue without
+acting by a scalar. -/
+theorem eps_smul_not_scalar :
+    ¬ ∃ c : k, ∀ v : DualNumber k, (ε : DualNumber k) * v = c • v := by
+  rintro ⟨c, hc⟩
+  -- Evaluate at `v = 1`: `ε = c • 1 = algebraMap k k[ε] c`.
+  have h1 := hc 1
+  rw [mul_one, Algebra.smul_def, mul_one] at h1
+  -- Compare the `ε`-components: `1 = 0`.
+  have h2 := congrArg TrivSqZeroExt.snd h1
+  rw [snd_eps, algebraMap_eq_inl, snd_inl] at h2
+  exact one_ne_zero h2
+
+end DualNumberCounterexample
 
 end Etingof
