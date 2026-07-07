@@ -166,6 +166,20 @@ coordination skip <issue-number> "reason: <what changed>"
 ```
 Go back to Step 1 and try the next issue.
 
+**Already complete ≠ stale.** `skip` marks an issue `replan`, which is
+wrong when the deliverables have *already landed on `main`*. This happens
+when the work was decomposed into sub-issues whose PRs did not carry
+`Closes #<this-issue>`, so it was never auto-closed. Before working a
+statement/formalization issue, check `progress/items.json` and the target
+files: if every deliverable is already present, building, and non-vacuous
+(no `True` placeholder), the issue is done. Close it directly — there is
+no coordination verb for this:
+```
+gh issue close <N> --comment "Already complete on main: <per-item file → PR table>. Closing as done."
+gh issue edit <N> --remove-label claimed
+```
+Do NOT `skip` it (that re-queues finished work) and do NOT re-formalize.
+
 **PR fix plans**: If the plan asks you to fix a broken PR, use judgement. If the
 PR is low quality or not worth salvaging:
 ```
