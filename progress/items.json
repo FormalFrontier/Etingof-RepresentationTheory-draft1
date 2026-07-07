@@ -4941,7 +4941,7 @@
     "start_line": 3,
     "end_line": 14,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Problem5_24_1.lean states part (a), the S_n-equivariant iso C[S_n]·(a_lambda b_lambda) ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda, sorry proof. Part (b) (sign twist V_lambda ⊗ C_- = V_{lambda*}) deferred: needs conjugate-partition infrastructure."
+    "coverage_note": "Statement pass. Part (a): Chapter5/Problem5_24_1.lean states the S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda (sorry proof). Part (b): Chapter5/Problem5_24_1_b.lean constructs the sign-twist algebra automorphism phi (signTwist, phi(g)=sign(g)·g) and the conjugate partition lambda* (conjugatePartition, via Young-diagram transpose), and states: phi twists the g-action to sign(g)·(g·-) i.e. maps V to V⊗C_- (signTwist_smul_of); phi(C[S_n]·a)=C[S_n]·phi(a) (signTwist_map_leftIdeal); and V_lambda⊗C_- ≅ V_{lambda*} (spechtModule_signTwist_iso_conjugate). All proofs sorry; conjugatePartition parts_sum obligation sorried."
   },
   {
     "id": "Chapter5/Problem5.24.2",
