@@ -593,8 +593,8 @@
     "end_page": "14",
     "start_line": 4,
     "end_line": 12,
-    "status": "partially_formalized",
-    "coverage_note": "Part (a) formalized in Chapter2/Problem2_3_16.lean (#5883): Etingof.centralAction (central z acts as an A-linear endomorphism), Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (the central character as a k-algebra homomorphism, via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul (z acts by χ_V(z)), Etingof.exists_central_scalar. Parts (b) (indecomposable: ρ(z) has a single eigenvalue) and (c) (ρ(z) need not be scalar) remain — tracked in a follow-up sub-issue."
+    "status": "formalized",
+    "coverage_note": "All three parts formalized in Chapter2/Problem2_3_16.lean, sorry-free. Part (a) (#5883): Etingof.centralAction, Etingof.centralCharacter : Subalgebra.center k A →ₐ[k] k (via Schur's Corollary 2.3.10 / IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed), Etingof.centralCharacter_smul, Etingof.exists_central_scalar. Part (b) (#5887): Etingof.IsIndecomposable predicate; Etingof.centralAction_sub_smul_isNilpotent (single generalized eigenvalue via the Fitting decomposition LinearMap.isCompl_iSup_ker_pow_iInf_range_pow + indecomposability); Etingof.indecEigenvalue_unique (uniqueness of the eigenvalue); Etingof.exists_centralCharacter_isNilpotent (the central character is the AlgHom χ_S of an irreducible subrep S from Problem 2.3.15, and z acts with single eigenvalue χ_S(z)). Part (c) (#5887): Etingof.eps_smul_not_scalar — on the regular representation of the dual numbers k[ε], the central element ε acts non-scalarly (Etingof.epsCenter records ε ∈ Z(k[ε]))."
   },
   {
     "id": "Chapter2/Problem2.3.17",
