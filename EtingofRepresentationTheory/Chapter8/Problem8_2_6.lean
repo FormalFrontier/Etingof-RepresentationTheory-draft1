@@ -18,9 +18,7 @@ import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 
 ## What is formalized here
 
-Parts **(i)**, **(ii)**, the **`Ext` long exact sequence of (iii)** (covariant, second
-argument) and the **`Ext` long exact sequence of (v)** (contravariant, first argument) are
-stated below.
+All parts (i)–(v) are stated below, for both the `Ext` and `Tor` sides.
 
 * (i) uses `Etingof.Tor` / `Etingof.tensorOver` (Definition 8.2.3) for the `Tor₀` half and
   `Etingof.Ext` (Definition 8.2.4) with `Abelian.Ext.addEquiv₀` for the `Ext⁰` half.
@@ -29,12 +27,20 @@ stated below.
 * The `Ext` long exact sequences of (iii) and (v) are `Abelian.Ext.covariantSequence` and
   `Abelian.Ext.contravariantSequence` from Mathlib, whose objects are exactly the
   `Etingof.Ext` groups.
+* The `Tor` long exact sequences of (iii) and (v) are stated as six-term homology windows
+  (`ComposableArrows _ 5`) with an existentially quantified connecting homomorphism `δ`,
+  mirroring the shape of the `Ext` sequences. The horizontal maps are the first-argument
+  functoriality of `Etingof.TorFunctor` (for (v)) and the second-argument functoriality
+  `torSndMap` built below (for (iii)).
+* The balancing theorem (iv) is stated as a canonical isomorphism between `Etingof.Tor` (left
+  derived of `- ⊗_A N` in `M`) and the left derived functor of `M ⊗_A -` in `N`
+  (`tensorLeftFunctor A M`).
 
-The **`Tor` long exact sequences** of (iii) and (v), together with the **balancing theorem
-(iv)**, are deferred to a follow-up statement pass: the `Tor` construction of Definition 8.2.3
-is currently left-derived only in its *first* argument (`Etingof.TorFunctor A N` is a functor of
-`M`), so it lacks the second-argument functoriality and the balancing API needed to phrase the
-`Tor` connecting maps faithfully. See the follow-up issue linked from #5921.
+To phrase (iii) and (iv) we build genuine second-argument infrastructure: `tensorSndMap`,
+`tensorRightNatTrans`, `torSndMap`, and `tensorLeftFunctor` (all real constructions, no sorried
+`def` bodies). Definition 8.2.3 originally left-derives `- ⊗_A N` only in its first argument
+`M`; a left `A`-module map `g : N → N'` induces a natural transformation of the tensor functors,
+and `NatTrans.leftDerived` supplies the missing second-argument functoriality of `Tor`.
 
 These are statement-level formalizations (spec-first): the proofs are deferred (`sorry`).
 -/
@@ -111,6 +117,46 @@ noncomputable def torSndMap
     Etingof.Tor A N M n ⟶ Etingof.Tor A N' M n :=
   (NatTrans.leftDerived (tensorRightNatTrans A g) n).app M
 
+/-- The functor `N ↦ M ⊗_A N` from left `A`-modules to abelian groups, with the right `A`-module
+`M` held fixed. This is the functor whose left derived functors compute `Tor` "the other way"
+(from a projective resolution of `N` tensored with `M`), used to state the balancing theorem
+Problem 8.2.6(iv). Its action on morphisms is `tensorSndMap`. -/
+noncomputable def tensorLeftFunctor (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ) :
+    ModuleCat.{u} A ⥤ AddCommGrpCat.{u} where
+  obj N := AddCommGrpCat.of (Etingof.tensorOver A N M)
+  map {N N'} g := AddCommGrpCat.ofHom (tensorSndMap A g.hom M)
+  map_id N := by
+    ext x
+    induction x with
+    | zero => simp
+    | tmul m n => rfl
+    | add a b ha hb => simp only [map_add, ha, hb]
+  map_comp {N N' N''} g g' := by
+    ext x
+    induction x with
+    | zero => simp
+    | tmul m n => rfl
+    | add a b ha hb => simp only [map_add, ha, hb]
+
+/-- The functor `N ↦ M ⊗_A N` is additive in `N`, so it can be left-derived (Problem 8.2.6(iv)). -/
+instance (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ) :
+    (tensorLeftFunctor A M).Additive where
+  map_add {N N' f g} := by
+    ext x
+    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
+    induction y with
+    | zero => simp
+    | tmul m n =>
+      simp only [tensorLeftFunctor, AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_add,
+        AddMonoidHom.add_apply, tensorSndMap_mk, ModuleCat.hom_add, LinearMap.add_apply,
+        tmul_add]
+      exact map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N' M)) _ _
+    | add a b ha hb =>
+      rw [show ((a + b : TensorProduct ℤ M N) : Etingof.tensorOver A N M)
+            = (a : Etingof.tensorOver A N M) + b from
+          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N M)) a b,
+        map_add, map_add, ha, hb]
+
 /-! ### Part (i) -/
 
 /-- **Problem 8.2.6(i), `Tor₀`.** `Tor₀ᴬ(M, N)` is canonically isomorphic to `M ⊗_A N`. In the
@@ -174,6 +220,20 @@ theorem Problem_8_2_6_iii_tor
         (torSndMap A S.f.hom n₁ M) (torSndMap A S.g.hom n₁ M)
         δ
         (torSndMap A S.f.hom n₀ M) (torSndMap A S.g.hom n₀ M)).Exact := by
+  sorry
+
+/-! ### Part (iv): the balancing theorem -/
+
+/-- **Problem 8.2.6(iv), balancing.** `Torₙᴬ(M, N)` may be computed from a projective resolution
+of `N` tensored with `M`: the `n`-th left derived functor of `- ⊗_A N` evaluated at `M`
+(the definition `Etingof.Tor`) is canonically isomorphic to the `n`-th left derived functor of
+`M ⊗_A -` (the functor `tensorLeftFunctor A M`) evaluated at `N`. Equivalently, `Tor` is
+symmetric: it can be computed by resolving either argument. -/
+theorem Problem_8_2_6_iv
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) :
+    Nonempty (Etingof.Tor A N M n ≅
+      (Functor.leftDerived (tensorLeftFunctor A M) n).obj (ModuleCat.of A N)) := by
   sorry
 
 /-! ### Part (v): long exact sequence in the first argument (`Ext` half) -/
