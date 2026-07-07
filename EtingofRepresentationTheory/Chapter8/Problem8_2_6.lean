@@ -41,9 +41,75 @@ These are statement-level formalizations (spec-first): the proofs are deferred (
 
 namespace Etingof
 
-open CategoryTheory
+open CategoryTheory TensorProduct
 
 universe u
+
+/-! ### Second-argument functoriality of `⊗_A` and `Tor`
+
+The `Tor` construction of Definition 8.2.3 is set up as the left derived functor of `- ⊗_A N`
+in the *first* argument `M`, with the left module `N` held fixed. To state the long exact `Tor`
+sequence in the *second* argument (part (iii)) we need `Torᵢᴬ(M, -)` to be functorial in `N`.
+
+This is genuinely constructible: a left `A`-module map `g : N → N'` induces a natural
+transformation `tensorRightFunctor A N ⟶ tensorRightFunctor A N'` of the functors being
+left-derived (apply `id ⊗ g` to the second tensor factor), and `NatTrans.leftDerived` turns it
+into a map `Torᵢᴬ(M, N) ⟶ Torᵢᴬ(M, N')` natural in `M`. We build exactly this here. -/
+
+/-- The additive map `M ⊗_A N → M ⊗_A N'` induced by a left `A`-module map `g : N → N'`
+(second-argument functoriality of `⊗_A`). It applies `g` to the right tensor factor and descends
+to the balanced quotient because `g` is `A`-linear. -/
+noncomputable def tensorSndMap
+    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
+    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (M : ModuleCat.{u} Aᵐᵒᵖ) :
+    Etingof.tensorOver A N M →+ Etingof.tensorOver A N' M :=
+  QuotientAddGroup.map (Etingof.balancedSubgroup A N M) (Etingof.balancedSubgroup A N' M)
+    (TensorProduct.map (LinearMap.id) g.toAddMonoidHom.toIntLinearMap).toAddMonoidHom
+    (by
+      -- the induced map sends the balancing relation of `N` into that of `N'`
+      refine AddSubgroup.closure_le _ |>.mpr ?_
+      rintro x ⟨a, m, n, rfl⟩
+      apply AddSubgroup.subset_closure
+      refine ⟨a, m, g n, ?_⟩
+      simp only [map_sub, TensorProduct.map_tmul, LinearMap.id_coe, id_eq,
+        LinearMap.toAddMonoidHom_coe, AddMonoidHom.coe_toIntLinearMap, map_smul])
+
+@[simp]
+lemma tensorSndMap_mk
+    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
+    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (M : ModuleCat.{u} Aᵐᵒᵖ)
+    (m : M) (n : N) :
+    tensorSndMap A g M (TensorProduct.tmul ℤ m n : Etingof.tensorOver A N M)
+      = (TensorProduct.tmul ℤ m (g n) : Etingof.tensorOver A N' M) :=
+  rfl
+
+/-- The natural transformation `- ⊗_A N ⟶ - ⊗_A N'` induced by a left `A`-module map
+`g : N → N'`; its components are `tensorSndMap`. -/
+noncomputable def tensorRightNatTrans
+    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
+    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') :
+    Etingof.tensorRightFunctor A N ⟶ Etingof.tensorRightFunctor A N' where
+  app M := AddCommGrpCat.ofHom (tensorSndMap A g M)
+  naturality {M M'} f := by
+    ext x
+    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
+    induction y with
+    | zero => simp
+    | tmul m n => rfl
+    | add a b ha hb =>
+      rw [show ((a + b : TensorProduct ℤ M N) : Etingof.tensorOver A N M)
+            = (a : Etingof.tensorOver A N M) + b from
+          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N M)) a b,
+        map_add, map_add, ha, hb]
+
+/-- **Second-argument functoriality of `Tor`.** A left `A`-module map `g : N → N'` induces
+`Torᵢᴬ(M, N) ⟶ Torᵢᴬ(M, N')`, natural in the right module `M`. Defined as the `n`-th left
+derived natural transformation of `tensorRightNatTrans A g`. -/
+noncomputable def torSndMap
+    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
+    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (n : ℕ) (M : ModuleCat.{u} Aᵐᵒᵖ) :
+    Etingof.Tor A N M n ⟶ Etingof.Tor A N' M n :=
+  (NatTrans.leftDerived (tensorRightNatTrans A g) n).app M
 
 /-! ### Part (i) -/
 
@@ -89,6 +155,25 @@ theorem Problem_8_2_6_iii_ext
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
     (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
     (Abelian.Ext.covariantSequence (X := M) hS n₀ n₁ h).Exact := by
+  sorry
+
+/-- **Problem 8.2.6(iii), `Tor`.** A short exact sequence `S : 0 → N₁ → N₂ → N₃ → 0` of left
+`A`-modules induces, for each right `A`-module `M` and each `n₀ + 1 = n₁`, a connecting
+homomorphism `δ : Torₙ₁(M, N₃) → Torₙ₀(M, N₁)` making the six-term homology window
+`Torₙ₁(M,N₁) → Torₙ₁(M,N₂) → Torₙ₁(M,N₃) →[δ] Torₙ₀(M,N₁) → Torₙ₀(M,N₂) → Torₙ₀(M,N₃)`
+exact. The horizontal maps are the second-argument functoriality `torSndMap` of `Etingof.Tor`;
+splicing these windows over all `n` gives the book's long exact `Tor` sequence in the second
+argument (ending in `M ⊗_A N₁ → M ⊗_A N₂ → M ⊗_A N₃ → 0`). Existence of `δ` is part of the
+claim. -/
+theorem Problem_8_2_6_iii_tor
+    (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ)
+    {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
+    (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
+    ∃ δ : Etingof.Tor A S.X₃ M n₁ ⟶ Etingof.Tor A S.X₁ M n₀,
+      (ComposableArrows.mk₅
+        (torSndMap A S.f.hom n₁ M) (torSndMap A S.g.hom n₁ M)
+        δ
+        (torSndMap A S.f.hom n₀ M) (torSndMap A S.g.hom n₀ M)).Exact := by
   sorry
 
 /-! ### Part (v): long exact sequence in the first argument (`Ext` half) -/
