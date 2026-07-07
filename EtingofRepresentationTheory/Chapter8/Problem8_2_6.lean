@@ -105,4 +105,23 @@ theorem Problem_8_2_6_v_ext
     (Abelian.Ext.contravariantSequence hS N n₀ n₁ h).Exact := by
   sorry
 
+/-- **Problem 8.2.6(v), `Tor`.** A short exact sequence `S : 0 → M₁ → M₂ → M₃ → 0` of right
+`A`-modules (objects of `ModuleCat Aᵐᵒᵖ`) induces, for each left `A`-module `N` and each
+`n₀ + 1 = n₁`, a connecting homomorphism `δ : Torₙ₁(M₃, N) → Torₙ₀(M₁, N)` making the six-term
+homology window
+`Torₙ₁(M₁,N) → Torₙ₁(M₂,N) → Torₙ₁(M₃,N) →[δ] Torₙ₀(M₁,N) → Torₙ₀(M₂,N) → Torₙ₀(M₃,N)`
+exact. The horizontal maps are the first-argument functoriality of `Etingof.TorFunctor`
+(the `n`-th left derived functor of `- ⊗_A N`); splicing these windows over all `n` gives the
+book's long exact `Tor` sequence in the first argument. Existence of `δ` is part of the claim. -/
+theorem Problem_8_2_6_v_tor
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact)
+    (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
+    ∃ δ : (Etingof.TorFunctor A N n₁).obj S.X₃ ⟶ (Etingof.TorFunctor A N n₀).obj S.X₁,
+      (ComposableArrows.mk₅
+        ((Etingof.TorFunctor A N n₁).map S.f) ((Etingof.TorFunctor A N n₁).map S.g)
+        δ
+        ((Etingof.TorFunctor A N n₀).map S.f) ((Etingof.TorFunctor A N n₀).map S.g)).Exact := by
+  sorry
+
 end Etingof
