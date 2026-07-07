@@ -134,6 +134,15 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
+**Before that `reset --hard`, run `git status --short` first.** A reused
+worktree may carry uncommitted working-tree edits left by a prior session
+(e.g. half-finished skill/command tweaks) — `reset --hard` discards these
+unrecoverably. If you see any, `git diff` them: they are almost always
+disposable cruft the reset is meant to clear, but confirm they are not
+unpushed work before discarding. If they look worth keeping, commit them to
+a throwaway branch (`git stash` is banned in the home repo but fine here) so
+the next session can recover them.
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
 
