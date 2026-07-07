@@ -639,8 +639,8 @@
     "end_page": "15",
     "start_line": 15,
     "end_line": 15,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved 2026-07-07: left/right via Ideal.exists_maximal (Krull), two-sided via Zorn on proper ideals (chain union built with TwoSidedIdeal.mk'). No sorryAx."
   },
   {
     "id": "Chapter2/Discussion_2.5_heading",
