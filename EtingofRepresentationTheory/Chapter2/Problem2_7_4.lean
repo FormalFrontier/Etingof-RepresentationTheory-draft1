@@ -28,6 +28,84 @@ namespace Etingof.Problem2_7_4
 
 open Etingof
 
+/-! ## Commutator lemmas (used for part (b): `xᵖ`, `yᵖ` central)
+
+From the defining relation `yx = xy + 1` (`WeylAlgebra.yx_eq`) one derives, by induction,
+the commutator identities `y·xⁿ⁺¹ = xⁿ⁺¹·y + (n+1)·xⁿ` and `x·yⁿ⁺¹ = yⁿ⁺¹·x − (n+1)·yⁿ`.
+In characteristic `p` the coefficient `p` vanishes, so `xᵖ` commutes with `y` and `yᵖ`
+commutes with `x`; combined with the trivial fact that `xᵖ` (resp. `yᵖ`) commutes with `x`
+(resp. `y`), and that `x, y` generate the algebra, this puts `xᵖ` and `yᵖ` in the center. -/
+
+/-- Commutator identity `y · xⁿ⁺¹ = xⁿ⁺¹ · y + (n+1) • xⁿ` in the Weyl algebra. -/
+private lemma y_mul_x_pow_succ (k : Type*) [Field k] (n : ℕ) :
+    WeylAlgebra.y k * WeylAlgebra.x k ^ (n + 1)
+      = WeylAlgebra.x k ^ (n + 1) * WeylAlgebra.y k + (n + 1) • WeylAlgebra.x k ^ n := by
+  induction n with
+  | zero => simp only [zero_add, pow_one, pow_zero, one_smul]; exact WeylAlgebra.yx_eq k
+  | succ n ih =>
+    calc WeylAlgebra.y k * WeylAlgebra.x k ^ (n + 1 + 1)
+        = WeylAlgebra.y k * WeylAlgebra.x k ^ (n + 1) * WeylAlgebra.x k := by
+          rw [pow_succ, mul_assoc]
+      _ = (WeylAlgebra.x k ^ (n + 1) * WeylAlgebra.y k + (n + 1) • WeylAlgebra.x k ^ n)
+            * WeylAlgebra.x k := by rw [ih]
+      _ = WeylAlgebra.x k ^ (n + 1) * (WeylAlgebra.y k * WeylAlgebra.x k)
+            + (n + 1) • WeylAlgebra.x k ^ (n + 1) := by
+          rw [add_mul, mul_assoc, smul_mul_assoc, ← pow_succ]
+      _ = WeylAlgebra.x k ^ (n + 1) * (WeylAlgebra.x k * WeylAlgebra.y k + 1)
+            + (n + 1) • WeylAlgebra.x k ^ (n + 1) := by rw [WeylAlgebra.yx_eq]
+      _ = WeylAlgebra.x k ^ (n + 1 + 1) * WeylAlgebra.y k
+            + (n + 1 + 1) • WeylAlgebra.x k ^ (n + 1) := by
+          rw [mul_add, mul_one, ← mul_assoc, ← pow_succ, add_assoc,
+            add_comm (WeylAlgebra.x k ^ (n + 1)) ((n + 1) • WeylAlgebra.x k ^ (n + 1)),
+            ← succ_nsmul]
+
+/-- Commutator identity `x · yⁿ⁺¹ = yⁿ⁺¹ · x − (n+1) • yⁿ` in the Weyl algebra. -/
+private lemma x_mul_y_pow_succ (k : Type*) [Field k] (n : ℕ) :
+    WeylAlgebra.x k * WeylAlgebra.y k ^ (n + 1)
+      = WeylAlgebra.y k ^ (n + 1) * WeylAlgebra.x k - (n + 1) • WeylAlgebra.y k ^ n := by
+  have hxy : WeylAlgebra.x k * WeylAlgebra.y k = WeylAlgebra.y k * WeylAlgebra.x k - 1 := by
+    rw [eq_sub_iff_add_eq]; exact (WeylAlgebra.yx_eq k).symm
+  induction n with
+  | zero => simp only [zero_add, pow_one, pow_zero, one_smul]; exact hxy
+  | succ n ih =>
+    calc WeylAlgebra.x k * WeylAlgebra.y k ^ (n + 1 + 1)
+        = WeylAlgebra.x k * WeylAlgebra.y k ^ (n + 1) * WeylAlgebra.y k := by
+          rw [pow_succ, mul_assoc]
+      _ = (WeylAlgebra.y k ^ (n + 1) * WeylAlgebra.x k - (n + 1) • WeylAlgebra.y k ^ n)
+            * WeylAlgebra.y k := by rw [ih]
+      _ = WeylAlgebra.y k ^ (n + 1) * (WeylAlgebra.x k * WeylAlgebra.y k)
+            - (n + 1) • WeylAlgebra.y k ^ (n + 1) := by
+          rw [sub_mul, mul_assoc, smul_mul_assoc, ← pow_succ]
+      _ = WeylAlgebra.y k ^ (n + 1) * (WeylAlgebra.y k * WeylAlgebra.x k - 1)
+            - (n + 1) • WeylAlgebra.y k ^ (n + 1) := by rw [hxy]
+      _ = WeylAlgebra.y k ^ (n + 1 + 1) * WeylAlgebra.x k
+            - (n + 1 + 1) • WeylAlgebra.y k ^ (n + 1) := by
+          rw [mul_sub, mul_one, ← mul_assoc, ← pow_succ, sub_sub,
+            add_comm (WeylAlgebra.y k ^ (n + 1)) ((n + 1) • WeylAlgebra.y k ^ (n + 1)),
+            ← succ_nsmul]
+
+/-- An element of the Weyl algebra that commutes with both generators `x` and `y` is central.
+Since `x, y` generate the algebra (via the surjection from the free algebra), commuting with
+the generators is enough to commute with everything. -/
+private theorem mem_center_of_comm_gen (k : Type*) [Field k] {z : WeylAlgebra k}
+    (hx : z * WeylAlgebra.x k = WeylAlgebra.x k * z)
+    (hy : z * WeylAlgebra.y k = WeylAlgebra.y k * z) :
+    z ∈ Subalgebra.center k (WeylAlgebra k) := by
+  rw [Subalgebra.mem_center_iff]
+  intro b
+  obtain ⟨a, rfl⟩ := RingQuot.mkAlgHom_surjective k (WeylAlgebraRel k) b
+  have ha : a ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k)) := by
+    rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
+  induction ha using Algebra.adjoin_induction with
+  | mem g hg =>
+    obtain ⟨i, rfl⟩ := hg
+    fin_cases i
+    · exact hx.symm
+    · exact hy.symm
+  | algebraMap r => rw [AlgHom.commutes]; exact Algebra.commutes r z
+  | add p q _ _ ihp ihq => rw [map_add, add_mul, mul_add, ihp, ihq]
+  | mul p q _ _ ihp ihq => rw [map_mul, mul_assoc, ihq, ← mul_assoc, ihp, mul_assoc]
+
 /-! ## (a) Characteristic zero -/
 
 /-- **(a)** In characteristic `0`, the Weyl algebra has no nonzero finite dimensional
@@ -48,13 +126,33 @@ theorem isSimpleRing_charZero (k : Type*) [Field k] [CharZero k] :
 
 /-- **(b)** In characteristic `p`, `x^p` is a central element of the Weyl algebra. -/
 theorem x_pow_char_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
-    WeylAlgebra.x k ^ p ∈ Subalgebra.center k (WeylAlgebra k) :=
-  sorry
+    WeylAlgebra.x k ^ p ∈ Subalgebra.center k (WeylAlgebra k) := by
+  apply mem_center_of_comm_gen
+  · exact (Commute.refl (WeylAlgebra.x k)).pow_left p
+  · -- `xᵖ` commutes with `y`: the commutator `(p) • xᵖ⁻¹` vanishes in characteristic `p`.
+    cases p with
+    | zero => simp
+    | succ n =>
+      have h := y_mul_x_pow_succ k n
+      have hz : (n + 1 : ℕ) • WeylAlgebra.x k ^ n = 0 := by
+        rw [← Nat.cast_smul_eq_nsmul (R := k), CharP.cast_eq_zero, zero_smul]
+      rw [hz, add_zero] at h
+      exact h.symm
 
 /-- **(b)** In characteristic `p`, `y^p` is a central element of the Weyl algebra. -/
 theorem y_pow_char_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
-    WeylAlgebra.y k ^ p ∈ Subalgebra.center k (WeylAlgebra k) :=
-  sorry
+    WeylAlgebra.y k ^ p ∈ Subalgebra.center k (WeylAlgebra k) := by
+  apply mem_center_of_comm_gen
+  · -- `yᵖ` commutes with `x`: the commutator `(p) • yᵖ⁻¹` vanishes in characteristic `p`.
+    cases p with
+    | zero => simp
+    | succ n =>
+      have h := x_mul_y_pow_succ k n
+      have hz : (n + 1 : ℕ) • WeylAlgebra.y k ^ n = 0 := by
+        rw [← Nat.cast_smul_eq_nsmul (R := k), CharP.cast_eq_zero, zero_smul]
+      rw [hz, sub_zero] at h
+      exact h.symm
+  · exact (Commute.refl (WeylAlgebra.y k)).pow_left p
 
 /-- **(b)** In characteristic `p`, the center of the Weyl algebra is the polynomial subalgebra
 `k[x^p, y^p]` generated by `x^p` and `y^p`. -/
