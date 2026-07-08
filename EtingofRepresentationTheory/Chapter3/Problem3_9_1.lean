@@ -56,13 +56,34 @@ noncomputable def blockOp (f : A →ₗ[k] (W →ₗ[k] V)) (a : A) : (V × W) �
     (LinearMap.coprod (rho k A V a) (f a))
     ((rho k A W a).comp (LinearMap.snd k V W))
 
+/-- Applying the block operator to a pair: `blockOp f a (v, w) = (a • v + f a w, a • w)`. -/
+theorem blockOp_apply (f : A →ₗ[k] (W →ₗ[k] V)) (a : A) (v : V) (w : W) :
+    blockOp k A V W f a (v, w) = (a • v + f a w, a • w) := by
+  simp [blockOp, Algebra.lsmul_coe]
+
 /-- **Problem 3.9.1(a).** The block-triangular assignment `a ↦ blockOp f a` is multiplicative
 (hence a representation on `V × W`) if and only if `f` is a 1-cocycle. -/
 theorem blockOp_mul_iff_isCocycle (f : A →ₗ[k] (W →ₗ[k] V)) :
     (∀ a b : A, blockOp k A V W f (a * b)
         = (blockOp k A V W f a).comp (blockOp k A V W f b))
       ↔ IsCocycle k A V W f := by
-  sorry
+  constructor
+  · intro h a b
+    ext w
+    have h2 := LinearMap.congr_fun (h a b) (0, w)
+    rw [LinearMap.comp_apply, blockOp_apply, blockOp_apply, blockOp_apply] at h2
+    simp only [smul_zero, zero_add, Prod.mk.injEq] at h2
+    simp only [LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe]
+    exact h2.1
+  · intro h a b
+    apply LinearMap.ext
+    rintro ⟨v, w⟩
+    have hc := LinearMap.congr_fun (h a b) w
+    simp only [LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe] at hc
+    rw [LinearMap.comp_apply, blockOp_apply, blockOp_apply, blockOp_apply, Prod.mk.injEq]
+    refine ⟨?_, ?_⟩
+    · rw [hc]; simp only [mul_smul, smul_add]; abel
+    · rw [mul_smul]
 
 /-- The space `Z¹(W, V)` of 1-cocycles, a `k`-subspace of `A →ₗ[k] (W →ₗ[k] V)`. -/
 def cocycles : Submodule k (A →ₗ[k] (W →ₗ[k] V)) where
@@ -85,13 +106,29 @@ noncomputable def coboundaryOf (X : W →ₗ[k] V) : A →ₗ[k] (W →ₗ[k] V)
 
 /-- **Problem 3.9.1(b), first part.** Every coboundary `dX` is a 1-cocycle. -/
 theorem coboundaryOf_isCocycle (X : W →ₗ[k] V) : IsCocycle k A V W (coboundaryOf k A V W X) := by
-  sorry
+  intro a b
+  ext w
+  simp only [coboundaryOf, LinearMap.add_apply, LinearMap.comp_apply, LinearMap.sub_apply,
+    LinearMap.llcomp_apply, LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe,
+    mul_smul, map_sub]
+  abel
 
 /-- **Problem 3.9.1(b), second part.** The coboundary `dX` vanishes if and only if `X` is a
 homomorphism of representations, i.e. `A`-linear. -/
 theorem coboundaryOf_eq_zero_iff (X : W →ₗ[k] V) :
     coboundaryOf k A V W X = 0 ↔ ∀ (a : A) (w : W), X (a • w) = a • X w := by
-  sorry
+  constructor
+  · intro h a w
+    have := LinearMap.congr_fun (LinearMap.congr_fun h a) w
+    simp only [coboundaryOf, LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.llcomp_apply,
+      LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe, LinearMap.zero_apply,
+      sub_eq_zero] at this
+    exact this.symm
+  · intro h
+    ext a w
+    simp only [coboundaryOf, LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.llcomp_apply,
+      LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe, LinearMap.zero_apply,
+      sub_eq_zero, h a w]
 
 /-- The space `B¹(W, V)` of coboundaries: the image of the coboundary map
 `X ↦ dX`. As the image of a linear map it is a `k`-subspace, here presented as the span of
@@ -102,7 +139,9 @@ def coboundaries : Submodule k (A →ₗ[k] (W →ₗ[k] V)) :=
 /-- **Problem 3.9.1(b).** Coboundaries are cocycles: `B¹ ⊆ Z¹`. -/
 theorem coboundaries_le_cocycles :
     coboundaries k A V W ≤ cocycles k A V W := by
-  sorry
+  rw [coboundaries, Submodule.span_le, Set.range_subset_iff]
+  intro X
+  exact coboundaryOf_isCocycle k A V W X
 
 /-- `Ext¹(W, V) = Z¹ / B¹`, the quotient of cocycles by coboundaries. -/
 abbrev Ext1 : Type _ :=
