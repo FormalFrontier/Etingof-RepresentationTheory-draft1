@@ -23,5 +23,7 @@ isomorphic, as a `k`-algebra, to the matrix algebra `Mat_{mn}(k)`. -/
 theorem Etingof.matrix_tensorProduct_matrix (k : Type*) [CommRing k] (m n : ℕ) :
     Nonempty
       ((Matrix (Fin m) (Fin m) k ⊗[k] Matrix (Fin n) (Fin n) k) ≃ₐ[k]
-        Matrix (Fin (m * n)) (Fin (m * n)) k) := by
-  sorry
+        Matrix (Fin (m * n)) (Fin (m * n)) k) :=
+  ⟨(Matrix.kroneckerTMulAlgEquiv (Fin m) (Fin n) k k k k).trans <|
+    ((Algebra.TensorProduct.rid k k k).mapMatrix).trans <|
+      Matrix.reindexAlgEquiv k _ finProdFinEquiv⟩

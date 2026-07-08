@@ -2313,8 +2313,8 @@
     "end_page": "59",
     "start_line": 9,
     "end_line": 10,
-    "status": "statement_formalized",
-    "sorry_free": false,
+    "status": "sorry_free",
+    "sorry_free": true,
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Exercise3_10_1.lean"
   },
