@@ -678,8 +678,8 @@
     "end_page": "16",
     "start_line": 19,
     "end_line": 19,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved 2026-07-08 (#5966): A/I is local (higher-degree part nilpotent via homogeneous components), so no nontrivial idempotents; submodules of the cyclic module are ideals, giving the decomposition-to-idempotent argument."
   },
   {
     "id": "Chapter2/Problem2.5.2",
