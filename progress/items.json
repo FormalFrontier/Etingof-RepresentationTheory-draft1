@@ -689,8 +689,8 @@
     "end_page": "16",
     "start_line": 20,
     "end_line": 29,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Parts (a),(b) proved sorry-free (#5970). Part (c) coregular counterexample deferred to a separate item."
   },
   {
     "id": "Chapter2/Discussion_2.6",
