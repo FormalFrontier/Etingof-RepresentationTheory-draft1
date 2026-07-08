@@ -1293,7 +1293,7 @@
     "end_page": "31",
     "start_line": 23,
     "end_line": 37,
-    "status": "statement_formalized"
+    "status": "sorry_free"
   },
   {
     "id": "Chapter2/Discussion_pure_tensors",
