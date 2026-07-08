@@ -1099,8 +1099,8 @@
     "end_page": "24",
     "start_line": 6,
     "end_line": 6,
-    "status": "statement_formalized",
-    "coverage_note": "Chapter2/Exercise2_9_5.lean: states so(3) ≅ (ℝ³, ×) as Nonempty (Orthogonal.so (Fin 3) ℝ ≃ₗ⁅ℝ⁆ (Fin 3 → ℝ)) (Cross.lieRing local instance + constructed LieAlgebra ℝ), with the concrete example (1)/(5) facts (bracket = cross product; mem_so ↔ skew-symmetric) proved. The hat-map LieEquiv construction is sorry (statement pass). Exercise refers to the concrete Lie-algebra list (Discussion_concrete_Lie_examples), not Example 2.9.2."
+    "status": "sorry_free",
+    "coverage_note": "Chapter2/Exercise2_9_5.lean: proves so(3) ≅ (ℝ³, ×) as Nonempty (Orthogonal.so (Fin 3) ℝ ≃ₗ⁅ℝ⁆ (Fin 3 → ℝ)) (Cross.lieRing local instance + constructed LieAlgebra ℝ), with the concrete example (1)/(5) facts (bracket = cross product; mem_so ↔ skew-symmetric) proved. The hat-map LieEquiv `hatEquiv` is fully constructed: hatFun sends (a,b,c) to the skew matrix, hatFun_mem gives membership in so(3), hatFun_cross proves hat(u×v)=[hat u,hat v] (Lie hom), and left_inv/right_inv read entries back off skew matrices (using the local LieRing.ofAssociativeRing instance on matrices, priority below Cross.lieRing). #print axioms shows no sorryAx. Exercise refers to the concrete Lie-algebra list (Discussion_concrete_Lie_examples), not Example 2.9.2."
   },
   {
     "id": "Chapter2/Definition2.9.6",
