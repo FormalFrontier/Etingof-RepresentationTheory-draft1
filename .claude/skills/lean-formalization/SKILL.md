@@ -310,6 +310,31 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### A `→₀`-based algebra must be a `def`, never an `abbrev` — `abbrev` leaks `Finsupp.instMul` (pointwise) (#5987)
+
+`MonoidAlgebra k G` is a `def` (semireducible) *on purpose*: it hides that the carrier is
+`G →₀ k`, so Mathlib's pointwise `Finsupp` instances (`Finsupp.instMul` from
+`Mathlib.Data.Finsupp.Pointwise`, etc.) do **not** apply and the convolution ring
+structure is the unique one. If you instead declare your algebra as a **reducible
+`abbrev`** (as `Chapter2/Definition2_8_4.lean` does: `abbrev PathAlgebra k Q :=
+QuiverPathIndex Q →₀ k`), then under `import Mathlib` the pointwise `Finsupp.instMul`
+becomes a valid `Mul` on your type and **outranks your intended (convolution/
+concatenation) multiplication**. The defining file itself compiles because it imports a
+*narrow* Mathlib slice excluding `Finsupp.Pointwise`; every downstream file that
+`import Mathlib` silently gets **pointwise** `*` instead.
+
+Symptoms: a `single_mul_single`-style lemma (stated in the defining file, so it carries
+the ring `Mul`) refuses to `rw`/`simp` in a downstream goal ("did not find pattern"
+though the term looks identical), because the goal's `*` is a *different* `Mul` instance.
+Worse, statements like `p_source * arrow = arrow` become **false** as elaborated
+(pointwise product of distinct-index basis singles is `0`). **Diagnose** with
+`set_option pp.all true` on the goal and look for `Finsupp.instMul` in the `HMul`.
+**Fix** = make the carrier a `def` (à la `MonoidAlgebra`) and re-provide the
+inherited module instances (`AddCommGroup`, `Module k`, …) via `inferInstanceAs`/
+`deriving`; expect to unfold the `def` in the defining file's proofs that used
+`Finsupp.single`/`induction_linear`/`lsum` through reducibility. This is a multi-file
+refactor, not a per-lemma tweak — file it as its own issue.
+
 ### Induced rep `Ind_H^G ℂ ≅ k[G]·a` as `Representation.Equiv`, and the MonoidAlgebra/Finsupp instance wall (#5171)
 
 Goal: `Etingof.Definition5_8_1 H (trivial) ≅ ℂ[G]·a` (left ideal). Recipe in
