@@ -35,25 +35,27 @@ theorem exists_bilinear_equiv_linear :
     ∃ e : (V →ₗ[k] W →ₗ[k] U) ≃ (TensorProduct k V W →ₗ[k] U),
       ∀ (f : V →ₗ[k] W →ₗ[k] U) (v : V) (w : W),
         e f (TensorProduct.tmul k v w) = f v w := by
-  sorry
+  refine ⟨(TensorProduct.lift.equiv (RingHom.id k) V W U).toEquiv, ?_⟩
+  intro f v w
+  simp only [LinearEquiv.coe_toEquiv, TensorProduct.lift.equiv_apply]
 
 /-- **Problem 2.11.3(b).** If `{vᵢ}` is a basis of `V` and `{wⱼ}` a basis of `W`, then
 `{vᵢ ⊗ wⱼ}` is a basis of `V ⊗ W`. -/
 theorem exists_basis_tensorProduct {ι κ : Type*} (b : Module.Basis ι k V)
     (c : Module.Basis κ k W) :
-    Nonempty (Module.Basis (ι × κ) k (TensorProduct k V W)) := by
-  sorry
+    Nonempty (Module.Basis (ι × κ) k (TensorProduct k V W)) :=
+  ⟨b.tensorProduct c⟩
 
 /-- **Problem 2.11.3(c).** When `V` is finite dimensional there is a natural isomorphism
 `V* ⊗ W ≃ Hom(V, W)`. -/
 theorem exists_dualTensor_equiv_hom [FiniteDimensional k V] :
-    Nonempty (TensorProduct k (Module.Dual k V) W ≃ₗ[k] (V →ₗ[k] W)) := by
-  sorry
+    Nonempty (TensorProduct k (Module.Dual k V) W ≃ₗ[k] (V →ₗ[k] W)) :=
+  ⟨dualTensorHomEquiv k V W⟩
 
 /-- **Problem 2.11.3(g).** `∧ᴺ A = det(A)·Id` yields multiplicativity of the determinant:
 `det(A ∘ B) = det(A) · det(B)` for operators on a vector space. -/
 theorem det_comp (A B : V →ₗ[k] V) :
-    LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B := by
-  sorry
+    LinearMap.det (A ∘ₗ B) = LinearMap.det A * LinearMap.det B :=
+  LinearMap.det_comp A B
 
 end Etingof.Problem2_11_3

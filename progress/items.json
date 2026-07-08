@@ -1345,7 +1345,7 @@
     "end_page": "33",
     "start_line": 2,
     "end_line": 15,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
   },
   {
