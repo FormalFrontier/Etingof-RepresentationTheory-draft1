@@ -2453,8 +2453,8 @@
     "end_page": "63",
     "start_line": 15,
     "end_line": 16,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean (sorry proof, statement pass)."
+    "status": "sorry_free",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_1_4.lean. Char-p fixed-vector theorem for p-groups (nontrivial-center strong induction) plus simplicity forces trivial action; #print axioms shows no sorryAx."
   },
   {
     "id": "Chapter4/Introduction_4.2",
