@@ -310,6 +310,39 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
+### Converting a reducible `abbrev` Finsupp-wrapper to a `def` to stop `Finsupp.instMul` leaking (#5987)
+
+A reducible `abbrev Foo … := ι →₀ k` (e.g. `PathAlgebra`) is a trap: under `import Mathlib`,
+instance synthesis unfolds it and picks up `Finsupp`'s **pointwise** `Finsupp.instMul`
+(`Mathlib.Data.Finsupp.Pointwise`), which outranks any custom ring `Mul` you build — silently
+making `f * g` the pointwise product (disjoint-support basis paths multiply to `0`). The file that
+*defines* `Foo` may look fine if it imports a narrow Mathlib slice without `Finsupp.Pointwise`; the
+breakage only appears in downstream files that `import Mathlib`. Confirm with
+`set_option pp.all true in #check (a * b)` — the `HMul` head should be your ring's `instHMul`, not
+`Finsupp.instMul`. **Fix = make it a semireducible `def`** (Mathlib's `MonoidAlgebra` pattern), so
+instance search (reducible-only) can no longer see the `Finsupp` instances. The conversion triggers
+a predictable cascade (cost ~10 build cycles in #5987, `Chapter2/Definition2_8_4.lean`):
+- **Re-expose module-level instances** via `inferInstanceAs` — `AddCommGroup`, `Module k`,
+  `Inhabited`, … (the `Finsupp`-derived ones are `noncomputable`). Elaboration still unfolds the
+  `def` at default transparency, so `Finsupp.single x c : Foo` etc. keep typechecking.
+- **`binop%` leak on `Finsupp.single` products.** `(Finsupp.single x a * Finsupp.single y b : Foo)`
+  fails (`failed to synthesize HMul (ι →₀ k) (ι →₀ k) ?`) — and *operand* ascriptions
+  `(Finsupp.single x a : Foo)` don't help, because `binop%` compares operand vs expected type at
+  *reducible* transparency, treats them as uncomparable, and defaults to the raw Finsupp type.
+  **Fix:** write the product with explicit `@HMul.hMul Foo Foo Foo _ (Finsupp.single …) (…)`. Keep the
+  atoms literal `Finsupp.single` (not a new wrapper `def`) so downstream `rw`/`simp` on goals holding
+  `Finsupp.single` (from `Finsupp.induction_linear`, unfolded `ofX := Finsupp.single …`) still match.
+- **`Finsupp.lsum`-based defs leak their LinearMap type.** A `def mul' : Foo →ₗ[k] Foo →ₗ[k] Foo :=
+  Finsupp.lsum …` compiles but any tactic that unfolds it hits "target not type-correct under
+  instances transparency", and `Finsupp.lsum_single` won't fire. **Fix:** type the internal
+  machinery on the *raw* `ι →₀ k` (`compSingle`, `mulLinear`) so it is leak-free, and bridge to `Foo`
+  only at the ring instance (`mul := fun f g => mulLinear f g`, `mul_def := rfl`). When a def *must*
+  stay `Foo`-domained (needed by `AlgHom.ofLinearMap` — the raw type has no algebra instance), prove
+  its apply-lemma by `change`-ing the goal to the raw-coercion form first, then `simp [Finsupp.lsum_single]`.
+- **simp can't match `Finsupp.smul_single`** on the `instModule`-typed smul that a `Foo`-ascribed RHS
+  produces (defeq but keyed on a different `SMul` head). **Fix:** use `rw [Finsupp.smul_single]` (rw
+  unifies instance args up to defeq) instead of `simp only [Finsupp.smul_single]`.
+
 ### Induced rep `Ind_H^G ℂ ≅ k[G]·a` as `Representation.Equiv`, and the MonoidAlgebra/Finsupp instance wall (#5171)
 
 Goal: `Etingof.Definition5_8_1 H (trivial) ≅ ℂ[G]·a` (left ideal). Recipe in
