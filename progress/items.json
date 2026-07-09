@@ -3035,7 +3035,7 @@
     "start_line": 15,
     "end_line": 12,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). Part (a) COMPLETE and sorry-free (#6017): card_eq (|G|=p³) and exists_unique_rep proved — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Still sorry: (b) irreducible_iff, (c) one_dim_reps_card/R1_decomposes, (d) irreducible_dim — reserved for follow-up issues. Item stays statement_formalized until (b)–(d) land."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). Part (a) COMPLETE and sorry-free (#6017): card_eq (|G|=p³) and exists_unique_rep proved — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Part (b) COMPLETE and sorry-free (#6037): irreducible_iff proved — R_z simple ↔ z≠1. Reduces IsSimpleModule to IsSimpleOrder of the Subrepresentation lattice via subrepresentationSubmoduleOrderIso; z=1 case exhibits the constant line as a proper subrep; z≠1 case uses z primitive (orderOf z = p ⟹ z^·.val injective), a minimal-support argument to land an indicator e_t in any nonzero Y-invariant subrep, then X e_s = e_{s+1} to sweep all indicators. New reusable lemma Heisenberg.closure_gens_eq_top (xGen,yGen generate G as a monoid). Still sorry: (c) one_dim_reps_card/R1_decomposes, (d) irreducible_dim — reserved for follow-up issues. Item stays statement_formalized until (c),(d) land."
   },
   {
     "id": "Chapter4/Problem4.12.3",
