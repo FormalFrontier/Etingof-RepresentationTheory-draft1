@@ -1,176 +1,229 @@
-# Sorry Landscape Analysis — general-`k` Schur-Weyl push
+# Sorry Landscape Analysis — broad statement-pass proof-fill wave
 
-Generated 2026-06-22 02:40 UTC by summarize session (issue #5018, branch
-`agent/a81ac7dd`) at HEAD `2a990bc4`. Supersedes the wave-63 (2026-05-20)
-snapshot, which was stale by ~200 merged PRs and still pointed at Chapter 6
-infinite-type (D̃₇ / non-adjacent-branches) work that is no longer the frontier.
+Generated 2026-07-09 04:01 UTC by summarize session (issue #6003, branch
+`agent/306db375`) at HEAD `c761a482` ("Fix PathAlgebra abbrev leaking
+Finsupp.instMul", #5995). **Supersedes the 2026-06-22 snapshot**, which was
+completely obsolete: it described a "4 real sorries, all in Chapter 5"
+Schur-Weyl endgame that no longer exists. Since then **200+ PRs merged** (the
+`gh` merged-PR window since 2026-06-22 is saturated at its 200 cap), the entire
+Chapter 5 Schur-Weyl / Specht crux was resolved, and the project ran a broad
+**statement pass** that formalized theorem *statements* across every chapter
+with their proofs left as `sorry`. The frontier is now wide and shallow, not
+narrow and deep.
 
-## Headline: 4 real sorries, all in Chapter 5
+## Headline: 254 genuine sorries across 74 files, spread over Chapters 2–9
 
 After stripping every block comment (`/- … -/`) and line comment (`-- …`), the
-**entire** `EtingofRepresentationTheory/` tree contains exactly **4 genuine
-proof-gap `sorry` tactics**, all in Chapter 5. There are **no `axiom`
-declarations and no `admit`s** anywhere in the source.
+`EtingofRepresentationTheory/` tree contains **254 genuine proof-gap `sorry`
+tactics in 74 files**. There are **no `axiom` declarations and no `admit`s**.
+This is the opposite shape from the last snapshot: instead of 4 deep cruxes in
+one chapter, we have a broad backlog of formalized-but-unproved exercises and
+problems distributed across the whole book.
 
-> **Read the counts correctly.** A bare `grep -rc sorry` is wildly misleading
-> here: it reports e.g. `SchurWeylSimplesClassificationComplex.lean:13`,
-> `SchurWeylSimplesClassification.lean:9`, `SchurWeylFormalCharacterIso.lean:7`,
-> `KernelLemmaKPrime.lean:4`, `CauchyCharacterRight.lean:4`, `Chapter9/…`,
-> `Chapter6/…` — but **almost all of those are docstring/comment prose**
-> ("sorry-free", "isolated `sorry`", "currently a sorry'd dependency (#4832)",
-> "(sorry'd)"). The project's culture of documenting *where the sorries are and
-> are not* inflates the raw grep by ~18×. The table below gives both numbers so
-> the discrepancy is auditable.
+> **The old Schur-Weyl narrative is dead.** Every item the 2026-06-22 doc
+> flagged is gone from the sorry list: `CauchyDetQuotient`,
+> `SchurWeylFormalCharacterIso`, `SchurWeylSimplesClassification`,
+> `SpechtModuleBasis` are all sorry-free now. Threads A/B/C/D and the
+> in-flight PRs it tracked (#4997, #5021/#5022 "broken main", #4946/#4976,
+> #4721/#4994) have all landed or closed. Do not chase them.
 
-### The 4 genuine sorries
+### items.json status distribution (592 items)
 
-| # | File:line | Declaration | Tracking issue(s) | Crux |
-|---|-----------|-------------|-------------------|------|
-| 1 | `Chapter5/CauchyDetQuotient.lean:124` | `quotDetRep_irreducible_constituent_lastWeight_zero` | **#4905** (#4896 assembly) ← #4961 ← #5003 ← PR #4997 | A/det Cauchy-decomposition + det-shift character identity |
-| 2 | `Chapter5/SchurWeylFormalCharacterIso.lean:200` | `schurModule_isSimple_general` | **#4946** → #4973–#4976; #4976 ← #4992/#5005 | general-`k` Schur-module simplicity |
-| 3 | `Chapter5/SchurWeylSimplesClassification.lean:132` | `schurWeyl_simples_formalCharacter_classification_core` | **#4721** (historical); active relocation/retire in **#5023/#5024** (#4994), review **#5017** | "simple polynomial `GL_N`-rep is character-determined ⇒ char = `schurPoly`" (Tier-4 highest weight) |
-| 4 | `Chapter5/SpechtModuleBasis.lean:2345` | `twistedPolytabloid_residual_invariant` | **#5010** (#4998 residual) | James/Fulton column-straightening invariant |
+| Status | Count |
+|--------|------:|
+| `sorry_free` | 494 |
+| `statement_formalized` | 73 |
+| `proof_partial` | 8 |
+| `accepted` | 6 |
+| `formalized` | 4 |
+| `proof_complete` | 2 |
+| `partially_formalized` | 2 |
+| `proved` | 1 |
+| `sorry` | 1 |
+| `non_formalizable` | 1 |
+| **total** | **592** |
 
-### Raw `grep -rc sorry` per file (for audit; mostly prose)
-
-Chapter 5 (frontier): `SchurWeylSimplesClassificationComplex 13`,
-`SchurWeylSimplesClassification 9`, `SchurWeylFormalCharacterIso 7`,
-`SpechtModuleBasis 4`, `KernelLemmaKPrime 4`, `CauchyDetQuotient 4`,
-`CauchyCharacterRight 4`, `PolytabloidBasis 2`, `KernelLemmaK 2`,
-`TabloidModule 1`, `PolyRightGrading 1`, `DetIrreducible 1`, `DetInvElim 1`,
-`CharacterOrthogonality 1`, `CharValueHookFormula 1`.
-
-Other chapters (all prose — **0 real sorries**):
-`Chapter9/Theorem9_2_1 4`, `Chapter6/Corollary6_8_4 4`,
-`Infrastructure/BasicAlgebraExistence 2`, `Chapter6/Problem6_1_5_theorem 2`,
-`Chapter6/Corollary6_8_3 2`, plus eight files at 1 each across Chapters 6/9 and
-Infrastructure. Every one of these is a docstring reference (e.g.
-`KernelLemmaK` cites "(K′) is a sorry'd dependency (#4832)" but the
-comment-stripped count is 0). `grep -rc` grand total: **76**. Real total: **4**.
-
-Verification method: an awk pass with a `/- … -/` depth counter that also
-truncates at `--`, then matches whole-word `sorry` in the surviving code only.
-Spot-checked against `SpechtModuleBasis` (issue #5010 asserts "exactly one
-sorry" → matches line 2345) and `SchurWeylSimplesClassification` (grep -rc 9 →
-1 real, line 132).
-
-## Chapter 5 dependency picture (the critical path)
-
-The frontier is a **general-`k` Schur-Weyl / Specht push**. There are three
-mostly-independent threads, plus an active infrastructure emergency.
-
-### ⚠ Active: main is broken
-
-`main` does not build at HEAD `2a990bc4`. Repair issue **#5021** / PR **#5022**
-(`agent/c4445299-fixmain`, "rename stale seam reference in leaf") is the fix —
-a stale seam name in `SchurWeylSimplesClassificationComplex.lean`. As of this
-snapshot its CI is QUEUED/IN_PROGRESS. **Until #5022 merges, every feature PR
-based on `main` will fail CI**; this is the single highest-priority unblock.
-
-### Thread A — A/det grading & character (the #4896/#4905 chain)
-
-Targets sorry #1 (`quotDetRep_irreducible_constituent_lastWeight_zero`).
-
-```
-PR #4997 (OPEN, CI FAILED — quotDetDegreeFDRep + formal-character SES infra)
-  └─ #5003  quotDetDegreeFDRep_formalCharacter        [blocked: infra only in #4997, not on main]
-       └─ #4961  GL-grading of A/det + single-degree reduction   [blocked]
-            └─ #4905  discharge quotDetRep_…_lastWeight_zero  →  removes sorry #1   [blocked]
+Reproduce:
+```bash
+python3 -c "import json,collections; d=json.load(open('progress/items.json')); \
+print(collections.Counter(it.get('status') for it in d))"
 ```
 
-The entire chain is gated on **PR #4997** (MERGEABLE but CI FAILED — `ring`
-errors + a ~55-min build timeout). `quotDetDegreeFDRep`,
-`formalCharacter_add_of_shortExact`, `polyRight_iSup_glWeightSpace_eq_top`,
-`twistFDRep` exist **only** on `agent/8063b0cd` (#4997), not on `main`. Repairing
-#4997's CI unblocks #5003 → #4961 → #4905 in one stroke. This is `repair`-agent
-work, not worker work.
+### Per-chapter picture
 
-### Thread B — general-`k` Schur-module simplicity (the #4946 chain)
+Columns: total items, `sorry_free`, `statement_formalized`, other statuses, and
+**genuine sorries in the Lean source** (comment-stripped, may exceed the
+`statement_formalized` count because one item can span several sorried helper
+lemmas or files).
 
-Targets sorry #2 (`schurModule_isSimple_general`).
+| Chapter | items | sorry_free | stmt_formalized | other | genuine sorries |
+|--------:|------:|-----------:|----------------:|------:|----------------:|
+| 0 (front/derived) | 15 | 6 | 1 | 8 | 0 |
+| 1 | 3 | 3 | 0 | 0 | 0 |
+| 2 | 117 | 102 | 11 | 4 | 43 |
+| 3 | 58 | 49 | 6 | 3 | 33 |
+| 4 | 60 | 44 | 13 | 3 | 46 |
+| 5 | 157 | 135 | 17 | 5 | 36 |
+| 6 | 64 | 58 | 6 | 0 | 36 |
+| 7 | 59 | 54 | 5 | 0 | 9 |
+| 8 | 24 | 15 | 8 | 1 | 36 |
+| 9 | 35 | 28 | 6 | 1 | 15 |
+| **total** | **592** | **494** | **73** | **25** | **254** |
 
+Genuine-sorry counting method (an `awk` `/- … -/` depth counter that also
+truncates at `--`, then whole-word `sorry` on surviving code only):
+```bash
+find EtingofRepresentationTheory -name '*.lean' | while read f; do
+  awk 'BEGIN{depth=0}{line=$0;out="";i=1;while(i<=length(line)){two=substr(line,i,2);
+    if(depth>0){if(two=="-/"){depth--;i+=2;continue}i++;continue}
+    else{if(two=="/-"){depth++;i+=2;continue}if(two=="--"){break}out=out substr(line,i,1);i++}}
+    print out}' "$f" | grep -c '\bsorry\b'
+done | awk '{s+=$1}END{print s}'   # -> 254 across 74 files
 ```
-PR #5002 (#4991 sub-B1, merged)
-#4992  generalize Specht bridge + trace_symGroupAction/simpleSubmodule_iso to general k  [CLAIMED]
-  ├─ #5005  general-k exists_unique_special_block assembly + helpers   [blocked on #4992]
-  └─ #4976  general-k schurModule_isSimple_general assembly + resolve hN  →  removes sorry #2
-            [blocked on #4992, #5005; carries replan]
+A bare `grep -rc sorry` is still misleading here (the project documents where
+sorries are and are not in prose), but the noise factor is far smaller than in
+the last era because the sorries are now real code, not comment references.
+
+## The frontier: a top-down statement pass awaiting proof fill
+
+The dominant pattern is exactly the top-down development the project prescribes:
+statements were pushed out project-wide (many via the "Statement pass" PRs
+#5954/#5955 and the Chapter-2/3/4 waves), and the proofs are now the work. The
+73 `statement_formalized` items are the primary worker queue. There is **no
+single deep crux** blocking everything; most items are independent and
+worker-sized.
+
+### Biggest single-file proof targets (by genuine sorry count)
+
+These are the files where the most proof work is concentrated. High count does
+not mean high priority — some are self-contained multi-part problems — but they
+are the largest chunks:
+
+| sorries | file | item |
+|--------:|------|------|
+| 16 | `Chapter8/Problem8_2_7.lean` | Tor/Ext for abelian groups & polynomial modules |
+| 13 | `Chapter6/Problem6_1_3_continued_E7_E8.lean` | E7/E8 Dynkin-diagram parts |
+| 11 | `Chapter5/Problem5_11_1.lean` | decompose induced reps from subgroups of A5 |
+| 10 | `Chapter3/Problem3_8_5.lean` | failure of Krull–Schmidt (infinite-dim) |
+|  9 | `Chapter4/Problem4_12_11.lean` | elasticity / Hooke's law application |
+|  9 | `Chapter2/Problem2_8_6.lean` | path-algebra generators & relations |
+|  8 | `Chapter8/Problem8_2_6.lean` | properties of Tor and Ext |
+|  8 | `Chapter6/Problem6_9_2.lean` | E8 lattice and root systems |
+|  8 | `Chapter2/Problem2_8_11.lean` | Hilbert series of graded algebras |
+|  6 | `Chapter4/Problem4_12_2/_6.lean`, `Chapter3/Problem3_9_5.lean`, `Chapter2/Problem2_7_5.lean` | Heisenberg / affine-group reps, Clifford algebra, q-Weyl algebra |
+
+### The 73 `statement_formalized` backlog by chapter
+
+Full list so planners can target the next feature waves. Reproduce with:
+```bash
+python3 -c "import json,re,collections; d=json.load(open('progress/items.json')); \
+print([it['id'] for it in d if it.get('status')=='statement_formalized' and it.get('id')])"
 ```
 
-Root obstruction (recorded in `lean-formalization` SKILL.md ~line 91, #2708 /
-C-4a): the per-block inputs are hardcoded to `ℂ` and generic `k` does not
-base-change from `ℂ` — `trace_symGroupAction_eq_spechtModuleCharacter`,
-`youngSym_action_vanishes_off_block`,
-`youngSym_action_on_special_block_rank_one_scaled_proj`,
-`exists_unique_special_block`. The intended Sub-C predecessor (#4975) closed
-COMPLETED but **landed no code**; #5014 (sub-C1) has since landed the general-`k`
-vanishing + rank-one_scaled_proj lemmas. Live blocker is **#4992** (claimed).
+- **Chapter 2 (11):** Problem2.7.5, 2.8.6, 2.8.11, Exercise2.9.11, Problem2.13.1,
+  2.14.3, 2.16.1, 2.16.2, 2.16.3, 2.16.4, 2.16.5.
+  Themes: q-Weyl algebra, path algebras, Hilbert series, Lie's theorem, sl(2) in
+  char p, quantum U_q(sl(2)).
+- **Chapter 3 (6):** Problem3.8.4 (Noether–Deuring), 3.8.5 (Krull–Schmidt
+  failure), 3.9.2, 3.9.3, 3.9.4 (formal deformations), 3.9.5 (Clifford algebra).
+  Ext¹ / deformation cluster.
+- **Chapter 4 (13):** Exercise4.2.3, 4.3.1, Problem4.5.2, 4.12.1 (dihedral),
+  4.12.2 (Heisenberg), 4.12.4, 4.12.5 (A5 on icosahedron), 4.12.6 (affine group),
+  4.12.7 (SU(2)/SO(3)), 4.12.8 (finite subgroups of SO(3)/SU(2)), 4.12.9, 4.12.10,
+  4.12.11 (elasticity). The §4.12 problem set is the bulk.
+- **Chapter 5 (17):** Problem5.1.2, Example5.1.3, Exercise5.1.7, 5.3.3,
+  Problem5.8.4 (induction transitivity), Exercise5.8.5, Theorem5.9.1 (Frobenius
+  formula), Problem5.11.1, 5.12.5, 5.16.1–3 (branching, Young-diagram content),
+  Proposition5.22.2, Problem5.24.1, 5.24.2, Exercise5.27.2, 5.27.3.
+- **Chapter 6 (6):** Problem6.1.3 (+E7_E8, +tildeE continuations), 6.1.6 (McKay
+  graph), 6.9.2 (E8 lattice), 6.9.3 (Ext / Jordan–Hölder for Dynkin quivers).
+- **Chapter 7 (5):** Problem7.7.3, Exercise7.8.4 (exact sequences split),
+  Problem7.8.5 (long exact sequence), 7.8.7 (Künneth), Exercise7.9.8 (reflection
+  functors adjoint pair).
+- **Chapter 8 (8):** Problem8.1.3 (flat modules), Exercise8.1.4, 8.2.2
+  (projective resolutions exist), Problem8.2.5, 8.2.6, 8.2.7, 8.2.8, Exercise8.2.9.
+  The Tor/Ext homological-algebra core.
+- **Chapter 9 (6):** Problem9.4.2, 9.4.5, 9.4.6 (homological dimension / Cartan
+  matrix), 9.5.3 (blocks & central idempotents), Exercise9.6.3, Problem9.6.5
+  (Theorem 9.6.4 via quasi-inverse functors).
 
-### Thread C — Specht standard basis / Garnir straightening (the #4881/#4998 chain)
+### Prioritisation guidance (mathematical, not graph-derived)
 
-Targets sorry #4 (`twistedPolytabloid_residual_invariant`).
+The `dependencies/internal.json` graph is still the **conservative linear chain**
+(every item has in-degree ≈1 — per CLAUDE.md, transitive/real deps are trimmed
+later), so it yields no useful "most-depended-on" ranking. Prioritise instead by
+mathematical foundation:
 
-The leading-term elimination engine (`maxSrRankSupp`, `cardAtMaxSrRank`,
-`resMeasure`, `resMeasure_sub_lt`, strong-induction assembly) and the consumer
-`twistedPolytabloid_residual_in_V` are **fully proved, sorry-free** (PR #5011,
-#5006). The lone remaining sorry is the isolated combinatorial invariant,
-tracked by **#5010** — see "Design walls" below. Independent of Threads A/B and
-of the broken-main emergency (the file builds green on its own).
+1. **Chapter 7–8 homological-algebra infrastructure first.** Exercise7.8.4
+   (exact sequences of vector spaces split), Exercise8.2.2 (existence of
+   projective resolutions), Problem8.2.5 (Tor/Ext independence of resolution) are
+   the substrate the rest of Chapters 8–9 (Tor/Ext computations, homological
+   dimension, Cartan matrices) build on. Proving these unblocks the widest
+   downstream set even though the linear-chain graph doesn't show it.
+2. **Chapter 4 §4.12 group-representation problems** are numerous and mostly
+   self-contained (dihedral, Heisenberg, SU(2)/SO(3)); good parallel throughput.
+   Note Chapter 5 Exercise5.27.2 explicitly "redoes 4.12.1(a), 4.12.2, 4.12.6",
+   so proving those Chapter 4 items first is the natural order.
+3. **Chapter 2 algebra-structure problems** (path algebras #2.8.6, Hilbert series
+   #2.8.11, q-Weyl #2.7.5) are independent and sized for one session each.
 
-### Thread D — the classification-core crux (sorry #3)
+## Known-good infrastructure landed recently
 
-`schurWeyl_simples_formalCharacter_classification_core` (#4721) is the abstract
-"simple polynomial rep ⇒ character is a `schurPoly`" step. It is being
-**relocated/retired**, not filled in place: blocked issues **#5023** (#4994
-sub-A, relocate general-`k` classification core + support into
-`SchurWeylFormalCharacterIso`, emit `hSne`) and **#5024** (#4994 sub-B, retarget
-the decompose-chain and *delete the false classification crux*) are the active
-redesign, both blocked on the #5021 main repair. Review **#5017** audits the
-surrounding cluster (#4985/#4989/#5009).
+- **PathAlgebra `*` scoping fix (#5987 → #5995, at current HEAD).** A reducible
+  `abbrev` over `Finsupp` was leaking `Finsupp.instMul` (pointwise multiplication)
+  and hijacking `*` in downstream files, silently falsifying Problem 2.8.6
+  relations (3),(4). Fixed in #5995 (the HEAD commit). This is the latest
+  statement-fidelity landmine class the project watches for (cf. the `/review`
+  focus on statement fidelity — issue #5998).
+- Chapter 2 tensor-product / base-change items landed with partial proofs:
+  Problem 2.11.3(a)(b)(c)(g) (#5993), Exercise 2.11.5 (#5994) — under review in
+  #5998. Problem 2.7.4(b) (x^p, y^p central in the char-p Weyl algebra, #5989).
 
-## Design walls — the genuinely hard remaining cruxes
+## Status-vs-source discrepancies (for planners to reconcile)
 
-1. **`twistedPolytabloid_residual_invariant` (#5010, sorry #4) — the James/Fulton
-   column-straightening nut.** The frontier's hardest single lemma: 4+ sessions,
-   no Lean landed. The global `Q ∩ w⁻¹Pw` coset/antisymmetry route was refuted
-   (#4604); pointwise-Δ-vanishing, cross-region involution, and circular
-   `tabloidSupport_straightening` are all refuted (see `progress/r2b-*.md`). The
-   issue forbids a "fill the sorry" pass and demands a committed scoped route —
-   **(R1)** per-tableau James conjugate-column antisymmetry at a column-standard
-   tableau, or **(R2)** redesign the (sorry-free)
-   `twistedPolytabloid_residual_in_V` to peel `f_w(σ)`'s own dominance-maximal
-   term first. (C) tabloid-preservation and (I) IH-availability are provably
-   inseparable in the equal-tabloid case, so a separable scaffold only relocates
-   the sorry.
+Cross-checking `items.json` status against actual comment-stripped sorry counts
+surfaced items whose recorded status lags the source. **None** of the 494
+`sorry_free` items has a hidden sorry (clean — verified by id→file match). The
+mismatches are all in the *conservative* direction (status understates progress):
 
-2. **A/det character identity (#4905, sorry #1) — blocked, not hard-blocked.**
-   The mathematics (Cauchy decomposition + `det·A ≅ A⊗χ` highest-weight shift) is
-   laid out and `detShiftLinearEquiv_intertwine` is sorry-free; the obstruction
-   is purely logistical: the degree-`d` (A/det) packaging sits in **PR #4997**
-   with failing CI. Land #4997 and this becomes ordinary assembly work.
+**`statement_formalized` items whose file is now sorry-free — verify not
+vacuous, then upgrade to `sorry_free`:**
+- `Chapter2/Exercise2.9.11` (`Exercise2_9_11.lean`)
+- `Chapter5/Example5.1.3` (`Example5_1_3.lean`)
+- `Chapter5/Theorem5.9.1` (`Theorem5_9_1.lean` — Frobenius formula)
+- `Chapter5/Proposition5.22.2` (`Proposition5_22_2.lean`)
 
-3. **general-`k` special-block assembly (#4946/#4976, sorry #2) — base-change
-   wall.** Schur-module simplicity over a general char-0 field cannot be obtained
-   by base change from `ℂ`; each `ℂ`-specialised block lemma must be re-proved
-   field-generically. Half the inputs are done (#5014); the Specht-bridge
-   generalization (#4992) is the live gate.
+**Other-status items whose file is sorry-free — candidates to mark `sorry_free`:**
+- `Chapter2/Problem2.3.16` (`formalized`), `Chapter3/Remark3.1.3`,
+  `Chapter4/Remark4.5.3`, `Chapter4/Theorem4.6.2` (`proof_complete`),
+  `Chapter4/Discussion_after_Theorem4.6.2`, `Chapter5/Remark5.2.8`,
+  `Chapter5/Theorem5.23.2`, `Chapter8/Example8.1.7` (`proved`),
+  `Chapter9/Introduction_9.7`.
 
-4. **classification-core retire (#4721/#4994, sorry #3) — design, not proof.**
-   The plan is to *delete* this crux by relocating the general-`k` classification
-   core into `SchurWeylFormalCharacterIso` and emitting `hSne` from the
-   equivariant decomposition (#5023/#5024), rather than discharge the abstract
-   "character-determined ⇒ `schurPoly`" statement directly. Gated on the #5021
-   main repair.
+**Accurately still-partial** (proof_partial with real sorries): Problem2.7.4
+(4), Problem3.3.3 (3), Problem3.9.1 (2). `Chapter2/Remark2.9.3` (Ado's theorem)
+carries status `sorry` but has no genuine sorry in source — it is a
+statement/discussion the book itself leaves unproved; treat as intentional, not
+a gap.
+
+Three `statement_formalized`/`formalized` items map to no single obvious file
+(`Chapter5/Problem5.2.7`, `Chapter5/Problem5.10.2`,
+`Chapter5/Discussion_Problem5.10.2_parts`) — they live in differently-named or
+multi-part files and were not auto-matched; a planner should locate them by hand.
 
 ## One-glance status
 
-- **Real sorries:** 4 (all Ch5). **Axioms/admits:** 0. **grep -rc noise factor:** ~18×.
-- **Highest-priority unblock:** merge repair PR **#5022** (broken main), then
-  repair CI on **PR #4997** (unblocks Thread A: #5003→#4961→#4905).
-- **Live worker-actionable:** #4992 (claimed, Thread B gate); #5010 (Thread C nut,
-  needs a committed R1/R2 route — not a casual claim).
-- **Everything else** in the unclaimed feature queue (#4961, #4905, #5003, #4976,
-  #5005, #5023, #5024) is `blocked` on the four in-flight PRs / main repair above.
-- **Deferred infra:** #2841/#2564 Mathlib pin bump (v4.28.1 → v4.31.0, ~120
-  errors / ~20 modules) — a coordinated atomic bump, not a single-session task.
+- **Genuine sorries:** 254 in 74 files, across Chapters 2–9. **Axioms/admits:** 0.
+- **`items.json`:** 494 sorry_free / 73 statement_formalized / 25 other of 592.
+- **Frontier shape:** broad statement-pass proof-fill wave, no single deep crux.
+  Every item is roughly worker-sized; most are independent.
+- **Highest-leverage next work:** Chapter 7–8 homological-algebra foundations
+  (Exercise7.8.4, Exercise8.2.2, Problem8.2.5), then Chapter 4 §4.12 group-rep
+  problems, then Chapter 2 algebra-structure problems.
+- **Main health:** no evidence `main` is broken — the last *completed* CI run on
+  `main` succeeded (2026-07-08 04:01 UTC); later runs are the usual
+  rapid-merge cancellations, with one run in progress at snapshot time. (The
+  2026-06-22 "main is broken / #5022" emergency is long resolved.)
+- **Bookkeeping:** ~13 items are proved-but-mislabeled (see discrepancies
+  above); reconciling them would move the `sorry_free` count from 494 toward 507.
 </content>
