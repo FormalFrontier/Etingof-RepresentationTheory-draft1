@@ -3023,8 +3023,8 @@
     "end_page": "83",
     "start_line": 9,
     "end_line": 14,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean (DihedralGroup N: (a) every irreducible is 1- or 2-dim; (b) V⊗V decomposition as character identity χ_V²=1+χ_sign+χ_V2; sorry proofs, statement pass)."
+    "status": "sorry_free",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_1.lean (DihedralGroup N: (a) irreducible_dim — every irreducible is 1- or 2-dim, via eigenvector of ρ(r 1) and the span{v, ρ(sr 0) v} subrepresentation forced to be ⊤ by irreducibility; (b) tensor_square_character — V⊗V decomposition as character identity χ_V²=1+χ_sign+χ_V2). No sorries; #print axioms shows only propext/Classical.choice/Quot.sound."
   },
   {
     "id": "Chapter4/Problem4.12.2",
