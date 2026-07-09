@@ -1443,8 +1443,8 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 8,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "proof_complete",
+    "coverage_note": "Part (b) — irrationality of arccos(1/3)/π — proved sorry-free in EtingofRepresentationTheory/Chapter2/Problem2_13_1.lean (theorem irrational_arccos_third_div_pi; axioms propext/Classical.choice/Quot.sound only). Parts (a) and (c) (Dehn-invariant construction) remain deferred to a follow-up item."
   },
   {
     "id": "Chapter2/Discussion_2.14_heading",
