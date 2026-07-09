@@ -30,7 +30,7 @@ universe u
 
 /-- **Exercise 8.2.2.** Every left `A`-module has a projective resolution. -/
 theorem Exercise_8_2_2 (A : Type u) [Ring A] (M : ModuleCat.{u} A) :
-    Nonempty (Etingof.ProjectiveResolution M) := by
-  sorry
+    Nonempty (Etingof.ProjectiveResolution M) :=
+  ⟨ProjectiveResolution.of M⟩
 
 end Etingof

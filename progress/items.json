@@ -6991,8 +6991,8 @@
     "end_page": "208",
     "start_line": 9,
     "end_line": 10,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved via CategoryTheory.ProjectiveResolution.of using the EnoughProjectives (ModuleCat A) instance (#6014)."
   },
   {
     "id": "Chapter8/Definition8.2.3",
