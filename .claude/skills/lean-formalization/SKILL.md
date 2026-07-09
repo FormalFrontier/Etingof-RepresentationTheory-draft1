@@ -768,6 +768,34 @@ directly — work with `ρ`-invariant `k`-subspaces of `V` and transport:
   `eq_top` from "two basis vectors span". For a 2-dim rep this is the "diagonal
   generator and swap share no common eigenline" argument.
 
+#### *Consuming* `IsSimpleModule k[G] ρ.asModule` to bound `finrank` (Ch4 Problem4.12.1, #5997)
+
+The reverse direction — given `hρ : IsSimpleModule k[G] ρ.asModule` as a hypothesis,
+deduce a *dimension bound* by exhibiting a concrete spanning invariant subspace — is
+cleanest via the **`Subrepresentation` structure** (root namespace, from
+`Mathlib.RepresentationTheory.Subrepresentation`), not `invtSubmodule`:
+- `Representation.IsIrreducible ρ` is `abbrev`-defined as `IsSimpleOrder (Subrepresentation ρ)`;
+  `haveI hirr : Representation.IsIrreducible ρ :=
+  (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hρ` registers the instance
+  (and first `haveI := hρ` so `IsSimpleModule.nontrivial (R := k[G]) (M := ρ.asModule)` gives
+  `Nontrivial V` — `ρ.asModule` is *definitionally* `V`, so ascribe `Nontrivial V` directly).
+- Build the invariant subspace as a `Subrepresentation ρ` literal:
+  `{ toSubmodule := Submodule.span k S, apply_mem_toSubmodule := … }`. Prove invariance by
+  `intro g x hx; induction hx using Submodule.span_induction with | mem … | zero => simp
+  | add … => rw [map_add]; exact add_mem … | smul … => rw [map_smul]; exact smul_mem …`; the
+  `mem` case reduces to showing `ρ g` sends each generator into the span (case-split `g` on
+  the group's constructors).
+- `IsSimpleOrder.eq_bot_or_eq_top Sub : Sub = ⊥ ∨ Sub = ⊤`. `(⊥/⊤ : Subrepresentation ρ).toSubmodule`
+  is `⊥`/`⊤` **by `rfl`** but `rw [h]` won't auto-close it — append `; rfl`. Rule out `⊥` from a
+  nonzero member; then `Sub.toSubmodule = ⊤` gives `Submodule.span k S = ⊤` (defeq), and
+  `finrank_le_of_span_eq_top (v := ![…])` + `Module.finrank_pos` pin `finrank ∈ {1,…,#S}` (`omega`).
+- Gotchas: endomorphism-composition application is `Module.End.mul_apply` (**not**
+  `LinearMap.mul_apply`, which does not exist); eigenvector power law `f^n v = μ^n • v` is
+  `Module.End.HasEigenvector.pow_apply`; `Module.End.exists_eigenvalue` needs
+  `[IsAlgClosed k] [FiniteDimensional k V] [Nontrivial V]`. For `DihedralGroup N`,
+  `r j = (r 1)^j.val` via `DihedralGroup.r_one_pow` + `ZMod.natCast_zmod_val` (needs `[NeZero N]`),
+  and the relations are `r_mul_r`/`r_mul_sr`/`sr_mul_r`/`sr_mul_sr`.
+
 **Faithful "completely reducible / semisimple" statement (anti-vacuity, #5384).**
 To say a representation `ρ : Representation k G V` is *completely reducible*, write
 `IsSemisimpleModule (MonoidAlgebra k G) ρ.asModule` — semisimplicity of the
