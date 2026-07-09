@@ -31,6 +31,7 @@ import EtingofRepresentationTheory.Chapter3.Problem3_8_3
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Power
 import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Cancellation
+import EtingofRepresentationTheory.Chapter3.Problem3_8_4_Finite
 import EtingofRepresentationTheory.Chapter3.Problem3_8_5
 import EtingofRepresentationTheory.Chapter3.Remark3_8_6
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
