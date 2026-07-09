@@ -6601,8 +6601,8 @@
     "end_page": "193",
     "start_line": 1,
     "end_line": 8,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Exercise7_8_4.lean (Etingof.Exercise7_8_4 + _split + _not_abelianGroups), sorry proofs."
+    "status": "proof_partial",
+    "coverage_note": "Main claim Etingof.Exercise7_8_4 (identity of an acyclic unbounded cochain complex of k-vector spaces is null-homotopic) is sorry-free via the degreewise-splitting contracting homotopy. Etingof.Exercise7_8_4_split and _not_abelianGroups still sorried here — proven sorry-free in PR #6024; once that lands the whole item is sorry_free."
   },
   {
     "id": "Chapter7/Problem7.8.5",
