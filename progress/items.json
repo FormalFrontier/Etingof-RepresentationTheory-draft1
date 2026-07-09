@@ -6765,8 +6765,8 @@
     "end_page": "195",
     "start_line": 25,
     "end_line": 26,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Exercise7_9_7.lean (Etingof.Exercise7_9_7), sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Proved: EtingofRepresentationTheory/Chapter7/Exercise7_9_7.lean (Etingof.Exercise7_9_7). Left adjoint preserves finite colimits (right exact), right adjoint preserves finite limits (left exact), via Adjunction.leftAdjoint_preservesColimits / rightAdjoint_preservesLimits. Axioms: propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter7/Exercise7.9.8",
