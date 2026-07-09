@@ -796,7 +796,7 @@
     "start_line": 9,
     "end_line": 20,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean (center trivial + simple ring when q not root of unity; center generators in root-of-unity case; determinant obstruction q^{dim V}=1; irreducible dim = orderOf q). Statements only, proofs sorried."
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean (center trivial + simple ring when q not root of unity; center generators in root-of-unity case; determinant obstruction q^{dim V}=1; irreducible dim = orderOf q). Part (b) proved sorry-free (q_pow_finrank_eq_one, isOfFinOrder_of_nontrivial_finrep); parts (a),(c) still sorried."
   },
   {
     "id": "Chapter2/Definition2.8.1",

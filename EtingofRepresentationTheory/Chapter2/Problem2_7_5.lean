@@ -64,16 +64,54 @@ determinants gives `det(ρ y)·det(ρ x) = q^{dim V}·det(ρ x)·det(ρ y)`.) -/
 theorem q_pow_finrank_eq_one
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (qWeylAlgebra ℂ q) V]
     [IsScalarTower ℂ (qWeylAlgebra ℂ q) V] [FiniteDimensional ℂ V] :
-    (q : ℂ) ^ (Module.finrank ℂ V) = 1 :=
-  sorry
+    (q : ℂ) ^ (Module.finrank ℂ V) = 1 := by
+  -- The representation `ρ : A →ₐ[ℂ] End ℂ V` of the `q`-Weyl algebra on `V`.
+  set ρ := Algebra.lsmul ℂ ℂ V (A := qWeylAlgebra ℂ q) with hρ
+  -- The generators `x = qMono (1,0)`, `y = qMono (0,1)` and the inverses `x⁻¹, y⁻¹`.
+  set X : qWeylAlgebra ℂ q := ⟨qMono ℂ q (1, 0), qMono_mem ℂ q _⟩ with hX
+  set Y : qWeylAlgebra ℂ q := ⟨qMono ℂ q (0, 1), qMono_mem ℂ q _⟩ with hY
+  set X' : qWeylAlgebra ℂ q := ⟨qMono ℂ q (-1, 0), qMono_mem ℂ q _⟩ with hX'
+  set Y' : qWeylAlgebra ℂ q := ⟨qMono ℂ q (0, -1), qMono_mem ℂ q _⟩ with hY'
+  -- `x` and `y` are units in `A`, so they act invertibly on `V`.
+  have hXX' : X * X' = 1 := by apply Subtype.ext; simpa using qMono_x_mul_inv ℂ q
+  have hYY' : Y * Y' = 1 := by apply Subtype.ext; simpa using qMono_y_mul_inv ℂ q
+  -- The defining relation `yx = q·xy` in `A`.
+  have hrel : Y * X = (q : ℂ) • (X * Y) := by
+    apply Subtype.ext; simpa using qMono_relation_yx ℂ q
+  -- The determinants of `ρ x` and `ρ y` are nonzero (they are units).
+  have hdetX : LinearMap.det (ρ X) ≠ 0 := by
+    have h : LinearMap.det (ρ X) * LinearMap.det (ρ X') = 1 := by
+      rw [← map_mul LinearMap.det, ← map_mul ρ, hXX', map_one, map_one]
+    exact left_ne_zero_of_mul_eq_one h
+  have hdetY : LinearMap.det (ρ Y) ≠ 0 := by
+    have h : LinearMap.det (ρ Y) * LinearMap.det (ρ Y') = 1 := by
+      rw [← map_mul LinearMap.det, ← map_mul ρ, hYY', map_one, map_one]
+    exact left_ne_zero_of_mul_eq_one h
+  -- Apply `ρ` to the relation and take determinants.
+  have hρrel : ρ Y * ρ X = (q : ℂ) • (ρ X * ρ Y) := by
+    rw [← map_mul, hrel, map_smul, map_mul]
+  have hdet := congrArg LinearMap.det hρrel
+  rw [map_mul, LinearMap.det_smul, map_mul] at hdet
+  -- `det(ρy)·det(ρx) = q^{dim V}·det(ρx)·det(ρy)`; cancel the nonzero factors.
+  have hne : LinearMap.det (ρ X) * LinearMap.det (ρ Y) ≠ 0 := mul_ne_zero hdetX hdetY
+  have key : (q : ℂ) ^ Module.finrank ℂ V * (LinearMap.det (ρ X) * LinearMap.det (ρ Y)) =
+      1 * (LinearMap.det (ρ X) * LinearMap.det (ρ Y)) := by
+    rw [one_mul, ← hdet]; ring
+  exact mul_right_cancel₀ hne key
 
 /-- **(b)** Consequently, if the `q`-Weyl algebra has a *nonzero* finite dimensional
 representation, then `q` is a root of unity. -/
 theorem isOfFinOrder_of_nontrivial_finrep
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (qWeylAlgebra ℂ q) V]
     [IsScalarTower ℂ (qWeylAlgebra ℂ q) V] [FiniteDimensional ℂ V] [Nontrivial V] :
-    IsOfFinOrder q :=
-  sorry
+    IsOfFinOrder q := by
+  -- On a nonzero finite-dimensional module, `dim V > 0` and `q^{dim V} = 1`.
+  have hpos : 0 < Module.finrank ℂ V := Module.finrank_pos
+  have hpow : (q : ℂ) ^ Module.finrank ℂ V = 1 := q_pow_finrank_eq_one q V
+  -- Transfer the power identity to the group of units `ℂˣ`.
+  have hqpow : q ^ Module.finrank ℂ V = 1 := by
+    apply Units.ext; push_cast; simpa using hpow
+  exact isOfFinOrder_iff_pow_eq_one.mpr ⟨Module.finrank ℂ V, hpos, hqpow⟩
 
 /-! ## (c) Finite dimensional irreducible representations -/
 
