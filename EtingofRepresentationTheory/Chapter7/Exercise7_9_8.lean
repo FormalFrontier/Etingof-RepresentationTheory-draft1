@@ -147,7 +147,106 @@ extensionality: at `v ≠ i` both sides are `hᵥ` transported; at `v = i` use u
 cokernel map out of `mkQ` / the kernel `subtype` being injective. Reusable ingredients:
 `arrowReindexEquiv`, `sinkMap_reindex_surj`, `Φ_comp_source_eq_zero`, `exact_of_dim`, the
 `reversedArrow_*_twice` cast lemmas, and the `heq_apply` / `heq_linearMap_coe` toolkit.
+
+## Decomposition (this file)
+
+The assembly is decomposed along the blueprint's two directions through a shared reduced-data
+type `Etingof.AdjReducedData hi V W`: a family `h v : V v →ₗ W v` for `v ≠ i` subject to
+arrow-compatibility (A) away from `i` and the source constraint (C) at `i`. The main theorem
+`Exercise7_9_8` is assembled from two hom-set equivalences, each proved separately:
+
+* `homFMinusEquivReduced : Hom(F⁻ᵢV, W) ≃ AdjReducedData hi V W` — the cokernel side, using the
+  `reflFunctorMinus_mapLinear_*` reductions and `Submodule.liftQ` (constraint (C) is exactly the
+  well-definedness of the map out of the cokernel at `i`);
+* `homTransportPlusEquivReduced : Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`
+  — the kernel side, using the `transportReversedTwice_*` accessors above together with the
+  `reflFunctorPlus_mapLinear_*` reductions and `LinearMap.codRestrict` (constraint (C) is exactly
+  landing in the kernel, i.e. `Φ_comp_source_eq_zero`).
 -/
+
+/-- At a source `i`, an arrow out of `i` cannot return to `i` (a loop at `i` would be an arrow
+into the source). -/
+theorem Etingof.arrowsOutOf_target_ne_source
+    {Q : Type*} [Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (a : Etingof.ArrowsOutOf Q i) : a.fst ≠ i :=
+  fun h => (hi i).false (cast (congrArg (i ⟶ ·) h) a.snd)
+
+/-- The reversed arrow `a.fst ⟶ i` in `Q̄ᵢ` associated with an arrow `a : ArrowsOutOf Q i` out
+of the source `i`. -/
+noncomputable def Etingof.revOut
+    {Q : Type*} [DecidableEq Q] [Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (a : Etingof.ArrowsOutOf Q i) :
+    @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a.fst i :=
+  cast (Etingof.ReversedAtVertexHom_ne_eq (Etingof.arrowsOutOf_target_ne_source hi a) rfl).symm
+    a.snd
+
+/-- Reduced data for the adjunction hom-set bijection of Exercise 7.9.8. Both `Hom(F⁻ᵢV, W)`
+and `Hom(V, F⁺ᵢW)` are in bijection with this data:
+
+* `h v : V v →ₗ[k] W v` for every `v ≠ i`;
+* (A) `compat`: away from `i`, the family commutes with the (unchanged) arrow maps; and
+* (C) `constraint`: at the source `i`, the single relation
+  `∑ₐ W(rev a)(h_{a.fst}(V(a.snd) x)) = 0` for all `x : V i`.
+
+This is the common core through which the two directions of the adjunction bijection factor. -/
+structure Etingof.AdjReducedData
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
+    (V : Etingof.QuiverRepresentation k Q)
+    (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) where
+  /-- The reduced linear map at each vertex `v ≠ i`. -/
+  h : ∀ v, v ≠ i → (V.obj v →ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W v)
+  /-- (A) Arrow-compatibility away from `i`. -/
+  compat : ∀ {a b : Q} (ha : a ≠ i) (hb : b ≠ i)
+      (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) (x : V.obj a),
+      @Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i) W a b e
+          (h a ha x) =
+        h b hb (V.mapLinear (Etingof.reversedArrow_ne_ne ha hb e) x)
+  /-- (C) The single source constraint at `i`. -/
+  constraint : ∀ (x : V.obj i),
+      ∑ a : Etingof.ArrowsOutOf Q i,
+        @Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i) W a.fst i
+          (Etingof.revOut hi a)
+          (h a.fst (Etingof.arrowsOutOf_target_ne_source hi a) (V.mapLinear a.snd x)) = 0
+
+/-- The cokernel side of the adjunction bijection: `Hom(F⁻ᵢV, W) ≃ AdjReducedData hi V W`.
+At `v ≠ i` a morphism restricts to `h v` through `reflFunctorMinus_equivAt_ne`; at `i` its
+value on the cokernel `coker(sourceMap_V)` is determined by the family via `Submodule.liftQ`,
+with well-definedness being exactly the constraint (C). Naturality on the reversed arrows into
+`i` (`reflFunctorMinus_mapLinear_ne_eq`) recovers (C), and naturality away from `i`
+(`reflFunctorMinus_mapLinear_ne_ne`) recovers (A). -/
+theorem Etingof.homFMinusEquivReduced
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
+    (V : Etingof.QuiverRepresentation k Q)
+    (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) :
+    Nonempty
+      ((@Etingof.QuiverRepresentationHom k Q _ (Etingof.reversedAtVertex Q i)
+          (Etingof.reflectionFunctorMinus Q i hi V) W)
+        ≃ Etingof.AdjReducedData hi V W) := by
+  sorry
+
+/-- The kernel side of the adjunction bijection:
+`Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`. At `v ≠ i` a morphism gives
+`h v` through `transportReversedTwice_obj` and `reflFunctorPlus_equivAt_ne`; at `i` its value
+lands in `ker(sinkMap_W)` via `LinearMap.codRestrict`, the kernel condition being exactly the
+constraint (C) (`Φ_comp_source_eq_zero`, after reindexing `ArrowsInto (Q̄ᵢ) i ≃ ArrowsOutOf Q i`
+by `arrowReindexEquiv`). Naturality of a morphism on arrows out of `i` in `Q`
+(`reflFunctorPlus_mapLinear_eq_ne`, through `transportReversedTwice_mapLinear_heq`) recovers (C),
+and naturality away from `i` (`reflFunctorPlus_mapLinear_ne_ne`) recovers (A). -/
+theorem Etingof.homTransportPlusEquivReduced
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) [Fintype (Etingof.ArrowsOutOf Q i)]
+    (V : Etingof.QuiverRepresentation k Q)
+    (W : @Etingof.QuiverRepresentation k Q _ (Etingof.reversedAtVertex Q i)) :
+    Nonempty
+      (Etingof.QuiverRepresentationHom k Q V
+          (Etingof.QuiverRepresentation.transportReversedTwice
+            (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
+              (Etingof.isSource_reversedAtVertex_isSink hi) W))
+        ≃ Etingof.AdjReducedData hi V W) := by
+  sorry
 
 /-- Exercise 7.9.8(a): for a source `i` of a quiver `Q`, a representation `V` of `Q`, and a
 representation `W` of the reversed quiver `Q̄ᵢ`, there is a natural isomorphism (here: a
@@ -166,4 +265,6 @@ theorem Etingof.Exercise7_9_8 {k : Type*} [CommRing k] {Q : Type*} [DecidableEq 
           (Etingof.QuiverRepresentation.transportReversedTwice
             (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
               (Etingof.isSource_reversedAtVertex_isSink hi) W))) := by
-  sorry
+  obtain ⟨eL⟩ := Etingof.homFMinusEquivReduced hi V W
+  obtain ⟨eR⟩ := Etingof.homTransportPlusEquivReduced hi V W
+  exact ⟨eL.trans eR.symm⟩
