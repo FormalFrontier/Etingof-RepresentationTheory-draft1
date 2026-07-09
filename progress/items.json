@@ -3035,7 +3035,7 @@
     "start_line": 15,
     "end_line": 12,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p constructed (order p³); (a) existence/uniqueness of R_z on the generators, (b) irreducible iff z≠1, (c) p² one-dim reps + R_1 decomposition, (d) dimension dichotomy (1 or p). Sorry proofs, statement pass (#5944)."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). Part (a) COMPLETE and sorry-free (#6017): card_eq (|G|=p³) and exists_unique_rep proved — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Still sorry: (b) irreducible_iff, (c) one_dim_reps_card/R1_decomposes, (d) irreducible_dim — reserved for follow-up issues. Item stays statement_formalized until (b)–(d) land."
   },
   {
     "id": "Chapter4/Problem4.12.3",
