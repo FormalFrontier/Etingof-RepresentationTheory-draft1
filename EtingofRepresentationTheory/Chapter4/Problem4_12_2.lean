@@ -102,11 +102,110 @@ instance [NeZero p] : Fintype (Heisenberg p) := Fintype.ofEquiv _ (equivProd p).
 
 /-- The Heisenberg group has order `p³`. -/
 theorem card_eq [NeZero p] : Fintype.card (Heisenberg p) = p ^ 3 := by
-  sorry
+  rw [Fintype.card_congr (equivProd p)]
+  simp only [Fintype.card_prod, ZMod.card]
+  ring
+
+/-- Powers of the `x`-generator: `xGen ^ n = ⟨n, 0, 0⟩`. -/
+theorem xGen_pow (n : ℕ) : (xGen p) ^ n = ⟨(n : ZMod p), 0, 0⟩ := by
+  induction n with
+  | zero => ext <;> simp [xGen]
+  | succ k ih =>
+    rw [pow_succ, ih]
+    refine Heisenberg.ext ?_ ?_ ?_ <;> simp [xGen]
+
+/-- Powers of the `y`-generator: `yGen ^ n = ⟨0, n, 0⟩`. -/
+theorem yGen_pow (n : ℕ) : (yGen p) ^ n = ⟨0, (n : ZMod p), 0⟩ := by
+  induction n with
+  | zero => ext <;> simp [yGen]
+  | succ k ih =>
+    rw [pow_succ, ih]
+    refine Heisenberg.ext ?_ ?_ ?_ <;> simp [yGen]
+
+/-- Powers of the central generator `⟨0,0,1⟩ = [xGen, yGen]`. -/
+theorem centralGen_pow (n : ℕ) :
+    (⟨0, 0, 1⟩ : Heisenberg p) ^ n = ⟨0, 0, (n : ZMod p)⟩ := by
+  induction n with
+  | zero => ext <;> simp
+  | succ k ih =>
+    rw [pow_succ, ih]
+    refine Heisenberg.ext ?_ ?_ ?_ <;> simp
+
+/-- The central element `⟨0,0,1⟩` is the commutator `[xGen, yGen]`, written with positive
+powers `xGen ^ (p-1) = xGen⁻¹`, `yGen ^ (p-1) = yGen⁻¹`. This expresses it as a word in the
+two generators using only the monoid structure. -/
+theorem central_word [Fact p.Prime] :
+    (⟨0, 0, 1⟩ : Heisenberg p)
+      = xGen p * yGen p * xGen p ^ (p - 1) * yGen p ^ (p - 1) := by
+  have hp1 : ((p - 1 : ℕ) : ZMod p) = -1 := by
+    rw [Nat.cast_pred (Fact.out : p.Prime).pos, ZMod.natCast_self]; ring
+  rw [xGen_pow, yGen_pow, hp1]
+  refine Heisenberg.ext ?_ ?_ ?_ <;> simp [xGen, yGen]
+
+/-- Every element factors as a word in the generators: `⟨a,b,c⟩ = xGen^a · yGen^b · z^(c-ab)`,
+where `z = ⟨0,0,1⟩` is the central generator (all powers are the natural `val` powers). -/
+theorem eq_gen_prod [NeZero p] (g : Heisenberg p) :
+    g = xGen p ^ g.a.val * yGen p ^ g.b.val
+          * (⟨0, 0, 1⟩ : Heisenberg p) ^ (g.c - g.a * g.b).val := by
+  rw [xGen_pow, yGen_pow, centralGen_pow]
+  have hc : ∀ x : ZMod p, ((x.val : ℕ) : ZMod p) = x := ZMod.natCast_rightInverse
+  refine Heisenberg.ext ?_ ?_ ?_
+  · simp [hc]
+  · simp [hc]
+  · simp only [mul_a, mul_c, hc, mul_zero, add_zero, zero_add]; ring
 
 end Heisenberg
 
 open Heisenberg
+
+variable {p : ℕ}
+
+/-- Since `z ^ p = 1`, the exponent of `z` only matters modulo `p`. -/
+theorem zpow_mod {z : ℂ} (hz : z ^ p = 1) (k : ℕ) : z ^ (k % p) = z ^ k := by
+  conv_rhs => rw [← Nat.mod_add_div k p, pow_add, pow_mul, hz, one_pow, mul_one]
+
+/-- The map `n ↦ z ^ n.val` is a character of the additive group `ZMod p`: it turns addition
+into multiplication (this is where `z ^ p = 1` is used). -/
+theorem zpow_val_add {z : ℂ} (hz : z ^ p = 1) [NeZero p] (m n : ZMod p) :
+    z ^ (m + n).val = z ^ m.val * z ^ n.val := by
+  rw [ZMod.val_add, zpow_mod hz, pow_add]
+
+/-- The linear operator `f ↦ (t ↦ z^(b·t - c) · f(t - a))` on `V = ZMod p → ℂ` associated to
+`g = ⟨a,b,c⟩`. This is `ρ(g)` for the representation of part (a). -/
+def rhoLin (z : ℂ) (g : Heisenberg p) : (ZMod p → ℂ) →ₗ[ℂ] (ZMod p → ℂ) where
+  toFun f := fun t => z ^ (g.b * t - g.c).val * f (t - g.a)
+  map_add' f₁ f₂ := by funext t; simp only [Pi.add_apply]; ring
+  map_smul' r f := by
+    funext t; simp only [Pi.smul_apply, smul_eq_mul, RingHom.id_apply]; ring
+
+@[simp] theorem rhoLin_apply (z : ℂ) (g : Heisenberg p) (f : ZMod p → ℂ) (t : ZMod p) :
+    rhoLin z g f t = z ^ (g.b * t - g.c).val * f (t - g.a) := rfl
+
+/-- The representation `R_z` of the Heisenberg group on `V = ZMod p → ℂ`. -/
+def rhoHom [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
+    Representation ℂ (Heisenberg p) (ZMod p → ℂ) where
+  toFun := rhoLin z
+  map_one' := by
+    refine LinearMap.ext fun f => funext fun t => ?_
+    simp [rhoLin_apply]
+  map_mul' g g' := by
+    refine LinearMap.ext fun f => funext fun t => ?_
+    simp only [Module.End.mul_apply, rhoLin_apply, mul_a, mul_b, mul_c]
+    rw [← mul_assoc, ← zpow_val_add hz,
+      show (g.b + g'.b) * t - (g.c + g'.c + g.a * g'.b)
+          = (g.b * t - g.c) + (g'.b * (t - g.a) - g'.c) from by ring,
+      show t - (g.a + g'.a) = t - g.a - g'.a from by ring]
+
+@[simp] theorem rhoHom_apply [NeZero p] (z : ℂ) (hz : z ^ p = 1) (g : Heisenberg p) :
+    rhoHom z hz g = rhoLin z g := rfl
+
+theorem rhoHom_xGen [NeZero p] (z : ℂ) (hz : z ^ p = 1) (f : ZMod p → ℂ) (t : ZMod p) :
+    rhoHom z hz (xGen p) f t = f (t - 1) := by
+  simp [rhoHom_apply, rhoLin_apply, xGen]
+
+theorem rhoHom_yGen [NeZero p] (z : ℂ) (hz : z ^ p = 1) (f : ZMod p → ℂ) (t : ZMod p) :
+    rhoHom z hz (yGen p) f t = z ^ t.val * f t := by
+  simp [rhoHom_apply, rhoLin_apply, yGen]
 
 /-- **Part (a).** For any `z` with `z^p = 1`, there is a *unique* representation `ρ` of the
 Heisenberg group on `V = ZMod p → ℂ` acting on the generators by
@@ -116,7 +215,24 @@ theorem exists_unique_rep [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1) :
     ∃! ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ),
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (xGen p) f) t = f (t - 1)) ∧
       (∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (yGen p) f) t = z ^ t.val * f t) := by
-  sorry
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  refine ⟨rhoHom z hz, ⟨fun f t => rhoHom_xGen z hz f t, fun f t => rhoHom_yGen z hz f t⟩, ?_⟩
+  rintro ρ' ⟨hx', hy'⟩
+  -- `ρ'` agrees with `rhoHom z hz` on the two generators, as linear maps.
+  have ex : ρ' (xGen p) = rhoHom z hz (xGen p) := by
+    refine LinearMap.ext fun f => funext fun t => ?_
+    rw [hx' f t, rhoHom_xGen]
+  have ey : ρ' (yGen p) = rhoHom z hz (yGen p) := by
+    refine LinearMap.ext fun f => funext fun t => ?_
+    rw [hy' f t, rhoHom_yGen]
+  -- Hence they agree on the central generator `⟨0,0,1⟩`, which is a word in the generators.
+  have ez : ρ' (⟨0, 0, 1⟩ : Heisenberg p) = rhoHom z hz ⟨0, 0, 1⟩ := by
+    rw [central_word]
+    simp only [map_mul, map_pow, ex, ey]
+  -- and therefore on every group element, via `eq_gen_prod`.
+  refine MonoidHom.ext fun g => ?_
+  rw [eq_gen_prod g]
+  simp only [map_mul, map_pow, ex, ey, ez]
 
 /-- **Part (b).** The representation `R_z` (any `ρ` satisfying the generator conditions with a
 `p`-th root of unity `z`) is irreducible if and only if `z ≠ 1`. -/
