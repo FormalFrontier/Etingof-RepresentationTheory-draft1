@@ -6612,8 +6612,8 @@
     "end_page": "193",
     "start_line": 9,
     "end_line": 20,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom), sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Sorry-free: EtingofRepresentationTheory/Chapter7/Problem7_8_5.lean (Etingof.Problem7_8_5 + connecting hom). LES exactness from hS.homology_exact₁/₂/₃; axioms propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter7/Definition7.8.6",

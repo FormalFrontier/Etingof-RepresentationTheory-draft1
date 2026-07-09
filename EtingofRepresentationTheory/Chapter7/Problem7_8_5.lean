@@ -47,5 +47,7 @@ theorem Etingof.Problem7_8_5
       (HomologicalComplex.homologyMap S.g i)
       (by rw [← HomologicalComplex.homologyMap_comp, S.zero,
           HomologicalComplex.homologyMap_zero])).Exact ∧
-    (ShortComplex.mk _ _ (ShortComplex.ShortExact.comp_δ hS i j hij)).Exact := by
-  sorry
+    (ShortComplex.mk _ _ (ShortComplex.ShortExact.comp_δ hS i j hij)).Exact :=
+  -- The three exactness statements are exactly Mathlib's long-exact-homology-sequence
+  -- lemmas for a short exact sequence of homological complexes (the snake-lemma chase).
+  ⟨hS.homology_exact₁ i j hij, hS.homology_exact₂ i, hS.homology_exact₃ i j hij⟩
