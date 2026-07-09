@@ -58,7 +58,25 @@ coefficient data is genuinely constructed; the multiplicativity proof obligation
 noncomputable def constDeformation : FormalDeformation k A V where
   coeff n := if n = 0 then baseRho k A V else 0
   base_eq := by simp
-  isMul := by sorry
+  isMul := by
+    intro a b n
+    rcases Nat.eq_zero_or_pos n with hn | hn
+    · subst hn
+      -- `baseRho` is multiplicative: `ρ(ab) = ρ(a) ∘ ρ(b)`.
+      simp only [Finset.antidiagonal_zero, Finset.sum_singleton]
+      ext v
+      show (a * b) • v = a • b • v
+      exact mul_smul a b v
+    · -- For `n ≥ 1`, `coeff n = 0` and every antidiagonal summand vanishes.
+      rw [if_neg hn.ne', LinearMap.zero_apply]
+      symm
+      refine Finset.sum_eq_zero ?_
+      rintro ⟨i, j⟩ hp
+      rw [Finset.mem_antidiagonal] at hp
+      rcases Nat.eq_zero_or_pos i with hi | hi
+      · have hj : j ≠ 0 := by omega
+        simp [hj]
+      · simp [hi.ne']
 
 /-- Two deformations `D`, `D'` are **isomorphic** when there is a power series
 `b(t) = 1 + b₁t + ⋯` with `b₀ = id` intertwining them: `b ρ̃ = ρ̃' b`, i.e.
