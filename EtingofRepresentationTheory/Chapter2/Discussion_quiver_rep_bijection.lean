@@ -319,7 +319,12 @@ noncomputable def toEndₗ (R : Etingof.QuiverRepresentation k Qᵒᵖ) :
 
 theorem toEndₗ_single (R : Etingof.QuiverRepresentation k Qᵒᵖ) (x : Etingof.QuiverPathIndex Q)
     (c : k) : toEndₗ R (Finsupp.single x c) = c • pathEnd R x := by
-  simp only [toEndₗ, Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
+  -- `PathAlgebra k Q` is a `def` (not a reducible `abbrev`), so unfolding `toEndₗ` leaves the
+  -- `Finsupp.lsum` applied at the `PathAlgebra` coercion, where `Finsupp.lsum_single` does not
+  -- fire. Restate the goal (defeq) with the underlying `QuiverPathIndex Q →₀ k` coercion.
+  change (Finsupp.lsum k fun x => (LinearMap.id : k →ₗ[k] k).smulRight (pathEnd R x))
+      (Finsupp.single x c) = c • pathEnd R x
+  simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq]
 
 theorem toEndₗ_ofPath (R : Etingof.QuiverRepresentation k Qᵒᵖ) (x : Etingof.QuiverPathIndex Q) :
     toEndₗ R (ofPath x) = pathEnd R x := by

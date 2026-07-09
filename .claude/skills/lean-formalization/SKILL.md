@@ -316,24 +316,41 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 `G →₀ k`, so Mathlib's pointwise `Finsupp` instances (`Finsupp.instMul` from
 `Mathlib.Data.Finsupp.Pointwise`, etc.) do **not** apply and the convolution ring
 structure is the unique one. If you instead declare your algebra as a **reducible
-`abbrev`** (as `Chapter2/Definition2_8_4.lean` does: `abbrev PathAlgebra k Q :=
+`abbrev`** (as `Chapter2/Definition2_8_4.lean` did: `abbrev PathAlgebra k Q :=
 QuiverPathIndex Q →₀ k`), then under `import Mathlib` the pointwise `Finsupp.instMul`
 becomes a valid `Mul` on your type and **outranks your intended (convolution/
-concatenation) multiplication**. The defining file itself compiles because it imports a
-*narrow* Mathlib slice excluding `Finsupp.Pointwise`; every downstream file that
-`import Mathlib` silently gets **pointwise** `*` instead.
+concatenation) multiplication** (disjoint-support basis paths multiply to `0`).
 
-Symptoms: a `single_mul_single`-style lemma (stated in the defining file, so it carries
-the ring `Mul`) refuses to `rw`/`simp` in a downstream goal ("did not find pattern"
-though the term looks identical), because the goal's `*` is a *different* `Mul` instance.
-Worse, statements like `p_source * arrow = arrow` become **false** as elaborated
-(pointwise product of distinct-index basis singles is `0`). **Diagnose** with
-`set_option pp.all true` on the goal and look for `Finsupp.instMul` in the `HMul`.
-**Fix** = make the carrier a `def` (à la `MonoidAlgebra`) and re-provide the
-inherited module instances (`AddCommGroup`, `Module k`, …) via `inferInstanceAs`/
-`deriving`; expect to unfold the `def` in the defining file's proofs that used
-`Finsupp.single`/`induction_linear`/`lsum` through reducibility. This is a multi-file
-refactor, not a per-lemma tweak — file it as its own issue.
+The file that *defines* `Foo` compiles because it imports a *narrow* Mathlib slice
+excluding `Finsupp.Pointwise`; every downstream file that `import Mathlib` silently gets
+**pointwise** `*` instead. Symptoms: a `single_mul_single`-style lemma refuses to
+`rw`/`simp` in a downstream goal ("did not find pattern" though the term looks identical),
+and statements like `p_source * arrow = arrow` become **false** as elaborated. **Diagnose**
+with `set_option pp.all true in #check (a * b)` — the `HMul` head should be your ring's
+`instHMul`, not `Finsupp.instMul`. **Fix = make it a semireducible `def`** (Mathlib's
+`MonoidAlgebra` pattern), so instance search (reducible-only) can no longer see the
+`Finsupp` instances. The conversion triggers a predictable cascade (cost ~10 build cycles
+in #5987, `Chapter2/Definition2_8_4.lean`):
+- **Re-expose module-level instances** via `inferInstanceAs` — `AddCommGroup`, `Module k`,
+  `Inhabited`, … (the `Finsupp`-derived ones are `noncomputable`). Elaboration still unfolds the
+  `def` at default transparency, so `Finsupp.single x c : Foo` etc. keep typechecking.
+- **`binop%` leak on `Finsupp.single` products.** `(Finsupp.single x a * Finsupp.single y b : Foo)`
+  fails (`failed to synthesize HMul (ι →₀ k) (ι →₀ k) ?`) — and *operand* ascriptions
+  `(Finsupp.single x a : Foo)` don't help, because `binop%` compares operand vs expected type at
+  *reducible* transparency, treats them as uncomparable, and defaults to the raw Finsupp type.
+  **Fix:** write the product with explicit `@HMul.hMul Foo Foo Foo _ (Finsupp.single …) (…)`. Keep the
+  atoms literal `Finsupp.single` (not a new wrapper `def`) so downstream `rw`/`simp` on goals holding
+  `Finsupp.single` (from `Finsupp.induction_linear`, unfolded `ofX := Finsupp.single …`) still match.
+- **`Finsupp.lsum`-based defs leak their LinearMap type.** A `def mul' : Foo →ₗ[k] Foo →ₗ[k] Foo :=
+  Finsupp.lsum …` compiles but any tactic that unfolds it hits "target not type-correct under
+  instances transparency", and `Finsupp.lsum_single` won't fire. **Fix:** type the internal
+  machinery on the *raw* `ι →₀ k` (`compSingle`, `mulLinear`) so it is leak-free, and bridge to `Foo`
+  only at the ring instance (`mul := fun f g => mulLinear f g`, `mul_def := rfl`). When a def *must*
+  stay `Foo`-domained (needed by `AlgHom.ofLinearMap` — the raw type has no algebra instance), prove
+  its apply-lemma by `change`-ing the goal to the raw-coercion form first, then `simp [Finsupp.lsum_single]`.
+- **simp can't match `Finsupp.smul_single`** on the `instModule`-typed smul that a `Foo`-ascribed RHS
+  produces (defeq but keyed on a different `SMul` head). **Fix:** use `rw [Finsupp.smul_single]` (rw
+  unifies instance args up to defeq) instead of `simp only [Finsupp.smul_single]`.
 
 ### Induced rep `Ind_H^G ℂ ≅ k[G]·a` as `Representation.Equiv`, and the MonoidAlgebra/Finsupp instance wall (#5171)
 

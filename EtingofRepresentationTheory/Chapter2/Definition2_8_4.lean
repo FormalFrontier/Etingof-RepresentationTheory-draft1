@@ -64,12 +64,41 @@ end QuiverPathIndex
 
 /-- The path algebra of a quiver `Q` over a field `k`, in the sense of Etingof Definition 2.8.4.
 The basis consists of oriented paths in `Q`, with multiplication given by path concatenation
-(zero if the paths are not composable). -/
-abbrev PathAlgebra (k : Type*) (Q : Type*) [Field k] [Quiver Q]
+(zero if the paths are not composable).
+
+This is a (semireducible) `def`, not an `abbrev`, following Mathlib's `MonoidAlgebra` pattern
+(`def MonoidAlgebra k G := G →₀ k`). Were it a reducible `abbrev`, instance synthesis would unfold
+it to `QuiverPathIndex Q →₀ k` and pick up `Finsupp`'s *pointwise* multiplication
+(`Finsupp.instMul` from `Mathlib.Data.Finsupp.Pointwise`), which under `import Mathlib` outranks the
+intended path-concatenation ring multiplication built below. As a `def`, instance synthesis (which
+unfolds only reducible definitions) no longer sees the `Finsupp` instances, so the path-algebra ring
+structure is the unique `Mul`. The `Finsupp` module-level structure is re-exposed explicitly via
+`inferInstanceAs` in the instances immediately following; elaboration still unfolds the `def` at
+default transparency, so `Finsupp.single`/`Finsupp.lsum`/etc. continue to typecheck at type
+`PathAlgebra k Q`. -/
+def PathAlgebra (k : Type*) (Q : Type*) [Field k] [Quiver Q]
     [DecidableEq Q] : Type _ :=
   QuiverPathIndex Q →₀ k
 
 namespace PathAlgebra
+
+section Instances
+variable (k : Type*) (Q : Type*) [Field k] [Quiver Q] [DecidableEq Q]
+
+/-- The additive-group structure on `PathAlgebra k Q`, re-exposed from `Finsupp`. Needed because
+`PathAlgebra` is a `def` (not a reducible `abbrev`), so the `Finsupp` instance is no longer found
+for it by instance synthesis. -/
+noncomputable instance : AddCommGroup (PathAlgebra k Q) :=
+  inferInstanceAs (AddCommGroup (QuiverPathIndex Q →₀ k))
+
+/-- The `k`-module structure on `PathAlgebra k Q`, re-exposed from `Finsupp`. -/
+noncomputable instance : Module k (PathAlgebra k Q) :=
+  inferInstanceAs (Module k (QuiverPathIndex Q →₀ k))
+
+instance : Inhabited (PathAlgebra k Q) :=
+  inferInstanceAs (Inhabited (QuiverPathIndex Q →₀ k))
+
+end Instances
 
 variable (k : Type*) (Q : Type*) [Field k] [Quiver Q] [DecidableEq Q]
 
@@ -80,9 +109,13 @@ with coefficient `1`. -/
 noncomputable def ofPath (x : QuiverPathIndex Q) : PathAlgebra k Q :=
   Finsupp.single x 1
 
-/-- The product of two basis paths (as an element of the algebra): the concatenated path with
-coefficient `1` when composable, and `0` otherwise. -/
-noncomputable def compSingle (x y : QuiverPathIndex Q) : PathAlgebra k Q :=
+/-- The product of two basis paths (as a raw `Finsupp`): the concatenated path with coefficient `1`
+when composable, and `0` otherwise. This is deliberately typed as the underlying
+`QuiverPathIndex Q →₀ k` rather than `PathAlgebra k Q`, so that the bilinear multiplication
+`mulLinear` built from it has a single consistent (leak-free) `Finsupp` type; `PathAlgebra k Q` is
+definitionally this type, so `compSingle x y` is still usable wherever a `PathAlgebra k Q` value is
+expected. -/
+noncomputable def compSingle (x y : QuiverPathIndex Q) : QuiverPathIndex Q →₀ k :=
   (x.comp y).elim 0 (fun z => Finsupp.single z (1 : k))
 
 /-- On composable basis paths, `compSingle` is the single concatenated path. -/
@@ -93,7 +126,8 @@ theorem compSingle_eq {a b d : Q} (p : Quiver.Path a b) (q : Quiver.Path b d) :
 
 /-- On non-composable basis paths, `compSingle` is zero. -/
 theorem compSingle_eq_zero {a b c d : Q} (p : Quiver.Path a b) (q : Quiver.Path c d)
-    (h : b ≠ c) : compSingle (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨c, d, q⟩ = (0 : PathAlgebra k Q) := by
+    (h : b ≠ c) :
+    compSingle (⟨a, b, p⟩ : QuiverPathIndex Q) ⟨c, d, q⟩ = (0 : QuiverPathIndex Q →₀ k) := by
   rw [compSingle, QuiverPathIndex.comp_eq_none _ _ h]; rfl
 
 /-- Multiplying a trivial path `p_i` on the left: the result is the original path if it starts at
@@ -122,7 +156,7 @@ variable (k Q)
 concatenation; it is extended bilinearly to the whole free module. Phrasing the product as a
 `LinearMap` makes all distributive laws hold definitionally (they are `map_add`/`map_zero`). -/
 noncomputable def mulLinear :
-    PathAlgebra k Q →ₗ[k] PathAlgebra k Q →ₗ[k] PathAlgebra k Q :=
+    (QuiverPathIndex Q →₀ k) →ₗ[k] (QuiverPathIndex Q →₀ k) →ₗ[k] (QuiverPathIndex Q →₀ k) :=
   Finsupp.lsum k fun x =>
     (LinearMap.id : k →ₗ[k] k).smulRight
       (Finsupp.lsum k fun y => (LinearMap.id : k →ₗ[k] k).smulRight (compSingle x y))
@@ -154,7 +188,8 @@ theorem mul_def (f g : PathAlgebra k Q) : f * g = mulLinear k Q f g := rfl
 /-- On basis paths the product is the concatenation `compSingle`, scaled by the product of the
 coefficients. -/
 theorem single_mul_single (x y : QuiverPathIndex Q) (a b : k) :
-    (Finsupp.single x a * Finsupp.single y b : PathAlgebra k Q)
+    (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+        (Finsupp.single x a) (Finsupp.single y b))
       = (a * b) • compSingle x y := by
   rw [mul_def, mulLinear]
   simp only [Finsupp.lsum_single, LinearMap.smulRight_apply, LinearMap.id_coe, id_eq,
@@ -176,8 +211,14 @@ theorem mul_smul' (r : k) (a b : PathAlgebra k Q) : a * (r • b) = r • (a * b
 path concatenation (`Quiver.Path.comp_assoc`) enters; the partial composition cases all collapse
 to `0`. -/
 theorem single_mul_single_assoc (x y z : QuiverPathIndex Q) (a b c : k) :
-    (Finsupp.single x a * Finsupp.single y b * Finsupp.single z c : PathAlgebra k Q)
-      = Finsupp.single x a * (Finsupp.single y b * Finsupp.single z c) := by
+    (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+        (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+          (Finsupp.single x a) (Finsupp.single y b))
+        (Finsupp.single z c))
+      = (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+          (Finsupp.single x a)
+          (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+            (Finsupp.single y b) (Finsupp.single z c))) := by
   obtain ⟨xa, xb, xp⟩ := x
   obtain ⟨yc, yd, yq⟩ := y
   obtain ⟨ze, zf, zr⟩ := z
@@ -248,15 +289,17 @@ protected theorem one_mul [Fintype Q] (f : PathAlgebra k Q) : (1 : PathAlgebra k
   | single x a =>
     obtain ⟨xa, xb, xp⟩ := x
     rw [one_def, Finset.sum_mul]
-    have hterm : ∀ i : Q, (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k)
-        * Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a : PathAlgebra k Q)
+    have hterm : ∀ i : Q,
+        (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+          (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k))
+          (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a))
         = if i = xa then (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a : PathAlgebra k Q)
           else 0 := by
       intro i
       rw [single_mul_single, compSingle_nil_left]
       by_cases h : i = xa
-      · simp only [if_pos h, one_mul, Finsupp.smul_single, smul_eq_mul, mul_one]
-      · simp only [if_neg h, smul_zero]
+      · rw [one_mul, if_pos h, Finsupp.smul_single, smul_eq_mul, mul_one, if_pos h]
+      · rw [if_neg h, smul_zero, if_neg h]
     rw [Finset.sum_congr rfl fun i _ => hterm i,
       Finset.sum_ite_eq' Finset.univ xa, if_pos (Finset.mem_univ xa)]
 
@@ -268,15 +311,17 @@ protected theorem mul_one [Fintype Q] (f : PathAlgebra k Q) : f * (1 : PathAlgeb
   | single x a =>
     obtain ⟨xa, xb, xp⟩ := x
     rw [one_def, Finset.mul_sum]
-    have hterm : ∀ i : Q, (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a
-        * Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k) : PathAlgebra k Q)
+    have hterm : ∀ i : Q,
+        (@HMul.hMul (PathAlgebra k Q) (PathAlgebra k Q) (PathAlgebra k Q) _
+          (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a)
+          (Finsupp.single (⟨i, i, Quiver.Path.nil⟩ : QuiverPathIndex Q) (1 : k)))
         = if xb = i then (Finsupp.single (⟨xa, xb, xp⟩ : QuiverPathIndex Q) a : PathAlgebra k Q)
           else 0 := by
       intro i
       rw [single_mul_single, compSingle_nil_right]
       by_cases h : xb = i
-      · simp only [if_pos h, mul_one, Finsupp.smul_single, smul_eq_mul]
-      · simp only [if_neg h, smul_zero]
+      · rw [mul_one, if_pos h, Finsupp.smul_single, smul_eq_mul, mul_one, if_pos h]
+      · rw [if_neg h, smul_zero, if_neg h]
     rw [Finset.sum_congr rfl fun i _ => hterm i,
       Finset.sum_ite_eq Finset.univ xb, if_pos (Finset.mem_univ xb)]
 
