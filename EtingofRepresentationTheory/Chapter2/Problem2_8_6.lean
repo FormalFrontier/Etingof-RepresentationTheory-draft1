@@ -57,35 +57,44 @@ theorem sum_vertexIdem [Fintype Q] :
 
 /-- Relation (2): each `pᵢ` is idempotent. -/
 theorem vertexIdem_sq [Fintype Q] (i : Q) :
-    vertexIdem k Q i * vertexIdem k Q i = vertexIdem k Q i :=
-  sorry
+    vertexIdem k Q i * vertexIdem k Q i = vertexIdem k Q i := by
+  unfold vertexIdem PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_pos rfl, mul_one,
+    one_smul]
 
 /-- Relation (2): distinct vertex idempotents are orthogonal. -/
 theorem vertexIdem_mul_of_ne [Fintype Q] (i j : Q) (h : i ≠ j) :
-    vertexIdem k Q i * vertexIdem k Q j = 0 :=
-  sorry
+    vertexIdem k Q i * vertexIdem k Q j = 0 := by
+  unfold vertexIdem PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h, smul_zero]
 
 /-- Relation (3): the source idempotent absorbs an arrow (on the left, in the
 source-to-target convention): `p_{source} · aₕ = aₕ`. -/
 theorem source_mul_arrowGen [Fintype Q] {i j : Q} (e : i ⟶ j) :
-    vertexIdem k Q i * arrowGen k Q e = arrowGen k Q e :=
-  sorry
+    vertexIdem k Q i * arrowGen k Q e = arrowGen k Q e := by
+  unfold vertexIdem arrowGen PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_pos rfl, mul_one,
+    one_smul]
 
 /-- Relation (3): a non-source idempotent annihilates an arrow on the left. -/
 theorem vertexIdem_mul_arrowGen_of_ne [Fintype Q] {i j : Q} (l : Q) (e : i ⟶ j) (h : l ≠ i) :
-    vertexIdem k Q l * arrowGen k Q e = 0 :=
-  sorry
+    vertexIdem k Q l * arrowGen k Q e = 0 := by
+  unfold vertexIdem arrowGen PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_left, if_neg h, smul_zero]
 
 /-- Relation (4): the target idempotent absorbs an arrow (on the right, in the
 source-to-target convention): `aₕ · p_{target} = aₕ`. -/
 theorem arrowGen_mul_target [Fintype Q] {i j : Q} (e : i ⟶ j) :
-    arrowGen k Q e * vertexIdem k Q j = arrowGen k Q e :=
-  sorry
+    arrowGen k Q e * vertexIdem k Q j = arrowGen k Q e := by
+  unfold arrowGen vertexIdem PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_right, if_pos rfl, mul_one,
+    one_smul]
 
 /-- Relation (4): a non-target idempotent annihilates an arrow on the right. -/
 theorem arrowGen_mul_vertexIdem_of_ne [Fintype Q] {i j : Q} (l : Q) (e : i ⟶ j) (h : l ≠ j) :
-    arrowGen k Q e * vertexIdem k Q l = 0 :=
-  sorry
+    arrowGen k Q e * vertexIdem k Q l = 0 := by
+  unfold arrowGen vertexIdem PathAlgebra.ofPath
+  rw [PathAlgebra.single_mul_single, PathAlgebra.compSingle_nil_right, if_neg h.symm, smul_zero]
 
 /-! ## Universal property: relations (1)–(4) are *defining* -/
 
