@@ -154,6 +154,24 @@ theorem eq_gen_prod [NeZero p] (g : Heisenberg p) :
   · simp [hc]
   · simp only [mul_a, mul_c, hc, mul_zero, add_zero, zero_add]; ring
 
+/-- The two generators `xGen`, `yGen` generate the Heisenberg group as a monoid: their submonoid
+closure is everything. This uses `eq_gen_prod` and `central_word`, which express every element as
+a product of positive powers of `xGen` and `yGen`. -/
+theorem closure_gens_eq_top [Fact p.Prime] :
+    Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) = ⊤ := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  refine eq_top_iff.mpr fun g _ => ?_
+  have hx : xGen p ∈ Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) :=
+    Submonoid.subset_closure (by simp)
+  have hy : yGen p ∈ Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) :=
+    Submonoid.subset_closure (by simp)
+  have hcentral : (⟨0, 0, 1⟩ : Heisenberg p) ∈
+      Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) := by
+    rw [central_word]
+    exact mul_mem (mul_mem (mul_mem hx hy) (pow_mem hx _)) (pow_mem hy _)
+  rw [eq_gen_prod g]
+  exact mul_mem (mul_mem (pow_mem hx _) (pow_mem hy _)) (pow_mem hcentral _)
+
 end Heisenberg
 
 open Heisenberg
@@ -241,7 +259,203 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (xGen p) f) t = f (t - 1))
     (hy : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (yGen p) f) t = z ^ t.val * f t) :
     IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) ρ.asModule ↔ z ≠ 1 := by
-  sorry
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  haveI hNTV : Nontrivial (ZMod p → ℂ) :=
+    ⟨fun _ => 0, fun _ => 1, fun h => zero_ne_one (congrFun h (0 : ZMod p))⟩
+  -- Reduce simplicity of the `ℂ[G]`-module to simplicity of the lattice of subrepresentations.
+  rw [isSimpleModule_iff,
+    ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := ρ)).isSimpleOrder_iff]
+  -- The shift generator sends the indicator of `s` to the indicator of `s + 1`.
+  have X_single : ∀ s : ZMod p,
+      ρ (xGen p) (Pi.single s (1 : ℂ)) = Pi.single (s + 1) (1 : ℂ) := by
+    intro s
+    funext t
+    rw [hx]
+    simp only [Pi.single_apply]
+    by_cases h : t - 1 = s
+    · rw [if_pos h, if_pos (sub_eq_iff_eq_add.mp h)]
+    · rw [if_neg h, if_neg (fun hc => h (sub_eq_iff_eq_add.mpr hc))]
+  constructor
+  · -- `IsSimpleOrder → z ≠ 1`.  Contrapositive: if `z = 1`, the constant line is a proper
+    -- nonzero subrepresentation.
+    intro hsimple hz1
+    set c0 : ZMod p → ℂ := fun _ => 1 with hc0
+    have hXc : ρ (xGen p) c0 = c0 := by funext t; simp [hx, hc0]
+    have hYc : ρ (yGen p) c0 = c0 := by funext t; simp [hy, hz1, hc0]
+    set W₀ : Submodule ℂ (ZMod p → ℂ) := Submodule.span ℂ {c0} with hW₀
+    have hfix : ∀ (op : (ZMod p → ℂ) →ₗ[ℂ] (ZMod p → ℂ)), op c0 = c0 →
+        ∀ v ∈ W₀, op v ∈ W₀ := by
+      intro op hop v hv
+      have hle : W₀ ≤ W₀.comap op := by
+        rw [hW₀, Submodule.span_le]
+        intro x hx'
+        rw [Set.mem_singleton_iff] at hx'; subst hx'
+        simp only [SetLike.mem_coe, Submodule.mem_comap, hop]
+        exact Submodule.mem_span_singleton_self c0
+      exact hle hv
+    have hXW := hfix (ρ (xGen p)) hXc
+    have hYW := hfix (ρ (yGen p)) hYc
+    -- The constant line is invariant under all of `G`.
+    have hinv : ∀ (g : Heisenberg p) ⦃v : ZMod p → ℂ⦄, v ∈ W₀ → ρ g v ∈ W₀ := by
+      let S : Submonoid (Heisenberg p) :=
+        { carrier := {g | ∀ v ∈ W₀, ρ g v ∈ W₀}
+          one_mem' := by intro v hv; rw [map_one]; simpa using hv
+          mul_mem' := by
+            intro a b ha hb v hv
+            rw [map_mul]
+            exact ha _ (hb v hv) }
+      have hSle : Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) ≤ S :=
+        Submonoid.closure_le.mpr (by
+          intro g hg
+          simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+          rcases hg with rfl | rfl
+          · exact hXW
+          · exact hYW)
+      intro g v hv
+      have hgS : g ∈ S :=
+        hSle (by rw [Heisenberg.closure_gens_eq_top]; exact Submonoid.mem_top g)
+      exact hgS v hv
+    let σ₀ : Subrepresentation ρ := ⟨W₀, hinv⟩
+    rcases hsimple.eq_bot_or_eq_top σ₀ with hbot | htop
+    · -- `σ₀ = ⊥` would force the constant vector to be zero.
+      have h0 : W₀ = ⊥ := congrArg Subrepresentation.toSubmodule hbot
+      have hc0mem : c0 ∈ W₀ := Submodule.mem_span_singleton_self c0
+      rw [h0, Submodule.mem_bot] at hc0mem
+      have : (1 : ℂ) = 0 := by simpa [hc0] using congrFun hc0mem 0
+      exact one_ne_zero this
+    · -- `σ₀ = ⊤` would force the indicator `e₀` to be a constant, impossible for `p ≥ 2`.
+      have hW₀top : W₀ = ⊤ := congrArg Subrepresentation.toSubmodule htop
+      have hmem : Pi.single (0 : ZMod p) (1 : ℂ) ∈ W₀ := by rw [hW₀top]; exact Submodule.mem_top
+      rw [hW₀, Submodule.mem_span_singleton] at hmem
+      obtain ⟨a, ha⟩ := hmem
+      have e0 : a = 1 := by
+        simpa [hc0, Pi.smul_apply, smul_eq_mul, Pi.single_apply] using congrFun ha 0
+      have e1 : a = 0 := by
+        have h := congrFun ha 1
+        simp only [hc0, Pi.smul_apply, smul_eq_mul, mul_one, Pi.single_apply] at h
+        rwa [if_neg (one_ne_zero : (1 : ZMod p) ≠ 0)] at h
+      rw [e0] at e1
+      exact one_ne_zero e1
+  · -- `z ≠ 1 → IsSimpleOrder`.
+    intro hzne
+    have hc : ∀ x : ZMod p, ((x.val : ℕ) : ZMod p) = x := ZMod.natCast_rightInverse
+    -- `z` is a primitive `p`-th root of unity, so `t ↦ z ^ t.val` is injective.
+    have hdist : ∀ s t : ZMod p, z ^ s.val = z ^ t.val → s = t := by
+      intro s t hst
+      have horder : orderOf z = p := by
+        rcases (Fact.out : p.Prime).eq_one_or_self_of_dvd (orderOf z)
+            (orderOf_dvd_of_pow_eq_one hz) with h | h
+        · exact absurd (orderOf_eq_one_iff.mp h) hzne
+        · exact h
+      have hs : s.val < orderOf z := by rw [horder]; exact ZMod.val_lt s
+      have ht : t.val < orderOf z := by rw [horder]; exact ZMod.val_lt t
+      exact ZMod.val_injective p
+        (pow_injOn_Iio_orderOf (Set.mem_Iio.mpr hs) (Set.mem_Iio.mpr ht) hst)
+    -- A nonzero `Y`-invariant subspace contains some indicator vector.
+    have keySingle : ∀ (W : Submodule ℂ (ZMod p → ℂ)),
+        (∀ v ∈ W, ρ (yGen p) v ∈ W) → ∀ f ∈ W, f ≠ 0 →
+        ∃ t, Pi.single t (1 : ℂ) ∈ W := by
+      intro W hYW
+      suffices H : ∀ n, ∀ f : ZMod p → ℂ, f ∈ W → f ≠ 0 →
+          (Finset.univ.filter (fun t => f t ≠ 0)).card = n → ∃ t, Pi.single t (1 : ℂ) ∈ W by
+        intro f hfW hf0; exact H _ f hfW hf0 rfl
+      intro n
+      induction n using Nat.strong_induction_on with
+      | _ n ih =>
+        intro f hfW hf0 hcard
+        set S := Finset.univ.filter (fun t => f t ≠ 0) with hS
+        have hSne : S.Nonempty := by
+          rw [hS, Finset.filter_nonempty_iff]
+          by_contra hcon
+          push_neg at hcon
+          exact hf0 (funext fun t => hcon t (Finset.mem_univ t))
+        rcases eq_or_lt_of_le (Finset.one_le_card.mpr hSne) with h1 | h2
+        · -- support is a singleton `{a}`, so `f = f a • e_a` and `e_a ∈ W`.
+          obtain ⟨a, ha⟩ := Finset.card_eq_one.mp h1.symm
+          refine ⟨a, ?_⟩
+          have hfa : f a ≠ 0 := by
+            have : a ∈ S := ha ▸ Finset.mem_singleton_self a
+            rw [hS, Finset.mem_filter] at this; exact this.2
+          have hfeq : Pi.single a (1 : ℂ) = (f a)⁻¹ • f := by
+            funext t
+            by_cases h : t = a
+            · subst h; simp [Pi.single_apply, inv_mul_cancel₀ hfa]
+            · have ht0 : f t = 0 := by
+                by_contra hne
+                have : t ∈ S := by rw [hS, Finset.mem_filter]; exact ⟨Finset.mem_univ t, hne⟩
+                rw [ha, Finset.mem_singleton] at this; exact h this
+              simp [Pi.single_apply, h, ht0]
+          rw [hfeq]
+          exact Submodule.smul_mem _ _ hfW
+        · -- support has ≥ 2 elements; subtract an eigenvalue to shrink it.
+          obtain ⟨t₁, ht₁, t₂, ht₂, hne⟩ := Finset.one_lt_card.mp h2
+          set g : ZMod p → ℂ := ρ (yGen p) f - (z ^ t₂.val) • f with hgdef
+          have hgval : ∀ t, g t = (z ^ t.val - z ^ t₂.val) * f t := by
+            intro t
+            simp only [hgdef, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hy]
+            ring
+          have hgW : g ∈ W := Submodule.sub_mem _ (hYW f hfW) (Submodule.smul_mem _ _ hfW)
+          have hft₁ : f t₁ ≠ 0 := by rw [hS, Finset.mem_filter] at ht₁; exact ht₁.2
+          have hg0 : g ≠ 0 := by
+            intro hcon
+            have hval : g t₁ = 0 := congrFun hcon t₁
+            rw [hgval] at hval
+            have hz12 : z ^ t₁.val - z ^ t₂.val ≠ 0 :=
+              fun he => hne (hdist _ _ (sub_eq_zero.mp he))
+            exact mul_ne_zero hz12 hft₁ hval
+          have hsub : Finset.univ.filter (fun t => g t ≠ 0) ⊆ S := by
+            intro t ht
+            rw [Finset.mem_filter] at ht
+            rw [hS, Finset.mem_filter]
+            refine ⟨Finset.mem_univ t, fun hf0' => ht.2 ?_⟩
+            rw [hgval, hf0', mul_zero]
+          have ht₂notin : t₂ ∉ Finset.univ.filter (fun t => g t ≠ 0) := by
+            rw [Finset.mem_filter]; push_neg
+            intro _
+            rw [hgval, sub_self, zero_mul]
+          have hlt : (Finset.univ.filter (fun t => g t ≠ 0)).card < n := by
+            rw [← hcard]
+            exact Finset.card_lt_card
+              ((Finset.ssubset_iff_of_subset hsub).mpr ⟨t₂, ht₂, ht₂notin⟩)
+          exact ih _ hlt g hgW hg0 rfl
+    -- Assemble `IsSimpleOrder`.
+    have hNT : Nontrivial (Subrepresentation ρ) := by
+      refine ⟨⊥, ⊤, ?_⟩
+      intro h
+      exact absurd (congrArg Subrepresentation.toSubmodule h) bot_ne_top
+    refine { toNontrivial := hNT, eq_bot_or_eq_top := fun σ => ?_ }
+    rcases eq_or_ne σ.toSubmodule ⊥ with hbot | hne
+    · exact Or.inl (Subrepresentation.toSubmodule_injective hbot)
+    · refine Or.inr (Subrepresentation.toSubmodule_injective ?_)
+      show σ.toSubmodule = ⊤
+      obtain ⟨f, hfW, hf0⟩ := (Submodule.ne_bot_iff _).mp hne
+      obtain ⟨t₀, ht₀⟩ :=
+        keySingle σ.toSubmodule (fun v hv => σ.apply_mem_toSubmodule (yGen p) hv) f hfW hf0
+      -- `X` cyclically permutes indicators, so every indicator lies in `σ`.
+      have hall : ∀ s : ZMod p, Pi.single s (1 : ℂ) ∈ σ.toSubmodule := by
+        have hpow : ∀ n : ℕ, Pi.single (t₀ + (n : ZMod p)) (1 : ℂ) ∈ σ.toSubmodule := by
+          intro n
+          induction n with
+          | zero => simpa using ht₀
+          | succ k ih =>
+            have hstep := σ.apply_mem_toSubmodule (xGen p) ih
+            rw [X_single] at hstep
+            have heq : t₀ + ((k + 1 : ℕ) : ZMod p) = t₀ + (k : ZMod p) + 1 := by push_cast; ring
+            rw [heq]; exact hstep
+        intro s
+        have h := hpow (s - t₀).val
+        have heq : t₀ + (s - t₀) = s := by abel
+        rwa [hc (s - t₀), heq] at h
+      rw [eq_top_iff]
+      intro f' _
+      have hf'eq : f' = ∑ s : ZMod p, f' s • Pi.single s (1 : ℂ) := by
+        funext t
+        simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, mul_ite,
+          mul_one, mul_zero]
+        rw [Finset.sum_ite_eq Finset.univ t f']
+        simp
+      rw [hf'eq]
+      exact Submodule.sum_mem _ (fun s _ => Submodule.smul_mem _ _ (hall s))
 
 /-- **Part (c), classification of `1`-dimensional representations.** The one-dimensional
 complex representations of the Heisenberg group are its group homomorphisms to `ℂˣ`, and there
