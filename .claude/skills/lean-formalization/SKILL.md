@@ -2536,6 +2536,21 @@ This construction appeared in BasicAlgebraExistence and was used in 3+ sessions.
 ### Workaround 2: Use `isUnit_of_sub_one_mem_jacobson_bot` alternatives
 The `isUnit_of_sub_one_mem_jacobson_bot` API requires `CommRing`. For non-commutative rings, use `IsNilpotent.isUnit_one_sub` instead (only requires `Ring`).
 
+**Jacobson-membership on `MonoidAlgebra k G` (noncommutative).** The clean unit
+characterization `Ideal.mem_jacobson_bot : x ∈ jacobson ⊥ ↔ ∀ y, IsUnit (x*y+1)` lives in
+the `CommRing` section — it fails instance synthesis on a group algebra. The
+**`Ring`-general** form is `Ideal.mem_jacobson_iff {x} : x ∈ jacobson I ↔ ∀ y, ∃ z, z*y*x + z - 1 ∈ I`;
+take `I = ⊥` and `Ideal.mem_bot` reduces each goal to `z*y*x + z - 1 = 0`. For a central
+nilpotent `x` (e.g. the group sum `P = ∑_g g` when `|G| = 0` in `k`): `y*x` is nilpotent
+(`Commute.isNilpotent_mul_left`), so `1 + y*x` is a unit (`IsNilpotent.isUnit_one_add`);
+pick `z = ↑u⁻¹` for that unit `u`. Bridge to `⊥` with the **`Ring`-general**
+`Ideal.jacobson_bot : jacobson ⊥ = Ring.jacobson R` and
+`IsSemisimpleRing.jacobson_eq_bot : Ring.jacobson R = ⊥`. This proves "nonzero central
+nilpotent ⇒ `¬ IsSemisimpleRing k[G]`" — the algebraic core of Exercise 4.2.3
+(`Etingof.not_isSemisimpleRing_of_card_eq_zero`). NB: many
+`Ideal.jacobson`/`mem_jacobson_bot`/`IsReduced` lemmas are `CommRing`-only; confirm the
+lemma's section before reaching for it on `MonoidAlgebra k G`.
+
 ### Workaround 3: Avoid `linarith`/`linear_combination` over non-commutative rings
 These tactics need `CommSemiring`. Use manual algebra (`calc` blocks with `mul_assoc`, `mul_comm` where applicable, or `ring_nf` after establishing commutativity of specific elements).
 
