@@ -63,6 +63,216 @@ theorem indecDecomp_map {A V V' : Type*} [Ring A]
   · rw [← Submodule.map_iSup, hsup, Submodule.map_top, LinearEquiv.range]
   · exact LinearMap.iSupIndep_map (e : V →ₗ[A] V') e.injective hind
 
+set_option linter.unusedFintypeInType false in
+/-- Krull-Schmidt uniqueness for decompositions indexed by an arbitrary `Fintype`, obtained
+from the `Fin`-indexed `Problem3_8_3.krull_schmidt_uniqueness` by reindexing both families along
+`Fintype.equivFin`. Returns the matching bijection `σ : ι ≃ ι'` on the index types directly.
+(The `Fintype` instances are used in the proof via `Fintype.equivFin`.) -/
+private theorem ks_uniqueness_index (k A M : Type*) [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup M] [Module k M] [Module A M] [IsScalarTower k A M] [FiniteDimensional k M]
+    {ι ι' : Type*} [Fintype ι] [Fintype ι']
+    (D : ι → Submodule A M) (D' : ι' → Submodule A M)
+    (hD_indec : ∀ i, Etingof.IsIndecomposable A (D i))
+    (hD'_indec : ∀ i, Etingof.IsIndecomposable A (D' i))
+    (hD_ne : ∀ i, D i ≠ ⊥) (hD'_ne : ∀ i, D' i ≠ ⊥)
+    (hD_sup : iSup D = ⊤) (hD_ind : iSupIndep D)
+    (hD'_sup : iSup D' = ⊤) (hD'_ind : iSupIndep D') :
+    ∃ σ : ι ≃ ι', ∀ i, Nonempty (D i ≃ₗ[A] D' (σ i)) := by
+  set a := Fintype.equivFin ι
+  set b := Fintype.equivFin ι'
+  obtain ⟨-, σ₀, hσ₀⟩ := Etingof.Problem3_8_3.krull_schmidt_uniqueness k A M
+    (D ∘ a.symm) (D' ∘ b.symm)
+    (fun i => hD_indec _) (fun j => hD'_indec _)
+    (fun i => hD_ne _) (fun j => hD'_ne _)
+    (by rw [← hD_sup]; exact a.symm.iSup_comp) (hD_ind.comp a.symm.injective)
+    (by rw [← hD'_sup]; exact b.symm.iSup_comp) (hD'_ind.comp b.symm.injective)
+  refine ⟨a.trans (σ₀.trans b.symm), fun i => ?_⟩
+  have h := hσ₀ (a i)
+  simp only [Function.comp_apply] at h
+  rw [show a.symm (a i) = i from a.symm_apply_apply i] at h
+  exact h
+
+/-- **Two-level independence.** In a modular lattice, if the blocks `B k := ⨆ i, s k i` are
+independent and each block's family `s k` is internally independent, then the whole doubly
+indexed family `(k, i) ↦ s k i` is independent. This is the lattice fact behind "the power
+`Vⁿ = ⨁_c ⨁_i (image of the i-th summand in coordinate c)` is an internal direct sum". -/
+private theorem iSupIndep_prod_of_blocks {α : Type*} [CompleteLattice α] [IsModularLattice α]
+    {κ ι : Type*} (s : κ → ι → α)
+    (hblock : iSupIndep (fun k => ⨆ i, s k i))
+    (hin : ∀ k, iSupIndep (s k)) :
+    iSupIndep (fun ki : κ × ι => s ki.1 ki.2) := by
+  rintro ⟨k, i⟩
+  set B : κ → α := fun k => ⨆ i, s k i with hB
+  set X : α := ⨆ (i') (_ : i' ≠ i), s k i' with hX_def
+  set Y : α := ⨆ (k') (_ : k' ≠ k), B k' with hY_def
+  have hsB : s k i ≤ B k := le_iSup (s k) i
+  have hXB : X ≤ B k := iSup₂_le fun i' _ => le_iSup (s k) i'
+  have hX : Disjoint (s k i) X := hin k i
+  have hB' : Disjoint (B k) Y := hblock k
+  -- The complement of `(k, i)` is contained in `X ⊔ Y`.
+  have hcov : (⨆ (x : κ × ι) (_ : x ≠ (k, i)), s x.1 x.2) ≤ X ⊔ Y := by
+    refine iSup₂_le fun x hx => ?_
+    rcases eq_or_ne x.1 k with hk | hk
+    · have hi : x.2 ≠ i := by
+        intro hi; apply hx; ext <;> simp [hk, hi]
+      calc s x.1 x.2 = s k x.2 := by rw [hk]
+        _ ≤ X := le_iSup₂ (f := fun i' (_ : i' ≠ i) => s k i') x.2 hi
+        _ ≤ X ⊔ Y := le_sup_left
+    · calc s x.1 x.2 ≤ B x.1 := le_iSup (s x.1) x.2
+        _ ≤ Y := le_iSup₂ (f := fun k' (_ : k' ≠ k) => B k') x.1 hk
+        _ ≤ X ⊔ Y := le_sup_right
+  refine Disjoint.mono_right hcov ?_
+  -- `Disjoint (s k i) (X ⊔ Y)` via the modular law.
+  rw [disjoint_iff]
+  have hYBk : Y ⊓ B k = ⊥ := by rw [inf_comm]; exact disjoint_iff.mp hB'
+  calc s k i ⊓ (X ⊔ Y)
+      = s k i ⊓ (B k ⊓ (X ⊔ Y)) := by rw [← inf_assoc, inf_eq_left.mpr hsB]
+    _ = s k i ⊓ ((X ⊔ Y) ⊓ B k) := by rw [inf_comm (B k)]
+    _ = s k i ⊓ (X ⊔ Y ⊓ B k) := by rw [sup_inf_assoc_of_le _ hXB]
+    _ = s k i ⊓ X := by rw [hYBk, sup_bot_eq]
+    _ = ⊥ := disjoint_iff.mp hX
+
+open LinearMap in
+/-- The `n`-fold power `Fin n → M` of a module carrying an internal indecomposable decomposition
+`D : Fin p → Submodule A M` itself carries an internal indecomposable decomposition, indexed by
+`Fin n × Fin p`: the summand at `(c, i)` is the image of `D i` under the `c`-th coordinate
+inclusion `single c : M →ₗ[A] (Fin n → M)`. -/
+private theorem powerDecomp {A M : Type*} [Ring A] [AddCommGroup M] [Module A M]
+    {n p : ℕ} (D : Fin p → Submodule A M)
+    (hindec : ∀ i, Etingof.IsIndecomposable A (D i))
+    (hne : ∀ i, D i ≠ ⊥) (hsup : iSup D = ⊤) (hind : iSupIndep D) :
+    (∀ ci : Fin n × Fin p,
+        Etingof.IsIndecomposable A ((D ci.2).map (single A (fun _ : Fin n => M) ci.1))) ∧
+      (∀ ci : Fin n × Fin p, (D ci.2).map (single A (fun _ : Fin n => M) ci.1) ≠ ⊥) ∧
+      iSup (fun ci : Fin n × Fin p => (D ci.2).map (single A (fun _ : Fin n => M) ci.1)) = ⊤ ∧
+      iSupIndep (fun ci : Fin n × Fin p => (D ci.2).map (single A (fun _ : Fin n => M) ci.1)) := by
+  set φ : Fin n → Type _ := fun _ => M with hφ
+  set sg : Fin n → (M →ₗ[A] (Fin n → M)) := fun c => single A φ c with hsg
+  have hinj : ∀ c, Function.Injective (sg c) := fun c =>
+    Function.LeftInverse.injective (g := (proj c : (Fin n → M) →ₗ[A] M)) (fun x => by
+      have := LinearMap.congr_fun
+        (show (proj c).comp (sg c) = LinearMap.id by rw [hsg]; exact proj_comp_single_same A φ c) x
+      simpa using this)
+  -- Indecomposable: transport `D i` across the injective coordinate inclusion.
+  have hI : ∀ ci : Fin n × Fin p, Etingof.IsIndecomposable A ((D ci.2).map (sg ci.1)) :=
+    fun ci => (hindec ci.2).of_linearEquiv (Submodule.equivMapOfInjective _ (hinj ci.1) (D ci.2))
+  -- Nonzero: injective maps do not collapse a nonzero submodule.
+  have hN : ∀ ci : Fin n × Fin p, (D ci.2).map (sg ci.1) ≠ ⊥ := fun ci => by
+    obtain ⟨x, hxmem, hxne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot (hne ci.2)
+    intro hbot
+    have hmem : sg ci.1 x ∈ (D ci.2).map (sg ci.1) := Submodule.mem_map_of_mem hxmem
+    rw [hbot, Submodule.mem_bot] at hmem
+    exact hxne (hinj ci.1 (hmem.trans (map_zero (sg ci.1)).symm))
+  -- Each coordinate block is the full coordinate axis `range (single c)`.
+  have hblockeq : ∀ c, (⨆ i, (D i).map (sg c)) = range (sg c) := fun c => by
+    rw [← Submodule.map_iSup, hsup, Submodule.map_top]
+  -- Spanning: the coordinate axes span the whole power.
+  have hS : iSup (fun ci : Fin n × Fin p => (D ci.2).map (sg ci.1)) = ⊤ := by
+    rw [iSup_prod]
+    simp_rw [hblockeq]
+    simp only [hsg]; exact iSup_range_single A φ
+  -- Independence: blocks (coordinate axes) are independent, and each block is internally
+  -- independent (image of the independent `D` under an injective map).
+  have haxes : iSupIndep (fun c : Fin n => range (sg c)) := by
+    intro c
+    have hle : (⨆ (c') (_ : c' ≠ c), range (sg c')) ≤ ker (proj c) :=
+      iSup₂_le fun c' hc' => range_le_ker_iff.mpr
+        (by rw [hsg]; exact proj_comp_single_ne A φ c c' (Ne.symm hc'))
+    refine Disjoint.mono_right hle ?_
+    rw [disjoint_iff_inf_le]
+    intro x hx
+    obtain ⟨⟨v, rfl⟩, hx2⟩ := hx
+    simp only [SetLike.mem_coe, LinearMap.mem_ker] at hx2
+    have hv : (LinearMap.proj (R := A) (φ := φ) c) (sg c v) = v := by
+      have h := LinearMap.congr_fun (proj_comp_single_same A φ c) v
+      simp only [hsg, LinearMap.comp_apply, LinearMap.id_coe, id_eq] at h ⊢
+      exact h
+    rw [hv] at hx2
+    simp [hx2]
+  have hbl : iSupIndep (fun c : Fin n => ⨆ i, (D i).map (sg c)) := by
+    simp_rw [hblockeq]; exact haxes
+  have hin : ∀ c, iSupIndep (fun i => (D i).map (sg c)) :=
+    fun c => LinearMap.iSupIndep_map (sg c) (hinj c) hind
+  have hInd : iSupIndep (fun ci : Fin n × Fin p => (D ci.2).map (sg ci.1)) :=
+    iSupIndep_prod_of_blocks (fun c i => (D i).map (sg c)) hbl hin
+  exact ⟨hI, hN, hS, hInd⟩
+
+/-- **Fibre-counting cancellation.** If two families `f : Fin p → C`, `g : Fin q → C` become
+equinumerous after taking `n` disjoint copies of each fibre — witnessed by a bijection
+`σ : (Fin n × Fin p) ≃ (Fin n × Fin q)` that matches the `C`-labels of the second coordinates —
+then already `f` and `g` have equinumerous fibres, so they are matched by a bijection
+`τ : Fin p ≃ Fin q` with `g (τ i) = f i`. This is the multiset cancellation `n • s = n • t ⟹ s = t`
+(for `n > 0`) specialised to the setting where `C` is the type of indecomposable iso-classes. -/
+private theorem fibre_cancel {C : Type*} {p q n : ℕ} (hn : 0 < n)
+    (f : Fin p → C) (g : Fin q → C)
+    (σ : (Fin n × Fin p) ≃ (Fin n × Fin q))
+    (hσ : ∀ x, g (σ x).2 = f x.2) :
+    ∃ τ : Fin p ≃ Fin q, ∀ i, g (τ i) = f i := by
+  classical
+  -- For each label `c`, the `f`-fibre and the `g`-fibre have equal cardinality.
+  have key : ∀ c : C, Fintype.card {i // f i = c} = Fintype.card {j // g j = c} := by
+    intro c
+    -- `σ` restricts to a bijection between the `n`-fold fibres over `c`.
+    have e : {x : Fin n × Fin p // f x.2 = c} ≃ {y : Fin n × Fin q // g y.2 = c} :=
+      { toFun := fun x => ⟨σ x.1, by rw [hσ]; exact x.2⟩
+        invFun := fun y => ⟨σ.symm y.1, by
+          have h := hσ (σ.symm y.1); rw [σ.apply_symm_apply] at h; rw [← h]; exact y.2⟩
+        left_inv := fun x => Subtype.ext (σ.symm_apply_apply x.1)
+        right_inv := fun y => Subtype.ext (σ.apply_symm_apply y.1) }
+    -- Each `n`-fold fibre is `Fin n` copies of the corresponding plain fibre.
+    have eF : {x : Fin n × Fin p // f x.2 = c} ≃ Fin n × {i // f i = c} :=
+      { toFun := fun x => (x.1.1, ⟨x.1.2, x.2⟩)
+        invFun := fun y => ⟨(y.1, y.2.1), y.2.2⟩
+        left_inv := fun x => by rcases x with ⟨⟨a, b⟩, h⟩; rfl
+        right_inv := fun y => by rcases y with ⟨a, b, h⟩; rfl }
+    have eG : {y : Fin n × Fin q // g y.2 = c} ≃ Fin n × {j // g j = c} :=
+      { toFun := fun y => (y.1.1, ⟨y.1.2, y.2⟩)
+        invFun := fun z => ⟨(z.1, z.2.1), z.2.2⟩
+        left_inv := fun y => by rcases y with ⟨⟨a, b⟩, h⟩; rfl
+        right_inv := fun z => by rcases z with ⟨a, b, h⟩; rfl }
+    have hFF : Fintype.card {x : Fin n × Fin p // f x.2 = c} = n * Fintype.card {i // f i = c} := by
+      rw [Fintype.card_congr eF, Fintype.card_prod, Fintype.card_fin]
+    have hGG : Fintype.card {y : Fin n × Fin q // g y.2 = c} = n * Fintype.card {j // g j = c} := by
+      rw [Fintype.card_congr eG, Fintype.card_prod, Fintype.card_fin]
+    have hEq : n * Fintype.card {i // f i = c} = n * Fintype.card {j // g j = c} := by
+      rw [← hFF, ← hGG, Fintype.card_congr e]
+    exact Nat.eq_of_mul_eq_mul_left hn hEq
+  -- Choose a bijection between each pair of equinumerous fibres, then assemble.
+  let eqv : ∀ c : C, {i // f i = c} ≃ {j // g j = c} := fun c => Fintype.equivOfCardEq (key c)
+  refine ⟨(Equiv.sigmaFiberEquiv f).symm.trans
+      ((Equiv.sigmaCongrRight eqv).trans (Equiv.sigmaFiberEquiv g)), fun i => ?_⟩
+  exact (eqv (f i) ⟨i, rfl⟩).2
+
+open LinearMap in
+/-- The `c`-th coordinate inclusion `M →ₗ[A] (Fin n → M)` is injective. -/
+private theorem single_injective {A M : Type*} [Ring A] [AddCommGroup M] [Module A M]
+    {n : ℕ} (c : Fin n) : Function.Injective (single A (fun _ : Fin n => M) c) :=
+  Function.LeftInverse.injective (g := LinearMap.proj (R := A) (φ := fun _ : Fin n => M) c)
+    (fun x => by
+      have h := LinearMap.congr_fun (proj_comp_single_same A (fun _ : Fin n => M) c) x
+      simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq] at h
+      exact h)
+
+/-- Transport an internal indecomposable decomposition `D : ι → Submodule A V` (arbitrary index
+type) across an `A`-linear isomorphism `e : V ≃ₗ[A] V'`. This generalises `indecDecomp_map` from a
+`Fin`-index to an arbitrary index type, which is needed for the product-indexed power
+decompositions. -/
+private theorem transport_decomp {A V V' : Type*} [Ring A]
+    [AddCommGroup V] [Module A V] [AddCommGroup V'] [Module A V']
+    (e : V ≃ₗ[A] V') {ι : Type*} (D : ι → Submodule A V)
+    (hindec : ∀ i, Etingof.IsIndecomposable A (D i))
+    (hne : ∀ i, D i ≠ ⊥) (hsup : iSup D = ⊤) (hind : iSupIndep D) :
+    (∀ i, Etingof.IsIndecomposable A ((D i).map (e : V →ₗ[A] V'))) ∧
+      (∀ i, (D i).map (e : V →ₗ[A] V') ≠ ⊥) ∧
+      iSup (fun i => (D i).map (e : V →ₗ[A] V')) = ⊤ ∧
+      iSupIndep (fun i => (D i).map (e : V →ₗ[A] V')) := by
+  refine ⟨fun i => (hindec i).of_linearEquiv
+      (Submodule.equivMapOfInjective (e : V →ₗ[A] V') e.injective (D i)), fun i => ?_, ?_, ?_⟩
+  · rw [Ne, Submodule.map_eq_bot_iff]
+    exact hne i
+  · rw [← Submodule.map_iSup, hsup, Submodule.map_top, LinearEquiv.range]
+  · exact LinearMap.iSupIndep_map (e : V →ₗ[A] V') e.injective hind
+
 /-- **Krull-Schmidt cancellation.** For finite dimensional representations `V`, `W` of an
 algebra `A` over an arbitrary field `k`, if the `n`-fold powers are isomorphic
 (`Vⁿ ≅ Wⁿ`) for some `n > 0`, then `V` and `W` are isomorphic.
@@ -79,28 +289,74 @@ theorem iso_pow_cancel (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
     {n : ℕ} (hn : 0 < n)
     (h : Nonempty ((Fin n → V) ≃ₗ[A] (Fin n → W))) :
     Nonempty (V ≃ₗ[A] W) := by
-  -- Roadmap for the remaining proof (helpers `IsIndecomposable.of_linearEquiv` and
-  -- `indecDecomp_map` above are the reusable pieces already in place):
-  --
-  -- 1. `krull_schmidt_existence k A V` / `... k A W`: internal indecomposable
-  --    decompositions `DV : Fin p → Submodule A V`, `DW : Fin q → Submodule A W`
-  --    (indecomposable, nonzero — via `Submodule.nontrivial_iff_ne_bot`, spanning,
-  --    independent).
-  -- 2. Power decomposition of `Fin n → V`: index by `Fin n × Fin p`, take
-  --    `(k, i) ↦ (DV i).map (LinearMap.single A (fun _ => V) k)`. Indecomposable
-  --    (transport `DV i` across the injective coordinate inclusion via
-  --    `Submodule.equivMapOfInjective` + `IsIndecomposable.of_linearEquiv`), nonzero,
-  --    spanning (`⨆ₖ range (single k) = ⊤`), independent (Pi-independence of the
-  --    coordinate inclusions combined with `iSupIndep DV`). Same for `Fin n → W`.
-  -- 3. Transport the `W`-power decomposition across `h.some.symm : (Fin n → W) ≃ₗ (Fin n → V)`
-  --    with `indecDecomp_map`, giving a *second* indecomposable decomposition of `Fin n → V`.
-  -- 4. `krull_schmidt_uniqueness` on `Fin n → V` with the two decompositions of step 2/3:
-  --    `n * p = n * q` and a permutation `σ` with `((DV i).map (single k)) ≃ₗ (mapped DW j)`.
-  -- 5. Fibre counting: the permutation respects iso-classes; each class appears `n×` its
-  --    `V`- (resp. `W`-) multiplicity, so per-class multiplicities of `V` and `W` agree
-  --    (cancel `n > 0`). Build `τ : Fin p ≃ Fin q` with `DV i ≃ₗ[A] DW (τ i)`.
-  -- 6. Assemble: `V ≃ₗ ⨁ DV i ≃ₗ ⨁ DW (τ ·) ≃ₗ ⨁ DW j ≃ₗ W` via
-  --    `DirectSum.IsInternal` (from `iSupIndep` + `iSup = ⊤`) and the pointwise isos.
-  sorry
+  classical
+  -- Step 1: decompose `V` and `W` into indecomposables (Krull-Schmidt existence).
+  obtain ⟨p, DV, hDV_indec, hDV_sup, hDV_ind⟩ := Etingof.Problem3_8_3.krull_schmidt_existence k A V
+  obtain ⟨q, DW, hDW_indec, hDW_sup, hDW_ind⟩ := Etingof.Problem3_8_3.krull_schmidt_existence k A W
+  have hDV_ne : ∀ i, DV i ≠ ⊥ := fun i => Submodule.nontrivial_iff_ne_bot.mp (hDV_indec i).1
+  have hDW_ne : ∀ j, DW j ≠ ⊥ := fun j => Submodule.nontrivial_iff_ne_bot.mp (hDW_indec j).1
+  set e : (Fin n → V) ≃ₗ[A] (Fin n → W) := h.some with he
+  -- Coordinate inclusions and the two power families of `Fin n → V`.
+  set sgV : Fin n → (V →ₗ[A] (Fin n → V)) :=
+    fun c => LinearMap.single A (fun _ : Fin n => V) c with hsgV
+  set sgW : Fin n → (W →ₗ[A] (Fin n → W)) :=
+    fun c => LinearMap.single A (fun _ : Fin n => W) c with hsgW
+  -- Step 2: power decomposition of `Fin n → V` (index `Fin n × Fin p`) and of `Fin n → W`.
+  obtain ⟨hPV_indec, hPV_ne, hPV_sup, hPV_ind⟩ :=
+    powerDecomp (n := n) DV hDV_indec hDV_ne hDV_sup hDV_ind
+  obtain ⟨hPW_indec, hPW_ne, hPW_sup, hPW_ind⟩ :=
+    powerDecomp (n := n) DW hDW_indec hDW_ne hDW_sup hDW_ind
+  -- Step 3: transport the `W`-power decomposition into `Fin n → V` along `e.symm`.
+  obtain ⟨hQW_indec, hQW_ne, hQW_sup, hQW_ind⟩ :=
+    transport_decomp e.symm (fun cj : Fin n × Fin q => (DW cj.2).map (sgW cj.1))
+      hPW_indec hPW_ne hPW_sup hPW_ind
+  -- Step 4: Krull-Schmidt uniqueness matches the two decompositions of `Fin n → V`.
+  obtain ⟨σ, hσ⟩ := ks_uniqueness_index k A (Fin n → V)
+    (fun ci : Fin n × Fin p => (DV ci.2).map (sgV ci.1))
+    (fun cj : Fin n × Fin q =>
+      ((DW cj.2).map (sgW cj.1)).map (e.symm : (Fin n → W) →ₗ[A] (Fin n → V)))
+    hPV_indec hQW_indec hPV_ne hQW_ne hPV_sup hPV_ind hQW_sup hQW_ind
+  -- Isomorphisms between each power summand and the underlying `DV`/`DW` summand.
+  have isoPV : ∀ x : Fin n × Fin p, DV x.2 ≃ₗ[A] (DV x.2).map (sgV x.1) :=
+    fun x => Submodule.equivMapOfInjective (sgV x.1) (single_injective _) (DV x.2)
+  have isoPW : ∀ y : Fin n × Fin q, DW y.2 ≃ₗ[A] (DW y.2).map (sgW y.1) :=
+    fun y => Submodule.equivMapOfInjective (sgW y.1) (single_injective _) (DW y.2)
+  have isoQW : ∀ y : Fin n × Fin q, ((DW y.2).map (sgW y.1)) ≃ₗ[A]
+      ((DW y.2).map (sgW y.1)).map (e.symm : (Fin n → W) →ₗ[A] (Fin n → V)) :=
+    fun y => Submodule.equivMapOfInjective (e.symm : (Fin n → W) →ₗ[A] (Fin n → V))
+      e.symm.injective _
+  -- Step 5: build the iso-class type as a quotient of the finite index `Fin p ⊕ Fin q`.
+  let rel : (Fin p ⊕ Fin q) → (Fin p ⊕ Fin q) → Prop := fun a b =>
+    match a, b with
+    | Sum.inl i, Sum.inl i' => Nonempty (DV i ≃ₗ[A] DV i')
+    | Sum.inl i, Sum.inr j => Nonempty (DV i ≃ₗ[A] DW j)
+    | Sum.inr j, Sum.inl i => Nonempty (DW j ≃ₗ[A] DV i)
+    | Sum.inr j, Sum.inr j' => Nonempty (DW j ≃ₗ[A] DW j')
+  have hrefl : ∀ x, rel x x := by rintro (i | j) <;> exact ⟨LinearEquiv.refl A _⟩
+  have hsymm : ∀ {x y}, rel x y → rel y x := by
+    rintro (i | j) (i' | j') ⟨φ⟩ <;> exact ⟨φ.symm⟩
+  have htrans : ∀ {x y z}, rel x y → rel y z → rel x z := by
+    rintro (i | j) (i' | j') (i'' | j'') ⟨φ⟩ ⟨ψ⟩ <;> exact ⟨φ.trans ψ⟩
+  letI S : Setoid (Fin p ⊕ Fin q) := ⟨rel, hrefl, hsymm, htrans⟩
+  let fC : Fin p → Quotient S := fun i => ⟦Sum.inl i⟧
+  let gC : Fin q → Quotient S := fun j => ⟦Sum.inr j⟧
+  have hfg : ∀ i j, fC i = gC j ↔ Nonempty (DV i ≃ₗ[A] DW j) := fun i j => Quotient.eq
+  -- The permutation `σ` respects iso-classes, so the fibre-counting cancellation applies.
+  have hfc : ∀ x : Fin n × Fin p, gC (σ x).2 = fC x.2 := by
+    intro x
+    rw [eq_comm, hfg x.2 (σ x).2]
+    obtain ⟨φ⟩ := hσ x
+    exact ⟨(isoPV x).trans (φ.trans ((isoPW (σ x)).trans (isoQW (σ x))).symm)⟩
+  obtain ⟨τ, hτ⟩ := fibre_cancel hn fC gC σ hfc
+  have hiso : ∀ i, Nonempty (DV i ≃ₗ[A] DW (τ i)) := fun i => (hfg i (τ i)).mp (hτ i).symm
+  -- Step 6: assemble `V ≃ₗ ⨁ DV ≃ₗ ⨁ DW (τ ·) ≃ₗ W`.
+  have hIntV : DirectSum.IsInternal DV :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top DV).mpr ⟨hDV_ind, hDV_sup⟩
+  have hIntWτ : DirectSum.IsInternal (fun i => DW (τ i)) :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top (fun i => DW (τ i))).mpr
+      ⟨hDW_ind.comp τ.injective, by rw [← hDW_sup]; exact τ.iSup_comp⟩
+  let mid := DFinsupp.mapRange.linearEquiv (R := A) (fun i => (hiso i).some)
+  exact ⟨(LinearEquiv.ofBijective (DirectSum.coeLinearMap DV) hIntV).symm ≪≫ₗ mid ≪≫ₗ
+    LinearEquiv.ofBijective (DirectSum.coeLinearMap (fun i => DW (τ i))) hIntWτ⟩
 
 end Etingof.Problem3_8_4
