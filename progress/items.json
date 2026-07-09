@@ -2273,8 +2273,8 @@
     "end_page": "58",
     "start_line": 1,
     "end_line": 12,
-    "status": "statement_formalized",
-    "sorry_free": false,
+    "status": "sorry_free",
+    "sorry_free": true,
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
   },

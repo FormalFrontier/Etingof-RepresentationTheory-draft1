@@ -1,6 +1,9 @@
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import Mathlib.Algebra.DualNumber
 import Mathlib.Algebra.BigOperators.NatAntidiagonal
+import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.Algebra.Algebra.Bilinear
+import Mathlib.Tactic.NoncommRing
 
 /-!
 # Problem 3.9.4: Formal deformations of representations
@@ -65,7 +68,7 @@ noncomputable def constDeformation : FormalDeformation k A V where
       -- `baseRho` is multiplicative: `ρ(ab) = ρ(a) ∘ ρ(b)`.
       simp only [Finset.antidiagonal_zero, Finset.sum_singleton]
       ext v
-      show (a * b) • v = a • b • v
+      change (a * b) • v = a • b • v
       exact mul_smul a b v
     · -- For `n ≥ 1`, `coeff n = 0` and every antidiagonal summand vanishes.
       rw [if_neg hn.ne', LinearMap.zero_apply]
@@ -91,11 +94,241 @@ def IsIsomorphic (D D' : FormalDeformation k A V) : Prop :=
 def IsTrivial (D : FormalDeformation k A V) : Prop :=
   IsIsomorphic k A V D (constDeformation k A V)
 
+/-! ## Construction of the trivialising intertwiner
+
+We prove Problem 3.9.4(a) by building the intertwiner `b(t) = 1 + b₁t + ⋯` order by order.
+Writing `E = End_k V` (a ring under composition), the deformation is packaged as the power
+series `ρ̃(t)(a) = ∑ₙ ρₙ(a) tⁿ ∈ E⟦t⟧`; deformation multiplicativity becomes
+`ρ̃(t)(ac) = ρ̃(t)(a) · ρ̃(t)(c)`. The trivialisation equation is, order by order,
+`Cₙ(a) := ∑_{i+j=n} bᵢ ∘ ρⱼ(a) = ρ(a) ∘ bₙ`. At each order the obstruction
+`gₙ(a) = ∑_{i<n} bᵢ ∘ ρ_{n-i}(a)` is a 1-cocycle (using the lower-order equations and
+associativity of the Cauchy product), so `Ext¹(V,V) = 0` makes it the coboundary of some
+`bₙ`, which closes the induction. -/
+
+section Construction
+
+open Etingof.Problem3_9_1
+
+variable {k A V}
+variable (D : FormalDeformation k A V)
+
+/-- `ρ(ac) = ρ(a) ∘ ρ(c)`: the base representation is multiplicative. -/
+lemma baseRho_mul (a c : A) :
+    baseRho k A V (a * c) = baseRho k A V a * baseRho k A V c := by
+  ext v
+  change (a * c) • v = a • c • v
+  exact mul_smul a c v
+
+/-- Explicit value of the coboundary `dX` at an algebra element:
+`dX(a) = ρ(a) ∘ X − X ∘ ρ(a)`. -/
+lemma coboundaryOf_apply (X : Module.End k V) (a : A) :
+    coboundaryOf k A V V X a = baseRho k A V a * X - X * baseRho k A V a := by
+  ext w
+  simp only [coboundaryOf, LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.llcomp_apply,
+    LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe, Module.End.mul_apply,
+    baseRho]
+
+lemma coboundaryOf_add (X Y : Module.End k V) :
+    coboundaryOf k A V V (X + Y) = coboundaryOf k A V V X + coboundaryOf k A V V Y := by
+  refine LinearMap.ext fun a => ?_
+  simp only [coboundaryOf_apply, LinearMap.add_apply, mul_add, add_mul]
+  abel
+
+lemma coboundaryOf_smul (c : k) (X : Module.End k V) :
+    coboundaryOf k A V V (c • X) = c • coboundaryOf k A V V X := by
+  refine LinearMap.ext fun a => ?_
+  simp only [coboundaryOf_apply, LinearMap.smul_apply, mul_smul_comm, smul_mul_assoc, smul_sub]
+
+lemma coboundaryOf_zero : coboundaryOf k A V V (0 : Module.End k V) = 0 := by
+  refine LinearMap.ext fun a => ?_
+  simp [coboundaryOf_apply]
+
+/-- Every element of the coboundary subspace is genuinely a coboundary `dX`
+(the coboundary map is linear, so its range is already a submodule). -/
+lemma exists_of_mem_coboundaries {g : A →ₗ[k] Module.End k V}
+    (hg : g ∈ coboundaries k A V V) : ∃ X, coboundaryOf k A V V X = g := by
+  refine Submodule.span_induction ?_ ?_ ?_ ?_ hg
+  · rintro f ⟨X, rfl⟩; exact ⟨X, rfl⟩
+  · exact ⟨0, coboundaryOf_zero⟩
+  · rintro f₁ f₂ _ _ ⟨X, rfl⟩ ⟨Y, rfl⟩; exact ⟨X + Y, coboundaryOf_add X Y⟩
+  · rintro c f _ ⟨X, rfl⟩; exact ⟨c • X, coboundaryOf_smul c X⟩
+
+/-- With `Ext¹(V,V) = 0`, every 1-cocycle is a coboundary. -/
+lemma exists_coboundary_of_cocycle (hExt : Subsingleton (Ext1 k A V V))
+    (g : A →ₗ[k] Module.End k V) (hg : IsCocycle k A V V g) :
+    ∃ X, coboundaryOf k A V V X = g := by
+  have hmem : g ∈ coboundaries k A V V := by
+    have h0 : (Submodule.Quotient.mk (⟨g, hg⟩ : cocycles k A V V) : Ext1 k A V V) = 0 :=
+      Subsingleton.elim _ _
+    rw [Submodule.Quotient.mk_eq_zero] at h0
+    exact (Submodule.mem_comap).mp h0
+  exact exists_of_mem_coboundaries hmem
+
+/-- `ρ̃(t)(a) = ∑ₙ ρₙ(a) tⁿ`, the deformation as an `E⟦t⟧` power series (`E = End_k V`). -/
+noncomputable def defSeries (a : A) : PowerSeries (Module.End k V) :=
+  PowerSeries.mk fun n => D.coeff n a
+
+@[simp] lemma defSeries_coeff (a : A) (n : ℕ) :
+    PowerSeries.coeff n (defSeries D a) = D.coeff n a := by
+  simp [defSeries]
+
+/-- Deformation multiplicativity as an identity of power series. -/
+lemma defSeries_mul (a c : A) :
+    defSeries D (a * c) = defSeries D a * defSeries D c := by
+  ext n
+  rw [PowerSeries.coeff_mul]
+  simp only [defSeries_coeff]
+  rw [D.isMul a c n]
+  simp only [← Module.End.mul_eq_comp]
+
+/-- Obstruction linear map at order `m` from a length-`m` prefix `prev = (b₀,…,b_{m-1})`:
+`g(a) = ∑_{i<m} bᵢ ∘ ρ_{m-i}(a)`. -/
+noncomputable def obstr {m : ℕ} (prev : Fin m → Module.End k V) :
+    A →ₗ[k] Module.End k V :=
+  ∑ i : Fin m, (LinearMap.llcomp k V V V (prev i)).comp (D.coeff (m - i))
+
+lemma obstr_apply {m : ℕ} (prev : Fin m → Module.End k V) (a : A) :
+    obstr D prev a = ∑ i : Fin m, prev i * D.coeff (m - i) a := by
+  simp only [obstr, LinearMap.coe_sum, Finset.sum_apply, LinearMap.comp_apply,
+    LinearMap.llcomp_apply', ← Module.End.mul_eq_comp]
+
+open Classical in
+/-- The next coefficient `b_m`: a chosen `X` with `dX = g` when one exists (else `0`). -/
+noncomputable def nextCoeff {m : ℕ} (prev : Fin m → Module.End k V) : Module.End k V :=
+  if h : ∃ X, coboundaryOf k A V V X = obstr D prev then h.choose else 0
+
+/-- Length-`(n+1)` prefix `(b₀,…,bₙ)` of the intertwiner, built recursively. -/
+noncomputable def bVec : (n : ℕ) → Fin (n + 1) → Module.End k V
+  | 0 => fun _ => 1
+  | (n + 1) => Fin.snoc (bVec n) (nextCoeff D (bVec n))
+
+/-- The intertwiner coefficient sequence `n ↦ bₙ`. -/
+noncomputable def bSeq (n : ℕ) : Module.End k V := bVec D n (Fin.last n)
+
+lemma bSeq_zero : bSeq D 0 = 1 := rfl
+
+lemma bSeq_succ (n : ℕ) : bSeq D (n + 1) = nextCoeff D (bVec D n) := by
+  simp only [bSeq, bVec, Fin.snoc_last]
+
+/-- Coherence: the prefix `bVec D n` restricts to the global sequence `bSeq D`. -/
+lemma bVec_eq_bSeq (n : ℕ) (i : Fin (n + 1)) : bVec D n i = bSeq D (i : ℕ) := by
+  induction n with
+  | zero => fin_cases i; rfl
+  | succ n ih =>
+    refine Fin.lastCases ?_ ?_ i
+    · simp only [bVec, Fin.snoc_last, Fin.val_last, bSeq_succ]
+    · intro j
+      rw [bVec, Fin.snoc_castSucc, ih j, Fin.val_castSucc]
+
+/-- The chosen coefficient really trivialises the obstruction (when existence holds). -/
+lemma coboundaryOf_bSeq_succ (n : ℕ)
+    (h : ∃ X, coboundaryOf k A V V X = obstr D (bVec D n)) :
+    coboundaryOf k A V V (bSeq D (n + 1)) = obstr D (bVec D n) := by
+  rw [bSeq_succ, nextCoeff, dif_pos h]
+  exact h.choose_spec
+
+/-- The order-`n` value `Cₙ(a) = ∑_{i+j=n} bᵢ ∘ ρⱼ(a)`. -/
+noncomputable def Cc (n : ℕ) (a : A) : Module.End k V :=
+  ∑ p ∈ Finset.antidiagonal n, bSeq D p.1 * D.coeff p.2 a
+
+/-- The order-`n` obstruction value `gₙ(a) = ∑_{i<n} bᵢ ∘ ρ_{n-i}(a)`. -/
+noncomputable def gv (n : ℕ) (a : A) : Module.End k V :=
+  ∑ i ∈ Finset.range n, bSeq D i * D.coeff (n - i) a
+
+lemma Cc_eq_coeff (n : ℕ) (a : A) :
+    Cc D n a = PowerSeries.coeff n (PowerSeries.mk (bSeq D) * defSeries D a) := by
+  rw [PowerSeries.coeff_mul]
+  simp only [Cc, PowerSeries.coeff_mk, defSeries_coeff]
+
+/-- `Cₙ(ac) = ∑_{r+q=n} Cᵣ(a) ∘ ρ_q(c)`: associativity of the Cauchy product. -/
+lemma Cc_mul (n : ℕ) (a c : A) :
+    Cc D n (a * c) = ∑ p ∈ Finset.antidiagonal n, Cc D p.1 a * D.coeff p.2 c := by
+  rw [Cc_eq_coeff, defSeries_mul, ← mul_assoc, PowerSeries.coeff_mul]
+  refine Finset.sum_congr rfl fun p _ => ?_
+  rw [Cc_eq_coeff, defSeries_coeff]
+
+/-- Split off the top term: `Cₙ(a) = gₙ(a) + bₙ ∘ ρ(a)`. -/
+lemma Cc_eq_gv_add (n : ℕ) (a : A) :
+    Cc D n a = gv D n a + bSeq D n * baseRho k A V a := by
+  rw [Cc, Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk, Finset.sum_range_succ, gv,
+    Nat.sub_self, D.base_eq]
+
+lemma obstr_bVec_apply (n : ℕ) (a : A) :
+    obstr D (bVec D n) a = gv D (n + 1) a := by
+  rw [obstr_apply, gv, ← Fin.sum_univ_eq_sum_range fun i => bSeq D i * D.coeff (n + 1 - i) a]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [bVec_eq_bSeq]
+
+/-- The obstruction is a 1-cocycle, given the lower-order trivialisation equations. -/
+lemma gv_cocycle (n : ℕ) (ih : ∀ r < n, ∀ a, Cc D r a = baseRho k A V a * bSeq D r)
+    (a c : A) :
+    gv D n (a * c) = baseRho k A V a * gv D n c + gv D n a * baseRho k A V c := by
+  have hCc : Cc D n (a * c)
+      = baseRho k A V a * gv D n c + Cc D n a * baseRho k A V c := by
+    rw [Cc_mul, Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk, Finset.sum_range_succ,
+      Nat.sub_self, D.base_eq, gv, Finset.mul_sum]
+    congr 1
+    refine Finset.sum_congr rfl fun r hr => ?_
+    rw [Finset.mem_range] at hr
+    rw [ih r hr a, mul_assoc]
+  have hgv : gv D n (a * c) = Cc D n (a * c) - bSeq D n * baseRho k A V (a * c) := by
+    rw [Cc_eq_gv_add]; abel
+  rw [hgv, hCc, baseRho_mul, Cc_eq_gv_add]
+  noncomm_ring
+
+/-- **Trivialisation equation.** `Cₙ(a) = ρ(a) ∘ bₙ` for every order `n`. -/
+lemma star (hExt : Subsingleton (Ext1 k A V V)) :
+    ∀ n a, Cc D n a = baseRho k A V a * bSeq D n := by
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro a
+    match n, ih with
+    | 0, _ =>
+      rw [Cc_eq_gv_add, gv, bSeq_zero]
+      simp
+    | (m + 1), ih =>
+      -- The obstruction at order `m+1` is a cocycle, hence a coboundary `dX = d bₘ₊₁`.
+      have hcoc : IsCocycle k A V V (obstr D (bVec D m)) := by
+        intro a' c'
+        rw [obstr_bVec_apply, obstr_bVec_apply, obstr_bVec_apply,
+          ← Module.End.mul_eq_comp, ← Module.End.mul_eq_comp]
+        exact gv_cocycle D (m + 1) (fun r hr => ih r hr) a' c'
+      obtain ⟨X, hX⟩ := exists_coboundary_of_cocycle hExt _ hcoc
+      have hcob : coboundaryOf k A V V (bSeq D (m + 1)) = obstr D (bVec D m) :=
+        coboundaryOf_bSeq_succ D m ⟨X, hX⟩
+      have key := congrArg (fun f => f a) hcob
+      simp only [coboundaryOf_apply, obstr_bVec_apply] at key
+      -- `key : ρ(a) bₘ₊₁ − bₘ₊₁ ρ(a) = gₘ₊₁(a)`
+      rw [Cc_eq_gv_add, ← key]
+      abel
+
+end Construction
+
 /-- **Problem 3.9.4(a).** If `Ext¹(V, V) = 0`, every formal deformation of `ρ` is trivial. -/
 theorem isTrivial_of_ext1_subsingleton
     (hExt : Subsingleton (Ext1 k A V V)) (D : FormalDeformation k A V) :
     IsTrivial k A V D := by
-  sorry
+  refine ⟨bSeq D, ?_, ?_⟩
+  · rw [bSeq_zero]; exact Module.End.one_eq_id
+  · intro a n
+    have hL : ∑ p ∈ Finset.antidiagonal n, (bSeq D p.1).comp (D.coeff p.2 a)
+        = baseRho k A V a * bSeq D n := by
+      rw [← star D hExt n a, Cc]
+      exact Finset.sum_congr rfl fun p _ =>
+        (Module.End.mul_eq_comp (bSeq D p.1) (D.coeff p.2 a)).symm
+    have hR : ∑ p ∈ Finset.antidiagonal n,
+          ((constDeformation k A V).coeff p.1 a).comp (bSeq D p.2)
+        = baseRho k A V a * bSeq D n := by
+      rw [Finset.sum_eq_single_of_mem (0, n) (by simp [Finset.mem_antidiagonal])]
+      · change ((if (0 : ℕ) = 0 then baseRho k A V else 0) a).comp (bSeq D n) = _
+        rw [if_pos rfl, Module.End.mul_eq_comp]
+      · rintro ⟨i, j⟩ hmem hne
+        rw [Finset.mem_antidiagonal] at hmem
+        have hi : i ≠ 0 := by rintro rfl; exact hne (by simp_all)
+        change ((if i = 0 then baseRho k A V else 0) a).comp (bSeq D j) = 0
+        rw [if_neg hi, LinearMap.zero_apply, LinearMap.zero_comp]
+    rw [hL, hR]
 
 /-- The **converse to (a)** for a fixed representation `V`: if every formal deformation of
 `V` is trivial, then `Ext¹(V, V) = 0`. -/
