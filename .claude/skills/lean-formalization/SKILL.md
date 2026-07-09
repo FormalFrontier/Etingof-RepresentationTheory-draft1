@@ -310,18 +310,27 @@ General rule: if an implicit type/ring/field appears only *inside* a definition'
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
 
-### Converting a reducible `abbrev` Finsupp-wrapper to a `def` to stop `Finsupp.instMul` leaking (#5987)
+### A `→₀`-based algebra must be a `def`, never an `abbrev` — `abbrev` leaks `Finsupp.instMul` (pointwise) (#5987)
 
-A reducible `abbrev Foo … := ι →₀ k` (e.g. `PathAlgebra`) is a trap: under `import Mathlib`,
-instance synthesis unfolds it and picks up `Finsupp`'s **pointwise** `Finsupp.instMul`
-(`Mathlib.Data.Finsupp.Pointwise`), which outranks any custom ring `Mul` you build — silently
-making `f * g` the pointwise product (disjoint-support basis paths multiply to `0`). The file that
-*defines* `Foo` may look fine if it imports a narrow Mathlib slice without `Finsupp.Pointwise`; the
-breakage only appears in downstream files that `import Mathlib`. Confirm with
-`set_option pp.all true in #check (a * b)` — the `HMul` head should be your ring's `instHMul`, not
-`Finsupp.instMul`. **Fix = make it a semireducible `def`** (Mathlib's `MonoidAlgebra` pattern), so
-instance search (reducible-only) can no longer see the `Finsupp` instances. The conversion triggers
-a predictable cascade (cost ~10 build cycles in #5987, `Chapter2/Definition2_8_4.lean`):
+`MonoidAlgebra k G` is a `def` (semireducible) *on purpose*: it hides that the carrier is
+`G →₀ k`, so Mathlib's pointwise `Finsupp` instances (`Finsupp.instMul` from
+`Mathlib.Data.Finsupp.Pointwise`, etc.) do **not** apply and the convolution ring
+structure is the unique one. If you instead declare your algebra as a **reducible
+`abbrev`** (as `Chapter2/Definition2_8_4.lean` did: `abbrev PathAlgebra k Q :=
+QuiverPathIndex Q →₀ k`), then under `import Mathlib` the pointwise `Finsupp.instMul`
+becomes a valid `Mul` on your type and **outranks your intended (convolution/
+concatenation) multiplication** (disjoint-support basis paths multiply to `0`).
+
+The file that *defines* `Foo` compiles because it imports a *narrow* Mathlib slice
+excluding `Finsupp.Pointwise`; every downstream file that `import Mathlib` silently gets
+**pointwise** `*` instead. Symptoms: a `single_mul_single`-style lemma refuses to
+`rw`/`simp` in a downstream goal ("did not find pattern" though the term looks identical),
+and statements like `p_source * arrow = arrow` become **false** as elaborated. **Diagnose**
+with `set_option pp.all true in #check (a * b)` — the `HMul` head should be your ring's
+`instHMul`, not `Finsupp.instMul`. **Fix = make it a semireducible `def`** (Mathlib's
+`MonoidAlgebra` pattern), so instance search (reducible-only) can no longer see the
+`Finsupp` instances. The conversion triggers a predictable cascade (cost ~10 build cycles
+in #5987, `Chapter2/Definition2_8_4.lean`):
 - **Re-expose module-level instances** via `inferInstanceAs` — `AddCommGroup`, `Module k`,
   `Inhabited`, … (the `Finsupp`-derived ones are `noncomputable`). Elaboration still unfolds the
   `def` at default transparency, so `Finsupp.single x c : Foo` etc. keep typechecking.
