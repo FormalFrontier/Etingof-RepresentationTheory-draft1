@@ -6601,8 +6601,8 @@
     "end_page": "193",
     "start_line": 1,
     "end_line": 8,
-    "status": "proof_partial",
-    "coverage_note": "Etingof.Exercise7_8_4_split (SES of k-vector spaces splits) and Etingof.Exercise7_8_4_not_abelianGroups (0→ℤ→·2 ℤ→ℤ/2→0 non-split) are sorry-free. Main claim Etingof.Exercise7_8_4 (identity of an acyclic unbounded cochain complex of vector spaces is null-homotopic) still sorried — needs the degreewise-splitting contracting-homotopy construction."
+    "status": "sorry_free",
+    "coverage_note": "All three theorems sorry-free. Main claim Etingof.Exercise7_8_4 (identity of an acyclic unbounded cochain complex of k-vector spaces is null-homotopic) via the degreewise-splitting contracting homotopy; Etingof.Exercise7_8_4_split (SES of k-vector spaces splits) and Etingof.Exercise7_8_4_not_abelianGroups (0→ℤ→·2 ℤ→ℤ/2→0 non-split) from PR #6024."
   },
   {
     "id": "Chapter7/Problem7.8.5",
