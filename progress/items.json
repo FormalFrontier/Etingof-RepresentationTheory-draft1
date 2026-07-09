@@ -2182,7 +2182,7 @@
     "sorry_free": false,
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_8_4.lean",
-    "coverage_note": "Statement pass (#5896/#5923). Base-change module infrastructure built directly (rep/repTensor/bcMod: L ⊗[K] V as an L ⊗[K] A-module, via Module.End.baseChangeHom + AlgHom.liftEquiv + Module.compHom, since TensorProduct.Algebra.module is not a global instance). Parts (i) iso_of_baseChange_iso and (ii) directSummand_of_baseChange_directSummand (Noether-Deuring) stated with sorry proofs; (ii) encodes direct summand as a split injection. Uses L ⊗[K] V for the book's V ⊗_K L (Mathlib scalar-on-left convention)."
+    "coverage_note": "Statement pass (#5896/#5923). Base-change module infrastructure built directly (rep/repTensor/bcMod: L ⊗[K] V as an L ⊗[K] A-module, via Module.End.baseChangeHom + AlgHom.liftEquiv + Module.compHom, since TensorProduct.Algebra.module is not a global instance). Parts (i) iso_of_baseChange_iso and (ii) directSummand_of_baseChange_directSummand (Noether-Deuring) stated with sorry proofs; (ii) encodes direct summand as a split injection. Uses L ⊗[K] V for the book's V ⊗_K L (Mathlib scalar-on-left convention). Prerequisite (#6020) landed in Problem3_8_4_Power.lean: bcModRestrict views L ⊗[K] V as an A-module by restricting bcMod along includeRight (a acts as l ⊗ v ↦ l ⊗ (a • v)), and baseChange_alinEquiv_pow gives the A-linear iso L ⊗[K] V ≃ₗ[A] (Fin (finrank K L) → V) for finite L/K — sorry-free."
   },
   {
     "id": "Chapter3/Problem3.8.5",

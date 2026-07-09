@@ -4309,3 +4309,37 @@ full graph rather than waiting on the aggregator locally.
   typechecks through all the rfl-reductions at once — then finish with the one genuinely-non-rfl step
   (`rw [LinearEquiv.symm_apply_apply] at hx2`). A component of a `NatIso` is bijective via
   `(FGModuleCat.isoToLinearEquiv (ε.hom.app X).iso).bijective`.
+
+## A new global `Module`/scalar instance perturbs elaboration of *earlier* defs (base-change, restricted scalars, #6020)
+
+When you add a global `noncomputable instance : Module A M` (e.g. restricting an
+`L ⊗[K] A`-module `bcMod` along `includeRight` to view `L ⊗[K] V` as an `A`-module via
+`Module.compHom`), that instance re-enters typeclass search for **every subsequent term** —
+including elaboration of defs that already compiled before you added it. Two concrete failures
+seen in `Chapter3/Problem3_8_4_Power.lean`:
+
+- **Looping/slow instance synth.** Unfolding `rep`/`repTensor` (type `A →ₐ[K] Module.End L (L ⊗[K] V)`)
+  now triggers a `(deterministic) timeout at typeclass … Algebra K (Module.End L (L ⊗[K] V))`,
+  even though the *same* term compiles fine in the file that defines it. The extra `Module A (L ⊗[K] V)`
+  gives TC new (dead-end) paths to explore.
+- **Diamond in `Semiring K` / `Field` paths.** `TensorProduct.comm K L V ≪≫ₗ …` fails to unify with
+  "synthesized … `Field.toSemifield.toSemiring`" vs "expected … `Field.toSemifield.toDivisionSemiring.toSemiring`".
+
+**Fix: order declarations so everything that elaborates the perturbed terms comes *before* the
+instance.** Prove the `repTensor`-on-`tmul` reduction and the underlying `K`-linear equiv
+(`TensorProduct.comm`/`congr`/`piScalarRight`) and its `_tmul` simp lemma first; declare the
+`Module A M` instance only afterward; then the smul lemmas and the `A`-linear packaging. A scratch
+file (`import`ing the same deps, sans the instance) confirms in seconds whether a given term
+elaborates without the instance in scope.
+
+## Upgrading a `≃ₗ[K]` to `≃ₗ[A]`: fresh `→ₗ[A]` + `ofBijective`, not `{ e.toAddEquiv with … }`
+
+To promote a `K`-linear equiv `e : M ≃ₗ[K] N` that is *also* `A`-linear (A a `K`-algebra,
+`SMulCommClass K A V` automatic from `IsScalarTower K A V`) to an `A`-linear equiv, do **not**
+write `{ e.toAddEquiv with map_smul' := … }` — it fails with
+"synthesized `<yourInstance>` / inferred `TensorProduct.instModule`" because the reused `AddEquiv`
+drags the `K`-module along. Instead build a genuine `M →ₗ[A] N` from scratch
+(`toFun := e`, `map_add' := e.map_add`, `map_smul' := …` by `TensorProduct.induction_on`), then
+`LinearEquiv.ofBijective thatMap e.bijective`. `⇑thatMap` is defeq to `⇑e`, so `e.bijective`
+typechecks directly. `A`-linearity of the `tmul` case is `smul_comm (c : K) (a : A) v` after the
+scalar identity `a • (l ⊗ v) = l ⊗ (a • v)`.
