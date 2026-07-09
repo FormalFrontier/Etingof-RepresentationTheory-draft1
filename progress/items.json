@@ -2273,8 +2273,8 @@
     "end_page": "58",
     "start_line": 1,
     "end_line": 12,
-    "status": "statement_formalized",
-    "sorry_free": false,
+    "status": "sorry_free",
+    "sorry_free": true,
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_4.lean"
   },
@@ -3035,7 +3035,7 @@
     "start_line": 15,
     "end_line": 12,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p constructed (order p³); (a) existence/uniqueness of R_z on the generators, (b) irreducible iff z≠1, (c) p² one-dim reps + R_1 decomposition, (d) dimension dichotomy (1 or p). Sorry proofs, statement pass (#5944)."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_2.lean: Heisenberg group over 𝔽_p (order p³). Part (a) COMPLETE and sorry-free (#6017): card_eq (|G|=p³) and exists_unique_rep proved — R_z built explicitly as ρ⟨a,b,c⟩f(t)=z^(b·t-c)·f(t-a), uniqueness via generator word decomposition (xGen,yGen generate G). Still sorry: (b) irreducible_iff, (c) one_dim_reps_card/R1_decomposes, (d) irreducible_dim — reserved for follow-up issues. Item stays statement_formalized until (b)–(d) land."
   },
   {
     "id": "Chapter4/Problem4.12.3",
@@ -6601,8 +6601,8 @@
     "end_page": "193",
     "start_line": 1,
     "end_line": 8,
-    "status": "proof_partial",
-    "coverage_note": "Main claim Etingof.Exercise7_8_4 (identity of an acyclic unbounded cochain complex of k-vector spaces is null-homotopic) is sorry-free via the degreewise-splitting contracting homotopy. Etingof.Exercise7_8_4_split and _not_abelianGroups still sorried here — proven sorry-free in PR #6024; once that lands the whole item is sorry_free."
+    "status": "sorry_free",
+    "coverage_note": "All three theorems sorry-free. Main claim Etingof.Exercise7_8_4 (identity of an acyclic unbounded cochain complex of k-vector spaces is null-homotopic) via the degreewise-splitting contracting homotopy; Etingof.Exercise7_8_4_split (SES of k-vector spaces splits) and Etingof.Exercise7_8_4_not_abelianGroups (0→ℤ→·2 ℤ→ℤ/2→0 non-split) from PR #6024."
   },
   {
     "id": "Chapter7/Problem7.8.5",
