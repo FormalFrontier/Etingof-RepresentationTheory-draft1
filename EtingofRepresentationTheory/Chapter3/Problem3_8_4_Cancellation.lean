@@ -43,6 +43,26 @@ theorem _root_.Etingof.IsIndecomposable.of_linearEquiv {A V W : Type*} [Ring A]
   · exact Or.inl (hbot h1)
   · exact Or.inr (hbot h2)
 
+/-- Transport an internal decomposition into indecomposables across an `A`-linear
+isomorphism `e : V ≃ₗ[A] V'`: the images `(D i).map e` form an indecomposable
+decomposition of `V'`. Each of the four defining properties (indecomposability, nonzero,
+spanning, independence) is preserved. -/
+theorem indecDecomp_map {A V V' : Type*} [Ring A]
+    [AddCommGroup V] [Module A V] [AddCommGroup V'] [Module A V']
+    (e : V ≃ₗ[A] V') {p : ℕ} (D : Fin p → Submodule A V)
+    (hindec : ∀ i, Etingof.IsIndecomposable A (D i))
+    (hne : ∀ i, D i ≠ ⊥) (hsup : iSup D = ⊤) (hind : iSupIndep D) :
+    (∀ i, Etingof.IsIndecomposable A ((D i).map (e : V →ₗ[A] V'))) ∧
+      (∀ i, (D i).map (e : V →ₗ[A] V') ≠ ⊥) ∧
+      iSup (fun i => (D i).map (e : V →ₗ[A] V')) = ⊤ ∧
+      iSupIndep (fun i => (D i).map (e : V →ₗ[A] V')) := by
+  refine ⟨fun i => (hindec i).of_linearEquiv
+      (Submodule.equivMapOfInjective (e : V →ₗ[A] V') e.injective (D i)), fun i => ?_, ?_, ?_⟩
+  · rw [Ne, Submodule.map_eq_bot_iff]
+    exact hne i
+  · rw [← Submodule.map_iSup, hsup, Submodule.map_top, LinearEquiv.range]
+  · exact LinearMap.iSupIndep_map (e : V →ₗ[A] V') e.injective hind
+
 /-- **Krull-Schmidt cancellation.** For finite dimensional representations `V`, `W` of an
 algebra `A` over an arbitrary field `k`, if the `n`-fold powers are isomorphic
 (`Vⁿ ≅ Wⁿ`) for some `n > 0`, then `V` and `W` are isomorphic.
