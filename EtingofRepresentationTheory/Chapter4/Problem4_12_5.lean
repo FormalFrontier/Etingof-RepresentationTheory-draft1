@@ -770,6 +770,86 @@ theorem fixCount_edges (act : A5 →* Equiv.Perm (Fin 30))
 
 end A5FixCounts
 
+/-! ## From the sorted engine to the explicit per-part decompositions
+
+The engine `exists_sorted_isotypic_decomposition` produces a monotone-by-type internal direct
+sum whose type-multiplicities are the character inner products `⟨χ_perm, χ_i⟩`, written as a raw
+sum over `A₅`. The two lemmas below reduce that group sum to the five-term conjugacy-class sum
+(so the multiplicities become a concrete `norm_num` computation from the fixed-point counts) and
+record that the fixed-point count is a class function. -/
+
+open Finset
+
+open Etingof.Example4_8_1 (chiA5 Q5toC)
+open Etingof.Example4_8_1.Q5 (mk_re mk_im ofNat_re ofNat_im neg_re neg_im one_re one_im
+  zero_re zero_im)
+
+open Etingof.Example4_8_1.A5 (irrepA5 classRepA5 classIdxA5 classIdxA5_card classIdxA5_spec
+  classRepA5_inv_conj irrepA5_character_book rowA5 sqrt5_sq)
+
+/-- **The fixed-point count is a class function.** For any `g`, the number of fixed points of
+`act g` equals the number of fixed points of `act` at the class representative
+`classRepA5 (classIdxA5 g)`. (Conjugate permutations share their fixed-point counts; here via
+trace-conjugation invariance of `permRep`.) -/
+lemma fixCard_eq_classRep {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g : A5) :
+    ((univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
+      = ((univ.filter (fun p : Fin n =>
+          act (classRepA5 (classIdxA5 g)) p = p)).card : ℂ) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  have key : permRep act g
+      = permRep act c * permRep act (classRepA5 (classIdxA5 g)) * permRep act c⁻¹ := by
+    conv_lhs => rw [← hc]
+    rw [map_mul, map_mul]
+  rw [← permRep_trace_eq_fixCard, ← permRep_trace_eq_fixCard, key,
+    LinearMap.trace_mul_comm, ← mul_assoc, ← map_mul, inv_mul_cancel, map_one, one_mul]
+
+/-- **Multiplicity as a conjugacy-class sum.** The character inner product `⟨χ_perm, χ_i⟩`
+appearing in `exists_sorted_isotypic_decomposition` — a raw sum over `A₅` of the fixed-point
+count times `χ_i(g⁻¹)` — collapses to a five-term sum over the conjugacy classes, weighted by the
+class sizes `(1, 20, 15, 12, 12)`, with each factor evaluated at the class representative. Both
+the fixed-point count (`fixCard_eq_classRep`) and the character (`FDRep.char_conj` plus
+`classRepA5_inv_conj`) are class functions of `g`; `Finset.sum_fiberwise'` collects the fibers
+and `classIdxA5_card` supplies the sizes. -/
+lemma perm_mult_classSum {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (i : Fin 5) :
+    ∑ g : A5, ((univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
+        * (irrepA5 i).character g⁻¹
+      = ∑ j : Fin 5, ((![1, 20, 15, 12, 12] j : ℕ) : ℂ)
+          * ((univ.filter (fun p : Fin n => act (classRepA5 j) p = p)).card : ℂ)
+          * Q5toC (chiA5 i j) := by
+  classical
+  have hclass : ∀ a b : A5, (∃ c, c * a * c⁻¹ = b) →
+      (irrepA5 i).character b = (irrepA5 i).character a := by
+    rintro a b ⟨c, rfl⟩; rw [FDRep.char_conj]
+  have hterm : ∀ g : A5,
+      ((univ.filter (fun p : Fin n => act g p = p)).card : ℂ) * (irrepA5 i).character g⁻¹
+        = ((univ.filter (fun p : Fin n => act (classRepA5 (classIdxA5 g)) p = p)).card : ℂ)
+          * Q5toC (chiA5 i (classIdxA5 g)) := by
+    intro g
+    obtain ⟨c, hc⟩ := classIdxA5_spec g
+    obtain ⟨d, hd⟩ := classRepA5_inv_conj (classIdxA5 g)
+    have hginv : (irrepA5 i).character g⁻¹
+        = (irrepA5 i).character (classRepA5 (classIdxA5 g)) := by
+      have step1 : (irrepA5 i).character g⁻¹
+          = (irrepA5 i).character (classRepA5 (classIdxA5 g))⁻¹ := by
+        refine hclass _ _ ⟨c, ?_⟩
+        conv_rhs => rw [← hc]
+        group
+      rw [step1]; exact hclass _ _ ⟨d, hd⟩
+    rw [hginv, fixCard_eq_classRep act g, irrepA5_character_book]
+    simp only [rowA5, id_eq]
+  rw [Finset.sum_congr rfl (fun g _ => hterm g),
+    show (∑ g : A5,
+        ((univ.filter (fun p : Fin n => act (classRepA5 (classIdxA5 g)) p = p)).card : ℂ)
+          * Q5toC (chiA5 i (classIdxA5 g)))
+      = ∑ j : Fin 5, ∑ _g ∈ univ.filter (fun g => classIdxA5 g = j),
+          ((univ.filter (fun p : Fin n => act (classRepA5 j) p = p)).card : ℂ)
+            * Q5toC (chiA5 i j)
+      from (Finset.sum_fiberwise' univ classIdxA5
+        (fun j => ((univ.filter (fun p : Fin n => act (classRepA5 j) p = p)).card : ℂ)
+          * Q5toC (chiA5 i j))).symm]
+  simp only [Finset.sum_const, classIdxA5_card, nsmul_eq_mul]
+  exact Finset.sum_congr rfl (fun j _ => (mul_assoc _ _ _).symm)
+
 /-! ## Multiplicity computation and reindexing to sorted dimension order
 
 The generic pieces below feed the three per-part decomposition theorems. They turn the engine's
@@ -866,7 +946,92 @@ theorem vertices_decomposition
       Module.finrank ℂ (S 0) = 1 ∧ Module.finrank ℂ (S 1) = 3 ∧
       Module.finrank ℂ (S 2) = 3 ∧ Module.finrank ℂ (S 3) = 5 ∧
       ∃ g : A5, subChar (permRep act) (S 1) (hS 1) g ≠ subChar (permRep act) (S 2) (hS 2) g := by
-  sorry
+  classical
+  obtain ⟨m, S, hS, type, hInt, hIrr, hmono, hchar, hfr, hmult⟩ :=
+    exists_sorted_isotypic_decomposition act
+  -- The multiplicity vector `⟨χ_perm, χ_i⟩` is `(1, 1, 1, 0, 1)`.
+  have hmultnat : ∀ i : Fin 5,
+      (univ.filter (fun k => type k = i)).card = ![1, 1, 1, 0, 1] i := by
+    intro i
+    have h := hmult i
+    rw [perm_mult_classSum act i] at h
+    simp only [fixCount_vertices act htrans hstab] at h
+    have hcard : (Fintype.card A5 : ℂ) = 60 := by
+      have : (Fintype.card A5 : ℕ) = 60 := by rw [← Nat.card_eq_fintype_card]; exact card_A5
+      rw [this]; norm_num
+    have hsum : (∑ j : Fin 5, ((![1, 20, 15, 12, 12] j : ℕ) : ℂ)
+          * ((![12, 0, 0, 2, 2] j : ℕ) : ℂ) * Q5toC (chiA5 i j))
+        = (Fintype.card A5 : ℂ) * ((![1, 1, 1, 0, 1] i : ℕ) : ℂ) := by
+      rw [hcard]
+      fin_cases i <;>
+        norm_num [Fin.sum_univ_five, chiA5, Q5toC, Matrix.cons_val_zero, Matrix.cons_val_one,
+          Matrix.cons_val_two, Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons,
+          Matrix.tail_cons, mk_re, mk_im, ofNat_re, ofNat_im, neg_re, neg_im,
+          one_re, one_im, zero_re, zero_im] <;>
+        ring
+    rw [hsum, smul_eq_mul, ← mul_assoc, invOf_mul_self, one_mul] at h
+    exact_mod_cast h
+  -- Exactly four summands (`1 + 1 + 1 + 0 + 1`).
+  have hpart : (univ : Finset (Fin m)).card
+      = ∑ i : Fin 5, (univ.filter (fun k => type k = i)).card :=
+    Finset.card_eq_sum_card_fiberwise (fun k _ => Finset.mem_univ (type k))
+  rw [Finset.card_univ, Fintype.card_fin] at hpart
+  have hm4 : m = 4 := by rw [hpart]; simp only [hmultnat]; decide
+  subst hm4
+  -- Every type appears at most once, so `type` is strictly monotone.
+  have hle1 : ∀ v : Fin 5, (univ.filter (fun k => type k = v)).card ≤ 1 := by
+    intro v; rw [hmultnat v]; fin_cases v <;> decide
+  have hinj : Function.Injective type := by
+    intro a b hab
+    by_contra hne
+    have hsub : ({a, b} : Finset (Fin 4)) ⊆ univ.filter (fun k => type k = type a) := by
+      intro x hx
+      simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+      rcases hx with rfl | rfl
+      · simp
+      · simp [hab]
+    have h2 := Finset.card_le_card hsub
+    rw [Finset.card_pair hne] at h2
+    exact absurd (h2.trans (hle1 (type a))) (by norm_num)
+  have hstrict : StrictMono type := hmono.strictMono_of_injective hinj
+  -- No summand has type `3` (its multiplicity is `0`).
+  have hne3 : ∀ k : Fin 4, type k ≠ 3 := by
+    intro k hk
+    have hmem : k ∈ univ.filter (fun k => type k = 3) := by simp [hk]
+    have hpos := Finset.card_pos.mpr ⟨k, hmem⟩
+    rw [hmultnat 3] at hpos
+    simp at hpos
+  -- A strictly increasing `Fin 4 → Fin 5` avoiding `3` is `![0, 1, 2, 4]`.
+  have s01 : (type 0).val < (type 1).val := Fin.lt_def.mp (hstrict (by decide))
+  have s12 : (type 1).val < (type 2).val := Fin.lt_def.mp (hstrict (by decide))
+  have s23 : (type 2).val < (type 3).val := Fin.lt_def.mp (hstrict (by decide))
+  have b0 : (type 0).val < 5 := (type 0).isLt
+  have b1 : (type 1).val < 5 := (type 1).isLt
+  have b2 : (type 2).val < 5 := (type 2).isLt
+  have b3 : (type 3).val < 5 := (type 3).isLt
+  have n0 : (type 0).val ≠ 3 := fun hh => hne3 0 (Fin.ext hh)
+  have n1 : (type 1).val ≠ 3 := fun hh => hne3 1 (Fin.ext hh)
+  have n2 : (type 2).val ≠ 3 := fun hh => hne3 2 (Fin.ext hh)
+  have n3 : (type 3).val ≠ 3 := fun hh => hne3 3 (Fin.ext hh)
+  have ht0 : type 0 = 0 := Fin.ext (by omega)
+  have ht1 : type 1 = 1 := Fin.ext (by omega)
+  have ht2 : type 2 = 2 := Fin.ext (by omega)
+  have ht3 : type 3 = 4 := Fin.ext (by omega)
+  refine ⟨S, hS, hInt, hIrr, ?_, ?_, ?_, ?_, ?_⟩
+  · simp [hfr, ht0]
+  · simp [hfr, ht1]
+  · simp [hfr, ht2]
+  · simp [hfr, ht3]
+  · refine ⟨classRepA5 3, ?_⟩
+    rw [hchar, hchar, ht1, ht2, irrepA5_character_book, irrepA5_character_book]
+    simp only [rowA5, id_eq, Q5toC, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two, Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons,
+      mk_re, mk_im]
+    intro hcontra
+    have hz : (Real.sqrt 5 : ℂ) = 0 := by linear_combination hcontra
+    have hsq := sqrt5_sq
+    rw [hz] at hsq
+    norm_num at hsq
 
 /-- **Part (b): faces.** For the icosahedral face action of `A₅` — any transitive action on
 `20` points with point stabilizers of order `3` — the representation on `Fin 20 → ℂ`
