@@ -59,6 +59,11 @@ structure SplitData where
   π : MonoidAlgebra K G →ₐ[K] Π i, Matrix (Fin (d i)) (Fin (d i)) K
   /-- `π` is surjective (composite of a surjective quotient map with an isomorphism). -/
   π_surj : Function.Surjective π
+  /-- The kernel of `π` is exactly the Jacobson radical: `π` is the composite of the quotient
+  `K[G] ↠ K[G]/rad` with the (injective) Wedderburn isomorphism, so `ker π = rad`. This pins down
+  the structure — without it `π` could be, e.g., a projection onto a single Wedderburn factor,
+  whose kernel is strictly larger than `rad`, and the enumeration below would be false. -/
+  π_ker : RingHom.ker π.toRingHom = Ring.jacobson (MonoidAlgebra K G)
 
 variable {K G}
 
@@ -82,11 +87,18 @@ noncomputable def SplitData.of : SplitData K G := by
       d := d
       d_pos := hd
       π := ((hn.some).toAlgHom).comp (Ideal.Quotient.mkₐ K J)
-      π_surj := ?_ }
-  intro x
-  obtain ⟨y, hy⟩ := EquivLike.surjective hn.some x
-  obtain ⟨z, hz⟩ := Ideal.Quotient.mkₐ_surjective K J y
-  exact ⟨z, by rw [AlgHom.comp_apply, hz]; exact hy⟩
+      π_surj := ?_
+      π_ker := ?_ }
+  · intro x
+    obtain ⟨y, hy⟩ := EquivLike.surjective hn.some x
+    obtain ⟨z, hz⟩ := Ideal.Quotient.mkₐ_surjective K J y
+    exact ⟨z, by rw [AlgHom.comp_apply, hz]; exact hy⟩
+  · -- `ker (iso ∘ quotient) = ker quotient = J`, since the Wedderburn iso is injective.
+    have hinj : Function.Injective ((hn.some).toAlgHom.toRingHom) :=
+      (EquivLike.injective hn.some)
+    have hcomp : (((hn.some).toAlgHom).comp (Ideal.Quotient.mkₐ K J)).toRingHom
+        = ((hn.some).toAlgHom.toRingHom).comp ((Ideal.Quotient.mkₐ K J).toRingHom) := rfl
+    rw [hcomp, RingHom.ker_comp_of_injective _ hinj, Ideal.Quotient.mkₐ_toRingHom, Ideal.mk_ker]
 
 /-- The projection `K[G] →ₐ[K] Matrix (Fin (D.d i)) (Fin (D.d i)) K` onto the `i`-th block. -/
 noncomputable def SplitData.blockHom (D : SplitData K G) (i : Fin D.n) :
