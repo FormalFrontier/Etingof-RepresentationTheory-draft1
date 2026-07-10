@@ -1,8 +1,10 @@
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
 import Mathlib.RingTheory.SimpleRing.Basic
 import Mathlib.RingTheory.SimpleModule.Basic
+import Mathlib.RingTheory.TwoSidedIdeal.Lattice
 import Mathlib.Algebra.Algebra.Subalgebra.Basic
 import Mathlib.Algebra.CharP.Basic
+import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 
 /-!
@@ -116,11 +118,315 @@ theorem finrank_eq_zero_of_charZero (k : Type*) [Field k] [CharZero k]
     Module.finrank k V = 0 :=
   sorry
 
+/-! ### Simplicity in characteristic zero
+
+The book's argument: a two-sided ideal `I` is closed under the two inner derivations
+`ad_x(a) = x·a − a·x` and `ad_y(a) = y·a − a·y`. On the monomial basis `xⁱyʲ` one has
+`ad_x(xⁱyʲ) = −j·xⁱyʲ⁻¹` (lowers the `y`-degree) and `ad_y(xⁱyʲ) = i·xⁱ⁻¹yʲ` (lowers the
+`x`-degree); in characteristic `0` the leading coefficients `−j`, `i` are nonzero. So from a
+nonzero `a ∈ I` we lower the `y`-degree by `ad_x` to reach a nonzero polynomial in `x`, then
+lower the `x`-degree by `ad_y` to reach a nonzero scalar, which is a unit; hence `I = ⊤`. -/
+
+section CharZeroSimple
+
+variable (k : Type*) [Field k] [CharZero k]
+
+open WeylAlgebra Module
+
+/-- The monomial basis `{xⁱyʲ}` of the Weyl algebra (Proposition 2.7.1), available over a
+characteristic-zero field. -/
+private noncomputable def monBasis : Basis (ℕ × ℕ) k (WeylAlgebra k) :=
+  Basis.mk (Proposition_2_7_1 k).1 (Proposition_2_7_1 k).2
+
+private lemma monBasis_apply (p : ℕ × ℕ) :
+    monBasis k p = WeylAlgebra.monomial k p.1 p.2 :=
+  Basis.mk_apply _ _ _
+
+private lemma repr_monomial (i j : ℕ) :
+    (monBasis k).repr (WeylAlgebra.monomial k i j) = Finsupp.single (i, j) 1 := by
+  rw [← monBasis_apply k (i, j)]; exact (monBasis k).repr_self _
+
+/-- The inner derivation `ad_x = [x, -]`. -/
+private noncomputable def adx : WeylAlgebra k →ₗ[k] WeylAlgebra k :=
+  LinearMap.mulLeft k (WeylAlgebra.x k) - LinearMap.mulRight k (WeylAlgebra.x k)
+
+/-- The inner derivation `ad_y = [y, -]`. -/
+private noncomputable def ady : WeylAlgebra k →ₗ[k] WeylAlgebra k :=
+  LinearMap.mulLeft k (WeylAlgebra.y k) - LinearMap.mulRight k (WeylAlgebra.y k)
+
+private lemma adx_apply (a : WeylAlgebra k) :
+    adx k a = WeylAlgebra.x k * a - a * WeylAlgebra.x k := by
+  simp [adx, LinearMap.mulLeft_apply, LinearMap.mulRight_apply]
+
+private lemma ady_apply (a : WeylAlgebra k) :
+    ady k a = WeylAlgebra.y k * a - a * WeylAlgebra.y k := by
+  simp [ady, LinearMap.mulLeft_apply, LinearMap.mulRight_apply]
+
+private lemma adx_monomial_zero (i : ℕ) : adx k (WeylAlgebra.monomial k i 0) = 0 := by
+  rw [adx_apply, WeylAlgebra.monomial, pow_zero, mul_one, ← pow_succ, ← pow_succ', sub_self]
+
+private lemma adx_monomial_succ (i n : ℕ) :
+    adx k (WeylAlgebra.monomial k i (n + 1))
+      = (-((n : k) + 1)) • WeylAlgebra.monomial k i n := by
+  have hYX : WeylAlgebra.y k ^ (n + 1) * WeylAlgebra.x k
+      = WeylAlgebra.x k * WeylAlgebra.y k ^ (n + 1)
+        + (n + 1) • WeylAlgebra.y k ^ n := by
+    have h := x_mul_y_pow_succ k n; rw [h]; abel
+  simp only [adx_apply, WeylAlgebra.monomial]
+  rw [← mul_assoc, ← pow_succ', mul_assoc (WeylAlgebra.x k ^ i), hYX, mul_add,
+    ← mul_assoc, ← pow_succ, mul_smul_comm, sub_add_eq_sub_sub, sub_self, zero_sub,
+    ← Nat.cast_smul_eq_nsmul (R := k) (n + 1), neg_smul]
+  congr 1
+  push_cast; ring
+
+private lemma ady_monomial_zero (j : ℕ) : ady k (WeylAlgebra.monomial k 0 j) = 0 := by
+  rw [ady_apply, WeylAlgebra.monomial, pow_zero, one_mul, ← pow_succ, ← pow_succ', sub_self]
+
+private lemma ady_monomial_succ (n j : ℕ) :
+    ady k (WeylAlgebra.monomial k (n + 1) j)
+      = ((n : k) + 1) • WeylAlgebra.monomial k n j := by
+  have hYX : WeylAlgebra.y k * WeylAlgebra.x k ^ (n + 1)
+      = WeylAlgebra.x k ^ (n + 1) * WeylAlgebra.y k + (n + 1) • WeylAlgebra.x k ^ n :=
+    y_mul_x_pow_succ k n
+  simp only [ady_apply, WeylAlgebra.monomial]
+  rw [← mul_assoc, hYX, add_mul,
+    mul_assoc (WeylAlgebra.x k ^ (n + 1)), ← pow_succ', smul_mul_assoc,
+    mul_assoc (WeylAlgebra.x k ^ (n + 1)), ← pow_succ,
+    add_sub_cancel_left, ← Nat.cast_smul_eq_nsmul (R := k) (n + 1)]
+  congr 1
+  push_cast; ring
+
+/-- Coordinate formula for `ad_x` in the monomial basis: the `(i, j)` coordinate of `ad_x a`
+is `−(j+1)` times the `(i, j+1)` coordinate of `a`. -/
+private lemma repr_adx_apply (a : WeylAlgebra k) (i j : ℕ) :
+    (monBasis k).repr (adx k a) (i, j)
+      = -((j : k) + 1) * (monBasis k).repr a (i, j + 1) := by
+  have key :
+      (Finsupp.lapply (i, j)).comp (((monBasis k).repr.toLinearMap).comp (adx k))
+        = (-((j : k) + 1)) •
+            (Finsupp.lapply (i, j + 1)).comp ((monBasis k).repr.toLinearMap) := by
+    apply (monBasis k).ext
+    rintro ⟨i', j'⟩
+    simp only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+      LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul]
+    rw [monBasis_apply k (i', j'), repr_monomial]
+    cases j' with
+    | zero =>
+      rw [adx_monomial_zero, map_zero]
+      simp [Finsupp.single_apply, Prod.ext_iff]
+    | succ n =>
+      rw [adx_monomial_succ, map_smul, repr_monomial, Finsupp.smul_apply,
+        Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
+      by_cases h : (i', n) = (i, j)
+      · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
+        simp
+      · rw [if_neg h]
+        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+        ring
+  have := LinearMap.congr_fun key a
+  simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+    LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
+
+/-- Coordinate formula for `ad_y` in the monomial basis: the `(i, j)` coordinate of `ad_y a`
+is `(i+1)` times the `(i+1, j)` coordinate of `a`. -/
+private lemma repr_ady_apply (a : WeylAlgebra k) (i j : ℕ) :
+    (monBasis k).repr (ady k a) (i, j)
+      = ((i : k) + 1) * (monBasis k).repr a (i + 1, j) := by
+  have key :
+      (Finsupp.lapply (i, j)).comp (((monBasis k).repr.toLinearMap).comp (ady k))
+        = (((i : k) + 1)) •
+            (Finsupp.lapply (i + 1, j)).comp ((monBasis k).repr.toLinearMap) := by
+    apply (monBasis k).ext
+    rintro ⟨i', j'⟩
+    simp only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+      LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul]
+    rw [monBasis_apply k (i', j'), repr_monomial]
+    cases i' with
+    | zero =>
+      rw [ady_monomial_zero, map_zero]
+      simp [Finsupp.single_apply, Prod.ext_iff]
+    | succ m =>
+      rw [ady_monomial_succ, map_smul, repr_monomial, Finsupp.smul_apply,
+        Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
+      by_cases h : (m, j') = (i, j)
+      · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
+        simp
+      · rw [if_neg h]
+        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+        ring
+  have := LinearMap.congr_fun key a
+  simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+    LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
+
+/-- The `y`-degree of an element: the largest `y`-exponent appearing in its basis expansion. -/
+private noncomputable def yDeg (a : WeylAlgebra k) : ℕ :=
+  ((monBasis k).repr a).support.sup Prod.snd
+
+/-- The `x`-degree of an element: the largest `x`-exponent appearing in its basis expansion. -/
+private noncomputable def xDeg (a : WeylAlgebra k) : ℕ :=
+  ((monBasis k).repr a).support.sup Prod.fst
+
+private lemma repr_ne_zero_of_ne_zero {a : WeylAlgebra k} (ha : a ≠ 0) :
+    (monBasis k).repr a ≠ 0 := fun h => ha (by
+  have := (monBasis k).linearCombination_repr a
+  rw [h, map_zero] at this; exact this.symm)
+
+private lemma adx_ne_zero {a : WeylAlgebra k} (ha : a ≠ 0) (hy : 0 < yDeg k a) :
+    adx k a ≠ 0 := by
+  obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Nat.pos_iff_ne_zero.mp hy)
+  have hsupne : ((monBasis k).repr a).support.Nonempty :=
+    Finsupp.support_nonempty_iff.mpr (repr_ne_zero_of_ne_zero k ha)
+  obtain ⟨p, hp, hpe⟩ :=
+    Finset.exists_mem_eq_sup ((monBasis k).repr a).support hsupne Prod.snd
+  have hp2 : p.2 = m + 1 := by rw [← hpe]; exact hm
+  intro hzero
+  have hval : (monBasis k).repr (adx k a) (p.1, m) = 0 := by rw [hzero, map_zero]; rfl
+  rw [repr_adx_apply] at hval
+  have hpa : (monBasis k).repr a (p.1, m + 1) ≠ 0 := by
+    have : (p.1, p.2) ∈ ((monBasis k).repr a).support := hp
+    rw [hp2] at this
+    exact Finsupp.mem_support_iff.mp this
+  have hcoeff : -((m : k) + 1) ≠ 0 :=
+    neg_ne_zero.mpr (by exact_mod_cast Nat.succ_ne_zero m)
+  exact (mul_ne_zero hcoeff hpa) hval
+
+private lemma ady_ne_zero {a : WeylAlgebra k} (ha : a ≠ 0) (hx : 0 < xDeg k a) :
+    ady k a ≠ 0 := by
+  obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero (Nat.pos_iff_ne_zero.mp hx)
+  have hsupne : ((monBasis k).repr a).support.Nonempty :=
+    Finsupp.support_nonempty_iff.mpr (repr_ne_zero_of_ne_zero k ha)
+  obtain ⟨p, hp, hpe⟩ :=
+    Finset.exists_mem_eq_sup ((monBasis k).repr a).support hsupne Prod.fst
+  have hp1 : p.1 = m + 1 := by rw [← hpe]; exact hm
+  intro hzero
+  have hval : (monBasis k).repr (ady k a) (m, p.2) = 0 := by rw [hzero, map_zero]; rfl
+  rw [repr_ady_apply] at hval
+  have hpa : (monBasis k).repr a (m + 1, p.2) ≠ 0 := by
+    have : (p.1, p.2) ∈ ((monBasis k).repr a).support := hp
+    rw [hp1] at this
+    exact Finsupp.mem_support_iff.mp this
+  have hcoeff : ((m : k) + 1) ≠ 0 := by exact_mod_cast Nat.succ_ne_zero m
+  exact (mul_ne_zero hcoeff hpa) hval
+
+private lemma yDeg_adx_lt {a : WeylAlgebra k} (hy : 0 < yDeg k a) :
+    yDeg k (adx k a) < yDeg k a := by
+  rw [yDeg, Finset.sup_lt_iff hy]
+  intro q hq
+  rw [Finsupp.mem_support_iff, repr_adx_apply] at hq
+  have hr : (monBasis k).repr a (q.1, q.2 + 1) ≠ 0 := fun h => hq (by rw [h, mul_zero])
+  have hle : q.2 + 1 ≤ yDeg k a :=
+    Finset.le_sup (f := Prod.snd) (Finsupp.mem_support_iff.mpr hr)
+  omega
+
+private lemma xDeg_ady_lt {a : WeylAlgebra k} (hx : 0 < xDeg k a) :
+    xDeg k (ady k a) < xDeg k a := by
+  rw [xDeg, Finset.sup_lt_iff hx]
+  intro q hq
+  rw [Finsupp.mem_support_iff, repr_ady_apply] at hq
+  have hr : (monBasis k).repr a (q.1 + 1, q.2) ≠ 0 := fun h => hq (by rw [h, mul_zero])
+  have hle : q.1 + 1 ≤ xDeg k a :=
+    Finset.le_sup (f := Prod.fst) (Finsupp.mem_support_iff.mpr hr)
+  omega
+
+private lemma yDeg_ady_eq_zero {a : WeylAlgebra k} (hy : yDeg k a = 0) :
+    yDeg k (ady k a) = 0 := by
+  rw [yDeg]
+  refine Nat.le_zero.mp (Finset.sup_le fun q hq => ?_)
+  rw [Finsupp.mem_support_iff, repr_ady_apply] at hq
+  have hr : (monBasis k).repr a (q.1 + 1, q.2) ≠ 0 := fun h => hq (by rw [h, mul_zero])
+  have hle : q.2 ≤ yDeg k a :=
+    Finset.le_sup (f := Prod.snd) (b := (q.1 + 1, q.2)) (Finsupp.mem_support_iff.mpr hr)
+  omega
+
+/-- If a nonzero element of a two-sided ideal `I` has `y`-degree `0` (a polynomial in `x`),
+then `1 ∈ I`. Proved by lowering the `x`-degree via `ad_y` until a nonzero scalar is reached. -/
+private lemma one_mem_of_yDeg_zero (I : TwoSidedIdeal (WeylAlgebra k)) :
+    ∀ (n : ℕ) (a : WeylAlgebra k), xDeg k a = n → yDeg k a = 0 → a ∈ I → a ≠ 0 →
+      (1 : WeylAlgebra k) ∈ I := by
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro a hn hy haI ha
+    rcases Nat.eq_zero_or_pos (xDeg k a) with h0 | hpos
+    · -- both degrees zero: `a` is a nonzero scalar `c • 1`, hence a unit
+      set c : k := (monBasis k).repr a ((0 : ℕ), (0 : ℕ)) with hc_def
+      have hsupp : ∀ p ∈ ((monBasis k).repr a).support, p = (0, 0) := by
+        rintro ⟨q1, q2⟩ hp
+        have h1 : q1 ≤ xDeg k a := Finset.le_sup (f := Prod.fst) hp
+        have h2 : q2 ≤ yDeg k a := Finset.le_sup (f := Prod.snd) hp
+        rw [h0] at h1; rw [hy] at h2
+        simp only [Prod.mk.injEq]
+        exact ⟨Nat.le_zero.mp h1, Nat.le_zero.mp h2⟩
+      have hc : c ≠ 0 := by
+        have hne := repr_ne_zero_of_ne_zero k ha
+        have hsupne := Finsupp.support_nonempty_iff.mpr hne
+        obtain ⟨p, hp⟩ := hsupne
+        have hp0 : p = (0, 0) := hsupp p hp
+        rw [hp0] at hp
+        exact Finsupp.mem_support_iff.mp hp
+      have hrepr : (monBasis k).repr a = Finsupp.single (0, 0) c := by
+        ext p
+        rw [Finsupp.single_apply]
+        by_cases hp : p = (0, 0)
+        · rw [hp, if_pos rfl]
+        · rw [if_neg (Ne.symm hp), Finsupp.notMem_support_iff.mp (fun h => hp (hsupp p h))]
+      have hone : monBasis k (0, 0) = (1 : WeylAlgebra k) := by
+        rw [monBasis_apply, WeylAlgebra.monomial]; simp
+      have ha1 : a = c • (1 : WeylAlgebra k) := by
+        have h := (monBasis k).linearCombination_repr a
+        rw [hrepr, Finsupp.linearCombination_single, hone] at h
+        exact h.symm
+      have hmem : c⁻¹ • a ∈ I := by
+        rw [Algebra.smul_def]; exact I.mul_mem_left _ _ haI
+      rwa [ha1, smul_smul, inv_mul_cancel₀ hc, one_smul] at hmem
+    · -- lower the x-degree with ad_y
+      have hlt : xDeg k (ady k a) < n := hn ▸ xDeg_ady_lt k hpos
+      have hne : ady k a ≠ 0 := ady_ne_zero k ha hpos
+      have hy' : yDeg k (ady k a) = 0 := yDeg_ady_eq_zero k hy
+      have hmem : ady k a ∈ I := by
+        rw [ady_apply]
+        exact I.sub_mem (I.mul_mem_left _ _ haI) (I.mul_mem_right _ _ haI)
+      exact ih _ hlt (ady k a) rfl hy' hmem hne
+
+/-- Every nonzero element of a two-sided ideal `I` forces `1 ∈ I`. Proved by lowering the
+`y`-degree via `ad_x` down to the `yDeg = 0` case. -/
+private lemma one_mem_of_mem (I : TwoSidedIdeal (WeylAlgebra k)) :
+    ∀ (n : ℕ) (a : WeylAlgebra k), yDeg k a = n → a ∈ I → a ≠ 0 →
+      (1 : WeylAlgebra k) ∈ I := by
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro a hn haI ha
+    rcases Nat.eq_zero_or_pos (yDeg k a) with h0 | hpos
+    · exact one_mem_of_yDeg_zero k I (xDeg k a) a rfl h0 haI ha
+    · have hlt : yDeg k (adx k a) < n := hn ▸ yDeg_adx_lt k hpos
+      have hne : adx k a ≠ 0 := adx_ne_zero k ha hpos
+      have hmem : adx k a ∈ I := by
+        rw [adx_apply]
+        exact I.sub_mem (I.mul_mem_left _ _ haI) (I.mul_mem_right _ _ haI)
+      exact ih _ hlt (adx k a) rfl hmem hne
+
 /-- **(a)** In characteristic `0`, the Weyl algebra is a simple ring: its only two-sided ideals
 are `0` and the whole algebra. -/
-theorem isSimpleRing_charZero (k : Type*) [Field k] [CharZero k] :
-    IsSimpleRing (WeylAlgebra k) :=
-  sorry
+theorem isSimpleRing_charZero : IsSimpleRing (WeylAlgebra k) := by
+  have hnt : (0 : WeylAlgebra k) ≠ 1 := by
+    intro h
+    have h2 := congrArg (polyRep k) h
+    rw [map_zero, map_one] at h2
+    have h3 := congrArg (fun f : Module.End k (Polynomial k) => f Polynomial.X) h2
+    simp only [LinearMap.zero_apply, Module.End.one_apply] at h3
+    exact Polynomial.X_ne_zero h3.symm
+  haveI : Nontrivial (WeylAlgebra k) := ⟨0, 1, hnt⟩
+  apply IsSimpleRing.of_eq_bot_or_eq_top
+  intro I
+  rw [or_iff_not_imp_left]
+  intro hI
+  obtain ⟨a, haI, ha⟩ :=
+    SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hI : (⊥ : TwoSidedIdeal (WeylAlgebra k)) < I)
+  rw [TwoSidedIdeal.mem_bot] at ha
+  exact (I.one_mem_iff).mp (one_mem_of_mem k I (yDeg k a) a rfl haI ha)
+
+end CharZeroSimple
 
 /-! ## (b) Characteristic `p`: the center -/
 
