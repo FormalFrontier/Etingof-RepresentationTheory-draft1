@@ -521,6 +521,31 @@ When you `obtain ⟨ι, _, S, acgS, modkS, …⟩` from a `∃ … (S) (_ : ∀ 
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+### Enumerating a concrete finite group over `ZMod n` (`QuaternionGroup`, `DihedralGroup`, …) — #6068
+
+Case-splitting a `ZMod n` index (e.g. proving a per-element fact for all of `QuaternionGroup 2`)
+has two traps that each cost several build cycles:
+- **`fin_cases i` on `i : ZMod n` yields anonymous `⟨k, ⋯⟩` constructor terms, NOT the literals
+  `0,1,2,3`** — so `rw`/`exact` with lemmas stated at `a 3`, `xa 1`, … silently fail to match,
+  and `simp` may also rewrite `a 0 ↝ 1` (via `a_zero`), hiding the constructor from your
+  evaluation lemmas. Instead prove `zmod4_cases (i : ZMod 4) : i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 := by
+  revert i; decide` once, then `rcases g with i | i <;> rcases zmod4_cases i with rfl|rfl|rfl|rfl`
+  substitutes genuine literals that match literal-stated lemmas. (`decide` needs a closed prop:
+  `revert i` first — `by decide` on the open `i` fails with "must not contain free variables".)
+- **Group products (`a 1 * xa 0 = xa 3`) close by `decide`, but hoist each into a named `have`
+  with explicit `(… : QuaternionGroup n)` ascription** before the `<;>` chain. An inline
+  `simp only [show a 1 * xa 0 = xa 3 from by decide, …]` under `<;>` fails elaboration with
+  "expected type must not contain metavariables". A bare `a 1` on a RHS also needs the ascription
+  (its `n` is otherwise an unresolved metavariable).
+- Concrete `ℂ` identities with `Complex.I` left after evaluation (e.g. `-s = I * (I * s)`) close
+  uniformly with `norm_num [Complex.ext_iff]` (`ring`/`Complex.I_sq` are fiddlier because
+  `ring_nf` leaves `I^2`, not `I*I`).
+- Finite-dimensionality/basis of such a subspace: build an explicit `≃ₗ[ℂ] (Fin d → ℂ)` (forward
+  = evaluate at coset reps, inverse = an explicit `liftFun` whose values the covariance forces),
+  then `e.finrank_eq ▸ Module.finrank_fin_fun`. For irreducibility of a `d`-dim rep, exhibit two
+  independent members of any nonzero invariant `U` (a nonzero `f` and a well-chosen `ρ(g) f`, via
+  a `2×2` coordinate determinant `≠ 0`), then `Submodule.eq_of_le_of_finrank_le`.
+
 ### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
 
 When a class field's type interleaves implicit and explicit binders (e.g.
@@ -1185,7 +1210,7 @@ Before submitting a PR for a formalized item:
    - **400000–800000**: Acceptable for trace/character computations over finite groups. Add a comment explaining why.
    - **800000–1600000**: Borderline. Acceptable only for GL₂(𝔽_q) trace computations or similar unavoidable large finite sums. Must have a comment. Consider whether `simp` can be replaced with targeted `rw` to reduce heartbeats.
    - **> 1600000**: Refactor the proof. Extract helper lemmas, precompute intermediate results, or split the finite check into smaller pieces. **NEVER reach for `native_decide`** — it is FORBIDDEN in this project (an unverified trust hole outside the kernel; see "FORBIDDEN: `native_decide`" below). If a finite check is too slow for honest `decide`, that is a signal to find a real proof, not a bigger hammer.
-   - **Placement:** `set_option ... in` lines must come *before* the `/-- ... -/` docstring (the docstring must sit immediately above `theorem`/`def`). Putting the docstring first gives `unexpected token 'set_option'; expected 'lemma'`. **The same constraint applies to `omit [Inst] in`** (used to silence the `unusedSectionVars` linter when a section instance like `[Fintype ι]`/`[∀ i, Module.Finite ...]` is genuinely unused by a lemma): it must precede the docstring, else `unexpected token 'omit'; expected 'lemma'`. Note the linter reports unused instances *one at a time* — after omitting the flagged ones it may flag a further instance (e.g. `Module.Finite` once `Fintype`/`DecidableEq` are omitted), so expect to extend the `omit` list across a build cycle or two.
+   - **Placement:** `set_option ... in` lines must come *before* the `/-- ... -/` docstring (the docstring must sit immediately above `theorem`/`def`). Putting the docstring first gives `unexpected token 'set_option'; expected 'lemma'`. **The same constraint applies to `omit [Inst] in`** (used to silence the `unusedSectionVars` linter when a section instance like `[Fintype ι]`/`[∀ i, Module.Finite ...]` is genuinely unused by a lemma): it must precede the docstring, else `unexpected token 'omit'; expected 'lemma'`. Note the linter reports unused instances *one at a time* — after omitting the flagged ones it may flag a further instance (e.g. `Module.Finite` once `Fintype`/`DecidableEq` are omitted), so expect to extend the `omit` list across a build cycle or two. **Section-wide vs per-lemma:** if an earlier `def` in the section *captured* the instance (Lean auto-includes an instance-implicit section var whenever its type mentions an already-used var, even if the def's body never touches it), then a per-lemma `omit [Inst] in` on a *downstream* lemma that calls that def fails with `failed to synthesize instance … Inst` — the def now demands it. Fix by putting a bare `omit [Inst]` command (no `in`, no docstring) *right after the section's `variable` line, before the defs*, so nothing in the section captures `Inst` in the first place; keep per-lemma `omit … in` only for instances (like `Module.Finite`) that some later lemma genuinely needs but others don't.
    - **`whnf` timeout despite a high budget** usually means Lean is eagerly reducing through a *non-reducible* coercion (e.g. an `FDRep`/`FGModuleCat` carrier identified with a hom-space, re-typed mid-proof via `let e' := e`). Fix it by paying that coercion *once* in a helper theorem whose output is already stated in the target type, then consume the result opaquely — do not re-coerce inside the heavy proof.
    - **`whnf` timeout through a `Quotient.liftOn'` definition** (e.g. `MulAction.orbitRel.Quotient.orbit`, relevant to the Ch6 orbit-counting chain #4777). Proving a membership like `a ∈ (Quotient.mk'' a).orbit` via `orbitRel.Quotient.mem_orbit.mpr rfl` forces Lean to whnf-unfold the `liftOn'` and blows the heartbeat budget for a one-line goal. Fix: don't lean on defeq — rewrite with the `_mk` simp lemma first (`rw [orbitRel.Quotient.orbit_mk]`, turning the quotient orbit into `MulAction.orbit G a`), then close with the plain-orbit API (`mem_orbit_self`). Also pin the quotient index explicitly (`Set.mem_biUnion (Set.mem_univ (Quotient.mk'' a)) …`) rather than letting unification infer it through the `liftOn'`. With both, the proof drops back under the default 200000 budget.
    - **Pushing an `AlgEquiv`/`RingEquiv` through `Polynomial.eval₂`/`aeval`** (e.g. the scaling-action transcendence argument in `Problem6_1_5_StrictDimBound`, #4828). To rewrite `(e : K ≃ₐ[k] K) (eval₂ f x p)` with `Polynomial.hom_eval₂` (which is stated for a bare `RingHom`), first bridge the coercion: `rw [show (e) (eval₂ f x p) = e.toRingHom (eval₂ f x p) from rfl]`, then `rw [Polynomial.hom_eval₂]`. The `⇑e` vs `⇑e.toRingHom` coercions are defeq, so `show … from rfl` matches — but an ascribed `(rfl : … = …)` does **not** match under `rw` (it fails to find the pattern). Express `aeval` as `eval₂` first via `Polynomial.aeval_def`. CI runs only `lake build` (no separate linter), so the `show`-tactic style warning on the `from rfl` term is harmless.
