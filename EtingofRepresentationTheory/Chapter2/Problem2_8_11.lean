@@ -1,6 +1,9 @@
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
+import Mathlib.RingTheory.MvPolynomial.Basic
 import Mathlib.LinearAlgebra.ExteriorPower.Basic
 import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.RingTheory.PowerSeries.WellKnown
+import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Matrix.Mul
 import Mathlib.Algebra.FreeAlgebra
@@ -38,18 +41,67 @@ open scoped ExteriorAlgebra
 
 /-! ## (a) Polynomial algebra `k[x₁,…,x_m]` -/
 
-/-- **(a)** The degree-`n` graded piece of `k[x₁,…,x_m]` has dimension `C(n+m-1, m-1)`, the number
-of monomials of degree `n` in `m` variables. Equivalently the Hilbert series is `1/(1-t)^m`. -/
+/-- **(a)** The degree-`n` graded piece of `k[x₁,…,x_m]` has dimension `C(n+m-1, n)`, the number
+of monomials of degree `n` in `m` variables (`stars and bars`). Equivalently the Hilbert series is
+`1/(1-t)^m`.
+
+The book writes the binomial as `C(n+m-1, m-1)`; for `m ≥ 1` this is the same number
+(`C(n+m-1, n) = C(n+m-1, m-1)`), but we use the `C(n+m-1, n) = Nat.multichoose m n` form because
+it is *also* correct in the degenerate case `m = 0` (where `k[]` ≅ `k` is concentrated in degree
+`0`, so the dimension is `1` at `n = 0` and `0` otherwise). With natural-number subtraction the
+literal `C(n+m-1, m-1)` collapses to `C(n-1, 0) = 1` for every `n` at `m = 0`, which is wrong. -/
 theorem finrank_homogeneous_mvPolynomial (k : Type*) [Field k] (m n : ℕ) :
-    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin m) k n) = (n + m - 1).choose (m - 1) :=
-  sorry
+    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin m) k n) = (n + m - 1).choose n := by
+  classical
+  -- The monomials of degree `n` in `m` variables are the finsupps `Fin m →₀ ℕ` of total sum `n`,
+  -- enumerated by `Finset.finsuppAntidiag univ n`.
+  set s : Finset (Fin m →₀ ℕ) := (Finset.univ : Finset (Fin m)).finsuppAntidiag n with hs
+  have hset : {d : Fin m →₀ ℕ | d.degree = n} = (↑s : Set (Fin m →₀ ℕ)) := by
+    ext d
+    simp only [Set.mem_setOf_eq, hs, Finset.mem_coe, Finset.mem_finsuppAntidiag,
+      Finsupp.degree_eq_sum]
+    exact ⟨fun h => ⟨h, Finset.subset_univ _⟩, fun h => h.1⟩
+  -- `homogeneousSubmodule` is exactly the span of those monomials, which has a monomial basis.
+  have hsub : MvPolynomial.homogeneousSubmodule (Fin m) k n
+      = MvPolynomial.restrictSupport k (↑s : Set (Fin m →₀ ℕ)) := by
+    rw [MvPolynomial.homogeneousSubmodule_eq_finsupp_supported, hset]
+    rfl
+  rw [hsub, Module.finrank_eq_nat_card_basis (MvPolynomial.basisRestrictSupport k
+    (↑s : Set (Fin m →₀ ℕ))), Nat.card_coe_set_eq, Set.ncard_coe_finset, hs,
+    Finset.card_finsuppAntidiag_nat_eq_choose, Finset.card_univ, Fintype.card_fin, Nat.add_comm]
 
 /-- **(a)**, generating-function form: the Hilbert series of `k[x₁,…,x_m]` is `1/(1-t)^m`,
-expressed as the power-series identity `(1 - t)^m · h_A = 1`. -/
+expressed as the power-series identity `(1 - t)^m · h_A = 1`, where `h_A = ∑ C(n+m-1, n) tⁿ`.
+(See `finrank_homogeneous_mvPolynomial` for why the coefficient is written `C(n+m-1, n)` rather than
+the literal `C(n+m-1, m-1)` from the book.) -/
 theorem hilbertSeries_mvPolynomial (k : Type*) [Field k] (m : ℕ) :
     (1 - PowerSeries.X : PowerSeries k) ^ m *
-      PowerSeries.mk (fun n => ((n + m - 1).choose (m - 1) : k)) = 1 :=
-  sorry
+      PowerSeries.mk (fun n => ((n + m - 1).choose n : k)) = 1 := by
+  rcases m with _ | d
+  · -- `m = 0`: `h_A = 1` since `C(n-1, n) = 0` for `n ≥ 1` and `C(0, 0) = 1` at `n = 0`.
+    ext l
+    rw [pow_zero, one_mul, PowerSeries.coeff_mk]
+    rcases l with _ | e
+    · simp
+    · rw [PowerSeries.coeff_one, if_neg (Nat.succ_ne_zero e),
+        Nat.choose_eq_zero_of_lt (by omega), Nat.cast_zero]
+  · -- `m = d + 1`: this is the inverse `(1 - X)^(d+1) · invOneSubPow = 1` from Mathlib, after
+    -- matching coefficients `C(d + n, d) = C(n + (d+1) - 1, n)`.
+    have hval : (PowerSeries.invOneSubPow k (d + 1)).val
+        = PowerSeries.mk (fun l => ((l + (d + 1) - 1).choose l : k)) := by
+      rw [PowerSeries.invOneSubPow_val_succ_eq_mk_add_choose]
+      apply PowerSeries.ext
+      intro l
+      rw [PowerSeries.coeff_mk, PowerSeries.coeff_mk]
+      congr 1
+      -- `C(d + l, d) = C(l + (d+1) - 1, l)`: simplify the index and apply `choose` symmetry.
+      have harg : l + (d + 1) - 1 = d + l := by omega
+      rw [harg, ← Nat.choose_symm (Nat.le_add_left l d)]
+      congr 1
+      omega
+    have key := (PowerSeries.invOneSubPow k (d + 1)).inv_val
+    rw [PowerSeries.invOneSubPow_inv_eq_one_sub_pow, hval] at key
+    exact key
 
 /-! ## (b) Free algebra `k⟨x₁,…,x_m⟩` -/
 
