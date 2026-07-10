@@ -306,9 +306,19 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 - Decisions made, key patterns discovered
 - What remains, quality metric deltas
 
+**Sync onto current `main` before opening the PR.** Other agents' PRs may have
+merged while you worked. If your branch is based on a stale `main`, the PR diff
+silently includes *reverts* of their merged work. `create-pr` does not rebase for
+you, so do it yourself and verify the diff is only your files:
+```bash
+git fetch origin main
+git rebase origin/main          # resolve any conflicts, then re-run `lake build`
+git diff --stat origin/main..HEAD   # MUST show only the files you changed
+```
+
 **Full completion:**
 ```bash
-git push -u origin <branch>
+git push -u origin <branch>     # add --force-with-lease if you rebased after an earlier push
 coordination create-pr <issue-number>
 ```
 
