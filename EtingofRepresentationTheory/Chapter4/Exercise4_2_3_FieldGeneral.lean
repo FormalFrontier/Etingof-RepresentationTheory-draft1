@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SplitSimples
+import EtingofRepresentationTheory.Chapter4.SimpleModuleClassesBaseChange
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SemisimpleBaseChange
 
 /-!
 # Field-general counting bound `#(simple k[G]-modules) ≤ #ConjClasses` (Exercise 4.2.3)
@@ -43,15 +45,15 @@ transfer is needed on the right-hand side, and the two bounds compose by transit
 
 ## Status
 
-Top-down scaffold. The assembly (`natCard_irrepClasses_le_conjClasses`) is proved outright from
-the two lemmas below; each lemma is stated precisely and its proof is deferred to a sibling
-issue:
+Complete. The assembly (`natCard_irrepClasses_le_conjClasses`) is proved outright from the two
+lemmas below, both now sorry-free:
 
 * `natCard_irrepClasses_le_conjClasses_of_isAlgClosed` — the split-field bound (step 1); #6126.
 * `natCard_irrepClasses_le_of_ringHom_field` — base-change monotonicity (step 2); #6127.
 -/
 
 open CategoryTheory
+open scoped TensorProduct
 
 -- `[Fintype G]` is used at proof time (cocenter dimension, finiteness of the class count) but
 -- not in the statement types until the deferred proofs are filled in.
@@ -141,16 +143,91 @@ end IsAlgClosedBound
 number of isomorphism classes of irreducible representations:
 `Nat.card (IrrepClasses k G) ≤ Nat.card (IrrepClasses K G)`.
 
-Proof route (deferred to #6127): via the base-change algebra isomorphism
-`K ⊗_k k[G] ≅ K[G]`, a simple `k[G]`-module `M` base-changes to the nonzero
-finite-dimensional `K[G]`-module `K ⊗_k M`, which is semisimple; non-isomorphic simple
-`k[G]`-modules produce `K[G]`-modules with disjoint sets of simple constituents (any shared
-constituent would, by adjunction, force a nonzero `k[G]`-hom between the two simples). Choosing
-one constituent of each `K ⊗_k M` therefore defines an injection on isomorphism classes. -/
+Separability-free proof, via the radical-quotient chain on the simple-module counts
+(`IrrepClasses k G` and `SimpleModuleClasses (k[G])` are in bijection by
+`card_irrepClasses_eq_card_simpleModuleClasses`):
+```
+#simple(k[G]) = #simple(k[G]/rad)          -- radical-quotient invariance
+             ≤ #simple(K ⊗_k (k[G]/rad))   -- semisimple base-change count (the math crux)
+             ≤ #simple(K[G]).              -- surjection K[G] ↠ K ⊗_k (k[G]/rad)
+```
+The first step is `natCard_simpleModuleClasses_quotient_jacobson`; the middle is the crux
+`natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing` (`k[G]/rad` is semisimple); the
+last is `natCard_simpleModuleClasses_le_of_surjective` applied to the surjective `K`-algebra map
+`K[G] ↠ K ⊗_k (k[G]/rad)` built here by lifting `g ↦ 1 ⊗ mk (single g 1)`. The group `G` shares
+the fields' universe (as in `Exercise4_2_3`), so `k[G]`, `K[G]` and `k[G]/rad` all live in
+`Type u`, matching the base-change lemmas. -/
 theorem natCard_irrepClasses_le_of_ringHom_field
-    (k K : Type u) (G : Type v) [Field k] [Field K] [Algebra k K] [Group G] [Fintype G] :
+    (k K G : Type u) [Field k] [Field K] [Algebra k K] [Group G] [Fintype G] :
     Nat.card (IrrepClasses k G) ≤ Nat.card (IrrepClasses K G) := by
-  sorry
+  classical
+  -- Finiteness of the two group algebras over their base fields.
+  haveI : Module.Finite k (MonoidAlgebra k G) :=
+    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+  haveI : Module.Finite K (MonoidAlgebra K G) :=
+    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := K))
+  -- The semisimple radical quotient `A = k[G]/rad(k[G])`.
+  set J : Ideal (MonoidAlgebra k G) := Ring.jacobson (MonoidAlgebra k G) with hJ
+  haveI : IsArtinianRing (MonoidAlgebra k G) := IsArtinianRing.of_finite k (MonoidAlgebra k G)
+  haveI : IsSemiprimaryRing (MonoidAlgebra k G) := inferInstance
+  haveI : IsSemisimpleRing (MonoidAlgebra k G ⧸ J) := IsSemiprimaryRing.isSemisimpleRing
+  haveI : Module.Finite k (MonoidAlgebra k G ⧸ J) :=
+    Module.Finite.of_surjective (Ideal.Quotient.mkₐ k J).toLinearMap
+      Ideal.Quotient.mk_surjective
+  -- The base-changed algebra `K ⊗_k A` and the surjection `K[G] ↠ K ⊗_k A`.
+  -- `ψ : k[G] →ₐ[k] K ⊗_k A` sends `p ↦ 1 ⊗ mk p`.
+  set ψ : MonoidAlgebra k G →ₐ[k] K ⊗[k] (MonoidAlgebra k G ⧸ J) :=
+    (Algebra.TensorProduct.includeRight).comp (Ideal.Quotient.mkₐ k J) with hψ
+  -- `φ : K[G] →ₐ[K] K ⊗_k A` is the `K`-linear extension of `g ↦ 1 ⊗ mk (single g 1)`.
+  set mh : G →* K ⊗[k] (MonoidAlgebra k G ⧸ J) :=
+    ψ.toRingHom.toMonoidHom.comp (MonoidAlgebra.of k G) with hmh
+  set φ : MonoidAlgebra K G →ₐ[K] K ⊗[k] (MonoidAlgebra k G ⧸ J) :=
+    MonoidAlgebra.lift K (K ⊗[k] (MonoidAlgebra k G ⧸ J)) G mh with hφ
+  -- Coefficient-extension algebra hom `ι : k[G] →ₐ[k] K[G]`.
+  set ι : MonoidAlgebra k G →ₐ[k] MonoidAlgebra K G :=
+    MonoidAlgebra.lift k (MonoidAlgebra K G) G (MonoidAlgebra.of K G) with hι
+  -- `φ ∘ ι = ψ`: both are `k`-algebra maps `k[G] → K ⊗_k A`, agreeing on group elements.
+  have hcomp : (φ.restrictScalars k).comp ι = ψ := by
+    refine MonoidAlgebra.algHom_ext fun g => ?_
+    have hιg : ι (MonoidAlgebra.single g (1 : k)) = MonoidAlgebra.single g (1 : K) := by
+      rw [hι, MonoidAlgebra.lift_single, one_smul, MonoidAlgebra.of_apply]
+    have hφg : φ (MonoidAlgebra.single g (1 : K)) = ψ (MonoidAlgebra.single g (1 : k)) := by
+      rw [hφ, MonoidAlgebra.lift_single, one_smul, hmh, MonoidHom.coe_comp,
+        Function.comp_apply, MonoidAlgebra.of_apply]
+      rfl
+    rw [AlgHom.comp_apply, AlgHom.restrictScalars_apply, hιg, hφg]
+  -- Every pure tensor `1 ⊗ x` is in the range of `φ` (via `ι` on a lift of `x`).
+  have hone : ∀ x : MonoidAlgebra k G ⧸ J, (1 : K) ⊗ₜ[k] x ∈ φ.range := by
+    intro x
+    obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
+    refine ⟨ι p, ?_⟩
+    show φ (ι p) = (1 : K) ⊗ₜ[k] Ideal.Quotient.mk J p
+    have := AlgHom.congr_fun hcomp p
+    rw [AlgHom.comp_apply, AlgHom.restrictScalars_apply] at this
+    rw [this, hψ, AlgHom.comp_apply, Algebra.TensorProduct.includeRight_apply,
+      Ideal.Quotient.mkₐ_eq_mk]
+  -- `φ` is surjective: its range is a `K`-subalgebra containing every `1 ⊗ x`, hence all `a ⊗ x`.
+  have hsurj : Function.Surjective (φ : MonoidAlgebra K G → K ⊗[k] (MonoidAlgebra k G ⧸ J)) := by
+    rw [← AlgHom.range_eq_top, eq_top_iff]
+    rintro z -
+    induction z using TensorProduct.induction_on with
+    | zero => exact zero_mem _
+    | tmul a x =>
+        have hax : a ⊗ₜ[k] x = a • ((1 : K) ⊗ₜ[k] x) := by
+          rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+        rw [hax]
+        exact Subalgebra.smul_mem φ.range (hone x) a
+    | add x y hx hy => exact add_mem hx hy
+  -- Assemble the count chain, converting both ends to simple-module class counts.
+  rw [card_irrepClasses_eq_card_simpleModuleClasses k G,
+      card_irrepClasses_eq_card_simpleModuleClasses K G]
+  calc Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra k G))
+      = Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra k G ⧸ J)) :=
+        (natCard_simpleModuleClasses_quotient_jacobson k).symm
+    _ ≤ Nat.card (SimpleModuleClasses.{u} (K ⊗[k] (MonoidAlgebra k G ⧸ J))) :=
+        natCard_simpleModuleClasses_le_baseChange_of_isSemisimpleRing k K
+    _ ≤ Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra K G)) :=
+        natCard_simpleModuleClasses_le_of_surjective K φ.toRingHom hsurj
 
 /-- **Field-general counting bound (Exercise 4.2.3, counting half).** For a finite group `G` over
 an arbitrary field `k`, the number of isomorphism classes of irreducible representations of `G`
@@ -164,7 +241,7 @@ change to the algebraic closure `K = AlgebraicClosure k`: monotonicity of the si
 algebraically closed `K` (`natCard_irrepClasses_le_conjClasses_of_isAlgClosed`). The right-hand
 side `Nat.card (ConjClasses G)` is field-independent, so the two bounds compose directly. -/
 theorem natCard_irrepClasses_le_conjClasses
-    (k : Type u) (G : Type v) [Field k] [Group G] [Fintype G] :
+    (k G : Type u) [Field k] [Group G] [Fintype G] :
     Nat.card (IrrepClasses k G) ≤ Nat.card (ConjClasses G) :=
   (natCard_irrepClasses_le_of_ringHom_field k (AlgebraicClosure k) G).trans
     (natCard_irrepClasses_le_conjClasses_of_isAlgClosed (AlgebraicClosure k) G)
