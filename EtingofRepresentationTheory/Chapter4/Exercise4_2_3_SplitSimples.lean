@@ -170,6 +170,21 @@ simple `K[G]`-modules, and the resulting count `Nat.card (SimpleModuleClasses K[
 surjection `π` (only surjectivity is used in that machinery). They are stated here and proved in
 the follow-up sub-issue. -/
 
+/-- Over a simple artinian ring, any two simple modules are isomorphic: each is isomorphic to a
+minimal left ideal, and all minimal left ideals lie in the single isotypic component
+(`IsSimpleRing.isIsotypic`). -/
+theorem linearEquiv_of_isSimpleRing {R : Type*} [Ring R] [IsSimpleRing R] [IsArtinianRing R]
+    (M N : Type*) [AddCommGroup M] [Module R M] [IsSimpleModule R M]
+    [AddCommGroup N] [Module R N] [IsSimpleModule R N] :
+    Nonempty (M ≃ₗ[R] N) := by
+  obtain ⟨I, ⟨eM⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule R M
+  obtain ⟨I', ⟨eN⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule R N
+  haveI : IsSimpleModule R I := IsSimpleModule.congr eM.symm
+  haveI : IsSimpleModule R I' := IsSimpleModule.congr eN.symm
+  have h : Nonempty ((I' : Submodule R R) ≃ₗ[R] (I : Submodule R R)) :=
+    (IsSimpleRing.isIsotypic R R : IsIsotypic R R) I I'
+  exact ⟨eM.trans (h.some.symm.trans eN.symm)⟩
+
 /-- The `K[G]`-action on a standard module factors through `blockHom`: `x • v` is the matrix
 `blockHom i x` acting on the column vector `v`. This is definitional (`Module.compHom`), exposed
 here as a rewrite lemma. -/
@@ -217,6 +232,85 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
     (M : Type u) [AddCommGroup M] [Module (MonoidAlgebra K G) M]
     [IsSimpleModule (MonoidAlgebra K G) M] :
     ∃ i, Nonempty (M ≃ₗ[MonoidAlgebra K G] D.Std i) := by
+  classical
+  -- `ker π = rad` annihilates the simple module `M`.
+  have hann : ∀ a : MonoidAlgebra K G, D.π a = 0 → ∀ m : M, a • m = (0 : M) := by
+    intro a ha m
+    have hmem : a ∈ Ring.jacobson (MonoidAlgebra K G) := by
+      rw [← D.π_ker, RingHom.mem_ker]; exact ha
+    exact Module.mem_annihilator.mp
+      (IsSemisimpleModule.jacobson_le_annihilator (MonoidAlgebra K G) M hmem) m
+  -- The block central idempotents `Pi.single i 1` are central in `Π Matrix`.
+  have hcentral : ∀ (i : Fin D.n) (b : Π j, Matrix (Fin (D.d j)) (Fin (D.d j)) K),
+      (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) K)) * b
+        = b * Pi.single i 1 := by
+    intro i b; funext j
+    rcases eq_or_ne j i with h | h
+    · subst h; simp [Pi.mul_apply, Pi.single_eq_same]
+    · simp [Pi.mul_apply, Pi.single_eq_of_ne h]
+  -- For each block, a preimage `ε i` of the central idempotent `Pi.single i 1`.
+  choose ε hε using
+    fun i : Fin D.n => D.π_surj (Pi.single i (1 : Matrix (Fin (D.d i)) (Fin (D.d i)) K))
+  -- `ε i` acts `K[G]`-linearly (it commutes with the action, mod the annihilated kernel).
+  have hlin : ∀ (i : Fin D.n) (a : MonoidAlgebra K G) (m : M),
+      a • (ε i • m) = ε i • (a • m) := by
+    intro i a m
+    have h0 : (a * ε i) • m = (ε i * a) • m := by
+      apply sub_eq_zero.mp
+      rw [← sub_smul]
+      apply hann
+      rw [map_sub, map_mul, map_mul, hε i, hcentral i (D.π a), sub_self]
+    rw [mul_smul, mul_smul] at h0
+    exact h0
+  -- `ε i` is idempotent on `M`.
+  have hidem : ∀ (i : Fin D.n) (m : M), ε i • (ε i • m) = ε i • m := by
+    intro i m
+    rw [← mul_smul]
+    apply sub_eq_zero.mp
+    rw [← sub_smul]
+    apply hann
+    rw [map_sub, map_mul, hε i, sub_eq_zero]
+    funext j
+    rcases eq_or_ne j i with h | h
+    · subst h; simp [Pi.mul_apply, Pi.single_eq_same]
+    · simp [Pi.mul_apply, Pi.single_eq_of_ne h]
+  -- `∑ ε i` acts as the identity on `M` (`∑ Pi.single i 1 = 1`).
+  have hsum : ∀ m : M, ∑ i, ε i • m = m := by
+    intro m
+    have h1 : ((∑ i, ε i) - 1) • m = 0 := by
+      apply hann
+      rw [map_sub, map_one, map_sum]
+      have hone : ∑ i, D.π (ε i)
+          = (1 : Π j, Matrix (Fin (D.d j)) (Fin (D.d j)) K) := by
+        simp only [hε]
+        exact Finset.univ_sum_single 1
+      rw [hone, sub_self]
+    rw [sub_smul, one_smul, sub_eq_zero] at h1
+    rw [← Finset.sum_smul]; exact h1
+  -- The `K[G]`-linear idempotent endomorphism `m ↦ ε i • m`.
+  let fmap : Fin D.n → (M →ₗ[MonoidAlgebra K G] M) := fun i =>
+    { toFun := fun m => ε i • m
+      map_add' := fun x y => smul_add _ _ _
+      map_smul' := fun a m => by simp only [RingHom.id_apply]; exact (hlin i a m).symm }
+  -- `M` is nontrivial; some block idempotent acts nontrivially.
+  haveI : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra K G) M
+  obtain ⟨m₀, hm₀⟩ : ∃ m : M, m ≠ 0 := exists_ne 0
+  obtain ⟨i₀, hi₀⟩ : ∃ i₀, ε i₀ • m₀ ≠ 0 := by
+    by_contra h
+    push_neg at h
+    exact hm₀ ((hsum m₀).symm.trans (Finset.sum_eq_zero (fun i _ => h i)))
+  refine ⟨i₀, ?_⟩
+  -- `ε i₀` acts as the identity on all of `M` (a nonzero idempotent on a simple module).
+  have hid : ∀ m : M, ε i₀ • m = m := by
+    have hne : fmap i₀ ≠ 0 := fun hcontra => hi₀ (by
+      have := LinearMap.congr_fun hcontra m₀; simpa [fmap] using this)
+    rcases eq_bot_or_eq_top (LinearMap.range (fmap i₀)) with hbot | htop
+    · exact absurd (LinearMap.range_eq_bot.mp hbot) hne
+    · intro m
+      obtain ⟨x, hx⟩ := LinearMap.range_eq_top.mp htop m
+      have hfx : fmap i₀ (fmap i₀ x) = fmap i₀ x := hidem i₀ x
+      have : fmap i₀ m = m := by rw [← hx]; exact hfx
+      exact this
   sorry
 
 /-- **Deliverable 4 (count).** The number of isomorphism classes of simple `K[G]`-modules equals
