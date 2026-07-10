@@ -3830,8 +3830,8 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Exercise5_8_5.lean states Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi, sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Chapter5/Exercise5_8_5.lean proves Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi via the map [single h 1 ⊗ z] ↦ z·(of h⁻¹ · e_chi); sorry-free."
   },
   {
     "id": "Chapter5/Introduction_5.9",
