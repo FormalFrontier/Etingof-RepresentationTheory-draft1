@@ -43,6 +43,42 @@ noncomputable def realGEndAlgebra (ρ : Representation ℂ G V) :
     Subalgebra ℝ (Module.End ℝ V) :=
   Subalgebra.centralizer ℝ (Set.range (fun g => LinearMap.restrictScalars ℝ (ρ g)))
 
+/-- The `ℝ`-algebra embedding `ℂ ↪ End_{ℝ[G]} V`, `z ↦ (v ↦ z • v)`. This is the
+`ℂ ⊆ End_{ℝ[G]} V` inclusion of the book: scalar multiplication by `z : ℂ` is an
+`ℝ`-linear endomorphism of `V`, and it lands in the centralizer `realGEndAlgebra ρ`
+because each `ρ g` is `ℂ`-linear, so `ρ g (z • v) = z • ρ g v`.
+
+Realized as `AlgHom.codRestrict` of `Algebra.lsmul ℝ ℝ V : ℂ →ₐ[ℝ] Module.End ℝ V`. -/
+noncomputable def complexToRealGEnd (ρ : Representation ℂ G V) :
+    ℂ →ₐ[ℝ] realGEndAlgebra ρ :=
+  AlgHom.codRestrict (Algebra.lsmul ℝ ℝ V : ℂ →ₐ[ℝ] Module.End ℝ V) (realGEndAlgebra ρ) <| by
+    intro z
+    rw [realGEndAlgebra, Subalgebra.mem_centralizer_iff]
+    rintro _ ⟨g, rfl⟩
+    ext v
+    simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply, Algebra.lsmul_apply]
+    exact map_smul (ρ g) z v
+
+omit [Fintype G] [Module.Finite ℂ V] in
+@[simp]
+theorem complexToRealGEnd_coe_apply (ρ : Representation ℂ G V) (z : ℂ) (v : V) :
+    ((complexToRealGEnd ρ z : Module.End ℝ V)) v = z • v := rfl
+
+omit [Fintype G] [Module.Finite ℂ V] in
+/-- The `ℂ`-embedding is injective (when `V ≠ 0`): if `z • · = 0` then, evaluating at a
+nonzero vector, `z • v = 0` forces `z = 0` since `ℂ` is a field. -/
+theorem complexToRealGEnd_injective (ρ : Representation ℂ G V) [Nontrivial V] :
+    Function.Injective (complexToRealGEnd ρ) := by
+  rw [injective_iff_map_eq_zero]
+  intro z hz
+  obtain ⟨v, hv⟩ := exists_ne (0 : V)
+  have hzv : z • v = 0 := by
+    have := congrArg (fun s => (s : Module.End ℝ V) v) (congrArg Subtype.val hz)
+    simpa using this
+  rcases smul_eq_zero.mp hzv with h | h
+  · exact h
+  · exact absurd h hv
+
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`. -/
 theorem realGEndAlgebra_equiv_complex_of_isComplexType
