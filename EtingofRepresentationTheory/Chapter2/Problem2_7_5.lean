@@ -26,17 +26,186 @@ We render the book's *answers* as the statements (spec); proofs are deferred.
 
 namespace Etingof.Problem2_7_5
 
-open Etingof
+open Etingof Finsupp
 
 variable (q : ℂˣ)
+
+/-! ## Coordinate infrastructure for the monomial basis
+
+Every element of the `q`-Weyl algebra is a finite `ℂ`-linear combination of the monomials
+`qMono p`. We recover the coefficient function of `f` as `f (single (0,0) 1)`: since
+`qMono p (single (0,0) 1) = single p 1`, evaluation at the basis vector `b(0,0)` reads off the
+coefficients. This is the concrete "dual basis" we use to compare coefficients after
+multiplying by the generators. -/
+
+/-- Evaluation at `b(0,0)` reads off the coefficient function of a monomial linear combination:
+`(∑ₚ cₚ · qMono p) (b(0,0)) = c`. -/
+private theorem linearCombination_qMono_apply_zero (c : (ℤ × ℤ) →₀ ℂ) :
+    (Finsupp.linearCombination ℂ (qMono ℂ q) c) (single (0, 0) 1) = c := by
+  rw [Finsupp.linearCombination_apply, LinearMap.finsupp_sum_apply]
+  rw [show (c.sum fun p a => (a • qMono ℂ q p) (single (0, 0) 1)) = c.sum fun p a => single p a by
+    refine Finsupp.sum_congr fun p _ => ?_
+    rw [LinearMap.smul_apply, qMono_single]; simp]
+  exact Finsupp.sum_single c
+
+/-- Every element of the `q`-Weyl algebra is the monomial linear combination whose coefficient
+function is `f (single (0,0) 1)`. -/
+private theorem mem_qWeyl_eq_linearCombination {f : Module.End ℂ (QWeylModule ℂ)}
+    (hf : f ∈ qWeylAlgebra ℂ q) :
+    f = Finsupp.linearCombination ℂ (qMono ℂ q) (f (single (0, 0) 1)) := by
+  rw [← Subalgebra.mem_toSubmodule, qWeyl_toSubmodule_eq_span,
+    Finsupp.mem_span_range_iff_exists_finsupp] at hf
+  obtain ⟨c, rfl⟩ := hf
+  have hconv : (c.sum fun i a => a • qMono ℂ q i) = Finsupp.linearCombination ℂ (qMono ℂ q) c :=
+    (Finsupp.linearCombination_apply _ _).symm
+  rw [hconv, linearCombination_qMono_apply_zero]
+
+/-- Extraction lemma: for `e` injective and `ψ i 0 = 0`, the finsupp `∑ᵢ single (e i) (ψ i cᵢ)`
+takes value `ψ i₀ c(i₀)` at `e i₀`. This lets us read off a single coefficient after the
+generators reindex the monomials. -/
+private theorem finsupp_sum_single_emb_apply {ι : Type*} (c : ι →₀ ℂ)
+    (e : ι → ℤ × ℤ) (he : Function.Injective e) (ψ : ι → ℂ → ℂ) (hψ : ∀ i, ψ i 0 = 0)
+    (i₀ : ι) :
+    (c.sum fun i a => Finsupp.single (e i) (ψ i a)) (e i₀) = ψ i₀ (c i₀) := by
+  classical
+  rw [Finsupp.sum_apply]
+  simp only [Finsupp.single_apply, he.eq_iff]
+  rw [Finsupp.sum_ite_eq' c i₀ fun i a => ψ i a]
+  split_ifs with h
+  · rfl
+  · rw [Finsupp.notMem_support_iff.mp h, hψ]
+
+/-- If `q` is not a root of unity, `q ^ n = 1` (as a coerced unit power in `ℂ`) forces
+`n = 0`. -/
+private theorem zpow_eq_one_imp (hq : ¬ IsOfFinOrder q) {n : ℤ} (h : (↑(q ^ n) : ℂ) = 1) :
+    n = 0 := by
+  have hqinj : Function.Injective (fun m : ℤ => q ^ m) :=
+    injective_zpow_iff_not_isOfFinOrder.mpr hq
+  have hqn : q ^ n = 1 := by apply Units.ext; simpa using h
+  simpa using hqinj (show (fun m : ℤ => q ^ m) n = (fun m : ℤ => q ^ m) 0 by simpa using hqn)
 
 /-! ## (a) Center and ideals -/
 
 /-- **(a)** If `q` is not a root of unity, the center of the `q`-Weyl algebra is trivial: it
 equals the scalar subalgebra `⊥` (the image of `ℂ`). -/
 theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
-    Subalgebra.center ℂ (qWeylAlgebra ℂ q) = ⊥ :=
-  sorry
+    Subalgebra.center ℂ (qWeylAlgebra ℂ q) = ⊥ := by
+  refine le_antisymm ?_ ?_
+  · -- A central element is a scalar.
+    rintro z hz
+    rw [Subalgebra.mem_center_iff] at hz
+    -- The generators `x = qMono (1,0)` and `y = qMono (0,1)` inside the algebra.
+    set X : qWeylAlgebra ℂ q := ⟨qMono ℂ q (1, 0), qMono_mem ℂ q _⟩ with hX
+    set Y : qWeylAlgebra ℂ q := ⟨qMono ℂ q (0, 1), qMono_mem ℂ q _⟩ with hY
+    -- The value `f := z.val` and its coefficient function `c`.
+    set f : Module.End ℂ (QWeylModule ℂ) := z.val with hf
+    set c : (ℤ × ℤ) →₀ ℂ := f (single (0, 0) 1) with hc
+    have hfc : f = Finsupp.linearCombination ℂ (qMono ℂ q) c := mem_qWeyl_eq_linearCombination q z.2
+    -- Commuting with `x`: `c p * q^{p.2} = c p` for every `p`.
+    have hcomX : ∀ p : ℤ × ℤ, c p * (↑(q ^ p.2) : ℂ) = c p := by
+      have hop : f * qMono ℂ q (1, 0) = qMono ℂ q (1, 0) * f := by
+        have := hz X
+        exact congrArg Subtype.val this.symm
+      intro p
+      -- Apply the operator identity to `b(0,0)` and read off coefficient at `(p.1+1, p.2)`.
+      have hval := congrArg (fun g : Module.End ℂ (QWeylModule ℂ) => g (single (0, 0) 1)) hop
+      simp only [Module.End.mul_apply] at hval
+      rw [show qMono ℂ q (1, 0) (single (0, 0) 1) = single (1, 0) 1 by rw [qMono_single]; simp,
+        ← hc] at hval
+      -- LHS `f (single (1,0) 1)`, RHS `qMono (1,0) c`.
+      have hL : f (single (1, 0) 1) =
+          c.sum fun p a => single (p.1 + 1, p.2) (a * (↑(q ^ p.2) : ℂ)) := by
+        rw [hfc, Finsupp.linearCombination_apply, LinearMap.finsupp_sum_apply]
+        refine Finsupp.sum_congr fun p _ => ?_
+        rw [LinearMap.smul_apply, qMono_single, Finsupp.smul_single]
+        simp only [zero_add, mul_one, smul_eq_mul, add_comm 1 p.1]
+      have hR : qMono ℂ q (1, 0) c = c.sum fun p a => single (p.1 + 1, p.2) a := by
+        conv_lhs => rw [← Finsupp.sum_single c]
+        rw [map_finsuppSum]
+        refine Finsupp.sum_congr fun p _ => ?_
+        rw [qMono_single, add_zero, zero_mul, zpow_zero, Units.val_one, one_mul]
+      rw [hL, hR] at hval
+      have hval' := DFunLike.congr_fun hval (p.1 + 1, p.2)
+      rw [finsupp_sum_single_emb_apply c (fun p => (p.1 + 1, p.2))
+          (fun a b h => by simpa [Prod.ext_iff] using h) _ (fun i => by simp) p,
+        finsupp_sum_single_emb_apply c (fun p => (p.1 + 1, p.2))
+          (fun a b h => by simpa [Prod.ext_iff] using h) _ (fun i => by simp) p] at hval'
+      exact hval'
+    -- Commuting with `y`: `c p * q^{p.1} = c p` for every `p`.
+    have hcomY : ∀ p : ℤ × ℤ, c p * (↑(q ^ p.1) : ℂ) = c p := by
+      have hop : f * qMono ℂ q (0, 1) = qMono ℂ q (0, 1) * f := by
+        have := hz Y
+        exact congrArg Subtype.val this.symm
+      intro p
+      have hval := congrArg (fun g : Module.End ℂ (QWeylModule ℂ) => g (single (0, 0) 1)) hop
+      simp only [Module.End.mul_apply] at hval
+      rw [show qMono ℂ q (0, 1) (single (0, 0) 1) = single (0, 1) 1 by rw [qMono_single]; simp,
+        ← hc] at hval
+      have hL : f (single (0, 1) 1) =
+          c.sum fun p a => single (p.1, p.2 + 1) a := by
+        rw [hfc, Finsupp.linearCombination_apply, LinearMap.finsupp_sum_apply]
+        refine Finsupp.sum_congr fun p _ => ?_
+        rw [LinearMap.smul_apply, qMono_single, Finsupp.smul_single]
+        simp only [zero_add, mul_zero, zpow_zero, Units.val_one, mul_one, smul_eq_mul,
+          add_comm 1 p.2]
+      have hR : qMono ℂ q (0, 1) c = c.sum fun p a => single (p.1, p.2 + 1) (a * (↑(q ^ p.1) : ℂ)) := by
+        conv_lhs => rw [← Finsupp.sum_single c]
+        rw [map_finsuppSum]
+        refine Finsupp.sum_congr fun p _ => ?_
+        rw [qMono_single, add_zero, one_mul, mul_comm]
+      rw [hL, hR] at hval
+      have hval' := DFunLike.congr_fun hval (p.1, p.2 + 1)
+      rw [finsupp_sum_single_emb_apply c (fun p => (p.1, p.2 + 1))
+          (fun a b h => by simpa [Prod.ext_iff] using h) _ (fun i => by simp) p,
+        finsupp_sum_single_emb_apply c (fun p => (p.1, p.2 + 1))
+          (fun a b h => by simpa [Prod.ext_iff] using h) _ (fun i => by simp) p] at hval'
+      exact hval'.symm
+    -- Hence `c` is supported at `(0,0)`: any `p ≠ (0,0)` has `c p = 0`.
+    have hsupp : ∀ p : ℤ × ℤ, p ≠ (0, 0) → c p = 0 := by
+      intro p hp
+      by_cases h2 : p.2 = 0
+      · -- then `p.1 ≠ 0`, use `hcomY`.
+        have h1 : p.1 ≠ 0 := by
+          intro h1; apply hp; ext <;> simp [h1, h2]
+        have := hcomY p
+        have hne : (↑(q ^ p.1) : ℂ) - 1 ≠ 0 := by
+          intro hcontra
+          exact h1 (zpow_eq_one_imp q hq (by linear_combination hcontra))
+        have : c p * ((↑(q ^ p.1) : ℂ) - 1) = 0 := by linear_combination this
+        rcases mul_eq_zero.mp this with h | h
+        · exact h
+        · exact absurd h hne
+      · have := hcomX p
+        have hne : (↑(q ^ p.2) : ℂ) - 1 ≠ 0 := by
+          intro hcontra
+          exact h2 (zpow_eq_one_imp q hq (by linear_combination hcontra))
+        have : c p * ((↑(q ^ p.2) : ℂ) - 1) = 0 := by linear_combination this
+        rcases mul_eq_zero.mp this with h | h
+        · exact h
+        · exact absurd h hne
+    -- So `f = c(0,0) • 1`, a scalar; hence `z ∈ ⊥`.
+    have hcsingle : c = single (0, 0) (c (0, 0)) := by
+      ext p
+      by_cases hp : p = (0, 0)
+      · subst hp; simp
+      · rw [hsupp p hp, Finsupp.single_apply, if_neg (by simpa [eq_comm] using hp)]
+    have hfscalar : f = (c (0, 0)) • (1 : Module.End ℂ (QWeylModule ℂ)) := by
+      rw [hfc]
+      conv_lhs => rw [hcsingle]
+      rw [Finsupp.linearCombination_single, qMono_zero]
+    -- `z = algebraMap ℂ _ (c (0,0))`, an element of `⊥`.
+    rw [Algebra.mem_bot]
+    refine ⟨c (0, 0), ?_⟩
+    apply Subtype.ext
+    rw [Subalgebra.coe_algebraMap, Algebra.algebraMap_eq_smul_one]
+    exact hfscalar.symm
+  · -- Scalars are central.
+    intro x hx
+    rw [Algebra.mem_bot] at hx
+    obtain ⟨r, rfl⟩ := hx
+    rw [Subalgebra.mem_center_iff]
+    intro b
+    exact (Algebra.commutes r b).symm
 
 /-- **(a)** If `q` is not a root of unity, the `q`-Weyl algebra is a simple ring: its only
 two-sided ideals are `0` and the whole algebra. -/
