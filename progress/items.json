@@ -6867,8 +6867,8 @@
     "end_page": "206",
     "start_line": 9,
     "end_line": 16,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "All three parts proved sorry-free (#6053): (i) Module.Flat.of_projective, (ii) IsLocalization.flat, (iii) flat via (ii) + not-projective via dual-basis/trivial-dual argument (Hom_{ℂ[x]}(ℂ[x,x⁻¹],ℂ[x])=0). #print axioms clean."
   },
   {
     "id": "Chapter8/Exercise8.1.4",
