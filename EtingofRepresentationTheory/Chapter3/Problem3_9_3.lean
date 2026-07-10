@@ -338,6 +338,102 @@ theorem two_dim_classification [DecidableEq Q] [Fintype Q]
     (h2 : ∑ v, dimVec ρ v = 2) :
     (¬ ρ.IsIndecomposable)
       ∨ (∃ (i j : Q) (a : i ⟶ j), i ≠ j ∧ Function.Bijective (ρ.mapLinear a)) := by
-  sorry
+  classical
+  letI : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)
+  -- If some distinct-endpoint arrow already acts bijectively, we land in the right disjunct.
+  by_cases hbij : ∃ (i j : Q) (a : i ⟶ j), i ≠ j ∧ Function.Bijective (ρ.mapLinear a)
+  · exact Or.inr hbij
+  push_neg at hbij
+  -- No self-loops: an arrow `v ⟶ v` would be a nontrivial cycle.
+  have hnoloop : ∀ (v : Q), IsEmpty (v ⟶ v) := by
+    intro v
+    rw [isEmpty_iff]
+    intro a
+    have h := congrArg Quiver.Path.length (hQ v (Quiver.Path.nil.cons a))
+    simp [Quiver.Path.length_cons] at h
+  -- Every arrow map is zero: otherwise its endpoints would be two distinct dimension-1 vertices
+  -- and the (nonzero) map between the resulting simple modules would be bijective.
+  have hmaps0 : ∀ {u w : Q} (a : u ⟶ w), ρ.mapLinear a = 0 := by
+    intro u w a
+    by_contra hne0
+    have hdu : Nontrivial (ρ.obj u) := by
+      by_contra h
+      rw [not_nontrivial_iff_subsingleton] at h
+      haveI := h
+      exact hne0 (by ext x; simp [Subsingleton.elim x (0 : ρ.obj u)])
+    have hcw : Nontrivial (ρ.obj w) := by
+      by_contra h
+      rw [not_nontrivial_iff_subsingleton] at h
+      haveI := h
+      exact hne0 (by ext x; exact Subsingleton.elim _ _)
+    have huw : u ≠ w := by rintro rfl; exact (hnoloop u).false a
+    have hfu : 0 < dimVec ρ u := Module.finrank_pos_iff.mpr hdu
+    have hfw : 0 < dimVec ρ w := Module.finrank_pos_iff.mpr hcw
+    have hsum : dimVec ρ u + dimVec ρ w ≤ 2 := by
+      rw [← h2, ← Finset.sum_pair huw]
+      exact Finset.sum_le_sum_of_subset (Finset.subset_univ _)
+    have hu1 : dimVec ρ u = 1 := by omega
+    have hw1 : dimVec ρ w = 1 := by omega
+    haveI hsu : IsSimpleModule k (ρ.obj u) := isSimpleModule_iff_finrank_eq_one.mpr hu1
+    haveI hsw : IsSimpleModule k (ρ.obj w) := isSimpleModule_iff_finrank_eq_one.mpr hw1
+    have hinj : Function.Injective (ρ.mapLinear a) := by
+      rw [← LinearMap.ker_eq_bot]
+      rcases eq_bot_or_eq_top (LinearMap.ker (ρ.mapLinear a)) with h | h
+      · exact h
+      · exact absurd (LinearMap.ker_eq_top.mp h) hne0
+    have hsurj : Function.Surjective (ρ.mapLinear a) := by
+      rw [← LinearMap.range_eq_top]
+      rcases eq_bot_or_eq_top (LinearMap.range (ρ.mapLinear a)) with h | h
+      · exact absurd (LinearMap.range_eq_bot.mp h) hne0
+      · exact h
+    exact hbij u w a huw ⟨hinj, hsurj⟩
+  -- With all arrow maps zero, ρ splits: pick a nonzero vector at a nontrivial vertex and a
+  -- complement; the two families of subspaces are stable and complementary, contradicting
+  -- indecomposability.
+  left
+  intro hIndec
+  obtain ⟨⟨v₀, hv₀⟩, hdecomp⟩ := hIndec
+  haveI := hv₀
+  obtain ⟨x, hx⟩ := exists_ne (0 : ρ.obj v₀)
+  obtain ⟨C, hC⟩ := (Submodule.span k {x}).exists_isCompl
+  let W₁ : ∀ v, Submodule k (ρ.obj v) :=
+    Function.update (fun v => (⊥ : Submodule k (ρ.obj v))) v₀ (Submodule.span k {x})
+  let W₂ : ∀ v, Submodule k (ρ.obj v) :=
+    Function.update (fun v => (⊤ : Submodule k (ρ.obj v))) v₀ C
+  have h1stable : ∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W₁ a, ρ.mapLinear e x ∈ W₁ b := by
+    intro a b e x _; rw [hmaps0 e, LinearMap.zero_apply]; exact (W₁ b).zero_mem
+  have h2stable : ∀ {a b : Q} (e : a ⟶ b), ∀ x ∈ W₂ a, ρ.mapLinear e x ∈ W₂ b := by
+    intro a b e x _; rw [hmaps0 e, LinearMap.zero_apply]; exact (W₂ b).zero_mem
+  have hcompl : ∀ v, IsCompl (W₁ v) (W₂ v) := by
+    intro v
+    by_cases hv : v = v₀
+    · subst hv; simp only [W₁, W₂, Function.update_self]; exact hC
+    · simp only [W₁, W₂, Function.update_of_ne hv]; exact isCompl_bot_top
+  rcases hdecomp W₁ W₂ h1stable h2stable hcompl with hbot1 | hbot2
+  · -- `W₁` is not everywhere `⊥`: `W₁ v₀ = span{x} ≠ ⊥` since `x ≠ 0`.
+    have hb := hbot1 v₀
+    rw [show W₁ v₀ = Submodule.span k {x} by simp only [W₁, Function.update_self],
+      Submodule.span_singleton_eq_bot] at hb
+    exact hx hb
+  · -- `W₂` everywhere `⊥` forces total dimension `1`, contradicting `h2`.
+    have hCbot : C = ⊥ := by
+      have h := hbot2 v₀; rwa [show W₂ v₀ = C by simp only [W₂, Function.update_self]] at h
+    have hspan : Submodule.span k {x} = ⊤ := by
+      have h := hC.sup_eq_top; rwa [hCbot, sup_bot_eq] at h
+    have hv0dim : dimVec ρ v₀ = 1 := by
+      show Module.finrank k (ρ.obj v₀) = 1
+      rw [← finrank_top (R := k) (M := ρ.obj v₀), ← hspan, finrank_span_singleton hx]
+    have hvdim : ∀ v, v ≠ v₀ → dimVec ρ v = 0 := by
+      intro v hv
+      have hWv : (⊤ : Submodule k (ρ.obj v)) = ⊥ := by
+        have h := hbot2 v
+        rwa [show W₂ v = (⊤ : Submodule k (ρ.obj v)) by
+          simp only [W₂, Function.update_of_ne hv]] at h
+      show Module.finrank k (ρ.obj v) = 0
+      rw [← finrank_top (R := k) (M := ρ.obj v), hWv, finrank_bot]
+    have hsum1 : ∑ v, dimVec ρ v = 1 := by
+      rw [Finset.sum_eq_single v₀ (fun v _ hv => hvdim v hv) (fun h => absurd (Finset.mem_univ v₀) h)]
+      exact hv0dim
+    omega
 
 end Etingof.Problem3_9_3
