@@ -74,6 +74,142 @@ def IsIrredSub {G : Type*} [Group G] {n : ℕ} (ρ : Representation ℂ G (Fin n
   S ≠ ⊥ ∧ ∀ T : Submodule ℂ (Fin n → ℂ),
     T ≤ S → (∀ g, ∀ v ∈ T, ρ g v ∈ T) → T = ⊥ ∨ T = S
 
+/-! ## Reusable decomposition engine
+
+The lemmas below are generic in the dimension `n` and the representation `ρ`; none of them
+mentions the numbers `12/20/30`. They provide the structural facts shared by the three
+decomposition theorems: semisimplicity of any `A₅`-representation, a fixed-point formula for
+the character of `permRep`, and the existence of an internal direct-sum decomposition into
+`IsIrredSub` invariant subspaces. -/
+
+section Engine
+
+/-- `A₅` has nonzero order in `ℂ` (its order is `60`), so Maschke's theorem applies. -/
+instance : NeZero (Nat.card A5 : ℂ) := by
+  refine ⟨?_⟩
+  have h : Nat.card A5 ≠ 0 := Nat.card_pos.ne'
+  exact_mod_cast h
+
+/-- **Semisimplicity (Maschke).** Every `ℂ`-representation of `A₅` is a semisimple
+`ℂ[A₅]`-module. This is the Maschke instance applied with `Nat.card A₅ = 60 ≠ 0` in `ℂ`. -/
+theorem isSemisimple_asModule {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) :
+    IsSemisimpleModule (MonoidAlgebra ℂ A5) ρ.asModule :=
+  inferInstance
+
+/-- `ρ.asModule` is module-finite over `ℂ[A₅]` (it is finite over `ℂ` and `ℂ ⊆ ℂ[A₅]`). -/
+instance instFiniteAsModule {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) :
+    Module.Finite (MonoidAlgebra ℂ A5) ρ.asModule :=
+  Module.Finite.of_restrictScalars_finite ℂ (MonoidAlgebra ℂ A5) ρ.asModule
+
+/-- `permRep act g` is the linear map of the permutation matrix of `act g⁻¹`. -/
+lemma permRep_eq_toLin' {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g : A5) :
+    (permRep act g) = (((act g⁻¹).permMatrix ℂ).toLin') := by
+  apply LinearMap.ext; intro f; funext a
+  rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec]
+  rfl
+
+/-- **Fixed-point character formula.** The trace of `permRep act g` on `Fin n → ℂ` equals the
+number of fixed points of `act g`. -/
+lemma permRep_trace_eq_fixCard {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g : A5) :
+    LinearMap.trace ℂ (Fin n → ℂ) (permRep act g)
+      = ((Finset.univ.filter (fun i : Fin n => act g i = i)).card : ℂ) := by
+  rw [permRep_eq_toLin', Matrix.trace_toLin'_eq, Matrix.trace_permutation]
+  have hset : Function.fixedPoints (⇑(act g⁻¹ : Equiv.Perm (Fin n)))
+      = (↑(Finset.univ.filter (fun i : Fin n => act g i = i)) : Set (Fin n)) := by
+    ext a
+    simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+      Finset.mem_univ, true_and, map_inv]
+    constructor
+    · intro h; exact ((Equiv.symm_apply_eq _).mp h).symm
+    · intro h; exact (Equiv.symm_apply_eq _).mpr h.symm
+  rw [hset, Set.ncard_coe_finset]
+
+/-- Membership in a subrepresentation is membership in its underlying submodule; the order on
+`Subrepresentation ρ` agrees with the order on the underlying submodules. -/
+lemma subrep_le_iff {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
+    {τ σ : Subrepresentation ρ} : τ ≤ σ ↔ τ.toSubmodule ≤ σ.toSubmodule := Iff.rfl
+
+/-- **`IsIrredSub` as atomicity.** `IsIrredSub ρ σ.toSubmodule` says exactly that the
+subrepresentation `σ` is an atom in the lattice of subrepresentations. -/
+lemma isIrredSub_iff_isAtom {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
+    (σ : Subrepresentation ρ) :
+    IsIrredSub ρ σ.toSubmodule ↔ IsAtom σ := by
+  constructor
+  · rintro ⟨hne, hmax⟩
+    refine ⟨fun h => hne (by rw [h]; rfl), fun τ hτ => ?_⟩
+    have hle : τ.toSubmodule ≤ σ.toSubmodule := subrep_le_iff.mp hτ.le
+    rcases hmax τ.toSubmodule hle (fun g v hv => τ.apply_mem_toSubmodule g hv) with h1 | h2
+    · exact Subrepresentation.toSubmodule_injective (by rw [h1]; rfl)
+    · exact absurd (Subrepresentation.toSubmodule_injective h2) hτ.ne
+  · rintro ⟨hne, hmax⟩
+    refine ⟨fun h => hne (Subrepresentation.toSubmodule_injective (by rw [h]; rfl)), ?_⟩
+    intro T hT hinv
+    by_cases hTeq : T = σ.toSubmodule
+    · exact Or.inr hTeq
+    · refine Or.inl ?_
+      have hτlt : (⟨T, hinv⟩ : Subrepresentation ρ) < σ :=
+        lt_of_le_of_ne (subrep_le_iff.mpr hT)
+          (fun h => hTeq (congrArg Subrepresentation.toSubmodule h))
+      have := hmax _ hτlt
+      exact congrArg Subrepresentation.toSubmodule this |>.trans (by rfl)
+
+/-- **`IsIrredSub` ↔ simple subrepresentation bridge.** `IsIrredSub ρ σ.toSubmodule` holds iff
+the corresponding `ℂ[A₅]`-submodule `σ.asSubmodule` of `ρ.asModule` is a simple module. -/
+lemma isIrredSub_iff_isSimpleModule {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
+    (σ : Subrepresentation ρ) :
+    IsIrredSub ρ σ.toSubmodule ↔
+      IsSimpleModule (MonoidAlgebra ℂ A5) σ.asSubmodule := by
+  rw [isIrredSub_iff_isAtom, isSimpleModule_iff_isAtom,
+    ← Subrepresentation.subrepresentationSubmoduleOrderIso.isAtom_iff σ]
+  rfl
+
+/-- **`subChar` ↔ `FDRep` character bridge.** The ad-hoc restricted-trace `subChar ρ S hS`
+agrees with the genuine character of the subrepresentation carried by `S`, packaged as an
+`FDRep`. Per-part issues can therefore identify a summand's isomorphism type from its `subChar`
+and apply `FDRep.char_iso`. -/
+lemma subChar_eq_character {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ))
+    (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : A5) :
+    subChar ρ S hS g
+      = (FDRep.of (⟨S, hS⟩ : Subrepresentation ρ).toRepresentation).character g :=
+  rfl
+
+/-- **Generic internal decomposition.** Any `ℂ`-representation `ρ` of `A₅` on `Fin n → ℂ`
+decomposes as an internal direct sum of finitely many `G`-invariant irreducible subspaces.
+This is the structural engine consumed by the three per-part decomposition theorems. -/
+theorem exists_isInternal_isIrredSub {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) :
+    ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ)),
+      (∀ k, ∀ g : A5, ∀ v ∈ S k, ρ g v ∈ S k) ∧
+      DirectSum.IsInternal S ∧ ∀ k, IsIrredSub ρ (S k) := by
+  classical
+  obtain ⟨s, hind, hsup, hsimple⟩ :=
+    IsSemisimpleModule.exists_sSupIndep_sSup_simples_eq_top (MonoidAlgebra ℂ A5) ρ.asModule
+  have simple' : ∀ N : ↥s, IsSimpleModule (MonoidAlgebra ℂ A5) ↥(N.1) := fun N => hsimple N.1 N.2
+  haveI hfin : Finite ↥s := by
+    apply WellFoundedGT.finite_of_iSupIndep ((sSupIndep_iff s).mp hind)
+    intro N
+    haveI := simple' N
+    exact (N.1.nontrivial_iff_ne_bot).mp (IsSimpleModule.nontrivial (MonoidAlgebra ℂ A5) _)
+  set e := Finite.equivFin ↥s with he
+  set N : Fin (Nat.card ↥s) → Submodule (MonoidAlgebra ℂ A5) ρ.asModule :=
+    fun k => ((e.symm k : ↥s) : Submodule (MonoidAlgebra ℂ A5) ρ.asModule) with hNdef
+  have hiN : iSupIndep N := ((sSupIndep_iff s).mp hind).comp e.symm.injective
+  have hsupN : (⨆ k, N k) = ⊤ := by
+    calc (⨆ k, N k) = ⨆ x : ↥s, (x : Submodule (MonoidAlgebra ℂ A5) ρ.asModule) :=
+            Equiv.iSup_comp e.symm
+      _ = sSup s := (sSup_eq_iSup' s).symm
+      _ = ⊤ := hsup
+  have hInternalN : DirectSum.IsInternal N :=
+    DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top hiN hsupN
+  refine ⟨Nat.card ↥s, fun k => (Subrepresentation.ofSubmodule' (N k)).toSubmodule, ?_, ?_, ?_⟩
+  · exact fun k g v hv => (Subrepresentation.ofSubmodule' (N k)).apply_mem_toSubmodule g hv
+  · exact hInternalN
+  · intro k
+    set σ := Subrepresentation.ofSubmodule' (N k) with hσ
+    have hsk : IsSimpleModule (MonoidAlgebra ℂ A5) σ.asSubmodule := simple' (e.symm k)
+    exact (isIrredSub_iff_isSimpleModule σ).mpr hsk
+
+end Engine
+
 /-- **Part (a): vertices.** For the icosahedral vertex action of `A₅` — any transitive action
 on `12` points with point stabilizers of order `5` — the representation on `F(I) = Fin 12 → ℂ`
 decomposes as `1 ⊕ 3 ⊕ 3' ⊕ 5`: an internal direct sum of four `G`-invariant irreducible
