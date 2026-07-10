@@ -2064,6 +2064,24 @@ For proofs requiring algebraic integer arguments (e.g., Lemma 5.4.5):
 
 This two-step norm approach works whenever you need to show an algebraic quantity equals zero or a root of unity.
 
+### Unitarizability: diagonalize a `ℂ[G]`-operator via the spectral theorem (#6311)
+
+When a finite-group operator must be shown diagonalizable / to have bounded real eigenvalues, put an invariant inner product on `V` and use self-adjointness. Recipe (from `Problem5_16_3`, `sumTranspositionsWith1_diagonalizable_integer_eigenvalues`):
+
+```lean
+obtain ⟨c, hc⟩ := Etingof.Theorem4_6_2_existence G V ρ   -- c : InnerProductSpace.Core ℂ V, hc = G-invariance
+letI icore : InnerProductSpace.Core ℂ V := c
+letI : NormedAddCommGroup V := c.toNormedAddCommGroup           -- reuses the ambient AddCommGroup...
+letI : InnerProductSpace ℂ V := InnerProductSpace.ofCore inferInstance  -- ...so Module.End ℂ V is unchanged
+```
+
+Key points:
+- **No diamond:** `Core.toNormedAddCommGroup` goes through `AddGroupNorm.toNormedAddCommGroup`, which keeps `.toAddCommGroup` defeq to the ambient one. So `T : Module.End ℂ V` and any produced `Module.Basis` still match the pre-existing goal types.
+- **`ofCore` wants a `PreInnerProductSpace.Core`.** Make `c` a local instance (`letI icore := c`) and pass `inferInstance` — the `[InnerProductSpace.Core] → PreInnerProductSpace.Core` instance fires. Then `inner ℂ` is defeq to `c.inner`, so the invariance hypothesis `hc` is reusable verbatim (`have hc' : ∀ g v w, inner ℂ (ρ g v) (ρ g w) = inner ℂ v w := hc`).
+- **`ρ g` is an isometry** (`‖ρ g x‖ = ‖x‖`): square both sides, `rw [← inner_self_eq_norm_sq (𝕜 := ℂ), …, hc']`, finish with `Real.sqrt_sq`.
+- **Self-adjoint:** a unitary involution `s` (with `s * s = 1`, e.g. `Equiv.swap_mul_self`) gives `(ρ s).IsSymmetric` from `⟪ρ s x, y⟫ = ⟪ρ s x, ρ s (ρ s y)⟫ = ⟪x, ρ s y⟫`; sums stay symmetric (`sum_inner`/`inner_sum`).
+- **Spectral theorem:** `hT.eigenvectorBasis rfl |>.toBasis` (+ `OrthonormalBasis.coe_toBasis`, `hT.apply_eigenvectorBasis rfl i`) gives the eigenbasis; eigenvalue bounds come from `μ = ⟪w', T w'⟫` on a normalized eigenvector plus `norm_inner_le_norm` (Cauchy–Schwarz) and `norm_sum_le`.
+
 ### `sorry : Prop` for Unprovable Statements
 
 When Mathlib lacks the types to express a theorem's statement at all (not just the proof), use:
@@ -2898,6 +2916,8 @@ These naming mismatches have bitten multiple agents across waves 44-47. Check th
 | `DFinsupp.smul_apply` | `DFinsupp.smul_apply` | Use `Finsupp.smul_apply` via `change` | `DFinsupp` and `Finsupp` have different APIs. MonoidAlgebra is `Finsupp`-based. |
 | `p` splits over its field | `p.Splits (RingHom.id k)` | `p.Splits` | **`Polynomial.Splits` is now single-argument** (`Splits (f : k[X]) : Prop`, splits over `k` itself). The ring-hom form is deprecated; `p.Splits (RingHom.id k)` fails to elaborate ("Function expected at p.Splits"). Use `IsAlgClosed.splits p : p.Splits` (not `splits_codomain`), and `Splits.eq_prod_roots_of_monic (hf : p.Splits) hm : p = (p.roots.map (X - C ·)).prod`. (#5235) |
 | Integer induction case names | `\| hz \| hp \| hn` | `\| zero \| succ \| pred` | `induction n using Int.induction_on with` alternatives are `zero` (`P 0`), `succ k ih` (`P k → P (k+1)`, `k : ℕ` cast to `ℤ`), `pred k ih` (`P (-k) → P (-k-1)`). Using `hz/hp/hn` gives "Invalid alternative name". (#5365) |
+| Inner product | `inner x y` | `inner ℂ x y` | **`inner` now takes the scalar field as an explicit first arg** (`inner (𝕜) : E → E → 𝕜`). Bare `inner x y` fails with "argument … expected to have type `Type`". Either write `inner ℂ x y`, or `open scoped InnerProductSpace` and use `⟪x, y⟫_ℂ`. (#6311) |
+| `(f * g) x`, `(1) x` for `Module.End` | `LinearMap.mul_apply` / `one_apply` | `Module.End.mul_apply` / `Module.End.one_apply` | `LinearMap.mul_apply` does not exist. |
 
 **Combining `↑(q ^ a)` Units.val / zpow scalars in a `↑(q^a) * (↑(q^b) * c) = …` goal (quantum-torus / twisted-cocycle arithmetic, #5365).** Don't guess `rw` order on a mix of `Units.val`, `•`/`*`, and `zpow`. Normalize *both* sides to a single `↑(q ^ E) * c` first with `simp only [smul_eq_mul, ← mul_assoc, ← Units.val_mul]` (collapses each side's two unit factors into one `↑(q^a * q^b)`), then discharge with pre-proved unit-level equalities `have : (q ^ a * q ^ b : kˣ) = q ^ E := by rw [← zpow_add]; congr 1; ring` and `rw [hL, hR]`. `ring` does **not** equate `q ^ A` with `q ^ B` for equal `ℤ`-exponents — you must combine to one `zpow` (`← zpow_add`) and prove the exponent equality separately.
 
