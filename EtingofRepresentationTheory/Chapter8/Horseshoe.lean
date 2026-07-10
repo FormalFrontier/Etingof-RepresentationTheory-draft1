@@ -2,6 +2,9 @@ import Mathlib.CategoryTheory.Abelian.Projective.Resolution
 import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 import Mathlib.Algebra.Homology.HomologicalComplexBiprod
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
+import Mathlib.Algebra.Homology.HomologySequenceLemmas
+import Mathlib.Algebra.Homology.SingleHomology
+import Mathlib.CategoryTheory.Abelian.DiagramLemmas.Four
 
 /-!
 # The horseshoe lemma
@@ -123,6 +126,42 @@ lemma horseshoeP₁ExactZero :
     (ShortComplex.mk (P₁.complex.d 1 0) (P₁.π.f 0) P₁.complex_d_comp_π_f_zero).Exact :=
   ShortComplex.exact_of_g_is_cokernel _ P₁.isColimitCokernelCofork
 
+/-- The seed map `t₀ : P₃₁ ⟶ S.X₁` of the horseshoe off-diagonal lift. Writing
+`h₀ := factorThru (P₃.π.f 0) S.g` (so `h₀ ≫ S.g = P₃.π.f 0`), the map `-(d³ 1 0) ≫ h₀` dies under
+`S.g`, hence factors through the mono `S.f` by exactness of `S`. -/
+noncomputable def horseshoeSeed : P₃.complex.X 1 ⟶ S.X₁ :=
+  haveI := hS.epi_g
+  haveI := hS.mono_f
+  hS.exact.lift (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) (by
+    haveI := hS.epi_g
+    simp [Projective.factorThru_comp, P₃.complex_d_comp_π_f_zero])
+
+/-- `t₀ ≫ S.f = -(d³ 1 0) ≫ h₀`, the defining property of the seed. -/
+@[reassoc] lemma horseshoeSeed_comp_f :
+    haveI := hS.epi_g
+    horseshoeSeed hS P₃ ≫ S.f
+      = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g := by
+  haveI := hS.epi_g
+  haveI := hS.mono_f
+  exact hS.exact.lift_f _ _
+
+/-- `d³ 2 1 ≫ t₀ = 0`, using `S.f` mono and `d³ 2 1 ≫ d³ 1 0 = 0`. -/
+lemma horseshoeSeed_comp_d :
+    P₃.complex.d 2 1 ≫ horseshoeSeed hS P₃ = 0 := by
+  haveI := hS.mono_f
+  rw [← cancel_mono S.f, zero_comp, assoc, horseshoeSeed_comp_f]
+  simp [P₃.complex.d_comp_d_assoc]
+
+/-- The degree-`0` off-diagonal lift `s₀ : P₃₁ ⟶ P₁₀`, lifting the seed `t₀` through the epi
+`P₁.π.f 0`. -/
+noncomputable def horseshoeTwistZero : P₃.complex.X 1 ⟶ P₁.complex.X 0 :=
+  Projective.factorThru (horseshoeSeed hS P₃) (P₁.π.f 0)
+
+/-- `s₀ ≫ P₁.π.f 0 = t₀`. -/
+@[reassoc] lemma horseshoeTwistZero_comp_π :
+    horseshoeTwistZero hS P₁ P₃ ≫ P₁.π.f 0 = horseshoeSeed hS P₃ :=
+  Projective.factorThru_comp _ _
+
 /-- Auxiliary recursion for the horseshoe off-diagonal lift. For each `n` it produces a pair of
 consecutive lift maps `sₙ : P₃_{n+1} ⟶ P₁_n` (first component) and `sₙ₊₁ : P₃_{n+2} ⟶ P₁_{n+1}`
 (second component) satisfying the twist relation
@@ -137,29 +176,11 @@ noncomputable def horseshoeTwistAux :
     ∀ n, Σ' (a : P₃.complex.X (n + 1) ⟶ P₁.complex.X n)
       (_b : P₃.complex.X (n + 2) ⟶ P₁.complex.X (n + 1)),
         _b ≫ P₁.complex.d (n + 1) n = -(P₃.complex.d (n + 2) (n + 1)) ≫ a
-  | 0 => by
-      haveI := hS.mono_f
-      haveI := hS.epi_g
-      -- `h₀ ≫ S.g = P₃.π.f 0`, so `-(d³ 1 0) ≫ h₀` dies under `S.g`; factor it through `S.f`.
-      have hh₀ : Projective.factorThru (P₃.π.f 0) S.g ≫ S.g = P₃.π.f 0 :=
-        Projective.factorThru_comp _ _
-      have hk0 : (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) ≫ S.g = 0 := by
-        simp [assoc, hh₀, P₃.complex_d_comp_π_f_zero]
-      -- `t₀ : P₃₁ ⟶ S.X₁` with `t₀ ≫ S.f = -(d³ 1 0) ≫ h₀`.
-      set t₀ := hS.exact.lift (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) hk0
-        with ht₀def
-      have ht₀ : t₀ ≫ S.f = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g :=
-        hS.exact.lift_f _ _
-      -- `s₀ := factorThru t₀ (P₁.π.f 0)`, lifting `t₀` through the epi `P₁.π.f 0`.
-      set a := Projective.factorThru t₀ (P₁.π.f 0) with hadef
-      have ha : a ≫ P₁.π.f 0 = t₀ := Projective.factorThru_comp _ _
-      -- `-(d³ 2 1) ≫ s₀` dies under `P₁.π.f 0` (via `d³ 2 1 ≫ t₀ = 0`, using `S.f` mono).
-      have hdt : P₃.complex.d 2 1 ≫ t₀ = 0 := by
-        rw [← cancel_mono S.f, zero_comp, assoc, ht₀]
-        simp [P₃.complex.d_comp_d_assoc]
-      have hk1 : (-(P₃.complex.d 2 1) ≫ a) ≫ P₁.π.f 0 = 0 := by
-        simp [ha, hdt]
-      exact ⟨a, (horseshoeP₁ExactZero P₁).liftFromProjective (-(P₃.complex.d 2 1) ≫ a) hk1,
+  | 0 =>
+      ⟨horseshoeTwistZero hS P₁ P₃,
+        (horseshoeP₁ExactZero P₁).liftFromProjective
+          (-(P₃.complex.d 2 1) ≫ horseshoeTwistZero hS P₁ P₃) (by
+            simp [horseshoeTwistZero_comp_π, horseshoeSeed_comp_d]),
         (horseshoeP₁ExactZero P₁).liftFromProjective_comp _ _⟩
   | n + 1 => by
       -- `(a, b, hab)` are `(sₙ, sₙ₊₁, twist relation)`; build `sₙ₊₂` and return `(sₙ₊₁, sₙ₊₂, …)`.
@@ -187,6 +208,19 @@ lemma horseshoeTwist_comp (n : ℕ) :
     horseshoeTwist hS P₁ P₃ (n + 1) ≫ P₁.complex.d (n + 1) n
       = -(P₃.complex.d (n + 2) (n + 1)) ≫ horseshoeTwist hS P₁ P₃ n := by
   rw [horseshoeTwist_succ]; exact (horseshoeTwistAux hS P₁ P₃ n).2.2
+
+/-- `s₀ = horseshoeTwistZero`: the degree-`0` off-diagonal lift agrees with its seeded form. -/
+lemma horseshoeTwist_zero : horseshoeTwist hS P₁ P₃ 0 = horseshoeTwistZero hS P₁ P₃ := rfl
+
+/-- The degree-`0` augmentation compatibility of the off-diagonal lift:
+`s₀ ≫ (ε₁ ≫ S.f) = -(d³ 1 0) ≫ h₀`. This is the relation making the twisted differential a chain
+map for the augmentation in degree `0`. -/
+@[reassoc] lemma horseshoeTwist_zero_comp_f :
+    haveI := hS.epi_g
+    horseshoeTwist hS P₁ P₃ 0 ≫ P₁.π.f 0 ≫ S.f
+      = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g := by
+  haveI := hS.epi_g
+  rw [horseshoeTwist_zero, ← assoc, horseshoeTwistZero_comp_π, horseshoeSeed_comp_f]
 
 /-- The upper-triangular twisted differential
 `d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫ : P₁_{n+1} ⊞ P₃_{n+1} ⟶ P₁_n ⊞ P₃_n` (matrix `[[d¹, s], [0, d³]]`,
@@ -230,6 +264,21 @@ instance horseshoeComplex_projective (n : ℕ) :
     Projective ((horseshoeComplex hS P₁ P₃).X n) := by
   dsimp [horseshoeComplex, ChainComplex.of]
   infer_instance
+
+/-- The degree-`0` chain-map condition for the augmentation: `d²₁₀ ≫ ε₂ = 0`. The `P₁` corner is
+`d¹₁₀ ≫ ε₁ ≫ S.f = 0` (`P₁` augmented complex is a complex), the `P₃` corner is the seed relation
+`horseshoeTwist_zero_comp_f`. -/
+lemma horseshoeD_zero_comp_π :
+    horseshoeD hS P₁ P₃ 0 ≫ horseshoeπZero hS P₁ P₃ = 0 := by
+  haveI := hS.epi_g
+  apply biprod.hom_ext'
+  · rw [horseshoeD_inl_assoc, comp_zero]
+    simp only [horseshoeπZero, biprod.lift_desc, zero_comp, add_zero]
+    rw [← assoc, P₁.complex_d_comp_π_f_zero, zero_comp]
+  · rw [horseshoeD_inr_assoc, comp_zero]
+    simp only [horseshoeπZero, biprod.lift_desc]
+    rw [horseshoeTwist_zero_comp_f]
+    simp
 
 /-! ### The chain maps and the degreewise-split short exact sequence
 
@@ -291,6 +340,90 @@ lemma horseshoeShortComplex_shortExact :
   HomologicalComplex.shortExact_of_degreewise_shortExact _
     (fun i => (horseshoeSplitting hS P₁ P₃ i).shortExact)
 
+/-! ### The augmentation and its quasi-isomorphism -/
+
+/-- The augmentation `π₂ : horseshoeComplex ⟶ single₀ S.X₂`, with degree-`0` component
+`horseshoeπZero` and higher components `0`. -/
+noncomputable def horseshoeπ :
+    horseshoeComplex hS P₁ P₃ ⟶ (ChainComplex.single₀ C).obj S.X₂ :=
+  (ChainComplex.toSingle₀Equiv _ _).symm
+    ⟨horseshoeπZero hS P₁ P₃, by
+      have hd : (horseshoeComplex hS P₁ P₃).d 1 0 = horseshoeD hS P₁ P₃ 0 := by
+        simp only [horseshoeComplex]; exact ChainComplex.of_d _ _ 0
+      rw [hd, horseshoeD_zero_comp_π]⟩
+
+@[simp] lemma horseshoeπ_f_zero :
+    (horseshoeπ hS P₁ P₃).f 0 = horseshoeπZero hS P₁ P₃ := by
+  simp [horseshoeπ]
+
+@[simp] lemma horseshoeπ_f_succ (n : ℕ) :
+    (horseshoeπ hS P₁ P₃).f (n + 1) = 0 :=
+  (HomologicalComplex.isZero_single_obj_X (ComplexShape.down ℕ) 0 S.X₂ (n + 1)
+    (by simp)).eq_of_tgt _ _
+
+/-- `S` placed in degree `0` as a short complex of chain complexes. -/
+noncomputable def horseshoeSingle : ShortComplex (ChainComplex C ℕ) :=
+  S.map (ChainComplex.single₀ C)
+
+include hS in
+/-- `single₀` is exact, so `S` placed in degree `0` stays short exact. -/
+lemma horseshoeSingle_shortExact : (horseshoeSingle (S := S)).ShortExact :=
+  ShortComplex.ShortExact.map_of_exact hS (ChainComplex.single₀ C)
+
+/-- The morphism of short complexes of chain complexes from the horseshoe SES to `S` in degree `0`,
+with vertical maps the augmentations `P₁.π`, `horseshoeπ`, `P₃.π`. The two nontrivial squares are
+the augmentation-compatibility squares `horseshoeπZero_inl` and `horseshoeπZero_comp_g`. -/
+noncomputable def horseshoeMorphism :
+    horseshoeShortComplex hS P₁ P₃ ⟶ horseshoeSingle (S := S) :=
+  ShortComplex.homMk P₁.π (horseshoeπ hS P₁ P₃) P₃.π
+    (by
+      apply HomologicalComplex.hom_ext; intro n
+      obtain _ | n := n <;>
+        simp [horseshoeShortComplex, horseshoeSingle, ShortComplex.map])
+    (by
+      apply HomologicalComplex.hom_ext; intro n
+      obtain _ | n := n <;>
+        simp [horseshoeShortComplex, horseshoeSingle, ShortComplex.map, horseshoeπZero_comp_g])
+
+/-- The horseshoe augmentation is a quasi-isomorphism: off degree `0` both complexes are exact
+(`horseshoeComplex` by `exactAt_X₂` from the horseshoe SES and exactness of `P₁`, `P₃`), and in
+degree `0` the induced map on homology is an isomorphism by the middle three-lemma applied to the
+map of homology short complexes (the outer verticals `homologyMap P₁.π 0`, `homologyMap P₃.π 0` are
+isomorphisms because `P₁`, `P₃` are resolutions). -/
+instance horseshoeπ_quasiIso : QuasiIso (horseshoeπ hS P₁ P₃) := by
+  have hS₁ := horseshoeShortComplex_shortExact hS P₁ P₃
+  have hS₂ := horseshoeSingle_shortExact hS
+  rw [quasiIso_iff]
+  rintro (_ | n)
+  · rw [quasiIsoAt_iff_isIso_homologyMap]
+    have hmono : Mono (HomologicalComplex.homologyMap (horseshoeSingle (S := S)).f 0) := by
+      haveI := hS.mono_f
+      refine (hS₂.homology_exact₁ 1 0 (by simp)).mono_g ?_
+      exact (HomologicalComplex.isZero_single_obj_homology _ 0 S.X₃ 1 (by norm_num)).eq_of_src _ _
+    have hepi : Epi (HomologicalComplex.homologyMap (horseshoeShortComplex hS P₁ P₃).g 0) := by
+      haveI := hS₁.epi_g
+      exact HomologicalComplex.epi_homologyMap_of_epi_of_not_rel _ 0 (by simp)
+    haveI : Mono (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
+      ShortComplex.mono_of_mono_of_mono_of_mono
+        ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) 0).mapShortComplex.map
+          (horseshoeMorphism hS P₁ P₃)) (hS₁.homology_exact₂ 0) hmono
+        (inferInstanceAs (Mono (HomologicalComplex.homologyMap P₁.π 0)))
+        (inferInstanceAs (Mono (HomologicalComplex.homologyMap P₃.π 0)))
+    haveI : Epi (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
+      ShortComplex.epi_of_epi_of_epi_of_epi
+        ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) 0).mapShortComplex.map
+          (horseshoeMorphism hS P₁ P₃)) (hS₂.homology_exact₂ 0) hepi
+        (inferInstanceAs (Epi (HomologicalComplex.homologyMap P₁.π 0)))
+        (inferInstanceAs (Epi (HomologicalComplex.homologyMap P₃.π 0)))
+    exact isIso_of_mono_of_epi _
+  · rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _)]
+    exact hS₁.exactAt_X₂ (n + 1) (P₁.complex_exactAt_succ n) (P₃.complex_exactAt_succ n)
+
+/-- The horseshoe projective resolution of `S.X₂`. -/
+noncomputable def horseshoeResolution : ProjectiveResolution S.X₂ where
+  complex := horseshoeComplex hS P₁ P₃
+  π := horseshoeπ hS P₁ P₃
+
 end Augmentation
 
 /-- **The horseshoe lemma.** A short exact sequence `S : 0 → X₁ → X₂ → X₃ → 0` in an abelian
@@ -309,7 +442,10 @@ theorem horseshoe {C : Type u} [Category.{v} C] [Abelian C] [EnoughProjectives C
       (w : α ≫ β = 0),
       (ShortComplex.mk α β w).ShortExact ∧
       α.f 0 ≫ P₂.π.f 0 = P₁.π.f 0 ≫ S.f ∧
-      β.f 0 ≫ P₃.π.f 0 = P₂.π.f 0 ≫ S.g := by
-  sorry
+      β.f 0 ≫ P₃.π.f 0 = P₂.π.f 0 ≫ S.g :=
+  ⟨horseshoeResolution hS P₁ P₃, horseshoeα hS P₁ P₃, horseshoeβ hS P₁ P₃,
+    horseshoeα_comp_horseshoeβ hS P₁ P₃, horseshoeShortComplex_shortExact hS P₁ P₃,
+    by simp [horseshoeResolution],
+    by simp [horseshoeResolution, horseshoeπZero_comp_g]⟩
 
 end Etingof
