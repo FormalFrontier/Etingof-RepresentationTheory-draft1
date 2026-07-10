@@ -1,5 +1,6 @@
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.LinearAlgebra.ExteriorPower.Basic
+import Mathlib.LinearAlgebra.ExteriorPower.Basis
 import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Matrix.Mul
@@ -88,14 +89,22 @@ theorem hilbertSeries_freeAlgebra (k : Type*) [Field k] (m : ℕ) :
 exterior power of the `m`-dimensional space, of dimension `C(m, n)`. Equivalently the Hilbert
 series is `(1+t)^m`. -/
 theorem finrank_exteriorPower (k : Type*) [Field k] (m n : ℕ) :
-    Module.finrank k (⋀[k]^n (Fin m → k)) = m.choose n :=
-  sorry
+    Module.finrank k (⋀[k]^n (Fin m → k)) = m.choose n := by
+  -- `⋀^n` of a rank-`m` free module has rank `C(m, n)`; here `finrank k (Fin m → k) = m`.
+  rw [exteriorPower.finrank_eq, Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
 
 /-- **(c)**, generating-function form: the Hilbert series of the exterior algebra on `m`
 generators is the polynomial `(1+t)^m`. -/
 theorem hilbertSeries_exteriorAlgebra (k : Type*) [Field k] (m : ℕ) :
-    PowerSeries.mk (fun n => ((m.choose n : ℕ) : k)) = (1 + PowerSeries.X : PowerSeries k) ^ m :=
-  sorry
+    PowerSeries.mk (fun n => ((m.choose n : ℕ) : k)) = (1 + PowerSeries.X : PowerSeries k) ^ m := by
+  -- Coerce the polynomial identity `((1 + X)^m).coeff n = C(m, n)` to power series and match
+  -- coefficients: `(1 + X)^m` as a power series is the coercion of the polynomial `(1 + X)^m`.
+  have hcoe : ((1 + PowerSeries.X : PowerSeries k) ^ m) =
+      ((((1 + Polynomial.X) ^ m : Polynomial k) : PowerSeries k)) := by
+    rw [Polynomial.coe_pow, Polynomial.coe_add, Polynomial.coe_one, Polynomial.coe_X]
+  rw [hcoe]
+  ext n
+  rw [PowerSeries.coeff_mk, Polynomial.coeff_coe, Polynomial.coeff_one_add_X_pow]
 
 /-! ## (d) Path algebra `P_Q` -/
 
