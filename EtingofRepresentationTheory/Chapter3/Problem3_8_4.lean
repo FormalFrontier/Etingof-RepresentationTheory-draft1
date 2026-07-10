@@ -58,11 +58,16 @@ noncomputable instance bcMod : Module (L ⊗[K] A) (L ⊗[K] V) :=
     (repTensor (A := A) (V := V) (L := L)).toRingHom
 
 /-!
-The two general-`L` theorems of Problem 3.8.4 — part (i) `iso_of_baseChange_iso` and part (ii)
-`directSummand_of_baseChange_directSummand` — are proved in `Problem3_8_4_Main.lean`, which sits
-above the finite-extension case (`Problem3_8_4_Finite.lean`) and the descent step
-(`Problem3_8_4_Descent.lean`) in the import DAG. They cannot live here: those two files import
-this base module, so proving the theorems here would create an import cycle.
+The two general-`L` theorems of Problem 3.8.4 are proved downstream, above the finite-extension
+case (`Problem3_8_4_Finite.lean`) and the descent step (`Problem3_8_4_Descent.lean`) in the import
+DAG. They cannot live here: those two files import this base module, so proving the theorems here
+would create an import cycle.
+
+* Part (i), `iso_of_baseChange_iso`: if `L ⊗[K] V ≅ L ⊗[K] W` as `L ⊗[K] A`-modules then `V ≅ W`
+  as `A`-modules — proved in `Problem3_8_4_Main.lean`.
+* Part (ii), the Noether-Deuring theorem `directSummand_of_baseChange_directSummand`: if `L ⊗[K] V`
+  is a direct summand of `L ⊗[K] W` (a split injection `(i, p)` with `p ∘ i = id`) then `V` is a
+  direct summand of `W` — proved in `Problem3_8_4_General.lean`.
 -/
 
 end Etingof.Problem3_8_4

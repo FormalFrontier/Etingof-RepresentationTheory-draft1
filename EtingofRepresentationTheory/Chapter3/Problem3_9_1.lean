@@ -3,6 +3,7 @@ import Mathlib.LinearAlgebra.Prod
 import Mathlib.LinearAlgebra.BilinearMap
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import EtingofRepresentationTheory.Chapter2.Corollary2_3_10
 
 /-!
 # Problem 3.9.1: Extensions of representations and `Ext¹`
@@ -25,10 +26,12 @@ The block operator `ρ_U(a)` is `blockOp f a : V × W →ₗ[k] V × W`.
   (`coboundaryOf X`) is a cocycle, and vanishes iff `X` is a homomorphism of
   representations (`A`-linear). Coboundaries form the subspace
   `B¹(W, V) = coboundaries ⊆ Z¹`, and `Ext¹(W, V) = Z¹ / B¹` is `Ext1`.
-* **(c)**, **(d)**: isomorphism classification of the extensions; see the deferred
-  statements at the end of the file.
+* **(c)**, **(d)**: isomorphism classification of the extensions; see the statements at the
+  end of the file. Part (d) requires `IsAlgClosed k` and is phrased as a nonzero-ratio
+  proportionality (`∃ c ≠ 0, f − c • f' ∈ B¹`), the faithful form of the book's
+  `ℙ Ext¹(W, V)` classification.
 
-Statement pass: definitions are constructed; the proofs are left as `sorry`.
+All parts are proved (`sorry`-free).
 -/
 
 namespace Etingof.Problem3_9_1
@@ -283,15 +286,175 @@ theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V)
   · simp only [add_assoc, ← key]
   · rw [smul_comm]
 
-/-- **Problem 3.9.1(d).** For finite dimensional irreducible `V` and `W`, the extensions
-`U_f` and `U_{f'}` are isomorphic if and only if the cocycles `f` and `f'` are proportional
-modulo coboundaries (their classes in `Ext¹` are proportional). -/
-theorem irreducible_ext_iso_iff_proportional
+/-- **Problem 3.9.1(d).** Over an algebraically closed field, for finite dimensional irreducible
+`V` and `W`, the extensions `U_f` and `U_{f'}` are isomorphic representations if and only if the
+cocycle classes `[f]` and `[f']` are proportional with a **nonzero** ratio: there is `c ≠ 0` with
+`f − c • f' ∈ B¹`.
+
+This is the faithful form of the book's part (d): the trivial class (`f ∈ B¹`, i.e. `U_f` splits)
+together with the projective space `ℙ Ext¹(W, V)` of lines of nonzero classes exhaust the
+isomorphism classes of extensions of `W` by `V`. The `c ≠ 0` constraint is essential — a spurious
+`c = 0` would only assert `f ∈ B¹`, which says nothing about `f'` and would make the naive `iff`
+false. Algebraic closedness enters through Schur's lemma (`Etingof.Corollary_2_3_10`): over a
+non-closed field `End_A V` is a division ring strictly larger than `k`, and the iso classes are
+`Ext¹` modulo the `D_V^× × D_W^×` action rather than `ℙ_k Ext¹`.
+
+The proof of `⇐` is the reusable helper `ext_iso_of_sub_smul_mem_coboundaries`. For `⇒`, block
+decompose the intertwiner `φ = [[α, β], [γ, δ]]`. The lower-left block `γ : V → W` is `A`-linear,
+so by Schur it is either `0` or an isomorphism. If `γ = 0`, then `α`, `δ` are `A`-linear scalars
+`s, t` (Schur over an algebraically closed field, both nonzero since `φ` is invertible), and the
+`(1,2)` block identity gives `s • f − t • f' = dβ`, so `f − (t/s) • f' ∈ B¹` with `t/s ≠ 0`. If
+`γ` is an isomorphism (only possible when `V ≅ W`), the `(1,1)` and `(2,2)` blocks force both `f`
+and `f'` to be coboundaries, so `f − 1 • f' ∈ B¹`. -/
+theorem irreducible_ext_iso_iff_proportional [IsAlgClosed k]
     [FiniteDimensional k V] [FiniteDimensional k W]
     [IsSimpleModule A V] [IsSimpleModule A W]
-    (f f' : A →ₗ[k] (W →ₗ[k] V)) (hf : IsCocycle k A V W f) (hf' : IsCocycle k A V W f') :
+    (f f' : A →ₗ[k] (W →ₗ[k] V)) (_hf : IsCocycle k A V W f) (_hf' : IsCocycle k A V W f') :
     (∃ φ : (V × W) ≃ₗ[k] (V × W), IntertwinesExt k A V W f f' φ)
-      ↔ ∃ c : k, f - c • f' ∈ coboundaries k A V W := by
-  sorry
+      ↔ ∃ c : k, c ≠ 0 ∧ f - c • f' ∈ coboundaries k A V W := by
+  constructor
+  · rintro ⟨φ, hφ⟩
+    -- Block components of `φ` in the `V × W` basis.
+    set P : (V × W) →ₗ[k] V := (LinearMap.fst k V W).comp φ.toLinearMap with hP
+    set Q : (V × W) →ₗ[k] W := (LinearMap.snd k V W).comp φ.toLinearMap with hQ
+    set α : V →ₗ[k] V := P.comp (LinearMap.inl k V W) with hαdef
+    set β : W →ₗ[k] V := P.comp (LinearMap.inr k V W) with hβdef
+    set γ : V →ₗ[k] W := Q.comp (LinearMap.inl k V W) with hγdef
+    set δ : W →ₗ[k] W := Q.comp (LinearMap.inr k V W) with hδdef
+    have hPvw : ∀ v w, P (v, w) = α v + β w := by
+      intro v w
+      have h : (v, w) = LinearMap.inl k V W v + LinearMap.inr k V W w := by
+        simp
+      rw [h, map_add]; rfl
+    have hQvw : ∀ v w, Q (v, w) = γ v + δ w := by
+      intro v w
+      have h : (v, w) = LinearMap.inl k V W v + LinearMap.inr k V W w := by
+        simp
+      rw [h, map_add]; rfl
+    have hP1 : ∀ p : V × W, (φ p : V × W).1 = P p := fun p => by simp [hP]
+    have hQ2 : ∀ p : V × W, (φ p : V × W).2 = Q p := fun p => by simp [hQ]
+    have hφsplit : ∀ v w, (φ (v, w) : V × W) = (P (v, w), Q (v, w)) := by
+      intro v w
+      exact Prod.ext (hP1 (v, w)) (hQ2 (v, w))
+    -- Master intertwining identity, evaluated pointwise.
+    have hmain : ∀ a v w,
+        (φ (a • v + f a w, a • w) : V × W)
+          = (a • P (v, w) + f' a (Q (v, w)), a • Q (v, w)) := by
+      intro a v w
+      have h := LinearMap.congr_fun (hφ a) (v, w)
+      simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, blockOp_apply] at h
+      rw [h, hφsplit v w, blockOp_apply]
+    have EfstP : ∀ a v w, P (a • v + f a w, a • w) = a • P (v, w) + f' a (Q (v, w)) := by
+      intro a v w
+      have h := congrArg Prod.fst (hmain a v w)
+      rwa [hP1] at h
+    have EsndQ : ∀ a v w, Q (a • v + f a w, a • w) = a • Q (v, w) := by
+      intro a v w
+      have h := congrArg Prod.snd (hmain a v w)
+      rwa [hQ2] at h
+    -- The four block equations.
+    have hγA : ∀ (a : A) (v : V), γ (a • v) = a • γ v := by
+      intro a v
+      have h := EsndQ a v 0
+      simpa only [map_zero, smul_zero, add_zero, hQvw] using h
+    have Eq11 : ∀ (a : A) (v : V), α (a • v) = a • α v + f' a (γ v) := by
+      intro a v
+      have h := EfstP a v 0
+      simpa only [map_zero, smul_zero, add_zero, hPvw, hQvw] using h
+    have Eq12 : ∀ (a : A) (w : W), α (f a w) + β (a • w) = a • β w + f' a (δ w) := by
+      intro a w
+      have h := EfstP a 0 w
+      simpa only [smul_zero, zero_add, hPvw, hQvw, map_zero, add_zero] using h
+    have Eq22 : ∀ (a : A) (w : W), γ (f a w) + δ (a • w) = a • δ w := by
+      intro a w
+      have h := EsndQ a 0 w
+      simpa only [smul_zero, zero_add, hQvw, map_zero, add_zero] using h
+    -- Package `γ` as an `A`-linear map and apply Schur.
+    let γA : V →ₗ[A] W :=
+      { toFun := γ, map_add' := fun x y => γ.map_add x y, map_smul' := fun a v => hγA a v }
+    rcases γA.bijective_or_eq_zero with hbij | hzero
+    · -- `γ` is an isomorphism: both `f` and `f'` are coboundaries.
+      let eγ : V ≃ₗ[A] W := LinearEquiv.ofBijective γA hbij
+      have heγ : ∀ x, eγ x = γ x := fun x => rfl
+      let gk : W →ₗ[k] V := (eγ.symm.toLinearMap).restrictScalars k
+      have hgk : ∀ w, gk w = eγ.symm w := fun w => rfl
+      have hγsym : ∀ w, γ (eγ.symm w) = w := by
+        intro w
+        have h := eγ.apply_symm_apply w
+        rwa [heγ] at h
+      have hfcob : f ∈ coboundaries k A V W := by
+        rw [mem_coboundaries_iff]
+        refine ⟨gk.comp δ, ?_⟩
+        ext a w
+        have hgw : γ (f a w) = a • δ w - δ (a • w) := by
+          rw [eq_sub_iff_add_eq]; exact Eq22 a w
+        simp only [coboundaryOf_apply, LinearMap.comp_apply, hgk]
+        rw [← map_smul (eγ.symm) a (δ w), ← map_sub, ← hgw, ← heγ (f a w),
+          eγ.symm_apply_apply]
+      have hf'cob : f' ∈ coboundaries k A V W := by
+        rw [mem_coboundaries_iff]
+        refine ⟨-(α.comp gk), ?_⟩
+        ext a w
+        have hEq := Eq11 a (eγ.symm w)
+        rw [hγsym w] at hEq
+        rw [← map_smul (eγ.symm) a w] at hEq
+        simp only [coboundaryOf_apply, LinearMap.neg_apply, LinearMap.comp_apply, hgk, smul_neg]
+        rw [hEq]
+        abel
+      exact ⟨1, one_ne_zero, by rw [one_smul]; exact Submodule.sub_mem _ hfcob hf'cob⟩
+    · -- `γ = 0`: `α`, `δ` are nonzero scalars; the `(1,2)` block gives proportionality.
+      have hγ0 : ∀ v, γ v = 0 := fun v => LinearMap.congr_fun hzero v
+      have hαA : ∀ (a : A) (v : V), α (a • v) = a • α v := by
+        intro a v; rw [Eq11 a v, hγ0 v, map_zero, add_zero]
+      have hδA : ∀ (a : A) (w : W), δ (a • w) = a • δ w := by
+        intro a w
+        have h := Eq22 a w
+        rwa [hγ0 (f a w), zero_add] at h
+      let αA : V →ₗ[A] V :=
+        { toFun := α, map_add' := fun x y => α.map_add x y, map_smul' := fun a v => hαA a v }
+      let δA : W →ₗ[A] W :=
+        { toFun := δ, map_add' := fun x y => δ.map_add x y, map_smul' := fun a w => hδA a w }
+      obtain ⟨s, hs⟩ := Etingof.Corollary_2_3_10 (k := k) (A := A) (V := V) αA
+      obtain ⟨t, ht⟩ := Etingof.Corollary_2_3_10 (k := k) (A := A) (V := W) δA
+      have hsα : ∀ v, α v = s • v := hs
+      have htδ : ∀ w, δ w = t • w := ht
+      have hs0 : s ≠ 0 := by
+        intro hs_eq
+        haveI : Nontrivial V := IsSimpleModule.nontrivial (R := A) (M := V)
+        obtain ⟨v, hv⟩ := exists_ne (0 : V)
+        refine hv ?_
+        have hz : (φ (v, 0) : V × W) = 0 := by
+          rw [hφsplit v 0, hPvw, hQvw]
+          simp [hsα v, hs_eq, hγ0 v]
+        have h0 := φ.map_eq_zero_iff.mp hz
+        simpa using congrArg Prod.fst h0
+      have ht0 : t ≠ 0 := by
+        intro ht_eq
+        haveI : Nontrivial W := IsSimpleModule.nontrivial (R := A) (M := W)
+        obtain ⟨w, hw⟩ := exists_ne (0 : W)
+        refine hw ?_
+        have hQzero : ∀ q : V × W, Q q = 0 := by
+          intro q
+          obtain ⟨qv, qw⟩ := q
+          rw [hQvw]
+          simp [hγ0 qv, htδ qw, ht_eq]
+        have hval : (φ (φ.symm (0, w)) : V × W).2 = w := by rw [φ.apply_symm_apply]
+        rw [hQ2, hQzero] at hval
+        exact hval.symm
+      have hcob : s • f - t • f' ∈ coboundaries k A V W := by
+        rw [mem_coboundaries_iff]
+        refine ⟨β, ?_⟩
+        ext a w
+        have h := Eq12 a w
+        rw [hsα (f a w), htδ w, map_smul (f' a) t w] at h
+        simp only [coboundaryOf_apply, LinearMap.sub_apply, LinearMap.smul_apply]
+        exact sub_eq_sub_iff_add_eq_add.mpr h.symm
+      refine ⟨s⁻¹ * t, mul_ne_zero (inv_ne_zero hs0) ht0, ?_⟩
+      have hrw : f - (s⁻¹ * t) • f' = s⁻¹ • (s • f - t • f') := by
+        rw [smul_sub, smul_smul, smul_smul, inv_mul_cancel₀ hs0, one_smul]
+      rw [hrw]
+      exact Submodule.smul_mem _ _ hcob
+  · rintro ⟨c, hc, hsub⟩
+    exact ext_iso_of_sub_smul_mem_coboundaries k A V W f f' c hc hsub
 
 end Etingof.Problem3_9_1

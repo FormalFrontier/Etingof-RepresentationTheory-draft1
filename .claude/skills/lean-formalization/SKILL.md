@@ -24,6 +24,14 @@ vanishes). Re-resolve each time with
 verify signatures against the compiler (`example : <sig> := by exact?` / a scratch `#check`)
 rather than trusting a cached source path.
 
+**Never `cd` into `.lake/packages/mathlib` (or any subdir) — read absolute paths from the
+worktree root instead.** The shell's cwd persists across Bash calls, and
+`.lake/packages/mathlib` is itself a lake project: once cwd is inside it,
+`lake build EtingofRepresentationTheory.<Module>` fails with a confusing "unknown target", and
+a bare `lake build` **silently builds Mathlib and reports success** — a green build that never
+touched your project. If builds report "unknown target" or an unexpected job count, run `pwd`
+and `cd` back to the worktree root before trusting any result.
+
 **Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
 <file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
 particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
@@ -76,6 +84,7 @@ Run this checklist before writing a single tactic. Skipping it has caused agents
 1. **Check Known Dead-Ends.** Scan the "Known Dead-Ends" section below. If your proof requires any of these patterns, sorry it immediately and move on:
    - ExteriorAlgebra ↔ PiTensorProduct bridging
    - ~~`if`-branching `obj` fields in QuiverRepresentation-like structures~~ — **NOT a dead-end for reasoning about a *single* fibre** (#6160, `simpleRep_isIrreducible` in `Chapter3/Problem3_9_3.lean`). Gotcha: for `simpleRep i` whose `obj v := Fin (if v = i then 1 else 0) → k`, the fibre `(simpleRep i).obj i` is defeq to `Fin (if i = i then 1 else 0) → k` but **NOT** to `Fin 1 → k` — the `if` is stuck because the `Decidable (i = i)` from an abstract `[DecidableEq Q]` never reduces to `isTrue`. Consequences: (a) instance search cannot find `AddCommGroup ((simpleRep i).obj i)` / `finrank`-lemmas since `.obj i` is not *syntactically* a `Pi`; (b) `is_simple_module_of_finrank_eq_one` `apply` fails to unify the bundled `instAddCommMonoid` against `AddCommGroup.toAddCommMonoid`. **Fix:** keep the honest stuck-`if` type — build an identity `LinearEquiv` `e : (simpleRep i).obj i ≃ₗ[k] (Fin (if i = i then 1 else 0) → k)` (all fields `fun _ => rfl`; target is *syntactically* a `Pi`, so TC finds `AddCommGroup`/`Pi.module`), get `IsSimpleOrder (Submodule k (Fin (if i = i then 1 else 0) → k))` from `is_simple_module_of_finrank_eq_one (by simp [Module.finrank_fin_fun])`, then transport the `eq_bot_or_eq_top` dichotomy back with `Submodule.orderIsoMapComap e` (`f.injective (by rw [h, map_bot])`). Off-vertex fibres `Fin 0 → k` are `Subsingleton` (submodules are `⊥`/`⊤` via `Submodule.eq_bot_iff`/`eq_top_iff'` + `Subsingleton.elim`). The full *round-trip* (`reflectionFunctor` compositions) below remains a dead-end.
+   - **Abstract `ρ : QuiverRepresentation k Q` (not `simpleRep`): `finrank`/simple-module API needs `AddCommGroup` on every carrier — install it once with `acg`.** The `obj` carriers bundle only `AddCommMonoid`, so `isSimpleModule_iff_finrank_eq_one`, `Module.Free.of_divisionRing`, and `FiniteDimensional.nonempty_linearEquiv_of_finrank_eq` (all require `[AddCommGroup M]`) don't fire on `ρ.obj v`. **Fix (mirrors `extDiff`):** `letI : ∀ v, AddCommGroup (ρ.obj v) := fun _ => Etingof.Problem6_9_3.acg (k := k)` as the first proof line — `acg = { inst with neg := (-1)•·, … }` keeps `toAddCommMonoid` defeq to the bundled instance, so `Module k (ρ.obj v)` stays compatible and TC now finds `Free`/finrank lemmas. Worked example: `irreducible_isSimpleRep` (#6166) proves an abstract irreducible `ρ` over a finite acyclic quiver is `≃` a vertex simple — all arrows vanish (well-founded induction on `fun a b => Nonempty (a ⟶ b)`, whose `Relation.TransGen` is irreflexive by `NoOrientedCycles`→positive `Quiver.Path i i`, hence WF via `Finite.wellFoundedOn`+`Subrelation.wf`), then `IsSimpleModule k (ρ.obj v₀)` gives `finrank=1` and `nonempty_linearEquiv_of_finrank_eq` builds the vertexwise iso (`commutes` is free since both sides' arrow maps are `0`). **Two tactic gotchas there:** (a) a `⊥=⊤ → Subsingleton` helper written as a local `have ∀ {M : Type*}` triggers `AddConstAsyncResult.commitConst: constant has level params […]` — a universe-polymorphic `have` breaks async elaboration; make it a **top-level** `private theorem` instead. (b) to read off `Function.update f v₀ U v₀ = U` from a `let F := Function.update …`, `rw [Function.update_self]` fails (can't see through the `let`); use `simpa only [F, Function.update_self]` (`simp only [F]` DOES unfold a `let`-bound local).
    - `Decidable.casesOn` **composition** (double round-trip) in `reflectionFunctorPlus`/`Minus` proofs — the composition F⁻(F⁺(V)) creates types Lean can't reduce through. **Note:** Individual arrow-level helper lemmas (e.g., `reversedArrow_ne_ne_is_cast`, `reversedArrow_ne_ne_twice`) ARE provable using `eqRec_heq_self` and `Subsingleton.elim` patterns (see HEq section below). The dead-end is the full Sigma-level round-trip, not individual components.
    - ~~`reflFunctorPlus_mapLinear_ne_ne` / `reflFunctorMinus_mapLinear_ne_ne` API (missing)~~ — **RESOLVED**: both now exist in `Chapter6/Definition6_6_3.lean` / `Definition6_6_4.lean` (plus `_eq_ne`, `_equivAt_ne`, `_equivAt_eq`); use them directly for reflection-functor naturality (ne/ne and eq/ne cases).
    - **Representation `W` over a *non-ambient* `Quiver` instance (e.g. `reversedAtVertex Q i`): dot-notation resolves the WRONG quiver.** `W.obj`/`W.sinkMap`/`W.instAddCommMonoid`/`W.mapLinear` synthesize the ambient `[Quiver Q]` for their instance arg, not `reversedAtVertex Q i`, giving "synthesized `inst✝` / inferred `reversedAtVertex Q i`" or "failed to synthesize `AddCommMonoid (W.obj v)`". **Fix:** write everything with explicit `@` pinning the quiver (`@Etingof.QuiverRepresentation.sinkMap k _ Q (Etingof.reversedAtVertex Q i) W i`), and provide the per-component `DirectSum`/`lof`/`component` instances via `letI acmW : ∀ b, AddCommMonoid (@…obj … (reversedAtVertex Q i) W b.fst) := fun b => @…instAddCommMonoid k Q _ (reversedAtVertex Q i) W b.fst` (and `modW` for `Module`). To *transport* such a rep back to the ambient quiver, package the vertex-space transport as a `LinearEquiv` via `match I₂, h with | _, rfl => LinearEquiv.refl` (turns the accessor `HEq`s into plain equations — see `objTransportEquiv`/`transportReversedTwiceEquiv` in `Chapter7/Exercise7_9_8.lean`).
@@ -500,6 +509,31 @@ hypothesis `h` for `(matrixEquivTensor …).symm` is a `TensorProduct` induction
 `rw [TensorProduct.smul_tmul']; simp only [matrixEquivTensor_apply_symm]; exact smul_assoc c b _`.
 `Algebra.TensorProduct.assoc`'s explicit args are `(T C D)` (here `T=K`); the `commRight`/
 `cancelBaseChange` detour is unnecessary once you have `upgradeToK`.
+
+### An `Algebra.adjoin`/`Submodule.span` object must be introduced *opaquely*, not as a `let` (#6158)
+
+When a long proof needs a finitely generated subalgebra `R := Algebra.adjoin K {entries}`
+(descent of a base-change iso to an f.g. subextension, Problem 3.8.4 `Problem3_8_4_Descent.lean`),
+binding it with `let R := Algebra.adjoin K …` makes **every** downstream `isDefEq`/`whnf` try to
+unfold the adjoin. The result is `(deterministic) timeout at whnf`/`isDefEq` scattered across the
+proof — even in tactics that have nothing to do with `R`'s definition. Instead introduce it as an
+opaque hypothesis via an existential:
+```
+obtain ⟨R, hFG, hmem₁, hmem₂⟩ :
+    ∃ R : Subalgebra K L, R.FG ∧ (∀ i j, c i j ∈ R) ∧ (∀ j i, d j i ∈ R) := by
+  refine ⟨Algebra.adjoin K (↑entries : Set L), Subalgebra.fg_adjoin_finset entries, ?_, ?_⟩
+  …  -- Algebra.subset_adjoin + Finset.mem_union_left/right + Finset.mem_image
+```
+Now `R` is a bare fvar: unification never unfolds it, and only the membership facts you named are
+available. Package the coordinates you need as `⟨c i j, hmem₁ i j⟩ : ↥R` with a
+`have hval : ∀ i j, R.val ⟨c i j, _⟩ = c i j := fun _ _ => rfl` so `rw`s close by `rfl`.
+Two more levers for these large tensor/descent proofs: (1) push all the arithmetic onto the given
+`L`-iso `e` by going through the **injective** coefficient-inclusion maps
+`incV := LinearMap.rTensor V R.val.toLinearMap` (injective by `Module.Flat.rTensor_preserves_
+injective_linearMap`, `V` free over the field `K`), proving `incW ∘ φ = e ∘ incV` on the `↥R`-basis
+and extending by `Basis.sum_repr` — this yields the inverse relations and `A`-equivariance without
+ever computing `φ` on non-basis vectors; (2) expect to need `set_option maxHeartbeats 800000 in`
+(with the required explanatory comment on the line *after* the `in`, not before).
 
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 

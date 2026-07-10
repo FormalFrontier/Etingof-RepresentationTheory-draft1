@@ -161,68 +161,59 @@ theorem nonempty_baseChange_iso (f : S →ₐ[K] T)
     Nonempty ((T ⊗[K] V) ≃ₗ[T ⊗[K] A] (T ⊗[K] W)) :=
   h.elim fun φ => ⟨pushEquiv f φ⟩
 
-end Pushforward
-
-section PushMap
-
-variable [CommRing S] [Algebra K S] [CommRing T] [Algebra K T]
-variable {M N P : Type*}
-  [AddCommGroup M] [Module K M] [Module A M] [IsScalarTower K A M]
-  [AddCommGroup N] [Module K N] [Module A N] [IsScalarTower K A N]
-  [AddCommGroup P] [Module K P] [Module A P] [IsScalarTower K A P]
-
-/-- An `S ⊗[K] A`-linear map between base changes is in particular `S`-linear (restrict the
-`S ⊗[K] A`-action along `s ↦ s ⊗ 1`, which recovers the natural `S`-action by `smul_tmul_one`).
-The map analog of `pushEquiv`'s internal `φS`. -/
-noncomputable def restrictScalarsS (φ : (S ⊗[K] M) →ₗ[S ⊗[K] A] (S ⊗[K] N)) :
-    (S ⊗[K] M) →ₗ[S] (S ⊗[K] N) where
-  toFun := φ
-  map_add' := φ.map_add
-  map_smul' s x := by
-    simp only [RingHom.id_apply]
-    rw [← smul_tmul_one (A := A) s x, φ.map_smul, smul_tmul_one]
-
-@[simp]
-theorem restrictScalarsS_apply (φ : (S ⊗[K] M) →ₗ[S ⊗[K] A] (S ⊗[K] N)) (x : S ⊗[K] M) :
-    restrictScalarsS φ x = φ x := rfl
-
-/-- **Pushforward of an `S ⊗[K] A`-linear map.** A `K`-algebra homomorphism `f : S →ₐ[K] T`
-of commutative `K`-algebras pushes an `S ⊗[K] A`-linear map `S ⊗[K] M → S ⊗[K] N` forward to a
-`T ⊗[K] A`-linear map `T ⊗[K] M → T ⊗[K] N`, by base-changing along `f` and transporting through
-the comparison `T ⊗[S] (S ⊗[K] ·) ≅ T ⊗[K] ·`. The map analog of `pushEquiv`. -/
-noncomputable def pushMap (f : S →ₐ[K] T) (φ : (S ⊗[K] M) →ₗ[S ⊗[K] A] (S ⊗[K] N)) :
-    (T ⊗[K] M) →ₗ[T ⊗[K] A] (T ⊗[K] N) := by
+/-- The **pushforward of an `S ⊗[K] A`-linear map** along `f : S →ₐ[K] T`, the split-injection
+(single-map) analog of `pushEquiv`. Same underlying `T`-linear map `cW ∘ baseChange T gS ∘ cV.symm`
+and the same `1 ⊗ a`-commutation argument, but built from a bare linear map so that it can be
+applied to a split injection `⟨i, p⟩` and its two functoriality equations (`pushHom_comp`,
+`pushHom_id`) transport the splitting relation `p ∘ i = id`. -/
+noncomputable def pushHom (f : S →ₐ[K] T)
+    (g : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] W)) :
+    (T ⊗[K] V) →ₗ[T ⊗[K] A] (T ⊗[K] W) := by
   letI : Algebra S T := f.toRingHom.toAlgebra
   haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
-  let cM := TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T M
-  let cN := TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T N
-  let ΦT : (T ⊗[K] M) →ₗ[T] (T ⊗[K] N) :=
-    cN.toLinearMap ∘ₗ (LinearMap.baseChange T (restrictScalarsS φ)) ∘ₗ cM.symm.toLinearMap
-  have ΦT_tmul : ∀ (t : T) (m : M), ΦT (t ⊗ₜ[K] m) = cN (t ⊗ₜ[S] φ (1 ⊗ₜ[K] m)) :=
-    fun _ _ => rfl
-  -- `cN` intertwines the `A`-action on the middle factor with the `A`-action on `T ⊗[K] N`.
-  have key : ∀ (a : A) (t : T) (w : S ⊗[K] N),
-      cN (t ⊗ₜ[S] ((1 ⊗ₜ[K] a : S ⊗[K] A) • w)) =
-        (1 ⊗ₜ[K] a : T ⊗[K] A) • cN (t ⊗ₜ[S] w) := by
+  -- Reinterpret `g` as an `S`-linear map for the natural `S`-actions.
+  let gS : (S ⊗[K] V) →ₗ[S] (S ⊗[K] W) :=
+    { toFun := g
+      map_add' := g.map_add
+      map_smul' := fun s x => by
+        simp only [RingHom.id_apply]
+        rw [← smul_tmul_one (A := A) s x, LinearMap.map_smul, smul_tmul_one] }
+  let cV := TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T V
+  let cW := TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T W
+  -- The underlying `T`-linear pushforward.
+  let ΦT : (T ⊗[K] V) →ₗ[T] (T ⊗[K] W) :=
+    cW.toLinearMap ∘ₗ LinearMap.baseChange T gS ∘ₗ cV.symm.toLinearMap
+  have ΦT_tmul : ∀ (t : T) (v : V), ΦT (t ⊗ₜ[K] v) = cW (t ⊗ₜ[S] g (1 ⊗ₜ[K] v)) := by
+    intro t v
+    simp only [ΦT, LinearMap.comp_apply, LinearEquiv.coe_coe, cV,
+      TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul,
+      LinearMap.baseChange_tmul]
+    rfl
+  -- `cW` intertwines the `A`-action on the middle factor with the `A`-action on `T ⊗[K] W`.
+  have key : ∀ (a : A) (t : T) (w : S ⊗[K] W),
+      cW (t ⊗ₜ[S] ((1 ⊗ₜ[K] a : S ⊗[K] A) • w)) =
+        (1 ⊗ₜ[K] a : T ⊗[K] A) • cW (t ⊗ₜ[S] w) := by
     intro a t w
     induction w using TensorProduct.induction_on with
     | zero => simp
     | tmul s w0 =>
-      simp only [smul_one_tmul, cN,
+      simp only [smul_one_tmul, cW,
         TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
     | add x y hx hy =>
       simp only [smul_add, TensorProduct.tmul_add, map_add, hx, hy]
-  have hcomm : ∀ (a : A) (x : T ⊗[K] M),
+  -- The `A`-action commutes with `ΦT`.
+  have hcomm : ∀ (a : A) (x : T ⊗[K] V),
       ΦT ((1 ⊗ₜ[K] a : T ⊗[K] A) • x) = (1 ⊗ₜ[K] a : T ⊗[K] A) • ΦT x := by
     intro a x
     induction x using TensorProduct.induction_on with
     | zero => simp
-    | tmul t m =>
+    | tmul t v =>
       rw [smul_one_tmul, ΦT_tmul, ΦT_tmul,
-        show φ (1 ⊗ₜ[K] (a • m)) = (1 ⊗ₜ[K] a : S ⊗[K] A) • φ (1 ⊗ₜ[K] m) by
-          rw [← smul_one_tmul a (1 : S) m, φ.map_smul],
+        show g (1 ⊗ₜ[K] (a • v)) = (1 ⊗ₜ[K] a : S ⊗[K] A) • g (1 ⊗ₜ[K] v) by
+          rw [← smul_one_tmul a (1 : S) v, LinearMap.map_smul],
         key]
     | add x y hx hy => rw [smul_add, map_add, map_add, smul_add, hx, hy]
+  -- Upgrade `ΦT` to a `T ⊗[K] A`-linear map.
   exact
     { toFun := ΦT
       map_add' := ΦT.map_add
@@ -238,62 +229,75 @@ noncomputable def pushMap (f : S →ₐ[K] T) (φ : (S ⊗[K] M) →ₗ[S ⊗[K]
             LinearMap.map_smul, hcomm]
         | add p q hp hq => rw [add_smul, add_smul, map_add, hp, hq] }
 
-/-- `pushMap` sends the identity to the identity. -/
-theorem pushMap_id (f : S →ₐ[K] T) :
-    pushMap f (LinearMap.id : (S ⊗[K] M) →ₗ[S ⊗[K] A] (S ⊗[K] M)) = LinearMap.id := by
+/-- On a pure tensor, `pushHom f g (t ⊗ v) = cW (t ⊗ₛ g (1 ⊗ v))`, where `cW` is the base-change
+comparison. This is the defining behaviour, extracted for the functoriality proofs. -/
+theorem pushHom_tmul (f : S →ₐ[K] T) (g : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] W)) (t : T) (v : V) :
+    letI : Algebra S T := f.toRingHom.toAlgebra
+    pushHom f g (t ⊗ₜ[K] v) =
+      TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T W (t ⊗ₜ[S] g (1 ⊗ₜ[K] v)) := by
   letI : Algebra S T := f.toRingHom.toAlgebra
-  haveI : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
+  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
+  simp only [pushHom, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.comp_apply, LinearEquiv.coe_coe,
+    TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul, LinearMap.baseChange_tmul]
+
+end Pushforward
+
+section PushforwardFunctorial
+
+variable {U : Type*} [AddCommGroup U] [Module K U] [Module A U] [IsScalarTower K A U]
+variable [CommRing S] [Algebra K S] [CommRing T] [Algebra K T]
+
+/-- Behaviour of `pushHom` on the image of the base-change comparison `cV` (source side): it
+transports `cV (t ⊗ₛ w)` to `cW (t ⊗ₛ g w)`. This is what makes `pushHom` compose, since
+`pushHom f h` lands in such comparison images. -/
+theorem pushHom_cancelBaseChange (f : S →ₐ[K] T)
+    (g : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] W)) (t : T) (x : S ⊗[K] V) :
+    letI : Algebra S T := f.toRingHom.toAlgebra
+    pushHom f g (TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T V (t ⊗ₜ[S] x)) =
+      TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T W (t ⊗ₜ[S] g x) := by
+  letI : Algebra S T := f.toRingHom.toAlgebra
+  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun y => (f.commutes y).symm
+  simp only [pushHom, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.comp_apply, LinearEquiv.coe_coe,
+    LinearEquiv.symm_apply_apply, LinearMap.baseChange_tmul]
+
+/-- `pushHom` preserves composition. -/
+theorem pushHom_comp (f : S →ₐ[K] T)
+    (g : (S ⊗[K] W) →ₗ[S ⊗[K] A] (S ⊗[K] U)) (h : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] W)) :
+    pushHom f (g.comp h) = (pushHom f g).comp (pushHom f h) := by
+  letI : Algebra S T := f.toRingHom.toAlgebra
+  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
   refine LinearMap.ext fun x => ?_
   induction x using TensorProduct.induction_on with
   | zero => simp
-  | tmul t m =>
-    change TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T M
-        (t ⊗ₜ[S] (1 ⊗ₜ[K] m)) = LinearMap.id (t ⊗ₜ[K] m)
-    simp only [LinearMap.id_coe, id_eq,
+  | tmul t v =>
+    simp only [LinearMap.comp_apply, pushHom_tmul, pushHom_cancelBaseChange]
+  | add x y hx hy => simp only [map_add, LinearMap.comp_apply] at hx hy ⊢; rw [hx, hy]
+
+/-- `pushHom` preserves the identity. -/
+theorem pushHom_id (f : S →ₐ[K] T) :
+    pushHom f (LinearMap.id : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] V)) = LinearMap.id := by
+  letI : Algebra S T := f.toRingHom.toAlgebra
+  haveI hst : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
+  refine LinearMap.ext fun x => ?_
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul t v =>
+    simp only [pushHom_tmul, LinearMap.id_coe, id_eq,
       TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, one_smul]
-  | add x y hx hy => rw [map_add, map_add, hx, hy]
+  | add x y hx hy => simp only [map_add] at hx hy ⊢; rw [hx, hy]
 
-/-- `pushMap` is functorial: it sends a composite to the composite of pushforwards. -/
-theorem pushMap_comp (f : S →ₐ[K] T) (φ : (S ⊗[K] M) →ₗ[S ⊗[K] A] (S ⊗[K] N))
-    (ψ : (S ⊗[K] N) →ₗ[S ⊗[K] A] (S ⊗[K] P)) :
-    pushMap f (ψ.comp φ) = (pushMap f ψ).comp (pushMap f φ) := by
-  letI : Algebra S T := f.toRingHom.toAlgebra
-  haveI : IsScalarTower K S T := .of_algebraMap_eq fun x => (f.commutes x).symm
-  -- The pushforward of `ψ` on an element of the form `cN (t ⊗ₜ[S] y)` reads off `ψ y`.
-  have hcN : ∀ (t : T) (y : S ⊗[K] N),
-      pushMap f ψ (TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T N (t ⊗ₜ[S] y)) =
-        TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T P (t ⊗ₜ[S] ψ y) := by
-    intro t y
-    show TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T P
-        ((LinearMap.baseChange T (restrictScalarsS ψ))
-          ((TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T N).symm
-            (TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T N (t ⊗ₜ[S] y)))) = _
-    rw [LinearEquiv.symm_apply_apply, LinearMap.baseChange_tmul, restrictScalarsS_apply]
-  refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
-  | tmul t m =>
-    -- Both `pushMap`s evaluate on pure tensors by `rfl` through `cancelBaseChange`.
-    change TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T P
-        (t ⊗ₜ[S] ψ (φ (1 ⊗ₜ[K] m))) =
-      pushMap f ψ (TensorProduct.AlgebraTensorModule.cancelBaseChange K S T T N
-        (t ⊗ₜ[S] φ (1 ⊗ₜ[K] m)))
-    rw [hcN]
-  | add x y hx hy =>
-    rw [map_add, map_add, hx, hy]
-
-/-- Existential pushforward of a **split injection** (direct-summand witness): a `K`-algebra hom
-`f : S →ₐ[K] T` sends a `S ⊗[K] A`-split injection `S ⊗[K] V → S ⊗[K] W` (a pair `(i, p)` with
-`p ∘ i = id`) to a `T ⊗[K] A`-split injection `T ⊗[K] V → T ⊗[K] W`. -/
-theorem exists_baseChange_directSummand (f : S →ₐ[K] T)
+/-- **Split-injection pushforward functoriality.** A `K`-algebra hom `f : S →ₐ[K] T` of
+commutative `K`-algebras pushes a split injection `⟨i, p⟩` (with `p ∘ i = id`) of base changes
+over `S ⊗[K] A` forward to one over `T ⊗[K] A`. -/
+theorem nonempty_baseChange_directSummand (f : S →ₐ[K] T)
     (h : ∃ (i : (S ⊗[K] V) →ₗ[S ⊗[K] A] (S ⊗[K] W))
            (p : (S ⊗[K] W) →ₗ[S ⊗[K] A] (S ⊗[K] V)), p.comp i = LinearMap.id) :
     ∃ (i : (T ⊗[K] V) →ₗ[T ⊗[K] A] (T ⊗[K] W))
       (p : (T ⊗[K] W) →ₗ[T ⊗[K] A] (T ⊗[K] V)), p.comp i = LinearMap.id := by
   obtain ⟨i, p, hpi⟩ := h
-  refine ⟨pushMap f i, pushMap f p, ?_⟩
-  rw [← pushMap_comp, hpi, pushMap_id]
+  refine ⟨pushHom f i, pushHom f p, ?_⟩
+  rw [← pushHom_comp f p i, hpi, pushHom_id]
 
-end PushMap
+end PushforwardFunctorial
 
 end Etingof.Problem3_8_4.Functoriality
