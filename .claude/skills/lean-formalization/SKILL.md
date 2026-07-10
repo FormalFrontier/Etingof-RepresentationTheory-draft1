@@ -3399,6 +3399,15 @@ These are proof approaches that multiple agents have attempted and failed. Don't
 
 **Workaround for API lemma application:** When proofs have local `let instR := reversedAtVertex Q i` bindings, Lean's type class synthesis finds `instR` for `[Quiver Q]` instead of the registered `inst`, causing "synthesized type class instance is not definitionally equal" errors when applying API lemmas. **Fix**: Extract the computation as a separate top-level theorem (outside the proof) where `instR` doesn't exist as a local binding. Use explicit `@`-prefixed terms with `Etingof.reversedAtVertex Q _ inst i` to control instance resolution. See `Φ_comp_source_eq_zero` in Proposition6_6_6.lean and `reflFunctorPlus_mapLinear_eq_ne` in Definition6_6_3.lean for examples of this pattern.
 
+**Building hom-set equivalences over `reversedAtVertex` (Exercise 7.9.8 `homFMinusEquivReduced`, #6031, sorry-free):** the same two-Quiver-instance friction bites `QuiverRepresentationHom` structure operations, plus a few reduction gotchas that each cost several iterations:
+- `f.app v` / `.naturality` / the `{ app := …, naturality := … }` constructor **re-synthesize `[Quiver Q]` to the ambient `inst`** — the error is the usual "synthesized `inst✝¹` / inferred `reversedAtVertex Q i`". Always write these fully `@`-applied: `@Etingof.QuiverRepresentationHom.app k Q _ (Etingof.reversedAtVertex Q i) ρ₁ ρ₂ f v` and `@…mk … app_fn nat_proof`. Destructuring `fun ⟨fapp, fnat⟩ => …` does NOT avoid it (the anonymous constructor re-synthesizes on the way out).
+- **`simp only [LinearMap.comp_apply]` can silently "make no progress" on `(g ∘ₗ ↑e.symm) x` goals, while `rw [LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]` works.** When a `simp only` reduction of composed linear maps stalls for no visible reason, switch to `rw`.
+- `Submodule.liftQ` needs `[AddCommGroup]` on its **codomain** (`W.obj i`), not just the quotient. Supply it with `letI : AddCommGroup (…W i) := Etingof.addCommGroupOfRing (k := k)` scoped *inside* the `liftQ` term (a top-level `letI ∀ v` pollutes instance resolution elsewhere and re-triggers the not-defeq errors).
+- `subst b` (naming the variable), not `subst hb`, when `hb : b = i` and you need to keep `i` (plain `subst hb` eliminates `i`).
+- The dependent `hv ▸ appAtI r` in an `if hv : v = i then …` branch: don't re-`show` the `▸` (motive fails to compute); reduce the *existing* term applied to an argument with `simp only [reduceDIte]` (works where bare `rw [dif_pos rfl]` hits "motive not type correct").
+- `DirectSum.induction_on` case names are `zero` / `of` / `add` (not `H_*`); the `of` case yields `DirectSum.of` which is *defeq but not syntactically* `DirectSum.lof` — bridge with a one-line `show … lof … = … lof …` before applying `lof`-stated lemmas.
+- Give the whole assembly `set_option maxHeartbeats 3200000 in` (the `let g`/`liftG`/`appAtI` chain plus two `ext` proofs is heavy).
+
 ## Common Failure Modes
 
 ### Explicit Bijection Construction (Counting Proofs)
