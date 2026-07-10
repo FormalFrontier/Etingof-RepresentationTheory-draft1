@@ -462,7 +462,42 @@ theorem Etingof.homTransportPlusEquivReduced
     -- Now both sides are `W.mapLinear ? (τ a ha (g.app a x))`; the arrows match by the twice lemma.
     rw [he', Etingof.reversedArrow_ne_ne_twice' ha hb e]
     rfl
-  case constraint => sorry
+  case constraint =>
+    intro x
+    haveI : Fintype (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) :=
+      Fintype.ofEquiv _ (Etingof.sourceArrowReindexEquiv hi)
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
+    -- The kernel element `z` underlying `κ (g.app i x)`, and the target `sinkMap z = 0`.
+    set z := (κ (g.app i x)).1 with hz
+    letI acmW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+        AddCommMonoid (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+      fun b => @Etingof.QuiverRepresentation.instAddCommMonoid k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+    letI modW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+        Module k (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+      fun b => @Etingof.QuiverRepresentation.instModule k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+    have hker := (κ (g.app i x)).property
+    rw [LinearMap.mem_ker] at hker
+    refine Eq.trans ?_ hker
+    -- Expand `sinkMap z` as a sum over `ArrowsInto Q̄ᵢ i`, and reindex from `ArrowsOutOf Q i`.
+    rw [@Etingof.sinkMap_apply_eq_sum k _ Q _ (Etingof.reversedAtVertex Q i) W i _ z]
+    refine Finset.sum_equiv (Etingof.sourceArrowReindexEquiv hi) (by simp) (fun a _ => ?_)
+    -- Per-summand: `W (revOut a) (h_{a.fst} (V a.snd x)) = W b.snd (component b z)` for `b = reindex a`,
+    -- via `g.naturality` at `i` and `reflFunctorPlus_mapLinear_eq_ne`.
+    have hb := Etingof.arrowsOutOf_target_ne_source hi a
+    rw [g.naturality a.snd x]
+    rw [show (τ a.fst hb) (T.mapLinear a.snd (g.app i x)) =
+        (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+          a.fst hb)
+          (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus a.fst
+            (T.mapLinear a.snd (g.app i x)))
+      from rfl]
+    rw [Etingof.QuiverRepresentation.transportReversedTwiceEquiv_mapLinear Fplus i a.fst a.snd
+      (g.app i x)]
+    rw [@Etingof.reflFunctorPlus_mapLinear_eq_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+      a.fst hb ((Etingof.reversedAtVertex_twice Q i).symm ▸ a.snd)
+      (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus i (g.app i x))]
+    rw [← Etingof.revOut_eq_reversedArrow_eq_ne hi a]
+    rfl
   case invFun => exact fun r => sorry
   case li => sorry
   case ri => sorry
