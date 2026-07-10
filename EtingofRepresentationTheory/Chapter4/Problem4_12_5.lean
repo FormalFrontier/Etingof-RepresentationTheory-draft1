@@ -74,6 +74,58 @@ def IsIrredSub {G : Type*} [Group G] {n : ℕ} (ρ : Representation ℂ G (Fin n
   S ≠ ⊥ ∧ ∀ T : Submodule ℂ (Fin n → ℂ),
     T ≤ S → (∀ g, ∀ v ∈ T, ρ g v ∈ T) → T = ⊥ ∨ T = S
 
+/-! ## Reusable decomposition engine
+
+The lemmas below are generic in the dimension `n` and the representation `ρ`; none of them
+mentions the numbers `12/20/30`. They provide the structural facts shared by the three
+decomposition theorems: semisimplicity of any `A₅`-representation, a fixed-point formula for
+the character of `permRep`, and the existence of an internal direct-sum decomposition into
+`IsIrredSub` invariant subspaces. -/
+
+section Engine
+
+/-- `A₅` has nonzero order in `ℂ` (its order is `60`), so Maschke's theorem applies. -/
+instance : NeZero (Nat.card A5 : ℂ) := by
+  refine ⟨?_⟩
+  have h : Nat.card A5 ≠ 0 := Nat.card_pos.ne'
+  exact_mod_cast h
+
+/-- **Semisimplicity (Maschke).** Every `ℂ`-representation of `A₅` is a semisimple
+`ℂ[A₅]`-module. This is the Maschke instance applied with `Nat.card A₅ = 60 ≠ 0` in `ℂ`. -/
+theorem isSemisimple_asModule {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) :
+    IsSemisimpleModule (MonoidAlgebra ℂ A5) ρ.asModule :=
+  inferInstance
+
+/-- `ρ.asModule` is module-finite over `ℂ[A₅]` (it is finite over `ℂ` and `ℂ ⊆ ℂ[A₅]`). -/
+instance instFiniteAsModule {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) :
+    Module.Finite (MonoidAlgebra ℂ A5) ρ.asModule :=
+  Module.Finite.of_restrictScalars_finite ℂ (MonoidAlgebra ℂ A5) ρ.asModule
+
+/-- `permRep act g` is the linear map of the permutation matrix of `act g⁻¹`. -/
+lemma permRep_eq_toLin' {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g : A5) :
+    (permRep act g) = (((act g⁻¹).permMatrix ℂ).toLin') := by
+  apply LinearMap.ext; intro f; funext a
+  rw [Matrix.toLin'_apply, Matrix.permMatrix_mulVec]
+  rfl
+
+/-- **Fixed-point character formula.** The trace of `permRep act g` on `Fin n → ℂ` equals the
+number of fixed points of `act g`. -/
+lemma permRep_trace_eq_fixCard {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) (g : A5) :
+    LinearMap.trace ℂ (Fin n → ℂ) (permRep act g)
+      = ((Finset.univ.filter (fun i : Fin n => act g i = i)).card : ℂ) := by
+  rw [permRep_eq_toLin', Matrix.trace_toLin'_eq, Matrix.trace_permutation]
+  have hset : Function.fixedPoints (⇑(act g⁻¹ : Equiv.Perm (Fin n)))
+      = (↑(Finset.univ.filter (fun i : Fin n => act g i = i)) : Set (Fin n)) := by
+    ext a
+    simp only [Function.fixedPoints, Function.IsFixedPt, Set.mem_setOf_eq, Finset.coe_filter,
+      Finset.mem_univ, true_and, map_inv]
+    constructor
+    · intro h; exact ((Equiv.symm_apply_eq _).mp h).symm
+    · intro h; exact (Equiv.symm_apply_eq _).mpr h.symm
+  rw [hset, Set.ncard_coe_finset]
+
+end Engine
+
 /-- **Part (a): vertices.** For the icosahedral vertex action of `A₅` — any transitive action
 on `12` points with point stabilizers of order `5` — the representation on `F(I) = Fin 12 → ℂ`
 decomposes as `1 ⊕ 3 ⊕ 3' ⊕ 5`: an internal direct sum of four `G`-invariant irreducible
