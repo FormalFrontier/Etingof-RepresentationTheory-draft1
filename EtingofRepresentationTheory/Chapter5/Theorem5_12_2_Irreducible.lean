@@ -129,7 +129,7 @@ private lemma columnAntisymmetrizer_apply_not_mem (n : ℕ) (la : Nat.Partition 
 /-- The coefficient of the identity permutation in the Young symmetrizer is 1.
 This uses the fact that P_λ ∩ Q_λ = {id}: only the pair (id, id) in Q × P
 maps to the identity permutation. -/
-private lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
+lemma youngSymmetrizer_identity_coeff (n : ℕ) (la : Nat.Partition n) :
     (YoungSymmetrizer n la : A' n) 1 = 1 := by
   -- (b * a)(1) = ∑_{g} b(g) * a(g⁻¹). Only g ∈ P ∩ Q = {1} contributes.
   change (ColumnAntisymmetrizer n la * RowSymmetrizer n la : A' n) 1 = 1
