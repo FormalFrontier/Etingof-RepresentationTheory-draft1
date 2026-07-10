@@ -84,13 +84,38 @@ def Ext1Vanishes (V W : QuiverRepresentation k Q) : Prop :=
 representation `V`. -/
 theorem ext1_source [DecidableEq Q] (i : Q) (hi : IsSource i)
     (V : QuiverRepresentation k Q) : Ext1Vanishes V (simpleRep i) := by
-  sorry
+  -- For a source `i`, every arrow `a ⟶ b` has `b ≠ i`, so its target component
+  -- `(S_i)_b = Fin 0 → k` is a subsingleton. Hence the entire target of the
+  -- differential is trivial and any element (e.g. `d 0`) equals the given `g`.
+  intro g
+  refine ⟨0, funext fun p => ?_⟩
+  have hbne : p.2.1 ≠ i := by
+    intro h
+    exact (hi p.1).elim (h ▸ p.2.2)
+  have hsub : Subsingleton ((simpleRep (k := k) i).obj p.2.1) := by
+    change Subsingleton (Fin (if p.2.1 = i then 1 else 0) → k)
+    rw [if_neg hbne]
+    exact ⟨fun a b => funext fun x => x.elim0⟩
+  exact LinearMap.ext fun x => hsub.elim _ _
 
 /-- **(a)** If `i` is a **sink**, then `Ext¹(S_i, V) = 0` for every
 representation `V`. -/
 theorem ext1_sink [DecidableEq Q] (i : Q) (hi : IsSink i)
     (V : QuiverRepresentation k Q) : Ext1Vanishes (simpleRep i) V := by
-  sorry
+  -- Dually, for a sink `i` every arrow `a ⟶ b` has `a ≠ i`, so its source
+  -- component `(S_i)_a = Fin 0 → k` is a subsingleton. A linear map out of a
+  -- subsingleton domain is the zero map, so the whole target of the differential
+  -- is trivial and `d 0` equals the given `g`.
+  intro g
+  refine ⟨0, funext fun p => ?_⟩
+  have hane : p.1 ≠ i := by
+    intro h
+    exact (hi p.2.1).elim (h ▸ p.2.2)
+  have hsub : Subsingleton ((simpleRep (k := k) i).obj p.1) := by
+    change Subsingleton (Fin (if p.1 = i then 1 else 0) → k)
+    rw [if_neg hane]
+    exact ⟨fun a b => funext fun x => x.elim0⟩
+  exact LinearMap.ext fun x => by rw [hsub.elim x 0, map_zero, map_zero]
 
 /-! ## Part (b): Jordan–Hölder series of `V_α` -/
 

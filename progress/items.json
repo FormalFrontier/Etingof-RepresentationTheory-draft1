@@ -6043,8 +6043,8 @@
     "end_page": "179",
     "start_line": 25,
     "end_line": 5,
-    "status": "statement_formalized",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_9_3.lean: simpleRep S_i, source/sink, Ext^1 via two-term complex differential, Ext vanishing at source/sink (a), Jordan-Holder data as Prop-def (b); sorry proofs."
+    "status": "partially_proved",
+    "coverage_note": "Faithful statements in Chapter6/Problem6_9_3.lean: simpleRep S_i, source/sink, Ext^1 via two-term complex differential, Jordan-Holder data as Prop-def (b). Part (a) proved sorry-free: ext1_source and ext1_sink (Ext vanishing at source/sink via subsingleton target/source component). Part (b) IsJordanHolderData remains a Prop-def pending composition-series infrastructure."
   },
   {
     "id": "Chapter7/Introduction",
