@@ -43,12 +43,13 @@ isomorphism `V ≃ V*` and derive a contradiction:
    hint: a nondegenerate skew-symmetric form exists only on even-dimensional spaces), while the
    dimension of an irreducible divides `|G|`, which is odd.
 
-The top-level assembly is complete and sorry-free. Sub-lemma 3
+The whole development is now sorry-free. Sub-lemma 3
 (`not_isQuaternionicType_of_odd_order_of_irreducible`) is proved by combining the even
 dimension of quaternionic type (`Etingof.even_finrank_of_isQuaternionicType`) with "the
-dimension of an irreducible divides `|G|`" (`Etingof.Theorem5_3_1`). The only remaining
-`sorry` is the Frobenius–Schur crux `sum_char_sq_eq_card_of_isRealType` feeding sub-lemma 2
-(tracked as issue #6242). See the tracking issues for #6215.
+dimension of an irreducible divides `|G|`" (`Etingof.Theorem5_3_1`). The Frobenius–Schur crux
+`sum_char_sq_eq_card_of_isRealType` feeding sub-lemma 2 (issue #6242) is discharged by clearing
+the `|G|⁻¹` factor in the reverse indicator bridge
+`Etingof.frobeniusSchurIndicator_eq_one_of_isRealType`. See the tracking issues for #6215.
 -/
 
 namespace Etingof
@@ -159,22 +160,33 @@ theorem sum_char_sq_eq_zero (hodd : Odd (Fintype.card G)) (ρ : Representation �
   · exact absurd (inv_eq_zero.mp h) hcard
   · exact h
 
-/-! ### Frobenius–Schur crux (open)
+/-! ### Frobenius–Schur crux
 
 For a self-dual (in particular real-type) irreducible representation, the Frobenius–Schur
 indicator `(1/|G|)·∑ χ(g²)` equals `+1`, i.e. `∑ χ(g²) = |G|`. This is the substantive
-piece that is not yet in Mathlib; see the sub-issue. It requires the symmetric/exterior
-square decomposition of `V ⊗ V` (equivalently, the swap operator on `(V ⊗ V)^G`, which is
-one-dimensional by Schur for a self-dual irreducible, and acts by `+1` on the symmetric
-invariant tensor supplied by the real-type form). -/
+piece that is not in Mathlib; it is now supplied by the reverse indicator bridge
+`Etingof.frobeniusSchurIndicator_eq_one_of_isRealType` (in `FrobeniusSchurRealType.lean`),
+whose proof carries out the symmetric/exterior square analysis (the swap operator on
+`(V ⊗ V)^G`, one-dimensional by Schur for a self-dual irreducible, acting by `+1` on the
+symmetric invariant tensor supplied by the real-type form). Here we only clear the `|G|⁻¹`
+factor to convert the indicator value `1` into the character-sum identity `∑ χ(g²) = |G|`. -/
 
-/-- **Frobenius–Schur crux (open).** For a real-type irreducible representation of a finite
-group, `∑ g, χ(g²) = |G|`. -/
+/-- **Frobenius–Schur crux.** For a real-type irreducible representation of a finite
+group, `∑ g, χ(g²) = |G|`. Unfolding `Etingof.frobeniusSchurIndicator ρ = |G|⁻¹·∑ χ(g²)`,
+the value `1` (from `frobeniusSchurIndicator_eq_one_of_isRealType`) clears to `∑ χ(g²) = |G|`. -/
 theorem sum_char_sq_eq_card_of_isRealType (ρ : Representation ℂ G V)
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsRealType ρ) :
     ∑ g : G, ρ.character (g ^ 2) = (Fintype.card G : ℂ) := by
-  sorry
+  classical
+  have hcard : (Fintype.card G : ℂ) ≠ 0 := by exact_mod_cast Fintype.card_ne_zero
+  have hFS : Etingof.frobeniusSchurIndicator ρ = 1 :=
+    Etingof.frobeniusSchurIndicator_eq_one_of_isRealType ρ hirr h
+  rw [Etingof.frobeniusSchurIndicator, inv_mul_eq_one₀ hcard] at hFS
+  -- `hFS : (Fintype.card G : ℂ) = ∑ g, trace (ρ (g * g))`; the summands match `χ (g ^ 2)`.
+  rw [hFS]
+  refine Finset.sum_congr rfl fun g _ => ?_
+  rw [Representation.character, pow_two]
 
 /-- **Schur dichotomy.** A self-dual irreducible representation is of real or quaternionic
 type. The space of `G`-invariant bilinear forms on an irreducible `V` is at most
