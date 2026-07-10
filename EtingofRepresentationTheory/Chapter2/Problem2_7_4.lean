@@ -4,6 +4,7 @@ import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.Algebra.Algebra.Subalgebra.Basic
 import Mathlib.Algebra.CharP.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.LinearAlgebra.Trace
 
 /-!
 # Problem 2.7.4: Representations and ideals of the Weyl algebra
@@ -113,8 +114,23 @@ representation: any finite dimensional `A`-module (as a `k`-vector space) is zer
 theorem finrank_eq_zero_of_charZero (k : Type*) [Field k] [CharZero k]
     (V : Type*) [AddCommGroup V] [Module k V] [Module (WeylAlgebra k) V]
     [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V] :
-    Module.finrank k V = 0 :=
-  sorry
+    Module.finrank k V = 0 := by
+  -- The action of `A` on `V` gives `k`-linear endomorphisms `X, Y` with `Y * X = X * Y + 1`
+  -- (the image of the defining relation `yx = xy + 1`).
+  haveI : SMulCommClass (WeylAlgebra k) k V :=
+    ⟨fun a c v => by
+      simp only [← algebraMap_smul (WeylAlgebra k) c, ← mul_smul, Algebra.commutes]⟩
+  let φ : WeylAlgebra k →ₐ[k] Module.End k V := Algebra.lsmul k k V
+  set X := φ (WeylAlgebra.x k) with hX
+  set Y := φ (WeylAlgebra.y k) with hY
+  have hcomm : Y * X = X * Y + 1 := by
+    rw [hX, hY, ← map_mul, ← map_mul, ← map_one φ, ← map_add, WeylAlgebra.yx_eq]
+  -- Take traces: `Tr(Y*X) = Tr(X*Y)`, but `Y*X = X*Y + 1`, so `Tr(1) = 0`, i.e. `finrank = 0`.
+  have htr : LinearMap.trace k V (Y * X) = LinearMap.trace k V (X * Y) :=
+    LinearMap.trace_mul_comm k Y X
+  rw [hcomm, map_add, LinearMap.trace_one] at htr
+  have hfin : (Module.finrank k V : k) = 0 := by linear_combination htr
+  exact_mod_cast hfin
 
 /-- **(a)** In characteristic `0`, the Weyl algebra is a simple ring: its only two-sided ideals
 are `0` and the whole algebra. -/
