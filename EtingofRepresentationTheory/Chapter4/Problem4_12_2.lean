@@ -519,8 +519,11 @@ theorem one_dim_reps_card [Fact p.Prime] :
   ring
 
 /-- **Part (c), decomposition of `R_1`.** When `z = 1` the representation `R_1` decomposes as
-an internal direct sum of `p` one-dimensional `G`-invariant subspaces (the `p` distinct
-characters of the cyclic quotient, each occurring exactly once). -/
+an internal direct sum of `p` one-dimensional `G`-invariant subspaces, and **each occurs
+exactly once**: each line `S i` is the isotypic line of a character `χ i : G →* ℂˣ` (so `ρ g`
+acts on `S i` as the scalar `χ i g`), and the `p` characters `χ` are pairwise distinct
+(`Function.Injective χ`). Thus `R_1` is the multiplicity-free sum of the `p` distinct
+characters of the cyclic quotient. -/
 theorem R1_decomposes [Fact p.Prime]
     (ρ : Representation ℂ (Heisenberg p) (ZMod p → ℂ))
     (hx : ∀ (f : ZMod p → ℂ) (t : ZMod p), (ρ (xGen p) f) t = f (t - 1))
@@ -528,7 +531,10 @@ theorem R1_decomposes [Fact p.Prime]
     ∃ S : Fin p → Submodule ℂ (ZMod p → ℂ),
       (∀ i, ∀ (g : Heisenberg p), ∀ v ∈ S i, ρ g v ∈ S i) ∧
       (∀ i, Module.finrank ℂ (S i) = 1) ∧
-      DirectSum.IsInternal S := by
+      DirectSum.IsInternal S ∧
+      ∃ χ : Fin p → (Heisenberg p →* ℂˣ),
+        Function.Injective χ ∧
+        ∀ i, ∀ (g : Heisenberg p), ∀ w ∈ S i, ρ g w = (χ i g : ℂ) • w := by
   haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   -- A primitive `p`-th root of unity `ζ`.
   obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
@@ -614,7 +620,59 @@ theorem R1_decomposes [Fact p.Prime]
     intro i
     rw [Module.End.hasEigenvector_iff]
     exact ⟨Module.End.mem_eigenspace_iff.mpr (hxeig _), chi_ne_zero _⟩
-  refine ⟨fun i => Submodule.span ℂ {v i}, ?_, ?_, ?_⟩
+  -- Read the scalar of the `G`-action on each line off the value at `0` (where `v i` is `1`).
+  have hv0 : ∀ i : Fin p, v i 0 = 1 := by
+    intro i
+    change ζ ^ (((i : ℕ) : ZMod p) * 0).val = 1
+    rw [mul_zero, ZMod.val_zero, pow_zero]
+  have hxeig' : ∀ i : Fin p, ρ (xGen p) (v i) = μ i • v i :=
+    fun i => hxeig ((i : ℕ) : ZMod p)
+  -- Each `ρ g` is injective (it is invertible in the group representation).
+  have hρinj : ∀ (g : Heisenberg p), Function.Injective (ρ g) := by
+    intro g
+    have hlinv : Function.LeftInverse (ρ g⁻¹) (ρ g) := by
+      intro w
+      rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
+    exact hlinv.injective
+  -- Each line is `ρ g`-stable, so `ρ g (v i) = (ρ g (v i) 0) • v i`.
+  have hscale : ∀ (i : Fin p) (g : Heisenberg p), ρ g (v i) = (ρ g (v i) 0) • v i := by
+    intro i g
+    have hmem : ρ g (v i) ∈ Submodule.span ℂ {v i} :=
+      hinv ((i : ℕ) : ZMod p) g (v i) (Submodule.mem_span_singleton_self _)
+    rw [Submodule.mem_span_singleton] at hmem
+    obtain ⟨a, ha⟩ := hmem
+    have hval : ρ g (v i) 0 = a := by rw [← ha, Pi.smul_apply, smul_eq_mul, hv0 i, mul_one]
+    rw [hval]; exact ha.symm
+  have hc_ne : ∀ (i : Fin p) (g : Heisenberg p), ρ g (v i) 0 ≠ 0 := by
+    intro i g h0
+    have hz : ρ g (v i) = 0 := by rw [hscale i g, h0, zero_smul]
+    exact chi_ne_zero ((i : ℕ) : ZMod p) (hρinj g (hz.trans (map_zero (ρ g)).symm))
+  -- The scalar is multiplicative in `g`: `g ↦ ρ g (v i) 0` is a character.
+  have hmul : ∀ (i : Fin p) (g h : Heisenberg p),
+      ρ (g * h) (v i) 0 = ρ g (v i) 0 * ρ h (v i) 0 := by
+    intro i g h
+    have hgh : ρ (g * h) (v i) = ρ h (v i) 0 • ρ g (v i) := by
+      rw [map_mul, Module.End.mul_apply]
+      nth_rewrite 1 [hscale i h]
+      rw [map_smul]
+    rw [hgh, Pi.smul_apply, smul_eq_mul]; ring
+  -- The `p` characters carried by the lines.
+  let χ : Fin p → (Heisenberg p →* ℂˣ) := fun i =>
+    { toFun := fun g => Units.mk0 (ρ g (v i) 0) (hc_ne i g)
+      map_one' := by
+        apply Units.ext
+        change ρ (1 : Heisenberg p) (v i) 0 = 1
+        rw [map_one, Module.End.one_apply]; exact hv0 i
+      map_mul' := fun g h => by
+        apply Units.ext
+        change ρ (g * h) (v i) 0 = ρ g (v i) 0 * ρ h (v i) 0
+        exact hmul i g h }
+  -- On the `xGen` generator the character equals the (pairwise distinct) eigenvalue `μ i`.
+  have hχx : ∀ i : Fin p, (χ i (xGen p) : ℂ) = μ i := by
+    intro i
+    change ρ (xGen p) (v i) 0 = μ i
+    rw [hxeig' i, Pi.smul_apply, smul_eq_mul, hv0 i, mul_one]
+  refine ⟨fun i => Submodule.span ℂ {v i}, ?_, ?_, ?_, χ, ?_, ?_⟩
   · intro i g w hw
     exact hinv ((i : ℕ) : ZMod p) g w hw
   · intro i
@@ -625,6 +683,17 @@ theorem R1_decomposes [Fact p.Prime]
         rw [Fintype.card_fin, Module.finrank_fintype_fun_eq_card, ZMod.card]
       have hspan_top := hli.span_eq_top_of_card_eq_finrank hcard
       rw [← hspan_top, ← Set.iUnion_singleton_eq_range, Submodule.span_iUnion]
+  · -- `χ` is injective: its value at `xGen` is the distinct eigenvalue `μ`.
+    intro i i' hii
+    apply hμinj
+    have key : (χ i (xGen p) : ℂ) = (χ i' (xGen p) : ℂ) := by rw [hii]
+    rwa [hχx i, hχx i'] at key
+  · -- Each `S i` is the `χ i`-isotypic line: `ρ g` acts on it by the scalar `χ i g`.
+    intro i g w hw
+    rw [Submodule.mem_span_singleton] at hw
+    obtain ⟨a, rfl⟩ := hw
+    have hg : ρ g (v i) = (χ i g : ℂ) • v i := hscale i g
+    rw [map_smul, hg, smul_comm]
 
 /-- **Part (d).** Every irreducible complex representation of the Heisenberg group has
 dimension `1` or `p`. (Combined with (c) and the sum-of-squares formula
