@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter7.Introduction_7_4
 
 /-!
 # Exercise 4.2.3: fewer irreducibles than conjugacy classes in the modular case
@@ -145,6 +146,111 @@ theorem not_isSemisimpleRing_of_card_eq_zero (hcard : (Fintype.card G : k) = 0) 
   exact hmem'
 
 end GroupSum
+
+/-! ### Field-general bridge between simple `FDRep`s and simple `k[G]`-modules
+
+The counting half of Exercise 4.2.3 requires relating the categorical count
+`Nat.card (IrrepClasses k G)` to an algebraic count of simple `k[G]`-modules. The bridge must
+be **field-general** — no `IsAlgClosed`, no `NeZero (|G| : k)` — because the exercise lives in
+the modular (non-semisimple) case. This section develops:
+
+* `simple_fdRepOf_of_isSimpleModule`: a simple `k[G]`-module gives a simple `FDRep k G` object
+  (a field-general restatement of `FDRep.simple_of_isSimpleModule_asModule`, which carries a
+  spurious `[NeZero (Nat.card G : k)]` inherited from its `IsAlgClosed` section);
+* `Simple` viewed as an `ObjectProperty` closed under isomorphism;
+* `repSimpleClassesEquivModuleSimpleClasses`: the bijection between isomorphism classes of
+  simple objects of `Rep k G` and of `ModuleCat k[G]`, induced by
+  `Rep.equivalenceModuleMonoidAlgebra` via `Etingof.isoClassesEquivOfEquivalence`.
+
+The remaining links (`IrrepClasses k G ≃` simple-object classes of `Rep k G`, the
+`Finite` instance, and the final count) are tracked in the sibling issues. -/
+
+section Bridge
+
+open CategoryTheory ObjectProperty
+
+universe u v
+
+/-- A fully faithful functor preserving monomorphisms reflects simple objects. This is a
+field-general (and namespace-local) copy of the private lemma used in
+`Infrastructure/IrreducibleEnumeration`, restated here without any `IsAlgClosed` context. -/
+private lemma simple_of_fullyFaithful_preservesMono {C D : Type*} [Category C] [Category D]
+    [Limits.HasZeroMorphisms C] [Limits.HasZeroMorphisms D]
+    (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms] (X : C)
+    [Simple (F.obj X)] : Simple X where
+  mono_isIso_iff_nonzero {Y} f := by
+    intro _
+    constructor
+    · intro hiso
+      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance
+        (by rw [h]; simp)
+    · intro hne
+      haveI : Mono (F.map f) := inferInstance
+      haveI : IsIso (F.map f) := (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+        (fun h => hne (F.map_injective (by rwa [F.map_zero])))
+      exact isIso_of_fully_faithful F f
+
+variable {k : Type u} {G : Type v} [Field k] [Group G]
+
+/-- **Field-general bridge (module ⟹ representation).** If `ρ.asModule` is a simple
+`k[G]`-module, then `FDRep.of ρ` is a simple object of `FDRep k G`. No `NeZero (Nat.card G : k)`
+or `IsAlgClosed k` hypothesis is required: the proof only uses the equivalence
+`Rep k G ≌ ModuleCat k[G]` and the fully faithful forgetful functor `FDRep k G ⥤ Rep k G`. -/
+theorem simple_fdRepOf_of_isSimpleModule
+    {V : Type u} [AddCommGroup V] [Module k V] [Module.Finite k V]
+    (ρ : Representation k G V)
+    [hρ : @IsSimpleModule (MonoidAlgebra k G) _ ρ.asModule _
+      (Representation.instModuleMonoidAlgebraAsModule ρ)] :
+    Simple (FDRep.of ρ) := by
+  letI : Module (MonoidAlgebra k G) ρ.asModule :=
+    Representation.instModuleMonoidAlgebraAsModule ρ
+  haveI := hρ
+  let E := Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)
+  haveI : Simple (E.functor.obj ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ))) :=
+    @simple_of_isSimpleModule (MonoidAlgebra k G) ρ.asModule _ _
+      (Representation.instModuleMonoidAlgebraAsModule ρ) hρ
+  haveI : Simple ((forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of ρ)) :=
+    simple_of_fullyFaithful_preservesMono E.functor _
+  exact simple_of_fullyFaithful_preservesMono (forget₂ (FDRep k G) (Rep k G)) _
+
+/-- Being a simple object, packaged as an `ObjectProperty`. -/
+def simpleProp (C : Type*) [Category C] [Limits.HasZeroMorphisms C] : ObjectProperty C :=
+  fun X => Simple X
+
+instance (C : Type*) [Category C] [Limits.HasZeroMorphisms C] :
+    (simpleProp C).IsClosedUnderIsomorphisms where
+  of_iso e hX := (Simple.iff_of_iso e).mp hX
+
+/-- An equivalence of categories preserves and reflects simple objects. -/
+lemma simpleProp_iff_of_equivalence {A B : Type*} [Category A] [Category B]
+    [Limits.HasZeroMorphisms A] [Limits.HasZeroMorphisms B]
+    (E : A ≌ B) [E.functor.PreservesMonomorphisms] [E.inverse.PreservesMonomorphisms]
+    (X : A) : Simple (E.functor.obj X) ↔ Simple X := by
+  constructor
+  · intro _
+    exact simple_of_fullyFaithful_preservesMono E.functor X
+  · intro hX
+    haveI := hX
+    haveI : Simple (E.inverse.obj (E.functor.obj X)) :=
+      Simple.of_iso (Y := X) (E.unitIso.symm.app X)
+    exact simple_of_fullyFaithful_preservesMono E.inverse (E.functor.obj X)
+
+variable (k G) in
+/-- **Counting bridge (representation side).** The isomorphism classes of simple objects of
+`Rep k G` are in bijection with those of `ModuleCat k[G]`, induced by the equivalence
+`Rep.equivalenceModuleMonoidAlgebra` through `Etingof.isoClassesEquivOfEquivalence`. -/
+noncomputable def repSimpleClassesEquivModuleSimpleClasses :
+    Quotient (isIsomorphicSetoid (simpleProp (Rep k G)).FullSubcategory) ≃
+      Quotient (isIsomorphicSetoid
+        (simpleProp (ModuleCat (MonoidAlgebra k G))).FullSubcategory) := by
+  refine isoClassesEquivOfEquivalence
+    (Equivalence.congrFullSubcategory (Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G))
+      (P := simpleProp (Rep k G)) (Q := simpleProp (ModuleCat (MonoidAlgebra k G))) ?_)
+  exact funext fun X => propext
+    (simpleProp_iff_of_equivalence (Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)) X)
+
+end Bridge
 
 /-- **Exercise 4.2.3.** If `|G| = 0` in `k` (the characteristic of `k` divides the order
 of the finite group `G`), then the number of isomorphism classes of irreducible
