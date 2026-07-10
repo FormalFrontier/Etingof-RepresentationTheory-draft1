@@ -4343,3 +4343,30 @@ drags the `K`-module along. Instead build a genuine `M →ₗ[A] N` from scratch
 `LinearEquiv.ofBijective thatMap e.bijective`. `⇑thatMap` is defeq to `⇑e`, so `e.bijective`
 typechecks directly. `A`-linearity of the `tmul` case is `smul_comm (c : K) (a : A) v` after the
 scalar identity `a • (l ⊗ v) = l ⊗ (a • v)`.
+
+## Induced representations: the `Rep.indResAdjunction` universe trap
+
+For isomorphisms between induced representations (`Representation.ind`/`IndV`,
+Chapter 5 induction items), the slick categorical route — `Rep.indResAdjunction`
++ `Adjunction.comp` + `Adjunction.leftAdjointUniq` to get e.g. induction-in-stages
+`Ind_ψ(Ind_φ τ) ≅ Ind_{ψ∘φ} τ` — **only works when `univ(V) ≥ univ(G)`.**
+`indResAdjunction` is stated at a *single* universe `Rep.{max w v' u}` (see its
+`resFunctor.{max w v' u}` and `indResHomEquiv (A B : Rep.{max w v' u} …)`), so
+composing adjunctions and applying the functor iso at a genuine `Rep.of ρ`
+(module `V : Type u_V`) fails with `stuck at solving universe constraint` whenever
+`u_V < u_G`. A theorem with independent `V G : Type*` is not provable this way.
+
+**Fix: build the iso explicitly at the module level** (`Coinvariants.lift` /
+`TensorProduct.lift` / `Submodule.quotEquivOfEq`), which has no universe coupling.
+Useful facts: `leftRegular ℂ G g` is *left* multiplication by `single g 1`
+(`ofMulAction_single`); `ind φ τ h` acts on `⟦a⊗v⟧` by *right* mult `a * single h⁻¹ 1`;
+`ind φ τ h = Coinvariants.map ⟨(lmapDomain (·*h⁻¹)).rTensor _, _⟩`, and the `G`-action
+touches only the `ℂ[G]` factor. When two inductions share the module `ℂ[G]⊗V` and
+differ only by relabelling the coinvariance subgroup along an iso `σ` (the `f∘σ` vs
+`f` case), their `Coinvariants.ker`s are *equal* (generating set reindexed by `σ`),
+so the iso is `Submodule.quotEquivOfEq` and its equivariance is `rfl`-on-generators
+after `ind_apply`/`Coinvariants.map_mk`/`quotEquivOfEq_mk`. Keep the composite-hom
+and inner-rep in *syntactic* agreement between the kernel-equality lemma and the
+`quotEquivOfEq` call (pass the composite `fφ` and inner rep `τ'` as explicit args
+with `hfφ`/`hτ` equations and `subst` them) — else defeq-but-not-syntactic forms
+like `H.subtype.comp K.subtype` vs `K.subtype.comp σ` make `exact`/`rw` fail.
