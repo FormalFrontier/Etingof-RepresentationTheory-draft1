@@ -2310,7 +2310,7 @@ private theorem coeff_eq_youngsRule_expansion'
 
 /-- Character inner product for Specht modules:
 ∑_σ χ_ν(σ) · χ_μ(σ⁻¹) = n! · δ_{ν,μ}. -/
-private theorem specht_char_inner (n : ℕ) (ν μ : Nat.Partition n) :
+theorem specht_char_inner (n : ℕ) (ν μ : Nat.Partition n) :
     ∑ σ : Equiv.Perm (Fin n),
       spechtModuleCharacter n ν σ * spechtModuleCharacter n μ σ⁻¹ =
     (Nat.factorial n : ℂ) * if ν = μ then 1 else 0 := by
