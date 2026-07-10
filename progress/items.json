@@ -893,8 +893,8 @@
     "end_page": "20",
     "start_line": 6,
     "end_line": 16,
-    "status": "statement_formalized",
-    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean (vertex idempotents + arrow generators; generation adjoin = top; four defining relations; universal property). Multiplicative relations (2),(3),(4) proved (six theorems, sorry-free). Remaining sorries: relation (1) sum_vertexIdem, generation adjoin_generators_eq_top, universal property defining_relations_universal."
+    "status": "sorry_free",
+    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_8_6.lean (vertex idempotents + arrow generators; generation adjoin = top; four defining relations; universal property). All theorems proved sorry-free: relation (1) sum_vertexIdem, relations (2)-(4), generation adjoin_generators_eq_top (via path induction and ofPath_cons), and the universal property defining_relations_universal (constructed φ via evalPath/evalMap and AlgHom.ofLinearMap; uniqueness by path induction on generators)."
   },
   {
     "id": "Chapter2/Discussion_quiver_rep_bijection",
