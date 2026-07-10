@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
+import EtingofRepresentationTheory.Chapter5.PolytabloidBasis
 
 /-!
 # Problem 5.16.2: the sum of transpositions acts on `V_λ` by the content
@@ -119,6 +120,79 @@ lemma sumTranspositions_central (n : ℕ) (y : SymGroupAlgebra n) :
     rw [e1, e2, sumTranspositions_reindex n g⁻¹]
   | hadd f₁ f₂ h₁ h₂ => rw [mul_add, add_mul, h₁, h₂]
   | hsmul r f h => rw [mul_smul_comm, smul_mul_assoc, h]
+
+/-- The coefficient of a transposition `(i j)` (with `i ≠ j`) in the Young symmetrizer `c_λ`:
+`+1` if `i, j` lie in the same row of the canonical tableau, `-1` if they lie in the same
+column, and `0` otherwise. This is the convolution formula `c_λ(σ) = ∑_{q ∈ Q_λ} sign(q)·[q⁻¹σ ∈ P_λ]`
+specialized to a transposition, using `P_λ ∩ Q_λ = {1}` (so each `σ` has at most one `q·p`
+decomposition). -/
+lemma youngSymmetrizer_swap_coeff (n : ℕ) (la : Nat.Partition n) {i j : Fin n} (hij : i ≠ j) :
+    (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap i j)
+      = (if rowOfPos la.sortedParts i.val = rowOfPos la.sortedParts j.val then (1 : ℂ) else 0)
+        - (if colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val then (1 : ℂ)
+            else 0) := by
+  classical
+  have hsum : la.sortedParts.sum = n := sortedParts_sum_eq n la
+  have hbounds : ∀ k : Fin n, k.val < la.sortedParts.sum := fun k => by rw [hsum]; exact k.isLt
+  by_cases hrow : rowOfPos la.sortedParts i.val = rowOfPos la.sortedParts j.val
+  · -- same row ⟹ swap ∈ P_λ, coeff = 1; can't also share a column
+    have hswapP : Equiv.swap i j ∈ RowSubgroup n la := swap_mem_RowSubgroup hrow
+    have hcoeff : (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap i j) = 1 := by
+      have h := youngSymmetrizer_pq_coeff n la 1 (ColumnSubgroup n la).one_mem
+        (Equiv.swap i j) hswapP
+      simpa [Equiv.Perm.sign_one] using h
+    have hcolne : colOfPos la.sortedParts i.val ≠ colOfPos la.sortedParts j.val := by
+      intro hc
+      exact hij (Fin.ext (rowOfPos_colOfPos_injective la.sortedParts i.val j.val
+        (hbounds i) (hbounds j) hrow hc))
+    rw [hcoeff, if_pos hrow, if_neg hcolne]; ring
+  · by_cases hcol : colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val
+    · -- same column ⟹ swap ∈ Q_λ, coeff = sign(swap) = -1
+      have hswapQ : Equiv.swap i j ∈ ColumnSubgroup n la := swap_mem_ColumnSubgroup hcol
+      have hcoeff : (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap i j)
+          = ((Equiv.Perm.sign (Equiv.swap i j) : ℤ) : ℂ) := by
+        have h := youngSymmetrizer_pq_coeff n la (Equiv.swap i j) hswapQ 1
+          (RowSubgroup n la).one_mem
+        simpa using h
+      rw [hcoeff, Equiv.Perm.sign_swap hij, if_neg hrow, if_pos hcol]; norm_num
+    · -- different row and column ⟹ coeff = 0
+      have hzero : (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap i j) = 0 := by
+        by_contra hne
+        obtain ⟨q, hq, p, hp, hqp⟩ := youngSymmetrizer_support n la (Equiv.swap i j) hne
+        -- `p` fixes every position outside `{i, j}`
+        have hpfix : ∀ k : Fin n, k ≠ i → k ≠ j → p k = k := by
+          intro k hki hkj
+          have hsk : Equiv.swap i j k = k := Equiv.swap_apply_of_ne_of_ne hki hkj
+          have hqpk : q (p k) = k := by
+            have hcompose : (q * p) k = k := by rw [← hqp]; exact hsk
+            rwa [Equiv.Perm.mul_apply] at hcompose
+          have hpk_eq : p k = q⁻¹ k := by
+            have h2 := congrArg (fun x => q⁻¹ x) hqpk
+            simpa using h2
+          have hrowpk : rowOfPos la.sortedParts (p k).val = rowOfPos la.sortedParts k.val := hp k
+          have hcolpk : colOfPos la.sortedParts (p k).val = colOfPos la.sortedParts k.val := by
+            rw [hpk_eq]; exact (ColumnSubgroup n la).inv_mem hq k
+          exact Fin.ext (rowOfPos_colOfPos_injective la.sortedParts (p k).val k.val
+            (hbounds _) (hbounds k) hrowpk hcolpk)
+        -- hence `p i ∈ {i, j}`
+        have hpi : p i = i ∨ p i = j := by
+          by_contra hcon
+          push_neg at hcon
+          obtain ⟨hpi_i, hpi_j⟩ := hcon
+          exact hpi_i (p.injective (hpfix (p i) hpi_i hpi_j))
+        rcases hpi with h | h
+        · -- p i = i ⟹ q i = j ⟹ i, j share a column
+          have hqi : q i = j := by
+            have h1 : (q * p) i = j := by rw [← hqp, Equiv.swap_apply_left]
+            rwa [Equiv.Perm.mul_apply, h] at h1
+          have hcc : colOfPos la.sortedParts (q i).val = colOfPos la.sortedParts i.val := hq i
+          rw [hqi] at hcc
+          exact hcol hcc.symm
+        · -- p i = j ⟹ i, j share a row
+          have hrr : rowOfPos la.sortedParts (p i).val = rowOfPos la.sortedParts i.val := hp i
+          rw [h] at hrr
+          exact hrow hrr.symm
+      rw [hzero, if_neg hrow, if_neg hcol]; ring
 
 /-- The combinatorial heart of the problem: summing the coefficient of each transposition `(ij)`
 in the Young symmetrizer `c_λ = b_λ a_λ` gives the content `c(λ)`.
