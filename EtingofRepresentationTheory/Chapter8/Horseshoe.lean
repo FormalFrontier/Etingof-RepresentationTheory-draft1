@@ -122,6 +122,42 @@ lemma horseshoeP₁ExactZero :
     (ShortComplex.mk (P₁.complex.d 1 0) (P₁.π.f 0) P₁.complex_d_comp_π_f_zero).Exact :=
   ShortComplex.exact_of_g_is_cokernel _ P₁.isColimitCokernelCofork
 
+/-- The seed map `t₀ : P₃₁ ⟶ S.X₁` of the horseshoe off-diagonal lift. Writing
+`h₀ := factorThru (P₃.π.f 0) S.g` (so `h₀ ≫ S.g = P₃.π.f 0`), the map `-(d³ 1 0) ≫ h₀` dies under
+`S.g`, hence factors through the mono `S.f` by exactness of `S`. -/
+noncomputable def horseshoeSeed : P₃.complex.X 1 ⟶ S.X₁ :=
+  haveI := hS.epi_g
+  haveI := hS.mono_f
+  hS.exact.lift (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) (by
+    haveI := hS.epi_g
+    simp [Projective.factorThru_comp, P₃.complex_d_comp_π_f_zero])
+
+/-- `t₀ ≫ S.f = -(d³ 1 0) ≫ h₀`, the defining property of the seed. -/
+@[reassoc] lemma horseshoeSeed_comp_f :
+    haveI := hS.epi_g
+    horseshoeSeed hS P₃ ≫ S.f
+      = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g := by
+  haveI := hS.epi_g
+  haveI := hS.mono_f
+  exact hS.exact.lift_f _ _
+
+/-- `d³ 2 1 ≫ t₀ = 0`, using `S.f` mono and `d³ 2 1 ≫ d³ 1 0 = 0`. -/
+lemma horseshoeSeed_comp_d :
+    P₃.complex.d 2 1 ≫ horseshoeSeed hS P₃ = 0 := by
+  haveI := hS.mono_f
+  rw [← cancel_mono S.f, zero_comp, assoc, horseshoeSeed_comp_f]
+  simp [P₃.complex.d_comp_d_assoc]
+
+/-- The degree-`0` off-diagonal lift `s₀ : P₃₁ ⟶ P₁₀`, lifting the seed `t₀` through the epi
+`P₁.π.f 0`. -/
+noncomputable def horseshoeTwistZero : P₃.complex.X 1 ⟶ P₁.complex.X 0 :=
+  Projective.factorThru (horseshoeSeed hS P₃) (P₁.π.f 0)
+
+/-- `s₀ ≫ P₁.π.f 0 = t₀`. -/
+@[reassoc] lemma horseshoeTwistZero_comp_π :
+    horseshoeTwistZero hS P₁ P₃ ≫ P₁.π.f 0 = horseshoeSeed hS P₃ :=
+  Projective.factorThru_comp _ _
+
 /-- Auxiliary recursion for the horseshoe off-diagonal lift. For each `n` it produces a pair of
 consecutive lift maps `sₙ : P₃_{n+1} ⟶ P₁_n` (first component) and `sₙ₊₁ : P₃_{n+2} ⟶ P₁_{n+1}`
 (second component) satisfying the twist relation
@@ -136,29 +172,11 @@ noncomputable def horseshoeTwistAux :
     ∀ n, Σ' (a : P₃.complex.X (n + 1) ⟶ P₁.complex.X n)
       (_b : P₃.complex.X (n + 2) ⟶ P₁.complex.X (n + 1)),
         _b ≫ P₁.complex.d (n + 1) n = -(P₃.complex.d (n + 2) (n + 1)) ≫ a
-  | 0 => by
-      haveI := hS.mono_f
-      haveI := hS.epi_g
-      -- `h₀ ≫ S.g = P₃.π.f 0`, so `-(d³ 1 0) ≫ h₀` dies under `S.g`; factor it through `S.f`.
-      have hh₀ : Projective.factorThru (P₃.π.f 0) S.g ≫ S.g = P₃.π.f 0 :=
-        Projective.factorThru_comp _ _
-      have hk0 : (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) ≫ S.g = 0 := by
-        simp [assoc, hh₀, P₃.complex_d_comp_π_f_zero]
-      -- `t₀ : P₃₁ ⟶ S.X₁` with `t₀ ≫ S.f = -(d³ 1 0) ≫ h₀`.
-      set t₀ := hS.exact.lift (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) hk0
-        with ht₀def
-      have ht₀ : t₀ ≫ S.f = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g :=
-        hS.exact.lift_f _ _
-      -- `s₀ := factorThru t₀ (P₁.π.f 0)`, lifting `t₀` through the epi `P₁.π.f 0`.
-      set a := Projective.factorThru t₀ (P₁.π.f 0) with hadef
-      have ha : a ≫ P₁.π.f 0 = t₀ := Projective.factorThru_comp _ _
-      -- `-(d³ 2 1) ≫ s₀` dies under `P₁.π.f 0` (via `d³ 2 1 ≫ t₀ = 0`, using `S.f` mono).
-      have hdt : P₃.complex.d 2 1 ≫ t₀ = 0 := by
-        rw [← cancel_mono S.f, zero_comp, assoc, ht₀]
-        simp [P₃.complex.d_comp_d_assoc]
-      have hk1 : (-(P₃.complex.d 2 1) ≫ a) ≫ P₁.π.f 0 = 0 := by
-        simp [ha, hdt]
-      exact ⟨a, (horseshoeP₁ExactZero P₁).liftFromProjective (-(P₃.complex.d 2 1) ≫ a) hk1,
+  | 0 =>
+      ⟨horseshoeTwistZero hS P₁ P₃,
+        (horseshoeP₁ExactZero P₁).liftFromProjective
+          (-(P₃.complex.d 2 1) ≫ horseshoeTwistZero hS P₁ P₃) (by
+            simp [horseshoeTwistZero_comp_π, horseshoeSeed_comp_d]),
         (horseshoeP₁ExactZero P₁).liftFromProjective_comp _ _⟩
   | n + 1 => by
       -- `(a, b, hab)` are `(sₙ, sₙ₊₁, twist relation)`; build `sₙ₊₂` and return `(sₙ₊₁, sₙ₊₂, …)`.
@@ -186,6 +204,19 @@ lemma horseshoeTwist_comp (n : ℕ) :
     horseshoeTwist hS P₁ P₃ (n + 1) ≫ P₁.complex.d (n + 1) n
       = -(P₃.complex.d (n + 2) (n + 1)) ≫ horseshoeTwist hS P₁ P₃ n := by
   rw [horseshoeTwist_succ]; exact (horseshoeTwistAux hS P₁ P₃ n).2.2
+
+/-- `s₀ = horseshoeTwistZero`: the degree-`0` off-diagonal lift agrees with its seeded form. -/
+lemma horseshoeTwist_zero : horseshoeTwist hS P₁ P₃ 0 = horseshoeTwistZero hS P₁ P₃ := rfl
+
+/-- The degree-`0` augmentation compatibility of the off-diagonal lift:
+`s₀ ≫ (ε₁ ≫ S.f) = -(d³ 1 0) ≫ h₀`. This is the relation making the twisted differential a chain
+map for the augmentation in degree `0`. -/
+@[reassoc] lemma horseshoeTwist_zero_comp_f :
+    haveI := hS.epi_g
+    horseshoeTwist hS P₁ P₃ 0 ≫ P₁.π.f 0 ≫ S.f
+      = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g := by
+  haveI := hS.epi_g
+  rw [horseshoeTwist_zero, ← assoc, horseshoeTwistZero_comp_π, horseshoeSeed_comp_f]
 
 /-- The lower-triangular twisted differential
 `d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫ : P₁_{n+1} ⊞ P₃_{n+1} ⟶ P₁_n ⊞ P₃_n`. -/
