@@ -2585,8 +2585,8 @@
     "end_page": "66",
     "start_line": 9,
     "end_line": 10,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean (right-regular rep of QuaternionGroup 2; covariant subspace invariant + finrank 2 + irreducible; sorry proofs, statement pass)."
+    "status": "sorry_free",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Exercise4_3_1.lean (right-regular rep of QuaternionGroup 2; covariant subspace invariant + finrank 2 + irreducible). All three theorems axiom-clean (propext, Classical.choice, Quot.sound)."
   },
   {
     "id": "Chapter4/Example4.3_S4",
