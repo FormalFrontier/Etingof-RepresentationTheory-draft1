@@ -79,6 +79,65 @@ theorem complexToRealGEnd_injective (ρ : Representation ℂ G V) [Nontrivial V]
   · exact h
   · exact absurd h hv
 
+section ConjDecomp
+
+/-- In any ring, if `j² = -1` then `j` commutes with `f - j·f·j` (the "`+`" part). -/
+private lemma ring_conj_comm {R : Type*} [Ring R] {j : R} (hj : j * j = -1) (f : R) :
+    j * (f - j * f * j) = (f - j * f * j) * j := by
+  have h2 : j * (j * f * j) = -(f * j) := by
+    rw [← mul_assoc, ← mul_assoc, hj, neg_one_mul, neg_mul]
+  have h3 : j * f * j * j = -(j * f) := by rw [mul_assoc, hj, mul_neg_one]
+  rw [mul_sub, sub_mul, h2, h3]; abel
+
+/-- In any ring, if `j² = -1` then `j` anticommutes with `f + j·f·j` (the "`-`" part). -/
+private lemma ring_conj_anticomm {R : Type*} [Ring R] {j : R} (hj : j * j = -1) (f : R) :
+    j * (f + j * f * j) = -((f + j * f * j) * j) := by
+  have h2 : j * (j * f * j) = -(f * j) := by
+    rw [← mul_assoc, ← mul_assoc, hj, neg_one_mul, neg_mul]
+  have h3 : j * f * j * j = -(j * f) := by rw [mul_assoc, hj, mul_neg_one]
+  rw [mul_add, add_mul, h2, h3]; abel
+
+variable (ρ : Representation ℂ G V)
+
+/-- The operator `J = ·i` (multiplication by `i`) as an element of `End_{ℝ[G]} V`,
+the image of `Complex.I` under the `ℂ`-embedding. It satisfies `J² = -1`. -/
+noncomputable def realJ : realGEndAlgebra ρ := complexToRealGEnd ρ Complex.I
+
+/-- `J² = -1`: since `J = complexToRealGEnd i` and `i·i = -1`. -/
+theorem realJ_sq : realJ ρ * realJ ρ = -1 := by
+  rw [realJ, ← map_mul, Complex.I_mul_I, map_neg, map_one]
+
+variable {ρ}
+
+/-- The `ℂ`-linear part of `f ∈ End_{ℝ[G]} V`: `f₊ = ½(f − J∘f∘J)`. It commutes with `J`. -/
+noncomputable def realPlus (f : realGEndAlgebra ρ) : realGEndAlgebra ρ :=
+  (2⁻¹ : ℝ) • (f - realJ ρ * f * realJ ρ)
+
+/-- The `ℂ`-antilinear part of `f ∈ End_{ℝ[G]} V`: `f₋ = ½(f + J∘f∘J)`. It anticommutes with `J`. -/
+noncomputable def realMinus (f : realGEndAlgebra ρ) : realGEndAlgebra ρ :=
+  (2⁻¹ : ℝ) • (f + realJ ρ * f * realJ ρ)
+
+/-- `f = f₊ + f₋`. -/
+theorem realPlus_add_realMinus (f : realGEndAlgebra ρ) :
+    realPlus f + realMinus f = f := by
+  rw [realPlus, realMinus, ← smul_add]
+  have : (f - realJ ρ * f * realJ ρ) + (f + realJ ρ * f * realJ ρ) = (2 : ℝ) • f := by
+    rw [two_smul]; abel
+  rw [this, smul_smul]
+  norm_num
+
+/-- `f₊` commutes with `J` (it is `ℂ`-linear). -/
+theorem realJ_mul_realPlus (f : realGEndAlgebra ρ) :
+    realJ ρ * realPlus f = realPlus f * realJ ρ := by
+  rw [realPlus, mul_smul_comm, smul_mul_assoc, ring_conj_comm (realJ_sq ρ)]
+
+/-- `f₋` anticommutes with `J` (it is `ℂ`-antilinear). -/
+theorem realJ_mul_realMinus (f : realGEndAlgebra ρ) :
+    realJ ρ * realMinus f = -(realMinus f * realJ ρ) := by
+  rw [realMinus, mul_smul_comm, smul_mul_assoc, ring_conj_anticomm (realJ_sq ρ), smul_neg]
+
+end ConjDecomp
+
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`. -/
 theorem realGEndAlgebra_equiv_complex_of_isComplexType
