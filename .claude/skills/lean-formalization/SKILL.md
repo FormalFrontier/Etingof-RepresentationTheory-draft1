@@ -545,6 +545,13 @@ and extending by `Basis.sum_repr` — this yields the inverse relations and `A`-
 ever computing `φ` on non-basis vectors; (2) expect to need `set_option maxHeartbeats 800000 in`
 (with the required explanatory comment on the line *after* the `in`, not before).
 
+### Proving over a quotient module `A ⧸ 𝔪` — two tactic-level whnf/isDefEq traps (#6239, `Chapter3/Problem3_9_2.lean`, `Ext¹` for `ℂ[x₁,…,xₙ]`)
+When the carrier is a genuine quotient module `Vₐ = A ⧸ 𝔪ₐ` (module instances are `Submodule.Quotient` composites), some tactics do heavy defeq over those instances and **loop** (`(deterministic) timeout at whnf`/`isDefEq`, still failing at 1M heartbeats — a real loop, not slowness):
+- **The `ext` tactic loops** on equations of linear maps `Vₐ →ₗ Vₐ` (its ext-lemma search whnf's the quotient instances). Use `refine LinearMap.ext fun w => ?_` (or nested `LinearMap.ext fun p => LinearMap.ext fun w => ?_`) instead of `ext p w`. This single change unblocked ~4 separate looping proofs.
+- **`LinearMap.smulRight (e : Vₐ ≃ₗ[ℂ] ℂ).toLinearMap x`** triggers an instance-synthesis timeout (`«synthesize pending MVars»`). Reformulate the endomorphism as `scalar • LinearMap.id` (for a 1-dim space `g w = e (g [1]) • w`, provable as a standalone `end_eq_coord_smul` lemma) — avoids `smulRight` entirely.
+- Mark any `LinearEquiv` built via `LinearEquiv.ofBijective … .symm` as `attribute [irreducible]` right after proving its `_apply`/`_symm_apply` rfl-lemmas: its `ofBijective`/`symm`/`surjInv` internals are huge and get whnf-unfolded downstream, blowing the budget.
+- Bridge cocycles (Problem 3.9.1 `Ext1` API) for the equal-weight case to `MvPolynomial.mkDerivationEquiv` (`Der ℂ A Vₐ ≃ (Fin n → Vₐ)`): a cocycle `f` ↦ derivation `p ↦ f p [1]`, Leibniz = the cocycle identity via `Vₐ_smul_eq` (`p • v = aeval a p • v`); both directions are pinned by 1-dimensionality so no polynomial induction is needed. For the distinct-weight vanishing, every cocycle is a coboundary via a **twisted-derivation rigidity** lemma (`h(pq) = β p • h q + α q • h p`, vanishing on all `Xᵢ` ⇒ `0`, by `MvPolynomial.induction_on`) — commutativity of `A` forces the generator-values proportional to `b − a`.
+
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 
 A recurring Chapter 5 fidelity-gap shape: the book says "`V_{(n)}` is the *trivial*
