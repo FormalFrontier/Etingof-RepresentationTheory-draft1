@@ -207,11 +207,240 @@ theorem center_eq_bot_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
     intro b
     exact (Algebra.commutes r b).symm
 
+/-! ### Minimal-support descent for simplicity (part (a))
+
+The book's proof that `A_q` is simple when `q` is not a root of unity is a minimal-support
+argument. Conjugating an element by the generator `x` (resp. `y`) scales each monomial `qMono r`
+by `q^{-r.2}` (resp. `q^{r.1}`); subtracting a scalar multiple of the element then annihilates
+one chosen monomial while, because `q` is not a root of unity, keeping another. This produces an
+ideal element with strictly smaller monomial support. Descent bottoms out at a single monomial,
+which is a unit, forcing the ideal to be everything. -/
+
+/-- The generator `x = qMono (1,0)` as an element of the `q`-Weyl algebra. -/
+private noncomputable def gX : qWeylAlgebra ℂ q := ⟨qMono ℂ q (1, 0), qMono_mem ℂ q _⟩
+/-- The generator `x⁻¹ = qMono (-1,0)`. -/
+private noncomputable def gX' : qWeylAlgebra ℂ q := ⟨qMono ℂ q (-1, 0), qMono_mem ℂ q _⟩
+/-- The generator `y = qMono (0,1)`. -/
+private noncomputable def gY : qWeylAlgebra ℂ q := ⟨qMono ℂ q (0, 1), qMono_mem ℂ q _⟩
+/-- The generator `y⁻¹ = qMono (0,-1)`. -/
+private noncomputable def gY' : qWeylAlgebra ℂ q := ⟨qMono ℂ q (0, -1), qMono_mem ℂ q _⟩
+/-- The monomial `qMono p` as an element of the `q`-Weyl algebra. -/
+private noncomputable def gMono (p : ℤ × ℤ) : qWeylAlgebra ℂ q := ⟨qMono ℂ q p, qMono_mem ℂ q p⟩
+
+@[simp] private theorem coe_gX :
+    ((gX q : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) = qMono ℂ q (1, 0) := rfl
+@[simp] private theorem coe_gX' :
+    ((gX' q : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) = qMono ℂ q (-1, 0) := rfl
+@[simp] private theorem coe_gY :
+    ((gY q : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) = qMono ℂ q (0, 1) := rfl
+@[simp] private theorem coe_gY' :
+    ((gY' q : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) = qMono ℂ q (0, -1) := rfl
+@[simp] private theorem coe_gMono (p : ℤ × ℤ) :
+    ((gMono q p : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) = qMono ℂ q p := rfl
+
+/-- The coefficient function of an algebra element, read off by evaluating at `b(0,0)`. -/
+private noncomputable def kappa (a : qWeylAlgebra ℂ q) : QWeylModule ℂ :=
+  (a : Module.End ℂ (QWeylModule ℂ)) (single (0, 0) 1)
+
+/-- An element vanishes iff its coefficient function does. -/
+private theorem kappa_eq_zero_iff (a : qWeylAlgebra ℂ q) : kappa q a = 0 ↔ a = 0 := by
+  constructor
+  · intro h
+    have hval : (a : Module.End ℂ (QWeylModule ℂ))
+        = Finsupp.linearCombination ℂ (qMono ℂ q) (kappa q a) :=
+      mem_qWeyl_eq_linearCombination q a.2
+    rw [h, map_zero] at hval
+    exact Subtype.ext hval
+  · rintro rfl
+    simp [kappa]
+
+/-- `kappa` is additive on differences. -/
+private theorem kappa_sub (a b : qWeylAlgebra ℂ q) :
+    kappa q (a - b) = kappa q a - kappa q b := by
+  show ((a - b : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) (single (0, 0) 1) = _
+  rw [AddSubgroupClass.coe_sub, LinearMap.sub_apply]
+  rfl
+
+/-- `kappa` commutes with scalar multiplication. -/
+private theorem kappa_smul (s : ℂ) (a : qWeylAlgebra ℂ q) :
+    kappa q (s • a) = s • kappa q a := by
+  show ((s • a : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) (single (0, 0) 1) = _
+  rw [show ((s • a : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ))
+      = s • (a : Module.End ℂ (QWeylModule ℂ)) from map_smul (Subalgebra.val _) s a,
+    LinearMap.smul_apply]
+  rfl
+
+/-- **Conjugation by `x` scales each monomial by `q^{-r.2}`**: the coefficient of `x a x⁻¹` at
+`r` is `q^{-r.2}` times the coefficient of `a` at `r`. -/
+private theorem kappa_conjX (a : qWeylAlgebra ℂ q) (r : ℤ × ℤ) :
+    kappa q (gX q * a * gX' q) r = ↑(q ^ (-r.2)) * kappa q a r := by
+  have hval : (a : Module.End ℂ (QWeylModule ℂ))
+      = Finsupp.linearCombination ℂ (qMono ℂ q) (kappa q a) :=
+    mem_qWeyl_eq_linearCombination q a.2
+  have key : kappa q (gX q * a * gX' q)
+      = (kappa q a).sum fun p aa => single p (aa * ↑(q ^ (-p.2))) := by
+    show ((gX q * a * gX' q : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) (single (0, 0) 1)
+      = _
+    rw [MulMemClass.coe_mul, MulMemClass.coe_mul, coe_gX, coe_gX',
+      Module.End.mul_apply, Module.End.mul_apply,
+      show qMono ℂ q (-1, 0) (single (0, 0) 1) = single (-1, 0) 1 by rw [qMono_single]; simp,
+      hval, Finsupp.linearCombination_apply, LinearMap.finsupp_sum_apply, map_finsuppSum]
+    refine Finsupp.sum_congr fun p _ => ?_
+    rw [LinearMap.smul_apply, qMono_single, Finsupp.smul_single, qMono_single,
+      show ((-1 + p.1) + 1, (0 + p.2) + 0) = p by
+        obtain ⟨p1, p2⟩ := p; simp only [Prod.mk.injEq]; omega]
+    congr 1
+    simp only [zero_mul, zpow_zero, Units.val_one, one_mul, mul_one, smul_eq_mul, mul_neg_one]
+  rw [key, finsupp_sum_single_emb_apply (kappa q a) (fun p => p) (fun _ _ h => h)
+    (fun p aa => aa * ↑(q ^ (-p.2))) (fun p => by simp) r]
+  ring
+
+/-- **Conjugation by `y` scales each monomial by `q^{r.1}`**: the coefficient of `y a y⁻¹` at
+`r` is `q^{r.1}` times the coefficient of `a` at `r`. -/
+private theorem kappa_conjY (a : qWeylAlgebra ℂ q) (r : ℤ × ℤ) :
+    kappa q (gY q * a * gY' q) r = ↑(q ^ r.1) * kappa q a r := by
+  have hval : (a : Module.End ℂ (QWeylModule ℂ))
+      = Finsupp.linearCombination ℂ (qMono ℂ q) (kappa q a) :=
+    mem_qWeyl_eq_linearCombination q a.2
+  have key : kappa q (gY q * a * gY' q)
+      = (kappa q a).sum fun p aa => single p (↑(q ^ p.1) * aa) := by
+    show ((gY q * a * gY' q : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ)) (single (0, 0) 1)
+      = _
+    rw [MulMemClass.coe_mul, MulMemClass.coe_mul, coe_gY, coe_gY',
+      Module.End.mul_apply, Module.End.mul_apply,
+      show qMono ℂ q (0, -1) (single (0, 0) 1) = single (0, -1) 1 by rw [qMono_single]; simp,
+      hval, Finsupp.linearCombination_apply, LinearMap.finsupp_sum_apply, map_finsuppSum]
+    refine Finsupp.sum_congr fun p _ => ?_
+    rw [LinearMap.smul_apply, qMono_single, Finsupp.smul_single, qMono_single,
+      show ((0 + p.1) + 0, (-1 + p.2) + 1) = p by
+        obtain ⟨p1, p2⟩ := p; simp only [Prod.mk.injEq]; omega]
+    congr 1
+    simp only [mul_zero, zpow_zero, Units.val_one, mul_one, one_mul, zero_add, smul_eq_mul]
+  rw [key, finsupp_sum_single_emb_apply (kappa q a) (fun p => p) (fun _ _ h => h)
+    (fun p aa => ↑(q ^ p.1) * aa) (fun p => by simp) r]
+
 /-- **(a)** If `q` is not a root of unity, the `q`-Weyl algebra is a simple ring: its only
 two-sided ideals are `0` and the whole algebra. -/
 theorem isSimpleRing_of_not_isOfFinOrder (hq : ¬ IsOfFinOrder q) :
-    IsSimpleRing (qWeylAlgebra ℂ q) :=
-  sorry
+    IsSimpleRing (qWeylAlgebra ℂ q) := by
+  -- The algebra is nontrivial: `1 ≠ 0` in `End ℂ M`.
+  haveI : Nontrivial (qWeylAlgebra ℂ q) := by
+    refine ⟨1, 0, fun h => one_ne_zero (α := Module.End ℂ (QWeylModule ℂ)) ?_⟩
+    simpa using congrArg Subtype.val h
+  -- Distinct exponents give distinct scalars, since `q` is not a root of unity.
+  have hpow_ne : ∀ m n : ℤ, m ≠ n → (↑(q ^ m) : ℂ) ≠ ↑(q ^ n) := by
+    intro m n hmn hcontra
+    exact hmn ((injective_zpow_iff_not_isOfFinOrder.mpr hq) (Units.ext hcontra))
+  apply IsSimpleRing.of_eq_bot_or_eq_top
+  intro I
+  rw [or_iff_not_imp_left]
+  intro hIbot
+  obtain ⟨a₀, ha₀I, ha₀ne⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hIbot : ⊥ < I)
+  rw [TwoSidedIdeal.mem_bot] at ha₀ne
+  -- Strong induction on the size of the monomial support of an element of `I`.
+  suffices H : ∀ n : ℕ, ∀ a : qWeylAlgebra ℂ q, a ∈ I → a ≠ 0 →
+      (kappa q a).support.card = n → I = ⊤ from H _ a₀ ha₀I ha₀ne rfl
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+    intro a haI ha0 hcard
+    have hne0 : kappa q a ≠ 0 := fun h => ha0 ((kappa_eq_zero_iff q a).mp h)
+    have hpos : 0 < n := by
+      rw [← hcard]; exact Finset.card_pos.mpr (Finsupp.support_nonempty_iff.mpr hne0)
+    rcases Nat.lt_or_ge n 2 with hlt2 | hge2
+    · -- Support has exactly one point: `a` is a unit, so `I = ⊤`.
+      have hn1 : n = 1 := by omega
+      obtain ⟨p₀, hsupp⟩ := Finset.card_eq_one.mp (by rw [hcard, hn1])
+      obtain ⟨hκ0, hκeq⟩ := Finsupp.support_eq_singleton.mp hsupp
+      have hval : (a : Module.End ℂ (QWeylModule ℂ))
+          = Finsupp.linearCombination ℂ (qMono ℂ q) (kappa q a) :=
+        mem_qWeyl_eq_linearCombination q a.2
+      have haval : (a : Module.End ℂ (QWeylModule ℂ)) = kappa q a p₀ • qMono ℂ q p₀ := by
+        conv_lhs => rw [hval, hκeq]
+        rw [Finsupp.linearCombination_single]
+      set κ := kappa q a p₀ with hκ
+      set w : ℂ := ↑(q ^ ((-p₀).2 * p₀.1)) with hw
+      have hwne : w ≠ 0 := by rw [hw]; exact Units.ne_zero _
+      have hinv : ((κ⁻¹ * w⁻¹) • qMono ℂ q (-p₀)) * (κ • qMono ℂ q p₀)
+          = (1 : Module.End ℂ (QWeylModule ℂ)) := by
+        rw [smul_mul_smul_comm, qMono_mul, smul_smul,
+          show ((-p₀).1 + p₀.1, (-p₀).2 + p₀.2) = ((0 : ℤ), (0 : ℤ)) by
+            obtain ⟨a, b⟩ := p₀; simp only [Prod.neg_mk, Prod.mk.injEq]; omega,
+          qMono_zero, ← hw,
+          show ((κ⁻¹ * w⁻¹) * κ) * w = 1 by
+            rw [show ((κ⁻¹ * w⁻¹) * κ) * w = (κ⁻¹ * κ) * (w⁻¹ * w) by ring,
+              inv_mul_cancel₀ hκ0, inv_mul_cancel₀ hwne, mul_one],
+          one_smul]
+      have hva : ((κ⁻¹ * w⁻¹) • gMono q (-p₀)) * a = 1 := by
+        apply Subtype.ext
+        rw [MulMemClass.coe_mul, OneMemClass.coe_one,
+          show (((κ⁻¹ * w⁻¹) • gMono q (-p₀) : qWeylAlgebra ℂ q) : Module.End ℂ (QWeylModule ℂ))
+            = (κ⁻¹ * w⁻¹) • qMono ℂ q (-p₀) from Subalgebra.coe_smul _ _ _,
+          haval]
+        exact hinv
+      exact (TwoSidedIdeal.one_mem_iff I).mp (hva ▸ I.mul_mem_left _ _ haI)
+    · -- Support has at least two points: descend to a smaller-support element of `I`.
+      obtain ⟨p, hpmem, p', hp'mem, hpp'⟩ :=
+        Finset.one_lt_card.mp (by rw [hcard]; omega : 1 < (kappa q a).support.card)
+      have hcp' : kappa q a p' ≠ 0 := Finsupp.mem_support_iff.mp hp'mem
+      by_cases hcoord : p.2 = p'.2
+      · -- The `x`-coordinates differ: conjugate by `y`.
+        have hp1 : p.1 ≠ p'.1 := fun h => hpp' (Prod.ext_iff.mpr ⟨h, hcoord⟩)
+        set b : qWeylAlgebra ℂ q := gY q * a * gY' q - (↑(q ^ p.1) : ℂ) • a with hb
+        have hbI : b ∈ I :=
+          I.sub_mem (I.mul_mem_right _ _ (I.mul_mem_left _ _ haI))
+            (by rw [Algebra.smul_def]; exact I.mul_mem_left _ _ haI)
+        have hbr : ∀ r, kappa q b r = (↑(q ^ r.1) - ↑(q ^ p.1)) * kappa q a r := by
+          intro r
+          rw [hb, kappa_sub, kappa_smul, Finsupp.sub_apply, Finsupp.smul_apply, smul_eq_mul,
+            kappa_conjY]
+          ring
+        have hbp : kappa q b p = 0 := by rw [hbr]; simp
+        have hbp' : kappa q b p' ≠ 0 := by
+          rw [hbr]
+          exact mul_ne_zero (sub_ne_zero.mpr (hpow_ne _ _ (by omega))) hcp'
+        have hbne : b ≠ 0 := by
+          intro h; apply hbp'; rw [h]; simp [kappa]
+        have hsub : (kappa q b).support ⊆ (kappa q a).support.erase p := by
+          intro r hr
+          rw [Finsupp.mem_support_iff] at hr
+          rw [Finset.mem_erase]
+          refine ⟨fun hrp => hr (by rw [hrp, hbp]), ?_⟩
+          rw [Finsupp.mem_support_iff]
+          intro hcontra
+          exact hr (by rw [hbr, hcontra, mul_zero])
+        have hcardlt : (kappa q b).support.card < n := by
+          rw [← hcard]
+          exact lt_of_le_of_lt (Finset.card_le_card hsub) (Finset.card_erase_lt_of_mem hpmem)
+        exact ih _ hcardlt b hbI hbne rfl
+      · -- The `y`-coordinates differ: conjugate by `x`.
+        set b : qWeylAlgebra ℂ q := gX q * a * gX' q - (↑(q ^ (-p.2)) : ℂ) • a with hb
+        have hbI : b ∈ I :=
+          I.sub_mem (I.mul_mem_right _ _ (I.mul_mem_left _ _ haI))
+            (by rw [Algebra.smul_def]; exact I.mul_mem_left _ _ haI)
+        have hbr : ∀ r, kappa q b r = (↑(q ^ (-r.2)) - ↑(q ^ (-p.2))) * kappa q a r := by
+          intro r
+          rw [hb, kappa_sub, kappa_smul, Finsupp.sub_apply, Finsupp.smul_apply, smul_eq_mul,
+            kappa_conjX]
+          ring
+        have hbp : kappa q b p = 0 := by rw [hbr]; simp
+        have hbp' : kappa q b p' ≠ 0 := by
+          rw [hbr]
+          exact mul_ne_zero (sub_ne_zero.mpr (hpow_ne _ _ (by omega))) hcp'
+        have hbne : b ≠ 0 := by
+          intro h; apply hbp'; rw [h]; simp [kappa]
+        have hsub : (kappa q b).support ⊆ (kappa q a).support.erase p := by
+          intro r hr
+          rw [Finsupp.mem_support_iff] at hr
+          rw [Finset.mem_erase]
+          refine ⟨fun hrp => hr (by rw [hrp, hbp]), ?_⟩
+          rw [Finsupp.mem_support_iff]
+          intro hcontra
+          exact hr (by rw [hbr, hcontra, mul_zero])
+        have hcardlt : (kappa q b).support.card < n := by
+          rw [← hcard]
+          exact lt_of_le_of_lt (Finset.card_le_card hsub) (Finset.card_erase_lt_of_mem hpmem)
+        exact ih _ hcardlt b hbI hbne rfl
 
 /-- **(a)** If `q` is a root of unity of order `n = orderOf q`, the center of the `q`-Weyl
 algebra is the subalgebra generated by the powers `xⁿ = qMono (n, 0)`, `x⁻ⁿ = qMono (-n, 0)`,

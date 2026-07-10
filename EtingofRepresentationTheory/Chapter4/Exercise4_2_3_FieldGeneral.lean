@@ -88,6 +88,38 @@ private lemma traceForm_Std_eq_trace {K : Type u} {G : Type v}
   rw [traceForm_apply, ← LinearMap.trace_conj' (moduleEnd K (D.Std i) x) e, hconj]
   exact Matrix.trace_toLin'_eq (D.blockHom i x)
 
+/-- The `n` block cocenter trace forms `τ_{Std i}` of a `SplitData` are **linearly independent**
+functionals on the cocenter `C = K[G]/[K[G],K[G]]`. For block `j`, a `π`-preimage `xⱼ` of the
+matrix unit `E₁₁` in block `j` is a dual vector reading off the Kronecker delta:
+`τ_{Std i}(x̄ⱼ) = δ_{ij}` (`traceForm_Std_eq_trace` plus `Matrix.trace_single_eq_same`). This is
+the independence input shared by both the split-field `≤` bound
+(`natCard_irrepClasses_le_conjClasses_of_isAlgClosed`) and its strict `<` counterpart in the
+modular case (`natCard_irrepClasses_lt_conjClasses_of_isAlgClosed`, in the assembly file). -/
+theorem traceFormQ_Std_linearIndependent {K : Type u} {G : Type v}
+    [Field K] [IsAlgClosed K] [Group G] [Fintype G] (D : SplitData K G) :
+    LinearIndependent K (fun i => (traceFormQ K (D.Std i) : Cocenter K G →ₗ[K] K)) := by
+  classical
+  refine Fintype.linearIndependent_iff.mpr (fun c hc j => ?_)
+  haveI := D.d_pos j
+  obtain ⟨xj, hxj⟩ := D.π_surj (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K)))
+  -- `τ_{Std i}` evaluated at the class of `xⱼ` is the Kronecker delta `δ_{ij}`.
+  have hval : ∀ i, traceFormQ K (D.Std i) (Submodule.mkQ (commSubmodule K G) xj)
+      = if i = j then 1 else 0 := by
+    intro i
+    rw [traceFormQ_mkQ, traceForm_Std_eq_trace D i xj]
+    have hb : D.blockHom i xj
+        = (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K))
+            : ∀ i, Matrix (Fin (D.d i)) (Fin (D.d i)) K) i := by
+      simp only [SplitData.blockHom, AlgHom.comp_apply, hxj, Pi.evalAlgHom_apply]
+    rw [hb]
+    by_cases hij : i = j
+    · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, if_pos rfl]
+    · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, if_neg hij]
+  -- Evaluate the vanishing combination at that class: it collapses to `c j = 0`.
+  have happ := LinearMap.congr_fun hc (Submodule.mkQ (commSubmodule K G) xj)
+  simpa only [LinearMap.sum_apply, LinearMap.smul_apply, hval, smul_eq_mul, mul_ite, mul_one,
+    mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true] using happ
+
 /-- **Split-field bound (step 1 of the base-change route).** Over an algebraically closed field
 `K`, the number of isomorphism classes of irreducible representations of a finite group `G` is at
 most the number of conjugacy classes of `G`.
@@ -108,32 +140,9 @@ theorem natCard_irrepClasses_le_conjClasses_of_isAlgClosed
   -- The standard-module enumeration: a `SplitData` and the count `#simples = n`.
   obtain ⟨D, hD⟩ := exists_splitSimples_count K G
   rw [card_irrepClasses_eq_card_simpleModuleClasses K G, hD]
-  -- The `n` block trace forms `τ_{Std i}` are linearly independent: for block `j`, a `π`-preimage
-  -- `xⱼ` of the matrix unit `E₁₁` in block `j` is a dual vector with `τ_{Std i}(xⱼ) = δ_{ij}`.
-  have hindep : LinearIndependent K
-      (fun i => (traceFormQ K (D.Std i) : Cocenter K G →ₗ[K] K)) := by
-    refine Fintype.linearIndependent_iff.mpr (fun c hc j => ?_)
-    haveI := D.d_pos j
-    obtain ⟨xj, hxj⟩ := D.π_surj (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K)))
-    -- `τ_{Std i}` evaluated at the class of `xⱼ` is the Kronecker delta `δ_{ij}`.
-    have hval : ∀ i, traceFormQ K (D.Std i) (Submodule.mkQ (commSubmodule K G) xj)
-        = if i = j then 1 else 0 := by
-      intro i
-      rw [traceFormQ_mkQ, traceForm_Std_eq_trace D i xj]
-      have hb : D.blockHom i xj
-          = (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K))
-              : ∀ i, Matrix (Fin (D.d i)) (Fin (D.d i)) K) i := by
-        simp only [SplitData.blockHom, AlgHom.comp_apply, hxj, Pi.evalAlgHom_apply]
-      rw [hb]
-      by_cases hij : i = j
-      · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, if_pos rfl]
-      · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, if_neg hij]
-    -- Evaluate the vanishing combination at that class: it collapses to `c j = 0`.
-    have happ := LinearMap.congr_fun hc (Submodule.mkQ (commSubmodule K G) xj)
-    simpa only [LinearMap.sum_apply, LinearMap.smul_apply, hval, smul_eq_mul, mul_ite, mul_one,
-      mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true] using happ
-  -- Feed independence into the cocenter counting bound.
-  have hcard := card_le_conjClasses_of_traceForm_linearIndependent (S := fun i => D.Std i) hindep
+  -- Feed the independence of the `n` block trace forms into the cocenter counting bound.
+  have hcard := card_le_conjClasses_of_traceForm_linearIndependent (S := fun i => D.Std i)
+    (traceFormQ_Std_linearIndependent D)
   simpa using hcard
 
 end IsAlgClosedBound

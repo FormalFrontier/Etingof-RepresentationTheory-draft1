@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter2.Proposition2_7_1
+import EtingofRepresentationTheory.Chapter2.FaithfulWeylModule
 import Mathlib.RingTheory.SimpleRing.Basic
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.TwoSidedIdeal.Lattice
@@ -139,33 +140,18 @@ theorem finrank_eq_zero_of_charZero (k : Type*) [Field k] [CharZero k]
   have hfin : (Module.finrank k V : k) = 0 := by linear_combination htr
   exact_mod_cast hfin
 
-/-! ### Simplicity in characteristic zero
+/-! ### Inner derivations `ad_x`, `ad_y` and their action on monomials (characteristic-free)
 
-The book's argument: a two-sided ideal `I` is closed under the two inner derivations
-`ad_x(a) = x·a − a·x` and `ad_y(a) = y·a − a·y`. On the monomial basis `xⁱyʲ` one has
-`ad_x(xⁱyʲ) = −j·xⁱyʲ⁻¹` (lowers the `y`-degree) and `ad_y(xⁱyʲ) = i·xⁱ⁻¹yʲ` (lowers the
-`x`-degree); in characteristic `0` the leading coefficients `−j`, `i` are nonzero. So from a
-nonzero `a ∈ I` we lower the `y`-degree by `ad_x` to reach a nonzero polynomial in `x`, then
-lower the `x`-degree by `ad_y` to reach a nonzero scalar, which is a unit; hence `I = ⊤`. -/
+The inner derivations `ad_x(a) = x·a − a·x` and `ad_y(a) = y·a − a·y` and their action on the
+standard monomials are characteristic-free (they rely only on the commutator identities
+`y_mul_x_pow_succ` / `x_mul_y_pow_succ`). They are shared by the characteristic-zero simplicity
+argument (part (a)) and the characteristic-`p` center computation (part (b)). -/
 
-section CharZeroSimple
+section AdDerivations
 
-variable (k : Type*) [Field k] [CharZero k]
+variable (k : Type*) [Field k]
 
-open WeylAlgebra Module
-
-/-- The monomial basis `{xⁱyʲ}` of the Weyl algebra (Proposition 2.7.1), available over a
-characteristic-zero field. -/
-private noncomputable def monBasis : Basis (ℕ × ℕ) k (WeylAlgebra k) :=
-  Basis.mk (Proposition_2_7_1 k).1 (Proposition_2_7_1 k).2
-
-private lemma monBasis_apply (p : ℕ × ℕ) :
-    monBasis k p = WeylAlgebra.monomial k p.1 p.2 :=
-  Basis.mk_apply _ _ _
-
-private lemma repr_monomial (i j : ℕ) :
-    (monBasis k).repr (WeylAlgebra.monomial k i j) = Finsupp.single (i, j) 1 := by
-  rw [← monBasis_apply k (i, j)]; exact (monBasis k).repr_self _
+open WeylAlgebra
 
 /-- The inner derivation `ad_x = [x, -]`. -/
 private noncomputable def adx : WeylAlgebra k →ₗ[k] WeylAlgebra k :=
@@ -216,6 +202,36 @@ private lemma ady_monomial_succ (n j : ℕ) :
     add_sub_cancel_left, ← Nat.cast_smul_eq_nsmul (R := k) (n + 1)]
   congr 1
   push_cast; ring
+
+end AdDerivations
+
+/-! ### Simplicity in characteristic zero
+
+The book's argument: a two-sided ideal `I` is closed under the two inner derivations
+`ad_x(a) = x·a − a·x` and `ad_y(a) = y·a − a·y`. On the monomial basis `xⁱyʲ` one has
+`ad_x(xⁱyʲ) = −j·xⁱyʲ⁻¹` (lowers the `y`-degree) and `ad_y(xⁱyʲ) = i·xⁱ⁻¹yʲ` (lowers the
+`x`-degree); in characteristic `0` the leading coefficients `−j`, `i` are nonzero. So from a
+nonzero `a ∈ I` we lower the `y`-degree by `ad_x` to reach a nonzero polynomial in `x`, then
+lower the `x`-degree by `ad_y` to reach a nonzero scalar, which is a unit; hence `I = ⊤`. -/
+
+section CharZeroSimple
+
+variable (k : Type*) [Field k] [CharZero k]
+
+open WeylAlgebra Module
+
+/-- The monomial basis `{xⁱyʲ}` of the Weyl algebra (Proposition 2.7.1), available over a
+characteristic-zero field. -/
+private noncomputable def monBasis : Basis (ℕ × ℕ) k (WeylAlgebra k) :=
+  Basis.mk (Proposition_2_7_1 k).1 (Proposition_2_7_1 k).2
+
+private lemma monBasis_apply (p : ℕ × ℕ) :
+    monBasis k p = WeylAlgebra.monomial k p.1 p.2 :=
+  Basis.mk_apply _ _ _
+
+private lemma repr_monomial (i j : ℕ) :
+    (monBasis k).repr (WeylAlgebra.monomial k i j) = Finsupp.single (i, j) 1 := by
+  rw [← monBasis_apply k (i, j)]; exact (monBasis k).repr_self _
 
 /-- Coordinate formula for `ad_x` in the monomial basis: the `(i, j)` coordinate of `ad_x a`
 is `−(j+1)` times the `(i, j+1)` coordinate of `a`. -/
@@ -481,12 +497,181 @@ theorem y_pow_char_mem_center (k : Type*) [Field k] (p : ℕ) [CharP k p] :
       exact h.symm
   · exact (Commute.refl (WeylAlgebra.y k)).pow_left p
 
+/-! ### Char-free monomial coordinates (for the center in characteristic `p`)
+
+The characteristic-zero simplicity argument above uses the monomial basis `monBasis`, built
+from `Etingof.Proposition_2_7_1` and therefore only available over a characteristic-zero field.
+For the center in characteristic `p` we need the same coordinate formulas over the *char-free*
+monomial basis `monBasisP`, built from `Etingof.Proposition_2_7_1_charFree` (which holds in any
+characteristic via the faithful module `E`). The inner-derivation monomial lemmas
+`adx_monomial_zero/succ` and `ady_monomial_zero/succ` are already characteristic-free, so only
+the basis and the two coordinate formulas need to be re-established here. -/
+
+section CharPCenter
+
+variable (k : Type*) [Field k]
+
+open WeylAlgebra Module
+
+/-- The characteristic-free monomial basis `{xⁱyʲ}` of the Weyl algebra (Proposition 2.7.1,
+char-free form), available in any characteristic. -/
+private noncomputable def monBasisP : Basis (ℕ × ℕ) k (WeylAlgebra k) :=
+  Basis.mk (Proposition_2_7_1_charFree k).1 (Proposition_2_7_1_charFree k).2
+
+private lemma monBasisP_apply (p : ℕ × ℕ) :
+    monBasisP k p = WeylAlgebra.monomial k p.1 p.2 :=
+  Basis.mk_apply _ _ _
+
+private lemma repr_monomialP (i j : ℕ) :
+    (monBasisP k).repr (WeylAlgebra.monomial k i j) = Finsupp.single (i, j) 1 := by
+  rw [← monBasisP_apply k (i, j)]; exact (monBasisP k).repr_self _
+
+/-- Coordinate formula for `ad_x` in the char-free monomial basis: the `(i, j)` coordinate of
+`ad_x a` is `−(j+1)` times the `(i, j+1)` coordinate of `a`. -/
+private lemma repr_adx_applyP (a : WeylAlgebra k) (i j : ℕ) :
+    (monBasisP k).repr (adx k a) (i, j)
+      = -((j : k) + 1) * (monBasisP k).repr a (i, j + 1) := by
+  have key :
+      (Finsupp.lapply (i, j)).comp (((monBasisP k).repr.toLinearMap).comp (adx k))
+        = (-((j : k) + 1)) •
+            (Finsupp.lapply (i, j + 1)).comp ((monBasisP k).repr.toLinearMap) := by
+    apply (monBasisP k).ext
+    rintro ⟨i', j'⟩
+    simp only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+      LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul]
+    rw [monBasisP_apply k (i', j'), repr_monomialP]
+    cases j' with
+    | zero =>
+      rw [adx_monomial_zero, map_zero]
+      simp [Finsupp.single_apply, Prod.ext_iff]
+    | succ n =>
+      rw [adx_monomial_succ, map_smul, repr_monomialP, Finsupp.smul_apply,
+        Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
+      by_cases h : (i', n) = (i, j)
+      · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
+        simp
+      · rw [if_neg h]
+        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+        ring
+  have := LinearMap.congr_fun key a
+  simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+    LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
+
+/-- Coordinate formula for `ad_y` in the char-free monomial basis: the `(i, j)` coordinate of
+`ad_y a` is `(i+1)` times the `(i+1, j)` coordinate of `a`. -/
+private lemma repr_ady_applyP (a : WeylAlgebra k) (i j : ℕ) :
+    (monBasisP k).repr (ady k a) (i, j)
+      = ((i : k) + 1) * (monBasisP k).repr a (i + 1, j) := by
+  have key :
+      (Finsupp.lapply (i, j)).comp (((monBasisP k).repr.toLinearMap).comp (ady k))
+        = (((i : k) + 1)) •
+            (Finsupp.lapply (i + 1, j)).comp ((monBasisP k).repr.toLinearMap) := by
+    apply (monBasisP k).ext
+    rintro ⟨i', j'⟩
+    simp only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+      LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul]
+    rw [monBasisP_apply k (i', j'), repr_monomialP]
+    cases i' with
+    | zero =>
+      rw [ady_monomial_zero, map_zero]
+      simp [Finsupp.single_apply, Prod.ext_iff]
+    | succ m =>
+      rw [ady_monomial_succ, map_smul, repr_monomialP, Finsupp.smul_apply,
+        Finsupp.single_apply, Finsupp.single_apply, smul_eq_mul]
+      by_cases h : (m, j') = (i, j)
+      · obtain ⟨rfl, rfl⟩ := Prod.mk.injEq _ _ _ _ ▸ h
+        simp
+      · rw [if_neg h]
+        rw [if_neg (by simp only [Prod.ext_iff] at h ⊢; omega)]
+        ring
+  have := LinearMap.congr_fun key a
+  simpa only [LinearMap.smul_apply, LinearMap.coe_comp, Function.comp_apply,
+    LinearEquiv.coe_coe, Finsupp.lapply_apply, smul_eq_mul] using this
+
+end CharPCenter
+
 /-- **(b)** In characteristic `p`, the center of the Weyl algebra is the polynomial subalgebra
 `k[x^p, y^p]` generated by `x^p` and `y^p`. -/
 theorem center_charP (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime p)] [CharP k p] :
     Subalgebra.center k (WeylAlgebra k)
-      = Algebra.adjoin k {WeylAlgebra.x k ^ p, WeylAlgebra.y k ^ p} :=
-  sorry
+      = Algebra.adjoin k {WeylAlgebra.x k ^ p, WeylAlgebra.y k ^ p} := by
+  apply le_antisymm
+  · -- `center ⊆ k[xᵖ, yᵖ]`: write a central `z` in the monomial basis; centrality forces the
+    -- `x`- and `y`-degrees of every nonzero coefficient to be divisible by `p`.
+    intro z hz
+    -- Centrality gives `ad_x z = 0` and `ad_y z = 0`.
+    have hadx : adx k z = 0 := by
+      rw [adx_apply, sub_eq_zero]
+      exact Subalgebra.mem_center_iff.mp hz (WeylAlgebra.x k)
+    have hady : ady k z = 0 := by
+      rw [ady_apply, sub_eq_zero]
+      exact Subalgebra.mem_center_iff.mp hz (WeylAlgebra.y k)
+    set c := (monBasisP k).repr z with hc
+    -- Vanishing of `ad_x z` forces `(j+1)·c(i,j+1) = 0` for all `i, j`.
+    have hcoefY : ∀ (i j : ℕ), 1 ≤ j → (j : k) * c (i, j) = 0 := by
+      intro i j hj
+      obtain ⟨j, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : j ≠ 0)
+      have h := repr_adx_applyP k z i j
+      rw [hadx, map_zero, Finsupp.zero_apply] at h
+      have h2 : ((j : k) + 1) * c (i, j + 1) = 0 :=
+        neg_eq_zero.mp (by rw [← neg_mul]; exact h.symm)
+      rw [show ((j + 1 : ℕ) : k) = (j : k) + 1 by push_cast; ring]
+      exact h2
+    -- Vanishing of `ad_y z` forces `(i+1)·c(i+1,j) = 0` for all `i, j`.
+    have hcoefX : ∀ (i j : ℕ), 1 ≤ i → (i : k) * c (i, j) = 0 := by
+      intro i j hi
+      obtain ⟨i, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : i ≠ 0)
+      have h := repr_ady_applyP k z i j
+      rw [hady, map_zero, Finsupp.zero_apply] at h
+      have h2 : ((i : k) + 1) * c (i + 1, j) = 0 := by rw [← h]
+      rw [show ((i + 1 : ℕ) : k) = (i : k) + 1 by push_cast; ring]
+      exact h2
+    -- Every point in the support has both coordinates divisible by `p`.
+    have hsupp : ∀ q ∈ c.support, p ∣ q.1 ∧ p ∣ q.2 := by
+      rintro ⟨i, j⟩ hq
+      have hne : c (i, j) ≠ 0 := Finsupp.mem_support_iff.mp hq
+      refine ⟨?_, ?_⟩
+      · rcases Nat.eq_zero_or_pos i with hi | hi
+        · rw [hi]; exact dvd_zero p
+        · have hik : (i : k) = 0 :=
+            (mul_eq_zero.mp (hcoefX i j hi)).resolve_right hne
+          exact (CharP.cast_eq_zero_iff k p i).mp hik
+      · rcases Nat.eq_zero_or_pos j with hj | hj
+        · rw [hj]; exact dvd_zero p
+        · have hjk : (j : k) = 0 :=
+            (mul_eq_zero.mp (hcoefY i j hj)).resolve_right hne
+          exact (CharP.cast_eq_zero_iff k p j).mp hjk
+    -- Reassemble `z` from its basis expansion; each surviving monomial lies in `k[xᵖ, yᵖ]`.
+    have hz_eq : z = c.sum (fun q a => a • monBasisP k q) := by
+      rw [hc, ← Finsupp.linearCombination_apply, (monBasisP k).linearCombination_repr]
+    rw [hz_eq, Finsupp.sum]
+    apply Subalgebra.sum_mem
+    rintro ⟨i, j⟩ hq
+    obtain ⟨hd1, hd2⟩ := hsupp (i, j) hq
+    -- The surviving monomial `xⁱyʲ = (xᵖ)^{i/p} (yᵖ)^{j/p}` lies in `k[xᵖ, yᵖ]`.
+    have hmem : WeylAlgebra.monomial k i j ∈
+        Algebra.adjoin k {WeylAlgebra.x k ^ p, WeylAlgebra.y k ^ p} := by
+      have hxpS : WeylAlgebra.x k ^ p ∈
+          Algebra.adjoin k {WeylAlgebra.x k ^ p, WeylAlgebra.y k ^ p} :=
+        Algebra.subset_adjoin (Set.mem_insert _ _)
+      have hypS : WeylAlgebra.y k ^ p ∈
+          Algebra.adjoin k {WeylAlgebra.x k ^ p, WeylAlgebra.y k ^ p} :=
+        Algebra.subset_adjoin (Set.mem_insert_of_mem _ rfl)
+      have hx1 : WeylAlgebra.x k ^ i = (WeylAlgebra.x k ^ p) ^ (i / p) := by
+        rw [← pow_mul, Nat.mul_div_cancel' hd1]
+      have hy1 : WeylAlgebra.y k ^ j = (WeylAlgebra.y k ^ p) ^ (j / p) := by
+        rw [← pow_mul, Nat.mul_div_cancel' hd2]
+      rw [WeylAlgebra.monomial, hx1, hy1]
+      exact mul_mem (pow_mem hxpS _) (pow_mem hypS _)
+    rw [monBasisP_apply]
+    exact Subalgebra.smul_mem _ hmem _
+  · -- `k[xᵖ, yᵖ] ⊆ center`: both generators are central.
+    apply Algebra.adjoin_le
+    intro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with rfl | rfl
+    · exact x_pow_char_mem_center k p
+    · exact y_pow_char_mem_center k p
 
 /-! ## (c) Characteristic `p`: irreducible representations -/
 

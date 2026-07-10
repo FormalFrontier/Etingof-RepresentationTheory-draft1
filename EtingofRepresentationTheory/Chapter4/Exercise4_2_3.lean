@@ -680,20 +680,10 @@ instance IrrepClasses.instFinite {k G : Type*} [Field k] [Group G] [Finite G] :
 
 end Finiteness
 
-/-- **Exercise 4.2.3.** If `|G| = 0` in `k` (the characteristic of `k` divides the order
-of the finite group `G`), then the number of isomorphism classes of irreducible
-representations of `G` over `k` is strictly less than the number of conjugacy classes of
-`G`. -/
-theorem Exercise4_2_3 (k G : Type*) [Field k] [Group G] [Fintype G]
-    (h : (Fintype.card G : k) = 0) :
-    Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G) := by
-  -- The algebraic core is `not_isSemisimpleRing_of_card_eq_zero h`: `k[G]` is not
-  -- semisimple because `groupSum k G = ∑_g g` is a nonzero central nilpotent.
-  -- Remaining (the counting comparison): relate `Nat.card (IrrepClasses k G)` to the
-  -- dimension of the centre of the semisimple quotient `k[G] / rad`, and
-  -- `Nat.card (ConjClasses G)` to `dim_k Z(k[G])` (class sums are a basis of the centre,
-  -- cf. `finrank_center_monoidAlgebra` in `Chapter4/Corollary4_2_2.lean`), then use the
-  -- strict drop coming from `0 ≠ groupSum ∈ rad`. This modular counting half is deferred.
-  sorry
+-- **Exercise 4.2.3** (`Etingof.Exercise4_2_3`, the strict modular counting drop
+-- `Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G)`) is assembled downstream in
+-- `Exercise4_2_3_Assembly.lean`: this file cannot state it here because the split-field and
+-- strict-bound machinery it depends on (`Exercise4_2_3_FieldGeneral.lean`,
+-- `Exercise4_2_3_StrictBound.lean`) both import this file.
 
 end Etingof

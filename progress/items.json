@@ -797,7 +797,7 @@
     "start_line": 9,
     "end_line": 20,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean (center trivial + simple ring when q not root of unity; center generators in root-of-unity case; determinant obstruction q^{dim V}=1; irreducible dim = orderOf q). Part (b) proved sorry-free (q_pow_finrank_eq_one, isOfFinOrder_of_nontrivial_finrep); parts (a),(c) still sorried."
+    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter2/Problem2_7_5.lean (center trivial + simple ring when q not root of unity; center generators in root-of-unity case; determinant obstruction q^{dim V}=1; irreducible dim = orderOf q). Part (a) proved sorry-free: center_eq_bot_of_not_isOfFinOrder (#6191) and isSimpleRing_of_not_isOfFinOrder (#6202, minimal-support descent via kappa_conjX/kappa_conjY). Part (b) proved sorry-free (q_pow_finrank_eq_one, isOfFinOrder_of_nontrivial_finrep). Remaining sorries: center_of_isOfFinOrder (root-of-unity center) and finrank_irreducible_eq_orderOf (part c)."
   },
   {
     "id": "Chapter2/Definition2.8.1",
@@ -1499,8 +1499,8 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 20,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved sorry-free 2026-07-10 (#6217): liftLie + dualTensorHomEquiv-based Lie-module iso + postcomposition; Chapter2/Problem2_14_3.lean."
   },
   {
     "id": "Chapter2/Discussion_2.15_heading",
@@ -2509,8 +2509,8 @@
     "end_page": "64",
     "start_line": 11,
     "end_line": 14,
-    "status": "statement_formalized",
-    "coverage_note": "Split-field counting bound (step 1 of the field-general route, #6138) proved: Etingof.natCard_irrepClasses_le_conjClasses_of_isAlgClosed in Chapter4/Exercise4_2_3_FieldGeneral.lean, via linear independence of the standard-module cocenter trace forms (dual system from block matrix units, traceForm_Std_eq_trace). Sorry-free in its own right; transitively rests on the still-deferred SplitSimples count lemma card_simpleModuleClasses (#6150). Base-change monotonicity (#6127) now proved sorry-free: Etingof.natCard_irrepClasses_le_of_ringHom_field via the radical-quotient chain #simple(k[G]) = #simple(k[G]/rad) ≤ #simple(K⊗(k[G]/rad)) ≤ #simple(K[G]) (rewired the crux to the proven nonempty_baseChange_pi_matrix_algEquiv and built the surjection K[G]↠K⊗(k[G]/rad)); the field-general non-strict bound natCard_irrepClasses_le_conjClasses is thus complete (G in the fields' universe). Remaining: the modular strict-drop assembly (#6139)."
+    "status": "sorry_free",
+    "coverage_note": "COMPLETE (#6139). Etingof.Exercise4_2_3 in Chapter4/Exercise4_2_3_Assembly.lean: |G| = 0 in k ⟹ Nat.card (IrrepClasses k G) < Nat.card (ConjClasses G). #print axioms shows only [propext, Classical.choice, Quot.sound]. Assembled by base change to K = AlgebraicClosure k: lt_of_le_of_lt through (a) base-change monotonicity natCard_irrepClasses_le_of_ringHom_field (#6127) and (b) the new strict split-field lemma natCard_irrepClasses_lt_conjClasses_of_isAlgClosed. The strict lemma reuses the split-field enumeration (SplitData, exists_splitSimples_count) and the linear independence of the n standard-module cocenter trace forms — extracted from the #6126 ≤-proof into the reusable traceFormQ_Std_linearIndependent (Exercise4_2_3_FieldGeneral.lean) — feeding the strict cocenter bound CocenterMonoidAlgebra.card_lt_conjClasses_of_traceForm_linearIndependent (each trace form annihilates the nonzero central nilpotent P̄ = ∑_g g in the modular case). The Exercise4_2_3 statement moved to the downstream assembly file (import-cycle: FieldGeneral/StrictBound both import Exercise4_2_3.lean). k, G share a universe (as in the ≤ companion natCard_irrepClasses_le_conjClasses)."
   },
   {
     "id": "Chapter4/Corollary4.2.4",
@@ -4944,7 +4944,7 @@
     "start_line": 3,
     "end_line": 14,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass. Part (a): Chapter5/Problem5_24_1.lean states the S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda (sorry proof). Part (b): Chapter5/Problem5_24_1_b.lean constructs the sign-twist algebra automorphism phi (signTwist, phi(g)=sign(g)·g) and the conjugate partition lambda* (conjugatePartition, via Young-diagram transpose), and states: phi twists the g-action to sign(g)·(g·-) i.e. maps V to V⊗C_- (signTwist_smul_of); phi(C[S_n]·a)=C[S_n]·phi(a) (signTwist_map_leftIdeal); and V_lambda⊗C_- ≅ V_{lambda*} (spechtModule_signTwist_iso_conjugate). All proofs sorry; conjugatePartition parts_sum obligation sorried."
+    "coverage_note": "Part (a) PROVED sorry-free (rowColIdeal_iso_spechtModule, axiom-clean: propext/Classical.choice/Quot.sound). Chapter5/Problem5_24_1.lean gives the S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda via mutually-inverse right-multiplication maps f(x)=x·a, g(y)=y·b, using c_lambda²=α·c_lambda (Lemma5_13_3) and its mirror (Lemma5_13_1_dual). Part (b) still statement-only: Chapter5/Problem5_24_1_b.lean constructs the sign-twist algebra automorphism phi (signTwist, phi(g)=sign(g)·g) and the conjugate partition lambda* (conjugatePartition, via Young-diagram transpose), and states: phi twists the g-action to sign(g)·(g·-) i.e. maps V to V⊗C_- (signTwist_smul_of); phi(C[S_n]·a)=C[S_n]·phi(a) (signTwist_map_leftIdeal); and V_lambda⊗C_- ≅ V_{lambda*} (spechtModule_signTwist_iso_conjugate). All proofs sorry; conjugatePartition parts_sum obligation sorried."
   },
   {
     "id": "Chapter5/Problem5.24.2",
