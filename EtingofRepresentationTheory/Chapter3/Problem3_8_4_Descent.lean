@@ -95,4 +95,25 @@ theorem exists_fg_subalgebra_baseChange_iso
       Nonempty ((R ⊗[K] V) ≃ₗ[R ⊗[K] A] (R ⊗[K] W)) := by
   sorry
 
+/-- **Descent of a base-change split injection to a finitely generated subalgebra.**
+
+The split-injection (Noether-Deuring) twin of `exists_fg_subalgebra_baseChange_iso`. A split
+injection `⟨i, p⟩` (with `p ∘ i = id`) of the base changes over `L ⊗[K] A`, for a field extension
+`L / K` and `V`, `W` finite dimensional over `K`, already exists over a finitely generated
+`K`-subalgebra `R ⊆ L`: the entries of `i`, `p` (in chosen `K`-bases) and the splitting relation
+`p ∘ i = id` involve finitely many elements of `L`, which generate `R`.
+
+Same matrix-entry / filtered-colimit descent as the iso case (proof route documented above); the
+splitting relation `p ∘ i = id` is a polynomial identity in the entries and descends the same way
+`e.symm ∘ e = id` does. Pushing forward along `R →ₐ[K] L` (`Functoriality.pushHom`) recovers the
+split injection over `L`. -/
+theorem exists_fg_subalgebra_baseChange_directSummand
+    [FiniteDimensional K V] [FiniteDimensional K W]
+    (i : (L ⊗[K] V) →ₗ[L ⊗[K] A] (L ⊗[K] W)) (p : (L ⊗[K] W) →ₗ[L ⊗[K] A] (L ⊗[K] V))
+    (hpi : p.comp i = LinearMap.id) :
+    ∃ R : Subalgebra K L, R.FG ∧
+      ∃ (i' : (R ⊗[K] V) →ₗ[R ⊗[K] A] (R ⊗[K] W))
+        (p' : (R ⊗[K] W) →ₗ[R ⊗[K] A] (R ⊗[K] V)), p'.comp i' = LinearMap.id := by
+  sorry
+
 end Etingof.Problem3_8_4.Descent

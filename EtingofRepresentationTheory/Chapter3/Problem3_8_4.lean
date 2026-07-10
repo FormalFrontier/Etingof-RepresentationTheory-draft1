@@ -68,16 +68,10 @@ theorem iso_of_baseChange_iso [FiniteDimensional K V] [FiniteDimensional K W]
     Nonempty (V ≃ₗ[A] W) := by
   sorry
 
-/-- **Problem 3.8.4(ii), the Noether-Deuring theorem.** If `L ⊗[K] V` is a direct summand of
-`L ⊗[K] W` as `L ⊗[K] A`-modules, then `V` is a direct summand of `W` as `A`-modules.
-
-A direct summand (up to isomorphism) is encoded as a split injection: a pair `(i, p)` with
-`p ∘ i = id`, whose image is a complemented submodule isomorphic to the smaller module. -/
-theorem directSummand_of_baseChange_directSummand
-    [FiniteDimensional K V] [FiniteDimensional K W]
-    (h : ∃ (i : (L ⊗[K] V) →ₗ[L ⊗[K] A] (L ⊗[K] W))
-           (p : (L ⊗[K] W) →ₗ[L ⊗[K] A] (L ⊗[K] V)), p.comp i = LinearMap.id) :
-    ∃ (i : V →ₗ[A] W) (p : W →ₗ[A] V), p.comp i = LinearMap.id := by
-  sorry
+/- **Problem 3.8.4(ii), the Noether-Deuring theorem** — the general-`L` statement and proof live
+downstream in `Problem3_8_4_General.lean` (`directSummand_of_baseChange_directSummand`), once the
+finite case and the descent/pushforward machinery are available. A direct summand (up to
+isomorphism) is encoded as a split injection: a pair `(i, p)` with `p ∘ i = id`, whose image is a
+complemented submodule isomorphic to the smaller module. -/
 
 end Etingof.Problem3_8_4
