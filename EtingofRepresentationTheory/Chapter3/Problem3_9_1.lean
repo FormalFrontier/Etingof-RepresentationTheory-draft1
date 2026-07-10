@@ -236,6 +236,53 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
   refine ⟨?_, rfl⟩
   simp only [add_assoc, ← key]
 
+/-- The "proportional ⇒ isomorphic" direction of Problem 3.9.1(d), in the nondegenerate case
+`c ≠ 0`. If `f − c • f'` is a coboundary for some nonzero scalar `c`, then the extensions
+`U_f` and `U_{f'}` are isomorphic representations, via the block map `φ = [[1, X], [0, c]]`.
+
+This holds over any field (no irreducibility or finite dimensionality needed) and is the
+reusable half of part (d). The degenerate case `c = 0` reduces to `f` being a coboundary,
+which makes `U_f` split but says nothing about `U_{f'}`; it does *not* give
+`U_f ≅ U_{f'}` in general. -/
+theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
+    (c : k) (hc : c ≠ 0) (hsub : f - c • f' ∈ coboundaries k A V W) :
+    ∃ φ : (V × W) ≃ₗ[k] (V × W), IntertwinesExt k A V W f f' φ := by
+  obtain ⟨X, hX⟩ := (mem_coboundaries_iff k A V W (f - c • f')).1 hsub
+  -- `φ = [[1, X], [0, c]]`, i.e. `(v, w) ↦ (v + X w, c • w)`.
+  set L : (V × W) →ₗ[k] (V × W) :=
+    LinearMap.prod (LinearMap.fst k V W + X ∘ₗ LinearMap.snd k V W) (c • LinearMap.snd k V W)
+    with hL
+  set Linv : (V × W) →ₗ[k] (V × W) :=
+    LinearMap.prod (LinearMap.fst k V W - c⁻¹ • (X ∘ₗ LinearMap.snd k V W))
+      (c⁻¹ • LinearMap.snd k V W) with hLinv
+  have Lapp : ∀ p : V × W, L p = (p.1 + X p.2, c • p.2) := fun p => by
+    simp [hL, LinearMap.coe_prod, Function.prod_apply]
+  have Linvapp : ∀ p : V × W, Linv p = (p.1 - c⁻¹ • X p.2, c⁻¹ • p.2) := fun p => by
+    simp [hLinv, LinearMap.coe_prod, Function.prod_apply]
+  refine ⟨LinearEquiv.ofLinear L Linv ?_ ?_, ?_⟩
+  · apply LinearMap.ext
+    rintro ⟨v, w⟩
+    simp only [LinearMap.comp_apply, Lapp, Linvapp, LinearMap.id_coe, id_eq, map_smul,
+      smul_inv_smul₀ hc, sub_add_cancel]
+  · apply LinearMap.ext
+    rintro ⟨v, w⟩
+    simp only [LinearMap.comp_apply, Lapp, Linvapp, LinearMap.id_coe, id_eq, map_smul,
+      inv_smul_smul₀ hc, add_sub_cancel_right]
+  intro a
+  apply LinearMap.ext
+  rintro ⟨v, w⟩
+  -- Off-diagonal identity: `(f - c • f') a w = a • X w - X (a • w)`.
+  have key : a • X w + c • f' a w = f a w + X (a • w) := by
+    have h := LinearMap.congr_fun (LinearMap.congr_fun hX a) w
+    simp only [coboundaryOf_apply, LinearMap.sub_apply, LinearMap.smul_apply] at h
+    exact sub_eq_sub_iff_add_eq_add.1 h
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.ofLinear_apply, blockOp_apply,
+    Lapp, smul_add, map_smul]
+  rw [Prod.mk.injEq]
+  refine ⟨?_, ?_⟩
+  · simp only [add_assoc, ← key]
+  · rw [smul_comm]
+
 /-- **Problem 3.9.1(d).** For finite dimensional irreducible `V` and `W`, the extensions
 `U_f` and `U_{f'}` are isomorphic if and only if the cocycles `f` and `f'` are proportional
 modulo coboundaries (their classes in `Ext¹` are proportional). -/
