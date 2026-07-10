@@ -267,6 +267,144 @@ noncomputable def repSimpleClassesEquivModuleSimpleClasses :
   exact funext fun X => propext
     (simpleProp_iff_of_equivalence (Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)) X)
 
+/-! ### `FDRep k G` and `Rep k G` have the same simple objects
+
+The final ingredient for the counting comparison is that the forgetful functor
+`FDRep k G ⥤ Rep k G` restricts to an *equivalence* on the full subcategories of simple
+objects. Preservation of simplicity is the honest mathematical content: a simple
+finite-dimensional representation, viewed as a `k[G]`-module, is a simple module. We prove
+this by hand — every `k[G]`-submodule of `V.ρ.asModule` is a subrepresentation, hence
+(being finite-dimensional) yields a monomorphism into `V` in `FDRep k G`, which `Simple V`
+forces to be `0` (submodule `⊥`) or an isomorphism (submodule `⊤`). Essential surjectivity
+uses that a simple `k[G]`-module is finite-dimensional (`finite_k_of_isSimpleModule`), so a
+simple `Rep k G` object comes from an `FDRep k G` object. -/
+
+/-- The inclusion of a subrepresentation of `V.ρ` as an intertwining map into `V.ρ`. -/
+noncomputable def subInclusion (V : FDRep k G) (S : Subrepresentation V.ρ) :
+    S.toRepresentation.IntertwiningMap V.ρ :=
+  LinearMap.intertwiningMap_of_isIntertwiningMap _ _ S.toSubmodule.subtype (fun _ _ => rfl)
+
+private lemma nontrivial_carrier_of_simple (V : FDRep k G) [Simple V] : Nontrivial V.V := by
+  by_contra h
+  rw [not_nontrivial_iff_subsingleton] at h
+  apply id_nonzero V
+  apply (forget₂ (FDRep k G) (FGModuleCat k)).map_injective
+  apply (forget₂ (FGModuleCat k) (ModuleCat k)).map_injective
+  ext x
+  exact @Subsingleton.elim V.V h _ _
+
+/-- **Preservation of simplicity (module side).** A simple object `V` of `FDRep k G` has a
+simple underlying `k[G]`-module `V.ρ.asModule`. Every `k[G]`-submodule is a
+finite-dimensional subrepresentation, hence gives a monomorphism into `V` in `FDRep k G`;
+simplicity of `V` forces it to be `⊥` or `⊤`. -/
+theorem isSimpleModule_asModule_of_simple (V : FDRep k G) [Simple V] :
+    IsSimpleModule (MonoidAlgebra k G) (Representation.asModule V.ρ) := by
+  haveI : Nontrivial V.V := nontrivial_carrier_of_simple V
+  haveI : Nontrivial (Representation.asModule V.ρ) :=
+    (Representation.asModuleEquiv V.ρ).toEquiv.nontrivial
+  refine { eq_bot_or_eq_top := fun N => ?_ }
+  set S : Subrepresentation V.ρ := Subrepresentation.ofSubmodule' N with hS
+  haveI : Module.Finite k S.toSubmodule := inferInstance
+  let ι : S.toRepresentation.IntertwiningMap V.ρ := subInclusion V S
+  let j : (forget₂ (FDRep k G) (Rep k G)).obj (FDRep.of S.toRepresentation) ⟶
+      (forget₂ (FDRep k G) (Rep k G)).obj V := Rep.ofHom ι
+  have hjhom : ⇑j.hom = (Subtype.val : S.toSubmodule → V.V) := rfl
+  have hjinj : Function.Injective ⇑j.hom := by rw [hjhom]; exact Subtype.coe_injective
+  haveI hmonoj : Mono j := (Rep.mono_iff_injective j).mpr hjinj
+  let j' : FDRep.of S.toRepresentation ⟶ V :=
+    (forget₂ (FDRep k G) (Rep k G)).preimage j
+  have hmap : (forget₂ (FDRep k G) (Rep k G)).map j' = j :=
+    (forget₂ (FDRep k G) (Rep k G)).map_preimage j
+  haveI hmonoj' : Mono j' :=
+    (forget₂ (FDRep k G) (Rep k G)).mono_of_mono_map (by rw [hmap]; exact hmonoj)
+  by_cases hz : j' = 0
+  · left
+    have hj0 : j = 0 := by rw [← hmap, hz]; exact Functor.map_zero _ _ _
+    have hzero : ⇑j.hom = 0 := by rw [hj0]; rfl
+    rw [eq_bot_iff]
+    intro x hx
+    have hxS : x ∈ S := (Subrepresentation.mem_ofSubmodule'_iff).mpr hx
+    have hval : (Subtype.val : S.toSubmodule → V.V) ⟨x, hxS⟩ = 0 := by
+      rw [← hjhom]; exact congrFun hzero ⟨x, hxS⟩
+    simpa using hval
+  · right
+    haveI : IsIso j' := (Simple.mono_isIso_iff_nonzero j').mpr hz
+    haveI hisoj : IsIso ((forget₂ (FDRep k G) (Rep k G)).map j') := inferInstance
+    rw [hmap] at hisoj
+    have hsurj : Function.Surjective ⇑j.hom := (Rep.epi_iff_surjective j).mp inferInstance
+    rw [hjhom] at hsurj
+    rw [eq_top_iff]
+    intro x _
+    obtain ⟨y, hy⟩ := hsurj x
+    have hxS : x ∈ S := hy ▸ y.2
+    exact (Subrepresentation.mem_ofSubmodule'_iff).mp hxS
+
+/-- **Simple objects of `Rep k G` are exactly the simple `k[G]`-modules.** -/
+theorem simple_rep_iff_isSimpleModule (W : Rep k G) :
+    Simple W ↔ IsSimpleModule (MonoidAlgebra k G) (Representation.asModule W.ρ) := by
+  rw [← simpleProp_iff_of_equivalence (Rep.equivalenceModuleMonoidAlgebra (k := k) (G := G)) W]
+  exact simple_iff_isSimpleModule
+
+/-- **Preservation of simplicity (categorical form).** The forgetful functor
+`FDRep k G ⥤ Rep k G` sends simple objects to simple objects. -/
+theorem simple_forget₂_of_simple (V : FDRep k G) [Simple V] :
+    Simple ((forget₂ (FDRep k G) (Rep k G)).obj V) := by
+  rw [simple_rep_iff_isSimpleModule]
+  exact isSimpleModule_asModule_of_simple V
+
+/-- The forgetful functor `FDRep k G ⥤ Rep k G`, lifted to the full subcategories of simple
+objects. -/
+noncomputable abbrev fdRepSimpleToRepSimple :
+    (simpleProp (FDRep k G)).FullSubcategory ⥤ (simpleProp (Rep k G)).FullSubcategory :=
+  (simpleProp (Rep k G)).lift
+    ((simpleProp (FDRep k G)).ι ⋙ forget₂ (FDRep k G) (Rep k G))
+    (fun X => by haveI : Simple X.obj := X.property; exact simple_forget₂_of_simple X.obj)
+
+instance [Finite G] : (fdRepSimpleToRepSimple (k := k) (G := G)).EssSurj where
+  mem_essImage W := by
+    haveI : Simple W.obj := W.property
+    haveI hsm : IsSimpleModule (MonoidAlgebra k G) (Representation.asModule W.obj.ρ) :=
+      (simple_rep_iff_isSimpleModule W.obj).mp W.property
+    haveI : Module.Finite k (Representation.asModule W.obj.ρ) :=
+      finite_k_of_isSimpleModule (k := k) (G := G) (M := Representation.asModule W.obj.ρ)
+    haveI : Module.Finite k W.obj.V :=
+      Module.Finite.equiv (Representation.asModuleEquiv W.obj.ρ)
+    haveI : Simple (FDRep.of W.obj.ρ) :=
+      simple_fdRepOf_of_isSimpleModule (hρ := hsm) W.obj.ρ
+    exact ⟨⟨FDRep.of W.obj.ρ, ‹Simple (FDRep.of W.obj.ρ)›⟩, ⟨Iso.refl _⟩⟩
+
+noncomputable instance [Finite G] :
+    (fdRepSimpleToRepSimple (k := k) (G := G)).IsEquivalence where
+
+variable (k G) in
+/-- **Deliverable 1.** `IrrepClasses k G` — isomorphism classes of simple objects of
+`FDRep k G` — is in bijection with the isomorphism classes of simple objects of `Rep k G`,
+via the forgetful functor `FDRep k G ⥤ Rep k G`. -/
+noncomputable def irrepClassesEquivRepSimpleClasses [Finite G] :
+    IrrepClasses k G ≃
+      Quotient (isIsomorphicSetoid (simpleProp (Rep k G)).FullSubcategory) :=
+  isoClassesEquivOfEquivalence (fdRepSimpleToRepSimple (k := k) (G := G)).asEquivalence
+
+/-- Isomorphism classes of simple modules over a ring `R`, with underlying modules taken in
+universe `w`. -/
+abbrev SimpleModuleClasses.{w, r} (R : Type r) [Ring R] :=
+  Quotient (isIsomorphicSetoid (simpleProp (ModuleCat.{w} R)).FullSubcategory)
+
+variable (k G) in
+/-- **Deliverable 2 (count lemma).** The number of isomorphism classes of irreducible
+representations of `G` over `k` equals the number of isomorphism classes of simple
+`k[G]`-modules. The intermediate `Rep k G` classes are here reconstructed inline (rather than
+reusing `repSimpleClassesEquivModuleSimpleClasses`) so their carrier universe unifies with the
+one coming from `FDRep k G`. -/
+theorem card_irrepClasses_eq_card_simpleModuleClasses [Finite G] :
+    Nat.card (IrrepClasses k G) = Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra k G)) := by
+  refine Nat.card_congr ((irrepClassesEquivRepSimpleClasses k G).trans
+    (isoClassesEquivOfEquivalence
+      (Equivalence.congrFullSubcategory (Rep.equivalenceModuleMonoidAlgebra.{u} (k := k) (G := G))
+        (P := simpleProp (Rep.{u} k G)) (Q := simpleProp (ModuleCat.{u} (MonoidAlgebra k G)))
+        (funext fun X => propext (simpleProp_iff_of_equivalence
+          (Rep.equivalenceModuleMonoidAlgebra.{u} (k := k) (G := G)) X)))))
+
 end Bridge
 
 /-- **Exercise 4.2.3.** If `|G| = 0` in `k` (the characteristic of `k` divides the order

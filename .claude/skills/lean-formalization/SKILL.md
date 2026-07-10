@@ -692,6 +692,34 @@ Mathlib.GroupTheory.GroupAction.Basic
 
 **When Mathlib doesn't have it:** This is the most important work in the project — prove it here. Check the `.refs.md` file for the item. If coverage is "gap", build the definition and proof from scratch. These are the highest-priority items, not items to defer. If the book proves the result (or assigns it as an exercise with hints), follow the book's approach. If it's genuinely external mathematics, prove it anyway — that's what this project is for.
 
+#### "Central element / equivariant endo acts as a scalar" on a simple `FDRep` — stay categorical, skip the `Simple`↔`IsSimpleModule` bridge (Ch4 #6072, Problem 4.5.2)
+
+When you need "operator `T` on a simple `FDRep ℂ G` commutes with the action ⟹ `T = c • id`"
+(the Schur-scalar step of central-character / idempotent computations), **do not** try to
+turn categorical `[Simple V]` into `IsSimpleModule ℂ[G] V.ρ.asModule` to feed
+`Etingof.Corollary_2_3_10` — that forward bridge is a real rabbit hole (essential-image
+closure under subobjects). Instead work in the invariants of `linHom` exactly like
+`Chapter4/Proposition4_7_1.lean`:
+
+```lean
+-- T ∈ (Representation.linHom V.ρ V.ρ).invariants  ⟺  ∀ g, T ∘ₗ V.ρ g = V.ρ g ∘ₗ T
+-- via Representation.linHom_apply and V.ρ g ∘ₗ V.ρ g⁻¹ = id (← map_mul, mul_inv_cancel, map_one)
+have h1dim : finrank ℂ (Representation.linHom V.ρ V.ρ).invariants = 1 := by
+  rw [LinearEquiv.finrank_eq (Representation.linHom.invariantsEquivFDRepHom V V)]
+  exact CategoryTheory.finrank_endomorphism_simple_eq_one ℂ V
+-- id is a nonzero invariant (trace id = finrank ≠ 0), so finrank_eq_one_iff_of_nonzero'
+-- gives every invariant = c • id.  Pin c by trace: trace (c • id) = c * finrank.
+```
+
+`finrank_endomorphism_simple_eq_one` and `invariantsEquivFDRepHom` both take categorical
+`[Simple V]` directly. The scalar is then read off from `LinearMap.trace`, and for
+group-algebra elements the trace is a character sum closed by `FDRep.char_orthonormal`
+(`= |G|` on the diagonal via `if_pos ⟨Iso.refl V⟩`, `0` off-diagonal). Centrality of the
+element (needed for the commuting hypothesis) is cleanest proved once at the `ℂ[G]` level
+(`ψ * single h 1 = single h 1 * ψ` by a `Fintype.sum_equiv` conjugation reindex `g ↦ h⁻¹gh`
++ `char_conj`), then transported through `asAlgebraHom` (an `AlgHom`, so `map_mul`) with
+`Module.End.mul_eq_comp`. See `Etingof.endo_scalar` in `Chapter4/Problem4_5_2.lean`.
+
 #### Dual / contragredient representation as a genuine opposite-module instance (#5593, twins #5355/#5356)
 
 A recurring fidelity-gap family: a "dual representation `V*`" definition aliased to
