@@ -336,6 +336,41 @@ theorem Problem_8_2_7_i_tor_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
   exact ((QuotientAddGroup.quotientAddEquivOfEq hbot).trans QuotientAddGroup.quotientBot).trans
     (ZModGcd.tensorEquiv a b).toAddEquiv
 
+/-! ### The degree-`0` tensor `ℤ ⊗_ℤ N ≅ N`, for the `Tor₁` connecting-map identification
+
+The `Tor₁` proof reads the degree-`1` group off the length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0`
+via the six-term sequence, which identifies `Tor₁` with the kernel of the induced map on
+`Tor₀(ℤ, N) = ℤ ⊗_ℤ N`. Over the commutative base `ℤ` the module `M = ℤ` has trivial balancing
+subgroup, so `tensorOver ℤ N ℤ ≅ N` and the induced map `·a` becomes `mulByCast a b`. -/
+
+open scoped TensorProduct in
+/-- For `M = ℤ` over the commutative base `ℤ`, the balancing subgroup of `ℤ ⊗_ℤ N` is trivial. -/
+private lemma balancedSubgroup_int_eq_bot (N : Type) [AddCommGroup N] :
+    balancedSubgroup ℤ N ℤ = ⊥ := by
+  apply le_antisymm _ bot_le
+  rw [balancedSubgroup, AddSubgroup.closure_le]
+  rintro x ⟨c, m, n, rfl⟩
+  simp only [SetLike.mem_coe, AddSubgroup.mem_bot]
+  have hop : (MulOpposite.op c • m : ℤ) = c • m := by
+    show m * MulOpposite.unop (MulOpposite.op c) = c • m
+    rw [MulOpposite.unop_op, smul_eq_mul, mul_comm]
+  rw [hop, sub_eq_zero, TensorProduct.smul_tmul]
+
+open scoped TensorProduct in
+/-- `ℤ ⊗_ℤ N ≅ N` (the ring tensor product `tensorOver ℤ N ℤ` with `M = ℤ`). -/
+private noncomputable def intTensorOverEquiv (N : Type) [AddCommGroup N] :
+    tensorOver ℤ N ℤ ≃+ N :=
+  (QuotientAddGroup.quotientAddEquivOfEq (balancedSubgroup_int_eq_bot N)).trans
+    (QuotientAddGroup.quotientBot.trans (TensorProduct.lid ℤ N).toAddEquiv)
+
+open scoped TensorProduct in
+@[simp] private lemma intTensorOverEquiv_mk (N : Type) [AddCommGroup N]
+    (m : ℤ) (n : N) :
+    intTensorOverEquiv N (TensorProduct.tmul ℤ m n : tensorOver ℤ N ℤ) = m • n := by
+  simp only [intTensorOverEquiv, AddEquiv.trans_apply, LinearEquiv.coe_toAddEquiv,
+    TensorProduct.lid_tmul]
+  rfl
+
 /-- **Problem 8.2.7(i), `Tor₁`.** For finite cyclic groups `ℤ/a`, `ℤ/b` (`a, b ≠ 0`),
 `Tor₁(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)`. -/
 theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
