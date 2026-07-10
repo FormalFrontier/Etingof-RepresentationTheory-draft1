@@ -1,4 +1,8 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Example4_3_S3
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
+import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
 
 /-!
 # Problem 4.12.2: representations of the Heisenberg group over `𝔽_p`
@@ -175,6 +179,7 @@ theorem closure_gens_eq_top [Fact p.Prime] :
 end Heisenberg
 
 open Heisenberg
+open CategoryTheory
 
 variable {p : ℕ}
 
@@ -695,15 +700,259 @@ theorem R1_decomposes [Fact p.Prime]
     have hg : ρ g (v i) = (χ i g : ℂ) • v i := hscale i g
     rw [map_smul, hg, smul_comm]
 
+/-- On the central generator `⟨0,0,1⟩`, `R_z` acts by the scalar `z^{(-1).val} = z⁻¹`. -/
+theorem rhoHom_central [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
+    rhoHom z hz (⟨0, 0, 1⟩ : Heisenberg p) = z ^ ((-1 : ZMod p).val) • LinearMap.id := by
+  refine LinearMap.ext fun f => funext fun t => ?_
+  rw [rhoHom_apply, rhoLin_apply]
+  simp only [zero_mul, zero_sub, sub_zero, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
+    Pi.smul_apply, smul_eq_mul]
+
+/-- `R_z` is a `p`-dimensional representation. -/
+theorem finrank_rhoHom [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
+    Module.finrank ℂ (FDRep.of (rhoHom z hz)) = p := by
+  show Module.finrank ℂ (ZMod p → ℂ) = p
+  rw [Module.finrank_fintype_fun_eq_card, ZMod.card]
+
+/-- The character of `R_z` on the central generator `⟨0,0,1⟩` equals `z^{(-1).val} · p`. This
+value determines `z` (see `powNegOneVal_inj`), so it separates the `R_z` from one another. -/
+theorem character_rhoHom_central [NeZero p] (z : ℂ) (hz : z ^ p = 1) :
+    (FDRep.of (rhoHom z hz)).character (⟨0, 0, 1⟩ : Heisenberg p)
+      = z ^ ((-1 : ZMod p).val) * (p : ℂ) := by
+  have hc : (FDRep.of (rhoHom z hz)).character (⟨0, 0, 1⟩ : Heisenberg p)
+      = LinearMap.trace ℂ _ (rhoHom z hz (⟨0, 0, 1⟩ : Heisenberg p)) := rfl
+  rw [hc, rhoHom_central z hz, map_smul, LinearMap.trace_id, smul_eq_mul, finrank_rhoHom z hz]
+
+/-- The exponent map `w ↦ w^{(-1).val}` is injective on `p`-th roots of unity: it equals
+`w ↦ w⁻¹` there, since `w^{(-1).val} · w = w^p = 1`. -/
+theorem powNegOneVal_inj [NeZero p] {w₁ w₂ : ℂ} (h₁ : w₁ ^ p = 1) (h₂ : w₂ ^ p = 1)
+    (h : w₁ ^ ((-1 : ZMod p).val) = w₂ ^ ((-1 : ZMod p).val)) : w₁ = w₂ := by
+  have hval : (-1 : ZMod p).val + 1 = p := by
+    have hpos : 0 < p := Nat.pos_of_ne_zero (NeZero.ne p)
+    have hcast : ((p - 1 : ℕ) : ZMod p) = -1 := by
+      rw [Nat.cast_pred hpos, ZMod.natCast_self]; ring
+    have hv : (-1 : ZMod p).val = p - 1 := by
+      rw [← hcast, ZMod.val_natCast, Nat.mod_eq_of_lt (by omega)]
+    omega
+  have e₁ : w₁ ^ ((-1 : ZMod p).val) * w₁ = 1 := by rw [← pow_succ, hval, h₁]
+  have e₂ : w₂ ^ ((-1 : ZMod p).val) * w₂ = 1 := by rw [← pow_succ, hval, h₂]
+  rw [h] at e₁
+  have hne : w₂ ^ ((-1 : ZMod p).val) ≠ 0 := by
+    intro hz; rw [hz, zero_mul] at e₂; exact one_ne_zero e₂.symm
+  exact mul_left_cancel₀ hne (e₁.trans e₂.symm)
+
+/-- Pigeonhole: an injection `c : ι → Fin n` whose image carries the full positive-weight sum
+`∑ f j` is surjective. -/
+theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
+    (f : Fin n → ℕ) (hf : ∀ j, 0 < f j) (c : ι → Fin n) (hcinj : Function.Injective c)
+    (hsum : ∑ i, f (c i) = ∑ j, f j) : Function.Surjective c := by
+  classical
+  have himg : ∑ j ∈ Finset.image c Finset.univ, f j = ∑ i, f (c i) :=
+    Finset.sum_image (fun a _ b _ hab => hcinj hab)
+  have hsplit := Finset.sum_sdiff (f := f) (Finset.subset_univ (Finset.image c Finset.univ))
+  rw [himg, hsum] at hsplit
+  have hzero : ∑ j ∈ Finset.univ \ Finset.image c Finset.univ, f j = 0 := by omega
+  intro j
+  have hjmem : j ∈ Finset.image c Finset.univ := by
+    by_contra hj
+    exact absurd ((Finset.sum_eq_zero_iff.mp hzero) j
+      (Finset.mem_sdiff.mpr ⟨Finset.mem_univ j, hj⟩)) (hf j).ne'
+  obtain ⟨i, _, hi⟩ := Finset.mem_image.mp hjmem
+  exact ⟨i, hi⟩
+
 /-- **Part (d).** Every irreducible complex representation of the Heisenberg group has
 dimension `1` or `p`. (Combined with (c) and the sum-of-squares formula
 `p²·1² + (p-1)·p² = p³`, the irreducibles are exactly the `p²` characters together with the
-`p-1` representations `R_z` for `z ≠ 1`, each of dimension `p`.) -/
+`p-1` representations `R_z` for `z ≠ 1`, each of dimension `p`.)
+
+The proof exhibits the `p²` one-dimensional characters and the `p-1` representations `R_z`
+(`z ≠ 1` a `p`-th root of unity) as a family of pairwise non-isomorphic simples whose squared
+dimensions sum to `p²·1 + (p-1)·p² = p³ = |G|`. Since the full sum of squared dimensions over
+*all* simples is also `p³` and every term is positive, this family is complete, so every simple
+is isomorphic to one of them and has dimension `1` or `p`. -/
 theorem irreducible_dim [Fact p.Prime]
     {W : Type*} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (σ : Representation ℂ (Heisenberg p) W)
     (hσ : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) σ.asModule) :
     Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = p := by
-  sorry
+  classical
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
+  have hpℂ : (p : ℂ) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).pos.ne'
+  -- `|G| = p³` is invertible in `ℂ`, so the Wedderburn enumeration applies.
+  haveI hNe : NeZero (Nat.card (Heisenberg p) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, Heisenberg.card_eq]
+    push_cast
+    exact pow_ne_zero 3 hpℂ
+  -- The complete family of simples with `∑ dim² = |G|`.
+  obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
+    exists_simples_sum_finrank_sq_eq_card ℂ (Heisenberg p)
+  -- A primitive `p`-th root of unity, indexing the `p-1` representations `R_z` (`z ≠ 1`).
+  obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
+    ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
+  have hζp : ζ ^ p = 1 := hζ.pow_eq_one
+  let zof : {k : ZMod p // k ≠ 0} → ℂ := fun k => ζ ^ (k.1).val
+  have hzof_p : ∀ k, (zof k) ^ p = 1 := fun k => by
+    show (ζ ^ (k.1).val) ^ p = 1
+    rw [← pow_mul, mul_comm, pow_mul, hζp, one_pow]
+  have hzof_ne1 : ∀ k, zof k ≠ 1 := by
+    intro k h
+    have h' : ζ ^ (k.1).val = 1 := h
+    have hdvd : (p : ℕ) ∣ (k.1).val := (hζ.pow_eq_one_iff_dvd _).mp h'
+    have hz0 : (k.1).val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt k.1)
+    exact k.2 (ZMod.val_injective p (by rw [hz0, ZMod.val_zero]))
+  -- Finiteness of the character group, of order `p²` by part (c).
+  haveI : Finite (Heisenberg p →* ℂˣ) :=
+    Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card]; exact pow_ne_zero 2 (by omega))
+  haveI : Fintype (Heisenberg p →* ℂˣ) := Fintype.ofFinite _
+  have hcardChar : Fintype.card (Heisenberg p →* ℂˣ) = p ^ 2 := by
+    rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card
+  have hcardJ : Fintype.card {k : ZMod p // k ≠ 0} = p - 1 := by
+    simp only [ne_eq]
+    rw [Fintype.card_subtype_compl (fun k : ZMod p => k = 0), Fintype.card_subtype_eq, ZMod.card]
+  -- The exhibited family: the `p²` characters, and the `p-1` representations `R_z`.
+  let E : (Heisenberg p →* ℂˣ) ⊕ {k : ZMod p // k ≠ 0} → FDRep ℂ (Heisenberg p) :=
+    Sum.elim (fun χ => FDRep.of (Etingof.Example4_3_S3.charRep χ))
+      (fun k => FDRep.of (rhoHom (zof k) (hzof_p k)))
+  -- Dimensions: `1` for a character, `p` for an `R_z`.
+  have hEfinL : ∀ χ : Heisenberg p →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := by
+    intro χ
+    show Module.finrank ℂ ℂ = 1
+    exact Module.finrank_self ℂ
+  have hEfinR : ∀ k : {k : ZMod p // k ≠ 0}, Module.finrank ℂ (E (Sum.inr k)) = p := by
+    intro k
+    exact finrank_rhoHom (zof k) (hzof_p k)
+  -- Each member is simple.
+  have hEsimple : ∀ i, Simple (E i) := by
+    rintro (χ | k)
+    · exact Etingof.Example4_3_S3.charRep_simple χ
+    · haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p))
+          (rhoHom (zof k) (hzof_p k)).asModule :=
+        (irreducible_iff (zof k) (hzof_p k) (rhoHom (zof k) (hzof_p k))
+          (rhoHom_xGen (zof k) (hzof_p k)) (rhoHom_yGen (zof k) (hzof_p k))).mpr (hzof_ne1 k)
+      exact Etingof.simple_fdRepOf_of_isSimpleModule (rhoHom (zof k) (hzof_p k))
+  -- The members are pairwise non-isomorphic (compared via dimension and central character).
+  have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
+    rintro (χ | k) (χ' | k') ⟨α⟩
+    · -- two characters: equal characters force `χ = χ'`
+      have hχ : χ = χ' := by
+        ext g
+        have hg := congrFun (FDRep.char_iso α) g
+        rw [show E (Sum.inl χ) = FDRep.of (Etingof.Example4_3_S3.charRep χ) from rfl,
+            show E (Sum.inl χ') = FDRep.of (Etingof.Example4_3_S3.charRep χ') from rfl,
+            Etingof.Example4_3_S3.charRep_character,
+            Etingof.Example4_3_S3.charRep_character] at hg
+        exact hg
+      rw [hχ]
+    · -- dimension `1 ≠ p`
+      exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinL χ, hEfinR k'] at hfr
+      omega
+    · exfalso
+      have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+      rw [hEfinR k, hEfinL χ'] at hfr
+      omega
+    · -- two `R_z`: the central character `z^{(-1).val}·p` forces `z = z'`, hence `k = k'`
+      have hg := congrFun (FDRep.char_iso α) (⟨0, 0, 1⟩ : Heisenberg p)
+      rw [show E (Sum.inr k) = FDRep.of (rhoHom (zof k) (hzof_p k)) from rfl,
+          show E (Sum.inr k') = FDRep.of (rhoHom (zof k') (hzof_p k')) from rfl,
+          character_rhoHom_central, character_rhoHom_central] at hg
+      have hpow := mul_right_cancel₀ hpℂ hg
+      have hzz : zof k = zof k' := powNegOneVal_inj (hzof_p k) (hzof_p k') hpow
+      have hzz' : ζ ^ (k.1).val = ζ ^ (k'.1).val := hzz
+      have hvv : (k.1).val = (k'.1).val :=
+        hζ.pow_inj (ZMod.val_lt k.1) (ZMod.val_lt k'.1) hzz'
+      have : k.1 = k'.1 := ZMod.val_injective p hvv
+      exact congrArg Sum.inr (Subtype.ext this)
+  -- Inject the family into the enumeration.
+  choose c hc using fun i => hVsurj (E i) (hEsimple i)
+  have hc_inj : Function.Injective c := by
+    intro i j hij
+    obtain ⟨αi⟩ := hc i; obtain ⟨αj⟩ := hc j
+    exact hEinj i j ⟨αi ≪≫ eqToIso (congrArg V hij) ≪≫ αj.symm⟩
+  have hfinrankc : ∀ i, Module.finrank ℂ (E i) = Module.finrank ℂ (V (c i)) := fun i =>
+    LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hc i).some)
+  -- Squared dimensions of the family sum to `p³`.
+  have hEsum : ∑ i, (Module.finrank ℂ (E i)) ^ 2 = p ^ 3 := by
+    rw [Fintype.sum_sum_type]
+    have hL : ∑ χ : Heisenberg p →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2 = p ^ 2 := by
+      have hone : ∀ χ : Heisenberg p →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2 = 1 := by
+        intro χ; rw [hEfinL χ, one_pow]
+      rw [Finset.sum_congr rfl (fun χ _ => hone χ), Finset.sum_const, Finset.card_univ,
+        hcardChar, smul_eq_mul, mul_one]
+    have hR : ∑ k : {k : ZMod p // k ≠ 0}, (Module.finrank ℂ (E (Sum.inr k))) ^ 2
+        = (p - 1) * p ^ 2 := by
+      have hpk : ∀ k : {k : ZMod p // k ≠ 0}, (Module.finrank ℂ (E (Sum.inr k))) ^ 2 = p ^ 2 := by
+        intro k; rw [hEfinR k]
+      rw [Finset.sum_congr rfl (fun k _ => hpk k), Finset.sum_const, Finset.card_univ, hcardJ,
+        smul_eq_mul]
+    rw [hL, hR]
+    have hp1le : 1 ≤ p := hp1.le
+    have hstep : (p - 1) * p ^ 2 + p ^ 2 = p * p ^ 2 := by
+      rw [← Nat.succ_mul, Nat.succ_eq_add_one, Nat.sub_add_cancel hp1le]
+    rw [add_comm, hstep]; ring
+  -- The full sum of squared dimensions is also `p³`.
+  have hVsum3 : ∑ j, (Module.finrank ℂ (V j)) ^ 2 = p ^ 3 := by
+    rw [hVsum, Heisenberg.card_eq]
+  have hmatch : ∑ i, (Module.finrank ℂ (V (c i))) ^ 2 = ∑ j, (Module.finrank ℂ (V j)) ^ 2 := by
+    rw [hVsum3, ← hEsum]
+    exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
+  -- Every simple has positive dimension, so the injection `c` is surjective.
+  have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
+    intro j
+    haveI : Simple (V j) := hVsimple j
+    haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (Representation.asModule (V j).ρ) :=
+      Etingof.isSimpleModule_asModule_of_simple (V j)
+    haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+      IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Heisenberg p)) (Representation.asModule (V j).ρ)
+    haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+    have hpos : 0 < Module.finrank ℂ (V j) := Module.finrank_pos
+    exact pow_pos hpos 2
+  have hcsurj : Function.Surjective c :=
+    surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
+  -- Dimension conclusion for the family.
+  have hEdisj : ∀ i, Module.finrank ℂ (E i) = 1 ∨ Module.finrank ℂ (E i) = p := by
+    rintro (χ | k)
+    · exact Or.inl (hEfinL χ)
+    · exact Or.inr (hEfinR k)
+  -- Transport `σ` to a representation in `ℂ`'s universe so the enumeration applies to it.
+  letI M := Representation.asModule σ
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) M := hσ
+  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv σ).symm
+  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  set dM := Module.finrank ℂ M with hdM
+  let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
+  letI modN : Module (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
+    Etingof.transportModule (R := MonoidAlgebra ℂ (Heisenberg p)) eM
+  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
+    Etingof.transportModule_isScalarTower eM
+  let eR : M ≃ₗ[MonoidAlgebra ℂ (Heisenberg p)] (Fin dM → ℂ) :=
+    Etingof.transportLinearEquiv eM
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p)) (Fin dM → ℂ) :=
+    IsSimpleModule.congr eR.symm
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Heisenberg p))
+      (Etingof.repOfModule (Fin dM → ℂ)).asModule :=
+    IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (Fin dM → ℂ))
+  let U : FDRep ℂ (Heisenberg p) := FDRep.of (Etingof.repOfModule (Fin dM → ℂ))
+  haveI hUsimple : Simple U :=
+    Etingof.simple_fdRepOf_of_isSimpleModule (Etingof.repOfModule (Fin dM → ℂ))
+  have hWU : Module.finrank ℂ W = Module.finrank ℂ U := by
+    have h1 : Module.finrank ℂ U = dM := by
+      show Module.finrank ℂ (Fin dM → ℂ) = dM
+      rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+    have h2 : dM = Module.finrank ℂ W := by
+      rw [hdM]; exact (Representation.asModuleEquiv σ).finrank_eq
+    rw [h1, h2]
+  -- `U ≅ V j` for some `j`; surjectivity of `c` gives `V j ≅ E i`, so `dim W = dim E i ∈ {1,p}`.
+  obtain ⟨j, hjU⟩ := hVsurj U hUsimple
+  obtain ⟨i, hci⟩ := hcsurj j
+  have hUfr : Module.finrank ℂ U = Module.finrank ℂ (E i) := by
+    have hUVj : Module.finrank ℂ U = Module.finrank ℂ (V j) :=
+      LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hjU.some)
+    rw [hUVj, ← hci, ← hfinrankc i]
+  rw [hWU, hUfr]
+  exact hEdisj i
 
 end Etingof.Problem4_12_2

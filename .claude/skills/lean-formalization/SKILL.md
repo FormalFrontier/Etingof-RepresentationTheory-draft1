@@ -16,6 +16,14 @@ lake exe cache get
 ```
 This downloads pre-built Mathlib oleans. Skipping it triggers a full Mathlib rebuild (1800+ jobs).
 
+**To read a Mathlib lemma's exact signature, don't assume `.lake/packages/mathlib` is under
+your own worktree** — a per-agent worktree often has none, and the shared checkouts under
+*sibling* worktrees get garbage-collected mid-session (a path that grepped fine minutes ago
+vanishes). Re-resolve each time with
+`find <project-root> -path '*/packages/mathlib/Mathlib/<Dir>/<File>.lean' | head -1`, or just
+verify signatures against the compiler (`example : <sig> := by exact?` / a scratch `#check`)
+rather than trusting a cached source path.
+
 **Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
 <file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
 particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
