@@ -147,11 +147,11 @@ noncomputable def coboundaryLinear : (W →ₗ[k] V) →ₗ[k] (A →ₗ[k] (W �
   toFun := coboundaryOf k A V W
   map_add' X Y := by
     ext a w
-    simp only [coboundaryOf_apply, LinearMap.add_apply, map_add, smul_add]
+    simp only [coboundaryOf_apply, LinearMap.add_apply, smul_add]
     abel
   map_smul' c X := by
     ext a w
-    simp only [coboundaryOf_apply, LinearMap.smul_apply, RingHom.id_apply, map_smul, smul_sub,
+    simp only [coboundaryOf_apply, LinearMap.smul_apply, RingHom.id_apply, smul_sub,
       smul_comm a c]
 
 @[simp] theorem coboundaryLinear_apply (X : W →ₗ[k] V) :
@@ -212,9 +212,9 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
     LinearMap.prod (LinearMap.fst k V W - X ∘ₗ LinearMap.snd k V W) (LinearMap.snd k V W)
     with hLinv
   have Lapp : ∀ p : V × W, L p = (p.1 + X p.2, p.2) := fun p => by
-    simp [hL, LinearMap.coe_prod, Function.prod_apply]
+    simp [hL, Function.prod_apply]
   have Linvapp : ∀ p : V × W, Linv p = (p.1 - X p.2, p.2) := fun p => by
-    simp [hLinv, LinearMap.coe_prod, Function.prod_apply]
+    simp [hLinv, Function.prod_apply]
   refine ⟨LinearEquiv.ofLinear L Linv ?_ ?_, ?_⟩
   · apply LinearMap.ext
     rintro ⟨v, w⟩
@@ -256,9 +256,9 @@ theorem ext_iso_of_sub_smul_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V)
     LinearMap.prod (LinearMap.fst k V W - c⁻¹ • (X ∘ₗ LinearMap.snd k V W))
       (c⁻¹ • LinearMap.snd k V W) with hLinv
   have Lapp : ∀ p : V × W, L p = (p.1 + X p.2, c • p.2) := fun p => by
-    simp [hL, LinearMap.coe_prod, Function.prod_apply]
+    simp [hL, Function.prod_apply]
   have Linvapp : ∀ p : V × W, Linv p = (p.1 - c⁻¹ • X p.2, c⁻¹ • p.2) := fun p => by
-    simp [hLinv, LinearMap.coe_prod, Function.prod_apply]
+    simp [hLinv, Function.prod_apply]
   refine ⟨LinearEquiv.ofLinear L Linv ?_ ?_, ?_⟩
   · apply LinearMap.ext
     rintro ⟨v, w⟩
