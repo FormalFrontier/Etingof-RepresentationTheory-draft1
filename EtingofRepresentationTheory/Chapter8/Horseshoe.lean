@@ -260,6 +260,21 @@ instance horseshoeComplex_projective (n : ℕ) :
   dsimp [horseshoeComplex, ChainComplex.of]
   infer_instance
 
+/-- The degree-`0` chain-map condition for the augmentation: `d²₁₀ ≫ ε₂ = 0`. The `P₁` corner is
+`d¹₁₀ ≫ ε₁ ≫ S.f = 0` (`P₁` augmented complex is a complex), the `P₃` corner is the seed relation
+`horseshoeTwist_zero_comp_f`. -/
+lemma horseshoeD_zero_comp_π :
+    horseshoeD hS P₁ P₃ 0 ≫ horseshoeπZero hS P₁ P₃ = 0 := by
+  haveI := hS.epi_g
+  apply biprod.hom_ext'
+  · rw [horseshoeD_inl_assoc, comp_zero]
+    simp only [horseshoeπZero, biprod.lift_desc, zero_comp, add_zero]
+    rw [← assoc, P₁.complex_d_comp_π_f_zero, zero_comp]
+  · rw [horseshoeD_inr_assoc, comp_zero]
+    simp only [horseshoeπZero, biprod.lift_desc]
+    rw [horseshoeTwist_zero_comp_f]
+    simp
+
 /-! ### The chain maps and the degreewise-split short exact sequence
 
 The horseshoe complex sits in a short exact sequence of complexes
@@ -319,6 +334,27 @@ lemma horseshoeShortComplex_shortExact :
     (horseshoeShortComplex hS P₁ P₃).ShortExact :=
   HomologicalComplex.shortExact_of_degreewise_shortExact _
     (fun i => (horseshoeSplitting hS P₁ P₃ i).shortExact)
+
+/-! ### The augmentation and its quasi-isomorphism -/
+
+/-- The augmentation `π₂ : horseshoeComplex ⟶ single₀ S.X₂`, with degree-`0` component
+`horseshoeπZero` and higher components `0`. -/
+noncomputable def horseshoeπ :
+    horseshoeComplex hS P₁ P₃ ⟶ (ChainComplex.single₀ C).obj S.X₂ :=
+  (ChainComplex.toSingle₀Equiv _ _).symm
+    ⟨horseshoeπZero hS P₁ P₃, by
+      have hd : (horseshoeComplex hS P₁ P₃).d 1 0 = horseshoeD hS P₁ P₃ 0 := by
+        simp only [horseshoeComplex]; exact ChainComplex.of_d _ _ 0
+      rw [hd, horseshoeD_zero_comp_π]⟩
+
+@[simp] lemma horseshoeπ_f_zero :
+    (horseshoeπ hS P₁ P₃).f 0 = horseshoeπZero hS P₁ P₃ := by
+  simp [horseshoeπ]
+
+@[simp] lemma horseshoeπ_f_succ (n : ℕ) :
+    (horseshoeπ hS P₁ P₃).f (n + 1) = 0 :=
+  (HomologicalComplex.isZero_single_obj_X (ComplexShape.down ℕ) 0 S.X₂ (n + 1)
+    (by simp)).eq_of_tgt _ _
 
 end Augmentation
 
