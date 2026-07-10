@@ -33,7 +33,9 @@ embedded into `Sₙ₊₁ = Equiv.Perm (Fin (n+1))` as the pointwise stabilizer 
   `⟨χ_{V_μ}, Res χ_{V_λ}⟩_{Sₙ}`. We state that this pairing is `1` if `μ ⊆ λ` (`λ ∈ A(μ)`) and `0`
   otherwise — precisely `Ind V_μ = ⨁_{λ ∈ A(μ)} V_λ`.
 
-Statement pass: the proofs are left as `sorry`.
+Both parts are proved: (a) `res_spechtModule_character` via the Frobenius character formula and
+the Pieri rule for `p₁` (`res_charValue_sum`), and (b) `ind_spechtModule_multiplicity` via
+Frobenius reciprocity and Specht-character orthonormality.
 -/
 
 noncomputable section
@@ -278,6 +280,15 @@ def bpDecr {n : ℕ} (a : Fin (n + 1) → ℕ) (hant : Antitone a) (hsum : ∑ j
       rw [Finset.sum_ite_eq' Finset.univ i (fun _ => 1)]; simp
     omega
 
+@[simp] lemma bpDecr_parts {n : ℕ} (a : Fin (n + 1) → ℕ) (hant : Antitone a)
+    (hsum : ∑ j, a j = n + 1) (i : Fin (n + 1)) (hleg : IsLegalRem a i) (j : Fin (n + 1)) :
+    (bpDecr a hant hsum i hleg).parts j = if j = i then a j - 1 else a j := rfl
+
+/-- The `shiftedExps` of a weight over `Fin (n+1)` is `f j + (n - j)`. -/
+lemma shiftedExps_val {n : ℕ} (f : Fin (n + 1) → ℕ) (j : Fin (n + 1)) :
+    shiftedExps (n + 1) f j = f j + (n - j.val) := by
+  simp [shiftedExps, vandermondeExps]
+
 /-- **Core coefficient identity (Pieri rule for `p₁`).** Extracting the `(μ+ρ)`-coefficient of
 `Δ · (∑ⱼ Xⱼ) · p_ν` sums the `charValue`s over all box removals of `μ`. Here `Δ` is the
 Vandermonde alternant, `∑ⱼ Xⱼ = p₁`, and `removeSquare μ` are the diagrams `λ ⊢ n` contained in
@@ -288,7 +299,200 @@ lemma res_charValue_sum (n : ℕ) (bpμ : BoundedPartition (n + 1) (n + 1)) (ν 
           ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν))
       = ∑ la ∈ removeSquare (bpμ.sum_eq ▸ weightToPartition (n + 1) bpμ.parts),
           charValue (n + 1) (resBP la) ν := by
-  sorry
+  classical
+  set μ := (bpμ.sum_eq ▸ weightToPartition (n + 1) bpμ.parts : Nat.Partition (n + 1)) with hμ
+  set g := (alternantMatrix (n + 1) (vandermondeExps (n + 1))).det *
+    MvPolynomial.psumPart (Fin (n + 1)) ℚ ν with hg
+  set D := Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) bpμ.parts) with hD
+  -- Abbreviations for the box-removal bounded partition and its underlying partition.
+  set bpd : (i : Fin (n + 1)) → IsLegalRem bpμ.parts i → BoundedPartition (n + 1) n :=
+    fun i hleg => bpDecr bpμ.parts bpμ.decreasing bpμ.sum_eq i hleg with hbpd
+  set partOf : (i : Fin (n + 1)) → IsLegalRem bpμ.parts i → Nat.Partition n :=
+    fun i hleg => (bpd i hleg).sum_eq ▸ weightToPartition (n + 1) (bpd i hleg).parts with hpartOf
+  have hbpd_parts : ∀ (i : Fin (n + 1)) (hleg : IsLegalRem bpμ.parts i) (j : Fin (n + 1)),
+      (bpd i hleg).parts j = if j = i then bpμ.parts j - 1 else bpμ.parts j := by
+    intro i hleg j; simp only [hbpd, bpDecr_parts]
+  -- `g` is antisymmetric.
+  have hanti : ∀ τ : Equiv.Perm (Fin (n + 1)),
+      MvPolynomial.rename τ g = Equiv.Perm.sign τ • g := by
+    intro τ
+    rw [hg, map_mul, rename_alternant_det, (psumPart_isSymmetric (n + 1) ν) τ, smul_mul_assoc]
+  -- Row lengths of `μ`.
+  have hμrow : ∀ i : Fin (n + 1), μ.toYoungDiagram.rowLen i.val = bpμ.parts i := by
+    intro i; rw [hμ]; exact (bp_parts_eq_rowLen bpμ i).symm
+  have hμrow0 : ∀ k : ℕ, n + 1 ≤ k → μ.toYoungDiagram.rowLen k = 0 := fun k hk =>
+    toYoungDiagram_rowLen_eq_zero_of_ge μ (by omega)
+  -- `D i = shiftedExps` value.
+  have hDval : ∀ i : Fin (n + 1), D i = bpμ.parts i + (n - i.val) := by
+    intro i; rw [hD, Finsupp.coe_equivFunOnFinite_symm, shiftedExps_val]
+  -- The box-removal exponent equals `D` minus a unit.
+  have hexp : ∀ (i : Fin (n + 1)) (hleg : IsLegalRem bpμ.parts i),
+      D - Finsupp.single i 1
+        = Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) (bpd i hleg).parts) := by
+    intro i hleg
+    apply Finsupp.ext
+    intro j
+    have hL : (D - Finsupp.single i (1 : ℕ)) j
+        = bpμ.parts j + (n - j.val) - (if i = j then 1 else 0) := by
+      rw [Finsupp.tsub_apply, hDval, Finsupp.single_apply]
+    have hR : (Finsupp.equivFunOnFinite.symm (shiftedExps (n + 1) (bpd i hleg).parts)) j
+        = (if j = i then bpμ.parts j - 1 else bpμ.parts j) + (n - j.val) := by
+      rw [Finsupp.coe_equivFunOnFinite_symm, shiftedExps_val, hbpd_parts]
+    rw [hL, hR]
+    by_cases hj : j = i
+    · rw [if_pos hj.symm, if_pos hj]
+      have hpj : 1 ≤ bpμ.parts j := by rw [hj]; exact hleg.1
+      omega
+    · rw [if_neg (fun h => hj h.symm), if_neg hj]; omega
+  -- For a legal row, the coefficient is the corresponding `charValue`.
+  have hval_coeff : ∀ (i : Fin (n + 1)) (hleg : IsLegalRem bpμ.parts i),
+      MvPolynomial.coeff (D - Finsupp.single i (1 : ℕ)) g
+        = charValue (n + 1) (resBP (partOf i hleg)) ν := by
+    intro i hleg
+    have hpe : (bpd i hleg).parts = (resBP (partOf i hleg)).parts := by
+      funext k
+      show (bpd i hleg).parts k = (partOf i hleg).toYoungDiagram.rowLen k.val
+      simp only [hpartOf]; exact bp_parts_eq_rowLen (bpd i hleg) k
+    rw [hexp i hleg, hpe]; rfl
+  -- Legal ⇒ in support.
+  have hsupp_of_legal : ∀ (i : Fin (n + 1)), IsLegalRem bpμ.parts i → i ∈ D.support := by
+    intro i hleg
+    rw [Finsupp.mem_support_iff, hDval]; have := hleg.1; omega
+  set legalFinset := Finset.univ.filter (fun i : Fin (n + 1) => IsLegalRem bpμ.parts i) with hLF
+  -- Terms vanish off `legalFinset`.
+  have hzero : ∀ i ∈ Finset.univ, i ∉ legalFinset →
+      (if i ∈ D.support then MvPolynomial.coeff (D - Finsupp.single i (1 : ℕ)) g else 0) = 0 := by
+    intro i _ hi
+    have hnleg : ¬ IsLegalRem bpμ.parts i := by simpa [hLF] using hi
+    by_cases hmem : i ∈ D.support
+    · rw [if_pos hmem]
+      have hsi : bpμ.parts i + (n - i.val) ≠ 0 := by
+        have := hmem; rw [Finsupp.mem_support_iff, hDval] at this; exact this
+      -- Row index is `< n` (the last row would be a fixed point already handled).
+      have hival : i.val < n := by
+        by_contra hge
+        have hie : i.val = n := by omega
+        exact hnleg ⟨by rw [hie] at hsi; omega, fun j hj => by
+          exact absurd hj (by rw [Fin.lt_iff_val_lt_val]; omega)⟩
+      set j0 : Fin (n + 1) := ⟨i.val + 1, by omega⟩ with hj0
+      have hj0v : j0.val = i.val + 1 := by rw [hj0]
+      have hij0lt : i < j0 := by rw [Fin.lt_iff_val_lt_val]; omega
+      have haj0le : bpμ.parts j0 ≤ bpμ.parts i := bpμ.decreasing (le_of_lt hij0lt)
+      have haieq : bpμ.parts i = bpμ.parts j0 := by
+        rcases eq_or_lt_of_le haj0le with h | h
+        · exact h.symm
+        · exfalso; apply hnleg
+          refine ⟨by omega, fun j hj => ?_⟩
+          have hjj0 : j0 ≤ j := by
+            rw [Fin.le_iff_val_le_val]; rw [Fin.lt_iff_val_lt_val] at hj; omega
+          have := bpμ.decreasing hjj0; omega
+      have hij0 : i ≠ j0 := by rw [Ne, Fin.ext_iff]; omega
+      have hdeq : (D - Finsupp.single i (1 : ℕ)) i = (D - Finsupp.single i (1 : ℕ)) j0 := by
+        rw [Finsupp.tsub_apply, Finsupp.tsub_apply, hDval, hDval, Finsupp.single_apply,
+          Finsupp.single_apply, if_pos rfl, if_neg hij0, haieq]
+        omega
+      exact coeff_zero_of_antisym_repeated (i := i) (j := j0) g hanti (D - Finsupp.single i (1 : ℕ))
+        hij0 hdeq
+    · rw [if_neg hmem]
+  -- Rewrite the coefficient sum, restrict to legal rows, and match the box-removal sum.
+  rw [show (alternantMatrix (n + 1) (vandermondeExps (n + 1))).det *
+        ((∑ i, MvPolynomial.X i) * MvPolynomial.psumPart (Fin (n + 1)) ℚ ν)
+        = (∑ i, MvPolynomial.X i) * g from by rw [hg]; ring,
+    Finset.sum_mul, MvPolynomial.coeff_sum]
+  simp only [MvPolynomial.coeff_X_mul']
+  rw [← Finset.sum_subset (Finset.subset_univ legalFinset) hzero]
+  refine Finset.sum_bij (fun i hi => partOf i (Finset.mem_filter.mp hi).2) ?_ ?_ ?_ ?_
+  · -- maps into `removeSquare μ`
+    intro i hi
+    have hleg := (Finset.mem_filter.mp hi).2
+    rw [removeSquare, Finset.mem_filter]
+    refine ⟨Finset.mem_univ _, ?_⟩
+    rw [youngDiagram_le_iff_rowLen]
+    intro k
+    rcases lt_or_ge k (n + 1) with hk | hk
+    · rw [show (partOf i hleg).toYoungDiagram.rowLen k = (bpd i hleg).parts ⟨k, hk⟩ from by
+          simp only [hpartOf]; exact (bp_parts_eq_rowLen (bpd i hleg) ⟨k, hk⟩).symm,
+        hμrow ⟨k, hk⟩, hbpd_parts i hleg ⟨k, hk⟩]
+      split <;> omega
+    · rw [toYoungDiagram_rowLen_eq_zero_of_ge (partOf i hleg) (by omega), hμrow0 k hk]
+  · -- injective
+    intro i hi i' hi' heq
+    have hleg := (Finset.mem_filter.mp hi).2
+    have hleg' := (Finset.mem_filter.mp hi').2
+    by_contra hne
+    have h1 : (bpd i hleg).parts i = (bpd i' hleg').parts i := by
+      rw [bp_parts_eq_rowLen (bpd i hleg) i, bp_parts_eq_rowLen (bpd i' hleg') i]
+      show (partOf i hleg).toYoungDiagram.rowLen i.val
+          = (partOf i' hleg').toYoungDiagram.rowLen i.val
+      rw [heq]
+    rw [hbpd_parts i hleg i, hbpd_parts i' hleg' i, if_pos rfl, if_neg hne] at h1
+    have := hleg.1; omega
+  · -- surjective
+    intro la hla
+    rw [removeSquare, Finset.mem_filter] at hla
+    have hle := hla.2
+    rw [youngDiagram_le_iff_rowLen] at hle
+    have htermle : ∀ k : Fin (n + 1), la.toYoungDiagram.rowLen k.val ≤ bpμ.parts k := by
+      intro k; have := hle k.val; rwa [hμrow k] at this
+    have hsumterm : ∑ k : Fin (n + 1), (bpμ.parts k - la.toYoungDiagram.rowLen k.val) = 1 := by
+      have h1 : ∑ k : Fin (n + 1), la.toYoungDiagram.rowLen k.val = n := sum_rowLen_fin n la
+      have h3 : ∑ k : Fin (n + 1),
+          (la.toYoungDiagram.rowLen k.val + (bpμ.parts k - la.toYoungDiagram.rowLen k.val))
+          = ∑ k, bpμ.parts k :=
+        Finset.sum_congr rfl fun k _ => by have := htermle k; omega
+      rw [Finset.sum_add_distrib, h1, bpμ.sum_eq] at h3
+      omega
+    obtain ⟨i, hi1⟩ : ∃ i : Fin (n + 1), bpμ.parts i - la.toYoungDiagram.rowLen i.val = 1 := by
+      by_contra hcon; push_neg at hcon
+      have hz : ∀ k, bpμ.parts k - la.toYoungDiagram.rowLen k.val = 0 := by
+        intro k; by_contra hk0
+        have hge : 2 ≤ bpμ.parts k - la.toYoungDiagram.rowLen k.val := by have := hcon k; omega
+        have hle2 := Finset.single_le_sum
+          (f := fun k => bpμ.parts k - la.toYoungDiagram.rowLen k.val)
+          (fun k _ => Nat.zero_le _) (Finset.mem_univ k)
+        rw [hsumterm] at hle2; omega
+      rw [Finset.sum_eq_zero (fun k _ => hz k)] at hsumterm; omega
+    have hother : ∀ j : Fin (n + 1), j ≠ i →
+        bpμ.parts j - la.toYoungDiagram.rowLen j.val = 0 := by
+      intro j hj; by_contra hj0
+      have hpair : (bpμ.parts i - la.toYoungDiagram.rowLen i.val)
+          + (bpμ.parts j - la.toYoungDiagram.rowLen j.val)
+          ≤ ∑ k, (bpμ.parts k - la.toYoungDiagram.rowLen k.val) := by
+        rw [← Finset.sum_pair (f := fun k => bpμ.parts k - la.toYoungDiagram.rowLen k.val)
+          (Ne.symm hj)]
+        exact Finset.sum_le_sum_of_subset (Finset.subset_univ _)
+      rw [hsumterm] at hpair; omega
+    have hleg : IsLegalRem bpμ.parts i := by
+      refine ⟨by omega, fun j hj => ?_⟩
+      have hji : j ≠ i := Ne.symm (ne_of_lt hj)
+      have h1 : bpμ.parts j - la.toYoungDiagram.rowLen j.val = 0 := hother j hji
+      have h1' : la.toYoungDiagram.rowLen j.val ≤ bpμ.parts j := htermle j
+      have h2 : la.toYoungDiagram.rowLen j.val ≤ la.toYoungDiagram.rowLen i.val :=
+        la.toYoungDiagram.rowLen_anti i.val j.val (le_of_lt (by rwa [Fin.lt_iff_val_lt_val] at hj))
+      omega
+    refine ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hleg⟩, ?_⟩
+    -- `partOf i hleg = la`
+    apply Partition_eq_of_rowLen_eq
+    intro k
+    rcases lt_or_ge k (n + 1) with hk | hk
+    · rw [show (partOf i hleg).toYoungDiagram.rowLen k = (bpd i hleg).parts ⟨k, hk⟩ from by
+          simp only [hpartOf]; exact (bp_parts_eq_rowLen (bpd i hleg) ⟨k, hk⟩).symm,
+        hbpd_parts i hleg ⟨k, hk⟩]
+      by_cases hki : (⟨k, hk⟩ : Fin (n + 1)) = i
+      · have hkv : k = i.val := congrArg Fin.val hki
+        rw [if_pos hki, show (⟨k, hk⟩ : Fin (n + 1)) = i from hki, show k = i.val from hkv]
+        omega
+      · rw [if_neg hki]
+        have h : bpμ.parts ⟨k, hk⟩ - la.toYoungDiagram.rowLen k = 0 := hother ⟨k, hk⟩ hki
+        have h' : la.toYoungDiagram.rowLen k ≤ bpμ.parts ⟨k, hk⟩ := htermle ⟨k, hk⟩
+        omega
+    · rw [toYoungDiagram_rowLen_eq_zero_of_ge (partOf i hleg) (by omega),
+        toYoungDiagram_rowLen_eq_zero_of_ge la (by omega)]
+  · -- values match
+    intro i hi
+    have hleg := (Finset.mem_filter.mp hi).2
+    rw [if_pos (hsupp_of_legal i hleg)]
+    exact hval_coeff i hleg
 
 /-- Problem 5.16.1(a). Branching rule for restriction: for `μ ⊢ n+1`, the restriction of the
 Specht module `V_μ` to `Sₙ ⊆ Sₙ₊₁` decomposes as `⨁_{λ ∈ R(μ)} V_λ`. Equivalently, on every
