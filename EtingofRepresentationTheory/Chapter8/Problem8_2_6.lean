@@ -172,8 +172,8 @@ theorem Problem_8_2_6_i_tor
 to `Hom_A(M, N)`. -/
 theorem Problem_8_2_6_i_ext
     (A : Type u) [Ring A] (M N : ModuleCat.{u} A) :
-    Nonempty (Etingof.Ext M N 0 ≃+ (M ⟶ N)) := by
-  sorry
+    Nonempty (Etingof.Ext M N 0 ≃+ (M ⟶ N)) :=
+  ⟨CategoryTheory.Abelian.Ext.addEquiv₀⟩
 
 /-! ### Part (ii) -/
 
