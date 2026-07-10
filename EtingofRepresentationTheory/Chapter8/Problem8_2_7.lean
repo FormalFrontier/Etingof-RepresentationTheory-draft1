@@ -292,11 +292,80 @@ theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) :
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
   sorry
 
-/-- **Problem 8.2.7(ii), higher `Tor` vanishes.** `Torᵢ(k[x]/(f), k[x]/(g)) = 0` for `i ≥ 2`. -/
+/-- The right-module length-`1` free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0` over
+`k[x]ᵐᵒᵖ` (`p ≠ 0`), the `k[x]` analogue of `zmodMopResolution`. -/
+private noncomputable def polyMopResolution (k : Type u) [Field k] (p : k[X]) (hp : p ≠ 0) :
+    {S : ShortComplex (ModuleCat.{u} (k[X])ᵐᵒᵖ) //
+      S.ShortExact ∧ S.X₁ = ModuleCat.of (k[X])ᵐᵒᵖ k[X] ∧ S.X₂ = ModuleCat.of (k[X])ᵐᵒᵖ k[X] ∧
+      S.X₃ = ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {p})} :=
+  let f : k[X] →ₗ[(k[X])ᵐᵒᵖ] k[X] :=
+    { toFun := fun x => p * x
+      map_add' := fun x y => by ring
+      map_smul' := fun r x => by
+        simp only [RingHom.id_apply, MulOpposite.smul_eq_mul_unop]; ring }
+  let g : k[X] →ₗ[(k[X])ᵐᵒᵖ] (k[X] ⧸ Ideal.span {p}) :=
+    { toFun := fun x => (Ideal.span {p}).mkQ x
+      map_add' := fun x y => map_add _ x y
+      map_smul' := fun r x => by
+        rw [MulOpposite.smul_eq_mul_unop, RingHom.id_apply]
+        change (Ideal.span {p}).mkQ (x * MulOpposite.unop r)
+            = MulOpposite.unop r • (Ideal.span {p}).mkQ x
+        rw [← map_smul]; congr 1; rw [smul_eq_mul, mul_comm] }
+  have hf : ∀ x : k[X], f x = p * x := fun _ => rfl
+  have hg : ∀ x : k[X], g x = (Ideal.span {p}).mkQ x := fun _ => rfl
+  have hgf : ∀ x : k[X], g (f x) = 0 := by
+    intro x
+    rw [hf, hg, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+    exact dvd_mul_right p x
+  have eq0 : g.comp f = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+  let S := ModuleCat.shortComplexOfCompEqZero f g eq0
+  have hexact : Function.Exact f g := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, hg, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero,
+      Ideal.mem_span_singleton, LinearMap.mem_range, hf]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right p c
+  have hinj : Function.Injective f := fun x y hxy => mul_left_cancel₀ hp (by rw [← hf, ← hf, hxy])
+  have hsurj : Function.Surjective g := Submodule.Quotient.mk_surjective _
+  ⟨S, ModuleCat.shortComplex_shortExact S hexact hinj hsurj, rfl, rfl, rfl⟩
+
+/-- `k[x]/(0) = k[x]/⊥` is `k[x]ᵐᵒᵖ`-linearly the free rank-one module `k[x]`; the two
+`k[x]ᵐᵒᵖ`-actions agree by commutativity. -/
+private noncomputable def polyZeroOpEquiv (k : Type u) [Field k] :
+    (k[X] ⧸ Ideal.span {(0 : k[X])}) ≃ₗ[(k[X])ᵐᵒᵖ] k[X] :=
+  let e0 : (k[X] ⧸ Ideal.span {(0 : k[X])}) ≃ₗ[k[X]] k[X] :=
+    Submodule.quotEquivOfEqBot _ (by simp)
+  { e0.toAddEquiv with
+    map_smul' := fun r z => by
+      change e0 (MulOpposite.unop r • z) = e0 z * MulOpposite.unop r
+      rw [map_smul, smul_eq_mul, mul_comm] }
+
+open Limits in
+/-- **Problem 8.2.7(ii), higher `Tor` vanishes.** `Torᵢ(k[x]/(f), k[x]/(g)) = 0` for `i ≥ 2`,
+by the same six-term long-exact-sequence squeeze as part (i), over the PID `k[x]`. -/
 theorem Problem_8_2_7_ii_tor_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ) :
     Limits.IsZero (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
       (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) (n + 2)) := by
-  sorry
+  rcases eq_or_ne f 0 with rfl | hf
+  · -- `k[x]/(0) ≅ k[x]` is a projective (free rank-one) right module
+    have hz := Functor.isZero_leftDerived_obj_projective_succ
+      (tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g})) (n + 1) (ModuleCat.of (k[X])ᵐᵒᵖ k[X])
+    exact hz.of_iso
+      (((tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g})).leftDerived (n + 2)).mapIso
+        (polyZeroOpEquiv k).toModuleIso)
+  · obtain ⟨S, hS, hX₁, hX₂, hX₃⟩ := polyMopResolution k f hf
+    set F := tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g}) with hF
+    obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS (n + 1) (n + 2) rfl
+    have h1 : IsZero ((F.leftDerived (n + 2)).obj S.X₂) := by
+      rw [hX₂]; exact Functor.isZero_leftDerived_obj_projective_succ F (n + 1) _
+    have h3 : IsZero ((F.leftDerived (n + 1)).obj S.X₁) := by
+      rw [hX₁]; exact Functor.isZero_leftDerived_obj_projective_succ F n _
+    have hgoal : IsZero ((F.leftDerived (n + 2)).obj S.X₃) :=
+      isZero_obj_two_of_sixTerm_exact hExact h1 h3
+    rw [hX₃] at hgoal
+    exact hgoal
 
 /-- **Problem 8.2.7(ii), free generator.** `k[x]` is projective, so `Torᵢ₊₁(k[x], N) = 0` for
 every `k[x]`-module `N`. -/
