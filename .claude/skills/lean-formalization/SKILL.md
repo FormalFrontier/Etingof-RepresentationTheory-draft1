@@ -873,6 +873,24 @@ element (needed for the commuting hypothesis) is cleanest proved once at the `�
 + `char_conj`), then transported through `asAlgebraHom` (an `AlgHom`, so `map_mul`) with
 `Module.End.mul_eq_comp`. See `Etingof.endo_scalar` in `Chapter4/Problem4_5_2.lean`.
 
+#### The *reverse* bridge `IsSimpleModule ℂ[G] ρ.asModule ⟹ Simple (FDRep.of ρ)` IS tractable — but mind the `asSubmodule` vs `toRepresentation.asModule` non-defeq (Ch4 #6247)
+
+Opposite to the rabbit hole above: when you *have* module simplicity and *want* categorical
+`Simple`, use `Etingof.simple_fdRepOf_of_isSimpleModule ρ` (`Chapter4/Exercise4_2_3.lean`,
+field-general, no `NeZero`/`IsAlgClosed` needed). This is exactly how an `IsIrredSub`/atom
+subrepresentation summand becomes a `Simple (FDRep.of σ.toRepresentation)` you can feed to
+completeness (`simple_iso_irrepA5`) and `FDRep.char_orthonormal`. **Gotcha that cost a build
+cycle:** the two `ℂ[G]`-module structures `σ.asSubmodule` (submodule of `ρ.asModule`, what
+`isIrredSub_iff_isSimpleModule`/`Subrepresentation.asSubmodule` gives you) and
+`σ.toRepresentation.asModule` (what `simple_fdRepOf_of_isSimpleModule` wants) are **NOT defeq** —
+`haveI : IsSimpleModule … σ.toRepresentation.asModule := hAsSubmodule` fails with a module-instance
+type mismatch. Transport with `IsSimpleModule.congr (toRepAsModuleEquiv σ)` (the identity map on
+the shared carrier `↥σ.toSubmodule`, `ℂ[G]`-linear by `MonoidAlgebra.induction_linear` +
+`Representation.single_smul`). The ready-made `Etingof.isSimpleModule_toRepresentation_asModule`
++ `toRepAsModuleEquiv` live in `Chapter5/SimpleSubrepExtraction.lean`; a **Chapter 4** consumer must
+**inline** the ~12-line `toRepAsModuleEquiv` def (importing Ch5 into Ch4 is a backwards dependency).
+See `subFDRep_simple` in `Chapter4/Problem4_12_5.lean`.
+
 #### Dual / contragredient representation as a genuine opposite-module instance (#5593, twins #5355/#5356)
 
 A recurring fidelity-gap family: a "dual representation `V*`" definition aliased to
