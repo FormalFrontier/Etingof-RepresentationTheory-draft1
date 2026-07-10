@@ -4442,8 +4442,8 @@
     "end_page": "121",
     "start_line": 1,
     "end_line": 2,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Problem5_16_2.lean states that the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda), sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Chapter5/Problem5_16_2.lean proves sumTranspositions_mul_eq_content_smul sorry-free: the sum of transpositions C acts on the Specht module V_lambda by the content c(lambda). Depends only on propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter5/Problem5.16.3",
