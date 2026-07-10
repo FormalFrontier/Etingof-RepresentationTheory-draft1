@@ -3055,8 +3055,8 @@
     "end_page": "84",
     "start_line": 17,
     "end_line": 18,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean (sorry proof, statement pass)."
+    "status": "sorry_free",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean via the spectral theorem: squarefree charpoly ⟹ distinct eigenvalues ⟹ commutant of the adjacency matrix is commutative, so the permutation matrices of two graph automorphisms commute, contradicting nonabelianness."
   },
   {
     "id": "Chapter4/Problem4.12.5",
