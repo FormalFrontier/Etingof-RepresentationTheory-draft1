@@ -363,20 +363,55 @@ private lemma content_eq_sum (n : ℕ) (la : Nat.Partition n) :
     intro k _
     rfl
 
+/-- For a fixed `j`, the signed count of transpositions `(i j)` with `i < j`:
+`+1` for each earlier same-row position and `-1` for each earlier same-column one, totalling
+`col(j) − row(j)`. -/
+private lemma inner_transposition_sum (n : ℕ) (la : Nat.Partition n) (j : Fin n) :
+    ∑ i ∈ (Finset.univ : Finset (Fin n)).filter (fun i => i < j),
+      ((if rowOfPos la.sortedParts i.val = rowOfPos la.sortedParts j.val then (1 : ℂ) else 0)
+        - (if colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val then (1 : ℂ) else 0))
+      = (colOfPos la.sortedParts j.val : ℂ) - (rowOfPos la.sortedParts j.val : ℂ) := by
+  rw [Finset.sum_sub_distrib, Finset.sum_boole, Finset.sum_boole, Finset.filter_filter,
+    Finset.filter_filter, card_before_sameRow n la j, card_before_sameCol n la j]
+
 /-- The combinatorial heart of the problem: summing the coefficient of each transposition `(ij)`
 in the Young symmetrizer `c_λ = b_λ a_λ` gives the content `c(λ)`.
 
 By the convolution formula `c_λ((ij)) = ∑_{q ∈ Q_λ, q⁻¹(ij) ∈ P_λ} sign(q)`, the coefficient is
 `+1` when `i, j` share a row (`q = 1`, `(ij) ∈ P_λ`), `-1` when they share a column
-(`q = (ij) ∈ Q_λ`, `p = 1`), and the remaining (cross) contributions cancel in the signed sum.
-Summing over `i < j` gives
-`∑_rows C(row_len, 2) − ∑_cols C(col_height, 2) = ∑_cells (col − row) = c(λ)`.
-
-TODO: discharge this finite coefficient computation. The main theorem is otherwise complete. -/
+(`q = (ij) ∈ Q_λ`, `p = 1`), and `0` otherwise. Grouping by the larger index `j`, the sum over
+`i < j` telescopes to `col(j) − row(j)`, and summing over positions gives the content `c(λ)`. -/
 private lemma youngSymmetrizer_transposition_sum_eq_content (n : ℕ) (la : Nat.Partition n) :
     ∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
       (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap p.1 p.2) = (content la : ℂ) := by
-  sorry
+  classical
+  have key : ∀ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
+      (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap p.1 p.2) =
+        (if rowOfPos la.sortedParts p.1.val = rowOfPos la.sortedParts p.2.val then (1 : ℂ) else 0)
+        - (if colOfPos la.sortedParts p.1.val = colOfPos la.sortedParts p.2.val then (1 : ℂ)
+            else 0) := by
+    intro p hp
+    rw [Finset.mem_filter] at hp
+    exact youngSymmetrizer_swap_coeff n la (ne_of_lt hp.2)
+  rw [Finset.sum_congr rfl key, Finset.sum_filter, Fintype.sum_prod_type, Finset.sum_comm]
+  have hstep : ∀ j : Fin n,
+      (∑ i : Fin n, if i < j then
+          ((if rowOfPos la.sortedParts i.val = rowOfPos la.sortedParts j.val then (1 : ℂ) else 0)
+           - (if colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val then (1 : ℂ)
+              else 0))
+        else 0)
+      = (colOfPos la.sortedParts j.val : ℂ) - (rowOfPos la.sortedParts j.val : ℂ) := by
+    intro j
+    rw [← Finset.sum_filter]
+    exact inner_transposition_sum n la j
+  rw [Finset.sum_congr rfl (fun j _ => hstep j), Finset.sum_sub_distrib]
+  have hcast : (content la : ℂ) = (∑ j : Fin n, (colOfPos la.sortedParts j.val : ℂ))
+      - (∑ j : Fin n, (rowOfPos la.sortedParts j.val : ℂ)) := by
+    have h2 : ((content la : ℤ) : ℂ)
+        = ((∑ k : Fin n, ((colOfPos la.sortedParts k.val : ℤ) - rowOfPos la.sortedParts k.val)) : ℂ)
+        := by exact_mod_cast congrArg (Int.cast : ℤ → ℂ) (content_eq_sum n la)
+    rw [h2]; push_cast; rw [Finset.sum_sub_distrib]
+  rw [hcast]
 
 /-- The coefficient of the identity permutation in `C · c_λ` equals the content `c(λ)`.
 Expanding `C = ∑_{i<j} (ij)` and using `((ij) · c_λ)(e) = c_λ((ij))` reduces this to the
