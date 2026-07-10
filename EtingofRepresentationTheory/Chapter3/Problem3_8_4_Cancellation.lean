@@ -361,6 +361,65 @@ theorem iso_pow_cancel (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
   exact ⟨(LinearEquiv.ofBijective (DirectSum.coeLinearMap DV) hIntV).symm ≪≫ₗ mid ≪≫ₗ
     LinearEquiv.ofBijective (DirectSum.coeLinearMap (fun i => DW (τ i))) hIntWτ⟩
 
+/-- **Fibre-counting inequality.** Suppose that after taking `n` disjoint copies of each fibre of
+`f : Fin p → C` and adjoining an extra family `d : Fin r → C`, the result is equinumerous with the
+`n`-fold copies of the fibres of `g : Fin q → C` — witnessed by a bijection
+`σ : ((Fin n × Fin p) ⊕ Fin r) ≃ (Fin n × Fin q)` matching the `C`-labels. Then each `f`-fibre is
+no larger than the corresponding `g`-fibre, so there is an injection `φ : Fin p ↪ Fin q` with
+`g (φ i) = f i`. This is the multiplicity comparison `n • s ≤ n • t ⟹ s ≤ t` (for `n > 0`)
+underlying "if `Vⁿ` is a direct summand of `Wⁿ` then `V` is a direct summand of `W`". -/
+private theorem fibre_le {C : Type*} {p q n r : ℕ} (hn : 0 < n)
+    (f : Fin p → C) (g : Fin q → C) (d : Fin r → C)
+    (σ : ((Fin n × Fin p) ⊕ Fin r) ≃ (Fin n × Fin q))
+    (hσ : ∀ x, g (σ x).2 = Sum.elim (fun a : Fin n × Fin p => f a.2) d x) :
+    ∃ φ : Fin p → Fin q, Function.Injective φ ∧ ∀ i, g (φ i) = f i := by
+  classical
+  -- For each label `c`, the `f`-fibre is no larger than the `g`-fibre.
+  have key : ∀ c : C, Fintype.card {i // f i = c} ≤ Fintype.card {j // g j = c} := by
+    intro c
+    -- `σ` restricts to a bijection between the label-`c` fibres of the two indices.
+    have e : {x : (Fin n × Fin p) ⊕ Fin r // Sum.elim (fun a : Fin n × Fin p => f a.2) d x = c}
+        ≃ {y : Fin n × Fin q // g y.2 = c} :=
+      { toFun := fun x => ⟨σ x.1, by rw [hσ]; exact x.2⟩
+        invFun := fun y => ⟨σ.symm y.1, by
+          have h := hσ (σ.symm y.1); rw [σ.apply_symm_apply] at h; rw [← h]; exact y.2⟩
+        left_inv := fun x => Subtype.ext (σ.symm_apply_apply x.1)
+        right_inv := fun y => Subtype.ext (σ.apply_symm_apply y.1) }
+    -- The `n`-fold `f`-fibre injects (via `inl`) into the label-`c` fibre of the sum index.
+    have hinj : Fintype.card {a : Fin n × Fin p // f a.2 = c}
+        ≤ Fintype.card {x : (Fin n × Fin p) ⊕ Fin r //
+            Sum.elim (fun a : Fin n × Fin p => f a.2) d x = c} :=
+      Fintype.card_le_of_injective (fun a => ⟨Sum.inl a.1, a.2⟩) (by
+        intro a b h
+        simp only [Subtype.mk.injEq, Sum.inl.injEq] at h
+        exact Subtype.ext h)
+    -- Each `n`-fold fibre is `Fin n` copies of the corresponding plain fibre.
+    have eF : {a : Fin n × Fin p // f a.2 = c} ≃ Fin n × {i // f i = c} :=
+      { toFun := fun a => (a.1.1, ⟨a.1.2, a.2⟩)
+        invFun := fun y => ⟨(y.1, y.2.1), y.2.2⟩
+        left_inv := fun a => by rcases a with ⟨⟨s, t⟩, h⟩; rfl
+        right_inv := fun y => by rcases y with ⟨s, t, h⟩; rfl }
+    have eG : {y : Fin n × Fin q // g y.2 = c} ≃ Fin n × {j // g j = c} :=
+      { toFun := fun y => (y.1.1, ⟨y.1.2, y.2⟩)
+        invFun := fun z => ⟨(z.1, z.2.1), z.2.2⟩
+        left_inv := fun y => by rcases y with ⟨⟨s, t⟩, h⟩; rfl
+        right_inv := fun z => by rcases z with ⟨s, t, h⟩; rfl }
+    have hFF : Fintype.card {a : Fin n × Fin p // f a.2 = c} = n * Fintype.card {i // f i = c} := by
+      rw [Fintype.card_congr eF, Fintype.card_prod, Fintype.card_fin]
+    have hGG : Fintype.card {y : Fin n × Fin q // g y.2 = c} = n * Fintype.card {j // g j = c} := by
+      rw [Fintype.card_congr eG, Fintype.card_prod, Fintype.card_fin]
+    have hle : n * Fintype.card {i // f i = c} ≤ n * Fintype.card {j // g j = c} := by
+      rw [← hFF, ← hGG, ← Fintype.card_congr e]; exact hinj
+    exact Nat.le_of_mul_le_mul_left hle hn
+  -- Assemble a fibre-wise embedding into a single injection `Fin p ↪ Fin q`.
+  let emb : ∀ c : C, {i // f i = c} ↪ {j // g j = c} :=
+    fun c => (Function.Embedding.nonempty_of_card_le (key c)).some
+  let Φ : (Σ c, {i // f i = c}) ↪ (Σ c, {j // g j = c}) :=
+    Function.Embedding.sigmaMap (Function.Embedding.refl C) emb
+  let ψ : Fin p ↪ Fin q :=
+    (Equiv.sigmaFiberEquiv f).symm.toEmbedding.trans (Φ.trans (Equiv.sigmaFiberEquiv g).toEmbedding)
+  exact ⟨ψ, ψ.injective, fun i => (emb (f i) ⟨i, rfl⟩).2⟩
+
 /-- **Direct summand from an index embedding.** Given internal indecomposable decompositions
 `DV : Fin p → Submodule A V` and `DW : Fin q → Submodule A W`, together with an injection
 `φ : Fin p → Fin q` matching each summand of `V` with an isomorphic summand of `W`
