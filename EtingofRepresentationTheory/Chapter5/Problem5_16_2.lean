@@ -120,18 +120,31 @@ lemma sumTranspositions_central (n : ℕ) (y : SymGroupAlgebra n) :
   | hadd f₁ f₂ h₁ h₂ => rw [mul_add, add_mul, h₁, h₂]
   | hsmul r f h => rw [mul_smul_comm, smul_mul_assoc, h]
 
-/-- The coefficient of the identity permutation in `C · c_λ` equals the content `c(λ)`.
+/-- The combinatorial heart of the problem: summing the coefficient of each transposition `(ij)`
+in the Young symmetrizer `c_λ = b_λ a_λ` gives the content `c(λ)`.
 
-This is the combinatorial heart of the problem. Expanding `(C · c_λ)(e) = ∑_{i<j} c_λ((ij))`, the
-coefficient of a transposition `(ab)` in the Young symmetrizer `c_λ = b_λ a_λ` is `+1` when `a, b`
-lie in the same row, `-1` when they lie in the same column, and the remaining (cross) contributions
-cancel in the signed sum. Summing gives
+By the convolution formula `c_λ((ij)) = ∑_{q ∈ Q_λ, q⁻¹(ij) ∈ P_λ} sign(q)`, the coefficient is
+`+1` when `i, j` share a row (`q = 1`, `(ij) ∈ P_λ`), `-1` when they share a column
+(`q = (ij) ∈ Q_λ`, `p = 1`), and the remaining (cross) contributions cancel in the signed sum.
+Summing over `i < j` gives
 `∑_rows C(row_len, 2) − ∑_cols C(col_height, 2) = ∑_cells (col − row) = c(λ)`.
 
 TODO: discharge this finite coefficient computation. The main theorem is otherwise complete. -/
+private lemma youngSymmetrizer_transposition_sum_eq_content (n : ℕ) (la : Nat.Partition n) :
+    ∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
+      (YoungSymmetrizer n la : SymGroupAlgebra n) (Equiv.swap p.1 p.2) = (content la : ℂ) := by
+  sorry
+
+/-- The coefficient of the identity permutation in `C · c_λ` equals the content `c(λ)`.
+Expanding `C = ∑_{i<j} (ij)` and using `((ij) · c_λ)(e) = c_λ((ij))` reduces this to the
+combinatorial identity `youngSymmetrizer_transposition_sum_eq_content`. -/
 private lemma sumTranspositions_youngSymmetrizer_coeff_one (n : ℕ) (la : Nat.Partition n) :
     (sumTranspositions n * YoungSymmetrizer n la : SymGroupAlgebra n) 1 = (content la : ℂ) := by
-  sorry
+  rw [← youngSymmetrizer_transposition_sum_eq_content n la, sumTranspositions, Finset.sum_mul,
+    Finsupp.finset_sum_apply]
+  refine Finset.sum_congr rfl (fun p _ => ?_)
+  rw [MonoidAlgebra.of_apply, MonoidAlgebra.single_mul_apply]
+  simp [Equiv.swap_inv]
 
 /-- `C · c_λ = c(λ) • c_λ`: left multiplication by the central element `C` acts on the simple
 module `V_λ` as the scalar `c(λ)`. Existence of *some* scalar is Schur's lemma; its value is
