@@ -11,6 +11,7 @@ import Mathlib.Algebra.Lie.Submodule
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import Mathlib.LinearAlgebra.Pi
 import Mathlib.Algebra.Module.Equiv.Basic
+import Mathlib.Algebra.BigOperators.Pi
 
 /-!
 # Problem 2.16.2: Irreducible representations of the 2-dimensional Lie algebra `[X, Y] = Y`
@@ -225,14 +226,156 @@ theorem coe_Y : (↑(Y k) : Matrix (Fin 2) (Fin 2) k) = Matrix.single 0 1 1 := r
       + (↑(Y k) : Matrix (Fin 2) (Fin 2) k) 0 1 • shiftOp k p = shiftOp k p
   rw [coe_Y, h0, h1, zero_smul, one_smul, zero_add]
 
+/-- The `𝔤`-module structure on `k^{ℤ/p}` induced by `ρ`. -/
+noncomputable instance repModule : LieRingModule (g k) (ZMod p → k) :=
+  LieRingModule.compLieHom _ (ρ k p)
+
+/-- The induced module is a genuine Lie module. -/
+noncomputable instance repLieModule : LieModule k (g k) (ZMod p → k) :=
+  LieModule.compLieHom _ (ρ k p)
+
+/-- In the induced module, `X` acts as the diagonal operator. -/
+theorem lie_X_eq_diag (v : ZMod p → k) : (⁅X k, v⁆ : ZMod p → k) = diagOp k p v := by
+  have h : (⁅X k, v⁆ : ZMod p → k) = ρ k p (X k) v := rfl
+  rw [h, ρ_X]
+
+/-- In the induced module, `Y` acts as the cyclic shift. -/
+theorem lie_Y_eq_shift (v : ZMod p → k) : (⁅Y k, v⁆ : ZMod p → k) = shiftOp k p v := by
+  have h : (⁅Y k, v⁆ : ZMod p → k) = ρ k p (Y k) v := rfl
+  rw [h, ρ_Y]
+
+/-- The cyclic shift permutes the standard basis: `shiftOp (eⱼ) = eⱼ₊₁`. -/
+theorem shift_single (j : ZMod p) (c : k) :
+    shiftOp k p (Pi.single j c) = Pi.single (j + 1) c := by
+  funext m
+  rw [shiftOp_apply, Pi.single_apply, Pi.single_apply]
+  congr 1
+  simp [sub_eq_iff_eq_add]
+
+variable {k p}
+
+open scoped Classical in
+/-- The support (as a `Finset`) of a vector in `k^{ℤ/p}`. -/
+noncomputable def vsupp (v : ZMod p → k) : Finset (ZMod p) :=
+  Finset.univ.filter fun i => v i ≠ 0
+
+theorem mem_vsupp {v : ZMod p → k} {i : ZMod p} : i ∈ vsupp v ↔ v i ≠ 0 := by
+  simp [vsupp]
+
+variable (k p)
+
+/-- **The counterexample module is irreducible.** A nonzero `𝔤`-submodule `N` of `k^{ℤ/p}` is all
+of `k^{ℤ/p}`: pick a nonzero `v ∈ N` of minimal support; the diagonal action forces the support
+to be a single point (else `diagOp v - λⱼ v ∈ N` has strictly smaller support), so a standard
+basis vector lies in `N`, and the shift action (a `p`-cycle) sweeps out all of them. -/
+theorem repModule_irreducible : LieModule.IsIrreducible k (g k) (ZMod p → k) := by
+  classical
+  haveI : Nontrivial (ZMod p → k) := inferInstance
+  refine LieModule.IsIrreducible.mk fun N hN => ?_
+  -- `N` is closed under the diagonal and shift operators.
+  have hdiag : ∀ v, v ∈ N → diagOp k p v ∈ N := fun v hv => by
+    rw [← lie_X_eq_diag]; exact N.lie_mem hv
+  have hshift : ∀ v, v ∈ N → shiftOp k p v ∈ N := fun v hv => by
+    rw [← lie_Y_eq_shift]; exact N.lie_mem hv
+  -- From one standard basis vector, the shift `p`-cycle produces all of them.
+  have horbit : ∀ i₀ : ZMod p, Pi.single i₀ (1 : k) ∈ N → ∀ m, Pi.single m (1 : k) ∈ N := by
+    intro i₀ hbase m
+    obtain ⟨t, rfl⟩ : ∃ t : ℕ, m = i₀ + t :=
+      ⟨(m - i₀).val, by rw [ZMod.natCast_zmod_val]; abel⟩
+    induction t with
+    | zero => simpa using hbase
+    | succ n ih =>
+      have h2 := hshift _ ih
+      rw [shift_single] at h2
+      rw [Nat.cast_succ, ← add_assoc]
+      exact h2
+  -- All standard basis vectors in `N` forces `N = ⊤`.
+  have htop : (∀ m : ZMod p, Pi.single m (1 : k) ∈ N) → N = ⊤ := by
+    intro hall
+    rw [← LieSubmodule.toSubmodule_eq_top, Submodule.eq_top_iff']
+    intro x
+    rw [← Finset.univ_sum_single x]
+    refine Submodule.sum_mem _ fun m _ => ?_
+    have hsingle : Pi.single m (x m) = x m • Pi.single m (1 : k) := by
+      rw [← Pi.single_smul', smul_eq_mul, mul_one]
+    rw [hsingle]
+    exact Submodule.smul_mem _ _ (hall m)
+  -- Extract a nonzero element of `N`.
+  rw [ne_eq, LieSubmodule.eq_bot_iff] at hN
+  push_neg at hN
+  obtain ⟨w, hwN, hw0⟩ := hN
+  -- Strong induction on the size of the support.
+  suffices H : ∀ (n : ℕ) (v : ZMod p → k), v ∈ N → v ≠ 0 → (vsupp v).card = n → N = ⊤ from
+    H _ w hwN hw0 rfl
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n IH =>
+    intro v hvN hv0 hcard
+    have hne : (vsupp v).Nonempty := by
+      obtain ⟨i, hi⟩ := Function.ne_iff.mp hv0
+      exact ⟨i, mem_vsupp.mpr hi⟩
+    by_cases hone : (vsupp v).card = 1
+    · -- Support is a single point: a basis vector lies in `N`, so `N = ⊤`.
+      obtain ⟨i₀, hi₀⟩ := Finset.card_eq_one.mp hone
+      have hvi₀ : v i₀ ≠ 0 := mem_vsupp.mp (hi₀ ▸ Finset.mem_singleton_self i₀)
+      have hzero : ∀ m, m ≠ i₀ → v m = 0 := by
+        intro m hm
+        by_contra hvm
+        have : m ∈ vsupp v := mem_vsupp.mpr hvm
+        rw [hi₀, Finset.mem_singleton] at this
+        exact hm this
+      have hbase : Pi.single i₀ (1 : k) ∈ N := by
+        have hsm : (v i₀)⁻¹ • v ∈ N := N.smul_mem _ hvN
+        have hval : (v i₀)⁻¹ • v = Pi.single i₀ (1 : k) := by
+          funext m
+          rw [Pi.smul_apply, smul_eq_mul]
+          by_cases hm : m = i₀
+          · subst hm; rw [Pi.single_eq_same, inv_mul_cancel₀ hvi₀]
+          · rw [Pi.single_eq_of_ne hm, hzero m hm, mul_zero]
+        rwa [hval] at hsm
+      exact htop (horbit i₀ hbase)
+    · -- Support has at least two points: subtract an eigenvalue to shrink it, then recurse.
+      have h2 : 1 < (vsupp v).card := by
+        have h1 := Finset.card_pos.mpr hne; omega
+      obtain ⟨i, j, hi, hj, hij⟩ := Finset.one_lt_card_iff.mp h2
+      set w' := diagOp k p v - lam k p j • v with hw'def
+      have hw'N : w' ∈ N := sub_mem (hdiag v hvN) (N.smul_mem _ hvN)
+      have hw'coord : ∀ m, w' m = (lam k p m - lam k p j) * v m := fun m => by
+        simp only [hw'def, Pi.sub_apply, diagOp_apply, Pi.smul_apply, smul_eq_mul]; ring
+      have hlamij : lam k p i ≠ lam k p j := fun heq => hij (lam_injective k p heq)
+      have hw'i : w' i ≠ 0 := by
+        rw [hw'coord]
+        exact mul_ne_zero (sub_ne_zero.mpr hlamij) (mem_vsupp.mp hi)
+      have hw'0 : w' ≠ 0 := fun heq => hw'i (congrFun heq i)
+      have hsub : vsupp w' ⊆ vsupp v := by
+        intro m hm
+        rw [mem_vsupp] at hm ⊢
+        intro hvm
+        exact hm (by rw [hw'coord, hvm, mul_zero])
+      have hjnotin : j ∉ vsupp w' := by
+        rw [mem_vsupp, not_not, hw'coord, sub_self, zero_mul]
+      have hss : vsupp w' ⊂ vsupp v :=
+        (Finset.ssubset_iff_of_subset hsub).mpr ⟨j, hj, hjnotin⟩
+      have hlt : (vsupp w').card < n := hcard ▸ Finset.card_lt_card hss
+      exact IH _ hlt w' hw'N hw'0 rfl
+
 /-- **Characteristic `p`.** Lie's theorem fails: it is **not** the case that every irreducible
-finite-dimensional representation of `𝔤` is `1`-dimensional. -/
+finite-dimensional representation of `𝔤` is `1`-dimensional. The `p`-dimensional module `k^{ℤ/p}`
+built above is an explicit irreducible counterexample.
+
+The statement quantifies over `M : Type` (universe `0`), and the witness `k^{ℤ/p}` lives in `k`'s
+universe, so `k` is specialized to `Type` for this result. -/
 theorem lie_theorem_fails_charP (k : Type) [Field k] [IsAlgClosed k]
     (p : ℕ) [Fact p.Prime] [CharP k p] :
     ¬ ∀ (M : Type) [AddCommGroup M] [Module k M] [LieRingModule (g k) M]
         [LieModule k (g k) M] [FiniteDimensional k M] [LieModule.IsIrreducible k (g k) M],
-        Module.finrank k M = 1 :=
-  sorry
+        Module.finrank k M = 1 := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).pos.ne'⟩
+  haveI := repModule_irreducible k p
+  intro h
+  have hfr : Module.finrank k (ZMod p → k) = 1 := h (ZMod p → k)
+  rw [Module.finrank_fintype_fun_eq_card, ZMod.card p] at hfr
+  exact ((Fact.out : p.Prime).one_lt).ne' hfr
 
 end CharP
 
