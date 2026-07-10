@@ -7041,7 +7041,7 @@
     "start_line": 9,
     "end_line": 22,
     "status": "statement_formalized",
-    "coverage_note": "Part (i) fully proved sorry-free: Ext⁰ ≅ Hom (#6103) and Tor₀ ≅ M⊗_A N (#6109). The Tor₀ half uses the tensor-hom adjunction (- ⊗_A N) ⊣ (N →+ -) built in Definition8_2_3_RightExact.lean, giving PreservesFiniteColimits (tensorRightFunctor A N) and hence Functor.leftDerivedZeroIsoSelf. Parts (ii)–(v) remain sorried (statement-level)."
+    "coverage_note": "Part (i) fully proved sorry-free: Ext⁰ ≅ Hom (#6103) and Tor₀ ≅ M⊗_A N (#6109). The Tor₀ half uses the tensor-hom adjunction (- ⊗_A N) ⊣ (N →+ -) built in Definition8_2_3_RightExact.lean, giving PreservesFiniteColimits (tensorRightFunctor A N) and hence Functor.leftDerivedZeroIsoSelf. Parts (ii)–(v) remain sorried (statement-level). Part (ii)'s clean route needs a projective resolution of a k-algebra representation (missing from Mathlib): Chapter8/BarResolution.lean now provides the foundational terms Pₙ = A ⊗_k A^{⊗n} ⊗_k W as free/projective A-modules plus the augmentation ε (#6297 partial); differential+d∘d=0 (#6317) and exactness+packaging into Etingof.barResolution (#6318) are follow-ups."
   },
   {
     "id": "Chapter8/Problem8.2.7",
