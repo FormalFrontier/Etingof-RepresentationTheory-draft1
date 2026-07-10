@@ -538,4 +538,156 @@ private theorem summand_of_index_embedding {A V W : Type*} [Ring A]
   have he : πS (ιS (eV v)) = eV v := LinearMap.congr_fun hsplit (eV v)
   rw [he, eV.symm_apply_apply]
 
+/-- **Direct-summand power cancellation** (Problem 3.8.4(ii) prerequisite / Noether-Deuring shape).
+For finite dimensional representations `V`, `W` of an algebra `A` over an arbitrary field `k`, if
+`Vⁿ` is a direct summand of `Wⁿ` for some `n > 0`, then `V` is a direct summand of `W`.
+
+Proof: the split injection presents `Wⁿ ≅ Vⁿ ⊕ Y` with `Y` the (finite dimensional) complement.
+Krull-Schmidt (Problem 3.8.3) decomposes `V`, `W`, `Y` into indecomposables; assembling the
+`Vⁿ`-power decomposition of the summand `R ≅ Vⁿ` with a decomposition of `Y` gives one
+indecomposable decomposition of `Wⁿ`, which Krull-Schmidt uniqueness matches against the
+`Wⁿ`-power decomposition. Comparing fibres per indecomposable iso-class gives, after cancelling
+the common factor `n`, an injection `φ : Fin p ↪ Fin q` with `DV i ≅ DW (φ i)`; feeding it to
+`summand_of_index_embedding` exhibits `V` as a direct summand of `W`. -/
+theorem directSummand_pow_cancel (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
+    [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
+    [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W]
+    [FiniteDimensional k V] [FiniteDimensional k W]
+    {n : ℕ} (hn : 0 < n)
+    (h : ∃ (i : (Fin n → V) →ₗ[A] (Fin n → W)) (p : (Fin n → W) →ₗ[A] (Fin n → V)),
+           p.comp i = LinearMap.id) :
+    ∃ (i : V →ₗ[A] W) (p : W →ₗ[A] V), p.comp i = LinearMap.id := by
+  classical
+  obtain ⟨imap, pmap, hpi⟩ := h
+  have hi_inj : Function.Injective imap :=
+    Function.LeftInverse.injective (g := pmap) (fun x => LinearMap.congr_fun hpi x)
+  -- The split idempotent presents `Wⁿ = R ⊕ Y'` with `R = range imap ≅ Vⁿ`.
+  set R : Submodule A (Fin n → W) := LinearMap.range imap with hR
+  set iRange : (Fin n → V) ≃ₗ[A] R := LinearEquiv.ofInjective imap hi_inj with hiRange
+  set f0 : (Fin n → W) →ₗ[A] R := iRange.toLinearMap.comp pmap with hf0def
+  have hf0 : ∀ x : R, f0 x = x := by
+    intro x
+    obtain ⟨v, hv⟩ := LinearMap.mem_range.mp x.2
+    apply Subtype.ext
+    have hpv : pmap (x : Fin n → W) = v := by rw [← hv]; exact LinearMap.congr_fun hpi v
+    have hfx : f0 (x : Fin n → W) = iRange v := by
+      simp only [f0, LinearMap.comp_apply, LinearEquiv.coe_coe, hpv]
+    rw [hfx]
+    change (imap v : Fin n → W) = (x : Fin n → W)
+    exact hv
+  have hCompl : IsCompl R (LinearMap.ker f0) := LinearMap.isCompl_of_proj hf0
+  set Y' : Submodule A (Fin n → W) := LinearMap.ker f0 with hY'
+  -- `Y'` is finite dimensional over `k` (a `k`-subspace of the finite dimensional `Wⁿ`).
+  haveI : FiniteDimensional k (Y' : Submodule A (Fin n → W)) := by
+    have hsub : Function.Injective ⇑(Y'.subtype.restrictScalars k) := Y'.injective_subtype
+    exact FiniteDimensional.of_injective (Y'.subtype.restrictScalars k) hsub
+  -- Krull-Schmidt decompositions of `V`, `W`, and the complement `Y'`.
+  obtain ⟨p, DV, hDV_indec, hDV_sup, hDV_ind⟩ := Problem3_8_3.krull_schmidt_existence k A V
+  obtain ⟨q, DW, hDW_indec, hDW_sup, hDW_ind⟩ := Problem3_8_3.krull_schmidt_existence k A W
+  obtain ⟨r, DY, hDY_indec, hDY_sup, hDY_ind⟩ :=
+    Problem3_8_3.krull_schmidt_existence k A (Y' : Submodule A (Fin n → W))
+  have hDV_ne : ∀ i, DV i ≠ ⊥ := fun i => Submodule.nontrivial_iff_ne_bot.mp (hDV_indec i).1
+  have hDW_ne : ∀ j, DW j ≠ ⊥ := fun j => Submodule.nontrivial_iff_ne_bot.mp (hDW_indec j).1
+  have hDY_ne : ∀ j, DY j ≠ ⊥ := fun j => Submodule.nontrivial_iff_ne_bot.mp (hDY_indec j).1
+  -- Coordinate inclusions and the power decompositions of `Vⁿ` and `Wⁿ`.
+  set sgV : Fin n → (V →ₗ[A] (Fin n → V)) :=
+    fun c => LinearMap.single A (fun _ : Fin n => V) c with hsgV
+  set sgW : Fin n → (W →ₗ[A] (Fin n → W)) :=
+    fun c => LinearMap.single A (fun _ : Fin n => W) c with hsgW
+  obtain ⟨hPV_indec, hPV_ne, hPV_sup, hPV_ind⟩ :=
+    powerDecomp (n := n) DV hDV_indec hDV_ne hDV_sup hDV_ind
+  obtain ⟨hPW_indec, hPW_ne, hPW_sup, hPW_ind⟩ :=
+    powerDecomp (n := n) DW hDW_indec hDW_ne hDW_sup hDW_ind
+  -- The `Wⁿ`-power decomposition `D'` (index `Fin n × Fin q`).
+  set D' : Fin n × Fin q → Submodule A (Fin n → W) := fun cj => (DW cj.2).map (sgW cj.1) with hD'
+  -- Combined decomposition of `Wⁿ = R ⊕ Y'` (index `(Fin n × Fin p) ⊕ Fin r`).
+  set EL : Fin n × Fin p → Submodule A (Fin n → W) :=
+    fun ci => ((DV ci.2).map (sgV ci.1)).map imap with hEL
+  set ER : Fin r → Submodule A (Fin n → W) := fun jr => (DY jr).map Y'.subtype with hER
+  let E : ((Fin n × Fin p) ⊕ Fin r) → Submodule A (Fin n → W) := Sum.elim EL ER
+  have hEL_sup : iSup EL = R := by
+    simp only [EL]; rw [← Submodule.map_iSup, hPV_sup, Submodule.map_top, hR]
+  have hER_sup : iSup ER = Y' := by
+    simp only [ER]; rw [← Submodule.map_iSup, hDY_sup, Submodule.map_top, Submodule.range_subtype]
+  have hEL_indec : ∀ ci, Etingof.IsIndecomposable A (EL ci) := fun ci =>
+    (hPV_indec ci).of_linearEquiv (Submodule.equivMapOfInjective imap hi_inj _)
+  have hER_indec : ∀ jr, Etingof.IsIndecomposable A (ER jr) := fun jr =>
+    (hDY_indec jr).of_linearEquiv (Submodule.equivMapOfInjective Y'.subtype Y'.injective_subtype _)
+  have hEL_ne : ∀ ci, EL ci ≠ ⊥ := fun ci =>
+    Submodule.nontrivial_iff_ne_bot.mp (hEL_indec ci).1
+  have hER_ne : ∀ jr, ER jr ≠ ⊥ := fun jr =>
+    Submodule.nontrivial_iff_ne_bot.mp (hER_indec jr).1
+  have hEL_ind : iSupIndep EL := LinearMap.iSupIndep_map imap hi_inj hPV_ind
+  have hER_ind : iSupIndep ER := LinearMap.iSupIndep_map Y'.subtype Y'.injective_subtype hDY_ind
+  -- Properties of the combined family `E = Sum.elim EL ER`.
+  have hE_indec : ∀ x, Etingof.IsIndecomposable A (E x) := by
+    rintro (ci | jr)
+    · exact hEL_indec ci
+    · exact hER_indec jr
+  have hE_ne : ∀ x, E x ≠ ⊥ := by
+    rintro (ci | jr)
+    · exact hEL_ne ci
+    · exact hER_ne jr
+  have hE_sup : iSup E = ⊤ := by
+    change iSup (Sum.elim EL ER) = ⊤
+    rw [iSup_sum]
+    simp only [Sum.elim_inl, Sum.elim_inr]
+    rw [hEL_sup, hER_sup, hCompl.sup_eq_top]
+  have hE_ind : iSupIndep E :=
+    iSupIndep_sum_of_blocks EL ER (by rw [hEL_sup, hER_sup]; exact hCompl.disjoint) hEL_ind hER_ind
+  -- Krull-Schmidt uniqueness matches the combined decomposition with the `Wⁿ`-power decomposition.
+  obtain ⟨σ, hks⟩ := ks_uniqueness_index k A (Fin n → W) E D'
+    hE_indec hPW_indec hE_ne hPW_ne hE_sup hE_ind hPW_sup hPW_ind
+  -- Isomorphisms of each combined/power summand with the underlying `DV`/`DW`/`DY` summand.
+  have isoV : ∀ ci : Fin n × Fin p, (DV ci.2) ≃ₗ[A] EL ci := fun ci =>
+    (Submodule.equivMapOfInjective (sgV ci.1) (single_injective _) (DV ci.2)).trans
+      (Submodule.equivMapOfInjective imap hi_inj _)
+  have isoW : ∀ cj : Fin n × Fin q, (DW cj.2) ≃ₗ[A] D' cj := fun cj =>
+    Submodule.equivMapOfInjective (sgW cj.1) (single_injective _) (DW cj.2)
+  have isoY : ∀ jr : Fin r, (DY jr) ≃ₗ[A] ER jr := fun jr =>
+    Submodule.equivMapOfInjective Y'.subtype Y'.injective_subtype (DY jr)
+  -- Iso-class labels for the three families, as a quotient of `Fin p ⊕ Fin q ⊕ Fin r`.
+  let rel : (Fin p ⊕ Fin q ⊕ Fin r) → (Fin p ⊕ Fin q ⊕ Fin r) → Prop := fun a b =>
+    match a, b with
+    | Sum.inl i, Sum.inl i' => Nonempty (DV i ≃ₗ[A] DV i')
+    | Sum.inl i, Sum.inr (Sum.inl j) => Nonempty (DV i ≃ₗ[A] DW j)
+    | Sum.inl i, Sum.inr (Sum.inr jr) => Nonempty (DV i ≃ₗ[A] DY jr)
+    | Sum.inr (Sum.inl j), Sum.inl i => Nonempty (DW j ≃ₗ[A] DV i)
+    | Sum.inr (Sum.inl j), Sum.inr (Sum.inl j') => Nonempty (DW j ≃ₗ[A] DW j')
+    | Sum.inr (Sum.inl j), Sum.inr (Sum.inr jr) => Nonempty (DW j ≃ₗ[A] DY jr)
+    | Sum.inr (Sum.inr jr), Sum.inl i => Nonempty (DY jr ≃ₗ[A] DV i)
+    | Sum.inr (Sum.inr jr), Sum.inr (Sum.inl j) => Nonempty (DY jr ≃ₗ[A] DW j)
+    | Sum.inr (Sum.inr jr), Sum.inr (Sum.inr jr') => Nonempty (DY jr ≃ₗ[A] DY jr')
+  have hrefl : ∀ x, rel x x := by rintro (i | j | jr) <;> exact ⟨LinearEquiv.refl A _⟩
+  have hsymm : ∀ {x y}, rel x y → rel y x := by
+    rintro (i | j | jr) (i' | j' | jr') ⟨φ⟩ <;> exact ⟨φ.symm⟩
+  have htrans : ∀ {x y z}, rel x y → rel y z → rel x z := by
+    rintro (i | j | jr) (i' | j' | jr') (i'' | j'' | jr'') ⟨φ⟩ ⟨ψ⟩ <;> exact ⟨φ.trans ψ⟩
+  letI S : Setoid (Fin p ⊕ Fin q ⊕ Fin r) := ⟨rel, hrefl, hsymm, htrans⟩
+  let fC : Fin p → Quotient S := fun i => ⟦Sum.inl i⟧
+  let gC : Fin q → Quotient S := fun j => ⟦Sum.inr (Sum.inl j)⟧
+  let dC : Fin r → Quotient S := fun jr => ⟦Sum.inr (Sum.inr jr)⟧
+  have hfg_vw : ∀ i j, fC i = gC j ↔ Nonempty (DV i ≃ₗ[A] DW j) := fun i j => Quotient.eq
+  have hfg_yw : ∀ jr j, dC jr = gC j ↔ Nonempty (DY jr ≃ₗ[A] DW j) := fun jr j => Quotient.eq
+  -- The permutation `σ` respects iso-classes.
+  have hσ : ∀ x, gC (σ x).2 = Sum.elim (fun a : Fin n × Fin p => fC a.2) dC x := by
+    intro x
+    obtain ⟨χ⟩ := hks x
+    rcases x with ci | jr
+    · change gC (σ (Sum.inl ci)).2 = fC ci.2
+      rw [eq_comm, hfg_vw ci.2 (σ (Sum.inl ci)).2]
+      exact ⟨(isoV ci).trans (χ.trans (isoW (σ (Sum.inl ci))).symm)⟩
+    · change gC (σ (Sum.inr jr)).2 = dC jr
+      rw [eq_comm, hfg_yw jr (σ (Sum.inr jr)).2]
+      exact ⟨(isoY jr).trans (χ.trans (isoW (σ (Sum.inr jr))).symm)⟩
+  obtain ⟨φ, hφ_inj, hφ_lab⟩ := fibre_le hn fC gC dC σ hσ
+  have hiso' : ∀ i, Nonempty (DV i ≃ₗ[A] DW (φ i)) := fun i =>
+    (hfg_vw i (φ i)).mp (hφ_lab i).symm
+  -- Assemble the direct summand via the index embedding `φ`.
+  have hIntV : DirectSum.IsInternal DV :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top DV).mpr ⟨hDV_ind, hDV_sup⟩
+  have hIntW : DirectSum.IsInternal DW :=
+    (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top DW).mpr ⟨hDW_ind, hDW_sup⟩
+  exact summand_of_index_embedding DV DW hIntV hIntW hφ_inj hiso'
+
 end Etingof.Problem3_8_4
