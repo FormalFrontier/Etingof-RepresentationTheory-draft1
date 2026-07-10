@@ -4,6 +4,9 @@ import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.Data.Matrix.Mul
 import Mathlib.Algebra.FreeAlgebra
+import Mathlib.SetTheory.Cardinal.Finite
+import Mathlib.Data.Finite.Sigma
+import Mathlib.Data.Finite.Prod
 
 /-!
 # Problem 2.8.11: Hilbert series of graded algebras
@@ -87,20 +90,80 @@ def adjacencyMatrix (Q : Type*) [Quiver Q] [Fintype Q] [∀ i j : Q, Fintype (i 
     Matrix Q Q ℕ :=
   fun i j => Fintype.card (i ⟶ j)
 
+/-- A path of length `n + 1` from `i` to `j` decomposes uniquely as a length-`n` path
+`i ⟶* b` followed by a final arrow `b ⟶ j` (matching the `Matrix.mul_apply` decomposition of
+`M_Q ^ (n+1) = M_Q ^ n * M_Q`). -/
+def pathSuccEquiv {Q : Type*} [Quiver Q] (i j : Q) (n : ℕ) :
+    {p : Quiver.Path i j // p.length = n + 1} ≃
+      Σ b : Q, {p : Quiver.Path i b // p.length = n} × (b ⟶ j) where
+  toFun p := by
+    obtain ⟨p, h⟩ := p
+    cases p with
+    | nil => simp [Quiver.Path.length_nil] at h
+    | cons p' e => exact ⟨_, ⟨p', by rw [Quiver.Path.length_cons] at h; omega⟩, e⟩
+  invFun x := ⟨x.2.1.1.cons x.2.2, by rw [Quiver.Path.length_cons, x.2.1.2]⟩
+  left_inv p := by
+    obtain ⟨p, h⟩ := p
+    cases p with
+    | nil => simp [Quiver.Path.length_nil] at h
+    | cons p' e => rfl
+  right_inv x := by
+    obtain ⟨b, ⟨p', hp'⟩, e⟩ := x
+    rfl
+
+/-- The set of paths of a fixed length between two vertices of a finite quiver is finite. -/
+instance instFinitePathLen {Q : Type*} [Quiver Q] [Finite Q] [∀ i j : Q, Finite (i ⟶ j)]
+    (i j : Q) (n : ℕ) : Finite {p : Quiver.Path i j // p.length = n} := by
+  induction n generalizing j with
+  | zero =>
+    haveI : Subsingleton {p : Quiver.Path i j // p.length = 0} := by
+      refine ⟨fun a b => ?_⟩
+      obtain ⟨p, hp⟩ := a
+      obtain ⟨q, hq⟩ := b
+      have hij : i = j := Quiver.Path.eq_of_length_zero p hp
+      subst hij
+      rw [Subtype.mk_eq_mk, Quiver.Path.eq_nil_of_length_zero p hp,
+        Quiver.Path.eq_nil_of_length_zero q hq]
+    exact Finite.of_injective (fun _ => (0 : Fin 1)) fun a b _ => Subsingleton.elim a b
+  | succ n ih =>
+    haveI : ∀ b : Q, Finite {p : Quiver.Path i b // p.length = n} := ih
+    exact Finite.of_equiv _ (pathSuccEquiv i j n).symm
+
 /-- **(d)** The number of paths of length `n` from `i` to `j` in a finite quiver equals the
 `(i,j)`-entry of the `n`-th power of the adjacency matrix. This is the graded-piece dimension of
 the path algebra: the closed answer to the Hilbert series in terms of `M_Q`. -/
 theorem card_paths_length_eq_adjacencyMatrix_pow (Q : Type*) [Quiver Q] [Fintype Q]
     [DecidableEq Q] [∀ i j : Q, Fintype (i ⟶ j)] (i j : Q) (n : ℕ) :
-    Nat.card {p : Quiver.Path i j // p.length = n} = (adjacencyMatrix Q ^ n) i j :=
-  sorry
+    Nat.card {p : Quiver.Path i j // p.length = n} = (adjacencyMatrix Q ^ n) i j := by
+  induction n generalizing j with
+  | zero =>
+    rw [pow_zero, Matrix.one_apply]
+    by_cases h : i = j
+    · subst h
+      rw [if_pos rfl]
+      haveI : Nonempty {p : Quiver.Path i i // p.length = 0} :=
+        ⟨⟨Quiver.Path.nil, Quiver.Path.length_nil⟩⟩
+      haveI : Subsingleton {p : Quiver.Path i i // p.length = 0} :=
+        ⟨fun a b => Subtype.ext ((Quiver.Path.eq_nil_of_length_zero _ a.2).trans
+          (Quiver.Path.eq_nil_of_length_zero _ b.2).symm)⟩
+      exact Nat.card_unique
+    · rw [if_neg h]
+      haveI : IsEmpty {p : Quiver.Path i j // p.length = 0} :=
+        ⟨fun p => h (Quiver.Path.eq_of_length_zero p.1 p.2)⟩
+      exact Nat.card_of_isEmpty
+  | succ n ih =>
+    rw [pow_succ, Matrix.mul_apply, Nat.card_congr (pathSuccEquiv i j n), Nat.card_sigma]
+    refine Finset.sum_congr rfl fun b _ => ?_
+    rw [Nat.card_prod, ih b, Nat.card_eq_fintype_card]
+    rfl
 
 /-- **(d)** The dimension of the degree-`n` graded piece of the path algebra `P_Q` is the total
 number of paths of length `n`, i.e. the sum of all entries of `M_Q^n`. -/
 theorem dim_pathAlgebra_degree (Q : Type*) [Quiver Q] [Fintype Q] [DecidableEq Q]
     [∀ i j : Q, Fintype (i ⟶ j)] (n : ℕ) :
     ∑ i : Q, ∑ j : Q, Nat.card {p : Quiver.Path i j // p.length = n}
-      = ∑ i : Q, ∑ j : Q, (adjacencyMatrix Q ^ n) i j :=
-  sorry
+      = ∑ i : Q, ∑ j : Q, (adjacencyMatrix Q ^ n) i j := by
+  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+  exact card_paths_length_eq_adjacencyMatrix_pow Q i j n
 
 end Etingof.Problem2_8_11
