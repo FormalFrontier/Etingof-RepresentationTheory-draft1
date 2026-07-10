@@ -3,6 +3,7 @@ import Mathlib.Algebra.Lie.Quotient
 import Mathlib.Algebra.Lie.IdealOperations
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Data.Matrix.Basis
+import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 
@@ -130,9 +131,159 @@ theorem lieSpan_gens_eq_top (n : ℕ) :
   | smul t u _ hu => rw [map_smul]; exact LieSubalgebra.smul_mem _ t hu
   | lie u v _ _ hu hv => rw [LieHom.map_lie]; exact LieSubalgebra.lie_mem _ hu hv
 
+theorem proj_eq_zero_iff (n : ℕ) (a : FreeLieAlgebra k (Fin 2)) :
+    proj k n a = 0 ↔ a ∈ relIdeal k n := by
+  rw [proj_apply]; exact LieSubmodule.Quotient.mk_eq_zero _
+
+/-- The first relator `[x, [x, y]]` lies in the defining ideal. -/
+theorem relator1_mem (n : ℕ) : ⁅x k, ⁅x k, y k⁆⁆ ∈ relIdeal k n :=
+  LieSubmodule.subset_lieSpan (Set.mem_insert _ _)
+
+/-- The relation `ad(x)²(y) = 0` in `𝔤ₙ`: `[x̄, [x̄, ȳ]] = 0`. -/
+theorem lie_xb_zb (n : ℕ) : ⁅xb k n, zb k n⁆ = 0 := by
+  have h : ⁅xb k n, zb k n⁆ = proj k n ⁅x k, ⁅x k, y k⁆⁆ := by
+    simp only [xb, yb, zb, LieHom.map_lie]
+  rw [h, proj_eq_zero_iff]
+  exact relator1_mem k n
+
+/-- The relation `ad(y)²(x) = 0` specialised to `[ȳ, [x̄, ȳ]] = 0` in `𝔤₁`. -/
+theorem lie_yb_zb_one : ⁅yb k 1, zb k 1⁆ = 0 := by
+  have h : ⁅yb k 1, zb k 1⁆ = proj k 1 ⁅y k, ⁅x k, y k⁆⁆ := by
+    simp only [xb, yb, zb, LieHom.map_lie]
+  rw [h, proj_eq_zero_iff]
+  have hmem : (fun z => ⁅y k, z⁆)^[1 + 1] (x k) ∈ relIdeal k 1 :=
+    LieSubmodule.subset_lieSpan (Set.mem_insert_of_mem _ rfl)
+  have heq : ⁅y k, ⁅x k, y k⁆⁆ = -(fun z => ⁅y k, z⁆)^[1 + 1] (x k) := by
+    change ⁅y k, ⁅x k, y k⁆⁆ = -⁅y k, ⁅y k, x k⁆⁆
+    rw [← lie_skew (x := x k) (y := y k), lie_neg]
+  rw [heq]; exact neg_mem hmem
+
+section Matrix
+attribute [local instance] LieRing.ofAssociativeRing
+
+/-- Elementary matrix `E₀₁ ∈ gl₃(k)`. -/
+private noncomputable def E01 : Matrix (Fin 3) (Fin 3) k := Matrix.single 0 1 1
+/-- Elementary matrix `E₁₂ ∈ gl₃(k)`. -/
+private noncomputable def E12 : Matrix (Fin 3) (Fin 3) k := Matrix.single 1 2 1
+/-- Elementary matrix `E₀₂ ∈ gl₃(k)`. -/
+private noncomputable def E02 : Matrix (Fin 3) (Fin 3) k := Matrix.single 0 2 1
+
+/-- The Lie algebra hom `FreeLieAlgebra k (Fin 2) → gl₃(k)` sending `x ↦ E₀₁`, `y ↦ E₁₂`.
+    Its image realises the `3`-dimensional Heisenberg algebra `⟨E₀₁, E₁₂, E₀₂⟩`. -/
+noncomputable def matHom : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 3) (Fin 3) k :=
+  FreeLieAlgebra.lift k ![E01 k, E12 k]
+
+@[simp] theorem matHom_x : matHom k (x k) = E01 k := by
+  simp only [matHom, x, FreeLieAlgebra.lift_of_apply]; rfl
+
+@[simp] theorem matHom_y : matHom k (y k) = E12 k := by
+  simp only [matHom, y, FreeLieAlgebra.lift_of_apply]; rfl
+
+/-- `[E₀₁, E₁₂] = E₀₂`. -/
+theorem bracket_E01_E12 : ⁅E01 k, E12 k⁆ = E02 k := by
+  simp only [E01, E12, E02, LieRing.of_associative_ring_bracket]
+  simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+
+theorem matHom_relator1 : matHom k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
+  rw [LieHom.map_lie, LieHom.map_lie, matHom_x, matHom_y, bracket_E01_E12]
+  simp only [E01, E02, LieRing.of_associative_ring_bracket]
+  simp [Matrix.single_mul_single_of_ne]
+
+theorem matHom_relator2_one : matHom k ((fun z => ⁅y k, z⁆)^[1 + 1] (x k)) = 0 := by
+  change matHom k ⁅y k, ⁅y k, x k⁆⁆ = 0
+  rw [LieHom.map_lie, LieHom.map_lie, matHom_x, matHom_y]
+  have hbr : ⁅E12 k, E01 k⁆ = -E02 k := by
+    simp only [E01, E12, E02, LieRing.of_associative_ring_bracket]
+    simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+  rw [hbr]
+  simp only [E12, E02, LieRing.of_associative_ring_bracket]
+  simp [Matrix.single_mul_single_of_ne, mul_neg, neg_mul]
+
+theorem relIdeal_le_ker_matHom : relIdeal k 1 ≤ (matHom k).ker := by
+  rw [relIdeal, LieSubmodule.lieSpan_le]
+  intro w hw
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+  rcases hw with rfl | rfl
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom_relator1 k
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom_relator2_one k
+
+/-- The images `x̄, ȳ, z̄ = [x̄, ȳ]` are linearly independent in `𝔤₁`. -/
+theorem indep_one : LinearIndependent k ![xb k 1, yb k 1, zb k 1] := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  rw [Fin.sum_univ_three] at hc
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+    Matrix.cons_val_two, Matrix.tail_cons] at hc
+  -- Push the vanishing combination into the free algebra, then into gl₃.
+  have hpw : proj k 1 (c 0 • x k + c 1 • y k + c 2 • ⁅x k, y k⁆) = 0 := by
+    rw [map_add, map_add, map_smul, map_smul, map_smul, LieHom.map_lie]
+    exact hc
+  have hmem := (proj_eq_zero_iff k 1 _).mp hpw
+  have hker := relIdeal_le_ker_matHom k hmem
+  rw [LieHom.mem_ker, map_add, map_add, map_smul, map_smul, map_smul, LieHom.map_lie,
+    matHom_x, matHom_y, bracket_E01_E12] at hker
+  -- hker : c 0 • E₀₁ + c 1 • E₁₂ + c 2 • E₀₂ = 0. Read off each coefficient.
+  simp only [E01, E12, E02] at hker
+  intro i
+  fin_cases i
+  · have := congrFun (congrFun hker 0) 1
+    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 1) 2
+    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 0) 2
+    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+
+end Matrix
+
+/-- The three elements `x̄, ȳ, z̄` span `𝔤₁` as a module. -/
+theorem span_eq_top_one :
+    Submodule.span k {xb k 1, yb k 1, zb k 1} = ⊤ := by
+  have hclosed : ∀ {u v : g k 1}, u ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} →
+      v ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} →
+      ⁅u, v⁆ ∈ Submodule.span k {xb k 1, yb k 1, zb k 1} := by
+    intro u v hu hv
+    induction hu, hv using Submodule.span_induction₂ with
+    | mem_mem a b ha hb =>
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
+      have hz : zb k 1 ∈ ({xb k 1, yb k 1, zb k 1} : Set (g k 1)) := by simp
+      rcases ha with rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · exact Submodule.subset_span hz
+      · rw [lie_xb_zb]; exact Submodule.zero_mem _
+      · rw [← lie_skew (x := yb k 1) (y := xb k 1)]
+        exact neg_mem (Submodule.subset_span hz)
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · rw [lie_yb_zb_one]; exact Submodule.zero_mem _
+      · rw [← lie_skew (x := zb k 1) (y := xb k 1), lie_xb_zb, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := zb k 1) (y := yb k 1), lie_yb_zb_one, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [lie_self]; exact Submodule.zero_mem _
+    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
+    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
+    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
+    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
+    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
+  let W : LieSubalgebra k (g k 1) :=
+    { Submodule.span k {xb k 1, yb k 1, zb k 1} with lie_mem' := @hclosed }
+  have hWtop : W = ⊤ := by
+    rw [← top_le_iff, ← lieSpan_gens_eq_top k 1, LieSubalgebra.lieSpan_le]
+    intro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with rfl | rfl
+    · exact Submodule.subset_span (by simp)
+    · exact Submodule.subset_span (by simp)
+  have := congrArg (LieSubalgebra.toSubmodule) hWtop
+  simpa [W] using this
+
 /-- **(a)** `𝔤₁` is finite dimensional of dimension `3` (type `A₂` positive part). -/
-theorem finrank_g_one (k : Type*) [Field k] : Module.finrank k (g k 1) = 3 :=
-  sorry
+theorem finrank_g_one (k : Type*) [Field k] : Module.finrank k (g k 1) = 3 := by
+  have hspan : ⊤ ≤ Submodule.span k (Set.range ![xb k 1, yb k 1, zb k 1]) := by
+    rw [Matrix.range_cons, Matrix.range_cons, Matrix.range_cons_empty, Set.singleton_union,
+      Set.singleton_union, span_eq_top_one]
+  let b : Module.Basis (Fin 3) k (g k 1) := Module.Basis.mk (indep_one k) hspan
+  rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
 
 /-- **(a)** `𝔤₂` is finite dimensional of dimension `4` (type `B₂` positive part). -/
 theorem finrank_g_two (k : Type*) [Field k] : Module.finrank k (g k 2) = 4 :=
