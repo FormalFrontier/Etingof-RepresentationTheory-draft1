@@ -1033,6 +1033,7 @@ theorem vertices_decomposition
     rw [hz] at hsq
     norm_num at hsq
 
+open Finset Etingof.Example4_8_1 Etingof.Example4_8_1.A5 CategoryTheory in
 /-- **Part (b): faces.** For the icosahedral face action of `A₅` — any transitive action on
 `20` points with point stabilizers of order `3` — the representation on `Fin 20 → ℂ`
 decomposes as `1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5`: an internal direct sum of six `G`-invariant irreducible
@@ -1050,7 +1051,133 @@ theorem faces_decomposition
       Module.finrank ℂ (S 2) = 3 ∧ Module.finrank ℂ (S 3) = 4 ∧
       Module.finrank ℂ (S 4) = 4 ∧ Module.finrank ℂ (S 5) = 5 ∧
       ∃ g : A5, subChar (permRep act) (S 1) (hS 1) g ≠ subChar (permRep act) (S 2) (hS 2) g := by
-  sorry
+  classical
+  obtain ⟨m, S, hS, type, hInt, hIrr, hmono, hchar, hfr, hmult⟩ :=
+    exists_sorted_isotypic_decomposition act
+  -- Fixed-point count at each class representative (cast to `ℂ`).
+  have hfix : ∀ j : Fin 5,
+      ((univ.filter (fun p : Fin 20 => act (classRepA5 j) p = p)).card : ℂ)
+        = ((![20, 2, 0, 0, 0] j : ℕ) : ℂ) := by
+    intro j; rw [fixCount_faces act htrans hstab j]
+  -- Character of `irrepA5 i` at the inverse class representative = tabulated value.
+  have hchar_inv : ∀ (i j : Fin 5),
+      (irrepA5 i).character (classRepA5 j)⁻¹ = Q5toC (chiA5 i j) := by
+    intro i j
+    obtain ⟨d, hd⟩ := classRepA5_inv_conj j
+    rw [show (classRepA5 j)⁻¹ = d * classRepA5 j * d⁻¹ from hd.symm, FDRep.char_conj,
+      irrepA5_character_book]
+    simp only [rowA5, id_eq]
+  -- `|A₅| = 60` in `ℂ`.
+  have hcard60 : (Fintype.card A5 : ℂ) = 60 := by
+    rw [show Fintype.card A5 = 60 from by rw [← Nat.card_eq_fintype_card]; exact card_A5]; norm_num
+  -- Multiplicities: `⟨χ_perm, χ_i⟩ = (1, 1, 1, 2, 1)`.
+  have hmulti : ∀ i : Fin 5, (univ.filter (fun k => type k = i)).card = ![1, 1, 1, 2, 1] i := by
+    intro i
+    have hFconj : ∀ g c : A5,
+        ((univ.filter (fun p : Fin 20 => act (c * g * c⁻¹) p = p)).card : ℂ)
+              * (irrepA5 i).character (c * g * c⁻¹)⁻¹
+          = ((univ.filter (fun p : Fin 20 => act g p = p)).card : ℂ)
+              * (irrepA5 i).character g⁻¹ := by
+      intro g c
+      rw [fixCount_conj act g c,
+        show (c * g * c⁻¹)⁻¹ = c * g⁻¹ * c⁻¹ from by group, FDRep.char_conj]
+    have hsum : (∑ g : A5, ((univ.filter (fun p : Fin 20 => act g p = p)).card : ℂ)
+          * (irrepA5 i).character g⁻¹)
+        = (60 : ℂ) * ((![1, 1, 1, 2, 1] i : ℕ) : ℂ) := by
+      rw [sum_classfn (fun g => ((univ.filter (fun p : Fin 20 => act g p = p)).card : ℂ)
+          * (irrepA5 i).character g⁻¹) hFconj]
+      simp only [hfix, hchar_inv]
+      fin_cases i <;>
+        · rw [Fin.sum_univ_five]
+          norm_num [chiA5, Q5toC, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+            Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+            Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re,
+            Q5.one_im, Q5.zero_re, Q5.zero_im]
+    have hC : ((univ.filter (fun k => type k = i)).card : ℂ) = ((![1, 1, 1, 2, 1] i : ℕ) : ℂ) := by
+      rw [hmult i, smul_eq_mul, hsum, ← hcard60, ← mul_assoc, invOf_mul_self, one_mul]
+    exact_mod_cast hC
+  -- The number of summands is `m = 1 + 1 + 1 + 2 + 1 = 6`.
+  have hm : m = 6 := by
+    have hpart : (univ : Finset (Fin m)).card
+        = ∑ i : Fin 5, (univ.filter (fun k => type k = i)).card :=
+      Finset.card_eq_sum_card_fiberwise (fun k _ => mem_univ (type k))
+    rw [Finset.card_univ, Fintype.card_fin] at hpart
+    rw [hpart]; simp only [hmulti]; decide
+  subst hm
+  -- Down-set cardinalities of `type`.
+  have hp : ∀ i : Fin 5, (univ.filter (fun j => type j ≤ i)).card = ![1, 2, 3, 5, 6] i := by
+    intro i
+    rw [Finset.card_eq_sum_card_fiberwise
+      (s := univ.filter (fun j : Fin 6 => type j ≤ i)) (t := (univ : Finset (Fin 5)))
+      (f := type) (fun j _ => mem_univ (type j))]
+    have hterm : ∀ b : Fin 5,
+        ((univ.filter (fun j : Fin 6 => type j ≤ i)).filter (fun j => type j = b)).card
+          = if b ≤ i then (![1, 1, 1, 2, 1] b) else 0 := by
+      intro b
+      by_cases hb : b ≤ i
+      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+        congr 1; ext j
+        simp only [mem_filter, mem_univ, true_and]
+        exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
+      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+        intro j _ hj; exact hb (hj.2 ▸ hj.1)
+    rw [Finset.sum_congr rfl (fun b _ => hterm b)]
+    fin_cases i <;> decide
+  have hq : ∀ i : Fin 5, (univ.filter (fun j => type j < i)).card = ![0, 1, 2, 3, 5] i := by
+    intro i
+    rw [Finset.card_eq_sum_card_fiberwise
+      (s := univ.filter (fun j : Fin 6 => type j < i)) (t := (univ : Finset (Fin 5)))
+      (f := type) (fun j _ => mem_univ (type j))]
+    have hterm : ∀ b : Fin 5,
+        ((univ.filter (fun j : Fin 6 => type j < i)).filter (fun j => type j = b)).card
+          = if b < i then (![1, 1, 1, 2, 1] b) else 0 := by
+      intro b
+      by_cases hb : b < i
+      · rw [if_pos hb, Finset.filter_filter, ← hmulti b]
+        congr 1; ext j
+        simp only [mem_filter, mem_univ, true_and]
+        exact ⟨fun h => h.2, fun h => ⟨h ▸ hb, h⟩⟩
+      · rw [if_neg hb, Finset.filter_filter, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+        intro j _ hj; exact hb (hj.2 ▸ hj.1)
+    rw [Finset.sum_congr rfl (fun b _ => hterm b)]
+    fin_cases i <;> decide
+  -- Monotonicity + fibre cardinalities pin the type vector to `![0,1,2,3,3,4]`.
+  have htype : ∀ k : Fin 6, type k = ![0, 1, 2, 3, 3, 4] k := by
+    intro k
+    have hle : ∀ v : Fin 5, (k : ℕ) < ![1, 2, 3, 5, 6] v → type k ≤ v := by
+      intro v hv
+      have h := monotone_initial (P := fun x => x ≤ v) (fun a b hab hb => le_trans hab hb) hmono k
+      rw [hp v] at h; exact h.mpr hv
+    have hgt : ∀ v : Fin 5, ![0, 1, 2, 3, 5] v ≤ (k : ℕ) → v ≤ type k := by
+      intro v hv
+      by_contra hlt
+      rw [not_le] at hlt
+      have h := monotone_initial (P := fun x => x < v)
+        (fun a b hab hb => lt_of_le_of_lt hab hb) hmono k
+      rw [hq v] at h
+      have := h.mp hlt; omega
+    fin_cases k <;> exact le_antisymm (hle _ (by decide)) (hgt _ (by decide))
+  -- Type values at the two `3`-dimensional summands, for the distinguishing witness.
+  have h1 : type 1 = 1 := by rw [htype 1]; rfl
+  have h2 : type 2 = 2 := by rw [htype 2]; rfl
+  refine ⟨S, hS, hInt, hIrr, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · rw [hfr 0, htype 0]; rfl
+  · rw [hfr 1, htype 1]; rfl
+  · rw [hfr 2, htype 2]; rfl
+  · rw [hfr 3, htype 3]; rfl
+  · rw [hfr 4, htype 4]; rfl
+  · rw [hfr 5, htype 5]; rfl
+  · refine ⟨classRepA5 3, ?_⟩
+    rw [hchar 1 (classRepA5 3), hchar 2 (classRepA5 3), h1, h2,
+      irrepA5_character_book, irrepA5_character_book]
+    simp only [rowA5, id_eq]
+    -- The two `3`-dimensional characters differ at the 5-cycle class by `√5 ≠ 0`.
+    simp only [Q5toC, chiA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, Q5.mk_re, Q5.mk_im]
+    intro h
+    have hz : (Real.sqrt 5 : ℂ) = 0 := by linear_combination h
+    have hsq := sqrt5_sq
+    rw [hz] at hsq; norm_num at hsq
 
 open Finset Etingof.Example4_8_1 Etingof.Example4_8_1.A5 CategoryTheory in
 /-- **Part (b): edges.** For the icosahedral edge action of `A₅` — any transitive action on
