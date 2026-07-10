@@ -1,4 +1,8 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups
+import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
+import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
 
 /-!
 # Problem 4.12.6: representations of the affine group `x ↦ ax + b` over `𝔽_q`
@@ -17,7 +21,7 @@ We model `𝔽_q` by an arbitrary finite field `K` (`q = Fintype.card K`) and `G
 `⟨a, b⟩` with `a : Kˣ`, `b : K`, encoding the transformation `x ↦ a·x + b`. Composition gives
 the multiplication `⟨a,b⟩ * ⟨a',b'⟩ = ⟨a·a', a·b' + b⟩`, so `G = K ⋊ Kˣ` has order `q(q-1)`.
 
-The classification (recorded here; `sorry` proofs — a statement pass):
+The classification (fully proved here):
 
 * `one_dim_reps_card`: the one-dimensional representations are the group homomorphisms
   `G → ℂˣ`, pulled back from the abelianization `G^{ab} ≅ Kˣ`; there are exactly `q-1` of them
@@ -38,6 +42,8 @@ The classification (recorded here; `sorry` proofs — a statement pass):
 noncomputable section
 
 namespace Etingof.Problem4_12_6
+
+open CategoryTheory
 
 variable {K : Type*} [Field K]
 
@@ -388,6 +394,166 @@ theorem zeroSum_irreducible [Fintype K]
   rw [hfeq]
   exact Submodule.sum_mem U (fun t _ => U.smul_mem _ (hspikeU t))
 
+open Module in
+/-- Pigeonhole: an injection `c : ι → Fin n` whose image carries the full positive-weight sum
+`∑ f j` is surjective. -/
+private theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
+    (f : Fin n → ℕ) (hf : ∀ j, 0 < f j) (c : ι → Fin n) (hcinj : Function.Injective c)
+    (hsum : ∑ i, f (c i) = ∑ j, f j) : Function.Surjective c := by
+  classical
+  have himg : ∑ j ∈ Finset.image c Finset.univ, f j = ∑ i, f (c i) :=
+    Finset.sum_image (fun a _ b _ hab => hcinj hab)
+  have hsplit := Finset.sum_sdiff (f := f) (Finset.subset_univ (Finset.image c Finset.univ))
+  rw [himg, hsum] at hsplit
+  have hzero : ∑ j ∈ Finset.univ \ Finset.image c Finset.univ, f j = 0 := by omega
+  intro j
+  have hjmem : j ∈ Finset.image c Finset.univ := by
+    by_contra hj
+    exact absurd ((Finset.sum_eq_zero_iff.mp hzero) j
+      (Finset.mem_sdiff.mpr ⟨Finset.mem_univ j, hj⟩)) (hf j).ne'
+  obtain ⟨i, _, hi⟩ := Finset.mem_image.mp hjmem
+  exact ⟨i, hi⟩
+
+/-- The one-dimensional representation on `ℂ` attached to a character `χ : G →* ℂˣ`:
+`g` acts by multiplication by `χ g`. -/
+def charRep (χ : Affine K →* ℂˣ) : Representation ℂ (Affine K) ℂ where
+  toFun g := ((χ g : ℂˣ) : ℂ) • LinearMap.id
+  map_one' := by ext; simp
+  map_mul' a b := by
+    apply LinearMap.ext; intro x
+    change ((χ (a * b) : ℂˣ) : ℂ) * x = ((χ a : ℂˣ) : ℂ) * (((χ b : ℂˣ) : ℂ) * x)
+    rw [map_mul, Units.val_mul, mul_assoc]
+
+/-- The character of `charRep χ` is `g ↦ χ g`. -/
+@[simp] lemma charRep_character (χ : Affine K →* ℂˣ) (g : Affine K) :
+    (FDRep.of (charRep χ)).character g = (χ g : ℂ) := by
+  have hg : charRep χ g = (χ g : ℂ) • LinearMap.id := rfl
+  change LinearMap.trace ℂ ℂ ((FDRep.of (charRep χ)).ρ g) = (χ g : ℂ)
+  rw [FDRep.of_ρ', hg, map_smul, LinearMap.trace_id]
+  simp
+
+/-- The one-dimensional `charRep χ` is simple as a `ℂ[G]`-module: its only `ℂ`-subspaces are
+`⊥` and `⊤`, and all of them are invariant. -/
+lemma charRep_asModule_simple (χ : Affine K →* ℂˣ) :
+    IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (charRep χ).asModule := by
+  haveI hℂ : IsSimpleModule ℂ ℂ := inferInstance
+  rw [isSimpleModule_iff,
+    ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := charRep χ)).isSimpleOrder_iff]
+  haveI : Nontrivial (Subrepresentation (charRep χ)) := by
+    refine ⟨⊥, ⊤, fun h => ?_⟩
+    have hbt : (⊥ : Submodule ℂ ℂ) = ⊤ := congrArg Subrepresentation.toSubmodule h
+    exact absurd hbt bot_ne_top
+  refine ⟨fun W' => ?_⟩
+  rcases IsSimpleOrder.eq_bot_or_eq_top W'.toSubmodule with h | h
+  · left; exact Subrepresentation.toSubmodule_injective h
+  · right; exact Subrepresentation.toSubmodule_injective h
+
+/-- Any one-dimensional `charRep χ` is simple as an object of `FDRep ℂ (Affine K)`. -/
+lemma charRep_simple (χ : Affine K →* ℂˣ) :
+    Simple (FDRep.of (charRep χ)) :=
+  haveI := charRep_asModule_simple χ
+  Etingof.simple_fdRepOf_of_isSimpleModule (charRep χ)
+
+/-- The permutation representation of `G` on functions `K → ℂ`: `g` acts by `f ↦ f ∘ (g⁻¹ · -)`. -/
+def permRep : Representation ℂ (Affine K) (K → ℂ) where
+  toFun g := LinearMap.funLeft ℂ ℂ (act g⁻¹)
+  map_one' := by
+    refine LinearMap.ext fun f => ?_; funext x
+    simp only [LinearMap.funLeft_apply, inv_one, act_one, Module.End.one_apply]
+  map_mul' a b := by
+    refine LinearMap.ext fun f => ?_; funext x
+    simp only [Module.End.mul_apply, LinearMap.funLeft_apply, mul_inv_rev]
+    rw [act_mul]
+
+@[simp] lemma permRep_apply (g : Affine K) (f : K → ℂ) (x : K) :
+    permRep g f x = f (act g⁻¹ x) := rfl
+
+/-- The zero-sum subspace as a subrepresentation of `permRep`. -/
+def Vsub [Fintype K] : Subrepresentation (permRep (K := K)) where
+  toSubmodule := zeroSum K
+  apply_mem_toSubmodule g v hv := zeroSum_invariant permRep permRep_apply g v hv
+
+/-- **`V` is irreducible as a `ℂ[G]`-module.** The zero-sum subrepresentation `Vsub`,
+viewed as a module over the group algebra, is simple. This repackages `zeroSum_irreducible`
+(every invariant subspace of `zeroSum K` is `⊥` or everything) as `IsSimpleModule`. -/
+theorem Vrep_isSimpleModule [Fintype K] (hq : 2 ≤ Fintype.card K) :
+    IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Vsub (K := K)).toRepresentation.asModule := by
+  classical
+  haveI hnt0 : Nontrivial ↥(zeroSum K) := by
+    apply Module.nontrivial_of_finrank_pos (R := ℂ)
+    rw [zeroSum_finrank]; omega
+  rw [isSimpleModule_iff,
+    ← (Subrepresentation.subrepresentationSubmoduleOrderIso
+        (ρ := (Vsub (K := K)).toRepresentation)).isSimpleOrder_iff]
+  haveI hntSub : Nontrivial (Subrepresentation (Vsub (K := K)).toRepresentation) := by
+    refine ⟨⊥, ⊤, fun h => ?_⟩
+    have hbt : (⊥ : Submodule ℂ ↥(zeroSum K)) = ⊤ := congrArg Subrepresentation.toSubmodule h
+    exact absurd hbt bot_ne_top
+  refine ⟨fun W' => ?_⟩
+  set U : Submodule ℂ (K → ℂ) := W'.toSubmodule.map (Vsub (K := K)).toSubmodule.subtype with hUdef
+  have hUle : U ≤ zeroSum K := by
+    rw [hUdef]; rintro x ⟨y, -, rfl⟩; exact y.2
+  have hUinv : ∀ (g : Affine K), ∀ f ∈ U, permRep g f ∈ U := by
+    intro g f hf
+    rw [hUdef, Submodule.mem_map] at hf ⊢
+    obtain ⟨y, hy, rfl⟩ := hf
+    exact ⟨(Vsub (K := K)).toRepresentation g y, W'.apply_mem_toSubmodule g hy, rfl⟩
+  rcases zeroSum_irreducible permRep permRep_apply U hUle hUinv with h | h
+  · left
+    apply Subrepresentation.toSubmodule_injective
+    have h2 : W'.toSubmodule.map (Vsub (K := K)).toSubmodule.subtype
+        = (⊥ : Submodule ℂ ↥(Vsub (K := K)).toSubmodule).map (Vsub (K := K)).toSubmodule.subtype := by
+      rw [Submodule.map_bot, ← hUdef]; exact h
+    exact Submodule.map_injective_of_injective
+      (Vsub (K := K)).toSubmodule.injective_subtype h2
+  · right
+    apply Subrepresentation.toSubmodule_injective
+    have h2 : W'.toSubmodule.map (Vsub (K := K)).toSubmodule.subtype
+        = (⊤ : Submodule ℂ ↥(Vsub (K := K)).toSubmodule).map (Vsub (K := K)).toSubmodule.subtype := by
+      rw [Submodule.map_subtype_top, ← hUdef]; exact h
+    exact Submodule.map_injective_of_injective
+      (Vsub (K := K)).toSubmodule.injective_subtype h2
+
+/-- **Universe transport.** Any finite-dimensional representation with simple `asModule`
+yields a simple `FDRep ℂ (Affine K)` object of the same dimension (on a `Type 0` carrier),
+so the Wedderburn enumeration applies to it. -/
+theorem exists_simpleFDRep [Fintype K] [DecidableEq K]
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ (Affine K) V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule) :
+    ∃ (U : FDRep ℂ (Affine K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V := by
+  classical
+  haveI : NeZero (Nat.card (Affine K) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, card_eq]
+    have h2 : 1 < Fintype.card K := Fintype.one_lt_card
+    have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
+      Nat.mul_ne_zero (by omega) (by omega)
+    exact_mod_cast hne
+  letI M := Representation.asModule ρ
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
+  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  set dM := Module.finrank ℂ M with hdM
+  let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
+  letI modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule (R := MonoidAlgebra ℂ (Affine K)) eM
+  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule_isScalarTower eM
+  let eR : M ≃ₗ[MonoidAlgebra ℂ (Affine K)] (Fin dM → ℂ) := Etingof.transportLinearEquiv eM
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    IsSimpleModule.congr eR.symm
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)).asModule :=
+    IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ))
+  refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
+    Etingof.simple_fdRepOf_of_isSimpleModule (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)), ?_⟩
+  have h1 : Module.finrank ℂ (FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))) = dM := by
+    show Module.finrank ℂ (Fin dM → ℂ) = dM
+    rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+  rw [h1, hdM]
+  exact (Representation.asModuleEquiv ρ).finrank_eq
+
 /-- **Classification.** Every irreducible complex representation of the affine group `G` has
 dimension `1` or `q - 1`. (With the sum-of-squares formula `(q-1)·1² + (q-1)² = q(q-1) = |G|`,
 the irreducibles are exactly the `q-1` characters and the single `(q-1)`-dimensional `V`.) -/
@@ -396,6 +562,124 @@ theorem irreducible_dim [Fintype K]
     (σ : Representation ℂ (Affine K) W)
     (hσ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) σ.asModule) :
     Module.finrank ℂ W = 1 ∨ Module.finrank ℂ W = Fintype.card K - 1 := by
-  sorry
+  classical
+  -- `K` is a field, so `q = |K| ≥ 2`.
+  have hq2 : 2 ≤ Fintype.card K := Fintype.one_lt_card
+  rcases eq_or_lt_of_le hq2 with hq_eq | hq_gt
+  · -- `q = 2`: `Kˣ` is trivial, so `G` is abelian and every irreducible is `1`-dimensional.
+    have hcardU : Fintype.card Kˣ = 1 := by rw [Fintype.card_units]; omega
+    haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (by omega)
+    letI grp : Group (Affine K) := inferInstance
+    letI : CommGroup (Affine K) :=
+      { grp with
+        mul_comm := by
+          intro x y
+          have hxa : x.a = 1 := Subsingleton.elim _ _
+          have hya : y.a = 1 := Subsingleton.elim _ _
+          ext
+          · simp [hxa, hya]
+          · simp only [mul_b, hxa, hya, Units.val_one, one_mul]; ring }
+    haveI := hσ
+    exact Or.inl (Etingof.Example4_3_FiniteAbelianGroups σ)
+  · -- `q ≥ 3`: the sum-of-squares classification.
+    have hq3 : 3 ≤ Fintype.card K := hq_gt
+    -- `|G| = q(q-1)` is invertible in `ℂ`, so the Wedderburn enumeration applies.
+    haveI hNe : NeZero (Nat.card (Affine K) : ℂ) := by
+      refine ⟨?_⟩
+      rw [Nat.card_eq_fintype_card, card_eq]
+      exact_mod_cast Nat.mul_ne_zero (by omega) (by omega)
+    -- A complete family `V` of pairwise non-isomorphic simples with `∑ dim² = |G|`.
+    obtain ⟨n, V, hVsimple, _hVinj, hVsurj, hVsum⟩ :=
+      exists_simples_sum_finrank_sq_eq_card ℂ (Affine K)
+    -- There are exactly `q - 1` characters.
+    haveI : Finite (Affine K →* ℂˣ) :=
+      Nat.finite_of_card_ne_zero (by rw [one_dim_reps_card hq3]; omega)
+    haveI : Fintype (Affine K →* ℂˣ) := Fintype.ofFinite _
+    have hcardChar : Fintype.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
+      rw [← Nat.card_eq_fintype_card]; exact one_dim_reps_card hq3
+    -- The zero-sum representation `V` as a simple `FDRep` of dimension `q - 1`.
+    obtain ⟨UV, hUVsimple, hUVfr⟩ :=
+      exists_simpleFDRep (Vsub (K := K)).toRepresentation (Vrep_isSimpleModule (by omega))
+    have hUVdim : Module.finrank ℂ UV = Fintype.card K - 1 := by
+      rw [hUVfr]; exact zeroSum_finrank
+    -- The explicit family: the `q - 1` characters (dim `1`) and `V` (dim `q - 1`).
+    let E : (Affine K →* ℂˣ) ⊕ Unit → FDRep ℂ (Affine K) :=
+      Sum.elim (fun χ => FDRep.of (charRep χ)) (fun _ => UV)
+    have hEfinL : ∀ χ : Affine K →* ℂˣ, Module.finrank ℂ (E (Sum.inl χ)) = 1 := fun χ => by
+      show Module.finrank ℂ ℂ = 1; exact Module.finrank_self ℂ
+    have hEfinR : ∀ u : Unit, Module.finrank ℂ (E (Sum.inr u)) = Fintype.card K - 1 :=
+      fun _ => hUVdim
+    have hEsimple : ∀ i, Simple (E i) := by
+      rintro (χ | u)
+      · exact charRep_simple χ
+      · exact hUVsimple
+    have hEinj : ∀ i j, Nonempty (E i ≅ E j) → i = j := by
+      rintro (χ | u) (χ' | u') ⟨α⟩
+      · have hχ : χ = χ' := by
+          ext g
+          have hg := congrFun (FDRep.char_iso α) g
+          rw [show E (Sum.inl χ) = FDRep.of (charRep χ) from rfl,
+              show E (Sum.inl χ') = FDRep.of (charRep χ') from rfl,
+              charRep_character, charRep_character] at hg
+          exact hg
+        rw [hχ]
+      · exfalso
+        have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+        rw [hEfinL χ, hEfinR u'] at hfr; omega
+      · exfalso
+        have hfr := LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv α)
+        rw [hEfinR u, hEfinL χ'] at hfr; omega
+      · rw [Subsingleton.elim u u']
+    -- Inject the family into the enumeration.
+    choose c hc using fun i => hVsurj (E i) (hEsimple i)
+    have hc_inj : Function.Injective c := by
+      intro i j hij
+      obtain ⟨αi⟩ := hc i; obtain ⟨αj⟩ := hc j
+      exact hEinj i j ⟨αi ≪≫ eqToIso (congrArg V hij) ≪≫ αj.symm⟩
+    have hfinrankc : ∀ i, Module.finrank ℂ (E i) = Module.finrank ℂ (V (c i)) := fun i =>
+      LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv (hc i).some)
+    -- Squared dimensions of the family already sum to `|G|`.
+    have harith : ∀ r : ℕ, 1 ≤ r → r - 1 + (r - 1) ^ 2 = r * (r - 1) := by
+      intro r hr; obtain ⟨m, rfl⟩ : ∃ m, r = m + 1 := ⟨r - 1, by omega⟩
+      simp only [Nat.add_sub_cancel]; ring
+    have hEsum : ∑ i, (Module.finrank ℂ (E i)) ^ 2 = Fintype.card (Affine K) := by
+      rw [Fintype.sum_sum_type, card_eq]
+      have hL : ∑ χ : Affine K →* ℂˣ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2
+          = Fintype.card K - 1 := by
+        have hone : ∀ χ, (Module.finrank ℂ (E (Sum.inl χ))) ^ 2 = 1 :=
+          fun χ => by rw [hEfinL, one_pow]
+        rw [Finset.sum_congr rfl (fun χ _ => hone χ), Finset.sum_const, Finset.card_univ,
+          hcardChar, smul_eq_mul, mul_one]
+      have hR : ∑ _u : Unit, (Module.finrank ℂ (E (Sum.inr _u))) ^ 2
+          = (Fintype.card K - 1) ^ 2 := by simp [hEfinR]
+      rw [hL, hR]; exact harith _ (by omega)
+    have hVsum' : ∑ j, (Module.finrank ℂ (V j)) ^ 2 = Fintype.card (Affine K) := hVsum
+    have hmatch : ∑ i, (Module.finrank ℂ (V (c i))) ^ 2
+        = ∑ j, (Module.finrank ℂ (V j)) ^ 2 := by
+      rw [hVsum', ← hEsum]
+      exact Finset.sum_congr rfl (fun i _ => by rw [hfinrankc i])
+    have hVpos : ∀ j, 0 < (Module.finrank ℂ (V j)) ^ 2 := by
+      intro j
+      haveI : Simple (V j) := hVsimple j
+      haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ) :=
+        Etingof.isSimpleModule_asModule_of_simple (V j)
+      haveI : Nontrivial (Representation.asModule (V j).ρ) :=
+        IsSimpleModule.nontrivial (MonoidAlgebra ℂ (Affine K)) (Representation.asModule (V j).ρ)
+      haveI : Nontrivial ↥(V j) := (Representation.asModuleEquiv (V j).ρ).symm.toEquiv.nontrivial
+      exact pow_pos Module.finrank_pos 2
+    have hcsurj : Function.Surjective c :=
+      surj_of_injective_of_sum_eq _ hVpos c hc_inj hmatch
+    have hEdisj : ∀ i, Module.finrank ℂ (E i) = 1 ∨ Module.finrank ℂ (E i) = Fintype.card K - 1 := by
+      rintro (χ | u)
+      · exact Or.inl (hEfinL χ)
+      · exact Or.inr (hEfinR u)
+    -- Transport `σ` into the enumeration and read off its dimension.
+    obtain ⟨U, hUsimple, hUfr⟩ := exists_simpleFDRep σ hσ
+    obtain ⟨j, hjU⟩ := hVsurj U hUsimple
+    obtain ⟨i, hci⟩ := hcsurj j
+    have hUEi : Module.finrank ℂ U = Module.finrank ℂ (E i) := by
+      rw [LinearEquiv.finrank_eq (FDRep.isoToLinearEquiv hjU.some), ← hci, ← hfinrankc i]
+    rw [← hUfr, hUEi]
+    exact hEdisj i
 
 end Etingof.Problem4_12_6
