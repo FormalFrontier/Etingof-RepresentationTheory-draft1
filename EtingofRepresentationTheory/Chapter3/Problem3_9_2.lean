@@ -12,6 +12,7 @@ import Mathlib.Algebra.Module.Submodule.Lattice
 import Mathlib.Algebra.MvPolynomial.Derivation
 import Mathlib.LinearAlgebra.Eigenspace.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import Mathlib.Analysis.Complex.Polynomial.Basic
 
 /-!
 # Problem 3.9.2: `Ext¹` for polynomial algebras and algebras with zero multiplication
@@ -371,6 +372,139 @@ theorem ext1_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : a ≠ b) 
     X_apply, smul_comm, key p]
   rfl
 
+/-! ### Classification of 2-dimensional representations
+
+Over the algebraically closed field `ℂ`, any finite-dimensional representation of the commutative
+algebra `A = ℂ[x₁, …, xₙ]` has a common eigenvector for all the generators `xᵢ`. Peeling one off
+exhibits a 2-dimensional representation as an extension of two 1-dimensional ones. -/
+
+/-- **Eigenvalue relation is multiplicative.** If every generator `Xᵢ` acts on `m₀` by the scalar
+`cᵢ`, then any polynomial `p` acts by `p(c) = aeval c p`. Mirrors `Vrep_smul_eq`. -/
+private lemma eigen_smul_eq {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
+    [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M]
+    (c : Fin n → ℂ) (m₀ : M) (hc : ∀ i, (X i : polyAlg n) • m₀ = c i • m₀) (p : polyAlg n) :
+    p • m₀ = aeval c p • m₀ := by
+  haveI : SMulCommClass (polyAlg n) ℂ M := ⟨fun q r m => by
+    rw [← algebraMap_smul (polyAlg n) r m, ← mul_smul, ← algebraMap_smul (polyAlg n) r (q • m),
+      ← mul_smul, Algebra.commutes]⟩
+  induction p using MvPolynomial.induction_on with
+  | C x =>
+    rw [aeval_C, ← MvPolynomial.algebraMap_eq, algebraMap_smul]
+    rw [algebraMap_smul]
+  | add p q hp hq => rw [add_smul, hp, hq, ← add_smul, ← map_add]
+  | mul_X p i hp => rw [mul_smul, hc i, smul_comm, hp, smul_smul, map_mul, aeval_X, mul_comm]
+
+/-- A finite-dimensional 1-dimensional `A`-module `M` on which every generator `Xᵢ` acts on the
+spanning vector `m₀` by the scalar `cᵢ` is isomorphic, as an `A`-module, to `Vrep c`. -/
+private noncomputable def oneDim_iso_Vrep {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
+    [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M] [FiniteDimensional ℂ M]
+    (c : Fin n → ℂ) (m₀ : M) (hm₀ : m₀ ≠ 0) (hdim : Module.finrank ℂ M = 1)
+    (hc : ∀ i, (X i : polyAlg n) • m₀ = c i • m₀) :
+    M ≃ₗ[polyAlg n] Vrep c := by
+  let φ : polyAlg n →ₗ[polyAlg n] M := LinearMap.toSpanSingleton (polyAlg n) M m₀
+  have hφ : ∀ p, φ p = p • m₀ := fun p => rfl
+  have hker : LinearMap.ker φ = maxIdeal c := by
+    ext p
+    simp only [LinearMap.mem_ker, hφ]
+    rw [eigen_smul_eq c m₀ hc p]
+    constructor
+    · intro h
+      have hp0 : aeval c p = 0 := by
+        rcases smul_eq_zero.mp h with h1 | h1
+        · exact h1
+        · exact absurd h1 hm₀
+      have hmem := sub_C_aeval_mem c p
+      rwa [hp0, map_zero, sub_zero] at hmem
+    · intro h
+      rw [aeval_eq_zero_of_mem_maxIdeal c h, zero_smul]
+  have hsurj : Function.Surjective φ := by
+    intro m
+    obtain ⟨d, hd⟩ := (finrank_eq_one_iff_of_nonzero' m₀ hm₀).mp hdim m
+    refine ⟨C d, ?_⟩
+    rw [hφ, ← hd, ← MvPolynomial.algebraMap_eq, algebraMap_smul]
+  exact (LinearMap.quotKerEquivOfSurjective φ hsurj).symm.trans
+    (Submodule.quotEquivOfEq _ _ hker)
+
+/-- On a 1-dimensional `A`-module every generator acts by a scalar, so any nonzero vector is a
+common eigenvector. -/
+private lemma oneDim_common_eigen {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
+    [Module (polyAlg n) M] [IsScalarTower ℂ (polyAlg n) M] [FiniteDimensional ℂ M]
+    (hdim : Module.finrank ℂ M = 1) :
+    ∃ (a : Fin n → ℂ) (m₀ : M), m₀ ≠ 0 ∧ ∀ i, (X i : polyAlg n) • m₀ = a i • m₀ := by
+  haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
+  obtain ⟨m₀, hm₀⟩ := exists_ne (0 : M)
+  have hspan := (finrank_eq_one_iff_of_nonzero' m₀ hm₀).mp hdim
+  have key : ∀ i, ∃ c : ℂ, (X i : polyAlg n) • m₀ = c • m₀ := by
+    intro i
+    obtain ⟨c, hc⟩ := hspan ((X i : polyAlg n) • m₀)
+    exact ⟨c, hc.symm⟩
+  choose a ha using key
+  exact ⟨a, m₀, hm₀, ha⟩
+
+/-- **Existence of a common eigenvector.** Over `ℂ`, any 2-dimensional representation of
+`ℂ[x₁,…,xₙ]` has a nonzero vector `v` that is a simultaneous eigenvector for all the generators
+`Xᵢ`. Either every generator already acts by a scalar, or some generator `X_j` has a proper
+eigenspace `E` (necessarily 1-dimensional), and the commuting generators preserve `E`. -/
+private lemma exists_common_eigenvector {n : ℕ} (U : Type)
+    [AddCommGroup U] [Module ℂ U] [Module (polyAlg n) U] [IsScalarTower ℂ (polyAlg n) U]
+    [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
+    ∃ (b : Fin n → ℂ) (v : U), v ≠ 0 ∧ ∀ i, (X i : polyAlg n) • v = b i • v := by
+  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hdim]; norm_num)
+  haveI : SMulCommClass (polyAlg n) ℂ U := ⟨fun q r m => by
+    rw [← algebraMap_smul (polyAlg n) r m, ← mul_smul, ← algebraMap_smul (polyAlg n) r (q • m),
+      ← mul_smul, Algebra.commutes]⟩
+  by_cases hall : ∀ i, ∃ c : ℂ, ∀ u : U, (X i : polyAlg n) • u = c • u
+  · choose b hb using hall
+    obtain ⟨v, hv⟩ := exists_ne (0 : U)
+    exact ⟨b, v, hv, fun i => hb i v⟩
+  · push_neg at hall
+    obtain ⟨j, hj⟩ := hall
+    let T : Module.End ℂ U :=
+      { toFun := fun u => (X j : polyAlg n) • u
+        map_add' := fun a b => smul_add _ _ _
+        map_smul' := fun r u => by
+          simp only [RingHom.id_apply]
+          exact smul_comm (X j : polyAlg n) r u }
+    have hTapp : ∀ u, T u = (X j : polyAlg n) • u := fun u => rfl
+    obtain ⟨μ, hμ⟩ := Module.End.exists_eigenvalue T
+    obtain ⟨v₀, hv₀⟩ := hμ.exists_hasEigenvector
+    rw [Module.End.hasEigenvector_iff] at hv₀
+    obtain ⟨hv₀mem, hv₀ne⟩ := hv₀
+    rw [Module.End.mem_eigenspace_iff, hTapp] at hv₀mem
+    set E := Module.End.eigenspace T μ with hE
+    have hEtop : E ≠ ⊤ := by
+      intro hEq
+      obtain ⟨u, hu⟩ := hj μ
+      apply hu
+      have hmem : u ∈ E := hEq ▸ Submodule.mem_top
+      rw [hE, Module.End.mem_eigenspace_iff, hTapp] at hmem
+      exact hmem
+    have hv₀E : v₀ ∈ E := by rw [hE, Module.End.mem_eigenspace_iff, hTapp]; exact hv₀mem
+    have hEbot : E ≠ ⊥ := by rw [Submodule.ne_bot_iff]; exact ⟨v₀, hv₀E, hv₀ne⟩
+    have hlt_bot : (⊥ : Submodule ℂ U) < E := bot_lt_iff_ne_bot.mpr hEbot
+    have hlt_top : E < ⊤ := lt_top_iff_ne_top.mpr hEtop
+    have h0 : 0 < Module.finrank ℂ E := by
+      have h := Submodule.finrank_lt_finrank_of_lt hlt_bot
+      rwa [finrank_bot] at h
+    have h2 : Module.finrank ℂ E < 2 := by
+      have h := Submodule.finrank_lt_finrank_of_lt hlt_top
+      rw [finrank_top, hdim] at h; exact h
+    have hE1 : Module.finrank ℂ E = 1 := by omega
+    have hv₀E' : (⟨v₀, hv₀E⟩ : E) ≠ 0 := by rw [Ne, Submodule.mk_eq_zero]; exact hv₀ne
+    have hspanE := (finrank_eq_one_iff_of_nonzero' (⟨v₀, hv₀E⟩ : E) hv₀E').mp hE1
+    have key : ∀ i, ∃ c : ℂ, (X i : polyAlg n) • v₀ = c • v₀ := by
+      intro i
+      have hi : (X i : polyAlg n) • v₀ ∈ E := by
+        rw [hE, Module.End.mem_eigenspace_iff, hTapp, ← mul_smul, mul_comm, mul_smul, hv₀mem,
+          smul_comm]
+      obtain ⟨c, hc⟩ := hspanE ⟨(X i : polyAlg n) • v₀, hi⟩
+      refine ⟨c, ?_⟩
+      have hval := congrArg (Subtype.val) hc
+      simp only [SetLike.val_smul] at hval
+      exact hval.symm
+    choose b hb using key
+    exact ⟨b, v₀, hv₀ne, hb⟩
+
 /-- **Problem 3.9.2(a), classification of 2-dimensional representations.** Every
 2-dimensional representation `U` of `ℂ[x₁, …, xₙ]` is an extension of two 1-dimensional
 representations: there is a pair of weights `a, b` and a subrepresentation `S ≅ V_b` with
@@ -381,7 +515,43 @@ theorem two_dim_is_extension {n : ℕ} (U : Type)
     [FiniteDimensional ℂ U] (hdim : Module.finrank ℂ U = 2) :
     ∃ (a b : Fin n → ℂ) (S : Submodule (polyAlg n) U),
       Nonempty (S ≃ₗ[polyAlg n] Vrep b) ∧ Nonempty ((U ⧸ S) ≃ₗ[polyAlg n] Vrep a) := by
-  sorry
+  obtain ⟨b, v, hv, hb⟩ := exists_common_eigenvector (n := n) U hdim
+  set S : Submodule (polyAlg n) U := Submodule.span (polyAlg n) {v} with hS
+  have hvS : v ∈ S := by rw [hS]; exact Submodule.mem_span_singleton_self v
+  -- `S.restrictScalars ℂ` is the ℂ-span of `v`, hence 1-dimensional.
+  have hSspan : S.restrictScalars ℂ = Submodule.span ℂ {v} := by
+    apply le_antisymm
+    · rw [SetLike.le_def]
+      intro x hx
+      rw [Submodule.restrictScalars_mem, hS, Submodule.mem_span_singleton] at hx
+      obtain ⟨p, rfl⟩ := hx
+      rw [eigen_smul_eq b v hb p]
+      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self v)
+    · rw [Submodule.span_le]
+      simp only [Set.singleton_subset_iff, SetLike.mem_coe, Submodule.restrictScalars_mem]
+      exact hvS
+  have hS'fin : Module.finrank ℂ (S.restrictScalars ℂ) = 1 := by
+    rw [hSspan]; exact finrank_span_singleton hv
+  have hSfin : Module.finrank ℂ ↥S = 1 := hS'fin
+  haveI : FiniteDimensional ℂ ↥S :=
+    inferInstanceAs (FiniteDimensional ℂ ↥(S.restrictScalars ℂ))
+  -- S ≅ Vrep b as a polyAlg-module.
+  have hSiso : Nonempty (↥S ≃ₗ[polyAlg n] Vrep b) := by
+    refine ⟨oneDim_iso_Vrep b (⟨v, hvS⟩ : ↥S) ?_ hSfin ?_⟩
+    · rw [Ne, Submodule.mk_eq_zero]; exact hv
+    · intro i
+      apply Subtype.ext
+      change (X i : polyAlg n) • v = b i • v
+      exact hb i
+  -- U ⧸ S is 1-dimensional.
+  have hQfin : Module.finrank ℂ (U ⧸ S) = 1 := by
+    have e := Submodule.Quotient.restrictScalarsEquiv ℂ S
+    have hadd := Submodule.finrank_quotient_add_finrank (S.restrictScalars ℂ)
+    rw [e.finrank_eq, hS'fin, hdim] at hadd
+    omega
+  -- U ⧸ S ≅ Vrep a as a polyAlg-module.
+  obtain ⟨a, m₀, hm₀, ha⟩ := oneDim_common_eigen (n := n) (M := U ⧸ S) hQfin
+  exact ⟨a, b, S, hSiso, ⟨oneDim_iso_Vrep a m₀ hm₀ hQfin ha⟩⟩
 
 /-! ## Part (b): the algebra with zero multiplication `B = ℂ⟨x₁,…,xₙ⟩/(xᵢxⱼ)` -/
 
