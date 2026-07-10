@@ -228,6 +228,56 @@ lemma bp_parts_eq_rowLen {N m : ℕ} (bp : BoundedPartition N m) (i : Fin N) :
       (heq ▸ P).toYoungDiagram = P.toYoungDiagram := by intro p q heq P; subst heq; rfl
   rw [hrec _ _ bp.sum_eq, weightToPartition_rowLen N bp i]
 
+/-- Two partitions of `n` with equal row lengths at every index are equal. -/
+lemma Partition_eq_of_rowLen_eq {n : ℕ} {p q : Nat.Partition n}
+    (h : ∀ i, p.toYoungDiagram.rowLen i = q.toYoungDiagram.rowLen i) : p = q := by
+  have hsp : p.sortedParts = q.sortedParts := by
+    apply list_ext_getD_of_pos
+    · intro x hx; exact p.parts_pos ((Multiset.mem_sort _).mp hx)
+    · intro x hx; exact q.parts_pos ((Multiset.mem_sort _).mp hx)
+    · intro i
+      have := h i
+      rwa [Nat.Partition.toYoungDiagram_rowLen_eq_getD,
+        Nat.Partition.toYoungDiagram_rowLen_eq_getD] at this
+  apply Nat.Partition.ext
+  rw [show p.parts = ↑p.sortedParts from (Multiset.sort_eq _ _).symm,
+    show q.parts = ↑q.sortedParts from (Multiset.sort_eq _ _).symm, hsp]
+
+/-- `i` is a *legal box-removal row* for the weight `a`: row `i` is nonempty and strictly
+longer than every later row. -/
+def IsLegalRem {n : ℕ} (a : Fin (n + 1) → ℕ) (i : Fin (n + 1)) : Prop :=
+  1 ≤ a i ∧ ∀ j : Fin (n + 1), i < j → a j ≤ a i - 1
+
+/-- The bounded partition obtained by removing one box from row `i` of a legal weight. -/
+def bpDecr {n : ℕ} (a : Fin (n + 1) → ℕ) (hant : Antitone a) (hsum : ∑ j, a j = n + 1)
+    (i : Fin (n + 1)) (hleg : IsLegalRem a i) : BoundedPartition (n + 1) n where
+  parts j := if j = i then a j - 1 else a j
+  decreasing := by
+    intro p r hpr
+    show (if r = i then a r - 1 else a r) ≤ (if p = i then a p - 1 else a p)
+    by_cases hp : p = i <;> by_cases hr : r = i
+    · rw [if_pos hp, if_pos hr]
+      have : a p = a r := by rw [hp, hr]
+      omega
+    · rw [if_pos hp, if_neg hr]
+      have hlt : i < r := lt_of_le_of_ne (hp ▸ hpr) (Ne.symm hr)
+      have := hleg.2 r hlt; rw [hp]; exact this
+    · rw [if_neg hp, if_pos hr]
+      have : a r ≤ a p := hant hpr
+      omega
+    · rw [if_neg hp, if_neg hr]; exact hant hpr
+  sum_eq := by
+    have hsplit : ∀ j, (if j = i then a j - 1 else a j) + (if j = i then 1 else 0) = a j := by
+      intro j; by_cases hj : j = i
+      · rw [if_pos hj, if_pos hj]; have : 1 ≤ a j := hj ▸ hleg.1; omega
+      · rw [if_neg hj, if_neg hj, add_zero]
+    have h2 : ∑ j, ((if j = i then a j - 1 else a j) + (if j = i then 1 else 0)) = n + 1 := by
+      rw [Finset.sum_congr rfl (fun j _ => hsplit j)]; exact hsum
+    rw [Finset.sum_add_distrib] at h2
+    have h3 : ∑ j : Fin (n + 1), (if j = i then 1 else 0) = 1 := by
+      rw [Finset.sum_ite_eq' Finset.univ i (fun _ => 1)]; simp
+    omega
+
 /-- **Core coefficient identity (Pieri rule for `p₁`).** Extracting the `(μ+ρ)`-coefficient of
 `Δ · (∑ⱼ Xⱼ) · p_ν` sums the `charValue`s over all box removals of `μ`. Here `Δ` is the
 Vandermonde alternant, `∑ⱼ Xⱼ = p₁`, and `removeSquare μ` are the diagrams `λ ⊢ n` contained in
