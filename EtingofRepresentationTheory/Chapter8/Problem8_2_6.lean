@@ -201,8 +201,8 @@ theorem Problem_8_2_6_iii_ext
     (A : Type u) [Ring A] (M : ModuleCat.{u} A)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
     (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
-    (Abelian.Ext.covariantSequence (X := M) hS n₀ n₁ h).Exact := by
-  sorry
+    (Abelian.Ext.covariantSequence (X := M) hS n₀ n₁ h).Exact :=
+  Abelian.Ext.covariantSequence_exact M hS n₀ n₁ h
 
 /-- **Problem 8.2.6(iii), `Tor`.** A short exact sequence `S : 0 → N₁ → N₂ → N₃ → 0` of left
 `A`-modules induces, for each right `A`-module `M` and each `n₀ + 1 = n₁`, a connecting
@@ -248,8 +248,8 @@ theorem Problem_8_2_6_v_ext
     (A : Type u) [Ring A] (N : ModuleCat.{u} A)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact)
     (n₀ n₁ : ℕ) (h : 1 + n₀ = n₁) :
-    (Abelian.Ext.contravariantSequence hS N n₀ n₁ h).Exact := by
-  sorry
+    (Abelian.Ext.contravariantSequence hS N n₀ n₁ h).Exact :=
+  Abelian.Ext.contravariantSequence_exact hS N n₀ n₁ h
 
 /-- **Problem 8.2.6(v), `Tor`.** A short exact sequence `S : 0 → M₁ → M₂ → M₃ → 0` of right
 `A`-modules (objects of `ModuleCat Aᵐᵒᵖ`) induces, for each left `A`-module `N` and each

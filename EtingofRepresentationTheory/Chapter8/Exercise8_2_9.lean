@@ -2,13 +2,22 @@ import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.RingTheory.Finiteness.Basic
 import Mathlib.RingTheory.FiniteType
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.LinearAlgebra.FiniteDimensional.Basic
 import Mathlib.Algebra.Module.ZMod
 import Mathlib.LinearAlgebra.Dual.Lemmas
 import Mathlib.LinearAlgebra.Basis.VectorSpace
+import Mathlib.LinearAlgebra.Span.Basic
 import Mathlib.GroupTheory.Perm.Cycle.Type
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Algebra.Field.ZMod
 import Mathlib.Algebra.Group.ULift
+import Mathlib.RingTheory.AdjoinRoot
+import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.Polynomial.Basic
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+import Mathlib.RingTheory.UniqueFactorizationDomain.Defs
+import Mathlib.Algebra.Module.Torsion.Basic
+import Mathlib.Algebra.Module.Submodule.Pointwise
 
 /-!
 # Exercise 8.2.9: (non)existence of enough projectives
@@ -150,6 +159,90 @@ theorem Exercise_8_2_9_i_finAb
       _ ≤ q ^ Nat.card P := Nat.pow_le_pow_left hq.two_le _
   exact absurd hle (not_le.mpr hlt)
 
+open scoped Pointwise in
+open Polynomial in
+/-- Step 1 for `Exercise_8_2_9_i_polynomial`. A nonzero finite dimensional `k[x]`-module `P`
+admits a monic irreducible polynomial `p` such that multiplication by `p` is not surjective on
+`P` (equivalently `p • P ≠ P`). The witness comes from a nonzero element `v`: its annihilator in
+`k[x]` is a proper nonzero ideal `(g)`, and a monic irreducible factor `p ∣ g` kills the nonzero
+element `(g / p) • v`, so multiplication by `p` is not injective, hence (finite dimension) not
+surjective. -/
+private theorem exists_monic_irreducible_smul_ne_top
+    (k : Type u) [Field k] (P : Type u) [AddCommGroup P] [Module (Polynomial k) P] [Module k P]
+    [IsScalarTower k (Polynomial k) P] [FiniteDimensional k P] [Nontrivial P] :
+    ∃ p : Polynomial k, p.Monic ∧ Irreducible p ∧
+      p • (⊤ : Submodule (Polynomial k) P) ≠ ⊤ := by
+  obtain ⟨v, hv⟩ := exists_ne (0 : P)
+  set L := LinearMap.toSpanSingleton (Polynomial k) P v with hL
+  set I : Ideal (Polynomial k) := LinearMap.ker L with hI
+  -- `I ≠ ⊤`, since `L 1 = v ≠ 0`.
+  have hItop : I ≠ ⊤ := by
+    intro h
+    have hmem : (1 : Polynomial k) ∈ I := by rw [h]; exact Submodule.mem_top
+    have h1 : L 1 = 0 := LinearMap.mem_ker.mp hmem
+    rw [hL, LinearMap.toSpanSingleton_apply_one] at h1
+    exact hv h1
+  -- `I ≠ ⊥`, else `L` is an injective `k`-linear map `k[x] ↪ P` and `k[x]` would be finite
+  -- dimensional over `k`.
+  have hIbot : I ≠ ⊥ := by
+    intro h
+    have hkerL : LinearMap.ker L = ⊥ := hI ▸ h
+    have hinjL : Function.Injective L := LinearMap.ker_eq_bot.mp hkerL
+    have : Module.Finite k (Polynomial k) :=
+      Module.Finite.of_injective (L.restrictScalars k) hinjL
+    exact Polynomial.not_finite this
+  -- `I = (g)` with `g ≠ 0` and `g` not a unit.
+  obtain ⟨g, hg⟩ := (IsPrincipalIdealRing.principal I).principal
+  have hgne : g ≠ 0 := by
+    rintro rfl
+    apply hIbot
+    rw [hg]; simp
+  have hgnu : ¬ IsUnit g := by
+    intro hu
+    exact hItop (by rw [hg]; exact Ideal.span_singleton_eq_top.mpr hu)
+  -- a monic irreducible factor `p ∣ g`.
+  obtain ⟨p, hpmonic, hpirr, hpdvd⟩ := Polynomial.exists_monic_irreducible_factor g hgnu
+  obtain ⟨g', hg'⟩ := hpdvd
+  have hg'ne : g' ≠ 0 := by
+    rintro rfl; rw [mul_zero] at hg'; exact hgne hg'
+  -- `w := g' • v ≠ 0` but `p • w = g • v = 0`.
+  have hgmem : g ∈ I := by rw [hg]; exact Submodule.mem_span_singleton_self g
+  have hgv : g • v = 0 := by
+    have hker := LinearMap.mem_ker.mp hgmem
+    rwa [hL, LinearMap.toSpanSingleton_apply] at hker
+  have hw : g' • v ≠ 0 := by
+    intro hcontra
+    have hLg' : L g' = 0 := by rw [hL, LinearMap.toSpanSingleton_apply]; exact hcontra
+    have hmem : g' ∈ I := LinearMap.mem_ker.mpr hLg'
+    rw [hg] at hmem
+    obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hmem
+    -- `c • g = g'` and `g = p * g'` give `p * g' ∣ g'`, so `p` is a unit — contradiction.
+    have hdvd : g ∣ g' := ⟨c, by rw [← hc, smul_eq_mul, mul_comm]⟩
+    rw [hg'] at hdvd
+    have hp1 : p ∣ 1 := by
+      have h2 : p * g' ∣ 1 * g' := by rwa [one_mul]
+      exact (mul_dvd_mul_iff_right hg'ne).mp h2
+    exact hpirr.not_isUnit (isUnit_of_dvd_one hp1)
+  have hpw : p • (g' • v) = 0 := by rw [← mul_smul, ← hg']; exact hgv
+  refine ⟨p, hpmonic, hpirr, ?_⟩
+  -- If `p • ⊤ = ⊤` then `p • ·` is surjective, hence injective (finite dim), contradicting
+  -- `p • w = 0` with `w ≠ 0`.
+  intro htop
+  set fp : P →ₗ[k] P := (LinearMap.lsmul (Polynomial k) P p).restrictScalars k with hfp
+  have hfp_apply : ∀ y, fp y = p • y := fun y => rfl
+  have hfp_surj : Function.Surjective fp := by
+    intro z
+    have hz : z ∈ p • (⊤ : Submodule (Polynomial k) P) := by rw [htop]; exact Submodule.mem_top
+    rw [Submodule.mem_smul_pointwise_iff_exists] at hz
+    obtain ⟨y, -, hy⟩ := hz
+    exact ⟨y, hy⟩
+  have hfp_inj : Function.Injective fp := LinearMap.injective_iff_surjective.mpr hfp_surj
+  apply hw
+  have : fp (g' • v) = fp 0 := by rw [hfp_apply, hfp_apply, hpw, smul_zero]
+  exact hfp_inj this
+
+open scoped Pointwise in
+open Polynomial in
 /-- **Exercise 8.2.9(i), finite dimensional `k[x]`-modules.** A finite dimensional `k[x]`-module
 that is a projective object of the category of finite dimensional `k[x]`-modules — i.e. has the
 lifting property against surjections of finite dimensional `k[x]`-modules — is zero. Hence that
@@ -165,8 +258,99 @@ theorem Exercise_8_2_9_i_polynomial
         (f : Q₁ →ₗ[Polynomial k] Q₂) (g : P →ₗ[Polynomial k] Q₂), Function.Surjective f →
           ∃ h : P →ₗ[Polynomial k] Q₁, ∀ x, f (h x) = g x) :
     Subsingleton P := by
-  sorry
+  rcases subsingleton_or_nontrivial P with hsub | hnt
+  · exact hsub
+  exfalso
+  -- Step 1: monic irreducible `p` with `p • ⊤ ≠ ⊤`.
+  obtain ⟨p, hpmonic, hpirr, hptop⟩ := exists_monic_irreducible_smul_ne_top k P
+  -- The quotient `P / (p • P)` is a nonzero vector space over the field `K = k[x]/(p)`.
+  -- `Ideal.Quotient.field` (a `fast_instance%`) and the `IsTorsionBy…module` structure carry
+  -- syntactically different but defeq semirings on `K`, so we feed both explicitly to
+  -- `ofVectorSpace` (instance *search* would fail; explicit passing succeeds up to defeq).
+  haveI : (Ideal.span {p}).IsMaximal := PrincipalIdealRing.isMaximal_of_irreducible hpirr
+  haveI : Module.Finite k (Polynomial k ⧸ Ideal.span {p}) := hpmonic.finite_quotient
+  haveI : Nontrivial (P ⧸ (p • (⊤ : Submodule (Polynomial k) P))) :=
+    Submodule.Quotient.nontrivial_iff.mpr hptop
+  -- a coordinate functional gives a nonzero `k[x]`-linear map `φ : P → K`.
+  set b := @Module.Basis.ofVectorSpace (Polynomial k ⧸ Ideal.span {p})
+    (P ⧸ (p • (⊤ : Submodule (Polynomial k) P)))
+    (Ideal.Quotient.field _).toDivisionRing _
+    (Module.isTorsionBy_quotient_element_smul P p).module with hb
+  obtain ⟨z, hz⟩ := exists_ne (0 : P ⧸ (p • (⊤ : Submodule (Polynomial k) P)))
+  obtain ⟨y₀, hy₀⟩ := Submodule.Quotient.mk_surjective _ z
+  obtain ⟨i, hi⟩ : ∃ i, b.coord i z ≠ 0 := by
+    by_contra hcon
+    push_neg at hcon
+    exact hz (b.forall_coord_eq_zero_iff.mp hcon)
+  -- `φ : P →ₗ[k[x]] k[x]/(p)`, built by hand from the `K`-linear coordinate `b.coord i`.
+  set φ : P →ₗ[Polynomial k] (Polynomial k ⧸ Ideal.span {p}) :=
+    { toFun := fun x => b.coord i (Submodule.Quotient.mk x)
+      map_add' := fun x y => by rw [Submodule.Quotient.mk_add]; exact map_add _ _ _
+      map_smul' := fun a x => by
+        simp only [RingHom.id_apply]
+        rw [Submodule.Quotient.mk_smul,
+          ← Module.IsTorsionBy.mk_smul (Module.isTorsionBy_quotient_element_smul P p) a
+            (Submodule.Quotient.mk x), map_smul, smul_eq_mul, Algebra.smul_def,
+          Ideal.Quotient.algebraMap_eq] } with hφ
+  have hφy₀ : φ y₀ ≠ 0 := by
+    change b.coord i (Submodule.Quotient.mk y₀) ≠ 0
+    rw [hy₀]; exact hi
+  -- Step 3: lift `φ` through the reduction `k[x]/(p^N) ↠ k[x]/(p)` with `N` large.
+  set N : ℕ := Module.finrank k P + 1 with hN
+  have hNne : N ≠ 0 := by omega
+  haveI : Module.Finite k (Polynomial k ⧸ Ideal.span {p ^ N}) := (hpmonic.pow N).finite_quotient
+  have hle : Ideal.span {p ^ N} ≤ Ideal.span {p} :=
+    Ideal.span_singleton_le_span_singleton.mpr (dvd_pow_self p hNne)
+  set red : (Polynomial k ⧸ Ideal.span {p ^ N}) →ₗ[Polynomial k]
+      (Polynomial k ⧸ Ideal.span {p}) :=
+    (Ideal.Quotient.factorₐ (Polynomial k) hle).toLinearMap with hred
+  have hred_surj : Function.Surjective red := Ideal.Quotient.factor_surjective hle
+  obtain ⟨h, hh⟩ := hP (Polynomial k ⧸ Ideal.span {p ^ N}) (Polynomial k ⧸ Ideal.span {p})
+    red φ hred_surj
+  -- `red (h y₀) = φ y₀ ≠ 0`, so `h y₀` is a unit of `k[x]/(p^N)`.
+  have hru : red (h y₀) ≠ 0 := by rw [hh y₀]; exact hφy₀
+  obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (h y₀)
+  have hpa : ¬ p ∣ a := by
+    intro hdvd
+    apply hru
+    rw [← ha, hred]
+    change Ideal.Quotient.factor hle (Ideal.Quotient.mk _ a) = 0
+    rw [Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
+    exact hdvd
+  have hcoprime : IsCoprime a (p ^ N) := (hpirr.coprime_iff_not_dvd.mpr hpa).symm.pow_right
+  -- from coprimality, `mk a = h y₀` is a unit.
+  obtain ⟨s, t, hst⟩ := hcoprime
+  have huy : IsUnit (h y₀) := by
+    refine IsUnit.of_mul_eq_one (Ideal.Quotient.mk _ s) ?_
+    rw [← ha, ← map_mul]
+    have hone : a * s = 1 - t * p ^ N := by linear_combination hst
+    rw [hone, map_sub, map_one, map_mul, Ideal.Quotient.eq_zero_iff_mem.mpr
+      (Ideal.mem_span_singleton_self _), mul_zero, sub_zero]
+  -- Step 4: `h y₀` is a unit, so `h` is surjective, hence `finrank k P ≥ finrank k (k[x]/(p^N))`.
+  have hsurj : Function.Surjective h := by
+    intro w
+    obtain ⟨v, hv⟩ := huy.exists_right_inv
+    obtain ⟨c, hc⟩ := Ideal.Quotient.mk_surjective (w * v)
+    refine ⟨c • y₀, ?_⟩
+    rw [map_smul, Algebra.smul_def, Ideal.Quotient.algebraMap_eq, hc, mul_assoc,
+      show v * h y₀ = 1 by rw [mul_comm]; exact hv, mul_one]
+  -- dimension contradiction.
+  have hfin : Module.finrank k (Polynomial k ⧸ Ideal.span {p ^ N}) ≤ Module.finrank k P := by
+    exact LinearMap.finrank_le_finrank_of_surjective (f := h.restrictScalars k)
+      (by exact hsurj)
+  have hdim : Module.finrank k (Polynomial k ⧸ Ideal.span {p ^ N}) = N * p.natDegree := by
+    rw [finrank_quotient_span_eq_natDegree, natDegree_pow]
+  have hpdeg : 1 ≤ p.natDegree := hpirr.natDegree_pos
+  rw [hdim] at hfin
+  have : Module.finrank k P + 1 ≤ Module.finrank k P := by
+    calc Module.finrank k P + 1 = N := by rw [hN]
+      _ = N * 1 := (mul_one N).symm
+      _ ≤ N * p.natDegree := Nat.mul_le_mul_left N hpdeg
+      _ ≤ Module.finrank k P := hfin
+  omega
 
+open scoped Pointwise in
+open Polynomial in
 /-- **Exercise 8.2.9(ii).** If `A` is a finitely generated commutative ring (a finitely
 generated `ℤ`-algebra), then the category of finitely generated `A`-modules has enough
 projectives: every finitely generated `A`-module is a quotient of a finite free module

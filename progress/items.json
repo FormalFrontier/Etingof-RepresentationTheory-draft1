@@ -1558,7 +1558,8 @@
     "end_page": "40",
     "start_line": 5,
     "end_line": 6,
-    "status": "statement_formalized"
+    "status": "statement_formalized",
+    "coverage_note": "Characteristic-0 cluster proved sorry-free (#6122, 2026-07-10): bracket_X_Y, charZero_irreducible_finrank_one (reusing Problem 2.16.1 via a general-field solvable-Lie-theorem argument), charZero_Y_acts_zero, and the instIsSolvable instance. Axioms: propext, Classical.choice, Quot.sound. Remaining sorry: lie_theorem_fails_charP (char-p failure, needs a p-dim irreducible module) tracked in #6132."
   },
   {
     "id": "Chapter2/Problem2.16.3",
@@ -3055,8 +3056,8 @@
     "end_page": "84",
     "start_line": 17,
     "end_line": 18,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean (sorry proof, statement pass)."
+    "status": "sorry_free",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_4.lean via the spectral theorem: squarefree charpoly ⟹ distinct eigenvalues ⟹ commutant of the adjacency matrix is commutative, so the permutation matrices of two graph automorphisms commute, contradicting nonabelianness."
   },
   {
     "id": "Chapter4/Problem4.12.5",
@@ -3830,8 +3831,8 @@
     "end_page": "108",
     "start_line": 29,
     "end_line": 33,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Exercise5_8_5.lean states Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi, sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Chapter5/Exercise5_8_5.lean proves Ind_K^G C_chi is G-equivariantly isomorphic to the left ideal C[G]·e_chi via the map [single h 1 ⊗ z] ↦ z·(of h⁻¹ · e_chi); sorry-free."
   },
   {
     "id": "Chapter5/Introduction_5.9",
@@ -7084,8 +7085,8 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "proof_partial",
-    "coverage_note": "Deliverables (ii) [Exercise_8_2_9_ii] and (i) finite-abelian [Exercise_8_2_9_i_finAb] proved sorry-free (#6101). (i) fin-dim k[x]-module case [Exercise_8_2_9_i_polynomial] still sorried — follow-up issue."
+    "status": "sorry_free",
+    "coverage_note": "All three theorems sorry-free: (ii) [Exercise_8_2_9_ii], (i) finite-abelian [Exercise_8_2_9_i_finAb] (#6110/#6114), and (i) fin-dim k[x]-module [Exercise_8_2_9_i_polynomial] (#6113) via monic irreducible factor + k[x]/(p)-coordinate functional + lift through k[x]/(p^N) ↠ k[x]/(p) + unit/dimension contradiction."
   },
   {
     "id": "Chapter8/Problem8.2.10",

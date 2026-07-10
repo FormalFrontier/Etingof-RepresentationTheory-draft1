@@ -187,6 +187,7 @@ Three gotchas that each cost a build cycle:
 1. **`@[simp] a_zero : (a 0 : QuaternionGroup n) = 1`** (and `DihedralGroup.r_zero`, etc.) silently rewrites the identity element under any `simp`/`norm_num`, so a per-element value lemma keyed on `a 0` stops matching (the term becomes `1`). Use **`norm_num [-QuaternionGroup.a_zero, …]`** (or `simp only` with an explicit list that excludes it). Watch the dual: `FDRep.char_one` (`χ 1 = finrank`) then fires on the `1` and derails a 2-dim trace computation.
 2. **`revert i j; decide` for a finite-`ZMod` parity/arithmetic fact reverts *everything* depending on `i,j`** — including a `have e : … = …` whose RHS mentions ℂ-valued vars (α, β), making the reverted goal non-decidable (`decide` errors "expected type must not contain free variables"). **Compute the decidable fact into a `have hp := by revert i j; decide` BEFORE introducing any ℂ-valued `have`.**
 3. **`fin_cases i` produces `⟨0, ⋯⟩`, which does *not* reduce `![…] ⟨0,⋯⟩` / table lookups under `simp`/`norm_num`** (the `Matrix.cons_val_*` simp lemmas are keyed on the numeral `0`, not `Fin.mk 0`), but it *does* reduce by **defeq**. So per-cell character-matching proofs should `change <defeq-reduced LHS> = <defeq-reduced RHS>` (e.g. `change chiFun 1 1 (a 0) = Q5toC (1:Q5)`) and then finish — `change` bridges via defeq where `simp` stalls. Assembling the indexed lemma (`irrep i …` for `i:Fin 5`) from per-row lemmas is a clean `fin_cases i` + `exact char_row0 j` (the `exact` matches `⟨0,⋯⟩` to the `0`-literal lemma by defeq).
+4. **A bare `Matrix.single 0 0 1` defaults its *index* type to `ℕ`** (giving `Matrix ℕ ℕ …`), so a lemma such as `⁅Matrix.single 0 0 1, Matrix.single 0 1 1⁆ = …` errors with `failed to synthesize Bracket (Matrix (Fin 2) …) (Matrix ℕ …)` unless *every* occurrence is ascribed. Fix once with a reducible `private abbrev e11 : Matrix (Fin 2) (Fin 2) k := Matrix.single 0 0 1` (the ascription pins the indices) and use `e11 k` everywhere. Follow-up gotcha: `rw [Matrix.single_mul_single_*]` will **not** match through the abbrev (the term stays folded as `e11 k * e12 k`), so prove the matrix-unit bracket facts with `simp [e11, e12, LieRing.of_associative_ring_bracket, Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, h]` (those single-mul lemmas are `@[simp]`; pass the `(1 : Fin 2) ≠ 0` side fact `h` explicitly). Worked example: `Chapter2/Problem2_16_2.lean` (`bracket_e11_e12`, `bracket_expand`, `instIsSolvable` for the matrix Lie algebra `⟨X,Y | [X,Y]=Y⟩`). Note `LieAlgebra.ofAssociativeAlgebra` is a *global* instance that fires off the local `attribute [local instance 100] LieRing.ofAssociativeRing`, so `smul_lie`/`lie_smul` (k-bilinearity) and the `module` tactic are available on matrices with no extra setup.
 
 ### Sorry Decomposition as Primary Strategy
 
@@ -586,6 +587,36 @@ and let defeq bridge to the Mathlib lemma's `b.coord i x`. Import surprises: `Fi
 in `Mathlib.Algebra.Field.ZMod` (not `Data.ZMod.Basic`); `Module.Basis.ofVectorSpace` lives under
 namespace `Module.Basis`; the order→dimension endgame uses `ZMod.addOrderOf_coe` +
 `ZMod.natCast_eq_zero_iff` + `addOrderOf_dvd_natCard`.
+
+### The `k[x]`-module analog (#6113): `fast_instance% Field` diamonds the torsion `Module`, so pass instances explicitly to `ofVectorSpace`
+
+The fin-dim `k[x]`-module case of Exercise 8.2.9 (`Exercise_8_2_9_i_polynomial`) mirrors the
+finAb proof over the PID `k[x]`: a monic irreducible factor `p` of the annihilator of a nonzero
+`v` (via `LinearMap.toSpanSingleton`, `ker` a proper nonzero ideal — nonzero because
+`Polynomial.not_finite`, proper because `1 ∉ ker`; monic factor from
+`Polynomial.exists_monic_irreducible_factor`, NOT `normalize` which needs an unavailable
+`DecidableEq k`) gives `p • ⊤ ≠ ⊤`; the `K = k[x]/(p)`-vector space `P/(p•⊤)`
+(`Module.isTorsionBy_quotient_element_smul`, `Submodule.Quotient.nontrivial_iff`) yields a nonzero
+functional; lift through `Ideal.Quotient.factorₐ : k[x]/(p^N) → k[x]/(p)` (surjective,
+`factor_surjective`) with `N = dim_k P + 1`; coprimality `IsCoprime a (p^N)`
+(`Irreducible.coprime_iff_not_dvd` + `.pow_right`) makes the lift a **unit**, so it is surjective and
+`dim_k P ≥ dim_k k[x]/(p^N) = N·deg p > dim_k P` (`finrank_quotient_span_eq_natDegree`,
+`natDegree_pow`, `LinearMap.finrank_le_finrank_of_surjective`, `Irreducible.natDegree_pos`).
+
+**The one real trap (cost ~5 build cycles):** `Ideal.Quotient.field` is built with `fast_instance%`,
+whose derived `Semiring (k[x]/(p))` is defeq to — but *syntactically different from* — the canonical
+`Ideal.Quotient.commRing`-derived semiring that the `Module (k[x]/(p)) (P/p•⊤)` torsion instance is
+registered over. So a `haveI : Field (k[x]/(p))` makes instance **search** for the module fail at
+`Module.Basis.ofVectorSpace` (even with the module also provided via `letI` — search wants a
+syntactic match). **Fix:** don't add a separate `Field` haveI; feed both instances explicitly, where
+Lean unifies up to defeq:
+`@Module.Basis.ofVectorSpace (k[x]/(p)) (P/p•⊤) (Ideal.Quotient.field _).toDivisionRing _
+(Module.isTorsionBy_quotient_element_smul P p).module`. The `k[x]`-linear functional `φ : P → K` is
+then built by hand (a `LinearMap` literal); its `map_smul'` bridges the `k[x]`- and `K`-actions with
+`Module.IsTorsionBy.mk_smul` (turns `a • x` on `P/p•⊤` into `(mk a) • x`, matching the same torsion
+instance fed to the basis) then `map_smul`, `smul_eq_mul`, `Algebra.smul_def`,
+`Ideal.Quotient.algebraMap_eq`. No `ULift` is needed here (unlike finAb): `k : Type u` makes
+`k[x]/(p^N) : Type u` directly.
 
 ### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
 
@@ -4489,3 +4520,27 @@ and inner-rep in *syntactic* agreement between the kernel-equality lemma and the
 `quotEquivOfEq` call (pass the composite `fφ` and inner rep `τ'` as explicit args
 with `hfφ`/`hτ` equations and `subst` them) — else defeq-but-not-syntactic forms
 like `H.subtype.comp K.subtype` vs `K.subtype.comp σ` make `exact`/`rw` fail.
+
+### Two follow-on gotchas when proving `IndV` isomorphisms via `Coinvariants.lift`
+
+- **`Representation.IndV.mk` is a `noncomputable abbrev`, so `simp` unfolds it.**
+  `Representation.IndV.mk φ ρ h = Coinvariants.mk _ ∘ₗ TensorProduct.mk _ _ _ (single h 1)`.
+  Inside a `hom_ext` proof, `simp only [LinearMap.comp_apply]` (or any `simp` touching the
+  composition) rewrites `(f ∘ₗ IndV.mk φ ρ h) z` all the way to
+  `f (Coinvariants.mk _ (TensorProduct.mk .. (single h 1) z))`, after which `rw [fwd_mk]` /
+  `Representation.ind_mk` (stated with the folded `IndV.mk`) no longer match. Fix: prove the
+  generator identity as a standalone pointwise `have hpt : ∀ h z, f (IndV.mk φ ρ h z) = …` (these
+  `rw`s match because the argument stays `IndV.mk φ ρ h z`), then discharge the `hom_ext` +
+  `LinearMap.ext` goal with a definitional `change f (IndV.mk φ ρ h z) = … ; exact hpt h z`
+  (`LinearMap.comp_apply`/`mulLeft_apply`/`id` are all rfl, so `change` bridges it). Never `simp`
+  the composition itself.
+
+- **Unit-inverse coercions get normalised by a `norm_cast` simp lemma.**
+  `((χ g : ℂˣ)⁻¹ : ℂ)` elaborates as `↑((χ g)⁻¹)` but the `@[simp, norm_cast]` lemma
+  `Units.val_inv_eq_inv_val` rewrites it to `(↑(χ g))⁻¹` after any `simp`/`field_simp`. So
+  `Units.inv_mul`/`Units.mul_inv` (pattern `↑u⁻¹ * ↑u`) stop matching; use
+  `inv_mul_cancel₀ (Units.ne_zero _)` / `mul_inv_cancel₀ (Units.ne_zero _)` on the complex-inverse
+  form instead. To convert a bare `(↑(χ g))⁻¹` into `↑(χ g⁻¹)` (e.g. to feed a twisted
+  coinvariance lemma `IndV.mk (κ·x) (χ κ • w) = IndV.mk x w`), `rw [map_inv, Units.val_inv_eq_inv_val]`
+  in reverse via a small `have`. For character sums, reindex the defining sum of `e_χ` with
+  `Equiv.mulLeft k` and `Equiv.sum_comp` to get `of k * e_χ = χ(k) • e_χ`.

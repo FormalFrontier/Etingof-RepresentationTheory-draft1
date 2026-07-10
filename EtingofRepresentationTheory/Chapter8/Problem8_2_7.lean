@@ -41,6 +41,30 @@ open CategoryTheory
 
 universe u
 
+/-! ### Projectivity of the right regular module
+
+The free-generator vanishing theorems need that the first argument `A` (as a **right**
+`A`-module, i.e. an `Aᵐᵒᵖ`-module via `op a • x = x * a`) is projective. It is free of rank one:
+the map `op : A ≃ₗ[Aᵐᵒᵖ] Aᵐᵒᵖ` identifies the right regular module with the free rank-one module
+`Aᵐᵒᵖ`. -/
+
+/-- The right regular module `A` (over `Aᵐᵒᵖ` via `op a • x = x * a`) is linearly isomorphic,
+over `Aᵐᵒᵖ`, to the free rank-one module `Aᵐᵒᵖ`, via `MulOpposite.op`. -/
+private def opRegularEquiv (A : Type*) [Ring A] : A ≃ₗ[Aᵐᵒᵖ] Aᵐᵒᵖ where
+  toFun := MulOpposite.op
+  map_add' _ _ := rfl
+  map_smul' c x := by
+    change MulOpposite.op (x * MulOpposite.unop c) = c * MulOpposite.op x
+    rw [MulOpposite.op_mul, MulOpposite.op_unop]
+  invFun := MulOpposite.unop
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+/-- The right regular module `A` is projective over `Aᵐᵒᵖ` (it is free of rank one). -/
+private instance opRegularProjective (A : Type*) [Ring A] : Module.Projective Aᵐᵒᵖ A :=
+  have : Module.Free Aᵐᵒᵖ A := Module.Free.of_equiv (opRegularEquiv A).symm
+  Module.Projective.of_free
+
 /-! ### Part (i): `A = ℤ` -/
 
 /-- Right `ℤ`-action on `ZMod a` (pulled back from the left action along `ℤᵐᵒᵖ ≃+* ℤ`; the two
@@ -72,8 +96,9 @@ theorem Problem_8_2_7_i_tor_vanish (a b : ℕ) (n : ℕ) :
 /-- **Problem 8.2.7(i), free generator.** `ℤ` is projective as a `ℤ`-module, so
 `Torᵢ₊₁(ℤ, N) = 0` for every abelian group `N`. -/
 theorem Problem_8_2_7_i_tor_free_vanish (N : Type) [AddCommGroup N] [Module ℤ N] (n : ℕ) :
-    Limits.IsZero (Etingof.Tor ℤ N (ModuleCat.of ℤᵐᵒᵖ ℤ) (n + 1)) := by
-  sorry
+    Limits.IsZero (Etingof.Tor ℤ N (ModuleCat.of ℤᵐᵒᵖ ℤ) (n + 1)) :=
+  Functor.isZero_leftDerived_obj_projective_succ (tensorRightFunctor ℤ N) n
+    (ModuleCat.of ℤᵐᵒᵖ ℤ)
 
 /-- **Problem 8.2.7(i), `Ext⁰`.** `Ext⁰(ℤ/a, ℤ/b) = Hom(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)` for
 `a, b ≠ 0`. -/
@@ -96,8 +121,8 @@ theorem Problem_8_2_7_i_ext_vanish (a b : ℕ) (n : ℕ) :
 /-- **Problem 8.2.7(i), free generator.** `ℤ` is projective, so `Extⁱ⁺¹(ℤ, N) = 0` for every
 abelian group `N`. -/
 theorem Problem_8_2_7_i_ext_free_vanish (N : ModuleCat.{0} ℤ) (n : ℕ) :
-    Subsingleton (Etingof.Ext (ModuleCat.of ℤ ℤ) N (n + 1)) := by
-  sorry
+    Subsingleton (Etingof.Ext (ModuleCat.of ℤ ℤ) N (n + 1)) :=
+  Abelian.Ext.subsingleton_of_projective (ModuleCat.of ℤ ℤ) N n
 
 /-! ### Part (ii): `A = k[x]` -/
 
@@ -134,8 +159,9 @@ theorem Problem_8_2_7_ii_tor_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ)
 every `k[x]`-module `N`. -/
 theorem Problem_8_2_7_ii_tor_free_vanish (k : Type u) [Field k]
     (N : Type u) [AddCommGroup N] [Module k[X] N] (n : ℕ) :
-    Limits.IsZero (Etingof.Tor k[X] N (ModuleCat.of (k[X])ᵐᵒᵖ k[X]) (n + 1)) := by
-  sorry
+    Limits.IsZero (Etingof.Tor k[X] N (ModuleCat.of (k[X])ᵐᵒᵖ k[X]) (n + 1)) :=
+  Functor.isZero_leftDerived_obj_projective_succ (tensorRightFunctor k[X] N) n
+    (ModuleCat.of (k[X])ᵐᵒᵖ k[X])
 
 /-- **Problem 8.2.7(ii), `Ext⁰`.** `Ext⁰(k[x]/(f), k[x]/(g)) = Hom(k[x]/(f), k[x]/(g))
 ≅ k[x]/(gcd(f,g))`. -/
@@ -162,7 +188,7 @@ theorem Problem_8_2_7_ii_ext_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ)
 every `k[x]`-module `N`. -/
 theorem Problem_8_2_7_ii_ext_free_vanish (k : Type u) [Field k]
     (N : ModuleCat.{u} k[X]) (n : ℕ) :
-    Subsingleton (Etingof.Ext (ModuleCat.of k[X] k[X]) N (n + 1)) := by
-  sorry
+    Subsingleton (Etingof.Ext (ModuleCat.of k[X] k[X]) N (n + 1)) :=
+  Abelian.Ext.subsingleton_of_projective (ModuleCat.of k[X] k[X]) N n
 
 end Etingof
