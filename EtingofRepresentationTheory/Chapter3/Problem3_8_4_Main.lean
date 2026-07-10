@@ -63,12 +63,31 @@ theorem iso_of_baseChange_iso [FiniteDimensional K V] [FiniteDimensional K W]
   exact iso_of_baseChange_iso_finite hκ
 
 /-- **Problem 3.8.4(ii), the Noether-Deuring theorem.** If `L ⊗[K] V` is a direct summand of
-`L ⊗[K] W` as `L ⊗[K] A`-modules, then `V` is a direct summand of `W` as `A`-modules. -/
+`L ⊗[K] W` as `L ⊗[K] A`-modules (a split injection), then `V` is a direct summand of `W` as
+`A`-modules.
+
+Proof (book): the same Zariski-specialization route as part (i), applied to the split injection.
+Descend it to a finitely generated `K`-subalgebra `R ⊆ L`
+(`Descent.exists_fg_subalgebra_baseChange_directSummand`); specialize at a maximal ideal of `↥R`
+to a residue field `κ` finite over `K`; push the split injection forward to `κ`
+(`Functoriality.exists_baseChange_directSummand`); and finish with the finite-extension case
+`directSummand_of_baseChange_directSummand_finite`. -/
 theorem directSummand_of_baseChange_directSummand
     [FiniteDimensional K V] [FiniteDimensional K W]
     (h : ∃ (i : (L ⊗[K] V) →ₗ[L ⊗[K] A] (L ⊗[K] W))
            (p : (L ⊗[K] W) →ₗ[L ⊗[K] A] (L ⊗[K] V)), p.comp i = LinearMap.id) :
     ∃ (i : V →ₗ[A] W) (p : W →ₗ[A] V), p.comp i = LinearMap.id := by
-  sorry
+  obtain ⟨i, p, hpi⟩ := h
+  obtain ⟨R, hRfg, hR⟩ := Descent.exists_fg_subalgebra_baseChange_directSummand i p hpi
+  haveI : Algebra.FiniteType K ↥R := (Subalgebra.fg_iff_finiteType R).mp hRfg
+  obtain ⟨m, hm⟩ := Ideal.exists_maximal ↥R
+  letI : Field (↥R ⧸ m) := Ideal.Quotient.field m
+  haveI : Algebra.FiniteType K (↥R ⧸ m) :=
+    Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ K m)
+      (Ideal.Quotient.mkₐ_surjective K m)
+  haveI : Module.Finite K (↥R ⧸ m) := finite_of_finite_type_of_isJacobsonRing K (↥R ⧸ m)
+  have hκ := Functoriality.exists_baseChange_directSummand (V := V) (W := W)
+    (Ideal.Quotient.mkₐ K m) hR
+  exact directSummand_of_baseChange_directSummand_finite hκ
 
 end Etingof.Problem3_8_4
