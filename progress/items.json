@@ -1547,8 +1547,8 @@
     "end_page": "40",
     "start_line": 18,
     "end_line": 4,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved via Mathlib LieModule.exists_nontrivial_weightSpace_of_isSolvable (#6116, 2026-07-10). Axioms: propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter2/Problem2.16.2",
