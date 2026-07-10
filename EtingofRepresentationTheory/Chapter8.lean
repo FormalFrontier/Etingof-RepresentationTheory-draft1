@@ -20,6 +20,7 @@ import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 import EtingofRepresentationTheory.Chapter8.Problem8_2_7
 import EtingofRepresentationTheory.Chapter8.Problem8_2_8
 import EtingofRepresentationTheory.Chapter8.Exercise8_2_9
+import EtingofRepresentationTheory.Chapter8.BarResolution
 
 /-!
 # Chapter 8: Homological Algebra
