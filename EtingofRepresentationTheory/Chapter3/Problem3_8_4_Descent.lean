@@ -27,12 +27,43 @@ so `e` descends to an `R ⊗[K] A`-linear isomorphism `R ⊗[K] V ≃ R ⊗[K] W
 and `e.symm` have their entries adjoined, no localization is needed — invertibility is built
 into `R` directly.
 
-The pushforward `Etingof.Problem3_8_4.Functoriality.pushEquiv` along the inclusion
-`R →ₐ[K] L` (`Subalgebra.val`) recovers `e` up to the canonical base-change comparison; the
-assembly issue only consumes the *existence* recorded here.
-
 The `R ⊗[K] A`-module structure on `R ⊗[K] V` is the one built for an arbitrary commutative
 `K`-algebra in `Problem3_8_4_Functoriality.lean` (`Etingof.Problem3_8_4.Functoriality.bcMod`).
+
+## Proof route (for filling the `sorry`)
+
+The verified Mathlib API for each step:
+
+1. **Bases.** `bV := Module.finBasis K V`, `bW := Module.finBasis K W`. Base change with
+   `Module.Basis.baseChange` (`bV.baseChange L : Basis (Fin _) L (L ⊗[K] V)`, and likewise over
+   `↥R`); the key simp lemma is `Module.Basis.baseChange_apply : b.baseChange S i = 1 ⊗ₜ b i`.
+2. **Coordinates.** `c i j := (bW.baseChange L).repr (e ((bV.baseChange L) i)) j : L` and,
+   symmetrically from `e.symm`, `d j i : L`.
+3. **Subalgebra.** `R := Algebra.adjoin K (↑(finset of all c i j and d j i) : Set L)`;
+   `R.FG` from `Subalgebra.fg_adjoin_finset`. Each `c i j`, `d j i` lies in `R` via
+   `Algebra.subset_adjoin`, giving `cR i j, dR j i : ↥R`.
+4. **Descended maps.** `φ := (bV.baseChange ↥R).constr ↥R (fun i => ∑ j, cR i j • bWR j)`
+   with `bWR := bW.baseChange ↥R`, and the analogous `ψ` from `dR` (`Basis.constr`,
+   `Basis.constr_basis`), both `↥R`-linear.
+5. **Inverse relations.** `ψ ∘ φ = id`, `φ ∘ ψ = id`: check on `bV.baseChange ↥R` via `Basis.ext`,
+   reducing to `∑ j, c i j * d j i' = δ` in `L` (from `e.symm ∘ e = id`, `Basis.repr` uniqueness),
+   which descends because `algebraMap ↥R L` is injective (`Subtype.ext`).
+6. **`R ⊗[K] A`-linearity of `φ`** (upgrading it to `≃ₗ[↥R ⊗[K] A]`, as in `pushEquiv`'s
+   `map_smul'`): the coefficient map `incl := LinearMap.rTensor V R.val.toLinearMap : ↥R ⊗[K] V →
+   L ⊗[K] V` is **injective** (`Module.Flat.rTensor_preserves_injective_linearMap`, `V` free over
+   the field `K` so `Flat K V` by `Module.Flat.of_free`; `R.val` injective). It is `A`-equivariant
+   (`incl ((1 ⊗ₜ a) • x) = (1 ⊗ₜ a) • incl x`, by `TensorProduct.induction_on` +
+   `Functoriality.smul_one_tmul`, `LinearMap.rTensor_tmul`) and satisfies
+   `incl_W ∘ φ = e ∘ incl` on basis vectors (step 4's coefficients match step 2's). Then
+   `incl_W (φ ((1 ⊗ₜ a) • x)) = e (incl ((1 ⊗ₜ a) • x)) = (1 ⊗ₜ a) • e (incl x)` (e is
+   `L ⊗[K] A`-linear) `= (1 ⊗ₜ a) • incl_W (φ x) = incl_W ((1 ⊗ₜ a) • φ x)`, and injectivity of
+   `incl_W` gives `φ ((1 ⊗ₜ a) • x) = (1 ⊗ₜ a) • φ x`. Combined with `↥R`-linearity and the
+   generation of `↥R ⊗[K] A` by `r ⊗ₜ 1` and `1 ⊗ₜ a` (`Algebra.TensorProduct.tmul_mul_tmul`,
+   `Functoriality.smul_tmul_one`), this yields full `↥R ⊗[K] A`-linearity.
+7. Package `φ` (bijective by step 5, `↥R ⊗[K] A`-linear by step 6) as the required equivalence
+   (`LinearEquiv.ofBijective` or a hand-built `LinearEquiv`). The pushforward
+   `Etingof.Problem3_8_4.Functoriality.pushEquiv` along `R.val : ↥R →ₐ[K] L` recovers `e`; the
+   assembly issue #6058 only consumes the *existence* recorded here.
 -/
 
 open scoped TensorProduct
