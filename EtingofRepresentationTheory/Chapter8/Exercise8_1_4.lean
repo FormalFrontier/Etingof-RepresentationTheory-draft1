@@ -42,6 +42,15 @@ theorem Exercise_8_1_4 (A : Type*) [Ring A]
     ∃ f : (P₁ × P₂) →ₗ[A] M,
       f.comp (LinearMap.inl A P₁ P₂) = ι.comp f₁ ∧
       π.comp (f.comp (LinearMap.inr A P₁ P₂)) = f₂ := by
-  sorry
+  -- `P₂` is projective and `π` is surjective, so lift `f₂ : P₂ → M₂` to `g₂ : P₂ → M`.
+  obtain ⟨g₂, hg₂⟩ := Module.projective_lifting_property π f₂ hπ
+  -- Assemble `f (p₁, p₂) = ι (f₁ p₁) + g₂ p₂`.
+  refine ⟨(ι.comp f₁).comp (LinearMap.fst A P₁ P₂) + g₂.comp (LinearMap.snd A P₁ P₂), ?_, ?_⟩
+  · -- On `(p₁, 0)` the `g₂ ∘ snd` term vanishes, leaving `ι (f₁ p₁)`.
+    ext p₁
+    simp
+  · -- On `(0, p₂)` the `ι ∘ f₁ ∘ fst` term vanishes, leaving `π (g₂ p₂) = f₂ p₂`.
+    ext p₂
+    simpa using congrArg (fun h => h p₂) hg₂
 
 end Etingof
