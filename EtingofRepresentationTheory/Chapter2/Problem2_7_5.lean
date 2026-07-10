@@ -511,6 +511,95 @@ theorem isOfFinOrder_of_nontrivial_finrep
     apply Units.ext; push_cast; simpa using hpow
   exact isOfFinOrder_iff_pow_eq_one.mpr ⟨Module.finrank ℂ V, hpos, hqpow⟩
 
+/-! ### Subtype-level monomial arithmetic and Schur's lemma (for part (c))
+
+For the irreducible-representation computation of part (c) we manipulate the monomials as
+*elements of the algebra* `A = qWeylAlgebra ℂ q` (via `gMono`), not as operators on the regular
+module. The reordering identity `qMono_mul` lifts to `gMono_mul'`, from which the whole
+`x`-orbit calculation follows. `mem_of_invariant` and `central_smul_scalar` (Schur's lemma) are
+the `q`-Weyl analogues of the Weyl-algebra helpers in `Problem2_7_4`. -/
+
+/-- The identity monomial `x⁰y⁰` is the unit of the algebra. -/
+private theorem gMono_one : gMono q (0, 0) = 1 := by
+  apply Subtype.ext; rw [coe_gMono, OneMemClass.coe_one, qMono_zero]
+
+/-- Subtype-level reordering identity: `gMono p · gMono r = q^{p.2·r.1} • gMono (p+r)`. -/
+private theorem gMono_mul' (p r : ℤ × ℤ) :
+    gMono q p * gMono q r
+      = (↑(q ^ (p.2 * r.1)) : ℂ) • gMono q (p.1 + r.1, p.2 + r.2) := by
+  apply Subtype.ext
+  rw [MulMemClass.coe_mul, coe_gMono, coe_gMono, Subalgebra.coe_smul, coe_gMono, qMono_mul]
+
+/-- An algebra element whose underlying operator commutes with every monomial `qMono p` is
+central in `A`. Proved by expanding an arbitrary `b ∈ A` in the monomial "basis" via `kappa`. -/
+private theorem mem_center_of_comm_qMono (a : qWeylAlgebra ℂ q)
+    (h : ∀ p : ℤ × ℤ, (a : Module.End ℂ (QWeylModule ℂ)) * qMono ℂ q p
+        = qMono ℂ q p * (a : Module.End ℂ (QWeylModule ℂ))) :
+    a ∈ Subalgebra.center ℂ (qWeylAlgebra ℂ q) := by
+  rw [Subalgebra.mem_center_iff]
+  intro b
+  apply Subtype.ext
+  rw [MulMemClass.coe_mul, MulMemClass.coe_mul]
+  set f := (a : Module.End ℂ (QWeylModule ℂ)) with hf
+  have hb : (b : Module.End ℂ (QWeylModule ℂ))
+      = Finsupp.linearCombination ℂ (qMono ℂ q) (kappa q b) :=
+    mem_qWeyl_eq_linearCombination q b.2
+  rw [hb, Finsupp.linearCombination_apply, Finsupp.sum_mul, Finsupp.mul_sum]
+  refine Finsupp.sum_congr fun p _ => ?_
+  rw [smul_mul_assoc, mul_smul_comm, ← h p]
+
+/-- A `ℂ`-submodule of a simple `A`-module `V`, stable under the `A`-action and containing a
+nonzero vector, is all of `V`. -/
+private lemma mem_of_invariant (V : Type*) [AddCommGroup V] [Module ℂ V]
+    [Module (qWeylAlgebra ℂ q) V] [IsScalarTower ℂ (qWeylAlgebra ℂ q) V]
+    [IsSimpleModule (qWeylAlgebra ℂ q) V] (Wk : Submodule ℂ V)
+    (hstab : ∀ (a : qWeylAlgebra ℂ q) (z : V), z ∈ Wk → a • z ∈ Wk)
+    (hne : ∃ z ∈ Wk, z ≠ 0) : ∀ z : V, z ∈ Wk := by
+  let WA : Submodule (qWeylAlgebra ℂ q) V :=
+    { carrier := Wk
+      add_mem' := fun ha hb => Wk.add_mem ha hb
+      zero_mem' := Wk.zero_mem
+      smul_mem' := fun a z hz => hstab a z hz }
+  have hbot : WA ≠ ⊥ := by
+    obtain ⟨z, hz, hz0⟩ := hne
+    intro hh
+    apply hz0
+    have hzWA : z ∈ WA := hz
+    rw [hh, Submodule.mem_bot] at hzWA
+    exact hzWA
+  have hWA : WA = ⊤ := (eq_bot_or_eq_top WA).resolve_left hbot
+  intro z
+  have : z ∈ WA := hWA ▸ Submodule.mem_top
+  exact this
+
+/-- Schur's lemma: a central element of `A` acts as a `ℂ`-scalar on a finite-dimensional simple
+module (via eigenvalue existence over the algebraically closed field `ℂ`). -/
+private lemma central_smul_scalar (V : Type*) [AddCommGroup V] [Module ℂ V]
+    [Module (qWeylAlgebra ℂ q) V] [IsScalarTower ℂ (qWeylAlgebra ℂ q) V]
+    [FiniteDimensional ℂ V] [IsSimpleModule (qWeylAlgebra ℂ q) V]
+    (z : qWeylAlgebra ℂ q) (hz : z ∈ Subalgebra.center ℂ (qWeylAlgebra ℂ q)) :
+    ∃ μ : ℂ, ∀ w : V, z • w = μ • w := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (qWeylAlgebra ℂ q) V
+  obtain ⟨μ, hμ⟩ := (Algebra.lsmul ℂ ℂ V z).exists_eigenvalue
+  refine ⟨μ, ?_⟩
+  have hstab : ∀ (a : qWeylAlgebra ℂ q) (w : V),
+      w ∈ Module.End.eigenspace (Algebra.lsmul ℂ ℂ V z) μ →
+      a • w ∈ Module.End.eigenspace (Algebra.lsmul ℂ ℂ V z) μ := by
+    intro a w hw
+    rw [Module.End.mem_eigenspace_iff, Algebra.lsmul_apply] at hw ⊢
+    calc z • (a • w) = (a * z) • w := by
+              rw [← mul_smul, ← Subalgebra.mem_center_iff.mp hz a]
+      _ = a • (z • w) := by rw [mul_smul]
+      _ = a • (μ • w) := by rw [hw]
+      _ = μ • (a • w) := by rw [smul_comm]
+  obtain ⟨w0, hw0⟩ := hμ.exists_hasEigenvector
+  have hmem := mem_of_invariant q V (Module.End.eigenspace (Algebra.lsmul ℂ ℂ V z) μ)
+    hstab ⟨w0, hw0.1, hw0.2⟩
+  intro w
+  have hw := hmem w
+  rw [Module.End.mem_eigenspace_iff, Algebra.lsmul_apply] at hw
+  exact hw
+
 /-! ## (c) Finite dimensional irreducible representations -/
 
 /-- **(c)** Every finite dimensional irreducible representation of the `q`-Weyl algebra has
@@ -520,7 +609,219 @@ theorem finrank_irreducible_eq_orderOf
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (qWeylAlgebra ℂ q) V]
     [IsScalarTower ℂ (qWeylAlgebra ℂ q) V] [FiniteDimensional ℂ V]
     [IsSimpleModule (qWeylAlgebra ℂ q) V] :
-    Module.finrank ℂ V = orderOf q :=
-  sorry
+    Module.finrank ℂ V = orderOf q := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (qWeylAlgebra ℂ q) V
+  -- `q` is a root of unity, so `n := orderOf q` is positive and `qⁿ = 1`.
+  have hfin : IsOfFinOrder q := isOfFinOrder_of_nontrivial_finrep q V
+  set n : ℕ := orderOf q with hn
+  have hn_pos : 0 < n := by rw [hn]; exact orderOf_pos_iff.mpr hfin
+  have hqn : q ^ (n : ℤ) = 1 := by rw [zpow_natCast, hn]; exact pow_orderOf_eq_one q
+  -- The action `ρ` on `V`.
+  set ρ := Algebra.lsmul ℂ ℂ V (A := qWeylAlgebra ℂ q) with hρ
+  -- Eigenvector `v` of `ρ y` with eigenvalue `lam`.
+  obtain ⟨lam, hlam⟩ := (ρ (gMono q (0, 1))).exists_eigenvalue
+  obtain ⟨v, hv⟩ := hlam.exists_hasEigenvector
+  have hv0 : v ≠ 0 := hv.2
+  have hYv : gMono q (0, 1) • v = lam • v := by
+    have h := Module.End.mem_eigenspace_iff.mp hv.1
+    rw [hρ, Algebra.lsmul_apply] at h; exact h
+  -- `y` acts invertibly, so `lam ≠ 0`.
+  have hlam0 : lam ≠ 0 := by
+    intro h0
+    apply hv0
+    have h1 : gMono q (0, 1) • v = 0 := by rw [hYv, h0, zero_smul]
+    have h2 : v = gMono q (0, -1) • (gMono q (0, 1) • v) := by
+      rw [← mul_smul, gMono_mul']; simp [gMono_one]
+    rw [h1, smul_zero] at h2; exact h2
+  -- The `x`-orbit `w m = xᵐ · v`.
+  set w : ℤ → V := fun m => gMono q (m, 0) • v with hw
+  have hw0 : w 0 = v := by show gMono q ((0 : ℤ), 0) • v = v; rw [gMono_one, one_smul]
+  -- Shift by a power of `x`.
+  have hshiftX : ∀ (a m : ℤ), gMono q (a, 0) • w m = w (a + m) := by
+    intro a m
+    show gMono q (a, 0) • (gMono q (m, 0) • v) = gMono q (a + m, 0) • v
+    rw [← mul_smul, gMono_mul']; simp
+  -- `w m` is a `y`-eigenvector with eigenvalue `qᵐ·lam`.
+  have hYw : ∀ m : ℤ, gMono q (0, 1) • w m = (↑(q ^ m) * lam) • w m := by
+    intro m
+    have e1 : gMono q (0, 1) * gMono q (m, 0) = (↑(q ^ m) : ℂ) • gMono q (m, 1) := by
+      rw [gMono_mul']; simp
+    have e2 : gMono q (m, 1) • v = lam • w m := by
+      have e3 : gMono q (m, 0) * gMono q (0, 1) = gMono q (m, 1) := by rw [gMono_mul']; simp
+      calc gMono q (m, 1) • v = (gMono q (m, 0) * gMono q (0, 1)) • v := by rw [e3]
+        _ = gMono q (m, 0) • (gMono q (0, 1) • v) := by rw [mul_smul]
+        _ = gMono q (m, 0) • (lam • v) := by rw [hYv]
+        _ = lam • w m := by rw [smul_comm]
+    show gMono q (0, 1) • (gMono q (m, 0) • v) = (↑(q ^ m) * lam) • w m
+    rw [← mul_smul, e1, smul_assoc, e2, smul_smul]
+  -- The inverse `y⁻¹` scales `v` by `lam⁻¹`.
+  have hY'v : gMono q (0, -1) • v = lam⁻¹ • v := by
+    have einv : gMono q (0, -1) * gMono q (0, 1) = 1 := by rw [gMono_mul']; simp [gMono_one]
+    have key : lam • (gMono q (0, -1) • v) = v := by
+      rw [smul_comm, ← hYv, ← mul_smul, einv, one_smul]
+    calc gMono q (0, -1) • v = lam⁻¹ • (lam • (gMono q (0, -1) • v)) := by
+          rw [smul_smul, inv_mul_cancel₀ hlam0, one_smul]
+      _ = lam⁻¹ • v := by rw [key]
+  have hY'w : ∀ m : ℤ, gMono q (0, -1) • w m = (↑(q ^ (-m)) * lam⁻¹) • w m := by
+    intro m
+    have e1 : gMono q (0, -1) * gMono q (m, 0) = (↑(q ^ (-m)) : ℂ) • gMono q (m, -1) := by
+      rw [gMono_mul']; simp
+    have e2 : gMono q (m, -1) • v = lam⁻¹ • w m := by
+      have e3 : gMono q (m, 0) * gMono q (0, -1) = gMono q (m, -1) := by rw [gMono_mul']; simp
+      calc gMono q (m, -1) • v = (gMono q (m, 0) * gMono q (0, -1)) • v := by rw [e3]
+        _ = gMono q (m, 0) • (gMono q (0, -1) • v) := by rw [mul_smul]
+        _ = gMono q (m, 0) • (lam⁻¹ • v) := by rw [hY'v]
+        _ = lam⁻¹ • w m := by rw [smul_comm]
+    show gMono q (0, -1) • (gMono q (m, 0) • v) = (↑(q ^ (-m)) * lam⁻¹) • w m
+    rw [← mul_smul, e1, smul_assoc, e2, smul_smul]
+  -- Each `w m` is nonzero (`x` acts invertibly).
+  have hwne : ∀ m : ℤ, w m ≠ 0 := by
+    intro m hcontra
+    apply hv0
+    have hinv : gMono q (-m, 0) * gMono q (m, 0) = 1 := by rw [gMono_mul']; simp [gMono_one]
+    have hvw : v = gMono q (-m, 0) • w m := by
+      show v = gMono q (-m, 0) • (gMono q (m, 0) • v)
+      rw [← mul_smul, hinv, one_smul]
+    rw [hcontra, smul_zero] at hvw; exact hvw
+  -- `xⁿ` is central, hence acts as a scalar `μ`; `μ ≠ 0` since `xⁿ` is invertible.
+  have hcenter : gMono q ((n : ℤ), 0) ∈ Subalgebra.center ℂ (qWeylAlgebra ℂ q) := by
+    apply mem_center_of_comm_qMono
+    intro p
+    simp only [coe_gMono]
+    rw [qMono_mul, qMono_mul, zero_mul, zpow_zero, Units.val_one, one_smul, zero_add,
+      show (q ^ (p.2 * (n : ℤ)) : ℂˣ) = 1 by rw [mul_comm, zpow_mul, hqn, one_zpow],
+      Units.val_one, one_smul, add_zero, add_comm p.1 (n : ℤ)]
+  obtain ⟨μ, hμ⟩ := central_smul_scalar q V (gMono q ((n : ℤ), 0)) hcenter
+  have hperiod : ∀ m : ℤ, w ((n : ℤ) + m) = μ • w m := by
+    intro m
+    have hs := hshiftX (n : ℤ) m
+    rw [hμ (w m)] at hs; exact hs.symm
+  have hμne : μ ≠ 0 := by
+    intro h0
+    apply hwne (n : ℤ)
+    have hs : w ((n : ℤ) + 0) = μ • w 0 := hperiod 0
+    rw [add_zero, h0, zero_smul] at hs; exact hs
+  -- The finite span of the first `n` orbit vectors.
+  set Wk : Submodule ℂ V := Submodule.span ℂ (Set.range (fun i : Fin n => w ((i : ℕ) : ℤ)))
+    with hWk
+  have hbasis_mem : ∀ i : Fin n, w ((i : ℕ) : ℤ) ∈ Wk := fun i => Submodule.subset_span ⟨i, rfl⟩
+  -- Every orbit vector lies in `Wk` (using `n`-periodicity up to the scalar `μ`).
+  have hpos : ∀ j : ℕ, w (j : ℤ) ∈ Wk := by
+    intro j
+    induction j using Nat.strong_induction_on with
+    | _ j ih =>
+      by_cases hj : j < n
+      · simpa using hbasis_mem ⟨j, hj⟩
+      · have hjeq : (j : ℤ) = (n : ℤ) + ((j - n : ℕ) : ℤ) := by
+          have : n ≤ j := not_lt.mp hj
+          push_cast [this]; omega
+        rw [hjeq, hperiod]
+        exact Wk.smul_mem μ (ih (j - n) (by omega))
+  have hneg : ∀ j : ℕ, w (-(j : ℤ)) ∈ Wk := by
+    intro j
+    induction j using Nat.strong_induction_on with
+    | _ j ih =>
+      by_cases hj : j ≤ n
+      · have hnj : (n : ℤ) + (-(j : ℤ)) = ((n - j : ℕ) : ℤ) := by push_cast [hj]; omega
+        have key := hperiod (-(j : ℤ))
+        rw [hnj] at key
+        have hwj : w (-(j : ℤ)) = μ⁻¹ • w ((n - j : ℕ) : ℤ) := by
+          rw [key, smul_smul, inv_mul_cancel₀ hμne, one_smul]
+        rw [hwj]; exact Wk.smul_mem _ (hpos (n - j))
+      · have hjn : n < j := not_le.mp hj
+        have hnj : (n : ℤ) + (-(j : ℤ)) = -((j - n : ℕ) : ℤ) := by push_cast; omega
+        have key := hperiod (-(j : ℤ))
+        rw [hnj] at key
+        have hwj : w (-(j : ℤ)) = μ⁻¹ • w (-((j - n : ℕ) : ℤ)) := by
+          rw [key, smul_smul, inv_mul_cancel₀ hμne, one_smul]
+        rw [hwj]; exact Wk.smul_mem _ (ih (j - n) (by omega))
+  have hallmem : ∀ m : ℤ, w m ∈ Wk := by
+    intro m
+    rcases lt_or_ge m 0 with hm | hm
+    · have h := Int.toNat_of_nonneg (show (0 : ℤ) ≤ -m by omega)
+      have hmeq : m = -((-m).toNat : ℤ) := by rw [h]; ring
+      rw [hmeq]; exact hneg (-m).toNat
+    · have h := Int.toNat_of_nonneg hm
+      rw [← h]; exact hpos m.toNat
+  -- `Wk` is stable under the four generators, hence under all of `A`.
+  have hstabX : ∀ z ∈ Wk, gMono q (1, 0) • z ∈ Wk := by
+    intro z hz
+    induction hz using Submodule.span_induction with
+    | mem u hu => obtain ⟨i, rfl⟩ := hu; rw [hshiftX 1 _]; exact hallmem _
+    | zero => rw [smul_zero]; exact Wk.zero_mem
+    | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
+    | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
+  have hstabX' : ∀ z ∈ Wk, gMono q (-1, 0) • z ∈ Wk := by
+    intro z hz
+    induction hz using Submodule.span_induction with
+    | mem u hu => obtain ⟨i, rfl⟩ := hu; rw [hshiftX (-1) _]; exact hallmem _
+    | zero => rw [smul_zero]; exact Wk.zero_mem
+    | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
+    | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
+  have hstabY : ∀ z ∈ Wk, gMono q (0, 1) • z ∈ Wk := by
+    intro z hz
+    induction hz using Submodule.span_induction with
+    | mem u hu => obtain ⟨i, rfl⟩ := hu; rw [hYw _]; exact Wk.smul_mem _ (hallmem _)
+    | zero => rw [smul_zero]; exact Wk.zero_mem
+    | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
+    | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
+  have hstabY' : ∀ z ∈ Wk, gMono q (0, -1) • z ∈ Wk := by
+    intro z hz
+    induction hz using Submodule.span_induction with
+    | mem u hu => obtain ⟨i, rfl⟩ := hu; rw [hY'w _]; exact Wk.smul_mem _ (hallmem _)
+    | zero => rw [smul_zero]; exact Wk.zero_mem
+    | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
+    | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
+  have hstab : ∀ (a : qWeylAlgebra ℂ q) (z : V), z ∈ Wk → a • z ∈ Wk := by
+    intro a
+    obtain ⟨f, hf⟩ := a
+    change f ∈ Algebra.adjoin ℂ
+      {qMono ℂ q (1, 0), qMono ℂ q (-1, 0), qMono ℂ q (0, 1), qMono ℂ q (0, -1)} at hf
+    induction hf using Algebra.adjoin_induction with
+    | mem g hg =>
+        intro z hz
+        simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+        rcases hg with rfl | rfl | rfl | rfl
+        · exact hstabX z hz
+        · exact hstabX' z hz
+        · exact hstabY z hz
+        · exact hstabY' z hz
+    | algebraMap r =>
+        intro z hz
+        show (algebraMap ℂ (qWeylAlgebra ℂ q) r) • z ∈ Wk
+        rw [algebraMap_smul]; exact Wk.smul_mem r hz
+    | add x y hx hy ihx ihy =>
+        intro z hz
+        show ((⟨x, hx⟩ + ⟨y, hy⟩ : qWeylAlgebra ℂ q)) • z ∈ Wk
+        rw [add_smul]; exact Wk.add_mem (ihx z hz) (ihy z hz)
+    | mul x y hx hy ihx ihy =>
+        intro z hz
+        show ((⟨x, hx⟩ * ⟨y, hy⟩ : qWeylAlgebra ℂ q)) • z ∈ Wk
+        rw [mul_smul]; exact ihx _ (ihy z hz)
+  -- `Wk = V` by simplicity.
+  have hvWk : v ∈ Wk := by rw [← hw0]; exact hallmem 0
+  have htop : ∀ z : V, z ∈ Wk := mem_of_invariant q V Wk hstab ⟨v, hvWk, hv0⟩
+  -- The `n` orbit vectors are linearly independent (distinct `y`-eigenvalues).
+  have hinj : Function.Injective (fun i : Fin n => (↑(q ^ ((i : ℕ) : ℤ)) : ℂ) * lam) := by
+    intro i j hij
+    simp only at hij
+    have h1 : (↑(q ^ ((i : ℕ) : ℤ)) : ℂ) = ↑(q ^ ((j : ℕ) : ℤ)) := mul_right_cancel₀ hlam0 hij
+    rw [zpow_natCast, zpow_natCast] at h1
+    have h3 : (i : ℕ) ≡ (j : ℕ) [MOD orderOf q] := pow_eq_pow_iff_modEq.mp (Units.ext h1)
+    have hi : (i : ℕ) % orderOf q = (i : ℕ) := Nat.mod_eq_of_lt (by rw [← hn]; exact i.isLt)
+    have hj : (j : ℕ) % orderOf q = (j : ℕ) := Nat.mod_eq_of_lt (by rw [← hn]; exact j.isLt)
+    exact Fin.ext (by rw [← hi, ← hj]; exact h3)
+  have heig : ∀ i : Fin n,
+      (ρ (gMono q (0, 1))).HasEigenvector ((↑(q ^ ((i : ℕ) : ℤ)) : ℂ) * lam) (w ((i : ℕ) : ℤ)) := by
+    intro i
+    refine ⟨?_, hwne _⟩
+    rw [Module.End.mem_eigenspace_iff, hρ, Algebra.lsmul_apply]
+    exact hYw ((i : ℕ) : ℤ)
+  have hli : LinearIndependent ℂ (fun i : Fin n => w ((i : ℕ) : ℤ)) :=
+    Module.End.eigenvectors_linearIndependent' _ _ hinj _ heig
+  -- The orbit vectors span `V` and are independent, so they form a basis of size `n`.
+  have hsp : ⊤ ≤ Submodule.span ℂ (Set.range (fun i : Fin n => w ((i : ℕ) : ℤ))) := by
+    rw [← hWk]; intro z _; exact htop z
+  rw [Module.finrank_eq_card_basis (Module.Basis.mk hli hsp), Fintype.card_fin]
 
 end Etingof.Problem2_7_5
