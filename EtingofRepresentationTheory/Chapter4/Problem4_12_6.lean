@@ -96,6 +96,11 @@ def actEquiv (g : Affine K) : K ≃ K where
   left_inv := act_inv_apply g
   right_inv := act_apply_inv g
 
+theorem act_inv_eq_iff (g : Affine K) (x p : K) : act g⁻¹ x = p ↔ x = act g p := by
+  constructor
+  · intro h; rw [← h]; exact (act_apply_inv g x).symm
+  · intro h; rw [h]; exact act_inv_apply g p
+
 /-- The bijection `Affine K ≃ Kˣ × K` used to transport finiteness. -/
 def equivProd (K : Type*) [Field K] : Affine K ≃ Kˣ × K where
   toFun g := (g.a, g.b)
@@ -173,6 +178,53 @@ theorem zeroSum_finrank [Fintype K] :
   rw [hker, hrange, Module.finrank_pi ℂ] at hnull
   omega
 
+/-- The "spike" function at `t`: value `q - 1` at `t` and `-1` elsewhere, where `q = |K|`.
+Equivalently `q · δ_t - 1`; it lies in `zeroSum K` and the `spike`s span `zeroSum K`. -/
+def spike (K : Type*) [Fintype K] [DecidableEq K] (t : K) : K → ℂ :=
+  (Fintype.card K : ℂ) • Pi.single t (1 : ℂ) - 1
+
+/-- Summing a function over the units `Kˣ` (the nonzero elements) misses the value at `0`. -/
+theorem sum_units_eq [Fintype K] [DecidableEq K] (φ : K → ℂ) :
+    ∑ a : Kˣ, φ (a : K) = (∑ y : K, φ y) - φ 0 := by
+  classical
+  let e : Kˣ ≃ {y : K // y ≠ 0} :=
+    { toFun := fun u => ⟨(u : K), u.ne_zero⟩
+      invFun := fun y => Units.mk0 y.1 y.2
+      left_inv := fun u => by ext; simp
+      right_inv := fun y => by ext; simp }
+  have h1 : ∑ a : Kˣ, φ (a : K) = ∑ y : {y : K // y ≠ 0}, φ (y : K) :=
+    Fintype.sum_equiv e _ _ (fun a => rfl)
+  have hmem : ∀ x : K, x ∈ Finset.univ.erase (0 : K) ↔ x ≠ 0 := by
+    intro x; simp [Finset.mem_erase]
+  rw [h1, ← Finset.sum_subtype _ hmem φ, Finset.sum_erase_eq_sub (Finset.mem_univ (0 : K))]
+
+/-- The action permutes the indicator functions: `ρ g (δ_p) = δ_{g·p}`. -/
+theorem rho_single [DecidableEq K]
+    (ρ : Representation ℂ (Affine K) (K → ℂ))
+    (hρ : ∀ (g : Affine K) (f : K → ℂ) (x : K), (ρ g f) x = f (act g⁻¹ x))
+    (g : Affine K) (p : K) :
+    ρ g (Pi.single p (1 : ℂ)) = Pi.single (act g p) (1 : ℂ) := by
+  funext x
+  rw [hρ, Pi.single_apply, Pi.single_apply]
+  simp only [act_inv_eq_iff]
+
+/-- The action fixes the constant function `1`. -/
+theorem rho_const
+    (ρ : Representation ℂ (Affine K) (K → ℂ))
+    (hρ : ∀ (g : Affine K) (f : K → ℂ) (x : K), (ρ g f) x = f (act g⁻¹ x))
+    (g : Affine K) :
+    ρ g (1 : K → ℂ) = 1 := by
+  funext x; rw [hρ]; rfl
+
+/-- The action permutes the spikes: `ρ g (spike t) = spike (g·t)`. -/
+theorem rho_spike [Fintype K] [DecidableEq K]
+    (ρ : Representation ℂ (Affine K) (K → ℂ))
+    (hρ : ∀ (g : Affine K) (f : K → ℂ) (x : K), (ρ g f) x = f (act g⁻¹ x))
+    (g : Affine K) (t : K) :
+    ρ g (spike K t) = spike K (act g t) := by
+  unfold spike
+  rw [map_sub, map_smul, rho_single ρ hρ, rho_const ρ hρ]
+
 /-- **The hint.** The representation `V` of `G` on the zero-sum functions is irreducible:
 every `G`-invariant subspace contained in `zeroSum K` is `⊥` or all of `zeroSum K`. -/
 theorem zeroSum_irreducible [Fintype K]
@@ -181,7 +233,93 @@ theorem zeroSum_irreducible [Fintype K]
     (U : Submodule ℂ (K → ℂ)) (hUle : U ≤ zeroSum K)
     (hUinv : ∀ (g : Affine K), ∀ f ∈ U, ρ g f ∈ U) :
     U = ⊥ ∨ U = zeroSum K := by
-  sorry
+  classical
+  rcases eq_or_ne U ⊥ with hU | hU
+  · exact Or.inl hU
+  refine Or.inr (le_antisymm hUle ?_)
+  -- `q = |K| ≥ 2`, in particular `q ≠ 0` as a complex number.
+  have hq1 : 1 ≤ Fintype.card K := Fintype.card_pos
+  have hqne : (Fintype.card K : ℂ) ≠ 0 := by
+    exact_mod_cast Fintype.card_pos.ne'
+  -- Pick a nonzero `f₀ ∈ U` and a point `p` where it is nonzero.
+  obtain ⟨f0, hf0U, hf0ne⟩ := (Submodule.ne_bot_iff U).mp hU
+  obtain ⟨p, hp⟩ : ∃ p, f0 p ≠ 0 := by
+    by_contra h
+    exact hf0ne (funext fun x => by simpa using not_exists.mp h x)
+  -- Translate so the nonzero value sits at `0`: `f' = ρ ⟨1,-p⟩ f₀`, `f' 0 = f₀ p`.
+  set g0 : Affine K := ⟨1, -p⟩ with hg0
+  set f' : K → ℂ := ρ g0 f0 with hf'def
+  have hf'U : f' ∈ U := hUinv g0 f0 hf0U
+  have hf'0 : f' 0 = f0 p := by
+    rw [hf'def, hρ]; simp [act, hg0]
+  have hf'0ne : f' 0 ≠ 0 := by rw [hf'0]; exact hp
+  have hf'sum : ∑ x, f' x = 0 := hUle hf'U
+  -- Average `f'` over the scaling subgroup `{⟨a,0⟩ : a ∈ Kˣ}`.
+  set h : K → ℂ := ∑ a : Kˣ, ρ (⟨a, 0⟩ : Affine K) f' with hhdef
+  have hhU : h ∈ U := Submodule.sum_mem U (fun a _ => hUinv _ _ hf'U)
+  -- Compute: `h = f' 0 • spike 0`.
+  have hheq : h = (f' 0) • spike K 0 := by
+    funext x
+    rw [hhdef, Finset.sum_apply]
+    have hval : ∀ a : Kˣ, (ρ (⟨a, 0⟩ : Affine K) f') x = f' ((a : K)⁻¹ * x) := by
+      intro a
+      rw [hρ]; congr 1
+      simp [act, Units.val_inv_eq_inv_val]
+    simp_rw [hval]
+    by_cases hx : x = 0
+    · subst hx
+      simp only [mul_zero, Finset.sum_const, Finset.card_univ, Fintype.card_units,
+        nsmul_eq_mul, Pi.smul_apply, spike, Pi.sub_apply, Pi.single_eq_same,
+        Pi.one_apply, smul_eq_mul, mul_one]
+      rw [Nat.cast_sub hq1, Nat.cast_one]
+      ring
+    · -- reindex the sum over `Kˣ`: `a ↦ a⁻¹ * x` bijects onto the nonzero values.
+      have hxu : x ≠ 0 := hx
+      have hreindex : ∑ a : Kˣ, f' ((a : K)⁻¹ * x) = ∑ a : Kˣ, f' (a : K) := by
+        apply Fintype.sum_equiv ((Equiv.inv Kˣ).trans (Equiv.mulRight (Units.mk0 x hxu)))
+        intro a
+        simp only [Equiv.trans_apply, Equiv.inv_apply, Equiv.coe_mulRight]
+        congr 1
+        rw [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_mk0]
+      rw [hreindex, sum_units_eq, hf'sum, zero_sub]
+      simp only [Pi.smul_apply, spike, Pi.sub_apply, Pi.single_apply, if_neg hx,
+        Pi.one_apply, smul_eq_mul, mul_zero, zero_sub, mul_neg, mul_one]
+  -- Hence `spike 0 ∈ U`, and by translation every `spike t ∈ U`.
+  have hspike0U : spike K 0 ∈ U := by
+    have : spike K 0 = (f' 0)⁻¹ • h := by
+      rw [hheq, smul_smul, inv_mul_cancel₀ hf'0ne, one_smul]
+    rw [this]; exact U.smul_mem _ hhU
+  have hspikeU : ∀ t, spike K t ∈ U := by
+    intro t
+    have h1 : ρ (⟨1, t⟩ : Affine K) (spike K 0) = spike K t := by
+      rw [rho_spike ρ hρ]; congr 1; simp [act]
+    rw [← h1]; exact hUinv _ _ hspike0U
+  -- The spikes span `zeroSum K`: `f = ∑ t, (f t / q) • spike t`.
+  intro f hf
+  have hfsum : ∑ x, f x = 0 := hf
+  have hfeq : f = ∑ t : K, (f t / (Fintype.card K : ℂ)) • spike K t := by
+    funext x
+    rw [Finset.sum_apply]
+    simp_rw [Pi.smul_apply, spike, Pi.sub_apply, Pi.smul_apply, Pi.single_apply,
+      Pi.one_apply, smul_eq_mul, mul_sub]
+    rw [Finset.sum_sub_distrib]
+    have e1 : ∑ t : K, f t / (Fintype.card K : ℂ) * ((Fintype.card K : ℂ) *
+        (if x = t then (1 : ℂ) else 0)) = f x := by
+      have key : ∀ t : K, f t / (Fintype.card K : ℂ) * ((Fintype.card K : ℂ) *
+          (if x = t then (1 : ℂ) else 0)) = if x = t then f t else 0 := by
+        intro t
+        by_cases h : x = t
+        · rw [if_pos h, if_pos h, mul_one, div_mul_cancel₀ (f t) hqne]
+        · rw [if_neg h, if_neg h, mul_zero, mul_zero]
+      simp_rw [key]
+      rw [Finset.sum_ite_eq]
+      simp
+    have e2 : ∑ t : K, f t / (Fintype.card K : ℂ) * 1 = 0 := by
+      simp_rw [mul_one, ← Finset.sum_div]
+      rw [hfsum, zero_div]
+    rw [e1, e2, sub_zero]
+  rw [hfeq]
+  exact Submodule.sum_mem U (fun t _ => U.smul_mem _ (hspikeU t))
 
 /-- **Classification.** Every irreducible complex representation of the affine group `G` has
 dimension `1` or `q - 1`. (With the sum-of-squares formula `(q-1)·1² + (q-1)² = q(q-1) = |G|`,
