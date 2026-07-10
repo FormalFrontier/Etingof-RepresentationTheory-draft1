@@ -24,6 +24,14 @@ vanishes). Re-resolve each time with
 verify signatures against the compiler (`example : <sig> := by exact?` / a scratch `#check`)
 rather than trusting a cached source path.
 
+**Never `cd` into `.lake/packages/mathlib` (or any subdir) — read absolute paths from the
+worktree root instead.** The shell's cwd persists across Bash calls, and
+`.lake/packages/mathlib` is itself a lake project: once cwd is inside it,
+`lake build EtingofRepresentationTheory.<Module>` fails with a confusing "unknown target", and
+a bare `lake build` **silently builds Mathlib and reports success** — a green build that never
+touched your project. If builds report "unknown target" or an unexpected job count, run `pwd`
+and `cd` back to the worktree root before trusting any result.
+
 **Typecheck with `lake build EtingofRepresentationTheory.<Module>`, NOT `lake env lean
 <file>`.** `lake env lean` does **not** apply the lakefile's `[leanOptions]` — in
 particular `maxSynthPendingDepth = 3` (lakefile.toml; the Lean default is 2). Deep
