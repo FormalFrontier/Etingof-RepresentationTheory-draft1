@@ -214,6 +214,23 @@ theorem simple_fdRepOf_of_isSimpleModule
     simple_of_fullyFaithful_preservesMono E.functor _
   exact simple_of_fullyFaithful_preservesMono (forget₂ (FDRep k G) (Rep k G)) _
 
+/-- **Simple `k[G]`-modules are finite-dimensional.** Since `k[G]` is a finite-dimensional
+`k`-algebra (for finite `G`), any simple `k[G]`-module is a cyclic (hence finitely generated)
+`k[G]`-module, and finite over `k` by transitivity. This is the input to essential
+surjectivity of `FDRep k G ⥤ Rep k G` on simple objects. -/
+theorem finite_k_of_isSimpleModule [Finite G] {M : Type u} [AddCommGroup M]
+    [Module k M] [Module (MonoidAlgebra k G) M] [IsScalarTower k (MonoidAlgebra k G) M]
+    [IsSimpleModule (MonoidAlgebra k G) M] : Module.Finite k M := by
+  haveI : Nontrivial M := IsSimpleModule.nontrivial (MonoidAlgebra k G) M
+  obtain ⟨m, hm0⟩ := exists_ne (0 : M)
+  have htop : Submodule.span (MonoidAlgebra k G) {m} = ⊤ :=
+    (IsSimpleOrder.eq_bot_or_eq_top _).resolve_left (by
+      rw [Submodule.span_singleton_eq_bot]; exact hm0)
+  haveI : Module.Finite (MonoidAlgebra k G) M := ⟨⟨{m}, by simpa using htop⟩⟩
+  haveI : Module.Finite k (MonoidAlgebra k G) :=
+    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+  exact Module.Finite.trans (MonoidAlgebra k G) M
+
 /-- Being a simple object, packaged as an `ObjectProperty`. -/
 def simpleProp (C : Type*) [Category C] [Limits.HasZeroMorphisms C] : ObjectProperty C :=
   fun X => Simple X
