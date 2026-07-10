@@ -519,6 +519,31 @@ When you `obtain ⟨ι, _, S, acgS, modkS, …⟩` from a `∃ … (S) (_ : ∀ 
 | Linear algebra | `ext`, `simp [LinearMap...]` | `apply LinearMap.ext` |
 | Module homomorphisms | `ext`, `simp` | manual composition |
 
+### Enumerating a concrete finite group over `ZMod n` (`QuaternionGroup`, `DihedralGroup`, …) — #6068
+
+Case-splitting a `ZMod n` index (e.g. proving a per-element fact for all of `QuaternionGroup 2`)
+has two traps that each cost several build cycles:
+- **`fin_cases i` on `i : ZMod n` yields anonymous `⟨k, ⋯⟩` constructor terms, NOT the literals
+  `0,1,2,3`** — so `rw`/`exact` with lemmas stated at `a 3`, `xa 1`, … silently fail to match,
+  and `simp` may also rewrite `a 0 ↝ 1` (via `a_zero`), hiding the constructor from your
+  evaluation lemmas. Instead prove `zmod4_cases (i : ZMod 4) : i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 := by
+  revert i; decide` once, then `rcases g with i | i <;> rcases zmod4_cases i with rfl|rfl|rfl|rfl`
+  substitutes genuine literals that match literal-stated lemmas. (`decide` needs a closed prop:
+  `revert i` first — `by decide` on the open `i` fails with "must not contain free variables".)
+- **Group products (`a 1 * xa 0 = xa 3`) close by `decide`, but hoist each into a named `have`
+  with explicit `(… : QuaternionGroup n)` ascription** before the `<;>` chain. An inline
+  `simp only [show a 1 * xa 0 = xa 3 from by decide, …]` under `<;>` fails elaboration with
+  "expected type must not contain metavariables". A bare `a 1` on a RHS also needs the ascription
+  (its `n` is otherwise an unresolved metavariable).
+- Concrete `ℂ` identities with `Complex.I` left after evaluation (e.g. `-s = I * (I * s)`) close
+  uniformly with `norm_num [Complex.ext_iff]` (`ring`/`Complex.I_sq` are fiddlier because
+  `ring_nf` leaves `I^2`, not `I*I`).
+- Finite-dimensionality/basis of such a subspace: build an explicit `≃ₗ[ℂ] (Fin d → ℂ)` (forward
+  = evaluate at coset reps, inverse = an explicit `liftFun` whose values the covariance forces),
+  then `e.finrank_eq ▸ Module.finrank_fin_fun`. For irreducibility of a `d`-dim rep, exhibit two
+  independent members of any nonzero invariant `U` (a nonzero `f` and a well-chosen `ρ(g) f`, via
+  a `2×2` coordinate determinant `≠ 0`), then `Submodule.eq_of_le_of_finrank_le`.
+
 ### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
 
 When a class field's type interleaves implicit and explicit binders (e.g.
