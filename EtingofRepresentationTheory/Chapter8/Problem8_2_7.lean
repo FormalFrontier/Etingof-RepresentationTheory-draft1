@@ -8,6 +8,7 @@ import Mathlib.RingTheory.Polynomial.Basic
 import Mathlib.Data.ZMod.Basic
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
+import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 
 /-!
 # Problem 8.2.7: Tor and Ext for `ℤ` and `k[x]`
@@ -89,6 +90,17 @@ private lemma hasProjectiveDimensionLT_two_of_shortExact
   haveI : HasProjectiveDimensionLT S.X₂ 2 := hasProjectiveDimensionLT_of_ge S.X₂ 1 2 (by omega)
   exact hS.hasProjectiveDimensionLT_X₃ 1 ‹_› ‹_›
 
+open Limits in
+/-- In a six-term exact window `W₀ → W₁ → W₂ → W₃ → W₄ → W₅`, if the neighbours `W₁` and `W₃` of
+`W₂` are both zero then `W₂` is zero. (Used to squeeze a higher `Tor` between two vanishing `Tor`
+of the free terms of a length-`1` resolution.) -/
+private lemma isZero_obj_two_of_sixTerm_exact
+    {D : Type*} [Category D] [Abelian D] {W : ComposableArrows D 5}
+    (hW : W.Exact) (h1 : IsZero (W.obj 1)) (h3 : IsZero (W.obj 3)) :
+    IsZero (W.obj 2) := by
+  have e : (W.sc' hW.toIsComplex 1 2 3).Exact := hW.exact' 1 2 3
+  exact e.isZero_X₂ (h1.eq_of_src _ _) (h3.eq_of_tgt _ _)
+
 /-! ### Part (i): `A = ℤ` -/
 
 /-- Right `ℤ`-action on `ZMod a` (pulled back from the left action along `ℤᵐᵒᵖ ≃+* ℤ`; the two
@@ -111,11 +123,77 @@ theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
   sorry
 
+/-- The right-module length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ℤᵐᵒᵖ`
+(`a ≠ 0`): `ℤ` and `ℤ/a` as right `ℤ`-modules, with `·a` and the quotient map made `ℤᵐᵒᵖ`-linear.
+The underlying functions match the left-module resolution used for the `Ext` side. -/
+private noncomputable def zmodMopResolution (a : ℕ) (ha : a ≠ 0) :
+    {S : ShortComplex (ModuleCat.{0} ℤᵐᵒᵖ) //
+      S.ShortExact ∧ S.X₁ = ModuleCat.of ℤᵐᵒᵖ ℤ ∧ S.X₂ = ModuleCat.of ℤᵐᵒᵖ ℤ ∧
+      S.X₃ = ModuleCat.of ℤᵐᵒᵖ (ZMod a)} :=
+  have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
+  let f : ℤ →ₗ[ℤᵐᵒᵖ] ℤ :=
+    { toFun := fun x => (a : ℤ) * x
+      map_add' := fun x y => by ring
+      map_smul' := fun r x => by
+        simp only [RingHom.id_apply, MulOpposite.smul_eq_mul_unop]; ring }
+  let g : ℤ →ₗ[ℤᵐᵒᵖ] ZMod a :=
+    { toFun := fun x => (x : ZMod a)
+      map_add' := fun x y => by push_cast; ring
+      map_smul' := fun r x => by
+        have hsmul : (r • (x : ZMod a)) = MulOpposite.unop r • (x : ZMod a) := rfl
+        simp only [RingHom.id_apply, MulOpposite.smul_eq_mul_unop, hsmul, zsmul_eq_mul]
+        push_cast; ring }
+  have hf : ∀ x : ℤ, f x = (a : ℤ) * x := fun _ => rfl
+  have hg : ∀ x : ℤ, g x = ((x : ℤ) : ZMod a) := fun _ => rfl
+  have hgf : ∀ x : ℤ, g (f x) = 0 := by
+    intro x; rw [hf, hg, ZMod.intCast_zmod_eq_zero_iff_dvd]; exact dvd_mul_right _ _
+  have eq0 : g.comp f = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+  let S := ModuleCat.shortComplexOfCompEqZero f g eq0
+  have hexact : Function.Exact f g := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, hg, ZMod.intCast_zmod_eq_zero_iff_dvd, LinearMap.mem_range, hf]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right _ _
+  have hinj : Function.Injective f := fun x y hxy => mul_left_cancel₀ ha' (by rw [← hf, ← hf, hxy])
+  have hsurj : Function.Surjective g := by
+    intro z; obtain ⟨y, rfl⟩ := ZMod.intCast_surjective z; exact ⟨y, hg y⟩
+  ⟨S, ModuleCat.shortComplex_shortExact S hexact hinj hsurj, rfl, rfl, rfl⟩
+
+/-- `ZMod 0 = ℤ` as a right `ℤ`-module (via `mopZMod`) is `ℤᵐᵒᵖ`-linearly the free rank-one
+module `ℤ` (via `Semiring.toOppositeModule`); the two `ℤᵐᵒᵖ`-actions agree by commutativity. -/
+private noncomputable def zmodZeroOpEquiv : ℤ ≃ₗ[ℤᵐᵒᵖ] (ZMod 0) :=
+  { (AddEquiv.refl ℤ) with
+    map_smul' := fun r x => by
+      rw [MulOpposite.smul_eq_mul_unop]
+      show x * MulOpposite.unop r = MulOpposite.unop r • x
+      rw [smul_eq_mul, mul_comm] }
+
+open Limits in
 /-- **Problem 8.2.7(i), higher `Tor` vanishes.** `Torᵢ(ℤ/a, ℤ/b) = 0` for `i ≥ 2`, because
-`ℤ/a` has a length-1 free resolution over the PID `ℤ`. -/
+`ℤ/a` has a length-`1` free resolution over the PID `ℤ`. For `i ≥ 2` the `Tor` is squeezed
+between the vanishing `Tor` of the two free terms in the six-term long exact sequence. -/
 theorem Problem_8_2_7_i_tor_vanish (a b : ℕ) (n : ℕ) :
     Limits.IsZero (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) (n + 2)) := by
-  sorry
+  rcases eq_or_ne a 0 with rfl | ha
+  · -- `ZMod 0 = ℤ` is a projective (free rank-one) right module
+    have hz := Functor.isZero_leftDerived_obj_projective_succ
+      (tensorRightFunctor ℤ (ZMod b)) (n + 1) (ModuleCat.of ℤᵐᵒᵖ ℤ)
+    exact hz.of_iso
+      (((tensorRightFunctor ℤ (ZMod b)).leftDerived (n + 2)).mapIso
+        zmodZeroOpEquiv.symm.toModuleIso)
+  · obtain ⟨S, hS, hX₁, hX₂, hX₃⟩ := zmodMopResolution a ha
+    set F := tensorRightFunctor ℤ (ZMod b) with hF
+    obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS (n + 1) (n + 2) rfl
+    have h1 : IsZero ((F.leftDerived (n + 2)).obj S.X₂) := by
+      rw [hX₂]; exact Functor.isZero_leftDerived_obj_projective_succ F (n + 1) _
+    have h3 : IsZero ((F.leftDerived (n + 1)).obj S.X₁) := by
+      rw [hX₁]; exact Functor.isZero_leftDerived_obj_projective_succ F n _
+    have hgoal : IsZero ((F.leftDerived (n + 2)).obj S.X₃) :=
+      isZero_obj_two_of_sixTerm_exact hExact h1 h3
+    rw [hX₃] at hgoal
+    exact hgoal
 
 /-- **Problem 8.2.7(i), free generator.** `ℤ` is projective as a `ℤ`-module, so
 `Torᵢ₊₁(ℤ, N) = 0` for every abelian group `N`. -/
