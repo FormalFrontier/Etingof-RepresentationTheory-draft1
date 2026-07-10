@@ -587,6 +587,36 @@ in `Mathlib.Algebra.Field.ZMod` (not `Data.ZMod.Basic`); `Module.Basis.ofVectorS
 namespace `Module.Basis`; the order→dimension endgame uses `ZMod.addOrderOf_coe` +
 `ZMod.natCast_eq_zero_iff` + `addOrderOf_dvd_natCard`.
 
+### The `k[x]`-module analog (#6113): `fast_instance% Field` diamonds the torsion `Module`, so pass instances explicitly to `ofVectorSpace`
+
+The fin-dim `k[x]`-module case of Exercise 8.2.9 (`Exercise_8_2_9_i_polynomial`) mirrors the
+finAb proof over the PID `k[x]`: a monic irreducible factor `p` of the annihilator of a nonzero
+`v` (via `LinearMap.toSpanSingleton`, `ker` a proper nonzero ideal — nonzero because
+`Polynomial.not_finite`, proper because `1 ∉ ker`; monic factor from
+`Polynomial.exists_monic_irreducible_factor`, NOT `normalize` which needs an unavailable
+`DecidableEq k`) gives `p • ⊤ ≠ ⊤`; the `K = k[x]/(p)`-vector space `P/(p•⊤)`
+(`Module.isTorsionBy_quotient_element_smul`, `Submodule.Quotient.nontrivial_iff`) yields a nonzero
+functional; lift through `Ideal.Quotient.factorₐ : k[x]/(p^N) → k[x]/(p)` (surjective,
+`factor_surjective`) with `N = dim_k P + 1`; coprimality `IsCoprime a (p^N)`
+(`Irreducible.coprime_iff_not_dvd` + `.pow_right`) makes the lift a **unit**, so it is surjective and
+`dim_k P ≥ dim_k k[x]/(p^N) = N·deg p > dim_k P` (`finrank_quotient_span_eq_natDegree`,
+`natDegree_pow`, `LinearMap.finrank_le_finrank_of_surjective`, `Irreducible.natDegree_pos`).
+
+**The one real trap (cost ~5 build cycles):** `Ideal.Quotient.field` is built with `fast_instance%`,
+whose derived `Semiring (k[x]/(p))` is defeq to — but *syntactically different from* — the canonical
+`Ideal.Quotient.commRing`-derived semiring that the `Module (k[x]/(p)) (P/p•⊤)` torsion instance is
+registered over. So a `haveI : Field (k[x]/(p))` makes instance **search** for the module fail at
+`Module.Basis.ofVectorSpace` (even with the module also provided via `letI` — search wants a
+syntactic match). **Fix:** don't add a separate `Field` haveI; feed both instances explicitly, where
+Lean unifies up to defeq:
+`@Module.Basis.ofVectorSpace (k[x]/(p)) (P/p•⊤) (Ideal.Quotient.field _).toDivisionRing _
+(Module.isTorsionBy_quotient_element_smul P p).module`. The `k[x]`-linear functional `φ : P → K` is
+then built by hand (a `LinearMap` literal); its `map_smul'` bridges the `k[x]`- and `K`-actions with
+`Module.IsTorsionBy.mk_smul` (turns `a • x` on `P/p•⊤` into `(mk a) • x`, matching the same torsion
+instance fed to the basis) then `map_smul`, `smul_eq_mul`, `Algebra.smul_def`,
+`Ideal.Quotient.algebraMap_eq`. No `ULift` is needed here (unlike finAb): `k : Type u` makes
+`k[x]/(p^N) : Type u` directly.
+
 ### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
 
 When a class field's type interleaves implicit and explicit binders (e.g.
