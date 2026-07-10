@@ -311,7 +311,60 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
       have hfx : fmap i₀ (fmap i₀ x) = fmap i₀ x := hidem i₀ x
       have : fmap i₀ m = m := by rw [← hx]; exact hfx
       exact this
-  sorry
+  -- `M` is now a simple module over the single block `R = Matrix (Fin (d i₀)) K`.
+  haveI : IsArtinianRing (MonoidAlgebra K G) := IsArtinianRing.of_finite K (MonoidAlgebra K G)
+  haveI := D.d_pos i₀
+  have hblock : ∀ a : MonoidAlgebra K G, D.blockHom i₀ a = (D.π a) i₀ := fun _ => rfl
+  have hφ_surj : Function.Surjective (D.blockHom i₀) := D.blockHom_surjective i₀
+  -- `ker (blockHom i₀)` annihilates `M`, using that `ε i₀` acts as the identity.
+  have hkerφ : ∀ a : MonoidAlgebra K G, D.blockHom i₀ a = 0 → ∀ m : M, a • m = 0 := by
+    intro a ha m
+    rw [show a • m = (a * ε i₀) • m by rw [mul_smul, hid m]]
+    apply hann
+    rw [map_mul, hε i₀]
+    have hcol : D.π a * Pi.single i₀ (1 : Matrix (Fin (D.d i₀)) (Fin (D.d i₀)) K)
+        = Pi.single i₀ (D.blockHom i₀ a) := by
+      funext j
+      rcases eq_or_ne j i₀ with h | h
+      · subst h; simp [Pi.mul_apply, Pi.single_eq_same, hblock]
+      · simp [Pi.mul_apply, Pi.single_eq_of_ne h]
+    rw [hcol, ha, Pi.single_zero]
+  -- Package `M` and `Std i₀` as torsion modules by `ker (blockHom i₀)`, hence modules over the
+  -- block quotient `Q ≅ R`.
+  have hTM : Module.IsTorsionBySet (MonoidAlgebra K G) M
+      (RingHom.ker (D.blockHom i₀).toRingHom) :=
+    fun x a => hkerφ (a : MonoidAlgebra K G) (RingHom.mem_ker.mp a.2) x
+  have hTS : Module.IsTorsionBySet (MonoidAlgebra K G) (D.Std i₀)
+      (RingHom.ker (D.blockHom i₀).toRingHom) := fun v a => by
+    have ha : D.blockHom i₀ (a : MonoidAlgebra K G) = 0 := RingHom.mem_ker.mp a.2
+    rw [smul_Std_eq, ha, zero_smul]
+  letI hQM : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) M := hTM.module
+  letI hQS : Module (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) (D.Std i₀) :=
+    hTS.module
+  -- `Q ≅ R` is a simple artinian ring.
+  let e := RingHom.quotientKerEquivOfSurjective (f := (D.blockHom i₀).toRingHom) hφ_surj
+  haveI : IsSimpleRing (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) :=
+    IsSimpleRing.of_ringEquiv e.symm inferInstance
+  haveI : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) M :=
+    (hTM.semilinearMap.isSimpleModule_iff_of_bijective Function.bijective_id).mp inferInstance
+  haveI : IsSimpleModule (MonoidAlgebra K G ⧸ RingHom.ker (D.blockHom i₀).toRingHom) (D.Std i₀) :=
+    (hTS.semilinearMap.isSimpleModule_iff_of_bijective Function.bijective_id).mp
+      (isSimpleModule_Std D i₀)
+  -- Two simple modules over the simple artinian block quotient are isomorphic.
+  obtain ⟨eQ⟩ := linearEquiv_of_isSimpleRing (R := MonoidAlgebra K G ⧸
+    RingHom.ker (D.blockHom i₀).toRingHom) M (D.Std i₀)
+  -- Demote the `Q`-linear equivalence to a `K[G]`-linear one (`Q`-action = `K[G]`-action mod ker).
+  refine ⟨{ eQ with
+    map_smul' := fun a m => by
+      have h1 : a • m
+          = (Ideal.Quotient.mk (RingHom.ker (D.blockHom i₀).toRingHom) a) • m :=
+        (hTM.mk_smul a m).symm
+      have h2 : (Ideal.Quotient.mk (RingHom.ker (D.blockHom i₀).toRingHom) a) • eQ m
+          = a • eQ m := hTS.mk_smul a (eQ m)
+      calc eQ (a • m)
+          = eQ ((Ideal.Quotient.mk _ a) • m) := by rw [h1]
+        _ = (Ideal.Quotient.mk _ a) • eQ m := eQ.map_smul _ _
+        _ = a • eQ m := h2 }⟩
 
 /-- **Deliverable 4 (count).** The number of isomorphism classes of simple `K[G]`-modules equals
 the number of Wedderburn blocks `n`. -/
