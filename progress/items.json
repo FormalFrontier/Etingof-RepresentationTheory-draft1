@@ -3113,8 +3113,8 @@
     "end_page": "87",
     "start_line": 3,
     "end_line": 4,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean (imports 4.12.2): character of R_z (p·z^{-c} on center, 0 off-center) and tensor-product characters (R_z⊗R_w ≅ p·R_{zw} for zw≠1; p² central character for zw=1). Sorry proofs, statement pass (#5944)."
+    "status": "proved",
+    "coverage_note": "Proved in EtingofRepresentationTheory/Chapter4/Problem4_12_9.lean (imports 4.12.2): character_Rz (character of R_z is p·z^{-c} on center, 0 off-center), tensor_character_nonone (R_z⊗R_w ≅ p·R_{zw} for zw≠1), tensor_character_inv (p² central character for zw=1). All three sorry-free, axioms only propext/Classical.choice/Quot.sound. Trace computed via toMatrix diagonal + geometric-sum vanishing; ρ pinned to rhoHom via exists_unique_rep (#6226). Statement pass was #5944."
   },
   {
     "id": "Chapter4/Problem4.12.10",
