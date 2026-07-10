@@ -20,7 +20,9 @@ the multiplication `⟨a,b⟩ * ⟨a',b'⟩ = ⟨a·a', a·b' + b⟩`, so `G = K
 The classification (recorded here; `sorry` proofs — a statement pass):
 
 * `one_dim_reps_card`: the one-dimensional representations are the group homomorphisms
-  `G → ℂˣ`, pulled back from the abelianization `G^{ab} ≅ Kˣ`; there are exactly `q-1` of them.
+  `G → ℂˣ`, pulled back from the abelianization `G^{ab} ≅ Kˣ`; there are exactly `q-1` of them
+  when `3 ≤ q`. (For `q = 2`, `G ≅ ℤ/2` is abelian of order `2`, so it has `2 ≠ q-1` characters;
+  the `3 ≤ q` hypothesis is required.)
 * `zeroSum` is the subspace of functions `K → ℂ` whose values sum to `0`; `zeroSum_invariant`
   and `zeroSum_finrank` show it is a `G`-invariant subspace of dimension `q-1`, and
   `zeroSum_irreducible` shows the corresponding representation `V` is irreducible.
@@ -122,10 +124,75 @@ end Affine
 open Affine
 
 /-- **One-dimensional representations.** They are the group homomorphisms `G → ℂˣ`
-(pulled back from `G^{ab} ≅ Kˣ`), and there are exactly `q - 1` of them. -/
-theorem one_dim_reps_card [Fintype K] :
+(pulled back from `G^{ab} ≅ Kˣ`), and there are exactly `q - 1` of them.
+
+The hypothesis `3 ≤ q` (equivalently `Nontrivial Kˣ`) is necessary: for `q = 2` the group
+`Kˣ` is trivial, so `G ≅ ℤ/2` is abelian of order `2` and has `2 ≠ q - 1 = 1` characters.
+The commutator argument below produces every translation `⟨1,c⟩` as a single commutator
+`[⟨a,0⟩, ⟨1,d⟩] = ⟨1,(a-1)d⟩`, which requires a unit `a ≠ 1`; that unit exists exactly when
+`3 ≤ q`. -/
+theorem one_dim_reps_card [Fintype K] (hK : 3 ≤ Fintype.card K) :
     Nat.card (Affine K →* ℂˣ) = Fintype.card K - 1 := by
-  sorry
+  classical
+  -- The projection `G → Kˣ`, `⟨a,b⟩ ↦ a`, and its section `Kˣ → G`, `a ↦ ⟨a,0⟩`.
+  let projA : Affine K →* Kˣ :=
+    { toFun := fun g => g.a, map_one' := rfl, map_mul' := fun _ _ => rfl }
+  let s : Kˣ →* Affine K :=
+    { toFun := fun a => ⟨a, 0⟩
+      map_one' := rfl
+      map_mul' := fun a a' => by ext <;> simp }
+  -- In the abelian group `ℂˣ`, every commutator is trivial.
+  have key : ∀ u v : ℂˣ, u * v * u⁻¹ * v⁻¹ = 1 := fun u v => by
+    rw [mul_comm u v]; group
+  -- Any character `φ : G → ℂˣ` kills every translation `⟨1,c⟩`: it is a commutator.
+  have htrans : ∀ (φ : Affine K →* ℂˣ) (c : K), φ (⟨1, c⟩ : Affine K) = 1 := by
+    intro φ c
+    -- Pick a unit `a₀ ≠ 1`; possible since `2 ≤ |Kˣ| = q - 1`.
+    have hcard : 2 ≤ Fintype.card Kˣ := by rw [Fintype.card_units]; omega
+    have : Nontrivial Kˣ := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+    obtain ⟨a₀, ha₀⟩ := exists_ne (1 : Kˣ)
+    have hu : ((a₀ : K) - 1) ≠ 0 := sub_ne_zero.mpr fun h => ha₀ (Units.ext h)
+    -- `⟨1, a·c' - c'⟩ = [⟨a,0⟩, ⟨1,c'⟩]`, so `φ` sends it to `1`.
+    have hkey : ∀ (a : Kˣ) (c' : K), φ (⟨1, (a : K) * c' - c'⟩ : Affine K) = 1 := by
+      intro a c'
+      have ha : (a : K) ≠ 0 := Units.ne_zero a
+      have hcomm : (⟨1, (a : K) * c' - c'⟩ : Affine K) =
+          ⟨a, 0⟩ * ⟨1, c'⟩ * ⟨a, 0⟩⁻¹ * ⟨1, c'⟩⁻¹ := by
+        ext
+        · simp
+        · simp only [mul_b, mul_a, inv_a, inv_b, Units.val_mul,
+            Units.val_inv_eq_inv_val, Units.val_one, inv_one, mul_zero, add_zero, mul_one,
+            mul_neg, one_mul]
+          field_simp
+          ring
+      rw [hcomm]
+      simp only [map_mul, map_inv]
+      exact key _ _
+    -- Solve `(a₀ - 1)·c' = c` and read off `φ ⟨1,c⟩ = 1`.
+    have h := hkey a₀ (((a₀ : K) - 1)⁻¹ * c)
+    have hval : (a₀ : K) * (((a₀ : K) - 1)⁻¹ * c) - ((a₀ : K) - 1)⁻¹ * c = c := by
+      field_simp
+    rwa [hval] at h
+  -- Precomposition with `projA` is a bijection `(Kˣ →* ℂˣ) ≃ (G →* ℂˣ)`.
+  let E : (Affine K →* ℂˣ) ≃ (Kˣ →* ℂˣ) :=
+    { toFun := fun φ => φ.comp s
+      invFun := fun χ => χ.comp projA
+      left_inv := fun φ => MonoidHom.ext fun g => by
+        -- `((φ.comp s).comp projA) g = φ ⟨g.a, 0⟩` definitionally
+        change φ (⟨g.a, 0⟩ : Affine K) = φ g
+        have hg : g = (⟨g.a, 0⟩ : Affine K) * ⟨1, (↑g.a)⁻¹ * g.b⟩ := by
+          ext
+          · simp
+          · simp
+        conv_rhs => rw [hg]
+        rw [map_mul, htrans φ _, mul_one]
+      right_inv := fun χ => MonoidHom.ext fun a => rfl }
+  rw [Nat.card_congr E]
+  -- `|Kˣ →* ℂˣ| = |Kˣ| = q - 1` by duality for finite abelian groups (`ℂ` has all roots of unity).
+  haveI : NeZero ((Monoid.exponent Kˣ : ℕ) : ℂ) :=
+    ⟨by exact_mod_cast Monoid.exponent_ne_zero_of_finite⟩
+  rw [CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Kˣ ℂ, Nat.card_eq_fintype_card,
+    Fintype.card_units]
 
 /-- The subspace `V` of functions `K → ℂ` whose values sum to zero. -/
 def zeroSum (K : Type*) [Fintype K] : Submodule ℂ (K → ℂ) where
