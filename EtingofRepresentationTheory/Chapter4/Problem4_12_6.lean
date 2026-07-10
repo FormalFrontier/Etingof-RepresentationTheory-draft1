@@ -1,4 +1,8 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups
+import EtingofRepresentationTheory.Infrastructure.IrreducibleEnumeration
+import EtingofRepresentationTheory.Infrastructure.SimpleModuleCount
 
 /-!
 # Problem 4.12.6: representations of the affine group `x ↦ ax + b` over `𝔽_q`
@@ -38,6 +42,8 @@ The classification (recorded here; `sorry` proofs — a statement pass):
 noncomputable section
 
 namespace Etingof.Problem4_12_6
+
+open CategoryTheory
 
 variable {K : Type*} [Field K]
 
@@ -387,6 +393,166 @@ theorem zeroSum_irreducible [Fintype K]
     rw [e1, e2, sub_zero]
   rw [hfeq]
   exact Submodule.sum_mem U (fun t _ => U.smul_mem _ (hspikeU t))
+
+open Module in
+/-- Pigeonhole: an injection `c : ι → Fin n` whose image carries the full positive-weight sum
+`∑ f j` is surjective. -/
+private theorem surj_of_injective_of_sum_eq {n : ℕ} {ι : Type*} [Fintype ι]
+    (f : Fin n → ℕ) (hf : ∀ j, 0 < f j) (c : ι → Fin n) (hcinj : Function.Injective c)
+    (hsum : ∑ i, f (c i) = ∑ j, f j) : Function.Surjective c := by
+  classical
+  have himg : ∑ j ∈ Finset.image c Finset.univ, f j = ∑ i, f (c i) :=
+    Finset.sum_image (fun a _ b _ hab => hcinj hab)
+  have hsplit := Finset.sum_sdiff (f := f) (Finset.subset_univ (Finset.image c Finset.univ))
+  rw [himg, hsum] at hsplit
+  have hzero : ∑ j ∈ Finset.univ \ Finset.image c Finset.univ, f j = 0 := by omega
+  intro j
+  have hjmem : j ∈ Finset.image c Finset.univ := by
+    by_contra hj
+    exact absurd ((Finset.sum_eq_zero_iff.mp hzero) j
+      (Finset.mem_sdiff.mpr ⟨Finset.mem_univ j, hj⟩)) (hf j).ne'
+  obtain ⟨i, _, hi⟩ := Finset.mem_image.mp hjmem
+  exact ⟨i, hi⟩
+
+/-- The one-dimensional representation on `ℂ` attached to a character `χ : G →* ℂˣ`:
+`g` acts by multiplication by `χ g`. -/
+def charRep (χ : Affine K →* ℂˣ) : Representation ℂ (Affine K) ℂ where
+  toFun g := ((χ g : ℂˣ) : ℂ) • LinearMap.id
+  map_one' := by ext; simp
+  map_mul' a b := by
+    apply LinearMap.ext; intro x
+    change ((χ (a * b) : ℂˣ) : ℂ) * x = ((χ a : ℂˣ) : ℂ) * (((χ b : ℂˣ) : ℂ) * x)
+    rw [map_mul, Units.val_mul, mul_assoc]
+
+/-- The character of `charRep χ` is `g ↦ χ g`. -/
+@[simp] lemma charRep_character (χ : Affine K →* ℂˣ) (g : Affine K) :
+    (FDRep.of (charRep χ)).character g = (χ g : ℂ) := by
+  have hg : charRep χ g = (χ g : ℂ) • LinearMap.id := rfl
+  change LinearMap.trace ℂ ℂ ((FDRep.of (charRep χ)).ρ g) = (χ g : ℂ)
+  rw [FDRep.of_ρ', hg, map_smul, LinearMap.trace_id]
+  simp
+
+/-- The one-dimensional `charRep χ` is simple as a `ℂ[G]`-module: its only `ℂ`-subspaces are
+`⊥` and `⊤`, and all of them are invariant. -/
+lemma charRep_asModule_simple (χ : Affine K →* ℂˣ) :
+    IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (charRep χ).asModule := by
+  haveI hℂ : IsSimpleModule ℂ ℂ := inferInstance
+  rw [isSimpleModule_iff,
+    ← (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := charRep χ)).isSimpleOrder_iff]
+  haveI : Nontrivial (Subrepresentation (charRep χ)) := by
+    refine ⟨⊥, ⊤, fun h => ?_⟩
+    have hbt : (⊥ : Submodule ℂ ℂ) = ⊤ := congrArg Subrepresentation.toSubmodule h
+    exact absurd hbt bot_ne_top
+  refine ⟨fun W' => ?_⟩
+  rcases IsSimpleOrder.eq_bot_or_eq_top W'.toSubmodule with h | h
+  · left; exact Subrepresentation.toSubmodule_injective h
+  · right; exact Subrepresentation.toSubmodule_injective h
+
+/-- Any one-dimensional `charRep χ` is simple as an object of `FDRep ℂ (Affine K)`. -/
+lemma charRep_simple (χ : Affine K →* ℂˣ) :
+    Simple (FDRep.of (charRep χ)) :=
+  haveI := charRep_asModule_simple χ
+  Etingof.simple_fdRepOf_of_isSimpleModule (charRep χ)
+
+/-- The permutation representation of `G` on functions `K → ℂ`: `g` acts by `f ↦ f ∘ (g⁻¹ · -)`. -/
+def permRep : Representation ℂ (Affine K) (K → ℂ) where
+  toFun g := LinearMap.funLeft ℂ ℂ (act g⁻¹)
+  map_one' := by
+    refine LinearMap.ext fun f => ?_; funext x
+    simp only [LinearMap.funLeft_apply, inv_one, act_one, Module.End.one_apply]
+  map_mul' a b := by
+    refine LinearMap.ext fun f => ?_; funext x
+    simp only [Module.End.mul_apply, LinearMap.funLeft_apply, mul_inv_rev]
+    rw [act_mul]
+
+@[simp] lemma permRep_apply (g : Affine K) (f : K → ℂ) (x : K) :
+    permRep g f x = f (act g⁻¹ x) := rfl
+
+/-- The zero-sum subspace as a subrepresentation of `permRep`. -/
+def Vsub [Fintype K] : Subrepresentation (permRep (K := K)) where
+  toSubmodule := zeroSum K
+  apply_mem_toSubmodule g v hv := zeroSum_invariant permRep permRep_apply g v hv
+
+/-- **`V` is irreducible as a `ℂ[G]`-module.** The zero-sum subrepresentation `Vsub`,
+viewed as a module over the group algebra, is simple. This repackages `zeroSum_irreducible`
+(every invariant subspace of `zeroSum K` is `⊥` or everything) as `IsSimpleModule`. -/
+theorem Vrep_isSimpleModule [Fintype K] (hq : 2 ≤ Fintype.card K) :
+    IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Vsub (K := K)).toRepresentation.asModule := by
+  classical
+  haveI hnt0 : Nontrivial ↥(zeroSum K) := by
+    apply Module.nontrivial_of_finrank_pos (R := ℂ)
+    rw [zeroSum_finrank]; omega
+  rw [isSimpleModule_iff,
+    ← (Subrepresentation.subrepresentationSubmoduleOrderIso
+        (ρ := (Vsub (K := K)).toRepresentation)).isSimpleOrder_iff]
+  haveI hntSub : Nontrivial (Subrepresentation (Vsub (K := K)).toRepresentation) := by
+    refine ⟨⊥, ⊤, fun h => ?_⟩
+    have hbt : (⊥ : Submodule ℂ ↥(zeroSum K)) = ⊤ := congrArg Subrepresentation.toSubmodule h
+    exact absurd hbt bot_ne_top
+  refine ⟨fun W' => ?_⟩
+  set U : Submodule ℂ (K → ℂ) := W'.toSubmodule.map (Vsub (K := K)).toSubmodule.subtype with hUdef
+  have hUle : U ≤ zeroSum K := by
+    rw [hUdef]; rintro x ⟨y, -, rfl⟩; exact y.2
+  have hUinv : ∀ (g : Affine K), ∀ f ∈ U, permRep g f ∈ U := by
+    intro g f hf
+    rw [hUdef, Submodule.mem_map] at hf ⊢
+    obtain ⟨y, hy, rfl⟩ := hf
+    exact ⟨(Vsub (K := K)).toRepresentation g y, W'.apply_mem_toSubmodule g hy, rfl⟩
+  rcases zeroSum_irreducible permRep permRep_apply U hUle hUinv with h | h
+  · left
+    apply Subrepresentation.toSubmodule_injective
+    have h2 : W'.toSubmodule.map (Vsub (K := K)).toSubmodule.subtype
+        = (⊥ : Submodule ℂ ↥(Vsub (K := K)).toSubmodule).map (Vsub (K := K)).toSubmodule.subtype := by
+      rw [Submodule.map_bot, ← hUdef]; exact h
+    exact Submodule.map_injective_of_injective
+      (Vsub (K := K)).toSubmodule.injective_subtype h2
+  · right
+    apply Subrepresentation.toSubmodule_injective
+    have h2 : W'.toSubmodule.map (Vsub (K := K)).toSubmodule.subtype
+        = (⊤ : Submodule ℂ ↥(Vsub (K := K)).toSubmodule).map (Vsub (K := K)).toSubmodule.subtype := by
+      rw [Submodule.map_subtype_top, ← hUdef]; exact h
+    exact Submodule.map_injective_of_injective
+      (Vsub (K := K)).toSubmodule.injective_subtype h2
+
+/-- **Universe transport.** Any finite-dimensional representation with simple `asModule`
+yields a simple `FDRep ℂ (Affine K)` object of the same dimension (on a `Type 0` carrier),
+so the Wedderburn enumeration applies to it. -/
+theorem exists_simpleFDRep [Fintype K] [DecidableEq K]
+    {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (ρ : Representation ℂ (Affine K) V)
+    (hρ : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) ρ.asModule) :
+    ∃ (U : FDRep ℂ (Affine K)), Simple U ∧ Module.finrank ℂ U = Module.finrank ℂ V := by
+  classical
+  haveI : NeZero (Nat.card (Affine K) : ℂ) := by
+    refine ⟨?_⟩
+    rw [Nat.card_eq_fintype_card, card_eq]
+    have h2 : 1 < Fintype.card K := Fintype.one_lt_card
+    have hne : Fintype.card K * (Fintype.card K - 1) ≠ 0 :=
+      Nat.mul_ne_zero (by omega) (by omega)
+    exact_mod_cast hne
+  letI M := Representation.asModule ρ
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) M := hρ
+  haveI : Module.Finite ℂ M := Module.Finite.equiv (Representation.asModuleEquiv ρ).symm
+  haveI : Module.Free ℂ M := Module.Free.of_divisionRing ℂ M
+  set dM := Module.finrank ℂ M with hdM
+  let eM : M ≃ₗ[ℂ] (Fin dM → ℂ) := (Module.finBasis ℂ M).equivFun
+  letI modN : Module (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule (R := MonoidAlgebra ℂ (Affine K)) eM
+  haveI towN : IsScalarTower ℂ (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    Etingof.transportModule_isScalarTower eM
+  let eR : M ≃ₗ[MonoidAlgebra ℂ (Affine K)] (Fin dM → ℂ) := Etingof.transportLinearEquiv eM
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K)) (Fin dM → ℂ) :=
+    IsSimpleModule.congr eR.symm
+  haveI : IsSimpleModule (MonoidAlgebra ℂ (Affine K))
+      (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)).asModule :=
+    IsSimpleModule.congr (Etingof.repOfModuleAsModuleEquiv (k := ℂ) (G := Affine K) (Fin dM → ℂ))
+  refine ⟨FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)),
+    Etingof.simple_fdRepOf_of_isSimpleModule (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ)), ?_⟩
+  have h1 : Module.finrank ℂ (FDRep.of (Etingof.repOfModule (k := ℂ) (G := Affine K) (Fin dM → ℂ))) = dM := by
+    show Module.finrank ℂ (Fin dM → ℂ) = dM
+    rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+  rw [h1, hdM]
+  exact (Representation.asModuleEquiv ρ).finrank_eq
 
 /-- **Classification.** Every irreducible complex representation of the affine group `G` has
 dimension `1` or `q - 1`. (With the sum-of-squares formula `(q-1)·1² + (q-1)² = q(q-1) = |G|`,
