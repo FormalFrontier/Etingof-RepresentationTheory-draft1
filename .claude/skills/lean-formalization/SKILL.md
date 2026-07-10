@@ -547,6 +547,37 @@ has two traps that each cost several build cycles:
   independent members of any nonzero invariant `U` (a nonzero `f` and a well-chosen `ρ(g) f`, via
   a `2×2` coordinate determinant `≠ 0`), then `Submodule.eq_of_le_of_finrank_le`.
 
+### Plugging a concrete `Type 0` group (`ZMod`, `Fin`, …) into a `∀ Q : Type u` hypothesis → `ULift` (#6101)
+
+A theorem like `Exercise_8_2_9_i_finAb` quantifies its lifting hypothesis over `Q₁ Q₂ : Type u`
+(the universe of the ambient `P`), but the natural witnesses (`ZMod (q^N)`, `ZMod q`) live in
+`Type 0`. Applying `hP (ZMod (q^N)) …` then fails with "type mismatch: `ZMod (q^N) : Type` but
+expected `Type u`". **Fix:** transport via `AddEquiv.ulift : ULift.{u} (ZMod n) ≃+ ZMod n`
+(`import Mathlib.Algebra.Group.ULift`; `Finite (ULift _)` and `AddCommGroup (ULift _)` are
+instances). Feed `ULift.{u} (ZMod …)` as `Q`, conjugate the reduction map and character by
+`e := AddEquiv.ulift` / `e.symm`, and recover facts through `e.symm.injective`. This is *not*
+needed when the target type is already built from a `Type u` parameter (e.g. the fin-dim
+`k[x]`-module case with `k : Type u` makes `k[x]/(p^N) : Type u` directly). To prove
+`Surjective (e2.symm ∘ f0 ∘ e1)`, take `y`, `obtain ⟨z, hz⟩ := hf0surj (e2 y)`, use `e1.symm z`,
+and close with `rw [e1.apply_symm_apply, hz, e2.symm_apply_apply]`.
+
+### Nonzero functional out of a finite/torsion group → killed-quotient + basis coordinate, not `Projective.exists_dual_ne_zero` (#6101)
+
+To build a nonzero hom `P →+ ZMod q` from a finite abelian `P` with `q ∣ |P|` (the "character"
+that a subgroup inclusion cannot give — a prime-order subgroup of `ZMod q²` is not a summand):
+take `H = (q • AddMonoidHom.id P).range` (`q•` is non-injective by Cauchy's order-`q` element,
+hence non-surjective as `P` is finite, so `H ≠ ⊤`), make `P ⧸ H` a `ZMod q`-vector space via
+`QuotientAddGroup.zmodModule hHmem`, and extract a coordinate functional from
+`Module.Basis.ofVectorSpace (ZMod q) (P ⧸ H)` + the contrapositive of
+`Module.Basis.forall_coord_eq_zero_iff`. Two traps: (a) `Module.Projective.exists_dual_ne_zero`
+gets its `[Projective]`/`[Free]` instance search **stuck over the `letI` module** — avoid it,
+the `forall_coord_eq_zero_iff` route needs no `Projective` instance; (b) the bare `LinearMap`
+coercion `⇑(b.coord i) x` fails to elaborate here — route through `(b.coord i).toAddMonoidHom`
+and let defeq bridge to the Mathlib lemma's `b.coord i x`. Import surprises: `Field (ZMod p)` is
+in `Mathlib.Algebra.Field.ZMod` (not `Data.ZMod.Basic`); `Module.Basis.ofVectorSpace` lives under
+namespace `Module.Basis`; the order→dimension endgame uses `ZMod.addOrderOf_coe` +
+`ZMod.natCast_eq_zero_iff` + `addOrderOf_dvd_natCard`.
+
 ### Structure/instance fields with interleaved implicit/explicit binders → `:= by intro <all>; exact …`
 
 When a class field's type interleaves implicit and explicit binders (e.g.
