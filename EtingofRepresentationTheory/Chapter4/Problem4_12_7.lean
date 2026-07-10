@@ -66,14 +66,14 @@ theorem real_irreducible
 /-- **Part (d), conjugate of a product.** Quaternion conjugation (`star`) reverses products:
 `overline(q₁ q₂) = q̄₂ q̄₁`. -/
 theorem star_mul_rev (q₁ q₂ : ℍ[ℝ]) :
-    star (q₁ * q₂) = star q₂ * star q₁ := by
-  sorry
+    star (q₁ * q₂) = star q₂ * star q₁ :=
+  star_mul q₁ q₂
 
 /-- **Part (d), multiplicativity of the norm.** The quaternion norm-square is multiplicative:
 `‖q₁ q₂‖² = ‖q₁‖² · ‖q₂‖²`. -/
 theorem normSq_mul (q₁ q₂ : ℍ[ℝ]) :
-    Quaternion.normSq (q₁ * q₂) = Quaternion.normSq q₁ * Quaternion.normSq q₂ := by
-  sorry
+    Quaternion.normSq (q₁ * q₂) = Quaternion.normSq q₁ * Quaternion.normSq q₂ :=
+  map_mul Quaternion.normSq q₁ q₂
 
 /-- **Part (e).** The group of unit quaternions (`unitary ℍ[ℝ]`, i.e. quaternions of norm `1`)
 is isomorphic, as a group, to `SU(2)`. -/
