@@ -243,11 +243,54 @@ theorem Problem_8_2_7_ii_ext_one (k : Type*) [Field k] (f g : k[X]) :
       ≃+ (k[X] ⧸ Ideal.span {f, g})) := by
   sorry
 
-/-- **Problem 8.2.7(ii), higher `Ext` vanishes.** `Extⁱ(k[x]/(f), k[x]/(g)) = 0` for `i ≥ 2`. -/
+/-- `k[x]/(p)` has projective dimension `< 2` as a `k[x]`-module. For `p ≠ 0` the length-`1`
+free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0` exhibits this; for `p = 0`,
+`k[x]/(0) ≅ k[x]` is projective. -/
+private lemma polyQuot_hasProjectiveDimensionLT_two (k : Type u) [Field k] (p : k[X]) :
+    HasProjectiveDimensionLT (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {p})) 2 := by
+  rcases eq_or_ne p 0 with rfl | hp
+  · -- `span {0} = ⊥`, so `k[x]/(0) ≅ k[x]` is projective
+    have e : (k[X] ⧸ Ideal.span {(0 : k[X])}) ≃ₗ[k[X]] k[X] :=
+      Submodule.quotEquivOfEqBot _ (by simp)
+    haveI : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 1 :=
+      projective_iff_hasProjectiveDimensionLT_one.mp inferInstance
+    haveI : HasProjectiveDimensionLT (ModuleCat.of k[X] k[X]) 2 :=
+      hasProjectiveDimensionLT_of_ge (ModuleCat.of k[X] k[X]) 1 2 (by omega)
+    exact hasProjectiveDimensionLT_of_iso
+      (e.toModuleIso.symm : ModuleCat.of k[X] k[X] ≅ ModuleCat.of k[X] _) 2
+  · -- the length-`1` free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0`
+    let f : k[X] →ₗ[k[X]] k[X] := p • LinearMap.id
+    let g : k[X] →ₗ[k[X]] (k[X] ⧸ Ideal.span {p}) := (Ideal.span {p}).mkQ
+    have hf : ∀ x : k[X], f x = p * x := fun x => by simp [f]
+    have eq0 : g.comp f = 0 := by
+      refine LinearMap.ext fun x => ?_
+      simp only [LinearMap.comp_apply, hf, g, Submodule.mkQ_apply, LinearMap.zero_apply,
+        Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+      exact dvd_mul_right p x
+    let S := ModuleCat.shortComplexOfCompEqZero f g eq0
+    have hexact : Function.Exact f g := by
+      rw [LinearMap.exact_iff]
+      ext y
+      simp only [g, LinearMap.mem_ker, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero,
+        Ideal.mem_span_singleton, LinearMap.mem_range, hf]
+      constructor
+      · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+      · rintro ⟨c, rfl⟩; exact dvd_mul_right p c
+    have hinj : Function.Injective f := fun x y hxy =>
+      mul_left_cancel₀ hp (by rw [← hf, ← hf, hxy])
+    have hsurj : Function.Surjective g := (Ideal.span {p}).mkQ_surjective
+    have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinj hsurj
+    exact hasProjectiveDimensionLT_two_of_shortExact hS inferInstance inferInstance
+
+/-- **Problem 8.2.7(ii), higher `Ext` vanishes.** `Extⁱ(k[x]/(f), k[x]/(g)) = 0` for `i ≥ 2`,
+because `k[x]/(f)` has a length-`1` free resolution over the PID `k[x]`, hence projective
+dimension `≤ 1`. -/
 theorem Problem_8_2_7_ii_ext_vanish (k : Type*) [Field k] (f g : k[X]) (n : ℕ) :
     Subsingleton (Etingof.Ext (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
       (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g})) (n + 2)) := by
-  sorry
+  haveI := polyQuot_hasProjectiveDimensionLT_two k f
+  exact HasProjectiveDimensionLT.subsingleton
+    (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f})) 2 (n + 2) (by omega) _
 
 /-- **Problem 8.2.7(ii), free generator.** `k[x]` is projective, so `Extⁱ⁺¹(k[x], N) = 0` for
 every `k[x]`-module `N`. -/
