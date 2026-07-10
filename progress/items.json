@@ -785,7 +785,8 @@
     "end_page": "19",
     "start_line": 25,
     "end_line": 8,
-    "status": "proof_partial"
+    "status": "proof_partial",
+    "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean. Part (c) finrank_irreducible_charP now sorry-free (statement corrected to add [IsAlgClosed k], faithful to the book's eigenvector-of-y hint): eigenvalue existence + Schur-via-eigenvalue gives x^p acts as scalar, the lowering operator N = y - lam gives linear independence of {v, xv, ..., x^{p-1}v}, and the span is a nonzero invariant submodule = V. Part (b) x_pow/y_pow_char_mem_center sorry-free; center_charP still sorried. Part (a) finrank_eq_zero_of_charZero and isSimpleRing_charZero still sorried."
   },
   {
     "id": "Chapter2/Problem2.7.5",

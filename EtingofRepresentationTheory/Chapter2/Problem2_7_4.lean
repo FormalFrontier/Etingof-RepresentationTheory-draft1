@@ -6,6 +6,11 @@ import Mathlib.Algebra.Algebra.Subalgebra.Basic
 import Mathlib.Algebra.CharP.Basic
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.FieldTheory.IsAlgClosed.Basic
+import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
+import Mathlib.Data.Nat.Prime.Factorial
+import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.Trace
 
 /-!
@@ -485,13 +490,230 @@ theorem center_charP (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime p)] [CharP
 
 /-! ## (c) Characteristic `p`: irreducible representations -/
 
-/-- **(c)** In characteristic `p`, every irreducible finite dimensional representation of the Weyl
-algebra has dimension exactly `p`. -/
-theorem finrank_irreducible_charP (k : Type*) [Field k] (p : ℕ) [Fact (Nat.Prime p)] [CharP k p]
+/-- A `k`-submodule of a simple `WeylAlgebra k`-module `V` that is stable under the action of
+every algebra element and contains a nonzero vector is all of `V`. This packages the
+"nonzero invariant submodule is the whole simple module" step. -/
+private lemma mem_of_invariant (k : Type*) [Field k] (V : Type*) [AddCommGroup V] [Module k V]
+    [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V]
+    [IsSimpleModule (WeylAlgebra k) V] (Wk : Submodule k V)
+    (hstab : ∀ (a : WeylAlgebra k) (z : V), z ∈ Wk → a • z ∈ Wk)
+    (hne : ∃ z ∈ Wk, z ≠ 0) : ∀ z : V, z ∈ Wk := by
+  let WA : Submodule (WeylAlgebra k) V :=
+    { carrier := Wk
+      add_mem' := fun ha hb => Wk.add_mem ha hb
+      zero_mem' := Wk.zero_mem
+      smul_mem' := fun a z hz => hstab a z hz }
+  have hbot : WA ≠ ⊥ := by
+    obtain ⟨z, hz, hz0⟩ := hne
+    intro h
+    apply hz0
+    have hzWA : z ∈ WA := hz
+    rw [h, Submodule.mem_bot] at hzWA
+    exact hzWA
+  have hWA : WA = ⊤ := (eq_bot_or_eq_top WA).resolve_left hbot
+  intro z
+  have : z ∈ WA := hWA ▸ Submodule.mem_top
+  exact this
+
+/-- A central element of the Weyl algebra acts as a `k`-scalar on a simple finite dimensional
+module over an algebraically closed field (Schur's lemma via eigenvalue existence). -/
+private lemma central_smul_scalar (k : Type*) [Field k] [IsAlgClosed k] (V : Type*)
+    [AddCommGroup V] [Module k V] [Module (WeylAlgebra k) V] [IsScalarTower k (WeylAlgebra k) V]
+    [FiniteDimensional k V] [IsSimpleModule (WeylAlgebra k) V]
+    (z : WeylAlgebra k) (hz : z ∈ Subalgebra.center k (WeylAlgebra k)) :
+    ∃ μ : k, ∀ w : V, z • w = μ • w := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (WeylAlgebra k) V
+  obtain ⟨μ, hμ⟩ := (Algebra.lsmul k k V z).exists_eigenvalue
+  refine ⟨μ, ?_⟩
+  have hstab : ∀ (a : WeylAlgebra k) (w : V),
+      w ∈ Module.End.eigenspace (Algebra.lsmul k k V z) μ →
+      a • w ∈ Module.End.eigenspace (Algebra.lsmul k k V z) μ := by
+    intro a w hw
+    rw [Module.End.mem_eigenspace_iff, Algebra.lsmul_apply] at hw ⊢
+    calc z • (a • w) = (a * z) • w := by
+              rw [← mul_smul, ← Subalgebra.mem_center_iff.mp hz a]
+      _ = a • (z • w) := by rw [mul_smul]
+      _ = a • (μ • w) := by rw [hw]
+      _ = μ • (a • w) := by rw [smul_comm]
+  obtain ⟨w0, hw0⟩ := hμ.exists_hasEigenvector
+  have hmem := mem_of_invariant k V (Module.End.eigenspace (Algebra.lsmul k k V z) μ)
+    hstab ⟨w0, hw0.1, hw0.2⟩
+  intro w
+  have hw := hmem w
+  rw [Module.End.mem_eigenspace_iff, Algebra.lsmul_apply] at hw
+  exact hw
+
+/-- **(c)** In characteristic `p`, over an algebraically closed field, every irreducible finite
+dimensional representation of the Weyl algebra has dimension exactly `p`.
+
+The hypothesis `[IsAlgClosed k]` is required: without it the statement is false (over a
+non-closed field the Weyl algebra is Azumaya of rank `p²` over its center `k[xᵖ,yᵖ]`, and a
+simple module attached to a closed point of residue degree `d` has `k`-dimension `p·d`). The
+book (Etingof, Problem 2.7.4(c)) works under the standing convention that `k` is algebraically
+closed — the eigenvector of `y` used in the hint exists only then. -/
+theorem finrank_irreducible_charP (k : Type*) [Field k] [IsAlgClosed k] (p : ℕ)
+    [Fact (Nat.Prime p)] [CharP k p]
     (V : Type*) [AddCommGroup V] [Module k V] [Module (WeylAlgebra k) V]
     [IsScalarTower k (WeylAlgebra k) V] [FiniteDimensional k V]
     [IsSimpleModule (WeylAlgebra k) V] :
-    Module.finrank k V = p :=
-  sorry
+    Module.finrank k V = p := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (WeylAlgebra k) V
+  have p_pos : 0 < p := (Fact.out : p.Prime).pos
+  have hfac : ∀ m : ℕ, m < p → ((m.factorial : ℕ) : k) ≠ 0 := by
+    intro m hm
+    rw [ne_eq, CharP.cast_eq_zero_iff k p, Nat.Prime.dvd_factorial Fact.out]
+    exact Nat.not_le.mpr hm
+  -- Eigenvector `v` of the action of `y`, with eigenvalue `lam`.
+  obtain ⟨lam, hlam⟩ := (Algebra.lsmul k k V (WeylAlgebra.y k)).exists_eigenvalue
+  obtain ⟨v, hv⟩ := hlam.exists_hasEigenvector
+  have hyv : WeylAlgebra.y k • v = lam • v := by
+    have h := Module.End.mem_eigenspace_iff.mp hv.1
+    rwa [Algebra.lsmul_apply] at h
+  have hv0 : v ≠ 0 := hv.2
+  set w : ℕ → V := fun i => WeylAlgebra.x k ^ i • v with hwdef
+  have hwv : ∀ i, w i = WeylAlgebra.x k ^ i • v := fun _ => rfl
+  have hw0 : w 0 = v := by rw [hwv, pow_zero, one_smul]
+  -- `xᵖ` acts as a scalar `μ`.
+  obtain ⟨μ, hμ⟩ := central_smul_scalar k V (WeylAlgebra.x k ^ p) (x_pow_char_mem_center k p)
+  -- The lowering operator `N = ρ(y) - lam`.
+  set N : Module.End k V := Algebra.lsmul k k V (WeylAlgebra.y k) - lam • 1 with hN
+  have hNstep : ∀ i : ℕ, N (w (i + 1)) = ((i + 1 : ℕ) : k) • w i := by
+    intro i
+    rw [hwv (i + 1), hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
+      Algebra.lsmul_apply, ← mul_smul, y_mul_x_pow_succ k i, add_smul, mul_smul, hyv,
+      smul_comm (WeylAlgebra.x k ^ (i + 1)) lam v,
+      ← Nat.cast_smul_eq_nsmul k (i + 1) (WeylAlgebra.x k ^ i), smul_assoc, hwv i]
+    abel
+  have hN0 : N (w 0) = 0 := by
+    rw [hwv, hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
+      Algebra.lsmul_apply, pow_zero, one_smul, hyv, sub_self]
+  have hkill1 : ∀ i : ℕ, (N ^ (i + 1)) (w i) = 0 := by
+    intro i
+    induction i with
+    | zero => rw [pow_one]; exact hN0
+    | succ n ih => rw [pow_succ, Module.End.mul_apply, hNstep, map_smul, ih, smul_zero]
+  have hval : ∀ i : ℕ, (N ^ i) (w i) = ((i.factorial : ℕ) : k) • v := by
+    intro i
+    induction i with
+    | zero => rw [pow_zero, Module.End.one_apply, hw0, Nat.factorial_zero, Nat.cast_one, one_smul]
+    | succ n ih =>
+      rw [pow_succ, Module.End.mul_apply, hNstep, map_smul, ih, smul_smul, ← Nat.cast_mul,
+        ← Nat.factorial_succ]
+  have hkill_gen : ∀ (m j : ℕ), j < m → (N ^ m) (w j) = 0 := by
+    intro m j hjm
+    obtain ⟨t, ht⟩ : ∃ t, m = t + (j + 1) := ⟨m - (j + 1), by omega⟩
+    rw [ht, pow_add, Module.End.mul_apply, hkill1, map_zero]
+  -- The `p` vectors `w 0, …, w (p-1)` are linearly independent.
+  have hli : ∀ n : ℕ, n ≤ p → LinearIndependent k (fun i : Fin n => w (i : ℕ)) := by
+    intro n
+    induction n with
+    | zero => intro _; exact linearIndependent_empty_type
+    | succ m ih =>
+      intro hmp
+      have hmp' : m ≤ p := Nat.le_of_succ_le hmp
+      have hmlt : m < p := hmp
+      have hfun : (fun i : Fin (m + 1) => w (i : ℕ))
+          = Fin.snoc (fun i : Fin m => w (i : ℕ)) (w m) := by
+        funext i
+        induction i using Fin.lastCases with
+        | last => simp
+        | cast j => simp
+      rw [hfun]
+      refine (ih hmp').finSnoc ?_
+      intro hmem
+      have hzero : (N ^ m) (w m) = 0 := by
+        have hsub : Submodule.span k (Set.range (fun i : Fin m => w (i : ℕ)))
+            ≤ LinearMap.ker (N ^ m) := by
+          rw [Submodule.span_le]
+          rintro _ ⟨i, rfl⟩
+          simp only [SetLike.mem_coe, LinearMap.mem_ker]
+          exact hkill_gen m (i : ℕ) i.isLt
+        have hk := hsub hmem
+        rwa [LinearMap.mem_ker] at hk
+      rw [hval m] at hzero
+      rcases smul_eq_zero.mp hzero with h | h
+      · exact hfac m hmlt h
+      · exact hv0 h
+  -- The span of the `p` vectors is a nonzero invariant submodule, hence all of `V`.
+  set Wk : Submodule k V := Submodule.span k (Set.range (fun i : Fin p => w (i : ℕ))) with hWk
+  have hgen_mem : ∀ i : Fin p, w (i : ℕ) ∈ Wk := fun i => Submodule.subset_span ⟨i, rfl⟩
+  have hshift : ∀ t : ℕ, w (p + t) = μ • w t := by
+    intro t
+    rw [hwv (p + t), hwv t, pow_add, mul_smul, hμ (WeylAlgebra.x k ^ t • v)]
+  have hall_mem : ∀ j : ℕ, w j ∈ Wk := by
+    intro j
+    induction j using Nat.strong_induction_on with
+    | _ j ih =>
+      by_cases hjp : j < p
+      · exact hgen_mem ⟨j, hjp⟩
+      · obtain ⟨t, ht⟩ : ∃ t, j = p + t := ⟨j - p, by omega⟩
+        subst ht
+        rw [hshift]
+        exact Wk.smul_mem μ (ih t (by omega))
+  have hx_stab : ∀ z ∈ Wk, WeylAlgebra.x k • z ∈ Wk := by
+    intro z hz
+    rw [hWk] at hz
+    induction hz using Submodule.span_induction with
+    | mem u hu =>
+        obtain ⟨i, rfl⟩ := hu
+        show WeylAlgebra.x k • w (i : ℕ) ∈ Wk
+        rw [hwv, ← mul_smul, ← pow_succ', ← hwv]
+        exact hall_mem ((i : ℕ) + 1)
+    | zero => rw [smul_zero]; exact Wk.zero_mem
+    | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
+    | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
+  have hy_stab : ∀ z ∈ Wk, WeylAlgebra.y k • z ∈ Wk := by
+    intro z hz
+    rw [hWk] at hz
+    induction hz using Submodule.span_induction with
+    | mem u hu =>
+        obtain ⟨i, rfl⟩ := hu
+        show WeylAlgebra.y k • w (i : ℕ) ∈ Wk
+        have hNexp : N (w (i : ℕ)) = WeylAlgebra.y k • w (i : ℕ) - lam • w (i : ℕ) := by
+          rw [hN, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
+            Algebra.lsmul_apply]
+        have hNwi : N (w (i : ℕ)) ∈ Wk := by
+          cases hci : (i : ℕ) with
+          | zero => rw [hN0]; exact Wk.zero_mem
+          | succ j =>
+              rw [hNstep]
+              exact Wk.smul_mem _ (hall_mem j)
+        have key : WeylAlgebra.y k • w (i : ℕ) = N (w (i : ℕ)) + lam • w (i : ℕ) := by
+          rw [hNexp]; abel
+        rw [key]
+        exact Wk.add_mem hNwi (Wk.smul_mem lam (hall_mem (i : ℕ)))
+    | zero => rw [smul_zero]; exact Wk.zero_mem
+    | add a b _ _ ha hb => rw [smul_add]; exact Wk.add_mem ha hb
+    | smul c a _ ha => rw [smul_comm]; exact Wk.smul_mem c ha
+  have ha_stab : ∀ (a : WeylAlgebra k) (z : V), z ∈ Wk → a • z ∈ Wk := by
+    intro a
+    obtain ⟨a', rfl⟩ := RingQuot.mkAlgHom_surjective k (WeylAlgebraRel k) a
+    have ha' : a' ∈ Algebra.adjoin k (Set.range (FreeAlgebra.ι k)) := by
+      rw [FreeAlgebra.adjoin_range_ι]; exact Algebra.mem_top
+    induction ha' using Algebra.adjoin_induction with
+    | mem g hg =>
+        obtain ⟨idx, rfl⟩ := hg
+        intro z hz
+        fin_cases idx
+        · exact hx_stab z hz
+        · exact hy_stab z hz
+    | algebraMap r =>
+        intro z hz
+        rw [AlgHom.commutes, algebraMap_smul]
+        exact Wk.smul_mem r hz
+    | add p q _ _ ihp ihq =>
+        intro z hz
+        rw [map_add, add_smul]
+        exact Wk.add_mem (ihp z hz) (ihq z hz)
+    | mul p q _ _ ihp ihq =>
+        intro z hz
+        rw [map_mul, mul_smul]
+        exact ihp _ (ihq z hz)
+  have hspan_top : ∀ z : V, z ∈ Wk :=
+    mem_of_invariant k V Wk ha_stab ⟨v, hw0 ▸ hgen_mem ⟨0, p_pos⟩, hv0⟩
+  have hsp : ⊤ ≤ Submodule.span k (Set.range (fun i : Fin p => w (i : ℕ))) := by
+    rw [← hWk]; intro z _; exact hspan_top z
+  have hli_p : LinearIndependent k (fun i : Fin p => w (i : ℕ)) := hli p le_rfl
+  rw [Module.finrank_eq_card_basis (Module.Basis.mk hli_p hsp), Fintype.card_fin]
 
 end Etingof.Problem2_7_4
