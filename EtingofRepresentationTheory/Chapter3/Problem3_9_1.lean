@@ -104,6 +104,12 @@ noncomputable def coboundaryOf (X : W →ₗ[k] V) : A →ₗ[k] (W →ₗ[k] V)
   ((LinearMap.llcomp k W V V).flip X).comp (Algebra.lsmul k k V).toLinearMap
     - (LinearMap.llcomp k W W V X).comp (Algebra.lsmul k k W).toLinearMap
 
+/-- Pointwise formula for a coboundary: `dX(a)(w) = a • X w - X (a • w)`. -/
+theorem coboundaryOf_apply (X : W →ₗ[k] V) (a : A) (w : W) :
+    coboundaryOf k A V W X a w = a • X w - X (a • w) := by
+  simp only [coboundaryOf, LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.llcomp_apply,
+    LinearMap.flip_apply, AlgHom.toLinearMap_apply, Algebra.lsmul_coe]
+
 /-- **Problem 3.9.1(b), first part.** Every coboundary `dX` is a 1-cocycle. -/
 theorem coboundaryOf_isCocycle (X : W →ₗ[k] V) : IsCocycle k A V W (coboundaryOf k A V W X) := by
   intro a b
@@ -136,6 +142,37 @@ the range. -/
 def coboundaries : Submodule k (A →ₗ[k] (W →ₗ[k] V)) :=
   Submodule.span k (Set.range (coboundaryOf k A V W))
 
+/-- The coboundary map `X ↦ dX` bundled as a `k`-linear map. Its range is `coboundaries`. -/
+noncomputable def coboundaryLinear : (W →ₗ[k] V) →ₗ[k] (A →ₗ[k] (W →ₗ[k] V)) where
+  toFun := coboundaryOf k A V W
+  map_add' X Y := by
+    ext a w
+    simp only [coboundaryOf_apply, LinearMap.add_apply, map_add, smul_add]
+    abel
+  map_smul' c X := by
+    ext a w
+    simp only [coboundaryOf_apply, LinearMap.smul_apply, RingHom.id_apply, map_smul, smul_sub,
+      smul_comm a c]
+
+@[simp] theorem coboundaryLinear_apply (X : W →ₗ[k] V) :
+    coboundaryLinear k A V W X = coboundaryOf k A V W X := rfl
+
+/-- `coboundaries` is exactly the range of the coboundary map. -/
+theorem coboundaries_eq_range :
+    coboundaries k A V W = LinearMap.range (coboundaryLinear k A V W) := by
+  apply le_antisymm
+  · rw [coboundaries, Submodule.span_le]
+    rintro _ ⟨X, rfl⟩
+    exact ⟨X, rfl⟩
+  · rintro _ ⟨X, rfl⟩
+    exact Submodule.subset_span ⟨X, rfl⟩
+
+/-- Membership in `coboundaries` means being a coboundary `dX` for some `X`. -/
+theorem mem_coboundaries_iff (g : A →ₗ[k] (W →ₗ[k] V)) :
+    g ∈ coboundaries k A V W ↔ ∃ X : W →ₗ[k] V, coboundaryOf k A V W X = g := by
+  rw [coboundaries_eq_range, LinearMap.mem_range]
+  simp only [coboundaryLinear_apply]
+
 /-- **Problem 3.9.1(b).** Coboundaries are cocycles: `B¹ ⊆ Z¹`. -/
 theorem coboundaries_le_cocycles :
     coboundaries k A V W ≤ cocycles k A V W := by
@@ -166,7 +203,38 @@ theorem iso_of_sub_mem_coboundaries (f f' : A →ₗ[k] (W →ₗ[k] V))
     (hf : IsCocycle k A V W f) (hf' : IsCocycle k A V W f')
     (hsub : f - f' ∈ coboundaries k A V W) :
     ∃ φ : (V × W) ≃ₗ[k] (V × W), IntertwinesExt k A V W f f' φ := by
-  sorry
+  obtain ⟨X, hX⟩ := (mem_coboundaries_iff k A V W (f - f')).1 hsub
+  -- `φ = [[1, X], [0, 1]]`, i.e. `(v, w) ↦ (v + X w, w)`, with inverse `(v, w) ↦ (v - X w, w)`.
+  set L : (V × W) →ₗ[k] (V × W) :=
+    LinearMap.prod (LinearMap.fst k V W + X ∘ₗ LinearMap.snd k V W) (LinearMap.snd k V W)
+    with hL
+  set Linv : (V × W) →ₗ[k] (V × W) :=
+    LinearMap.prod (LinearMap.fst k V W - X ∘ₗ LinearMap.snd k V W) (LinearMap.snd k V W)
+    with hLinv
+  have Lapp : ∀ p : V × W, L p = (p.1 + X p.2, p.2) := fun p => by
+    simp [hL, LinearMap.coe_prod, Function.prod_apply]
+  have Linvapp : ∀ p : V × W, Linv p = (p.1 - X p.2, p.2) := fun p => by
+    simp [hLinv, LinearMap.coe_prod, Function.prod_apply]
+  refine ⟨LinearEquiv.ofLinear L Linv ?_ ?_, ?_⟩
+  · apply LinearMap.ext
+    rintro ⟨v, w⟩
+    simp [Lapp, Linvapp]
+  · apply LinearMap.ext
+    rintro ⟨v, w⟩
+    simp [Lapp, Linvapp]
+  intro a
+  apply LinearMap.ext
+  rintro ⟨v, w⟩
+  -- The off-diagonal identity: `(f - f') a w = a • X w - X (a • w)`.
+  have key : a • X w + f' a w = f a w + X (a • w) := by
+    have h := LinearMap.congr_fun (LinearMap.congr_fun hX a) w
+    rw [coboundaryOf_apply, LinearMap.sub_apply] at h
+    exact sub_eq_sub_iff_add_eq_add.1 h
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.ofLinear_apply, blockOp_apply,
+    Lapp, smul_add]
+  rw [Prod.mk.injEq]
+  refine ⟨?_, rfl⟩
+  simp only [add_assoc, ← key]
 
 /-- **Problem 3.9.1(d).** For finite dimensional irreducible `V` and `W`, the extensions
 `U_f` and `U_{f'}` are isomorphic if and only if the cocycles `f` and `f'` are proportional
