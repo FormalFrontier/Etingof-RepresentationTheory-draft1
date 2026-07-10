@@ -72,6 +72,22 @@ theorem res_spechtModule_character (n : ℕ) (μ : Nat.Partition (n + 1))
     (σ : Equiv.Perm (Fin n)) :
     spechtModuleCharacter (n + 1) μ (permEmb n σ) =
       ∑ la ∈ removeSquare μ, spechtModuleCharacter n la σ := by
+  -- Proof strategy (Frobenius character formula / Pieri rule for `p₁`), scoped as a
+  -- separate work item. Bridge both sides to `charValue` (Proposition5_21_1) over `N = n+1`
+  -- variables via `charValue_eq_spechtModuleCharacter` and
+  -- `exists_boundedPartition_weightToPartition_eq`. Writing `Δ = det(alternantMatrix (vandermondeExps))`
+  -- and `g = Δ · psumPart (fullCycleTypePartition σ)` (antisymmetric, since `psumPart` is symmetric
+  -- and `Δ` antisymmetric), the key facts are:
+  --   1. `fullCycleType (n+1) (permEmb n σ) = 1 ::ₘ fullCycleType n σ` (embedding adds a fixed point),
+  --      hence `psumPart (fullCycleTypePartition (permEmb n σ)) = psum 1 * psumPart (fullCycleTypePartition σ)`
+  --      where `psum 1 = ∑ⱼ Xⱼ`.
+  --   2. `coeff_{μ+ρ}((∑ⱼ Xⱼ) · g) = ∑ⱼ coeff_{μ+ρ-eⱼ}(g)` (`MvPolynomial.coeff_X_mul` termwise).
+  --   3. `coeff_{μ+ρ-eⱼ}(g) = charValue` of the box-removal `λ = μ - eⱼ` when that is a valid
+  --      partition (`μⱼ > μⱼ₊₁`), and `= 0` otherwise, because `μ+ρ-eⱼ` then has a repeated entry and
+  --      `g` is antisymmetric (`coeff_zero_of_antisym_repeated`, `rename_alternant_det`).
+  --   4. The legal box-removal rows `j` biject with `removeSquare μ = {λ ⊢ n : λ.toYoungDiagram ≤
+  --      μ.toYoungDiagram}`, matching `shiftedExps (bp_λ.parts) = μ+ρ-eⱼ`.
+  -- See GitHub issue tracking this sub-task.
   sorry
 
 /-- Problem 5.16.1(b). Branching rule for induction: for `μ ⊢ n`, the induced module
