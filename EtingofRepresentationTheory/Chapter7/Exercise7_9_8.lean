@@ -108,6 +108,62 @@ theorem transportReversedTwice_mapLinear_heq
         ((Etingof.reversedAtVertex_twice Q i).symm ▸ e)) :=
   mapLinear_transport_heq (Etingof.reversedAtVertex_twice Q i) X a b e
 
+/-! ### Transport packaged as `LinearEquiv`
+
+The two accessors above are stated with `HEq`. For the adjunction assembly it is far more
+convenient to package the transport of the vertex space as an honest `LinearEquiv` (absorbing
+both the object-type transport and the transported `AddCommMonoid`/`Module` instances at once),
+so that transport-compatibility of `mapLinear` becomes a plain equation rather than an `HEq`.
+Both are proved by `subst`, after which the transport is literally the identity. -/
+
+/-- Transport of a representation along an equality of `Quiver` instances, packaged as a
+`LinearEquiv` at each vertex. By `subst` it is the identity. -/
+noncomputable def objTransportEquiv {k : Type*} [CommSemiring k] {Q : Type*}
+    {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
+    (X : @Etingof.QuiverRepresentation k Q _ I₁) (v : Q) :
+    @Etingof.QuiverRepresentation.obj k Q _ I₂ (h ▸ X) v ≃ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _ I₁ X v :=
+  match I₂, h with
+  | _, rfl => LinearEquiv.refl k _
+
+/-- Transport-compatibility of `mapLinear`, as a plain equation through `objTransportEquiv`. -/
+theorem objTransportEquiv_mapLinear {k : Type*} [CommSemiring k] {Q : Type*}
+    {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
+    (X : @Etingof.QuiverRepresentation k Q _ I₁) (a b : Q) (e : @Quiver.Hom Q I₂ a b)
+    (x : @Etingof.QuiverRepresentation.obj k Q _ I₂ (h ▸ X) a) :
+    objTransportEquiv h X b
+        (@Etingof.QuiverRepresentation.mapLinear k Q _ I₂ (h ▸ X) a b e x) =
+      @Etingof.QuiverRepresentation.mapLinear k Q _ I₁ X a b (h.symm ▸ e)
+        (objTransportEquiv h X a x) := by
+  subst h; rfl
+
+/-- The vertex-space `LinearEquiv` for `transportReversedTwice`:
+`(transportReversedTwice X).obj v ≃ₗ[k] X.obj v`. -/
+noncomputable def transportReversedTwiceEquiv
+    (X : @Etingof.QuiverRepresentation k Q _
+      (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i)) (v : Q) :
+    @Etingof.QuiverRepresentation.obj k Q _ inst
+      (Etingof.QuiverRepresentation.transportReversedTwice X) v ≃ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _
+      (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i) X v :=
+  objTransportEquiv (Etingof.reversedAtVertex_twice Q i) X v
+
+/-- `mapLinear` transport-compatibility for `transportReversedTwice`, as a plain equation. -/
+theorem transportReversedTwiceEquiv_mapLinear
+    (X : @Etingof.QuiverRepresentation k Q _
+      (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i))
+    (a b : Q) (e : @Quiver.Hom Q inst a b)
+    (x : @Etingof.QuiverRepresentation.obj k Q _ inst
+      (Etingof.QuiverRepresentation.transportReversedTwice X) a) :
+    transportReversedTwiceEquiv X b
+        (@Etingof.QuiverRepresentation.mapLinear k Q _ inst
+          (Etingof.QuiverRepresentation.transportReversedTwice X) a b e x) =
+      @Etingof.QuiverRepresentation.mapLinear k Q _
+        (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i) X a b
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸ e)
+        (transportReversedTwiceEquiv X a x) :=
+  objTransportEquiv_mapLinear (Etingof.reversedAtVertex_twice Q i) X a b e x
+
 end Etingof.QuiverRepresentation
 
 /-!
