@@ -158,10 +158,46 @@ simple `K[G]`-modules, and the resulting count `Nat.card (SimpleModuleClasses K[
 surjection `π` (only surjectivity is used in that machinery). They are stated here and proved in
 the follow-up sub-issue. -/
 
-/-- **Deliverable 3 (pairwise non-isomorphic).** Distinct standard modules are not isomorphic. -/
+/-- The `K[G]`-action on a standard module factors through `blockHom`: `x • v` is the matrix
+`blockHom i x` acting on the column vector `v`. This is definitional (`Module.compHom`), exposed
+here as a rewrite lemma. -/
+lemma smul_Std_eq (D : SplitData K G) (i : Fin D.n) (x : MonoidAlgebra K G) (v : D.Std i) :
+    x • v = D.blockHom i x • v := rfl
+
+/-- **Deliverable 3 (pairwise non-isomorphic).** Distinct standard modules are not isomorphic.
+If `i ≠ j`, pick a preimage `e ∈ K[G]` of the block idempotent `Pi.single i 1`; then `e` acts as
+the identity on `Std i` (its `i`-block is the identity matrix) and as `0` on `Std j` (its `j`-block
+is the zero matrix). Any `K[G]`-linear map `Std i → Std j` therefore vanishes, so no isomorphism
+can exist. -/
 theorem Std_injective (D : SplitData K G) (i j : Fin D.n)
     (h : Nonempty (D.Std i ≃ₗ[MonoidAlgebra K G] D.Std j)) : i = j := by
-  sorry
+  obtain ⟨φ⟩ := h
+  by_contra hij
+  -- A preimage of the `i`-th block idempotent `Pi.single i 1`.
+  obtain ⟨e, he⟩ := D.π_surj (Pi.single i 1)
+  -- `e` acts as the identity on `Std i`.
+  have hei : ∀ v : D.Std i, e • v = v := by
+    intro v
+    have hblock : D.blockHom i e = 1 := by
+      simp only [SplitData.blockHom, AlgHom.comp_apply, he, Pi.evalAlgHom_apply, Pi.single_eq_same]
+    rw [smul_Std_eq, hblock, one_smul]
+  -- `e` acts as `0` on `Std j` (since `i ≠ j`).
+  have hej : ∀ w : D.Std j, e • w = 0 := by
+    intro w
+    have hblock : D.blockHom j e = 0 := by
+      simp only [SplitData.blockHom, AlgHom.comp_apply, he, Pi.evalAlgHom_apply,
+        Pi.single_eq_of_ne (Ne.symm hij)]
+    rw [smul_Std_eq, hblock, zero_smul]
+  -- Hence `φ` kills every vector.
+  have hzero : ∀ v : D.Std i, φ v = 0 := fun v => by
+    calc φ v = φ (e • v) := by rw [hei v]
+      _ = e • φ v := map_smul φ e v
+      _ = 0 := hej (φ v)
+  -- But `Std i` is nontrivial (`d i ≠ 0`), contradicting injectivity of `φ`.
+  haveI := D.d_pos i
+  have hv : (fun _ => (1 : K)) ≠ (0 : D.Std i) := fun hcontra =>
+    one_ne_zero (congr_fun hcontra ⟨0, Nat.pos_of_ne_zero (NeZero.ne _)⟩)
+  exact hv (φ.injective ((hzero _).trans (map_zero φ).symm))
 
 /-- **Deliverable 3 (exhaustive).** Every simple `K[G]`-module is isomorphic to some standard
 module `Std i`. -/
