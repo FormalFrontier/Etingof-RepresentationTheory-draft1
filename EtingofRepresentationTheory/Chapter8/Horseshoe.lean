@@ -67,6 +67,49 @@ open CategoryTheory Category Limits
 
 namespace Etingof
 
+section Augmentation
+
+variable {C : Type u} [Category.{v} C] [Abelian C]
+    {S : ShortComplex C} (hS : S.ShortExact)
+    (P₁ : ProjectiveResolution S.X₁) (P₃ : ProjectiveResolution S.X₃)
+
+/-- The degree-`0` augmentation of the horseshoe resolution of `S.X₂`, on the biproduct
+`P₁.complex.X 0 ⊞ P₃.complex.X 0`. On the `P₁` summand it is `P₁.π.f 0 ≫ S.f`; on the `P₃`
+summand it is a lift of `P₃.π.f 0` through the epimorphism `S.g` (which exists because
+`P₃.complex.X 0` is projective). This is the base case of the horseshoe augmentation; the two
+compatibility squares of the horseshoe lemma reduce to `horseshoeπZero_inl` and
+`horseshoeπZero_comp_g` in degree `0`. -/
+noncomputable def horseshoeπZero :
+    P₁.complex.X 0 ⊞ P₃.complex.X 0 ⟶ S.X₂ :=
+  haveI := hS.epi_g
+  biprod.desc (P₁.π.f 0 ≫ S.f) (Projective.factorThru (P₃.π.f 0) S.g)
+
+@[reassoc (attr := simp)]
+lemma horseshoeπZero_inl :
+    biprod.inl ≫ horseshoeπZero hS P₁ P₃ = P₁.π.f 0 ≫ S.f := by
+  simp [horseshoeπZero]
+
+/-- The `P₃`-summand of the horseshoe augmentation covers `P₃.π.f 0` after `S.g`. -/
+@[reassoc (attr := simp)]
+lemma horseshoeπZero_inr_comp_g :
+    haveI := hS.epi_g
+    (biprod.inr ≫ horseshoeπZero hS P₁ P₃) ≫ S.g = P₃.π.f 0 := by
+  haveI := hS.epi_g
+  simp [horseshoeπZero, Projective.factorThru_comp]
+
+/-- The second augmentation-compatibility square in degree `0`:
+`biprod.snd ≫ P₃.π.f 0 = horseshoeπZero ≫ S.g` (with `β.f 0 = biprod.snd`,
+`P₂.π.f 0 = horseshoeπZero`). Uses `S.f ≫ S.g = 0` to kill the `P₁` summand. -/
+@[reassoc]
+lemma horseshoeπZero_comp_g :
+    horseshoeπZero hS P₁ P₃ ≫ S.g = biprod.snd ≫ P₃.π.f 0 := by
+  haveI := hS.epi_g
+  ext
+  · simp [horseshoeπZero]
+  · simp [horseshoeπZero, Projective.factorThru_comp]
+
+end Augmentation
+
 /-- **The horseshoe lemma.** A short exact sequence `S : 0 → X₁ → X₂ → X₃ → 0` in an abelian
 category with enough projectives, together with projective resolutions `P₁` of `X₁` and `P₃` of
 `X₃`, gives a projective resolution `P₂` of `X₂` and chain maps
