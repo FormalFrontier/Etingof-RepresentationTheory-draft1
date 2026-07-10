@@ -61,7 +61,130 @@ theorem real_irreducible
     (hW : ∀ A : Matrix.specialUnitaryGroup (Fin 2) ℂ, ∀ v : Fin 2 → ℂ,
       v ∈ W → (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v ∈ W) :
     W = ⊥ ∨ W = ⊤ := by
-  sorry
+  rw [or_iff_not_imp_left]
+  intro hne
+  obtain ⟨v, hvW, hv0⟩ := (Submodule.ne_bot_iff W).mp hne
+  -- Two elements of `SU(2)`: the diagonal phase `D = diag(i, -i)` and the "swap" `J`.
+  have hD : (!![Complex.I, 0; 0, -Complex.I] : Matrix (Fin 2) (Fin 2) ℂ) ∈
+      Matrix.specialUnitaryGroup (Fin 2) ℂ := by
+    rw [Matrix.mem_specialUnitaryGroup_iff]
+    refine ⟨?_, ?_⟩
+    · rw [Matrix.mem_unitaryGroup_iff, Matrix.star_eq_conjTranspose]
+      ext i j
+      fin_cases i <;> fin_cases j <;>
+        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.conjTranspose_apply]
+    · simp [Matrix.det_fin_two]
+  have hJ : (!![(0 : ℂ), -1; 1, 0] : Matrix (Fin 2) (Fin 2) ℂ) ∈
+      Matrix.specialUnitaryGroup (Fin 2) ℂ := by
+    rw [Matrix.mem_specialUnitaryGroup_iff]
+    refine ⟨?_, ?_⟩
+    · rw [Matrix.mem_unitaryGroup_iff, Matrix.star_eq_conjTranspose]
+      ext i j
+      fin_cases i <;> fin_cases j <;>
+        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.conjTranspose_apply]
+    · simp [Matrix.det_fin_two]
+  -- The images of `v` under `D`, `J` and `D ∘ J` as explicit vectors.
+  have eDv : (!![Complex.I, 0; 0, -Complex.I] : Matrix (Fin 2) (Fin 2) ℂ).mulVec v
+      = ![Complex.I * v 0, -Complex.I * v 1] := by
+    funext i; fin_cases i <;>
+      simp [Matrix.mulVec, dotProduct, Matrix.cons_val_zero, Matrix.cons_val_one]
+  have eJv : (!![(0 : ℂ), -1; 1, 0] : Matrix (Fin 2) (Fin 2) ℂ).mulVec v
+      = ![-(v 1), v 0] := by
+    funext i; fin_cases i <;>
+      simp [Matrix.mulVec, dotProduct, Matrix.cons_val_zero, Matrix.cons_val_one]
+  have eDJv : (!![Complex.I, 0; 0, -Complex.I] : Matrix (Fin 2) (Fin 2) ℂ).mulVec
+      ![-(v 1), v 0] = ![-Complex.I * v 1, -Complex.I * v 0] := by
+    funext i; fin_cases i <;>
+      simp [Matrix.mulVec, dotProduct, Matrix.cons_val_zero, Matrix.cons_val_one]
+  have hDv : ![Complex.I * v 0, -Complex.I * v 1] ∈ W := eDv ▸ hW ⟨_, hD⟩ v hvW
+  have hJv : ![-(v 1), v 0] ∈ W := eJv ▸ hW ⟨_, hJ⟩ v hvW
+  have hDJv : ![-Complex.I * v 1, -Complex.I * v 0] ∈ W := eDJv ▸ hW ⟨_, hD⟩ _ hJv
+  -- These four vectors form a real basis of `ℂ²`, hence `W = ⊤`.
+  set f : Fin 4 → (Fin 2 → ℂ) :=
+    ![v, ![Complex.I * v 0, -Complex.I * v 1], ![-(v 1), v 0],
+      ![-Complex.I * v 1, -Complex.I * v 0]] with hf
+  -- The squared norm of `v`; nonzero since `v ≠ 0`.
+  set Nr : ℝ := Complex.normSq (v 0) + Complex.normSq (v 1) with hNr_def
+  have hNr : Nr ≠ 0 := by
+    intro h
+    apply hv0
+    have h0 : Complex.normSq (v 0) = 0 := by
+      nlinarith [Complex.normSq_nonneg (v 0), Complex.normSq_nonneg (v 1)]
+    have h1 : Complex.normSq (v 1) = 0 := by
+      nlinarith [Complex.normSq_nonneg (v 0), Complex.normSq_nonneg (v 1)]
+    funext i
+    fin_cases i
+    · exact Complex.normSq_eq_zero.mp h0
+    · exact Complex.normSq_eq_zero.mp h1
+  have hli : LinearIndependent ℝ f := by
+    rw [Fintype.linearIndependent_iff]
+    intro g hg
+    have h0 := congrFun hg 0
+    have h1 := congrFun hg 1
+    simp only [hf, Finset.sum_apply, Fin.sum_univ_four, Pi.smul_apply,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
+      Matrix.head_cons, Matrix.tail_cons, Pi.zero_apply,
+      Complex.real_smul] at h0 h1
+    -- `h0`, `h1` are the two coordinate equations. Rearrange into `v₀·α - v₁·β = 0`
+    -- and (after conjugation) `conj v₁·α + conj v₀·β = 0`, with
+    -- `α = g₀ + i g₁`, `β = g₂ + i g₃`.
+    set α : ℂ := (g 0 : ℂ) + Complex.I * (g 1 : ℂ) with hα_def
+    set β : ℂ := (g 2 : ℂ) + Complex.I * (g 3 : ℂ) with hβ_def
+    have eqI : v 0 * α - v 1 * β = 0 := by linear_combination h0
+    have h1c := congrArg (starRingEnd ℂ) h1
+    simp only [map_add, map_mul, map_neg, Complex.conj_ofReal, map_zero,
+      Complex.conj_I] at h1c
+    have eqII : (starRingEnd ℂ) (v 1) * α + (starRingEnd ℂ) (v 0) * β = 0 := by
+      linear_combination h1c
+    -- Eliminate to obtain `Nr·α = 0` and `Nr·β = 0`.
+    have hNc : (Nr : ℂ) = v 0 * (starRingEnd ℂ) (v 0) + v 1 * (starRingEnd ℂ) (v 1) := by
+      rw [Complex.mul_conj, Complex.mul_conj, hNr_def]; push_cast; ring
+    have hαz : (Nr : ℂ) * α = 0 := by
+      rw [hNc]
+      linear_combination (starRingEnd ℂ) (v 0) * eqI + v 1 * eqII
+    have hβz : (Nr : ℂ) * β = 0 := by
+      rw [hNc]
+      linear_combination (-(starRingEnd ℂ) (v 1)) * eqI + v 0 * eqII
+    have hα0 : α = 0 := by
+      rcases mul_eq_zero.mp hαz with h | h
+      · exact absurd (Complex.ofReal_eq_zero.mp h) hNr
+      · exact h
+    have hβ0 : β = 0 := by
+      rcases mul_eq_zero.mp hβz with h | h
+      · exact absurd (Complex.ofReal_eq_zero.mp h) hNr
+      · exact h
+    -- Read off the real coefficients from `α = 0` and `β = 0`.
+    have hg0 : g 0 = 0 := by
+      have := congrArg Complex.re hα0
+      simpa [hα_def, Complex.add_re, Complex.mul_re] using this
+    have hg1 : g 1 = 0 := by
+      have := congrArg Complex.im hα0
+      simpa [hα_def, Complex.add_im, Complex.mul_im] using this
+    have hg2 : g 2 = 0 := by
+      have := congrArg Complex.re hβ0
+      simpa [hβ_def, Complex.add_re, Complex.mul_re] using this
+    have hg3 : g 3 = 0 := by
+      have := congrArg Complex.im hβ0
+      simpa [hβ_def, Complex.add_im, Complex.mul_im] using this
+    intro i
+    fin_cases i
+    · exact hg0
+    · exact hg1
+    · exact hg2
+    · exact hg3
+  have hcard : Fintype.card (Fin 4) = Module.finrank ℝ (Fin 2 → ℂ) := by
+    simp [Module.finrank_pi_fintype, Complex.finrank_real_complex]
+  have hspan : Submodule.span ℝ (Set.range f) = ⊤ :=
+    hli.span_eq_top_of_card_eq_finrank hcard
+  have hsub : Submodule.span ℝ (Set.range f) ≤ W := by
+    rw [Submodule.span_le]
+    rintro x ⟨i, rfl⟩
+    fin_cases i
+    · exact hvW
+    · exact hDv
+    · exact hJv
+    · exact hDJv
+  exact le_antisymm le_top (hspan ▸ hsub)
 
 /-- **Part (d), conjugate of a product.** Quaternion conjugation (`star`) reverses products:
 `overline(q₁ q₂) = q̄₂ q̄₁`. -/
