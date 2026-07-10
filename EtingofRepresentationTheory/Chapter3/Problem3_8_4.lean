@@ -57,21 +57,13 @@ noncomputable instance bcMod : Module (L ⊗[K] A) (L ⊗[K] V) :=
   Module.compHom (L ⊗[K] V) (R := Module.End L (L ⊗[K] V))
     (repTensor (A := A) (V := V) (L := L)).toRingHom
 
-/-- **Problem 3.8.4(i).** If the base changes `L ⊗[K] V` and `L ⊗[K] W` are isomorphic as
-`L ⊗[K] A`-modules, then `V` and `W` are already isomorphic as `A`-modules.
-
-Proof (book): reduce to a finite extension `L/K` of degree `n`; then `L ⊗[K] V ≅ Vⁿ` and
-`L ⊗[K] W ≅ Wⁿ` as `A`-modules, so `Vⁿ ≅ Wⁿ`, and Krull-Schmidt over the arbitrary field `K`
-(`Etingof.Problem3_8_3.krull_schmidt_uniqueness`) gives `V ≅ W`. -/
-theorem iso_of_baseChange_iso [FiniteDimensional K V] [FiniteDimensional K W]
-    (h : Nonempty ((L ⊗[K] V) ≃ₗ[L ⊗[K] A] (L ⊗[K] W))) :
-    Nonempty (V ≃ₗ[A] W) := by
-  sorry
-
-/- **Problem 3.8.4(ii), the Noether-Deuring theorem** — the general-`L` statement and proof live
-downstream in `Problem3_8_4_General.lean` (`directSummand_of_baseChange_directSummand`), once the
-finite case and the descent/pushforward machinery are available. A direct summand (up to
-isomorphism) is encoded as a split injection: a pair `(i, p)` with `p ∘ i = id`, whose image is a
-complemented submodule isomorphic to the smaller module. -/
+/- **Problem 3.8.4(i)** and **(ii), the Noether-Deuring theorem** — the general-`L` statements and
+proofs live downstream in `Problem3_8_4_General.lean` (`iso_of_baseChange_iso` and
+`directSummand_of_baseChange_directSummand`), once the finite case and the descent/pushforward
+machinery are available. The book's proof reduces to a finite extension `L/K` of degree `n`,
+identifies `L ⊗[K] V ≅ Vⁿ` and `L ⊗[K] W ≅ Wⁿ` as `A`-modules, and applies Krull-Schmidt over the
+arbitrary field `K` (`Etingof.Problem3_8_3.krull_schmidt_uniqueness`). For part (ii), a direct
+summand (up to isomorphism) is encoded as a split injection: a pair `(i, p)` with `p ∘ i = id`,
+whose image is a complemented submodule isomorphic to the smaller module. -/
 
 end Etingof.Problem3_8_4

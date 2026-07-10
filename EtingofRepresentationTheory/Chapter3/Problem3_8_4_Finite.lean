@@ -22,8 +22,8 @@ The mechanism is exactly the book's hint restricted to a finite `L / K`:
   common power to yield `V ≃ₗ[A] W`.
 
 The reduction of a *general* extension `L / K` to a finite subextension (the book's "reduce to
-finitely generated, then finite extension" step) is the remaining ingredient needed to
-discharge `Etingof.Problem3_8_4.iso_of_baseChange_iso`; it is tracked separately.
+finitely generated, then finite extension" step) is assembled downstream in
+`Problem3_8_4_General.lean` as `Etingof.Problem3_8_4.iso_of_baseChange_iso`.
 -/
 
 open scoped TensorProduct
