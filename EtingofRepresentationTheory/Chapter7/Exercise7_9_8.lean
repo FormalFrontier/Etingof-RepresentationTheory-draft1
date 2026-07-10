@@ -210,6 +210,51 @@ structure Etingof.AdjReducedData
           (Etingof.revOut hi a)
           (h a.fst (Etingof.arrowsOutOf_target_ne_source hi a) (V.mapLinear a.snd x)) = 0
 
+/-! ### Index round-trip helpers for `revOut`
+
+`revOut hi a : a.fst ⟶_{Q̄ᵢ} i` and `reversedArrow_ne_eq ha : (a ⟶_{Q̄ᵢ} i) → (i ⟶ a)` are both
+`cast`s along `ReversedAtVertexHom_ne_eq`, so composing them in either order is the identity. -/
+
+/-- Reversing the arrow `revOut hi a` (into `i` in `Q̄ᵢ`) back to `Q` recovers `a.snd`. -/
+theorem Etingof.reversedArrow_ne_eq_revOut
+    {Q : Type*} [DecidableEq Q] [Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (a : Etingof.ArrowsOutOf Q i) :
+    Etingof.reversedArrow_ne_eq (Etingof.arrowsOutOf_target_ne_source hi a)
+      (Etingof.revOut hi a) = a.snd := by
+  obtain ⟨j, e⟩ := a
+  simp only [Etingof.revOut, Etingof.reversedArrow_ne_eq_is_cast, cast_cast, cast_eq]
+
+/-- `revOut` of the arrow `reversedArrow_ne_eq ha e` (built from `e : a ⟶_{Q̄ᵢ} i`) recovers `e`. -/
+theorem Etingof.revOut_reversedArrow_ne_eq
+    {Q : Type*} [DecidableEq Q] [Quiver Q] {i a : Q} (hi : Etingof.IsSource Q i) (ha : a ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a i) :
+    Etingof.revOut hi ⟨a, Etingof.reversedArrow_ne_eq ha e⟩ = e := by
+  simp only [Etingof.revOut, Etingof.reversedArrow_ne_eq_is_cast, cast_cast, cast_eq]
+
+/-- The quotient map `reflFunctorMinus_mkQ` on the `a`-generator `lof a u` of the direct sum is
+the reversed-arrow map applied to `u`: `mkQ (lof a u) = F⁻ᵢ(V)(revOut a) (equivAt_ne⁻¹ u)`. This
+is `reflFunctorMinus_mapLinear_ne_eq` read backwards, using the `reversedArrow_ne_eq_revOut`
+index round-trip to collapse the reindexed generator back to `a`. -/
+theorem Etingof.reflFunctorMinus_mkQ_lof
+    {k : Type*} [CommRing k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) (V : Etingof.QuiverRepresentation k Q)
+    [Fintype (Etingof.ArrowsOutOf Q i)]
+    (a : Etingof.ArrowsOutOf Q i) (u : V.obj a.fst) :
+    Etingof.reflFunctorMinus_mkQ hi V
+        (DirectSum.lof k (Etingof.ArrowsOutOf Q i) (fun a => V.obj a.1) a u) =
+      @Etingof.QuiverRepresentation.mapLinear k Q _ (Etingof.reversedAtVertex Q i)
+        (Etingof.reflectionFunctorMinus Q i hi V) a.fst i (Etingof.revOut hi a)
+        ((Etingof.reflFunctorMinus_equivAt_ne hi V a.fst
+          (Etingof.arrowsOutOf_target_ne_source hi a)).symm u) := by
+  classical
+  obtain ⟨j, e⟩ := a
+  have key := Etingof.reflFunctorMinus_mapLinear_ne_eq hi V
+    (Etingof.arrowsOutOf_target_ne_source hi ⟨j, e⟩) (Etingof.revOut hi ⟨j, e⟩)
+    ((Etingof.reflFunctorMinus_equivAt_ne hi V (⟨j, e⟩ : Etingof.ArrowsOutOf Q i).fst
+      (Etingof.arrowsOutOf_target_ne_source hi ⟨j, e⟩)).symm u)
+  rw [LinearEquiv.apply_symm_apply, Etingof.reversedArrow_ne_eq_revOut hi ⟨j, e⟩] at key
+  exact key.symm
+
 /-- The cokernel side of the adjunction bijection: `Hom(F⁻ᵢV, W) ≃ AdjReducedData hi V W`.
 At `v ≠ i` a morphism restricts to `h v` through `reflFunctorMinus_equivAt_ne`; at `i` its
 value on the cokernel `coker(sourceMap_V)` is determined by the family via `Submodule.liftQ`,
