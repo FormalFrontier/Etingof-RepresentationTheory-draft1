@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_BaseChangePiMatrix
 
 /-!
 # Base change of a semisimple algebra can only increase the number of simple modules
@@ -371,17 +372,6 @@ theorem natCard_simpleModuleClasses_pi {n : ℕ} (R : Fin n → Type u) [∀ i, 
       = ∑ i, Nat.card (SimpleModuleClasses.{u} (R i)) := by
   rw [← Nat.card_sigma]
   exact (Nat.card_congr (simpleModuleClassesPiEquiv R)).symm
-
-/-- **Base change of the Wedderburn product (deferred; sub-issue).** For a field extension `K ⊇ k`,
-base change carries a `k`-algebra isomorphism `A ≃ₐ[k] ∏ i, Matrix (Fin (d i)) (Fin (d i)) (D i)`
-to a `K`-algebra isomorphism `K ⊗ A ≃ₐ[K] ∏ i, Matrix (Fin (d i)) (Fin (d i)) (K ⊗ D i)`, by
-distributing `K ⊗ -` over the finite product and over each matrix ring. -/
-theorem nonempty_baseChange_pi_matrix_algEquiv (k K : Type u) [Field k] [Field K] [Algebra k K]
-    {n : ℕ} (D : Fin n → Type u) [∀ i, DivisionRing (D i)] [∀ i, Algebra k (D i)]
-    (d : Fin n → ℕ) {A : Type u} [Ring A] [Algebra k A]
-    (e : A ≃ₐ[k] (∀ i, Matrix (Fin (d i)) (Fin (d i)) (D i))) :
-    Nonempty (K ⊗[k] A ≃ₐ[K] (∀ i, Matrix (Fin (d i)) (Fin (d i)) (K ⊗[k] D i))) := by
-  sorry
 
 /-- **Base change of a semisimple algebra can only increase the number of simple modules.**
 For a finite-dimensional **semisimple** `k`-algebra `A` and any field extension `K ⊇ k`,
