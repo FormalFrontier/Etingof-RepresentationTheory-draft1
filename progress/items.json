@@ -3468,7 +3468,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Exercise5_3_3.lean states that every nontrivial irreducible rep of an odd-order group is of complex type (Etingof.IsComplexType), sorry proof."
+    "coverage_note": "Reduced pass: Chapter5/Exercise5_3_3.lean proves the main theorem isComplexType_of_odd_order_of_nontrivial_irreducible as a sorry-free assembly of three faithful sub-lemmas (Schur dichotomy self-dual=>real or quaternionic; odd order=>not real for nontrivial irreducible; odd order=>not quaternionic). The three sub-lemmas carry sorry, each needing Frobenius-Schur/Brauer or dim-divides-order infrastructure absent from Mathlib. Tracked by sub-issues of #6215."
   },
   {
     "id": "Chapter5/Introduction_5.4",
