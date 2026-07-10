@@ -58,10 +58,12 @@ noncomputable def complexToRealGEnd (ρ : Representation ℂ G V) :
     simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply, Algebra.lsmul_apply,
       map_smul])
 
+omit [Fintype G] [Module.Finite ℂ V] in
 @[simp]
 theorem complexToRealGEnd_coe_apply (ρ : Representation ℂ G V) (z : ℂ) (v : V) :
     (complexToRealGEnd ρ z : Module.End ℝ V) v = z • v := rfl
 
+omit [Fintype G] [Module.Finite ℂ V] in
 /-- The `ℂ`-embedding is injective when `V ≠ 0`: if `z • v = 0` for all `v`, choosing a nonzero
 `v` forces `z = 0`. -/
 theorem complexToRealGEnd_injective (ρ : Representation ℂ G V) [Nontrivial V] :
