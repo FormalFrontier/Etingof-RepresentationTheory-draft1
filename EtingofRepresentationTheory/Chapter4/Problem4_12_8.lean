@@ -69,6 +69,88 @@ theorem su2_finite_subgroup_double_cover
         Nat.card H = 2 * Nat.card (H.map h)) ∧
     ((∀ A ∈ H, (A : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1) →
         Nat.card H = Nat.card (H.map h)) := by
-  sorry
+  -- Restrict `h` to `H`.
+  set h' : H →* specialOrthogonalGroup (Fin 3) ℝ := h.comp H.subtype with hh'
+  -- The range of `h'` is exactly the image subgroup `H.map h`.
+  have hrange : h'.range = H.map h := by
+    rw [hh', MonoidHom.range_eq_map, ← Subgroup.map_map, ← MonoidHom.range_eq_map,
+      Subgroup.range_subtype]
+  -- The composite `H → SU(2) → Matrix` is injective (both coercions are `Subtype.val`).
+  have hinj : ∀ a b : H,
+      ((a : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) =
+        ((b : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) → a = b := by
+    intro a b hab
+    apply Subtype.ext
+    apply Subtype.ext
+    exact hab
+  -- Membership in the kernel of `h'` is the `±1` condition on the underlying matrix.
+  have hmem : ∀ x : H, x ∈ h'.ker ↔
+      ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
+      ((x : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 := by
+    intro x
+    rw [MonoidHom.mem_ker, hh', MonoidHom.comp_apply, Subgroup.coe_subtype,
+      ← MonoidHom.mem_ker, hker]
+  -- The matrix of the identity of `H` is `1`.
+  have h1mat : (((1 : H) : specialUnitaryGroup (Fin 2) ℂ) :
+      Matrix (Fin 2) (Fin 2) ℂ) = 1 := by simp
+  -- An element of the kernel with matrix `1` is the identity.
+  have key1 : ∀ y : H,
+      ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 → y = 1 := by
+    intro y hy
+    apply hinj
+    rw [hy]
+    exact h1mat.symm
+  -- `1 ≠ -1` as `2 × 2` complex matrices.
+  have hne : (1 : Matrix (Fin 2) (Fin 2) ℂ) ≠ -1 := by
+    intro he
+    have h00 := congrFun (congrFun he 0) 0
+    rw [Matrix.one_apply_eq, Matrix.neg_apply, Matrix.one_apply_eq] at h00
+    norm_num at h00
+  -- Lagrange / first isomorphism theorem: `|H| = |image| · |kernel|`.
+  have hcount : Nat.card H = Nat.card (H.map h) * Nat.card h'.ker := by
+    have hq : Nat.card (H ⧸ h'.ker) = Nat.card (H.map h) := by
+      rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange h').toEquiv, hrange]
+    rw [Subgroup.card_eq_card_quotient_mul_card_subgroup h'.ker, hq]
+  refine ⟨?_, ?_⟩
+  · -- Case `-1 ∈ H`: the kernel has exactly two elements, so `|H| = 2 · |image|`.
+    rintro ⟨A₀, hA₀H, hA₀⟩
+    let g : H := ⟨A₀, hA₀H⟩
+    have hg_mat : ((g : specialUnitaryGroup (Fin 2) ℂ) :
+        Matrix (Fin 2) (Fin 2) ℂ) = -1 := hA₀
+    have hgker : g ∈ h'.ker := (hmem g).mpr (Or.inr hg_mat)
+    -- Every kernel element with matrix `-1` equals `g`.
+    have keyg : ∀ y : H,
+        ((y : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 → y = g := by
+      intro y hy
+      apply hinj
+      rw [hy]
+      exact hg_mat.symm
+    have hcard : Nat.card h'.ker = 2 := by
+      rw [Nat.card_eq_two_iff]
+      refine ⟨⟨1, (h'.ker).one_mem⟩, ⟨g, hgker⟩, ?_, ?_⟩
+      · intro he
+        have h1g : (1 : H) = g := congrArg Subtype.val he
+        have e1 : (((1 : H) : specialUnitaryGroup (Fin 2) ℂ) :
+            Matrix (Fin 2) (Fin 2) ℂ) =
+            ((g : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) := by rw [h1g]
+        rw [h1mat, hg_mat] at e1
+        exact hne e1
+      · rw [Set.eq_univ_iff_forall]
+        rintro ⟨y, hyk⟩
+        have hy2 := (hmem y).mp hyk
+        simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
+        rcases hy2 with hy1 | hy1
+        · exact Or.inl (Subtype.ext (key1 y hy1))
+        · exact Or.inr (Subtype.ext (keyg y hy1))
+    rw [hcount, hcard, mul_comm]
+  · -- Case `-1 ∉ H`: the kernel is trivial, so `|H| = |image|`.
+    intro hno
+    have hbot : h'.ker = ⊥ := by
+      rw [Subgroup.eq_bot_iff_forall]
+      intro x hx
+      rcases (hmem x).mp hx with h1 | h1
+      · exact key1 x h1
+      · exact absurd h1 (hno (x : specialUnitaryGroup (Fin 2) ℂ) x.2)
+    rw [hcount, hbot, Subgroup.card_bot, mul_one]
 
 end Etingof.Problem4_12_8

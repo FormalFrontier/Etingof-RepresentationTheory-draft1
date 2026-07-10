@@ -3081,7 +3081,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean: affine ax+b group over a finite field K constructed (order q(q-1)); q-1 one-dim reps, the zero-sum representation V (dim q-1) with invariance and irreducibility, and the dimension dichotomy (1 or q-1). Sorry proofs, statement pass (#5944)."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean: affine ax+b group over a finite field K constructed (order q(q-1)); q-1 one-dim reps, the zero-sum representation V (dim q-1) with invariance and irreducibility, and the dimension dichotomy (1 or q-1). The book's hint is proved (#6219): card_eq (order q(q-1)), zeroSum_invariant, zeroSum_finrank (dim q-1), and zeroSum_irreducible (V irreducible, via averaging over the scaling subgroup Kˣ and spanning by spike vectors). one_dim_reps_card and irreducible_dim remain sorry (follow-up)."
   },
   {
     "id": "Chapter4/Problem4.12.7",
@@ -3468,7 +3468,7 @@
     "start_line": 3,
     "end_line": 4,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Exercise5_3_3.lean states that every nontrivial irreducible rep of an odd-order group is of complex type (Etingof.IsComplexType), sorry proof."
+    "coverage_note": "Reduced pass: Chapter5/Exercise5_3_3.lean proves the main theorem isComplexType_of_odd_order_of_nontrivial_irreducible as a sorry-free assembly of three faithful sub-lemmas (Schur dichotomy self-dual=>real or quaternionic; odd order=>not real for nontrivial irreducible; odd order=>not quaternionic). The three sub-lemmas carry sorry, each needing Frobenius-Schur/Brauer or dim-divides-order infrastructure absent from Mathlib. Tracked by sub-issues of #6215."
   },
   {
     "id": "Chapter5/Introduction_5.4",
