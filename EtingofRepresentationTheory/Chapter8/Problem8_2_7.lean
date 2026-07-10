@@ -6,6 +6,10 @@ import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.Algebra.Module.Opposite
 import Mathlib.RingTheory.Polynomial.Basic
 import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.ZMod.QuotientRing
+import Mathlib.LinearAlgebra.TensorProduct.Quotient
+import Mathlib.LinearAlgebra.Isomorphisms
+import Mathlib.RingTheory.Ideal.Operations
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
@@ -100,6 +104,198 @@ private lemma isZero_obj_two_of_sixTerm_exact
     IsZero (W.obj 2) := by
   have e : (W.sc' hW.toIsComplex 1 2 3).Exact := hW.exact' 1 2 3
   exact e.isZero_X₂ (h1.eq_of_src _ _) (h3.eq_of_tgt _ _)
+
+/-! ### Reusable `ZMod`-gcd isomorphisms
+
+The four degree-0 / degree-1 identifications all reduce to two group isomorphisms about
+`ZMod`: the kernel and cokernel of multiplication by `a` on `ZMod b` are both
+`ZMod (gcd a b)`. These are not in Mathlib, so we prove them here (over the PID `ℤ`),
+together with the tensor and Hom bridges `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and
+`Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`. -/
+
+namespace ZModGcd
+
+open scoped TensorProduct
+
+noncomputable section
+
+/-- The ℤ-linear cast `ZMod b →ₗ[ℤ] ZMod (gcd a b)` (well-defined since `gcd a b ∣ b`). -/
+def castLin (a b : ℕ) : ZMod b →ₗ[ℤ] ZMod (Nat.gcd a b) :=
+  (ZMod.castHom (Nat.gcd_dvd_right a b) (ZMod (Nat.gcd a b))).toAddMonoidHom.toIntLinearMap
+
+@[simp] lemma castLin_apply (a b : ℕ) (x : ZMod b) :
+    castLin a b x = ZMod.castHom (Nat.gcd_dvd_right a b) (ZMod (Nat.gcd a b)) x := rfl
+
+/-- The image `a • ZMod b` equals the kernel of the cast to `ZMod (gcd a b)`. -/
+lemma span_smul_top_eq_ker (a b : ℕ) [NeZero b] :
+    Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ (ZMod b)) = LinearMap.ker (castLin a b) := by
+  set g := Nat.gcd a b with hg
+  apply le_antisymm
+  · rw [Submodule.smul_le]
+    intro r hr n _
+    rw [Ideal.mem_span_singleton] at hr
+    obtain ⟨c, rfl⟩ := hr
+    rw [LinearMap.mem_ker, map_smul]
+    -- (a * c) • (castLin a b n) = 0 in ZMod g
+    have hga : (a : ZMod g) = 0 := (ZMod.natCast_eq_zero_iff a g).mpr (Nat.gcd_dvd_left a b)
+    rw [zsmul_eq_mul]
+    push_cast
+    rw [hga]
+    ring
+  · intro x hx
+    rw [LinearMap.mem_ker, castLin_apply, ZMod.castHom_apply, ← ZMod.natCast_val x,
+      ZMod.natCast_eq_zero_iff] at hx
+    -- g ∣ x.val, so x.val = g * t, and g ∈ (a) in ZMod b by Bezout
+    obtain ⟨t, ht⟩ := hx
+    rw [Submodule.ideal_span_singleton_smul, Submodule.mem_smul_pointwise_iff_exists]
+    -- Bezout: (g:ℤ) = a * u + b * v
+    obtain ⟨u, v, huv⟩ : ∃ u v : ℤ, (g : ℤ) = a * u + b * v :=
+      ⟨Nat.gcdA a b, Nat.gcdB a b, by rw [hg]; exact_mod_cast Nat.gcd_eq_gcd_ab a b⟩
+    refine ⟨(u : ZMod b) * (t : ZMod b), Submodule.mem_top, ?_⟩
+    -- (a:ℤ) • (u * t) = x
+    rw [zsmul_eq_mul]
+    have hx' : x = (x.val : ZMod b) := (ZMod.natCast_zmod_val x).symm
+    rw [hx', ht]
+    have hbz : (b : ZMod b) = 0 := ZMod.natCast_self b
+    have : (g : ZMod b) = (a : ZMod b) * (u : ZMod b) := by
+      have := congrArg (fun z : ℤ => (z : ZMod b)) huv
+      push_cast at this ⊢
+      rw [this, hbz]; ring
+    push_cast
+    rw [this]
+    ring
+
+/-- **Cokernel of multiplication by `a` on `ZMod b` is `ZMod (gcd a b)`.** -/
+def zmodCokerEquiv (a b : ℕ) [NeZero b] :
+    (ZMod b ⧸ (Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ (ZMod b)))) ≃ₗ[ℤ] ZMod (Nat.gcd a b) :=
+  (Submodule.quotEquivOfEq _ _ (span_smul_top_eq_ker a b)).trans
+    ((castLin a b).quotKerEquivOfSurjective (by
+      intro y
+      obtain ⟨x, rfl⟩ := ZMod.castHom_surjective (Nat.gcd_dvd_right a b) y
+      exact ⟨x, rfl⟩))
+
+/-! ### Kernel of multiplication by `a` on `ZMod b` -/
+
+/-- Multiplication-by-`a` endomorphism of `ZMod b`, as a ℤ-linear map. -/
+def mulByCast (a b : ℕ) : ZMod b →ₗ[ℤ] ZMod b := (a : ℤ) • LinearMap.id
+
+@[simp] lemma mulByCast_apply (a b : ℕ) (x : ZMod b) : mulByCast a b x = (a : ℤ) • x := rfl
+
+/-- `ZMod (gcd a b) → ZMod b`, `k ↦ k • (b / gcd a b)`; its image is the `a`-torsion of `ZMod b`. -/
+def kerGen (a b : ℕ) [NeZero b] : ZMod (Nat.gcd a b) →ₗ[ℤ] ZMod b :=
+  (ZMod.lift (Nat.gcd a b)
+    ⟨zmultiplesHom (ZMod b) ((b / Nat.gcd a b : ℕ) : ZMod b), by
+      simp only [zmultiplesHom_apply, zsmul_eq_mul]
+      rw [Int.cast_natCast, ← Nat.cast_mul, Nat.mul_div_cancel' (Nat.gcd_dvd_right a b),
+        ZMod.natCast_self]⟩).toIntLinearMap
+
+lemma kerGen_intCast (a b : ℕ) [NeZero b] (m : ℤ) :
+    kerGen a b (m : ZMod (Nat.gcd a b)) = m • ((b / Nat.gcd a b : ℕ) : ZMod b) := by
+  simp only [kerGen, AddMonoidHom.coe_toIntLinearMap, ZMod.lift_coe, zmultiplesHom_apply]
+
+lemma kerGen_apply (a b : ℕ) [NeZero b] (y : ZMod (Nat.gcd a b)) :
+    kerGen a b y = (y.val : ℤ) • ((b / Nat.gcd a b : ℕ) : ZMod b) := by
+  haveI : NeZero (Nat.gcd a b) := ⟨Nat.gcd_ne_zero_right (NeZero.ne b)⟩
+  conv_lhs => rw [← ZMod.natCast_zmod_val y]
+  rw [show ((y.val : ℕ) : ZMod (Nat.gcd a b)) = (((y.val : ℕ) : ℤ) : ZMod (Nat.gcd a b)) by
+      push_cast; rfl, kerGen_intCast]
+
+/-- **Kernel of multiplication by `a` on `ZMod b` is `ZMod (gcd a b)`** (the `a`-torsion). -/
+def zmodKerEquiv (a b : ℕ) [NeZero b] :
+    (LinearMap.ker (mulByCast a b)) ≃ₗ[ℤ] ZMod (Nat.gcd a b) := by
+  haveI : NeZero (Nat.gcd a b) := ⟨Nat.gcd_ne_zero_right (NeZero.ne b)⟩
+  set g := Nat.gcd a b with hg
+  have hgpos : 0 < g := Nat.pos_of_ne_zero (Nat.gcd_ne_zero_right (NeZero.ne b))
+  have hb'pos : 0 < b / g :=
+    Nat.div_pos (Nat.le_of_dvd (Nat.pos_of_ne_zero (NeZero.ne b)) (Nat.gcd_dvd_right a b)) hgpos
+  have hinj : Function.Injective (kerGen a b) := by
+    rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
+    intro x hx
+    rw [LinearMap.mem_ker, kerGen_apply, zsmul_eq_mul, Int.cast_natCast, ← Nat.cast_mul,
+      ZMod.natCast_eq_zero_iff] at hx
+    -- hx : b ∣ x.val * (b/g); goal : x = 0
+    rw [← ZMod.natCast_zmod_val x, ZMod.natCast_eq_zero_iff]
+    refine (Nat.mul_dvd_mul_iff_right hb'pos).mp ?_
+    rwa [Nat.mul_div_cancel' (Nat.gcd_dvd_right a b)]
+  have hz : (a : ℤ) • ((b / g : ℕ) : ZMod b) = 0 := by
+    rw [zsmul_eq_mul, Int.cast_natCast, ← Nat.cast_mul, ZMod.natCast_eq_zero_iff]
+    conv_lhs => rw [← Nat.mul_div_cancel' (Nat.gcd_dvd_right a b)]
+    exact mul_dvd_mul_right (Nat.gcd_dvd_left a b) _
+  have hrange : LinearMap.range (kerGen a b) = LinearMap.ker (mulByCast a b) := by
+    apply le_antisymm
+    · rintro _ ⟨y, rfl⟩
+      rw [LinearMap.mem_ker, mulByCast_apply, kerGen_apply,
+        smul_smul, mul_comm, ← smul_smul, hz, smul_zero]
+    · intro x hx
+      rw [LinearMap.mem_ker, mulByCast_apply] at hx
+      have h1 : b ∣ a * x.val := by
+        rwa [← ZMod.natCast_zmod_val x, zsmul_eq_mul, Int.cast_natCast, ← Nat.cast_mul,
+          ZMod.natCast_eq_zero_iff] at hx
+      have haga' : a = g * (a / g) := (Nat.mul_div_cancel' (Nat.gcd_dvd_left a b)).symm
+      have hcop : Nat.Coprime (b / g) (a / g) := (Nat.coprime_div_gcd_div_gcd hgpos).symm
+      have hb'dvd : (b / g) ∣ x.val := by
+        have hstep : (b / g) ∣ (a / g) * x.val := by
+          apply Nat.dvd_of_mul_dvd_mul_left hgpos
+          calc g * (b / g) = b := Nat.mul_div_cancel' (Nat.gcd_dvd_right a b)
+            _ ∣ a * x.val := h1
+            _ = g * ((a / g) * x.val) := by rw [← mul_assoc, ← haga']
+        exact hcop.dvd_of_dvd_mul_left hstep
+      obtain ⟨s, hs⟩ := hb'dvd
+      refine ⟨((s : ℤ) : ZMod g), ?_⟩
+      rw [kerGen_intCast, zsmul_eq_mul, Int.cast_natCast, ← ZMod.natCast_zmod_val x, hs,
+        Nat.cast_mul]
+      ring
+  exact ((LinearEquiv.ofInjective (kerGen a b) hinj).trans
+    (LinearEquiv.ofEq _ _ hrange)).symm
+
+/-! ### Tensor and Hom bridges -/
+
+/-- **`ZMod a ⊗_ℤ ZMod b ≃ ZMod (gcd a b)`.** -/
+def tensorEquiv (a b : ℕ) [NeZero b] :
+    TensorProduct ℤ (ZMod a) (ZMod b) ≃ₗ[ℤ] ZMod (Nat.gcd a b) :=
+  let e_a : ZMod a ≃ₗ[ℤ] (ℤ ⧸ Ideal.span {(a : ℤ)}) :=
+    ((Int.quotientSpanNatEquivZMod a).symm.toAddEquiv).toIntLinearEquiv
+  (TensorProduct.congr e_a (LinearEquiv.refl ℤ (ZMod b))) ≪≫ₗ
+    (TensorProduct.quotTensorEquivQuotSMul (ZMod b) (Ideal.span {(a : ℤ)})) ≪≫ₗ
+    zmodCokerEquiv a b
+
+/-- The `a`-torsion element `f 1` of a ℤ-linear map `ZMod a → ZMod b`, packaged as an
+additive isomorphism `Hom(ZMod a, ZMod b) ≃+ ker(·a)`. -/
+def homToKer (a b : ℕ) [NeZero a] :
+    (ZMod a →ₗ[ℤ] ZMod b) ≃+ LinearMap.ker (mulByCast a b) where
+  toFun f := ⟨f 1, by
+    rw [LinearMap.mem_ker, mulByCast_apply, ← map_smul]
+    have h1 : (a : ℤ) • (1 : ZMod a) = 0 := by
+      rw [zsmul_eq_mul, mul_one, Int.cast_natCast, ZMod.natCast_self]
+    rw [h1, map_zero]⟩
+  invFun x := (ZMod.lift a ⟨zmultiplesHom (ZMod b) (x : ZMod b), by
+    have hx := LinearMap.mem_ker.mp x.2
+    rw [mulByCast_apply] at hx
+    simpa only [zmultiplesHom_apply] using hx⟩).toIntLinearMap
+  left_inv f := by
+    ext z
+    obtain ⟨n, rfl⟩ : ∃ n : ℤ, (n : ZMod a) = z :=
+      ⟨(z.val : ℤ), by rw [Int.cast_natCast, ZMod.natCast_zmod_val]⟩
+    rw [AddMonoidHom.coe_toIntLinearMap, ZMod.lift_coe]
+    simp only [zmultiplesHom_apply]
+    rw [← zsmul_one n, map_zsmul]
+  right_inv x := by
+    apply Subtype.ext
+    change (ZMod.lift a ⟨zmultiplesHom (ZMod b) (x : ZMod b), _⟩).toIntLinearMap 1 = (x : ZMod b)
+    rw [AddMonoidHom.coe_toIntLinearMap,
+      show (1 : ZMod a) = ((1 : ℤ) : ZMod a) by push_cast; rfl, ZMod.lift_coe]
+    simp only [zmultiplesHom_apply, one_zsmul]
+  map_add' f g := rfl
+
+/-- **`Hom_ℤ(ZMod a, ZMod b) ≃ ZMod (gcd a b)`.** -/
+def homEquiv (a b : ℕ) [NeZero a] [NeZero b] :
+    (ZMod a →ₗ[ℤ] ZMod b) ≃+ ZMod (Nat.gcd a b) :=
+  (homToKer a b).trans (zmodKerEquiv a b).toAddEquiv
+
+end
+
+end ZModGcd
+
 
 /-! ### Part (i): `A = ℤ` -/
 
