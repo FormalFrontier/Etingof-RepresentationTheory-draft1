@@ -209,13 +209,26 @@ You may decompose when any of these is true:
 - you can write self-contained successor issues without further investigation.
 
 ```bash
-# 1. Create self-contained sub-issues. Use `coordination plan` exactly as a
-#    planner would — same body template (Current state / Deliverables /
-#    Context / Verification), same label. Note: `coordination plan` does
-#    only best-effort title-keyword overlap warnings; it does not hold the
-#    planner lock and cannot atomically dedupe against concurrent creators.
-#    If you see open issues that look related, link or coordinate
+# 0. FIRST search for an existing continuation issue before creating one. A
+#    planner may have already pre-split your claimed issue into a follow-up,
+#    and that follow-up will NOT appear in `coordination list-unclaimed` if it
+#    carries `replan`/`blocked`. Search ALL open issues by item ID / theorem
+#    name, not just the unclaimed queue:
+#      gh issue list --state open --search "<ItemID or theorem> in:title" \
+#        --json number,title,labels
+#    If a suitable continuation already exists, reuse it (point your breadcrumb
+#    at it) instead of creating a duplicate.
+#
+# 1. Otherwise create self-contained sub-issues. Use `coordination plan`
+#    exactly as a planner would — same body template (Current state /
+#    Deliverables / Context / Verification), same label. Note: `coordination
+#    plan` does only best-effort title-keyword overlap warnings; it does not
+#    hold the planner lock and cannot atomically dedupe against concurrent
+#    creators. If you see open issues that look related, link or coordinate
 #    explicitly in the sub-issue body rather than relying on the warning.
+#    Do NOT write a literal `depends-on: #N` token in prose (even to say it is
+#    NOT needed): `coordination plan` parses that string and auto-applies the
+#    `blocked` label. Phrase such notes without the literal token.
 echo "body..." | coordination plan --label feature "Sub-task 1: ..."
 echo "body..." | coordination plan --label feature "Sub-task 2: ..."
 
