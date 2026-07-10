@@ -77,6 +77,61 @@ theorem complexToRealGEnd_injective (ρ : Representation ℂ G V) [Nontrivial V]
   · exact h
   · exact absurd h hv
 
+omit [Module ℝ V] [IsScalarTower ℝ ℂ V] in
+open scoped ComplexConjugate in
+/-- **Invariant positive-definite Hermitian form** (shared toolkit). Every finite-dimensional
+complex representation `ρ` of a finite group carries a `G`-invariant, positive-definite Hermitian
+(sesquilinear, linear in the first slot and conjugate-linear in the second) form: average the
+standard coordinate form `h₀(v, w) = ∑ᵢ (b.repr v)ᵢ · conj (b.repr w)ᵢ` over the group.
+
+Reused by the real (#6327) and quaternionic (#6328) cases to build the `j`-operator. -/
+theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
+    ∃ H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ,
+      (∀ g v w, H (ρ g v) (ρ g w) = H v w) ∧ (∀ v, v ≠ 0 → 0 < (H v v).re) := by
+  classical
+  set b := Module.finBasis ℂ V with hb
+  refine ⟨LinearMap.mk₂'ₛₗ (RingHom.id ℂ) (starRingEnd ℂ)
+      (fun v w => ∑ g : G, ∑ i, b.repr (ρ g v) i * conj (b.repr (ρ g w) i))
+      ?_ ?_ ?_ ?_, ?_, ?_⟩
+  · -- additive in the first slot
+    intro v₁ v₂ w
+    simp only [map_add, Finsupp.add_apply, add_mul, Finset.sum_add_distrib]
+  · -- ℂ-linear in the first slot
+    intro c v w
+    simp only [map_smul, Finsupp.smul_apply, smul_eq_mul, RingHom.id_apply, Finset.mul_sum,
+      mul_assoc]
+  · -- additive in the second slot
+    intro v w₁ w₂
+    simp only [map_add, Finsupp.add_apply, map_add, mul_add, Finset.sum_add_distrib]
+  · -- conjugate-linear in the second slot
+    intro c v w
+    simp only [map_smul, Finsupp.smul_apply, smul_eq_mul, map_mul, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun g _ => Finset.sum_congr rfl fun i _ => by ring
+  · -- G-invariance
+    intro h v w
+    simp only [LinearMap.mk₂'ₛₗ_apply]
+    have hcomp : ∀ (g : G) (x : V), ρ g (ρ h x) = ρ (g * h) x := fun g x => by
+      rw [map_mul]; rfl
+    simp_rw [hcomp]
+    exact Equiv.sum_comp (Equiv.mulRight h)
+      (fun g : G => ∑ i, b.repr (ρ g v) i * conj (b.repr (ρ g w) i))
+  · -- positive-definiteness
+    intro v hv
+    simp only [LinearMap.mk₂'ₛₗ_apply, Complex.mul_conj]
+    have hcast : (∑ g : G, ∑ i, (Complex.normSq (b.repr (ρ g v) i) : ℂ))
+        = ((∑ g : G, ∑ i, Complex.normSq (b.repr (ρ g v) i) : ℝ) : ℂ) := by
+      push_cast; rfl
+    rw [hcast, Complex.ofReal_re]
+    refine Finset.sum_pos' (fun g _ => Finset.sum_nonneg fun i _ => Complex.normSq_nonneg _) ?_
+    refine ⟨1, Finset.mem_univ 1, ?_⟩
+    simp only [map_one, Module.End.one_apply]
+    obtain ⟨i, hi⟩ : ∃ i, b.repr v i ≠ 0 := by
+      by_contra hcon
+      push_neg at hcon
+      exact hv (b.repr.injective (by ext i; simp [hcon i]))
+    exact Finset.sum_pos' (fun i _ => Complex.normSq_nonneg _)
+      ⟨i, Finset.mem_univ i, Complex.normSq_pos.mpr hi⟩
+
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`. -/
 theorem realGEndAlgebra_equiv_complex_of_isComplexType
