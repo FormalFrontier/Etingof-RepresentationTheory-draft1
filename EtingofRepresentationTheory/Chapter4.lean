@@ -45,9 +45,11 @@ import EtingofRepresentationTheory.Chapter4.Lemma4_10_3
 
 -- Section 4.1, 4.12: Exercises (statement pass)
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_BaseChangePiMatrix
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_Cocenter
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_FieldGeneral
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SemisimpleBaseChange
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_StrictBound
 import EtingofRepresentationTheory.Chapter4.SimpleModuleClassesBaseChange
 import EtingofRepresentationTheory.Chapter4.Problem4_5_2

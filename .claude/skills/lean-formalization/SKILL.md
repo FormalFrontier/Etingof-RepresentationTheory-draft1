@@ -472,6 +472,35 @@ Once `bcMod` is a (file-scoped) instance, `Module L (L⊗A)`, `Algebra L (L⊗A)
 Encode "`X` is a direct summand of `Y`" as a split injection `∃ i p, p ∘ₗ i = id` (avoids
 quantifying over a complement type/universe).
 
+### Base change distributes over a Wedderburn `∏ Matrix(D i)` — compose three `Algebra.TensorProduct` isos (#6147)
+
+For "scalar extension commutes with a product of matrix algebras" (the semisimple base-change
+count #6136 → field-general monotonicity #6127), `K ⊗[k] A ≃ₐ[K] ∏ᵢ Matrix (K ⊗[k] D i)` from
+`A ≃ₐ[k] ∏ᵢ Matrix (D i)` is a clean three-step compose (all sorry-free, axiom-clean in
+`Chapter4/Exercise4_2_3_BaseChangePiMatrix.lean`):
+1. `Algebra.TensorProduct.congr (AlgEquiv.refl (R := K) (A₁ := K)) e` base-changes `e` along `k→K`
+   (`congr (f : A ≃ₐ[S] C) (g : B ≃ₐ[R] D) : A ⊗[R] B ≃ₐ[S] C ⊗[R] D` — put `refl K` in the `f`/`S`
+   slot, `e` in the `g`/`R=k` slot).
+2. `Algebra.TensorProduct.piRight k K K (fun i => Matrix … (D i))` moves `K ⊗[k] -` inside the
+   finite product (needs `[Fintype ι] [DecidableEq ι]`; `Fin n` has both).
+3. `AlgEquiv.piCongrRight` glues a per-factor `matrixBaseChange`.
+
+The per-factor `K ⊗[k] Matrix n n D ≃ₐ[K] Matrix n n (K ⊗[k] D)` is the only fiddly piece:
+`congr refl (matrixEquivTensor n k D)` → `(Algebra.TensorProduct.assoc k k K K D (Matrix n n k)).symm`
+→ **the `k`→`K` upgrade of `(matrixEquivTensor n k (K ⊗[k] D)).symm`**. `matrixEquivTensor` is only
+stated `≃ₐ[k]`, but it *is* `K`-linear, so upgrade with a tiny helper:
+```
+def upgradeToK (f : X ≃ₐ[k] Y) (h : ∀ (c : K) x, f (c • x) = c • f x) : X ≃ₐ[K] Y :=
+  { f with commutes' := fun r => by
+      have hh := h r 1; rw [map_one] at hh
+      rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one]; exact hh }
+```
+(needs `[Algebra K X] [Algebra K Y] [IsScalarTower k K X] [IsScalarTower k K Y]`). The `map_smul`
+hypothesis `h` for `(matrixEquivTensor …).symm` is a `TensorProduct` induction: `tmul` case is
+`rw [TensorProduct.smul_tmul']; simp only [matrixEquivTensor_apply_symm]; exact smul_assoc c b _`.
+`Algebra.TensorProduct.assoc`'s explicit args are `(T C D)` (here `T=K`); the `commRight`/
+`cancelBaseChange` detour is unnecessary once you have `upgradeToK`.
+
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 
 A recurring Chapter 5 fidelity-gap shape: the book says "`V_{(n)}` is the *trivial*
