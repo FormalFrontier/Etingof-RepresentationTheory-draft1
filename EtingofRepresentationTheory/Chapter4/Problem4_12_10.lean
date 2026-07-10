@@ -44,6 +44,52 @@ theorem diagTensorPow_apply (ρ : Representation k G V) (n : ℕ) (g : G) :
 
 end
 
+section TracePow
+
+open Module
+
+/-- The trace of the diagonal endomorphism `⨂ⁿ f` (i.e. `PiTensorProduct.map (fun _ => f)`)
+on the `n`-th tensor power `⨂[k]^n V` equals `(trace f) ^ n`. -/
+theorem trace_piTensorProduct_map_const
+    {k : Type*} [Field k] {V : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (n : ℕ) (f : V →ₗ[k] V) :
+    LinearMap.trace k (⨂[k]^n V) (PiTensorProduct.map (fun _ : Fin n => f))
+      = (LinearMap.trace k V f) ^ n := by
+  classical
+  set D := Module.finrank k V with hD
+  let b : Basis (Fin D) k V := Module.finBasis k V
+  -- Compute the trace as a sum of diagonal matrix entries in the tensor-product basis.
+  have key : LinearMap.trace k (⨂[k]^n V) (PiTensorProduct.map (fun _ : Fin n => f))
+      = ∑ s : Fin n → Fin D, ∏ i : Fin n, (LinearMap.toMatrix b b f) (s i) (s i) := by
+    rw [LinearMap.trace_eq_matrix_trace k (Basis.piTensorProduct (fun _ : Fin n => b)),
+      Matrix.trace]
+    apply Finset.sum_congr rfl
+    intro s _
+    rw [Matrix.diag_apply, LinearMap.toMatrix_apply, Basis.piTensorProduct_apply,
+      PiTensorProduct.map_tprod, Basis.piTensorProduct_repr_tprod_apply]
+    apply Finset.prod_congr rfl
+    intro i _
+    rw [LinearMap.toMatrix_apply]
+  rw [key]
+  have htr : LinearMap.trace k V f = ∑ j : Fin D, (LinearMap.toMatrix b b f) j j := by
+    rw [LinearMap.trace_eq_matrix_trace k b, Matrix.trace]
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [Matrix.diag_apply]
+  rw [htr, Finset.sum_pow', Fintype.piFinset_univ]
+
+/-- The character of the diagonal tensor-power representation is the `n`-th power of the
+character of `ρ`: `χ_{V^{⊗n}}(g) = χ_V(g) ^ n`. -/
+theorem character_diagTensorPow
+    {k : Type*} [Field k] {G : Type*} [Monoid G]
+    {V : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (ρ : Representation k G V) (n : ℕ) (g : G) :
+    (diagTensorPow ρ n).character g = (ρ.character g) ^ n := by
+  rw [Representation.character, diagTensorPow_apply, trace_piTensorProduct_map_const]
+  rfl
+
+end TracePow
+
 /-- **Problem 4.12.10.** Let `G` be a finite group with a faithful complex representation
 `ρ` on `V`, and let `σ` be an irreducible complex representation on `W`. Then `W` occurs
 inside `V^{⊗n}` for some `n`: there is a nonzero `G`-equivariant linear map
