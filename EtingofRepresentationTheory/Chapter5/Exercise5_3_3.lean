@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_1_1
+import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
 
 /-!
 # Exercise 5.3.3: nontrivial irreducibles of an odd-order group are of complex type
@@ -59,14 +60,33 @@ one-dimensional (Schur's lemma), so an invariant nondegenerate form and its tran
 proportional with proportionality constant `±1`; the `+1` case gives a symmetric form (real
 type), the `-1` case a skew-symmetric form (quaternionic type).
 
-TODO (#6215): prove using Schur's lemma for `IsSimpleModule ρ.asModule` over the algebraically
-closed field `ℂ`. -/
+The equivariant isomorphism `e : V ≃ V*` supplied by self-duality makes the character
+self-dual: `χ_ρ(g⁻¹) = χ_{ρ*}(g) = χ_ρ(g)` (the middle step is `char_dual`, the last is
+conjugation-invariance of the trace, `ρ.dual g = e.conj (ρ g)`). We then invoke the
+character-level dichotomy `Etingof.isRealType_or_isQuaternionicType_of_self_dual`, which
+symmetrises/antisymmetrises a nonzero invariant form (nonzero by `⟨χ, χ⟩ = 1`) and uses
+simplicity for nondegeneracy. -/
 theorem isRealType_or_isQuaternionicType_of_selfDual
     (ρ : Representation ℂ G V)
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (hsd : ∃ e : V ≃ₗ[ℂ] Module.Dual ℂ V, ∀ g v, e (ρ g v) = ρ.dual g (e v)) :
     Etingof.IsRealType ρ ∨ Etingof.IsQuaternionicType ρ := by
-  sorry
+  classical
+  obtain ⟨e, he⟩ := hsd
+  -- The equivariant iso `e : V ≃ V*` conjugates `ρ g` to `ρ.dual g`, so the character is
+  -- self-dual: `χ(g⁻¹) = χ_{ρ*}(g) = χ(g)`.
+  have hchar : ∀ g, Representation.character ρ g⁻¹ = Representation.character ρ g := by
+    intro g
+    have hconj : ρ.dual g = e.conj (ρ g) := by
+      ext w
+      rw [LinearEquiv.conj_apply_apply, he g (e.symm w), LinearEquiv.apply_symm_apply]
+    calc Representation.character ρ g⁻¹
+        = Representation.character ρ.dual g := (ρ.char_dual g).symm
+      _ = LinearMap.trace ℂ (Module.Dual ℂ V) (e.conj (ρ g)) := by rw [Representation.character,
+            hconj]
+      _ = LinearMap.trace ℂ V (ρ g) := LinearMap.trace_conj' (ρ g) e
+      _ = Representation.character ρ g := rfl
+  exact isRealType_or_isQuaternionicType_of_self_dual ρ hirr hchar
 
 /-- For a finite group of **odd** order, no nontrivial irreducible representation is of real
 type: the only real-type irreducible is the trivial representation.
