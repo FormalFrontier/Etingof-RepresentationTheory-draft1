@@ -90,6 +90,70 @@ theorem character_diagTensorPow
 
 end TracePow
 
+open scoped Matrix in
+/-- Elementary matrix fact: a standard-unitary complex matrix (`Uᴴ * U = 1`) whose trace equals
+its size is the identity. Each column of `U` has squared length `1`, so `Re (U i i) ≤ 1`; the
+diagonal real parts sum to the (real) size, forcing every `Re (U i i) = 1`, hence `U i i = 1`
+and all off-diagonal entries in each column vanish. -/
+private theorem eq_one_of_conjTranspose_mul_self_eq_one_of_trace_eq_card
+    {d : ℕ} (U : Matrix (Fin d) (Fin d) ℂ)
+    (hU : Uᴴ * U = 1) (htr : U.trace = (d : ℂ)) : U = 1 := by
+  classical
+  -- Each column of `U` has squared length `1`.
+  have hcol : ∀ i, ∑ k, Complex.normSq (U k i) = 1 := by
+    intro i
+    have hdiag : (Uᴴ * U) i i = 1 := by rw [hU, Matrix.one_apply_eq]
+    rw [Matrix.mul_apply] at hdiag
+    have hcast : (∑ k, (Complex.normSq (U k i) : ℂ)) = 1 := by
+      rw [← hdiag]
+      refine Finset.sum_congr rfl (fun k _ => ?_)
+      rw [Matrix.conjTranspose_apply, Complex.star_def, Complex.normSq_eq_conj_mul_self]
+    rw [← Complex.ofReal_sum] at hcast
+    exact_mod_cast hcast
+  -- Diagonal squared length ≤ 1, hence `Re (U i i) ≤ 1`.
+  have hdiag_le : ∀ i, Complex.normSq (U i i) ≤ 1 := by
+    intro i
+    rw [← hcol i]
+    exact Finset.single_le_sum (f := fun k => Complex.normSq (U k i))
+      (fun k _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
+  have hre_le : ∀ i, (U i i).re ≤ 1 := by
+    intro i
+    have hn := hdiag_le i
+    rw [Complex.normSq_apply] at hn
+    nlinarith [mul_self_nonneg (U i i).im, mul_self_nonneg ((U i i).re - 1)]
+  -- The diagonal real parts sum to `d`, forcing each to equal `1`.
+  have hsum_re : ∑ i, (U i i).re = ∑ i : Fin d, (1 : ℝ) := by
+    have htrace : U.trace = ∑ i, U i i := rfl
+    rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one,
+      ← Complex.re_sum, ← htrace, htr, Complex.natCast_re]
+  have hre_one : ∀ i, (U i i).re = 1 := by
+    have hall := (Finset.sum_eq_sum_iff_of_le (fun i _ => hre_le i)).1 hsum_re
+    intro i; exact hall i (Finset.mem_univ i)
+  -- Hence each diagonal entry equals `1`.
+  have hdiag_one : ∀ i, U i i = 1 := by
+    intro i
+    have hn := hdiag_le i
+    rw [Complex.normSq_apply, hre_one i] at hn
+    have him : (U i i).im = 0 := by nlinarith [mul_self_nonneg (U i i).im]
+    apply Complex.ext
+    · rw [Complex.one_re]; exact hre_one i
+    · rw [Complex.one_im]; exact him
+  -- Off-diagonal entries vanish: each column sums to `1` with the diagonal already `1`.
+  have hoff : ∀ i k, k ≠ i → U k i = 0 := by
+    intro i k hk
+    have hsplit : Complex.normSq (U i i) + ∑ k ∈ Finset.univ.erase i, Complex.normSq (U k i)
+        = ∑ k, Complex.normSq (U k i) :=
+      Finset.add_sum_erase Finset.univ (fun k => Complex.normSq (U k i)) (Finset.mem_univ i)
+    rw [hcol i, hdiag_one i, Complex.normSq_one] at hsplit
+    have hrest : ∑ k ∈ Finset.univ.erase i, Complex.normSq (U k i) = 0 := by linarith
+    have hall := (Finset.sum_eq_zero_iff_of_nonneg (fun k _ => Complex.normSq_nonneg _)).1 hrest
+    exact Complex.normSq_eq_zero.mp (hall k (Finset.mem_erase.mpr ⟨hk, Finset.mem_univ k⟩))
+  ext k i
+  rcases eq_or_ne k i with rfl | hk
+  · rw [hdiag_one k, Matrix.one_apply_eq]
+  · rw [hoff i k hk, Matrix.one_apply_ne hk]
+
+open scoped Matrix ComplexOrder MatrixOrder in
 /-- If `g` acts with character value equal to `dim V`, then `ρ g` is the identity. Over `ℂ`,
 `ρ g` has finite order, hence is unitary for an averaged inner product; its trace equals
 `dim V` (a sum of `dim V` complex numbers of modulus `1`) only when every eigenvalue is `1`,
@@ -100,7 +164,82 @@ theorem ρ_eq_one_of_character_eq_finrank
     (ρ : Representation ℂ G V) (g : G)
     (h : ρ.character g = (Module.finrank ℂ V : ℂ)) :
     ρ g = 1 := by
-  sorry
+  classical
+  haveI : Nonempty G := ⟨1⟩
+  let b := Module.finBasis ℂ V
+  set M : G → Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=
+    fun h => LinearMap.toMatrix b b (ρ h) with hM
+  have hM_mul : ∀ a c : G, M (a * c) = M a * M c := by
+    intro a c; simp only [hM, map_mul, LinearMap.toMatrix_mul]
+  have hM_one : M 1 = 1 := by simp only [hM, map_one, LinearMap.toMatrix_one]
+  have hunit : ∀ h : G, IsUnit (M h) := fun h =>
+    ⟨⟨M h, M h⁻¹, by rw [← hM_mul, mul_inv_cancel, hM_one],
+      by rw [← hM_mul, inv_mul_cancel, hM_one]⟩, rfl⟩
+  have hdet : ∀ h : G, IsUnit (M h).det :=
+    fun h => (Matrix.isUnit_iff_isUnit_det _).mp (hunit h)
+  -- The averaged Hermitian form `H = Σ_h (M h)ᴴ (M h)` is positive definite and `G`-invariant.
+  set H : Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=
+    ∑ h : G, (M h)ᴴ * M h with hH
+  have hH_pd : H.PosDef := by
+    rw [hH]
+    refine Matrix.posDef_sum Finset.univ_nonempty (fun h _ => ?_)
+    have := (Matrix.IsUnit.posDef_star_left_conjugate_iff (hunit h)).mpr Matrix.PosDef.one
+    simpa [Matrix.star_eq_conjTranspose] using this
+  have hH_det : IsUnit H.det := (Matrix.isUnit_iff_isUnit_det _).mp hH_pd.isUnit
+  have hinv : (M g)ᴴ * H * M g = H := by
+    have step : ∀ h : G, (M g)ᴴ * ((M h)ᴴ * M h) * M g = (M (h * g))ᴴ * M (h * g) := by
+      intro h; rw [hM_mul, Matrix.conjTranspose_mul]; simp only [mul_assoc]
+    calc (M g)ᴴ * H * M g
+        = ∑ h : G, (M g)ᴴ * ((M h)ᴴ * M h) * M g := by rw [hH, Finset.mul_sum, Finset.sum_mul]
+      _ = ∑ h : G, (M (h * g))ᴴ * M (h * g) := Finset.sum_congr rfl (fun h _ => step h)
+      _ = ∑ h : G, (M h)ᴴ * M h := Equiv.sum_comp (Equiv.mulRight g) fun h => (M h)ᴴ * M h
+      _ = H := rfl
+  -- A Hermitian invertible square root `L` of `H`.
+  set L : Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ := CFC.sqrt H with hL
+  have hHnonneg : (0 : Matrix _ _ ℂ) ≤ H := hH_pd.posSemidef.nonneg
+  have hL_sq : L * L = H := CFC.sqrt_mul_sqrt_self H hHnonneg
+  have hLnonneg : (0 : Matrix _ _ ℂ) ≤ L := CFC.sqrt_nonneg H
+  have hL_herm : Lᴴ = L := (Matrix.nonneg_iff_posSemidef.mp hLnonneg).isHermitian
+  have hLdet : IsUnit L.det := by
+    have hprod : L.det * L.det = H.det := by rw [← Matrix.det_mul, hL_sq]
+    have hne : L.det ≠ 0 := by
+      rintro h0; rw [h0, mul_zero] at hprod; exact hH_det.ne_zero hprod.symm
+    exact isUnit_iff_ne_zero.mpr hne
+  have hLinv_l : L⁻¹ * L = 1 := Matrix.nonsing_inv_mul _ hLdet
+  have hLinv_r : L * L⁻¹ = 1 := Matrix.mul_nonsing_inv _ hLdet
+  have hLinv_herm : (L⁻¹)ᴴ = L⁻¹ := by rw [Matrix.conjTranspose_nonsing_inv, hL_herm]
+  -- `U := L (M g) L⁻¹` is standard-unitary with `trace U = χ_V(g) = dim V`.
+  set U : Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ := L * M g * L⁻¹ with hU
+  have hUunit : Uᴴ * U = 1 := by
+    have hUH : Uᴴ = L⁻¹ * (M g)ᴴ * L := by
+      rw [hU]; simp only [Matrix.conjTranspose_mul, hLinv_herm, hL_herm, mul_assoc]
+    rw [hUH, hU]
+    calc L⁻¹ * (M g)ᴴ * L * (L * M g * L⁻¹)
+        = L⁻¹ * ((M g)ᴴ * (L * L) * M g) * L⁻¹ := by simp only [mul_assoc]
+      _ = L⁻¹ * ((M g)ᴴ * H * M g) * L⁻¹ := by rw [hL_sq]
+      _ = L⁻¹ * H * L⁻¹ := by rw [hinv]
+      _ = L⁻¹ * (L * L) * L⁻¹ := by rw [← hL_sq]
+      _ = (L⁻¹ * L) * (L * L⁻¹) := by simp only [mul_assoc]
+      _ = 1 := by rw [hLinv_l, hLinv_r, Matrix.one_mul]
+  have hUtr : U.trace = (Module.finrank ℂ V : ℂ) := by
+    have h1 : U.trace = (M g).trace := by
+      rw [hU, Matrix.trace_mul_comm, ← mul_assoc, hLinv_l, Matrix.one_mul]
+    rw [h1]
+    have hMgdef : M g = LinearMap.toMatrix b b (ρ g) := by simp only [hM]
+    rw [hMgdef, ← LinearMap.trace_eq_matrix_trace ℂ b (ρ g)]
+    exact h
+  -- Conclude `U = 1`, hence `M g = 1`, hence `ρ g = 1`.
+  have hUone : U = 1 := eq_one_of_conjTranspose_mul_self_eq_one_of_trace_eq_card U hUunit hUtr
+  have hMg1 : M g = 1 := by
+    have key : L⁻¹ * U * L = M g := by
+      rw [hU, show L⁻¹ * (L * M g * L⁻¹) * L = (L⁻¹ * L) * M g * (L⁻¹ * L) from by
+        simp only [mul_assoc], hLinv_l, Matrix.one_mul, Matrix.mul_one]
+    rw [← key, hUone, Matrix.mul_one, hLinv_l]
+  have hMgdef : M g = LinearMap.toMatrix b b (ρ g) := by simp only [hM]
+  rw [hMgdef] at hMg1
+  have hfin : LinearMap.toMatrix b b (ρ g) = LinearMap.toMatrix b b (1 : V →ₗ[ℂ] V) := by
+    rw [hMg1, LinearMap.toMatrix_one]
+  exact (LinearMap.toMatrix b b).injective hfin
 
 /-- **Problem 4.12.10.** Let `G` be a finite group with a faithful complex representation
 `ρ` on `V`, and let `σ` be an irreducible complex representation on `W`. Then `W` occurs

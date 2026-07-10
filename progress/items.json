@@ -3121,8 +3121,8 @@
     "end_page": "87",
     "start_line": 5,
     "end_line": 8,
-    "status": "proof_partial",
-    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean: trace_piTensorProduct_map_const and character_diagTensorPow (χ_{V^⊗n}=χ_V^n) proved sorry-free; main theorem Etingof.Problem4_12_10 fully assembled (multiplicity formula + polynomial isolation of g=1) modulo the single analytic lemma ρ_eq_one_of_character_eq_finrank (trace(ρg)=dim⟹ρg=1), tracked in #6096."
+    "status": "sorry_free",
+    "coverage_note": "EtingofRepresentationTheory/Chapter4/Problem4_12_10.lean: fully sorry-free. trace_piTensorProduct_map_const and character_diagTensorPow (χ_{V^⊗n}=χ_V^n), the multiplicity formula, and the polynomial isolation of g=1 all proved; the final analytic lemma ρ_eq_one_of_character_eq_finrank (trace(ρg)=dim⟹ρg=1) is proved via matrix unitarization (averaged Hermitian form H, CFC square root L, U=L(ρg)L⁻¹ standard-unitary with trace=dim, elementary Cauchy-Schwarz-style argument). #print axioms Etingof.Problem4_12_10 = [propext, Classical.choice, Quot.sound] (#6096)."
   },
   {
     "id": "Chapter4/Problem4.12.11",
