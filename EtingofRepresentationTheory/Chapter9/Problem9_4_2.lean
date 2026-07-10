@@ -44,7 +44,14 @@ is `Subsingleton (Abelian.Ext M N i)` (the group `Extⁱ(M, N)` is trivial). -/
 theorem hasProjectiveDimensionLE_iff_ext_vanishing (M : ModuleCat.{u} R) (d : ℕ) :
     HasProjectiveDimensionLE M d ↔
       ∀ (N : ModuleCat.{u} R) (i : ℕ), d < i → Subsingleton (Abelian.Ext M N i) := by
-  sorry
+  constructor
+  · intro h N i hi
+    haveI : HasProjectiveDimensionLT M (d + 1) := h
+    exact HasProjectiveDimensionLT.subsingleton M (d + 1) i (by omega) N
+  · intro h
+    apply HasProjectiveDimensionLT.mk
+    intro i hi Y e
+    exact (h Y i (by omega)).elim e 0
 
 /-- **Problem 9.4.2 (ii).** For a nonsplit short exact sequence `0 → M → P → N → 0` with `P`
 projective, the projective dimension of `N` is one more than that of `M`:
@@ -65,6 +72,12 @@ theorem hasProjectiveDimensionLE_syzygy
     (hP : Projective S.X₂) (d : ℕ) (hd : 0 < d)
     (hM : HasProjectiveDimensionLE S.X₃ d) :
     HasProjectiveDimensionLE S.X₁ (d - 1) := by
-  sorry
+  haveI : Projective S.X₂ := hP
+  haveI : HasProjectiveDimensionLT S.X₂ d :=
+    hasProjectiveDimensionLT_of_ge S.X₂ 1 d hd
+  have h : HasProjectiveDimensionLT S.X₁ d :=
+    hS.hasProjectiveDimensionLT_X₁ d inferInstance hM
+  change HasProjectiveDimensionLT S.X₁ (d - 1 + 1)
+  rwa [Nat.sub_add_cancel hd]
 
 end Etingof.Problem942
