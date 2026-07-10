@@ -320,6 +320,20 @@ When working over a *family* `(M : ι → Type*) [∀ i, Module A (M i)] [∀ i,
 
 General rule: if an implicit type/ring/field appears only *inside* a definition's body (not in any argument or result type visible at the call site), pin it explicitly. Test a suspect term in isolation in `/tmp/foo.lean` — it compiles there when the surrounding context determines the implicit, which localizes the bug fast.
 
+### A `def`-wrapped column module (`Std i := Fin (d i) → K`) clashes with `Matrix.toLin'`'s baked-in `Pi` instances → transport the trace across an identity `LinearEquiv` (#6138)
+
+When a module carrier is a **`def`** (not `abbrev`) over `Fin (d i) → K` with `inferInstanceAs` instances (e.g. `SplitData.Std` in `Exercise4_2_3_SplitSimples.lean`), Mathlib lemmas that hardcode the canonical `Pi` module — most notably `Matrix.toLin'` / `Matrix.toLin'_apply` / `Matrix.trace_toLin'_eq` — carry `Pi.Function.module` on their output, which does **not** unify with the def's bespoke `instModuleStd` at `instances` transparency (only at `default`). Symptom: after `have h : moduleEnd K (Std i) x = (M).toLin'`, an inner `rw [Matrix.toLin'_apply]` or `ext` fails with `Application type mismatch … Pi.Function.module … but expected D.instModuleStd i` / `not type-correct under instances transparency`. Also, `ext v` on such a linear-map equality over-decomposes (splits the Pi codomain into `LinearMap.single … ∘ₗ`), so the `toLin'_apply` pattern never appears — use `refine LinearMap.ext fun w => ?_` for one level.
+
+**Fix — transport the trace, don't fight the instances.** Introduce the identity `K`-linear equivalence `e : Std i ≃ₗ[K] (Fin (d i) → K)` (`{ toFun := id, invFun := id, left_inv/right_inv/map_add'/map_smul' := fun .. => rfl }`; the types are defeq so every field is `rfl`), then compute on the honest `Fin (d i) → K` side where `Pi` instances are canonical:
+```lean
+have hconj : e.conj (moduleEnd K (D.Std i) x) = (D.blockHom i x).toLin' := by
+  refine LinearMap.ext fun w => ?_
+  rw [LinearEquiv.conj_apply_apply, Matrix.toLin'_apply]; rfl   -- w : Fin (d i) → K now, no clash
+rw [traceForm_apply, ← LinearMap.trace_conj' (moduleEnd K (D.Std i) x) e, hconj]
+exact Matrix.trace_toLin'_eq (D.blockHom i x)
+```
+`LinearMap.trace_conj' f e : trace R N (e.conj f) = trace R M f` makes the trace instance-agnostic. Matrix trace lemmas: matrix units are `Matrix.single i j c` (formerly `stdBasisMatrix`); `Matrix.trace_single_eq_same : trace (single i i c) = c`, `Matrix.trace_single_eq_of_ne`. (This whole clash is invisible if the carrier is an `abbrev`, but `Std`-style carriers are `def`s on purpose.)
+
 ### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
