@@ -52,7 +52,59 @@ def IsIrreducible (ρ : QuiverRepresentation k Q) : Prop :=
 /-- **Irreducibles, existence.** The simple representation `S_i` is irreducible. -/
 theorem simpleRep_isIrreducible [DecidableEq Q] (i : Q) :
     IsIrreducible (simpleRep (k := k) i) := by
-  sorry
+  -- Off-vertices `v ≠ i` carry the zero space `Fin 0 → k`, which is a subsingleton.
+  have hsub : ∀ v, v ≠ i → Subsingleton ((simpleRep (k := k) i).obj v) := by
+    intro v hv
+    show Subsingleton (Fin (if v = i then 1 else 0) → k)
+    rw [if_neg hv]
+    infer_instance
+  refine ⟨⟨i, ?_⟩, ?_⟩
+  · -- Nontriviality at vertex `i`: the fibre there is `Fin 1 → k`.
+    have hobj : ((simpleRep (k := k) i).obj i) = (Fin 1 → k) := by
+      show (Fin (if i = i then 1 else 0) → k) = (Fin 1 → k)
+      rw [if_pos rfl]
+    rw [hobj]
+    have hne : (0 : Fin 1 → k) ≠ 1 := by
+      intro h
+      have := congrFun h 0
+      simp only [Pi.zero_apply, Pi.one_apply] at this
+      exact one_ne_zero this.symm
+    exact ⟨0, 1, hne⟩
+  · -- Any arrow-stable subspace family is all-`⊥` or all-`⊤`.
+    intro W _
+    -- The fibre at `i` is (defeq to) the 1-dimensional space `Fin 1 → k`.  Transport the
+    -- submodule lattice there via the identity linear equivalence, where `Fin 1 → k` has the
+    -- honest `Pi` instances that instance search can see through.
+    let e : (simpleRep (k := k) i).obj i ≃ₗ[k] (Fin (if i = i then 1 else 0) → k) :=
+      { toFun := fun x => x, invFun := fun x => x, left_inv := fun _ => rfl,
+        right_inv := fun _ => rfl, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
+    haveI : IsSimpleOrder (Submodule k (Fin (if i = i then 1 else 0) → k)) :=
+      is_simple_module_of_finrank_eq_one (K := k) (A := k)
+        (by simp [Module.finrank_fin_fun])
+    -- `W i` is `⊥` or `⊤` by transporting the simple-order dichotomy back along `e`.
+    have hWi : W i = ⊥ ∨ W i = ⊤ := by
+      have f := Submodule.orderIsoMapComap e
+      rcases eq_bot_or_eq_top (f (W i)) with h | h
+      · exact Or.inl (f.injective (by rw [h, map_bot]))
+      · exact Or.inr (f.injective (by rw [h, map_top]))
+    rcases hWi with hWi | hWi
+    · left
+      intro v
+      rcases eq_or_ne v i with rfl | hv
+      · exact hWi
+      · have := hsub v hv
+        rw [Submodule.eq_bot_iff]
+        intro x _
+        exact Subsingleton.elim x 0
+    · right
+      intro v
+      rcases eq_or_ne v i with rfl | hv
+      · exact hWi
+      · have := hsub v hv
+        rw [Submodule.eq_top_iff']
+        intro x
+        rw [Subsingleton.elim x (0 : (simpleRep (k := k) i).obj v)]
+        exact Submodule.zero_mem _
 
 /-- **Irreducibles, classification.** Every irreducible representation of `P_Q` is isomorphic
 to a simple representation `S_i`. -/
