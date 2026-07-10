@@ -6481,8 +6481,8 @@
     "end_page": "191",
     "start_line": 3,
     "end_line": 6,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter7/Problem7_7_3.lean (Etingof.Problem7_7_3), sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Proved: EtingofRepresentationTheory/Chapter7/Problem7_7_3.lean (Etingof.Problem7_7_3). A is Noetherian via Algebra.FiniteType.isNoetherianRing; the full subcategory of f.g. modules is abelian via the ObjectProperty closure instances (subobjects/quotients/containsZero/finite products). Axioms: propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter7/Discussion_after_Problem7.7.3",
