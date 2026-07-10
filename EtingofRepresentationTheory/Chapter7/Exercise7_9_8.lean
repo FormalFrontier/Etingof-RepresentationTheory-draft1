@@ -283,6 +283,36 @@ theorem Etingof.homFMinusEquivReduced
         ≃ Etingof.AdjReducedData hi V W) := by
   sorry
 
+set_option maxHeartbeats 1600000 in
+/-- The reverse-orientation double-reversal round trip: starting from an arrow `e` of `Q̄ᵢ`
+between non-`i` vertices, convert to `Q`, transport into the double-reversed quiver, and
+convert back to `Q̄ᵢ`; the result is `e`. (Companion to `reversedArrow_ne_ne_twice`, which
+starts and ends in `Q`.) -/
+theorem Etingof.reversedArrow_ne_ne_twice'
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i : Q} {a b : Q} (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
+    @Etingof.reversedArrow_ne_ne Q inst_dec (Etingof.reversedAtVertex Q i) i a b ha hb
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸
+          (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e)) = e := by
+  apply eq_of_heq
+  have h1 : ∀ (z : @Quiver.Hom Q
+      (@Etingof.reversedAtVertex Q _ (@Etingof.reversedAtVertex Q _ inst i) i) a b),
+      HEq (@Etingof.reversedArrow_ne_ne Q inst_dec
+        (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb z) z := by
+    intro z
+    rw [@Etingof.reversedArrow_ne_ne_is_cast Q inst_dec
+      (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb z]
+    exact cast_heq _ _
+  have h2 : HEq ((Etingof.reversedAtVertex_twice Q i).symm ▸
+      (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e))
+      (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e) :=
+    eqRec_heq_self (motive := fun q _ => q.Hom a b) _
+      (Etingof.reversedAtVertex_twice Q i).symm
+  have h3 : HEq (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e) e := by
+    rw [Etingof.reversedArrow_ne_ne_is_cast]; exact cast_heq _ _
+  exact (h1 _).trans (h2.trans h3)
+
 /-- The kernel side of the adjunction bijection:
 `Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`. At `v ≠ i` a morphism gives
 `h v` through `transportReversedTwice_obj` and `reflFunctorPlus_equivAt_ne`; at `i` its value
@@ -324,7 +354,26 @@ theorem Etingof.homTransportPlusEquivReduced
     invFun := ?invFun
     left_inv := ?li
     right_inv := ?ri }⟩
-  case compat => sorry
+  case compat =>
+    intro a b ha hb e x
+    -- `h v hv y = τ v hv (g.app v y)`; abbreviate the Q-arrow `e' := reversedArrow_ne_ne ha hb e`.
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
+    set e' := Etingof.reversedArrow_ne_ne ha hb e with he'
+    -- RHS: rewrite `g.app b ∘ V.mapLinear e'` by naturality of `g` on the Q-arrow `e'`.
+    rw [g.naturality e' x]
+    -- Unfold `τ b hb` through the `trans`, then push through the transport and `Fplus.mapLinear`.
+    rw [show τ b hb (T.mapLinear e' (g.app a x)) =
+        (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W b hb)
+          (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus b
+            (T.mapLinear e' (g.app a x)))
+      from rfl]
+    rw [Etingof.QuiverRepresentation.transportReversedTwiceEquiv_mapLinear Fplus a b e' (g.app a x)]
+    rw [@Etingof.reflFunctorPlus_mapLinear_ne_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+      a b ha hb ((Etingof.reversedAtVertex_twice Q i).symm ▸ e')
+      (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus a (g.app a x))]
+    -- Now both sides are `W.mapLinear ? (τ a ha (g.app a x))`; the arrows match by the twice lemma.
+    rw [he', Etingof.reversedArrow_ne_ne_twice' ha hb e]
+    rfl
   case constraint => sorry
   case invFun => exact fun r => sorry
   case li => sorry
