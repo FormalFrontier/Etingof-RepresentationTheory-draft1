@@ -457,12 +457,66 @@ theorem irreducible_iff [Fact p.Prime] (z : ℂ) (hz : z ^ p = 1)
       rw [hf'eq]
       exact Submodule.sum_mem _ (fun s _ => Submodule.smul_mem _ _ (hall s))
 
+/-- The abelianization map `⟨a,b,c⟩ ↦ (a,b)` of the Heisenberg group, written multiplicatively
+as a homomorphism to `Multiplicative (ZMod p × ZMod p)`. Its kernel is the center `{⟨0,0,c⟩}`,
+which is exactly the commutator subgroup. -/
+def abHom (p : ℕ) : Heisenberg p →* Multiplicative (ZMod p × ZMod p) where
+  toFun g := Multiplicative.ofAdd (g.a, g.b)
+  map_one' := rfl
+  map_mul' x y := rfl
+
+@[simp] theorem abHom_apply (p : ℕ) (g : Heisenberg p) :
+    abHom p g = Multiplicative.ofAdd (g.a, g.b) := rfl
+
+/-- The abelianization map is surjective. -/
+theorem abHom_surjective (p : ℕ) : Function.Surjective (abHom p) := by
+  intro y
+  exact ⟨⟨(Multiplicative.toAdd y).1, (Multiplicative.toAdd y).2, 0⟩, rfl⟩
+
+/-- The central generator `⟨0,0,1⟩` is the commutator `⁅xGen, yGen⁆`, so it lies in the
+commutator subgroup. -/
+theorem central_mem_commutator [Fact p.Prime] :
+    (⟨0, 0, 1⟩ : Heisenberg p) ∈ commutator (Heisenberg p) := by
+  have hcomm : (⟨0, 0, 1⟩ : Heisenberg p)
+      = xGen p * yGen p * (xGen p)⁻¹ * (yGen p)⁻¹ := by
+    refine Heisenberg.ext ?_ ?_ ?_ <;> simp [xGen, yGen]
+  rw [commutator_def, hcomm]
+  exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
+
+/-- Every character `ρ : G →* ℂˣ` kills the kernel of the abelianization map: that kernel is the
+center `{⟨0,0,c⟩}`, which lies in the commutator subgroup, and `ℂˣ` is abelian. -/
+theorem abHom_ker_le_ker [Fact p.Prime] (ρ : Heisenberg p →* ℂˣ) :
+    (abHom p).ker ≤ ρ.ker := by
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  refine le_trans ?_ (Abelianization.commutator_subset_ker ρ)
+  intro g hg
+  rw [MonoidHom.mem_ker, abHom_apply] at hg
+  have hab : (g.a, g.b) = (0, 0) := ofAdd_eq_one.mp hg
+  have hga : g.a = 0 := (Prod.ext_iff.mp hab).1
+  have hgb : g.b = 0 := (Prod.ext_iff.mp hab).2
+  have hg_eq : g = (⟨0, 0, 1⟩ : Heisenberg p) ^ g.c.val := by
+    rw [centralGen_pow]
+    refine Heisenberg.ext hga hgb ?_
+    exact (ZMod.natCast_rightInverse g.c).symm
+  rw [hg_eq]
+  exact pow_mem central_mem_commutator _
+
 /-- **Part (c), classification of `1`-dimensional representations.** The one-dimensional
 complex representations of the Heisenberg group are its group homomorphisms to `ℂˣ`, and there
 are exactly `p²` of them (the abelianization is `(ZMod p)²`). -/
 theorem one_dim_reps_card [Fact p.Prime] :
     Nat.card (Heisenberg p →* ℂˣ) = p ^ 2 := by
-  sorry
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  -- Characters of `G` correspond bijectively to characters of the abelianization `(ZMod p)²`.
+  let e : (Multiplicative (ZMod p × ZMod p) →* ℂˣ) ≃ (Heisenberg p →* ℂˣ) :=
+    (MonoidHom.liftOfSurjective (abHom p) (abHom_surjective p)).symm.trans
+      (Equiv.subtypeUnivEquiv (fun ρ => abHom_ker_le_ker ρ))
+  haveI : NeZero ((Monoid.exponent (Multiplicative (ZMod p × ZMod p)) : ℕ) : ℂ) :=
+    ⟨Nat.cast_ne_zero.mpr Monoid.exponent_ne_zero_of_finite⟩
+  rw [← Nat.card_congr e,
+    CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Multiplicative (ZMod p × ZMod p)) ℂ,
+    Nat.card_eq_fintype_card, Fintype.card_multiplicative, Fintype.card_prod, ZMod.card]
+  ring
 
 /-- **Part (c), decomposition of `R_1`.** When `z = 1` the representation `R_1` decomposes as
 an internal direct sum of `p` one-dimensional `G`-invariant subspaces (the `p` distinct
