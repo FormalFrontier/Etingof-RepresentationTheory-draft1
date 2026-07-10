@@ -78,6 +78,24 @@ instance : Group (Affine K) where
 /-- The affine action of `G` on `K`: `⟨a,b⟩ · x = a·x + b`. -/
 def act (g : Affine K) (x : K) : K := (g.a : K) * x + g.b
 
+@[simp] theorem act_one (x : K) : act (1 : Affine K) x = x := by simp [act]
+
+theorem act_mul (g h : Affine K) (x : K) : act (g * h) x = act g (act h x) := by
+  simp only [act, mul_a, mul_b, Units.val_mul]; ring
+
+@[simp] theorem act_apply_inv (g : Affine K) (x : K) : act g (act g⁻¹ x) = x := by
+  rw [← act_mul, mul_inv_cancel, act_one]
+
+@[simp] theorem act_inv_apply (g : Affine K) (x : K) : act g⁻¹ (act g x) = x := by
+  rw [← act_mul, inv_mul_cancel, act_one]
+
+/-- The affine action of `g` viewed as a permutation of `K`. -/
+def actEquiv (g : Affine K) : K ≃ K where
+  toFun := act g
+  invFun := act g⁻¹
+  left_inv := act_inv_apply g
+  right_inv := act_apply_inv g
+
 /-- The bijection `Affine K ≃ Kˣ × K` used to transport finiteness. -/
 def equivProd (K : Type*) [Field K] : Affine K ≃ Kˣ × K where
   toFun g := (g.a, g.b)
@@ -92,7 +110,7 @@ instance [Fintype K] [DecidableEq K] : Fintype (Affine K) := Fintype.ofEquiv _ (
 /-- The affine group has order `q(q-1)`. -/
 theorem card_eq [Fintype K] [DecidableEq K] :
     Fintype.card (Affine K) = Fintype.card K * (Fintype.card K - 1) := by
-  sorry
+  rw [Fintype.card_congr (equivProd K), Fintype.card_prod, Fintype.card_units, mul_comm]
 
 end Affine
 
@@ -121,12 +139,39 @@ theorem zeroSum_invariant [Fintype K]
     (ρ : Representation ℂ (Affine K) (K → ℂ))
     (hρ : ∀ (g : Affine K) (f : K → ℂ) (x : K), (ρ g f) x = f (act g⁻¹ x)) :
     ∀ (g : Affine K), ∀ f ∈ zeroSum K, ρ g f ∈ zeroSum K := by
-  sorry
+  intro g f hf
+  simp only [zeroSum, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
+    Set.mem_setOf_eq] at *
+  calc ∑ x, (ρ g f) x = ∑ x, f (act g⁻¹ x) := by simp_rw [hρ]
+    _ = ∑ x, f (actEquiv g⁻¹ x) := rfl
+    _ = ∑ x, f x := Equiv.sum_comp (actEquiv g⁻¹) f
+    _ = 0 := hf
 
 /-- The zero-sum representation `V` has dimension `q - 1`. -/
 theorem zeroSum_finrank [Fintype K] :
     Module.finrank ℂ (zeroSum K) = Fintype.card K - 1 := by
-  sorry
+  classical
+  -- The summation functional `L f = ∑ x, f x`; `zeroSum K` is its kernel.
+  let L : (K → ℂ) →ₗ[ℂ] ℂ :=
+    { toFun := fun f => ∑ x, f x
+      map_add' := fun f g => by simp [Finset.sum_add_distrib]
+      map_smul' := fun c f => by simp [Finset.mul_sum] }
+  have hker : LinearMap.ker L = zeroSum K := by
+    ext f
+    simp only [LinearMap.mem_ker, L, LinearMap.coe_mk, AddHom.coe_mk, zeroSum,
+      Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk, Set.mem_setOf_eq]
+  have hsurj : Function.Surjective L := by
+    intro c
+    refine ⟨fun x => if x = 0 then c else 0, ?_⟩
+    simp only [L, LinearMap.coe_mk, AddHom.coe_mk]
+    rw [Finset.sum_ite_eq' Finset.univ (0 : K) (fun _ => c)]
+    simp
+  have hrange : Module.finrank ℂ (LinearMap.range L) = 1 := by
+    rw [LinearMap.range_eq_top.mpr hsurj]
+    simp [Module.finrank_self]
+  have hnull := LinearMap.finrank_range_add_finrank_ker L
+  rw [hker, hrange, Module.finrank_pi ℂ] at hnull
+  omega
 
 /-- **The hint.** The representation `V` of `G` on the zero-sum functions is irreducible:
 every `G`-invariant subspace contained in `zeroSum K` is `⊥` or all of `zeroSum K`. -/
