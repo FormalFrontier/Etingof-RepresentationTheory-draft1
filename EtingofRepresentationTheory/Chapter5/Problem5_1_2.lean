@@ -43,39 +43,37 @@ noncomputable def realGEndAlgebra (ρ : Representation ℂ G V) :
     Subalgebra ℝ (Module.End ℝ V) :=
   Subalgebra.centralizer ℝ (Set.range (fun g => LinearMap.restrictScalars ℝ (ρ g)))
 
-/-- The `ℝ`-algebra embedding `ℂ ↪ End_{ℝ[G]} V`, `z ↦ (v ↦ z • v)`. This is the
-`ℂ ⊆ End_{ℝ[G]} V` inclusion of the book: scalar multiplication by `z : ℂ` is an
-`ℝ`-linear endomorphism of `V`, and it lands in the centralizer `realGEndAlgebra ρ`
-because each `ρ g` is `ℂ`-linear, so `ρ g (z • v) = z • ρ g v`.
-
-Realized as `AlgHom.codRestrict` of `Algebra.lsmul ℝ ℝ V : ℂ →ₐ[ℝ] Module.End ℝ V`. -/
+/-- The `ℂ`-embedding `ℂ ⊆ End_{ℝ[G]} V` of the book: multiplication by a complex scalar `z`
+is an `ℝ`-linear endomorphism of `V` that commutes with every `(ρ g).restrictScalars ℝ`
+(because each `ρ g` is `ℂ`-linear), hence lies in the centralizer `realGEndAlgebra ρ`. This
+packages that as an `ℝ`-algebra hom `ℂ →ₐ[ℝ] realGEndAlgebra ρ`. Reusable toolkit shared by the
+real (#6327) and quaternionic (#6328) cases. -/
 noncomputable def complexToRealGEnd (ρ : Representation ℂ G V) :
     ℂ →ₐ[ℝ] realGEndAlgebra ρ :=
-  AlgHom.codRestrict (Algebra.lsmul ℝ ℝ V : ℂ →ₐ[ℝ] Module.End ℝ V) (realGEndAlgebra ρ) <| by
+  (Algebra.lsmul ℝ ℝ V).codRestrict (realGEndAlgebra ρ) (by
     intro z
     rw [realGEndAlgebra, Subalgebra.mem_centralizer_iff]
     rintro _ ⟨g, rfl⟩
     ext v
-    simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply, Algebra.lsmul_apply]
-    exact map_smul (ρ g) z v
+    simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply, Algebra.lsmul_apply,
+      map_smul])
 
 omit [Fintype G] [Module.Finite ℂ V] in
 @[simp]
 theorem complexToRealGEnd_coe_apply (ρ : Representation ℂ G V) (z : ℂ) (v : V) :
-    ((complexToRealGEnd ρ z : Module.End ℝ V)) v = z • v := rfl
+    (complexToRealGEnd ρ z : Module.End ℝ V) v = z • v := rfl
 
 omit [Fintype G] [Module.Finite ℂ V] in
-/-- The `ℂ`-embedding is injective (when `V ≠ 0`): if `z • · = 0` then, evaluating at a
-nonzero vector, `z • v = 0` forces `z = 0` since `ℂ` is a field. -/
+/-- The `ℂ`-embedding is injective when `V ≠ 0`: if `z • v = 0` for all `v`, choosing a nonzero
+`v` forces `z = 0`. -/
 theorem complexToRealGEnd_injective (ρ : Representation ℂ G V) [Nontrivial V] :
     Function.Injective (complexToRealGEnd ρ) := by
   rw [injective_iff_map_eq_zero]
   intro z hz
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
-  have hzv : z • v = 0 := by
-    have := congrArg (fun s => (s : Module.End ℝ V) v) (congrArg Subtype.val hz)
-    simpa using this
-  rcases smul_eq_zero.mp hzv with h | h
+  have : (complexToRealGEnd ρ z : Module.End ℝ V) v = 0 := by rw [hz]; rfl
+  rw [complexToRealGEnd_coe_apply] at this
+  rcases smul_eq_zero.mp this with h | h
   · exact h
   · exact absurd h hv
 
@@ -137,6 +135,61 @@ theorem realJ_mul_realMinus (f : realGEndAlgebra ρ) :
   rw [realMinus, mul_smul_comm, smul_mul_assoc, ring_conj_anticomm (realJ_sq ρ), smul_neg]
 
 end ConjDecomp
+
+omit [Module ℝ V] [IsScalarTower ℝ ℂ V] in
+open scoped ComplexConjugate in
+/-- **Invariant positive-definite Hermitian form** (shared toolkit). Every finite-dimensional
+complex representation `ρ` of a finite group carries a `G`-invariant, positive-definite Hermitian
+(sesquilinear, linear in the first slot and conjugate-linear in the second) form: average the
+standard coordinate form `h₀(v, w) = ∑ᵢ (b.repr v)ᵢ · conj (b.repr w)ᵢ` over the group.
+
+Reused by the real (#6327) and quaternionic (#6328) cases to build the `j`-operator. -/
+theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
+    ∃ H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ,
+      (∀ g v w, H (ρ g v) (ρ g w) = H v w) ∧ (∀ v, v ≠ 0 → 0 < (H v v).re) := by
+  classical
+  set b := Module.finBasis ℂ V with hb
+  refine ⟨LinearMap.mk₂'ₛₗ (RingHom.id ℂ) (starRingEnd ℂ)
+      (fun v w => ∑ g : G, ∑ i, b.repr (ρ g v) i * conj (b.repr (ρ g w) i))
+      ?_ ?_ ?_ ?_, ?_, ?_⟩
+  · -- additive in the first slot
+    intro v₁ v₂ w
+    simp only [map_add, Finsupp.add_apply, add_mul, Finset.sum_add_distrib]
+  · -- ℂ-linear in the first slot
+    intro c v w
+    simp only [map_smul, Finsupp.smul_apply, smul_eq_mul, RingHom.id_apply, Finset.mul_sum,
+      mul_assoc]
+  · -- additive in the second slot
+    intro v w₁ w₂
+    simp only [map_add, Finsupp.add_apply, map_add, mul_add, Finset.sum_add_distrib]
+  · -- conjugate-linear in the second slot
+    intro c v w
+    simp only [map_smul, Finsupp.smul_apply, smul_eq_mul, map_mul, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun g _ => Finset.sum_congr rfl fun i _ => by ring
+  · -- G-invariance
+    intro h v w
+    simp only [LinearMap.mk₂'ₛₗ_apply]
+    have hcomp : ∀ (g : G) (x : V), ρ g (ρ h x) = ρ (g * h) x := fun g x => by
+      rw [map_mul]; rfl
+    simp_rw [hcomp]
+    exact Equiv.sum_comp (Equiv.mulRight h)
+      (fun g : G => ∑ i, b.repr (ρ g v) i * conj (b.repr (ρ g w) i))
+  · -- positive-definiteness
+    intro v hv
+    simp only [LinearMap.mk₂'ₛₗ_apply, Complex.mul_conj]
+    have hcast : (∑ g : G, ∑ i, (Complex.normSq (b.repr (ρ g v) i) : ℂ))
+        = ((∑ g : G, ∑ i, Complex.normSq (b.repr (ρ g v) i) : ℝ) : ℂ) := by
+      push_cast; rfl
+    rw [hcast, Complex.ofReal_re]
+    refine Finset.sum_pos' (fun g _ => Finset.sum_nonneg fun i _ => Complex.normSq_nonneg _) ?_
+    refine ⟨1, Finset.mem_univ 1, ?_⟩
+    simp only [map_one, Module.End.one_apply]
+    obtain ⟨i, hi⟩ : ∃ i, b.repr v i ≠ 0 := by
+      by_contra hcon
+      push_neg at hcon
+      exact hv (b.repr.injective (by ext i; simp [hcon i]))
+    exact Finset.sum_pos' (fun i _ => Complex.normSq_nonneg _)
+      ⟨i, Finset.mem_univ i, Complex.normSq_pos.mpr hi⟩
 
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`. -/
