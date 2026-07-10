@@ -2235,8 +2235,8 @@
     "end_page": "57",
     "start_line": 15,
     "end_line": 12,
-    "status": "proof_partial",
-    "sorry_free": false,
+    "status": "sorry_free",
+    "sorry_free": true,
     "fidelity": "verified",
     "lean_file": "EtingofRepresentationTheory/Chapter3/Problem3_9_1.lean"
   },
