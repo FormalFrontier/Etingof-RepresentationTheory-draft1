@@ -2,6 +2,9 @@ import Mathlib.CategoryTheory.Abelian.Projective.Resolution
 import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 import Mathlib.Algebra.Homology.HomologicalComplexBiprod
 import Mathlib.Algebra.Homology.ShortComplex.ShortExact
+import Mathlib.Algebra.Homology.HomologySequenceLemmas
+import Mathlib.Algebra.Homology.SingleHomology
+import Mathlib.CategoryTheory.Abelian.DiagramLemmas.Four
 
 /-!
 # The horseshoe lemma
@@ -355,6 +358,69 @@ noncomputable def horseshoeπ :
     (horseshoeπ hS P₁ P₃).f (n + 1) = 0 :=
   (HomologicalComplex.isZero_single_obj_X (ComplexShape.down ℕ) 0 S.X₂ (n + 1)
     (by simp)).eq_of_tgt _ _
+
+/-- `S` placed in degree `0` as a short complex of chain complexes. -/
+noncomputable def horseshoeSingle : ShortComplex (ChainComplex C ℕ) :=
+  S.map (ChainComplex.single₀ C)
+
+include hS in
+/-- `single₀` is exact, so `S` placed in degree `0` stays short exact. -/
+lemma horseshoeSingle_shortExact : (horseshoeSingle (S := S)).ShortExact :=
+  ShortComplex.ShortExact.map_of_exact hS (ChainComplex.single₀ C)
+
+/-- The morphism of short complexes of chain complexes from the horseshoe SES to `S` in degree `0`,
+with vertical maps the augmentations `P₁.π`, `horseshoeπ`, `P₃.π`. The two nontrivial squares are
+the augmentation-compatibility squares `horseshoeπZero_inl` and `horseshoeπZero_comp_g`. -/
+noncomputable def horseshoeMorphism :
+    horseshoeShortComplex hS P₁ P₃ ⟶ horseshoeSingle (S := S) :=
+  ShortComplex.homMk P₁.π (horseshoeπ hS P₁ P₃) P₃.π
+    (by
+      apply HomologicalComplex.hom_ext; intro n
+      obtain _ | n := n <;>
+        simp [horseshoeShortComplex, horseshoeSingle, ShortComplex.map])
+    (by
+      apply HomologicalComplex.hom_ext; intro n
+      obtain _ | n := n <;>
+        simp [horseshoeShortComplex, horseshoeSingle, ShortComplex.map, horseshoeπZero_comp_g])
+
+/-- The horseshoe augmentation is a quasi-isomorphism: off degree `0` both complexes are exact
+(`horseshoeComplex` by `exactAt_X₂` from the horseshoe SES and exactness of `P₁`, `P₃`), and in
+degree `0` the induced map on homology is an isomorphism by the middle three-lemma applied to the
+map of homology short complexes (the outer verticals `homologyMap P₁.π 0`, `homologyMap P₃.π 0` are
+isomorphisms because `P₁`, `P₃` are resolutions). -/
+instance horseshoeπ_quasiIso : QuasiIso (horseshoeπ hS P₁ P₃) := by
+  have hS₁ := horseshoeShortComplex_shortExact hS P₁ P₃
+  have hS₂ := horseshoeSingle_shortExact hS
+  rw [quasiIso_iff]
+  rintro (_ | n)
+  · rw [quasiIsoAt_iff_isIso_homologyMap]
+    have hmono : Mono (HomologicalComplex.homologyMap (horseshoeSingle (S := S)).f 0) := by
+      haveI := hS.mono_f
+      refine (hS₂.homology_exact₁ 1 0 (by simp)).mono_g ?_
+      exact (HomologicalComplex.isZero_single_obj_homology _ 0 S.X₃ 1 (by norm_num)).eq_of_src _ _
+    have hepi : Epi (HomologicalComplex.homologyMap (horseshoeShortComplex hS P₁ P₃).g 0) := by
+      haveI := hS₁.epi_g
+      exact HomologicalComplex.epi_homologyMap_of_epi_of_not_rel _ 0 (by simp)
+    haveI : Mono (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
+      ShortComplex.mono_of_mono_of_mono_of_mono
+        ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) 0).mapShortComplex.map
+          (horseshoeMorphism hS P₁ P₃)) (hS₁.homology_exact₂ 0) hmono
+        (inferInstanceAs (Mono (HomologicalComplex.homologyMap P₁.π 0)))
+        (inferInstanceAs (Mono (HomologicalComplex.homologyMap P₃.π 0)))
+    haveI : Epi (HomologicalComplex.homologyMap (horseshoeπ hS P₁ P₃) 0) :=
+      ShortComplex.epi_of_epi_of_epi_of_epi
+        ((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) 0).mapShortComplex.map
+          (horseshoeMorphism hS P₁ P₃)) (hS₂.homology_exact₂ 0) hepi
+        (inferInstanceAs (Epi (HomologicalComplex.homologyMap P₁.π 0)))
+        (inferInstanceAs (Epi (HomologicalComplex.homologyMap P₃.π 0)))
+    exact isIso_of_mono_of_epi _
+  · rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _)]
+    exact hS₁.exactAt_X₂ (n + 1) (P₁.complex_exactAt_succ n) (P₃.complex_exactAt_succ n)
+
+/-- The horseshoe projective resolution of `S.X₂`. -/
+noncomputable def horseshoeResolution : ProjectiveResolution S.X₂ where
+  complex := horseshoeComplex hS P₁ P₃
+  π := horseshoeπ hS P₁ P₃
 
 end Augmentation
 
