@@ -20,6 +20,8 @@ This file supplies the reusable helper `Etingof.IsIndecomposable.of_linearEquiv`
 (indecomposability is an isomorphism invariant) and the main theorem `iso_pow_cancel`.
 -/
 
+open scoped DirectSum
+
 namespace Etingof.Problem3_8_4
 
 /-- Indecomposability is invariant under `A`-linear isomorphism: if `V` is indecomposable
@@ -358,5 +360,62 @@ theorem iso_pow_cancel (k A V W : Type*) [Field k] [Ring A] [Algebra k A]
   let mid := DFinsupp.mapRange.linearEquiv (R := A) (fun i => (hiso i).some)
   exact ⟨(LinearEquiv.ofBijective (DirectSum.coeLinearMap DV) hIntV).symm ≪≫ₗ mid ≪≫ₗ
     LinearEquiv.ofBijective (DirectSum.coeLinearMap (fun i => DW (τ i))) hIntWτ⟩
+
+/-- **Direct summand from an index embedding.** Given internal indecomposable decompositions
+`DV : Fin p → Submodule A V` and `DW : Fin q → Submodule A W`, together with an injection
+`φ : Fin p → Fin q` matching each summand of `V` with an isomorphic summand of `W`
+(`DV i ≅ DW (φ i)`), the module `V` is a direct summand of `W`: there are `A`-linear maps
+`ι : V →ₗ W`, `π : W →ₗ V` with `π ∘ ι = id`.
+
+The split is assembled at the level of the internal direct sums: `ιS` places the `i`-th summand
+of `⨁ DV` into coordinate `φ i` of `⨁ DW` via the given iso, and `πS` reads coordinate `φ i`
+back out. Injectivity of `φ` makes `πS ∘ ιS = id` (each coordinate `φ i` is hit exactly once). -/
+private theorem summand_of_index_embedding {A V W : Type*} [Ring A]
+    [AddCommGroup V] [Module A V] [AddCommGroup W] [Module A W]
+    {p q : ℕ} (DV : Fin p → Submodule A V) (DW : Fin q → Submodule A W)
+    (hIntV : DirectSum.IsInternal DV) (hIntW : DirectSum.IsInternal DW)
+    {φ : Fin p → Fin q} (hφ : Function.Injective φ)
+    (hiso : ∀ i, Nonempty ((DV i) ≃ₗ[A] (DW (φ i)))) :
+    ∃ (ι : V →ₗ[A] W) (π : W →ₗ[A] V), π.comp ι = LinearMap.id := by
+  classical
+  let θ : ∀ i, (DV i) ≃ₗ[A] (DW (φ i)) := fun i => (hiso i).some
+  let eV : V ≃ₗ[A] (⨁ i, (DV i)) :=
+    (LinearEquiv.ofBijective (DirectSum.coeLinearMap DV) hIntV).symm
+  let eW : (⨁ j, (DW j)) ≃ₗ[A] W := LinearEquiv.ofBijective (DirectSum.coeLinearMap DW) hIntW
+  -- Place summand `i` of `⨁ DV` into coordinate `φ i` of `⨁ DW`.
+  let ιS : (⨁ i, (DV i)) →ₗ[A] (⨁ j, (DW j)) :=
+    DirectSum.toModule A (Fin p) _ (fun i =>
+      (DirectSum.lof A (Fin q) (fun j => (DW j)) (φ i)).comp (θ i).toLinearMap)
+  -- Read coordinate `φ i` back out into summand `i` of `⨁ DV`.
+  let πS : (⨁ j, (DW j)) →ₗ[A] (⨁ i, (DV i)) :=
+    ∑ i : Fin p, (DirectSum.lof A (Fin p) (fun i => (DV i)) i).comp
+      (((θ i).symm.toLinearMap).comp (DirectSum.component A (Fin q) (fun j => (DW j)) (φ i)))
+  have hsplit : πS.comp ιS = LinearMap.id := by
+    apply DirectSum.linearMap_ext
+    intro i₀
+    apply LinearMap.ext
+    intro x
+    simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq]
+    -- `ιS (lof i₀ x) = lof (φ i₀) (θ i₀ x)`
+    have hι : ιS (DirectSum.lof A (Fin p) (fun i => (DV i)) i₀ x)
+        = DirectSum.lof A (Fin q) (fun j => (DW j)) (φ i₀) (θ i₀ x) := by
+      simp only [ιS, DirectSum.toModule_lof, LinearMap.comp_apply, LinearEquiv.coe_coe]
+    rw [hι]
+    simp only [πS, LinearMap.sum_apply, LinearMap.comp_apply, LinearEquiv.coe_coe]
+    rw [Finset.sum_eq_single i₀]
+    · rw [DirectSum.component.lof_self]
+      simp only [LinearEquiv.symm_apply_apply]
+    · intro b _ hb
+      rw [DirectSum.component.of, dif_neg (fun h => hb (hφ h.symm))]
+      simp only [map_zero]
+    · intro h; exact absurd (Finset.mem_univ i₀) h
+  refine ⟨(eW : (⨁ j, (DW j)) →ₗ[A] W).comp (ιS.comp (eV : V →ₗ[A] (⨁ i, (DV i)))),
+      (eV.symm : (⨁ i, (DV i)) →ₗ[A] V).comp (πS.comp (eW.symm : W →ₗ[A] (⨁ j, (DW j)))), ?_⟩
+  apply LinearMap.ext
+  intro v
+  simp only [LinearMap.comp_apply, LinearMap.id_coe, id_eq, LinearEquiv.coe_coe]
+  rw [eW.symm_apply_apply]
+  have he : πS (ιS (eV v)) = eV v := LinearMap.congr_fun hsplit (eV v)
+  rw [he, eV.symm_apply_apply]
 
 end Etingof.Problem3_8_4
