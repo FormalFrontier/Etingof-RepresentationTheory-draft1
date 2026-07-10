@@ -30,7 +30,7 @@ def Nat.Partition.StrictDominates {n : ℕ} (la mu : Nat.Partition n) : Prop :=
 
 /-- For the canonical position at (row r, col c) in a Young diagram: rowOfPos and colOfPos
 give back r and c. The position is (parts.take r).sum + c. -/
-private lemma rowOfPos_colOfPos_canonical (parts : List ℕ) (r c : ℕ)
+lemma rowOfPos_colOfPos_canonical (parts : List ℕ) (r c : ℕ)
     (hr : r < parts.length) (hc : c < parts[r]) :
     Etingof.rowOfPos parts ((parts.take r).sum + c) = r ∧
     Etingof.colOfPos parts ((parts.take r).sum + c) = c := by
@@ -56,7 +56,7 @@ private lemma rowOfPos_colOfPos_canonical (parts : List ℕ) (r c : ℕ)
       · simp [Etingof.colOfPos, hge, hsub, ih2]
 
 /-- Canonical position is within bounds. -/
-private lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
+lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
     (hr : r < parts.length) (hc : c < parts[r]) :
     (parts.take r).sum + c < parts.sum := by
   have h1 : (parts.take r).sum + parts[r] ≤ (parts.take (r + 1)).sum := by
@@ -67,7 +67,7 @@ private lemma canonical_pos_lt_sum (parts : List ℕ) (r c : ℕ)
   omega
 
 /-- For sorted descending parts, c < parts[r] implies c < parts[r'] for r' ≤ r. -/
-private lemma col_exists_earlier_row (parts : List ℕ) (hSorted : parts.Pairwise (· ≥ ·))
+lemma col_exists_earlier_row (parts : List ℕ) (hSorted : parts.Pairwise (· ≥ ·))
     (r r' c : ℕ) (hr : r < parts.length) (hr' : r' < parts.length) (hle : r' ≤ r)
     (hc : c < parts[r]) : c < parts[r'] := by
   have : parts[r] ≤ parts[r'] := by
@@ -85,15 +85,15 @@ private theorem sortedParts_sum {n : ℕ} (la : Nat.Partition n) :
   have : la.sortedParts.sum = la.parts.sum := by rw [← Multiset.sum_coe, hsort]
   omega
 
-private theorem sortedParts_pos (la : Nat.Partition n) :
+theorem sortedParts_pos (la : Nat.Partition n) :
     ∀ x ∈ la.sortedParts, 0 < x := fun x hx =>
   la.parts_pos ((Multiset.mem_sort _).mp hx)
 
-private theorem sortedParts_sorted (la : Nat.Partition n) :
+theorem sortedParts_sorted (la : Nat.Partition n) :
     la.sortedParts.Pairwise (· ≥ ·) := la.parts.pairwise_sort (· ≥ ·)
 
 /-- rowOfPos characterization: position j is in the first k rows iff j < take(k).sum. -/
-private theorem rowOfPos_lt_iff (parts : List ℕ) (j k : ℕ) (hj : j < parts.sum) :
+theorem rowOfPos_lt_iff (parts : List ℕ) (j k : ℕ) (hj : j < parts.sum) :
     Etingof.rowOfPos parts j < k ↔ j < (parts.take k).sum := by
   induction parts generalizing j k with
   | nil => simp at hj
@@ -111,7 +111,7 @@ private theorem rowOfPos_lt_iff (parts : List ℕ) (j k : ℕ) (hj : j < parts.s
         omega
 
 /-- rowOfPos is bounded by parts.length for valid positions. -/
-private theorem rowOfPos_lt_length (parts : List ℕ) (j : ℕ) (hj : j < parts.sum) :
+theorem rowOfPos_lt_length (parts : List ℕ) (j : ℕ) (hj : j < parts.sum) :
     Etingof.rowOfPos parts j < parts.length := by
   induction parts generalizing j with
   | nil => simp at hj
@@ -122,7 +122,7 @@ private theorem rowOfPos_lt_length (parts : List ℕ) (j : ℕ) (hj : j < parts.
     · have := ih (j - p) (by simp [List.sum_cons] at hj; omega); omega
 
 /-- colOfPos gives a value less than the row width (getElem version). -/
-private theorem colOfPos_lt_getElem (parts : List ℕ) (j : ℕ) (hj : j < parts.sum) :
+theorem colOfPos_lt_getElem (parts : List ℕ) (j : ℕ) (hj : j < parts.sum) :
     Etingof.colOfPos parts j < parts[Etingof.rowOfPos parts j]'(rowOfPos_lt_length parts j hj) := by
   have h := Etingof.colOfPos_lt_getD parts j hj
   simp [List.getD] at h
@@ -227,7 +227,7 @@ private theorem sum_min_colHeight (parts : List ℕ) (k : ℕ)
       rw [colHeight_eq_zero_of_ge_headD ps c hps_sorted (by omega)]; simp
 
 /-- Cardinality of {i : Fin n | i.val < m} is m. -/
-private theorem card_filter_val_lt (n m : ℕ) (hm : m ≤ n) :
+theorem card_filter_val_lt (n m : ℕ) (hm : m ≤ n) :
     ((Finset.univ : Finset (Fin n)).filter (fun i => i.val < m)).card = m := by
   have hs_eq : (Finset.univ : Finset (Fin n)).filter (fun i => i.val < m) =
       Finset.image (fun j : Fin m => (⟨j.val, by omega⟩ : Fin n)) Finset.univ := by
@@ -293,7 +293,7 @@ private theorem partition_eq_of_partial_sums (la mu : Nat.Partition n)
 namespace Etingof
 
 /-- A swap of two elements in the same row belongs to the row subgroup. -/
-private theorem swap_mem_RowSubgroup {n : ℕ} {la : Nat.Partition n}
+theorem swap_mem_RowSubgroup {n : ℕ} {la : Nat.Partition n}
     {i j : Fin n} (hrow : rowOfPos la.sortedParts i.val = rowOfPos la.sortedParts j.val) :
     Equiv.swap i j ∈ RowSubgroup n la := by
   intro k
@@ -304,7 +304,7 @@ private theorem swap_mem_RowSubgroup {n : ℕ} {la : Nat.Partition n}
   · rfl
 
 /-- A swap of two elements in the same column belongs to the column subgroup. -/
-private theorem swap_mem_ColumnSubgroup {n : ℕ} {mu : Nat.Partition n}
+theorem swap_mem_ColumnSubgroup {n : ℕ} {mu : Nat.Partition n}
     {i j : Fin n} (hcol : colOfPos mu.sortedParts i.val = colOfPos mu.sortedParts j.val) :
     Equiv.swap i j ∈ ColumnSubgroup n mu := by
   intro k

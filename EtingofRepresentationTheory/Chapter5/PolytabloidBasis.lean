@@ -277,7 +277,7 @@ This is the "support characterization" used in the dominance triangularity analy
 
 /-- The Young symmetrizer c_λ = b·a is supported on Q_λ · P_λ: if c_λ(g) ≠ 0 then g = q · p
 for some q ∈ Q_λ and p ∈ P_λ, with c_λ(g) = sign(q). -/
-private theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
+theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
     (g : Equiv.Perm (Fin n))
     (hg : (YoungSymmetrizer n la : SymGroupAlgebra n) g ≠ 0) :
     ∃ q ∈ ColumnSubgroup n la, ∃ p ∈ RowSubgroup n la,
@@ -299,7 +299,7 @@ private theorem youngSymmetrizer_support (n : ℕ) (la : Nat.Partition n)
   exact ⟨q', hq'_col, p', hp'_row, hg_eq.symm⟩
 
 /-- The coefficient of g in c_λ = b·a when g = q · p (q ∈ Q_λ, p ∈ P_λ) is sign(q). -/
-private theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
+theorem youngSymmetrizer_pq_coeff (n : ℕ) (la : Nat.Partition n)
     (q : Equiv.Perm (Fin n)) (hq : q ∈ ColumnSubgroup n la)
     (p : Equiv.Perm (Fin n)) (hp : p ∈ RowSubgroup n la) :
     (YoungSymmetrizer n la : SymGroupAlgebra n) (q * p) =
