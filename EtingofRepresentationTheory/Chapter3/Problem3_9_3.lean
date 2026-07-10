@@ -267,7 +267,65 @@ theorem irreducible_isSimpleRep [DecidableEq Q] [Finite Q]
 `i → j`. (More precisely `dim Ext¹(S_i, S_j)` equals the number of arrows `i → j`.) -/
 theorem ext1_simpleRep_vanishes_iff [DecidableEq Q] (i j : Q) :
     Ext1Vanishes (simpleRep (k := k) i) (simpleRep j) ↔ IsEmpty (i ⟶ j) := by
-  sorry
+  -- Both simple representations have all arrow maps zero, so the Ext differential is the
+  -- constant zero map. Hence Ext-vanishing (surjectivity) holds iff the codomain is trivial,
+  -- and the codomain component at an arrow `a ⟶ b` is `Hom(S_i(a), S_j(b))`, which is nonzero
+  -- exactly when `a = i` and `b = j`, i.e. when there is an arrow `i → j`.
+  have hzero : Etingof.Problem6_9_3.extDiff (simpleRep (k := k) i) (simpleRep j) = fun _ => 0 := by
+    letI : ∀ v, AddCommGroup ((simpleRep (k := k) j).obj v) :=
+      fun _ => Etingof.Problem6_9_3.acg (k := k)
+    funext f p
+    simp only [Etingof.Problem6_9_3.extDiff, simpleRep, LinearMap.zero_comp, LinearMap.comp_zero,
+      Pi.zero_apply]
+    exact sub_self (0 : (simpleRep (k := k) i).obj p.1 →ₗ[k] (simpleRep (k := k) j).obj p.2.1)
+  rw [Ext1Vanishes, hzero]
+  constructor
+  · -- Ext vanishes ⇒ no arrow `i → j`.
+    intro hsurj
+    rw [isEmpty_iff]
+    intro e
+    classical
+    -- A nonzero linear map `S_i(i) →ₗ S_j(j)`: both spaces are `Fin 1 → k`.
+    have hip : 0 < (if i = i then (1 : ℕ) else 0) := by rw [if_pos rfl]; norm_num
+    have hjp : 0 < (if j = j then (1 : ℕ) else 0) := by rw [if_pos rfl]; norm_num
+    let g : (simpleRep (k := k) i).obj i →ₗ[k] (simpleRep (k := k) j).obj j :=
+      { toFun := fun x => fun _ => x ⟨0, hip⟩
+        map_add' := fun _ _ => rfl
+        map_smul' := fun _ _ => rfl }
+    have hg : g ≠ 0 := by
+      intro h
+      have h1 : g (fun _ => (1 : k)) = 0 := by rw [h]; rfl
+      have h2 := congrFun h1 ⟨0, hjp⟩
+      simp only [g, LinearMap.coe_mk, AddHom.coe_mk] at h2
+      exact one_ne_zero h2
+    -- Surjectivity of the zero map forces the codomain element `Pi.single ⟨i,j,e⟩ g` to be 0.
+    obtain ⟨f, hf⟩ := hsurj (Pi.single (⟨i, j, e⟩ : Σ a b, (a ⟶ b)) g)
+    have h1 := congrFun hf.symm ⟨i, j, e⟩
+    simp only [Pi.single_eq_same, Pi.zero_apply] at h1
+    exact hg h1
+  · -- No arrow `i → j` ⇒ Ext vanishes: every codomain element is 0.
+    intro hempty y
+    refine ⟨0, ?_⟩
+    funext p
+    obtain ⟨a, b, e⟩ := p
+    simp only [Pi.zero_apply]
+    by_cases hb : b = j
+    · by_cases ha : a = i
+      · subst ha; subst hb
+        exact (hempty.false e).elim
+      · -- Domain `S_i(a)` is trivial (`a ≠ i`), so any map out of it is 0.
+        symm
+        refine LinearMap.ext fun x => ?_
+        have hsub : Subsingleton ((simpleRep (k := k) i).obj a) := by
+          show Subsingleton (Fin (if a = i then 1 else 0) → k)
+          rw [if_neg ha]; infer_instance
+        rw [Subsingleton.elim x 0, map_zero, LinearMap.zero_apply]
+    · -- Codomain `S_j(b)` is trivial (`b ≠ j`), so any map into it is 0.
+      symm
+      have hsub : Subsingleton ((simpleRep (k := k) j).obj b) := by
+        show Subsingleton (Fin (if b = j then 1 else 0) → k)
+        rw [if_neg hb]; infer_instance
+      exact LinearMap.ext fun x => Subsingleton.elim _ _
 
 /-- **Classification of 2-dimensional representations.** For a quiver without oriented cycles,
 a representation `ρ` of total dimension `2` is either decomposable — necessarily a direct sum
