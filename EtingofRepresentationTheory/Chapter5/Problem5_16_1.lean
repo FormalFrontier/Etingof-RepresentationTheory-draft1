@@ -84,6 +84,32 @@ theorem ind_spechtModule_multiplicity (n : ℕ) (μ : Nat.Partition n)
     branchingPairing n (spechtModuleCharacter n μ)
         (fun σ => spechtModuleCharacter (n + 1) la (permEmb n σ)) =
       if μ.toYoungDiagram ≤ la.toYoungDiagram then 1 else 0 := by
-  sorry
+  classical
+  have hcard : (Fintype.card (Equiv.Perm (Fin n)) : ℂ) = (Nat.factorial n : ℂ) := by
+    rw [Fintype.card_perm, Fintype.card_fin]
+  have hne : (Nat.factorial n : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
+  -- Expand the pairing using part (a) (restriction branching) and character orthonormality.
+  have hexpand :
+      ∑ σ : Equiv.Perm (Fin n),
+        spechtModuleCharacter n μ σ *
+          spechtModuleCharacter (n + 1) la (permEmb n σ⁻¹)
+        = (Nat.factorial n : ℂ) *
+            ∑ ρ ∈ removeSquare la, (if μ = ρ then (1 : ℂ) else 0) := by
+    -- Apply the restriction rule at `σ⁻¹`, distribute, swap the sums, and use orthonormality.
+    have e1 : ∑ σ : Equiv.Perm (Fin n),
+        spechtModuleCharacter n μ σ *
+          spechtModuleCharacter (n + 1) la (permEmb n σ⁻¹)
+        = ∑ σ : Equiv.Perm (Fin n),
+            ∑ ρ ∈ removeSquare la,
+              spechtModuleCharacter n μ σ * spechtModuleCharacter n ρ σ⁻¹ := by
+      refine Finset.sum_congr rfl (fun σ _ => ?_)
+      rw [res_spechtModule_character n la σ⁻¹, Finset.mul_sum]
+    rw [e1, Finset.sum_comm, Finset.mul_sum]
+    refine Finset.sum_congr rfl (fun ρ _ => ?_)
+    rw [specht_char_inner n μ ρ]
+  unfold branchingPairing
+  dsimp only
+  rw [hexpand, hcard, ← mul_assoc, inv_mul_cancel₀ hne, one_mul]
+  simp only [Finset.sum_ite_eq, removeSquare, Finset.mem_filter, Finset.mem_univ, true_and]
 
 end Etingof
