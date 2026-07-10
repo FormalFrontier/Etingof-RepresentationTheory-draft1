@@ -1037,6 +1037,25 @@ lemma irrepA5_character_book (i j : Fin 5) :
   · exact (repC4_character j).trans (chiA5_eq_tblA5 1 j).symm
   · exact (repC5_character j).trans (chiA5_eq_tblA5 2 j).symm
 
+/-- The five irreducible representations of `A₅` have dimensions `1, 3, 3, 4, 5`.  Each dimension
+is read off the identity column of the character table: `finrank = χ(1) = χ(classRepA5 0) =
+Q5toC (chiA5 i 0)`, and the entries of that column are the rational dimensions (imaginary
+`√5`-parts vanish). -/
+lemma irrepA5_finrank (i : Fin 5) :
+    Module.finrank ℂ (irrepA5 i) = ![1, 3, 3, 4, 5] i := by
+  have him : ∀ j : Fin 5, (chiA5 j 0).im = 0 := by decide
+  have hre : ∀ j : Fin 5, (chiA5 j 0).re = ((![1, 3, 3, 4, 5] j : ℕ) : ℚ) := by decide
+  have key : (Module.finrank ℂ (irrepA5 i) : ℂ) = Q5toC (chiA5 i 0) := by
+    rw [← FDRep.char_one]
+    have h1 : (irrepA5 i).character (1 : G) = (irrepA5 i).character (classRepA5 0) := rfl
+    rw [h1, irrepA5_character_book]
+    simp only [rowA5, id_eq]
+  have goalC : (Module.finrank ℂ (irrepA5 i) : ℂ) = ((![1, 3, 3, 4, 5] i : ℕ) : ℂ) := by
+    rw [key, Q5toC, him i, hre i]
+    push_cast
+    ring
+  exact_mod_cast goalC
+
 /-- The five representations are pairwise non-isomorphic (their characters differ).  Distinct
 dimensions separate every pair except `ℂ³₊, ℂ³₋`, which are told apart on the 5-cycle class
 `(12345)` by the golden-ratio value `√5 ≠ 0` (`sqrt5_sq`, no irrationality machinery).
