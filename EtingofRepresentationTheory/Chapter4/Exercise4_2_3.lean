@@ -426,13 +426,126 @@ the ring as a submodule lying in one of the finitely many isotypic components of
 
 section Finiteness
 
+attribute [local instance] CategoryTheory.isIsomorphicSetoid
+
+variable {R : Type*} [Ring R]
+
+/-- A simple `R`-module is torsion by the Jacobson radical of `R`: the radical annihilates
+every simple module. -/
+private theorem isTorsionBySet_jacobson {M : Type*} [AddCommGroup M] [Module R M]
+    [IsSimpleModule R M] : Module.IsTorsionBySet R M (Ring.jacobson R) := fun x a =>
+  Module.mem_annihilator.mp (IsSemisimpleModule.jacobson_le_annihilator R M a.2) x
+
+/-- The `R ⧸ rad`-module structure carried by a simple `R`-module (the radical acts as `0`). -/
+@[implicit_reducible]
+private noncomputable def jacobsonModule {M : Type*} [AddCommGroup M] [Module R M]
+    [IsSimpleModule R M] : Module (R ⧸ Ring.jacobson R) M :=
+  (isTorsionBySet_jacobson (R := R) (M := M)).module
+
+/-- With its `R ⧸ rad`-module structure, a simple `R`-module is a simple `R ⧸ rad`-module:
+`rad` acts as `0`, so `R`-submodules and `R ⧸ rad`-submodules coincide. -/
+private theorem isSimpleModule_jacobsonModule {M : Type*} [AddCommGroup M] [Module R M]
+    [IsSimpleModule R M] :
+    letI := jacobsonModule (R := R) (M := M); IsSimpleModule (R ⧸ Ring.jacobson R) M :=
+  letI := jacobsonModule (R := R) (M := M)
+  ((isTorsionBySet_jacobson (R := R) (M := M)).semilinearMap.isSimpleModule_iff_of_bijective
+    Function.bijective_id).mp inferInstance
+
+/-- An `R ⧸ rad`-linear map between two simple `R`-modules (with their descended module
+structures) is automatically `R`-linear: the two actions agree because `rad` acts as `0`. -/
+private noncomputable def demoteEquiv {M N : Type*} [AddCommGroup M] [AddCommGroup N]
+    [Module R M] [Module R N] [IsSimpleModule R M] [IsSimpleModule R N]
+    (e : letI := jacobsonModule (R := R) (M := M); letI := jacobsonModule (R := R) (M := N);
+      M ≃ₗ[R ⧸ Ring.jacobson R] N) : M ≃ₗ[R] N :=
+  letI := jacobsonModule (R := R) (M := M)
+  letI := jacobsonModule (R := R) (M := N)
+  { toFun := e, invFun := e.symm, left_inv := e.left_inv, right_inv := e.right_inv,
+    map_add' := e.map_add
+    map_smul' := fun r x => e.map_smul (Ideal.Quotient.mk _ r) x }
+
+/-- An `R`-linear equivalence between two simple `R`-modules promotes to an
+`R ⧸ rad`-linear equivalence for their descended module structures. -/
+private noncomputable def promoteEquiv {M N : Type*} [AddCommGroup M] [AddCommGroup N]
+    [Module R M] [Module R N] [IsSimpleModule R M] [IsSimpleModule R N] (e : M ≃ₗ[R] N) :
+    letI := jacobsonModule (R := R) (M := M); letI := jacobsonModule (R := R) (M := N);
+      M ≃ₗ[R ⧸ Ring.jacobson R] N :=
+  letI := jacobsonModule (R := R) (M := M)
+  letI := jacobsonModule (R := R) (M := N)
+  { toFun := e, invFun := e.symm, left_inv := e.left_inv, right_inv := e.right_inv,
+    map_add' := e.map_add
+    map_smul' := fun a x => by
+      obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective a
+      exact e.map_smul r x }
+
 open scoped Classical in
 /-- **Finitely many simple modules.** A ring `R` that is finite-dimensional as an algebra over
 a field `k` has only finitely many isomorphism classes of simple modules (with underlying types
-in the universe of `k`). -/
+in the universe of `k`).
+
+The radical `rad = Ring.jacobson R` annihilates every simple module, so simple `R`-modules are
+simple modules over the semisimple quotient `A = R ⧸ rad`. Over the semisimple (hence Noetherian)
+ring `A`, each simple module embeds into `A` as a submodule lying in one of the finitely many
+isotypic components of `A` (`isotypicComponents A A`). Sending a simple module to the isotypic
+component of its descent is therefore an injection into a finite type. -/
 theorem finite_simpleModuleClasses (k : Type u) {R : Type*} [Field k] [Ring R] [Algebra k R]
     [Module.Finite k R] : Finite (SimpleModuleClasses.{u} R) := by
-  sorry
+  classical
+  haveI : IsArtinianRing R := isArtinian_of_tower k inferInstance
+  haveI : IsSemiprimaryRing R := inferInstance
+  set A := R ⧸ Ring.jacobson R with hA
+  haveI : IsSemisimpleRing A := inferInstance
+  haveI : Finite (isotypicComponents A A) := inferInstance
+  -- Object-level assignment: a simple `R`-module ↦ the isotypic component of its `A`-descent.
+  have hsimp : ∀ P : (simpleProp (ModuleCat.{u} R)).FullSubcategory,
+      IsSimpleModule R (P.obj : ModuleCat.{u} R) := fun P => by
+    haveI : Simple P.obj := P.property
+    exact isSimpleModule_of_simple _
+  let f : (simpleProp (ModuleCat.{u} R)).FullSubcategory → isotypicComponents A A := fun P => by
+    haveI := hsimp P
+    letI := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+    haveI := isSimpleModule_jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+    refine ⟨isotypicComponent A A (P.obj : ModuleCat.{u} R), ?_⟩
+    obtain ⟨I, ⟨e⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
+      A (P.obj : ModuleCat.{u} R)
+    exact ⟨I, IsSimpleModule.congr e.symm, e.isotypicComponent_eq⟩
+  -- Isomorphic simple modules give equal components (well-definedness on iso classes).
+  have hresp : ∀ P Q : (simpleProp (ModuleCat.{u} R)).FullSubcategory, P ≈ Q → f P = f Q := by
+    rintro P Q ⟨iso⟩
+    haveI := hsimp P; haveI := hsimp Q
+    letI := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+    letI := jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
+    apply Subtype.ext
+    have eR : (P.obj : ModuleCat.{u} R) ≃ₗ[R] (Q.obj : ModuleCat.{u} R) :=
+      ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
+    exact (promoteEquiv (R := R) (M := (P.obj : ModuleCat.{u} R))
+      (N := (Q.obj : ModuleCat.{u} R)) eR).isotypicComponent_eq
+  -- The assignment is injective on isomorphism classes, so the class type is finite.
+  refine Finite.of_injective (Quotient.lift f hresp) ?_
+  intro a b
+  refine Quotient.inductionOn₂ a b (fun P Q hab => ?_)
+  simp only [Quotient.lift_mk] at hab
+  haveI := hsimp P; haveI := hsimp Q
+  letI := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+  letI := jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
+  haveI := isSimpleModule_jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+  haveI := isSimpleModule_jacobsonModule (R := R) (M := (Q.obj : ModuleCat.{u} R))
+  have hcomp : isotypicComponent A A (P.obj : ModuleCat.{u} R)
+      = isotypicComponent A A (Q.obj : ModuleCat.{u} R) := congrArg Subtype.val hab
+  obtain ⟨I, ⟨eP⟩⟩ := IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule
+    A (P.obj : ModuleCat.{u} R)
+  haveI : IsSimpleModule A (I : Submodule A A) := IsSimpleModule.congr eP.symm
+  have key : isotypicComponent A A (I : Submodule A A)
+      = isotypicComponent A A (Q.obj : ModuleCat.{u} R) :=
+    eP.isotypicComponent_eq.symm.trans hcomp
+  have hIle : (I : Submodule A A) ≤ isotypicComponent A A (Q.obj : ModuleCat.{u} R) :=
+    (Submodule.le_isotypicComponent I).trans key.le
+  obtain ⟨eQ⟩ := isIsotypicOfType_submodule_iff.mp
+    (IsIsotypicOfType.isotypicComponent A A (Q.obj : ModuleCat.{u} R)) I hIle
+  have eR : (P.obj : ModuleCat.{u} R) ≃ₗ[R] (Q.obj : ModuleCat.{u} R) :=
+    demoteEquiv (R := R) (M := (P.obj : ModuleCat.{u} R))
+      (N := (Q.obj : ModuleCat.{u} R)) (eP.trans eQ)
+  exact Quotient.sound
+    ⟨(simpleProp (ModuleCat.{u} R)).fullyFaithfulι.preimageIso eR.toModuleIso⟩
 
 instance IrrepClasses.instFinite {k G : Type*} [Field k] [Group G] [Finite G] :
     Finite (IrrepClasses k G) := by
