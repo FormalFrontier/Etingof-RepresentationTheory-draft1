@@ -134,6 +134,67 @@ private theorem iSupIndep_prod_of_blocks {α : Type*} [CompleteLattice α] [IsMo
     _ = s k i ⊓ X := by rw [hYBk, sup_bot_eq]
     _ = ⊥ := disjoint_iff.mp hX
 
+/-- **Two-block independence.** In a modular lattice, if two internally independent families
+`s : κ → α` and `t : ι → α` have disjoint total suprema, then the family `Sum.elim s t` indexed by
+`κ ⊕ ι` is independent. This is the lattice fact behind combining a decomposition of a direct
+summand `R` with a decomposition of its complement `Y` into a single decomposition of `R ⊔ Y`. -/
+private theorem iSupIndep_sum_of_blocks {α : Type*} [CompleteLattice α] [IsModularLattice α]
+    {κ ι : Type*} (s : κ → α) (t : ι → α)
+    (hdisj : Disjoint (⨆ a, s a) (⨆ b, t b))
+    (hs : iSupIndep s) (ht : iSupIndep t) :
+    iSupIndep (Sum.elim s t) := by
+  set S : α := ⨆ a, s a with hS
+  set T : α := ⨆ b, t b with hT
+  rintro (a | b)
+  · -- `Disjoint (s a) (⨆ x ≠ inl a, Sum.elim s t x)`.
+    set X : α := ⨆ (a') (_ : a' ≠ a), s a' with hX_def
+    have hsS : s a ≤ S := le_iSup s a
+    have hXS : X ≤ S := iSup₂_le fun a' _ => le_iSup s a'
+    have hX : Disjoint (s a) X := hs a
+    have hcov : (⨆ (x : κ ⊕ ι) (_ : x ≠ Sum.inl a), Sum.elim s t x) ≤ X ⊔ T := by
+      refine iSup₂_le fun x hx => ?_
+      rcases x with a' | b'
+      · have : a' ≠ a := fun h => hx (by rw [h])
+        calc Sum.elim s t (Sum.inl a') = s a' := rfl
+          _ ≤ X := le_iSup₂ (f := fun a' (_ : a' ≠ a) => s a') a' this
+          _ ≤ X ⊔ T := le_sup_left
+      · calc Sum.elim s t (Sum.inr b') = t b' := rfl
+          _ ≤ T := le_iSup t b'
+          _ ≤ X ⊔ T := le_sup_right
+    refine Disjoint.mono_right hcov ?_
+    rw [disjoint_iff]
+    have hTS : T ⊓ S = ⊥ := by rw [inf_comm]; exact disjoint_iff.mp hdisj
+    calc s a ⊓ (X ⊔ T)
+        = s a ⊓ (S ⊓ (X ⊔ T)) := by rw [← inf_assoc, inf_eq_left.mpr hsS]
+      _ = s a ⊓ ((X ⊔ T) ⊓ S) := by rw [inf_comm S]
+      _ = s a ⊓ (X ⊔ T ⊓ S) := by rw [sup_inf_assoc_of_le _ hXS]
+      _ = s a ⊓ X := by rw [hTS, sup_bot_eq]
+      _ = ⊥ := disjoint_iff.mp hX
+  · -- `Disjoint (t b) (⨆ x ≠ inr b, Sum.elim s t x)`.
+    set X : α := ⨆ (b') (_ : b' ≠ b), t b' with hX_def
+    have htT : t b ≤ T := le_iSup t b
+    have hXT : X ≤ T := iSup₂_le fun b' _ => le_iSup t b'
+    have hX : Disjoint (t b) X := ht b
+    have hcov : (⨆ (x : κ ⊕ ι) (_ : x ≠ Sum.inr b), Sum.elim s t x) ≤ X ⊔ S := by
+      refine iSup₂_le fun x hx => ?_
+      rcases x with a' | b'
+      · calc Sum.elim s t (Sum.inl a') = s a' := rfl
+          _ ≤ S := le_iSup s a'
+          _ ≤ X ⊔ S := le_sup_right
+      · have : b' ≠ b := fun h => hx (by rw [h])
+        calc Sum.elim s t (Sum.inr b') = t b' := rfl
+          _ ≤ X := le_iSup₂ (f := fun b' (_ : b' ≠ b) => t b') b' this
+          _ ≤ X ⊔ S := le_sup_left
+    refine Disjoint.mono_right hcov ?_
+    rw [disjoint_iff]
+    have hST : S ⊓ T = ⊥ := disjoint_iff.mp hdisj
+    calc t b ⊓ (X ⊔ S)
+        = t b ⊓ (T ⊓ (X ⊔ S)) := by rw [← inf_assoc, inf_eq_left.mpr htT]
+      _ = t b ⊓ ((X ⊔ S) ⊓ T) := by rw [inf_comm T]
+      _ = t b ⊓ (X ⊔ S ⊓ T) := by rw [sup_inf_assoc_of_le _ hXT]
+      _ = t b ⊓ X := by rw [hST, sup_bot_eq]
+      _ = ⊥ := disjoint_iff.mp hX
+
 open LinearMap in
 /-- The `n`-fold power `Fin n → M` of a module carrying an internal indecomposable decomposition
 `D : Fin p → Submodule A M` itself carries an internal indecomposable decomposition, indexed by
