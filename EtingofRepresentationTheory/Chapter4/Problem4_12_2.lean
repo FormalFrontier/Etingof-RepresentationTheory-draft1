@@ -529,7 +529,102 @@ theorem R1_decomposes [Fact p.Prime]
       (∀ i, ∀ (g : Heisenberg p), ∀ v ∈ S i, ρ g v ∈ S i) ∧
       (∀ i, Module.finrank ℂ (S i) = 1) ∧
       DirectSum.IsInternal S := by
-  sorry
+  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  -- A primitive `p`-th root of unity `ζ`.
+  obtain ⟨ζ, hζ⟩ : ∃ ζ : ℂ, IsPrimitiveRoot ζ p :=
+    ⟨_, Complex.isPrimitiveRoot_exp p (NeZero.ne p)⟩
+  have hζp : ζ ^ p = 1 := hζ.pow_eq_one
+  -- The `p` characters `χ_j(t) = ζ^{(j·t)}` of the additive group `ZMod p`; these are the
+  -- eigenvectors of the shift operator `ρ(xGen)`.
+  set chi : ZMod p → (ZMod p → ℂ) := fun j t => ζ ^ (j * t).val with hchi
+  -- Each character is nonzero (its value at `0` is `1`).
+  have chi_ne_zero : ∀ j : ZMod p, chi j ≠ 0 := by
+    intro j hcon
+    have h0 : chi j 0 = 0 := by rw [hcon]; rfl
+    have h1 : (1 : ℂ) = 0 := by
+      calc (1 : ℂ) = ζ ^ (j * 0).val := by rw [mul_zero, ZMod.val_zero, pow_zero]
+        _ = chi j 0 := rfl
+        _ = 0 := h0
+    exact one_ne_zero h1
+  -- `ρ(xGen)` scales `χ_j` by `ζ^{-j}`: `χ_j` is an eigenvector.
+  have hxeig : ∀ j : ZMod p, ρ (xGen p) (chi j) = (ζ ^ ((-j).val)) • chi j := by
+    intro j
+    funext t
+    rw [hx, Pi.smul_apply, smul_eq_mul]
+    show ζ ^ (j * (t - 1)).val = ζ ^ ((-j).val) * ζ ^ (j * t).val
+    have he : j * (t - 1) = (-j) + j * t := by ring
+    rw [he, zpow_val_add hζp]
+  -- `ρ(yGen)` fixes `χ_j` (since `z = 1`).
+  have hyeig : ∀ j : ZMod p, ρ (yGen p) (chi j) = chi j := by
+    intro j; funext t; rw [hy]
+  -- The line `span {χ_j}` is invariant under all of `G`.
+  have hinv : ∀ j : ZMod p, ∀ (g : Heisenberg p), ∀ v ∈ Submodule.span ℂ {chi j},
+      ρ g v ∈ Submodule.span ℂ {chi j} := by
+    intro j
+    have hline : ∀ (op : (ZMod p → ℂ) →ₗ[ℂ] (ZMod p → ℂ)),
+        op (chi j) ∈ Submodule.span ℂ {chi j} →
+        ∀ v ∈ Submodule.span ℂ {chi j}, op v ∈ Submodule.span ℂ {chi j} := by
+      intro op hop v hv
+      have hle : Submodule.span ℂ {chi j} ≤ (Submodule.span ℂ {chi j}).comap op := by
+        rw [Submodule.span_le]
+        intro x hx'
+        rw [Set.mem_singleton_iff] at hx'; subst hx'
+        simpa using hop
+      exact hle hv
+    have hX : ρ (xGen p) (chi j) ∈ Submodule.span ℂ {chi j} := by
+      rw [hxeig]
+      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+    have hY : ρ (yGen p) (chi j) ∈ Submodule.span ℂ {chi j} := by
+      rw [hyeig]; exact Submodule.mem_span_singleton_self _
+    let Sm : Submonoid (Heisenberg p) :=
+      { carrier := {g | ∀ v ∈ Submodule.span ℂ {chi j}, ρ g v ∈ Submodule.span ℂ {chi j}}
+        one_mem' := by intro v hv; rw [map_one]; simpa using hv
+        mul_mem' := by intro a b ha hb v hv; rw [map_mul]; exact ha _ (hb v hv) }
+    have hSle : Submonoid.closure ({xGen p, yGen p} : Set (Heisenberg p)) ≤ Sm :=
+      Submonoid.closure_le.mpr (by
+        intro g hg
+        simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
+        rcases hg with rfl | rfl
+        · exact hline _ hX
+        · exact hline _ hY)
+    intro g v hv
+    exact hSle (by rw [Heisenberg.closure_gens_eq_top]; exact Submonoid.mem_top g) v hv
+  -- Index the characters by `Fin p`; the eigenvalues are distinct because `ζ` is primitive.
+  set v : Fin p → (ZMod p → ℂ) := fun i => chi ((i : ℕ) : ZMod p) with hv_def
+  set μ : Fin p → ℂ := fun i => ζ ^ ((-((i : ℕ) : ZMod p)).val) with hμ_def
+  have horder : orderOf ζ = p := hζ.eq_orderOf.symm
+  have hpow_inj : ∀ s t : ZMod p, ζ ^ s.val = ζ ^ t.val → s = t := by
+    intro s t hst
+    apply ZMod.val_injective p
+    have hs : s.val < orderOf ζ := by rw [horder]; exact ZMod.val_lt s
+    have ht : t.val < orderOf ζ := by rw [horder]; exact ZMod.val_lt t
+    exact pow_injOn_Iio_orderOf (Set.mem_Iio.mpr hs) (Set.mem_Iio.mpr ht) hst
+  have hμinj : Function.Injective μ := by
+    intro i i' h
+    have h2 : -(((i : ℕ) : ZMod p)) = -(((i' : ℕ) : ZMod p)) := hpow_inj _ _ h
+    have h3 : (((i : ℕ) : ZMod p)) = (((i' : ℕ) : ZMod p)) := neg_injective h2
+    apply Fin.ext
+    have e1 : (((i : ℕ) : ZMod p)).val = (i : ℕ) := by
+      rw [ZMod.val_natCast]; exact Nat.mod_eq_of_lt i.isLt
+    have e2 : (((i' : ℕ) : ZMod p)).val = (i' : ℕ) := by
+      rw [ZMod.val_natCast]; exact Nat.mod_eq_of_lt i'.isLt
+    rw [← e1, ← e2, h3]
+  have hli : LinearIndependent ℂ v := by
+    apply Module.End.eigenvectors_linearIndependent' (ρ (xGen p)) μ hμinj v
+    intro i
+    rw [Module.End.hasEigenvector_iff]
+    exact ⟨Module.End.mem_eigenspace_iff.mpr (hxeig _), chi_ne_zero _⟩
+  refine ⟨fun i => Submodule.span ℂ {v i}, ?_, ?_, ?_⟩
+  · intro i g w hw
+    exact hinv ((i : ℕ) : ZMod p) g w hw
+  · intro i
+    exact finrank_span_singleton (chi_ne_zero _)
+  · apply DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top
+    · exact hli.iSupIndep_span_singleton
+    · have hcard : Fintype.card (Fin p) = Module.finrank ℂ (ZMod p → ℂ) := by
+        rw [Fintype.card_fin, Module.finrank_fintype_fun_eq_card, ZMod.card]
+      have hspan_top := hli.span_eq_top_of_card_eq_finrank hcard
+      rw [← hspan_top, ← Set.iUnion_singleton_eq_range, Submodule.span_iUnion]
 
 /-- **Part (d).** Every irreducible complex representation of the Heisenberg group has
 dimension `1` or `p`. (Combined with (c) and the sum-of-squares formula
