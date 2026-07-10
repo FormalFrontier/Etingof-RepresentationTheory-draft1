@@ -1499,8 +1499,8 @@
     "end_page": "37",
     "start_line": 18,
     "end_line": 20,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved sorry-free 2026-07-10 (#6217): liftLie + dualTensorHomEquiv-based Lie-module iso + postcomposition; Chapter2/Problem2_14_3.lean."
   },
   {
     "id": "Chapter2/Discussion_2.15_heading",
