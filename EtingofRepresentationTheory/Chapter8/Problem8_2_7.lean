@@ -41,7 +41,14 @@ The right-module argument of `Etingof.Tor` lives in `ModuleCat Aᵐᵒᵖ`; sinc
 commutative we equip each cyclic module with its `Aᵐᵒᵖ`-action pulled back along the opposite
 ring hom (`local instance`s below).
 
-These are statement-level formalizations (spec-first): the proofs are deferred (`sorry`).
+The reusable number theory is packaged in the `ZModGcd` namespace below: the kernel and
+cokernel of multiplication by `a` on `ZMod b` are both `ZMod (gcd a b)`, giving the tensor and
+Hom bridges `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`.
+
+Status: for part (i) the degree-`0` identifications (`Tor₀`, `Ext⁰`) and all higher-degree
+vanishing are proved; the degree-`1` identifications (`Tor₁`, `Ext¹`) are still `sorry` (they
+require extracting the kernel/cokernel of `·a` from the derived six-term sequence). Part (ii)
+(`k[x]`) is stated but its degree-`0`/`1` proofs are deferred (`sorry`).
 -/
 
 namespace Etingof
