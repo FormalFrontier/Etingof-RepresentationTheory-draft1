@@ -313,6 +313,94 @@ theorem Etingof.reversedArrow_ne_ne_twice'
     rw [Etingof.reversedArrow_ne_ne_is_cast]; exact cast_heq _ _
   exact (h1 _).trans (h2.trans h3)
 
+/-- `revOut hi a` (the reversed arrow `a.fst ⟶ i` in `Q̄ᵢ`) equals `reversedArrow_eq_ne`
+applied to the source arrow `a.snd`, transported into the double-reversed quiver. This is the
+form produced by `reflFunctorPlus_mapLinear_eq_ne` when reducing `g`'s naturality at `i`. -/
+theorem Etingof.revOut_eq_reversedArrow_eq_ne
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (a : Etingof.ArrowsOutOf Q i) :
+    Etingof.revOut hi a =
+      @Etingof.reversedArrow_eq_ne Q inst_dec (Etingof.reversedAtVertex Q i) i a.fst
+        (Etingof.arrowsOutOf_target_ne_source hi a)
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸ a.snd) := by
+  apply eq_of_heq
+  have hL : HEq (Etingof.revOut hi a) a.snd := by
+    unfold Etingof.revOut; exact cast_heq _ _
+  have hR : HEq
+      (@Etingof.reversedArrow_eq_ne Q inst_dec (Etingof.reversedAtVertex Q i) i a.fst
+        (Etingof.arrowsOutOf_target_ne_source hi a)
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸ a.snd)) a.snd := by
+    rw [@Etingof.reversedArrow_eq_ne_is_cast Q inst_dec (Etingof.reversedAtVertex Q i) i a.fst
+      (Etingof.arrowsOutOf_target_ne_source hi a)]
+    refine HEq.trans (cast_heq _ _) ?_
+    exact eqRec_heq_self (motive := fun q _ => q.Hom i a.fst) a.snd
+      (Etingof.reversedAtVertex_twice Q i).symm
+  exact hL.trans hR.symm
+
+/-- For a source `i`, an arrow *into* `i` in the reversed quiver `Q̄ᵢ` has source `≠ i`
+(a loop at `i` would be an arrow into the source `i` of `Q`). -/
+theorem Etingof.arrowsIntoReversed_source_ne
+    {Q : Type*} [DecidableEq Q] [Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) : b.fst ≠ i := by
+  obtain ⟨j, e⟩ := b
+  intro hj
+  have e' : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i i := hj ▸ e
+  exact (hi i).false (cast (Etingof.ReversedAtVertexHom_eq_eq (i := i) rfl rfl) e')
+
+/-- Reindexing arrows out of a source `i` in `Q` as arrows into `i` in the reversed quiver
+`Q̄ᵢ`: the arrow `i → a.fst` of `Q` becomes its reversal `a.fst → i` in `Q̄ᵢ`. -/
+noncomputable def Etingof.sourceArrowReindexEquiv
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) :
+    Etingof.ArrowsOutOf Q i ≃ @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i where
+  toFun a := ⟨a.fst, Etingof.revOut hi a⟩
+  invFun b := ⟨b.fst, Etingof.reversedArrow_ne_eq (Etingof.arrowsIntoReversed_source_ne hi b) b.snd⟩
+  left_inv a := by
+    refine Sigma.ext rfl ?_
+    have h1 : HEq (Etingof.reversedArrow_ne_eq
+        (Etingof.arrowsIntoReversed_source_ne hi ⟨a.fst, Etingof.revOut hi a⟩)
+        (Etingof.revOut hi a)) (Etingof.revOut hi a) := by
+      rw [Etingof.reversedArrow_ne_eq_eq_cast]; exact cast_heq _ _
+    have h2 : HEq (Etingof.revOut hi a) a.snd := by
+      unfold Etingof.revOut; exact cast_heq _ _
+    exact h1.trans h2
+  right_inv b := by
+    refine Sigma.ext rfl ?_
+    have h1 : HEq (Etingof.revOut hi
+        ⟨b.fst, Etingof.reversedArrow_ne_eq (Etingof.arrowsIntoReversed_source_ne hi b) b.snd⟩)
+        (Etingof.reversedArrow_ne_eq (Etingof.arrowsIntoReversed_source_ne hi b) b.snd) := by
+      unfold Etingof.revOut; exact cast_heq _ _
+    have h2 : HEq (Etingof.reversedArrow_ne_eq
+        (Etingof.arrowsIntoReversed_source_ne hi b) b.snd) b.snd := by
+      rw [Etingof.reversedArrow_ne_eq_eq_cast]; exact cast_heq _ _
+    exact h1.trans h2
+
+/-- `sinkMap` applied to a direct-sum element is the sum over incoming arrows of the arrow map
+applied to that component. (Extracted from the sink-map unfolding used in
+`Φ_comp_source_eq_zero`.) -/
+theorem Etingof.sinkMap_apply_eq_sum
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    (ρ : Etingof.QuiverRepresentation k Q) (i : Q) [Fintype (Etingof.ArrowsInto Q i)]
+    (y : DirectSum (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1)) :
+    ρ.sinkMap i y =
+      ∑ b : Etingof.ArrowsInto Q i, ρ.mapLinear b.2
+        (DirectSum.component k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) b y) := by
+  classical
+  delta Etingof.QuiverRepresentation.sinkMap
+  change (DirectSum.toModule k (Etingof.ArrowsInto Q i) (ρ.obj i)
+    (fun a => ρ.mapLinear a.2)) y = _
+  induction y using DirectSum.induction_on with
+  | zero => simp only [map_zero, Finset.sum_const_zero]
+  | of j x =>
+    erw [DirectSum.toModule_lof]
+    rw [Finset.sum_eq_single j]
+    · erw [DirectSum.component.lof_self]
+    · intro b _ hb
+      erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+    · intro h; exact absurd (Finset.mem_univ j) h
+  | add x y hx hy =>
+    simp only [map_add, hx, hy, Finset.sum_add_distrib]
+
 /-- The kernel side of the adjunction bijection:
 `Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`. At `v ≠ i` a morphism gives
 `h v` through `transportReversedTwice_obj` and `reflFunctorPlus_equivAt_ne`; at `i` its value
