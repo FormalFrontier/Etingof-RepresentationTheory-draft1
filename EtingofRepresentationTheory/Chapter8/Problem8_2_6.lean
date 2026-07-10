@@ -1,4 +1,5 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
+import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
@@ -165,8 +166,8 @@ derived functor of `- ⊗_A N` recovers `- ⊗_A N` itself. -/
 theorem Problem_8_2_6_i_tor
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
     (M : ModuleCat.{u} Aᵐᵒᵖ) :
-    Nonempty (Etingof.Tor A N M 0 ≅ AddCommGrpCat.of (Etingof.tensorOver A N M)) := by
-  sorry
+    Nonempty (Etingof.Tor A N M 0 ≅ AddCommGrpCat.of (Etingof.tensorOver A N M)) :=
+  ⟨((tensorRightFunctor A N).leftDerivedZeroIsoSelf).app M⟩
 
 /-- **Problem 8.2.6(i), `Ext⁰`.** `Ext⁰_A(M, N)` is canonically isomorphic (as an abelian group)
 to `Hom_A(M, N)`. -/
