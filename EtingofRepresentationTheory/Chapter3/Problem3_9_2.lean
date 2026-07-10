@@ -286,11 +286,90 @@ theorem ext1_self {n : ℕ} (a : Fin n → ℂ) :
       (((MvPolynomial.mkDerivationEquiv ℂ).symm).trans
         (LinearEquiv.piCongrRight (fun _ => VrepEquivC a))))
 
+/-- **Rigidity for twisted derivations.** An `(α, β)`-twisted derivation `h`, i.e. a linear map
+with `h(pq) = β(p) • h(q) + α(q) • h(p)`, that vanishes on all generators `Xᵢ` is identically
+zero. Proof by the three-case `MvPolynomial` induction. -/
+private lemma twisted_deriv_eq_zero {n : ℕ} {M : Type*} [AddCommGroup M] [Module ℂ M]
+    (α β : polyAlg n →ₐ[ℂ] ℂ) (h : polyAlg n →ₗ[ℂ] M)
+    (hL : ∀ p q, h (p * q) = β p • h q + α q • h p) (hgen : ∀ i, h (X i) = 0) : h = 0 := by
+  have h1 : h 1 = 0 := by
+    have hone := hL 1 1
+    simp only [mul_one, map_one, one_smul] at hone
+    have h2 : h 1 + h 1 = h 1 + 0 := by rw [add_zero]; exact hone.symm
+    exact add_left_cancel h2
+  refine LinearMap.ext fun p => ?_
+  rw [LinearMap.zero_apply]
+  induction p using MvPolynomial.induction_on with
+  | C c =>
+    rw [show (C c : polyAlg n) = c • 1 by rw [smul_eq_C_mul, mul_one], map_smul, h1, smul_zero]
+  | add p q hp hq => rw [map_add, hp, hq, add_zero]
+  | mul_X p i hp => rw [hL, hgen, hp, smul_zero, smul_zero, add_zero]
+
 /-- **Problem 3.9.2(a), distinct weights.** `Ext¹(Vₐ, V_b) = 0` when `a ≠ b`: any extension
 splits because some `xⱼ` has distinct eigenvalues `aⱼ ≠ bⱼ`. -/
 theorem ext1_subsingleton_of_ne {n : ℕ} (a b : Fin n → ℂ) (hab : a ≠ b) :
     Subsingleton (Ext1 ℂ (polyAlg n) (Vrep b) (Vrep a)) := by
-  sorry
+  -- It suffices that every cocycle is a coboundary, i.e. `coboundaries.submoduleOf cocycles = ⊤`.
+  rw [Ext1, Submodule.Quotient.subsingleton_iff, Submodule.eq_top_iff']
+  intro f
+  rw [Submodule.submoduleOf, Submodule.mem_comap, mem_coboundaries_iff]
+  -- The map `p ↦ f p [1]`, a `(aeval a, aeval b)`-twisted derivation into `V_b`.
+  set h : polyAlg n →ₗ[ℂ] Vrep b := f.val.flip (Submodule.Quotient.mk 1) with hh
+  have h_apply : ∀ p, h p = f.val p (Submodule.Quotient.mk 1) := fun p => rfl
+  have hL : ∀ p q, h (p * q) = aeval b p • h q + aeval a q • h p := by
+    intro p q
+    have hc := LinearMap.congr_fun (f.property p q) (Submodule.Quotient.mk 1 : Vrep a)
+    simp only [LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe] at hc
+    rw [h_apply, h_apply, h_apply, hc, Vrep_smul_eq b p (f.val q (Submodule.Quotient.mk 1)),
+      Vrep_smul_eq a q (Submodule.Quotient.mk 1), map_smul (f.val p)]
+  -- Commutativity of `A` forces the generator-values to be proportional to `b - a`.
+  have hcomm : ∀ i j, (b i - a i) • h (X j) = (b j - a j) • h (X i) := by
+    intro i j
+    have e1 := hL (X i) (X j)
+    have e2 := hL (X j) (X i)
+    rw [aeval_X, aeval_X] at e1 e2
+    have heq : b i • h (X j) + a j • h (X i) = b j • h (X i) + a i • h (X j) := by
+      rw [← e1, ← e2, mul_comm]
+    rw [sub_smul, sub_smul, sub_eq_sub_iff_add_eq_add]; exact heq
+  -- Pick an index where the weights differ and set the proportionality constant `ξ`.
+  obtain ⟨jj, hjj⟩ : ∃ j, a j ≠ b j := by
+    by_contra hcon; push_neg at hcon; exact hab (funext hcon)
+  have hbaj : (b jj - a jj) ≠ 0 := sub_ne_zero.mpr (Ne.symm hjj)
+  set ξ : Vrep b := (b jj - a jj)⁻¹ • h (X jj) with hξ
+  -- The candidate coboundary datum `cb p = (b(p) - a(p)) • ξ`.
+  set cbMap : polyAlg n →ₗ[ℂ] Vrep b :=
+    (LinearMap.toSpanSingleton ℂ (Vrep b) ξ).comp ((aeval b).toLinearMap - (aeval a).toLinearMap)
+    with hcbMap
+  have cb_apply : ∀ p, cbMap p = (aeval b p - aeval a p) • ξ := by
+    intro p; rw [hcbMap]; simp [LinearMap.toSpanSingleton_apply]
+  -- `h - cb` is twisted and vanishes on generators, hence zero: `h = cb`.
+  have he : h - cbMap = 0 := by
+    refine twisted_deriv_eq_zero (aeval a) (aeval b) (h - cbMap) ?_ ?_
+    · intro p q
+      simp only [LinearMap.sub_apply]
+      rw [hL p q, cb_apply, cb_apply, cb_apply, map_mul, map_mul]
+      module
+    · intro i
+      simp only [LinearMap.sub_apply]
+      rw [cb_apply, aeval_X, aeval_X, hξ, smul_smul, mul_comm, ← smul_smul, hcomm i jj, smul_smul,
+        inv_mul_cancel₀ hbaj, one_smul, sub_self]
+  have key : ∀ p, (aeval b p - aeval a p) • ξ = f.val p (Submodule.Quotient.mk 1) := by
+    intro p
+    have hz := LinearMap.congr_fun he p
+    simp only [LinearMap.sub_apply, LinearMap.zero_apply] at hz
+    rw [h_apply, cb_apply, sub_eq_zero] at hz
+    exact hz.symm
+  -- Assemble the coboundary map `X : W → V`, `w ↦ coord(w) • ξ`.
+  set X : Vrep a →ₗ[ℂ] Vrep b :=
+    (LinearMap.toSpanSingleton ℂ (Vrep b) ξ).comp (VrepEquivC a).toLinearMap with hX
+  have X_apply : ∀ w, X w = VrepEquivC a w • ξ := by
+    intro w; rw [hX]; simp [LinearMap.toSpanSingleton_apply]
+  refine ⟨X, ?_⟩
+  refine LinearMap.ext fun p => LinearMap.ext fun w => ?_
+  conv_rhs => rw [← VrepEquivC_smul_mk_one a w, map_smul]
+  rw [coboundaryOf_apply, Vrep_smul_eq b p (X w), Vrep_smul_eq a p w, map_smul X, ← sub_smul,
+    X_apply, smul_comm, key p]
+  rfl
 
 /-- **Problem 3.9.2(a), classification of 2-dimensional representations.** Every
 2-dimensional representation `U` of `ℂ[x₁, …, xₙ]` is an extension of two 1-dimensional
