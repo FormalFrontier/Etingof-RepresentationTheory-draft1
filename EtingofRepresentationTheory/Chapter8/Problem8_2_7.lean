@@ -1,5 +1,8 @@
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.CategoryTheory.Abelian.Projective.Dimension
 import Mathlib.Algebra.Module.Opposite
 import Mathlib.RingTheory.Polynomial.Basic
 import Mathlib.Data.ZMod.Basic
@@ -65,6 +68,27 @@ private instance opRegularProjective (A : Type*) [Ring A] : Module.Projective A�
   have : Module.Free Aᵐᵒᵖ A := Module.Free.of_equiv (opRegularEquiv A).symm
   Module.Projective.of_free
 
+/-! ### Projective dimension `< 2` from a length-`1` resolution
+
+The cyclic-module higher-vanishing content is: a cyclic module over a PID has projective
+dimension `≤ 1`, so `Extⁱ` vanishes for `i ≥ 2`. Categorically, a module `Q` fitting in a short
+exact sequence `0 → P₁ → P₀ → Q → 0` with `P₀`, `P₁` projective has
+`HasProjectiveDimensionLT Q 2`, and then `HasProjectiveDimensionLT.subsingleton` kills the higher
+`Ext`. -/
+
+open Limits in
+/-- If `Q = S.X₃` fits in a short exact sequence `0 → S.X₁ → S.X₂ → Q → 0` with `S.X₁`, `S.X₂`
+projective, then `Q` has projective dimension `< 2`. (Categorical form of "a length-`1` projective
+resolution bounds the projective dimension by `1`".) -/
+private lemma hasProjectiveDimensionLT_two_of_shortExact
+    {R : Type u} [Ring R] [Small.{u} R] {S : ShortComplex (ModuleCat.{u} R)}
+    (hS : S.ShortExact) (h₁ : Projective S.X₁) (h₂ : Projective S.X₂) :
+    HasProjectiveDimensionLT S.X₃ 2 := by
+  haveI : HasProjectiveDimensionLT S.X₁ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₁
+  haveI : HasProjectiveDimensionLT S.X₂ 1 := projective_iff_hasProjectiveDimensionLT_one.mp h₂
+  haveI : HasProjectiveDimensionLT S.X₂ 2 := hasProjectiveDimensionLT_of_ge S.X₂ 1 2 (by omega)
+  exact hS.hasProjectiveDimensionLT_X₃ 1 ‹_› ‹_›
+
 /-! ### Part (i): `A = ℤ` -/
 
 /-- Right `ℤ`-action on `ZMod a` (pulled back from the left action along `ℤᵐᵒᵖ ≃+* ℤ`; the two
@@ -113,10 +137,51 @@ theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
       ≃+ ZMod (Nat.gcd a b)) := by
   sorry
 
-/-- **Problem 8.2.7(i), higher `Ext` vanishes.** `Extⁱ(ℤ/a, ℤ/b) = 0` for `i ≥ 2`. -/
+/-- `ℤ/a` has projective dimension `< 2` as a `ℤ`-module. For `a ≠ 0` the length-`1` free
+resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` exhibits this; for `a = 0`, `ℤ/0 = ℤ` is projective. -/
+private lemma zmod_hasProjectiveDimensionLT_two (a : ℕ) :
+    HasProjectiveDimensionLT (ModuleCat.of ℤ (ZMod a)) 2 := by
+  rcases eq_or_ne a 0 with rfl | ha
+  · -- `ZMod 0 = ℤ` definitionally, so `ℤ/0` is the projective free module `ℤ`
+    haveI : HasProjectiveDimensionLT (ModuleCat.of ℤ ℤ) 1 :=
+      projective_iff_hasProjectiveDimensionLT_one.mp inferInstance
+    exact hasProjectiveDimensionLT_of_ge (ModuleCat.of ℤ ℤ) 1 2 (by omega)
+  · -- the length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0`
+    have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
+    let f : ℤ →ₗ[ℤ] ℤ := (a : ℤ) • LinearMap.id
+    let g : ℤ →ₗ[ℤ] ZMod a := Algebra.linearMap ℤ (ZMod a)
+    have hf : ∀ x : ℤ, f x = (a : ℤ) * x := fun x => by simp [f]
+    have hg : ∀ x : ℤ, g x = ((x : ℤ) : ZMod a) := fun x => by
+      simp [g, Algebra.linearMap_apply, algebraMap_int_eq, eq_intCast]
+    have hgf : ∀ x : ℤ, g (f x) = 0 := by
+      intro x
+      rw [hf, hg, ZMod.intCast_zmod_eq_zero_iff_dvd]
+      exact dvd_mul_right _ _
+    have eq0 : g.comp f = 0 :=
+      LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+    let S := ModuleCat.shortComplexOfCompEqZero f g eq0
+    have hexact : Function.Exact f g := by
+      rw [LinearMap.exact_iff]
+      ext y
+      simp only [LinearMap.mem_ker, hg, ZMod.intCast_zmod_eq_zero_iff_dvd, LinearMap.mem_range, hf]
+      constructor
+      · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+      · rintro ⟨c, rfl⟩; exact dvd_mul_right _ _
+    have hinj : Function.Injective f := fun x y hxy =>
+      mul_left_cancel₀ ha' (by rw [← hf, ← hf, hxy])
+    have hsurj : Function.Surjective g := by
+      intro z
+      obtain ⟨y, rfl⟩ := ZMod.intCast_surjective z
+      exact ⟨y, hg y⟩
+    have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinj hsurj
+    exact hasProjectiveDimensionLT_two_of_shortExact hS inferInstance inferInstance
+
+/-- **Problem 8.2.7(i), higher `Ext` vanishes.** `Extⁱ(ℤ/a, ℤ/b) = 0` for `i ≥ 2`, because
+`ℤ/a` has a length-`1` free resolution over the PID `ℤ`, hence projective dimension `≤ 1`. -/
 theorem Problem_8_2_7_i_ext_vanish (a b : ℕ) (n : ℕ) :
     Subsingleton (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) (n + 2)) := by
-  sorry
+  haveI := zmod_hasProjectiveDimensionLT_two a
+  exact HasProjectiveDimensionLT.subsingleton (ModuleCat.of ℤ (ZMod a)) 2 (n + 2) (by omega) _
 
 /-- **Problem 8.2.7(i), free generator.** `ℤ` is projective, so `Extⁱ⁺¹(ℤ, N) = 0` for every
 abelian group `N`. -/
