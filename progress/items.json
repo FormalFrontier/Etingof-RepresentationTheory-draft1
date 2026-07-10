@@ -3080,8 +3080,8 @@
     "end_page": "85",
     "start_line": 5,
     "end_line": 8,
-    "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean: affine ax+b group over a finite field K constructed (order q(q-1)); q-1 one-dim reps, the zero-sum representation V (dim q-1) with invariance and irreducibility, and the dimension dichotomy (1 or q-1). The book's hint is proved (#6219): card_eq (order q(q-1)), zeroSum_invariant, zeroSum_finrank (dim q-1), and zeroSum_irreducible (V irreducible, via averaging over the scaling subgroup Kˣ and spanning by spike vectors). one_dim_reps_card and irreducible_dim remain sorry (follow-up)."
+    "status": "proved",
+    "coverage_note": "COMPLETE and sorry-free in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean (#print axioms irreducible_dim = {propext, Classical.choice, Quot.sound}). Affine ax+b group over a finite field K (order q(q-1)). The book's hint (#6219): card_eq, zeroSum_invariant, zeroSum_finrank (dim q-1), zeroSum_irreducible (V irreducible via averaging over Kˣ and spike spanning). one_dim_reps_card (#6303): q-1 characters (needs 3≤q; pull back from G^ab≅Kˣ). irreducible_dim (#6306): every irreducible has dim 1 or q-1. Proof mirrors Problem4_12_2 (Heisenberg): exhibit the q explicit simples — the q-1 characters (charRep, dim 1, simple via the ℂ[G]-module bridge simple_fdRepOf_of_isSimpleModule) and V (the zero-sum subrep of the permutation rep, dim q-1, simple via zeroSum_irreducible repackaged as IsSimpleModule through the Subrepresentation↔Submodule order iso) — pairwise non-isomorphic (characters by FDRep.char_iso, V by dimension since q-1>1), squared dims summing to (q-1)+(q-1)²=q(q-1)=|G|; inject into the complete enumeration exists_simples_sum_finrank_sq_eq_card and force surjectivity by pigeonhole (every dim²>0), so every simple ≅ one of them. σ transported to ℂ's universe via exists_simpleFDRep (transportModule/repOfModule). The q=2 edge (G abelian) handled directly via Example4_3_FiniteAbelianGroups."
   },
   {
     "id": "Chapter4/Problem4.12.7",
