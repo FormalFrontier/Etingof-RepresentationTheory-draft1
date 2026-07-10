@@ -163,6 +163,16 @@ lemma isIrredSub_iff_isSimpleModule {n : ℕ} {ρ : Representation ℂ A5 (Fin n
     ← Subrepresentation.subrepresentationSubmoduleOrderIso.isAtom_iff σ]
   rfl
 
+/-- **`subChar` ↔ `FDRep` character bridge.** The ad-hoc restricted-trace `subChar ρ S hS`
+agrees with the genuine character of the subrepresentation carried by `S`, packaged as an
+`FDRep`. Per-part issues can therefore identify a summand's isomorphism type from its `subChar`
+and apply `FDRep.char_iso`. -/
+lemma subChar_eq_character {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ))
+    (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : A5) :
+    subChar ρ S hS g
+      = (FDRep.of (⟨S, hS⟩ : Subrepresentation ρ).toRepresentation).character g :=
+  rfl
+
 /-- **Generic internal decomposition.** Any `ℂ`-representation `ρ` of `A₅` on `Fin n → ℂ`
 decomposes as an internal direct sum of finitely many `G`-invariant irreducible subspaces.
 This is the structural engine consumed by the three per-part decomposition theorems. -/
