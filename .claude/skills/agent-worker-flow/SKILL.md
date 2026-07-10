@@ -319,6 +319,16 @@ git push -u origin <branch>
 coordination create-pr <issue-number>
 ```
 
+For a long session, `origin/main` may have advanced (other agents merged PRs)
+since you branched. Before `create-pr`, sync so your branch builds against and
+diffs cleanly against current main:
+```bash
+git fetch origin main
+git merge origin/main --no-edit   # resolve any conflicts, then rebuild
+git diff --stat origin/main..HEAD # sanity check: only YOUR files should appear
+```
+If unrelated files show up as deleted, your branch is stale — merge first.
+
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work
 (e.g. a "fix PR #N" issue if CI fails). Polling burns context and tokens
