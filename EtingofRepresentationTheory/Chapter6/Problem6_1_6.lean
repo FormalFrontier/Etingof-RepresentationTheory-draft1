@@ -75,12 +75,60 @@ noncomputable def mckayCartan (i j : Fin m) : ℤ :=
 
 /-! ## Part (a): symmetry of the multiplicities -/
 
+omit [Finite G] in
+/-- The character of the tautological representation is the matrix trace of the
+`SU(2)`-element. -/
+lemma charV_eq (g : G) :
+    (V G).character g =
+      Matrix.trace ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) := by
+  simp only [FDRep.character, V, FDRep.of_ρ']
+  exact Matrix.trace_toLin'_eq _
+
+omit [Finite G] in
+/-- **Reality/self-duality of `χ_V`.** For `g ∈ SU(2)` the trace is invariant
+under inversion: `χ_V(g⁻¹) = χ_V(g)`. This holds because for a `2×2` matrix `A`
+of determinant `1` one has `A⁻¹ = adj A`, and `tr (adj A) = tr A`. -/
+lemma charV_inv (g : G) : (V G).character g⁻¹ = (V G).character g := by
+  rw [charV_eq, charV_eq]
+  set A : Matrix (Fin 2) (Fin 2) ℂ :=
+    ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hA
+  set B : Matrix (Fin 2) (Fin 2) ℂ :=
+    ((g⁻¹.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hB
+  -- `B` is a left inverse of `A` (group law pushed to matrices).
+  have hBA : B * A = 1 := by
+    rw [hB, hA, ← MulMemClass.coe_mul, ← MulMemClass.coe_mul, inv_mul_cancel]
+    rfl
+  -- `det A = 1` from `SU(2)`-membership.
+  have hdet : A.det = 1 := (Matrix.mem_specialUnitaryGroup_iff.mp g.val.property).2
+  -- Hence `B = A⁻¹ = adj A`, whose trace equals `tr A`.
+  have hBinv : B = A⁻¹ := (Matrix.inv_eq_left_inv hBA).symm
+  rw [hBinv, Matrix.inv_def, hdet, Ring.inverse_one, one_smul, Matrix.adjugate_fin_two,
+    Matrix.trace_fin_two_of, Matrix.trace_fin_two]
+  ring
+
 /-- **(a)** `rᵢⱼ = rⱼᵢ`. (Because `V` is self-dual: `V ≅ V*` as `V` is the
 `2`-dimensional `SU(2)`-representation, so `dim Hom(Wᵢ, V ⊗ Wⱼ) =
 dim Hom(Wⱼ, V ⊗ Wᵢ)`.) -/
 theorem mult_symm (hW : IsCompleteIrreps W) (i j : Fin m) :
     mult W i j = mult W j i := by
-  sorry
+  classical
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  have h1 := FDRep.scalar_product_char_eq_finrank_equivariant (W i) (V G ⊗ W j)
+  have h2 := FDRep.scalar_product_char_eq_finrank_equivariant (W j) (V G ⊗ W i)
+  have hC : (mult W i j : ℂ) = (mult W j i : ℂ) := by
+    simp only [mult]
+    rw [← h1, ← h2]
+    congr 1
+    simp only [FDRep.char_tensor, Pi.mul_apply]
+    rw [← Equiv.sum_comp (Equiv.inv G)
+      (fun g => (V G).character g * (W i).character g * (W j).character g⁻¹)]
+    refine Finset.sum_congr rfl (fun g _ => ?_)
+    simp only [Equiv.inv_apply, inv_inv]
+    rw [charV_inv]
+    ring
+  exact_mod_cast hC
 
 /-! ## Part (b): the McKay graph is connected -/
 
