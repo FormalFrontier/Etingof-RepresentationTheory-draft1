@@ -3081,7 +3081,7 @@
     "start_line": 5,
     "end_line": 8,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean: affine ax+b group over a finite field K constructed (order q(q-1)); q-1 one-dim reps, the zero-sum representation V (dim q-1) with invariance and irreducibility, and the dimension dichotomy (1 or q-1). Sorry proofs, statement pass (#5944)."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_6.lean: affine ax+b group over a finite field K constructed (order q(q-1)); q-1 one-dim reps, the zero-sum representation V (dim q-1) with invariance and irreducibility, and the dimension dichotomy (1 or q-1). The book's hint is proved (#6219): card_eq (order q(q-1)), zeroSum_invariant, zeroSum_finrank (dim q-1), and zeroSum_irreducible (V irreducible, via averaging over the scaling subgroup Kˣ and spanning by spike vectors). one_dim_reps_card and irreducible_dim remain sorry (follow-up)."
   },
   {
     "id": "Chapter4/Problem4.12.7",
