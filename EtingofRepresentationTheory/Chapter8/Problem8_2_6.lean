@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
+import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
@@ -268,6 +269,6 @@ theorem Problem_8_2_6_v_tor
         ((Etingof.TorFunctor A N n₁).map S.f) ((Etingof.TorFunctor A N n₁).map S.g)
         δ
         ((Etingof.TorFunctor A N n₀).map S.f) ((Etingof.TorFunctor A N n₀).map S.g)).Exact := by
-  sorry
+  exact Etingof.Functor.leftDerived_sixTerm_exact (Etingof.tensorRightFunctor A N) hS n₀ n₁ h
 
 end Etingof
