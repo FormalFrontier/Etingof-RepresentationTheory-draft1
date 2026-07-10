@@ -50,11 +50,18 @@ noncomputable abbrev quadForm : QuadraticForm ℂ V :=
 /-- The Clifford algebra `Cl(V)` of the form, as `CliffordAlgebra Q`. -/
 abbrev CliffAlg : Type _ := CliffordAlgebra (quadForm B)
 
+omit [FiniteDimensional ℂ V] in
 /-- **Parenthetical.** If the form is zero, `Cl(V)` is the exterior algebra `⋀ V`. -/
 theorem cliffordAlgebra_zero_eq_exterior :
     Nonempty (CliffordAlgebra (quadForm (0 : LinearMap.BilinForm ℂ V)) ≃ₐ[ℂ]
       ExteriorAlgebra ℂ V) := by
-  sorry
+  -- `ExteriorAlgebra ℂ V` is *defined* as `CliffordAlgebra (0 : QuadraticForm ℂ V)`, so it
+  -- suffices to see that the quadratic form of the zero bilinear form is the zero form.
+  have hq : quadForm (0 : LinearMap.BilinForm ℂ V) = (0 : QuadraticForm ℂ V) := by
+    ext v
+    simp [quadForm]
+  rw [hq]
+  exact ⟨AlgEquiv.refl⟩
 
 /-- **Problem 3.9.5(i), semisimplicity.** If `B` is nondegenerate then `Cl(V)` is a
 semisimple ring. -/
