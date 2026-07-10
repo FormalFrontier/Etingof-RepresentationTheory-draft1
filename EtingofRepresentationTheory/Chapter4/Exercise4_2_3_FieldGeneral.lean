@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_CountingBound
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3_SplitSimples
 
 /-!
 # Field-general counting bound `#(simple k[G]-modules) ≤ #ConjClasses` (Exercise 4.2.3)
@@ -60,24 +61,80 @@ namespace Etingof
 
 universe u v
 
+section IsAlgClosedBound
+
+open CocenterMonoidAlgebra SplitSimples
+
+/-- The cocenter trace form of a standard module `Std i` reads off the matrix trace of the block
+projection: `traceForm K (Std i) x = trace (blockHom i x)`. The `K[G]`-action on `Std i` is `x • v =
+(blockHom i x) *ᵥ v` (`smul_Std_eq`), so under the identity identification `Std i = Fin (d i) → K`
+the endomorphism `moduleEnd K (Std i) x` is `Matrix.toLin' (blockHom i x)`, whose linear-algebra
+trace is the matrix trace (`Matrix.trace_toLin'_eq`). The transport across the identity linear
+equivalence `e` keeps the bespoke `Std`-instances and the `Pi`-instances from clashing. -/
+private lemma traceForm_Std_eq_trace {K : Type u} {G : Type v}
+    [Field K] [IsAlgClosed K] [Group G] [Fintype G]
+    (D : SplitData K G) (i : Fin D.n) (x : MonoidAlgebra K G) :
+    traceForm K (D.Std i) x = (D.blockHom i x).trace := by
+  -- The identity `K`-linear equivalence `Std i ≃ₗ (Fin (d i) → K)` (the types are defeq).
+  let e : D.Std i ≃ₗ[K] (Fin (D.d i) → K) :=
+    { toFun := id, invFun := id, left_inv := fun _ => rfl, right_inv := fun _ => rfl,
+      map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl }
+  have hconj : e.conj (moduleEnd K (D.Std i) x) = (D.blockHom i x).toLin' := by
+    refine LinearMap.ext fun w => ?_
+    rw [LinearEquiv.conj_apply_apply, Matrix.toLin'_apply]
+    rfl
+  rw [traceForm_apply, ← LinearMap.trace_conj' (moduleEnd K (D.Std i) x) e, hconj]
+  exact Matrix.trace_toLin'_eq (D.blockHom i x)
+
 /-- **Split-field bound (step 1 of the base-change route).** Over an algebraically closed field
 `K`, the number of isomorphism classes of irreducible representations of a finite group `G` is at
 most the number of conjugacy classes of `G`.
 
-Proof route (deferred to #6126): the semisimple quotient `K[G]/rad(K[G])` is, by
-Artin–Wedderburn over the algebraically closed `K`, a product `∏ Matrix d_i(K)` of full matrix
-algebras (`Chapter9/Theorem9_2_1.lean`, `Corollary9_7_3.lean`), so the number of iso-classes of
-simple `K[G]`-modules equals the number `n` of blocks. Each block's standard module has cocenter
-trace form sending its block idempotent `E₁₁` to `1` and the other blocks' idempotents to `0`, so
-the `n` trace forms are linearly independent functionals on the cocenter
-`C = K[G]/[K[G],K[G]]`. Feeding this into
-`CocenterMonoidAlgebra.card_le_conjClasses_of_traceForm_linearIndependent` and using
-`finrank_cocenter_eq_card_conjClasses` (`Exercise4_2_3_Cocenter.lean`) gives
+The semisimple quotient `K[G]/rad(K[G])` is, by Artin–Wedderburn over the algebraically closed `K`,
+a product `∏ Matrix d_i(K)` of full matrix algebras (bundled as `SplitData` in
+`Exercise4_2_3_SplitSimples.lean`), so the number of iso-classes of simple `K[G]`-modules equals the
+number `n` of blocks (`exists_splitSimples_count`). Each block's standard module `Std i` has cocenter
+trace form sending a lift of its block matrix unit `E₁₁` to `1` and the other blocks' units to `0`
+(`traceForm_Std_eq_trace`), so the `n` trace forms are linearly independent functionals on the
+cocenter `C = K[G]/[K[G],K[G]]`. Feeding this into
+`CocenterMonoidAlgebra.card_le_conjClasses_of_traceForm_linearIndependent` gives
 `n ≤ Nat.card (ConjClasses G)`. -/
 theorem natCard_irrepClasses_le_conjClasses_of_isAlgClosed
     (K : Type u) (G : Type v) [Field K] [IsAlgClosed K] [Group G] [Fintype G] :
     Nat.card (IrrepClasses K G) ≤ Nat.card (ConjClasses G) := by
-  sorry
+  classical
+  -- The standard-module enumeration: a `SplitData` and the count `#simples = n`.
+  obtain ⟨D, hD⟩ := exists_splitSimples_count K G
+  rw [card_irrepClasses_eq_card_simpleModuleClasses K G, hD]
+  -- The `n` block trace forms `τ_{Std i}` are linearly independent: for block `j`, a `π`-preimage
+  -- `xⱼ` of the matrix unit `E₁₁` in block `j` is a dual vector with `τ_{Std i}(xⱼ) = δ_{ij}`.
+  have hindep : LinearIndependent K
+      (fun i => (traceFormQ K (D.Std i) : Cocenter K G →ₗ[K] K)) := by
+    refine Fintype.linearIndependent_iff.mpr (fun c hc j => ?_)
+    haveI := D.d_pos j
+    obtain ⟨xj, hxj⟩ := D.π_surj (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K)))
+    -- `τ_{Std i}` evaluated at the class of `xⱼ` is the Kronecker delta `δ_{ij}`.
+    have hval : ∀ i, traceFormQ K (D.Std i) (Submodule.mkQ (commSubmodule K G) xj)
+        = if i = j then 1 else 0 := by
+      intro i
+      rw [traceFormQ_mkQ, traceForm_Std_eq_trace D i xj]
+      have hb : D.blockHom i xj
+          = (Pi.single j (Matrix.single (0 : Fin (D.d j)) 0 (1 : K))
+              : ∀ i, Matrix (Fin (D.d i)) (Fin (D.d i)) K) i := by
+        simp only [SplitData.blockHom, AlgHom.comp_apply, hxj, Pi.evalAlgHom_apply]
+      rw [hb]
+      by_cases hij : i = j
+      · subst hij; rw [Pi.single_eq_same, Matrix.trace_single_eq_same, if_pos rfl]
+      · rw [Pi.single_eq_of_ne hij, Matrix.trace_zero, if_neg hij]
+    -- Evaluate the vanishing combination at that class: it collapses to `c j = 0`.
+    have happ := LinearMap.congr_fun hc (Submodule.mkQ (commSubmodule K G) xj)
+    simpa only [LinearMap.sum_apply, LinearMap.smul_apply, hval, smul_eq_mul, mul_ite, mul_one,
+      mul_zero, LinearMap.zero_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true] using happ
+  -- Feed independence into the cocenter counting bound.
+  have hcard := card_le_conjClasses_of_traceForm_linearIndependent (S := fun i => D.Std i) hindep
+  simpa using hcard
+
+end IsAlgClosedBound
 
 /-- **Base-change monotonicity (step 2 of the base-change route).** For a field extension
 `K ⊇ k` (any `k`-algebra structure making `K` a field), scalar extension only increases the

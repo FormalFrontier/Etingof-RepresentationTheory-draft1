@@ -2508,7 +2508,8 @@
     "end_page": "64",
     "start_line": 11,
     "end_line": 14,
-    "status": "statement_formalized"
+    "status": "statement_formalized",
+    "coverage_note": "Split-field counting bound (step 1 of the field-general route, #6138) proved: Etingof.natCard_irrepClasses_le_conjClasses_of_isAlgClosed in Chapter4/Exercise4_2_3_FieldGeneral.lean, via linear independence of the standard-module cocenter trace forms (dual system from block matrix units, traceForm_Std_eq_trace). Sorry-free in its own right; transitively rests on the still-deferred SplitSimples count lemma card_simpleModuleClasses (#6150). Remaining: base-change monotonicity #6127 and the modular strict-drop assembly."
   },
   {
     "id": "Chapter4/Corollary4.2.4",
