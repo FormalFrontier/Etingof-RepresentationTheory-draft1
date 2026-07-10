@@ -31,7 +31,8 @@ on the homology of any additive functor applied to the resolution, i.e. on `Tor_
 and any two lifts are homotopic (so the induced maps agree). We record this as the existence of
 a homotopy equivalence between the two complexes.
 
-These are statement-level formalizations (spec-first): the proofs are deferred (`sorry`).
+Both facts are discharged directly by Mathlib's `ProjectiveResolution.lift`/`lift_commutes`
+(morphism of resolutions) and `ProjectiveResolution.homotopyEquiv` (homotopy equivalence).
 -/
 
 namespace Etingof
@@ -46,8 +47,8 @@ variable {A : Type u} [Ring A] {M : ModuleCat.{u} A}
 resolutions*: a chain map `f : P_• → Q_•` compatible with the augmentations to `M`. -/
 theorem Problem_8_2_5_morphism_of_resolutions
     (P Q : ProjectiveResolution M) :
-    ∃ f : P.complex ⟶ Q.complex, f ≫ Q.π = P.π := by
-  sorry
+    ∃ f : P.complex ⟶ Q.complex, f ≫ Q.π = P.π :=
+  ⟨ProjectiveResolution.lift (𝟙 M) P Q, by simp⟩
 
 /-- **Problem 8.2.5(iii)–(v).** Any two projective resolutions of `M` are homotopy equivalent.
 Applying an additive functor and taking homology, this shows the induced maps on `Tor_i` and
@@ -55,7 +56,7 @@ Applying an additive functor and taking homology, this shows the induced maps on
 `Ext^i` do not depend on the resolution. -/
 theorem Problem_8_2_5_independence
     (P Q : ProjectiveResolution M) :
-    Nonempty (HomotopyEquiv P.complex Q.complex) := by
-  sorry
+    Nonempty (HomotopyEquiv P.complex Q.complex) :=
+  ⟨ProjectiveResolution.homotopyEquiv P Q⟩
 
 end Etingof
