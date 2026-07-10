@@ -407,6 +407,58 @@ lemma exists_conj_stab_sylow [NeZero N] {p : ℕ} [Fact p.Prime]
   rw [← hQcoe, ← hPc, hco, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
   simp only [MulAut.smul_def, MulAut.conj_inv_apply]
 
+/-- Every involution of `A₅` lies in class `2a` (index `2`). -/
+lemma classIdx_of_involution (s : A5) (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) :
+    classIdxA5 s = 2 := by
+  revert s; decide
+
+/-- Conjugation carries `⟨t⟩` to `⟨c t c⁻¹⟩`. -/
+lemma conj_smul_zpowers (c t : A5) :
+    MulAut.conj c • Subgroup.zpowers t = Subgroup.zpowers (c * t * c⁻¹) := by
+  ext y
+  simp only [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, MulAut.smul_def, MulAut.conj_inv_apply,
+    Subgroup.mem_zpowers_iff]
+  constructor
+  · rintro ⟨k, hk⟩; exact ⟨k, by rw [conj_zpow, hk]; group⟩
+  · rintro ⟨k, hk⟩; exact ⟨k, by rw [conj_zpow] at hk; rw [← hk]; group⟩
+
+/-- **Involution conjugator.** The order-`2` point stabilizer is conjugate to `⟨classRepA5 2⟩`,
+because all involutions of `A₅` are conjugate (a single class). This is the `p = 2` analogue of
+`exists_conj_stab_sylow`, where the stabilizer is *not* a full Sylow subgroup. -/
+lemma exists_conj_stab_invol [NeZero N] (act : A5 →* Equiv.Perm (Fin N))
+    (hstabc : Nat.card (stabSub act 0) = 2) :
+    ∃ c : A5, ∀ y : A5,
+      y ∈ Subgroup.zpowers (classRepA5 2) ↔ c⁻¹ * y * c ∈ stabSub act 0 := by
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  haveI : Nontrivial (stabSub act 0) := by
+    rw [← Finite.one_lt_card_iff_nontrivial]; omega
+  obtain ⟨s, hs_mem, hs_ne⟩ := (stabSub act 0).nontrivial_iff_exists_ne_one.mp inferInstance
+  have hdvd : orderOf s ∣ 2 := by
+    rw [← hstabc]
+    have := orderOf_dvd_natCard (⟨s, hs_mem⟩ : stabSub act 0)
+    rwa [Subgroup.orderOf_mk] at this
+  have hord2 : orderOf s = 2 := by
+    rcases (Nat.Prime.eq_one_or_self_of_dvd (by norm_num) _ hdvd) with h | h
+    · exact absurd (orderOf_eq_one_iff.mp h) hs_ne
+    · exact h
+  have hs2 : s ^ 2 = 1 := by rw [← hord2]; exact pow_orderOf_eq_one s
+  have hcl : classIdxA5 s = 2 := classIdx_of_involution s hs2 hs_ne
+  obtain ⟨c, hc⟩ := classIdxA5_spec s
+  rw [hcl] at hc
+  refine ⟨c⁻¹, fun y => ?_⟩
+  have hzs : Subgroup.zpowers s = stabSub act 0 := by
+    apply Subgroup.eq_of_le_of_card_ge
+    · rw [Subgroup.zpowers_le]; exact hs_mem
+    · rw [Nat.card_zpowers, hord2, hstabc]
+  have hstabeq : (stabSub act 0 : Subgroup A5)
+      = MulAut.conj c • Subgroup.zpowers (classRepA5 2) := by
+    rw [conj_smul_zpowers, hc, hzs]
+  rw [hstabeq, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply, inv_inv]
+  constructor
+  · intro hy; rw [show c⁻¹ * (c * y * c⁻¹) * c = y by group]; exact hy
+  · intro hy; rw [show c⁻¹ * (c * y * c⁻¹) * c = y by group] at hy; exact hy
+
 /-! ### Orders and prime factorizations for the three concrete generators -/
 
 lemma ord_cr3 : orderOf (classRepA5 3) = 5 := by
@@ -415,6 +467,10 @@ lemma ord_cr3 : orderOf (classRepA5 3) = 5 := by
 
 lemma ord_cr1 : orderOf (classRepA5 1) = 3 := by
   haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  exact orderOf_eq_prime (by decide) (by decide)
+
+lemma ord_cr2 : orderOf (classRepA5 2) = 2 := by
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 lemma fact5 : (Nat.card A5).factorization 5 = 1 := by
@@ -447,6 +503,12 @@ lemma twisted_p3 (j : Fin 5) :
   rw [twisted_filter_eq (classRepA5 1) (classRepA5 j) 3 ord_cr1]
   fin_cases j <;> decide
 
+lemma twisted_p2 (j : Fin 5) :
+    (univ.filter (fun x : A5 => x⁻¹ * classRepA5 j * x ∈ Subgroup.zpowers (classRepA5 2))).card
+      = ![60, 0, 4, 0, 0] j := by
+  rw [twisted_filter_eq (classRepA5 2) (classRepA5 j) 2 ord_cr2]
+  fin_cases j <;> decide
+
 /-- **Vertices (p = 5).** Fixed-point character of a transitive `A₅`-action on `Fin 12` with
 order-`5` point stabilizers: `χ_perm = (12, 0, 0, 2, 2)` on classes `(1a, 3a, 2a, 5a, 5b)`. -/
 theorem fixCount_vertices (act : A5 →* Equiv.Perm (Fin 12))
@@ -475,6 +537,20 @@ theorem fixCount_faces (act : A5 →* Equiv.Perm (Fin 20))
   have h := fix_mul_stab_eq_twisted act (classRepA5 1) (classRepA5 j) htrans c hc
   rw [stab_filter_card act 0 3 (hstab 0), twisted_p3] at h
   have hvec : ![60, 6, 0, 0, 0] j = 3 * ![20, 2, 0, 0, 0] j := by fin_cases j <;> rfl
+  rw [hvec] at h; omega
+
+/-- **Edges (p = 2).** Fixed-point character of a transitive `A₅`-action on `Fin 30` with
+order-`2` point stabilizers: `χ_perm = (30, 0, 2, 0, 0)` on classes `(1a, 3a, 2a, 5a, 5b)`. -/
+theorem fixCount_edges (act : A5 →* Equiv.Perm (Fin 30))
+    (htrans : ∀ i j : Fin 30, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 30, Nat.card {g : A5 // act g i = i} = 2) (j : Fin 5) :
+    (univ.filter (fun i => act (classRepA5 j) i = i)).card = ![30, 0, 2, 0, 0] j := by
+  have hstabc : Nat.card (stabSub act 0) = 2 := by
+    change Nat.card {a : A5 // act a 0 = 0} = 2; exact hstab 0
+  obtain ⟨c, hc⟩ := exists_conj_stab_invol act hstabc
+  have h := fix_mul_stab_eq_twisted act (classRepA5 2) (classRepA5 j) htrans c hc
+  rw [stab_filter_card act 0 2 (hstab 0), twisted_p2] at h
+  have hvec : ![60, 0, 4, 0, 0] j = 2 * ![30, 0, 2, 0, 0] j := by fin_cases j <;> rfl
   rw [hvec] at h; omega
 
 end A5FixCounts
