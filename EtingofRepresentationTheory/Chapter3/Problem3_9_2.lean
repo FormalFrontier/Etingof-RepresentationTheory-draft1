@@ -9,6 +9,9 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Pi
 import Mathlib.Algebra.Algebra.Bilinear
 import Mathlib.Algebra.Module.Submodule.Lattice
+import Mathlib.Algebra.MvPolynomial.Derivation
+import Mathlib.LinearAlgebra.Eigenspace.Basic
+import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 
 /-!
 # Problem 3.9.2: `Ext¹` for polynomial algebras and algebras with zero multiplication
@@ -54,11 +57,234 @@ noncomputable def maxIdeal {n : ℕ} (a : Fin n → ℂ) : Ideal (polyAlg n) :=
 the quotient `A ⧸ 𝔪ₐ`. A genuine `A`-module and `ℂ`-module with scalar tower. -/
 abbrev Vrep {n : ℕ} (a : Fin n → ℂ) : Type := polyAlg n ⧸ maxIdeal a
 
+open Etingof.Problem3_9_1
+open MvPolynomial
+
+/-! ### Shared infrastructure for the 1-dimensional representations `Vₐ`
+
+The module `Vrep a = A ⧸ 𝔪ₐ` is 1-dimensional over `ℂ`, and any `p ∈ A` acts on it by the scalar
+`p(a) = aeval a p`. The generator `xᵢ − aᵢ` lies in `𝔪ₐ`, and more precisely `p − p(a)` always lies
+in `𝔪ₐ` (a Taylor expansion at `a`), which pins down both the scalar action and the isomorphism
+`Vrep a ≃ₗ[ℂ] ℂ`. -/
+
+/-- The generators `Xᵢ − C aᵢ` of the maximal ideal `𝔪ₐ`. -/
+private lemma X_sub_C_mem_maxIdeal {n : ℕ} (a : Fin n → ℂ) (i : Fin n) :
+    (X i - C (a i) : polyAlg n) ∈ maxIdeal a :=
+  Ideal.subset_span ⟨i, rfl⟩
+
+/-- **Taylor expansion at `a`.** For every polynomial `p`, the difference `p − p(a)` lies in the
+maximal ideal `𝔪ₐ`. -/
+private lemma sub_C_aeval_mem {n : ℕ} (a : Fin n → ℂ) (p : polyAlg n) :
+    p - C (aeval a p) ∈ maxIdeal a := by
+  induction p using MvPolynomial.induction_on with
+  | C c => rw [aeval_C]; simp
+  | add p q hp hq =>
+    have : (p + q) - C (aeval a (p + q))
+        = (p - C (aeval a p)) + (q - C (aeval a q)) := by rw [map_add, map_add]; ring
+    rw [this]; exact Ideal.add_mem _ hp hq
+  | mul_X p i hp =>
+    have key : p * X i - C (aeval a (p * X i))
+        = p * (X i - C (a i)) + C (a i) * (p - C (aeval a p)) := by
+      simp only [map_mul, aeval_X]; ring
+    rw [key]
+    exact Ideal.add_mem _ (Ideal.mul_mem_left _ _ (X_sub_C_mem_maxIdeal a i))
+      (Ideal.mul_mem_left _ _ hp)
+
+/-- The easy inclusion `𝔪ₐ ⊆ ker(aeval a)`: every element of the maximal ideal vanishes at `a`. -/
+private lemma aeval_eq_zero_of_mem_maxIdeal {n : ℕ} (a : Fin n → ℂ) {p : polyAlg n}
+    (hp : p ∈ maxIdeal a) : aeval a p = 0 := by
+  have hle : maxIdeal a ≤ RingHom.ker (aeval a : polyAlg n →ₐ[ℂ] ℂ).toRingHom := by
+    rw [maxIdeal, Ideal.span_le]
+    rintro _ ⟨i, rfl⟩
+    simp [RingHom.mem_ker]
+  exact RingHom.mem_ker.mp (hle hp)
+
+/-- An element of `𝔪ₐ` annihilates `Vrep a`. -/
+private lemma smul_quot_eq_zero {n : ℕ} (a : Fin n → ℂ) {r : polyAlg n} (hr : r ∈ maxIdeal a)
+    (v : Vrep a) : r • v = 0 := by
+  induction v using Submodule.Quotient.induction_on with
+  | H p =>
+    rw [show r • (Submodule.Quotient.mk p : Vrep a) = Submodule.Quotient.mk (r * p) from rfl,
+      Submodule.Quotient.mk_eq_zero]
+    exact Ideal.mul_mem_right p _ hr
+
+/-- **The action is by the scalar `p(a)`.** Any `q ∈ A` acts on `Vrep a` as multiplication by the
+complex number `aeval a q`. -/
+private lemma Vrep_smul_eq {n : ℕ} (a : Fin n → ℂ) (q : polyAlg n) (v : Vrep a) :
+    q • v = aeval a q • v := by
+  rw [← algebraMap_smul (polyAlg n) (aeval a q) v, MvPolynomial.algebraMap_eq, ← sub_eq_zero,
+    ← sub_smul]
+  exact smul_quot_eq_zero a (sub_C_aeval_mem a q) v
+
+/-- Every class `[p]` equals `p(a) • [1]`, a Taylor expansion at the level of `Vrep a`. -/
+private lemma mk_eq_aeval_smul_mk_one {n : ℕ} (a : Fin n → ℂ) (p : polyAlg n) :
+    (Submodule.Quotient.mk p : Vrep a) = aeval a p • Submodule.Quotient.mk 1 := by
+  rw [← algebraMap_smul (polyAlg n) (aeval a p) (Submodule.Quotient.mk (1 : polyAlg n)),
+    MvPolynomial.algebraMap_eq]
+  change (Submodule.Quotient.mk p : Vrep a) = Submodule.Quotient.mk (C (aeval a p) * 1)
+  rw [Submodule.Quotient.eq, mul_one]
+  exact sub_C_aeval_mem a p
+
+/-- The distinguished generator `w₀ = [1] ∈ Vrep a`, which spans it over `ℂ`. -/
+private lemma quot_mk_one_ne_zero {n : ℕ} (a : Fin n → ℂ) :
+    (Submodule.Quotient.mk (1 : polyAlg n) : Vrep a) ≠ 0 := by
+  rw [Ne, Submodule.Quotient.mk_eq_zero]
+  intro h
+  have := aeval_eq_zero_of_mem_maxIdeal a h
+  simp at this
+
+/-- **`Vrep a ≃ₗ[ℂ] ℂ`.** The 1-dimensional representation is 1-dimensional: the map
+`c ↦ c • [1]` is a linear isomorphism `ℂ ≃ₗ[ℂ] Vrep a`, whose inverse gives the identification. -/
+private noncomputable def VrepEquivC {n : ℕ} (a : Fin n → ℂ) : Vrep a ≃ₗ[ℂ] ℂ := by
+  refine (LinearEquiv.ofBijective
+    (LinearMap.toSpanSingleton ℂ (Vrep a) (Submodule.Quotient.mk 1)) ⟨?_, ?_⟩).symm
+  · -- injective
+    intro c₁ c₂ h
+    simp only [LinearMap.toSpanSingleton_apply] at h
+    have hsub : (c₁ - c₂) • (Submodule.Quotient.mk 1 : Vrep a) = 0 := by
+      rw [sub_smul, h, sub_self]
+    rcases smul_eq_zero.mp hsub with hc | hc
+    · exact sub_eq_zero.mp hc
+    · exact absurd hc (quot_mk_one_ne_zero a)
+  · -- surjective
+    intro v
+    induction v using Submodule.Quotient.induction_on with
+    | H p =>
+      refine ⟨aeval a p, ?_⟩
+      simp only [LinearMap.toSpanSingleton_apply]
+      exact (mk_eq_aeval_smul_mk_one a p).symm
+
+private lemma VrepEquivC_symm_apply {n : ℕ} (a : Fin n → ℂ) (c : ℂ) :
+    (VrepEquivC a).symm c = c • (Submodule.Quotient.mk 1 : Vrep a) := rfl
+
+-- Keep `VrepEquivC` opaque downstream: its `ofBijective`/`symm` internals are huge and unfolding
+-- them during `whnf`/`isDefEq` blows the heartbeat budget.
+attribute [irreducible] VrepEquivC
+
+/-- `w₀ = [1]` spans `Vrep a`: every `w` equals `(coord w) • w₀`. -/
+private lemma VrepEquivC_smul_mk_one {n : ℕ} (a : Fin n → ℂ) (w : Vrep a) :
+    (VrepEquivC a w) • (Submodule.Quotient.mk 1 : Vrep a) = w := by
+  rw [← VrepEquivC_symm_apply, LinearEquiv.symm_apply_apply]
+
+/-- The coordinate of `w₀ = [1]` is `1`. -/
+private lemma VrepEquivC_mk_one {n : ℕ} (a : Fin n → ℂ) :
+    VrepEquivC a (Submodule.Quotient.mk 1) = 1 := by
+  rw [← LinearEquiv.eq_symm_apply, VrepEquivC_symm_apply, one_smul]
+
+/-- **Cocycle → derivation.** A 1-cocycle `f` (with both weights `a`) gives the derivation
+`p ↦ f p [1]`; the Leibniz rule is the cocycle identity, using that the action on `Vrep a` is by
+the scalar `p(a)`. -/
+private noncomputable def cocycleToDer {n : ℕ} (a : Fin n → ℂ)
+    (f : cocycles ℂ (polyAlg n) (Vrep a) (Vrep a)) : Derivation ℂ (polyAlg n) (Vrep a) where
+  toFun p := f.val p (Submodule.Quotient.mk 1)
+  map_add' p q := by simp
+  map_smul' c p := by simp
+  map_one_eq_zero' := by
+    have hc := LinearMap.congr_fun (f.property 1 1) (Submodule.Quotient.mk 1 : Vrep a)
+    simp only [mul_one, LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe,
+      one_smul] at hc
+    have h2 : f.val 1 (Submodule.Quotient.mk 1) + f.val 1 (Submodule.Quotient.mk 1)
+        = f.val 1 (Submodule.Quotient.mk 1) + 0 := by rw [add_zero]; exact hc.symm
+    exact add_left_cancel h2
+  leibniz' p q := by
+    have hc := LinearMap.congr_fun (f.property p q) (Submodule.Quotient.mk 1 : Vrep a)
+    simp only [LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe] at hc
+    change f.val (p * q) (Submodule.Quotient.mk 1)
+      = p • f.val q (Submodule.Quotient.mk 1) + q • f.val p (Submodule.Quotient.mk 1)
+    rw [hc, Vrep_smul_eq a q (Submodule.Quotient.mk 1), map_smul,
+      ← Vrep_smul_eq a q (f.val p (Submodule.Quotient.mk 1))]
+
+private lemma cocycleToDer_apply {n : ℕ} (a : Fin n → ℂ)
+    (f : cocycles ℂ (polyAlg n) (Vrep a) (Vrep a)) (p : polyAlg n) :
+    cocycleToDer a f p = f.val p (Submodule.Quotient.mk 1) := rfl
+
+/-- **Derivation → cocycle map.** A derivation `D` gives the bundled map `p ↦ (D p)(a) • id`, i.e.
+the endomorphism of `Vrep a` that is scalar multiplication by the coordinate `VrepEquivC a (D p)`.
+Since `Vrep a` is 1-dimensional this equals `w ↦ (coord w) • D p`. -/
+private noncomputable def derToCocycleMap {n : ℕ} (a : Fin n → ℂ)
+    (D : Derivation ℂ (polyAlg n) (Vrep a)) : polyAlg n →ₗ[ℂ] (Vrep a →ₗ[ℂ] Vrep a) where
+  toFun p := VrepEquivC a (D p) • (LinearMap.id : Vrep a →ₗ[ℂ] Vrep a)
+  map_add' p q := by simp only [map_add, add_smul]
+  map_smul' c p := by
+    have hD : D (c • p) = c • D p := D.toLinearMap.map_smul c p
+    rw [hD, map_smul (VrepEquivC a), RingHom.id_apply, smul_eq_mul, mul_smul]
+
+private lemma derToCocycleMap_apply {n : ℕ} (a : Fin n → ℂ)
+    (D : Derivation ℂ (polyAlg n) (Vrep a)) (p : polyAlg n) (w : Vrep a) :
+    derToCocycleMap a D p w = VrepEquivC a (D p) • w := by
+  simp only [derToCocycleMap, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.smul_apply,
+    LinearMap.id_coe, id_eq]
+
+/-- Any endomorphism of the 1-dimensional space `Vrep a` is scalar multiplication by the
+coordinate of its value on `[1]`. -/
+private lemma end_eq_coord_smul {n : ℕ} (a : Fin n → ℂ) (g : Vrep a →ₗ[ℂ] Vrep a) (w : Vrep a) :
+    VrepEquivC a (g (Submodule.Quotient.mk 1)) • w = g w := by
+  apply (VrepEquivC a).injective
+  rw [map_smul, smul_eq_mul]
+  conv_rhs => rw [← VrepEquivC_smul_mk_one a w, map_smul, map_smul, smul_eq_mul]
+  ring
+
+set_option maxHeartbeats 1000000 in
+-- The `Vrep a` quotient-module instances make the elaboration of the cocycle identity heavy.
+private lemma derToCocycle_isCocycle {n : ℕ} (a : Fin n → ℂ)
+    (D : Derivation ℂ (polyAlg n) (Vrep a)) :
+    IsCocycle ℂ (polyAlg n) (Vrep a) (Vrep a) (derToCocycleMap a D) := by
+  intro p q
+  refine LinearMap.ext fun w => ?_
+  simp only [LinearMap.add_apply, LinearMap.comp_apply, derToCocycleMap_apply, Algebra.lsmul_coe]
+  rw [Derivation.leibniz, map_add, add_smul]
+  congr 1
+  · rw [Vrep_smul_eq a p (D q), map_smul, smul_eq_mul,
+      Vrep_smul_eq a p (VrepEquivC a (D q) • w), smul_smul]
+  · rw [Vrep_smul_eq a q (D p), map_smul, smul_eq_mul, Vrep_smul_eq a q w, smul_smul, mul_comm]
+
+set_option maxHeartbeats 1000000 in
+-- Assembling the equivalence repeatedly typechecks the `Vrep a` quotient-module instances.
+private noncomputable def cocyclesEquivDer {n : ℕ} (a : Fin n → ℂ) :
+    cocycles ℂ (polyAlg n) (Vrep a) (Vrep a) ≃ₗ[ℂ] Derivation ℂ (polyAlg n) (Vrep a) where
+  toFun := cocycleToDer a
+  invFun D := ⟨derToCocycleMap a D, derToCocycle_isCocycle a D⟩
+  map_add' f g := by
+    apply Derivation.ext; intro p
+    rw [cocycleToDer_apply, Derivation.add_apply, cocycleToDer_apply, cocycleToDer_apply]
+    rfl
+  map_smul' c f := by
+    apply Derivation.ext; intro p
+    rw [cocycleToDer_apply, Derivation.smul_apply, cocycleToDer_apply]
+    rfl
+  left_inv f := by
+    apply Subtype.ext
+    refine LinearMap.ext fun p => LinearMap.ext fun w => ?_
+    rw [derToCocycleMap_apply, cocycleToDer_apply]
+    exact end_eq_coord_smul a (f.val p) w
+  right_inv D := by
+    apply Derivation.ext; intro p
+    change derToCocycleMap a D p (Submodule.Quotient.mk 1) = D p
+    rw [derToCocycleMap_apply]
+    exact VrepEquivC_smul_mk_one a (D p)
+
+/-- Coboundaries vanish when source and target weights agree: `dX = 0` since the two scalar actions
+of `p` on `Vrep a` coincide. -/
+private lemma coboundaries_eq_bot {n : ℕ} (a : Fin n → ℂ) :
+    coboundaries ℂ (polyAlg n) (Vrep a) (Vrep a) = ⊥ := by
+  rw [coboundaries, Submodule.span_eq_bot]
+  rintro _ ⟨X, rfl⟩
+  refine LinearMap.ext fun p => LinearMap.ext fun w => ?_
+  simp only [coboundaryOf_apply, LinearMap.zero_apply]
+  rw [Vrep_smul_eq a p w, map_smul X, Vrep_smul_eq a p (X w), sub_self]
+
 /-- **Problem 3.9.2(a), equal weights.** `Ext¹(Vₐ, Vₐ) ≅ ℂⁿ`: self-extensions of the
 1-dimensional rep are classified by the `n` "nilpotent directions" `xᵢ`. -/
 theorem ext1_self {n : ℕ} (a : Fin n → ℂ) :
     Nonempty (Ext1 ℂ (polyAlg n) (Vrep a) (Vrep a) ≃ₗ[ℂ] (Fin n → ℂ)) := by
-  sorry
+  have hbot : (coboundaries ℂ (polyAlg n) (Vrep a) (Vrep a)).submoduleOf
+      (cocycles ℂ (polyAlg n) (Vrep a) (Vrep a)) = ⊥ := by
+    rw [coboundaries_eq_bot, Submodule.submoduleOf, Submodule.comap_bot, Submodule.ker_subtype]
+  refine ⟨?_⟩
+  exact (Submodule.quotEquivOfEqBot _ hbot).trans
+    ((cocyclesEquivDer a).trans
+      (((MvPolynomial.mkDerivationEquiv ℂ).symm).trans
+        (LinearEquiv.piCongrRight (fun _ => VrepEquivC a))))
 
 /-- **Problem 3.9.2(a), distinct weights.** `Ext¹(Vₐ, V_b) = 0` when `a ≠ b`: any extension
 splits because some `xⱼ` has distinct eigenvalues `aⱼ ≠ bⱼ`. -/
