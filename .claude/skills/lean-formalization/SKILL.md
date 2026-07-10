@@ -604,6 +604,26 @@ cheap pieces:
 
 When you `obtain ⟨ι, _, S, acgS, modkS, …⟩` from a `∃ … (S) (_ : ∀ i, AddCommGroup (S i)) (_ : ∀ i, Module k (S i)) …` and re-register the fields as instances, **`haveI : ∀ i, AddCommGroup (S i) := acgS` makes a *fresh opaque copy* `this`**, but the next field `modkS : ∀ i, @Module k (S i) _ (acgS i)` still mentions the *original* `acgS`. TC then has two incompatible `AddCommMonoid (S i)` paths (`this i` vs `acgS i`) and every downstream `Module`/`DirectSum`/`IsSimpleModule.congr` fails with `Type mismatch … (acgS i) vs (this i)`. **Fix:** use `letI := acgS` (transparent, no type annotation) for the *data* instances (`AddCommGroup`, `Module`, …) so `this i` reduces to `acgS i`; `haveI` is fine for `Prop` instances (`IsSimpleModule`, `IsScalarTower` — proof-irrelevant). Diagnosed in one cycle in #5405 (`SchurWeylPartition.lean`). To expose such a tower for a *submodule* carrier `S i = ↥(S' i)` from the producing theorem, just add `(_ : ∀ i, IsScalarTower k A (S i))` to its existential and discharge with `fun _ => inferInstance`.
 
+### Reading a degree-`n` Tor/Ext group off a length-`1` resolution (Ch8, #6307)
+
+To compute `Tor₁`/`Ext¹` of cyclic modules from a resolution `0 → P₁ → P₀ → M → 0`, feed the
+short exact sequence to the repo's `Etingof.Functor.leftDerived_sixTerm_exact` (Tor) or
+Mathlib's `Abelian.Ext.contravariantSequence`/`covariantSequence` (Ext). The window is an
+exact `ComposableArrows _ 5`; extract facts with `hExact.exact' i j k` (gives
+`(sc' i j k).Exact`) then `.ab_range_eq_ker` (in `AddCommGrp`: `f.hom.range = g.hom.ker`) and
+`ShortComplex.exact_iff_mono`/`AddMonoidHom.range_eq_top`. `map'` of an `mk₅` reduces by
+`dsimp`/defeq to the constructor arg. Then `Tor₁ ≅ ker(·a)`, `Ext¹ ≅ coker(·a)` on the
+degree-`0` group, transported to the concrete model via naturality of
+`Functor.leftDerivedZeroIsoSelf` (Tor) or `Abelian.Ext.addEquiv₀` + `mk₀_comp_mk₀` (Ext), and
+closed with the number-theory isos. **Gotcha:** do **not** `set CS := <the sequence> with h` —
+`set` makes `CS.obj i`/`CS.map' i j` opaque, so later `Submodule.map`/instance unification that
+needs those to reduce definitionally fails (cost a cycle in #6307). Instead keep the sequence
+inline (only `have hExact := …_exact …`) and name the connecting/functoriality maps as
+*concrete-typed* `let`s (e.g. `let dhom : Ext S.X₁ Y 0 →+ Ext S.X₃ Y 1 := hS.extClass.precomp Y _`);
+the exactness facts then unify against them by defeq. Also: `ℤ ⊗_ℤ N ≅ N` (`tensorOver ℤ N ℤ`)
+needs `TensorProduct.lid` — the `Semiring.toModule ℤ` vs `AddCommGroup.toIntModule ℤ` diamond is
+actually defeq here, so `lid` composes fine (don't over-engineer a bridge).
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |

@@ -45,10 +45,11 @@ The reusable number theory is packaged in the `ZModGcd` namespace below: the ker
 cokernel of multiplication by `a` on `ZMod b` are both `ZMod (gcd a b)`, giving the tensor and
 Hom bridges `ZMod a ⊗_ℤ ZMod b ≅ ZMod (gcd a b)` and `Hom_ℤ(ZMod a, ZMod b) ≅ ZMod (gcd a b)`.
 
-Status: for part (i) the degree-`0` identifications (`Tor₀`, `Ext⁰`) and all higher-degree
-vanishing are proved; the degree-`1` identifications (`Tor₁`, `Ext¹`) are still `sorry` (they
-require extracting the kernel/cokernel of `·a` from the derived six-term sequence). Part (ii)
-(`k[x]`) is stated but its degree-`0`/`1` proofs are deferred (`sorry`).
+Status: part (i) is complete — the degree-`0` identifications (`Tor₀`, `Ext⁰`), the degree-`1`
+identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are proved. The degree-`1`
+groups are read off the length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` via the derived
+six-term sequence: `Tor₁` is the kernel and `Ext¹` the cokernel of multiplication by `a` on
+`ℤ/b`. Part (ii) (`k[x]`) is stated but its degree-`0`/`1` proofs are deferred (`sorry`).
 -/
 
 namespace Etingof
@@ -336,12 +337,170 @@ theorem Problem_8_2_7_i_tor_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
   exact ((QuotientAddGroup.quotientAddEquivOfEq hbot).trans QuotientAddGroup.quotientBot).trans
     (ZModGcd.tensorEquiv a b).toAddEquiv
 
+/-! ### The degree-`0` tensor `ℤ ⊗_ℤ N ≅ N`, for the `Tor₁` connecting-map identification
+
+The `Tor₁` proof reads the degree-`1` group off the length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0`
+via the six-term sequence, which identifies `Tor₁` with the kernel of the induced map on
+`Tor₀(ℤ, N) = ℤ ⊗_ℤ N`. Over the commutative base `ℤ` the module `M = ℤ` has trivial balancing
+subgroup, so `tensorOver ℤ N ℤ ≅ N` and the induced map `·a` becomes `mulByCast a b`. -/
+
+open scoped TensorProduct in
+/-- For `M = ℤ` over the commutative base `ℤ`, the balancing subgroup of `ℤ ⊗_ℤ N` is trivial. -/
+private lemma balancedSubgroup_int_eq_bot (N : Type) [AddCommGroup N] :
+    balancedSubgroup ℤ N ℤ = ⊥ := by
+  apply le_antisymm _ bot_le
+  rw [balancedSubgroup, AddSubgroup.closure_le]
+  rintro x ⟨c, m, n, rfl⟩
+  simp only [SetLike.mem_coe, AddSubgroup.mem_bot]
+  have hop : (MulOpposite.op c • m : ℤ) = c • m := by
+    change m * MulOpposite.unop (MulOpposite.op c) = c • m
+    rw [MulOpposite.unop_op, smul_eq_mul, mul_comm]
+  rw [hop, sub_eq_zero, TensorProduct.smul_tmul]
+
+open scoped TensorProduct in
+/-- `ℤ ⊗_ℤ N ≅ N` (the ring tensor product `tensorOver ℤ N ℤ` with `M = ℤ`). -/
+private noncomputable def intTensorOverEquiv (N : Type) [AddCommGroup N] :
+    tensorOver ℤ N ℤ ≃+ N :=
+  (QuotientAddGroup.quotientAddEquivOfEq (balancedSubgroup_int_eq_bot N)).trans
+    (QuotientAddGroup.quotientBot.trans (TensorProduct.lid ℤ N).toAddEquiv)
+
+open scoped TensorProduct in
+@[simp] private lemma intTensorOverEquiv_mk (N : Type) [AddCommGroup N]
+    (m : ℤ) (n : N) :
+    intTensorOverEquiv N (TensorProduct.tmul ℤ m n : tensorOver ℤ N ℤ) = m • n := by
+  simp only [intTensorOverEquiv, AddEquiv.trans_apply, LinearEquiv.coe_toAddEquiv]
+  rfl
+
+open scoped TensorProduct in
 /-- **Problem 8.2.7(i), `Tor₁`.** For finite cyclic groups `ℤ/a`, `ℤ/b` (`a, b ≠ 0`),
 `Tor₁(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)`. -/
 theorem Problem_8_2_7_i_tor_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 1
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
-  sorry
+  haveI : NeZero a := ⟨ha⟩
+  haveI : NeZero b := ⟨hb⟩
+  have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
+  -- Length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ℤᵐᵒᵖ`, inline for access to `S.f`.
+  let f : ℤ →ₗ[ℤᵐᵒᵖ] ℤ :=
+    { toFun := fun x => (a : ℤ) * x
+      map_add' := fun x y => by ring
+      map_smul' := fun r x => by
+        simp only [RingHom.id_apply, MulOpposite.smul_eq_mul_unop]; ring }
+  let g : ℤ →ₗ[ℤᵐᵒᵖ] ZMod a :=
+    { toFun := fun x => (x : ZMod a)
+      map_add' := fun x y => by push_cast; ring
+      map_smul' := fun r x => by
+        have hsmul : (r • (x : ZMod a)) = MulOpposite.unop r • (x : ZMod a) := rfl
+        simp only [RingHom.id_apply, MulOpposite.smul_eq_mul_unop, hsmul, zsmul_eq_mul]
+        push_cast; ring }
+  have hgf : ∀ x : ℤ, g (f x) = 0 := by
+    intro x
+    change (((a : ℤ) * x : ℤ) : ZMod a) = 0
+    rw [ZMod.intCast_zmod_eq_zero_iff_dvd]; exact dvd_mul_right _ _
+  have eq0 : g.comp f = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+  have hexact : Function.Exact f g := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, LinearMap.mem_range]
+    change (((y : ℤ) : ZMod a) = 0) ↔ _
+    rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right _ _
+  have hinjf : Function.Injective f := fun x y hxy =>
+    mul_left_cancel₀ ha' (by simpa only [f, LinearMap.coe_mk, AddHom.coe_mk] using hxy)
+  have hsurjg : Function.Surjective g := by
+    intro z; obtain ⟨y, rfl⟩ := ZMod.intCast_surjective z; exact ⟨y, rfl⟩
+  set S := ModuleCat.shortComplexOfCompEqZero f g eq0 with hSdef
+  have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
+  set F := tensorRightFunctor ℤ (ZMod b) with hF
+  -- Six-term window `0 = L₁X₁ → 0 = L₁X₂ → Tor₁ →[δ] Tor₀ℤ →[φ] Tor₀ℤ → …`.
+  obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS 0 1 rfl
+  let φ : (F.leftDerived 0).obj S.X₁ ⟶ (F.leftDerived 0).obj S.X₂ := (F.leftDerived 0).map S.f
+  -- `L₁X₂ = 0` (`S.X₂ = ℤ` projective), so `δ` is mono.
+  have h1 : Limits.IsZero ((F.leftDerived 1).obj S.X₂) :=
+    Functor.isZero_leftDerived_obj_projective_succ F 0 S.X₂
+  have hmono : Mono δ := by
+    have e123 := hExact.exact' 1 2 3
+    rwa [ShortComplex.exact_iff_mono _ (h1.eq_zero_of_src _)] at e123
+  have hinjδ : Function.Injective δ.hom := (AddCommGrpCat.mono_iff_injective δ).mp hmono
+  -- Exactness at `Tor₀ℤ`: `range δ = ker φ`.
+  have hrk : δ.hom.range = φ.hom.ker := (hExact.exact' 2 3 4).ab_range_eq_ker
+  have hcompl : δ ≫ φ = 0 := hExact.toIsComplex.zero' 2 3 4
+  -- `Tor₀(ℤ) = ℤ ⊗_ℤ (ZMod b) ≅ ZMod b`, natural in the argument (`leftDerivedZeroIsoSelf`).
+  let ζ := F.leftDerivedZeroIsoSelf
+  let τ₁ : ((F.leftDerived 0).obj S.X₁) ≃+ ZMod b :=
+    (ζ.app S.X₁).addCommGroupIsoToAddEquiv.trans (intTensorOverEquiv (ZMod b))
+  let τ₂ : ((F.leftDerived 0).obj S.X₂) ≃+ ZMod b :=
+    (ζ.app S.X₂).addCommGroupIsoToAddEquiv.trans (intTensorOverEquiv (ZMod b))
+  -- The induced map `φ` on `Tor₀(ℤ)` is multiplication by `a`.
+  have key : ∀ w : tensorOver ℤ (ZMod b) S.X₁,
+      intTensorOverEquiv (ZMod b) (tensorRightMap ℤ (ZMod b) S.f w)
+        = ZModGcd.mulByCast a b (intTensorOverEquiv (ZMod b) w) := by
+    intro w
+    induction w using QuotientAddGroup.induction_on with
+    | _ y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul m n =>
+        change intTensorOverEquiv (ZMod b)
+            (tensorRightMap ℤ (ZMod b) S.f (TensorProduct.tmul ℤ m n : tensorOver ℤ (ZMod b) S.X₁))
+          = ZModGcd.mulByCast a b
+            (intTensorOverEquiv (ZMod b) (TensorProduct.tmul ℤ m n : tensorOver ℤ (ZMod b) S.X₁))
+        rw [show tensorRightMap ℤ (ZMod b) S.f
+              (TensorProduct.tmul ℤ m n : tensorOver ℤ (ZMod b) S.X₁)
+            = (TensorProduct.tmul ℤ (S.f.hom m) n : tensorOver ℤ (ZMod b) S.X₂) from rfl,
+          intTensorOverEquiv_mk, intTensorOverEquiv_mk, ZModGcd.mulByCast_apply, smul_smul]
+        rfl
+      | add p q hp hq =>
+        rw [show ((p + q : TensorProduct ℤ S.X₁ (ZMod b)) : tensorOver ℤ (ZMod b) S.X₁)
+              = ((p : tensorOver ℤ (ZMod b) S.X₁) + (q : tensorOver ℤ (ZMod b) S.X₁))
+            from map_add (QuotientAddGroup.mk' _) p q,
+          map_add, map_add, map_add, map_add, hp, hq]
+  have hconj : ∀ x, τ₂ (φ.hom x) = ZModGcd.mulByCast a b (τ₁ x) := by
+    intro x
+    have hn := congrArg (fun (m : (F.leftDerived 0).obj S.X₁ ⟶ F.obj S.X₂) => m.hom x)
+      (ζ.hom.naturality S.f)
+    simp only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply] at hn
+    simp only [τ₁, τ₂, AddEquiv.trans_apply, Iso.addCommGroupIsoToAddEquiv_apply]
+    calc intTensorOverEquiv (ZMod b) ((ζ.app S.X₂).hom (φ.hom x))
+        = intTensorOverEquiv (ZMod b)
+            (tensorRightMap ℤ (ZMod b) S.f ((ζ.app S.X₁).hom x)) :=
+          congrArg (intTensorOverEquiv (ZMod b)) hn
+      _ = ZModGcd.mulByCast a b (intTensorOverEquiv (ZMod b) ((ζ.app S.X₁).hom x)) :=
+          key _
+  -- Assemble: `Tor₁ = W.obj 2 ≃+ ker(mulByCast) ≃+ ZMod (gcd a b)`.
+  have mem : ∀ x, τ₁ (δ.hom x) ∈ LinearMap.ker (ZModGcd.mulByCast a b) := by
+    intro x
+    rw [LinearMap.mem_ker, ← hconj (δ.hom x)]
+    have : φ.hom (δ.hom x) = 0 := by
+      have := congrArg
+        (fun (m : (F.leftDerived 1).obj S.X₃ ⟶ (F.leftDerived 0).obj S.X₂) => m.hom x) hcompl
+      simpa only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply, AddCommGrpCat.hom_zero,
+        AddMonoidHom.zero_apply] using this
+    rw [this, map_zero]
+  let κ : ((F.leftDerived 1).obj S.X₃) →+ LinearMap.ker (ZModGcd.mulByCast a b) :=
+    { toFun := fun x => ⟨τ₁ (δ.hom x), mem x⟩
+      map_zero' := by apply Subtype.ext; simp
+      map_add' := fun x y => by apply Subtype.ext; simp }
+  have hκbij : Function.Bijective κ := by
+    constructor
+    · intro x y hxy
+      apply hinjδ
+      apply τ₁.injective
+      exact congrArg Subtype.val hxy
+    · rintro ⟨z, hz⟩
+      have hwker : (τ₁.symm z) ∈ φ.hom.ker := by
+        rw [AddMonoidHom.mem_ker]
+        apply τ₂.injective
+        rw [hconj, map_zero, τ₁.apply_symm_apply]
+        exact (LinearMap.mem_ker.mp hz)
+      rw [← hrk] at hwker
+      obtain ⟨x, hx⟩ := hwker
+      exact ⟨x, Subtype.ext (by rw [show ((κ x : _) : ZMod b) = τ₁ (δ.hom x) from rfl, hx,
+        τ₁.apply_symm_apply])⟩
+  exact ⟨((AddEquiv.ofBijective κ hκbij).trans
+    (ZModGcd.zmodKerEquiv a b).toAddEquiv).toAddCommGrpIso⟩
 
 /-- The right-module length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ℤᵐᵒᵖ`
 (`a ≠ 0`): `ℤ` and `ℤ/a` as right `ℤ`-modules, with `·a` and the quotient map made `ℤᵐᵒᵖ`-linear.
@@ -437,7 +596,103 @@ theorem Problem_8_2_7_i_ext_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
 theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 1
       ≃+ ZMod (Nat.gcd a b)) := by
-  sorry
+  haveI : NeZero a := ⟨ha⟩
+  haveI : NeZero b := ⟨hb⟩
+  have ha' : (a : ℤ) ≠ 0 := by exact_mod_cast ha
+  -- Length-`1` resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` over `ModuleCat ℤ`, inline for access to `S.f`.
+  let f : ℤ →ₗ[ℤ] ℤ := (a : ℤ) • LinearMap.id
+  let g : ℤ →ₗ[ℤ] ZMod a := Algebra.linearMap ℤ (ZMod a)
+  have hf : ∀ x : ℤ, f x = (a : ℤ) * x := fun x => by simp [f]
+  have hg : ∀ x : ℤ, g x = ((x : ℤ) : ZMod a) := fun x => by
+    simp [g, Algebra.linearMap_apply, algebraMap_int_eq, eq_intCast]
+  have hgf : ∀ x : ℤ, g (f x) = 0 := by
+    intro x; rw [hf, hg, ZMod.intCast_zmod_eq_zero_iff_dvd]; exact dvd_mul_right _ _
+  have eq0 : g.comp f = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+  have hexact : Function.Exact f g := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, hg, ZMod.intCast_zmod_eq_zero_iff_dvd, LinearMap.mem_range, hf]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right _ _
+  have hinjf : Function.Injective f :=
+    fun x y hxy => mul_left_cancel₀ ha' (by rw [← hf, ← hf, hxy])
+  have hsurjg : Function.Surjective g := by
+    intro z; obtain ⟨y, rfl⟩ := ZMod.intCast_surjective z; exact ⟨y, hg y⟩
+  set S := ModuleCat.shortComplexOfCompEqZero f g eq0 with hSdef
+  have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
+  set Y := ModuleCat.of ℤ (ZMod b) with hY
+  -- Contravariant six-term window `Ext⁰(ℤ/a) → Ext⁰(ℤ) →[·a] Ext⁰(ℤ) →[δ] Ext¹(ℤ/a) → 0 → 0`.
+  have hExactCS := Abelian.Ext.contravariantSequence_exact hS Y 0 1 (by norm_num)
+  -- Connecting map `δ : Ext⁰(ℤ, ℤ/b) → Ext¹(ℤ/a, ℤ/b)`, and precomposition-by-`·a` map.
+  let dhom : Etingof.Ext S.X₁ Y 0 →+ Etingof.Ext S.X₃ Y 1 := hS.extClass.precomp Y (by norm_num)
+  let m12 : Etingof.Ext S.X₂ Y 0 →+ Etingof.Ext S.X₁ Y 0 :=
+    (Abelian.Ext.mk₀ S.f).precomp Y (zero_add 0)
+  -- `Ext¹(ℤ, ℤ/b) = 0`, so `δ` is surjective; and `ker δ = range(·a)`.
+  have hsurjδ : Function.Surjective dhom := by
+    rw [← AddMonoidHom.range_eq_top,
+      show dhom.range = _ from (hExactCS.exact' 2 3 4).ab_range_eq_ker]
+    ext x
+    simp only [AddSubgroup.mem_top, iff_true, AddMonoidHom.mem_ker]
+    exact (Abelian.Ext.subsingleton_of_projective S.X₂ Y 0).elim _ _
+  have hkerδ : dhom.ker = m12.range := ((hExactCS.exact' 1 2 3).ab_range_eq_ker).symm
+  -- `Ext⁰(ℤ, ℤ/b) ≅ Hom_ℤ(ℤ, ℤ/b) ≅ ℤ/b`, sending `α ↦ (addEquiv₀ α)(1)`.
+  let e0 : (Etingof.Ext S.X₁ Y 0) ≃+ ZMod b :=
+    (Abelian.Ext.addEquiv₀).trans (ModuleCat.homAddEquiv.trans
+      (LinearMap.ringLmapEquivSelf ℤ ℤ (ZMod b)).toAddEquiv)
+  -- The precomposition map `·a` on `Ext⁰(ℤ)` is multiplication by `a` on `ℤ/b`.
+  have hconj : ∀ β, e0 (m12 β) = ZModGcd.mulByCast a b (e0 β) := by
+    intro β
+    have hred : m12 β = (Abelian.Ext.mk₀ S.f).comp β (zero_add 0) := rfl
+    have step1 : Abelian.Ext.addEquiv₀ (m12 β) = S.f ≫ Abelian.Ext.addEquiv₀ β := by
+      rw [hred]
+      apply Abelian.Ext.addEquiv₀.symm.injective
+      rw [AddEquiv.symm_apply_apply, Abelian.Ext.addEquiv₀_symm_apply, ← Abelian.Ext.mk₀_comp_mk₀,
+        Abelian.Ext.mk₀_addEquiv₀_apply]
+    change (LinearMap.ringLmapEquivSelf ℤ ℤ (ZMod b))
+        (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ (m12 β)))
+      = ZModGcd.mulByCast a b ((LinearMap.ringLmapEquivSelf ℤ ℤ (ZMod b))
+        (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ β)))
+    rw [step1]
+    simp only [ModuleCat.homAddEquiv_apply, ModuleCat.hom_comp,
+      LinearMap.ringLmapEquivSelf_apply, ZModGcd.mulByCast_apply]
+    change (Abelian.Ext.addEquiv₀ β).hom (S.f.hom 1) = (a : ℤ) • (Abelian.Ext.addEquiv₀ β).hom 1
+    rw [show S.f.hom (1 : ℤ) = (a : ℤ) • (1 : ℤ) from rfl, map_smul]
+  -- `range(mulByCast) = (a) • ⊤`, matching the domain of `zmodCokerEquiv`.
+  have hrange : LinearMap.range (ZModGcd.mulByCast a b)
+      = Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ (ZMod b)) := by
+    rw [Submodule.ideal_span_singleton_smul]
+    ext x
+    simp only [LinearMap.mem_range, ZModGcd.mulByCast_apply,
+      Submodule.mem_smul_pointwise_iff_exists]
+    constructor
+    · rintro ⟨y, rfl⟩; exact ⟨y, Submodule.mem_top, rfl⟩
+    · rintro ⟨y, _, rfl⟩; exact ⟨y, rfl⟩
+  -- Assemble: `Ext¹ ≃ Ext⁰(ℤ)/ker δ ≃ ℤ/b / (a)•⊤ ≃ ℤ/gcd`.
+  let δL := dhom.toIntLinearMap
+  have hsurjδL : Function.Surjective δL := hsurjδ
+  let e0L : (Etingof.Ext S.X₁ Y 0) ≃ₗ[ℤ] ZMod b := e0.toIntLinearEquiv
+  have he0L : ∀ x, (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] ZMod b) x = e0 x := fun _ => rfl
+  have hmap : Submodule.map (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] ZMod b) (LinearMap.ker δL)
+      = Ideal.span {(a : ℤ)} • (⊤ : Submodule ℤ (ZMod b)) := by
+    rw [← hrange]
+    ext z
+    simp only [Submodule.mem_map, LinearMap.mem_ker, LinearMap.mem_range, he0L]
+    constructor
+    · rintro ⟨y, hy, rfl⟩
+      have hy' : y ∈ dhom.ker := AddMonoidHom.mem_ker.mpr hy
+      rw [hkerδ] at hy'
+      obtain ⟨u, hu⟩ := hy'
+      exact ⟨e0 u, by rw [← hconj, hu]⟩
+    · rintro ⟨w, rfl⟩
+      refine ⟨m12 (e0.symm w), ?_, ?_⟩
+      · have : m12 (e0.symm w) ∈ dhom.ker :=
+          hkerδ.symm ▸ AddMonoidHom.mem_range.mpr ⟨e0.symm w, rfl⟩
+        exact AddMonoidHom.mem_ker.mp this
+      · rw [hconj, e0.apply_symm_apply]
+  exact ⟨(((LinearMap.quotKerEquivOfSurjective δL hsurjδL).symm.trans
+    (Submodule.Quotient.equiv (LinearMap.ker δL) _ e0L hmap)).trans
+    (ZModGcd.zmodCokerEquiv a b)).toAddEquiv⟩
 
 /-- `ℤ/a` has projective dimension `< 2` as a `ℤ`-module. For `a ≠ 0` the length-`1` free
 resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` exhibits this; for `a = 0`, `ℤ/0 = ℤ` is projective. -/
