@@ -168,6 +168,13 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **For "final assembly" issues that consume prerequisites**: verify the
+  infrastructure it depends on actually exists sorry-free. `check-blocked`
+  unblocks an issue when its `depends-on` deps *close* — but a dep closed
+  as `replan` (decomposed) means its real work moved to still-open
+  sub-issues, so the assembly is not actually ready. Confirm the named
+  lemmas/defs exist in the Lean files before working; if not, re-add
+  `depends-on` on the real open sub-issues and `skip`.
 
 If stale:
 ```
