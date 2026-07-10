@@ -7293,8 +7293,8 @@
     "end_page": "217",
     "start_line": 19,
     "end_line": 2,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_2.lean. Parts (i) Ext-vanishing characterization of pd, (ii) pd(N)=pd(M)+1 for a nonsplit SES with P projective, (iii) dimension-shifting for the syzygy. Faithful statements, sorry proofs."
+    "status": "sorry_free",
+    "coverage_note": "Proved (#6100): EtingofRepresentationTheory/Chapter9/Problem9_4_2.lean. Parts (i) Ext-vanishing characterization of pd (via HasProjectiveDimensionLT.subsingleton/.mk), (ii) pd(N)=pd(M)+1 for a nonsplit SES with P projective (via ShortExact.hasProjectiveDimensionLT_X₃_iff + splittingOfProjective/Injective to rule out degenerate cases), (iii) dimension-shifting for the syzygy (via ShortExact.hasProjectiveDimensionLT_X₁). All three sorry-free; axioms only propext/Classical.choice/Quot.sound."
   },
   {
     "id": "Chapter9/Definition9.4.3",
