@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_15_1
+import EtingofRepresentationTheory.Chapter5.Theorem5_22_1
 
 /-!
 # Problem 5.16.1: the branching rule for `Sₙ ⊆ Sₙ₊₁`
@@ -63,6 +64,32 @@ noncomputable def addSquare {n : ℕ} (μ : Nat.Partition n) :
 noncomputable def branchingPairing (n : ℕ)
     (χ ψ : Equiv.Perm (Fin n) → ℂ) : ℂ :=
   (Fintype.card (Equiv.Perm (Fin n)) : ℂ)⁻¹ * ∑ σ : Equiv.Perm (Fin n), χ σ * ψ σ⁻¹
+
+/-- The embedding `Sₙ ↪ Sₙ₊₁` adds a fixed point, so the full cycle type of `permEmb n σ`
+is that of `σ` with one extra `1`-cycle. -/
+lemma fullCycleType_permEmb (n : ℕ) (σ : Equiv.Perm (Fin n)) :
+    fullCycleType (n + 1) (permEmb n σ) = 1 ::ₘ fullCycleType n σ := by
+  have hct : (permEmb n σ).cycleType = σ.cycleType := by
+    rw [permEmb, Equiv.Perm.viaEmbeddingHom_apply, Equiv.Perm.viaEmbedding]
+    simp only [Equiv.Perm.cycleType_extendDomain]
+  have hsupp : (permEmb n σ).support.card = σ.support.card := by
+    rw [permEmb, Equiv.Perm.viaEmbeddingHom_apply, Equiv.Perm.viaEmbedding]
+    simp only [Equiv.Perm.card_support_extend_domain]
+  have hle : σ.support.card ≤ n := σ.support.card_le_univ.trans_eq (Fintype.card_fin n)
+  unfold fullCycleType
+  rw [hct, hsupp, show n + 1 - σ.support.card = (n - σ.support.card) + 1 from by omega,
+    Multiset.replicate_succ, Multiset.add_cons]
+
+/-- The power-sum polynomial of the embedded permutation factors out `∑ⱼ Xⱼ = psum 1`. -/
+lemma psumPart_permEmb (n : ℕ) (σ : Equiv.Perm (Fin n)) :
+    MvPolynomial.psumPart (Fin (n + 1)) ℚ (fullCycleTypePartition (permEmb n σ)) =
+      (∑ i, MvPolynomial.X i) *
+        MvPolynomial.psumPart (Fin (n + 1)) ℚ (fullCycleTypePartition σ) := by
+  simp only [MvPolynomial.psumPart]
+  rw [show (fullCycleTypePartition (permEmb n σ)).parts = fullCycleType (n + 1) (permEmb n σ) from
+      rfl, fullCycleType_permEmb n σ,
+    show (1 ::ₘ fullCycleType n σ) = (1 : ℕ) ::ₘ (fullCycleTypePartition σ).parts from rfl,
+    Multiset.map_cons, Multiset.prod_cons, MvPolynomial.psum_one]
 
 /-- Problem 5.16.1(a). Branching rule for restriction: for `μ ⊢ n+1`, the restriction of the
 Specht module `V_μ` to `Sₙ ⊆ Sₙ₊₁` decomposes as `⨁_{λ ∈ R(μ)} V_λ`. Equivalently, on every
