@@ -43,13 +43,15 @@ theorem cartanMatrix_eq {n : ℕ} (R : Matrix (Fin n) (Fin n) ℤ) :
 (`R i i = 0`), since each vertex contributes `2` from `2·Id`. -/
 theorem cartanMatrix_diag {n : ℕ} {R : Matrix (Fin n) (Fin n) ℤ}
     (hloop : ∀ i, R i i = 0) (i : Fin n) : cartanMatrix R i i = 2 := by
-  sorry
+  rw [cartanMatrix, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply_eq, hloop i]
+  norm_num
 
 /-- **The adjacency-derived matrix `A = 2·Id - R` is symmetric** whenever the
 adjacency matrix `R` is symmetric (Etingof: "this matrix is obviously
 symmetric"). -/
 theorem cartanMatrix_isSymm {n : ℕ} {R : Matrix (Fin n) (Fin n) ℤ}
     (hR : R.IsSymm) : (cartanMatrix R).IsSymm := by
-  sorry
+  unfold Matrix.IsSymm cartanMatrix
+  rw [Matrix.transpose_sub, Matrix.transpose_smul, Matrix.transpose_one, hR.eq]
 
 end Etingof.Problem6_1_3
