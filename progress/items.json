@@ -7084,8 +7084,8 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "proof_partial",
-    "coverage_note": "Deliverables (ii) [Exercise_8_2_9_ii] and (i) finite-abelian [Exercise_8_2_9_i_finAb] proved sorry-free (#6101). (i) fin-dim k[x]-module case [Exercise_8_2_9_i_polynomial] still sorried — follow-up issue."
+    "status": "sorry_free",
+    "coverage_note": "All three theorems sorry-free: (ii) [Exercise_8_2_9_ii], (i) finite-abelian [Exercise_8_2_9_i_finAb] (#6110/#6114), and (i) fin-dim k[x]-module [Exercise_8_2_9_i_polynomial] (#6113) via monic irreducible factor + k[x]/(p)-coordinate functional + lift through k[x]/(p^N) ↠ k[x]/(p) + unit/dimension contradiction."
   },
   {
     "id": "Chapter8/Problem8.2.10",
