@@ -72,7 +72,7 @@ projectives: every finitely generated `A`-module is a quotient of a finite free 
 theorem Exercise_8_2_9_ii
     (A : Type u) [CommRing A] [Algebra.FiniteType ℤ A]
     (M : Type u) [AddCommGroup M] [Module A M] [Module.Finite A M] :
-    ∃ (n : ℕ) (f : (Fin n → A) →ₗ[A] M), Function.Surjective f := by
-  sorry
+    ∃ (n : ℕ) (f : (Fin n → A) →ₗ[A] M), Function.Surjective f :=
+  Module.Finite.exists_fin' A M
 
 end Etingof
