@@ -302,7 +302,33 @@ theorem Etingof.homTransportPlusEquivReduced
             (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
               (Etingof.isSource_reversedAtVertex_isSink hi) W))
         ≃ Etingof.AdjReducedData hi V W) := by
-  sorry
+  classical
+  -- `i` is a sink of `Q̄ᵢ`; `Fplus` is the reflection of `W`, transported back to `Q` as `T`.
+  set hi' := Etingof.isSource_reversedAtVertex_isSink hi with hi'_def
+  set Fplus := @Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+    with Fplus_def
+  set T := Etingof.QuiverRepresentation.transportReversedTwice Fplus with T_def
+  -- Vertex identifications: `T.obj v ≃ W.obj v` for `v ≠ i`, and `T.obj i ≃ ker(W.sinkMap i)`.
+  let τ : ∀ v, v ≠ i → (T.obj v ≃ₗ[k]
+      @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W v) :=
+    fun v hv => (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus v).trans
+      (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W v hv)
+  let κ :=
+    (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus i).trans
+      (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W)
+  refine ⟨{
+    toFun := fun g => {
+      h := fun v hv => (τ v hv).toLinearMap ∘ₗ g.app v
+      compat := ?compat
+      constraint := ?constraint }
+    invFun := ?invFun
+    left_inv := ?li
+    right_inv := ?ri }⟩
+  case compat => sorry
+  case constraint => sorry
+  case invFun => exact fun r => sorry
+  case li => sorry
+  case ri => sorry
 
 /-- Exercise 7.9.8(a): for a source `i` of a quiver `Q`, a representation `V` of `Q`, and a
 representation `W` of the reversed quiver `Q̄ᵢ`, there is a natural isomorphism (here: a
