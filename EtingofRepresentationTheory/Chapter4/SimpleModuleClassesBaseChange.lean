@@ -82,7 +82,7 @@ faithful, so it induces an injection on isomorphism classes of simple modules. H
 
 No semisimplicity or separability is required. -/
 theorem natCard_simpleModuleClasses_le_of_surjective
-    (k : Type u) {R T : Type u} [Field k] [Ring R] [Ring T] [Algebra k R]
+    (k : Type u) {R T : Type*} [Field k] [Ring R] [Ring T] [Algebra k R]
     [Module.Finite k R] (f : R →+* T) (hf : Function.Surjective f) :
     Nat.card (SimpleModuleClasses.{u} T) ≤ Nat.card (SimpleModuleClasses.{u} R) := by
   classical

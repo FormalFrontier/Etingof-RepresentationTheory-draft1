@@ -2509,7 +2509,7 @@
     "start_line": 11,
     "end_line": 14,
     "status": "statement_formalized",
-    "coverage_note": "Split-field counting bound (step 1 of the field-general route, #6138) proved: Etingof.natCard_irrepClasses_le_conjClasses_of_isAlgClosed in Chapter4/Exercise4_2_3_FieldGeneral.lean, via linear independence of the standard-module cocenter trace forms (dual system from block matrix units, traceForm_Std_eq_trace). Sorry-free in its own right; transitively rests on the still-deferred SplitSimples count lemma card_simpleModuleClasses (#6150). Remaining: base-change monotonicity #6127 and the modular strict-drop assembly."
+    "coverage_note": "Split-field counting bound (step 1 of the field-general route, #6138) proved: Etingof.natCard_irrepClasses_le_conjClasses_of_isAlgClosed in Chapter4/Exercise4_2_3_FieldGeneral.lean, via linear independence of the standard-module cocenter trace forms (dual system from block matrix units, traceForm_Std_eq_trace). Sorry-free in its own right; transitively rests on the still-deferred SplitSimples count lemma card_simpleModuleClasses (#6150). Base-change monotonicity (#6127) now proved sorry-free: Etingof.natCard_irrepClasses_le_of_ringHom_field via the radical-quotient chain #simple(k[G]) = #simple(k[G]/rad) ≤ #simple(K⊗(k[G]/rad)) ≤ #simple(K[G]) (rewired the crux to the proven nonempty_baseChange_pi_matrix_algEquiv and built the surjection K[G]↠K⊗(k[G]/rad)); the field-general non-strict bound natCard_irrepClasses_le_conjClasses is thus complete (G in the fields' universe). Remaining: the modular strict-drop assembly (#6139)."
   },
   {
     "id": "Chapter4/Corollary4.2.4",
