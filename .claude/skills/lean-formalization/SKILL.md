@@ -501,6 +501,31 @@ hypothesis `h` for `(matrixEquivTensor …).symm` is a `TensorProduct` induction
 `Algebra.TensorProduct.assoc`'s explicit args are `(T C D)` (here `T=K`); the `commRight`/
 `cancelBaseChange` detour is unnecessary once you have `upgradeToK`.
 
+### An `Algebra.adjoin`/`Submodule.span` object must be introduced *opaquely*, not as a `let` (#6158)
+
+When a long proof needs a finitely generated subalgebra `R := Algebra.adjoin K {entries}`
+(descent of a base-change iso to an f.g. subextension, Problem 3.8.4 `Problem3_8_4_Descent.lean`),
+binding it with `let R := Algebra.adjoin K …` makes **every** downstream `isDefEq`/`whnf` try to
+unfold the adjoin. The result is `(deterministic) timeout at whnf`/`isDefEq` scattered across the
+proof — even in tactics that have nothing to do with `R`'s definition. Instead introduce it as an
+opaque hypothesis via an existential:
+```
+obtain ⟨R, hFG, hmem₁, hmem₂⟩ :
+    ∃ R : Subalgebra K L, R.FG ∧ (∀ i j, c i j ∈ R) ∧ (∀ j i, d j i ∈ R) := by
+  refine ⟨Algebra.adjoin K (↑entries : Set L), Subalgebra.fg_adjoin_finset entries, ?_, ?_⟩
+  …  -- Algebra.subset_adjoin + Finset.mem_union_left/right + Finset.mem_image
+```
+Now `R` is a bare fvar: unification never unfolds it, and only the membership facts you named are
+available. Package the coordinates you need as `⟨c i j, hmem₁ i j⟩ : ↥R` with a
+`have hval : ∀ i j, R.val ⟨c i j, _⟩ = c i j := fun _ _ => rfl` so `rw`s close by `rfl`.
+Two more levers for these large tensor/descent proofs: (1) push all the arithmetic onto the given
+`L`-iso `e` by going through the **injective** coefficient-inclusion maps
+`incV := LinearMap.rTensor V R.val.toLinearMap` (injective by `Module.Flat.rTensor_preserves_
+injective_linearMap`, `V` free over the field `K`), proving `incW ∘ φ = e ∘ incV` on the `↥R`-basis
+and extending by `Basis.sum_repr` — this yields the inverse relations and `A`-equivariance without
+ever computing `φ` on non-basis vectors; (2) expect to need `set_option maxHeartbeats 800000 in`
+(with the required explanatory comment on the line *after* the `in`, not before).
+
 ### Upgrading `dim V_λ = 1` to the book's representation-iso claim (trivial/sign, #5637)
 
 A recurring Chapter 5 fidelity-gap shape: the book says "`V_{(n)}` is the *trivial*
