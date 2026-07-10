@@ -43,6 +43,38 @@ noncomputable def realGEndAlgebra (ρ : Representation ℂ G V) :
     Subalgebra ℝ (Module.End ℝ V) :=
   Subalgebra.centralizer ℝ (Set.range (fun g => LinearMap.restrictScalars ℝ (ρ g)))
 
+/-- The `ℂ`-embedding `ℂ ⊆ End_{ℝ[G]} V` of the book: multiplication by a complex scalar `z`
+is an `ℝ`-linear endomorphism of `V` that commutes with every `(ρ g).restrictScalars ℝ`
+(because each `ρ g` is `ℂ`-linear), hence lies in the centralizer `realGEndAlgebra ρ`. This
+packages that as an `ℝ`-algebra hom `ℂ →ₐ[ℝ] realGEndAlgebra ρ`. Reusable toolkit shared by the
+real (#6327) and quaternionic (#6328) cases. -/
+noncomputable def complexToRealGEnd (ρ : Representation ℂ G V) :
+    ℂ →ₐ[ℝ] realGEndAlgebra ρ :=
+  (Algebra.lsmul ℝ ℝ V).codRestrict (realGEndAlgebra ρ) (by
+    intro z
+    rw [realGEndAlgebra, Subalgebra.mem_centralizer_iff]
+    rintro _ ⟨g, rfl⟩
+    ext v
+    simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply, Algebra.lsmul_apply,
+      map_smul])
+
+@[simp]
+theorem complexToRealGEnd_coe_apply (ρ : Representation ℂ G V) (z : ℂ) (v : V) :
+    (complexToRealGEnd ρ z : Module.End ℝ V) v = z • v := rfl
+
+/-- The `ℂ`-embedding is injective when `V ≠ 0`: if `z • v = 0` for all `v`, choosing a nonzero
+`v` forces `z = 0`. -/
+theorem complexToRealGEnd_injective (ρ : Representation ℂ G V) [Nontrivial V] :
+    Function.Injective (complexToRealGEnd ρ) := by
+  rw [injective_iff_map_eq_zero]
+  intro z hz
+  obtain ⟨v, hv⟩ := exists_ne (0 : V)
+  have : (complexToRealGEnd ρ z : Module.End ℝ V) v = 0 := by rw [hz]; rfl
+  rw [complexToRealGEnd_coe_apply] at this
+  rcases smul_eq_zero.mp this with h | h
+  · exact h
+  · exact absurd h hv
+
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`. -/
 theorem realGEndAlgebra_equiv_complex_of_isComplexType
