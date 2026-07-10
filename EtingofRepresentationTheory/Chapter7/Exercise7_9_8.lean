@@ -108,6 +108,62 @@ theorem transportReversedTwice_mapLinear_heq
         ((Etingof.reversedAtVertex_twice Q i).symm ▸ e)) :=
   mapLinear_transport_heq (Etingof.reversedAtVertex_twice Q i) X a b e
 
+/-! ### Transport packaged as `LinearEquiv`
+
+The two accessors above are stated with `HEq`. For the adjunction assembly it is far more
+convenient to package the transport of the vertex space as an honest `LinearEquiv` (absorbing
+both the object-type transport and the transported `AddCommMonoid`/`Module` instances at once),
+so that transport-compatibility of `mapLinear` becomes a plain equation rather than an `HEq`.
+Both are proved by `subst`, after which the transport is literally the identity. -/
+
+/-- Transport of a representation along an equality of `Quiver` instances, packaged as a
+`LinearEquiv` at each vertex. By `subst` it is the identity. -/
+noncomputable def objTransportEquiv {k : Type*} [CommSemiring k] {Q : Type*}
+    {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
+    (X : @Etingof.QuiverRepresentation k Q _ I₁) (v : Q) :
+    @Etingof.QuiverRepresentation.obj k Q _ I₂ (h ▸ X) v ≃ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _ I₁ X v :=
+  match I₂, h with
+  | _, rfl => LinearEquiv.refl k _
+
+/-- Transport-compatibility of `mapLinear`, as a plain equation through `objTransportEquiv`. -/
+theorem objTransportEquiv_mapLinear {k : Type*} [CommSemiring k] {Q : Type*}
+    {I₁ I₂ : Quiver Q} (h : I₁ = I₂)
+    (X : @Etingof.QuiverRepresentation k Q _ I₁) (a b : Q) (e : @Quiver.Hom Q I₂ a b)
+    (x : @Etingof.QuiverRepresentation.obj k Q _ I₂ (h ▸ X) a) :
+    objTransportEquiv h X b
+        (@Etingof.QuiverRepresentation.mapLinear k Q _ I₂ (h ▸ X) a b e x) =
+      @Etingof.QuiverRepresentation.mapLinear k Q _ I₁ X a b (h.symm ▸ e)
+        (objTransportEquiv h X a x) := by
+  subst h; rfl
+
+/-- The vertex-space `LinearEquiv` for `transportReversedTwice`:
+`(transportReversedTwice X).obj v ≃ₗ[k] X.obj v`. -/
+noncomputable def transportReversedTwiceEquiv
+    (X : @Etingof.QuiverRepresentation k Q _
+      (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i)) (v : Q) :
+    @Etingof.QuiverRepresentation.obj k Q _ inst
+      (Etingof.QuiverRepresentation.transportReversedTwice X) v ≃ₗ[k]
+    @Etingof.QuiverRepresentation.obj k Q _
+      (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i) X v :=
+  objTransportEquiv (Etingof.reversedAtVertex_twice Q i) X v
+
+/-- `mapLinear` transport-compatibility for `transportReversedTwice`, as a plain equation. -/
+theorem transportReversedTwiceEquiv_mapLinear
+    (X : @Etingof.QuiverRepresentation k Q _
+      (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i))
+    (a b : Q) (e : @Quiver.Hom Q inst a b)
+    (x : @Etingof.QuiverRepresentation.obj k Q _ inst
+      (Etingof.QuiverRepresentation.transportReversedTwice X) a) :
+    transportReversedTwiceEquiv X b
+        (@Etingof.QuiverRepresentation.mapLinear k Q _ inst
+          (Etingof.QuiverRepresentation.transportReversedTwice X) a b e x) =
+      @Etingof.QuiverRepresentation.mapLinear k Q _
+        (@Etingof.reversedAtVertex Q _ (Etingof.reversedAtVertex Q i) i) X a b
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸ e)
+        (transportReversedTwiceEquiv X a x) :=
+  objTransportEquiv_mapLinear (Etingof.reversedAtVertex_twice Q i) X a b e x
+
 end Etingof.QuiverRepresentation
 
 /-!
@@ -513,6 +569,139 @@ theorem Etingof.homFMinusEquivReduced
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap,
       LinearEquiv.coe_toLinearMap, LinearEquiv.apply_symm_apply]
 
+set_option maxHeartbeats 1600000 in
+/-- The reverse-orientation double-reversal round trip: starting from an arrow `e` of `Q̄ᵢ`
+between non-`i` vertices, convert to `Q`, transport into the double-reversed quiver, and
+convert back to `Q̄ᵢ`; the result is `e`. (Companion to `reversedArrow_ne_ne_twice`, which
+starts and ends in `Q`.) -/
+theorem Etingof.reversedArrow_ne_ne_twice'
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i : Q} {a b : Q} (ha : a ≠ i) (hb : b ≠ i)
+    (e : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) a b) :
+    @Etingof.reversedArrow_ne_ne Q inst_dec (Etingof.reversedAtVertex Q i) i a b ha hb
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸
+          (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e)) = e := by
+  apply eq_of_heq
+  have h1 : ∀ (z : @Quiver.Hom Q
+      (@Etingof.reversedAtVertex Q _ (@Etingof.reversedAtVertex Q _ inst i) i) a b),
+      HEq (@Etingof.reversedArrow_ne_ne Q inst_dec
+        (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb z) z := by
+    intro z
+    rw [@Etingof.reversedArrow_ne_ne_is_cast Q inst_dec
+      (@Etingof.reversedAtVertex Q _ inst i) i a b ha hb z]
+    exact cast_heq _ _
+  have h2 : HEq ((Etingof.reversedAtVertex_twice Q i).symm ▸
+      (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e))
+      (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e) :=
+    eqRec_heq_self (motive := fun q _ => q.Hom a b) _
+      (Etingof.reversedAtVertex_twice Q i).symm
+  have h3 : HEq (@Etingof.reversedArrow_ne_ne Q inst_dec inst i a b ha hb e) e := by
+    rw [Etingof.reversedArrow_ne_ne_is_cast]; exact cast_heq _ _
+  exact (h1 _).trans (h2.trans h3)
+
+/-- `revOut hi a` (the reversed arrow `a.fst ⟶ i` in `Q̄ᵢ`) equals `reversedArrow_eq_ne`
+applied to the source arrow `a.snd`, transported into the double-reversed quiver. This is the
+form produced by `reflFunctorPlus_mapLinear_eq_ne` when reducing `g`'s naturality at `i`. -/
+theorem Etingof.revOut_eq_reversedArrow_eq_ne
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (a : Etingof.ArrowsOutOf Q i) :
+    Etingof.revOut hi a =
+      @Etingof.reversedArrow_eq_ne Q inst_dec (Etingof.reversedAtVertex Q i) i a.fst
+        (Etingof.arrowsOutOf_target_ne_source hi a)
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸ a.snd) := by
+  apply eq_of_heq
+  have hL : HEq (Etingof.revOut hi a) a.snd := by
+    unfold Etingof.revOut; exact cast_heq _ _
+  have hR : HEq
+      (@Etingof.reversedArrow_eq_ne Q inst_dec (Etingof.reversedAtVertex Q i) i a.fst
+        (Etingof.arrowsOutOf_target_ne_source hi a)
+        ((Etingof.reversedAtVertex_twice Q i).symm ▸ a.snd)) a.snd := by
+    rw [@Etingof.reversedArrow_eq_ne_is_cast Q inst_dec (Etingof.reversedAtVertex Q i) i a.fst
+      (Etingof.arrowsOutOf_target_ne_source hi a)]
+    refine HEq.trans (cast_heq _ _) ?_
+    exact eqRec_heq_self (motive := fun q _ => q.Hom i a.fst) a.snd
+      (Etingof.reversedAtVertex_twice Q i).symm
+  exact hL.trans hR.symm
+
+/-- For a source `i`, an arrow *into* `i` in the reversed quiver `Q̄ᵢ` has source `≠ i`
+(a loop at `i` would be an arrow into the source `i` of `Q`). -/
+theorem Etingof.arrowsIntoReversed_source_ne
+    {Q : Type*} [DecidableEq Q] [Quiver Q] {i : Q} (hi : Etingof.IsSource Q i)
+    (b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) : b.fst ≠ i := by
+  obtain ⟨j, e⟩ := b
+  intro hj
+  have e' : @Quiver.Hom Q (Etingof.reversedAtVertex Q i) i i := hj ▸ e
+  exact (hi i).false (cast (Etingof.ReversedAtVertexHom_eq_eq (i := i) rfl rfl) e')
+
+/-- Reindexing arrows out of a source `i` in `Q` as arrows into `i` in the reversed quiver
+`Q̄ᵢ`: the arrow `i → a.fst` of `Q` becomes its reversal `a.fst → i` in `Q̄ᵢ`. -/
+noncomputable def Etingof.sourceArrowReindexEquiv
+    {Q : Type*} [inst_dec : DecidableEq Q] [inst : Quiver Q]
+    {i : Q} (hi : Etingof.IsSource Q i) :
+    Etingof.ArrowsOutOf Q i ≃ @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i where
+  toFun a := ⟨a.fst, Etingof.revOut hi a⟩
+  invFun b := ⟨b.fst, Etingof.reversedArrow_ne_eq (Etingof.arrowsIntoReversed_source_ne hi b) b.snd⟩
+  left_inv a := by
+    refine Sigma.ext rfl ?_
+    have h1 : HEq (Etingof.reversedArrow_ne_eq
+        (Etingof.arrowsIntoReversed_source_ne hi ⟨a.fst, Etingof.revOut hi a⟩)
+        (Etingof.revOut hi a)) (Etingof.revOut hi a) := by
+      rw [Etingof.reversedArrow_ne_eq_eq_cast]; exact cast_heq _ _
+    have h2 : HEq (Etingof.revOut hi a) a.snd := by
+      unfold Etingof.revOut; exact cast_heq _ _
+    exact h1.trans h2
+  right_inv b := by
+    refine Sigma.ext rfl ?_
+    have h1 : HEq (Etingof.revOut hi
+        ⟨b.fst, Etingof.reversedArrow_ne_eq (Etingof.arrowsIntoReversed_source_ne hi b) b.snd⟩)
+        (Etingof.reversedArrow_ne_eq (Etingof.arrowsIntoReversed_source_ne hi b) b.snd) := by
+      unfold Etingof.revOut; exact cast_heq _ _
+    have h2 : HEq (Etingof.reversedArrow_ne_eq
+        (Etingof.arrowsIntoReversed_source_ne hi b) b.snd) b.snd := by
+      rw [Etingof.reversedArrow_ne_eq_eq_cast]; exact cast_heq _ _
+    exact h1.trans h2
+
+/-- `sinkMap` applied to a direct-sum element is the sum over incoming arrows of the arrow map
+applied to that component. (Extracted from the sink-map unfolding used in
+`Φ_comp_source_eq_zero`.) -/
+theorem Etingof.sinkMap_apply_eq_sum
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    (ρ : Etingof.QuiverRepresentation k Q) (i : Q) [Fintype (Etingof.ArrowsInto Q i)]
+    (y : DirectSum (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1)) :
+    ρ.sinkMap i y =
+      ∑ b : Etingof.ArrowsInto Q i, ρ.mapLinear b.2
+        (DirectSum.component k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) b y) := by
+  classical
+  delta Etingof.QuiverRepresentation.sinkMap
+  change (DirectSum.toModule k (Etingof.ArrowsInto Q i) (ρ.obj i)
+    (fun a => ρ.mapLinear a.2)) y = _
+  induction y using DirectSum.induction_on with
+  | zero => simp only [map_zero, Finset.sum_const_zero]
+  | of j x =>
+    erw [DirectSum.toModule_lof]
+    rw [Finset.sum_eq_single j]
+    · erw [DirectSum.component.lof_self]
+    · intro b _ hb
+      erw [DirectSum.component.of]; rw [dif_neg (Ne.symm hb), map_zero]
+    · intro h; exact absurd (Finset.mem_univ j) h
+  | add x y hx hy =>
+    simp only [map_add, hx, hy, Finset.sum_add_distrib]
+
+/-- `sinkMap` applied to a single generator `lof b v` is the arrow map `mapLinear b.2 v`. -/
+theorem Etingof.sinkMap_lof
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    (ρ : Etingof.QuiverRepresentation k Q) (i : Q)
+    [Fintype (Etingof.ArrowsInto Q i)] [DecidableEq (Etingof.ArrowsInto Q i)]
+    (b : Etingof.ArrowsInto Q i) (v : ρ.obj b.1) :
+    ρ.sinkMap i (DirectSum.lof k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) b v) =
+      ρ.mapLinear b.2 v := by
+  rw [Etingof.sinkMap_apply_eq_sum ρ i (DirectSum.lof k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) b v)]
+  rw [Finset.sum_eq_single b]
+  · rw [DirectSum.component.lof_self]
+  · intro c _ hc
+    rw [DirectSum.component.of, dif_neg (Ne.symm hc), map_zero]
+  · intro h; exact absurd (Finset.mem_univ b) h
+
 /-- The kernel side of the adjunction bijection:
 `Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`. At `v ≠ i` a morphism gives
 `h v` through `transportReversedTwice_obj` and `reflFunctorPlus_equivAt_ne`; at `i` its value
@@ -532,7 +721,120 @@ theorem Etingof.homTransportPlusEquivReduced
             (@Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i
               (Etingof.isSource_reversedAtVertex_isSink hi) W))
         ≃ Etingof.AdjReducedData hi V W) := by
-  sorry
+  classical
+  -- `i` is a sink of `Q̄ᵢ`; `Fplus` is the reflection of `W`, transported back to `Q` as `T`.
+  set hi' := Etingof.isSource_reversedAtVertex_isSink hi with hi'_def
+  set Fplus := @Etingof.reflectionFunctorPlus k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+    with Fplus_def
+  set T := Etingof.QuiverRepresentation.transportReversedTwice Fplus with T_def
+  -- Vertex identifications: `T.obj v ≃ W.obj v` for `v ≠ i`, and `T.obj i ≃ ker(W.sinkMap i)`.
+  let τ : ∀ v, v ≠ i → (T.obj v ≃ₗ[k]
+      @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W v) :=
+    fun v hv => (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus v).trans
+      (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W v hv)
+  let κ :=
+    (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus i).trans
+      (@Etingof.reflFunctorPlus_equivAt_eq k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W)
+  refine ⟨{
+    toFun := fun g => {
+      h := fun v hv => (τ v hv).toLinearMap ∘ₗ g.app v
+      compat := ?compat
+      constraint := ?constraint }
+    invFun := ?invFun
+    left_inv := ?li
+    right_inv := ?ri }⟩
+  case compat =>
+    intro a b ha hb e x
+    -- `h v hv y = τ v hv (g.app v y)`; abbreviate the Q-arrow `e' := reversedArrow_ne_ne ha hb e`.
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
+    set e' := Etingof.reversedArrow_ne_ne ha hb e with he'
+    -- RHS: rewrite `g.app b ∘ V.mapLinear e'` by naturality of `g` on the Q-arrow `e'`.
+    rw [g.naturality e' x]
+    -- Unfold `τ b hb` through the `trans`, then push through the transport and `Fplus.mapLinear`.
+    rw [show τ b hb (T.mapLinear e' (g.app a x)) =
+        (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W b hb)
+          (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus b
+            (T.mapLinear e' (g.app a x)))
+      from rfl]
+    rw [Etingof.QuiverRepresentation.transportReversedTwiceEquiv_mapLinear Fplus a b e' (g.app a x)]
+    rw [@Etingof.reflFunctorPlus_mapLinear_ne_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+      a b ha hb ((Etingof.reversedAtVertex_twice Q i).symm ▸ e')
+      (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus a (g.app a x))]
+    -- Now both sides are `W.mapLinear ? (τ a ha (g.app a x))`; the arrows match by the twice lemma.
+    rw [he', Etingof.reversedArrow_ne_ne_twice' ha hb e]
+    rfl
+  case constraint =>
+    intro x
+    haveI : Fintype (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) :=
+      Fintype.ofEquiv _ (Etingof.sourceArrowReindexEquiv hi)
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
+    -- The kernel element `z` underlying `κ (g.app i x)`, and the target `sinkMap z = 0`.
+    set z := (κ (g.app i x)).1 with hz
+    letI acmW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+        AddCommMonoid (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+      fun b => @Etingof.QuiverRepresentation.instAddCommMonoid k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+    letI modW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+        Module k (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+      fun b => @Etingof.QuiverRepresentation.instModule k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+    have hker := (κ (g.app i x)).property
+    rw [LinearMap.mem_ker] at hker
+    refine Eq.trans ?_ hker
+    -- Expand `sinkMap z` as a sum over `ArrowsInto Q̄ᵢ i`, and reindex from `ArrowsOutOf Q i`.
+    rw [@Etingof.sinkMap_apply_eq_sum k _ Q _ (Etingof.reversedAtVertex Q i) W i _ z]
+    refine Finset.sum_equiv (Etingof.sourceArrowReindexEquiv hi) (by simp) (fun a _ => ?_)
+    -- Per-summand: `W (revOut a) (h_{a.fst} (V a.snd x)) = W b.snd (component b z)` for `b = reindex a`,
+    -- via `g.naturality` at `i` and `reflFunctorPlus_mapLinear_eq_ne`.
+    have hb := Etingof.arrowsOutOf_target_ne_source hi a
+    rw [g.naturality a.snd x]
+    rw [show (τ a.fst hb) (T.mapLinear a.snd (g.app i x)) =
+        (@Etingof.reflFunctorPlus_equivAt_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+          a.fst hb)
+          (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus a.fst
+            (T.mapLinear a.snd (g.app i x)))
+      from rfl]
+    rw [Etingof.QuiverRepresentation.transportReversedTwiceEquiv_mapLinear Fplus i a.fst a.snd
+      (g.app i x)]
+    rw [@Etingof.reflFunctorPlus_mapLinear_eq_ne k _ Q _ (Etingof.reversedAtVertex Q i) i hi' W
+      a.fst hb ((Etingof.reversedAtVertex_twice Q i).symm ▸ a.snd)
+      (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus i (g.app i x))]
+    rw [← Etingof.revOut_eq_reversedArrow_eq_ne hi a]
+    rfl
+  case invFun =>
+    intro r
+    -- The direct-sum element at `i`: `x ↦ ∑ a, lof (reindex a) (r.h a.fst (V a.snd x))`.
+    refine { app := ?app, naturality := ?nat }
+    case app =>
+      intro v
+      by_cases hv : v = i
+      · subst v
+        haveI : Fintype (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) :=
+          Fintype.ofEquiv _ (Etingof.sourceArrowReindexEquiv hi)
+        letI acmW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+            AddCommMonoid (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+          fun b => @Etingof.QuiverRepresentation.instAddCommMonoid k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+        letI modW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+            Module k (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+          fun b => @Etingof.QuiverRepresentation.instModule k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+        refine κ.symm.toLinearMap ∘ₗ LinearMap.codRestrict
+          (@Etingof.QuiverRepresentation.sinkMap k _ Q (Etingof.reversedAtVertex Q i) W i).ker
+          (∑ a : Etingof.ArrowsOutOf Q i,
+            (DirectSum.lof k (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i)
+              (fun b => @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.1)
+              (Etingof.sourceArrowReindexEquiv hi a)).comp
+              ((r.h a.fst (Etingof.arrowsOutOf_target_ne_source hi a)).comp (V.mapLinear a.snd)))
+          (fun x => ?_)
+        -- Lands in the kernel: `sinkMap (∑ …) = constraint = 0`.
+        rw [LinearMap.mem_ker, LinearMap.sum_apply, map_sum]
+        refine Eq.trans (Finset.sum_congr rfl (fun a (_ : a ∈ Finset.univ) => ?_)) (r.constraint x)
+        exact @Etingof.sinkMap_lof k _ Q _ (Etingof.reversedAtVertex Q i) W i _ _
+          (Etingof.sourceArrowReindexEquiv hi a)
+          (r.h a.fst (Etingof.arrowsOutOf_target_ne_source hi a) (V.mapLinear a.snd x))
+      · exact (τ v hv).symm.toLinearMap ∘ₗ r.h v hv
+    -- Naturality of the constructed morphism. Remaining work; see issue #6085.
+    case nat => sorry
+  -- Round-trip laws (`AdjReducedData` / `QuiverRepresentationHom` extensionality). See #6085.
+  case li => sorry
+  case ri => sorry
 
 /-- Exercise 7.9.8(a): for a source `i` of a quiver `Q`, a representation `V` of `Q`, and a
 representation `W` of the reversed quiver `Q̄ᵢ`, there is a natural isomorphism (here: a
