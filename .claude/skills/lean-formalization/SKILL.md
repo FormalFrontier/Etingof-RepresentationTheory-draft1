@@ -4480,3 +4480,27 @@ and inner-rep in *syntactic* agreement between the kernel-equality lemma and the
 `quotEquivOfEq` call (pass the composite `fφ` and inner rep `τ'` as explicit args
 with `hfφ`/`hτ` equations and `subst` them) — else defeq-but-not-syntactic forms
 like `H.subtype.comp K.subtype` vs `K.subtype.comp σ` make `exact`/`rw` fail.
+
+### Two follow-on gotchas when proving `IndV` isomorphisms via `Coinvariants.lift`
+
+- **`Representation.IndV.mk` is a `noncomputable abbrev`, so `simp` unfolds it.**
+  `Representation.IndV.mk φ ρ h = Coinvariants.mk _ ∘ₗ TensorProduct.mk _ _ _ (single h 1)`.
+  Inside a `hom_ext` proof, `simp only [LinearMap.comp_apply]` (or any `simp` touching the
+  composition) rewrites `(f ∘ₗ IndV.mk φ ρ h) z` all the way to
+  `f (Coinvariants.mk _ (TensorProduct.mk .. (single h 1) z))`, after which `rw [fwd_mk]` /
+  `Representation.ind_mk` (stated with the folded `IndV.mk`) no longer match. Fix: prove the
+  generator identity as a standalone pointwise `have hpt : ∀ h z, f (IndV.mk φ ρ h z) = …` (these
+  `rw`s match because the argument stays `IndV.mk φ ρ h z`), then discharge the `hom_ext` +
+  `LinearMap.ext` goal with a definitional `change f (IndV.mk φ ρ h z) = … ; exact hpt h z`
+  (`LinearMap.comp_apply`/`mulLeft_apply`/`id` are all rfl, so `change` bridges it). Never `simp`
+  the composition itself.
+
+- **Unit-inverse coercions get normalised by a `norm_cast` simp lemma.**
+  `((χ g : ℂˣ)⁻¹ : ℂ)` elaborates as `↑((χ g)⁻¹)` but the `@[simp, norm_cast]` lemma
+  `Units.val_inv_eq_inv_val` rewrites it to `(↑(χ g))⁻¹` after any `simp`/`field_simp`. So
+  `Units.inv_mul`/`Units.mul_inv` (pattern `↑u⁻¹ * ↑u`) stop matching; use
+  `inv_mul_cancel₀ (Units.ne_zero _)` / `mul_inv_cancel₀ (Units.ne_zero _)` on the complex-inverse
+  form instead. To convert a bare `(↑(χ g))⁻¹` into `↑(χ g⁻¹)` (e.g. to feed a twisted
+  coinvariance lemma `IndV.mk (κ·x) (χ κ • w) = IndV.mk x w`), `rw [map_inv, Units.val_inv_eq_inv_val]`
+  in reverse via a small `have`. For character sums, reindex the defining sum of `e_χ` with
+  `Equiv.mulLeft k` and `Equiv.sum_comp` to get `of k * e_χ = χ(k) • e_χ`.
