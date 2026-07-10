@@ -1573,6 +1573,33 @@ quotient like the Weyl algebra `U(ℋ)/(c−1)` needs `RingCon` (`TwoSidedIdeal.
 `RingCon.mk'`, `RingCon.eq`, `TwoSidedIdeal.rel_iff`/`subset_span`), **not** `Ideal.Quotient`
 (commutative-only). Worked, axiom-clean in `Chapter2/Example2_9_13.lean`.
 
+### Block-matrix maps on `V × W`: reduce `LinearMap.prod` and split pair goals (Ch3 #6156)
+
+Proving an intertwiner/iso built from `LinearMap.prod`/`fst`/`snd`/`coprod` (block-triangular
+`φ = [[1, X], [0, 1]]`, `blockOp`, etc.) hits two recurring reductions that cost several iterations:
+
+1. **`LinearMap.prod` does not reduce to a pair under `simp only`.** `simp` rewrites `⇑(f.prod g)`
+   via `LinearMap.coe_prod` to `Function.prod ⇑f ⇑g`, *not* to `(f x, g x)` — so a following
+   `blockOp_apply` (which needs a literal `(v, w)` argument) and `.1`/`.2` projections never fire.
+   Fix: `set L := LinearMap.prod … with hL`, prove a `@[local]`-style apply lemma
+   `have Lapp : ∀ p, L p = (p.1 + X p.2, p.2) := fun p => by simp [hL, Function.prod_apply]`, then
+   `simp only [Lapp, …]`. Everything downstream reduces on literal pairs. (`LinearMap.coe_prod` in
+   the apply-lemma's `simp` is often reported unused — drop it; the default set already has it.)
+2. **To split `(a, b) = (c, d)` under `simp only`, use `rw [Prod.mk.injEq]`, NOT `Prod.ext_iff`.**
+   `Prod.ext_iff` gives `p.1 = q.1 ∧ p.2 = q.2` with *un-reduced* projections that `simp only`
+   won't peel (it doesn't iota-reduce `(a,b).1` without a projection lemma), so the next
+   `simp only [add_assoc, …]` reports "made no progress". `Prod.mk.injEq` rewrites straight to
+   `a = c ∧ b = d` with components already reduced; then `refine ⟨?_, rfl⟩` and close the content
+   component. For the off-diagonal identity, turn the cocycle/coboundary equation into an
+   `add`-form via `sub_eq_sub_iff_add_eq_add` and finish with `simp only [add_assoc, ← key]`.
+3. Bundle `X ↦ coboundaryOf X` as a real `LinearMap` (`coboundaryLinear`) so
+   `coboundaries = span (range …)` collapses to `LinearMap.range` (via `le_antisymm` +
+   `Submodule.span_le`/`subset_span`), giving a clean `mem_coboundaries_iff : g ∈ coboundaries ↔
+   ∃ X, coboundaryOf X = g` to extract the witness. The `a • (c • v) = c • (a • v)` step in the
+   bundling is `smul_comm` (instance `IsScalarTower.to_smulCommClass : SMulCommClass k A V`).
+
+Worked sorry-free in `Chapter3/Problem3_9_1.lean` (parts (a)–(c) + the `c ≠ 0` half of (d)).
+
 ### Type Class Instance Examples
 
 For "example" items that demonstrate a type satisfies a definition, use `inferInstance`:
