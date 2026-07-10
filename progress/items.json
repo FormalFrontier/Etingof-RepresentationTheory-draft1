@@ -3976,7 +3976,7 @@
     "start_line": 13,
     "end_line": 24,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Problem5_11_1.lean states the decomposition into A5 irreducibles (repTriv/repC3plus/repC3minus/repC4/repC5) of representations induced from irreducibles of the subgroups Z2, Z3, Z5, A4, Z2xZ2. Phrased for an arbitrary subgroup of the relevant order (all such are conjugate in A5) and an arbitrary irreducible inducing character distinguished by dimension and triviality, via Etingof.Definition5_8_1 and FDRep biproducts. 11 theorems, sorry proofs."
+    "coverage_note": "Statement pass: Chapter5/Problem5_11_1.lean states the decomposition into A5 irreducibles (repTriv/repC3plus/repC3minus/repC4/repC5) of representations induced from irreducibles of the subgroups Z2, Z3, Z5, A4, Z2xZ2. Phrased for an arbitrary subgroup of the relevant order (all such are conjugate in A5) and an arbitrary irreducible inducing character distinguished by dimension and triviality, via Etingof.Definition5_8_1 and FDRep biproducts. 11 theorems. Part (a) fully proved: indZ2_triv (Ind_Z2 1+ = 1+3+3'+4^2+5^3) and indZ2_sign (Ind_Z2 1- = 3^2+3'^2+4^2+5^2), both via the charEq_iso + Frobenius-character route; indZ2_sign pins the sign character from Simple sigma alone (finrank=1 via IsProj.trace on the involution + simple_iff_char_is_norm_one). Parts (b)-(e) (indZ3/indZ5/indA4/indV4) still sorry."
   },
   {
     "id": "Chapter5/Introduction_5.12",

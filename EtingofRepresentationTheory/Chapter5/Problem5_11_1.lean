@@ -316,13 +316,199 @@ theorem indZ2_triv (H : Subgroup A5) (hH : Nat.card H = 2)
   funext g
   rw [indZ2_triv_char_all H hH σ htriv g, indZ2_triv_target_char_all g]
 
+/-! ## Sign character of `ℤ₂`
+
+For the sign case we lack a triviality hypothesis, so we must pin the character of `σ` from
+`Simple σ` alone. Since `|H| = 2`, `↥H = {1, t'}` with `t'² = 1`; every simple representation of
+this two-element group is one-dimensional (the involution `σ.ρ t'` is a `±1`-projection, forcing
+`finrank σ = 1` via the norm-one identity), so `σ.character` takes the value `1` at `1` and `±1`
+at `t'`; `hntriv` selects `−1`. -/
+
+/-- **Sign character values.** If `σ` is a simple representation of an order-`2` group with a
+nontrivial character, then `σ.character x = 1` for `x = 1` and `= -1` otherwise. -/
+lemma sign_char (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
+    ∀ x : ↥H, σ.character x = if x = 1 then (1 : ℂ) else -1 := by
+  classical
+  -- The two elements of `↥H`: identity and an involution `t'`.
+  obtain ⟨t', ht'ne, ht'all⟩ : ∃ t' : ↥H, t' ≠ 1 ∧ ∀ x : ↥H, x = 1 ∨ x = t' := by
+    obtain ⟨a, b, hab, hpair⟩ := Nat.card_eq_two_iff.mp hH
+    have hmem : ∀ z : ↥H, z = a ∨ z = b := by
+      intro z
+      have hz : z ∈ ({a, b} : Set ↥H) := by rw [hpair]; exact Set.mem_univ z
+      simpa [Set.mem_insert_iff, Set.mem_singleton_iff] using hz
+    rcases hmem 1 with h1 | h1
+    · refine ⟨b, fun hb => hab (h1.symm.trans hb.symm), fun x => ?_⟩
+      rcases hmem x with hx | hx
+      · exact Or.inl (hx.trans h1.symm)
+      · exact Or.inr hx
+    · refine ⟨a, fun ha => hab (ha.trans h1), fun x => ?_⟩
+      rcases hmem x with hx | hx
+      · exact Or.inr hx
+      · exact Or.inl (hx.trans h1.symm)
+  -- Every element of `↥H` is self-inverse (exponent divides `2`).
+  have hself : ∀ h : ↥H, h * h = 1 := fun h => by
+    have hpow : h ^ 2 = 1 := orderOf_dvd_iff_pow_eq_one.mp (hH ▸ orderOf_dvd_natCard h)
+    rwa [pow_two] at hpow
+  have hinv : ∀ h : ↥H, h⁻¹ = h := fun h => inv_eq_of_mul_eq_one_right (hself h)
+  have ht'2 : t' * t' = 1 := hself t'
+  -- Norm-one identity: `∑ χ(h)·χ(h⁻¹) = |H| = 2`.
+  have hnorm : ∑ h : ↥H, σ.character h * σ.character h⁻¹ = (Nat.card ↥H : ℂ) :=
+    (FDRep.simple_iff_char_is_norm_one σ).mp inferInstance
+  simp only [hinv] at hnorm
+  have hsum2 : ∑ h : ↥H, σ.character h * σ.character h
+      = σ.character 1 * σ.character 1 + σ.character t' * σ.character t' :=
+    Fintype.sum_eq_add 1 t' (Ne.symm ht'ne)
+      (fun x hx => (not_or.mpr hx (ht'all x)).elim)
+  rw [hsum2, hH, Nat.cast_ofNat] at hnorm
+  -- Character at `1` is the dimension.
+  have hchar1 : σ.character 1 = (Module.finrank ℂ σ : ℂ) := FDRep.char_one σ
+  rw [hchar1] at hnorm
+  set d := Module.finrank ℂ σ with hd_def
+  have hnorm2 : (d : ℂ) * (d : ℂ) + σ.character t' * σ.character t' = 2 := hnorm
+  -- The involution `σ.ρ t'` gives an idempotent `p = (1 + σ.ρ t')/2`, whose trace is a natural
+  -- number `K`; hence `χ(t') = 2K - d`.
+  have hf2 : σ.ρ t' * σ.ρ t' = 1 := by rw [← map_mul, ht'2, map_one]
+  set p : Module.End ℂ σ := (2⁻¹ : ℂ) • (1 + σ.ρ t') with hp_def
+  have hidem : IsIdempotentElem p := by
+    show p * p = p
+    have e1 : p * p = (2⁻¹ * 2⁻¹ : ℂ) • ((1 + σ.ρ t') * (1 + σ.ρ t')) := by
+      simp only [hp_def, smul_mul_assoc, mul_smul_comm, smul_smul]
+    have e2 : (1 + σ.ρ t') * (1 + σ.ρ t') = (2 : ℂ) • (1 + σ.ρ t') := by
+      have hexp : (1 + σ.ρ t') * (1 + σ.ρ t') = 1 + σ.ρ t' + σ.ρ t' + σ.ρ t' * σ.ρ t' := by
+        noncomm_ring
+      rw [hexp, hf2, two_smul]; abel
+    rw [e1, e2, smul_smul, hp_def, show (2⁻¹ * 2⁻¹ * 2 : ℂ) = 2⁻¹ by norm_num]
+  have htr : LinearMap.trace ℂ σ p = (Module.finrank ℂ (LinearMap.range p) : ℂ) :=
+    (LinearMap.IsIdempotentElem.isProj_range p hidem).trace
+  set K := Module.finrank ℂ (LinearMap.range p) with hK_def
+  have htr2 : LinearMap.trace ℂ σ p = 2⁻¹ * ((d : ℂ) + σ.character t') := by
+    simp only [hp_def, map_smul, map_add, LinearMap.trace_one, smul_eq_mul]
+    rfl
+  have heq : (K : ℂ) = 2⁻¹ * ((d : ℂ) + σ.character t') := htr.symm.trans htr2
+  have hchi : σ.character t' = 2 * (K : ℂ) - (d : ℂ) := by linear_combination -2 * heq
+  -- Integer Diophantine `d² + (2K - d)² = 2` forces `d = 1`.
+  have hZ : (d : ℤ) ^ 2 + (2 * (K : ℤ) - (d : ℤ)) ^ 2 = 2 := by
+    have hC : (d : ℂ) * (d : ℂ) + (2 * (K : ℂ) - (d : ℂ)) * (2 * (K : ℂ) - (d : ℂ)) = 2 := by
+      rw [← hchi]; exact hnorm2
+    have hcast : (((d : ℤ) ^ 2 + (2 * (K : ℤ) - (d : ℤ)) ^ 2 : ℤ) : ℂ) = ((2 : ℤ) : ℂ) := by
+      push_cast; linear_combination hC
+    exact_mod_cast hcast
+  have hd1 : d = 1 := by
+    have hsq : (d : ℤ) ^ 2 ≤ 2 := by nlinarith [sq_nonneg (2 * (K : ℤ) - (d : ℤ))]
+    have hlt : d < 2 := by
+      rcases Nat.lt_or_ge d 2 with h | h
+      · exact h
+      · exfalso
+        have h2 : (2 : ℤ) ≤ (d : ℤ) := by exact_mod_cast h
+        nlinarith [hsq, h2]
+    interval_cases d
+    · exfalso
+      obtain ⟨m, hm⟩ : ∃ m : ℤ, (2 * (K : ℤ) - ((0 : ℕ) : ℤ)) ^ 2 = 4 * m := ⟨(K : ℤ) ^ 2, by ring⟩
+      rw [hm] at hZ; push_cast at hZ; omega
+    · rfl
+  -- With `d = 1`, `χ(t')² = 1`, so `χ(t') = ±1`; `hntriv` rules out `+1`.
+  have hchisq : σ.character t' * σ.character t' = 1 := by
+    rw [hd1] at hnorm2; push_cast at hnorm2; linear_combination hnorm2
+  have hpm : σ.character t' = 1 ∨ σ.character t' = -1 := by
+    have hfac : (σ.character t' - 1) * (σ.character t' + 1) = 0 := by linear_combination hchisq
+    rcases mul_eq_zero.mp hfac with h | h
+    · exact Or.inl (by linear_combination h)
+    · exact Or.inr (by linear_combination h)
+  have hchit : σ.character t' = -1 := by
+    rcases hpm with h | h
+    · exfalso
+      obtain ⟨w, hw⟩ := hntriv
+      apply hw
+      rcases ht'all w with rfl | rfl
+      · rw [hchar1, hd1]; norm_num
+      · exact h
+    · exact h
+  -- Conclude the character function.
+  intro x
+  rcases ht'all x with rfl | rfl
+  · rw [if_pos rfl, hchar1, hd1]; norm_num
+  · rw [if_neg ht'ne]; exact hchit
+
+set_option maxRecDepth 8000 in
+-- `decide` evaluates conjugation counts over all 60 elements of `A₅`, needing raised limits.
+set_option maxHeartbeats 4000000 in
+/-- The count `#{x : x·(classRepA5 j)·x⁻¹ = 1}` on the five classes: `60` at the identity class,
+`0` elsewhere. -/
+lemma oneCount (j : Fin 5) :
+    (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = 1)).card = ![60, 0, 0, 0, 0] j := by
+  fin_cases j <;> decide
+
+/-- **Sign character, class-rep values.** For an order-2 `H` and a simple nontrivial `σ`,
+`(ind σ).character` on the five class reps is `(30, 0, -2, 0, 0)`. -/
+lemma indZ2_sign_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![30, 0, -2, 0, 0] j := by
+  classical
+  rw [ind_character_eq]
+  have hcard : (Fintype.card ↥H : ℂ) = 2 := by
+    rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  have hsign := sign_char H hH σ hntriv
+  have hsum : (∑ x : A5, if h : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+      = ∑ x : A5, (2 * (if x * classRepA5 j * x⁻¹ = 1 then (1 : ℂ) else 0)
+                    - (if x * classRepA5 j * x⁻¹ ∈ H then (1 : ℂ) else 0)) := by
+    apply Finset.sum_congr rfl
+    intro x _
+    by_cases hx1 : x * classRepA5 j * x⁻¹ = 1
+    · have hxH : x * classRepA5 j * x⁻¹ ∈ H := hx1 ▸ H.one_mem
+      have hone : (⟨x * classRepA5 j * x⁻¹, hxH⟩ : ↥H) = 1 := Subtype.ext hx1
+      rw [dif_pos hxH, hsign ⟨_, hxH⟩, hone, if_pos rfl, if_pos hx1, if_pos hxH]; ring
+    · by_cases hxH : x * classRepA5 j * x⁻¹ ∈ H
+      · have hne : (⟨x * classRepA5 j * x⁻¹, hxH⟩ : ↥H) ≠ 1 :=
+          fun hEq => hx1 (Subtype.ext_iff.mp hEq)
+        rw [dif_pos hxH, hsign ⟨_, hxH⟩, if_neg hne, if_neg hx1, if_pos hxH]; ring
+      · rw [dif_neg hxH, if_neg hx1, if_neg hxH]; ring
+  rw [hsum, Finset.sum_sub_distrib, ← Finset.mul_sum, Finset.sum_boole, Finset.sum_boole,
+    oneCount, countH_eq H hH, twisted_p2', hcard]
+  fin_cases j <;> norm_num
+
+/-- Arbitrary-`g` sign-character values, via the class-function property. -/
+lemma indZ2_sign_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 2)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (g : A5) :
+    (ind σ).character g = ![30, 0, -2, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indZ2_sign_value H hH σ hntriv (classIdxA5 g)
+
+/-- **Target character, class-rep values** for the sign-character decomposition. -/
+lemma indZ2_sign_target_value (j : Fin 5) :
+    (repC3plus ⊞ repC3plus ⊞ repC3minus ⊞ repC3minus ⊞ repC4 ⊞ repC4 ⊞ repC5 ⊞ repC5).character
+        (classRepA5 j) = ![30, 0, -2, 0, 0] j := by
+  simp only [character_biprod, repC3plus_character, repC3minus_character,
+    repC4_character, repC5_character]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, chiA5, tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re, Q5.one_im,
+      Q5.zero_re, Q5.zero_im] <;>
+    ring
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indZ2_sign_target_char_all (g : A5) :
+    (repC3plus ⊞ repC3plus ⊞ repC3minus ⊞ repC3minus ⊞ repC4 ⊞ repC4 ⊞ repC5 ⊞ repC5).character g
+      = ![30, 0, -2, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indZ2_sign_target_value (classIdxA5 g)
+
 /-- **(a) sign character.** `Ind_{ℤ₂}^{A₅} 1₋ ≅ 3² ⊕ 3'² ⊕ 4² ⊕ 5²` (dimension `30`).
 Multiplicities `(χ_W(1a) − χ_W(2a))/2`. -/
 theorem indZ2_sign (H : Subgroup A5) (hH : Nat.card H = 2)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (ind σ ≅
       repC3plus ⊞ repC3plus ⊞ repC3minus ⊞ repC3minus ⊞ repC4 ⊞ repC4 ⊞ repC5 ⊞ repC5) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indZ2_sign_char_all H hH σ hntriv g, indZ2_sign_target_char_all g]
 
 /-! ## (b) Induction from `ℤ₃` -/
 
