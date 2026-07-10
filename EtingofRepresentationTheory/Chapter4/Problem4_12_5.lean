@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes
+import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Complete
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 
 /-!
 # Problem 4.12.5: decomposition of the icosahedral representations of `A₅`
@@ -208,6 +210,219 @@ theorem exists_isInternal_isIrredSub {n : ℕ} (ρ : Representation ℂ A5 (Fin 
     set σ := Subrepresentation.ofSubmodule' (N k) with hσ
     have hsk : IsSimpleModule (MonoidAlgebra ℂ A5) σ.asSubmodule := simple' (e.symm k)
     exact (isIrredSub_iff_isSimpleModule σ).mpr hsk
+
+/-! ### Isotypic / multiplicity layer
+
+The generic engine `exists_isInternal_isIrredSub` produces an internal direct sum of
+`IsIrredSub` summands but records no dimension or isomorphism-type information. This layer
+identifies the isomorphism type of each summand against the completeness list `irrepA5`
+(#6244), turns the fixed-point character into a sum over summand characters (trace additivity,
+#6246 dimensions), and — via character orthonormality (`FDRep.char_orthonormal`) — computes the
+multiplicity of each irreducible as a character inner product. These are the shared facts
+consumed by the three per-part decomposition theorems. -/
+
+open CategoryTheory
+
+open Etingof.Example4_8_1.A5 (irrepA5 irrepA5_finrank irrepA5_pairwise irrepA5_simple
+  simple_iso_irrepA5 classRepA5)
+
+/-- `|A₅| = 60` is invertible in `ℂ`, so the character orthonormality relation applies. -/
+noncomputable instance : Invertible (Fintype.card A5 : ℂ) :=
+  invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+
+/-- Two of the five `irrepA5` are isomorphic exactly when their indices agree (they are pairwise
+non-isomorphic, `irrepA5_pairwise`). -/
+lemma irrepA5_iso_iff (a b : Fin 5) : Nonempty (irrepA5 a ≅ irrepA5 b) ↔ a = b := by
+  constructor
+  · intro h; by_contra hne; exact irrepA5_pairwise a b hne h
+  · rintro rfl; exact ⟨Iso.refl _⟩
+
+/-- **Character additivity.** For an internal direct-sum decomposition `S` of the permutation
+representation into invariant subspaces, the fixed-point character of `permRep act g` is the sum
+of the subrepresentation characters `subChar (S k)`. This is trace additivity over
+`DirectSum.IsInternal` (`LinearMap.trace_eq_sum_trace_restrict`): each `permRep act g` preserves
+every `S k`. -/
+lemma fixCard_eq_sum_subChar {n m : ℕ} (act : A5 →* Equiv.Perm (Fin n))
+    (S : Fin m → Submodule ℂ (Fin n → ℂ))
+    (hS : ∀ k, ∀ g : A5, ∀ v ∈ S k, permRep act g v ∈ S k)
+    (hInt : DirectSum.IsInternal S) (g : A5) :
+    ((Finset.univ.filter (fun i : Fin n => act g i = i)).card : ℂ)
+      = ∑ k, subChar (permRep act) (S k) (hS k) g := by
+  have hmaps : ∀ k, Set.MapsTo (permRep act g) (S k) (S k) := fun k v hv => hS k g v hv
+  rw [← permRep_trace_eq_fixCard]
+  exact LinearMap.trace_eq_sum_trace_restrict hInt hmaps
+
+/-- The `FDRep ℂ A₅` carried by a `permRep`-invariant submodule `S`: the subrepresentation on
+`S`, packaged as a finite-dimensional representation. Its character is `subChar`
+(`subChar_eq_character`). -/
+def subFDRep {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ)) (S : Submodule ℂ (Fin n → ℂ))
+    (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) : FDRep ℂ A5 :=
+  FDRep.of (⟨S, hS⟩ : Subrepresentation ρ).toRepresentation
+
+/-- `subChar` is the character of the packaged `subFDRep`. -/
+lemma subChar_eq_subFDRep_character {n : ℕ} (ρ : Representation ℂ A5 (Fin n → ℂ))
+    (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S) (g : A5) :
+    subChar ρ S hS g = (subFDRep ρ S hS).character g :=
+  rfl
+
+/-- The `ℂ[A₅]`-module `(σ.toRepresentation).asModule` carried by a subrepresentation `σ` is, as a
+`ℂ[A₅]`-module, the corresponding submodule `σ.asSubmodule` of `ρ.asModule`: both have underlying
+set `σ.toSubmodule`, and on `single g t` both actions send `y ↦ t • ρ g y`. (Inlined here to avoid
+a `Chapter4 → Chapter5` import; cf. `Etingof.toRepAsModuleEquiv`.) -/
+private def toRepAsModuleEquiv {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
+    (σ : Subrepresentation ρ) :
+    (σ.toRepresentation).asModule ≃ₗ[MonoidAlgebra ℂ A5] σ.asSubmodule where
+  toFun y := ⟨((σ.toRepresentation).asModuleEquiv y).1, ((σ.toRepresentation).asModuleEquiv y).2⟩
+  map_add' y z := by apply Subtype.ext; simp
+  map_smul' c y := by
+    apply Subtype.ext
+    induction c using MonoidAlgebra.induction_linear with
+    | zero => simp
+    | add c₁ c₂ h₁ h₂ =>
+        simp only [add_smul, RingHom.id_apply] at h₁ h₂ ⊢
+        rw [Submodule.coe_add, ← h₁, ← h₂]; rfl
+    | single g t =>
+        simp only [RingHom.id_apply, SetLike.val_smul]
+        rw [Representation.single_smul, Representation.single_smul]; rfl
+  invFun x := (σ.toRepresentation).asModuleEquiv.symm ⟨x.1, x.2⟩
+  left_inv y := by simp
+  right_inv x := by apply Subtype.ext; simp
+
+/-- **`IsIrredSub` summands are simple.** An `IsIrredSub` invariant submodule carries a simple
+object of `FDRep ℂ A₅` (via `isIrredSub_iff_isSimpleModule`, the `asSubmodule ≃ asModule` transport,
+and the module-to-representation simplicity bridge `simple_fdRepOf_of_isSimpleModule`). -/
+lemma subFDRep_simple {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
+    (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
+    (h : IsIrredSub ρ S) : Simple (subFDRep ρ S hS) := by
+  haveI hsimple : IsSimpleModule (MonoidAlgebra ℂ A5)
+      (⟨S, hS⟩ : Subrepresentation ρ).asSubmodule :=
+    (isIrredSub_iff_isSimpleModule ⟨S, hS⟩).mp h
+  haveI : IsSimpleModule (MonoidAlgebra ℂ A5)
+      ((⟨S, hS⟩ : Subrepresentation ρ).toRepresentation).asModule :=
+    IsSimpleModule.congr (toRepAsModuleEquiv ⟨S, hS⟩)
+  exact Etingof.simple_fdRepOf_of_isSimpleModule _
+
+/-- **Type classification of a summand.** An `IsIrredSub` summand is isomorphic to some
+`irrepA5 t` (completeness, #6244). -/
+lemma exists_subFDRep_iso_irrepA5 {n : ℕ} {ρ : Representation ℂ A5 (Fin n → ℂ)}
+    (S : Submodule ℂ (Fin n → ℂ)) (hS : ∀ g, ∀ v ∈ S, ρ g v ∈ S)
+    (h : IsIrredSub ρ S) :
+    ∃ t : Fin 5, Nonempty (subFDRep ρ S hS ≅ irrepA5 t) := by
+  haveI := subFDRep_simple S hS h
+  exact simple_iso_irrepA5 (subFDRep ρ S hS)
+
+/-- **Typed isotypic decomposition (master engine).** Any permutation representation `permRep act`
+of `A₅` decomposes as an internal direct sum of `IsIrredSub` summands `S k`, each carrying a
+well-defined isomorphism type `type k : Fin 5` such that:
+
+* `subChar (S k) = (irrepA5 (type k)).character` (each summand's character is a table row);
+* `finrank ℂ (S k) = ![1,3,3,4,5] (type k)` (its dimension, #6246);
+* the number of summands of type `i` equals the character inner product
+  `⟨χ_perm, χ_{irrepA5 i}⟩` (multiplicity, via `FDRep.char_orthonormal` and trace additivity).
+
+This is the shared engine the three per-part decomposition theorems consume: they compute the
+fixed-point character `χ_perm` explicitly and read off the multiplicities from the last clause. -/
+theorem exists_typed_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) :
+    ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ))
+      (hS : ∀ k, ∀ g : A5, ∀ v ∈ S k, permRep act g v ∈ S k)
+      (type : Fin m → Fin 5),
+      DirectSum.IsInternal S ∧
+      (∀ k, IsIrredSub (permRep act) (S k)) ∧
+      (∀ k g, subChar (permRep act) (S k) (hS k) g = (irrepA5 (type k)).character g) ∧
+      (∀ k, Module.finrank ℂ (S k) = ![1, 3, 3, 4, 5] (type k)) ∧
+      ∀ i : Fin 5,
+        ((Finset.univ.filter (fun k => type k = i)).card : ℂ)
+          = ⅟(Fintype.card A5 : ℂ) • ∑ g : A5,
+              ((Finset.univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
+                * (irrepA5 i).character g⁻¹ := by
+  classical
+  obtain ⟨m, S, hS, hInt, hIrr⟩ := exists_isInternal_isIrredSub (permRep act)
+  choose type hiso using fun k => exists_subFDRep_iso_irrepA5 (S k) (hS k) (hIrr k)
+  -- Each summand's `subChar` is the character of its type.
+  have hchar : ∀ k g, subChar (permRep act) (S k) (hS k) g = (irrepA5 (type k)).character g := by
+    intro k g
+    rw [subChar_eq_subFDRep_character]
+    exact congrFun (FDRep.char_iso (hiso k).some) g
+  -- Each summand's dimension is the tabulated value.
+  have hfr : ∀ k, Module.finrank ℂ (S k) = ![1, 3, 3, 4, 5] (type k) := by
+    intro k
+    have h1 : (subFDRep (permRep act) (S k) (hS k)).character 1
+        = (irrepA5 (type k)).character 1 := congrFun (FDRep.char_iso (hiso k).some) 1
+    rw [FDRep.char_one, FDRep.char_one] at h1
+    have h2 : Module.finrank ℂ (subFDRep (permRep act) (S k) (hS k))
+        = Module.finrank ℂ (irrepA5 (type k)) := by exact_mod_cast h1
+    rw [irrepA5_finrank] at h2
+    exact h2
+  refine ⟨m, S, hS, type, hInt, hIrr, hchar, hfr, ?_⟩
+  intro i
+  -- The fixed-point character is the sum of the type characters (additivity + `hchar`).
+  have hperm : ∀ g : A5,
+      ((Finset.univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
+        = ∑ k, (irrepA5 (type k)).character g := by
+    intro g
+    rw [fixCard_eq_sum_subChar act S hS hInt g]
+    exact Finset.sum_congr rfl fun k _ => hchar k g
+  -- Multiplicity = inner product, term by term via `char_orthonormal`.
+  have hcard : ((Finset.univ.filter (fun k => type k = i)).card : ℂ)
+      = ∑ k : Fin m, ⅟(Fintype.card A5 : ℂ) • ∑ g : A5,
+          (irrepA5 (type k)).character g * (irrepA5 i).character g⁻¹ := by
+    rw [← Finset.sum_boole]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    haveI := irrepA5_simple (type k)
+    haveI := irrepA5_simple i
+    rw [FDRep.char_orthonormal (irrepA5 (type k)) (irrepA5 i), irrepA5_iso_iff]
+    by_cases h : type k = i <;> simp [h]
+  rw [hcard]
+  -- Pull the scalar out, swap the order of summation, factor, and fold in `hperm`.
+  rw [← Finset.smul_sum, Finset.sum_comm]
+  congr 1
+  refine Finset.sum_congr rfl fun g _ => ?_
+  rw [hperm g, Finset.sum_mul]
+
+/-- **Sorted isotypic decomposition (packaging consumer).** The typed decomposition of
+`exists_typed_isotypic_decomposition`, reindexed by `Tuple.sort` so that `type` is *monotone*. A
+consumer computes the multiplicity vector `mult i = ⟨χ_perm, χ_{irrepA5 i}⟩` from the last clause;
+monotonicity then pins down the whole summand list in nondecreasing type order, realising each type
+`i` exactly `mult i` times (with dimensions `![1,3,3,4,5]`). This is the shape the three per-part
+decomposition theorems reindex to. The `3 ≇ 3'` distinguishing hook is available through
+`hchar`: two summands of types `1` and `2` have `subChar` differing at `classRepA5 3`, since
+`(irrepA5 1).character` and `(irrepA5 2).character` differ there (`irrepA5_pairwise`). -/
+theorem exists_sorted_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) :
+    ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ))
+      (hS : ∀ k, ∀ g : A5, ∀ v ∈ S k, permRep act g v ∈ S k)
+      (type : Fin m → Fin 5),
+      DirectSum.IsInternal S ∧
+      (∀ k, IsIrredSub (permRep act) (S k)) ∧
+      Monotone type ∧
+      (∀ k g, subChar (permRep act) (S k) (hS k) g = (irrepA5 (type k)).character g) ∧
+      (∀ k, Module.finrank ℂ (S k) = ![1, 3, 3, 4, 5] (type k)) ∧
+      ∀ i : Fin 5,
+        ((Finset.univ.filter (fun k => type k = i)).card : ℂ)
+          = ⅟(Fintype.card A5 : ℂ) • ∑ g : A5,
+              ((Finset.univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
+                * (irrepA5 i).character g⁻¹ := by
+  classical
+  obtain ⟨m, S, hS, type, hInt, hIrr, hchar, hfr, hmult⟩ :=
+    exists_typed_isotypic_decomposition act
+  set e := Tuple.sort type with he
+  refine ⟨m, S ∘ e, fun k => hS (e k), type ∘ e, ?_, fun k => hIrr (e k),
+    Tuple.monotone_sort type, fun k g => hchar (e k) g, fun k => hfr (e k), ?_⟩
+  · -- Reindexing an internal direct sum by a permutation is again internal.
+    rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top] at hInt ⊢
+    obtain ⟨hind, hsup⟩ := hInt
+    exact ⟨hind.comp e.injective, by rw [← hsup]; exact Equiv.iSup_comp e⟩
+  · -- The type multiplicities are permutation-invariant.
+    intro i
+    rw [← hmult i]
+    congr 1
+    rw [← Finset.card_image_of_injective (Finset.univ.filter (fun k => (type ∘ e) k = i))
+      e.injective]
+    congr 1
+    ext j
+    simp only [Function.comp_apply, Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and]
+    constructor
+    · rintro ⟨k, hk, rfl⟩; exact hk
+    · intro hj; exact ⟨e.symm j, by simpa using hj, by simp⟩
 
 end Engine
 
