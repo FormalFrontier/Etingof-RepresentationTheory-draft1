@@ -544,7 +544,9 @@ theorem Etingof.homTransportPlusEquivReduced
           (Etingof.sourceArrowReindexEquiv hi a)
           (r.h a.fst (Etingof.arrowsOutOf_target_ne_source hi a) (V.mapLinear a.snd x))
       · exact (τ v hv).symm.toLinearMap ∘ₗ r.h v hv
+    -- Naturality of the constructed morphism. Remaining work; see issue #6085.
     case nat => sorry
+  -- Round-trip laws (`AdjReducedData` / `QuiverRepresentationHom` extensionality). See #6085.
   case li => sorry
   case ri => sorry
 
