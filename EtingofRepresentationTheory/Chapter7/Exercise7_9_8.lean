@@ -401,6 +401,21 @@ theorem Etingof.sinkMap_apply_eq_sum
   | add x y hx hy =>
     simp only [map_add, hx, hy, Finset.sum_add_distrib]
 
+/-- `sinkMap` applied to a single generator `lof b v` is the arrow map `mapLinear b.2 v`. -/
+theorem Etingof.sinkMap_lof
+    {k : Type*} [CommSemiring k] {Q : Type*} [DecidableEq Q] [Quiver Q]
+    (ρ : Etingof.QuiverRepresentation k Q) (i : Q)
+    [Fintype (Etingof.ArrowsInto Q i)] [DecidableEq (Etingof.ArrowsInto Q i)]
+    (b : Etingof.ArrowsInto Q i) (v : ρ.obj b.1) :
+    ρ.sinkMap i (DirectSum.lof k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) b v) =
+      ρ.mapLinear b.2 v := by
+  rw [Etingof.sinkMap_apply_eq_sum ρ i (DirectSum.lof k (Etingof.ArrowsInto Q i) (fun a => ρ.obj a.1) b v)]
+  rw [Finset.sum_eq_single b]
+  · rw [DirectSum.component.lof_self]
+  · intro c _ hc
+    rw [DirectSum.component.of, dif_neg (Ne.symm hc), map_zero]
+  · intro h; exact absurd (Finset.mem_univ b) h
+
 /-- The kernel side of the adjunction bijection:
 `Hom(V, transportReversedTwice (F⁺ᵢW)) ≃ AdjReducedData hi V W`. At `v ≠ i` a morphism gives
 `h v` through `transportReversedTwice_obj` and `reflFunctorPlus_equivAt_ne`; at `i` its value
@@ -498,7 +513,38 @@ theorem Etingof.homTransportPlusEquivReduced
       (Etingof.QuiverRepresentation.transportReversedTwiceEquiv Fplus i (g.app i x))]
     rw [← Etingof.revOut_eq_reversedArrow_eq_ne hi a]
     rfl
-  case invFun => exact fun r => sorry
+  case invFun =>
+    intro r
+    -- The direct-sum element at `i`: `x ↦ ∑ a, lof (reindex a) (r.h a.fst (V a.snd x))`.
+    refine { app := ?app, naturality := ?nat }
+    case app =>
+      intro v
+      by_cases hv : v = i
+      · subst v
+        haveI : Fintype (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i) :=
+          Fintype.ofEquiv _ (Etingof.sourceArrowReindexEquiv hi)
+        letI acmW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+            AddCommMonoid (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+          fun b => @Etingof.QuiverRepresentation.instAddCommMonoid k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+        letI modW : ∀ b : @Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i,
+            Module k (@Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.fst) :=
+          fun b => @Etingof.QuiverRepresentation.instModule k Q _ (Etingof.reversedAtVertex Q i) W b.fst
+        refine κ.symm.toLinearMap ∘ₗ LinearMap.codRestrict
+          (@Etingof.QuiverRepresentation.sinkMap k _ Q (Etingof.reversedAtVertex Q i) W i).ker
+          (∑ a : Etingof.ArrowsOutOf Q i,
+            (DirectSum.lof k (@Etingof.ArrowsInto Q (Etingof.reversedAtVertex Q i) i)
+              (fun b => @Etingof.QuiverRepresentation.obj k Q _ (Etingof.reversedAtVertex Q i) W b.1)
+              (Etingof.sourceArrowReindexEquiv hi a)).comp
+              ((r.h a.fst (Etingof.arrowsOutOf_target_ne_source hi a)).comp (V.mapLinear a.snd)))
+          (fun x => ?_)
+        -- Lands in the kernel: `sinkMap (∑ …) = constraint = 0`.
+        rw [LinearMap.mem_ker, LinearMap.sum_apply, map_sum]
+        refine Eq.trans (Finset.sum_congr rfl (fun a (_ : a ∈ Finset.univ) => ?_)) (r.constraint x)
+        exact @Etingof.sinkMap_lof k _ Q _ (Etingof.reversedAtVertex Q i) W i _ _
+          (Etingof.sourceArrowReindexEquiv hi a)
+          (r.h a.fst (Etingof.arrowsOutOf_target_ne_source hi a) (V.mapLinear a.snd x))
+      · exact (τ v hv).symm.toLinearMap ∘ₗ r.h v hv
+    case nat => sorry
   case li => sorry
   case ri => sorry
 
