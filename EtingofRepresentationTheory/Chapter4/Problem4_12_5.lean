@@ -378,6 +378,51 @@ theorem exists_typed_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm 
   refine Finset.sum_congr rfl fun g _ => ?_
   rw [hperm g, Finset.sum_mul]
 
+/-- **Sorted isotypic decomposition (packaging consumer).** The typed decomposition of
+`exists_typed_isotypic_decomposition`, reindexed by `Tuple.sort` so that `type` is *monotone*. A
+consumer computes the multiplicity vector `mult i = ⟨χ_perm, χ_{irrepA5 i}⟩` from the last clause;
+monotonicity then pins down the whole summand list in nondecreasing type order, realising each type
+`i` exactly `mult i` times (with dimensions `![1,3,3,4,5]`). This is the shape the three per-part
+decomposition theorems reindex to. The `3 ≇ 3'` distinguishing hook is available through
+`hchar`: two summands of types `1` and `2` have `subChar` differing at `classRepA5 3`, since
+`(irrepA5 1).character` and `(irrepA5 2).character` differ there (`irrepA5_pairwise`). -/
+theorem exists_sorted_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm (Fin n)) :
+    ∃ (m : ℕ) (S : Fin m → Submodule ℂ (Fin n → ℂ))
+      (hS : ∀ k, ∀ g : A5, ∀ v ∈ S k, permRep act g v ∈ S k)
+      (type : Fin m → Fin 5),
+      DirectSum.IsInternal S ∧
+      (∀ k, IsIrredSub (permRep act) (S k)) ∧
+      Monotone type ∧
+      (∀ k g, subChar (permRep act) (S k) (hS k) g = (irrepA5 (type k)).character g) ∧
+      (∀ k, Module.finrank ℂ (S k) = ![1, 3, 3, 4, 5] (type k)) ∧
+      ∀ i : Fin 5,
+        ((Finset.univ.filter (fun k => type k = i)).card : ℂ)
+          = ⅟(Fintype.card A5 : ℂ) • ∑ g : A5,
+              ((Finset.univ.filter (fun p : Fin n => act g p = p)).card : ℂ)
+                * (irrepA5 i).character g⁻¹ := by
+  classical
+  obtain ⟨m, S, hS, type, hInt, hIrr, hchar, hfr, hmult⟩ :=
+    exists_typed_isotypic_decomposition act
+  set e := Tuple.sort type with he
+  refine ⟨m, S ∘ e, fun k => hS (e k), type ∘ e, ?_, fun k => hIrr (e k),
+    Tuple.monotone_sort type, fun k g => hchar (e k) g, fun k => hfr (e k), ?_⟩
+  · -- Reindexing an internal direct sum by a permutation is again internal.
+    rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top] at hInt ⊢
+    obtain ⟨hind, hsup⟩ := hInt
+    exact ⟨hind.comp e.injective, by rw [← hsup]; exact Equiv.iSup_comp e⟩
+  · -- The type multiplicities are permutation-invariant.
+    intro i
+    rw [← hmult i]
+    congr 1
+    rw [← Finset.card_image_of_injective (Finset.univ.filter (fun k => (type ∘ e) k = i))
+      e.injective]
+    congr 1
+    ext j
+    simp only [Function.comp_apply, Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and]
+    constructor
+    · rintro ⟨k, hk, rfl⟩; exact hk
+    · intro hj; exact ⟨e.symm j, by simpa using hj, by simp⟩
+
 end Engine
 
 /-- **Part (a): vertices.** For the icosahedral vertex action of `A₅` — any transitive action
