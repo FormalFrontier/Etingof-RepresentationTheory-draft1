@@ -198,11 +198,147 @@ theorem normSq_mul (q₁ q₂ : ℍ[ℝ]) :
     Quaternion.normSq (q₁ * q₂) = Quaternion.normSq q₁ * Quaternion.normSq q₂ :=
   map_mul Quaternion.normSq q₁ q₂
 
+/-- The standard embedding of quaternions into `2 × 2` complex matrices,
+`q = a + b·i + c·j + d·k ↦ !![a + b·I, c + d·I; -c + d·I, a - b·I]`.  It is a ring
+homomorphism whose restriction to unit quaternions lands in `SU(2)` (see below). -/
+noncomputable def qmat (q : ℍ[ℝ]) : Matrix (Fin 2) (Fin 2) ℂ :=
+  !![(q.re : ℂ) + q.imI * Complex.I, (q.imJ : ℂ) + q.imK * Complex.I;
+     -(q.imJ : ℂ) + q.imK * Complex.I, (q.re : ℂ) - q.imI * Complex.I]
+
+@[simp] lemma qmat_apply_zero_zero (q : ℍ[ℝ]) :
+    qmat q 0 0 = (q.re : ℂ) + q.imI * Complex.I := rfl
+@[simp] lemma qmat_apply_zero_one (q : ℍ[ℝ]) :
+    qmat q 0 1 = (q.imJ : ℂ) + q.imK * Complex.I := rfl
+@[simp] lemma qmat_apply_one_zero (q : ℍ[ℝ]) :
+    qmat q 1 0 = -(q.imJ : ℂ) + q.imK * Complex.I := rfl
+@[simp] lemma qmat_apply_one_one (q : ℍ[ℝ]) :
+    qmat q 1 1 = (q.re : ℂ) - q.imI * Complex.I := rfl
+
+/-- `qmat` sends `1` to the identity matrix. -/
+lemma qmat_one : qmat 1 = 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp
+
+/-- `qmat` is multiplicative: it turns quaternion multiplication into matrix multiplication. -/
+lemma qmat_mul (q₁ q₂ : ℍ[ℝ]) : qmat (q₁ * q₂) = qmat q₁ * qmat q₂ := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    (simp only [qmat, Matrix.mul_apply, Fin.sum_univ_two, Fin.isValue, Fin.mk_zero, Fin.mk_one,
+        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply,
+        Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
+        Quaternion.re_mul, Quaternion.imI_mul, Quaternion.imJ_mul, Quaternion.imK_mul] ;
+      apply Complex.ext <;>
+      simp only [Complex.add_re, Complex.add_im, Complex.mul_re, Complex.mul_im, Complex.sub_re,
+        Complex.sub_im, Complex.neg_re, Complex.neg_im, Complex.ofReal_re, Complex.ofReal_im,
+        Complex.I_re, Complex.I_im, mul_zero, mul_one, neg_zero, sub_zero,
+        zero_sub, add_zero, zero_add] <;> ring)
+
+/-- Conjugation of a quaternion corresponds to the conjugate transpose of the matrix. -/
+lemma qmat_conjTranspose (q : ℍ[ℝ]) : qmat (star q) = (qmat q)ᴴ := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    (simp only [qmat, Matrix.conjTranspose_apply, Fin.isValue, Fin.mk_zero, Fin.mk_one,
+        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply,
+        Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
+        Quaternion.re_star, Quaternion.imI_star, Quaternion.imJ_star, Quaternion.imK_star] ;
+      apply Complex.ext <;> simp)
+
+/-- The determinant of the matrix `qmat q` is the quaternion norm-square of `q`. -/
+lemma qmat_det (q : ℍ[ℝ]) : (qmat q).det = ((Quaternion.normSq q : ℝ) : ℂ) := by
+  rw [Matrix.det_fin_two, Quaternion.normSq_def']
+  simp only [qmat_apply_zero_zero, qmat_apply_zero_one, qmat_apply_one_zero, qmat_apply_one_one]
+  apply Complex.ext <;>
+    simp only [Complex.add_re, Complex.add_im, Complex.mul_re, Complex.mul_im, Complex.sub_re,
+      Complex.sub_im, Complex.neg_re, Complex.neg_im, Complex.ofReal_re, Complex.ofReal_im,
+      Complex.I_re, Complex.I_im, mul_zero, mul_one, neg_zero, sub_zero,
+      zero_sub, add_zero, zero_add] <;> ring
+
+/-- A quaternion is a unit (`normSq = 1`) exactly when it lies in `unitary ℍ[ℝ]`. -/
+lemma mem_unitary_iff_normSq {q : ℍ[ℝ]} : q ∈ unitary ℍ[ℝ] ↔ Quaternion.normSq q = 1 := by
+  rw [Unitary.mem_iff]
+  constructor
+  · rintro ⟨h, -⟩
+    rw [Quaternion.star_mul_self, ← Quaternion.coe_one, Quaternion.coe_inj] at h
+    exact h
+  · intro h
+    have hc : ((Quaternion.normSq q : ℝ) : ℍ[ℝ]) = 1 := by rw [h, Quaternion.coe_one]
+    exact ⟨by rw [Quaternion.star_mul_self]; exact hc, by rw [Quaternion.self_mul_star]; exact hc⟩
+
+/-- The group homomorphism from unit quaternions to `SU(2)` given by `qmat`. -/
+noncomputable def qmatHom : unitary ℍ[ℝ] →* Matrix.specialUnitaryGroup (Fin 2) ℂ where
+  toFun q := ⟨qmat (q : ℍ[ℝ]), by
+    have hq : Quaternion.normSq (q : ℍ[ℝ]) = 1 := mem_unitary_iff_normSq.mp q.2
+    rw [Matrix.mem_specialUnitaryGroup_iff]
+    refine ⟨?_, ?_⟩
+    · rw [Matrix.mem_unitaryGroup_iff', Matrix.star_eq_conjTranspose, ← qmat_conjTranspose,
+        ← qmat_mul, Quaternion.star_mul_self, hq, Quaternion.coe_one, qmat_one]
+    · rw [qmat_det, hq]; norm_num⟩
+  map_one' := Subtype.ext (by simpa using qmat_one)
+  map_mul' a b := Subtype.ext (by simpa using qmat_mul (a : ℍ[ℝ]) (b : ℍ[ℝ]))
+
+lemma qmatHom_injective : Function.Injective qmatHom := by
+  intro a b h
+  have hm : qmat (a : ℍ[ℝ]) = qmat (b : ℍ[ℝ]) := congrArg Subtype.val h
+  have e00 := congrFun (congrFun hm 0) 0
+  have e01 := congrFun (congrFun hm 0) 1
+  simp only [qmat_apply_zero_zero, qmat_apply_zero_one] at e00 e01
+  apply Subtype.ext
+  apply Quaternion.ext
+  · simpa using congrArg Complex.re e00
+  · simpa using congrArg Complex.im e00
+  · simpa using congrArg Complex.re e01
+  · simpa using congrArg Complex.im e01
+
+lemma qmatHom_surjective : Function.Surjective qmatHom := by
+  intro A
+  set M : Matrix (Fin 2) (Fin 2) ℂ := (A : Matrix (Fin 2) (Fin 2) ℂ) with hM
+  have hmem := A.2
+  rw [Matrix.mem_specialUnitaryGroup_iff] at hmem
+  obtain ⟨hu, hdet⟩ := hmem
+  have huc : Mᴴ * M = 1 := by
+    rw [← Matrix.star_eq_conjTranspose]; exact Matrix.mem_unitaryGroup_iff'.mp hu
+  have hinvL : M⁻¹ = Mᴴ := Matrix.inv_eq_left_inv huc
+  have hinvR : M⁻¹ = M.adjugate := by
+    apply Matrix.inv_eq_right_inv; rw [Matrix.mul_adjugate, hdet, one_smul]
+  have hadj : Mᴴ = M.adjugate := by rw [← hinvL, hinvR]
+  rw [Matrix.adjugate_fin_two] at hadj
+  have h11 : M 1 1 = star (M 0 0) := by
+    have h := congrFun (congrFun hadj 0) 0
+    simp only [Matrix.conjTranspose_apply, Matrix.cons_val_zero,
+      Matrix.of_apply, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_fin_one] at h
+    exact h.symm
+  have h10 : M 1 0 = -star (M 0 1) := by
+    have h := congrFun (congrFun hadj 1) 0
+    simp only [Matrix.conjTranspose_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.of_apply, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_fin_one] at h
+    rw [h]; ring
+  set q : ℍ[ℝ] := ⟨(M 0 0).re, (M 0 0).im, (M 0 1).re, (M 0 1).im⟩ with hq
+  have key : (Complex.normSq (M 0 0) + Complex.normSq (M 0 1) : ℝ) = 1 := by
+    have hdet2 : M.det = M 0 0 * M 1 1 - M 0 1 * M 1 0 := Matrix.det_fin_two M
+    rw [h11, h10, mul_neg, sub_neg_eq_add] at hdet2
+    have e0 : M 0 0 * star (M 0 0) = (Complex.normSq (M 0 0) : ℂ) := Complex.mul_conj (M 0 0)
+    have e1 : M 0 1 * star (M 0 1) = (Complex.normSq (M 0 1) : ℂ) := Complex.mul_conj (M 0 1)
+    rw [e0, e1, hdet] at hdet2
+    exact_mod_cast hdet2.symm
+  have hnorm : Quaternion.normSq q = 1 := by
+    rw [Quaternion.normSq_def']
+    simp only [hq, Complex.normSq_apply] at key ⊢
+    nlinarith [key]
+  refine ⟨⟨q, mem_unitary_iff_normSq.mpr hnorm⟩, ?_⟩
+  apply Subtype.ext
+  change qmat q = M
+  rw [Matrix.eta_fin_two M, h11, h10]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [qmat, hq, Complex.ext_iff]
+
 /-- **Part (e).** The group of unit quaternions (`unitary ℍ[ℝ]`, i.e. quaternions of norm `1`)
 is isomorphic, as a group, to `SU(2)`. -/
 theorem unit_quaternions_mulEquiv_SU2 :
-    Nonempty (unitary ℍ[ℝ] ≃* Matrix.specialUnitaryGroup (Fin 2) ℂ) := by
-  sorry
+    Nonempty (unitary ℍ[ℝ] ≃* Matrix.specialUnitaryGroup (Fin 2) ℂ) :=
+  ⟨MulEquiv.ofBijective qmatHom ⟨qmatHom_injective, qmatHom_surjective⟩⟩
 
 /-- **Part (f).** There is a surjective group homomorphism `h : SU(2) → SO(3)` whose kernel is
 exactly `{1, -1}`: `A ∈ ker h` iff the matrix of `A` is `1` or `-1`. -/

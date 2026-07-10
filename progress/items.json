@@ -3092,7 +3092,7 @@
     "start_line": 9,
     "end_line": 4,
     "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "coverage_note": "Parts (a) real-irreducibility, (d) conj/norm, and (e) unit quaternions ≅ SU(2) proven sorry-free (e added 2026-07-10 via explicit ℍ↪M₂(ℂ) embedding, #6271); part (f) SU(2)→SO(3) still sorry; parts (b),(c) not yet formalized."
   },
   {
     "id": "Chapter4/Problem4.12.8",
