@@ -42,7 +42,8 @@ Write `S.f : X₁ ⟶ X₂`, `S.g : X₂ ⟶ X₃`, `ε₁ := P₁.π.f 0`, `ε�
 * Augmentation: choose a lift `h₀ : P₃₀ ⟶ X₂` of `ε₃` through the epi `S.g` (projectivity of
   `P₃₀`; `g ∘ h₀ = ε₃`). Set `ε₂ := biprod.desc (ε₁ ≫ S.f) h₀ : P₁₀ ⊞ P₃₀ ⟶ X₂`; it is epi and
   satisfies `α.f 0 ≫ ε₂ = ε₁ ≫ S.f` and `β.f 0 ≫ S.g ∘ ... = ...` giving the two squares.
-* Differentials `d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫` (lower triangular biproduct matrix) with
+* Differentials `d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫`, the upper triangular biproduct matrix
+  `[[d¹, s], [0, d³]]` (zero below the diagonal), with
   off-diagonal lift `sₙ : P₃ₙ ⟶ P₁_{n-1}` built by induction: projectivity of `P₃ₙ` against the
   epi `d¹_{n-1} : P₁ₙ ↠ ker …` (equivalently `Exercise_8_1_4`) produces `sₙ` making
   `d¹_{n-1} ≫ sₙ = - sₙ₋₁ ≫ d³ₙ` and `ε₂`-compatibility hold; this uses the exactness of the
@@ -111,7 +112,7 @@ lemma horseshoeπZero_comp_g :
 /-! ### The twisted differential and the horseshoe chain complex
 
 We now construct the *data* of the horseshoe resolution `P₂` of `S.X₂`: the terms
-`P₁.X n ⊞ P₃.X n`, the lower-triangular twisted differential `⟪⟪d¹, s⟫, ⟪0, d³⟫⟫`, and the
+`P₁.X n ⊞ P₃.X n`, the upper-triangular twisted differential `⟪⟪d¹, s⟫, ⟪0, d³⟫⟫`, and the
 off-diagonal lift family `s` built by induction against the exactness of the *given* resolutions
 `P₁`, `P₃`. -/
 
@@ -187,8 +188,9 @@ lemma horseshoeTwist_comp (n : ℕ) :
       = -(P₃.complex.d (n + 2) (n + 1)) ≫ horseshoeTwist hS P₁ P₃ n := by
   rw [horseshoeTwist_succ]; exact (horseshoeTwistAux hS P₁ P₃ n).2.2
 
-/-- The lower-triangular twisted differential
-`d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫ : P₁_{n+1} ⊞ P₃_{n+1} ⟶ P₁_n ⊞ P₃_n`. -/
+/-- The upper-triangular twisted differential
+`d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫ : P₁_{n+1} ⊞ P₃_{n+1} ⟶ P₁_n ⊞ P₃_n` (matrix `[[d¹, s], [0, d³]]`,
+zero below the diagonal). -/
 noncomputable def horseshoeD (n : ℕ) :
     P₁.complex.X (n + 1) ⊞ P₃.complex.X (n + 1) ⟶ P₁.complex.X n ⊞ P₃.complex.X n :=
   biprod.lift (biprod.desc (P₁.complex.d (n + 1) n) (horseshoeTwist hS P₁ P₃ n))
@@ -237,8 +239,8 @@ The horseshoe complex sits in a short exact sequence of complexes
 whole sequence is degreewise split and hence `ShortExact`. -/
 
 /-- The horseshoe chain map `α : P₁.complex ⟶ horseshoeComplex`, degreewise `biprod.inl`. The
-chain-map square holds because the twisted differential is lower triangular:
-`biprod.inl ≫ horseshoeD n = biprod.lift d¹ 0 = d¹ ≫ biprod.inl`. -/
+chain-map square holds because the twisted differential is upper triangular, so its `P₁` column
+has no `P₃` component: `biprod.inl ≫ horseshoeD n = biprod.lift d¹ 0 = d¹ ≫ biprod.inl`. -/
 noncomputable def horseshoeα : P₁.complex ⟶ horseshoeComplex hS P₁ P₃ :=
   ChainComplex.ofHom
     (fun i => (biprod.inl : P₁.complex.X i ⟶ P₁.complex.X i ⊞ P₃.complex.X i))
