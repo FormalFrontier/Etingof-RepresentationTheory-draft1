@@ -394,6 +394,47 @@ better target than a `Rep` `≅` here; `(mk e he)` wants `he : ∀ g, ↑e ∘�
   `Ffull_IndVmk` no longer pattern-match. Re-fold with `change Ffull (… (IndV.mk … h 1)) = …`
   before the `rw` chain.
 
+### Induction in stages `Ind_ψ(Ind_φ τ) ≅ Ind_{ψ∘φ} τ`, and the `gmul`/`psiL` localization of the MonoidAlgebra/Finsupp wall (#6088)
+
+`Chapter5/Problem5_8_4.lean` (`ind_stages_exists`, sorry-free, axiom-clean) builds the abstract
+associativity of Mathlib's `Representation.ind`/`Representation.IndV` (the tensor/coinvariants
+model). The forward map `⟦a_G ⊗ ⟦a_H ⊗ v⟧⟧ ↦ ⟦ψ_*(a_H)·a_G ⊗ v⟧` is assembled with **two nested
+`Coinvariants.lift` + `TensorProduct.lift`**, using a *flip*: build `bflip : IndV φ τ →ₗ ((G→₀ℂ)→ₗ P)`
+(inner `Coinvariants.lift`), then `f0 := TensorProduct.lift bflip.flip` (outer tensor), then
+`fwd := Coinvariants.lift f0 (H-invariance)`. The flip lets the descent be automatically linear —
+**no manual `map_add`/`map_smul` packaging** of "linear in `a_G` producing a `Coinvariants.lift`".
+
+**Reduce every assembly proof (both `LinearEquiv.ofLinear` inverse identities and equivariance) to
+coefficient-1 `single` generators via `Representation.IndV.hom_ext` applied TWICE**, then
+`LinearMap.ext fun v`. This turns each goal into `IndV.mk ψ σ g (IndV.mk φ τ h v)` inputs
+(coefficient `1`, `single g 1`/`single h 1`), where it becomes a **single** application of
+`Coinvariants.mk_self_apply` (the coinvariant relation `mk (ρ g x) = mk x`) plus `single`-mult
+arithmetic — no Finsupp/tensor induction in the assembly. (The well-definedness proofs `hf0`/`hh0`
+do need general `a_H` via `TensorProduct.ext'`/`Coinvariants.induction_on`/`TensorProduct.induction_on`.)
+
+**The load-bearing trick — `gmul`/`psiL` to defeat the `MonoidAlgebra ℂ G` vs `G →₀ ℂ` wall.** Under
+`import Mathlib`, `G →₀ ℂ` carries a **pointwise** `Finsupp.instMul`, so `x * y` on group-algebra
+elements silently picks the WRONG product, and `binop%` leaks the `Finsupp` type even with operand
+ascriptions (`(x : MonoidAlgebra ℂ G) * y` still resolves `*` to `Finsupp.instMul` because the `=`/
+return type is `G →₀ ℂ`). Symptoms: `single_mul_single`/`map_mul` fail with "synthesized
+`MonoidAlgebra.instMul`, inferred `Finsupp.instMul`"; `⊗ₜ` rejects a `MonoidAlgebra`-typed factor
+("argument has type `MonoidAlgebra ℂ L` but expected `L →₀ ℂ`", at *instances* transparency). Fix:
+localize ALL group-algebra multiplication into a **`Finsupp`-typed** helper
+`gmul {K} [Group K] (x y : K →₀ ℂ) : K →₀ ℂ := LinearMap.mul ℂ (MonoidAlgebra ℂ K) x y` (defining it
+via `LinearMap.mul` FORCES the convolution product). Prove every `gmul` lemma by
+`simp only [gmul, LinearMap.mul_apply']` to expose the genuine `MonoidAlgebra` `*`, then a standard
+lemma (`MonoidAlgebra.single_mul_single`, `mul_assoc`, `add_mul`, `smul_mul_assoc`, `@one_mul (MonoidAlgebra ℂ K) _ x`).
+Likewise make `ψ_*` a **`Finsupp`-typed** `psiL := Finsupp.lmapDomain ℂ ℂ ψ : (H→₀ℂ)→ₗ(G→₀ℂ)` (NOT
+`MonoidAlgebra.mapDomainAlgHom`, whose `map_add`/`map_smul` produce `MonoidAlgebra`-typed sums that a
+`simp` with `gmul`-lemmas — keyed on `Finsupp` `+` — won't match); prove `psiL`'s multiplicativity by
+bridging once through `mapDomainAlgHom` (`psiL_eq_mapDomainAlgHom` + `map_mul`). With `gmul`/`psiL`
+every tensor factor stays `Finsupp`-typed, so `⊗ₜ`, `simp`, and `rw` all match. Other exact names used:
+`leftRegular ℂ K g b = gmul (single g 1) b` (`leftRegular_gmul`, by `MonoidAlgebra.induction_linear`
++ `ofMulAction_single`); `ind χ υ l (mk (a ⊗ₜ w)) = mk (gmul a (single l⁻¹ 1) ⊗ₜ w)`
+(`Representation.ind_apply` + `Coinvariants.map_mk` + `IntertwiningMap.coe_mk` + `LinearMap.rTensor_tmul`
++ `lmapDomain (·*g) a = gmul a (single g 1)`); `TensorProduct.smul_tmul'` is `r • (m⊗n) = (r•m)⊗n`
+(use `← smul_tmul'` to pull a scalar OUT of the first factor).
+
 ### `k`-trace lemmas on a group-algebra submodule need `restrictScalars k`
 
 When generalizing a character/trace from `ℂ` to general `k` (the #4946 chain), the Specht-type
