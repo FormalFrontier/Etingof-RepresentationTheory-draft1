@@ -13,6 +13,7 @@ import Mathlib.RingTheory.Ideal.Operations
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
+import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 
 /-!
 # Problem 8.2.7: Tor and Ext for `ℤ` and `k[x]`
@@ -310,7 +311,23 @@ noncomputable local instance mopZMod (a : ℕ) : Module ℤᵐᵒᵖ (ZMod a) :=
 theorem Problem_8_2_7_i_tor_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a)) 0
       ≅ AddCommGrpCat.of (ZMod (Nat.gcd a b))) := by
-  sorry
+  haveI : NeZero a := ⟨ha⟩
+  haveI : NeZero b := ⟨hb⟩
+  -- `Tor₀ ≅ ZMod a ⊗_ℤ ZMod b`, and the latter is `ZMod (gcd a b)`.
+  obtain ⟨e₀⟩ := Problem_8_2_6_i_tor ℤ (ZMod b) (ModuleCat.of ℤᵐᵒᵖ (ZMod a))
+  refine ⟨e₀ ≪≫ AddEquiv.toAddCommGrpIso ?_⟩
+  -- the balancing subgroup is trivial over the commutative base `ℤ`
+  have hbot : balancedSubgroup ℤ (ZMod b) (ZMod a) = ⊥ := by
+    rw [balancedSubgroup]
+    apply le_antisymm _ bot_le
+    rw [AddSubgroup.closure_le]
+    rintro x ⟨r, m, n, rfl⟩
+    simp only [SetLike.mem_coe, AddSubgroup.mem_bot]
+    have hop : (MulOpposite.op r • m : ZMod a) = r • m := rfl
+    rw [hop, sub_eq_zero]
+    exact TensorProduct.smul_tmul r m n
+  exact ((QuotientAddGroup.quotientAddEquivOfEq hbot).trans QuotientAddGroup.quotientBot).trans
+    (ZModGcd.tensorEquiv a b).toAddEquiv
 
 /-- **Problem 8.2.7(i), `Tor₁`.** For finite cyclic groups `ℤ/a`, `ℤ/b` (`a, b ≠ 0`),
 `Tor₁(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)`. -/
@@ -403,7 +420,11 @@ theorem Problem_8_2_7_i_tor_free_vanish (N : Type) [AddCommGroup N] [Module ℤ 
 theorem Problem_8_2_7_i_ext_zero (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b)) 0
       ≃+ ZMod (Nat.gcd a b)) := by
-  sorry
+  haveI : NeZero a := ⟨ha⟩
+  haveI : NeZero b := ⟨hb⟩
+  -- `Ext⁰ ≃+ Hom_ℤ(ZMod a, ZMod b)`, and the latter is `ZMod (gcd a b)`.
+  obtain ⟨e₀⟩ := Problem_8_2_6_i_ext ℤ (ModuleCat.of ℤ (ZMod a)) (ModuleCat.of ℤ (ZMod b))
+  exact ⟨e₀.trans (ModuleCat.homAddEquiv.trans (ZModGcd.homEquiv a b))⟩
 
 /-- **Problem 8.2.7(i), `Ext¹`.** `Ext¹(ℤ/a, ℤ/b) ≅ ℤ/gcd(a,b)` for `a, b ≠ 0`. -/
 theorem Problem_8_2_7_i_ext_one (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
