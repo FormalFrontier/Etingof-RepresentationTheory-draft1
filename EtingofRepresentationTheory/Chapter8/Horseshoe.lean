@@ -229,6 +229,66 @@ instance horseshoeComplex_projective (n : ℕ) :
   dsimp [horseshoeComplex, ChainComplex.of]
   infer_instance
 
+/-! ### The chain maps and the degreewise-split short exact sequence
+
+The horseshoe complex sits in a short exact sequence of complexes
+`0 → P₁.complex →ᵅ horseshoeComplex →ᵝ P₃.complex → 0`, with `α` the degreewise `biprod.inl` and
+`β` the degreewise `biprod.snd`. Each degree is the split biproduct short exact sequence, so the
+whole sequence is degreewise split and hence `ShortExact`. -/
+
+/-- The horseshoe chain map `α : P₁.complex ⟶ horseshoeComplex`, degreewise `biprod.inl`. The
+chain-map square holds because the twisted differential is lower triangular:
+`biprod.inl ≫ horseshoeD n = biprod.lift d¹ 0 = d¹ ≫ biprod.inl`. -/
+noncomputable def horseshoeα : P₁.complex ⟶ horseshoeComplex hS P₁ P₃ :=
+  ChainComplex.ofHom
+    (fun i => (biprod.inl : P₁.complex.X i ⟶ P₁.complex.X i ⊞ P₃.complex.X i))
+    (fun n => by
+      simp only [horseshoeComplex, ChainComplex.of_d, horseshoeD_inl]
+      apply biprod.hom_ext <;> simp)
+
+/-- The horseshoe chain map `β : horseshoeComplex ⟶ P₃.complex`, degreewise `biprod.snd`. The
+chain-map square holds because `horseshoeD n ≫ biprod.snd = biprod.desc 0 d³ = biprod.snd ≫ d³`. -/
+noncomputable def horseshoeβ : horseshoeComplex hS P₁ P₃ ⟶ P₃.complex :=
+  ChainComplex.ofHom
+    (fun i => (biprod.snd : P₁.complex.X i ⊞ P₃.complex.X i ⟶ P₃.complex.X i))
+    (fun n => by
+      simp only [horseshoeComplex, ChainComplex.of_d, horseshoeD_snd]
+      apply biprod.hom_ext' <;> simp)
+
+@[simp] lemma horseshoeα_f (i : ℕ) :
+    (horseshoeα hS P₁ P₃).f i
+      = (biprod.inl : P₁.complex.X i ⟶ P₁.complex.X i ⊞ P₃.complex.X i) := rfl
+
+@[simp] lemma horseshoeβ_f (i : ℕ) :
+    (horseshoeβ hS P₁ P₃).f i
+      = (biprod.snd : P₁.complex.X i ⊞ P₃.complex.X i ⟶ P₃.complex.X i) := rfl
+
+/-- `α ≫ β = 0`, degreewise `biprod.inl ≫ biprod.snd = 0`. -/
+lemma horseshoeα_comp_horseshoeβ :
+    horseshoeα hS P₁ P₃ ≫ horseshoeβ hS P₁ P₃ = 0 := by
+  ext n
+  simp
+
+/-- The horseshoe short complex of chain complexes
+`0 → P₁.complex → horseshoeComplex → P₃.complex → 0`. -/
+noncomputable def horseshoeShortComplex : ShortComplex (ChainComplex C ℕ) :=
+  ShortComplex.mk (horseshoeα hS P₁ P₃) (horseshoeβ hS P₁ P₃) (horseshoeα_comp_horseshoeβ hS P₁ P₃)
+
+/-- The explicit degreewise splitting of the horseshoe short complex: in each degree `i` it is the
+split biproduct sequence `0 → P₁ᵢ → P₁ᵢ ⊞ P₃ᵢ → P₃ᵢ → 0`. Keeping the splitting explicit lets a
+downstream additive functor transport it, so the image sequence stays short exact. -/
+noncomputable def horseshoeSplitting (i : ℕ) :
+    ((horseshoeShortComplex hS P₁ P₃).map
+      (HomologicalComplex.eval C (ComplexShape.down ℕ) i)).Splitting :=
+  ShortComplex.Splitting.ofHasBinaryBiproduct (P₁.complex.X i) (P₃.complex.X i)
+
+/-- **The horseshoe short exact sequence of complexes.** Degreewise it is the split biproduct
+sequence, hence short exact in each degree, hence short exact as a sequence of complexes. -/
+lemma horseshoeShortComplex_shortExact :
+    (horseshoeShortComplex hS P₁ P₃).ShortExact :=
+  HomologicalComplex.shortExact_of_degreewise_shortExact _
+    (fun i => (horseshoeSplitting hS P₁ P₃ i).shortExact)
+
 end Augmentation
 
 /-- **The horseshoe lemma.** A short exact sequence `S : 0 → X₁ → X₂ → X₃ → 0` in an abelian
