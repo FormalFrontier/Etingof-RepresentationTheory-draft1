@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Theorem4_6_2
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible
 import EtingofRepresentationTheory.Chapter5.Problem5_16_2
 import EtingofRepresentationTheory.Chapter5.SumTranspositionsEigenvalues
@@ -260,18 +261,96 @@ theorem sumTranspositionsWith1_diagonalizable_integer_eigenvalues
       (∀ μ : ℂ, Module.End.HasEigenvalue
           ((Representation.asAlgebraHom ρ) (sumTranspositionsWith1 n)) μ →
         ∃ m : ℤ, μ = (m : ℂ) ∧ (1 - (n : ℤ)) ≤ m ∧ m ≤ (n : ℤ) - 1) := by
+  classical
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 :=
     ⟨n - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne n))).symm⟩
+  haveI : FiniteDimensional ℂ V := inferInstance
+  -- Unitarizability: an invariant positive-definite Hermitian form from Theorem 4.6.2 turns `V`
+  -- into an inner product space in which every `ρ g` is a unitary.
+  obtain ⟨c, hc⟩ := Theorem4_6_2_existence (Equiv.Perm (Fin (m + 1))) V ρ
+  letI icore : InnerProductSpace.Core ℂ V := c
+  letI : NormedAddCommGroup V := c.toNormedAddCommGroup
+  letI : InnerProductSpace ℂ V := InnerProductSpace.ofCore inferInstance
+  -- `G`-invariance of the inner product.
+  have hc' : ∀ (g : Equiv.Perm (Fin (m + 1))) (v w : V),
+      (inner ℂ (ρ g v) (ρ g w) : ℂ) = (inner ℂ v w : ℂ) := hc
+  -- Each `ρ g` is an isometry.
+  have hnorm : ∀ (g : Equiv.Perm (Fin (m + 1))) (x : V), ‖ρ g x‖ = ‖x‖ := by
+    intro g x
+    have h1 : ‖ρ g x‖ ^ 2 = ‖x‖ ^ 2 := by
+      rw [← inner_self_eq_norm_sq (𝕜 := ℂ), ← inner_self_eq_norm_sq (𝕜 := ℂ), hc' g x x]
+    rw [← Real.sqrt_sq (norm_nonneg (ρ g x)), ← Real.sqrt_sq (norm_nonneg x), h1]
+  -- The sum of transpositions through `0`, and its cardinality.
+  set S : Finset (Fin (m + 1)) :=
+    Finset.univ.filter (fun j : Fin (m + 1) => (0 : Fin (m + 1)) < j) with hSdef
+  have hScard : S.card = m := by
+    have hSe : S = Finset.univ.erase (0 : Fin (m + 1)) := by
+      ext j; simp [hSdef, Fin.pos_iff_ne_zero, Finset.mem_erase]
+    rw [hSe, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, Fintype.card_fin,
+      Nat.add_sub_cancel]
+  set T : Module.End ℂ V :=
+    Representation.asAlgebraHom ρ (sumTranspositionsWith1 (m + 1)) with hTdef
+  -- `T = ∑_{0<j} ρ(0 j)`.
+  have hTsum : T = ∑ j ∈ S, ρ (Equiv.swap 0 j) := by
+    rw [hTdef, sumTranspositionsWith1, map_sum]
+    exact Finset.sum_congr rfl (fun j _ => Representation.asAlgebraHom_of ρ (Equiv.swap 0 j))
+  -- Each `ρ(0 j)` is symmetric: it is a unitary involution.
+  have hswap_symm : ∀ j : Fin (m + 1), (ρ (Equiv.swap (0 : Fin (m + 1)) j)).IsSymmetric := by
+    intro j x y
+    have hinv : ρ (Equiv.swap (0 : Fin (m + 1)) j) (ρ (Equiv.swap 0 j) y) = y := by
+      rw [← Module.End.mul_apply, ← map_mul, Equiv.swap_mul_self, map_one, Module.End.one_apply]
+    calc (inner ℂ (ρ (Equiv.swap 0 j) x) y : ℂ)
+        = (inner ℂ (ρ (Equiv.swap 0 j) x)
+            (ρ (Equiv.swap 0 j) (ρ (Equiv.swap 0 j) y)) : ℂ) := by rw [hinv]
+      _ = (inner ℂ x (ρ (Equiv.swap 0 j) y) : ℂ) := hc' _ _ _
+  -- Hence `T` is symmetric.
+  have hTsym : T.IsSymmetric := by
+    intro x y
+    rw [hTsum, LinearMap.sum_apply, LinearMap.sum_apply, sum_inner, inner_sum]
+    exact Finset.sum_congr rfl (fun j _ => hswap_symm j x y)
   refine ⟨?_, ?_⟩
-  · -- Eigenbasis via unitarizability (self-adjoint operator has an eigenbasis).
-    sorry
+  · -- Eigenbasis via the spectral theorem for the self-adjoint operator `T`.
+    refine ⟨(hTsym.eigenvectorBasis rfl).toBasis, fun i => ⟨(hTsym.eigenvalues rfl i : ℂ), ?_⟩⟩
+    rw [OrthonormalBasis.coe_toBasis]
+    exact hTsym.apply_eigenvectorBasis rfl i
   · intro μ hμ
     obtain ⟨z, hz⟩ := sumTranspositionsWith1_hasEigenvalue_integer m ρ μ hμ
+    -- Bound the eigenvalue via a normalized eigenvector `w'` with `‖w'‖ = 1`.
+    obtain ⟨w, hwmem, hwne⟩ := hμ.exists_hasEigenvector
+    have hTw : T w = μ • w := Module.End.mem_eigenspace_iff.mp hwmem
+    have hwnorm_pos : (0 : ℝ) < ‖w‖ := norm_pos_iff.mpr hwne
+    set w' : V := ((‖w‖⁻¹ : ℝ) : ℂ) • w with hw'def
+    have hw'norm : ‖w'‖ = 1 := by
+      rw [hw'def, norm_smul, Complex.norm_real, Real.norm_eq_abs,
+        abs_of_nonneg (by positivity), inv_mul_cancel₀ (ne_of_gt hwnorm_pos)]
+    have hTw' : T w' = μ • w' := by rw [hw'def, map_smul, hTw, smul_comm]
+    -- `μ = ⟪w', T w'⟫`.
+    have hμeq : (inner ℂ w' (T w') : ℂ) = μ := by
+      rw [hTw', inner_smul_right, inner_self_eq_norm_sq_to_K, hw'norm]; simp
+    -- `‖μ‖ ≤ m`, since `⟪w', T w'⟫` is a sum of `m` terms each of modulus `≤ 1`.
+    have hbound : ‖μ‖ ≤ (m : ℝ) := by
+      rw [← hμeq]
+      have hexp : (inner ℂ w' (T w') : ℂ)
+          = ∑ j ∈ S, (inner ℂ w' (ρ (Equiv.swap 0 j) w') : ℂ) := by
+        rw [hTsum, LinearMap.sum_apply, inner_sum]
+      rw [hexp]
+      calc ‖∑ j ∈ S, (inner ℂ w' (ρ (Equiv.swap 0 j) w') : ℂ)‖
+          ≤ ∑ j ∈ S, ‖(inner ℂ w' (ρ (Equiv.swap 0 j) w') : ℂ)‖ := norm_sum_le _ _
+        _ ≤ ∑ j ∈ S, (1 : ℝ) := by
+            refine Finset.sum_le_sum (fun j _ => ?_)
+            calc ‖(inner ℂ w' (ρ (Equiv.swap 0 j) w') : ℂ)‖
+                ≤ ‖w'‖ * ‖ρ (Equiv.swap 0 j) w'‖ := norm_inner_le_norm _ _
+              _ = 1 := by rw [hnorm, hw'norm]; norm_num
+        _ = (m : ℝ) := by rw [Finset.sum_const, hScard]; simp
+    -- Combine with integrality of `μ = z`.
+    have hzabs : |z| ≤ (m : ℤ) := by
+      have hnormμ : ‖μ‖ = |(z : ℝ)| := by rw [hz, Complex.norm_intCast]
+      rw [hnormμ] at hbound
+      exact_mod_cast hbound
+    obtain ⟨hb1, hb2⟩ := abs_le.mp hzabs
     refine ⟨z, hz, ?_, ?_⟩
-    · -- lower bound `1 - n ≤ z` from `|μ| ≤ n - 1` (unitarizability).
-      sorry
-    · -- upper bound `z ≤ n - 1` from `|μ| ≤ n - 1` (unitarizability).
-      sorry
+    · push_cast; omega
+    · push_cast; omega
 
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
