@@ -31,7 +31,7 @@ scalar `λ · id` on `V` by Schur's lemma. Taking the trace gives `λ = |C| · �
 The scalar `λ` is an algebraic integer because `σ` lies in the image of the integral
 group ring `ℤ[G]`, which is module-finite over `ℤ`. -/
 theorem Etingof.Proposition5_3_2
-    (G : Type) [Group G] [Fintype G] [DecidableEq G]
+    (G : Type*) [Group G] [Fintype G] [DecidableEq G]
     (V : FDRep ℂ G) [Simple V]
     (g : G)
     (hn : 0 < Module.finrank ℂ V) :

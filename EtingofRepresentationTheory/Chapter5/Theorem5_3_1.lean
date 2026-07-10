@@ -39,7 +39,7 @@ open CategoryTheory Polynomial Matrix in
 element is an algebraic integer: it is the sum of the eigenvalues of `V.ρ g`, each of which is
 a root of unity (since `g` has finite order). -/
 theorem FDRep.character_isIntegral
-    {G : Type} [Group G] [Fintype G]
+    {G : Type*} [Group G] [Fintype G]
     (V : FDRep ℂ G) (g : G) :
     IsIntegral ℤ (V.character g) := by
   classical
@@ -89,7 +89,7 @@ open CategoryTheory in
 /-- **Theorem 5.3.1.** The dimension of an irreducible complex representation `V` of a finite
 group `G` divides the order of `G`. (Etingof Theorem 5.3.1) -/
 theorem Etingof.Theorem5_3_1
-    (G : Type) [Group G] [Fintype G]
+    (G : Type*) [Group G] [Fintype G]
     (V : FDRep ℂ G) [Simple V] :
     Module.finrank ℂ V ∣ Fintype.card G := by
   classical

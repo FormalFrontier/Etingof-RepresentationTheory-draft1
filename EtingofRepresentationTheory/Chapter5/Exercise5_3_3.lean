@@ -1,6 +1,8 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_1_1
 import EtingofRepresentationTheory.Chapter5.FrobeniusSchurRealType
+import EtingofRepresentationTheory.Chapter5.Theorem5_3_1
+import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 
 /-!
 # Exercise 5.3.3: nontrivial irreducibles of an odd-order group are of complex type
@@ -41,10 +43,12 @@ isomorphism `V ≃ V*` and derive a contradiction:
    hint: a nondegenerate skew-symmetric form exists only on even-dimensional spaces), while the
    dimension of an irreducible divides `|G|`, which is odd.
 
-The top-level assembly is complete and sorry-free; the three sub-lemmas carry the remaining
-`sorry`s, each a self-contained statement requiring character-theoretic infrastructure
-(Frobenius–Schur / Brauer, "dimension divides the order", "nondegenerate alternating ⇒ even
-dimension") that is not yet available in Mathlib. See the tracking issues for #6215.
+The top-level assembly is complete and sorry-free. Sub-lemma 3
+(`not_isQuaternionicType_of_odd_order_of_irreducible`) is proved by combining the even
+dimension of quaternionic type (`Etingof.even_finrank_of_isQuaternionicType`) with "the
+dimension of an irreducible divides `|G|`" (`Etingof.Theorem5_3_1`). The only remaining
+`sorry` is the Frobenius–Schur crux `sum_char_sq_eq_card_of_isRealType` feeding sub-lemma 2
+(tracked as issue #6242). See the tracking issues for #6215.
 -/
 
 namespace Etingof
@@ -52,7 +56,7 @@ namespace Etingof
 section Exercise533
 
 variable {G : Type*} [Group G] [Fintype G]
-  {V : Type*} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
+  {V : Type} [AddCommGroup V] [Module ℂ V] [Module.Finite ℂ V]
 
 /-! ### The squaring bijection on an odd-order group
 
@@ -224,18 +228,31 @@ theorem not_isRealType_of_odd_order_of_nontrivial_irreducible
   exact (Nat.cast_ne_zero.mpr Fintype.card_ne_zero) hc.symm
 
 /-- For a finite group of **odd** order, no irreducible representation is of quaternionic
-type. A quaternionic representation is even-dimensional (a nondegenerate skew-symmetric form
-exists only in even dimension), whereas the dimension of an irreducible divides `|G|`, which
-is odd.
-
-TODO (#6215): prove by combining "nondegenerate alternating form ⇒ even `finrank`" with
-"`finrank` of an irreducible divides `Fintype.card G`". -/
+type. A quaternionic representation is even-dimensional
+(`Etingof.even_finrank_of_isQuaternionicType`: a nondegenerate skew-symmetric form exists only
+in even dimension), whereas the dimension of an irreducible divides `|G|`
+(`Etingof.Theorem5_3_1`), which is odd. An even number dividing an odd number is impossible. -/
 theorem not_isQuaternionicType_of_odd_order_of_irreducible
     (hodd : Odd (Fintype.card G))
     (ρ : Representation ℂ G V)
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) :
     ¬ Etingof.IsQuaternionicType ρ := by
-  sorry
+  classical
+  intro hquat
+  -- Quaternionic type supplies a nondegenerate skew-symmetric form, so `finrank ℂ V` is even.
+  have heven : Even (Module.finrank ℂ V) :=
+    Etingof.even_finrank_of_isQuaternionicType ρ hquat
+  -- Irreducibility makes `FDRep.of ρ` a simple object, whose dimension divides `|G|`.
+  haveI : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule := hirr
+  haveI := Etingof.simple_fdRepOf_of_isSimpleModule ρ
+  -- `Module.finrank ℂ (FDRep.of ρ)` is definitionally `Module.finrank ℂ V`.
+  have hdvd : Module.finrank ℂ V ∣ Fintype.card G := Etingof.Theorem5_3_1 G (FDRep.of ρ)
+  -- `Even (finrank)` and `finrank ∣ (odd |G|)` give `2 ∣ |G|`, contradicting oddness.
+  obtain ⟨k, hk⟩ := heven
+  obtain ⟨m, hm⟩ := hdvd
+  rw [Nat.odd_iff] at hodd
+  have hcard : Fintype.card G = 2 * (k * m) := by rw [hm, hk]; ring
+  omega
 
 /-- Exercise 5.3.3. Every nontrivial irreducible representation of a finite group of odd
 order is of complex type (`V ≇ V*`).
