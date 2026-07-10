@@ -241,6 +241,24 @@ theorem evalImage_linearIndependent :
     · intro hpmaxnotin; exact absurd hpmaxt hpmaxnotin
   exact hall p₀ hp₀t
 
+/-- The images of the basis monomials `xⁱyʲ` under the faithful representation `repE`
+(`x ↦ t·`, `y ↦ d/dt` on `E = tᵃ k[a][t, t⁻¹]`) are linearly independent over `k`, in any
+characteristic.
+
+This is the char-free crux, obtained by pulling back `evalImage_linearIndependent` along the
+evaluation-at-`tᵃ` map: `repE k (xⁱyʲ) ↦ t^{a+i-j} · descPoly j` is injective enough to separate
+distinct monomials. It powers both char-free faithfulness (`repE_injective`) and char-free
+linear independence of the monomials themselves (`WeylAlgebra.monomialsLinearIndependent`). -/
+theorem repImage_linearIndependent :
+    LinearIndependent k (fun p : ℕ × ℕ => repE k (WeylAlgebra.monomial k p.1 p.2)) := by
+  have hΦ := evalImage_linearIndependent k
+  refine LinearIndependent.of_comp
+    (LinearMap.applyₗ (Finsupp.single (0 : ℤ) (1 : Polynomial k))) ?_
+  convert hΦ using 1
+  funext p
+  simp only [Function.comp_apply, LinearMap.applyₗ_apply_apply]
+  exact repE_monomial_apply_t0 k p.1 p.2
+
 /-- **Char-free faithfulness (Discussion after Proposition 2.7.1).** The representation
 `E = tᵃ k[a][t, t⁻¹]` of the Weyl algebra is *faithful in any characteristic*: the algebra
 homomorphism `repE : WeylAlgebra k →ₐ[k] Module.End k E` is injective, over any nontrivial
@@ -259,13 +277,7 @@ theorem repE_injective : Function.Injective (repE k) := by
     exact top_le_iff.mp (WeylAlgebra.monomials_span k)
   -- Their images under `repE` are linearly independent (the char-free crux).
   have hli : LinearIndependent k (fun p : ℕ × ℕ => repE k (mono p)) := by
-    have hΦ := evalImage_linearIndependent k
-    refine LinearIndependent.of_comp
-      (LinearMap.applyₗ (Finsupp.single (0 : ℤ) (1 : Polynomial k))) ?_
-    convert hΦ using 1
-    funext p
-    simp only [Function.comp_apply, LinearMap.applyₗ_apply_apply, hmono]
-    exact repE_monomial_apply_t0 k p.1 p.2
+    simpa only [hmono] using repImage_linearIndependent k
   rw [injective_iff_map_eq_zero (repE k)]
   intro w hw
   obtain ⟨f, rfl⟩ := hsurj w
@@ -278,5 +290,33 @@ theorem repE_injective : Function.Injective (repE k) := by
   have hf : f = 0 :=
     hli.finsuppLinearCombination_injective (h0.trans (map_zero _).symm)
   rw [hf, map_zero]
+
+/-- **Char-free linear independence of the Weyl monomials (Proposition 2.7.1 (i)).**
+The standard monomials `{xⁱyʲ : i, j ≥ 0}` of the Weyl algebra are linearly independent over any
+nontrivial commutative ring `k` — in particular over **any field, with no characteristic
+hypothesis**.
+
+This is the char-`p` strengthening of `Etingof.linearIndep` (which needs `[CharZero k]`
+`[NoZeroDivisors k]` because it routes through the polynomial representation on `k[t]`, faithful
+only in characteristic zero). Here linear independence is pulled back along the linear map
+`repE`, using that the images `repE k (xⁱyʲ)` are linearly independent in any characteristic
+(`repImage_linearIndependent`): the falling-factorial coefficient `descPoly j` is a nonzero monic
+polynomial in the formal parameter `a` regardless of `char k`, so no faithful `k[t]`-sized
+representation is needed. -/
+theorem WeylAlgebra.monomialsLinearIndependent :
+    LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) :=
+  (repImage_linearIndependent k).of_comp (repE k).toLinearMap
+
+/-- **Proposition 2.7.1 (i), char-free.** Over any nontrivial commutative ring `k` (in particular
+any field, in any characteristic) the standard monomials `{xⁱyʲ : i, j ≥ 0}` form a basis of the
+Weyl algebra: they are linearly independent (`WeylAlgebra.monomialsLinearIndependent`, char-free
+via the faithful module `E`) and they span (`WeylAlgebra.monomials_span`, char-free).
+
+This upgrades `Etingof.Proposition_2_7_1`, whose linear-independence half assumed
+`[CharZero k] [NoZeroDivisors k]`. -/
+theorem Proposition_2_7_1_charFree :
+    LinearIndependent k (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2) ∧
+    ⊤ ≤ Submodule.span k (Set.range (fun p : ℕ × ℕ => WeylAlgebra.monomial k p.1 p.2)) :=
+  ⟨WeylAlgebra.monomialsLinearIndependent k, WeylAlgebra.monomials_span k⟩
 
 end Etingof
