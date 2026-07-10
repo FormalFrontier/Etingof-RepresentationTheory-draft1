@@ -57,15 +57,30 @@ theorem hilbertSeries_mvPolynomial (k : Type*) [Field k] (m : ℕ) :
 length-`n` graded piece of the free algebra `k⟨x₁,…,x_m⟩` (whose basis is the set of words).
 Equivalently the Hilbert series is `1/(1-mt)`. -/
 theorem card_words_length (m n : ℕ) :
-    Nat.card {l : List (Fin m) // l.length = n} = m ^ n :=
-  sorry
+    Nat.card {l : List (Fin m) // l.length = n} = m ^ n := by
+  -- A length-`n` word over `Fin m` is exactly a `List.Vector (Fin m) n`, equivalent to
+  -- `Fin n → Fin m`, of which there are `mⁿ`.
+  have e : {l : List (Fin m) // l.length = n} ≃ (Fin n → Fin m) :=
+    Equiv.vectorEquivFin (Fin m) n
+  rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_fun,
+    Fintype.card_fin, Fintype.card_fin]
 
 /-- **(b)**, generating-function form: the Hilbert series of `k⟨x₁,…,x_m⟩` is `1/(1-mt)`,
 expressed as the power-series identity `(1 - m·t) · h_A = 1`. -/
 theorem hilbertSeries_freeAlgebra (k : Type*) [Field k] (m : ℕ) :
     (1 - (m : ℕ) • PowerSeries.X : PowerSeries k) *
-      PowerSeries.mk (fun n => ((m ^ n : ℕ) : k)) = 1 :=
-  sorry
+      PowerSeries.mk (fun n => ((m ^ n : ℕ) : k)) = 1 := by
+  -- Geometric series `(1 - m·X)·∑ mⁿ Xⁿ = 1`, checked coefficient by coefficient.
+  ext d
+  rw [sub_mul, one_mul, smul_mul_assoc, map_sub, map_nsmul, PowerSeries.coeff_mk,
+    PowerSeries.coeff_one]
+  rcases d with _ | e
+  · -- constant coefficient: `m⁰ - m·(coeff₀ (X·h)) = 1 - 0 = 1`
+    simp [PowerSeries.coeff_zero_eq_constantCoeff_apply]
+  · -- coefficient of `t^(e+1)`: `m^(e+1) - m·m^e = 0`
+    rw [PowerSeries.coeff_succ_X_mul, PowerSeries.coeff_mk, nsmul_eq_mul]
+    push_cast [pow_succ]
+    ring
 
 /-! ## (c) Exterior (Grassmann) algebra `⋀_k[x₁,…,x_m]` -/
 
