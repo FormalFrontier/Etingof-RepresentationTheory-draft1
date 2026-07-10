@@ -440,7 +440,10 @@ theorem horseshoe {C : Type u} [Category.{v} C] [Abelian C] [EnoughProjectives C
       (w : α ≫ β = 0),
       (ShortComplex.mk α β w).ShortExact ∧
       α.f 0 ≫ P₂.π.f 0 = P₁.π.f 0 ≫ S.f ∧
-      β.f 0 ≫ P₃.π.f 0 = P₂.π.f 0 ≫ S.g := by
-  sorry
+      β.f 0 ≫ P₃.π.f 0 = P₂.π.f 0 ≫ S.g :=
+  ⟨horseshoeResolution hS P₁ P₃, horseshoeα hS P₁ P₃, horseshoeβ hS P₁ P₃,
+    horseshoeα_comp_horseshoeβ hS P₁ P₃, horseshoeShortComplex_shortExact hS P₁ P₃,
+    by simp [horseshoeResolution],
+    by simp [horseshoeResolution, horseshoeπZero_comp_g]⟩
 
 end Etingof
