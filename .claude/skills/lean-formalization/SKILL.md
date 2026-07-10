@@ -1079,6 +1079,20 @@ Two gotchas bite anyone building iterated direct sums or decomposition results
 (`DecompositionExistence.lean` is the reference; `exists_decomposition` is the
 existence-of-decomposition-into-indecomposables workhorse).
 
+**Rewriting a `DirectSum.component ⟨w, arr⟩ z` Sigma index fails with "motive is not type
+correct" (Ch7 #6085, the reflection-functor adjunction bijection).** The component's *value*
+type is `M idx.fst`, a dependent position, so `rw [heq]` on the whole index `idx : Σ j, (j ⟶ i)`
+(e.g. `sourceArrowReindexEquiv hi ⟨w,e⟩ = ⟨w, β⟩`) is rejected. Fix: rewrite only the *arrow*
+second component, keeping `fst = w` fixed — extract `hsnd : revOut hi ⟨w,e⟩ = β` and
+`rw [← hsnd]`, whose motive `fun arr => … = component ⟨w, arr⟩ z` has constant value type
+`M w`. To turn a whole direct-sum equality into a per-index check over a reindexing bijection,
+use `DirectSum.ext_component R (fun b => ?_)` then `obtain ⟨a, rfl⟩ := e.surjective b`
+(reduces `component b` to `component (reindex a)`, where a `Finset.sum_eq_single`-based
+component read-off lemma applies). Package the `κ.symm ∘ codRestrict` round-trip and the
+per-arrow component identity as reusable `have`s before the `Equiv` assembly, and reduce the
+`if hv : v = i then hv ▸ appAtI r else …` app field with `simp only [reduceDIte]` (at `i`)
+/ `simp only [dif_neg hv, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]` (off `i`).
+
 1. **`obj` carries only `AddCommMonoid` — `FiniteDimensional` is ill-typed.**
    `Etingof.QuiverRepresentation.obj` bundles `AddCommMonoid` + `Module`, not
    `AddCommGroup`. So a hypothesis `[∀ v, FiniteDimensional k (V.obj v)]` does
