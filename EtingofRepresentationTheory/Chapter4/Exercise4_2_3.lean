@@ -391,21 +391,57 @@ abbrev SimpleModuleClasses.{w, r} (R : Type r) [Ring R] :=
   Quotient (isIsomorphicSetoid (simpleProp (ModuleCat.{w} R)).FullSubcategory)
 
 variable (k G) in
-/-- **Deliverable 2 (count lemma).** The number of isomorphism classes of irreducible
-representations of `G` over `k` equals the number of isomorphism classes of simple
-`k[G]`-modules. The intermediate `Rep k G` classes are here reconstructed inline (rather than
-reusing `repSimpleClassesEquivModuleSimpleClasses`) so their carrier universe unifies with the
-one coming from `FDRep k G`. -/
-theorem card_irrepClasses_eq_card_simpleModuleClasses [Finite G] :
-    Nat.card (IrrepClasses k G) = Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra k G)) := by
-  refine Nat.card_congr ((irrepClassesEquivRepSimpleClasses k G).trans
+/-- **Deliverable 2 (bijection).** Isomorphism classes of irreducible representations of `G`
+over `k` correspond to isomorphism classes of simple `k[G]`-modules. The intermediate `Rep k G`
+classes are here reconstructed inline (rather than reusing
+`repSimpleClassesEquivModuleSimpleClasses`) so their carrier universe unifies with the one coming
+from `FDRep k G`. -/
+noncomputable def irrepClassesEquivSimpleModuleClasses [Finite G] :
+    IrrepClasses k G ≃ SimpleModuleClasses.{u} (MonoidAlgebra k G) :=
+  (irrepClassesEquivRepSimpleClasses k G).trans
     (isoClassesEquivOfEquivalence
       (Equivalence.congrFullSubcategory (Rep.equivalenceModuleMonoidAlgebra.{u} (k := k) (G := G))
         (P := simpleProp (Rep.{u} k G)) (Q := simpleProp (ModuleCat.{u} (MonoidAlgebra k G)))
         (funext fun X => propext (simpleProp_iff_of_equivalence
-          (Rep.equivalenceModuleMonoidAlgebra.{u} (k := k) (G := G)) X)))))
+          (Rep.equivalenceModuleMonoidAlgebra.{u} (k := k) (G := G)) X))))
+
+variable (k G) in
+/-- **Deliverable 2 (count lemma).** The number of isomorphism classes of irreducible
+representations of `G` over `k` equals the number of isomorphism classes of simple
+`k[G]`-modules. -/
+theorem card_irrepClasses_eq_card_simpleModuleClasses [Finite G] :
+    Nat.card (IrrepClasses k G) = Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra k G)) :=
+  Nat.card_congr (irrepClassesEquivSimpleModuleClasses k G)
 
 end Bridge
+
+/-! ### Finiteness of the set of irreducibles
+
+A finite group `G` has only finitely many irreducible representations over any field `k`.
+Via the counting bridge above this reduces to: a finite-dimensional algebra `R` over a field
+`k` has only finitely many isomorphism classes of simple modules. The mathematical content is
+that every simple `R`-module is annihilated by the Jacobson radical, hence a module over the
+semisimple quotient `A = R ⧸ rad`, and over a semisimple ring every simple module embeds into
+the ring as a submodule lying in one of the finitely many isotypic components of `A`. -/
+
+section Finiteness
+
+open scoped Classical in
+/-- **Finitely many simple modules.** A ring `R` that is finite-dimensional as an algebra over
+a field `k` has only finitely many isomorphism classes of simple modules (with underlying types
+in the universe of `k`). -/
+theorem finite_simpleModuleClasses (k : Type u) {R : Type*} [Field k] [Ring R] [Algebra k R]
+    [Module.Finite k R] : Finite (SimpleModuleClasses.{u} R) := by
+  sorry
+
+instance IrrepClasses.instFinite {k G : Type*} [Field k] [Group G] [Finite G] :
+    Finite (IrrepClasses k G) := by
+  haveI : Module.Finite k (MonoidAlgebra k G) :=
+    Module.Finite.of_basis (Finsupp.basisSingleOne (ι := G) (R := k))
+  haveI := finite_simpleModuleClasses k (R := MonoidAlgebra k G)
+  exact Finite.of_equiv _ (irrepClassesEquivSimpleModuleClasses k G).symm
+
+end Finiteness
 
 /-- **Exercise 4.2.3.** If `|G| = 0` in `k` (the characteristic of `k` divides the order
 of the finite group `G`), then the number of isomorphism classes of irreducible
