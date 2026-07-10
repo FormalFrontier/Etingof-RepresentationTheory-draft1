@@ -6878,8 +6878,8 @@
     "end_page": "206",
     "start_line": 17,
     "end_line": 18,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "sorry_free",
+    "coverage_note": "Proved 2026-07-10 via Module.projective_lifting_property: lift f₂ along π, assemble f = ι∘f₁∘fst + g₂∘snd. Axioms: propext, Classical.choice, Quot.sound."
   },
   {
     "id": "Chapter8/Discussion_after_Exercise8.1.4",
