@@ -370,7 +370,29 @@ theorem exists_Std_linearEquiv (D : SplitData K G)
 the number of Wedderburn blocks `n`. -/
 theorem card_simpleModuleClasses (D : SplitData K G) :
     Nat.card (SimpleModuleClasses.{u} (MonoidAlgebra K G)) = D.n := by
-  sorry
+  -- Package each standard module as a simple object of `ModuleCat K[G]`.
+  let P : Fin D.n → (simpleProp (ModuleCat.{u} (MonoidAlgebra K G))).FullSubcategory := fun i =>
+    { obj := ModuleCat.of (MonoidAlgebra K G) (D.Std i)
+      property := by
+        haveI := isSimpleModule_Std D i
+        exact (simple_iff_isSimpleModule (M := D.Std i)).mpr inferInstance }
+  let f : Fin D.n → SimpleModuleClasses.{u} (MonoidAlgebra K G) :=
+    fun i => Quotient.mk (isIsomorphicSetoid _) (P i)
+  have hf : Function.Bijective f := by
+    constructor
+    · -- Injective: `⟦Std i⟧ = ⟦Std j⟧` gives `Std i ≃ₗ Std j`, hence `i = j` (`Std_injective`).
+      intro i j hij
+      obtain ⟨iso⟩ := Quotient.exact hij
+      exact Std_injective D i j ⟨(((simpleProp _).ι).mapIso iso).toLinearEquiv⟩
+    · -- Surjective: any simple module is `≃ₗ` some `Std i` (`exists_Std_linearEquiv`).
+      intro c
+      obtain ⟨Q, rfl⟩ := Quotient.exists_rep c
+      haveI : Simple Q.obj := Q.property
+      obtain ⟨i, ⟨e⟩⟩ := exists_Std_linearEquiv D (Q.obj : Type u)
+      refine ⟨i, Quotient.sound
+        ⟨((simpleProp _).fullyFaithfulι).preimageIso (LinearEquiv.toModuleIso e.symm)⟩⟩
+  rw [← Nat.card_fin D.n]
+  exact (Nat.card_congr (Equiv.ofBijective f hf)).symm
 
 end SplitData
 
