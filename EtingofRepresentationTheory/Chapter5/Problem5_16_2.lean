@@ -194,6 +194,175 @@ lemma youngSymmetrizer_swap_coeff (n : ℕ) (la : Nat.Partition n) {i j : Fin n}
           exact hrow hrr.symm
       rw [hzero, if_neg hrow, if_neg hcol]; ring
 
+/-! ### Counting infrastructure for the content identity -/
+
+/-- Canonical decomposition of a position: `m = (offset of its row) + (its column)`. -/
+private lemma pos_decomp_list (parts : List ℕ) (m : ℕ) (hm : m < parts.sum) :
+    m = (parts.take (rowOfPos parts m)).sum + colOfPos parts m := by
+  have hrlen : rowOfPos parts m < parts.length := rowOfPos_lt_length parts m hm
+  have hclt : colOfPos parts m < parts[rowOfPos parts m] := colOfPos_lt_getElem parts m hm
+  obtain ⟨hcr, hcc⟩ := rowOfPos_colOfPos_canonical parts (rowOfPos parts m) (colOfPos parts m)
+    hrlen hclt
+  have hlt := canonical_pos_lt_sum parts (rowOfPos parts m) (colOfPos parts m) hrlen hclt
+  exact (rowOfPos_colOfPos_injective parts
+    ((parts.take (rowOfPos parts m)).sum + colOfPos parts m) m hlt hm hcr hcc).symm
+
+/-- The number of positions in a half-open interval `[a, b)` of `Fin n` is `b - a`. -/
+private lemma card_val_Ico (n a b : ℕ) (hab : a ≤ b) (hb : b ≤ n) :
+    ((Finset.univ : Finset (Fin n)).filter (fun i => a ≤ i.val ∧ i.val < b)).card = b - a := by
+  have hsub : (Finset.univ : Finset (Fin n)).filter (fun i => i.val < a)
+      ⊆ (Finset.univ : Finset (Fin n)).filter (fun i => i.val < b) := by
+    intro i; simp only [Finset.mem_filter, Finset.mem_univ, true_and]; omega
+  have hdiff : (Finset.univ : Finset (Fin n)).filter (fun i => a ≤ i.val ∧ i.val < b)
+      = (Finset.univ.filter (fun i => i.val < b)) \ (Finset.univ.filter (fun i => i.val < a)) := by
+    ext i; simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_sdiff]; omega
+  rw [hdiff, Finset.card_sdiff, Finset.inter_eq_left.mpr hsub, card_filter_val_lt n b hb,
+    card_filter_val_lt n a (le_trans hab hb)]
+
+/-- The number of positions before `j` in the same row as `j` equals the column index of `j`. -/
+private lemma card_before_sameRow (n : ℕ) (la : Nat.Partition n) (j : Fin n) :
+    ((Finset.univ : Finset (Fin n)).filter (fun i =>
+      i < j ∧ rowOfPos la.sortedParts i.val = rowOfPos la.sortedParts j.val)).card
+      = colOfPos la.sortedParts j.val := by
+  have hsum : la.sortedParts.sum = n := sortedParts_sum_eq n la
+  set r := rowOfPos la.sortedParts j.val with hr
+  have hjdecomp : j.val = (la.sortedParts.take r).sum + colOfPos la.sortedParts j.val := by
+    have h := pos_decomp_list la.sortedParts j.val (by rw [hsum]; exact j.isLt)
+    rw [← hr] at h; exact h
+  have hset : (Finset.univ : Finset (Fin n)).filter (fun i =>
+        i < j ∧ rowOfPos la.sortedParts i.val = r)
+      = (Finset.univ : Finset (Fin n)).filter (fun i =>
+          (la.sortedParts.take r).sum ≤ i.val ∧ i.val < j.val) := by
+    ext i
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Fin.lt_def]
+    have hib : i.val < la.sortedParts.sum := by rw [hsum]; exact i.isLt
+    have hjb : j.val < la.sortedParts.sum := by rw [hsum]; exact j.isLt
+    constructor
+    · rintro ⟨hij, hri⟩
+      refine ⟨?_, hij⟩
+      by_contra hlt
+      push_neg at hlt
+      have : rowOfPos la.sortedParts i.val < r :=
+        (rowOfPos_lt_iff la.sortedParts i.val r hib).mpr hlt
+      omega
+    · rintro ⟨hge, hij⟩
+      refine ⟨hij, ?_⟩
+      have hnlt : ¬ (rowOfPos la.sortedParts i.val < r) := by
+        rw [rowOfPos_lt_iff la.sortedParts i.val r hib]; omega
+      have hjr1 : rowOfPos la.sortedParts j.val < r + 1 := by rw [← hr]; omega
+      have hjr1' : j.val < (la.sortedParts.take (r+1)).sum :=
+        (rowOfPos_lt_iff la.sortedParts j.val (r+1) hjb).mp hjr1
+      have hir1 : rowOfPos la.sortedParts i.val < r + 1 :=
+        (rowOfPos_lt_iff la.sortedParts i.val (r+1) hib).mpr (by omega)
+      omega
+  rw [hset, card_val_Ico n ((la.sortedParts.take r).sum) j.val (by omega) (le_of_lt j.isLt)]
+  omega
+
+/-- The number of positions before `j` in the same column as `j` equals the row index of `j`. -/
+private lemma card_before_sameCol (n : ℕ) (la : Nat.Partition n) (j : Fin n) :
+    ((Finset.univ : Finset (Fin n)).filter (fun i =>
+      i < j ∧ colOfPos la.sortedParts i.val = colOfPos la.sortedParts j.val)).card
+      = rowOfPos la.sortedParts j.val := by
+  have hsum : la.sortedParts.sum = n := sortedParts_sum_eq n la
+  have hsorted : la.sortedParts.Pairwise (· ≥ ·) := sortedParts_sorted la
+  have hjb : j.val < la.sortedParts.sum := by rw [hsum]; exact j.isLt
+  have hrlen : rowOfPos la.sortedParts j.val < la.sortedParts.length :=
+    rowOfPos_lt_length la.sortedParts j.val hjb
+  have hclt : colOfPos la.sortedParts j.val < la.sortedParts[rowOfPos la.sortedParts j.val] :=
+    colOfPos_lt_getElem la.sortedParts j.val hjb
+  have hjdecomp := pos_decomp_list la.sortedParts j.val hjb
+  set r := rowOfPos la.sortedParts j.val with hr
+  set c := colOfPos la.sortedParts j.val with hc
+  have hmono : ∀ a b : ℕ, a ≤ b → (la.sortedParts.take a).sum ≤ (la.sortedParts.take b).sum := by
+    intro a b hab
+    have he : la.sortedParts.take a = (la.sortedParts.take b).take a := by
+      rw [List.take_take, min_eq_left hab]
+    rw [he]
+    exact List.Sublist.sum_le_sum (List.take_sublist a (la.sortedParts.take b))
+      (fun _ _ => Nat.zero_le _)
+  rw [← Finset.card_range r]
+  refine Finset.card_bij (fun i _ => rowOfPos la.sortedParts i.val) ?_ ?_ ?_
+  · -- forward map lands in `range r`
+    intro i hi
+    rw [Finset.mem_filter] at hi
+    obtain ⟨-, hij, hcoli⟩ := hi
+    rw [Fin.lt_def] at hij
+    have hib : i.val < la.sortedParts.sum := by rw [hsum]; exact i.isLt
+    have hidecomp : i.val = (la.sortedParts.take (rowOfPos la.sortedParts i.val)).sum + c := by
+      have h := pos_decomp_list la.sortedParts i.val hib
+      rw [hcoli] at h; exact h
+    rw [Finset.mem_range]
+    by_contra hle
+    push_neg at hle
+    have : (la.sortedParts.take r).sum ≤ (la.sortedParts.take (rowOfPos la.sortedParts i.val)).sum :=
+      hmono r _ hle
+    omega
+  · -- injective
+    intro i₁ hi₁ i₂ hi₂ heq
+    rw [Finset.mem_filter] at hi₁ hi₂
+    obtain ⟨-, -, hcoli₁⟩ := hi₁
+    obtain ⟨-, -, hcoli₂⟩ := hi₂
+    have hb₁ : i₁.val < la.sortedParts.sum := by rw [hsum]; exact i₁.isLt
+    have hb₂ : i₂.val < la.sortedParts.sum := by rw [hsum]; exact i₂.isLt
+    exact Fin.ext (rowOfPos_colOfPos_injective la.sortedParts i₁.val i₂.val hb₁ hb₂ heq
+      (by rw [hcoli₁, hcoli₂]))
+  · -- surjective
+    intro b hb
+    rw [Finset.mem_range] at hb
+    have hblen : b < la.sortedParts.length := lt_trans hb hrlen
+    have hcb : c < la.sortedParts[b] :=
+      col_exists_earlier_row la.sortedParts hsorted r b c hrlen hblen (le_of_lt hb) hclt
+    obtain ⟨hcr', hcc'⟩ := rowOfPos_colOfPos_canonical la.sortedParts b c hblen hcb
+    have hmlt : (la.sortedParts.take b).sum + c < la.sortedParts.sum :=
+      canonical_pos_lt_sum la.sortedParts b c hblen hcb
+    have hmn : (la.sortedParts.take b).sum + c < n := lt_of_lt_of_eq hmlt hsum
+    -- strict monotonicity: (take b).sum < (take r).sum
+    have hstep : (la.sortedParts.take (b+1)).sum = (la.sortedParts.take b).sum
+        + la.sortedParts[b] := List.sum_take_succ la.sortedParts b hblen
+    have hpos : 0 < la.sortedParts[b] := lt_of_le_of_lt (Nat.zero_le c) hcb
+    have hstrict : (la.sortedParts.take b).sum < (la.sortedParts.take r).sum := by
+      have h1 : (la.sortedParts.take (b+1)).sum ≤ (la.sortedParts.take r).sum := hmono _ _ hb
+      omega
+    refine ⟨⟨(la.sortedParts.take b).sum + c, hmn⟩, ?_, ?_⟩
+    · rw [Finset.mem_filter]
+      refine ⟨Finset.mem_univ _, ?_, hcc'⟩
+      rw [Fin.lt_def]
+      exact (by omega : (la.sortedParts.take b).sum + c < j.val)
+    · exact hcr'
+
+/-- The content, reindexed as a sum over positions: `c(λ) = ∑_k (col(k) − row(k))`. -/
+private lemma content_eq_sum (n : ℕ) (la : Nat.Partition n) :
+    (content la : ℤ)
+      = ∑ k : Fin n, ((colOfPos la.sortedParts k.val : ℤ) - rowOfPos la.sortedParts k.val) := by
+  have hsum : la.sortedParts.sum = n := sortedParts_sum_eq n la
+  have hbounds : ∀ k : Fin n, k.val < la.sortedParts.sum := fun k => by rw [hsum]; exact k.isLt
+  rw [content]
+  refine (Finset.sum_bij (fun (k : Fin n) _ =>
+    ((rowOfPos la.sortedParts k.val, colOfPos la.sortedParts k.val) : ℕ × ℕ)) ?_ ?_ ?_ ?_).symm
+  · -- lands in cells
+    intro k _
+    simp only [YoungDiagram.mem_cells, Nat.Partition.toYoungDiagram, YoungDiagram.mem_ofRowLens]
+    exact ⟨rowOfPos_lt_length la.sortedParts k.val (hbounds k),
+      colOfPos_lt_getElem la.sortedParts k.val (hbounds k)⟩
+  · -- injective
+    intro k₁ _ k₂ _ heq
+    rw [Prod.mk.injEq] at heq
+    exact Fin.ext (rowOfPos_colOfPos_injective la.sortedParts k₁.val k₂.val
+      (hbounds k₁) (hbounds k₂) heq.1 heq.2)
+  · -- surjective
+    intro cell hcell
+    simp only [YoungDiagram.mem_cells, Nat.Partition.toYoungDiagram,
+      YoungDiagram.mem_ofRowLens] at hcell
+    obtain ⟨hr, hc⟩ := hcell
+    have hcgetD : cell.2 < la.sortedParts.getD cell.1 0 := by
+      rw [List.getD_eq_getElem la.sortedParts 0 hr]; exact hc
+    obtain ⟨m, hmlt, hmr, hmc⟩ := exists_pos_of_cell la.sortedParts cell.1 cell.2 hcgetD
+    refine ⟨⟨m, lt_of_lt_of_eq hmlt hsum⟩, Finset.mem_univ _, ?_⟩
+    simp only [hmr, hmc]
+  · -- values match
+    intro k _
+    rfl
+
 /-- The combinatorial heart of the problem: summing the coefficient of each transposition `(ij)`
 in the Young symmetrizer `c_λ = b_λ a_λ` gives the content `c(λ)`.
 
