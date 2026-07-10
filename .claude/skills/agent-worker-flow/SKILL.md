@@ -134,8 +134,27 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
+**Before that `reset --hard`, run `git status --short` first.** A reused
+worktree may carry uncommitted working-tree edits left by a prior session
+(e.g. half-finished skill/command tweaks) — `reset --hard` discards these
+unrecoverably. If you see any, `git diff` them: they are almost always
+disposable cruft the reset is meant to clear, but confirm they are not
+unpushed work before discarding. If they look worth keeping, commit them to
+a throwaway branch (`git stash` is banned in the home repo but fine here) so
+the next session can recover them.
+
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
+
+**Editing `progress/items.json` (any session, especially review/fidelity
+audits that bulk-update `fidelity`/`status` fields):** edit surgically —
+`grep -n` the item id, Read those ~15 lines, `Edit` just the field value, and
+drop any now-stale `fidelity_note`. Never `json.load`+`json.dump` the whole
+file: the reserializer reflows indentation/key-order/unicode into a
+multi-thousand-line diff against the shared 13k-line file (it only stays clean
+by luck if your dump params happen to match). When flipping a `gap` back to
+`verified`, also remove its `fidelity_issue` and confirm the linked repair
+issue actually merged. (Full rationale in the `lean-formalization` skill.)
 
 ## Step 3: Codebase Orientation
 
@@ -149,6 +168,13 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **For "final assembly" issues that consume prerequisites**: verify the
+  infrastructure it depends on actually exists sorry-free. `check-blocked`
+  unblocks an issue when its `depends-on` deps *close* — but a dep closed
+  as `replan` (decomposed) means its real work moved to still-open
+  sub-issues, so the assembly is not actually ready. Confirm the named
+  lemmas/defs exist in the Lean files before working; if not, re-add
+  `depends-on` on the real open sub-issues and `skip`.
 
 If stale:
 ```
@@ -183,13 +209,26 @@ You may decompose when any of these is true:
 - you can write self-contained successor issues without further investigation.
 
 ```bash
-# 1. Create self-contained sub-issues. Use `coordination plan` exactly as a
-#    planner would — same body template (Current state / Deliverables /
-#    Context / Verification), same label. Note: `coordination plan` does
-#    only best-effort title-keyword overlap warnings; it does not hold the
-#    planner lock and cannot atomically dedupe against concurrent creators.
-#    If you see open issues that look related, link or coordinate
+# 0. FIRST search for an existing continuation issue before creating one. A
+#    planner may have already pre-split your claimed issue into a follow-up,
+#    and that follow-up will NOT appear in `coordination list-unclaimed` if it
+#    carries `replan`/`blocked`. Search ALL open issues by item ID / theorem
+#    name, not just the unclaimed queue:
+#      gh issue list --state open --search "<ItemID or theorem> in:title" \
+#        --json number,title,labels
+#    If a suitable continuation already exists, reuse it (point your breadcrumb
+#    at it) instead of creating a duplicate.
+#
+# 1. Otherwise create self-contained sub-issues. Use `coordination plan`
+#    exactly as a planner would — same body template (Current state /
+#    Deliverables / Context / Verification), same label. Note: `coordination
+#    plan` does only best-effort title-keyword overlap warnings; it does not
+#    hold the planner lock and cannot atomically dedupe against concurrent
+#    creators. If you see open issues that look related, link or coordinate
 #    explicitly in the sub-issue body rather than relying on the warning.
+#    Do NOT write a literal `depends-on: #N` token in prose (even to say it is
+#    NOT needed): `coordination plan` parses that string and auto-applies the
+#    `blocked` label. Phrase such notes without the literal token.
 echo "body..." | coordination plan --label feature "Sub-task 1: ..."
 echo "body..." | coordination plan --label feature "Sub-task 2: ..."
 
@@ -292,6 +331,16 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 git push -u origin <branch>
 coordination create-pr <issue-number>
 ```
+
+For a long session, `origin/main` may have advanced (other agents merged PRs)
+since you branched. Before `create-pr`, sync so your branch builds against and
+diffs cleanly against current main:
+```bash
+git fetch origin main
+git merge origin/main --no-edit   # resolve any conflicts, then rebuild
+git diff --stat origin/main..HEAD # sanity check: only YOUR files should appear
+```
+If unrelated files show up as deleted, your branch is stale — merge first.
 
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work
