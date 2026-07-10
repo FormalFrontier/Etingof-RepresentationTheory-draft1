@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Classes
 import EtingofRepresentationTheory.Chapter4.Example4_8_1.A5Complete
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 
@@ -424,6 +425,350 @@ theorem exists_sorted_isotypic_decomposition {n : ℕ} (act : A5 →* Equiv.Perm
     · intro hj; exact ⟨e.symm j, by simpa using hj, by simp⟩
 
 end Engine
+
+/-! ## Fixed-point counts from orbit-stabilizer
+
+The three decomposition theorems need the value of the permutation character
+`χ_perm(g) = #{ i | act g i = i }` on the five conjugacy-class representatives, computed purely
+from transitivity plus the point-stabilizer order. The lemmas below provide the shared
+group-theoretic core: a Burnside/orbit-stabilizer identity relating the fixed-point count to the
+number of `x` with `x⁻¹ g x` in the stabilizer, and the conjugation-invariance of that count.
+Both are generic in the acting group `G` and the degree `n`. -/
+
+section FixCount
+
+open Finset
+
+variable {G : Type*} [Group G] [Fintype G] [DecidableEq G] {n : ℕ}
+
+set_option linter.unusedSectionVars false
+set_option linter.unusedDecidableInType false
+set_option linter.unusedFintypeInType false
+
+/-- The conjugated element `x⁻¹ g x` fixes `i₀` iff `g` fixes `act x i₀`. -/
+lemma act_conj_fix_iff (act : G →* Equiv.Perm (Fin n)) (g x : G) (i₀ : Fin n) :
+    (act (x⁻¹ * g * x) i₀ = i₀) ↔ (act g (act x i₀) = act x i₀) := by
+  simp only [map_mul, map_inv, Equiv.Perm.mul_apply]
+  exact Equiv.symm_apply_eq (act x)
+
+/-- Every fiber of the orbit map `x ↦ act x i₀` (over a point `i` in the orbit) has the same
+cardinality as the stabilizer of `i₀`. -/
+lemma orbit_fiber_card (act : G →* Equiv.Perm (Fin n)) (i₀ i : Fin n) (xi : G)
+    (hxi : act xi i₀ = i) :
+    (univ.filter (fun x : G => act x i₀ = i)).card
+      = (univ.filter (fun x : G => act x i₀ = i₀)).card := by
+  apply Finset.card_nbij' (fun x => xi⁻¹ * x) (fun x => xi * x)
+  · intro x hx
+    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    rw [map_mul, Equiv.Perm.mul_apply, map_inv, hx, ← hxi]; simp
+  · intro x hx
+    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    rw [map_mul, Equiv.Perm.mul_apply, hx, hxi]
+  · intro x _; simp
+  · intro x _; simp
+
+/-- **Core orbit-stabilizer identity.** For a transitive action of `G` on `Fin n`, the number of
+fixed points of `g` times the order of a point stabilizer equals the number of `x` with
+`x⁻¹ g x` fixing the base point `i₀`. -/
+lemma fix_mul_stab_card (act : G →* Equiv.Perm (Fin n)) (g : G) (i₀ : Fin n)
+    (htrans : ∀ j : Fin n, ∃ x : G, act x i₀ = j) :
+    (univ.filter (fun i : Fin n => act g i = i)).card
+        * (univ.filter (fun x : G => act x i₀ = i₀)).card
+      = (univ.filter (fun x : G => act (x⁻¹ * g * x) i₀ = i₀)).card := by
+  have key : (univ.filter (fun x : G => act (x⁻¹ * g * x) i₀ = i₀))
+      = (univ.filter (fun x : G => act g (act x i₀) = act x i₀)) := by
+    ext x; simp only [mem_filter, mem_univ, true_and, act_conj_fix_iff]
+  rw [key]
+  symm
+  rw [card_eq_sum_card_fiberwise (f := fun x : G => act x i₀)
+      (t := (univ : Finset (Fin n))) (by intro x _; exact mem_univ _)]
+  have hsum : ∀ i ∈ (univ : Finset (Fin n)),
+      (univ.filter (fun x : G => act g (act x i₀) = act x i₀ ∧ act x i₀ = i)).card
+        = if act g i = i then (univ.filter (fun x : G => act x i₀ = i₀)).card else 0 := by
+    intro i _
+    by_cases hgi : act g i = i
+    · rw [if_pos hgi]
+      obtain ⟨xi, hxi⟩ := htrans i
+      rw [← orbit_fiber_card act i₀ i xi hxi]
+      congr 1
+      ext x
+      simp only [mem_filter, mem_univ, true_and]
+      constructor
+      · rintro ⟨_, h2⟩; exact h2
+      · intro h2; exact ⟨by rw [h2]; exact hgi, h2⟩
+    · rw [if_neg hgi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      intro x _
+      rintro ⟨h1, h2⟩
+      rw [h2] at h1; exact hgi h1
+  have hrw : (fun i => (univ.filter (fun x : G => act g (act x i₀) = act x i₀)
+        |>.filter (fun x => act x i₀ = i)).card)
+      = (fun i => (univ.filter
+          (fun x : G => act g (act x i₀) = act x i₀ ∧ act x i₀ = i)).card) := by
+    funext i; congr 1; rw [Finset.filter_filter]
+  rw [show (∑ i : Fin n, (univ.filter (fun x : G => act g (act x i₀) = act x i₀)
+        |>.filter (fun x => act x i₀ = i)).card)
+      = ∑ i : Fin n, (univ.filter (fun x : G => act g (act x i₀) = act x i₀ ∧ act x i₀ = i)).card
+      from by rw [hrw]]
+  rw [Finset.sum_congr rfl hsum, ← Finset.sum_filter, Finset.sum_const_nat (fun _ _ => rfl)]
+
+/-- **Conjugation invariance of the twisted count.** If `T = c S c⁻¹` (expressed pointwise as
+`y ∈ T ↔ c⁻¹ y c ∈ S`), then the number of `x` with `x⁻¹ g x ∈ S` equals the number with
+`x⁻¹ g x ∈ T`. -/
+lemma conj_count_eq (g c : G) (S T : Subgroup G)
+    [DecidablePred (· ∈ S)] [DecidablePred (· ∈ T)]
+    (h : ∀ y : G, y ∈ T ↔ c⁻¹ * y * c ∈ S) :
+    (univ.filter (fun x : G => x⁻¹ * g * x ∈ S)).card
+      = (univ.filter (fun x : G => x⁻¹ * g * x ∈ T)).card := by
+  apply Finset.card_nbij' (fun x => x * c⁻¹) (fun x => x * c)
+  · intro x hx
+    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    rw [h]
+    have : c⁻¹ * ((x * c⁻¹)⁻¹ * g * (x * c⁻¹)) * c = x⁻¹ * g * x := by group
+    rw [this]; exact hx
+  · intro x hx
+    simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    rw [h] at hx
+    have : c⁻¹ * (x⁻¹ * g * x) * c = (x * c)⁻¹ * g * (x * c) := by group
+    rw [this] at hx; exact hx
+  · intro x _; simp [mul_assoc]
+  · intro x _; simp [mul_assoc]
+
+end FixCount
+
+/-! ## Fixed-point characters of the icosahedral actions
+
+We now specialise the orbit-stabilizer core to `A₅` and compute the fixed-point character
+`χ_perm(g) = #{ i | act g i = i }` on the five class representatives `classRepA5 j`
+(ordered as `1a, 3a, 2a, 5a, 5b`, matching `classRepA5`/`chiA5`). The point stabilizer, of prime
+order `p`, is conjugate to the concrete cyclic subgroup `⟨classRepA5 k⟩` — by Sylow's theorem for
+`p = 5, 3` (where the stabilizer is a full Sylow subgroup), and by the conjugacy of involutions
+for `p = 2`. The twisted counts `#{ x | x⁻¹ g x ∈ ⟨classRepA5 k⟩ }` are then finite `decide`
+computations over `A₅`. -/
+
+section A5FixCounts
+
+open Finset Etingof.Example4_8_1.A5
+open scoped Pointwise
+
+set_option linter.unusedSectionVars false
+set_option linter.style.setOption false
+set_option maxRecDepth 10000
+set_option maxHeartbeats 4000000
+
+variable {N : ℕ}
+
+/-- Point stabilizer of `act` at `i₀`, as a subgroup of `A₅`. -/
+def stabSub (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N) : Subgroup A5 where
+  carrier := {a | act a i₀ = i₀}
+  one_mem' := by simp
+  mul_mem' := by
+    intro a b ha hb; simp only [Set.mem_setOf_eq] at *
+    rw [map_mul, Equiv.Perm.mul_apply, hb, ha]
+  inv_mem' := by
+    intro a ha; simp only [Set.mem_setOf_eq] at *
+    rw [map_inv]; exact (Equiv.symm_apply_eq (act a)).mpr ha.symm
+
+@[simp] lemma mem_stabSub (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N) (a : A5) :
+    a ∈ stabSub act i₀ ↔ act a i₀ = i₀ := Iff.rfl
+
+/-- `|A₅| = 60`. -/
+lemma card_A5 : Nat.card A5 = 60 := card_G
+
+/-- `#{x | x⁻¹ g x ∈ ⟨a⟩}` computed from the fixed-point count, given a conjugator taking the
+concrete cyclic subgroup `⟨a⟩` into the point stabilizer at `0`. -/
+lemma fix_mul_stab_eq_twisted [NeZero N] (act : A5 →* Equiv.Perm (Fin N)) (a g : A5)
+    (htrans : ∀ i j : Fin N, ∃ x : A5, act x i = j) (c : A5)
+    (hconj : ∀ y : A5, y ∈ Subgroup.zpowers a ↔ c⁻¹ * y * c ∈ stabSub act 0) :
+    (univ.filter (fun i : Fin N => act g i = i)).card
+        * (univ.filter (fun x : A5 => act x 0 = 0)).card
+      = (univ.filter (fun x : A5 => x⁻¹ * g * x ∈ Subgroup.zpowers a)).card := by
+  haveI : DecidablePred (· ∈ stabSub act 0) := Classical.decPred _
+  haveI : DecidablePred (· ∈ Subgroup.zpowers a) := Classical.decPred _
+  rw [fix_mul_stab_card act g 0 (fun j => htrans 0 j)]
+  have hPeq : (univ.filter (fun x : A5 => act (x⁻¹ * g * x) 0 = 0)).card
+      = (univ.filter (fun x : A5 => x⁻¹ * g * x ∈ stabSub act 0)).card := by
+    apply congrArg; ext x; simp only [mem_filter, mem_univ, true_and, mem_stabSub]
+  rw [hPeq]
+  convert conj_count_eq (S := stabSub act 0) (T := Subgroup.zpowers a) g c hconj using 2
+  exact Finset.filter_congr_decidable _ _ _
+
+/-- The stabilizer-card filter equals `p` from the `Nat.card` hypothesis. -/
+lemma stab_filter_card (act : A5 →* Equiv.Perm (Fin N)) (i₀ : Fin N) (p : ℕ)
+    (hstab : Nat.card {x : A5 // act x i₀ = i₀} = p) :
+    (univ.filter (fun x : A5 => act x i₀ = i₀)).card = p := by
+  rw [Nat.card_eq_fintype_card, Fintype.card_subtype] at hstab; exact hstab
+
+/-- Membership in the finite cyclic subgroup `⟨a⟩` as an explicit `range`-image predicate. -/
+lemma mem_zpowers_range (a : A5) (m : ℕ) (h : orderOf a = m) (y : A5) :
+    y ∈ Subgroup.zpowers a ↔ y ∈ (Finset.range m).image (a ^ ·) := by
+  have hy := (isOfFinOrder_of_finite a).mem_zpowers_iff_mem_range_orderOf (y := y)
+  rwa [h] at hy
+
+/-- **Sylow conjugator.** When `⟨a⟩` and the point stabilizer both have prime order `p` equal to
+the full `p`-part of `|A₅|`, they are conjugate (Sylow's second theorem). -/
+lemma exists_conj_stab_sylow [NeZero N] {p : ℕ} [Fact p.Prime]
+    (act : A5 →* Equiv.Perm (Fin N)) (a : A5)
+    (hord : orderOf a = p) (hpfact : (Nat.card A5).factorization p = 1)
+    (hstabc : Nat.card (stabSub act 0) = p) :
+    ∃ c : A5, ∀ y : A5, y ∈ Subgroup.zpowers a ↔ c⁻¹ * y * c ∈ stabSub act 0 := by
+  let P : Sylow p A5 := Sylow.ofCard (stabSub act 0) (by rw [hstabc, hpfact, pow_one])
+  have hQc : Nat.card (Subgroup.zpowers a) = p := by rw [Nat.card_zpowers, hord]
+  let Q : Sylow p A5 := Sylow.ofCard (Subgroup.zpowers a) (by rw [hQc, hpfact, pow_one])
+  obtain ⟨cc, hcc⟩ := MulAction.exists_smul_eq A5 P Q
+  refine ⟨cc, fun y => ?_⟩
+  have hco : (Q : Subgroup A5) = MulAut.conj cc • (P : Subgroup A5) := by rw [← hcc]; rfl
+  have hPc : (P : Subgroup A5) = stabSub act 0 := Sylow.coe_ofCard _ _
+  have hQcoe : (Q : Subgroup A5) = Subgroup.zpowers a := Sylow.coe_ofCard _ _
+  rw [← hQcoe, ← hPc, hco, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply]
+
+/-- Every involution of `A₅` lies in class `2a` (index `2`). -/
+lemma classIdx_of_involution (s : A5) (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) :
+    classIdxA5 s = 2 := by
+  revert s; decide
+
+/-- Conjugation carries `⟨t⟩` to `⟨c t c⁻¹⟩`. -/
+lemma conj_smul_zpowers (c t : A5) :
+    MulAut.conj c • Subgroup.zpowers t = Subgroup.zpowers (c * t * c⁻¹) := by
+  ext y
+  simp only [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, MulAut.smul_def, MulAut.conj_inv_apply,
+    Subgroup.mem_zpowers_iff]
+  constructor
+  · rintro ⟨k, hk⟩; exact ⟨k, by rw [conj_zpow, hk]; group⟩
+  · rintro ⟨k, hk⟩; exact ⟨k, by rw [conj_zpow] at hk; rw [← hk]; group⟩
+
+/-- **Involution conjugator.** The order-`2` point stabilizer is conjugate to `⟨classRepA5 2⟩`,
+because all involutions of `A₅` are conjugate (a single class). This is the `p = 2` analogue of
+`exists_conj_stab_sylow`, where the stabilizer is *not* a full Sylow subgroup. -/
+lemma exists_conj_stab_invol [NeZero N] (act : A5 →* Equiv.Perm (Fin N))
+    (hstabc : Nat.card (stabSub act 0) = 2) :
+    ∃ c : A5, ∀ y : A5,
+      y ∈ Subgroup.zpowers (classRepA5 2) ↔ c⁻¹ * y * c ∈ stabSub act 0 := by
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  haveI : Nontrivial (stabSub act 0) := by
+    rw [← Finite.one_lt_card_iff_nontrivial]; omega
+  obtain ⟨s, hs_mem, hs_ne⟩ := (stabSub act 0).nontrivial_iff_exists_ne_one.mp inferInstance
+  have hdvd : orderOf s ∣ 2 := by
+    rw [← hstabc]
+    have := orderOf_dvd_natCard (⟨s, hs_mem⟩ : stabSub act 0)
+    rwa [Subgroup.orderOf_mk] at this
+  have hord2 : orderOf s = 2 := by
+    rcases (Nat.Prime.eq_one_or_self_of_dvd (by norm_num) _ hdvd) with h | h
+    · exact absurd (orderOf_eq_one_iff.mp h) hs_ne
+    · exact h
+  have hs2 : s ^ 2 = 1 := by rw [← hord2]; exact pow_orderOf_eq_one s
+  have hcl : classIdxA5 s = 2 := classIdx_of_involution s hs2 hs_ne
+  obtain ⟨c, hc⟩ := classIdxA5_spec s
+  rw [hcl] at hc
+  refine ⟨c⁻¹, fun y => ?_⟩
+  have hzs : Subgroup.zpowers s = stabSub act 0 := by
+    apply Subgroup.eq_of_le_of_card_ge
+    · rw [Subgroup.zpowers_le]; exact hs_mem
+    · rw [Nat.card_zpowers, hord2, hstabc]
+  have hstabeq : (stabSub act 0 : Subgroup A5)
+      = MulAut.conj c • Subgroup.zpowers (classRepA5 2) := by
+    rw [conj_smul_zpowers, hc, hzs]
+  rw [hstabeq, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply, inv_inv]
+  constructor
+  · intro hy; rw [show c⁻¹ * (c * y * c⁻¹) * c = y by group]; exact hy
+  · intro hy; rw [show c⁻¹ * (c * y * c⁻¹) * c = y by group] at hy; exact hy
+
+/-! ### Orders and prime factorizations for the three concrete generators -/
+
+lemma ord_cr3 : orderOf (classRepA5 3) = 5 := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  exact orderOf_eq_prime (by decide) (by decide)
+
+lemma ord_cr1 : orderOf (classRepA5 1) = 3 := by
+  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  exact orderOf_eq_prime (by decide) (by decide)
+
+lemma ord_cr2 : orderOf (classRepA5 2) = 2 := by
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  exact orderOf_eq_prime (by decide) (by decide)
+
+lemma fact5 : (Nat.card A5).factorization 5 = 1 := by
+  rw [card_A5, show (60 : ℕ) = 5 * 12 by norm_num,
+    Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
+    Nat.Prime.factorization_self (by norm_num), Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
+
+lemma fact3 : (Nat.card A5).factorization 3 = 1 := by
+  rw [card_A5, show (60 : ℕ) = 3 * 20 by norm_num,
+    Nat.factorization_mul (by norm_num) (by norm_num), Finsupp.add_apply,
+    Nat.Prime.factorization_self (by norm_num), Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
+
+/-! ### Twisted counts (`decide` over `A₅`) -/
+
+/-- Rewrite the twisted-membership filter into the explicit `range`-image form for `decide`. -/
+lemma twisted_filter_eq (a g : A5) (m : ℕ) (h : orderOf a = m) :
+    (univ.filter (fun x : A5 => x⁻¹ * g * x ∈ Subgroup.zpowers a))
+      = (univ.filter (fun x : A5 => x⁻¹ * g * x ∈ (Finset.range m).image (a ^ ·))) := by
+  ext x; simp only [mem_filter, mem_univ, true_and]; exact mem_zpowers_range _ m h _
+
+lemma twisted_p5 (j : Fin 5) :
+    (univ.filter (fun x : A5 => x⁻¹ * classRepA5 j * x ∈ Subgroup.zpowers (classRepA5 3))).card
+      = ![60, 0, 0, 10, 10] j := by
+  rw [twisted_filter_eq (classRepA5 3) (classRepA5 j) 5 ord_cr3]
+  fin_cases j <;> decide
+
+lemma twisted_p3 (j : Fin 5) :
+    (univ.filter (fun x : A5 => x⁻¹ * classRepA5 j * x ∈ Subgroup.zpowers (classRepA5 1))).card
+      = ![60, 6, 0, 0, 0] j := by
+  rw [twisted_filter_eq (classRepA5 1) (classRepA5 j) 3 ord_cr1]
+  fin_cases j <;> decide
+
+lemma twisted_p2 (j : Fin 5) :
+    (univ.filter (fun x : A5 => x⁻¹ * classRepA5 j * x ∈ Subgroup.zpowers (classRepA5 2))).card
+      = ![60, 0, 4, 0, 0] j := by
+  rw [twisted_filter_eq (classRepA5 2) (classRepA5 j) 2 ord_cr2]
+  fin_cases j <;> decide
+
+/-- **Vertices (p = 5).** Fixed-point character of a transitive `A₅`-action on `Fin 12` with
+order-`5` point stabilizers: `χ_perm = (12, 0, 0, 2, 2)` on classes `(1a, 3a, 2a, 5a, 5b)`. -/
+theorem fixCount_vertices (act : A5 →* Equiv.Perm (Fin 12))
+    (htrans : ∀ i j : Fin 12, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 12, Nat.card {g : A5 // act g i = i} = 5) (j : Fin 5) :
+    (univ.filter (fun i => act (classRepA5 j) i = i)).card = ![12, 0, 0, 2, 2] j := by
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hstabc : Nat.card (stabSub act 0) = 5 := by
+    change Nat.card {a : A5 // act a 0 = 0} = 5; exact hstab 0
+  obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 3) ord_cr3 fact5 hstabc
+  have h := fix_mul_stab_eq_twisted act (classRepA5 3) (classRepA5 j) htrans c hc
+  rw [stab_filter_card act 0 5 (hstab 0), twisted_p5] at h
+  have hvec : ![60, 0, 0, 10, 10] j = 5 * ![12, 0, 0, 2, 2] j := by fin_cases j <;> rfl
+  rw [hvec] at h; omega
+
+/-- **Faces (p = 3).** Fixed-point character of a transitive `A₅`-action on `Fin 20` with
+order-`3` point stabilizers: `χ_perm = (20, 2, 0, 0, 0)` on classes `(1a, 3a, 2a, 5a, 5b)`. -/
+theorem fixCount_faces (act : A5 →* Equiv.Perm (Fin 20))
+    (htrans : ∀ i j : Fin 20, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 20, Nat.card {g : A5 // act g i = i} = 3) (j : Fin 5) :
+    (univ.filter (fun i => act (classRepA5 j) i = i)).card = ![20, 2, 0, 0, 0] j := by
+  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hstabc : Nat.card (stabSub act 0) = 3 := by
+    change Nat.card {a : A5 // act a 0 = 0} = 3; exact hstab 0
+  obtain ⟨c, hc⟩ := exists_conj_stab_sylow act (classRepA5 1) ord_cr1 fact3 hstabc
+  have h := fix_mul_stab_eq_twisted act (classRepA5 1) (classRepA5 j) htrans c hc
+  rw [stab_filter_card act 0 3 (hstab 0), twisted_p3] at h
+  have hvec : ![60, 6, 0, 0, 0] j = 3 * ![20, 2, 0, 0, 0] j := by fin_cases j <;> rfl
+  rw [hvec] at h; omega
+
+/-- **Edges (p = 2).** Fixed-point character of a transitive `A₅`-action on `Fin 30` with
+order-`2` point stabilizers: `χ_perm = (30, 0, 2, 0, 0)` on classes `(1a, 3a, 2a, 5a, 5b)`. -/
+theorem fixCount_edges (act : A5 →* Equiv.Perm (Fin 30))
+    (htrans : ∀ i j : Fin 30, ∃ g : A5, act g i = j)
+    (hstab : ∀ i : Fin 30, Nat.card {g : A5 // act g i = i} = 2) (j : Fin 5) :
+    (univ.filter (fun i => act (classRepA5 j) i = i)).card = ![30, 0, 2, 0, 0] j := by
+  have hstabc : Nat.card (stabSub act 0) = 2 := by
+    change Nat.card {a : A5 // act a 0 = 0} = 2; exact hstab 0
+  obtain ⟨c, hc⟩ := exists_conj_stab_invol act hstabc
+  have h := fix_mul_stab_eq_twisted act (classRepA5 2) (classRepA5 j) htrans c hc
+  rw [stab_filter_card act 0 2 (hstab 0), twisted_p2] at h
+  have hvec : ![60, 0, 4, 0, 0] j = 2 * ![30, 0, 2, 0, 0] j := by fin_cases j <;> rfl
+  rw [hvec] at h; omega
+
+end A5FixCounts
 
 /-- **Part (a): vertices.** For the icosahedral vertex action of `A₅` — any transitive action
 on `12` points with point stabilizers of order `5` — the representation on `F(I) = Fin 12 → ℂ`
