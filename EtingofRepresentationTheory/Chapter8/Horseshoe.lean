@@ -108,6 +108,127 @@ lemma horseshoeπZero_comp_g :
   · simp [horseshoeπZero]
   · simp [horseshoeπZero, Projective.factorThru_comp]
 
+/-! ### The twisted differential and the horseshoe chain complex
+
+We now construct the *data* of the horseshoe resolution `P₂` of `S.X₂`: the terms
+`P₁.X n ⊞ P₃.X n`, the lower-triangular twisted differential `⟪⟪d¹, s⟫, ⟪0, d³⟫⟫`, and the
+off-diagonal lift family `s` built by induction against the exactness of the *given* resolutions
+`P₁`, `P₃`. -/
+
+/-- Degree-`0` exactness of the augmented resolution `P₁`:
+`P₁.complex.X 1 →(d 1 0) P₁.complex.X 0 →(π 0) S.X₁` is exact, because `S.X₁` is the cokernel of
+`d 1 0` (`ProjectiveResolution.isColimitCokernelCofork`). -/
+lemma horseshoeP₁ExactZero :
+    (ShortComplex.mk (P₁.complex.d 1 0) (P₁.π.f 0) P₁.complex_d_comp_π_f_zero).Exact :=
+  ShortComplex.exact_of_g_is_cokernel _ P₁.isColimitCokernelCofork
+
+/-- Auxiliary recursion for the horseshoe off-diagonal lift. For each `n` it produces a pair of
+consecutive lift maps `sₙ : P₃_{n+1} ⟶ P₁_n` (first component) and `sₙ₊₁ : P₃_{n+2} ⟶ P₁_{n+1}`
+(second component) satisfying the twist relation
+`sₙ₊₁ ≫ d¹_{n+1,n} = -(d³_{n+2,n+1}) ≫ sₙ`.
+
+The base pair `(s₀, s₁)` is seeded by the augmentation: `s₀` lifts, through the epi `P₁.π.f 0`,
+a factorisation of `-(d³_{1,0}) ≫ h₀` through the mono `S.f` (where `h₀ := factorThru (P₃.π.f 0)
+S.g`); `s₁` then lifts through `d¹_{1,0}` using degree-`0` exactness of `P₁`. Each subsequent
+`sₙ₊₂` lifts `-(d³) ≫ sₙ₊₁` through `d¹` using `ProjectiveResolution.exact_succ`, the twist
+relation of the previous step discharging the required vanishing. -/
+noncomputable def horseshoeTwistAux :
+    ∀ n, Σ' (a : P₃.complex.X (n + 1) ⟶ P₁.complex.X n)
+      (_b : P₃.complex.X (n + 2) ⟶ P₁.complex.X (n + 1)),
+        _b ≫ P₁.complex.d (n + 1) n = -(P₃.complex.d (n + 2) (n + 1)) ≫ a
+  | 0 => by
+      haveI := hS.mono_f
+      haveI := hS.epi_g
+      -- `h₀ ≫ S.g = P₃.π.f 0`, so `-(d³ 1 0) ≫ h₀` dies under `S.g`; factor it through `S.f`.
+      have hh₀ : Projective.factorThru (P₃.π.f 0) S.g ≫ S.g = P₃.π.f 0 :=
+        Projective.factorThru_comp _ _
+      have hk0 : (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) ≫ S.g = 0 := by
+        simp [assoc, hh₀, P₃.complex_d_comp_π_f_zero]
+      -- `t₀ : P₃₁ ⟶ S.X₁` with `t₀ ≫ S.f = -(d³ 1 0) ≫ h₀`.
+      set t₀ := hS.exact.lift (-(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g) hk0
+        with ht₀def
+      have ht₀ : t₀ ≫ S.f = -(P₃.complex.d 1 0) ≫ Projective.factorThru (P₃.π.f 0) S.g :=
+        hS.exact.lift_f _ _
+      -- `s₀ := factorThru t₀ (P₁.π.f 0)`, lifting `t₀` through the epi `P₁.π.f 0`.
+      set a := Projective.factorThru t₀ (P₁.π.f 0) with hadef
+      have ha : a ≫ P₁.π.f 0 = t₀ := Projective.factorThru_comp _ _
+      -- `-(d³ 2 1) ≫ s₀` dies under `P₁.π.f 0` (via `d³ 2 1 ≫ t₀ = 0`, using `S.f` mono).
+      have hdt : P₃.complex.d 2 1 ≫ t₀ = 0 := by
+        rw [← cancel_mono S.f, zero_comp, assoc, ht₀]
+        simp [P₃.complex.d_comp_d_assoc]
+      have hk1 : (-(P₃.complex.d 2 1) ≫ a) ≫ P₁.π.f 0 = 0 := by
+        simp [ha, hdt]
+      exact ⟨a, (horseshoeP₁ExactZero P₁).liftFromProjective (-(P₃.complex.d 2 1) ≫ a) hk1,
+        (horseshoeP₁ExactZero P₁).liftFromProjective_comp _ _⟩
+  | n + 1 => by
+      -- `(a, b, hab)` are `(sₙ, sₙ₊₁, twist relation)`; build `sₙ₊₂` and return `(sₙ₊₁, sₙ₊₂, …)`.
+      set a := (horseshoeTwistAux n).1 with hadef
+      set b := (horseshoeTwistAux n).2.1 with hbdef
+      have hab : b ≫ P₁.complex.d (n + 1) n = -(P₃.complex.d (n + 2) (n + 1)) ≫ a :=
+        (horseshoeTwistAux n).2.2
+      have hk : (-(P₃.complex.d (n + 3) (n + 2)) ≫ b) ≫ P₁.complex.d (n + 1) n = 0 := by
+        simp [hab, P₃.complex.d_comp_d_assoc]
+      exact ⟨b, (P₁.exact_succ n).liftFromProjective (-(P₃.complex.d (n + 3) (n + 2)) ≫ b) hk,
+        (P₁.exact_succ n).liftFromProjective_comp _ _⟩
+
+/-- The horseshoe off-diagonal lift `sₙ : P₃_{n+1} ⟶ P₁_n`. -/
+noncomputable def horseshoeTwist (n : ℕ) : P₃.complex.X (n + 1) ⟶ P₁.complex.X n :=
+  (horseshoeTwistAux hS P₁ P₃ n).1
+
+/-- `sₙ₊₁ = (horseshoeTwistAux n).2.1`: the second component of the aux at level `n` is the map at
+level `n + 1`. -/
+lemma horseshoeTwist_succ (n : ℕ) :
+    horseshoeTwist hS P₁ P₃ (n + 1) = (horseshoeTwistAux hS P₁ P₃ n).2.1 := rfl
+
+/-- The defining twist relation: `sₙ₊₁ ≫ d¹_{n+1,n} = -(d³_{n+2,n+1}) ≫ sₙ`. -/
+@[reassoc]
+lemma horseshoeTwist_comp (n : ℕ) :
+    horseshoeTwist hS P₁ P₃ (n + 1) ≫ P₁.complex.d (n + 1) n
+      = -(P₃.complex.d (n + 2) (n + 1)) ≫ horseshoeTwist hS P₁ P₃ n := by
+  rw [horseshoeTwist_succ]; exact (horseshoeTwistAux hS P₁ P₃ n).2.2
+
+/-- The lower-triangular twisted differential
+`d²ₙ = ⟪⟪d¹ₙ, sₙ⟫, ⟪0, d³ₙ⟫⟫ : P₁_{n+1} ⊞ P₃_{n+1} ⟶ P₁_n ⊞ P₃_n`. -/
+noncomputable def horseshoeD (n : ℕ) :
+    P₁.complex.X (n + 1) ⊞ P₃.complex.X (n + 1) ⟶ P₁.complex.X n ⊞ P₃.complex.X n :=
+  biprod.lift (biprod.desc (P₁.complex.d (n + 1) n) (horseshoeTwist hS P₁ P₃ n))
+    (biprod.desc 0 (P₃.complex.d (n + 1) n))
+
+@[reassoc (attr := simp)] lemma horseshoeD_fst (n : ℕ) :
+    horseshoeD hS P₁ P₃ n ≫ biprod.fst
+      = biprod.desc (P₁.complex.d (n + 1) n) (horseshoeTwist hS P₁ P₃ n) := by
+  simp [horseshoeD]
+
+@[reassoc (attr := simp)] lemma horseshoeD_snd (n : ℕ) :
+    horseshoeD hS P₁ P₃ n ≫ biprod.snd = biprod.desc 0 (P₃.complex.d (n + 1) n) := by
+  simp [horseshoeD]
+
+@[reassoc (attr := simp)] lemma horseshoeD_inl (n : ℕ) :
+    biprod.inl ≫ horseshoeD hS P₁ P₃ n = biprod.lift (P₁.complex.d (n + 1) n) 0 := by
+  apply biprod.hom_ext <;> simp
+
+@[reassoc (attr := simp)] lemma horseshoeD_inr (n : ℕ) :
+    biprod.inr ≫ horseshoeD hS P₁ P₃ n
+      = biprod.lift (horseshoeTwist hS P₁ P₃ n) (P₃.complex.d (n + 1) n) := by
+  apply biprod.hom_ext <;> simp
+
+/-- The twisted differential squares to zero; the only nontrivial corner (`P₃ → P₁`) is exactly the
+twist relation `horseshoeTwist_comp`. -/
+lemma horseshoeD_comp_horseshoeD (n : ℕ) :
+    horseshoeD hS P₁ P₃ (n + 1) ≫ horseshoeD hS P₁ P₃ n = 0 := by
+  apply biprod.hom_ext' <;> apply biprod.hom_ext <;>
+    simp [horseshoeTwist_comp, biprod.lift_desc, P₁.complex.d_comp_d, P₃.complex.d_comp_d]
+
+/-- The horseshoe chain complex `P₂` with terms `P₁.X n ⊞ P₃.X n` and the twisted differential. -/
+noncomputable def horseshoeComplex : ChainComplex C ℕ :=
+  ChainComplex.of (fun n => P₁.complex.X n ⊞ P₃.complex.X n) (horseshoeD hS P₁ P₃)
+    (horseshoeD_comp_horseshoeD hS P₁ P₃)
+
+instance horseshoeComplex_projective (n : ℕ) :
+    Projective ((horseshoeComplex hS P₁ P₃).X n) := by
+  dsimp [horseshoeComplex, ChainComplex.of]
+  infer_instance
+
 end Augmentation
 
 /-- **The horseshoe lemma.** A short exact sequence `S : 0 → X₁ → X₂ → X₃ → 0` in an abelian

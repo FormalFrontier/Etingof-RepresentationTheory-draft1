@@ -57,21 +57,17 @@ noncomputable instance bcMod : Module (L ⊗[K] A) (L ⊗[K] V) :=
   Module.compHom (L ⊗[K] V) (R := Module.End L (L ⊗[K] V))
     (repTensor (A := A) (V := V) (L := L)).toRingHom
 
-/-- **Problem 3.8.4(i).** If the base changes `L ⊗[K] V` and `L ⊗[K] W` are isomorphic as
-`L ⊗[K] A`-modules, then `V` and `W` are already isomorphic as `A`-modules.
+/-!
+The two general-`L` theorems of Problem 3.8.4 are proved downstream, above the finite-extension
+case (`Problem3_8_4_Finite.lean`) and the descent step (`Problem3_8_4_Descent.lean`) in the import
+DAG. They cannot live here: those two files import this base module, so proving the theorems here
+would create an import cycle.
 
-Proof (book): reduce to a finite extension `L/K` of degree `n`; then `L ⊗[K] V ≅ Vⁿ` and
-`L ⊗[K] W ≅ Wⁿ` as `A`-modules, so `Vⁿ ≅ Wⁿ`, and Krull-Schmidt over the arbitrary field `K`
-(`Etingof.Problem3_8_3.krull_schmidt_uniqueness`) gives `V ≅ W`. -/
-theorem iso_of_baseChange_iso [FiniteDimensional K V] [FiniteDimensional K W]
-    (h : Nonempty ((L ⊗[K] V) ≃ₗ[L ⊗[K] A] (L ⊗[K] W))) :
-    Nonempty (V ≃ₗ[A] W) := by
-  sorry
-
-/- **Problem 3.8.4(ii), the Noether-Deuring theorem** — the general-`L` statement and proof live
-downstream in `Problem3_8_4_General.lean` (`directSummand_of_baseChange_directSummand`), once the
-finite case and the descent/pushforward machinery are available. A direct summand (up to
-isomorphism) is encoded as a split injection: a pair `(i, p)` with `p ∘ i = id`, whose image is a
-complemented submodule isomorphic to the smaller module. -/
+* Part (i), `iso_of_baseChange_iso`: if `L ⊗[K] V ≅ L ⊗[K] W` as `L ⊗[K] A`-modules then `V ≅ W`
+  as `A`-modules — proved in `Problem3_8_4_Main.lean`.
+* Part (ii), the Noether-Deuring theorem `directSummand_of_baseChange_directSummand`: if `L ⊗[K] V`
+  is a direct summand of `L ⊗[K] W` (a split injection `(i, p)` with `p ∘ i = id`) then `V` is a
+  direct summand of `W` — proved in `Problem3_8_4_General.lean`.
+-/
 
 end Etingof.Problem3_8_4
