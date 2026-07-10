@@ -547,6 +547,130 @@ theorem finite_simpleModuleClasses (k : Type u) {R : Type*} [Field k] [Ring R] [
   exact Quotient.sound
     ⟨(simpleProp (ModuleCat.{u} R)).fullyFaithfulι.preimageIso eR.toModuleIso⟩
 
+/-! ### Radical-quotient invariance of the simple count
+
+Passing to the semisimple quotient `R ⧸ rad` leaves the number of isomorphism classes of simple
+modules unchanged. The radical annihilates every simple module, so restriction of scalars along the
+surjection `R ↠ R ⧸ rad` is a bijection between the simple `R ⧸ rad`-modules and the simple
+`R`-modules; it descends to an equivalence, hence a `Nat.card` equality, on isomorphism classes. -/
+
+/-- The identity map identifies two `S`-module structures on the same additive group whose scalar
+actions agree, as an isomorphism of the corresponding bundled modules. -/
+private def idModuleIso {S : Type*} [Ring S] {M : Type u} [AddCommGroup M]
+    (i₁ i₂ : Module S M) (h : ∀ (s : S) (x : M), (letI := i₁; s • x) = (letI := i₂; s • x)) :
+    (letI := i₁; ModuleCat.of S M) ≅ (letI := i₂; ModuleCat.of S M) :=
+  @LinearEquiv.toModuleIso S _ M M _ _ i₁ i₂
+    (@AddEquiv.toLinearEquiv S M M _ _ _ i₁ i₂ (AddEquiv.refl M) h)
+
+/-- Restriction of scalars along `R ↠ R ⧸ rad`: an `R ⧸ rad`-module is an `R`-module (the radical
+acts as `0`). -/
+@[implicit_reducible]
+private noncomputable def restrictedModule {M : Type*} [AddCommGroup M]
+    [Module (R ⧸ Ring.jacobson R) M] : Module R M :=
+  Module.compHom M (Ideal.Quotient.mk (Ring.jacobson R))
+
+/-- A simple `R ⧸ rad`-module remains simple after restricting scalars to `R`: the `R`- and
+`R ⧸ rad`-submodules coincide because `R ↠ R ⧸ rad` is surjective. -/
+private theorem isSimpleModule_restrictedModule {M : Type*} [AddCommGroup M]
+    [Module (R ⧸ Ring.jacobson R) M] [IsSimpleModule (R ⧸ Ring.jacobson R) M] :
+    letI := restrictedModule (R := R) (M := M); IsSimpleModule R M :=
+  letI := restrictedModule (R := R) (M := M)
+  ((({ toFun := id, map_add' := fun _ _ => rfl, map_smul' := fun _ _ => rfl } :
+      M →ₛₗ[Ideal.Quotient.mk (Ring.jacobson R)] M)).isSimpleModule_iff_of_bijective
+    Function.bijective_id).mpr inferInstance
+
+/-- Object map `demote`: a simple `R`-module carried to its underlying simple `R ⧸ rad`-module. -/
+@[reducible]
+private noncomputable def demoteSimpleObj
+    (P : (simpleProp (ModuleCat.{u} R)).FullSubcategory) :
+    (simpleProp (ModuleCat.{u} (R ⧸ Ring.jacobson R))).FullSubcategory := by
+  haveI : Simple P.obj := P.property
+  haveI : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+  letI := jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+  haveI := isSimpleModule_jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+  exact ⟨ModuleCat.of (R ⧸ Ring.jacobson R) (P.obj : ModuleCat.{u} R), simple_of_isSimpleModule⟩
+
+/-- Object map `inflate`: a simple `R ⧸ rad`-module carried to its underlying simple
+`R`-module (restriction of scalars). -/
+@[reducible]
+private noncomputable def inflateSimpleObj
+    (Q : (simpleProp (ModuleCat.{u} (R ⧸ Ring.jacobson R))).FullSubcategory) :
+    (simpleProp (ModuleCat.{u} R)).FullSubcategory := by
+  haveI : Simple Q.obj := Q.property
+  haveI : IsSimpleModule (R ⧸ Ring.jacobson R)
+      (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) := isSimpleModule_of_simple _
+  letI := restrictedModule (R := R) (M := (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
+  haveI := isSimpleModule_restrictedModule (R := R)
+    (M := (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
+  exact ⟨ModuleCat.of R (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)), simple_of_isSimpleModule⟩
+
+variable (R) in
+/-- **Radical-quotient bijection.** Restriction of scalars along `R ↠ R ⧸ rad` gives a bijection
+between isomorphism classes of simple `R ⧸ rad`-modules and isomorphism classes of simple
+`R`-modules. -/
+noncomputable def simpleModuleClassesQuotientJacobsonEquiv :
+    SimpleModuleClasses.{u} (R ⧸ Ring.jacobson R) ≃ SimpleModuleClasses.{u} R where
+  toFun := Quotient.map inflateSimpleObj (by
+    rintro Q Q' ⟨iso⟩
+    haveI : Simple Q.obj := Q.property
+    haveI : Simple Q'.obj := Q'.property
+    haveI : IsSimpleModule (R ⧸ Ring.jacobson R)
+        (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) := isSimpleModule_of_simple _
+    haveI : IsSimpleModule (R ⧸ Ring.jacobson R)
+        (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) := isSimpleModule_of_simple _
+    letI := restrictedModule (R := R) (M := (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
+    letI := restrictedModule (R := R) (M := (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)))
+    have eA : (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) ≃ₗ[R ⧸ Ring.jacobson R]
+        (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) :=
+      ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
+    let eR : (Q.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) ≃ₗ[R]
+        (Q'.obj : ModuleCat.{u} (R ⧸ Ring.jacobson R)) :=
+      { toFun := eA, invFun := eA.symm, left_inv := eA.left_inv, right_inv := eA.right_inv,
+        map_add' := eA.map_add,
+        map_smul' := fun r x => eA.map_smul (Ideal.Quotient.mk (Ring.jacobson R) r) x }
+    exact ⟨(simpleProp (ModuleCat.{u} R)).fullyFaithfulι.preimageIso eR.toModuleIso⟩)
+  invFun := Quotient.map demoteSimpleObj (by
+    rintro P P' ⟨iso⟩
+    haveI : Simple P.obj := P.property
+    haveI : Simple P'.obj := P'.property
+    haveI : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+    haveI : IsSimpleModule R (P'.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+    have eR : (P.obj : ModuleCat.{u} R) ≃ₗ[R] (P'.obj : ModuleCat.{u} R) :=
+      ((ObjectProperty.ι _).mapIso iso).toLinearEquiv
+    exact ⟨(simpleProp (ModuleCat.{u} (R ⧸ Ring.jacobson R))).fullyFaithfulι.preimageIso
+      (promoteEquiv (R := R) (M := (P.obj : ModuleCat.{u} R))
+        (N := (P'.obj : ModuleCat.{u} R)) eR).toModuleIso⟩)
+  left_inv := by
+    rintro y
+    induction y using Quotient.inductionOn with
+    | _ Q =>
+      haveI : Simple Q.obj := Q.property
+      exact Quotient.sound
+        ⟨(simpleProp (ModuleCat.{u} (R ⧸ Ring.jacobson R))).fullyFaithfulι.preimageIso
+          (idModuleIso _ inferInstance (fun a x => by
+            obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective a; rfl))⟩
+  right_inv := by
+    rintro y
+    induction y using Quotient.inductionOn with
+    | _ P =>
+      haveI : Simple P.obj := P.property
+      haveI hsP : IsSimpleModule R (P.obj : ModuleCat.{u} R) := isSimpleModule_of_simple _
+      let iAj : Module (R ⧸ Ring.jacobson R) (P.obj : ModuleCat.{u} R) :=
+        jacobsonModule (R := R) (M := (P.obj : ModuleCat.{u} R))
+      let iRc : Module R (P.obj : ModuleCat.{u} R) :=
+        @restrictedModule R _ (P.obj : ModuleCat.{u} R) _ iAj
+      exact Quotient.sound
+        ⟨(simpleProp (ModuleCat.{u} R)).fullyFaithfulι.preimageIso
+          (idModuleIso iRc inferInstance (fun r x => rfl))⟩
+
+/-- **Radical-quotient invariance of the simple count.** The number of isomorphism classes of
+simple modules is unchanged when passing to the Jacobson-radical quotient. -/
+theorem natCard_simpleModuleClasses_quotient_jacobson (k : Type u) [Field k] [Algebra k R]
+    [Module.Finite k R] :
+    Nat.card (SimpleModuleClasses.{u} (R ⧸ Ring.jacobson R))
+      = Nat.card (SimpleModuleClasses.{u} R) :=
+  Nat.card_congr (simpleModuleClassesQuotientJacobsonEquiv R)
+
 instance IrrepClasses.instFinite {k G : Type*} [Field k] [Group G] [Finite G] :
     Finite (IrrepClasses k G) := by
   haveI : Module.Finite k (MonoidAlgebra k G) :=
