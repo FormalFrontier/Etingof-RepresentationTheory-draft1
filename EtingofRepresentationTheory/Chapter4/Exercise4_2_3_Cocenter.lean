@@ -200,6 +200,95 @@ theorem finrank_cocenter_eq_card_conjClasses :
     rwa [heq] at hv
   rw [le_antisymm hle2 hle1, Nat.card_eq_fintype_card]
 
+/-! ### The trace form of a finite-dimensional `k[G]`-module
+
+**Deliverable 2** of Exercise 4.2.3's counting half. A finite-dimensional `k[G]`-module
+`M` carries a **trace functional** `k[G] →ₗ[k] k`, `x ↦ trace(x acting on M)`. Because
+`trace(a*b) = trace(b*a)`, this functional kills the commutator submodule and hence
+descends to a linear functional `τ_M : C →ₗ[k] k` on the cocenter. Evaluated on a class
+representative `[single g 1]` it returns the character value `χ_M(g) = trace(g acting on M)`.
+
+Together with deliverable 1 (`finrank_cocenter_eq_card_conjClasses`) these trace forms are
+the tool for the counting bound: the trace forms of the distinct simple `k[G]`-modules are
+linearly independent functionals on `C`, so their number is at most `finrank C = #ConjClasses`.
+-/
+
+section TraceForm
+
+variable (M : Type*) [AddCommGroup M] [Module k M] [Module (MonoidAlgebra k G) M]
+  [IsScalarTower k (MonoidAlgebra k G) M] [Module.Finite k M]
+
+-- The trace form and its descent never use finiteness of `G`; omit those instances so the
+-- statements stay clean (they are still available in scope from the file-level variables).
+omit [Fintype G] [DecidableEq G]
+
+variable (k) in
+/-- The action of the group algebra `k[G]` on a `k[G]`-module `M`, packaged as the
+`k`-algebra map `k[G] →ₐ[k] Module.End k M`. This is `Algebra.lsmul`, i.e. `x ↦ (x • ·)`. -/
+noncomputable def moduleEnd : MonoidAlgebra k G →ₐ[k] Module.End k M :=
+  Algebra.lsmul k k M
+
+omit [Module.Finite k M] in
+@[simp] lemma moduleEnd_apply (x : MonoidAlgebra k G) (m : M) :
+    moduleEnd k M x m = x • m := rfl
+
+variable (k) in
+/-- The **trace functional** of a finite-dimensional `k[G]`-module `M`, sending an element
+`x ∈ k[G]` to the trace of its action on `M`. No `sorry`: the underlying object is real. -/
+noncomputable def traceForm : MonoidAlgebra k G →ₗ[k] k :=
+  (LinearMap.trace k M).comp (moduleEnd k M).toLinearMap
+
+omit [Module.Finite k M] in
+lemma traceForm_apply (x : MonoidAlgebra k G) :
+    traceForm k M x = LinearMap.trace k M (moduleEnd k M x) := rfl
+
+omit [Module.Finite k M] in
+/-- The trace functional is a trace: it is invariant under transposing a product, since
+`trace(a*b) = trace(b*a)` (`LinearMap.trace_mul_comm`). -/
+lemma traceForm_mul_comm (x y : MonoidAlgebra k G) :
+    traceForm k M (x * y) = traceForm k M (y * x) := by
+  simp only [traceForm_apply, map_mul]
+  exact LinearMap.trace_mul_comm k _ _
+
+omit [Module.Finite k M] in
+/-- The trace functional vanishes on the commutator submodule `[k[G], k[G]]`. -/
+lemma commSubmodule_le_ker_traceForm :
+    commSubmodule k G ≤ LinearMap.ker (traceForm k M) := by
+  rw [commSubmodule, Submodule.span_le]
+  rintro _ ⟨⟨x, y⟩, rfl⟩
+  simp only [SetLike.mem_coe, LinearMap.mem_ker, map_sub, traceForm_mul_comm M x y, sub_self]
+
+variable (k) in
+/-- The **cocenter trace functional** `τ_M : C →ₗ[k] k`: the descent of the trace form of a
+finite-dimensional `k[G]`-module `M` to the cocenter `C = k[G] / [k[G], k[G]]`, via
+`Submodule.liftQ` using that the trace form kills the commutator submodule. -/
+noncomputable def traceFormQ : Cocenter k G →ₗ[k] k :=
+  Submodule.liftQ (commSubmodule k G) (traceForm k M) (commSubmodule_le_ker_traceForm M)
+
+omit [Module.Finite k M] in
+@[simp] lemma traceFormQ_mkQ (x : MonoidAlgebra k G) :
+    traceFormQ k M (Submodule.mkQ (commSubmodule k G) x) = traceForm k M x :=
+  Submodule.liftQ_apply _ _ _
+
+omit [Module.Finite k M] in
+/-- **Sanity/eval lemma (deliverable 3).** The cocenter trace functional `τ_M` evaluated on
+the class of `single g 1` is the trace of the action of `g` on `M`, i.e. the character value
+`χ_M(g)`. -/
+lemma traceFormQ_mkQ_single (g : G) :
+    traceFormQ k M (Submodule.mkQ (commSubmodule k G) (single g 1)) =
+      LinearMap.trace k M (moduleEnd k M (single g (1 : k))) := by
+  rw [traceFormQ_mkQ, traceForm_apply]
+
+omit [Module.Finite k M] in
+/-- The cocenter trace functional evaluated on the class representative `classRep (mk g)` is
+the character value `χ_M(g) = trace(g acting on M)`. -/
+lemma traceFormQ_classRep (g : G) :
+    traceFormQ k M (classRep k G (ConjClasses.mk g)) =
+      LinearMap.trace k M (moduleEnd k M (single g (1 : k))) := by
+  rw [← mkQ_single_eq_classRep, traceFormQ_mkQ_single]
+
+end TraceForm
+
 end CocenterMonoidAlgebra
 
 end Etingof
