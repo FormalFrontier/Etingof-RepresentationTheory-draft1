@@ -3819,8 +3819,8 @@
     "end_page": "108",
     "start_line": 27,
     "end_line": 28,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Problem5_8_4.lean states the G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G, sorry proof."
+    "status": "sorry_free",
+    "coverage_note": "Sorry-free: Chapter5/Problem5_8_4.lean proves the G-equivariant iso Ind_H^G(Ind_K^H V) ≅ Ind_K^G V for K ≤ H ≤ G via the abstract induction-in-stages lemma ind_stages_exists (tensor/coinvariants associativity)."
   },
   {
     "id": "Chapter5/Exercise5.8.5",
