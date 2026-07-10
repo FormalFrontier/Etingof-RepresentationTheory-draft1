@@ -1558,7 +1558,8 @@
     "end_page": "40",
     "start_line": 5,
     "end_line": 6,
-    "status": "statement_formalized"
+    "status": "statement_formalized",
+    "coverage_note": "Characteristic-0 cluster proved sorry-free (#6122, 2026-07-10): bracket_X_Y, charZero_irreducible_finrank_one (reusing Problem 2.16.1 via a general-field solvable-Lie-theorem argument), charZero_Y_acts_zero, and the instIsSolvable instance. Axioms: propext, Classical.choice, Quot.sound. Remaining sorry: lie_theorem_fails_charP (char-p failure, needs a p-dim irreducible module) tracked in #6132."
   },
   {
     "id": "Chapter2/Problem2.16.3",
