@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter7.Exercise7_8_4
 
 /-!
 # Problem 7.8.7: The tensor product of complexes and the Künneth formula
@@ -174,12 +175,59 @@ theorem Problem7_8_7_i (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i j l : ℤ
     (tensorComplex C D).d i j ≫ (tensorComplex C D).d j l = 0 :=
   (tensorComplex C D).d_comp_d i j l
 
+/-- A complex whose identity morphism is null-homotopic (contractible) is acyclic: homotopic
+chain maps induce equal maps on homology, so `𝟙 (Hⁱ X) = homologyMap (𝟙 X) i =
+homologyMap 0 i = 0`, whence `Hⁱ X` is zero in every degree. -/
+private lemma acyclic_of_homotopy_id_zero {X : CochainComplex (ModuleCat.{0} k) ℤ}
+    (H : Homotopy (𝟙 X) 0) : X.Acyclic := by
+  intro i
+  rw [HomologicalComplex.exactAt_iff_isZero_homology, IsZero.iff_id_eq_zero]
+  have h := H.homologyMap_eq i
+  rwa [HomologicalComplex.homologyMap_id, HomologicalComplex.homologyMap_zero] at h
+
 /-- Problem 7.8.7(ii): over a field, if either factor is an exact (acyclic) complex, then so
 is the tensor product `C ⊗ D`. -/
 theorem Problem7_8_7_ii (C D : CochainComplex (ModuleCat.{0} k) ℤ)
     (h : C.Acyclic ∨ D.Acyclic) :
     (tensorComplex C D).Acyclic := by
-  sorry
+  -- Over a field an acyclic complex is contractible (`Exercise7_8_4`: `𝟙` is null-homotopic).
+  -- Whiskering that contracting homotopy through the tensor bifunctor makes `𝟙 (C ⊗ D)`
+  -- null-homotopic, hence `C ⊗ D` acyclic.
+  -- `tensorHom (𝟙) (𝟙) = 𝟙`: the tensor bifunctor sends `𝟙` to `𝟙`, so the induced
+  -- morphism on total complexes is `total.map (𝟙) = 𝟙`.
+  have hid : HomologicalComplex.mapBifunctorMap (𝟙 C) (𝟙 D)
+      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) = 𝟙 (tensorComplex C D) := by
+    rw [HomologicalComplex.mapBifunctorMap, CategoryTheory.Functor.map_id, NatTrans.id_app,
+      CategoryTheory.Functor.map_id, Category.id_comp, HomologicalComplex₂.total.map_id]
+    rfl
+  -- `Acyclic` is a `Prop`, so split the disjunction first, then build the null-homotopy of
+  -- `𝟙 (C ⊗ D)` in each branch by whiskering the contracting homotopy of the acyclic factor.
+  rcases h with hC | hD
+  · obtain ⟨hCH⟩ := Etingof.Exercise7_8_4 C hC
+    -- `tensorHom 0 (𝟙 D) = 0`: the bifunctor sends `0` to `0`, so each injection composes to `0`.
+    have hz : HomologicalComplex.mapBifunctorMap (0 : C ⟶ C) (𝟙 D)
+        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) = 0 := by
+      apply HomologicalComplex.hom_ext
+      intro j
+      apply HomologicalComplex.mapBifunctor.hom_ext
+      intro i₁ i₂ hji
+      simp
+    have Hmap := HomologicalComplex.mapBifunctorMapHomotopy₁ hCH (𝟙 D)
+      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ)
+    exact acyclic_of_homotopy_id_zero
+      ((Homotopy.ofEq hid.symm).trans (Hmap.trans (Homotopy.ofEq hz)))
+  · obtain ⟨hDH⟩ := Etingof.Exercise7_8_4 D hD
+    have hz : HomologicalComplex.mapBifunctorMap (𝟙 C) (0 : D ⟶ D)
+        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) = 0 := by
+      apply HomologicalComplex.hom_ext
+      intro j
+      apply HomologicalComplex.mapBifunctor.hom_ext
+      intro i₁ i₂ hji
+      simp
+    have Hmap := HomologicalComplex.mapBifunctorMapHomotopy₂ (𝟙 C) hDH
+      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ)
+    exact acyclic_of_homotopy_id_zero
+      ((Homotopy.ofEq hid.symm).trans (Hmap.trans (Homotopy.ofEq hz)))
 
 /-- Problem 7.8.7(iii): every complex `C` decomposes as a direct sum of an acyclic complex
 `E` and the zero-differential complex on its homology `Hⁱ(C)`, in a way that induces the
