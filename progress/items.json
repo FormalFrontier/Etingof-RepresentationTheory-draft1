@@ -7084,8 +7084,8 @@
     "end_page": "211",
     "start_line": 1,
     "end_line": 4,
-    "status": "statement_formalized",
-    "coverage_note": "No Lean formalization on origin/main (re-derived 2026-07-02; prior 'sorry_free' was vacuous)."
+    "status": "proof_partial",
+    "coverage_note": "Deliverables (ii) [Exercise_8_2_9_ii] and (i) finite-abelian [Exercise_8_2_9_i_finAb] proved sorry-free (#6101). (i) fin-dim k[x]-module case [Exercise_8_2_9_i_polynomial] still sorried — follow-up issue."
   },
   {
     "id": "Chapter8/Problem8.2.10",
