@@ -3,6 +3,7 @@ import Mathlib.Algebra.Lie.Quotient
 import Mathlib.Algebra.Lie.IdealOperations
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Data.Matrix.Basis
+import Mathlib.Algebra.Polynomial.AlgebraMap
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
@@ -483,6 +484,79 @@ theorem finrank_g_two (k : Type*) [Field k] : Module.finrank k (g k 2) = 4 := by
       Set.singleton_union, Set.singleton_union, Set.singleton_union, span_eq_top_two]
   let b : Module.Basis (Fin 4) k (g k 2) := Module.Basis.mk (indep_two k) hspan
   rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
+
+/-!
+## Toward `𝔤₄`: the twisted `A₂⁽²⁾` loop realization (Problem 2.16.3(b))
+
+The Cartan matrix `[[2, -1], [-4, 2]]` has determinant `0` (affine type `A₂⁽²⁾`), so `𝔤₄` is
+infinite dimensional. We realize the two Chevalley generators inside the twisted loop algebra
+`𝔰𝔩₃ ⊗ k[t]`: with `x ↦ E₂₀·t` (the affine simple-root vector, `t`-degree `1`) and
+`y ↦ E₀₁ - E₁₂` (the finite simple-root vector of the fixed subalgebra `𝔰𝔬₃ ⊆ 𝔰𝔩₃`,
+`t`-degree `0`), *both* defining relations hold over any commutative base ring:
+
+* `ad(E₂₀·t)²(E₀₁ - E₁₂) = 0` (`ad(x)²(y) = 0`), because `(E₂₀·t)² = 0`;
+* `ad(E₀₁ - E₁₂)⁵(E₂₀·t) = 0` (`ad(y)⁵(x) = 0`), because `(E₀₁ - E₁₂)³ = 0`, whence
+  `ad(E₀₁ - E₁₂)⁵ = 0` identically on `gl₃` (every term of the binomial expansion carries a
+  factor `(E₀₁ - E₁₂)ⁱ` with `i ≥ 3`).
+
+Grading by the power of `t`, the image is `span{y} ⊕ (𝔰𝔬₃-module)·t ⊕ 𝔰𝔬₃·t² ⊕ ⋯`, infinite
+dimensional over a field of characteristic `0` (or `> 3`). This is the explicit construction the
+book asks for, and `matHom₄` factors through `𝔤₄` (`relIdeal_le_ker_matHom₄`).
+
+Concluding `¬ Module.Finite` *uniformly in the characteristic* is deferred (see the tracking
+issue): over `𝔽₃` this specific image collapses to `4` dimensions (the middle weight vector
+`E₀₀ - 2E₁₁ + E₂₂` becomes the identity matrix, which is central and kills the climb), and over
+`𝔽₂` the `ℤ/2`-grading degenerates, so a characteristic-uniform witness needs additional work.
+-/
+
+section Matrix4
+attribute [local instance] LieRing.ofAssociativeRing
+
+open Polynomial
+
+/-- `x`-image in `gl₃(k[t])`: the affine simple-root vector `E₂₀·t` (`t`-degree `1`). -/
+noncomputable def NX : Matrix (Fin 3) (Fin 3) (Polynomial k) := Matrix.single 2 0 Polynomial.X
+/-- `y`-image in `gl₃(k[t])`: the finite simple-root vector `E₀₁ - E₁₂` (`t`-degree `0`). -/
+noncomputable def NY : Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  Matrix.single 0 1 1 - Matrix.single 1 2 1
+
+/-- The Lie algebra hom `FreeLieAlgebra k (Fin 2) → gl₃(k[t])` sending `x ↦ E₂₀·t`,
+`y ↦ E₀₁ - E₁₂`. Its image is the twisted loop realization of the `A₂⁽²⁾` nilpotent `𝔫₊`. -/
+noncomputable def matHom₄ :
+    FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  FreeLieAlgebra.lift k ![NX k, NY k]
+
+@[simp] theorem matHom₄_x : matHom₄ k (x k) = NX k := by
+  simp only [matHom₄, x, FreeLieAlgebra.lift_of_apply]; rfl
+
+@[simp] theorem matHom₄_y : matHom₄ k (y k) = NY k := by
+  simp only [matHom₄, y, FreeLieAlgebra.lift_of_apply]; rfl
+
+/-- `(E₂₀·t)² = 0`, so `ad(E₂₀·t)²` kills everything: the relator `ad(x)²(y)` maps to `0`. -/
+theorem matHom₄_relator1 : matHom₄ k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
+  rw [LieHom.map_lie, LieHom.map_lie, matHom₄_x, matHom₄_y]
+  simp [NX, NY, LieRing.of_associative_ring_bracket, mul_sub, sub_mul, mul_add, add_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+
+/-- `(E₀₁ - E₁₂)³ = 0`, so `ad(E₀₁ - E₁₂)⁵ = 0` identically: `ad(y)⁵(x)` maps to `0`. -/
+theorem matHom₄_relator2 : matHom₄ k ((fun z => ⁅y k, z⁆)^[4 + 1] (x k)) = 0 := by
+  change matHom₄ k ⁅y k, ⁅y k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆⁆ = 0
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+    matHom₄_x, matHom₄_y]
+  simp [NX, NY, LieRing.of_associative_ring_bracket, mul_sub, sub_mul, mul_add, add_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+
+/-- The defining relators of `𝔤₄` lie in the kernel of `matHom₄`, so `matHom₄` factors through
+`𝔤₄`. -/
+theorem relIdeal_le_ker_matHom₄ : relIdeal k 4 ≤ (matHom₄ k).ker := by
+  rw [relIdeal, LieSubmodule.lieSpan_le]
+  intro w hw
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+  rcases hw with rfl | rfl
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄_relator1 k
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄_relator2 k
+
+end Matrix4
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
