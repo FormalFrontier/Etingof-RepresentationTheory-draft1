@@ -146,12 +146,13 @@ standard coordinate form `h₀(v, w) = ∑ᵢ (b.repr v)ᵢ · conj (b.repr w)�
 Reused by the real (#6327) and quaternionic (#6328) cases to build the `j`-operator. -/
 theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
     ∃ H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ,
-      (∀ g v w, H (ρ g v) (ρ g w) = H v w) ∧ (∀ v, v ≠ 0 → 0 < (H v v).re) := by
+      (∀ g v w, H (ρ g v) (ρ g w) = H v w) ∧ (∀ v, v ≠ 0 → 0 < (H v v).re) ∧
+      (∀ v w, (starRingEnd ℂ) (H v w) = H w v) := by
   classical
   set b := Module.finBasis ℂ V with hb
   refine ⟨LinearMap.mk₂'ₛₗ (RingHom.id ℂ) (starRingEnd ℂ)
       (fun v w => ∑ g : G, ∑ i, b.repr (ρ g v) i * conj (b.repr (ρ g w) i))
-      ?_ ?_ ?_ ?_, ?_, ?_⟩
+      ?_ ?_ ?_ ?_, ?_, ?_, ?_⟩
   · -- additive in the first slot
     intro v₁ v₂ w
     simp only [map_add, Finsupp.add_apply, add_mul, Finset.sum_add_distrib]
@@ -190,6 +191,10 @@ theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
       exact hv (b.repr.injective (by ext i; simp [hcon i]))
     exact Finset.sum_pos' (fun i _ => Complex.normSq_nonneg _)
       ⟨i, Finset.mem_univ i, Complex.normSq_pos.mpr hi⟩
+  · -- conjugate symmetry: `conj (H v w) = H w v`
+    intro v w
+    simp only [LinearMap.mk₂'ₛₗ_apply, map_sum, map_mul, Complex.conj_conj]
+    exact Finset.sum_congr rfl fun g _ => Finset.sum_congr rfl fun i _ => mul_comm _ _
 
 section ComplexTypeProof
 
@@ -368,7 +373,7 @@ theorem realGEndAlgebra_equiv_complex_of_isComplexType
       rcases invSubmodule_eq_bot_or_top hirr (LinearMap.ker ψ) hkerinv with hkbot | hktop
       · -- `ψ` injective: produce a `ℂ`-linear equivariant `V ≃ V*`, contradicting complex type.
         have hψinj : Function.Injective ψ := LinearMap.ker_eq_bot.mp hkbot
-        obtain ⟨H, hHinv, hHpos⟩ := exists_invariant_posdef_hermitian ρ
+        obtain ⟨H, hHinv, hHpos, _⟩ := exists_invariant_posdef_hermitian ρ
         have hΦinj : Function.Injective (hermToDual H) := hermToDual_injective H hHpos
         let e : V →ₗ[ℂ] Module.Dual ℂ V :=
           { toFun := fun v => hermToDual H (ψ v)
