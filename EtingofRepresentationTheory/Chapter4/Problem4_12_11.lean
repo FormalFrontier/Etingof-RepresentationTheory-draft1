@@ -112,13 +112,53 @@ theorem scalar_le_sym : scalarSub ≤ symSub := by
 
 theorem tracelessSym_le_sym : tracelessSymSub ≤ symSub := fun _ hM => hM.1
 
+/-! ### Orthogonality helpers -/
+
+/-- Over `ℝ`, the `star` of a matrix is its transpose. -/
+theorem star_coe_eq_transpose (A : SO3) : star (A : EndV) = (A : EndV)ᵀ := by
+  ext i j
+  simp [Matrix.star_eq_conjTranspose, Matrix.conjTranspose_apply]
+
+/-- `A · Aᵀ = 1` for `A ∈ SO(3)`. -/
+theorem coe_mul_star (A : SO3) : (A : EndV) * star (A : EndV) = 1 :=
+  mem_unitaryGroup_iff.mp (mem_specialOrthogonalGroup_iff.mp A.2).1
+
+/-- `Aᵀ · A = 1` for `A ∈ SO(3)`. -/
+theorem star_mul_coe (A : SO3) : star (A : EndV) * (A : EndV) = 1 :=
+  mem_unitaryGroup_iff'.mp (mem_specialOrthogonalGroup_iff.mp A.2).1
+
 /-! ### Part (a): the decomposition -/
 
 /-- **(a)** Each of the three subspaces is `SO(3)`-invariant. -/
 theorem conjRep_invariant (S : Submodule ℝ EndV)
     (hS : S = scalarSub ∨ S = skewSub ∨ S = tracelessSymSub)
     (A : SO3) (M : EndV) (hM : M ∈ S) : conjRep A M ∈ S := by
-  sorry
+  have hAstar : (A : EndV) * star (A : EndV) = 1 := coe_mul_star A
+  have hstarA : star (A : EndV) * (A : EndV) = 1 := star_mul_coe A
+  have hstarT : star (A : EndV) = (A : EndV)ᵀ := star_coe_eq_transpose A
+  rw [conjRep_apply]
+  rcases hS with h | h | h
+  · -- scalarSub: `A · (c•1) · Aᵀ = c • (A · Aᵀ) = c•1`
+    subst h
+    rw [scalarSub, Submodule.mem_span_singleton] at hM ⊢
+    obtain ⟨c, rfl⟩ := hM
+    exact ⟨c, by rw [Matrix.mul_smul, Matrix.smul_mul, mul_one, hAstar]⟩
+  · -- skewSub: `(A · M · Aᵀ)ᵀ = A · Mᵀ · Aᵀ = -(A · M · Aᵀ)`
+    subst h
+    simp only [skewSub, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
+      Set.mem_setOf_eq] at hM ⊢
+    rw [hstarT]
+    simp only [Matrix.transpose_mul, Matrix.transpose_transpose, hM, Matrix.mul_neg,
+      Matrix.neg_mul, mul_assoc]
+  · -- tracelessSymSub: symmetric as above; trace preserved by cyclicity
+    subst h
+    simp only [tracelessSymSub, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
+      Set.mem_setOf_eq] at hM ⊢
+    obtain ⟨hsym, htr⟩ := hM
+    refine ⟨?_, ?_⟩
+    · rw [hstarT]
+      simp only [Matrix.transpose_mul, Matrix.transpose_transpose, hsym, mul_assoc]
+    · rw [Matrix.trace_mul_comm, ← mul_assoc, hstarA, Matrix.one_mul, htr]
 
 /-- **(a)** `End(V) = ℝ ⊕ V ⊕ W`: the three subspaces form an internal direct sum of
 `End(V)`. -/
@@ -132,9 +172,96 @@ theorem symSub_eq_scalar_sup_tracelessSym :
     scalarSub ⊔ tracelessSymSub = symSub ∧ scalarSub ⊓ tracelessSymSub = ⊥ := by
   sorry
 
-theorem scalarSub_finrank : Module.finrank ℝ scalarSub = 1 := by sorry
-theorem skewSub_finrank : Module.finrank ℝ skewSub = 3 := by sorry
-theorem tracelessSymSub_finrank : Module.finrank ℝ tracelessSymSub = 5 := by sorry
+theorem scalarSub_finrank : Module.finrank ℝ scalarSub = 1 := by
+  rw [scalarSub, finrank_span_singleton (one_ne_zero)]
+
+theorem skewSub_finrank : Module.finrank ℝ skewSub = 3 := by
+  classical
+  set v : Fin 3 → EndV :=
+    ![!![0, 1, 0; -1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; -1, 0, 0],
+      !![0, 0, 0; 0, 0, 1; 0, -1, 0]] with hv
+  have hindep : LinearIndependent ℝ v := by
+    rw [Fintype.linearIndependent_iff]
+    intro g hg
+    have e01 := congr_fun (congr_fun hg 0) 1
+    have e02 := congr_fun (congr_fun hg 0) 2
+    have e12 := congr_fun (congr_fun hg 1) 2
+    simp [hv, Fin.sum_univ_three, Matrix.smul_apply, Matrix.add_apply] at e01 e02 e12
+    intro i; fin_cases i <;> simp_all
+  have hspan : skewSub = Submodule.span ℝ (Set.range v) := by
+    apply le_antisymm
+    · intro M hM
+      have hM' : Mᵀ = -M := hM
+      have hd : ∀ i, M i i = 0 := fun i => by
+        have h := congr_fun (congr_fun hM' i) i
+        simp only [Matrix.transpose_apply, Matrix.neg_apply] at h; linarith
+      have ho : ∀ i j, M j i = -M i j := fun i j => by
+        have h := congr_fun (congr_fun hM' i) j
+        simpa only [Matrix.transpose_apply, Matrix.neg_apply] using h
+      have key : M = M 0 1 • v 0 + M 0 2 • v 1 + M 1 2 • v 2 := by
+        ext i j
+        fin_cases i <;> fin_cases j <;>
+          simp [hv, Matrix.smul_apply, Matrix.add_apply] <;>
+          linarith [hd 0, hd 1, hd 2, ho 0 1, ho 0 2, ho 1 2]
+      rw [key]
+      exact Submodule.add_mem _
+        (Submodule.add_mem _
+          (Submodule.smul_mem _ _ (Submodule.subset_span ⟨0, rfl⟩))
+          (Submodule.smul_mem _ _ (Submodule.subset_span ⟨1, rfl⟩)))
+        (Submodule.smul_mem _ _ (Submodule.subset_span ⟨2, rfl⟩))
+    · rw [Submodule.span_le]
+      rintro _ ⟨i, rfl⟩
+      show (v i)ᵀ = -(v i)
+      fin_cases i <;> · ext a b; fin_cases a <;> fin_cases b <;> simp [hv]
+  rw [hspan, finrank_span_eq_card hindep, Fintype.card_fin]
+
+theorem tracelessSymSub_finrank : Module.finrank ℝ tracelessSymSub = 5 := by
+  classical
+  set v : Fin 5 → EndV :=
+    ![!![0, 1, 0; 1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; 1, 0, 0],
+      !![0, 0, 0; 0, 0, 1; 0, 1, 0], !![1, 0, 0; 0, -1, 0; 0, 0, 0],
+      !![0, 0, 0; 0, 1, 0; 0, 0, -1]] with hv
+  have hindep : LinearIndependent ℝ v := by
+    rw [Fintype.linearIndependent_iff]
+    intro g hg
+    have e01 := congr_fun (congr_fun hg 0) 1
+    have e02 := congr_fun (congr_fun hg 0) 2
+    have e12 := congr_fun (congr_fun hg 1) 2
+    have e00 := congr_fun (congr_fun hg 0) 0
+    have e11 := congr_fun (congr_fun hg 1) 1
+    simp [hv, Fin.sum_univ_five, Matrix.smul_apply, Matrix.add_apply] at e01 e02 e12 e00 e11
+    intro i; fin_cases i <;> simp_all <;> linarith
+  have hspan : tracelessSymSub = Submodule.span ℝ (Set.range v) := by
+    apply le_antisymm
+    · intro M hM
+      obtain ⟨hsym, htr⟩ := hM
+      have hs : ∀ i j, M j i = M i j := fun i j => by
+        have h := congr_fun (congr_fun hsym i) j
+        simpa only [Matrix.transpose_apply] using h
+      have htrace : M 2 2 = -M 0 0 - M 1 1 := by
+        rw [Matrix.trace_fin_three] at htr; linarith
+      have key : M = M 0 1 • v 0 + M 0 2 • v 1 + M 1 2 • v 2 + M 0 0 • v 3
+          + (M 0 0 + M 1 1) • v 4 := by
+        ext i j
+        fin_cases i <;> fin_cases j <;>
+          simp [hv, Matrix.smul_apply, Matrix.add_apply] <;>
+          linarith [hs 0 1, hs 0 2, hs 1 2, htrace]
+      rw [key]
+      refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.add_mem _
+        (Submodule.add_mem _
+          (Submodule.smul_mem _ _ (Submodule.subset_span ⟨0, rfl⟩))
+          (Submodule.smul_mem _ _ (Submodule.subset_span ⟨1, rfl⟩)))
+        (Submodule.smul_mem _ _ (Submodule.subset_span ⟨2, rfl⟩)))
+        (Submodule.smul_mem _ _ (Submodule.subset_span ⟨3, rfl⟩)))
+        (Submodule.smul_mem _ _ (Submodule.subset_span ⟨4, rfl⟩))
+    · rw [Submodule.span_le]
+      rintro _ ⟨i, rfl⟩
+      refine ⟨?_, ?_⟩
+      · show (v i)ᵀ = v i
+        fin_cases i <;> · ext a b; fin_cases a <;> fin_cases b <;> simp [hv]
+      · show (v i).trace = 0
+        fin_cases i <;> simp [hv, Matrix.trace_fin_three]
+  rw [hspan, finrank_span_eq_card hindep, Fintype.card_fin]
 
 /-! ### Part (b): irreducibility and Hooke's law -/
 
