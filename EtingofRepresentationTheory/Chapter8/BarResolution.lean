@@ -565,6 +565,37 @@ theorem barFace_castSucc_apply (n : ℕ) (i : Fin (n + 1)) (a₀ : A) (v : Fin (
   · rw [barFace_interior_apply, ← Fin.succ_castSucc, contractNth_succ_cons, Fin.cons_zero,
       Fin.tail_cons]
 
+/-- **Simplicial identity for the bar faces.** For `i < j`,
+`barFace i ∘ barFace j = barFace (j-1) ∘ barFace i`, the merge-face version of `δᵢ δⱼ = δ_{j-1} δᵢ`.
+This is the combinatorial core of `d ∘ d = 0`. -/
+theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
+    (hij : (i : ℕ) < (j : ℕ)) :
+    (barFace k A W n i).comp (barFace k A W (n + 1) j)
+      = (barFace k A W n (j.pred (by rintro rfl; simp only [Fin.val_zero] at hij; omega))).comp
+          (barFace k A W (n + 1) i.castSucc) := by
+  apply barModule_hom_ext
+  intro a₀ v w
+  simp only [LinearMap.comp_apply]
+  rcases Fin.eq_castSucc_or_eq_last i with ⟨i₀, rfl⟩ | rfl <;>
+    rcases Fin.eq_castSucc_or_eq_last j with ⟨j₀, rfl⟩ | rfl
+  · -- (merge, merge)
+    have hj0 : j₀ ≠ 0 := by
+      rintro rfl; simp only [Fin.val_castSucc, Fin.val_zero] at hij; omega
+    rw [barFace_castSucc_apply, barFace_castSucc_apply, Fin.cons_self_tail,
+        ← Fin.castSucc_pred_eq_pred_castSucc, barFace_castSucc_apply, barFace_castSucc_apply,
+        Fin.cons_self_tail]
+    have hpq : ((Fin.castSucc i₀ : Fin (n + 2)) : ℕ) < ((Fin.castSucc j₀ : Fin (n + 3)) : ℕ) := by
+      simpa using hij
+    rw [contractNth_contractNth (· * ·) mul_assoc (Fin.castSucc i₀) (Fin.castSucc j₀) hpq
+        (Fin.cons a₀ v), ← Fin.castSucc_pred_eq_pred_castSucc]
+    all_goals exact hj0
+  · -- (merge, last): case B
+    sorry
+  · -- (last, merge): impossible from i < j
+    exfalso; simp only [Fin.val_last, Fin.val_castSucc] at hij; omega
+  · -- (last, last): case E
+    sorry
+
 end BarSquareZero
 
 end Etingof.BarResolution
