@@ -268,7 +268,133 @@ theorem Exercise5_27_3
         simp only [hUc_def, dif_pos huinv]
         exact congrArg U.character (Subtype.ext rfl)
       rw [h1, h2]
-    sorry
+    -- The Mackey reindexing at fixed `h`: two conjugation change-of-variables
+    -- `g ↦ h g h⁻¹`, `h' ↦ h h'⁻¹` on the pair `(g, h')`.
+    have hstep_h : ∀ h : G,
+        (∑ g : G, ∑ h' : G,
+          (if h * g * h'⁻¹ ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
+            * Uc (h' * g⁻¹ * h'⁻¹))
+        = ∑ u : G, ∑ t : G,
+          (if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc u * Uc (t⁻¹ * u⁻¹ * t) := by
+      intro h
+      let Φ : (G × G) ≃ (G × G) :=
+        { toFun := fun p => (h * p.1 * h⁻¹, h * p.2⁻¹)
+          invFun := fun q => (h⁻¹ * q.1 * h, q.2⁻¹ * h)
+          left_inv := by rintro ⟨g, h'⟩; refine Prod.ext ?_ ?_ <;> · simp only []; group
+          right_inv := by rintro ⟨u, t⟩; refine Prod.ext ?_ ?_ <;> · simp only []; group }
+      rw [← Fintype.sum_prod_type', ← Fintype.sum_prod_type']
+      refine Fintype.sum_equiv Φ _ _ ?_
+      rintro ⟨g, h'⟩
+      show (if h * g * h'⁻¹ ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
+            * Uc (h' * g⁻¹ * h'⁻¹)
+          = (if h * g * h⁻¹ * (h * h'⁻¹) ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
+            * Uc ((h * h'⁻¹)⁻¹ * (h * g * h⁻¹)⁻¹ * (h * h'⁻¹))
+      rw [show h * g * h⁻¹ * (h * h'⁻¹) = h * g * h'⁻¹ from by group,
+          show (h * h'⁻¹)⁻¹ * (h * g * h⁻¹)⁻¹ * (h * h'⁻¹) = h' * g⁻¹ * h'⁻¹ from by group]
+    -- The inner collapse: the conditional double sum equals `|G_χ| · ∑_u Uc u · Uc u⁻¹`.
+    have hinner : (∑ u : G, ∑ t : G,
+          (if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc u * Uc (t⁻¹ * u⁻¹ * t))
+        = (Fintype.card ↥(stab χ) : ℂ) * ∑ u : G, Uc u * Uc u⁻¹ := by
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun u _ => ?_
+      by_cases hu : u ∈ stab χ
+      · have hkey : ∀ t : G, (if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc (t⁻¹ * u⁻¹ * t)
+            = if t ∈ stab χ then Uc u⁻¹ else 0 := by
+          intro t
+          by_cases ht : t ∈ stab χ
+          · have hut : u * t ∈ stab χ := (stab χ).mul_mem hu ht
+            rw [if_pos hut, if_pos ht, one_mul]
+            have hc := hUc_conj t⁻¹ u⁻¹ ((stab χ).inv_mem ht)
+            rw [inv_inv] at hc
+            exact hc
+          · have hut : u * t ∉ stab χ := by
+              intro hcc; apply ht
+              have htt : t = u⁻¹ * (u * t) := by group
+              rw [htt]; exact (stab χ).mul_mem ((stab χ).inv_mem hu) hcc
+            rw [if_neg hut, if_neg ht, zero_mul]
+        have hrw : ∀ t : G,
+            (if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc u * Uc (t⁻¹ * u⁻¹ * t)
+            = Uc u * ((if u * t ∈ stab χ then (1 : ℂ) else 0) * Uc (t⁻¹ * u⁻¹ * t)) := by
+          intro t; ring
+        rw [Finset.sum_congr rfl (fun t _ => hrw t), ← Finset.mul_sum,
+            Finset.sum_congr rfl (fun t _ => hkey t), ← Finset.sum_filter, Finset.sum_const,
+            ← Fintype.card_subtype (· ∈ stab χ), nsmul_eq_mul]
+        ring
+      · have h0 : Uc u = 0 := by simp only [hUc_def, dif_neg hu]
+        simp only [h0, zero_mul, mul_zero, Finset.sum_const_zero]
+    -- Assemble the reindexed triple sum.
+    have hreindex : (∑ g : G, ∑ h : G, ∑ h' : G,
+          (if h * g * h'⁻¹ ∈ stab χ then (1 : ℂ) else 0) * Uc (h * g * h⁻¹)
+            * Uc (h' * g⁻¹ * h'⁻¹))
+        = (Fintype.card G : ℂ) * (Fintype.card ↥(stab χ) : ℂ) * ∑ u : G, Uc u * Uc u⁻¹ := by
+      rw [Finset.sum_comm, Finset.sum_congr rfl (fun h _ => hstep_h h), Finset.sum_const,
+          Finset.card_univ, hinner, nsmul_eq_mul]
+      ring
+    -- Per-`g` reduction of the `A`-sum via character orthogonality on `A` (`hasum`).
+    have hg_eq : ∀ g : G,
+        (∑ a : A, (V χ U).character ⟨a, g⟩ * (V χ U).character ⟨a, g⟩⁻¹)
+        = (Fintype.card ↥(stab χ) : ℂ)⁻¹ * (Fintype.card ↥(stab χ) : ℂ)⁻¹ *
+            ∑ h : G, ∑ h' : G,
+              (if h * g * h'⁻¹ ∈ stab χ then (Fintype.card A : ℂ) else 0)
+                * Uc (h * g * h⁻¹) * Uc (h' * g⁻¹ * h'⁻¹) := by
+      intro g
+      have hstep : ∀ a : A,
+          (V χ U).character ⟨a, g⟩ * (V χ U).character ⟨a, g⟩⁻¹
+          = (Fintype.card ↥(stab χ) : ℂ)⁻¹ * (Fintype.card ↥(stab χ) : ℂ)⁻¹ *
+              ∑ h : G, ∑ h' : G,
+                (χ ((φ h : MulAut A) a) : ℂ) * (χ ((φ h' : MulAut A) ((φ g⁻¹ : MulAut A) a⁻¹)) : ℂ)
+                  * (Uc (h * g * h⁻¹) * Uc (h' * g⁻¹ * h'⁻¹)) := by
+        intro a
+        rw [hcf a g, hinv a g, hcf ((φ g⁻¹ : MulAut A) a⁻¹) g⁻¹, mul_mul_mul_comm,
+            Finset.sum_mul_sum]
+        congr 1
+        refine Finset.sum_congr rfl fun h _ => ?_
+        refine Finset.sum_congr rfl fun h' _ => ?_
+        ring
+      rw [Finset.sum_congr rfl (fun a _ => hstep a), ← Finset.mul_sum]
+      congr 1
+      -- pull the `∑ a` inside past `∑ h, ∑ h'` and apply `hasum`.
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl fun h _ => ?_
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl fun h' _ => ?_
+      rw [← Finset.sum_mul, hasum g h h']
+      ring
+    -- Final norm computation.
+    have hconv : (∑ x : A ⋊[φ] G, (V χ U).character x * (V χ U).character x⁻¹)
+        = ∑ a : A, ∑ g : G, (V χ U).character ⟨a, g⟩ * (V χ U).character ⟨a, g⟩⁻¹ := by
+      rw [← Equiv.sum_comp (SemidirectProduct.equivProd (φ := φ)).symm, Fintype.sum_prod_type]
+      rfl
+    rw [FDRep.simple_iff_char_is_norm_one, hconv, Finset.sum_comm,
+        Finset.sum_congr rfl (fun g _ => hg_eq g)]
+    -- `∑ g, s⁻² ∑h∑h' (if .. cardA)·Uc·Uc`; factor out constants and `cardA`.
+    rw [← Finset.mul_sum]
+    have hcardA : ∀ g : G, (∑ h : G, ∑ h' : G,
+        (if h * g * h'⁻¹ ∈ stab χ then (Fintype.card A : ℂ) else 0)
+          * Uc (h * g * h⁻¹) * Uc (h' * g⁻¹ * h'⁻¹))
+        = (Fintype.card A : ℂ) * ∑ h : G, ∑ h' : G,
+            (if h * g * h'⁻¹ ∈ stab χ then (1 : ℂ) else 0)
+              * Uc (h * g * h⁻¹) * Uc (h' * g⁻¹ * h'⁻¹) := by
+      intro g
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun h _ => ?_
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun h' _ => ?_
+      by_cases hmem : h * g * h'⁻¹ ∈ stab χ
+      · rw [if_pos hmem, if_pos hmem]; ring
+      · rw [if_neg hmem, if_neg hmem]; ring
+    rw [Finset.sum_congr rfl (fun g _ => hcardA g), ← Finset.mul_sum, hreindex, hUnorm]
+    -- Now the scalar identity `s⁻² · cardA · (cardG · s · s) = cardA · cardG = card (A⋊G)`.
+    have hs_ne : (Fintype.card ↥(stab χ) : ℂ) ≠ 0 := by
+      have : Fintype.card ↥(stab χ) ≠ 0 := Fintype.card_ne_zero
+      exact_mod_cast this
+    have hcard : (Nat.card (A ⋊[φ] G) : ℂ) = (Fintype.card A : ℂ) * (Fintype.card G : ℂ) := by
+      rw [Nat.card_eq_fintype_card,
+        Fintype.card_congr (SemidirectProduct.equivProd (φ := φ)), Fintype.card_prod]
+      push_cast
+      ring
+    rw [hcard]
+    field_simp
   · -- Part (ii): pairwise non-isomorphism.
     -- Strategy: an isomorphism `V χ₁ U₁ ≅ V χ₂ U₂` forces equal characters; feeding the
     -- character formula (iv) into `⟨χ_{V χ₁ U₁}, χ_{V χ₂ U₂}⟩ ≠ 0` forces the orbit data to
