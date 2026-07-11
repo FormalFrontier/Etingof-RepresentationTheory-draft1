@@ -515,4 +515,217 @@ theorem barModule_hom_ext {n m : ℕ}
 
 end BarFaces
 
+/-! ### The simplicial identity `barFace i ∘ barFace j = barFace (j-1) ∘ barFace i` and `d ∘ d = 0`
+
+We present each *merge* face (faces `0 … n`) uniformly as a single `Fin.contractNth` on the tuple
+`Fin.cons a₀ v` obtained by prepending the leading `A`-factor `a₀` to the middle tensor `v`
+(`barFace_castSucc_apply`).  With this description the simplicial identity among merge faces is
+exactly `contractNth_contractNth`; only the interactions with the *last* face (which acts the
+trailing factor on `W`) need separate treatment. -/
+
+section BarSquareZero
+
+/-- Contracting the tuple `Fin.cons a g` at a positive slot `i.succ` leaves the leading entry `a`
+untouched and contracts `g` at slot `i`. -/
+theorem contractNth_succ_cons {m : ℕ} (a : A) (g : Fin (m + 1) → A) (i : Fin (m + 1)) :
+    Fin.contractNth i.succ (· * ·) (Fin.cons a g)
+      = Fin.cons a (Fin.contractNth i (· * ·) g) := by
+  funext k
+  refine Fin.cases ?_ (fun p => ?_) k
+  · rw [Fin.contractNth_apply_of_lt _ _ _ _ (by simp only [Fin.val_zero, Fin.val_succ]; omega),
+        Fin.castSucc_zero, Fin.cons_zero, Fin.cons_zero]
+  · rw [Fin.cons_succ]
+    rcases lt_trichotomy (p : ℕ) (i : ℕ) with h | h | h
+    · rw [Fin.contractNth_apply_of_lt _ _ _ _ (by simp only [Fin.val_succ]; omega),
+          Fin.contractNth_apply_of_lt _ _ _ _ h, ← Fin.succ_castSucc, Fin.cons_succ]
+    · rw [Fin.contractNth_apply_of_eq _ _ _ _ (by simp only [Fin.val_succ]; omega),
+          Fin.contractNth_apply_of_eq _ _ _ _ h, ← Fin.succ_castSucc, Fin.cons_succ, Fin.cons_succ]
+    · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simp only [Fin.val_succ]; omega),
+          Fin.contractNth_apply_of_gt _ _ _ _ h, Fin.cons_succ]
+
+/-- Contracting `Fin.cons a g` at slot `0` merges `a` into `g 0` and shifts the rest down. -/
+theorem contractNth_zero_cons {m : ℕ} (a : A) (g : Fin (m + 1) → A) :
+    Fin.contractNth 0 (· * ·) (Fin.cons a g) = Fin.cons (a * g 0) (Fin.tail g) := by
+  funext k
+  refine Fin.cases ?_ (fun p => ?_) k
+  · rw [Fin.contractNth_apply_of_eq _ _ _ _ (by simp)]
+    simp
+  · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simp), Fin.cons_succ, Fin.cons_succ, Fin.tail]
+
+/-- **Uniform description of a merge face.** For `i : Fin (n+1)`, the merge face
+`barFace n i.castSucc`
+sends the generator `a₀ ⊗ (tprod v ⊗ w)` to the generator whose middle-and-leading tuple is
+`Fin.contractNth i.castSucc (·*·) (Fin.cons a₀ v)` (prepend `a₀` to `v`, then merge at slot `i`). -/
+theorem barFace_castSucc_apply (n : ℕ) (i : Fin (n + 1)) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
+    barFace k A W n i.castSucc (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = Fin.contractNth i.castSucc (· * ·) (Fin.cons a₀ v) 0 ⊗ₜ[k]
+          (tprod k (Fin.tail (Fin.contractNth i.castSucc (· * ·) (Fin.cons a₀ v))) ⊗ₜ[k] w) := by
+  refine Fin.cases ?_ (fun i' => ?_) i
+  · rw [Fin.castSucc_zero, barFace_zero_apply, contractNth_zero_cons, Fin.cons_zero, Fin.tail_cons]
+  · rw [barFace_interior_apply, ← Fin.succ_castSucc, contractNth_succ_cons, Fin.cons_zero,
+      Fin.tail_cons]
+
+/-- A *non-last* merge commutes with dropping the last entry: contracting at a slot `p.castSucc`
+(which never touches the final pair) equals contracting the truncation and re-appending the
+untouched final entry. -/
+theorem contractNth_castSucc_eq_snoc {m : ℕ} (p : Fin m) (u : Fin (m + 2) → A) :
+    Fin.contractNth p.castSucc.castSucc (· * ·) u
+      = Fin.snoc (Fin.contractNth p.castSucc (· * ·) (Fin.init u)) (u (Fin.last (m + 1))) := by
+  funext k
+  refine Fin.lastCases ?_ (fun k' => ?_) k
+  · rw [Fin.snoc_last, Fin.contractNth_apply_of_gt _ _ _ _
+        (by simp only [Fin.val_castSucc, Fin.val_last]; omega)]
+    congr 1
+  · rw [Fin.snoc_castSucc]
+    rcases lt_trichotomy (k' : ℕ) (p : ℕ) with h | h | h
+    · rw [Fin.contractNth_apply_of_lt _ _ _ _ (by simpa using h),
+          Fin.contractNth_apply_of_lt _ _ _ _ (by simpa using h), Fin.init]
+    · rw [Fin.contractNth_apply_of_eq _ _ _ _ (by simpa using h),
+          Fin.contractNth_apply_of_eq _ _ _ _ (by simpa using h), Fin.init, Fin.init,
+          ← Fin.succ_castSucc]
+    · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simpa using h),
+          Fin.contractNth_apply_of_gt _ _ _ _ (by simpa using h), Fin.init, ← Fin.succ_castSucc]
+
+/-- The *last-pair* merge, contracting the final two entries, keeps the leading block and appends
+their product. -/
+theorem contractNth_lastMerge_eq_snoc {m : ℕ} (u : Fin (m + 2) → A) :
+    Fin.contractNth (Fin.last m).castSucc (· * ·) u
+      = Fin.snoc (fun i : Fin m => u i.castSucc.castSucc)
+          (u (Fin.castSucc (Fin.last m)) * u (Fin.last (m + 1))) := by
+  funext k
+  refine Fin.lastCases ?_ (fun k' => ?_) k
+  · rw [Fin.snoc_last, Fin.contractNth_apply_of_eq _ _ _ _
+        (by simp only [Fin.val_castSucc, Fin.val_last]), Fin.succ_last]
+  · rw [Fin.snoc_castSucc, Fin.contractNth_apply_of_lt _ _ _ _
+        (by simp only [Fin.val_castSucc, Fin.val_last]; omega)]
+
+/-- **Simplicial identity for the bar faces.** For `i < j`,
+`barFace i ∘ barFace j = barFace (j-1) ∘ barFace i`, the merge-face version of `δᵢ δⱼ = δ_{j-1} δᵢ`.
+This is the combinatorial core of `d ∘ d = 0`. -/
+theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
+    (hij : (i : ℕ) < (j : ℕ)) :
+    (barFace k A W n i).comp (barFace k A W (n + 1) j)
+      = (barFace k A W n (j.pred (by rintro rfl; simp only [Fin.val_zero] at hij; omega))).comp
+          (barFace k A W (n + 1) i.castSucc) := by
+  apply barModule_hom_ext
+  intro a₀ v w
+  simp only [LinearMap.comp_apply]
+  rcases Fin.eq_castSucc_or_eq_last i with ⟨i₀, rfl⟩ | rfl <;>
+    rcases Fin.eq_castSucc_or_eq_last j with ⟨j₀, rfl⟩ | rfl
+  · -- (merge, merge)
+    have hj0 : j₀ ≠ 0 := by
+      rintro rfl; simp only [Fin.val_castSucc, Fin.val_zero] at hij; omega
+    have hpq : ((Fin.castSucc i₀ : Fin (n + 2)) : ℕ) < ((Fin.castSucc j₀ : Fin (n + 3)) : ℕ) := by
+      simpa using hij
+    rw [barFace_castSucc_apply, barFace_castSucc_apply, Fin.cons_self_tail,
+        ← Fin.castSucc_pred_eq_pred_castSucc, barFace_castSucc_apply, barFace_castSucc_apply,
+        Fin.cons_self_tail,
+        contractNth_contractNth (· * ·) mul_assoc (Fin.castSucc i₀) (Fin.castSucc j₀) hpq
+          (Fin.cons a₀ v), ← Fin.castSucc_pred_eq_pred_castSucc]
+    all_goals exact hj0
+  · -- (merge, last): case B
+    rw [barFace_last_apply, barFace_castSucc_apply, Fin.pred_last, barFace_castSucc_apply,
+        barFace_last_apply]
+    have hG : Fin.contractNth (Fin.castSucc i₀).castSucc (· * ·) (Fin.cons a₀ v)
+        = Fin.snoc (Fin.contractNth (Fin.castSucc i₀) (· * ·) (Fin.cons a₀ (Fin.init v)))
+            (v (Fin.last (n + 1))) := by
+      rw [contractNth_castSucc_eq_snoc]
+      congr 1
+      congr 1
+      funext j
+      refine Fin.cases ?_ (fun p => ?_) j
+      · simp [Fin.init]
+      · simp only [Fin.init, ← Fin.succ_castSucc, Fin.cons_succ]
+    rw [hG, Fin.snoc_apply_zero, ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
+    simp only [Fin.tail]
+    rw [Fin.succ_last, Fin.snoc_last]
+  · -- (last, merge): impossible from i < j
+    exfalso; simp only [Fin.val_last, Fin.val_castSucc] at hij; omega
+  · -- (last, last): case E
+    rw [barFace_last_apply, barFace_last_apply, Fin.pred_last, barFace_castSucc_apply,
+        barFace_last_apply, contractNth_lastMerge_eq_snoc, Fin.snoc_apply_zero,
+        ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
+    have hlead : (Fin.cons a₀ v : Fin (n + 3) → A) (Fin.castSucc 0).castSucc = a₀ := by simp
+    have hmid : (Fin.tail (fun i : Fin (n + 1) => (Fin.cons a₀ v : Fin (n + 3) → A)
+          i.castSucc.castSucc) : Fin n → A)
+        = Fin.init (Fin.init v) := by
+      funext i
+      simp only [Fin.tail, Fin.init]
+      rw [← Fin.succ_castSucc, ← Fin.succ_castSucc, Fin.cons_succ]
+    have hy1 : (Fin.cons a₀ v : Fin (n + 3) → A) (Fin.last (n + 1)).castSucc
+        = Fin.init v (Fin.last n) := by
+      simp only [Fin.init]
+      rw [show (Fin.last (n + 1)).castSucc = (Fin.castSucc (Fin.last n)).succ from by
+            rw [← Fin.succ_last, ← Fin.succ_castSucc], Fin.cons_succ]
+    have hy2 : (Fin.cons a₀ v : Fin (n + 3) → A) (Fin.last (n + 1 + 1)) = v (Fin.last (n + 1)) := by
+      rw [show (Fin.last (n + 1 + 1)) = (Fin.last (n + 1)).succ from (Fin.succ_last _).symm,
+          Fin.cons_succ]
+    rw [hlead, hmid]
+    simp only [Fin.tail]
+    rw [Fin.succ_last, Fin.snoc_last, hy1, hy2, mul_smul]
+
+/-- **`d ∘ d = 0`.** The composite of two consecutive bar differentials vanishes, so the bar terms
+and differentials assemble into a chain complex. -/
+theorem barDiff_comp_barDiff (n : ℕ) :
+    (barDiff k A W n).comp (barDiff k A W (n + 1)) = 0 := by
+  classical
+  refine LinearMap.ext fun x => ?_
+  simp only [LinearMap.comp_apply, barDiff_eq_sum_barFace, LinearMap.coe_sum, Finset.sum_apply,
+    LinearMap.smul_apply, LinearMap.zero_apply, map_sum, LinearMap.map_smul_of_tower,
+    Finset.smul_sum, smul_smul]
+  rw [Finset.sum_comm, ← Finset.sum_product']
+  set S : Finset (Fin (n + 2) × Fin (n + 3)) :=
+    Finset.univ.filter (fun p => (p.2 : ℕ) ≤ (p.1 : ℕ)) with hS
+  rw [Finset.univ_product_univ, ← Finset.sum_add_sum_compl S, ← eq_neg_iff_add_eq_zero,
+    ← Finset.sum_neg_distrib]
+  refine Finset.sum_bij
+    (fun p hp => (Fin.castLT p.2 (lt_of_le_of_lt
+        (by simpa [hS] using (Finset.mem_filter.mp hp).2) p.1.isLt), p.1.succ)) ?_ ?_ ?_ ?_
+  · -- lands in Sᶜ
+    intro p hp
+    have hji : (p.2 : ℕ) ≤ (p.1 : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hp).2
+    simp only [hS, Finset.mem_compl, Finset.mem_filter, Finset.mem_univ, true_and, not_le,
+      Fin.val_succ, Fin.val_castLT]
+    omega
+  · -- injective
+    rintro ⟨i, j⟩ hij ⟨i', j'⟩ hij' h
+    have h1 : (j : ℕ) = (j' : ℕ) := by simpa [Fin.val_castLT] using congrArg (fun q => (q.1 : ℕ)) h
+    have h2 : (i : ℕ) = (i' : ℕ) := by
+      have := congrArg (fun q => (q.2 : ℕ)) h
+      simpa [Fin.val_succ] using this
+    ext <;> assumption
+  · -- surjective
+    rintro ⟨i', j'⟩ hij'
+    have hlt : (i' : ℕ) < (j' : ℕ) := by
+      simpa [hS, Finset.mem_compl, Finset.mem_filter, not_le] using hij'
+    have hj0 : j' ≠ 0 := by rintro rfl; simp only [Fin.val_zero] at hlt; omega
+    refine ⟨(j'.pred hj0, Fin.castSucc i'), ?_, ?_⟩
+    · simp only [hS, Finset.mem_filter, Finset.mem_univ, true_and, Fin.val_castSucc,
+        Fin.val_pred]
+      omega
+    · simp only [Fin.castLT_castSucc, Fin.succ_pred]
+  · -- term identification
+    rintro ⟨i, j⟩ hij
+    have hji : (j : ℕ) ≤ (i : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hij).2
+    have hlt : ((Fin.castLT j (lt_of_le_of_lt hji i.isLt) : Fin (n + 2)) : ℕ) < (i.succ : ℕ) := by
+      simp only [Fin.val_castLT, Fin.val_succ]; omega
+    have key := LinearMap.congr_fun
+      (barFace_comp_barFace k A W n (Fin.castLT j (lt_of_le_of_lt hji i.isLt)) i.succ hlt) x
+    simp only [LinearMap.comp_apply] at key
+    rw [Fin.pred_succ, Fin.castSucc_castLT] at key
+    simp only [key, Fin.val_castLT, Fin.val_succ, ← neg_smul]
+    congr 1
+    rw [pow_succ]
+    ring
+
+/-- **The relative bar chain complex** `… → P₂ → P₁ → P₀` of a representation `W`, assembled from
+the projective bar terms `barObj` and the bar differential `barDiff` via `barDiff_comp_barDiff`. -/
+noncomputable def barComplex : ChainComplex (ModuleCat.{u} A) ℕ :=
+  ChainComplex.of (fun n => barObj k A W n) (fun n => ModuleCat.ofHom (barDiff k A W n))
+    (fun n => by
+      ext y
+      exact LinearMap.congr_fun (barDiff_comp_barDiff k A W n) y)
+
+end BarSquareZero
+
 end Etingof.BarResolution
