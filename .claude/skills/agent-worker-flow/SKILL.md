@@ -168,6 +168,16 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
+- **For "infra"/"helper" issues, check the deliverable does not already
+  exist** — possibly under a different name or in a differently-named file.
+  Planners write these without full codebase knowledge, and this repo has
+  many overlapping per-chapter files. Before writing any code, grep for the
+  target lemma name *and* its mathematical content (key symbols in the
+  statement, e.g. `character.*Nonempty.*≅`). An equivalent (or more general)
+  sorry-free lemma already present means the issue is redundant: point to it
+  in a comment and `skip` for the planner to close. Do not re-prove it under
+  a new name. (Seen with #6425, whose deliverable was already
+  `Etingof.charEq_iso` from an earlier PR.)
 - **For "final assembly" issues that consume prerequisites**: verify the
   infrastructure it depends on actually exists sorry-free. `check-blocked`
   unblocks an issue when its `depends-on` deps *close* — but a dep closed
