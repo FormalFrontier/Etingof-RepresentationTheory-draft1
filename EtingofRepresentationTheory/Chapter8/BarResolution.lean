@@ -728,4 +728,92 @@ noncomputable def barComplex : ChainComplex (ModuleCat.{u} A) ℕ :=
 
 end BarSquareZero
 
+/-! ### The `k`-linear contracting homotopy `s(x) = 1 ⊗ x` and exactness
+
+The relative bar resolution is `k`-split exact: the `k`-linear (NOT `A`-linear) contracting homotopy
+`s(a₀ ⊗ (tprod v ⊗ w)) = 1 ⊗ (tprod (Fin.cons a₀ v) ⊗ w)` inserts the leading `A`-factor into the
+tensor string, and satisfies the standard identities `ε ∘ s₋₁ = id`, `d₀ ∘ s₀ + s₋₁ ∘ ε = id`, and
+`d_{n+1} ∘ s_{n+1} + s_n ∘ d_n = id`.  On a pure generator the alternating faces telescope: the
+`s`-inserted leading `1` makes face `0` of the next differential undo the contraction, and the
+remaining `n+1` faces of `d ∘ s` match the `n+1` faces of `s ∘ d` with a sign shift.  Every map here
+is `k`-linear, so the successor issue can push exactness through the (exact, faithful)
+restriction-of-scalars functor to conclude `QuasiIso`. -/
+
+section BarContraction
+
+/-- The `k`-linear "cons" on tensor powers, `a ⊗ tprod v ↦ tprod (Fin.cons a v)`; the inverse
+direction of `barConsSplit`. -/
+noncomputable def barConsMerge (n : ℕ) : A ⊗[k] (⨂[k]^n A) →ₗ[k] ⨂[k]^(n + 1) A :=
+  TensorProduct.lift ((PiTensorProduct.lift (s := fun _ : Fin n => A)).toLinearMap.comp
+    (PiTensorProduct.tprod k
+      (s := fun _ : Fin (n + 1) => A)).curryLeft)
+
+omit [Module A W] [IsScalarTower k A W] in
+@[simp] theorem barConsMerge_tmul (n : ℕ) (a : A) (v : Fin n → A) :
+    barConsMerge k A n (a ⊗ₜ[k] tprod k v) = PiTensorProduct.tprod k (Fin.cons a v) := by
+  simp only [barConsMerge, TensorProduct.lift.tmul, LinearMap.comp_apply,
+    LinearEquiv.coe_coe, PiTensorProduct.lift.tprod, MultilinearMap.curryLeft_apply]
+
+/-- The `k`-linear contracting homotopy in degree `n`, inserting the leading `A`-factor into the
+tensor string: `s(a₀ ⊗ (tprod v ⊗ w)) = 1 ⊗ (tprod (Fin.cons a₀ v) ⊗ w)`. -/
+noncomputable def barContraction (n : ℕ) : barModule k A W n →ₗ[k] barModule k A W (n + 1) :=
+  oneTmul k A W (n + 1)
+    ∘ₗ (TensorProduct.map (barConsMerge k A n) LinearMap.id
+        ∘ₗ (TensorProduct.assoc k A (⨂[k]^n A) W).symm.toLinearMap)
+
+omit [Module A W] [IsScalarTower k A W] in
+@[simp] theorem barContraction_apply (n : ℕ) (a₀ : A) (v : Fin n → A) (w : W) :
+    barContraction k A W n (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = (1 : A) ⊗ₜ[k] (PiTensorProduct.tprod k (Fin.cons a₀ v) ⊗ₜ[k] w) := by
+  simp only [barContraction, LinearMap.comp_apply, LinearEquiv.coe_coe,
+    TensorProduct.assoc_symm_tmul, TensorProduct.map_tmul, barConsMerge_tmul, LinearMap.id_coe,
+    id_eq, oneTmul_apply]
+
+/-- The base contracting homotopy `s₋₁ : W → P₀`, `w ↦ 1 ⊗ (unit ⊗ w)`. -/
+noncomputable def barContractionBase : W →ₗ[k] barModule k A W 0 :=
+  oneTmul k A W 0 ∘ₗ (barCoeffZeroEquiv k A W).symm.toLinearMap
+
+omit [Module A W] [IsScalarTower k A W] in
+@[simp] theorem barContractionBase_apply (w : W) :
+    barContractionBase k A W w = (1 : A) ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w := by
+  simp [barContractionBase]
+
+omit [Module A W] [IsScalarTower k A W] in
+/-- The inverse identification: any `tprod (u : Fin 0 → A) ⊗ w` (empty tensor power) is
+`(barCoeffZeroEquiv).symm w`, since the empty `tprod` maps to `1`. -/
+theorem barCoeffZeroEquiv_symm_tmul (u : Fin 0 → A) (y : W) :
+    (barCoeffZeroEquiv k A W).symm y = tprod k u ⊗ₜ[k] y := by
+  apply (barCoeffZeroEquiv k A W).injective
+  rw [LinearEquiv.apply_symm_apply]
+  simp [barCoeffZeroEquiv, PiTensorProduct.isEmptyEquiv_apply_tprod]
+
+omit [Module A W] [IsScalarTower k A W] in
+/-- Two `k`-linear maps out of a bar term agree once they agree on the pure generators
+`a₀ ⊗ (tprod v ⊗ w)`. -/
+theorem barModule_hom_ext_k {n : ℕ} {X : Type u} [AddCommGroup X] [Module k X]
+    {F G : barModule k A W n →ₗ[k] X}
+    (h : ∀ (a₀ : A) (v : Fin n → A) (w : W),
+      F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
+    F = G := by
+  refine TensorProduct.ext' fun a₀ c => ?_
+  induction c using TensorProduct.induction_on with
+  | zero => simp
+  | tmul p w =>
+      induction p using PiTensorProduct.induction_on with
+      | smul_tprod r v =>
+          simp only [← TensorProduct.smul_tmul', TensorProduct.tmul_smul,
+            LinearMap.map_smul_of_tower]
+          rw [h a₀ v w]
+      | add x y hx hy =>
+          rw [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, map_add, hx, hy]
+  | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, hx, hy]
+
+/-- **Homotopy identity (base).** `ε ∘ s₋₁ = id` on `W`. -/
+theorem ε_comp_barContractionBase :
+    ((ε k A W).restrictScalars k).comp (barContractionBase k A W) = LinearMap.id := by
+  ext w
+  simp [barContractionBase_apply, ε_tmul, one_smul]
+
+end BarContraction
+
 end Etingof.BarResolution
