@@ -814,6 +814,31 @@ theorem ε_comp_barContractionBase :
   ext w
   simp [barContractionBase_apply, ε_tmul, one_smul]
 
+/-- **Homotopy identity (degree 0).** `d₀ ∘ s₀ + s₋₁ ∘ ε = id` on `P₀`. -/
+theorem barDiff_zero_comp_barContraction_add :
+    ((barDiff k A W 0).restrictScalars k).comp (barContraction k A W 0)
+      + (barContractionBase k A W).comp ((ε k A W).restrictScalars k) = LinearMap.id := by
+  apply barModule_hom_ext_k
+  intro a₀ v w
+  have hε : barCoeffZeroEquiv k A W (tprod k v ⊗ₜ[k] w) = w :=
+    ((LinearEquiv.symm_apply_eq (barCoeffZeroEquiv k A W)).1
+      (barCoeffZeroEquiv_symm_tmul k A W v w)).symm
+  simp only [LinearMap.add_apply, LinearMap.comp_apply, LinearMap.coe_restrictScalars,
+    LinearMap.id_coe, id_eq, barContraction_apply, ε_tmul, hε]
+  rw [barDiff_tmul_tprod]
+  simp only [Finset.univ_eq_empty, Finset.sum_empty, add_zero, Fin.cons_zero, one_mul,
+    Fin.tail_cons, zero_add, pow_one]
+  have einit : Fin.init (Fin.cons (α := fun _ : Fin 1 => A) a₀ v) = v :=
+    funext fun i => i.elim0
+  rw [show (Fin.last 0 : Fin (0 + 1)) = 0 from Fin.ext rfl, Fin.cons_zero, einit]
+  have hbase : barContractionBase k A W (a₀ • w)
+      = (1 : A) ⊗ₜ[k] (tprod k v ⊗ₜ[k] (a₀ • w)) := by
+    rw [barContractionBase_apply]
+    congr 1
+    exact barCoeffZeroEquiv_symm_tmul k A W v (a₀ • w)
+  rw [hbase, neg_one_smul]
+  abel
+
 end BarContraction
 
 end Etingof.BarResolution
