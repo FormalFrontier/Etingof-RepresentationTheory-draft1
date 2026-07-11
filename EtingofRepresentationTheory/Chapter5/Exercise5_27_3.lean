@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
+import EtingofRepresentationTheory.Chapter5.CharEqIso
 
 /-!
 # Exercise 5.27.3: deduce parts (i)–(iii) of Theorem 5.27.1 from part (iv)
@@ -118,14 +119,14 @@ theorem Exercise5_27_3
     (∀ (W : FDRep ℂ (A ⋊[φ] G)), Simple W →
         ∃ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
           Simple U ∧ Nonempty (W ≅ V χ U)) := by
-  refine ⟨?_, ?_, ?_⟩
-  · -- Part (i): irreducibility of `V χ U`.
-    -- Strategy (character orthogonality): from the character formula (iv), compute the norm
-    -- `∑_{x ∈ A ⋊ G} χ_{V χ U}(x) χ_{V χ U}(x⁻¹) = |A ⋊ G|`. Two conjugation reindexings of
-    -- the internal `G`-sums collapse the induced-character norm to `|G|·|G_χ|·⟨χ_U, χ_U⟩`,
-    -- which is `|G|·|G_χ|·|G_χ|` since `U` is simple (`simple_iff_char_is_norm_one`). Combined
-    -- with the `|A|` from character orthogonality on `A` and the `|G_χ|⁻²` prefactor, the norm
-    -- is exactly `|A|·|G| = |A ⋊ G|`; the converse `simple_iff_char_is_norm_one` gives `Simple`.
+  -- Part (i): irreducibility of `V χ U` — hoisted as `hVsimple` so parts (i) and (ii) share it.
+  -- Strategy (character orthogonality): from the character formula (iv), compute the norm
+  -- `∑_{x ∈ A ⋊ G} χ_{V χ U}(x) χ_{V χ U}(x⁻¹) = |A ⋊ G|`. Two conjugation reindexings of
+  -- the internal `G`-sums collapse the induced-character norm to `|G|·|G_χ|·⟨χ_U, χ_U⟩`,
+  -- which is `|G|·|G_χ|·|G_χ|` since `U` is simple (`simple_iff_char_is_norm_one`). Combined
+  -- with the `|A|` from character orthogonality on `A` and the `|G_χ|⁻²` prefactor, the norm
+  -- is exactly `|A|·|G| = |A ⋊ G|`; the converse `simple_iff_char_is_norm_one` gives `Simple`.
+  have hVsimple : ∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)), Simple U → Simple (V χ U) := by
     intro χ U hU
     classical
     haveI : Fintype (A ⋊[φ] G) :=
@@ -395,6 +396,7 @@ theorem Exercise5_27_3
       ring
     rw [hcard]
     field_simp
+  refine ⟨hVsimple, ?_, ?_⟩
   · -- Part (ii): pairwise non-isomorphism.
     -- Strategy: an isomorphism `V χ₁ U₁ ≅ V χ₂ U₂` forces equal characters; feeding the
     -- character formula (iv) into `⟨χ_{V χ₁ U₁}, χ_{V χ₂ U₂}⟩ ≠ 0` forces the orbit data to
