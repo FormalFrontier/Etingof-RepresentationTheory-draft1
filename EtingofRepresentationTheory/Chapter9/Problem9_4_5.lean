@@ -157,6 +157,123 @@ theorem homClassVector_add_quotient
   push_cast
   ring
 
+section DirectSum
+
+open scoped DirectSum
+
+attribute [local instance] Module.Free.of_divisionRing
+
+/-- **Class-vector is a linear-isomorphism invariant.** If `M ≃ₗ[A] N` then `homClassVector P`
+agrees on `M` and `N`: post-composition with the `A`-linear isomorphism is a `k`-linear
+isomorphism `Hom_A(Pᵢ, M) ≃ₗ[k] Hom_A(Pᵢ, N)`, so the two `Hom`-dimensions coincide. -/
+theorem homClassVector_congr
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    {M : Type*} [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M]
+    [SMulCommClass A k M]
+    {N : Type*} [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
+    [SMulCommClass A k N]
+    (e : M ≃ₗ[A] N) :
+    homClassVector (k := k) (A := A) P M = homClassVector (k := k) (A := A) P N := by
+  funext i
+  simp only [homClassVector]
+  congr 1
+  refine LinearEquiv.finrank_eq
+    { toFun := fun f => e.toLinearMap.comp f
+      invFun := fun f => e.symm.toLinearMap.comp f
+      map_add' := fun f g => by ext x; simp
+      map_smul' := fun c f => by
+        ext x; simpa using LinearMapClass.map_smul_of_tower e c (f x)
+      left_inv := fun f => by ext x; simp
+      right_inv := fun f => by ext x; simp }
+
+/-- **Class-vector additivity over finite products.** For a finite family `Q : σ → Type*` of
+`A`-modules that are finite `k`-vector spaces, `homClassVector P (∀ s, Q s) = ∑ s, homClassVector
+P (Q s)`. `Hom_A(Pᵢ, ∏ₛ Qₛ) ≃ₗ[k] ∏ₛ Hom_A(Pᵢ, Qₛ)` (products commute with `Hom` in the second
+argument), and `finrank` of a finite product is the sum of the `finrank`s. -/
+theorem homClassVector_pi
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, Module.Finite k (P i)]
+    {σ : Type*} [Fintype σ] (Q : σ → Type*)
+    [∀ s, AddCommGroup (Q s)] [∀ s, Module A (Q s)] [∀ s, Module k (Q s)]
+    [∀ s, IsScalarTower k A (Q s)] [∀ s, SMulCommClass A k (Q s)] [∀ s, Module.Finite k (Q s)] :
+    homClassVector (k := k) (A := A) P (∀ s, Q s) =
+      ∑ s, homClassVector (k := k) (A := A) P (Q s) := by
+  funext l
+  rw [Finset.sum_apply]
+  simp only [homClassVector]
+  rw [← Nat.cast_sum]
+  congr 1
+  rw [LinearEquiv.finrank_eq
+    (show (P l →ₗ[A] ∀ s, Q s) ≃ₗ[k] ∀ s, (P l →ₗ[A] Q s) from
+      { toFun := fun f s => (LinearMap.proj s).comp f
+        invFun := fun g => LinearMap.pi g
+        map_add' := fun f g => by funext s; ext x; simp
+        map_smul' := fun c f => by funext s; ext x; simp
+        left_inv := fun f => by
+          refine LinearMap.ext fun x => ?_; funext s; simp
+        right_inv := fun g => by funext s; ext x; simp })]
+  exact Module.finrank_pi_fintype k
+
+/-- **Class-vector additivity over finite direct sums.** Same statement as `homClassVector_pi`
+for the internal direct sum `⨁ s, Q s`, which is `A`-linearly isomorphic to the product for a
+finite index type. -/
+theorem homClassVector_directSum
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, Module.Finite k (P i)]
+    {σ : Type*} [Fintype σ] (Q : σ → Type*)
+    [∀ s, AddCommGroup (Q s)] [∀ s, Module A (Q s)] [∀ s, Module k (Q s)]
+    [∀ s, IsScalarTower k A (Q s)] [∀ s, SMulCommClass A k (Q s)] [∀ s, Module.Finite k (Q s)] :
+    homClassVector (k := k) (A := A) P (⨁ s, Q s) =
+      ∑ s, homClassVector (k := k) (A := A) P (Q s) := by
+  rw [homClassVector_congr P (DirectSum.linearEquivFunOnFintype A σ Q)]
+  exact homClassVector_pi P Q
+
+/-- **Cartan-matrix class vector of a `Pᵢ`-isotypic projective.** For a multiplicity vector
+`a : ι → ℕ`, the direct sum `⨁ᵢ Pᵢ^{aᵢ}` (encoded as `⨁ (p : Σ i, Fin (a i)), P p.1`) has class
+vector `C.mulVec a`, where `C` is the (`ℤ`-cast) Cartan matrix. This is `homClassVector_directSum`
+combined with `homClassVector_proj_eq_cartan_col` (each `Pⱼ` contributes column `j` of `C`) and
+the reindexing `∑_{p : Σ i, Fin (a i)} f p.1 = ∑ᵢ (a i) • f i`. -/
+theorem homClassVector_isotypic
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} [Fintype ι] (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)] [∀ i, Module.Finite k (P i)]
+    (a : ι → ℕ) :
+    homClassVector (k := k) (A := A) P (⨁ p : (Σ i, Fin (a i)), P p.1) =
+      ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec
+        (fun i => (a i : ℤ)) := by
+  rw [homClassVector_directSum P (fun p : (Σ i, Fin (a i)) => P p.1)]
+  funext l
+  rw [Finset.sum_apply, Fintype.sum_sigma]
+  simp only [homClassVector_proj_eq_cartan_col, Matrix.mulVec, dotProduct]
+  refine Finset.sum_congr rfl (fun i _ => ?_)
+  rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin]
+  rw [nsmul_eq_mul, mul_comm]
+
+/-- **Class vector of a projective isomorphic to `⨁ᵢ Pᵢ^{aᵢ}`.** Krull–Schmidt-friendly form of
+`homClassVector_isotypic`: if `N` is `A`-linearly isomorphic to `⨁ᵢ Pᵢ^{aᵢ}` then its class
+vector is `C.mulVec a`. This is the form the Euler-characteristic step of Problem 9.4.5(i)
+consumes for each projective in a finite resolution of a simple module. -/
+theorem homClassVector_eq_mulVec_of_equiv
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} [Fintype ι] (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)] [∀ i, Module.Finite k (P i)]
+    (a : ι → ℕ) {N : Type*} [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
+    [SMulCommClass A k N] (e : N ≃ₗ[A] ⨁ p : (Σ i, Fin (a i)), P p.1) :
+    homClassVector (k := k) (A := A) P N =
+      ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec
+        (fun i => (a i : ℤ)) := by
+  rw [homClassVector_congr P e, homClassVector_isotypic]
+
+end DirectSum
+
 /-- **Problem 9.4.5 (i).** If the finite dimensional algebra `A` has finite homological
 dimension, then the determinant of its Cartan matrix `C` is `±1`.
 
