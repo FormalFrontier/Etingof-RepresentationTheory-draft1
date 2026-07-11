@@ -7334,7 +7334,7 @@
     "start_line": 7,
     "end_line": 10,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1). #6381 DONE: homologicalDimension_polynomial_quotient_eq_top is sorry-free (Chapter9/TruncatedPolynomial.lean), plus reusable Etingof.homologicalDimension_eq_top reduction lemma (Chapter9/HomologicalDimensionReduction.lean). Proof avoids explicit Ext periodicity: uses the two multiplication SESs (t) ↔ (tⁿ⁻¹) with R free, dimension shifting (Problem942.hasProjectiveDimensionLE_syzygy), and a symmetric induction from non-projectivity of the two cyclic modules. Still sorry: cartan_det_eq_pm_one (#6384), homologicalDimension_problem932_eq_top (#6382)."
+    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1). #6381 DONE: homologicalDimension_polynomial_quotient_eq_top is sorry-free (Chapter9/TruncatedPolynomial.lean), plus reusable Etingof.homologicalDimension_eq_top reduction lemma (Chapter9/HomologicalDimensionReduction.lean). Proof avoids explicit Ext periodicity: uses the two multiplication SESs (t) ↔ (tⁿ⁻¹) with R free, dimension shifting (Problem942.hasProjectiveDimensionLE_syzygy), and a symmetric induction from non-projectivity of the two cyclic modules. #6382 DONE: homologicalDimension_problem932_eq_top PROVED sorry-free: added P₊/P₋ projective + mirror SES 0→S₊→P₋→S₋→0 to Problem9_3_2, the reusable Etingof.homologicalDimension_eq_top_of_forall reduction, and the 2-periodic Ext-nonvanishing Ext^{2j+1}(S₊,S₋)≠0. Still sorry: cartan_det_eq_pm_one (#6384, needs K₀/Euler-characteristic)."
   },
   {
     "id": "Chapter9/Problem9.4.6",
@@ -7345,7 +7345,7 @@
     "start_line": 11,
     "end_line": 14,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass in Chapter9/Problem9_4_6.lean (#5928): (i) homologicalDimension_pathAlgebra_eq_one, homologicalDimension_freeAlgebra_eq_one; (ii) cartanMatrix_pathAlgebra_eq_pathCount. Proofs sorry."
+    "coverage_note": "Statement pass in Chapter9/Problem9_4_6.lean (#5928). (ii) cartanMatrix_pathAlgebra_eq_pathCount proved sorry-free. (i) upper-bound lemma hasHomologicalDimensionLE_pathAlgebra_one stated with strategy docstring, proof sorry (Deliverable-2 escalation, #6412): full proof = standard length-1 projective resolution via noncommutative induction A ⊗_S − (commutative extendScalars inapplicable: vertex idempotents non-central); tracked in #6420. homologicalDimension_{pathAlgebra,freeAlgebra}_eq_one still sorry."
   },
   {
     "id": "Chapter9/Introduction_9.5",

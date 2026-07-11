@@ -2,6 +2,7 @@ import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Algebra.Group.Int.Units
 import Mathlib.RingTheory.Ideal.Quotient.Defs
+import Mathlib.Data.ENat.Lattice
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
@@ -52,6 +53,19 @@ universe u
 
 open scoped Polynomial
 
+open CategoryTheory
+
+/-- **Reduction to unbounded projective dimension.** If a ring `R` has homological dimension
+`≤ d` for *no* `d`, then its homological dimension is `⊤`. Each inner infimum in
+`homologicalDimension R = ⨅ d (_ : HasHomologicalDimensionLE R d), (d : ℕ∞)` ranges over a
+false proposition, so the whole infimum is `⊤`. -/
+theorem Etingof.homologicalDimension_eq_top_of_forall {R : Type u} [Ring R]
+    (h : ∀ d, ¬ Etingof.HasHomologicalDimensionLE R d) :
+    Etingof.homologicalDimension R = ⊤ := by
+  refine le_antisymm le_top ?_
+  unfold Etingof.homologicalDimension
+  exact le_iInf₂ (fun d hd => absurd hd (h d))
+
 namespace Etingof.Problem945
 
 /-- **Matrix-algebra reduction.** An integer square matrix with an integer right inverse has
@@ -63,6 +77,202 @@ theorem det_eq_pm_one_of_mul_eq_one
     {ι : Type*} [Fintype ι] [DecidableEq ι] (C D : Matrix ι ι ℤ) (h : C * D = 1) :
     C.det = 1 ∨ C.det = -1 :=
   Int.eq_one_or_neg_one_of_mul_eq_one (by rw [← Matrix.det_mul, h, Matrix.det_one])
+
+/-- **Matrix assembly.** If every standard basis vector `eⱼ = Pi.single j 1` lies in the
+`ℤ`-column span of `C` (i.e. `C.mulVec d = eⱼ` for some integer vector `d`), then `C` has an
+integer right inverse `D`. Assemble `D` column by column from the witnessing vectors: column
+`j` of `D` is the vector `d` with `C.mulVec d = eⱼ`, so column `j` of `C * D` is `eⱼ`, giving
+`C * D = 1`. This packages the `K₀` change-of-basis identity `C · D = 1` into the elementary
+`∃ D, C * D = 1` consumed by `det_eq_pm_one_of_mul_eq_one`. -/
+theorem exists_right_inverse_of_forall_mulVec
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (C : Matrix ι ι ℤ)
+    (h : ∀ j, ∃ d : ι → ℤ, C.mulVec d = Pi.single j 1) :
+    ∃ D : Matrix ι ι ℤ, C * D = 1 := by
+  choose d hd using h
+  refine ⟨Matrix.of fun i j => d j i, ?_⟩
+  ext i j
+  have hcol : (C * Matrix.of fun i j => d j i) i j = C.mulVec (d j) i := by
+    simp only [Matrix.mul_apply, Matrix.mulVec, Matrix.of_apply, dotProduct]
+  rw [hcol, hd j]
+  simp [Pi.single_apply, Matrix.one_apply, eq_comm]
+
+/-- **Composition-multiplicity class vector.** For an `A`-module `N`, the vector in `ℤ^ι`
+whose `i`-th entry is `dim_k Hom_A(Pᵢ, N)`. By Proposition 9.2.3
+(`Etingof.projective_cover_hom_multiplicity`) this equals the Jordan–Hölder multiplicity
+vector `([N : Mᵢ])ᵢ`, but the `Hom`-dimension form is manifestly independent of any choice
+of composition series and is additive on short exact sequences by
+`finrank_hom_additive_of_projective`. This is the concrete `K₀`-class function the Cartan
+determinant argument runs on. -/
+noncomputable def homClassVector
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    (N : Type*) [AddCommGroup N] [Module A N] [Module k N] [SMulCommClass A k N] : ι → ℤ :=
+  fun i => (Module.finrank k (P i →ₗ[A] N) : ℤ)
+
+/-- The class vector of the projective indecomposable `Pⱼ` is column `j` of the Cartan matrix:
+`homClassVector P (P j) i = Cᵢⱼ`. This is immediate from the definition of the Cartan matrix
+(`Etingof.algebraCartanMatrix`), whose `(i, j)` entry is exactly `dim_k Hom_A(Pᵢ, Pⱼ)`. -/
+theorem homClassVector_proj_eq_cartan_col
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, SMulCommClass A k (P i)] (i j : ι) :
+    homClassVector (k := k) (A := A) P (P j) i =
+      ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)) i j := by
+  simp [homClassVector, Etingof.algebraCartanMatrix]
+
+/-- The class vector of the simple module `Mⱼ` is the standard basis vector `eⱼ`, from the
+essential-cover identity `dim_k Hom_A(Pᵢ, Mⱼ) = δᵢⱼ` (`hP_cover`). -/
+theorem homClassVector_simple_eq_single
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} [DecidableEq ι] (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)] [∀ i, Module k (M i)]
+    [∀ i, SMulCommClass A k (M i)]
+    (hP_cover : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0) (j : ι) :
+    homClassVector (k := k) (A := A) P (M j) = Pi.single j 1 := by
+  funext i
+  simp only [homClassVector, hP_cover i j, Pi.single_apply]
+  split <;> simp_all [eq_comm]
+
+/-- **Class-vector additivity on short exact sequences.** For a submodule `N' ≤ N`,
+`homClassVector P N = homClassVector P N' + homClassVector P (N ⧸ N')`. Entrywise this is
+`finrank_hom_additive_of_projective` (Hom_A(Pᵢ, −) is exact on the short exact sequence
+`0 → N' → N → N/N' → 0` because each `Pᵢ` is projective), cast to `ℤ`. -/
+theorem homClassVector_add_quotient
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, Module.Projective A (P i)] [∀ i, IsScalarTower k A (P i)]
+    [∀ i, SMulCommClass A k (P i)] [∀ i, Module.Finite k (P i)]
+    (N : Type*) [AddCommGroup N] [Module A N] [Module k N]
+    [IsScalarTower k A N] [SMulCommClass A k N] [Module.Finite k N]
+    (N' : Submodule A N) :
+    homClassVector (k := k) (A := A) P N =
+      homClassVector (k := k) (A := A) P N' + homClassVector (k := k) (A := A) P (N ⧸ N') := by
+  funext i
+  simp only [homClassVector, Pi.add_apply]
+  rw [finrank_hom_additive_of_projective (P := P i) N']
+  push_cast
+  ring
+
+section DirectSum
+
+open scoped DirectSum
+
+attribute [local instance] Module.Free.of_divisionRing
+
+/-- **Class-vector is a linear-isomorphism invariant.** If `M ≃ₗ[A] N` then `homClassVector P`
+agrees on `M` and `N`: post-composition with the `A`-linear isomorphism is a `k`-linear
+isomorphism `Hom_A(Pᵢ, M) ≃ₗ[k] Hom_A(Pᵢ, N)`, so the two `Hom`-dimensions coincide. -/
+theorem homClassVector_congr
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    {M : Type*} [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower k A M]
+    [SMulCommClass A k M]
+    {N : Type*} [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
+    [SMulCommClass A k N]
+    (e : M ≃ₗ[A] N) :
+    homClassVector (k := k) (A := A) P M = homClassVector (k := k) (A := A) P N := by
+  funext i
+  simp only [homClassVector]
+  congr 1
+  refine LinearEquiv.finrank_eq
+    { toFun := fun f => e.toLinearMap.comp f
+      invFun := fun f => e.symm.toLinearMap.comp f
+      map_add' := fun f g => by ext x; simp
+      map_smul' := fun c f => by
+        ext x; simpa using LinearMapClass.map_smul_of_tower e c (f x)
+      left_inv := fun f => by ext x; simp
+      right_inv := fun f => by ext x; simp }
+
+/-- **Class-vector additivity over finite products.** For a finite family `Q : σ → Type*` of
+`A`-modules that are finite `k`-vector spaces, `homClassVector P (∀ s, Q s) = ∑ s, homClassVector
+P (Q s)`. `Hom_A(Pᵢ, ∏ₛ Qₛ) ≃ₗ[k] ∏ₛ Hom_A(Pᵢ, Qₛ)` (products commute with `Hom` in the second
+argument), and `finrank` of a finite product is the sum of the `finrank`s. -/
+theorem homClassVector_pi
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, Module.Finite k (P i)]
+    {σ : Type*} [Fintype σ] (Q : σ → Type*)
+    [∀ s, AddCommGroup (Q s)] [∀ s, Module A (Q s)] [∀ s, Module k (Q s)]
+    [∀ s, IsScalarTower k A (Q s)] [∀ s, SMulCommClass A k (Q s)] [∀ s, Module.Finite k (Q s)] :
+    homClassVector (k := k) (A := A) P (∀ s, Q s) =
+      ∑ s, homClassVector (k := k) (A := A) P (Q s) := by
+  funext l
+  rw [Finset.sum_apply]
+  simp only [homClassVector]
+  rw [← Nat.cast_sum]
+  congr 1
+  rw [LinearEquiv.finrank_eq
+    (show (P l →ₗ[A] ∀ s, Q s) ≃ₗ[k] ∀ s, (P l →ₗ[A] Q s) from
+      { toFun := fun f s => (LinearMap.proj s).comp f
+        invFun := fun g => LinearMap.pi g
+        map_add' := fun f g => by funext s; ext x; simp
+        map_smul' := fun c f => by funext s; ext x; simp
+        left_inv := fun f => by
+          refine LinearMap.ext fun x => ?_; funext s; simp
+        right_inv := fun g => by funext s; ext x; simp })]
+  exact Module.finrank_pi_fintype k
+
+/-- **Class-vector additivity over finite direct sums.** Same statement as `homClassVector_pi`
+for the internal direct sum `⨁ s, Q s`, which is `A`-linearly isomorphic to the product for a
+finite index type. -/
+theorem homClassVector_directSum
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, Module.Finite k (P i)]
+    {σ : Type*} [Fintype σ] (Q : σ → Type*)
+    [∀ s, AddCommGroup (Q s)] [∀ s, Module A (Q s)] [∀ s, Module k (Q s)]
+    [∀ s, IsScalarTower k A (Q s)] [∀ s, SMulCommClass A k (Q s)] [∀ s, Module.Finite k (Q s)] :
+    homClassVector (k := k) (A := A) P (⨁ s, Q s) =
+      ∑ s, homClassVector (k := k) (A := A) P (Q s) := by
+  rw [homClassVector_congr P (DirectSum.linearEquivFunOnFintype A σ Q)]
+  exact homClassVector_pi P Q
+
+/-- **Cartan-matrix class vector of a `Pᵢ`-isotypic projective.** For a multiplicity vector
+`a : ι → ℕ`, the direct sum `⨁ᵢ Pᵢ^{aᵢ}` (encoded as `⨁ (p : Σ i, Fin (a i)), P p.1`) has class
+vector `C.mulVec a`, where `C` is the (`ℤ`-cast) Cartan matrix. This is `homClassVector_directSum`
+combined with `homClassVector_proj_eq_cartan_col` (each `Pⱼ` contributes column `j` of `C`) and
+the reindexing `∑_{p : Σ i, Fin (a i)} f p.1 = ∑ᵢ (a i) • f i`. -/
+theorem homClassVector_isotypic
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} [Fintype ι] (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)] [∀ i, Module.Finite k (P i)]
+    (a : ι → ℕ) :
+    homClassVector (k := k) (A := A) P (⨁ p : (Σ i, Fin (a i)), P p.1) =
+      ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec
+        (fun i => (a i : ℤ)) := by
+  rw [homClassVector_directSum P (fun p : (Σ i, Fin (a i)) => P p.1)]
+  funext l
+  rw [Finset.sum_apply, Fintype.sum_sigma]
+  simp only [homClassVector_proj_eq_cartan_col, Matrix.mulVec, dotProduct]
+  refine Finset.sum_congr rfl (fun i _ => ?_)
+  rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin]
+  rw [nsmul_eq_mul, mul_comm]
+
+/-- **Class vector of a projective isomorphic to `⨁ᵢ Pᵢ^{aᵢ}`.** Krull–Schmidt-friendly form of
+`homClassVector_isotypic`: if `N` is `A`-linearly isomorphic to `⨁ᵢ Pᵢ^{aᵢ}` then its class
+vector is `C.mulVec a`. This is the form the Euler-characteristic step of Problem 9.4.5(i)
+consumes for each projective in a finite resolution of a simple module. -/
+theorem homClassVector_eq_mulVec_of_equiv
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} [Fintype ι] (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)] [∀ i, Module.Finite k (P i)]
+    (a : ι → ℕ) {N : Type*} [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
+    [SMulCommClass A k N] (e : N ≃ₗ[A] ⨁ p : (Σ i, Fin (a i)), P p.1) :
+    homClassVector (k := k) (A := A) P N =
+      ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec
+        (fun i => (a i : ℤ)) := by
+  rw [homClassVector_congr P e, homClassVector_isotypic]
+
+end DirectSum
 
 /-- **Problem 9.4.5 (i).** If the finite dimensional algebra `A` has finite homological
 dimension, then the determinant of its Cartan matrix `C` is `±1`.
@@ -95,16 +305,28 @@ theorem cartan_det_eq_pm_one
   suffices h : ∃ D : Matrix ι ι ℤ, C * D = 1 by
     obtain ⟨D, hD⟩ := h
     exact det_eq_pm_one_of_mul_eq_one C D hD
-  -- Book argument. In `K₀(A)`, the classes `[Mⱼ]` of the simples and `[Pᵢ]` of the projective
-  -- indecomposables are two bases of the free abelian group `ℤ^ι`. The Cartan matrix `C`
-  -- expresses `[Pⱼ] = Σᵢ Cᵢⱼ [Mᵢ]` (its columns are the composition-multiplicity vectors,
-  -- Proposition 9.2.3). Finite homological dimension (`hfin`) gives each simple `Mⱼ` a finite
-  -- projective resolution `0 → Q_d → … → Q₀ → Mⱼ → 0` with each `Q_k` a finitely generated
-  -- projective, hence (Krull–Schmidt) a direct sum of the `Pᵢ`. Additivity of the class
-  -- function on short exact sequences gives `[Mⱼ] = Σₖ (-1)ᵏ [Q_k] = Σᵢ Dᵢⱼ [Pᵢ]` with an
-  -- **integer** matrix `D` (the Euler characteristic). Substituting shows `C * D = 1`.
-  -- Producing this `D` needs a `K₀`/Euler-characteristic invariant that does not yet exist in
-  -- the project; it is deferred to a dedicated sub-issue (see the PR description).
+  -- By the matrix assembly lemma, it suffices to express each standard basis vector `eⱼ` in
+  -- the `ℤ`-column span of `C`. Since `homClassVector P (M j) = eⱼ` (essential cover, `hP_cover`)
+  -- and the columns of `C` are the class vectors `homClassVector P (P i)`
+  -- (`homClassVector_proj_eq_cartan_col`), this is exactly the statement that the class of the
+  -- simple `Mⱼ` is an **integer** combination of the classes of the projective indecomposables.
+  refine exists_right_inverse_of_forall_mulVec C (fun j => ?_)
+  -- It suffices to express the class vector of the simple `Mⱼ` (which is `eⱼ` by `hP_cover`,
+  -- via `homClassVector_simple_eq_single`) as `C.mulVec d` for an integer vector `d`.
+  suffices hEuler : ∃ d : ι → ℤ, C.mulVec d = homClassVector (k := k) (A := A) P (M j) by
+    obtain ⟨d, hd⟩ := hEuler
+    exact ⟨d, by rw [hd, homClassVector_simple_eq_single P M hP_cover j]⟩
+  -- Remaining content (Euler characteristic of a finite projective resolution). Finite
+  -- homological dimension (`hfin`) gives each simple `Mⱼ` a finite projective resolution
+  -- `0 → Q_d → … → Q₀ → Mⱼ → 0` with each `Q_k` a finitely generated projective, hence
+  -- (Krull–Schmidt) a direct sum of the `Pᵢ` with multiplicity vector `aₖ : ι → ℤ`. Additivity
+  -- of `homClassVector` on short exact sequences (`finrank_hom_additive_of_projective`) gives
+  --   `homClassVector P (M j) = Σₖ (-1)ᵏ homClassVector P (Q_k) = Σₖ (-1)ᵏ C.mulVec aₖ`
+  --                          `= C.mulVec (Σₖ (-1)ᵏ aₖ)`,
+  -- so `d := Σₖ (-1)ᵏ aₖ` is the required integer vector. This needs finite projective
+  -- resolutions of simples (from `hfin`), Krull–Schmidt decomposition of f.g. projectives into
+  -- the `Pᵢ`, and the direct-sum additivity `homClassVector P (⊕ᵢ Pᵢ^{aᵢ}) = C.mulVec a`; it is
+  -- deferred to a dedicated sub-issue (see the PR description).
   sorry
 
 /-- **Problem 9.4.5 (ii), first algebra.** For `n > 1`, the truncated polynomial algebra
@@ -114,10 +336,55 @@ theorem homologicalDimension_polynomial_quotient_eq_top
     Etingof.homologicalDimension (k[X] ⧸ Ideal.span {(Polynomial.X : k[X]) ^ n}) = ⊤ :=
   Etingof.TruncatedPoly.homologicalDimension_eq_top_truncated k n hn
 
+open Etingof.Problem932 in
+/-- **Dimension shift (non-vanishing step).** For a short exact sequence
+`0 → S.X₁ → S.X₂ → S.X₃ → 0` of `A`-modules with projective middle term `S.X₂`, precomposition
+with the extension class is injective on `Extⁱ(S.X₁, Y)` for `i ≥ 1`: it sends a nonzero class
+to a nonzero class in `Extⁱ⁺¹(S.X₃, Y)`. This is the contravariant `Ext` long exact sequence
+together with the vanishing of `Extⁱ(S.X₂, Y)` for `i ≥ 1`. -/
+private theorem ext_extClass_comp_ne_zero
+    {S : ShortComplex (ModuleCat.{0} Etingof.Problem932.A)} (hS : S.ShortExact)
+    (hP : Projective S.X₂) {Y : ModuleCat.{0} Etingof.Problem932.A} {i : ℕ} (hi : 1 ≤ i)
+    (e : Abelian.Ext S.X₁ Y i) (he : e ≠ 0) {n : ℕ} (hn : 1 + i = n) :
+    hS.extClass.comp e hn ≠ 0 := by
+  haveI := hP
+  intro hzero
+  obtain ⟨x₂, hx₂⟩ := Abelian.Ext.contravariant_sequence_exact₁ hS Y e hn hzero
+  have hx₂0 : x₂ = 0 := Abelian.Ext.eq_zero_of_hasProjectiveDimensionLT x₂ 1 hi
+  rw [hx₂0, Abelian.Ext.comp_zero] at hx₂
+  exact he hx₂.symm
+
+open Etingof.Problem932 in
+/-- **2-periodic non-vanishing.** `Ext^{2j+1}(S₊, S₋) ≠ 0` for every `j`. The base case is the
+nonsplit extension `Ext¹(S₊, S₋) ≠ 0` (`extClass_ne_zero`); the inductive step composes the
+extension classes of the two short exact sequences `0 → S₊ → P₋ → S₋ → 0` and
+`0 → S₋ → P₊ → S₊ → 0`, whose middle terms `P₋`, `P₊` are projective. -/
+private theorem ext_odd_ne_zero (j : ℕ) :
+    ∃ e : Abelian.Ext (ModuleCat.of Etingof.Problem932.A Etingof.Problem932.Splus)
+      (ModuleCat.of Etingof.Problem932.A Etingof.Problem932.Sminus) (2 * j + 1), e ≠ 0 := by
+  induction j with
+  | zero => exact ⟨ses_shortExact.extClass, extClass_ne_zero⟩
+  | succ j ih =>
+    obtain ⟨e, he⟩ := ih
+    have hPm : Projective sesm.X₂ := projective_sesm_X₂
+    have hPp : Projective ses.X₂ := projective_ses_X₂
+    have h1 := ext_extClass_comp_ne_zero sesm_shortExact hPm (i := 2 * j + 1) (by omega) e he
+      (n := 2 * j + 2) (by ring)
+    exact ⟨_, ext_extClass_comp_ne_zero ses_shortExact hPp (i := 2 * j + 2) (by omega) _ h1
+      (n := 2 * (j + 1) + 1) (by ring)⟩
+
 /-- **Problem 9.4.5 (ii), second algebra.** The four dimensional algebra
-`A = ℂ⟨g, x⟩/(gx+xg, x², g²-1)` of Problem 9.3.2 has infinite homological dimension. -/
+`A = ℂ⟨g, x⟩/(gx+xg, x², g²-1)` of Problem 9.3.2 has infinite homological dimension.
+
+`S₊` has infinite projective dimension: `Ext^{2d+1}(S₊, S₋) ≠ 0` for every `d`
+(`ext_odd_ne_zero`), so `S₊` cannot have projective dimension `≤ d`, and no `d` bounds the
+homological dimension of `A`. -/
 theorem homologicalDimension_problem932_eq_top :
     Etingof.homologicalDimension Etingof.Problem932.A = ⊤ := by
-  sorry
+  refine Etingof.homologicalDimension_eq_top_of_forall (fun d hd => ?_)
+  obtain ⟨e, he⟩ := ext_odd_ne_zero d
+  haveI hpd : HasProjectiveDimensionLE
+      (ModuleCat.of Etingof.Problem932.A Etingof.Problem932.Splus) d := hd _
+  exact he (Abelian.Ext.eq_zero_of_hasProjectiveDimensionLT e (d + 1) (by omega))
 
 end Etingof.Problem945

@@ -230,11 +230,11 @@ theorem indep_one : LinearIndependent k ![xb k 1, yb k 1, zb k 1] := by
   intro i
   fin_cases i
   · have := congrFun (congrFun hker 0) 1
-    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 1) 2
-    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 0) 2
-    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.smul_apply] using this
 
 end Matrix
 
@@ -412,13 +412,13 @@ theorem indep_two : LinearIndependent k ![xb k 2, yb k 2, zb k 2, wb k 2] := by
   intro i
   fin_cases i
   · have := congrFun (congrFun hker 0) 1
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 1) 2
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 0) 2
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 0) 3
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
 
 end Matrix2
 
@@ -601,22 +601,234 @@ theorem not_finite_g_four_of_not_finite_range
     ¬ Module.Finite k (g k 4) :=
   fun hfin => h (finite_range_matHom₄_of_finite k hfin)
 
-/-- **(b)** `𝔤₄` is infinite dimensional (the Cartan matrix `[[2,-1],[-4,2]]` is of affine type,
-determinant `0`).
-
-By the reduction lemma it suffices to show the twisted `A₂⁽²⁾` loop image `range matHom₄` is
-infinite dimensional. This holds **iff** `char k ≠ 3`: the `t`-degree climb of the loop image
-carries the scalars `3` and `6` (from `ad(y)³x = 3(E₀₁+E₁₂)`, `ad(y)⁴x = 6E₀₂`), so at
-characteristic `3` the image collapses to `4` dimensions. The `char ≠ 3` and `char = 3` cases
-are tracked as follow-up issues; the latter needs a separate witness representation because the
-`𝔰𝔩₃`-loop collapse mod `3` is intrinsic (`ad(y)²x ∝ I` regardless of scaling). -/
-theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k (g k 4) :=
-  not_finite_g_four_of_not_finite_range k (by
-    -- Remaining obligation: `range matHom₄` is infinite dimensional (holds for `char k ≠ 3`;
-    -- `char k = 3` needs a separate witness). See tracking issues.
-    sorry)
-
 end Matrix4
+
+/-!
+## Characteristic `3`: a `gl₄` witness for infinite-dimensionality of `𝔤₄`
+
+The `𝔰𝔩₃`-loop realization `matHom₄` collapses to `4` dimensions over `𝔽₃`: the middle
+`ad(y)`-string vector `E₀₀ - 2E₁₁ + E₂₂` becomes the identity matrix (`-2 ≡ 1`), which is
+central, so the `t`-degree climb stops. This collapse is intrinsic to `𝔰𝔩₃` — the relevant root
+vectors all have `ad`-weight divisible by `3` — so *every* representation of `𝔰𝔩₃` degenerates the
+same way mod `3`, and a genuinely different witness is required.
+
+We use the pair
+`x ↦ t·(E₁₃ + E₃₂)`, `y ↦ E₀₂ + 2·E₂₃ + E₃₁` in `gl₄(k[t])`.
+Both defining relators map to `0` when `3 = 0`, so this factors through `𝔤₄`. Moreover
+`⁅y, x⁆` acts as `t·diag(0, 2, 2, 2)`, which multiplies each row-`0` off-diagonal matrix `E₀ⱼ`
+by `-2 = 1`. Hence, starting from the degree-`2` element `⁅x, ad(y)³ x⁆ = t²·E₀₂`, the tower
+`sₙ₊₁ = ⁅⁅y, x⁆, sₙ⁆` has image `tⁿ⁺²·E₀₂`, an infinite linearly independent family (distinct
+`t`-degrees), so `𝔤₄` is infinite dimensional. All three matrix identities need `3 = 0`.
+-/
+
+section Matrix4c
+attribute [local instance] LieRing.ofAssociativeRing
+
+open Polynomial
+
+/-- `x`-image over a characteristic-`3` base: `t·(E₁₃ + E₃₂) ∈ gl₄(k[t])`. -/
+noncomputable def NXc : Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  Matrix.single 1 3 Polynomial.X + Matrix.single 3 2 Polynomial.X
+/-- `y`-image over a characteristic-`3` base: `E₀₂ + 2·E₂₃ + E₃₁ ∈ gl₄(k[t])`. -/
+noncomputable def NYc : Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  Matrix.single 0 2 1 + Matrix.single 2 3 2 + Matrix.single 3 1 1
+
+/-- The Lie algebra hom `FreeLieAlgebra k (Fin 2) → gl₄(k[t])` sending `x ↦ NXc`, `y ↦ NYc`.
+Over a characteristic-`3` base its image climbs in `t`-degree without bound. -/
+noncomputable def matHom₄c :
+    FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  FreeLieAlgebra.lift k ![NXc k, NYc k]
+
+@[simp] theorem matHom₄c_x : matHom₄c k (x k) = NXc k := by
+  simp only [matHom₄c, x, FreeLieAlgebra.lift_of_apply]; rfl
+
+@[simp] theorem matHom₄c_y : matHom₄c k (y k) = NYc k := by
+  simp only [matHom₄c, y, FreeLieAlgebra.lift_of_apply]; rfl
+
+/-- `(3 : Polynomial k) = 0` from `(3 : k) = 0`. -/
+theorem three_eq_zero_poly (h3 : (3 : k) = 0) : (3 : Polynomial k) = 0 := by
+  rw [← map_ofNat (Polynomial.C : k →+* Polynomial k) 3, h3, map_zero]
+
+theorem matHom₄c_relator1 (h3 : (3 : k) = 0) : matHom₄c k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
+  have h3p := three_eq_zero_poly k h3
+  rw [LieHom.map_lie, LieHom.map_lie, matHom₄c_x, matHom₄c_y]
+  have key : ⁅NXc k, ⁅NXc k, NYc k⁆⁆
+      = Matrix.single (3 : Fin 4) (2 : Fin 4) (-3 * Polynomial.X ^ 2) := by
+    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+  rw [key]
+  have hz : (-3 * Polynomial.X ^ 2 : Polynomial k) = 0 := by
+    rw [show (-3 * Polynomial.X ^ 2 : Polynomial k) = -(Polynomial.X ^ 2) * 3 by ring, h3p,
+      mul_zero]
+  rw [hz, Matrix.single_zero]
+
+/-- `ad(y)⁵(x)` maps to `0`: the relator `ad(y)⁵(x)` lies in the kernel (holds over any base,
+`ad(NYc)⁵(NXc) = 0` already over `ℤ`). -/
+theorem matHom₄c_relator2 : matHom₄c k ((fun z => ⁅y k, z⁆)^[4 + 1] (x k)) = 0 := by
+  change matHom₄c k ⁅y k, ⁅y k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆⁆ = 0
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+    matHom₄c_x, matHom₄c_y]
+  simp [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+
+/-- The defining relators of `𝔤₄` lie in the kernel of `matHom₄c` when `3 = 0`, so `matHom₄c`
+factors through `𝔤₄`. -/
+theorem relIdeal_le_ker_matHom₄c (h3 : (3 : k) = 0) : relIdeal k 4 ≤ (matHom₄c k).ker := by
+  rw [relIdeal, LieSubmodule.lieSpan_le]
+  intro w hw
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+  rcases hw with rfl | rfl
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄c_relator1 k h3
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄c_relator2 k
+
+/-- The image of `⁅y, x⁆` divided by `t`: the diagonal `diag(0, -1, 2, -1)`. It multiplies each
+row-`0` off-diagonal matrix `E₀ⱼ` by `-2`, which is `1` when `3 = 0`. -/
+noncomputable def Ucon : Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  Matrix.single 1 1 (-1 : Polynomial k) + Matrix.single 2 2 (2 : Polynomial k)
+    + Matrix.single 3 3 (-1 : Polynomial k)
+
+/-- The fixed matrix `E₀₂` carrying the infinite `t`-tower. -/
+noncomputable def E02c : Matrix (Fin 4) (Fin 4) (Polynomial k) := Matrix.single 0 2 1
+
+/-- `⁅y, x⁆` maps to `t·diag(0, -1, 2, -1)` (holds over any base). -/
+theorem lie_NYc_NXc : ⁅NYc k, NXc k⁆ = (Polynomial.X : Polynomial k) • Ucon k := by
+  simp only [NYc, NXc, Ucon, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+    not_false_eq_true]
+  apply Matrix.ext; intro i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] <;> ring
+
+/-- `diag(0, -1, 2, -1)` acts on `E₀₂` by multiplication by `-2` (holds over any base). -/
+theorem lie_Ucon_E02c : ⁅Ucon k, E02c k⁆ = (-2 : Polynomial k) • E02c k := by
+  simp only [Ucon, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+    not_false_eq_true]
+  apply Matrix.ext; intro i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.sub_apply, Matrix.smul_apply]
+
+/-- One climbing step: `⁅⁅y, x⁆, tᵐ·E₀₂⁆ = tᵐ⁺¹·E₀₂` when `3 = 0` (the factor `-2` becomes `1`). -/
+theorem matHom₄c_step (h3 : (3 : k) = 0) (m : ℕ) :
+    ⁅⁅NYc k, NXc k⁆, (Polynomial.X : Polynomial k) ^ m • E02c k⁆
+      = (Polynomial.X : Polynomial k) ^ (m + 1) • E02c k := by
+  rw [lie_NYc_NXc, smul_lie, lie_smul, lie_Ucon_E02c, smul_smul, smul_smul]
+  congr 1
+  have hm2 : (-2 : Polynomial k) = 1 := by
+    rw [show (-2 : Polynomial k) = 1 - 3 by ring, three_eq_zero_poly k h3, sub_zero]
+  rw [hm2]; ring
+
+/-- The degree-`2` seed of the tower: `⁅x, ad(y)³ x⁆` maps to `t²·E₀₂` when `3 = 0`. We compute the
+`ad(y)`-string `ad(y)ᵏ x` one bracket at a time (staging keeps each `simp` small). -/
+theorem matHom₄c_base (h3 : (3 : k) = 0) :
+    matHom₄c k ⁅x k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆ = (Polynomial.X : Polynomial k) ^ 2 • E02c k := by
+  have h3p := three_eq_zero_poly k h3
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₄c_x, matHom₄c_y]
+  have e1 : ⁅NYc k, NXc k⁆
+      = Matrix.single (1 : Fin 4) (1 : Fin 4) (-Polynomial.X)
+        + Matrix.single (2 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
+        + Matrix.single (3 : Fin 4) (3 : Fin 4) (-Polynomial.X) := by
+    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+  have e2 : ⁅NYc k, ⁅NYc k, NXc k⁆⁆
+      = Matrix.single (0 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
+        + Matrix.single (2 : Fin 4) (3 : Fin 4) (-6 * Polynomial.X) := by
+    rw [e1]
+    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+  have e3 : ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆
+      = Matrix.single (0 : Fin 4) (3 : Fin 4) (-10 * Polynomial.X)
+        + Matrix.single (2 : Fin 4) (1 : Fin 4) (6 * Polynomial.X) := by
+    rw [e2]
+    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
+  -- `⁅x, ad(y)³ x⁆ = t²·E₀₂ + 3·(junk)`; the `3·(junk)` term vanishes when `3 = 0`.
+  have key : ⁅NXc k, ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆⁆
+      = (Polynomial.X : Polynomial k) ^ 2 • E02c k
+        + (3 : Polynomial k) • (Matrix.single (0 : Fin 4) (2 : Fin 4) (3 * Polynomial.X ^ 2)
+            + Matrix.single (2 : Fin 4) (3 : Fin 4) (-2 * Polynomial.X ^ 2)
+            + Matrix.single (3 : Fin 4) (1 : Fin 4) (2 * Polynomial.X ^ 2)) := by
+    rw [e3]
+    simp only [NXc, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply] <;> ring
+  rw [key, h3p, zero_smul, add_zero]
+
+/-- The climbing tower in the free Lie algebra: `S₀ = ⁅x, ad(y)³ x⁆` and `Sₙ₊₁ = ⁅⁅y, x⁆, Sₙ⁆`. -/
+noncomputable def towerElt : ℕ → FreeLieAlgebra k (Fin 2)
+  | 0 => ⁅x k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆
+  | (n + 1) => ⁅⁅y k, x k⁆, towerElt n⁆
+
+/-- The tower climbs in `t`-degree: `matHom₄c (Sₙ) = tⁿ⁺²·E₀₂` when `3 = 0`. -/
+theorem matHom₄c_towerElt (h3 : (3 : k) = 0) (n : ℕ) :
+    matHom₄c k (towerElt k n) = (Polynomial.X : Polynomial k) ^ (n + 2) • E02c k := by
+  induction n with
+  | zero => exact matHom₄c_base k h3
+  | succ m ih =>
+    rw [towerElt, LieHom.map_lie, LieHom.map_lie, matHom₄c_y, matHom₄c_x, ih,
+      matHom₄c_step k h3 (m + 2)]
+
+/-- The `(0,2)`-entry functional `g₄ → k[t]`, through which the tower climbs. Well defined because
+`matHom₄c` kills the relators when `3 = 0`. -/
+noncomputable def towerFunctional (h3 : (3 : k) = 0) : g k 4 →ₗ[k] Polynomial k :=
+  Submodule.liftQ (relIdeal k 4).toSubmodule
+    ((Matrix.entryLinearMap k (Polynomial k) 0 2).comp (matHom₄c k).toLinearMap)
+    (by
+      intro a ha
+      have hm : matHom₄c k a = 0 :=
+        LieHom.mem_ker.1 (relIdeal_le_ker_matHom₄c k h3 ha)
+      simp only [LinearMap.mem_ker, LinearMap.comp_apply, LieHom.coe_toLinearMap, hm,
+        Matrix.entryLinearMap_apply, Matrix.zero_apply])
+
+@[simp] theorem towerFunctional_proj (h3 : (3 : k) = 0) (a : FreeLieAlgebra k (Fin 2)) :
+    towerFunctional k h3 (proj k 4 a) = (matHom₄c k a) 0 2 := rfl
+
+theorem towerFunctional_towerElt (h3 : (3 : k) = 0) (n : ℕ) :
+    towerFunctional k h3 (proj k 4 (towerElt k n)) = (Polynomial.X : Polynomial k) ^ (n + 2) := by
+  rw [towerFunctional_proj, matHom₄c_towerElt k h3 n]
+  simp [E02c, Matrix.smul_apply]
+
+/-- The tower images `proj (Sₙ)` are linearly independent in `𝔤₄` (their `(0,2)`-entries are the
+distinct monomials `tⁿ⁺²`). -/
+theorem towerElt_linearIndependent (h3 : (3 : k) = 0) :
+    LinearIndependent k (fun n => proj k 4 (towerElt k n)) := by
+  apply LinearIndependent.of_comp (towerFunctional k h3)
+  have hfun : (towerFunctional k h3) ∘ (fun n => proj k 4 (towerElt k n))
+      = fun n => (Polynomial.X : Polynomial k) ^ (n + 2) := by
+    funext n; exact towerFunctional_towerElt k h3 n
+  rw [hfun]
+  have hmono : LinearIndependent k (fun n => (Polynomial.X : Polynomial k) ^ n) := by
+    have h := (Polynomial.basisMonomials k).linearIndependent
+    simpa only [Polynomial.coe_basisMonomials, ← Polynomial.X_pow_eq_monomial] using h
+  exact hmono.comp (fun n => n + 2) (add_left_injective 2)
+
+end Matrix4c
+
+/-- **(b), characteristic `3`.** `𝔤₄` is infinite dimensional over any field with `3 = 0`. The
+`𝔰𝔩₃`-loop witness `matHom₄` collapses mod `3`; the `gl₄` witness `matHom₄c` climbs instead. -/
+theorem not_finite_g_four_of_three_eq_zero (k : Type*) [Field k] (h3 : (3 : k) = 0) :
+    ¬ Module.Finite k (g k 4) := fun hfin => by
+  haveI := hfin
+  exact Module.Finite.not_linearIndependent_of_infinite _ (towerElt_linearIndependent k h3)
 
 /-!
 ## Infinite-dimensionality of `range matHom₄` when `char k ≠ 3` (Problem 2.16.3(b), char≠3 half)
@@ -815,6 +1027,24 @@ theorem range_matHom₄_not_finite_of_three_ne_zero (k : Type*) [Field k] (h3 : 
   exact Module.Finite.not_linearIndependent_of_infinite _ hsub
 
 end Matrix4b
+
+/-- **(b)** `𝔤₄` is infinite dimensional (the Cartan matrix `[[2,-1],[-4,2]]` is of affine type,
+determinant `0`).
+
+By the reduction lemma `not_finite_g_four_of_not_finite_range` it suffices to show the twisted
+`A₂⁽²⁾` loop image `range matHom₄` is infinite dimensional. That holds **iff** `char k ≠ 3`: the
+`t`-degree climb of the loop image carries the scalars `3` and `6` (from `ad(y)³x = 3(E₀₁+E₁₂)`,
+`ad(y)⁴x = 6E₀₂`), so at characteristic `3` the image collapses to `4` dimensions. We therefore
+case-split on `(3 : k) = 0`:
+
+* `char k ≠ 3`: `range_matHom₄_not_finite_of_three_ne_zero` supplies the infinite loop image
+  directly, fed through the reduction lemma.
+* `char k = 3`: the `𝔰𝔩₃`-loop collapse mod `3` is intrinsic (`ad(y)²x ∝ I` regardless of
+  scaling), so `not_finite_g_four_of_three_eq_zero` uses the separate `gl₄` witness instead. -/
+theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k (g k 4) := by
+  by_cases h3 : (3 : k) = 0
+  · exact not_finite_g_four_of_three_eq_zero k h3
+  · exact not_finite_g_four_of_not_finite_range k (range_matHom₄_not_finite_of_three_ne_zero k h3)
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=

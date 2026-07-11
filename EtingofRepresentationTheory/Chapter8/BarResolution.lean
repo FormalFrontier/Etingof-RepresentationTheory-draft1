@@ -728,6 +728,66 @@ noncomputable def barComplex : ChainComplex (ModuleCat.{u} A) ℕ :=
 
 end BarSquareZero
 
+/-! ### The augmentation as a chain map `barComplex ⟶ W[0]`
+
+The augmentation `ε : P₀ → W` extends to a chain map from `barComplex` to the complex `W`
+concentrated in degree `0`, because `ε ∘ d₀ = 0`: the first differential
+`d₀ : P₁ → P₀` sends `a₀ ⊗ (a₁ ⊗ w)` to `(a₀ a₁) ⊗ w - a₀ ⊗ (a₁ • w)`, and both summands have
+the same image `(a₀ a₁) • w` under `ε`, so they cancel. This chain map is the `π` datum of the
+projective resolution. -/
+
+section Augmentation
+
+omit [Module A W] [IsScalarTower k A W] in
+@[simp] lemma barCoeffZeroEquiv_tprod (v : Fin 0 → A) (w : W) :
+    barCoeffZeroEquiv k A W (tprod k v ⊗ₜ[k] w) = w := by
+  simp [barCoeffZeroEquiv, PiTensorProduct.isEmptyEquiv_apply_tprod]
+
+/-- The augmentation kills the image of the first bar differential: `ε ∘ d₀ = 0`. -/
+theorem ε_comp_barDiff_zero :
+    (ε k A W).comp (barDiff k A W 0) = 0 := by
+  refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul p w =>
+      induction p using PiTensorProduct.induction_on with
+      | smul_tprod r v =>
+          have hgen : ε k A W (barDiff k A W 0 (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) = 0 := by
+            rw [barDiff_tmul_tprod]
+            simp only [Finset.univ_eq_empty, Finset.sum_empty, add_zero, map_add,
+              LinearMap.map_smul_of_tower, ε_tmul, barCoeffZeroEquiv_tprod]
+            have hlast : v (Fin.last 0) = v 0 := rfl
+            rw [hlast, ← mul_smul, show ((-1 : k) ^ (0 + 1)) = -1 by norm_num,
+              neg_one_smul, add_neg_cancel]
+          simp only [LinearMap.comp_apply, LinearMap.zero_apply]
+          rw [← TensorProduct.smul_tmul', TensorProduct.tmul_smul,
+            LinearMap.map_smul_of_tower, LinearMap.map_smul_of_tower, hgen, smul_zero]
+      | add x y hx hy =>
+          simp only [LinearMap.comp_apply, LinearMap.zero_apply] at *
+          rw [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, map_add, hx, hy, add_zero]
+  | add x y hx hy =>
+      simp only [LinearMap.comp_apply, LinearMap.zero_apply] at *
+      rw [TensorProduct.tmul_add, map_add, map_add, hx, hy, add_zero]
+
+/-- The augmentation `ε : P₀ → W`, packaged as a chain map from the bar complex to the complex
+`W` concentrated in degree `0`. This is the `π` datum of the bar projective resolution. -/
+noncomputable def barπChainMap :
+    barComplex k A W ⟶ (ChainComplex.single₀ (ModuleCat.{u} A)).obj (ModuleCat.of A W) :=
+  (ChainComplex.toSingle₀Equiv (barComplex k A W) (ModuleCat.of A W)).symm
+    ⟨barπ k A W, by
+      have hd : (barComplex k A W).d 1 0 = ModuleCat.ofHom (barDiff k A W 0) :=
+        ChainComplex.of_d (fun n => barObj k A W n)
+          (fun n => ModuleCat.ofHom (barDiff k A W n)) 0
+      rw [hd, barπ]
+      ext x
+      exact LinearMap.congr_fun (ε_comp_barDiff_zero k A W) x⟩
+
+@[simp] lemma barπChainMap_f_zero :
+    (barπChainMap k A W).f 0 = barπ k A W := by
+  simp [barπChainMap]
+
+end Augmentation
+
 /-! ### The `k`-linear contracting homotopy `s(x) = 1 ⊗ x` and exactness
 
 The relative bar resolution is `k`-split exact: the `k`-linear (NOT `A`-linear) contracting homotopy
