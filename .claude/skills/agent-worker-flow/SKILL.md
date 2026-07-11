@@ -264,6 +264,13 @@ After decomposing, you have two options:
    was just two work items glued together.
 2. **Stop and exit**: if you've used most of your session orienting, write a
    brief progress entry and exit. The next worker will claim a sub-issue.
+   The next agent onboards from `progress/` on `main`, so a progress entry
+   committed only to your unmerged branch is lost. If your handoff carries
+   design analysis worth preserving (exact reusable lemmas found, route
+   chosen, subtleties), land it as a small progress-handoff PR: commit just
+   the `progress/` file, push, `gh pr create`, `gh pr merge <N> --auto
+   --squash`. The durable design detail should also live in the sub-issue
+   bodies you created — those persist regardless of any PR.
 
 If you've already done a coherent subset of the parent's work *before*
 deciding to decompose, prefer the partial-PR path:
