@@ -380,6 +380,44 @@ spaces `Hⁱ(C ⊗ D) ≅ ⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`. -/
 theorem Problem7_8_7_iv (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i : ℤ) :
     Nonempty ((tensorComplex C D).homology i ≅
       ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => C.homology p.1.1 ⊗ D.homology p.1.2) := by
-  sorry
+  -- Part (iii): decompose each factor into an acyclic complex plus its zero-differential
+  -- homology complex.
+  obtain ⟨E, hE, iC, -⟩ := Problem7_8_7_iii C
+  obtain ⟨F, hF, iD, -⟩ := Problem7_8_7_iii D
+  -- The homology functor `Hⁱ` at degree `i`; it is additive, so it preserves biproducts.
+  let Hi := HomologicalComplex.homologyFunctor (ModuleCat.{0} k) (ComplexShape.up ℤ) i
+  haveI : Limits.PreservesBinaryBiproducts Hi :=
+    Limits.preservesBinaryBiproducts_of_preservesBiproducts Hi
+  -- Functoriality of `⊗` plus binary distributivity split `C ⊗ D` into the four Künneth
+  -- summands `E⊗F ⊞ H_C⊗F ⊞ E⊗H_D ⊞ H_C⊗H_D`.
+  let Θ : tensorComplex C D ≅
+      (tensorComplex E F ⊞ tensorComplex (homologyZeroComplex C) F)
+        ⊞ (tensorComplex E (homologyZeroComplex D)
+            ⊞ tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)) :=
+    tensorIso iC iD ≪≫
+      tensorComplex_biprodRightIso (E ⊞ homologyZeroComplex C) F (homologyZeroComplex D) ≪≫
+      biprod.mapIso
+        (tensorComplex_biprodLeftIso E (homologyZeroComplex C) F)
+        (tensorComplex_biprodLeftIso E (homologyZeroComplex C) (homologyZeroComplex D))
+  -- Three of the four summands are acyclic (part (ii)), so their `Hⁱ` is a zero object.
+  have hzEF : IsZero (Hi.obj (tensorComplex E F)) :=
+    (HomologicalComplex.exactAt_iff_isZero_homology _ _).mp (Problem7_8_7_ii E F (Or.inl hE) i)
+  have hzHCF : IsZero (Hi.obj (tensorComplex (homologyZeroComplex C) F)) :=
+    (HomologicalComplex.exactAt_iff_isZero_homology _ _).mp
+      (Problem7_8_7_ii (homologyZeroComplex C) F (Or.inr hF) i)
+  have hzEHD : IsZero (Hi.obj (tensorComplex E (homologyZeroComplex D))) :=
+    (HomologicalComplex.exactAt_iff_isZero_homology _ _).mp
+      (Problem7_8_7_ii E (homologyZeroComplex D) (Or.inl hE) i)
+  -- Collapse `Hⁱ(four-way biprod)` down to `Hⁱ(H_C ⊗ H_D)` by killing the three zero summands.
+  let collapse : Hi.obj ((tensorComplex E F ⊞ tensorComplex (homologyZeroComplex C) F)
+        ⊞ (tensorComplex E (homologyZeroComplex D)
+            ⊞ tensorComplex (homologyZeroComplex C) (homologyZeroComplex D))) ≅
+      Hi.obj (tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)) :=
+    Hi.mapBiprod _ _ ≪≫
+      biprod.mapIso (Hi.mapBiprod _ _) (Hi.mapBiprod _ _) ≪≫
+      (Limits.isoZeroBiprod ((Limits.biprod_isZero_iff _ _).mpr ⟨hzEF, hzHCF⟩)).symm ≪≫
+      (Limits.isoZeroBiprod hzEHD).symm
+  -- Assemble: `Hⁱ(C⊗D) ≅ Hⁱ(four-way) ≅ Hⁱ(H_C⊗H_D) ≅ ∐ Hʲ(C) ⊗ Hᵐ(D)`.
+  exact ⟨Hi.mapIso Θ ≪≫ collapse ≪≫ homologyTensorHomologyZeroIso C D i⟩
 
 end Etingof
