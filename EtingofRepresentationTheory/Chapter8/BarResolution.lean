@@ -565,6 +565,27 @@ theorem barFace_castSucc_apply (n : ℕ) (i : Fin (n + 1)) (a₀ : A) (v : Fin (
   · rw [barFace_interior_apply, ← Fin.succ_castSucc, contractNth_succ_cons, Fin.cons_zero,
       Fin.tail_cons]
 
+/-- A *non-last* merge commutes with dropping the last entry: contracting at a slot `p.castSucc`
+(which never touches the final pair) equals contracting the truncation and re-appending the
+untouched final entry. -/
+theorem contractNth_castSucc_eq_snoc {m : ℕ} (p : Fin m) (u : Fin (m + 2) → A) :
+    Fin.contractNth p.castSucc.castSucc (· * ·) u
+      = Fin.snoc (Fin.contractNth p.castSucc (· * ·) (Fin.init u)) (u (Fin.last (m + 1))) := by
+  funext k
+  refine Fin.lastCases ?_ (fun k' => ?_) k
+  · rw [Fin.snoc_last, Fin.contractNth_apply_of_gt _ _ _ _
+        (by simp only [Fin.val_castSucc, Fin.val_last]; omega)]
+    congr 1
+  · rw [Fin.snoc_castSucc]
+    rcases lt_trichotomy (k' : ℕ) (p : ℕ) with h | h | h
+    · rw [Fin.contractNth_apply_of_lt _ _ _ _ (by simpa using h),
+          Fin.contractNth_apply_of_lt _ _ _ _ (by simpa using h), Fin.init]
+    · rw [Fin.contractNth_apply_of_eq _ _ _ _ (by simpa using h),
+          Fin.contractNth_apply_of_eq _ _ _ _ (by simpa using h), Fin.init, Fin.init,
+          ← Fin.succ_castSucc]
+    · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simpa using h),
+          Fin.contractNth_apply_of_gt _ _ _ _ (by simpa using h), Fin.init, ← Fin.succ_castSucc]
+
 /-- **Simplicial identity for the bar faces.** For `i < j`,
 `barFace i ∘ barFace j = barFace (j-1) ∘ barFace i`, the merge-face version of `δᵢ δⱼ = δ_{j-1} δᵢ`.
 This is the combinatorial core of `d ∘ d = 0`. -/
@@ -581,13 +602,13 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
   · -- (merge, merge)
     have hj0 : j₀ ≠ 0 := by
       rintro rfl; simp only [Fin.val_castSucc, Fin.val_zero] at hij; omega
-    rw [barFace_castSucc_apply, barFace_castSucc_apply, Fin.cons_self_tail,
-        ← Fin.castSucc_pred_eq_pred_castSucc, barFace_castSucc_apply, barFace_castSucc_apply,
-        Fin.cons_self_tail]
     have hpq : ((Fin.castSucc i₀ : Fin (n + 2)) : ℕ) < ((Fin.castSucc j₀ : Fin (n + 3)) : ℕ) := by
       simpa using hij
-    rw [contractNth_contractNth (· * ·) mul_assoc (Fin.castSucc i₀) (Fin.castSucc j₀) hpq
-        (Fin.cons a₀ v), ← Fin.castSucc_pred_eq_pred_castSucc]
+    rw [barFace_castSucc_apply, barFace_castSucc_apply, Fin.cons_self_tail,
+        ← Fin.castSucc_pred_eq_pred_castSucc, barFace_castSucc_apply, barFace_castSucc_apply,
+        Fin.cons_self_tail,
+        contractNth_contractNth (· * ·) mul_assoc (Fin.castSucc i₀) (Fin.castSucc j₀) hpq
+          (Fin.cons a₀ v), ← Fin.castSucc_pred_eq_pred_castSucc]
     all_goals exact hj0
   · -- (merge, last): case B
     sorry
