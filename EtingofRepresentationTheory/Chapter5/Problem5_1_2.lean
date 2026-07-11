@@ -493,6 +493,63 @@ theorem exists_normalized_antilinear_of_isRealType
     rw [hscal, one_smul]
   · rw [mul_smul_comm, smul_mul_assoc, ← smul_neg, hanti0]
 
+/-- **Normalized `j'`-operator** for the quaternionic type (#6328). If the simple representation
+`V` is of quaternionic type, then `End_{ℝ[G]} V` contains an element `j'` (the antilinear operator
+`j` normalized so that `j'² = -1`) that **anticommutes** with `J = ·i`. Together with `J`
+(`J² = -1`) this exhibits the quaternion relations `J² = -1`, `j'² = -1`, `Jj' = -j'J`. -/
+theorem exists_normalized_antilinear_of_isQuaternionicType
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (h : Etingof.IsQuaternionicType ρ) :
+    ∃ j' : realGEndAlgebra ρ, j' * j' = -1 ∧ realJ ρ * j' = -(j' * realJ ρ) := by
+  obtain ⟨B, hskew, hnd, hinvB⟩ := h
+  obtain ⟨j0, lam, hjequiv, hjsq, hpos⟩ :=
+    exists_antilinear_j_of_invariant_nondegenerate hirr B hnd hinvB (-1)
+      (fun v w => by rw [hskew, neg_one_smul])
+  -- `hpos : 0 < (-1) * lam`, i.e. `lam < 0`.
+  have hnlam : 0 < -lam := by linarith
+  have hlamne : lam ≠ 0 := by rintro rfl; simp at hnlam
+  -- `(r : ℂ) • v = r • v` for real `r`, via the scalar tower.
+  have rcs : ∀ (r : ℝ) (v : V), (r : ℂ) • v = r • v := fun r v => by
+    rw [← IsScalarTower.algebraMap_smul ℂ r v, Complex.coe_algebraMap]
+  -- The underlying `ℝ`-linear map of the antilinear `j0`.
+  let jm : Module.End ℝ V :=
+    { toFun := j0
+      map_add' := j0.map_add
+      map_smul' := fun r v => by
+        simp only [RingHom.id_apply]
+        rw [← rcs r v, map_smulₛₗ, Complex.conj_ofReal, rcs r (j0 v)] }
+  have hmem : jm ∈ realGEndAlgebra ρ := by
+    rw [realGEndAlgebra, Subalgebra.mem_centralizer_iff]
+    rintro _ ⟨g, rfl⟩
+    ext v
+    simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply]
+    exact (hjequiv g v).symm
+  set X : realGEndAlgebra ρ := ⟨jm, hmem⟩ with hXdef
+  -- `X² = lam • 1`.
+  have hjm2 : X * X = lam • 1 := by
+    apply Subtype.ext
+    rw [Subalgebra.coe_mul, hXdef]
+    ext v
+    simp only [Module.End.mul_apply, SetLike.val_smul, Subalgebra.coe_one, LinearMap.smul_apply,
+      Module.End.one_apply]
+    show j0 (j0 v) = lam • v
+    rw [hjsq v, rcs lam v]
+  -- `X` anticommutes with `J = ·i`.
+  have hanti0 : realJ ρ * X = -(X * realJ ρ) := by
+    apply Subtype.ext
+    rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul, hXdef]
+    ext v
+    simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply]
+    show Complex.I • j0 v = -(j0 (Complex.I • v))
+    rw [map_smulₛₗ, Complex.conj_I, neg_smul, neg_neg]
+  have hsqrt : Real.sqrt (-lam) * Real.sqrt (-lam) = -lam := Real.mul_self_sqrt hnlam.le
+  refine ⟨(Real.sqrt (-lam))⁻¹ • X, ?_, ?_⟩
+  · rw [smul_mul_smul_comm, hjm2, smul_smul]
+    have hscal : (Real.sqrt (-lam))⁻¹ * (Real.sqrt (-lam))⁻¹ * lam = -1 := by
+      rw [← mul_inv, hsqrt, inv_mul_eq_div, div_eq_iff (neg_ne_zero.mpr hlamne)]; ring
+    rw [hscal, neg_one_smul]
+  · rw [mul_smul_comm, smul_mul_assoc, ← smul_neg, hanti0]
+
 /-- Every element of the centralizer `realGEndAlgebra ρ` is `G`-equivariant. -/
 theorem realGEnd_equivariant (x : realGEndAlgebra ρ) (g : G) (v : V) :
     (↑x : Module.End ℝ V) (ρ g v) = ρ g ((↑x : Module.End ℝ V) v) := by
@@ -779,7 +836,86 @@ theorem realGEndAlgebra_equiv_quaternion_of_isQuaternionicType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsQuaternionicType ρ) :
     Nonempty (realGEndAlgebra ρ ≃ₐ[ℝ] Quaternion ℝ) := by
-  sorry
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  obtain ⟨j', hj'sq, hanti⟩ := exists_normalized_antilinear_of_isQuaternionicType hirr h
+  have hJsq : realJ ρ * realJ ρ = -1 := realJ_sq ρ
+  -- The quaternion basis on `realGEndAlgebra ρ`: `i = J`, `j = j'`, `k = J·j'`, with
+  -- `J² = -1`, `j'² = -1`, `Jj' = -j'J` giving the Hamilton relations `ℍ[ℝ,-1,0,-1]`.
+  let B : QuaternionAlgebra.Basis (realGEndAlgebra ρ) (-1 : ℝ) 0 (-1) :=
+    { i := realJ ρ
+      j := j'
+      k := realJ ρ * j'
+      i_mul_i := by rw [hJsq]; module
+      j_mul_j := by rw [hj'sq]; module
+      i_mul_j := rfl
+      j_mul_i := by rw [zero_smul, zero_sub, hanti, neg_neg] }
+  let Ψ : Quaternion ℝ →ₐ[ℝ] realGEndAlgebra ρ := QuaternionAlgebra.Basis.liftHom B
+  -- `↑j'` is `ℂ`-antilinear: `↑j' (i • v) = -(i • ↑j' v)`.
+  have hjI : ∀ v, (↑j' : Module.End ℝ V) (Complex.I • v)
+      = -(Complex.I • (↑j' : Module.End ℝ V) v) := by
+    intro v
+    have h0 : ((realJ ρ * j' : realGEndAlgebra ρ) : Module.End ℝ V)
+           = ((-(j' * realJ ρ) : realGEndAlgebra ρ) : Module.End ℝ V) := congrArg _ hanti
+    rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul] at h0
+    have hv := DFunLike.congr_fun h0 v
+    simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply] at hv
+    rw [hv, neg_neg]
+  -- `realGEndAlgebra ρ` is nontrivial (it acts faithfully on the nonzero space `V`).
+  haveI : Nontrivial (realGEndAlgebra ρ) := by
+    refine ⟨1, 0, fun hh => ?_⟩
+    obtain ⟨v, hv⟩ := exists_ne (0 : V)
+    apply hv
+    have h1 : ((1 : realGEndAlgebra ρ) : Module.End ℝ V)
+        = ((0 : realGEndAlgebra ρ) : Module.End ℝ V) := congrArg Subtype.val hh
+    have h2 := DFunLike.congr_fun h1 v
+    simpa using h2
+  -- `Ψ` is injective: `Quaternion ℝ` is a simple ring (division ring) and the target is nontrivial.
+  have hinj : Function.Injective Ψ := Ψ.toRingHom.injective
+  -- `Ψ` is surjective: every `f` decomposes as `z + w·j'` (`z, w ∈ ℂ`), using that the `ℂ`-linear
+  -- part `realPlus f` and the antilinear `realMinus f * j'` are complex scalars (Schur).
+  have hsurj : Function.Surjective Ψ := by
+    intro f
+    have hIm : ∀ w, (↑(realMinus f) : Module.End ℝ V) (Complex.I • w)
+        = -(Complex.I • (↑(realMinus f) : Module.End ℝ V) w) := by
+      intro w
+      have h0 : ((realJ ρ * realMinus f : realGEndAlgebra ρ) : Module.End ℝ V)
+             = ((-(realMinus f * realJ ρ) : realGEndAlgebra ρ) : Module.End ℝ V) :=
+        congrArg _ (realJ_mul_realMinus f)
+      rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul] at h0
+      have hv := DFunLike.congr_fun h0 w
+      simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply] at hv
+      rw [hv, neg_neg]
+    -- `realMinus f * j'` is `ℂ`-linear (composite of two antilinear maps).
+    have hTlin : ∀ v, (↑(realMinus f * j') : Module.End ℝ V) (Complex.I • v)
+        = Complex.I • (↑(realMinus f * j') : Module.End ℝ V) v := by
+      intro v
+      rw [Subalgebra.coe_mul]
+      simp only [Module.End.mul_apply]
+      rw [hjI v, map_neg, hIm, neg_neg]
+    obtain ⟨w, hw⟩ := schur_scalar hirr (toCLinear _ hTlin)
+      (fun g v => realGEnd_equivariant (realMinus f * j') g v)
+    have hmj : realMinus f * j' = complexToRealGEnd ρ w := by
+      apply Subtype.ext; ext v; rw [complexToRealGEnd_coe_apply]; exact hw v
+    -- `j'² = -1`, so `realMinus f = -(complexToRealGEnd w * j')`.
+    have hRM : realMinus f = -(complexToRealGEnd ρ w * j') :=
+      calc realMinus f = -(realMinus f * (j' * j')) := by rw [hj'sq, mul_neg_one, neg_neg]
+        _ = -(realMinus f * j' * j') := by rw [mul_assoc]
+        _ = -(complexToRealGEnd ρ w * j') := by rw [hmj]
+    obtain ⟨z, hz⟩ := realPlus_eq_complexScalar hirr f
+    have hfbasis : f = z.re • (1 : realGEndAlgebra ρ) + z.im • realJ ρ
+        + (-w.re) • j' + (-w.im) • (realJ ρ * j') := by
+      have hfdec : f = complexToRealGEnd ρ z + -(complexToRealGEnd ρ w * j') := by
+        conv_lhs => rw [← realPlus_add_realMinus f]
+        rw [hz, hRM]
+      rw [hfdec, complexToRealGEnd_eq z, complexToRealGEnd_eq w, add_mul, smul_mul_assoc,
+        smul_mul_assoc, one_mul]
+      module
+    refine ⟨(⟨z.re, z.im, -w.re, -w.im⟩ : Quaternion ℝ), ?_⟩
+    change algebraMap ℝ (realGEndAlgebra ρ) z.re + z.im • realJ ρ
+        + (-w.re) • j' + (-w.im) • (realJ ρ * j') = f
+    rw [Algebra.algebraMap_eq_smul_one, hfbasis]
+  exact ⟨(AlgEquiv.ofBijective Ψ ⟨hinj, hsurj⟩).symm⟩
 
 /-- Problem 5.1.2(b). An irreducible complex representation `V` is of real type if and only if it
 is the complexification of a real representation: there is a `G`-stable `ℝ`-subspace `W ⊆ V` (a
