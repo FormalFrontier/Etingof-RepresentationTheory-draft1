@@ -285,9 +285,204 @@ theorem finrank_g_one (k : Type*) [Field k] : Module.finrank k (g k 1) = 3 := by
   let b : Module.Basis (Fin 3) k (g k 1) := Module.Basis.mk (indep_one k) hspan
   rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
 
+/-!
+## Dimension of `𝔤₂` (type `B₂` positive nilpotent, dimension `4`)
+
+`𝔤₂` has basis of bracket monomials `{x̄, ȳ, z̄ := [x̄, ȳ], w̄ := [ȳ, z̄]}` (roots
+`β, α, α+β, α+2β` with `α` the long simple root). We prove the four bracket relations that
+close this set under bracket, then bound `finrank` from below (an explicit `gl₅` model) and
+above (the span is all of `𝔤₂`).
+-/
+
+/-- Image of `w̄ := [ȳ, z̄] = ad(ȳ)([x̄, ȳ])` in `𝔤ₙ`. In `𝔤₂` this is the top root vector. -/
+noncomputable def wb (n : ℕ) : g k n := ⁅yb k n, zb k n⁆
+
+/-- The relation `[ȳ, w̄] = 0` in `𝔤₂`: `[ȳ, [ȳ, z̄]] = -ad(ȳ)³(x̄) = 0`. -/
+theorem lie_yb_wb_two : ⁅yb k 2, wb k 2⁆ = 0 := by
+  have h : ⁅yb k 2, wb k 2⁆ = proj k 2 ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆ := by
+    simp only [wb, xb, yb, zb, LieHom.map_lie]
+  rw [h, proj_eq_zero_iff]
+  have hmem : (fun z => ⁅y k, z⁆)^[2 + 1] (x k) ∈ relIdeal k 2 :=
+    LieSubmodule.subset_lieSpan (Set.mem_insert_of_mem _ rfl)
+  have heq : ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆ = -(fun z => ⁅y k, z⁆)^[2 + 1] (x k) := by
+    change ⁅y k, ⁅y k, ⁅x k, y k⁆⁆⁆ = -⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆
+    rw [← lie_skew (x := x k) (y := y k), lie_neg, lie_neg]
+  rw [heq]; exact neg_mem hmem
+
+/-- The relation `[x̄, w̄] = 0` in `𝔤₂`, via the Jacobi identity:
+`[x̄, [ȳ, z̄]] = [[x̄, ȳ], z̄] + [ȳ, [x̄, z̄]] = [z̄, z̄] + [ȳ, 0] = 0`. -/
+theorem lie_xb_wb_two : ⁅xb k 2, wb k 2⁆ = 0 := by
+  have hz : ⁅xb k 2, yb k 2⁆ = zb k 2 := rfl
+  rw [wb, leibniz_lie, hz, lie_self, lie_xb_zb, lie_zero, add_zero]
+
+/-- The relation `[z̄, w̄] = 0` in `𝔤₂` (weight `2α+3β` is not a root), via Jacobi:
+`[[x̄, ȳ], w̄] = [x̄, [ȳ, w̄]] - [ȳ, [x̄, w̄]] = 0`. -/
+theorem lie_zb_wb_two : ⁅zb k 2, wb k 2⁆ = 0 := by
+  have hz : zb k 2 = ⁅xb k 2, yb k 2⁆ := rfl
+  rw [hz, lie_lie, lie_yb_wb_two, lie_xb_wb_two, lie_zero, lie_zero, sub_zero]
+
+section Matrix2
+attribute [local instance] LieRing.ofAssociativeRing
+
+/-- `x̄`-image in `gl₅`: root vector `E₀₁ - E₃₄` (a strictly-upper `so₅` element). -/
+private noncomputable def MX : Matrix (Fin 5) (Fin 5) k :=
+  Matrix.single 0 1 1 - Matrix.single 3 4 1
+/-- `ȳ`-image in `gl₅`: root vector `E₁₂ - E₂₃`. -/
+private noncomputable def MY : Matrix (Fin 5) (Fin 5) k :=
+  Matrix.single 1 2 1 - Matrix.single 2 3 1
+/-- `z̄ = [x̄, ȳ]`-image in `gl₅`: `E₀₂ - E₂₄`. -/
+private noncomputable def MZ : Matrix (Fin 5) (Fin 5) k :=
+  Matrix.single 0 2 1 - Matrix.single 2 4 1
+/-- `w̄ = [ȳ, z̄]`-image in `gl₅`: `E₀₃ - E₁₄`. -/
+private noncomputable def MW : Matrix (Fin 5) (Fin 5) k :=
+  Matrix.single 0 3 1 - Matrix.single 1 4 1
+
+/-- The Lie algebra hom `FreeLieAlgebra k (Fin 2) → gl₅(k)` sending `x ↦ MX`, `y ↦ MY`.
+    Its image realises the `4`-dimensional `B₂` positive nilpotent `⟨MX, MY, MZ, MW⟩`. -/
+noncomputable def matHom₂ : FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 5) (Fin 5) k :=
+  FreeLieAlgebra.lift k ![MX k, MY k]
+
+@[simp] theorem matHom₂_x : matHom₂ k (x k) = MX k := by
+  simp only [matHom₂, x, FreeLieAlgebra.lift_of_apply]; rfl
+
+@[simp] theorem matHom₂_y : matHom₂ k (y k) = MY k := by
+  simp only [matHom₂, y, FreeLieAlgebra.lift_of_apply]; rfl
+
+/-- `[MX, MY] = MZ`. -/
+theorem bracket_MX_MY : ⁅MX k, MY k⁆ = MZ k := by
+  simp only [MX, MY, MZ, LieRing.of_associative_ring_bracket, sub_mul, mul_sub]
+  simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+
+/-- `[MY, MZ] = MW`. -/
+theorem bracket_MY_MZ : ⁅MY k, MZ k⁆ = MW k := by
+  simp only [MY, MZ, MW, LieRing.of_associative_ring_bracket, sub_mul, mul_sub]
+  simp [Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+  abel
+
+/-- `[MX, MZ] = 0` (realises the relation `ad(x̄)²(ȳ) = 0`). -/
+theorem bracket_MX_MZ : ⁅MX k, MZ k⁆ = 0 := by
+  simp only [MX, MZ, LieRing.of_associative_ring_bracket, sub_mul, mul_sub]
+  simp [Matrix.single_mul_single_of_ne]
+
+/-- `[MY, MW] = 0` (realises the relation `ad(ȳ)³(x̄) = 0`). -/
+theorem bracket_MY_MW : ⁅MY k, MW k⁆ = 0 := by
+  simp only [MY, MW, LieRing.of_associative_ring_bracket, sub_mul, mul_sub]
+  simp [Matrix.single_mul_single_of_ne]
+
+theorem matHom₂_relator1 : matHom₂ k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
+  rw [LieHom.map_lie, LieHom.map_lie, matHom₂_x, matHom₂_y, bracket_MX_MY, bracket_MX_MZ]
+
+theorem matHom₂_relator2 : matHom₂ k ((fun z => ⁅y k, z⁆)^[2 + 1] (x k)) = 0 := by
+  change matHom₂ k ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆ = 0
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₂_x, matHom₂_y]
+  have h1 : ⁅MY k, MX k⁆ = -MZ k := by rw [← lie_skew, bracket_MX_MY]
+  rw [h1, lie_neg, bracket_MY_MZ, lie_neg, bracket_MY_MW, neg_zero]
+
+theorem relIdeal_le_ker_matHom₂ : relIdeal k 2 ≤ (matHom₂ k).ker := by
+  rw [relIdeal, LieSubmodule.lieSpan_le]
+  intro w hw
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+  rcases hw with rfl | rfl
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₂_relator1 k
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₂_relator2 k
+
+/-- The images `x̄, ȳ, z̄ = [x̄, ȳ], w̄ = [ȳ, z̄]` are linearly independent in `𝔤₂`. -/
+theorem indep_two : LinearIndependent k ![xb k 2, yb k 2, zb k 2, wb k 2] := by
+  rw [Fintype.linearIndependent_iff]
+  intro c hc
+  rw [Fin.sum_univ_four] at hc
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+    Matrix.cons_val_two, Matrix.cons_val_three, Matrix.tail_cons] at hc
+  -- Push the vanishing combination into the free algebra, then into gl₅.
+  have hpw : proj k 2 (c 0 • x k + c 1 • y k + c 2 • ⁅x k, y k⁆ +
+      c 3 • ⁅y k, ⁅x k, y k⁆⁆) = 0 := by
+    rw [map_add, map_add, map_add, map_smul, map_smul, map_smul, map_smul,
+      LieHom.map_lie, LieHom.map_lie, LieHom.map_lie]
+    exact hc
+  have hmem := (proj_eq_zero_iff k 2 _).mp hpw
+  have hker := relIdeal_le_ker_matHom₂ k hmem
+  rw [LieHom.mem_ker, map_add, map_add, map_add, map_smul, map_smul, map_smul, map_smul,
+    LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₂_x, matHom₂_y,
+    bracket_MX_MY, bracket_MY_MZ] at hker
+  -- hker : c 0 • MX + c 1 • MY + c 2 • MZ + c 3 • MW = 0. Read off each coefficient.
+  simp only [MX, MY, MZ, MW] at hker
+  intro i
+  fin_cases i
+  · have := congrFun (congrFun hker 0) 1
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 1) 2
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 0) 2
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+  · have := congrFun (congrFun hker 0) 3
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+
+end Matrix2
+
+/-- The four elements `x̄, ȳ, z̄, w̄` span `𝔤₂` as a module. -/
+theorem span_eq_top_two :
+    Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} = ⊤ := by
+  have hclosed : ∀ {u v : g k 2}, u ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} →
+      v ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} →
+      ⁅u, v⁆ ∈ Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} := by
+    intro u v hu hv
+    induction hu, hv using Submodule.span_induction₂ with
+    | mem_mem a b ha hb =>
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
+      have hz : zb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
+      have hw : wb k 2 ∈ ({xb k 2, yb k 2, zb k 2, wb k 2} : Set (g k 2)) := by simp
+      rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl
+      -- a = x̄
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · exact Submodule.subset_span hz
+      · rw [lie_xb_zb]; exact Submodule.zero_mem _
+      · rw [lie_xb_wb_two]; exact Submodule.zero_mem _
+      -- a = ȳ
+      · rw [← lie_skew (x := yb k 2) (y := xb k 2)]
+        exact neg_mem (Submodule.subset_span hz)
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · exact Submodule.subset_span hw
+      · rw [lie_yb_wb_two]; exact Submodule.zero_mem _
+      -- a = z̄
+      · rw [← lie_skew (x := zb k 2) (y := xb k 2), lie_xb_zb, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := zb k 2) (y := yb k 2)]
+        exact neg_mem (Submodule.subset_span hw)
+      · rw [lie_self]; exact Submodule.zero_mem _
+      · rw [lie_zb_wb_two]; exact Submodule.zero_mem _
+      -- a = w̄
+      · rw [← lie_skew (x := wb k 2) (y := xb k 2), lie_xb_wb_two, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := wb k 2) (y := yb k 2), lie_yb_wb_two, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [← lie_skew (x := wb k 2) (y := zb k 2), lie_zb_wb_two, neg_zero]
+        exact Submodule.zero_mem _
+      · rw [lie_self]; exact Submodule.zero_mem _
+    | zero_left b hb => rw [zero_lie]; exact Submodule.zero_mem _
+    | zero_right a ha => rw [lie_zero]; exact Submodule.zero_mem _
+    | add_left a b c _ _ _ ha hb => rw [add_lie]; exact Submodule.add_mem _ ha hb
+    | add_right a b c _ _ _ ha hb => rw [lie_add]; exact Submodule.add_mem _ ha hb
+    | smul_left r a b _ _ ha => rw [smul_lie]; exact Submodule.smul_mem _ r ha
+    | smul_right r a b _ _ ha => rw [lie_smul]; exact Submodule.smul_mem _ r ha
+  let W : LieSubalgebra k (g k 2) :=
+    { Submodule.span k {xb k 2, yb k 2, zb k 2, wb k 2} with lie_mem' := @hclosed }
+  have hWtop : W = ⊤ := by
+    rw [← top_le_iff, ← lieSpan_gens_eq_top k 2, LieSubalgebra.lieSpan_le]
+    intro w hw
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+    rcases hw with rfl | rfl
+    · exact Submodule.subset_span (by simp)
+    · exact Submodule.subset_span (by simp)
+  have := congrArg (LieSubalgebra.toSubmodule) hWtop
+  simpa [W] using this
+
 /-- **(a)** `𝔤₂` is finite dimensional of dimension `4` (type `B₂` positive part). -/
-theorem finrank_g_two (k : Type*) [Field k] : Module.finrank k (g k 2) = 4 :=
-  sorry
+theorem finrank_g_two (k : Type*) [Field k] : Module.finrank k (g k 2) = 4 := by
+  have hspan : ⊤ ≤ Submodule.span k (Set.range ![xb k 2, yb k 2, zb k 2, wb k 2]) := by
+    rw [Matrix.range_cons, Matrix.range_cons, Matrix.range_cons, Matrix.range_cons_empty,
+      Set.singleton_union, Set.singleton_union, Set.singleton_union, span_eq_top_two]
+  let b : Module.Basis (Fin 4) k (g k 2) := Module.Basis.mk (indep_two k) hspan
+  rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
