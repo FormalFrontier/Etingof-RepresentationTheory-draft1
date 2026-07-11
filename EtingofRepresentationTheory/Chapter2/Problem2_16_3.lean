@@ -556,15 +556,68 @@ theorem relIdeal_le_ker_matHom₄ : relIdeal k 4 ≤ (matHom₄ k).ker := by
   · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄_relator1 k
   · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄_relator2 k
 
+/-!
+### Reduction of infinite-dimensionality to the image of `matHom₄`
+
+Since `matHom₄` kills the defining relators (`relIdeal_le_ker_matHom₄`), it factors as a
+`k`-linear map `ḡ : 𝔤₄ → gl₃(k[t])` through the quotient. Its range equals `range matHom₄`,
+and the range of a linear map out of a finite module is finite. Hence to prove `𝔤₄` is *not*
+finite dimensional it suffices to prove `range matHom₄` is not finite dimensional — a purely
+matrix-theoretic statement about the twisted `A₂⁽²⁾` loop image.
+
+This reduction holds over **any** field. The remaining work (proving `range matHom₄` is
+infinite dimensional) is characteristic dependent: it holds iff `char k ≠ 3` (the `t`-degree
+climb of the loop image carries the scalars `3` and `6`, so it collapses to `4` dimensions
+exactly at characteristic `3`). See the tracking issues for the `char = 3` witness. -/
+
+/-- `matHom₄` factored through the quotient `𝔤₄ = Free ⧸ relIdeal`, as a `k`-linear map.
+Its range is exactly `range matHom₄` (`range_gbar`). -/
+noncomputable def gbar : g k 4 →ₗ[k] Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  Submodule.liftQ (relIdeal k 4).toSubmodule (matHom₄ k).toLinearMap
+    (fun a ha => by
+      rw [LinearMap.mem_ker]
+      have hmem : a ∈ relIdeal k 4 := ha
+      have := relIdeal_le_ker_matHom₄ k hmem
+      rwa [LieHom.mem_ker] at this)
+
+/-- The factored map `ḡ` has the same range as `matHom₄`. -/
+theorem range_gbar :
+    LinearMap.range (gbar k) = LinearMap.range (matHom₄ k).toLinearMap :=
+  Submodule.range_liftQ _ _ _
+
+/-- If `𝔤₄` is a finite `k`-module then so is the loop image `range matHom₄`
+(image of a linear map out of a finite module). -/
+theorem finite_range_matHom₄_of_finite (h : Module.Finite k (g k 4)) :
+    Module.Finite k (LinearMap.range (matHom₄ k).toLinearMap) := by
+  rw [← range_gbar]
+  exact Module.Finite.range (gbar k)
+
+/-- **Reduction lemma.** To prove `𝔤₄` is infinite dimensional it suffices to show the twisted
+loop image `range matHom₄` is infinite dimensional. -/
+theorem not_finite_g_four_of_not_finite_range
+    (h : ¬ Module.Finite k (LinearMap.range (matHom₄ k).toLinearMap)) :
+    ¬ Module.Finite k (g k 4) :=
+  fun hfin => h (finite_range_matHom₄_of_finite k hfin)
+
+/-- **(b)** `𝔤₄` is infinite dimensional (the Cartan matrix `[[2,-1],[-4,2]]` is of affine type,
+determinant `0`).
+
+By the reduction lemma it suffices to show the twisted `A₂⁽²⁾` loop image `range matHom₄` is
+infinite dimensional. This holds **iff** `char k ≠ 3`: the `t`-degree climb of the loop image
+carries the scalars `3` and `6` (from `ad(y)³x = 3(E₀₁+E₁₂)`, `ad(y)⁴x = 6E₀₂`), so at
+characteristic `3` the image collapses to `4` dimensions. The `char ≠ 3` and `char = 3` cases
+are tracked as follow-up issues; the latter needs a separate witness representation because the
+`𝔰𝔩₃`-loop collapse mod `3` is intrinsic (`ad(y)²x ∝ I` regardless of scaling). -/
+theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k (g k 4) :=
+  not_finite_g_four_of_not_finite_range k (by
+    -- Remaining obligation: `range matHom₄` is infinite dimensional (holds for `char k ≠ 3`;
+    -- `char k = 3` needs a separate witness). See tracking issues.
+    sorry)
+
 end Matrix4
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
-  sorry
-
-/-- **(b)** `𝔤₄` is infinite dimensional (the Cartan matrix `[[2,-1],[-4,2]]` is of affine type,
-determinant `0`). -/
-theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k (g k 4) :=
   sorry
 
 end Etingof.Problem2_16_3
