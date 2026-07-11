@@ -492,6 +492,27 @@ theorem barDiff_eq_sum_barFace (n : ℕ) :
   rw [barFace, coeffFace_last, ofCoeff_tmul, coeffFaceLast]
   simp [TensorProduct.smul_tmul']
 
+omit [Module A W] [IsScalarTower k A W] in
+/-- Two `A`-linear maps out of a bar term agree once they agree on the pure generators
+`a₀ ⊗ (tprod v ⊗ w)`. -/
+theorem barModule_hom_ext {n m : ℕ}
+    {F G : barModule k A W (n + 1) →ₗ[A] barModule k A W m}
+    (h : ∀ (a₀ : A) (v : Fin (n + 1) → A) (w : W),
+      F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
+    F = G := by
+  refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul p w =>
+      induction p using PiTensorProduct.induction_on with
+      | smul_tprod r v =>
+          simp only [← TensorProduct.smul_tmul', TensorProduct.tmul_smul,
+            LinearMap.map_smul_of_tower]
+          rw [h a₀ v w]
+      | add x y hx hy =>
+          rw [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, map_add, hx, hy]
+  | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, hx, hy]
+
 end BarFaces
 
 end Etingof.BarResolution
