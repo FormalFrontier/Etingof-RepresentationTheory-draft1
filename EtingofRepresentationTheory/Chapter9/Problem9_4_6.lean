@@ -1,5 +1,6 @@
 import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Combinatorics.Quiver.Path
+import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
@@ -79,7 +80,11 @@ theorem cartanMatrix_pathAlgebra_eq_pathCount
     [∀ i, SMulCommClass (Etingof.PathAlgebra k Q) k (P i)]
     (hcover : ∀ i j : Q,
       Nonempty ((P i →ₗ[Etingof.PathAlgebra k Q] P j) ≃ₗ[k] (Quiver.Path i j →₀ k))) :
-    Etingof.algebraCartanMatrix (k := k) (A := Etingof.PathAlgebra k Q) P = pathCountMatrix Q :=
-  sorry
+    Etingof.algebraCartanMatrix (k := k) (A := Etingof.PathAlgebra k Q) P = pathCountMatrix Q := by
+  ext i j
+  obtain ⟨e⟩ := hcover i j
+  have : Fintype (Quiver.Path i j) := Fintype.ofFinite _
+  simp only [Etingof.algebraCartanMatrix, pathCountMatrix, Matrix.of_apply]
+  rw [e.finrank_eq, Module.finrank_finsupp_self, Nat.card_eq_fintype_card]
 
 end Etingof.Problem946
