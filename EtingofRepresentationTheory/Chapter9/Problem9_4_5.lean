@@ -136,6 +136,27 @@ theorem homClassVector_simple_eq_single
   simp only [homClassVector, hP_cover i j, Pi.single_apply]
   split <;> simp_all [eq_comm]
 
+/-- **Class-vector additivity on short exact sequences.** For a submodule `N' ≤ N`,
+`homClassVector P N = homClassVector P N' + homClassVector P (N ⧸ N')`. Entrywise this is
+`finrank_hom_additive_of_projective` (Hom_A(Pᵢ, −) is exact on the short exact sequence
+`0 → N' → N → N/N' → 0` because each `Pᵢ` is projective), cast to `ℤ`. -/
+theorem homClassVector_add_quotient
+    {k : Type*} [Field k] {A : Type*} [Ring A] [Algebra k A]
+    {ι : Type*} (P : ι → Type*)
+    [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)] [∀ i, Module k (P i)]
+    [∀ i, Module.Projective A (P i)] [∀ i, IsScalarTower k A (P i)]
+    [∀ i, SMulCommClass A k (P i)] [∀ i, Module.Finite k (P i)]
+    (N : Type*) [AddCommGroup N] [Module A N] [Module k N]
+    [IsScalarTower k A N] [SMulCommClass A k N] [Module.Finite k N]
+    (N' : Submodule A N) :
+    homClassVector (k := k) (A := A) P N =
+      homClassVector (k := k) (A := A) P N' + homClassVector (k := k) (A := A) P (N ⧸ N') := by
+  funext i
+  simp only [homClassVector, Pi.add_apply]
+  rw [finrank_hom_additive_of_projective (P := P i) N']
+  push_cast
+  ring
+
 /-- **Problem 9.4.5 (i).** If the finite dimensional algebra `A` has finite homological
 dimension, then the determinant of its Cartan matrix `C` is `±1`.
 
