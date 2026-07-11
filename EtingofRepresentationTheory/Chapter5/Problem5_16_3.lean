@@ -426,6 +426,42 @@ lemma spechtModuleCharacter_permEmbZero_eq_sum (m : ℕ) (la : Nat.Partition (m 
       ∑ ν ∈ removeSquare la, spechtModuleCharacter m ν σ := by
   rw [spechtModuleCharacter_conj_permEmbZero, res_spechtModule_character]
 
+/-- **Branching is multiplicity-free.** The multiplicity of `V_ν` (`ν ⊢ m`) in the restriction of
+`V_la` (`la ⊢ m+1`) to `Sₘ` (first-point stabiliser `permEmbZero`) is `1` if `ν ∈ removeSquare la`
+and `0` otherwise. Recovered from the branching character identity by orthonormality of Specht
+characters. -/
+lemma repIsotypicMult_restrictRep_spechtModule (m : ℕ) (la : Nat.Partition (m + 1))
+    (ν : Nat.Partition m) :
+    repIsotypicMult m (restrictRep m (spechtModuleRep (m + 1) la)) ν
+      = if ν ∈ removeSquare la then 1 else 0 := by
+  classical
+  set ρW := restrictRep m (spechtModuleRep (m + 1) la) with hρW
+  haveI : Module.Finite ℂ ↥(SpechtModule (m + 1) la) := inferInstance
+  -- The character of the restricted representation is the branching sum.
+  have hchar : ∀ σ : Equiv.Perm (Fin m),
+      moduleCharacter m ρW.asModule σ = ∑ ρ ∈ removeSquare la, spechtModuleCharacter m ρ σ := by
+    intro σ
+    rw [← repCharacter_eq_moduleCharacter m ρW σ]
+    have h1 : LinearMap.trace ℂ _ (ρW σ) =
+        spechtModuleCharacter (m + 1) la (permEmbZero m σ) := rfl
+    rw [h1, spechtModuleCharacter_permEmbZero_eq_sum]
+  -- Recover the multiplicity from the character via Specht-character orthonormality.
+  have hfac := factorial_mul_isotypicMult m ρW.asModule ν
+  have hrhs : ∑ σ : Equiv.Perm (Fin m),
+        moduleCharacter m ρW.asModule σ * spechtModuleCharacter m ν σ⁻¹
+      = (Nat.factorial m : ℂ) * (if ν ∈ removeSquare la then 1 else 0) := by
+    simp_rw [hchar, Finset.sum_mul]
+    rw [Finset.sum_comm]
+    rw [Finset.sum_congr rfl (fun ρ _ => specht_char_inner m ρ ν), ← Finset.mul_sum,
+      Finset.sum_ite_eq' (removeSquare la) ν (fun _ => (1 : ℂ))]
+  rw [hrhs] at hfac
+  have hne : (Nat.factorial m : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero m)
+  have hmul := mul_left_cancel₀ hne hfac
+  change isotypicMult m ρW.asModule ν = _
+  by_cases h : ν ∈ removeSquare la
+  · simp only [h, if_true] at hmul ⊢; exact_mod_cast hmul
+  · simp only [h, if_false] at hmul ⊢; exact_mod_cast hmul
+
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
 Young diagram. -/
