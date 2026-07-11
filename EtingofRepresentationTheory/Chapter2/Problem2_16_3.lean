@@ -621,6 +621,113 @@ theorem matHom₄c_relator1 (h3 : (3 : k) = 0) : matHom₄c k ⁅x k, ⁅x k, y 
       mul_zero]
   rw [hz, Matrix.single_zero]
 
+/-- `ad(y)⁵(x)` maps to `0`: the relator `ad(y)⁵(x)` lies in the kernel (holds over any base,
+`ad(NYc)⁵(NXc) = 0` already over `ℤ`). -/
+theorem matHom₄c_relator2 : matHom₄c k ((fun z => ⁅y k, z⁆)^[4 + 1] (x k)) = 0 := by
+  change matHom₄c k ⁅y k, ⁅y k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆⁆ = 0
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie,
+    matHom₄c_x, matHom₄c_y]
+  simp [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne]
+
+/-- The defining relators of `𝔤₄` lie in the kernel of `matHom₄c` when `3 = 0`, so `matHom₄c`
+factors through `𝔤₄`. -/
+theorem relIdeal_le_ker_matHom₄c (h3 : (3 : k) = 0) : relIdeal k 4 ≤ (matHom₄c k).ker := by
+  rw [relIdeal, LieSubmodule.lieSpan_le]
+  intro w hw
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
+  rcases hw with rfl | rfl
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄c_relator1 k h3
+  · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄c_relator2 k
+
+/-- The image of `⁅y, x⁆` divided by `t`: the diagonal `diag(0, -1, 2, -1)`. It multiplies each
+row-`0` off-diagonal matrix `E₀ⱼ` by `-2`, which is `1` when `3 = 0`. -/
+noncomputable def Ucon : Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  Matrix.single 1 1 (-1 : Polynomial k) + Matrix.single 2 2 (2 : Polynomial k)
+    + Matrix.single 3 3 (-1 : Polynomial k)
+
+/-- The fixed matrix `E₀₂` carrying the infinite `t`-tower. -/
+noncomputable def E02c : Matrix (Fin 4) (Fin 4) (Polynomial k) := Matrix.single 0 2 1
+
+/-- `⁅y, x⁆` maps to `t·diag(0, -1, 2, -1)` (holds over any base). -/
+theorem lie_NYc_NXc : ⁅NYc k, NXc k⁆ = (Polynomial.X : Polynomial k) • Ucon k := by
+  simp only [NYc, NXc, Ucon, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+    not_false_eq_true, reduceCtorEq]
+  apply Matrix.ext; intro i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, Matrix.smul_apply] <;> ring
+
+/-- `diag(0, -1, 2, -1)` acts on `E₀₂` by multiplication by `-2` (holds over any base). -/
+theorem lie_Ucon_E02c : ⁅Ucon k, E02c k⁆ = (-2 : Polynomial k) • E02c k := by
+  simp only [Ucon, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+    not_false_eq_true, reduceCtorEq]
+  apply Matrix.ext; intro i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, Matrix.smul_apply] <;> ring
+
+/-- One climbing step: `⁅⁅y, x⁆, tᵐ·E₀₂⁆ = tᵐ⁺¹·E₀₂` when `3 = 0` (the factor `-2` becomes `1`). -/
+theorem matHom₄c_step (h3 : (3 : k) = 0) (m : ℕ) :
+    ⁅⁅NYc k, NXc k⁆, (Polynomial.X : Polynomial k) ^ m • E02c k⁆
+      = (Polynomial.X : Polynomial k) ^ (m + 1) • E02c k := by
+  rw [lie_NYc_NXc, smul_lie, lie_smul, lie_Ucon_E02c, smul_smul, smul_smul]
+  congr 1
+  have hm2 : (-2 : Polynomial k) = 1 := by
+    rw [show (-2 : Polynomial k) = 1 - 3 by ring, three_eq_zero_poly k h3, sub_zero]
+  rw [hm2]; ring
+
+/-- The degree-`2` seed of the tower: `⁅x, ad(y)³ x⁆` maps to `t²·E₀₂` when `3 = 0`. We compute the
+`ad(y)`-string `ad(y)ᵏ x` one bracket at a time (staging keeps each `simp` small). -/
+theorem matHom₄c_base (h3 : (3 : k) = 0) :
+    matHom₄c k ⁅x k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆ = (Polynomial.X : Polynomial k) ^ 2 • E02c k := by
+  have h3p := three_eq_zero_poly k h3
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, LieHom.map_lie, matHom₄c_x, matHom₄c_y]
+  have e1 : ⁅NYc k, NXc k⁆
+      = Matrix.single (1 : Fin 4) (1 : Fin 4) (-Polynomial.X)
+        + Matrix.single (2 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
+        + Matrix.single (3 : Fin 4) (3 : Fin 4) (-Polynomial.X) := by
+    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true, reduceCtorEq]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+  have e2 : ⁅NYc k, ⁅NYc k, NXc k⁆⁆
+      = Matrix.single (0 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
+        + Matrix.single (2 : Fin 4) (3 : Fin 4) (-6 * Polynomial.X) := by
+    rw [e1]
+    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true, reduceCtorEq]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+  have e3 : ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆
+      = Matrix.single (0 : Fin 4) (3 : Fin 4) (-10 * Polynomial.X)
+        + Matrix.single (2 : Fin 4) (1 : Fin 4) (6 * Polynomial.X) := by
+    rw [e2]
+    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true, reduceCtorEq]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+  -- `⁅x, ad(y)³ x⁆ = t²·E₀₂ + 3·(junk)`; the `3·(junk)` term vanishes when `3 = 0`.
+  have key : ⁅NXc k, ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆⁆
+      = (Polynomial.X : Polynomial k) ^ 2 • E02c k
+        + (3 : Polynomial k) • (Matrix.single (0 : Fin 4) (2 : Fin 4) (3 * Polynomial.X ^ 2)
+            + Matrix.single (2 : Fin 4) (3 : Fin 4) (-2 * Polynomial.X ^ 2)
+            + Matrix.single (3 : Fin 4) (1 : Fin 4) (2 * Polynomial.X ^ 2)) := by
+    rw [e3]
+    simp only [NXc, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true, reduceCtorEq]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, Matrix.smul_apply] <;> ring
+  rw [key, h3p, zero_smul, add_zero]
+
 end Matrix4c
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
