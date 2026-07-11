@@ -447,6 +447,31 @@ cheaply: the idempotent `α⁻¹·c_λ` makes `χ(σ) = trace(L_σ ∘ R_{α⁻�
 transfers. Worked example: `Chapter5/SpechtCharacterGeneral.lean` (#4991). Also: `set G := Equiv.Perm (Fin n)` where
 `G` is *also* a binder's type duplicates the variable (`σ✝` vs `σ`) — write the type literally instead of `set`.
 
+### `restrictScalars k` map equalities over `A ⊗[k] X` modules are prohibitively slow for symbolic degree — state the identity pointwise (Ch8 bar resolution, #6414)
+
+When a map is `A`-linear (e.g. the bar differential `barDiff n : (A ⊗[k] Xₙ₊₁) →ₗ[A] (A ⊗[k] Xₙ)`) and
+you want to compose it with a `k`-linear map, the natural statement `(barDiff n).restrictScalars k |>.comp …
+= …` forces `LinearMap.CompatibleSMul (A ⊗[k] Xₙ₊₁) (A ⊗[k] Xₙ) k A` synthesis. For a *concrete* degree
+(`n = 0`) this resolves; for *symbolic* `n` it **times out past 1M heartbeats** — even elaborating the
+statement (before any proof) hangs at `synthesize pending MVars`. **Fix:** state the identity **pointwise**
+`∀ x, f (g x) + … = x` (application of an `A`-linear map to an element needs no `CompatibleSMul`), prove it
+on generators, and extend to all `x` by a `TensorProduct.induction_on` / `PiTensorProduct.induction_on`
+wrapper (`map_add`/`add_add_add_comm` for the add cases; for the `smul_tprod r v` case use
+`TensorProduct.smul_tmul` to move `r` onto `w` and reuse the generator lemma with `r • w`). The pointwise
+form is equivalent and directly usable downstream. Prefer it for any barModule-style map with symbolic degree.
+
+### `Fin.cons`/`Fin.init` on an empty or symbolic domain leaves the family `α` a metavariable — pin `(α := fun _ => A)` (#6414)
+
+`Fin.cons`/`Fin.init` are dependent (`{α : Fin (n+1) → Sort*}`). For an *empty* tail (`v : Fin 0 → A`) or a
+subterm whose expected type doesn't constrain `α` (the `Fin.init` output type `∀ i, α i.castSucc` is vacuous
+when the domain is `Fin 0`), elaboration leaves `α` — and hence the explicit args a₀/v — as unsolved
+metavars: `rw`/`show`/`funext` with a bare `Fin.cons a₀ v` fails with "type mismatch `?m i` vs `A`" or
+"did not find pattern `Fin.cons ?m ?m`". **Fix:** write `Fin.cons (α := fun _ : Fin (n+2) => A) a₀ v`
+explicitly (match the family the *goal* uses — a const `fun _ => A` if it came from `tprod k (Fin.cons …)`).
+Also `Fin.last 0 = (0 : Fin 1)` needs `Fin.ext rfl`, not `Subsingleton.elim` (`Subsingleton (Fin (0+1))`
+doesn't synthesize). Separately, `tprod k (Fin.cons …)` is ambiguous with `_root_.tprod` (infinite products) —
+qualify as `PiTensorProduct.tprod k (Fin.cons …)`.
+
 ### Scalar extension `ℂ ⊗_ℚ k[S_n]·c_λ ≅ ℂ[S_n]·c_λ` (Specht rational form, #5234)
 
 To prove the base-change compatibility "`SpechtModuleK ℂ` is the complexification of `SpechtModuleK ℚ`"
