@@ -2161,6 +2161,16 @@ private lemma inducedRepV_orbit_classification {G A : Type} [Group G] [CommGroup
   have e1 : inducedRepV φ χ₂ (transportRep φ hg U₁) ≅ inducedRepV φ χ₂ U₂ := e0.trans e
   exact ⟨(inducedRepV_U_iso φ χ₂ (transportRep φ hg U₁) U₂ e1).symm⟩
 
+-- Dimension of the induced representation: the carrier of `inducedRepV φ χ U` is the Pi
+-- type `(G ⧸ stab χ) → U`, so its ℂ-dimension is `[G : stab χ] · dim U`.
+private lemma inducedRepV_finrank {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stabAux φ χ)) :
+    Module.finrank ℂ (inducedRepV φ χ U : Type) =
+      (stabAux φ χ).index * Module.finrank ℂ (U : Type) := by
+  classical
+  change Module.finrank ℂ ((G ⧸ stabAux φ χ) → ↥U) = _
+  rw [Module.finrank_pi_fintype, Finset.sum_const, Finset.card_univ, smul_eq_mul,
+    Subgroup.index_eq_card, Nat.card_eq_fintype_card]
 
 
 
@@ -2222,12 +2232,16 @@ theorem Etingof.Theorem5_27_1
               ∑ h : G, if hh : h * g * h⁻¹ ∈ stab χ
                 then (χ ((φ h : MulAut A) a) : ℂ) *
                   U.character ⟨h * g * h⁻¹, hh⟩
-                else 0) := by
+                else 0) ∧
+      -- (v) Dimension formula: dim V(χ, U) = [G : G_χ] · dim U
+      (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
+        Module.finrank ℂ (V χ U : Type) =
+          (stab χ).index * Module.finrank ℂ (U : Type)) := by
   -- Provide the dual action, stabilizer, and induced representation constructions
   refine ⟨dualSmulAux φ, fun g χ a => rfl, stabAux φ, fun χ g => Iff.rfl, ?_⟩
   -- Use the concrete induced representation V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
   refine ⟨fun χ U => inducedRepV φ χ U,
-    fun _ _ _ hg U₁ => transportRep φ hg U₁, ?_, ?_, ?_, ?_⟩
+    fun _ _ _ hg U₁ => transportRep φ hg U₁, ?_, ?_, ?_, ?_, ?_⟩
   -- (i) Irreducibility: V(χ, U) is irreducible when U is irreducible
   · exact fun χ U hU => inducedRepV_simple φ χ U hU
   -- (ii) Classification: iso forces same G-orbit and isomorphic transported U-component
@@ -2353,3 +2367,5 @@ theorem Etingof.Theorem5_27_1
         rw [mul_comm, sum_reindex, sum_decomp]
       · -- Need: |H| ≠ 0
         exact Nat.cast_ne_zero.mpr (Fintype.card_pos.ne')
+  -- (v) Dimension formula: dim V(χ, U) = [G : G_χ] · dim U
+  · exact fun χ U => inducedRepV_finrank φ χ U
