@@ -32,7 +32,13 @@ map `transport`, characterised by the same defining identities. The hypothesis i
 **(iv)** — the character formula — and the conclusion is the conjunction of parts **(i)**, **(ii)**,
 and **(iii)**, stated with the identical expressions used in `Etingof.Theorem5_27_1`.
 
-Statement pass: the deduction is left as `sorry`.
+The hypothesis `_htransport` characterizes the otherwise-free `transport` map by the character
+identity `χ_{g(U)}(s) = χ_U(g⁻¹ s g)` (mirroring `transportRep_ρ_apply`/`conjStabHom_coe` in
+`Theorem5_27_1.lean`). Without it the theorem is refutable, since a universally quantified free
+`transport` admits the adversarial choice `transport _ _ _ _ U := U ⊞ U`.
+
+Proof pass: the three parts are split into labeled `sorry` goals for follow-up. Parts (i)/(ii)
+go through character orthogonality; part (iii) through the sum-of-squares dimension count.
 -/
 
 noncomputable section
@@ -57,6 +63,14 @@ theorem Exercise5_27_3
     (V : (χ : A →* ℂˣ) → FDRep ℂ ↥(stab χ) → FDRep ℂ (A ⋊[φ] G))
     (transport : (g : G) → (χ₁ χ₂ : A →* ℂˣ) → dualSmul g χ₁ = χ₂ →
       FDRep ℂ ↥(stab χ₁) → FDRep ℂ ↥(stab χ₂))
+    -- Characterizing hypothesis for `transport`, mirroring `transportRep` in
+    -- `Theorem5_27_1.lean` (`transportRep_ρ_apply` / `conjStabHom_coe`): the transported
+    -- representation `g(U)` acts by `ρ_{g(U)}(s) = ρ_U(g⁻¹ s g)`, so its character at `s` is
+    -- the character of `U` at the conjugate `g⁻¹ s g ∈ G_{χ₁}`. Without this the theorem is
+    -- refutable, since `transport` would otherwise be a free, unconstrained function (see #6383).
+    (_htransport : ∀ (g : G) (χ₁ χ₂ : A →* ℂˣ) (hg : dualSmul g χ₁ = χ₂)
+        (U : FDRep ℂ ↥(stab χ₁)) (s : ↥(stab χ₂)) (hs : g⁻¹ * (s : G) * g ∈ stab χ₁),
+        (transport g χ₁ χ₂ hg U).character s = U.character ⟨g⁻¹ * (s : G) * g, hs⟩)
     -- Hypothesis: part (iv), the character formula.
     (character_formula :
       ∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)), Simple U →
@@ -81,6 +95,24 @@ theorem Exercise5_27_3
     (∀ (W : FDRep ℂ (A ⋊[φ] G)), Simple W →
         ∃ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
           Simple U ∧ Nonempty (W ≅ V χ U)) := by
-  sorry
+  refine ⟨?_, ?_, ?_⟩
+  · -- Part (i): irreducibility of `V χ U`.
+    -- Strategy (character orthogonality): from the character formula (iv), compute
+    -- `⟨χ_{V χ U}, χ_{V χ U}⟩ = 1` (an induced-character inner product that collapses,
+    -- by Frobenius reciprocity / Mackey, to `⟨χ_U, χ_U⟩ = 1` since `U` is simple), then
+    -- apply the converse orthonormality criterion `⟨χ_W, χ_W⟩ = 1 ⇒ Simple W` (Maschke +
+    -- linear independence of irreducible characters over ℂ). Tracked in the (i)+(ii) sub-issue.
+    sorry
+  · -- Part (ii): pairwise non-isomorphism.
+    -- Strategy: an isomorphism `V χ₁ U₁ ≅ V χ₂ U₂` forces equal characters; feeding the
+    -- character formula (iv) into `⟨χ_{V χ₁ U₁}, χ_{V χ₂ U₂}⟩ ≠ 0` forces the orbit data to
+    -- match, i.e. `dualSmul g χ₁ = χ₂` for some `g` and, via `_htransport`, `U₂ ≅ g(U₁)`.
+    -- Tracked in the (i)+(ii) sub-issue.
+    sorry
+  · -- Part (iii): completeness — every simple `W` is some `V χ U`.
+    -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
+    -- orbit decomposition) exhausts the regular representation, so no simple is missed.
+    -- Tracked in the (iii) sub-issue.
+    sorry
 
 end Etingof
