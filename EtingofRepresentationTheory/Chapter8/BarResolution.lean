@@ -364,4 +364,114 @@ theorem barDiff_tmul (n : ℕ) (a₀ : A) (c : barCoeff k A W (n + 1)) :
 
 end BarDifferential
 
+/-! ### The bar faces `δᵢ` and the differential as their alternating sum
+
+To prove `d ∘ d = 0` we present `barDiff` as the alternating sum `∑ i, (-1)ⁱ • barFace i` of the
+`n + 2` individual faces `barFace i : Pₙ₊₁ → Pₙ`, each an `A`-linear map, and reduce the square-zero
+relation to the simplicial identities `barFace i ∘ barFace j = barFace (j-1) ∘ barFace i` (`i < j`),
+following Mathlib's `AlgebraicTopology.AlternatingFaceMapComplex.d_squared`. -/
+
+section BarFaces
+
+/-- Package a `k`-linear coefficient map `barCoeff (n+1) → barModule n` as an `A`-linear map
+`barModule (n+1) → barModule n`, `a₀ ⊗ c ↦ a₀ • f c` (the same lift used for `barDiff`). -/
+noncomputable def ofCoeff {n : ℕ} (f : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n) :
+    barModule k A W (n + 1) →ₗ[A] barModule k A W n :=
+  TensorProduct.AlgebraTensorModule.lift
+    (LinearMap.toSpanSingleton A (barCoeff k A W (n + 1) →ₗ[k] barModule k A W n) f)
+
+omit [Module A W] [IsScalarTower k A W] in
+@[simp] theorem ofCoeff_tmul {n : ℕ} (f : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n)
+    (a₀ : A) (c : barCoeff k A W (n + 1)) :
+    ofCoeff k A W f (a₀ ⊗ₜ[k] c) = a₀ • f c := by
+  simp [ofCoeff, LinearMap.toSpanSingleton_apply]
+
+theorem barDiff_eq_ofCoeff (n : ℕ) : barDiff k A W n = ofCoeff k A W (barCoeffD k A W n) := rfl
+
+/-- The `i = 0` bar face at coefficient level (multiply the leading factor into the first tensor
+slot): `tprod v ⊗ w ↦ v 0 ⊗ (tprod (tail v) ⊗ w)`. -/
+noncomputable def coeffFaceZero (n : ℕ) : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n :=
+  (TensorProduct.assoc k A (⨂[k]^n A) W).toLinearMap
+    ∘ₗ TensorProduct.map (barConsSplit k A n) LinearMap.id
+
+/-- The interior bar face `1 ≤ i ≤ n` at coefficient level: merge tensor slots `j, j+1`. -/
+noncomputable def coeffFaceInterior (n : ℕ) (j : Fin n) :
+    barCoeff k A W (n + 1) →ₗ[k] barModule k A W n :=
+  oneTmul k A W n ∘ₗ TensorProduct.map (barMerge k A n j) LinearMap.id
+
+/-- The last bar face `i = n+1` at coefficient level: act the trailing tensor slot on `W`. -/
+noncomputable def coeffFaceLast (n : ℕ) : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n :=
+  oneTmul k A W n ∘ₗ barSnocAct k A W n
+
+/-- The `i`-th bar face at coefficient level (`i : Fin (n+2)`): face `0` multiplies the leading
+factor into the first slot, faces `1 ≤ i ≤ n` merge adjacent slots, face `n+1` acts the last slot on
+`W`. -/
+noncomputable def coeffFace (n : ℕ) (i : Fin (n + 2)) :
+    barCoeff k A W (n + 1) →ₗ[k] barModule k A W n :=
+  if h0 : (i : ℕ) = 0 then coeffFaceZero k A W n
+  else if hl : (i : ℕ) = n + 1 then coeffFaceLast k A W n
+  else coeffFaceInterior k A W n ⟨(i : ℕ) - 1, by have := i.isLt; omega⟩
+
+@[simp] theorem coeffFace_zero (n : ℕ) : coeffFace k A W n 0 = coeffFaceZero k A W n := by
+  simp [coeffFace]
+
+@[simp] theorem coeffFace_last (n : ℕ) :
+    coeffFace k A W n (Fin.last (n + 1)) = coeffFaceLast k A W n := by
+  rw [coeffFace, dif_neg (by simp), dif_pos (by simp)]
+
+theorem coeffFace_interior (n : ℕ) (j : Fin n) :
+    coeffFace k A W n j.succ.castSucc = coeffFaceInterior k A W n j := by
+  rw [coeffFace]
+  have h1 : ¬ ((j.succ.castSucc : Fin (n + 2)) : ℕ) = 0 := by simp [Fin.val_succ]
+  have h2 : ¬ ((j.succ.castSucc : Fin (n + 2)) : ℕ) = n + 1 := by
+    simp only [Fin.val_castSucc, Fin.val_succ]; have := j.isLt; omega
+  rw [dif_neg h1, dif_neg h2]
+  congr 1
+
+/-- The `i`-th bar face as an `A`-linear map `Pₙ₊₁ → Pₙ`. The bar differential is the alternating
+sum `∑ i, (-1)^i • barFace i` (`barDiff_eq_sum_barFace`). -/
+noncomputable def barFace (n : ℕ) (i : Fin (n + 2)) :
+    barModule k A W (n + 1) →ₗ[A] barModule k A W n :=
+  ofCoeff k A W (coeffFace k A W n i)
+
+omit [Module A W] [IsScalarTower k A W] in
+theorem ofCoeff_add {n : ℕ} (f g : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n) :
+    ofCoeff k A W (f + g) = ofCoeff k A W f + ofCoeff k A W g := by
+  refine TensorProduct.AlgebraTensorModule.ext (fun a₀ c => ?_)
+  simp [smul_add]
+
+omit [Module A W] [IsScalarTower k A W] in
+theorem ofCoeff_smul {n : ℕ} (c : k) (f : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n) :
+    ofCoeff k A W (c • f) = c • ofCoeff k A W f := by
+  refine TensorProduct.AlgebraTensorModule.ext (fun a₀ x => ?_)
+  simp only [ofCoeff_tmul, LinearMap.smul_apply]
+  rw [smul_comm]
+
+omit [Module A W] [IsScalarTower k A W] in
+theorem ofCoeff_sum {n : ℕ} {ι : Type*} (s : Finset ι)
+    (f : ι → (barCoeff k A W (n + 1) →ₗ[k] barModule k A W n)) :
+    ofCoeff k A W (∑ i ∈ s, f i) = ∑ i ∈ s, ofCoeff k A W (f i) := by
+  classical
+  induction s using Finset.induction with
+  | empty => refine TensorProduct.AlgebraTensorModule.ext (fun a₀ c => ?_); simp [ofCoeff]
+  | insert x s hx ih => rw [Finset.sum_insert hx, Finset.sum_insert hx, ofCoeff_add, ih]
+
+/-- The coefficient-level bar differential is the alternating sum of the bar faces. -/
+theorem barCoeffD_eq_sum_coeffFace (n : ℕ) :
+    barCoeffD k A W n = ∑ i : Fin (n + 2), (-1 : k) ^ (i : ℕ) • coeffFace k A W n i := by
+  rw [Fin.sum_univ_succ, Fin.sum_univ_castSucc]
+  have hlast : ((Fin.last n).succ : Fin (n + 2)) = Fin.last (n + 1) := Fin.succ_last n
+  simp only [Fin.val_zero, pow_zero, one_smul, coeffFace_zero, Fin.val_succ, Fin.val_castSucc,
+    Fin.succ_castSucc, coeffFace_interior, hlast, coeffFace_last, Fin.val_last]
+  rw [barCoeffD]
+  abel
+
+/-- **The bar differential as an alternating sum of faces.** -/
+theorem barDiff_eq_sum_barFace (n : ℕ) :
+    barDiff k A W n = ∑ i : Fin (n + 2), (-1 : k) ^ (i : ℕ) • barFace k A W n i := by
+  rw [barDiff_eq_ofCoeff, barCoeffD_eq_sum_coeffFace, ofCoeff_sum]
+  simp only [ofCoeff_smul, barFace]
+
+end BarFaces
+
 end Etingof.BarResolution
