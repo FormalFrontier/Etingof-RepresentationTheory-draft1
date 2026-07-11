@@ -566,7 +566,85 @@ theorem Exercise5_27_3
       rw [hsum0, mul_zero]
     obtain ⟨g, hg⟩ := hgexists
     refine ⟨g, hg, ?_⟩
-    -- Remaining: `Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁)` via a same-orbit Mackey computation.
+    set W := transport g χ₁ χ₂ hg U₁ with hW_def
+    -- Conjugation by `g` is a bijection `stab χ₂ ≃ stab χ₁` (`s ↦ g⁻¹ s g`), since `χ₂ = g · χ₁`.
+    have hconj_mem : ∀ s : G, s ∈ stab χ₂ ↔ g⁻¹ * s * g ∈ stab χ₁ := by
+      intro s
+      rw [_hstab, _hstab, ← hg, hds_mul]
+      constructor
+      · intro H
+        have hH := congrArg (dualSmul g⁻¹) H
+        rw [hds_mul, hds_mul, show g⁻¹ * (s * g) = g⁻¹ * s * g from by group,
+          inv_mul_cancel, hds_one] at hH
+        exact hH
+      · intro H
+        have hH := congrArg (dualSmul g) H
+        rw [hds_mul, show g * (g⁻¹ * s * g) = s * g from by group] at hH
+        exact hH
+    let cj : ↥(stab χ₂) ≃ ↥(stab χ₁) :=
+      { toFun := fun s => ⟨g⁻¹ * (s : G) * g, (hconj_mem s).mp s.2⟩
+        invFun := fun t => ⟨g * (t : G) * g⁻¹, by
+          rw [hconj_mem]; convert t.2 using 2; group⟩
+        left_inv := by intro s; apply Subtype.ext; show g * (g⁻¹ * (s : G) * g) * g⁻¹ = (s : G); group
+        right_inv := by intro t; apply Subtype.ext; show g⁻¹ * (g * (t : G) * g⁻¹) * g = (t : G); group }
+    have hcj_coe : ∀ s : ↥(stab χ₂), (cj s : G) = g⁻¹ * (s : G) * g := fun _ => rfl
+    have hcj_inv : ∀ s : ↥(stab χ₂), cj (s⁻¹) = (cj s)⁻¹ := fun s => by
+      apply Subtype.ext
+      simp only [hcj_coe, Subgroup.coe_inv]; group
+    have hcard_stab : (Fintype.card ↥(stab χ₂) : ℂ) = (Fintype.card ↥(stab χ₁) : ℂ) := by
+      exact_mod_cast Fintype.card_congr cj
+    -- `W = g(U₁)` has character `χ_W(s) = χ_{U₁}(g⁻¹ s g)` on `stab χ₂` (characterising hypothesis).
+    have hWchar : ∀ s : ↥(stab χ₂), W.character s = U₁.character (cj s) := by
+      intro s
+      rw [hW_def, _htransport g χ₁ χ₂ hg U₁ s ((hconj_mem (s : G)).mp s.2)]
+      exact congrArg U₁.character (Subtype.ext rfl)
+    -- Step A: `W` is simple (its character has norm one, via the conjugation bijection + `U₁` simple).
+    have hWsimple : Simple W := by
+      rw [FDRep.simple_iff_char_is_norm_one]
+      have hbij : (∑ s : ↥(stab χ₂), W.character s * W.character s⁻¹)
+          = ∑ t : ↥(stab χ₁), U₁.character t * U₁.character t⁻¹ := by
+        rw [← Equiv.sum_comp cj (fun t => U₁.character t * U₁.character t⁻¹)]
+        refine Finset.sum_congr rfl fun s _ => ?_
+        rw [hWchar s, hWchar (s⁻¹), hcj_inv s]
+      rw [hbij, (FDRep.simple_iff_char_is_norm_one U₁).mp hU₁]
+      exact_mod_cast Nat.card_congr cj.symm
+    -- Step B: `V χ₂ W` and `V χ₁ U₁` have equal characters (basepoint independence of induction).
+    have hcharVeq : (V χ₂ W).character = (V χ₁ U₁).character := by
+      funext x
+      obtain ⟨a, g'⟩ := x
+      rw [hcf χ₂ W hWsimple a g', hcf χ₁ U₁ hU₁ a g', hcard_stab]
+      congr 1
+      rw [← Equiv.sum_comp (Equiv.mulLeft g)
+        (fun h => (χ₂ ((φ h : MulAut A) a) : ℂ) * Uc χ₂ W (h * g' * h⁻¹))]
+      refine Finset.sum_congr rfl fun h _ => ?_
+      show (χ₂ ((φ (g * h) : MulAut A) a) : ℂ) * Uc χ₂ W ((g * h) * g' * (g * h)⁻¹)
+          = (χ₁ ((φ h : MulAut A) a) : ℂ) * Uc χ₁ U₁ (h * g' * h⁻¹)
+      -- Character factor: `χ₂((φ(g h))a) = χ₁((φ h)a)` since `dualSmul (g h)⁻¹ χ₂ = dualSmul h⁻¹ χ₁`.
+      have hchi : (χ₂ ((φ (g * h) : MulAut A) a) : ℂ) = (χ₁ ((φ h : MulAut A) a) : ℂ) := by
+        have h3 : dualSmul (g * h)⁻¹ χ₂ = dualSmul h⁻¹ χ₁ := by
+          rw [← hg, hds_mul, show (g * h)⁻¹ * g = h⁻¹ from by group]
+        have hu : (χ₂ ((φ (g * h) : MulAut A) a) : ℂˣ) = (χ₁ ((φ h : MulAut A) a) : ℂˣ) := by
+          rw [hcomp_eq χ₂ (g * h) a, hcomp_eq χ₁ h a, h3]
+        exact congrArg Units.val hu
+      -- Induced-datum factor: `Uc χ₂ W ((g h) g' (g h)⁻¹) = Uc χ₁ U₁ (h g' h⁻¹)`.
+      have hUcW : Uc χ₂ W ((g * h) * g' * (g * h)⁻¹) = Uc χ₁ U₁ (h * g' * h⁻¹) := by
+        rw [show (g * h) * g' * (g * h)⁻¹ = g * (h * g' * h⁻¹) * g⁻¹ from by group]
+        have hconjeq : g⁻¹ * (g * (h * g' * h⁻¹) * g⁻¹) * g = h * g' * h⁻¹ := by group
+        by_cases hz : (h * g' * h⁻¹) ∈ stab χ₁
+        · have hgz : g * (h * g' * h⁻¹) * g⁻¹ ∈ stab χ₂ := by
+            rw [hconj_mem, hconjeq]; exact hz
+          rw [hUc_app, dif_pos hgz, hUc_app, dif_pos hz,
+            hWchar ⟨g * (h * g' * h⁻¹) * g⁻¹, hgz⟩]
+          congr 1
+          apply Subtype.ext
+          rw [hcj_coe]
+          show g⁻¹ * (g * (h * g' * h⁻¹) * g⁻¹) * g = (h * g' * h⁻¹)
+          group
+        · have hgz : g * (h * g' * h⁻¹) * g⁻¹ ∉ stab χ₂ := by
+            rw [hconj_mem, hconjeq]; exact hz
+          rw [hUc_app, dif_neg hgz, hUc_app, dif_neg hz]
+      rw [hchi, hUcW]
+    -- Steps C–D: same-orbit Mackey reduction + `char_orthonormal` (see below).
     sorry
   · -- Part (iii): completeness — every simple `W` is some `V χ U`.
     -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
