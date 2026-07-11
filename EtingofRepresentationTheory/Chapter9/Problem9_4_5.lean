@@ -5,6 +5,7 @@ import Mathlib.Data.ENat.Lattice
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 import EtingofRepresentationTheory.Chapter9.Problem9_3_2
+import EtingofRepresentationTheory.Chapter9.TruncatedPolynomial
 
 /-!
 # Problem 9.4.5: Cartan determinant and some homological dimensions
@@ -66,8 +67,8 @@ theorem cartan_det_eq_pm_one
 `k[t]/tⁿ` has infinite homological dimension. -/
 theorem homologicalDimension_polynomial_quotient_eq_top
     (k : Type u) [Field k] (n : ℕ) (hn : 1 < n) :
-    Etingof.homologicalDimension (k[X] ⧸ Ideal.span {(Polynomial.X : k[X]) ^ n}) = ⊤ := by
-  sorry
+    Etingof.homologicalDimension (k[X] ⧸ Ideal.span {(Polynomial.X : k[X]) ^ n}) = ⊤ :=
+  Etingof.TruncatedPoly.homologicalDimension_eq_top_truncated k n hn
 
 open Etingof.Problem932 in
 /-- **Dimension shift (non-vanishing step).** For a short exact sequence
