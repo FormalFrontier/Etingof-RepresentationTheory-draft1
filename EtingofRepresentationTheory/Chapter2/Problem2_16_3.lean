@@ -6,7 +6,9 @@ import Mathlib.Data.Matrix.Basis
 import Mathlib.Algebra.Polynomial.AlgebraMap
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.Algebra.Polynomial.Basis
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -228,11 +230,11 @@ theorem indep_one : LinearIndependent k ![xb k 1, yb k 1, zb k 1] := by
   intro i
   fin_cases i
   · have := congrFun (congrFun hker 0) 1
-    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 1) 2
-    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 0) 2
-    simpa [Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.smul_apply] using this
 
 end Matrix
 
@@ -410,13 +412,13 @@ theorem indep_two : LinearIndependent k ![xb k 2, yb k 2, zb k 2, wb k 2] := by
   intro i
   fin_cases i
   · have := congrFun (congrFun hker 0) 1
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 1) 2
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 0) 2
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
   · have := congrFun (congrFun hker 0) 3
-    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply] using this
+    simpa [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] using this
 
 end Matrix2
 
@@ -609,12 +611,12 @@ theorem matHom₄c_relator1 (h3 : (3 : k) = 0) : matHom₄c k ⁅x k, ⁅x k, y 
   rw [LieHom.map_lie, LieHom.map_lie, matHom₄c_x, matHom₄c_y]
   have key : ⁅NXc k, ⁅NXc k, NYc k⁆⁆
       = Matrix.single (3 : Fin 4) (2 : Fin 4) (-3 * Polynomial.X ^ 2) := by
-    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
       Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-      not_false_eq_true, reduceCtorEq]
+      not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
   rw [key]
   have hz : (-3 * Polynomial.X ^ 2 : Polynomial k) = 0 := by
     rw [show (-3 * Polynomial.X ^ 2 : Polynomial k) = -(Polynomial.X ^ 2) * 3 by ring, h3p,
@@ -651,21 +653,21 @@ noncomputable def E02c : Matrix (Fin 4) (Fin 4) (Polynomial k) := Matrix.single 
 
 /-- `⁅y, x⁆` maps to `t·diag(0, -1, 2, -1)` (holds over any base). -/
 theorem lie_NYc_NXc : ⁅NYc k, NXc k⁆ = (Polynomial.X : Polynomial k) • Ucon k := by
-  simp only [NYc, NXc, Ucon, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+  simp only [NYc, NXc, Ucon, LieRing.of_associative_ring_bracket, mul_add, add_mul,
     Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-    not_false_eq_true, reduceCtorEq]
+    not_false_eq_true]
   apply Matrix.ext; intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, Matrix.smul_apply] <;> ring
+    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply] <;> ring
 
 /-- `diag(0, -1, 2, -1)` acts on `E₀₂` by multiplication by `-2` (holds over any base). -/
 theorem lie_Ucon_E02c : ⁅Ucon k, E02c k⁆ = (-2 : Polynomial k) • E02c k := by
-  simp only [Ucon, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+  simp only [Ucon, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul,
     Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-    not_false_eq_true, reduceCtorEq]
+    not_false_eq_true]
   apply Matrix.ext; intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, Matrix.smul_apply] <;> ring
+    simp [Matrix.sub_apply, Matrix.smul_apply]
 
 /-- One climbing step: `⁅⁅y, x⁆, tᵐ·E₀₂⁆ = tᵐ⁺¹·E₀₂` when `3 = 0` (the factor `-2` becomes `1`). -/
 theorem matHom₄c_step (h3 : (3 : k) = 0) (m : ℕ) :
@@ -687,32 +689,32 @@ theorem matHom₄c_base (h3 : (3 : k) = 0) :
       = Matrix.single (1 : Fin 4) (1 : Fin 4) (-Polynomial.X)
         + Matrix.single (2 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
         + Matrix.single (3 : Fin 4) (3 : Fin 4) (-Polynomial.X) := by
-    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
       Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-      not_false_eq_true, reduceCtorEq]
+      not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
   have e2 : ⁅NYc k, ⁅NYc k, NXc k⁆⁆
       = Matrix.single (0 : Fin 4) (2 : Fin 4) (2 * Polynomial.X)
         + Matrix.single (2 : Fin 4) (3 : Fin 4) (-6 * Polynomial.X) := by
     rw [e1]
-    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
       Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-      not_false_eq_true, reduceCtorEq]
+      not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
   have e3 : ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆
       = Matrix.single (0 : Fin 4) (3 : Fin 4) (-10 * Polynomial.X)
         + Matrix.single (2 : Fin 4) (1 : Fin 4) (6 * Polynomial.X) := by
     rw [e2]
-    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    simp only [NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul,
       Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-      not_false_eq_true, reduceCtorEq]
+      not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+      simp [Matrix.add_apply, Matrix.sub_apply] <;> ring
   -- `⁅x, ad(y)³ x⁆ = t²·E₀₂ + 3·(junk)`; the `3·(junk)` term vanishes when `3 = 0`.
   have key : ⁅NXc k, ⁅NYc k, ⁅NYc k, ⁅NYc k, NXc k⁆⁆⁆⁆
       = (Polynomial.X : Polynomial k) ^ 2 • E02c k
@@ -720,15 +722,70 @@ theorem matHom₄c_base (h3 : (3 : k) = 0) :
             + Matrix.single (2 : Fin 4) (3 : Fin 4) (-2 * Polynomial.X ^ 2)
             + Matrix.single (3 : Fin 4) (1 : Fin 4) (2 * Polynomial.X ^ 2)) := by
     rw [e3]
-    simp only [NXc, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+    simp only [NXc, E02c, LieRing.of_associative_ring_bracket, mul_add, add_mul,
       Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
-      not_false_eq_true, reduceCtorEq]
+      not_false_eq_true]
     apply Matrix.ext; intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, Matrix.smul_apply] <;> ring
+      simp [Matrix.add_apply] <;> ring
   rw [key, h3p, zero_smul, add_zero]
 
+/-- The climbing tower in the free Lie algebra: `S₀ = ⁅x, ad(y)³ x⁆` and `Sₙ₊₁ = ⁅⁅y, x⁆, Sₙ⁆`. -/
+noncomputable def towerElt : ℕ → FreeLieAlgebra k (Fin 2)
+  | 0 => ⁅x k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆
+  | (n + 1) => ⁅⁅y k, x k⁆, towerElt n⁆
+
+/-- The tower climbs in `t`-degree: `matHom₄c (Sₙ) = tⁿ⁺²·E₀₂` when `3 = 0`. -/
+theorem matHom₄c_towerElt (h3 : (3 : k) = 0) (n : ℕ) :
+    matHom₄c k (towerElt k n) = (Polynomial.X : Polynomial k) ^ (n + 2) • E02c k := by
+  induction n with
+  | zero => exact matHom₄c_base k h3
+  | succ m ih =>
+    rw [towerElt, LieHom.map_lie, LieHom.map_lie, matHom₄c_y, matHom₄c_x, ih,
+      matHom₄c_step k h3 (m + 2)]
+
+/-- The `(0,2)`-entry functional `g₄ → k[t]`, through which the tower climbs. Well defined because
+`matHom₄c` kills the relators when `3 = 0`. -/
+noncomputable def towerFunctional (h3 : (3 : k) = 0) : g k 4 →ₗ[k] Polynomial k :=
+  Submodule.liftQ (relIdeal k 4).toSubmodule
+    ((Matrix.entryLinearMap k (Polynomial k) 0 2).comp (matHom₄c k).toLinearMap)
+    (by
+      intro a ha
+      have hm : matHom₄c k a = 0 :=
+        LieHom.mem_ker.1 (relIdeal_le_ker_matHom₄c k h3 ha)
+      simp only [LinearMap.mem_ker, LinearMap.comp_apply, LieHom.coe_toLinearMap, hm,
+        Matrix.entryLinearMap_apply, Matrix.zero_apply])
+
+@[simp] theorem towerFunctional_proj (h3 : (3 : k) = 0) (a : FreeLieAlgebra k (Fin 2)) :
+    towerFunctional k h3 (proj k 4 a) = (matHom₄c k a) 0 2 := rfl
+
+theorem towerFunctional_towerElt (h3 : (3 : k) = 0) (n : ℕ) :
+    towerFunctional k h3 (proj k 4 (towerElt k n)) = (Polynomial.X : Polynomial k) ^ (n + 2) := by
+  rw [towerFunctional_proj, matHom₄c_towerElt k h3 n]
+  simp [E02c, Matrix.smul_apply]
+
+/-- The tower images `proj (Sₙ)` are linearly independent in `𝔤₄` (their `(0,2)`-entries are the
+distinct monomials `tⁿ⁺²`). -/
+theorem towerElt_linearIndependent (h3 : (3 : k) = 0) :
+    LinearIndependent k (fun n => proj k 4 (towerElt k n)) := by
+  apply LinearIndependent.of_comp (towerFunctional k h3)
+  have hfun : (towerFunctional k h3) ∘ (fun n => proj k 4 (towerElt k n))
+      = fun n => (Polynomial.X : Polynomial k) ^ (n + 2) := by
+    funext n; exact towerFunctional_towerElt k h3 n
+  rw [hfun]
+  have hmono : LinearIndependent k (fun n => (Polynomial.X : Polynomial k) ^ n) := by
+    have h := (Polynomial.basisMonomials k).linearIndependent
+    simpa only [Polynomial.coe_basisMonomials, ← Polynomial.X_pow_eq_monomial] using h
+  exact hmono.comp (fun n => n + 2) (add_left_injective 2)
+
 end Matrix4c
+
+/-- **(b), characteristic `3`.** `𝔤₄` is infinite dimensional over any field with `3 = 0`. The
+`𝔰𝔩₃`-loop witness `matHom₄` collapses mod `3`; the `gl₄` witness `matHom₄c` climbs instead. -/
+theorem not_finite_g_four_of_three_eq_zero (k : Type*) [Field k] (h3 : (3 : k) = 0) :
+    ¬ Module.Finite k (g k 4) := fun hfin => by
+  haveI := hfin
+  exact Module.Finite.not_linearIndependent_of_infinite _ (towerElt_linearIndependent k h3)
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
