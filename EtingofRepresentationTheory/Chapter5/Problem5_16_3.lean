@@ -3,6 +3,8 @@ import EtingofRepresentationTheory.Chapter4.Theorem4_6_2
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible
 import EtingofRepresentationTheory.Chapter5.Problem5_16_2
 import EtingofRepresentationTheory.Chapter5.SumTranspositionsEigenvalues
+import EtingofRepresentationTheory.Chapter5.Problem5_16_1
+import EtingofRepresentationTheory.Chapter5.CharacterMultiplicityBridge
 
 /-!
 # Problem 5.16.3: the sum `(12) + ⋯ + (1n)` of transpositions through `1`
@@ -351,6 +353,78 @@ theorem sumTranspositionsWith1_diagonalizable_integer_eigenvalues
     refine ⟨z, hz, ?_, ?_⟩
     · push_cast; omega
     · push_cast; omega
+
+/-! ### Branching bridge for `permEmbZero`
+
+`res_spechtModule_character` (Problem 5.16.1) states the branching rule for the restriction along
+`permEmb` (the stabiliser of the **last** point).  The central element `sumTranspositionsStab`
+lives inside the stabiliser of the **first** point, restriction along `permEmbZero`.  The two
+subgroups are conjugate by the cyclic rotation `finRotate (m+1)`; since the Specht character is a
+class function, the branching rule transfers verbatim to `permEmbZero`. -/
+
+/-- `permEmb` (last-point stabiliser) sends `Fin.castSucc k` to `Fin.castSucc (σ k)`. -/
+lemma permEmb_castSucc (m : ℕ) (σ : Equiv.Perm (Fin m)) (k : Fin m) :
+    permEmb m σ (Fin.castSucc k) = Fin.castSucc (σ k) := by
+  have h : permEmb m σ (Fin.castSuccEmb k) = Fin.castSuccEmb (σ k) := by
+    rw [permEmb, Equiv.Perm.viaEmbeddingHom_apply]
+    exact Equiv.Perm.viaEmbedding_apply σ Fin.castSuccEmb k
+  simpa using h
+
+/-- `permEmb` (last-point stabiliser) fixes the last point. -/
+lemma permEmb_last (m : ℕ) (σ : Equiv.Perm (Fin m)) :
+    permEmb m σ (Fin.last m) = Fin.last m := by
+  rw [permEmb, Equiv.Perm.viaEmbeddingHom_apply, Equiv.Perm.viaEmbedding_apply_of_notMem]
+  simp only [Fin.coe_castSuccEmb, Set.mem_range, not_exists]
+  exact fun k => ne_of_lt (Fin.castSucc_lt_last k)
+
+/-- `permEmbZero` (first-point stabiliser) fixes the point `0`. -/
+lemma permEmbZero_zero (m : ℕ) (σ : Equiv.Perm (Fin m)) :
+    permEmbZero m σ 0 = 0 := by
+  rw [permEmbZero, Equiv.Perm.viaEmbeddingHom_apply, Equiv.Perm.viaEmbedding_apply_of_notMem]
+  simp only [Fin.coe_succEmb, Set.mem_range, not_exists]
+  exact fun k => Fin.succ_ne_zero k
+
+/-- `permEmbZero` (first-point stabiliser) sends `Fin.succ k` to `Fin.succ (σ k)`. -/
+lemma permEmbZero_succ (m : ℕ) (σ : Equiv.Perm (Fin m)) (k : Fin m) :
+    permEmbZero m σ (Fin.succ k) = Fin.succ (σ k) := by
+  have h : permEmbZero m σ (Fin.succEmb m k) = Fin.succEmb m (σ k) := by
+    rw [permEmbZero, Equiv.Perm.viaEmbeddingHom_apply]
+    exact Equiv.Perm.viaEmbedding_apply σ (Fin.succEmb m) k
+  simpa using h
+
+/-- The cyclic rotation `finRotate (m+1)` sends `Fin.castSucc k` to `Fin.succ k`. -/
+lemma finRotate_castSucc (m : ℕ) (k : Fin m) :
+    finRotate (m + 1) (Fin.castSucc k) = Fin.succ k := by
+  apply Fin.ext
+  rw [coe_finRotate_of_ne_last (ne_of_lt (Fin.castSucc_lt_last k))]
+  simp [Fin.val_succ, Fin.val_castSucc]
+
+/-- The first-point embedding is conjugate to the last-point embedding by `finRotate (m+1)`. -/
+lemma permEmbZero_conj_permEmb (m : ℕ) (σ : Equiv.Perm (Fin m)) :
+    permEmbZero m σ = finRotate (m + 1) * permEmb m σ * (finRotate (m + 1))⁻¹ := by
+  rw [eq_mul_inv_iff_mul_eq]
+  ext x
+  simp only [Equiv.Perm.coe_mul, Function.comp_apply]
+  induction x using Fin.lastCases with
+  | last => rw [finRotate_last, permEmb_last, finRotate_last, permEmbZero_zero]
+  | cast k => rw [permEmb_castSucc, finRotate_castSucc, finRotate_castSucc, permEmbZero_succ]
+
+/-- The Specht character is a class function, so it takes the same value on the two conjugate
+embeddings `permEmbZero m σ` and `permEmb m σ`. -/
+lemma spechtModuleCharacter_conj_permEmbZero (m : ℕ) (la : Nat.Partition (m + 1))
+    (σ : Equiv.Perm (Fin m)) :
+    spechtModuleCharacter (m + 1) la (permEmbZero m σ) =
+      spechtModuleCharacter (m + 1) la (permEmb m σ) := by
+  rw [permEmbZero_conj_permEmb]
+  exact (spechtModuleRep (m + 1) la).char_conj (permEmb m σ) (finRotate (m + 1))
+
+/-- **Branching rule for `permEmbZero`.** For `la ⊢ m+1` the character of `V_la` on the image of
+`Sₘ` under `permEmbZero` (first-point stabiliser) decomposes over `removeSquare la`. -/
+lemma spechtModuleCharacter_permEmbZero_eq_sum (m : ℕ) (la : Nat.Partition (m + 1))
+    (σ : Equiv.Perm (Fin m)) :
+    spechtModuleCharacter (m + 1) la (permEmbZero m σ) =
+      ∑ ν ∈ removeSquare la, spechtModuleCharacter m ν σ := by
+  rw [spechtModuleCharacter_conj_permEmbZero, res_spechtModule_character]
 
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
