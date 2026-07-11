@@ -637,6 +637,19 @@ lemma sumTranspositionsStab_acts_scalar_iff_content_const (m : ℕ) (la : Nat.Pa
       _ = c • ρW.asModuleEquiv (ρW.asModuleEquiv.symm y) := by rw [map_smul]
       _ = c • y := by rw [LinearEquiv.apply_symm_apply]
 
+/-! ### Deliverable 3: corner/content combinatorics
+
+`content` is constant on `removeSquare la` if and only if `la` is rectangular. Removable corners
+of `la` occupy strictly decreasing rows with strictly decreasing columns, so their box contents
+`col − row` are pairwise distinct; hence `content` is injective on the (nonempty) set
+`removeSquare la`, and constancy forces a single removable corner, i.e. a rectangle. -/
+
+/-- **Corner/content criterion.** `content` is constant on `removeSquare la` iff `la` is
+rectangular. -/
+lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (m + 1)) :
+    (∃ c : ℂ, ∀ ν ∈ removeSquare la, (content ν : ℂ) = c) ↔ IsRectangular la := by
+  sorry
+
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
 Young diagram. -/
@@ -644,6 +657,29 @@ theorem sumTranspositionsWith1_acts_scalar_iff_rectangular
     (n : ℕ) [NeZero n] (la : Nat.Partition n) :
     (∃ c : ℂ, ∀ x ∈ SpechtModule n la, sumTranspositionsWith1 n * x = c • x) ↔
       IsRectangular la := by
-  sorry
+  obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 :=
+    ⟨n - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne n))).symm⟩
+  rw [← content_const_removeSquare_iff_rectangular m la,
+    ← sumTranspositionsStab_acts_scalar_iff_content_const m la]
+  constructor
+  · rintro ⟨c, hc⟩
+    refine ⟨(content la : ℂ) - c, fun x hx => ?_⟩
+    have hCn := sumTranspositions_mul_eq_content_smul (m + 1) la x hx
+    have hE := hc x hx
+    have hstabx : sumTranspositionsStab (m + 1) * x
+        = sumTranspositions (m + 1) * x - sumTranspositionsWith1 (m + 1) * x := by
+      have hsub : sumTranspositionsStab (m + 1)
+          = sumTranspositions (m + 1) - sumTranspositionsWith1 (m + 1) := by
+        rw [sumTranspositionsWith1_eq_sub]; abel
+      rw [hsub, sub_mul]
+    rw [hstabx, hCn, hE, ← sub_smul]
+  · rintro ⟨c, hc⟩
+    refine ⟨(content la : ℂ) - c, fun x hx => ?_⟩
+    have hCn := sumTranspositions_mul_eq_content_smul (m + 1) la x hx
+    have hstab := hc x hx
+    have hEx : sumTranspositionsWith1 (m + 1) * x
+        = sumTranspositions (m + 1) * x - sumTranspositionsStab (m + 1) * x := by
+      rw [sumTranspositionsWith1_eq_sub, sub_mul]
+    rw [hEx, hCn, hstab, ← sub_smul]
 
 end Etingof
