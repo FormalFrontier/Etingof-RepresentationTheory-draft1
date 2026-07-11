@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter7.Exercise7_8_4
+import EtingofRepresentationTheory.Chapter7.TensorComplexBiprod
 
 /-!
 # Problem 7.8.7: The tensor product of complexes and the Künneth formula
@@ -52,13 +53,6 @@ open CategoryTheory Limits MonoidalCategory
 namespace Etingof
 
 variable {k : Type} [Field k]
-
-/-- Etingof's tensor product complex `(C ⊗ D)•`, with degree-`i` object `⨁_{j+m=i} Cⱼ ⊗ Dₘ`
-and the Koszul-signed differential `dᶜ ⊗ 1 + (-1)ʲ · 1 ⊗ dᴰ`. This is Mathlib's
-`HomologicalComplex.tensorObj`. -/
-noncomputable def tensorComplex (C D : CochainComplex (ModuleCat.{0} k) ℤ) :
-    CochainComplex (ModuleCat.{0} k) ℤ :=
-  HomologicalComplex.tensorObj C D
 
 /-- The complex whose degree-`i` object is the homology `Hⁱ(C)` and whose differentials are
 all zero (used in part (iii)). -/

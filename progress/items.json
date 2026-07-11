@@ -6639,7 +6639,7 @@
     "start_line": 23,
     "end_line": 18,
     "status": "statement_formalized",
-    "coverage_note": "Parts (i), (ii), (iii) proved sorry-free; (ii) proved 2026-07-10 (#6304) via the Exercise 7.8.4 contracting homotopy whiskered through the tensor bifunctor (mapBifunctorMapHomotopy₁/₂). Only part (iv) (full Künneth iso) remains sorry."
+    "coverage_note": "Parts (i), (ii), (iii) proved sorry-free; (ii) proved 2026-07-10 (#6304) via the Exercise 7.8.4 contracting homotopy whiskered through the tensor bifunctor (mapBifunctorMapHomotopy₁/₂). Only part (iv) (full Künneth iso) remains sorry. 2026-07-11 (#6344): landed distributivity infrastructure in Chapter7/TensorComplexBiprod.lean — MonoidalPreadditive instance for HomologicalComplex (ModuleCat.{0} k) (up ℤ) plus tensorComplex_biprodLeftIso / tensorComplex_biprodRightIso (tensor-of-complexes distributes over ⊞ in each slot). tensorComplex def moved to that file."
   },
   {
     "id": "Chapter7/Introduction_7.9",
