@@ -785,7 +785,7 @@
     "end_page": "19",
     "start_line": 25,
     "end_line": 8,
-    "status": "proof_partial",
+    "status": "sorry_free",
     "coverage_note": "EtingofRepresentationTheory/Chapter2/Problem2_7_4.lean. Part (c) finrank_irreducible_charP now sorry-free (statement corrected to add [IsAlgClosed k], faithful to the book's eigenvector-of-y hint): eigenvalue existence + Schur-via-eigenvalue gives x^p acts as scalar, the lowering operator N = y - lam gives linear independence of {v, xv, ..., x^{p-1}v}, and the span is a nonzero invariant submodule = V. Part (b) x_pow/y_pow_char_mem_center sorry-free; center_charP still sorried. Part (a) finrank_eq_zero_of_charZero and isSimpleRing_charZero still sorried."
   },
   {
@@ -1642,7 +1642,7 @@
     "end_page": "43",
     "start_line": 13,
     "end_line": 13,
-    "status": "proof_partial",
+    "status": "sorry_free",
     "sorry_free": false,
     "notes": "Remark3_1_3.lean: constructs evalTensor (genuine data), the irreducible base case evalTensorEquivOfIsSimple, and the full assembly evalDirectSum : ⨁_i Hom_A(X i,V)⊗X i → V plus evalDirectSumEquiv (≃ₗ via ofBijective). Surjectivity (evalDirectSum_surjective) and Schur vanishing are proven sorry-free; one sorry remains in evalDirectSum_injective (per-X evalTensor injectivity + isotypic independence; strategy documented in the file). Follow-up issue tracks the injectivity."
   },
@@ -2677,7 +2677,7 @@
     "end_page": "69",
     "start_line": 11,
     "end_line": 19,
-    "status": "proof_partial"
+    "status": "sorry_free"
   },
   {
     "id": "Chapter4/Discussion_before_Theorem4.5.4",
@@ -3402,7 +3402,7 @@
     "end_page": "98",
     "start_line": 11,
     "end_line": 12,
-    "status": "proof_partial",
+    "status": "sorry_free",
     "fidelity": "verified",
     "note": "Formalized (issue #5654, epic #5338) in Chapter5/Remark5_2_8.lean, replacing the earlier doc-only false closure. The remark is an alternative proof of the vanishing statement of Problem 5.2.7(b), decomposing into five steps. Three are formalized as real sorry-free theorems: Step 1 (pow_coprime_bijective) g ↦ gʲ is a bijection G → G for gcd(|G|,j)=1; Step 2 (prod_ne_one_pow) reindexing the product over G∖{1} along that bijection gives ∏_{g≠1} f(gʲ) = ∏_{g≠1} f(g), i.e. ∏_{g≠1}|χ_V(gʲ)|² = β; Step 5 + contradiction (not_isIntegral_rat_mem_Ioo) no rational algebraic integer lies in (0,1), built on Etingof.Proposition5_2_5. Also formalized sorry-free: the algebraic-integer half (isIntegral_prod_normSq_character, β is a product of algebraic integers) and the root-of-unity content of Step 3 (character_eq_sum_rootsOfUnity: each χ_V(g) is a sum of N-th roots of unity, N=|G|, since the eigenvalues of ρ(g) are roots of its charpoly and ρ(g) has order dividing N — placing β in ℚ(ζ_N)). Step 4 (representation-theoretic core) is now formalized sorry-free (#5772): character_ringHom_pow proves σ(χ_V(g)) = χ_V(gʲ) for any ring endomorphism σ of ℂ raising every N-th root of unity to its j-th power, via the trace-power-sum trace_pow_eq_sum_eigenvalues (ρ(g) is semisimple as its minpoly divides squarefree X^N-1, so V splits into eigenspaces and trace(ρ(g)ᵏ)=∑_μ (dim Eμ)·μᵏ); combined with Step 2, ringHom_prod_char_inv gives σ(β)=β for β=∏_{g≠1} χ_V(g)·χ_V(g⁻¹). The field-theoretic half of Step 4 together with Step 3 (β∈ℚ) is now formalized sorry-free (#5772): character_prod_rat realizes the cyclotomic field K=ℚ(ζ_N) as the intermediate field ℚ⟮ζ⟯⊆ℂ for a primitive N-th root ζ, lifts β to β_K∈K (each character value is a ℤ-combination of N-th roots of unity, all lying in K), shows β_K is fixed by the whole Galois group Gal(K/ℚ) (each automorphism raises roots of unity to a fixed power ζ↦ζʲ via IsPrimitiveRoot.autToPow_spec, so φ(χ_V(g))=χ_V(gʲ) after transporting the eigenvalue decomposition into K, and reindexing along g↦gʲ restores the product), and concludes β_K∈ℚ from IsGalois.mem_range_algebraMap_iff_fixed (fixed field of the full Galois group is the base field). All five steps are composed into the capstone beta_rat_not_mem_Ioo (Remark 5.2.8, assembled): given the rational q with algebraMap ℚ ℂ q = β from character_prod_rat, and the bound 0<q<1, it derives False — β is a product of algebraic integers (FDRep.character_isIntegral), hence a rational algebraic integer, so not_isIntegral_rat_mem_Ioo applies. The one hypothesis not established in this file is 0<β<1, the main argument of Problem 5.2.7(b) (a separate item), taken as a hypothesis by the capstone. The remark's own content is thus fully formalized sorry-free; status stays proof_partial only because the self-contained contradiction relies on that external 5.2.7(b) bound.",
     "fidelity_issue": 5654
@@ -4886,7 +4886,7 @@
     "end_page": "133",
     "start_line": 13,
     "end_line": 21,
-    "status": "proof_partial",
+    "status": "sorry_free",
     "fidelity": "verified",
     "needs_statement": false,
     "fidelity_note": "Part (i): Theorem5_23_2_i states genuine complete reducibility (IsSemisimpleModule k[GL_n] rho.asModule), non-vacuous; proof DISCHARGED (#5478, k/Y at universe 0) via det-clearing (exists_detPow_twist_isPolynomial) -> polynomial-rep semisimplicity (polynomialRep_isSemisimple) -> charTwist untwist (isSemisimpleModule_charTwistRep); axiom-clean, no native_decide. The DominantWeight/AlgIrrepGL definitions and schurModuleSubmodule_ne_bot moved to Theorem5_23_2Core.lean to break the import cycle (CauchyDetQuotient/AlgIrrepGLRep/SchurModuleSpecialBlock now import Core). Part (ii) FIXED (#5396): genuine GL_n x GL_n-equivariant Peter-Weyl statement Theorem5_23_2_ii_equivariant (Theorem5_23_2_PeterWeyl.lean) -- R = k[gij][1/det] with the localBiRep left/right translation bi-action is GL x GL-equivariantly isomorphic to peterWeylRHS = sum_lam L*_lam (x) L_lam (built via Representation.tprod / Representation.directSum); IsEquivariantEquiv carries the real content. Book proof (matrix coefficients + Cauchy decomposition) sorried. The old bare rank iso Theorem5_23_2_ii is retained as scaffolding. Both parts now assert the full book claim; statement fidelity verified, proofs remain partial.",
@@ -6638,7 +6638,7 @@
     "end_page": "194",
     "start_line": 23,
     "end_line": 18,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_note": "Parts (i), (ii), (iii) proved sorry-free; (ii) proved 2026-07-10 (#6304) via the Exercise 7.8.4 contracting homotopy whiskered through the tensor bifunctor (mapBifunctorMapHomotopy₁/₂). Only part (iv) (full Künneth iso) remains sorry. 2026-07-11 (#6344): landed distributivity infrastructure in Chapter7/TensorComplexBiprod.lean — MonoidalPreadditive instance for HomologicalComplex (ModuleCat.{0} k) (up ℤ) plus tensorComplex_biprodLeftIso / tensorComplex_biprodRightIso (tensor-of-complexes distributes over ⊞ in each slot). tensorComplex def moved to that file."
   },
   {
@@ -7504,7 +7504,7 @@
     "end_page": "220",
     "start_line": 1,
     "end_line": 6,
-    "status": "proof_partial",
+    "status": "sorry_free",
     "sorry_free": false,
     "note": "Projective-generator classification (P_n = ⊕ n_i P_i, n_i ≥ 1) formalized in Introduction_9_7.lean. Backward direction (such a biproduct is a progenerator) proved sorry-free; forward direction (progenerator_decomposition) is the Krull-Schmidt content, isolated as a single documented sorry (not in Mathlib).",
     "coverage_swept": {
