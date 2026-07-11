@@ -601,21 +601,6 @@ theorem not_finite_g_four_of_not_finite_range
     ¬ Module.Finite k (g k 4) :=
   fun hfin => h (finite_range_matHom₄_of_finite k hfin)
 
-/-- **(b)** `𝔤₄` is infinite dimensional (the Cartan matrix `[[2,-1],[-4,2]]` is of affine type,
-determinant `0`).
-
-By the reduction lemma it suffices to show the twisted `A₂⁽²⁾` loop image `range matHom₄` is
-infinite dimensional. This holds **iff** `char k ≠ 3`: the `t`-degree climb of the loop image
-carries the scalars `3` and `6` (from `ad(y)³x = 3(E₀₁+E₁₂)`, `ad(y)⁴x = 6E₀₂`), so at
-characteristic `3` the image collapses to `4` dimensions. The `char ≠ 3` and `char = 3` cases
-are tracked as follow-up issues; the latter needs a separate witness representation because the
-`𝔰𝔩₃`-loop collapse mod `3` is intrinsic (`ad(y)²x ∝ I` regardless of scaling). -/
-theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k (g k 4) :=
-  not_finite_g_four_of_not_finite_range k (by
-    -- Remaining obligation: `range matHom₄` is infinite dimensional (holds for `char k ≠ 3`;
-    -- `char k = 3` needs a separate witness). See tracking issues.
-    sorry)
-
 end Matrix4
 
 /-!
@@ -1042,6 +1027,24 @@ theorem range_matHom₄_not_finite_of_three_ne_zero (k : Type*) [Field k] (h3 : 
   exact Module.Finite.not_linearIndependent_of_infinite _ hsub
 
 end Matrix4b
+
+/-- **(b)** `𝔤₄` is infinite dimensional (the Cartan matrix `[[2,-1],[-4,2]]` is of affine type,
+determinant `0`).
+
+By the reduction lemma `not_finite_g_four_of_not_finite_range` it suffices to show the twisted
+`A₂⁽²⁾` loop image `range matHom₄` is infinite dimensional. That holds **iff** `char k ≠ 3`: the
+`t`-degree climb of the loop image carries the scalars `3` and `6` (from `ad(y)³x = 3(E₀₁+E₁₂)`,
+`ad(y)⁴x = 6E₀₂`), so at characteristic `3` the image collapses to `4` dimensions. We therefore
+case-split on `(3 : k) = 0`:
+
+* `char k ≠ 3`: `range_matHom₄_not_finite_of_three_ne_zero` supplies the infinite loop image
+  directly, fed through the reduction lemma.
+* `char k = 3`: the `𝔰𝔩₃`-loop collapse mod `3` is intrinsic (`ad(y)²x ∝ I` regardless of
+  scaling), so `not_finite_g_four_of_three_eq_zero` uses the separate `gl₄` witness instead. -/
+theorem not_finiteDimensional_g_four (k : Type*) [Field k] : ¬ Module.Finite k (g k 4) := by
+  by_cases h3 : (3 : k) = 0
+  · exact not_finite_g_four_of_three_eq_zero k h3
+  · exact not_finite_g_four_of_not_finite_range k (range_matHom₄_not_finite_of_three_ne_zero k h3)
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
