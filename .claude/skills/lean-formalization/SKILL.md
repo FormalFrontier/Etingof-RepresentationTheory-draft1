@@ -2373,6 +2373,35 @@ To prove a ring homomorphism from a semisimple ring is injective:
 
 **Lean tip:** May need explicit universe parameters (`.{v}`) to make the Jacobson radical API work with the correct universe level.
 
+### Injectivity of a hom OUT of a simple ring is free (matrix / division algebras)
+
+When you build an explicit `AlgHom`/`RingHom` `f : R →ₐ[k] A` and need it injective,
+and the **domain** `R` is a simple ring (`Matrix (Fin n) (Fin n) k` for a field `k`,
+or a `DivisionRing` like `Quaternion ℝ`), do **not** hand-prove linear independence of
+generators or a kernel-triviality/dimension argument. A nonzero ring hom out of a simple
+ring is automatically injective:
+
+```lean
+haveI : Nontrivial A := ⟨…⟩            -- e.g. `1 ≠ 0` in the subalgebra; needs the codomain nontrivial
+have hinj : Function.Injective f := f.toRingHom.injective   -- RingHom.injective, from [IsSimpleRing R] [Nontrivial A]
+```
+
+Instances that fire automatically: `DivisionRing.isSimpleRing` gives `IsSimpleRing k` for
+a field, and `RingTheory/SimpleRing/Matrix.lean` gives `IsSimpleRing (Matrix ι ι A)` from
+`IsSimpleRing A`. Combined with a surjectivity proof, `AlgEquiv.ofBijective f ⟨hinj, hsurj⟩`
+finishes an `≃ₐ`. This is how `realGEndAlgebra_equiv_matrix_of_isRealType`
+(`Chapter5/Problem5_1_2.lean`, #6327, `End_ℝ[G]V ≃ₐ[ℝ] Mat₂(ℝ)`) avoids a whole
+`1,J,j',Jj'`-independence argument — only the surjectivity (decomposition) half needs work.
+The same trick applies to the quaternionic case (target `Quaternion ℝ` is a division ring).
+
+**Companion — the split-quaternion / matrix hom builder (`matrixToSplitQuat`, same file):**
+for two elements `J, j'` of any `ℝ`-algebra with `J²=-1`, `j'²=1`, `Jj'=-j'J`, there is a
+ready `Matrix (Fin 2) (Fin 2) ℝ →ₐ[ℝ] A` (via `AlgHom.ofLinearMap`, with `map_mul` closed by
+the reusable `splitQuat_mul_expand` multiplication-table lemma + the `module` tactic). Reuse
+it whenever you meet a 4-dimensional `≅ Mat₂(ℝ)` presentation; the `module` tactic collects
+`ℝ`-linear combinations of a fixed set of atoms (here `1, J, j', J*j'`) and discharges the
+scalar identities by `ring`, so you never expand a noncommutative product by hand.
+
 ## Mathlib Gap Handling
 
 When you discover a Mathlib API gap during formalization, follow this escalation ladder:
