@@ -6,7 +6,9 @@ import Mathlib.Data.Matrix.Basis
 import Mathlib.Algebra.Polynomial.AlgebraMap
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.Algebra.Polynomial.Basis
 
 /-!
 # Problem 2.16.3: The Lie algebras `𝔤ₙ = ⟨x, y | ad(x)²y = ad(y)ⁿ⁺¹x = 0⟩`
@@ -557,6 +559,204 @@ theorem relIdeal_le_ker_matHom₄ : relIdeal k 4 ≤ (matHom₄ k).ker := by
   · rw [SetLike.mem_coe, LieHom.mem_ker]; exact matHom₄_relator2 k
 
 end Matrix4
+
+/-!
+## Infinite-dimensionality of `range matHom₄` when `char k ≠ 3` (Problem 2.16.3(b), char≠3 half)
+
+We exhibit an explicit infinite family inside `range matHom₄` of elements with strictly
+increasing `t`-degree, hence linearly independent. Grading `M₃(k[t])` by the power of `t`,
+the ladder is period `2`: writing `r := E₂₁ - E₁₀`, `G₃ := 3(E₀₁+E₁₂)·t` and
+`G₁ := -(E₁₀+E₂₁)·t` (all images of free-Lie brackets of `x, y`), the operator
+`Ψ(v) := ⁅⁅v, G₃⁆, G₁⁆` satisfies `Ψ(p · r) = -9·X²·p · r`. Starting from
+`u₀ := ⁅NX, G₃⁆ = 3X²·r`, the elements `uₙ = 3·(-9)ⁿ · r · t^{2n+2}` all lie in the range and,
+since every scalar is a power of `3`, are nonzero exactly when `char k ≠ 3` (`3 = 1` in
+characteristic `2`, so this covers `char = 2`). Distinct `t`-degrees give linear independence.
+-/
+
+section Matrix4b
+attribute [local instance] LieRing.ofAssociativeRing
+
+open Polynomial
+
+/-- The matrix `G₃ := 3(E₀₁ + E₁₂)·t = s₃·t`, a `t`-degree-1 element of the range. -/
+noncomputable def G3mat (k : Type*) [CommRing k] : Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  Matrix.single 0 1 (3 * X) + Matrix.single 1 2 (3 * X)
+
+/-- The matrix `G₁ := -(E₁₀ + E₂₁)·t = s₁·t`, a `t`-degree-1 element of the range. -/
+noncomputable def G1mat (k : Type*) [CommRing k] : Matrix (Fin 3) (Fin 3) (Polynomial k) :=
+  -(Matrix.single 1 0 X) - Matrix.single 2 1 X
+
+/-- `⁅NY, NX⁆ = G₁ = -(E₁₀ + E₂₁)·t` (the `t`-degree-1 vector `s₁·t`). -/
+theorem bracket_NY_NX (k : Type*) [CommRing k] : ⁅NY k, NX k⁆ = G1mat k := by
+  simp only [NX, NY, G1mat, LieRing.of_associative_ring_bracket]
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.neg_apply, Matrix.single_apply]
+
+/-- `⁅NY, ⁅NY, NX⁆⁆ = -(E₀₀ - 2E₁₁ + E₂₂)·t` (the vector `s₂·t`). -/
+theorem bracket_NY_NY_NX (k : Type*) [CommRing k] :
+    ⁅NY k, ⁅NY k, NX k⁆⁆
+      = -(Matrix.single 0 0 X) + Matrix.single 1 1 (2 * X) - Matrix.single 2 2 X := by
+  rw [bracket_NY_NX]
+  simp only [NY, G1mat, LieRing.of_associative_ring_bracket]
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.neg_apply,
+      Matrix.single_apply] <;> ring
+
+/-- `⁅NY, ⁅NY, ⁅NY, NX⁆⁆⁆ = G₃ = 3(E₀₁ + E₁₂)·t` (the vector `s₃·t`). -/
+theorem bracket_NY_NY_NY_NX (k : Type*) [CommRing k] :
+    ⁅NY k, ⁅NY k, ⁅NY k, NX k⁆⁆⁆ = G3mat k := by
+  rw [bracket_NY_NY_NX]
+  simp only [NY, G3mat, LieRing.of_associative_ring_bracket]
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.neg_apply,
+      Matrix.single_apply] <;> ring
+
+/-- `⁅NX, G₃⁆ = 3X²·(E₂₁ - E₁₀)` (the base element `u₀ = 3X²·r`). -/
+theorem bracket_NX_G3 (k : Type*) [CommRing k] :
+    ⁅NX k, G3mat k⁆ = Matrix.single 2 1 (3 * X ^ 2) - Matrix.single 1 0 (3 * X ^ 2) := by
+  simp only [NX, G3mat, LieRing.of_associative_ring_bracket]
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.single_apply] <;> ring
+
+/-- First step of `Ψ`: `⁅p·r, G₃⁆ = 3Xp·(E₀₀ - 2E₁₁ + E₂₂)`. -/
+theorem bracket_r_G3 (k : Type*) [CommRing k] (p : Polynomial k) :
+    ⁅(Matrix.single 2 1 p - Matrix.single 1 0 p : Matrix (Fin 3) (Fin 3) (Polynomial k)),
+        G3mat k⁆
+      = Matrix.single 0 0 (3 * X * p) - Matrix.single 1 1 (6 * X * p)
+          + Matrix.single 2 2 (3 * X * p) := by
+  simp only [G3mat, LieRing.of_associative_ring_bracket]
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.single_apply] <;> ring
+
+/-- Second step of `Ψ`: `⁅3Xp·(E₀₀ - 2E₁₁ + E₂₂), G₁⁆ = -9X²p·(E₂₁ - E₁₀)`. -/
+theorem bracket_D_G1 (k : Type*) [CommRing k] (p : Polynomial k) :
+    ⁅(Matrix.single 0 0 (3 * X * p) - Matrix.single 1 1 (6 * X * p)
+        + Matrix.single 2 2 (3 * X * p) : Matrix (Fin 3) (Fin 3) (Polynomial k)), G1mat k⁆
+      = Matrix.single 2 1 (-9 * (X ^ 2 * p)) - Matrix.single 1 0 (-9 * (X ^ 2 * p)) := by
+  simp only [G1mat, LieRing.of_associative_ring_bracket]
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.neg_apply,
+      Matrix.single_apply] <;> ring
+
+/-- The scalar coefficients of the ladder: `cscal n = 3·(-9)ⁿ`. -/
+def cscal (k : Type*) [CommRing k] : ℕ → k := fun n => 3 * (-9) ^ n
+
+/-- The `t`-polynomial coefficients of the ladder: `pcoef n = 3·(-9)ⁿ·X^{2n+2}`. -/
+noncomputable def pcoef (k : Type*) [CommRing k] : ℕ → Polynomial k :=
+  fun n => 3 * (-9) ^ n * X ^ (2 * n + 2)
+
+theorem pcoef_succ (k : Type*) [CommRing k] (n : ℕ) :
+    pcoef k (n + 1) = -9 * (X ^ 2 * pcoef k n) := by
+  simp only [pcoef]
+  rw [show 2 * (n + 1) + 2 = (2 * n + 2) + 2 from by ring, pow_add, pow_succ]
+  ring
+
+theorem pcoef_eq_smul (k : Type*) [CommRing k] (n : ℕ) :
+    pcoef k n = cscal k n • (X : Polynomial k) ^ (2 * n + 2) := by
+  simp only [pcoef, cscal, Polynomial.smul_eq_C_mul, map_mul, map_pow, map_neg, map_ofNat]
+
+/-- `matHom₄ ⁅y, x⁆ = G₁`, the free-algebra realisation of the `t`-degree-1 vector `s₁·t`. -/
+theorem matHom₄_word_G1 (k : Type*) [CommRing k] : matHom₄ k ⁅y k, x k⁆ = G1mat k := by
+  rw [LieHom.map_lie, matHom₄_x, matHom₄_y]
+  exact bracket_NY_NX k
+
+/-- `matHom₄ ⁅y, ⁅y, ⁅y, x⁆⁆⁆ = G₃`, the free-algebra realisation of `s₃·t`. -/
+theorem matHom₄_word_G3 (k : Type*) [CommRing k] :
+    matHom₄ k ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆ = G3mat k := by
+  rw [LieHom.map_lie, LieHom.map_lie, LieHom.map_lie]
+  simp only [matHom₄_x, matHom₄_y]
+  exact bracket_NY_NY_NY_NX k
+
+/-- Free-Lie-algebra witnesses realising the ladder inside `range matHom₄`. -/
+noncomputable def wSeq (k : Type*) [CommRing k] : ℕ → FreeLieAlgebra k (Fin 2)
+  | 0 => ⁅x k, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆
+  | (n + 1) => ⁅⁅wSeq k n, ⁅y k, ⁅y k, ⁅y k, x k⁆⁆⁆⁆, ⁅y k, x k⁆⁆
+
+/-- The matrix value of the ladder: `matHom₄ (wSeq n) = pcoef n · (E₂₁ - E₁₀)`. -/
+theorem matHom₄_wSeq (k : Type*) [CommRing k] (n : ℕ) :
+    matHom₄ k (wSeq k n)
+      = Matrix.single 2 1 (pcoef k n) - Matrix.single 1 0 (pcoef k n) := by
+  induction n with
+  | zero =>
+    simp only [wSeq]
+    rw [LieHom.map_lie, matHom₄_x, matHom₄_word_G3, bracket_NX_G3]
+    simp [pcoef]
+  | succ n ih =>
+    have hstep : matHom₄ k (wSeq k (n + 1))
+        = ⁅⁅matHom₄ k (wSeq k n), G3mat k⁆, G1mat k⁆ := by
+      simp only [wSeq]
+      rw [LieHom.map_lie, LieHom.map_lie, matHom₄_word_G3, matHom₄_word_G1]
+    rw [hstep, ih, bracket_r_G3, bracket_D_G1, pcoef_succ]
+
+/-- Entry-`(2,1)` `k`-linear functional on `M₃(k[t])`, used to read off the ladder. -/
+def entry21 (k : Type*) [CommRing k] :
+    Matrix (Fin 3) (Fin 3) (Polynomial k) →ₗ[k] Polynomial k where
+  toFun M := M 2 1
+  map_add' M N := by simp [Matrix.add_apply]
+  map_smul' c M := by simp [Matrix.smul_apply]
+
+/-- The `t`-monomials `X^{2n+2}` are linearly independent over `k`. -/
+theorem linearIndependent_X_pow (k : Type*) [CommRing k] :
+    LinearIndependent k (fun n : ℕ => (X : Polynomial k) ^ (2 * n + 2)) := by
+  have hb := (Polynomial.basisMonomials k).linearIndependent
+  have hinj : Function.Injective (fun n : ℕ => 2 * n + 2) := by
+    intro a b h; simp only [] at h; omega
+  have hcomp := hb.comp (fun n : ℕ => 2 * n + 2) hinj
+  have hfam : (fun n : ℕ => (X : Polynomial k) ^ (2 * n + 2))
+      = ((Polynomial.basisMonomials k : ℕ → Polynomial k) ∘ fun n : ℕ => 2 * n + 2) := by
+    funext n
+    simp [Polynomial.coe_basisMonomials, Function.comp, ← Polynomial.C_mul_X_pow_eq_monomial,
+      Polynomial.C_1]
+  rw [hfam]; exact hcomp
+
+/-- **Problem 2.16.3(b), `char k ≠ 3` half.** The image of the twisted `A₂⁽²⁾` loop
+realisation `matHom₄` is infinite dimensional whenever `3 ≠ 0` in `k`. -/
+theorem range_matHom₄_not_finite_of_three_ne_zero (k : Type*) [Field k] (h3 : (3 : k) ≠ 0) :
+    ¬ Module.Finite k (LinearMap.range (matHom₄ k).toLinearMap) := by
+  classical
+  set R := LinearMap.range (matHom₄ k).toLinearMap with hR
+  -- Each ladder element lies in the range.
+  have hmemR : ∀ n, matHom₄ k (wSeq k n) ∈ R := by
+    intro n; rw [hR]; exact LinearMap.mem_range.mpr ⟨wSeq k n, rfl⟩
+  -- The scalar coefficients are nonzero (this is where `char k ≠ 3` enters).
+  have hc : ∀ n, cscal k n ≠ 0 := by
+    intro n
+    have h9 : (9 : k) ≠ 0 := by rw [show (9 : k) = 3 * 3 by norm_num]; exact mul_ne_zero h3 h3
+    refine mul_ne_zero h3 (pow_ne_zero n ?_)
+    rw [show (-9 : k) = -(9 : k) by norm_num]; exact neg_ne_zero.mpr h9
+  -- `pcoef` is linearly independent (nonzero scalar multiples of independent monomials).
+  have hpcoefLI : LinearIndependent k (pcoef k) := by
+    have heq : pcoef k
+        = (fun n => Units.mk0 (cscal k n) (hc n)) •
+            fun n : ℕ => (X : Polynomial k) ^ (2 * n + 2) := by
+      funext n
+      simp only [Pi.smul_apply', Units.smul_mk0]
+      exact pcoef_eq_smul k n
+    rw [heq]
+    exact (linearIndependent_X_pow k).units_smul _
+  -- Pull back along the entry-`(2,1)` functional to get independence of the ladder.
+  have hfam : LinearIndependent k (fun n : ℕ => matHom₄ k (wSeq k n)) := by
+    refine LinearIndependent.of_comp (entry21 k) ?_
+    have hcomp : (entry21 k ∘ fun n : ℕ => matHom₄ k (wSeq k n)) = pcoef k := by
+      funext n
+      simp [Function.comp_apply, matHom₄_wSeq k n, entry21]
+    rw [hcomp]; exact hpcoefLI
+  -- Lift to the range submodule.
+  have hsub : LinearIndependent k (fun n : ℕ => (⟨matHom₄ k (wSeq k n), hmemR n⟩ : R)) := by
+    refine LinearIndependent.of_comp R.subtype ?_
+    exact hfam
+  -- An infinite independent family cannot live in a finite-dimensional space.
+  intro hfin
+  haveI := hfin
+  exact Module.Finite.not_linearIndependent_of_infinite _ hsub
+
+end Matrix4b
 
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
