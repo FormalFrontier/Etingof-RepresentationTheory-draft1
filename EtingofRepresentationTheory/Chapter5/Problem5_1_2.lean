@@ -437,6 +437,62 @@ theorem exists_antilinear_j_of_invariant_nondegenerate
     rw [hrw]
     exact mul_pos hs2 (div_pos hp2 hp1)
 
+/-- **Normalized `j'`-operator** for the real type (#6327). If the simple representation `V` is of
+real type, then `End_{ℝ[G]} V` contains an element `j'` (the antilinear operator `j` normalized so
+that `j'² = 1`) that **anticommutes** with `J = ·i`. Together with `J` (`J² = -1`) this exhibits the
+split-quaternion / `Mat₂(ℝ)` relations `J² = -1`, `j'² = 1`, `Jj' = -j'J`. -/
+theorem exists_normalized_antilinear_of_isRealType
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (h : Etingof.IsRealType ρ) :
+    ∃ j' : realGEndAlgebra ρ, j' * j' = 1 ∧ realJ ρ * j' = -(j' * realJ ρ) := by
+  obtain ⟨B, hsymm, hnd, hinvB⟩ := h
+  obtain ⟨j0, lam, hjequiv, hjsq, hpos⟩ :=
+    exists_antilinear_j_of_invariant_nondegenerate hirr B hnd hinvB 1
+      (fun v w => by rw [hsymm, one_smul])
+  rw [one_mul] at hpos
+  -- `(r : ℂ) • v = r • v` for real `r`, via the scalar tower.
+  have rcs : ∀ (r : ℝ) (v : V), (r : ℂ) • v = r • v := fun r v => by
+    rw [← IsScalarTower.algebraMap_smul ℂ r v, Complex.coe_algebraMap]
+  -- The underlying `ℝ`-linear map of the antilinear `j0`.
+  let jm : Module.End ℝ V :=
+    { toFun := j0
+      map_add' := j0.map_add
+      map_smul' := fun r v => by
+        simp only [RingHom.id_apply]
+        rw [← rcs r v, map_smulₛₗ, Complex.conj_ofReal, rcs r (j0 v)] }
+  have hmem : jm ∈ realGEndAlgebra ρ := by
+    rw [realGEndAlgebra, Subalgebra.mem_centralizer_iff]
+    rintro _ ⟨g, rfl⟩
+    ext v
+    simp only [Module.End.mul_apply, LinearMap.restrictScalars_apply]
+    exact (hjequiv g v).symm
+  set X : realGEndAlgebra ρ := ⟨jm, hmem⟩ with hXdef
+  -- `X² = lam • 1`.
+  have hjm2 : X * X = lam • 1 := by
+    apply Subtype.ext
+    rw [Subalgebra.coe_mul, hXdef]
+    ext v
+    simp only [Module.End.mul_apply, SetLike.val_smul, Subalgebra.coe_one, LinearMap.smul_apply,
+      Module.End.one_apply]
+    show j0 (j0 v) = lam • v
+    rw [hjsq v, rcs lam v]
+  -- `X` anticommutes with `J = ·i`.
+  have hanti0 : realJ ρ * X = -(X * realJ ρ) := by
+    apply Subtype.ext
+    rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul, hXdef]
+    ext v
+    simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply]
+    show Complex.I • j0 v = -(j0 (Complex.I • v))
+    rw [map_smulₛₗ, Complex.conj_I, neg_smul, neg_neg]
+  have hsqrt : Real.sqrt lam * Real.sqrt lam = lam := Real.mul_self_sqrt hpos.le
+  have hsne : Real.sqrt lam ≠ 0 := (Real.sqrt_pos.mpr hpos).ne'
+  refine ⟨(Real.sqrt lam)⁻¹ • X, ?_, ?_⟩
+  · rw [smul_mul_smul_comm, hjm2, smul_smul]
+    have hscal : (Real.sqrt lam)⁻¹ * (Real.sqrt lam)⁻¹ * lam = 1 := by
+      rw [← mul_inv, hsqrt, inv_mul_cancel₀ hpos.ne']
+    rw [hscal, one_smul]
+  · rw [mul_smul_comm, smul_mul_assoc, ← smul_neg, hanti0]
+
 end ComplexTypeProof
 
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
