@@ -7334,7 +7334,7 @@
     "start_line": 7,
     "end_line": 10,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Faithful statements, sorry proofs. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1) — each needs substantial new homological-algebra infrastructure (2-periodic-syzygy Ext-nonvanishing; K₀/Euler-characteristic)."
+    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Decomposed (#6374) into three per-part sub-issues. #6382 (ii-b: Problem932.A=⊤) PROVED sorry-free: added P₊/P₋ projective + mirror SES 0→S₊→P₋→S₋→0 to Problem9_3_2, the reusable Etingof.homologicalDimension_eq_top_of_forall reduction, and the 2-periodic Ext-nonvanishing Ext^{2j+1}(S₊,S₋)≠0. Still sorry: #6381 (ii-a: k[t]/tⁿ=⊤), #6384 (i: Cartan det=±1, needs K₀/Euler-characteristic)."
   },
   {
     "id": "Chapter9/Problem9.4.6",
