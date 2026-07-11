@@ -493,6 +493,45 @@ theorem exists_normalized_antilinear_of_isRealType
     rw [hscal, one_smul]
   · rw [mul_smul_comm, smul_mul_assoc, ← smul_neg, hanti0]
 
+/-- Every element of the centralizer `realGEndAlgebra ρ` is `G`-equivariant. -/
+theorem realGEnd_equivariant (x : realGEndAlgebra ρ) (g : G) (v : V) :
+    (↑x : Module.End ℝ V) (ρ g v) = ρ g ((↑x : Module.End ℝ V) v) := by
+  have hx2 : (↑x : Module.End ℝ V) ∈
+      Subalgebra.centralizer ℝ (Set.range fun g => LinearMap.restrictScalars ℝ (ρ g)) := x.2
+  rw [Subalgebra.mem_centralizer_iff] at hx2
+  have hcomm := hx2 (LinearMap.restrictScalars ℝ (ρ g)) ⟨g, rfl⟩
+  have hv := DFunLike.congr_fun hcomm v
+  simpa only [Module.End.mul_apply, LinearMap.restrictScalars_apply] using hv.symm
+
+/-- The `ℂ`-linear part `realPlus f` of any `f ∈ End_{ℝ[G]} V` is a complex scalar: it commutes with
+`J`, hence is `ℂ`-linear and `G`-equivariant, so a scalar by Schur. Holds for every irreducible
+`ρ` (not just complex type). -/
+theorem realPlus_eq_complexScalar
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule) (f : realGEndAlgebra ρ) :
+    ∃ z : ℂ, realPlus f = complexToRealGEnd ρ z := by
+  have hIp : ∀ v, (↑(realPlus f) : Module.End ℝ V) (Complex.I • v)
+      = Complex.I • (↑(realPlus f) : Module.End ℝ V) v := by
+    intro v
+    have h0 : ((realJ ρ * realPlus f : realGEndAlgebra ρ) : Module.End ℝ V)
+           = ((realPlus f * realJ ρ : realGEndAlgebra ρ) : Module.End ℝ V) :=
+      congrArg _ (realJ_mul_realPlus f)
+    rw [Subalgebra.coe_mul, Subalgebra.coe_mul] at h0
+    have hv := DFunLike.congr_fun h0 v
+    simpa only [Module.End.mul_apply, realJ, complexToRealGEnd_coe_apply] using hv.symm
+  obtain ⟨c, hc⟩ := schur_scalar hirr (toCLinear _ hIp)
+    (fun g v => realGEnd_equivariant (realPlus f) g v)
+  exact ⟨c, by apply Subtype.ext; ext v; rw [complexToRealGEnd_coe_apply]; exact hc v⟩
+
+/-- Expand `complexToRealGEnd ρ z` in the `ℝ`-basis `1, J`: `z ↦ z.re • 1 + z.im • J`. -/
+theorem complexToRealGEnd_eq (z : ℂ) :
+    complexToRealGEnd ρ z = z.re • (1 : realGEndAlgebra ρ) + z.im • realJ ρ := by
+  have hz : complexToRealGEnd ρ z
+      = complexToRealGEnd ρ ((z.re : ℝ) • (1 : ℂ) + (z.im : ℝ) • Complex.I) := by
+    congr 1
+    rw [Complex.real_smul, Complex.real_smul, mul_one]
+    exact (Complex.re_add_im z).symm
+  rw [hz, map_add, map_smul, map_smul, map_one, realJ]
+
 end ComplexTypeProof
 
 section SplitQuaternionMatrix
@@ -663,7 +702,75 @@ theorem realGEndAlgebra_equiv_matrix_of_isRealType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsRealType ρ) :
     Nonempty (realGEndAlgebra ρ ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ) := by
-  sorry
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  obtain ⟨j', hj'sq, hanti⟩ := exists_normalized_antilinear_of_isRealType hirr h
+  have hJsq : realJ ρ * realJ ρ = -1 := realJ_sq ρ
+  set Ψ := matrixToSplitQuat (realJ ρ) j' hJsq hj'sq hanti with hΨ
+  -- `↑j'` is `ℂ`-antilinear: `↑j' (i • v) = -(i • ↑j' v)`.
+  have hjI : ∀ v, (↑j' : Module.End ℝ V) (Complex.I • v)
+      = -(Complex.I • (↑j' : Module.End ℝ V) v) := by
+    intro v
+    have h0 : ((realJ ρ * j' : realGEndAlgebra ρ) : Module.End ℝ V)
+           = ((-(j' * realJ ρ) : realGEndAlgebra ρ) : Module.End ℝ V) := congrArg _ hanti
+    rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul] at h0
+    have hv := DFunLike.congr_fun h0 v
+    simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply] at hv
+    rw [hv, neg_neg]
+  -- `Ψ` is injective: `Mat₂(ℝ)` is a simple ring and `realGEndAlgebra ρ` is nontrivial.
+  haveI : Nontrivial (realGEndAlgebra ρ) := by
+    refine ⟨1, 0, fun hh => ?_⟩
+    obtain ⟨v, hv⟩ := exists_ne (0 : V)
+    apply hv
+    have h1 : ((1 : realGEndAlgebra ρ) : Module.End ℝ V) = ((0 : realGEndAlgebra ρ) : Module.End ℝ V) :=
+      congrArg Subtype.val hh
+    have h2 := DFunLike.congr_fun h1 v
+    simpa using h2
+  have hinj : Function.Injective Ψ := Ψ.toRingHom.injective
+  -- `Ψ` is surjective: every `f ∈ End_{ℝ[G]} V` decomposes as `z + w·j'` (`z, w ∈ ℂ`), using that
+  -- the `ℂ`-linear part `realPlus f` and the antilinear `realMinus f * j'` are complex scalars.
+  have hsurj : Function.Surjective Ψ := by
+    intro f
+    have hIm : ∀ w, (↑(realMinus f) : Module.End ℝ V) (Complex.I • w)
+        = -(Complex.I • (↑(realMinus f) : Module.End ℝ V) w) := by
+      intro w
+      have h0 : ((realJ ρ * realMinus f : realGEndAlgebra ρ) : Module.End ℝ V)
+             = ((-(realMinus f * realJ ρ) : realGEndAlgebra ρ) : Module.End ℝ V) :=
+        congrArg _ (realJ_mul_realMinus f)
+      rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul] at h0
+      have hv := DFunLike.congr_fun h0 w
+      simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ, complexToRealGEnd_coe_apply] at hv
+      rw [hv, neg_neg]
+    -- `realMinus f * j'` is `ℂ`-linear (composite of two antilinear maps).
+    have hTlin : ∀ v, (↑(realMinus f * j') : Module.End ℝ V) (Complex.I • v)
+        = Complex.I • (↑(realMinus f * j') : Module.End ℝ V) v := by
+      intro v
+      rw [Subalgebra.coe_mul]
+      simp only [Module.End.mul_apply]
+      rw [hjI v, map_neg, hIm, neg_neg]
+    obtain ⟨w, hw⟩ := schur_scalar hirr (toCLinear _ hTlin)
+      (fun g v => realGEnd_equivariant (realMinus f * j') g v)
+    have hmj : realMinus f * j' = complexToRealGEnd ρ w := by
+      apply Subtype.ext; ext v; rw [complexToRealGEnd_coe_apply]; exact hw v
+    have hRM : realMinus f = complexToRealGEnd ρ w * j' :=
+      calc realMinus f = realMinus f * (j' * j') := by rw [hj'sq, mul_one]
+        _ = realMinus f * j' * j' := by rw [mul_assoc]
+        _ = complexToRealGEnd ρ w * j' := by rw [hmj]
+    obtain ⟨z, hz⟩ := realPlus_eq_complexScalar hirr f
+    have hfbasis : f = z.re • (1 : realGEndAlgebra ρ) + z.im • realJ ρ
+        + w.re • j' + w.im • (realJ ρ * j') := by
+      have hfdec : f = complexToRealGEnd ρ z + complexToRealGEnd ρ w * j' := by
+        conv_lhs => rw [← realPlus_add_realMinus f]
+        rw [hz, hRM]
+      rw [hfdec, complexToRealGEnd_eq z, complexToRealGEnd_eq w, add_mul, smul_mul_assoc,
+        smul_mul_assoc, one_mul]
+      module
+    refine ⟨!![z.re + w.re, w.im - z.im; z.im + w.im, z.re - w.re], ?_⟩
+    simp only [hΨ, matrixToSplitQuat_apply, Matrix.of_apply, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val']
+    rw [hfbasis]
+    module
+  exact ⟨(AlgEquiv.ofBijective Ψ ⟨hinj, hsurj⟩).symm⟩
 
 /-- Problem 5.1.2(a), quaternionic type. If the irreducible representation `V` is of quaternionic
 type, then `End_{ℝ[G]} V ≃ₐ[ℝ] ℍ`. -/
