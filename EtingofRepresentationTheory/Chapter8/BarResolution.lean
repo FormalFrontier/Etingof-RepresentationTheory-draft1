@@ -611,7 +611,21 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
           (Fin.cons a₀ v), ← Fin.castSucc_pred_eq_pred_castSucc]
     all_goals exact hj0
   · -- (merge, last): case B
-    sorry
+    rw [barFace_last_apply, barFace_castSucc_apply, Fin.pred_last, barFace_castSucc_apply,
+        barFace_last_apply]
+    have hG : Fin.contractNth (Fin.castSucc i₀).castSucc (· * ·) (Fin.cons a₀ v)
+        = Fin.snoc (Fin.contractNth (Fin.castSucc i₀) (· * ·) (Fin.cons a₀ (Fin.init v)))
+            (v (Fin.last (n + 1))) := by
+      rw [contractNth_castSucc_eq_snoc]
+      congr 1
+      congr 1
+      funext j
+      refine Fin.cases ?_ (fun p => ?_) j
+      · simp [Fin.init]
+      · simp [Fin.init, Fin.cons_succ, ← Fin.succ_castSucc]
+    rw [hG, Fin.snoc_apply_zero, ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
+    simp only [Fin.tail]
+    rw [Fin.succ_last, Fin.snoc_last]
   · -- (last, merge): impossible from i < j
     exfalso; simp only [Fin.val_last, Fin.val_castSucc] at hij; omega
   · -- (last, last): case E
