@@ -515,4 +515,56 @@ theorem barModule_hom_ext {n m : ℕ}
 
 end BarFaces
 
+/-! ### The simplicial identity `barFace i ∘ barFace j = barFace (j-1) ∘ barFace i` and `d ∘ d = 0`
+
+We present each *merge* face (faces `0 … n`) uniformly as a single `Fin.contractNth` on the tuple
+`Fin.cons a₀ v` obtained by prepending the leading `A`-factor `a₀` to the middle tensor `v`
+(`barFace_castSucc_apply`).  With this description the simplicial identity among merge faces is
+exactly `contractNth_contractNth`; only the interactions with the *last* face (which acts the
+trailing factor on `W`) need separate treatment. -/
+
+section BarSquareZero
+
+/-- Contracting the tuple `Fin.cons a g` at a positive slot `i.succ` leaves the leading entry `a`
+untouched and contracts `g` at slot `i`. -/
+theorem contractNth_succ_cons {m : ℕ} (a : A) (g : Fin (m + 1) → A) (i : Fin (m + 1)) :
+    Fin.contractNth i.succ (· * ·) (Fin.cons a g)
+      = Fin.cons a (Fin.contractNth i (· * ·) g) := by
+  funext k
+  refine Fin.cases ?_ (fun p => ?_) k
+  · rw [Fin.contractNth_apply_of_lt _ _ _ _ (by simp only [Fin.val_zero, Fin.val_succ]; omega),
+        Fin.castSucc_zero, Fin.cons_zero, Fin.cons_zero]
+  · rw [Fin.cons_succ]
+    rcases lt_trichotomy (p : ℕ) (i : ℕ) with h | h | h
+    · rw [Fin.contractNth_apply_of_lt _ _ _ _ (by simp only [Fin.val_succ]; omega),
+          Fin.contractNth_apply_of_lt _ _ _ _ h, ← Fin.succ_castSucc, Fin.cons_succ]
+    · rw [Fin.contractNth_apply_of_eq _ _ _ _ (by simp only [Fin.val_succ]; omega),
+          Fin.contractNth_apply_of_eq _ _ _ _ h, ← Fin.succ_castSucc, Fin.cons_succ, Fin.cons_succ]
+    · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simp only [Fin.val_succ]; omega),
+          Fin.contractNth_apply_of_gt _ _ _ _ h, Fin.cons_succ]
+
+/-- Contracting `Fin.cons a g` at slot `0` merges `a` into `g 0` and shifts the rest down. -/
+theorem contractNth_zero_cons {m : ℕ} (a : A) (g : Fin (m + 1) → A) :
+    Fin.contractNth 0 (· * ·) (Fin.cons a g) = Fin.cons (a * g 0) (Fin.tail g) := by
+  funext k
+  refine Fin.cases ?_ (fun p => ?_) k
+  · rw [Fin.contractNth_apply_of_eq _ _ _ _ (by simp)]
+    simp
+  · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simp), Fin.cons_succ, Fin.cons_succ, Fin.tail]
+
+/-- **Uniform description of a merge face.** For `i : Fin (n+1)`, the merge face
+`barFace n i.castSucc`
+sends the generator `a₀ ⊗ (tprod v ⊗ w)` to the generator whose middle-and-leading tuple is
+`Fin.contractNth i.castSucc (·*·) (Fin.cons a₀ v)` (prepend `a₀` to `v`, then merge at slot `i`). -/
+theorem barFace_castSucc_apply (n : ℕ) (i : Fin (n + 1)) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
+    barFace k A W n i.castSucc (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = Fin.contractNth i.castSucc (· * ·) (Fin.cons a₀ v) 0 ⊗ₜ[k]
+          (tprod k (Fin.tail (Fin.contractNth i.castSucc (· * ·) (Fin.cons a₀ v))) ⊗ₜ[k] w) := by
+  refine Fin.cases ?_ (fun i' => ?_) i
+  · rw [Fin.castSucc_zero, barFace_zero_apply, contractNth_zero_cons, Fin.cons_zero, Fin.tail_cons]
+  · rw [barFace_interior_apply, ← Fin.succ_castSucc, contractNth_succ_cons, Fin.cons_zero,
+      Fin.tail_cons]
+
+end BarSquareZero
+
 end Etingof.BarResolution
