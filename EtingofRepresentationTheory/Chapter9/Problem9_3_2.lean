@@ -727,6 +727,19 @@ lemma rMinus_comp_iMinus : rMinus.comp iMinus = LinearMap.id := by
 instance projective_Pminus : Module.Projective A Pminus :=
   Module.Projective.of_split iMinus rMinus rMinus_comp_iMinus
 
+/-- `ses.X₂ = P₊` is a projective object of `ModuleCat A`. Built explicitly (with the
+`Module.Projective` witness placed as a local instance) to sidestep the
+`Projective ↔ Module.Projective` synthesis loop. We phrase it through `ses.X₂` rather than a
+fresh `ModuleCat.of A Pplus`, because `Pplus` and `Pminus` share the carrier `Fin 2 → ℂ`, so a
+fresh `of A Pplus` would pick up the wrong `Module A` instance; `ses.X₂` has the correct one
+baked in at its definition. -/
+theorem projective_ses_X₂ : Projective ses.X₂ :=
+  @ModuleCat.projective_of_categoryTheory_projective A _ ses.X₂ projective_Pplus
+
+/-- `sesm.X₂ = P₋` is a projective object of `ModuleCat A`. -/
+theorem projective_sesm_X₂ : Projective sesm.X₂ :=
+  @ModuleCat.projective_of_categoryTheory_projective A _ sesm.X₂ projective_Pminus
+
 /-- `S₊` and `S₋` are directly `Ext¹`-linked: `Ext¹(S₊, S₋) ≠ 0`. -/
 theorem directlyExtLinked :
     Etingof.DirectlyExtLinked A (ModuleCat.of A Splus) (ModuleCat.of A Sminus) :=
