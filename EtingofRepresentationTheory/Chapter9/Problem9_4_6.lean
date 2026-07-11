@@ -41,6 +41,46 @@ open Etingof
 
 namespace Etingof.Problem946
 
+/-- **Problem 9.4.6 (i), upper bound.** Every left `PathAlgebra k Q`-module has projective
+dimension `≤ 1`; equivalently, the path algebra has homological dimension `≤ 1`.
+
+This is the reusable core of Problem 9.4.6 (i): it is the *upper* bound
+`homologicalDimension (PathAlgebra k Q) ≤ 1`. Combined with the lower bound
+`¬ HasHomologicalDimensionLE (PathAlgebra k Q) 0` (non-semisimplicity once `Q` has an edge),
+it yields `homologicalDimension_pathAlgebra_eq_one`.
+
+## Proof strategy (the standard resolution)
+
+Write `A := PathAlgebra k Q`, let `S := Q → k` be the semisimple subalgebra spanned by the
+trivial-path idempotents `eᵢ`, and let `V` be the `S`-bimodule spanned by the arrows. For any
+left `A`-module `M` the *standard resolution* is the length-`1` projective resolution
+```
+0 → A ⊗_S (V ⊗_S M) → A ⊗_S M →ᵉ M → 0,
+```
+where `ε(a ⊗ m) = a · m` is the multiplication map. Both nonzero terms are projective `A`-modules
+because they are *induced* from `S`-modules (`A ⊗_S -`), `S` is semisimple (a finite product of
+fields), so every `S`-module is projective, and induction along `S → A` preserves projectives
+(it is left adjoint to restriction of scalars). Exactness — that `ker ε ≅ A ⊗_S (V ⊗_S M)` via
+`a ⊗ v ⊗ m ↦ av ⊗ m - a ⊗ vm` — is the analogue of the Koszul short exact sequence used for the
+polynomial case (`Example 9.4.4`).
+
+## Obstruction / why this is genuinely new infrastructure
+
+Unlike the polynomial case, the base extension here is **noncommutative-induced**: the vertex
+idempotents `eᵢ` are *not central* in `A`, so `A` is not an `S`-algebra in the commutative sense
+and Mathlib's `ModuleCat.extendScalars` (which requires `[CommRing R] [CommRing S]`) does **not**
+apply. Building `A ⊗_S -` as a left `A`-module functor left-adjoint to `restrictScalars` along the
+non-central inclusion `S → A`, and its projectivity-preservation, is genuine new infrastructure not
+in Mathlib. See issue #6420 for the decomposition.
+
+The proof obligation is therefore escalated per the issue's Deliverable 2: the statement is landed
+with a `sorry` proof so downstream results can already reference it, and the construction of the
+standard resolution is tracked separately. -/
+theorem hasHomologicalDimensionLE_pathAlgebra_one
+    {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q] :
+    Etingof.HasHomologicalDimensionLE (Etingof.PathAlgebra k Q) 1 :=
+  sorry
+
 /-- **Problem 9.4.6 (i), path algebra.** The path algebra `P_Q` of a quiver `Q` with at least
 one edge has homological dimension `1`. -/
 theorem homologicalDimension_pathAlgebra_eq_one
