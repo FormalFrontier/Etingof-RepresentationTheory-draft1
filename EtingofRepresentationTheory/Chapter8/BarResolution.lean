@@ -202,6 +202,22 @@ theorem contractNth_update_of_ne {n : ℕ} (i : Fin n) (v : Fin (n + 1) → A) (
             intro e
             exact hk (by rw [← Fin.predAbove_succAbove i k, e]))]
 
+/-- **Simplicial identity for `Fin.contractNth`** with an associative operation `op`:
+merging at position `q` then at the lower position `p` equals merging at `p` first, then at
+`q - 1` (the original `q`-block's position after the lower merge shifts everything above `p` down
+by one). This is the merge-face version of the simplicial identity `dᵢ ∘ dⱼ = d_{j-1} ∘ dᵢ`
+(`i < j`); Mathlib has no `contractNth`-composition lemma, so we prove it here. -/
+theorem contractNth_contractNth {α : Type*} (op : α → α → α)
+    (hop : ∀ a b c, op (op a b) c = op a (op b c)) {n : ℕ}
+    (p : Fin (n + 1)) (q : Fin (n + 2)) (hpq : (p : ℕ) < (q : ℕ)) (v : Fin (n + 2) → α) :
+    Fin.contractNth p op (Fin.contractNth q op v)
+      = Fin.contractNth (q.pred (by rintro rfl; simp at hpq)) op
+          (Fin.contractNth p.castSucc op v) := by
+  ext r
+  simp only [Fin.contractNth, Fin.val_castSucc, Fin.val_succ, Fin.val_pred,
+    Fin.succ_castSucc]
+  split_ifs <;> first | rfl | (exfalso; omega) | rw [hop]
+
 /-- Pull off the first tensor factor: `tprod v ↦ v 0 ⊗ tprod (Fin.tail v)`. -/
 noncomputable def barConsSplit (n : ℕ) : (⨂[k]^(n + 1) A) →ₗ[k] A ⊗[k] (⨂[k]^n A) :=
   PiTensorProduct.lift <| LinearMap.uncurryLeft
