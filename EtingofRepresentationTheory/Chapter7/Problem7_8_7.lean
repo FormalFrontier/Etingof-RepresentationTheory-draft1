@@ -301,6 +301,86 @@ theorem Problem7_8_7_iii (C : CochainComplex (ModuleCat.{0} k) ℤ) :
   · rw [← HomologicalComplex.homologyMap_comp, sMap_pMap C, HomologicalComplex.homologyMap_id]
   · rw [← HomologicalComplex.homologyMap_comp]; exact homologyMap_pMap_sMap C i
 
+/-!
+### Homology of a tensor of two zero-differential complexes
+
+The final step of the Künneth argument (part iv) identifies `Hⁱ(C ⊗ D)`, after the four-way
+split, with the homology of `tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)` — a
+tensor of two complexes whose differentials all vanish. Its differential vanishes in every
+degree, so its homology at `i` is its degree-`i` object, which is the internal coproduct of the
+`Cⱼ ⊗ Dₘ` over `j + m = i`. We package that identification as the reusable
+`homologyTensorHomologyZeroIso`.
+-/
+
+/-- The degree-`i` object of a tensor of complexes, `(C ⊗ D)ᵢ`, is the categorical coproduct of
+the summands `Cᵢ₁ ⊗ Dᵢ₂` over `i₁ + i₂ = i`. This "total degree object as explicit `∐`" iso is
+general (it holds for any two complexes admitting a tensor product) and reusable. -/
+noncomputable def tensorObjXIsoCoproduct
+    (K₁ K₂ : CochainComplex (ModuleCat.{0} k) ℤ) [HomologicalComplex.HasTensor K₁ K₂] (i : ℤ) :
+    (HomologicalComplex.tensorObj K₁ K₂).X i ≅
+      ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => K₁.X p.1.1 ⊗ K₂.X p.1.2 where
+  hom := HomologicalComplex.mapBifunctorDesc
+    (fun i₁ i₂ h => Sigma.ι (fun p : {p : ℤ × ℤ // p.1 + p.2 = i} => K₁.X p.1.1 ⊗ K₂.X p.1.2)
+      ⟨(i₁, i₂), h⟩)
+  inv := Sigma.desc (fun p => HomologicalComplex.ιTensorObj K₁ K₂ p.1.1 p.1.2 i p.2)
+  hom_inv_id := by
+    apply HomologicalComplex.mapBifunctor.hom_ext
+    intro i₁ i₂ h
+    simp [HomologicalComplex.ιTensorObj]
+  inv_hom_id := by
+    apply Sigma.hom_ext
+    rintro ⟨⟨i₁, i₂⟩, h⟩
+    simp [HomologicalComplex.ιTensorObj]
+
+@[simp] lemma homologyZeroComplex_d (C : CochainComplex (ModuleCat.{0} k) ℤ) (i j : ℤ) :
+    (homologyZeroComplex C).d i j = 0 := rfl
+
+/-- A tensor of two zero-differential complexes has zero differential in every degree: both the
+`d₁` and `d₂` summands of the total differential vanish because each factor differential does. -/
+lemma tensorHomologyZero_d_eq_zero (C D : CochainComplex (ModuleCat.{0} k) ℤ) (j j' : ℤ) :
+    (HomologicalComplex.tensorObj (homologyZeroComplex C) (homologyZeroComplex D)).d j j' = 0 := by
+  have hd₁ : ∀ i₁ i₂ : ℤ,
+      HomologicalComplex.mapBifunctor.d₁ (homologyZeroComplex C) (homologyZeroComplex D)
+        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) i₁ i₂ j' = 0 := by
+    intro i₁ i₂
+    by_cases hrel : (ComplexShape.up ℤ).Rel i₁ ((ComplexShape.up ℤ).next i₁)
+    · rw [HomologicalComplex.mapBifunctor.d₁_eq' _ _ _ _ hrel i₂ j']
+      simp
+    · apply HomologicalComplex.mapBifunctor.d₁_eq_zero
+      exact hrel
+  have hd₂ : ∀ i₁ i₂ : ℤ,
+      HomologicalComplex.mapBifunctor.d₂ (homologyZeroComplex C) (homologyZeroComplex D)
+        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) i₁ i₂ j' = 0 := by
+    intro i₁ i₂
+    by_cases hrel : (ComplexShape.up ℤ).Rel i₂ ((ComplexShape.up ℤ).next i₂)
+    · rw [HomologicalComplex.mapBifunctor.d₂_eq' _ _ _ _ i₁ hrel j']
+      simp
+    · apply HomologicalComplex.mapBifunctor.d₂_eq_zero
+      exact hrel
+  have hD₁ : HomologicalComplex.mapBifunctor.D₁ (homologyZeroComplex C) (homologyZeroComplex D)
+      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) j j' = 0 := by
+    apply HomologicalComplex.mapBifunctor.hom_ext
+    intro i₁ i₂ h
+    rw [HomologicalComplex.mapBifunctor.ι_D₁, comp_zero, hd₁]
+  have hD₂ : HomologicalComplex.mapBifunctor.D₂ (homologyZeroComplex C) (homologyZeroComplex D)
+      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) j j' = 0 := by
+    apply HomologicalComplex.mapBifunctor.hom_ext
+    intro i₁ i₂ h
+    rw [HomologicalComplex.mapBifunctor.ι_D₂, comp_zero, hd₂]
+  rw [HomologicalComplex.mapBifunctor.d_eq, hD₁, hD₂, add_zero]
+
+/-- Homology of a tensor of two zero-differential complexes: since the total differential
+vanishes, `Hⁱ` is the degree-`i` object, which is the coproduct of the `Cᵢ₁ ⊗ Dᵢ₂` over
+`i₁ + i₂ = i`. This is the final identification used in the Künneth formula. -/
+noncomputable def homologyTensorHomologyZeroIso
+    (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i : ℤ) :
+    (tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)).homology i ≅
+      ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => C.homology p.1.1 ⊗ D.homology p.1.2 :=
+  let K := HomologicalComplex.tensorObj (homologyZeroComplex C) (homologyZeroComplex D)
+  ((K.isoHomologyπ (i - 1) i (by simp) (tensorHomologyZero_d_eq_zero C D (i - 1) i)).symm ≪≫
+    K.iCyclesIso i (i + 1) (by simp) (tensorHomologyZero_d_eq_zero C D i (i + 1))) ≪≫
+    tensorObjXIsoCoproduct (homologyZeroComplex C) (homologyZeroComplex D) i
+
 /-- Problem 7.8.7(iv), the **Künneth formula**: there is a natural isomorphism of vector
 spaces `Hⁱ(C ⊗ D) ≅ ⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`. -/
 theorem Problem7_8_7_iv (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i : ℤ) :
