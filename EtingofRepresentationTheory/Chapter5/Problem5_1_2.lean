@@ -307,6 +307,136 @@ private lemma schur_scalar
     have : v ∈ Module.End.eigenspace φ c := htop ▸ Submodule.mem_top
     rwa [Module.End.mem_eigenspace_iff] at this
 
+/-- **The `j`-operator** (shared toolkit for the real and quaternionic cases, #6327/#6328).
+Given a `G`-invariant nondegenerate bilinear form `B` on a simple representation `V`, together
+with the invariant positive-definite Hermitian form `(·,·)` from `exists_invariant_posdef_hermitian`,
+there is a `ℂ`-antilinear `G`-equivariant operator `j : V → V` characterized by `(v, j w) = B v w`,
+satisfying `j² = λ • id` for a real scalar `λ`. The sign of `λ` matches the (skew)symmetry sign `s`
+of `B` (hypothesis `B w v = s • B v w`): `s · λ > 0`. So for a **symmetric** `B` (`s = 1`, real
+type) one gets `λ > 0`, and for a **skew** `B` (`s = -1`, quaternionic type) `λ < 0`. -/
+theorem exists_antilinear_j_of_invariant_nondegenerate
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ)
+    (hnd : ∀ v, (∀ w, B v w = 0) → v = 0)
+    (hinvB : ∀ g v w, B (ρ g v) (ρ g w) = B v w)
+    (s : ℝ) (hs : ∀ v w, B w v = s • B v w) :
+    ∃ (j : V →ₗ⋆[ℂ] V) (lam : ℝ),
+      (∀ g v, j (ρ g v) = ρ g (j v)) ∧
+      (∀ v, j (j v) = (lam : ℂ) • v) ∧
+      0 < s * lam := by
+  classical
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  obtain ⟨H, hHinv, hHpos, hHsym⟩ := exists_invariant_posdef_hermitian ρ
+  -- `H v v` is a nonnegative real (conjugate symmetry ⇒ real; positive-definiteness ⇒ positive).
+  have hHreal : ∀ v, H v v = ((H v v).re : ℂ) := fun v => (Complex.conj_eq_iff_re.mp (hHsym v v)).symm
+  -- `s ≠ 0` (else `B = 0`, contradicting nondegeneracy on the nontrivial space `V`).
+  have hs0 : s ≠ 0 := by
+    intro h
+    obtain ⟨v, hv⟩ := exists_ne (0 : V)
+    exact hv (hnd v fun w => by have := hs w v; rw [h, zero_smul] at this; exact this)
+  -- `B.flip` is injective (second-slot nondegeneracy, obtained from `hs` + `hnd`).
+  have hBdinj : Function.Injective (B.flip) := by
+    rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+    intro w hw
+    refine hnd w fun w' => ?_
+    have h1 : B w' w = 0 := DFunLike.congr_fun hw w'
+    have := hs w' w
+    rw [h1, smul_zero] at this
+    exact this
+  -- `hermToDual H` is bijective: injective by positive-definiteness, surjective by an
+  -- `ℝ`-dimension count (both `V` and `V*` have real dimension `2 · dim_ℂ V`).
+  have hΦinj : Function.Injective (hermToDual H) := hermToDual_injective H hHpos
+  have hΦsurj : Function.Surjective (hermToDual H) := by
+    let ΦR : V →ₗ[ℝ] Module.Dual ℂ V :=
+      { toFun := hermToDual H
+        map_add' := (hermToDual H).map_add
+        map_smul' := fun r w => by
+          simp only [RingHom.id_apply]
+          rw [show (r : ℝ) • w = ((r : ℂ)) • w from (real_coe_smul r w).symm, map_smulₛₗ,
+            Complex.conj_ofReal, ← IsScalarTower.algebraMap_smul ℂ r (hermToDual H w),
+            Complex.coe_algebraMap] }
+    have hΦRinj : Function.Injective ΦR := hΦinj
+    haveI : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
+    haveI : FiniteDimensional ℝ (Module.Dual ℂ V) := Module.Finite.trans (R := ℝ) ℂ _
+    have hdimR : Module.finrank ℝ V = Module.finrank ℝ (Module.Dual ℂ V) := by
+      rw [← Module.finrank_mul_finrank ℝ ℂ V,
+        ← Module.finrank_mul_finrank ℝ ℂ (Module.Dual ℂ V), Subspace.dual_finrank_eq]
+    exact (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdimR).mp hΦRinj
+  -- Package `hermToDual H` as a conjugate-linear equivalence and define `j := herm⁻¹ ∘ B.flip`.
+  let hermEquiv : V ≃ₗ⋆[ℂ] Module.Dual ℂ V :=
+    LinearEquiv.ofBijective (hermToDual H) ⟨hΦinj, hΦsurj⟩
+  let j0 : V →ₗ⋆[ℂ] V := (hermEquiv.symm.toLinearMap).comp B.flip
+  -- Defining relation: `H v (j0 w) = B v w`.
+  have hj0dual : ∀ w, hermToDual H (j0 w) = B.flip w := fun w => by
+    show hermToDual H (hermEquiv.symm (B.flip w)) = B.flip w
+    have : hermEquiv (hermEquiv.symm (B.flip w)) = B.flip w := hermEquiv.apply_symm_apply _
+    simpa only [LinearEquiv.ofBijective_apply, hermEquiv] using this
+  have hdefn : ∀ v w, H v (j0 w) = B v w := fun v w => by
+    have := DFunLike.congr_fun (hj0dual w) v
+    simpa only [hermToDual_apply, LinearMap.flip_apply] using this
+  have hj0inj : Function.Injective j0 := by
+    have : Function.Injective (⇑j0) := by
+      show Function.Injective (⇑hermEquiv.symm ∘ ⇑B.flip)
+      exact hermEquiv.symm.injective.comp hBdinj
+    exact this
+  -- `j0` is `G`-equivariant (uniqueness via injectivity of `hermToDual H`).
+  have hj0equiv : ∀ g v, j0 (ρ g v) = ρ g (j0 v) := by
+    intro g w
+    apply hΦinj
+    rw [hj0dual]
+    ext v
+    rw [hermToDual_apply, LinearMap.flip_apply]
+    -- `B v (ρ g w) = H v (ρ g (j0 w))`
+    have hBv : B v (ρ g w) = B (ρ g⁻¹ v) w := by
+      have hgg : (ρ g) ((ρ g⁻¹) v) = v := by
+        rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
+      have := hinvB g (ρ g⁻¹ v) w
+      rwa [hgg] at this
+    rw [hBv, ← hdefn, ← hHinv g, ← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one,
+      Module.End.one_apply]
+  -- `φ := j0 ∘ j0` is `ℂ`-linear equivariant, hence a scalar `c` by Schur.
+  let φ : V →ₗ[ℂ] V :=
+    { toFun := fun v => j0 (j0 v)
+      map_add' := fun a b => by simp only [map_add]
+      map_smul' := fun c v => by
+        simp only [RingHom.id_apply]
+        rw [map_smulₛₗ, map_smulₛₗ, Complex.conj_conj] }
+  have hφequiv : ∀ g v, φ (ρ g v) = ρ g (φ v) := fun g v => by
+    show j0 (j0 (ρ g v)) = ρ g (j0 (j0 v))
+    rw [hj0equiv, hj0equiv]
+  obtain ⟨c, hc⟩ := schur_scalar hirr φ hφequiv
+  have hcsq : ∀ v, j0 (j0 v) = c • v := hc
+  -- Positivity: pin down `c` as a real number of sign `s`, using one nonzero vector.
+  obtain ⟨w0, hw0⟩ := exists_ne (0 : V)
+  have hjw0 : j0 w0 ≠ 0 := fun h => hw0 (hj0inj (h.trans (map_zero j0).symm))
+  -- `conj c • H v w = B v (j0 w)` and `B v (j0 w) = s • H (j0 w) (j0 v)`.
+  have hI : ∀ v w, (starRingEnd ℂ) c * H v w = B v (j0 w) := fun v w => by
+    rw [← hdefn v (j0 w), hcsq w, map_smulₛₗ]; rfl
+  have hII : ∀ v w, B v (j0 w) = (s : ℂ) * H (j0 w) (j0 v) := fun v w => by
+    rw [hs (j0 w) v, hdefn (j0 w) v, Complex.real_smul]
+  have hkey : (starRingEnd ℂ) c * ((H w0 w0).re : ℂ)
+      = (s : ℂ) * ((H (j0 w0) (j0 w0)).re : ℂ) := by
+    rw [← hHreal, ← hHreal, hI w0 w0, hII w0 w0]
+  set p1 := (H w0 w0).re with hp1def
+  set p2 := (H (j0 w0) (j0 w0)).re with hp2def
+  have hp1 : 0 < p1 := hHpos w0 hw0
+  have hp2 : 0 < p2 := hHpos (j0 w0) hjw0
+  -- From `conj c * p1 = s * p2` deduce `conj c` is the real number `s * p2 / p1`.
+  have hconj : (starRingEnd ℂ) c = ((s * p2 / p1 : ℝ) : ℂ) := by
+    rw [Complex.ofReal_div, Complex.ofReal_mul, eq_div_iff (by exact_mod_cast hp1.ne')]
+    push_cast at hkey ⊢
+    linear_combination hkey
+  have hcre : c = ((s * p2 / p1 : ℝ) : ℂ) := by
+    have := congrArg (starRingEnd ℂ) hconj
+    rwa [Complex.conj_conj, Complex.conj_ofReal] at this
+  refine ⟨j0, s * p2 / p1, hj0equiv, ?_, ?_⟩
+  · intro v; rw [hcsq v, hcre]
+  · have hs2 : 0 < s ^ 2 := (sq_nonneg s).lt_of_ne' (pow_ne_zero 2 hs0)
+    have hrw : s * (s * p2 / p1) = s ^ 2 * (p2 / p1) := by ring
+    rw [hrw]
+    exact mul_pos hs2 (div_pos hp2 hp1)
+
 end ComplexTypeProof
 
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
