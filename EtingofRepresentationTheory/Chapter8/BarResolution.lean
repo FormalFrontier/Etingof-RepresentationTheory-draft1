@@ -586,6 +586,19 @@ theorem contractNth_castSucc_eq_snoc {m : ℕ} (p : Fin m) (u : Fin (m + 2) → 
     · rw [Fin.contractNth_apply_of_gt _ _ _ _ (by simpa using h),
           Fin.contractNth_apply_of_gt _ _ _ _ (by simpa using h), Fin.init, ← Fin.succ_castSucc]
 
+/-- The *last-pair* merge, contracting the final two entries, keeps the leading block and appends
+their product. -/
+theorem contractNth_lastMerge_eq_snoc {m : ℕ} (u : Fin (m + 2) → A) :
+    Fin.contractNth (Fin.last m).castSucc (· * ·) u
+      = Fin.snoc (fun i : Fin m => u i.castSucc.castSucc)
+          (u (Fin.castSucc (Fin.last m)) * u (Fin.last (m + 1))) := by
+  funext k
+  refine Fin.lastCases ?_ (fun k' => ?_) k
+  · rw [Fin.snoc_last, Fin.contractNth_apply_of_eq _ _ _ _
+        (by simp only [Fin.val_castSucc, Fin.val_last]), Fin.succ_last]
+  · rw [Fin.snoc_castSucc, Fin.contractNth_apply_of_lt _ _ _ _
+        (by simp only [Fin.val_castSucc, Fin.val_last]; omega)]
+
 /-- **Simplicial identity for the bar faces.** For `i < j`,
 `barFace i ∘ barFace j = barFace (j-1) ∘ barFace i`, the merge-face version of `δᵢ δⱼ = δ_{j-1} δᵢ`.
 This is the combinatorial core of `d ∘ d = 0`. -/
@@ -622,14 +635,34 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
       funext j
       refine Fin.cases ?_ (fun p => ?_) j
       · simp [Fin.init]
-      · simp [Fin.init, Fin.cons_succ, ← Fin.succ_castSucc]
+      · simp only [Fin.init, ← Fin.succ_castSucc, Fin.cons_succ]
     rw [hG, Fin.snoc_apply_zero, ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
     simp only [Fin.tail]
     rw [Fin.succ_last, Fin.snoc_last]
   · -- (last, merge): impossible from i < j
     exfalso; simp only [Fin.val_last, Fin.val_castSucc] at hij; omega
   · -- (last, last): case E
-    sorry
+    rw [barFace_last_apply, barFace_last_apply, Fin.pred_last, barFace_castSucc_apply,
+        barFace_last_apply, contractNth_lastMerge_eq_snoc, Fin.snoc_apply_zero,
+        ← Fin.tail_init_eq_init_tail, Fin.init_snoc]
+    have hlead : (Fin.cons a₀ v : Fin (n + 3) → A) (Fin.castSucc 0).castSucc = a₀ := by simp
+    have hmid : (Fin.tail (fun i : Fin (n + 1) => (Fin.cons a₀ v : Fin (n + 3) → A)
+          i.castSucc.castSucc) : Fin n → A)
+        = Fin.init (Fin.init v) := by
+      funext i
+      simp only [Fin.tail, Fin.init]
+      rw [← Fin.succ_castSucc, ← Fin.succ_castSucc, Fin.cons_succ]
+    have hy1 : (Fin.cons a₀ v : Fin (n + 3) → A) (Fin.last (n + 1)).castSucc
+        = Fin.init v (Fin.last n) := by
+      simp only [Fin.init]
+      rw [show (Fin.last (n + 1)).castSucc = (Fin.castSucc (Fin.last n)).succ from by
+            rw [← Fin.succ_last, ← Fin.succ_castSucc], Fin.cons_succ]
+    have hy2 : (Fin.cons a₀ v : Fin (n + 3) → A) (Fin.last (n + 1 + 1)) = v (Fin.last (n + 1)) := by
+      rw [show (Fin.last (n + 1 + 1)) = (Fin.last (n + 1)).succ from (Fin.succ_last _).symm,
+          Fin.cons_succ]
+    rw [hlead, hmid]
+    simp only [Fin.tail]
+    rw [Fin.succ_last, Fin.snoc_last, hy1, hy2, mul_smul]
 
 end BarSquareZero
 
