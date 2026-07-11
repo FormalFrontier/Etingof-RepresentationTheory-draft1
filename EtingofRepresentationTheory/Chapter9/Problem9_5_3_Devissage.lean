@@ -1,7 +1,7 @@
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.RingTheory.FiniteLength
-import EtingofRepresentationTheory.Chapter9.Problem9_5_3
+import EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor
 
 /-!
 # Problem 9.5.3(ii), step 2: the finite-length dévissage
