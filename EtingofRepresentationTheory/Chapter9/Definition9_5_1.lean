@@ -81,6 +81,19 @@ theorem Etingof.areLinked_equivalence :
     @Equivalence (ModuleCat.{v} R) (Etingof.AreLinked R) :=
   Relation.EqvGen.is_equivalence _
 
+/-- **Base case of the block dévissage (Etingof 9.5.3(ii), step 1).** Two *simple* modules that
+are not linked have vanishing `Ext¹`: `Ext¹(S, T)` is subsingleton. A nonzero element of
+`Ext¹(S, T)` would make `S` and `T` directly `Ext`-linked, hence `Ext`-adjacent, hence linked
+(a length-one chain), contradicting `¬ AreLinked`. This is the seed for the finite-length
+dévissage that establishes `Hom(M, N) = 0` across distinct blocks. -/
+theorem Etingof.ext_subsingleton_of_not_areLinked {S T : ModuleCat.{v} R}
+    (hS : IsSimpleModule R S) (hT : IsSimpleModule R T) (hST : ¬ Etingof.AreLinked R S T) :
+    Subsingleton (Abelian.Ext S T 1) := by
+  rw [← not_nontrivial_iff_subsingleton]
+  intro hnt
+  exact hST (Etingof.areLinked_of_extAdjacent (R := R) hS hT
+    (Or.inl (show Etingof.DirectlyExtLinked R S T from hnt)))
+
 end
 
 section Blocks
