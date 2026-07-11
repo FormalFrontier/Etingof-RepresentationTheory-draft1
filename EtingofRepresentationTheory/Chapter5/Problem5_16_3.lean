@@ -644,11 +644,217 @@ of `la` occupy strictly decreasing rows with strictly decreasing columns, so the
 `col − row` are pairwise distinct; hence `content` is injective on the (nonempty) set
 `removeSquare la`, and constancy forces a single removable corner, i.e. a rectangle. -/
 
+/-- Cell membership in a partition's Young diagram, via sorted row lengths. -/
+private lemma mem_cells_iff_getD {n : ℕ} (la : Nat.Partition n) (i j : ℕ) :
+    (i, j) ∈ la.toYoungDiagram.cells ↔ j < la.sortedParts.getD i 0 := by
+  rw [YoungDiagram.mem_cells, YoungDiagram.mem_iff_lt_rowLen,
+    Nat.Partition.toYoungDiagram_rowLen_eq_getD]
+
+/-- Outer-corner characterisation via sorted parts: `(i, j)` is an outer corner iff row `i`
+is nonempty with rightmost cell `j = L[i] − 1` and is strictly longer than row `i + 1`. -/
+private lemma isOuterCorner_iff {n : ℕ} (la : Nat.Partition n) (i j : ℕ) :
+    la.toYoungDiagram.IsOuterCorner i j ↔
+      j + 1 = la.sortedParts.getD i 0 ∧
+        la.sortedParts.getD (i + 1) 0 < la.sortedParts.getD i 0 := by
+  simp only [YoungDiagram.IsOuterCorner, mem_cells_iff_getD, not_lt]
+  omega
+
+/-- Removing an outer corner drops the content by that corner's `col − row`. -/
+private lemma content_removeOuterCorner {m : ℕ} (la : Nat.Partition (m + 1)) (c : ℕ × ℕ)
+    (hc : la.toYoungDiagram.IsOuterCorner c.1 c.2) :
+    content (la.removeOuterCorner c hc) = content la - ((c.2 : ℤ) - c.1) := by
+  rw [content, content, Nat.Partition.toYoungDiagram_removeOuterCorner,
+    show (la.toYoungDiagram.removeCorner c.1 c.2 hc).cells
+      = la.toYoungDiagram.cells.erase (c.1, c.2) from rfl,
+    Finset.sum_erase_eq_sub hc.1]
+
+/-- Removing an outer corner lands inside `removeSquare la`. -/
+private lemma removeOuterCorner_mem_removeSquare {m : ℕ} (la : Nat.Partition (m + 1)) (c : ℕ × ℕ)
+    (hc : la.toYoungDiagram.IsOuterCorner c.1 c.2) :
+    la.removeOuterCorner c hc ∈ removeSquare la := by
+  rw [removeSquare, Finset.mem_filter]
+  refine ⟨Finset.mem_univ _, ?_⟩
+  rw [← YoungDiagram.cells_subset_iff, Nat.Partition.toYoungDiagram_removeOuterCorner,
+    show (la.toYoungDiagram.removeCorner c.1 c.2 hc).cells
+      = la.toYoungDiagram.cells.erase (c.1, c.2) from rfl]
+  exact Finset.erase_subset _ _
+
+/-- Every `ν ∈ removeSquare la` arises by deleting a single outer corner `d`, and its content is
+`content la − (col(d) − row(d))`. -/
+private lemma removeSquare_content {m : ℕ} (la : Nat.Partition (m + 1)) (ν : Nat.Partition m)
+    (hν : ν ∈ removeSquare la) :
+    ∃ d : ℕ × ℕ, la.toYoungDiagram.IsOuterCorner d.1 d.2 ∧
+      content ν = content la - ((d.2 : ℤ) - d.1) := by
+  rw [removeSquare, Finset.mem_filter] at hν
+  have hle : ν.toYoungDiagram ≤ la.toYoungDiagram := hν.2
+  have hsub : ν.toYoungDiagram.cells ⊆ la.toYoungDiagram.cells :=
+    YoungDiagram.cells_subset_iff.mpr hle
+  have hcardla : la.toYoungDiagram.cells.card = m + 1 := la.toYoungDiagram_card
+  have hcardν : ν.toYoungDiagram.cells.card = m := ν.toYoungDiagram_card
+  have hcardsdiff : (la.toYoungDiagram.cells \ ν.toYoungDiagram.cells).card = 1 := by
+    rw [Finset.card_sdiff_of_subset hsub, hcardla, hcardν]; omega
+  obtain ⟨d, hd⟩ := Finset.card_eq_one.mp hcardsdiff
+  have hd_mem : d ∈ la.toYoungDiagram.cells \ ν.toYoungDiagram.cells := by
+    rw [hd]; exact Finset.mem_singleton_self d
+  rw [Finset.mem_sdiff] at hd_mem
+  obtain ⟨hd_la, hd_nν⟩ := hd_mem
+  have hcontent : content la = content ν + ((d.2 : ℤ) - d.1) := by
+    rw [content, content, ← Finset.sum_sdiff hsub, hd, Finset.sum_singleton]; ring
+  have hcorner : la.toYoungDiagram.IsOuterCorner d.1 d.2 := by
+    refine ⟨hd_la, ?_, ?_⟩
+    · intro hbelow
+      by_cases hb_ν : (d.1 + 1, d.2) ∈ ν.toYoungDiagram.cells
+      · exact hd_nν ((YoungDiagram.mem_cells _).mpr
+          (ν.toYoungDiagram.up_left_mem (Nat.le_succ _) le_rfl
+            ((YoungDiagram.mem_cells _).mp hb_ν)))
+      · have hmemsd : (d.1 + 1, d.2) ∈ la.toYoungDiagram.cells \ ν.toYoungDiagram.cells :=
+          Finset.mem_sdiff.mpr ⟨hbelow, hb_ν⟩
+        rw [hd, Finset.mem_singleton] at hmemsd
+        have hcontra : d.1 + 1 = d.1 := congrArg Prod.fst hmemsd
+        omega
+    · intro hright
+      by_cases hr_ν : (d.1, d.2 + 1) ∈ ν.toYoungDiagram.cells
+      · exact hd_nν ((YoungDiagram.mem_cells _).mpr
+          (ν.toYoungDiagram.up_left_mem le_rfl (Nat.le_succ _)
+            ((YoungDiagram.mem_cells _).mp hr_ν)))
+      · have hmemsd : (d.1, d.2 + 1) ∈ la.toYoungDiagram.cells \ ν.toYoungDiagram.cells :=
+          Finset.mem_sdiff.mpr ⟨hright, hr_ν⟩
+        rw [hd, Finset.mem_singleton] at hmemsd
+        have hcontra : d.2 + 1 = d.2 := congrArg Prod.snd hmemsd
+        omega
+  exact ⟨d, hcorner, by rw [hcontent]; ring⟩
+
 /-- **Corner/content criterion.** `content` is constant on `removeSquare la` iff `la` is
 rectangular. -/
 lemma content_const_removeSquare_iff_rectangular (m : ℕ) (la : Nat.Partition (m + 1)) :
     (∃ c : ℂ, ∀ ν ∈ removeSquare la, (content ν : ℂ) = c) ↔ IsRectangular la := by
-  sorry
+  set r := la.sortedParts.length with hr
+  have hsum : la.sortedParts.sum = m + 1 := by
+    have h1 : Multiset.sum (↑la.sortedParts) = la.sortedParts.sum := Multiset.sum_coe _
+    rw [← h1, show (↑la.sortedParts : Multiset ℕ) = la.parts from
+      Multiset.sort_eq la.parts (· ≥ ·), la.parts_sum]
+  have hrpos : 0 < r := by
+    rw [hr]
+    by_contra h
+    push_neg at h
+    have hnil : la.sortedParts = [] := List.length_eq_zero_iff.mp (Nat.le_zero.mp h)
+    rw [hnil, List.sum_nil] at hsum
+    exact absurd hsum (by omega)
+  have hpos : ∀ i, i < r → 0 < la.sortedParts.getD i 0 := by
+    intro i hi
+    rw [List.getD_eq_getElem la.sortedParts 0 (hr ▸ hi)]
+    apply la.parts_pos
+    rw [← show (↑la.sortedParts : Multiset ℕ) = la.parts from Multiset.sort_eq la.parts (· ≥ ·)]
+    exact Multiset.mem_coe.mpr (List.getElem_mem (hr ▸ hi))
+  have hanti : ∀ i, la.sortedParts.getD (i + 1) 0 ≤ la.sortedParts.getD i 0 := by
+    intro i
+    rw [← Nat.Partition.toYoungDiagram_rowLen_eq_getD la i,
+        ← Nat.Partition.toYoungDiagram_rowLen_eq_getD la (i + 1)]
+    exact la.toYoungDiagram.rowLen_anti i (i + 1) (Nat.le_succ i)
+  have hzero : ∀ i, r ≤ i → la.sortedParts.getD i 0 = 0 := by
+    intro i hi
+    exact List.getD_eq_default la.sortedParts 0 (hr ▸ hi)
+  -- the bottom removable corner, always present
+  have hbot : la.toYoungDiagram.IsOuterCorner
+      (r - 1, la.sortedParts.getD (r - 1) 0 - 1).1
+      (r - 1, la.sortedParts.getD (r - 1) 0 - 1).2 := by
+    show la.toYoungDiagram.IsOuterCorner (r - 1) (la.sortedParts.getD (r - 1) 0 - 1)
+    rw [isOuterCorner_iff]
+    have h1 : 0 < la.sortedParts.getD (r - 1) 0 := hpos (r - 1) (by omega)
+    have h2 : la.sortedParts.getD r 0 = 0 := hzero r le_rfl
+    have hr1 : r - 1 + 1 = r := by omega
+    exact ⟨by omega, by rw [hr1, h2]; exact h1⟩
+  constructor
+  · -- content constant ⟹ rectangular
+    rintro ⟨cc, hc⟩
+    by_contra hnrect
+    -- some interior strict descent exists
+    have hdescent : ∃ i, i + 1 < r ∧ la.sortedParts.getD (i + 1) 0 < la.sortedParts.getD i 0 := by
+      by_contra hno
+      push_neg at hno
+      apply hnrect
+      have hconst : ∀ k, k < r → la.sortedParts.getD k 0 = la.sortedParts.getD 0 0 := by
+        intro k
+        induction k with
+        | zero => intro _; rfl
+        | succ j ih =>
+          intro hjr
+          have hle := hno j (by omega)
+          have hge := hanti j
+          have hij := ih (by omega)
+          omega
+      have hallc : ∀ x ∈ la.sortedParts, x = la.sortedParts.getD 0 0 := by
+        rw [List.forall_mem_iff_getElem]
+        intro i hi
+        rw [← List.getD_eq_getElem la.sortedParts 0 hi]
+        exact hconst i (hr.symm ▸ hi)
+      have hcoe : (↑la.sortedParts : Multiset ℕ) = la.parts :=
+        Multiset.sort_eq la.parts (· ≥ ·)
+      refine ⟨r, la.sortedParts.getD 0 0, ?_⟩
+      have hrep : la.sortedParts = List.replicate r (la.sortedParts.getD 0 0) := by
+        rw [hr]; exact List.eq_replicate_length.mpr hallc
+      calc la.parts = (↑la.sortedParts : Multiset ℕ) := hcoe.symm
+        _ = (↑(List.replicate r (la.sortedParts.getD 0 0)) : Multiset ℕ) := by rw [← hrep]
+        _ = Multiset.replicate r (la.sortedParts.getD 0 0) := Multiset.coe_replicate _ _
+    obtain ⟨i₀, hi₀r, hi₀desc⟩ := hdescent
+    have hcorner1 : la.toYoungDiagram.IsOuterCorner
+        (i₀, la.sortedParts.getD i₀ 0 - 1).1
+        (i₀, la.sortedParts.getD i₀ 0 - 1).2 := by
+      show la.toYoungDiagram.IsOuterCorner i₀ (la.sortedParts.getD i₀ 0 - 1)
+      rw [isOuterCorner_iff]
+      have hpi : 0 < la.sortedParts.getD i₀ 0 := hpos i₀ (by omega)
+      exact ⟨by omega, hi₀desc⟩
+    have hmem1 := removeOuterCorner_mem_removeSquare la (i₀, la.sortedParts.getD i₀ 0 - 1) hcorner1
+    have hmem2 :=
+      removeOuterCorner_mem_removeSquare la (r - 1, la.sortedParts.getD (r - 1) 0 - 1) hbot
+    have hval1 := hc _ hmem1
+    have hval2 := hc _ hmem2
+    rw [content_removeOuterCorner] at hval1 hval2
+    have hZ := Int.cast_injective (α := ℂ) (hval1.trans hval2.symm)
+    have hpi : 0 < la.sortedParts.getD i₀ 0 := hpos i₀ (by omega)
+    have hpb : 0 < la.sortedParts.getD (r - 1) 0 := hpos (r - 1) (by omega)
+    have hmono : la.sortedParts.getD (r - 1) 0 ≤ la.sortedParts.getD i₀ 0 := by
+      rw [← Nat.Partition.toYoungDiagram_rowLen_eq_getD la i₀,
+          ← Nat.Partition.toYoungDiagram_rowLen_eq_getD la (r - 1)]
+      exact la.toYoungDiagram.rowLen_anti i₀ (r - 1) (by omega)
+    omega
+  · -- rectangular ⟹ content constant
+    intro hrect
+    obtain ⟨R, cval, hRc⟩ := hrect
+    have hLc : ∀ x ∈ la.sortedParts, x = cval := by
+      intro x hx
+      have hmem : x ∈ la.parts := by
+        rw [← show (↑la.sortedParts : Multiset ℕ) = la.parts from Multiset.sort_eq la.parts (· ≥ ·)]
+        exact Multiset.mem_coe.mpr hx
+      rw [hRc] at hmem
+      exact Multiset.eq_of_mem_replicate hmem
+    have hconst : ∀ i, i < r → la.sortedParts.getD i 0 = cval := by
+      intro i hi
+      rw [List.getD_eq_getElem la.sortedParts 0 (hr ▸ hi)]
+      exact hLc _ (List.getElem_mem (hr ▸ hi))
+    refine ⟨((content la - (((cval - 1 : ℕ) : ℤ) - ((r - 1 : ℕ) : ℤ))) : ℂ), ?_⟩
+    intro ν hν
+    obtain ⟨d, hd_corner, hd_content⟩ := removeSquare_content la ν hν
+    rw [isOuterCorner_iff] at hd_corner
+    obtain ⟨hd1, hd2⟩ := hd_corner
+    have hd1r : d.1 < r := by
+      by_contra h
+      push_neg at h
+      rw [hzero d.1 h] at hd1
+      omega
+    have hd1eq : d.1 = r - 1 := by
+      by_contra h
+      have hd1lt : d.1 + 1 < r := by omega
+      rw [hconst d.1 hd1r, hconst (d.1 + 1) hd1lt] at hd2
+      omega
+    have hval : la.sortedParts.getD d.1 0 = cval := hconst d.1 hd1r
+    have hd2val : d.2 = cval - 1 := by
+      have hh := hd1
+      rw [hval] at hh
+      omega
+    rw [hd_content, hd2val, hd1eq]
+    push_cast
+    ring
 
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
