@@ -472,6 +472,26 @@ theorem barDiff_eq_sum_barFace (n : ℕ) :
   rw [barDiff_eq_ofCoeff, barCoeffD_eq_sum_coeffFace, ofCoeff_sum]
   simp only [ofCoeff_smul, barFace]
 
+/-! ### Evaluation of the individual faces on a pure generator -/
+
+@[simp] theorem barFace_zero_apply (n : ℕ) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
+    barFace k A W n 0 (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = (a₀ * v 0) ⊗ₜ[k] (tprod k (Fin.tail v) ⊗ₜ[k] w) := by
+  rw [barFace, coeffFace_zero, ofCoeff_tmul, coeffFaceZero]
+  simp [TensorProduct.smul_tmul']
+
+@[simp] theorem barFace_interior_apply (n : ℕ) (j : Fin n) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
+    barFace k A W n j.succ.castSucc (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = a₀ ⊗ₜ[k] (tprod k (Fin.contractNth (Fin.castSucc j) (· * ·) v) ⊗ₜ[k] w) := by
+  rw [barFace, coeffFace_interior, ofCoeff_tmul, coeffFaceInterior]
+  simp [TensorProduct.smul_tmul']
+
+@[simp] theorem barFace_last_apply (n : ℕ) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
+    barFace k A W n (Fin.last (n + 1)) (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = a₀ ⊗ₜ[k] (tprod k (Fin.init v) ⊗ₜ[k] (v (Fin.last n) • w)) := by
+  rw [barFace, coeffFace_last, ofCoeff_tmul, coeffFaceLast]
+  simp [TensorProduct.smul_tmul']
+
 end BarFaces
 
 end Etingof.BarResolution
