@@ -31,4 +31,32 @@ theorem homologicalDimension_eq_top {R : Type u} [Ring R]
   simp_rw [hd]
   exact iInf_top
 
+/-- If a ring has homological dimension `≤ d`, then its homological dimension (as an element
+of `ℕ∞`) is `≤ d`.
+
+`homologicalDimension R = ⨅ (d) (_ : HasHomologicalDimensionLE R d), (d : ℕ∞)`; the term at
+this particular `d`, whose hypothesis `h` holds, bounds the infimum from below. -/
+theorem homologicalDimension_le {R : Type u} [Ring R] {d : ℕ}
+    (h : Etingof.HasHomologicalDimensionLE R d) :
+    Etingof.homologicalDimension R ≤ (d : ℕ∞) := by
+  unfold Etingof.homologicalDimension
+  exact iInf₂_le d h
+
+/-- A ring with homological dimension `≤ 1` but not `≤ 0` has homological dimension exactly `1`.
+
+The upper bound `≤ 1` is `homologicalDimension_le h1`. For the lower bound `1 ≤ …`, bound the
+infimum termwise (`le_iInf₂`): for each `d` with `HasHomologicalDimensionLE R d`, the `d = 0`
+case contradicts `h0`, and every `d ≥ 1` gives `(d : ℕ∞) ≥ 1`. -/
+theorem homologicalDimension_eq_one_of_not_le_zero {R : Type u} [Ring R]
+    (h1 : Etingof.HasHomologicalDimensionLE R 1)
+    (h0 : ¬ Etingof.HasHomologicalDimensionLE R 0) :
+    Etingof.homologicalDimension R = 1 := by
+  refine le_antisymm ?_ ?_
+  · simpa using homologicalDimension_le h1
+  · unfold Etingof.homologicalDimension
+    refine le_iInf₂ (fun d hd => ?_)
+    match d with
+    | 0 => exact absurd hd h0
+    | (n + 1) => exact_mod_cast Nat.succ_le_succ (Nat.zero_le n)
+
 end Etingof
