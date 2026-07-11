@@ -101,6 +101,103 @@ theorem exists_isCompositionFactor {M : ModuleCat.{v} R} [Small.{v} R] [Nontrivi
     ⟨sh.isSimpleModule_iff.mpr hsimple, LinearMap.range g, sh.symm.toLinearMap ∘ₗ gmap, ?_⟩⟩
   exact sh.symm.surjective.comp hgmapsurj
 
+/-- A module with a composition factor is nontrivial (a simple subquotient is nonzero). -/
+theorem IsCompositionFactor.nontrivial {M U : ModuleCat.{v} R}
+    (h : IsCompositionFactor R M U) : Nontrivial M := by
+  rw [isCompositionFactor_iff] at h
+  obtain ⟨hU, P, g, hg⟩ := h
+  haveI : Nontrivial U := hU.nontrivial
+  obtain ⟨u, hu⟩ := exists_ne (0 : U)
+  obtain ⟨p, rfl⟩ := hg u
+  have hp : p ≠ 0 := fun h0 => hu (by rw [h0, map_zero])
+  exact ⟨(p : M), 0, fun h0 => hp (Subtype.ext h0)⟩
+
+/-- Composition factors transport across a linear equivalence of the ambient module. -/
+theorem IsCompositionFactor.of_linearEquiv {M M' : Type v} [AddCommGroup M] [Module R M]
+    [AddCommGroup M'] [Module R M'] {U : ModuleCat.{v} R} (e : M ≃ₗ[R] M')
+    (h : IsCompositionFactor R (ModuleCat.of R M') U) :
+    IsCompositionFactor R (ModuleCat.of R M) U :=
+  IsCompositionFactor.of_surjective e.toLinearMap e.surjective h
+
+/-- The only composition factor of a simple module is (an isomorphic copy of) itself. -/
+theorem IsCompositionFactor.of_simple {M U : ModuleCat.{v} R} (hM : IsSimpleModule R M)
+    (h : IsCompositionFactor R M U) : Nonempty (U ≃ₗ[R] M) := by
+  rw [isCompositionFactor_iff] at h
+  obtain ⟨hU, P, g, hg⟩ := h
+  haveI : Nontrivial U := hU.nontrivial
+  have hPne : P ≠ ⊥ := by
+    rintro rfl
+    obtain ⟨u, hu⟩ := exists_ne (0 : U)
+    obtain ⟨p, rfl⟩ := hg u
+    exact hu (by rw [Subsingleton.elim p 0, map_zero])
+  have hPtop : P = ⊤ := (hM.eq_bot_or_eq_top P).resolve_left hPne
+  set eP : P ≃ₗ[R] M := (LinearEquiv.ofEq P ⊤ hPtop).trans Submodule.topEquiv with heP
+  set θ : M →ₗ[R] U := g ∘ₗ eP.symm.toLinearMap with hθ
+  have hθsurj : Function.Surjective θ := hg.comp eP.symm.surjective
+  have hθinj : Function.Injective θ := by
+    rw [← LinearMap.ker_eq_bot]
+    refine (hM.eq_bot_or_eq_top (LinearMap.ker θ)).resolve_right (fun htop => ?_)
+    obtain ⟨u, hu⟩ := exists_ne (0 : U)
+    obtain ⟨m, rfl⟩ := hθsurj u
+    exact hu (LinearMap.mem_ker.mp (htop ▸ Submodule.mem_top))
+  exact ⟨(LinearEquiv.ofBijective θ ⟨hθinj, hθsurj⟩).symm⟩
+
+/-- **Subadditivity of composition factors.** A composition factor `U` of `Y` is a composition
+factor of a submodule `K` or of the quotient `Y ⧸ K`. -/
+theorem IsCompositionFactor.of_submodule_or_quotient {Y : Type v} [AddCommGroup Y] [Module R Y]
+    (K : Submodule R Y) {U : ModuleCat.{v} R}
+    (h : IsCompositionFactor R (ModuleCat.of R Y) U) :
+    IsCompositionFactor R (ModuleCat.of R K) U ∨
+      IsCompositionFactor R (ModuleCat.of R (Y ⧸ K)) U := by
+  rw [isCompositionFactor_iff] at h
+  obtain ⟨hU, P, g, hg⟩ := h
+  -- Restrict `g` to the intersection `P ⊓ K`.
+  set φ : (↥(P ⊓ K)) →ₗ[R] U := g ∘ₗ Submodule.inclusion inf_le_left with hφ
+  by_cases hφsurj : Function.Surjective φ
+  · -- `U` is a simple quotient of `↥(P ⊓ K)`, hence a composition factor of `↥K`.
+    left
+    have hfac : IsCompositionFactor R (ModuleCat.of R (P ⊓ K : Submodule R Y)) U :=
+      isCompositionFactor_iff.mpr ⟨hU, ⊤, φ ∘ₗ Submodule.topEquiv.toLinearMap,
+        hφsurj.comp Submodule.topEquiv.surjective⟩
+    -- Transport along `↥(comap K.subtype (P ⊓ K)) ≃ ↥(P ⊓ K)` and lift along the inclusion `↥K`.
+    have hfac' : IsCompositionFactor R
+        (ModuleCat.of R (Submodule.comap K.subtype (P ⊓ K))) U :=
+      IsCompositionFactor.of_linearEquiv (Submodule.comapSubtypeEquivOfLe inf_le_right) hfac
+    exact IsCompositionFactor.of_submodule (Submodule.comap K.subtype (P ⊓ K)) hfac'
+  · -- Otherwise the range of `φ` is a proper submodule of the simple `U`, hence `φ = 0`.
+    right
+    have hker : LinearMap.range φ = ⊥ := by
+      refine (hU.eq_bot_or_eq_top _).resolve_right (fun htop => hφsurj ?_)
+      rwa [← LinearMap.range_eq_top]
+    -- `g` vanishes on `ker (K.mkQ ∘ P.subtype)`, so it factors through `P.map K.mkQ ≤ Y ⧸ K`.
+    set κ : (↥P) →ₗ[R] (Y ⧸ K) := K.mkQ ∘ₗ P.subtype with hκ
+    set κ' : (↥P) →ₗ[R] (↥(LinearMap.range κ)) := κ.rangeRestrict with hκ'
+    have hκ'surj : Function.Surjective κ' := LinearMap.surjective_rangeRestrict κ
+    have hφ0 : φ = 0 := LinearMap.range_eq_bot.mp hker
+    have hle : LinearMap.ker κ' ≤ LinearMap.ker g := by
+      intro p hp
+      have hpκ : κ p = 0 := by
+        have := LinearMap.mem_ker.mp hp
+        simpa [hκ', LinearMap.rangeRestrict, Subtype.ext_iff] using this
+      -- `κ p = 0` means `↑p ∈ K`, i.e. `p ∈ P ⊓ K`; and `φ = 0` there.
+      have hpK : (p : Y) ∈ K := by
+        have := hpκ
+        rwa [hκ, LinearMap.comp_apply, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at this
+      rw [LinearMap.mem_ker]
+      have hgp : g p = φ ⟨(p : Y), ⟨p.2, hpK⟩⟩ := rfl
+      rw [hgp, hφ0, LinearMap.zero_apply]
+    -- Descend `g` to `↥(range κ) ≤ Y ⧸ K` and conclude it is a composition factor of `Y ⧸ K`.
+    set ĝ : (↥(LinearMap.range κ)) →ₗ[R] U :=
+      (Submodule.liftQ (LinearMap.ker κ') g hle) ∘ₗ
+        (κ'.quotKerEquivOfSurjective hκ'surj).symm.toLinearMap with hĝ
+    have hĝsurj : Function.Surjective ĝ := by
+      rw [hĝ, LinearMap.coe_comp]
+      apply Function.Surjective.comp _ (κ'.quotKerEquivOfSurjective hκ'surj).symm.surjective
+      intro u
+      obtain ⟨p, rfl⟩ := hg u
+      exact ⟨Submodule.Quotient.mk p, by rw [Submodule.liftQ_apply]⟩
+    exact isCompositionFactor_iff.mpr ⟨hU, LinearMap.range κ, ĝ, hĝsurj⟩
+
 end CompositionFactor
 
 end Etingof
