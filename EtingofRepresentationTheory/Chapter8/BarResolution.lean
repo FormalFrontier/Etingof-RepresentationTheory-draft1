@@ -251,4 +251,101 @@ noncomputable def barMerge (n : ℕ) (i : Fin n) : (⨂[k]^(n + 1) A) →ₗ[k] 
 
 end FaceMaps
 
+/-! ### The bar differential `dₙ : Pₙ₊₁ → Pₙ`
+
+The differential is the alternating sum of the `n + 2` faces
+```
+a₀ ⊗ (a₁,…,aₙ₊₁) ⊗ w ↦ a₀a₁ ⊗ (a₂,…,aₙ₊₁) ⊗ w
+   + Σ_{i=1}^{n} (-1)ⁱ a₀ ⊗ (a₁,…,aᵢaᵢ₊₁,…,aₙ₊₁) ⊗ w
+   + (-1)ⁿ⁺¹ a₀ ⊗ (a₁,…,aₙ) ⊗ (aₙ₊₁ • w).
+```
+Because the leading `A`-factor `a₀` is only ever left-multiplied (face `0` merges it into `a₁`; the
+others keep it untouched), the differential is `A`-linear and factors as
+`barDiff n (a₀ ⊗ c) = a₀ • barCoeffD n c` for a coefficient-level `k`-linear map
+`barCoeffD n : barCoeff (n+1) → barModule n`, exactly as the augmentation `ε` did.  We build
+`barCoeffD n` as the alternating sum of the faces expressed via the primitives `barConsSplit`,
+`barMerge`, `barSnocSplit` above. -/
+
+section BarDifferential
+
+/-- The `k`-linear action map `A ⊗_k W →ₗ[k] W`, `a ⊗ w ↦ a • w` (used by the last face). -/
+noncomputable def barAct : A ⊗[k] W →ₗ[k] W :=
+  TensorProduct.lift <| LinearMap.mk₂ k (fun (a : A) (w : W) => a • w)
+    (fun a₁ a₂ w => add_smul a₁ a₂ w)
+    (fun c a w => smul_assoc c a w)
+    (fun a w₁ w₂ => smul_add a w₁ w₂)
+    (fun a c w => (smul_comm a c w).symm)
+
+@[simp] theorem barAct_tmul (a : A) (w : W) : barAct k A W (a ⊗ₜ[k] w) = a • w := by
+  simp [barAct]
+
+/-- Prepend the unit of `A` to a bar coefficient: `x ↦ 1 ⊗ x : barCoeff n → barModule n`.
+The middle-and-last faces of the differential all produce a leading factor `1`. -/
+noncomputable def oneTmul (n : ℕ) : barCoeff k A W n →ₗ[k] barModule k A W n :=
+  TensorProduct.mk k A (barCoeff k A W n) 1
+
+omit [Module A W] [IsScalarTower k A W] in
+@[simp] theorem oneTmul_apply (n : ℕ) (c : barCoeff k A W n) :
+    oneTmul k A W n c = (1 : A) ⊗ₜ[k] c := rfl
+
+/-- The last face at coefficient level, `tprod v ⊗ w ↦ tprod (Fin.init v) ⊗ (v (last) • w)`:
+split off the trailing factor with `barSnocSplit` and act it on `w`. -/
+noncomputable def barSnocAct (n : ℕ) : barCoeff k A W (n + 1) →ₗ[k] barCoeff k A W n :=
+  TensorProduct.map LinearMap.id (barAct k A W)
+    ∘ₗ (TensorProduct.assoc k (⨂[k]^n A) A W).toLinearMap
+    ∘ₗ TensorProduct.map (barSnocSplit k A n) LinearMap.id
+
+@[simp] theorem barSnocAct_tprod (n : ℕ) (v : Fin (n + 1) → A) (w : W) :
+    barSnocAct k A W n (tprod k v ⊗ₜ[k] w)
+      = tprod k (Fin.init v) ⊗ₜ[k] (v (Fin.last n) • w) := by
+  simp [barSnocAct, TensorProduct.assoc_tmul]
+
+/-- The coefficient-level bar differential
+`barCoeffD n : barCoeff (n+1) →ₗ[k] barModule n`, the alternating sum of the `n + 2` faces.
+The `A`-linear differential is `barDiff n (a₀ ⊗ c) = a₀ • barCoeffD n c`. -/
+noncomputable def barCoeffD (n : ℕ) : barCoeff k A W (n + 1) →ₗ[k] barModule k A W n :=
+  (TensorProduct.assoc k A (⨂[k]^n A) W).toLinearMap
+      ∘ₗ TensorProduct.map (barConsSplit k A n) LinearMap.id
+  + (∑ j : Fin n, (-1 : k) ^ ((j : ℕ) + 1) •
+      (oneTmul k A W n ∘ₗ TensorProduct.map (barMerge k A n j) LinearMap.id))
+  + (-1 : k) ^ (n + 1) • (oneTmul k A W n ∘ₗ barSnocAct k A W n)
+
+@[simp] theorem barCoeffD_tprod (n : ℕ) (v : Fin (n + 1) → A) (w : W) :
+    barCoeffD k A W n (tprod k v ⊗ₜ[k] w)
+      = v 0 ⊗ₜ[k] (tprod k (Fin.tail v) ⊗ₜ[k] w)
+        + (∑ j : Fin n, (-1 : k) ^ ((j : ℕ) + 1) •
+            ((1 : A) ⊗ₜ[k] (tprod k (Fin.contractNth j.castSucc (· * ·) v) ⊗ₜ[k] w)))
+        + (-1 : k) ^ (n + 1) •
+            ((1 : A) ⊗ₜ[k] (tprod k (Fin.init v) ⊗ₜ[k] (v (Fin.last n) • w))) := by
+  simp only [barCoeffD, LinearMap.add_apply, LinearMap.coe_sum, Finset.sum_apply,
+    LinearMap.smul_apply, LinearMap.comp_apply, TensorProduct.map_tmul, LinearMap.id_coe, id_eq,
+    barConsSplit_tprod, barMerge_tprod, LinearEquiv.coe_toLinearMap, TensorProduct.assoc_tmul,
+    oneTmul_apply, barSnocAct_tprod]
+
+/-- **The bar differential** `dₙ : Pₙ₊₁ → Pₙ`, an `A`-linear map, defined via
+`TensorProduct.AlgebraTensorModule.lift` from the coefficient-level differential `barCoeffD`
+(so `barDiff n (a₀ ⊗ c) = a₀ • barCoeffD n c`), exactly as the augmentation `ε` is built. -/
+noncomputable def barDiff (n : ℕ) : barModule k A W (n + 1) →ₗ[A] barModule k A W n :=
+  TensorProduct.AlgebraTensorModule.lift
+    (LinearMap.toSpanSingleton A (barCoeff k A W (n + 1) →ₗ[k] barModule k A W n)
+      (barCoeffD k A W n))
+
+theorem barDiff_tmul (n : ℕ) (a₀ : A) (c : barCoeff k A W (n + 1)) :
+    barDiff k A W n (a₀ ⊗ₜ[k] c) = a₀ • barCoeffD k A W n c := by
+  simp [barDiff, LinearMap.toSpanSingleton_apply]
+
+/-- The bar differential on a pure tensor, as the explicit alternating sum of faces. -/
+@[simp] theorem barDiff_tmul_tprod (n : ℕ) (a₀ : A) (v : Fin (n + 1) → A) (w : W) :
+    barDiff k A W n (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))
+      = (a₀ * v 0) ⊗ₜ[k] (tprod k (Fin.tail v) ⊗ₜ[k] w)
+        + (∑ j : Fin n, (-1 : k) ^ ((j : ℕ) + 1) •
+            (a₀ ⊗ₜ[k] (tprod k (Fin.contractNth j.castSucc (· * ·) v) ⊗ₜ[k] w)))
+        + (-1 : k) ^ (n + 1) •
+            (a₀ ⊗ₜ[k] (tprod k (Fin.init v) ⊗ₜ[k] (v (Fin.last n) • w))) := by
+  rw [barDiff_tmul, barCoeffD_tprod]
+  simp only [smul_add, Finset.smul_sum, smul_comm (a₀ : A), TensorProduct.smul_tmul',
+    smul_eq_mul, mul_one]
+
+end BarDifferential
+
 end Etingof.BarResolution
