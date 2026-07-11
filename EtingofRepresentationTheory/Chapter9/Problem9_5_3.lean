@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Group.Idempotent
 import Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts
+import Mathlib.RingTheory.FiniteLength
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 
 /-!
@@ -169,15 +170,48 @@ theorem hom_subsingleton_of_not_linked [Small.{v} R]
   exact hST ((Etingof.areLinked_equivalence R).trans
     ((Etingof.areLinked_equivalence R).symm h1) h2)
 
-/-- **Problem 9.5.3 (ii), decomposition.** Every indecomposable (finite length) object lies in
-some block: there is a simple module `S` such that all composition factors of `M` are linked
-to `S`. The finite-length assumption is recorded as the existence of at least one composition
-factor. -/
-theorem exists_block_of_indecomposable [Small.{v} R]
-    {M : ModuleCat.{v} R} (hM : Indecomposable M)
-    (hfl : ∃ S : ModuleCat.{v} R, Etingof.IsCompositionFactor R M S) :
-    ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ Etingof.InBlock R S M := by
+/-- **Block-connectivity of an indecomposable module.** The composition factors of an
+indecomposable finite-length module all lie in a single linkage class: any two composition
+factors `S`, `T` of `M` are linked.
+
+This is the mathematical core of Problem 9.5.3(ii). Proof strategy (book proof, contrapositive):
+the composition factors of `M` split into linkage classes; if `S` and `T` were *not* linked,
+the factors would occupy `≥ 2` distinct linkage classes. Let `𝒮` be the saturated set of
+simples linked to `S` and `𝒮'` its complement (a union of full linkage classes, so no simple
+in `𝒮` is linked to any simple in `𝒮'`). The largest submodule `M_𝒮 ≤ M` with all composition
+factors in `𝒮` and the analogous `M_{𝒮'}` then give a nontrivial biproduct decomposition
+`M ≅ M_𝒮 ⊞ M_{𝒮'}` (both nonzero: `S` forces `M_𝒮 ≠ 0`, `T` forces `M_{𝒮'} ≠ 0`),
+contradicting `Indecomposable M`. The decomposition itself is the Ext-splitting mechanism behind
+`hom_subsingleton_of_not_linked`: `Ext¹(X, Y) = 0` whenever every composition factor of `X` is
+unlinked to every composition factor of `Y` (dévissage from the simple base case
+`¬ Etingof.AreLinked R S T ⟹ Subsingleton (Abelian.Ext S T 1)` via the covariant/contravariant
+Ext long exact sequences), so each layer of the composition series of `M` splits off along the
+`𝒮`/`𝒮'` partition. -/
+theorem compositionFactors_areLinked [Small.{v} R]
+    {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M)
+    {S T : ModuleCat.{v} R}
+    (hS : Etingof.IsCompositionFactor R M S) (hT : Etingof.IsCompositionFactor R M T) :
+    Etingof.AreLinked R S T := by
   sorry
+
+/-- **Problem 9.5.3 (ii), decomposition.** Every indecomposable finite-length object lies in
+some block: there is a simple module `S` such that all composition factors of `M` are linked to
+`S`. The finite-length assumption is the genuine `IsFiniteLength R M` (the earlier
+"`∃ composition factor`" form was too weak — it does not force finite length, and the block
+statement is false without it, e.g. `M = ℤ` over `R = ℤ`). -/
+theorem exists_block_of_indecomposable [Small.{v} R]
+    {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M) :
+    ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ Etingof.InBlock R S M := by
+  -- `M` is nonzero (indecomposable), hence its carrier is nontrivial and has a factor `S`.
+  haveI hnt : Nontrivial (M : Type v) := by
+    rw [← not_subsingleton_iff_nontrivial, ← ModuleCat.isZero_iff_subsingleton]
+    exact hM.1
+  obtain ⟨S, hS⟩ := Etingof.exists_isCompositionFactor (M := M)
+  refine ⟨S, hS.1, ?_⟩
+  -- every composition factor `T` of `M` is linked to `S` by block-connectivity.
+  intro T hT
+  exact (Etingof.areLinked_equivalence R).symm
+    (compositionFactors_areLinked R hM hfl hS hT)
 
 end Problem953
 

@@ -5234,7 +5234,7 @@
     "start_line": 17,
     "end_line": 17,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass: Chapter5/Exercise5_27_3.lean states, over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), that the character formula (iv) implies the classification properties (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Sorry proof."
+    "coverage_note": "Statement pass (corrected): Chapter5/Exercise5_27_3.lean states, over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), that the character formula (iv) implies the classification properties (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Statement defect from #6375/#6383 fixed by adding the _htransport characterizing hypothesis (chi_{g(U)}(s) = chi_U(g^-1 s g)), which pins down the otherwise-free transport map and removes the U ⊞ U counterexample. Proof split into three labeled sorry goals for follow-up: (i)+(ii) via character orthogonality, (iii) via sum-of-squares dimension count."
   },
   {
     "id": "Chapter6/Introduction",
@@ -7334,7 +7334,7 @@
     "start_line": 7,
     "end_line": 10,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Faithful statements, sorry proofs. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1) — each needs substantial new homological-algebra infrastructure (2-periodic-syzygy Ext-nonvanishing; K₀/Euler-characteristic)."
+    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_4_5.lean. Part (i) det(Cartan) = ±1 for finite homological dimension; part (ii) homologicalDimension of k[t]/tⁿ (n>1) and of the Problem 9.3.2 algebra are both ⊤. Decomposed (#6374) into three per-part sub-issues #6381 (ii-a: k[t]/tⁿ=⊤), #6382 (ii-b: Problem932.A=⊤), #6384 (i: Cartan det=±1). #6381 DONE: homologicalDimension_polynomial_quotient_eq_top is sorry-free (Chapter9/TruncatedPolynomial.lean), plus reusable Etingof.homologicalDimension_eq_top reduction lemma (Chapter9/HomologicalDimensionReduction.lean). Proof avoids explicit Ext periodicity: uses the two multiplication SESs (t) ↔ (tⁿ⁻¹) with R free, dimension shifting (Problem942.hasProjectiveDimensionLE_syzygy), and a symmetric induction from non-projectivity of the two cyclic modules. Still sorry: cartan_det_eq_pm_one (#6384), homologicalDimension_problem932_eq_top (#6382)."
   },
   {
     "id": "Chapter9/Problem9.4.6",
