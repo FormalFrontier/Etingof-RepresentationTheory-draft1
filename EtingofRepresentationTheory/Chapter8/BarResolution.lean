@@ -664,13 +664,13 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
     simp only [Fin.tail]
     rw [Fin.succ_last, Fin.snoc_last, hy1, hy2, mul_smul]
 
-/-- **`d ∘ d = 0`.** The composite of two consecutive bar differentials vanishes, so the bar terms and
-differentials assemble into a chain complex. -/
+/-- **`d ∘ d = 0`.** The composite of two consecutive bar differentials vanishes, so the bar terms
+and differentials assemble into a chain complex. -/
 theorem barDiff_comp_barDiff (n : ℕ) :
     (barDiff k A W n).comp (barDiff k A W (n + 1)) = 0 := by
   classical
   refine LinearMap.ext fun x => ?_
-  simp only [LinearMap.comp_apply, barDiff_eq_sum_barFace, LinearMap.coeFn_sum, Finset.sum_apply,
+  simp only [LinearMap.comp_apply, barDiff_eq_sum_barFace, LinearMap.coe_sum, Finset.sum_apply,
     LinearMap.smul_apply, LinearMap.zero_apply, map_sum, LinearMap.map_smul_of_tower,
     Finset.smul_sum, smul_smul]
   rw [Finset.sum_comm, ← Finset.sum_product']
@@ -701,9 +701,9 @@ theorem barDiff_comp_barDiff (n : ℕ) :
     have hj0 : j' ≠ 0 := by rintro rfl; simp only [Fin.val_zero] at hlt; omega
     refine ⟨(j'.pred hj0, Fin.castSucc i'), ?_, ?_⟩
     · simp only [hS, Finset.mem_filter, Finset.mem_univ, true_and, Fin.val_castSucc,
-        Fin.coe_pred]
+        Fin.val_pred]
       omega
-    · simp only [Prod.mk.injEq, Fin.castLT_castSucc, Fin.succ_pred, and_self]
+    · simp only [Fin.castLT_castSucc, Fin.succ_pred]
   · -- term identification
     rintro ⟨i, j⟩ hij
     have hji : (j : ℕ) ≤ (i : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hij).2
@@ -717,6 +717,14 @@ theorem barDiff_comp_barDiff (n : ℕ) :
     congr 1
     rw [pow_succ]
     ring
+
+/-- **The relative bar chain complex** `… → P₂ → P₁ → P₀` of a representation `W`, assembled from
+the projective bar terms `barObj` and the bar differential `barDiff` via `barDiff_comp_barDiff`. -/
+noncomputable def barComplex : ChainComplex (ModuleCat.{u} A) ℕ :=
+  ChainComplex.of (fun n => barObj k A W n) (fun n => ModuleCat.ofHom (barDiff k A W n))
+    (fun n => by
+      ext y
+      exact LinearMap.congr_fun (barDiff_comp_barDiff k A W n) y)
 
 end BarSquareZero
 
