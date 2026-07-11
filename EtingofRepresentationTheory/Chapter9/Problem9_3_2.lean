@@ -9,6 +9,9 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExtClass
+import Mathlib.Algebra.Module.Projective
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Algebra.Bilinear
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 
 /-!
@@ -417,6 +420,312 @@ theorem extClass_ne_zero : ses_shortExact.extClass ≠ 0 := by
     exact key.symm
   obtain ⟨a, b, hab⟩ := exists_pair_ne Splus
   exact hab (by rw [allzero a, allzero b])
+
+/-! ## `P₊` is projective
+
+`A ≅ A·e₊ ⊕ A·e₋` as a left module for the idempotent `e₊ = (1 + g)/2`, and
+`P₊ ≅ A·e₊`. Concretely: the `A`-linear surjection `A ↠ P₊`, `a ↦ a • (1,0)`, is split by
+the `A`-linear section `(a, b) ↦ a • e₊ + b • (x·e₊)`, exhibiting `P₊` as a direct summand
+of the free module `A`. Hence `P₊` is projective. -/
+
+instance : IsScalarTower ℂ A Pplus :=
+  ⟨fun c a v => by show ρP (c • a) v = c • ρP a v; rw [map_smul]; rfl⟩
+
+/-- The idempotent `e₊ = (1 + g)/2 ∈ A` (a generator of the summand `A·e₊ ≅ P₊`). -/
+noncomputable def eplus : A := (2⁻¹ : ℂ) • (1 + g)
+
+/-- The socle generator `x·e₊ = (x - g·x)/2 ∈ A` of the summand `A·e₊ ≅ P₊`. -/
+noncomputable def xeplus : A := (2⁻¹ : ℂ) • (x - g * x)
+
+lemma g_mul_eplus : g * eplus = eplus := by
+  rw [eplus, mul_smul_comm]
+  congr 1
+  rw [mul_add, mul_one, gsq_rel]
+  exact add_comm g 1
+
+lemma x_mul_eplus : x * eplus = xeplus := by
+  rw [eplus, xeplus, mul_smul_comm]
+  congr 1
+  rw [mul_add, mul_one]
+  have hxg : x * g = -(g * x) := by rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
+  rw [hxg, ← sub_eq_add_neg]
+
+lemma g_mul_xeplus : g * xeplus = -xeplus := by
+  rw [xeplus, mul_smul_comm, ← smul_neg]
+  congr 1
+  rw [mul_sub, ← mul_assoc, gsq_rel, one_mul, neg_sub]
+
+lemma x_mul_xeplus : x * xeplus = 0 := by
+  have h : x * (x - g * x) = 0 := by
+    rw [mul_sub, xsq_rel, ← mul_assoc]
+    have hxg : x * g = -(g * x) := by rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
+    rw [hxg, neg_mul, mul_assoc, xsq_rel, mul_zero, neg_zero, sub_zero]
+  rw [xeplus, mul_smul_comm, h, smul_zero]
+
+lemma eplus_smul_e0 : eplus • (![1, 0] : Pplus) = ![1, 0] := by
+  have h : eplus • (![1, 0] : Pplus)
+      = (2⁻¹ : ℂ) • ((![1, 0] : Pplus) + g • (![1, 0] : Pplus)) := by
+    rw [eplus, smul_assoc, add_smul, one_smul]
+  rw [h, Pplus.g_smul]
+  funext i; fin_cases i <;> simp <;> norm_num
+
+lemma xeplus_smul_e0 : xeplus • (![1, 0] : Pplus) = ![0, 1] := by
+  rw [← x_mul_eplus, mul_smul, eplus_smul_e0, Pplus.x_smul]
+  funext i; fin_cases i <;> simp
+
+/-- The `ℂ`-linear map `P₊ → A`, `(a, b) ↦ a • e₊ + b • (x·e₊)`, underlying the section. -/
+noncomputable def φiPlus : Pplus →ₗ[ℂ] A where
+  toFun v := v 0 • eplus + v 1 • xeplus
+  map_add' u v := by
+    simp only [Pi.add_apply, add_smul]; abel
+  map_smul' c v := by
+    simp only [Pi.smul_apply, smul_eq_mul, mul_smul, RingHom.id_apply, smul_add]
+
+@[simp] lemma φiPlus_apply (v : Pplus) : φiPlus v = v 0 • eplus + v 1 • xeplus := rfl
+
+/-- The `A`-linear section `P₊ → A` of the retraction `a ↦ a • (1,0)`, landing in `A·e₊`. -/
+noncomputable def iPlus : Pplus →ₗ[A] A :=
+  mkAlgLinear ρP (Algebra.lmul ℂ A) Pplus.smul_def (fun a b => by
+      rw [Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', smul_eq_mul])
+    φiPlus
+    (by intro v
+        rw [← Pplus.smul_def, Pplus.g_smul]
+        simp only [φiPlus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+          Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', neg_smul]
+        rw [mul_add, mul_smul_comm, mul_smul_comm, g_mul_eplus, g_mul_xeplus, smul_neg])
+    (by intro v
+        rw [← Pplus.smul_def, Pplus.x_smul]
+        simp only [φiPlus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+          zero_smul, zero_add, Algebra.coe_lmul_eq_mul, LinearMap.mul_apply']
+        rw [mul_add, mul_smul_comm, mul_smul_comm, x_mul_eplus, x_mul_xeplus, smul_zero, add_zero])
+
+/-- The `A`-linear retraction `A ↠ P₊`, `a ↦ a • (1,0)`. -/
+noncomputable def rPlus : A →ₗ[A] Pplus := LinearMap.toSpanSingleton A Pplus (![1, 0] : Pplus)
+
+/-- The retraction is split by the section: `rPlus ∘ iPlus = id`, so `P₊` is a summand of `A`. -/
+lemma rPlus_comp_iPlus : rPlus.comp iPlus = LinearMap.id := by
+  refine LinearMap.ext (fun v => ?_)
+  change rPlus (iPlus v) = v
+  have hiv : iPlus v = v 0 • eplus + v 1 • xeplus := rfl
+  rw [rPlus, LinearMap.toSpanSingleton_apply, hiv, add_smul, smul_assoc, smul_assoc,
+    eplus_smul_e0, xeplus_smul_e0]
+  funext i; fin_cases i <;> simp
+
+/-- **`P₊` is a projective `A`-module.** It is a direct summand of the free module `A`. -/
+instance projective_Pplus : Module.Projective A Pplus :=
+  Module.Projective.of_split iPlus rPlus rPlus_comp_iPlus
+
+/-! ## The mirror projective `P₋` and the mirror extension `0 → S₊ → P₋ → S₋ → 0`
+
+`P₋` is the second projective indecomposable: `ℂ²` with `g = diag(-1, 1)` and
+`x = [[0,0],[1,0]]`. Its top is `S₋` and its socle is `S₊`, giving the mirror short exact
+sequence `0 → S₊ → P₋ → S₋ → 0`. Together with `0 → S₋ → P₊ → S₊ → 0` this exhibits the
+2-periodic syzygies `Ω(S₊) ≅ S₋`, `Ω(S₋) ≅ S₊` used in Problem 9.4.5(ii). -/
+
+/-- Carrier of `P₋`: `ℂ²`, on which `g = diag(-1, 1)` and `x = [[0,0],[1,0]]`. -/
+abbrev Pminus : Type := Fin 2 → ℂ
+
+/-- The action of `g` on `P₋`, the diagonal matrix `diag(-1, 1)`. -/
+noncomputable def PGm : Module.End ℂ Pminus := Matrix.toLinAlgEquiv' !![-1, 0; 0, 1]
+
+/-- The action of `x` on `P₋`, the nilpotent matrix `[[0,0],[1,0]]`. -/
+noncomputable def PXm : Module.End ℂ Pminus := Matrix.toLinAlgEquiv' !![0, 0; 1, 0]
+
+lemma PGm_apply (v : Pminus) : PGm v = ![-v 0, v 1] := by
+  funext i
+  fin_cases i <;>
+    simp [PGm, Matrix.toLinAlgEquiv'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+lemma PXm_apply (v : Pminus) : PXm v = ![0, v 0] := by
+  funext i
+  fin_cases i <;>
+    simp [PXm, Matrix.toLinAlgEquiv'_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- The representation defining `P₋`. -/
+noncomputable def ρPm : A →ₐ[ℂ] Module.End ℂ Pminus :=
+  repHom PGm PXm
+    (by simp only [PGm, PXm, ← map_mul, ← map_add]
+        rw [show !![(-1 : ℂ), 0; 0, 1] * !![0, 0; 1, 0] + !![0, 0; 1, 0] * !![-1, 0; 0, 1]
+              = (0 : Matrix (Fin 2) (Fin 2) ℂ) by
+            ext i j; fin_cases i <;> fin_cases j <;>
+              simp [Matrix.mul_apply, Fin.sum_univ_two]]
+        rw [map_zero])
+    (by simp only [PXm, ← map_mul]
+        rw [show !![(0 : ℂ), 0; 1, 0] * !![0, 0; 1, 0] = (0 : Matrix (Fin 2) (Fin 2) ℂ) by
+            ext i j; fin_cases i <;> fin_cases j <;>
+              simp [Matrix.mul_apply, Fin.sum_univ_two]]
+        rw [map_zero])
+    (by simp only [PGm, ← map_mul]
+        rw [show !![(-1 : ℂ), 0; 0, 1] * !![-1, 0; 0, 1] = (1 : Matrix (Fin 2) (Fin 2) ℂ) by
+            ext i j; fin_cases i <;> fin_cases j <;>
+              simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]]
+        rw [map_one])
+
+noncomputable instance : Module A Pminus := Module.compHom Pminus ρPm.toRingHom
+
+lemma Pminus.smul_def (a : A) (v : Pminus) : a • v = ρPm a v := rfl
+
+@[simp] lemma Pminus.g_smul (v : Pminus) : g • v = ![-v 0, v 1] := by
+  rw [Pminus.smul_def, ρPm, repHom_g, PGm_apply]
+
+@[simp] lemma Pminus.x_smul (v : Pminus) : x • v = ![0, v 0] := by
+  rw [Pminus.smul_def, ρPm, repHom_x, PXm_apply]
+
+instance : IsScalarTower ℂ A Pminus :=
+  ⟨fun c a v => by show ρPm (c • a) v = c • ρPm a v; rw [map_smul]; rfl⟩
+
+/-- The `ℂ`-linear inclusion of the socle of `P₋`: `c ↦ (0, c)`. -/
+def φfm : Splus →ₗ[ℂ] Pminus where
+  toFun c := ![0, c]
+  map_add' a b := by funext j; fin_cases j <;> simp
+  map_smul' r c := by funext j; fin_cases j <;> simp
+
+/-- The `ℂ`-linear projection of `P₋` onto its top: `(a, b) ↦ a`. -/
+def φgm : Pminus →ₗ[ℂ] Sminus := LinearMap.proj 0
+
+@[simp] lemma φfm_apply (c : Splus) : φfm c = ![0, c] := rfl
+
+@[simp] lemma φgm_apply (v : Pminus) : φgm v = v 0 := rfl
+
+/-- The socle inclusion `S₊ ↪ P₋` as an `A`-linear map. -/
+noncomputable def fSESm : Splus →ₗ[A] Pminus :=
+  mkAlgLinear ρplus ρPm Splus.smul_def Pminus.smul_def φfm
+    (by intro v
+        rw [← Splus.smul_def, ← Pminus.smul_def, Splus.g_smul, Pminus.g_smul]
+        simp only [φfm_apply]
+        funext j; fin_cases j <;> simp)
+    (by intro v
+        rw [← Splus.smul_def, ← Pminus.smul_def, Splus.x_smul, Pminus.x_smul]
+        simp only [φfm_apply]
+        funext j; fin_cases j <;> simp)
+
+/-- The top projection `P₋ ↠ S₋` as an `A`-linear map. -/
+noncomputable def gSESm : Pminus →ₗ[A] Sminus :=
+  mkAlgLinear ρPm ρminus Pminus.smul_def Sminus.smul_def φgm
+    (by intro v
+        rw [← Pminus.smul_def, ← Sminus.smul_def, Pminus.g_smul, Sminus.g_smul]
+        simp only [φgm_apply, Matrix.cons_val_zero])
+    (by intro v
+        rw [← Pminus.smul_def, ← Sminus.smul_def, Pminus.x_smul, Sminus.x_smul]
+        simp only [φgm_apply, Matrix.cons_val_zero])
+
+@[simp] lemma fSESm_apply (c : Splus) : fSESm c = ![0, c] := φfm_apply c
+
+@[simp] lemma gSESm_apply (v : Pminus) : gSESm v = v 0 := rfl
+
+lemma gSESm_comp_fSESm : gSESm.comp fSESm = 0 := by
+  ext c; simp [fSESm_apply]
+
+/-- Exactness `ker gSESm = range fSESm` at the middle term. -/
+lemma fSESm_gSESm_exact : Function.Exact fSESm gSESm := by
+  rw [LinearMap.exact_iff]
+  ext v
+  simp only [LinearMap.mem_ker, gSESm_apply, LinearMap.mem_range]
+  constructor
+  · intro hv
+    exact ⟨v 1, by funext j; fin_cases j <;> simp [fSESm_apply, hv]⟩
+  · rintro ⟨c, rfl⟩
+    simp [fSESm_apply]
+
+lemma fSESm_injective : Function.Injective fSESm := by
+  intro a b hab
+  have := congrFun hab 1
+  simpa [fSESm_apply] using this
+
+lemma gSESm_surjective : Function.Surjective gSESm := fun s => ⟨![s, 0], rfl⟩
+
+/-- The mirror short exact sequence `0 → S₊ → P₋ → S₋ → 0` of `A`-modules. -/
+noncomputable def sesm : ShortComplex (ModuleCat.{0} A) :=
+  ModuleCat.shortComplexOfCompEqZero fSESm gSESm gSESm_comp_fSESm
+
+lemma sesm_shortExact : sesm.ShortExact :=
+  ModuleCat.shortComplex_shortExact sesm fSESm_gSESm_exact fSESm_injective gSESm_surjective
+
+/-! ### `P₋` is projective -/
+
+/-- The idempotent `e₋ = (1 - g)/2 ∈ A` (a generator of the summand `A·e₋ ≅ P₋`). -/
+noncomputable def eminus : A := (2⁻¹ : ℂ) • (1 - g)
+
+/-- The socle generator `x·e₋ = (x + g·x)/2 ∈ A` of the summand `A·e₋ ≅ P₋`. -/
+noncomputable def xeminus : A := (2⁻¹ : ℂ) • (x + g * x)
+
+lemma g_mul_eminus : g * eminus = -eminus := by
+  rw [eminus, mul_smul_comm, ← smul_neg]
+  congr 1
+  rw [mul_sub, mul_one, gsq_rel, neg_sub]
+
+lemma x_mul_eminus : x * eminus = xeminus := by
+  rw [eminus, xeminus, mul_smul_comm]
+  congr 1
+  rw [mul_sub, mul_one]
+  have hxg : x * g = -(g * x) := by rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
+  rw [hxg, sub_neg_eq_add]
+
+lemma g_mul_xeminus : g * xeminus = xeminus := by
+  rw [xeminus, mul_smul_comm]
+  congr 1
+  rw [mul_add, ← mul_assoc, gsq_rel, one_mul, add_comm]
+
+lemma x_mul_xeminus : x * xeminus = 0 := by
+  have h : x * (x + g * x) = 0 := by
+    rw [mul_add, xsq_rel, ← mul_assoc]
+    have hxg : x * g = -(g * x) := by rw [eq_neg_iff_add_eq_zero, add_comm]; exact anticomm_rel
+    rw [hxg, neg_mul, mul_assoc, xsq_rel, mul_zero, neg_zero, add_zero]
+  rw [xeminus, mul_smul_comm, h, smul_zero]
+
+lemma eminus_smul_e0 : eminus • (![1, 0] : Pminus) = ![1, 0] := by
+  have h : eminus • (![1, 0] : Pminus)
+      = (2⁻¹ : ℂ) • ((![1, 0] : Pminus) - g • (![1, 0] : Pminus)) := by
+    rw [eminus, smul_assoc, sub_smul, one_smul]
+  rw [h, Pminus.g_smul]
+  funext i; fin_cases i <;> simp <;> norm_num
+
+lemma xeminus_smul_e0 : xeminus • (![1, 0] : Pminus) = ![0, 1] := by
+  rw [← x_mul_eminus, mul_smul, eminus_smul_e0, Pminus.x_smul]
+  funext i; fin_cases i <;> simp
+
+/-- The `ℂ`-linear map `P₋ → A`, `(a, b) ↦ a • e₋ + b • (x·e₋)`, underlying the section. -/
+noncomputable def φiMinus : Pminus →ₗ[ℂ] A where
+  toFun v := v 0 • eminus + v 1 • xeminus
+  map_add' u v := by
+    simp only [Pi.add_apply, add_smul]; abel
+  map_smul' c v := by
+    simp only [Pi.smul_apply, smul_eq_mul, mul_smul, RingHom.id_apply, smul_add]
+
+@[simp] lemma φiMinus_apply (v : Pminus) : φiMinus v = v 0 • eminus + v 1 • xeminus := rfl
+
+/-- The `A`-linear section `P₋ → A` of the retraction `a ↦ a • (1,0)`, landing in `A·e₋`. -/
+noncomputable def iMinus : Pminus →ₗ[A] A :=
+  mkAlgLinear ρPm (Algebra.lmul ℂ A) Pminus.smul_def (fun a b => by
+      rw [Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', smul_eq_mul])
+    φiMinus
+    (by intro v
+        rw [← Pminus.smul_def, Pminus.g_smul]
+        simp only [φiMinus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+          Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', neg_smul]
+        rw [mul_add, mul_smul_comm, mul_smul_comm, g_mul_eminus, g_mul_xeminus, smul_neg])
+    (by intro v
+        rw [← Pminus.smul_def, Pminus.x_smul]
+        simp only [φiMinus_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+          zero_smul, zero_add, Algebra.coe_lmul_eq_mul, LinearMap.mul_apply']
+        rw [mul_add, mul_smul_comm, mul_smul_comm, x_mul_eminus, x_mul_xeminus, smul_zero,
+          add_zero])
+
+/-- The `A`-linear retraction `A ↠ P₋`, `a ↦ a • (1,0)`. -/
+noncomputable def rMinus : A →ₗ[A] Pminus := LinearMap.toSpanSingleton A Pminus (![1, 0] : Pminus)
+
+/-- The retraction is split by the section: `rMinus ∘ iMinus = id`, so `P₋` is a summand of `A`. -/
+lemma rMinus_comp_iMinus : rMinus.comp iMinus = LinearMap.id := by
+  refine LinearMap.ext (fun v => ?_)
+  change rMinus (iMinus v) = v
+  have hiv : iMinus v = v 0 • eminus + v 1 • xeminus := rfl
+  rw [rMinus, LinearMap.toSpanSingleton_apply, hiv, add_smul, smul_assoc, smul_assoc,
+    eminus_smul_e0, xeminus_smul_e0]
+  funext i; fin_cases i <;> simp
+
+/-- **`P₋` is a projective `A`-module.** It is a direct summand of the free module `A`. -/
+instance projective_Pminus : Module.Projective A Pminus :=
+  Module.Projective.of_split iMinus rMinus rMinus_comp_iMinus
 
 /-- `S₊` and `S₋` are directly `Ext¹`-linked: `Ext¹(S₊, S₋) ≠ 0`. -/
 theorem directlyExtLinked :
