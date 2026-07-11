@@ -487,6 +487,156 @@ lemma spechtModuleRep_asAlgebraHom_coe (n : ℕ) (la : Nat.Partition n) (a : Sym
       rw [Algebra.smul_def, map_mul, Algebra.smul_def, AlgHom.commutes]
     rw [hsm, LinearMap.smul_apply, Submodule.coe_smul_of_tower, hf, smul_mul_assoc]
 
+/-! ### Deliverable 2: scalar criterion via the branching spectrum
+
+`C_{n-1} = sumTranspositionsStab (m+1)` acts on `V_la` by the scalar `c` iff every
+`ν ∈ removeSquare la` has content `c`. The forward direction extracts, for each
+`ν ∈ removeSquare la` (multiplicity one in the restriction), an embedded copy of `V_ν` on which
+`C_{n-1}` acts by `content ν`; the backward direction uses that the simple constituents of the
+restriction are exactly the `V_ν`, `ν ∈ removeSquare la`, on each of which `C_{n-1}` acts by the
+common scalar. -/
+
+/-- **Scalar criterion.** `C_{n-1} = sumTranspositionsStab (m+1)` acts on `V_la` by a scalar `c`
+if and only if every `ν ∈ removeSquare la` has content `c`. -/
+lemma sumTranspositionsStab_acts_scalar_iff_content_const (m : ℕ) (la : Nat.Partition (m + 1)) :
+    (∃ c : ℂ, ∀ x ∈ SpechtModule (m + 1) la, sumTranspositionsStab (m + 1) * x = c • x)
+      ↔ ∃ c : ℂ, ∀ ν ∈ removeSquare la, (content ν : ℂ) = c := by
+  apply exists_congr
+  intro c
+  set ρW := restrictRep m (spechtModuleRep (m + 1) la) with hρW
+  set B : Module.End ℂ ↥(SpechtModule (m + 1) la) :=
+    Representation.asAlgebraHom ρW (sumTranspositions m) with hB
+  -- `B` is left multiplication by `C_{n-1}` on `V_la`.
+  have hBcoe : ∀ y : ↥(SpechtModule (m + 1) la),
+      (B y : SymGroupAlgebra (m + 1))
+        = sumTranspositionsStab (m + 1) * (y : SymGroupAlgebra (m + 1)) := by
+    intro y
+    rw [hB, hρW, ← asAlgebraHom_sumTranspositionsStab m (spechtModuleRep (m + 1) la)]
+    exact spechtModuleRep_asAlgebraHom_coe (m + 1) la _ y
+  -- The group-algebra scalar condition is the endomorphism scalar condition for `B`.
+  have hPiff : (∀ x ∈ SpechtModule (m + 1) la, sumTranspositionsStab (m + 1) * x = c • x)
+      ↔ ∀ y : ↥(SpechtModule (m + 1) la), B y = c • y := by
+    constructor
+    · intro h y
+      apply Subtype.ext
+      rw [hBcoe, Submodule.coe_smul_of_tower]
+      exact h _ y.2
+    · intro h x hx
+      have h2 := congrArg (Subtype.val) (h ⟨x, hx⟩)
+      rwa [hBcoe, Submodule.coe_smul_of_tower] at h2
+  rw [hPiff]
+  constructor
+  · -- (⟹) `B` scalar ⟹ every removable content equals `c`.
+    intro hB' ν hν
+    have hmult : repIsotypicMult m ρW ν ≠ 0 := by
+      have : repIsotypicMult m ρW ν = 1 := by
+        rw [hρW, repIsotypicMult_restrictRep_spechtModule, if_pos hν]
+      rw [this]; exact one_ne_zero
+    obtain ⟨f, hf_inj⟩ := repSpecht_embeds_of_mult_pos m ρW ν hmult
+    set y₀ : ↥(SpechtModule m ν) := ⟨YoungSymmetrizer m ν, Submodule.subset_span rfl⟩ with hy0
+    have hy0ne : y₀ ≠ 0 := by
+      intro h
+      have hz : (YoungSymmetrizer m ν : SymGroupAlgebra m) = 0 := congrArg Subtype.val h
+      have h1 := youngSymmetrizer_identity_coeff m ν
+      rw [hz] at h1; simp at h1
+    set w : ρW.asModule := f y₀ with hw
+    have hwne : w ≠ 0 := by
+      rw [hw]; intro h; exact hy0ne (hf_inj (h.trans (map_zero f).symm))
+    -- `C_{n-1}` acts on `c_ν` by `content ν`.
+    have hy0act : sumTranspositions m • y₀ = (content ν : ℂ) • y₀ := by
+      apply Subtype.ext
+      rw [Submodule.coe_smul, Submodule.coe_smul_of_tower, smul_eq_mul]
+      exact sumTranspositions_mul_youngSymmetrizer m ν
+    -- transport along `f`: `C_{n-1}` acts on `w = f c_ν` by `content ν`.
+    have hwact : sumTranspositions m • w = (content ν : ℂ) • w := by
+      have hfy : f (sumTranspositions m • y₀) = f ((content ν : ℂ) • y₀) := by rw [hy0act]
+      rw [map_smul, LinearMap.map_smul_of_tower] at hfy
+      rw [hw]; exact hfy
+    -- combine with the scalar action of `B` on `w`.
+    have key : (content ν : ℂ) • (ρW.asModuleEquiv w) = c • (ρW.asModuleEquiv w) := by
+      have e2 : ρW.asModuleEquiv (sumTranspositions m • w) = B (ρW.asModuleEquiv w) := by
+        rw [Representation.asModuleEquiv_map_smul, hB]
+      calc (content ν : ℂ) • (ρW.asModuleEquiv w)
+          = ρW.asModuleEquiv ((content ν : ℂ) • w) := by rw [map_smul]
+        _ = ρW.asModuleEquiv (sumTranspositions m • w) := by rw [hwact]
+        _ = B (ρW.asModuleEquiv w) := e2
+        _ = c • (ρW.asModuleEquiv w) := hB' _
+    have hwne' : ρW.asModuleEquiv w ≠ 0 :=
+      fun h => hwne (ρW.asModuleEquiv.injective (by rw [h, map_zero]))
+    have hsub : ((content ν : ℂ) - c) • (ρW.asModuleEquiv w) = 0 := by
+      rw [sub_smul, key, sub_self]
+    rcases smul_eq_zero.mp hsub with h | h
+    · exact sub_eq_zero.mp h
+    · exact absurd h hwne'
+  · -- (⟸) every removable content `= c` ⟹ `B` scalar.
+    intro hQ
+    set q : SymGroupAlgebra m := sumTranspositions m - algebraMap ℂ (SymGroupAlgebra m) c with hq
+    have hqcentral : ∀ a : SymGroupAlgebra m, q * a = a * q := by
+      intro a
+      rw [hq, sub_mul, mul_sub, sumTranspositions_central, Algebra.commutes]
+    set L : ρW.asModule →ₗ[SymGroupAlgebra m] ρW.asModule :=
+      { toFun := fun y => q • y
+        map_add' := fun a b => smul_add q a b
+        map_smul' := fun a y => by
+          simp only [RingHom.id_apply]
+          rw [smul_smul, smul_smul, hqcentral] } with hL
+    have hker : LinearMap.ker L = ⊤ := by
+      rw [← top_le_iff, ← IsSemisimpleModule.sSup_simples_eq_top (SymGroupAlgebra m) ρW.asModule]
+      refine sSup_le ?_
+      rintro W (hWsimple : IsSimpleModule (SymGroupAlgebra m) W)
+      haveI := hWsimple
+      obtain ⟨ν, ⟨e⟩⟩ := gen_spechtModules_exhaust_simples m ρW.asModule W
+      have hνmem : ν ∈ removeSquare la := by
+        by_contra hνnot
+        have hmult0 : repIsotypicMult m ρW ν = 0 := by
+          rw [hρW, repIsotypicMult_restrictRep_spechtModule, if_neg hνnot]
+        have hcompbot :
+            isotypicComponent (SymGroupAlgebra m) ρW.asModule (SpechtModule m ν) = ⊥ := by
+          rw [← Submodule.restrictScalars_eq_bot_iff (S := ℂ)]
+          have hfrz : isotypicComp m ρW.asModule ν = ⊥ := by
+            rw [← Submodule.finrank_eq_zero (R := ℂ) (M := ρW.asModule), isotypicComp_finrank,
+              show isotypicMult m ρW.asModule ν = repIsotypicMult m ρW ν from rfl, hmult0, zero_mul]
+          exact hfrz
+        have hWle :
+            W ≤ isotypicComponent (SymGroupAlgebra m) ρW.asModule (SpechtModule m ν) :=
+          (Submodule.le_isotypicComponent W).trans_eq e.isotypicComponent_eq
+        rw [hcompbot, le_bot_iff] at hWle
+        exact absurd hWle
+          (Submodule.nontrivial_iff_ne_bot.mp (IsSimpleModule.nontrivial (SymGroupAlgebra m) _))
+      have hcν : (content ν : ℂ) = c := hQ ν hνmem
+      intro w hw
+      rw [LinearMap.mem_ker]
+      show q • w = 0
+      set wW : ↥W := ⟨w, hw⟩ with hwW
+      have hact_Vnu : sumTranspositions m • (e wW) = (content ν : ℂ) • (e wW) := by
+        apply Subtype.ext
+        rw [Submodule.coe_smul, Submodule.coe_smul_of_tower, smul_eq_mul]
+        exact sumTranspositions_mul_eq_content_smul m ν _ (e wW).2
+      have hq_eWW : q • (e wW) = 0 := by
+        rw [hq, sub_smul, hact_Vnu, algebraMap_smul, hcν, sub_self]
+      have hq_wW : q • wW = 0 := by
+        apply e.injective
+        rw [map_smul, map_zero, hq_eWW]
+      have hcoe := congrArg (Subtype.val) hq_wW
+      rw [Submodule.coe_smul, Submodule.coe_zero] at hcoe
+      exact hcoe
+    have hLzero : L = 0 := LinearMap.ker_eq_top.mp hker
+    have hgoal : ∀ z : ρW.asModule, sumTranspositions m • z = c • z := by
+      intro z
+      have hqz : q • z = 0 := by
+        have h : L z = 0 := by rw [hLzero, LinearMap.zero_apply]
+        exact h
+      rw [hq, sub_smul, algebraMap_smul] at hqz
+      exact sub_eq_zero.mp hqz
+    intro y
+    have hgy := hgoal (ρW.asModuleEquiv.symm y)
+    have e1 : ρW.asModuleEquiv (sumTranspositions m • ρW.asModuleEquiv.symm y) = B y := by
+      rw [Representation.asModuleEquiv_map_smul, LinearEquiv.apply_symm_apply, hB]
+    calc B y = ρW.asModuleEquiv (sumTranspositions m • ρW.asModuleEquiv.symm y) := e1.symm
+      _ = ρW.asModuleEquiv (c • ρW.asModuleEquiv.symm y) := by rw [hgy]
+      _ = c • ρW.asModuleEquiv (ρW.asModuleEquiv.symm y) := by rw [map_smul]
+      _ = c • y := by rw [LinearEquiv.apply_symm_apply]
+
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
 Young diagram. -/
