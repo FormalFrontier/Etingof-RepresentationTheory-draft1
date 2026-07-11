@@ -664,6 +664,60 @@ theorem barFace_comp_barFace (n : ℕ) (i : Fin (n + 2)) (j : Fin (n + 3))
     simp only [Fin.tail]
     rw [Fin.succ_last, Fin.snoc_last, hy1, hy2, mul_smul]
 
+/-- **`d ∘ d = 0`.** The composite of two consecutive bar differentials vanishes, so the bar terms and
+differentials assemble into a chain complex. -/
+theorem barDiff_comp_barDiff (n : ℕ) :
+    (barDiff k A W n).comp (barDiff k A W (n + 1)) = 0 := by
+  classical
+  refine LinearMap.ext fun x => ?_
+  simp only [LinearMap.comp_apply, barDiff_eq_sum_barFace, LinearMap.coeFn_sum, Finset.sum_apply,
+    LinearMap.smul_apply, LinearMap.zero_apply, map_sum, LinearMap.map_smul_of_tower,
+    Finset.smul_sum, smul_smul]
+  rw [Finset.sum_comm, ← Finset.sum_product']
+  set S : Finset (Fin (n + 2) × Fin (n + 3)) :=
+    Finset.univ.filter (fun p => (p.2 : ℕ) ≤ (p.1 : ℕ)) with hS
+  rw [Finset.univ_product_univ, ← Finset.sum_add_sum_compl S, ← eq_neg_iff_add_eq_zero,
+    ← Finset.sum_neg_distrib]
+  refine Finset.sum_bij
+    (fun p hp => (Fin.castLT p.2 (lt_of_le_of_lt
+        (by simpa [hS] using (Finset.mem_filter.mp hp).2) p.1.isLt), p.1.succ)) ?_ ?_ ?_ ?_
+  · -- lands in Sᶜ
+    intro p hp
+    have hji : (p.2 : ℕ) ≤ (p.1 : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hp).2
+    simp only [hS, Finset.mem_compl, Finset.mem_filter, Finset.mem_univ, true_and, not_le,
+      Fin.val_succ, Fin.val_castLT]
+    omega
+  · -- injective
+    rintro ⟨i, j⟩ hij ⟨i', j'⟩ hij' h
+    have h1 : (j : ℕ) = (j' : ℕ) := by simpa [Fin.val_castLT] using congrArg (fun q => (q.1 : ℕ)) h
+    have h2 : (i : ℕ) = (i' : ℕ) := by
+      have := congrArg (fun q => (q.2 : ℕ)) h
+      simpa [Fin.val_succ] using this
+    ext <;> assumption
+  · -- surjective
+    rintro ⟨i', j'⟩ hij'
+    have hlt : (i' : ℕ) < (j' : ℕ) := by
+      simpa [hS, Finset.mem_compl, Finset.mem_filter, not_le] using hij'
+    have hj0 : j' ≠ 0 := by rintro rfl; simp only [Fin.val_zero] at hlt; omega
+    refine ⟨(j'.pred hj0, Fin.castSucc i'), ?_, ?_⟩
+    · simp only [hS, Finset.mem_filter, Finset.mem_univ, true_and, Fin.val_castSucc,
+        Fin.coe_pred]
+      omega
+    · simp only [Prod.mk.injEq, Fin.castLT_castSucc, Fin.succ_pred, and_self]
+  · -- term identification
+    rintro ⟨i, j⟩ hij
+    have hji : (j : ℕ) ≤ (i : ℕ) := by simpa [hS] using (Finset.mem_filter.mp hij).2
+    have hlt : ((Fin.castLT j (lt_of_le_of_lt hji i.isLt) : Fin (n + 2)) : ℕ) < (i.succ : ℕ) := by
+      simp only [Fin.val_castLT, Fin.val_succ]; omega
+    have key := LinearMap.congr_fun
+      (barFace_comp_barFace k A W n (Fin.castLT j (lt_of_le_of_lt hji i.isLt)) i.succ hlt) x
+    simp only [LinearMap.comp_apply] at key
+    rw [Fin.pred_succ, Fin.castSucc_castLT] at key
+    simp only [key, Fin.val_castLT, Fin.val_succ, ← neg_smul]
+    congr 1
+    rw [pow_succ]
+    ring
+
 end BarSquareZero
 
 end Etingof.BarResolution
