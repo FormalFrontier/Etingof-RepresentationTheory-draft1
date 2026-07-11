@@ -22,8 +22,8 @@ then genuine `↥periodicSubalg`-modules.
 is an invertible module of order `2` in the Picard group of `A`; it is a nontrivial line
 bundle on the circle (the Möbius bundle), whence `M ≇ A` yet `M ⊕ M ≅ A ⊕ A`.
 
-Statement pass: the subalgebra and submodule carriers are genuine; the closure proof
-obligations and the theorems are left as `sorry`.
+The subalgebra and submodule carriers are genuine and their closure proof obligations are
+discharged; the four theorems are left as `sorry`.
 -/
 
 namespace Etingof.Problem3_8_5
@@ -31,22 +31,40 @@ namespace Etingof.Problem3_8_5
 open scoped ContinuousMap
 
 /-- The algebra `A` of continuous period-1 functions `ℝ → ℝ`, as a subalgebra of `C(ℝ, ℝ)`.
-The carrier is the genuine set of periodic functions; the closure proof obligations are left
-as `sorry` (statement pass). -/
+The carrier is the genuine set of periodic functions; closure under multiplication, addition,
+and the algebra map follows from the defining identity `f (x + 1) = f x`. -/
 noncomputable def periodicSubalg : Subalgebra ℝ C(ℝ, ℝ) where
   carrier := {f | ∀ x : ℝ, f (x + 1) = f x}
-  mul_mem' := by sorry
-  add_mem' := by sorry
-  algebraMap_mem' := by sorry
+  mul_mem' := by
+    intro f g hf hg x
+    simp only [ContinuousMap.mul_apply, hf x, hg x]
+  add_mem' := by
+    intro f g hf hg x
+    simp only [ContinuousMap.add_apply, hf x, hg x]
+  algebraMap_mem' := by
+    intro r x
+    simp
 
 /-- The `A`-module `M` of continuous antiperiodic functions `f(x+1) = −f(x)`, as a submodule
-of `C(ℝ, ℝ)` over the algebra `A = periodicSubalg`. The carrier is genuine; closure proof
-obligations are `sorry`. -/
+of `C(ℝ, ℝ)` over the algebra `A = periodicSubalg`. The carrier is genuine; closure under
+addition and multiplication by a periodic scalar follows from `f (x + 1) = - f x`. -/
 noncomputable def antiperiodicSubmod : Submodule (periodicSubalg) C(ℝ, ℝ) where
   carrier := {f | ∀ x : ℝ, f (x + 1) = - f x}
-  add_mem' := by sorry
-  zero_mem' := by sorry
-  smul_mem' := by sorry
+  add_mem' := by
+    intro f g hf hg x
+    simp only [ContinuousMap.add_apply, hf x, hg x]
+    ring
+  zero_mem' := by
+    intro x
+    simp
+  smul_mem' := by
+    intro c f hf x
+    have key : ∀ y : ℝ, (c • f) y = (c : C(ℝ, ℝ)) y * f y := by
+      intro y
+      rw [Algebra.smul_def]
+      rfl
+    rw [key (x + 1), key x, hf x, c.2 x]
+    ring
 
 /-- **Problem 3.8.5(i).** `A` is indecomposable as an `A`-module: the function algebra of the
 circle has no nontrivial idempotents. -/
