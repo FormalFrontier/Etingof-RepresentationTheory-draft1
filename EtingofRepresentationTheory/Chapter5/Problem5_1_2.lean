@@ -191,6 +191,119 @@ theorem exists_invariant_posdef_hermitian (ρ : Representation ℂ G V) :
     exact Finset.sum_pos' (fun i _ => Complex.normSq_nonneg _)
       ⟨i, Finset.mem_univ i, Complex.normSq_pos.mpr hi⟩
 
+section ComplexTypeProof
+
+open scoped ComplexConjugate
+
+variable {ρ : Representation ℂ G V}
+
+/-- `(r : ℂ) • v = r • v` for a real scalar `r`, using the `ℝ`-`ℂ` scalar tower on `V`. -/
+private lemma real_coe_smul (r : ℝ) (v : V) : (r : ℂ) • v = r • v := by
+  rw [← IsScalarTower.algebraMap_smul ℂ r v, Complex.coe_algebraMap]
+
+/-- Split a complex scalar action into its real and imaginary `ℝ`-linear parts. -/
+private lemma complex_smul_eq_real (c : ℂ) (v : V) :
+    c • v = c.re • v + c.im • (Complex.I • v) := by
+  rw [← real_coe_smul c.re v, ← real_coe_smul c.im (Complex.I • v), smul_smul, ← add_smul,
+    Complex.re_add_im]
+
+/-- A `G`-invariant `ℂ`-subspace of a simple representation is `⊥` or `⊤`. -/
+private lemma invSubmodule_eq_bot_or_top
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (W : Submodule ℂ V) (hW : ∀ (g : G) (v : V), v ∈ W → ρ g v ∈ W) :
+    W = ⊥ ∨ W = ⊤ := by
+  haveI : Representation.IsIrreducible ρ :=
+    (Representation.irreducible_iff_isSimpleModule_asModule ρ).mpr hirr
+  rcases eq_bot_or_eq_top (⟨W, fun g _ hv => hW g _ hv⟩ : Subrepresentation ρ) with h | h
+  · exact Or.inl congr(Subrepresentation.toSubmodule $h)
+  · exact Or.inr congr(Subrepresentation.toSubmodule $h)
+
+/-- Upgrade an `ℝ`-linear endomorphism commuting with `Complex.I •` to a `ℂ`-linear map. -/
+private def toCLinear (T : Module.End ℝ V)
+    (hI : ∀ v, T (Complex.I • v) = Complex.I • T v) : V →ₗ[ℂ] V where
+  toFun := T
+  map_add' := T.map_add
+  map_smul' c v := by
+    simp only [RingHom.id_apply]
+    rw [complex_smul_eq_real c v, map_add, map_smul, map_smul, hI,
+      complex_smul_eq_real c (T v)]
+
+/-- Upgrade an `ℝ`-linear endomorphism anticommuting with `Complex.I •`
+(`T (i • v) = -(i • T v)`) to a conjugate-linear map. -/
+private def toAntilinear (T : Module.End ℝ V)
+    (hI : ∀ v, T (Complex.I • v) = -(Complex.I • T v)) : V →ₗ⋆[ℂ] V where
+  toFun := T
+  map_add' := T.map_add
+  map_smul' c v := by
+    show T (c • v) = (starRingEnd ℂ) c • T v
+    rw [complex_smul_eq_real c v, map_add, map_smul, map_smul, hI,
+      complex_smul_eq_real ((starRingEnd ℂ) c) (T v), Complex.conj_re, Complex.conj_im,
+      smul_neg, neg_smul]
+
+/-- From a `G`-invariant sesquilinear form `H`, the induced conjugate-linear map
+`V →ₗ⋆[ℂ] Module.Dual ℂ V`, `w ↦ (v ↦ H v w)`. Shared toolkit for the real/quaternionic cases. -/
+noncomputable def hermToDual (H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ) : V →ₗ⋆[ℂ] Module.Dual ℂ V where
+  toFun w :=
+    { toFun := fun v => H v w
+      map_add' := fun a b => by
+        show H (a + b) w = H a w + H b w; simp only [map_add, LinearMap.add_apply]
+      map_smul' := fun c v => by
+        show H (c • v) w = c • H v w; simp only [map_smul, LinearMap.smul_apply] }
+  map_add' w₁ w₂ := by ext v; show H v (w₁ + w₂) = H v w₁ + H v w₂; rw [map_add]
+  map_smul' c w := by
+    ext v; show H v (c • w) = (starRingEnd ℂ) c • H v w; rw [map_smulₛₗ]
+
+@[simp] theorem hermToDual_apply (H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ) (w v : V) :
+    (hermToDual H w) v = H v w := rfl
+
+/-- `hermToDual` of a `G`-invariant form is `G`-equivariant into the dual representation. -/
+theorem hermToDual_equivariant (H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ)
+    (hinv : ∀ g v w, H (ρ g v) (ρ g w) = H v w) (g : G) (w : V) :
+    hermToDual H (ρ g w) = ρ.dual g (hermToDual H w) := by
+  ext v
+  rw [Representation.dual_apply, Module.Dual.transpose_apply, LinearMap.comp_apply,
+    hermToDual_apply, hermToDual_apply]
+  have hgg : (ρ g) ((ρ g⁻¹) v) = v := by
+    rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
+  have := hinv g (ρ g⁻¹ v) w
+  rwa [hgg] at this
+
+/-- `hermToDual` of a positive-definite form is injective. -/
+theorem hermToDual_injective (H : V →ₗ[ℂ] V →ₗ⋆[ℂ] ℂ)
+    (hpos : ∀ v, v ≠ 0 → 0 < (H v v).re) :
+    Function.Injective (hermToDual H) := by
+  rw [injective_iff_map_eq_zero]
+  intro w hw
+  by_contra hwne
+  have h2 : H w w = 0 := by
+    have := DFunLike.congr_fun hw w
+    simpa using this
+  have hp := hpos w hwne
+  rw [h2] at hp
+  simp at hp
+
+/-- Schur's lemma (scalar form) via eigenvalues: a `ℂ`-linear `G`-equivariant endomorphism of a
+simple representation is a scalar. -/
+private lemma schur_scalar
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (φ : V →ₗ[ℂ] V) (hφ : ∀ g v, φ (ρ g v) = ρ g (φ v)) :
+    ∃ c : ℂ, ∀ v, φ v = c • v := by
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue φ
+  refine ⟨c, ?_⟩
+  have hinv : ∀ (g : G) (v : V), v ∈ Module.End.eigenspace φ c → ρ g v ∈ Module.End.eigenspace φ c := by
+    intro g v hv
+    rw [Module.End.mem_eigenspace_iff] at hv ⊢
+    rw [hφ, hv, map_smul]
+  rcases invSubmodule_eq_bot_or_top hirr (Module.End.eigenspace φ c) hinv with hbot | htop
+  · exact absurd hbot hc
+  · intro v
+    have : v ∈ Module.End.eigenspace φ c := htop ▸ Submodule.mem_top
+    rwa [Module.End.mem_eigenspace_iff] at this
+
+end ComplexTypeProof
+
 /-- Problem 5.1.2(a), complex type. If the irreducible representation `V` is of complex type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] ℂ`. -/
 theorem realGEndAlgebra_equiv_complex_of_isComplexType
@@ -198,7 +311,97 @@ theorem realGEndAlgebra_equiv_complex_of_isComplexType
     (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
     (h : Etingof.IsComplexType ρ) :
     Nonempty (realGEndAlgebra ρ ≃ₐ[ℝ] ℂ) := by
-  sorry
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  -- Equivariance of any element of the centralizer.
+  have equiv_of_mem : ∀ (x : realGEndAlgebra ρ) (g : G) (v : V),
+      (↑x : Module.End ℝ V) (ρ g v) = ρ g ((↑x : Module.End ℝ V) v) := by
+    intro x g v
+    have hx2 : (↑x : Module.End ℝ V) ∈
+        Subalgebra.centralizer ℝ (Set.range fun g => LinearMap.restrictScalars ℝ (ρ g)) := x.2
+    rw [Subalgebra.mem_centralizer_iff] at hx2
+    have hcomm := hx2 (LinearMap.restrictScalars ℝ (ρ g)) ⟨g, rfl⟩
+    have hv := DFunLike.congr_fun hcomm v
+    simpa only [Module.End.mul_apply, LinearMap.restrictScalars_apply] using hv.symm
+  -- The `ℂ`-embedding `complexToRealGEnd` is surjective.
+  have hsurj : Function.Surjective (complexToRealGEnd ρ) := by
+    intro f
+    -- `realPlus f` commutes with `i •`.
+    have hIp : ∀ v, (↑(realPlus f) : Module.End ℝ V) (Complex.I • v)
+        = Complex.I • (↑(realPlus f) : Module.End ℝ V) v := by
+      intro v
+      have h0 : ((realJ ρ * realPlus f : realGEndAlgebra ρ) : Module.End ℝ V)
+             = ((realPlus f * realJ ρ : realGEndAlgebra ρ) : Module.End ℝ V) :=
+        congrArg _ (realJ_mul_realPlus f)
+      rw [Subalgebra.coe_mul, Subalgebra.coe_mul] at h0
+      have hv := DFunLike.congr_fun h0 v
+      simpa only [Module.End.mul_apply, realJ, complexToRealGEnd_coe_apply] using hv.symm
+    -- `realMinus f` anticommutes with `i •`.
+    have hIm : ∀ v, (↑(realMinus f) : Module.End ℝ V) (Complex.I • v)
+        = -(Complex.I • (↑(realMinus f) : Module.End ℝ V) v) := by
+      intro v
+      have h0 : ((realJ ρ * realMinus f : realGEndAlgebra ρ) : Module.End ℝ V)
+             = ((-(realMinus f * realJ ρ) : realGEndAlgebra ρ) : Module.End ℝ V) :=
+        congrArg _ (realJ_mul_realMinus f)
+      rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul] at h0
+      have hv := DFunLike.congr_fun h0 v
+      simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ,
+        complexToRealGEnd_coe_apply] at hv
+      rw [hv, neg_neg]
+    -- `realPlus f` as a `ℂ`-linear equivariant endomorphism, hence a scalar by Schur.
+    obtain ⟨c, hc⟩ := schur_scalar hirr (toCLinear _ hIp)
+      (fun g v => equiv_of_mem (realPlus f) g v)
+    -- `realMinus f = 0`.
+    have hMeq : realMinus f = 0 := by
+      by_contra hne
+      have hTmne : (↑(realMinus f) : Module.End ℝ V) ≠ 0 := fun h0 => hne (by
+        apply Subtype.ext; simpa using h0)
+      set ψ : V →ₗ⋆[ℂ] V := toAntilinear _ hIm with hψ
+      have hψequiv : ∀ g v, ψ (ρ g v) = ρ g (ψ v) := fun g v => equiv_of_mem (realMinus f) g v
+      have hψne : ψ ≠ 0 := fun h0 => hTmne (by
+        ext v; have := DFunLike.congr_fun h0 v; simpa [hψ, toAntilinear] using this)
+      have hkerinv : ∀ (g : G) (v : V),
+          v ∈ LinearMap.ker ψ → ρ g v ∈ LinearMap.ker ψ := by
+        intro g v hv
+        rw [LinearMap.mem_ker] at hv ⊢
+        rw [hψequiv, hv, map_zero]
+      rcases invSubmodule_eq_bot_or_top hirr (LinearMap.ker ψ) hkerinv with hkbot | hktop
+      · -- `ψ` injective: produce a `ℂ`-linear equivariant `V ≃ V*`, contradicting complex type.
+        have hψinj : Function.Injective ψ := LinearMap.ker_eq_bot.mp hkbot
+        obtain ⟨H, hHinv, hHpos⟩ := exists_invariant_posdef_hermitian ρ
+        have hΦinj : Function.Injective (hermToDual H) := hermToDual_injective H hHpos
+        let e : V →ₗ[ℂ] Module.Dual ℂ V :=
+          { toFun := fun v => hermToDual H (ψ v)
+            map_add' := fun a b => by simp only [map_add]
+            map_smul' := fun c v => by
+              simp only [RingHom.id_apply]
+              rw [map_smulₛₗ ψ, map_smulₛₗ (hermToDual H), Complex.conj_conj] }
+        have heinj : Function.Injective e :=
+          fun a b hab => hψinj (hΦinj (show hermToDual H (ψ a) = hermToDual H (ψ b) from hab))
+        have hdim : Module.finrank ℂ V = Module.finrank ℂ (Module.Dual ℂ V) :=
+          (Subspace.dual_finrank_eq).symm
+        apply h
+        refine ⟨e.linearEquivOfInjective heinj hdim, ?_⟩
+        intro g v
+        rw [LinearMap.linearEquivOfInjective_apply, LinearMap.linearEquivOfInjective_apply]
+        show hermToDual H (ψ (ρ g v)) = ρ.dual g (hermToDual H (ψ v))
+        rw [hψequiv, hermToDual_equivariant H hHinv]
+      · exact hψne (by
+          ext v
+          have : v ∈ LinearMap.ker ψ := hktop ▸ Submodule.mem_top
+          rwa [LinearMap.mem_ker] at this)
+    -- Assemble: `f = realPlus f = c • id = complexToRealGEnd ρ c`.
+    have hPeq : realPlus f = complexToRealGEnd ρ c := by
+      apply Subtype.ext
+      ext v
+      rw [complexToRealGEnd_coe_apply]
+      exact hc v
+    refine ⟨c, ?_⟩
+    have hf : f = realPlus f + realMinus f := (realPlus_add_realMinus f).symm
+    rw [hMeq, add_zero] at hf
+    rw [hf, hPeq]
+  exact ⟨(AlgEquiv.ofBijective (complexToRealGEnd ρ)
+    ⟨complexToRealGEnd_injective ρ, hsurj⟩).symm⟩
 
 /-- Problem 5.1.2(a), real type. If the irreducible representation `V` is of real type, then
 `End_{ℝ[G]} V ≃ₐ[ℝ] Mat₂(ℝ)`. -/
