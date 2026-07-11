@@ -669,6 +669,34 @@ Then the 2-periodic Ext-nonvanishing is a short induction: `ext_extClass_comp_ne
 classes; `homologicalDimension R = ⊤` follows from `∀ d, ¬ HasHomologicalDimensionLE R d` by
 `le_antisymm le_top (le_iInf₂ (fun d hd => absurd hd (h d)))`.
 
+### `finrank k (M →ₗ[A] N)` and Hom-into-product additivity (Cartan/multiplicity counting, Ch9 #6439)
+
+Dimension-counting over a `k`-algebra `A` (Cartan matrices, `[N : Mᵢ]` multiplicities,
+Euler characteristics) repeatedly needs `finrank k (M →ₗ[A] N)`. Useful facts:
+
+- **Finiteness is automatic.** `LinearMap.finiteDimensional'` is an instance:
+  `FiniteDimensional k (M →ₗ[A] N)` given `[FiniteDimensional k M] [FiniteDimensional k N]`
+  and `[IsScalarTower k A M] [IsScalarTower k A N]` (it embeds `M →ₗ[A] N ↪ M →ₗ[k] N` via
+  `restrictScalarsₗ`). So carry `IsScalarTower k A ·` on every module and `Module.Finite k ·`
+  falls out — no manual subspace argument.
+- **Freeness is NOT automatic.** `Module.Free.of_divisionRing` is not a global instance; if you
+  need `Module.Free k ·` (e.g. for `Module.finrank_pi_fintype`), add
+  `attribute [local instance] Module.Free.of_divisionRing` in your section.
+- **Hom commutes with finite products in the 2nd arg**, always (no projectivity needed):
+  build `(M →ₗ[A] ∀ s, Q s) ≃ₗ[k] ∀ s, (M →ₗ[A] Q s)` by hand
+  (`toFun f s := (LinearMap.proj s).comp f`, `invFun := LinearMap.pi`), then
+  `finrank_pi_fintype` gives `finrank (Hom into ⨁/∏) = ∑ finrank`. Convert `⨁`→`∏` with
+  `DirectSum.linearEquivFunOnFintype`.
+- **k-linearity of a postcomposition** `f ↦ e.comp f` for `e : M ≃ₗ[A] N`: the `map_smul'`
+  goal reduces to `e (c • x) = c • e x` (`c : k`), closed by
+  `LinearMapClass.map_smul_of_tower e c x` (the `CompatibleSMul` instance comes from the two
+  `IsScalarTower k A ·`). `simp` will NOT fire the plain `LinearMap.map_smul_of_tower` on a
+  bundled `≃ₗ`.
+- **`Hom`-additivity on a SES with projective source** (`0→N'→N→N/N'→0`,
+  `finrank_hom_additive_of_projective`, needs `[Module.Projective A M]`) is the tool when the
+  sequence is not split; for an *explicit* finite direct sum the product-additivity above is
+  cleaner (no projectivity, no submodule identification).
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
