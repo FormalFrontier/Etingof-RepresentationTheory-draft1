@@ -36,6 +36,7 @@ import EtingofRepresentationTheory.Chapter7.Problem7_7_3
 import EtingofRepresentationTheory.Chapter7.Problem7_8_5
 import EtingofRepresentationTheory.Chapter7.Exercise7_9_7
 import EtingofRepresentationTheory.Chapter7.Exercise7_9_8
+import EtingofRepresentationTheory.Chapter7.TensorComplexBiprod
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 
 /-!
