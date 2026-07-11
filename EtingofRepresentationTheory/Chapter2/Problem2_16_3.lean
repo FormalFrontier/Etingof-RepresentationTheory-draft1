@@ -558,6 +558,71 @@ theorem relIdeal_le_ker_matHom₄ : relIdeal k 4 ≤ (matHom₄ k).ker := by
 
 end Matrix4
 
+/-!
+## Characteristic `3`: a `gl₄` witness for infinite-dimensionality of `𝔤₄`
+
+The `𝔰𝔩₃`-loop realization `matHom₄` collapses to `4` dimensions over `𝔽₃`: the middle
+`ad(y)`-string vector `E₀₀ - 2E₁₁ + E₂₂` becomes the identity matrix (`-2 ≡ 1`), which is
+central, so the `t`-degree climb stops. This collapse is intrinsic to `𝔰𝔩₃` — the relevant root
+vectors all have `ad`-weight divisible by `3` — so *every* representation of `𝔰𝔩₃` degenerates the
+same way mod `3`, and a genuinely different witness is required.
+
+We use the pair
+`x ↦ t·(E₁₃ + E₃₂)`, `y ↦ E₀₂ + 2·E₂₃ + E₃₁` in `gl₄(k[t])`.
+Both defining relators map to `0` when `3 = 0`, so this factors through `𝔤₄`. Moreover
+`⁅y, x⁆` acts as `t·diag(0, 2, 2, 2)`, which multiplies each row-`0` off-diagonal matrix `E₀ⱼ`
+by `-2 = 1`. Hence, starting from the degree-`2` element `⁅x, ad(y)³ x⁆ = t²·E₀₂`, the tower
+`sₙ₊₁ = ⁅⁅y, x⁆, sₙ⁆` has image `tⁿ⁺²·E₀₂`, an infinite linearly independent family (distinct
+`t`-degrees), so `𝔤₄` is infinite dimensional. All three matrix identities need `3 = 0`.
+-/
+
+section Matrix4c
+attribute [local instance] LieRing.ofAssociativeRing
+
+open Polynomial
+
+/-- `x`-image over a characteristic-`3` base: `t·(E₁₃ + E₃₂) ∈ gl₄(k[t])`. -/
+noncomputable def NXc : Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  Matrix.single 1 3 Polynomial.X + Matrix.single 3 2 Polynomial.X
+/-- `y`-image over a characteristic-`3` base: `E₀₂ + 2·E₂₃ + E₃₁ ∈ gl₄(k[t])`. -/
+noncomputable def NYc : Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  Matrix.single 0 2 1 + Matrix.single 2 3 2 + Matrix.single 3 1 1
+
+/-- The Lie algebra hom `FreeLieAlgebra k (Fin 2) → gl₄(k[t])` sending `x ↦ NXc`, `y ↦ NYc`.
+Over a characteristic-`3` base its image climbs in `t`-degree without bound. -/
+noncomputable def matHom₄c :
+    FreeLieAlgebra k (Fin 2) →ₗ⁅k⁆ Matrix (Fin 4) (Fin 4) (Polynomial k) :=
+  FreeLieAlgebra.lift k ![NXc k, NYc k]
+
+@[simp] theorem matHom₄c_x : matHom₄c k (x k) = NXc k := by
+  simp only [matHom₄c, x, FreeLieAlgebra.lift_of_apply]; rfl
+
+@[simp] theorem matHom₄c_y : matHom₄c k (y k) = NYc k := by
+  simp only [matHom₄c, y, FreeLieAlgebra.lift_of_apply]; rfl
+
+/-- `(3 : Polynomial k) = 0` from `(3 : k) = 0`. -/
+theorem three_eq_zero_poly (h3 : (3 : k) = 0) : (3 : Polynomial k) = 0 := by
+  rw [← map_ofNat (Polynomial.C : k →+* Polynomial k) 3, h3, map_zero]
+
+theorem matHom₄c_relator1 (h3 : (3 : k) = 0) : matHom₄c k ⁅x k, ⁅x k, y k⁆⁆ = 0 := by
+  have h3p := three_eq_zero_poly k h3
+  rw [LieHom.map_lie, LieHom.map_lie, matHom₄c_x, matHom₄c_y]
+  have key : ⁅NXc k, ⁅NXc k, NYc k⁆⁆
+      = Matrix.single (3 : Fin 4) (2 : Fin 4) (-3 * Polynomial.X ^ 2) := by
+    simp only [NXc, NYc, LieRing.of_associative_ring_bracket, mul_add, add_mul, mul_sub, sub_mul,
+      Matrix.single_mul_single_same, Matrix.single_mul_single_of_ne, Fin.reduceEq, ne_eq,
+      not_false_eq_true, reduceCtorEq]
+    apply Matrix.ext; intro i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply] <;> ring
+  rw [key]
+  have hz : (-3 * Polynomial.X ^ 2 : Polynomial k) = 0 := by
+    rw [show (-3 * Polynomial.X ^ 2 : Polynomial k) = -(Polynomial.X ^ 2) * 3 by ring, h3p,
+      mul_zero]
+  rw [hz, Matrix.single_zero]
+
+end Matrix4c
+
 /-- **(a)** `𝔤₃` is finite dimensional of dimension `6` (type `G₂` positive part). -/
 theorem finrank_g_three (k : Type*) [Field k] : Module.finrank k (g k 3) = 6 :=
   sorry
