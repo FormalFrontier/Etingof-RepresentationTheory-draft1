@@ -643,6 +643,32 @@ the exactness facts then unify against them by defeq. Also: `ℤ ⊗_ℤ N ≅ N
 needs `TensorProduct.lid` — the `Semiring.toModule ℤ` vs `AddCommGroup.toIntModule ℤ` diamond is
 actually defeq here, so `lid` composes fine (don't over-engineer a bridge).
 
+### Categorical `Projective (ModuleCat.of R P)` from `Module.Projective R P` — build the term, don't `inferInstance` (Ch9, #6382)
+
+Proving infinite homological dimension (`homologicalDimension A = ⊤`) needs a projective
+middle term for each syzygy SES. Two traps, both cost cycles in #6382:
+
+- **Synthesis loop.** `ModuleCat.projective_of_categoryTheory_projective [Module.Projective R P] :
+  Projective (of R P)` and `ModuleCat.projective_of_module_projective [Small R] [Projective P] :
+  Module.Projective R P` are mutually recursive, so a bare `inferInstance`/`inferInstanceAs
+  (Projective (of A P))` blows the **`synthInstance.maxHeartbeats` (20000)** budget (bumping
+  `maxHeartbeats` does nothing — it's the *separate* synthInstance cap). Build the term directly:
+  `@ModuleCat.projective_of_categoryTheory_projective A _ <object> <the Module.Projective witness>`.
+- **Shared-carrier `Module` collision.** If two distinct modules share an `abbrev` carrier (e.g.
+  `abbrev Pplus := Fin 2 → ℂ` *and* `abbrev Pminus := Fin 2 → ℂ`), their `Module A` instances have
+  the same discrimination key `Module A (Fin 2 → ℂ)`; a *fresh* `ModuleCat.of A Pplus` written
+  after both exist silently grabs the most-recently-declared one (wrong ρ). Reference the object
+  that already baked in the right instance at its definition (`ses.X₂`, not a fresh `of A Pplus`),
+  and pass the `Module.Projective` witness positionally so its bundled `AddCommGroup`/`Module`
+  fields unify by defeq. (Cleaner long-term: give each module its own carrier — see the #6240 note
+  above — but that is invasive once the concrete `Fin n → ℂ` block already compiles.)
+
+Then the 2-periodic Ext-nonvanishing is a short induction: `ext_extClass_comp_ne_zero` (nonzero
+`Extⁱ(X₁,Y)` maps to nonzero `Extⁱ⁺¹(X₃,Y)` for `i≥1` via `contravariant_sequence_exact₁` +
+`eq_zero_of_hasProjectiveDimensionLT` on the projective middle) composes the two SES extension
+classes; `homologicalDimension R = ⊤` follows from `∀ d, ¬ HasHomologicalDimensionLE R d` by
+`le_antisymm le_top (le_iInf₂ (fun d hd => absurd hd (h d)))`.
+
 ### Tactic Selection Guide
 
 | Goal Shape | Try First | Then Try |
