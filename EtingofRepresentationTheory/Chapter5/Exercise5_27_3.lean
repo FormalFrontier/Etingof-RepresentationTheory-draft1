@@ -38,8 +38,11 @@ identity `χ_{g(U)}(s) = χ_U(g⁻¹ s g)` (mirroring `transportRep_ρ_apply`/`c
 `Theorem5_27_1.lean`). Without it the theorem is refutable, since a universally quantified free
 `transport` admits the adversarial choice `transport _ _ _ _ U := U ⊞ U`.
 
-Proof pass: the three parts are split into labeled `sorry` goals for follow-up. Parts (i)/(ii)
-go through character orthogonality; part (iii) through the sum-of-squares dimension count.
+Proof pass: parts (i) and (ii) are proven via character orthogonality — (i) by the induced-character
+norm being one, (ii) by a mixed off-diagonal Mackey computation (existence of the intertwining
+element `g` from a nonzero cross inner product) followed by a same-orbit Mackey reduction and
+`FDRep.char_orthonormal` for the `U₂ ≅ transport g χ₁ χ₂ hg U₁` conclusion. Part (iii)
+(completeness, via the sum-of-squares dimension count) remains a labeled `sorry` for follow-up.
 -/
 
 noncomputable section
@@ -549,7 +552,6 @@ theorem Exercise5_27_3
     -- orbit condition would be false, forcing the cross inner product to vanish — contradiction.
     have hgexists : ∃ g : G, dualSmul g χ₁ = χ₂ := by
       by_contra hng
-      push_neg at hng
       apply hcross_ne
       rw [hcross χ₁ χ₂ U₁ U₂ hU₁ hU₂]
       have hsum0 : (∑ g : G, ∑ h : G, ∑ h' : G,
@@ -561,7 +563,7 @@ theorem Exercise5_27_3
           intro hcond
           have hh := congrArg (dualSmul (h' * g⁻¹)) hcond
           rw [hds_mul, hds_mul, show h' * g⁻¹ * (g * h'⁻¹) = 1 from by group, hds_one] at hh
-          exact hng (h' * g⁻¹ * h⁻¹) hh
+          exact hng ⟨h' * g⁻¹ * h⁻¹, hh⟩
         rw [if_neg hcondfalse, zero_mul, zero_mul]
       rw [hsum0, mul_zero]
     obtain ⟨g, hg⟩ := hgexists
@@ -585,8 +587,10 @@ theorem Exercise5_27_3
       { toFun := fun s => ⟨g⁻¹ * (s : G) * g, (hconj_mem s).mp s.2⟩
         invFun := fun t => ⟨g * (t : G) * g⁻¹, by
           rw [hconj_mem]; convert t.2 using 2; group⟩
-        left_inv := by intro s; apply Subtype.ext; show g * (g⁻¹ * (s : G) * g) * g⁻¹ = (s : G); group
-        right_inv := by intro t; apply Subtype.ext; show g⁻¹ * (g * (t : G) * g⁻¹) * g = (t : G); group }
+        left_inv := by
+          intro s; apply Subtype.ext; show g * (g⁻¹ * (s : G) * g) * g⁻¹ = (s : G); group
+        right_inv := by
+          intro t; apply Subtype.ext; show g⁻¹ * (g * (t : G) * g⁻¹) * g = (t : G); group }
     have hcj_coe : ∀ s : ↥(stab χ₂), (cj s : G) = g⁻¹ * (s : G) * g := fun _ => rfl
     have hcj_inv : ∀ s : ↥(stab χ₂), cj (s⁻¹) = (cj s)⁻¹ := fun s => by
       apply Subtype.ext
@@ -644,8 +648,174 @@ theorem Exercise5_27_3
             rw [hconj_mem, hconjeq]; exact hz
           rw [hUc_app, dif_neg hgz, hUc_app, dif_neg hz]
       rw [hchi, hUcW]
-    -- Steps C–D: same-orbit Mackey reduction + `char_orthonormal` (see below).
-    sorry
+    -- Steps C–D: same-orbit Mackey reduction + `char_orthonormal`.
+    -- Conjugation invariance and support of the extended class functions.
+    have hUc_conj : ∀ (ξ : A →* ℂˣ) (W' : FDRep ℂ ↥(stab ξ)) (k y : G),
+        k ∈ stab ξ → Uc ξ W' (k * y * k⁻¹) = Uc ξ W' y := by
+      intro ξ W' k y hk
+      by_cases hy : y ∈ stab ξ
+      · have hconj : k * y * k⁻¹ ∈ stab ξ :=
+          (stab ξ).mul_mem ((stab ξ).mul_mem hk hy) ((stab ξ).inv_mem hk)
+        rw [hUc_app, hUc_app, dif_pos hconj, dif_pos hy]
+        have hval : (⟨k * y * k⁻¹, hconj⟩ : ↥(stab ξ)) = ⟨k, hk⟩ * ⟨y, hy⟩ * ⟨k, hk⟩⁻¹ := by
+          apply Subtype.ext; rfl
+        rw [hval, FDRep.char_conj]
+      · have hconj : k * y * k⁻¹ ∉ stab ξ := by
+          intro hc; apply hy
+          have hrw : y = k⁻¹ * (k * y * k⁻¹) * k := by group
+          rw [hrw]
+          exact (stab ξ).mul_mem ((stab ξ).mul_mem ((stab ξ).inv_mem hk) hc) hk
+        rw [hUc_app, hUc_app, dif_neg hconj, dif_neg hy]
+    have hUc_vanish : ∀ (ξ : A →* ℂˣ) (W' : FDRep ℂ ↥(stab ξ)) (y : G),
+        y ∉ stab ξ → Uc ξ W' y = 0 := by
+      intro ξ W' y hy; rw [hUc_app, dif_neg hy]
+    -- For `ξ₁ = ξ₂ = ξ`, the orbit condition collapses to a stabilizer membership.
+    have hcond_stab : ∀ (ξ : A →* ℂˣ) (g₀ h h' : G),
+        (dualSmul h⁻¹ ξ = dualSmul (g₀ * h'⁻¹) ξ) ↔ h * g₀ * h'⁻¹ ∈ stab ξ := by
+      intro ξ g₀ h h'
+      rw [_hstab]
+      constructor
+      · intro H
+        have hH := congrArg (dualSmul h) H
+        rw [hds_mul, hds_mul, mul_inv_cancel, hds_one] at hH
+        rw [← mul_assoc] at hH
+        exact hH.symm
+      · intro H
+        have hH := congrArg (dualSmul h⁻¹) H
+        rw [hds_mul, show h⁻¹ * (h * g₀ * h'⁻¹) = g₀ * h'⁻¹ from by group] at hH
+        exact hH.symm
+    -- Mackey collapse of the conditional triple sum (two conjugation reindexings), mirroring
+    -- Part (i)'s norm computation but for two class functions `f₁, f₂`.
+    have hcollapse : ∀ (ξ : A →* ℂˣ) (f₁ f₂ : G → ℂ),
+        (∀ y : G, y ∉ stab ξ → f₁ y = 0) →
+        (∀ (k y : G), k ∈ stab ξ → f₂ (k * y * k⁻¹) = f₂ y) →
+        (∑ g₀ : G, ∑ h : G, ∑ h' : G,
+          (if h * g₀ * h'⁻¹ ∈ stab ξ then (1 : ℂ) else 0)
+            * f₁ (h * g₀ * h⁻¹) * f₂ (h' * g₀⁻¹ * h'⁻¹))
+        = (Fintype.card G : ℂ) * (Fintype.card ↥(stab ξ) : ℂ) * ∑ u : G, f₁ u * f₂ u⁻¹ := by
+      intro ξ f₁ f₂ hf₁ hf₂
+      have hstep_h : ∀ h : G,
+          (∑ g₀ : G, ∑ h' : G,
+            (if h * g₀ * h'⁻¹ ∈ stab ξ then (1 : ℂ) else 0) * f₁ (h * g₀ * h⁻¹)
+              * f₂ (h' * g₀⁻¹ * h'⁻¹))
+          = ∑ u : G, ∑ t : G,
+            (if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₁ u * f₂ (t⁻¹ * u⁻¹ * t) := by
+        intro h
+        let Φ : (G × G) ≃ (G × G) :=
+          { toFun := fun p => (h * p.1 * h⁻¹, h * p.2⁻¹)
+            invFun := fun q => (h⁻¹ * q.1 * h, q.2⁻¹ * h)
+            left_inv := by rintro ⟨g₀, h'⟩; refine Prod.ext ?_ ?_ <;> · simp only []; group
+            right_inv := by rintro ⟨u, t⟩; refine Prod.ext ?_ ?_ <;> · simp only []; group }
+        rw [← Fintype.sum_prod_type', ← Fintype.sum_prod_type']
+        refine Fintype.sum_equiv Φ _ _ ?_
+        rintro ⟨g₀, h'⟩
+        show (if h * g₀ * h'⁻¹ ∈ stab ξ then (1 : ℂ) else 0) * f₁ (h * g₀ * h⁻¹)
+              * f₂ (h' * g₀⁻¹ * h'⁻¹)
+            = (if h * g₀ * h⁻¹ * (h * h'⁻¹) ∈ stab ξ then (1 : ℂ) else 0) * f₁ (h * g₀ * h⁻¹)
+              * f₂ ((h * h'⁻¹)⁻¹ * (h * g₀ * h⁻¹)⁻¹ * (h * h'⁻¹))
+        rw [show h * g₀ * h⁻¹ * (h * h'⁻¹) = h * g₀ * h'⁻¹ from by group,
+            show (h * h'⁻¹)⁻¹ * (h * g₀ * h⁻¹)⁻¹ * (h * h'⁻¹) = h' * g₀⁻¹ * h'⁻¹ from by group]
+      have hinner : (∑ u : G, ∑ t : G,
+            (if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₁ u * f₂ (t⁻¹ * u⁻¹ * t))
+          = (Fintype.card ↥(stab ξ) : ℂ) * ∑ u : G, f₁ u * f₂ u⁻¹ := by
+        rw [Finset.mul_sum]
+        refine Finset.sum_congr rfl fun u _ => ?_
+        by_cases hu : u ∈ stab ξ
+        · have hkey : ∀ t : G, (if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₂ (t⁻¹ * u⁻¹ * t)
+              = if t ∈ stab ξ then f₂ u⁻¹ else 0 := by
+            intro t
+            by_cases ht : t ∈ stab ξ
+            · have hut : u * t ∈ stab ξ := (stab ξ).mul_mem hu ht
+              rw [if_pos hut, if_pos ht, one_mul]
+              have hc := hf₂ t⁻¹ u⁻¹ ((stab ξ).inv_mem ht)
+              rw [inv_inv] at hc
+              exact hc
+            · have hut : u * t ∉ stab ξ := by
+                intro hcc; apply ht
+                have htt : t = u⁻¹ * (u * t) := by group
+                rw [htt]; exact (stab ξ).mul_mem ((stab ξ).inv_mem hu) hcc
+              rw [if_neg hut, if_neg ht, zero_mul]
+          have hrw : ∀ t : G,
+              (if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₁ u * f₂ (t⁻¹ * u⁻¹ * t)
+              = f₁ u * ((if u * t ∈ stab ξ then (1 : ℂ) else 0) * f₂ (t⁻¹ * u⁻¹ * t)) := by
+            intro t; ring
+          rw [Finset.sum_congr rfl (fun t _ => hrw t), ← Finset.mul_sum,
+              Finset.sum_congr rfl (fun t _ => hkey t), ← Finset.sum_filter, Finset.sum_const,
+              ← Fintype.card_subtype (· ∈ stab ξ), nsmul_eq_mul]
+          ring
+        · have h0 : f₁ u = 0 := hf₁ u hu
+          simp only [h0, zero_mul, mul_zero, Finset.sum_const_zero]
+      rw [Finset.sum_comm, Finset.sum_congr rfl (fun h _ => hstep_h h), Finset.sum_const,
+          Finset.card_univ, hinner, nsmul_eq_mul]
+      ring
+    -- The same-orbit inner product `⟨χ_{V χ₂ U₂}, χ_{V χ₂ W}⟩`, computed two ways.
+    have hcrossval := hcross χ₂ χ₂ U₂ W hU₂ hWsimple
+    have htrip : (∑ g₀ : G, ∑ h : G, ∑ h' : G,
+          (if dualSmul h⁻¹ χ₂ = dualSmul (g₀ * h'⁻¹) χ₂ then (Fintype.card A : ℂ) else 0)
+            * Uc χ₂ U₂ (h * g₀ * h⁻¹) * Uc χ₂ W (h' * g₀⁻¹ * h'⁻¹))
+        = (Fintype.card A : ℂ) * ((Fintype.card G : ℂ) * (Fintype.card ↥(stab χ₂) : ℂ) *
+            ∑ u : G, Uc χ₂ U₂ u * Uc χ₂ W u⁻¹) := by
+      rw [← hcollapse χ₂ (Uc χ₂ U₂) (Uc χ₂ W) (fun y hy => hUc_vanish χ₂ U₂ y hy)
+            (fun k y hk => hUc_conj χ₂ W k y hk), Finset.mul_sum]
+      refine Finset.sum_congr rfl fun g₀ _ => ?_
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun h _ => ?_
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun h' _ => ?_
+      by_cases hc : h * g₀ * h'⁻¹ ∈ stab χ₂
+      · rw [if_pos ((hcond_stab χ₂ g₀ h h').mpr hc), if_pos hc]; ring
+      · rw [if_neg (fun hcc => hc ((hcond_stab χ₂ g₀ h h').mp hcc)), if_neg hc]; ring
+    have hval_card : (∑ x : A ⋊[φ] G, (V χ₂ U₂).character x * (V χ₂ W).character x⁻¹)
+        = (Nat.card (A ⋊[φ] G) : ℂ) := by
+      have hce := hcharVeq.trans hchar_eq
+      rw [show (∑ x : A ⋊[φ] G, (V χ₂ U₂).character x * (V χ₂ W).character x⁻¹)
+            = ∑ x : A ⋊[φ] G, (V χ₂ U₂).character x * (V χ₂ U₂).character x⁻¹ from
+          Finset.sum_congr rfl fun x _ => by rw [hce]]
+      exact (FDRep.simple_iff_char_is_norm_one (V χ₂ U₂)).mp (hVsimple χ₂ U₂ hU₂)
+    rw [htrip, hval_card] at hcrossval
+    -- The restricted-orbit inner product is nonzero.
+    have hS_ne : (∑ u : G, Uc χ₂ U₂ u * Uc χ₂ W u⁻¹) ≠ 0 := by
+      intro hS0
+      rw [hS0, mul_zero, mul_zero, mul_zero] at hcrossval
+      exact (show (Nat.card (A ⋊[φ] G) : ℂ) ≠ 0 from by exact_mod_cast Nat.card_pos.ne')
+        hcrossval
+    -- Rewrite the extended-support sum as a genuine sum over the stabilizer subgroup.
+    have hrestrict : (∑ u : G, Uc χ₂ U₂ u * Uc χ₂ W u⁻¹)
+        = ∑ s : ↥(stab χ₂), U₂.character s * W.character s⁻¹ := by
+      have hfilter : ∑ u : G, Uc χ₂ U₂ u * Uc χ₂ W u⁻¹
+          = ∑ u ∈ Finset.univ.filter (· ∈ stab χ₂), Uc χ₂ U₂ u * Uc χ₂ W u⁻¹ := by
+        rw [Finset.sum_filter]
+        refine Finset.sum_congr rfl fun u _ => ?_
+        by_cases hu : u ∈ stab χ₂
+        · rw [if_pos hu]
+        · rw [if_neg hu, hUc_vanish χ₂ U₂ u hu, zero_mul]
+      rw [hfilter, Finset.sum_subtype (p := (· ∈ stab χ₂)) (Finset.univ.filter (· ∈ stab χ₂))
+            (fun x => by simp [Finset.mem_filter]) (fun u => Uc χ₂ U₂ u * Uc χ₂ W u⁻¹)]
+      refine Finset.sum_congr rfl fun u _ => ?_
+      have h1 : Uc χ₂ U₂ ↑u = U₂.character u := by
+        rw [hUc_app, dif_pos u.2, Subtype.coe_eta]
+      have h2 : Uc χ₂ W (↑u : G)⁻¹ = W.character u⁻¹ := by
+        have huinv : ((u : G))⁻¹ ∈ stab χ₂ := (stab χ₂).inv_mem u.2
+        rw [hUc_app, dif_pos huinv]
+        exact congrArg W.character (Subtype.ext rfl)
+      rw [h1, h2]
+    -- `char_orthonormal`: a nonzero inner product between simples forces an isomorphism.
+    haveI := hU₂
+    haveI := hWsimple
+    have hs2ne : (Fintype.card ↥(stab χ₂) : ℂ) ≠ 0 := by
+      have : Fintype.card ↥(stab χ₂) ≠ 0 := Fintype.card_ne_zero
+      exact_mod_cast this
+    haveI : Invertible (Fintype.card ↥(stab χ₂) : ℂ) := invertibleOfNonzero hs2ne
+    have horth := FDRep.char_orthonormal U₂ W
+    by_contra hcon
+    apply hS_ne
+    rw [hrestrict]
+    have hzero : (∑ s : ↥(stab χ₂), U₂.character s * W.character s⁻¹)
+        = (Fintype.card ↥(stab χ₂) : ℂ) • (⅟(Fintype.card ↥(stab χ₂) : ℂ) •
+            (∑ s : ↥(stab χ₂), U₂.character s * W.character s⁻¹)) := by
+      rw [smul_smul, mul_invOf_self, one_smul]
+    rw [hzero, horth, if_neg hcon]
+    simp
   · -- Part (iii): completeness — every simple `W` is some `V χ U`.
     -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
     -- orbit decomposition) exhausts the regular representation, so no simple is missed.
