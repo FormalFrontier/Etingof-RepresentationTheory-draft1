@@ -175,6 +175,17 @@ Check that the plan's assumptions still hold:
   sub-issues, so the assembly is not actually ready. Confirm the named
   lemmas/defs exist in the Lean files before working; if not, re-add
   `depends-on` on the real open sub-issues and `skip`.
+- **Sanity-check the target statement is actually provable** before
+  attempting the proof. A planner-written signature can be *false as
+  stated* (hypotheses too weak, wrong quantifier, missing finiteness).
+  Spend a moment trying to break it: do the hypotheses actually pin down
+  the conclusion, or can you build a counterexample? (E.g. "M has one
+  composition factor" does **not** imply finite length — `R=ℤ, M=ℤ` is
+  indecomposable with unlinked factors ℤ/2, ℤ/3.) If the statement is
+  unprovable, do **not** attempt it or silently strengthen the signature:
+  post a comment with the counterexample and suggested fix, then `skip`
+  for replan (Escalation ladder: "Ordering mistake in the plan → report,
+  request replan").
 
 If stale:
 ```
