@@ -462,6 +462,31 @@ lemma repIsotypicMult_restrictRep_spechtModule (m : ℕ) (la : Nat.Partition (m 
   · simp only [h, if_true] at hmul ⊢; exact_mod_cast hmul
   · simp only [h, if_false] at hmul ⊢; exact_mod_cast hmul
 
+/-! ### Deliverable 1: `asAlgebraHom` acts by left multiplication on `V_λ`
+
+The algebra homomorphism `asAlgebraHom (spechtModuleRep n la)` sends a group-algebra element `a`
+to the endomorphism "left multiply by `a`" on `V_λ ⊆ ℂ[S_n]`. This coe lemma lets us translate
+the abstract endomorphism condition back to the concrete left-multiplication condition. -/
+
+/-- `asAlgebraHom (spechtModuleRep n la) a` acts on `V_λ` by left multiplication: its value at
+`y ∈ V_λ`, coerced back into `ℂ[S_n]`, is `a * y`. -/
+lemma spechtModuleRep_asAlgebraHom_coe (n : ℕ) (la : Nat.Partition n) (a : SymGroupAlgebra n)
+    (y : ↥(SpechtModule n la)) :
+    ((Representation.asAlgebraHom (spechtModuleRep n la) a) y : SymGroupAlgebra n)
+      = a * (y : SymGroupAlgebra n) := by
+  obtain ⟨mm, hmm⟩ := y
+  induction a using MonoidAlgebra.induction_on with
+  | hM σ =>
+    rw [Representation.asAlgebraHom_of]
+    rfl
+  | hadd f g hf hg =>
+    rw [map_add, LinearMap.add_apply, Submodule.coe_add, hf, hg, add_mul]
+  | hsmul r f hf =>
+    have hsm : (Representation.asAlgebraHom (spechtModuleRep n la)) (r • f)
+        = r • (Representation.asAlgebraHom (spechtModuleRep n la)) f := by
+      rw [Algebra.smul_def, map_mul, Algebra.smul_def, AlgHom.commutes]
+    rw [hsm, LinearMap.smul_apply, Submodule.coe_smul_of_tower, hf, smul_mul_assoc]
+
 /-- Problem 5.16.3(b). The element `E = (12) + ⋯ + (1n)` acts on the Specht module
 `V_λ = ℂ[S_n]·c_λ` (by left multiplication) by a scalar if and only if `λ` is a rectangular
 Young diagram. -/
