@@ -3,8 +3,7 @@ import Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts
 import Mathlib.RingTheory.FiniteLength
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor
-import EtingofRepresentationTheory.Chapter9.Problem9_5_3_Devissage
-import EtingofRepresentationTheory.Chapter9.Problem9_5_3_Splitting
+import EtingofRepresentationTheory.Chapter9.Problem9_5_3_Connectivity
 
 /-!
 # Problem 9.5.3: Blocks and central idempotents
@@ -111,8 +110,8 @@ theorem compositionFactors_areLinked [Small.{v} R]
     {M : ModuleCat.{v} R} (hM : Indecomposable M) (hfl : IsFiniteLength R M)
     {S T : ModuleCat.{v} R}
     (hS : Etingof.IsCompositionFactor R M S) (hT : Etingof.IsCompositionFactor R M T) :
-    Etingof.AreLinked R S T := by
-  sorry
+    Etingof.AreLinked R S T :=
+  Etingof.compositionFactors_areLinked_aux hM hfl hS hT
 
 /-- **Problem 9.5.3 (ii), decomposition.** Every indecomposable finite-length object lies in
 some block: there is a simple module `S` such that all composition factors of `M` are linked to
