@@ -506,6 +506,33 @@ Also `Fin.last 0 = (0 : Fin 1)` needs `Fin.ext rfl`, not `Subsingleton.elim` (`S
 doesn't synthesize). Separately, `tprod k (Fin.cons …)` is ambiguous with `_root_.tprod` (infinite products) —
 qualify as `PiTensorProduct.tprod k (Fin.cons …)`.
 
+### Cochain-complex `Ext` crux: keep ℤ indices in ONE cast form, and hand-build the noncommutative tensor–hom adjunction (Ch8 Problem 8.2.6 ii, #6464)
+
+Computing `Ext¹` as `CohomologyClass (R.cochainComplex) (single V 0) 1` (via
+`ProjectiveResolution.extAddEquivCohomologyClass`) and matching it to a cocycle/coboundary group:
+
+- **`-↑2` vs `-2` will silently break every `rw`.** `R.cochainComplex.X`, `cochainComplexXIso`,
+  `toSingleEquiv`, and `homEquivDeg`-style defs index by `-(n : ℤ) = -↑n` (a `Nat.cast`), while
+  `δ_toSingleMk` / `toSingleMk` / `cochainComplex_d` take **literal** `ℤ` args. `-↑2` and `-2` are
+  defeq but **not syntactically equal**, so `rw [key]`, `rw [toSingleEquiv_toSingleMk]`, and
+  `Iso.inv_hom_id_assoc` all fail to fire (and `simp only [Nat.cast_ofNat]` often does *not*
+  normalize `-↑1` when the `1` is `One.one`). **Fix:** pick the cast form your `homEquivDeg_apply`
+  produces (`-((n:ℕ):ℤ)`) and pass *that exact form* to `Cochain.δ_toSingleMk`, `cochainComplex_d`,
+  and `Cochain.toSingleMk_surjective`, so isos/differentials cancel syntactically. Prove the
+  degree-`k` `d`-fact as `have : R.complex.d k (k-1) = ofHom (barDiff …) := barResolution_complex_d …`
+  (`2` ascribed to `1+1` is accepted by defeq) to sidestep `ChainComplex.of_d`'s `(j+1)` matching.
+- **`LinearMap.liftBaseChangeEquiv A` needs `[CommSemiring A]`** — useless for a path/group algebra.
+  The adjunction `(A ⊗[k] X →ₗ[A] V) ≃+ (X →ₗ[k] V)`, `f ↦ (x ↦ f (1 ⊗ x))`, must be built by hand:
+  `toFun f := (f.restrictScalars k).comp (TensorProduct.mk k A X 1)`,
+  `invFun g := AlgebraTensorModule.lift (LinearMap.toSpanSingleton A _ g)` (both need only
+  `Semiring A`); `left_inv` via `AlgebraTensorModule.ext` + `f.map_smul` + `smul_tmul'`.
+- **Assemble the two quotients with `QuotientAddGroup.congr G' H' e he`**: `CohomologyClass = Cocycle ⧸
+  coboundaries` and `Problem3_9_1.Ext1 = ↥cocycles ⧸ (coboundaries.submoduleOf cocycles)` are both
+  `QuotientAddGroup` quotients (submodule quotient is defeq `⧸ ·.toAddSubgroup`). Build
+  `e := (Ψ1.addSubgroupMap (cocycle …)).trans (AddEquiv.addSubgroupCongr hcocy)` (its coercion to the
+  ambient hom is `Ψ1` on the underlying cochain, `rfl`); `he` uses `AddSubgroup.mem_map` +
+  `Submodule.mem_comap` (for `submoduleOf`) + the coboundary equality `Ψ1 (δ 0 1 β) = coboundaryOf (-(Ψ0 β))`.
+
 ### Scalar extension `ℂ ⊗_ℚ k[S_n]·c_λ ≅ ℂ[S_n]·c_λ` (Specht rational form, #5234)
 
 To prove the base-change compatibility "`SpechtModuleK ℂ` is the complexification of `SpechtModuleK ℚ`"
