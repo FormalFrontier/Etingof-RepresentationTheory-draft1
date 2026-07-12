@@ -68,6 +68,20 @@ noncomputable def homEquivDeg (n : ℕ) :
         ((Etingof.barResolution k A W).cochainComplexXIso (-(n : ℤ)) n (by push_cast; ring))).trans
       ModuleCat.homAddEquiv)
 
+/-- Unfolded form of `homEquivDeg`: it sends a cochain `z` to the linear map underlying
+`iso.inv ≫ (toSingleEquiv z)`, where `iso : cochainComplex.X (-n) ≅ barObj n`. -/
+lemma homEquivDeg_apply (n : ℕ) (z : Cochain (barCochainComplex k A W) (singleV A V) n) :
+    homEquivDeg k A W V n z =
+      (((Etingof.barResolution k A W).cochainComplexXIso (-(n : ℤ)) n (by push_cast; ring)).inv ≫
+        Cochain.toSingleEquiv (K := barCochainComplex k A W) (X := ModuleCat.of A V)
+          (p := -(n : ℤ)) (q := 0) (n := (n : ℤ)) (by push_cast; ring) z).hom := rfl
+
+/-- The chain differential of the bar resolution in the standard indexing: `d (n+1) n = barDiff n`. -/
+lemma barResolution_complex_d (n : ℕ) :
+    (Etingof.barResolution k A W).complex.d (n + 1) n = ModuleCat.ofHom (barDiff k A W n) :=
+  ChainComplex.of_d (fun n => barObj k A W n)
+    (fun n => ModuleCat.ofHom (barDiff k A W n)) n
+
 /-- The `k`-linear identification `barCoeff 1 = (⨂¹A) ⊗ W ≃ₗ A ⊗ W`. -/
 noncomputable def barCoeffOneEquiv : barCoeff k A W 1 ≃ₗ[k] A ⊗[k] W :=
   TensorProduct.congr (PiTensorProduct.subsingletonEquiv (0 : Fin 1)) (LinearEquiv.refl k W)
@@ -146,13 +160,34 @@ noncomputable def Ψ0 :
 `barDiff 1`: `homEquivDeg 2 (δ 1 2 z) = (homEquivDeg 1 z) ∘ₗ barDiff 1`. -/
 lemma homEquivDeg_δ_one (z : Cochain (barCochainComplex k A W) (singleV A V) 1) :
     homEquivDeg k A W V 2 (δ 1 2 z) = (homEquivDeg k A W V 1 z).comp (barDiff k A W 1) := by
-  sorry
+  obtain ⟨g, rfl⟩ := Cochain.toSingleMk_surjective z (-((1 : ℕ) : ℤ)) (by norm_num)
+  have h2 : (2 : ℤ).negOnePow = 1 := by
+    rw [show (2 : ℤ) = 2 * 1 by ring]; exact Int.negOnePow_two_mul 1
+  have hd21 : (Etingof.barResolution k A W).complex.d 2 1 = ModuleCat.ofHom (barDiff k A W 1) :=
+    barResolution_complex_d k A W 1
+  rw [homEquivDeg_apply, homEquivDeg_apply,
+    Cochain.δ_toSingleMk g (by norm_num) 2 (-((2 : ℕ) : ℤ)) (by norm_num), h2, one_smul,
+    Cochain.toSingleEquiv_toSingleMk, Cochain.toSingleEquiv_toSingleMk,
+    ProjectiveResolution.cochainComplex_d (Etingof.barResolution k A W)
+      (-((2 : ℕ) : ℤ)) (-((1 : ℕ) : ℤ)) 2 1 (by norm_num) (by norm_num), hd21]
+  simp only [Category.assoc, Iso.inv_hom_id_assoc, ModuleCat.hom_comp, ModuleCat.hom_ofHom,
+    LinearMap.comp_assoc]
 
 /-- Under `homEquivDeg`, the coboundary `δ 0 1 β` becomes `-(barDiff 0)` precomposed:
 `homEquivDeg 1 (δ 0 1 β) = -((homEquivDeg 0 β) ∘ₗ barDiff 0)`. -/
 lemma homEquivDeg_δ_zero (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
     homEquivDeg k A W V 1 (δ 0 1 β) = -(homEquivDeg k A W V 0 β).comp (barDiff k A W 0) := by
-  sorry
+  obtain ⟨g, rfl⟩ := Cochain.toSingleMk_surjective β (-((0 : ℕ) : ℤ)) (by norm_num)
+  have hd10 : (Etingof.barResolution k A W).complex.d 1 0 = ModuleCat.ofHom (barDiff k A W 0) :=
+    barResolution_complex_d k A W 0
+  rw [homEquivDeg_apply, homEquivDeg_apply,
+    Cochain.δ_toSingleMk g (by norm_num) 1 (-((1 : ℕ) : ℤ)) (by norm_num), Int.negOnePow_one,
+    Units.neg_smul, one_smul, map_neg, Cochain.toSingleEquiv_toSingleMk,
+    Cochain.toSingleEquiv_toSingleMk,
+    ProjectiveResolution.cochainComplex_d (Etingof.barResolution k A W)
+      (-((1 : ℕ) : ℤ)) (-((0 : ℕ) : ℤ)) 1 0 (by norm_num) (by norm_num), hd10]
+  simp only [Preadditive.comp_neg, Category.assoc, Iso.inv_hom_id_assoc, ModuleCat.hom_neg,
+    ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.comp_assoc]
 
 /-! ### Cocycle correspondence -/
 
