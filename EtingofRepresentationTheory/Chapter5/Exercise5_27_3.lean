@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 import EtingofRepresentationTheory.Chapter5.CharEqIso
+import EtingofRepresentationTheory.Infrastructure.CompletenessCriterion
 
 /-!
 # Exercise 5.27.3: deduce parts (i)–(iii) of Theorem 5.27.1 from part (iv)
@@ -826,7 +827,63 @@ theorem Exercise5_27_3
   refine ⟨hVsimple, hclassify, ?_⟩
   -- Part (iii): completeness — every simple `W` is some `V χ U`.
   -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
-  -- orbit decomposition) exhausts the regular representation, so no simple is missed.
-  sorry
+  -- orbit decomposition) exhausts the regular representation. The orbit-method family
+  -- `{V(χ, U) : χ an orbit representative, U an irreducible of stab χ}` consists of pairwise
+  -- non-isomorphic simples (parts (i), (ii)) whose squared dimensions already sum to
+  -- `|A ⋊[φ] G|`, so `FDRep.complete_of_sum_finrank_sq_eq_card` forces it to exhaust all simples.
+  intro W hW
+  classical
+  haveI : Fintype (A ⋊[φ] G) :=
+    Fintype.ofEquiv (A × G) (SemidirectProduct.equivProd (φ := φ)).symm
+  haveI : NeZero (Nat.card (A ⋊[φ] G) : ℂ) := ⟨by exact_mod_cast Nat.card_pos.ne'⟩
+  -- `dualSmul` is a left `G`-action on `Â = (A →* ℂˣ)` (re-derived locally).
+  have hds_mul : ∀ (p q : G) (ν : A →* ℂˣ), dualSmul p (dualSmul q ν) = dualSmul (p * q) ν := by
+    intro p q ν
+    ext a
+    rw [_hdual, _hdual, _hdual]
+    congr 1
+    have : (φ (p * q)⁻¹ : MulAut A) a = (φ q⁻¹ : MulAut A) ((φ p⁻¹ : MulAut A) a) := by
+      rw [mul_inv_rev, map_mul]; rfl
+    rw [this]
+  have hds_one : ∀ (ν : A →* ℂˣ), dualSmul 1 ν = ν := by
+    intro ν; ext a; rw [_hdual]; simp
+  -- Register the action so the orbit/stabilizer API applies to `Â`.
+  letI actSMul : SMul G (A →* ℂˣ) := ⟨dualSmul⟩
+  letI actInst : MulAction G (A →* ℂˣ) :=
+    { one_smul := hds_one, mul_smul := fun p q ν => (hds_mul p q ν).symm }
+  have hsmul_eq : ∀ (g : G) (χ : A →* ℂˣ), g • χ = dualSmul g χ := fun _ _ => rfl
+  -- The abstract stabilizer `stab χ` coincides with the group-action stabilizer.
+  have hstab_eq : ∀ χ : A →* ℂˣ, MulAction.stabilizer G χ = stab χ := by
+    intro χ
+    ext g
+    rw [MulAction.mem_stabilizer_iff, hsmul_eq, _hstab]
+  -- `Â` is finite (dual of a finite abelian group), hence so is the orbit space.
+  haveI : Finite (A →* ℂˣ) :=
+    Finite.of_equiv A (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity A ℂ).some.symm.toEquiv
+  haveI : Fintype (A →* ℂˣ) := Fintype.ofFinite _
+  haveI : Fintype (MulAction.orbitRel.Quotient G (A →* ℂˣ)) := Fintype.ofFinite _
+  -- Positive-order stabilizers carry the char-zero non-vanishing needed for `IrrepDecomp`.
+  haveI hNZstab : ∀ (H : Subgroup G), NeZero (Nat.card H : ℂ) :=
+    fun _ => ⟨by exact_mod_cast Nat.card_pos.ne'⟩
+  -- The orbit-method family, indexed by (orbit representative, irreducible of its stabilizer).
+  set Ω := MulAction.orbitRel.Quotient G (A →* ℂˣ) with hΩ
+  set χω : Ω → (A →* ℂˣ) := fun ω => Quotient.out ω with hχω
+  let Dω : (ω : Ω) → IrrepDecomp ℂ ↥(stab (χω ω)) := fun ω => IrrepDecomp.mk'
+  set ι := Σ ω : Ω, Fin (Dω ω).n with hι
+  set Wf : ι → FDRep ℂ (A ⋊[φ] G) :=
+    fun j => V (χω j.1) ((Dω j.1).columnFDRep j.2) with hWf
+  -- (a) Every family member is simple: `columnFDRep` is simple, and part (i) preserves it.
+  have hWf_simple : ∀ j, Simple (Wf j) := by
+    intro j
+    exact hVsimple (χω j.1) ((Dω j.1).columnFDRep j.2) ((Dω j.1).columnFDRep_simple j.2)
+  -- (b) The family is pairwise non-isomorphic (uses the classification `hclassify`).
+  have hWf_inj : ∀ j j', Nonempty (Wf j ≅ Wf j') → j = j' := by
+    sorry
+  -- (c) The squared dimensions sum to `|A ⋊[φ] G|` (orbit-method dimension count).
+  have hWf_sum : ∑ j, (Module.finrank ℂ (Wf j)) ^ 2 = Fintype.card (A ⋊[φ] G) := by
+    sorry
+  -- Conclude via the dimension-count completeness criterion.
+  obtain ⟨j, hj⟩ := FDRep.complete_of_sum_finrank_sq_eq_card Wf hWf_simple hWf_inj hWf_sum W hW
+  exact ⟨χω j.1, (Dω j.1).columnFDRep j.2, (Dω j.1).columnFDRep_simple j.2, hj⟩
 
 end Etingof
