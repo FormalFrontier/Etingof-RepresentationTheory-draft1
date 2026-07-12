@@ -399,8 +399,15 @@ theorem Exercise5_27_3
       ring
     rw [hcard]
     field_simp
-  refine ⟨hVsimple, ?_, ?_⟩
-  · -- Part (ii): pairwise non-isomorphism.
+  -- Part (ii): pairwise non-isomorphism (hoisted as `hclassify` so part (iii) can reuse it).
+  have hclassify :
+      ∀ (χ₁ χ₂ : A →* ℂˣ)
+        (U₁ : FDRep ℂ ↥(stab χ₁)) (U₂ : FDRep ℂ ↥(stab χ₂)),
+        Simple U₁ → Simple U₂ →
+        Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) →
+        ∃ (g : G) (hg : dualSmul g χ₁ = χ₂),
+          Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁) := by
+    -- Part (ii): pairwise non-isomorphism.
     -- Strategy: an isomorphism `V χ₁ U₁ ≅ V χ₂ U₂` forces equal characters; feeding the
     -- character formula (iv) into the (unnormalized) inner product
     -- `∑_x χ_{V χ₁ U₁}(x) χ_{V χ₂ U₂}(x⁻¹) ≠ 0` forces the orbit data to match, i.e.
@@ -816,10 +823,10 @@ theorem Exercise5_27_3
       rw [smul_smul, mul_invOf_self, one_smul]
     rw [hzero, horth, if_neg hcon]
     simp
-  · -- Part (iii): completeness — every simple `W` is some `V χ U`.
-    -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
-    -- orbit decomposition) exhausts the regular representation, so no simple is missed.
-    -- Tracked in the (iii) sub-issue.
-    sorry
+  refine ⟨hVsimple, hclassify, ?_⟩
+  -- Part (iii): completeness — every simple `W` is some `V χ U`.
+  -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
+  -- orbit decomposition) exhausts the regular representation, so no simple is missed.
+  sorry
 
 end Etingof
