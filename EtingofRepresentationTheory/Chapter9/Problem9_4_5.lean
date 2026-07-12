@@ -4,6 +4,7 @@ import Mathlib.Algebra.Group.Int.Units
 import Mathlib.RingTheory.Ideal.Quotient.Defs
 import Mathlib.Data.ENat.Lattice
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
+import EtingofRepresentationTheory.Chapter3.Theorem3_8_1
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 import EtingofRepresentationTheory.Chapter9.Proposition9_2_3
@@ -271,6 +272,143 @@ theorem homClassVector_eq_mulVec_of_equiv
       ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec
         (fun i => (a i : ℤ)) := by
   rw [homClassVector_congr P e, homClassVector_isotypic]
+
+/-- **Every indecomposable f.g. projective `A`-module is one of the `Pᵢ`.** Given the §9.3/§9.4.5
+setup — a complete family `M` of simple modules (`hM_complete`) and their indecomposable projective
+covers `P` (`hP_indec`, `hP_cover`) — any indecomposable finitely generated projective `A`-module
+`Q` is `A`-linearly isomorphic to some `P i`. This is the module-level PIM classification: `Q` has a
+simple quotient `Q ↠ M j₀` (`Q` nonzero and f.g. over the artinian `A`, so it has a maximal
+submodule), and `P j₀` also maps onto `M j₀` (`hP_cover` gives `dim_k Hom_A(P j₀, M j₀) = 1`), so
+by `Etingof.indecomposable_projective_iso_of_hom` (two indecomposable projectives with nonzero
+`Hom` to the same simple are isomorphic) `Q ≃ₗ[A] P j₀`. This mirrors `Etingof.Theorem_9_2_1_iii`
+but drops the `IsAlgClosed k` hypothesis, which that route does not use. -/
+theorem indecProjective_iso_some_P
+    {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)] [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM_complete : ∀ (S : Type u) [AddCommGroup S] [Module A S], IsSimpleModule A S →
+        ∃ i, Nonempty (S ≃ₗ[A] M i))
+    (P : ι → Type*) [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
+    [∀ i, Module k (P i)] [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)]
+    [∀ i, Module.Projective A (P i)] [∀ i, Module.Finite A (P i)]
+    (hP_indec : ∀ i, Etingof.IsIndecomposable A (P i))
+    (hP_cover : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0)
+    (Q : Type u) [AddCommGroup Q] [Module A Q] [Module k Q] [IsScalarTower k A Q]
+    [SMulCommClass A k Q] [Module.Projective A Q] [Module.Finite A Q]
+    (hQ_indec : Etingof.IsIndecomposable A Q) :
+    ∃ i, Nonempty (Q ≃ₗ[A] P i) := by
+  haveI : IsArtinianRing A := isArtinian_of_tower k inferInstance
+  haveI : Nontrivial Q := hQ_indec.1
+  haveI : Module.Finite k Q := Module.Finite.trans A Q
+  haveI : FiniteDimensional k Q := ‹Module.Finite k Q›
+  -- `Q` has a maximal submodule `N`, so `Q ⧸ N` is simple; it is `≃ₗ[A]` some `M j₀`.
+  obtain ⟨N, hN_coatom⟩ := Etingof.Theorem921.exists_isCoatom_submodule (R := A) (M := Q)
+  haveI : IsSimpleModule A (Q ⧸ N) := isSimpleModule_iff_isCoatom.mpr hN_coatom
+  obtain ⟨j₀, ⟨e⟩⟩ := hM_complete (Q ⧸ N) inferInstance
+  refine ⟨j₀, ?_⟩
+  -- The composition `Q → Q ⧸ N ≅ M j₀` is a nonzero map.
+  set φ : Q →ₗ[A] M j₀ := e.toLinearMap.comp N.mkQ with hφdef
+  have hφ : φ ≠ 0 := by
+    intro h
+    apply hN_coatom.1
+    rw [Submodule.eq_top_iff']
+    intro q
+    have h1 : e (N.mkQ q) = 0 := by
+      have := LinearMap.congr_fun h q; simpa [hφdef] using this
+    have h2 : N.mkQ q = 0 := e.injective (by rw [h1, map_zero])
+    exact (Submodule.Quotient.mk_eq_zero N).mp h2
+  -- `P j₀` also has a nonzero map to `M j₀`, since `dim_k Hom_A(P j₀, M j₀) = 1`.
+  haveI : FiniteDimensional k (P j₀) := Module.Finite.trans A (P j₀)
+  haveI : Module.Finite A (M j₀) := Module.Finite.equiv e
+  haveI : Module.Finite k (M j₀) := Module.Finite.trans A (M j₀)
+  haveI : Module.Finite k (P j₀ →ₗ[A] M j₀) :=
+    Module.Finite.of_injective (LinearMap.restrictScalarsₗ k A (P j₀) (M j₀) k)
+      (LinearMap.restrictScalars_injective k)
+  have hPdim : Module.finrank k (P j₀ →ₗ[A] M j₀) = 1 := by
+    have := hP_cover j₀ j₀; simpa using this
+  have hP_nt : Nontrivial (P j₀ →ₗ[A] M j₀) := by
+    rw [← Module.finrank_pos_iff (R := k)]; omega
+  obtain ⟨ψ, hψ⟩ := exists_ne (0 : P j₀ →ₗ[A] M j₀)
+  exact Etingof.indecomposable_projective_iso_of_hom (k := k) hQ_indec (hP_indec j₀) φ hφ ψ hψ
+
+/-- **Class vector of an f.g. projective is an `ℕ`-combination of Cartan columns.** For any finitely
+generated projective `A`-module `N`, the multiplicity class vector `homClassVector P N` equals
+`C.mulVec a` for some `a : ι → ℕ`, where `C` is the (`ℤ`-cast) Cartan matrix. This is the
+Krull–Schmidt piece of Problem 9.4.5(i): by module-level Krull–Schmidt existence
+(`Etingof.krull_schmidt_existence`) the finite-dimensional `N` decomposes internally as
+`⨁ᵢ Wᵢ` with each `Wᵢ` indecomposable; each `Wᵢ` is a direct summand of the projective `N`, hence
+projective, and therefore (`indecProjective_iso_some_P`) `≃ₗ[A]` some `P (g i)`. Additivity of
+`homClassVector` over the finite direct sum (`homClassVector_directSum`) and the identification of
+`homClassVector P (P j)` with column `j` of `C` (`homClassVector_proj_eq_cartan_col`) give
+`homClassVector P N = ∑ᵢ (column (g i) of C) = C.mulVec a`, where `a j` counts the summands
+isomorphic to `P j`. -/
+theorem homClassVector_projective_eq_mulVec
+    {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)] [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM_complete : ∀ (S : Type u) [AddCommGroup S] [Module A S], IsSimpleModule A S →
+        ∃ i, Nonempty (S ≃ₗ[A] M i))
+    (P : ι → Type*) [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
+    [∀ i, Module k (P i)] [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)]
+    [∀ i, Module.Projective A (P i)] [∀ i, Module.Finite A (P i)]
+    (hP_indec : ∀ i, Etingof.IsIndecomposable A (P i))
+    (hP_cover : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0)
+    (N : Type u) [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
+    [SMulCommClass A k N] [Module.Projective A N] [Module.Finite A N] :
+    ∃ a : ι → ℕ,
+      homClassVector (k := k) (A := A) P N =
+        ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec
+          (fun i => (a i : ℤ)) := by
+  classical
+  set C := (Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ) with hC
+  haveI : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
+  haveI : Module.Finite k N := Module.Finite.trans A N
+  haveI : FiniteDimensional k N := ‹Module.Finite k N›
+  -- Krull–Schmidt existence: `N = ⨁ᵢ Wᵢ` internally, each `Wᵢ` indecomposable.
+  obtain ⟨n, W, hW_indec, hW_sup, hW_indep⟩ := Etingof.krull_schmidt_existence k A N
+  have hInt : DirectSum.IsInternal W :=
+    DirectSum.isInternal_submodule_of_iSupIndep_of_iSup_eq_top hW_indep hW_sup
+  -- `N ≃ₗ[A] ⨁ᵢ Wᵢ`.
+  let e : N ≃ₗ[A] ⨁ i, (W i) := (LinearEquiv.ofBijective (DirectSum.coeLinearMap W) hInt).symm
+  -- `⨁ᵢ Wᵢ` is projective (transfer from `N`); each `Wᵢ` is a summand, hence projective.
+  haveI : Module.Projective A (⨁ i, (W i)) := Module.Projective.of_equiv e
+  haveI hWproj : ∀ i, Module.Projective A (W i) := fun i =>
+    Module.Projective.of_split
+      (DirectSum.lof A (Fin n) (fun j => (W j)) i)
+      (DirectSum.component A (Fin n) (fun j => (W j)) i)
+      (DirectSum.component_comp_lof_same A i)
+  -- each `Wᵢ` is finite over `k`, hence over `A`.
+  haveI hWfin : ∀ i, Module.Finite k (W i) := fun i =>
+    Module.Finite.of_injective ((W i).restrictScalars k).subtype Subtype.val_injective
+  haveI hWfinA : ∀ i, Module.Finite A (W i) := fun i =>
+    Module.Finite.of_restrictScalars_finite k A (W i)
+  -- each `Wᵢ ≃ₗ[A]` some `P (g i)`.
+  have hWiso : ∀ i, ∃ j, Nonempty ((W i) ≃ₗ[A] P j) := fun i =>
+    indecProjective_iso_some_P M hM_complete P hP_indec hP_cover (W i) (hW_indec i)
+  choose g hg using hWiso
+  refine ⟨fun j => (Finset.univ.filter (fun i => g i = j)).card, ?_⟩
+  rw [homClassVector_congr P e, homClassVector_directSum P (fun i => (W i))]
+  funext l
+  rw [Finset.sum_apply]
+  have step : ∀ i, homClassVector (k := k) (A := A) P (W i) l = C l (g i) := by
+    intro i
+    rw [homClassVector_congr P (hg i).some, homClassVector_proj_eq_cartan_col]
+  simp_rw [step]
+  -- `∑ i, C l (g i) = ∑ j, C l j * (a j)` by fibering over `g`.
+  simp only [Matrix.mulVec, dotProduct]
+  have hRHS : ∀ j : ι,
+      C l j * ((Finset.univ.filter (fun i => g i = j)).card : ℤ)
+        = ∑ i ∈ Finset.univ.filter (fun i => g i = j), C l (g i) := by
+    intro j
+    rw [Finset.sum_congr rfl
+      (fun i hi => (by rw [(Finset.mem_filter.mp hi).2] : C l (g i) = C l j))]
+    rw [Finset.sum_const, nsmul_eq_mul, mul_comm]
+  simp_rw [hRHS]
+  rw [Finset.sum_fiberwise_of_maps_to (fun i _ => Finset.mem_univ (g i)) (fun i => C l (g i))]
 
 end DirectSum
 
