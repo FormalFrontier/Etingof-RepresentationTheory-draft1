@@ -271,11 +271,45 @@ lemma isCocycle_Ψ1_iff (z : Cochain (barCochainComplex k A W) (singleV A V) 1) 
 
 /-! ### Coboundary correspondence -/
 
+/-- `Ψ1` sends the coboundary of a degree-`0` cochain to the `Problem3_9_1`-coboundary of `-Ψ0 β`. -/
+lemma Ψ1_δ_zero_eq (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
+    Ψ1 k A W V (δ 0 1 β) = Problem3_9_1.coboundaryOf k A V W (-(Ψ0 k A W V β)) := by
+  set g0 := homEquivDeg k A W V 0 β with hg0
+  have hΨ0 : ∀ w : W, Ψ0 k A W V β w = g0 ((1 : A) ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w) :=
+    fun w => coeffEquiv0_apply k A W V g0 w
+  have hbc : ∀ (u : Fin 0 → A) (y : W),
+      (barCoeffZeroEquiv k A W).symm y = tprod k u ⊗ₜ[k] y := by
+    intro u y; rw [LinearEquiv.symm_apply_eq]; exact (barCoeffZeroEquiv_tprod k A W u y).symm
+  have core0 : ∀ (a : A) (w : W),
+      g0 (barDiff k A W 0 ((1 : A) ⊗ₜ[k] (tprod k ![a] ⊗ₜ[k] w)))
+        = a • Ψ0 k A W V β w - Ψ0 k A W V β (a • w) := by
+    intro a w
+    have hlast0 : (![a] : Fin 1 → A) (Fin.last 0) = a := rfl
+    rw [barDiff_tmul_tprod]
+    simp only [Fin.sum_univ_zero, add_zero, Matrix.cons_val_zero, one_mul, pow_one,
+      zero_add, neg_smul, one_smul, map_add, map_neg]
+    rw [hlast0, ← hbc (Fin.tail ![a]) w, ← hbc (Fin.init ![a]) (a • w),
+      show a ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w
+          = a • ((1 : A) ⊗ₜ[k] (barCoeffZeroEquiv k A W).symm w) by
+        rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],
+      map_smul, ← hΨ0 w, ← hΨ0 (a • w)]
+    abel
+  have hΨ1 : Ψ1 k A W V (δ 0 1 β)
+      = coeffEquiv1 k A W V (-(g0.comp (barDiff k A W 0))) := by
+    show coeffEquiv1 k A W V (homEquivDeg k A W V 1 (δ 0 1 β)) = _
+    rw [homEquivDeg_δ_zero]
+  ext a w
+  rw [Problem3_9_1.coboundaryOf_apply, hΨ1, coeffEquiv1_apply]
+  simp only [LinearMap.neg_apply, LinearMap.comp_apply, smul_neg]
+  rw [core0]
+  abel
+
 /-- `Ψ1` sends the coboundary of a degree-`0` cochain to a `Problem3_9_1`-coboundary. -/
 lemma Ψ1_δ_zero_mem_coboundaries
     (β : Cochain (barCochainComplex k A W) (singleV A V) 0) :
     Ψ1 k A W V (δ 0 1 β) ∈ Problem3_9_1.coboundaries k A V W := by
-  sorry
+  rw [Ψ1_δ_zero_eq]
+  exact Submodule.subset_span (Set.mem_range_self _)
 
 /-! ### Assembly -/
 
