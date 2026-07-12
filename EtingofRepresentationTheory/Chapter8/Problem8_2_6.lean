@@ -3,8 +3,10 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
+import EtingofRepresentationTheory.Chapter8.BarResolution
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
+import Mathlib.CategoryTheory.Abelian.Projective.Ext
 
 /-!
 # Problem 8.2.6: basic properties of `Tor` and `Ext`
@@ -188,8 +190,29 @@ theorem Problem_8_2_6_ii
     (V W : Type u) [AddCommGroup V] [Module k V] [Module A V] [IsScalarTower k A V]
     [AddCommGroup W] [Module k W] [Module A W] [IsScalarTower k A W] :
     Nonempty (Etingof.Ext (ModuleCat.of A W) (ModuleCat.of A V) 1
-      ≃+ Etingof.Problem3_9_1.Ext1 k A V W) := by
-  sorry
+      ≃+ Etingof.Problem3_9_1.Ext1 k A V W) :=
+  -- Step 1 (this reduction, sorry-free): the relative bar resolution `Etingof.barResolution`
+  -- computes `Ext¹` as the degree-1 cohomology of the Hom-into-`V` cochain complex, via
+  -- `ProjectiveResolution.extAddEquivCohomologyClass`.
+  ⟨((Etingof.barResolution k A W).extAddEquivCohomologyClass
+      (Y := ModuleCat.of A V) (n := 1)).trans
+    -- Step 2 (CRUX, deferred to a successor issue): identify that degree-1 cohomology group
+    -- with `Problem3_9_1.Ext1`. Roadmap (all pieces located, math verified):
+    --  • `CochainComplex.HomComplex.toSingleEquiv` transfers a degree-1 cochain into the single
+    --    complex `(singleFunctor _ 0).obj (ModuleCat.of A V)` to a hom
+    --    `(barResolution …).cochainComplex.X (-1) ⟶ ModuleCat.of A V`, and via
+    --    `cochainComplexXIso`/`cochainComplex_d` to an `A`-linear `barModule 1 →ₗ[A] V`.
+    --  • `δ_toSingleMk` computes the differential: the degree-1 cocycle condition `δ 1 2 = 0`
+    --    becomes `barDiff 1 ≫ f = 0` (`(2).negOnePow = 1`), and the degree-1 coboundaries are
+    --    `-(barDiff 0 ≫ g)` for `g : barModule 0 →ₗ[A] V` (`(1).negOnePow = -1`; the sign is
+    --    absorbed by the coboundary submodule).
+    --  • `LinearMap.liftBaseChangeEquiv A : (X →ₗ[k] V) ≃ₗ[A] (A ⊗[k] X →ₗ[A] V)` is the
+    --    tensor–hom adjunction turning `f : barModule 1 = A ⊗_k (A ⊗_k W) →ₗ[A] V` into
+    --    `F : A →ₗ[k] (W →ₗ[k] V)` (`F a w = f (1 ⊗ₜ (a ⊗ₜ w))`, modulo `⨂¹ A ≅ A`).
+    --  • Unfolding `barDiff_tmul_tprod` in degrees 1,0 turns `barDiff 1 ≫ f = 0` into
+    --    `F (a*b) = ρ_V a ∘ F b + F a ∘ ρ_W b` (`Problem3_9_1.IsCocycle`) and the coboundaries
+    --    into `Problem3_9_1.coboundaryOf`, giving `CohomologyClass … 1 ≃+ Z¹/B¹ = Ext1`.
+    sorry⟩
 
 /-! ### Part (iii): long exact sequence in the second argument (`Ext` half) -/
 
