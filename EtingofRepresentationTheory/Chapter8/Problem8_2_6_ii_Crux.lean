@@ -318,6 +318,54 @@ canonically isomorphic to `Ext¹` in the cocycle/coboundary presentation of Prob
 noncomputable def cohomologyClassEquivExt1 :
     CohomologyClass (barCochainComplex k A W) (singleV A V) 1
       ≃+ Problem3_9_1.Ext1 k A V W := by
-  sorry
+  -- `Ψ1` carries cocycle cochains bijectively onto `Problem3_9_1`-cocycles.
+  have hcocy : (cocycle (barCochainComplex k A W) (singleV A V) 1).map
+        ((Ψ1 k A W V).toAddMonoidHom)
+      = (Problem3_9_1.cocycles k A V W).toAddSubgroup := by
+    ext F
+    simp only [AddSubgroup.mem_map, AddEquiv.coe_toAddMonoidHom, Submodule.mem_toAddSubgroup]
+    constructor
+    · rintro ⟨z, hz, rfl⟩
+      exact (isCocycle_Ψ1_iff k A W V z).mpr ((Cocycle.mem_iff 1 2 (by norm_num) z).mp hz)
+    · intro hF
+      refine ⟨(Ψ1 k A W V).symm F, (Cocycle.mem_iff 1 2 (by norm_num) _).mpr ?_, by simp⟩
+      rw [← isCocycle_Ψ1_iff, AddEquiv.apply_symm_apply]; exact hF
+  set e : Cocycle (barCochainComplex k A W) (singleV A V) 1 ≃+
+      ↥(Problem3_9_1.cocycles k A V W) :=
+    ((Ψ1 k A W V).addSubgroupMap (cocycle (barCochainComplex k A W) (singleV A V) 1)).trans
+      (AddEquiv.addSubgroupCongr hcocy) with he_def
+  -- The coercion of `e` is `Ψ1` on the underlying cochain.
+  have he_coe : ∀ x : Cocycle (barCochainComplex k A W) (singleV A V) 1,
+      ((e x : ↥(Problem3_9_1.cocycles k A V W)) : A →ₗ[k] W →ₗ[k] V)
+        = Ψ1 k A W V (x : Cochain (barCochainComplex k A W) (singleV A V) 1) :=
+    fun _ => rfl
+  have hmem : ∀ c : ↥(Problem3_9_1.cocycles k A V W),
+      c ∈ (Problem3_9_1.coboundaries k A V W).submoduleOf (Problem3_9_1.cocycles k A V W)
+        ↔ (↑c : A →ₗ[k] W →ₗ[k] V) ∈ Problem3_9_1.coboundaries k A V W :=
+    fun _ => Submodule.mem_comap
+  have he : (coboundaries (barCochainComplex k A W) (singleV A V) 1).map (e.toAddMonoidHom)
+      = ((Problem3_9_1.coboundaries k A V W).submoduleOf
+          (Problem3_9_1.cocycles k A V W)).toAddSubgroup := by
+    ext c
+    simp only [AddSubgroup.mem_map, AddEquiv.coe_toAddMonoidHom, Submodule.mem_toAddSubgroup, hmem]
+    constructor
+    · rintro ⟨x, hx, rfl⟩
+      obtain ⟨β, hβ⟩ := (mem_coboundaries_iff x 0 (by norm_num)).mp hx
+      rw [he_coe, ← hβ, Ψ1_δ_zero_eq]
+      exact Submodule.subset_span (Set.mem_range_self _)
+    · intro hc
+      obtain ⟨X, hX⟩ := (Problem3_9_1.mem_coboundaries_iff k A V W _).mp hc
+      refine ⟨e.symm c, ?_, by simp⟩
+      rw [mem_coboundaries_iff _ 0 (by norm_num)]
+      refine ⟨(Ψ0 k A W V).symm (-X), ?_⟩
+      apply (Ψ1 k A W V).injective
+      have h1 : Ψ1 k A W V (↑(e.symm c)) = (↑c : A →ₗ[k] W →ₗ[k] V) := by
+        rw [← he_coe (e.symm c), AddEquiv.apply_symm_apply]
+      have hcoe : (↑(e.symm c) : Cochain (barCochainComplex k A W) (singleV A V) 1)
+          = (Ψ1 k A W V).symm (↑c : A →ₗ[k] W →ₗ[k] V) :=
+        (AddEquiv.eq_symm_apply (Ψ1 k A W V)).mpr h1
+      rw [Ψ1_δ_zero_eq, AddEquiv.apply_symm_apply, neg_neg, hcoe, AddEquiv.apply_symm_apply, hX]
+  exact QuotientAddGroup.congr _ _ e he
 
 end Etingof
+
