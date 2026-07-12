@@ -460,6 +460,40 @@ wrapper (`map_add`/`add_add_add_comm` for the add cases; for the `smul_tprod r v
 `TensorProduct.smul_tmul` to move `r` onto `w` and reuse the generator lemma with `r • w`). The pointwise
 form is equivalent and directly usable downstream. Prefer it for any barModule-style map with symbolic degree.
 
+### Assembling a `ProjectiveResolution` / quasi-iso to `single₀` from a (k-linear) contracting homotopy (Ch8 bar resolution, #6415)
+
+To turn a chain complex `C : ChainComplex (ModuleCat A) ℕ` with augmentation
+`π : C ⟶ (ChainComplex.single₀ _).obj (ModuleCat.of A W)` into a `ProjectiveResolution`, the only
+real work is `QuasiIso π`; the rest is `complex := C`, `π := π`, `projective n := <your instance>`,
+`quasiIso := <the proof>` (the `hasHomology` field is auto — `ModuleCat A` is abelian). **Do not**
+reach for the restriction-of-scalars *functor-reflection* route (`quasiIso_map_iff_of_preservesHomology`);
+it needs a hand-built `HomotopyEquiv` over `ModuleCat k` and fights the `k`-module-structure defeq.
+Go **degreewise**, mirroring Mathlib's `CategoryTheory.ProjectiveResolution.of`:
+
+- `rw [quasiIso_iff]; rintro (_ | n)`.
+- **Degree `n+1`:** `rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _)]`
+  leaves `C.ExactAt (n+1)`. Then `rw [HomologicalComplex.exactAt_iff' _ (n+2) (n+1) n (by simp) (by simp),
+  ShortComplex.moduleCat_exact_iff]` gives the elementwise goal `∀ x, (d n) x = 0 → ∃ y, (d (n+1)) y = x`.
+  The k-linear contracting homotopy `d(n+1)(s(n+1) x) + s n (d n x) = x` supplies `y := s (n+1) x`.
+  The `sc'.f`/`sc'.g` are `C.d (n+2)(n+1)` / `C.d (n+1) n` but wrapped; peel them with
+  `have hf : (C.sc' (n+2)(n+1) n).f = ModuleCat.ofHom (d (n+1)) := ChainComplex.of_d <X-family> <d-family> (n+1)`
+  (give both families *explicitly* — metavars won't infer), `rw [hf]`, then `change`/`ModuleCat.ofHom_apply`
+  to drop `⇑(ofHom ·)` (the coercion prints as `ConcreteCategory.hom`, not `ModuleCat.Hom.hom`).
+- **Degree `0`:** `rw [ChainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros']` (the three
+  `S.g/f = 0` side goals close with `all_goals rfl`) leaves `(mk S₁.f φ.τ₂ _).Exact ∧ Epi φ.τ₂`.
+  The `.f`/`.τ₂` are buried projections, so **transport to a clean short complex** built by
+  `ShortComplex.moduleCatMk (barDiff 0) ε ε_comp_barDiff_zero` (whose `.f`/`.g` are defeq `ofHom …`):
+  `refine (ShortComplex.exact_and_epi_g_iff_of_iso (ShortComplex.isoMk (.refl _) (.refl _) (.refl _) ?_ ?_)).2 ⟨hTexact, hTepi⟩`,
+  and the two comm squares close with just `simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]`
+  (simp already knows `ChainComplex.of_d` and `barπChainMap_f_zero`). Prove `hTexact` via
+  `moduleCat_exact_iff` + the degree-0 homotopy `d₀ s₀ + s₋₁ ε = id`, and `hTepi` via
+  `ModuleCat.epi_iff_surjective` + surjectivity of `ε`.
+
+The `restrictScalars` functor *does* have `Additive`/`ReflectsIsomorphisms`/`PreservesFiniteLimits`+
+`Colimits` (⟹ `preservesHomologyOfExact`), so the reflection route is *possible* — it is just more
+code than the degreewise one here. Exactness of a `ModuleCat A` complex is an underlying-abelian-group
+fact, so a `k`-linear homotopy discharges it directly with no functor machinery.
+
 ### `Fin.cons`/`Fin.init` on an empty or symbolic domain leaves the family `α` a metavariable — pin `(α := fun _ => A)` (#6414)
 
 `Fin.cons`/`Fin.init` are dependent (`{α : Fin (n+1) → Sort*}`). For an *empty* tail (`v : Fin 0 → A`) or a

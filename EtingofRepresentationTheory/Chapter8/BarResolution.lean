@@ -965,4 +965,98 @@ theorem barDiff_contraction_homotopy (n : ℕ) (x : barModule k A W (n + 1)) :
 
 end BarContraction
 
+/-! ### The bar resolution as a `ProjectiveResolution`
+
+The relative bar complex `barComplex`, its projective terms, and the augmentation `barπChainMap`
+now assemble into an honest `CategoryTheory.ProjectiveResolution (ModuleCat.of A W)`.  The
+`k`-linear contracting homotopy `barContraction` / `barContractionBase` splits every bar
+differential, so at the level of underlying `k`-modules (which are the same sets as the underlying
+`A`-modules) every cycle is a boundary: this gives exactness in positive degrees and, together with
+the surjectivity of `ε`, the degree-`0` homology isomorphism `H₀(barComplex) ≅ W`. -/
+
+section Resolution
+
+open CategoryTheory Limits
+
+/-- The relative bar complex is exact in every positive degree.  The `k`-linear contracting
+homotopy `barContraction` splits `barDiff`, so any cycle `x` with `barDiff n x = 0` is the boundary
+`barDiff (n+1) (barContraction (n+1) x)`. -/
+theorem barComplex_exactAt_succ (n : ℕ) : (barComplex k A W).ExactAt (n + 1) := by
+  rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp),
+    ShortComplex.moduleCat_exact_iff]
+  have hf : ((barComplex k A W).sc' (n + 2) (n + 1) n).f
+      = ModuleCat.ofHom (barDiff k A W (n + 1)) :=
+    ChainComplex.of_d (fun n => barObj k A W n)
+      (fun n => ModuleCat.ofHom (barDiff k A W n)) (n + 1)
+  have hg : ((barComplex k A W).sc' (n + 2) (n + 1) n).g
+      = ModuleCat.ofHom (barDiff k A W n) :=
+    ChainComplex.of_d (fun n => barObj k A W n)
+      (fun n => ModuleCat.ofHom (barDiff k A W n)) n
+  intro x hx
+  refine ⟨barContraction k A W (n + 1) x, ?_⟩
+  rw [hg] at hx
+  rw [hf]
+  change barDiff k A W n x = 0 at hx
+  change barDiff k A W (n + 1) (barContraction k A W (n + 1) x) = x
+  have h := barDiff_contraction_homotopy k A W n x
+  rw [hx, map_zero, add_zero] at h
+  exact h
+
+/-- The augmentation `barπChainMap` is a **quasi-isomorphism**.  In positive degrees both complexes
+are exact (`barComplex_exactAt_succ` for the source; `single₀ W` is trivially exact away from `0`);
+in degree `0` the augmentation `ε` presents `W` as the cokernel of `barDiff 0` (surjective, with
+kernel exactly the boundaries by the degree-`0` homotopy identity), so the induced map on `H₀` is an
+isomorphism. -/
+theorem barπChainMap_quasiIso : QuasiIso (barπChainMap k A W) := by
+  rw [quasiIso_iff]
+  rintro (_ | n)
+  · -- Degree `0`: transport to the clean augmentation short complex
+    -- `barModule 1 → barModule 0 → W`.
+    have hf0 : (barComplex k A W).d 1 0 = ModuleCat.ofHom (barDiff k A W 0) :=
+      ChainComplex.of_d (fun n => barObj k A W n)
+        (fun n => ModuleCat.ofHom (barDiff k A W n)) 0
+    have hTexact :
+        (ShortComplex.moduleCatMk (barDiff k A W 0) (ε k A W)
+          (ε_comp_barDiff_zero k A W)).Exact := by
+      rw [ShortComplex.moduleCat_exact_iff]
+      intro x hx
+      refine ⟨barContraction k A W 0 x, ?_⟩
+      change ε k A W x = 0 at hx
+      change barDiff k A W 0 (barContraction k A W 0 x) = x
+      have h := LinearMap.congr_fun (barDiff_zero_comp_barContraction_add k A W) x
+      simp only [LinearMap.add_apply, LinearMap.comp_apply, LinearMap.coe_restrictScalars,
+        LinearMap.id_coe, id_eq] at h
+      rw [hx, map_zero, add_zero] at h
+      exact h
+    have hTepi :
+        Epi (ShortComplex.moduleCatMk (barDiff k A W 0) (ε k A W)
+          (ε_comp_barDiff_zero k A W)).g := by
+      have hg : (ShortComplex.moduleCatMk (barDiff k A W 0) (ε k A W)
+          (ε_comp_barDiff_zero k A W)).g = ModuleCat.ofHom (ε k A W) := rfl
+      rw [hg, ModuleCat.epi_iff_surjective]
+      exact ε_surjective k A W
+    rw [ChainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros']
+    · refine (ShortComplex.exact_and_epi_g_iff_of_iso
+        (ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_)).2 ⟨hTexact, hTepi⟩
+      · simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]
+      · simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]
+    all_goals rfl
+  · rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _)]
+    exact barComplex_exactAt_succ k A W n
+
+/-- **The relative bar resolution of a representation `W` of a `k`-algebra `A`** as an honest
+`CategoryTheory.ProjectiveResolution (ModuleCat.of A W)`: the free `A`-modules
+`Pₙ = A ⊗_k A^{⊗n} ⊗_k W` (`barComplex`), the alternating-sum bar differential, and the augmentation
+`ε : P₀ → W` (`barπChainMap`), which is a quasi-isomorphism because the `k`-split relative bar
+complex is `k`-linearly contractible.  This is the input to
+`ProjectiveResolution.extAddEquivCohomologyClass` computing `Ext_A` (see `Problem_8_2_6_ii`). -/
+noncomputable def _root_.Etingof.barResolution :
+    CategoryTheory.ProjectiveResolution (ModuleCat.of A W) where
+  complex := barComplex k A W
+  π := barπChainMap k A W
+  projective n := instProjectiveBarObj k A W n
+  quasiIso := barπChainMap_quasiIso k A W
+
+end Resolution
+
 end Etingof.BarResolution
