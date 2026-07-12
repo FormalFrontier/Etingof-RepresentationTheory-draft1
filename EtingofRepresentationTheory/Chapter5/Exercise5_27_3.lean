@@ -878,7 +878,47 @@ theorem Exercise5_27_3
     exact hVsimple (χω j.1) ((Dω j.1).columnFDRep j.2) ((Dω j.1).columnFDRep_simple j.2)
   -- (b) The family is pairwise non-isomorphic (uses the classification `hclassify`).
   have hWf_inj : ∀ j j', Nonempty (Wf j ≅ Wf j') → j = j' := by
-    sorry
+    rintro ⟨ω, i⟩ ⟨ω', i'⟩ hiso
+    simp only [hWf] at hiso
+    -- Classification (part ii): the isomorphism forces `χω ω'` into the orbit of `χω ω`.
+    obtain ⟨g, hg, hiso2⟩ := hclassify (χω ω) (χω ω')
+      ((Dω ω).columnFDRep i) ((Dω ω').columnFDRep i')
+      ((Dω ω).columnFDRep_simple i) ((Dω ω').columnFDRep_simple i') hiso
+    -- Same orbit ⟹ same orbit class `ω = ω'`.
+    have horbit : χω ω' ∈ MulAction.orbit G (χω ω) :=
+      MulAction.mem_orbit_iff.mpr ⟨g, by rw [hsmul_eq]; exact hg⟩
+    have hωeq : ω = ω' := by
+      have e1 : (Quotient.mk'' (χω ω') : Ω) = Quotient.mk'' (χω ω) :=
+        Quotient.sound' (MulAction.orbitRel_apply.mpr horbit)
+      have o1 : (Quotient.mk'' (χω ω) : Ω) = ω := Quotient.out_eq' ω
+      have o2 : (Quotient.mk'' (χω ω') : Ω) = ω' := Quotient.out_eq' ω'
+      rw [o1] at e1; rw [o2] at e1; exact e1.symm
+    subst hωeq
+    -- Within the orbit: `g ∈ stab (χω ω)`, and `transport g χ χ` is a self-conjugation, so
+    -- `transport g χ χ hg (colU i) ≅ colU i`; hence `colU i' ≅ colU i` and `i' = i`.
+    have hg_mem : g ∈ stab (χω ω) := (_hstab (χω ω) g).mpr hg
+    set ge : ↥(stab (χω ω)) := ⟨g, hg_mem⟩ with hge
+    have hchar : ∀ s : ↥(stab (χω ω)),
+        (transport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i)).character s
+          = ((Dω ω).columnFDRep i).character s := by
+      intro s
+      have hs : g⁻¹ * (s : G) * g ∈ stab (χω ω) :=
+        (stab (χω ω)).mul_mem ((stab (χω ω)).mul_mem ((stab (χω ω)).inv_mem hg_mem) s.2) hg_mem
+      rw [_htransport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i) s hs]
+      have hconj : (⟨g⁻¹ * (s : G) * g, hs⟩ : ↥(stab (χω ω))) = ge⁻¹ * s * ge := by
+        apply Subtype.ext
+        simp [hge]
+      rw [hconj]
+      have := FDRep.char_conj ((Dω ω).columnFDRep i) (s : ↥(stab (χω ω))) ge⁻¹
+      rw [inv_inv] at this
+      exact this
+    have htiso : Nonempty
+        (transport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i) ≅ (Dω ω).columnFDRep i) :=
+      Etingof.charEq_iso _ _ (funext hchar)
+    have hii : i' = i :=
+      (Dω ω).columnFDRep_injective i' i ⟨hiso2.some ≪≫ htiso.some⟩
+    subst hii
+    rfl
   -- (c) The squared dimensions sum to `|A ⋊[φ] G|` (orbit-method dimension count).
   have hWf_sum : ∑ j, (Module.finrank ℂ (Wf j)) ^ 2 = Fintype.card (A ⋊[φ] G) := by
     sorry
