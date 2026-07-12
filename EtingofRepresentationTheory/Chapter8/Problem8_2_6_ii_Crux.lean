@@ -82,6 +82,24 @@ lemma barResolution_complex_d (n : ℕ) :
   ChainComplex.of_d (fun n => barObj k A W n)
     (fun n => ModuleCat.ofHom (barDiff k A W n)) n
 
+/-- Two `A`-linear maps `barModule (n+1) →ₗ[A] V` agree once they agree on the pure generators. -/
+theorem barModule_hom_ext_V {n : ℕ} {F G : barModule k A W (n + 1) →ₗ[A] V}
+    (h : ∀ (a₀ : A) (v : Fin (n + 1) → A) (w : W),
+      F (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) = G (a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w))) :
+    F = G := by
+  refine TensorProduct.AlgebraTensorModule.ext fun a₀ x => ?_
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul p w =>
+      induction p using PiTensorProduct.induction_on with
+      | smul_tprod r v =>
+          simp only [← TensorProduct.smul_tmul', TensorProduct.tmul_smul,
+            LinearMap.map_smul_of_tower]
+          rw [h a₀ v w]
+      | add x y hx hy =>
+          rw [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, map_add, hx, hy]
+  | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, hx, hy]
+
 /-- The `k`-linear identification `barCoeff 1 = (⨂¹A) ⊗ W ≃ₗ A ⊗ W`. -/
 noncomputable def barCoeffOneEquiv : barCoeff k A W 1 ≃ₗ[k] A ⊗[k] W :=
   TensorProduct.congr (PiTensorProduct.subsingletonEquiv (0 : Fin 1)) (LinearEquiv.refl k W)
@@ -195,7 +213,61 @@ lemma homEquivDeg_δ_zero (β : Cochain (barCochainComplex k A W) (singleV A V) 
 (`δ 1 2 z = 0`). -/
 lemma isCocycle_Ψ1_iff (z : Cochain (barCochainComplex k A W) (singleV A V) 1) :
     Problem3_9_1.IsCocycle k A V W (Ψ1 k A W V z) ↔ δ 1 2 z = 0 := by
-  sorry
+  have hinj : δ 1 2 z = 0 ↔ (homEquivDeg k A W V 1 z).comp (barDiff k A W 1) = 0 := by
+    rw [← homEquivDeg_δ_one]
+    exact (map_eq_zero_iff _ (homEquivDeg k A W V 2).injective).symm
+  rw [hinj]
+  set f := homEquivDeg k A W V 1 z with hfdef
+  -- `Ψ1 z a w = f (1 ⊗ (tprod ![a] ⊗ w))`.
+  have hF : ∀ (a : A) (w : W), Ψ1 k A W V z a w = f ((1 : A) ⊗ₜ[k] (tprod k ![a] ⊗ₜ[k] w)) := by
+    intro a w; exact coeffEquiv1_apply k A W V f a w
+  -- The core face computation on the spanning generators.
+  have core : ∀ (a b : A) (w : W),
+      f (barDiff k A W 1 ((1 : A) ⊗ₜ[k] (tprod k ![a, b] ⊗ₜ[k] w)))
+        = a • Ψ1 k A W V z b w - Ψ1 k A W V z (a * b) w + Ψ1 k A W V z a (b • w) := by
+    intro a b w
+    have htail : Fin.tail (![a, b] : Fin 2 → A) = ![b] := by funext i; fin_cases i; rfl
+    have hinit : Fin.init (![a, b] : Fin 2 → A) = ![a] := by funext i; fin_cases i; rfl
+    have hcon : Fin.contractNth (0 : Fin 1).castSucc (· * ·) (![a, b] : Fin 2 → A) = ![a * b] := by
+      funext i; fin_cases i; simp [Fin.contractNth]
+    have hlast : (![a, b] : Fin 2 → A) (Fin.last 1) = b := rfl
+    rw [barDiff_tmul_tprod]
+    simp only [Fin.sum_univ_one, htail, hinit, hcon, hlast, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.head_cons, Fin.val_zero, one_mul, zero_add, pow_one, pow_succ,
+      pow_zero, mul_neg, neg_neg, mul_one, neg_smul, one_smul, map_add, map_neg,
+      LinearMap.map_smul_of_tower]
+    rw [show a ⊗ₜ[k] (tprod k ![b] ⊗ₜ[k] w)
+          = a • ((1 : A) ⊗ₜ[k] (tprod k ![b] ⊗ₜ[k] w)) by
+        rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],
+      map_smul, ← hF b w, ← hF (a * b) w, ← hF a (b • w)]
+    abel
+  constructor
+  · intro hcocy
+    apply barModule_hom_ext_V
+    intro a₀ v w
+    set a := v 0 with ha
+    set b := v 1 with hb
+    have hv : v = ![a, b] := by funext i; fin_cases i <;> rfl
+    have hlin : a₀ ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)
+        = a₀ • ((1 : A) ⊗ₜ[k] (tprod k v ⊗ₜ[k] w)) := by
+      rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+    rw [LinearMap.zero_apply, hlin, map_smul, LinearMap.comp_apply, hv, core]
+    have hc := LinearMap.congr_fun (hcocy a b) w
+    simp only [LinearMap.add_apply, LinearMap.comp_apply, Problem3_9_1.rho,
+      Algebra.lsmul_coe] at hc
+    rw [hc]
+    rw [show a • Ψ1 k A W V z b w - (a • Ψ1 k A W V z b w + Ψ1 k A W V z a (b • w))
+        + Ψ1 k A W V z a (b • w) = 0 by abel, smul_zero]
+  · intro hcomp a b
+    ext w
+    have h0 : f (barDiff k A W 1 ((1 : A) ⊗ₜ[k] (tprod k ![a, b] ⊗ₜ[k] w))) = 0 :=
+      LinearMap.congr_fun hcomp _
+    rw [core] at h0
+    simp only [Problem3_9_1.rho, LinearMap.add_apply, LinearMap.comp_apply, Algebra.lsmul_coe]
+    rw [eq_comm, ← sub_eq_zero]
+    rw [show a • Ψ1 k A W V z b w + Ψ1 k A W V z a (b • w) - Ψ1 k A W V z (a * b) w
+        = a • Ψ1 k A W V z b w - Ψ1 k A W V z (a * b) w + Ψ1 k A W V z a (b • w) by abel]
+    exact h0
 
 /-! ### Coboundary correspondence -/
 
