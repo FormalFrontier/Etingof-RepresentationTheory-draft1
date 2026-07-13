@@ -221,6 +221,25 @@ theorem semidirect_classification :
   have hstab_gen : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
       (Multiplicative.ofAdd 1 ∈ stab χ) ↔ χ⁻¹ = χ := by
     intro χ; rw [hstab χ (Multiplicative.ofAdd 1), hdual_gen]
+  -- Remaining: build the indexed family and discharge the six conjuncts + counts.
+  --
+  -- Since `Multiplicative (ZMod 2) = {1, ofAdd 1}`, `hstab_gen` (+ `1 ∈ stab χ` always and the
+  -- fact that `stab χ` is a subgroup of the two-element group) gives the dichotomy
+  --   `stab χ = ⊤` if `χ⁻¹ = χ` (self-inverse),   `stab χ = ⊥` otherwise (free orbit).
+  -- With `hv` (dim `V(χ,U) = (stab χ).index * dim U`): `index ⊤ = 1`, `index ⊥ = 2`.
+  --
+  -- Family (n = 2 * Nat.gcd 2 N + (N - Nat.gcd 2 N) / 2):
+  --   * for each self-inverse `χ`, the two 1-dim reps `V(χ, AbelianFDRep.charFDRep ξ)` for the
+  --     two characters `ξ` of `stab χ ≅ ℤ/2` (dim `1 * 1 = 1`);  [gives `2 * card_selfInverse`]
+  --   * for each free orbit-pair, one 2-dim rep `V(χ₀, U_triv)` at a chosen representative `χ₀`
+  --     with `U_triv` the unique simple rep of the trivial `stab χ₀ = ⊥` (dim `2 * 1 = 2`).
+  -- Index concretely by a `Fintype` (e.g. `(selfInverse × charOf(ℤ/2)) ⊕ freeOrbitReps`) and
+  -- transport to `Fin n` via `Fintype.equivFin`; counts follow from
+  -- `DihedralCharacterCombinatorics.card_selfInverse`/`card_freeOrbitPairs`.
+  --
+  -- Conjuncts: (Simple) from `hi` + `AbelianFDRep.charFDRep_simple`; (non-iso) from `hii` +
+  -- orbit distinctness + `AbelianFDRep.charFDRep_iso_iff`; (complete) from `hiii` + orbit
+  -- exhaustion + `AbelianFDRep.exists_charFDRep_iso` on the stabilizer component.
   sorry
 
 open Classical in
