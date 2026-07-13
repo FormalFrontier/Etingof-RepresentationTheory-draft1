@@ -100,6 +100,121 @@ noncomputable def orbitReps {m : ℕ} (σ : Equiv.Perm (Fin m)) : Finset (Fin m)
 
 /-! ## The combinatorial core (matrix side) -/
 
+/-! ## Walk-sum expansion of a matrix product
+
+An ordered product of matrices, evaluated at an entry, expands as a sum over "walks": tuples of
+intermediate indices, weighted by the product of the traversed matrix entries. Setting the two
+endpoints equal and summing recovers the trace as a sum over *closed* walks. This is the analytic
+engine behind the single-orbit telescoping. -/
+
+section WalkSum
+
+variable {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+/-- Ordered product of a `Fin ℓ`-indexed family of matrices: `N 0 * N 1 * … * N (ℓ-1)`. -/
+def bigProd {ℓ : ℕ} (N : Fin ℓ → Matrix ι ι R) : Matrix ι ι R := (List.ofFn N).prod
+
+@[simp] lemma bigProd_zero (N : Fin 0 → Matrix ι ι R) : bigProd N = 1 := by
+  simp [bigProd]
+
+lemma bigProd_cons {ℓ : ℕ} (M : Matrix ι ι R) (N : Fin ℓ → Matrix ι ι R) :
+    bigProd (Fin.cons M N) = M * bigProd N := by
+  simp [bigProd, List.ofFn_succ]
+
+/-- Edge-product weight of a walk `v : Fin (ℓ+1) → ι` through the matrices `N`:
+the product of the entries `N t` read at consecutive vertices `v t → v (t+1)`. -/
+def walkWeight {ℓ : ℕ} (N : Fin ℓ → Matrix ι ι R) (v : Fin (ℓ + 1) → ι) : R :=
+  ∏ t : Fin ℓ, N t (v t.castSucc) (v t.succ)
+
+omit [Fintype ι] [DecidableEq ι] in
+lemma walkWeight_cons {ℓ : ℕ} (N : Fin (ℓ + 1) → Matrix ι ι R) (z : ι)
+    (v : Fin (ℓ + 1) → ι) :
+    walkWeight N (Fin.cons z v) = N 0 z (v 0) * walkWeight (Fin.tail N) v := by
+  unfold walkWeight
+  rw [Fin.prod_univ_succ]
+  congr 1
+
+/-- **Open walk-sum for a matrix product entry.** The `(x, y)` entry of `N 0 * … * N (ℓ-1)` is the
+sum over vertex functions `v : Fin (ℓ+1) → ι` of the edge-product weight, restricted to the walks
+that start at `x` and end at `y`. -/
+theorem bigProd_apply (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R) (x y : ι) :
+    (bigProd N) x y
+      = ∑ v : Fin (ℓ + 1) → ι,
+          (if v 0 = x ∧ v (Fin.last ℓ) = y then walkWeight N v else 0) := by
+  induction ℓ generalizing x with
+  | zero =>
+    rw [bigProd_zero, Matrix.one_apply]
+    rw [Fintype.sum_equiv (Equiv.funUnique (Fin 1) ι) _
+      (fun z => if z = x ∧ z = y then (1 : R) else 0)]
+    · by_cases hxy : x = y
+      · subst hxy
+        rw [Finset.sum_eq_single x]
+        · simp
+        · intro z _ hz; simp [hz]
+        · simp
+      · rw [Finset.sum_eq_zero]
+        · simp [hxy]
+        · intro z _; rw [if_neg]; rintro ⟨rfl, rfl⟩; exact hxy rfl
+    · intro v
+      simp only [walkWeight, Finset.univ_eq_empty, Finset.prod_empty, Equiv.funUnique_apply,
+        Fin.last_zero, Fin.default_eq_zero]
+  | succ ℓ ih =>
+    -- peel the first matrix
+    have hsplit : bigProd N = N 0 * bigProd (Fin.tail N) := by
+      conv_lhs => rw [← Fin.cons_self_tail N]
+      rw [bigProd_cons]
+    rw [hsplit, Matrix.mul_apply]
+    -- expand each inner entry by the induction hypothesis (start vertex = z)
+    simp_rw [ih (Fin.tail N)]
+    -- RHS: reindex the vertex sum by splitting off the first vertex via `Fin.cons`
+    rw [← Equiv.sum_comp (Fin.consEquiv (fun _ : Fin (ℓ + 2) => ι)),
+      Fintype.sum_prod_type]
+    have hlast : (Fin.last (ℓ + 1) : Fin (ℓ + 2)) = (Fin.last ℓ).succ := (Fin.succ_last ℓ).symm
+    have hce : ∀ (z : ι) (w : Fin (ℓ + 1) → ι),
+        (Fin.consEquiv (fun _ : Fin (ℓ + 2) => ι)) (z, w) = Fin.cons z w := fun _ _ => rfl
+    simp only [hce, Fin.cons_zero, hlast, Fin.cons_succ, walkWeight_cons]
+    -- both sides equal a common form summed over `v : Fin (ℓ+1) → ι`
+    trans (∑ v : Fin (ℓ + 1) → ι,
+        if v (Fin.last ℓ) = y then N 0 x (v 0) * walkWeight (Fin.tail N) v else 0)
+    · -- left side = common
+      simp_rw [Finset.mul_sum]
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl (fun v _ => ?_)
+      have h0 : ∀ z ∈ (Finset.univ : Finset ι), z ≠ v 0 →
+          N 0 x z * (if v 0 = z ∧ v (Fin.last ℓ) = y then walkWeight (Fin.tail N) v else 0)
+            = 0 := by
+        intro z _ hz; rw [if_neg (by rintro ⟨h, _⟩; exact hz h.symm), mul_zero]
+      rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
+      by_cases hd : v (Fin.last ℓ) = y <;> simp [hd]
+    · -- right side = common
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl (fun v _ => ?_)
+      have h0 : ∀ z ∈ (Finset.univ : Finset ι), z ≠ x →
+          (if z = x ∧ v (Fin.last ℓ) = y then N 0 z (v 0) * walkWeight (Fin.tail N) v else 0)
+            = 0 := by
+        intro z _ hz; rw [if_neg (by rintro ⟨h, _⟩; exact hz h)]
+      rw [Finset.sum_eq_single_of_mem x (Finset.mem_univ _) h0]
+      by_cases hd : v (Fin.last ℓ) = y <;> simp [hd]
+
+/-- **Trace as a sum over closed walks.** The trace of the ordered product `N 0 * … * N (ℓ-1)`
+is the sum over closed walks `v : Fin (ℓ+1) → ι` (those with `v (last) = v 0`) of the
+edge-product weight. -/
+theorem trace_bigProd (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R) :
+    Matrix.trace (bigProd N)
+      = ∑ v : Fin (ℓ + 1) → ι, (if v (Fin.last ℓ) = v 0 then walkWeight N v else 0) := by
+  rw [Matrix.trace]
+  simp only [Matrix.diag_apply]
+  simp_rw [bigProd_apply ℓ N]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl (fun v _ => ?_)
+  have h0 : ∀ x ∈ (Finset.univ : Finset ι), x ≠ v 0 →
+      (if v 0 = x ∧ v (Fin.last ℓ) = x then walkWeight N v else 0) = 0 := by
+    intro x _ hx; rw [if_neg (by rintro ⟨h, _⟩; exact hx h.symm)]
+  rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
+  by_cases hd : v (Fin.last ℓ) = v 0 <;> simp [hd]
+
+end WalkSum
+
 section MatrixCombinatorics
 
 variable {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] [DecidableEq ι] {m : ℕ}
