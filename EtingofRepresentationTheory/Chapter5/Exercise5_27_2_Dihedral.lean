@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
+import EtingofRepresentationTheory.Chapter5.DihedralCharacterCombinatorics
+import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 
 /-!
 # Exercise 5.27.2 (dihedral group): redo Problem 4.12.1(a) using Theorem 5.27.1
@@ -50,6 +52,87 @@ open CategoryTheory Module
 namespace Etingof.Exercise5_27_2
 
 variable (N : ℕ) [NeZero N]
+
+/-! ## The dihedral group as a semidirect product `⟨r⟩ ⋊ ⟨s⟩`
+
+We realize `DihedralGroup N` as `Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)`,
+with the reflection generator acting on the rotation group by inversion `a ↦ a⁻¹`. -/
+
+/-- Inversion `a ↦ a⁻¹` as an automorphism of the abelian rotation group `Multiplicative (ZMod N)`. -/
+def invAut : MulAut (Multiplicative (ZMod N)) := MulEquiv.inv (Multiplicative (ZMod N))
+
+omit [NeZero N] in
+@[simp] lemma invAut_apply (a : Multiplicative (ZMod N)) : invAut N a = a⁻¹ := rfl
+
+omit [NeZero N] in
+lemma invAut_mul_self : invAut N * invAut N = 1 := by
+  ext a; simp
+
+/-- The action of the reflection group `Multiplicative (ZMod 2)` on the rotation group
+`Multiplicative (ZMod N)`: the nontrivial element acts by inversion `a ↦ a⁻¹`. -/
+def dihedralφ : Multiplicative (ZMod 2) →* MulAut (Multiplicative (ZMod N)) :=
+  MonoidHom.mk' (fun g => if Multiplicative.toAdd g = 0 then 1 else invAut N) <| by
+    intro a b
+    have h2 : ∀ z : ZMod 2, z = 0 ∨ z = 1 := by decide
+    simp only [toAdd_mul]
+    rcases h2 (Multiplicative.toAdd a) with ha | ha <;>
+      rcases h2 (Multiplicative.toAdd b) with hb | hb <;> simp only [ha, hb]
+    · simp
+    · simp
+    · simp
+    · exact (invAut_mul_self N).symm
+
+omit [NeZero N] in
+@[simp] lemma dihedralφ_one_apply (a : Multiplicative (ZMod N)) :
+    (dihedralφ N (1 : Multiplicative (ZMod 2))) a = a := by
+  simp only [dihedralφ, MonoidHom.mk'_apply]
+  rw [if_pos]; · rfl
+  rfl
+
+omit [NeZero N] in
+@[simp] lemma dihedralφ_ofAdd_one_apply (a : Multiplicative (ZMod N)) :
+    (dihedralφ N (Multiplicative.ofAdd (1 : ZMod 2))) a = a⁻¹ := by
+  simp only [dihedralφ, MonoidHom.mk'_apply, toAdd_ofAdd]
+  rw [if_neg (by decide)]; rfl
+
+/-- The semidirect-product realization of the dihedral group `D_N`. -/
+abbrev DihedralSemidirect : Type := Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)
+
+/-- **Deliverable 1.** The group isomorphism `D_N ≅ ⟨r⟩ ⋊ ⟨s⟩` realizing Mathlib's concrete
+`DihedralGroup N` as the semidirect product of the rotation group `Multiplicative (ZMod N)` by
+the reflection group `Multiplicative (ZMod 2)` acting by inversion. On generators
+`r i ↦ ⟨ofAdd i, 1⟩` and `sr i ↦ ⟨ofAdd (-i), ofAdd 1⟩`. -/
+def dihedralEquiv : DihedralGroup N ≃* DihedralSemidirect N where
+  toFun x := match x with
+    | .r i => ⟨Multiplicative.ofAdd i, 1⟩
+    | .sr i => ⟨Multiplicative.ofAdd (-i), Multiplicative.ofAdd (1 : ZMod 2)⟩
+  invFun p :=
+    if Multiplicative.toAdd p.right = 0
+    then DihedralGroup.r (Multiplicative.toAdd p.left)
+    else DihedralGroup.sr (- Multiplicative.toAdd p.left)
+  left_inv x := by
+    cases x with
+    | r i => simp
+    | sr i => simp [(by decide : (1 : ZMod 2) ≠ 0)]
+  right_inv p := by
+    obtain ⟨a, g⟩ := p
+    have h2 : ∀ z : ZMod 2, z = 0 ∨ z = 1 := by decide
+    rcases h2 (Multiplicative.toAdd g) with hg | hg
+    · have : g = 1 := by
+        rw [← ofAdd_toAdd g, hg]; rfl
+      subst this; simp
+    · have : g = Multiplicative.ofAdd (1 : ZMod 2) := by
+        rw [← ofAdd_toAdd g, hg]
+      subst this
+      simp only [toAdd_ofAdd, (by decide : (1 : ZMod 2) ≠ 0), if_false, neg_neg,
+        ofAdd_toAdd]
+  map_mul' x y := by
+    cases x <;> cases y <;>
+      simp only [DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
+        DihedralGroup.sr_mul_sr] <;>
+      apply SemidirectProduct.ext <;>
+      simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right, ← ofAdd_neg, ← ofAdd_add,
+        sub_eq_add_neg, add_comm, show (1 : ZMod 2) + 1 = 0 from by decide, ofAdd_zero]
 
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.1(a).** The complete classification of the irreducible
