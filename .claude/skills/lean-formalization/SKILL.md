@@ -235,6 +235,17 @@ In endgame, **decomposing a hard sorry into 2-4 smaller sorries is often more va
 
 **Evidence:** Problem6_1_5_theorem (1→0), Theorem2_1_2 (1→2 smaller), InfiniteTypeConstructions (0→4 targeted), PolytabloidBasis (3→0 via restructure) — all used decomposition as the winning strategy.
 
+### "Discharge the sorry in file X" can require a Core split (import-cycle trap, #6501)
+
+An *assembly* issue whose verification demands `file X` be sorry-free often needs lemmas that live in a **downstream** file — one that `import`s `X`. You cannot `import` that file back into `X` (cycle), so the sorry in `X` looks un-fillable in place. Before writing any proof, check the import direction of every ingredient the reduction consumes: `grep -rln "import .*X" EtingofRepresentationTheory/` and read the sorried helper file's `import` lines. If a needed helper file imports `X`, the fix is a **Core split**, not a heroic inline proof:
+
+1. Move `X`'s *upstream* definitions (the ones the downstream/helper file actually uses — the coordinate ring, the action, the invariant object, the grading lemmas) into a new `X_Core.lean` (imports only `Mathlib`).
+2. Repoint the downstream/helper file's `import …X` → `import …X_Core`.
+3. Rebuild `X.lean` as the *assembly*: `import X_Core` + the (now-non-cyclic) helper files, keeping the headline theorems there so the problem's named result still lives in `X.lean`.
+4. Add `X_Core` (and any newly-imported helper) to the `Chapter?.lean` aggregator.
+
+Deliberately keep the deep *sorried* dependency (e.g. a range-identification/surjectivity lemma) **out** of `X.lean` — it stays in the downstream file so `X.lean` is genuinely sorry-free while still consuming it (a sorried dependency is not a blocker). Worked example: `Chapter5/Problem5_24_2.lean` (#6501) — extracted `Problem5_24_2_Core.lean`, repointed `Problem5_24_2_Bridge.lean` to Core, and assembled the First Fundamental Theorem sorry-free on top of two sorried upstream lemmas.
+
 ### Recording an out-of-reach claim when sorry is disallowed (fidelity sweeps)
 
 Fidelity-review issues (epic #5338) often say "prove conjunct X, no sorry/nd; if out of reach, add an explicit scope note rather than silently dropping it." That bans both a sorried theorem *and* pure prose. The lever that satisfies both: **record the precise claim as a `Prop`-valued `def` against the real objects already in the file** — e.g. `def Foo_irreducible (n) : Prop := ∀ W : Submodule …, (∀ g : V ≃ₗ[k] V, … stable under the actual GL(V)-action …) → W = ⊥ ∨ W = ⊤`. A `Prop`-def *asserts nothing* (it names a statement, can't be `exact`ed as a proof), so it is not a vacuous/false claim and not a sorry; it pins the exact formulation the tracking issue must discharge, against the concrete action maps (no drift). Pair it with a one-paragraph section docstring stating the book's proof strategy + the concrete obstruction + the tracking issue. Also land any genuinely-provable *sub*-conjunct in the same PR (e.g. the parenthetical `∧ⁿV = 0` for `n > dim V` via `exteriorPower.finrank_eq` + `Module.finrank_zero_iff`) so the PR carries real proved content, not just a recorded statement. Worked example: `Chapter5/Example5_19_3.lean` (#5638 → statements `Example5_19_3_symmetric_irreducible`/`_exterior_irreducible` pinned, vanishing proved; full proof tracked in #5715).

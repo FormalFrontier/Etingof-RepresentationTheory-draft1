@@ -1,5 +1,5 @@
 import Mathlib
-import EtingofRepresentationTheory.Chapter5.Problem5_24_2
+import EtingofRepresentationTheory.Chapter5.Problem5_24_2_Core
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
 
 /-!
