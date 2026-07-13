@@ -383,7 +383,37 @@ theorem heisenberg_classification :
           (ρ.comp (stab (heisenbergChar p β 0)).subtype))).character
           ⟨Multiplicative.ofAdd (b, c), g⟩
       = ((ρ g : ℂˣ) : ℂ) * (heisenbergZeta p : ℂ) ^ (β * b).val := by
-    sorry
+    intro β ρ b c g
+    have hSimpleU := Etingof.AbelianFDRep.charFDRep_simple
+      (ρ.comp (stab (heisenbergChar p β 0)).subtype)
+    have hmemg : g ∈ stab (heisenbergChar p β 0) := by rw [hstab_f β]; exact Subgroup.mem_top g
+    have hmemall : ∀ h : Multiplicative (ZMod p), h * g * h⁻¹ ∈ stab (heisenbergChar p β 0) := by
+      intro h; rw [hstab_f β]; exact Subgroup.mem_top _
+    have hcard : Fintype.card ↥(stab (heisenbergChar p β 0)) = p := by
+      rw [← Nat.card_eq_fintype_card, hstab_f β, Nat.card_congr Subgroup.topEquiv.toEquiv, hcardG]
+    have hp : (p : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (Fact.out (p := p.Prime)).pos.ne'
+    have hterm : ∀ h : Multiplicative (ZMod p),
+        (if hh : h * g * h⁻¹ ∈ stab (heisenbergChar p β 0)
+          then ((heisenbergChar p β 0
+                ((heisenbergφ p h : MulAut _) (Multiplicative.ofAdd (b, c))) : ℂˣ) : ℂ)
+              * (Etingof.AbelianFDRep.charFDRep
+                  (ρ.comp (stab (heisenbergChar p β 0)).subtype)).character ⟨h * g * h⁻¹, hh⟩
+          else 0)
+        = ((ρ g : ℂˣ) : ℂ)
+            * ((heisenbergChar p β 0
+                (Multiplicative.ofAdd (b, c + Multiplicative.toAdd h * b)) : ℂˣ) : ℂ) := by
+      intro h
+      rw [dif_pos (hmemall h),
+        show (⟨h * g * h⁻¹, hmemall h⟩ : ↥(stab (heisenbergChar p β 0))) = ⟨g, hmemg⟩ from
+          Subtype.ext (hconj h g),
+        Etingof.AbelianFDRep.charFDRep_character, heisenbergφ_apply_ofAdd,
+        show ((ρ.comp (stab (heisenbergChar p β 0)).subtype) ⟨g, hmemg⟩ : ℂˣ) = ρ g from rfl,
+        mul_comm]
+    rw [hiv (heisenbergChar p β 0) _ hSimpleU (Multiplicative.ofAdd (b, c)) g,
+      Finset.sum_congr rfl (fun h _ => hterm h), ← Finset.mul_sum, heisenberg_shear_sum, hcard,
+      zero_mul, if_pos rfl, heisenbergChar_apply, Units.val_pow_eq_pow_val,
+      show β * b + 0 * c = β * b from by ring]
+    field_simp
   -- **Closed-form character of the free-orbit (p-dim) reps.** (Proved below.)
   have free_char : ∀ (β γ : ZMod p), γ ≠ 0 → ∀ (b c : ZMod p) (g : Multiplicative (ZMod p)),
       (V (heisenbergChar p β γ)
