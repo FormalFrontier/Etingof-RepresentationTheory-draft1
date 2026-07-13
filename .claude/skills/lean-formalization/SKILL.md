@@ -4931,3 +4931,15 @@ product — supply `Finite.of_equiv _ SemidirectProduct.equivProd.symm`.
   in `Fintype.card_sum`. Let synthesis find the instance transparently, and state the
   decomposition as a defeq `have hcard : Fintype.card ι = Fintype.card A + Fintype.card B :=
   Fintype.card_sum` (likewise `Fintype.sum_sum_type _`), then `rw [hcard]`.
+- **Never put `ring` first in a `first | … | …` block** (cost ~4 build cycles). When `ring`
+  cannot close a goal it does *not* reliably fail — recent Mathlib falls back to `ring_nf`,
+  emitting "Try this: [apply] ring_nf" and **succeeding without closing the goal**, so `first`
+  stops there and the later `linear_combination` alternatives never run. Symptom: "unsolved
+  goals" at the enclosing bullet with *no* tactic error, on exactly the goals your
+  `linear_combination`s target. Fix: put the `linear_combination`s first and use
+  `linear_combination (0 : ℝ)` (not `ring`) as the trivial-goal fallback last.
+- **`fin_cases i <;> fin_cases j <;> simp only […]` does not reduce the matrix indices** — the
+  `⟨0, ⋯⟩` Fin values from `fin_cases` leave `!![…]`/`vecCons … ⟨k,⋯⟩` unreduced even with
+  `cons_val_*`/`Fin.isValue` in the set. Follow the `simp only [defs, mul_apply,
+  Fin.sum_univ_three]` with a bare `simp` (as `rotMat_mem_SO3` does) to finish index reduction,
+  then substitute/close.
