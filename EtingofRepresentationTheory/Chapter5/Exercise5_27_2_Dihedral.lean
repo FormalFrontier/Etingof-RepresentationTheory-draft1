@@ -1,5 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
+import EtingofRepresentationTheory.Chapter5.DihedralCharacterCombinatorics
+import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 
 /-!
 # Exercise 5.27.2 (dihedral group): redo Problem 4.12.1(a) using Theorem 5.27.1
@@ -51,6 +53,155 @@ namespace Etingof.Exercise5_27_2
 
 variable (N : ℕ) [NeZero N]
 
+/-! ## The dihedral group as a semidirect product `⟨r⟩ ⋊ ⟨s⟩`
+
+We realize `DihedralGroup N` as `Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)`,
+with the reflection generator acting on the rotation group by inversion `a ↦ a⁻¹`. -/
+
+/-- Inversion `a ↦ a⁻¹` as an automorphism of the abelian rotation group `Multiplicative (ZMod N)`. -/
+def invAut : MulAut (Multiplicative (ZMod N)) := MulEquiv.inv (Multiplicative (ZMod N))
+
+omit [NeZero N] in
+@[simp] lemma invAut_apply (a : Multiplicative (ZMod N)) : invAut N a = a⁻¹ := rfl
+
+omit [NeZero N] in
+lemma invAut_mul_self : invAut N * invAut N = 1 := by
+  ext a; simp
+
+/-- The action of the reflection group `Multiplicative (ZMod 2)` on the rotation group
+`Multiplicative (ZMod N)`: the nontrivial element acts by inversion `a ↦ a⁻¹`. -/
+def dihedralφ : Multiplicative (ZMod 2) →* MulAut (Multiplicative (ZMod N)) :=
+  MonoidHom.mk' (fun g => if Multiplicative.toAdd g = 0 then 1 else invAut N) <| by
+    intro a b
+    have h2 : ∀ z : ZMod 2, z = 0 ∨ z = 1 := by decide
+    simp only [toAdd_mul]
+    rcases h2 (Multiplicative.toAdd a) with ha | ha <;>
+      rcases h2 (Multiplicative.toAdd b) with hb | hb <;> simp only [ha, hb]
+    · simp
+    · simp
+    · simp
+    · exact (invAut_mul_self N).symm
+
+omit [NeZero N] in
+@[simp] lemma dihedralφ_one_apply (a : Multiplicative (ZMod N)) :
+    (dihedralφ N (1 : Multiplicative (ZMod 2))) a = a := by
+  simp only [dihedralφ, MonoidHom.mk'_apply]
+  rw [if_pos]; · rfl
+  rfl
+
+omit [NeZero N] in
+@[simp] lemma dihedralφ_ofAdd_one_apply (a : Multiplicative (ZMod N)) :
+    (dihedralφ N (Multiplicative.ofAdd (1 : ZMod 2))) a = a⁻¹ := by
+  simp only [dihedralφ, MonoidHom.mk'_apply, toAdd_ofAdd]
+  rw [if_neg (by decide)]; rfl
+
+/-- The semidirect-product realization of the dihedral group `D_N`. -/
+abbrev DihedralSemidirect : Type := Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)
+
+/-- **Deliverable 1.** The group isomorphism `D_N ≅ ⟨r⟩ ⋊ ⟨s⟩` realizing Mathlib's concrete
+`DihedralGroup N` as the semidirect product of the rotation group `Multiplicative (ZMod N)` by
+the reflection group `Multiplicative (ZMod 2)` acting by inversion. On generators
+`r i ↦ ⟨ofAdd i, 1⟩` and `sr i ↦ ⟨ofAdd (-i), ofAdd 1⟩`. -/
+def dihedralEquiv : DihedralGroup N ≃* DihedralSemidirect N where
+  toFun x := match x with
+    | .r i => ⟨Multiplicative.ofAdd i, 1⟩
+    | .sr i => ⟨Multiplicative.ofAdd (-i), Multiplicative.ofAdd (1 : ZMod 2)⟩
+  invFun p :=
+    if Multiplicative.toAdd p.right = 0
+    then DihedralGroup.r (Multiplicative.toAdd p.left)
+    else DihedralGroup.sr (- Multiplicative.toAdd p.left)
+  left_inv x := by
+    cases x with
+    | r i => simp
+    | sr i => simp [(by decide : (1 : ZMod 2) ≠ 0)]
+  right_inv p := by
+    obtain ⟨a, g⟩ := p
+    have h2 : ∀ z : ZMod 2, z = 0 ∨ z = 1 := by decide
+    rcases h2 (Multiplicative.toAdd g) with hg | hg
+    · have : g = 1 := by
+        rw [← ofAdd_toAdd g, hg]; rfl
+      subst this; simp
+    · have : g = Multiplicative.ofAdd (1 : ZMod 2) := by
+        rw [← ofAdd_toAdd g, hg]
+      subst this
+      simp only [toAdd_ofAdd, (by decide : (1 : ZMod 2) ≠ 0), if_false, neg_neg,
+        ofAdd_toAdd]
+  map_mul' x y := by
+    cases x <;> cases y <;>
+      simp only [DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
+        DihedralGroup.sr_mul_sr] <;>
+      apply SemidirectProduct.ext <;>
+      simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right, ← ofAdd_neg, ← ofAdd_add,
+        sub_eq_add_neg, add_comm, show (1 : ZMod 2) + 1 = 0 from by decide, ofAdd_zero]
+
+/-! ## Transport of representation classifications along a group isomorphism
+
+Restriction of scalars along `dihedralEquiv N` is an equivalence of representation categories
+`FDRep ℂ (DihedralSemidirect N) ≌ FDRep ℂ (DihedralGroup N)` (Mathlib's `Action.resEquiv`). We
+package the four facts needed to move a classification across it: it preserves simplicity, reflects
+isomorphisms (fully faithful), is essentially surjective (an equivalence), and preserves dimension
+(the underlying vector space is unchanged). -/
+
+section Transport
+
+open CategoryTheory CategoryTheory.Limits
+
+variable {C D : Type*} [Category C] [Category D] [HasZeroMorphisms C] [HasZeroMorphisms D]
+
+/-- A full, faithful, monomorphism-preserving functor reflects simple objects. -/
+private lemma simple_of_functor_obj (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms]
+    (X : C) [Simple (F.obj X)] : Simple X where
+  mono_isIso_iff_nonzero {Y} f _ := by
+    constructor
+    · intro hiso
+      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
+    · intro hne
+      haveI : Mono (F.map f) := inferInstance
+      haveI : IsIso (F.map f) :=
+        (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+          (fun h => hne (F.map_injective (by rwa [F.map_zero])))
+      exact isIso_of_fully_faithful F f
+
+/-- An equivalence of categories preserves simple objects. -/
+private lemma simple_equivalence_functor (E : C ≌ D) (X : C) [Simple X] :
+    Simple (E.functor.obj X) := by
+  haveI : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
+  haveI : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
+  exact simple_of_functor_obj E.inverse (E.functor.obj X)
+
+end Transport
+
+/-- Restriction of scalars along `dihedralEquiv N`: the equivalence of representation categories
+`FDRep ℂ (⟨r⟩ ⋊ ⟨s⟩) ≌ FDRep ℂ (D_N)`. -/
+def dihedralRepEquiv :
+    FDRep ℂ (DihedralSemidirect N) ≌ FDRep ℂ (DihedralGroup N) :=
+  Action.resEquiv (FGModuleCat ℂ) (dihedralEquiv N)
+
+omit [NeZero N] in
+/-- The transport functor keeps the underlying vector space, so it preserves dimension. -/
+lemma finrank_dihedralRepEquiv_functor (V : FDRep ℂ (DihedralSemidirect N)) :
+    finrank ℂ ((dihedralRepEquiv N).functor.obj V : Type) = finrank ℂ (V : Type) := rfl
+
+open Classical in
+/-- **Deliverable 3 (the orbit assembly).** The classification stated on the semidirect-product
+model `⟨r⟩ ⋊ ⟨s⟩`, before transporting back to Mathlib's `DihedralGroup N`. This is the pure
+orbit-method content of Theorem 5.27.1 applied to the inversion action, together with the
+`gcd(2,N)` fixed-character / `(N-gcd(2,N))/2` free-orbit count. -/
+theorem semidirect_classification :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (DihedralSemidirect N)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (DihedralSemidirect N), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      (∀ i, finrank ℂ (W i : Type) = 1 ∨ finrank ℂ (W i : Type) = 2) ∧
+      (Odd N →
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 2 ∧
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 1) / 2) ∧
+      (Even N →
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
+  sorry
+
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.1(a).** The complete classification of the irreducible
 complex representations of the dihedral group `D_N` (symmetries of a regular `N`-gon, order
@@ -71,6 +222,40 @@ theorem dihedral_classification :
       (Even N →
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
-  sorry
+  classical
+  obtain ⟨n, V, hSimple, hInj, hComplete, hDim, hOdd, hEven⟩ := semidirect_classification N
+  set E := dihedralRepEquiv N with hE
+  refine ⟨n, fun i => E.functor.obj (V i), ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- simplicity is preserved by the equivalence
+    intro i
+    haveI := hSimple i
+    exact simple_equivalence_functor E (V i)
+  · -- fully faithful reflects isomorphisms
+    intro i j ⟨h⟩
+    exact hInj i j ⟨E.fullyFaithfulFunctor.preimageIso h⟩
+  · -- essential surjectivity: pull `S` back, classify, push forward
+    intro S hS
+    haveI := hS
+    haveI : Simple (E.inverse.obj S) := simple_equivalence_functor E.symm S
+    obtain ⟨i, ⟨h⟩⟩ := hComplete (E.inverse.obj S) inferInstance
+    exact ⟨i, ⟨(E.counitIso.app S).symm ≪≫ E.functor.mapIso h⟩⟩
+  · -- dimensions are unchanged
+    intro i
+    rw [finrank_dihedralRepEquiv_functor]; exact hDim i
+  · -- odd-`N` counts: the dimension filters agree pointwise with the pre-transport ones
+    intro hpar
+    have hfilt : ∀ d : ℕ, (Finset.univ.filter
+        (fun i => finrank ℂ (E.functor.obj (V i) : Type) = d)) =
+        (Finset.univ.filter (fun i => finrank ℂ (V i : Type) = d)) := by
+      intro d; apply Finset.filter_congr; intro i _
+      rw [finrank_dihedralRepEquiv_functor]
+    rw [hfilt, hfilt]; exact hOdd hpar
+  · intro hpar
+    have hfilt : ∀ d : ℕ, (Finset.univ.filter
+        (fun i => finrank ℂ (E.functor.obj (V i) : Type) = d)) =
+        (Finset.univ.filter (fun i => finrank ℂ (V i : Type) = d)) := by
+      intro d; apply Finset.filter_congr; intro i _
+      rw [finrank_dihedralRepEquiv_functor]
+    rw [hfilt, hfilt]; exact hEven hpar
 
 end Etingof.Exercise5_27_2
