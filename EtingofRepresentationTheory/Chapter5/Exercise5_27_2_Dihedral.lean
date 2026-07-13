@@ -42,7 +42,8 @@ irreducibles.
 * `N` even: `4` irreducibles of dimension `1` and `(N-2)/2` of dimension `2`
   (`∑ dim² = 4 + 4·(N-2)/2 = 2N`).
 
-Statement pass: the classification is stated; the proof is left as `sorry`.
+Both `semidirect_classification` (the semidirect-product model) and `dihedral_classification`
+(Mathlib's `DihedralGroup N`) are fully proved via the orbit method of Theorem 5.27.1.
 -/
 
 noncomputable section
@@ -222,26 +223,267 @@ theorem semidirect_classification :
   have hstab_gen : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
       (Multiplicative.ofAdd 1 ∈ stab χ) ↔ χ⁻¹ = χ := by
     intro χ; rw [hstab χ (Multiplicative.ofAdd 1), hdual_gen]
-  -- Remaining: build the indexed family and discharge the six conjuncts + counts.
-  --
-  -- Since `Multiplicative (ZMod 2) = {1, ofAdd 1}`, `hstab_gen` (+ `1 ∈ stab χ` always and the
-  -- fact that `stab χ` is a subgroup of the two-element group) gives the dichotomy
-  --   `stab χ = ⊤` if `χ⁻¹ = χ` (self-inverse),   `stab χ = ⊥` otherwise (free orbit).
-  -- With `hv` (dim `V(χ,U) = (stab χ).index * dim U`): `index ⊤ = 1`, `index ⊥ = 2`.
-  --
-  -- Family (n = 2 * Nat.gcd 2 N + (N - Nat.gcd 2 N) / 2):
-  --   * for each self-inverse `χ`, the two 1-dim reps `V(χ, AbelianFDRep.charFDRep ξ)` for the
-  --     two characters `ξ` of `stab χ ≅ ℤ/2` (dim `1 * 1 = 1`);  [gives `2 * card_selfInverse`]
-  --   * for each free orbit-pair, one 2-dim rep `V(χ₀, U_triv)` at a chosen representative `χ₀`
-  --     with `U_triv` the unique simple rep of the trivial `stab χ₀ = ⊥` (dim `2 * 1 = 2`).
-  -- Index concretely by a `Fintype` (e.g. `(selfInverse × charOf(ℤ/2)) ⊕ freeOrbitReps`) and
-  -- transport to `Fin n` via `Fintype.equivFin`; counts follow from
-  -- `DihedralCharacterCombinatorics.card_selfInverse`/`card_freeOrbitPairs`.
-  --
-  -- Conjuncts: (Simple) from `hi` + `AbelianFDRep.charFDRep_simple`; (non-iso) from `hii` +
-  -- orbit distinctness + `AbelianFDRep.charFDRep_iso_iff`; (complete) from `hiii` + orbit
-  -- exhaustion + `AbelianFDRep.exists_charFDRep_iso` on the stabilizer component.
-  sorry
+  -- Every element of `Multiplicative (ZMod 2)` is the identity or the reflection generator.
+  have hG2 : ∀ g : Multiplicative (ZMod 2), g = 1 ∨ g = Multiplicative.ofAdd 1 := by
+    intro g
+    rcases (by decide : ∀ z : ZMod 2, z = 0 ∨ z = 1) (Multiplicative.toAdd g) with h | h
+    · left; rw [← ofAdd_toAdd g, h]; rfl
+    · right; rw [← ofAdd_toAdd g, h]
+  -- **Stabilizer dichotomy.** `stab χ = ⊤` when `χ` is self-inverse, `⊥` otherwise.
+  have hstab_top : ∀ χ : Multiplicative (ZMod N) →* ℂˣ, χ⁻¹ = χ → stab χ = ⊤ := by
+    intro χ hχ
+    rw [eq_top_iff]; intro g _
+    rcases hG2 g with rfl | rfl
+    · exact one_mem _
+    · exact (hstab_gen χ).mpr hχ
+  have hstab_bot : ∀ χ : Multiplicative (ZMod N) →* ℂˣ, χ⁻¹ ≠ χ → stab χ = ⊥ := by
+    intro χ hχ
+    rw [eq_bot_iff]; intro g hg
+    rcases hG2 g with rfl | rfl
+    · exact Subgroup.mem_bot.mpr rfl
+    · exact absurd ((hstab_gen χ).mp hg) hχ
+  -- Fintype instances for the character groups.
+  haveI : Fintype (Multiplicative (ZMod N) →* ℂˣ) := Fintype.ofFinite _
+  haveI : Fintype (Multiplicative (ZMod 2) →* ℂˣ) := Fintype.ofFinite _
+  haveI : Fintype {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} := Fintype.ofFinite _
+  -- `Multiplicative (ZMod 2)` has exactly two elements.
+  have hcardG2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
+    rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
+  -- **Dimension of the family members.**
+  have hdim_self : ∀ (χ : Multiplicative (ZMod N) →* ℂˣ), χ⁻¹ = χ →
+      ∀ ρ : Multiplicative (ZMod 2) →* ℂˣ,
+      finrank ℂ (V χ (Etingof.AbelianFDRep.charFDRep (ρ.comp (stab χ).subtype)) : Type) = 1 := by
+    intro χ hχ ρ
+    rw [hv, hstab_top χ hχ, Subgroup.index_top, Etingof.AbelianFDRep.charFDRep_finrank, mul_one]
+  have hdim_free : ∀ (χ : Multiplicative (ZMod N) →* ℂˣ), χ⁻¹ ≠ χ →
+      finrank ℂ (V χ (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab χ) →* ℂˣ)) : Type) = 2 := by
+    intro χ hχ
+    rw [hv, hstab_bot χ hχ, Subgroup.index_bot, Etingof.AbelianFDRep.charFDRep_finrank, mul_one,
+      hcardG2]
+  -- **A concrete injective key**, to choose orbit representatives for the inversion involution.
+  let key : (Multiplicative (ZMod N) →* ℂˣ) → ℕ := fun χ => (Fintype.equivFin _ χ).val
+  have key_inj : Function.Injective key := fun a b h =>
+    (Fintype.equivFin (Multiplicative (ZMod N) →* ℂˣ)).injective (Fin.val_injective h)
+  -- **The free-orbit transversal**: one representative per pair `{χ, χ⁻¹}` with `χ ≠ χ⁻¹`.
+  let T := {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹ ∧ key χ < key χ⁻¹}
+  haveI : Fintype T := Fintype.ofFinite _
+  -- The map `T ⊕ T → {χ // χ ≠ χ⁻¹}` sending the two copies to `t` and `t⁻¹`.
+  let toFree : T ⊕ T → {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} :=
+    Sum.elim (fun t => ⟨t.1, t.2.1⟩)
+      (fun t => ⟨t.1⁻¹, by rw [inv_inv]; exact fun e => t.2.1 e.symm⟩)
+  have htoFree_inj : Function.Injective toFree := by
+    rintro (⟨χ, hχ, hk⟩ | ⟨χ, hχ, hk⟩) (⟨χ', hχ', hk'⟩ | ⟨χ', hχ', hk'⟩) hxy <;>
+      simp only [toFree, Sum.elim_inl, Sum.elim_inr, Subtype.mk.injEq] at hxy
+    · exact congrArg Sum.inl (Subtype.ext hxy)
+    · exfalso
+      -- χ = χ'⁻¹ contradicts the key inequalities
+      have e1 : key χ < key χ⁻¹ := hk
+      have e2 : key χ' < key χ'⁻¹ := hk'
+      rw [hxy] at e1; rw [inv_inv] at e1; omega
+    · exfalso
+      have e1 : key χ < key χ⁻¹ := hk
+      have e2 : key χ' < key χ'⁻¹ := hk'
+      rw [← hxy] at e2; rw [inv_inv] at e2; omega
+    · refine congrArg Sum.inr (Subtype.ext ?_)
+      exact inv_injective hxy
+  have htoFree_surj : Function.Surjective toFree := by
+    rintro ⟨χ, hχ⟩
+    rcases lt_or_gt_of_ne (fun h => hχ (key_inj h)) with h | h
+    · exact ⟨Sum.inl ⟨χ, hχ, h⟩, rfl⟩
+    · refine ⟨Sum.inr ⟨χ⁻¹, ?_, ?_⟩, Subtype.ext (inv_inv χ)⟩
+      · rw [inv_inv]; exact fun e => hχ e.symm
+      · rw [inv_inv]; exact h
+  -- The transversal has `(N - gcd(2,N))/2` elements — one per free orbit pair.
+  have hTfree : Nat.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ ≠ χ⁻¹} = 2 * Nat.card T := by
+    rw [← Nat.card_congr (Equiv.ofBijective toFree ⟨htoFree_inj, htoFree_surj⟩),
+      Nat.card_sum, two_mul]
+  have hcardT : Nat.card T = (N - Nat.gcd 2 N) / 2 := by
+    have hfop := Etingof.DihedralCharacterCombinatorics.card_freeOrbitPairs N
+    rw [hTfree, Nat.mul_div_cancel_left _ (by norm_num)] at hfop
+    exact hfop
+  -- Given a free character, produce its transversal representative.
+  have rep : ∀ (χ : Multiplicative (ZMod N) →* ℂˣ), χ ≠ χ⁻¹ →
+      ∃ t : T, t.1 = χ ∨ t.1 = χ⁻¹ := by
+    intro χ hχ
+    rcases lt_or_gt_of_ne (fun h => hχ (key_inj h)) with h | h
+    · exact ⟨⟨χ, hχ, h⟩, Or.inl rfl⟩
+    · exact ⟨⟨χ⁻¹, by rw [inv_inv]; exact fun e => hχ e.symm, by rw [inv_inv]; exact h⟩, Or.inr rfl⟩
+  -- **The index type and family.**
+  let ι := ({χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} × (Multiplicative (ZMod 2) →* ℂˣ)) ⊕ T
+  let F : ι → FDRep ℂ (DihedralSemidirect N) :=
+    Sum.elim
+      (fun x => V x.1.1 (Etingof.AbelianFDRep.charFDRep (x.2.comp (stab x.1.1).subtype)))
+      (fun t => V t.1 (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab t.1) →* ℂˣ)))
+  have hFsimple : ∀ a : ι, Simple (F a) := by
+    rintro (⟨⟨χ, hχ⟩, ρ⟩ | t)
+    · exact hi _ _ (Etingof.AbelianFDRep.charFDRep_simple _)
+    · exact hi _ _ (Etingof.AbelianFDRep.charFDRep_simple _)
+  have hFdim1 : ∀ (x : {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹}
+        × (Multiplicative (ZMod 2) →* ℂˣ)),
+      finrank ℂ (F (Sum.inl x) : Type) = 1 := by
+    rintro ⟨⟨χ, hχ⟩, ρ⟩
+    exact hdim_self χ hχ.symm ρ
+  have hFdim2 : ∀ (t : T), finrank ℂ (F (Sum.inr t) : Type) = 2 := by
+    rintro ⟨χ, hχ, _⟩
+    exact hdim_free χ (fun h => hχ h.symm)
+  have hFdim : ∀ a : ι, finrank ℂ (F a : Type) = 1 ∨ finrank ℂ (F a : Type) = 2 := by
+    rintro (x | t)
+    · exact Or.inl (hFdim1 x)
+    · exact Or.inr (hFdim2 t)
+  -- An iso of family members forces equal dimension (used to separate 1-dim from 2-dim reps).
+  have hiso_finrank : ∀ {a b : ι}, Nonempty (F a ≅ F b) →
+      finrank ℂ (F a : Type) = finrank ℂ (F b : Type) := by
+    rintro a b ⟨α⟩
+    have hc := congrFun (FDRep.char_iso α) 1
+    rw [FDRep.char_one, FDRep.char_one] at hc
+    exact_mod_cast hc
+  -- **Pairwise non-isomorphism.**
+  have hFinj : ∀ a b : ι, Nonempty (F a ≅ F b) → a = b := by
+    rintro (⟨⟨χ, hχ⟩, ρ⟩ | ⟨χ, hχ, hk⟩) (⟨⟨χ', hχ'⟩, ρ'⟩ | ⟨χ', hχ', hk'⟩) ⟨α⟩
+    · -- self vs self: `χ = χ'` (self-inverse orbit is a fixed point) and `ρ = ρ'`.
+      obtain ⟨g, hg, ⟨β⟩⟩ := hii χ χ' _ _
+        (Etingof.AbelianFDRep.charFDRep_simple _) (Etingof.AbelianFDRep.charFDRep_simple _) ⟨α⟩
+      have hχχ' : χ = χ' := by
+        rcases hG2 g with rfl | rfl
+        · rw [← hg, hdual_one]
+        · rw [← hg, hdual_gen]; exact hχ
+      subst hχχ'
+      have hcentral : ∀ x : Multiplicative (ZMod 2), g * x = x * g := fun x => mul_comm g x
+      have hUiso : Nonempty (Etingof.AbelianFDRep.charFDRep (ρ'.comp (stab χ).subtype) ≅
+          Etingof.AbelianFDRep.charFDRep (ρ.comp (stab χ).subtype)) :=
+        ⟨β ≪≫ (hviii χ g hg _ hcentral).some⟩
+      have hρρ' : ρ'.comp (stab χ).subtype = ρ.comp (stab χ).subtype :=
+        Etingof.AbelianFDRep.charFDRep_iso_iff.mp hUiso
+      have hρeq : ρ' = ρ := by
+        refine MonoidHom.ext fun x => ?_
+        have hx : x ∈ stab χ := by rw [hstab_top χ hχ.symm]; exact Subgroup.mem_top x
+        have hval := DFunLike.congr_fun hρρ' (⟨x, hx⟩ : ↥(stab χ))
+        simpa using hval
+      rw [hρeq]
+    · -- self vs free: dimensions differ.
+      exfalso
+      have h := hiso_finrank ⟨α⟩
+      rw [hFdim1 (⟨χ, hχ⟩, ρ), hFdim2 ⟨χ', hχ', hk'⟩] at h
+      exact absurd h (by norm_num)
+    · -- free vs self: dimensions differ.
+      exfalso
+      have h := hiso_finrank ⟨α⟩
+      rw [hFdim2 ⟨χ, hχ, hk⟩, hFdim1 (⟨χ', hχ'⟩, ρ')] at h
+      exact absurd h (by norm_num)
+    · -- free vs free: `χ = χ'` (both are transversal representatives of the same orbit).
+      obtain ⟨g, hg, -⟩ := hii χ χ' _ _
+        (Etingof.AbelianFDRep.charFDRep_simple _) (Etingof.AbelianFDRep.charFDRep_simple _) ⟨α⟩
+      have hor : χ' = χ ∨ χ' = χ⁻¹ := by
+        rcases hG2 g with rfl | rfl
+        · left; rw [← hg, hdual_one]
+        · right; rw [← hg, hdual_gen]
+      have hχχ' : χ = χ' := by
+        rcases hor with h | h
+        · exact h.symm
+        · exfalso
+          have e1 : key χ < key χ⁻¹ := hk
+          have e2 : key χ' < key χ'⁻¹ := hk'
+          rw [h] at e2; rw [inv_inv] at e2; omega
+      subst hχχ'
+      rfl
+  -- **Completeness.**
+  have hFcomplete : ∀ S : FDRep ℂ (DihedralSemidirect N), Simple S → ∃ a : ι, Nonempty (S ≅ F a) := by
+    intro S hS
+    obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
+    haveI : Simple U := hU
+    by_cases hχ : χ = χ⁻¹
+    · -- self-inverse: recover `ρ : G →* ℂˣ` from the stabilizer character.
+      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
+      let eStab : ↥(stab χ) ≃* Multiplicative (ZMod 2) :=
+        (MulEquiv.subgroupCongr (hstab_top χ hχ.symm)).trans Subgroup.topEquiv
+      have heStab : ∀ s, eStab s = ((stab χ).subtype s) := fun s => rfl
+      refine ⟨Sum.inl (⟨χ, hχ⟩, ξ.comp eStab.symm.toMonoidHom), ?_⟩
+      have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp (stab χ).subtype = ξ := by
+        refine MonoidHom.ext fun s => ?_
+        show ξ (eStab.symm ((stab χ).subtype s)) = ξ s
+        rw [← heStab s, MulEquiv.symm_apply_apply]
+      have hFeq : F (Sum.inl (⟨χ, hχ⟩, ξ.comp eStab.symm.toMonoidHom))
+          = V χ (Etingof.AbelianFDRep.charFDRep ξ) := by
+        show V χ (Etingof.AbelianFDRep.charFDRep
+            ((ξ.comp eStab.symm.toMonoidHom).comp (stab χ).subtype))
+          = V χ (Etingof.AbelianFDRep.charFDRep ξ)
+        rw [hρξ]
+      rw [hFeq]
+      exact ⟨hSU.some ≪≫ (hvi χ U (Etingof.AbelianFDRep.charFDRep ξ) hξ).some⟩
+    · -- free: move the base point to the transversal representative.
+      obtain ⟨t, htor⟩ := rep χ hχ
+      obtain ⟨g, hg⟩ : ∃ g : Multiplicative (ZMod 2), dualSmul g χ = t.1 := by
+        rcases htor with h | h
+        · exact ⟨1, by rw [hdual_one]; exact h.symm⟩
+        · exact ⟨Multiplicative.ofAdd 1, by rw [hdual_gen]; exact h.symm⟩
+      haveI : Simple (transport g χ t.1 hg U) := hix χ t.1 U g hg hU
+      haveI hsub : Subsingleton ↥(stab t.1) := by
+        have hbot : stab t.1 = ⊥ := hstab_bot t.1 (fun e => t.2.1 e.symm)
+        rw [hbot]
+        exact ⟨fun a b => Subtype.ext (by
+          rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
+      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso (transport g χ t.1 hg U)
+      have hξ1 : ξ = 1 := by
+        refine MonoidHom.ext fun x => ?_
+        rw [Subsingleton.elim x 1]; simp
+      rw [hξ1] at hξ
+      exact ⟨Sum.inr t, ⟨hSU.some ≪≫ (hvii χ t.1 U g hg).some
+        ≪≫ (hvi t.1 (transport g χ t.1 hg U) _ hξ).some⟩⟩
+  -- **Cardinalities for the counts.**
+  have hcardGhat : Fintype.card (Multiplicative (ZMod 2) →* ℂˣ) = 2 := by
+    rw [← Nat.card_eq_fintype_card, Etingof.AbelianFDRep.card_charFDRep_dual, hcardG2]
+  have hcardSelf : Fintype.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹}
+      = Nat.gcd 2 N := by
+    rw [← Nat.card_eq_fintype_card, Etingof.DihedralCharacterCombinatorics.card_selfInverse]
+  have hcardT' : Fintype.card T = (N - Nat.gcd 2 N) / 2 := by
+    rw [← Nat.card_eq_fintype_card, hcardT]
+  -- The dimension-1 (resp. dimension-2) members are exactly the `Sum.inl` (resp. `Sum.inr`) ones.
+  have hsum1 : (∑ a : ι, if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0)
+      = Fintype.card {χ : Multiplicative (ZMod N) →* ℂˣ // χ = χ⁻¹} * 2 := by
+    rw [Fintype.sum_sum_type]
+    have hL : ∀ x, (if finrank ℂ (F (Sum.inl x) : Type) = 1 then (1 : ℕ) else 0) = 1 := by
+      intro x; rw [if_pos (hFdim1 x)]
+    have hR : ∀ t, (if finrank ℂ (F (Sum.inr t) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
+      intro t; have : finrank ℂ (F (Sum.inr t) : Type) ≠ 1 := by rw [hFdim2 t]; norm_num
+      rw [if_neg this]
+    simp only [hL, hR, Finset.sum_const, mul_zero, smul_eq_mul, mul_one, add_zero,
+      Finset.card_univ, Fintype.card_prod, hcardGhat]
+  have hsum2 : (∑ a : ι, if finrank ℂ (F a : Type) = 2 then (1 : ℕ) else 0)
+      = Fintype.card T := by
+    rw [Fintype.sum_sum_type]
+    have hL : ∀ x, (if finrank ℂ (F (Sum.inl x) : Type) = 2 then (1 : ℕ) else 0) = 0 := by
+      intro x; have : finrank ℂ (F (Sum.inl x) : Type) ≠ 2 := by rw [hFdim1 x]; norm_num
+      rw [if_neg this]
+    have hR : ∀ t, (if finrank ℂ (F (Sum.inr t) : Type) = 2 then (1 : ℕ) else 0) = 1 := by
+      intro t; rw [if_pos (hFdim2 t)]
+    simp only [hL, hR, Finset.sum_const, mul_zero, smul_eq_mul, mul_one, zero_add,
+      Finset.card_univ]
+  -- Transport the family to `Fin (card ι)`.
+  set e := Fintype.equivFin ι with he
+  refine ⟨Fintype.card ι, fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact fun i => hFsimple _
+  · intro i j hij
+    exact e.symm.injective (hFinj _ _ hij)
+  · intro S hS
+    obtain ⟨a, ha⟩ := hFcomplete S hS
+    exact ⟨e a, by simpa only [Equiv.symm_apply_apply] using ha⟩
+  · exact fun i => hFdim (e.symm i)
+  · -- Odd `N`: `gcd(2,N) = 1`, so `2` one-dim reps and `(N-1)/2` two-dim reps.
+    intro hpar
+    have hg1 : Nat.gcd 2 N = 1 := by rw [Nat.gcd_rec, Nat.odd_iff.mp hpar]; simp
+    refine ⟨?_, ?_⟩
+    · rw [Finset.card_filter, Equiv.sum_comp e.symm
+          (fun a => if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0), hsum1, hcardSelf, hg1]
+    · rw [Finset.card_filter, Equiv.sum_comp e.symm
+          (fun a => if finrank ℂ (F a : Type) = 2 then (1 : ℕ) else 0), hsum2, hcardT', hg1]
+  · -- Even `N`: `gcd(2,N) = 2`, so `4` one-dim reps and `(N-2)/2` two-dim reps.
+    intro hpar
+    have hg2 : Nat.gcd 2 N = 2 := by rw [Nat.gcd_rec, Nat.even_iff.mp hpar]; simp
+    refine ⟨?_, ?_⟩
+    · rw [Finset.card_filter, Equiv.sum_comp e.symm
+          (fun a => if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0), hsum1, hcardSelf, hg2]
+    · rw [Finset.card_filter, Equiv.sum_comp e.symm
+          (fun a => if finrank ℂ (F a : Type) = 2 then (1 : ℕ) else 0), hsum2, hcardT', hg2]
 
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.1(a).** The complete classification of the irreducible
