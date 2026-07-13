@@ -256,6 +256,71 @@ lemma heisenbergChar_surjective (χ : Multiplicative (ZMod p × ZMod p) →* ℂ
   obtain ⟨bg, hbg⟩ := hbij.surjective χ
   exact ⟨bg.1, bg.2, hbg⟩
 
+/-!
+## The complex-valued additive character and the orthogonality sum
+
+To compute the character of the induced representations `V(χ, U)` via Theorem 5.27.1's character
+formula (iv), we package `ζ^(·)` as a genuine complex-valued additive character `heisenbergPsi`
+of `ZMod p`, whose primitivity yields the geometric-sum (orthogonality) identity
+`∑_t ψ(t·m) = if m = 0 then p else 0`. This collapses the inner sum in the character formula.
+-/
+
+/-- `heisenbergZeta` as a complex number is a `p`-th root of unity. -/
+lemma heisenbergZeta_coe_pow : ((heisenbergZeta p : ℂ)) ^ p = 1 := by
+  have h := (heisenbergZeta_primitive p).pow_eq_one
+  rw [← Units.val_pow_eq_pow_val, h, Units.val_one]
+
+/-- `heisenbergZeta` as a complex number is a primitive `p`-th root of unity. -/
+lemma heisenbergZeta_coe_primitive : IsPrimitiveRoot ((heisenbergZeta p : ℂ)) p :=
+  IsPrimitiveRoot.coe_units_iff.mpr (heisenbergZeta_primitive p)
+
+/-- The complex-valued additive character `ψ : ZMod p → ℂ`, `x ↦ ζ^(x.val)`. Primitive, so its
+orthogonality relations give the geometric sums appearing in the character formula. -/
+noncomputable def heisenbergPsi : AddChar (ZMod p) ℂ :=
+  AddChar.zmodChar p (heisenbergZeta_coe_pow p)
+
+lemma heisenbergPsi_apply (x : ZMod p) : heisenbergPsi p x = (heisenbergZeta p : ℂ) ^ x.val :=
+  AddChar.zmodChar_apply _ x
+
+lemma heisenbergPsi_primitive : (heisenbergPsi p).IsPrimitive :=
+  AddChar.zmodChar_primitive_of_primitive_root p (heisenbergZeta_coe_primitive p)
+
+/-- The coerced value of `χ_{β,γ}` is `ψ(β·b + γ·c)`. -/
+lemma heisenbergChar_coe_eq_psi (β γ b c : ZMod p) :
+    ((heisenbergChar p β γ (Multiplicative.ofAdd (b, c)) : ℂˣ) : ℂ)
+      = heisenbergPsi p (β * b + γ * c) := by
+  rw [heisenbergChar_apply, Units.val_pow_eq_pow_val, heisenbergPsi_apply]
+
+/-- **Orthogonality collapse.** Summing `χ_{β,γ}` over the shear-translates of `(b, c)` gives
+`(if γ·b = 0 then p else 0) · χ_{β,γ}(b, c)`. This is the inner sum of the character formula (iv)
+after the (abelian) conjugation `h·g·h⁻¹ = g` has been carried out. -/
+lemma heisenberg_shear_sum (β γ b c : ZMod p) :
+    ∑ h : Multiplicative (ZMod p),
+      ((heisenbergChar p β γ
+        (Multiplicative.ofAdd (b, c + Multiplicative.toAdd h * b)) : ℂˣ) : ℂ)
+    = (if γ * b = 0 then (p : ℂ) else 0) *
+        ((heisenbergChar p β γ (Multiplicative.ofAdd (b, c)) : ℂˣ) : ℂ) := by
+  have hterm : ∀ h : Multiplicative (ZMod p),
+      ((heisenbergChar p β γ
+        (Multiplicative.ofAdd (b, c + Multiplicative.toAdd h * b)) : ℂˣ) : ℂ)
+        = heisenbergPsi p (β * b + γ * c) *
+            heisenbergPsi p (γ * b * Multiplicative.toAdd h) := by
+    intro h
+    rw [heisenbergChar_coe_eq_psi,
+      show β * b + γ * (c + Multiplicative.toAdd h * b)
+        = (β * b + γ * c) + (γ * b * Multiplicative.toAdd h) from by ring,
+      AddChar.map_add_eq_mul]
+  simp_rw [hterm]
+  rw [← Finset.mul_sum]
+  have hreindex : ∑ h : Multiplicative (ZMod p),
+        heisenbergPsi p (γ * b * Multiplicative.toAdd h)
+      = ∑ t : ZMod p, heisenbergPsi p (t * (γ * b)) :=
+    Fintype.sum_equiv (Multiplicative.toAdd (α := ZMod p)) _ _ (fun h => by rw [mul_comm])
+  rw [hreindex, AddChar.sum_mulShift (γ * b) (heisenbergPsi_primitive p), ZMod.card,
+    heisenbergChar_coe_eq_psi]
+  push_cast
+  ring
+
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.2.** The complete classification of the irreducible
 complex representations of the Heisenberg group `H_p` (order `p³`), obtained from Theorem
