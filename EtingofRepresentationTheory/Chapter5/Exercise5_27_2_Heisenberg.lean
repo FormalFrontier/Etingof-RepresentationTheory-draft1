@@ -41,8 +41,9 @@ the one indexed by `(β - a·γ, γ)`. Hence:
 So there are exactly `p² + (p - 1)` irreducibles: `p²` of dimension `1` and `p - 1` of
 dimension `p`, consistent with `∑ dim² = p²·1 + (p-1)·p² = p³ = |H_p|`.
 
-Statement pass: the group and its semidirect structure are constructed; the classification
-is stated with the proof left as `sorry`.
+The classification `heisenberg_classification` is fully proved: the induced representations
+`V(χ, U)` of Theorem 5.27.1 are computed via the explicit character formula (iv), whose closed
+forms (`fixed_charρ`, `free_char`) drive both the pairwise non-isomorphism and the completeness.
 -/
 
 noncomputable section
@@ -468,9 +469,6 @@ theorem heisenberg_classification :
         if_neg (fun h => hg h.1)]
   -- The index type and family.
   let ι := (ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕ {γ : ZMod p // γ ≠ 0}
-  haveI : Fintype ι :=
-    inferInstanceAs (Fintype ((ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕
-      {γ : ZMod p // γ ≠ 0}))
   let F : ι → FDRep ℂ (HeisenbergGroup p) :=
     Sum.elim
       (fun x => V (heisenbergChar p x.1 0)
@@ -648,6 +646,24 @@ theorem heisenberg_classification :
         rw [free_char β γ hγ b c gg, free_char 0 γ hγ b c gg]
       exact ⟨hSU.some ≪≫ (hvi (heisenbergChar p β γ) U _ hξ).some
         ≪≫ (Etingof.charEq_iso _ _ hchareq).some⟩
+  -- Cardinalities feeding the counts.
+  have hcardHom : Fintype.card (Multiplicative (ZMod p) →* ℂˣ) = p := by
+    rw [← Nat.card_eq_fintype_card, Etingof.AbelianFDRep.card_charFDRep_dual, hcardG]
+  have hcardSub : Fintype.card {γ : ZMod p // γ ≠ 0} = p - 1 := by
+    rw [Fintype.card_subtype_compl, Fintype.card_subtype_eq, ZMod.card]
+  have hp1 : p ≠ 1 := (Fact.out : p.Prime).ne_one
+  have hleft1 : ∀ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
+      (if finrank ℂ (F (Sum.inl x) : Type) = 1 then (1 : ℕ) else 0) = 1 := by
+    rintro ⟨β, ρ⟩; rw [if_pos (hFdim1 β ρ)]
+  have hright1 : ∀ y : {γ : ZMod p // γ ≠ 0},
+      (if finrank ℂ (F (Sum.inr y) : Type) = 1 then (1 : ℕ) else 0) = 0 := by
+    rintro ⟨γ, hγ⟩; rw [if_neg fun h => hp1 (by rw [hFdimp γ hγ] at h; exact h)]
+  have hleftp : ∀ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
+      (if finrank ℂ (F (Sum.inl x) : Type) = p then (1 : ℕ) else 0) = 0 := by
+    rintro ⟨β, ρ⟩; rw [if_neg fun h => hp1 (by rw [hFdim1 β ρ] at h; exact h.symm)]
+  have hrightp : ∀ y : {γ : ZMod p // γ ≠ 0},
+      (if finrank ℂ (F (Sum.inr y) : Type) = p then (1 : ℕ) else 0) = 1 := by
+    rintro ⟨γ, hγ⟩; rw [if_pos (hFdimp γ hγ)]
   -- Transport the family to `Fin (card ι)`.
   set e := Fintype.equivFin ι with he
   refine ⟨Fintype.card ι, fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -658,8 +674,31 @@ theorem heisenberg_classification :
     obtain ⟨a, ha⟩ := hFcomplete S hS
     exact ⟨e a, by simpa only [Equiv.symm_apply_apply] using ha⟩
   · exact fun i => hFdim (e.symm i)
-  · sorry
-  · sorry
-  · sorry
+  · have hcard : Fintype.card ι
+        = Fintype.card (ZMod p × (Multiplicative (ZMod p) →* ℂˣ))
+          + Fintype.card {γ : ZMod p // γ ≠ 0} := Fintype.card_sum
+    rw [hcard, Fintype.card_prod, ZMod.card, hcardHom, hcardSub, pow_two]
+  · rw [Finset.card_filter,
+      Equiv.sum_comp e.symm (fun a => if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0)]
+    have hsum : (∑ a : ι, if finrank ℂ (F a : Type) = 1 then (1 : ℕ) else 0)
+        = (∑ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
+            if finrank ℂ (F (Sum.inl x) : Type) = 1 then (1 : ℕ) else 0)
+          + ∑ y : {γ : ZMod p // γ ≠ 0},
+            if finrank ℂ (F (Sum.inr y) : Type) = 1 then (1 : ℕ) else 0 :=
+      Fintype.sum_sum_type _
+    rw [hsum]
+    simp only [hleft1, hright1, Finset.sum_const, Finset.sum_const_zero, smul_eq_mul, mul_one,
+      mul_zero, add_zero, Finset.card_univ, Fintype.card_prod, ZMod.card, hcardHom, pow_two]
+  · rw [Finset.card_filter,
+      Equiv.sum_comp e.symm (fun a => if finrank ℂ (F a : Type) = p then (1 : ℕ) else 0)]
+    have hsum : (∑ a : ι, if finrank ℂ (F a : Type) = p then (1 : ℕ) else 0)
+        = (∑ x : ZMod p × (Multiplicative (ZMod p) →* ℂˣ),
+            if finrank ℂ (F (Sum.inl x) : Type) = p then (1 : ℕ) else 0)
+          + ∑ y : {γ : ZMod p // γ ≠ 0},
+            if finrank ℂ (F (Sum.inr y) : Type) = p then (1 : ℕ) else 0 :=
+      Fintype.sum_sum_type _
+    rw [hsum]
+    simp only [hleftp, hrightp, Finset.sum_const, Finset.sum_const_zero, smul_eq_mul, mul_one,
+      mul_zero, zero_add, Finset.card_univ, hcardSub]
 
 end Etingof.Exercise5_27_2
