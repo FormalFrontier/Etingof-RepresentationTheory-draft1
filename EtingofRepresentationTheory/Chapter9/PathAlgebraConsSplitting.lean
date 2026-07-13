@@ -65,4 +65,40 @@ theorem cons_decomp_unique {a c b₁ b₂ : Q}
   simp only [Quiver.Path.cons.injEq] at h
   exact h
 
+/-! ## Cons-splitting at the level of basis elements of `A`
+
+The concatenation seed `ofPath_mul_arrowElt` (`Chapter9/PathAlgebraLengthGrading.lean`) sends a
+(length-`n` path, arrow) pair to the length-`(n+1)` basis path it composes to. The decomposition
+lemmas above turn this into a bijection between the length-`(n+1)` basis paths and the composable
+(length-`n` path, arrow) pairs, realized inside `A` by multiplication. This is the basis-level
+content of the `S`-bimodule isomorphism `A_n ⊗_S V ≅ A_{n+1}`. -/
+
+/-- **Every length-`(n+1)` basis path is a product.** A degree-`(n+1)` basis element `ofPath q` of
+`A` equals `ofPath p * arrowElt e` for the unique length-`n` initial path `p` and final arrow `e`
+of `q`. This is the surjectivity (onto degree `n+1`) of the concatenation map underlying the
+cons-splitting, dual to the appending seed `ofPath_mul_arrowElt`. -/
+theorem exists_ofPath_mul_arrowElt {a c : Q} (q : Quiver.Path a c) {n : ℕ}
+    (hq : q.length = n + 1) :
+    ∃ (b : Q) (p : Quiver.Path a b) (e : b ⟶ c),
+      (ofPath (⟨a, c, q⟩ : QuiverPathIndex Q) : PathAlgebra k Q)
+        = (ofPath (⟨a, b, p⟩ : QuiverPathIndex Q) : PathAlgebra k Q) * arrowElt ⟨b, c, e⟩
+      ∧ p.length = n := by
+  obtain ⟨b, p, e, hcomp, hlen⟩ := exists_cons_decomp q hq
+  refine ⟨b, p, e, ?_, hlen⟩
+  rw [ofPath_mul_arrowElt, ← hcomp]
+
+/-- **The concatenation map is injective on basis pairs.** Distinct composable (path, arrow) pairs
+concatenate to distinct length-`(n+1)` basis paths: equality of the products
+`ofPath p₁ * arrowElt e₁ = ofPath p₂ * arrowElt e₂` forces the two decompositions to agree. This is
+the injectivity (`Mono`) content of the cons-splitting at the basis level. -/
+theorem ofPath_mul_arrowElt_inj {a c b₁ b₂ : Q}
+    (p₁ : Quiver.Path a b₁) (e₁ : b₁ ⟶ c) (p₂ : Quiver.Path a b₂) (e₂ : b₂ ⟶ c)
+    (h : (ofPath (⟨a, b₁, p₁⟩ : QuiverPathIndex Q) : PathAlgebra k Q) * arrowElt ⟨b₁, c, e₁⟩
+        = (ofPath (⟨a, b₂, p₂⟩ : QuiverPathIndex Q) : PathAlgebra k Q) * arrowElt ⟨b₂, c, e₂⟩) :
+    b₁ = b₂ ∧ HEq p₁ p₂ ∧ HEq e₁ e₂ := by
+  rw [ofPath_mul_arrowElt, ofPath_mul_arrowElt, ofPath, ofPath,
+    Finsupp.single_left_inj (one_ne_zero)] at h
+  simp only [Sigma.mk.injEq, heq_eq_eq, true_and] at h
+  exact cons_decomp_unique p₁ e₁ p₂ e₂ h
+
 end Etingof.PathAlgebra
