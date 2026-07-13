@@ -60,7 +60,33 @@ theorem toMatrix_symGroupAction (n : ℕ) (σ : Equiv.Perm (Fin n))
     LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
         (symGroupAction ℂ (BridgeV N) n σ).toLinearMap f g
       = if f = g ∘ σ.symm then 1 else 0 := by
-  sorry
+  rw [LinearMap.toMatrix_apply]
+  -- The permutation operator sends the basis vector indexed by `g` to the one indexed by `g ∘ σ⁻¹`.
+  have hval : (symGroupAction ℂ (BridgeV N) n σ).toLinearMap (tensorBasis N n g)
+      = tensorBasis N n (g ∘ σ.symm) := by
+    have h1 : tensorBasis N n g = ⨂ₜ[ℂ] i, (Pi.basisFun ℂ (Fin N)) (g i) :=
+      Basis.piTensorProduct_apply _ g
+    have h2 : tensorBasis N n (g ∘ σ.symm)
+        = ⨂ₜ[ℂ] i, (Pi.basisFun ℂ (Fin N)) ((g ∘ σ.symm) i) :=
+      Basis.piTensorProduct_apply _ (g ∘ σ.symm)
+    rw [h1, h2]
+    show symGroupAction ℂ (BridgeV N) n σ (⨂ₜ[ℂ] i, (Pi.basisFun ℂ (Fin N)) (g i)) = _
+    rw [symGroupAction, PiTensorProduct.reindex_tprod]
+    rfl
+  rw [hval, Basis.repr_self, Finsupp.single_apply]
+  exact if_congr eq_comm rfl rfl
+
+/-- The per-orbit factor `trace (matrixCycleProd σ (X_{letter ·}) r)` of the cycle-trace identity is
+a trace-of-word function: the ordered matrix product around the orbit of `r`,
+`X_{letter r} · X_{letter (σ⁻¹ r)} · …`, is the word product `w = [letter r, letter (σ⁻¹ r), …]`
+evaluated by `traceWord`. -/
+theorem trace_matrixCycleProd_mem_range_traceWord (n : ℕ) (σ : Equiv.Perm (Fin n))
+    (letter : Fin n → Fin k) (r : Fin n) :
+    Matrix.trace (matrixCycleProd σ (fun i => genericMatrix k N (letter i)) r)
+      ∈ Set.range (traceWord k N) := by
+  refine ⟨(List.range (cyclePeriod σ r)).map (fun t => letter ((σ⁻¹ ^ t) r)), ?_⟩
+  rw [traceWord, matrixCycleProd, List.map_map]
+  rfl
 
 /-- **Tensor-trace ↔ trace-word identity (coordinate-ring value on a permutation operator).**
 The contraction `endTensorEval slot (symGroupAction σ)` of a permutation operator against the
@@ -72,7 +98,45 @@ theorem endTensorEval_symGroupAction_mem_adjoin (n : ℕ) (slot : Fin n → Fin 
     (σ : Equiv.Perm (Fin n)) :
     endTensorEval k N n slot (symGroupAction ℂ (BridgeV N) n σ).toLinearMap
       ∈ Algebra.adjoin ℂ (Set.range (traceWord k N)) := by
-  sorry
+  classical
+  -- Evaluate the contraction; the permutation matrix collapses the `f`-sum to `f = g ∘ σ⁻¹`, and
+  -- reindexing the product by `j = σ i` gives the `matrixSum_eq_prod_orbit` form.
+  have hval : endTensorEval k N n slot (symGroupAction ℂ (BridgeV N) n σ).toLinearMap
+      = ∑ g : Fin n → Fin N, ∏ i : Fin n,
+          genericMatrix k N (slot (σ i)) (g (σ i)) (g i) := by
+    rw [endTensorEval_apply, Finset.sum_comm]
+    refine Finset.sum_congr rfl fun g _ => ?_
+    -- collapse the inner `f`-sum: only `f = g ∘ σ⁻¹` survives.
+    have hcollapse : (∑ f : Fin n → Fin N,
+          algebraMap ℂ (MatrixTupleRing k N)
+            (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+              (symGroupAction ℂ (BridgeV N) n σ).toLinearMap f g)
+            * genericTensorMatrix k N n slot g f)
+        = genericTensorMatrix k N n slot g (g ∘ σ.symm) := by
+      have hterm : ∀ f : Fin n → Fin N,
+          algebraMap ℂ (MatrixTupleRing k N)
+              (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+                (symGroupAction ℂ (BridgeV N) n σ).toLinearMap f g)
+              * genericTensorMatrix k N n slot g f
+            = if f = g ∘ σ.symm then genericTensorMatrix k N n slot g f else 0 := by
+        intro f
+        rw [toMatrix_symGroupAction, apply_ite (algebraMap ℂ (MatrixTupleRing k N)),
+          map_one, map_zero, ite_mul, one_mul, zero_mul]
+      simp_rw [hterm]
+      rw [Finset.sum_ite_eq' Finset.univ (g ∘ σ.symm)
+        (fun f => genericTensorMatrix k N n slot g f)]
+      simp
+    rw [hcollapse]
+    -- reindex the product `∏ j` by `j = σ i`.
+    simp only [genericTensorMatrix]
+    rw [← Equiv.prod_comp σ (fun j => MvPolynomial.X (R := ℂ)
+      ((slot j, g j, (g ∘ σ.symm) j) : Fin k × Fin N × Fin N))]
+    refine Finset.prod_congr rfl fun i _ => ?_
+    simp only [Function.comp_apply, Equiv.symm_apply_apply, genericMatrix]
+  rw [hval, matrixSum_eq_prod_orbit σ (fun i => genericMatrix k N (slot (σ i)))]
+  refine Subalgebra.prod_mem _ fun r _ => ?_
+  exact Algebra.subset_adjoin
+    (trace_matrixCycleProd_mem_range_traceWord k N n σ (fun i => slot (σ i)) r)
 
 /-! ## The multidegree slot assignment -/
 
