@@ -10,6 +10,9 @@ import Mathlib.Data.ZMod.QuotientRing
 import Mathlib.LinearAlgebra.TensorProduct.Quotient
 import Mathlib.LinearAlgebra.Isomorphisms
 import Mathlib.RingTheory.Ideal.Operations
+import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.EuclideanDomain
+import Mathlib.Algebra.Polynomial.FieldDivision
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
@@ -49,7 +52,13 @@ Status: part (i) is complete — the degree-`0` identifications (`Tor₀`, `Ext�
 identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are proved. The degree-`1`
 groups are read off the length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` via the derived
 six-term sequence: `Tor₁` is the kernel and `Ext¹` the cokernel of multiplication by `a` on
-`ℤ/b`. Part (ii) (`k[x]`) is stated but its degree-`0`/`1` proofs are deferred (`sorry`).
+`ℤ/b`. For part (ii) (`k[x]`) the `PolyGcd` namespace supplies the same kernel/cokernel/tensor/Hom
+bridges over `k[x]` (targeting the sum ideal `(f,g) = (f) ⊔ (g)`, so no explicit gcd is needed),
+and the two `Ext` identifications (`Ext⁰`, `Ext¹`) are proved from them exactly as in part (i).
+The two `Tor` identifications (`Tor₀`, `Tor₁`) remain `sorry`: they additionally need
+`tensorOver k[x] (k[x]/g) (k[x]/f) ≃+ (k[x]/f) ⊗_{k[x]} (k[x]/g)`, whose construction runs into
+the `mopPolyQuot` vs global-`IsCentralScalar` action diamond on `k[x]/(f)` (see the linked
+follow-up issue).
 -/
 
 namespace Etingof
@@ -750,6 +759,219 @@ theorem Problem_8_2_7_i_ext_free_vanish (N : ModuleCat.{0} ℤ) (n : ℕ) :
 
 open Polynomial
 
+/-! ### Reusable `k[x]`-gcd isomorphisms (kernel/cokernel of `·f`, tensor and Hom bridges) -/
+
+open scoped TensorProduct
+
+namespace PolyGcd
+
+noncomputable section
+
+variable {k : Type*} [Field k]
+
+/-- Multiplication-by-`f` endomorphism of `k[X]/(g)`, as a `k[X]`-linear map. -/
+def mulBy (f g : k[X]) : (k[X] ⧸ Ideal.span {g}) →ₗ[k[X]] (k[X] ⧸ Ideal.span {g}) :=
+  f • LinearMap.id
+
+@[simp] lemma mulBy_apply (f g : k[X]) (x : k[X] ⧸ Ideal.span {g}) :
+    mulBy f g x = f • x := rfl
+
+/-- The `k[X]`-linear projection `k[X]/(g) → k[X]/(f,g)` induced by the identity
+(well-defined since `(g) ≤ (f,g)`). -/
+def castLin (f g : k[X]) :
+    (k[X] ⧸ Ideal.span {g}) →ₗ[k[X]] (k[X] ⧸ Ideal.span {f, g}) :=
+  Submodule.mapQ (Ideal.span {g}) (Ideal.span {f, g}) LinearMap.id (by
+    rw [Submodule.comap_id]
+    exact Ideal.span_mono (Set.subset_insert f {g}))
+
+@[simp] lemma castLin_mk (f g : k[X]) (x : k[X]) :
+    castLin f g (Submodule.Quotient.mk x) = Submodule.Quotient.mk x := rfl
+
+lemma castLin_surjective (f g : k[X]) : Function.Surjective (castLin f g) := by
+  intro y
+  obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ y
+  exact ⟨Submodule.Quotient.mk x, rfl⟩
+
+/-- The image `(f) • ⊤` in `k[X]/(g)` is the kernel of the cast to `k[X]/(f,g)`. -/
+lemma span_smul_top_eq_ker (f g : k[X]) :
+    Ideal.span {f} • (⊤ : Submodule k[X] (k[X] ⧸ Ideal.span {g}))
+      = LinearMap.ker (castLin f g) := by
+  apply le_antisymm
+  · rw [Submodule.smul_le]
+    intro r hr n _
+    rw [Ideal.mem_span_singleton] at hr
+    obtain ⟨c, rfl⟩ := hr
+    obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ n
+    rw [LinearMap.mem_ker, ← Submodule.Quotient.mk_smul, castLin_mk,
+      Submodule.Quotient.mk_eq_zero]
+    -- f * c * x ∈ (f,g)
+    rw [smul_eq_mul]
+    apply Ideal.mul_mem_right
+    apply Ideal.mul_mem_right
+    exact Ideal.subset_span (Set.mem_insert f {g})
+  · intro n hn
+    obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ n
+    rw [LinearMap.mem_ker, castLin_mk, Submodule.Quotient.mk_eq_zero,
+      Ideal.mem_span_insert] at hn
+    obtain ⟨a, z, hz, hx⟩ := hn
+    rw [Ideal.mem_span_singleton] at hz
+    obtain ⟨c, rfl⟩ := hz
+    -- x = a * f + g * c, so mk x = mk (a*f) = (a*f) • ⊤-ish
+    rw [hx]
+    have : (Submodule.Quotient.mk (a * f + g * c) : k[X] ⧸ Ideal.span {g})
+        = Submodule.Quotient.mk (a * f) := by
+      rw [Submodule.Quotient.eq]
+      have : a * f + g * c - a * f = g * c := by ring
+      rw [this]
+      exact Ideal.mul_mem_right _ _ (Ideal.subset_span rfl)
+    rw [this]
+    rw [Submodule.ideal_span_singleton_smul]
+    refine ⟨Submodule.Quotient.mk a, Submodule.mem_top, ?_⟩
+    change f • (Submodule.Quotient.mk a : k[X] ⧸ Ideal.span {g}) = Submodule.Quotient.mk (a * f)
+    rw [← Submodule.Quotient.mk_smul, smul_eq_mul, mul_comm]
+
+/-- **Cokernel of multiplication by `f` on `k[X]/(g)` is `k[X]/(f,g)`.** -/
+def cokerEquiv (f g : k[X]) :
+    ((k[X] ⧸ Ideal.span {g}) ⧸
+        (Ideal.span {f} • (⊤ : Submodule k[X] (k[X] ⧸ Ideal.span {g}))))
+      ≃ₗ[k[X]] (k[X] ⧸ Ideal.span {f, g}) :=
+  (Submodule.quotEquivOfEq _ _ (span_smul_top_eq_ker f g)).trans
+    ((castLin f g).quotKerEquivOfSurjective (castLin_surjective f g))
+
+/-- **`(k[X]/(f)) ⊗ (k[X]/(g)) ≃ k[X]/(f,g)`.** -/
+def tensorEquiv (f g : k[X]) :
+    TensorProduct k[X] (k[X] ⧸ Ideal.span {f}) (k[X] ⧸ Ideal.span {g})
+      ≃ₗ[k[X]] (k[X] ⧸ Ideal.span {f, g}) :=
+  (TensorProduct.quotTensorEquivQuotSMul (k[X] ⧸ Ideal.span {g}) (Ideal.span {f})) ≪≫ₗ
+    cokerEquiv f g
+
+/-! ### Kernel of multiplication by `f` on `k[X]/(g)` -/
+
+/-- **Kernel of multiplication by `f` on `k[X]/(g)` is `k[X]/(f,g)`** (the `f`-torsion),
+for `g ≠ 0`. The generator `[r] ↦ [r · g']` where `g = d·g'`, `(d) = (f,g)`. -/
+def kerEquiv (f g : k[X]) (hg : g ≠ 0) :
+    (LinearMap.ker (mulBy f g)) ≃ₗ[k[X]] (k[X] ⧸ Ideal.span {f, g}) := by
+  -- generator `d` of `(f,g)`, cofactors `g = d·g'`, `f = d·f'`, with `f'`, `g'` coprime.
+  set d := Submodule.IsPrincipal.generator (Ideal.span {f, g}) with hddef
+  have hd : Ideal.span {f, g} = Ideal.span {d} := (Ideal.span_singleton_generator _).symm
+  have hdg : d ∣ g := by
+    rw [← Ideal.mem_span_singleton, ← hd]; exact Ideal.subset_span (by simp)
+  have hdf : d ∣ f := by
+    rw [← Ideal.mem_span_singleton, ← hd]; exact Ideal.subset_span (by simp)
+  set g' := hdg.choose with hg'def
+  have hg'eq : g = d * g' := hdg.choose_spec
+  set f' := hdf.choose with hf'def
+  have hf'eq : f = d * f' := hdf.choose_spec
+  have hd0 : d ≠ 0 := fun h0 => hg (by rw [hg'eq, h0, zero_mul])
+  have hg'0 : g' ≠ 0 := fun h0 => hg (by rw [hg'eq, h0, mul_zero])
+  have hbez : d ∈ Ideal.span {f, g} := by rw [hd]; exact Ideal.mem_span_singleton_self d
+  rw [Ideal.mem_span_pair] at hbez
+  set u := hbez.choose with hudef
+  have hv : ∃ v, u * f + v * g = d := hbez.choose_spec
+  set v := hv.choose with hvdef
+  have huv : u * f + v * g = d := hv.choose_spec
+  have hcop : IsCoprime f' g' := by
+    refine ⟨u, v, ?_⟩
+    have : d * (u * f' + v * g') = d * 1 := by
+      rw [mul_one, mul_add, ← mul_assoc, ← mul_assoc, mul_comm d u, mul_comm d v,
+        mul_assoc u, mul_assoc v, ← hf'eq, ← hg'eq, huv]
+    exact mul_left_cancel₀ hd0 this
+  -- the generator `k[X]/(f,g) → k[X]/(g)`, `[r] ↦ [g' * r]`.
+  set φ : k[X] →ₗ[k[X]] (k[X] ⧸ Ideal.span {g}) :=
+    (Ideal.span {g}).mkQ ∘ₗ (g' • LinearMap.id) with hφdef
+  have hφ : ∀ r : k[X], φ r = Submodule.Quotient.mk (g' * r) := fun r => by
+    simp only [hφdef, LinearMap.comp_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      Submodule.mkQ_apply, smul_eq_mul]
+  have hφker : Ideal.span {f, g} ≤ LinearMap.ker φ := by
+    rw [hd]
+    intro x hx
+    rw [Ideal.mem_span_singleton] at hx
+    obtain ⟨t, rfl⟩ := hx
+    rw [LinearMap.mem_ker, hφ, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+    exact ⟨t, by rw [hg'eq]; ring⟩
+  set kerGen : (k[X] ⧸ Ideal.span {f, g}) →ₗ[k[X]] (k[X] ⧸ Ideal.span {g}) :=
+    Submodule.liftQ _ φ hφker with hkerGendef
+  have hkerGen : ∀ r : k[X],
+      kerGen (Submodule.Quotient.mk r) = Submodule.Quotient.mk (g' * r) := fun r => by
+    rw [hkerGendef, Submodule.liftQ_apply, hφ]
+  -- injectivity
+  have hinj : Function.Injective kerGen := by
+    rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
+    intro x hx
+    obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+    rw [LinearMap.mem_ker, hkerGen, Submodule.Quotient.mk_eq_zero,
+      Ideal.mem_span_singleton] at hx
+    rw [Submodule.Quotient.mk_eq_zero, hd, Ideal.mem_span_singleton]
+    -- g ∣ g' * r ⟹ d ∣ r
+    rw [hg'eq, mul_comm d g'] at hx
+    exact (mul_dvd_mul_iff_left hg'0).mp hx
+  -- range = ker(mulBy)
+  have hrange : LinearMap.range kerGen = LinearMap.ker (mulBy f g) := by
+    apply le_antisymm
+    · rintro _ ⟨x, rfl⟩
+      obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+      rw [LinearMap.mem_ker, hkerGen]
+      change f • (Submodule.Quotient.mk (g' * r) : k[X] ⧸ Ideal.span {g}) = 0
+      rw [← Submodule.Quotient.mk_smul, smul_eq_mul, Submodule.Quotient.mk_eq_zero,
+        Ideal.mem_span_singleton]
+      exact ⟨f' * r, by rw [hf'eq, hg'eq]; ring⟩
+    · intro x hx
+      obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+      rw [LinearMap.mem_ker] at hx
+      change f • (Submodule.Quotient.mk r : k[X] ⧸ Ideal.span {g}) = 0 at hx
+      rw [← Submodule.Quotient.mk_smul, smul_eq_mul, Submodule.Quotient.mk_eq_zero,
+        Ideal.mem_span_singleton] at hx
+      -- g ∣ f * r, so g' ∣ f' * r, coprime ⟹ g' ∣ r
+      obtain ⟨s, hs⟩ : g' ∣ r := by
+        rw [hg'eq, hf'eq, mul_assoc] at hx
+        exact hcop.symm.dvd_of_dvd_mul_left ((mul_dvd_mul_iff_left hd0).mp hx)
+      exact ⟨Submodule.Quotient.mk s, by rw [hkerGen, ← hs]⟩
+  exact ((LinearEquiv.ofInjective kerGen hinj).trans (LinearEquiv.ofEq _ _ hrange)).symm
+
+/-! ### Hom bridge -/
+
+/-- Evaluation at `[1]` gives `Hom(k[X]/(f), N) ≃ f`-torsion of `N`.  For `N = k[X]/(g)`,
+`Hom(k[X]/(f), k[X]/(g)) ≃+ ker(·f)`. -/
+def homToKer (f g : k[X]) :
+    ((k[X] ⧸ Ideal.span {f}) →ₗ[k[X]] (k[X] ⧸ Ideal.span {g}))
+      ≃+ LinearMap.ker (mulBy f g) where
+  toFun ψ := ⟨ψ (Submodule.Quotient.mk 1), by
+    rw [LinearMap.mem_ker]
+    change f • ψ (Submodule.Quotient.mk 1) = 0
+    rw [← map_smul, ← Submodule.Quotient.mk_smul, smul_eq_mul, mul_one,
+      (Submodule.Quotient.mk_eq_zero _).2 (Ideal.mem_span_singleton_self f), map_zero]⟩
+  invFun x := (Ideal.span {f}).liftQ
+    (LinearMap.toSpanSingleton k[X] (k[X] ⧸ Ideal.span {g}) (x : k[X] ⧸ Ideal.span {g})) (by
+      intro r hr
+      rw [Ideal.mem_span_singleton] at hr
+      obtain ⟨s, rfl⟩ := hr
+      rw [LinearMap.mem_ker, LinearMap.toSpanSingleton_apply, mul_comm, mul_smul]
+      have hx := LinearMap.mem_ker.mp x.2
+      change f • (x : k[X] ⧸ Ideal.span {g}) = 0 at hx
+      rw [hx, smul_zero])
+  left_inv ψ := by
+    apply LinearMap.ext
+    intro z
+    obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ z
+    rw [Submodule.liftQ_apply, LinearMap.toSpanSingleton_apply, ← map_smul,
+      ← Submodule.Quotient.mk_smul, smul_eq_mul, mul_one]
+  right_inv x := by
+    apply Subtype.ext
+    change (Ideal.span {f}).liftQ _ _ (Submodule.Quotient.mk 1) = (x : k[X] ⧸ Ideal.span {g})
+    rw [Submodule.liftQ_apply, LinearMap.toSpanSingleton_apply, one_smul]
+  map_add' _ _ := rfl
+
+/-- **`Hom(k[X]/(f), k[X]/(g)) ≃ k[X]/(f,g)`** for `f, g ≠ 0`. -/
+def homEquiv (f g : k[X]) (hg : g ≠ 0) :
+    ((k[X] ⧸ Ideal.span {f}) →ₗ[k[X]] (k[X] ⧸ Ideal.span {g}))
+      ≃+ (k[X] ⧸ Ideal.span {f, g}) :=
+  (homToKer f g).trans (kerEquiv f g hg).toAddEquiv
+
+end
+
+end PolyGcd
+
+
 /-- Right `k[x]`-action on the cyclic module `k[x]/(f)` (pulled back along `k[x]ᵐᵒᵖ ≃+* k[x]`;
 the two coincide because `k[x]` is commutative). -/
 noncomputable local instance mopPolyQuot (k : Type*) [Field k] (f : k[X]) :
@@ -764,8 +986,8 @@ theorem Problem_8_2_7_ii_tor_zero (k : Type*) [Field k] (f g : k[X]) :
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
   sorry
 
-/-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))`. -/
-theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) :
+/-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))` for `f, g ≠ 0`. -/
+theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) (hg : g ≠ 0) :
     Nonempty (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
         (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
@@ -856,18 +1078,117 @@ theorem Problem_8_2_7_ii_tor_free_vanish (k : Type u) [Field k]
 
 /-- **Problem 8.2.7(ii), `Ext⁰`.** `Ext⁰(k[x]/(f), k[x]/(g)) = Hom(k[x]/(f), k[x]/(g))
 ≅ k[x]/(gcd(f,g))`. -/
-theorem Problem_8_2_7_ii_ext_zero (k : Type*) [Field k] (f g : k[X]) :
+theorem Problem_8_2_7_ii_ext_zero (k : Type*) [Field k] (f g : k[X]) (hg : g ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
         (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g})) 0
       ≃+ (k[X] ⧸ Ideal.span {f, g})) := by
-  sorry
+  -- `Ext⁰ ≃+ Hom_{k[x]}(k[x]/(f), k[x]/(g))`, and the latter is `k[x]/(f,g)`.
+  obtain ⟨e₀⟩ := Problem_8_2_6_i_ext k[X] (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
+    (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g}))
+  exact ⟨e₀.trans (ModuleCat.homAddEquiv.trans (PolyGcd.homEquiv f g hg))⟩
 
 /-- **Problem 8.2.7(ii), `Ext¹`.** `Ext¹(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))`. -/
-theorem Problem_8_2_7_ii_ext_one (k : Type*) [Field k] (f g : k[X]) :
+theorem Problem_8_2_7_ii_ext_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
         (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g})) 1
       ≃+ (k[X] ⧸ Ideal.span {f, g})) := by
-  sorry
+  -- Length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/(f) → 0` over `ModuleCat k[x]`.
+  let mf : k[X] →ₗ[k[X]] k[X] := f • LinearMap.id
+  let pf : k[X] →ₗ[k[X]] (k[X] ⧸ Ideal.span {f}) := Algebra.linearMap k[X] (k[X] ⧸ Ideal.span {f})
+  have hmf : ∀ x : k[X], mf x = f * x := fun x => by simp [mf]
+  have hpf : ∀ x : k[X], pf x = Submodule.Quotient.mk x := fun x => rfl
+  have hgf : ∀ x : k[X], pf (mf x) = 0 := by
+    intro x; rw [hmf, hpf, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+    exact dvd_mul_right f x
+  have eq0 : pf.comp mf = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+  have hexact : Function.Exact mf pf := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, hpf, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton,
+      LinearMap.mem_range, hmf]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right f c
+  have hinjf : Function.Injective mf :=
+    fun x y hxy => mul_left_cancel₀ hf (by rw [← hmf, ← hmf, hxy])
+  have hsurjg : Function.Surjective pf := by
+    intro z; obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ z; exact ⟨y, hpf y⟩
+  set S := ModuleCat.shortComplexOfCompEqZero mf pf eq0 with hSdef
+  have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
+  set Y := ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g}) with hY
+  -- Contravariant six-term window `Ext⁰(k/f) → Ext⁰(k) →[·f] Ext⁰(k) →[δ] Ext¹(k/f) → 0 → 0`.
+  have hExactCS := Abelian.Ext.contravariantSequence_exact hS Y 0 1 (by norm_num)
+  let dhom : Etingof.Ext S.X₁ Y 0 →+ Etingof.Ext S.X₃ Y 1 := hS.extClass.precomp Y (by norm_num)
+  let m12 : Etingof.Ext S.X₂ Y 0 →+ Etingof.Ext S.X₁ Y 0 :=
+    (Abelian.Ext.mk₀ S.f).precomp Y (zero_add 0)
+  -- `Ext¹(k[x], k[x]/g) = 0`, so `δ` is surjective; and `ker δ = range(·f)`.
+  have hsurjδ : Function.Surjective dhom := by
+    rw [← AddMonoidHom.range_eq_top,
+      show dhom.range = _ from (hExactCS.exact' 2 3 4).ab_range_eq_ker]
+    ext x
+    simp only [AddSubgroup.mem_top, iff_true, AddMonoidHom.mem_ker]
+    exact (Abelian.Ext.subsingleton_of_projective S.X₂ Y 0).elim _ _
+  have hkerδ : dhom.ker = m12.range := ((hExactCS.exact' 1 2 3).ab_range_eq_ker).symm
+  -- `Ext⁰(k[x], k[x]/g) ≅ Hom_{k[x]}(k[x], k[x]/g) ≅ k[x]/g`, `α ↦ (addEquiv₀ α)(1)`.
+  let e0 : (Etingof.Ext S.X₁ Y 0) ≃+ (k[X] ⧸ Ideal.span {g}) :=
+    (Abelian.Ext.addEquiv₀).trans (ModuleCat.homAddEquiv.trans
+      (LinearMap.ringLmapEquivSelf k[X] k[X] (k[X] ⧸ Ideal.span {g})).toAddEquiv)
+  -- The precomposition map `·f` on `Ext⁰(k[x])` is multiplication by `f` on `k[x]/g`.
+  have hconj : ∀ β, e0 (m12 β) = PolyGcd.mulBy f g (e0 β) := by
+    intro β
+    have hred : m12 β = (Abelian.Ext.mk₀ S.f).comp β (zero_add 0) := rfl
+    have step1 : Abelian.Ext.addEquiv₀ (m12 β) = S.f ≫ Abelian.Ext.addEquiv₀ β := by
+      rw [hred]
+      apply Abelian.Ext.addEquiv₀.symm.injective
+      rw [AddEquiv.symm_apply_apply, Abelian.Ext.addEquiv₀_symm_apply, ← Abelian.Ext.mk₀_comp_mk₀,
+        Abelian.Ext.mk₀_addEquiv₀_apply]
+    change (LinearMap.ringLmapEquivSelf k[X] k[X] (k[X] ⧸ Ideal.span {g}))
+        (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ (m12 β)))
+      = PolyGcd.mulBy f g ((LinearMap.ringLmapEquivSelf k[X] k[X] (k[X] ⧸ Ideal.span {g}))
+        (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ β)))
+    rw [step1]
+    simp only [ModuleCat.homAddEquiv_apply, ModuleCat.hom_comp,
+      LinearMap.ringLmapEquivSelf_apply, PolyGcd.mulBy_apply]
+    change (Abelian.Ext.addEquiv₀ β).hom (S.f.hom 1) = f • (Abelian.Ext.addEquiv₀ β).hom 1
+    rw [show S.f.hom (1 : k[X]) = f • (1 : k[X]) from rfl, map_smul]
+  -- `range(mulBy) = (f) • ⊤`, matching the domain of `cokerEquiv`.
+  have hrange : LinearMap.range (PolyGcd.mulBy f g)
+      = Ideal.span {f} • (⊤ : Submodule k[X] (k[X] ⧸ Ideal.span {g})) := by
+    rw [Submodule.ideal_span_singleton_smul]
+    ext x
+    simp only [LinearMap.mem_range, PolyGcd.mulBy_apply,
+      Submodule.mem_smul_pointwise_iff_exists]
+    constructor
+    · rintro ⟨y, rfl⟩; exact ⟨y, Submodule.mem_top, rfl⟩
+    · rintro ⟨y, _, rfl⟩; exact ⟨y, rfl⟩
+  -- Assemble: `Ext¹ ≃ Ext⁰(k[x])/ker δ ≃ (k[x]/g) / (f)•⊤ ≃ k[x]/(f,g)`.
+  let δL := dhom.toIntLinearMap
+  have hsurjδL : Function.Surjective δL := hsurjδ
+  let e0L : (Etingof.Ext S.X₁ Y 0) ≃ₗ[ℤ] (k[X] ⧸ Ideal.span {g}) := e0.toIntLinearEquiv
+  have he0L : ∀ x, (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] (k[X] ⧸ Ideal.span {g})) x = e0 x :=
+    fun _ => rfl
+  have hmap : Submodule.map (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] (k[X] ⧸ Ideal.span {g}))
+      (LinearMap.ker δL)
+      = (Ideal.span {f} • (⊤ : Submodule k[X] (k[X] ⧸ Ideal.span {g}))).restrictScalars ℤ := by
+    rw [← hrange]
+    ext z
+    simp only [Submodule.mem_map, LinearMap.mem_ker, Submodule.restrictScalars_mem,
+      LinearMap.mem_range, he0L]
+    constructor
+    · rintro ⟨y, hy, rfl⟩
+      have hy' : y ∈ dhom.ker := AddMonoidHom.mem_ker.mpr hy
+      rw [hkerδ] at hy'
+      obtain ⟨u, hu⟩ := hy'
+      exact ⟨e0 u, by rw [← hconj, hu]⟩
+    · rintro ⟨w, rfl⟩
+      refine ⟨m12 (e0.symm w), ?_, ?_⟩
+      · have : m12 (e0.symm w) ∈ dhom.ker :=
+          hkerδ.symm ▸ AddMonoidHom.mem_range.mpr ⟨e0.symm w, rfl⟩
+        exact AddMonoidHom.mem_ker.mp this
+      · rw [hconj, e0.apply_symm_apply]
+  exact ⟨((LinearMap.quotKerEquivOfSurjective δL hsurjδL).symm.trans
+    (Submodule.Quotient.equiv (LinearMap.ker δL) _ e0L hmap)).toAddEquiv.trans
+    (PolyGcd.cokerEquiv f g).toAddEquiv⟩
 
 /-- `k[x]/(p)` has projective dimension `< 2` as a `k[x]`-module. For `p ≠ 0` the length-`1`
 free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0` exhibits this; for `p = 0`,
