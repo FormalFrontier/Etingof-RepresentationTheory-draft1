@@ -340,7 +340,7 @@ theorem heisenberg_classification :
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = p ^ 2 ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = p)).card = p - 1 := by
   classical
-  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi⟩ :=
+  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi, _, _, _⟩ :=
     Etingof.Theorem5_27_1 (Multiplicative (ZMod p)) (Multiplicative (ZMod p × ZMod p))
       (heisenbergφ p)
   -- Dual action on the parametrized characters: `g · χ_{β,γ} = χ_{β − a·γ, γ}`.
