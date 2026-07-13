@@ -512,6 +512,43 @@ noncomputable def rotHom : unitary ℍ[ℝ] →* Matrix.specialOrthogonalGroup (
 @[simp] lemma rotHom_coe (q : unitary ℍ[ℝ]) :
     (rotHom q : Matrix (Fin 3) (Fin 3) ℝ) = rotMat (q : ℍ[ℝ]) := rfl
 
+/-! ### Coordinate-axis rotations in the image of `rotMat`
+
+The conjugation by the "half-angle" quaternion `⟨c, s, 0, 0⟩` (real part `c`, `i`-part `s`) is the
+rotation of `ℝ³` about the `i`-axis whose block on the `j,k`-plane is
+`!![c²-s², -2cs; 2cs, c²-s²]`.  With `c = cos (θ/2)`, `s = sin (θ/2)` the double-angle identities
+`c²-s² = cos θ`, `2cs = sin θ` turn this into the standard rotation `Rx θ`.  The `j`- and `k`-axis
+analogues are `rotMat_yAxis`/`rotMat_zAxis`.  These are the one-parameter subgroups that generate
+`SO(3)` (Euler decomposition), the route to `rotHom_surjective`.  Stated as exact polynomial
+identities in `c, s` (no `c²+s²=1` needed), so they compose cleanly under `rotMat_mul`. -/
+lemma rotMat_xAxis (c s : ℝ) :
+    rotMat (⟨c, s, 0, 0⟩ : ℍ[ℝ]) =
+      !![c ^ 2 + s ^ 2, 0, 0;
+         0, c ^ 2 - s ^ 2, -(2 * c * s);
+         0, 2 * c * s, c ^ 2 - s ^ 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [rotMat, qI, qJ, qK] <;> ring
+
+/-- Conjugation by `⟨c, 0, s, 0⟩` is the rotation of `ℝ³` about the `j`-axis; with
+`c = cos (θ/2)`, `s = sin (θ/2)` it is the standard rotation `Ry θ`. -/
+lemma rotMat_yAxis (c s : ℝ) :
+    rotMat (⟨c, 0, s, 0⟩ : ℍ[ℝ]) =
+      !![c ^ 2 - s ^ 2, 0, 2 * c * s;
+         0, c ^ 2 + s ^ 2, 0;
+         -(2 * c * s), 0, c ^ 2 - s ^ 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [rotMat, qI, qJ, qK] <;> ring
+
+/-- Conjugation by `⟨c, 0, 0, s⟩` is the rotation of `ℝ³` about the `k`-axis; with
+`c = cos (θ/2)`, `s = sin (θ/2)` it is the standard rotation `Rz θ`. -/
+lemma rotMat_zAxis (c s : ℝ) :
+    rotMat (⟨c, 0, 0, s⟩ : ℍ[ℝ]) =
+      !![c ^ 2 - s ^ 2, -(2 * c * s), 0;
+         2 * c * s, c ^ 2 - s ^ 2, 0;
+         0, 0, c ^ 2 + s ^ 2] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [rotMat, qI, qJ, qK] <;> ring
+
 /-- **Surjectivity of the quaternion cover.** Every rotation of Euclidean `ℝ³` is conjugation by a
 unit quaternion — the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.
 This is the axis–angle decomposition: a rotation by angle `θ` about a unit axis
