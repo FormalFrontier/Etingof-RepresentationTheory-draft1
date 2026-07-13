@@ -315,6 +315,13 @@ After each coherent chunk of changes:
 
 Each commit must compile. One logical change per commit.
 
+**Stage explicit paths, not `git add -A`.** Reused worktrees often start with
+unrelated uncommitted edits from a prior session (e.g. `.claude/` skill/command
+files). `git add -A` sweeps those into your commit, violating PR scope and
+risking `create-pr` rejection. Stage only the files you changed
+(`git add <path> ...`), and check `git diff --name-only origin/main..HEAD`
+before pushing.
+
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
 
