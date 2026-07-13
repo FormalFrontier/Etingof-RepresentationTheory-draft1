@@ -1,6 +1,8 @@
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import Mathlib.Topology.ContinuousMap.Algebra
 import Mathlib.Topology.Instances.Real.Lemmas
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.LinearAlgebra.Projection
 
 /-!
 # Problem 3.8.5: periodic and antiperiodic functions
@@ -23,7 +25,10 @@ is an invertible module of order `2` in the Picard group of `A`; it is a nontriv
 bundle on the circle (the Möbius bundle), whence `M ≇ A` yet `M ⊕ M ≅ A ⊕ A`.
 
 The subalgebra and submodule carriers are genuine and their closure proof obligations are
-discharged; the four theorems are left as `sorry`.
+discharged. Part (i) (`periodic_isIndecomposable`, `antiperiodic_isIndecomposable`) is proved
+via the fact that the algebra of period-1 functions has no nontrivial idempotents (an idempotent
+is pointwise `{0,1}`-valued, hence constant by connectedness of `ℝ`). The two part (ii) theorems
+are left as `sorry`.
 -/
 
 namespace Etingof.Problem3_8_5
@@ -180,10 +185,138 @@ theorem periodic_isIndecomposable :
     have := hC.inf_eq_bot
     rwa [hW1, top_inf_eq] at this
 
+open Real in
+/-- The antiperiodic function `x ↦ cos (π x)`. -/
+noncomputable def cosπ : C(ℝ, ℝ) := ⟨fun x => Real.cos (π * x), by fun_prop⟩
+
+open Real in
+/-- The antiperiodic function `x ↦ sin (π x)`. -/
+noncomputable def sinπ : C(ℝ, ℝ) := ⟨fun x => Real.sin (π * x), by fun_prop⟩
+
+@[simp] lemma cosπ_apply (x : ℝ) : cosπ x = Real.cos (Real.pi * x) := rfl
+@[simp] lemma sinπ_apply (x : ℝ) : sinπ x = Real.sin (Real.pi * x) := rfl
+
+lemma cosπ_mem : cosπ ∈ antiperiodicSubmod := by
+  intro x
+  simp only [cosπ_apply, mul_add, mul_one]
+  exact Real.cos_add_pi _
+
+lemma sinπ_mem : sinπ ∈ antiperiodicSubmod := by
+  intro x
+  simp only [sinπ_apply, mul_add, mul_one]
+  exact Real.sin_add_pi _
+
+/-- `cos(πx)² + sin(πx)² = 1`, the frame identity for the module `M`. -/
+lemma cosπ_sq_add_sinπ_sq (x : ℝ) : cosπ x * cosπ x + sinπ x * sinπ x = 1 := by
+  simp only [cosπ_apply, sinπ_apply]
+  nlinarith [Real.sin_sq_add_cos_sq (Real.pi * x)]
+
+/-- `cos(πx)`, `sin(πx)` as elements of the antiperiodic module `M`. -/
+noncomputable def cM : antiperiodicSubmod := ⟨cosπ, cosπ_mem⟩
+noncomputable def sM : antiperiodicSubmod := ⟨sinπ, sinπ_mem⟩
+
+@[simp] lemma cM_coe : (cM : C(ℝ, ℝ)) = cosπ := rfl
+@[simp] lemma sM_coe : (sM : C(ℝ, ℝ)) = sinπ := rfl
+
+/-- The product of two antiperiodic functions is periodic, packaged as an element of `A`. -/
+noncomputable def antiMul (f g : antiperiodicSubmod) : periodicSubalg :=
+  ⟨(f : C(ℝ, ℝ)) * (g : C(ℝ, ℝ)), by
+    intro x
+    simp only [ContinuousMap.mul_apply, f.2 x, g.2 x]
+    ring⟩
+
+@[simp] lemma antiMul_coe_apply (f g : antiperiodicSubmod) (x : ℝ) :
+    ((antiMul f g : periodicSubalg) : C(ℝ, ℝ)) x = (f : C(ℝ, ℝ)) x * (g : C(ℝ, ℝ)) x := rfl
+
+/-- The scalar action of `A` on `C(ℝ, ℝ)` is pointwise multiplication, at the level of values. -/
+lemma smul_apply_coe (a : periodicSubalg) (m : antiperiodicSubmod) (x : ℝ) :
+    ((a • m : antiperiodicSubmod) : C(ℝ, ℝ)) x = (a : C(ℝ, ℝ)) x * (m : C(ℝ, ℝ)) x := by
+  rw [Submodule.coe_smul, Algebra.smul_def]; rfl
+
+/-- **Frame decomposition.** Every antiperiodic `f` is `(cf)·c + (sf)·s`, where `c = cos π·`,
+`s = sin π·`, and `cf, sf ∈ A` are the (periodic) products `c·f`, `s·f`. This exhibits `M` as
+generated over `A` by the two sections `c`, `s` with `c² + s² = 1`. -/
+lemma antiperiodic_frame_decomp (f : antiperiodicSubmod) :
+    f = antiMul cM f • cM + antiMul sM f • sM := by
+  apply Subtype.ext
+  ext x
+  simp only [Submodule.coe_add, ContinuousMap.add_apply, smul_apply_coe, antiMul_coe_apply,
+    cM_coe, sM_coe]
+  have h := cosπ_sq_add_sinπ_sq x
+  linear_combination (-((f : C(ℝ, ℝ)) x)) * h
+
 /-- **Problem 3.8.5(i).** `M` is indecomposable as an `A`-module. -/
 theorem antiperiodic_isIndecomposable :
     Etingof.IsIndecomposable (periodicSubalg) (antiperiodicSubmod) := by
-  sorry
+  refine ⟨⟨⟨0, cM, ?_⟩⟩, ?_⟩
+  · -- Nontriviality: `0 ≠ cos π·`, since `cos 0 = 1`.
+    intro h
+    have := congrArg (fun z : antiperiodicSubmod => (z : C(ℝ, ℝ)) 0) h
+    simp [cM_coe, cosπ_apply] at this
+  · intro W₁ W₂ hC
+    -- The `A`-linear projection onto `W₁` along `W₂`.
+    set π := LinearMap.ofIsCompl hC W₁.subtype 0 with hπ
+    have hleft : ∀ w, w ∈ W₁ → π w = w := by
+      intro w hw
+      have := LinearMap.ofIsCompl_apply_left hC (φ := W₁.subtype) (ψ := 0) ⟨w, hw⟩
+      simpa [hπ] using this
+    have hright : ∀ w, w ∈ W₂ → π w = 0 := by
+      intro w hw
+      have := LinearMap.ofIsCompl_apply_right hC (φ := W₁.subtype) (ψ := 0) ⟨w, hw⟩
+      simpa [hπ] using this
+    have hmem : ∀ g, π g ∈ W₁ := by
+      intro g
+      have hg : g ∈ W₁ ⊔ W₂ := by rw [hC.sup_eq_top]; trivial
+      rw [Submodule.mem_sup] at hg
+      obtain ⟨a, ha, b, hb, hab⟩ := hg
+      rw [← hab, map_add, hleft a ha, hright b hb, add_zero]
+      exact ha
+    have hidemπ : ∀ f, π (π f) = π f := fun f => hleft (π f) (hmem f)
+    -- The idempotent `e ∈ A` with `π = (e • ·)`.
+    set e : periodicSubalg := antiMul cM (π cM) + antiMul sM (π sM) with he_def
+    have key : ∀ f, π f = e • f := by
+      intro f
+      have hpieq : π f = antiMul cM f • π cM + antiMul sM f • π sM := by
+        conv_lhs => rw [antiperiodic_frame_decomp f]
+        rw [map_add, map_smul, map_smul]
+      rw [hpieq]
+      apply Subtype.ext
+      ext x
+      rw [he_def]
+      simp only [Submodule.coe_add, Subalgebra.coe_add, ContinuousMap.add_apply, smul_apply_coe,
+        antiMul_coe_apply, cM_coe, sM_coe]
+      ring
+    -- `e` is idempotent: `(e*e)•f = e•f` for all `f`, tested against `c` and `s`.
+    have hidem_smul : ∀ f : ↥antiperiodicSubmod, (e * e) • f = e • f := by
+      intro f
+      have h1 : π (π f) = π f := hidemπ f
+      rw [key f] at h1
+      rw [key (e • f)] at h1
+      rw [smul_smul] at h1
+      exact h1
+    have hee : e * e = e := by
+      apply Subtype.ext
+      ext x
+      have hcx := congrArg (fun z : antiperiodicSubmod => (z : C(ℝ, ℝ)) x) (hidem_smul cM)
+      have hsx := congrArg (fun z : antiperiodicSubmod => (z : C(ℝ, ℝ)) x) (hidem_smul sM)
+      simp only [smul_apply_coe, cM_coe, sM_coe] at hcx hsx
+      have htrig := cosπ_sq_add_sinπ_sq x
+      linear_combination cosπ x * hcx + sinπ x * hsx +
+        ((e : C(ℝ, ℝ)) x - ((e * e : periodicSubalg) : C(ℝ, ℝ)) x) * htrig
+    -- An idempotent in `A` is `0` or `1`, forcing one summand to vanish.
+    rcases periodicSubalg_idempotent_eq_zero_or_one e hee with he0 | he1
+    · left
+      rw [Submodule.eq_bot_iff]
+      intro w hw
+      have h := hleft w hw
+      rw [key w, he0, zero_smul] at h
+      exact h.symm
+    · right
+      rw [Submodule.eq_bot_iff]
+      intro w hw
+      have h := hright w hw
+      rw [key w, he1, one_smul] at h
+      exact h
 
 /-- **Problem 3.8.5(ii), first part.** `A` is not isomorphic to `M` as `A`-modules: `M` is a
 nontrivial line bundle on the circle (the Möbius bundle), so it is not free of rank 1. -/
