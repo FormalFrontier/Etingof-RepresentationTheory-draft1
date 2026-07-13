@@ -227,6 +227,69 @@ noncomputable def matrixCycleProd (σ : Equiv.Perm (Fin m)) (M : Fin m → Matri
     Matrix ι ι R :=
   (((List.range (cyclePeriod σ i)).map (fun t => M ((σ⁻¹ ^ t) i)))).prod
 
+/-! ### Orbit-representative infrastructure
+
+Each `σ`-orbit is tagged by its `≤`-minimal element, the *representative*. `repOf σ x` is the
+representative of `x`'s orbit; it is constant along cycles, lands in `orbitReps σ`, and fixes the
+elements of `orbitReps σ`. `fiberMap σ r` is the action of `σ` on the fiber (orbit) of `r`. -/
+
+open scoped Classical in
+/-- The representative of the `σ`-orbit of `x`: the `≤`-minimal element `SameCycle`-related
+to `x`. -/
+noncomputable def repOf (σ : Equiv.Perm (Fin m)) (x : Fin m) : Fin m :=
+  (Finset.univ.filter (fun j => σ.SameCycle x j)).min'
+    ⟨x, Finset.mem_filter.mpr ⟨Finset.mem_univ _, Equiv.Perm.SameCycle.refl σ x⟩⟩
+
+lemma sameCycle_repOf (σ : Equiv.Perm (Fin m)) (x : Fin m) : σ.SameCycle x (repOf σ x) := by
+  classical
+  have h := Finset.min'_mem (Finset.univ.filter (fun j => σ.SameCycle x j))
+    ⟨x, Finset.mem_filter.mpr ⟨Finset.mem_univ _, Equiv.Perm.SameCycle.refl σ x⟩⟩
+  exact (Finset.mem_filter.mp h).2
+
+lemma repOf_le (σ : Equiv.Perm (Fin m)) (x : Fin m) {j : Fin m} (h : σ.SameCycle x j) :
+    repOf σ x ≤ j :=
+  Finset.min'_le _ _ (Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩)
+
+lemma repOf_eq_of_sameCycle (σ : Equiv.Perm (Fin m)) {x y : Fin m} (h : σ.SameCycle x y) :
+    repOf σ x = repOf σ y := by
+  classical
+  unfold repOf
+  congr 1
+  ext j
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+  exact ⟨fun hj => h.symm.trans hj, fun hj => h.trans hj⟩
+
+lemma mem_orbitReps_iff (σ : Equiv.Perm (Fin m)) {r : Fin m} :
+    r ∈ orbitReps σ ↔ ∀ j, σ.SameCycle r j → r ≤ j := by
+  simp [orbitReps]
+
+lemma repOf_mem_orbitReps (σ : Equiv.Perm (Fin m)) (x : Fin m) : repOf σ x ∈ orbitReps σ := by
+  rw [mem_orbitReps_iff]
+  exact fun j hj => repOf_le σ x ((sameCycle_repOf σ x).trans hj)
+
+lemma repOf_eq_self (σ : Equiv.Perm (Fin m)) {r : Fin m} (hr : r ∈ orbitReps σ) :
+    repOf σ r = r := by
+  rw [mem_orbitReps_iff] at hr
+  exact le_antisymm (repOf_le σ r (Equiv.Perm.SameCycle.refl σ r)) (hr _ (sameCycle_repOf σ r))
+
+lemma repOf_apply (σ : Equiv.Perm (Fin m)) (x : Fin m) : repOf σ (σ x) = repOf σ x :=
+  repOf_eq_of_sameCycle σ ((Equiv.Perm.SameCycle.refl σ x).apply_left)
+
+/-- The action of `σ` on the fiber (orbit) of a representative `r`. -/
+def fiberMap (σ : Equiv.Perm (Fin m)) (r : Fin m) (x : {x : Fin m // repOf σ x = r}) :
+    {x : Fin m // repOf σ x = r} :=
+  ⟨σ x.1, by rw [repOf_apply]; exact x.2⟩
+
+/-- **Single-orbit telescoping** (the remaining `sorry`, tracked by a follow-up issue). On one
+`σ`-orbit — the fiber of a representative `r` — the local multi-index sum resums to the trace of the
+ordered matrix product `matrixCycleProd σ M r`. The analytic core (`trace_bigProd`) is in place. -/
+theorem matrixSum_cycle_eq_trace (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R)
+    {r : Fin m} (hr : r ∈ orbitReps σ) :
+    ∑ q : {x : Fin m // repOf σ x = r} → ι,
+        ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x)
+      = Matrix.trace (matrixCycleProd σ M r) := by
+  sorry
+
 /-- **Combinatorial core.** The multi-index sum `∑_p ∏_i M_i (p (σ i)) (p i)` factors over the
 `σ`-orbits: the permutation forces `p` to be constant along each cycle, and the chain of matrix
 entries around a cycle resums to the trace of the ordered matrix product. One factor per orbit
@@ -247,7 +310,41 @@ This is the heart of the tensor-trace ↔ trace-word identity. Proof roadmap (tw
 theorem matrixSum_eq_prod_orbit (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R) :
     ∑ p : Fin m → ι, ∏ i : Fin m, M i (p (σ i)) (p i)
       = ∏ i ∈ orbitReps σ, Matrix.trace (matrixCycleProd σ M i) := by
-  sorry
+  classical
+  -- The reindexing between colorings `p` and orbitwise colorings `g`.
+  let E : (Fin m → ι) ≃ (∀ r : Fin m, {x : Fin m // repOf σ x = r} → ι) :=
+    { toFun := fun p r x => p x.1
+      invFun := fun g i => g (repOf σ i) ⟨i, rfl⟩
+      left_inv := fun p => rfl
+      right_inv := fun g => by funext r x; obtain ⟨i, rfl⟩ := x; rfl }
+  -- The product over `Fin m` splits as a product over orbit fibers.
+  have hpart : ∀ h : Fin m → R,
+      ∏ i : Fin m, h i = ∏ r : Fin m, ∏ x : {x : Fin m // repOf σ x = r}, h x.1 := by
+    intro h
+    rw [← Equiv.prod_comp (Equiv.sigmaFiberEquiv (repOf σ)) h, Fintype.prod_sigma]
+    rfl
+  calc
+    ∑ p : Fin m → ι, ∏ i : Fin m, M i (p (σ i)) (p i)
+        = ∑ p : Fin m → ι, ∏ r : Fin m,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (p (σ x.1)) (p x.1) := by
+          exact Finset.sum_congr rfl (fun p _ => hpart (fun i => M i (p (σ i)) (p i)))
+      _ = ∑ g : (∀ r : Fin m, {x : Fin m // repOf σ x = r} → ι), ∏ r : Fin m,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (g r (fiberMap σ r x)) (g r x) := by
+          rw [← Equiv.sum_comp E (fun g => ∏ r : Fin m,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (g r (fiberMap σ r x)) (g r x))]
+          exact Finset.sum_congr rfl (fun p _ => rfl)
+      _ = ∏ r : Fin m, ∑ q : {x : Fin m // repOf σ x = r} → ι,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x) :=
+          (Fintype.prod_sum (fun (r : Fin m) (q : {x : Fin m // repOf σ x = r} → ι) =>
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x))).symm
+      _ = ∏ r ∈ orbitReps σ, ∑ q : {x : Fin m // repOf σ x = r} → ι,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x) := by
+          refine (Finset.prod_subset (Finset.subset_univ _) (fun r _ hr => ?_)).symm
+          have hempty : IsEmpty {x : Fin m // repOf σ x = r} :=
+            ⟨fun x => hr (x.2 ▸ repOf_mem_orbitReps σ x.1)⟩
+          simp [Finset.prod_of_isEmpty]
+      _ = ∏ r ∈ orbitReps σ, Matrix.trace (matrixCycleProd σ M r) :=
+          Finset.prod_congr rfl (fun r hr => matrixSum_cycle_eq_trace σ M hr)
 
 end MatrixCombinatorics
 
