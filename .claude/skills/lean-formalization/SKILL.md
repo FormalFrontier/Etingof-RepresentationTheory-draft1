@@ -402,7 +402,15 @@ in #5987, `Chapter2/Definition2_8_4.lean`):
   its apply-lemma by `change`-ing the goal to the raw-coercion form first, then `simp [Finsupp.lsum_single]`.
 - **simp can't match `Finsupp.smul_single`** on the `instModule`-typed smul that a `Foo`-ascribed RHS
   produces (defeq but keyed on a different `SMul` head). **Fix:** use `rw [Finsupp.smul_single]` (rw
-  unifies instance args up to defeq) instead of `simp only [Finsupp.smul_single]`.
+  unifies instance args up to defeq) instead of `simp only [Finsupp.smul_single]`. **Corollary
+  (#6510, length grading `A →ₗ[k] (ℕ →₀ A)`):** when the whole *term* is instance-ambiguous — e.g.
+  `(Finsupp.single n (Finsupp.single p c)) n'` where the inner single's `Zero` reverts to the raw
+  `ι →₀ k` while the outer expects `Foo` ("target not type-correct under instances transparency") —
+  even `rw [Finsupp.single_apply]` fails to match. Discharge the apply-lemma with **term-mode
+  `exact Finsupp.single_apply`** (unifies up to defeq), not `rw`. Also avoid `congr 1` on such a
+  goal: it re-elaborates the inner `Finsupp.single` and reintroduces the wrong `Zero` instance —
+  keep the whole computation in one `rw […]` chain (`Finsupp.smul_single, ofPath, Finsupp.smul_single,
+  smul_eq_mul, mul_one`) so instances stay consistent.
 
 ### Induced rep `Ind_H^G ℂ ≅ k[G]·a` as `Representation.Equiv`, and the MonoidAlgebra/Finsupp instance wall (#5171)
 
