@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter9.PathAlgebraVertexSubalgebra
 import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 import Mathlib.Algebra.Category.ModuleCat.Projective
 import Mathlib.CategoryTheory.Preadditive.Projective.Preserves
 import Mathlib.RingTheory.SimpleModule.InjectiveProjective
@@ -115,5 +116,136 @@ noncomputable def inducedModule :
     · simp
     · simp [inducedMap_tmul]
     · simp only [map_add, hx, hy]
+
+/-! ## The induction–restriction adjunction -/
+
+section Adjunction
+
+variable {M M' : ModuleCat.{u + 1} (Q → k)} {N N' : ModuleCat.{u + 1} (PathAlgebra k Q)}
+
+open ModuleCat (restrictScalars)
+
+/-- Restriction unfolds the `S`-action on `N` to the `A`-action along `f`: for `h` mapping into
+`restrictScalars N`, we have `h (s • m) = f s • h m` as an equation in `N`. -/
+theorem restrict_hom_smul (h : M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N)
+    (s : Q → k) (m : M) :
+    (h.hom (s • m) : N) = vertexEmbedding k Q s • (h.hom m : N) :=
+  h.hom.map_smul s m
+
+/-- **Forward direction** of the tensor–hom adjunction: an `A`-linear map `g : A ⊗_S M → N`
+restricts to the `S`-linear map `m ↦ g (1 ⊗ m)`. -/
+noncomputable def homEquivFwd (g : inducedModule.obj M ⟶ N) :
+    M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N :=
+  ModuleCat.ofHom (X := M) (Y := (restrictScalars (vertexEmbedding k Q)).obj N)
+    { toFun := fun m => g.hom (1 ⊗ₜ[Q → k] m)
+      map_add' := fun m m' => by rw [tmul_add, map_add]
+      map_smul' := fun s m => by
+        have key : (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (s • (m : M))
+            = vertexEmbedding k Q s • ((1 : PathAlgebra k Q) ⊗ₜ[Q → k] (m : M)) := by
+          rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one, ← TensorProduct.smul_tmul,
+            vertex_smul_def, one_mul]
+        change (g.hom (1 ⊗ₜ[Q → k] (s • m)) : N)
+          = vertexEmbedding k Q s • (g.hom (1 ⊗ₜ[Q → k] m) : N)
+        rw [key, map_smul] }
+
+/-- The `S`-balanced additive bilinear map `A × M → N`, `(a, m) ↦ a • h m`, underlying the
+backward adjunction map. -/
+noncomputable def symmBilin (h : M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N) :
+    PathAlgebra k Q →+ (M →+ N) where
+  toFun a :=
+    { toFun := fun m => a • (h.hom m : N)
+      map_zero' := by simp
+      map_add' := fun m m' => by rw [map_add, smul_add] }
+  map_zero' := by ext m; simp
+  map_add' a a' := by
+    ext m; simp only [AddMonoidHom.coe_mk, ZeroHom.coe_mk, add_smul, AddMonoidHom.add_apply]
+
+theorem symmBilin_apply (h : M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N)
+    (a : PathAlgebra k Q) (m : M) : symmBilin h a m = a • (h.hom m : N) := rfl
+
+theorem symmBilin_balanced (h : M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N)
+    (s : Q → k) (a : PathAlgebra k Q) (m : M) :
+    symmBilin h (s • a) m = symmBilin h a (s • m) := by
+  rw [symmBilin_apply, symmBilin_apply, restrict_hom_smul, vertex_smul_def, mul_smul]
+
+/-- **Backward direction** of the tensor–hom adjunction: an `S`-linear map `h : M → N` (viewing
+`N` via `restrictScalars`) extends to the `A`-linear map `a ⊗ m ↦ a • h m`, built from
+`TensorProduct.liftAddHom` and upgraded to `A`-linearity. -/
+noncomputable def homEquivSymm (h : M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N) :
+    inducedModule.obj M ⟶ N :=
+  ModuleCat.ofHom
+    { toFun := TensorProduct.liftAddHom (symmBilin h) (symmBilin_balanced h)
+      map_add' := map_add _
+      map_smul' := fun a x => by
+        change TensorProduct.liftAddHom (symmBilin h) (symmBilin_balanced h) (a • x)
+          = a • TensorProduct.liftAddHom (symmBilin h) (symmBilin_balanced h) x
+        induction x with
+        | zero => simp
+        | tmul b m =>
+            rw [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul,
+              TensorProduct.liftAddHom_tmul, symmBilin_apply, symmBilin_apply, smul_eq_mul,
+              mul_smul]
+        | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add] }
+
+@[simp]
+theorem homEquivSymm_tmul (h : M ⟶ (restrictScalars (vertexEmbedding k Q)).obj N)
+    (a : PathAlgebra k Q) (m : M) :
+    (homEquivSymm h).hom (a ⊗ₜ[Q → k] m) = a • (h.hom m : N) := rfl
+
+@[simp]
+theorem homEquivFwd_apply (g : inducedModule.obj M ⟶ N) (m : M) :
+    (homEquivFwd g).hom m = g.hom (1 ⊗ₜ[Q → k] m) := rfl
+
+/-- **The induction–restriction adjunction** `A ⊗_S - ⊣ restrictScalars f`, the tensor–hom
+adjunction for the noncommutative ring hom `f = vertexEmbedding`. -/
+noncomputable def inducedRestrictAdj :
+    inducedModule (k := k) (Q := Q) ⊣ restrictScalars (vertexEmbedding k Q) :=
+  Adjunction.mkOfHomEquiv
+    { homEquiv := fun M N =>
+        { toFun := homEquivFwd
+          invFun := homEquivSymm
+          left_inv := fun g => by
+            apply ModuleCat.hom_ext
+            ext x
+            refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
+            · simp
+            · rw [homEquivSymm_tmul, homEquivFwd_apply, ← g.hom.map_smul, TensorProduct.smul_tmul',
+                smul_eq_mul, mul_one]
+            · rw [map_add, map_add, hx, hy]
+          right_inv := fun h => by
+            apply ModuleCat.hom_ext
+            ext m
+            rw [homEquivFwd_apply, homEquivSymm_tmul, one_smul] }
+      homEquiv_naturality_left_symm := fun {M' M N} f g => by
+        apply ModuleCat.hom_ext
+        ext x
+        refine TensorProduct.induction_on x ?_ (fun a m => ?_) (fun x y hx hy => ?_)
+        · simp
+        · rfl
+        · rw [map_add, map_add, hx, hy]
+      homEquiv_naturality_right := fun {M N N'} f g => by
+        apply ModuleCat.hom_ext
+        ext m
+        rfl }
+
+/-- **Preservation of projectives.** Every induced module `A ⊗_S M` is a projective `A`-module:
+`inducedModule` is a left adjoint whose right adjoint `restrictScalars` is exact, and every
+`S`-module is projective since `S = Q → k` is semisimple. -/
+theorem projective_inducedModule_obj (M : ModuleCat.{u + 1} (Q → k)) :
+    CategoryTheory.Projective (inducedModule.obj M) := by
+  have hSproj : CategoryTheory.Projective M := by
+    have : Module.Projective (Q → k) M := Module.projective_of_isSemisimpleRing (Q → k) M
+    exact M.projective_of_categoryTheory_projective
+  haveI : (restrictScalars (vertexEmbedding k Q)).PreservesEpimorphisms := by
+    constructor
+    intro X Y φ hφ
+    rw [ModuleCat.epi_iff_surjective] at hφ ⊢
+    exact hφ
+  haveI : (inducedModule (k := k) (Q := Q)).PreservesProjectiveObjects :=
+    Functor.preservesProjectiveObjects_of_adjunction_of_preservesEpimorphisms
+      (inducedRestrictAdj (k := k) (Q := Q))
+  exact Functor.projective_obj_of_projective _ hSproj
+
+end Adjunction
 
 end Etingof.PathAlgebra
