@@ -27,8 +27,12 @@ bundle on the circle (the Möbius bundle), whence `M ≇ A` yet `M ⊕ M ≅ A �
 The subalgebra and submodule carriers are genuine and their closure proof obligations are
 discharged. Part (i) (`periodic_isIndecomposable`, `antiperiodic_isIndecomposable`) is proved
 via the fact that the algebra of period-1 functions has no nontrivial idempotents (an idempotent
-is pointwise `{0,1}`-valued, hence constant by connectedness of `ℝ`). The two part (ii) theorems
-are left as `sorry`.
+is pointwise `{0,1}`-valued, hence constant by connectedness of `ℝ`). Part (ii)
+(`periodic_not_linearEquiv_antiperiodic`, `periodic_sq_linearEquiv_antiperiodic_sq`) is proved:
+`A ≇ M` because any generator of `M` is a continuous antiperiodic function, which must vanish
+somewhere by the intermediate value theorem; and `A ⊕ A ≅ M ⊕ M` via the rotation
+`(f, g) ↦ (cos·f − sin·g, sin·f + cos·g)`, whose inverse is the transpose rotation
+(using `cos² + sin² = 1`).
 -/
 
 namespace Etingof.Problem3_8_5
@@ -319,15 +323,173 @@ theorem antiperiodic_isIndecomposable :
       exact h
 
 /-- **Problem 3.8.5(ii), first part.** `A` is not isomorphic to `M` as `A`-modules: `M` is a
-nontrivial line bundle on the circle (the Möbius bundle), so it is not free of rank 1. -/
+nontrivial line bundle on the circle (the Möbius bundle), so it is not free of rank 1.
+
+If `φ : A ≃ₗ M`, then `u := φ 1` generates `M`: every `m` is `(φ.symm m) • u`. But `u` is a
+continuous antiperiodic function, so `u 0` and `u 1 = -u 0` have opposite signs and `u` vanishes
+somewhere in `[0, 1]` by the intermediate value theorem. Then every element of `M` vanishes at
+that point, contradicting the antiperiodic section `x ↦ cos(π (x - x₀))`, which is nonzero there. -/
 theorem periodic_not_linearEquiv_antiperiodic :
     IsEmpty (periodicSubalg ≃ₗ[periodicSubalg] antiperiodicSubmod) := by
-  sorry
+  refine ⟨fun φ => ?_⟩
+  -- `u := φ 1`, a global section that generates `M`.
+  set u : antiperiodicSubmod := φ 1 with hu
+  set U : C(ℝ, ℝ) := (u : C(ℝ, ℝ)) with hU_def
+  have hUanti : ∀ x, U (x + 1) = - U x := u.2
+  -- Every element of `M` is a periodic multiple of `u`.
+  have hgen : ∀ m : antiperiodicSubmod,
+      (m : C(ℝ, ℝ)) = ((φ.symm m • u : antiperiodicSubmod) : C(ℝ, ℝ)) := by
+    intro m
+    have : (φ.symm m • u : antiperiodicSubmod) = m := by
+      rw [hu, ← φ.map_smul, smul_eq_mul, mul_one, φ.apply_symm_apply]
+    rw [this]
+  -- `U` vanishes somewhere in `[0, 1]` by the intermediate value theorem.
+  have hroot : ∃ x₀ ∈ Set.Icc (0 : ℝ) 1, U x₀ = 0 := by
+    have hcont : ContinuousOn U (Set.Icc 0 1) := U.continuous.continuousOn
+    have hU1 : U 1 = - U 0 := by have := hUanti 0; simpa using this
+    rcases le_or_gt 0 (U 0) with h0 | h0
+    · have hmem : (0 : ℝ) ∈ Set.Icc (U 1) (U 0) := ⟨by rw [hU1]; linarith, h0⟩
+      obtain ⟨x₀, hx₀, hval⟩ := intermediate_value_Icc' (by norm_num : (0 : ℝ) ≤ 1) hcont hmem
+      exact ⟨x₀, hx₀, hval⟩
+    · have hmem : (0 : ℝ) ∈ Set.Icc (U 0) (U 1) := ⟨by linarith, by rw [hU1]; linarith⟩
+      obtain ⟨x₀, hx₀, hval⟩ := intermediate_value_Icc (by norm_num : (0 : ℝ) ≤ 1) hcont hmem
+      exact ⟨x₀, hx₀, hval⟩
+  obtain ⟨x₀, _, hx₀0⟩ := hroot
+  -- The antiperiodic section `w x = cos(π (x - x₀))` is nonzero at `x₀`.
+  set w : C(ℝ, ℝ) := ⟨fun x => Real.cos (Real.pi * (x - x₀)), by fun_prop⟩ with hw_def
+  have hw_mem : w ∈ antiperiodicSubmod := by
+    intro x
+    change Real.cos (Real.pi * (x + 1 - x₀)) = - Real.cos (Real.pi * (x - x₀))
+    rw [show Real.pi * (x + 1 - x₀) = Real.pi * (x - x₀) + Real.pi by ring, Real.cos_add_pi]
+  set wM : antiperiodicSubmod := ⟨w, hw_mem⟩ with hwM
+  have hwval : (wM : C(ℝ, ℝ)) x₀ = 1 := by
+    change Real.cos (Real.pi * (x₀ - x₀)) = 1
+    simp
+  have hzero : (wM : C(ℝ, ℝ)) x₀ = 0 := by
+    rw [hgen wM, smul_apply_coe, ← hU_def, hx₀0, mul_zero]
+  rw [hwval] at hzero
+  exact one_ne_zero hzero
 
-/-- **Problem 3.8.5(ii), second part.** `A ⊕ A ≅ M ⊕ M` as `A`-modules. -/
+/-- Multiplication by a fixed antiperiodic function `h`, as an `A`-linear map `M →ₗ[A] A`
+(the product of two antiperiodics is periodic). -/
+noncomputable def antiMulL (h : antiperiodicSubmod) :
+    antiperiodicSubmod →ₗ[periodicSubalg] periodicSubalg where
+  toFun f := antiMul h f
+  map_add' f g := by
+    apply Subtype.ext; ext t
+    simp only [Subalgebra.coe_add, ContinuousMap.add_apply, antiMul_coe_apply, Submodule.coe_add]
+    ring
+  map_smul' a f := by
+    apply Subtype.ext; ext t
+    simp only [RingHom.id_apply, antiMul_coe_apply, smul_apply_coe, smul_eq_mul,
+      Subalgebra.coe_mul, ContinuousMap.mul_apply]
+    ring
+
+/-- The rotation map `M × M →ₗ[A] A × A`, `(f, g) ↦ (cos·f − sin·g, sin·f + cos·g)`. Each output
+component is a sum of products of antiperiodic functions, hence periodic. -/
+noncomputable def rotInv :
+    (antiperiodicSubmod × antiperiodicSubmod) →ₗ[periodicSubalg]
+      (periodicSubalg × periodicSubalg) where
+  toFun fg := (antiMul cM fg.1 - antiMul sM fg.2, antiMul sM fg.1 + antiMul cM fg.2)
+  map_add' x y := by
+    refine Prod.ext_iff.mpr ⟨?_, ?_⟩
+    · apply Subtype.ext; ext t
+      simp only [Prod.fst_add, Prod.snd_add, Subalgebra.coe_add, Subalgebra.coe_sub,
+        ContinuousMap.add_apply, ContinuousMap.sub_apply, antiMul_coe_apply, Submodule.coe_add]
+      ring
+    · apply Subtype.ext; ext t
+      simp only [Prod.fst_add, Prod.snd_add, Subalgebra.coe_add, ContinuousMap.add_apply,
+        antiMul_coe_apply, Submodule.coe_add]
+      ring
+  map_smul' a x := by
+    refine Prod.ext_iff.mpr ⟨?_, ?_⟩
+    · apply Subtype.ext; ext t
+      simp only [RingHom.id_apply, Prod.smul_fst, Prod.smul_snd, Subalgebra.coe_sub,
+        ContinuousMap.sub_apply, antiMul_coe_apply, smul_apply_coe, smul_eq_mul,
+        Subalgebra.coe_mul, ContinuousMap.mul_apply]
+      ring
+    · apply Subtype.ext; ext t
+      simp only [RingHom.id_apply, Prod.smul_fst, Prod.smul_snd, Subalgebra.coe_add,
+        ContinuousMap.add_apply, antiMul_coe_apply, smul_apply_coe, smul_eq_mul,
+        Subalgebra.coe_mul, ContinuousMap.mul_apply]
+      ring
+
+/-- The inverse rotation `A × A →ₗ[A] M × M`, `(p, q) ↦ (cos·p + sin·q, −sin·p + cos·q)`. Each
+output component is periodic times antiperiodic, hence antiperiodic. -/
+noncomputable def rotFwd :
+    (periodicSubalg × periodicSubalg) →ₗ[periodicSubalg]
+      (antiperiodicSubmod × antiperiodicSubmod) where
+  toFun pq := (pq.1 • cM + pq.2 • sM, -(pq.1 • sM) + pq.2 • cM)
+  map_add' x y := by
+    refine Prod.ext_iff.mpr ⟨?_, ?_⟩
+    · apply Subtype.ext; ext t
+      simp only [Prod.fst_add, Prod.snd_add, Submodule.coe_add, ContinuousMap.add_apply,
+        smul_apply_coe, Subalgebra.coe_add, cM_coe, sM_coe]
+      ring
+    · apply Subtype.ext; ext t
+      simp only [Prod.fst_add, Prod.snd_add, Submodule.coe_add, Submodule.coe_neg,
+        ContinuousMap.add_apply, ContinuousMap.neg_apply, smul_apply_coe, Subalgebra.coe_add,
+        cM_coe, sM_coe]
+      ring
+  map_smul' a x := by
+    refine Prod.ext_iff.mpr ⟨?_, ?_⟩
+    · apply Subtype.ext; ext t
+      simp only [RingHom.id_apply, Prod.smul_fst, Prod.smul_snd, Submodule.coe_add,
+        ContinuousMap.add_apply, smul_apply_coe, smul_eq_mul, Subalgebra.coe_mul,
+        ContinuousMap.mul_apply, cM_coe, sM_coe]
+      ring
+    · apply Subtype.ext; ext t
+      simp only [RingHom.id_apply, Prod.smul_fst, Prod.smul_snd, Submodule.coe_add,
+        Submodule.coe_neg, ContinuousMap.add_apply, ContinuousMap.neg_apply, smul_apply_coe,
+        smul_eq_mul, Subalgebra.coe_mul, ContinuousMap.mul_apply, cM_coe, sM_coe]
+      ring
+
+@[simp] lemma rotInv_apply (fg : antiperiodicSubmod × antiperiodicSubmod) :
+    rotInv fg = (antiMul cM fg.1 - antiMul sM fg.2, antiMul sM fg.1 + antiMul cM fg.2) := rfl
+
+@[simp] lemma rotFwd_apply (pq : periodicSubalg × periodicSubalg) :
+    rotFwd pq = (pq.1 • cM + pq.2 • sM, -(pq.1 • sM) + pq.2 • cM) := rfl
+
+/-- `rotInv ∘ rotFwd = id` on `A × A`: `cos² + sin² = 1`. -/
+lemma rotInv_rotFwd (pq : periodicSubalg × periodicSubalg) : rotInv (rotFwd pq) = pq := by
+  obtain ⟨p, q⟩ := pq
+  refine Prod.ext_iff.mpr ⟨?_, ?_⟩
+  · apply Subtype.ext; ext t
+    simp only [rotFwd_apply, rotInv_apply, Subalgebra.coe_sub, ContinuousMap.sub_apply,
+      antiMul_coe_apply, Submodule.coe_add, Submodule.coe_neg, ContinuousMap.add_apply,
+      ContinuousMap.neg_apply, smul_apply_coe, cM_coe, sM_coe, cosπ_apply, sinπ_apply]
+    linear_combination ((p : C(ℝ, ℝ)) t) * Real.sin_sq_add_cos_sq (Real.pi * t)
+  · apply Subtype.ext; ext t
+    simp only [rotFwd_apply, rotInv_apply, Subalgebra.coe_add, ContinuousMap.add_apply,
+      antiMul_coe_apply, Submodule.coe_add, Submodule.coe_neg, ContinuousMap.add_apply,
+      ContinuousMap.neg_apply, smul_apply_coe, cM_coe, sM_coe, cosπ_apply, sinπ_apply]
+    linear_combination ((q : C(ℝ, ℝ)) t) * Real.sin_sq_add_cos_sq (Real.pi * t)
+
+/-- `rotFwd ∘ rotInv = id` on `M × M`: `cos² + sin² = 1`. -/
+lemma rotFwd_rotInv (fg : antiperiodicSubmod × antiperiodicSubmod) : rotFwd (rotInv fg) = fg := by
+  obtain ⟨f, g⟩ := fg
+  refine Prod.ext_iff.mpr ⟨?_, ?_⟩
+  · apply Subtype.ext; ext t
+    simp only [rotFwd_apply, rotInv_apply, Subalgebra.coe_sub, Subalgebra.coe_add,
+      ContinuousMap.sub_apply, ContinuousMap.add_apply, antiMul_coe_apply, Submodule.coe_add,
+      ContinuousMap.add_apply, smul_apply_coe, cM_coe, sM_coe, cosπ_apply, sinπ_apply]
+    linear_combination ((f : C(ℝ, ℝ)) t) * Real.sin_sq_add_cos_sq (Real.pi * t)
+  · apply Subtype.ext; ext t
+    simp only [rotFwd_apply, rotInv_apply, Subalgebra.coe_sub, Subalgebra.coe_add,
+      ContinuousMap.sub_apply, ContinuousMap.add_apply, antiMul_coe_apply, Submodule.coe_add,
+      Submodule.coe_neg, ContinuousMap.neg_apply, smul_apply_coe, cM_coe, sM_coe,
+      cosπ_apply, sinπ_apply]
+    linear_combination ((g : C(ℝ, ℝ)) t) * Real.sin_sq_add_cos_sq (Real.pi * t)
+
+/-- **Problem 3.8.5(ii), second part.** `A ⊕ A ≅ M ⊕ M` as `A`-modules, via the rotation
+`(f, g) ↦ (cos·f − sin·g, sin·f + cos·g)` and its transpose inverse. -/
 theorem periodic_sq_linearEquiv_antiperiodic_sq :
     Nonempty ((periodicSubalg × periodicSubalg) ≃ₗ[periodicSubalg]
-      (antiperiodicSubmod × antiperiodicSubmod)) := by
-  sorry
+      (antiperiodicSubmod × antiperiodicSubmod)) :=
+  ⟨(LinearEquiv.ofLinear rotInv rotFwd
+      (by apply LinearMap.ext; intro pq
+          simp only [LinearMap.comp_apply, LinearMap.id_apply]; exact rotInv_rotFwd pq)
+      (by apply LinearMap.ext; intro fg
+          simp only [LinearMap.comp_apply, LinearMap.id_apply]; exact rotFwd_rotInv fg)).symm⟩
 
 end Etingof.Problem3_8_5
