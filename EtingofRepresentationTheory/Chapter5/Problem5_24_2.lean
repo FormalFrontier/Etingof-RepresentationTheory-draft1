@@ -146,7 +146,15 @@ letter `i` is carried by exactly `d i` slots. Existence is the multiset "concate
 theorem exists_slot_of_multidegree (d : Fin k →₀ ℕ) :
     ∃ (n : ℕ) (slot : Fin n → Fin k),
       ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i := by
-  sorry
+  classical
+  -- Realize `Fin (∑ᵢ dᵢ)` as `Σ i, Fin (d i)` and let slot read off the first coordinate.
+  refine ⟨∑ i : Fin k, d i, fun j => (finSigmaFinEquiv.symm j).1, fun i => ?_⟩
+  -- The fiber of the first-coordinate map over `i` is `Fin (d i)`.
+  have E : {j : Fin (∑ i : Fin k, d i) // (finSigmaFinEquiv.symm j).1 = i} ≃ Fin (d i) :=
+    (finSigmaFinEquiv.symm.subtypeEquiv (q := fun t => t.1 = i) (fun _ => Iff.rfl)).trans
+      (Equiv.sigmaSubtype (β := fun i' : Fin k => Fin (d i')) i)
+  rw [← Fintype.card_subtype (fun j => (finSigmaFinEquiv.symm j).1 = i),
+    Fintype.card_congr E, Fintype.card_fin]
 
 /-! ## The First Fundamental Theorem -/
 
