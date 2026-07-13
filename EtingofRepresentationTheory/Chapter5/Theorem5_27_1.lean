@@ -2172,8 +2172,35 @@ private lemma inducedRepV_finrank {G A : Type} [Group G] [CommGroup A] [Fintype 
   rw [Module.finrank_pi_fintype, Finset.sum_const, Finset.card_univ, smul_eq_mul,
     Subgroup.index_eq_card, Nat.card_eq_fintype_card]
 
-
-
+-- Forward functoriality: an isomorphism `U ≅ U'` of stabilizer representations induces an
+-- isomorphism `V(χ, U) ≅ V(χ, U')` of induced representations, given by coset-wise
+-- post-composition with the underlying linear equivalence. Needed for completeness in the
+-- orbit-method assemblies (replacing `U` by its `charFDRep` model inside `V`).
+private noncomputable def inducedRepV_congr {G A : Type} [Group G] [CommGroup A] [Fintype G]
+    (φ : G →* MulAut A) (χ : A →* ℂˣ) {U U' : FDRep ℂ ↥(stabAux φ χ)} (α : U ≅ U') :
+    inducedRepV φ χ U ≅ inducedRepV φ χ U' := by
+  classical
+  -- The underlying linear equivalence `↥U ≃ₗ[ℂ] ↥U'` and its intertwining property.
+  set e : ↥U ≃ₗ[ℂ] ↥U' := FDRep.isoToLinearEquiv α with he
+  have hinter : ∀ (s : ↥(stabAux φ χ)) (v : ↥U),
+      e (FDRep.ρ U s v) = FDRep.ρ U' s (e v) := by
+    intro s v
+    rw [FDRep.Iso.conj_ρ α s, LinearEquiv.conj_apply_apply, LinearEquiv.symm_apply_apply]
+  -- Coset-wise post-composition on the underlying function spaces.
+  set Φ : ((G ⧸ stabAux φ χ) → ↥U) ≃ₗ[ℂ] ((G ⧸ stabAux φ χ) → ↥U') :=
+    LinearEquiv.piCongrRight (fun _ => e) with hΦ
+  refine Action.mkIso Φ.toFGModuleCatIso (fun ag => ?_)
+  ext f
+  funext q
+  -- The induced action is `scalar • ρ(s) (f (g⁻¹ • q))`, with scalar and `s` independent of `U`.
+  change e (FDRep.ρ (inducedRepV φ χ U) ag f q)
+    = FDRep.ρ (inducedRepV φ χ U') ag (fun q' => e (f q')) q
+  have hact : ∀ (W : FDRep ℂ ↥(stabAux φ χ)) (g : (G ⧸ stabAux φ χ) → ↥W),
+      FDRep.ρ (inducedRepV φ χ W) ag g q =
+        ((χ ((φ q.out⁻¹ : MulAut A) ag.left) : ℂˣ) : ℂ) •
+          FDRep.ρ W ⟨q.out⁻¹ * ag.right * (ag.right⁻¹ • q).out,
+            transition_mem_stab φ χ ag.right q⟩ (g (ag.right⁻¹ • q)) := fun W g => rfl
+  rw [hact U f, hact U' (fun q' => e (f q')), map_smul, hinter]
 
 
 open Classical in
@@ -2236,12 +2263,16 @@ theorem Etingof.Theorem5_27_1
       -- (v) Dimension formula: dim V(χ, U) = [G : G_χ] · dim U
       (∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)),
         Module.finrank ℂ (V χ U : Type) =
-          (stab χ).index * Module.finrank ℂ (U : Type)) := by
+          (stab χ).index * Module.finrank ℂ (U : Type)) ∧
+      -- (vi) Functoriality: `V(χ, -)` sends isomorphic stabilizer reps to isomorphic
+      -- induced reps. (Lets completeness replace `U` by its `charFDRep` model inside `V`.)
+      (∀ (χ : A →* ℂˣ) (U₁ U₂ : FDRep ℂ ↥(stab χ)),
+        Nonempty (U₁ ≅ U₂) → Nonempty (V χ U₁ ≅ V χ U₂)) := by
   -- Provide the dual action, stabilizer, and induced representation constructions
   refine ⟨dualSmulAux φ, fun g χ a => rfl, stabAux φ, fun χ g => Iff.rfl, ?_⟩
   -- Use the concrete induced representation V(χ, U) = Ind_{G_χ ⋉ A}^{G ⋉ A} (U ⊗ ℂ_χ)
   refine ⟨fun χ U => inducedRepV φ χ U,
-    fun _ _ _ hg U₁ => transportRep φ hg U₁, ?_, ?_, ?_, ?_, ?_⟩
+    fun _ _ _ hg U₁ => transportRep φ hg U₁, ?_, ?_, ?_, ?_, ?_, ?_⟩
   -- (i) Irreducibility: V(χ, U) is irreducible when U is irreducible
   · exact fun χ U hU => inducedRepV_simple φ χ U hU
   -- (ii) Classification: iso forces same G-orbit and isomorphic transported U-component
@@ -2369,3 +2400,5 @@ theorem Etingof.Theorem5_27_1
         exact Nat.cast_ne_zero.mpr (Fintype.card_pos.ne')
   -- (v) Dimension formula: dim V(χ, U) = [G : G_χ] · dim U
   · exact fun χ U => inducedRepV_finrank φ χ U
+  -- (vi) Functoriality: `U₁ ≅ U₂ ⟹ V(χ, U₁) ≅ V(χ, U₂)`
+  · exact fun χ U₁ U₂ ⟨α⟩ => ⟨inducedRepV_congr φ χ α⟩
