@@ -3,6 +3,10 @@ import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Algebra.Group.Int.Units
 import Mathlib.RingTheory.Ideal.Quotient.Defs
 import Mathlib.Data.ENat.Lattice
+import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.RingTheory.Finiteness.Cardinality
+import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
 import EtingofRepresentationTheory.Chapter2.Definition2_3_8
 import EtingofRepresentationTheory.Chapter3.Theorem3_8_1
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
@@ -412,6 +416,85 @@ theorem homClassVector_projective_eq_mulVec
 
 end DirectSum
 
+/-- A simple module over any ring is cyclic, hence finitely generated: any nonzero element
+generates a nonzero submodule, which by simplicity is everything. -/
+private theorem simpleModule_finite {A : Type*} [Ring A] (N : Type*) [AddCommGroup N]
+    [Module A N] [IsSimpleModule A N] : Module.Finite A N := by
+  haveI := IsSimpleModule.nontrivial A N
+  obtain ⟨x, hx⟩ := exists_ne (0 : N)
+  have hspan : Submodule.span A {x} = ⊤ := by
+    rcases eq_bot_or_eq_top (Submodule.span A {x}) with h | h
+    · rw [Submodule.span_singleton_eq_bot] at h; exact absurd h hx
+    · exact h
+  exact Module.finite_def.mpr ⟨{x}, by rw [Finset.coe_singleton]; exact hspan⟩
+
+/-- **Euler-characteristic induction for Problem 9.4.5 (i).** In the §9.3/§9.4.5 setup (a complete
+family `M` of simple modules with indecomposable projective covers `P`), every finitely generated
+`A`-module `N` of finite projective dimension `≤ d` has class vector `homClassVector P N` lying in
+the `ℤ`-column span of the Cartan matrix `C`: `homClassVector P N = C.mulVec e` for some
+`e : ι → ℤ`.
+
+The proof is induction on `d`. The base case `d = 0` is `N` projective, handled by
+`homClassVector_projective_eq_mulVec`. The step takes a finite free cover `Aⁿ ↠ N`
+(`Module.Finite.exists_fin'`) with kernel `K = ker f`; the syzygy sequence `0 → K → Aⁿ → N → 0`
+(`LinearMap.shortExact_shortComplexKer`) has projective middle term, so `K` has projective
+dimension `≤ d` (`ShortComplex.ShortExact.hasProjectiveDimensionLT_X₃_iff`). Additivity of the
+class vector on this short exact sequence (`homClassVector_add_quotient`, with `Aⁿ ⧸ K ≃ₗ[A] N`)
+gives `homClassVector P N = homClassVector P Aⁿ − homClassVector P K = C.mulVec a₀ − C.mulVec eₖ`,
+so `e := a₀ − eₖ` works. -/
+private theorem homClassVector_eq_mulVec_of_projectiveDimensionLE
+    {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)] [∀ i, SMulCommClass A k (M i)]
+    [∀ i, IsSimpleModule A (M i)]
+    (hM_complete : ∀ (S : Type u) [AddCommGroup S] [Module A S], IsSimpleModule A S →
+        ∃ i, Nonempty (S ≃ₗ[A] M i))
+    (P : ι → Type*) [∀ i, AddCommGroup (P i)] [∀ i, Module A (P i)]
+    [∀ i, Module k (P i)] [∀ i, IsScalarTower k A (P i)] [∀ i, SMulCommClass A k (P i)]
+    [∀ i, Module.Projective A (P i)] [∀ i, Module.Finite A (P i)]
+    (hP_indec : ∀ i, Etingof.IsIndecomposable A (P i))
+    (hP_cover : ∀ i j, Module.finrank k (P i →ₗ[A] M j) = if i = j then 1 else 0)
+    (d : ℕ) :
+    ∀ (N : Type u) [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
+      [SMulCommClass A k N] [Module.Finite k N],
+      HasProjectiveDimensionLE (ModuleCat.of A N) d →
+      ∃ e : ι → ℤ,
+        homClassVector (k := k) (A := A) P N =
+          ((Etingof.algebraCartanMatrix (k := k) (A := A) P).map (Nat.cast : ℕ → ℤ)).mulVec e := by
+  haveI : ∀ i, Module.Finite k (P i) := fun i => Module.Finite.trans A (P i)
+  induction d with
+  | zero =>
+    intro N _ _ _ _ _ _ hpd
+    haveI hproj : Projective (ModuleCat.of A N) :=
+      (projective_iff_hasProjectiveDimensionLE_zero _).mpr hpd
+    haveI : Module.Projective A N := ModuleCat.projective_of_module_projective (ModuleCat.of A N)
+    haveI : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
+    obtain ⟨a, ha⟩ := homClassVector_projective_eq_mulVec M hM_complete P hP_indec hP_cover N
+    exact ⟨fun i => (a i : ℤ), ha⟩
+  | succ d ih =>
+    intro N _ _ _ _ _ _ hpd
+    haveI : Module.Finite A N := Module.Finite.of_restrictScalars_finite k A N
+    obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' A N
+    -- Finite free cover `Aⁿ ↠ N` with kernel `K = ker f`, and the syzygy short exact sequence.
+    haveI : Module.Projective A (Fin n → A) := Module.Projective.of_basis (Pi.basisFun A (Fin n))
+    haveI : Module.Finite k (Fin n → A) := inferInstance
+    haveI : Module.Finite k (LinearMap.ker f) :=
+      Module.Finite.of_injective ((LinearMap.ker f).subtype.restrictScalars k)
+        (LinearMap.ker f).injective_subtype
+    have hSE := LinearMap.shortExact_shortComplexKer hf
+    have hKpd : HasProjectiveDimensionLE (ModuleCat.of A (LinearMap.ker f)) d :=
+      (hSE.hasProjectiveDimensionLT_X₃_iff d (inferInstance : Projective (ModuleCat.of A _))).mp hpd
+    obtain ⟨eK, hKvec⟩ := ih (LinearMap.ker f) hKpd
+    obtain ⟨a0, ha0⟩ :=
+      homClassVector_projective_eq_mulVec M hM_complete P hP_indec hP_cover (Fin n → A)
+    -- Class-vector additivity on `0 → K → Aⁿ → N → 0`, with `Aⁿ ⧸ K ≃ₗ[A] N`.
+    have hadd := homClassVector_add_quotient (k := k) (A := A) P (Fin n → A) (LinearMap.ker f)
+    rw [homClassVector_congr P (f.quotKerEquivOfSurjective hf)] at hadd
+    refine ⟨(fun i => (a0 i : ℤ)) - eK, ?_⟩
+    rw [Matrix.mulVec_sub, ← ha0, ← hKvec, hadd]
+    abel
+
 /-- **Problem 9.4.5 (i).** If the finite dimensional algebra `A` has finite homological
 dimension, then the determinant of its Cartan matrix `C` is `±1`.
 
@@ -424,7 +507,7 @@ identity `dim_k Hom_A(Pᵢ, Mⱼ) = δᵢⱼ`), so that `C` is genuinely the cha
 theorem cartan_det_eq_pm_one
     {k : Type*} [Field k] {A : Type u} [Ring A] [Algebra k A] [FiniteDimensional k A]
     {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
+    (M : ι → Type u) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
     [∀ i, Module k (M i)] [∀ i, IsScalarTower k A (M i)] [∀ i, SMulCommClass A k (M i)]
     [∀ i, IsSimpleModule A (M i)]
     (hM_distinct : ∀ i j, Nonempty (M i ≃ₗ[A] M j) → i = j)
@@ -461,11 +544,19 @@ theorem cartan_det_eq_pm_one
   -- of `homClassVector` on short exact sequences (`finrank_hom_additive_of_projective`) gives
   --   `homClassVector P (M j) = Σₖ (-1)ᵏ homClassVector P (Q_k) = Σₖ (-1)ᵏ C.mulVec aₖ`
   --                          `= C.mulVec (Σₖ (-1)ᵏ aₖ)`,
-  -- so `d := Σₖ (-1)ᵏ aₖ` is the required integer vector. This needs finite projective
-  -- resolutions of simples (from `hfin`), Krull–Schmidt decomposition of f.g. projectives into
-  -- the `Pᵢ`, and the direct-sum additivity `homClassVector P (⊕ᵢ Pᵢ^{aᵢ}) = C.mulVec a`; it is
-  -- deferred to a dedicated sub-issue (see the PR description).
-  sorry
+  -- so `d := Σₖ (-1)ᵏ aₖ` is the required integer vector. Finite homological dimension gives some
+  -- `d₀` bounding every module's projective dimension;
+  -- `homClassVector_eq_mulVec_of_projectiveDimensionLE` packages the Euler-characteristic
+  -- induction over such a finite resolution.
+  obtain ⟨d₀, hd₀⟩ : ∃ d, Etingof.HasHomologicalDimensionLE A d := by
+    by_contra h
+    rw [not_exists] at h
+    exact hfin (Etingof.homologicalDimension_eq_top h)
+  haveI : Module.Finite A (M j) := simpleModule_finite (M j)
+  haveI : Module.Finite k (M j) := Module.Finite.trans A (M j)
+  obtain ⟨e, he⟩ := homClassVector_eq_mulVec_of_projectiveDimensionLE M hM_complete P hP_indec
+    hP_cover d₀ (M j) (hd₀ (ModuleCat.of A (M j)))
+  exact ⟨e, he.symm⟩
 
 /-- **Problem 9.4.5 (ii), first algebra.** For `n > 1`, the truncated polynomial algebra
 `k[t]/tⁿ` has infinite homological dimension. -/
