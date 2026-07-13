@@ -4877,3 +4877,30 @@ like `H.subtype.comp K.subtype` vs `K.subtype.comp σ` make `exact`/`rw` fail.
   coinvariance lemma `IndV.mk (κ·x) (χ κ • w) = IndV.mk x w`), `rw [map_inv, Units.val_inv_eq_inv_val]`
   in reverse via a small `have`. For character sums, reindex the defining sum of `e_χ` with
   `Equiv.mulLeft k` and `Equiv.sum_comp` to get `of k * e_χ = χ(k) • e_χ`.
+
+### Orbit-method assemblies: use the character formula, not base-point independence
+
+When assembling a `Theorem5_27_1`-style classification (`heisenberg_classification` is the
+worked example), note the exposed existential only gives (i)-(vi): irreducibility, iso⟹orbit,
+completeness, **character formula (iv)**, dimension, functoriality. It does **not** expose
+"same orbit ⟹ `V` iso" (base-point independence). Do not try to prove pairwise
+non-isomorphism from (ii)'s opaque `transport`, or completeness by moving `χ` to a
+representative — both need the unexposed lemma. Instead route everything through (iv):
+compute closed-form characters of each `V(χ, U)`, then use `FDRep.char_iso` (iso ⟹ equal
+character) for distinctness and `Etingof.charEq_iso` (equal character ⟹ iso) for the
+completeness base-point move. The inner sum in (iv) collapses via `AddChar.sum_mulShift`
+(package `ζ^(·)` as an `AddChar (ZMod p) ℂ` with `AddChar.zmodChar` +
+`zmodChar_primitive_of_primitive_root`). `charEq_iso` needs `Finite` of the semidirect
+product — supply `Finite.of_equiv _ SemidirectProduct.equivProd.symm`.
+
+### Two small tactic gotchas (cost several iterations)
+
+- **`ext` on a `MonoidHom` valued in `ℂˣ` (or any group) picks the *additive* extensionality**,
+  turning the goal into `↑(Additive.toMul ((MonoidHom.toAdditiveRight f) a)) = …`, which then
+  fails `exact`/`Units.ext`. Use `refine MonoidHom.ext fun a => ?_` explicitly instead of `ext a`.
+- **A `let`-bound `Fintype` index type blocks `Fintype.card_sum` / `Fintype.sum_sum_type` `rw`.**
+  If you write `let ι := A ⊕ B`, do *not* also add `haveI : Fintype ι := inferInstanceAs …` — the
+  named instance is an opaque fvar, so `@Fintype.card ι this` never matches the `instFintypeSum`
+  in `Fintype.card_sum`. Let synthesis find the instance transparently, and state the
+  decomposition as a defeq `have hcard : Fintype.card ι = Fintype.card A + Fintype.card B :=
+  Fintype.card_sum` (likewise `Fintype.sum_sum_type _`), then `rw [hcard]`.
