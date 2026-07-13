@@ -338,6 +338,106 @@ theorem heisenberg_classification :
       n = p ^ 2 + (p - 1) ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = p ^ 2 ∧
       (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = p)).card = p - 1 := by
-  sorry
+  classical
+  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi⟩ :=
+    Etingof.Theorem5_27_1 (Multiplicative (ZMod p)) (Multiplicative (ZMod p × ZMod p))
+      (heisenbergφ p)
+  -- Dual action on the parametrized characters: `g · χ_{β,γ} = χ_{β − a·γ, γ}`.
+  have hdualhb : ∀ (g : Multiplicative (ZMod p)) (β γ : ZMod p),
+      dualSmul g (heisenbergChar p β γ)
+        = heisenbergChar p (β - Multiplicative.toAdd g * γ) γ := by
+    intro g β γ
+    refine MonoidHom.ext fun a => ?_
+    exact (hdual g (heisenbergChar p β γ) a).trans
+      (DFunLike.congr_fun (heisenbergChar_comp_heisenbergφ_inv p g β γ) a)
+  -- Fixed characters (γ = 0) have full stabilizer.
+  have hstab_f : ∀ β : ZMod p, stab (heisenbergChar p β 0) = ⊤ := by
+    intro β
+    rw [eq_top_iff]
+    intro g _
+    rw [hstab (heisenbergChar p β 0) g, hdualhb]
+    simp
+  -- Free characters (γ ≠ 0) have trivial stabilizer.
+  have hstab_r : ∀ (β γ : ZMod p), γ ≠ 0 → stab (heisenbergChar p β γ) = ⊥ := by
+    intro β γ hγ
+    rw [eq_bot_iff]
+    intro g hg
+    rw [Subgroup.mem_bot]
+    rw [hstab (heisenbergChar p β γ) g, hdualhb] at hg
+    obtain ⟨h1, -⟩ := heisenbergChar_inj p hg
+    have hz : Multiplicative.toAdd g * γ = 0 := sub_eq_self.mp h1
+    have htg : Multiplicative.toAdd g = 0 := (mul_eq_zero.mp hz).resolve_right hγ
+    exact Multiplicative.toAdd.injective (by rw [htg]; rfl)
+  -- Conjugation is trivial (`G` abelian): `h·g·h⁻¹ = g`.
+  have hconj : ∀ (h g : Multiplicative (ZMod p)), h * g * h⁻¹ = g := by
+    intro h g; rw [mul_right_comm, mul_inv_cancel, one_mul]
+  -- Cardinality of the complement `G = ℤ/p`.
+  have hcardG : Nat.card (Multiplicative (ZMod p)) = p := by
+    rw [Nat.card_congr (Multiplicative.toAdd), Nat.card_eq_fintype_card, ZMod.card]
+  haveI : Fintype (Multiplicative (ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  -- **Closed-form character of the fixed-orbit (1-dim) reps.** (Proved below.)
+  have fixed_charρ : ∀ (β : ZMod p) (ρ : Multiplicative (ZMod p) →* ℂˣ)
+      (b c : ZMod p) (g : Multiplicative (ZMod p)),
+      (V (heisenbergChar p β 0)
+        (Etingof.AbelianFDRep.charFDRep
+          (ρ.comp (stab (heisenbergChar p β 0)).subtype))).character
+          ⟨Multiplicative.ofAdd (b, c), g⟩
+      = ((ρ g : ℂˣ) : ℂ) * (heisenbergZeta p : ℂ) ^ (β * b).val := by
+    sorry
+  -- **Closed-form character of the free-orbit (p-dim) reps.** (Proved below.)
+  have free_char : ∀ (β γ : ZMod p), γ ≠ 0 → ∀ (b c : ZMod p) (g : Multiplicative (ZMod p)),
+      (V (heisenbergChar p β γ)
+        (Etingof.AbelianFDRep.charFDRep
+          (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ))).character
+          ⟨Multiplicative.ofAdd (b, c), g⟩
+      = if g = 1 ∧ b = 0 then (p : ℂ) * (heisenbergZeta p : ℂ) ^ (γ * c).val else 0 := by
+    sorry
+  -- The index type and family.
+  let ι := (ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕ {γ : ZMod p // γ ≠ 0}
+  haveI : Fintype ι :=
+    inferInstanceAs (Fintype ((ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕
+      {γ : ZMod p // γ ≠ 0}))
+  let F : ι → FDRep ℂ (HeisenbergGroup p) :=
+    Sum.elim
+      (fun x => V (heisenbergChar p x.1 0)
+        (Etingof.AbelianFDRep.charFDRep (x.2.comp (stab (heisenbergChar p x.1 0)).subtype)))
+      (fun y => V (heisenbergChar p 0 y.1)
+        (Etingof.AbelianFDRep.charFDRep (1 : ↥(stab (heisenbergChar p 0 y.1)) →* ℂˣ)))
+  have hFsimple : ∀ a : ι, Simple (F a) := by
+    rintro (⟨β, ρ⟩ | ⟨γ, hγ⟩)
+    · exact hi _ _ (Etingof.AbelianFDRep.charFDRep_simple _)
+    · exact hi _ _ (Etingof.AbelianFDRep.charFDRep_simple _)
+  have hFdim1 : ∀ (β : ZMod p) (ρ : Multiplicative (ZMod p) →* ℂˣ),
+      finrank ℂ (F (Sum.inl (β, ρ)) : Type) = 1 := by
+    intro β ρ
+    show finrank ℂ (V (heisenbergChar p β 0) _ : Type) = 1
+    rw [hv, hstab_f β, Subgroup.index_top, Etingof.AbelianFDRep.charFDRep_finrank, mul_one]
+  have hFdimp : ∀ (γ : ZMod p) (hγ : γ ≠ 0),
+      finrank ℂ (F (Sum.inr ⟨γ, hγ⟩) : Type) = p := by
+    intro γ hγ
+    show finrank ℂ (V (heisenbergChar p 0 γ) _ : Type) = p
+    rw [hv, hstab_r 0 γ hγ, Subgroup.index_bot, Etingof.AbelianFDRep.charFDRep_finrank, mul_one,
+      hcardG]
+  have hFdim : ∀ a : ι, finrank ℂ (F a : Type) = 1 ∨ finrank ℂ (F a : Type) = p := by
+    rintro (⟨β, ρ⟩ | ⟨γ, hγ⟩)
+    · exact Or.inl (hFdim1 β ρ)
+    · exact Or.inr (hFdimp γ hγ)
+  have hFinj : ∀ a b : ι, Nonempty (F a ≅ F b) → a = b := by
+    sorry
+  have hFcomplete : ∀ S : FDRep ℂ (HeisenbergGroup p), Simple S → ∃ a : ι, Nonempty (S ≅ F a) := by
+    sorry
+  -- Transport the family to `Fin (card ι)`.
+  set e := Fintype.equivFin ι with he
+  refine ⟨Fintype.card ι, fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · exact fun i => hFsimple _
+  · intro i j hij
+    exact e.symm.injective (hFinj _ _ hij)
+  · intro S hS
+    obtain ⟨a, ha⟩ := hFcomplete S hS
+    exact ⟨e a, by simpa only [Equiv.symm_apply_apply] using ha⟩
+  · exact fun i => hFdim (e.symm i)
+  · sorry
+  · sorry
+  · sorry
 
 end Etingof.Exercise5_27_2
