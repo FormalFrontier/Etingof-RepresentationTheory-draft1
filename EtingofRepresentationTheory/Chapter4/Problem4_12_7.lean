@@ -33,17 +33,20 @@ matrices of determinant `1`, a `Group`), `SO(3)` by `Matrix.specialOrthogonalGro
 and the quaternions by `ℍ[ℝ] = Quaternion ℝ`. The group of unit quaternions is
 `unitary ℍ[ℝ]` (`{q : star q * q = 1 = q * star q}`, i.e. `normSq q = 1`).
 
-Parts **(a)**, **(d)**, **(e)**, **(f)** are proved sorry-free.  Part **(f)** builds the conjugation
-homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and proves its
-surjectivity (`rotHom_surjective`) via the Euler `Z-Y-Z` decomposition of `SO(3)`
+Parts **(a)**, **(c)**, **(d)**, **(e)**, **(f)** are proved sorry-free.  Part **(f)** builds the
+conjugation homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and
+proves its surjectivity (`rotHom_surjective`) via the Euler `Z-Y-Z` decomposition of `SO(3)`
 (`so3_euler_zyz`: every `R ∈ SO(3)` is `Rz α · Ry β · Rz γ`), the classical existence of Euler
 angles, established here from the orthonormality and cofactor (`adjugate R = Rᵀ`) relations of `R`.
-Parts (b) and (c) (the commutant description of `ℍ` and the explicit `1, i, j, k` basis) are left
-for a later pass.
+Part (b) (the commutant description of `ℍ` as `End`-of-real-representation) is left for a later pass.
 
 * **(a)** `V = ℂ²` as a real representation: `Fin 2 → ℂ` is an `ℝ`-module and `SU(2)` acts
   `ℝ`-linearly by `Matrix.mulVec`. Irreducibility over `ℝ` is: every `SU(2)`-invariant
   `ℝ`-submodule is `⊥` or `⊤`.
+* **(c)** the Hamilton relations `i² = j² = k² = -1`, `ij = k = -ji`, `jk = i = -kj`,
+  `ki = j = -ik` on `qI, qJ, qK`; `1, i, j, k` as an `ℝ`-basis (`quaternionBasis`, hence
+  `finrank ℝ ℍ[ℝ] = 4`); and `Q₈ = {±1, ±i, ±j, ±k} ⊆ ℍ[ℝ]ˣ` recorded as a set of units
+  (each in `unitary ℍ[ℝ]`) closed under multiplication, inverses, and containing `1`.
 * **(d)** conjugation reverses products (`star (q₁ q₂) = star q₂ * star q₁`) and the norm is
   multiplicative (`normSq (q₁ q₂) = normSq q₁ * normSq q₂`).
 * **(e)** the group of unit quaternions is isomorphic (as a group) to `SU(2)`.
@@ -392,6 +395,99 @@ noncomputable def qK : ℍ[ℝ] := ⟨0, 0, 0, 1⟩
 @[simp] lemma qK_imI : qK.imI = 0 := rfl
 @[simp] lemma qK_imJ : qK.imJ = 0 := rfl
 @[simp] lemma qK_imK : qK.imK = 1 := rfl
+
+/-! ### Part (c): the Hamilton relations, the `1, i, j, k` basis, and `Q₈ ⊆ ℍ[ℝ]ˣ`
+
+We record the standard quaternion multiplication table on `qI, qJ, qK`, exhibit `1, i, j, k`
+as an `ℝ`-basis of `ℍ[ℝ]` (so `finrank ℝ ℍ[ℝ] = 4`), and record that the eight elements
+`±1, ±i, ±j, ±k` are units closed under multiplication — the quaternion group `Q₈` sitting
+inside `ℍ[ℝ]ˣ`. -/
+
+-- The Hamilton relations `i² = j² = k² = -1`, `ij = k`, etc.
+
+@[simp] lemma qI_mul_qI : qI * qI = -1 := by ext <;> simp [qI]
+@[simp] lemma qJ_mul_qJ : qJ * qJ = -1 := by ext <;> simp [qJ]
+@[simp] lemma qK_mul_qK : qK * qK = -1 := by ext <;> simp [qK]
+
+@[simp] lemma qI_mul_qJ : qI * qJ = qK := by ext <;> simp [qI, qJ, qK]
+@[simp] lemma qJ_mul_qI : qJ * qI = -qK := by ext <;> simp [qI, qJ, qK]
+@[simp] lemma qJ_mul_qK : qJ * qK = qI := by ext <;> simp [qI, qJ, qK]
+@[simp] lemma qK_mul_qJ : qK * qJ = -qI := by ext <;> simp [qI, qJ, qK]
+@[simp] lemma qK_mul_qI : qK * qI = qJ := by ext <;> simp [qI, qJ, qK]
+@[simp] lemma qI_mul_qK : qI * qK = -qJ := by ext <;> simp [qI, qJ, qK]
+
+/-- The `ℝ`-basis `1, i, j, k` of `ℍ[ℝ]`.  This is Mathlib's `basisOneIJK`, whose four vectors
+are exactly `1, qI, qJ, qK` (see the `quaternionBasis_*` lemmas below). -/
+noncomputable def quaternionBasis : Module.Basis (Fin 4) ℝ ℍ[ℝ] :=
+  QuaternionAlgebra.basisOneIJK _ _ _
+
+@[simp] lemma quaternionBasis_zero : quaternionBasis 0 = 1 := by
+  change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 0 = 1
+  apply Module.Basis.apply_eq_iff.mpr; ext i
+  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr]
+@[simp] lemma quaternionBasis_one : quaternionBasis 1 = qI := by
+  change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 1 = qI
+  apply Module.Basis.apply_eq_iff.mpr; ext i
+  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr, qI]
+@[simp] lemma quaternionBasis_two : quaternionBasis 2 = qJ := by
+  change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 2 = qJ
+  apply Module.Basis.apply_eq_iff.mpr; ext i
+  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr, qJ]
+@[simp] lemma quaternionBasis_three : quaternionBasis 3 = qK := by
+  change QuaternionAlgebra.basisOneIJK (-1) 0 (-1) 3 = qK
+  apply Module.Basis.apply_eq_iff.mpr; ext i
+  fin_cases i <;> simp [QuaternionAlgebra.coe_basisOneIJK_repr, qK]
+
+/-- **Part (c), dimension.** `ℍ[ℝ]` is `4`-dimensional over `ℝ`. -/
+theorem finrank_quaternion : Module.finrank ℝ ℍ[ℝ] = 4 :=
+  Quaternion.finrank_eq_four
+
+-- The conjugates of the imaginary units are their negatives.
+
+@[simp] lemma star_qI : star qI = -qI := by ext <;> simp [qI]
+@[simp] lemma star_qJ : star qJ = -qJ := by ext <;> simp [qJ]
+@[simp] lemma star_qK : star qK = -qK := by ext <;> simp [qK]
+
+-- The eight unit quaternions `±1, ±i, ±j, ±k` all have norm `1`, hence lie in `unitary ℍ[ℝ]`.
+
+lemma normSq_qI : Quaternion.normSq qI = 1 := by rw [Quaternion.normSq_def']; simp [qI]
+lemma normSq_qJ : Quaternion.normSq qJ = 1 := by rw [Quaternion.normSq_def']; simp [qJ]
+lemma normSq_qK : Quaternion.normSq qK = 1 := by rw [Quaternion.normSq_def']; simp [qK]
+
+lemma qI_mem_unitary : qI ∈ unitary ℍ[ℝ] := mem_unitary_iff_normSq.mpr normSq_qI
+lemma qJ_mem_unitary : qJ ∈ unitary ℍ[ℝ] := mem_unitary_iff_normSq.mpr normSq_qJ
+lemma qK_mem_unitary : qK ∈ unitary ℍ[ℝ] := mem_unitary_iff_normSq.mpr normSq_qK
+
+/-- The quaternion group `Q₈ = {±1, ±i, ±j, ±k}` as a subset of `ℍ[ℝ]`. -/
+def Q8 : Set ℍ[ℝ] := {1, -1, qI, -qI, qJ, -qJ, qK, -qK}
+
+/-- **Part (c), `Q₈ ⊆ ℍ[ℝ]ˣ`.** Every element of `Q₈` is a unit (lies in `unitary ℍ[ℝ]`,
+equivalently has norm `1`). -/
+lemma Q8_subset_unitary : ∀ x ∈ Q8, x ∈ unitary ℍ[ℝ] := by
+  intro x hx
+  simp only [Q8, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+  rcases hx with h | h | h | h | h | h | h | h <;> subst h <;>
+    rw [mem_unitary_iff_normSq] <;>
+    simp [Quaternion.normSq_neg, normSq_qI, normSq_qJ, normSq_qK]
+
+/-- `1 ∈ Q₈`. -/
+lemma one_mem_Q8 : (1 : ℍ[ℝ]) ∈ Q8 := by simp [Q8]
+
+/-- **Part (c), closure.** `Q₈` is closed under multiplication: the quaternion multiplication
+table (the Hamilton relations) maps `{±1, ±i, ±j, ±k}` into itself. -/
+lemma Q8_mul_mem : ∀ x ∈ Q8, ∀ y ∈ Q8, x * y ∈ Q8 := by
+  intro x hx y hy
+  simp only [Q8, Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
+  rcases hx with h | h | h | h | h | h | h | h <;> subst h <;>
+    rcases hy with h | h | h | h | h | h | h | h <;> subst h <;>
+    simp [Q8]
+
+/-- **Part (c), inverses.** `Q₈` is closed under taking (star = ) inverses: for each unit
+quaternion in `Q₈`, its conjugate — which is its inverse — is again in `Q₈`. -/
+lemma Q8_star_mem : ∀ x ∈ Q8, star x ∈ Q8 := by
+  intro x hx
+  simp only [Q8, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+  rcases hx with h | h | h | h | h | h | h | h <;> subst h <;> simp [Q8]
 
 /-- The `3 × 3` real matrix of the conjugation `x ↦ q · x · star q` acting on the imaginary
 quaternions `span{i, j, k}`, written in the ordered basis `i, j, k`.  Column `j` records the
