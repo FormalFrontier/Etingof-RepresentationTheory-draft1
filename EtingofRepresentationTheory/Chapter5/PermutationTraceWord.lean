@@ -213,6 +213,54 @@ theorem trace_bigProd (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R) :
   rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
   by_cases hd : v (Fin.last ℓ) = v 0 <;> simp [hd]
 
+omit [Fintype ι] [DecidableEq ι] in
+/-- On the cyclically-closed extension `Fin.snoc a (a 0)`, the value read at `t.succ` is the cyclic
+successor value `a (t + 1)` (`t + 1` in `Fin (ℓ'+1)`, wrapping at the end). -/
+lemma snoc_self_zero_succ {ℓ' : ℕ} (a : Fin (ℓ' + 1) → ι) (t : Fin (ℓ' + 1)) :
+    (Fin.snoc a (a 0) : Fin (ℓ' + 2) → ι) t.succ = a (t + 1) := by
+  rcases eq_or_ne t (Fin.last ℓ') with h | h
+  · subst h
+    rw [Fin.succ_last, Fin.snoc_last, Fin.last_add_one]
+  · obtain ⟨s, rfl⟩ := Fin.eq_castSucc_of_ne_last h
+    rw [Fin.succ_castSucc, Fin.snoc_castSucc]
+    congr 1
+    ext
+    rw [Fin.val_add_one_of_lt (Fin.castSucc_lt_last s), Fin.val_castSucc, Fin.val_succ]
+
+/-- **Trace as a cyclic walk-sum.** For a nonempty index set `Fin ℓ` (`NeZero ℓ`), the trace of the
+ordered product `N 0 * … * N (ℓ-1)` is the sum over cyclic index assignments `a : Fin ℓ → ι` of the
+product of entries `N t (a t) (a (t+1))`, with `t+1` the cyclic successor in `Fin ℓ`. This is the
+"trace of a list product = closed-walk sum" identity in cyclic form. -/
+theorem trace_bigProd_cyclic {ℓ : ℕ} [NeZero ℓ] (N : Fin ℓ → Matrix ι ι R) :
+    Matrix.trace (bigProd N)
+      = ∑ a : Fin ℓ → ι, ∏ t : Fin ℓ, N t (a t) (a (t + 1)) := by
+  obtain ⟨ℓ', rfl⟩ : ∃ k, ℓ = k + 1 :=
+    ⟨ℓ - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne ℓ))).symm⟩
+  rw [trace_bigProd, ← Finset.sum_filter]
+  refine (Finset.sum_bij' (fun a _ => Fin.snoc a (a 0)) (fun v _ t => v t.castSucc)
+    ?_ ?_ ?_ ?_ ?_).symm
+  · -- forward map lands in the closed-walk filter
+    intro a _
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Fin.snoc_last]
+    conv_rhs => rw [show (0 : Fin (ℓ' + 2)) = Fin.castSucc (0 : Fin (ℓ' + 1)) from
+      (Fin.castSucc_zero).symm, Fin.snoc_castSucc]
+  · -- backward map lands in univ
+    intro v _; exact Finset.mem_univ _
+  · -- left inverse
+    intro a _; funext t; rw [Fin.snoc_castSucc]
+  · -- right inverse
+    intro v hv
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hv
+    funext i
+    change (Fin.snoc (fun t => v t.castSucc) (v (Fin.castSucc 0)) : Fin (ℓ' + 2) → ι) i = v i
+    rw [Fin.castSucc_zero, ← hv]
+    exact congrFun (Fin.snoc_init_self v) i
+  · -- summands agree
+    intro a _
+    unfold walkWeight
+    refine Finset.prod_congr rfl (fun t _ => ?_)
+    rw [Fin.snoc_castSucc, snoc_self_zero_succ]
+
 end WalkSum
 
 section MatrixCombinatorics
@@ -280,15 +328,161 @@ def fiberMap (σ : Equiv.Perm (Fin m)) (r : Fin m) (x : {x : Fin m // repOf σ x
     {x : Fin m // repOf σ x = r} :=
   ⟨σ x.1, by rw [repOf_apply]; exact x.2⟩
 
-/-- **Single-orbit telescoping** (the remaining `sorry`, tracked by a follow-up issue). On one
-`σ`-orbit — the fiber of a representative `r` — the local multi-index sum resums to the trace of the
-ordered matrix product `matrixCycleProd σ M r`. The analytic core (`trace_bigProd`) is in place. -/
+/-! ### Orbit period arithmetic
+
+The single-orbit telescoping parametrizes the fiber of `r` by `t ↦ σ⁻¹^t r`, `t : Fin ℓ`,
+`ℓ = cyclePeriod σ r`. The lemmas below supply the facts this parametrization needs: positivity of
+the period, that `σ^ℓ` and `σ⁻¹^ℓ` fix `r`, and that `σ⁻¹` has the same minimal period at `r` as
+`σ`. -/
+
+/-- `r` is a periodic point of the finite permutation `σ`, so its cycle period is positive. -/
+lemma cyclePeriod_pos (σ : Equiv.Perm (Fin m)) (i : Fin m) : 0 < cyclePeriod σ i :=
+  Function.minimalPeriod_pos_of_mem_periodicPts (σ.injective.mem_periodicPts i)
+
+/-- `σ ^ ℓ` fixes `r`, where `ℓ = cyclePeriod σ r` is its minimal period under `σ`. -/
+lemma pow_cyclePeriod_apply (σ : Equiv.Perm (Fin m)) (r : Fin m) :
+    (σ ^ cyclePeriod σ r) r = r := by
+  have h : (⇑σ)^[cyclePeriod σ r] r = r := Function.isPeriodicPt_minimalPeriod (⇑σ) r
+  rwa [← Equiv.Perm.coe_pow] at h
+
+/-- `σ⁻¹ ^ ℓ` also fixes `r`. -/
+lemma inv_pow_cyclePeriod_apply (σ : Equiv.Perm (Fin m)) (r : Fin m) :
+    (σ⁻¹ ^ cyclePeriod σ r) r = r := by
+  have h := pow_cyclePeriod_apply σ r
+  rw [inv_pow]
+  exact (Equiv.symm_apply_eq (σ ^ cyclePeriod σ r)).mpr h.symm
+
+/-- The minimal period of `σ⁻¹` at `r` coincides with that of `σ`: the two have the same periodic
+iterates at `r`. -/
+lemma minimalPeriod_inv_coe (σ : Equiv.Perm (Fin m)) (r : Fin m) :
+    Function.minimalPeriod (⇑σ⁻¹) r = Function.minimalPeriod (⇑σ) r := by
+  rw [Function.minimalPeriod_eq_minimalPeriod_iff]
+  intro n
+  have e : ∀ τ : Equiv.Perm (Fin m), Function.IsPeriodicPt (⇑τ) n r ↔ (τ ^ n) r = r := by
+    intro τ
+    change (⇑τ)^[n] r = r ↔ (τ ^ n) r = r
+    rw [← Equiv.Perm.coe_pow]
+  rw [e σ⁻¹, e σ, inv_pow]
+  constructor
+  · intro h; exact ((Equiv.symm_apply_eq (σ ^ n)).mp h).symm
+  · intro h; exact (Equiv.symm_apply_eq (σ ^ n)).mpr h.symm
+
+/-- In `Fin ℓ` (`ℓ > 0`), `0 - 1` has value `ℓ - 1`. -/
+lemma val_zero_sub_one {ℓ : ℕ} [NeZero ℓ] : ((0 : Fin ℓ) - 1).val = ℓ - 1 := by
+  obtain ⟨k, rfl⟩ : ∃ k, ℓ = k + 1 :=
+    ⟨ℓ - 1, (Nat.succ_pred_eq_of_pos (Nat.pos_of_ne_zero (NeZero.ne ℓ))).symm⟩
+  simp [zero_sub, Fin.coe_neg_one]
+
+/-- The ordered orbit product `matrixCycleProd σ M r` is `bigProd` of the `Fin ℓ`-indexed family of
+backward matrices `t ↦ M (σ⁻¹^t r)`. This rewrites the `List.range … |>.map` product used to define
+`matrixCycleProd` into the `List.ofFn` form that `trace_bigProd_cyclic` consumes. -/
+lemma matrixCycleProd_eq_bigProd (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R) (r : Fin m) :
+    matrixCycleProd σ M r
+      = bigProd (fun t : Fin (cyclePeriod σ r) => M ((σ⁻¹ ^ (t : ℕ)) r)) := by
+  rw [matrixCycleProd, bigProd]
+  congr 1
+  apply List.ext_getElem
+  · simp
+  · intro i h1 h2
+    simp [List.getElem_ofFn, List.getElem_map, List.getElem_range]
+
+/-- **Single-orbit telescoping.** On one `σ`-orbit — the fiber of a representative `r` — the local
+multi-index sum resums to the trace of the ordered matrix product `matrixCycleProd σ M r`. The
+fiber is parametrized backward by `t ↦ σ⁻¹^t r` (`t : Fin ℓ`, `ℓ = cyclePeriod σ r`); reindexing the
+multi-index sum and product along this bijection, then shifting by one, turns the local sum into the
+cyclic walk-sum `trace_bigProd_cyclic` computes. -/
 theorem matrixSum_cycle_eq_trace (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R)
     {r : Fin m} (hr : r ∈ orbitReps σ) :
     ∑ q : {x : Fin m // repOf σ x = r} → ι,
         ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x)
       = Matrix.trace (matrixCycleProd σ M r) := by
-  sorry
+  classical
+  haveI : NeZero (cyclePeriod σ r) := ⟨(cyclePeriod_pos σ r).ne'⟩
+  -- same-cycle witnesses for the backward orbit parametrization `t ↦ σ⁻¹^t r`
+  have hsame : ∀ k : ℕ, σ.SameCycle ((σ⁻¹ ^ k) r) r := fun k =>
+    ⟨(k : ℤ), by
+      rw [zpow_natCast, ← Equiv.Perm.mul_apply, inv_pow, mul_inv_cancel, Equiv.Perm.one_apply]⟩
+  -- the orbit bijection `φ : Fin ℓ ≃ fiber r`
+  let φf : Fin (cyclePeriod σ r) → {x : Fin m // repOf σ x = r} :=
+    fun t => ⟨(σ⁻¹ ^ (t : ℕ)) r, by
+      rw [repOf_eq_of_sameCycle σ (hsame (t : ℕ)), repOf_eq_self σ hr]⟩
+  have hφf_inj : Function.Injective φf := by
+    intro t1 t2 h
+    have h1 : (σ⁻¹ ^ (t1 : ℕ)) r = (σ⁻¹ ^ (t2 : ℕ)) r := Subtype.ext_iff.mp h
+    have hinj := Function.iterate_injOn_Iio_minimalPeriod (f := ⇑σ⁻¹) (x := r)
+    rw [minimalPeriod_inv_coe σ r] at hinj
+    exact Fin.ext (hinj (Set.mem_Iio.mpr t1.isLt) (Set.mem_Iio.mpr t2.isLt)
+      (by simpa only [Equiv.Perm.coe_pow] using h1))
+  have hφf_surj : Function.Surjective φf := by
+    rintro ⟨x, hx⟩
+    have hsc : σ.SameCycle x r := by have h := sameCycle_repOf σ x; rwa [hx] at h
+    have hsc' : (σ⁻¹).SameCycle r x := by rw [Equiv.Perm.sameCycle_inv]; exact hsc.symm
+    obtain ⟨i, _, hi⟩ := hsc'.exists_pow_eq'
+    refine ⟨⟨i % cyclePeriod σ r, Nat.mod_lt _ (cyclePeriod_pos σ r)⟩, ?_⟩
+    apply Subtype.ext
+    change (σ⁻¹ ^ (i % cyclePeriod σ r)) r = x
+    have hmod : (⇑σ⁻¹)^[i % Function.minimalPeriod (⇑σ⁻¹) r] r = (⇑σ⁻¹)^[i] r :=
+      Function.iterate_mod_minimalPeriod_eq
+    rw [minimalPeriod_inv_coe σ r] at hmod
+    calc (σ⁻¹ ^ (i % cyclePeriod σ r)) r
+        = (⇑σ⁻¹)^[i % cyclePeriod σ r] r := by rw [Equiv.Perm.coe_pow]
+      _ = (⇑σ⁻¹)^[i] r := hmod
+      _ = (σ⁻¹ ^ i) r := by rw [Equiv.Perm.coe_pow]
+      _ = x := hi
+  let φ : Fin (cyclePeriod σ r) ≃ {x : Fin m // repOf σ x = r} :=
+    Equiv.ofBijective φf ⟨hφf_inj, hφf_surj⟩
+  have hφ : ∀ t, (φ t).1 = (σ⁻¹ ^ (t : ℕ)) r := fun _ => rfl
+  -- the backward telescoping step: `σ · σ⁻¹^(k+1) = σ⁻¹^k`
+  have hstep : ∀ k : ℕ, σ ((σ⁻¹ ^ (k + 1)) r) = (σ⁻¹ ^ k) r := by
+    intro k; rw [pow_succ', Equiv.Perm.mul_apply]; simp
+  -- the shift relation: applying `σ` on the fiber is `φ` of the predecessor index
+  have hfib : ∀ t, fiberMap σ r (φ t) = φ (t - 1) := by
+    intro t
+    apply Subtype.ext
+    change σ ((φ t).1) = (φ (t - 1)).1
+    rw [hφ, hφ]
+    by_cases ht : t = 0
+    · subst ht
+      simp only [Fin.val_zero, pow_zero, Equiv.Perm.one_apply, val_zero_sub_one]
+      have h := hstep (cyclePeriod σ r - 1)
+      rwa [Nat.sub_add_cancel (cyclePeriod_pos σ r), inv_pow_cyclePeriod_apply] at h
+    · rw [Fin.val_sub_one_of_ne_zero ht]
+      have hv : t.val ≠ 0 := by rwa [Ne, Fin.val_eq_zero_iff]
+      have h := hstep (t.val - 1)
+      rwa [Nat.sub_add_cancel (Nat.one_le_iff_ne_zero.mpr hv)] at h
+  -- the sum-level shift `a ↦ a ∘ (· - 1)`
+  let shift : (Fin (cyclePeriod σ r) → ι) ≃ (Fin (cyclePeriod σ r) → ι) :=
+    { toFun := fun a s => a (s - 1)
+      invFun := fun a s => a (s + 1)
+      left_inv := fun a => by funext s; simp
+      right_inv := fun a => by funext s; simp }
+  -- the abbreviation `E` for the arrow reindexing `a ↦ a ∘ φ.symm`
+  set E : (Fin (cyclePeriod σ r) → ι) ≃ ({x : Fin m // repOf σ x = r} → ι) :=
+    Equiv.arrowCongr φ (Equiv.refl ι) with hE
+  calc
+    (∑ q : {x : Fin m // repOf σ x = r} → ι,
+        ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x))
+        = ∑ a : Fin (cyclePeriod σ r) → ι,
+            ∏ t : Fin (cyclePeriod σ r), M ((σ⁻¹ ^ (t : ℕ)) r) (a (t - 1)) (a t) := by
+          rw [← Equiv.sum_comp E (fun q : {x : Fin m // repOf σ x = r} → ι =>
+            ∏ x, M x.1 (q (fiberMap σ r x)) (q x))]
+          refine Finset.sum_congr rfl (fun a _ => ?_)
+          rw [← Equiv.prod_comp φ (fun x => M x.1 (E a (fiberMap σ r x)) (E a x))]
+          refine Finset.prod_congr rfl (fun t _ => ?_)
+          rw [hfib]
+          simp only [hE, Equiv.arrowCongr_apply, Equiv.coe_refl, Function.comp_apply, id_eq,
+            Equiv.symm_apply_apply]
+          rw [hφ]
+      _ = ∑ a : Fin (cyclePeriod σ r) → ι,
+            ∏ t : Fin (cyclePeriod σ r), M ((σ⁻¹ ^ (t : ℕ)) r) (a t) (a (t + 1)) := by
+          rw [← Equiv.sum_comp shift (fun a : Fin (cyclePeriod σ r) → ι =>
+            ∏ t : Fin (cyclePeriod σ r), M ((σ⁻¹ ^ (t : ℕ)) r) (a t) (a (t + 1)))]
+          refine Finset.sum_congr rfl (fun a _ => ?_)
+          refine Finset.prod_congr rfl (fun t _ => ?_)
+          simp only [shift, Equiv.coe_fn_mk, add_sub_cancel_right]
+      _ = Matrix.trace (bigProd (fun t : Fin (cyclePeriod σ r) => M ((σ⁻¹ ^ (t : ℕ)) r))) :=
+          (trace_bigProd_cyclic _).symm
+      _ = Matrix.trace (matrixCycleProd σ M r) := by rw [matrixCycleProd_eq_bigProd]
 
 /-- **Combinatorial core.** The multi-index sum `∑_p ∏_i M_i (p (σ i)) (p i)` factors over the
 `σ`-orbits: the permutation forces `p` to be constant along each cycle, and the chain of matrix
