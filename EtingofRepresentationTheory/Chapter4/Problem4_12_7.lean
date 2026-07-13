@@ -33,9 +33,12 @@ matrices of determinant `1`, a `Group`), `SO(3)` by `Matrix.specialOrthogonalGro
 and the quaternions by `ℍ[ℝ] = Quaternion ℝ`. The group of unit quaternions is
 `unitary ℍ[ℝ]` (`{q : star q * q = 1 = q * star q}`, i.e. `normSq q = 1`).
 
-This is a statement pass: we give faithful signatures for parts **(a)**, **(d)**, **(e)**,
-**(f)** with `sorry` proofs. Parts (b) and (c) (the commutant description of `ℍ` and the
-explicit `1, i, j, k` basis) are left for a later pass.
+Parts **(a)**, **(d)**, **(e)** are proved sorry-free.  Part **(f)** builds the conjugation
+homomorphism `h : SU(2) → SO(3)` genuinely and proves its kernel is exactly `{1, -1}`; the one
+remaining `sorry` is the *surjectivity* of `h` (`rotHom_surjective`), the classical `2:1`-cover
+statement that every rotation of `ℝ³` is conjugation by a unit quaternion (axis–angle normal form,
+not yet in Mathlib).  Parts (b) and (c) (the commutant description of `ℍ` and the explicit
+`1, i, j, k` basis) are left for a later pass.
 
 * **(a)** `V = ℂ²` as a real representation: `Fin 2 → ℂ` is an `ℝ`-module and `SU(2)` acts
   `ℝ`-linearly by `Matrix.mulVec`. Irreducibility over `ℝ` is: every `SU(2)`-invariant
@@ -340,6 +343,188 @@ theorem unit_quaternions_mulEquiv_SU2 :
     Nonempty (unitary ℍ[ℝ] ≃* Matrix.specialUnitaryGroup (Fin 2) ℂ) :=
   ⟨MulEquiv.ofBijective qmatHom ⟨qmatHom_injective, qmatHom_surjective⟩⟩
 
+/-- `qmat` is injective as a function on all of `ℍ[ℝ]`: the matrix `qmat q` determines the four
+real components of `q`. -/
+lemma qmat_injective : Function.Injective qmat := by
+  intro a b h
+  have e00 := congrFun (congrFun h 0) 0
+  have e01 := congrFun (congrFun h 0) 1
+  simp only [qmat_apply_zero_zero, qmat_apply_zero_one] at e00 e01
+  apply Quaternion.ext
+  · simpa using congrArg Complex.re e00
+  · simpa using congrArg Complex.im e00
+  · simpa using congrArg Complex.re e01
+  · simpa using congrArg Complex.im e01
+
+/-- `qmat (-1) = -1` (the matrix of `-1 ∈ ℍ[ℝ]` is the negative identity). -/
+lemma qmat_neg_one : qmat (-1 : ℍ[ℝ]) = -1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [qmat, Complex.ext_iff]
+
+/-! ### Part (f): the conjugation action `SU(2) → SO(3)`
+
+We realize the imaginary quaternions `V = span{i, j, k}` as `ℝ³` (a quaternion's coordinates
+`(imI, imJ, imK)`) and, for a unit quaternion `q`, form the `3×3` real matrix `rotMat q` of the
+conjugation `x ↦ q · x · star q` (`= q x q⁻¹`, since `star q = q⁻¹` for unit `q`).  Because
+`q x star q` is purely imaginary for imaginary `x`, and conjugation preserves the norm, `rotMat q`
+lands in `SO(3)`, and `rotMat` is multiplicative. -/
+
+section PartF
+
+/-- The unit imaginary quaternion `i = (0,1,0,0)`. -/
+noncomputable def qI : ℍ[ℝ] := ⟨0, 1, 0, 0⟩
+/-- The unit imaginary quaternion `j = (0,0,1,0)`. -/
+noncomputable def qJ : ℍ[ℝ] := ⟨0, 0, 1, 0⟩
+/-- The unit imaginary quaternion `k = (0,0,0,1)`. -/
+noncomputable def qK : ℍ[ℝ] := ⟨0, 0, 0, 1⟩
+
+@[simp] lemma qI_re : qI.re = 0 := rfl
+@[simp] lemma qI_imI : qI.imI = 1 := rfl
+@[simp] lemma qI_imJ : qI.imJ = 0 := rfl
+@[simp] lemma qI_imK : qI.imK = 0 := rfl
+@[simp] lemma qJ_re : qJ.re = 0 := rfl
+@[simp] lemma qJ_imI : qJ.imI = 0 := rfl
+@[simp] lemma qJ_imJ : qJ.imJ = 1 := rfl
+@[simp] lemma qJ_imK : qJ.imK = 0 := rfl
+@[simp] lemma qK_re : qK.re = 0 := rfl
+@[simp] lemma qK_imI : qK.imI = 0 := rfl
+@[simp] lemma qK_imJ : qK.imJ = 0 := rfl
+@[simp] lemma qK_imK : qK.imK = 1 := rfl
+
+/-- The `3 × 3` real matrix of the conjugation `x ↦ q · x · star q` acting on the imaginary
+quaternions `span{i, j, k}`, written in the ordered basis `i, j, k`.  Column `j` records the
+`(imI, imJ, imK)` coordinates of the image of the `j`-th basis imaginary quaternion. -/
+noncomputable def rotMat (q : ℍ[ℝ]) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![ (q * qI * star q).imI, (q * qJ * star q).imI, (q * qK * star q).imI;
+      (q * qI * star q).imJ, (q * qJ * star q).imJ, (q * qK * star q).imJ;
+      (q * qI * star q).imK, (q * qJ * star q).imK, (q * qK * star q).imK ]
+
+attribute [local simp] Quaternion.re_mul Quaternion.imI_mul Quaternion.imJ_mul Quaternion.imK_mul
+  Quaternion.re_star Quaternion.imI_star Quaternion.imJ_star Quaternion.imK_star
+
+/-- Conjugation by `-q` equals conjugation by `q` (the two sign changes cancel), so
+`rotMat (-q) = rotMat q`. -/
+lemma rotMat_neg (q : ℍ[ℝ]) : rotMat (-q) = rotMat q := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [rotMat, star_neg, neg_mul, mul_neg, neg_neg, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue]
+
+/-- `rotMat` sends `1` to the identity matrix. -/
+lemma rotMat_one : rotMat (1 : ℍ[ℝ]) = 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [rotMat, star_one, one_mul, mul_one, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.head_cons, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
+      Matrix.of_apply, Fin.isValue, qI_imI, qI_imJ, qI_imK, qJ_imI, qJ_imJ, qJ_imK,
+      qK_imI, qK_imJ, qK_imK, Matrix.one_apply] <;> norm_num
+
+/-- `rotMat (-1) = 1`. -/
+lemma rotMat_neg_one : rotMat (-1 : ℍ[ℝ]) = 1 := by
+  rw [rotMat_neg, rotMat_one]
+
+/-- `rotMat` is multiplicative: `rotMat (q₁ * q₂) = rotMat q₁ * rotMat q₂`.  This is the algebraic
+heart of the homomorphism `SU(2) → SO(3)`: `q₁ q₂ · x · star (q₁ q₂) = q₁ (q₂ x star q₂) star q₁`,
+and `q₂ x star q₂` is again imaginary. -/
+lemma rotMat_mul (q₁ q₂ : ℍ[ℝ]) : rotMat (q₁ * q₂) = rotMat q₁ * rotMat q₂ := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [rotMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue] <;>
+    simp <;> ring
+
+/-- The `(0,0)` entry of `rotMat q` in closed form. -/
+lemma rotMat_apply_00 (q : ℍ[ℝ]) :
+    rotMat q 0 0 = q.re ^ 2 + q.imI ^ 2 - q.imJ ^ 2 - q.imK ^ 2 := by
+  simp only [rotMat, Matrix.cons_val_zero, Matrix.cons_val', Matrix.empty_val',
+    Matrix.cons_val_fin_one, Matrix.of_apply]
+  simp <;> ring
+
+/-- The `(1,1)` entry of `rotMat q` in closed form. -/
+lemma rotMat_apply_11 (q : ℍ[ℝ]) :
+    rotMat q 1 1 = q.re ^ 2 - q.imI ^ 2 + q.imJ ^ 2 - q.imK ^ 2 := by
+  simp only [rotMat, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val', Matrix.empty_val',
+    Matrix.cons_val_fin_one, Matrix.of_apply, Fin.isValue]
+  simp <;> ring
+
+/-- For a unit quaternion `q` (`normSq q = 1`), the conjugation matrix `rotMat q` is a special
+orthogonal matrix: it preserves the standard inner product on `ℝ³` and has determinant `1`. -/
+lemma rotMat_mem_SO3 (q : ℍ[ℝ]) (hq : Quaternion.normSq q = 1) :
+    rotMat q ∈ Matrix.specialOrthogonalGroup (Fin 3) ℝ := by
+  have h4 : q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2 = 1 := by
+    rw [Quaternion.normSq_def'] at hq; linarith
+  rw [Matrix.mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [Matrix.mem_orthogonalGroup_iff]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [rotMat, Matrix.mul_apply, Matrix.transpose_apply, Fin.sum_univ_three,
+        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+        Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.of_apply,
+        Matrix.one_apply, Fin.isValue] <;>
+      simp <;>
+      · first
+        | linear_combination (q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2 + 1) * h4
+        | linear_combination (0 : ℝ)
+  · rw [Matrix.det_fin_three]
+    simp only [rotMat, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.head_cons, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one,
+      Matrix.of_apply, Fin.isValue]
+    simp
+    linear_combination
+      ((q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2) ^ 2 +
+        (q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2) + 1) * h4
+
+/-- For a unit quaternion `q`, the conjugation `rotMat q` is the identity exactly when `q = ±1`:
+conjugation fixes `i, j, k` iff `q` is central in `ℍ[ℝ]`, i.e. real, and a unit real quaternion is
+`±1`. -/
+lemma rotMat_eq_one_iff (q : ℍ[ℝ]) (hq : Quaternion.normSq q = 1) :
+    rotMat q = 1 ↔ q = 1 ∨ q = -1 := by
+  constructor
+  · intro h
+    have h4 : q.re ^ 2 + q.imI ^ 2 + q.imJ ^ 2 + q.imK ^ 2 = 1 := by
+      rw [Quaternion.normSq_def'] at hq; linarith
+    have e00 : rotMat q 0 0 = 1 := by rw [h]; simp [Matrix.one_apply]
+    have e11 : rotMat q 1 1 = 1 := by rw [h]; simp [Matrix.one_apply]
+    rw [rotMat_apply_00] at e00
+    rw [rotMat_apply_11] at e11
+    have hb : q.imI = 0 := by nlinarith [sq_nonneg q.imI, sq_nonneg q.imJ, sq_nonneg q.imK]
+    have hc : q.imJ = 0 := by nlinarith [sq_nonneg q.imI, sq_nonneg q.imJ, sq_nonneg q.imK]
+    have hd : q.imK = 0 := by nlinarith [sq_nonneg q.imI, sq_nonneg q.imJ, sq_nonneg q.imK]
+    have ha : q.re = 1 ∨ q.re = -1 := mul_self_eq_one_iff.mp (by nlinarith)
+    rcases ha with ha | ha
+    · left; ext <;> simp [ha, hb, hc, hd]
+    · right; ext <;> simp [ha, hb, hc, hd]
+  · rintro (rfl | rfl)
+    · exact rotMat_one
+    · exact rotMat_neg_one
+
+/-- The conjugation homomorphism `unitary ℍ[ℝ] →* SO(3)`, `q ↦ (x ↦ q x q⁻¹)` on the imaginary
+quaternions. -/
+noncomputable def rotHom : unitary ℍ[ℝ] →* Matrix.specialOrthogonalGroup (Fin 3) ℝ where
+  toFun q := ⟨rotMat (q : ℍ[ℝ]), rotMat_mem_SO3 _ (mem_unitary_iff_normSq.mp q.2)⟩
+  map_one' := Subtype.ext (by simpa using rotMat_one)
+  map_mul' a b := Subtype.ext (by simpa using rotMat_mul (a : ℍ[ℝ]) (b : ℍ[ℝ]))
+
+@[simp] lemma rotHom_coe (q : unitary ℍ[ℝ]) :
+    (rotHom q : Matrix (Fin 3) (Fin 3) ℝ) = rotMat (q : ℍ[ℝ]) := rfl
+
+/-- **Surjectivity of the quaternion cover.** Every rotation of Euclidean `ℝ³` is conjugation by a
+unit quaternion — the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.
+This is the axis–angle decomposition: a rotation by angle `θ` about a unit axis
+`n = (n₁, n₂, n₃)` is `rotMat (cos (θ/2) + sin (θ/2) · (n₁ i + n₂ j + n₃ k))`.
+
+TODO: this remaining piece requires the axis–angle normal form for `SO(3)` (every element of
+`SO(3)` fixes an axis, as `1` is an eigenvalue in odd dimension with determinant `1`), which is not
+yet available in Mathlib. -/
+theorem rotHom_surjective : Function.Surjective rotHom := by
+  sorry
+
+end PartF
+
 /-- **Part (f).** There is a surjective group homomorphism `h : SU(2) → SO(3)` whose kernel is
 exactly `{1, -1}`: `A ∈ ker h` iff the matrix of `A` is `1` or `-1`. -/
 theorem exists_surjective_hom_to_SO3 :
@@ -350,6 +535,39 @@ theorem exists_surjective_hom_to_SO3 :
         A ∈ h.ker ↔
           ((A : Matrix (Fin 2) (Fin 2) ℂ) = 1 ∨
            (A : Matrix (Fin 2) (Fin 2) ℂ) = -1) := by
-  sorry
+  -- The group iso `e : unit quaternions ≃* SU(2)` from part (e).
+  let e : unitary ℍ[ℝ] ≃* Matrix.specialUnitaryGroup (Fin 2) ℂ :=
+    MulEquiv.ofBijective qmatHom ⟨qmatHom_injective, qmatHom_surjective⟩
+  -- Transport the conjugation homomorphism `rotHom` along `e⁻¹`.
+  refine ⟨rotHom.comp e.symm.toMonoidHom, ?_, ?_⟩
+  · -- Surjectivity: `rotHom` is surjective and `e` is a bijection.
+    intro M
+    obtain ⟨q, hq⟩ := rotHom_surjective M
+    refine ⟨e q, ?_⟩
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.symm_apply_apply]
+    exact hq
+  · -- Kernel: `A ∈ ker h ↔ rotMat (e⁻¹ A) = 1 ↔ e⁻¹ A = ±1 ↔ (A : Matrix) = ±1`.
+    intro A
+    have hnorm : Quaternion.normSq ((e.symm A : unitary ℍ[ℝ]) : ℍ[ℝ]) = 1 :=
+      mem_unitary_iff_normSq.mp (e.symm A).2
+    have hAq : (A : Matrix (Fin 2) (Fin 2) ℂ) = qmat ((e.symm A : unitary ℍ[ℝ]) : ℍ[ℝ]) := by
+      have h1 : qmatHom (e.symm A) = A := e.apply_symm_apply A
+      calc (A : Matrix (Fin 2) (Fin 2) ℂ)
+            = ((qmatHom (e.symm A) : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
+                Matrix (Fin 2) (Fin 2) ℂ) := by rw [h1]
+        _ = qmat ((e.symm A : unitary ℍ[ℝ]) : ℍ[ℝ]) := rfl
+    have hker : A ∈ (rotHom.comp e.symm.toMonoidHom).ker ↔
+        rotMat ((e.symm A : unitary ℍ[ℝ]) : ℍ[ℝ]) = 1 := by
+      rw [MonoidHom.mem_ker]
+      simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subtype.ext_iff, rotHom_coe,
+        Submonoid.coe_one]
+    rw [hker, rotMat_eq_one_iff _ hnorm, hAq]
+    constructor
+    · rintro (h | h)
+      · left; rw [h, qmat_one]
+      · right; rw [h, qmat_neg_one]
+    · rintro (h | h)
+      · left; exact qmat_injective (by rw [qmat_one]; exact h)
+      · right; exact qmat_injective (by rw [qmat_neg_one]; exact h)
 
 end Etingof.Problem4_12_7
