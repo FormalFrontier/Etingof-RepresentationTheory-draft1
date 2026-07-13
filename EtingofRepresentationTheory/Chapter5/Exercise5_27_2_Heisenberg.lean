@@ -421,7 +421,50 @@ theorem heisenberg_classification :
           (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ))).character
           ⟨Multiplicative.ofAdd (b, c), g⟩
       = if g = 1 ∧ b = 0 then (p : ℂ) * (heisenbergZeta p : ℂ) ^ (γ * c).val else 0 := by
-    sorry
+    intro β γ hγ b c g
+    have hSimpleU := Etingof.AbelianFDRep.charFDRep_simple
+      (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ)
+    have hcard1 : Fintype.card ↥(stab (heisenbergChar p β γ)) = 1 := by
+      rw [← Nat.card_eq_fintype_card, hstab_r β γ hγ]; exact Subgroup.card_bot
+    rw [hiv (heisenbergChar p β γ) _ hSimpleU (Multiplicative.ofAdd (b, c)) g, hcard1]
+    simp only [Nat.cast_one, inv_one, one_mul]
+    by_cases hg : g = 1
+    · subst hg
+      have hterm : ∀ h : Multiplicative (ZMod p),
+          (if hh : h * 1 * h⁻¹ ∈ stab (heisenbergChar p β γ)
+            then ((heisenbergChar p β γ
+                  ((heisenbergφ p h : MulAut _) (Multiplicative.ofAdd (b, c))) : ℂˣ) : ℂ)
+                * (Etingof.AbelianFDRep.charFDRep
+                    (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ)).character ⟨h * 1 * h⁻¹, hh⟩
+            else 0)
+          = ((heisenbergChar p β γ
+              (Multiplicative.ofAdd (b, c + Multiplicative.toAdd h * b)) : ℂˣ) : ℂ) := by
+        intro h
+        have hmem : h * 1 * h⁻¹ ∈ stab (heisenbergChar p β γ) := by
+          rw [hconj, hstab_r β γ hγ]; exact Subgroup.one_mem _
+        rw [dif_pos hmem, Etingof.AbelianFDRep.charFDRep_character, MonoidHom.one_apply,
+          Units.val_one, mul_one, heisenbergφ_apply_ofAdd]
+      rw [Finset.sum_congr rfl (fun h _ => hterm h), heisenberg_shear_sum]
+      by_cases hb : b = 0
+      · subst hb
+        rw [mul_zero, if_pos rfl, if_pos ⟨rfl, rfl⟩, heisenbergChar_apply,
+          Units.val_pow_eq_pow_val, show β * 0 + γ * c = γ * c from by ring]
+      · rw [if_neg (fun h => hb ((mul_eq_zero.mp h).resolve_left hγ)),
+          if_neg (fun h => hb h.2), zero_mul]
+    · have hterm0 : ∀ h : Multiplicative (ZMod p),
+          (if hh : h * g * h⁻¹ ∈ stab (heisenbergChar p β γ)
+            then ((heisenbergChar p β γ
+                  ((heisenbergφ p h : MulAut _) (Multiplicative.ofAdd (b, c))) : ℂˣ) : ℂ)
+                * (Etingof.AbelianFDRep.charFDRep
+                    (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ)).character ⟨h * g * h⁻¹, hh⟩
+            else 0) = 0 := by
+        intro h
+        rw [dif_neg]
+        intro hmem
+        rw [hconj, hstab_r β γ hγ, Subgroup.mem_bot] at hmem
+        exact hg hmem
+      rw [Finset.sum_congr rfl (fun h _ => hterm0 h), Finset.sum_const_zero,
+        if_neg (fun h => hg h.1)]
   -- The index type and family.
   let ι := (ZMod p × (Multiplicative (ZMod p) →* ℂˣ)) ⊕ {γ : ZMod p // γ ≠ 0}
   haveI : Fintype ι :=
