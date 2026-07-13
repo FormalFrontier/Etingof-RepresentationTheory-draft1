@@ -33,13 +33,13 @@ matrices of determinant `1`, a `Group`), `SO(3)` by `Matrix.specialOrthogonalGro
 and the quaternions by `ℍ[ℝ] = Quaternion ℝ`. The group of unit quaternions is
 `unitary ℍ[ℝ]` (`{q : star q * q = 1 = q * star q}`, i.e. `normSq q = 1`).
 
-Parts **(a)**, **(d)**, **(e)** are proved sorry-free.  Part **(f)** builds the conjugation
-homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and reduces its
-surjectivity (`rotHom_surjective`) to the Euler `Z-Y-Z` decomposition of `SO(3)` via the
-coordinate-axis rotation lemmas.  The one remaining `sorry` is that Euler decomposition
+Parts **(a)**, **(d)**, **(e)**, **(f)** are proved sorry-free.  Part **(f)** builds the conjugation
+homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and proves its
+surjectivity (`rotHom_surjective`) via the Euler `Z-Y-Z` decomposition of `SO(3)`
 (`so3_euler_zyz`: every `R ∈ SO(3)` is `Rz α · Ry β · Rz γ`), the classical existence of Euler
-angles, not yet available in Mathlib.  Parts (b) and (c) (the commutant description of `ℍ` and the
-explicit `1, i, j, k` basis) are left for a later pass.
+angles, established here from the orthonormality and cofactor (`adjugate R = Rᵀ`) relations of `R`.
+Parts (b) and (c) (the commutant description of `ℍ` and the explicit `1, i, j, k` basis) are left
+for a later pass.
 
 * **(a)** `V = ℂ²` as a real representation: `Fin 2 → ℂ` is an `ℝ`-module and `SU(2)` acts
   `ℝ`-linearly by `Matrix.mulVec`. Irreducibility over `ℝ` is: every `SU(2)`-invariant
@@ -585,21 +585,183 @@ lemma rotMat_yAxis_half (θ : ℝ) :
   have hone : Real.cos (θ / 2) ^ 2 + Real.sin (θ / 2) ^ 2 = 1 := Real.cos_sq_add_sin_sq _
   rw [rotMat_yAxis, Ry, hcos, hsin, hone]
 
+/-- Every point on the unit circle is `(cos θ, sin θ)` for some real angle `θ`. -/
+private lemma exists_cos_sin_eq {x y : ℝ} (h : x ^ 2 + y ^ 2 = 1) :
+    ∃ θ : ℝ, Real.cos θ = x ∧ Real.sin θ = y := by
+  set z : ℂ := (x : ℂ) + (y : ℂ) * Complex.I with hz_def
+  have hns : Complex.normSq z = 1 := by rw [hz_def, Complex.normSq_add_mul_I, h]
+  have hnorm : ‖z‖ = 1 := by rw [Complex.norm_def, hns, Real.sqrt_one]
+  have hz0 : z ≠ 0 := by
+    intro h0; rw [h0] at hnorm; simp at hnorm
+  have hre : z.re = x := by rw [hz_def]; simp
+  have him : z.im = y := by rw [hz_def]; simp
+  refine ⟨Complex.arg z, ?_, ?_⟩
+  · rw [Complex.cos_arg hz0, hre, hnorm, div_one]
+  · rw [Complex.sin_arg, him, hnorm, div_one]
+
+/-- Two reals whose squares sum to zero are both zero. -/
+private lemma sq_add_sq_eq_zero {a b : ℝ} (h : a ^ 2 + b ^ 2 = 0) : a = 0 ∧ b = 0 :=
+  ⟨sq_eq_zero_iff.mp (le_antisymm (by nlinarith [sq_nonneg b]) (sq_nonneg a)),
+   sq_eq_zero_iff.mp (le_antisymm (by nlinarith [sq_nonneg a]) (sq_nonneg b))⟩
+
+set_option maxHeartbeats 1000000 in
 /-- **Euler `Z-Y-Z` decomposition of `SO(3)`.** Every special orthogonal `3 × 3` real matrix is a
 product of a rotation about the `z`-axis, one about the `y`-axis, and one about the `z`-axis. This
 is the classical existence of Euler angles; it is the remaining analytic input to
-`rotHom_surjective` and is not yet available in Mathlib.
+`rotHom_surjective`.
 
-Proof route (for the follow-up): the third column `(R 0 2, R 1 2, R 2 2)` is a unit vector (columns
-of an orthogonal matrix are orthonormal), so `|R 2 2| ≤ 1`; set `β := arccos (R 2 2)` so
-`cos β = R 2 2` and `sin β ≥ 0`. When `sin β ≠ 0`, set `α := arctan2 (R 1 2) (R 0 2)` and
-`γ := arctan2 (R 2 1) (-(R 2 0))`; the orthonormality relations pin down every remaining entry of
-`Rz α * Ry β * Rz γ` to equal `R`. The degenerate cases `R 2 2 = ±1` (`β = 0` or `π`) reduce to a
-single `z`-rotation `Rz` composed with the sign. -/
+Route: the third column `(R 0 2, R 1 2, R 2 2)` is a unit vector (columns of an orthogonal matrix
+are orthonormal), so `|R 2 2| ≤ 1`; set `β := arccos (R 2 2)` so `cos β = R 2 2` and `sin β ≥ 0`.
+When `sin β ≠ 0`, take `cos α = R 0 2 / sin β`, `sin α = R 1 2 / sin β`, `cos γ = -(R 2 0) / sin β`,
+`sin γ = R 2 1 / sin β`; the orthonormality relations plus the cofactor identities (`adjugate R = Rᵀ`
+since `det R = 1`) pin down every entry of `Rz α * Ry β * Rz γ` to equal `R`. The degenerate cases
+`R 2 2 = ±1` (`sin β = 0`) reduce the top-left `2×2` block to a plane rotation/reflection. -/
 theorem so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ)
     (hR : R ∈ Matrix.specialOrthogonalGroup (Fin 3) ℝ) :
     ∃ α β γ : ℝ, R = Rz α * Ry β * Rz γ := by
-  sorry
+  -- Unpack orthogonality (`R Rᵀ = 1 = Rᵀ R`) and `det R = 1`.
+  rw [mem_specialOrthogonalGroup_iff] at hR
+  obtain ⟨hOrthMem, hdet⟩ := hR
+  have hRRt : R * Rᵀ = 1 := by have h := hOrthMem; rwa [mem_orthogonalGroup_iff] at h
+  have hRtR : Rᵀ * R = 1 := by have h := hOrthMem; rwa [mem_orthogonalGroup_iff'] at h
+  -- `adjugate R = Rᵀ` (since `det R = 1` and `R` is orthogonal): the cofactor relations.
+  have hadj : Rᵀ = adjugate R := by
+    calc Rᵀ = Rᵀ * (R * adjugate R) := by rw [mul_adjugate, hdet, one_smul, mul_one]
+      _ = Rᵀ * R * adjugate R := by rw [Matrix.mul_assoc]
+      _ = adjugate R := by rw [hRtR, Matrix.one_mul]
+  rw [adjugate_fin_three] at hadj
+  have hC00 : R 0 0 = R 1 1 * R 2 2 - R 1 2 * R 2 1 := by
+    have h := congrFun (congrFun hadj 0) 0; simpa [Matrix.transpose_apply] using h
+  have hC01 : R 0 1 = -(R 1 0 * R 2 2) + R 1 2 * R 2 0 := by
+    have h := congrFun (congrFun hadj 1) 0; simpa [Matrix.transpose_apply] using h
+  have hC02 : R 0 2 = R 1 0 * R 2 1 - R 1 1 * R 2 0 := by
+    have h := congrFun (congrFun hadj 2) 0; simpa [Matrix.transpose_apply] using h
+  have hC12 : R 1 2 = -(R 0 0 * R 2 1) + R 0 1 * R 2 0 := by
+    have h := congrFun (congrFun hadj 2) 1; simpa [Matrix.transpose_apply] using h
+  -- Orthonormality relations (row/column dot products).
+  have hO02 : R 0 0 * R 2 0 + R 0 1 * R 2 1 + R 0 2 * R 2 2 = 0 := by
+    have h := congrFun (congrFun hRRt 0) 2
+    simpa [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply] using h
+  have hO12 : R 1 0 * R 2 0 + R 1 1 * R 2 1 + R 1 2 * R 2 2 = 0 := by
+    have h := congrFun (congrFun hRRt 1) 2
+    simpa [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply] using h
+  have hcol2 : R 0 2 ^ 2 + R 1 2 ^ 2 + R 2 2 ^ 2 = 1 := by
+    have h := congrFun (congrFun hRtR 2) 2
+    simp only [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply_eq] at h
+    linear_combination h
+  have hrow2 : R 2 0 ^ 2 + R 2 1 ^ 2 + R 2 2 ^ 2 = 1 := by
+    have h := congrFun (congrFun hRRt 2) 2
+    simp only [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply_eq] at h
+    linear_combination h
+  have hcol0 : R 0 0 ^ 2 + R 1 0 ^ 2 + R 2 0 ^ 2 = 1 := by
+    have h := congrFun (congrFun hRtR 0) 0
+    simp only [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply_eq] at h
+    linear_combination h
+  have hrow0 : R 0 0 ^ 2 + R 0 1 ^ 2 + R 0 2 ^ 2 = 1 := by
+    have h := congrFun (congrFun hRRt 0) 0
+    simp only [mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.one_apply_eq] at h
+    linear_combination h
+  -- The four "off-block" entries of `Rz α · Ry β · Rz γ`, forced by orthonormality + cofactors.
+  have key00 : R 0 0 * (R 2 0 ^ 2 + R 2 1 ^ 2) = -(R 0 2 * R 2 2 * R 2 0) - R 1 2 * R 2 1 := by
+    linear_combination R 2 0 * hO02 + R 2 1 * hC12
+  have key01 : R 0 1 * (R 2 0 ^ 2 + R 2 1 ^ 2) = R 1 2 * R 2 0 - R 0 2 * R 2 1 * R 2 2 := by
+    linear_combination R 2 1 * hO02 - R 2 0 * hC12
+  have key10 : R 1 0 * (R 2 0 ^ 2 + R 2 1 ^ 2) = R 0 2 * R 2 1 - R 1 2 * R 2 0 * R 2 2 := by
+    linear_combination R 2 0 * hO12 - R 2 1 * hC02
+  have key11 : R 1 1 * (R 2 0 ^ 2 + R 2 1 ^ 2) = -(R 0 2 * R 2 0) - R 1 2 * R 2 1 * R 2 2 := by
+    linear_combination R 2 1 * hO12 + R 2 0 * hC02
+  -- Set `β = arccos (R 2 2)`; `cos β = R 2 2`, `sin β ≥ 0`, `sin²β = 1 - (R 2 2)²`.
+  have hb1 : -1 ≤ R 2 2 := by
+    nlinarith [hcol2, sq_nonneg (R 0 2), sq_nonneg (R 1 2), sq_nonneg (R 2 2 + 1)]
+  have hb2 : R 2 2 ≤ 1 := by
+    nlinarith [hcol2, sq_nonneg (R 0 2), sq_nonneg (R 1 2), sq_nonneg (R 2 2 - 1)]
+  set β : ℝ := Real.arccos (R 2 2) with hβ_def
+  have hcb : Real.cos β = R 2 2 := by rw [hβ_def]; exact Real.cos_arccos hb1 hb2
+  have hsb2 : Real.sin β ^ 2 = 1 - R 2 2 ^ 2 := by
+    have h := Real.sin_sq_add_cos_sq β; rw [hcb] at h; linarith
+  rcases eq_or_ne (Real.sin β) 0 with hs0 | hsne
+  · -- Degenerate case `sin β = 0`: `R 2 2 = ±1`, and rows/cols `0,1` are `±e₃`.
+    have h22sq : R 2 2 ^ 2 = 1 := by
+      have : Real.sin β ^ 2 = 0 := by rw [hs0]; ring
+      linarith [hsb2]
+    obtain ⟨hz02, hz12⟩ :=
+      sq_add_sq_eq_zero (show R 0 2 ^ 2 + R 1 2 ^ 2 = 0 by linarith [hcol2, h22sq])
+    obtain ⟨hz20, hz21⟩ :=
+      sq_add_sq_eq_zero (show R 2 0 ^ 2 + R 2 1 ^ 2 = 0 by linarith [hrow2, h22sq])
+    have h22 : R 2 2 = 1 ∨ R 2 2 = -1 := by
+      have h := h22sq; rw [pow_two] at h; exact mul_self_eq_one_iff.mp h
+    rcases h22 with h22 | h22
+    · -- `R 2 2 = 1`: the top-left `2×2` block is a plane rotation `Rz α`.
+      have hcol0' : R 0 0 ^ 2 + R 1 0 ^ 2 = 1 := by
+        have h := hcol0; rw [hz20] at h; simpa using h
+      obtain ⟨α, hca, hsa⟩ := exists_cos_sin_eq hcol0'
+      have e11 : R 0 0 = R 1 1 := by have h := hC00; rw [h22, hz12, hz21] at h; linear_combination h
+      have e01 : R 0 1 = -R 1 0 := by have h := hC01; rw [h22, hz20] at h; linear_combination h
+      refine ⟨α, β, 0, ?_⟩
+      ext i j
+      fin_cases i <;> fin_cases j <;>
+        simp only [Rz, Ry, mul_apply, Fin.sum_univ_three] <;>
+        simp <;>
+        (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21,
+          Real.cos_zero, Real.sin_zero])
+      all_goals
+        first
+          | linear_combination e01
+          | linear_combination -e01
+          | linear_combination e11
+          | linear_combination -e11
+          | linear_combination (0 : ℝ)
+    · -- `R 2 2 = -1`: the top-left block is a reflection; `Ry β = Ry π` supplies the sign.
+      have hrow0' : R 0 0 ^ 2 + R 0 1 ^ 2 = 1 := by
+        have h := hrow0; rw [hz02] at h; simpa using h
+      obtain ⟨α, hca, hsa⟩ :=
+        exists_cos_sin_eq (show (-R 0 0) ^ 2 + (-R 0 1) ^ 2 = 1 by linear_combination hrow0')
+      have e11 : R 1 1 = -R 0 0 := by
+        have h := hC00; rw [h22, hz12, hz21] at h; linear_combination h
+      have e01 : R 0 1 = R 1 0 := by have h := hC01; rw [h22, hz20] at h; linear_combination h
+      refine ⟨α, β, 0, ?_⟩
+      ext i j
+      fin_cases i <;> fin_cases j <;>
+        simp only [Rz, Ry, mul_apply, Fin.sum_univ_three] <;>
+        simp <;>
+        (try simp only [hca, hsa, hcb, hs0, h22, hz02, hz12, hz20, hz21,
+          Real.cos_zero, Real.sin_zero])
+      all_goals
+        first
+          | linear_combination e01
+          | linear_combination -e01
+          | linear_combination e11
+          | linear_combination -e11
+          | linear_combination (0 : ℝ)
+  · -- Non-degenerate case `sin β ≠ 0`: full Euler angles.
+    have hsb2col : Real.sin β ^ 2 = R 0 2 ^ 2 + R 1 2 ^ 2 := by rw [hsb2]; linarith [hcol2]
+    have hsb2row : Real.sin β ^ 2 = R 2 0 ^ 2 + R 2 1 ^ 2 := by rw [hsb2]; linarith [hrow2]
+    have hunitα : (R 0 2 / Real.sin β) ^ 2 + (R 1 2 / Real.sin β) ^ 2 = 1 := by
+      field_simp
+      first | linear_combination hsb2col | linear_combination -hsb2col
+    have hunitγ : (-(R 2 0) / Real.sin β) ^ 2 + (R 2 1 / Real.sin β) ^ 2 = 1 := by
+      field_simp
+      first | linear_combination hsb2row | linear_combination -hsb2row
+    obtain ⟨α, hca, hsa⟩ := exists_cos_sin_eq hunitα
+    obtain ⟨γ, hcg, hsg⟩ := exists_cos_sin_eq hunitγ
+    refine ⟨α, β, γ, ?_⟩
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp only [Rz, Ry, mul_apply, Fin.sum_univ_three] <;>
+      simp <;>
+      (try simp only [hca, hsa, hcb, hcg, hsg]) <;>
+      (try field_simp)
+    all_goals
+      first
+        | linear_combination key00 + R 0 0 * hsb2row
+        | linear_combination key01 + R 0 1 * hsb2row
+        | linear_combination key10 + R 1 0 * hsb2row
+        | linear_combination key11 + R 1 1 * hsb2row
+        | linear_combination -(key00 + R 0 0 * hsb2row)
+        | linear_combination -(key01 + R 0 1 * hsb2row)
+        | linear_combination -(key10 + R 1 0 * hsb2row)
+        | linear_combination -(key11 + R 1 1 * hsb2row)
+        | linear_combination (0 : ℝ)
 
 /-- **Surjectivity of the quaternion cover.** Every rotation of Euclidean `ℝ³` is conjugation by a
 unit quaternion — the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.
