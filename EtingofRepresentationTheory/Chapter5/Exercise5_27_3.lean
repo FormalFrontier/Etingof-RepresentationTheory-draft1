@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
 import EtingofRepresentationTheory.Chapter5.CharEqIso
+import EtingofRepresentationTheory.Infrastructure.CompletenessCriterion
 
 /-!
 # Exercise 5.27.3: deduce parts (i)–(iii) of Theorem 5.27.1 from part (iv)
@@ -42,7 +43,15 @@ Proof pass: parts (i) and (ii) are proven via character orthogonality — (i) by
 norm being one, (ii) by a mixed off-diagonal Mackey computation (existence of the intertwining
 element `g` from a nonzero cross inner product) followed by a same-orbit Mackey reduction and
 `FDRep.char_orthonormal` for the `U₂ ≅ transport g χ₁ χ₂ hg U₁` conclusion. Part (iii)
-(completeness, via the sum-of-squares dimension count) remains a labeled `sorry` for follow-up.
+(completeness) is proven via the sum-of-squares dimension count: the orbit-method family
+`{V(χ, U) : χ an orbit representative of the dual `G`-action on `Â`, U an irreducible of
+`stab χ`}` consists of pairwise non-isomorphic simples (parts (i), (ii)), and its squared
+dimensions sum to `|A ⋊[φ] G|`. The dimension of `V(χ, U)` is `[G : stab χ] · dim U`
+(character formula (iv) at the identity), `Σ_U (dim U)² = |stab χ|` for each stabilizer
+(`IrrepDecomp.sum_finrank_sq_eq_card`), and the class formula for the dual action together with
+`|Â| = |A|` collapses the total to `|G| · |A| = |A ⋊[φ] G|`. Matching the Artin-Wedderburn total
+forces exhaustiveness (`FDRep.complete_of_sum_finrank_sq_eq_card`), so every simple is some
+`V(χ, U)`.
 -/
 
 noncomputable section
@@ -399,8 +408,15 @@ theorem Exercise5_27_3
       ring
     rw [hcard]
     field_simp
-  refine ⟨hVsimple, ?_, ?_⟩
-  · -- Part (ii): pairwise non-isomorphism.
+  -- Part (ii): pairwise non-isomorphism (hoisted as `hclassify` so part (iii) can reuse it).
+  have hclassify :
+      ∀ (χ₁ χ₂ : A →* ℂˣ)
+        (U₁ : FDRep ℂ ↥(stab χ₁)) (U₂ : FDRep ℂ ↥(stab χ₂)),
+        Simple U₁ → Simple U₂ →
+        Nonempty (V χ₁ U₁ ≅ V χ₂ U₂) →
+        ∃ (g : G) (hg : dualSmul g χ₁ = χ₂),
+          Nonempty (U₂ ≅ transport g χ₁ χ₂ hg U₁) := by
+    -- Part (ii): pairwise non-isomorphism.
     -- Strategy: an isomorphism `V χ₁ U₁ ≅ V χ₂ U₂` forces equal characters; feeding the
     -- character formula (iv) into the (unnormalized) inner product
     -- `∑_x χ_{V χ₁ U₁}(x) χ_{V χ₂ U₂}(x⁻¹) ≠ 0` forces the orbit data to match, i.e.
@@ -816,10 +832,183 @@ theorem Exercise5_27_3
       rw [smul_smul, mul_invOf_self, one_smul]
     rw [hzero, horth, if_neg hcon]
     simp
-  · -- Part (iii): completeness — every simple `W` is some `V χ U`.
-    -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
-    -- orbit decomposition) exhausts the regular representation, so no simple is missed.
-    -- Tracked in the (iii) sub-issue.
-    sorry
+  refine ⟨hVsimple, hclassify, ?_⟩
+  -- Part (iii): completeness — every simple `W` is some `V χ U`.
+  -- Strategy: the sum-of-squares count `Σ_{χ,U} dim(V χ U)² = |A ⋊[φ] G|` (from (iv) and the
+  -- orbit decomposition) exhausts the regular representation. The orbit-method family
+  -- `{V(χ, U) : χ an orbit representative, U an irreducible of stab χ}` consists of pairwise
+  -- non-isomorphic simples (parts (i), (ii)) whose squared dimensions already sum to
+  -- `|A ⋊[φ] G|`, so `FDRep.complete_of_sum_finrank_sq_eq_card` forces it to exhaust all simples.
+  intro W hW
+  classical
+  haveI : Fintype (A ⋊[φ] G) :=
+    Fintype.ofEquiv (A × G) (SemidirectProduct.equivProd (φ := φ)).symm
+  haveI : NeZero (Nat.card (A ⋊[φ] G) : ℂ) := ⟨by exact_mod_cast Nat.card_pos.ne'⟩
+  -- `dualSmul` is a left `G`-action on `Â = (A →* ℂˣ)` (re-derived locally).
+  have hds_mul : ∀ (p q : G) (ν : A →* ℂˣ), dualSmul p (dualSmul q ν) = dualSmul (p * q) ν := by
+    intro p q ν
+    ext a
+    rw [_hdual, _hdual, _hdual]
+    congr 1
+    have : (φ (p * q)⁻¹ : MulAut A) a = (φ q⁻¹ : MulAut A) ((φ p⁻¹ : MulAut A) a) := by
+      rw [mul_inv_rev, map_mul]; rfl
+    rw [this]
+  have hds_one : ∀ (ν : A →* ℂˣ), dualSmul 1 ν = ν := by
+    intro ν; ext a; rw [_hdual]; simp
+  -- Register the action so the orbit/stabilizer API applies to `Â`.
+  letI actSMul : SMul G (A →* ℂˣ) := ⟨dualSmul⟩
+  letI actInst : MulAction G (A →* ℂˣ) :=
+    { one_smul := hds_one, mul_smul := fun p q ν => (hds_mul p q ν).symm }
+  have hsmul_eq : ∀ (g : G) (χ : A →* ℂˣ), g • χ = dualSmul g χ := fun _ _ => rfl
+  -- The abstract stabilizer `stab χ` coincides with the group-action stabilizer.
+  have hstab_eq : ∀ χ : A →* ℂˣ, MulAction.stabilizer G χ = stab χ := by
+    intro χ
+    ext g
+    rw [MulAction.mem_stabilizer_iff, hsmul_eq, _hstab]
+  -- `Â` is finite (dual of a finite abelian group), hence so is the orbit space.
+  haveI : Finite (A →* ℂˣ) :=
+    Finite.of_equiv A (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity A ℂ).some.symm.toEquiv
+  haveI : Fintype (A →* ℂˣ) := Fintype.ofFinite _
+  haveI : Fintype (MulAction.orbitRel.Quotient G (A →* ℂˣ)) := Fintype.ofFinite _
+  -- Positive-order stabilizers carry the char-zero non-vanishing needed for `IrrepDecomp`.
+  haveI hNZstab : ∀ (H : Subgroup G), NeZero (Nat.card H : ℂ) :=
+    fun _ => ⟨by exact_mod_cast Nat.card_pos.ne'⟩
+  -- The orbit-method family, indexed by (orbit representative, irreducible of its stabilizer).
+  set Ω := MulAction.orbitRel.Quotient G (A →* ℂˣ) with hΩ
+  set χω : Ω → (A →* ℂˣ) := fun ω => Quotient.out ω with hχω
+  let Dω : (ω : Ω) → IrrepDecomp ℂ ↥(stab (χω ω)) := fun ω => IrrepDecomp.mk'
+  set Wf : (Σ ω : Ω, Fin (Dω ω).n) → FDRep ℂ (A ⋊[φ] G) :=
+    fun j => V (χω j.1) ((Dω j.1).columnFDRep j.2) with hWf
+  -- (a) Every family member is simple: `columnFDRep` is simple, and part (i) preserves it.
+  have hWf_simple : ∀ j, Simple (Wf j) := by
+    intro j
+    exact hVsimple (χω j.1) ((Dω j.1).columnFDRep j.2) ((Dω j.1).columnFDRep_simple j.2)
+  -- (b) The family is pairwise non-isomorphic (uses the classification `hclassify`).
+  have hWf_inj : ∀ j j', Nonempty (Wf j ≅ Wf j') → j = j' := by
+    rintro ⟨ω, i⟩ ⟨ω', i'⟩ hiso
+    simp only [hWf] at hiso
+    -- Classification (part ii): the isomorphism forces `χω ω'` into the orbit of `χω ω`.
+    obtain ⟨g, hg, hiso2⟩ := hclassify (χω ω) (χω ω')
+      ((Dω ω).columnFDRep i) ((Dω ω').columnFDRep i')
+      ((Dω ω).columnFDRep_simple i) ((Dω ω').columnFDRep_simple i') hiso
+    -- Same orbit ⟹ same orbit class `ω = ω'`.
+    have horbit : χω ω' ∈ MulAction.orbit G (χω ω) :=
+      MulAction.mem_orbit_iff.mpr ⟨g, by rw [hsmul_eq]; exact hg⟩
+    have hωeq : ω = ω' := by
+      have e1 : (Quotient.mk'' (χω ω') : Ω) = Quotient.mk'' (χω ω) :=
+        Quotient.sound' (MulAction.orbitRel_apply.mpr horbit)
+      have o1 : (Quotient.mk'' (χω ω) : Ω) = ω := Quotient.out_eq' ω
+      have o2 : (Quotient.mk'' (χω ω') : Ω) = ω' := Quotient.out_eq' ω'
+      rw [o1] at e1; rw [o2] at e1; exact e1.symm
+    subst hωeq
+    -- Within the orbit: `g ∈ stab (χω ω)`, and `transport g χ χ` is a self-conjugation, so
+    -- `transport g χ χ hg (colU i) ≅ colU i`; hence `colU i' ≅ colU i` and `i' = i`.
+    have hg_mem : g ∈ stab (χω ω) := (_hstab (χω ω) g).mpr hg
+    set ge : ↥(stab (χω ω)) := ⟨g, hg_mem⟩ with hge
+    have hchar : ∀ s : ↥(stab (χω ω)),
+        (transport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i)).character s
+          = ((Dω ω).columnFDRep i).character s := by
+      intro s
+      have hs : g⁻¹ * (s : G) * g ∈ stab (χω ω) :=
+        (stab (χω ω)).mul_mem ((stab (χω ω)).mul_mem ((stab (χω ω)).inv_mem hg_mem) s.2) hg_mem
+      rw [_htransport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i) s hs]
+      have hconj : (⟨g⁻¹ * (s : G) * g, hs⟩ : ↥(stab (χω ω))) = ge⁻¹ * s * ge := by
+        apply Subtype.ext
+        simp [hge]
+      rw [hconj]
+      have := FDRep.char_conj ((Dω ω).columnFDRep i) (s : ↥(stab (χω ω))) ge⁻¹
+      rw [inv_inv] at this
+      exact this
+    have htiso : Nonempty
+        (transport g (χω ω) (χω ω) hg ((Dω ω).columnFDRep i) ≅ (Dω ω).columnFDRep i) :=
+      Etingof.charEq_iso _ _ (funext hchar)
+    have hii : i' = i :=
+      (Dω ω).columnFDRep_injective i' i ⟨hiso2.some ≪≫ htiso.some⟩
+    subst hii
+    rfl
+  -- (c) The squared dimensions sum to `|A ⋊[φ] G|` (orbit-method dimension count).
+  have hWf_sum : ∑ j, (Module.finrank ℂ (Wf j)) ^ 2 = Fintype.card (A ⋊[φ] G) := by
+    -- Dimension formula: `dim (V χ U) = [G : stab χ] · dim U`, obtained by evaluating the
+    -- character formula (iv) at the identity `⟨1, 1⟩` (`char_one`).
+    have hdimM : ∀ (χ : A →* ℂˣ) (U : FDRep ℂ ↥(stab χ)), Simple U →
+        Module.finrank ℂ (V χ U) = Nat.card (G ⧸ stab χ) * Module.finrank ℂ U := by
+      intro χ U hU
+      have hchar1 : (Module.finrank ℂ (V χ U) : ℂ)
+          = (Fintype.card ↥(stab χ) : ℂ)⁻¹ * (Fintype.card G : ℂ) * (Module.finrank ℂ U : ℂ) := by
+        have h1 : (V χ U).character 1 = (Module.finrank ℂ (V χ U) : ℂ) := FDRep.char_one _
+        have hone : (1 : A ⋊[φ] G) = ⟨1, 1⟩ := rfl
+        rw [hone, character_formula χ U hU 1 1] at h1
+        have hterm : ∀ h : G, (if hh : h * 1 * h⁻¹ ∈ stab χ
+                then (χ ((φ h : MulAut A) 1) : ℂ) * U.character ⟨h * 1 * h⁻¹, hh⟩ else 0)
+              = (Module.finrank ℂ U : ℂ) := by
+          intro h
+          have hh1 : h * (1 : G) * h⁻¹ = 1 := by group
+          simp only [hh1]
+          rw [dif_pos (stab χ).one_mem]
+          simp only [map_one, Units.val_one, one_mul]
+          rw [show (⟨(1 : G), (stab χ).one_mem⟩ : ↥(stab χ)) = 1 from rfl]
+          exact FDRep.char_one U
+        rw [Finset.sum_congr rfl (fun h _ => hterm h), Finset.sum_const, Finset.card_univ,
+          nsmul_eq_mul] at h1
+        rw [← h1]; ring
+      have hstabne : (Fintype.card ↥(stab χ) : ℂ) ≠ 0 := by exact_mod_cast Fintype.card_ne_zero
+      have hN : Fintype.card ↥(stab χ) * Module.finrank ℂ (V χ U)
+          = Fintype.card G * Module.finrank ℂ U := by
+        have hc : (Fintype.card ↥(stab χ) : ℂ) * (Module.finrank ℂ (V χ U) : ℂ)
+            = (Fintype.card G : ℂ) * (Module.finrank ℂ U : ℂ) := by
+          rw [hchar1]; field_simp
+        exact_mod_cast hc
+      have hlag : Fintype.card G = Nat.card (G ⧸ stab χ) * Fintype.card ↥(stab χ) := by
+        have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (stab χ)
+        rwa [Nat.card_eq_fintype_card (α := G), Nat.card_eq_fintype_card (α := ↥(stab χ))] at h
+      apply Nat.eq_of_mul_eq_mul_left (Fintype.card_pos (α := ↥(stab χ)))
+      rw [hN, hlag]; ring
+    -- Per-orbit contribution: `Σ_U dim(V χω U)² = [G:stab] · |G|` using `Σ_U dim(U)² = |stab|`.
+    have key : ∀ ω : Ω,
+        ∑ i : Fin (Dω ω).n, (Module.finrank ℂ (V (χω ω) ((Dω ω).columnFDRep i))) ^ 2
+          = Nat.card (G ⧸ stab (χω ω)) * Fintype.card G := by
+      intro ω
+      have hpt : ∀ i, (Module.finrank ℂ (V (χω ω) ((Dω ω).columnFDRep i))) ^ 2
+          = (Nat.card (G ⧸ stab (χω ω))) ^ 2 *
+              (Module.finrank ℂ ((Dω ω).columnFDRep i)) ^ 2 := by
+        intro i
+        rw [hdimM (χω ω) ((Dω ω).columnFDRep i) ((Dω ω).columnFDRep_simple i)]; ring
+      rw [Finset.sum_congr rfl (fun i _ => hpt i), ← Finset.mul_sum,
+        (Dω ω).sum_finrank_sq_eq_card (Dω ω).columnFDRep (Dω ω).columnFDRep_simple
+          (Dω ω).columnFDRep_injective]
+      have hlagω : Fintype.card G
+          = Nat.card (G ⧸ stab (χω ω)) * Fintype.card ↥(stab (χω ω)) := by
+        have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (stab (χω ω))
+        rwa [Nat.card_eq_fintype_card (α := G),
+          Nat.card_eq_fintype_card (α := ↥(stab (χω ω)))] at h
+      rw [hlagω]; ring
+    -- Class formula: the orbit sizes `[G:stab]` partition `Â`, giving `Σ_ω [G:stab] = |Â|`.
+    have hclass_sum : (∑ ω : Ω, Nat.card (G ⧸ stab (χω ω))) = Fintype.card (A →* ℂˣ) := by
+      have hcong : ∀ ω : Ω, Nat.card (G ⧸ stab (χω ω))
+          = Nat.card (G ⧸ MulAction.stabilizer G (Quotient.out ω)) := by
+        intro ω; rw [hstab_eq (χω ω)]
+      rw [Finset.sum_congr rfl (fun ω _ => hcong ω), ← Nat.card_eq_fintype_card,
+        Nat.card_congr (MulAction.selfEquivSigmaOrbitsQuotientStabilizer G (A →* ℂˣ)),
+        Nat.card_sigma]
+    -- `|Â| = |A|` (dual of a finite abelian group) and `|A ⋊ G| = |A|·|G|`.
+    have hcardDual : Fintype.card (A →* ℂˣ) = Fintype.card A := by
+      rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
+        CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity A ℂ]
+    have hcardSemi : Fintype.card A * Fintype.card G = Fintype.card (A ⋊[φ] G) := by
+      rw [← Fintype.card_prod]
+      exact Fintype.card_congr (SemidirectProduct.equivProd (φ := φ)).symm
+    -- Assemble.
+    calc ∑ j, (Module.finrank ℂ (Wf j)) ^ 2
+        = ∑ ω : Ω, ∑ i : Fin (Dω ω).n,
+            (Module.finrank ℂ (V (χω ω) ((Dω ω).columnFDRep i))) ^ 2 := Fintype.sum_sigma _
+      _ = ∑ ω : Ω, Nat.card (G ⧸ stab (χω ω)) * Fintype.card G :=
+            Finset.sum_congr rfl (fun ω _ => key ω)
+      _ = (∑ ω : Ω, Nat.card (G ⧸ stab (χω ω))) * Fintype.card G := by rw [Finset.sum_mul]
+      _ = Fintype.card (A →* ℂˣ) * Fintype.card G := by rw [hclass_sum]
+      _ = Fintype.card A * Fintype.card G := by rw [hcardDual]
+      _ = Fintype.card (A ⋊[φ] G) := hcardSemi
+  -- Conclude via the dimension-count completeness criterion.
+  obtain ⟨j, hj⟩ := FDRep.complete_of_sum_finrank_sq_eq_card Wf hWf_simple hWf_inj hWf_sum W hW
+  exact ⟨χω j.1, (Dω j.1).columnFDRep j.2, (Dω j.1).columnFDRep_simple j.2, hj⟩
 
 end Etingof

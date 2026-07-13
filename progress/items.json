@@ -5233,8 +5233,8 @@
     "end_page": "147",
     "start_line": 17,
     "end_line": 17,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass (corrected): Chapter5/Exercise5_27_3.lean states, over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), that the character formula (iv) implies the classification properties (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Statement defect from #6375/#6383 fixed by adding the _htransport characterizing hypothesis (chi_{g(U)}(s) = chi_U(g^-1 s g)), which pins down the otherwise-free transport map and removes the U ⊞ U counterexample. Proof split into three labeled sorry goals for follow-up: (i)+(ii) via character orthogonality, (iii) via sum-of-squares dimension count."
+    "status": "proved",
+    "coverage_note": "Proved sorry-free (#print axioms: only propext/Classical.choice/Quot.sound). Over the semidirect-product setup of Theorem 5.27.1 (dual action, stabilizers, V(chi,U), transport), the character formula (iv) implies (i) irreducibility, (ii) pairwise non-isomorphism, (iii) completeness. Statement defect from #6375/#6383 fixed by the _htransport characterizing hypothesis. Parts (i)+(ii) via character orthogonality/Mackey. Part (iii) via the sum-of-squares dimension count: the orbit-method family {V(chi,U)} is pairwise non-isomorphic (parts i,ii), dim(V chi U) = [G:stab chi]*dim U (character formula at identity), Sum_U dim(U)^2 = |stab chi| (IrrepDecomp.sum_finrank_sq_eq_card), and the class formula for the dual G-action plus |dual A|=|A| collapses the total to |G|*|A| = |A rtimes G|; the new reusable Infrastructure/CompletenessCriterion.lean (FDRep.complete_of_sum_finrank_sq_eq_card) then forces exhaustiveness. Part (ii) was hoisted into a shared `hclassify`."
   },
   {
     "id": "Chapter6/Introduction",
