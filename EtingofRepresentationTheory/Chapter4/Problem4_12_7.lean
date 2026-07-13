@@ -34,11 +34,12 @@ and the quaternions by `ℍ[ℝ] = Quaternion ℝ`. The group of unit quaternion
 `unitary ℍ[ℝ]` (`{q : star q * q = 1 = q * star q}`, i.e. `normSq q = 1`).
 
 Parts **(a)**, **(d)**, **(e)** are proved sorry-free.  Part **(f)** builds the conjugation
-homomorphism `h : SU(2) → SO(3)` genuinely and proves its kernel is exactly `{1, -1}`; the one
-remaining `sorry` is the *surjectivity* of `h` (`rotHom_surjective`), the classical `2:1`-cover
-statement that every rotation of `ℝ³` is conjugation by a unit quaternion (axis–angle normal form,
-not yet in Mathlib).  Parts (b) and (c) (the commutant description of `ℍ` and the explicit
-`1, i, j, k` basis) are left for a later pass.
+homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and reduces its
+surjectivity (`rotHom_surjective`) to the Euler `Z-Y-Z` decomposition of `SO(3)` via the
+coordinate-axis rotation lemmas.  The one remaining `sorry` is that Euler decomposition
+(`so3_euler_zyz`: every `R ∈ SO(3)` is `Rz α · Ry β · Rz γ`), the classical existence of Euler
+angles, not yet available in Mathlib.  Parts (b) and (c) (the commutant description of `ℍ` and the
+explicit `1, i, j, k` basis) are left for a later pass.
 
 * **(a)** `V = ℂ²` as a real representation: `Fin 2 → ℂ` is an `ℝ`-module and `SU(2)` acts
   `ℝ`-linearly by `Matrix.mulVec`. Irreducibility over `ℝ` is: every `SU(2)`-invariant
@@ -549,16 +550,86 @@ lemma rotMat_zAxis (c s : ℝ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [rotMat, qI, qJ, qK] <;> ring
 
+/-- The `3 × 3` matrix of the rotation of `ℝ³` by angle `θ` about the `z`-axis (the `k`-axis, i.e.
+the last coordinate). -/
+noncomputable def Rz (θ : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![Real.cos θ, -Real.sin θ, 0; Real.sin θ, Real.cos θ, 0; 0, 0, 1]
+
+/-- The `3 × 3` matrix of the rotation of `ℝ³` by angle `θ` about the `y`-axis (the `j`-axis, i.e.
+the middle coordinate). -/
+noncomputable def Ry (θ : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![Real.cos θ, 0, Real.sin θ; 0, 1, 0; -Real.sin θ, 0, Real.cos θ]
+
+/-- **Half-angle bridge, `z`-axis.** The half-angle quaternion `⟨cos (θ/2), 0, 0, sin (θ/2)⟩`
+conjugates to the full-angle `z`-rotation `Rz θ`, via the double-angle identities
+`cos²(θ/2) - sin²(θ/2) = cos θ` and `2 cos(θ/2) sin(θ/2) = sin θ`. -/
+lemma rotMat_zAxis_half (θ : ℝ) :
+    rotMat (⟨Real.cos (θ / 2), 0, 0, Real.sin (θ / 2)⟩ : ℍ[ℝ]) = Rz θ := by
+  have hθ : (2 : ℝ) * (θ / 2) = θ := by ring
+  have hcos : Real.cos (θ / 2) ^ 2 - Real.sin (θ / 2) ^ 2 = Real.cos θ := by
+    have h := Real.cos_two_mul' (θ / 2); rw [hθ] at h; exact h.symm
+  have hsin : 2 * Real.cos (θ / 2) * Real.sin (θ / 2) = Real.sin θ := by
+    have h := Real.sin_two_mul (θ / 2); rw [hθ] at h; rw [h]; ring
+  have hone : Real.cos (θ / 2) ^ 2 + Real.sin (θ / 2) ^ 2 = 1 := Real.cos_sq_add_sin_sq _
+  rw [rotMat_zAxis, Rz, hcos, hsin, hone]
+
+/-- **Half-angle bridge, `y`-axis.** The half-angle quaternion `⟨cos (θ/2), 0, sin (θ/2), 0⟩`
+conjugates to the full-angle `y`-rotation `Ry θ`. -/
+lemma rotMat_yAxis_half (θ : ℝ) :
+    rotMat (⟨Real.cos (θ / 2), 0, Real.sin (θ / 2), 0⟩ : ℍ[ℝ]) = Ry θ := by
+  have hθ : (2 : ℝ) * (θ / 2) = θ := by ring
+  have hcos : Real.cos (θ / 2) ^ 2 - Real.sin (θ / 2) ^ 2 = Real.cos θ := by
+    have h := Real.cos_two_mul' (θ / 2); rw [hθ] at h; exact h.symm
+  have hsin : 2 * Real.cos (θ / 2) * Real.sin (θ / 2) = Real.sin θ := by
+    have h := Real.sin_two_mul (θ / 2); rw [hθ] at h; rw [h]; ring
+  have hone : Real.cos (θ / 2) ^ 2 + Real.sin (θ / 2) ^ 2 = 1 := Real.cos_sq_add_sin_sq _
+  rw [rotMat_yAxis, Ry, hcos, hsin, hone]
+
+/-- **Euler `Z-Y-Z` decomposition of `SO(3)`.** Every special orthogonal `3 × 3` real matrix is a
+product of a rotation about the `z`-axis, one about the `y`-axis, and one about the `z`-axis. This
+is the classical existence of Euler angles; it is the remaining analytic input to
+`rotHom_surjective` and is not yet available in Mathlib.
+
+Proof route (for the follow-up): the third column `(R 0 2, R 1 2, R 2 2)` is a unit vector (columns
+of an orthogonal matrix are orthonormal), so `|R 2 2| ≤ 1`; set `β := arccos (R 2 2)` so
+`cos β = R 2 2` and `sin β ≥ 0`. When `sin β ≠ 0`, set `α := arctan2 (R 1 2) (R 0 2)` and
+`γ := arctan2 (R 2 1) (-(R 2 0))`; the orthonormality relations pin down every remaining entry of
+`Rz α * Ry β * Rz γ` to equal `R`. The degenerate cases `R 2 2 = ±1` (`β = 0` or `π`) reduce to a
+single `z`-rotation `Rz` composed with the sign. -/
+theorem so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ)
+    (hR : R ∈ Matrix.specialOrthogonalGroup (Fin 3) ℝ) :
+    ∃ α β γ : ℝ, R = Rz α * Ry β * Rz γ := by
+  sorry
+
 /-- **Surjectivity of the quaternion cover.** Every rotation of Euclidean `ℝ³` is conjugation by a
 unit quaternion — the classical statement that `SU(2) → SO(3)` is the (`2:1`) universal cover.
-This is the axis–angle decomposition: a rotation by angle `θ` about a unit axis
-`n = (n₁, n₂, n₃)` is `rotMat (cos (θ/2) + sin (θ/2) · (n₁ i + n₂ j + n₃ k))`.
 
-TODO: this remaining piece requires the axis–angle normal form for `SO(3)` (every element of
-`SO(3)` fixes an axis, as `1` is an eigenvalue in odd dimension with determinant `1`), which is not
-yet available in Mathlib. -/
+Given `R ∈ SO(3)`, the Euler decomposition `R = Rz α · Ry β · Rz γ` (`so3_euler_zyz`) lifts, via the
+half-angle bridges and multiplicativity of `rotMat`, to the unit quaternion
+`q = ⟨cos(α/2),0,0,sin(α/2)⟩ · ⟨cos(β/2),0,sin(β/2),0⟩ · ⟨cos(γ/2),0,0,sin(γ/2)⟩` with
+`rotMat q = R`. -/
 theorem rotHom_surjective : Function.Surjective rotHom := by
-  sorry
+  intro R
+  obtain ⟨α, β, γ, hR⟩ := so3_euler_zyz (R : Matrix (Fin 3) (Fin 3) ℝ) R.2
+  set qz1 : ℍ[ℝ] := ⟨Real.cos (α / 2), 0, 0, Real.sin (α / 2)⟩ with hqz1
+  set qy : ℍ[ℝ] := ⟨Real.cos (β / 2), 0, Real.sin (β / 2), 0⟩ with hqy
+  set qz2 : ℍ[ℝ] := ⟨Real.cos (γ / 2), 0, 0, Real.sin (γ / 2)⟩ with hqz2
+  have hnz1 : Quaternion.normSq qz1 = 1 := by
+    rw [hqz1, Quaternion.normSq_def']; simpa using Real.cos_sq_add_sin_sq (α / 2)
+  have hny : Quaternion.normSq qy = 1 := by
+    rw [hqy, Quaternion.normSq_def']; simpa using Real.cos_sq_add_sin_sq (β / 2)
+  have hnz2 : Quaternion.normSq qz2 = 1 := by
+    rw [hqz2, Quaternion.normSq_def']; simpa using Real.cos_sq_add_sin_sq (γ / 2)
+  set q : ℍ[ℝ] := qz1 * qy * qz2 with hq
+  have hnq : Quaternion.normSq q = 1 := by
+    rw [hq, normSq_mul, normSq_mul, hnz1, hny, hnz2]; ring
+  refine ⟨⟨q, mem_unitary_iff_normSq.mpr hnq⟩, ?_⟩
+  apply Subtype.ext
+  rw [rotHom_coe]
+  show rotMat q = (R : Matrix (Fin 3) (Fin 3) ℝ)
+  rw [hq, rotMat_mul, rotMat_mul, hqz1, hqy, hqz2, rotMat_zAxis_half, rotMat_yAxis_half,
+    rotMat_zAxis_half]
+  exact hR.symm
 
 end PartF
 
