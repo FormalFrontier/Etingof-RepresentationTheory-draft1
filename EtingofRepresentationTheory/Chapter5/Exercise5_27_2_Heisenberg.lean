@@ -375,6 +375,7 @@ theorem heisenberg_classification :
   have hcardG : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_congr (Multiplicative.toAdd), Nat.card_eq_fintype_card, ZMod.card]
   haveI : Fintype (Multiplicative (ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  haveI : Finite (HeisenbergGroup p) := Finite.of_equiv _ SemidirectProduct.equivProd.symm
   -- **Closed-form character of the fixed-orbit (1-dim) reps.** (Proved below.)
   have fixed_charρ : ∀ (β : ZMod p) (ρ : Multiplicative (ZMod p) →* ℂˣ)
       (b c : ZMod p) (g : Multiplicative (ZMod p)),
@@ -596,7 +597,57 @@ theorem heisenberg_classification :
       exact congrArg Sum.inr (Subtype.ext (ZMod.val_injective p
         ((heisenbergZeta_coe_primitive p).pow_inj (ZMod.val_lt γ) (ZMod.val_lt γ') h2)))
   have hFcomplete : ∀ S : FDRep ℂ (HeisenbergGroup p), Simple S → ∃ a : ι, Nonempty (S ≅ F a) := by
-    sorry
+    intro S hS
+    obtain ⟨χ, U, hU, hSU⟩ := hiii S hS
+    obtain ⟨β, γ, rfl⟩ := heisenbergChar_surjective p χ
+    haveI : Simple U := hU
+    by_cases hγ : γ = 0
+    · -- fixed orbit: `U ≅ charFDRep ξ`, recover `ρ : G →* ℂˣ` from `ξ` (stabilizer is `⊤`)
+      subst hγ
+      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
+      let eStab : ↥(stab (heisenbergChar p β 0)) ≃* Multiplicative (ZMod p) :=
+        (MulEquiv.subgroupCongr (hstab_f β)).trans Subgroup.topEquiv
+      have heStab : ∀ s, eStab s = ((stab (heisenbergChar p β 0)).subtype s) := fun s => rfl
+      refine ⟨Sum.inl (β, ξ.comp eStab.symm.toMonoidHom), ?_⟩
+      have hρξ : (ξ.comp eStab.symm.toMonoidHom).comp
+          (stab (heisenbergChar p β 0)).subtype = ξ := by
+        refine MonoidHom.ext fun s => ?_
+        show ξ (eStab.symm ((stab (heisenbergChar p β 0)).subtype s)) = ξ s
+        rw [← heStab s, MulEquiv.symm_apply_apply]
+      have hFeq : F (Sum.inl (β, ξ.comp eStab.symm.toMonoidHom))
+          = V (heisenbergChar p β 0) (Etingof.AbelianFDRep.charFDRep ξ) := by
+        show V (heisenbergChar p β 0)
+            (Etingof.AbelianFDRep.charFDRep
+              ((ξ.comp eStab.symm.toMonoidHom).comp (stab (heisenbergChar p β 0)).subtype))
+          = V (heisenbergChar p β 0) (Etingof.AbelianFDRep.charFDRep ξ)
+        rw [hρξ]
+      rw [hFeq]
+      exact ⟨hSU.some ≪≫
+        (hvi (heisenbergChar p β 0) U (Etingof.AbelianFDRep.charFDRep ξ) hξ).some⟩
+    · -- free orbit: `U ≅ charFDRep 1`, move base point `χ_{β,γ} ⇝ χ_{0,γ}` via equal characters
+      refine ⟨Sum.inr ⟨γ, hγ⟩, ?_⟩
+      haveI : Subsingleton ↥(stab (heisenbergChar p β γ)) := by
+        rw [hstab_r β γ hγ]
+        exact ⟨fun a b => Subtype.ext
+          (by rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
+      obtain ⟨ξ, hξ⟩ := Etingof.AbelianFDRep.exists_charFDRep_iso U
+      have hξ1 : ξ = 1 := by
+        refine MonoidHom.ext fun x => ?_
+        rw [Subsingleton.elim x 1]; simp
+      rw [hξ1] at hξ
+      have hchareq : (V (heisenbergChar p β γ)
+            (Etingof.AbelianFDRep.charFDRep
+              (1 : ↥(stab (heisenbergChar p β γ)) →* ℂˣ))).character
+          = (V (heisenbergChar p 0 γ)
+            (Etingof.AbelianFDRep.charFDRep
+              (1 : ↥(stab (heisenbergChar p 0 γ)) →* ℂˣ))).character := by
+        funext x
+        obtain ⟨a, gg⟩ := x
+        obtain ⟨b, c, rfl⟩ : ∃ b c, a = Multiplicative.ofAdd (b, c) :=
+          ⟨(Multiplicative.toAdd a).1, (Multiplicative.toAdd a).2, rfl⟩
+        rw [free_char β γ hγ b c gg, free_char 0 γ hγ b c gg]
+      exact ⟨hSU.some ≪≫ (hvi (heisenbergChar p β γ) U _ hξ).some
+        ≪≫ (Etingof.charEq_iso _ _ hchareq).some⟩
   -- Transport the family to `Fin (card ι)`.
   set e := Fintype.equivFin ι with he
   refine ⟨Fintype.card ι, fun i => F (e.symm i), ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
