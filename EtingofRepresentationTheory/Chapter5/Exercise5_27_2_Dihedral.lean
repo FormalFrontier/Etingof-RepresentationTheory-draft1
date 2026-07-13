@@ -200,6 +200,27 @@ theorem semidirect_classification :
       (Even N →
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
+  classical
+  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi⟩ :=
+    Etingof.Theorem5_27_1 (Multiplicative (ZMod 2)) (Multiplicative (ZMod N)) (dihedralφ N)
+  -- The reflection generator is self-inverse in `ℤ/2`.
+  have hgen_inv : (Multiplicative.ofAdd (1 : ZMod 2))⁻¹ = Multiplicative.ofAdd 1 := by decide
+  -- **Dual action is inversion.** The generator acts on characters by `χ ↦ χ⁻¹`.
+  have hdual_gen : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
+      dualSmul (Multiplicative.ofAdd 1) χ = χ⁻¹ := by
+    intro χ
+    refine MonoidHom.ext (fun a => ?_)
+    rw [hdual, hgen_inv, dihedralφ_ofAdd_one_apply, map_inv, MonoidHom.inv_apply]
+  -- The identity fixes every character.
+  have hdual_one : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
+      dualSmul (1 : Multiplicative (ZMod 2)) χ = χ := by
+    intro χ
+    refine MonoidHom.ext (fun a => ?_)
+    rw [hdual, inv_one, dihedralφ_one_apply]
+  -- **Stabilizer.** `χ` is fixed by the generator iff it is self-inverse.
+  have hstab_gen : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
+      (Multiplicative.ofAdd 1 ∈ stab χ) ↔ χ⁻¹ = χ := by
+    intro χ; rw [hstab χ (Multiplicative.ofAdd 1), hdual_gen]
   sorry
 
 open Classical in
