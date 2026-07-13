@@ -55,11 +55,13 @@ six-term sequence: `Tor₁` is the kernel and `Ext¹` the cokernel of multiplica
 `ℤ/b`. For part (ii) (`k[x]`) the `PolyGcd` namespace supplies the same kernel/cokernel/tensor/Hom
 bridges over `k[x]` (targeting the sum ideal `(f,g) = (f) ⊔ (g)`, so no explicit gcd is needed),
 and the two `Ext` identifications (`Ext⁰`, `Ext¹`) are proved from them exactly as in part (i).
-The `Tor₀` identification is also proved: over the commutative base `k[x]` the ring tensor
-product `tensorOver k[x] (k[x]/g) (k[x]/f)` agrees with Mathlib's `TensorProduct k[x]` via the
-general `Etingof.tensorOverEquivTensor` glue (Definition 8.2.3, right-exact file), and then
-`PolyGcd.tensorEquiv` identifies `(k[x]/f) ⊗_{k[x]} (k[x]/g)` with `k[x]/(f,g)`. `Tor₁` remains
-`sorry`.
+The `Tor` identifications are also proved: over the commutative base `k[x]` the ring tensor
+product `tensorOver k[x] N M` agrees with Mathlib's `TensorProduct k[x]` via the general
+`Etingof.tensorOverEquivTensor` glue (Definition 8.2.3, right-exact file). For `Tor₀`,
+`PolyGcd.tensorEquiv` then identifies `(k[x]/f) ⊗_{k[x]} (k[x]/g)` with `k[x]/(f,g)`; for `Tor₁`,
+the length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/f → 0` reads `Tor₁` off the derived six-term
+sequence as the kernel of multiplication by `f` on `Tor₀(k[x], k[x]/g) ≅ k[x]/g`, identified with
+`k[x]/(f,g)` by `PolyGcd.kerEquiv` — exactly as in part (i).
 -/
 
 namespace Etingof
@@ -997,12 +999,152 @@ theorem Problem_8_2_7_ii_tor_zero (k : Type*) [Field k] (f g : k[X]) :
   change (MulOpposite.op a).unop • m = a • m
   rw [MulOpposite.unop_op]
 
+open scoped TensorProduct in
+/-- `k[x] ⊗_{k[x]} N ≅ N` (the ring tensor product `tensorOver k[x] N k[x]` with the free
+rank-one module `M = k[x]`), the `k[x]` analogue of `intTensorOverEquiv`. Used to read the
+`Tor₀`-window of the length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/f → 0`. -/
+private noncomputable def polyTensorOverEquiv {k : Type u} [Field k] (N : Type u) [AddCommGroup N]
+    [Module k[X] N] : tensorOver k[X] N k[X] ≃+ N :=
+  (Etingof.tensorOverEquivTensor (A := k[X]) (N := N) (M := k[X])
+      (fun a x => op_smul_eq_smul a x)).trans (TensorProduct.lid k[X] N).toAddEquiv
+
+open scoped TensorProduct in
+@[simp] private lemma polyTensorOverEquiv_mk {k : Type u} [Field k] (N : Type u) [AddCommGroup N]
+    [Module k[X] N] (m : k[X]) (n : N) :
+    polyTensorOverEquiv N (TensorProduct.tmul ℤ m n : tensorOver k[X] N k[X]) = m • n := by
+  simp only [polyTensorOverEquiv, AddEquiv.trans_apply, tensorOverEquivTensor_mk,
+    LinearEquiv.coe_toAddEquiv]
+  exact TensorProduct.lid_tmul n m
+
 /-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))` for `f, g ≠ 0`. -/
 theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) (hg : g ≠ 0) :
     Nonempty (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
         (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
-  sorry
+  -- Length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/f → 0` over `k[x]ᵐᵒᵖ`, inline for `S.f`.
+  let mfL : k[X] →ₗ[(k[X])ᵐᵒᵖ] k[X] :=
+    { toFun := fun x => f * x
+      map_add' := fun x y => by ring
+      map_smul' := fun r x => by
+        simp only [RingHom.id_apply, MulOpposite.smul_eq_mul_unop]; ring }
+  let pfL : k[X] →ₗ[(k[X])ᵐᵒᵖ] (k[X] ⧸ Ideal.span {f}) :=
+    { toFun := fun x => (Ideal.span {f}).mkQ x
+      map_add' := fun x y => map_add _ x y
+      map_smul' := fun r x => by
+        rw [MulOpposite.smul_eq_mul_unop, RingHom.id_apply]
+        change (Ideal.span {f}).mkQ (x * MulOpposite.unop r)
+            = MulOpposite.unop r • (Ideal.span {f}).mkQ x
+        rw [← map_smul]; congr 1; rw [smul_eq_mul, mul_comm] }
+  have hgfe : ∀ x : k[X], pfL (mfL x) = 0 := by
+    intro x
+    change (Ideal.span {f}).mkQ (f * x) = 0
+    rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+    exact dvd_mul_right f x
+  have eq0 : pfL.comp mfL = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgfe x, LinearMap.zero_apply]
+  have hexact : Function.Exact mfL pfL := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, LinearMap.mem_range]
+    change ((Ideal.span {f}).mkQ y = 0) ↔ _
+    rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right f c
+  have hinjf : Function.Injective mfL := fun x y hxy =>
+    mul_left_cancel₀ hf (by simpa only [mfL, LinearMap.coe_mk, AddHom.coe_mk] using hxy)
+  have hsurjg : Function.Surjective pfL := (Ideal.span {f}).mkQ_surjective
+  set S := ModuleCat.shortComplexOfCompEqZero mfL pfL eq0 with hSdef
+  have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
+  set F := tensorRightFunctor k[X] (k[X] ⧸ Ideal.span {g}) with hF
+  -- Six-term window `0 = L₁X₁ → 0 = L₁X₂ → Tor₁ →[δ] Tor₀ k[x] →[φ] Tor₀ k[x] → …`.
+  obtain ⟨δ, hExact⟩ := Etingof.Functor.leftDerived_sixTerm_exact F hS 0 1 rfl
+  let φ : (F.leftDerived 0).obj S.X₁ ⟶ (F.leftDerived 0).obj S.X₂ := (F.leftDerived 0).map S.f
+  -- `L₁X₂ = 0` (`S.X₂ = k[x]` projective), so `δ` is mono.
+  have h1 : Limits.IsZero ((F.leftDerived 1).obj S.X₂) :=
+    Functor.isZero_leftDerived_obj_projective_succ F 0 S.X₂
+  have hmono : Mono δ := by
+    have e123 := hExact.exact' 1 2 3
+    rwa [ShortComplex.exact_iff_mono _ (h1.eq_zero_of_src _)] at e123
+  have hinjδ : Function.Injective δ.hom := (AddCommGrpCat.mono_iff_injective δ).mp hmono
+  -- Exactness at `Tor₀ k[x]`: `range δ = ker φ`.
+  have hrk : δ.hom.range = φ.hom.ker := (hExact.exact' 2 3 4).ab_range_eq_ker
+  have hcompl : δ ≫ φ = 0 := hExact.toIsComplex.zero' 2 3 4
+  -- `Tor₀(k[x]) = k[x] ⊗_{k[x]} (k[x]/g) ≅ k[x]/g`, natural in the argument.
+  let ζ := F.leftDerivedZeroIsoSelf
+  let τ₁ : ((F.leftDerived 0).obj S.X₁) ≃+ (k[X] ⧸ Ideal.span {g}) :=
+    (ζ.app S.X₁).addCommGroupIsoToAddEquiv.trans (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}))
+  let τ₂ : ((F.leftDerived 0).obj S.X₂) ≃+ (k[X] ⧸ Ideal.span {g}) :=
+    (ζ.app S.X₂).addCommGroupIsoToAddEquiv.trans (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}))
+  -- The induced map `φ` on `Tor₀(k[x])` is multiplication by `f`.
+  have key : ∀ w : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁,
+      polyTensorOverEquiv (k[X] ⧸ Ideal.span {g})
+          (tensorRightMap k[X] (k[X] ⧸ Ideal.span {g}) S.f w)
+        = PolyGcd.mulBy f g (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}) w) := by
+    intro w
+    induction w using QuotientAddGroup.induction_on with
+    | _ y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul m n =>
+        rw [show tensorRightMap k[X] (k[X] ⧸ Ideal.span {g}) S.f
+              (TensorProduct.tmul ℤ m n : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁)
+            = (TensorProduct.tmul ℤ (S.f.hom m) n :
+                tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₂) from rfl,
+          polyTensorOverEquiv_mk, polyTensorOverEquiv_mk, PolyGcd.mulBy_apply]
+        change (f * m) • n = f • (m • n)
+        rw [mul_smul]
+      | add p q hp hq =>
+        rw [show ((p + q : TensorProduct ℤ S.X₁ (k[X] ⧸ Ideal.span {g})) :
+              tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁)
+              = ((p : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁)
+                  + (q : tensorOver k[X] (k[X] ⧸ Ideal.span {g}) S.X₁))
+            from map_add (QuotientAddGroup.mk' _) p q,
+          map_add, map_add, map_add, map_add, hp, hq]
+  have hconj : ∀ x, τ₂ (φ.hom x) = PolyGcd.mulBy f g (τ₁ x) := by
+    intro x
+    have hn := congrArg (fun (m : (F.leftDerived 0).obj S.X₁ ⟶ F.obj S.X₂) => m.hom x)
+      (ζ.hom.naturality S.f)
+    simp only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply] at hn
+    simp only [τ₁, τ₂, AddEquiv.trans_apply, Iso.addCommGroupIsoToAddEquiv_apply]
+    calc polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}) ((ζ.app S.X₂).hom (φ.hom x))
+        = polyTensorOverEquiv (k[X] ⧸ Ideal.span {g})
+            (tensorRightMap k[X] (k[X] ⧸ Ideal.span {g}) S.f ((ζ.app S.X₁).hom x)) :=
+          congrArg (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g})) hn
+      _ = PolyGcd.mulBy f g
+            (polyTensorOverEquiv (k[X] ⧸ Ideal.span {g}) ((ζ.app S.X₁).hom x)) := key _
+  -- Assemble: `Tor₁ ≃+ ker(mulBy) ≃+ k[x]/(f,g)`.
+  have mem : ∀ x, τ₁ (δ.hom x) ∈ LinearMap.ker (PolyGcd.mulBy f g) := by
+    intro x
+    rw [LinearMap.mem_ker, ← hconj (δ.hom x)]
+    have : φ.hom (δ.hom x) = 0 := by
+      have := congrArg
+        (fun (m : (F.leftDerived 1).obj S.X₃ ⟶ (F.leftDerived 0).obj S.X₂) => m.hom x) hcompl
+      simpa only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply, AddCommGrpCat.hom_zero,
+        AddMonoidHom.zero_apply] using this
+    rw [this, map_zero]
+  let κ : ((F.leftDerived 1).obj S.X₃) →+ LinearMap.ker (PolyGcd.mulBy f g) :=
+    { toFun := fun x => ⟨τ₁ (δ.hom x), mem x⟩
+      map_zero' := by apply Subtype.ext; simp
+      map_add' := fun x y => by apply Subtype.ext; simp }
+  have hκbij : Function.Bijective κ := by
+    constructor
+    · intro x y hxy
+      apply hinjδ
+      apply τ₁.injective
+      exact congrArg Subtype.val hxy
+    · rintro ⟨z, hz⟩
+      have hwker : (τ₁.symm z) ∈ φ.hom.ker := by
+        rw [AddMonoidHom.mem_ker]
+        apply τ₂.injective
+        rw [hconj, map_zero, τ₁.apply_symm_apply]
+        exact (LinearMap.mem_ker.mp hz)
+      rw [← hrk] at hwker
+      obtain ⟨x, hx⟩ := hwker
+      refine ⟨x, Subtype.ext ?_⟩
+      rw [show ((κ x : _) : k[X] ⧸ Ideal.span {g}) = τ₁ (δ.hom x) from rfl, hx,
+        τ₁.apply_symm_apply]
+  exact ⟨((AddEquiv.ofBijective κ hκbij).trans
+    (PolyGcd.kerEquiv f g hg).toAddEquiv).toAddCommGrpIso⟩
 
 /-- The right-module length-`1` free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0` over
 `k[x]ᵐᵒᵖ` (`p ≠ 0`), the `k[x]` analogue of `zmodMopResolution`. -/
