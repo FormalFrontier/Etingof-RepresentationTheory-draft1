@@ -117,9 +117,18 @@ noncomputable def matrixCycleProd (σ : Equiv.Perm (Fin m)) (M : Fin m → Matri
 entries around a cycle resums to the trace of the ordered matrix product. One factor per orbit
 representative.
 
-This is the heart of the tensor-trace ↔ trace-word identity. The single-cycle case is the
-telescoping computation `∑ (a₀ … a_{ℓ-1}) M₀(a₁,a₀) M₁(a₂,a₁) … = Tr(M_{ℓ-1} … M₀)`; the general
-case follows by distributing the sum over the orbit partition of `Fin m`. -/
+This is the heart of the tensor-trace ↔ trace-word identity. Proof roadmap (two steps):
+
+* **Single orbit (telescoping).** For an orbit representative `r`, the local sum
+  `∑ (q : orbit r → ι) ∏_{i ∈ orbit r} M i (q (σ i)) (q i)` telescopes to
+  `Tr (matrixCycleProd σ M r)`: parametrizing `q` by `a t := q (σ^t r)` turns the product into
+  `∏_t M_{σ^t r} (a_{t+1 mod ℓ}, a_t)`, and summing over `a ∈ ι^ℓ` collapses the matrix chain to a
+  trace (cyclic invariance fixes the representative).
+
+* **Orbit-partition assembly.** Reindex `p : Fin m → ι` along the `σ`-orbit partition as
+  `∏ r ∈ orbitReps σ, (orbit r → ι)`, split `∏ i` as `∏ r, ∏_{i ∈ orbit r}`, and apply
+  `Fintype.prod_sum` (a product of sums is a sum of products) to turn
+  `∏_r (local sum)` into `∑_p ∏_i`. -/
 theorem matrixSum_eq_prod_orbit (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R) :
     ∑ p : Fin m → ι, ∏ i : Fin m, M i (p (σ i)) (p i)
       = ∏ i ∈ orbitReps σ, Matrix.trace (matrixCycleProd σ M i) := by
