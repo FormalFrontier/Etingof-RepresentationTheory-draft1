@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Theorem5_27_1
+import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 
 /-!
 # Exercise 5.27.2 (Heisenberg group): redo Problem 4.12.2 using Theorem 5.27.1
@@ -185,20 +186,75 @@ lemma heisenbergChar_comp_heisenbergφ_inv (g : Multiplicative (ZMod p)) (β γ 
   simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, heisenbergφ_apply_ofAdd,
     heisenbergChar_apply, hexp]
 
-/-- **Injectivity of the parametrization.** Distinct `(β, γ)` give distinct characters. -/
-lemma heisenbergChar_injective :
-    Function.Injective (fun bg : ZMod p × ZMod p => heisenbergChar p bg.1 bg.2) := by
-  rintro ⟨β, γ⟩ ⟨β', γ'⟩ h
-  simp only at h
+/-- **Injectivity of the parametrization (equation form).** Equal characters have equal
+parameters. Stated on a bare equation so downstream lemmas can apply it without higher-order
+unification against `heisenbergChar`. -/
+lemma heisenbergChar_inj {β γ β' γ' : ZMod p}
+    (h : heisenbergChar p β γ = heisenbergChar p β' γ') : β = β' ∧ γ = γ' := by
   have h1 := DFunLike.congr_fun h (Multiplicative.ofAdd (1, 0))
   have h2 := DFunLike.congr_fun h (Multiplicative.ofAdd (0, 1))
   rw [heisenbergChar_apply, heisenbergChar_apply] at h1 h2
   simp only [mul_one, mul_zero, add_zero, zero_add] at h1 h2
-  have hβ : β = β' := ZMod.val_injective p
-    ((heisenbergZeta_primitive p).pow_inj (ZMod.val_lt β) (ZMod.val_lt β') h1)
-  have hγ : γ = γ' := ZMod.val_injective p
-    ((heisenbergZeta_primitive p).pow_inj (ZMod.val_lt γ) (ZMod.val_lt γ') h2)
-  rw [hβ, hγ]
+  exact ⟨ZMod.val_injective p
+      ((heisenbergZeta_primitive p).pow_inj (ZMod.val_lt β) (ZMod.val_lt β') h1),
+    ZMod.val_injective p
+      ((heisenbergZeta_primitive p).pow_inj (ZMod.val_lt γ) (ZMod.val_lt γ') h2)⟩
+
+/-- **Injectivity of the parametrization.** Distinct `(β, γ)` give distinct characters. -/
+lemma heisenbergChar_injective :
+    Function.Injective (fun bg : ZMod p × ZMod p => heisenbergChar p bg.1 bg.2) := by
+  rintro ⟨β, γ⟩ ⟨β', γ'⟩ h
+  obtain ⟨hβ, hγ⟩ := heisenbergChar_inj p h
+  exact Prod.ext hβ hγ
+
+/-- **Fixed-point characterization.** `χ_{β,γ}` is fixed by the whole dual `G`-action iff
+`γ = 0`. These are the `p` characters whose stabilizer is all of `G`. -/
+lemma heisenbergChar_fixed_iff (β γ : ZMod p) :
+    (∀ g : Multiplicative (ZMod p),
+      (heisenbergChar p β γ).comp (heisenbergφ p g⁻¹ : MulAut _).toMonoidHom
+        = heisenbergChar p β γ) ↔ γ = 0 := by
+  constructor
+  · intro hfix
+    have hg1 := hfix (Multiplicative.ofAdd 1)
+    rw [heisenbergChar_comp_heisenbergφ_inv] at hg1
+    obtain ⟨h, -⟩ := heisenbergChar_inj p hg1
+    simp only [toAdd_ofAdd, one_mul, sub_eq_self] at h
+    exact h
+  · rintro rfl g
+    rw [heisenbergChar_comp_heisenbergφ_inv]
+    simp
+
+/-- **Free-orbit stabilizer.** For `γ ≠ 0`, the only `g` fixing `χ_{β,γ}` is the identity, so the
+stabilizer is trivial and the orbit is free (size `p`). -/
+lemma heisenbergChar_stab_free (β γ : ZMod p) (hγ : γ ≠ 0)
+    (g : Multiplicative (ZMod p))
+    (hg : (heisenbergChar p β γ).comp (heisenbergφ p g⁻¹ : MulAut _).toMonoidHom
+      = heisenbergChar p β γ) :
+    g = 1 := by
+  rw [heisenbergChar_comp_heisenbergφ_inv] at hg
+  obtain ⟨h, -⟩ := heisenbergChar_inj p hg
+  have hz : Multiplicative.toAdd g * γ = 0 := sub_eq_self.mp h
+  have htg : Multiplicative.toAdd g = 0 := (mul_eq_zero.mp hz).resolve_right hγ
+  apply Multiplicative.toAdd.injective
+  rw [htg]; rfl
+
+/-- **Coverage.** The parametrization is surjective: every character of `A = (ℤ/p)²` is `χ_{β,γ}`
+for some `(β, γ)`. Combined with `heisenbergChar_injective`, this makes `(β, γ) ↦ χ_{β,γ}` a
+bijection onto `Â`. -/
+lemma heisenbergChar_surjective (χ : Multiplicative (ZMod p × ZMod p) →* ℂˣ) :
+    ∃ β γ, heisenbergChar p β γ = χ := by
+  classical
+  haveI : Fintype (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := Fintype.ofFinite _
+  have hcard : Fintype.card (ZMod p × ZMod p)
+      = Fintype.card (Multiplicative (ZMod p × ZMod p) →* ℂˣ) := by
+    rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
+      Etingof.AbelianFDRep.card_charFDRep_dual]
+    exact (Nat.card_congr Multiplicative.ofAdd)
+  have hbij := (Fintype.bijective_iff_injective_and_card
+    (fun bg : ZMod p × ZMod p => heisenbergChar p bg.1 bg.2)).mpr
+    ⟨heisenbergChar_injective p, hcard⟩
+  obtain ⟨bg, hbg⟩ := hbij.surjective χ
+  exact ⟨bg.1, bg.2, hbg⟩
 
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.2.** The complete classification of the irreducible
