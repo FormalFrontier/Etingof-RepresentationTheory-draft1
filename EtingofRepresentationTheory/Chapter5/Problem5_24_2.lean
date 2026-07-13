@@ -29,7 +29,16 @@ of the `i`-th matrix. The generic `i`-th matrix `Xmat i` has these variables as 
 The claim: the invariant ring is generated as a `ℂ`-algebra by the `traceWord w`, i.e.
 `Algebra.adjoin ℂ (Set.range traceWord) = invariantSubalgebra`.
 
-Statement pass: the proof is left as `sorry`.
+The elementary `⊇` inclusion (`traceWord_mem_invariantSubalgebra`: each `T_w` is
+conjugation-invariant) is proved. The deep `⊆` inclusion (the First Fundamental Theorem, via
+Schur–Weyl) is `invariantSubalgebra_le_adjoin_traceWord`. It is reduced to the multihomogeneous
+case following the book's hint: with the multidegree grading `matrixWeight` (variable `(i, r, c)`
+has weight `single i 1`), an invariant is the finite sum of its `matrixWeight`-homogeneous
+components, each of which is again invariant
+(`weightedHomogeneousComponent_mem_invariantSubalgebra`, proved via the fact that `conjAlgHom`
+preserves the grading). The remaining Schur–Weyl core — that a fixed-multidegree invariant lies in
+the trace subalgebra — is isolated as `weightedHomogeneous_invariant_mem_adjoin`, the single
+`sorry` (tracked as a follow-up issue).
 -/
 
 noncomputable section
@@ -70,11 +79,209 @@ generic matrices indexed by the letters of the word `w`. -/
 noncomputable def traceWord (w : List (Fin k)) : MatrixTupleRing k N :=
   Matrix.trace ((w.map (genericMatrix k N)).prod)
 
+/-- Telescoping of a conjugated product in a monoid: `∏ᵢ (a · fᵢ · a') = a · (∏ᵢ fᵢ) · a'`
+whenever `a` and `a'` are two-sided inverses. Used to show that conjugating each generic matrix in
+a word by `g` conjugates the whole word. -/
+private lemma prod_map_conj {M : Type*} [Monoid M] (a a' : M) (haa' : a * a' = 1)
+    (ha'a : a' * a = 1) {ι : Type*} (f : ι → M) :
+    ∀ l : List ι, (l.map (fun i => a * f i * a')).prod = a * (l.map f).prod * a'
+  | [] => by simp [haa']
+  | i :: t => by
+      simp only [List.map_cons, List.prod_cons, prod_map_conj a a' haa' ha'a f t]
+      simp only [mul_assoc]
+      rw [← mul_assoc a' a, ha'a, one_mul]
+
+/-- **Elementary inclusion.** Each trace-of-word function `T_w` is invariant under simultaneous
+conjugation. Applying `conjAlgHom g` conjugates each generic matrix by `G := g` (mapped into the
+coordinate ring), hence conjugates the whole word `w(X₁,…,X_k)` by `G`; the trace of a conjugate
+`G · P · G⁻¹` equals the trace of `P` by cyclic invariance. -/
+theorem traceWord_mem_invariantSubalgebra (w : List (Fin k)) :
+    traceWord k N w ∈ invariantSubalgebra k N := by
+  rw [invariantSubalgebra, Algebra.mem_iInf]
+  intro g
+  rw [AlgHom.mem_equalizer, AlgHom.id_apply]
+  set G : Matrix (Fin N) (Fin N) (MatrixTupleRing k N) :=
+    (↑g : Matrix (Fin N) (Fin N) ℂ).map (algebraMap ℂ (MatrixTupleRing k N)) with hG
+  set G' : Matrix (Fin N) (Fin N) (MatrixTupleRing k N) :=
+    (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ).map (algebraMap ℂ (MatrixTupleRing k N)) with hG'
+  have hGG' : G * G' = 1 := by
+    rw [hG, hG', ← Matrix.map_mul, Units.mul_inv, Matrix.map_one _ (map_zero _) (map_one _)]
+  have hG'G : G' * G = 1 := by
+    rw [hG, hG', ← Matrix.map_mul, Units.inv_mul, Matrix.map_one _ (map_zero _) (map_one _)]
+  -- Conjugation acts on each generic matrix by `Xᵢ ↦ G · Xᵢ · G⁻¹`.
+  have hconj : ∀ i, (genericMatrix k N i).map (conjAlgHom k N g)
+      = G * genericMatrix k N i * G' := by
+    intro i
+    refine Matrix.ext fun r c => ?_
+    rw [Matrix.map_apply]
+    show conjAlgHom k N g (MvPolynomial.X (i, r, c)) = _
+    rw [conjAlgHom, MvPolynomial.aeval_X, ← hG, ← hG']
+  -- Conjugating the whole word: `(conjAlgHom g).mapMatrix P = G · P · G⁻¹`.
+  have key : (conjAlgHom k N g).mapMatrix ((w.map (genericMatrix k N)).prod)
+      = G * (w.map (genericMatrix k N)).prod * G' := by
+    rw [map_list_prod, List.map_map]
+    have hcomp : ((conjAlgHom k N g).mapMatrix ∘ genericMatrix k N)
+        = fun i => G * genericMatrix k N i * G' := by
+      funext i; simp only [Function.comp_apply, AlgHom.mapMatrix_apply]; exact hconj i
+    rw [hcomp]
+    exact prod_map_conj G G' hGG' hG'G (genericMatrix k N) w
+  rw [traceWord, AddMonoidHom.map_trace (conjAlgHom k N g), ← AlgHom.mapMatrix_apply, key,
+    Matrix.trace_mul_comm, ← mul_assoc, hG'G, one_mul]
+
+open MvPolynomial
+
+/-- **Multidegree weight.** The entry variable `(i, r, c)` of the `i`-th generic matrix is given
+weight `single i 1`. A polynomial is `matrixWeight`-homogeneous of weight `d : Fin k →₀ ℕ` exactly
+when it is multihomogeneous of degree `d i` in the entries of `Xᵢ` for every `i` — the grading the
+book's hint uses ("invariant functions of degree `dᵢ` in each `Xᵢ`"). -/
+def matrixWeight : Fin k × Fin N × Fin N → (Fin k →₀ ℕ) := fun v => Finsupp.single v.1 1
+
+/-- Conjugation substitutes the entry variable `(i, r, c)` by an entry of `G · Xᵢ · G⁻¹`, a
+`ℂ`-linear combination of the entries of `Xᵢ`; hence `conjAlgHom g (X v)` is `matrixWeight`
+homogeneous of the same weight `single i 1` as `X v`. -/
+theorem conjAlgHom_X_isWeightedHomogeneous (g : (Matrix (Fin N) (Fin N) ℂ)ˣ)
+    (v : Fin k × Fin N × Fin N) :
+    IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (X v)) (matrixWeight k N v) := by
+  obtain ⟨i, r, c⟩ := v
+  -- A single conjugated entry `C α · X (i,a,b) · C β` is weight-`single i 1` homogeneous.
+  have hCXC : ∀ (α β : ℂ) (a b : Fin N),
+      IsWeightedHomogeneous (matrixWeight k N)
+        (C α * X ((i, a, b) : Fin k × Fin N × Fin N) * C β) (Finsupp.single i 1) := by
+    intro α β a b
+    have hcxc : C α * X ((i, a, b) : Fin k × Fin N × Fin N) * C β
+        = C (α * β) * X ((i, a, b) : Fin k × Fin N × Fin N) := by
+      rw [mul_right_comm, ← map_mul]
+    rw [hcxc]
+    have hX : IsWeightedHomogeneous (matrixWeight k N)
+        (X ((i, a, b) : Fin k × Fin N × Fin N) : MatrixTupleRing k N) (Finsupp.single i 1) :=
+      isWeightedHomogeneous_X (R := ℂ) (matrixWeight k N) (i, a, b)
+    exact hX.C_mul _
+  -- Expand `conjAlgHom g (X (i,r,c))` as the matrix entry `(G · Xᵢ · G⁻¹) r c`, a double sum.
+  simp only [conjAlgHom, MvPolynomial.aeval_X]
+  rw [Matrix.mul_apply]
+  apply IsWeightedHomogeneous.sum
+  intro b _
+  rw [Matrix.mul_apply, Finset.sum_mul]
+  apply IsWeightedHomogeneous.sum
+  intro a _
+  simp only [Matrix.map_apply, MvPolynomial.algebraMap_eq, genericMatrix]
+  exact hCXC ((↑g : Matrix (Fin N) (Fin N) ℂ) r a) ((↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ) b c) a b
+
+/-- Conjugation sends the monomial `X^u` to a `matrixWeight`-homogeneous polynomial of weight
+`weight u`: each variable `X v` maps to a weight-`matrixWeight v` homogeneous element, and taking
+products/powers adds the weights. -/
+theorem conjAlgHom_monomial_isWeightedHomogeneous (g : (Matrix (Fin N) (Fin N) ℂ)ˣ)
+    (u : (Fin k × Fin N × Fin N) →₀ ℕ) (a : ℂ) :
+    IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (monomial u a))
+      (Finsupp.weight (matrixWeight k N) u) := by
+  have hbase : ∀ v, IsWeightedHomogeneous (matrixWeight k N)
+      (conjAlgHom k N g (X v)) (matrixWeight k N v) :=
+    conjAlgHom_X_isWeightedHomogeneous k N g
+  rw [monomial_eq, map_mul, ← MvPolynomial.algebraMap_eq, AlgHom.commutes,
+    MvPolynomial.algebraMap_eq]
+  apply IsWeightedHomogeneous.C_mul
+  simp only [Finsupp.prod, map_prod, map_pow]
+  rw [show Finsupp.weight (matrixWeight k N) u
+      = ∑ n ∈ u.support, (u n) • (matrixWeight k N n) by rw [Finsupp.weight_apply]; rfl]
+  exact IsWeightedHomogeneous.prod u.support
+    (fun n => (conjAlgHom k N g (X n)) ^ (u n)) (fun n => (u n) • matrixWeight k N n)
+    (fun n _ => (hbase n).pow (u n))
+
+/-- Conjugation commutes with taking `matrixWeight`-homogeneous components: since `conjAlgHom g`
+maps each weight-`d` homogeneous piece into the weight-`d` piece, it commutes with the projection
+`weightedHomogeneousComponent d`. -/
+theorem conjAlgHom_weightedHomogeneousComponent (g : (Matrix (Fin N) (Fin N) ℂ)ˣ)
+    (d : Fin k →₀ ℕ) (p : MatrixTupleRing k N) :
+    weightedHomogeneousComponent (matrixWeight k N) d (conjAlgHom k N g p)
+      = conjAlgHom k N g (weightedHomogeneousComponent (matrixWeight k N) d p) := by
+  induction p using MvPolynomial.induction_on' with
+  | monomial u a =>
+    have hm : IsWeightedHomogeneous (matrixWeight k N) (monomial u a)
+        (Finsupp.weight (matrixWeight k N) u) :=
+      isWeightedHomogeneous_monomial _ _ _ rfl
+    have hcm : IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (monomial u a))
+        (Finsupp.weight (matrixWeight k N) u) :=
+      conjAlgHom_monomial_isWeightedHomogeneous k N g u a
+    by_cases hd : d = Finsupp.weight (matrixWeight k N) u
+    · subst hd
+      rw [hcm.weightedHomogeneousComponent_same, hm.weightedHomogeneousComponent_same]
+    · rw [hcm.weightedHomogeneousComponent_ne d hd, hm.weightedHomogeneousComponent_ne d hd,
+        map_zero]
+  | add p q hp hq =>
+    simp only [map_add, hp, hq]
+
+/-- Each `matrixWeight`-homogeneous component of a conjugation-invariant polynomial is itself
+conjugation-invariant. -/
+theorem weightedHomogeneousComponent_mem_invariantSubalgebra (d : Fin k →₀ ℕ)
+    {f : MatrixTupleRing k N} (hf : f ∈ invariantSubalgebra k N) :
+    weightedHomogeneousComponent (matrixWeight k N) d f ∈ invariantSubalgebra k N := by
+  rw [invariantSubalgebra, Algebra.mem_iInf] at hf ⊢
+  intro g
+  rw [AlgHom.mem_equalizer, AlgHom.id_apply]
+  have hg : conjAlgHom k N g f = f := by
+    have := hf g; rwa [AlgHom.mem_equalizer, AlgHom.id_apply] at this
+  rw [← conjAlgHom_weightedHomogeneousComponent k N g d f, hg]
+
+/-- **First Fundamental Theorem of matrix invariants, multihomogeneous case (Schur–Weyl core).**
+Every `matrixWeight`-homogeneous conjugation-invariant polynomial lies in the subalgebra generated
+by the trace-of-word functions `T_w`.
+
+This is the substantive content of Problem 5.24.2, isolated to a fixed multidegree `d`. Following
+the book's hint: the degree-`d` invariants form `⨂_i Sᵈⁱ(V ⊗ V*)`, which embeds into
+`(V ⊗ V*)^{⊗n} = End(V)^{⊗n}` with `n = ∑ dᵢ`; by Schur–Weyl duality (Theorem 5.18.4, the double
+centralizer theorem) the `GL(V)`-invariants of `End(V)^{⊗n}` are spanned by the permutation
+operators `σ ∈ Sₙ`, whose traces over the tensor factors are products of trace-of-word functions.
+The Schur–Weyl / permutation-spanning input is the remaining work (tracked as a follow-up issue). -/
+theorem weightedHomogeneous_invariant_mem_adjoin (d : Fin k →₀ ℕ)
+    {p : MatrixTupleRing k N}
+    (hhom : IsWeightedHomogeneous (matrixWeight k N) p d)
+    (hinv : p ∈ invariantSubalgebra k N) :
+    p ∈ Algebra.adjoin ℂ (Set.range (traceWord k N)) := by
+  sorry
+
+/-- **First Fundamental Theorem of matrix invariants (the deep inclusion).** Every polynomial
+invariant under simultaneous conjugation lies in the subalgebra generated by the trace-of-word
+functions `T_w`.
+
+Reduction to the multihomogeneous case: an invariant `f` is the (finite) sum of its
+`matrixWeight`-homogeneous components; each component is again invariant
+(`weightedHomogeneousComponent_mem_invariantSubalgebra`) and homogeneous, so lies in the trace
+subalgebra by `weightedHomogeneous_invariant_mem_adjoin` (the Schur–Weyl core), and the subalgebra
+is closed under the finite sum. -/
+theorem invariantSubalgebra_le_adjoin_traceWord :
+    invariantSubalgebra k N ≤ Algebra.adjoin ℂ (Set.range (traceWord k N)) := by
+  intro f hf
+  set S := Algebra.adjoin ℂ (Set.range (traceWord k N)) with hS
+  rw [← sum_weightedHomogeneousComponent (matrixWeight k N) f]
+  -- The homogeneous components have finite support, contained in `weight '' f.support`.
+  set s : Finset (Fin k →₀ ℕ) := f.support.image (Finsupp.weight (matrixWeight k N)) with hs
+  have hsub : (Function.support fun m => weightedHomogeneousComponent (matrixWeight k N) m f)
+      ⊆ (s : Set (Fin k →₀ ℕ)) := by
+    intro m hm
+    simp only [Function.mem_support] at hm
+    by_contra hmem
+    apply hm
+    apply weightedHomogeneousComponent_eq_zero'
+    intro d hd hweq
+    apply hmem
+    rw [hs, Finset.coe_image, Set.mem_image]
+    exact ⟨d, hd, hweq⟩
+  rw [finsum_eq_finsetSum_of_support_subset _ hsub]
+  refine Subalgebra.sum_mem _ ?_
+  intro d _
+  exact weightedHomogeneous_invariant_mem_adjoin k N d
+    (weightedHomogeneousComponent_isWeightedHomogeneous d f)
+    (weightedHomogeneousComponent_mem_invariantSubalgebra k N d hf)
+
 /-- Problem 5.24.2. The invariant ring `R_{k,N}` of polynomials on `k`-tuples of `N × N` matrices,
 invariant under simultaneous conjugation, is generated as a `ℂ`-algebra by the trace-of-word
-functions `T_w = Tr(w(X₁, …, X_k))`. -/
+functions `T_w = Tr(w(X₁, …, X_k))`. The nontrivial `⊆` inclusion is the First Fundamental
+Theorem `invariantSubalgebra_le_adjoin_traceWord`; the `⊇` inclusion is
+`traceWord_mem_invariantSubalgebra`. -/
 theorem invariantSubalgebra_eq_adjoin_traceWord :
-    Algebra.adjoin ℂ (Set.range (traceWord k N)) = invariantSubalgebra k N := by
-  sorry
+    Algebra.adjoin ℂ (Set.range (traceWord k N)) = invariantSubalgebra k N :=
+  le_antisymm
+    (Algebra.adjoin_le (by rintro _ ⟨w, rfl⟩; exact traceWord_mem_invariantSubalgebra k N w))
+    (invariantSubalgebra_le_adjoin_traceWord k N)
 
 end Etingof

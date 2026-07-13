@@ -24,6 +24,14 @@ vanishes). Re-resolve each time with
 verify signatures against the compiler (`example : <sig> := by exact?` / a scratch `#check`)
 rather than trusting a cached source path.
 
+**In this Mathlib version `Basis` lives in the `Module` namespace.** The type is
+`Module.Basis ι R M` and explicit lemma references need the prefix: `Module.Basis.ext`,
+`Module.Basis.constr_basis`, `Module.finBasis` (returns a `Module.Basis`). A bare identifier
+`Basis` / `Basis.ext` fails with "Unknown identifier" (easy to miss — `grep 'namespace Basis'`
+shows it, but only a wider look reveals it nested under `namespace Module`). Dot notation on a
+basis term (`b.constr`, `b.repr`, `b.sum_repr`, `b.ne_zero`) resolves fine unprefixed; only
+explicit `Module.Basis.*` references and type annotations `Module.Basis …` need the `Module.`.
+
 **Never `cd` into `.lake/packages/mathlib` (or any subdir) — read absolute paths from the
 worktree root instead.** The shell's cwd persists across Bash calls, and
 `.lake/packages/mathlib` is itself a lake project: once cwd is inside it,

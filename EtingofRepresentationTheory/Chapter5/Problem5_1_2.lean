@@ -26,7 +26,7 @@ this `Etingof.realGEndAlgebra ρ`.
   whose `ℂ`-span is all of `V` and with `dim_ℝ W = dim_ℂ V` (so the inclusion induces an
   equivariant isomorphism `ℂ ⊗_ℝ W ≅ V`; the `G`-action restricts to a real representation on `W`).
 
-Statement pass: the proofs are left as `sorry`.
+Both parts are fully proved.
 -/
 
 namespace Etingof
@@ -917,6 +917,278 @@ theorem realGEndAlgebra_equiv_quaternion_of_isQuaternionicType
     rw [Algebra.algebraMap_eq_smul_one, hfbasis]
   exact ⟨(AlgEquiv.ofBijective Ψ ⟨hinj, hsurj⟩).symm⟩
 
+/-- **Forward direction of Problem 5.1.2(b).** A real-type irreducible complex representation admits
+a **real form**. From the normalized real structure `j'` (`j'² = 1`, `ℂ`-antilinear, `G`-equivariant)
+take its `+1`-eigenspace `W` over `ℝ`. Antilinearity forces the eigenspace decomposition
+`V = W ⊕ i·W` over `ℝ`, so `span_ℂ W = ⊤` and (since `·i` swaps the `±1` eigenspaces)
+`dim_ℝ W = ½·dim_ℝ V = dim_ℂ V`. -/
+theorem exists_real_form_of_isRealType
+    (ρ : Representation ℂ G V)
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (h : Etingof.IsRealType ρ) :
+    ∃ W : Submodule ℝ V,
+      (∀ (g : G) (v : V), v ∈ W → ρ g v ∈ W) ∧
+      Submodule.span ℂ (W : Set V) = ⊤ ∧
+      Module.finrank ℝ W = Module.finrank ℂ V := by
+  classical
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  haveI : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
+  obtain ⟨j', hj'sq, hj'anti⟩ := exists_normalized_antilinear_of_isRealType hirr h
+  -- Package the underlying `ℝ`-linear involution `T = j'` abstractly by its three properties.
+  obtain ⟨T, hTsq, hTanti, hTequiv⟩ :
+      ∃ T : Module.End ℝ V, (∀ v, T (T v) = v) ∧
+        (∀ v, T (Complex.I • v) = -(Complex.I • T v)) ∧
+        (∀ g v, T (ρ g v) = ρ g (T v)) := by
+    refine ⟨(j' : Module.End ℝ V), ?_, ?_, fun g v => realGEnd_equivariant j' g v⟩
+    · intro v
+      have h1 : ((j' * j' : realGEndAlgebra ρ) : Module.End ℝ V)
+          = ((1 : realGEndAlgebra ρ) : Module.End ℝ V) := by rw [hj'sq]
+      rw [Subalgebra.coe_mul, Subalgebra.coe_one] at h1
+      have := DFunLike.congr_fun h1 v
+      simpa only [Module.End.mul_apply, Module.End.one_apply] using this
+    · intro v
+      have h0 : ((realJ ρ * j' : realGEndAlgebra ρ) : Module.End ℝ V)
+          = ((-(j' * realJ ρ) : realGEndAlgebra ρ) : Module.End ℝ V) := congrArg _ hj'anti
+      rw [Subalgebra.coe_mul, Subalgebra.coe_neg, Subalgebra.coe_mul] at h0
+      have hv := DFunLike.congr_fun h0 v
+      simp only [Module.End.mul_apply, LinearMap.neg_apply, realJ,
+        complexToRealGEnd_coe_apply] at hv
+      rw [hv, neg_neg]
+  -- The `+1` and `-1` eigenspaces of `T`.
+  set W : Submodule ℝ V := Module.End.eigenspace T (1 : ℝ) with hWdef
+  set W' : Submodule ℝ V := Module.End.eigenspace T (-1 : ℝ) with hW'def
+  have hWmem : ∀ v, v ∈ W ↔ T v = v := by
+    intro v; rw [hWdef, Module.End.mem_eigenspace_iff, one_smul]
+  have hW'mem : ∀ v, v ∈ W' ↔ T v = -v := by
+    intro v; rw [hW'def, Module.End.mem_eigenspace_iff, neg_one_smul]
+  -- `G`-stability of `W`.
+  have hstab : ∀ (g : G) (v : V), v ∈ W → ρ g v ∈ W := by
+    intro g v hv
+    rw [hWmem] at hv ⊢
+    rw [hTequiv g v, hv]
+  -- Eigenspace projections: `a = ½(v + Tv) ∈ W`, `b = ½(v − Tv) ∈ W'`, `v = a + b`.
+  have haW : ∀ v, (2⁻¹ : ℝ) • (v + T v) ∈ W := by
+    intro v; rw [hWmem, map_smul, map_add, hTsq]; rw [add_comm]
+  have hbW' : ∀ v, (2⁻¹ : ℝ) • (v - T v) ∈ W' := by
+    intro v
+    rw [hW'mem, map_smul, map_sub, hTsq, ← smul_neg, neg_sub]
+  have hsum : ∀ v, (2⁻¹ : ℝ) • (v + T v) + (2⁻¹ : ℝ) • (v - T v) = v := by
+    intro v; rw [← smul_add]; module
+  -- `i·W ⊆ W'` and `i·W' ⊆ W` (antilinearity of `T`).
+  have hIWW' : ∀ v, v ∈ W → Complex.I • v ∈ W' := by
+    intro v hv
+    rw [hW'mem, hTanti, (hWmem v).mp hv]
+  have hIW'W : ∀ v, v ∈ W' → Complex.I • v ∈ W := by
+    intro v hv
+    rw [hWmem, hTanti, (hW'mem v).mp hv, smul_neg, neg_neg]
+  -- `span_ℂ W = ⊤`: every `v = a + b` with `a ∈ W` and `b = (-i)·(i·b) ∈ span_ℂ W`.
+  have hspan : Submodule.span ℂ (W : Set V) = ⊤ := by
+    rw [eq_top_iff]
+    intro v _
+    have hb : (2⁻¹ : ℝ) • (v - T v) ∈ Submodule.span ℂ (W : Set V) := by
+      have hIb : Complex.I • (2⁻¹ : ℝ) • (v - T v) ∈ W := hIW'W _ (hbW' v)
+      have : (-Complex.I) • Complex.I • (2⁻¹ : ℝ) • (v - T v)
+          ∈ Submodule.span ℂ (W : Set V) :=
+        Submodule.smul_mem _ _ (Submodule.subset_span hIb)
+      rwa [smul_smul, show (-Complex.I) * Complex.I = 1 by
+        rw [neg_mul, Complex.I_mul_I, neg_neg], one_smul] at this
+    have ha : (2⁻¹ : ℝ) • (v + T v) ∈ Submodule.span ℂ (W : Set V) :=
+      Submodule.subset_span (haW v)
+    have := Submodule.add_mem _ ha hb
+    rwa [hsum v] at this
+  -- `IsCompl W W'` over `ℝ`.
+  have hIC : IsCompl W W' := by
+    constructor
+    · rw [disjoint_iff, eq_bot_iff]
+      intro v hv
+      have h1 := (hWmem v).mp hv.1
+      have h2 := (hW'mem v).mp hv.2
+      have hvv : v = -v := h1.symm.trans h2
+      have h2v0 : (2 : ℝ) • v = 0 := by rw [two_smul, add_eq_zero_iff_eq_neg]; exact hvv
+      rw [Submodule.mem_bot]
+      rcases smul_eq_zero.mp h2v0 with h | h
+      · norm_num at h
+      · exact h
+    · rw [codisjoint_iff, eq_top_iff]
+      intro v _
+      rw [Submodule.mem_sup]
+      exact ⟨_, haW v, _, hbW' v, hsum v⟩
+  -- `dim_ℝ W = dim_ℝ W'` via the `ℝ`-linear automorphism `·i` swapping the eigenspaces.
+  have hdimWW' : Module.finrank ℝ W = Module.finrank ℝ W' := by
+    let e : V ≃ₗ[ℝ] V :=
+      { toFun := fun v => Complex.I • v
+        map_add' := fun x y => smul_add _ _ _
+        map_smul' := fun r v => by
+          simp only [RingHom.id_apply]
+          rw [← IsScalarTower.algebraMap_smul ℂ r v, smul_smul,
+            ← IsScalarTower.algebraMap_smul ℂ r (Complex.I • v), smul_smul, mul_comm]
+        invFun := fun v => (-Complex.I) • v
+        left_inv := fun v => by
+          show (-Complex.I) • Complex.I • v = v
+          rw [smul_smul, show (-Complex.I) * Complex.I = 1 by
+            rw [neg_mul, Complex.I_mul_I, neg_neg], one_smul]
+        right_inv := fun v => by
+          show Complex.I • (-Complex.I) • v = v
+          rw [smul_smul, show Complex.I * (-Complex.I) = 1 by
+            rw [mul_neg, Complex.I_mul_I, neg_neg], one_smul] }
+    have hle1 : Submodule.map (e : V →ₗ[ℝ] V) W ≤ W' := by
+      rintro _ ⟨w, hw, rfl⟩; exact hIWW' w hw
+    have hle2 : Submodule.map (e : V →ₗ[ℝ] V) W' ≤ W := by
+      rintro _ ⟨w, hw, rfl⟩; exact hIW'W w hw
+    refine le_antisymm ?_ ?_
+    · calc Module.finrank ℝ W = Module.finrank ℝ (Submodule.map (e : V →ₗ[ℝ] V) W) :=
+            (LinearEquiv.finrank_map_eq e W).symm
+        _ ≤ Module.finrank ℝ W' := Submodule.finrank_mono hle1
+    · calc Module.finrank ℝ W' = Module.finrank ℝ (Submodule.map (e : V →ₗ[ℝ] V) W') :=
+            (LinearEquiv.finrank_map_eq e W').symm
+        _ ≤ Module.finrank ℝ W := Submodule.finrank_mono hle2
+  -- Combine: `2·dim_ℝ W = dim_ℝ V = 2·dim_ℂ V`.
+  have hsplit : Module.finrank ℝ W + Module.finrank ℝ W' = Module.finrank ℝ V :=
+    Submodule.finrank_add_eq_of_isCompl hIC
+  have hRV : Module.finrank ℝ V = 2 * Module.finrank ℂ V := by
+    rw [← Module.finrank_mul_finrank ℝ ℂ V, Complex.finrank_real_complex]
+  have hdim : Module.finrank ℝ W = Module.finrank ℂ V := by
+    have h2W : 2 * Module.finrank ℝ W = 2 * Module.finrank ℂ V := by
+      rw [two_mul]; nth_rewrite 2 [hdimWW']; rw [hsplit, hRV]
+    exact Nat.eq_of_mul_eq_mul_left (by norm_num) h2W
+  exact ⟨W, hstab, hspan, hdim⟩
+
+/-- **Backward direction of Problem 5.1.2(b).** A real form exhibits real type. Extend a
+`G`-invariant positive-definite real symmetric form on `W` (the real part of the invariant
+Hermitian form) `ℂ`-bilinearly to `V` along the basis `W` provides; the result is a symmetric
+`G`-invariant nondegenerate `ℂ`-bilinear form, so `V` is of real type. -/
+theorem isRealType_of_exists_real_form
+    (ρ : Representation ℂ G V)
+    (hirr : IsSimpleModule (MonoidAlgebra ℂ G) ρ.asModule)
+    (hW : ∃ W : Submodule ℝ V,
+      (∀ (g : G) (v : V), v ∈ W → ρ g v ∈ W) ∧
+      Submodule.span ℂ (W : Set V) = ⊤ ∧
+      Module.finrank ℝ W = Module.finrank ℂ V) :
+    Etingof.IsRealType ρ := by
+  classical
+  obtain ⟨W, hWstab, hspan, hdim⟩ := hW
+  haveI : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra ℂ G) ρ.asModule
+  haveI hVnt : Nontrivial V := (Representation.asModuleEquiv ρ).symm.toEquiv.nontrivial
+  haveI : FiniteDimensional ℝ V := Module.Finite.trans (R := ℝ) ℂ V
+  obtain ⟨H, hHinv, hHpos, hHsym⟩ := exists_invariant_posdef_hermitian ρ
+  -- `(r : ℂ) • z = r • z` for a real scalar `r` acting on `ℂ`.
+  have rcC : ∀ (r : ℝ) (z : ℂ), (r : ℂ) • z = r • z := fun r z => by
+    rw [smul_eq_mul, Complex.real_smul]
+  -- Real basis `b` of `W`, viewed inside `V` as `bV`, upgraded to a `ℂ`-basis `bC` of `V`.
+  let b := Module.finBasis ℝ W
+  let bV : Fin (Module.finrank ℝ W) → V := fun i => (b i : V)
+  have hcard : Fintype.card (Fin (Module.finrank ℝ W)) = Module.finrank ℂ V := by
+    rw [Fintype.card_fin]; exact hdim
+  have hle_span : ⊤ ≤ Submodule.span ℂ (Set.range bV) := by
+    rw [← hspan, Submodule.span_le]
+    intro x hx
+    have hxe : x = ∑ i, (b.repr ⟨x, hx⟩ i) • bV i := by
+      have hsr := b.sum_repr ⟨x, hx⟩
+      have := congrArg (Submodule.subtype W) hsr
+      simpa only [Submodule.subtype_apply, map_sum, map_smul] using this.symm
+    rw [SetLike.mem_coe, hxe]
+    refine Submodule.sum_mem _ (fun i _ => ?_)
+    rw [← real_coe_smul]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
+  let bC := basisOfTopLeSpanOfCardEqFinrank bV hle_span hcard
+  have hbC : ∀ i, bC i = bV i := fun i =>
+    congrFun (coe_basisOfTopLeSpanOfCardEqFinrank bV hle_span hcard) i
+  -- The candidate `ℂ`-bilinear form: `ℂ`-bilinear extension of `(u,u') ↦ Re⟨u,u'⟩` on `W`.
+  let Bform : V →ₗ[ℂ] V →ₗ[ℂ] ℂ :=
+    bC.constr ℂ (fun i => bC.constr ℂ (fun j => ((H (bV i) (bV j)).re : ℂ)))
+  have hBij : ∀ i j, Bform (bC i) (bC j) = ((H (bV i) (bV j)).re : ℂ) := fun i j => by
+    show (bC.constr ℂ (fun i => bC.constr ℂ (fun j => ((H (bV i) (bV j)).re : ℂ)))) (bC i) (bC j)
+        = ((H (bV i) (bV j)).re : ℂ)
+    rw [Module.Basis.constr_basis, Module.Basis.constr_basis]
+  -- `Bform` restricted to `W` is `Re H`: two `ℝ`-bilinear forms agreeing on the basis `b`.
+  have hBW : ∀ u u' : ↥W, Bform (↑u) (↑u') = ((H (↑u) (↑u')).re : ℂ) := by
+    let B1 : ↥W →ₗ[ℝ] ↥W →ₗ[ℝ] ℂ :=
+      LinearMap.mk₂ ℝ (fun u u' : ↥W => Bform (↑u) (↑u'))
+        (fun u1 u2 u' => by rw [Submodule.coe_add, map_add, LinearMap.add_apply])
+        (fun c u u' => by
+          rw [Submodule.coe_smul, ← real_coe_smul, map_smul, LinearMap.smul_apply, rcC])
+        (fun u u1 u2 => by rw [Submodule.coe_add, map_add])
+        (fun c u u' => by rw [Submodule.coe_smul, ← real_coe_smul, map_smul, rcC])
+    let B2 : ↥W →ₗ[ℝ] ↥W →ₗ[ℝ] ℂ :=
+      LinearMap.mk₂ ℝ (fun u u' : ↥W => ((H (↑u) (↑u')).re : ℂ))
+        (fun u1 u2 u' => by
+          rw [Submodule.coe_add, map_add, LinearMap.add_apply, Complex.add_re, Complex.ofReal_add])
+        (fun c u u' => by
+          rw [Submodule.coe_smul, ← real_coe_smul, map_smul, LinearMap.smul_apply, smul_eq_mul,
+            Complex.re_ofReal_mul, Complex.real_smul]
+          push_cast; ring)
+        (fun u u1 u2 => by
+          rw [Submodule.coe_add, map_add, Complex.add_re, Complex.ofReal_add])
+        (fun c u u' => by
+          rw [Submodule.coe_smul, ← real_coe_smul, map_smulₛₗ, Complex.conj_ofReal, smul_eq_mul,
+            Complex.re_ofReal_mul, Complex.real_smul]
+          push_cast; ring)
+    have hB12 : B1 = B2 := by
+      apply Module.Basis.ext b; intro i
+      apply Module.Basis.ext b; intro j
+      show Bform (↑(b i)) (↑(b j)) = ((H (↑(b i)) (↑(b j))).re : ℂ)
+      have : (↑(b i) : V) = bV i := rfl
+      have hj : (↑(b j) : V) = bV j := rfl
+      rw [this, hj, ← hbC i, ← hbC j, hBij i j, hbC i, hbC j]
+    intro u u'
+    exact DFunLike.congr_fun (DFunLike.congr_fun hB12 u) u'
+  -- `Bform` is symmetric.
+  have hsymm : ∀ v w, Bform v w = Bform w v := by
+    have hflip : Bform = Bform.flip := by
+      apply LinearMap.ext_on hspan; intro x hx
+      apply LinearMap.ext_on hspan; intro y hy
+      rw [LinearMap.flip_apply, (hBW ⟨x, hx⟩ ⟨y, hy⟩ : Bform x y = ((H x y).re : ℂ)),
+        (hBW ⟨y, hy⟩ ⟨x, hx⟩ : Bform y x = ((H y x).re : ℂ)), ← hHsym x y, Complex.conj_re]
+    intro v w
+    have h := DFunLike.congr_fun (DFunLike.congr_fun hflip v) w
+    rwa [LinearMap.flip_apply] at h
+  -- `Bform` is `G`-invariant.
+  have hinv : ∀ (g : G) (v w : V), Bform (ρ g v) (ρ g w) = Bform v w := by
+    intro g
+    have hcompl : LinearMap.compl₁₂ Bform (ρ g) (ρ g) = Bform := by
+      apply LinearMap.ext_on hspan; intro x hx
+      apply LinearMap.ext_on hspan; intro y hy
+      rw [LinearMap.compl₁₂_apply,
+        (hBW ⟨ρ g x, hWstab g x hx⟩ ⟨ρ g y, hWstab g y hy⟩ :
+          Bform (ρ g x) (ρ g y) = ((H (ρ g x) (ρ g y)).re : ℂ)),
+        (hBW ⟨x, hx⟩ ⟨y, hy⟩ : Bform x y = ((H x y).re : ℂ)), hHinv]
+    intro v w
+    have hvw := DFunLike.congr_fun (DFunLike.congr_fun hcompl v) w
+    rwa [LinearMap.compl₁₂_apply] at hvw
+  -- `Bform` is nondegenerate: its kernel is a `G`-invariant subspace, `≠ ⊤` since `Bform ≠ 0`.
+  have hnpos : 0 < Module.finrank ℝ W := by rw [hdim]; exact Module.finrank_pos
+  have hne : Bform ≠ 0 := by
+    intro hB0
+    have hz : Bform (bC ⟨0, hnpos⟩) (bC ⟨0, hnpos⟩) = 0 := by rw [hB0]; rfl
+    rw [hBij ⟨0, hnpos⟩ ⟨0, hnpos⟩] at hz
+    have hbne : bV ⟨0, hnpos⟩ ≠ 0 := fun h =>
+      (b.ne_zero ⟨0, hnpos⟩) (by rwa [Submodule.coe_eq_zero] at h)
+    exact absurd (Complex.ofReal_eq_zero.mp hz) (hHpos _ hbne).ne'
+  have hnd : ∀ v, (∀ w, Bform v w = 0) → v = 0 := by
+    have hkerinv : ∀ (g : G) (x : V),
+        x ∈ LinearMap.ker Bform → ρ g x ∈ LinearMap.ker Bform := by
+      intro g x hx
+      rw [LinearMap.mem_ker] at hx ⊢
+      ext w
+      have hgg : (ρ g) ((ρ g⁻¹) w) = w := by
+        rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
+      have hstep := hinv g x (ρ g⁻¹ w)
+      rw [hgg] at hstep
+      rw [LinearMap.zero_apply, hstep, hx, LinearMap.zero_apply]
+    intro v hv
+    have hker : v ∈ LinearMap.ker Bform := by
+      rw [LinearMap.mem_ker]; ext w; rw [LinearMap.zero_apply]; exact hv w
+    rcases invSubmodule_eq_bot_or_top hirr (LinearMap.ker Bform) hkerinv with hbot | htop
+    · rwa [hbot, Submodule.mem_bot] at hker
+    · exfalso; apply hne
+      ext v' w
+      have hv'k : v' ∈ LinearMap.ker Bform := by rw [htop]; trivial
+      rw [LinearMap.mem_ker] at hv'k
+      rw [LinearMap.zero_apply, LinearMap.zero_apply]
+      exact DFunLike.congr_fun hv'k w
+  exact ⟨Bform, hsymm, hnd, hinv⟩
+
 /-- Problem 5.1.2(b). An irreducible complex representation `V` is of real type if and only if it
 is the complexification of a real representation: there is a `G`-stable `ℝ`-subspace `W ⊆ V` (a
 **real form**) whose `ℂ`-span is all of `V` and with `dim_ℝ W = dim_ℂ V`. -/
@@ -927,8 +1199,8 @@ theorem isRealType_iff_exists_real_form
       ∃ W : Submodule ℝ V,
         (∀ (g : G) (v : V), v ∈ W → ρ g v ∈ W) ∧
         Submodule.span ℂ (W : Set V) = ⊤ ∧
-        Module.finrank ℝ W = Module.finrank ℂ V := by
-  sorry
+        Module.finrank ℝ W = Module.finrank ℂ V :=
+  ⟨exists_real_form_of_isRealType ρ hirr, isRealType_of_exists_real_form ρ hirr⟩
 
 end Problem512
 
