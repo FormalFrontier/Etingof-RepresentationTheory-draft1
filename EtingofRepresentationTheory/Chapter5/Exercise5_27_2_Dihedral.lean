@@ -134,6 +134,74 @@ def dihedralEquiv : DihedralGroup N ≃* DihedralSemidirect N where
       simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right, ← ofAdd_neg, ← ofAdd_add,
         sub_eq_add_neg, add_comm, show (1 : ZMod 2) + 1 = 0 from by decide, ofAdd_zero]
 
+/-! ## Transport of representation classifications along a group isomorphism
+
+Restriction of scalars along `dihedralEquiv N` is an equivalence of representation categories
+`FDRep ℂ (DihedralSemidirect N) ≌ FDRep ℂ (DihedralGroup N)` (Mathlib's `Action.resEquiv`). We
+package the four facts needed to move a classification across it: it preserves simplicity, reflects
+isomorphisms (fully faithful), is essentially surjective (an equivalence), and preserves dimension
+(the underlying vector space is unchanged). -/
+
+section Transport
+
+open CategoryTheory CategoryTheory.Limits
+
+variable {C D : Type*} [Category C] [Category D] [HasZeroMorphisms C] [HasZeroMorphisms D]
+
+/-- A full, faithful, monomorphism-preserving functor reflects simple objects. -/
+private lemma simple_of_functor_obj (F : C ⥤ D) [F.Full] [F.Faithful] [F.PreservesMonomorphisms]
+    (X : C) [Simple (F.obj X)] : Simple X where
+  mono_isIso_iff_nonzero {Y} f _ := by
+    constructor
+    · intro hiso
+      haveI : IsIso (F.map f) := Functor.map_isIso F f
+      exact fun h => (Simple.mono_isIso_iff_nonzero (F.map f)).mp inferInstance (by rw [h]; simp)
+    · intro hne
+      haveI : Mono (F.map f) := inferInstance
+      haveI : IsIso (F.map f) :=
+        (Simple.mono_isIso_iff_nonzero (F.map f)).mpr
+          (fun h => hne (F.map_injective (by rwa [F.map_zero])))
+      exact isIso_of_fully_faithful F f
+
+/-- An equivalence of categories preserves simple objects. -/
+private lemma simple_equivalence_functor (E : C ≌ D) (X : C) [Simple X] :
+    Simple (E.functor.obj X) := by
+  haveI : Simple ((𝟭 C).obj X) := inferInstanceAs (Simple X)
+  haveI : Simple (E.inverse.obj (E.functor.obj X)) := Simple.of_iso (E.unitIso.app X).symm
+  exact simple_of_functor_obj E.inverse (E.functor.obj X)
+
+end Transport
+
+/-- Restriction of scalars along `dihedralEquiv N`: the equivalence of representation categories
+`FDRep ℂ (⟨r⟩ ⋊ ⟨s⟩) ≌ FDRep ℂ (D_N)`. -/
+def dihedralRepEquiv :
+    FDRep ℂ (DihedralSemidirect N) ≌ FDRep ℂ (DihedralGroup N) :=
+  Action.resEquiv (FGModuleCat ℂ) (dihedralEquiv N)
+
+omit [NeZero N] in
+/-- The transport functor keeps the underlying vector space, so it preserves dimension. -/
+lemma finrank_dihedralRepEquiv_functor (V : FDRep ℂ (DihedralSemidirect N)) :
+    finrank ℂ ((dihedralRepEquiv N).functor.obj V : Type) = finrank ℂ (V : Type) := rfl
+
+open Classical in
+/-- **Deliverable 3 (the orbit assembly).** The classification stated on the semidirect-product
+model `⟨r⟩ ⋊ ⟨s⟩`, before transporting back to Mathlib's `DihedralGroup N`. This is the pure
+orbit-method content of Theorem 5.27.1 applied to the inversion action, together with the
+`gcd(2,N)` fixed-character / `(N-gcd(2,N))/2` free-orbit count. -/
+theorem semidirect_classification :
+    ∃ (n : ℕ) (W : Fin n → FDRep ℂ (DihedralSemidirect N)),
+      (∀ i, Simple (W i)) ∧
+      (∀ i j, Nonempty (W i ≅ W j) → i = j) ∧
+      (∀ S : FDRep ℂ (DihedralSemidirect N), Simple S → ∃ i, Nonempty (S ≅ W i)) ∧
+      (∀ i, finrank ℂ (W i : Type) = 1 ∨ finrank ℂ (W i : Type) = 2) ∧
+      (Odd N →
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 2 ∧
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 1) / 2) ∧
+      (Even N →
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
+        (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
+  sorry
+
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.1(a).** The complete classification of the irreducible
 complex representations of the dihedral group `D_N` (symmetries of a regular `N`-gon, order
@@ -154,6 +222,40 @@ theorem dihedral_classification :
       (Even N →
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
-  sorry
+  classical
+  obtain ⟨n, V, hSimple, hInj, hComplete, hDim, hOdd, hEven⟩ := semidirect_classification N
+  set E := dihedralRepEquiv N with hE
+  refine ⟨n, fun i => E.functor.obj (V i), ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- simplicity is preserved by the equivalence
+    intro i
+    haveI := hSimple i
+    exact simple_equivalence_functor E (V i)
+  · -- fully faithful reflects isomorphisms
+    intro i j ⟨h⟩
+    exact hInj i j ⟨E.fullyFaithfulFunctor.preimageIso h⟩
+  · -- essential surjectivity: pull `S` back, classify, push forward
+    intro S hS
+    haveI := hS
+    haveI : Simple (E.inverse.obj S) := simple_equivalence_functor E.symm S
+    obtain ⟨i, ⟨h⟩⟩ := hComplete (E.inverse.obj S) inferInstance
+    exact ⟨i, ⟨(E.counitIso.app S).symm ≪≫ E.functor.mapIso h⟩⟩
+  · -- dimensions are unchanged
+    intro i
+    rw [finrank_dihedralRepEquiv_functor]; exact hDim i
+  · -- odd-`N` counts: the dimension filters agree pointwise with the pre-transport ones
+    intro hpar
+    have hfilt : ∀ d : ℕ, (Finset.univ.filter
+        (fun i => finrank ℂ (E.functor.obj (V i) : Type) = d)) =
+        (Finset.univ.filter (fun i => finrank ℂ (V i : Type) = d)) := by
+      intro d; apply Finset.filter_congr; intro i _
+      rw [finrank_dihedralRepEquiv_functor]
+    rw [hfilt, hfilt]; exact hOdd hpar
+  · intro hpar
+    have hfilt : ∀ d : ℕ, (Finset.univ.filter
+        (fun i => finrank ℂ (E.functor.obj (V i) : Type) = d)) =
+        (Finset.univ.filter (fun i => finrank ℂ (V i : Type) = d)) := by
+      intro d; apply Finset.filter_congr; intro i _
+      rw [finrank_dihedralRepEquiv_functor]
+    rw [hfilt, hfilt]; exact hEven hpar
 
 end Etingof.Exercise5_27_2
