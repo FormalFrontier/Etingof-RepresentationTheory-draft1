@@ -51,6 +51,76 @@ namespace Etingof.Exercise5_27_2
 
 variable (N : ℕ) [NeZero N]
 
+/-! ## The semidirect-product model `⟨r⟩ ⋊ ⟨s⟩`
+
+We realize `D_N` as `Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)`, with the
+order-two group acting on the rotation group by inversion. This is the shape Theorem 5.27.1
+consumes (`A ⋊[φ] G` with `A` abelian). -/
+
+/-- Inversion `a ↦ a⁻¹` as an automorphism of the (commutative) rotation group. -/
+def invAut : MulAut (Multiplicative (ZMod N)) := MulEquiv.inv _
+
+@[simp] lemma invAut_apply (a : Multiplicative (ZMod N)) : invAut N a = a⁻¹ := rfl
+
+@[simp] lemma invAut_mul_self : invAut N * invAut N = 1 := by
+  ext a; simp [MulAut.mul_apply]
+
+/-- Every element of `ZMod 2` is `0` or `1`. -/
+private lemma zmod2_cases : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
+
+/-- The action of the reflection group `Multiplicative (ZMod 2)` on the rotation group: the
+generator `ofAdd 1` acts by inversion, the identity acts trivially. -/
+def dihedralφ : Multiplicative (ZMod 2) →* MulAut (Multiplicative (ZMod N)) where
+  toFun g := if Multiplicative.toAdd g = 0 then 1 else invAut N
+  map_one' := by simp
+  map_mul' a b := by
+    rcases zmod2_cases a.toAdd with ha | ha <;> rcases zmod2_cases b.toAdd with hb | hb <;>
+      simp only [toAdd_mul, ha, hb, invAut_mul_self, one_mul, mul_one,
+        show (0:ZMod 2)+0 = 0 by decide, show (0:ZMod 2)+1 = 1 by decide,
+        show (1:ZMod 2)+0 = 1 by decide, show (1:ZMod 2)+1 = 0 by decide,
+        show ¬ (1:ZMod 2) = 0 by decide, if_true, if_false, reduceIte]
+
+@[simp] lemma dihedralφ_one : dihedralφ N 1 = 1 := map_one _
+
+@[simp] lemma dihedralφ_ofAdd_one : dihedralφ N (Multiplicative.ofAdd 1) = invAut N := by
+  simp only [dihedralφ, MonoidHom.coe_mk, OneHom.coe_mk, toAdd_ofAdd, reduceIte,
+    show ¬ (1 : ZMod 2) = 0 by decide]
+
+/-- `D_N` presented as the semidirect product `⟨r⟩ ⋊ ⟨s⟩`. -/
+abbrev DihedralSemidirect : Type := Multiplicative (ZMod N) ⋊[dihedralφ N] Multiplicative (ZMod 2)
+
+/-- The group isomorphism `D_N ≃* ⟨r⟩ ⋊ ⟨s⟩` sending a rotation `r i` to `⟨ofAdd i, 1⟩` and a
+reflection `sr i` to `⟨ofAdd (-i), ofAdd 1⟩`. (Under Mathlib's convention `r i * sr j = sr (j - i)`
+the reflection generator carries the sign, so `⟨ofAdd i, ofAdd 1⟩` would *not* be a homomorphism.) -/
+def dihedralEquiv : DihedralGroup N ≃* DihedralSemidirect N where
+  toFun := fun
+    | .r i => ⟨Multiplicative.ofAdd i, 1⟩
+    | .sr i => ⟨Multiplicative.ofAdd (-i), Multiplicative.ofAdd 1⟩
+  invFun := fun p =>
+    if Multiplicative.toAdd p.right = 0 then .r (Multiplicative.toAdd p.left)
+    else .sr (-(Multiplicative.toAdd p.left))
+  left_inv := by
+    rintro (i | i)
+    · simp [toAdd_ofAdd]
+    · simp only [toAdd_ofAdd, reduceIte, show ¬ (1 : ZMod 2) = 0 by decide, neg_neg]
+  right_inv := by
+    intro p
+    rcases zmod2_cases p.right.toAdd with hg | hg
+    · have hr : p.right = 1 := toAdd_eq_zero.mp hg
+      simp only [hg, reduceIte]
+      ext <;> simp [ofAdd_toAdd, hr]
+    · have hr : p.right = Multiplicative.ofAdd 1 := by rw [← ofAdd_toAdd p.right, hg]
+      simp only [hg, show ¬ (1 : ZMod 2) = 0 by decide, reduceIte]
+      ext <;> simp [ofAdd_toAdd, hr, neg_neg]
+  map_mul' := by
+    rintro (i | i) (j | j) <;>
+      simp only [DihedralGroup.r_mul_r, DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r,
+        DihedralGroup.sr_mul_sr] <;>
+      ext <;>
+      simp [SemidirectProduct.mul_left, SemidirectProduct.mul_right, dihedralφ_one,
+        dihedralφ_ofAdd_one, ofAdd_neg, mul_comm, sub_eq_add_neg, neg_add,
+        show (1 : ZMod 2) + 1 = 0 by decide]
+
 open Classical in
 /-- **Exercise 5.27.2 for Problem 4.12.1(a).** The complete classification of the irreducible
 complex representations of the dihedral group `D_N` (symmetries of a regular `N`-gon, order
