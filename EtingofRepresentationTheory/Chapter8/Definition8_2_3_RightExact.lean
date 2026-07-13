@@ -185,4 +185,66 @@ noncomputable instance tensorRightFunctor_preservesFiniteColimits :
     (tensorHomAdjunction A N).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 
+section CommBase
+
+open scoped TensorProduct
+
+/-- For a **commutative** ring `A`, the ring tensor product `M ⊗_A N` of Definition 8.2.3 (a
+quotient of the ℤ-tensor by the balancing relation) is additively isomorphic to Mathlib's
+`TensorProduct A M N`, provided the right `A`-action on `M` (through `Aᵐᵒᵖ`) coincides with a
+left `A`-module structure on `M`. This is the glue that turns `Tor₀ᴬ(M, N) ≅ tensorOver A N M`
+into the honest tensor product `M ⊗[A] N` when `A` is commutative. -/
+noncomputable def tensorOverEquivTensor {A : Type u} [CommRing A] {N : Type u} [AddCommGroup N]
+    [Module A N] {M : Type u} [AddCommGroup M] [Module Aᵐᵒᵖ M] [Module A M]
+    (hcompat : ∀ (a : A) (m : M), (MulOpposite.op a • m : M) = a • m) :
+    tensorOver A N M ≃+ TensorProduct A M N :=
+  let Φ : M →ₗ[Aᵐᵒᵖ] (N →+ TensorProduct A M N) :=
+    { toFun := fun m => (TensorProduct.mk A M N m).toAddMonoidHom
+      map_add' := fun m m' => by
+        ext n
+        simp only [map_add, LinearMap.add_apply, LinearMap.toAddMonoidHom_coe,
+          TensorProduct.mk_apply, AddMonoidHom.add_apply]
+      map_smul' := fun x m => by
+        ext n
+        simp only [LinearMap.toAddMonoidHom_coe, TensorProduct.mk_apply, RingHom.id_apply,
+          homMopSMul_apply]
+        rw [show (x • m : M) = x.unop • m by rw [← hcompat, MulOpposite.op_unop],
+          TensorProduct.smul_tmul] }
+  let mkAdd : TensorProduct ℤ M N →+ tensorOver A N M := QuotientAddGroup.mk' _
+  let raw : M →+ N →+ tensorOver A N M :=
+    { toFun := fun m => mkAdd.comp (TensorProduct.mk ℤ M N m).toAddMonoidHom
+      map_zero' := by ext n; simp
+      map_add' := fun m m' => by
+        ext n
+        simp only [AddMonoidHom.coe_comp, Function.comp_apply, LinearMap.add_apply,
+          LinearMap.toAddMonoidHom_coe, TensorProduct.mk_apply, map_add, AddMonoidHom.add_apply] }
+  have hbal : ∀ (a : A) (m : M) (n : N), raw (a • m) n = raw m (a • n) := by
+    intro a m n
+    change (((a • m) ⊗ₜ[ℤ] n : TensorProduct ℤ M N) : tensorOver A N M)
+       = ((m ⊗ₜ[ℤ] (a • n) : TensorProduct ℤ M N) : tensorOver A N M)
+    rw [← hcompat a m]
+    exact mk_smul_tmul (MulOpposite.op a) m n
+  { toFun := homEquivInvFun Φ
+    invFun := TensorProduct.liftAddHom raw hbal
+    left_inv := by
+      have h : (TensorProduct.liftAddHom raw hbal).comp (homEquivInvFun Φ) = AddMonoidHom.id _ :=
+        tensorOver_hom_ext fun m n => rfl
+      intro z
+      rw [← AddMonoidHom.comp_apply, h, AddMonoidHom.id_apply]
+    right_inv := by
+      intro w
+      induction w using TensorProduct.induction_on with
+      | zero => simp
+      | tmul m n => rfl
+      | add x y hx hy => rw [map_add, map_add, hx, hy]
+    map_add' := fun x y => map_add _ x y }
+
+@[simp] lemma tensorOverEquivTensor_mk {A : Type u} [CommRing A] {N : Type u} [AddCommGroup N]
+    [Module A N] {M : Type u} [AddCommGroup M] [Module Aᵐᵒᵖ M] [Module A M]
+    (hcompat : ∀ (a : A) (m : M), (MulOpposite.op a • m : M) = a • m) (m : M) (n : N) :
+    tensorOverEquivTensor hcompat ((m ⊗ₜ[ℤ] n : TensorProduct ℤ M N) : tensorOver A N M)
+      = m ⊗ₜ[A] n := rfl
+
+end CommBase
+
 end Etingof

@@ -55,10 +55,11 @@ six-term sequence: `Tor₁` is the kernel and `Ext¹` the cokernel of multiplica
 `ℤ/b`. For part (ii) (`k[x]`) the `PolyGcd` namespace supplies the same kernel/cokernel/tensor/Hom
 bridges over `k[x]` (targeting the sum ideal `(f,g) = (f) ⊔ (g)`, so no explicit gcd is needed),
 and the two `Ext` identifications (`Ext⁰`, `Ext¹`) are proved from them exactly as in part (i).
-The two `Tor` identifications (`Tor₀`, `Tor₁`) remain `sorry`: they additionally need
-`tensorOver k[x] (k[x]/g) (k[x]/f) ≃+ (k[x]/f) ⊗_{k[x]} (k[x]/g)`, whose construction runs into
-the `mopPolyQuot` vs global-`IsCentralScalar` action diamond on `k[x]/(f)` (see the linked
-follow-up issue).
+The `Tor₀` identification is also proved: over the commutative base `k[x]` the ring tensor
+product `tensorOver k[x] (k[x]/g) (k[x]/f)` agrees with Mathlib's `TensorProduct k[x]` via the
+general `Etingof.tensorOverEquivTensor` glue (Definition 8.2.3, right-exact file), and then
+`PolyGcd.tensorEquiv` identifies `(k[x]/f) ⊗_{k[x]} (k[x]/g)` with `k[x]/(f,g)`. `Tor₁` remains
+`sorry`.
 -/
 
 namespace Etingof
@@ -984,7 +985,17 @@ theorem Problem_8_2_7_ii_tor_zero (k : Type*) [Field k] (f g : k[X]) :
     Nonempty (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
         (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 0
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
-  sorry
+  -- `Tor₀ ≅ tensorOver k[x] (k[x]/g) (k[x]/f)`, and over the commutative base `k[x]` this ring
+  -- tensor product is `(k[x]/f) ⊗_{k[x]} (k[x]/g) ≅ k[x]/(f,g)` (`PolyGcd.tensorEquiv`).
+  obtain ⟨e₀⟩ := Problem_8_2_6_i_tor k[X] (k[X] ⧸ Ideal.span {g})
+    (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f}))
+  refine ⟨e₀ ≪≫ AddEquiv.toAddCommGrpIso
+    ((Etingof.tensorOverEquivTensor (N := k[X] ⧸ Ideal.span {g}) ?_).trans
+      (PolyGcd.tensorEquiv f g).toAddEquiv)⟩
+  intro a m
+  -- for the `mopPolyQuot` action, `op a • m = (op a).unop • m = a • m` by construction
+  change (MulOpposite.op a).unop • m = a • m
+  rw [MulOpposite.unop_op]
 
 /-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))` for `f, g ≠ 0`. -/
 theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) (hg : g ≠ 0) :
