@@ -52,7 +52,13 @@ Status: part (i) is complete — the degree-`0` identifications (`Tor₀`, `Ext�
 identifications (`Tor₁`, `Ext¹`), and all higher-degree vanishing are proved. The degree-`1`
 groups are read off the length-`1` free resolution `0 → ℤ →(·a) ℤ → ℤ/a → 0` via the derived
 six-term sequence: `Tor₁` is the kernel and `Ext¹` the cokernel of multiplication by `a` on
-`ℤ/b`. Part (ii) (`k[x]`) is stated but its degree-`0`/`1` proofs are deferred (`sorry`).
+`ℤ/b`. For part (ii) (`k[x]`) the `PolyGcd` namespace supplies the same kernel/cokernel/tensor/Hom
+bridges over `k[x]` (targeting the sum ideal `(f,g) = (f) ⊔ (g)`, so no explicit gcd is needed),
+and the two `Ext` identifications (`Ext⁰`, `Ext¹`) are proved from them exactly as in part (i).
+The two `Tor` identifications (`Tor₀`, `Tor₁`) remain `sorry`: they additionally need
+`tensorOver k[x] (k[x]/g) (k[x]/f) ≃+ (k[x]/f) ⊗_{k[x]} (k[x]/g)`, whose construction runs into
+the `mopPolyQuot` vs global-`IsCentralScalar` action diamond on `k[x]/(f)` (see the linked
+follow-up issue).
 -/
 
 namespace Etingof
@@ -980,8 +986,8 @@ theorem Problem_8_2_7_ii_tor_zero (k : Type*) [Field k] (f g : k[X]) :
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
   sorry
 
-/-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))`. -/
-theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) :
+/-- **Problem 8.2.7(ii), `Tor₁`.** `Tor₁(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))` for `f, g ≠ 0`. -/
+theorem Problem_8_2_7_ii_tor_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) (hg : g ≠ 0) :
     Nonempty (Etingof.Tor k[X] (k[X] ⧸ Ideal.span {g})
         (ModuleCat.of (k[X])ᵐᵒᵖ (k[X] ⧸ Ideal.span {f})) 1
       ≅ AddCommGrpCat.of (k[X] ⧸ Ideal.span {f, g})) := by
