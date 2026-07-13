@@ -184,7 +184,12 @@ Check that the plan's assumptions still hold:
   as `replan` (decomposed) means its real work moved to still-open
   sub-issues, so the assembly is not actually ready. Confirm the named
   lemmas/defs exist in the Lean files before working; if not, re-add
-  `depends-on` on the real open sub-issues and `skip`.
+  `depends-on` on the real open sub-issues and `skip`. This also applies to
+  an issue's own "Current state / already landed" prose: a merged PR's title
+  or commit message routinely overstates what it merged (e.g. a commit
+  "reduce FFT to named lemma" that actually merged a single bare `sorry`).
+  Trust the Lean source in `main` (`grep` the claimed symbols), never the
+  issue narrative or PR title. (Seen with #6438 and #6492.)
 - **Sanity-check the target statement is actually provable** before
   attempting the proof. A planner-written signature can be *false as
   stated* (hypotheses too weak, wrong quantifier, missing finiteness).
