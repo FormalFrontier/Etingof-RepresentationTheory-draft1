@@ -100,6 +100,121 @@ noncomputable def orbitReps {m : ℕ} (σ : Equiv.Perm (Fin m)) : Finset (Fin m)
 
 /-! ## The combinatorial core (matrix side) -/
 
+/-! ## Walk-sum expansion of a matrix product
+
+An ordered product of matrices, evaluated at an entry, expands as a sum over "walks": tuples of
+intermediate indices, weighted by the product of the traversed matrix entries. Setting the two
+endpoints equal and summing recovers the trace as a sum over *closed* walks. This is the analytic
+engine behind the single-orbit telescoping. -/
+
+section WalkSum
+
+variable {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+/-- Ordered product of a `Fin ℓ`-indexed family of matrices: `N 0 * N 1 * … * N (ℓ-1)`. -/
+def bigProd {ℓ : ℕ} (N : Fin ℓ → Matrix ι ι R) : Matrix ι ι R := (List.ofFn N).prod
+
+@[simp] lemma bigProd_zero (N : Fin 0 → Matrix ι ι R) : bigProd N = 1 := by
+  simp [bigProd]
+
+lemma bigProd_cons {ℓ : ℕ} (M : Matrix ι ι R) (N : Fin ℓ → Matrix ι ι R) :
+    bigProd (Fin.cons M N) = M * bigProd N := by
+  simp [bigProd, List.ofFn_succ]
+
+/-- Edge-product weight of a walk `v : Fin (ℓ+1) → ι` through the matrices `N`:
+the product of the entries `N t` read at consecutive vertices `v t → v (t+1)`. -/
+def walkWeight {ℓ : ℕ} (N : Fin ℓ → Matrix ι ι R) (v : Fin (ℓ + 1) → ι) : R :=
+  ∏ t : Fin ℓ, N t (v t.castSucc) (v t.succ)
+
+omit [Fintype ι] [DecidableEq ι] in
+lemma walkWeight_cons {ℓ : ℕ} (N : Fin (ℓ + 1) → Matrix ι ι R) (z : ι)
+    (v : Fin (ℓ + 1) → ι) :
+    walkWeight N (Fin.cons z v) = N 0 z (v 0) * walkWeight (Fin.tail N) v := by
+  unfold walkWeight
+  rw [Fin.prod_univ_succ]
+  congr 1
+
+/-- **Open walk-sum for a matrix product entry.** The `(x, y)` entry of `N 0 * … * N (ℓ-1)` is the
+sum over vertex functions `v : Fin (ℓ+1) → ι` of the edge-product weight, restricted to the walks
+that start at `x` and end at `y`. -/
+theorem bigProd_apply (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R) (x y : ι) :
+    (bigProd N) x y
+      = ∑ v : Fin (ℓ + 1) → ι,
+          (if v 0 = x ∧ v (Fin.last ℓ) = y then walkWeight N v else 0) := by
+  induction ℓ generalizing x with
+  | zero =>
+    rw [bigProd_zero, Matrix.one_apply]
+    rw [Fintype.sum_equiv (Equiv.funUnique (Fin 1) ι) _
+      (fun z => if z = x ∧ z = y then (1 : R) else 0)]
+    · by_cases hxy : x = y
+      · subst hxy
+        rw [Finset.sum_eq_single x]
+        · simp
+        · intro z _ hz; simp [hz]
+        · simp
+      · rw [Finset.sum_eq_zero]
+        · simp [hxy]
+        · intro z _; rw [if_neg]; rintro ⟨rfl, rfl⟩; exact hxy rfl
+    · intro v
+      simp only [walkWeight, Finset.univ_eq_empty, Finset.prod_empty, Equiv.funUnique_apply,
+        Fin.last_zero, Fin.default_eq_zero]
+  | succ ℓ ih =>
+    -- peel the first matrix
+    have hsplit : bigProd N = N 0 * bigProd (Fin.tail N) := by
+      conv_lhs => rw [← Fin.cons_self_tail N]
+      rw [bigProd_cons]
+    rw [hsplit, Matrix.mul_apply]
+    -- expand each inner entry by the induction hypothesis (start vertex = z)
+    simp_rw [ih (Fin.tail N)]
+    -- RHS: reindex the vertex sum by splitting off the first vertex via `Fin.cons`
+    rw [← Equiv.sum_comp (Fin.consEquiv (fun _ : Fin (ℓ + 2) => ι)),
+      Fintype.sum_prod_type]
+    have hlast : (Fin.last (ℓ + 1) : Fin (ℓ + 2)) = (Fin.last ℓ).succ := (Fin.succ_last ℓ).symm
+    have hce : ∀ (z : ι) (w : Fin (ℓ + 1) → ι),
+        (Fin.consEquiv (fun _ : Fin (ℓ + 2) => ι)) (z, w) = Fin.cons z w := fun _ _ => rfl
+    simp only [hce, Fin.cons_zero, hlast, Fin.cons_succ, walkWeight_cons]
+    -- both sides equal a common form summed over `v : Fin (ℓ+1) → ι`
+    trans (∑ v : Fin (ℓ + 1) → ι,
+        if v (Fin.last ℓ) = y then N 0 x (v 0) * walkWeight (Fin.tail N) v else 0)
+    · -- left side = common
+      simp_rw [Finset.mul_sum]
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl (fun v _ => ?_)
+      have h0 : ∀ z ∈ (Finset.univ : Finset ι), z ≠ v 0 →
+          N 0 x z * (if v 0 = z ∧ v (Fin.last ℓ) = y then walkWeight (Fin.tail N) v else 0)
+            = 0 := by
+        intro z _ hz; rw [if_neg (by rintro ⟨h, _⟩; exact hz h.symm), mul_zero]
+      rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
+      by_cases hd : v (Fin.last ℓ) = y <;> simp [hd]
+    · -- right side = common
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl (fun v _ => ?_)
+      have h0 : ∀ z ∈ (Finset.univ : Finset ι), z ≠ x →
+          (if z = x ∧ v (Fin.last ℓ) = y then N 0 z (v 0) * walkWeight (Fin.tail N) v else 0)
+            = 0 := by
+        intro z _ hz; rw [if_neg (by rintro ⟨h, _⟩; exact hz h)]
+      rw [Finset.sum_eq_single_of_mem x (Finset.mem_univ _) h0]
+      by_cases hd : v (Fin.last ℓ) = y <;> simp [hd]
+
+/-- **Trace as a sum over closed walks.** The trace of the ordered product `N 0 * … * N (ℓ-1)`
+is the sum over closed walks `v : Fin (ℓ+1) → ι` (those with `v (last) = v 0`) of the
+edge-product weight. -/
+theorem trace_bigProd (ℓ : ℕ) (N : Fin ℓ → Matrix ι ι R) :
+    Matrix.trace (bigProd N)
+      = ∑ v : Fin (ℓ + 1) → ι, (if v (Fin.last ℓ) = v 0 then walkWeight N v else 0) := by
+  rw [Matrix.trace]
+  simp only [Matrix.diag_apply]
+  simp_rw [bigProd_apply ℓ N]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl (fun v _ => ?_)
+  have h0 : ∀ x ∈ (Finset.univ : Finset ι), x ≠ v 0 →
+      (if v 0 = x ∧ v (Fin.last ℓ) = x then walkWeight N v else 0) = 0 := by
+    intro x _ hx; rw [if_neg (by rintro ⟨h, _⟩; exact hx h.symm)]
+  rw [Finset.sum_eq_single_of_mem (v 0) (Finset.mem_univ _) h0]
+  by_cases hd : v (Fin.last ℓ) = v 0 <;> simp [hd]
+
+end WalkSum
+
 section MatrixCombinatorics
 
 variable {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] [DecidableEq ι] {m : ℕ}
@@ -111,6 +226,69 @@ to cyclic rotation. -/
 noncomputable def matrixCycleProd (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R) (i : Fin m) :
     Matrix ι ι R :=
   (((List.range (cyclePeriod σ i)).map (fun t => M ((σ⁻¹ ^ t) i)))).prod
+
+/-! ### Orbit-representative infrastructure
+
+Each `σ`-orbit is tagged by its `≤`-minimal element, the *representative*. `repOf σ x` is the
+representative of `x`'s orbit; it is constant along cycles, lands in `orbitReps σ`, and fixes the
+elements of `orbitReps σ`. `fiberMap σ r` is the action of `σ` on the fiber (orbit) of `r`. -/
+
+open scoped Classical in
+/-- The representative of the `σ`-orbit of `x`: the `≤`-minimal element `SameCycle`-related
+to `x`. -/
+noncomputable def repOf (σ : Equiv.Perm (Fin m)) (x : Fin m) : Fin m :=
+  (Finset.univ.filter (fun j => σ.SameCycle x j)).min'
+    ⟨x, Finset.mem_filter.mpr ⟨Finset.mem_univ _, Equiv.Perm.SameCycle.refl σ x⟩⟩
+
+lemma sameCycle_repOf (σ : Equiv.Perm (Fin m)) (x : Fin m) : σ.SameCycle x (repOf σ x) := by
+  classical
+  have h := Finset.min'_mem (Finset.univ.filter (fun j => σ.SameCycle x j))
+    ⟨x, Finset.mem_filter.mpr ⟨Finset.mem_univ _, Equiv.Perm.SameCycle.refl σ x⟩⟩
+  exact (Finset.mem_filter.mp h).2
+
+lemma repOf_le (σ : Equiv.Perm (Fin m)) (x : Fin m) {j : Fin m} (h : σ.SameCycle x j) :
+    repOf σ x ≤ j :=
+  Finset.min'_le _ _ (Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩)
+
+lemma repOf_eq_of_sameCycle (σ : Equiv.Perm (Fin m)) {x y : Fin m} (h : σ.SameCycle x y) :
+    repOf σ x = repOf σ y := by
+  classical
+  unfold repOf
+  congr 1
+  ext j
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+  exact ⟨fun hj => h.symm.trans hj, fun hj => h.trans hj⟩
+
+lemma mem_orbitReps_iff (σ : Equiv.Perm (Fin m)) {r : Fin m} :
+    r ∈ orbitReps σ ↔ ∀ j, σ.SameCycle r j → r ≤ j := by
+  simp [orbitReps]
+
+lemma repOf_mem_orbitReps (σ : Equiv.Perm (Fin m)) (x : Fin m) : repOf σ x ∈ orbitReps σ := by
+  rw [mem_orbitReps_iff]
+  exact fun j hj => repOf_le σ x ((sameCycle_repOf σ x).trans hj)
+
+lemma repOf_eq_self (σ : Equiv.Perm (Fin m)) {r : Fin m} (hr : r ∈ orbitReps σ) :
+    repOf σ r = r := by
+  rw [mem_orbitReps_iff] at hr
+  exact le_antisymm (repOf_le σ r (Equiv.Perm.SameCycle.refl σ r)) (hr _ (sameCycle_repOf σ r))
+
+lemma repOf_apply (σ : Equiv.Perm (Fin m)) (x : Fin m) : repOf σ (σ x) = repOf σ x :=
+  repOf_eq_of_sameCycle σ ((Equiv.Perm.SameCycle.refl σ x).apply_left)
+
+/-- The action of `σ` on the fiber (orbit) of a representative `r`. -/
+def fiberMap (σ : Equiv.Perm (Fin m)) (r : Fin m) (x : {x : Fin m // repOf σ x = r}) :
+    {x : Fin m // repOf σ x = r} :=
+  ⟨σ x.1, by rw [repOf_apply]; exact x.2⟩
+
+/-- **Single-orbit telescoping** (the remaining `sorry`, tracked by a follow-up issue). On one
+`σ`-orbit — the fiber of a representative `r` — the local multi-index sum resums to the trace of the
+ordered matrix product `matrixCycleProd σ M r`. The analytic core (`trace_bigProd`) is in place. -/
+theorem matrixSum_cycle_eq_trace (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R)
+    {r : Fin m} (hr : r ∈ orbitReps σ) :
+    ∑ q : {x : Fin m // repOf σ x = r} → ι,
+        ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x)
+      = Matrix.trace (matrixCycleProd σ M r) := by
+  sorry
 
 /-- **Combinatorial core.** The multi-index sum `∑_p ∏_i M_i (p (σ i)) (p i)` factors over the
 `σ`-orbits: the permutation forces `p` to be constant along each cycle, and the chain of matrix
@@ -132,7 +310,41 @@ This is the heart of the tensor-trace ↔ trace-word identity. Proof roadmap (tw
 theorem matrixSum_eq_prod_orbit (σ : Equiv.Perm (Fin m)) (M : Fin m → Matrix ι ι R) :
     ∑ p : Fin m → ι, ∏ i : Fin m, M i (p (σ i)) (p i)
       = ∏ i ∈ orbitReps σ, Matrix.trace (matrixCycleProd σ M i) := by
-  sorry
+  classical
+  -- The reindexing between colorings `p` and orbitwise colorings `g`.
+  let E : (Fin m → ι) ≃ (∀ r : Fin m, {x : Fin m // repOf σ x = r} → ι) :=
+    { toFun := fun p r x => p x.1
+      invFun := fun g i => g (repOf σ i) ⟨i, rfl⟩
+      left_inv := fun p => rfl
+      right_inv := fun g => by funext r x; obtain ⟨i, rfl⟩ := x; rfl }
+  -- The product over `Fin m` splits as a product over orbit fibers.
+  have hpart : ∀ h : Fin m → R,
+      ∏ i : Fin m, h i = ∏ r : Fin m, ∏ x : {x : Fin m // repOf σ x = r}, h x.1 := by
+    intro h
+    rw [← Equiv.prod_comp (Equiv.sigmaFiberEquiv (repOf σ)) h, Fintype.prod_sigma]
+    rfl
+  calc
+    ∑ p : Fin m → ι, ∏ i : Fin m, M i (p (σ i)) (p i)
+        = ∑ p : Fin m → ι, ∏ r : Fin m,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (p (σ x.1)) (p x.1) := by
+          exact Finset.sum_congr rfl (fun p _ => hpart (fun i => M i (p (σ i)) (p i)))
+      _ = ∑ g : (∀ r : Fin m, {x : Fin m // repOf σ x = r} → ι), ∏ r : Fin m,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (g r (fiberMap σ r x)) (g r x) := by
+          rw [← Equiv.sum_comp E (fun g => ∏ r : Fin m,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (g r (fiberMap σ r x)) (g r x))]
+          exact Finset.sum_congr rfl (fun p _ => rfl)
+      _ = ∏ r : Fin m, ∑ q : {x : Fin m // repOf σ x = r} → ι,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x) :=
+          (Fintype.prod_sum (fun (r : Fin m) (q : {x : Fin m // repOf σ x = r} → ι) =>
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x))).symm
+      _ = ∏ r ∈ orbitReps σ, ∑ q : {x : Fin m // repOf σ x = r} → ι,
+            ∏ x : {x : Fin m // repOf σ x = r}, M x.1 (q (fiberMap σ r x)) (q x) := by
+          refine (Finset.prod_subset (Finset.subset_univ _) (fun r _ hr => ?_)).symm
+          have hempty : IsEmpty {x : Fin m // repOf σ x = r} :=
+            ⟨fun x => hr (x.2 ▸ repOf_mem_orbitReps σ x.1)⟩
+          simp [Finset.prod_of_isEmpty]
+      _ = ∏ r ∈ orbitReps σ, Matrix.trace (matrixCycleProd σ M r) :=
+          Finset.prod_congr rfl (fun r hr => matrixSum_cycle_eq_trace σ M hr)
 
 end MatrixCombinatorics
 
