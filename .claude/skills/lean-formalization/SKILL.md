@@ -4931,3 +4931,38 @@ product — supply `Finite.of_equiv _ SemidirectProduct.equivProd.symm`.
   in `Fintype.card_sum`. Let synthesis find the instance transparently, and state the
   decomposition as a defeq `have hcard : Fintype.card ι = Fintype.card A + Fintype.card B :=
   Fintype.card_sum` (likewise `Fintype.sum_sum_type _`), then `rw [hcard]`.
+
+### `Etingof.Tor` over a quotient *ring*: the `op a • m = a • m` action diamond
+
+`Problem_8_2_6_i_tor` gives `Tor₀ ≅ tensorOver A N M = (M ⊗_ℤ N) ⧸ balancedSubgroup A N M`.
+For `A = ℤ` the balancing subgroup is `⊥`, so `Tor₀ ≅ ℤ`-tensor directly (see `i_tor_zero`). For a
+non-trivial base like `A = k[X]` the balancing is **not** `⊥`, so you additionally need the glue
+`tensorOver A N M ≃+ M ⊗_A N` (then compose with a ring-tensor bridge). Building that glue needs
+`op a • m = a • m` on the cyclic module (e.g. `k[X]/(f)`), where the left action is the
+`Module.compHom … (RingHom.id).fromOpposite` **local** instance (`mopPolyQuot`) that
+`balancedSubgroup` pins. Traps that cost real time:
+
+- This identity is `rfl` for `ZMod` (part i) but **not** for `k[X]/(f)` — do not assume the
+  `hop … := rfl` pattern from `mopZMod` carries over.
+- `op_smul_eq_smul a m` does **not** apply to the pinned action: there is a diamond with the
+  global `Submodule.Quotient.module'` instance (`op a • mk x = mk (x*a)`), and `IsCentralScalar`
+  is available for the *global* instance, not the `compHom` one. A bare `example (a m) : op a • m = a • m`
+  silently elaborates against the *global* instance (so `op_smul_eq_smul` "works" there) — this is
+  misleading; inside `balancedSubgroup`/`liftAddHom` the goal carries the `mopPolyQuot` action and
+  the same tactic fails to synthesize `IsCentralScalar`.
+
+Prefer the reusable route: add a general `tensorOver A N M ≃+ M ⊗[A] N` (commutative `A`) to
+`Chapter8/Definition8_2_3(_RightExact).lean` using the existing `mk_smul_tmul` /
+`homEquivInvFun` / `tensorOver_hom_ext` adjunction helpers, which handle the mop balancing
+internally. The `Ext` side avoids the diamond entirely (it uses `ModuleCat k[X]` Homs, not the
+mop tensor) — `ext_zero`/`ext_one` for `k[X]` mirror part (i) cleanly.
+
+### Mirroring an `ℤ`-linear `Ext` proof to `k[X]`: bridge with `restrictScalars ℤ`
+
+`Etingof.Ext` groups are abelian groups, so the six-term `Ext` machinery (`δ`, `Submodule.map e0L`)
+is `ℤ`-linear. When the target cokernel bridge is stated over the real base ring `k[X]`
+(`(k[X]/g) ⧸ (Ideal.span {f} • ⊤)` with a `k[X]`-submodule), the `Submodule.map e0L (ker δ)` is a
+`Submodule ℤ`, not `Submodule k[X]` — a type mismatch. Fix: target
+`(Ideal.span {f} • ⊤).restrictScalars ℤ` in the `hmap` equation; the quotient by it is defeq to the
+`k[X]`-submodule quotient, so `.toAddEquiv.trans (PolyGcd.cokerEquiv f g).toAddEquiv` composes. In
+part (i) this was invisible because the base ring already *was* `ℤ`.
