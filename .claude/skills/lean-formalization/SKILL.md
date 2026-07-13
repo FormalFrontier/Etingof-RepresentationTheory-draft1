@@ -4395,6 +4395,26 @@ through the Fin wrapper.
 parses as `(S.erase a).erase b` in term position but `(x ∈ S.erase a).erase b`
 in proposition position. Always use explicit parentheses: `(S.erase a).erase b`.
 
+## BigOperators / Equiv reindexing gotchas (walk-sum & orbit-partition proofs, #6506)
+
+Two recurring traps when expanding matrix products / reindexing sums over `Fin`-tuples:
+
+- **`@[simps]`-generated `Equiv` `_apply` may not fire under a function head.** e.g.
+  `Fin.consEquiv_apply` rewrote `(consEquiv (z,v)) 0` inside an `if`-condition but left
+  `walkWeight N (consEquiv (z,v))` (the equiv passed *as a whole function* to another def)
+  untouched, silently. Don't debug simp — the toFun is definitional, so bridge with a local
+  `rfl`: `have hce : ∀ z w, (Fin.consEquiv (fun _ => ι)) (z, w) = Fin.cons z w := fun _ _ => rfl`
+  then `simp only [hce, …]`. Same for `Equiv.sigmaFiberEquiv`, `Fin.succFunEquiv`, etc.
+- **Dependent-summand big-operator lemmas whnf-timeout with an implicit function.**
+  `(Fintype.prod_sum _).symm` on a goal whose `κ r = ({x // p x = r} → ι)` blew past 200k
+  heartbeats at `whnf` while unifying the implicit `f`. Fix: pass `f` explicitly —
+  `(Fintype.prod_sum (fun r q => ∏ x : {x // p x = r}, …)).symm`. Same for `Finset.prod_univ_sum`.
+- **Cyclic-trace / walk expansion engine already exists** in
+  `Chapter5/PermutationTraceWord.lean` (`Etingof.bigProd_apply`, `Etingof.trace_bigProd`,
+  `walkWeight`): the `(x,y)` entry of an ordered matrix product as a sum over walks, and the trace
+  as a sum over closed walks. Reuse before re-deriving. Peel the *first* matrix (`Fin.cons`) not
+  the last — `Fin.cons`'s simp set (`cons_zero`/`cons_succ`) is far cleaner than `Fin.snoc`'s.
+
 ## obj↔concrete type bridge in `leaf_equalities` (quiver-rep collapse proofs)
 
 When writing an orientation-generic `leaf_equalities`/collapse lemma over a
