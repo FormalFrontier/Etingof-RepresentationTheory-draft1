@@ -200,6 +200,46 @@ theorem semidirect_classification :
       (Even N →
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
+  classical
+  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi⟩ :=
+    Etingof.Theorem5_27_1 (Multiplicative (ZMod 2)) (Multiplicative (ZMod N)) (dihedralφ N)
+  -- The reflection generator is self-inverse in `ℤ/2`.
+  have hgen_inv : (Multiplicative.ofAdd (1 : ZMod 2))⁻¹ = Multiplicative.ofAdd 1 := by decide
+  -- **Dual action is inversion.** The generator acts on characters by `χ ↦ χ⁻¹`.
+  have hdual_gen : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
+      dualSmul (Multiplicative.ofAdd 1) χ = χ⁻¹ := by
+    intro χ
+    refine MonoidHom.ext (fun a => ?_)
+    rw [hdual, hgen_inv, dihedralφ_ofAdd_one_apply, map_inv, MonoidHom.inv_apply]
+  -- The identity fixes every character.
+  have hdual_one : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
+      dualSmul (1 : Multiplicative (ZMod 2)) χ = χ := by
+    intro χ
+    refine MonoidHom.ext (fun a => ?_)
+    rw [hdual, inv_one, dihedralφ_one_apply]
+  -- **Stabilizer.** `χ` is fixed by the generator iff it is self-inverse.
+  have hstab_gen : ∀ χ : Multiplicative (ZMod N) →* ℂˣ,
+      (Multiplicative.ofAdd 1 ∈ stab χ) ↔ χ⁻¹ = χ := by
+    intro χ; rw [hstab χ (Multiplicative.ofAdd 1), hdual_gen]
+  -- Remaining: build the indexed family and discharge the six conjuncts + counts.
+  --
+  -- Since `Multiplicative (ZMod 2) = {1, ofAdd 1}`, `hstab_gen` (+ `1 ∈ stab χ` always and the
+  -- fact that `stab χ` is a subgroup of the two-element group) gives the dichotomy
+  --   `stab χ = ⊤` if `χ⁻¹ = χ` (self-inverse),   `stab χ = ⊥` otherwise (free orbit).
+  -- With `hv` (dim `V(χ,U) = (stab χ).index * dim U`): `index ⊤ = 1`, `index ⊥ = 2`.
+  --
+  -- Family (n = 2 * Nat.gcd 2 N + (N - Nat.gcd 2 N) / 2):
+  --   * for each self-inverse `χ`, the two 1-dim reps `V(χ, AbelianFDRep.charFDRep ξ)` for the
+  --     two characters `ξ` of `stab χ ≅ ℤ/2` (dim `1 * 1 = 1`);  [gives `2 * card_selfInverse`]
+  --   * for each free orbit-pair, one 2-dim rep `V(χ₀, U_triv)` at a chosen representative `χ₀`
+  --     with `U_triv` the unique simple rep of the trivial `stab χ₀ = ⊥` (dim `2 * 1 = 2`).
+  -- Index concretely by a `Fintype` (e.g. `(selfInverse × charOf(ℤ/2)) ⊕ freeOrbitReps`) and
+  -- transport to `Fin n` via `Fintype.equivFin`; counts follow from
+  -- `DihedralCharacterCombinatorics.card_selfInverse`/`card_freeOrbitPairs`.
+  --
+  -- Conjuncts: (Simple) from `hi` + `AbelianFDRep.charFDRep_simple`; (non-iso) from `hii` +
+  -- orbit distinctness + `AbelianFDRep.charFDRep_iso_iff`; (complete) from `hiii` + orbit
+  -- exhaustion + `AbelianFDRep.exists_charFDRep_iso` on the stabilizer component.
   sorry
 
 open Classical in
