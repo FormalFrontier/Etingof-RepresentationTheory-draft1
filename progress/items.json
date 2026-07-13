@@ -3092,7 +3092,7 @@
     "start_line": 9,
     "end_line": 4,
     "status": "statement_formalized",
-    "coverage_note": "Parts (a) real-irreducibility, (d) conj/norm, and (e) unit quaternions ≅ SU(2) proven sorry-free (e added 2026-07-10 via explicit ℍ↪M₂(ℂ) embedding, #6271); part (f) SU(2)→SO(3) still sorry; parts (b),(c) not yet formalized."
+    "coverage_note": "Parts (a) real-irreducibility, (c) Hamilton relations + 1,i,j,k basis (finrank ℝ ℍ=4) + Q₈⊆ℍˣ (units closed under ×, inverses; #6531), (d) conj/norm, (e) unit quaternions ≅ SU(2) (via ℍ↪M₂(ℂ), #6271), and (f) SU(2)→SO(3) surjective with kernel {±1} (via Euler Z-Y-Z) all proven sorry-free; part (b) commutant description of ℍ as End of real rep not yet formalized."
   },
   {
     "id": "Chapter4/Problem4.12.8",
