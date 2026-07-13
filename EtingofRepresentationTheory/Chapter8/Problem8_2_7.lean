@@ -1082,11 +1082,107 @@ theorem Problem_8_2_7_ii_ext_zero (k : Type*) [Field k] (f g : k[X]) (hg : g ≠
   exact ⟨e₀.trans (ModuleCat.homAddEquiv.trans (PolyGcd.homEquiv f g hg))⟩
 
 /-- **Problem 8.2.7(ii), `Ext¹`.** `Ext¹(k[x]/(f), k[x]/(g)) ≅ k[x]/(gcd(f,g))`. -/
-theorem Problem_8_2_7_ii_ext_one (k : Type*) [Field k] (f g : k[X]) :
+theorem Problem_8_2_7_ii_ext_one (k : Type*) [Field k] (f g : k[X]) (hf : f ≠ 0) :
     Nonempty (Etingof.Ext (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {f}))
         (ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g})) 1
       ≃+ (k[X] ⧸ Ideal.span {f, g})) := by
-  sorry
+  -- Length-`1` resolution `0 → k[x] →(·f) k[x] → k[x]/(f) → 0` over `ModuleCat k[x]`.
+  let mf : k[X] →ₗ[k[X]] k[X] := f • LinearMap.id
+  let pf : k[X] →ₗ[k[X]] (k[X] ⧸ Ideal.span {f}) := Algebra.linearMap k[X] (k[X] ⧸ Ideal.span {f})
+  have hmf : ∀ x : k[X], mf x = f * x := fun x => by simp [mf]
+  have hpf : ∀ x : k[X], pf x = Submodule.Quotient.mk x := fun x => rfl
+  have hgf : ∀ x : k[X], pf (mf x) = 0 := by
+    intro x; rw [hmf, hpf, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton]
+    exact dvd_mul_right f x
+  have eq0 : pf.comp mf = 0 :=
+    LinearMap.ext fun x => by rw [LinearMap.comp_apply, hgf x, LinearMap.zero_apply]
+  have hexact : Function.Exact mf pf := by
+    rw [LinearMap.exact_iff]; ext y
+    simp only [LinearMap.mem_ker, hpf, Submodule.Quotient.mk_eq_zero, Ideal.mem_span_singleton,
+      LinearMap.mem_range, hmf]
+    constructor
+    · rintro ⟨c, rfl⟩; exact ⟨c, rfl⟩
+    · rintro ⟨c, rfl⟩; exact dvd_mul_right f c
+  have hinjf : Function.Injective mf :=
+    fun x y hxy => mul_left_cancel₀ hf (by rw [← hmf, ← hmf, hxy])
+  have hsurjg : Function.Surjective pf := by
+    intro z; obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ z; exact ⟨y, hpf y⟩
+  set S := ModuleCat.shortComplexOfCompEqZero mf pf eq0 with hSdef
+  have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S hexact hinjf hsurjg
+  set Y := ModuleCat.of k[X] (k[X] ⧸ Ideal.span {g}) with hY
+  -- Contravariant six-term window `Ext⁰(k/f) → Ext⁰(k) →[·f] Ext⁰(k) →[δ] Ext¹(k/f) → 0 → 0`.
+  have hExactCS := Abelian.Ext.contravariantSequence_exact hS Y 0 1 (by norm_num)
+  let dhom : Etingof.Ext S.X₁ Y 0 →+ Etingof.Ext S.X₃ Y 1 := hS.extClass.precomp Y (by norm_num)
+  let m12 : Etingof.Ext S.X₂ Y 0 →+ Etingof.Ext S.X₁ Y 0 :=
+    (Abelian.Ext.mk₀ S.f).precomp Y (zero_add 0)
+  -- `Ext¹(k[x], k[x]/g) = 0`, so `δ` is surjective; and `ker δ = range(·f)`.
+  have hsurjδ : Function.Surjective dhom := by
+    rw [← AddMonoidHom.range_eq_top,
+      show dhom.range = _ from (hExactCS.exact' 2 3 4).ab_range_eq_ker]
+    ext x
+    simp only [AddSubgroup.mem_top, iff_true, AddMonoidHom.mem_ker]
+    exact (Abelian.Ext.subsingleton_of_projective S.X₂ Y 0).elim _ _
+  have hkerδ : dhom.ker = m12.range := ((hExactCS.exact' 1 2 3).ab_range_eq_ker).symm
+  -- `Ext⁰(k[x], k[x]/g) ≅ Hom_{k[x]}(k[x], k[x]/g) ≅ k[x]/g`, `α ↦ (addEquiv₀ α)(1)`.
+  let e0 : (Etingof.Ext S.X₁ Y 0) ≃+ (k[X] ⧸ Ideal.span {g}) :=
+    (Abelian.Ext.addEquiv₀).trans (ModuleCat.homAddEquiv.trans
+      (LinearMap.ringLmapEquivSelf k[X] k[X] (k[X] ⧸ Ideal.span {g})).toAddEquiv)
+  -- The precomposition map `·f` on `Ext⁰(k[x])` is multiplication by `f` on `k[x]/g`.
+  have hconj : ∀ β, e0 (m12 β) = PolyGcd.mulBy f g (e0 β) := by
+    intro β
+    have hred : m12 β = (Abelian.Ext.mk₀ S.f).comp β (zero_add 0) := rfl
+    have step1 : Abelian.Ext.addEquiv₀ (m12 β) = S.f ≫ Abelian.Ext.addEquiv₀ β := by
+      rw [hred]
+      apply Abelian.Ext.addEquiv₀.symm.injective
+      rw [AddEquiv.symm_apply_apply, Abelian.Ext.addEquiv₀_symm_apply, ← Abelian.Ext.mk₀_comp_mk₀,
+        Abelian.Ext.mk₀_addEquiv₀_apply]
+    change (LinearMap.ringLmapEquivSelf k[X] k[X] (k[X] ⧸ Ideal.span {g}))
+        (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ (m12 β)))
+      = PolyGcd.mulBy f g ((LinearMap.ringLmapEquivSelf k[X] k[X] (k[X] ⧸ Ideal.span {g}))
+        (ModuleCat.homAddEquiv (Abelian.Ext.addEquiv₀ β)))
+    rw [step1]
+    simp only [ModuleCat.homAddEquiv_apply, ModuleCat.hom_comp,
+      LinearMap.ringLmapEquivSelf_apply, PolyGcd.mulBy_apply]
+    change (Abelian.Ext.addEquiv₀ β).hom (S.f.hom 1) = f • (Abelian.Ext.addEquiv₀ β).hom 1
+    rw [show S.f.hom (1 : k[X]) = f • (1 : k[X]) from rfl, map_smul]
+  -- `range(mulBy) = (f) • ⊤`, matching the domain of `cokerEquiv`.
+  have hrange : LinearMap.range (PolyGcd.mulBy f g)
+      = Ideal.span {f} • (⊤ : Submodule k[X] (k[X] ⧸ Ideal.span {g})) := by
+    rw [Submodule.ideal_span_singleton_smul]
+    ext x
+    simp only [LinearMap.mem_range, PolyGcd.mulBy_apply,
+      Submodule.mem_smul_pointwise_iff_exists]
+    constructor
+    · rintro ⟨y, rfl⟩; exact ⟨y, Submodule.mem_top, rfl⟩
+    · rintro ⟨y, _, rfl⟩; exact ⟨y, rfl⟩
+  -- Assemble: `Ext¹ ≃ Ext⁰(k[x])/ker δ ≃ (k[x]/g) / (f)•⊤ ≃ k[x]/(f,g)`.
+  let δL := dhom.toIntLinearMap
+  have hsurjδL : Function.Surjective δL := hsurjδ
+  let e0L : (Etingof.Ext S.X₁ Y 0) ≃ₗ[ℤ] (k[X] ⧸ Ideal.span {g}) := e0.toIntLinearEquiv
+  have he0L : ∀ x, (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] (k[X] ⧸ Ideal.span {g})) x = e0 x :=
+    fun _ => rfl
+  have hmap : Submodule.map (e0L : (Etingof.Ext S.X₁ Y 0) →ₗ[ℤ] (k[X] ⧸ Ideal.span {g}))
+      (LinearMap.ker δL)
+      = (Ideal.span {f} • (⊤ : Submodule k[X] (k[X] ⧸ Ideal.span {g}))).restrictScalars ℤ := by
+    rw [← hrange]
+    ext z
+    simp only [Submodule.mem_map, LinearMap.mem_ker, Submodule.restrictScalars_mem,
+      LinearMap.mem_range, he0L]
+    constructor
+    · rintro ⟨y, hy, rfl⟩
+      have hy' : y ∈ dhom.ker := AddMonoidHom.mem_ker.mpr hy
+      rw [hkerδ] at hy'
+      obtain ⟨u, hu⟩ := hy'
+      exact ⟨e0 u, by rw [← hconj, hu]⟩
+    · rintro ⟨w, rfl⟩
+      refine ⟨m12 (e0.symm w), ?_, ?_⟩
+      · have : m12 (e0.symm w) ∈ dhom.ker :=
+          hkerδ.symm ▸ AddMonoidHom.mem_range.mpr ⟨e0.symm w, rfl⟩
+        exact AddMonoidHom.mem_ker.mp this
+      · rw [hconj, e0.apply_symm_apply]
+  exact ⟨((LinearMap.quotKerEquivOfSurjective δL hsurjδL).symm.trans
+    (Submodule.Quotient.equiv (LinearMap.ker δL) _ e0L hmap)).toAddEquiv.trans
+    (PolyGcd.cokerEquiv f g).toAddEquiv⟩
 
 /-- `k[x]/(p)` has projective dimension `< 2` as a `k[x]`-module. For `p ≠ 0` the length-`1`
 free resolution `0 → k[x] →(·p) k[x] → k[x]/(p) → 0` exhibits this; for `p = 0`,
