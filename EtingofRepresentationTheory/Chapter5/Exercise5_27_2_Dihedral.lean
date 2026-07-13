@@ -201,7 +201,8 @@ theorem semidirect_classification :
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 1)).card = 4 ∧
         (Finset.univ.filter (fun i => finrank ℂ (W i : Type) = 2)).card = (N - 2) / 2) := by
   classical
-  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi⟩ :=
+  obtain ⟨dualSmul, hdual, stab, hstab, V, transport, hi, hii, hiii, hiv, hv, hvi,
+      hvii, hviii, hix⟩ :=
     Etingof.Theorem5_27_1 (Multiplicative (ZMod 2)) (Multiplicative (ZMod N)) (dihedralφ N)
   -- The reflection generator is self-inverse in `ℤ/2`.
   have hgen_inv : (Multiplicative.ofAdd (1 : ZMod 2))⁻¹ = Multiplicative.ofAdd 1 := by decide
