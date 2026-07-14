@@ -37,8 +37,9 @@ using `r • a = (const r) • a` in the path algebra (`kSMul_eq_constSMul`) tog
 
 ## Middle exactness (`ker ε = im d`)
 
-Middle exactness `standardComplex_exact` is the noncommutative analogue of the `koszulSES_shortExact`
-exactness argument (`Chapter9/Example9_4_4.lean`), by the downward length-degree telescoping built on
+Middle exactness `standardComplex_exact` is the noncommutative analogue of the
+`koszulSES_shortExact` exactness argument (`Chapter9/Example9_4_4.lean`), by the downward
+length-degree telescoping built on
 the cons-preimage `exists_stdΦ_preimage_topDegree` (surjectivity of `Φ` onto each top length
 component) and the coordinate shift relations `inducedCoordMap_stdd_shift`(`_zero`) from
 `Chapter9/PathAlgebraConsSplittingIso.lean`. The telescoping bottoms out at degree `0`, where
