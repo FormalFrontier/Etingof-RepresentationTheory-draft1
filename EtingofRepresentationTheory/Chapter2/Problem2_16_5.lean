@@ -1107,6 +1107,139 @@ theorem fpow_orderOf_isScalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
 
 end CentralScalar
 
+/-! ## The dimension bound at a root of unity
+
+We now assemble the De Concini–Kac dimension bound `dim V ≤ orderOf q` for a finite dimensional
+simple `U_q(sl₂)`-module at a root of unity `q ≠ ±1`. The scalars `a`, `b` of the central elements
+`e ^ orderOf q`, `f ^ orderOf q` (`epow_orderOf_isScalar`, `fpow_orderOf_isScalar`) split the
+argument into cases. The first case, `a = 0` (so `e` acts nilpotently), is the *highest weight*
+case: it is handled here by the closed `f`-ladder of a highest weight vector, whose length is at
+most `orderOf q` because `f ^ orderOf q` acts as the scalar `b`, closing the ladder up after
+`orderOf q` steps. -/
+
+/-- **Highest weight case of the dimension bound.** If `e ^ orderOf q` acts as `0` on a finite
+dimensional simple `U_q(sl₂)`-module `V` (so `e` is nilpotent), then `dim V ≤ orderOf q`.
+
+Walking up with `e` from any `K`-eigenvector produces a highest weight vector `v` (`e • v = 0`,
+`K • v = λ v` with `λ ≠ 0`). Its `f`-ladder `v, f v, …, f^{ℓ-1} v` (with `ℓ = orderOf q`) spans a
+subspace `W` that is `f`-invariant (`f^ℓ v = b v` folds the top back onto `v`), `K`- and
+`L`-invariant (`K_ladder`/`L_ladder`), and `e`-invariant (`e_ladder`, using `e • v = 0`). So `W` is
+a nonzero `U_q`-submodule, hence all of `V` by simplicity, and `dim V = dim W ≤ ℓ`. -/
+theorem finrank_le_of_epow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V]
+    (he0 : ∀ w : V, e q ^ orderOf q • w = 0) :
+    Module.finrank ℂ V ≤ orderOf q := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have hℓpos : 0 < orderOf q := hq.orderOf_pos
+  have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
+  classical
+  -- Highest weight vector: walk up with `e` from a `K`-eigenvector until annihilated.
+  have key : ∃ (v : V) (lam : ℂ),
+      v ≠ 0 ∧ e q • v = 0 ∧ K q • v = lam • v ∧ lam ≠ 0 := by
+    obtain ⟨μ₀, hμ₀⟩ := Module.End.exists_eigenvalue (Kop q V)
+    obtain ⟨w₀, hw₀mem, hw₀0⟩ := hμ₀.exists_hasEigenvector
+    have hμ₀0 : μ₀ ≠ 0 := eigenvalue_ne_zero q V μ₀ hμ₀
+    have hKw₀ : Kop q V w₀ = μ₀ • w₀ := Module.End.mem_eigenspace_iff.mp hw₀mem
+    -- `e^j w₀` is a `K`-eigenvector with eigenvalue `(q²)^j μ₀`.
+    have hchain : ∀ j : ℕ,
+        Kop q V (e q ^ j • w₀) = (((q : ℂ) ^ 2) ^ j * μ₀) • (e q ^ j • w₀) := by
+      intro j
+      induction j with
+      | zero => simpa using hKw₀
+      | succ n ih =>
+        have hsplit : e q ^ (n + 1) • w₀ = e q • (e q ^ n • w₀) := by rw [pow_succ', mul_smul]
+        rw [hsplit, e_eigenvalue_shift q V _ _ ih]
+        congr 1
+        ring
+    have hex : ∃ k, e q ^ k • w₀ = 0 := ⟨orderOf q, he0 w₀⟩
+    have hk0 : Nat.find hex ≠ 0 := by
+      intro h
+      have hs := Nat.find_spec hex
+      rw [h, pow_zero, one_smul] at hs
+      exact hw₀0 hs
+    obtain ⟨m, hm⟩ : ∃ m, Nat.find hex = m + 1 := ⟨Nat.find hex - 1, by omega⟩
+    refine ⟨e q ^ m • w₀, ((q : ℂ) ^ 2) ^ m * μ₀, Nat.find_min hex (by omega), ?_, ?_, ?_⟩
+    · have hs := Nat.find_spec hex
+      rw [hm] at hs
+      rw [← mul_smul, ← pow_succ']
+      exact hs
+    · have h := hchain m
+      rw [Kop_apply] at h
+      exact h
+    · exact mul_ne_zero (pow_ne_zero _ (pow_ne_zero _ q.ne_zero)) hμ₀0
+  obtain ⟨v, lam, hv0, he, hKv, hlam⟩ := key
+  -- The scalar of `f ^ orderOf q` (may be zero) closes the ladder up after `orderOf q` steps.
+  obtain ⟨fb, hfb⟩ := fpow_orderOf_isScalar q V hq2
+  have hladder_ℓ : ladder q V v (orderOf q) = fb • v := hfb v
+  -- Finite spanning family `b i = fⁱ v`, `i < orderOf q`, and its `ℂ`-span `W`.
+  set b : Fin (orderOf q) → V := fun i => ladder q V v ↑i with hb
+  set W : Submodule ℂ V := Submodule.span ℂ (Set.range b) with hW
+  have hb_mem : ∀ (n : ℕ), n < orderOf q → ladder q V v n ∈ W :=
+    fun n hn => Submodule.subset_span (Set.mem_range.mpr ⟨⟨n, hn⟩, rfl⟩)
+  have hvW : v ∈ W := by
+    have h0 := hb_mem 0 hℓpos
+    rwa [ladder_zero] at h0
+  -- Generator closures on the spanning family.
+  have heW : ∀ i : Fin (orderOf q), e q • b i ∈ W := by
+    intro i
+    show e q • ladder q V v ↑i ∈ W
+    rcases Nat.eq_zero_or_pos (↑i : ℕ) with hi0 | hipos
+    · rw [hi0, ladder_zero, he]; exact W.zero_mem
+    · obtain ⟨j, hj⟩ : ∃ j, (↑i : ℕ) = j + 1 := ⟨↑i - 1, by omega⟩
+      have hi := i.isLt
+      rw [hj, e_ladder q V hqinv v lam hlam he hKv j]
+      exact W.smul_mem _ (hb_mem j (by omega))
+  have hfW : ∀ i : Fin (orderOf q), f q • b i ∈ W := by
+    intro i
+    show f q • ladder q V v ↑i ∈ W
+    rw [← ladder_succ q V v ↑i]
+    rcases eq_or_lt_of_le (show (↑i : ℕ) + 1 ≤ orderOf q from i.isLt) with heq | hlt
+    · rw [heq, hladder_ℓ]; exact W.smul_mem _ hvW
+    · exact hb_mem (↑i + 1) hlt
+  have hKW : ∀ i : Fin (orderOf q), K q • b i ∈ W := by
+    intro i
+    show K q • ladder q V v ↑i ∈ W
+    rw [K_ladder q V v lam hKv ↑i]
+    exact W.smul_mem _ (hb_mem ↑i i.isLt)
+  have hLW : ∀ i : Fin (orderOf q), L q • b i ∈ W := by
+    intro i
+    show L q • ladder q V v ↑i ∈ W
+    rw [L_ladder q V v lam hlam hKv ↑i]
+    exact W.smul_mem _ (hb_mem ↑i i.isLt)
+  have clOf : ∀ (a : Uqsl2 q), (∀ i : Fin (orderOf q), a • b i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
+    intro a ha x hx
+    induction hx using Submodule.span_induction with
+    | mem z hz => obtain ⟨i, rfl⟩ := hz; exact ha i
+    | zero => rw [smul_zero]; exact W.zero_mem
+    | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
+    | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
+  -- `W` is a `U_q`-submodule; by simplicity it is everything.
+  let W' : Submodule (Uqsl2 q) V :=
+    { carrier := (W : Set V)
+      add_mem' := fun ha hb => W.add_mem ha hb
+      zero_mem' := W.zero_mem
+      smul_mem' := fun a x hx => smul_mem_of_generators q V W (clOf (e q) heW)
+        (clOf (f q) hfW) (clOf (K q) hKW) (clOf (L q) hLW) a x hx }
+  have hvW' : v ∈ W' := hvW
+  have hne' : W' ≠ ⊥ := by
+    intro hbot
+    apply hv0
+    have hmem : v ∈ (⊥ : Submodule (Uqsl2 q) V) := hbot ▸ hvW'
+    exact (Submodule.mem_bot (Uqsl2 q)).mp hmem
+  have hW'top : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne'
+  have hWtop : W = ⊤ := by
+    rw [eq_top_iff]
+    intro x _
+    have hxW' : x ∈ W' := by rw [hW'top]; exact Submodule.mem_top
+    exact hxW'
+  -- Dimension count: `W` is spanned by `orderOf q` vectors.
+  have hspan : Module.finrank ℂ (Submodule.span ℂ (Set.range b)) ≤ orderOf q := by
+    have hcard := finrank_range_le_card (R := ℂ) b
+    rwa [Set.finrank, Fintype.card_fin] at hcard
+  rw [← hW, hWtop, finrank_top] at hspan
+  exact hspan
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
