@@ -6,6 +6,7 @@ import Mathlib.RingTheory.FiniteLength
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3_Connectivity
+import EtingofRepresentationTheory.Chapter9.Problem9_5_3_PrimitiveIdempotents
 
 /-!
 # Problem 9.5.3: Blocks and central idempotents
@@ -28,8 +29,9 @@ Etingof Problem 9.5.3 relates the block decomposition of a finite abelian catego
 
 Blocks are `Etingof.Block R` and block membership is `Etingof.InBlock R S M` (Definition
 9.5.1). "Indecomposable central idempotent" is the predicate
-`Etingof.Problem953.IsIndecomposableCentralIdempotent` defined below (a nonzero central
-idempotent not expressible as a sum of two nonzero orthogonal central idempotents).
+`Etingof.Problem953.IsIndecomposableCentralIdempotent` (defined in
+`Problem9_5_3_PrimitiveIdempotents.lean`, a nonzero central idempotent not expressible as a sum
+of two nonzero orthogonal central idempotents).
 "`Hom(M, N) = 0`" is `Subsingleton (M ⟶ N)`, and "indecomposable object" is
 `CategoryTheory.Indecomposable`. Two blocks are distinct exactly when their representative
 simple modules are not `Etingof.AreLinked`. Proofs are deferred (`sorry`).
@@ -44,14 +46,6 @@ namespace Etingof
 namespace Problem953
 
 variable (R : Type u) [Ring R]
-
-/-- An **indecomposable central idempotent** of a ring `R`: a nonzero central idempotent that
-cannot be written as a sum `e = e₁ + e₂` of two nonzero orthogonal central idempotents. These
-are the primitive idempotents of the center; by Problem 9.5.3(i) they index the blocks. -/
-def IsIndecomposableCentralIdempotent (e : R) : Prop :=
-  e ≠ 0 ∧ IsIdempotentElem e ∧ (∀ y : R, e * y = y * e) ∧
-    ¬ ∃ e₁ e₂ : R, e₁ ≠ 0 ∧ e₂ ≠ 0 ∧ IsIdempotentElem e₁ ∧ IsIdempotentElem e₂ ∧
-      (∀ y, e₁ * y = y * e₁) ∧ (∀ y, e₂ * y = y * e₂) ∧ e₁ * e₂ = 0 ∧ e = e₁ + e₂
 
 /-- **Central character of a simple module (Schur's lemma).** A central idempotent `e` of a
 ring `R` acts on any simple `R`-module `M` as the scalar `0` or `1`: either `e • m = 0` for all
