@@ -473,6 +473,169 @@ private theorem conjRep_Pc2 : conjRep Pc (sbasis 2) = -sbasis 1 := by
   ext i j; fin_cases i <;> fin_cases j <;>
     simp [conjRep_apply, Pc, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
 
+/-! ### Basis and rotations for the `5`-dimensional representation `W` -/
+
+/-- The explicit basis of `tracelessSymSub` (as in `tracelessSymSub_finrank`):
+`w0 = E01+E10`, `w1 = E02+E20`, `w2 = E12+E21`, `w3 = diag(1,-1,0)`, `w4 = diag(0,1,-1)`. -/
+def wbasis : Fin 5 → EndV :=
+  ![!![0, 1, 0; 1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; 1, 0, 0],
+    !![0, 0, 0; 0, 0, 1; 0, 1, 0], !![1, 0, 0; 0, -1, 0; 0, 0, 0],
+    !![0, 0, 0; 0, 1, 0; 0, 0, -1]]
+
+theorem wbasis_mem (i : Fin 5) : wbasis i ∈ tracelessSymSub := by
+  rw [mem_tracelessSymSub_iff]
+  refine ⟨?_, ?_⟩
+  · fin_cases i <;> · ext a b; fin_cases a <;> fin_cases b <;> simp [wbasis]
+  · fin_cases i <;> simp [wbasis, Matrix.trace_fin_three]
+
+/-- Every traceless symmetric matrix is the combination of the five basis matrices given by
+its independent entries. -/
+theorem traceless_sym_decomp (M : EndV) (hsym : Mᵀ = M) (htr : M.trace = 0) :
+    M = M 0 1 • wbasis 0 + M 0 2 • wbasis 1 + M 1 2 • wbasis 2 + M 0 0 • wbasis 3
+      + (M 0 0 + M 1 1) • wbasis 4 := by
+  have hs : ∀ i j, M j i = M i j := fun i j => by
+    have h := congr_fun (congr_fun hsym i) j
+    simpa only [Matrix.transpose_apply] using h
+  have htrace : M 2 2 = -M 0 0 - M 1 1 := by
+    rw [Matrix.trace_fin_three] at htr; linarith
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [wbasis, Matrix.add_apply] <;>
+    linarith [hs 0 1, hs 0 2, hs 1 2, htrace]
+
+/-- `√2 / 2 = cos 45° = sin 45°`. -/
+noncomputable def c45 : ℝ := Real.sqrt 2 / 2
+
+theorem c45_sq : c45 * c45 = 1 / 2 := by
+  rw [c45, div_mul_div_comm, Real.mul_self_sqrt (by norm_num)]; norm_num
+
+/-- Rotation by `45°` about the `z`-axis, in `SO(3)`. -/
+def Rz45 : SO3 := ⟨!![c45, -c45, 0; c45, c45, 0; 0, 0, 1], by
+  rw [mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [mem_orthogonalGroup_iff]; ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_three] <;> nlinarith [c45_sq]
+  · simp [Matrix.det_fin_three]
+    nlinarith [c45_sq]⟩
+
+/-- Rotation by `45°` about the `y`-axis, in `SO(3)`. -/
+def Ry45 : SO3 := ⟨!![c45, 0, c45; 0, 1, 0; -c45, 0, c45], by
+  rw [mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [mem_orthogonalGroup_iff]; ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_three] <;> nlinarith [c45_sq]
+  · simp [Matrix.det_fin_three]
+    nlinarith [c45_sq]⟩
+
+/-- The `45°`-about-`z` rotation converts the off-diagonal basis vector `w0` into `-w3`. -/
+theorem conjRep_Rz45_w0 : conjRep Rz45 (wbasis 0) = -wbasis 3 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Rz45, wbasis, Matrix.mul_apply, Fin.sum_univ_three,
+      Matrix.neg_apply] <;> nlinarith [c45_sq]
+
+/-- `Rz45` rotates the first diagonal vector `w3` onto the off-diagonal vector `w0`. -/
+private theorem conjRep_Rz45_w3 : conjRep Rz45 (wbasis 3) = wbasis 0 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Rz45, wbasis, Matrix.mul_apply, Fin.sum_univ_three] <;>
+    nlinarith [c45_sq]
+
+/-- `Rz45` acting on the second diagonal vector `w4`. -/
+private theorem conjRep_Rz45_w4 :
+    conjRep Rz45 (wbasis 4)
+      = (-2⁻¹ : ℝ) • wbasis 0 + (2⁻¹ : ℝ) • wbasis 3 + wbasis 4 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Rz45, wbasis, Matrix.mul_apply, Fin.sum_univ_three,
+      Matrix.add_apply] <;>
+    nlinarith [c45_sq]
+
+/-- `Ry45` acting on the first diagonal vector `w3`. -/
+private theorem conjRep_Ry45_w3 :
+    conjRep Ry45 (wbasis 3)
+      = (-2⁻¹ : ℝ) • wbasis 1 + (2⁻¹ : ℝ) • wbasis 3 + (-2⁻¹ : ℝ) • wbasis 4 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Ry45, wbasis, Matrix.mul_apply, Fin.sum_univ_three,
+      Matrix.add_apply] <;>
+    nlinarith [c45_sq]
+
+/-- `Ry45` acting on the second diagonal vector `w4`. -/
+private theorem conjRep_Ry45_w4 :
+    conjRep Ry45 (wbasis 4)
+      = (-2⁻¹ : ℝ) • wbasis 1 + (-2⁻¹ : ℝ) • wbasis 3 + (2⁻¹ : ℝ) • wbasis 4 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Ry45, wbasis, Matrix.mul_apply, Fin.sum_univ_three,
+      Matrix.add_apply] <;>
+    nlinarith [c45_sq]
+
+/-- The cyclic rotation permutes the off-diagonal basis vectors `w0 ↦ w2 ↦ w1 ↦ w0`. -/
+private theorem conjRep_Pc_w0 : conjRep Pc (wbasis 0) = wbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Pc_w1 : conjRep Pc (wbasis 1) = wbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Pc_w2 : conjRep Pc (wbasis 2) = wbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Pc_w3 : conjRep Pc (wbasis 3) = wbasis 4 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+
+/-- The action of the three sign rotations on the five basis vectors of `W`. The characters
+of `w0, w1, w2` under `(Dx, Dy, Dz)` are `(-1,-1,1)`, `(-1,1,-1)`, `(1,-1,-1)`; the diagonal
+vectors `w3, w4` are fixed. -/
+private theorem conjRep_Dx_w0 : conjRep Dx (wbasis 0) = -wbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx_w1 : conjRep Dx (wbasis 1) = -wbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx_w2 : conjRep Dx (wbasis 2) = wbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx_w3 : conjRep Dx (wbasis 3) = wbasis 3 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx_w4 : conjRep Dx (wbasis 4) = wbasis 4 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy_w0 : conjRep Dy (wbasis 0) = -wbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy_w1 : conjRep Dy (wbasis 1) = wbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy_w2 : conjRep Dy (wbasis 2) = -wbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy_w3 : conjRep Dy (wbasis 3) = wbasis 3 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy_w4 : conjRep Dy (wbasis 4) = wbasis 4 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz_w0 : conjRep Dz (wbasis 0) = wbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz_w1 : conjRep Dz (wbasis 1) = -wbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz_w2 : conjRep Dz (wbasis 2) = -wbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz_w3 : conjRep Dz (wbasis 3) = wbasis 3 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz_w4 : conjRep Dz (wbasis 4) = wbasis 4 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, wbasis, Matrix.mul_apply, Fin.sum_univ_three]
+
 /-! ### Part (b): irreducibility and Hooke's law -/
 
 /-- **(b)** The standard representation `V ≅ skewSub` is irreducible: every `SO(3)`-invariant
@@ -554,7 +717,128 @@ survives complexification.) -/
 theorem tracelessSymSub_irreducible (U : Submodule ℝ EndV) (hUle : U ≤ tracelessSymSub)
     (hUinv : ∀ (A : SO3), ∀ M ∈ U, conjRep A M ∈ U) :
     U = ⊥ ∨ U = tracelessSymSub := by
-  sorry
+  rcases eq_or_ne U ⊥ with h | h
+  · exact Or.inl h
+  refine Or.inr (le_antisymm hUle ?_)
+  -- Every element of `U` is symmetric (being in `tracelessSymSub`).
+  have hUsym : ∀ N ∈ U, Nᵀ = N := fun N hN => (mem_tracelessSymSub_iff.mp (hUle hN)).1
+  -- V4 sign-averaging projections onto the three off-diagonal basis vectors.
+  have projA : ∀ N ∈ U, (N 0 1) • wbasis 0 ∈ U := by
+    intro N hN
+    obtain ⟨hsym, htr⟩ := mem_tracelessSymSub_iff.mp (hUle hN)
+    have key : (N 0 1) • wbasis 0
+        = (4⁻¹ : ℝ) • (N - conjRep Dx N - conjRep Dy N + conjRep Dz N) := by
+      conv_rhs => rw [traceless_sym_decomp N hsym htr]
+      simp only [map_add, map_smul, conjRep_Dx_w0, conjRep_Dx_w1, conjRep_Dx_w2, conjRep_Dx_w3,
+        conjRep_Dx_w4, conjRep_Dy_w0, conjRep_Dy_w1, conjRep_Dy_w2, conjRep_Dy_w3, conjRep_Dy_w4,
+        conjRep_Dz_w0, conjRep_Dz_w1, conjRep_Dz_w2, conjRep_Dz_w3, conjRep_Dz_w4]
+      module
+    rw [key]
+    exact U.smul_mem _ (U.add_mem (U.sub_mem (U.sub_mem hN (hUinv Dx N hN))
+      (hUinv Dy N hN)) (hUinv Dz N hN))
+  have projB : ∀ N ∈ U, (N 0 2) • wbasis 1 ∈ U := by
+    intro N hN
+    obtain ⟨hsym, htr⟩ := mem_tracelessSymSub_iff.mp (hUle hN)
+    have key : (N 0 2) • wbasis 1
+        = (4⁻¹ : ℝ) • (N - conjRep Dx N + conjRep Dy N - conjRep Dz N) := by
+      conv_rhs => rw [traceless_sym_decomp N hsym htr]
+      simp only [map_add, map_smul, conjRep_Dx_w0, conjRep_Dx_w1, conjRep_Dx_w2, conjRep_Dx_w3,
+        conjRep_Dx_w4, conjRep_Dy_w0, conjRep_Dy_w1, conjRep_Dy_w2, conjRep_Dy_w3, conjRep_Dy_w4,
+        conjRep_Dz_w0, conjRep_Dz_w1, conjRep_Dz_w2, conjRep_Dz_w3, conjRep_Dz_w4]
+      module
+    rw [key]
+    exact U.smul_mem _ (U.sub_mem (U.add_mem (U.sub_mem hN (hUinv Dx N hN))
+      (hUinv Dy N hN)) (hUinv Dz N hN))
+  have projC : ∀ N ∈ U, (N 1 2) • wbasis 2 ∈ U := by
+    intro N hN
+    obtain ⟨hsym, htr⟩ := mem_tracelessSymSub_iff.mp (hUle hN)
+    have key : (N 1 2) • wbasis 2
+        = (4⁻¹ : ℝ) • (N + conjRep Dx N - conjRep Dy N - conjRep Dz N) := by
+      conv_rhs => rw [traceless_sym_decomp N hsym htr]
+      simp only [map_add, map_smul, conjRep_Dx_w0, conjRep_Dx_w1, conjRep_Dx_w2, conjRep_Dx_w3,
+        conjRep_Dx_w4, conjRep_Dy_w0, conjRep_Dy_w1, conjRep_Dy_w2, conjRep_Dy_w3, conjRep_Dy_w4,
+        conjRep_Dz_w0, conjRep_Dz_w1, conjRep_Dz_w2, conjRep_Dz_w3, conjRep_Dz_w4]
+      module
+    rw [key]
+    exact U.smul_mem _ (U.sub_mem (U.sub_mem (U.add_mem hN (hUinv Dx N hN))
+      (hUinv Dy N hN)) (hUinv Dz N hN))
+  -- Once `wbasis 0 ∈ U`, the cyclic and `45°` rotations spread it over all five basis vectors.
+  have hbootstrap : wbasis 0 ∈ U → tracelessSymSub ≤ U := by
+    intro hw0
+    have hw2 : wbasis 2 ∈ U := by
+      have t := hUinv Pc _ hw0; rwa [conjRep_Pc_w0] at t
+    have hw1 : wbasis 1 ∈ U := by
+      have t := hUinv Pc _ hw2; rwa [conjRep_Pc_w2] at t
+    have hw3 : wbasis 3 ∈ U := by
+      have t := hUinv Rz45 _ hw0; rw [conjRep_Rz45_w0] at t
+      exact (Submodule.neg_mem_iff U).mp t
+    have hw4 : wbasis 4 ∈ U := by
+      have t := hUinv Pc _ hw3; rwa [conjRep_Pc_w3] at t
+    intro N hN
+    obtain ⟨hNsym, hNtr⟩ := mem_tracelessSymSub_iff.mp hN
+    rw [traceless_sym_decomp N hNsym hNtr]
+    exact U.add_mem (U.add_mem (U.add_mem (U.add_mem
+      (U.smul_mem _ hw0) (U.smul_mem _ hw1)) (U.smul_mem _ hw2))
+      (U.smul_mem _ hw3)) (U.smul_mem _ hw4)
+  -- A nonzero coefficient lets us cancel a scalar.
+  have smul_extract : ∀ {c : ℝ} {w : EndV}, c ≠ 0 → c • w ∈ U → w ∈ U := by
+    intro c w hc hcw
+    rw [← one_smul ℝ w, ← inv_mul_cancel₀ hc, mul_smul]; exact U.smul_mem _ hcw
+  -- Rotate any off-diagonal basis vector to `w0`.
+  have w1_to_w0 : wbasis 1 ∈ U → wbasis 0 ∈ U := fun hw1 => by
+    have t := hUinv Pc _ hw1; rwa [conjRep_Pc_w1] at t
+  have w2_to_w0 : wbasis 2 ∈ U → wbasis 0 ∈ U := fun hw2 => by
+    have t := hUinv Pc _ hw2; rw [conjRep_Pc_w2] at t; exact w1_to_w0 t
+  -- Pick a nonzero `M ∈ U`.
+  obtain ⟨M, hMU, hMne⟩ := U.ne_bot_iff.mp h
+  obtain ⟨hMsym, hMtr⟩ := mem_tracelessSymSub_iff.mp (hUle hMU)
+  rcases eq_or_ne (M 0 1) 0 with h01 | h01
+  · rcases eq_or_ne (M 0 2) 0 with h02 | h02
+    · rcases eq_or_ne (M 1 2) 0 with h12 | h12
+      · -- Purely diagonal case: `M` is diagonal traceless nonzero.
+        -- `M` reduces to its two diagonal basis components; name them `a, b`.
+        have hMdec : M = M 0 0 • wbasis 3 + (M 0 0 + M 1 1) • wbasis 4 := by
+          have hd := traceless_sym_decomp M hMsym hMtr
+          rw [h01, h02, h12] at hd
+          simpa only [zero_smul, zero_add] using hd
+        set a := M 0 0 with ha
+        set b := M 1 1 with hb
+        rcases eq_or_ne a b with hab | hab
+        · -- `a = b`, so `a ≠ 0` (else `M = 0`); `Ry45` produces a nonzero off-diagonal.
+          have hM00 : a ≠ 0 := by
+            intro hz
+            have hb0 : b = 0 := by rw [← hab]; exact hz
+            apply hMne
+            conv_lhs => rw [hMdec]
+            rw [hz, hb0]; simp
+          have hform : conjRep Ry45 M
+              = (-(2 * a + b) / 2) • wbasis 1 + (-b / 2) • wbasis 3 + (b / 2) • wbasis 4 := by
+            conv_lhs => rw [hMdec]
+            rw [map_add, map_smul, map_smul, conjRep_Ry45_w3, conjRep_Ry45_w4]
+            module
+          have hentry : (conjRep Ry45 M) 0 2 = -(2 * a + b) / 2 := by
+            rw [hform]; simp [wbasis, Matrix.add_apply]
+          have hne : 2 * a + b ≠ 0 := by rw [← hab]; intro hc; exact hM00 (by linarith)
+          have hcoef : (conjRep Ry45 M) 0 2 ≠ 0 := by
+            rw [hentry, neg_div]; exact neg_ne_zero.mpr (div_ne_zero hne (by norm_num))
+          exact hbootstrap (w1_to_w0 (smul_extract hcoef (projB _ (hUinv Ry45 M hMU))))
+        · -- `a ≠ b`: `Rz45` produces a nonzero off-diagonal `w0`-component.
+          have hform : conjRep Rz45 M
+              = ((a - b) / 2) • wbasis 0 + ((a + b) / 2) • wbasis 3 + (a + b) • wbasis 4 := by
+            conv_lhs => rw [hMdec]
+            rw [map_add, map_smul, map_smul, conjRep_Rz45_w3, conjRep_Rz45_w4]
+            module
+          have hentry : (conjRep Rz45 M) 0 1 = (a - b) / 2 := by
+            rw [hform]; simp [wbasis, Matrix.add_apply]
+          have hcoef : (conjRep Rz45 M) 0 1 ≠ 0 :=
+            hentry ▸ div_ne_zero (sub_ne_zero.mpr hab) (by norm_num)
+          exact hbootstrap (smul_extract hcoef (projA _ (hUinv Rz45 M hMU)))
+      · -- `M 1 2 ≠ 0`: extract `w2`, rotate to `w0`.
+        exact hbootstrap (w2_to_w0 (smul_extract h12 (projC M hMU)))
+    · -- `M 0 2 ≠ 0`: extract `w1`, rotate to `w0`.
+      exact hbootstrap (w1_to_w0 (smul_extract h02 (projB M hMU)))
+  · -- `M 0 1 ≠ 0`: extract `w0` directly.
+    exact hbootstrap (smul_extract h01 (projA M hMU))
 
 /-- **(b), Hooke's law.** Any `SO(3)`-equivariant linear map `f : End(V) → End(V)` acts as a
 scalar `K` (the compression modulus) on the trivial component `scalarSub` and a scalar `μ`

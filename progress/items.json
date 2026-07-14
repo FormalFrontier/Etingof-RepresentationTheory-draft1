@@ -3136,7 +3136,7 @@
     "start_line": 9,
     "end_line": 12,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy; sorry proofs, statement pass)."
+    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_11.lean (SO(3) conjugation on End(ℝ³): scalar/skew/traceless-symmetric decomposition, S²V=ℝ⊕W, irreducibility of V,W, Hooke's law f(x+y)=Kx+μy). Part (a) decomposition/finranks proved; skewSub_irreducible (#6539) and tracelessSymSub_irreducible (#6547, V4 sign-projections + Pc cyclic spread + 45° rotations Rz45/Ry45) both proved sorry-free. Only hooke_law (#6548, Schur) remains sorry."
   },
   {
     "id": "Chapter4/Discussion_4.13",
