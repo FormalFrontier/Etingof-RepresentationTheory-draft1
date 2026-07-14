@@ -194,4 +194,39 @@ noncomputable def mapRetract {S : ShortComplex (ModuleCat.{u} A)} {P F : ModuleC
       (NatTrans.congr_app hF.retract S.X₂)
       (NatTrans.congr_app hF.retract S.X₃) }
 
+/-! ### Free case and assembly -/
+
+/-- **Free case.** Tensoring a short exact sequence with a free right module `X →₀ Aᵐᵒᵖ`
+(a coproduct of copies of the regular module `Aᵐᵒᵖ`) is short exact.
+
+Intended proof route (#6587 residual): `tensorOver A N (X →₀ Aᵐᵒᵖ) ≅ (X →₀ N)` naturally in `N`
+— from the unit iso `Aᵐᵒᵖ ⊗_A N ≅ N` (`unitorNatIso`) and the commutation of `⊗_A` with the
+coproduct `X →₀ Aᵐᵒᵖ = ⊕_X Aᵐᵒᵖ` (`tensorRightFunctor A N` is a left adjoint, `tensorHomAdjunction`,
+so preserves coproducts). This identifies `tensorLeftFunctor A ((free Aᵐᵒᵖ).obj X)` with
+`forget₂ ⋙ (X →₀ -)`, which is exact because `X →₀ -` (a coproduct) is an exact functor of
+abelian groups (AB4/AB5). -/
+lemma free_map_shortExact (X : Type u)
+    {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
+    (S.map (tensorLeftFunctor A ((ModuleCat.free Aᵐᵒᵖ).obj X))).ShortExact := by
+  sorry
+
+/-- **Problem 8.2.6 flatness crux (#6587).** Tensoring a short exact sequence of left `A`-modules
+with a *projective* right `A`-module `P` is short exact: `P ⊗_A -` preserves short exactness. This
+is the flatness input the `Tor` long exact sequence in the second argument (Problem 8.2.6(iii)) and
+the balancing theorem (Problem 8.2.6(iv), #6583) depend on.
+
+`P` projective is a retract of the free module `↑P →₀ Aᵐᵒᵖ` (the counit epimorphism of the
+free/forget adjunction, split by projectivity); short exactness transfers from the free case along
+the retract (`mapRetract` + `shortExact_of_retract`). -/
+theorem tensorLeftFunctor_map_shortExact (P : ModuleCat.{u} Aᵐᵒᵖ) [Projective P]
+    {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
+    (S.map (tensorLeftFunctor A P)).ShortExact := by
+  let ε : (ModuleCat.free Aᵐᵒᵖ).obj ((forget (ModuleCat.{u} Aᵐᵒᵖ)).obj P) ⟶ P :=
+    (ModuleCat.adj Aᵐᵒᵖ).counit.app P
+  have h : Retract P ((ModuleCat.free Aᵐᵒᵖ).obj ((forget (ModuleCat.{u} Aᵐᵒᵖ)).obj P)) :=
+    { i := Projective.factorThru (𝟙 P) ε
+      r := ε
+      retract := Projective.factorThru_comp (𝟙 P) ε }
+  exact shortExact_of_retract (mapRetract A h) (free_map_shortExact A _ hS)
+
 end Etingof
