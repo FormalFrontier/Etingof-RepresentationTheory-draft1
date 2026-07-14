@@ -586,6 +586,103 @@ lemma Kpow_orderOf_mul_f (q : ℂˣ) :
     K q ^ orderOf q * f q = f q * K q ^ orderOf q := by
   rw [Kpow_mul_f, inv_pow, sq_pow_orderOf_eq_one, inv_one, one_smul]
 
+/-- **Centrality of `K ^ orderOf q`.** At a root of unity the element `K ^ orderOf q` is central
+in `U_q(sl₂)`: it commutes with every element. It commutes with all four generators
+(`Kpow_orderOf_mul_e`, `Kpow_orderOf_mul_f`, and trivially with `K` and `L`), and these generate;
+we reduce a general element to the generator cases via the surjection `mk q` and
+`FreeAlgebra.induction`. -/
+lemma Kpow_orderOf_central (q : ℂˣ) (a : Uqsl2 q) :
+    K q ^ orderOf q * a = a * K q ^ orderOf q := by
+  suffices H : ∀ p : FreeAlgebra ℂ Gen,
+      K q ^ orderOf q * mk q p = mk q p * K q ^ orderOf q by
+    obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Rel q) a
+    exact H p
+  intro p
+  induction p using FreeAlgebra.induction with
+  | grade0 r =>
+      rw [show mk q (algebraMap ℂ (FreeAlgebra ℂ Gen) r) = algebraMap ℂ (Uqsl2 q) r from
+        AlgHom.commutes (mk q) r, Algebra.commutes]
+  | grade1 g =>
+      fin_cases g
+      · change K q ^ orderOf q * e q = e q * K q ^ orderOf q
+        exact Kpow_orderOf_mul_e q
+      · change K q ^ orderOf q * f q = f q * K q ^ orderOf q
+        exact Kpow_orderOf_mul_f q
+      · change K q ^ orderOf q * K q = K q * K q ^ orderOf q
+        rw [← pow_succ, ← pow_succ']
+      · change K q ^ orderOf q * L q = L q * K q ^ orderOf q
+        have hc : Commute (K q) (L q) := by
+          change K q * L q = L q * K q; rw [KL_rel, LK_rel]
+        exact (hc.pow_left (orderOf q)).eq
+  | mul x y hx hy =>
+      rw [map_mul, ← mul_assoc, hx, mul_assoc, hy, ← mul_assoc]
+  | add x y hx hy =>
+      rw [map_add, mul_add, add_mul, hx, hy]
+
+/-- **`K ^ orderOf q` acts as a nonzero scalar.** On a finite dimensional irreducible
+`U_q(sl₂)`-module over `ℂ`, the central element `K ^ orderOf q` acts as a single scalar `α ≠ 0`.
+This is Schur's lemma: `K ^ orderOf q` is central (`Kpow_orderOf_central`), so it acts
+`U_q`-linearly and each of its `ℂ`-eigenspaces is a `U_q`-submodule. Over the algebraically closed
+`ℂ` with `V` finite dimensional the operator has an eigenvalue `α`, and its `α`-eigenspace, being a
+nonzero `U_q`-submodule of the simple module `V`, is all of `V`. `α ≠ 0` because `K ^ orderOf q` is
+a unit (`K · L = 1`). -/
+theorem Kpow_orderOf_isScalar (q : ℂˣ) (hq : IsOfFinOrder q)
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, α ≠ 0 ∧ ∀ v : V, K q ^ orderOf q • v = α • v := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  -- `(Kop)^n` applies as `K^n • ·`.
+  have hTapply : ∀ (n : ℕ) (v : V), (Kop q V ^ n) v = K q ^ n • v := by
+    intro n
+    induction n with
+    | zero => intro v; simp
+    | succ n ih =>
+        intro v
+        rw [pow_succ, Module.End.mul_apply, Kop_apply, ih, ← mul_smul, ← pow_succ]
+  -- `α`: an eigenvalue of the endomorphism `Kop ^ orderOf q`.
+  obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (Kop q V ^ orderOf q)
+  -- The `α`-eigenspace is a `U_q`-submodule (centrality of `K ^ orderOf q`).
+  let W' : Submodule (Uqsl2 q) V :=
+    { carrier := (Module.End.eigenspace (Kop q V ^ orderOf q) α : Set V)
+      add_mem' := fun ha hb => Submodule.add_mem _ ha hb
+      zero_mem' := Submodule.zero_mem _
+      smul_mem' := by
+        intro a x hx
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, hTapply] at hx
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, hTapply,
+          ← mul_smul, Kpow_orderOf_central, mul_smul, hx, smul_comm] }
+  -- Nonzero (it contains an eigenvector), so by simplicity it is everything.
+  have hne : W' ≠ ⊥ := by
+    obtain ⟨v, hv, hv0⟩ := hα.exists_hasEigenvector
+    intro hbot
+    apply hv0
+    have hmem : v ∈ W' := hv
+    rw [hbot, Submodule.mem_bot] at hmem
+    exact hmem
+  have htop : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne
+  refine ⟨α, ?_, ?_⟩
+  · -- `α ≠ 0` since `K ^ orderOf q` is a unit (inverse `L ^ orderOf q`).
+    obtain ⟨v, hv, hv0⟩ := hα.exists_hasEigenvector
+    intro hα0
+    apply hv0
+    have hKv : K q ^ orderOf q • v = 0 := by
+      have hmem := Module.End.mem_eigenspace_iff.mp hv
+      rw [hTapply, hα0, zero_smul] at hmem
+      exact hmem
+    have hLK : L q ^ orderOf q * K q ^ orderOf q = 1 := by
+      have hc : Commute (L q) (K q) := by
+        change L q * K q = K q * L q; rw [LK_rel, KL_rel]
+      rw [← hc.mul_pow, LK_rel, one_pow]
+    have h := congrArg (fun x => L q ^ orderOf q • x) hKv
+    simp only [smul_zero] at h
+    rw [← mul_smul, hLK, one_smul] at h
+    exact h
+  · intro v
+    have hv_mem : v ∈ W' := by rw [htop]; exact Submodule.mem_top
+    have hmem : v ∈ Module.End.eigenspace (Kop q V ^ orderOf q) α := hv_mem
+    rw [Module.End.mem_eigenspace_iff, hTapply] at hmem
+    exact hmem
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
