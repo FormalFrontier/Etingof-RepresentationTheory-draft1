@@ -15,6 +15,7 @@ import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.Tactic.NoncommRing
 
 /-!
 # Problem 3.9.5: The Clifford algebra
@@ -333,6 +334,51 @@ theorem ker_map_radQuotIsometry (hsymm : ∀ x y, B x y = B y x) :
         rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]; exact hu
       rw [hu0, map_zero]
     exact Ideal.span_le.mpr hsub
+
+/-- Each generator `ι u` of `radIdeal` (with `u` in the radical) lies in the Jacobson radical:
+`a := ι u` squares to zero and satisfies `a r a = 0`, so for a maximal left ideal `M` with `a ∉ M`
+one writes `1 = m + r a` with `m = 1 - r a` a unit (inverse `1 + r a`), contradicting `M ≠ ⊤`. -/
+theorem ι_mem_jacobson (hsymm : ∀ x y, B x y = B y x) {u : V} (hu : u ∈ radSubmodule B) :
+    CliffordAlgebra.ι (quadForm B) u ∈ Ring.jacobson (CliffAlg B) := by
+  set a : CliffAlg B := CliffordAlgebra.ι (quadForm B) u with ha
+  have haa : a * a = 0 := by
+    have hQu : quadForm B u = 0 := by
+      have h0 : B u = 0 := (mem_radSubmodule B).1 hu
+      show LinearMap.BilinMap.toQuadraticMap B u = 0
+      rw [LinearMap.BilinMap.toQuadraticMap_apply, h0, LinearMap.zero_apply]
+    rw [ha, CliffordAlgebra.ι_sq_scalar, hQu, map_zero]
+  have hara : ∀ r : CliffAlg B, a * r * a = 0 := by
+    intro r
+    have hkey : a * r = CliffordAlgebra.involute r * a := ι_rad_mul B hsymm hu r
+    rw [hkey, mul_assoc, haa, mul_zero]
+  rw [Ring.jacobson_eq_sInf_isMaximal]
+  refine Ideal.mem_sInf.mpr (fun {M} hM => ?_)
+  rw [Set.mem_setOf_eq] at hM
+  by_contra haM
+  have hlt : M < M ⊔ Ideal.span {a} := by
+    refine lt_of_le_of_ne le_sup_left (fun heq => haM ?_)
+    have hain : a ∈ M ⊔ Ideal.span {a} :=
+      Submodule.mem_sup_right (Ideal.mem_span_singleton_self a)
+    rwa [← heq] at hain
+  have hsup : M ⊔ Ideal.span {a} = ⊤ := (Ideal.isMaximal_def.1 hM).2 _ hlt
+  have h1 : (1 : CliffAlg B) ∈ M ⊔ Ideal.span {a} := hsup ▸ Submodule.mem_top
+  rw [Submodule.mem_sup] at h1
+  obtain ⟨m, hmM, n, hn, hmn⟩ := h1
+  obtain ⟨r, hr⟩ := Ideal.mem_span_singleton'.mp hn
+  have hm_eq : m = 1 - r * a := by rw [← hr] at hmn; exact eq_sub_of_add_eq hmn
+  have h0 : r * a * r * a = 0 := by
+    have e : r * a * r * a = r * (a * r * a) := by noncomm_ring
+    rw [e, hara r, mul_zero]
+  have hunit : IsUnit m := by
+    rw [hm_eq]
+    have hval : (1 - r * a) * (1 + r * a) = 1 := by
+      have e : (1 - r * a) * (1 + r * a) = 1 - r * a * r * a := by noncomm_ring
+      rw [e, h0, sub_zero]
+    have hinv : (1 + r * a) * (1 - r * a) = 1 := by
+      have e : (1 + r * a) * (1 - r * a) = 1 - r * a * r * a := by noncomm_ring
+      rw [e, h0, sub_zero]
+    exact ⟨⟨1 - r * a, 1 + r * a, hval, hinv⟩, rfl⟩
+  exact hM.ne_top (Ideal.eq_top_of_isUnit_mem M hmM hunit)
 
 /-- **Problem 3.9.5(ii), the degenerate quotient.** If `B` is degenerate, the semisimple
 quotient `Cl(V) / Rad(Cl(V))` is the Clifford algebra of a nondegenerate form `B'` on the
