@@ -619,6 +619,14 @@ lemma Kpow_orderOf_central (q : ℂˣ) (a : Uqsl2 q) :
   | add x y hx hy =>
       rw [map_add, mul_add, add_mul, hx, hy]
 
+/-- The `n`-th power of the `K`-endomorphism `Kop` applies as `K^n • ·`. -/
+lemma Kop_pow_apply (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] (n : ℕ) (v : V) :
+    (Kop q V ^ n) v = K q ^ n • v := by
+  induction n generalizing v with
+  | zero => simp
+  | succ n ih => rw [pow_succ, Module.End.mul_apply, Kop_apply, ih, ← mul_smul, ← pow_succ]
+
 /-- **`K ^ orderOf q` acts as a nonzero scalar.** On a finite dimensional irreducible
 `U_q(sl₂)`-module over `ℂ`, the central element `K ^ orderOf q` acts as a single scalar `α ≠ 0`.
 This is Schur's lemma: `K ^ orderOf q` is central (`Kpow_orderOf_central`), so it acts
@@ -626,19 +634,11 @@ This is Schur's lemma: `K ^ orderOf q` is central (`Kpow_orderOf_central`), so i
 `ℂ` with `V` finite dimensional the operator has an eigenvalue `α`, and its `α`-eigenspace, being a
 nonzero `U_q`-submodule of the simple module `V`, is all of `V`. `α ≠ 0` because `K ^ orderOf q` is
 a unit (`K · L = 1`). -/
-theorem Kpow_orderOf_isScalar (q : ℂˣ) (hq : IsOfFinOrder q)
+theorem Kpow_orderOf_isScalar (q : ℂˣ) (_hq : IsOfFinOrder q)
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
     ∃ α : ℂ, α ≠ 0 ∧ ∀ v : V, K q ^ orderOf q • v = α • v := by
   haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
-  -- `(Kop)^n` applies as `K^n • ·`.
-  have hTapply : ∀ (n : ℕ) (v : V), (Kop q V ^ n) v = K q ^ n • v := by
-    intro n
-    induction n with
-    | zero => intro v; simp
-    | succ n ih =>
-        intro v
-        rw [pow_succ, Module.End.mul_apply, Kop_apply, ih, ← mul_smul, ← pow_succ]
   -- `α`: an eigenvalue of the endomorphism `Kop ^ orderOf q`.
   obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (Kop q V ^ orderOf q)
   -- The `α`-eigenspace is a `U_q`-submodule (centrality of `K ^ orderOf q`).
@@ -648,8 +648,8 @@ theorem Kpow_orderOf_isScalar (q : ℂˣ) (hq : IsOfFinOrder q)
       zero_mem' := Submodule.zero_mem _
       smul_mem' := by
         intro a x hx
-        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, hTapply] at hx
-        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, hTapply,
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, Kop_pow_apply] at hx
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, Kop_pow_apply,
           ← mul_smul, Kpow_orderOf_central, mul_smul, hx, smul_comm] }
   -- Nonzero (it contains an eigenvector), so by simplicity it is everything.
   have hne : W' ≠ ⊥ := by
@@ -667,7 +667,7 @@ theorem Kpow_orderOf_isScalar (q : ℂˣ) (hq : IsOfFinOrder q)
     apply hv0
     have hKv : K q ^ orderOf q • v = 0 := by
       have hmem := Module.End.mem_eigenspace_iff.mp hv
-      rw [hTapply, hα0, zero_smul] at hmem
+      rw [Kop_pow_apply, hα0, zero_smul] at hmem
       exact hmem
     have hLK : L q ^ orderOf q * K q ^ orderOf q = 1 := by
       have hc : Commute (L q) (K q) := by
@@ -680,8 +680,48 @@ theorem Kpow_orderOf_isScalar (q : ℂˣ) (hq : IsOfFinOrder q)
   · intro v
     have hv_mem : v ∈ W' := by rw [htop]; exact Submodule.mem_top
     have hmem : v ∈ Module.End.eigenspace (Kop q V ^ orderOf q) α := hv_mem
-    rw [Module.End.mem_eigenspace_iff, hTapply] at hmem
+    rw [Module.End.mem_eigenspace_iff, Kop_pow_apply] at hmem
     exact hmem
+
+/-- **`K` is diagonalizable at a root of unity.** On a finite dimensional irreducible
+`U_q(sl₂)`-module over `ℂ`, the `K`-endomorphism `Kop` is a semisimple operator: it satisfies the
+separable annihilating polynomial `X ^ orderOf q - C α` (where `α` is the scalar from
+`Kpow_orderOf_isScalar`, nonzero, so the polynomial is squarefree in characteristic zero), hence its
+eigenspaces span `V`, and every `K`-eigenvalue is an `orderOf q`-th root of `α` (so there are at
+most `orderOf q` distinct `K`-eigenvalues). -/
+theorem Kop_isSemisimple_and_eigenvalues (q : ℂˣ) (hq : IsOfFinOrder q)
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    (Kop q V).IsSemisimple ∧
+      (⨆ μ : ℂ, Module.End.eigenspace (Kop q V) μ) = ⊤ ∧
+      ∃ α : ℂ, α ≠ 0 ∧ ∀ μ : ℂ, (Kop q V).HasEigenvalue μ → μ ^ orderOf q = α := by
+  obtain ⟨α, hα0, hα⟩ := Kpow_orderOf_isScalar q hq V
+  have hℓ : 0 < orderOf q := hq.orderOf_pos
+  -- `Kop` satisfies `Kop ^ orderOf q = α • 1`.
+  have hpow : Kop q V ^ orderOf q = α • (1 : Module.End ℂ V) := by
+    ext v; rw [Kop_pow_apply, hα v, LinearMap.smul_apply, Module.End.one_apply]
+  -- so it is a root of the separable (hence squarefree) polynomial `X ^ orderOf q - C α`.
+  have hss : (Kop q V).IsSemisimple := by
+    have hsqf : Squarefree (Polynomial.X ^ orderOf q - Polynomial.C α : Polynomial ℂ) :=
+      (Polynomial.separable_X_pow_sub_C α (Nat.cast_ne_zero.mpr hℓ.ne') hα0).squarefree
+    have haeval : Polynomial.aeval (Kop q V) (Polynomial.X ^ orderOf q - Polynomial.C α) = 0 := by
+      rw [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C, hpow,
+        Algebra.algebraMap_eq_smul_one, sub_self]
+    exact Module.End.isSemisimple_of_squarefree_aeval_eq_zero hsqf haeval
+  refine ⟨hss, hss.iSup_eigenspace_eq_top, α, hα0, ?_⟩
+  intro μ hμ
+  obtain ⟨v, hv, hv0⟩ := hμ.exists_hasEigenvector
+  have hve : Kop q V v = μ • v := Module.End.mem_eigenspace_iff.mp hv
+  -- On the eigenvector `v`, `Kop ^ n` acts by `μ ^ n`; specialise at `orderOf q`, compare to `α`.
+  have hpm : ∀ n : ℕ, (Kop q V ^ n) v = μ ^ n • v := by
+    intro n
+    induction n with
+    | zero => simp
+    | succ n ih => rw [pow_succ, Module.End.mul_apply, hve, map_smul, ih, smul_smul, ← pow_succ']
+  have h1 : μ ^ orderOf q • v = α • v := by
+    rw [← hpm, hpow, LinearMap.smul_apply, Module.End.one_apply]
+  have h2 : (μ ^ orderOf q - α) • v = 0 := by rw [sub_smul, h1, sub_self]
+  exact (smul_eq_zero.mp h2).resolve_right hv0 |> sub_eq_zero.mp
 
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
