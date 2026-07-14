@@ -7493,8 +7493,8 @@
     "end_page": "219",
     "start_line": 11,
     "end_line": 29,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass: EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean states the existence of a quasi-inverse tensor functor G (with the natural map ξ) to F = preadditiveCoyonedaObjFG, bundling parts (i) F∘G≅Id, (ii) ξ epi, (iii) ξ iso. Proof sorry'd."
+    "status": "proved",
+    "coverage_note": "Proved (#6567): EtingofRepresentationTheory/Chapter9/Problem9_6_5.lean discharges exists_quasiInverse_tensor_functor sorry-free. Since Theorem 9.6.4 already proves F = preadditiveCoyonedaObjFG is an equivalence (via essential surjectivity + fully faithful, no circularity), the existential quasi-inverse follows from the abstract inverse: G = F.asEquivalence.inverse, ξ = unitIso.inv, with (i) counit iso, (ii) ξ componentwise epi, (iii) ξ iso. #print axioms shows only propext/Classical.choice/Quot.sound."
   },
   {
     "id": "Chapter9/Introduction_9.7",
