@@ -169,4 +169,121 @@ noncomputable def stdΦRetr : (inducedRestrictObj M : Type (u + 1)) →+ induced
 @[simp] theorem stdΦRetr_tmul (a : PathAlgebra k Q) (m : restrictObj M) :
     stdΦRetr M (a ⊗ₜ[Q → k] m) = Rbilin M a m := rfl
 
+/-! ## The retraction identity and injectivity of `Φ` -/
+
+/-- **The retraction inverts `Φ` on basis generators.** Splitting off the final arrow of the
+product `a · v` recovers the pure tensor `a ⊗ (v ⊗ m)`. Reduces, via bi-additivity, to a single
+path `x` times a single arrow `y`: when composable, cons-uniqueness identifies the split; when not,
+both sides vanish (the domain pure tensor by the source-action balancing). -/
+theorem Rbilin_mul_arrowInclusion (a : PathAlgebra k Q) (v : ArrowTgt k Q) (m : restrictObj M) :
+    Rbilin M (a * arrowInclusion v) m
+      = (a ⊗ₜ[Q → k] ((v ⊗ₜ[Q → k] m : VtensObj M)) : inducedVtensObj M) := by
+  induction a using Finsupp.induction_linear with
+  | zero => simp
+  | add f g hf hg =>
+      rw [add_mul, map_add, AddMonoidHom.add_apply, hf, hg, TensorProduct.add_tmul]
+  | single x c =>
+      induction v using Finsupp.induction_linear with
+      | zero => simp
+      | add v w hv hw =>
+          rw [map_add, mul_add, map_add, AddMonoidHom.add_apply, hv, hw,
+            TensorProduct.add_tmul, TensorProduct.tmul_add]
+      | single y d =>
+          rw [arrowInclusion_single]
+          rw [show (Finsupp.single x c : PathAlgebra k Q) = c • ofPath x from by
+                rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]]
+          rw [show (c • ofPath x : PathAlgebra k Q) * (d • arrowElt y)
+                = (c * d) • (ofPath x * arrowElt y) from by rw [smul_mul_smul_comm]]
+          obtain ⟨a₀, b₀, p⟩ := x
+          obtain ⟨c₀, d₀, e⟩ := y
+          by_cases hbc : b₀ = c₀
+          · subst hbc
+            -- composable: `x · y = cons p e`
+            rw [ofPath_mul_arrowElt, Quiver.Path.comp_toPath_eq_cons,
+              show ((c * d) • ofPath (⟨a₀, d₀, Quiver.Path.cons p e⟩ : QuiverPathIndex Q)
+                    : PathAlgebra k Q)
+                  = Finsupp.single (⟨a₀, d₀, Quiver.Path.cons p e⟩ : QuiverPathIndex Q) (c * d)
+                  from by rw [ofPath, Finsupp.smul_single, smul_eq_mul, mul_one],
+              Rbilin_single, consContrib_cons]
+            -- move `d` from the coefficient onto the arrow via `const d` and the balancing
+            rw [show ((c * d) • ofPath (⟨a₀, b₀, p⟩ : QuiverPathIndex Q) : PathAlgebra k Q)
+                  = (Function.const Q d : Q → k) • (c • ofPath (⟨a₀, b₀, p⟩ : QuiverPathIndex Q))
+                  from by rw [mul_comm, mul_smul, ← kSMul_eq_constSMul]]
+            rw [TensorProduct.smul_tmul]
+            congr 1
+            change (Function.const Q d : Q → k) • (_ : VtensObj M) = _
+            rw [vtens_smul_def, vtens_smul_tmul, srcHom_apply]
+            congr 1
+            change wSMul k Q ArrowIndex.src _ _ = _
+            rw [wSMul_single]; simp
+          · -- non-composable: both sides are zero
+            have hz : wSMul k Q ArrowIndex.src (Pi.single b₀ 1)
+                (Finsupp.single (⟨c₀, d₀, e⟩ : ArrowIndex Q) d) = 0 := by
+              rw [wSMul_single]
+              simp only [ArrowIndex.src_mk, Pi.single_eq_of_ne (Ne.symm hbc), zero_mul,
+                Finsupp.single_zero]
+            rw [arrowElt, ArrowIndex.toPathIndex, ofPath_mul_ofPath, compSingle_eq_zero _ _ hbc,
+              smul_zero, map_zero, AddMonoidHom.zero_apply]
+            symm
+            rw [show (c • ofPath (⟨a₀, b₀, p⟩ : QuiverPathIndex Q) : PathAlgebra k Q)
+                  = (Pi.single b₀ 1 : Q → k) • (c • ofPath (⟨a₀, b₀, p⟩ : QuiverPathIndex Q))
+                  from by rw [vertex_smul_def, smul_mul_assoc, ofPath_mul_vertexEmbedding]; simp]
+            rw [TensorProduct.smul_tmul, vtens_smul_def, vtens_smul_tmul, srcHom_apply, hz,
+              TensorProduct.zero_tmul, TensorProduct.tmul_zero]
+
+/-- **The additive retraction inverts `Φ`.** `stdΦRetr ∘ Φ = id`; the retraction genuinely splits
+off the arrow that `Φ` multiplied in. -/
+theorem stdΦRetr_stdΦ (x : inducedVtensObj M) :
+    stdΦRetr M ((stdΦ M).hom x) = x := by
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul v m => rw [stdΦ_tmul, stdΦRetr_tmul, Rbilin_mul_arrowInclusion]
+      | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
+  | add x z hx hz => rw [map_add, map_add, hx, hz]
+
+/-- **Injectivity of the top half `Φ` of `d`.** From the additive retraction `stdΦRetr`. This is
+the injectivity content of the cons-splitting `A_n ⊗_S V ≅ A_{n+1}` tensored with `M`. -/
+theorem stdΦ_injective : Function.Injective (stdΦ M).hom :=
+  Function.LeftInverse.injective (stdΦRetr_stdΦ M)
+
+/-! ## Injectivity of the boundary `d` -/
+
+/-- **`Mono (stdd M)`: the boundary map `d` is injective.** Top-degree telescoping: from `d ξ = 0`
+and the coordinate shift `inducedCoordMap_stdd_shift`, the graded components satisfy
+`Φ(ξ_n) = Ψ(ξ_{n+1})`; applying the retraction gives `ξ_n = R(Ψ(ξ_{n+1}))`, so
+`finsupp_shift_eq_zero` forces every `ξ_n = 0`, hence `ξ = 0` by `inducedCoordMapGen_injective`. The
+noncommutative analogue of the `Mono d` half of `koszulSES_shortExact`. -/
+theorem stdd_injective : Function.Injective (stdd M).hom := by
+  rw [injective_iff_map_eq_zero]
+  intro ξ hξ
+  set g : inducedVtensObj M → inducedVtensObj M :=
+    fun y => stdΦRetr M ((stdΨ M).hom y) with hg
+  have hF : inducedCoordMapGen (VtensObj M) ξ = 0 := by
+    refine finsupp_shift_eq_zero g (by rw [hg]; simp) _ (fun n => ?_)
+    have key := inducedCoordMap_stdd_shift M ξ n
+    rw [hξ] at key
+    simp only [map_zero, Finsupp.zero_apply] at key
+    have hΦΨ : (stdΦ M).hom (inducedCoordMapGen (VtensObj M) ξ n)
+        = (stdΨ M).hom (inducedCoordMapGen (VtensObj M) ξ (n + 1)) := by
+      rw [← sub_eq_zero]; exact key.symm
+    rw [hg]
+    calc inducedCoordMapGen (VtensObj M) ξ n
+        = stdΦRetr M ((stdΦ M).hom (inducedCoordMapGen (VtensObj M) ξ n)) :=
+          (stdΦRetr_stdΦ M _).symm
+      _ = stdΦRetr M ((stdΨ M).hom (inducedCoordMapGen (VtensObj M) ξ (n + 1))) := by rw [hΦΨ]
+  have := inducedCoordMapGen_injective (VtensObj M)
+  apply this
+  rw [hF, map_zero]
+
+/-- **`Mono (stdd M)`.** Injectivity of the boundary map `d` of the standard short complex, as a
+categorical monomorphism. This is the residual deliverable of the standard resolution short exact
+sequence (issue #6512): together with `standardComplex_exact` (middle exactness) and `epi_stdε`, it
+assembles `(standardComplex M).ShortExact`. -/
+theorem stdd_mono : Mono (stdd M) := by
+  rw [ModuleCat.mono_iff_injective]
+  exact stdd_injective M
+
 end Etingof.PathAlgebra
