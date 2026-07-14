@@ -556,6 +556,178 @@ theorem tracelessSymSub_irreducible (U : Submodule ℝ EndV) (hUle : U ≤ trace
     U = ⊥ ∨ U = tracelessSymSub := by
   sorry
 
+/-! ### Schur-lemma infrastructure for Hooke's law -/
+
+/-- The conjugation action fixes the identity matrix: `conjRep A 1 = 1`. -/
+theorem conjRep_one (A : SO3) : conjRep A (1 : EndV) = 1 := by
+  rw [conjRep_apply, Matrix.mul_one, coe_mul_star]
+
+/-- The conjugation action commutes with transpose: `conjRep A (Mᵀ) = (conjRep A M)ᵀ`. -/
+theorem conjRep_transpose (A : SO3) (M : EndV) :
+    conjRep A Mᵀ = (conjRep A M)ᵀ := by
+  simp only [conjRep_apply, star_coe_eq_transpose, Matrix.transpose_mul,
+    Matrix.transpose_transpose, Matrix.mul_assoc]
+
+/-- The conjugation action preserves the trace: `trace (conjRep A M) = trace M`. -/
+theorem conjRep_trace (A : SO3) (M : EndV) : (conjRep A M).trace = M.trace := by
+  rw [conjRep_apply, Matrix.trace_mul_comm ((A : EndV) * M) (star (A : EndV)),
+    ← Matrix.mul_assoc, star_mul_coe, Matrix.one_mul]
+
+/-- Projection of `End(V)` onto the scalar (trivial) summand: `M ↦ (trace M / 3) • 1`. -/
+def scalarProj : EndV →ₗ[ℝ] EndV where
+  toFun M := (M.trace / 3) • (1 : EndV)
+  map_add' M N := by rw [Matrix.trace_add]; module
+  map_smul' c M := by rw [Matrix.trace_smul]; simp only [RingHom.id_apply, smul_eq_mul]; module
+
+@[simp] theorem scalarProj_apply (M : EndV) : scalarProj M = (M.trace / 3) • (1 : EndV) := rfl
+
+/-- `scalarProj` is `SO(3)`-equivariant. -/
+theorem scalarProj_equivariant (A : SO3) (M : EndV) :
+    scalarProj (conjRep A M) = conjRep A (scalarProj M) := by
+  rw [scalarProj_apply, scalarProj_apply, conjRep_trace, map_smul, conjRep_one]
+
+/-- Projection of `End(V)` onto the skew-symmetric summand: `M ↦ (1/2) • (M - Mᵀ)`. -/
+def skewProj : EndV →ₗ[ℝ] EndV where
+  toFun M := (1 / 2 : ℝ) • (M - Mᵀ)
+  map_add' M N := by rw [Matrix.transpose_add]; module
+  map_smul' c M := by rw [Matrix.transpose_smul]; simp only [RingHom.id_apply]; module
+
+@[simp] theorem skewProj_apply (M : EndV) : skewProj M = (1 / 2 : ℝ) • (M - Mᵀ) := rfl
+
+/-- `skewProj` is `SO(3)`-equivariant. -/
+theorem skewProj_equivariant (A : SO3) (M : EndV) :
+    skewProj (conjRep A M) = conjRep A (skewProj M) := by
+  rw [skewProj_apply, skewProj_apply, map_smul, map_sub, conjRep_transpose]
+
+/-- `scalarProj M` lies in `scalarSub`. -/
+theorem scalarProj_mem (M : EndV) : scalarProj M ∈ scalarSub := by
+  rw [scalarProj_apply, scalarSub]
+  exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+
+/-- `skewProj M` lies in `skewSub`. -/
+theorem skewProj_mem (M : EndV) : skewProj M ∈ skewSub := by
+  rw [skewProj_apply, mem_skewSub_iff, Matrix.transpose_smul, Matrix.transpose_sub,
+    Matrix.transpose_transpose]
+  module
+
+/-- **Schur, dimension form.** An `SO(3)`-equivariant map `φ` sending an irreducible invariant
+subspace `W` into a *strictly smaller* invariant subspace `Wsmall` vanishes on `W`: otherwise the
+restriction `W → Wsmall` would be injective, forcing `finrank W ≤ finrank Wsmall`. -/
+theorem equivMap_eq_zero_of_finrank_lt (φ : EndV →ₗ[ℝ] EndV)
+    (hφ : ∀ (A : SO3) (M : EndV), φ (conjRep A M) = conjRep A (φ M))
+    (W Wsmall : Submodule ℝ EndV)
+    (hWirr : ∀ (U : Submodule ℝ EndV), U ≤ W →
+      (∀ (A : SO3), ∀ M ∈ U, conjRep A M ∈ U) → U = ⊥ ∨ U = W)
+    (hWinv : ∀ (A : SO3), ∀ M ∈ W, conjRep A M ∈ W)
+    (hmaps : ∀ w ∈ W, φ w ∈ Wsmall)
+    (hlt : Module.finrank ℝ Wsmall < Module.finrank ℝ W) :
+    ∀ w ∈ W, φ w = 0 := by
+  have hkerinv : ∀ (A : SO3), ∀ M ∈ LinearMap.ker φ, conjRep A M ∈ LinearMap.ker φ := by
+    intro A M hM
+    rw [LinearMap.mem_ker] at hM ⊢
+    rw [hφ A M, hM, map_zero]
+  set K := W ⊓ LinearMap.ker φ with hK
+  have hKinv : ∀ (A : SO3), ∀ M ∈ K, conjRep A M ∈ K := by
+    intro A M hM
+    rw [hK, Submodule.mem_inf] at hM ⊢
+    exact ⟨hWinv A M hM.1, hkerinv A M hM.2⟩
+  rcases hWirr K inf_le_left hKinv with hbot | htop
+  · exfalso
+    have hψinj : Function.Injective (φ.restrict hmaps) := by
+      rw [injective_iff_map_eq_zero]
+      rintro ⟨x, hx⟩ hψ0
+      have hfx : φ x = 0 := by
+        have := congrArg (Subtype.val) hψ0
+        rwa [LinearMap.coe_restrict_apply, ZeroMemClass.coe_zero] at this
+      have hxK : x ∈ K := by rw [hK]; exact ⟨hx, LinearMap.mem_ker.mpr hfx⟩
+      rw [hbot, Submodule.mem_bot] at hxK
+      exact Subtype.ext hxK
+    have := LinearMap.finrank_le_finrank_of_injective hψinj
+    omega
+  · intro w hw
+    have : w ∈ K := by rw [htop]; exact hw
+    rw [hK, Submodule.mem_inf] at this
+    exact LinearMap.mem_ker.mp this.2
+
+/-- An `SO(3)`-invariant matrix (fixed by `Dz`, `Dy` and the cyclic rotation `Pc`) is a scalar. -/
+theorem invariant_matrix_scalar (N : EndV)
+    (hz : conjRep Dz N = N) (hy : conjRep Dy N = N) (hp : conjRep Pc N = N) :
+    N = N 0 0 • (1 : EndV) := by
+  rw [conjRep_apply] at hz hy hp
+  -- off-diagonal entries killed by the sign rotations `Dz`, `Dy`
+  have z02 := congr_fun (congr_fun hz 0) 2
+  have z20 := congr_fun (congr_fun hz 2) 0
+  have z12 := congr_fun (congr_fun hz 1) 2
+  have z21 := congr_fun (congr_fun hz 2) 1
+  have y01 := congr_fun (congr_fun hy 0) 1
+  have y10 := congr_fun (congr_fun hy 1) 0
+  -- diagonal entries equalised by the cyclic rotation `Pc`
+  have p00 := congr_fun (congr_fun hp 0) 0
+  have p11 := congr_fun (congr_fun hp 1) 1
+  have p22 := congr_fun (congr_fun hp 2) 2
+  simp only [Dz, Dy, Pc, Matrix.mul_apply, Fin.sum_univ_three, star, Matrix.conjTranspose,
+    Matrix.transpose, Matrix.of_apply, Matrix.map_apply, Matrix.cons_val', Matrix.cons_val_zero,
+    Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons,
+    id_eq] at z02 z20 z12 z21 y01 y10 p00 p11 p22
+  have h01 : N 0 1 = 0 := by linarith
+  have h10 : N 1 0 = 0 := by linarith
+  have h02 : N 0 2 = 0 := by linarith
+  have h20 : N 2 0 = 0 := by linarith
+  have h12 : N 1 2 = 0 := by linarith
+  have h21 : N 2 1 = 0 := by linarith
+  have h11 : N 1 1 = N 0 0 := by linarith
+  have h22 : N 2 2 = N 0 0 := by linarith
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.smul_apply, smul_eq_mul, h01, h10, h02, h20, h12, h21, h11, h22]
+
+open Polynomial Filter Topology in
+/-- A real polynomial of odd degree has a root (via the intermediate value theorem). -/
+theorem exists_isRoot_of_odd_natDegree {p : ℝ[X]} (hodd : Odd p.natDegree) :
+    ∃ x : ℝ, p.IsRoot x := by
+  have hpne : p ≠ 0 := by rintro rfl; simp at hodd
+  have hlc : p.leadingCoeff ≠ 0 := leadingCoeff_ne_zero.mpr hpne
+  set c := p.leadingCoeff⁻¹ with hc
+  have hcne : c ≠ 0 := inv_ne_zero hlc
+  set q := C c * p with hq
+  have hqdeg : q.natDegree = p.natDegree := by rw [hq, natDegree_C_mul hcne]
+  have hqodd : Odd q.natDegree := hqdeg ▸ hodd
+  have hqlc : q.leadingCoeff = 1 := by
+    rw [hq, leadingCoeff_mul, leadingCoeff_C, hc, inv_mul_cancel₀ hlc]
+  have hqnd : q.natDegree ≠ 0 := by
+    rintro h; rw [h] at hqodd; simp at hqodd
+  have hdeg : 0 < q.degree := natDegree_pos_iff_degree_pos.mp (Nat.pos_of_ne_zero hqnd)
+  -- reduce the root of `p` to a root of `q` (same roots, positive leading coefficient)
+  suffices h : ∃ x, q.IsRoot x by
+    obtain ⟨x, hx⟩ := h
+    refine ⟨x, ?_⟩
+    have : eval x q = 0 := hx
+    rw [hq, eval_mul, eval_C] at this
+    exact (mul_eq_zero.mp this).resolve_left hcne
+  -- a point where `q` is positive
+  have hpos : Tendsto (fun x => eval x q) atTop atTop :=
+    q.tendsto_atTop_of_leadingCoeff_nonneg hdeg (by rw [hqlc]; norm_num)
+  obtain ⟨b, hb⟩ := (hpos.eventually_gt_atTop 0).exists
+  -- a point where `q` is negative, via `q ∘ (-X)`
+  set r := q.comp (-X) with hr
+  have hrnd : r.natDegree = q.natDegree := by rw [hr, natDegree_comp]; simp
+  have hrdeg : 0 < r.degree :=
+    natDegree_pos_iff_degree_pos.mp (by rw [hrnd]; exact Nat.pos_of_ne_zero hqnd)
+  have hrlc : r.leadingCoeff ≤ 0 := by
+    rw [hr, leadingCoeff_comp (by simp), hqlc, one_mul, leadingCoeff_neg, leadingCoeff_X,
+      Odd.neg_one_pow hqodd]
+    norm_num
+  have hneg : Tendsto (fun x => eval x r) atTop atBot :=
+    r.tendsto_atBot_of_leadingCoeff_nonpos hrdeg hrlc
+  obtain ⟨a, ha⟩ := (hneg.eventually_lt_atBot 0).exists
+  have ha' : eval (-a) q < 0 := by rw [hr, eval_comp, eval_neg, eval_X] at ha; exact ha
+  have hmem : (0 : ℝ) ∈ Set.Icc (eval (-a) q) (eval b q) := ⟨ha'.le, hb.le⟩
+  rcases le_total (-a) b with hab | hab
+  · obtain ⟨x, _, hx⟩ := intermediate_value_Icc hab q.continuous.continuousOn hmem
+    exact ⟨x, hx⟩
+  · obtain ⟨x, _, hx⟩ := intermediate_value_Icc' hab q.continuous.continuousOn hmem
+    exact ⟨x, hx⟩
+
 /-- **(b), Hooke's law.** Any `SO(3)`-equivariant linear map `f : End(V) → End(V)` acts as a
 scalar `K` (the compression modulus) on the trivial component `scalarSub` and a scalar `μ`
 (the shearing modulus) on the `W`-component `tracelessSymSub`, and it maps symmetric matrices
@@ -567,6 +739,95 @@ theorem hooke_law (f : EndV →ₗ[ℝ] EndV)
       (∀ x ∈ scalarSub, f x = K • x) ∧
       (∀ y ∈ tracelessSymSub, f y = μ • y) ∧
       (∀ x ∈ symSub, f x ∈ symSub) := by
-  sorry
+  have hf_pt : ∀ (A : SO3) (M : EndV), f (conjRep A M) = conjRep A (f M) :=
+    fun A M => LinearMap.congr_fun (hf A) M
+  -- **Deliverable 1: `K` on `scalarSub`.** `f 1` is `conjRep`-invariant, hence scalar.
+  have hinv1 : ∀ A : SO3, conjRep A (f 1) = f 1 := fun A => by rw [← hf_pt A 1, conjRep_one]
+  set K := (f 1) 0 0 with hKdef
+  have hf1 : f 1 = K • (1 : EndV) :=
+    invariant_matrix_scalar (f 1) (hinv1 Dz) (hinv1 Dy) (hinv1 Pc)
+  have hscalar : ∀ x ∈ scalarSub, f x = K • x := by
+    intro x hx
+    rw [scalarSub, Submodule.mem_span_singleton] at hx
+    obtain ⟨c, rfl⟩ := hx
+    rw [map_smul, hf1, smul_comm]
+  -- **Deliverable 2: `f` preserves `tracelessSymSub`.** Its scalar/skew components vanish by Schur.
+  have hWinv : ∀ (A : SO3), ∀ M ∈ tracelessSymSub, conjRep A M ∈ tracelessSymSub :=
+    fun A M hM => conjRep_invariant tracelessSymSub (Or.inr (Or.inr rfl)) A M hM
+  have hsc0 : ∀ w ∈ tracelessSymSub, scalarProj (f w) = 0 := by
+    refine equivMap_eq_zero_of_finrank_lt (scalarProj.comp f) ?_ tracelessSymSub scalarSub
+      tracelessSymSub_irreducible hWinv ?_ ?_
+    · intro A M; simp only [LinearMap.comp_apply]; rw [hf_pt, scalarProj_equivariant]
+    · intro w _; simp only [LinearMap.comp_apply]; exact scalarProj_mem _
+    · rw [scalarSub_finrank, tracelessSymSub_finrank]; norm_num
+  have hsk0 : ∀ w ∈ tracelessSymSub, skewProj (f w) = 0 := by
+    refine equivMap_eq_zero_of_finrank_lt (skewProj.comp f) ?_ tracelessSymSub skewSub
+      tracelessSymSub_irreducible hWinv ?_ ?_
+    · intro A M; simp only [LinearMap.comp_apply]; rw [hf_pt, skewProj_equivariant]
+    · intro w _; simp only [LinearMap.comp_apply]; exact skewProj_mem _
+    · rw [skewSub_finrank, tracelessSymSub_finrank]; norm_num
+  have hmapsW : ∀ w ∈ tracelessSymSub, f w ∈ tracelessSymSub := by
+    intro w hw
+    have hs := hsc0 w hw
+    have hk := hsk0 w hw
+    rw [scalarProj_apply, smul_eq_zero] at hs
+    rw [skewProj_apply, smul_eq_zero] at hk
+    rw [mem_tracelessSymSub_iff]
+    refine ⟨?_, ?_⟩
+    · rcases hk with h | h
+      · norm_num at h
+      · rw [sub_eq_zero] at h; exact h.symm
+    · rcases hs with h | h
+      · exact (div_eq_zero_iff.mp h).resolve_right (by norm_num)
+      · exact absurd h one_ne_zero
+  -- **Deliverable 3: `μ` on `tracelessSymSub`.** `f|_W` on odd-dim `W` has a real eigenvalue `μ`;
+  -- its `μ`-eigenspace is a nonzero invariant subspace, hence all of `W` by irreducibility.
+  set g : Module.End ℝ tracelessSymSub := f.restrict hmapsW with hg
+  have hgnd : g.charpoly.natDegree = 5 := by
+    rw [LinearMap.charpoly_natDegree, tracelessSymSub_finrank]
+  obtain ⟨μ, hμ⟩ := exists_isRoot_of_odd_natDegree (p := g.charpoly) (by rw [hgnd]; decide)
+  have hev : g.HasEigenvalue μ := (Module.End.hasEigenvalue_iff_isRoot_charpoly g μ).mpr hμ
+  obtain ⟨v, hvec⟩ := hev.exists_hasEigenvector
+  have hvsmul : g v = μ • v := hvec.apply_eq_smul
+  have hvne : (v : EndV) ≠ 0 :=
+    fun h => (Module.End.hasEigenvector_iff.mp hvec).2 (Subtype.ext (by simpa using h))
+  have hfv : f (v : EndV) = μ • (v : EndV) := by
+    have := congrArg (Subtype.val) hvsmul
+    rwa [LinearMap.coe_restrict_apply, Submodule.coe_smul] at this
+  set E := tracelessSymSub ⊓ LinearMap.ker (f - μ • LinearMap.id) with hE
+  have hEinv : ∀ (A : SO3), ∀ M ∈ E, conjRep A M ∈ E := by
+    intro A M hM
+    rw [hE, Submodule.mem_inf] at hM
+    obtain ⟨hM1, hM2⟩ := hM
+    rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      sub_eq_zero] at hM2
+    rw [hE, Submodule.mem_inf]
+    refine ⟨hWinv A M hM1, ?_⟩
+    rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      sub_eq_zero, hf_pt, hM2, map_smul]
+  have hEne : E ≠ ⊥ := by
+    rw [Submodule.ne_bot_iff]
+    refine ⟨v, ?_, hvne⟩
+    rw [hE, Submodule.mem_inf]
+    refine ⟨v.2, ?_⟩
+    rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply,
+      sub_eq_zero, hfv]
+  have hEtop : E = tracelessSymSub :=
+    (tracelessSymSub_irreducible E inf_le_left hEinv).resolve_left hEne
+  have hmu : ∀ y ∈ tracelessSymSub, f y = μ • y := by
+    intro y hy
+    have hyE : y ∈ E := by rw [hEtop]; exact hy
+    rw [hE, Submodule.mem_inf, LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply,
+      LinearMap.id_apply, sub_eq_zero] at hyE
+    exact hyE.2
+  -- **Deliverable 4: `f` preserves `symSub`.** Split `x = s + w` and reuse the two scalars.
+  refine ⟨K, μ, hscalar, hmu, ?_⟩
+  intro x hx
+  rw [← symSub_eq_scalar_sup_tracelessSym.1] at hx
+  rw [Submodule.mem_sup] at hx
+  obtain ⟨s, hs, w, hw, rfl⟩ := hx
+  rw [map_add, hscalar s hs, hmu w hw]
+  exact Submodule.add_mem _ (Submodule.smul_mem symSub K (scalar_le_sym hs))
+    (Submodule.smul_mem symSub μ (tracelessSym_le_sym hw))
 
 end Etingof.Problem4_12_11
