@@ -276,10 +276,9 @@ lemma L_ladder (v : V) (lam : ℂ) (hlam : lam ≠ 0) (hKv : K q • v = lam •
 
 /-- The commutator action on a `K`-eigenvector `x` (with `K • x = a • x`, `L • x = a⁻¹ • x`):
 `e • (f • x) = f • (e • x) + (q - q⁻¹)⁻¹·(a - a⁻¹) • x`, from `[e,f] = (K-L)/(q-q⁻¹)`. -/
-lemma ef_action (hq : ¬ IsOfFinOrder q) (x : V) (a : ℂ)
+lemma ef_action (hne : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) (x : V) (a : ℂ)
     (hK : K q • x = a • x) (hL : L q • x = a⁻¹ • x) :
     e q • (f q • x) = f q • (e q • x) + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (a - a⁻¹)) • x := by
-  have hne : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne q hq
   have expand : (K q - L q) • x = (a - a⁻¹) • x := by rw [sub_smul, sub_smul, hK, hL]
   have expand2 : (e q * f q - f q * e q) • x = e q • (f q • x) - f q • (e q • x) := by
     rw [sub_smul, mul_smul, mul_smul]
@@ -298,19 +297,19 @@ noncomputable def dcoef (lam : ℂ) (i : ℕ) : ℂ :=
   ∑ j ∈ Finset.range (i + 1), ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (mu q lam j - (mu q lam j)⁻¹)
 
 /-- The `e`-action on the ladder: `e • fⁱ⁺¹v = dcoef q lam i · fⁱv`. -/
-lemma e_ladder (hq : ¬ IsOfFinOrder q) (v : V) (lam : ℂ) (hlam : lam ≠ 0)
+lemma e_ladder (hne : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) (v : V) (lam : ℂ) (hlam : lam ≠ 0)
     (he : e q • v = 0) (hKv : K q • v = lam • v) (i : ℕ) :
     e q • ladder q V v (i + 1) = dcoef q lam i • ladder q V v i := by
   induction i with
   | zero =>
     rw [ladder_succ,
-      ef_action q V hq (ladder q V v 0) (mu q lam 0)
+      ef_action q V hne (ladder q V v 0) (mu q lam 0)
         (K_ladder q V v lam hKv 0) (L_ladder q V v lam hlam hKv 0)]
     have hev : e q • ladder q V v 0 = 0 := by simpa using he
     rw [hev, smul_zero, zero_add, dcoef, Finset.sum_range_one]
   | succ n ih =>
     rw [ladder_succ,
-      ef_action q V hq (ladder q V v (n + 1)) (mu q lam (n + 1))
+      ef_action q V hne (ladder q V v (n + 1)) (mu q lam (n + 1))
         (K_ladder q V v lam hKv (n + 1)) (L_ladder q V v lam hlam hKv (n + 1)),
       ih, smul_comm (f q) (dcoef q lam n), ← ladder_succ, ← add_smul]
     congr 1
@@ -436,6 +435,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
     ∃ (v : V) (ε : ℂ), v ≠ 0 ∧ e q • v = 0 ∧ ε ^ 2 = 1 ∧
       K q • v = (ε * (q : ℂ) ^ (Module.finrank ℂ V - 1)) • v := by
   haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  have hqinv : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne q hq
   obtain ⟨v, lam, hv0, he, hKv⟩ := exists_highest_weight_vector q V hq
   -- The highest weight is nonzero (`K` acts invertibly).
   have hlam : lam ≠ 0 := by
@@ -484,7 +484,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
     intro i
     cases i with
     | zero => rw [ladder_zero, he]; exact W.zero_mem
-    | succ j => rw [e_ladder q V hq v lam hlam he hKv j]; exact W.smul_mem _ (hiW j)
+    | succ j => rw [e_ladder q V hqinv v lam hlam he hKv j]; exact W.smul_mem _ (hiW j)
   have hfW : ∀ i, f q • ladder q V v i ∈ W := fun i => by
     rw [← ladder_succ]; exact hiW (i + 1)
   have hKW : ∀ i, K q • ladder q V v i ∈ W := fun i => by
@@ -540,7 +540,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
   -- Eigenvalue constraint: `dcoef N = 0`, hence `lam² = q^{2N}`.
   have hdcoef : dcoef q lam N = 0 := by
     have h1 : e q • ladder q V v (N + 1) = dcoef q lam N • ladder q V v N :=
-      e_ladder q V hq v lam hlam he hKv N
+      e_ladder q V hqinv v lam hlam he hKv N
     rw [hzero_succ, smul_zero] at h1
     exact (smul_eq_zero.mp h1.symm).resolve_right (hne_le N le_rfl)
   have hlam2 : lam ^ 2 = (q : ℂ) ^ (2 * N) := dcoef_eq_zero_imp q hq lam hlam N hdcoef
