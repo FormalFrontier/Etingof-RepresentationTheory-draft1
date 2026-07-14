@@ -1,5 +1,7 @@
 import Mathlib.Algebra.Group.Idempotent
 import Mathlib.Algebra.GroupWithZero.Idempotent
+import Mathlib.Algebra.Algebra.Basic
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.Linear
 import Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.RingTheory.FiniteLength
@@ -78,6 +80,173 @@ theorem centralIdempotent_smul_simple {M : Type*} [AddCommGroup M] [Module R M]
   rcases IsIdempotentElem.iff_eq_zero_or_one.mp hφ with h | h
   · left; intro m; exact LinearMap.congr_fun h m
   · right; intro m; exact LinearMap.congr_fun h m
+
+/-- The type of **central idempotents** of `R`: idempotent elements lying in the center. This is
+the domain of the central-character indicator `centralCharacter`. -/
+abbrev CentralIdempotent : Type u :=
+  {e : R // IsIdempotentElem e ∧ ∀ y : R, e * y = y * e}
+
+open scoped Classical in
+/-- **Central character of a simple module.** By `centralIdempotent_smul_simple` a central
+idempotent `e` acts on the simple module `S` either as `0` or as the identity; this Boolean
+records which, returning `true` exactly when `e` acts as the identity. It is the "central
+character" of `S` at `e`, and Problem 9.5.3(i) shows it is constant on each linkage class. -/
+noncomputable def centralCharacter {S : ModuleCat.{v} R} (_hS : IsSimpleModule R S)
+    (e : CentralIdempotent R) : Bool :=
+  decide (∀ m : (S : Type v), e.1 • m = m)
+
+/-- `centralCharacter` is `true` exactly when the idempotent acts as the identity. -/
+theorem centralCharacter_eq_true_iff {S : ModuleCat.{v} R} (hS : IsSimpleModule R S)
+    (e : CentralIdempotent R) :
+    centralCharacter R hS e = true ↔ ∀ m : (S : Type v), e.1 • m = m := by
+  classical
+  unfold centralCharacter
+  rw [decide_eq_true_eq]
+
+/-- `centralCharacter` is `false` exactly when the idempotent acts as `0`. -/
+theorem centralCharacter_eq_false_iff {S : ModuleCat.{v} R} (hS : IsSimpleModule R S)
+    (e : CentralIdempotent R) :
+    centralCharacter R hS e = false ↔ ∀ m : (S : Type v), e.1 • m = 0 := by
+  classical
+  haveI := hS
+  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  rw [← Bool.not_eq_true, centralCharacter_eq_true_iff]
+  constructor
+  · intro h
+    rcases centralIdempotent_smul_simple R (M := (S : Type v)) (e := e.1) e.2.1 e.2.2 with h0 | h1
+    · exact h0
+    · exact absurd h1 h
+  · intro h0 h1
+    obtain ⟨x, hx⟩ := exists_ne (0 : (S : Type v))
+    exact hx ((h1 x).symm.trans (h0 x))
+
+open scoped ModuleCat.Algebra in
+/-- **Naturality of a central scalar on `Ext`.** For a central element `z` of `R`, viewed as an
+endomorphism `z • 𝟙` of every module, pre-composing an `Ext` class with `z • 𝟙 X` equals
+post-composing it with `z • 𝟙 Y` — both equal the `z`-scalar multiple `z • α`. This is the
+mechanism behind linkage invariance of the central character: `z • 𝟙` is a natural transformation
+of the identity functor (centrality), and the category of `R`-modules is linear over the
+(commutative) center of `R`, so scalar multiplication by `z` acts the same way through either
+`Ext` variable. -/
+theorem mk₀_smul_id_comp [Small.{v} R] (z : Subring.center R)
+    {X Y : ModuleCat.{v} R} {n : ℕ} (α : Abelian.Ext X Y n) :
+    (Abelian.Ext.mk₀ (z • 𝟙 X)).comp α (zero_add n) =
+      α.comp (Abelian.Ext.mk₀ (z • 𝟙 Y)) (add_zero n) := by
+  simp only [Abelian.Ext.mk₀_smul, Abelian.Ext.smul_comp, Abelian.Ext.comp_smul,
+    Abelian.Ext.mk₀_id_comp, Abelian.Ext.comp_mk₀_id]
+
+open scoped ModuleCat.Algebra in
+/-- **Ext-adjacency step of linkage invariance.** If simple modules `X`, `Y` are directly
+`Ext¹`-linked (`Ext¹(X, Y) ≠ 0`), then a central idempotent `e` acts as the identity on `X` iff
+it does on `Y`. If the two characters disagreed, `e` would act as `1` on one simple and `0` on the
+other; by `mk₀_smul_id_comp` every class of `Ext¹(X, Y)` would then equal both `α` and `0`, forcing
+`Ext¹(X, Y) = 0` and contradicting the adjacency. -/
+theorem actsAsId_iff_of_directlyExtLinked [Small.{v} R] (e : CentralIdempotent R)
+    {X Y : ModuleCat.{v} R} (hX : IsSimpleModule R X) (hY : IsSimpleModule R Y)
+    (hne : Etingof.DirectlyExtLinked R X Y) :
+    (∀ m : (X : Type v), e.1 • m = m) ↔ (∀ m : (Y : Type v), e.1 • m = m) := by
+  classical
+  haveI := hX; haveI := hY
+  haveI hntX : Nontrivial (X : Type v) := IsSimpleModule.nontrivial R (X : Type v)
+  haveI hntY : Nontrivial (Y : Type v) := IsSimpleModule.nontrivial R (Y : Type v)
+  haveI hneI : Nontrivial (Abelian.Ext X Y 1) := hne
+  set z : Subring.center R :=
+    ⟨e.1, Subring.mem_center_iff.mpr (fun g => (e.2.2 g).symm)⟩ with hz
+  have hzsmul : ∀ {M : ModuleCat.{v} R} (m : (M : Type v)), z • m = e.1 • m := fun m => rfl
+  have hid : ∀ {M : ModuleCat.{v} R}, (∀ m : (M : Type v), e.1 • m = m) → z • 𝟙 M = 𝟙 M := by
+    intro M h
+    refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
+    simp only [ModuleCat.hom_smul, ModuleCat.hom_id, LinearMap.smul_apply, LinearMap.id_coe, id_eq]
+    rw [hzsmul m]; exact h m
+  have hzero : ∀ {M : ModuleCat.{v} R}, (∀ m : (M : Type v), e.1 • m = 0) → z • 𝟙 M = 0 := by
+    intro M h
+    refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
+    simp only [ModuleCat.hom_smul, ModuleCat.hom_id, LinearMap.smul_apply, LinearMap.id_coe, id_eq,
+      ModuleCat.hom_zero, LinearMap.zero_apply]
+    rw [hzsmul m]; exact h m
+  have notId : ∀ {M : ModuleCat.{v} R} [Nontrivial (M : Type v)],
+      (∀ m : (M : Type v), e.1 • m = 0) → ¬ (∀ m : (M : Type v), e.1 • m = m) := by
+    intro M _ h0 h1
+    obtain ⟨x, hx⟩ := exists_ne (0 : (M : Type v))
+    exact hx ((h1 x).symm.trans (h0 x))
+  -- If the characters on `X` and `Y` disagree, every class of `Ext¹(X, Y)` vanishes.
+  have keyXY : (∀ m : (X : Type v), e.1 • m = m) → (∀ m : (Y : Type v), e.1 • m = 0) → False := by
+    intro hXi hY0
+    have hz0 : ∀ α : Abelian.Ext X Y 1, α = 0 := by
+      intro α
+      have hnat := mk₀_smul_id_comp R z α
+      rw [hid hXi, hzero hY0] at hnat
+      simpa only [Abelian.Ext.mk₀_id_comp, Abelian.Ext.mk₀_zero, Abelian.Ext.comp_zero] using hnat
+    obtain ⟨a, b, hab⟩ := exists_pair_ne (Abelian.Ext X Y 1)
+    exact hab ((hz0 a).trans (hz0 b).symm)
+  have keyYX : (∀ m : (X : Type v), e.1 • m = 0) → (∀ m : (Y : Type v), e.1 • m = m) → False := by
+    intro hX0 hYi
+    have hz0 : ∀ α : Abelian.Ext X Y 1, α = 0 := by
+      intro α
+      have hnat := mk₀_smul_id_comp R z α
+      rw [hzero hX0, hid hYi] at hnat
+      simpa only [Abelian.Ext.mk₀_zero, Abelian.Ext.zero_comp, Abelian.Ext.comp_mk₀_id]
+        using hnat.symm
+    obtain ⟨a, b, hab⟩ := exists_pair_ne (Abelian.Ext X Y 1)
+    exact hab ((hz0 a).trans (hz0 b).symm)
+  rcases centralIdempotent_smul_simple R (M := (X : Type v)) e.2.1 e.2.2 with hX0 | hXi
+  · rcases centralIdempotent_smul_simple R (M := (Y : Type v)) e.2.1 e.2.2 with hY0 | hYi
+    · exact iff_of_false (notId hX0) (notId hY0)
+    · exact (keyYX hX0 hYi).elim
+  · rcases centralIdempotent_smul_simple R (M := (Y : Type v)) e.2.1 e.2.2 with hY0 | hYi
+    · exact (keyXY hXi hY0).elim
+    · exact iff_of_true hXi hYi
+
+/-- **Isomorphism step of linkage invariance.** A central idempotent acts as the identity on `X`
+iff it does on any isomorphic module `Y`, by transporting the action along the `R`-linear
+isomorphism. -/
+theorem actsAsId_iff_of_iso (e : CentralIdempotent R) {X Y : ModuleCat.{v} R} (iso : X ≅ Y) :
+    (∀ m : (X : Type v), e.1 • m = m) ↔ (∀ m : (Y : Type v), e.1 • m = m) := by
+  set φ := iso.toLinearEquiv with hφ
+  refine ⟨fun hX n => ?_, fun hY m => ?_⟩
+  · have h1 : φ (e.1 • φ.symm n) = e.1 • n := by rw [map_smul, φ.apply_symm_apply]
+    rw [← h1, hX (φ.symm n), φ.apply_symm_apply]
+  · have h1 : φ.symm (e.1 • φ m) = e.1 • m := by rw [map_smul, φ.symm_apply_apply]
+    rw [← h1, hY (φ m), φ.symm_apply_apply]
+
+/-- **Single linkage step of central-character invariance.** For a base `ExtOrIsoSimple` step
+(both endpoints simple, related by `Ext¹`-adjacency or isomorphism), a central idempotent acts as
+the identity on one endpoint iff on the other. -/
+theorem actsAsId_iff_of_extOrIsoSimple [Small.{v} R] (e : CentralIdempotent R)
+    {X Y : ModuleCat.{v} R} (h : Etingof.ExtOrIsoSimple R X Y) :
+    (∀ m : (X : Type v), e.1 • m = m) ↔ (∀ m : (Y : Type v), e.1 • m = m) := by
+  obtain ⟨hX, hY, hor⟩ := h
+  rcases hor with hadj | hiso
+  · rcases hadj with h1 | h1
+    · exact actsAsId_iff_of_directlyExtLinked R e hX hY h1
+    · exact (actsAsId_iff_of_directlyExtLinked R e hY hX h1).symm
+  · exact actsAsId_iff_of_iso R e hiso.some
+
+/-- **Central-character invariance along linkage (predicate form).** If `X` and `Y` are linked,
+a central idempotent acts as the identity on `X` iff on `Y`. This closes the base
+`ExtOrIsoSimple` step under the equivalence-relation generators (reflexivity, symmetry,
+transitivity). -/
+theorem actsAsId_iff_of_areLinked [Small.{v} R] (e : CentralIdempotent R)
+    {X Y : ModuleCat.{v} R} (h : Etingof.AreLinked R X Y) :
+    (∀ m : (X : Type v), e.1 • m = m) ↔ (∀ m : (Y : Type v), e.1 • m = m) := by
+  induction h with
+  | rel X Y hxy => exact actsAsId_iff_of_extOrIsoSimple R e hxy
+  | refl X => exact Iff.rfl
+  | symm X Y _ ih => exact ih.symm
+  | trans X Y Z _ _ ih₁ ih₂ => exact ih₁.trans ih₂
+
+/-- **Linkage invariance of the central character (Problem 9.5.3(i), well-definedness engine).**
+Linked simple modules have the same central character at every central idempotent. This is what
+makes the assignment `block ↦ {central idempotents acting as 1}` well defined on linkage classes,
+the `Block R → central idempotents` direction of the bijection. -/
+theorem centralCharacter_eq_of_areLinked [Small.{v} R]
+    {S T : ModuleCat.{v} R} (hS : IsSimpleModule R S) (hT : IsSimpleModule R T)
+    (e : CentralIdempotent R) (h : Etingof.AreLinked R S T) :
+    centralCharacter R hS e = centralCharacter R hT e := by
+  classical
+  unfold centralCharacter
+  rw [decide_eq_decide]
+  exact actsAsId_iff_of_areLinked R e h
 
 /-- **Problem 9.5.3 (i).** For a finite dimensional algebra `R` over a field `k`, there is a
 bijection between the blocks of the category of finite dimensional `R`-modules (linkage classes
