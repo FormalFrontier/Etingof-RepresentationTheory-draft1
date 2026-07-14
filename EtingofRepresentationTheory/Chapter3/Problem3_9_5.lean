@@ -147,12 +147,15 @@ open scoped Classical in
 noncomputable def e (S : Finset (Fin N)) : CliffAlg B :=
   ((S.sort (· ≤ ·)).map (gen B v)).prod
 
+omit [FiniteDimensional ℂ V] in
 @[simp] theorem e_empty : e B v ∅ = 1 := by
   simp [e]
 
+omit [FiniteDimensional ℂ V] in
 @[simp] theorem e_singleton (i : Fin N) : e B v {i} = gen B v i := by
   simp [e, Finset.sort_singleton]
 
+omit [FiniteDimensional ℂ V] in
 /-- If `i` is strictly below every element of `S`, then `e (insert i S) = ι(vᵢ) · e S`
 (no reordering needed since `i` is the new minimum). -/
 theorem e_insert_of_lt {i : Fin N} {S : Finset (Fin N)} (h : ∀ j ∈ S, i < j) :
@@ -160,6 +163,7 @@ theorem e_insert_of_lt {i : Fin N} {S : Finset (Fin N)} (h : ∀ j ∈ S, i < j)
   have hi : i ∉ S := fun hmem => (lt_irrefl i (h i hmem))
   rw [e, Finset.sort_insert (· ≤ ·) (fun j hj => (h j hj).le) hi, List.map_cons, List.prod_cons, e]
 
+omit [FiniteDimensional ℂ V] in
 /-- Peeling off the minimum: `e S = ι(v (min S)) · e (S.erase (min S))`. -/
 theorem e_minPeel {S : Finset (Fin N)} (hS : S.Nonempty) :
     e B v S = gen B v (S.min' hS) * e B v (S.erase (S.min' hS)) := by
@@ -171,6 +175,7 @@ theorem e_minPeel {S : Finset (Fin N)} (hS : S.Nonempty) :
   conv_lhs => rw [← Finset.insert_erase hmem]
   exact e_insert_of_lt B v hlt
 
+omit [FiniteDimensional ℂ V] in
 /-- `ι(vᵢ)² = B(vᵢ,vᵢ)` as a scalar. -/
 theorem gen_sq (i : Fin N) :
     gen B v i * gen B v i = algebraMap ℂ (CliffAlg B) (B (v i) (v i)) := by
@@ -178,6 +183,7 @@ theorem gen_sq (i : Fin N) :
   rw [CliffordAlgebra.ι_sq_scalar]
   rfl
 
+omit [FiniteDimensional ℂ V] in
 /-- For an orthogonal basis, distinct generators anticommute. -/
 theorem gen_anticomm (hv : B.IsOrthoᵢ v) {i j : Fin N} (hij : i ≠ j) :
     gen B v i * gen B v j = - (gen B v j * gen B v i) := by
@@ -189,6 +195,7 @@ theorem gen_anticomm (hv : B.IsOrthoᵢ v) {i j : Fin N} (hij : i ≠ j) :
   unfold gen
   exact eq_neg_of_add_eq_zero_left h
 
+omit [FiniteDimensional ℂ V] in
 /-- On a nondegenerate orthogonal basis, every diagonal entry `B(vᵢ,vᵢ)` is nonzero. -/
 theorem diag_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) :
     B (v i) (v i) ≠ 0 := by
@@ -203,6 +210,7 @@ theorem diag_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) :
     · simpa using LinearMap.isOrthoᵢ_def.mp hv i j hij
   rw [hzero, LinearMap.zero_apply]
 
+omit [FiniteDimensional ℂ V] in
 /-- Each generator is a unit (its inverse is `B(vᵢ,vᵢ)⁻¹ · ι(vᵢ)`). -/
 theorem isUnit_gen (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) :
     IsUnit (gen B v i) := by
@@ -211,6 +219,7 @@ theorem isUnit_gen (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) :
   · rw [mul_smul_comm, gen_sq, Algebra.smul_def, ← map_mul, inv_mul_cancel₀ ha, map_one]
   · rw [smul_mul_assoc, gen_sq, Algebra.smul_def, ← map_mul, inv_mul_cancel₀ ha, map_one]
 
+omit [FiniteDimensional ℂ V] in
 open scoped Classical in
 /-- The monomial `e S` is a unit (a product of units). -/
 theorem isUnit_e (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (S : Finset (Fin N)) :
@@ -224,6 +233,7 @@ theorem isUnit_e (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (S : Finset (Fin 
 
 open scoped symmDiff
 
+omit [FiniteDimensional ℂ V] in
 /-- **Generator × monomial reduction.** `ι(vⱼ) · e U` is a scalar multiple of the monomial on
 `U ∆ {j}`. Proved by strong induction on `U`: peel the minimum `k` of `U`, and recurse on the
 same index `j` with the smaller set `U.erase k` (valid since `j > k`), handling `j < min U` and
@@ -287,6 +297,7 @@ theorem gen_mul_mem (hv : B.IsOrthoᵢ v) (j : Fin N) (U : Finset (Fin N)) :
           mul_assoc, ← hc, mul_smul_comm, ← e_insert_of_lt B v hltW, hset]
         exact Submodule.neg_mem _ (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
 
+omit [FiniteDimensional ℂ V] in
 /-- **Monomial × monomial reduction.** `e S · e T` is a scalar multiple of the monomial on
 `S ∆ T`. Proved by strong induction on `S` (peel the minimum) using `gen_mul_mem`. -/
 theorem e_mul_mem (hv : B.IsOrthoᵢ v) (S T : Finset (Fin N)) :
@@ -305,7 +316,7 @@ theorem e_mul_mem (hv : B.IsOrthoᵢ v) (S T : Finset (Fin N)) :
         ext a
         simp only [Finset.mem_symmDiff, Finset.mem_erase, Finset.mem_singleton]
         by_cases hak : a = k <;> by_cases haS : a ∈ S <;> by_cases haT : a ∈ T <;>
-          simp_all [hkS]
+          simp_all
       have hg := gen_mul_mem B v hv k ((S.erase k) ∆ T)
       rw [hset] at hg
       rw [e_minPeel B v hS, ← hkdef, mul_assoc, ← hc, mul_smul_comm]
@@ -319,6 +330,7 @@ variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
 
 open scoped symmDiff
 
+omit [FiniteDimensional ℂ V] in
 /-- The monomials `e S` span `Cl(V)`. Every element reduces to a linear combination of ordered
 monomials: the span is a subalgebra (closed under multiplication by `e_mul_mem`) containing every
 generator `ι(vᵢ) = e {i}`, hence all of `Cl(V)` by `CliffordAlgebra.induction`. -/
@@ -348,6 +360,7 @@ theorem span_e_eq_top (hv : B.IsOrthoᵢ v) :
   | mul a b ha hb => exact hWmul a ha b hb
   | add a b ha hb => exact W.add_mem ha hb
 
+omit [FiniteDimensional ℂ V] in
 include v in
 /-- `Cl(V)` has dimension `2^N` over `ℂ`: transport the exterior-algebra basis (indexed by
 `Finset (Fin N)`) across `CliffordAlgebra.equivExterior`. -/
@@ -363,6 +376,7 @@ noncomputable def cliffBasis (hv : B.IsOrthoᵢ v) :
   basisOfTopLeSpanOfCardEqFinrank (e B v) (span_e_eq_top B v hv).ge
     (by rw [Fintype.card_finset, Fintype.card_fin, finrank_cliffAlg B v])
 
+omit [FiniteDimensional ℂ V] in
 @[simp] theorem cliffBasis_apply (hv : B.IsOrthoᵢ v) (S : Finset (Fin N)) :
     cliffBasis B v hv S = e B v S := by
   simp only [cliffBasis, coe_basisOfTopLeSpanOfCardEqFinrank]
@@ -375,11 +389,13 @@ variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
 
 open scoped symmDiff
 
+omit [FiniteDimensional ℂ V] in
 /-- Left multiplication is `ℂ`-linear in the multiplier: `L_{c·z} = c·L_z`. -/
 theorem mulLeft_smul (c : ℂ) (z : CliffAlg B) :
     LinearMap.mulLeft ℂ (c • z) = c • LinearMap.mulLeft ℂ z := by
-  ext w; simp [smul_mul_assoc]
+  ext w; simp
 
+omit [FiniteDimensional ℂ V] in
 /-- **Trace of `L_{e R}`.** Left multiplication by the monomial `e R` permutes the monomial basis
 `e T ↦ ± scalar · e_{R ∆ T}`, so it has a nonzero diagonal entry only when `R ∆ T = T`, i.e.
 `R = ∅`. Hence `tr(L_{e R}) = 2^N` if `R = ∅` and `0` otherwise. -/
@@ -410,6 +426,7 @@ theorem tr_mulLeft_e (hv : B.IsOrthoᵢ v) (R : Finset (Fin N)) :
     intro h
     exact hR (by rw [← Finset.bot_eq_empty]; exact symmDiff_eq_right.mp h)
 
+omit [FiniteDimensional ℂ V] in
 /-- **Off-diagonal trace form vanishes.** For `S ≠ T`, `tr(L_{e S · e T}) = 0`, because
 `e S · e T` is a scalar multiple of `e_{S ∆ T}` with `S ∆ T ≠ ∅`. -/
 theorem tr_mulLeft_e_mul_of_ne (hv : B.IsOrthoᵢ v) {S T : Finset (Fin N)} (hST : S ≠ T) :
@@ -419,6 +436,7 @@ theorem tr_mulLeft_e_mul_of_ne (hv : B.IsOrthoᵢ v) {S T : Finset (Fin N)} (hST
   intro h
   exact hST (symmDiff_eq_bot.mp (Finset.bot_eq_empty ▸ h))
 
+omit [FiniteDimensional ℂ V] in
 /-- The diagonal trace form value `tr(L_{e T · e T})` is nonzero: `e T` is a unit, so `e T · e T`
 is a unit, hence `tr(L_{e T · e T}) = c · 2^N` with `c ≠ 0`. -/
 theorem tr_mulLeft_e_mul_self_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate)
@@ -450,10 +468,42 @@ when `B` is. -/
 theorem isSemisimpleRing_of_nondegenerate
     (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate) :
     IsSemisimpleRing (CliffAlg B) := by
+  classical
+  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  -- Choose an orthogonal basis of `V` for `B`.
+  obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
+    (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
   apply isSemisimpleRing_of_traceForm_nondegenerate
-  -- Remaining: the Clifford trace form is nondegenerate when `B` is. Tracked separately (the
-  -- monomial-basis / spinor computation).
-  sorry
+  -- The trace form is nondegenerate: in the monomial basis it is diagonal with nonzero diagonal.
+  intro x hx
+  -- The linear functional `z ↦ tr(L_z)`.
+  let τ : CliffAlg B →ₗ[ℂ] ℂ :=
+    (LinearMap.trace ℂ (CliffAlg B)).comp (Algebra.lmul ℂ (CliffAlg B)).toLinearMap
+  have hτ : ∀ z, τ z = LinearMap.trace ℂ (CliffAlg B) (LinearMap.mulLeft ℂ z) := fun _ => rfl
+  -- Every basis coordinate of `x` vanishes.
+  have hcoord : ∀ T, (cliffBasis B v hv).repr x T = 0 := by
+    intro T
+    have hexp : x = ∑ S, (cliffBasis B v hv).repr x S • e B v S := by
+      conv_lhs => rw [← (cliffBasis B v hv).sum_repr x]
+      simp only [cliffBasis_apply]
+    have hsum : τ (x * e B v T)
+        = (cliffBasis B v hv).repr x T • τ (e B v T * e B v T) := by
+      conv_lhs => rw [hexp, Finset.sum_mul, map_sum]
+      rw [Finset.sum_eq_single T]
+      · rw [smul_mul_assoc, map_smul]
+      · intro S _ hST
+        rw [smul_mul_assoc, map_smul, hτ, tr_mulLeft_e_mul_of_ne B v hv hST, smul_zero]
+      · intro hT; exact absurd (Finset.mem_univ T) hT
+    have hzero : (cliffBasis B v hv).repr x T • τ (e B v T * e B v T) = 0 := by
+      rw [← hsum, hτ]; exact hx (e B v T)
+    have hne : τ (e B v T * e B v T) ≠ 0 := by
+      rw [hτ]; exact tr_mulLeft_e_mul_self_ne_zero B v hv hnd T
+    exact (smul_eq_zero.mp hzero).resolve_right hne
+  -- Hence `x = 0`.
+  apply (cliffBasis B v hv).repr.injective
+  rw [map_zero]
+  ext T
+  rw [hcoord T, Finsupp.zero_apply]
 
 /-- **Problem 3.9.5(i), even case.** If `B` is nondegenerate and `dim V = 2n`, then
 `Cl(V)` is a matrix algebra: it is isomorphic to `End(S)` for a `2ⁿ`-dimensional space
