@@ -172,6 +172,222 @@ theorem inducedCoordMap_stdd_tmul_zero (a : PathAlgebra k Q) (v : ArrowTgt k Q)
   rw [stdd_tmul, map_sub, Finsupp.sub_apply, inducedCoordMap_tmul, inducedCoordMap_tmul,
     lengthProj_mul_arrowInclusion_zero, TensorProduct.zero_tmul, zero_sub]
 
+/-! ## The two half-maps `Φ, Ψ` of the boundary `d` and the coordinate shift relation
+
+The boundary `d = stdd M` splits as a difference `Φ − Ψ` of `A`-linear maps
+`A ⊗_S (V ⊗_S M) → A ⊗_S M`,
+```
+Φ (a ⊗ v ⊗ m) = (a · v) ⊗ m,      Ψ (a ⊗ v ⊗ m) = a ⊗ (v · m),
+```
+built exactly like `stdd` itself (`homEquivSymm` of the two halves `stdδΦ`, `stdδΨ` of `stdδ`). The
+degree-`(n+1)` coordinate of `d(ξ)` then splits, for **all** `ξ` (not just pure generators), as
+```
+inducedCoordMap M (d ξ) (n+1) = Φ (ξ_n) − Ψ (ξ_{n+1}),
+```
+where `ξ_n := inducedCoordMapGen (V ⊗_S M) ξ n` is the degree-`n` graded component. This is the
+noncommutative analogue of the `hshift_gen` relation in `koszulSES_shortExact`
+(`Chapter9/Example9_4_4.lean`): the `Φ` term carries the length shift `n → n+1` (right
+multiplication by an arrow, via `lengthProj_mul_arrowInclusion`), the `Ψ` term stays in degree
+`n+1`. It is what `standardResolution_shortExact` (issue #6512) plugs into for both `Mono (stdd M)`
+(top-degree base case) and middle exactness (downward telescoping). -/
+
+/-- The `S`-balanced additive bilinear map underlying the **top half** `Φ` of `d`:
+`(v, m) ↦ v ⊗ m` (i.e. `arrowInclusion v ⊗ m`), landing in the restriction of `A ⊗_S M`. -/
+noncomputable def stdδΦBilin :
+    ArrowTgt k Q →+ restrictObj M →+ (restrictScalars (vertexEmbedding k Q)).obj
+      (inducedRestrictObj M) where
+  toFun v :=
+    { toFun := fun m => arrowInclusion v ⊗ₜ[Q → k] m
+      map_zero' := by simp
+      map_add' := fun m m' => by rw [TensorProduct.tmul_add] }
+  map_zero' := by ext m; simp
+  map_add' v w := by
+    ext m
+    simp only [map_add, AddMonoidHom.coe_mk, ZeroHom.coe_mk, TensorProduct.add_tmul,
+      AddMonoidHom.add_apply]
+
+theorem stdδΦBilin_apply (v : ArrowTgt k Q) (m : restrictObj M) :
+    stdδΦBilin M v m = arrowInclusion v ⊗ₜ[Q → k] m := rfl
+
+theorem stdδΦBilin_balanced (s : Q → k) (v : ArrowTgt k Q) (m : restrictObj M) :
+    stdδΦBilin M (s • v) m = stdδΦBilin M v (s • m) := by
+  rw [stdδΦBilin_apply, stdδΦBilin_apply]
+  have hv : arrowInclusion (s • v : ArrowTgt k Q)
+      = arrowInclusion v * vertexEmbedding k Q s := arrowInclusion_wSMul_tgt s v
+  rw [hv, ← vertex_smul_def, TensorProduct.smul_tmul]
+
+/-- The additive map `V ⊗_S M → restrict (A ⊗_S M)` underlying `Φ`, `v ⊗ m ↦ v ⊗ m`. -/
+noncomputable def stdδΦAddHom :
+    VtensCarrier M →+ (restrictScalars (vertexEmbedding k Q)).obj (inducedRestrictObj M) :=
+  TensorProduct.liftAddHom (stdδΦBilin M) (stdδΦBilin_balanced M)
+
+@[simp] theorem stdδΦAddHom_tmul (v : ArrowTgt k Q) (m : restrictObj M) :
+    stdδΦAddHom M (v ⊗ₜ[Q → k] m) = arrowInclusion v ⊗ₜ[Q → k] m := rfl
+
+/-- **The top-half boundary datum** `δΦ : V ⊗_S M → restrict (A ⊗_S M)`, `δΦ (v ⊗ m) = v ⊗ m`.
+Source-`S`-linear by the same computation as the first term of `stdδ`. -/
+noncomputable def stdδΦ :
+    VtensObj M ⟶ (restrictScalars (vertexEmbedding k Q)).obj (inducedRestrictObj M) :=
+  ModuleCat.ofHom (X := VtensObj M)
+    (Y := (restrictScalars (vertexEmbedding k Q)).obj (inducedRestrictObj M))
+    { toFun := fun x => stdδΦAddHom M x
+      map_add' := fun x y => (stdδΦAddHom M).map_add x y
+      map_smul' := fun s x => by
+        change (stdδΦAddHom M (s • x) : inducedRestrictObj M)
+          = vertexEmbedding k Q s • (stdδΦAddHom M x : inducedRestrictObj M)
+        induction x using TensorProduct.induction_on with
+        | zero => simp
+        | tmul v m =>
+            rw [vtens_smul_def, vtens_smul_tmul, stdδΦAddHom_tmul, stdδΦAddHom_tmul]
+            simp only [srcHom_apply, arrowInclusion_wSMul_src]
+            rw [TensorProduct.smul_tmul', smul_eq_mul]
+        | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add] }
+
+@[simp] theorem stdδΦ_tmul (v : ArrowTgt k Q) (m : restrictObj M) :
+    (stdδΦ M).hom (v ⊗ₜ[Q → k] m) = arrowInclusion v ⊗ₜ[Q → k] m := by
+  change stdδΦAddHom M (v ⊗ₜ[Q → k] m) = _
+  rw [stdδΦAddHom_tmul]
+
+/-- The `S`-balanced additive bilinear map underlying the **lower half** `Ψ` of `d`:
+`(v, m) ↦ 1 ⊗ (v · m)`, landing in the restriction of `A ⊗_S M`. -/
+noncomputable def stdδΨBilin :
+    ArrowTgt k Q →+ restrictObj M →+ (restrictScalars (vertexEmbedding k Q)).obj
+      (inducedRestrictObj M) where
+  toFun v :=
+    { toFun := fun m =>
+        (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (arrowInclusion v • (m : M) : restrictObj M)
+      map_zero' := by simp
+      map_add' := fun m m' => by simp only [smul_add, TensorProduct.tmul_add] }
+  map_zero' := by ext m; simp
+  map_add' v w := by
+    ext m
+    simp only [map_add, AddMonoidHom.coe_mk, ZeroHom.coe_mk, add_smul, TensorProduct.tmul_add,
+      AddMonoidHom.add_apply]
+
+theorem stdδΨBilin_apply (v : ArrowTgt k Q) (m : restrictObj M) :
+    stdδΨBilin M v m
+      = (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (arrowInclusion v • (m : M) : restrictObj M) := rfl
+
+theorem stdδΨBilin_balanced (s : Q → k) (v : ArrowTgt k Q) (m : restrictObj M) :
+    stdδΨBilin M (s • v) m = stdδΨBilin M v (s • m) := by
+  rw [stdδΨBilin_apply, stdδΨBilin_apply]
+  have hv : arrowInclusion (s • v : ArrowTgt k Q)
+      = arrowInclusion v * vertexEmbedding k Q s := arrowInclusion_wSMul_tgt s v
+  have e2 : (arrowInclusion v * vertexEmbedding k Q s) • (m : M)
+      = arrowInclusion v • ((s : Q → k) • m : restrictObj M) := by
+    rw [mul_smul]; rfl
+  rw [hv, e2]
+
+/-- The additive map `V ⊗_S M → restrict (A ⊗_S M)` underlying `Ψ`, `v ⊗ m ↦ 1 ⊗ (v · m)`. -/
+noncomputable def stdδΨAddHom :
+    VtensCarrier M →+ (restrictScalars (vertexEmbedding k Q)).obj (inducedRestrictObj M) :=
+  TensorProduct.liftAddHom (stdδΨBilin M) (stdδΨBilin_balanced M)
+
+@[simp] theorem stdδΨAddHom_tmul (v : ArrowTgt k Q) (m : restrictObj M) :
+    stdδΨAddHom M (v ⊗ₜ[Q → k] m)
+      = (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (arrowInclusion v • (m : M) : restrictObj M) := rfl
+
+/-- **The lower-half boundary datum** `δΨ : V ⊗_S M → restrict (A ⊗_S M)`, `δΨ (v ⊗ m) = 1 ⊗ v·m`.
+Source-`S`-linear by the same computation as the second term of `stdδ`. -/
+noncomputable def stdδΨ :
+    VtensObj M ⟶ (restrictScalars (vertexEmbedding k Q)).obj (inducedRestrictObj M) :=
+  ModuleCat.ofHom (X := VtensObj M)
+    (Y := (restrictScalars (vertexEmbedding k Q)).obj (inducedRestrictObj M))
+    { toFun := fun x => stdδΨAddHom M x
+      map_add' := fun x y => (stdδΨAddHom M).map_add x y
+      map_smul' := fun s x => by
+        change (stdδΨAddHom M (s • x) : inducedRestrictObj M)
+          = vertexEmbedding k Q s • (stdδΨAddHom M x : inducedRestrictObj M)
+        induction x using TensorProduct.induction_on with
+        | zero => simp
+        | tmul v m =>
+            rw [vtens_smul_def, vtens_smul_tmul, stdδΨAddHom_tmul, stdδΨAddHom_tmul]
+            simp only [srcHom_apply, arrowInclusion_wSMul_src]
+            rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one, ← one_tmul_smul]
+            congr 1
+            exact mul_smul _ _ _
+        | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add] }
+
+@[simp] theorem stdδΨ_tmul (v : ArrowTgt k Q) (m : restrictObj M) :
+    (stdδΨ M).hom (v ⊗ₜ[Q → k] m)
+      = (1 : PathAlgebra k Q) ⊗ₜ[Q → k] (arrowInclusion v • (m : M) : restrictObj M) := by
+  change stdδΨAddHom M (v ⊗ₜ[Q → k] m) = _
+  rw [stdδΨAddHom_tmul]
+
+/-- **The top half of `d`** `Φ : A ⊗_S (V ⊗_S M) → A ⊗_S M`, `Φ (a ⊗ v ⊗ m) = (a·v) ⊗ m`, the
+`A`-linear extension of `δΦ`. The cons-splitting `A_n ⊗_S V ≅ A_{n+1}` tensored with `M` (its
+graded-piece injectivity is the bundled iso of deliverable 2b). -/
+noncomputable def stdΦ : inducedVtensObj M ⟶ inducedRestrictObj M :=
+  homEquivSymm (stdδΦ M)
+
+@[simp] theorem stdΦ_tmul (a : PathAlgebra k Q) (v : ArrowTgt k Q) (m : restrictObj M) :
+    (stdΦ M).hom (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : VtensObj M))
+      = (a * arrowInclusion v) ⊗ₜ[Q → k] (m : M) := by
+  rw [stdΦ, homEquivSymm_tmul, stdδΦ_tmul, TensorProduct.smul_tmul', smul_eq_mul]
+
+/-- **The lower half of `d`** `Ψ : A ⊗_S (V ⊗_S M) → A ⊗_S M`, `Ψ (a ⊗ v ⊗ m) = a ⊗ (v·m)`, the
+`A`-linear extension of `δΨ`. -/
+noncomputable def stdΨ : inducedVtensObj M ⟶ inducedRestrictObj M :=
+  homEquivSymm (stdδΨ M)
+
+@[simp] theorem stdΨ_tmul (a : PathAlgebra k Q) (v : ArrowTgt k Q) (m : restrictObj M) :
+    (stdΨ M).hom (a ⊗ₜ[Q → k] (v ⊗ₜ[Q → k] m : VtensObj M))
+      = a ⊗ₜ[Q → k] (arrowInclusion v • (m : M) : restrictObj M) := by
+  rw [stdΨ, homEquivSymm_tmul, stdδΨ_tmul, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
+
+/-- **`d = Φ − Ψ` pointwise.** The boundary map is the difference of its two half-maps. -/
+theorem stdd_hom_eq_sub (x : inducedVtensObj M) :
+    (stdd M).hom x = (stdΦ M).hom x - (stdΨ M).hom x := by
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul v m => rw [stdd_tmul, stdΦ_tmul, stdΨ_tmul]
+      | add y z hy hz =>
+          rw [TensorProduct.tmul_add, map_add, map_add, map_add, hy, hz]; abel
+  | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]; abel
+
+/-- **The coordinate shift relation for `d`, all `ξ`.** The degree-`(n+1)` component of `d(ξ)`
+splits as `Φ (ξ_n) − Ψ (ξ_{n+1})`, where `ξ_j = inducedCoordMapGen (V ⊗_S M) ξ j` is the degree-`j`
+graded component. The noncommutative `hshift_gen`: the `Φ` term carries the length shift `n → n+1`,
+the `Ψ` term stays in degree `n+1`. Reduces on pure generators to `inducedCoordMap_stdd_tmul_succ`.
+Consumed by `standardResolution_shortExact` (#6512) for `Mono (stdd M)` and middle exactness. -/
+theorem inducedCoordMap_stdd_shift (s : inducedVtensObj M) (n : ℕ) :
+    inducedCoordMap M ((stdd M).hom s) (n + 1)
+      = (stdΦ M).hom (inducedCoordMapGen (VtensObj M) s n)
+        - (stdΨ M).hom (inducedCoordMapGen (VtensObj M) s (n + 1)) := by
+  induction s using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul v m =>
+          rw [inducedCoordMap_stdd_tmul_succ, inducedCoordMapGen_tmul, inducedCoordMapGen_tmul,
+            stdΦ_tmul, stdΨ_tmul]
+      | add y z hy hz =>
+          simp only [TensorProduct.tmul_add, map_add, Finsupp.add_apply, hy, hz]; abel
+  | add s t hs ht =>
+      simp only [map_add, Finsupp.add_apply, hs, ht]; abel
+
+/-- **The degree-`0` coordinate of `d`, all `ξ`.** At the bottom degree the `Φ` term vanishes
+(right multiplication by an arrow has no length-`0` component), leaving `−Ψ (ξ_0)`. The
+noncommutative analogue of `hshift_zero` in `koszulSES_shortExact`. -/
+theorem inducedCoordMap_stdd_shift_zero (s : inducedVtensObj M) :
+    inducedCoordMap M ((stdd M).hom s) 0
+      = - (stdΨ M).hom (inducedCoordMapGen (VtensObj M) s 0) := by
+  induction s using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | tmul v m =>
+          rw [inducedCoordMap_stdd_tmul_zero, inducedCoordMapGen_tmul, stdΨ_tmul]
+      | add y z hy hz =>
+          simp only [TensorProduct.tmul_add, map_add, Finsupp.add_apply, hy, hz]; abel
+  | add s t hs ht =>
+      simp only [map_add, Finsupp.add_apply, hs, ht]; abel
+
 end Induced
 
 end Etingof.PathAlgebra
