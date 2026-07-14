@@ -248,6 +248,91 @@ theorem centralCharacter_eq_of_areLinked [Small.{v} R]
   rw [decide_eq_decide]
   exact actsAsId_iff_of_areLinked R e h
 
+/-- **The central-character index of a simple module.** Given a *complete orthogonal family* of
+central idempotents `e : ι → R` (summing to `1`, pairwise orthogonal, each central and idempotent),
+exactly one member `e i` acts as the identity on a given simple module `S`. All others act as `0`
+(`centralIdempotent_smul_simple`); at least one is the identity because otherwise `S` would be
+killed by `∑ e i = 1`, and at most one because two would multiply to `0` on a nonzero vector.
+
+This is the assignment `simple ↦ its block's idempotent` at the level of the family index, the
+engine of the `Block R → central idempotents` direction of Problem 9.5.3(i). -/
+theorem existsUnique_actsAsOne_of_completeOrthogonal
+    {ι : Type*} [Fintype ι] (e : ι → R)
+    (hsum : ∑ i, e i = 1) (hortho : ∀ i j, i ≠ j → e i * e j = 0)
+    (hidem : ∀ i, IsIdempotentElem (e i)) (hcentral : ∀ i (y : R), e i * y = y * e i)
+    {S : ModuleCat.{v} R} (hS : IsSimpleModule R S) :
+    ∃! i, ∀ m : (S : Type v), e i • m = m := by
+  classical
+  haveI := hS
+  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  -- Each `e i` acts on `S` either as `0` or as the identity (Schur).
+  have hdicho : ∀ i, (∀ m : (S : Type v), e i • m = 0) ∨ (∀ m : (S : Type v), e i • m = m) :=
+    fun i => centralIdempotent_smul_simple R (hidem i) (hcentral i)
+  obtain ⟨x, hx⟩ := exists_ne (0 : (S : Type v))
+  -- `x = 1 • x = (∑ e i) • x = ∑ (e i • x)`.
+  have hxsum : ∑ i, (e i • x) = x := by rw [← Finset.sum_smul, hsum, one_smul]
+  -- Existence: if every `e i` acted as `0`, then `x = ∑ 0 = 0`, contradiction.
+  have hex : ∃ i, ∀ m : (S : Type v), e i • m = m := by
+    by_contra hcon
+    exact hx (by
+      rw [← hxsum]
+      refine Finset.sum_eq_zero (fun i _ => ?_)
+      exact (hdicho i).resolve_right (fun h => hcon ⟨i, h⟩) x)
+  obtain ⟨i₀, hi₀⟩ := hex
+  refine ⟨i₀, hi₀, fun j hj => ?_⟩
+  -- Uniqueness: if `e j` also acts as the identity and `j ≠ i₀`, then `0 = (e j * e i₀) • x = x`.
+  by_contra hne
+  apply hx
+  have h1 : (e j * e i₀) • x = x := by rw [mul_smul, hi₀ x, hj x]
+  rw [hortho j i₀ hne, zero_smul] at h1
+  exact h1.symm
+
+/-- **A central idempotent acting as the identity descends to composition factors.** If a central
+element `f` acts as the identity on every vector of a module `M`, it acts as the identity on any
+composition factor `S` of `M` (a simple subquotient): `S` is a simple quotient `g : Q ↠ S` of a
+submodule `Q ≤ M`, and `f • g q = g (f • q) = g q`. -/
+theorem actsAsOne_of_isCompositionFactor {M S : ModuleCat.{v} R} {f : R}
+    (hM : ∀ m : (M : Type v), f • m = m) (h : Etingof.IsCompositionFactor R M S) :
+    ∀ s : (S : Type v), f • s = s := by
+  rw [Etingof.isCompositionFactor_iff] at h
+  obtain ⟨_, Q, g, hg⟩ := h
+  intro s
+  obtain ⟨q, rfl⟩ := hg s
+  rw [← map_smul]
+  congr 1
+  exact Subtype.ext (by rw [SetLike.val_smul]; exact hM q.val)
+
+/-- **Every indecomposable central idempotent acts as the identity on some simple module.** For a
+nonzero central idempotent `f`, the cyclic module `R · f` (realised inside `Shrink.{v} R`) is
+nonzero and `f` acts as the identity on it; any composition factor of it is a simple module on
+which `f` acts as the identity. This provides the simple module needed for the
+`central idempotents → Block R` direction of Problem 9.5.3(i). -/
+theorem exists_simple_actsAsOne [Small.{v} R] {f : R} (hf0 : f ≠ 0)
+    (hidem : IsIdempotentElem f) (hcentral : ∀ y : R, f * y = y * f) :
+    ∃ S : ModuleCat.{v} R, IsSimpleModule R S ∧ ∀ m : (S : Type v), f • m = m := by
+  classical
+  set sh := Shrink.linearEquiv.{v} R R with hsh
+  set w₀ : Shrink.{v} R := sh.symm f with hw₀
+  -- `f` fixes the generator `w₀ = sh.symm f`.
+  have hfw : f • w₀ = w₀ := by
+    have hmap : f • w₀ = sh.symm (f • f) := (map_smul sh.symm f f).symm
+    rw [hmap, smul_eq_mul, hidem.eq]
+  -- The cyclic submodule `P = R · w₀`; `f` fixes all of it.
+  set P : Submodule R (Shrink.{v} R) := LinearMap.range (LinearMap.toSpanSingleton R _ w₀) with hP
+  have hfP : ∀ p ∈ P, f • p = p := by
+    rintro p ⟨r, rfl⟩
+    rw [LinearMap.toSpanSingleton_apply, ← mul_smul, hcentral r, mul_smul, hfw]
+  -- `P` is nonzero: `w₀ ∈ P` and `w₀ ≠ 0`.
+  have hw₀ne : w₀ ≠ 0 := by rw [hw₀, Ne, map_eq_zero_iff _ sh.symm.injective]; exact hf0
+  have hw₀P : w₀ ∈ P := ⟨1, by rw [LinearMap.toSpanSingleton_apply, one_smul]⟩
+  haveI hntP : Nontrivial (P : Type v) :=
+    ⟨⟨w₀, hw₀P⟩, 0, fun h => hw₀ne (congrArg Subtype.val h)⟩
+  -- A composition factor of `P` is the required simple module.
+  obtain ⟨S, hSfac⟩ := Etingof.exists_isCompositionFactor (M := ModuleCat.of R (P : Type v))
+  refine ⟨S, hSfac.1, actsAsOne_of_isCompositionFactor R (M := ModuleCat.of R (P : Type v)) ?_ hSfac⟩
+  intro m
+  exact Subtype.ext (by rw [SetLike.val_smul]; exact hfP m.val m.property)
+
 /-- **Problem 9.5.3 (i).** For a finite dimensional algebra `R` over a field `k`, there is a
 bijection between the blocks of the category of finite dimensional `R`-modules (linkage classes
 of simple modules) and the indecomposable central idempotents of `R`.
