@@ -1,11 +1,16 @@
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.CliffordAlgebra.Basic
+import Mathlib.LinearAlgebra.CliffordAlgebra.Conjugation
+import Mathlib.LinearAlgebra.CliffordAlgebra.Contraction
 import Mathlib.LinearAlgebra.QuadraticForm.Basic
 import Mathlib.LinearAlgebra.BilinearForm.Properties
 import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.Jacobson.Radical
+import Mathlib.RingTheory.Jacobson.Ideal
+import Mathlib.RingTheory.Jacobson.Semiprimary
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.Tactic.NoncommRing
 
 /-!
 # Problem 3.9.5: The Clifford algebra
@@ -91,10 +96,123 @@ theorem odd_isSumMatrixAlgebra
       Nonempty (CliffAlg B ≃ₐ[ℂ] (Module.End ℂ S × Module.End ℂ S)) := by
   sorry
 
-/-- **Problem 3.9.5(ii).** `Cl(V)` is semisimple if and only if `B` is nondegenerate. -/
+omit [FiniteDimensional ℂ V] in
+/-- **Problem 3.9.5(ii), forward direction.** If `B` is degenerate then `Cl(V)` is *not* a
+semisimple ring.
+
+Proof sketch (elementary, no spinor construction needed). Degeneracy gives a nonzero vector `v`
+in the radical of `B` (`∀ w, B v w = 0`). Set `a := ι v ∈ Cl(V)`. Then:
+* `a * a = ι v * ι v = Q v = B v v = 0`;
+* `a` anticommutes with every `ι w`, since `polar Q v w = B v w + B w v = 0`;
+* consequently `a * r = involute r * a` for all `r` (grade involution, by Clifford induction),
+  hence `a * r * a = involute r * (a * a) = 0`.
+
+For every `y`, `(a*y)^2 = a*y*a*y = (a*y*a)*y = 0`, so `1 + a*y` is a unit with inverse `1 - a*y`.
+By `Ideal.mem_jacobson_bot` this puts `a` in the Jacobson radical. But `a = ι v ≠ 0` (the map `ι`
+is injective in characteristic `≠ 2`, via `CliffordAlgebra.equivExterior`), while a semisimple ring
+has trivial Jacobson radical (`IsSemisimpleRing.jacobson_eq_bot`) — contradiction. -/
+theorem not_isSemisimpleRing_of_degenerate
+    (hsymm : ∀ x y, B x y = B y x) (hdeg : ¬ B.Nondegenerate) :
+    ¬ IsSemisimpleRing (CliffAlg B) := by
+  classical
+  intro hss
+  -- A nonzero radical vector `v`.
+  obtain ⟨v, hv0, hvne⟩ : ∃ v : V, (∀ w, B v w = 0) ∧ v ≠ 0 := by
+    rw [LinearMap.BilinForm.Nondegenerate, LinearMap.Nondegenerate, not_and_or] at hdeg
+    rcases hdeg with h | h
+    · rw [LinearMap.SeparatingLeft] at h
+      push_neg at h
+      obtain ⟨v, hv, hne⟩ := h
+      exact ⟨v, hv, hne⟩
+    · rw [LinearMap.SeparatingRight] at h
+      push_neg at h
+      obtain ⟨v, hv, hne⟩ := h
+      exact ⟨v, fun w => (hsymm v w).trans (hv w), hne⟩
+  set Q := quadForm B with hQ
+  set a : CliffAlg B := CliffordAlgebra.ι Q v with ha
+  -- `a * a = 0`.
+  have haa : a * a = 0 := by
+    have hQv : Q v = 0 := by
+      simp only [hQ, quadForm, LinearMap.BilinMap.toQuadraticMap_apply]
+      exact hv0 v
+    rw [ha, CliffordAlgebra.ι_sq_scalar, hQv, map_zero]
+  -- `a` anticommutes with every generator.
+  have hanti : ∀ w, a * CliffordAlgebra.ι Q w + CliffordAlgebra.ι Q w * a = 0 := by
+    intro w
+    have hpolar : QuadraticMap.polar Q v w = 0 := by
+      rw [hQ, LinearMap.BilinMap.polar_toQuadraticMap, hv0 w, hsymm w v, hv0 w, add_zero]
+    rw [ha, CliffordAlgebra.ι_mul_ι_add_swap, hpolar, map_zero]
+  -- Grade-involution intertwining: `a * r = involute r * a`.
+  have hkey : ∀ r : CliffAlg B, a * r = CliffordAlgebra.involute r * a := by
+    intro r
+    induction r using CliffordAlgebra.induction with
+    | algebraMap s => rw [AlgHom.commutes, Algebra.commutes]
+    | ι w =>
+        rw [CliffordAlgebra.involute_ι, neg_mul]
+        exact eq_neg_of_add_eq_zero_left (hanti w)
+    | mul x y hx hy => rw [← mul_assoc, hx, mul_assoc, hy, ← mul_assoc, map_mul]
+    | add x y hx hy => rw [mul_add, hx, hy, map_add, add_mul]
+  -- Hence `a * r * a = 0` for all `r`.
+  have hara : ∀ r : CliffAlg B, a * r * a = 0 := by
+    intro r
+    rw [hkey r, mul_assoc, haa, mul_zero]
+  -- `a` lies in the Jacobson radical: it belongs to every maximal left ideal `M`. Indeed if
+  -- `a ∉ M`, then `M ⊔ span{a} = ⊤` by maximality, so `1 = m + r*a` with `m ∈ M`; then
+  -- `m = 1 - r*a` is a unit (inverse `1 + r*a`, since `(r*a)² = r*(a*r*a) = 0`), forcing `M = ⊤`.
+  have hmem : a ∈ Ring.jacobson (CliffAlg B) := by
+    rw [Ring.jacobson_eq_sInf_isMaximal]
+    refine Ideal.mem_sInf.mpr (fun {M} hM => ?_)
+    rw [Set.mem_setOf_eq] at hM
+    by_contra haM
+    have hlt : M < M ⊔ Ideal.span {a} := by
+      refine lt_of_le_of_ne le_sup_left (fun heq => haM ?_)
+      have hain : a ∈ M ⊔ Ideal.span {a} :=
+        Submodule.mem_sup_right (Ideal.mem_span_singleton_self a)
+      rwa [← heq] at hain
+    have hsup : M ⊔ Ideal.span {a} = ⊤ := (Ideal.isMaximal_def.1 hM).2 _ hlt
+    have h1 : (1 : CliffAlg B) ∈ M ⊔ Ideal.span {a} := hsup ▸ Submodule.mem_top
+    rw [Submodule.mem_sup] at h1
+    obtain ⟨m, hmM, n, hn, hmn⟩ := h1
+    obtain ⟨r, hr⟩ := Ideal.mem_span_singleton'.mp hn
+    have hm_eq : m = 1 - r * a := by
+      rw [← hr] at hmn; exact eq_sub_of_add_eq hmn
+    have h0 : r * a * r * a = 0 := by
+      have e : r * a * r * a = r * (a * r * a) := by noncomm_ring
+      rw [e, hara r, mul_zero]
+    have hunit : IsUnit m := by
+      rw [hm_eq]
+      have hval : (1 - r * a) * (1 + r * a) = 1 := by
+        have e : (1 - r * a) * (1 + r * a) = 1 - r * a * r * a := by noncomm_ring
+        rw [e, h0, sub_zero]
+      have hinv : (1 + r * a) * (1 - r * a) = 1 := by
+        have e : (1 + r * a) * (1 - r * a) = 1 - r * a * r * a := by noncomm_ring
+        rw [e, h0, sub_zero]
+      exact ⟨⟨1 - r * a, 1 + r * a, hval, hinv⟩, rfl⟩
+    exact hM.ne_top (Ideal.eq_top_of_isUnit_mem M hmM hunit)
+  -- But `a = ι v ≠ 0`, contradicting triviality of the radical of a semisimple ring.
+  have ha_ne : a ≠ 0 := by
+    rw [ha]
+    intro h0
+    apply hvne
+    haveI : Invertible (2 : ℂ) := invertibleOfNonzero (by norm_num)
+    have himg : (CliffordAlgebra.equivExterior Q) (CliffordAlgebra.ι Q v)
+        = ExteriorAlgebra.ι ℂ v :=
+      CliffordAlgebra.changeForm_ι CliffordAlgebra.changeForm.associated_neg_proof v
+    have : ExteriorAlgebra.ι ℂ v = 0 := by rw [← himg, h0, map_zero]
+    exact (ExteriorAlgebra.ι_eq_zero_iff (R := ℂ) v).1 this
+  have hjac : Ring.jacobson (CliffAlg B) = ⊥ := IsSemisimpleRing.jacobson_eq_bot (CliffAlg B)
+  rw [hjac, Ideal.mem_bot] at hmem
+  exact ha_ne hmem
+
+/-- **Problem 3.9.5(ii).** `Cl(V)` is semisimple if and only if `B` is nondegenerate.
+
+The forward direction is `not_isSemisimpleRing_of_degenerate` (contrapositive); the reverse is
+`isSemisimpleRing_of_nondegenerate` (part (i), the spinor construction). -/
 theorem isSemisimpleRing_iff_nondegenerate (hsymm : ∀ x y, B x y = B y x) :
     IsSemisimpleRing (CliffAlg B) ↔ B.Nondegenerate := by
-  sorry
+  refine ⟨fun hss => ?_, fun hnd => isSemisimpleRing_of_nondegenerate B hsymm hnd⟩
+  by_contra hdeg
+  exact not_isSemisimpleRing_of_degenerate B hsymm hdeg hss
 
 /-- **Problem 3.9.5(ii), the degenerate quotient.** If `B` is degenerate, the semisimple
 quotient `Cl(V) / Rad(Cl(V))` is the Clifford algebra of a nondegenerate form `B'` on the
