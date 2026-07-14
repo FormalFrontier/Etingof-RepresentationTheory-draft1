@@ -1044,6 +1044,69 @@ lemma fpow_orderOf_central (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : Uqsl2 q)
   | add x y hx hy =>
       rw [map_add, mul_add, add_mul, hx, hy]
 
+section CentralScalar
+
+variable (q : ℂˣ)
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+  [IsScalarTower ℂ (Uqsl2 q) V]
+
+/-- The action of an algebra element `x` packaged as a `ℂ`-linear endomorphism of `V`. -/
+noncomputable def smulEnd (x : Uqsl2 q) : Module.End ℂ V where
+  toFun v := x • v
+  map_add' := by intro a b; rw [smul_add]
+  map_smul' := by intro c v; exact smul_comm x c v
+
+@[simp] lemma smulEnd_apply (x : Uqsl2 q) (v : V) : smulEnd q V x v = x • v := rfl
+
+/-- **Schur's lemma for central elements.** A central element `x` of `U_q(sl₂)` acts as a scalar on
+every finite dimensional simple module over the algebraically closed field `ℂ`: its action is a
+`U_q`-linear endomorphism, so each `ℂ`-eigenspace is a `U_q`-submodule, and the eigenspace of an
+eigenvalue `α` (which exists by finite-dimensionality over `ℂ`) is a nonzero submodule of the simple
+`V`, hence all of `V`. Unlike the `K ^ orderOf q` case the scalar need not be nonzero. -/
+theorem central_isScalar (x : Uqsl2 q) (hx : ∀ a : Uqsl2 q, x * a = a * x)
+    [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, ∀ v : V, x • v = α • v := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (smulEnd q V x)
+  let W' : Submodule (Uqsl2 q) V :=
+    { carrier := (Module.End.eigenspace (smulEnd q V x) α : Set V)
+      add_mem' := fun ha hb => Submodule.add_mem _ ha hb
+      zero_mem' := Submodule.zero_mem _
+      smul_mem' := by
+        intro a v hv
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, smulEnd_apply] at hv
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, smulEnd_apply,
+          ← mul_smul, hx, mul_smul, hv, smul_comm] }
+  have hne : W' ≠ ⊥ := by
+    obtain ⟨v, hv, hv0⟩ := hα.exists_hasEigenvector
+    intro hbot
+    apply hv0
+    have hmem : v ∈ W' := hv
+    rw [hbot, Submodule.mem_bot] at hmem
+    exact hmem
+  have htop : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne
+  refine ⟨α, fun v => ?_⟩
+  have hv_mem : v ∈ W' := by rw [htop]; exact Submodule.mem_top
+  have hmem : v ∈ Module.End.eigenspace (smulEnd q V x) α := hv_mem
+  rw [Module.End.mem_eigenspace_iff, smulEnd_apply] at hmem
+  exact hmem
+
+/-- **`e ^ orderOf q` acts as a scalar** on a finite dimensional simple module, given `q ≠ ±1`.
+Unlike `K ^ orderOf q` this scalar may be zero (`e` can act nilpotently). -/
+theorem epow_orderOf_isScalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, ∀ v : V, e q ^ orderOf q • v = α • v :=
+  central_isScalar q V (e q ^ orderOf q) (epow_orderOf_central q hq2)
+
+/-- **`f ^ orderOf q` acts as a scalar** on a finite dimensional simple module, given `q ≠ ±1`.
+Mirror of `epow_orderOf_isScalar`; this scalar may likewise be zero. -/
+theorem fpow_orderOf_isScalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, ∀ v : V, f q ^ orderOf q • v = α • v :=
+  central_isScalar q V (f q ^ orderOf q) (fpow_orderOf_central q hq2)
+
+end CentralScalar
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
