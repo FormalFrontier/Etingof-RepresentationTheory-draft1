@@ -14,8 +14,9 @@ standard short complex
 A ⊗_S (V ⊗_S M) →ᵈ A ⊗_S M →ᵉ M
 ```
 with `d (a ⊗ v ⊗ m) = a·v ⊗ m − a ⊗ (v·m)` and `ε (a ⊗ m) = a·m`, proving `d ≫ ε = 0` and
-`Epi ε`. Injectivity of `d` (`Mono d`) and middle exactness `ker ε = im d` are the successor
-issue (#6481).
+`Epi ε`. Injectivity of `d` (`Mono d`, `stdd_mono`) and middle exactness `ker ε = im d`
+(`standardComplex_exact`) are proved in `Chapter9/PathAlgebraStandardResolution.lean`, where
+`standardResolution_shortExact` assembles the full `ShortExact`.
 
 ## The inner tensor `V ⊗_S M`
 
@@ -369,9 +370,9 @@ theorem epi_stdε : Epi (stdε M) := by
   rw [stdε_tmul, one_smul]
 
 /-- **The standard short complex** `A ⊗_S (V ⊗_S M) →ᵈ A ⊗_S M →ᵉ M` with `d ≫ ε = 0`.
-`Epi ε` is `epi_stdε`; middle exactness `ker ε = im d` is `standardComplex_exact`
-(`Chapter9/PathAlgebraStandardResolution.lean`). `Mono d` remains the residual deliverable of
-#6512, after which `standardResolution_shortExact` assembles the full `ShortExact`. -/
+`Epi ε` is `epi_stdε`; middle exactness `ker ε = im d` is `standardComplex_exact` and injectivity
+`Mono d` is `stdd_mono` (both in `Chapter9/PathAlgebraStandardResolution.lean`). Together these
+assemble the full `ShortExact` as `standardResolution_shortExact`. -/
 noncomputable def standardComplex : ShortComplex (ModuleCat.{u + 1} (PathAlgebra k Q)) :=
   ShortComplex.mk (stdd M) (stdε M) (stdd_comp_stdε M)
 
