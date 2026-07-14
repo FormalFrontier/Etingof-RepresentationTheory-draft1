@@ -197,6 +197,55 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
       K q • v = (ε * (q : ℂ) ^ (Module.finrank ℂ V - 1)) • v :=
   sorry
 
+/-! ## Root-of-unity infrastructure: centrality of `K ^ orderOf q`
+
+At a root of unity, the element `K ^ orderOf q` is central in `U_q(sl₂)`. This is the algebraic
+seed of the dimension bound: on a finite dimensional irreducible representation a central element
+acts as a scalar (Schur's lemma over `ℂ`), which forces `K` to be diagonalizable with at most
+`orderOf q` distinct eigenvalues. The commutation lemmas below (`Kpow_mul_e`, `Kpow_mul_f`) hold
+for every `q`; the centrality corollaries specialise them at `n = orderOf q`, where the twist
+`(q²)^{orderOf q}` collapses to `1`. -/
+
+/-- `K^n` commutes past `e` with a `q^{2n}` twist: `K^n · e = (q²)^n · (e · K^n)`. Iterated form
+of the defining relation `Ke_rel`. -/
+lemma Kpow_mul_e (q : ℂˣ) (n : ℕ) :
+    K q ^ n * e q = (((q : ℂ) ^ 2) ^ n) • (e q * K q ^ n) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (K q), mul_assoc, Ke_rel, mul_smul_comm, ← mul_assoc, ih,
+        smul_mul_assoc, smul_smul, mul_assoc (e q), ← pow_succ (K q),
+        mul_comm ((q : ℂ) ^ 2), ← pow_succ]
+
+/-- `K^n` commutes past `f` with a `q^{-2n}` twist: `K^n · f = (q²)⁻ⁿ · (f · K^n)`. Iterated form
+of the defining relation `Kf_rel`. -/
+lemma Kpow_mul_f (q : ℂˣ) (n : ℕ) :
+    K q ^ n * f q = ((((q : ℂ) ^ 2)⁻¹) ^ n) • (f q * K q ^ n) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (K q), mul_assoc, Kf_rel, mul_smul_comm, ← mul_assoc, ih,
+        smul_mul_assoc, smul_smul, mul_assoc (f q), ← pow_succ (K q),
+        mul_comm (((q : ℂ) ^ 2)⁻¹), ← pow_succ]
+
+/-- At a root of unity the twist collapses: `(q²)^{orderOf q} = 1`. -/
+lemma sq_pow_orderOf_eq_one (q : ℂˣ) : ((q : ℂ) ^ 2) ^ orderOf q = 1 := by
+  have hq1 : (q : ℂ) ^ orderOf q = 1 := by
+    rw [← Units.val_pow_eq_pow_val, pow_orderOf_eq_one, Units.val_one]
+  rw [← pow_mul, mul_comm, pow_mul, hq1, one_pow]
+
+/-- **Centrality of `K ^ orderOf q` against `e`.** At a root of unity `K ^ orderOf q` commutes
+with `e`. -/
+lemma Kpow_orderOf_mul_e (q : ℂˣ) :
+    K q ^ orderOf q * e q = e q * K q ^ orderOf q := by
+  rw [Kpow_mul_e, sq_pow_orderOf_eq_one, one_smul]
+
+/-- **Centrality of `K ^ orderOf q` against `f`.** At a root of unity `K ^ orderOf q` commutes
+with `f`. -/
+lemma Kpow_orderOf_mul_f (q : ℂˣ) :
+    K q ^ orderOf q * f q = f q * K q ^ orderOf q := by
+  rw [Kpow_mul_f, inv_pow, sq_pow_orderOf_eq_one, inv_one, one_smul]
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
