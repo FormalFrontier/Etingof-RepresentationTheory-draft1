@@ -1,6 +1,11 @@
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
 import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Category.ModuleCat.Adjunctions
+import Mathlib.Algebra.Category.Grp.EpiMono
 import Mathlib.Algebra.Homology.ShortComplex.Retract
+import Mathlib.Algebra.Homology.ShortComplex.Ab
+import Mathlib.LinearAlgebra.Finsupp.LSum
+import Mathlib.Algebra.BigOperators.Finsupp.Basic
 
 /-!
 # Tensoring with a projective right module is exact (flatness of projectives)
@@ -194,21 +199,185 @@ noncomputable def mapRetract {S : ShortComplex (ModuleCat.{u} A)} {P F : ModuleC
       (NatTrans.congr_app hF.retract S.X₂)
       (NatTrans.congr_app hF.retract S.X₃) }
 
-/-! ### Free case and assembly -/
+/-! ### Free case: `(X →₀ Aᵐᵒᵖ) ⊗_A N ≅ (X →₀ N)`
+
+The functor `tensorLeftFunctor A ((free Aᵐᵒᵖ).obj X)` (tensoring with the free right module
+`X →₀ Aᵐᵒᵖ = ⊕_X Aᵐᵒᵖ`) is naturally isomorphic to `forget₂ ⋙ (X →₀ -)`. The endofunctor
+`X →₀ -` of abelian groups is exact, so the composite preserves short exactness. -/
+
+/-- The endofunctor `B ↦ (X →₀ B)` of abelian groups, acting on morphisms by `Finsupp.mapRange`.
+It is exact (`finsupp_map_shortExact`). -/
+noncomputable def finsuppFunctor (X : Type u) : AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} where
+  obj B := AddCommGrpCat.of (X →₀ B)
+  map {B B'} g := AddCommGrpCat.ofHom (Finsupp.mapRange.addMonoidHom g.hom)
+  map_id B := by
+    apply AddCommGrpCat.hom_ext
+    simp only [AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_id, Finsupp.mapRange.addMonoidHom_id]
+  map_comp {B B' B''} g h := by
+    apply AddCommGrpCat.hom_ext
+    simp only [AddCommGrpCat.hom_comp, AddCommGrpCat.hom_ofHom,
+      Finsupp.mapRange.addMonoidHom_comp]
+
+@[simp] lemma finsuppFunctor_map_apply (X : Type u) {B B' : AddCommGrpCat.{u}} (g : B ⟶ B')
+    (p : X →₀ B) :
+    ((finsuppFunctor X).map g).hom p = Finsupp.mapRange.addMonoidHom g.hom p :=
+  rfl
+
+instance (X : Type u) : (finsuppFunctor X).PreservesZeroMorphisms where
+  map_zero B B' := by
+    apply AddCommGrpCat.hom_ext
+    change Finsupp.mapRange.addMonoidHom (0 : ↑B →+ ↑B') = 0
+    apply Finsupp.addHom_ext
+    intro x b
+    simp [Finsupp.mapRange.addMonoidHom, Finsupp.mapRange_single]
+
+/-- **Exactness of `X →₀ -`.** Applying `finsuppFunctor X` to a short exact sequence of abelian
+groups yields a short exact sequence: `Finsupp.mapRange` preserves injections, surjections, and
+exactness (checked coordinatewise). -/
+lemma finsupp_map_shortExact (X : Type u) {T : ShortComplex AddCommGrpCat.{u}}
+    (hT : T.ShortExact) : (T.map (finsuppFunctor X)).ShortExact := by
+  have hf : Function.Injective T.f.hom := by
+    have := hT.mono_f; rwa [AddCommGrpCat.mono_iff_injective] at this
+  have hg : Function.Surjective T.g.hom := by
+    have := hT.epi_g; rwa [AddCommGrpCat.epi_iff_surjective] at this
+  apply ShortComplex.ShortExact.mk'
+  · rw [ShortComplex.ab_exact_iff]
+    intro p hp
+    change X →₀ ↑T.X₂ at p
+    change Finsupp.mapRange.addMonoidHom T.g.hom p = 0 at hp
+    have hpx : ∀ x, T.g.hom (p x) = 0 := by
+      intro x
+      have hx := DFunLike.congr_fun hp x
+      simpa [Finsupp.mapRange_apply] using hx
+    have hchoose : ∀ x, ∃ y, T.f.hom y = p x := fun x =>
+      T.ab_exact_iff.mp hT.exact (p x) (hpx x)
+    choose c hc using hchoose
+    refine ⟨∑ x ∈ p.support, Finsupp.single x (c x), ?_⟩
+    change Finsupp.mapRange.addMonoidHom T.f.hom (∑ x ∈ p.support, Finsupp.single x (c x)) = p
+    rw [map_sum]
+    rw [Finset.sum_congr rfl (fun x _ => by
+      change Finsupp.mapRange T.f.hom (map_zero _) (Finsupp.single x (c x)) = Finsupp.single x (p x)
+      rw [Finsupp.mapRange_single, hc])]
+    exact Finsupp.sum_single p
+  · rw [AddCommGrpCat.mono_iff_injective]
+    exact Finsupp.mapRange_injective _ (map_zero _) hf
+  · rw [AddCommGrpCat.epi_iff_surjective]
+    exact Finsupp.mapRange_surjective _ (map_zero _) hg
+
+/-- The right-`Aᵐᵒᵖ`-linear map `(X →₀ Aᵐᵒᵖ) →ₗ (N →+ (X →₀ N))` sending
+`single x a ↦ (n ↦ single x (a.unop • n))`. Built via `Finsupp.lift` from `x ↦ singleAddHom x`;
+uncurried it is the forward map of `(X →₀ Aᵐᵒᵖ) ⊗_A N ≅ (X →₀ N)`. -/
+noncomputable def freeΦ (X N : Type u) [AddCommGroup N] [Module A N] :
+    (X →₀ Aᵐᵒᵖ) →ₗ[Aᵐᵒᵖ] (N →+ (X →₀ N)) :=
+  Finsupp.lift (N →+ (X →₀ N)) Aᵐᵒᵖ X (fun x => Finsupp.singleAddHom x)
+
+lemma freeΦ_single (X N : Type u) [AddCommGroup N] [Module A N] (x : X) (a : Aᵐᵒᵖ) :
+    freeΦ A X N (Finsupp.single x a) = a • Finsupp.singleAddHom x := by
+  simp only [freeΦ, Finsupp.lift_apply, Finsupp.sum_single_index, zero_smul]
+
+@[simp] lemma freeΦ_single_apply (X N : Type u) [AddCommGroup N] [Module A N]
+    (x : X) (a : Aᵐᵒᵖ) (n : N) :
+    freeΦ A X N (Finsupp.single x a) n = Finsupp.single x (a.unop • n) := by
+  rw [freeΦ_single, homMopSMul_apply]; rfl
+
+/-- The inverse map `N →+ (X →₀ Aᵐᵒᵖ) ⊗_A N`, `n ↦ (single x 1) ⊗ n`, for a fixed `x`. -/
+noncomputable def freeInvAux (X N : Type u) [AddCommGroup N] [Module A N] (x : X) :
+    N →+ tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ)) where
+  toFun n := ((Finsupp.single x (1 : Aᵐᵒᵖ) ⊗ₜ[ℤ] n :
+    TensorProduct ℤ (X →₀ Aᵐᵒᵖ) N) : tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ)))
+  map_zero' := by simp
+  map_add' n n' := by rw [tmul_add]; exact map_add (QuotientAddGroup.mk' _) _ _
+
+/-- The isomorphism `(X →₀ Aᵐᵒᵖ) ⊗_A N ≃+ (X →₀ N)`, `single x a ⊗ n ↦ single x (a.unop • n)`. -/
+noncomputable def freeEquiv (X N : Type u) [AddCommGroup N] [Module A N] :
+    tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ)) ≃+ (X →₀ N) where
+  toFun := homEquivInvFun (freeΦ A X N)
+  invFun := Finsupp.liftAddHom (fun x => freeInvAux A X N x)
+  left_inv := by
+    have h : (Finsupp.liftAddHom (fun x => freeInvAux A X N x)).comp
+        (homEquivInvFun (freeΦ A X N)) = AddMonoidHom.id _ := by
+      apply tensorOver_hom_ext
+      intro m n
+      rw [AddMonoidHom.comp_apply, homEquivInvFun_mk, AddMonoidHom.id_apply]
+      induction m using Finsupp.induction_linear with
+      | zero => simp
+      | add p q hp hq =>
+        rw [show freeΦ A X N (p + q) n = freeΦ A X N p n + freeΦ A X N q n by rw [map_add]; rfl,
+          map_add, hp, hq, add_tmul]
+        exact (map_add (QuotientAddGroup.mk' _) _ _).symm
+      | single x a =>
+        rw [freeΦ_single_apply]
+        change Finsupp.liftAddHom (fun x => freeInvAux A X N x) (Finsupp.single x (a.unop • n)) = _
+        rw [Finsupp.liftAddHom_apply_single]
+        change ((Finsupp.single x (1 : Aᵐᵒᵖ) ⊗ₜ[ℤ] (a.unop • n) :
+            TensorProduct ℤ (X →₀ Aᵐᵒᵖ) N) : tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ))) = _
+        rw [← mk_smul_tmul a (Finsupp.single x 1) n, Finsupp.smul_single, smul_eq_mul, mul_one]
+    intro z
+    rw [← AddMonoidHom.comp_apply, h, AddMonoidHom.id_apply]
+  right_inv := by
+    intro g
+    induction g using Finsupp.induction_linear with
+    | zero => simp
+    | add p q hp hq => rw [map_add, map_add, hp, hq]
+    | single x n =>
+      rw [Finsupp.liftAddHom_apply_single]
+      change homEquivInvFun (freeΦ A X N) ((Finsupp.single x (1 : Aᵐᵒᵖ) ⊗ₜ[ℤ] n :
+          TensorProduct ℤ (X →₀ Aᵐᵒᵖ) N) : tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ))) = _
+      rw [homEquivInvFun_mk, freeΦ_single_apply, MulOpposite.unop_one, one_smul]
+  map_add' := map_add _
+
+@[simp] lemma freeEquiv_mk (X N : Type u) [AddCommGroup N] [Module A N]
+    (m : X →₀ Aᵐᵒᵖ) (n : N) :
+    freeEquiv A X N ((m ⊗ₜ[ℤ] n : TensorProduct ℤ (X →₀ Aᵐᵒᵖ) N) :
+      tensorOver A N (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ))) = freeΦ A X N m n :=
+  rfl
+
+/-- Naturality crux for `freeNatIso`: an `A`-linear `g : N →ₗ N'` commutes with `freeΦ`. -/
+lemma mapRange_freeΦ (X : Type u) {N N' : Type u} [AddCommGroup N] [Module A N]
+    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (m : X →₀ Aᵐᵒᵖ) (n : N) :
+    Finsupp.mapRange.addMonoidHom g.toAddMonoidHom (freeΦ A X N m n) = freeΦ A X N' m (g n) := by
+  induction m using Finsupp.induction_linear with
+  | zero => simp
+  | add p q hp hq =>
+    rw [show freeΦ A X N (p + q) n = freeΦ A X N p n + freeΦ A X N q n by rw [map_add]; rfl,
+      show freeΦ A X N' (p + q) (g n) = freeΦ A X N' p (g n) + freeΦ A X N' q (g n) by
+        rw [map_add]; rfl,
+      map_add, hp, hq]
+  | single x a =>
+    rw [freeΦ_single_apply, freeΦ_single_apply]
+    change Finsupp.mapRange g.toAddMonoidHom (map_zero _) (Finsupp.single x (a.unop • n)) = _
+    rw [Finsupp.mapRange_single]
+    exact congrArg (Finsupp.single x) (g.map_smul a.unop n)
+
+/-- The natural isomorphism `tensorLeftFunctor A (X →₀ Aᵐᵒᵖ) ≅ forget₂ ⋙ (X →₀ -)`. -/
+noncomputable def freeNatIso (X : Type u) :
+    tensorLeftFunctor A (ModuleCat.of Aᵐᵒᵖ (X →₀ Aᵐᵒᵖ)) ≅
+      forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u} ⋙ finsuppFunctor X :=
+  NatIso.ofComponents (fun N => AddEquiv.toAddCommGrpIso (freeEquiv A X N))
+    (by
+      intro N N' g
+      apply AddCommGrpCat.hom_ext
+      apply tensorOver_hom_ext
+      intro m n
+      simp only [AddCommGrpCat.hom_comp, AddMonoidHom.coe_comp, Function.comp_apply,
+        tensorLeftFunctor, AddCommGrpCat.hom_ofHom, AddEquiv.toAddCommGrpIso_hom,
+        AddEquiv.coe_toAddMonoidHom, Functor.comp_map, ModuleCat.forget₂_map]
+      exact (mapRange_freeΦ A X g.hom m n).symm)
 
 /-- **Free case.** Tensoring a short exact sequence with a free right module `X →₀ Aᵐᵒᵖ`
 (a coproduct of copies of the regular module `Aᵐᵒᵖ`) is short exact.
 
-Intended proof route (#6587 residual): `tensorOver A N (X →₀ Aᵐᵒᵖ) ≅ (X →₀ N)` naturally in `N`
-— from the unit iso `Aᵐᵒᵖ ⊗_A N ≅ N` (`unitorNatIso`) and the commutation of `⊗_A` with the
-coproduct `X →₀ Aᵐᵒᵖ = ⊕_X Aᵐᵒᵖ` (`tensorRightFunctor A N` is a left adjoint, `tensorHomAdjunction`,
-so preserves coproducts). This identifies `tensorLeftFunctor A ((free Aᵐᵒᵖ).obj X)` with
-`forget₂ ⋙ (X →₀ -)`, which is exact because `X →₀ -` (a coproduct) is an exact functor of
-abelian groups (AB4/AB5). -/
+`tensorOver A N (X →₀ Aᵐᵒᵖ) ≅ (X →₀ N)` naturally in `N` (`freeNatIso`), identifying
+`tensorLeftFunctor A ((free Aᵐᵒᵖ).obj X)` with `forget₂ ⋙ (X →₀ -)`; the latter is exact because
+`forget₂` is exact and `X →₀ -` is exact (`finsupp_map_shortExact`). -/
 lemma free_map_shortExact (X : Type u)
     {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExact) :
     (S.map (tensorLeftFunctor A ((ModuleCat.free Aᵐᵒᵖ).obj X))).ShortExact := by
-  sorry
+  have hforget : (S.map (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u})).ShortExact :=
+    hS.map_of_exact (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u})
+  have hfs : (S.map (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u} ⋙ finsuppFunctor X)).ShortExact :=
+    finsupp_map_shortExact X hforget
+  exact ShortComplex.shortExact_of_iso (S.mapNatIso (freeNatIso A X)).symm hfs
 
 /-- **Problem 8.2.6 flatness crux (#6587).** Tensoring a short exact sequence of left `A`-modules
 with a *projective* right `A`-module `P` is short exact: `P ⊗_A -` preserves short exactness. This
