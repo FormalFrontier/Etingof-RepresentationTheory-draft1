@@ -376,6 +376,40 @@ lemma dcoef_eq_zero_imp (q : ℂˣ) (hq : ¬ IsOfFinOrder q) (lam : ℂ) (hlam :
     rw [← mul_assoc, mul_inv_cancel₀ hlam, one_mul]
   rw [pow_mul]; exact hlam2
 
+/-- A `ℂ`-submodule `W` closed under the four generators `e, f, K, L` is a `U_q(sl₂)`-submodule:
+every algebra element maps `W` into `W`. Proved by `FreeAlgebra.induction` on a preimage under the
+surjection `mk q`, reducing to the generator closures. -/
+lemma smul_mem_of_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module ℂ V]
+    [Module (Uqsl2 q) V] [IsScalarTower ℂ (Uqsl2 q) V] (W : Submodule ℂ V)
+    (hclE : ∀ x ∈ W, e q • x ∈ W) (hclF : ∀ x ∈ W, f q • x ∈ W)
+    (hclK : ∀ x ∈ W, K q • x ∈ W) (hclL : ∀ x ∈ W, L q • x ∈ W)
+    (a : Uqsl2 q) (x : V) (hx : x ∈ W) : a • x ∈ W := by
+  suffices H : ∀ p : FreeAlgebra ℂ Gen, ∀ y ∈ W, mk q p • y ∈ W by
+    obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Rel q) a
+    exact H p x hx
+  intro p
+  induction p using FreeAlgebra.induction with
+  | grade0 r =>
+    intro y hy
+    rw [show mk q (algebraMap ℂ (FreeAlgebra ℂ Gen) r) = algebraMap ℂ (Uqsl2 q) r from
+      AlgHom.commutes (mk q) r, algebraMap_smul]
+    exact W.smul_mem r hy
+  | grade1 g =>
+    intro y hy
+    fin_cases g
+    · exact hclE y hy
+    · exact hclF y hy
+    · exact hclK y hy
+    · exact hclL y hy
+  | mul a b ha hb =>
+    intro y hy
+    rw [map_mul, mul_smul]
+    exact ha _ (hb y hy)
+  | add a b ha hb =>
+    intro y hy
+    rw [map_add, add_smul]
+    exact W.add_mem (ha y hy) (hb y hy)
+
 /-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
 irreducible representation is determined up to isomorphism by its dimension together with a
 sign `ε ∈ {±1}`: on a highest weight vector `v` of an `(n+1)`-dimensional irreducible, `K`
