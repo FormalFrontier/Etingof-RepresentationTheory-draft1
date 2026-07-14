@@ -379,6 +379,100 @@ theorem tracelessSymSub_finrank : Module.finrank ℝ tracelessSymSub = 5 := by
         fin_cases i <;> simp [hv, Matrix.trace_fin_three]
   rw [hspan, finrank_span_eq_card hindep, Fintype.card_fin]
 
+/-! ### Rotation matrices used for the irreducibility arguments -/
+
+/-- The explicit basis of `skewSub` (as in `skewSub_finrank`). -/
+def sbasis : Fin 3 → EndV :=
+  ![!![0, 1, 0; -1, 0, 0; 0, 0, 0], !![0, 0, 1; 0, 0, 0; -1, 0, 0],
+    !![0, 0, 0; 0, 0, 1; 0, -1, 0]]
+
+theorem sbasis_mem (i : Fin 3) : sbasis i ∈ skewSub := by
+  fin_cases i <;> · show (_ : EndV)ᵀ = -_; ext a b; fin_cases a <;> fin_cases b <;> simp [sbasis]
+
+/-- Every skew-symmetric matrix is a combination of the three basis matrices. -/
+theorem skew_decomp (M : EndV) (hM : Mᵀ = -M) :
+    M = (M 0 1) • sbasis 0 + (M 0 2) • sbasis 1 + (M 1 2) • sbasis 2 := by
+  have hd : ∀ i, M i i = 0 := fun i => by
+    have h := congr_fun (congr_fun hM i) i
+    simp only [Matrix.transpose_apply, Matrix.neg_apply] at h; linarith
+  have ho : ∀ i j, M j i = -M i j := fun i j => by
+    have h := congr_fun (congr_fun hM i) j
+    simpa only [Matrix.transpose_apply, Matrix.neg_apply] using h
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [sbasis, Matrix.add_apply] <;>
+    linarith [hd 0, hd 1, hd 2, ho 0 1, ho 0 2, ho 1 2]
+
+/-- Sign rotation `diag(-1,-1,1) ∈ SO(3)`. -/
+def Dz : SO3 := ⟨!![(-1:ℝ), 0, 0; 0, -1, 0; 0, 0, 1], by
+  rw [mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [mem_orthogonalGroup_iff]; ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
+  · simp [Matrix.det_fin_three]⟩
+
+/-- Sign rotation `diag(-1,1,-1) ∈ SO(3)`. -/
+def Dy : SO3 := ⟨!![(-1:ℝ), 0, 0; 0, 1, 0; 0, 0, -1], by
+  rw [mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [mem_orthogonalGroup_iff]; ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
+  · simp [Matrix.det_fin_three]⟩
+
+/-- Sign rotation `diag(1,-1,-1) ∈ SO(3)`. -/
+def Dx : SO3 := ⟨!![(1:ℝ), 0, 0; 0, -1, 0; 0, 0, -1], by
+  rw [mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [mem_orthogonalGroup_iff]; ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
+  · simp [Matrix.det_fin_three]⟩
+
+/-- Cyclic-permutation rotation `e₀ ↦ e₁ ↦ e₂ ↦ e₀ ∈ SO(3)`. -/
+def Pc : SO3 := ⟨!![(0:ℝ), 0, 1; 1, 0, 0; 0, 1, 0], by
+  rw [mem_specialOrthogonalGroup_iff]
+  refine ⟨?_, ?_⟩
+  · rw [mem_orthogonalGroup_iff]; ext i j
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
+  · simp [Matrix.det_fin_three]⟩
+
+/-- Uniform tactic for `conjRep R (sbasis i) = ±sbasis j` computations. -/
+private theorem conjRep_Dz0 : conjRep Dz (sbasis 0) = sbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz1 : conjRep Dz (sbasis 1) = -sbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dz2 : conjRep Dz (sbasis 2) = -sbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dz, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy0 : conjRep Dy (sbasis 0) = -sbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy1 : conjRep Dy (sbasis 1) = sbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dy2 : conjRep Dy (sbasis 2) = -sbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dy, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx0 : conjRep Dx (sbasis 0) = -sbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx1 : conjRep Dx (sbasis 1) = -sbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Dx2 : conjRep Dx (sbasis 2) = sbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Dx, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Pc0 : conjRep Pc (sbasis 0) = sbasis 2 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Pc1 : conjRep Pc (sbasis 1) = -sbasis 0 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+private theorem conjRep_Pc2 : conjRep Pc (sbasis 2) = -sbasis 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [conjRep_apply, Pc, sbasis, Matrix.mul_apply, Fin.sum_univ_three]
+
 /-! ### Part (b): irreducibility and Hooke's law -/
 
 /-- **(b)** The standard representation `V ≅ skewSub` is irreducible: every `SO(3)`-invariant
@@ -387,7 +481,72 @@ complexification.) -/
 theorem skewSub_irreducible (U : Submodule ℝ EndV) (hUle : U ≤ skewSub)
     (hUinv : ∀ (A : SO3), ∀ M ∈ U, conjRep A M ∈ U) :
     U = ⊥ ∨ U = skewSub := by
-  sorry
+  rcases eq_or_ne U ⊥ with h | h
+  · exact Or.inl h
+  refine Or.inr (le_antisymm hUle ?_)
+  -- Pick a nonzero `M ∈ U`; it is skew, so `M = a·v₀ + b·v₁ + c·v₂`.
+  obtain ⟨M, hMU, hMne⟩ := U.ne_bot_iff.mp h
+  have hMsk : Mᵀ = -M := mem_skewSub_iff.mp (hUle hMU)
+  have hMdec : M = (M 0 1) • sbasis 0 + (M 0 2) • sbasis 1 + (M 1 2) • sbasis 2 :=
+    skew_decomp M hMsk
+  have hDzM : conjRep Dz M ∈ U := hUinv Dz M hMU
+  have hDyM : conjRep Dy M ∈ U := hUinv Dy M hMU
+  have hDxM : conjRep Dx M ∈ U := hUinv Dx M hMU
+  -- Each sign rotation isolates one coordinate axis.
+  have hav0 : (M 0 1) • sbasis 0 ∈ U := by
+    have key : (M 0 1) • sbasis 0 = (2⁻¹ : ℝ) • (M + conjRep Dz M) := by
+      conv_rhs => rw [hMdec]
+      simp only [map_add, map_smul, conjRep_Dz0, conjRep_Dz1, conjRep_Dz2]
+      module
+    rw [key]; exact U.smul_mem _ (U.add_mem hMU hDzM)
+  have hbv1 : (M 0 2) • sbasis 1 ∈ U := by
+    have key : (M 0 2) • sbasis 1 = (2⁻¹ : ℝ) • (M + conjRep Dy M) := by
+      conv_rhs => rw [hMdec]
+      simp only [map_add, map_smul, conjRep_Dy0, conjRep_Dy1, conjRep_Dy2]
+      module
+    rw [key]; exact U.smul_mem _ (U.add_mem hMU hDyM)
+  have hcv2 : (M 1 2) • sbasis 2 ∈ U := by
+    have key : (M 1 2) • sbasis 2 = (2⁻¹ : ℝ) • (M + conjRep Dx M) := by
+      conv_rhs => rw [hMdec]
+      simp only [map_add, map_smul, conjRep_Dx0, conjRep_Dx1, conjRep_Dx2]
+      module
+    rw [key]; exact U.smul_mem _ (U.add_mem hMU hDxM)
+  -- Spread each coordinate across all three axes with the cyclic rotation.
+  have hav2 : (M 0 1) • sbasis 2 ∈ U := by
+    have t := hUinv Pc _ hav0; rwa [map_smul, conjRep_Pc0] at t
+  have hav1 : (M 0 1) • sbasis 1 ∈ U := by
+    have t := hUinv Pc _ hav2; rw [map_smul, conjRep_Pc2, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hbv0 : (M 0 2) • sbasis 0 ∈ U := by
+    have t := hUinv Pc _ hbv1; rw [map_smul, conjRep_Pc1, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hbv2 : (M 0 2) • sbasis 2 ∈ U := by
+    have t := hUinv Pc _ hbv0; rwa [map_smul, conjRep_Pc0] at t
+  have hcv1 : (M 1 2) • sbasis 1 ∈ U := by
+    have t := hUinv Pc _ hcv2; rw [map_smul, conjRep_Pc2, smul_neg] at t
+    exact neg_mem_iff.mp t
+  have hcv0 : (M 1 2) • sbasis 0 ∈ U := by
+    have t := hUinv Pc _ hcv1; rw [map_smul, conjRep_Pc1, smul_neg] at t
+    exact neg_mem_iff.mp t
+  -- `M ≠ 0` gives a nonzero coordinate, so each basis vector lies in `U`.
+  have hne3 : M 0 1 ≠ 0 ∨ M 0 2 ≠ 0 ∨ M 1 2 ≠ 0 := by
+    by_contra hcon
+    push_neg at hcon
+    exact hMne (by rw [hMdec, hcon.1, hcon.2.1, hcon.2.2]; simp)
+  have extract : ∀ w : EndV,
+      (M 0 1) • w ∈ U → (M 0 2) • w ∈ U → (M 1 2) • w ∈ U → w ∈ U := by
+    intro w h1 h2 h3
+    rcases hne3 with hh | hh | hh
+    · rw [← one_smul ℝ w, ← inv_mul_cancel₀ hh, mul_smul]; exact U.smul_mem _ h1
+    · rw [← one_smul ℝ w, ← inv_mul_cancel₀ hh, mul_smul]; exact U.smul_mem _ h2
+    · rw [← one_smul ℝ w, ← inv_mul_cancel₀ hh, mul_smul]; exact U.smul_mem _ h3
+  have hs0 : sbasis 0 ∈ U := extract _ hav0 hbv0 hcv0
+  have hs1 : sbasis 1 ∈ U := extract _ hav1 hbv1 hcv1
+  have hs2 : sbasis 2 ∈ U := extract _ hav2 hbv2 hcv2
+  -- Hence `skewSub ≤ U`.
+  intro N hN
+  rw [skew_decomp N (mem_skewSub_iff.mp hN)]
+  exact U.add_mem (U.add_mem (U.smul_mem _ hs0) (U.smul_mem _ hs1)) (U.smul_mem _ hs2)
 
 /-- **(b)** The representation `W = tracelessSymSub` is irreducible: every `SO(3)`-invariant
 subspace contained in `tracelessSymSub` is `⊥` or all of `tracelessSymSub`. (Irreducibility
