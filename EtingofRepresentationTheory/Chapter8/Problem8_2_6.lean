@@ -1,5 +1,6 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
+import EtingofRepresentationTheory.Chapter8.Definition8_2_3_LeftExact
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
@@ -158,6 +159,20 @@ theorem Problem_8_2_6_iii_tor
     (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) M n₀ n₁ h
 
 /-! ### Part (iv): the balancing theorem -/
+
+/-- **Balancing in degree 0** (the base case of the dimension-shift proof of Problem 8.2.6(iv)).
+Both `Tor₀ᴬ(M, N)` and the zeroth left derived functor of `M ⊗_A -` evaluated at `N` are
+canonically the group `M ⊗_A N`: `Etingof.Tor A N M 0 = (leftDerived (tensorRightFunctor A N) 0).obj M`
+and `(leftDerived (tensorLeftFunctor A M) 0).obj N` both reduce, via `leftDerivedZeroIsoSelf`, to the
+common object `AddCommGrpCat.of (tensorOver A N M) = M ⊗_A N`. Composing the two zeroth-derived
+identifications gives the balancing isomorphism in degree `0`. -/
+noncomputable def balancingIsoZero
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    (M : ModuleCat.{u} Aᵐᵒᵖ) :
+    Etingof.Tor A N M 0 ≅
+      (Functor.leftDerived (tensorLeftFunctor A M) 0).obj (ModuleCat.of A N) :=
+  ((tensorRightFunctor A N).leftDerivedZeroIsoSelf.app M) ≪≫
+    ((tensorLeftFunctor A M).leftDerivedZeroIsoSelf.app (ModuleCat.of A N)).symm
 
 /-- **Problem 8.2.6(iv), balancing.** `Torₙᴬ(M, N)` may be computed from a projective resolution
 of `N` tensored with `M`: the `n`-th left derived functor of `- ⊗_A N` evaluated at `M`
