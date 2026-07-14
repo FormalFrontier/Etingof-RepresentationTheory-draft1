@@ -17,6 +17,7 @@ import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Exercise8_2_2
 import EtingofRepresentationTheory.Chapter8.Problem8_2_5
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6
+import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 import EtingofRepresentationTheory.Chapter8.Problem8_2_7
 import EtingofRepresentationTheory.Chapter8.Problem8_2_8
 import EtingofRepresentationTheory.Chapter8.Exercise8_2_9
