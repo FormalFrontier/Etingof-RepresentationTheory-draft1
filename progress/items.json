@@ -5222,8 +5222,8 @@
     "end_page": "147",
     "start_line": 15,
     "end_line": 16,
-    "status": "statement_formalized",
-    "coverage_note": "Statement pass across three files, each redoing one Problem via Theorem 5.27.1. (4.12.6) Exercise5_27_2_Affine.lean: affine ax+b group over a finite field as Multiplicative K rtimes Kˣ, q irreducibles (q-1 of dim 1, one of dim q-1). (4.12.1(a)) Exercise5_27_2_Dihedral.lean: dihedral D_N (Mathlib DihedralGroup) as ZMod N rtimes ZMod 2 via inversion; classification by parity (N odd: two dim-1, (N-1)/2 dim-2; N even: four dim-1, (N-2)/2 dim-2). (4.12.2) Exercise5_27_2_Heisenberg.lean: Heisenberg group over F_p constructed as (ZMod p x ZMod p) rtimes ZMod p via the shear automorphism; p^2 irreducibles of dim 1 and p-1 of dim p. All sorry proofs."
+    "status": "proved",
+    "coverage_note": "COMPLETE and sorry-free across three files, each redoing one Problem via Theorem 5.27.1. (4.12.6) Exercise5_27_2_Affine.lean: affine ax+b group over a finite field as Multiplicative K rtimes Kˣ; affine_classification (hyp 2<q, excluding the degenerate 𝔽₂ where the free rep also has dim q-1=1) gives q irreducibles (q-1 of dim 1 over the fixed trivial character indexed by ρ:Kˣ→*ℂˣ, one of dim q-1 over the single free orbit). Assembled from Theorem 5.27.1: stabilizer dichotomy (⊤ for trivial χ, ⊥ for nontrivial) + transitivity on nontrivial chars, closed-form fixed character ρ g, dims via index_top/index_bot+card_units, completeness via exists_charFDRep_iso and orbit base-point move (hvii/hix). (4.12.1(a)) Exercise5_27_2_Dihedral.lean: dihedral D_N as ZMod N rtimes ZMod 2 via inversion; parity classification. (4.12.2) Exercise5_27_2_Heisenberg.lean: Heisenberg over F_p as (ZMod p)² rtimes ZMod p via shear; p² dim-1 and p-1 dim-p. All three sorry-free."
   },
   {
     "id": "Chapter5/Exercise5.27.3",
