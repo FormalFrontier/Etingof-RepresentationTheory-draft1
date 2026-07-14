@@ -220,6 +220,95 @@ theorem isUnit_e (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (S : Finset (Fin 
   obtain ⟨i, _, rfl⟩ := hx
   exact isUnit_gen B v hv hnd i
 
+open scoped symmDiff
+
+/-- **Generator × monomial reduction.** `ι(vⱼ) · e U` is a scalar multiple of the monomial on
+`U ∆ {j}`. Proved by strong induction on `U`: peel the minimum `k` of `U`, and recurse on the
+same index `j` with the smaller set `U.erase k` (valid since `j > k`), handling `j < min U` and
+`j = min U` directly. Because the basis is orthogonal, no lower-order terms appear. -/
+theorem gen_mul_mem (hv : B.IsOrthoᵢ v) (j : Fin N) (U : Finset (Fin N)) :
+    gen B v j * e B v U ∈ Submodule.span ℂ {e B v (U ∆ {j})} := by
+  induction U using Finset.strongInductionOn with
+  | _ U ih =>
+    rcases U.eq_empty_or_nonempty with rfl | hU
+    · have h0 : (∅ : Finset (Fin N)) ∆ {j} = {j} := by ext a; simp [Finset.mem_symmDiff]
+      rw [e_empty, mul_one, h0, e_singleton]
+      exact Submodule.mem_span_singleton_self _
+    · rcases lt_trichotomy j (U.min' hU) with hjk | hjk | hjk
+      · -- `j < min U`: `ι(vⱼ)` prepends directly and `U ∆ {j} = insert j U`.
+        have hjnotU : j ∉ U := fun hmem => absurd (U.min'_le j hmem) (not_le.mpr hjk)
+        have hlt : ∀ i ∈ U, j < i := fun i hi => lt_of_lt_of_le hjk (U.min'_le i hi)
+        have hset : U ∆ {j} = insert j U := by
+          ext a
+          simp only [Finset.mem_symmDiff, Finset.mem_singleton, Finset.mem_insert]
+          constructor
+          · rintro (⟨ha, _⟩ | ⟨rfl, _⟩)
+            · exact Or.inr ha
+            · exact Or.inl rfl
+          · rintro (rfl | ha)
+            · exact Or.inr ⟨rfl, hjnotU⟩
+            · exact Or.inl ⟨ha, fun h => hjnotU (h ▸ ha)⟩
+        rw [hset, ← e_insert_of_lt B v hlt]
+        exact Submodule.mem_span_singleton_self _
+      · -- `j = min U`: `ι(vⱼ)² = B(vⱼ,vⱼ)` collapses and `U ∆ {j} = U.erase j`.
+        have hjU : j ∈ U := hjk ▸ U.min'_mem hU
+        have hset : U ∆ {j} = U.erase j := by
+          ext a
+          simp only [Finset.mem_symmDiff, Finset.mem_singleton, Finset.mem_erase]
+          constructor
+          · rintro (⟨ha, hne⟩ | ⟨rfl, hn⟩)
+            · exact ⟨hne, ha⟩
+            · exact absurd hjU hn
+          · rintro ⟨hne, ha⟩; exact Or.inl ⟨ha, hne⟩
+        rw [hset, e_minPeel B v hU, ← hjk, ← mul_assoc, gen_sq, ← Algebra.smul_def]
+        exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+      · -- `j > min U =: k`: anticommute past `ι(v k)` and recurse on `U.erase k`.
+        set k := U.min' hU with hkdef
+        have hkU : k ∈ U := U.min'_mem hU
+        have hjne : j ≠ k := ne_of_gt hjk
+        obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp
+          (ih (U.erase k) (Finset.erase_ssubset hkU))
+        have hltW : ∀ i ∈ (U.erase k) ∆ {j}, k < i := by
+          intro i hi
+          simp only [Finset.mem_symmDiff, Finset.mem_erase, Finset.mem_singleton] at hi
+          rcases hi with ⟨⟨hik, hiU⟩, _⟩ | ⟨rfl, _⟩
+          · have hle : k ≤ i := U.min'_le i hiU
+            exact lt_of_le_of_ne hle (Ne.symm hik)
+          · exact hjk
+        have hset : insert k ((U.erase k) ∆ {j}) = U ∆ {j} := by
+          ext a
+          simp only [Finset.mem_insert, Finset.mem_symmDiff, Finset.mem_erase,
+            Finset.mem_singleton]
+          by_cases hak : a = k <;> by_cases haj : a = j <;> by_cases haU : a ∈ U <;>
+            simp_all
+        rw [e_minPeel B v hU, ← hkdef, ← mul_assoc, gen_anticomm B v hv hjne, neg_mul,
+          mul_assoc, ← hc, mul_smul_comm, ← e_insert_of_lt B v hltW, hset]
+        exact Submodule.neg_mem _ (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _))
+
+/-- **Monomial × monomial reduction.** `e S · e T` is a scalar multiple of the monomial on
+`S ∆ T`. Proved by strong induction on `S` (peel the minimum) using `gen_mul_mem`. -/
+theorem e_mul_mem (hv : B.IsOrthoᵢ v) (S T : Finset (Fin N)) :
+    e B v S * e B v T ∈ Submodule.span ℂ {e B v (S ∆ T)} := by
+  induction S using Finset.strongInductionOn with
+  | _ S ih =>
+    rcases S.eq_empty_or_nonempty with rfl | hS
+    · have h0 : (∅ : Finset (Fin N)) ∆ T = T := by ext a; simp [Finset.mem_symmDiff]
+      rw [e_empty, one_mul, h0]
+      exact Submodule.mem_span_singleton_self _
+    · set k := S.min' hS with hkdef
+      have hkS : k ∈ S := S.min'_mem hS
+      obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp
+        (ih (S.erase k) (Finset.erase_ssubset hkS))
+      have hset : ((S.erase k) ∆ T) ∆ {k} = S ∆ T := by
+        ext a
+        simp only [Finset.mem_symmDiff, Finset.mem_erase, Finset.mem_singleton]
+        by_cases hak : a = k <;> by_cases haS : a ∈ S <;> by_cases haT : a ∈ T <;>
+          simp_all [hkS]
+      have hg := gen_mul_mem B v hv k ((S.erase k) ∆ T)
+      rw [hset] at hg
+      rw [e_minPeel B v hS, ← hkdef, mul_assoc, ← hc, mul_smul_comm]
+      exact Submodule.smul_mem _ _ hg
+
 end Monomial
 
 /-- **Problem 3.9.5(i), semisimplicity.** If `B` is nondegenerate then `Cl(V)` is a
