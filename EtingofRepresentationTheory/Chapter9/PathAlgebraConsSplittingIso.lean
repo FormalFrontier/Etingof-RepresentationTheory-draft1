@@ -388,6 +388,105 @@ theorem inducedCoordMap_stdd_shift_zero (s : inducedVtensObj M) :
   | add s t hs ht =>
       simp only [map_add, Finsupp.add_apply, hs, ht]; abel
 
+/-! ## Graded surjectivity of `Φ` (the cons-preimage of the top component)
+
+The cons-splitting `A_n ⊗_S V ≅ A_{n+1}`, tensored with `M`, says that `Φ` restricts to an
+isomorphism from the degree-`n` part of `A ⊗_S (V ⊗_S M)` onto the degree-`(n+1)` part of
+`A ⊗_S M`. The **surjectivity** half of that graded iso is the piece consumed by
+`standardResolution_shortExact` (#6512): the downward middle-exactness telescoping needs, for each
+`y : A ⊗_S M` and each `n`, a degree-`n` preimage `η` of the degree-`(n+1)` component of `y` under
+`Φ`. This is the noncommutative analogue of the cons-preimage `coordMapCHInv` in
+`koszulSES_shortExact` (`Chapter9/Example9_4_4.lean`), built here directly from the combinatorial
+core `exists_ofPath_mul_arrowElt` (`Chapter9/PathAlgebraConsSplitting.lean`) rather than from an
+abstract graded-piece isomorphism.
+
+Because `Φ (a ⊗ v ⊗ m) = (a·v) ⊗ m` raises the length degree by one
+(`lengthProj_mul_arrowInclusion`), the produced `η` is genuinely homogeneous of degree `n`
+(`inducedCoordMapGen (VtensObj M) η n = η` and vanishes in every other degree), so its degree-shift
+coordinate `inducedCoordMap_stdd_shift` collapses to `Φ η` at degree `n+1` and to `0` above. -/
+
+/-- **Single-path cons-preimage.** For a basis path `x` of length `n + 1` and any `m`, the pure
+tensor `(x, m)` of `A ⊗_S M` is `Φ η` for an `η` homogeneous of degree `n`: split `x = p·e` into its
+length-`n` initial path `p` and final arrow `e` (`exists_ofPath_mul_arrowElt`) and take
+`η = (c • p) ⊗ (e ⊗ m)`. The basis-level seed of `exists_stdΦ_preimage_topDegree`. -/
+theorem exists_stdΦ_preimage_single_tmul (x : QuiverPathIndex Q) (c : k) {n : ℕ}
+    (hx : pathLen x = n + 1) (m : restrictObj M) :
+    ∃ η : inducedVtensObj M,
+      inducedCoordMapGen (VtensObj M) η n = η ∧
+      (∀ j, j ≠ n → inducedCoordMapGen (VtensObj M) η j = 0) ∧
+      (stdΦ M).hom η
+        = ((Finsupp.single x c : PathAlgebra k Q) ⊗ₜ[Q → k] (m : M) : inducedCarrier M) := by
+  obtain ⟨a, cc, q⟩ := x
+  rw [pathLen_mk] at hx
+  obtain ⟨b, p, e, hcomp, hlen⟩ := exists_ofPath_mul_arrowElt (k := k) q hx
+  have hlp : lengthProj k Q n (ofPath (⟨a, b, p⟩ : QuiverPathIndex Q))
+      = ofPath (⟨a, b, p⟩ : QuiverPathIndex Q) := by
+    rw [ofPath, lengthProj_single, pathLen_mk, hlen, if_pos rfl]
+  have hlp0 : ∀ j, j ≠ n →
+      lengthProj k Q j (ofPath (⟨a, b, p⟩ : QuiverPathIndex Q)) = 0 := by
+    intro j hj
+    rw [ofPath, lengthProj_single, pathLen_mk, hlen, if_neg (fun h => hj h.symm)]
+  refine ⟨(c • ofPath (⟨a, b, p⟩ : QuiverPathIndex Q)) ⊗ₜ[Q → k]
+      ((Finsupp.single (⟨b, cc, e⟩ : ArrowIndex Q) 1 : ArrowTgt k Q)
+        ⊗ₜ[Q → k] m : VtensObj M), ?_, ?_, ?_⟩
+  · rw [inducedCoordMapGen_tmul, map_smul, hlp]
+  · intro j hj
+    rw [inducedCoordMapGen_tmul, map_smul, hlp0 j hj, smul_zero, TensorProduct.zero_tmul]
+  · have hmul : (c • ofPath (⟨a, b, p⟩ : QuiverPathIndex Q))
+        * arrowInclusion (Finsupp.single (⟨b, cc, e⟩ : ArrowIndex Q) 1 : ArrowTgt k Q)
+        = (Finsupp.single (⟨a, cc, q⟩ : QuiverPathIndex Q) c : PathAlgebra k Q) := by
+      rw [arrowInclusion_single, one_smul, smul_mul_assoc, ← hcomp, ofPath, Finsupp.smul_single,
+        smul_eq_mul, mul_one]
+    rw [stdΦ_tmul, hmul]
+
+/-- **Graded surjectivity of `Φ` onto the top component (cons-preimage).** For every `y : A ⊗_S M`
+and every `n`, the degree-`(n+1)` homogeneous component `inducedCoordMap M y (n+1)` is `Φ η` for a
+degree-`n`-homogeneous `η : A ⊗_S (V ⊗_S M)`. This is the surjectivity half of the cons-splitting
+`A_n ⊗_S V ≅ A_{n+1}` (tensored with `M`), the missing infra that
+`standardResolution_shortExact` (#6512) plugs into for the middle-exactness downward telescoping.
+Reduces, via additivity, to the single-path case `exists_stdΦ_preimage_single_tmul`. -/
+theorem exists_stdΦ_preimage_topDegree (y : inducedRestrictObj M) (n : ℕ) :
+    ∃ η : inducedVtensObj M,
+      inducedCoordMapGen (VtensObj M) η n = η ∧
+      (∀ j, j ≠ n → inducedCoordMapGen (VtensObj M) η j = 0) ∧
+      (stdΦ M).hom η = inducedCoordMap M y (n + 1) := by
+  -- Local abbreviation for the "reachable by a degree-`n` preimage" predicate. Kept out of the
+  -- proof goal (only used to type the closure lemmas) so tensor-defeq rewrites stay well-typed.
+  let G : inducedCarrier M → Prop := fun z =>
+    ∃ η : inducedVtensObj M,
+      inducedCoordMapGen (VtensObj M) η n = η ∧
+      (∀ j, j ≠ n → inducedCoordMapGen (VtensObj M) η j = 0) ∧
+      (stdΦ M).hom η = z
+  have hzero : G 0 := ⟨0, by simp, by simp, by simp⟩
+  have hadd : ∀ z₁ z₂ : inducedCarrier M, G z₁ → G z₂ → G (z₁ + z₂) := by
+    rintro z₁ z₂ ⟨η₁, h1n, h1j, h1⟩ ⟨η₂, h2n, h2j, h2⟩
+    refine ⟨η₁ + η₂, ?_, ?_, ?_⟩
+    · rw [map_add, Finsupp.add_apply, h1n, h2n]
+    · intro j hj; rw [map_add, Finsupp.add_apply, h1j j hj, h2j j hj, add_zero]
+    · rw [map_add, h1, h2]
+  -- The homogeneous-degree-`(n+1)` reduction: it suffices to reach every `A_{n+1}`-pure tensor.
+  suffices H : ∀ (a : PathAlgebra k Q) (m : restrictObj M),
+      G (lengthProj k Q (n + 1) a ⊗ₜ[Q → k] (m : M)) by
+    induction y using TensorProduct.induction_on with
+    | zero =>
+        have h0 : inducedCoordMap M (0 : inducedRestrictObj M) (n + 1) = 0 := by simp
+        rw [h0]; exact hzero
+    | tmul a m => rw [inducedCoordMap_tmul]; exact H a m
+    | add y₁ y₂ hy₁ hy₂ =>
+        have hsum : inducedCoordMap M (y₁ + y₂) (n + 1)
+            = inducedCoordMap M y₁ (n + 1) + inducedCoordMap M y₂ (n + 1) := by
+          rw [LinearMap.map_add, Finsupp.add_apply]
+        rw [hsum]; exact hadd _ _ hy₁ hy₂
+  intro a m
+  induction a using Finsupp.induction_linear with
+  | zero => rw [map_zero, TensorProduct.zero_tmul]; exact hzero
+  | add f g hf hg => rw [map_add, TensorProduct.add_tmul]; exact hadd _ _ hf hg
+  | single x c =>
+      rw [lengthProj_single]
+      split_ifs with hx
+      · exact exists_stdΦ_preimage_single_tmul M x c hx m
+      · rw [TensorProduct.zero_tmul]; exact hzero
+
 end Induced
 
 end Etingof.PathAlgebra

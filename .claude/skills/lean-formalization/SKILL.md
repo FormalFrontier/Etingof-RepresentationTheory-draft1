@@ -489,6 +489,21 @@ wrapper (`map_add`/`add_add_add_comm` for the add cases; for the `smul_tprod r v
 `TensorProduct.smul_tmul` to move `r` onto `w` and reuse the generator lemma with `r • w`). The pointwise
 form is equivalent and directly usable downstream. Prefer it for any barModule-style map with symbolic degree.
 
+### A tensor RHS with `(m : M)` silently becomes `sorry` when the equation LHS is a `ModuleCat`-hom application (Ch9 induced modules `A ⊗_S M`, #6541)
+
+Writing a lemma `(someHom M).hom η = a ⊗ₜ[Q → k] (m : M)` where the RHS is a `TensorProduct` and
+`m : restrictObj M` **elaborates the whole RHS to `sorry`** — the error then surfaces later as a
+mysterious `⊢ … = sorry` in the *proof* goal, not as a statement error. Cause: `(someHom M).hom η`
+has type `↑(inducedRestrictObj M)` (a `ModuleCat` carrier), which is **not syntactically** a
+`TensorProduct`, so the elaborator can't propagate the second-factor module instance to the RHS
+`⊗ₜ` and gives up. This is why `inducedCoordMap_tmul`-style lemmas work (their LHS type *is*
+`inducedCarrier M = TensorProduct …`) but a hom-application LHS does not. **Fix:** annotate the RHS
+tensor with the concrete carrier: `= (a ⊗ₜ[Q → k] (m : M) : inducedCarrier M)`. Two related pins in
+the same file: `map_add` on `f (a + b)` where the argument is a `Nat` sum `n + 1` rewrites the
+`n + 1` instead of the `a + b` — use `LinearMap.map_add` to force the module map; and a lemma whose
+implicit `k` is fixed only by pure quiver/`Nat` data (`exists_ofPath_mul_arrowElt q hx`) leaves
+`Field ?k` stuck — pass `(k := k)`.
+
 ### Assembling a `ProjectiveResolution` / quasi-iso to `single₀` from a (k-linear) contracting homotopy (Ch8 bar resolution, #6415)
 
 To turn a chain complex `C : ChainComplex (ModuleCat A) ℕ` with augmentation
