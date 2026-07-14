@@ -369,6 +369,76 @@ noncomputable def cliffBasis (hv : B.IsOrthoᵢ v) :
 
 end CliffBasis
 
+section TraceForm
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open scoped symmDiff
+
+/-- Left multiplication is `ℂ`-linear in the multiplier: `L_{c·z} = c·L_z`. -/
+theorem mulLeft_smul (c : ℂ) (z : CliffAlg B) :
+    LinearMap.mulLeft ℂ (c • z) = c • LinearMap.mulLeft ℂ z := by
+  ext w; simp [smul_mul_assoc]
+
+/-- **Trace of `L_{e R}`.** Left multiplication by the monomial `e R` permutes the monomial basis
+`e T ↦ ± scalar · e_{R ∆ T}`, so it has a nonzero diagonal entry only when `R ∆ T = T`, i.e.
+`R = ∅`. Hence `tr(L_{e R}) = 2^N` if `R = ∅` and `0` otherwise. -/
+theorem tr_mulLeft_e (hv : B.IsOrthoᵢ v) (R : Finset (Fin N)) :
+    LinearMap.trace ℂ (CliffAlg B) (LinearMap.mulLeft ℂ (e B v R))
+      = if R = ∅ then (2 ^ N : ℂ) else 0 := by
+  classical
+  have htr : Matrix.trace (LinearMap.toMatrix (cliffBasis B v hv) (cliffBasis B v hv)
+      (LinearMap.mulLeft ℂ (e B v R)))
+      = ∑ T, (cliffBasis B v hv).repr (e B v R * e B v T) T := by
+    simp only [Matrix.trace, Matrix.diag, LinearMap.toMatrix_apply, LinearMap.mulLeft_apply,
+      cliffBasis_apply]
+  rw [LinearMap.trace_eq_matrix_trace ℂ (cliffBasis B v hv), htr]
+  by_cases hR : R = ∅
+  · subst hR
+    rw [if_pos rfl]
+    have hone : ∀ T : Finset (Fin N),
+        (cliffBasis B v hv).repr (e B v ∅ * e B v T) T = 1 := by
+      intro T
+      rw [e_empty, one_mul, ← cliffBasis_apply B v hv T, Module.Basis.repr_self_apply, if_pos rfl]
+    rw [Finset.sum_congr rfl (fun T _ => hone T), Finset.sum_const, Finset.card_univ,
+      Fintype.card_finset, Fintype.card_fin, nsmul_eq_mul, mul_one, Nat.cast_pow, Nat.cast_ofNat]
+  · rw [if_neg hR]
+    refine Finset.sum_eq_zero (fun T _ => ?_)
+    obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (e_mul_mem B v hv R T)
+    rw [← hc, ← cliffBasis_apply B v hv (R ∆ T), map_smul, Finsupp.smul_apply,
+      Module.Basis.repr_self_apply, if_neg, smul_zero]
+    intro h
+    exact hR (by rw [← Finset.bot_eq_empty]; exact symmDiff_eq_right.mp h)
+
+/-- **Off-diagonal trace form vanishes.** For `S ≠ T`, `tr(L_{e S · e T}) = 0`, because
+`e S · e T` is a scalar multiple of `e_{S ∆ T}` with `S ∆ T ≠ ∅`. -/
+theorem tr_mulLeft_e_mul_of_ne (hv : B.IsOrthoᵢ v) {S T : Finset (Fin N)} (hST : S ≠ T) :
+    LinearMap.trace ℂ (CliffAlg B) (LinearMap.mulLeft ℂ (e B v S * e B v T)) = 0 := by
+  obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (e_mul_mem B v hv S T)
+  rw [← hc, mulLeft_smul, map_smul, tr_mulLeft_e B v hv, if_neg, smul_zero]
+  intro h
+  exact hST (symmDiff_eq_bot.mp (Finset.bot_eq_empty ▸ h))
+
+/-- The diagonal trace form value `tr(L_{e T · e T})` is nonzero: `e T` is a unit, so `e T · e T`
+is a unit, hence `tr(L_{e T · e T}) = c · 2^N` with `c ≠ 0`. -/
+theorem tr_mulLeft_e_mul_self_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate)
+    (T : Finset (Fin N)) :
+    LinearMap.trace ℂ (CliffAlg B) (LinearMap.mulLeft ℂ (e B v T * e B v T)) ≠ 0 := by
+  haveI : Nontrivial (CliffAlg B) :=
+    Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; exact pow_pos (by norm_num) N)
+  obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (e_mul_mem B v hv T T)
+  have hunit : IsUnit (e B v T * e B v T) :=
+    (isUnit_e B v hv hnd T).mul (isUnit_e B v hv hnd T)
+  have hcne : c ≠ 0 := by
+    rintro rfl
+    rw [zero_smul] at hc
+    exact hunit.ne_zero hc.symm
+  have hTT : T ∆ T = (∅ : Finset (Fin N)) := by rw [symmDiff_self, Finset.bot_eq_empty]
+  rw [← hc, mulLeft_smul, map_smul, tr_mulLeft_e B v hv, if_pos hTT, smul_eq_mul]
+  exact mul_ne_zero hcne (pow_ne_zero N two_ne_zero)
+
+end TraceForm
+
 /-- **Problem 3.9.5(i), semisimplicity.** If `B` is nondegenerate then `Cl(V)` is a
 semisimple ring.
 
