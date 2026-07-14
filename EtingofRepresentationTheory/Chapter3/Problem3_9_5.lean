@@ -16,6 +16,8 @@ import Mathlib.RingTheory.Artinian.Algebra
 import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Tactic.NoncommRing
+import Mathlib.LinearAlgebra.Dimension.OrzechProperty
+import Mathlib.LinearAlgebra.Dimension.Finrank
 
 /-!
 # Problem 3.9.5: The Clifford algebra
@@ -310,6 +312,62 @@ theorem e_mul_mem (hv : B.IsOrthoᵢ v) (S T : Finset (Fin N)) :
       exact Submodule.smul_mem _ _ hg
 
 end Monomial
+
+section CliffBasis
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open scoped symmDiff
+
+/-- The monomials `e S` span `Cl(V)`. Every element reduces to a linear combination of ordered
+monomials: the span is a subalgebra (closed under multiplication by `e_mul_mem`) containing every
+generator `ι(vᵢ) = e {i}`, hence all of `Cl(V)` by `CliffordAlgebra.induction`. -/
+theorem span_e_eq_top (hv : B.IsOrthoᵢ v) :
+    Submodule.span ℂ (Set.range (e B v)) = ⊤ := by
+  set W := Submodule.span ℂ (Set.range (e B v)) with hWdef
+  have hmem : ∀ S, e B v S ∈ W := fun S => Submodule.subset_span ⟨S, rfl⟩
+  have h1 : (1 : CliffAlg B) ∈ W := e_empty B v ▸ hmem ∅
+  have hbmul : ∀ S T, e B v S * e B v T ∈ W := fun S T =>
+    Submodule.span_mono (by rintro _ rfl; exact ⟨S ∆ T, rfl⟩) (e_mul_mem B v hv S T)
+  have hWmul : ∀ x ∈ W, ∀ y ∈ W, x * y ∈ W := by
+    have hle : W * W ≤ W := by
+      rw [hWdef, Submodule.span_mul_span, Submodule.span_le]
+      rintro _ ⟨_, ⟨S, rfl⟩, _, ⟨T, rfl⟩, rfl⟩
+      exact hbmul S T
+    exact fun x hx y hy => hle (Submodule.mul_mem_mul hx hy)
+  rw [eq_top_iff]
+  rintro x -
+  induction x using CliffordAlgebra.induction with
+  | algebraMap r => rw [Algebra.algebraMap_eq_smul_one]; exact W.smul_mem r h1
+  | ι w =>
+      have hexp : CliffordAlgebra.ι (quadForm B) w = ∑ i, v.repr w i • gen B v i := by
+        conv_lhs => rw [← v.sum_repr w]
+        rw [map_sum]; simp only [map_smul, gen]
+      rw [hexp]
+      exact W.sum_mem (fun i _ => W.smul_mem _ (e_singleton B v i ▸ hmem {i}))
+  | mul a b ha hb => exact hWmul a ha b hb
+  | add a b ha hb => exact W.add_mem ha hb
+
+include v in
+/-- `Cl(V)` has dimension `2^N` over `ℂ`: transport the exterior-algebra basis (indexed by
+`Finset (Fin N)`) across `CliffordAlgebra.equivExterior`. -/
+theorem finrank_cliffAlg : Module.finrank ℂ (CliffAlg B) = 2 ^ N := by
+  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  rw [(CliffordAlgebra.equivExterior (quadForm B)).finrank_eq,
+    Module.finrank_eq_card_basis (Module.Basis.ExteriorAlgebra v),
+    Fintype.card_finset, Fintype.card_fin]
+
+/-- The `2^N` monomials `e S` form a basis of `Cl(V)` (spanning family of the right cardinality). -/
+noncomputable def cliffBasis (hv : B.IsOrthoᵢ v) :
+    Module.Basis (Finset (Fin N)) ℂ (CliffAlg B) :=
+  basisOfTopLeSpanOfCardEqFinrank (e B v) (span_e_eq_top B v hv).ge
+    (by rw [Fintype.card_finset, Fintype.card_fin, finrank_cliffAlg B v])
+
+@[simp] theorem cliffBasis_apply (hv : B.IsOrthoᵢ v) (S : Finset (Fin N)) :
+    cliffBasis B v hv S = e B v S := by
+  simp only [cliffBasis, coe_basisOfTopLeSpanOfCardEqFinrank]
+
+end CliffBasis
 
 /-- **Problem 3.9.5(i), semisimplicity.** If `B` is nondegenerate then `Cl(V)` is a
 semisimple ring.
