@@ -52,6 +52,20 @@ with `lake build <Module>` before debugging — the on-`main` file fails `lake e
 too. (Some places below still say `lake env lean`; prefer `lake build` when the file uses
 these instances.)
 
+**Two Mathlib lemmas can produce the *same* `1`/`0`/`Pi.single i 1` through *different*
+typeclass paths — `rw` then fails syntactically, `exact` succeeds by defeq.** Classic case
+(cost real iterations in #6597, `Chapter9/Problem9_5_3_PrimitiveIdempotents.lean`):
+`CompleteOrthogonalIdempotents.single K` builds `Pi.single i 1` with the `Semiring`/quotient
+`One`, while a `[Field (K i)]`-requiring lemma builds it with `Field`'s `One`; the two `1`s are
+defeq but NOT syntactically equal, so `rw [← lemmaEq]` reports "did not find pattern". **Fixes:**
+(a) provide the locally-needed instance with **`letI` (transparent), not `haveI` (opaque)** — a
+`haveI hK : ∀ i, Field (K i) := …` cannot be unfolded by defeq, so `exact`/`congrArg` across the
+two `One` paths fail; `letI` lets them unify. (b) Compute along ONE path (via your equation
+hypotheses) and cross to the other with **defeq-tolerant** `exact`/`congrArg f h`/`Subtype.ext h`
+instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.coe_mul`/`coe_add`
+/`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
+prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
