@@ -65,10 +65,48 @@ def α : Fin 8 → (Fin 8 → ℚ)
   | 6 => e 5 + e 6
   | 7 => fun _ => -(1 / 2)
 
+/-- Expand the standard inner product on `Fin 8 → ℚ` as an eight-term sum. -/
+private lemma inner_eq (x y : Fin 8 → ℚ) :
+    inner x y = x 0 * y 0 + x 1 * y 1 + x 2 * y 2 + x 3 * y 3
+      + x 4 * y 4 + x 5 * y 5 + x 6 * y 6 + x 7 * y 7 := by
+  simp only [inner, Fin.sum_univ_eight]
+
 /-- **(a)** The `αᵢ` are `ℤ`-linearly independent. -/
 theorem α_linearIndependent (c : Fin 8 → ℤ)
     (h : (∑ i, (c i : ℚ) • α i) = 0) : c = 0 := by
-  sorry
+  -- Extract the eight coordinate equations.
+  have e0 := congr_fun h 0
+  have e1 := congr_fun h 1
+  have e2 := congr_fun h 2
+  have e3 := congr_fun h 3
+  have e4 := congr_fun h 4
+  have e5 := congr_fun h 5
+  have e6 := congr_fun h 6
+  have e7 := congr_fun h 7
+  simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Fin.sum_univ_eight,
+    Pi.zero_apply] at e0 e1 e2 e3 e4 e5 e6 e7
+  simp only [α, e, Pi.sub_apply, Pi.add_apply, Fin.reduceEq,
+    reduceIte] at e0 e1 e2 e3 e4 e5 e6 e7
+  norm_num at e0 e1 e2 e3 e4 e5 e6 e7
+  -- Solve the triangular system over ℚ, then cast back to ℤ.
+  have h7 : (c 7 : ℚ) = 0 := by exact_mod_cast e7
+  have h0 : (c 0 : ℚ) = 0 := by linarith
+  have h1 : (c 1 : ℚ) = 0 := by linarith
+  have h2 : (c 2 : ℚ) = 0 := by linarith
+  have h3 : (c 3 : ℚ) = 0 := by linarith
+  have h4 : (c 4 : ℚ) = 0 := by linarith
+  have h5 : (c 5 : ℚ) = 0 := by linarith
+  have h6 : (c 6 : ℚ) = 0 := by linarith
+  funext i
+  fin_cases i
+  · exact_mod_cast h0
+  · exact_mod_cast h1
+  · exact_mod_cast h2
+  · exact_mod_cast h3
+  · exact_mod_cast h4
+  · exact_mod_cast h5
+  · exact_mod_cast h6
+  · exact_mod_cast h7
 
 /-- **(a)** The `αᵢ` span `L` over `ℤ`: every lattice vector is a `ℤ`-combination
 of the `αᵢ`, and every `ℤ`-combination lies in `L`. Together with
@@ -87,13 +125,39 @@ def gramAdj (i j : Fin 8) : ℤ :=
 
 /-- **(b)** Each `αᵢ` is a root: `⟪αᵢ, αᵢ⟫ = 2`. -/
 theorem α_norm_two (i : Fin 8) : inner (α i) (α i) = 2 := by
-  sorry
+  fin_cases i <;>
+    simp only [inner_eq, α, e, Pi.sub_apply, Pi.add_apply, Fin.reduceEq, reduceIte] <;>
+    norm_num
 
 /-- **(b)** The roots are simply laced: distinct simple roots have inner product
 `0` or `-1`. -/
 theorem α_inner_offdiag (i j : Fin 8) (h : i ≠ j) :
     inner (α i) (α j) = 0 ∨ inner (α i) (α j) = -1 := by
-  sorry
+  fin_cases i <;> fin_cases j <;>
+    first
+      | exact absurd rfl h
+      | (simp [inner_eq, α, e, Pi.sub_apply, Pi.add_apply] <;> norm_num)
+
+/-- The explicit adjacency matrix `-⟪αᵢ, αⱼ⟫` of the simple roots (off diagonal).
+The trivalent vertex is `α₄`, with legs `α₄–α₅` (length 1), `α₄–α₆–α₇` (length 2),
+and `α₄–α₃–α₂–α₁–α₀` (length 4). -/
+private def gramMat : Matrix (Fin 8) (Fin 8) ℤ :=
+  !![0,1,0,0,0,0,0,0;
+     1,0,1,0,0,0,0,0;
+     0,1,0,1,0,0,0,0;
+     0,0,1,0,1,0,0,0;
+     0,0,0,1,0,1,1,0;
+     0,0,0,0,1,0,0,0;
+     0,0,0,0,1,0,0,1;
+     0,0,0,0,0,0,1,0]
+
+/-- `gramAdj` is the explicit adjacency matrix `gramMat`. -/
+private lemma gramAdj_eq : gramAdj = gramMat := by
+  funext i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [gramAdj, gramMat, inner_eq, α, e, Pi.sub_apply, Pi.add_apply,
+      Fin.reduceEq, reduceIte] <;>
+    norm_num
 
 /-- **(b)** The Gram matrix of the `αᵢ` is the Cartan matrix of a Dynkin diagram
 of **type `E₈`**: it is positive definite and graph-isomorphic to the standard
@@ -101,7 +165,17 @@ of **type `E₈`**: it is positive definite and graph-isomorphic to the standard
 theorem α_gram_is_E8 :
     IsDynkinDiagram 8 gramAdj ∧
     ∃ σ : Fin 8 ≃ Fin 8, ∀ i j, gramAdj (σ i) (σ j) = DynkinType.E8.adj i j := by
-  sorry
+  -- The E₈-labelling `σ`: E₈ vertex `i` ↦ the simple root index below.
+  -- `σ` sends the E₈ trivalent vertex `2` to `α₄`, the branch `7` to `α₅`,
+  -- and unrolls the two legs `2-1-0 ↦ 4-6-7` and `2-3-4-5-6 ↦ 4-3-2-1-0`.
+  let σ : Fin 8 ≃ Fin 8 :=
+    ⟨![7, 6, 4, 3, 2, 1, 0, 5], ![6, 5, 4, 3, 2, 7, 1, 0], by decide, by decide⟩
+  have hiso : ∀ i j, gramAdj (σ i) (σ j) = DynkinType.E8.adj i j := by
+    intro i j
+    show gramAdj (σ.toFun i) (σ.toFun j) = _
+    rw [gramAdj_eq]
+    fin_cases i <;> fin_cases j <;> rfl
+  exact ⟨isDynkinDiagram_of_graph_iso σ hiso (isDynkinDiagram_of_type .E8), σ, hiso⟩
 
 /-! ## Part (c): the `E₆` and `E₇` sublattices -/
 
