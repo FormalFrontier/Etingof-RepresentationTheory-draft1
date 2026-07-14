@@ -108,13 +108,81 @@ theorem α_linearIndependent (c : Fin 8 → ℤ)
   · exact_mod_cast h6
   · exact_mod_cast h7
 
+set_option linter.unusedSimpArgs false in
+/-- Each coordinate of the `ℤ`-combination `∑ᵢ cᵢ αᵢ` is an integer shifted by
+`-c₇/2`. The integer part `aₖ` telescopes the coefficients. -/
+private lemma sum_α_coord (c : Fin 8 → ℤ) (k : Fin 8) :
+    ∃ a : ℤ, (∑ i, (c i : ℚ) • α i) k = (a : ℚ) - (c 7 : ℚ) / 2 := by
+  refine ⟨![c 0, c 1 - c 0, c 2 - c 1, c 3 - c 2, c 4 - c 3,
+    c 5 + c 6 - c 4, c 6 - c 5, 0] k, ?_⟩
+  fin_cases k <;>
+    (simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Fin.sum_univ_eight,
+        α, e, Pi.sub_apply, Pi.add_apply, Fin.reduceEq, reduceIte, Matrix.cons_val_zero,
+        Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_fin_one, Matrix.cons_val,
+        Matrix.head_fin_const]
+     push_cast
+     ring)
+
+set_option linter.unusedSimpArgs false in
 /-- **(a)** The `αᵢ` span `L` over `ℤ`: every lattice vector is a `ℤ`-combination
 of the `αᵢ`, and every `ℤ`-combination lies in `L`. Together with
 `α_linearIndependent`, this says the `αᵢ` are a `ℤ`-basis of `L`. -/
 theorem α_isBasis :
     (∀ x ∈ E8Lattice, ∃ c : Fin 8 → ℤ, x = ∑ i, (c i : ℚ) • α i) ∧
     (∀ c : Fin 8 → ℤ, (∑ i, (c i : ℚ) • α i) ∈ E8Lattice) := by
-  sorry
+  refine ⟨?_, ?_⟩
+  · -- Spanning: invert the (triangular) coordinate system.
+    rintro x ⟨hdisj, M, hM⟩
+    rcases hdisj with hInt | hHalf
+    · -- All-integer coordinates `x i = n i`, with `∑ n i = 2M`.
+      choose n hn using hInt
+      refine ⟨![n 0 - n 7, n 0 + n 1 - 2 * n 7, n 0 + n 1 + n 2 - 3 * n 7,
+        n 0 + n 1 + n 2 + n 3 - 4 * n 7, n 0 + n 1 + n 2 + n 3 + n 4 - 5 * n 7,
+        M - n 6 - 3 * n 7, M - 4 * n 7, -2 * n 7], ?_⟩
+      have hs : (n 0 : ℚ) + n 1 + n 2 + n 3 + n 4 + n 5 + n 6 + n 7 = 2 * M := by
+        have h := hM; rw [Fin.sum_univ_eight] at h; simp only [hn] at h; push_cast; linarith [h]
+      funext k
+      fin_cases k <;>
+        (simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Fin.sum_univ_eight,
+            α, e, Pi.sub_apply, Pi.add_apply, Fin.reduceEq, reduceIte, Matrix.cons_val_zero,
+            Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_fin_one, Matrix.cons_val,
+            Matrix.head_fin_const, hn]
+         push_cast
+         first | linear_combination hs | ring)
+    · -- All-half-integer coordinates `x i = n i + ½`, with `∑ n i = 2M - 4`.
+      choose n hn using hHalf
+      refine ⟨![n 0 - n 7, n 0 + n 1 - 2 * n 7, n 0 + n 1 + n 2 - 3 * n 7,
+        n 0 + n 1 + n 2 + n 3 - 4 * n 7, n 0 + n 1 + n 2 + n 3 + n 4 - 5 * n 7,
+        M - 2 - n 6 - 3 * n 7, M - 2 - 4 * n 7, -2 * n 7 - 1], ?_⟩
+      have hs : (n 0 : ℚ) + n 1 + n 2 + n 3 + n 4 + n 5 + n 6 + n 7 = 2 * M - 4 := by
+        have h := hM; rw [Fin.sum_univ_eight] at h; simp only [hn] at h; push_cast; linarith [h]
+      funext k
+      fin_cases k <;>
+        (simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Fin.sum_univ_eight,
+            α, e, Pi.sub_apply, Pi.add_apply, Fin.reduceEq, reduceIte, Matrix.cons_val_zero,
+            Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_fin_one, Matrix.cons_val,
+            Matrix.head_fin_const, hn]
+         push_cast
+         first | linear_combination hs | ring)
+  · -- Closure: every `ℤ`-combination lies in `L`.
+    intro c
+    refine ⟨?_, ?_⟩
+    · -- Coordinates are all integers or all half-integers, per parity of `c₇`.
+      rcases Int.even_or_odd (c 7) with ⟨m, hm⟩ | ⟨m, hm⟩
+      · left
+        intro k
+        obtain ⟨a, ha⟩ := sum_α_coord c k
+        exact ⟨a - m, by rw [ha, hm]; push_cast; ring⟩
+      · right
+        intro k
+        obtain ⟨a, ha⟩ := sum_α_coord c k
+        exact ⟨a - m - 1, by rw [ha, hm]; push_cast; ring⟩
+    · -- Even coordinate sum: `∑ₖ (∑ᵢ cᵢ αᵢ)ₖ = 2 (c₆ - 2 c₇)`.
+      refine ⟨c 6 - 2 * c 7, ?_⟩
+      rw [Fin.sum_univ_eight]
+      simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Fin.sum_univ_eight,
+        α, e, Pi.sub_apply, Pi.add_apply, Fin.reduceEq, reduceIte]
+      push_cast; ring
 
 /-! ## Part (b): the roots form a root system of type `E₈` -/
 

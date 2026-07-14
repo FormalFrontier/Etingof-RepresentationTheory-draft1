@@ -6032,8 +6032,8 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "statement_formalized",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_9_2.lean: E8 lattice in 1/2 Z^8, simple roots alpha_i basis (a), Gram=E8 Cartan/type E8 (b), E6/E7 sublattices (c), root counts 240/126/72 (d); sorry proofs."
+    "status": "partially_proved",
+    "coverage_note": "Chapter6/Problem6_9_2.lean: parts (a),(b) proved sorry-free (alpha_norm_two, alpha_inner_offdiag, alpha_gram_is_E8 via graph-iso to standard E8 Dynkin diagram, alpha_linearIndependent, alpha_isBasis: both spanning and closure over the E8 lattice). Remaining sorries: root counts 240/126/72 (part d) — separate finite-enumeration follow-up."
   },
   {
     "id": "Chapter6/Problem6.9.3",
