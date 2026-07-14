@@ -258,6 +258,72 @@ lemma L_ladder (v : V) (lam : ℂ) (hlam : lam ≠ 0) (hKv : K q • v = lam •
   simp only [smul_smul, inv_mul_cancel₀ hmu, one_smul] at this
   exact this
 
+/-- The commutator action on a `K`-eigenvector `x` (with `K • x = a • x`, `L • x = a⁻¹ • x`):
+`e • (f • x) = f • (e • x) + (q - q⁻¹)⁻¹·(a - a⁻¹) • x`, from the relation `[e,f] = (K-L)/(q-q⁻¹)`. -/
+lemma ef_action (hq : ¬ IsOfFinOrder q) (x : V) (a : ℂ)
+    (hK : K q • x = a • x) (hL : L q • x = a⁻¹ • x) :
+    e q • (f q • x) = f q • (e q • x) + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (a - a⁻¹)) • x := by
+  have hne : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne q hq
+  have expand : (K q - L q) • x = (a - a⁻¹) • x := by rw [sub_smul, sub_smul, hK, hL]
+  have expand2 : (e q * f q - f q * e q) • x = e q • (f q • x) - f q • (e q • x) := by
+    rw [sub_smul, mul_smul, mul_smul]
+  have hrel := ef_rel q
+  have h3 : ((q : ℂ) - (q : ℂ)⁻¹) • (e q • (f q • x) - f q • (e q • x)) = (a - a⁻¹) • x := by
+    rw [← expand2, ← smul_assoc, hrel, expand]
+  have hDiff : e q • (f q • x) - f q • (e q • x)
+      = ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • ((a - a⁻¹) • x) := by
+    rw [← h3, inv_smul_smul₀ hne]
+  rw [mul_smul, ← hDiff]
+  abel
+
+/-- The scalar coefficient `e • fⁱ⁺¹v = dcoef q lam i · fⁱv`, a telescoping sum of the quantum
+brackets `(q - q⁻¹)⁻¹·(mu j - (mu j)⁻¹)`. -/
+noncomputable def dcoef (lam : ℂ) (i : ℕ) : ℂ :=
+  ∑ j ∈ Finset.range (i + 1), ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (mu q lam j - (mu q lam j)⁻¹)
+
+/-- The `e`-action on the ladder: `e • fⁱ⁺¹v = dcoef q lam i · fⁱv`. -/
+lemma e_ladder (hq : ¬ IsOfFinOrder q) (v : V) (lam : ℂ) (hlam : lam ≠ 0)
+    (he : e q • v = 0) (hKv : K q • v = lam • v) (i : ℕ) :
+    e q • ladder q V v (i + 1) = dcoef q lam i • ladder q V v i := by
+  induction i with
+  | zero =>
+    rw [ladder_succ,
+      ef_action q V hq (ladder q V v 0) (mu q lam 0)
+        (K_ladder q V v lam hKv 0) (L_ladder q V v lam hlam hKv 0)]
+    have hev : e q • ladder q V v 0 = 0 := by simpa using he
+    rw [hev, smul_zero, zero_add, dcoef, Finset.sum_range_one]
+  | succ n ih =>
+    rw [ladder_succ,
+      ef_action q V hq (ladder q V v (n + 1)) (mu q lam (n + 1))
+        (K_ladder q V v lam hKv (n + 1)) (L_ladder q V v lam hlam hKv (n + 1)),
+      ih, smul_comm (f q) (dcoef q lam n), ← ladder_succ, ← add_smul]
+    congr 1
+    have hstep : dcoef q lam (n + 1) = dcoef q lam n
+        + ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (mu q lam (n + 1) - (mu q lam (n + 1))⁻¹) := by
+      simp only [dcoef, Finset.sum_range_succ]
+    rw [hstep]
+
+/-- The eigenvalue chain `i ↦ mu q lam i` is injective when `q` is not a root of unity. -/
+lemma mu_inj (hq : ¬ IsOfFinOrder q) (lam : ℂ) (hlam : lam ≠ 0) :
+    Function.Injective (mu q lam) := by
+  intro a b hab
+  simp only [mu] at hab
+  have h : (((q : ℂ) ^ 2)⁻¹) ^ a = (((q : ℂ) ^ 2)⁻¹) ^ b := mul_left_cancel₀ hlam hab
+  have hu_inf : ¬ IsOfFinOrder ((q ^ 2)⁻¹ : ℂˣ) := by
+    rw [isOfFinOrder_inv_iff]
+    intro hfin
+    apply hq
+    rw [isOfFinOrder_iff_pow_eq_one] at hfin ⊢
+    obtain ⟨m, hm, hpow⟩ := hfin
+    exact ⟨2 * m, by omega, by rw [pow_mul]; exact hpow⟩
+  have hinj : Function.Injective (fun n : ℕ => ((q ^ 2)⁻¹ : ℂˣ) ^ n) :=
+    injective_pow_iff_not_isOfFinOrder.mpr hu_inf
+  have hu : ((q ^ 2)⁻¹ : ℂˣ) ^ a = ((q ^ 2)⁻¹ : ℂˣ) ^ b := by
+    have hcast : (((q ^ 2)⁻¹ : ℂˣ) ^ a : ℂ) = (((q ^ 2)⁻¹ : ℂˣ) ^ b : ℂ) := by
+      push_cast; exact h
+    exact_mod_cast hcast
+  exact hinj hu
+
 end Ladder
 
 /-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
