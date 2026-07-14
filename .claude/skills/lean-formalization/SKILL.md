@@ -4420,6 +4420,34 @@ through the Fin wrapper.
 parses as `(S.erase a).erase b` in term position but `(x ∈ S.erase a).erase b`
 in proposition position. Always use explicit parentheses: `(S.erase a).erase b`.
 
+**Explicit `Fin n → ℚ` vector computations (`Problem6_9_2.lean`, #6582 — inner
+products, Gram matrices, lattice-basis coordinates over `Fin 8`).** Recurring
+recipe when a goal is a concrete arithmetic identity over explicit vectors built
+from `if i = j then … else …` (e.g. standard basis vectors `e j`):
+- Expand the sum with `Fin.sum_univ_eight` (exists via `@[to_additive]` on
+  `prod_univ_eight`, even though a name grep misses it), then unfold the vectors
+  with `simp only [α, e, Pi.sub_apply, Pi.add_apply, …]`.
+- **`if (i : Fin n) = j` on literal indices is NOT reduced by `norm_num` alone,
+  even with the simproc passed as an argument.** Add the simprocs to a
+  `simp only`: `simp only [Fin.reduceEq, reduceIte]` collapses them to `0`/`1`.
+  So the working shape is `simp only [… , Fin.reduceEq, reduceIte] <;> norm_num`
+  (or `<;> push_cast <;> ring`), never bare `norm_num [Fin.reduceEq]`.
+- **Case-bashing a disjunction goal (`v = 0 ∨ v = -1`) after `fin_cases i <;>
+  fin_cases j`:** `first | exact absurd rfl h | (simp […] <;> norm_num)`. Full
+  `simp` closes most disjuncts (via `Fin.reduceEq` + `or_true`/`false_or`); the
+  `<;> norm_num` mops up residual `±½` arithmetic simp leaves behind. Do NOT
+  write `simp […]; norm_num` — if simp closes the goal, the trailing `norm_num`
+  errors on "no goals"; the `<;>` form is a no-op on zero goals.
+- **`first | ring | linear_combination h` DOES NOT BACKTRACK** — a failed `ring`
+  leaves state that makes the following `linear_combination` fail even when it
+  succeeds standalone. **Always put `linear_combination` first:**
+  `first | linear_combination h | ring`. Use this when case `k=5` of a
+  coordinate check needs a side hypothesis (`∑ nᵢ = 2M`) but the other cases are
+  pure ring identities — one uniform `<;>`-closer handles all of them.
+- Suppress the per-case unused-simp-arg linter on such 8-way `<;>` bashes with a
+  `set_option linter.unusedSimpArgs false in` line immediately BEFORE the
+  docstring (not between docstring and `theorem`, which is a parse error).
+
 ## BigOperators / Equiv reindexing gotchas (walk-sum & orbit-partition proofs, #6506)
 
 Two recurring traps when expanding matrix products / reindexing sums over `Fin`-tuples:
