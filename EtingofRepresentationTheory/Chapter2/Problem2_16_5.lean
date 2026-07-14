@@ -186,6 +186,230 @@ theorem exists_highest_weight_vector (hq : ¬ IsOfFinOrder q) [Nontrivial V] :
 
 end HighestWeight
 
+/-! ## Scalar facts for `q` not a root of unity -/
+
+/-- If `q` is not a root of unity, no positive power of `q` is `1`. -/
+lemma qpow_ne_one (q : ℂˣ) (hq : ¬ IsOfFinOrder q) {n : ℕ} (hn : 0 < n) : (q : ℂ) ^ n ≠ 1 := by
+  intro h
+  refine hq (isOfFinOrder_iff_pow_eq_one.mpr ⟨n, hn, ?_⟩)
+  apply Units.ext
+  push_cast
+  simpa using h
+
+/-- `q² ≠ 1` when `q` is not a root of unity. -/
+lemma q_sq_ne_one (q : ℂˣ) (hq : ¬ IsOfFinOrder q) : (q : ℂ) ^ 2 ≠ 1 :=
+  qpow_ne_one q hq (by norm_num)
+
+/-- `q - q⁻¹ ≠ 0` when `q` is not a root of unity (equivalently `q ≠ ±1`). -/
+lemma q_sub_inv_ne (q : ℂˣ) (hq : ¬ IsOfFinOrder q) : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := by
+  intro h
+  have h2 : (q : ℂ) = (q : ℂ)⁻¹ := sub_eq_zero.mp h
+  have : (q : ℂ) ^ 2 = 1 := by
+    rw [sq]; nth_rewrite 2 [h2]; exact mul_inv_cancel₀ q.ne_zero
+  exact q_sq_ne_one q hq this
+
+/-! ## The `f`-ladder of a highest weight vector -/
+
+section Ladder
+
+variable (q : ℂˣ)
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+  [IsScalarTower ℂ (Uqsl2 q) V]
+
+/-- The `f`-ladder of `v`: `ladder q V v i = fⁱ • v`. -/
+noncomputable def ladder (v : V) (i : ℕ) : V := (f q) ^ i • v
+
+/-- The `K`-eigenvalue of the `i`-th ladder vector, given `K • v = lam • v`: `lam · q^{-2i}`. -/
+noncomputable def mu (lam : ℂ) (i : ℕ) : ℂ := lam * (((q : ℂ) ^ 2)⁻¹) ^ i
+
+@[simp] lemma ladder_zero (v : V) : ladder q V v 0 = v := by simp [ladder]
+
+lemma ladder_succ (v : V) (i : ℕ) : ladder q V v (i + 1) = f q • ladder q V v i := by
+  simp only [ladder, pow_succ', mul_smul]
+
+@[simp] lemma mu_zero (lam : ℂ) : mu q lam 0 = lam := by simp [mu]
+
+lemma mu_ne_zero (lam : ℂ) (hlam : lam ≠ 0) (i : ℕ) : mu q lam i ≠ 0 := by
+  apply mul_ne_zero hlam
+  exact pow_ne_zero _ (inv_ne_zero (pow_ne_zero _ q.ne_zero))
+
+/-- `K` acts on the `i`-th ladder vector by `mu q lam i`. -/
+lemma K_ladder (v : V) (lam : ℂ) (hKv : K q • v = lam • v) (i : ℕ) :
+    K q • ladder q V v i = mu q lam i • ladder q V v i := by
+  induction i with
+  | zero => simpa [mu] using hKv
+  | succ n ih =>
+    rw [ladder_succ, ← mul_smul, Kf_rel, smul_assoc, mul_smul, ih,
+      smul_comm (f q) (mu q lam n), smul_smul]
+    congr 1
+    simp only [mu, pow_succ]
+    ring
+
+/-- `L = K⁻¹` acts on the `i`-th ladder vector by `(mu q lam i)⁻¹`. -/
+lemma L_ladder (v : V) (lam : ℂ) (hlam : lam ≠ 0) (hKv : K q • v = lam • v) (i : ℕ) :
+    L q • ladder q V v i = (mu q lam i)⁻¹ • ladder q V v i := by
+  have hK := K_ladder q V v lam hKv i
+  have hmu := mu_ne_zero q lam hlam i
+  have h1 : L q • (K q • ladder q V v i) = ladder q V v i := by
+    rw [← mul_smul, LK_rel, one_smul]
+  rw [hK, smul_comm (L q) (mu q lam i)] at h1
+  -- h1 : mu • (L • ladder) = ladder
+  have := congrArg (fun x => (mu q lam i)⁻¹ • x) h1
+  simp only [smul_smul, inv_mul_cancel₀ hmu, one_smul] at this
+  exact this
+
+/-- The commutator action on a `K`-eigenvector `x` (with `K • x = a • x`, `L • x = a⁻¹ • x`):
+`e • (f • x) = f • (e • x) + (q - q⁻¹)⁻¹·(a - a⁻¹) • x`, from `[e,f] = (K-L)/(q-q⁻¹)`. -/
+lemma ef_action (hq : ¬ IsOfFinOrder q) (x : V) (a : ℂ)
+    (hK : K q • x = a • x) (hL : L q • x = a⁻¹ • x) :
+    e q • (f q • x) = f q • (e q • x) + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (a - a⁻¹)) • x := by
+  have hne : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne q hq
+  have expand : (K q - L q) • x = (a - a⁻¹) • x := by rw [sub_smul, sub_smul, hK, hL]
+  have expand2 : (e q * f q - f q * e q) • x = e q • (f q • x) - f q • (e q • x) := by
+    rw [sub_smul, mul_smul, mul_smul]
+  have hrel := ef_rel q
+  have h3 : ((q : ℂ) - (q : ℂ)⁻¹) • (e q • (f q • x) - f q • (e q • x)) = (a - a⁻¹) • x := by
+    rw [← expand2, ← smul_assoc, hrel, expand]
+  have hDiff : e q • (f q • x) - f q • (e q • x)
+      = ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • ((a - a⁻¹) • x) := by
+    rw [← h3, inv_smul_smul₀ hne]
+  rw [mul_smul, ← hDiff]
+  abel
+
+/-- The scalar coefficient `e • fⁱ⁺¹v = dcoef q lam i · fⁱv`, a telescoping sum of the quantum
+brackets `(q - q⁻¹)⁻¹·(mu j - (mu j)⁻¹)`. -/
+noncomputable def dcoef (lam : ℂ) (i : ℕ) : ℂ :=
+  ∑ j ∈ Finset.range (i + 1), ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (mu q lam j - (mu q lam j)⁻¹)
+
+/-- The `e`-action on the ladder: `e • fⁱ⁺¹v = dcoef q lam i · fⁱv`. -/
+lemma e_ladder (hq : ¬ IsOfFinOrder q) (v : V) (lam : ℂ) (hlam : lam ≠ 0)
+    (he : e q • v = 0) (hKv : K q • v = lam • v) (i : ℕ) :
+    e q • ladder q V v (i + 1) = dcoef q lam i • ladder q V v i := by
+  induction i with
+  | zero =>
+    rw [ladder_succ,
+      ef_action q V hq (ladder q V v 0) (mu q lam 0)
+        (K_ladder q V v lam hKv 0) (L_ladder q V v lam hlam hKv 0)]
+    have hev : e q • ladder q V v 0 = 0 := by simpa using he
+    rw [hev, smul_zero, zero_add, dcoef, Finset.sum_range_one]
+  | succ n ih =>
+    rw [ladder_succ,
+      ef_action q V hq (ladder q V v (n + 1)) (mu q lam (n + 1))
+        (K_ladder q V v lam hKv (n + 1)) (L_ladder q V v lam hlam hKv (n + 1)),
+      ih, smul_comm (f q) (dcoef q lam n), ← ladder_succ, ← add_smul]
+    congr 1
+    have hstep : dcoef q lam (n + 1) = dcoef q lam n
+        + ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * (mu q lam (n + 1) - (mu q lam (n + 1))⁻¹) := by
+      simp only [dcoef, Finset.sum_range_succ]
+    rw [hstep]
+
+/-- The eigenvalue chain `i ↦ mu q lam i` is injective when `q` is not a root of unity. -/
+lemma mu_inj (hq : ¬ IsOfFinOrder q) (lam : ℂ) (hlam : lam ≠ 0) :
+    Function.Injective (mu q lam) := by
+  intro a b hab
+  simp only [mu] at hab
+  have h : (((q : ℂ) ^ 2)⁻¹) ^ a = (((q : ℂ) ^ 2)⁻¹) ^ b := mul_left_cancel₀ hlam hab
+  have hu_inf : ¬ IsOfFinOrder ((q ^ 2)⁻¹ : ℂˣ) := by
+    rw [isOfFinOrder_inv_iff]
+    intro hfin
+    apply hq
+    rw [isOfFinOrder_iff_pow_eq_one] at hfin ⊢
+    obtain ⟨m, hm, hpow⟩ := hfin
+    exact ⟨2 * m, by omega, by rw [pow_mul]; exact hpow⟩
+  have hinj : Function.Injective (fun n : ℕ => ((q ^ 2)⁻¹ : ℂˣ) ^ n) :=
+    injective_pow_iff_not_isOfFinOrder.mpr hu_inf
+  have hu : ((q ^ 2)⁻¹ : ℂˣ) ^ a = ((q ^ 2)⁻¹ : ℂˣ) ^ b := by
+    have hcast : (((q ^ 2)⁻¹ : ℂˣ) ^ a : ℂ) = (((q ^ 2)⁻¹ : ℂˣ) ^ b : ℂ) := by
+      push_cast; exact h
+    exact_mod_cast hcast
+  exact hinj hu
+
+end Ladder
+
+/-- The vanishing of the telescoping coefficient `dcoef q lam N` forces the highest-weight
+constraint `lam² = q^{2N}` (the non-root-of-unity quantum highest weight condition). The sum
+`∑_{j=0}^N (mu j - mu j⁻¹)` factors as `SA · (lam - lam⁻¹·q^{2N})` with `SA ≠ 0`. -/
+lemma dcoef_eq_zero_imp (q : ℂˣ) (hq : ¬ IsOfFinOrder q) (lam : ℂ) (hlam : lam ≠ 0) (N : ℕ)
+    (h : dcoef q lam N = 0) : lam ^ 2 = (q : ℂ) ^ (2 * N) := by
+  have hqne : (q : ℂ) ≠ 0 := q.ne_zero
+  have htne : (q : ℂ) ^ 2 ≠ 0 := pow_ne_zero _ hqne
+  have hc : ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ ≠ 0 := inv_ne_zero (q_sub_inv_ne q hq)
+  rw [dcoef, ← Finset.mul_sum] at h
+  have hS : ∑ j ∈ Finset.range (N + 1), (mu q lam j - (mu q lam j)⁻¹) = 0 :=
+    (mul_eq_zero.mp h).resolve_left hc
+  have hSexpand : ∑ j ∈ Finset.range (N + 1), (mu q lam j - (mu q lam j)⁻¹)
+      = lam * (∑ j ∈ Finset.range (N + 1), (((q : ℂ) ^ 2)⁻¹) ^ j)
+        - lam⁻¹ * (∑ j ∈ Finset.range (N + 1), ((q : ℂ) ^ 2) ^ j) := by
+    rw [Finset.mul_sum, Finset.mul_sum, ← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [mu, mul_inv, inv_pow, inv_inv]
+  rw [hSexpand] at hS
+  set SA : ℂ := ∑ j ∈ Finset.range (N + 1), (((q : ℂ) ^ 2)⁻¹) ^ j with hSA
+  set SB : ℂ := ∑ j ∈ Finset.range (N + 1), ((q : ℂ) ^ 2) ^ j with hSB
+  have hSB_ne : SB ≠ 0 := by
+    intro h0
+    have hgeom : SB * ((q : ℂ) ^ 2 - 1) = ((q : ℂ) ^ 2) ^ (N + 1) - 1 := by
+      rw [hSB]; exact geom_sum_mul _ _
+    rw [h0, zero_mul] at hgeom
+    have hX : ((q : ℂ) ^ 2) ^ (N + 1) = 1 := sub_eq_zero.mp hgeom.symm
+    exact qpow_ne_one q hq (n := 2 * (N + 1)) (by omega) (by rw [pow_mul]; exact hX)
+  have hkey : SA * ((q : ℂ) ^ 2) ^ N = SB := by
+    rw [hSA, hSB, Finset.sum_mul,
+      ← Finset.sum_range_reflect (fun j => ((q : ℂ) ^ 2) ^ j) (N + 1)]
+    apply Finset.sum_congr rfl
+    intro j hj
+    rw [Finset.mem_range] at hj
+    have hjN : j ≤ N := by omega
+    rw [inv_pow, show (N + 1) - 1 - j = N - j by omega, pow_sub₀ _ htne hjN]
+    exact mul_comm _ _
+  have hSA_ne : SA ≠ 0 := by
+    intro h0; rw [h0, zero_mul] at hkey; exact hSB_ne hkey.symm
+  rw [← hkey] at hS
+  have hfact : SA * (lam - lam⁻¹ * ((q : ℂ) ^ 2) ^ N) = 0 := by linear_combination hS
+  have hlin : lam - lam⁻¹ * ((q : ℂ) ^ 2) ^ N = 0 :=
+    (mul_eq_zero.mp hfact).resolve_left hSA_ne
+  have h2 := sub_eq_zero.mp hlin
+  have hlam2 : lam ^ 2 = ((q : ℂ) ^ 2) ^ N := by
+    rw [sq]
+    nth_rewrite 2 [h2]
+    rw [← mul_assoc, mul_inv_cancel₀ hlam, one_mul]
+  rw [pow_mul]; exact hlam2
+
+/-- A `ℂ`-submodule `W` closed under the four generators `e, f, K, L` is a `U_q(sl₂)`-submodule:
+every algebra element maps `W` into `W`. Proved by `FreeAlgebra.induction` on a preimage under the
+surjection `mk q`, reducing to the generator closures. -/
+lemma smul_mem_of_generators (q : ℂˣ) (V : Type*) [AddCommGroup V] [Module ℂ V]
+    [Module (Uqsl2 q) V] [IsScalarTower ℂ (Uqsl2 q) V] (W : Submodule ℂ V)
+    (hclE : ∀ x ∈ W, e q • x ∈ W) (hclF : ∀ x ∈ W, f q • x ∈ W)
+    (hclK : ∀ x ∈ W, K q • x ∈ W) (hclL : ∀ x ∈ W, L q • x ∈ W)
+    (a : Uqsl2 q) (x : V) (hx : x ∈ W) : a • x ∈ W := by
+  suffices H : ∀ p : FreeAlgebra ℂ Gen, ∀ y ∈ W, mk q p • y ∈ W by
+    obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Rel q) a
+    exact H p x hx
+  intro p
+  induction p using FreeAlgebra.induction with
+  | grade0 r =>
+    intro y hy
+    rw [show mk q (algebraMap ℂ (FreeAlgebra ℂ Gen) r) = algebraMap ℂ (Uqsl2 q) r from
+      AlgHom.commutes (mk q) r, algebraMap_smul]
+    exact W.smul_mem r hy
+  | grade1 g =>
+    intro y hy
+    fin_cases g
+    · exact hclE y hy
+    · exact hclF y hy
+    · exact hclK y hy
+    · exact hclL y hy
+  | mul a b ha hb =>
+    intro y hy
+    rw [map_mul, mul_smul]
+    exact ha _ (hb y hy)
+  | add a b ha hb =>
+    intro y hy
+    rw [map_add, add_smul]
+    exact W.add_mem (ha y hy) (hb y hy)
+
 /-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
 irreducible representation is determined up to isomorphism by its dimension together with a
 sign `ε ∈ {±1}`: on a highest weight vector `v` of an `(n+1)`-dimensional irreducible, `K`
@@ -194,8 +418,124 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
     ∃ (v : V) (ε : ℂ), v ≠ 0 ∧ e q • v = 0 ∧ ε ^ 2 = 1 ∧
-      K q • v = (ε * (q : ℂ) ^ (Module.finrank ℂ V - 1)) • v :=
-  sorry
+      K q • v = (ε * (q : ℂ) ^ (Module.finrank ℂ V - 1)) • v := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  obtain ⟨v, lam, hv0, he, hKv⟩ := exists_highest_weight_vector q V hq
+  -- The highest weight is nonzero (`K` acts invertibly).
+  have hlam : lam ≠ 0 := by
+    intro h0
+    rw [h0, zero_smul] at hKv
+    apply hv0
+    have h := congrArg (fun x => L q • x) hKv
+    simp only [smul_zero] at h
+    rw [← mul_smul, LK_rel, one_smul] at h
+    exact h
+  -- Termination: some ladder vector vanishes (else infinitely many independent eigenvectors).
+  have hex : ∃ i, ladder q V v i = 0 := by
+    by_contra hcon
+    push_neg at hcon
+    have hLI : LinearIndependent ℂ (ladder q V v) :=
+      Module.End.eigenvectors_linearIndependent' (Kop q V) (mu q lam)
+        (mu_inj q hq lam hlam) (ladder q V v)
+        (fun i => ⟨Module.End.mem_eigenspace_iff.mpr
+          (by rw [Kop_apply]; exact K_ladder q V v lam hKv i), hcon i⟩)
+    exact Module.Finite.not_linearIndependent_of_infinite _ hLI
+  haveI : DecidablePred (fun i => ladder q V v i = 0) := Classical.decPred _
+  set M0 := Nat.find hex with hM0def
+  have hM0_spec : ladder q V v M0 = 0 := Nat.find_spec hex
+  have hM0_ne : M0 ≠ 0 := by
+    intro h0; rw [h0, ladder_zero] at hM0_spec; exact hv0 hM0_spec
+  obtain ⟨N, hNsucc⟩ : ∃ N, M0 = N + 1 := ⟨M0 - 1, by omega⟩
+  have hzero_succ : ladder q V v (N + 1) = 0 := by rw [← hNsucc]; exact hM0_spec
+  have hne_le : ∀ i, i ≤ N → ladder q V v i ≠ 0 := fun i hi => Nat.find_min hex (by omega)
+  have hzero_ge : ∀ k, ladder q V v (N + 1 + k) = 0 := by
+    intro k
+    induction k with
+    | zero => simpa using hzero_succ
+    | succ j ih => rw [show N + 1 + (j + 1) = (N + 1 + j) + 1 by omega, ladder_succ, ih, smul_zero]
+  -- The finite spanning family `b i = fⁱ v`, `i < N+1`, and its `ℂ`-span `W`.
+  set b : Fin (N + 1) → V := fun i => ladder q V v ↑i with hb
+  set W : Submodule ℂ V := Submodule.span ℂ (Set.range b) with hW
+  have hiW : ∀ i, ladder q V v i ∈ W := by
+    intro i
+    by_cases hiN : i ≤ N
+    · exact Submodule.subset_span (Set.mem_range.mpr ⟨⟨i, by omega⟩, rfl⟩)
+    · have hle' : N + 1 ≤ i := by omega
+      obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hle'
+      rw [hzero_ge k]; exact W.zero_mem
+  -- Generator closures on `W`.
+  have heW : ∀ i, e q • ladder q V v i ∈ W := by
+    intro i
+    cases i with
+    | zero => rw [ladder_zero, he]; exact W.zero_mem
+    | succ j => rw [e_ladder q V hq v lam hlam he hKv j]; exact W.smul_mem _ (hiW j)
+  have hfW : ∀ i, f q • ladder q V v i ∈ W := fun i => by
+    rw [← ladder_succ]; exact hiW (i + 1)
+  have hKW : ∀ i, K q • ladder q V v i ∈ W := fun i => by
+    rw [K_ladder q V v lam hKv i]; exact W.smul_mem _ (hiW i)
+  have hLW : ∀ i, L q • ladder q V v i ∈ W := fun i => by
+    rw [L_ladder q V v lam hlam hKv i]; exact W.smul_mem _ (hiW i)
+  have clOf : ∀ (a : Uqsl2 q), (∀ i, a • ladder q V v i ∈ W) → ∀ x ∈ W, a • x ∈ W := by
+    intro a ha x hx
+    induction hx using Submodule.span_induction with
+    | mem z hz => obtain ⟨i, rfl⟩ := hz; exact ha ↑i
+    | zero => rw [smul_zero]; exact W.zero_mem
+    | add p r _ _ hp hr => rw [smul_add]; exact W.add_mem hp hr
+    | smul c p _ hp => rw [smul_comm]; exact W.smul_mem c hp
+  -- `W` is a `U_q`-submodule; by simplicity it is everything.
+  let W' : Submodule (Uqsl2 q) V :=
+    { carrier := (W : Set V)
+      add_mem' := fun ha hb => W.add_mem ha hb
+      zero_mem' := W.zero_mem
+      smul_mem' := fun a x hx => smul_mem_of_generators q V W (clOf (e q) heW)
+        (clOf (f q) hfW) (clOf (K q) hKW) (clOf (L q) hLW) a x hx }
+  have hv_mem : v ∈ W' := by
+    show v ∈ W
+    have := hiW 0; rwa [ladder_zero] at this
+  have hne : W' ≠ ⊥ := by
+    intro hbot
+    apply hv0
+    have : v ∈ (⊥ : Submodule (Uqsl2 q) V) := hbot ▸ hv_mem
+    exact (Submodule.mem_bot (Uqsl2 q)).mp this
+  have hW'top : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne
+  have hWtop : W = ⊤ := by
+    rw [eq_top_iff]
+    intro x _
+    have hxW' : x ∈ W' := by rw [hW'top]; exact Submodule.mem_top
+    exact hxW'
+  -- Dimension count: `finrank ℂ V = N + 1`.
+  have hbne : ∀ i : Fin (N + 1), b i ≠ 0 := fun i => hne_le ↑i (Nat.lt_succ_iff.mp i.isLt)
+  have hLIb : LinearIndependent ℂ b :=
+    Module.End.eigenvectors_linearIndependent' (Kop q V) (fun i : Fin (N + 1) => mu q lam ↑i)
+      ((mu_inj q hq lam hlam).comp Fin.val_injective) b
+      (fun i => ⟨Module.End.mem_eigenspace_iff.mpr
+        (by rw [Kop_apply]; exact K_ladder q V v lam hKv ↑i), hbne i⟩)
+  have hge : N + 1 ≤ Module.finrank ℂ V := by
+    have := hLIb.fintype_card_le_finrank
+    rwa [Fintype.card_fin] at this
+  have hle : Module.finrank ℂ V ≤ N + 1 := by
+    have hspan : Module.finrank ℂ (Submodule.span ℂ (Set.range b)) ≤ N + 1 := by
+      have := finrank_range_le_card (R := ℂ) b
+      rwa [Set.finrank, Fintype.card_fin] at this
+    rw [← hW, hWtop, finrank_top] at hspan
+    exact hspan
+  have hfinrank : Module.finrank ℂ V = N + 1 := le_antisymm hle hge
+  have hfinrank_sub : Module.finrank ℂ V - 1 = N := by omega
+  -- Eigenvalue constraint: `dcoef N = 0`, hence `lam² = q^{2N}`.
+  have hdcoef : dcoef q lam N = 0 := by
+    have h1 : e q • ladder q V v (N + 1) = dcoef q lam N • ladder q V v N :=
+      e_ladder q V hq v lam hlam he hKv N
+    rw [hzero_succ, smul_zero] at h1
+    exact (smul_eq_zero.mp h1.symm).resolve_right (hne_le N le_rfl)
+  have hlam2 : lam ^ 2 = (q : ℂ) ^ (2 * N) := dcoef_eq_zero_imp q hq lam hlam N hdcoef
+  -- Assemble: `ε = lam / qᴺ`.
+  refine ⟨v, lam * ((q : ℂ) ^ N)⁻¹, hv0, he, ?_, ?_⟩
+  · have hqN : (q : ℂ) ^ N ≠ 0 := pow_ne_zero _ q.ne_zero
+    rw [mul_pow, hlam2, inv_pow, ← pow_mul, show N * 2 = 2 * N by ring,
+      mul_inv_cancel₀ (pow_ne_zero _ q.ne_zero)]
+  · rw [hKv]
+    congr 1
+    rw [hfinrank_sub, mul_assoc, inv_mul_cancel₀ (pow_ne_zero N q.ne_zero), mul_one]
 
 /-! ## Root-of-unity infrastructure: centrality of `K ^ orderOf q`
 
