@@ -369,7 +369,9 @@ theorem epi_stdε : Epi (stdε M) := by
   rw [stdε_tmul, one_smul]
 
 /-- **The standard short complex** `A ⊗_S (V ⊗_S M) →ᵈ A ⊗_S M →ᵉ M` with `d ≫ ε = 0`.
-`Epi ε` is `epi_stdε`; `Mono d` and middle exactness are the successor issue (#6481). -/
+`Epi ε` is `epi_stdε`; middle exactness `ker ε = im d` is `standardComplex_exact`
+(`Chapter9/PathAlgebraStandardResolution.lean`). `Mono d` remains the residual deliverable of
+#6512, after which `standardResolution_shortExact` assembles the full `ShortExact`. -/
 noncomputable def standardComplex : ShortComplex (ModuleCat.{u + 1} (PathAlgebra k Q)) :=
   ShortComplex.mk (stdd M) (stdε M) (stdd_comp_stdε M)
 
