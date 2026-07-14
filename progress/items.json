@@ -7399,7 +7399,7 @@
     "start_line": 7,
     "end_line": 12,
     "status": "statement_formalized",
-    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_5_3.lean. Part (i) bijection blocks ↔ indecomposable central idempotents; part (ii) Hom-orthogonality across blocks and every indecomposable lies in a block. Part (iii) (k[S₃], char 2) deferred to follow-up. Faithful statements, sorry proofs."
+    "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_5_3.lean. Part (i) bijection blocks ↔ indecomposable central idempotents; part (ii) Hom-orthogonality across blocks and every indecomposable lies in a block. Part (iii) (k[S₃], char 2) deferred to follow-up. Faithful statements, sorry proofs. Central-character engine for part (i) proved sorry-free (#6596): centralCharacter (Bool indicator of whether a central idempotent acts as identity on a simple module) with centralCharacter_eq_true_iff/_eq_false_iff, and centralCharacter_eq_of_areLinked (linkage invariance) via mk₀_smul_id_comp — ModuleCat R is linear over the commutative center of R, so a central scalar acts identically through either Ext variable, forcing agreement of characters across an Ext-adjacency. The blocks_equiv_indecomposableCentralIdempotents bijection itself remains sorry."
   },
   {
     "id": "Chapter9/Introduction_9.6",
