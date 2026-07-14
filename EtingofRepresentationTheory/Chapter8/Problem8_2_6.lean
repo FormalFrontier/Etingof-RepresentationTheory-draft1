@@ -3,6 +3,7 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_LeftExact
 import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
+import EtingofRepresentationTheory.Chapter8.TensorRightProjectiveExact
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
@@ -173,6 +174,53 @@ noncomputable def balancingIsoZero
       (Functor.leftDerived (tensorLeftFunctor A M) 0).obj (ModuleCat.of A N) :=
   ((tensorRightFunctor A N).leftDerivedZeroIsoSelf.app M) ≪≫
     ((tensorLeftFunctor A M).leftDerivedZeroIsoSelf.app (ModuleCat.of A N)).symm
+
+/-- **Balancing-side six-term window.** The mirror of `Problem_8_2_6_iii_tor` for the
+balancing-side derived functor: a short exact sequence `S : 0 → M₁ → M₂ → M₃ → 0` of *right*
+`A`-modules induces, for a fixed left module `N` and each `n₀ + 1 = n₁`, a connecting homomorphism
+making the six-term homology window of the left derived functors of `M ↦ M ⊗_A N`
+(`tensorLeftFunctor A M`, varying in `M`) exact. This is the second six-term long exact sequence the
+elementary dimension-shift proof of the balancing theorem (Problem 8.2.6(iv)) needs, alongside the
+`Etingof.Tor`-side window `Problem_8_2_6_iii_tor`. -/
+theorem torBalancing_sixTerm
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    {S : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ)} (hS : S.ShortExact)
+    (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
+    ∃ δ : (Functor.leftDerived (tensorLeftFunctor A S.X₃) n₁).obj (ModuleCat.of A N) ⟶
+          (Functor.leftDerived (tensorLeftFunctor A S.X₁) n₀).obj (ModuleCat.of A N),
+      (ComposableArrows.mk₅
+        ((NatTrans.leftDerived (tensorLeftNatTrans A S.f) n₁).app (ModuleCat.of A N))
+        ((NatTrans.leftDerived (tensorLeftNatTrans A S.g) n₁).app (ModuleCat.of A N))
+        δ
+        ((NatTrans.leftDerived (tensorLeftNatTrans A S.f) n₀).app (ModuleCat.of A N))
+        ((NatTrans.leftDerived (tensorLeftNatTrans A S.g) n₀).app (ModuleCat.of A N))).Exact := by
+  -- The composite `S.g.hom ∘ S.f.hom` vanishes since `S.f ≫ S.g = 0`.
+  have hcomp : ∀ (m : S.X₁), S.g.hom (S.f.hom m) = 0 := by
+    intro m
+    have h0 : (S.f ≫ S.g).hom m = 0 := by rw [S.zero]; rfl
+    rwa [ModuleCat.hom_comp, LinearMap.comp_apply] at h0
+  -- The induced natural transformations `- ⊗_A N` compose to zero (via the `tensorBifunctor`
+  -- functoriality: `S.f ≫ S.g = 0`).
+  have w : tensorLeftNatTrans A S.f ≫ tensorLeftNatTrans A S.g = 0 := by
+    ext N' x
+    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
+    induction y with
+    | zero => simp
+    | tmul m n =>
+      change (QuotientAddGroup.mk (S.g.hom (S.f.hom m) ⊗ₜ[ℤ] n)
+          : Etingof.tensorOver A N' S.X₃) = 0
+      rw [hcomp m, zero_tmul]
+      rfl
+    | add a b ha hb =>
+      rw [show ((a + b : TensorProduct ℤ S.X₁ N') : Etingof.tensorOver A N' S.X₁)
+            = (a : Etingof.tensorOver A N' S.X₁) + b from
+          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N' S.X₁)) a b,
+        map_add, map_add, ha, hb]
+  -- Apply the varying-functor six-term exact sequence; on a projective left module `Y` the tensor
+  -- sequence `M₁ ⊗_A Y → M₂ ⊗_A Y → M₃ ⊗_A Y` is short exact by flatness of projectives (#6608).
+  exact NatTrans.leftDerived_sixTerm_exact
+    (tensorLeftNatTrans A S.f) (tensorLeftNatTrans A S.g) w
+    (fun Y _ => tensorRightFunctor_map_shortExact A Y hS) (ModuleCat.of A N) n₀ n₁ h
 
 /-- **Problem 8.2.6(iv), balancing.** `Torₙᴬ(M, N)` may be computed from a projective resolution
 of `N` tensored with `M`: the `n`-th left derived functor of `- ⊗_A N` evaluated at `M`
