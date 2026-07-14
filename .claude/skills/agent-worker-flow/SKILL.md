@@ -184,7 +184,15 @@ Check that the plan's assumptions still hold:
   as `replan` (decomposed) means its real work moved to still-open
   sub-issues, so the assembly is not actually ready. Confirm the named
   lemmas/defs exist in the Lean files before working; if not, re-add
-  `depends-on` on the real open sub-issues and `skip`.
+  `depends-on` on the real open sub-issues and `skip`. **But first
+  re-`git fetch origin main` and re-`reset --hard origin/main`**: in a
+  busy pod the prerequisite PR can merge in the seconds between your
+  initial fetch and this check, so the scaffolding the issue describes
+  ("stub at line N", "cases X, Y already landed") is on `main` but not yet
+  in your worktree. If the described state is missing, check the linked
+  parent/dependency issue for a merged PR and re-fetch before concluding
+  the issue is stale. (Seen with #6620: the `finrank_le_of_cyclic` stub
+  and its sibling cases landed in PR #6621 which merged mid-session.)
 - **Sanity-check the target statement is actually provable** before
   attempting the proof. A planner-written signature can be *false as
   stated* (hypotheses too weak, wrong quantifier, missing finiteness).
