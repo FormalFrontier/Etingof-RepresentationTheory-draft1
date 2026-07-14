@@ -424,6 +424,17 @@ in #5987, `Chapter2/Definition2_8_4.lean`):
   **Fix:** write the product with explicit `@HMul.hMul Foo Foo Foo _ (Finsupp.single …) (…)`. Keep the
   atoms literal `Finsupp.single` (not a new wrapper `def`) so downstream `rw`/`simp` on goals holding
   `Finsupp.single` (from `Finsupp.induction_linear`, unfolded `ofX := Finsupp.single …`) still match.
+- **Reading a coefficient `a x` does NOT elaborate for `a : Foo`.** The semireducible `def` has no
+  `FunLike`, so `a ⟨…⟩` fails ("Function expected … but this term has type `Foo`"); it only works
+  when `a` is a *bare fvar* the elaborator can unfold, never on a compound `(p * q : Foo)` or an
+  ascribed term. **Fix:** route coefficient access through a `LinearMap` — `def coeffAt x : Foo →ₗ[k] k
+  := Finsupp.lapply x`; `coeffAt x a` is defeq to `a x` but applies cleanly to products
+  (`#6616`, `Chapter9/PathAlgebraLowerBound.lean`). Two follow-ons there: (a) a `coeffAt`/`single_apply`
+  lemma whose statement has `if … then … else 0` needs `Decidable` on `QuiverPathIndex` equality — no
+  `DecidableEq` on arrows, so put `open Classical in` on that single lemma (NOT file-scoped
+  `open scoped Classical`, which the style linter rejects); (b) rewriting a `Prop` *inside* such an
+  `if` (e.g. `comp_eq_some_nil_iff`) fails `rw` with "motive is not type correct" because the `Decidable`
+  instance depends on the rewritten term — use `simp only [the_iff]` (or `by_cases … <;> simp [h, the_iff]`).
 - **`Finsupp.lsum`-based defs leak their LinearMap type.** A `def mul' : Foo →ₗ[k] Foo →ₗ[k] Foo :=
   Finsupp.lsum …` compiles but any tactic that unfolds it hits "target not type-correct under
   instances transparency", and `Finsupp.lsum_single` won't fire. **Fix:** type the internal
