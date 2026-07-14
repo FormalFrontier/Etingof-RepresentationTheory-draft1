@@ -1,5 +1,7 @@
 import Mathlib.Algebra.Group.Idempotent
 import Mathlib.Algebra.GroupWithZero.Idempotent
+import Mathlib.Algebra.Algebra.Basic
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.Linear
 import Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.RingTheory.FiniteLength
@@ -84,6 +86,45 @@ theorem centralIdempotent_smul_simple {M : Type*} [AddCommGroup M] [Module R M]
   rcases IsIdempotentElem.iff_eq_zero_or_one.mp hφ with h | h
   · left; intro m; exact LinearMap.congr_fun h m
   · right; intro m; exact LinearMap.congr_fun h m
+
+/-- The type of **central idempotents** of `R`: idempotent elements lying in the center. This is
+the domain of the central-character indicator `centralCharacter`. -/
+abbrev CentralIdempotent : Type u :=
+  {e : R // IsIdempotentElem e ∧ ∀ y : R, e * y = y * e}
+
+open scoped Classical in
+/-- **Central character of a simple module.** By `centralIdempotent_smul_simple` a central
+idempotent `e` acts on the simple module `S` either as `0` or as the identity; this Boolean
+records which, returning `true` exactly when `e` acts as the identity. It is the "central
+character" of `S` at `e`, and Problem 9.5.3(i) shows it is constant on each linkage class. -/
+noncomputable def centralCharacter {S : ModuleCat.{v} R} (_hS : IsSimpleModule R S)
+    (e : CentralIdempotent R) : Bool :=
+  decide (∀ m : (S : Type v), e.1 • m = m)
+
+/-- `centralCharacter` is `true` exactly when the idempotent acts as the identity. -/
+theorem centralCharacter_eq_true_iff {S : ModuleCat.{v} R} (hS : IsSimpleModule R S)
+    (e : CentralIdempotent R) :
+    centralCharacter R hS e = true ↔ ∀ m : (S : Type v), e.1 • m = m := by
+  classical
+  unfold centralCharacter
+  rw [decide_eq_true_eq]
+
+/-- `centralCharacter` is `false` exactly when the idempotent acts as `0`. -/
+theorem centralCharacter_eq_false_iff {S : ModuleCat.{v} R} (hS : IsSimpleModule R S)
+    (e : CentralIdempotent R) :
+    centralCharacter R hS e = false ↔ ∀ m : (S : Type v), e.1 • m = 0 := by
+  classical
+  haveI := hS
+  haveI : Nontrivial (S : Type v) := IsSimpleModule.nontrivial R (S : Type v)
+  rw [← Bool.not_eq_true, centralCharacter_eq_true_iff]
+  constructor
+  · intro h
+    rcases centralIdempotent_smul_simple R (M := (S : Type v)) (e := e.1) e.2.1 e.2.2 with h0 | h1
+    · exact h0
+    · exact absurd h1 h
+  · intro h0 h1
+    obtain ⟨x, hx⟩ := exists_ne (0 : (S : Type v))
+    exact hx ((h1 x).symm.trans (h0 x))
 
 /-- **Problem 9.5.3 (i).** For a finite dimensional algebra `R` over a field `k`, there is a
 bijection between the blocks of the category of finite dimensional `R`-modules (linkage classes
