@@ -186,6 +186,80 @@ theorem exists_highest_weight_vector (hq : ¬ IsOfFinOrder q) [Nontrivial V] :
 
 end HighestWeight
 
+/-! ## Scalar facts for `q` not a root of unity -/
+
+/-- If `q` is not a root of unity, no positive power of `q` is `1`. -/
+lemma qpow_ne_one (q : ℂˣ) (hq : ¬ IsOfFinOrder q) {n : ℕ} (hn : 0 < n) : (q : ℂ) ^ n ≠ 1 := by
+  intro h
+  refine hq (isOfFinOrder_iff_pow_eq_one.mpr ⟨n, hn, ?_⟩)
+  apply Units.ext
+  push_cast
+  simpa using h
+
+/-- `q² ≠ 1` when `q` is not a root of unity. -/
+lemma q_sq_ne_one (q : ℂˣ) (hq : ¬ IsOfFinOrder q) : (q : ℂ) ^ 2 ≠ 1 :=
+  qpow_ne_one q hq (by norm_num)
+
+/-- `q - q⁻¹ ≠ 0` when `q` is not a root of unity (equivalently `q ≠ ±1`). -/
+lemma q_sub_inv_ne (q : ℂˣ) (hq : ¬ IsOfFinOrder q) : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := by
+  intro h
+  have h2 : (q : ℂ) = (q : ℂ)⁻¹ := sub_eq_zero.mp h
+  have : (q : ℂ) ^ 2 = 1 := by
+    rw [sq]; nth_rewrite 2 [h2]; exact mul_inv_cancel₀ q.ne_zero
+  exact q_sq_ne_one q hq this
+
+/-! ## The `f`-ladder of a highest weight vector -/
+
+section Ladder
+
+variable (q : ℂˣ)
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+  [IsScalarTower ℂ (Uqsl2 q) V]
+
+/-- The `f`-ladder of `v`: `ladder q V v i = fⁱ • v`. -/
+noncomputable def ladder (v : V) (i : ℕ) : V := (f q) ^ i • v
+
+/-- The `K`-eigenvalue of the `i`-th ladder vector, given `K • v = lam • v`: `lam · q^{-2i}`. -/
+noncomputable def mu (lam : ℂ) (i : ℕ) : ℂ := lam * (((q : ℂ) ^ 2)⁻¹) ^ i
+
+@[simp] lemma ladder_zero (v : V) : ladder q V v 0 = v := by simp [ladder]
+
+lemma ladder_succ (v : V) (i : ℕ) : ladder q V v (i + 1) = f q • ladder q V v i := by
+  simp only [ladder, pow_succ', mul_smul]
+
+@[simp] lemma mu_zero (lam : ℂ) : mu q lam 0 = lam := by simp [mu]
+
+lemma mu_ne_zero (lam : ℂ) (hlam : lam ≠ 0) (i : ℕ) : mu q lam i ≠ 0 := by
+  apply mul_ne_zero hlam
+  exact pow_ne_zero _ (inv_ne_zero (pow_ne_zero _ q.ne_zero))
+
+/-- `K` acts on the `i`-th ladder vector by `mu q lam i`. -/
+lemma K_ladder (v : V) (lam : ℂ) (hKv : K q • v = lam • v) (i : ℕ) :
+    K q • ladder q V v i = mu q lam i • ladder q V v i := by
+  induction i with
+  | zero => simpa [mu] using hKv
+  | succ n ih =>
+    rw [ladder_succ, ← mul_smul, Kf_rel, smul_assoc, mul_smul, ih,
+      smul_comm (f q) (mu q lam n), smul_smul]
+    congr 1
+    simp only [mu, pow_succ]
+    ring
+
+/-- `L = K⁻¹` acts on the `i`-th ladder vector by `(mu q lam i)⁻¹`. -/
+lemma L_ladder (v : V) (lam : ℂ) (hlam : lam ≠ 0) (hKv : K q • v = lam • v) (i : ℕ) :
+    L q • ladder q V v i = (mu q lam i)⁻¹ • ladder q V v i := by
+  have hK := K_ladder q V v lam hKv i
+  have hmu := mu_ne_zero q lam hlam i
+  have h1 : L q • (K q • ladder q V v i) = ladder q V v i := by
+    rw [← mul_smul, LK_rel, one_smul]
+  rw [hK, smul_comm (L q) (mu q lam i)] at h1
+  -- h1 : mu • (L • ladder) = ladder
+  have := congrArg (fun x => (mu q lam i)⁻¹ • x) h1
+  simp only [smul_smul, inv_mul_cancel₀ hmu, one_smul] at this
+  exact this
+
+end Ladder
+
 /-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
 irreducible representation is determined up to isomorphism by its dimension together with a
 sign `ε ∈ {±1}`: on a highest weight vector `v` of an `(n+1)`-dimensional irreducible, `K`
