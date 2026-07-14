@@ -31,6 +31,39 @@ universe u
 
 variable (A : Type u) [Ring A]
 
+/-! ### `ShortExact` is stable under retracts -/
+
+/-- A short complex `T` that is a retract of a short exact complex `U` is itself short exact.
+Monomorphisms, epimorphisms, and exactness (vanishing of homology) all transfer along the
+retract. -/
+lemma shortExact_of_retract {D : Type*} [Category.{u} D] [Abelian D]
+    {T U : ShortComplex D} (h : Retract T U) (hU : U.ShortExact) : T.ShortExact := by
+  have e₁ : h.i.τ₁ ≫ h.r.τ₁ = 𝟙 _ := by
+    rw [← ShortComplex.comp_τ₁, h.retract, ShortComplex.id_τ₁]
+  have e₂ : h.i.τ₂ ≫ h.r.τ₂ = 𝟙 _ := by
+    rw [← ShortComplex.comp_τ₂, h.retract, ShortComplex.id_τ₂]
+  have e₃ : h.i.τ₃ ≫ h.r.τ₃ = 𝟙 _ := by
+    rw [← ShortComplex.comp_τ₃, h.retract, ShortComplex.id_τ₃]
+  have hf : RetractArrow T.f U.f :=
+    { i := Arrow.homMk h.i.τ₁ h.i.τ₂ h.i.comm₁₂
+      r := Arrow.homMk h.r.τ₁ h.r.τ₂ h.r.comm₁₂
+      retract := Arrow.hom_ext _ _ e₁ e₂ }
+  have hg : RetractArrow T.g U.g :=
+    { i := Arrow.homMk h.i.τ₂ h.i.τ₃ h.i.comm₂₃
+      r := Arrow.homMk h.r.τ₂ h.r.τ₃ h.r.comm₂₃
+      retract := Arrow.hom_ext _ _ e₂ e₃ }
+  have hexact : T.Exact := by
+    rw [ShortComplex.exact_iff_isZero_homology]
+    have hz : IsZero U.homology := by
+      rw [← ShortComplex.exact_iff_isZero_homology]; exact hU.exact
+    have hr : Retract T.homology U.homology := h.map (ShortComplex.homologyFunctor D)
+    rw [IsZero.iff_id_eq_zero, ← hr.retract, hz.eq_of_tgt hr.i 0, Limits.zero_comp]
+  have hmono : Mono T.f :=
+    MorphismProperty.of_retract (P := MorphismProperty.monomorphisms D) hf hU.mono_f
+  have hepi : Epi T.g :=
+    MorphismProperty.of_retract (P := MorphismProperty.epimorphisms D) hg hU.epi_g
+  exact ShortComplex.ShortExact.mk' hexact hmono hepi
+
 /-! ### Unit case: `Aᵐᵒᵖ ⊗_A N ≅ N` -/
 
 /-- The right-`Aᵐᵒᵖ`-linear map `Aᵐᵒᵖ →ₗ (N →+ N)`, `x ↦ (n ↦ x.unop • n)`, used to build the
