@@ -739,6 +739,104 @@ theorem Kop_isSemisimple_and_eigenvalues (q : ℂˣ) (hq : IsOfFinOrder q)
   have h2 : (μ ^ orderOf q - α) • v = 0 := by rw [sub_smul, h1, sub_self]
   exact (smul_eq_zero.mp h2).resolve_right hv0 |> sub_eq_zero.mp
 
+/-! ## Root-of-unity infrastructure: centrality of `e ^ orderOf q` and `f ^ orderOf q`
+
+At a root of unity with `q ≠ ±1` (equivalently `q² ≠ 1`) the elements `e ^ orderOf q` and
+`f ^ orderOf q` are central in `U_q(sl₂)`. Together with the already-established centrality of
+`K ^ orderOf q`, these are the three central "closed-string" scalars of the De Concini–Kac small
+quantum group; on a finite dimensional simple module each acts as a scalar (Schur). The nontrivial
+commutation is `[e ^ orderOf q, f] = 0`: the iterated commutator `[eⁿ, f]` has a coefficient that is
+a geometric sum in `q²`, and at `n = orderOf q` that sum vanishes precisely because `(q²)^{orderOf q}
+= 1` while `q² ≠ 1`.
+
+The hypothesis `q² ≠ 1` is essential and cannot be dropped: at `q = ±1` the defining relation
+`(q - q⁻¹)·(ef - fe) = K - L` degenerates (its left side vanishes), `e` and `f` become free, and
+`e ^ orderOf q` is no longer central. -/
+
+/-- `q - q⁻¹ ≠ 0` whenever `q² ≠ 1` (i.e. `q ≠ ±1`). The root-of-unity analogue of
+`q_sub_inv_ne`, which assumed `¬ IsOfFinOrder q`. -/
+lemma q_sub_inv_ne_of_sq_ne (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := by
+  intro h
+  have h2 : (q : ℂ) = (q : ℂ)⁻¹ := sub_eq_zero.mp h
+  have : (q : ℂ) ^ 2 = 1 := by rw [sq]; nth_rewrite 2 [h2]; exact mul_inv_cancel₀ q.ne_zero
+  exact hq2 this
+
+/-- `L e = q⁻²·(e L)`, the `L`-companion of `Ke_rel`. Derived by conjugating `Ke_rel` by `L`. -/
+@[simp] lemma Le_rel (q : ℂˣ) : L q * e q = ((q : ℂ) ^ 2)⁻¹ • (e q * L q) := by
+  have hq2 : ((q : ℂ) ^ 2) ≠ 0 := pow_ne_zero _ q.ne_zero
+  have key : e q * L q = ((q : ℂ) ^ 2) • (L q * e q) := by
+    have h : L q * (K q * e q) * L q = L q * (((q : ℂ) ^ 2) • (e q * K q)) * L q := by
+      rw [Ke_rel]
+    rw [mul_smul_comm, smul_mul_assoc] at h
+    rw [show L q * (K q * e q) * L q = e q * L q by
+          rw [← mul_assoc (L q) (K q) (e q), LK_rel, one_mul]] at h
+    rw [show L q * (e q * K q) * L q = L q * e q by
+          rw [mul_assoc (L q) (e q * K q) (L q), mul_assoc (e q) (K q) (L q), KL_rel, mul_one]] at h
+    exact h
+  rw [key, smul_smul, inv_mul_cancel₀ hq2, one_smul]
+
+/-- `L f = q²·(f L)`, the `L`-companion of `Kf_rel`. Derived by conjugating `Kf_rel` by `L`. -/
+@[simp] lemma Lf_rel (q : ℂˣ) : L q * f q = ((q : ℂ) ^ 2) • (f q * L q) := by
+  have key : f q * L q = ((q : ℂ) ^ 2)⁻¹ • (L q * f q) := by
+    have h : L q * (K q * f q) * L q = L q * (((q : ℂ) ^ 2)⁻¹ • (f q * K q)) * L q := by
+      rw [Kf_rel]
+    rw [mul_smul_comm, smul_mul_assoc] at h
+    rw [show L q * (K q * f q) * L q = f q * L q by
+          rw [← mul_assoc (L q) (K q) (f q), LK_rel, one_mul]] at h
+    rw [show L q * (f q * K q) * L q = L q * f q by
+          rw [mul_assoc (L q) (f q * K q) (L q), mul_assoc (f q) (K q) (L q), KL_rel, mul_one]] at h
+    exact h
+  have hq2 : ((q : ℂ) ^ 2) ≠ 0 := pow_ne_zero _ q.ne_zero
+  rw [key, smul_smul, mul_inv_cancel₀ hq2, one_smul]
+
+/-- The commutator `[e, f] = (K - L)/(q - q⁻¹)` in un-cleared form, valid once `q ≠ ±1`. -/
+lemma ef_diff (q : ℂˣ) (hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) :
+    e q * f q = f q * e q + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹) • (K q - L q) := by
+  have h := ef_rel q
+  have hd : e q * f q - f q * e q = (((q : ℂ) - (q : ℂ)⁻¹)⁻¹) • (K q - L q) := by
+    rw [← h, inv_smul_smul₀ hq']
+  rw [← hd]; abel
+
+/-- `K` commutes past `eⁿ` with a `q^{2n}` twist: `K · eⁿ = (q²)ⁿ · (eⁿ · K)`. -/
+lemma K_mul_epow (q : ℂˣ) (n : ℕ) :
+    K q * e q ^ n = (((q : ℂ) ^ 2) ^ n) • (e q ^ n * K q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (e q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (e q ^ n) (K q) (e q),
+        Ke_rel, mul_smul_comm, smul_smul, ← mul_assoc (e q ^ n) (e q) (K q),
+        ← pow_succ ((q : ℂ) ^ 2) n]
+
+/-- `L` commutes past `eⁿ` with a `q^{-2n}` twist: `L · eⁿ = (q⁻²)ⁿ · (eⁿ · L)`. -/
+lemma L_mul_epow (q : ℂˣ) (n : ℕ) :
+    L q * e q ^ n = ((((q : ℂ) ^ 2)⁻¹) ^ n) • (e q ^ n * L q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (e q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (e q ^ n) (L q) (e q),
+        Le_rel, mul_smul_comm, smul_smul, ← mul_assoc (e q ^ n) (e q) (L q),
+        ← pow_succ (((q : ℂ) ^ 2)⁻¹) n]
+
+/-- `K` commutes past `fⁿ` with a `q^{-2n}` twist: `K · fⁿ = (q⁻²)ⁿ · (fⁿ · K)`. -/
+lemma K_mul_fpow (q : ℂˣ) (n : ℕ) :
+    K q * f q ^ n = ((((q : ℂ) ^ 2)⁻¹) ^ n) • (f q ^ n * K q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (f q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (f q ^ n) (K q) (f q),
+        Kf_rel, mul_smul_comm, smul_smul, ← mul_assoc (f q ^ n) (f q) (K q),
+        ← pow_succ (((q : ℂ) ^ 2)⁻¹) n]
+
+/-- `L` commutes past `fⁿ` with a `q^{2n}` twist: `L · fⁿ = (q²)ⁿ · (fⁿ · L)`. -/
+lemma L_mul_fpow (q : ℂˣ) (n : ℕ) :
+    L q * f q ^ n = (((q : ℂ) ^ 2) ^ n) • (f q ^ n * L q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (f q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (f q ^ n) (L q) (f q),
+        Lf_rel, mul_smul_comm, smul_smul, ← mul_assoc (f q ^ n) (f q) (L q),
+        ← pow_succ ((q : ℂ) ^ 2) n]
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
