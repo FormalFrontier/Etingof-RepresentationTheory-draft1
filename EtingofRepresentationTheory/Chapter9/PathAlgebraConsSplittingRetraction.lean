@@ -246,4 +246,54 @@ noncomputable def stdΦRet :
   change TensorProduct.liftAddHom (stdΦRetBilin M) (stdΦRetBilin_balanced M) (a ⊗ₜ[Q → k] m) = _
   rw [TensorProduct.liftAddHom_tmul, stdΦRetBilin_apply]
 
+/-! ## The retraction inverts `Φ`, and injectivity -/
+
+/-- **The retraction is a left inverse of `Φ`.** `R (Φ ξ) = ξ` for every `ξ : A ⊗_S (V ⊗_S M)`.
+Reduces, by bilinearity, to a basis pure tensor `single q ca ⊗ (single e cv ⊗ m)`: when the path `q`
+and the arrow `e` are composable, `Φ` concatenates them and `R` cons-splits back
+(`compSingle_eq` + `cons_tensor_coeff_move`); when they are not, both `Φ`'s image and the domain
+tensor vanish (`compSingle_eq_zero` + `cons_tensor_noncomp`). -/
+theorem stdΦRet_leftInverse : Function.LeftInverse (stdΦRet M) (stdΦ M).hom := by
+  intro η
+  induction η using TensorProduct.induction_on with
+  | zero => rw [map_zero, map_zero]
+  | tmul a y =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp only [TensorProduct.tmul_zero, map_zero]
+      | tmul v m =>
+          induction a using Finsupp.induction_linear with
+          | zero => simp only [TensorProduct.zero_tmul, map_zero]
+          | add f g hf hg => rw [TensorProduct.add_tmul, map_add, map_add, hf, hg]
+          | single q ca =>
+              induction v using Finsupp.induction_linear with
+              | zero => simp only [TensorProduct.tmul_zero, TensorProduct.zero_tmul, map_zero]
+              | add v w hv hw =>
+                  rw [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, map_add, hv, hw]
+              | single arr cv =>
+                  obtain ⟨a₀, d, path⟩ := q
+                  obtain ⟨b', c', e⟩ := arr
+                  rw [stdΦ_tmul]
+                  simp only [single_eq_smul_ofPath]
+                  rw [arrowInclusion_single, arrowElt, ArrowIndex.toPathIndex, smul_mul_assoc,
+                    mul_smul_comm, smul_smul, ofPath_mul_ofPath]
+                  by_cases hdb : d = b'
+                  · subst hdb
+                    rw [compSingle_eq, Finsupp.smul_single, smul_eq_mul, mul_one, stdΦRet_tmul,
+                      stdΦRetFixedM_single,
+                      show (⟨a₀, c', path.comp e.toPath⟩ : QuiverPathIndex Q)
+                        = ⟨a₀, c', Quiver.Path.cons path e⟩ from by
+                          rw [Quiver.Path.comp_toPath_eq_cons], consTermC_cons,
+                      cons_tensor_coeff_move]
+                  · rw [compSingle_eq_zero _ _ hdb, smul_zero, TensorProduct.zero_tmul, map_zero]
+                    exact (cons_tensor_noncomp M path e ca cv (fun h => hdb h.symm) m).symm
+      | add y z hy hz => rw [TensorProduct.tmul_add, map_add, map_add, hy, hz]
+  | add η ζ hη hζ => rw [map_add, map_add, hη, hζ]
+
+/-- **Injectivity of the top-half boundary map `Φ = stdΦ M`.** The genuine (non-`sorry`) left
+inverse `stdΦRet M` witnesses that `Φ` is injective. This is the injectivity content of the
+cons-splitting `A_n ⊗_S V ≅ A_{n+1}` (tensored with `M`), the crux of `Mono (stdd M)` for the
+standard resolution (issue #6561). -/
+theorem stdΦ_injective : Function.Injective (stdΦ M).hom :=
+  (stdΦRet_leftInverse M).injective
+
 end Etingof.PathAlgebra
