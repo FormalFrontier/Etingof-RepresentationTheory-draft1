@@ -121,6 +121,107 @@ theorem isSemisimpleRing_of_traceForm_nondegenerate
     hnil.map (Algebra.lmul ℂ A).toRingHom
   exact (LinearMap.isNilpotent_trace_of_isNilpotent hmul).eq_zero
 
+/-!
+### Orthogonal monomial basis of `Cl(V)`
+
+For an orthogonal basis `v` of `V` (with respect to `B`), the `2^N` ordered products
+`e S = ∏_{i ∈ S} ι(vᵢ)` (the product taken in increasing order of `i`) form a basis of `Cl(V)`.
+Because the basis is orthogonal, the generators satisfy the clean relations
+`ι(vᵢ) ι(vⱼ) = - ι(vⱼ) ι(vᵢ)` for `i ≠ j` and `ι(vᵢ)² = B(vᵢ,vᵢ)`, with **no** lower-order
+correction terms. This makes left multiplication by `e S` a signed permutation of the monomial
+basis, from which `tr(L_{e S})` and the nondegeneracy of the trace form drop out.
+-/
+
+section Monomial
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open CliffordAlgebra in
+/-- The Clifford generator `ι(vᵢ)` attached to the `i`-th orthogonal basis vector. -/
+noncomputable def gen (i : Fin N) : CliffAlg B := CliffordAlgebra.ι (quadForm B) (v i)
+
+open scoped Classical in
+/-- Ordered monomial `e S = ∏_{i ∈ S} ι(vᵢ)`, the product taken in increasing order of `i`. -/
+noncomputable def e (S : Finset (Fin N)) : CliffAlg B :=
+  ((S.sort (· ≤ ·)).map (gen B v)).prod
+
+@[simp] theorem e_empty : e B v ∅ = 1 := by
+  simp [e]
+
+@[simp] theorem e_singleton (i : Fin N) : e B v {i} = gen B v i := by
+  simp [e, Finset.sort_singleton]
+
+/-- If `i` is strictly below every element of `S`, then `e (insert i S) = ι(vᵢ) · e S`
+(no reordering needed since `i` is the new minimum). -/
+theorem e_insert_of_lt {i : Fin N} {S : Finset (Fin N)} (h : ∀ j ∈ S, i < j) :
+    e B v (insert i S) = gen B v i * e B v S := by
+  have hi : i ∉ S := fun hmem => (lt_irrefl i (h i hmem))
+  rw [e, Finset.sort_insert (· ≤ ·) (fun j hj => (h j hj).le) hi, List.map_cons, List.prod_cons, e]
+
+/-- Peeling off the minimum: `e S = ι(v (min S)) · e (S.erase (min S))`. -/
+theorem e_minPeel {S : Finset (Fin N)} (hS : S.Nonempty) :
+    e B v S = gen B v (S.min' hS) * e B v (S.erase (S.min' hS)) := by
+  have hmem : S.min' hS ∈ S := S.min'_mem hS
+  have hlt : ∀ j ∈ S.erase (S.min' hS), S.min' hS < j := by
+    intro j hj
+    rw [Finset.mem_erase] at hj
+    exact lt_of_le_of_ne (S.min'_le j hj.2) (Ne.symm hj.1)
+  conv_lhs => rw [← Finset.insert_erase hmem]
+  exact e_insert_of_lt B v hlt
+
+/-- `ι(vᵢ)² = B(vᵢ,vᵢ)` as a scalar. -/
+theorem gen_sq (i : Fin N) :
+    gen B v i * gen B v i = algebraMap ℂ (CliffAlg B) (B (v i) (v i)) := by
+  unfold gen
+  rw [CliffordAlgebra.ι_sq_scalar]
+  rfl
+
+/-- For an orthogonal basis, distinct generators anticommute. -/
+theorem gen_anticomm (hv : B.IsOrthoᵢ v) {i j : Fin N} (hij : i ≠ j) :
+    gen B v i * gen B v j = - (gen B v j * gen B v i) := by
+  have h := CliffordAlgebra.ι_mul_ι_add_swap (Q := quadForm B) (v i) (v j)
+  have hpolar : QuadraticMap.polar (quadForm B) (v i) (v j) = 0 := by
+    rw [LinearMap.BilinMap.polar_toQuadraticMap,
+      LinearMap.isOrthoᵢ_def.mp hv i j hij, LinearMap.isOrthoᵢ_def.mp hv j i hij.symm, add_zero]
+  rw [hpolar, map_zero] at h
+  unfold gen
+  exact eq_neg_of_add_eq_zero_left h
+
+/-- On a nondegenerate orthogonal basis, every diagonal entry `B(vᵢ,vᵢ)` is nonzero. -/
+theorem diag_ne_zero (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) :
+    B (v i) (v i) ≠ 0 := by
+  intro hz
+  refine v.ne_zero i (hnd.1 (v i) ?_)
+  intro y
+  have hzero : B (v i) = 0 := by
+    apply v.ext
+    intro j
+    rcases eq_or_ne i j with rfl | hij
+    · simpa using hz
+    · simpa using LinearMap.isOrthoᵢ_def.mp hv i j hij
+  rw [hzero, LinearMap.zero_apply]
+
+/-- Each generator is a unit (its inverse is `B(vᵢ,vᵢ)⁻¹ · ι(vᵢ)`). -/
+theorem isUnit_gen (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) :
+    IsUnit (gen B v i) := by
+  have ha := diag_ne_zero B v hv hnd i
+  refine ⟨⟨gen B v i, (B (v i) (v i))⁻¹ • gen B v i, ?_, ?_⟩, rfl⟩
+  · rw [mul_smul_comm, gen_sq, Algebra.smul_def, ← map_mul, inv_mul_cancel₀ ha, map_one]
+  · rw [smul_mul_assoc, gen_sq, Algebra.smul_def, ← map_mul, inv_mul_cancel₀ ha, map_one]
+
+open scoped Classical in
+/-- The monomial `e S` is a unit (a product of units). -/
+theorem isUnit_e (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (S : Finset (Fin N)) :
+    IsUnit (e B v S) := by
+  rw [e]
+  apply List.prod_isUnit
+  intro x hx
+  rw [List.mem_map] at hx
+  obtain ⟨i, _, rfl⟩ := hx
+  exact isUnit_gen B v hv hnd i
+
+end Monomial
+
 /-- **Problem 3.9.5(i), semisimplicity.** If `B` is nondegenerate then `Cl(V)` is a
 semisimple ring.
 
