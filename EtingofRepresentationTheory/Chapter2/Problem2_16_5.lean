@@ -128,6 +128,16 @@ lemma e_eigenvalue_shift (μ : ℂ) (w : V) (hw : Kop q V w = μ • w) :
   rw [h1, Ke_rel, smul_assoc, mul_smul, hw, smul_comm (e q) μ w, smul_smul]
 
 omit [FiniteDimensional ℂ V] in
+/-- If `w` is a `K`-eigenvector with eigenvalue `μ`, then `f • w` is `0` or a `K`-eigenvector
+with eigenvalue `q⁻²·μ` (from the relation `K f = q⁻²·(f K)`). Dual to `e_eigenvalue_shift`; it
+is the `f`-direction of the weight ladder used in the root-of-unity dimension bound. -/
+lemma f_eigenvalue_shift (μ : ℂ) (w : V) (hw : Kop q V w = μ • w) :
+    Kop q V (f q • w) = (((q : ℂ) ^ 2)⁻¹ * μ) • (f q • w) := by
+  simp only [Kop_apply] at hw ⊢
+  have h1 : K q • (f q • w) = (K q * f q) • w := by rw [mul_smul]
+  rw [h1, Kf_rel, smul_assoc, mul_smul, hw, smul_comm (f q) μ w, smul_smul]
+
+omit [FiniteDimensional ℂ V] in
 /-- `K` acts invertibly (`K·L = 1`), so `0` is not an eigenvalue of `Kop`. -/
 lemma eigenvalue_ne_zero (μ : ℂ) (hμ : (Kop q V).HasEigenvalue μ) : μ ≠ 0 := by
   rintro rfl
