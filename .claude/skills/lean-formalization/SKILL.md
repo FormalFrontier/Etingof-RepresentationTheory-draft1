@@ -4256,6 +4256,26 @@ end Foo
 **Alternative**: Explicitly add the parameter to each declaration (the pattern
 used in this project's `cornerSubmodule_left_mul` etc.).
 
+### Reverse problem: an *unused* section variable trips the linter
+
+This project's CI runs `weak.linter.mathlibStandardSet = true`, so an
+instance/hypothesis from the `variable` block that a lemma does not use emits
+`automatically included section variable(s) unused` (and unused hypotheses like
+a stated `(hdeg : …)` emit `Variable name … is not explicitly referenced`).
+These are **warnings only** — plain `lake build` still returns 0, so CI passes —
+but the project keeps lint clean. Silence an unused instance with
+`omit [Inst] in` immediately before the declaration. Gotcha: `omit … in` must go
+**before** the docstring, not between the `/-- … -/` and the `theorem`
+(`omit` after a docstring gives `unexpected token 'omit'; expected 'lemma'`):
+```lean
+omit [FiniteDimensional ℂ V] in
+/-- doc … -/
+theorem foo … := …
+```
+Related `mathlibStandardSet` linter: `linter.style.show` flags every `show` used
+to *change* the goal to a defeq form. Use `change` instead of `show` for those
+(reserve `show` for readability of an intermediate state).
+
 ### Calling a section-variabled lemma: don't guess positional args
 
 When you *apply* a lemma defined under a `variable (k : Type*) [Field k]

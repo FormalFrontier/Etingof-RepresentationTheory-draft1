@@ -14,7 +14,9 @@ import Mathlib.RingTheory.Jacobson.Ideal
 import Mathlib.RingTheory.Jacobson.Semiprimary
 import Mathlib.RingTheory.Artinian.Algebra
 import Mathlib.RingTheory.Artinian.Ring
+import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Tactic.NoncommRing
 import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 import Mathlib.LinearAlgebra.Dimension.Finrank
@@ -644,6 +646,261 @@ theorem isSemisimpleRing_iff_nondegenerate (hsymm : ∀ x y, B x y = B y x) :
   by_contra hdeg
   exact not_isSemisimpleRing_of_degenerate B hsymm hdeg hss
 
+/-- The radical submodule of `B`: the vectors `v` with `B v = 0` (equivalently `B v w = 0`
+for all `w`). This is the kernel of `B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ`. -/
+noncomputable def radSubmodule : Submodule ℂ V := LinearMap.ker B
+
+omit [FiniteDimensional ℂ V] in
+theorem mem_radSubmodule {v : V} : v ∈ radSubmodule B ↔ B v = 0 := Iff.rfl
+
+/-- The bilinear form induced by `B` on the quotient `V ⧸ rad B`. Constructed by descending both
+arguments of `B` across the quotient map (well-defined because `B` vanishes on the radical, using
+symmetry for the second argument). -/
+noncomputable def radQuotForm (hsymm : ∀ x y, B x y = B y x) :
+    LinearMap.BilinForm ℂ (V ⧸ radSubmodule B) :=
+  -- descend the first argument: `B` factors through `V ⧸ ker B`
+  let Bfst : (V ⧸ radSubmodule B) →ₗ[ℂ] V →ₗ[ℂ] ℂ := (radSubmodule B).liftQ B le_rfl
+  -- flip so the un-quotiented `V` argument becomes outer, then descend it too
+  let g : V →ₗ[ℂ] (V ⧸ radSubmodule B) →ₗ[ℂ] ℂ := Bfst.flip
+  ((radSubmodule B).liftQ g (by
+    intro u hu
+    rw [LinearMap.mem_ker]
+    refine LinearMap.ext fun w => ?_
+    obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective w
+    change Bfst ((radSubmodule B).mkQ v) u = 0
+    -- `Bfst (mk v) u = B v u = B u v = 0` since `u ∈ rad B`
+    have h0 : B u = 0 := (mem_radSubmodule B).1 hu
+    simp only [Submodule.mkQ_apply, Submodule.liftQ_apply, Bfst]
+    rw [hsymm v u, h0, LinearMap.zero_apply])).flip
+
+omit [FiniteDimensional ℂ V] in
+@[simp]
+theorem radQuotForm_mk_mk (hsymm : ∀ x y, B x y = B y x) (v w : V) :
+    radQuotForm B hsymm ((radSubmodule B).mkQ v) ((radSubmodule B).mkQ w) = B v w := by
+  simp only [radQuotForm, LinearMap.flip_apply, Submodule.mkQ_apply, Submodule.liftQ_apply]
+
+omit [FiniteDimensional ℂ V] in
+theorem radQuotForm_isSymm (hsymm : ∀ x y, B x y = B y x) :
+    ∀ x y, radQuotForm B hsymm x y = radQuotForm B hsymm y x := by
+  intro x y
+  obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective x
+  obtain ⟨w, rfl⟩ := (radSubmodule B).mkQ_surjective y
+  rw [radQuotForm_mk_mk, radQuotForm_mk_mk, hsymm]
+
+omit [FiniteDimensional ℂ V] in
+theorem radQuotForm_nondegenerate (hsymm : ∀ x y, B x y = B y x) :
+    (radQuotForm B hsymm).Nondegenerate := by
+  have hL : (radQuotForm B hsymm).SeparatingLeft := by
+    intro x hx
+    obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective x
+    rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, mem_radSubmodule]
+    ext w
+    have := hx ((radSubmodule B).mkQ w)
+    rwa [radQuotForm_mk_mk] at this
+  exact ⟨hL, fun y hy => hL y fun x => by rw [radQuotForm_isSymm]; exact hy x⟩
+
+omit [FiniteDimensional ℂ V] in
+/-- For a radical vector `u` (so `ι u` anticommutes with every generator `ι y`), left
+multiplication by `ι u` intertwines with the grade involution: `ι u * z = involute z * ι u`. -/
+theorem ι_rad_mul (hsymm : ∀ x y, B x y = B y x) {u : V} (hu : u ∈ radSubmodule B)
+    (z : CliffAlg B) :
+    CliffordAlgebra.ι (quadForm B) u * z
+      = CliffordAlgebra.involute z * CliffordAlgebra.ι (quadForm B) u := by
+  induction z using CliffordAlgebra.induction with
+  | algebraMap r =>
+    rw [AlgHom.commutes, Algebra.commutes]
+  | ι y =>
+    rw [CliffordAlgebra.involute_ι, neg_mul]
+    have hp : QuadraticMap.polar (quadForm B) u y = 0 := by
+      have h0 : B u = 0 := (mem_radSubmodule B).1 hu
+      have hu0 : (B u) y = 0 := by rw [h0]; rfl
+      have hyu : (B y) u = 0 := by rw [hsymm y u]; exact hu0
+      change QuadraticMap.polar (LinearMap.BilinMap.toQuadraticMap B) u y = 0
+      rw [LinearMap.BilinMap.polar_toQuadraticMap, hu0, hyu, add_zero]
+    have hswap := CliffordAlgebra.ι_mul_ι_add_swap (Q := quadForm B) u y
+    rw [hp, map_zero] at hswap
+    exact eq_neg_of_add_eq_zero_left hswap
+  | mul a b ha hb =>
+    rw [← mul_assoc, ha, mul_assoc, hb, ← mul_assoc, ← map_mul]
+  | add a b ha hb =>
+    rw [mul_add, ha, hb, map_add, add_mul]
+
+/-- The canonical isometry `Cl(V) → Cl(V ⧸ rad B)` underlying the quotient map on `V`. -/
+noncomputable def radQuotIsometry (hsymm : ∀ x y, B x y = B y x) :
+    (quadForm B) →qᵢ (quadForm (radQuotForm B hsymm)) where
+  toLinearMap := (radSubmodule B).mkQ
+  map_app' v := by
+    change LinearMap.BilinMap.toQuadraticMap (radQuotForm B hsymm) ((radSubmodule B).mkQ v)
+      = LinearMap.BilinMap.toQuadraticMap B v
+    rw [LinearMap.BilinMap.toQuadraticMap_apply, LinearMap.BilinMap.toQuadraticMap_apply,
+      radQuotForm_mk_mk]
+
+/-- The two-sided ideal of `Cl(V)` generated by `ι v` for `v` in the radical of `B`. This is the
+kernel of the map to `Cl(V ⧸ rad B)` and, when `B` is symmetric, equals the Jacobson radical. -/
+noncomputable def radIdeal : Ideal (CliffAlg B) :=
+  Ideal.span (CliffordAlgebra.ι (quadForm B) '' (radSubmodule B : Set V))
+
+omit [FiniteDimensional ℂ V] in
+theorem ι_mem_radIdeal {u : V} (hu : u ∈ radSubmodule B) :
+    CliffordAlgebra.ι (quadForm B) u ∈ radIdeal B :=
+  Ideal.subset_span ⟨u, hu, rfl⟩
+
+omit [FiniteDimensional ℂ V] in
+/-- `radIdeal B` is a two-sided ideal: using `ι_rad_mul`, `ι u * z` is a left multiple of `ι u`. -/
+theorem radIdeal_isTwoSided (hsymm : ∀ x y, B x y = B y x) : (radIdeal B).IsTwoSided := by
+  -- `T`: the left ideal of elements that stay in `radIdeal` after right multiplication.
+  let T : Submodule (CliffAlg B) (CliffAlg B) :=
+    { carrier := {x | ∀ c, x * c ∈ radIdeal B}
+      add_mem' := fun {x y} hx hy c => by rw [add_mul]; exact (radIdeal B).add_mem (hx c) (hy c)
+      zero_mem' := fun c => by rw [zero_mul]; exact (radIdeal B).zero_mem
+      smul_mem' := fun r x hx c => by
+        rw [smul_eq_mul, mul_assoc]; exact (radIdeal B).mul_mem_left r (hx c) }
+  have hsub : radIdeal B ≤ T := by
+    rw [radIdeal, Ideal.span_le]
+    rintro _ ⟨u, hu, rfl⟩ c
+    rw [ι_rad_mul B hsymm hu c]
+    exact (radIdeal B).mul_mem_left _ (ι_mem_radIdeal B hu)
+  exact ⟨fun {a} b ha => hsub ha b⟩
+
+omit [FiniteDimensional ℂ V] in
+/-- The kernel of the algebra map `Cl(V) → Cl(V ⧸ rad B)` is exactly the ideal generated by
+`ι(rad B)`. The hard inclusion `ker ⊆ radIdeal` is a retraction: the algebra map
+`Cl(V ⧸ rad B) → Cl(V)/radIdeal` sending `ι v̄ ↦ [ι v]` (well-defined since `ι` of a radical
+vector lands in `radIdeal`) is a left inverse to `Cl(V) → Cl(V ⧸ rad B)`. -/
+theorem ker_map_radQuotIsometry (hsymm : ∀ x y, B x y = B y x) :
+    RingHom.ker (CliffordAlgebra.map (radQuotIsometry B hsymm)).toRingHom = radIdeal B := by
+  haveI hTS : (radIdeal B).IsTwoSided := radIdeal_isTwoSided B hsymm
+  set φ0 := CliffordAlgebra.map (radQuotIsometry B hsymm) with hφ0
+  set mkq := Ideal.Quotient.mkₐ ℂ (radIdeal B) with hmkq
+  refine le_antisymm ?_ ?_
+  · -- `ker φ0 ⊆ radIdeal`, via the retraction `h`.
+    have hker_le : radSubmodule B ≤
+        LinearMap.ker (mkq.toLinearMap.comp (CliffordAlgebra.ι (quadForm B))) := by
+      intro u hu
+      rw [LinearMap.mem_ker, LinearMap.comp_apply, AlgHom.toLinearMap_apply, hmkq,
+        Ideal.Quotient.mkₐ_eq_mk, Ideal.Quotient.eq_zero_iff_mem]
+      exact ι_mem_radIdeal B hu
+    set k := (radSubmodule B).liftQ (mkq.toLinearMap.comp (CliffordAlgebra.ι (quadForm B)))
+      hker_le with hk
+    have hkv : ∀ v : V, k ((radSubmodule B).mkQ v) = mkq (CliffordAlgebra.ι (quadForm B) v) := by
+      intro v
+      rw [hk, Submodule.mkQ_apply, Submodule.liftQ_apply, LinearMap.comp_apply,
+        AlgHom.toLinearMap_apply]
+    have hcond : ∀ w, k w * k w =
+        algebraMap ℂ (CliffAlg B ⧸ radIdeal B) (quadForm (radQuotForm B hsymm) w) := by
+      intro w
+      obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective w
+      have hq : quadForm (radQuotForm B hsymm) ((radSubmodule B).mkQ v) = quadForm B v := by
+        change LinearMap.BilinMap.toQuadraticMap (radQuotForm B hsymm) ((radSubmodule B).mkQ v)
+          = LinearMap.BilinMap.toQuadraticMap B v
+        rw [LinearMap.BilinMap.toQuadraticMap_apply, LinearMap.BilinMap.toQuadraticMap_apply,
+          radQuotForm_mk_mk]
+      rw [hkv, hq, ← map_mul, CliffordAlgebra.ι_sq_scalar]
+      exact mkq.commutes _
+    set h := CliffordAlgebra.lift (quadForm (radQuotForm B hsymm)) ⟨k, hcond⟩ with hh
+    have hcomp : h.comp φ0 = mkq := by
+      apply CliffordAlgebra.hom_ext
+      ext v
+      simp only [AlgHom.toLinearMap_apply, LinearMap.comp_apply, AlgHom.comp_apply]
+      rw [hφ0, CliffordAlgebra.map_apply_ι, hh, CliffordAlgebra.lift_ι_apply]
+      exact hkv v
+    intro x hx
+    rw [RingHom.mem_ker] at hx
+    have hx0 : mkq x = 0 := by
+      have hcx := congrArg (fun f : CliffAlg B →ₐ[ℂ] _ => f x) hcomp
+      simp only [AlgHom.comp_apply] at hcx
+      rw [← hcx]
+      change h (φ0 x) = 0
+      rw [show φ0 x = 0 from hx, map_zero]
+    rwa [hmkq, Ideal.Quotient.mkₐ_eq_mk, Ideal.Quotient.eq_zero_iff_mem] at hx0
+  · -- `radIdeal ⊆ ker φ0`: each generator `ι u` maps to `ι 0 = 0`.
+    have hsub : (CliffordAlgebra.ι (quadForm B) '' (radSubmodule B : Set V)) ⊆
+        (RingHom.ker φ0.toRingHom : Set (CliffAlg B)) := by
+      rintro _ ⟨u, hu, rfl⟩
+      rw [SetLike.mem_coe, RingHom.mem_ker]
+      change φ0 (CliffordAlgebra.ι (quadForm B) u) = 0
+      rw [hφ0, CliffordAlgebra.map_apply_ι]
+      have hu0 : (radQuotIsometry B hsymm) u = 0 := by
+        change (radSubmodule B).mkQ u = 0
+        rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]; exact hu
+      rw [hu0, map_zero]
+    exact Ideal.span_le.mpr hsub
+
+omit [FiniteDimensional ℂ V] in
+/-- Each generator `ι u` of `radIdeal` (with `u` in the radical) lies in the Jacobson radical:
+`a := ι u` squares to zero and satisfies `a r a = 0`, so for a maximal left ideal `M` with `a ∉ M`
+one writes `1 = m + r a` with `m = 1 - r a` a unit (inverse `1 + r a`), contradicting `M ≠ ⊤`. -/
+theorem ι_mem_jacobson (hsymm : ∀ x y, B x y = B y x) {u : V} (hu : u ∈ radSubmodule B) :
+    CliffordAlgebra.ι (quadForm B) u ∈ Ring.jacobson (CliffAlg B) := by
+  set a : CliffAlg B := CliffordAlgebra.ι (quadForm B) u with ha
+  have haa : a * a = 0 := by
+    have hQu : quadForm B u = 0 := by
+      have h0 : B u = 0 := (mem_radSubmodule B).1 hu
+      change LinearMap.BilinMap.toQuadraticMap B u = 0
+      rw [LinearMap.BilinMap.toQuadraticMap_apply, h0, LinearMap.zero_apply]
+    rw [ha, CliffordAlgebra.ι_sq_scalar, hQu, map_zero]
+  have hara : ∀ r : CliffAlg B, a * r * a = 0 := by
+    intro r
+    have hkey : a * r = CliffordAlgebra.involute r * a := ι_rad_mul B hsymm hu r
+    rw [hkey, mul_assoc, haa, mul_zero]
+  rw [Ring.jacobson_eq_sInf_isMaximal]
+  refine Ideal.mem_sInf.mpr (fun {M} hM => ?_)
+  rw [Set.mem_setOf_eq] at hM
+  by_contra haM
+  have hlt : M < M ⊔ Ideal.span {a} := by
+    refine lt_of_le_of_ne le_sup_left (fun heq => haM ?_)
+    have hain : a ∈ M ⊔ Ideal.span {a} :=
+      Submodule.mem_sup_right (Ideal.mem_span_singleton_self a)
+    rwa [← heq] at hain
+  have hsup : M ⊔ Ideal.span {a} = ⊤ := (Ideal.isMaximal_def.1 hM).2 _ hlt
+  have h1 : (1 : CliffAlg B) ∈ M ⊔ Ideal.span {a} := hsup ▸ Submodule.mem_top
+  rw [Submodule.mem_sup] at h1
+  obtain ⟨m, hmM, n, hn, hmn⟩ := h1
+  obtain ⟨r, hr⟩ := Ideal.mem_span_singleton'.mp hn
+  have hm_eq : m = 1 - r * a := by rw [← hr] at hmn; exact eq_sub_of_add_eq hmn
+  have h0 : r * a * r * a = 0 := by
+    have e : r * a * r * a = r * (a * r * a) := by noncomm_ring
+    rw [e, hara r, mul_zero]
+  have hunit : IsUnit m := by
+    rw [hm_eq]
+    have hval : (1 - r * a) * (1 + r * a) = 1 := by
+      have e : (1 - r * a) * (1 + r * a) = 1 - r * a * r * a := by noncomm_ring
+      rw [e, h0, sub_zero]
+    have hinv : (1 + r * a) * (1 - r * a) = 1 := by
+      have e : (1 + r * a) * (1 - r * a) = 1 - r * a * r * a := by noncomm_ring
+      rw [e, h0, sub_zero]
+    exact ⟨⟨1 - r * a, 1 + r * a, hval, hinv⟩, rfl⟩
+  exact hM.ne_top (Ideal.eq_top_of_isUnit_mem M hmM hunit)
+
+/-- The ideal `radIdeal B` generated by `ι(rad B)` equals the Jacobson radical of `Cl(V)`.
+`radIdeal ≤ jacobson` since its generators lie in the radical (`ι_mem_jacobson`); the reverse holds
+because `Cl(V)/radIdeal ≅ Cl(V ⧸ rad B)` is semisimple (`isSemisimpleRing_of_nondegenerate`), so
+the radical is killed by the surjection to it. -/
+theorem radIdeal_eq_jacobson (hsymm : ∀ x y, B x y = B y x) :
+    radIdeal B = Ring.jacobson (CliffAlg B) := by
+  refine le_antisymm ?_ ?_
+  · change Ideal.span (CliffordAlgebra.ι (quadForm B) '' (radSubmodule B : Set V)) ≤ _
+    rw [Ideal.span_le]
+    rintro _ ⟨u, hu, rfl⟩
+    exact ι_mem_jacobson B hsymm hu
+  · haveI hss : IsSemisimpleRing (CliffAlg (radQuotForm B hsymm)) :=
+      isSemisimpleRing_of_nondegenerate (radQuotForm B hsymm) (radQuotForm_isSymm B hsymm)
+        (radQuotForm_nondegenerate B hsymm)
+    set φ0 := CliffordAlgebra.map (radQuotIsometry B hsymm) with hφ0
+    haveI hsurj : RingHomSurjective φ0.toRingHom :=
+      ⟨CliffordAlgebra.map_surjective (radQuotIsometry B hsymm)
+        (Submodule.mkQ_surjective (radSubmodule B))⟩
+    let fsl : CliffAlg B →ₛₗ[φ0.toRingHom] (CliffAlg (radQuotForm B hsymm)) :=
+      { toFun := φ0
+        map_add' := map_add φ0
+        map_smul' := fun r x => by rw [smul_eq_mul, smul_eq_mul]; exact map_mul φ0 r x }
+    have hle := IsSemisimpleModule.jacobson_le_ker (f := fsl)
+    rw [← ker_map_radQuotIsometry B hsymm]
+    intro x hx
+    rw [RingHom.mem_ker]
+    have hxk : x ∈ LinearMap.ker fsl := hle hx
+    rwa [LinearMap.mem_ker] at hxk
+
 /-- **Problem 3.9.5(ii), the degenerate quotient.** If `B` is degenerate, the semisimple
 quotient `Cl(V) / Rad(Cl(V))` is the Clifford algebra of a nondegenerate form `B'` on the
 quotient of `V` by the radical of `B`. Phrased as: there is a nondegenerate symmetric form
@@ -655,6 +912,55 @@ theorem radicalQuotient_isClifford_of_degenerate
       (∀ x y, B' x y = B' y x) ∧ B'.Nondegenerate ∧
       ∃ φ : CliffAlg B →ₐ[ℂ] CliffordAlgebra (quadForm B'),
         Function.Surjective φ ∧ RingHom.ker φ.toRingHom = Ring.jacobson (CliffAlg B) := by
-  sorry
+  classical
+  set U := radSubmodule B with hU
+  set n := Module.finrank ℂ (V ⧸ U) with hn
+  -- A `Type`-universe model `Fin n → ℂ` of `V ⧸ rad B`, and the transported form.
+  let e : (V ⧸ U) ≃ₗ[ℂ] (Fin n → ℂ) := (Module.finBasis ℂ (V ⧸ U)).equivFun
+  let B' : LinearMap.BilinForm ℂ (Fin n → ℂ) :=
+    (radQuotForm B hsymm).compl₁₂ e.symm.toLinearMap e.symm.toLinearMap
+  have hB'_apply : ∀ x y, B' x y = radQuotForm B hsymm (e.symm x) (e.symm y) :=
+    fun x y => LinearMap.compl₁₂_apply _ _ _ _ _
+  have hB'_symm : ∀ x y, B' x y = B' y x := fun x y => by
+    rw [hB'_apply, hB'_apply, radQuotForm_isSymm]
+  have hL : B'.SeparatingLeft := by
+    intro x hx
+    have hxr : ∀ w, radQuotForm B hsymm (e.symm x) w = 0 := by
+      intro w
+      have := hx (e w)
+      rwa [hB'_apply, LinearEquiv.symm_apply_apply] at this
+    have hx0 : e.symm x = 0 := (radQuotForm_nondegenerate B hsymm).1 _ hxr
+    have := congrArg e hx0
+    rwa [LinearEquiv.apply_symm_apply, map_zero] at this
+  have hB'_nondeg : B'.Nondegenerate :=
+    ⟨hL, fun y hy => hL y fun w => (hB'_symm y w).trans (hy w)⟩
+  -- Isometry equivalence `Cl(V ⧸ rad B) ≅ Cl(W, B')`.
+  let eqv : (quadForm (radQuotForm B hsymm)).IsometryEquiv (quadForm B') :=
+    { toLinearEquiv := e
+      map_app' := fun w => by
+        change LinearMap.BilinMap.toQuadraticMap B' (e w)
+          = LinearMap.BilinMap.toQuadraticMap (radQuotForm B hsymm) w
+        rw [LinearMap.BilinMap.toQuadraticMap_apply, LinearMap.BilinMap.toQuadraticMap_apply,
+          hB'_apply, LinearEquiv.symm_apply_apply] }
+  let e_alg := CliffordAlgebra.equivOfIsometry eqv
+  set φ0 := CliffordAlgebra.map (radQuotIsometry B hsymm) with hφ0
+  refine ⟨Fin n → ℂ, inferInstance, inferInstance, B', hB'_symm, hB'_nondeg,
+    e_alg.toAlgHom.comp φ0, ?_, ?_⟩
+  · -- surjective: composite of surjections
+    have h0 : Function.Surjective φ0 :=
+      CliffordAlgebra.map_surjective _ (Submodule.mkQ_surjective U)
+    exact e_alg.surjective.comp h0
+  · -- kernel: post-composing with the iso `e_alg` does not change the kernel
+    have hkereq : RingHom.ker (e_alg.toAlgHom.comp φ0).toRingHom = RingHom.ker φ0.toRingHom := by
+      ext x
+      rw [RingHom.mem_ker, RingHom.mem_ker]
+      constructor
+      · intro h
+        have hx : e_alg (φ0 x) = 0 := h
+        exact (map_eq_zero_iff e_alg e_alg.injective).1 hx
+      · intro h
+        change e_alg (φ0 x) = 0
+        rw [show φ0 x = 0 from h, map_zero]
+    rw [hkereq, ker_map_radQuotIsometry B hsymm, radIdeal_eq_jacobson B hsymm]
 
 end Etingof.Problem3_9_5
