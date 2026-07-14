@@ -5,6 +5,8 @@ import Mathlib.Algebra.Category.ModuleCat.Adjunctions
 import Mathlib.Algebra.Category.Grp.EpiMono
 import Mathlib.Algebra.Homology.ShortComplex.Retract
 import Mathlib.Algebra.Homology.ShortComplex.Ab
+import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
+import Mathlib.CategoryTheory.Abelian.LeftDerived
 import Mathlib.LinearAlgebra.Finsupp.LSum
 import Mathlib.Algebra.BigOperators.Finsupp.Basic
 
@@ -398,5 +400,31 @@ theorem tensorLeftFunctor_map_shortExact (P : ModuleCat.{u} Aᵐᵒᵖ) [Project
       r := ε
       retract := Projective.factorThru_comp (𝟙 P) ε }
   exact shortExact_of_retract (mapRetract A h) (free_map_shortExact A _ hS)
+
+/-- **Higher `Tor` (balancing side) vanishes on projective right modules.** The `(n+1)`-st left
+derived functor of `P ⊗_A -` (`tensorLeftFunctor A P`) vanishes at every left `A`-module `N` when
+the right module `P` is projective. Since `P ⊗_A -` is exact (`tensorLeftFunctor_map_shortExact`),
+applying it to a projective resolution of `N` keeps the resolution exact in positive degrees, so its
+homology — the derived functor — vanishes above degree `0`. This is the balancing-side vanishing
+input to the balancing theorem (Problem 8.2.6(iv)), matching the `Etingof.Tor`-side vanishing
+`Functor.isZero_leftDerived_obj_projective_succ`. -/
+lemma isZero_tensorLeftFunctor_leftDerived_succ
+    (P : ModuleCat.{u} Aᵐᵒᵖ) [Projective P]
+    (N : Type u) [AddCommGroup N] [Module A N] (n : ℕ) :
+    IsZero ((Functor.leftDerived (tensorLeftFunctor A P) (n + 1)).obj (ModuleCat.of A N)) := by
+  -- `P ⊗_A -` is exact, hence preserves homology.
+  haveI : (tensorLeftFunctor A P).PreservesHomology :=
+    ((Functor.exact_tfae (tensorLeftFunctor A P)).out 0 2).mp
+      (fun _ hS => tensorLeftFunctor_map_shortExact A P hS)
+  -- Compute the derived functor from a projective resolution of `N`.
+  let R : ProjectiveResolution (ModuleCat.of A N) := ProjectiveResolution.of _
+  refine IsZero.of_iso ?_ (R.isoLeftDerivedObj (tensorLeftFunctor A P) (n + 1))
+  rw [HomologicalComplex.homologyFunctor_obj, ← HomologicalComplex.exactAt_iff_isZero_homology,
+    HomologicalComplex.exactAt_iff]
+  -- The resolution is exact in positive degrees; an exact functor preserves that exactness.
+  have hex : (R.complex.sc (n + 1)).Exact := by
+    have := R.complex_exactAt_succ n
+    rwa [HomologicalComplex.exactAt_iff] at this
+  exact hex.map (tensorLeftFunctor A P)
 
 end Etingof
