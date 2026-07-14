@@ -80,7 +80,8 @@ noncomputable def L (q : ℂˣ) : Uqsl2 q := mk q fL
 @[simp] lemma Kf_rel (q : ℂˣ) : K q * f q = ((q : ℂ) ^ 2)⁻¹ • (f q * K q) := by
   have h := RingQuot.mkAlgHom_rel ℂ (Rel.Kf (q := q)); simp only [map_mul, map_smul] at h; exact h
 
-/-- `(q - q⁻¹)·(e f - f e) = K - L`, the cleared-denominator form of `[e, f] = (K - K⁻¹)/(q - q⁻¹)`. -/
+/-- `(q - q⁻¹)·(e f - f e) = K - L`, the cleared-denominator form of
+`[e, f] = (K - K⁻¹)/(q - q⁻¹)`. -/
 @[simp] lemma ef_rel (q : ℂˣ) :
     ((q : ℂ) - (q : ℂ)⁻¹) • (e q * f q - f q * e q) = K q - L q := by
   have h := RingQuot.mkAlgHom_rel ℂ (Rel.ef (q := q))
@@ -114,8 +115,10 @@ noncomputable def Kop : Module.End ℂ V where
   map_add' := by intro x y; simp [smul_add]
   map_smul' := by intro c v; exact smul_comm (K q) c v
 
+omit [FiniteDimensional ℂ V] in
 @[simp] lemma Kop_apply (v : V) : Kop q V v = K q • v := rfl
 
+omit [FiniteDimensional ℂ V] in
 /-- If `w` is a `K`-eigenvector with eigenvalue `μ`, then `e • w` is `0` or a `K`-eigenvector
 with eigenvalue `q²·μ` (from the relation `K e = q²·(e K)`). -/
 lemma e_eigenvalue_shift (μ : ℂ) (w : V) (hw : Kop q V w = μ • w) :
@@ -124,6 +127,7 @@ lemma e_eigenvalue_shift (μ : ℂ) (w : V) (hw : Kop q V w = μ • w) :
   have h1 : K q • (e q • w) = (K q * e q) • w := by rw [mul_smul]
   rw [h1, Ke_rel, smul_assoc, mul_smul, hw, smul_comm (e q) μ w, smul_smul]
 
+omit [FiniteDimensional ℂ V] in
 /-- `K` acts invertibly (`K·L = 1`), so `0` is not an eigenvalue of `Kop`. -/
 lemma eigenvalue_ne_zero (μ : ℂ) (hμ : (Kop q V).HasEigenvalue μ) : μ ≠ 0 := by
   rintro rfl
@@ -222,8 +226,10 @@ noncomputable def ladder (v : V) (i : ℕ) : V := (f q) ^ i • v
 /-- The `K`-eigenvalue of the `i`-th ladder vector, given `K • v = lam • v`: `lam · q^{-2i}`. -/
 noncomputable def mu (lam : ℂ) (i : ℕ) : ℂ := lam * (((q : ℂ) ^ 2)⁻¹) ^ i
 
+omit [Module ℂ V] [IsScalarTower ℂ (Uqsl2 q) V] in
 @[simp] lemma ladder_zero (v : V) : ladder q V v 0 = v := by simp [ladder]
 
+omit [Module ℂ V] [IsScalarTower ℂ (Uqsl2 q) V] in
 lemma ladder_succ (v : V) (i : ℕ) : ladder q V v (i + 1) = f q • ladder q V v i := by
   simp only [ladder, pow_succ', mul_smul]
 
@@ -433,7 +439,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
   -- Termination: some ladder vector vanishes (else infinitely many independent eigenvectors).
   have hex : ∃ i, ladder q V v i = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLI : LinearIndependent ℂ (ladder q V v) :=
       Module.End.eigenvectors_linearIndependent' (Kop q V) (mu q lam)
         (mu_inj q hq lam hlam) (ladder q V v)
@@ -490,7 +496,7 @@ theorem highest_weight_eigenvalue_of_not_isOfFinOrder (q : ℂˣ) (hq : ¬ IsOfF
       smul_mem' := fun a x hx => smul_mem_of_generators q V W (clOf (e q) heW)
         (clOf (f q) hfW) (clOf (K q) hKW) (clOf (L q) hLW) a x hx }
   have hv_mem : v ∈ W' := by
-    show v ∈ W
+    change v ∈ W
     have := hiW 0; rwa [ladder_zero] at this
   have hne : W' ≠ ⊥ := by
     intro hbot
