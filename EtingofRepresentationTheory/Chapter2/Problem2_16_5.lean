@@ -326,6 +326,56 @@ lemma mu_inj (hq : ¬ IsOfFinOrder q) (lam : ℂ) (hlam : lam ≠ 0) :
 
 end Ladder
 
+/-- The vanishing of the telescoping coefficient `dcoef q lam N` forces the highest-weight
+constraint `lam² = q^{2N}` (the non-root-of-unity quantum highest weight condition). The sum
+`∑_{j=0}^N (mu j - mu j⁻¹)` factors as `SA · (lam - lam⁻¹·q^{2N})` with `SA ≠ 0`. -/
+lemma dcoef_eq_zero_imp (q : ℂˣ) (hq : ¬ IsOfFinOrder q) (lam : ℂ) (hlam : lam ≠ 0) (N : ℕ)
+    (h : dcoef q lam N = 0) : lam ^ 2 = (q : ℂ) ^ (2 * N) := by
+  have hqne : (q : ℂ) ≠ 0 := q.ne_zero
+  have htne : (q : ℂ) ^ 2 ≠ 0 := pow_ne_zero _ hqne
+  have hc : ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ ≠ 0 := inv_ne_zero (q_sub_inv_ne q hq)
+  rw [dcoef, ← Finset.mul_sum] at h
+  have hS : ∑ j ∈ Finset.range (N + 1), (mu q lam j - (mu q lam j)⁻¹) = 0 :=
+    (mul_eq_zero.mp h).resolve_left hc
+  have hSexpand : ∑ j ∈ Finset.range (N + 1), (mu q lam j - (mu q lam j)⁻¹)
+      = lam * (∑ j ∈ Finset.range (N + 1), (((q : ℂ) ^ 2)⁻¹) ^ j)
+        - lam⁻¹ * (∑ j ∈ Finset.range (N + 1), ((q : ℂ) ^ 2) ^ j) := by
+    rw [Finset.mul_sum, Finset.mul_sum, ← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [mu, mul_inv, inv_pow, inv_inv]
+  rw [hSexpand] at hS
+  set SA : ℂ := ∑ j ∈ Finset.range (N + 1), (((q : ℂ) ^ 2)⁻¹) ^ j with hSA
+  set SB : ℂ := ∑ j ∈ Finset.range (N + 1), ((q : ℂ) ^ 2) ^ j with hSB
+  have hSB_ne : SB ≠ 0 := by
+    intro h0
+    have hgeom : SB * ((q : ℂ) ^ 2 - 1) = ((q : ℂ) ^ 2) ^ (N + 1) - 1 := by
+      rw [hSB]; exact geom_sum_mul _ _
+    rw [h0, zero_mul] at hgeom
+    have hX : ((q : ℂ) ^ 2) ^ (N + 1) = 1 := sub_eq_zero.mp hgeom.symm
+    exact qpow_ne_one q hq (n := 2 * (N + 1)) (by omega) (by rw [pow_mul]; exact hX)
+  have hkey : SA * ((q : ℂ) ^ 2) ^ N = SB := by
+    rw [hSA, hSB, Finset.sum_mul,
+      ← Finset.sum_range_reflect (fun j => ((q : ℂ) ^ 2) ^ j) (N + 1)]
+    apply Finset.sum_congr rfl
+    intro j hj
+    rw [Finset.mem_range] at hj
+    have hjN : j ≤ N := by omega
+    rw [inv_pow, show (N + 1) - 1 - j = N - j by omega, pow_sub₀ _ htne hjN]
+    exact mul_comm _ _
+  have hSA_ne : SA ≠ 0 := by
+    intro h0; rw [h0, zero_mul] at hkey; exact hSB_ne hkey.symm
+  rw [← hkey] at hS
+  have hfact : SA * (lam - lam⁻¹ * ((q : ℂ) ^ 2) ^ N) = 0 := by linear_combination hS
+  have hlin : lam - lam⁻¹ * ((q : ℂ) ^ 2) ^ N = 0 :=
+    (mul_eq_zero.mp hfact).resolve_left hSA_ne
+  have h2 := sub_eq_zero.mp hlin
+  have hlam2 : lam ^ 2 = ((q : ℂ) ^ 2) ^ N := by
+    rw [sq]
+    nth_rewrite 2 [h2]
+    rw [← mul_assoc, mul_inv_cancel₀ hlam, one_mul]
+  rw [pow_mul]; exact hlam2
+
 /-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
 irreducible representation is determined up to isomorphism by its dimension together with a
 sign `ε ∈ {±1}`: on a highest weight vector `v` of an `(n+1)`-dimensional irreducible, `K`
