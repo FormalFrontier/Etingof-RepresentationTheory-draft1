@@ -1,5 +1,7 @@
 import Mathlib.Algebra.Group.Idempotent
+import Mathlib.Algebra.GroupWithZero.Idempotent
 import Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts
+import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.RingTheory.FiniteLength
 import EtingofRepresentationTheory.Chapter9.Definition9_5_1
 import EtingofRepresentationTheory.Chapter9.Problem9_5_3_CompositionFactor
@@ -51,9 +53,57 @@ def IsIndecomposableCentralIdempotent (e : R) : Prop :=
     ¬ ∃ e₁ e₂ : R, e₁ ≠ 0 ∧ e₂ ≠ 0 ∧ IsIdempotentElem e₁ ∧ IsIdempotentElem e₂ ∧
       (∀ y, e₁ * y = y * e₁) ∧ (∀ y, e₂ * y = y * e₂) ∧ e₁ * e₂ = 0 ∧ e = e₁ + e₂
 
-/-- **Problem 9.5.3 (i).** There is a bijection between the blocks of the category of
-(finite dimensional) `R`-modules and the indecomposable central idempotents of `R`. -/
-theorem blocks_equiv_indecomposableCentralIdempotents [Small.{v} R] :
+/-- **Central character of a simple module (Schur's lemma).** A central idempotent `e` of a
+ring `R` acts on any simple `R`-module `M` as the scalar `0` or `1`: either `e • m = 0` for all
+`m`, or `e • m = m` for all `m`.
+
+Indeed `φ : m ↦ e • m` is an `R`-linear endomorphism of `M` (centrality of `e` gives
+`φ (r • m) = r • φ m`) which is idempotent (`e² = e`). Since `M` is simple, `Module.End R M` is a
+division ring by Schur's lemma, and the only idempotents of a division ring are `0` and `1`, so
+`φ = 0` or `φ = id`.
+
+This is the building block for the block ↔ central-idempotent bijection of Problem 9.5.3(i): it
+assigns to each simple module the set of central idempotents that act on it as `1` (its "central
+character"), and linked simples turn out to share this character. The result holds for an
+arbitrary ring; no finiteness is needed here. -/
+theorem centralIdempotent_smul_simple {M : Type*} [AddCommGroup M] [Module R M]
+    [IsSimpleModule R M] {e : R} (he : IsIdempotentElem e) (hc : ∀ y : R, e * y = y * e) :
+    (∀ m : M, e • m = 0) ∨ (∀ m : M, e • m = m) := by
+  classical
+  -- `φ : m ↦ e • m` as an `R`-linear endomorphism of `M`; `R`-linearity uses centrality of `e`.
+  let φ : Module.End R M :=
+    { toFun := fun m => e • m
+      map_add' := fun m₁ m₂ => smul_add e m₁ m₂
+      map_smul' := fun r m => by simp only [RingHom.id_apply, smul_smul, hc r] }
+  -- `φ` is idempotent because `e` is.
+  have hφ : IsIdempotentElem φ := by
+    ext m
+    show e • e • m = e • m
+    rw [smul_smul, he]
+  -- `Module.End R M` is a division ring (Schur), whose only idempotents are `0` and `1`.
+  rcases IsIdempotentElem.iff_eq_zero_or_one.mp hφ with h | h
+  · left; intro m; exact LinearMap.congr_fun h m
+  · right; intro m; exact LinearMap.congr_fun h m
+
+/-- **Problem 9.5.3 (i).** For a finite dimensional algebra `R` over a field `k`, there is a
+bijection between the blocks of the category of finite dimensional `R`-modules (linkage classes
+of simple modules) and the indecomposable central idempotents of `R`.
+
+The finiteness hypothesis is essential and was missing from the original statement of this item.
+Over a general ring the two sides differ: for `R = ℤ` the simple modules `ℤ/p` are pairwise
+unlinked (`Ext¹_ℤ(ℤ/p, ℤ/q) = 0` for `p ≠ q`), so there is one block per prime — infinitely many
+— while the only indecomposable central idempotent of `ℤ` is `1`. A finiteness assumption forcing
+a `1 = Σ eₖ` decomposition into primitive central idempotents (here: `FiniteDimensional k R`) is
+what makes the two sides match. We keep the ambient ring `R` and simply add that it is a finite
+dimensional `k`-algebra, so the block API (`Etingof.Block R`, `IsIndecomposableCentralIdempotent
+R`) is unchanged.
+
+The proof (still to be filled) runs through `centralIdempotent_smul_simple`: each simple module
+has a central character (which central idempotents act as `1`), linked simples share it, and the
+primitive central idempotents `eₖ` in the decomposition `1 = Σ eₖ` are exactly the indicators of
+the blocks. -/
+theorem blocks_equiv_indecomposableCentralIdempotents
+    {k : Type*} [Field k] [Algebra k R] [FiniteDimensional k R] [Small.{v} R] :
     Nonempty (Etingof.Block.{v} R ≃ {e : R // IsIndecomposableCentralIdempotent R e}) := by
   sorry
 
