@@ -739,6 +739,374 @@ theorem Kop_isSemisimple_and_eigenvalues (q : ℂˣ) (hq : IsOfFinOrder q)
   have h2 : (μ ^ orderOf q - α) • v = 0 := by rw [sub_smul, h1, sub_self]
   exact (smul_eq_zero.mp h2).resolve_right hv0 |> sub_eq_zero.mp
 
+/-! ## Root-of-unity infrastructure: centrality of `e ^ orderOf q` and `f ^ orderOf q`
+
+At a root of unity with `q ≠ ±1` (equivalently `q² ≠ 1`) the elements `e ^ orderOf q` and
+`f ^ orderOf q` are central in `U_q(sl₂)`. Together with the already-established centrality of
+`K ^ orderOf q`, these are the three central "closed-string" scalars of the De Concini–Kac small
+quantum group; on a finite dimensional simple module each acts as a scalar (Schur). The nontrivial
+commutation is `[e ^ orderOf q, f] = 0`: the iterated commutator `[eⁿ, f]` has a coefficient that is
+a geometric sum in `q²`, and at `n = orderOf q` that sum vanishes precisely because `(q²)^{orderOf q}
+= 1` while `q² ≠ 1`.
+
+The hypothesis `q² ≠ 1` is essential and cannot be dropped: at `q = ±1` the defining relation
+`(q - q⁻¹)·(ef - fe) = K - L` degenerates (its left side vanishes), `e` and `f` become free, and
+`e ^ orderOf q` is no longer central. -/
+
+/-- `q - q⁻¹ ≠ 0` whenever `q² ≠ 1` (i.e. `q ≠ ±1`). The root-of-unity analogue of
+`q_sub_inv_ne`, which assumed `¬ IsOfFinOrder q`. -/
+lemma q_sub_inv_ne_of_sq_ne (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := by
+  intro h
+  have h2 : (q : ℂ) = (q : ℂ)⁻¹ := sub_eq_zero.mp h
+  have : (q : ℂ) ^ 2 = 1 := by rw [sq]; nth_rewrite 2 [h2]; exact mul_inv_cancel₀ q.ne_zero
+  exact hq2 this
+
+/-- `L e = q⁻²·(e L)`, the `L`-companion of `Ke_rel`. Derived by conjugating `Ke_rel` by `L`. -/
+@[simp] lemma Le_rel (q : ℂˣ) : L q * e q = ((q : ℂ) ^ 2)⁻¹ • (e q * L q) := by
+  have hq2 : ((q : ℂ) ^ 2) ≠ 0 := pow_ne_zero _ q.ne_zero
+  have key : e q * L q = ((q : ℂ) ^ 2) • (L q * e q) := by
+    have h : L q * (K q * e q) * L q = L q * (((q : ℂ) ^ 2) • (e q * K q)) * L q := by
+      rw [Ke_rel]
+    rw [mul_smul_comm, smul_mul_assoc] at h
+    rw [show L q * (K q * e q) * L q = e q * L q by
+          rw [← mul_assoc (L q) (K q) (e q), LK_rel, one_mul]] at h
+    rw [show L q * (e q * K q) * L q = L q * e q by
+          rw [mul_assoc (L q) (e q * K q) (L q), mul_assoc (e q) (K q) (L q), KL_rel, mul_one]] at h
+    exact h
+  rw [key, smul_smul, inv_mul_cancel₀ hq2, one_smul]
+
+/-- `L f = q²·(f L)`, the `L`-companion of `Kf_rel`. Derived by conjugating `Kf_rel` by `L`. -/
+@[simp] lemma Lf_rel (q : ℂˣ) : L q * f q = ((q : ℂ) ^ 2) • (f q * L q) := by
+  have key : f q * L q = ((q : ℂ) ^ 2)⁻¹ • (L q * f q) := by
+    have h : L q * (K q * f q) * L q = L q * (((q : ℂ) ^ 2)⁻¹ • (f q * K q)) * L q := by
+      rw [Kf_rel]
+    rw [mul_smul_comm, smul_mul_assoc] at h
+    rw [show L q * (K q * f q) * L q = f q * L q by
+          rw [← mul_assoc (L q) (K q) (f q), LK_rel, one_mul]] at h
+    rw [show L q * (f q * K q) * L q = L q * f q by
+          rw [mul_assoc (L q) (f q * K q) (L q), mul_assoc (f q) (K q) (L q), KL_rel, mul_one]] at h
+    exact h
+  have hq2 : ((q : ℂ) ^ 2) ≠ 0 := pow_ne_zero _ q.ne_zero
+  rw [key, smul_smul, mul_inv_cancel₀ hq2, one_smul]
+
+/-- The commutator `[e, f] = (K - L)/(q - q⁻¹)` in un-cleared form, valid once `q ≠ ±1`. -/
+lemma ef_diff (q : ℂˣ) (hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) :
+    e q * f q = f q * e q + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹) • (K q - L q) := by
+  have h := ef_rel q
+  have hd : e q * f q - f q * e q = (((q : ℂ) - (q : ℂ)⁻¹)⁻¹) • (K q - L q) := by
+    rw [← h, inv_smul_smul₀ hq']
+  rw [← hd]; abel
+
+/-- `K` commutes past `eⁿ` with a `q^{2n}` twist: `K · eⁿ = (q²)ⁿ · (eⁿ · K)`. -/
+lemma K_mul_epow (q : ℂˣ) (n : ℕ) :
+    K q * e q ^ n = (((q : ℂ) ^ 2) ^ n) • (e q ^ n * K q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (e q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (e q ^ n) (K q) (e q),
+        Ke_rel, mul_smul_comm, smul_smul, ← mul_assoc (e q ^ n) (e q) (K q),
+        ← pow_succ ((q : ℂ) ^ 2) n]
+
+/-- `L` commutes past `eⁿ` with a `q^{-2n}` twist: `L · eⁿ = (q⁻²)ⁿ · (eⁿ · L)`. -/
+lemma L_mul_epow (q : ℂˣ) (n : ℕ) :
+    L q * e q ^ n = ((((q : ℂ) ^ 2)⁻¹) ^ n) • (e q ^ n * L q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (e q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (e q ^ n) (L q) (e q),
+        Le_rel, mul_smul_comm, smul_smul, ← mul_assoc (e q ^ n) (e q) (L q),
+        ← pow_succ (((q : ℂ) ^ 2)⁻¹) n]
+
+/-- `K` commutes past `fⁿ` with a `q^{-2n}` twist: `K · fⁿ = (q⁻²)ⁿ · (fⁿ · K)`. -/
+lemma K_mul_fpow (q : ℂˣ) (n : ℕ) :
+    K q * f q ^ n = ((((q : ℂ) ^ 2)⁻¹) ^ n) • (f q ^ n * K q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (f q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (f q ^ n) (K q) (f q),
+        Kf_rel, mul_smul_comm, smul_smul, ← mul_assoc (f q ^ n) (f q) (K q),
+        ← pow_succ (((q : ℂ) ^ 2)⁻¹) n]
+
+/-- `L` commutes past `fⁿ` with a `q^{2n}` twist: `L · fⁿ = (q²)ⁿ · (fⁿ · L)`. -/
+lemma L_mul_fpow (q : ℂˣ) (n : ℕ) :
+    L q * f q ^ n = (((q : ℂ) ^ 2) ^ n) • (f q ^ n * L q) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [pow_succ (f q) n, ← mul_assoc, ih, smul_mul_assoc, mul_assoc (f q ^ n) (L q) (f q),
+        Lf_rel, mul_smul_comm, smul_smul, ← mul_assoc (f q ^ n) (f q) (L q),
+        ← pow_succ ((q : ℂ) ^ 2) n]
+
+/-- Iterated commutator formula: `[eⁿ⁺¹, f]` reduces to `eⁿ` times an explicit `K`/`L`
+combination whose scalar coefficients are geometric sums in `q²`. Requires `q ≠ ±1` (so that the
+commutator `[e, f] = (K - L)/(q - q⁻¹)` is well-defined). -/
+lemma e_pow_mul_f (q : ℂˣ) (hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) (n : ℕ) :
+    e q ^ (n + 1) * f q
+      = f q * e q ^ (n + 1)
+        + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * ∑ k ∈ Finset.range (n + 1), ((q : ℂ) ^ 2) ^ k)
+            • (e q ^ n * K q)
+        - (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * ∑ k ∈ Finset.range (n + 1), (((q : ℂ) ^ 2)⁻¹) ^ k)
+            • (e q ^ n * L q) := by
+  induction n with
+  | zero =>
+    simp only [zero_add, pow_one, pow_zero, one_mul, mul_one, Finset.range_one,
+      Finset.sum_singleton]
+    rw [ef_diff q hq', smul_sub]
+    abel
+  | succ n ih =>
+    have hAK : e q * (e q ^ n * K q) = e q ^ (n + 1) * K q := by
+      rw [← mul_assoc, ← pow_succ' (e q) n]
+    have hAL : e q * (e q ^ n * L q) = e q ^ (n + 1) * L q := by
+      rw [← mul_assoc, ← pow_succ' (e q) n]
+    have key : e q * (f q * e q ^ (n + 1))
+        = f q * e q ^ (n + 1 + 1)
+          + ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • (K q * e q ^ (n + 1))
+          - ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • (L q * e q ^ (n + 1)) := by
+      rw [← mul_assoc, ef_diff q hq', add_mul, smul_mul_assoc, sub_mul, smul_sub,
+        mul_assoc (f q) (e q) (e q ^ (n + 1)), ← pow_succ' (e q) (n + 1)]
+      abel
+    rw [Finset.sum_range_succ (fun k => ((q : ℂ) ^ 2) ^ k) (n + 1),
+        Finset.sum_range_succ (fun k => (((q : ℂ) ^ 2)⁻¹) ^ k) (n + 1)]
+    conv_lhs =>
+      rw [pow_succ' (e q) (n + 1), mul_assoc (e q) (e q ^ (n + 1)) (f q), ih,
+        mul_sub, mul_add, mul_smul_comm, mul_smul_comm, key, hAK, hAL,
+        K_mul_epow q (n + 1), L_mul_epow q (n + 1)]
+    module
+
+/-- `[e ^ orderOf q, f] = 0` at a root of unity with `q ≠ ±1`. The geometric-sum coefficients in
+`e_pow_mul_f` vanish at `n = orderOf q` because `(q²)^{orderOf q} = 1` and `q² ≠ 1`. -/
+lemma epow_orderOf_mul_f (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) :
+    e q ^ orderOf q * f q = f q * e q ^ orderOf q := by
+  have hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
+  rcases Nat.eq_zero_or_pos (orderOf q) with h0 | hpos
+  · rw [h0, pow_zero, one_mul, mul_one]
+  · obtain ⟨m, hm⟩ : ∃ m, orderOf q = m + 1 := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+    rw [hm]
+    have h1 : ((q : ℂ) ^ 2) ^ (m + 1) = 1 := by rw [← hm]; exact sq_pow_orderOf_eq_one q
+    have hSA : (∑ k ∈ Finset.range (m + 1), ((q : ℂ) ^ 2) ^ k) = 0 := by
+      have hgeom : (∑ k ∈ Finset.range (m + 1), ((q : ℂ) ^ 2) ^ k) * ((q : ℂ) ^ 2 - 1)
+          = ((q : ℂ) ^ 2) ^ (m + 1) - 1 := geom_sum_mul _ _
+      rw [h1, sub_self] at hgeom
+      exact (mul_eq_zero.mp hgeom).resolve_right (sub_ne_zero.mpr hq2)
+    have hSB : (∑ k ∈ Finset.range (m + 1), (((q : ℂ) ^ 2)⁻¹) ^ k) = 0 := by
+      have h1' : (((q : ℂ) ^ 2)⁻¹) ^ (m + 1) = 1 := by rw [inv_pow, h1, inv_one]
+      have hgeom : (∑ k ∈ Finset.range (m + 1), (((q : ℂ) ^ 2)⁻¹) ^ k) * (((q : ℂ) ^ 2)⁻¹ - 1)
+          = (((q : ℂ) ^ 2)⁻¹) ^ (m + 1) - 1 := geom_sum_mul _ _
+      rw [h1', sub_self] at hgeom
+      exact (mul_eq_zero.mp hgeom).resolve_right
+        (sub_ne_zero.mpr (fun h => hq2 (inv_eq_one.mp h)))
+    rw [e_pow_mul_f q hq' m, hSA, hSB]
+    simp
+
+/-- `e ^ orderOf q` commutes with `K` (twist `(q²)^{orderOf q} = 1`). -/
+lemma epow_orderOf_mul_K (q : ℂˣ) : e q ^ orderOf q * K q = K q * e q ^ orderOf q := by
+  rw [K_mul_epow q (orderOf q), sq_pow_orderOf_eq_one, one_smul]
+
+/-- `e ^ orderOf q` commutes with `L` (twist `(q⁻²)^{orderOf q} = 1`). -/
+lemma epow_orderOf_mul_L (q : ℂˣ) : e q ^ orderOf q * L q = L q * e q ^ orderOf q := by
+  rw [L_mul_epow q (orderOf q), inv_pow, sq_pow_orderOf_eq_one, inv_one, one_smul]
+
+/-- `e ^ orderOf q` commutes with `e` (powers of `e`). -/
+lemma epow_orderOf_mul_e (q : ℂˣ) : e q ^ orderOf q * e q = e q * e q ^ orderOf q := by
+  rw [← pow_succ, ← pow_succ']
+
+/-- **Centrality of `e ^ orderOf q`.** At a root of unity with `q ≠ ±1`, `e ^ orderOf q` is central
+in `U_q(sl₂)`. It commutes with all four generators; these generate, so a general element reduces to
+the generator cases via the surjection `mk q` and `FreeAlgebra.induction`. -/
+lemma epow_orderOf_central (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : Uqsl2 q) :
+    e q ^ orderOf q * a = a * e q ^ orderOf q := by
+  suffices H : ∀ p : FreeAlgebra ℂ Gen,
+      e q ^ orderOf q * mk q p = mk q p * e q ^ orderOf q by
+    obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Rel q) a
+    exact H p
+  intro p
+  induction p using FreeAlgebra.induction with
+  | grade0 r =>
+      rw [show mk q (algebraMap ℂ (FreeAlgebra ℂ Gen) r) = algebraMap ℂ (Uqsl2 q) r from
+        AlgHom.commutes (mk q) r, Algebra.commutes]
+  | grade1 g =>
+      fin_cases g
+      · change e q ^ orderOf q * e q = e q * e q ^ orderOf q
+        exact epow_orderOf_mul_e q
+      · change e q ^ orderOf q * f q = f q * e q ^ orderOf q
+        exact epow_orderOf_mul_f q hq2
+      · change e q ^ orderOf q * K q = K q * e q ^ orderOf q
+        exact epow_orderOf_mul_K q
+      · change e q ^ orderOf q * L q = L q * e q ^ orderOf q
+        exact epow_orderOf_mul_L q
+  | mul x y hx hy =>
+      rw [map_mul, ← mul_assoc, hx, mul_assoc, hy, ← mul_assoc]
+  | add x y hx hy =>
+      rw [map_add, mul_add, add_mul, hx, hy]
+
+/-- The commutator `[f, e] = -(K - L)/(q - q⁻¹)`, the mirror of `ef_diff`. -/
+lemma fe_diff (q : ℂˣ) (hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) :
+    f q * e q = e q * f q - (((q : ℂ) - (q : ℂ)⁻¹)⁻¹) • (K q - L q) := by
+  have h := ef_diff q hq'
+  rw [h]; abel
+
+/-- Iterated commutator formula for the `f`-power: `[fⁿ⁺¹, e]` reduces to `fⁿ` times an explicit
+`K`/`L` combination. Mirror of `e_pow_mul_f`. -/
+lemma f_pow_mul_e (q : ℂˣ) (hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) (n : ℕ) :
+    f q ^ (n + 1) * e q
+      = e q * f q ^ (n + 1)
+        - (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * ∑ k ∈ Finset.range (n + 1), (((q : ℂ) ^ 2)⁻¹) ^ k)
+            • (f q ^ n * K q)
+        + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * ∑ k ∈ Finset.range (n + 1), ((q : ℂ) ^ 2) ^ k)
+            • (f q ^ n * L q) := by
+  induction n with
+  | zero =>
+    simp only [zero_add, pow_one, pow_zero, one_mul, mul_one, Finset.range_one,
+      Finset.sum_singleton]
+    rw [fe_diff q hq', smul_sub]
+    abel
+  | succ n ih =>
+    have hAK : f q * (f q ^ n * K q) = f q ^ (n + 1) * K q := by
+      rw [← mul_assoc, ← pow_succ' (f q) n]
+    have hAL : f q * (f q ^ n * L q) = f q ^ (n + 1) * L q := by
+      rw [← mul_assoc, ← pow_succ' (f q) n]
+    have key : f q * (e q * f q ^ (n + 1))
+        = e q * f q ^ (n + 1 + 1)
+          - ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • (K q * f q ^ (n + 1))
+          + ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • (L q * f q ^ (n + 1)) := by
+      rw [← mul_assoc, fe_diff q hq', sub_mul, smul_mul_assoc, sub_mul, smul_sub,
+        mul_assoc (e q) (f q) (f q ^ (n + 1)), ← pow_succ' (f q) (n + 1)]
+      abel
+    rw [Finset.sum_range_succ (fun k => (((q : ℂ) ^ 2)⁻¹) ^ k) (n + 1),
+        Finset.sum_range_succ (fun k => ((q : ℂ) ^ 2) ^ k) (n + 1)]
+    conv_lhs =>
+      rw [pow_succ' (f q) (n + 1), mul_assoc (f q) (f q ^ (n + 1)) (e q), ih,
+        mul_add, mul_sub, mul_smul_comm, mul_smul_comm, key, hAK, hAL,
+        K_mul_fpow q (n + 1), L_mul_fpow q (n + 1)]
+    module
+
+/-- `[f ^ orderOf q, e] = 0` at a root of unity with `q ≠ ±1`. Mirror of `epow_orderOf_mul_f`. -/
+lemma fpow_orderOf_mul_e (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) :
+    f q ^ orderOf q * e q = e q * f q ^ orderOf q := by
+  have hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
+  rcases Nat.eq_zero_or_pos (orderOf q) with h0 | hpos
+  · rw [h0, pow_zero, one_mul, mul_one]
+  · obtain ⟨m, hm⟩ : ∃ m, orderOf q = m + 1 := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+    rw [hm]
+    have h1 : ((q : ℂ) ^ 2) ^ (m + 1) = 1 := by rw [← hm]; exact sq_pow_orderOf_eq_one q
+    have hSA : (∑ k ∈ Finset.range (m + 1), ((q : ℂ) ^ 2) ^ k) = 0 := by
+      have hgeom : (∑ k ∈ Finset.range (m + 1), ((q : ℂ) ^ 2) ^ k) * ((q : ℂ) ^ 2 - 1)
+          = ((q : ℂ) ^ 2) ^ (m + 1) - 1 := geom_sum_mul _ _
+      rw [h1, sub_self] at hgeom
+      exact (mul_eq_zero.mp hgeom).resolve_right (sub_ne_zero.mpr hq2)
+    have hSB : (∑ k ∈ Finset.range (m + 1), (((q : ℂ) ^ 2)⁻¹) ^ k) = 0 := by
+      have h1' : (((q : ℂ) ^ 2)⁻¹) ^ (m + 1) = 1 := by rw [inv_pow, h1, inv_one]
+      have hgeom : (∑ k ∈ Finset.range (m + 1), (((q : ℂ) ^ 2)⁻¹) ^ k) * (((q : ℂ) ^ 2)⁻¹ - 1)
+          = (((q : ℂ) ^ 2)⁻¹) ^ (m + 1) - 1 := geom_sum_mul _ _
+      rw [h1', sub_self] at hgeom
+      exact (mul_eq_zero.mp hgeom).resolve_right
+        (sub_ne_zero.mpr (fun h => hq2 (inv_eq_one.mp h)))
+    rw [f_pow_mul_e q hq' m, hSA, hSB]
+    simp
+
+/-- `f ^ orderOf q` commutes with `K` (twist `(q⁻²)^{orderOf q} = 1`). -/
+lemma fpow_orderOf_mul_K (q : ℂˣ) : f q ^ orderOf q * K q = K q * f q ^ orderOf q := by
+  rw [K_mul_fpow q (orderOf q), inv_pow, sq_pow_orderOf_eq_one, inv_one, one_smul]
+
+/-- `f ^ orderOf q` commutes with `L` (twist `(q²)^{orderOf q} = 1`). -/
+lemma fpow_orderOf_mul_L (q : ℂˣ) : f q ^ orderOf q * L q = L q * f q ^ orderOf q := by
+  rw [L_mul_fpow q (orderOf q), sq_pow_orderOf_eq_one, one_smul]
+
+/-- `f ^ orderOf q` commutes with `f` (powers of `f`). -/
+lemma fpow_orderOf_mul_f (q : ℂˣ) : f q ^ orderOf q * f q = f q * f q ^ orderOf q := by
+  rw [← pow_succ, ← pow_succ']
+
+/-- **Centrality of `f ^ orderOf q`.** At a root of unity with `q ≠ ±1`, `f ^ orderOf q` is central
+in `U_q(sl₂)`. Mirror of `epow_orderOf_central`. -/
+lemma fpow_orderOf_central (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : Uqsl2 q) :
+    f q ^ orderOf q * a = a * f q ^ orderOf q := by
+  suffices H : ∀ p : FreeAlgebra ℂ Gen,
+      f q ^ orderOf q * mk q p = mk q p * f q ^ orderOf q by
+    obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Rel q) a
+    exact H p
+  intro p
+  induction p using FreeAlgebra.induction with
+  | grade0 r =>
+      rw [show mk q (algebraMap ℂ (FreeAlgebra ℂ Gen) r) = algebraMap ℂ (Uqsl2 q) r from
+        AlgHom.commutes (mk q) r, Algebra.commutes]
+  | grade1 g =>
+      fin_cases g
+      · change f q ^ orderOf q * e q = e q * f q ^ orderOf q
+        exact fpow_orderOf_mul_e q hq2
+      · change f q ^ orderOf q * f q = f q * f q ^ orderOf q
+        exact fpow_orderOf_mul_f q
+      · change f q ^ orderOf q * K q = K q * f q ^ orderOf q
+        exact fpow_orderOf_mul_K q
+      · change f q ^ orderOf q * L q = L q * f q ^ orderOf q
+        exact fpow_orderOf_mul_L q
+  | mul x y hx hy =>
+      rw [map_mul, ← mul_assoc, hx, mul_assoc, hy, ← mul_assoc]
+  | add x y hx hy =>
+      rw [map_add, mul_add, add_mul, hx, hy]
+
+section CentralScalar
+
+variable (q : ℂˣ)
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+  [IsScalarTower ℂ (Uqsl2 q) V]
+
+/-- The action of an algebra element `x` packaged as a `ℂ`-linear endomorphism of `V`. -/
+noncomputable def smulEnd (x : Uqsl2 q) : Module.End ℂ V where
+  toFun v := x • v
+  map_add' := by intro a b; rw [smul_add]
+  map_smul' := by intro c v; exact smul_comm x c v
+
+@[simp] lemma smulEnd_apply (x : Uqsl2 q) (v : V) : smulEnd q V x v = x • v := rfl
+
+/-- **Schur's lemma for central elements.** A central element `x` of `U_q(sl₂)` acts as a scalar on
+every finite dimensional simple module over the algebraically closed field `ℂ`: its action is a
+`U_q`-linear endomorphism, so each `ℂ`-eigenspace is a `U_q`-submodule, and the eigenspace of an
+eigenvalue `α` (which exists by finite-dimensionality over `ℂ`) is a nonzero submodule of the simple
+`V`, hence all of `V`. Unlike the `K ^ orderOf q` case the scalar need not be nonzero. -/
+theorem central_isScalar (x : Uqsl2 q) (hx : ∀ a : Uqsl2 q, x * a = a * x)
+    [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, ∀ v : V, x • v = α • v := by
+  haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
+  obtain ⟨α, hα⟩ := Module.End.exists_eigenvalue (smulEnd q V x)
+  let W' : Submodule (Uqsl2 q) V :=
+    { carrier := (Module.End.eigenspace (smulEnd q V x) α : Set V)
+      add_mem' := fun ha hb => Submodule.add_mem _ ha hb
+      zero_mem' := Submodule.zero_mem _
+      smul_mem' := by
+        intro a v hv
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, smulEnd_apply] at hv
+        rw [SetLike.mem_coe, Module.End.mem_eigenspace_iff, smulEnd_apply,
+          ← mul_smul, hx, mul_smul, hv, smul_comm] }
+  have hne : W' ≠ ⊥ := by
+    obtain ⟨v, hv, hv0⟩ := hα.exists_hasEigenvector
+    intro hbot
+    apply hv0
+    have hmem : v ∈ W' := hv
+    rw [hbot, Submodule.mem_bot] at hmem
+    exact hmem
+  have htop : W' = ⊤ := (eq_bot_or_eq_top W').resolve_left hne
+  refine ⟨α, fun v => ?_⟩
+  have hv_mem : v ∈ W' := by rw [htop]; exact Submodule.mem_top
+  have hmem : v ∈ Module.End.eigenspace (smulEnd q V x) α := hv_mem
+  rw [Module.End.mem_eigenspace_iff, smulEnd_apply] at hmem
+  exact hmem
+
+/-- **`e ^ orderOf q` acts as a scalar** on a finite dimensional simple module, given `q ≠ ±1`.
+Unlike `K ^ orderOf q` this scalar may be zero (`e` can act nilpotently). -/
+theorem epow_orderOf_isScalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, ∀ v : V, e q ^ orderOf q • v = α • v :=
+  central_isScalar q V (e q ^ orderOf q) (epow_orderOf_central q hq2)
+
+/-- **`f ^ orderOf q` acts as a scalar** on a finite dimensional simple module, given `q ≠ ±1`.
+Mirror of `epow_orderOf_isScalar`; this scalar may likewise be zero. -/
+theorem fpow_orderOf_isScalar (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    ∃ α : ℂ, ∀ v : V, f q ^ orderOf q • v = α • v :=
+  central_isScalar q V (f q ^ orderOf q) (fpow_orderOf_central q hq2)
+
+end CentralScalar
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
