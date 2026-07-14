@@ -88,16 +88,103 @@ noncomputable def L (q : ℂˣ) : Uqsl2 q := mk q fL
 
 /-! ## Classification of irreducible representations (spec) -/
 
+/-- Injectivity of the eigenvalue chain `n ↦ q^{2n}·μ₀` when `q` is not a root of unity and
+`μ₀ ≠ 0`: since `q²` then has infinite order, distinct `n` give distinct eigenvalues. -/
+lemma chain_inj (q : ℂˣ) (hq : ¬ IsOfFinOrder q) (μ₀ : ℂ) (hμ₀ : μ₀ ≠ 0) :
+    Function.Injective (fun n : ℕ => (q : ℂ) ^ (2 * n) * μ₀) := by
+  intro a b hab
+  simp only at hab
+  have h : (q : ℂ) ^ (2 * a) = (q : ℂ) ^ (2 * b) := mul_right_cancel₀ hμ₀ hab
+  have hu : q ^ (2 * a) = q ^ (2 * b) := by
+    apply Units.ext; push_cast; simpa using h
+  have hinj : Function.Injective (fun n : ℕ => q ^ n) :=
+    injective_pow_iff_not_isOfFinOrder.mpr hq
+  have : 2 * a = 2 * b := hinj hu
+  omega
+
+section HighestWeight
+
+variable (q : ℂˣ)
+variable (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+  [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V]
+
+/-- The `K`-action packaged as a `ℂ`-linear endomorphism of `V`. -/
+noncomputable def Kop : Module.End ℂ V where
+  toFun v := K q • v
+  map_add' := by intro x y; simp [smul_add]
+  map_smul' := by intro c v; exact smul_comm (K q) c v
+
+@[simp] lemma Kop_apply (v : V) : Kop q V v = K q • v := rfl
+
+/-- If `w` is a `K`-eigenvector with eigenvalue `μ`, then `e • w` is `0` or a `K`-eigenvector
+with eigenvalue `q²·μ` (from the relation `K e = q²·(e K)`). -/
+lemma e_eigenvalue_shift (μ : ℂ) (w : V) (hw : Kop q V w = μ • w) :
+    Kop q V (e q • w) = ((q : ℂ) ^ 2 * μ) • (e q • w) := by
+  simp only [Kop_apply] at hw ⊢
+  have h1 : K q • (e q • w) = (K q * e q) • w := by rw [mul_smul]
+  rw [h1, Ke_rel, smul_assoc, mul_smul, hw, smul_comm (e q) μ w, smul_smul]
+
+/-- `K` acts invertibly (`K·L = 1`), so `0` is not an eigenvalue of `Kop`. -/
+lemma eigenvalue_ne_zero (μ : ℂ) (hμ : (Kop q V).HasEigenvalue μ) : μ ≠ 0 := by
+  rintro rfl
+  obtain ⟨v, hv, hv0⟩ := hμ.exists_hasEigenvector
+  have hKv : K q • v = 0 := by
+    have := Module.End.mem_eigenspace_iff.mp hv; simpa using this
+  have : v = 0 := by
+    have h := congrArg (fun x => L q • x) hKv
+    simp only [smul_zero] at h
+    rw [← mul_smul, LK_rel, one_smul] at h
+    exact h
+  exact hv0 this
+
+/-- There is a "highest" `K`-eigenvalue `μ` for which `q²·μ` is *not* an eigenvalue. If not,
+the injective chain `q^{2n}·μ₀` would give infinitely many independent eigenvectors in the
+finite-dimensional `V`. -/
+lemma exists_highest_eig (hq : ¬ IsOfFinOrder q) [Nontrivial V] :
+    ∃ μ : ℂ, (Kop q V).HasEigenvalue μ ∧ ¬ (Kop q V).HasEigenvalue ((q : ℂ) ^ 2 * μ) := by
+  obtain ⟨μ₀, hμ₀⟩ := Module.End.exists_eigenvalue (Kop q V)
+  by_contra hcon
+  have h_all : ∀ μ : ℂ, (Kop q V).HasEigenvalue μ → (Kop q V).HasEigenvalue ((q : ℂ) ^ 2 * μ) := by
+    intro μ hμ; by_contra hne; exact hcon ⟨μ, hμ, hne⟩
+  have h_chain : ∀ n : ℕ, (Kop q V).HasEigenvalue ((q : ℂ) ^ (2 * n) * μ₀) := by
+    intro n; induction n with
+    | zero => simpa using hμ₀
+    | succ n ih =>
+        have hh := h_all _ ih
+        have heq : (q : ℂ) ^ (2 * (n + 1)) * μ₀ = (q : ℂ) ^ 2 * ((q : ℂ) ^ (2 * n) * μ₀) := by ring
+        rw [heq]; exact hh
+  have h_inj := chain_inj q hq μ₀ (eigenvalue_ne_zero q V μ₀ hμ₀)
+  have h_li := Module.End.eigenvectors_linearIndependent' (Kop q V)
+    (fun n : ℕ => (q : ℂ) ^ (2 * n) * μ₀) h_inj
+    (fun n => (h_chain n).exists_hasEigenvector.choose)
+    (fun n => (h_chain n).exists_hasEigenvector.choose_spec)
+  exact Module.Finite.not_linearIndependent_of_infinite _ h_li
+
 /-- **Highest weight vector.** Every nonzero finite dimensional representation of `U_q(sl₂)`
-contains a nonzero vector `v` that is annihilated by `e` and is an eigenvector of `K`
-(`K • v = λ v`). This is the structural core of the classification of irreducible
-representations; the full labelling of irreducibles (and the root-of-unity vs. non-root-of-unity
-dichotomy for which highest weights occur and in which dimensions) is the deferred content. -/
-theorem exists_highest_weight_vector (q : ℂˣ) (hq : q ≠ 1 ∧ q ≠ -1)
-    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
-    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [Nontrivial V] :
-    ∃ (v : V) (lam : ℂ), v ≠ 0 ∧ e q • v = 0 ∧ K q • v = lam • v :=
-  sorry
+with `q` not a root of unity contains a nonzero vector `v` that is annihilated by `e` and is an
+eigenvector of `K` (`K • v = λ v`). This is the structural core of the classification of
+irreducible representations.
+
+The non-root-of-unity hypothesis `¬ IsOfFinOrder q` is essential: at roots of unity the cyclic
+(De Concini–Kac) modules have `e` acting invertibly, so no nonzero vector is killed by `e`. With
+`¬ IsOfFinOrder q`, `q²` has infinite order, so the eigenvalue chain `λ, q²λ, q⁴λ, …` is injective
+and the `e`-walk-up argument terminates. -/
+theorem exists_highest_weight_vector (hq : ¬ IsOfFinOrder q) [Nontrivial V] :
+    ∃ (v : V) (lam : ℂ), v ≠ 0 ∧ e q • v = 0 ∧ K q • v = lam • v := by
+  obtain ⟨μ, hμ, hμ2⟩ := exists_highest_eig q V hq
+  obtain ⟨v, hv⟩ := hμ.exists_hasEigenvector
+  refine ⟨v, μ, hv.2, ?_, ?_⟩
+  · -- `e • v` would be a `q²μ`-eigenvector if nonzero, contradicting maximality of `μ`.
+    by_contra he
+    apply hμ2
+    have hmem : Kop q V (e q • v) = ((q : ℂ) ^ 2 * μ) • (e q • v) :=
+      e_eigenvalue_shift q V μ v (Module.End.mem_eigenspace_iff.mp hv.1)
+    exact Module.End.hasEigenvalue_of_hasEigenvector
+      ⟨Module.End.mem_eigenspace_iff.mpr hmem, he⟩
+  · have := Module.End.mem_eigenspace_iff.mp hv.1
+    simpa using this
+
+end HighestWeight
 
 /-- **Non-root-of-unity case.** When `q` is not a root of unity, every finite dimensional
 irreducible representation is determined up to isomorphism by its dimension together with a
