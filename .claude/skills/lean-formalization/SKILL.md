@@ -5008,3 +5008,33 @@ product — supply `Finite.of_equiv _ SemidirectProduct.equivProd.symm`.
   `cons_val_*`/`Fin.isValue` in the set. Follow the `simp only [defs, mul_apply,
   Fin.sum_univ_three]` with a bare `simp` (as `rotMat_mem_SO3` does) to finish index reduction,
   then substitute/close.
+
+## Counting a finite set of ℚ/ℝ-valued vectors (`ncard = N`; root systems, lattice enumerations, #6595)
+
+To prove `(S : Set (Fin n → ℚ)).ncard = N` where `S` is carved out by norm/parity/coordinate
+conditions (e.g. `rootsOf E8Lattice`), the reliable route is: realize `S` as the coercion of an
+explicit `Finset`, then `Set.ncard_coe_finset` reduces to `Finset.card`. Assemble that finset as
+the (possibly disjoint-union of) **injective image(s) of a decidable finite index set**, and read
+the count off with `decide`. Two hard-won constraints:
+
+- **`decide` is blind to ℚ/ℝ but fluent in `Fin`/`Bool`/`ℤ`.** A `decide` over an index set whose
+  predicate evaluates a ℚ expression (`intVec … 0 = intVec … 1`, anything through `smul`/`e j`/
+  `Rat`) gets *stuck* ("reduction got stuck at the `Decidable` instance"). Keep every index-set
+  condition over `ℤ`/`Bool`: back each vector by an **ℤ-valued coordinate function** (`coordZ …`)
+  and cast to ℚ only at the end, bridging ℚ-equalities to ℤ with `exact_mod_cast` / `Int.cast_inj`.
+  Coordinate constraints for sub-objects (E₇'s `x₀=x₁`, E₆'s `x₀=x₁=x₂`) then become ℤ/`Bool`
+  conditions on the *index* set (`cz p 0 = cz p 1`, `s 0 = s 1`), countable by `decide`.
+- **`decide` over `Fin n → Bool` (256 elts for `n=8`) needs `set_option maxRecDepth 10000`** (else
+  "maximum recursion depth"); it is fast (~2s) once the limit is raised. A brute-force `decide`
+  over the whole ambient box (`{-2..2}^8` etc.) is NOT feasible — you still need the mathematical
+  **classification lemma** (exact shape of a member: "two `±1` coords" via a support-card-`=2`
+  argument; "every coord `±½`" via `Finset.sum_eq_zero_iff_of_nonneg` on `xₖ²−c ≥ 0`).
+
+Image cardinality needs injectivity: `Finset.card_image_of_injOn` (feed a `Set.InjOn … ↑(filter)`,
+obtained from a global `InjOn` via `.mono`); disjoint families combine with
+`Finset.card_union_of_disjoint`. Prototype each classification/injectivity lemma in a throwaway
+`EtingofRepresentationTheory/Scratch*.lean` (`import Mathlib`, a local `namespace`) before porting
+— iterating there is far faster than rebuilding the real chapter file, and it sidesteps the
+`inner`/Mathlib-`Inner` name clash the real (namespaced) file doesn't have. Worked example:
+`Chapter6/Problem6_9_2.lean` (`E8_root_count`/`E7_root_count`/`E6_root_count`, `intShape`,
+`halfShape`, `intVec'_injOn`).
