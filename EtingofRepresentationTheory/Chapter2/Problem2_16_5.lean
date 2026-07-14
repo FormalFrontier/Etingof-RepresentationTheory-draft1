@@ -837,6 +837,108 @@ lemma L_mul_fpow (q : ℂˣ) (n : ℕ) :
         Lf_rel, mul_smul_comm, smul_smul, ← mul_assoc (f q ^ n) (f q) (L q),
         ← pow_succ ((q : ℂ) ^ 2) n]
 
+/-- Iterated commutator formula: `[eⁿ⁺¹, f]` reduces to `eⁿ` times an explicit `K`/`L`
+combination whose scalar coefficients are geometric sums in `q²`. Requires `q ≠ ±1` (so that the
+commutator `[e, f] = (K - L)/(q - q⁻¹)` is well-defined). -/
+lemma e_pow_mul_f (q : ℂˣ) (hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0) (n : ℕ) :
+    e q ^ (n + 1) * f q
+      = f q * e q ^ (n + 1)
+        + (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * ∑ k ∈ Finset.range (n + 1), ((q : ℂ) ^ 2) ^ k)
+            • (e q ^ n * K q)
+        - (((q : ℂ) - (q : ℂ)⁻¹)⁻¹ * ∑ k ∈ Finset.range (n + 1), (((q : ℂ) ^ 2)⁻¹) ^ k)
+            • (e q ^ n * L q) := by
+  induction n with
+  | zero =>
+    simp only [zero_add, pow_one, pow_zero, one_mul, mul_one, Finset.range_one,
+      Finset.sum_singleton]
+    rw [ef_diff q hq', smul_sub]
+    abel
+  | succ n ih =>
+    have hAK : e q * (e q ^ n * K q) = e q ^ (n + 1) * K q := by
+      rw [← mul_assoc, ← pow_succ' (e q) n]
+    have hAL : e q * (e q ^ n * L q) = e q ^ (n + 1) * L q := by
+      rw [← mul_assoc, ← pow_succ' (e q) n]
+    have key : e q * (f q * e q ^ (n + 1))
+        = f q * e q ^ (n + 1 + 1)
+          + ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • (K q * e q ^ (n + 1))
+          - ((q : ℂ) - (q : ℂ)⁻¹)⁻¹ • (L q * e q ^ (n + 1)) := by
+      rw [← mul_assoc, ef_diff q hq', add_mul, smul_mul_assoc, sub_mul, smul_sub,
+        mul_assoc (f q) (e q) (e q ^ (n + 1)), ← pow_succ' (e q) (n + 1)]
+      abel
+    rw [Finset.sum_range_succ (fun k => ((q : ℂ) ^ 2) ^ k) (n + 1),
+        Finset.sum_range_succ (fun k => (((q : ℂ) ^ 2)⁻¹) ^ k) (n + 1)]
+    conv_lhs =>
+      rw [pow_succ' (e q) (n + 1), mul_assoc (e q) (e q ^ (n + 1)) (f q), ih,
+        mul_sub, mul_add, mul_smul_comm, mul_smul_comm, key, hAK, hAL,
+        K_mul_epow q (n + 1), L_mul_epow q (n + 1)]
+    module
+
+/-- `[e ^ orderOf q, f] = 0` at a root of unity with `q ≠ ±1`. The geometric-sum coefficients in
+`e_pow_mul_f` vanish at `n = orderOf q` because `(q²)^{orderOf q} = 1` and `q² ≠ 1`. -/
+lemma epow_orderOf_mul_f (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) :
+    e q ^ orderOf q * f q = f q * e q ^ orderOf q := by
+  have hq' : (q : ℂ) - (q : ℂ)⁻¹ ≠ 0 := q_sub_inv_ne_of_sq_ne q hq2
+  rcases Nat.eq_zero_or_pos (orderOf q) with h0 | hpos
+  · rw [h0, pow_zero, one_mul, mul_one]
+  · obtain ⟨m, hm⟩ : ∃ m, orderOf q = m + 1 := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+    rw [hm]
+    have h1 : ((q : ℂ) ^ 2) ^ (m + 1) = 1 := by rw [← hm]; exact sq_pow_orderOf_eq_one q
+    have hSA : (∑ k ∈ Finset.range (m + 1), ((q : ℂ) ^ 2) ^ k) = 0 := by
+      have hgeom : (∑ k ∈ Finset.range (m + 1), ((q : ℂ) ^ 2) ^ k) * ((q : ℂ) ^ 2 - 1)
+          = ((q : ℂ) ^ 2) ^ (m + 1) - 1 := geom_sum_mul _ _
+      rw [h1, sub_self] at hgeom
+      exact (mul_eq_zero.mp hgeom).resolve_right (sub_ne_zero.mpr hq2)
+    have hSB : (∑ k ∈ Finset.range (m + 1), (((q : ℂ) ^ 2)⁻¹) ^ k) = 0 := by
+      have h1' : (((q : ℂ) ^ 2)⁻¹) ^ (m + 1) = 1 := by rw [inv_pow, h1, inv_one]
+      have hgeom : (∑ k ∈ Finset.range (m + 1), (((q : ℂ) ^ 2)⁻¹) ^ k) * (((q : ℂ) ^ 2)⁻¹ - 1)
+          = (((q : ℂ) ^ 2)⁻¹) ^ (m + 1) - 1 := geom_sum_mul _ _
+      rw [h1', sub_self] at hgeom
+      exact (mul_eq_zero.mp hgeom).resolve_right
+        (sub_ne_zero.mpr (fun h => hq2 (inv_eq_one.mp h)))
+    rw [e_pow_mul_f q hq' m, hSA, hSB]
+    simp
+
+/-- `e ^ orderOf q` commutes with `K` (twist `(q²)^{orderOf q} = 1`). -/
+lemma epow_orderOf_mul_K (q : ℂˣ) : e q ^ orderOf q * K q = K q * e q ^ orderOf q := by
+  rw [K_mul_epow q (orderOf q), sq_pow_orderOf_eq_one, one_smul]
+
+/-- `e ^ orderOf q` commutes with `L` (twist `(q⁻²)^{orderOf q} = 1`). -/
+lemma epow_orderOf_mul_L (q : ℂˣ) : e q ^ orderOf q * L q = L q * e q ^ orderOf q := by
+  rw [L_mul_epow q (orderOf q), inv_pow, sq_pow_orderOf_eq_one, inv_one, one_smul]
+
+/-- `e ^ orderOf q` commutes with `e` (powers of `e`). -/
+lemma epow_orderOf_mul_e (q : ℂˣ) : e q ^ orderOf q * e q = e q * e q ^ orderOf q := by
+  rw [← pow_succ, ← pow_succ']
+
+/-- **Centrality of `e ^ orderOf q`.** At a root of unity with `q ≠ ±1`, `e ^ orderOf q` is central
+in `U_q(sl₂)`. It commutes with all four generators; these generate, so a general element reduces to
+the generator cases via the surjection `mk q` and `FreeAlgebra.induction`. -/
+lemma epow_orderOf_central (q : ℂˣ) (hq2 : (q : ℂ) ^ 2 ≠ 1) (a : Uqsl2 q) :
+    e q ^ orderOf q * a = a * e q ^ orderOf q := by
+  suffices H : ∀ p : FreeAlgebra ℂ Gen,
+      e q ^ orderOf q * mk q p = mk q p * e q ^ orderOf q by
+    obtain ⟨p, rfl⟩ := RingQuot.mkAlgHom_surjective ℂ (Rel q) a
+    exact H p
+  intro p
+  induction p using FreeAlgebra.induction with
+  | grade0 r =>
+      rw [show mk q (algebraMap ℂ (FreeAlgebra ℂ Gen) r) = algebraMap ℂ (Uqsl2 q) r from
+        AlgHom.commutes (mk q) r, Algebra.commutes]
+  | grade1 g =>
+      fin_cases g
+      · change e q ^ orderOf q * e q = e q * e q ^ orderOf q
+        exact epow_orderOf_mul_e q
+      · change e q ^ orderOf q * f q = f q * e q ^ orderOf q
+        exact epow_orderOf_mul_f q hq2
+      · change e q ^ orderOf q * K q = K q * e q ^ orderOf q
+        exact epow_orderOf_mul_K q
+      · change e q ^ orderOf q * L q = L q * e q ^ orderOf q
+        exact epow_orderOf_mul_L q
+  | mul x y hx hy =>
+      rw [map_mul, ← mul_assoc, hx, mul_assoc, hy, ← mul_assoc]
+  | add x y hx hy =>
+      rw [map_add, mul_add, add_mul, hx, hy]
+
 /-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
 dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
 every dimension, in contrast to the non-root-of-unity case. -/
