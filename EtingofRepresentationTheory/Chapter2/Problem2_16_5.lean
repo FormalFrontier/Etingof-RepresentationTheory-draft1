@@ -1240,13 +1240,58 @@ theorem finrank_le_of_epow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq
   rw [← hW, hWtop, finrank_top] at hspan
   exact hspan
 
-/-- **Root-of-unity case.** When `q` is a root of unity, the dimensions of the finite
-dimensional irreducible representations are bounded (by `orderOf q`): they no longer occur in
-every dimension, in contrast to the non-root-of-unity case. -/
-theorem finrank_irreducible_le_of_isOfFinOrder (q : ℂˣ) (hq : IsOfFinOrder q)
+/-- **Lowest weight case of the dimension bound.** If `f ^ orderOf q` acts as `0` on a finite
+dimensional simple `U_q(sl₂)`-module `V` (so `f` is nilpotent), then `dim V ≤ orderOf q`. This is
+the mirror of `finrank_le_of_epow_orderOf_eq_zero`: a lowest weight vector `w` (`f • w = 0`,
+`K • w = λ w`) has a closed `e`-ladder `w, e w, …, e^{ℓ-1} w` spanning `V`.
+
+To fill this, mirror the highest-weight construction in the `e`-direction: prove `fe_action`
+(from the same relation `ef_rel`, giving `f • (e • x) = e • (f • x) - (…)•x`) and the resulting
+`f`-action on the `e`-ladder, then run the same submodule/dimension argument with `e` raising the
+`K`-eigenvalue by `q²`. -/
+theorem finrank_le_of_fpow_orderOf_eq_zero (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
-    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V]
+    (hf0 : ∀ w : V, f q ^ orderOf q • w = 0) :
     Module.finrank ℂ V ≤ orderOf q :=
   sorry
+
+/-- **Cyclic (De Concini–Kac) case of the dimension bound.** If both `e ^ orderOf q` and
+`f ^ orderOf q` act as nonzero scalars `a`, `b` (so `e` and `f` are both bijective), then
+`dim V ≤ orderOf q`. This is the hard case: `V = ⨁_{j} E_j` over a single `q²`-orbit of
+`K`-eigenvalues with `e : E_j ≅ E_{j+1}`, `f : E_j ≅ E_{j-1}`, so all `E_j` share a common
+dimension `d` and `dim V = s · d` with `s = ord(q²)`; bounding `d ≤ orderOf q / s` (via `e^s`, `f^s`
+on a single eigenspace) is the substantial step. -/
+theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V]
+    (a : ℂ) (ha : ∀ v : V, e q ^ orderOf q • v = a • v) (ha0 : a ≠ 0)
+    (b : ℂ) (hb : ∀ v : V, f q ^ orderOf q • v = b • v) (hb0 : b ≠ 0) :
+    Module.finrank ℂ V ≤ orderOf q :=
+  sorry
+
+/-- **Root-of-unity case.** When `q` is a root of unity with `q ≠ ±1` (equivalently `q² ≠ 1`), the
+dimensions of the finite dimensional irreducible representations are bounded (by `orderOf q`): they
+no longer occur in every dimension, in contrast to the non-root-of-unity case.
+
+The hypothesis `q² ≠ 1` is necessary: at `q = ±1` the relation `(q - q⁻¹)(ef - fe) = K - L`
+degenerates and arbitrarily large simple modules exist. The proof splits on the central scalars
+`a = e^{orderOf q}`, `b = f^{orderOf q}`: `a = 0` is the highest weight case
+(`finrank_le_of_epow_orderOf_eq_zero`), `b = 0` the lowest weight case
+(`finrank_le_of_fpow_orderOf_eq_zero`), and `a, b ≠ 0` the cyclic case (`finrank_le_of_cyclic`). -/
+theorem finrank_irreducible_le_of_isOfFinOrder (q : ℂˣ) (hq : IsOfFinOrder q)
+    (hq2 : (q : ℂ) ^ 2 ≠ 1)
+    (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
+    [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V] :
+    Module.finrank ℂ V ≤ orderOf q := by
+  obtain ⟨a, ha⟩ := epow_orderOf_isScalar q V hq2
+  by_cases ha0 : a = 0
+  · exact finrank_le_of_epow_orderOf_eq_zero q hq hq2 V
+      (fun w => by rw [ha w, ha0, zero_smul])
+  · obtain ⟨b, hb⟩ := fpow_orderOf_isScalar q V hq2
+    by_cases hb0 : b = 0
+    · exact finrank_le_of_fpow_orderOf_eq_zero q hq hq2 V
+        (fun w => by rw [hb w, hb0, zero_smul])
+    · exact finrank_le_of_cyclic q hq hq2 V a ha ha0 b hb hb0
 
 end Etingof.Problem2_16_5
