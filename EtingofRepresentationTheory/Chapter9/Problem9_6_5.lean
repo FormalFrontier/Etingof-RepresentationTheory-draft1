@@ -32,10 +32,21 @@ parts:
   "surjective");
 * `IsIso ξ` is the conclusion of part **(iii)** (`ξ` an isomorphism, i.e. `G ∘ F ≅ Id`).
 
-Together these say exactly that `G` is quasi-inverse to `F`. The construction of `G` as the
-tensor functor `P ⊗_B -` and all proofs are deferred (`sorry`). The hypotheses match the
+Together these say exactly that `G` is quasi-inverse to `F`. The hypotheses match the
 book's "finite abelian category over a field `k` with a projective generator `P`", as in
 `Etingof.Theorem_9_6_4`.
+
+## Proof note
+
+The existential is discharged directly from Theorem 9.6.4: `F = hp.preadditiveCoyonedaObjFG`
+is proved there to be an *equivalence* (`IsEquivalence`, via essential surjectivity and full
+faithfulness — independently of any tensor construction, and this file imports that theorem,
+so there is no circularity). An equivalence carries a genuine quasi-inverse functor
+`G := F.asEquivalence.inverse`; taking `ξ := (unit iso)⁻¹ : F ⋙ G ⟶ 𝟭 𝒞` gives a natural
+isomorphism, hence componentwise `Epi` (ii) and globally `IsIso` (iii), while the counit
+isomorphism supplies (i). The book's explicit `P ⊗_B -` functor is one *construction* of such
+a quasi-inverse; since `F` is already known to be an equivalence, its abstract inverse serves
+as the required `G`, which is exactly the existential claim.
 -/
 
 universe u v w
@@ -68,6 +79,17 @@ theorem exists_quasiInverse_tensor_functor
       (∀ X : C, Epi (ξ.app X)) ∧
       -- (iii) ξ is an isomorphism, so G ∘ F ≅ Id on 𝒞
       IsIso ξ := by
-  sorry
+  -- `F = Hom(P, -) = hp.preadditiveCoyonedaObjFG` is an equivalence of categories by
+  -- Theorem 9.6.4 (proved there via essential surjectivity + fully faithful, independently
+  -- of the tensor construction — no circularity, since this file imports Theorem 9.6.4).
+  -- An equivalence has a genuine quasi-inverse functor `G := F⁻¹`, and the inverse of its
+  -- unit isomorphism `ξ := (unit)⁻¹ : F ⋙ G ⟶ 𝟭 𝒞` is a natural isomorphism, so it is
+  -- componentwise epi and is itself an isomorphism. This discharges the existential exactly
+  -- as the book's `P ⊗_B -` construction does: it exhibits a quasi-inverse to `F`.
+  haveI : hp.preadditiveCoyonedaObjFG.IsEquivalence := Etingof.Theorem_9_6_4 (k := k)
+  refine ⟨hp.preadditiveCoyonedaObjFG.asEquivalence.inverse,
+      hp.preadditiveCoyonedaObjFG.asEquivalence.unitIso.inv,
+      ⟨hp.preadditiveCoyonedaObjFG.asEquivalence.counitIso⟩,
+      fun X => inferInstance, inferInstance⟩
 
 end Etingof.Problem965

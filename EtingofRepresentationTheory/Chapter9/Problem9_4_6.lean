@@ -4,6 +4,7 @@ import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
+import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardResolution
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras
@@ -37,7 +38,7 @@ Proofs are deferred (`sorry`) per the statement-pass phase.
 
 universe u
 
-open Etingof
+open Etingof CategoryTheory Limits
 
 namespace Etingof.Problem946
 
@@ -73,13 +74,30 @@ apply. Building `A ⊗_S -` as a left `A`-module functor left-adjoint to `restri
 non-central inclusion `S → A`, and its projectivity-preservation, is genuine new infrastructure not
 in Mathlib. See issue #6420 for the decomposition.
 
-The proof obligation is therefore escalated per the issue's Deliverable 2: the statement is landed
-with a `sorry` proof so downstream results can already reference it, and the construction of the
-standard resolution is tracked separately. -/
+## Assembly
+
+Because `Quiver.{u + 1} Q`, the path algebra `A = PathAlgebra k Q` lives in `Type (u + 1)`, so
+`HasHomologicalDimensionLE A 1` (Definition 9.4.3) quantifies over `ModuleCat.{u + 1} A` — exactly
+the universe the standard resolution `standardResolution_shortExact` is built at, so no universe
+uplift is needed. For each `M` the proof reads off `(standardComplex M).ShortExact`, notes both
+nonzero terms are projective (`projective_inducedModule_obj`), and applies dimension shifting
+`ShortExact.hasProjectiveDimensionLT_X₃` (as in `hasHomologicalDimensionLE_polynomial`,
+`Chapter9/Example9_4_4.lean`). -/
 theorem hasHomologicalDimensionLE_pathAlgebra_one
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q] :
-    Etingof.HasHomologicalDimensionLE (Etingof.PathAlgebra k Q) 1 :=
-  sorry
+    Etingof.HasHomologicalDimensionLE (Etingof.PathAlgebra k Q) 1 := by
+  intro M
+  -- The standard length-`1` projective resolution `0 → A ⊗_S (V ⊗_S M) → A ⊗_S M → M → 0`.
+  have hSES := Etingof.PathAlgebra.standardResolution_shortExact M
+  -- Both nonzero terms are projective (induced from the semisimple vertex subalgebra `S = Q → k`).
+  haveI hP1 : Projective (Etingof.PathAlgebra.standardComplex M).X₁ :=
+    Etingof.PathAlgebra.projective_inducedModule_obj (Etingof.PathAlgebra.VtensObj M)
+  haveI hP2 : Projective (Etingof.PathAlgebra.standardComplex M).X₂ :=
+    Etingof.PathAlgebra.projective_inducedModule_obj (Etingof.PathAlgebra.restrictObj M)
+  -- Dimension shifting on the short exact sequence gives `pd M ≤ 1`.
+  exact hSES.hasProjectiveDimensionLT_X₃ 1
+    (projective_iff_hasProjectiveDimensionLT_one.mp hP1)
+    (hasProjectiveDimensionLT_of_ge _ 1 2 (by omega))
 
 /-- **Problem 9.4.6 (i), path algebra.** The path algebra `P_Q` of a quiver `Q` with at least
 one edge has homological dimension `1`. -/

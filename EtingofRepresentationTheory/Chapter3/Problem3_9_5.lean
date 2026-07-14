@@ -5,10 +5,15 @@ import Mathlib.LinearAlgebra.CliffordAlgebra.Contraction
 import Mathlib.LinearAlgebra.QuadraticForm.Basic
 import Mathlib.LinearAlgebra.BilinearForm.Properties
 import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
+import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
+import Mathlib.LinearAlgebra.Trace
+import Mathlib.Algebra.Algebra.Bilinear
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.Jacobson.Radical
 import Mathlib.RingTheory.Jacobson.Ideal
 import Mathlib.RingTheory.Jacobson.Semiprimary
+import Mathlib.RingTheory.Artinian.Algebra
+import Mathlib.RingTheory.Artinian.Ring
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Tactic.NoncommRing
 
@@ -55,6 +60,16 @@ noncomputable abbrev quadForm : QuadraticForm ℂ V :=
 /-- The Clifford algebra `Cl(V)` of the form, as `CliffordAlgebra Q`. -/
 abbrev CliffAlg : Type _ := CliffordAlgebra (quadForm B)
 
+/-- `Cl(V)` is finite-dimensional over `ℂ`. Transport the finite basis of `⋀ V` (indexed by
+`Finset` of a basis of `V`, `Module.Basis.ExteriorAlgebra`) across the characteristic-≠-2 linear
+equivalence `CliffordAlgebra.equivExterior`. This underlies every part of the problem: it makes
+`Cl(V)` an Artinian ring, so `IsSemisimpleRing`/Jacobson-radical machinery applies. -/
+instance : Module.Finite ℂ (CliffAlg B) := by
+  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  haveI : Module.Finite ℂ (ExteriorAlgebra ℂ V) :=
+    Module.Finite.of_basis (Module.Basis.ExteriorAlgebra (Module.finBasis ℂ V))
+  exact Module.Finite.equiv (CliffordAlgebra.equivExterior (quadForm B)).symm
+
 omit [FiniteDimensional ℂ V] in
 /-- **Parenthetical.** If the form is zero, `Cl(V)` is the exterior algebra `⋀ V`. -/
 theorem cliffordAlgebra_zero_eq_exterior :
@@ -68,11 +83,58 @@ theorem cliffordAlgebra_zero_eq_exterior :
   rw [hq]
   exact ⟨AlgEquiv.refl⟩
 
+/-- **Dickson's semisimplicity criterion (characteristic zero).** A finite-dimensional `ℂ`-algebra
+`A` is semisimple as soon as its trace form `(x, y) ↦ tr(L_{xy})` (where `L_z` is left
+multiplication by `z`) is nondegenerate.
+
+`A` is Artinian, so its Jacobson radical `J` is a nilpotent ideal. For `x ∈ J` and any `y`, the
+element `y * x` again lies in `J`, hence is nilpotent, so `L_{y*x}` is a nilpotent operator and its
+trace vanishes. Since `tr(L_{x*y}) = tr(L_x L_y) = tr(L_y L_x) = tr(L_{y*x}) = 0` for every `y`,
+nondegeneracy forces `x = 0`; thus `J = 0` and `A` is semisimple. -/
+theorem isSemisimpleRing_of_traceForm_nondegenerate
+    {A : Type*} [Ring A] [Algebra ℂ A] [Module.Finite ℂ A]
+    (hnd : ∀ x : A, (∀ y : A, LinearMap.trace ℂ A (LinearMap.mulLeft ℂ (x * y)) = 0) → x = 0) :
+    IsSemisimpleRing A := by
+  haveI : IsArtinianRing A := IsArtinianRing.of_finite ℂ A
+  rw [IsArtinianRing.isSemisimpleRing_iff_jacobson, eq_bot_iff]
+  intro x hx
+  rw [Ideal.mem_bot]
+  apply hnd
+  intro y
+  -- Symmetry of the trace form: `tr(L_{x*y}) = tr(L_{y*x})`.
+  have hsymm : LinearMap.trace ℂ A (LinearMap.mulLeft ℂ (x * y))
+      = LinearMap.trace ℂ A (LinearMap.mulLeft ℂ (y * x)) := by
+    rw [LinearMap.mulLeft_mul, LinearMap.mulLeft_mul,
+      ← Module.End.mul_eq_comp, ← Module.End.mul_eq_comp, LinearMap.trace_mul_comm]
+  rw [hsymm]
+  -- `y * x` lies in the (nilpotent) Jacobson radical, so it is a nilpotent element.
+  have hyx : y * x ∈ Ring.jacobson A := (Ring.jacobson A).mul_mem_left y hx
+  obtain ⟨n, hn⟩ := IsArtinianRing.isNilpotent_jacobson_bot (R := A)
+  rw [Ideal.jacobson_bot] at hn
+  have hnil : IsNilpotent (y * x) := by
+    refine ⟨n, ?_⟩
+    have hmem : (y * x) ^ n ∈ (Ring.jacobson A) ^ n := Ideal.pow_mem_pow hyx n
+    rw [hn] at hmem
+    simpa using hmem
+  -- Left multiplication by a nilpotent element is a nilpotent operator, hence has zero trace.
+  have hmul : IsNilpotent (LinearMap.mulLeft ℂ (y * x)) :=
+    hnil.map (Algebra.lmul ℂ A).toRingHom
+  exact (LinearMap.isNilpotent_trace_of_isNilpotent hmul).eq_zero
+
 /-- **Problem 3.9.5(i), semisimplicity.** If `B` is nondegenerate then `Cl(V)` is a
-semisimple ring. -/
+semisimple ring.
+
+By Dickson's criterion (`isSemisimpleRing_of_traceForm_nondegenerate`) it suffices that the trace
+form of `Cl(V)` is nondegenerate. That is the content of the spinor construction from the book: a
+direct computation on the `2^{dim V}` monomial basis `∏_{i∈S} ι(bᵢ)` shows `tr(L_{e_S e_T})` is a
+nonzero multiple of `∏` of the pairings `B` exactly when `S = T`, which is nondegenerate precisely
+when `B` is. -/
 theorem isSemisimpleRing_of_nondegenerate
     (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate) :
     IsSemisimpleRing (CliffAlg B) := by
+  apply isSemisimpleRing_of_traceForm_nondegenerate
+  -- Remaining: the Clifford trace form is nondegenerate when `B` is. Tracked separately (the
+  -- monomial-basis / spinor computation).
   sorry
 
 /-- **Problem 3.9.5(i), even case.** If `B` is nondegenerate and `dim V = 2n`, then
