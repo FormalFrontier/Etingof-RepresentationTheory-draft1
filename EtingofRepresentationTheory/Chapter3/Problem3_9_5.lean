@@ -9,9 +9,12 @@ import Mathlib.LinearAlgebra.Trace
 import Mathlib.Algebra.Algebra.Bilinear
 import Mathlib.RingTheory.SimpleModule.Basic
 import Mathlib.RingTheory.Jacobson.Radical
+import Mathlib.RingTheory.Jacobson.Semiprimary
 import Mathlib.RingTheory.Artinian.Algebra
 import Mathlib.RingTheory.Artinian.Ring
+import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+import Mathlib.LinearAlgebra.Dimension.Finrank
 
 /-!
 # Problem 3.9.5: The Clifford algebra
@@ -158,6 +161,55 @@ theorem odd_isSumMatrixAlgebra
 theorem isSemisimpleRing_iff_nondegenerate (hsymm : ∀ x y, B x y = B y x) :
     IsSemisimpleRing (CliffAlg B) ↔ B.Nondegenerate := by
   sorry
+
+/-- The radical submodule of `B`: the vectors `v` with `B v = 0` (equivalently `B v w = 0`
+for all `w`). This is the kernel of `B : V →ₗ[ℂ] V →ₗ[ℂ] ℂ`. -/
+noncomputable def radSubmodule : Submodule ℂ V := LinearMap.ker B
+
+theorem mem_radSubmodule {v : V} : v ∈ radSubmodule B ↔ B v = 0 := Iff.rfl
+
+/-- The bilinear form induced by `B` on the quotient `V ⧸ rad B`. Constructed by descending both
+arguments of `B` across the quotient map (well-defined because `B` vanishes on the radical, using
+symmetry for the second argument). -/
+noncomputable def radQuotForm (hsymm : ∀ x y, B x y = B y x) :
+    LinearMap.BilinForm ℂ (V ⧸ radSubmodule B) :=
+  -- descend the first argument: `B` factors through `V ⧸ ker B`
+  let Bfst : (V ⧸ radSubmodule B) →ₗ[ℂ] V →ₗ[ℂ] ℂ := (radSubmodule B).liftQ B le_rfl
+  -- flip so the un-quotiented `V` argument becomes outer, then descend it too
+  let g : V →ₗ[ℂ] (V ⧸ radSubmodule B) →ₗ[ℂ] ℂ := Bfst.flip
+  ((radSubmodule B).liftQ g (by
+    intro u hu
+    rw [LinearMap.mem_ker]
+    refine LinearMap.ext fun w => ?_
+    obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective w
+    show Bfst ((radSubmodule B).mkQ v) u = 0
+    -- `Bfst (mk v) u = B v u = B u v = 0` since `u ∈ rad B`
+    have h0 : B u = 0 := (mem_radSubmodule B).1 hu
+    simp only [Submodule.mkQ_apply, Submodule.liftQ_apply, Bfst]
+    rw [hsymm v u, h0, LinearMap.zero_apply])).flip
+
+@[simp]
+theorem radQuotForm_mk_mk (hsymm : ∀ x y, B x y = B y x) (v w : V) :
+    radQuotForm B hsymm ((radSubmodule B).mkQ v) ((radSubmodule B).mkQ w) = B v w := by
+  simp only [radQuotForm, LinearMap.flip_apply, Submodule.mkQ_apply, Submodule.liftQ_apply]
+
+theorem radQuotForm_isSymm (hsymm : ∀ x y, B x y = B y x) :
+    ∀ x y, radQuotForm B hsymm x y = radQuotForm B hsymm y x := by
+  intro x y
+  obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective x
+  obtain ⟨w, rfl⟩ := (radSubmodule B).mkQ_surjective y
+  rw [radQuotForm_mk_mk, radQuotForm_mk_mk, hsymm]
+
+theorem radQuotForm_nondegenerate (hsymm : ∀ x y, B x y = B y x) :
+    (radQuotForm B hsymm).Nondegenerate := by
+  have hL : (radQuotForm B hsymm).SeparatingLeft := by
+    intro x hx
+    obtain ⟨v, rfl⟩ := (radSubmodule B).mkQ_surjective x
+    rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, mem_radSubmodule]
+    ext w
+    have := hx ((radSubmodule B).mkQ w)
+    rwa [radQuotForm_mk_mk] at this
+  exact ⟨hL, fun y hy => hL y fun x => by rw [radQuotForm_isSymm]; exact hy x⟩
 
 /-- **Problem 3.9.5(ii), the degenerate quotient.** If `B` is degenerate, the semisimple
 quotient `Cl(V) / Rad(Cl(V))` is the Clifford algebra of a nondegenerate form `B'` on the
