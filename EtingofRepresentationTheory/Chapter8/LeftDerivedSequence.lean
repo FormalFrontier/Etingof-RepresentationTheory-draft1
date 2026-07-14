@@ -110,4 +110,93 @@ theorem Functor.leftDerived_sixTerm_exact
     · exact ProjectiveResolution.isoLeftDerivedObj_hom_naturality S.g P₂ P₃ β aug₂ F n₀
   exact (ComposableArrows.exact_iff_of_iso e).mpr hHrowExact
 
+/-- **The six-term exact sequence for a short exact sequence of additive functors, in the varying
+functor.** Given additive functors `F₁ F₂ F₃ : C ⥤ D` with natural transformations
+`τ₁ : F₁ ⟶ F₂`, `τ₂ : F₂ ⟶ F₃` such that `τ₁ ≫ τ₂ = 0` and, on every projective object `Y`, the
+short complex `0 → F₁(Y) → F₂(Y) → F₃(Y) → 0` is short exact, then for `n₀ + 1 = n₁` and any
+object `X` there is a connecting map `δ : (F₃.leftDerived n₁).obj X → (F₁.leftDerived n₀).obj X`
+making the six-term window of left derived functors exact.
+
+This is the "functor-varies" dual of `Functor.leftDerived_sixTerm_exact` (where the short exact
+sequence is in the object being resolved and the functor is fixed).  The proof resolves the fixed
+object `X` once by `P := projectiveResolution X`, applies `τ₁, τ₂` degreewise to `P.complex`
+(getting a short complex of chain complexes that is short exact because `P.complex` is degreewise
+projective and `τ₁/τ₂` are short exact on projectives), takes the homology long exact sequence,
+and transports it to the left derived functors via `ProjectiveResolution.leftDerived_app_eq`.
+
+It is the reusable crux for the `Tor` long exact sequence in the *second* argument
+(`Etingof.Problem_8_2_6_iii_tor`). -/
+theorem NatTrans.leftDerived_sixTerm_exact
+    {F₁ F₂ F₃ : C ⥤ D} [F₁.Additive] [F₂.Additive] [F₃.Additive]
+    (τ₁ : F₁ ⟶ F₂) (τ₂ : F₂ ⟶ F₃) (w : τ₁ ≫ τ₂ = 0)
+    (hSE : ∀ (Y : C) [Projective Y],
+      (ShortComplex.mk (τ₁.app Y) (τ₂.app Y)
+        (by rw [← NatTrans.comp_app, w]; rfl)).ShortExact)
+    (X : C) (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁) :
+    ∃ δ : (F₃.leftDerived n₁).obj X ⟶ (F₁.leftDerived n₀).obj X,
+      (ComposableArrows.mk₅
+        ((NatTrans.leftDerived τ₁ n₁).app X) ((NatTrans.leftDerived τ₂ n₁).app X)
+        δ
+        ((NatTrans.leftDerived τ₁ n₀).app X) ((NatTrans.leftDerived τ₂ n₀).app X)).Exact := by
+  -- Resolve `X` once; apply `τ₁, τ₂` degreewise to the resolution.
+  set P : ProjectiveResolution X := projectiveResolution X with hP
+  -- The two chain maps between the image complexes.
+  have w' : (NatTrans.mapHomologicalComplex τ₁ (ComplexShape.down ℕ)).app P.complex ≫
+      (NatTrans.mapHomologicalComplex τ₂ (ComplexShape.down ℕ)).app P.complex = 0 := by
+    rw [← NatTrans.comp_app, ← NatTrans.mapHomologicalComplex_comp, w]
+    ext i
+    simp [NatTrans.mapHomologicalComplex_app_f]
+  set SC : ShortComplex (ChainComplex D ℕ) := ShortComplex.mk
+    ((NatTrans.mapHomologicalComplex τ₁ (ComplexShape.down ℕ)).app P.complex)
+    ((NatTrans.mapHomologicalComplex τ₂ (ComplexShape.down ℕ)).app P.complex) w' with hSCdef
+  have hij : (ComplexShape.down ℕ).Rel n₁ n₀ := by simp only [ComplexShape.down_Rel]; omega
+  -- `SC` is short exact: degreewise it is `τ₁/τ₂` evaluated at a projective object.
+  have hT : SC.ShortExact := by
+    apply HomologicalComplex.shortExact_of_degreewise_shortExact
+    intro i
+    exact hSE (P.complex.X i)
+  set δ' := hT.δ n₁ n₀ hij with hδ'
+  refine ⟨(P.isoLeftDerivedObj F₃ n₁).hom ≫ δ' ≫ (P.isoLeftDerivedObj F₁ n₀).inv, ?_⟩
+  -- The homology six-term window of `SC`.
+  set Hrow : ComposableArrows D 5 := ComposableArrows.mk₅
+    (HomologicalComplex.homologyMap SC.f n₁) (HomologicalComplex.homologyMap SC.g n₁)
+    δ'
+    (HomologicalComplex.homologyMap SC.f n₀) (HomologicalComplex.homologyMap SC.g n₀) with hHrow
+  have hHrowExact : Hrow.Exact := by
+    rw [hHrow]
+    refine exact_of_δ₀ ?_ (exact_of_δ₀ ?_ (exact_of_δ₀ ?_ ?_))
+    · exact (hT.homology_exact₂ n₁).exact_toComposableArrows
+    · exact (hT.homology_exact₃ n₁ n₀ hij).exact_toComposableArrows
+    · exact (hT.homology_exact₁ n₁ n₀ hij).exact_toComposableArrows
+    · exact (hT.homology_exact₂ n₀).exact_toComposableArrows
+  -- Transport the homology window to the left derived window, one column per functor.
+  have e : ComposableArrows.mk₅
+      ((NatTrans.leftDerived τ₁ n₁).app X) ((NatTrans.leftDerived τ₂ n₁).app X)
+      ((P.isoLeftDerivedObj F₃ n₁).hom ≫ δ' ≫ (P.isoLeftDerivedObj F₁ n₀).inv)
+      ((NatTrans.leftDerived τ₁ n₀).app X) ((NatTrans.leftDerived τ₂ n₀).app X) ≅ Hrow := by
+    refine ComposableArrows.isoMk₅
+      (P.isoLeftDerivedObj F₁ n₁) (P.isoLeftDerivedObj F₂ n₁) (P.isoLeftDerivedObj F₃ n₁)
+      (P.isoLeftDerivedObj F₁ n₀) (P.isoLeftDerivedObj F₂ n₀) (P.isoLeftDerivedObj F₃ n₀)
+      ?_ ?_ ?_ ?_ ?_
+    · change (NatTrans.leftDerived τ₁ n₁).app X ≫ (P.isoLeftDerivedObj F₂ n₁).hom =
+        (P.isoLeftDerivedObj F₁ n₁).hom ≫ HomologicalComplex.homologyMap
+          ((NatTrans.mapHomologicalComplex τ₁ (ComplexShape.down ℕ)).app P.complex) n₁
+      rw [ProjectiveResolution.leftDerived_app_eq τ₁ P n₁]; simp
+    · change (NatTrans.leftDerived τ₂ n₁).app X ≫ (P.isoLeftDerivedObj F₃ n₁).hom =
+        (P.isoLeftDerivedObj F₂ n₁).hom ≫ HomologicalComplex.homologyMap
+          ((NatTrans.mapHomologicalComplex τ₂ (ComplexShape.down ℕ)).app P.complex) n₁
+      rw [ProjectiveResolution.leftDerived_app_eq τ₂ P n₁]; simp
+    · change ((P.isoLeftDerivedObj F₃ n₁).hom ≫ δ' ≫ (P.isoLeftDerivedObj F₁ n₀).inv) ≫
+          (P.isoLeftDerivedObj F₁ n₀).hom = (P.isoLeftDerivedObj F₃ n₁).hom ≫ δ'
+      simp
+    · change (NatTrans.leftDerived τ₁ n₀).app X ≫ (P.isoLeftDerivedObj F₂ n₀).hom =
+        (P.isoLeftDerivedObj F₁ n₀).hom ≫ HomologicalComplex.homologyMap
+          ((NatTrans.mapHomologicalComplex τ₁ (ComplexShape.down ℕ)).app P.complex) n₀
+      rw [ProjectiveResolution.leftDerived_app_eq τ₁ P n₀]; simp
+    · change (NatTrans.leftDerived τ₂ n₀).app X ≫ (P.isoLeftDerivedObj F₃ n₀).hom =
+        (P.isoLeftDerivedObj F₂ n₀).hom ≫ HomologicalComplex.homologyMap
+          ((NatTrans.mapHomologicalComplex τ₂ (ComplexShape.down ℕ)).app P.complex) n₀
+      rw [ProjectiveResolution.leftDerived_app_eq τ₂ P n₀]; simp
+  exact (ComposableArrows.exact_iff_of_iso e).mpr hHrowExact
+
 end Etingof

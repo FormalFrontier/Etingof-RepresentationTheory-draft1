@@ -1,5 +1,6 @@
-import EtingofRepresentationTheory.Chapter8.Problem8_2_6
+import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
 import Mathlib.Algebra.Category.ModuleCat.Projective
+import Mathlib.Algebra.Category.ModuleCat.Colimits
 import Mathlib.Algebra.Category.ModuleCat.Adjunctions
 import Mathlib.Algebra.Category.Grp.EpiMono
 import Mathlib.Algebra.Homology.ShortComplex.Retract

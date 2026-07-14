@@ -1,5 +1,7 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3
 import EtingofRepresentationTheory.Chapter8.Definition8_2_3_RightExact
+import EtingofRepresentationTheory.Chapter8.Problem8_2_6_Core
+import EtingofRepresentationTheory.Chapter8.TensorProjectiveExact
 import EtingofRepresentationTheory.Chapter8.LeftDerivedSequence
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter3.Problem3_9_1
@@ -55,112 +57,6 @@ namespace Etingof
 open CategoryTheory TensorProduct
 
 universe u
-
-/-! ### Second-argument functoriality of `⊗_A` and `Tor`
-
-The `Tor` construction of Definition 8.2.3 is set up as the left derived functor of `- ⊗_A N`
-in the *first* argument `M`, with the left module `N` held fixed. To state the long exact `Tor`
-sequence in the *second* argument (part (iii)) we need `Torᵢᴬ(M, -)` to be functorial in `N`.
-
-This is genuinely constructible: a left `A`-module map `g : N → N'` induces a natural
-transformation `tensorRightFunctor A N ⟶ tensorRightFunctor A N'` of the functors being
-left-derived (apply `id ⊗ g` to the second tensor factor), and `NatTrans.leftDerived` turns it
-into a map `Torᵢᴬ(M, N) ⟶ Torᵢᴬ(M, N')` natural in `M`. We build exactly this here. -/
-
-/-- The additive map `M ⊗_A N → M ⊗_A N'` induced by a left `A`-module map `g : N → N'`
-(second-argument functoriality of `⊗_A`). It applies `g` to the right tensor factor and descends
-to the balanced quotient because `g` is `A`-linear. -/
-noncomputable def tensorSndMap
-    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
-    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (M : ModuleCat.{u} Aᵐᵒᵖ) :
-    Etingof.tensorOver A N M →+ Etingof.tensorOver A N' M :=
-  QuotientAddGroup.map (Etingof.balancedSubgroup A N M) (Etingof.balancedSubgroup A N' M)
-    (TensorProduct.map (LinearMap.id) g.toAddMonoidHom.toIntLinearMap).toAddMonoidHom
-    (by
-      -- the induced map sends the balancing relation of `N` into that of `N'`
-      refine AddSubgroup.closure_le _ |>.mpr ?_
-      rintro x ⟨a, m, n, rfl⟩
-      apply AddSubgroup.subset_closure
-      refine ⟨a, m, g n, ?_⟩
-      simp only [map_sub, TensorProduct.map_tmul, LinearMap.id_coe, id_eq,
-        LinearMap.toAddMonoidHom_coe, AddMonoidHom.coe_toIntLinearMap, map_smul])
-
-@[simp]
-lemma tensorSndMap_mk
-    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
-    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (M : ModuleCat.{u} Aᵐᵒᵖ)
-    (m : M) (n : N) :
-    tensorSndMap A g M (TensorProduct.tmul ℤ m n : Etingof.tensorOver A N M)
-      = (TensorProduct.tmul ℤ m (g n) : Etingof.tensorOver A N' M) :=
-  rfl
-
-/-- The natural transformation `- ⊗_A N ⟶ - ⊗_A N'` induced by a left `A`-module map
-`g : N → N'`; its components are `tensorSndMap`. -/
-noncomputable def tensorRightNatTrans
-    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
-    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') :
-    Etingof.tensorRightFunctor A N ⟶ Etingof.tensorRightFunctor A N' where
-  app M := AddCommGrpCat.ofHom (tensorSndMap A g M)
-  naturality {M M'} f := by
-    ext x
-    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
-    induction y with
-    | zero => simp
-    | tmul m n => rfl
-    | add a b ha hb =>
-      rw [show ((a + b : TensorProduct ℤ M N) : Etingof.tensorOver A N M)
-            = (a : Etingof.tensorOver A N M) + b from
-          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N M)) a b,
-        map_add, map_add, ha, hb]
-
-/-- **Second-argument functoriality of `Tor`.** A left `A`-module map `g : N → N'` induces
-`Torᵢᴬ(M, N) ⟶ Torᵢᴬ(M, N')`, natural in the right module `M`. Defined as the `n`-th left
-derived natural transformation of `tensorRightNatTrans A g`. -/
-noncomputable def torSndMap
-    (A : Type u) [Ring A] {N N' : Type u} [AddCommGroup N] [Module A N]
-    [AddCommGroup N'] [Module A N'] (g : N →ₗ[A] N') (n : ℕ) (M : ModuleCat.{u} Aᵐᵒᵖ) :
-    Etingof.Tor A N M n ⟶ Etingof.Tor A N' M n :=
-  (NatTrans.leftDerived (tensorRightNatTrans A g) n).app M
-
-/-- The functor `N ↦ M ⊗_A N` from left `A`-modules to abelian groups, with the right `A`-module
-`M` held fixed. This is the functor whose left derived functors compute `Tor` "the other way"
-(from a projective resolution of `N` tensored with `M`), used to state the balancing theorem
-Problem 8.2.6(iv). Its action on morphisms is `tensorSndMap`. -/
-noncomputable def tensorLeftFunctor (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ) :
-    ModuleCat.{u} A ⥤ AddCommGrpCat.{u} where
-  obj N := AddCommGrpCat.of (Etingof.tensorOver A N M)
-  map {N N'} g := AddCommGrpCat.ofHom (tensorSndMap A g.hom M)
-  map_id N := by
-    ext x
-    induction x with
-    | zero => simp
-    | tmul m n => rfl
-    | add a b ha hb => simp only [map_add, ha, hb]
-  map_comp {N N' N''} g g' := by
-    ext x
-    induction x with
-    | zero => simp
-    | tmul m n => rfl
-    | add a b ha hb => simp only [map_add, ha, hb]
-
-/-- The functor `N ↦ M ⊗_A N` is additive in `N`, so it can be left-derived (Problem 8.2.6(iv)). -/
-instance (A : Type u) [Ring A] (M : ModuleCat.{u} Aᵐᵒᵖ) :
-    (tensorLeftFunctor A M).Additive where
-  map_add {N N' f g} := by
-    ext x
-    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
-    induction y with
-    | zero => simp
-    | tmul m n =>
-      simp only [tensorLeftFunctor, AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_add,
-        AddMonoidHom.add_apply, tensorSndMap_mk, ModuleCat.hom_add, LinearMap.add_apply,
-        tmul_add]
-      exact map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N' M)) _ _
-    | add a b ha hb =>
-      rw [show ((a + b : TensorProduct ℤ M N) : Etingof.tensorOver A N M)
-            = (a : Etingof.tensorOver A N M) + b from
-          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A N M)) a b,
-        map_add, map_add, ha, hb]
 
 /-! ### Part (i) -/
 
@@ -234,7 +130,32 @@ theorem Problem_8_2_6_iii_tor
         (torSndMap A S.f.hom n₁ M) (torSndMap A S.g.hom n₁ M)
         δ
         (torSndMap A S.f.hom n₀ M) (torSndMap A S.g.hom n₀ M)).Exact := by
-  sorry
+  -- The composite `S.g.hom ∘ S.f.hom` vanishes since `S.f ≫ S.g = 0`.
+  have hcomp : ∀ (n : S.X₁), S.g.hom (S.f.hom n) = 0 := by
+    intro n
+    have h0 : (S.f ≫ S.g).hom n = 0 := by rw [S.zero]; rfl
+    rwa [ModuleCat.hom_comp, LinearMap.comp_apply] at h0
+  -- The induced natural transformations `- ⊗_A Nᵢ` compose to zero.
+  have w : tensorRightNatTrans A S.f.hom ≫ tensorRightNatTrans A S.g.hom = 0 := by
+    ext Y x
+    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective x
+    induction y with
+    | zero => simp
+    | tmul m n =>
+      change tensorSndMap A S.g.hom Y (tensorSndMap A S.f.hom Y
+        (QuotientAddGroup.mk (m ⊗ₜ[ℤ] n))) = 0
+      rw [tensorSndMap_mk, tensorSndMap_mk, hcomp n, tmul_zero]
+      rfl
+    | add a b ha hb =>
+      rw [show ((a + b : TensorProduct ℤ Y ↑S.X₁) : Etingof.tensorOver A ↑S.X₁ Y)
+            = (a : Etingof.tensorOver A ↑S.X₁ Y) + b from
+          map_add (QuotientAddGroup.mk' (Etingof.balancedSubgroup A ↑S.X₁ Y)) a b,
+        map_add, map_add, ha, hb]
+  -- Apply the varying-functor six-term exact sequence; on projective `Y` the tensor sequence
+  -- `Y ⊗_A N₁ → Y ⊗_A N₂ → Y ⊗_A N₃` is short exact by flatness of projectives (#6587).
+  exact NatTrans.leftDerived_sixTerm_exact
+    (tensorRightNatTrans A S.f.hom) (tensorRightNatTrans A S.g.hom) w
+    (fun Y _ => tensorLeftFunctor_map_shortExact A Y hS) M n₀ n₁ h
 
 /-! ### Part (iv): the balancing theorem -/
 
