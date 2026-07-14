@@ -5,6 +5,8 @@ import EtingofRepresentationTheory.Chapter2.Definition2_8_4
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardResolution
+import EtingofRepresentationTheory.Chapter9.PathAlgebraLowerBound
+import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras
@@ -105,7 +107,9 @@ theorem homologicalDimension_pathAlgebra_eq_one
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
     (hQ : ∃ a b : Q, Nonempty (a ⟶ b)) :
     Etingof.homologicalDimension (Etingof.PathAlgebra k Q) = 1 :=
-  sorry
+  Etingof.homologicalDimension_eq_one_of_not_le_zero
+    hasHomologicalDimensionLE_pathAlgebra_one
+    (not_hasHomologicalDimensionLE_zero_pathAlgebra hQ)
 
 /-- **Problem 9.4.6 (i), free algebra.** The free associative algebra `k⟨x₁, …, xₙ⟩` on
 `n ≥ 1` generators (the path algebra of the one-vertex quiver with `n` loops) has homological
