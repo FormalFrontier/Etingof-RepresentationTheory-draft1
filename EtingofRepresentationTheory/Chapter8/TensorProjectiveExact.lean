@@ -147,4 +147,51 @@ lemma unit_map_shortExact {S : ShortComplex (ModuleCat.{u} A)} (hS : S.ShortExac
   ShortComplex.shortExact_of_iso (S.mapNatIso (unitorNatIso A)).symm
     (hS.map_of_exact (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}))
 
+/-! ### Functoriality of `tensorLeftFunctor` in the right module -/
+
+/-- A right `A`-module map `f : M ⟶ M'` induces a natural transformation
+`tensorLeftFunctor A M ⟶ tensorLeftFunctor A M'`, applying `f` to the left tensor factor. Its
+components are `tensorRightMap`. -/
+noncomputable def tensorLeftNatTrans {M M' : ModuleCat.{u} Aᵐᵒᵖ} (f : M ⟶ M') :
+    tensorLeftFunctor A M ⟶ tensorLeftFunctor A M' where
+  app N := AddCommGrpCat.ofHom (tensorRightMap A N f)
+  naturality {N N'} g := by
+    apply AddCommGrpCat.hom_ext
+    apply tensorOver_hom_ext
+    intro m n
+    rfl
+
+/-- The bifunctor `M ↦ (N ↦ M ⊗_A N)` from right `A`-modules to functors `ModuleCat A ⥤
+AddCommGrpCat`. Its value at `M` is `tensorLeftFunctor A M`, and it is functorial in `M` via
+`tensorLeftNatTrans`. -/
+noncomputable def tensorBifunctor :
+    ModuleCat.{u} Aᵐᵒᵖ ⥤ (ModuleCat.{u} A ⥤ AddCommGrpCat.{u}) where
+  obj M := tensorLeftFunctor A M
+  map f := tensorLeftNatTrans A f
+  map_id M := by
+    refine NatTrans.ext (funext fun N => ?_)
+    apply AddCommGrpCat.hom_ext
+    apply tensorOver_hom_ext
+    intro m n
+    rfl
+  map_comp {M M' M''} f f' := by
+    refine NatTrans.ext (funext fun N => ?_)
+    apply AddCommGrpCat.hom_ext
+    apply tensorOver_hom_ext
+    intro m n
+    rfl
+
+/-- A retract `P ◁ F` of right `A`-modules induces a retract of short complexes
+`S.map (tensorLeftFunctor A P) ◁ S.map (tensorLeftFunctor A F)`, natural in `N`. -/
+noncomputable def mapRetract {S : ShortComplex (ModuleCat.{u} A)} {P F : ModuleCat.{u} Aᵐᵒᵖ}
+    (h : Retract P F) :
+    Retract (S.map (tensorLeftFunctor A P)) (S.map (tensorLeftFunctor A F)) :=
+  let hF : Retract (tensorLeftFunctor A P) (tensorLeftFunctor A F) := h.map (tensorBifunctor A)
+  { i := S.mapNatTrans hF.i
+    r := S.mapNatTrans hF.r
+    retract := ShortComplex.hom_ext _ _
+      (NatTrans.congr_app hF.retract S.X₁)
+      (NatTrans.congr_app hF.retract S.X₂)
+      (NatTrans.congr_app hF.retract S.X₃) }
+
 end Etingof
