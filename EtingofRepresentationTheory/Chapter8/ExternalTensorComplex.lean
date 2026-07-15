@@ -123,10 +123,78 @@ variable {M₁ : ModuleCat.{u} A₁ᵐᵒᵖ} {M₂ : ModuleCat.{u} A₂ᵐᵒ�
 /-- The **external tensor complex** of two projective resolutions: the total complex of the
 bicomplex `(j, m) ↦ (P₁.complex.X j) ⊗[k] (P₂.complex.X m)` with its external
 `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action, differential `d₁ ⊗ 1 + (-1)ʲ · 1 ⊗ d₂`. -/
-noncomputable def extTensorComplex
+noncomputable abbrev extTensorComplex
     (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
     ChainComplex (ModuleCat.{u} (A₁ ⊗[k] A₂)ᵐᵒᵖ) ℕ :=
   HomologicalComplex.mapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
     (ComplexShape.down ℕ)
+
+/-- The degree-0 component of the augmentation `extTensorπ`: on the only summand `(0, 0)` of
+`(extTensorComplex P₁ P₂).X 0` it is `(P₁.π)₀ ⊗ (P₂.π)₀ : (P₁)₀ ⊗ (P₂)₀ ⟶ M₁ ⊗ M₂`. -/
+noncomputable abbrev extTensorAug₀
+    (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
+    (extTensorComplex P₁ P₂).X 0 ⟶ extTensorFunctorObj k A₁ A₂ M₁ M₂ :=
+  HomologicalComplex.mapBifunctorDesc (j := 0) fun i₁ i₂ h =>
+    match i₁, i₂, h with
+    | 0, 0, _ =>
+        ((extTensorFunctor k A₁ A₂).map ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1).app
+          (P₂.complex.X 0) ≫
+        ((extTensorFunctor k A₁ A₂).obj M₁).map ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1
+    | (_ + 1), _, h => absurd h (by simp)
+    | 0, (_ + 1), h => absurd h (by simp)
+
+/-- The augmentation commutes past the degree-1 differential: the composite
+`d₁,₀ ≫ (π₁ ⊗ π₂)` vanishes because `d ≫ π = 0` on each factor and `extTensorFunctor` preserves
+zero morphisms. This is the chain-map condition needed to build `extTensorπ`. -/
+theorem extTensorAug₀_comm (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
+    (extTensorComplex (k := k) P₁ P₂).d 1 0 ≫ extTensorAug₀ (k := k) P₁ P₂ = 0 := by
+  have hd₁ : P₁.complex.d 1 0 ≫ ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1 = 0 :=
+    ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).2
+  have hd₂ : P₂.complex.d 1 0 ≫ ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1 = 0 :=
+    ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).2
+  apply HomologicalComplex.mapBifunctor.hom_ext
+  intro i₁ i₂ h
+  rw [comp_zero]
+  simp only [HomologicalComplex.mapBifunctor.d_eq, Preadditive.add_comp, Preadditive.comp_add,
+    HomologicalComplex.mapBifunctor.ι_D₁_assoc, HomologicalComplex.mapBifunctor.ι_D₂_assoc]
+  -- `h : i₁ + i₂ = 1`; the two summands are `(1, 0)` and `(0, 1)`.
+  have hi : i₁ + i₂ = 1 := h
+  obtain ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ : (i₁ = 1 ∧ i₂ = 0) ∨ (i₁ = 0 ∧ i₂ = 1) := by omega
+  · -- Only the first-index differential `d₁` survives here (`d₂` vanishes: `¬ Rel 0 (next 0)`).
+    rw [HomologicalComplex.mapBifunctor.d₂_eq_zero (K₁ := P₁.complex) (K₂ := P₂.complex)
+        (F := extTensorFunctor k A₁ A₂) (c := ComplexShape.down ℕ) (i₁ := 1) (i₂ := 0) (j := 0)
+        (by simp),
+      HomologicalComplex.mapBifunctor.d₁_eq (K₁ := P₁.complex) (K₂ := P₂.complex)
+        (F := extTensorFunctor k A₁ A₂) (c := ComplexShape.down ℕ) (i₁ := 1) (i₁' := 0) (i₂ := 0)
+        (j := 0) (h := by simp) (h' := by simp)]
+    rw [zero_comp, add_zero,
+      show ComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+        (ComplexShape.down ℕ) (1, 0) = 1 from rfl, one_smul, Category.assoc,
+      HomologicalComplex.ι_mapBifunctorDesc, ← NatTrans.comp_app_assoc, ← Functor.map_comp, hd₁]
+    simp
+  · -- Only `d₂` survives: `d₁` vanishes since `¬ (down ℕ).Rel 0 (next 0)`.
+    rw [HomologicalComplex.mapBifunctor.d₁_eq_zero (K₁ := P₁.complex) (K₂ := P₂.complex)
+        (F := extTensorFunctor k A₁ A₂) (c := ComplexShape.down ℕ) (i₁ := 0) (i₂ := 1) (j := 0)
+        (by simp),
+      HomologicalComplex.mapBifunctor.d₂_eq (K₁ := P₁.complex) (K₂ := P₂.complex)
+        (F := extTensorFunctor k A₁ A₂) (c := ComplexShape.down ℕ) (i₁ := 0) (i₂ := 1) (i₂' := 0)
+        (j := 0) (h := by simp) (h' := by simp)]
+    rw [zero_comp, zero_add,
+      show ComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+        (ComplexShape.down ℕ) (0, 1) = 1 from by simp [ComplexShape.ε₂, ComplexShape.ε],
+      one_smul, Category.assoc, HomologicalComplex.ι_mapBifunctorDesc]
+    dsimp only
+    rw [((extTensorFunctor k A₁ A₂).map ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1
+        ).naturality_assoc, ← Functor.map_comp, hd₂]
+    simp
+
+/-- The **augmentation** of the external tensor complex: the chain map to `M₁ ⊗ M₂` concentrated in
+degree 0, where it is `(P₁.π)₀ ⊗ (P₂.π)₀`. -/
+noncomputable def extTensorπ
+    (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
+    extTensorComplex P₁ P₂ ⟶
+      (ChainComplex.single₀ (ModuleCat.{u} (A₁ ⊗[k] A₂)ᵐᵒᵖ)).obj
+        (extTensorFunctorObj k A₁ A₂ M₁ M₂) :=
+  (ChainComplex.toSingle₀Equiv _ _).symm ⟨extTensorAug₀ P₁ P₂, extTensorAug₀_comm P₁ P₂⟩
 
 end Etingof
