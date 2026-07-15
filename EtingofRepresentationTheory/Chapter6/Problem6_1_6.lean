@@ -610,17 +610,11 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
   have := (List.isChain_iff_getElem.mp hpc) k hk
   simpa [List.get_eq_getElem, McKayAdj] using this
 
-/-! ## Part (c): the McKay graph is an affine Dynkin diagram -/
+/-! ## Part (c): positive semidefinite but not definite (explicit form)
 
-/-- **(c)** The McKay adjacency matrix is symmetric with `0/1` entries and no
-self-loops, and its Cartan matrix `2δ - r` is positive semidefinite but not
-definite — i.e. the McKay graph is an **affine Dynkin diagram**. -/
-theorem mckay_isAffineDynkin (hW : IsCompleteIrreps W) (hm : 1 ≤ m)
-    (hne : Nontrivial G) :
-    Problem6_1_3_tildeE.IsAffineDynkinDiagram m (mckayAdj W) := by
-  sorry
-
-/-! ## Part (c): positive semidefinite but not definite (explicit form) -/
+The assembled statement `mckay_isAffineDynkin` (all six conjuncts of
+`IsAffineDynkinDiagram`) lives below, after the `mckayCartan_posSemidef` /
+`mckayCartan_not_posDef` lemmas it consumes. -/
 
 /-- **(c)** The McKay Cartan form is positive **semidefinite**. Following the book's hint, set
 `f = ∑ᵢ xᵢ χ_{Wᵢ}` and compute `((2 - χ_V) f, f) = (1/|G|) ∑_g (2 - χ_V(g)) |f(g)|²`. Each factor
@@ -778,6 +772,220 @@ theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
       simp only [Matrix.mulVec, Matrix.of_apply, dotProduct]
       exact mckay_marks_aux W hW i
     rw [hinner, mul_zero]
+
+/-! ## Part (c): assembling `IsAffineDynkinDiagram` -/
+
+omit [Finite G] in
+/-- Each irreducible `W b` is a nonzero object, so its dimension is positive. -/
+lemma finrank_W_ne_zero (hW : IsCompleteIrreps W) (b : Fin m) :
+    finrank ℂ (W b) ≠ 0 := by
+  intro h0
+  haveI : Simple (W b) := hW.simple b
+  haveI : Subsingleton (W b : Type) := finrank_zero_iff.mp h0
+  have hz : (𝟙 (W b) : W b ⟶ W b) = 0 :=
+    Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => Subsingleton.elim _ _)))
+  exact id_nonzero (W b) hz
+
+/-- The **marks identity** in additive form: `∑ⱼ rᵢⱼ dⱼ = 2 dᵢ`, where `dⱼ = dim Wⱼ`.
+Rearrangement of `mckay_marks_aux`. -/
+lemma mckay_marks_sum (hW : IsCompleteIrreps W) (i : Fin m) :
+    (∑ j, (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ)) = 2 * (finrank ℂ (W i) : ℤ) := by
+  have h := mckay_marks_aux W hW i
+  have expand : ∀ j, mckayCartan W i j * (finrank ℂ (W j) : ℤ)
+      = (if i = j then 2 * (finrank ℂ (W j) : ℤ) else 0)
+        - (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ) := by
+    intro j; simp only [mckayCartan]; split_ifs <;> ring
+  rw [Finset.sum_congr rfl (fun j _ => expand j), Finset.sum_sub_distrib,
+    Finset.sum_ite_eq Finset.univ i (fun j => 2 * (finrank ℂ (W j) : ℤ)),
+    if_pos (Finset.mem_univ i)] at h
+  linarith
+
+/-- **(c)** The McKay graph has **no self-loops**: `rᵢᵢ = 0`, i.e. `Wᵢ` does not
+occur in `V ⊗ Wᵢ`.
+
+The book's argument (part (c) hint): the central element `-Id ∈ SU(2)` acts on `V`
+as the scalar `-1` (`χ_V(-Id) = -2`) and on each irreducible `Wᵢ` as a scalar
+`εᵢ ∈ {±1}` (Schur), so it acts on `V ⊗ Wᵢ` as `-εᵢ ≠ εᵢ`; the central characters
+differ, hence no copy of `Wᵢ` sits inside `V ⊗ Wᵢ`. When `G` is not cyclic it
+contains `-Id`; when `G` is cyclic (so `G ⊂ U(1)`, type `Ãₙ` with `n ≥ 3` by
+`3 ≤ m`), `V` splits as `χ ⊕ χ⁻¹` with `χ` a nontrivial character, and `V ⊗ Wᵢ`
+returns two characters distinct from `Wᵢ`.
+
+This needs the `SU(2)` subgroup infrastructure of Problem 4.12.8 (the central
+`-Id`, the cyclic-vs-noncyclic dichotomy, and the splitting of `V` in the cyclic
+case), which is a separate, not-yet-formalized item. Tracked as a sub-issue. -/
+lemma mckayAdj_no_selfLoop (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontrivial G)
+    (i : Fin m) : mckayAdj W i i = 0 := by
+  sorry
+
+/-- **(c)** Off-diagonal multiplicities are at most `1` (single edges): for `i ≠ j`
+and `3 ≤ m`, `rᵢⱼ ≤ 1`.
+
+Proof: the marks vector `d` (all positive) satisfies `∑ₖ rᵢₖ dₖ = 2 dᵢ`, so the
+single term `rᵢⱼ dⱼ ≤ 2 dᵢ` and symmetrically `rᵢⱼ dᵢ ≤ 2 dⱼ`; multiplying gives
+`rᵢⱼ² ≤ 4`. If `rᵢⱼ = 2` these force `dᵢ = dⱼ` and, via the marks sum, `rᵢₖ = 0`
+for all `k ≠ j` and `rⱼₖ = 0` for all `k ≠ i` — so `{i, j}` is an isolated pair,
+contradicting connectivity of the McKay graph once `m ≥ 3`. -/
+lemma mult_le_one_off (hW : IsCompleteIrreps W) (hm : 3 ≤ m) {i j : Fin m} (hij : i ≠ j) :
+    mult W i j ≤ 1 := by
+  classical
+  have hd : ∀ k, (1 : ℤ) ≤ (finrank ℂ (W k) : ℤ) := fun k => by
+    have h := finrank_W_ne_zero W hW k; omega
+  have hterm_nonneg : ∀ (a : Fin m) (k : Fin m),
+      (0 : ℤ) ≤ (mult W a k : ℤ) * (finrank ℂ (W k) : ℤ) :=
+    fun a k => mul_nonneg (Int.natCast_nonneg _) (Int.natCast_nonneg _)
+  -- single-term bounds from the marks identity
+  have step1 : (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ) ≤ 2 * (finrank ℂ (W i) : ℤ) := by
+    rw [← mckay_marks_sum W hW i]
+    exact Finset.single_le_sum (fun k _ => hterm_nonneg i k) (Finset.mem_univ j)
+  have step2 : (mult W i j : ℤ) * (finrank ℂ (W i) : ℤ) ≤ 2 * (finrank ℂ (W j) : ℤ) := by
+    have h := Finset.single_le_sum (f := fun k => (mult W j k : ℤ) * (finrank ℂ (W k) : ℤ))
+      (fun k _ => hterm_nonneg j k) (Finset.mem_univ i)
+    rw [mckay_marks_sum W hW j] at h
+    rwa [mult_symm W hW j i] at h
+  -- isolate: if a-row concentrates its mass on `b`, all other `a`-multiplicities vanish
+  have isolate : ∀ (a b : Fin m),
+      (mult W a b : ℤ) * (finrank ℂ (W b) : ℤ) = 2 * (finrank ℂ (W a) : ℤ) →
+      ∀ k, k ≠ b → mult W a k = 0 := by
+    intro a b hab k hk
+    by_contra hne0
+    have hdk : (0 : ℤ) < (finrank ℂ (W k) : ℤ) := by have := hd k; linarith
+    have hpos : 0 < (mult W a k : ℤ) * (finrank ℂ (W k) : ℤ) :=
+      mul_pos (by exact_mod_cast Nat.pos_of_ne_zero hne0) hdk
+    have hsub : (∑ l ∈ ({b, k} : Finset (Fin m)), (mult W a l : ℤ) * (finrank ℂ (W l) : ℤ))
+        ≤ ∑ l, (mult W a l : ℤ) * (finrank ℂ (W l) : ℤ) :=
+      Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
+        (fun l _ _ => hterm_nonneg a l)
+    rw [Finset.sum_pair (Ne.symm hk), mckay_marks_sum W hW a, hab] at hsub
+    linarith
+  -- the main bound, by contradiction
+  by_contra hcon
+  push_neg at hcon
+  have hR2 : (2 : ℤ) ≤ (mult W i j : ℤ) := by
+    have : 2 ≤ mult W i j := hcon; exact_mod_cast this
+  have hprod1 : (0 : ℤ) ≤ ((mult W i j : ℤ) - 2) * (finrank ℂ (W j) : ℤ) :=
+    mul_nonneg (by linarith) (by linarith [hd j])
+  have hprod2 : (0 : ℤ) ≤ ((mult W i j : ℤ) - 2) * (finrank ℂ (W i) : ℤ) :=
+    mul_nonneg (by linarith) (by linarith [hd i])
+  have hdle1 : (finrank ℂ (W j) : ℤ) ≤ (finrank ℂ (W i) : ℤ) := by nlinarith [step1, hprod1]
+  have hdle2 : (finrank ℂ (W i) : ℤ) ≤ (finrank ℂ (W j) : ℤ) := by nlinarith [step2, hprod2]
+  have hdeq : (finrank ℂ (W i) : ℤ) = (finrank ℂ (W j) : ℤ) := le_antisymm hdle2 hdle1
+  have hfj_ge : 2 * (finrank ℂ (W i) : ℤ) ≤ (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ) := by
+    nlinarith [hprod1, hdeq]
+  have hfj : (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ) = 2 * (finrank ℂ (W i) : ℤ) :=
+    le_antisymm step1 hfj_ge
+  have hfj2_ge : 2 * (finrank ℂ (W j) : ℤ) ≤ (mult W i j : ℤ) * (finrank ℂ (W i) : ℤ) := by
+    nlinarith [hprod2, hdeq]
+  have hfj2 : (mult W j i : ℤ) * (finrank ℂ (W i) : ℤ) = 2 * (finrank ℂ (W j) : ℤ) := by
+    rw [mult_symm W hW j i]; exact le_antisymm step2 hfj2_ge
+  have hzi : ∀ k, k ≠ j → mult W i k = 0 := isolate i j hfj
+  have hzj : ∀ k, k ≠ i → mult W j k = 0 := isolate j i hfj2
+  -- connectivity contradiction: `{i, j}` cannot be an isolated pair when `m ≥ 3`
+  obtain ⟨l, hl⟩ : ∃ l : Fin m, l ∉ ({i, j} : Finset (Fin m)) := by
+    by_contra hc
+    push_neg at hc
+    have hsubuniv : (Finset.univ : Finset (Fin m)) ⊆ {i, j} := fun l _ => hc l
+    have h1 := Finset.card_le_card hsubuniv
+    rw [Finset.card_univ, Fintype.card_fin] at h1
+    have h2 : ({i, j} : Finset (Fin m)).card ≤ 2 :=
+      le_trans (Finset.card_insert_le _ _) (by simp)
+    omega
+  simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hl
+  -- every vertex reachable from `i` lies in `{i, j}`
+  have allmem : ∀ (q : List (Fin m)), q.IsChain (McKayAdj W) →
+      ∀ a, q.head? = some a → (a = i ∨ a = j) → ∀ y ∈ q, y = i ∨ y = j := by
+    intro q
+    induction q with
+    | nil => intro _ a ha _ _ _; simp at ha
+    | cons c t ih =>
+      intro hchain a ha hab y hy
+      simp only [List.head?_cons, Option.some.injEq] at ha
+      subst c
+      rcases List.mem_cons.mp hy with rfl | hyt
+      · exact hab
+      · cases t with
+        | nil => simp at hyt
+        | cons b t' =>
+          have hchain' := List.isChain_cons.mp hchain
+          have hadj : McKayAdj W a b := hchain'.1 b (by simp)
+          have hb : b = i ∨ b = j := by
+            rcases hab with rfl | rfl
+            · by_contra hbc
+              push_neg at hbc
+              have h0 := hzi b hbc.2
+              unfold McKayAdj at hadj; omega
+            · by_contra hbc
+              push_neg at hbc
+              have h0 := hzj b hbc.1
+              unfold McKayAdj at hadj; omega
+          exact ih hchain'.2 b (by simp) hb y hyt
+  -- connectivity gives a walk `i → l`, forcing `l ∈ {i, j}`
+  obtain ⟨p, hp1, hp2, hpc⟩ := mckay_connected W hW i l
+  have hchainp : p.IsChain (McKayAdj W) := by
+    rw [List.isChain_iff_getElem]
+    intro k hk
+    simpa [List.get_eq_getElem, McKayAdj] using hpc k hk
+  have hlmem : l ∈ p := List.mem_of_getLast? hp2
+  rcases allmem p hchainp i hp1 (Or.inl rfl) l hlmem with h | h
+  · exact hl.1 h
+  · exact hl.2 h
+
+/-- **(c)** All McKay multiplicities are `0` or `1`: `rᵢⱼ ≤ 1` for every `i, j`
+(diagonal by `mckayAdj_no_selfLoop`, off-diagonal by `mult_le_one_off`). -/
+lemma mult_le_one (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontrivial G) (i j : Fin m) :
+    mult W i j ≤ 1 := by
+  by_cases h : i = j
+  · subst h
+    have h0 := mckayAdj_no_selfLoop W hW hm hne i
+    simp only [mckayAdj] at h0
+    omega
+  · exact mult_le_one_off W hW hm h
+
+/-- **(c)** The McKay adjacency matrix is symmetric with `0/1` entries and no
+self-loops, its graph is connected, and its Cartan matrix `2δ - r` is positive
+semidefinite but not definite — i.e. (for `3 ≤ m`) the McKay graph is an
+**affine Dynkin diagram**. The `3 ≤ m` hypothesis excludes the `m = 2` case
+`G ≅ ℤ/2`, whose McKay graph is the double edge `Ã₁` (violating `0/1` adjacency). -/
+theorem mckay_isAffineDynkin (hW : IsCompleteIrreps W) (hm : 3 ≤ m)
+    (hne : Nontrivial G) :
+    Problem6_1_3_tildeE.IsAffineDynkinDiagram m (mckayAdj W) := by
+  classical
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- symmetric
+    unfold Matrix.IsSymm
+    ext i j
+    simp only [Matrix.transpose_apply, mckayAdj]
+    rw [mult_symm W hW j i]
+  · -- no self-loops
+    intro i
+    exact mckayAdj_no_selfLoop W hW hm hne i
+  · -- `0/1` entries
+    intro i j
+    simp only [mckayAdj]
+    rcases Nat.le_one_iff_eq_zero_or_eq_one.mp (mult_le_one W hW hm hne i j) with h | h
+    · exact Or.inl (by exact_mod_cast h)
+    · exact Or.inr (by exact_mod_cast h)
+  · -- connected, with every edge labelled `1`
+    intro i j
+    obtain ⟨p, hp1, hp2, hpc⟩ := mckay_connected W hW i j
+    refine ⟨p, hp1, hp2, fun k hk => ?_⟩
+    simp only [mckayAdj]
+    exact_mod_cast le_antisymm (mult_le_one W hW hm hne _ _) (hpc k hk)
+  · -- positive semidefinite
+    intro x
+    convert mckayCartan_posSemidef W hW hne x using 3
+    ext a b
+    simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.of_apply,
+      mckayCartan, mckayAdj]
+    split_ifs <;> simp
+  · -- not positive definite
+    obtain ⟨x, hx0, hx⟩ := mckayCartan_not_posDef W hW hne
+    refine ⟨x, hx0, ?_⟩
+    convert hx using 3
+    ext a b
+    simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.of_apply,
+      mckayCartan, mckayAdj]
+    split_ifs <;> simp
 
 /-! ## Part (e): irreducible dimensions are the marks -/
 
