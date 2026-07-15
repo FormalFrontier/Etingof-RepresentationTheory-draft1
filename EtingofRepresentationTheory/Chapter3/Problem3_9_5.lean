@@ -23,6 +23,8 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.RingTheory.SimpleModule.IsAlgClosed
 import Mathlib.Analysis.Complex.Polynomial.Basic
 import Mathlib.LinearAlgebra.Matrix.ToLin
+import Mathlib.Algebra.Algebra.Subalgebra.Pi
+import Mathlib.Algebra.Central.Matrix
 
 /-!
 # Problem 3.9.5: The Clifford algebra
@@ -952,6 +954,119 @@ theorem even_isMatrixAlgebra
     rw [← h1, ← hfr_iso, h2]
   have hk : k = 2 ^ n := Nat.pow_left_injective (by norm_num) hsq
   rw [hfrS, hk]
+
+set_option maxHeartbeats 400000 in
+/-- **Two Wedderburn factors in the odd case.** If `B` is nondegenerate and `dim V = 2n+1`, then
+`Cl(V) ≃ₐ ∏_{i : Fin 2} M_{dᵢ}(ℂ)` with each `dᵢ > 0`. The count `2` is exactly the dimension of the
+center (`finrank_center_odd`): the `m` coordinate central units span the center, so `m = 2`. -/
+theorem odd_exists_pi_matrix
+    (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate)
+    (n : ℕ) (hdim : Module.finrank ℂ V = 2 * n + 1) :
+    ∃ (d : Fin 2 → ℕ), (∀ i, 0 < d i) ∧
+      Nonempty (CliffAlg B ≃ₐ[ℂ] (Π i : Fin 2, Matrix (Fin (d i)) (Fin (d i)) ℂ)) := by
+  classical
+  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
+    (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
+  have hNodd : Odd (Module.finrank ℂ V) := ⟨n, by rw [hdim]⟩
+  haveI hss : IsSemisimpleRing (CliffAlg B) := isSemisimpleRing_of_nondegenerate B hsymm hnd
+  haveI : Nontrivial (CliffAlg B) :=
+    Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
+  -- Wedderburn–Artin over `ℂ`: `Cl(V) ≃ₐ ∏ᵢ Mₐᵢ(ℂ)`.
+  obtain ⟨m, d, hd, ⟨eiso⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed ℂ (CliffAlg B)
+  set P := (Π i : Fin m, Matrix (Fin (d i)) (Fin (d i)) ℂ) with hPdef
+  -- The `m` "coordinate units" `Pi.single i 1` are central and linearly independent.
+  have hsingle_cent : ∀ i : Fin m, (Pi.single i 1 : P) ∈ Subalgebra.center ℂ P := by
+    intro i
+    rw [Subalgebra.mem_center_iff]
+    intro b
+    funext j
+    simp only [Pi.mul_apply]
+    rcases eq_or_ne j i with rfl | hji
+    · rw [Pi.single_eq_same, mul_one, one_mul]
+    · rw [Pi.single_eq_of_ne hji, mul_zero, zero_mul]
+  let g : Fin m → CliffAlg B := fun i => eiso.symm (Pi.single i 1)
+  have hg_cent : ∀ i, g i ∈ Subalgebra.center ℂ (CliffAlg B) := by
+    intro i
+    rw [Subalgebra.mem_center_iff]
+    intro y
+    have hs := Subalgebra.mem_center_iff.mp (hsingle_cent i) (eiso y)
+    calc y * g i = eiso.symm (eiso y) * eiso.symm (Pi.single i 1) := by
+            rw [AlgEquiv.symm_apply_apply]
+      _ = eiso.symm (eiso y * Pi.single i 1) := by rw [← map_mul]
+      _ = eiso.symm (Pi.single i 1 * eiso y) := by rw [hs]
+      _ = eiso.symm (Pi.single i 1) * eiso.symm (eiso y) := by rw [map_mul]
+      _ = g i * y := by rw [AlgEquiv.symm_apply_apply]
+  have hbase : LinearIndependent ℂ (fun i : Fin m => (Pi.single i 1 : P)) := by
+    rw [Fintype.linearIndependent_iff]
+    intro a ha j
+    have hj := congrFun ha j
+    rw [Finset.sum_apply, Pi.zero_apply, Finset.sum_eq_single j] at hj
+    · rw [Pi.smul_apply, Pi.single_eq_same] at hj
+      exact (smul_eq_zero.mp hj).resolve_right one_ne_zero
+    · intro b _ hbj
+      rw [Pi.smul_apply, Pi.single_eq_of_ne (Ne.symm hbj), smul_zero]
+    · intro h; exact absurd (Finset.mem_univ j) h
+  have hg_li : LinearIndependent ℂ g :=
+    hbase.map' eiso.symm.toLinearMap (LinearMap.ker_eq_bot.mpr eiso.symm.injective)
+  -- The span of the `g i` lies in the center.
+  have hspan_le : Submodule.span ℂ (Set.range g) ≤
+      (Subalgebra.center ℂ (CliffAlg B)).toSubmodule := by
+    rw [Submodule.span_le]
+    rintro _ ⟨i, rfl⟩
+    exact hg_cent i
+  -- Conversely every central element is a combination of the `g i`: transport to `P`, where a
+  -- central element is a tuple of scalars (each matrix factor is central over `ℂ`).
+  have hg_span_center : (Subalgebra.center ℂ (CliffAlg B)).toSubmodule ≤
+      Submodule.span ℂ (Set.range g) := by
+    intro x hx
+    have hxc : x ∈ Subalgebra.center ℂ (CliffAlg B) := hx
+    have hpc : eiso x ∈ Subalgebra.center ℂ P := by
+      rw [Subalgebra.mem_center_iff]
+      intro b
+      have hs := Subalgebra.mem_center_iff.mp hxc (eiso.symm b)
+      calc b * eiso x = eiso (eiso.symm b) * eiso x := by rw [AlgEquiv.apply_symm_apply]
+        _ = eiso (eiso.symm b * x) := by rw [← map_mul]
+        _ = eiso (x * eiso.symm b) := by rw [hs]
+        _ = eiso x * eiso (eiso.symm b) := by rw [map_mul]
+        _ = eiso x * b := by rw [AlgEquiv.apply_symm_apply]
+    have hscalar : ∀ i : Fin m, ∃ c : ℂ, algebraMap ℂ (Matrix (Fin (d i)) (Fin (d i)) ℂ) c
+        = (eiso x) i := by
+      intro i
+      have hpc' : eiso x ∈
+          Subalgebra.center ℂ (Π j : Fin m, Matrix (Fin (d j)) (Fin (d j)) ℂ) := hpc
+      rw [Subalgebra.center_pi] at hpc'
+      have hcoord : (eiso x) i ∈ Subalgebra.center ℂ (Matrix (Fin (d i)) (Fin (d i)) ℂ) :=
+        Subalgebra.mem_pi.mp hpc' i (Set.mem_univ i)
+      have hbot : (eiso x) i ∈ (⊥ : Subalgebra ℂ (Matrix (Fin (d i)) (Fin (d i)) ℂ)) :=
+        Algebra.IsCentral.out hcoord
+      exact Algebra.mem_bot.mp hbot
+    choose c hc using hscalar
+    have hsum : eiso x = ∑ i, c i • (Pi.single i 1 : P) := by
+      conv_lhs => rw [← Finset.univ_sum_single (eiso x)]
+      refine Finset.sum_congr rfl (fun i _ => ?_)
+      rw [← hc i, Algebra.algebraMap_eq_smul_one, Pi.single_smul]
+    have hx_eq : x = ∑ i, c i • g i := by
+      have h2 := congrArg eiso.symm hsum
+      rw [AlgEquiv.symm_apply_apply, map_sum] at h2
+      simp only [map_smul] at h2
+      exact h2
+    rw [hx_eq]
+    exact Submodule.sum_mem _
+      (fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩))
+  -- So the span equals the center, whose dimension is `2`; hence `m = 2`.
+  have hspan_eq : Submodule.span ℂ (Set.range g)
+      = (Subalgebra.center ℂ (CliffAlg B)).toSubmodule :=
+    le_antisymm hspan_le hg_span_center
+  have hcenter2 : Module.finrank ℂ (Submodule.span ℂ (Set.range g)) = 2 := by
+    rw [hspan_eq]; exact finrank_center_odd B v hv hnd hNodd
+  have hm : m = 2 := by
+    have hfs := finrank_span_eq_card hg_li
+    rw [hcenter2, Fintype.card_fin] at hfs
+    exact hfs.symm
+  subst hm
+  exact ⟨d, fun i => by haveI := hd i; exact Nat.pos_of_ne_zero (NeZero.ne _), ⟨eiso⟩⟩
 
 /-- **Problem 3.9.5(i), odd case.** If `B` is nondegenerate and `dim V = 2n+1`, then
 `Cl(V)` is a direct sum of two matrix algebras: `End(S) × End(S)` with `dim S = 2ⁿ`. The
