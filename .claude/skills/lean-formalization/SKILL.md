@@ -903,6 +903,22 @@ has two traps that each cost several build cycles:
   independent members of any nonzero invariant `U` (a nonzero `f` and a well-chosen `ρ(g) f`, via
   a `2×2` coordinate determinant `≠ 0`), then `Submodule.eq_of_le_of_finrank_le`.
 
+### `rw [← h]` on an order/cardinality numeral that equals the `Fin n` size corrupts the motive (#6639, Ch5 A₅)
+
+Working in `A5 = ↥(alternatingGroup (Fin 5))`, an order-`5` element `a` has `orderOf a = 5` — the
+same numeral `5` as in `Fin 5`, which is baked into `a`'s *type*. So `rw [← horda]` (rewriting
+`5 ↦ orderOf a` in a goal like `a ^ 5 = 1`) or `rw [ha_def, ← horda₀]` (in `orderOf a = 5`)
+tries to generalize *every* `5`, including the one inside `Fin 5`, and fails with
+`motive is not type correct` plus a spurious `Fintype (ToType {len := 4})` mismatch. The
+identical proof shape for order-`3`/order-`2` elements works precisely because `3`/`2 ≠ 5`.
+**Fix:** never rewrite the numeral. Rewrite the `orderOf`/order term instead:
+- `have horda : orderOf a = 5 := by rw [ha_def]; exact (orderOf_injective H.subtype (Subgroup.subtype_injective H) a₀).trans horda₀` (compose, don't `← horda₀`).
+- `have ha5 : a ^ 5 = 1 := by have h := pow_orderOf_eq_one a; rwa [horda] at h` (rewrite `orderOf a ↦ 5`, forward, not the numeral).
+
+Same trap bites `Real.sqrt 5` vector literals: `![12, 0, 0, (-1 + Real.sqrt 5)/2, …]` compared to a
+`: ℂ` character elaborates the vector as `Fin 5 → ℝ` and inserts a `↑(…)` coercion, so it won't
+`rfl`-match a `ℂ`-side value with `↑√5`. Force `ℂ` by writing `(Real.sqrt 5 : ℂ)` inside the entries.
+
 ### Plugging a concrete `Type 0` group (`ZMod`, `Fin`, …) into a `∀ Q : Type u` hypothesis → `ULift` (#6101)
 
 A theorem like `Exercise_8_2_9_i_finAb` quantifies its lifting hypothesis over `Q₁ Q₂ : Type u`
