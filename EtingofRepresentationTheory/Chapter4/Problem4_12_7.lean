@@ -33,16 +33,19 @@ matrices of determinant `1`, a `Group`), `SO(3)` by `Matrix.specialOrthogonalGro
 and the quaternions by `ℍ[ℝ] = Quaternion ℝ`. The group of unit quaternions is
 `unitary ℍ[ℝ]` (`{q : star q * q = 1 = q * star q}`, i.e. `normSq q = 1`).
 
-Parts **(a)**, **(c)**, **(d)**, **(e)**, **(f)** are proved sorry-free.  Part **(f)** builds the
+All of parts **(a)**–**(f)** are proved sorry-free.  Part **(f)** builds the
 conjugation homomorphism `h : SU(2) → SO(3)` genuinely, proves its kernel is exactly `{1, -1}`, and
 proves its surjectivity (`rotHom_surjective`) via the Euler `Z-Y-Z` decomposition of `SO(3)`
 (`so3_euler_zyz`: every `R ∈ SO(3)` is `Rz α · Ry β · Rz γ`), the classical existence of Euler
 angles, established here from the orthonormality and cofactor (`adjugate R = Rᵀ`) relations of `R`.
-Part (b) (the commutant description of `ℍ` as `End`-of-real-representation) is left for a later pass.
 
 * **(a)** `V = ℂ²` as a real representation: `Fin 2 → ℂ` is an `ℝ`-module and `SU(2)` acts
   `ℝ`-linearly by `Matrix.mulVec`. Irreducibility over `ℝ` is: every `SU(2)`-invariant
   `ℝ`-submodule is `⊥` or `⊤`.
+* **(b)** the commutant `ℍ = End_{SU(2)}(V)` (`commutant`, the `ℝ`-subalgebra of `End_ℝ(ℂ²)`
+  commuting with the action) is closed under multiplication (it is a centralizer), is a division
+  algebra (`commutant_isUnit_of_ne_zero`, via Schur and part (a)), and is `4`-dimensional
+  (`finrank_commutant`, via the explicit basis `1, i, j, k` = `id, I•, J·conj, I·J·conj`).
 * **(c)** the Hamilton relations `i² = j² = k² = -1`, `ij = k = -ji`, `jk = i = -kj`,
   `ki = j = -ik` on `qI, qJ, qK`; `1, i, j, k` as an `ℝ`-basis (`quaternionBasis`, hence
   `finrank ℝ ℍ[ℝ] = 4`); and `Q₈ = {±1, ±i, ±j, ±k} ⊆ ℍ[ℝ]ˣ` recorded as a set of units
@@ -935,5 +938,267 @@ theorem exists_surjective_hom_to_SO3 :
     · rintro (h | h)
       · left; exact qmat_injective (by rw [qmat_one]; exact h)
       · right; exact qmat_injective (by rw [qmat_neg_one]; exact h)
+
+/-! ### Part (b): `ℍ = End_{SU(2)}(V)` is a 4-dimensional division algebra
+
+We model `End_ℝ(V)` as `Module.End ℝ (Fin 2 → ℂ)` and let `SU(2)` act by
+`A ↦ (v ↦ A.mulVec v)` (`su2Act`, an `ℝ`-linear endomorphism, matrix-vector multiplication
+being `ℂ`-linear).  The *commutant* `commutant` is the `ℝ`-subalgebra of endomorphisms
+commuting with every `su2Act A` — the endomorphisms of `V = ℂ²` as a real `SU(2)`-representation.
+Being a centralizer, it is automatically closed under composition and contains the real scalars.
+
+* **Division algebra** (`commutant_isUnit_of_ne_zero`): every nonzero `f ∈ commutant` is
+  invertible.  Schur-style: `ker f` and `range f` are `SU(2)`-invariant, so by real
+  irreducibility (part (a)) a nonzero `f` has `ker f = ⊥` and `range f = ⊤`, hence is bijective,
+  with inverse again in the commutant.
+* **4-dimensional** (`finrank_commutant`): evaluation at `e₀ = (1,0)` is an `ℝ`-linear
+  isomorphism `commutant ≃ ℂ² = ℝ⁴`.  Injectivity is again real irreducibility (a commuting map
+  killing `e₀` kills its whole `SU(2)`-orbit, hence is `0`); surjectivity is witnessed by the
+  explicit basis `1, i, j, k` of `commutant`, where `i : v ↦ I • v`, `j : v ↦ J·conj v`,
+  `k = i ∘ j` (`J = !![0,-1;1,0]`), whose values at `e₀` are the standard real basis
+  `(1,0), (I,0), (0,1), (0,I)` of `ℂ²`. -/
+
+section PartB
+
+/-- The standard basis vector `e₀ = (1, 0) ∈ ℂ²`. -/
+private def e0 : Fin 2 → ℂ := ![1, 0]
+
+private lemma e0_ne_zero : e0 ≠ 0 := by
+  intro h
+  have h0 := congrFun h 0
+  simp [e0] at h0
+
+/-- The `SU(2)` action on `V = ℂ²` as an `ℝ`-linear endomorphism `v ↦ A.mulVec v`. -/
+noncomputable def su2Act (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
+    Module.End ℝ (Fin 2 → ℂ) :=
+  (Matrix.mulVecLin (A : Matrix (Fin 2) (Fin 2) ℂ)).restrictScalars ℝ
+
+@[simp] lemma su2Act_apply (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) (v : Fin 2 → ℂ) :
+    su2Act A v = (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v := by
+  simp [su2Act, Matrix.mulVecLin_apply]
+
+/-- **Part (b), the commutant.** The `ℝ`-subalgebra of `End_ℝ(ℂ²)` of endomorphisms commuting
+with the `SU(2)` action — the endomorphisms of `V = ℂ²` as a real representation.  As a
+centralizer it is automatically closed under composition (multiplication) and contains the real
+scalars. -/
+noncomputable def commutant : Subalgebra ℝ (Module.End ℝ (Fin 2 → ℂ)) :=
+  Subalgebra.centralizer ℝ (Set.range su2Act)
+
+lemma mem_commutant_iff {f : Module.End ℝ (Fin 2 → ℂ)} :
+    f ∈ commutant ↔
+      ∀ (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) (v : Fin 2 → ℂ),
+        f ((A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v)
+          = (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec (f v) := by
+  rw [commutant, Subalgebra.mem_centralizer_iff, Set.forall_mem_range]
+  simp only [DFunLike.ext_iff, Module.End.mul_apply, su2Act_apply]
+  exact ⟨fun h A v => (h A v).symm, fun h A v => (h A v).symm⟩
+
+/-- `ker f` is `SU(2)`-invariant for `f` in the commutant. -/
+lemma commutant_ker_invariant {f : Module.End ℝ (Fin 2 → ℂ)} (hf : f ∈ commutant)
+    (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) (v : Fin 2 → ℂ) (hv : v ∈ LinearMap.ker f) :
+    (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v ∈ LinearMap.ker f := by
+  rw [LinearMap.mem_ker] at hv ⊢
+  rw [(mem_commutant_iff.mp hf) A v, hv, Matrix.mulVec_zero]
+
+/-- A commuting endomorphism killing `e₀` is zero (real irreducibility). -/
+lemma eq_zero_of_apply_e0 {f : Module.End ℝ (Fin 2 → ℂ)} (hf : f ∈ commutant)
+    (h0 : f e0 = 0) : f = 0 := by
+  rcases real_irreducible (LinearMap.ker f)
+      (fun A v hv => commutant_ker_invariant hf A v hv) with h | h
+  · exfalso
+    have hmem : e0 ∈ LinearMap.ker f := LinearMap.mem_ker.mpr h0
+    rw [h, Submodule.mem_bot] at hmem
+    exact e0_ne_zero hmem
+  · exact LinearMap.ker_eq_top.mp h
+
+/-- **Part (b), division algebra.** Every nonzero element of the commutant is invertible: `ℍ` is a
+division algebra.  Route via Schur: a nonzero commuting `f` has `SU(2)`-invariant `ker f` and
+`range f`, which by real irreducibility (part (a)) are `⊥` and `⊤` respectively, so `f` is
+bijective and its inverse is again in the commutant. -/
+theorem commutant_isUnit_of_ne_zero (x : commutant) (hx : x ≠ 0) : IsUnit x := by
+  set f : Module.End ℝ (Fin 2 → ℂ) := (x : Module.End ℝ (Fin 2 → ℂ)) with hfdef
+  have hf : f ∈ commutant := x.2
+  have hf0 : f ≠ 0 := by
+    intro h
+    apply hx
+    apply Subtype.ext
+    rw [ZeroMemClass.coe_zero, ← hfdef]
+    exact h
+  obtain ⟨w, hw⟩ := DFunLike.ne_iff.mp hf0
+  have hw0 : f w ≠ 0 := by simpa using hw
+  have hinj : Function.Injective f := by
+    rw [← LinearMap.ker_eq_bot]
+    rcases real_irreducible (LinearMap.ker f)
+        (fun A v hv => commutant_ker_invariant hf A v hv) with h | h
+    · exact h
+    · exfalso
+      have : w ∈ LinearMap.ker f := h.symm ▸ Submodule.mem_top
+      exact hw0 (LinearMap.mem_ker.mp this)
+  have hsurj : Function.Surjective f := by
+    rw [← LinearMap.range_eq_top]
+    have hinv : ∀ (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) (v : Fin 2 → ℂ),
+        v ∈ LinearMap.range f →
+          (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v ∈ LinearMap.range f := by
+      intro A v hv
+      obtain ⟨u, rfl⟩ := LinearMap.mem_range.mp hv
+      exact LinearMap.mem_range.mpr ⟨(A : Matrix (Fin 2) (Fin 2) ℂ).mulVec u,
+        (mem_commutant_iff.mp hf) A u⟩
+    rcases real_irreducible (LinearMap.range f) hinv with h | h
+    · exfalso
+      have hmem : f w ∈ LinearMap.range f := LinearMap.mem_range.mpr ⟨w, rfl⟩
+      rw [h, Submodule.mem_bot] at hmem
+      exact hw0 hmem
+    · exact h
+  let e := LinearEquiv.ofBijective f ⟨hinj, hsurj⟩
+  let g : Module.End ℝ (Fin 2 → ℂ) := e.symm.toLinearMap
+  have hg : g ∈ commutant := by
+    rw [mem_commutant_iff]
+    intro A v
+    apply hinj
+    rw [(mem_commutant_iff.mp hf) A (g v)]
+    rw [show f (g ((A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v))
+          = (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v from e.apply_symm_apply _,
+        show f (g v) = v from e.apply_symm_apply v]
+  refine ⟨⟨x, ⟨g, hg⟩, ?_, ?_⟩, rfl⟩
+  · apply Subtype.ext
+    change f * g = 1
+    refine LinearMap.ext fun v => ?_
+    exact e.apply_symm_apply v
+  · apply Subtype.ext
+    change g * f = 1
+    refine LinearMap.ext fun v => ?_
+    exact e.symm_apply_apply v
+
+/-! #### The explicit basis `1, i, j, k` and 4-dimensionality -/
+
+/-- `star (r • z) = r • star z` for a real scalar `r` and complex `z`. -/
+private lemma star_realSmul (r : ℝ) (z : ℂ) : star (r • z) = r • star z := by
+  rw [Complex.real_smul, Complex.real_smul, Complex.star_def, map_mul, Complex.conj_ofReal]
+
+/-- The endomorphism `i : v ↦ I • v` (multiplication by `Complex.I`, `ℝ`-linear). -/
+noncomputable def iMap : Module.End ℝ (Fin 2 → ℂ) where
+  toFun v := Complex.I • v
+  map_add' _ _ := smul_add _ _ _
+  map_smul' r v := smul_comm Complex.I r v
+
+@[simp] lemma iMap_apply (v : Fin 2 → ℂ) : iMap v = Complex.I • v := rfl
+
+lemma iMap_mem : iMap ∈ commutant := by
+  rw [mem_commutant_iff]
+  intro A v
+  simp only [iMap_apply, Matrix.mulVec_smul]
+
+/-- The matrix `J = !![0,-1;1,0]` implementing the quaternionic structure `v ↦ J·conj v`. -/
+noncomputable def Jmat : Matrix (Fin 2) (Fin 2) ℂ := !![0, -1; 1, 0]
+
+/-- The endomorphism `j : v ↦ J·conj(v)` (`ℝ`-linear, conjugate-`ℂ`-linear). -/
+noncomputable def jMap : Module.End ℝ (Fin 2 → ℂ) where
+  toFun v := Jmat.mulVec (star v)
+  map_add' _ _ := by rw [star_add, Matrix.mulVec_add]
+  map_smul' r v := by
+    show Jmat.mulVec (star (r • v)) = r • Jmat.mulVec (star v)
+    have hs : star (r • v) = r • star v := by
+      funext i
+      simp only [Pi.star_apply, Pi.smul_apply]
+      exact star_realSmul r (v i)
+    rw [hs, Matrix.mulVec_smul]
+
+@[simp] lemma jMap_apply (v : Fin 2 → ℂ) : jMap v = Jmat.mulVec (star v) := rfl
+
+/-- The two defining relations of an `SU(2)` matrix: `M 1 1 = conj (M 0 0)` and
+`M 1 0 = -conj (M 0 1)` (unitarity plus `det = 1` via `adjugate M = Mᴴ`). -/
+lemma su2_entries (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
+    (A : Matrix (Fin 2) (Fin 2) ℂ) 1 1 = star ((A : Matrix (Fin 2) (Fin 2) ℂ) 0 0) ∧
+    (A : Matrix (Fin 2) (Fin 2) ℂ) 1 0 = -star ((A : Matrix (Fin 2) (Fin 2) ℂ) 0 1) := by
+  set M : Matrix (Fin 2) (Fin 2) ℂ := (A : Matrix (Fin 2) (Fin 2) ℂ) with hM
+  have hmem := A.2
+  rw [Matrix.mem_specialUnitaryGroup_iff] at hmem
+  obtain ⟨hu, hdet⟩ := hmem
+  have huc : Mᴴ * M = 1 := by
+    rw [← Matrix.star_eq_conjTranspose]; exact Matrix.mem_unitaryGroup_iff'.mp hu
+  have hinvL : M⁻¹ = Mᴴ := Matrix.inv_eq_left_inv huc
+  have hinvR : M⁻¹ = M.adjugate := by
+    apply Matrix.inv_eq_right_inv; rw [Matrix.mul_adjugate, hdet, one_smul]
+  have hadj : Mᴴ = M.adjugate := by rw [← hinvL, hinvR]
+  rw [Matrix.adjugate_fin_two] at hadj
+  refine ⟨?_, ?_⟩
+  · have h := congrFun (congrFun hadj 0) 0
+    simp only [Matrix.conjTranspose_apply, Matrix.cons_val_zero, Matrix.of_apply,
+      Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one] at h
+    exact h.symm
+  · have h := congrFun (congrFun hadj 1) 0
+    simp only [Matrix.conjTranspose_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.of_apply, Matrix.cons_val', Matrix.empty_val', Matrix.cons_val_fin_one] at h
+    rw [h]; ring
+
+/-- `star (A.mulVec v) = (A.map conj).mulVec (star v)`. -/
+private lemma star_mulVec_eq (A : Matrix (Fin 2) (Fin 2) ℂ) (v : Fin 2 → ℂ) :
+    star (A.mulVec v) = (A.map (starRingEnd ℂ)).mulVec (star v) := by
+  funext i
+  simp only [Pi.star_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.map_apply,
+    star_add, star_mul', starRingEnd_apply, mul_comm]
+
+/-- The quaternionic identity for `SU(2)`: `J · conj(A) = A · J`. -/
+lemma su2_Jmat_comm (A : Matrix.specialUnitaryGroup (Fin 2) ℂ) :
+    Jmat * (A : Matrix (Fin 2) (Fin 2) ℂ).map (starRingEnd ℂ)
+      = (A : Matrix (Fin 2) (Fin 2) ℂ) * Jmat := by
+  obtain ⟨h11, h10⟩ := su2_entries A
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp only [Jmat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.head_cons, Matrix.of_apply, Matrix.cons_val', Matrix.empty_val',
+      Matrix.cons_val_fin_one, Fin.isValue, starRingEnd_apply] <;>
+    simp [h11, h10, star_star]
+
+lemma jMap_mem : jMap ∈ commutant := by
+  rw [mem_commutant_iff]
+  intro A v
+  show Jmat.mulVec (star ((A : Matrix (Fin 2) (Fin 2) ℂ).mulVec v))
+      = (A : Matrix (Fin 2) (Fin 2) ℂ).mulVec (Jmat.mulVec (star v))
+  rw [star_mulVec_eq, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, su2_Jmat_comm]
+
+/-- Evaluation at `e₀ = (1,0)`, as an `ℝ`-linear map `commutant → ℂ²`. -/
+noncomputable def ev : commutant →ₗ[ℝ] (Fin 2 → ℂ) where
+  toFun x := (x : Module.End ℝ (Fin 2 → ℂ)) e0
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+@[simp] lemma ev_apply (x : commutant) : ev x = (x : Module.End ℝ (Fin 2 → ℂ)) e0 := rfl
+
+lemma ev_injective : Function.Injective ev := by
+  intro x y hxy
+  have h0 : ((x : Module.End ℝ (Fin 2 → ℂ)) - y) e0 = 0 := by
+    rw [LinearMap.sub_apply, ← ev_apply x, ← ev_apply y, hxy, sub_self]
+  have hz : (x : Module.End ℝ (Fin 2 → ℂ)) - y = 0 :=
+    eq_zero_of_apply_e0 (sub_mem x.2 y.2) h0
+  exact Subtype.ext (sub_eq_zero.mp hz)
+
+lemma ev_surjective : Function.Surjective ev := by
+  intro w
+  refine ⟨(w 0).re • (1 : commutant) + (w 0).im • ⟨iMap, iMap_mem⟩
+      + (w 1).re • ⟨jMap, jMap_mem⟩
+      + (w 1).im • ⟨iMap * jMap, mul_mem iMap_mem jMap_mem⟩, ?_⟩
+  have ev1 : ev (1 : commutant) = ![1, 0] := rfl
+  have evI : ev ⟨iMap, iMap_mem⟩ = ![Complex.I, 0] := by
+    funext i; fin_cases i <;> simp [ev_apply, iMap_apply, e0]
+  have evJ : ev ⟨jMap, jMap_mem⟩ = ![0, 1] := by
+    funext i; fin_cases i <;>
+      simp [ev_apply, jMap_apply, e0, Jmat, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+  have evK : ev ⟨iMap * jMap, mul_mem iMap_mem jMap_mem⟩ = ![0, Complex.I] := by
+    funext i; fin_cases i <;>
+      simp [ev_apply, Module.End.mul_apply, iMap_apply, jMap_apply, e0, Jmat, Matrix.mulVec,
+        dotProduct, Fin.sum_univ_two]
+  rw [map_add, map_add, map_add, map_smul, map_smul, map_smul, map_smul, ev1, evI, evJ, evK]
+  funext i
+  fin_cases i <;> simp [Complex.real_smul, Complex.re_add_im]
+
+/-- **Part (b), 4-dimensionality.** The commutant `ℍ = End_{SU(2)}(ℂ²)` is `4`-dimensional over
+`ℝ`: evaluation at `e₀` is an `ℝ`-linear isomorphism onto `ℂ² = ℝ⁴`. -/
+theorem finrank_commutant : Module.finrank ℝ commutant = 4 := by
+  have hbij : Function.Bijective ev := ⟨ev_injective, ev_surjective⟩
+  rw [(LinearEquiv.ofBijective ev hbij).finrank_eq]
+  simp [Module.finrank_pi_fintype, Complex.finrank_real_complex]
+
+end PartB
 
 end Etingof.Problem4_12_7
