@@ -974,6 +974,318 @@ theorem indZ5_triv (H : Subgroup A5) (hH : Nat.card H = 5)
   funext g
   rw [indZ5_triv_char_all H hH σ htriv g, indZ5_triv_target_char_all g]
 
+/-! ### Nontrivial characters of `ℤ₅`
+
+Unlike the `3`-cycle class, the two `5`-cycle classes `5a`/`5b` are distinct, and the four
+nontrivial elements `a, a², a³, a⁴` of `H = ⟨a⟩` split as `{a, a⁴} ⊂ 5x`, `{a², a³} ⊂ 5y`
+(inverse pairs), with `{5x, 5y} = {5a, 5b}` depending on the class of the generator. The
+induced character therefore takes values `z + z⁴` and `z² + z³` (`z = χ(a)` a primitive `5`th
+root of unity) on the two `5`-cycle classes, in one order or the other. Both are roots of
+`t² + t − 1`, i.e. `(−1 ± √5)/2`, matching the golden-ratio character values of `3`/`3'`. -/
+
+set_option maxRecDepth 8000 in
+-- honest `decide` over the 60 elements: which `5`-cycle class each power of an order-`5`
+-- element lands in (`{s, s⁴}` share a class, `{s², s³}` the other).
+set_option maxHeartbeats 4000000 in
+/-- For an order-`5` element `s`, the powers split as `{s, s⁴}` in one `5`-cycle class and
+`{s², s³}` in the other (`3 = 5a`, `4 = 5b`). -/
+lemma classIdxA5_pow5 (s : A5) (h5 : s ^ 5 = 1) (hne : s ≠ 1) :
+    (classIdxA5 s = 3 ∧ classIdxA5 (s ^ 2) = 4 ∧ classIdxA5 (s ^ 3) = 4 ∧ classIdxA5 (s ^ 4) = 3)
+    ∨ (classIdxA5 s = 4 ∧ classIdxA5 (s ^ 2) = 3 ∧ classIdxA5 (s ^ 3) = 3 ∧
+        classIdxA5 (s ^ 4) = 4) := by
+  revert s; decide
+
+set_option maxRecDepth 8000 in
+-- `decide` evaluates the conjugator equality over all 60 elements of `A₅`.
+set_option maxHeartbeats 4000000 in
+/-- The count `#{x : x·(classRepA5 j)·x⁻¹ = classRepA5 3}`: `5` (the centralizer order) on the
+`5a` class, `0` elsewhere. -/
+lemma cr3Count (j : Fin 5) :
+    (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = classRepA5 3)).card
+      = ![0, 0, 0, 5, 0] j := by
+  fin_cases j <;> decide
+
+set_option maxRecDepth 8000 in
+-- `decide` evaluates the conjugator equality over all 60 elements of `A₅`.
+set_option maxHeartbeats 4000000 in
+/-- The count `#{x : x·(classRepA5 j)·x⁻¹ = classRepA5 4}`: `5` (the centralizer order) on the
+`5b` class, `0` elsewhere. -/
+lemma cr4Count (j : Fin 5) :
+    (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = classRepA5 4)).card
+      = ![0, 0, 0, 0, 5] j := by
+  fin_cases j <;> decide
+
+/-- **Target character (`3 ⊕ 4 ⊕ 5`), class-rep values.** `(3, 4, 5)` sum to
+`(12, 0, 0, (−1+√5)/2, (−1−√5)/2)` on the five class reps. -/
+lemma indZ5_target1_value (j : Fin 5) :
+    (repC3plus ⊞ repC4 ⊞ repC5).character (classRepA5 j)
+      = ![12, 0, 0, (-1 + (Real.sqrt 5 : ℂ)) / 2, (-1 - (Real.sqrt 5 : ℂ)) / 2] j := by
+  simp only [character_biprod, repC3plus_character, repC4_character, repC5_character]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, chiA5, tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re, Q5.one_im,
+      Q5.zero_re, Q5.zero_im] <;>
+    ring
+
+/-- **Target character (`3' ⊕ 4 ⊕ 5`), class-rep values.** `(3', 4, 5)` sum to
+`(12, 0, 0, (−1−√5)/2, (−1+√5)/2)` on the five class reps (the two `5`-cycle values swapped). -/
+lemma indZ5_target2_value (j : Fin 5) :
+    (repC3minus ⊞ repC4 ⊞ repC5).character (classRepA5 j)
+      = ![12, 0, 0, (-1 - (Real.sqrt 5 : ℂ)) / 2, (-1 + (Real.sqrt 5 : ℂ)) / 2] j := by
+  simp only [character_biprod, repC3minus_character, repC4_character, repC5_character]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, chiA5, tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re, Q5.one_im,
+      Q5.zero_re, Q5.zero_im] <;>
+    ring
+
+/-- **Nontrivial character, class-rep values.** For an order-`5` `H` and a simple nontrivial `σ`
+with `z = σ.character` of a generator, `(ind σ).character` takes the values
+`(12, 0, 0, A, B)` on the five class reps, where `{A, B} = {z + z⁴, z² + z³}` (in one order or the
+other, per the class of the generator), `A + B = -1`, and `A² + A − 1 = 0`. -/
+lemma indZ5_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
+    ∃ A B : ℂ, A + B = -1 ∧ A ^ 2 + A - 1 = 0 ∧
+      ∀ j, (ind σ).character (classRepA5 j) = ![12, 0, 0, A, B] j := by
+  classical
+  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  haveI hcyc : IsCyclic ↥H := isCyclic_of_prime_card hH
+  letI cg : CommGroup ↥H := IsCyclic.commGroup
+  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+    Etingof.isSimpleModule_asModule_of_simple σ
+  have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
+  have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
+    intro g
+    obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (σ.ρ g)
+    have hcc : σ.character g = c := by
+      change LinearMap.trace ℂ _ (σ.ρ g) = c
+      rw [hc, map_smul, LinearMap.trace_id, hdim]; simp
+    rw [hcc]; exact hc
+  have hone : σ.character 1 = 1 := by rw [FDRep.char_one, hdim, Nat.cast_one]
+  have hmul : ∀ g h : ↥H, σ.character (g * h) = σ.character g * σ.character h := by
+    intro g h
+    have key : (σ.character (g * h) : ℂ) • (LinearMap.id : (σ : Type) →ₗ[ℂ] (σ : Type))
+             = (σ.character g * σ.character h : ℂ) • LinearMap.id := by
+      rw [← hscalar (g * h), map_mul, hscalar g, hscalar h]
+      ext x
+      simp only [Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq, smul_smul]
+    have htr := congrArg (LinearMap.trace ℂ (σ : Type)) key
+    rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
+      mul_one, mul_one] at htr
+  set χ : ↥H →* ℂ := { toFun := σ.character, map_one' := hone, map_mul' := hmul } with hχ
+  have hχa : ∀ g : ↥H, χ g = σ.character g := fun _ => rfl
+  obtain ⟨a₀, ha₀⟩ := hcyc.exists_generator
+  have horda₀ : orderOf a₀ = 5 := by rw [orderOf_eq_card_of_forall_mem_zpowers ha₀]; exact hH
+  set a : A5 := (a₀ : A5) with ha_def
+  -- Avoid rewriting the numeral `5` (it collides with the `5` in `Fin 5`, a₀'s type).
+  have horda : orderOf a = 5 := by
+    rw [ha_def]
+    exact (orderOf_injective H.subtype (Subgroup.subtype_injective H) a₀).trans horda₀
+  have ha5 : a ^ 5 = 1 := by have h := pow_orderOf_eq_one a; rwa [horda] at h
+  have ha_ne1 : a ≠ 1 := by
+    intro h; rw [h, orderOf_one] at horda; exact absurd horda (by norm_num)
+  obtain ⟨z, hz_def⟩ : ∃ z : ℂ, z = σ.character a₀ := ⟨σ.character a₀, rfl⟩
+  have ha₀5 : a₀ ^ 5 = 1 := by have h := pow_orderOf_eq_one a₀; rwa [horda₀] at h
+  have hz5 : z ^ 5 = 1 := by
+    have h := map_pow χ a₀ 5
+    rw [ha₀5, map_one, hχa, ← hz_def] at h; exact h.symm
+  have hchar_pow : ∀ k : ℕ, σ.character (a₀ ^ k) = z ^ k := by
+    intro k
+    have h := map_pow χ a₀ k
+    rw [hχa, hχa, ← hz_def] at h; exact h
+  -- Enumerate `H = {1, a, a², a³, a⁴}`.
+  have hgen_top : Subgroup.zpowers a₀ = ⊤ := by rw [eq_top_iff]; intro x _; exact ha₀ x
+  have hHzp : Subgroup.zpowers a = H := by
+    have h1 : (Subgroup.zpowers a₀).map H.subtype = Subgroup.zpowers a :=
+      MonoidHom.map_zpowers H.subtype a₀
+    rw [hgen_top, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h1
+    exact h1.symm
+  have ha2coe : a ^ 2 = ((a₀ ^ 2 : ↥H) : A5) := by rw [ha_def]; push_cast; ring
+  have ha3coe : a ^ 3 = ((a₀ ^ 3 : ↥H) : A5) := by rw [ha_def]; push_cast; ring
+  have ha4coe : a ^ 4 = ((a₀ ^ 4 : ↥H) : A5) := by rw [ha_def]; push_cast; ring
+  have henum : ∀ y : A5, y ∈ H → y = 1 ∨ y = a ∨ y = a ^ 2 ∨ y = a ^ 3 ∨ y = a ^ 4 := by
+    intro y hy
+    rw [← hHzp, Etingof.Problem4_12_5.mem_zpowers_range a 5 horda] at hy
+    simp only [Finset.mem_image, Finset.mem_range] at hy
+    obtain ⟨k, hk, hky⟩ := hy
+    interval_cases k
+    · left; rw [← hky]; simp
+    · right; left; rw [← hky, pow_one]
+    · right; right; left; rw [← hky]
+    · right; right; right; left; rw [← hky]
+    · right; right; right; right; rw [← hky]
+  have ha_mem : a ∈ H := by rw [ha_def]; exact SetLike.coe_mem a₀
+  have ha2_mem : a ^ 2 ∈ H := by rw [ha2coe]; exact SetLike.coe_mem _
+  have ha3_mem : a ^ 3 ∈ H := by rw [ha3coe]; exact SetLike.coe_mem _
+  have ha4_mem : a ^ 4 ∈ H := by rw [ha4coe]; exact SetLike.coe_mem _
+  -- Distinctness of the powers `a⁰,…,a⁴`.
+  have hne : ∀ i j : ℕ, i < 5 → j < 5 → i ≠ j → a ^ i ≠ a ^ j := by
+    intro i j hi hj hij h
+    wlog hlt : i < j generalizing i j
+    · exact this j i hj hi (Ne.symm hij) h.symm (by omega)
+    have hd : a ^ (j - i) = 1 := by
+      have hcancel : a ^ i * a ^ (j - i) = a ^ i * 1 := by
+        rw [mul_one, ← pow_add, Nat.add_sub_cancel' (le_of_lt hlt)]; exact h.symm
+      exact mul_left_cancel hcancel
+    have hle := orderOf_le_of_pow_eq_one (n := j - i) (by omega) hd
+    rw [horda] at hle; omega
+  have e01 : (1 : A5) ≠ a := by
+    have := hne 0 1 (by norm_num) (by norm_num) (by norm_num); rwa [pow_zero, pow_one] at this
+  have e02 : (1 : A5) ≠ a ^ 2 := by
+    have := hne 0 2 (by norm_num) (by norm_num) (by norm_num); rwa [pow_zero] at this
+  have e03 : (1 : A5) ≠ a ^ 3 := by
+    have := hne 0 3 (by norm_num) (by norm_num) (by norm_num); rwa [pow_zero] at this
+  have e04 : (1 : A5) ≠ a ^ 4 := by
+    have := hne 0 4 (by norm_num) (by norm_num) (by norm_num); rwa [pow_zero] at this
+  have e12 : a ≠ a ^ 2 := by
+    have := hne 1 2 (by norm_num) (by norm_num) (by norm_num); rwa [pow_one] at this
+  have e13 : a ≠ a ^ 3 := by
+    have := hne 1 3 (by norm_num) (by norm_num) (by norm_num); rwa [pow_one] at this
+  have e14 : a ≠ a ^ 4 := by
+    have := hne 1 4 (by norm_num) (by norm_num) (by norm_num); rwa [pow_one] at this
+  have e23 : a ^ 2 ≠ a ^ 3 := hne 2 3 (by norm_num) (by norm_num) (by norm_num)
+  have e24 : a ^ 2 ≠ a ^ 4 := hne 2 4 (by norm_num) (by norm_num) (by norm_num)
+  have e34 : a ^ 3 ≠ a ^ 4 := hne 3 4 (by norm_num) (by norm_num) (by norm_num)
+  -- `z ≠ 1` and `z + z² + z³ + z⁴ = -1`.
+  have hz_ne : z ≠ 1 := by
+    obtain ⟨h0, hh0⟩ := hntriv
+    rcases henum (h0 : A5) (SetLike.coe_mem h0) with he | he | he | he | he
+    · exact absurd (by rw [show h0 = 1 from Subtype.ext he]; exact hone) hh0
+    · intro hz1; apply hh0
+      rw [show h0 = a₀ from Subtype.ext (he.trans ha_def), ← hz_def]; exact hz1
+    · intro hz1; apply hh0
+      rw [show h0 = a₀ ^ 2 from Subtype.ext (he.trans ha2coe), hchar_pow 2, hz1]; ring
+    · intro hz1; apply hh0
+      rw [show h0 = a₀ ^ 3 from Subtype.ext (he.trans ha3coe), hchar_pow 3, hz1]; ring
+    · intro hz1; apply hh0
+      rw [show h0 = a₀ ^ 4 from Subtype.ext (he.trans ha4coe), hchar_pow 4, hz1]; ring
+  have hz_sum4 : z + z ^ 2 + z ^ 3 + z ^ 4 = -1 := by
+    have hfac : (z - 1) * (z ^ 4 + z ^ 3 + z ^ 2 + z + 1) = 0 := by linear_combination hz5
+    rcases mul_eq_zero.mp hfac with h | h
+    · exact absurd (by linear_combination h : z = 1) hz_ne
+    · linear_combination h
+  have hcardℂ : (Fintype.card ↥H : ℂ) = 5 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  -- The `hterm` decomposition, shared by both class cases.
+  have hterm : ∀ (j : Fin 5) (x : A5),
+      (if h : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨x * classRepA5 j * x⁻¹, h⟩ else 0)
+        = (1 : ℂ) * (if x * classRepA5 j * x⁻¹ = 1 then 1 else 0)
+          + z * (if x * classRepA5 j * x⁻¹ = a then 1 else 0)
+          + z ^ 2 * (if x * classRepA5 j * x⁻¹ = a ^ 2 then 1 else 0)
+          + z ^ 3 * (if x * classRepA5 j * x⁻¹ = a ^ 3 then 1 else 0)
+          + z ^ 4 * (if x * classRepA5 j * x⁻¹ = a ^ 4 then 1 else 0) := by
+    intro j x
+    set y := x * classRepA5 j * x⁻¹ with hy
+    by_cases hmem : y ∈ H
+    · rcases henum y hmem with h1 | hA | hA2 | hA3 | hA4
+      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = 1 from Subtype.ext h1, hone,
+          if_pos h1, if_neg (by rw [h1]; exact e01), if_neg (by rw [h1]; exact e02),
+          if_neg (by rw [h1]; exact e03), if_neg (by rw [h1]; exact e04)]
+        ring
+      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ from Subtype.ext (hA.trans ha_def), ← hz_def,
+          if_neg (by rw [hA]; exact e01.symm), if_pos hA, if_neg (by rw [hA]; exact e12),
+          if_neg (by rw [hA]; exact e13), if_neg (by rw [hA]; exact e14)]
+        ring
+      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 2 from Subtype.ext (hA2.trans ha2coe),
+          hchar_pow 2, if_neg (by rw [hA2]; exact e02.symm), if_neg (by rw [hA2]; exact e12.symm),
+          if_pos hA2, if_neg (by rw [hA2]; exact e23), if_neg (by rw [hA2]; exact e24)]
+        ring
+      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 3 from Subtype.ext (hA3.trans ha3coe),
+          hchar_pow 3, if_neg (by rw [hA3]; exact e03.symm), if_neg (by rw [hA3]; exact e13.symm),
+          if_neg (by rw [hA3]; exact e23.symm), if_pos hA3, if_neg (by rw [hA3]; exact e34)]
+        ring
+      · rw [dif_pos hmem, show (⟨y, hmem⟩ : ↥H) = a₀ ^ 4 from Subtype.ext (hA4.trans ha4coe),
+          hchar_pow 4, if_neg (by rw [hA4]; exact e04.symm), if_neg (by rw [hA4]; exact e14.symm),
+          if_neg (by rw [hA4]; exact e24.symm), if_neg (by rw [hA4]; exact e34.symm), if_pos hA4]
+        ring
+    · rw [dif_neg hmem,
+        if_neg (fun h => hmem (by rw [h]; exact H.one_mem)),
+        if_neg (fun h => hmem (by rw [h]; exact ha_mem)),
+        if_neg (fun h => hmem (by rw [h]; exact ha2_mem)),
+        if_neg (fun h => hmem (by rw [h]; exact ha3_mem)),
+        if_neg (fun h => hmem (by rw [h]; exact ha4_mem))]
+      ring
+  -- Reduce the induced character on class reps to conjugator counts, shared form.
+  have hraw : ∀ j : Fin 5, (ind σ).character (classRepA5 j)
+      = (5 : ℂ)⁻¹ * ((1 : ℂ) * ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = 1)).card : ℂ)
+          + z * ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = a)).card : ℂ)
+          + z ^ 2 * ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = a ^ 2)).card : ℂ)
+          + z ^ 3 * ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = a ^ 3)).card : ℂ)
+          + z ^ 4 * ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = a ^ 4)).card : ℂ)) := by
+    intro j
+    rw [ind_character_eq, hcardℂ, Finset.sum_congr rfl (fun x _ => hterm j x),
+      Finset.sum_add_distrib, Finset.sum_add_distrib, Finset.sum_add_distrib,
+      Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.mul_sum, ← Finset.mul_sum,
+      ← Finset.mul_sum, ← Finset.mul_sum, Finset.sum_boole, Finset.sum_boole, Finset.sum_boole,
+      Finset.sum_boole, Finset.sum_boole]
+  -- Split on the class of the generator.
+  rcases classIdxA5_pow5 a ha5 ha_ne1 with ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩
+  · -- `a ∈ 5a`: `A = z + z⁴`, `B = z² + z³`.
+    refine ⟨z + z ^ 4, z ^ 2 + z ^ 3, by linear_combination hz_sum4,
+      by linear_combination (z ^ 3 + 2) * hz5 + hz_sum4, ?_⟩
+    intro j
+    have hca : ∃ c : A5, c * classRepA5 3 * c⁻¹ = a := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec a; rw [h1] at hc; exact ⟨c, hc⟩
+    have hca2 : ∃ c : A5, c * classRepA5 4 * c⁻¹ = a ^ 2 := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec (a ^ 2); rw [h2] at hc; exact ⟨c, hc⟩
+    have hca3 : ∃ c : A5, c * classRepA5 4 * c⁻¹ = a ^ 3 := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec (a ^ 3); rw [h3] at hc; exact ⟨c, hc⟩
+    have hca4 : ∃ c : A5, c * classRepA5 3 * c⁻¹ = a ^ 4 := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec (a ^ 4); rw [h4] at hc; exact ⟨c, hc⟩
+    rw [hraw j, oneCount, conjCount_shift (classRepA5 j) (classRepA5 3) a hca,
+      conjCount_shift (classRepA5 j) (classRepA5 4) (a ^ 2) hca2,
+      conjCount_shift (classRepA5 j) (classRepA5 4) (a ^ 3) hca3,
+      conjCount_shift (classRepA5 j) (classRepA5 3) (a ^ 4) hca4, cr3Count, cr4Count]
+    fin_cases j <;> norm_num <;> ring
+  · -- `a ∈ 5b`: `A = z² + z³`, `B = z + z⁴`.
+    refine ⟨z ^ 2 + z ^ 3, z + z ^ 4, by linear_combination hz_sum4,
+      by linear_combination (z + 2) * hz5 + hz_sum4, ?_⟩
+    intro j
+    have hca : ∃ c : A5, c * classRepA5 4 * c⁻¹ = a := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec a; rw [h1] at hc; exact ⟨c, hc⟩
+    have hca2 : ∃ c : A5, c * classRepA5 3 * c⁻¹ = a ^ 2 := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec (a ^ 2); rw [h2] at hc; exact ⟨c, hc⟩
+    have hca3 : ∃ c : A5, c * classRepA5 3 * c⁻¹ = a ^ 3 := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec (a ^ 3); rw [h3] at hc; exact ⟨c, hc⟩
+    have hca4 : ∃ c : A5, c * classRepA5 4 * c⁻¹ = a ^ 4 := by
+      obtain ⟨c, hc⟩ := classIdxA5_spec (a ^ 4); rw [h4] at hc; exact ⟨c, hc⟩
+    rw [hraw j, oneCount, conjCount_shift (classRepA5 j) (classRepA5 4) a hca,
+      conjCount_shift (classRepA5 j) (classRepA5 3) (a ^ 2) hca2,
+      conjCount_shift (classRepA5 j) (classRepA5 3) (a ^ 3) hca3,
+      conjCount_shift (classRepA5 j) (classRepA5 4) (a ^ 4) hca4, cr3Count, cr4Count]
+    fin_cases j <;> norm_num <;> ring
+
+/-- Arbitrary-`g` nontrivial-character values, from a class-rep value vector. -/
+lemma indZ5_nontriv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 5)
+    (σ : FDRep ℂ ↥H) [Simple σ] {A B : ℂ}
+    (hval : ∀ j, (ind σ).character (classRepA5 j) = ![12, 0, 0, A, B] j) (g : A5) :
+    (ind σ).character g = ![12, 0, 0, A, B] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact hval (classIdxA5 g)
+
+/-- Arbitrary-`g` target character values for `3 ⊕ 4 ⊕ 5`, via the class-function property. -/
+lemma indZ5_target1_char_all (g : A5) :
+    (repC3plus ⊞ repC4 ⊞ repC5).character g
+      = ![12, 0, 0, (-1 + (Real.sqrt 5 : ℂ)) / 2, (-1 - (Real.sqrt 5 : ℂ)) / 2] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indZ5_target1_value (classIdxA5 g)
+
+/-- Arbitrary-`g` target character values for `3' ⊕ 4 ⊕ 5`, via the class-function property. -/
+lemma indZ5_target2_char_all (g : A5) :
+    (repC3minus ⊞ repC4 ⊞ repC5).character g
+      = ![12, 0, 0, (-1 - (Real.sqrt 5 : ℂ)) / 2, (-1 + (Real.sqrt 5 : ℂ)) / 2] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indZ5_target2_value (classIdxA5 g)
+
 /-- **(c) nontrivial character.** For any of the four nontrivial characters `ζ^k` (`k ≠ 0`),
 `Ind_{ℤ₅}^{A₅} ζ^k` is `3 ⊕ 4 ⊕ 5` or `3' ⊕ 4 ⊕ 5` (dimension `12`); the pair `{ζ, ζ⁴}` picks
 one `3`-dimensional and `{ζ², ζ³}` the other. -/
@@ -981,7 +1293,27 @@ theorem indZ5_nontriv (H : Subgroup A5) (hH : Nat.card H = 5)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (ind σ ≅ repC3plus ⊞ repC4 ⊞ repC5) ∨
       Nonempty (ind σ ≅ repC3minus ⊞ repC4 ⊞ repC5) := by
-  sorry
+  classical
+  obtain ⟨A, B, hAB, hAq, hval⟩ := indZ5_nontriv_value H hH σ hntriv
+  -- `A` is a root of `t² + t − 1`, hence `(−1 ± √5)/2`.
+  have hs : (Real.sqrt 5 : ℂ) ^ 2 = 5 := sqrt5_sq
+  have hfac : (A - (-1 + (Real.sqrt 5 : ℂ)) / 2) * (A - (-1 - (Real.sqrt 5 : ℂ)) / 2) = 0 := by
+    linear_combination hAq - (1 / 4 : ℂ) * hs
+  rcases mul_eq_zero.mp hfac with hA | hA
+  · -- `A = (−1+√5)/2`, `B = (−1−√5)/2`: matches `3 ⊕ 4 ⊕ 5`.
+    left
+    apply Etingof.charEq_iso
+    funext g
+    rw [indZ5_nontriv_char_all H hH σ hval g, indZ5_target1_char_all g,
+      show A = (-1 + (Real.sqrt 5 : ℂ)) / 2 by linear_combination hA,
+      show B = (-1 - (Real.sqrt 5 : ℂ)) / 2 by linear_combination hAB - hA]
+  · -- `A = (−1−√5)/2`, `B = (−1+√5)/2`: matches `3' ⊕ 4 ⊕ 5`.
+    right
+    apply Etingof.charEq_iso
+    funext g
+    rw [indZ5_nontriv_char_all H hH σ hval g, indZ5_target2_char_all g,
+      show A = (-1 - (Real.sqrt 5 : ℂ)) / 2 by linear_combination hA,
+      show B = (-1 + (Real.sqrt 5 : ℂ)) / 2 by linear_combination hAB - hA]
 
 /-! ## (d) Induction from `A₄` -/
 
