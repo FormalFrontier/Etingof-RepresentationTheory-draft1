@@ -105,33 +105,32 @@ theorem hasProjectiveDimensionLT_of_map (F : C ⥤ D) [F.Additive] [F.Full] [F.F
 
 end Reflect
 
-/-- **Universe-lift invariance of homological dimension (one direction).** The homological
-dimension of `R` is at most that of its universe lift `ULift.{v} R`.
+/-- **Universe-lift invariance of homological dimension (predicate form).** If every module over
+the universe lift `ULift.{v} R` has projective dimension `≤ d`, then so does every module over `R`.
 
-For each `d`, if every `ULift R`-module has projective dimension `≤ d`, then so does every
-`R`-module: transfer along the ring equivalence `ULift R ≃+* R` at the big module universe
+Transfer along the ring equivalence `ULift R ≃+* R` at the big module universe
 (`restrictScalarsEquivalenceOfRingEquiv`), then reflect down to the small module universe with the
-fully-faithful exact `ModuleCat.uliftFunctor`. Comparing the defining infima gives the inequality
-of homological dimensions. -/
+fully-faithful exact `ModuleCat.uliftFunctor` (`hasProjectiveDimensionLT_of_map`). -/
+theorem hasHomologicalDimensionLE_of_ulift {R : Type u} [Ring R] {d : ℕ}
+    (h : HasHomologicalDimensionLE (ULift.{v} R) d) : HasHomologicalDimensionLE R d := by
+  -- `E : ModuleCat.{max u v} R ≌ ModuleCat.{max u v} (ULift R)` from the ring equivalence.
+  let E : ModuleCat.{max u v} R ≌ ModuleCat.{max u v} (ULift.{v} R) :=
+    ModuleCat.restrictScalarsEquivalenceOfRingEquiv (ULift.ringEquiv (R := R))
+  -- Step 1: every big `R`-module has projective dimension `≤ d`.
+  have hbig : ∀ N : ModuleCat.{max u v} R, HasProjectiveDimensionLE N d := by
+    intro N
+    exact (hasProjectiveDimensionLT_map_iff E (d + 1) N).mp (h (E.functor.obj N))
+  -- Step 2: reflect down to the small `R`-modules through the universe-lift functor.
+  intro M
+  have := hbig ((ModuleCat.uliftFunctor.{v, u} R).obj M)
+  exact hasProjectiveDimensionLT_of_map (ModuleCat.uliftFunctor.{v, u} R) (d + 1) M this
+
+/-- **Universe-lift invariance of homological dimension (one direction).** The homological
+dimension of `R` is at most that of its universe lift `ULift.{v} R`. A universe lift can only
+enlarge the collection of modules, so it cannot lower the homological dimension. -/
 theorem homologicalDimension_le_ulift {R : Type u} [Ring R] :
     homologicalDimension R ≤ homologicalDimension (ULift.{v} R) := by
-  -- For every `d`, big homological dimension `≤ d` implies small homological dimension `≤ d`.
-  have key : ∀ d : ℕ,
-      HasHomologicalDimensionLE (ULift.{v} R) d → HasHomologicalDimensionLE R d := by
-    intro d hUL
-    -- `E : ModuleCat.{max u v} R ≌ ModuleCat.{max u v} (ULift R)` from the ring equivalence.
-    let E : ModuleCat.{max u v} R ≌ ModuleCat.{max u v} (ULift.{v} R) :=
-      ModuleCat.restrictScalarsEquivalenceOfRingEquiv (ULift.ringEquiv (R := R))
-    -- Step 1: every big `R`-module has projective dimension `≤ d`.
-    have hbig : ∀ N : ModuleCat.{max u v} R, HasProjectiveDimensionLE N d := by
-      intro N
-      exact (hasProjectiveDimensionLT_map_iff E (d + 1) N).mp (hUL (E.functor.obj N))
-    -- Step 2: reflect down to the small `R`-modules through the universe-lift functor.
-    intro M
-    have := hbig ((ModuleCat.uliftFunctor.{v, u} R).obj M)
-    exact hasProjectiveDimensionLT_of_map (ModuleCat.uliftFunctor.{v, u} R) (d + 1) M this
-  -- Compare the two defining infima.
   unfold homologicalDimension
-  exact le_iInf₂ fun d hd => iInf₂_le d (key d hd)
+  exact le_iInf₂ fun d hd => iInf₂_le d (hasHomologicalDimensionLE_of_ulift hd)
 
 end Etingof
