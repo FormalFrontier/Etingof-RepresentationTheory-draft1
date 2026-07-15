@@ -1591,13 +1591,53 @@ theorem indA4_triv (H : Subgroup A5) (hH : Nat.card H = 12)
   funext g
   rw [indA4_triv_char_all H hH σ htriv g, indA4_triv_target_char_all g]
 
+/-- **Nontrivial linear character, class-rep values.** For an order-`12` `H` and a nontrivial
+one-dimensional character `σ`, `(ind σ).character` on the five class reps is `(5, -1, 1, 0, 0)`.
+This is the character of the standard `5`-dimensional irrep of `A₅`. -/
+lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ (σ : Type) = 1)
+    (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![5, -1, 1, 0, 0] j := by
+  sorry
+
+/-- Arbitrary-`g` nontrivial-linear-character values, via the class-function property. -/
+lemma indA4_nontriv_linear_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)]
+    (hH : Nat.card H = 12) (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ (σ : Type) = 1)
+    (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (g : A5) :
+    (ind σ).character g = ![5, -1, 1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indA4_nontriv_linear_value H hH σ hdim hntriv (classIdxA5 g)
+
+/-- **Target character, class-rep values** for `5`: `(5, -1, 1, 0, 0)`. -/
+lemma indA4_nontriv_linear_target_value (j : Fin 5) :
+    repC5.character (classRepA5 j) = ![5, -1, 1, 0, 0] j := by
+  rw [repC5_character]
+  fin_cases j <;>
+    simp only [tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons] <;>
+    norm_num
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indA4_nontriv_linear_target_char_all (g : A5) :
+    repC5.character g = ![5, -1, 1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indA4_nontriv_linear_target_value (classIdxA5 g)
+
 /-- **(d) nontrivial linear character.** For either nontrivial one-dimensional character
 `ω, ω²` of `A₄`, `Ind_{A₄}^{A₅} ω ≅ 5` (dimension `5`). -/
 theorem indA4_nontriv_linear (H : Subgroup A5) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 1)
     (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (ind σ ≅ repC5) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indA4_nontriv_linear_char_all H hH σ hdim hntriv g,
+    indA4_nontriv_linear_target_char_all g]
 
 /-- **(d) three-dimensional character.** `Ind_{A₄}^{A₅} 3_{A₄} ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5`
 (dimension `15`). -/
