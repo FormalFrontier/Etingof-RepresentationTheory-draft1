@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE
 import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
+import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 
 /-!
 # Problem 6.1.6: The McKay graph of a finite subgroup of `SU(2)`
@@ -106,6 +107,57 @@ lemma charV_inv (g : G) : (V G).character g⁻¹ = (V G).character g := by
   rw [hBinv, Matrix.inv_def, hdet, Ring.inverse_one, one_smul, Matrix.adjugate_fin_two,
     Matrix.trace_fin_two_of, Matrix.trace_fin_two]
   ring
+
+/-- **Reality of `χ_V`.** For `g ∈ SU(2)` the character value `χ_V(g)` is fixed by complex
+conjugation: `conj (χ_V g) = χ_V g`. Combines `Etingof.char_inv_eq_conj`
+(`χ_V(g⁻¹) = conj(χ_V g)`) with the self-duality `charV_inv` (`χ_V(g⁻¹) = χ_V g`). -/
+lemma charV_conj (g : G) :
+    (starRingEnd ℂ) ((V G).character g) = (V G).character g := by
+  haveI : Fintype G := Fintype.ofFinite G
+  rw [← Etingof.char_inv_eq_conj, charV_inv]
+
+/-- The imaginary part of `χ_V(g)` vanishes: `χ_V(g)` is a real number. -/
+lemma charV_im_zero (g : G) : ((V G).character g).im = 0 :=
+  Complex.conj_eq_iff_im.mp (charV_conj g)
+
+omit [Finite G] in
+/-- **The `SU(2)` trace bound.** For `g ∈ SU(2)` the real part of `χ_V(g) = tr(g)` is at most `2`.
+Each diagonal entry of the unitary matrix `g` has modulus `≤ 1` (its column has unit norm), so its
+real part is `≤ 1`, and the trace is the sum of the two diagonal entries. -/
+lemma charV_re_le_two (g : G) : ((V G).character g).re ≤ 2 := by
+  classical
+  set A : Matrix (Fin 2) (Fin 2) ℂ :=
+    ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hA
+  -- `A` is unitary, hence `star A * A = 1`
+  have hu : A ∈ Matrix.unitaryGroup (Fin 2) ℂ :=
+    (Matrix.mem_specialUnitaryGroup_iff.mp g.val.property).1
+  have hstar : star A * A = 1 := Matrix.mem_unitaryGroup_iff'.mp hu
+  -- each diagonal entry has real part `≤ 1`
+  have hdiag : ∀ i : Fin 2, (A i i).re ≤ 1 := by
+    intro i
+    -- column `i` has unit norm: `∑ₖ |A k i|² = 1`
+    have hsum : ∑ k : Fin 2, Complex.normSq (A k i) = 1 := by
+      have hii : (star A * A) i i = 1 := by rw [hstar, Matrix.one_apply_eq]
+      rw [Matrix.mul_apply] at hii
+      have hterm : ∀ k : Fin 2, (star A) i k * A k i
+          = ((Complex.normSq (A k i) : ℝ) : ℂ) := by
+        intro k
+        rw [Matrix.star_apply, Complex.star_def, mul_comm, Complex.mul_conj]
+      rw [Finset.sum_congr rfl (fun k _ => hterm k), ← Complex.ofReal_sum] at hii
+      exact_mod_cast hii
+    have hle : Complex.normSq (A i i) ≤ 1 := by
+      rw [← hsum]
+      exact Finset.single_le_sum (f := fun k => Complex.normSq (A k i))
+        (fun k _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
+    have hre2 : (A i i).re * (A i i).re ≤ 1 := by
+      have hns := Complex.normSq_apply (A i i)
+      nlinarith [mul_self_nonneg (A i i).im, hle, hns]
+    nlinarith [hre2]
+  -- `χ_V(g) = tr A = A 0 0 + A 1 1`
+  have htr : (V G).character g = A 0 0 + A 1 1 := by
+    rw [charV_eq, ← hA, Matrix.trace_fin_two]
+  rw [htr, Complex.add_re]
+  linarith [hdiag 0, hdiag 1]
 
 /-- **(a)** `rᵢⱼ = rⱼᵢ`. (Because `V` is self-dual: `V ≅ V*` as `V` is the
 `2`-dimensional `SU(2)`-representation, so `dim Hom(Wᵢ, V ⊗ Wⱼ) =
