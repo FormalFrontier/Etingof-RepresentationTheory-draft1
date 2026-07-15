@@ -4527,6 +4527,27 @@ that looks trivially true (`1/3*(z*3+z^2*3) = -1`), the cause is almost always a
 Related: `orderOf_eq_card_of_forall_mem_zpowers` (cyclic generator) returns `Nat.card α`, not
 `Fintype.card α`; close the order fact with `... ; exact hH` where `hH : Nat.card ↥H = n`.
 
+**When the five classes need DIFFERENT tactics, don't `fin_cases j <;> <uniform>`.** For an
+induced character `Ind_{H}^{A₅}` where `H` is *nonabelian* (e.g. the order-12 `A₄` = `A4std`,
+`indA4_nontriv_linear` #6659), each class rep is finished by a genuinely different argument (1a/2a
+reduce to a conjugator count via a `σ=1`-on-involutions lemma; 5a/5b vanish because order 5 ∤ 12;
+3a needs a twisted-sum reindexing over `↥H`). The robust shape is: prove five **separate
+`have hjk : (ind σ).character (classRepA5 k) = ![…] k`** facts with clean *literal* indices `0..4`,
+then close with `fin_cases j; · exact hj0; · exact hj1; …`. Do NOT state `have`s referencing
+`classRepA5 2` *inside* a `fin_cases j` branch — `fin_cases` leaves the index as `(fun i ↦ i) ⟨2,⋯⟩`,
+which will not `rw`-match a literal `classRepA5 2` (cost a full rewrite). The trailing
+`fin_cases j <;> exact hjk` matches each `⟨k,⋯⟩` branch to the literal-`k` `have` by defeq.
+End each `have` with `norm_num [Matrix.cons_val_zero, …_one, …_two, …_three, …_four,
+Matrix.head_cons, Matrix.tail_cons]` — with *literal* (OfNat) indices, plain `norm_num` does NOT
+reduce `![…] 2`; the explicit `Matrix.cons_val_*` set is required (unlike the `fin_cases`-`⟨k,⋯⟩`
+form above, which plain `norm_num` handles).
+
+**`group` does NOT close conjugation-of-powers.** `(d * y * d⁻¹) ^ n = d * y^n * d⁻¹` is left
+unsolved by `group` (it normalizes but won't cancel across the power). Expand the power first:
+`rw [pow_two, pow_two]; group` for `n=2`, `rw [pow_three', pow_three']; group` for `n=3`
+(`pow_three' : a^3 = a*a*a`). This recurs whenever you transport an order fact through the
+`exists_conj_H12`/`A4std` conjugator `d`.
+
 ## Fin Arithmetic in Proofs
 
 When proving `Fin.ext` goals where the nat-level equality needs `omega`
