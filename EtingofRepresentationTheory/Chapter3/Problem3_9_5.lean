@@ -507,6 +507,98 @@ theorem isSemisimpleRing_of_nondegenerate
   ext T
   rw [hcoord T, Finsupp.zero_apply]
 
+/-!
+### The center of `Cl(V)` in the even nondegenerate case
+
+For an orthogonal basis `v`, left/right multiplication of a monomial `e S` by a generator `gen i`
+differ only by a sign: `gen i * e S = (-1)^{|S \ {i}|} • (e S * gen i)`. Consequently, conjugation
+by `gen i` scales each monomial `e S` by `(-1)^{|S \ {i}|}`, and a central element must have
+vanishing coordinate on every monomial `e S` for which some generator gives sign `-1`. When
+`dim V = N` is **even**, the only monomial fixed by *all* conjugations is `e ∅ = 1`, so the center
+is `ℂ · 1`. (In the odd case the top monomial `e univ` survives, giving a `2`-dimensional center.)
+-/
+
+section CenterEven
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open scoped symmDiff
+
+omit [FiniteDimensional ℂ V] in
+/-- If `i ∉ T`, the generator `gen i` anticommutes with each of the `|T|` generators making up
+`e T`, so moving it across `e T` produces the sign `(-1)^{|T|}`. -/
+theorem gen_comm_notMem (hv : B.IsOrthoᵢ v) {i : Fin N} :
+    ∀ T : Finset (Fin N), i ∉ T →
+      gen B v i * e B v T = (-1 : ℂ) ^ T.card • (e B v T * gen B v i) := by
+  intro T
+  induction T using Finset.strongInductionOn with
+  | _ T ih =>
+    intro hiT
+    rcases T.eq_empty_or_nonempty with rfl | hT
+    · simp
+    · have hkT : T.min' hT ∈ T := T.min'_mem hT
+      set k := T.min' hT with hk
+      have hik : i ≠ k := fun h => hiT (h ▸ hkT)
+      have hiT' : i ∉ T.erase k := fun h => hiT (Finset.mem_of_mem_erase h)
+      have hcard : T.card = (T.erase k).card + 1 := by
+        rw [Finset.card_erase_of_mem hkT, Nat.sub_add_cancel (Finset.card_pos.mpr hT)]
+      have hpeel : e B v T = gen B v k * e B v (T.erase k) := by
+        rw [e_minPeel B v hT, ← hk]
+      calc gen B v i * e B v T
+          = gen B v i * (gen B v k * e B v (T.erase k)) := by rw [hpeel]
+        _ = (gen B v i * gen B v k) * e B v (T.erase k) := by rw [mul_assoc]
+        _ = (-(gen B v k * gen B v i)) * e B v (T.erase k) := by rw [gen_anticomm B v hv hik]
+        _ = -(gen B v k * (gen B v i * e B v (T.erase k))) := by rw [neg_mul, mul_assoc]
+        _ = -(gen B v k * ((-1 : ℂ) ^ (T.erase k).card • (e B v (T.erase k) * gen B v i))) := by
+              rw [ih (T.erase k) (Finset.erase_ssubset hkT) hiT']
+        _ = (-1 : ℂ) ^ T.card • (gen B v k * (e B v (T.erase k) * gen B v i)) := by
+              rw [mul_smul_comm, ← neg_smul, hcard, pow_succ, mul_neg_one]
+        _ = (-1 : ℂ) ^ T.card • (e B v T * gen B v i) := by rw [hpeel, mul_assoc]
+
+omit [FiniteDimensional ℂ V] in
+/-- **Left/right commutation of a generator through a monomial.** For an orthogonal basis and a
+nondegenerate form, `gen i * e S = (-1)^{|S \ {i}|} • (e S * gen i)`. The exponent `|S \ {i}|` is
+`(S.erase i).card`; conjugation by `gen i` therefore fixes `e S` up to this sign. -/
+theorem gen_conj (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) (S : Finset (Fin N)) :
+    gen B v i * e B v S = (-1 : ℂ) ^ (S.erase i).card • (e B v S * gen B v i) := by
+  by_cases hiS : i ∈ S
+  · -- `i ∈ S`: write `T = S.erase i` (so `i ∉ T` and `T ∆ {i} = S`) and use `e S = δ⁻¹ • (gen i * e T)`.
+    set T := S.erase i with hT
+    have hiT : i ∉ T := Finset.notMem_erase i S
+    have hset : T ∆ ({i} : Finset (Fin N)) = S := by
+      ext a
+      simp only [hT, Finset.mem_symmDiff, Finset.mem_singleton, Finset.mem_erase]
+      by_cases hai : a = i <;> simp [hai, hiS]
+    obtain ⟨δ, hδ⟩ := Submodule.mem_span_singleton.mp (gen_mul_mem B v hv i T)
+    rw [hset] at hδ
+    -- `δ ≠ 0` because `gen i * e T` is a unit while `e S` is a unit (hence nonzero).
+    haveI : Nontrivial (CliffAlg B) :=
+      Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
+    have hδne : δ ≠ 0 := by
+      rintro rfl
+      rw [zero_smul] at hδ
+      exact ((isUnit_gen B v hv hnd i).mul (isUnit_e B v hv hnd T)).ne_zero hδ.symm
+    have hSeq : e B v S = δ⁻¹ • (gen B v i * e B v T) := by
+      rw [← hδ, smul_smul, inv_mul_cancel₀ hδne, one_smul]
+    -- The sign `c := (-1)^{|T|}` for moving `gen i` past `e T` (`i ∉ T`), which squares to `1`.
+    set c : ℂ := (-1 : ℂ) ^ T.card with hc
+    have hcc : c * c = 1 := by rw [hc, ← pow_add, ← two_mul, pow_mul]; simp
+    have hcomm : e B v T * gen B v i = c • (gen B v i * e B v T) := by
+      rw [gen_comm_notMem B v hv T hiT, ← hc, smul_smul, hcc, one_smul]
+    -- Both products are scalar multiples of `P := gen i * gen i * e T`, differing by the sign `c`.
+    have hL : gen B v i * e B v S = δ⁻¹ • (gen B v i * gen B v i * e B v T) := by
+      rw [hSeq, mul_smul_comm, ← mul_assoc]
+    have hR : e B v S * gen B v i = (δ⁻¹ * c) • (gen B v i * gen B v i * e B v T) := by
+      rw [hSeq, smul_mul_assoc, mul_assoc, hcomm, mul_smul_comm, ← mul_assoc, smul_smul]
+    rw [hL, hR, smul_smul]
+    congr 1
+    rw [mul_left_comm, hcc, mul_one]
+  · -- `i ∉ S`: `(S.erase i) = S`, and this is exactly `gen_comm_notMem`.
+    rw [Finset.erase_eq_of_notMem hiS]
+    exact gen_comm_notMem B v hv S hiS
+
+end CenterEven
+
 /-- **Problem 3.9.5(i), even case.** If `B` is nondegenerate and `dim V = 2n`, then
 `Cl(V)` is a matrix algebra: it is isomorphic to `End(S)` for a `2ⁿ`-dimensional space
 `S`, the unique (spinor) irreducible representation. -/
