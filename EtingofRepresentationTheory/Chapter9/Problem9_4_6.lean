@@ -2,11 +2,13 @@ import Mathlib.Algebra.FreeAlgebra
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
+import EtingofRepresentationTheory.Chapter2.Problem2_8_6
 import EtingofRepresentationTheory.Chapter9.Definition9_3_1
 import EtingofRepresentationTheory.Chapter9.Definition9_4_3
 import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardResolution
 import EtingofRepresentationTheory.Chapter9.PathAlgebraLowerBound
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
+import EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras
@@ -111,12 +113,161 @@ theorem homologicalDimension_pathAlgebra_eq_one
     hasHomologicalDimensionLE_pathAlgebra_one
     (not_hasHomologicalDimensionLE_zero_pathAlgebra hQ)
 
+/-! ## The free algebra as a path algebra
+
+We realize `k⟨x₁, …, xₙ⟩` as the path algebra of the one-vertex quiver `Q₀` with `n` loops, giving
+a genuine algebra isomorphism `freePathEquiv : FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k Q₀`.
+
+**Universe note.** The two algebras do *not* live in the same universe: `FreeAlgebra k (Fin n)`
+is `Type u`, but `PathAlgebra k Q₀` is `Type (u+1)` because `Quiver.Path` lands in `Type (max u v)`
+and the standard-resolution machinery of `homologicalDimension_pathAlgebra_eq_one` hard-requires
+`Quiver.{u+1} Q₀`. Consequently the same-universe `homologicalDimension_congr` (from #6635) is *not*
+enough to conclude `homologicalDimension (FreeAlgebra k (Fin n)) = 1` from the path-algebra result;
+that final step additionally needs universe-lift invariance of `homologicalDimension`
+(`homologicalDimension R = homologicalDimension (ULift.{u+1} R)`), which is tracked as a follow-up. -/
+
+/-- Vertex type of the one-vertex "loop" quiver with `n` loops: a single point in `Type u`. -/
+def LoopVertex (n : ℕ) : Type u := PUnit.{u + 1}
+
+instance (n : ℕ) : Fintype (LoopVertex.{u} n) := inferInstanceAs (Fintype PUnit)
+instance (n : ℕ) : DecidableEq (LoopVertex.{u} n) := inferInstanceAs (DecidableEq PUnit)
+instance (n : ℕ) : Unique (LoopVertex.{u} n) := inferInstanceAs (Unique PUnit)
+
+/-- The one-vertex quiver with `n` loops: the hom-type is `ULift.{u+1} (Fin n)`, so that
+`Quiver.{u + 1} (LoopVertex n)` holds (as required by `homologicalDimension_pathAlgebra_eq_one`). -/
+instance loopQuiver (n : ℕ) : Quiver.{u + 1} (LoopVertex.{u} n) :=
+  ⟨fun _ _ => ULift.{u + 1} (Fin n)⟩
+
+/-- The unique vertex of the loop quiver. -/
+abbrev LoopVertex.pt (n : ℕ) : LoopVertex.{u} n := PUnit.unit
+
+open Etingof.Problem2_8_6
+
+/-- The `m`-th loop as an arrow `pt ⟶ pt` of the loop quiver. Because the quiver's hom-type is the
+constant `ULift (Fin n)`, the endpoints are not inferable from the arrow alone, so they are pinned
+here explicitly. -/
+def loopArrow (n : ℕ) (m : Fin n) : (LoopVertex.pt n ⟶ LoopVertex.pt n) := ULift.up m
+
+/-- `k⟨x₁, …, xₙ⟩ → P_{Q₀}`: the free-algebra generator `xᵢ` maps to the `i`-th loop. -/
+noncomputable def freeToPath (k : Type u) [Field k] (n : ℕ) :
+    FreeAlgebra k (Fin n) →ₐ[k] PathAlgebra k (LoopVertex.{u} n) :=
+  FreeAlgebra.lift k fun m =>
+    arrowGen k (LoopVertex n) (i := LoopVertex.pt n) (j := LoopVertex.pt n) (loopArrow n m)
+
+theorem freeToPath_ι (k : Type u) [Field k] (n : ℕ) (m : Fin n) :
+    freeToPath k n (FreeAlgebra.ι k m)
+      = arrowGen k (LoopVertex n) (i := LoopVertex.pt n) (j := LoopVertex.pt n) (loopArrow n m) := by
+  unfold freeToPath
+  rw [FreeAlgebra.lift_ι_apply]
+
+/-- Existence and uniqueness of the algebra map `P_{Q₀} → k⟨x₁, …, xₙ⟩` sending the single vertex
+idempotent to `1` and each loop `eᵢ` to the free generator `xᵢ`. All defining relations of the
+path algebra hold trivially: the single vertex makes the orthogonality relations vacuous, and the
+one vertex idempotent is the unit of the target. -/
+theorem pathToFree_exists (k : Type u) [Field k] (n : ℕ) :
+    ∃! φ : PathAlgebra k (LoopVertex.{u} n) →ₐ[k] FreeAlgebra k (Fin n),
+      (∀ i, φ (vertexIdem k (LoopVertex n) i) = (1 : FreeAlgebra k (Fin n))) ∧
+        (∀ (i j : LoopVertex n) (e : i ⟶ j),
+          φ (arrowGen k (LoopVertex n) e) = FreeAlgebra.ι k (ULift.down e)) :=
+  defining_relations_universal k (LoopVertex n) (FreeAlgebra k (Fin n)) (fun _ => 1)
+    (fun _ _ e => FreeAlgebra.ι k (ULift.down e))
+    (by rw [Fintype.sum_unique])
+    (fun _ => one_mul 1)
+    (fun i j h => absurd (Subsingleton.elim i j) h)
+    (fun _ _ _ => one_mul _)
+    (fun l i _ _ h => absurd (Subsingleton.elim l i) h)
+    (fun _ _ _ => mul_one _)
+    (fun l _ j _ h => absurd (Subsingleton.elim l j) h)
+
+/-- `P_{Q₀} → k⟨x₁, …, xₙ⟩`: the inverse-to-be of `freeToPath`, sending each loop to `xᵢ`. -/
+noncomputable def pathToFree (k : Type u) [Field k] (n : ℕ) :
+    PathAlgebra k (LoopVertex.{u} n) →ₐ[k] FreeAlgebra k (Fin n) :=
+  (pathToFree_exists k n).choose
+
+theorem pathToFree_vertexIdem (k : Type u) [Field k] (n : ℕ) (i : LoopVertex.{u} n) :
+    pathToFree k n (vertexIdem k (LoopVertex n) i) = 1 :=
+  (pathToFree_exists k n).choose_spec.1.1 i
+
+theorem pathToFree_arrowGen (k : Type u) [Field k] (n : ℕ) {i j : LoopVertex.{u} n} (e : i ⟶ j) :
+    pathToFree k n (arrowGen k (LoopVertex n) e) = FreeAlgebra.ι k (ULift.down e) :=
+  (pathToFree_exists k n).choose_spec.1.2 i j e
+
+/-- Every single vertex idempotent equals the unit of `P_{Q₀}` (there is only one vertex). -/
+theorem vertexIdem_eq_one (k : Type u) [Field k] (n : ℕ) (a : LoopVertex.{u} n) :
+    vertexIdem k (LoopVertex n) a = 1 := by
+  have ha : a = (default : LoopVertex n) := Subsingleton.elim _ _
+  subst ha
+  rw [← Fintype.sum_unique (vertexIdem k (LoopVertex n))]
+  exact sum_vertexIdem k (LoopVertex n)
+
+/-- `freeToPath` inverts `pathToFree` on each loop generator. -/
+theorem freeToPath_pathToFree_arrowGen (k : Type u) [Field k] (n : ℕ)
+    {i j : LoopVertex.{u} n} (e : i ⟶ j) :
+    freeToPath k n (pathToFree k n (arrowGen k (LoopVertex n) e))
+      = arrowGen k (LoopVertex n) e := by
+  obtain rfl : i = LoopVertex.pt n := Subsingleton.elim _ _
+  obtain rfl : j = LoopVertex.pt n := Subsingleton.elim _ _
+  rw [pathToFree_arrowGen, freeToPath_ι]
+  rfl
+
+/-- `freeToPath ∘ pathToFree` fixes every basis path of `P_{Q₀}`. -/
+theorem freeToPath_pathToFree_ofPath (k : Type u) [Field k] (n : ℕ)
+    {a b : LoopVertex.{u} n} (p : Quiver.Path a b) :
+    freeToPath k n (pathToFree k n (PathAlgebra.ofPath (k := k) ⟨a, b, p⟩))
+      = PathAlgebra.ofPath (k := k) ⟨a, b, p⟩ := by
+  induction p with
+  | nil =>
+    change freeToPath k n (pathToFree k n (vertexIdem k (LoopVertex n) a))
+      = vertexIdem k (LoopVertex n) a
+    rw [pathToFree_vertexIdem, map_one, vertexIdem_eq_one]
+  | cons q e ih =>
+    rw [ofPath_cons, map_mul, map_mul, ih, freeToPath_pathToFree_arrowGen]
+
+theorem freeToPath_comp_pathToFree (k : Type u) [Field k] (n : ℕ) :
+    (freeToPath k n).comp (pathToFree k n)
+      = AlgHom.id k (PathAlgebra k (LoopVertex.{u} n)) := by
+  ext f
+  simp only [AlgHom.coe_comp, Function.comp_apply, AlgHom.coe_id, id_eq]
+  induction f using Finsupp.induction_linear with
+  | zero => rw [map_zero, map_zero]
+  | add x y hx hy => rw [map_add, map_add, hx, hy]
+  | single s c =>
+    obtain ⟨a, b, p⟩ := s
+    have hsc : (Finsupp.single (⟨a, b, p⟩ : QuiverPathIndex (LoopVertex n)) c
+          : PathAlgebra k (LoopVertex n))
+        = c • PathAlgebra.ofPath (k := k) (⟨a, b, p⟩ : QuiverPathIndex (LoopVertex n)) := by
+      rw [PathAlgebra.ofPath, Finsupp.smul_single, smul_eq_mul, mul_one]
+    rw [hsc, map_smul, map_smul, freeToPath_pathToFree_ofPath]
+
+theorem pathToFree_comp_freeToPath (k : Type u) [Field k] (n : ℕ) :
+    (pathToFree k n).comp (freeToPath k n) = AlgHom.id k (FreeAlgebra k (Fin n)) := by
+  apply FreeAlgebra.hom_ext
+  funext i
+  change pathToFree k n (freeToPath k n (FreeAlgebra.ι k i)) = FreeAlgebra.ι k i
+  rw [freeToPath_ι, pathToFree_arrowGen]
+  rfl
+
+/-- The algebra isomorphism `k⟨x₁, …, xₙ⟩ ≃ₐ P_{Q₀}` realizing the free algebra as the path
+algebra of the one-vertex quiver with `n` loops. -/
+noncomputable def freePathEquiv (k : Type u) [Field k] (n : ℕ) :
+    FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k (LoopVertex.{u} n) :=
+  AlgEquiv.ofAlgHom (freeToPath k n) (pathToFree k n)
+    (freeToPath_comp_pathToFree k n) (pathToFree_comp_freeToPath k n)
+
 /-- **Problem 9.4.6 (i), free algebra.** The free associative algebra `k⟨x₁, …, xₙ⟩` on
 `n ≥ 1` generators (the path algebra of the one-vertex quiver with `n` loops) has homological
 dimension `1`. -/
 theorem homologicalDimension_freeAlgebra_eq_one
     {k : Type u} [Field k] {n : ℕ} (hn : 1 ≤ n) :
-    Etingof.homologicalDimension (FreeAlgebra k (Fin n)) = 1 :=
+    Etingof.homologicalDimension (FreeAlgebra k (Fin n)) = 1 := by
+  -- `freePathEquiv k n : FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k (LoopVertex n)` realizes the
+  -- free algebra as the one-vertex path algebra, and `homologicalDimension_pathAlgebra_eq_one`
+  -- gives the path algebra dimension `1`. The remaining step is a *universe* bridge:
+  -- `FreeAlgebra k (Fin n) : Type u` but `PathAlgebra k (LoopVertex n) : Type (u+1)` (the quiver
+  -- path type bumps the universe, and the standard-resolution machinery hard-requires
+  -- `Quiver.{u+1}`). `homologicalDimension_congr` is same-universe only, so we need
+  -- universe-lift invariance of `homologicalDimension` (`homologicalDimension R =
+  -- homologicalDimension (ULift.{u+1} R)`), which is not yet available. See the sub-issue.
   sorry
 
 /-- The path-counting matrix of a quiver `Q`: the `(i, j)` entry is the number of oriented
