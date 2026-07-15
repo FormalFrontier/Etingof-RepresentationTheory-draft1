@@ -23,6 +23,8 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.RingTheory.SimpleModule.IsAlgClosed
 import Mathlib.Analysis.Complex.Polynomial.Basic
 import Mathlib.LinearAlgebra.Matrix.ToLin
+import Mathlib.Algebra.Algebra.Subalgebra.Pi
+import Mathlib.Algebra.Central.Matrix
 
 /-!
 # Problem 3.9.5: The Clifford algebra
@@ -698,6 +700,196 @@ theorem center_le_bot (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (hN : Even N
 
 end CenterEven
 
+section CenterOdd
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open scoped symmDiff
+
+omit [FiniteDimensional ℂ V] in
+/-- **The volume element is central in the odd case.** When `N` is odd, `gen_conj` moves each
+generator `gen i` across `e univ` with sign `(-1)^{|univ \ {i}|} = (-1)^{N-1} = 1`, so `e univ`
+commutes with every generator and hence (by `central_of_commutes_gen`) with all of `Cl(V)`. -/
+theorem eUniv_mem_center (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (hN : Odd N) :
+    e B v Finset.univ ∈ Subalgebra.center ℂ (CliffAlg B) := by
+  rw [Subalgebra.mem_center_iff]
+  intro y
+  refine (central_of_commutes_gen B v (fun i => ?_) y).symm
+  -- goal: `e univ * gen i = gen i * e univ`
+  have hcard : (Finset.univ.erase i).card = N - 1 := by
+    rw [Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ, Fintype.card_fin]
+  have heven : Even (Finset.univ.erase i).card := by
+    rw [hcard]; rcases hN with ⟨k, hk⟩; exact ⟨k, by omega⟩
+  have hgc := gen_conj B v hv hnd i Finset.univ
+  rw [heven.neg_one_pow, one_smul] at hgc
+  exact hgc.symm
+
+omit [FiniteDimensional ℂ V] in
+/-- **The center of `Cl(V)` is `span{1, e univ}` when `dim V = N` is odd.** The coefficient
+argument is the same as the even case: commutation with `gen i` forces
+`c_S ((-1)^{|S \ {i}|} - 1) = 0` for every `i`, so a surviving `S` must have `|S \ {i}|` even for
+all `i`. For `∅ ≠ S ≠ univ` some index makes it odd (pick `i ∈ S` if `|S|` is even, else `i ∉ S`,
+which exists since `S ≠ univ`), forcing `c_S = 0`. Thus only `S = ∅` and `S = univ` survive. -/
+theorem center_le_span_eUniv (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) :
+    (Subalgebra.center ℂ (CliffAlg B)).toSubmodule ≤
+      Submodule.span ℂ {e B v ∅, e B v Finset.univ} := by
+  intro x hx
+  have hxc : x ∈ Subalgebra.center ℂ (CliffAlg B) := hx
+  have hcomm : ∀ i, gen B v i * x = x * gen B v i := fun i =>
+    Subalgebra.mem_center_iff.mp hxc (gen B v i)
+  set c := (cliffBasis B v hv).repr x with hcdef
+  have hxexp : x = ∑ S, c S • e B v S := by
+    conv_lhs => rw [← (cliffBasis B v hv).sum_repr x]
+    simp only [cliffBasis_apply, hcdef]
+  -- Commutation with `gen i` forces `c S * ((-1)^{|S \ {i}|} - 1) = 0` for every `S` (parity-free).
+  have key : ∀ i : Fin N, ∀ S : Finset (Fin N),
+      c S * ((-1 : ℂ) ^ (S.erase i).card - 1) = 0 := by
+    intro i
+    have hexpand : (∑ S, (c S * (-1 : ℂ) ^ (S.erase i).card) • (e B v S * gen B v i))
+        = ∑ S, c S • (e B v S * gen B v i) := by
+      have e1 : gen B v i * x
+          = ∑ S, (c S * (-1 : ℂ) ^ (S.erase i).card) • (e B v S * gen B v i) := by
+        rw [hxexp, Finset.mul_sum]
+        exact Finset.sum_congr rfl (fun S _ => by
+          rw [mul_smul_comm, gen_conj B v hv hnd i S, smul_smul])
+      have e2 : x * gen B v i = ∑ S, c S • (e B v S * gen B v i) := by
+        rw [hxexp, Finset.sum_mul]
+        exact Finset.sum_congr rfl (fun S _ => by rw [smul_mul_assoc])
+      rw [← e1, ← e2, hcomm i]
+    have hsum0 : (∑ S, (c S * ((-1 : ℂ) ^ (S.erase i).card - 1)) • (e B v S * gen B v i)) = 0 := by
+      rw [← sub_eq_zero.mpr hexpand, ← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl (fun S _ => by rw [mul_sub, mul_one, sub_smul])
+    set w : CliffAlg B := (B (v i) (v i))⁻¹ • gen B v i with hwdef
+    have hw : gen B v i * w = 1 := by
+      rw [hwdef, mul_smul_comm, gen_sq, Algebra.smul_def, ← map_mul,
+        inv_mul_cancel₀ (diag_ne_zero B v hv hnd i), map_one]
+    have happly := congrArg (LinearMap.mulRight ℂ w) hsum0
+    rw [map_zero, map_sum] at happly
+    simp only [map_smul, LinearMap.mulRight_apply, mul_assoc, hw, mul_one] at happly
+    have hli := (cliffBasis B v hv).linearIndependent
+    rw [Fintype.linearIndependent_iff] at hli
+    exact hli (fun S => c S * ((-1 : ℂ) ^ (S.erase i).card - 1))
+      (by simpa only [cliffBasis_apply] using happly)
+  -- For `∅ ≠ S ≠ univ` pick `i` making `|S \ {i}|` odd, forcing `c S = 0`.
+  have hcS : ∀ S : Finset (Fin N), S ≠ ∅ → S ≠ Finset.univ → c S = 0 := by
+    intro S hS hSu
+    obtain ⟨i, hodd⟩ : ∃ i, Odd (S.erase i).card := by
+      rcases Nat.even_or_odd S.card with hpar | hpar
+      · obtain ⟨i, hi⟩ := Finset.nonempty_iff_ne_empty.mpr hS
+        refine ⟨i, ?_⟩
+        rw [Finset.card_erase_of_mem hi]
+        obtain ⟨k, hk⟩ := hpar
+        have hpos : 1 ≤ S.card := Finset.card_pos.mpr ⟨i, hi⟩
+        exact ⟨k - 1, by omega⟩
+      · obtain ⟨i, hi⟩ : ∃ i, i ∉ S := by
+          by_contra hcon
+          exact hSu (Finset.eq_univ_iff_forall.mpr (by simpa using hcon))
+        exact ⟨i, by rw [Finset.erase_eq_of_notMem hi]; exact hpar⟩
+    have hval : (-1 : ℂ) ^ (S.erase i).card - 1 = -2 := by rw [hodd.neg_one_pow]; ring
+    have hk := key i S
+    rw [hval] at hk
+    exact (mul_eq_zero.mp hk).resolve_right (by norm_num)
+  -- Hence `x` is a combination of `e ∅` and `e univ`.
+  rw [hxexp]
+  refine Submodule.sum_mem _ (fun S _ => ?_)
+  by_cases hS : S = ∅
+  · exact hS ▸ Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_insert _ _))
+  by_cases hSu : S = Finset.univ
+  · exact hSu ▸ Submodule.smul_mem _ _
+      (Submodule.subset_span (Set.mem_insert_of_mem _ rfl))
+  · rw [hcS S hS hSu, zero_smul]; exact Submodule.zero_mem _
+
+omit [FiniteDimensional ℂ V] in
+/-- The two monomials `e ∅ = 1` and `e univ` are linearly independent (distinct basis vectors),
+so they form a basis of the center, which therefore has dimension `2` when `N` is odd. -/
+theorem finrank_center_odd (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (hN : Odd N) :
+    Module.finrank ℂ (Subalgebra.center ℂ (CliffAlg B)) = 2 := by
+  have hne : (∅ : Finset (Fin N)) ≠ Finset.univ := by
+    intro h
+    have hc : (Finset.univ : Finset (Fin N)).card = 0 := by rw [← h]; rfl
+    rw [Finset.card_univ, Fintype.card_fin] at hc
+    rcases hN with ⟨k, hk⟩; omega
+  set idx : Fin 2 → Finset (Fin N) := ![∅, Finset.univ] with hidx
+  have hidxinj : Function.Injective idx := by
+    intro a b hab
+    fin_cases a <;> fin_cases b <;> simp_all
+  set w : Fin 2 → CliffAlg B := fun i => e B v (idx i) with hwdef
+  have hwli : LinearIndependent ℂ w := by
+    have hb := ((cliffBasis B v hv).linearIndependent).comp idx hidxinj
+    have hfun : w = ⇑(cliffBasis B v hv) ∘ idx := by
+      funext i; simp [hwdef, cliffBasis_apply]
+    rw [hfun]; exact hb
+  have hrange : Set.range w = {e B v ∅, e B v Finset.univ} := by
+    ext z
+    simp only [Set.mem_range, Set.mem_insert_iff, Set.mem_singleton_iff]
+    constructor
+    · rintro ⟨i, rfl⟩; fin_cases i <;> simp [hwdef, hidx]
+    · rintro (rfl | rfl)
+      · exact ⟨0, by simp [hwdef, hidx]⟩
+      · exact ⟨1, by simp [hwdef, hidx]⟩
+  -- span of `w` is the center, so its dimension is `card (Fin 2) = 2`.
+  have hspan : Submodule.span ℂ (Set.range w) = (Subalgebra.center ℂ (CliffAlg B)).toSubmodule := by
+    apply le_antisymm
+    · rw [hrange, Submodule.span_le]
+      rintro z (rfl | rfl)
+      · rw [e_empty]; exact Subalgebra.one_mem _
+      · exact eUniv_mem_center B v hv hnd hN
+    · rw [hrange]; exact center_le_span_eUniv B v hv hnd
+  have hcard : Module.finrank ℂ (Submodule.span ℂ (Set.range w)) = 2 := by
+    rw [finrank_span_eq_card hwli, Fintype.card_fin]
+  rw [← Subalgebra.finrank_toSubmodule, ← hspan, hcard]
+
+end CenterOdd
+
+section GradeInvolution
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open scoped symmDiff
+
+omit [FiniteDimensional ℂ V] in
+/-- **The grade involution on monomials.** The main involution `involute` (which sends each
+generator `ι x` to `-ι x`) scales the monomial `e S` by `(-1)^{|S|}`, since `e S` is a product of
+`|S|` generators. Proved by peeling the minimum. -/
+theorem involute_e (S : Finset (Fin N)) :
+    CliffordAlgebra.involute (e B v S) = (-1 : ℂ) ^ S.card • e B v S := by
+  induction S using Finset.strongInductionOn with
+  | _ S ih =>
+    rcases S.eq_empty_or_nonempty with rfl | hS
+    · simp
+    · set k := S.min' hS with hkdef
+      have hkS : k ∈ S := S.min'_mem hS
+      have hpeel : e B v S = gen B v k * e B v (S.erase k) := by rw [e_minPeel B v hS, ← hkdef]
+      have hcard : S.card = (S.erase k).card + 1 := by
+        rw [Finset.card_erase_of_mem hkS, Nat.sub_add_cancel (Finset.card_pos.mpr hS)]
+      have hgk : CliffordAlgebra.involute (gen B v k) = - gen B v k := by
+        rw [gen]; exact CliffordAlgebra.involute_ι _
+      rw [hpeel, map_mul, hgk, ih (S.erase k) (Finset.erase_ssubset hkS),
+        neg_mul, mul_smul_comm, ← neg_smul, ← hpeel, hcard, pow_succ]
+      congr 1
+      ring
+
+omit [FiniteDimensional ℂ V] in
+/-- **The volume element squares to a nonzero scalar.** `e univ · e univ` lies in the span of
+`e (univ ∆ univ) = e ∅ = 1`, and it is a unit (product of units), so the scalar is nonzero. -/
+theorem exists_eUniv_sq (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) :
+    ∃ μ : ℂ, μ ≠ 0 ∧ e B v Finset.univ * e B v Finset.univ = μ • (1 : CliffAlg B) := by
+  have hmem := e_mul_mem B v hv Finset.univ Finset.univ
+  have hset : (Finset.univ : Finset (Fin N)) ∆ Finset.univ = ∅ := by
+    ext a; simp [Finset.mem_symmDiff]
+  rw [hset, e_empty] at hmem
+  obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.mp hmem
+  refine ⟨μ, ?_, hμ.symm⟩
+  intro hμ0
+  haveI : Nontrivial (CliffAlg B) :=
+    Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
+  have hunit : IsUnit (e B v Finset.univ * e B v Finset.univ) :=
+    (isUnit_e B v hv hnd Finset.univ).mul (isUnit_e B v hv hnd Finset.univ)
+  rw [← hμ, hμ0, zero_smul] at hunit
+  exact (not_isUnit_zero) hunit
+
+end GradeInvolution
+
 set_option maxHeartbeats 400000 in
 -- The proof threads a Wedderburn–Artin decomposition, a linear-independence dimension bound, and a
 -- `Fin 1` product collapse through several large algebra isomorphisms, so it needs a higher limit.
@@ -811,6 +1003,119 @@ theorem even_isMatrixAlgebra
     rw [← h1, ← hfr_iso, h2]
   have hk : k = 2 ^ n := Nat.pow_left_injective (by norm_num) hsq
   rw [hfrS, hk]
+
+set_option maxHeartbeats 400000 in
+/-- **Two Wedderburn factors in the odd case.** If `B` is nondegenerate and `dim V = 2n+1`, then
+`Cl(V) ≃ₐ ∏_{i : Fin 2} M_{dᵢ}(ℂ)` with each `dᵢ > 0`. The count `2` is exactly the dimension of the
+center (`finrank_center_odd`): the `m` coordinate central units span the center, so `m = 2`. -/
+theorem odd_exists_pi_matrix
+    (hsymm : ∀ x y, B x y = B y x) (hnd : B.Nondegenerate)
+    (n : ℕ) (hdim : Module.finrank ℂ V = 2 * n + 1) :
+    ∃ (d : Fin 2 → ℕ), (∀ i, 0 < d i) ∧
+      Nonempty (CliffAlg B ≃ₐ[ℂ] (Π i : Fin 2, Matrix (Fin (d i)) (Fin (d i)) ℂ)) := by
+  classical
+  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
+    (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
+  have hNodd : Odd (Module.finrank ℂ V) := ⟨n, by rw [hdim]⟩
+  haveI hss : IsSemisimpleRing (CliffAlg B) := isSemisimpleRing_of_nondegenerate B hsymm hnd
+  haveI : Nontrivial (CliffAlg B) :=
+    Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
+  -- Wedderburn–Artin over `ℂ`: `Cl(V) ≃ₐ ∏ᵢ Mₐᵢ(ℂ)`.
+  obtain ⟨m, d, hd, ⟨eiso⟩⟩ :=
+    IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed ℂ (CliffAlg B)
+  set P := (Π i : Fin m, Matrix (Fin (d i)) (Fin (d i)) ℂ) with hPdef
+  -- The `m` "coordinate units" `Pi.single i 1` are central and linearly independent.
+  have hsingle_cent : ∀ i : Fin m, (Pi.single i 1 : P) ∈ Subalgebra.center ℂ P := by
+    intro i
+    rw [Subalgebra.mem_center_iff]
+    intro b
+    funext j
+    simp only [Pi.mul_apply]
+    rcases eq_or_ne j i with rfl | hji
+    · rw [Pi.single_eq_same, mul_one, one_mul]
+    · rw [Pi.single_eq_of_ne hji, mul_zero, zero_mul]
+  let g : Fin m → CliffAlg B := fun i => eiso.symm (Pi.single i 1)
+  have hg_cent : ∀ i, g i ∈ Subalgebra.center ℂ (CliffAlg B) := by
+    intro i
+    rw [Subalgebra.mem_center_iff]
+    intro y
+    have hs := Subalgebra.mem_center_iff.mp (hsingle_cent i) (eiso y)
+    calc y * g i = eiso.symm (eiso y) * eiso.symm (Pi.single i 1) := by
+            rw [AlgEquiv.symm_apply_apply]
+      _ = eiso.symm (eiso y * Pi.single i 1) := by rw [← map_mul]
+      _ = eiso.symm (Pi.single i 1 * eiso y) := by rw [hs]
+      _ = eiso.symm (Pi.single i 1) * eiso.symm (eiso y) := by rw [map_mul]
+      _ = g i * y := by rw [AlgEquiv.symm_apply_apply]
+  have hbase : LinearIndependent ℂ (fun i : Fin m => (Pi.single i 1 : P)) := by
+    rw [Fintype.linearIndependent_iff]
+    intro a ha j
+    have hj := congrFun ha j
+    rw [Finset.sum_apply, Pi.zero_apply, Finset.sum_eq_single j] at hj
+    · rw [Pi.smul_apply, Pi.single_eq_same] at hj
+      exact (smul_eq_zero.mp hj).resolve_right one_ne_zero
+    · intro b _ hbj
+      rw [Pi.smul_apply, Pi.single_eq_of_ne (Ne.symm hbj), smul_zero]
+    · intro h; exact absurd (Finset.mem_univ j) h
+  have hg_li : LinearIndependent ℂ g :=
+    hbase.map' eiso.symm.toLinearMap (LinearMap.ker_eq_bot.mpr eiso.symm.injective)
+  -- The span of the `g i` lies in the center.
+  have hspan_le : Submodule.span ℂ (Set.range g) ≤
+      (Subalgebra.center ℂ (CliffAlg B)).toSubmodule := by
+    rw [Submodule.span_le]
+    rintro _ ⟨i, rfl⟩
+    exact hg_cent i
+  -- Conversely every central element is a combination of the `g i`: transport to `P`, where a
+  -- central element is a tuple of scalars (each matrix factor is central over `ℂ`).
+  have hg_span_center : (Subalgebra.center ℂ (CliffAlg B)).toSubmodule ≤
+      Submodule.span ℂ (Set.range g) := by
+    intro x hx
+    have hxc : x ∈ Subalgebra.center ℂ (CliffAlg B) := hx
+    have hpc : eiso x ∈ Subalgebra.center ℂ P := by
+      rw [Subalgebra.mem_center_iff]
+      intro b
+      have hs := Subalgebra.mem_center_iff.mp hxc (eiso.symm b)
+      calc b * eiso x = eiso (eiso.symm b) * eiso x := by rw [AlgEquiv.apply_symm_apply]
+        _ = eiso (eiso.symm b * x) := by rw [← map_mul]
+        _ = eiso (x * eiso.symm b) := by rw [hs]
+        _ = eiso x * eiso (eiso.symm b) := by rw [map_mul]
+        _ = eiso x * b := by rw [AlgEquiv.apply_symm_apply]
+    have hscalar : ∀ i : Fin m, ∃ c : ℂ, algebraMap ℂ (Matrix (Fin (d i)) (Fin (d i)) ℂ) c
+        = (eiso x) i := by
+      intro i
+      have hpc' : eiso x ∈
+          Subalgebra.center ℂ (Π j : Fin m, Matrix (Fin (d j)) (Fin (d j)) ℂ) := hpc
+      rw [Subalgebra.center_pi] at hpc'
+      have hcoord : (eiso x) i ∈ Subalgebra.center ℂ (Matrix (Fin (d i)) (Fin (d i)) ℂ) :=
+        Subalgebra.mem_pi.mp hpc' i (Set.mem_univ i)
+      have hbot : (eiso x) i ∈ (⊥ : Subalgebra ℂ (Matrix (Fin (d i)) (Fin (d i)) ℂ)) :=
+        Algebra.IsCentral.out hcoord
+      exact Algebra.mem_bot.mp hbot
+    choose c hc using hscalar
+    have hsum : eiso x = ∑ i, c i • (Pi.single i 1 : P) := by
+      conv_lhs => rw [← Finset.univ_sum_single (eiso x)]
+      refine Finset.sum_congr rfl (fun i _ => ?_)
+      rw [← hc i, Algebra.algebraMap_eq_smul_one, Pi.single_smul]
+    have hx_eq : x = ∑ i, c i • g i := by
+      have h2 := congrArg eiso.symm hsum
+      rw [AlgEquiv.symm_apply_apply, map_sum] at h2
+      simp only [map_smul] at h2
+      exact h2
+    rw [hx_eq]
+    exact Submodule.sum_mem _
+      (fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩))
+  -- So the span equals the center, whose dimension is `2`; hence `m = 2`.
+  have hspan_eq : Submodule.span ℂ (Set.range g)
+      = (Subalgebra.center ℂ (CliffAlg B)).toSubmodule :=
+    le_antisymm hspan_le hg_span_center
+  have hcenter2 : Module.finrank ℂ (Submodule.span ℂ (Set.range g)) = 2 := by
+    rw [hspan_eq]; exact finrank_center_odd B v hv hnd hNodd
+  have hm : m = 2 := by
+    have hfs := finrank_span_eq_card hg_li
+    rw [hcenter2, Fintype.card_fin] at hfs
+    exact hfs.symm
+  subst hm
+  exact ⟨d, fun i => by haveI := hd i; exact Nat.pos_of_ne_zero (NeZero.ne _), ⟨eiso⟩⟩
 
 /-- **Problem 3.9.5(i), odd case.** If `B` is nondegenerate and `dim V = 2n+1`, then
 `Cl(V)` is a direct sum of two matrix algebras: `End(S) × End(S)` with `dim S = 2ⁿ`. The
