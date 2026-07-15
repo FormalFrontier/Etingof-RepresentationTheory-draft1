@@ -385,6 +385,13 @@ git diff --stat origin/main..HEAD # sanity check: only YOUR files should appear
 ```
 If unrelated files show up as deleted, your branch is stale — merge first.
 
+**Posting prose (review verdicts, PR/issue bodies): always use `--body-file`,
+never inline `--body '...'`.** Formalization prose is full of backticks and Lean
+identifiers with apostrophes (`map_one'`, `sorry'd`, `book's`). An apostrophe
+closes the shell's single-quoted string, so `gh issue comment --body '...'`
+silently truncates the comment at the first `'` and leaks the tail to the shell.
+Write the text to a file and pass `--body-file /tmp/x.md`.
+
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work
 (e.g. a "fix PR #N" issue if CI fails). Polling burns context and tokens
