@@ -137,4 +137,17 @@ evaluated at `M`, which is canonically independent of the resolution (Problem 8.
 noncomputable def Tor (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) : AddCommGrpCat.{u} :=
   (TorFunctor A N n).obj M
 
+/-- **`Tor` from a chosen projective resolution.** For any projective resolution `P•` of the right
+`A`-module `M`, `Torₙᴬ(M, N)` is (canonically isomorphic to) the `n`-th homology of the complex
+`P• ⊗_A N`. This is the resolution-computed description of `Tor` in Etingof Definition 8.2.3,
+obtained from the derived-functor definition via Mathlib's
+`ProjectiveResolution.isoLeftDerivedObj`. The independence of the chosen resolution is Problem
+8.2.5. -/
+noncomputable def torIsoHomologyTensorRight (M : ModuleCat.{u} Aᵐᵒᵖ)
+    (P : ProjectiveResolution M) (n : ℕ) :
+    Tor A N M n ≅
+      (HomologicalComplex.homologyFunctor AddCommGrpCat.{u} (ComplexShape.down ℕ) n).obj
+        (((tensorRightFunctor A N).mapHomologicalComplex _).obj P.complex) :=
+  P.isoLeftDerivedObj (tensorRightFunctor A N) n
+
 end Etingof
