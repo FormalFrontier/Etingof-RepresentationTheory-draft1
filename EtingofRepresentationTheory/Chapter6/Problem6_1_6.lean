@@ -162,7 +162,7 @@ lemma charV_re_le_two (g : G) : ((V G).character g).re ≤ 2 := by
 /-- **(a)** `rᵢⱼ = rⱼᵢ`. (Because `V` is self-dual: `V ≅ V*` as `V` is the
 `2`-dimensional `SU(2)`-representation, so `dim Hom(Wᵢ, V ⊗ Wⱼ) =
 dim Hom(Wⱼ, V ⊗ Wᵢ)`.) -/
-theorem mult_symm (hW : IsCompleteIrreps W) (i j : Fin m) :
+theorem mult_symm (_hW : IsCompleteIrreps W) (i j : Fin m) :
     mult W i j = mult W j i := by
   classical
   have : Fintype G := Fintype.ofFinite G
@@ -503,7 +503,7 @@ binary tetrahedral/octahedral/icosahedral ↔ `Ẽ₆ / Ẽ₇ / Ẽ₈`.
 Recorded as a `Prop` against the real affine-type enumeration; the group
 classification of Problem 4.12.8 is a separate item, so this pins the
 correspondence for a later proof pass rather than asserting a vacuous theorem. -/
-def McKayCorrespondence (hW : IsCompleteIrreps W) : Prop :=
+def McKayCorrespondence (_hW : IsCompleteIrreps W) : Prop :=
   ∃ t : Problem6_1_3_tildeE.AffineType, ∃ σ : Fin t.rank ≃ Fin m,
     ∀ i j, mckayAdj W (σ i) (σ j) = t.adj i j
 
