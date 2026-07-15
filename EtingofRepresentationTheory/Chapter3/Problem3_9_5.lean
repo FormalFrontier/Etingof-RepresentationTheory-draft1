@@ -18,6 +18,7 @@ import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Tactic.NoncommRing
+import Mathlib.Tactic.Module
 import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.RingTheory.SimpleModule.IsAlgClosed
@@ -1117,6 +1118,9 @@ theorem odd_exists_pi_matrix
   subst hm
   exact ⟨d, fun i => by haveI := hd i; exact Nat.pos_of_ne_zero (NeZero.ne _), ⟨eiso⟩⟩
 
+set_option maxHeartbeats 1600000 in
+-- The proof threads the two-factor Wedderburn decomposition, a grade-involution transport
+-- proving `d₀ = d₁`, and several large algebra isomorphisms, so it needs a higher limit.
 /-- **Problem 3.9.5(i), odd case.** If `B` is nondegenerate and `dim V = 2n+1`, then
 `Cl(V)` is a direct sum of two matrix algebras: `End(S) × End(S)` with `dim S = 2ⁿ`. The
 two factors are the two non-isomorphic irreducible representations `S₊, S₋`. -/
@@ -1126,7 +1130,237 @@ theorem odd_isSumMatrixAlgebra
     ∃ (S : Type) (_ : AddCommGroup S) (_ : Module ℂ S),
       Module.finrank ℂ S = 2 ^ n ∧
       Nonempty (CliffAlg B ≃ₐ[ℂ] (Module.End ℂ S × Module.End ℂ S)) := by
-  sorry
+  classical
+  haveI : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
+  -- Orthogonal basis of `V`, indexed by `Fin (finrank ℂ V)`.
+  obtain ⟨v, hv⟩ := LinearMap.BilinForm.exists_orthogonal_basis
+    (LinearMap.BilinForm.isSymm_iff.mp ⟨hsymm⟩)
+  have hNodd : Odd (Module.finrank ℂ V) := ⟨n, by rw [hdim]⟩
+  haveI : Nontrivial (CliffAlg B) :=
+    Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
+  -- Two-factor Wedderburn decomposition `Cl(V) ≃ₐ P = ∏ᵢ M_{dᵢ}(ℂ)`.
+  obtain ⟨d, hdpos, ⟨eiso⟩⟩ := odd_exists_pi_matrix B hsymm hnd n hdim
+  set P := (Π i : Fin 2, Matrix (Fin (d i)) (Fin (d i)) ℂ) with hPdef
+  haveI hmatnt : ∀ i : Fin 2, Nontrivial (Matrix (Fin (d i)) (Fin (d i)) ℂ) := by
+    intro i
+    haveI : Nonempty (Fin (d i)) := ⟨⟨0, hdpos i⟩⟩
+    infer_instance
+  -- The two complementary central idempotents `e0, e1 ∈ P` and their preimages `g0, g1`.
+  set e0 : P := Pi.single 0 1 with he0
+  set e1 : P := Pi.single 1 1 with he1
+  set g0 : CliffAlg B := eiso.symm e0 with hg0
+  set g1 : CliffAlg B := eiso.symm e1 with hg1
+  -- Basic algebra of `e0, e1` in `P`.
+  have he01 : e0 + e1 = 1 := by
+    funext i; fin_cases i <;> simp +zetaDelta [Pi.add_apply]
+  have he0e1 : e0 * e1 = 0 := by
+    funext i; fin_cases i <;> simp +zetaDelta [Pi.mul_apply]
+  have he0sq : e0 * e0 = e0 := by
+    funext i; fin_cases i <;> simp +zetaDelta [Pi.mul_apply]
+  have he0ne0 : e0 ≠ 0 := by
+    intro h; have h0 := congrFun h 0; simp +zetaDelta at h0
+  have he0ne1 : e0 ≠ 1 := by
+    intro h; have h1 := congrFun h 1; simp +zetaDelta at h1
+  have he0cent : e0 ∈ Subalgebra.center ℂ P := by
+    rw [Subalgebra.mem_center_iff]
+    intro b; funext j; fin_cases j <;> simp +zetaDelta [Pi.mul_apply]
+  -- Transport to `g0, g1` in `Cl(V)`.
+  have hg01 : g0 + g1 = 1 := by rw [hg0, hg1, ← map_add, he01, map_one]
+  have hg0g1 : g0 * g1 = 0 := by rw [hg0, hg1, ← map_mul, he0e1, map_zero]
+  have hg0sq : g0 * g0 = g0 := by rw [hg0, ← map_mul, he0sq]
+  have hg0ne0 : g0 ≠ 0 := by
+    intro h; apply he0ne0; rw [← AlgEquiv.apply_symm_apply eiso e0, ← hg0, h, map_zero]
+  have hg0ne1 : g0 ≠ 1 := by
+    intro h; apply he0ne1; rw [← AlgEquiv.apply_symm_apply eiso e0, ← hg0, h, map_one]
+  have hg0cent : g0 ∈ Subalgebra.center ℂ (CliffAlg B) := by
+    rw [Subalgebra.mem_center_iff]
+    intro y
+    have hs := Subalgebra.mem_center_iff.mp he0cent (eiso y)
+    have h1 : g0 * y = eiso.symm (e0 * eiso y) := by
+      rw [hg0, map_mul, AlgEquiv.symm_apply_apply]
+    have h2 : y * g0 = eiso.symm (eiso y * e0) := by
+      rw [hg0, map_mul, AlgEquiv.symm_apply_apply]
+    rw [h1, h2, hs]
+  -- `g0` is central so lies in `span{1, e univ}`; write `g0 = a•1 + b•(e univ)`.
+  obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.mp (center_le_span_eUniv B v hv hnd hg0cent)
+  rw [e_empty] at hab
+  obtain ⟨μ, hμ0, hμ⟩ := exists_eUniv_sq B v hv hnd
+  -- `{1, e univ}` is linearly independent.
+  have hne : (∅ : Finset (Fin (Module.finrank ℂ V))) ≠ Finset.univ := by
+    intro h
+    have hc : (Finset.univ : Finset (Fin (Module.finrank ℂ V))).card = 0 := by rw [← h]; simp
+    rw [Finset.card_univ, Fintype.card_fin] at hc
+    rw [hdim] at hc; omega
+  have hidxinj : Function.Injective
+      (![(∅ : Finset (Fin (Module.finrank ℂ V))), Finset.univ]) := by
+    intro x y hxy
+    fin_cases x <;> fin_cases y <;> simp_all
+  have hli : LinearIndependent ℂ ![(1 : CliffAlg B), e B v Finset.univ] := by
+    have hcomp : ![(1 : CliffAlg B), e B v Finset.univ]
+        = ⇑(cliffBasis B v hv) ∘ ![(∅ : Finset (Fin (Module.finrank ℂ V))), Finset.univ] := by
+      funext i; fin_cases i <;> simp [cliffBasis_apply, e_empty]
+    rw [hcomp]
+    exact (cliffBasis B v hv).linearIndependent.comp _ hidxinj
+  -- Idempotent equation `g0² = g0` gives two scalar equations.
+  have expand : (a • (1 : CliffAlg B) + b • e B v Finset.univ)
+        * (a • (1 : CliffAlg B) + b • e B v Finset.univ)
+      = (a * a + b * b * μ) • (1 : CliffAlg B) + (2 * a * b) • e B v Finset.univ := by
+    rw [mul_add, add_mul, add_mul, smul_mul_smul_comm, smul_mul_smul_comm,
+        smul_mul_smul_comm, smul_mul_smul_comm]
+    simp only [mul_one, one_mul]
+    rw [hμ]
+    module
+  have hidem : (a * a + b * b * μ - a) • (1 : CliffAlg B)
+      + (2 * a * b - b) • e B v Finset.univ = 0 := by
+    have h : (a • (1 : CliffAlg B) + b • e B v Finset.univ)
+          * (a • (1 : CliffAlg B) + b • e B v Finset.univ)
+        = a • (1 : CliffAlg B) + b • e B v Finset.univ := by rw [hab]; exact hg0sq
+    rw [expand] at h
+    rw [sub_smul, sub_smul, sub_add_sub_comm, sub_eq_zero]
+    exact h
+  have hzero : ∀ i, (![a * a + b * b * μ - a, 2 * a * b - b] : Fin 2 → ℂ) i = 0 := by
+    apply (Fintype.linearIndependent_iff.mp hli)
+    rw [Fin.sum_univ_two]
+    simpa using hidem
+  have heq2 : 2 * a * b - b = 0 := by simpa using hzero 1
+  -- `b ≠ 0`, else `g0` is a scalar idempotent, forcing `g0 ∈ {0, 1}`.
+  have hb0 : b ≠ 0 := by
+    intro hb
+    rw [hb, zero_smul, add_zero] at hab
+    have hinj : Function.Injective (algebraMap ℂ (CliffAlg B)) :=
+      (algebraMap ℂ (CliffAlg B)).injective
+    have key : (a * a) • (1 : CliffAlg B) = a • (1 : CliffAlg B) := by
+      have h := hg0sq
+      rw [← hab, smul_mul_smul_comm, mul_one] at h
+      exact h
+    have haa : a * a = a := by
+      have e2 := key
+      rw [← Algebra.algebraMap_eq_smul_one, ← Algebra.algebraMap_eq_smul_one] at e2
+      exact hinj e2
+    have hfac : a * (a - 1) = 0 := by rw [mul_sub, mul_one, haa, sub_self]
+    rcases mul_eq_zero.mp hfac with h | h
+    · exact hg0ne0 (by rw [← hab, h, zero_smul])
+    · exact hg0ne1 (by rw [← hab, sub_eq_zero.mp h, one_smul])
+  -- Hence `2a = 1`.
+  have h2a : 2 * a = 1 := by
+    have hbf : b * (2 * a - 1) = 0 := by linear_combination heq2
+    rcases mul_eq_zero.mp hbf with h | h
+    · exact absurd h hb0
+    · exact sub_eq_zero.mp h
+  -- The grade involution negates `e univ` (odd dimension), whence `involute g0 = g1`.
+  have hinv_u : CliffordAlgebra.involute (e B v Finset.univ) = - e B v Finset.univ := by
+    rw [involute_e]
+    have hcard : (Finset.univ : Finset (Fin (Module.finrank ℂ V))).card = Module.finrank ℂ V := by
+      rw [Finset.card_univ, Fintype.card_fin]
+    rw [hcard, hNodd.neg_one_pow, neg_one_smul]
+  have hφg0 : CliffordAlgebra.involute g0 = g1 := by
+    rw [← hab, map_add, map_smul, map_smul, map_one, hinv_u]
+    have hlin : (a • (1 : CliffAlg B) + b • (- e B v Finset.univ))
+          + (a • (1 : CliffAlg B) + b • e B v Finset.univ)
+        = (2 * a) • (1 : CliffAlg B) := by module
+    have hone : (2 * a) • (1 : CliffAlg B) = 1 := by rw [h2a, one_smul]
+    have htgt : (a • (1 : CliffAlg B) + b • (- e B v Finset.univ)) + g0 = 1 := by
+      rw [← hab, hlin, hone]
+    have hcancel : (a • (1 : CliffAlg B) + b • (- e B v Finset.univ)) + g0 = g1 + g0 := by
+      rw [htgt, add_comm g1 g0, hg01]
+    exact add_right_cancel hcancel
+  -- Transport the grade involution to an automorphism `ψ : P ≃ₐ P` with `ψ e0 = e1`.
+  let φE : CliffAlg B ≃ₐ[ℂ] CliffAlg B := CliffordAlgebra.involuteEquiv
+  have hφE : ∀ x, φE x = CliffordAlgebra.involute x := fun _ => rfl
+  let ψ : P ≃ₐ[ℂ] P := (eiso.symm.trans φE).trans eiso
+  have hψe0 : ψ e0 = e1 := by
+    change eiso (φE (eiso.symm e0)) = e1
+    rw [← hg0, hφE, hφg0, hg1, AlgEquiv.apply_symm_apply]
+  -- The two "coordinate" left ideals `Iᵢ = eᵢ · P` have `finrank = dᵢ²`, and `ψ` swaps them.
+  set I0 : Submodule ℂ P := LinearMap.range (LinearMap.mulLeft ℂ e0) with hI0
+  set I1 : Submodule ℂ P := LinearMap.range (LinearMap.mulLeft ℂ e1) with hI1
+  have he0mul : ∀ p : P, e0 * p = Pi.single 0 (p 0) := by
+    intro p; rw [he0]; funext j
+    rcases eq_or_ne j 0 with rfl | hj
+    · simp +zetaDelta [Pi.mul_apply, Pi.single_eq_same]
+    · simp +zetaDelta [Pi.mul_apply, Pi.single_eq_of_ne hj]
+  have he1mul : ∀ p : P, e1 * p = Pi.single 1 (p 1) := by
+    intro p; rw [he1]; funext j
+    rcases eq_or_ne j 1 with rfl | hj
+    · simp +zetaDelta [Pi.mul_apply, Pi.single_eq_same]
+    · simp +zetaDelta [Pi.mul_apply, Pi.single_eq_of_ne hj]
+  have hI0eq : I0 = LinearMap.range
+      (LinearMap.single ℂ (fun i : Fin 2 => Matrix (Fin (d i)) (Fin (d i)) ℂ) 0) := by
+    rw [hI0]; apply le_antisymm
+    · rintro _ ⟨p, rfl⟩
+      rw [LinearMap.mulLeft_apply, he0mul]
+      exact ⟨p 0, by rw [LinearMap.single_apply]⟩
+    · rintro _ ⟨x, rfl⟩
+      refine ⟨Pi.single 0 x, ?_⟩
+      rw [LinearMap.mulLeft_apply, he0mul, LinearMap.single_apply]
+      simp
+  have hI1eq : I1 = LinearMap.range
+      (LinearMap.single ℂ (fun i : Fin 2 => Matrix (Fin (d i)) (Fin (d i)) ℂ) 1) := by
+    rw [hI1]; apply le_antisymm
+    · rintro _ ⟨p, rfl⟩
+      rw [LinearMap.mulLeft_apply, he1mul]
+      exact ⟨p 1, by rw [LinearMap.single_apply]⟩
+    · rintro _ ⟨x, rfl⟩
+      refine ⟨Pi.single 1 x, ?_⟩
+      rw [LinearMap.mulLeft_apply, he1mul, LinearMap.single_apply]
+      simp
+  have hfrI0 : Module.finrank ℂ I0 = d 0 * d 0 := by
+    rw [hI0eq, LinearMap.finrank_range_of_inj
+        (LinearMap.ker_eq_bot.mp (LinearMap.ker_single
+          (R := ℂ) (φ := fun i : Fin 2 => Matrix (Fin (d i)) (Fin (d i)) ℂ) 0)),
+      Module.finrank_matrix]
+    simp
+  have hfrI1 : Module.finrank ℂ I1 = d 1 * d 1 := by
+    rw [hI1eq, LinearMap.finrank_range_of_inj
+        (LinearMap.ker_eq_bot.mp (LinearMap.ker_single
+          (R := ℂ) (φ := fun i : Fin 2 => Matrix (Fin (d i)) (Fin (d i)) ℂ) 1)),
+      Module.finrank_matrix]
+    simp
+  have hψsymm_e1 : ψ.symm e1 = e0 := ψ.symm_apply_eq.mpr hψe0.symm
+  have hmap : Submodule.map (ψ.toLinearEquiv : P →ₗ[ℂ] P) I0 = I1 := by
+    rw [hI0, hI1]
+    ext y
+    simp only [Submodule.mem_map, LinearMap.mem_range, LinearEquiv.coe_coe,
+      AlgEquiv.coe_toLinearEquiv, LinearMap.mulLeft_apply]
+    constructor
+    · rintro ⟨x, ⟨q, rfl⟩, rfl⟩
+      exact ⟨ψ q, by rw [map_mul, hψe0]⟩
+    · rintro ⟨r, rfl⟩
+      exact ⟨ψ.symm (e1 * r), ⟨ψ.symm r, by rw [← hψsymm_e1, ← map_mul]⟩,
+        ψ.apply_symm_apply _⟩
+  have hfr_eq : d 1 * d 1 = d 0 * d 0 := by
+    have hfm := LinearEquiv.finrank_map_eq ψ.toLinearEquiv I0
+    rw [hmap] at hfm
+    rw [← hfrI1, ← hfrI0, hfm]
+  -- So `d0 = d1`; the total dimension count then forces `d0 = d1 = 2ⁿ`.
+  have hd01 : d 0 = d 1 := (mul_self_inj (Nat.zero_le _) (Nat.zero_le _)).mp hfr_eq.symm
+  have hfrP : Module.finrank ℂ P = d 0 * d 0 + d 1 * d 1 := by
+    change Module.finrank ℂ (∀ i : Fin 2, Matrix (Fin (d i)) (Fin (d i)) ℂ) = _
+    rw [Module.finrank_pi_fintype, Fin.sum_univ_two]
+    simp [Module.finrank_matrix]
+  have hfrPeq : Module.finrank ℂ P = 2 ^ (2 * n + 1) := by
+    rw [← eiso.toLinearEquiv.finrank_eq, finrank_cliffAlg B v, hdim]
+  have hk : d 0 = 2 ^ n := by
+    have hsum : d 0 * d 0 + d 0 * d 0 = 2 ^ n * 2 ^ n + 2 ^ n * 2 ^ n := by
+      have he : d 0 * d 0 + d 1 * d 1 = 2 ^ (2 * n + 1) := hfrP.symm.trans hfrPeq
+      rw [← hd01] at he
+      rw [he, show 2 * n + 1 = n + n + 1 by ring, pow_succ, pow_add]; ring
+    have hd0 : d 0 * d 0 = 2 ^ n * 2 ^ n := by omega
+    exact (mul_self_inj (Nat.zero_le _) (Nat.zero_le _)).mp hd0
+  have hd1k : d 1 = 2 ^ n := by rw [← hd01]; exact hk
+  -- Assemble `P ≃ₐ M_{2ⁿ}(ℂ) × M_{2ⁿ}(ℂ) ≃ₐ End(S) × End(S)`.
+  let pf2 : P ≃ₐ[ℂ] Matrix (Fin (d 0)) (Fin (d 0)) ℂ × Matrix (Fin (d 1)) (Fin (d 1)) ℂ :=
+    AlgEquiv.ofRingEquiv (f := RingEquiv.piFinTwo
+      (fun i : Fin 2 => Matrix (Fin (d i)) (Fin (d i)) ℂ)) (fun _ => rfl)
+  let r0 : Matrix (Fin (d 0)) (Fin (d 0)) ℂ ≃ₐ[ℂ] Matrix (Fin (2 ^ n)) (Fin (2 ^ n)) ℂ :=
+    Matrix.reindexAlgEquiv ℂ ℂ (finCongr hk)
+  let r1 : Matrix (Fin (d 1)) (Fin (d 1)) ℂ ≃ₐ[ℂ] Matrix (Fin (2 ^ n)) (Fin (2 ^ n)) ℂ :=
+    Matrix.reindexAlgEquiv ℂ ℂ (finCongr hd1k)
+  let mEnd : Matrix (Fin (2 ^ n)) (Fin (2 ^ n)) ℂ ≃ₐ[ℂ] Module.End ℂ (Fin (2 ^ n) → ℂ) :=
+    LinearMap.toMatrixAlgEquiv'.symm
+  refine ⟨Fin (2 ^ n) → ℂ, inferInstance, inferInstance, ?_, ⟨?_⟩⟩
+  · rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+  · exact eiso.trans (pf2.trans ((AlgEquiv.prodCongr r0 r1).trans (AlgEquiv.prodCongr mEnd mEnd)))
 
 omit [FiniteDimensional ℂ V] in
 /-- **Problem 3.9.5(ii), forward direction.** If `B` is degenerate then `Cl(V)` is *not* a
