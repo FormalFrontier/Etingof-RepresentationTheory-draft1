@@ -2372,6 +2372,25 @@ apply Submodule.span_induction ...
 
 **Pattern:** For any "show X is in the span of Y" problem in representation theory, first check if orthogonality gives you a clean proof. It usually does.
 
+### Character reality `χ(g⁻¹) = conj χ(g)` is in the project, not Mathlib (Ch6 #6631)
+
+Mathlib's finite-group character lemmas (`FDRep.char_orthonormal`,
+`FDRep.scalar_product_char_eq_finrank_equivariant`) are stated with `V.character g⁻¹`, **not**
+`conj (V.character g)`. Any Hermitian-positivity argument (`(f,f) ≥ 0`, `∑_g (…)·|f(g)|² ≥ 0`)
+needs the reality identity to convert `f(g⁻¹)` into `conj (f(g)) = ↑normSq`. This identity is
+**not in Mathlib** but **is already proved in the project**:
+`Etingof.char_inv_eq_conj (V : FDRep ℂ G) (g : G) : V.character g⁻¹ = (starRingEnd ℂ) (V.character g)`
+(`Chapter4/Discussion_4_4.lean`, needs `[Fintype G]`). **Grep `EtingofRepresentationTheory/Chapter4/`
+for standard finite-group character theory before proving any such fact from scratch** — Ch4
+formalizes orthonormality, class-function completeness (`Theorem4_2_1`,
+`classFunction_eq_zero_of_orthogonal_simples`), unitarizability (`Theorem4_6_2`), and this reality
+identity. Worked use: `mckayCartan_posSemidef` (McKay Cartan form `xᵀ(2δ−r)x ≥ 0`) computes
+`|G|·(xᵀ(2δ−r)x) = ∑_g (2−χ_V(g))·f(g)·f(g⁻¹)`, rewrites `f(g⁻¹) = conj(f(g))` via
+`char_inv_eq_conj` + `map_intCast` (real coefficients), then `Complex.mul_conj` gives `↑normSq`
+and each factor `2−χ_V(g) ≥ 0` from the `SU(2)` trace bound. For the reality of a specific
+character (`χ_V` real), combine `char_inv_eq_conj` with a self-duality fact like `charV_inv`
+(`χ_V(g⁻¹)=χ_V(g)`) to get `conj z = z`, then `Complex.conj_eq_iff_im`.
+
 ### IsSplitMono + Cokernel for Representation Decomposition (Wave 30)
 
 When proving a representation decomposes as a direct sum V ≅ A ⊕ B:
