@@ -4452,6 +4452,30 @@ cases path with
 `adj (φ j) (φ i) = adj (φ i) (φ j)` — useful when rewriting a hypothesis
 that has `adj (φ j) (φ i)`.
 
+## Closing character-table identities after `fin_cases j` (`![…] j` reduction)
+
+In `A₅`/character-table proofs you often reduce to `<expr in j> = ![a,b,c,d,e] j` and finish with
+`fin_cases j`. **`fin_cases j` substitutes the index as `⟨k, ⋯⟩` (a `Fin.mk`), which
+`simp only [Matrix.cons_val_zero, Matrix.cons_val_one, …]` does NOT reliably reduce.** Use
+`norm_num` (or `decide`) to evaluate `![…] ⟨k,⋯⟩` — those tactics see through the `Fin.mk`.
+
+- Pure numeric per-class goal: `fin_cases j <;> norm_num` (this is what the working `indZ2_*` /
+  `twisted_*` lemmas use).
+- Per-class goal that ALSO needs a scalar hypothesis (e.g. a cube-root identity `z + z^2 = -1`
+  for a nontrivial character): `fin_cases j <;> norm_num <;> linear_combination h`. `norm_num`
+  reduces the matrix entries per branch (zeroing out the branches where the scalar coefficient is
+  `0`); `linear_combination h` closes the one branch where the scalar survives, and is a no-op on
+  the already-closed branches.
+
+**Do not chase a misleading `ring` failure here.** If `linear_combination`/`ring` fails on a goal
+that looks trivially true (`1/3*(z*3+z^2*3) = -1`), the cause is almost always an *unreduced*
+`![…] ⟨k,⋯⟩` still lurking as an atom — not a `set`/`let` zeta-unfold or a division issue.
+`clear_value`, `obtain`, and `field_simp` are red herrings; fix the matrix reduction (run
+`norm_num` first) instead. (Cost ~8 iterations in #6624 before this was spotted.)
+
+Related: `orderOf_eq_card_of_forall_mem_zpowers` (cyclic generator) returns `Nat.card α`, not
+`Fintype.card α`; close the order fact with `... ; exact hH` where `hH : Nat.card ↥H = n`.
+
 ## Fin Arithmetic in Proofs
 
 When proving `Fin.ext` goals where the nat-level equality needs `omega`
