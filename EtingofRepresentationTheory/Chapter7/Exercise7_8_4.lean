@@ -35,9 +35,11 @@ and `0` on `Wⁿ⁺¹`; a pointwise splitting `x = z + w` then gives
 
 open CategoryTheory
 
+universe u
+
 namespace Etingof.Exercise7_8_4Aux
 
-variable {k : Type*} [Field k] (K : CochainComplex (ModuleCat.{0} k) ℤ)
+variable {k : Type u} [Field k] (K : CochainComplex (ModuleCat.{u} k) ℤ)
 
 /-- The cocycles `Zⁿ = ker dⁿ`, as a submodule of `Kⁿ`. -/
 noncomputable def Zsub (n : ℤ) : Submodule k (K.X n) := LinearMap.ker (K.d n (n + 1)).hom
@@ -167,8 +169,8 @@ end Etingof.Exercise7_8_4Aux
 over a field `k` is contractible — its identity morphism is null-homotopic — which is
 equivalent to being isomorphic to a direct sum of contractible complexes
 `0 → V →^{id} V → 0`. -/
-theorem Etingof.Exercise7_8_4 {k : Type*} [Field k]
-    (K : CochainComplex (ModuleCat.{0} k) ℤ) (hK : K.Acyclic) :
+theorem Etingof.Exercise7_8_4 {k : Type u} [Field k]
+    (K : CochainComplex (ModuleCat.{u} k) ℤ) (hK : K.Acyclic) :
     Nonempty (Homotopy (𝟙 K) 0) := by
   refine ⟨{ hom := Etingof.Exercise7_8_4Aux.htpy hK, zero := ?_, comm := ?_ }⟩
   · -- the homotopy vanishes off the relation `j + 1 = i`
@@ -189,8 +191,8 @@ theorem Etingof.Exercise7_8_4 {k : Type*} [Field k]
 
 /-- Exercise 7.8.4 (in particular): any short exact sequence of `k`-vector spaces is
 split. -/
-theorem Etingof.Exercise7_8_4_split {k : Type*} [Field k]
-    (S : ShortComplex (ModuleCat.{0} k)) (hS : S.ShortExact) :
+theorem Etingof.Exercise7_8_4_split {k : Type u} [Field k]
+    (S : ShortComplex (ModuleCat.{u} k)) (hS : S.ShortExact) :
     Nonempty S.Splitting :=
   -- `S.X₃` is a `k`-vector space, hence free, hence projective, so the epi `S.g`
   -- has a section and the short exact sequence splits.

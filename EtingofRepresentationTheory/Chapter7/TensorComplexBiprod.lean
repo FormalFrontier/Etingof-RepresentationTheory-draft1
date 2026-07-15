@@ -3,7 +3,7 @@ import Mathlib
 /-!
 # Distributivity of the tensor product of complexes over binary biproducts
 
-Mathlib equips `HomologicalComplex (ModuleCat.{0} k) (ComplexShape.up ℤ)` with a monoidal
+Mathlib equips `HomologicalComplex (ModuleCat.{u} k) (ComplexShape.up ℤ)` with a monoidal
 category structure whose tensor product is `HomologicalComplex.tensorObj` (the total complex of
 the bicomplex `Cⱼ ⊗ Dₘ`). This file records that this monoidal structure is *preadditive*
 (`MonoidalPreadditive`), i.e. tensoring is additive in each variable. Preadditivity makes the
@@ -21,18 +21,20 @@ open CategoryTheory Limits MonoidalCategory HomologicalComplex
 
 namespace Etingof
 
-variable {k : Type} [Field k]
+universe u
+
+variable {k : Type u} [Field k]
 
 /-- Etingof's tensor product complex `(C ⊗ D)•`, with degree-`i` object `⨁_{j+m=i} Cⱼ ⊗ Dₘ`
 and the Koszul-signed differential `dᶜ ⊗ 1 + (-1)ʲ · 1 ⊗ dᴰ`. This is Mathlib's
 `HomologicalComplex.tensorObj`. -/
-noncomputable def tensorComplex (C D : CochainComplex (ModuleCat.{0} k) ℤ) :
-    CochainComplex (ModuleCat.{0} k) ℤ :=
+noncomputable def tensorComplex (C D : CochainComplex (ModuleCat.{u} k) ℤ) :
+    CochainComplex (ModuleCat.{u} k) ℤ :=
   HomologicalComplex.tensorObj C D
 
-/-- Tensoring homological complexes over `ModuleCat.{0} k` is additive in each variable. -/
+/-- Tensoring homological complexes over `ModuleCat.{u} k` is additive in each variable. -/
 noncomputable instance :
-    MonoidalPreadditive (HomologicalComplex (ModuleCat.{0} k) (ComplexShape.up ℤ)) where
+    MonoidalPreadditive (HomologicalComplex (ModuleCat.{u} k) (ComplexShape.up ℤ)) where
   whiskerLeft_zero {X Y Z} := by
     change mapBifunctorMap (𝟙 X) (0 : Y ⟶ Z) _ _ = 0
     refine HomologicalComplex.hom_ext _ _ fun j =>
@@ -62,7 +64,7 @@ noncomputable instance :
 /-- Distributivity of the tensor product of complexes over a binary biproduct in the left
 variable: `(X ⊞ Y) ⊗ Z ≅ (X ⊗ Z) ⊞ (Y ⊗ Z)`. -/
 noncomputable def tensorComplex_biprodLeftIso
-    (X Y Z : CochainComplex (ModuleCat.{0} k) ℤ) :
+    (X Y Z : CochainComplex (ModuleCat.{u} k) ℤ) :
     tensorComplex (X ⊞ Y) Z ≅ tensorComplex X Z ⊞ tensorComplex Y Z :=
   haveI : PreservesBinaryBiproduct X Y (tensorRight Z) :=
     preservesBinaryBiproduct_of_preservesBiproduct _ _ _
@@ -71,7 +73,7 @@ noncomputable def tensorComplex_biprodLeftIso
 /-- Distributivity of the tensor product of complexes over a binary biproduct in the right
 variable: `X ⊗ (Y ⊞ Z) ≅ (X ⊗ Y) ⊞ (X ⊗ Z)`. -/
 noncomputable def tensorComplex_biprodRightIso
-    (X Y Z : CochainComplex (ModuleCat.{0} k) ℤ) :
+    (X Y Z : CochainComplex (ModuleCat.{u} k) ℤ) :
     tensorComplex X (Y ⊞ Z) ≅ tensorComplex X Y ⊞ tensorComplex X Z :=
   haveI : PreservesBinaryBiproduct Y Z (tensorLeft X) :=
     preservesBinaryBiproduct_of_preservesBiproduct _ _ _

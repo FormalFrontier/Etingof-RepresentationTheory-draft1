@@ -52,12 +52,14 @@ open CategoryTheory Limits MonoidalCategory
 
 namespace Etingof
 
-variable {k : Type} [Field k]
+universe u
+
+variable {k : Type u} [Field k]
 
 /-- The complex whose degree-`i` object is the homology `Hⁱ(C)` and whose differentials are
 all zero (used in part (iii)). -/
-noncomputable def homologyZeroComplex (C : CochainComplex (ModuleCat.{0} k) ℤ) :
-    CochainComplex (ModuleCat.{0} k) ℤ where
+noncomputable def homologyZeroComplex (C : CochainComplex (ModuleCat.{u} k) ℤ) :
+    CochainComplex (ModuleCat.{u} k) ℤ where
   X i := C.homology i
   d _ _ := 0
   shape _ _ _ := rfl
@@ -65,7 +67,7 @@ noncomputable def homologyZeroComplex (C : CochainComplex (ModuleCat.{0} k) ℤ)
 
 section SplitField
 
-variable (C : CochainComplex (ModuleCat.{0} k) ℤ)
+variable (C : CochainComplex (ModuleCat.{u} k) ℤ)
 
 /-!
 ### Construction for part (iii)
@@ -165,14 +167,14 @@ end SplitField
 
 /-- Problem 7.8.7(i): the tensor product `C ⊗ D` is a complex, i.e. consecutive
 differentials compose to zero. -/
-theorem Problem7_8_7_i (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i j l : ℤ) :
+theorem Problem7_8_7_i (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i j l : ℤ) :
     (tensorComplex C D).d i j ≫ (tensorComplex C D).d j l = 0 :=
   (tensorComplex C D).d_comp_d i j l
 
 /-- A complex whose identity morphism is null-homotopic (contractible) is acyclic: homotopic
 chain maps induce equal maps on homology, so `𝟙 (Hⁱ X) = homologyMap (𝟙 X) i =
 homologyMap 0 i = 0`, whence `Hⁱ X` is zero in every degree. -/
-private lemma acyclic_of_homotopy_id_zero {X : CochainComplex (ModuleCat.{0} k) ℤ}
+private lemma acyclic_of_homotopy_id_zero {X : CochainComplex (ModuleCat.{u} k) ℤ}
     (H : Homotopy (𝟙 X) 0) : X.Acyclic := by
   intro i
   rw [HomologicalComplex.exactAt_iff_isZero_homology, IsZero.iff_id_eq_zero]
@@ -181,7 +183,7 @@ private lemma acyclic_of_homotopy_id_zero {X : CochainComplex (ModuleCat.{0} k) 
 
 /-- Problem 7.8.7(ii): over a field, if either factor is an exact (acyclic) complex, then so
 is the tensor product `C ⊗ D`. -/
-theorem Problem7_8_7_ii (C D : CochainComplex (ModuleCat.{0} k) ℤ)
+theorem Problem7_8_7_ii (C D : CochainComplex (ModuleCat.{u} k) ℤ)
     (h : C.Acyclic ∨ D.Acyclic) :
     (tensorComplex C D).Acyclic := by
   -- Over a field an acyclic complex is contractible (`Exercise7_8_4`: `𝟙` is null-homotopic).
@@ -190,7 +192,7 @@ theorem Problem7_8_7_ii (C D : CochainComplex (ModuleCat.{0} k) ℤ)
   -- `tensorHom (𝟙) (𝟙) = 𝟙`: the tensor bifunctor sends `𝟙` to `𝟙`, so the induced
   -- morphism on total complexes is `total.map (𝟙) = 𝟙`.
   have hid : HomologicalComplex.mapBifunctorMap (𝟙 C) (𝟙 D)
-      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) = 𝟙 (tensorComplex C D) := by
+      (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) = 𝟙 (tensorComplex C D) := by
     rw [HomologicalComplex.mapBifunctorMap, CategoryTheory.Functor.map_id, NatTrans.id_app,
       CategoryTheory.Functor.map_id, Category.id_comp, HomologicalComplex₂.total.map_id]
     rfl
@@ -200,26 +202,26 @@ theorem Problem7_8_7_ii (C D : CochainComplex (ModuleCat.{0} k) ℤ)
   · obtain ⟨hCH⟩ := Etingof.Exercise7_8_4 C hC
     -- `tensorHom 0 (𝟙 D) = 0`: the bifunctor sends `0` to `0`, so each injection composes to `0`.
     have hz : HomologicalComplex.mapBifunctorMap (0 : C ⟶ C) (𝟙 D)
-        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) = 0 := by
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) = 0 := by
       apply HomologicalComplex.hom_ext
       intro j
       apply HomologicalComplex.mapBifunctor.hom_ext
       intro i₁ i₂ hji
       simp
     have Hmap := HomologicalComplex.mapBifunctorMapHomotopy₁ hCH (𝟙 D)
-      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ)
+      (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ)
     exact acyclic_of_homotopy_id_zero
       ((Homotopy.ofEq hid.symm).trans (Hmap.trans (Homotopy.ofEq hz)))
   · obtain ⟨hDH⟩ := Etingof.Exercise7_8_4 D hD
     have hz : HomologicalComplex.mapBifunctorMap (𝟙 C) (0 : D ⟶ D)
-        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) = 0 := by
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) = 0 := by
       apply HomologicalComplex.hom_ext
       intro j
       apply HomologicalComplex.mapBifunctor.hom_ext
       intro i₁ i₂ hji
       simp
     have Hmap := HomologicalComplex.mapBifunctorMapHomotopy₂ (𝟙 C) hDH
-      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ)
+      (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ)
     exact acyclic_of_homotopy_id_zero
       ((Homotopy.ofEq hid.symm).trans (Hmap.trans (Homotopy.ofEq hz)))
 
@@ -227,8 +229,8 @@ theorem Problem7_8_7_ii (C D : CochainComplex (ModuleCat.{0} k) ℤ)
 `E` and the zero-differential complex on its homology `Hⁱ(C)`, in a way that induces the
 identity on homology (encoded here as: the summand map `homologyZeroComplex C ⟶ C` is a
 homology isomorphism in every degree). -/
-theorem Problem7_8_7_iii (C : CochainComplex (ModuleCat.{0} k) ℤ) :
-    ∃ (E : CochainComplex (ModuleCat.{0} k) ℤ) (_ : E.Acyclic)
+theorem Problem7_8_7_iii (C : CochainComplex (ModuleCat.{u} k) ℤ) :
+    ∃ (E : CochainComplex (ModuleCat.{u} k) ℤ) (_ : E.Acyclic)
       (iso : C ≅ E ⊞ homologyZeroComplex C),
       ∀ i : ℤ, IsIso (HomologicalComplex.homologyMap
         ((biprod.inr : homologyZeroComplex C ⟶ E ⊞ homologyZeroComplex C) ≫ iso.inv) i) := by
@@ -310,7 +312,7 @@ degree, so its homology at `i` is its degree-`i` object, which is the internal c
 the summands `Cᵢ₁ ⊗ Dᵢ₂` over `i₁ + i₂ = i`. This "total degree object as explicit `∐`" iso is
 general (it holds for any two complexes admitting a tensor product) and reusable. -/
 noncomputable def tensorObjXIsoCoproduct
-    (K₁ K₂ : CochainComplex (ModuleCat.{0} k) ℤ) [HomologicalComplex.HasTensor K₁ K₂] (i : ℤ) :
+    (K₁ K₂ : CochainComplex (ModuleCat.{u} k) ℤ) [HomologicalComplex.HasTensor K₁ K₂] (i : ℤ) :
     (HomologicalComplex.tensorObj K₁ K₂).X i ≅
       ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => K₁.X p.1.1 ⊗ K₂.X p.1.2 where
   hom := HomologicalComplex.mapBifunctorDesc
@@ -326,16 +328,16 @@ noncomputable def tensorObjXIsoCoproduct
     rintro ⟨⟨i₁, i₂⟩, h⟩
     simp [HomologicalComplex.ιTensorObj]
 
-@[simp] lemma homologyZeroComplex_d (C : CochainComplex (ModuleCat.{0} k) ℤ) (i j : ℤ) :
+@[simp] lemma homologyZeroComplex_d (C : CochainComplex (ModuleCat.{u} k) ℤ) (i j : ℤ) :
     (homologyZeroComplex C).d i j = 0 := rfl
 
 /-- A tensor of two zero-differential complexes has zero differential in every degree: both the
 `d₁` and `d₂` summands of the total differential vanish because each factor differential does. -/
-lemma tensorHomologyZero_d_eq_zero (C D : CochainComplex (ModuleCat.{0} k) ℤ) (j j' : ℤ) :
+lemma tensorHomologyZero_d_eq_zero (C D : CochainComplex (ModuleCat.{u} k) ℤ) (j j' : ℤ) :
     (HomologicalComplex.tensorObj (homologyZeroComplex C) (homologyZeroComplex D)).d j j' = 0 := by
   have hd₁ : ∀ i₁ i₂ : ℤ,
       HomologicalComplex.mapBifunctor.d₁ (homologyZeroComplex C) (homologyZeroComplex D)
-        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) i₁ i₂ j' = 0 := by
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) i₁ i₂ j' = 0 := by
     intro i₁ i₂
     by_cases hrel : (ComplexShape.up ℤ).Rel i₁ ((ComplexShape.up ℤ).next i₁)
     · rw [HomologicalComplex.mapBifunctor.d₁_eq' _ _ _ _ hrel i₂ j']
@@ -344,7 +346,7 @@ lemma tensorHomologyZero_d_eq_zero (C D : CochainComplex (ModuleCat.{0} k) ℤ) 
       exact hrel
   have hd₂ : ∀ i₁ i₂ : ℤ,
       HomologicalComplex.mapBifunctor.d₂ (homologyZeroComplex C) (homologyZeroComplex D)
-        (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) i₁ i₂ j' = 0 := by
+        (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) i₁ i₂ j' = 0 := by
     intro i₁ i₂
     by_cases hrel : (ComplexShape.up ℤ).Rel i₂ ((ComplexShape.up ℤ).next i₂)
     · rw [HomologicalComplex.mapBifunctor.d₂_eq' _ _ _ _ i₁ hrel j']
@@ -352,12 +354,12 @@ lemma tensorHomologyZero_d_eq_zero (C D : CochainComplex (ModuleCat.{0} k) ℤ) 
     · apply HomologicalComplex.mapBifunctor.d₂_eq_zero
       exact hrel
   have hD₁ : HomologicalComplex.mapBifunctor.D₁ (homologyZeroComplex C) (homologyZeroComplex D)
-      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) j j' = 0 := by
+      (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) j j' = 0 := by
     apply HomologicalComplex.mapBifunctor.hom_ext
     intro i₁ i₂ h
     rw [HomologicalComplex.mapBifunctor.ι_D₁, comp_zero, hd₁]
   have hD₂ : HomologicalComplex.mapBifunctor.D₂ (homologyZeroComplex C) (homologyZeroComplex D)
-      (curriedTensor (ModuleCat.{0} k)) (ComplexShape.up ℤ) j j' = 0 := by
+      (curriedTensor (ModuleCat.{u} k)) (ComplexShape.up ℤ) j j' = 0 := by
     apply HomologicalComplex.mapBifunctor.hom_ext
     intro i₁ i₂ h
     rw [HomologicalComplex.mapBifunctor.ι_D₂, comp_zero, hd₂]
@@ -367,7 +369,7 @@ lemma tensorHomologyZero_d_eq_zero (C D : CochainComplex (ModuleCat.{0} k) ℤ) 
 vanishes, `Hⁱ` is the degree-`i` object, which is the coproduct of the `Cᵢ₁ ⊗ Dᵢ₂` over
 `i₁ + i₂ = i`. This is the final identification used in the Künneth formula. -/
 noncomputable def homologyTensorHomologyZeroIso
-    (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i : ℤ) :
+    (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) :
     (tensorComplex (homologyZeroComplex C) (homologyZeroComplex D)).homology i ≅
       ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => C.homology p.1.1 ⊗ D.homology p.1.2 :=
   let K := HomologicalComplex.tensorObj (homologyZeroComplex C) (homologyZeroComplex D)
@@ -377,7 +379,7 @@ noncomputable def homologyTensorHomologyZeroIso
 
 /-- Problem 7.8.7(iv), the **Künneth formula**: there is a natural isomorphism of vector
 spaces `Hⁱ(C ⊗ D) ≅ ⨁_{j+m=i} Hʲ(C) ⊗ Hᵐ(D)`. -/
-theorem Problem7_8_7_iv (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i : ℤ) :
+theorem Problem7_8_7_iv (C D : CochainComplex (ModuleCat.{u} k) ℤ) (i : ℤ) :
     Nonempty ((tensorComplex C D).homology i ≅
       ∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = i}) => C.homology p.1.1 ⊗ D.homology p.1.2) := by
   -- Part (iii): decompose each factor into an acyclic complex plus its zero-differential
@@ -385,7 +387,7 @@ theorem Problem7_8_7_iv (C D : CochainComplex (ModuleCat.{0} k) ℤ) (i : ℤ) :
   obtain ⟨E, hE, iC, -⟩ := Problem7_8_7_iii C
   obtain ⟨F, hF, iD, -⟩ := Problem7_8_7_iii D
   -- The homology functor `Hⁱ` at degree `i`; it is additive, so it preserves biproducts.
-  let Hi := HomologicalComplex.homologyFunctor (ModuleCat.{0} k) (ComplexShape.up ℤ) i
+  let Hi := HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ) i
   haveI : Limits.PreservesBinaryBiproducts Hi :=
     Limits.preservesBinaryBiproducts_of_preservesBiproducts Hi
   -- Functoriality of `⊗` plus binary distributivity split `C ⊗ D` into the four Künneth
