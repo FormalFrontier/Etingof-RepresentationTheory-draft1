@@ -454,7 +454,161 @@ theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
     ∃ path : List (Fin m), path.head? = some i ∧ path.getLast? = some j ∧
       ∀ k, (h : k + 1 < path.length) →
         1 ≤ mult W (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) := by
-  sorry
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  haveI : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  -- `occ n a`: character-scalar multiplicity of `W a` in `V^{⊗ n}`.
+  let occ : ℕ → Fin m → ℂ := fun n a =>
+    ⅟(Fintype.card G : ℂ) * ∑ g : G, ((V G).character g) ^ n * (W a).character g⁻¹
+  -- dimensions are nonzero
+  have hdimne : ∀ b : Fin m, Module.finrank ℂ (W b) ≠ 0 := by
+    intro b h0
+    haveI : Simple (W b) := hW.simple b
+    haveI : Subsingleton (W b : Type) := finrank_zero_iff.mp h0
+    have hz : (𝟙 (W b) : W b ⟶ W b) = 0 :=
+      Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => Subsingleton.elim _ _)))
+    exact id_nonzero (W b) hz
+  -- **Recurrence** `occ (n+1) a = ∑ⱼ rₐⱼ · occ n j`.
+  have hrec : ∀ n a, occ (n + 1) a = ∑ j, (mult W a j : ℂ) * occ n j := by
+    intro n a
+    have hdecomp : ∀ h : G, (V G).character h * (W a).character h
+        = ∑ j, (mult W j a : ℂ) * (W j).character h := by
+      intro h
+      have hh := congrFun (char_eq_sum_mult W hW (V G ⊗ W a)) h
+      simp only [FDRep.char_tensor, Pi.mul_apply, Finset.sum_apply, Pi.smul_apply,
+        smul_eq_mul] at hh
+      exact hh
+    have hpg : ∀ g : G, ((V G).character g) ^ (n + 1) * (W a).character g⁻¹
+        = ∑ j, (mult W j a : ℂ) * (((V G).character g) ^ n * (W j).character g⁻¹) := by
+      intro g
+      have hgi := hdecomp g⁻¹
+      rw [charV_inv] at hgi
+      rw [pow_succ, mul_assoc, hgi, Finset.mul_sum]
+      refine Finset.sum_congr rfl (fun j _ => by ring)
+    change ⅟(Fintype.card G : ℂ) * ∑ g : G, ((V G).character g) ^ (n + 1) * (W a).character g⁻¹
+        = ∑ j, (mult W a j : ℂ) *
+            (⅟(Fintype.card G : ℂ) * ∑ g : G, ((V G).character g) ^ n * (W j).character g⁻¹)
+    rw [Finset.sum_congr rfl (fun g (_ : g ∈ Finset.univ) => hpg g), Finset.sum_comm,
+      Finset.mul_sum]
+    refine Finset.sum_congr rfl (fun j _ => ?_)
+    rw [mult_symm W hW a j, ← Finset.mul_sum]
+    ring
+  -- **Trivial vertex** `i₀` with `W i₀ ≅ 1`.
+  haveI : NeZero (Nat.card G : ℂ) := by
+    rw [Nat.card_eq_fintype_card]
+    exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
+  have hchar1 : ∀ g : G, (FDRep.of (Representation.trivial ℂ G ℂ)).character g = 1 := by
+    intro g; simp [FDRep.character, FDRep.of_ρ']
+  haveI htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
+    rw [FDRep.simple_iff_char_is_norm_one]
+    simp [hchar1, Nat.card_eq_fintype_card]
+  obtain ⟨i₀, ⟨iso₀⟩⟩ := hW.exhaustive (FDRep.of (Representation.trivial ℂ G ℂ)) htrivsimple
+  -- **Base case** `occ 0 a ≠ 0 → a = i₀`.
+  have hbase : ∀ a, occ 0 a ≠ 0 → a = i₀ := by
+    intro a ha
+    have hval : occ 0 a
+        = (Module.finrank ℂ (W a ⟶ FDRep.of (Representation.trivial ℂ G ℂ)) : ℂ) := by
+      have hsp := FDRep.scalar_product_char_eq_finrank_equivariant (W a)
+        (FDRep.of (Representation.trivial ℂ G ℂ))
+      rw [smul_eq_mul] at hsp
+      change ⅟(Fintype.card G : ℂ) * ∑ g : G, ((V G).character g) ^ 0 * (W a).character g⁻¹ = _
+      rw [← hsp]
+      congr 1
+      refine Finset.sum_congr rfl (fun g _ => ?_)
+      rw [pow_zero, one_mul, hchar1 g, one_mul]
+    rw [hval] at ha
+    haveI : Simple (W a) := hW.simple a
+    have hfr : Module.finrank ℂ (W a ⟶ FDRep.of (Representation.trivial ℂ G ℂ)) ≠ 0 := by
+      intro h0; rw [h0] at ha; simp at ha
+    rw [FDRep.finrank_hom_simple_simple] at hfr
+    by_contra hne
+    have : ¬ Nonempty (W a ≅ FDRep.of (Representation.trivial ℂ G ℂ)) := by
+      rintro ⟨e⟩
+      exact hne (hW.distinct a i₀ ⟨e ≪≫ iso₀⟩)
+    rw [if_neg this] at hfr
+    exact hfr rfl
+  -- **Reachability** `occ n a ≠ 0 → i₀ ⇝ a`.
+  have hreach : ∀ n a, occ n a ≠ 0 → McKayJoined W i₀ a := by
+    intro n
+    induction n with
+    | zero => intro a ha; rw [hbase a ha]; exact McKayJoined.refl i₀
+    | succ n ih =>
+      intro a ha
+      rw [hrec n a] at ha
+      obtain ⟨j, _, hj⟩ := Finset.exists_ne_zero_of_sum_ne_zero ha
+      have hmj : mult W a j ≠ 0 := by
+        intro h0; rw [h0] at hj; simp at hj
+      have hoccj : occ n j ≠ 0 := by
+        intro h0; rw [h0, mul_zero] at hj; exact hj rfl
+      have hedge : (1 : ℕ) ≤ mult W j a := by
+        rw [mult_symm W hW j a]; omega
+      exact (ih j hoccj).trans (McKayJoined.edge hedge)
+  -- **Seed** every vertex occurs in some `V^{⊗ n}` (faithfulness + polynomial).
+  have hseed : ∀ a, ∃ n, occ n a ≠ 0 := by
+    intro a
+    by_contra hcon
+    simp only [not_exists, ne_eq, not_not] at hcon
+    -- `∀ n, ∑_g (χ_V g)^n χ_{Wₐ}(g⁻¹) = 0`.
+    have hsum : ∀ n, ∑ g : G, ((V G).character g) ^ n * (W a).character g⁻¹ = 0 := by
+      intro n
+      have h2 : ⅟(Fintype.card G : ℂ) *
+          ∑ g : G, ((V G).character g) ^ n * (W a).character g⁻¹ = 0 := hcon n
+      have h3 := congrArg (fun z => (Fintype.card G : ℂ) * z) h2
+      simp only [mul_zero, ← mul_assoc, mul_invOf_self, one_mul] at h3
+      exact h3
+    -- polynomial weighting
+    have hpoly : ∀ p : Polynomial ℂ,
+        ∑ g : G, p.eval ((V G).character g) * (W a).character g⁻¹ = 0 := by
+      intro p
+      simp_rw [Polynomial.eval_eq_sum_range, Finset.sum_mul]
+      rw [Finset.sum_comm]
+      apply Finset.sum_eq_zero
+      intro k _
+      simp_rw [mul_assoc]
+      rw [← Finset.mul_sum, hsum k, mul_zero]
+    set d : ℂ := 2 with hd
+    set S : Finset ℂ := (Finset.univ.image (fun g : G => (V G).character g)).erase d with hS
+    set p : Polynomial ℂ := ∏ μ ∈ S, (Polynomial.X - Polynomial.C μ) with hp
+    have hp_eval : ∀ x : ℂ, p.eval x = ∏ μ ∈ S, (x - μ) := by
+      intro x
+      rw [hp, Polynomial.eval_prod]
+      exact Finset.prod_congr rfl fun μ _ => by
+        rw [Polynomial.eval_sub, Polynomial.eval_X, Polynomial.eval_C]
+    have hpd_ne : p.eval d ≠ 0 := by
+      rw [hp_eval]
+      apply Finset.prod_ne_zero_iff.mpr
+      intro μ hμ
+      exact sub_ne_zero.mpr fun hc => (Finset.mem_erase.mp hμ).1 hc.symm
+    have hval := hpoly p
+    rw [Finset.sum_eq_single (1 : G)] at hval
+    · rw [inv_one] at hval
+      have hV1 : (V G).character 1 = 2 := by
+        rw [charV_eq]
+        have hone : (((1 : G).val : specialUnitaryGroup (Fin 2) ℂ) :
+            Matrix (Fin 2) (Fin 2) ℂ) = 1 := by simp
+        rw [hone, Matrix.trace_one]; simp
+      rw [hV1, ← hd] at hval
+      have hW1 : (W a).character 1 = (Module.finrank ℂ (W a) : ℂ) := FDRep.char_one _
+      rw [hW1] at hval
+      exact (mul_ne_zero hpd_ne (Nat.cast_ne_zero.mpr (hdimne a))) hval
+    · intro b _ hb1
+      have hbne : (V G).character b ≠ d := by
+        rw [hd]; intro hc; exact hb1 (taut_char_eq_two_imp_one b hc)
+      have : (V G).character b ∈ S := by
+        rw [hS]; exact Finset.mem_erase.mpr ⟨hbne, Finset.mem_image.mpr ⟨b, Finset.mem_univ b, rfl⟩⟩
+      rw [hp_eval]
+      have : (∏ μ ∈ S, ((V G).character b - μ)) = 0 :=
+        Finset.prod_eq_zero this (by rw [sub_self])
+      rw [this, zero_mul]
+    · intro h; exact absurd (Finset.mem_univ 1) h
+  -- **Assemble**: every vertex reachable from `i₀`, then splice `i ⇝ i₀ ⇝ j`.
+  have hall : ∀ a, McKayJoined W i₀ a := fun a =>
+    (hseed a).elim (fun n hn => hreach n a hn)
+  obtain ⟨p, hp1, hp2, hpc⟩ := ((hall i).symm hW).trans (hall j)
+  refine ⟨p, hp1, hp2, fun k hk => ?_⟩
+  have := (List.isChain_iff_getElem.mp hpc) k hk
+  simpa [List.get_eq_getElem, McKayAdj] using this
 
 /-! ## Part (c): the McKay graph is an affine Dynkin diagram -/
 
