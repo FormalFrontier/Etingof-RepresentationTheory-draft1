@@ -1342,17 +1342,167 @@ lemma card_A4std : Nat.card A4std = 12 := by
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   decide
 
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- `A₅` acts transitively on `Fin 5` via `natHom`. -/
+lemma natHom_trans (i j : Fin 5) : ∃ g : A5, natHom g i = j := by
+  fin_cases i <;> fin_cases j <;> decide
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- The concrete point-stabilizer filter has `12` elements, one `decide` over all five points. -/
+lemma stab_filter_card_i (i : Fin 5) :
+    (univ.filter (fun a : A5 => natHom a i = i)).card = 12 := by
+  fin_cases i <;> decide
+
+/-- Every point stabilizer of the natural `5`-point action has order `12`. -/
+lemma card_stab_i (i : Fin 5) : Nat.card (Etingof.Problem4_12_5.stabSub natHom i) = 12 := by
+  haveI : DecidablePred (· ∈ Etingof.Problem4_12_5.stabSub natHom i) :=
+    fun a => decidable_of_iff _ (Etingof.Problem4_12_5.mem_stabSub natHom i a).symm
+  rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+  rw [show (univ.filter (· ∈ Etingof.Problem4_12_5.stabSub natHom i))
+      = univ.filter (fun a : A5 => natHom a i = i) from by
+    apply Finset.filter_congr; intro a _; simp [Etingof.Problem4_12_5.mem_stabSub]]
+  exact stab_filter_card_i i
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- A subset of `2` or `3` points of `Fin 5` has at most `6` elements of `A₅` (even permutations)
+preserving it setwise — the parity constraint that rules out a `2 + 3` orbit split for an
+order-`12` subgroup. -/
+lemma setwise_le6 (O : Finset (Fin 5)) (h2 : 2 ≤ O.card) (h3 : O.card ≤ 3) :
+    (univ.filter (fun g : A5 => ∀ i ∈ O, natHom g i ∈ O)).card ≤ 6 := by
+  revert h2 h3; revert O; decide
+
+/-- **Order-`12` fixed point.** Every order-`12` subgroup `H ≤ A₅` fixes a point of the natural
+`5`-point action. If it did not, the `H`-orbit of `0` would have size `2` or `3` (size `4` forces
+a fixed point in the complement; size `5` is impossible as it must divide `12`), placing all `12`
+elements of `H` inside the setwise stabilizer of that small set — but that stabilizer has only
+`6` elements (`setwise_le6`). -/
+lemma H12_fixes_point (H : Subgroup A5) (hH : Nat.card H = 12) :
+    ∃ i : Fin 5, ∀ h : A5, h ∈ H → natHom h i = i := by
+  classical
+  letI : Fintype ↥H := Fintype.ofFinite _
+  set act : ↥H →* Equiv.Perm (Fin 5) := natHom.comp H.subtype with hact_def
+  have hactx : ∀ (x : ↥H) (i : Fin 5), act x i = natHom (x : A5) i := fun _ _ => rfl
+  set O : Finset (Fin 5) := univ.filter (fun i => ∃ x : ↥H, act x 0 = i) with hO_def
+  set s : ℕ := (univ.filter (fun x : ↥H => act x 0 = 0)).card with hs_def
+  have hcardH : Fintype.card ↥H = 12 := by rw [← Nat.card_eq_fintype_card]; exact hH
+  -- membership in the orbit `O`, unwound to `H`
+  have hOmem : ∀ i, i ∈ O ↔ ∃ x : A5, x ∈ H ∧ natHom x 0 = i := by
+    intro i
+    simp only [hO_def, mem_filter, mem_univ, true_and, hactx]
+    constructor
+    · rintro ⟨x, hx⟩; exact ⟨(x : A5), x.2, hx⟩
+    · rintro ⟨x, hxH, hx⟩; exact ⟨⟨x, hxH⟩, hx⟩
+  -- `O` is `H`-invariant
+  have hinv : ∀ h ∈ H, ∀ i ∈ O, natHom h i ∈ O := by
+    intro h hh i hi
+    rw [hOmem] at hi ⊢
+    obtain ⟨x, hxH, hx⟩ := hi
+    exact ⟨h * x, H.mul_mem hh hxH, by rw [map_mul, Equiv.Perm.mul_apply, hx]⟩
+  -- orbit-stabilizer: `12 = |O| * s`
+  have hfib : Fintype.card ↥H
+      = ∑ i : Fin 5, (univ.filter (fun x : ↥H => act x 0 = i)).card := by
+    rw [← Finset.card_univ]
+    exact Finset.card_eq_sum_card_fiberwise (fun x _ => mem_univ _)
+  have hfiber : ∀ i : Fin 5, (univ.filter (fun x : ↥H => act x 0 = i)).card
+      = if i ∈ O then s else 0 := by
+    intro i
+    by_cases hi : i ∈ O
+    · rw [if_pos hi]
+      simp only [hO_def, mem_filter, mem_univ, true_and] at hi
+      obtain ⟨xi, hxi⟩ := hi
+      rw [hs_def]; exact Etingof.Problem4_12_5.orbit_fiber_card act 0 i xi hxi
+    · rw [if_neg hi, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+      intro x _ hx
+      exact hi (by simp only [hO_def, mem_filter, mem_univ, true_and]; exact ⟨x, hx⟩)
+  have hOs : (12 : ℕ) = O.card * s := by
+    rw [← hcardH, hfib, Finset.sum_congr rfl (fun i _ => hfiber i),
+      Finset.sum_ite_mem, Finset.univ_inter, Finset.sum_const, smul_eq_mul]
+  -- bounds on `|O|`
+  have hOdvd : O.card ∣ 12 := ⟨s, hOs⟩
+  have hOpos : 1 ≤ O.card := by
+    rw [Nat.one_le_iff_ne_zero, ne_eq, Finset.card_eq_zero]
+    intro hempty
+    have : (0 : Fin 5) ∈ O := by rw [hOmem]; exact ⟨1, H.one_mem, by simp⟩
+    rw [hempty] at this; exact absurd this (Finset.notMem_empty _)
+  have hOle : O.card ≤ 5 := by have := Finset.card_le_univ O; simpa using this
+  have hO5 : O.card ≠ 5 := by rintro h; rw [h] at hOdvd; norm_num at hOdvd
+  by_cases hbig : 2 ≤ O.card ∧ O.card ≤ 3
+  · -- orbit of size `2` or `3`: contradiction with the parity count `setwise_le6`
+    exfalso
+    obtain ⟨h2, h3⟩ := hbig
+    have hsub : (univ.filter (· ∈ H))
+        ⊆ univ.filter (fun g : A5 => ∀ i ∈ O, natHom g i ∈ O) := by
+      intro g hg
+      simp only [mem_filter, mem_univ, true_and] at hg ⊢
+      exact fun i hi => hinv g hg i hi
+    have hcard12 : (univ.filter (· ∈ H)).card = 12 := by
+      rw [← Fintype.card_subtype, ← Nat.card_eq_fintype_card]; exact hH
+    have hle := Finset.card_le_card hsub
+    rw [hcard12] at hle
+    have hle6 := setwise_le6 O h2 h3
+    omega
+  · -- orbit of size `1` or `4`: a fixed point exists
+    have hcase : O.card = 1 ∨ O.card = 4 := by omega
+    have h0O : (0 : Fin 5) ∈ O := by rw [hOmem]; exact ⟨1, H.one_mem, by simp⟩
+    rcases hcase with h1 | h4
+    · refine ⟨0, fun h hh => ?_⟩
+      have hmem : natHom h 0 ∈ O := hinv h hh 0 h0O
+      exact Finset.card_le_one.mp (le_of_eq h1) _ hmem _ h0O
+    · -- complement is a single point `p`, fixed by all of `H`
+      have hcompl : (univ \ O).card = 1 := by
+        rw [Finset.card_univ_sdiff, Fintype.card_fin, h4]
+      obtain ⟨p, hp⟩ := Finset.card_eq_one.mp hcompl
+      have hpO : p ∉ O := by
+        have : p ∈ univ \ O := by rw [hp]; exact Finset.mem_singleton_self p
+        exact (Finset.mem_sdiff.mp this).2
+      refine ⟨p, fun h hh => ?_⟩
+      by_contra hne
+      -- `natHom h` maps `O` injectively into itself, hence onto itself
+      have himg : Finset.image (fun q => natHom h q) O ⊆ O := by
+        intro y hy; obtain ⟨q, hqO, rfl⟩ := Finset.mem_image.mp hy; exact hinv h hh q hqO
+      have hcardimg : (Finset.image (fun q => natHom h q) O).card = O.card :=
+        Finset.card_image_of_injective O (natHom h).injective
+      have himgeq : Finset.image (fun q => natHom h q) O = O :=
+        Finset.eq_of_subset_of_card_le himg (le_of_eq hcardimg.symm)
+      -- so `natHom h p` would lie in `O`, contradicting injectivity at `p ∉ O`
+      have hpInO : natHom h p ∈ O := by
+        by_contra hcon
+        have : natHom h p ∈ univ \ O := Finset.mem_sdiff.mpr ⟨mem_univ _, hcon⟩
+        rw [hp, Finset.mem_singleton] at this; exact hne this
+      rw [← himgeq] at hpInO
+      obtain ⟨q, hqO, hq⟩ := Finset.mem_image.mp hpInO
+      have : q = p := (natHom h).injective hq
+      rw [this] at hqO; exact hpO hqO
+
 /-- **Order-`12` conjugacy reduction.** Every order-`12` subgroup `H ≤ A₅` is conjugate to the
 concrete point-stabilizer `A₄`: there is `d` with `y ∈ H ↔ d y d⁻¹ ∈ A4std`.
 
-The order-`12` subgroups of `A₅` are not Sylow subgroups, so this is proved via the Sylow-`2`
-normalizer: a Sylow-`2` subgroup `P` of `H` (order `4`) is a Sylow-`2` of `A₅`; it is normal in
-`H` (`n₂(H)=1`, ruling out `n₃(H)=1` since `|N_{A₅}(order-3)| ∈ {6,15}` is not a multiple of
-`12`), so `H = N_{A₅}(P)`; and `P` is conjugate to the Sylow-`2` of `A4std` (Sylow II), whence
-`H = c · A4std · c⁻¹`. -/
+The order-`12` subgroups of `A₅` are the (conjugate) point stabilizers: `H` fixes a point `i`
+(`H12_fixes_point`), so `H = stabSub natHom i` (both have order `12`), and transitivity of the
+`5`-point action supplies a `d` with `natHom d i = 0`, conjugating `stabSub natHom i` to
+`A4std = stabSub natHom 0`. -/
 lemma exists_conj_H12 (H : Subgroup A5) (hH : Nat.card H = 12) :
     ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ A4std := by
-  sorry
+  obtain ⟨i, hi⟩ := H12_fixes_point H hH
+  have hle : H ≤ Etingof.Problem4_12_5.stabSub natHom i :=
+    fun h hh => by rw [Etingof.Problem4_12_5.mem_stabSub]; exact hi h hh
+  have hHeq : H = Etingof.Problem4_12_5.stabSub natHom i :=
+    Subgroup.eq_of_le_of_card_ge hle (by rw [card_stab_i i, hH])
+  obtain ⟨d, hd⟩ := natHom_trans i 0
+  have hdi : (natHom d)⁻¹ 0 = i := by
+    rw [← hd, ← Equiv.Perm.mul_apply, inv_mul_cancel, Equiv.Perm.one_apply]
+  refine ⟨d, fun y => ?_⟩
+  rw [hHeq, Etingof.Problem4_12_5.mem_stabSub, mem_A4std]
+  constructor
+  · intro hy
+    rw [map_mul, map_mul, map_inv, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hdi, hy]
+    exact hd
+  · intro hy
+    rw [map_mul, map_mul, map_inv, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hdi] at hy
+    exact (natHom d).injective (by rw [hy, ← hd])
 
 /-- The count of conjugators landing in an order-`12` `H` matches that for the concrete `A₄`. -/
 lemma countH_eq12 (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12) (g : A5) :
