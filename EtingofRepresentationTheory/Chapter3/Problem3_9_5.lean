@@ -597,6 +597,101 @@ theorem gen_conj (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (i : Fin N) (S : 
     rw [Finset.erase_eq_of_notMem hiS]
     exact gen_comm_notMem B v hv S hiS
 
+omit [FiniteDimensional ℂ V] in
+/-- An element commuting with every generator `gen i` is central: the generators together with the
+scalars generate `Cl(V)`, so `CliffordAlgebra.induction` propagates commutation to all of `Cl(V)`. -/
+theorem central_of_commutes_gen {x : CliffAlg B}
+    (h : ∀ i : Fin N, x * gen B v i = gen B v i * x) (y : CliffAlg B) :
+    x * y = y * x := by
+  induction y using CliffordAlgebra.induction with
+  | algebraMap r => rw [Algebra.commutes]
+  | ι w =>
+      have hexp : CliffordAlgebra.ι (quadForm B) w = ∑ i, v.repr w i • gen B v i := by
+        conv_lhs => rw [← v.sum_repr w]
+        rw [map_sum]; simp only [map_smul, gen]
+      rw [hexp, Finset.mul_sum, Finset.sum_mul]
+      exact Finset.sum_congr rfl (fun i _ => by rw [mul_smul_comm, smul_mul_assoc, h i])
+  | mul a b ha hb => rw [← mul_assoc, ha, mul_assoc, hb, ← mul_assoc]
+  | add a b ha hb => rw [mul_add, add_mul, ha, hb]
+
+/-- **The center of `Cl(V)` is `ℂ · 1` when `dim V = N` is even.** Every central element `x`
+commutes with all generators; expanding `x = ∑ c_S e_S` in the monomial basis and using
+`gen_conj`, commutation with `gen i` forces `c_S ((-1)^{|S \ {i}|} - 1) = 0` for every `i`. For any
+`S ≠ ∅` some index `i` makes `|S \ {i}|` odd (pick `i ∈ S` if `|S|` is even; pick `i ∉ S`, which
+exists because `S ≠ univ` since `|S|` odd and `N` even, if `|S|` is odd), giving the factor `-2`
+and hence `c_S = 0`. So `x = c_∅ • 1`. -/
+theorem center_le_bot (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (hN : Even N) :
+    Subalgebra.center ℂ (CliffAlg B) ≤ ⊥ := by
+  intro x hx
+  have hcomm : ∀ i, gen B v i * x = x * gen B v i := fun i =>
+    Subalgebra.mem_center_iff.mp hx (gen B v i)
+  set c := (cliffBasis B v hv).repr x with hcdef
+  have hxexp : x = ∑ S, c S • e B v S := by
+    conv_lhs => rw [← (cliffBasis B v hv).sum_repr x]
+    simp only [cliffBasis_apply, hcdef]
+  -- Commutation with `gen i` forces `c S * ((-1)^{|S \ {i}|} - 1) = 0` for every `S`.
+  have key : ∀ i : Fin N, ∀ S : Finset (Fin N),
+      c S * ((-1 : ℂ) ^ (S.erase i).card - 1) = 0 := by
+    intro i
+    have hexpand : (∑ S, (c S * (-1 : ℂ) ^ (S.erase i).card) • (e B v S * gen B v i))
+        = ∑ S, c S • (e B v S * gen B v i) := by
+      have e1 : gen B v i * x
+          = ∑ S, (c S * (-1 : ℂ) ^ (S.erase i).card) • (e B v S * gen B v i) := by
+        rw [hxexp, Finset.mul_sum]
+        exact Finset.sum_congr rfl (fun S _ => by
+          rw [mul_smul_comm, gen_conj B v hv hnd i S, smul_smul])
+      have e2 : x * gen B v i = ∑ S, c S • (e B v S * gen B v i) := by
+        rw [hxexp, Finset.sum_mul]
+        exact Finset.sum_congr rfl (fun S _ => by rw [smul_mul_assoc])
+      rw [← e1, ← e2, hcomm i]
+    have hsum0 : (∑ S, (c S * ((-1 : ℂ) ^ (S.erase i).card - 1)) • (e B v S * gen B v i)) = 0 := by
+      rw [← sub_eq_zero.mpr hexpand, ← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl (fun S _ => by rw [mul_sub, mul_one, sub_smul])
+    -- Right-multiply by the inverse of `gen i` to strip the trailing `gen i`.
+    set w : CliffAlg B := (B (v i) (v i))⁻¹ • gen B v i with hwdef
+    have hw : gen B v i * w = 1 := by
+      rw [hwdef, mul_smul_comm, gen_sq, Algebra.smul_def, ← map_mul,
+        inv_mul_cancel₀ (diag_ne_zero B v hv hnd i), map_one]
+    have happly := congrArg (LinearMap.mulRight ℂ w) hsum0
+    rw [map_zero, map_sum] at happly
+    simp only [map_smul, LinearMap.mulRight_apply, mul_assoc, hw, mul_one] at happly
+    -- `happly : ∑ S, (c S * ((-1)^{|S\{i}|} - 1)) • e B v S = 0`; conclude via basis independence.
+    have hli := (cliffBasis B v hv).linearIndependent
+    rw [Fintype.linearIndependent_iff] at hli
+    exact hli (fun S => c S * ((-1 : ℂ) ^ (S.erase i).card - 1))
+      (by simpa only [cliffBasis_apply] using happly)
+  -- For `S ≠ ∅` pick `i` making `|S \ {i}|` odd, forcing `c S = 0`.
+  have hcS : ∀ S : Finset (Fin N), S ≠ ∅ → c S = 0 := by
+    intro S hS
+    obtain ⟨i, hodd⟩ : ∃ i, Odd (S.erase i).card := by
+      rcases Nat.even_or_odd S.card with hpar | hpar
+      · obtain ⟨i, hi⟩ := Finset.nonempty_iff_ne_empty.mpr hS
+        refine ⟨i, ?_⟩
+        rw [Finset.card_erase_of_mem hi]
+        obtain ⟨k, hk⟩ := hpar
+        have hpos : 1 ≤ S.card := Finset.card_pos.mpr ⟨i, hi⟩
+        exact ⟨k - 1, by omega⟩
+      · have hne_univ : S ≠ Finset.univ := by
+          intro h
+          rw [h, Finset.card_univ, Fintype.card_fin] at hpar
+          exact (Nat.not_odd_iff_even.mpr hN) hpar
+        obtain ⟨i, hi⟩ : ∃ i, i ∉ S := by
+          by_contra hcon
+          exact hne_univ (Finset.eq_univ_iff_forall.mpr (by simpa using hcon))
+        exact ⟨i, by rw [Finset.erase_eq_of_notMem hi]; exact hpar⟩
+    have hval : (-1 : ℂ) ^ (S.erase i).card - 1 = -2 := by rw [hodd.neg_one_pow]; ring
+    have hk := key i S
+    rw [hval] at hk
+    exact (mul_eq_zero.mp hk).resolve_right (by norm_num)
+  -- Hence `x = c ∅ • 1 = algebraMap (c ∅) ∈ ⊥`.
+  have hxval : x = c ∅ • (1 : CliffAlg B) := by
+    rw [hxexp, Finset.sum_eq_single (∅ : Finset (Fin N))]
+    · rw [e_empty]
+    · exact fun S _ hS => by rw [hcS S hS, zero_smul]
+    · exact fun h => absurd (Finset.mem_univ _) h
+  rw [Algebra.mem_bot]
+  exact ⟨c ∅, by rw [Algebra.algebraMap_eq_smul_one]; exact hxval.symm⟩
+
 end CenterEven
 
 /-- **Problem 3.9.5(i), even case.** If `B` is nondegenerate and `dim V = 2n`, then
