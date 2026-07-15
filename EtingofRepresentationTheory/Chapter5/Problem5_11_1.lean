@@ -510,14 +510,138 @@ theorem indZ2_sign (H : Subgroup A5) (hH : Nat.card H = 2)
   funext g
   rw [indZ2_sign_char_all H hH σ hntriv g, indZ2_sign_target_char_all g]
 
+/-! ## Induced-character computation for `ℤ₃`
+
+The order-`3` analogue of the `ℤ₂` machinery above: an order-`3` subgroup `H` is conjugate to the
+concrete cyclic subgroup `⟨classRepA5 1⟩` (the `3a` class of `3`-cycles), which reduces the twisted
+counts to `decide`-evaluable computations over `A₅`. -/
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- Every order-`3` element of `A₅` lies in class `3a` (index `1`). -/
+lemma classIdx_of_order3 (s : A5) (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
+    classIdxA5 s = 1 := by
+  revert s; decide
+
+/-- An order-`3` subgroup of `A₅` is conjugate to `⟨classRepA5 1⟩`. -/
+lemma exists_conj_H3 (H : Subgroup A5) (hH : Nat.card H = 3) :
+    ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ Subgroup.zpowers (classRepA5 1) := by
+  haveI : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH]; norm_num)
+  obtain ⟨s, hs_mem, hs_ne⟩ := H.nontrivial_iff_exists_ne_one.mp inferInstance
+  have hdvd : orderOf s ∣ 3 := by
+    rw [← hH]
+    have := orderOf_dvd_natCard (⟨s, hs_mem⟩ : H)
+    rwa [Subgroup.orderOf_mk] at this
+  have hord3 : orderOf s = 3 := by
+    rcases (Nat.Prime.eq_one_or_self_of_dvd (by norm_num) _ hdvd) with h | h
+    · exact absurd (orderOf_eq_one_iff.mp h) hs_ne
+    · exact h
+  have hs3 : s ^ 3 = 1 := by rw [← hord3]; exact pow_orderOf_eq_one s
+  have hcl : classIdxA5 s = 1 := classIdx_of_order3 s hs3 hs_ne
+  obtain ⟨c, hc⟩ := classIdxA5_spec s
+  rw [hcl] at hc
+  have hzs : Subgroup.zpowers s = H := by
+    apply Subgroup.eq_of_le_of_card_ge
+    · rw [Subgroup.zpowers_le]; exact hs_mem
+    · rw [Nat.card_zpowers, hord3, hH]
+  refine ⟨c⁻¹, fun y => ?_⟩
+  have hHeq : H = MulAut.conj c • Subgroup.zpowers (classRepA5 1) := by
+    rw [Etingof.Problem4_12_5.conj_smul_zpowers, hc, hzs]
+  rw [hHeq, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply, inv_inv]
+
+/-- The count of conjugators landing in an order-`3` `H` matches that for `⟨classRepA5 1⟩`. -/
+lemma countH_eq3 (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3) (g : A5) :
+    (univ.filter (fun x : A5 => x * g * x⁻¹ ∈ H)).card
+      = (univ.filter
+          (fun x : A5 => x * g * x⁻¹ ∈ Subgroup.zpowers (classRepA5 1))).card := by
+  obtain ⟨d, hd⟩ := exists_conj_H3 H hH
+  apply Finset.card_bij' (fun x _ => d * x) (fun x _ => d⁻¹ * x)
+  · intro x hx
+    simp only [mem_filter, mem_univ, true_and] at hx ⊢
+    rw [hd] at hx
+    rw [show d * x * g * (d * x)⁻¹ = d * (x * g * x⁻¹) * d⁻¹ by group]
+    exact hx
+  · intro x hx
+    simp only [mem_filter, mem_univ, true_and] at hx ⊢
+    rw [hd]
+    rw [show d * (d⁻¹ * x * g * (d⁻¹ * x)⁻¹) * d⁻¹ = x * g * x⁻¹ by group]
+    exact hx
+  · intro x hx; group
+  · intro x hx; group
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- The twisted counts `#{x : x·(classRepA5 j)·x⁻¹ ∈ ⟨classRepA5 1⟩}` on the five classes. -/
+lemma twisted_p1' (j : Fin 5) :
+    (univ.filter
+        (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ Subgroup.zpowers (classRepA5 1))).card
+      = ![60, 6, 0, 0, 0] j := by
+  rw [twisted_filter_eq' (classRepA5 1) (classRepA5 j) 3 Etingof.Problem4_12_5.ord_cr1]
+  fin_cases j <;> decide
+
 /-! ## (b) Induction from `ℤ₃` -/
+
+/-- **Trivial character, class-rep values.** For an order-`3` `H` and the trivial character `σ`,
+`(ind σ).character` on the five class reps is `(20, 2, 0, 0, 0)`. -/
+lemma indZ3_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
+    (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![20, 2, 0, 0, 0] j := by
+  rw [ind_character_eq]
+  have hcard : (Fintype.card ↥H : ℂ) = 3 := by
+    rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  have hsum : (∑ x : A5, if h : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+      = ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ H)).card : ℂ) := by
+    rw [← Finset.sum_boole]
+    apply Finset.sum_congr rfl
+    intro x _
+    by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
+    · rw [dif_pos hx, if_pos hx, htriv]
+    · rw [dif_neg hx, if_neg hx]
+  rw [hsum, countH_eq3 H hH, twisted_p1', hcard]
+  fin_cases j <;> norm_num
+
+/-- Arbitrary-`g` trivial-character values, via the class-function property. -/
+lemma indZ3_triv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 3)
+    (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : A5) :
+    (ind σ).character g = ![20, 2, 0, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indZ3_triv_value H hH σ htriv (classIdxA5 g)
+
+/-- **Target character, class-rep values** for the trivial-character decomposition. -/
+lemma indZ3_triv_target_value (j : Fin 5) :
+    (repTriv ⊞ repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC4 ⊞ repC5).character
+        (classRepA5 j) = ![20, 2, 0, 0, 0] j := by
+  simp only [character_biprod, repTriv_character, repC3plus_character, repC3minus_character,
+    repC4_character, repC5_character]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, chiA5, tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re, Q5.one_im,
+      Q5.zero_re, Q5.zero_im] <;>
+    ring
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indZ3_triv_target_char_all (g : A5) :
+    (repTriv ⊞ repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC4 ⊞ repC5).character g
+      = ![20, 2, 0, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indZ3_triv_target_value (classIdxA5 g)
 
 /-- **(b) trivial character.** `Ind_{ℤ₃}^{A₅} 1 ≅ 1 ⊕ 3 ⊕ 3' ⊕ 4² ⊕ 5` (dimension `20`), the
 permutation representation on the `20` cosets. Multiplicities `(χ_W(1a) + 2·χ_W(3a))/3`. -/
 theorem indZ3_triv (H : Subgroup A5) (hH : Nat.card H = 3)
     (σ : FDRep ℂ ↥H) [Simple σ] (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (ind σ ≅ repTriv ⊞ repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC4 ⊞ repC5) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indZ3_triv_char_all H hH σ htriv g, indZ3_triv_target_char_all g]
 
 /-- **(b) nontrivial character.** For either nontrivial character `ω, ω²`,
 `Ind_{ℤ₃}^{A₅} ω ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5²` (dimension `20`). -/
