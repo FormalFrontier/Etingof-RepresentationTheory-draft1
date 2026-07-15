@@ -1471,7 +1471,7 @@ on a single eigenspace) is the substantial step. -/
 theorem finrank_le_of_cyclic (q : ℂˣ) (hq : IsOfFinOrder q) (hq2 : (q : ℂ) ^ 2 ≠ 1)
     (V : Type*) [AddCommGroup V] [Module ℂ V] [Module (Uqsl2 q) V]
     [IsScalarTower ℂ (Uqsl2 q) V] [FiniteDimensional ℂ V] [IsSimpleModule (Uqsl2 q) V]
-    (a : ℂ) (ha : ∀ v : V, e q ^ orderOf q • v = a • v) (ha0 : a ≠ 0)
+    (a : ℂ) (_ha : ∀ v : V, e q ^ orderOf q • v = a • v) (_ha0 : a ≠ 0)
     (b : ℂ) (hb : ∀ v : V, f q ^ orderOf q • v = b • v) (hb0 : b ≠ 0) :
     Module.finrank ℂ V ≤ orderOf q := by
   haveI : Nontrivial V := IsSimpleModule.nontrivial (Uqsl2 q) V
