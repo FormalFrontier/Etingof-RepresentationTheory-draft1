@@ -800,6 +800,52 @@ lemma mckay_marks_sum (hW : IsCompleteIrreps W) (i : Fin m) :
     if_pos (Finset.mem_univ i)] at h
   linarith
 
+/-! ### The central element `-Id ∈ SU(2)` (non-cyclic-case machinery)
+
+The book's part-(c) argument uses the central element `-Id ∈ SU(2)`: it acts on the
+tautological representation `V` as the scalar `-1` (so `χ_V(-Id) = -2`). These are the
+concrete `SU(2)` facts; the Schur/character argument that turns them into
+`rᵢᵢ = 0` in the non-cyclic case, and the cyclic case, are separate sub-issues. -/
+
+/-- The central element `-Id ∈ SU(2)`: the negation of the identity matrix. Its
+determinant is `(-1)² = 1` and it is unitary (`star (-1) * (-1) = 1`), so it lies in
+`specialUnitaryGroup (Fin 2) ℂ`. -/
+def negIdSU : specialUnitaryGroup (Fin 2) ℂ :=
+  ⟨-1, Matrix.mem_specialUnitaryGroup_iff.mpr
+    ⟨by
+      rw [Matrix.mem_unitaryGroup_iff']
+      simp,
+     by
+      rw [Matrix.det_neg, Matrix.det_one, Fintype.card_fin]
+      norm_num⟩⟩
+
+@[simp] lemma negIdSU_coe :
+    ((negIdSU : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 := rfl
+
+/-- `-Id` is central in `SU(2)`: as the scalar `-1` it commutes with every element. -/
+lemma negIdSU_central (A : specialUnitaryGroup (Fin 2) ℂ) : negIdSU * A = A * negIdSU := by
+  apply Subtype.ext
+  rw [Submonoid.coe_mul, Submonoid.coe_mul, negIdSU_coe, neg_one_mul, mul_neg_one]
+
+omit [Finite G] in
+/-- The tautological action of `-Id` on `V = ℂ²` is negation: `(-Id) · v = -v`. -/
+lemma tautRep_negId (z : G)
+    (hz : (z.val : specialUnitaryGroup (Fin 2) ℂ) = negIdSU) (v : Fin 2 → ℂ) :
+    (tautRep G) z v = -v := by
+  have hmat : ((z.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = -1 := by
+    rw [hz, negIdSU_coe]
+  simp only [tautRep, MonoidHom.coe_mk, OneHom.coe_mk, hmat]
+  rw [Matrix.toLin'_apply, Matrix.neg_mulVec, Matrix.one_mulVec]
+
+omit [Finite G] in
+/-- `χ_V(-Id) = -2`: the trace of `-Id : Matrix (Fin 2) (Fin 2) ℂ` is `-2`. -/
+lemma charV_negId (z : G)
+    (hz : (z.val : specialUnitaryGroup (Fin 2) ℂ) = negIdSU) :
+    (V G).character z = -2 := by
+  rw [charV_eq, hz, negIdSU_coe, Matrix.trace_fin_two]
+  simp only [Matrix.neg_apply, Matrix.one_apply_eq]
+  norm_num
+
 /-- **(c)** The McKay graph has **no self-loops**: `rᵢᵢ = 0`, i.e. `Wᵢ` does not
 occur in `V ⊗ Wᵢ`.
 
