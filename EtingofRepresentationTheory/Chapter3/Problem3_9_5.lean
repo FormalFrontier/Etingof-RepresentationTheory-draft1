@@ -841,6 +841,55 @@ theorem finrank_center_odd (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) (hN : O
 
 end CenterOdd
 
+section GradeInvolution
+
+variable {N : ℕ} (v : Module.Basis (Fin N) ℂ V)
+
+open scoped symmDiff
+
+omit [FiniteDimensional ℂ V] in
+/-- **The grade involution on monomials.** The main involution `involute` (which sends each
+generator `ι x` to `-ι x`) scales the monomial `e S` by `(-1)^{|S|}`, since `e S` is a product of
+`|S|` generators. Proved by peeling the minimum. -/
+theorem involute_e (S : Finset (Fin N)) :
+    CliffordAlgebra.involute (e B v S) = (-1 : ℂ) ^ S.card • e B v S := by
+  induction S using Finset.strongInductionOn with
+  | _ S ih =>
+    rcases S.eq_empty_or_nonempty with rfl | hS
+    · simp
+    · set k := S.min' hS with hkdef
+      have hkS : k ∈ S := S.min'_mem hS
+      have hpeel : e B v S = gen B v k * e B v (S.erase k) := by rw [e_minPeel B v hS, ← hkdef]
+      have hcard : S.card = (S.erase k).card + 1 := by
+        rw [Finset.card_erase_of_mem hkS, Nat.sub_add_cancel (Finset.card_pos.mpr hS)]
+      have hgk : CliffordAlgebra.involute (gen B v k) = - gen B v k := by
+        rw [gen]; exact CliffordAlgebra.involute_ι _
+      rw [hpeel, map_mul, hgk, ih (S.erase k) (Finset.erase_ssubset hkS),
+        neg_mul, mul_smul_comm, ← neg_smul, ← hpeel, hcard, pow_succ]
+      congr 1
+      ring
+
+omit [FiniteDimensional ℂ V] in
+/-- **The volume element squares to a nonzero scalar.** `e univ · e univ` lies in the span of
+`e (univ ∆ univ) = e ∅ = 1`, and it is a unit (product of units), so the scalar is nonzero. -/
+theorem exists_eUniv_sq (hv : B.IsOrthoᵢ v) (hnd : B.Nondegenerate) :
+    ∃ μ : ℂ, μ ≠ 0 ∧ e B v Finset.univ * e B v Finset.univ = μ • (1 : CliffAlg B) := by
+  have hmem := e_mul_mem B v hv Finset.univ Finset.univ
+  have hset : (Finset.univ : Finset (Fin N)) ∆ Finset.univ = ∅ := by
+    ext a; simp [Finset.mem_symmDiff]
+  rw [hset, e_empty] at hmem
+  obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.mp hmem
+  refine ⟨μ, ?_, hμ.symm⟩
+  intro hμ0
+  haveI : Nontrivial (CliffAlg B) :=
+    Module.nontrivial_of_finrank_pos (by rw [finrank_cliffAlg B v]; positivity)
+  have hunit : IsUnit (e B v Finset.univ * e B v Finset.univ) :=
+    (isUnit_e B v hv hnd Finset.univ).mul (isUnit_e B v hv hnd Finset.univ)
+  rw [← hμ, hμ0, zero_smul] at hunit
+  exact (not_isUnit_zero) hunit
+
+end GradeInvolution
+
 set_option maxHeartbeats 400000 in
 -- The proof threads a Wedderburn–Artin decomposition, a linear-independence dimension bound, and a
 -- `Fin 1` product collapse through several large algebra isomorphisms, so it needs a higher limit.
