@@ -1932,12 +1932,124 @@ theorem indA4_nontriv_linear (H : Subgroup A5) (hH : Nat.card H = 12)
   rw [indA4_nontriv_linear_char_all H hH σ hdim hntriv g,
     indA4_nontriv_linear_target_char_all g]
 
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- Distinct class representatives lie in distinct conjugacy classes: if `classRepA5 i` is
+conjugate to `classRepA5 j` then `i = j` (honest `decide` over the `5 × 5 × 60` search). -/
+lemma classRepA5_conj_eq (i j : Fin 5)
+    (h : ∃ c : A5, c * classRepA5 i * c⁻¹ = classRepA5 j) : i = j := by
+  revert i j; decide
+
+set_option maxRecDepth 8000 in
+set_option maxHeartbeats 4000000 in
+/-- `classIdxA5` recovers the class index of each representative. -/
+lemma classIdxA5_classRepA5 (j : Fin 5) : classIdxA5 (classRepA5 j) = j := by
+  revert j; decide
+
+/-- `classIdxA5` is a class function: it is invariant under conjugation. -/
+lemma classIdxA5_conj (x g : A5) : classIdxA5 (x * g * x⁻¹) = classIdxA5 g := by
+  apply classRepA5_conj_eq
+  obtain ⟨c, hc⟩ := classIdxA5_spec (x * g * x⁻¹)
+  obtain ⟨d, hd⟩ := classIdxA5_spec g
+  refine ⟨d⁻¹ * x⁻¹ * c, ?_⟩
+  have e1 : classRepA5 (classIdxA5 (x * g * x⁻¹)) = c⁻¹ * (x * g * x⁻¹) * c := by
+    conv_rhs => rw [← hc]
+    group
+  have e2 : classRepA5 (classIdxA5 g) = d⁻¹ * g * d := by
+    conv_rhs => rw [← hd]
+    group
+  rw [e1, e2]; group
+
+/-- **(d) three-dimensional character, class-rep values.** Given the character values of the
+`3`-dimensional simple `A₄`-representation on `H`'s classes (`3` at the identity, `-1` on the
+double transpositions, `0` on the `3`-cycles, packaged as `![3,0,-1,0,0] ∘ classIdxA5`), the
+induced character on the five `A₅` classes is `(15, 0, -1, 0, 0)`.
+
+Because `σ.character` is constant `w := ![3,0,-1,0,0] j` on the intersection `H ∩ (class j)`
+(any conjugate `x·cr_j·x⁻¹ ∈ H` has `classIdxA5 = j`), the Frobenius sum collapses to
+`w · #{x : x·cr_j·x⁻¹ ∈ H}`, and `#{…} = 12·(5,2,1,0,0) = (60,24,12,0,0)` by `countH_eq12`
+and `twisted_A4std`. -/
+lemma indA4_threeDim_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H)
+    (hcharval : ∀ h : ↥H, σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (classIdxA5 (h : A5)))
+    (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![15, 0, -1, 0, 0] j := by
+  rw [ind_character_eq]
+  have hcard : (Fintype.card ↥H : ℂ) = 12 := by
+    rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  set w : ℂ := (![3, 0, -1, 0, 0] : Fin 5 → ℂ) j with hw
+  have hsum : (∑ x : A5, if h : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+      = w * ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ H)).card : ℂ) := by
+    have hstep : (∑ x : A5, if h : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+        = ∑ x : A5, if x * classRepA5 j * x⁻¹ ∈ H then w else 0 := by
+      apply Finset.sum_congr rfl
+      intro x _
+      by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
+      · rw [dif_pos hx, if_pos hx, hcharval ⟨x * classRepA5 j * x⁻¹, hx⟩, hw]
+        congr 1
+        show classIdxA5 (x * classRepA5 j * x⁻¹) = j
+        rw [classIdxA5_conj, classIdxA5_classRepA5]
+      · rw [dif_neg hx, if_neg hx]
+    rw [hstep, ← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul, mul_comm]
+  rw [hsum, countH_eq12 H hH, twisted_A4std, hcard, hw]
+  fin_cases j <;> norm_num
+
+/-- Arbitrary-`g` three-dimensional-character values, via the class-function property. -/
+lemma indA4_threeDim_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H)
+    (hcharval : ∀ h : ↥H, σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (classIdxA5 (h : A5)))
+    (g : A5) :
+    (ind σ).character g = ![15, 0, -1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indA4_threeDim_value H hH σ hcharval (classIdxA5 g)
+
+/-- **Character of the `3`-dimensional simple `A₄`-representation.** The unique `3`-dimensional
+irreducible representation of an order-`12` (hence `A₄`-conjugate) subgroup `H ≤ A₅` has character
+`3` at the identity, `-1` on the double transpositions (class `2a`, `classIdxA5 = 2`), and `0` on
+the `3`-cycles (class `3a`, `classIdxA5 = 1`) — that is `![3,0,-1,0,0] ∘ classIdxA5`.
+
+This is the `A₄` character-table crux (uniqueness of the `3`-dimensional irrep): `σ|_V = 0` on the
+Klein four-group `V ⊴ A₄` forces `χ = -1` on each involution, and `⟨χ, χ⟩ = 1` then forces `χ = 0`
+on the `3`-cycles. Tracked as a dedicated sub-issue. -/
+lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) (h : ↥H) :
+    σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (classIdxA5 (h : A5)) := by
+  sorry
+
+/-- **Target character, class-rep values** for `3 ⊕ 3' ⊕ 4 ⊕ 5`: `(15, 0, -1, 0, 0)` — the same
+target as the `ℤ₂ × ℤ₂` nontrivial case (`indV4_nontriv`). -/
+lemma indA4_threeDim_target_value (j : Fin 5) :
+    (repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5).character (classRepA5 j) = ![15, 0, -1, 0, 0] j := by
+  simp only [character_biprod, repC3plus_character, repC3minus_character,
+    repC4_character, repC5_character]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, chiA5, tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re, Q5.one_im,
+      Q5.zero_re, Q5.zero_im] <;>
+    ring
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indA4_threeDim_target_char_all (g : A5) :
+    (repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5).character g = ![15, 0, -1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indA4_threeDim_target_value (classIdxA5 g)
+
 /-- **(d) three-dimensional character.** `Ind_{A₄}^{A₅} 3_{A₄} ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5`
-(dimension `15`). -/
+(dimension `15`).  Same target as the `ℤ₂ × ℤ₂` nontrivial case (`indV4_nontriv`). -/
 theorem indA4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) :
     Nonempty (ind σ ≅ repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indA4_threeDim_char_all H hH σ (fun h => charval_A4_threeDim H hH σ hdim h) g,
+    indA4_threeDim_target_char_all g]
 
 /-! ## (e) Induction from `ℤ₂ × ℤ₂`
 
