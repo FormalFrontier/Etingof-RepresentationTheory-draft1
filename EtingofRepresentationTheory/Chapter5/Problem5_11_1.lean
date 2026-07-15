@@ -2026,6 +2026,77 @@ lemma indA4_threeDim_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH :
   rw [FDRep.char_conj]
   exact indA4_threeDim_value H hH σ hcharval (classIdxA5 g)
 
+/-! ### Character `-1` on involutions (crux of part (d))
+
+For the unique `3`-dimensional simple representation `σ` of an order-`12` subgroup `H ≅ A₄`, the
+value of `σ.character` on any involution is `-1`. Two projections onto invariant subspaces pin the
+value: the idempotent `(1 + ρ(h))/2` forces the character into `{-3,-1,1,3}` (integrality of a
+projection's trace), and averaging over the Klein four-group `V ⊴ H` forces it into `{-1,3}`.
+The value `3` is ruled out by Schur: it would put `V ⊆ ker σ`, making the image abelian, forcing
+every linear endomorphism to be scalar — impossible for `dim σ = 3`. -/
+
+section SchurScalar
+
+variable {G : Type*} [Group G] [Fintype G]
+
+/-- Simple `FDRep` objects have positive finrank. (Local copy of `Etingof.finrank_pos_of_simple`.) -/
+private lemma finrank_pos_of_simple' (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
+  by_contra hcon
+  push_neg at hcon
+  have h0 : Module.finrank ℂ V = 0 := Nat.eq_zero_of_le_zero hcon
+  have hsub : Subsingleton (V : Type _) := Module.finrank_zero_iff.mp h0
+  have hsub2 : Subsingleton (V ⟶ V) := by
+    constructor; intro f g
+    exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
+  have hone : Module.finrank ℂ (V ⟶ V) = 1 := by
+    rw [FDRep.finrank_hom_simple_simple]; simp
+  have hzero : Module.finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
+  omega
+
+private lemma finrank_ne_zero_cx' (V : FDRep ℂ G) [Simple V] :
+    (Module.finrank ℂ V : ℂ) ≠ 0 := by
+  have := finrank_pos_of_simple' V
+  exact_mod_cast this.ne'
+
+/-- **Schur (scalar form).** A linear endomorphism of a simple `V : FDRep ℂ G` commuting with the
+action is a scalar multiple of the identity, the scalar being `trace T / dim V`. (Local copy of the
+private `Etingof.endo_scalar` from `Chapter4/Problem4_5_2.lean`.) -/
+private lemma endo_scalar' (V : FDRep ℂ G) [Simple V]
+    (T : V →ₗ[ℂ] V) (hT : ∀ g : G, T ∘ₗ V.ρ g = V.ρ g ∘ₗ T) :
+    ∃ c : ℂ, T = c • LinearMap.id ∧
+      LinearMap.trace ℂ V T = c * (Module.finrank ℂ V : ℂ) := by
+  have hmemT : T ∈ (Representation.linHom V.ρ V.ρ).invariants := by
+    intro g
+    rw [Representation.linHom_apply, hT g⁻¹, ← LinearMap.comp_assoc,
+      show V.ρ g ∘ₗ V.ρ g⁻¹ = LinearMap.id by
+        rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one,
+          Module.End.one_eq_id],
+      LinearMap.id_comp]
+  have h1dim : Module.finrank ℂ (Representation.linHom V.ρ V.ρ).invariants = 1 := by
+    rw [LinearEquiv.finrank_eq (Representation.linHom.invariantsEquivFDRepHom V V)]
+    exact CategoryTheory.finrank_endomorphism_simple_eq_one ℂ V
+  have hid_mem : (LinearMap.id : V →ₗ[ℂ] V) ∈ (Representation.linHom V.ρ V.ρ).invariants := by
+    intro g; ext v
+    simp only [Representation.linHom_apply, LinearMap.comp_apply, LinearMap.id_apply]
+    change (V.ρ g * V.ρ g⁻¹) v = v
+    rw [← map_mul, mul_inv_cancel, map_one]; rfl
+  have hid_ne : (⟨LinearMap.id, hid_mem⟩ : (Representation.linHom V.ρ V.ρ).invariants) ≠ 0 := by
+    simp only [ne_eq, Subtype.ext_iff, Submodule.coe_zero]
+    intro hz
+    have : (Module.finrank ℂ V : ℂ) = 0 := by
+      rw [← LinearMap.trace_id (R := ℂ) (M := V), hz, map_zero]
+    exact finrank_ne_zero_cx' V this
+  obtain ⟨c, hc⟩ := (finrank_eq_one_iff_of_nonzero'
+    (⟨LinearMap.id, hid_mem⟩ : (Representation.linHom V.ρ V.ρ).invariants) hid_ne).mp h1dim
+    ⟨T, hmemT⟩
+  have hTeq : T = c • LinearMap.id := by
+    have hval := congrArg Subtype.val hc
+    simpa using hval.symm
+  refine ⟨c, hTeq, ?_⟩
+  rw [hTeq, map_smul, LinearMap.trace_id, smul_eq_mul]
+
+end SchurScalar
+
 /-- **Character of the `3`-dimensional simple `A₄`-representation.** The unique `3`-dimensional
 irreducible representation of an order-`12` (hence `A₄`-conjugate) subgroup `H ≤ A₅` has character
 `3` at the identity, `-1` on the double transpositions (class `2a`, `classIdxA5 = 2`), and `0` on
