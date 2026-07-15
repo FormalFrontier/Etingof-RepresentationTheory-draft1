@@ -309,6 +309,68 @@ lemma mckay_marks_aux (hW : IsCompleteIrreps W) (i : Fin m) :
 
 /-! ## Part (b): the McKay graph is connected -/
 
+/-- The McKay adjacency relation on vertices: at least one edge `i → j`
+(`rᵢⱼ ≥ 1`). -/
+def McKayAdj (i j : Fin m) : Prop := 1 ≤ mult W i j
+
+/-- `McKayJoined i j`: there is a walk in the McKay graph from `i` to `j`, i.e. a
+list of vertices starting at `i`, ending at `j`, whose consecutive entries are
+joined by an edge (`IsChain` of `McKayAdj`). -/
+def McKayJoined (i j : Fin m) : Prop :=
+  ∃ p : List (Fin m), p.head? = some i ∧ p.getLast? = some j ∧ p.IsChain (McKayAdj W)
+
+variable {W}
+
+omit [Finite G] in
+/-- The trivial walk `[i]` joins `i` to itself. -/
+lemma McKayJoined.refl (i : Fin m) : McKayJoined W i i :=
+  ⟨[i], rfl, rfl, List.isChain_singleton i⟩
+
+omit [Finite G] in
+/-- A single edge `rᵢⱼ ≥ 1` gives a walk `i → j`. -/
+lemma McKayJoined.edge {i j : Fin m} (h : 1 ≤ mult W i j) : McKayJoined W i j :=
+  ⟨[i, j], rfl, rfl, List.isChain_pair.mpr h⟩
+
+omit [Finite G] in
+/-- Walks compose: a walk `i → j` followed by a walk `j → k` gives a walk `i → k`
+(splice the two lists at the shared vertex `j`). -/
+lemma McKayJoined.trans {i j k : Fin m}
+    (hij : McKayJoined W i j) (hjk : McKayJoined W j k) : McKayJoined W i k := by
+  obtain ⟨p, hp1, hp2, hpc⟩ := hij
+  obtain ⟨q, hq1, hq2, hqc⟩ := hjk
+  -- `q` starts at `j`, so `q = j :: t`.
+  obtain ⟨t, rfl⟩ : ∃ t, q = j :: t := by
+    cases q with
+    | nil => simp at hq1
+    | cons a t => exact ⟨t, by simp only [List.head?_cons, Option.some.injEq] at hq1; rw [hq1]⟩
+  refine ⟨p ++ t, ?_, ?_, ?_⟩
+  · rw [List.head?_append, hp1]; rfl
+  · rw [List.getLast?_append, hp2]
+    have ht : (j :: t).getLast? = t.getLast?.or (some j) := by
+      cases t <;> simp [List.getLast?_cons]
+    rw [← ht]; exact hq2
+  · refine hpc.append (List.isChain_cons.mp hqc).2 ?_
+    intro x hx y hy
+    rw [hp2, Option.mem_some_iff] at hx
+    subst hx
+    exact (List.isChain_cons.mp hqc).1 y hy
+
+/-- Walks reverse: since `rᵢⱼ = rⱼᵢ` (`mult_symm`), a walk `i → j` gives a walk
+`j → i`. -/
+lemma McKayJoined.symm (hW : IsCompleteIrreps W) {i j : Fin m}
+    (hij : McKayJoined W i j) : McKayJoined W j i := by
+  obtain ⟨p, hp1, hp2, hpc⟩ := hij
+  refine ⟨p.reverse, ?_, ?_, ?_⟩
+  · rw [List.head?_reverse]; exact hp2
+  · rw [List.getLast?_reverse]; exact hp1
+  · rw [List.isChain_reverse]
+    refine hpc.imp ?_
+    intro a b hab
+    unfold McKayAdj at hab ⊢
+    rwa [mult_symm W hW b a]
+
+variable (W)
+
 /-- **(b)** The McKay graph is **connected**: any two vertices are joined by a
 path of edges (`rᵢⱼ ≥ 1` steps). -/
 theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
