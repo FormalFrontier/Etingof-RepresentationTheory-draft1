@@ -167,10 +167,12 @@ theorem Problem_8_2_6_iii_tor
 
 /-- **Balancing in degree 0** (the base case of the dimension-shift proof of Problem 8.2.6(iv)).
 Both `Tor₀ᴬ(M, N)` and the zeroth left derived functor of `M ⊗_A -` evaluated at `N` are
-canonically the group `M ⊗_A N`: `Etingof.Tor A N M 0 = (leftDerived (tensorRightFunctor A N) 0).obj M`
-and `(leftDerived (tensorLeftFunctor A M) 0).obj N` both reduce, via `leftDerivedZeroIsoSelf`, to the
-common object `AddCommGrpCat.of (tensorOver A N M) = M ⊗_A N`. Composing the two zeroth-derived
-identifications gives the balancing isomorphism in degree `0`. -/
+canonically the group `M ⊗_A N`: both `Etingof.Tor A N M 0` (i.e.
+`(leftDerived (tensorRightFunctor A N) 0).obj M`) and
+`(leftDerived (tensorLeftFunctor A M) 0).obj N`
+reduce, via `leftDerivedZeroIsoSelf`, to the common object
+`AddCommGrpCat.of (tensorOver A N M) = M ⊗_A N`. Composing the two zeroth-derived identifications
+gives the balancing isomorphism in degree `0`. -/
 noncomputable def balancingIsoZero
     (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
     (M : ModuleCat.{u} Aᵐᵒᵖ) :
