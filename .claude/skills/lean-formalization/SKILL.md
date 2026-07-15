@@ -5235,3 +5235,44 @@ and reintroduces the ill-typed sub):
 
 `using 3` descends `0 ≤ · ⬝ᵥ (M.mulVec x)` down to the matrix equality `M = Matrix.of …`;
 `ext a b` then gives a well-typed entry goal because `M` came from the goal, not from you.
+
+## `HomologicalComplex.mapBifunctor`/`tensorObj` degreewise iso proofs (`extend`/Künneth, #6693)
+
+Building a degreewise iso between `(tensorObj K₁ K₂).X j` objects (e.g. the crux
+`extend C ⊗ extend D ≅ extend (C ⊗ D)`) fights three recurring traps. Working recipe:
+
+1. **Reduce along summands with `mapBifunctor.hom_ext` + `ι_mapBifunctorDesc`, never manual
+   `Category.assoc`.** `(tensorObj K₁ K₂).X j` unfolds to `GradedObject.mapBifunctor … .obj K.X`,
+   which is *not type-correct at `instances` transparency* (`K.X : ι → C` vs `GradedObject ι C`).
+   So `rw [Category.assoc]`, `simp only [Category.assoc]`, `slice_lhs`, and even `conv_lhs => rw
+   [Category.assoc]` all fail with "motive is not type correct" / "not type-correct under the
+   instances transparency level" whenever the composite's middle object is a `.X` of a tensor.
+   `←Category.assoc` on a *clean* `hom_ext` goal (`ι ≫ (f ≫ g)`) works; the forward direction on
+   an unfolded body does not.
+
+2. **The fix that unblocks everything:** put
+   `set_option backward.isDefEq.respectTransparency false in`
+   on the lemma. This is exactly what `Mathlib/…/Embedding/Extend.lean` uses. With it, the
+   standalone composite-reduction lemmas (`phiInv ≫ fwdNeg = ι`, proved by `rw [phiInv,
+   Category.assoc, ι…desc, …]`) go through. Structure the round-trips so the painful step lives in
+   such a standalone lemma (clean starting goal, no prior unfolds polluting it), then the
+   `hom_ext` proof is just `rw […, ι…_desc]; exact that_lemma`.
+
+3. **Match your own `ι` spelling to `hom_ext`'s.** `hom_ext`/`ι_mapBifunctorDesc` produce/expect
+   `HomologicalComplex.ιMapBifunctor …`, but `ιTensorObj` (a reducible abbrev) does *not* rw-match
+   it. Define your summand maps with `ιMapBifunctor` directly (wrap in a local `abbrev ιN`/`ιZ`
+   fixing `curriedTensor _` and the shape) — do **not** `simp only [ιTensorObj]` to convert, since
+   that unfolds into the ill-typed `GradedObject` form and re-triggers trap 1.
+
+**Match-with-binder defs reduce via `split`, not `simp`.** For a per-summand map defined
+`match ha : e.r a, hb : e.r b with | some p, some q => … | _,_ => 0`, prove its reduction lemma
+with `rw [phiFwd]; split; next p' q' hh1 hh2 => obtain rfl := Option.some.inj (hh1 ▸ ha); …;
+next hh => exact (hh p q ha hb).elim`. `simp only [phiFwd, ha, hb]` will *not* fire (the match
+binds its own scrutinees); a `dite`-on-`isSome` reformulation reduces cleanly but then `.get`
+sits in dependent positions and `rw`/`simp` cannot rewrite `(e.r a).get → p` (motive). Prefer the
+match+`split`.
+
+**Transport a `-n`-indexed iso to a variable `j'` via a `match hj : e.r j'` def**, `some n` branch
+`eqToIso (congrArg (…).X (j' = -n)) ≪≫ isoNegExt … ≪≫ eqToIso (…)`. Prove `foo_neg : foo (-n) =
+isoNegExt n` by `rw [foo]; split; next m hm => obtain rfl := …; apply Iso.ext; simp`. Do **not**
+use `.get` for `n` (dependent-position `get` is unrewritable); the match binder gives a real `n`.
