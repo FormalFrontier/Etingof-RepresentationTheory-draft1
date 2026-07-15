@@ -371,6 +371,83 @@ lemma McKayJoined.symm (hW : IsCompleteIrreps W) {i j : Fin m}
 
 variable (W)
 
+omit [Finite G] in
+/-- **`SU(2)` trace rigidity.** For `g ∈ G ⊆ SU(2)`, if `χ_V(g) = 2` then `g = 1`.
+The matrix `A` of `g` is unitary with unit columns, so each diagonal entry has
+`normSq ≤ 1` and real part `≤ 1`; the (real) trace `A₀₀ + A₁₁ = 2` forces both real
+parts to be `1`, hence (with `normSq ≤ 1`) both diagonal entries equal `1` and the
+off-diagonal entries vanish. So `A = 1` and therefore `g = 1`. This is the
+faithfulness input of Problem 4.12.10 specialized to the tautological `SU(2)`
+representation. -/
+lemma taut_char_eq_two_imp_one (g : G) (htr : (V G).character g = 2) : g = 1 := by
+  classical
+  set A : Matrix (Fin 2) (Fin 2) ℂ :=
+    ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hA
+  -- `A` is unitary, so its columns have unit norm.
+  have hu : A ∈ Matrix.unitaryGroup (Fin 2) ℂ :=
+    (Matrix.mem_specialUnitaryGroup_iff.mp g.val.property).1
+  have hstar : star A * A = 1 := Matrix.mem_unitaryGroup_iff'.mp hu
+  have hcol : ∀ i : Fin 2, ∑ k : Fin 2, Complex.normSq (A k i) = 1 := by
+    intro i
+    have hii : (star A * A) i i = 1 := by rw [hstar, Matrix.one_apply_eq]
+    rw [Matrix.mul_apply] at hii
+    have hterm : ∀ k : Fin 2, (star A) i k * A k i
+        = ((Complex.normSq (A k i) : ℝ) : ℂ) := by
+      intro k; rw [Matrix.star_apply, Complex.star_def, mul_comm, Complex.mul_conj]
+    rw [Finset.sum_congr rfl (fun k _ => hterm k), ← Complex.ofReal_sum] at hii
+    exact_mod_cast hii
+  have hnormle : ∀ i : Fin 2, Complex.normSq (A i i) ≤ 1 := by
+    intro i; rw [← hcol i]
+    exact Finset.single_le_sum (f := fun k => Complex.normSq (A k i))
+      (fun k _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
+  -- `χ_V(g) = tr A = A₀₀ + A₁₁ = 2`.
+  have htr2 : A 0 0 + A 1 1 = 2 := by
+    have hchar : (V G).character g = A 0 0 + A 1 1 := by
+      rw [charV_eq, ← hA, Matrix.trace_fin_two]
+    rw [← hchar, htr]
+  -- Each diagonal entry has real part `≤ 1`.
+  have hre : ∀ i : Fin 2, (A i i).re ≤ 1 := by
+    intro i
+    have hns := Complex.normSq_apply (A i i)
+    nlinarith [mul_self_nonneg (A i i).im, hnormle i, hns]
+  have hre_sum : (A 0 0).re + (A 1 1).re = 2 := by
+    have := congrArg Complex.re htr2
+    simpa [Complex.add_re] using this
+  have hre0 : (A 0 0).re = 1 := by linarith [hre 0, hre 1]
+  have hre1 : (A 1 1).re = 1 := by linarith [hre 0, hre 1]
+  -- A real part of `1` together with `normSq ≤ 1` forces the entry to be `1`.
+  have hdiag_one : ∀ i : Fin 2, (A i i).re = 1 → A i i = 1 := by
+    intro i hrei
+    have him : (A i i).im = 0 := by
+      have hns := Complex.normSq_apply (A i i)
+      nlinarith [hnormle i, hns, hrei, mul_self_nonneg (A i i).im]
+    apply Complex.ext <;> simp [hrei, him]
+  have hd0 : A 0 0 = 1 := hdiag_one 0 hre0
+  have hd1 : A 1 1 = 1 := hdiag_one 1 hre1
+  -- Off-diagonal entries vanish (unit columns with the diagonal already norm `1`).
+  have hoff01 : A 0 1 = 0 := by
+    have hs := hcol 1
+    rw [Fin.sum_univ_two] at hs
+    have h11 : Complex.normSq (A 1 1) = 1 := by rw [hd1]; simp
+    have hz : Complex.normSq (A 0 1) = 0 := by
+      rw [h11] at hs; linarith [Complex.normSq_nonneg (A 0 1)]
+    exact Complex.normSq_eq_zero.mp hz
+  have hoff10 : A 1 0 = 0 := by
+    have hs := hcol 0
+    rw [Fin.sum_univ_two] at hs
+    have h00 : Complex.normSq (A 0 0) = 1 := by rw [hd0]; simp
+    have hz : Complex.normSq (A 1 0) = 0 := by
+      rw [h00] at hs; linarith [Complex.normSq_nonneg (A 1 0)]
+    exact Complex.normSq_eq_zero.mp hz
+  -- Assemble `A = 1` and conclude `g = 1`.
+  have hAexpand : A = !![A 0 0, A 0 1; A 1 0, A 1 1] := by
+    ext r c; fin_cases r <;> fin_cases c <;> rfl
+  have hAone : A = 1 := by
+    rw [hAexpand, hd0, hd1, hoff01, hoff10, ← Matrix.one_fin_two]
+  have hval1 : (g.val : specialUnitaryGroup (Fin 2) ℂ) = 1 := by
+    ext; rw [← hA, hAone]; rfl
+  exact Subtype.ext hval1
+
 /-- **(b)** The McKay graph is **connected**: any two vertices are joined by a
 path of edges (`rᵢⱼ ≥ 1` steps). -/
 theorem mckay_connected (hW : IsCompleteIrreps W) (i j : Fin m) :
