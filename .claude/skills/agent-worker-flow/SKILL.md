@@ -315,6 +315,18 @@ coordination create-pr <parent> --partial "feat: <what landed>"
 The next planner sees the breadcrumb on the parent and closes it with a
 forward link to the sub-issues.
 
+**Assembler issues that must stay open.** Some issues explicitly say to
+keep the parent open as the assembler and *not* replan it (a proof-level
+dependency on a sorried sub-issue is not a blocker). Both release paths
+force `replan` onto the parent (`skip`, and `create-pr --partial`), which
+contradicts that. Honour the instruction like this: create the sub-issues,
+`coordination add-dep <parent> <sub>` for each (this parks the parent
+`blocked` and out of the queue, auto-returning via `check-blocked` when the
+subs close), land any coherent subset with `create-pr <parent> --partial`
+(this uses `Refs #N`, so it does *not* close the parent), then strip the
+`replan` label the partial path added (`gh issue edit <parent> --remove-label
+replan`) so only `blocked` remains. Leave a comment explaining the parking.
+
 ## Step 5: Execute
 
 After each coherent chunk of changes:
