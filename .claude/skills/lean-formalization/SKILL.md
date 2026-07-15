@@ -5170,3 +5170,33 @@ with `ProjectiveResolution.leftDerived_app_eq` and `ProjectiveResolution.fromLef
 functor-symmetry argument (`balancing_zero_naturality` in `Chapter8/Problem8_2_6.lean`). The two
 degree-0 functoriality maps of a "Tor computed either way" pair coincide via
 `leftDerivedZeroIsoSelf` precisely because of this lemma.
+
+## Reducing `2•1 - adj` when `adj` is a bare function in a `Matrix` slot (#6665)
+
+A predicate like `IsAffineDynkinDiagram n (adj : Matrix (Fin n) (Fin n) ℤ)` whose body
+contains `(2 • (1 : Matrix …) - adj).mulVec x` is often *applied* to a bare function
+`f : Fin m → Fin m → ℤ` (e.g. `mckayAdj W`, defined as `fun i j => …`). Inside the goal
+the subtraction is the genuine `Matrix.instSub` (elaborated once at def time with
+`adj : Matrix`), and is well-typed. **But if you re-state that subtraction yourself**
+(`have : (2 • 1 - f) a b = …`) Lean picks the *Pi* `Sub` instance because `f`'s type is
+`Fin m → Fin m → ℤ`, producing an ill-typed `@HSub … Matrix instHSub` term — `simp`/`rw`
+then report "made no progress" / "target not type-correct under instances", and
+`Matrix.sub_apply` never fires. Symptom in a scratch: the note *"The target expression is
+not type-correct under the `instances` transparency level"*.
+
+Fix: never hand-write the subtraction. Discharge the PSD / not-PSD conjuncts against a
+`Matrix.of`-wrapped Cartan lemma by `convert`-ing onto the goal's own term, then reduce the
+scalar with `Matrix.smul_apply` (NOT `two_nsmul`, which rewrites `2•1 → 1+1` at matrix level
+and reintroduces the ill-typed sub):
+
+```lean
+· intro x
+  convert myCartan_posSemidef … x using 3          -- references the goal's genuine Matrix.sub
+  ext a b
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.of_apply,
+    myCartan, myAdj]
+  split_ifs <;> simp                                -- `2 • (1:ℤ)` / `2 • (0:ℤ)` close by simp
+```
+
+`using 3` descends `0 ≤ · ⬝ᵥ (M.mulVec x)` down to the matrix equality `M = Matrix.of …`;
+`ext a b` then gives a well-typed entry goal because `M` came from the goal, not from you.
