@@ -1,4 +1,5 @@
 import Mathlib.Algebra.FreeAlgebra
+import Mathlib.Algebra.Module.Projective
 import Mathlib.Combinatorics.Quiver.Path
 import Mathlib.LinearAlgebra.Dimension.Constructions
 import EtingofRepresentationTheory.Chapter2.Definition2_8_4
@@ -9,6 +10,7 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraStandardResolution
 import EtingofRepresentationTheory.Chapter9.PathAlgebraLowerBound
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv
+import EtingofRepresentationTheory.Chapter9.HomologicalDimensionUlift
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras
@@ -123,8 +125,9 @@ is `Type u`, but `PathAlgebra k Q₀` is `Type (u+1)` because `Quiver.Path` land
 and the standard-resolution machinery of `homologicalDimension_pathAlgebra_eq_one` hard-requires
 `Quiver.{u+1} Q₀`. Consequently the same-universe `homologicalDimension_congr` (from #6635) is *not*
 enough to conclude `homologicalDimension (FreeAlgebra k (Fin n)) = 1` from the path-algebra result;
-that final step additionally needs universe-lift invariance of `homologicalDimension`
-(`homologicalDimension R = homologicalDimension (ULift.{u+1} R)`), which is tracked as a follow-up. -/
+that final step additionally uses universe-lift invariance of `homologicalDimension`
+(`homologicalDimension_le_ulift`, `Chapter9/HomologicalDimensionUlift.lean`) to lift the free
+algebra to `Type (u+1)` before transferring across `freePathEquiv`. -/
 
 /-- Vertex type of the one-vertex "loop" quiver with `n` loops: a single point in `Type u`. -/
 def LoopVertex (n : ℕ) : Type u := PUnit.{u + 1}
@@ -254,21 +257,109 @@ noncomputable def freePathEquiv (k : Type u) [Field k] (n : ℕ) :
   AlgEquiv.ofAlgHom (freeToPath k n) (pathToFree k n)
     (freeToPath_comp_pathToFree k n) (pathToFree_comp_freeToPath k n)
 
+/-! ## The free algebra is not semisimple (lower bound)
+
+Mirroring the path-algebra lower bound (`Chapter9/PathAlgebraLowerBound.lean`), the **augmentation
+module** — the field `k` on which every generator `xᵢ` acts as `0` — is not projective. If it were,
+the surjection `A ↠ k`, `p ↦ p • 1`, would split by an `A`-linear section `s`; writing `w = s(1)`,
+the relation `xᵢ • 1 = 0` forces `xᵢ · w = 0` in `A`. Since `A = FreeAlgebra k (Fin n)` is a domain
+and `xᵢ ≠ 0`, this gives `w = 0`, contradicting `ε(w) = 1` (as `s` is a section). Here `k` already
+lives in `Type u`, the native universe of `A`, so no universe lift is needed for the lower bound. -/
+
+/-- The augmentation `k⟨x₁, …, xₙ⟩ → k` sending every generator `xᵢ` to `0`. -/
+noncomputable def freeAug (k : Type u) [Field k] (n : ℕ) : FreeAlgebra k (Fin n) →ₐ[k] k :=
+  FreeAlgebra.lift k fun _ => (0 : k)
+
+@[simp] theorem freeAug_ι (k : Type u) [Field k] (n : ℕ) (i : Fin n) :
+    freeAug k n (FreeAlgebra.ι k i) = 0 := by
+  rw [freeAug, FreeAlgebra.lift_ι_apply]
+
+/-- **Problem 9.4.6 (i), free-algebra lower bound.** The free associative algebra on `n ≥ 1`
+generators is not semisimple: it does not have homological dimension `0`.
+
+The augmentation module `k` (each generator acting as `0`, carried as a *local* module instance to
+avoid a spurious global `Module (FreeAlgebra k (Fin n)) k`) is not projective: a projective section
+`s` of the surjection `A ↠ k`, `p ↦ p • 1`, would give `w := s(1)` with `x₀ · w = 0` yet
+`ε(w) = 1`, impossible in the domain `A`. -/
+theorem not_hasHomologicalDimensionLE_zero_freeAlgebra
+    {k : Type u} [Field k] {n : ℕ} (hn : 1 ≤ n) :
+    ¬ Etingof.HasHomologicalDimensionLE (FreeAlgebra k (Fin n)) 0 := by
+  intro hall
+  -- `k` as a left `A`-module through the augmentation `ε`, `a • v = ε(a) · v`.
+  letI aug : Module (FreeAlgebra k (Fin n)) k := Module.compHom k (freeAug k n).toRingHom
+  have smul_def : ∀ (a : FreeAlgebra k (Fin n)) (v : k), a • v = freeAug k n a * v :=
+    fun _ _ => rfl
+  -- The augmentation module as a `ModuleCat` object; under dimension `0` it is projective.
+  let MA := ModuleCat.of (FreeAlgebra k (Fin n)) k
+  have hpd : CategoryTheory.HasProjectiveDimensionLE MA 0 := hall MA
+  haveI hproj : CategoryTheory.Projective MA :=
+    projective_iff_hasProjectiveDimensionLT_one.mpr hpd
+  haveI hmod : Module.Projective (FreeAlgebra k (Fin n)) k :=
+    (IsProjective.iff_projective (R := FreeAlgebra k (Fin n)) k).mpr hproj
+  -- The surjection `A ↠ k`, `p ↦ p • 1`.
+  let surj := LinearMap.toSpanSingleton (FreeAlgebra k (Fin n)) k (1 : k)
+  have hsurj : Function.Surjective surj := by
+    intro v
+    refine ⟨algebraMap k (FreeAlgebra k (Fin n)) v, ?_⟩
+    show surj (algebraMap k (FreeAlgebra k (Fin n)) v) = v
+    rw [LinearMap.toSpanSingleton_apply, smul_def, mul_one, AlgHom.commutes]
+    simp
+  -- Projectivity yields an `A`-linear section `s`.
+  obtain ⟨s, hs⟩ := Module.projective_lifting_property surj LinearMap.id hsurj
+  set w : FreeAlgebra k (Fin n) := s (1 : k) with hw_def
+  -- `s` is a section, so `ε(w) = 1`.
+  have hsection : freeAug k n w = 1 := by
+    have hcf := LinearMap.congr_fun hs (1 : k)
+    simp only [LinearMap.comp_apply, LinearMap.id_apply] at hcf
+    rw [LinearMap.toSpanSingleton_apply, smul_def, mul_one] at hcf
+    exact hcf
+  -- The generator `x₀ = ι ⟨0, hn⟩` acts as `0`, so `x₀ · w = 0` in `A`.
+  have hact : (FreeAlgebra.ι k ⟨0, hn⟩ : FreeAlgebra k (Fin n)) • (1 : k) = 0 := by
+    rw [smul_def, freeAug_ι, zero_mul]
+  have hzero : (FreeAlgebra.ι k ⟨0, hn⟩ : FreeAlgebra k (Fin n)) * w = 0 := by
+    have h1 := s.map_smul (FreeAlgebra.ι k ⟨0, hn⟩) (1 : k)
+    rw [hact, map_zero] at h1
+    rw [← smul_eq_mul]; exact h1.symm
+  -- `A` is a domain and `x₀ ≠ 0`, so `w = 0` — contradicting `ε(w) = 1`.
+  have hw0 : w = 0 := by
+    rcases mul_eq_zero.mp hzero with h | h
+    · exact absurd h (FreeAlgebra.ι_ne_zero (⟨0, hn⟩ : Fin n))
+    · exact h
+  rw [hw0, map_zero] at hsection
+  exact one_ne_zero hsection.symm
+
 /-- **Problem 9.4.6 (i), free algebra.** The free associative algebra `k⟨x₁, …, xₙ⟩` on
 `n ≥ 1` generators (the path algebra of the one-vertex quiver with `n` loops) has homological
-dimension `1`. -/
+dimension `1`.
+
+`freePathEquiv k n : FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k (LoopVertex n)` realizes the free
+algebra as the one-vertex path algebra. The two algebras live in *different* universes
+(`FreeAlgebra k (Fin n) : Type u` but `PathAlgebra k (LoopVertex n) : Type (u+1)`), so the
+same-universe `homologicalDimension_congr` is not enough. The upper bound
+`HasHomologicalDimensionLE (FreeAlgebra k (Fin n)) 1` is obtained by lifting to universe `u+1`
+(`hasHomologicalDimensionLE_of_ulift`), transferring across the ring equivalence
+`ULift (FreeAlgebra k (Fin n)) ≃+* PathAlgebra k (LoopVertex n)` (now same-universe) and applying
+the path-algebra upper bound. The lower bound is the direct non-semisimplicity result
+`not_hasHomologicalDimensionLE_zero_freeAlgebra`. -/
 theorem homologicalDimension_freeAlgebra_eq_one
     {k : Type u} [Field k] {n : ℕ} (hn : 1 ≤ n) :
     Etingof.homologicalDimension (FreeAlgebra k (Fin n)) = 1 := by
-  -- `freePathEquiv k n : FreeAlgebra k (Fin n) ≃ₐ[k] PathAlgebra k (LoopVertex n)` realizes the
-  -- free algebra as the one-vertex path algebra, and `homologicalDimension_pathAlgebra_eq_one`
-  -- gives the path algebra dimension `1`. The remaining step is a *universe* bridge:
-  -- `FreeAlgebra k (Fin n) : Type u` but `PathAlgebra k (LoopVertex n) : Type (u+1)` (the quiver
-  -- path type bumps the universe, and the standard-resolution machinery hard-requires
-  -- `Quiver.{u+1}`). `homologicalDimension_congr` is same-universe only, so we need
-  -- universe-lift invariance of `homologicalDimension` (`homologicalDimension R =
-  -- homologicalDimension (ULift.{u+1} R)`), which is not yet available. See the sub-issue.
-  sorry
+  -- The one-vertex loop quiver has an edge (the `0`-th loop).
+  have hQ : ∃ a b : LoopVertex.{u} n, Nonempty (a ⟶ b) :=
+    ⟨LoopVertex.pt n, LoopVertex.pt n, ⟨loopArrow n ⟨0, hn⟩⟩⟩
+  -- The same-universe (`Type (u+1)`) ring equivalence `ULift (FreeAlg) ≃+* PathAlg`.
+  let eRing : ULift.{u + 1} (FreeAlgebra k (Fin n)) ≃+* PathAlgebra k (LoopVertex.{u} n) :=
+    (ULift.ringEquiv).trans (freePathEquiv k n).toRingEquiv
+  -- Upper bound via universe lift + same-universe ring-equivalence transfer.
+  have h1 : Etingof.HasHomologicalDimensionLE (FreeAlgebra k (Fin n)) 1 := by
+    have hbig : Etingof.HasHomologicalDimensionLE (ULift.{u + 1} (FreeAlgebra k (Fin n))) 1 := by
+      rw [Etingof.hasHomologicalDimensionLE_congr eRing]
+      exact hasHomologicalDimensionLE_pathAlgebra_one
+    exact Etingof.hasHomologicalDimensionLE_of_ulift hbig
+  -- Lower bound: the free algebra is not semisimple.
+  have h0 : ¬ Etingof.HasHomologicalDimensionLE (FreeAlgebra k (Fin n)) 0 :=
+    not_hasHomologicalDimensionLE_zero_freeAlgebra hn
+  exact Etingof.homologicalDimension_eq_one_of_not_le_zero h1 h0
 
 /-- The path-counting matrix of a quiver `Q`: the `(i, j)` entry is the number of oriented
 paths from `i` to `j`. This is the Cartan matrix of the path algebra of a finite acyclic
