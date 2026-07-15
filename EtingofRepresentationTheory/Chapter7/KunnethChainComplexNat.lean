@@ -1,4 +1,5 @@
 import Mathlib
+import EtingofRepresentationTheory.Chapter7.Problem7_8_7
 
 /-!
 # Künneth for `ℕ`-indexed chain complexes: the `ℕ`/`ℤ` reindex bridge
@@ -340,6 +341,67 @@ lemma extendXIso_inv_tensorExtendXIso_inv (n : ℕ) :
 
 end TensorExtend
 
+section CoproductSupport
+
+open Limits
+
+variable {C : Type*} [Category C] [HasZeroMorphisms C] [HasZeroObject C]
+variable {J I : Type*} {F : J → C} {G : I → C} [HasCoproduct F] [HasCoproduct G]
+
+open Classical in
+/-- Forward map for `sigmaIsoOfInjOfIsZeroCompl`: on a summand `F j` with `j = ι a` in the image
+of `ι` it is `(iso a).hom` into the `a`-summand of `∐ G`; off the image `F j` is a zero object,
+so the map is `0`. -/
+noncomputable def sigmaSupportHom (ι : I → J) (iso : ∀ a, F (ι a) ≅ G a) : (∐ F) ⟶ (∐ G) :=
+  Sigma.desc fun j =>
+    if h : ∃ a, ι a = j then
+      eqToHom (congrArg F h.choose_spec.symm) ≫ (iso h.choose).hom ≫ Sigma.ι G h.choose
+    else 0
+
+/-- Inverse map: send the `a`-summand `G a` back to the `ι a`-summand of `∐ F` via `(iso a).inv`. -/
+noncomputable def sigmaSupportInv (ι : I → J) (iso : ∀ a, F (ι a) ≅ G a) : (∐ G) ⟶ (∐ F) :=
+  Sigma.desc fun a => (iso a).inv ≫ Sigma.ι F (ι a)
+
+omit [HasZeroMorphisms C] [HasZeroObject C] in
+@[reassoc]
+lemma ι_sigmaSupportInv (ι : I → J) (iso : ∀ a, F (ι a) ≅ G a) (a : I) :
+    Sigma.ι G a ≫ sigmaSupportInv ι iso = (iso a).inv ≫ Sigma.ι F (ι a) := by
+  rw [sigmaSupportInv, Sigma.ι_desc]
+
+omit [HasZeroObject C] in
+@[reassoc]
+lemma ι_sigmaSupportHom (ι : I → J) (hι : Function.Injective ι) (iso : ∀ a, F (ι a) ≅ G a) (a : I) :
+    Sigma.ι F (ι a) ≫ sigmaSupportHom ι iso = (iso a).hom ≫ Sigma.ι G a := by
+  rw [sigmaSupportHom, Sigma.ι_desc, dif_pos ⟨a, rfl⟩]
+  suffices H : ∀ (c : I) (hc : ι c = ι a),
+      eqToHom (congrArg F hc.symm) ≫ (iso c).hom ≫ Sigma.ι G c = (iso a).hom ≫ Sigma.ι G a by
+    exact H _ (Exists.choose_spec (⟨a, rfl⟩ : ∃ a', ι a' = ι a))
+  intro c hc
+  obtain rfl : c = a := hι hc
+  simp
+
+/-- **Coproduct supported on the image of an injection.** If `F j` is a zero object for every `j`
+outside the image of an injective `ι : I → J`, and `F (ι a) ≅ G a` for each `a`, then
+`∐ F ≅ ∐ G`. The extra summands of `∐ F` contribute nothing. -/
+noncomputable def sigmaIsoOfInjOfIsZeroCompl (ι : I → J) (hι : Function.Injective ι)
+    (iso : ∀ a, F (ι a) ≅ G a) (hz : ∀ j, (∀ a, ι a ≠ j) → IsZero (F j)) :
+    (∐ F) ≅ (∐ G) where
+  hom := sigmaSupportHom ι iso
+  inv := sigmaSupportInv ι iso
+  hom_inv_id := by
+    refine Sigma.hom_ext _ _ fun j => ?_
+    rw [Category.comp_id]
+    by_cases h : ∃ a, ι a = j
+    · obtain ⟨a, rfl⟩ := h
+      rw [ι_sigmaSupportHom_assoc ι hι iso, ι_sigmaSupportInv, Iso.hom_inv_id_assoc]
+    · have hj : ∀ a, ι a ≠ j := fun a ha => h ⟨a, ha⟩
+      rw [(hz j hj).eq_of_src (Sigma.ι F j) 0, zero_comp]
+  inv_hom_id := by
+    refine Sigma.hom_ext _ _ fun a => ?_
+    rw [Category.comp_id, ι_sigmaSupportInv_assoc, ι_sigmaSupportHom ι hι iso, Iso.inv_hom_id_assoc]
+
+end CoproductSupport
+
 /-- **Crux (tensor ∘ extend compatibility).** The `ℤ`-tensor of the extensions is the extension
 of the `ℕ`-tensor:
 `extend e C ⊗ extend e D ≅ extend e (C ⊗ D)`, `e = embeddingDownNat`.
@@ -363,7 +425,56 @@ route. Consumed by the Problem 8.2.8 `Tor`/`Ext` assembler (#6657). -/
 theorem kunnethChainComplexNat (C D : ChainComplex (ModuleCat.{u} k) ℕ) (i : ℕ) :
     Nonempty ((HomologicalComplex.tensorObj C D).homology i ≅
       ∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) =>
-        C.homology p.1.1 ⊗ D.homology p.1.2) :=
-  ⟨sorry⟩
+        C.homology p.1.1 ⊗ D.homology p.1.2) := by
+  classical
+  let e := ComplexShape.embeddingDownNat
+  -- Step 1: `Hᵢ(C ⊗ D) ≅ H_{-i}(extend (C ⊗ D))`.
+  let α₁ : (HomologicalComplex.tensorObj C D).homology i ≅
+      ((HomologicalComplex.tensorObj C D).extend e).homology (-(i : ℤ)) :=
+    (homology_extend_iso (HomologicalComplex.tensorObj C D) i).symm
+  -- Step 2: apply `H_{-i}` to the crux iso `extend (C ⊗ D) ≅ extend C ⊗ extend D`.
+  let φ : (HomologicalComplex.tensorObj C D).extend e ≅
+      HomologicalComplex.tensorObj (C.extend e) (D.extend e) :=
+    (nonempty_tensorObj_extend_iso C D).some.symm
+  let α₂ := (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℤ)
+    (-(i : ℤ))).mapIso φ
+  -- Step 3: Chapter 7's universe-general Künneth at degree `-i`.
+  let α₃ := (Problem7_8_7_iv (C.extend e) (D.extend e) (-(i : ℤ))).some
+  -- Step 4: reindex the `ℤ`-coproduct `⨁_{a+b=-i}` onto the `ℕ`-antidiagonal `⨁_{p+q=i}`;
+  -- the summands with `a > 0` or `b > 0` vanish by `homology_extend_isZero`.
+  let ι : {p : ℕ × ℕ // p.1 + p.2 = i} → {p : ℤ × ℤ // p.1 + p.2 = -(i : ℤ)} :=
+    fun p => ⟨(-(p.1.1 : ℤ), -(p.1.2 : ℤ)), by
+      have h2 : (p.1.1 : ℤ) + (p.1.2 : ℤ) = (i : ℤ) := by exact_mod_cast p.2
+      change -(p.1.1 : ℤ) + -(p.1.2 : ℤ) = -(i : ℤ); omega⟩
+  have hι : Function.Injective ι := by
+    intro p p' hpp
+    apply Subtype.ext
+    have hv : (ι p).1 = (ι p').1 := congrArg Subtype.val hpp
+    have h1 : (p.1.1 : ℤ) = (p'.1.1 : ℤ) := neg_injective (congrArg Prod.fst hv)
+    have h2 : (p.1.2 : ℤ) = (p'.1.2 : ℤ) := neg_injective (congrArg Prod.snd hv)
+    exact Prod.ext (by exact_mod_cast h1) (by exact_mod_cast h2)
+  let α₄ : (∐ fun (p : {p : ℤ × ℤ // p.1 + p.2 = -(i : ℤ)}) =>
+        (C.extend e).homology p.1.1 ⊗ (D.extend e).homology p.1.2) ≅
+      (∐ fun (p : {p : ℕ × ℕ // p.1 + p.2 = i}) => C.homology p.1.1 ⊗ D.homology p.1.2) :=
+    sigmaIsoOfInjOfIsZeroCompl ι hι
+      (fun a => tensorIso (homology_extend_iso C a.1.1) (homology_extend_iso D a.1.2))
+      (by
+        rintro ⟨⟨a, b⟩, hab⟩ hj
+        by_cases ha : 0 < a
+        · exact TensorExtend.isZero_tensorObj_left (homology_extend_isZero C a ha)
+        by_cases hb : 0 < b
+        · exact TensorExtend.isZero_tensorObj_right (homology_extend_isZero D b hb)
+        rw [not_lt] at ha hb
+        exfalso
+        have hp : ((-a).toNat : ℤ) = -a := Int.toNat_of_nonneg (by omega)
+        have hq : ((-b).toNat : ℤ) = -b := Int.toNat_of_nonneg (by omega)
+        have hpq : (-a).toNat + (-b).toNat = i := by
+          have : ((-a).toNat : ℤ) + ((-b).toNat : ℤ) = (i : ℤ) := by rw [hp, hq]; omega
+          exact_mod_cast this
+        refine hj ⟨((-a).toNat, (-b).toNat), hpq⟩ (Subtype.ext ?_)
+        change (-(((-a).toNat : ℕ) : ℤ), -(((-b).toNat : ℕ) : ℤ)) = (a, b)
+        rw [Prod.mk.injEq]
+        exact ⟨by rw [hp]; ring, by rw [hq]; ring⟩)
+  exact ⟨α₁ ≪≫ α₂ ≪≫ α₃ ≪≫ α₄⟩
 
 end Etingof
