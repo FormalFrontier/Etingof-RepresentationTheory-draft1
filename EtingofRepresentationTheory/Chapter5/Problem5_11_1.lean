@@ -1591,6 +1591,75 @@ theorem indA4_triv (H : Subgroup A5) (hH : Nat.card H = 12)
   funext g
   rw [indA4_triv_char_all H hH σ htriv g, indA4_triv_target_char_all g]
 
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 8000000 in
+/-- Every involution of the concrete point-stabilizer `A₄` (`= A4std`) is a single commutator of
+two of its elements. Verified by exhaustive computation over `A₅`. -/
+lemma invol_isCommutator_A4std :
+    ∀ z : A5, z ∈ A4std → z ^ 2 = 1 → z ≠ 1 →
+      ∃ a ∈ A4std, ∃ b ∈ A4std, a * b * a⁻¹ * b⁻¹ = z := by
+  decide
+
+/-- A one-dimensional character `σ` of an order-`12` subgroup `H ≅ A₄` of `A₅` is `1` on every
+element of order dividing `2` (identity and involutions): the involutions of `A₄` lie in the
+commutator subgroup `V`, and any character valued in the abelian group `ℂ` kills commutators. -/
+lemma nontriv_linear_one_on_invol (H : Subgroup A5)
+    (hH : Nat.card H = 12) (σ : FDRep ℂ ↥H) (hdim : Module.finrank ℂ (σ : Type) = 1)
+    (y : ↥H) (hy2 : (y : A5) ^ 2 = 1) : σ.character y = 1 := by
+  classical
+  have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
+    intro g
+    obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (σ.ρ g)
+    have hcc : σ.character g = c := by
+      change LinearMap.trace ℂ _ (σ.ρ g) = c
+      rw [hc, map_smul, LinearMap.trace_id, hdim]; simp
+    rw [hcc]; exact hc
+  have hone : σ.character 1 = 1 := by rw [FDRep.char_one, hdim, Nat.cast_one]
+  have hmul : ∀ g k : ↥H, σ.character (g * k) = σ.character g * σ.character k := by
+    intro g k
+    have key : (σ.character (g * k) : ℂ) • (LinearMap.id : (σ : Type) →ₗ[ℂ] (σ : Type))
+             = (σ.character g * σ.character k : ℂ) • LinearMap.id := by
+      rw [← hscalar (g * k), map_mul, hscalar g, hscalar k]
+      ext x
+      simp only [Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq, smul_smul]
+    have htr := congrArg (LinearMap.trace ℂ (σ : Type)) key
+    rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
+      mul_one, mul_one] at htr
+  by_cases hy1 : (y : A5) = 1
+  · rw [show y = 1 from Subtype.ext hy1, hone]
+  -- `y` is an involution: express it as a commutator of two elements of `H`.
+  obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+  have hzmem : d * (y : A5) * d⁻¹ ∈ A4std := (hd (y : A5)).mp y.2
+  have hz2 : (d * (y : A5) * d⁻¹) ^ 2 = 1 := by
+    have hconj : (d * (y : A5) * d⁻¹) ^ 2 = d * ((y : A5) ^ 2) * d⁻¹ := by
+      rw [pow_two, pow_two]; group
+    rw [hconj, hy2]; group
+  have hz1 : d * (y : A5) * d⁻¹ ≠ 1 := by
+    intro hcon; apply hy1
+    rw [show (y : A5) = d⁻¹ * (d * (y : A5) * d⁻¹) * d by group, hcon]; group
+  obtain ⟨a, ha, b, hb, hcomm⟩ := invol_isCommutator_A4std _ hzmem hz2 hz1
+  have haH : d⁻¹ * a * d ∈ H := by
+    rw [hd, show d * (d⁻¹ * a * d) * d⁻¹ = a by group]; exact ha
+  have hbH : d⁻¹ * b * d ∈ H := by
+    rw [hd, show d * (d⁻¹ * b * d) * d⁻¹ = b by group]; exact hb
+  set p : ↥H := ⟨d⁻¹ * a * d, haH⟩ with hp_def
+  set q : ↥H := ⟨d⁻¹ * b * d, hbH⟩ with hq_def
+  have hpc : (p : A5) = d⁻¹ * a * d := rfl
+  have hqc : (q : A5) = d⁻¹ * b * d := rfl
+  have hyeq : y = p * q * p⁻¹ * q⁻¹ := by
+    apply Subtype.ext
+    push_cast
+    rw [hpc, hqc,
+      show (d⁻¹ * a * d) * (d⁻¹ * b * d) * (d⁻¹ * a * d)⁻¹ * (d⁻¹ * b * d)⁻¹
+        = d⁻¹ * (a * b * a⁻¹ * b⁻¹) * d by group, hcomm]
+    group
+  rw [hyeq, hmul, hmul, hmul]
+  have hp1 : σ.character p * σ.character p⁻¹ = 1 := by rw [← hmul, mul_inv_cancel, hone]
+  have hq1 : σ.character q * σ.character q⁻¹ = 1 := by rw [← hmul, mul_inv_cancel, hone]
+  calc σ.character p * σ.character q * σ.character p⁻¹ * σ.character q⁻¹
+      = (σ.character p * σ.character p⁻¹) * (σ.character q * σ.character q⁻¹) := by ring
+    _ = 1 := by rw [hp1, hq1]; ring
+
 /-- **Nontrivial linear character, class-rep values.** For an order-`12` `H` and a nontrivial
 one-dimensional character `σ`, `(ind σ).character` on the five class reps is `(5, -1, 1, 0, 0)`.
 This is the character of the standard `5`-dimensional irrep of `A₅`. -/
