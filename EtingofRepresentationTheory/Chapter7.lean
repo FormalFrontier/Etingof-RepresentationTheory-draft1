@@ -38,6 +38,7 @@ import EtingofRepresentationTheory.Chapter7.Exercise7_9_7
 import EtingofRepresentationTheory.Chapter7.Exercise7_9_8
 import EtingofRepresentationTheory.Chapter7.TensorComplexBiprod
 import EtingofRepresentationTheory.Chapter7.Problem7_8_7
+import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 
 /-!
 # Chapter 7: Introduction to Categories
