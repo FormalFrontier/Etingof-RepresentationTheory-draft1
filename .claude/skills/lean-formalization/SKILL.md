@@ -99,6 +99,17 @@ passed" from a poller returning exit 0.
   Check `pgrep -fl 'v4.28'` (the old version); if a `lake`/`lean` from an obsolete
   worktree is running, terminate that specific PID (targeted, not `pkill`).
 
+**A prerequisite the issue says "landed" may still be in an unmerged PR, not `main`.** In parallel
+formalization, issues are often written against a dependency that is only *open as a PR* (its file
+is absent from your fresh `main` checkout). Don't skip/block — instead: (a) find the PR
+(`gh pr list --search "<File>"` or by the issue# it closes), (b) read its API from the branch
+without checking it out (`git show origin/<branch>:<path>`), (c) drop a **temporary untracked** dev
+copy of that file into your worktree so you can `lake build` your new work against it, and (d) when
+the prerequisite PR's CI is green, merge it (`gh pr merge <N> --squash --delete-branch`), then
+`git merge origin/main`, delete your dev copy, and add your file to the chapter aggregator. Only
+commit *your* file — never the dev copy (it arrives via `main`). This turned a "blocked on #6688"
+situation into a same-session completion (#6684).
+
 ## Pre-Flight Checklist (Before Starting Any Proof)
 
 Run this checklist before writing a single tactic. Skipping it has caused agents to waste entire context windows on dead-ends.
