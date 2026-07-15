@@ -5276,3 +5276,36 @@ match+`split`.
 `eqToIso (congrArg (…).X (j' = -n)) ≪≫ isoNegExt … ≪≫ eqToIso (…)`. Prove `foo_neg : foo (-n) =
 isoNegExt n` by `rw [foo]; split; next m hm => obtain rfl := …; apply Iso.ext; simp`. Do **not**
 use `.get` for `n` (dependent-position `get` is unrewritable); the match binder gives a real `n`.
+
+## External-tensor `ModuleCat` objects carry a `Module.compHom` k-structure, not the standard one (#6681)
+
+`Chapter8/ExternalTensorFunctor.lean` gives every `X : ModuleCat A₁ᵐᵒᵖ` its `k`-module structure by
+**restriction of scalars** along `k → A₁ᵐᵒᵖ` (`Module.compHom X (algebraMap k A₁ᵐᵒᵖ)`, the
+`restrictModule` local instances), so `extTensorFunctorObj … X Y`'s carrier is `↥X ⊗[k] ↥Y` built
+with *that* `k`-action. For a free module `↥((ModuleCat.free A₁ᵐᵒᵖ).obj I) = I →₀ A₁ᵐᵒᵖ` this is
+**not definitionally equal** to the standard `Finsupp` `k`-module (`Finsupp.module` from
+`Module k A₁ᵐᵒᵖ`), even though the two `smul` functions agree propositionally (`Algebra.smul_def`).
+
+Consequence: standard tensor lemmas stated over the *standard* `k`-structure do **not** unify with the
+external-tensor carrier. `finsuppTensorFinsupp`, `TensorProduct.finsuppLeft/Right`,
+`Algebra.TensorProduct.basis`, `TensorProduct.congr` all produce terms in a *different* `⊗[k]` type;
+a bare `rfl`/instance-unify against `↥(extTensorFunctorObj …)` fails. Do not reach for them expecting
+a defeq match — verify with a one-line `example : (…free-tensor…) = (…standard-tensor…) := rfl`
+before building on top.
+
+Workable routes when you need a basis/equivalence of the external tensor:
+- **Build the `(A₁⊗A₂)ᵐᵒᵖ`-linear map directly** on the `compHom`-tensor. The `(A₁⊗A₂)ᵐᵒᵖ`-linear
+  *inverse* is cheap: `Finsupp.linearCombination (A₁⊗A₂)ᵐᵒᵖ (fun (i,j) => single i 1 ⊗ₜ single j 1)`
+  is automatically linear. The forward coordinate map is the work; on generators use
+  `extTensorModule_op_smul_tmul` (raw) / `extTensorFunctor_op_smul_tmul` (ModuleCat) plus
+  `Algebra.TensorProduct.opAlgEquiv` multiplicativity (`opAlgEquiv_tmul`, `map_mul`,
+  `tmul_mul_tmul`).
+- Note any `A₁ᵐᵒᵖ`-linear map is automatically `compHom`-`k`-linear (k factors through `A₁ᵐᵒᵖ`), so
+  `restrictScalars`/`.restrictScalars k` bridges `→ₗ[A₁ᵐᵒᵖ]` data into the `→ₗ[k]` slots a
+  `TensorProduct.lift` needs.
+
+The **retract reduction** for "external tensor of projectives is projective" is orthogonal to this
+and lands cleanly: `X` projective ⇒ `Retract X ((free A₁ᵐᵒᵖ).obj ↑X)` (counit split by
+`Projective.factorThru`), `extTensorFunctorMap_comp`/`_id` push it through the bifunctor, and
+`CategoryTheory.Retract.projective` finishes — see `Etingof.extTensorRetract`. Only the free base
+case needs the direct construction above.
