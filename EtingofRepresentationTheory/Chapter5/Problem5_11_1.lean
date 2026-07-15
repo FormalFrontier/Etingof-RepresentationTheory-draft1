@@ -1456,20 +1456,253 @@ theorem indA4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
     Nonempty (ind σ ≅ repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5) := by
   sorry
 
-/-! ## (e) Induction from `ℤ₂ × ℤ₂` -/
+/-! ## (e) Induction from `ℤ₂ × ℤ₂`
+
+The order-`4` subgroups of `A₅` are its Sylow `2`-subgroups, the Klein four groups
+`ℤ₂ × ℤ₂` (`A₅` has no element of order `4`), so each non-identity element is an involution
+lying in the single `2a` class. Unlike the cyclic cases, `H` has three involutions carrying
+mixed character values, but the induced character only sees their *sum*: for the trivial
+character the three contribute `3`, and for any nontrivial character they contribute
+`∑_{h∈H} χ(h) − χ(1) = −1` (the sum of a nontrivial character over the group vanishes). This
+collapses both computations to the single conjugator-count skeleton
+`(ind σ).χ(cr j) = ¼·(χ(1)·#{xgx⁻¹=1} + (∑χ − χ(1))·#{xgx⁻¹∈ 2a})`. -/
+
+set_option maxRecDepth 8000 in
+-- `decide` checks over all 60 elements of `A₅` that no element has order `4`.
+set_option maxHeartbeats 4000000 in
+/-- `A₅` has no element of order `4`: if `x⁴ = 1` then already `x² = 1` (the only elements of
+`A₅` are the identity, double transpositions, `3`-cycles and `5`-cycles). -/
+lemma A5_no_order_four (x : A5) (hx4 : x ^ 4 = 1) : x ^ 2 = 1 := by
+  revert x; decide
+
+set_option maxRecDepth 8000 in
+-- `decide` evaluates the conjugator equality over all 60 elements of `A₅`.
+set_option maxHeartbeats 4000000 in
+/-- The count `#{x : x·(classRepA5 j)·x⁻¹ = classRepA5 2}`: `4` (the centralizer order) on the
+`2a` class, `0` elsewhere. -/
+lemma cr2Count (j : Fin 5) :
+    (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = classRepA5 2)).card
+      = ![0, 0, 4, 0, 0] j := by
+  fin_cases j <;> decide
+
+/-- **Skeleton of the induced character for an order-`4` `H`.** Every non-identity element of `H`
+is an involution (`2a` class), so the Frobenius sum reduces to the identity- and `2a`-conjugator
+counts, weighted by `σ.character 1` and the character sum `∑_{h∈H} σ.character h`. -/
+lemma indV4_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
+    (σ : FDRep ℂ ↥H) (j : Fin 5) :
+    (ind σ).character (classRepA5 j)
+      = (4 : ℂ)⁻¹ * (σ.character 1 * (![60, 0, 0, 0, 0] : Fin 5 → ℂ) j
+          + ((∑ h : ↥H, σ.character h) - σ.character 1) * (![0, 0, 4, 0, 0] : Fin 5 → ℂ) j) := by
+  classical
+  rw [ind_character_eq]
+  have hcard : (Fintype.card ↥H : ℂ) = 4 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  -- **Term decomposition**: index the Frobenius summand by the element `h ∈ H` it hits.
+  have hF : ∀ x : A5,
+      (if hm : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨x * classRepA5 j * x⁻¹, hm⟩ else 0)
+        = ∑ h : ↥H, σ.character h * (if x * classRepA5 j * x⁻¹ = (h : A5) then (1 : ℂ) else 0) := by
+    intro x
+    by_cases hmem : x * classRepA5 j * x⁻¹ ∈ H
+    · rw [dif_pos hmem, Finset.sum_eq_single (⟨x * classRepA5 j * x⁻¹, hmem⟩ : ↥H)]
+      · rw [if_pos rfl, mul_one]
+      · intro b _ hb
+        rw [if_neg (fun heq => hb (Subtype.ext heq.symm)), mul_zero]
+      · intro hcon; exact absurd (Finset.mem_univ _) hcon
+    · rw [dif_neg hmem]
+      refine (Finset.sum_eq_zero (fun h _ => ?_)).symm
+      rw [if_neg (fun heq => hmem (by rw [heq]; exact SetLike.coe_mem h)), mul_zero]
+  -- **Reindex** to sum over `h ∈ H` weighted by conjugator counts.
+  have hsum : (∑ x : A5,
+        if hm : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨x * classRepA5 j * x⁻¹, hm⟩ else 0)
+      = ∑ h : ↥H, σ.character h *
+          ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = (h : A5))).card : ℂ) := by
+    rw [Finset.sum_congr rfl (fun x _ => hF x), Finset.sum_comm]
+    refine Finset.sum_congr rfl (fun h _ => ?_)
+    rw [← Finset.mul_sum, Finset.sum_boole]
+  -- **Per-`h` count**: the identity contributes `#{=1}`, each involution contributes `#{∈ 2a}`.
+  have hcnt : ∀ h : ↥H, σ.character h *
+        ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ = (h : A5))).card : ℂ)
+      = σ.character h * (if h = 1 then (![60, 0, 0, 0, 0] : Fin 5 → ℂ) j
+          else (![0, 0, 4, 0, 0] : Fin 5 → ℂ) j) := by
+    intro h
+    congr 1
+    by_cases hh : h = 1
+    · subst hh
+      rw [if_pos rfl, OneMemClass.coe_one, oneCount j]
+      fin_cases j <;> norm_num
+    · rw [if_neg hh]
+      have hpc4 : (h : A5) ^ 4 = 1 := by
+        have h4 : h ^ 4 = 1 := by
+          have := pow_card_eq_one' (G := ↥H) (x := h); rwa [hH] at this
+        have := congrArg (fun t : ↥H => (t : A5)) h4
+        simpa using this
+      have hpc2 : (h : A5) ^ 2 = 1 := A5_no_order_four _ hpc4
+      have hne1 : (h : A5) ≠ 1 := fun hc => hh (Subtype.ext (by simpa using hc))
+      have hcl : classIdxA5 (h : A5) = 2 :=
+        Etingof.Problem4_12_5.classIdx_of_involution (h : A5) hpc2 hne1
+      obtain ⟨c, hc⟩ := classIdxA5_spec (h : A5)
+      rw [hcl] at hc
+      rw [conjCount_shift (classRepA5 j) (classRepA5 2) (h : A5) ⟨c, hc⟩, cr2Count j]
+      fin_cases j <;> norm_num
+  rw [hsum, Finset.sum_congr rfl (fun h _ => hcnt h), hcard]
+  -- **Collapse the `if`** into the closed form.
+  set A : ℂ := (![60, 0, 0, 0, 0] : Fin 5 → ℂ) j with hA
+  set B : ℂ := (![0, 0, 4, 0, 0] : Fin 5 → ℂ) j with hB
+  have hsplit : ∀ h : ↥H, σ.character h * (if h = 1 then A else B)
+      = σ.character h * B + σ.character h * (if h = 1 then (A - B) else 0) := by
+    intro h; by_cases hh : h = 1 <;> simp [hh] <;> ring
+  have hsecond : (∑ h : ↥H, σ.character h * (if h = 1 then (A - B) else 0))
+      = σ.character 1 * (A - B) := by
+    rw [Finset.sum_eq_single (1 : ↥H)]
+    · rw [if_pos rfl]
+    · intro b _ hb; rw [if_neg hb, mul_zero]
+    · intro hcon; exact absurd (Finset.mem_univ (1 : ↥H)) hcon
+  rw [Finset.sum_congr rfl (fun h _ => hsplit h), Finset.sum_add_distrib, ← Finset.sum_mul,
+    hsecond]
+  ring
+
+/-- **(e) trivial character, class-rep values.** `(ind 1).character` on the five class reps is
+`(15, 0, 3, 0, 0)`. -/
+lemma indV4_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
+    (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![15, 0, 3, 0, 0] j := by
+  have h1 : σ.character 1 = 1 := htriv 1
+  have hS : (∑ h : ↥H, σ.character h) = 4 := by
+    rw [Finset.sum_congr rfl (fun h _ => htriv h), Finset.sum_const, Finset.card_univ,
+      nsmul_eq_mul, mul_one, ← Nat.card_eq_fintype_card, hH]; norm_num
+  rw [indV4_value H hH σ j, h1, hS]
+  fin_cases j <;> norm_num
+
+/-- Arbitrary-`g` trivial-character values, via the class-function property. -/
+lemma indV4_triv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
+    (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : A5) :
+    (ind σ).character g = ![15, 0, 3, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indV4_triv_value H hH σ htriv (classIdxA5 g)
+
+/-- **Target character, class-rep values** for the trivial-character decomposition. -/
+lemma indV4_triv_target_value (j : Fin 5) :
+    (repTriv ⊞ repC4 ⊞ repC5 ⊞ repC5).character (classRepA5 j) = ![15, 0, 3, 0, 0] j := by
+  simp only [character_biprod, repTriv_character, repC4_character, repC5_character]
+  fin_cases j <;>
+    norm_num [tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indV4_triv_target_char_all (g : A5) :
+    (repTriv ⊞ repC4 ⊞ repC5 ⊞ repC5).character g = ![15, 0, 3, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indV4_triv_target_value (classIdxA5 g)
 
 /-- **(e) trivial character.** `Ind_{ℤ₂×ℤ₂}^{A₅} 1 ≅ 1 ⊕ 4 ⊕ 5²` (dimension `15`), the
 permutation representation on the `15` cosets. -/
 theorem indV4_triv (H : Subgroup A5) (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (ind σ ≅ repTriv ⊞ repC4 ⊞ repC5 ⊞ repC5) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indV4_triv_char_all H hH σ htriv g, indV4_triv_target_char_all g]
+
+/-- **Character sum vanishes** for a nontrivial simple character of the (abelian) order-`4` `H`:
+`∑_{h∈H} σ.character h = 0`. -/
+lemma indV4_nontriv_charSum_zero (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
+    (∑ h : ↥H, σ.character h) = 0 := by
+  classical
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  letI : CommGroup ↥H := IsPGroup.commGroupOfCardEqPrimeSq (p := 2) (by rw [hH]; norm_num)
+  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+    Etingof.isSimpleModule_asModule_of_simple σ
+  have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
+  -- `σ.character` is multiplicative because `σ` is one-dimensional.
+  have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
+    intro g
+    obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (σ.ρ g)
+    have hcc : σ.character g = c := by
+      change LinearMap.trace ℂ _ (σ.ρ g) = c
+      rw [hc, map_smul, LinearMap.trace_id, hdim]; simp
+    rw [hcc]; exact hc
+  have hmul : ∀ g h : ↥H, σ.character (g * h) = σ.character g * σ.character h := by
+    intro g h
+    have key : (σ.character (g * h) : ℂ) • (LinearMap.id : (σ : Type) →ₗ[ℂ] (σ : Type))
+             = (σ.character g * σ.character h : ℂ) • LinearMap.id := by
+      rw [← hscalar (g * h), map_mul, hscalar g, hscalar h]
+      ext x
+      simp only [Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq, smul_smul]
+    have htr := congrArg (LinearMap.trace ℂ (σ : Type)) key
+    rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
+      mul_one, mul_one] at htr
+  obtain ⟨h₀, hh₀⟩ := hntriv
+  have hreindex : (∑ h : ↥H, σ.character (h₀ * h)) = ∑ h : ↥H, σ.character h :=
+    Fintype.sum_bijective (Equiv.mulLeft h₀) (Equiv.mulLeft h₀).bijective
+      (fun h => σ.character (h₀ * h)) (fun h => σ.character h) (fun _ => rfl)
+  have hmulsum : σ.character h₀ * (∑ h : ↥H, σ.character h) = ∑ h : ↥H, σ.character h := by
+    rw [Finset.mul_sum, ← hreindex]
+    exact Finset.sum_congr rfl (fun h _ => (hmul h₀ h).symm)
+  have hzero : (σ.character h₀ - 1) * (∑ h : ↥H, σ.character h) = 0 := by
+    rw [sub_mul, one_mul, hmulsum, sub_self]
+  rcases mul_eq_zero.mp hzero with hc | hc
+  · exact absurd (sub_eq_zero.mp hc) hh₀
+  · exact hc
+
+/-- **(e) nontrivial character, class-rep values.** `(ind σ).character` on the five class reps is
+`(15, 0, -1, 0, 0)` for any nontrivial character `σ` of `H`. -/
+lemma indV4_nontriv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![15, 0, -1, 0, 0] j := by
+  classical
+  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  letI : CommGroup ↥H := IsPGroup.commGroupOfCardEqPrimeSq (p := 2) (by rw [hH]; norm_num)
+  haveI hsm : IsSimpleModule (MonoidAlgebra ℂ ↥H) (Representation.asModule σ.ρ) :=
+    Etingof.isSimpleModule_asModule_of_simple σ
+  have hdim : Module.finrank ℂ (σ : Type) = 1 := Etingof.Example4_3_FiniteAbelianGroups σ.ρ
+  have h1 : σ.character 1 = 1 := by rw [FDRep.char_one, hdim, Nat.cast_one]
+  have hS : (∑ h : ↥H, σ.character h) = 0 := indV4_nontriv_charSum_zero H hH σ hntriv
+  rw [indV4_value H hH σ j, h1, hS]
+  fin_cases j <;> norm_num
+
+/-- Arbitrary-`g` nontrivial-character values, via the class-function property. -/
+lemma indV4_nontriv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 4)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (g : A5) :
+    (ind σ).character g = ![15, 0, -1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indV4_nontriv_value H hH σ hntriv (classIdxA5 g)
+
+/-- **Target character, class-rep values** for the nontrivial-character decomposition. -/
+lemma indV4_nontriv_target_value (j : Fin 5) :
+    (repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5).character (classRepA5 j) = ![15, 0, -1, 0, 0] j := by
+  simp only [character_biprod, repC3plus_character, repC3minus_character,
+    repC4_character, repC5_character]
+  have hs := sqrt5_sq
+  fin_cases j <;>
+    norm_num [Q5toC, chiA5, tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons,
+      Q5.mk_re, Q5.mk_im, Q5.ofNat_re, Q5.ofNat_im, Q5.neg_re, Q5.neg_im, Q5.one_re, Q5.one_im,
+      Q5.zero_re, Q5.zero_im] <;>
+    ring
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indV4_nontriv_target_char_all (g : A5) :
+    (repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5).character g = ![15, 0, -1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indV4_nontriv_target_value (classIdxA5 g)
 
 /-- **(e) nontrivial character.** For any of the three nontrivial characters `χ₁, χ₂, χ₃` of
 `ℤ₂ × ℤ₂`, `Ind_{ℤ₂×ℤ₂}^{A₅} χᵢ ≅ 3 ⊕ 3' ⊕ 4 ⊕ 5` (dimension `15`). -/
 theorem indV4_nontriv (H : Subgroup A5) (hH : Nat.card H = 4)
     (σ : FDRep ℂ ↥H) [Simple σ] (hntriv : ∃ h : ↥H, σ.character h ≠ 1) :
     Nonempty (ind σ ≅ repC3plus ⊞ repC3minus ⊞ repC4 ⊞ repC5) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indV4_nontriv_char_all H hH σ hntriv g, indV4_nontriv_target_char_all g]
 
 end Etingof.Problem5_11_1
