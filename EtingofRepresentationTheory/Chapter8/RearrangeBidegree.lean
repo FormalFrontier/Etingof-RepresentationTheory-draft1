@@ -280,6 +280,7 @@ noncomputable def invInner (p₁ : P₁) (n₁ : N₁) :
       rw [tmul_smul, TensorProduct.tmul_smul]
       exact map_zsmul (QuotientAddGroup.mk' _) _ _)
 
+set_option linter.unusedSectionVars false in
 @[simp] theorem invInner_tmul (p₁ : P₁) (n₁ : N₁) (p₂ : P₂) (n₂ : N₂) :
     invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ (p₂ ⊗ₜ[ℤ] n₂)
       = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
@@ -484,6 +485,94 @@ include hM hN in
       = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
           tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) := by
   rw [inv, TensorProduct.lift.tmul, invBil_mk_mk]
+
+/-! ### The two round-trips and the equivalence -/
+
+include hM hN in
+theorem fwd_mk (w : TensorProduct ℤ (P₁ ⊗[k] P₂) (N₁ ⊗[k] N₂)) :
+    fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (QuotientAddGroup.mk w)
+      = fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ w := rfl
+
+include hM hN in
+/-- `inv` undoes `rearrangeAux` on a `ℤ`-simple tensor `x ⊗ y` of `k`-tensors. -/
+theorem inv_rearrangeAux (x : P₁ ⊗[k] P₂) (y : N₁ ⊗[k] N₂) :
+    inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (rearrangeAux k A₁ A₂ P₁ P₂ N₁ N₂ (x ⊗ₜ[k] y))
+      = QuotientAddGroup.mk (x ⊗ₜ[ℤ] y) := by
+  induction x using TensorProduct.induction_on generalizing y with
+  | zero => simp
+  | add x x' hx hx' =>
+      simp only [add_tmul, map_add, hx, hx', QuotientAddGroup.mk_add]
+  | tmul p₁ p₂ =>
+      induction y using TensorProduct.induction_on with
+      | zero => simp
+      | add y y' hy hy' =>
+          simp only [tmul_add, map_add, hy, hy', QuotientAddGroup.mk_add]
+      | tmul n₁ n₂ => rw [rearrangeAux_tmul, inv_mk_tmul_mk]
+
+include hM hN in
+theorem inv_fwd (z : tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) :
+    inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN z) = z := by
+  obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
+  rw [fwd_mk]
+  induction w using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [map_add, ha, hb, QuotientAddGroup.mk_add]
+  | tmul x y => rw [fwdPre_tmul, inv_rearrangeAux]
+
+include hM hN in
+theorem fwd_invBil (t₁ : tensorOver A₁ N₁ P₁) (t₂ : tensorOver A₂ N₂ P₂) :
+    fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (invBil k A₁ A₂ P₁ P₂ N₁ N₂ hM hN t₁ t₂) = t₁ ⊗ₜ[k] t₂ := by
+  obtain ⟨u, rfl⟩ := QuotientAddGroup.mk_surjective t₁
+  obtain ⟨v, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+  induction u using TensorProduct.induction_on generalizing v with
+  | zero => simp
+  | add u u' hu hu' =>
+      simp only [QuotientAddGroup.mk_add, map_add, LinearMap.add_apply, add_tmul, hu, hu']
+  | tmul p₁ n₁ =>
+      induction v using TensorProduct.induction_on with
+      | zero => simp
+      | add v v' hv hv' =>
+          simp only [QuotientAddGroup.mk_add, map_add, tmul_add, hv, hv']
+      | tmul p₂ n₂ => rw [invBil_mk_mk, fwd_mk_tmul]
+
+include hM hN in
+theorem fwd_inv (r : (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂)) :
+    fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN r) = r := by
+  induction r using TensorProduct.induction_on with
+  | zero => simp
+  | add r r' hr hr' => simp only [map_add, hr, hr']
+  | tmul t₁ t₂ =>
+      rw [inv, TensorProduct.lift.tmul]
+      exact fwd_invBil k A₁ A₂ P₁ P₂ N₁ N₂ hM hN t₁ t₂
+
+include hM hN in
+/-- **Milestone (a).** The single-bidegree rearrangement isomorphism
+`(P₁ ⊗ₖ P₂) ⊗_{A₁ ⊗ A₂} (N₁ ⊗ₖ N₂) ≃ₗ[k] (P₁ ⊗_{A₁} N₁) ⊗ₖ (P₂ ⊗_{A₂} N₂)`, sending
+`⟦(p₁ ⊗ p₂) ⊗ (n₁ ⊗ n₂)⟧ ↦ ⟦p₁ ⊗ n₁⟧ ⊗ₖ ⟦p₂ ⊗ n₂⟧`. -/
+noncomputable def rearrangeBidegree :
+    tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) ≃ₗ[k]
+      (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂) :=
+  LinearEquiv.ofLinear
+    (fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN) (inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+    (LinearMap.ext fun r => by simpa using fwd_inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN r)
+    (LinearMap.ext fun z => by simpa using inv_fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN z)
+
+include hM hN in
+@[simp] theorem rearrangeBidegree_mk_tmul (p₁ : P₁) (p₂ : P₂) (n₁ : N₁) (n₂ : N₂) :
+    rearrangeBidegree k A₁ A₂ P₁ P₂ N₁ N₂ hM hN
+        (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)))
+      = (QuotientAddGroup.mk (p₁ ⊗ₜ[ℤ] n₁) : tensorOver A₁ N₁ P₁)
+          ⊗ₜ[k] (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ P₂) :=
+  fwd_mk_tmul k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ p₂ n₁ n₂
+
+include hM hN in
+@[simp] theorem rearrangeBidegree_symm_mk_tmul (p₁ : P₁) (n₁ : N₁) (p₂ : P₂) (n₂ : N₂) :
+    (rearrangeBidegree k A₁ A₂ P₁ P₂ N₁ N₂ hM hN).symm
+        ((QuotientAddGroup.mk (p₁ ⊗ₜ[ℤ] n₁) : tensorOver A₁ N₁ P₁)
+          ⊗ₜ[k] (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ P₂))
+      = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
+          tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) :=
+  inv_mk_tmul_mk k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ n₁ p₂ n₂
 
 end Main
 
