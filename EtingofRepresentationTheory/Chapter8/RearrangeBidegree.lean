@@ -88,6 +88,42 @@ noncomputable def tensorOverMk : (P ⊗[k] N) →ₗ[k] tensorOver A N P :=
 
 end Factor
 
+/-! ### Descending a `k`-linear map through the balancing quotient -/
+
+section Lift
+
+variable (k : Type u) [Field k]
+variable (A : Type u) [Ring A]
+variable (N : Type u) [AddCommGroup N] [Module A N]
+variable (P : Type u) [AddCommGroup P] [Module k P] [Module Aᵐᵒᵖ P] [SMulCommClass k Aᵐᵒᵖ P]
+variable (M : Type u) [AddCommGroup M] [Module k M]
+
+/-- Descend a `k`-linear map out of the additive tensor `P ⊗ℤ N` that is invariant under the
+`k`-action and kills the balancing subgroup, to a `k`-linear map out of `P ⊗_A N`. -/
+noncomputable def liftTensorOver (φ : TensorProduct ℤ P N →ₗ[ℤ] M)
+    (hsmul : ∀ (c : k) (w : TensorProduct ℤ P N), φ (c • w) = c • φ w)
+    (hker : ∀ w ∈ balancedSubgroup A N P, φ w = 0) :
+    tensorOver A N P →ₗ[k] M where
+  toFun := QuotientAddGroup.lift _ φ.toAddMonoidHom hker
+  map_add' x y := by
+    obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective x
+    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective y
+    rw [← QuotientAddGroup.mk_add]
+    simp only [QuotientAddGroup.lift_mk, map_add]
+  map_smul' c z := by
+    obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
+    rw [Etingof.smul_mk]
+    simp only [QuotientAddGroup.lift_mk, LinearMap.toAddMonoidHom_coe, RingHom.id_apply]
+    exact hsmul c w
+
+@[simp] theorem liftTensorOver_mk (φ : TensorProduct ℤ P N →ₗ[ℤ] M)
+    (hsmul : ∀ (c : k) (w : TensorProduct ℤ P N), φ (c • w) = c • φ w)
+    (hker : ∀ w ∈ balancedSubgroup A N P, φ w = 0) (w : TensorProduct ℤ P N) :
+    liftTensorOver k A N P M φ hsmul hker (QuotientAddGroup.mk w) = φ w :=
+  rfl
+
+end Lift
+
 /-! ### The rearrangement, on the `k`-tensor level -/
 
 section Main
@@ -225,6 +261,229 @@ noncomputable def fwd :
           ⊗ₜ[k] (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ P₂) := by
   simp only [fwd, LinearMap.coe_mk, AddHom.coe_mk, QuotientAddGroup.lift_mk,
     LinearMap.toAddMonoidHom_coe, fwdPre_tmul, rearrangeAux_tmul]
+
+/-! ### The inverse map `⟦p₁ ⊗ n₁⟧ ⊗ₖ ⟦p₂ ⊗ n₂⟧ ↦ ⟦(p₁ ⊗ p₂) ⊗ (n₁ ⊗ n₂)⟧` -/
+
+/-- For fixed `p₁, n₁`, the `ℤ`-linear map `P₂ ⊗ℤ N₂ → L`,
+`p₂ ⊗ n₂ ↦ ⟦(p₁ ⊗ p₂) ⊗ (n₁ ⊗ n₂)⟧`. -/
+noncomputable def invInner (p₁ : P₁) (n₁ : N₁) :
+    TensorProduct ℤ P₂ N₂ →ₗ[ℤ] tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) :=
+  TensorProduct.lift <| LinearMap.mk₂ ℤ
+    (fun p₂ n₂ => (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
+        tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)))
+    (fun p₂ p₂' n₂ => by rw [tmul_add, add_tmul]; exact map_add (QuotientAddGroup.mk' _) _ _)
+    (fun c p₂ n₂ => by
+      rw [tmul_smul, ← TensorProduct.smul_tmul']
+      exact map_zsmul (QuotientAddGroup.mk' _) _ _)
+    (fun p₂ n₂ n₂' => by rw [tmul_add, tmul_add]; exact map_add (QuotientAddGroup.mk' _) _ _)
+    (fun c p₂ n₂ => by
+      rw [tmul_smul, TensorProduct.tmul_smul]
+      exact map_zsmul (QuotientAddGroup.mk' _) _ _)
+
+@[simp] theorem invInner_tmul (p₁ : P₁) (n₁ : N₁) (p₂ : P₂) (n₂ : N₂) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ (p₂ ⊗ₜ[ℤ] n₂)
+      = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
+          tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) :=
+  TensorProduct.lift.tmul _ _
+
+/-- `invInner` is `k`-linear (the `k`-action lands on the left factor `P₁`). -/
+theorem invInner_smul (p₁ : P₁) (n₁ : N₁) (c : k)
+    (w : TensorProduct ℤ P₂ N₂) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ (c • w)
+      = c • invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ w := by
+  induction w using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [smul_add, map_add, ha, hb]
+  | tmul p₂ n₂ =>
+      rw [TensorProduct.smul_tmul', invInner_tmul, invInner_tmul, TensorProduct.tmul_smul,
+        ← TensorProduct.smul_tmul', ← Etingof.smul_mk]
+
+/-- `invInner` is additive in `p₁`. -/
+theorem invInner_add_left (p₁ p₁' : P₁) (n₁ : N₁) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ (p₁ + p₁') n₁
+      = invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ + invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁' n₁ := by
+  refine TensorProduct.ext' fun p₂ n₂ => ?_
+  simp only [invInner_tmul, LinearMap.add_apply]
+  rw [add_tmul, add_tmul]
+  exact map_add (QuotientAddGroup.mk' _) _ _
+
+/-- `invInner` is `ℤ`-linear in `p₁`. -/
+theorem invInner_zsmul_left (c : ℤ) (p₁ : P₁) (n₁ : N₁) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ (c • p₁) n₁ = c • invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ := by
+  refine TensorProduct.ext' fun p₂ n₂ => ?_
+  simp only [invInner_tmul, LinearMap.smul_apply]
+  rw [← TensorProduct.smul_tmul', ← TensorProduct.smul_tmul']
+  exact map_zsmul (QuotientAddGroup.mk' _) _ _
+
+/-- `invInner` is additive in `n₁`. -/
+theorem invInner_add_right (p₁ : P₁) (n₁ n₁' : N₁) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ (n₁ + n₁')
+      = invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ + invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁' := by
+  refine TensorProduct.ext' fun p₂ n₂ => ?_
+  simp only [invInner_tmul, LinearMap.add_apply]
+  rw [add_tmul, tmul_add]
+  exact map_add (QuotientAddGroup.mk' _) _ _
+
+/-- `invInner` is `ℤ`-linear in `n₁`. -/
+theorem invInner_zsmul_right (c : ℤ) (p₁ : P₁) (n₁ : N₁) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ (c • n₁) = c • invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ := by
+  refine TensorProduct.ext' fun p₂ n₂ => ?_
+  simp only [invInner_tmul, LinearMap.smul_apply]
+  rw [← TensorProduct.smul_tmul', TensorProduct.tmul_smul]
+  exact map_zsmul (QuotientAddGroup.mk' _) _ _
+
+/-- `invInner` is `k`-linear in `p₁`. -/
+theorem invInner_ksmul_left (c : k) (p₁ : P₁) (n₁ : N₁) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ (c • p₁) n₁ = c • invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ := by
+  refine TensorProduct.ext' fun p₂ n₂ => ?_
+  simp only [invInner_tmul, LinearMap.smul_apply]
+  rw [← TensorProduct.smul_tmul', ← TensorProduct.smul_tmul', ← Etingof.smul_mk]
+
+include hM hN in
+/-- `invInner p₁ n₁` kills the factor-2 balancing subgroup (via `hM`/`hN` at `a₁ = 1`). -/
+theorem invInner_mem_ker (p₁ : P₁) (n₁ : N₁) (w : TensorProduct ℤ P₂ N₂)
+    (hw : w ∈ balancedSubgroup A₂ N₂ P₂) :
+    invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ w = 0 := by
+  have hle : balancedSubgroup A₂ N₂ P₂
+      ≤ (invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁).toAddMonoidHom.ker := by
+    rw [balancedSubgroup, AddSubgroup.closure_le]
+    rintro x ⟨a₂, p₂, n₂, rfl⟩
+    simp only [SetLike.mem_coe, AddMonoidHom.mem_ker, LinearMap.toAddMonoidHom_coe, map_sub,
+      invInner_tmul, sub_eq_zero, QuotientAddGroup.eq_iff_sub_mem]
+    apply AddSubgroup.subset_closure
+    refine ⟨(1 : A₁) ⊗ₜ[k] a₂, p₁ ⊗ₜ[k] p₂, n₁ ⊗ₜ[k] n₂, ?_⟩
+    rw [hM, hN]
+    simp [MulOpposite.op_one]
+  exact hle hw
+
+include hM hN in
+/-- For fixed `p₁, n₁`, the descended `k`-linear map `P₂ ⊗_{A₂} N₂ → L`. -/
+noncomputable def invMidInner (p₁ : P₁) (n₁ : N₁) :
+    tensorOver A₂ N₂ P₂ →ₗ[k] tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) :=
+  liftTensorOver k A₂ N₂ P₂ _ (invInner k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁)
+    (invInner_smul k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁)
+    (invInner_mem_ker k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ n₁)
+
+include hM hN in
+@[simp] theorem invMidInner_mk (p₁ : P₁) (n₁ : N₁) (p₂ : P₂) (n₂ : N₂) :
+    invMidInner k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ n₁
+        (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂))
+      = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
+          tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) := by
+  rw [invMidInner, liftTensorOver_mk, invInner_tmul]
+
+include hM hN in
+/-- `invMidInner` is `k`-linear in `p₁`. -/
+theorem invMidInner_ksmul_left (c : k) (p₁ : P₁) (n₁ : N₁) :
+    invMidInner k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (c • p₁) n₁
+      = c • invMidInner k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ n₁ := by
+  ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+  simp only [invMidInner, liftTensorOver_mk, LinearMap.smul_apply]
+  exact LinearMap.congr_fun (invInner_ksmul_left k A₁ A₂ P₁ P₂ N₁ N₂ c p₁ n₁) w
+
+include hM hN in
+/-- The `ℤ`-bilinear map `P₁ × N₁ → (P₂ ⊗_{A₂} N₂ →ₗ[k] L)` assembling `invMidInner`. -/
+noncomputable def invMid :
+    P₁ →ₗ[ℤ] N₁ →ₗ[ℤ]
+      (tensorOver A₂ N₂ P₂ →ₗ[k] tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) :=
+  LinearMap.mk₂ ℤ (fun p₁ n₁ => invMidInner k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ n₁)
+    (fun p₁ p₁' n₁ => by
+      ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+      simp only [invMidInner, liftTensorOver_mk, LinearMap.add_apply,
+        LinearMap.congr_fun (invInner_add_left k A₁ A₂ P₁ P₂ N₁ N₂ p₁ p₁' n₁) w])
+    (fun c p₁ n₁ => by
+      ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+      simp only [invMidInner, liftTensorOver_mk, LinearMap.smul_apply,
+        LinearMap.congr_fun (invInner_zsmul_left k A₁ A₂ P₁ P₂ N₁ N₂ c p₁ n₁) w])
+    (fun p₁ n₁ n₁' => by
+      ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+      simp only [invMidInner, liftTensorOver_mk, LinearMap.add_apply,
+        LinearMap.congr_fun (invInner_add_right k A₁ A₂ P₁ P₂ N₁ N₂ p₁ n₁ n₁') w])
+    (fun c p₁ n₁ => by
+      ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+      simp only [invMidInner, liftTensorOver_mk, LinearMap.smul_apply,
+        LinearMap.congr_fun (invInner_zsmul_right k A₁ A₂ P₁ P₂ N₁ N₂ c p₁ n₁) w])
+
+include hM hN in
+/-- The forward map before descending the factor-1 balancing quotient. -/
+noncomputable def invBilPre :
+    TensorProduct ℤ P₁ N₁ →ₗ[ℤ]
+      (tensorOver A₂ N₂ P₂ →ₗ[k] tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) :=
+  TensorProduct.lift (invMid k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+
+include hM hN in
+@[simp] theorem invBilPre_tmul (p₁ : P₁) (n₁ : N₁) :
+    invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (p₁ ⊗ₜ[ℤ] n₁)
+      = invMidInner k A₁ A₂ P₁ P₂ N₁ N₂ hM hN p₁ n₁ :=
+  TensorProduct.lift.tmul _ _
+
+include hM hN in
+/-- `invBilPre` is `k`-linear (the `k`-action lands on the left factor `P₁`). -/
+theorem invBilPre_smul (c : k) (w : TensorProduct ℤ P₁ N₁) :
+    invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (c • w)
+      = c • invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN w := by
+  induction w using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [smul_add, map_add, ha, hb]
+  | tmul p₁ n₁ =>
+      rw [TensorProduct.smul_tmul', invBilPre_tmul, invBilPre_tmul,
+        invMidInner_ksmul_left k A₁ A₂ P₁ P₂ N₁ N₂ hM hN c p₁ n₁]
+
+include hM hN in
+/-- `invBilPre` kills the factor-1 balancing subgroup (via `hM`/`hN` at `a₂ = 1`). -/
+theorem invBilPre_mem_ker (w : TensorProduct ℤ P₁ N₁) (hw : w ∈ balancedSubgroup A₁ N₁ P₁) :
+    invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN w = 0 := by
+  have hle : balancedSubgroup A₁ N₁ P₁
+      ≤ (invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN).toAddMonoidHom.ker := by
+    rw [balancedSubgroup, AddSubgroup.closure_le]
+    rintro x ⟨a₁, p₁, n₁, rfl⟩
+    simp only [SetLike.mem_coe, AddMonoidHom.mem_ker, LinearMap.toAddMonoidHom_coe, map_sub,
+      invBilPre_tmul, sub_eq_zero]
+    ext t₂; obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective t₂
+    induction w using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
+    | tmul p₂ n₂ =>
+        simp only [invMidInner_mk, QuotientAddGroup.eq_iff_sub_mem]
+        apply AddSubgroup.subset_closure
+        refine ⟨a₁ ⊗ₜ[k] (1 : A₂), p₁ ⊗ₜ[k] p₂, n₁ ⊗ₜ[k] n₂, ?_⟩
+        rw [hM, hN]
+        simp [MulOpposite.op_one]
+  exact hle hw
+
+include hM hN in
+/-- The bilinear map `(P₁ ⊗_{A₁} N₁) × (P₂ ⊗_{A₂} N₂) → L` for the inverse. -/
+noncomputable def invBil :
+    tensorOver A₁ N₁ P₁ →ₗ[k] tensorOver A₂ N₂ P₂ →ₗ[k]
+      tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) :=
+  liftTensorOver k A₁ N₁ P₁ _ (invBilPre k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+    (invBilPre_smul k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+    (invBilPre_mem_ker k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+
+include hM hN in
+@[simp] theorem invBil_mk_mk (p₁ : P₁) (n₁ : N₁) (p₂ : P₂) (n₂ : N₂) :
+    invBil k A₁ A₂ P₁ P₂ N₁ N₂ hM hN (QuotientAddGroup.mk (p₁ ⊗ₜ[ℤ] n₁))
+        (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂))
+      = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
+          tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) := by
+  rw [invBil, liftTensorOver_mk, invBilPre_tmul, invMidInner_mk]
+
+include hM hN in
+/-- **Milestone (a), inverse direction.** The `k`-linear map
+`(P₁ ⊗_{A₁} N₁) ⊗ₖ (P₂ ⊗_{A₂} N₂) → (P₁ ⊗ₖ P₂) ⊗_{A₁ ⊗ A₂} (N₁ ⊗ₖ N₂)`. -/
+noncomputable def inv :
+    (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂) →ₗ[k]
+      tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) :=
+  TensorProduct.lift (invBil k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+
+include hM hN in
+@[simp] theorem inv_mk_tmul_mk (p₁ : P₁) (n₁ : N₁) (p₂ : P₂) (n₂ : N₂) :
+    inv k A₁ A₂ P₁ P₂ N₁ N₂ hM hN
+        ((QuotientAddGroup.mk (p₁ ⊗ₜ[ℤ] n₁) : tensorOver A₁ N₁ P₁)
+          ⊗ₜ[k] (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ P₂))
+      = (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)) :
+          tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) := by
+  rw [inv, TensorProduct.lift.tmul, invBil_mk_mk]
 
 end Main
 
