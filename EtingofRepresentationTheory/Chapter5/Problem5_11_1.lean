@@ -1315,7 +1315,120 @@ theorem indZ5_nontriv (H : Subgroup A5) (hH : Nat.card H = 5)
       show A = (-1 - (Real.sqrt 5 : ℂ)) / 2 by linear_combination hA,
       show B = (-1 + (Real.sqrt 5 : ℂ)) / 2 by linear_combination hAB - hA]
 
-/-! ## (d) Induction from `A₄` -/
+/-! ## (d) Induction from `A₄`
+
+The order-`12` subgroups of `A₅` are the (conjugate) point stabilizers `A₄` — not Sylow
+subgroups — so the cyclic-case route (`exists_conj_H5` via Sylow's theorem) does not apply.
+We fix the concrete `A₄` as the stabilizer of `0` under the natural action `natHom` and reduce
+an arbitrary order-`12` subgroup to it. The induced-character counts then reduce, exactly as in
+the cyclic cases, to `decide`-evaluable computations over the `60` elements of `A₅`. -/
+
+/-- The natural action of `A₅` on `Fin 5`, as a `MonoidHom`. -/
+def natHom : A5 →* Equiv.Perm (Fin 5) := (alternatingGroup (Fin 5)).subtype
+
+/-- The concrete order-`12` subgroup `A₄ ≤ A₅`: the point stabilizer of `0`. -/
+abbrev A4std : Subgroup A5 := Etingof.Problem4_12_5.stabSub natHom 0
+
+/-- Membership in the concrete `A₄` is fixing the point `0`. -/
+lemma mem_A4std (a : A5) : a ∈ A4std ↔ natHom a 0 = 0 := Iff.rfl
+
+instance : DecidablePred (· ∈ A4std) := fun a => decidable_of_iff _ (mem_A4std a).symm
+
+set_option maxRecDepth 12000 in
+-- `decide` counts the `12` even permutations of `Fin 5` fixing `0`.
+set_option maxHeartbeats 4000000 in
+/-- The concrete `A₄` has order `12`. -/
+lemma card_A4std : Nat.card A4std = 12 := by
+  rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+  decide
+
+/-- **Order-`12` conjugacy reduction.** Every order-`12` subgroup `H ≤ A₅` is conjugate to the
+concrete point-stabilizer `A₄`: there is `d` with `y ∈ H ↔ d y d⁻¹ ∈ A4std`.
+
+The order-`12` subgroups of `A₅` are not Sylow subgroups, so this is proved via the Sylow-`2`
+normalizer: a Sylow-`2` subgroup `P` of `H` (order `4`) is a Sylow-`2` of `A₅`; it is normal in
+`H` (`n₂(H)=1`, ruling out `n₃(H)=1` since `|N_{A₅}(order-3)| ∈ {6,15}` is not a multiple of
+`12`), so `H = N_{A₅}(P)`; and `P` is conjugate to the Sylow-`2` of `A4std` (Sylow II), whence
+`H = c · A4std · c⁻¹`. -/
+lemma exists_conj_H12 (H : Subgroup A5) (hH : Nat.card H = 12) :
+    ∃ d : A5, ∀ y : A5, y ∈ H ↔ d * y * d⁻¹ ∈ A4std := by
+  sorry
+
+/-- The count of conjugators landing in an order-`12` `H` matches that for the concrete `A₄`. -/
+lemma countH_eq12 (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12) (g : A5) :
+    (univ.filter (fun x : A5 => x * g * x⁻¹ ∈ H)).card
+      = (univ.filter (fun x : A5 => x * g * x⁻¹ ∈ A4std)).card := by
+  obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+  apply Finset.card_bij' (fun x _ => d * x) (fun x _ => d⁻¹ * x)
+  · intro x hx
+    simp only [mem_filter, mem_univ, true_and] at hx ⊢
+    rw [hd] at hx
+    rw [show d * x * g * (d * x)⁻¹ = d * (x * g * x⁻¹) * d⁻¹ by group]
+    exact hx
+  · intro x hx
+    simp only [mem_filter, mem_univ, true_and] at hx ⊢
+    rw [hd]
+    rw [show d * (d⁻¹ * x * g * (d⁻¹ * x)⁻¹) * d⁻¹ = x * g * x⁻¹ by group]
+    exact hx
+  · intro x hx; group
+  · intro x hx; group
+
+set_option maxRecDepth 12000 in
+-- `decide` evaluates the twisted membership (fixing `0`) over all `60` elements of `A₅`.
+set_option maxHeartbeats 4000000 in
+/-- **Twisted counts in the concrete `A₄`.** `#{x : x·(classRepA5 j)·x⁻¹ ∈ A₄}` on the five
+class reps is `(60, 24, 12, 0, 0)` — that is `12 ·` the fixed-point count `(5,2,1,0,0)`. -/
+lemma twisted_A4std (j : Fin 5) :
+    (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ A4std)).card
+      = ![60, 24, 12, 0, 0] j := by
+  have h : (univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ A4std))
+      = (univ.filter (fun x : A5 => natHom (x * classRepA5 j * x⁻¹) 0 = 0)) := by
+    apply Finset.filter_congr; intro x _; simp only [mem_A4std]
+  rw [h]; fin_cases j <;> decide
+
+/-- **Trivial character, class-rep values.** For an order-`12` `H` and the trivial character `σ`,
+`(ind σ).character` on the five class reps is `(5, 2, 1, 0, 0)`. -/
+lemma indA4_triv_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (j : Fin 5) :
+    (ind σ).character (classRepA5 j) = ![5, 2, 1, 0, 0] j := by
+  rw [ind_character_eq]
+  have hcard : (Fintype.card ↥H : ℂ) = 12 := by
+    rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  have hsum : (∑ x : A5, if h : x * classRepA5 j * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+      = ((univ.filter (fun x : A5 => x * classRepA5 j * x⁻¹ ∈ H)).card : ℂ) := by
+    rw [← Finset.sum_boole]
+    apply Finset.sum_congr rfl
+    intro x _
+    by_cases hx : x * classRepA5 j * x⁻¹ ∈ H
+    · rw [dif_pos hx, if_pos hx, htriv]
+    · rw [dif_neg hx, if_neg hx]
+  rw [hsum, countH_eq12 H hH, twisted_A4std, hcard]
+  fin_cases j <;> norm_num
+
+/-- Arbitrary-`g` trivial-character values, via the class-function property. -/
+lemma indA4_triv_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H) (htriv : ∀ h : ↥H, σ.character h = 1) (g : A5) :
+    (ind σ).character g = ![5, 2, 1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indA4_triv_value H hH σ htriv (classIdxA5 g)
+
+/-- **Target character, class-rep values** for `1 ⊕ 4`: `(5, 2, 1, 0, 0)`. -/
+lemma indA4_triv_target_value (j : Fin 5) :
+    (repTriv ⊞ repC4).character (classRepA5 j) = ![5, 2, 1, 0, 0] j := by
+  simp only [character_biprod, repTriv_character, repC4_character]
+  fin_cases j <;>
+    norm_num [tblA5, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+
+/-- Arbitrary-`g` target character values, via the class-function property. -/
+lemma indA4_triv_target_char_all (g : A5) :
+    (repTriv ⊞ repC4).character g = ![5, 2, 1, 0, 0] (classIdxA5 g) := by
+  obtain ⟨c, hc⟩ := classIdxA5_spec g
+  conv_lhs => rw [← hc]
+  rw [FDRep.char_conj]
+  exact indA4_triv_target_value (classIdxA5 g)
 
 /-- **(d) trivial character.** `Ind_{A₄}^{A₅} 1 ≅ 1 ⊕ 4` (dimension `5`), the permutation
 representation on the `5` cosets. -/
@@ -1323,7 +1436,10 @@ theorem indA4_triv (H : Subgroup A5) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 1)
     (htriv : ∀ h : ↥H, σ.character h = 1) :
     Nonempty (ind σ ≅ repTriv ⊞ repC4) := by
-  sorry
+  classical
+  apply Etingof.charEq_iso
+  funext g
+  rw [indA4_triv_char_all H hH σ htriv g, indA4_triv_target_char_all g]
 
 /-- **(d) nontrivial linear character.** For either nontrivial one-dimensional character
 `ω, ω²` of `A₄`, `Ind_{A₄}^{A₅} ω ≅ 5` (dimension `5`). -/
