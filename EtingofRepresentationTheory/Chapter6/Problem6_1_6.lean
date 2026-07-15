@@ -846,6 +846,180 @@ lemma charV_negId (z : G)
   simp only [Matrix.neg_apply, Matrix.one_apply_eq]
   norm_num
 
+/-! ### Schur scalar helper and the non-cyclic case of no self-loops
+
+The book's part-(c) argument for `rᵢᵢ = 0` in the **non-cyclic** case uses the central
+`-Id ∈ SU(2)`. Abstractly: a central involution `z` acts on each simple `Wᵢ` by a scalar
+`εᵢ = ±1` (Schur), and on `V` by `-1`; reindexing the character-scalar-product `g ↦ z·g`
+picks up a factor `εᵢ⁻¹·(-εᵢ) = -1`, forcing the sum to equal its own negation, hence `0`. -/
+
+/-- A simple `FDRep ℂ G` has positive finrank (it is a nonzero object). -/
+private lemma finrank_pos_of_simple (S : FDRep ℂ G) [Simple S] : 0 < Module.finrank ℂ S := by
+  by_contra h
+  push_neg at h
+  have h0 : Module.finrank ℂ S = 0 := Nat.le_zero.mp h
+  have hsub : Subsingleton S := Module.finrank_zero_iff.mp h0
+  have hsub2 : Subsingleton (S ⟶ S) := by
+    refine ⟨fun f g => ?_⟩
+    exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
+  have e1 : Module.finrank ℂ (S ⟶ S) = 1 := by rw [FDRep.finrank_hom_simple_simple]; simp
+  have e0 : Module.finrank ℂ (S ⟶ S) = 0 := Module.finrank_zero_of_subsingleton
+  omega
+
+/-- **Schur (scalar form).** A linear endomorphism `T` of a simple `S : FDRep ℂ G` that
+commutes with the `G`-action is a scalar multiple of the identity. -/
+lemma exists_scalar_of_commuting (S : FDRep ℂ G) [Simple S]
+    (T : S →ₗ[ℂ] S) (hT : ∀ g : G, T ∘ₗ S.ρ g = S.ρ g ∘ₗ T) :
+    ∃ c : ℂ, T = c • LinearMap.id := by
+  haveI : Fintype G := Fintype.ofFinite G
+  haveI : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  -- `T` is a `G`-equivariant endomorphism, i.e. an invariant of `linHom S.ρ S.ρ`.
+  have hmemT : T ∈ (Representation.linHom S.ρ S.ρ).invariants := by
+    intro g
+    rw [Representation.linHom_apply, hT g⁻¹, ← LinearMap.comp_assoc,
+      show S.ρ g ∘ₗ S.ρ g⁻¹ = LinearMap.id by
+        rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one,
+          Module.End.one_eq_id],
+      LinearMap.id_comp]
+  -- the invariant space is one-dimensional (categorical Schur)
+  have h1dim : Module.finrank ℂ (Representation.linHom S.ρ S.ρ).invariants = 1 := by
+    rw [LinearEquiv.finrank_eq (Representation.linHom.invariantsEquivFDRepHom S S)]
+    exact CategoryTheory.finrank_endomorphism_simple_eq_one ℂ S
+  -- the identity is a nonzero invariant, so every invariant is a scalar multiple of it
+  have hid_mem : (LinearMap.id : S →ₗ[ℂ] S) ∈ (Representation.linHom S.ρ S.ρ).invariants := by
+    intro g; ext v
+    simp only [Representation.linHom_apply, LinearMap.comp_apply, LinearMap.id_apply]
+    change (S.ρ g * S.ρ g⁻¹) v = v
+    rw [← map_mul, mul_inv_cancel, map_one]; rfl
+  have hdim_ne : (Module.finrank ℂ S : ℂ) ≠ 0 := by
+    exact_mod_cast (finrank_pos_of_simple S).ne'
+  have hid_ne : (⟨LinearMap.id, hid_mem⟩ : (Representation.linHom S.ρ S.ρ).invariants) ≠ 0 := by
+    simp only [ne_eq, Subtype.ext_iff, Submodule.coe_zero]
+    intro h
+    have : (Module.finrank ℂ S : ℂ) = 0 := by
+      rw [← LinearMap.trace_id (R := ℂ) (M := S), h, map_zero]
+    exact hdim_ne this
+  obtain ⟨c, hc⟩ := ((finrank_eq_one_iff_of_nonzero'
+    (⟨LinearMap.id, hid_mem⟩ : (Representation.linHom S.ρ S.ρ).invariants) hid_ne).mp h1dim)
+    ⟨T, hmemT⟩
+  refine ⟨c, ?_⟩
+  have := congr_arg Subtype.val hc
+  simpa using this.symm
+
+/-- **Deliverable 1.** A central involution `z` (`∀ h, z·h = h·z`, `z² = 1`) acts on any
+simple `S : FDRep ℂ G` as a scalar `ε` with `ε² = 1`. Schur makes `S.ρ z` a scalar, and
+`z² = 1` forces the scalar to square to `1`. -/
+lemma central_involution_scalar (z : G) (hz : ∀ h : G, z * h = h * z) (hz2 : z ^ 2 = 1)
+    (S : FDRep ℂ G) [Simple S] :
+    ∃ ε : ℂ, ε ^ 2 = 1 ∧ ∀ v, S.ρ z v = ε • v := by
+  -- `S.ρ z` commutes with the action (centrality of `z`)
+  have hcomm : ∀ g : G, (S.ρ z) ∘ₗ S.ρ g = S.ρ g ∘ₗ (S.ρ z) := by
+    intro g
+    rw [← Module.End.mul_eq_comp, ← Module.End.mul_eq_comp, ← map_mul, ← map_mul, hz g]
+  obtain ⟨c, hc⟩ := exists_scalar_of_commuting S (S.ρ z) hcomm
+  refine ⟨c, ?_, ?_⟩
+  · -- `c² = 1` because `(S.ρ z)² = S.ρ (z²) = S.ρ 1 = id`
+    have happ : ∀ v : S, (c * c) • v = v := by
+      intro v
+      have hzz : (S.ρ (z * z)) v = v := by rw [← pow_two, hz2, map_one, Module.End.one_apply]
+      rw [map_mul, Module.End.mul_apply] at hzz
+      have e : (S.ρ z) v = c • v := by rw [hc]; simp
+      rw [e, map_smul, e, smul_smul] at hzz
+      exact hzz
+    have hcc : (c * c) • (LinearMap.id : S →ₗ[ℂ] S) = LinearMap.id := by
+      ext v; simp only [LinearMap.smul_apply, LinearMap.id_apply]; exact happ v
+    have hfin : (Module.finrank ℂ S : ℂ) ≠ 0 := by
+      exact_mod_cast (finrank_pos_of_simple S).ne'
+    have htr : (c * c) * (Module.finrank ℂ S : ℂ) = (Module.finrank ℂ S : ℂ) := by
+      have h := congrArg (LinearMap.trace ℂ S) hcc
+      rwa [map_smul, LinearMap.trace_id, smul_eq_mul] at h
+    have hcc1 : c * c = 1 := mul_right_cancel₀ hfin (by rw [htr, one_mul])
+    rw [pow_two]; exact hcc1
+  · intro v; rw [hc]; simp only [LinearMap.smul_apply, LinearMap.id_apply]
+
+/-- **Deliverable 2 (non-cyclic case).** If a central `z` acts on `V` as `-1`, then the McKay
+graph has no self-loop at `i`: `rᵢᵢ = 0`. The central involution acts by `εᵢ = ±1` on `Wᵢ`
+and by `-1` on `V`, so reindexing the character scalar product `g ↦ z·g` negates it. -/
+lemma mckayAdj_no_selfLoop_of_central_neg (hW : IsCompleteIrreps W)
+    (z : G) (hz_central : ∀ h : G, z * h = h * z)
+    (hzV : ∀ v, (V G).ρ z v = -v) (i : Fin m) :
+    mckayAdj W i i = 0 := by
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  have hcard : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
+  haveI : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hcard
+  haveI := hW.simple i
+  -- `z² = 1` from faithfulness of `V`: `z²` acts as `1` on `V`, so `χ_V(z²) = 2`.
+  have hrho : (V G).ρ (z ^ 2) = LinearMap.id := by
+    ext v
+    rw [pow_two, map_mul, Module.End.mul_apply, hzV, hzV, neg_neg, LinearMap.id_apply]
+  have hfr : (Module.finrank ℂ (V G) : ℂ) = 2 := by
+    rw [← FDRep.char_one (V G), charV_eq]
+    have hone : (((1 : G).val : specialUnitaryGroup (Fin 2) ℂ) :
+        Matrix (Fin 2) (Fin 2) ℂ) = 1 := by simp
+    rw [hone, Matrix.trace_one]; simp
+  have hz2 : z ^ 2 = 1 := by
+    apply taut_char_eq_two_imp_one
+    rw [FDRep.character, hrho, LinearMap.trace_id, hfr]
+  have hzz : z * z = 1 := by rw [← pow_two]; exact hz2
+  have hzinv : z⁻¹ = z := inv_eq_of_mul_eq_one_right hzz
+  -- Schur scalar `ε = ±1` for `Wᵢ`
+  obtain ⟨ε, hε2, hεW⟩ := central_involution_scalar z hz_central hz2 (W i)
+  have hεε : ε * ε = 1 := by rw [← pow_two]; exact hε2
+  -- character behaviour of `z·g` on `V` and `Wᵢ`
+  have hVchar : ∀ g : G, (V G).character (z * g) = - (V G).character g := by
+    intro g
+    have hmul : (V G).ρ (z * g) = -(V G).ρ g := by
+      ext v; simp only [map_mul, Module.End.mul_apply, LinearMap.neg_apply, hzV]
+    rw [FDRep.character, FDRep.character, hmul, map_neg]
+  have hWchar : ∀ g : G, (W i).character (z * g) = ε * (W i).character g := by
+    intro g
+    have hmul : (W i).ρ (z * g) = ε • (W i).ρ g := by
+      ext v
+      simp only [map_mul, Module.End.mul_apply, LinearMap.smul_apply, hεW]
+    rw [FDRep.character, FDRep.character, hmul, map_smul, smul_eq_mul]
+  have hWchar_inv : ∀ g : G, (W i).character (z * g)⁻¹ = ε * (W i).character g⁻¹ := by
+    intro g
+    rw [_root_.mul_inv_rev, hzinv]
+    have hmul : (W i).ρ (g⁻¹ * z) = ε • (W i).ρ g⁻¹ := by
+      ext v
+      simp only [map_mul, Module.End.mul_apply, hεW, LinearMap.map_smul, LinearMap.smul_apply]
+    rw [FDRep.character, FDRep.character, hmul, map_smul, smul_eq_mul]
+  -- the character scalar product
+  set f : G → ℂ := fun g => (V G).character g * (W i).character g * (W i).character g⁻¹ with hf
+  have hmultC : (mult W i i : ℂ) = ⅟(Fintype.card G : ℂ) • ∑ g : G, f g := by
+    have h := FDRep.scalar_product_char_eq_finrank_equivariant (W i) (V G ⊗ W i)
+    simp only [mult]
+    rw [← h]
+    congr 1
+    apply Finset.sum_congr rfl
+    intro g _
+    simp only [FDRep.char_tensor, Pi.mul_apply, hf, mul_assoc]
+  -- reindexing `g ↦ z·g` negates every summand
+  have hkey : ∀ g : G, f (z * g) = - f g := by
+    intro g
+    simp only [hf]
+    rw [hVchar, hWchar, hWchar_inv]
+    linear_combination
+      (-((V G).character g * (W i).character g * (W i).character g⁻¹)) * hεε
+  have h1 : ∑ g : G, f (z * g) = ∑ g : G, f g := by
+    have := Equiv.sum_comp (Equiv.mulLeft z) f
+    simpa only [Equiv.coe_mulLeft] using this
+  have h2b : ∑ g : G, f (z * g) = - ∑ g : G, f g := by
+    rw [← Finset.sum_neg_distrib]
+    exact Finset.sum_congr rfl (fun g _ => hkey g)
+  have hSum : ∑ g : G, f g = - ∑ g : G, f g := h1.symm.trans h2b
+  have hz0 : ∑ g : G, f g = 0 := by
+    have key : ∑ g : G, f g + ∑ g : G, f g = 0 := by nth_rewrite 2 [hSum]; ring
+    have h2 : (2 : ℂ) * ∑ g : G, f g = 0 := by rw [two_mul]; exact key
+    rcases mul_eq_zero.mp h2 with h | h
+    · exact absurd h (by norm_num)
+    · exact h
+  have hmult0 : (mult W i i : ℂ) = 0 := by rw [hmultC, hz0, smul_zero]
+  have hmultN : mult W i i = 0 := by exact_mod_cast hmult0
+  simp only [mckayAdj, hmultN, Nat.cast_zero]
+
 /-- **(c)** The McKay graph has **no self-loops**: `rᵢᵢ = 0`, i.e. `Wᵢ` does not
 occur in `V ⊗ Wᵢ`.
 
