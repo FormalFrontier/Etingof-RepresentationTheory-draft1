@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE
+import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
 
 /-!
 # Problem 6.1.6: The McKay graph of a finite subgroup of `SU(2)`
@@ -130,6 +131,130 @@ theorem mult_symm (hW : IsCompleteIrreps W) (i j : Fin m) :
     ring
   exact_mod_cast hC
 
+/-! ## Complete reducibility: dimension count over a complete irreducible list -/
+
+/-- **Character decomposition (complete reducibility over `ℂ`).** The character of
+any `S : FDRep ℂ G` is the `ℂ`-linear combination of the irreducible characters
+with the `Hom`-multiplicities `finrank (Wⱼ ⟶ S)` as coefficients. The difference
+`χ_S - ∑ⱼ mⱼ χ_{Wⱼ}` is a class function orthogonal to every simple character, so
+it vanishes by character completeness (`classFunction_eq_zero_of_orthogonal_simples`). -/
+lemma char_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
+    S.character = ∑ j, (finrank ℂ (W j ⟶ S) : ℂ) • (W j).character := by
+  classical
+  have : Fintype G := Fintype.ofFinite G
+  have : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  have hzero : S.character - ∑ j, (finrank ℂ (W j ⟶ S) : ℂ) • (W j).character = 0 := by
+    apply Etingof.classFunction_eq_zero_of_orthogonal_simples
+    · -- the difference is a class function
+      intro g h
+      simp only [Pi.sub_apply, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, FDRep.char_conj]
+    · -- orthogonal to every simple character
+      intro V' _
+      obtain ⟨k, ⟨isok⟩⟩ := hW.exhaustive V' ‹Simple V'›
+      haveI : Simple (W k) := hW.simple k
+      rw [FDRep.char_iso isok]
+      -- expand the difference termwise
+      have step : ∀ g : G,
+          (S.character - ∑ j, (finrank ℂ (W j ⟶ S) : ℂ) • (W j).character) g
+              * (W k).character g⁻¹
+            = S.character g * (W k).character g⁻¹
+              - ∑ j, (finrank ℂ (W j ⟶ S) : ℂ)
+                  * ((W j).character g * (W k).character g⁻¹) := by
+        intro g
+        simp only [Pi.sub_apply, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, sub_mul,
+          Finset.sum_mul]
+        congr 1
+        exact Finset.sum_congr rfl (fun j _ => by ring)
+      rw [Finset.sum_congr rfl (fun g _ => step g), Finset.sum_sub_distrib, Finset.sum_comm]
+      -- LHS scalar product: `∑_g χ_S χ_{Wₖ}(·⁻¹) = |G| · mₖ`
+      have hL : ∑ g : G, S.character g * (W k).character g⁻¹
+          = (Fintype.card G : ℂ) * (finrank ℂ (W k ⟶ S) : ℂ) := by
+        have h := FDRep.scalar_product_char_eq_finrank_equivariant (W k) S
+        rw [smul_eq_mul] at h
+        rw [← h, ← mul_assoc, mul_invOf_self, one_mul]
+      -- orthogonality of irreducible characters
+      have hO : ∀ j : Fin m, ∑ g : G, (W j).character g * (W k).character g⁻¹
+          = (Fintype.card G : ℂ) * (if j = k then 1 else 0) := by
+        intro j
+        haveI : Simple (W j) := hW.simple j
+        have h := FDRep.char_orthonormal (W j) (W k)
+        rw [smul_eq_mul] at h
+        -- collapse the `Nonempty (Wⱼ ≅ Wₖ)` condition to `j = k`
+        have hval : ⅟(Fintype.card G : ℂ) * ∑ g : G, (W j).character g * (W k).character g⁻¹
+            = (if j = k then (1 : ℂ) else 0) := by
+          rw [h]
+          by_cases hjk : j = k
+          · rw [if_pos (⟨eqToIso (congrArg W hjk)⟩ : Nonempty (W j ≅ W k)), if_pos hjk]
+          · rw [if_neg (fun hh => hjk (hW.distinct j k hh)), if_neg hjk]
+        calc ∑ g : G, (W j).character g * (W k).character g⁻¹
+            = (Fintype.card G : ℂ)
+                * (⅟(Fintype.card G : ℂ) * ∑ g : G, (W j).character g * (W k).character g⁻¹) := by
+              rw [← mul_assoc, mul_invOf_self, one_mul]
+          _ = (Fintype.card G : ℂ) * (if j = k then 1 else 0) := by rw [hval]
+      -- assemble both sides
+      simp_rw [← Finset.mul_sum, hO]
+      rw [hL]
+      simp only [mul_ite, mul_one, mul_zero]
+      rw [Finset.sum_ite_eq' Finset.univ k
+        (fun j => (finrank ℂ (W j ⟶ S) : ℂ) * (Fintype.card G : ℂ))]
+      rw [if_pos (Finset.mem_univ k)]
+      ring
+  exact sub_eq_zero.mp hzero
+
+/-- **Dimension count.** For a complete list of irreducibles `W`, the dimension of
+any `S : FDRep ℂ G` is `∑ⱼ (finrank Hom(Wⱼ, S)) · dim Wⱼ`. Obtained from
+`char_eq_sum_mult` by evaluating characters at `1 ∈ G`. -/
+lemma finrank_eq_sum_mult (hW : IsCompleteIrreps W) (S : FDRep ℂ G) :
+    (finrank ℂ S : ℤ) = ∑ j, (finrank ℂ (W j ⟶ S) : ℤ) * (finrank ℂ (W j) : ℤ) := by
+  have h1 := congrFun (char_eq_sum_mult W hW S) (1 : G)
+  simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, FDRep.char_one] at h1
+  exact_mod_cast h1
+
+/-- **Marks identity (part (e), auxiliary).** The dimension vector `dⱼ = dim Wⱼ`
+lies in the kernel of the McKay Cartan matrix: `∑ⱼ (2δᵢⱼ - rᵢⱼ) dⱼ = 0`. This is
+the dimension count `dim(V ⊗ Wᵢ) = 2 dim Wᵢ` combined with `rᵢⱼ = rⱼᵢ`. Stated
+early so both part (e) and the "not positive definite" half of part (c) can use it. -/
+lemma mckay_marks_aux (hW : IsCompleteIrreps W) (i : Fin m) :
+    (∑ j, mckayCartan W i j * (finrank ℂ (W j) : ℤ)) = 0 := by
+  classical
+  -- `∑ⱼ rᵢⱼ dⱼ = dim(V ⊗ Wᵢ) = 2 dim Wᵢ`
+  have key : (∑ j, (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ)) = 2 * (finrank ℂ (W i) : ℤ) := by
+    set S : FDRep ℂ G := V G ⊗ W i with hS
+    have hswap : (∑ j, (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ))
+        = ∑ j, (mult W j i : ℤ) * (finrank ℂ (W j) : ℤ) := by
+      refine Finset.sum_congr rfl (fun j _ => ?_)
+      rw [mult_symm W hW i j]
+    have hcount : (∑ j, (mult W j i : ℤ) * (finrank ℂ (W j) : ℤ)) = (finrank ℂ S : ℤ) := by
+      rw [finrank_eq_sum_mult W hW S]
+      refine Finset.sum_congr rfl (fun j _ => ?_)
+      rfl
+    rw [hswap, hcount]
+    -- `dim(V ⊗ Wᵢ) = 2 · dim Wᵢ` from characters at `1`
+    have htensor : (finrank ℂ S : ℂ) = 2 * (finrank ℂ (W i) : ℂ) := by
+      have e1 : S.character 1 = (finrank ℂ S : ℂ) := FDRep.char_one _
+      have e3 : (W i).character 1 = (finrank ℂ (W i) : ℂ) := FDRep.char_one _
+      have e2 : (V G).character 1 = 2 := by
+        rw [charV_eq]
+        have hone : (((1 : G).val : specialUnitaryGroup (Fin 2) ℂ) :
+            Matrix (Fin 2) (Fin 2) ℂ) = 1 := by simp
+        rw [hone, Matrix.trace_one]; simp
+      have h1 := congrFun (FDRep.char_tensor (V G) (W i)) (1 : G)
+      rw [Pi.mul_apply, e2, e3] at h1
+      rw [← e1, hS]; exact h1
+    exact_mod_cast htensor
+  -- expand `mckayCartan` and reduce to `key`
+  have expand : ∀ j, mckayCartan W i j * (finrank ℂ (W j) : ℤ)
+      = (if i = j then 2 * (finrank ℂ (W j) : ℤ) else 0)
+        - (mult W i j : ℤ) * (finrank ℂ (W j) : ℤ) := by
+    intro j
+    simp only [mckayCartan]
+    split_ifs with h <;> ring
+  rw [Finset.sum_congr rfl (fun j _ => expand j), Finset.sum_sub_distrib,
+    Finset.sum_ite_eq Finset.univ i (fun j => 2 * (finrank ℂ (W j) : ℤ)),
+    if_pos (Finset.mem_univ i), key]
+  ring
+
 /-! ## Part (b): the McKay graph is connected -/
 
 /-- **(b)** The McKay graph is **connected**: any two vertices are joined by a
@@ -163,7 +288,39 @@ irreducible dimensions is a nonzero null vector. -/
 theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
     ∃ x : Fin m → ℤ, x ≠ 0 ∧
       dotProduct x ((Matrix.of (mckayCartan W)).mulVec x) = 0 := by
-  sorry
+  classical
+  have : Fintype G := Fintype.ofFinite G
+  -- the trivial representation is simple, hence isomorphic to some `W i₀`
+  haveI : NeZero (Nat.card G : ℂ) := by
+    rw [Nat.card_eq_fintype_card]
+    exact ⟨Nat.cast_ne_zero.mpr (Fintype.card_pos (α := G)).ne'⟩
+  haveI htrivsimple : Simple (FDRep.of (Representation.trivial ℂ G ℂ)) := by
+    haveI : IsSimpleModule (MonoidAlgebra ℂ G) (Representation.trivial ℂ G ℂ).asModule := by
+      rw [isSimpleModule_iff]
+      exact is_simple_module_of_finrank_eq_one (Module.finrank_self ℂ)
+    infer_instance
+  obtain ⟨i₀, ⟨iso₀⟩⟩ := hW.exhaustive (FDRep.of (Representation.trivial ℂ G ℂ)) htrivsimple
+  -- `dim W i₀ = 1`
+  have hfr : finrank ℂ (W i₀) = 1 := by
+    have hc := congrFun (FDRep.char_iso iso₀) (1 : G)
+    rw [FDRep.char_one, FDRep.char_one] at hc
+    have htrivfr : finrank ℂ (FDRep.of (Representation.trivial ℂ G ℂ)) = 1 :=
+      Module.finrank_self ℂ
+    rw [htrivfr] at hc
+    exact_mod_cast hc.symm
+  refine ⟨fun j => (finrank ℂ (W j) : ℤ), ?_, ?_⟩
+  · -- nonzero, since the `i₀` entry is `1`
+    intro hx
+    have h0 : (finrank ℂ (W i₀) : ℤ) = 0 := by have := congrFun hx i₀; simpa using this
+    rw [hfr] at h0
+    norm_num at h0
+  · -- null vector: each row dots to `0` by the marks identity
+    apply Finset.sum_eq_zero
+    intro i _
+    have hinner : (Matrix.of (mckayCartan W)).mulVec (fun j => (finrank ℂ (W j) : ℤ)) i = 0 := by
+      simp only [Matrix.mulVec, Matrix.of_apply, dotProduct]
+      exact mckay_marks_aux W hW i
+    rw [hinner, mul_zero]
 
 /-! ## Part (e): irreducible dimensions are the marks -/
 
@@ -171,8 +328,8 @@ theorem mckayCartan_not_posDef (hW : IsCompleteIrreps W) (hne : Nontrivial G) :
 the affine Dynkin diagram: the vector `dᵢ = dim Wᵢ` spans the kernel of the
 McKay Cartan matrix, `∑ⱼ (2δᵢⱼ - rᵢⱼ) dⱼ = 0` for every `i`. -/
 theorem mckay_dims_are_marks (hW : IsCompleteIrreps W) (i : Fin m) :
-    (∑ j, mckayCartan W i j * (finrank ℂ (W j) : ℤ)) = 0 := by
-  sorry
+    (∑ j, mckayCartan W i j * (finrank ℂ (W j) : ℤ)) = 0 :=
+  mckay_marks_aux W hW i
 
 /-- **(d)** The finite subgroups of `SU(2)` (equivalently, of `SO(3)` up to the
 central `±Id`, from Problem 4.12.8) correspond bijectively to the affine ADE
