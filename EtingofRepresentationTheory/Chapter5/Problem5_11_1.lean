@@ -1672,6 +1672,27 @@ double transpositions of the Klein four subgroup `V`). -/
 lemma A4std_invol_count :
     (univ.filter (fun g : A5 => g ∈ A4std ∧ g ^ 2 = 1)).card = 4 := by decide
 
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- The involutions and identity of `A₄` (the elements of order dividing `2`) are closed under
+multiplication: they form the Klein four subgroup `V ⊴ A₄`. -/
+lemma A4std_invol_mul : ∀ a : A5, a ∈ A4std → a ^ 2 = 1 →
+    ∀ b : A5, b ∈ A4std → b ^ 2 = 1 → (a * b) ^ 2 = 1 := by decide
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- Every commutator of two elements of `A₄` lies in the Klein four subgroup `V` (`A₄' = V`), hence
+squares to `1`. -/
+lemma A4std_commutator_sq : ∀ a : A5, a ∈ A4std → ∀ b : A5, b ∈ A4std →
+    (a * b * a⁻¹ * b⁻¹) ^ 2 = 1 := by decide
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- All involutions of `A₄` are conjugate within `A₄` (they form the single class `2a`). -/
+lemma A4std_invol_conj : ∀ u : A5, u ∈ A4std → u ^ 2 = 1 → u ≠ 1 →
+    ∀ v : A5, v ∈ A4std → v ^ 2 = 1 → v ≠ 1 →
+      ∃ t : A5, t ∈ A4std ∧ t * u * t⁻¹ = v := by decide
+
 /-- **Nontrivial linear character, class-rep values.** For an order-`12` `H` and a nontrivial
 one-dimensional character `σ`, `(ind σ).character` on the five class reps is `(5, -1, 1, 0, 0)`.
 This is the character of the standard `5`-dimensional irrep of `A₅`. -/
