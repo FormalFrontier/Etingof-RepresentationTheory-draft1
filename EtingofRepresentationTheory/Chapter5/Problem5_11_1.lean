@@ -1660,6 +1660,18 @@ lemma nontriv_linear_one_on_invol (H : Subgroup A5)
       = (σ.character p * σ.character p⁻¹) * (σ.character q * σ.character q⁻¹) := by ring
     _ = 1 := by rw [hp1, hq1]; ring
 
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- In the concrete `A₄` every element has order `1`, `2`, or `3`: `w² = 1` or `w³ = 1`. -/
+lemma A4std_sq_or_cube : ∀ w : A5, w ∈ A4std → w ^ 2 = 1 ∨ w ^ 3 = 1 := by decide
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- The concrete `A₄` has exactly `4` elements of order dividing `2` (the identity and the three
+double transpositions of the Klein four subgroup `V`). -/
+lemma A4std_invol_count :
+    (univ.filter (fun g : A5 => g ∈ A4std ∧ g ^ 2 = 1)).card = 4 := by decide
+
 /-- **Nontrivial linear character, class-rep values.** For an order-`12` `H` and a nontrivial
 one-dimensional character `σ`, `(ind σ).character` on the five class reps is `(5, -1, 1, 0, 0)`.
 This is the character of the standard `5`-dimensional irrep of `A₅`. -/
@@ -1667,7 +1679,219 @@ lemma indA4_nontriv_linear_value (H : Subgroup A5) [DecidablePred (· ∈ H)] (h
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ (σ : Type) = 1)
     (hntriv : ∃ h : ↥H, σ.character h ≠ 1) (j : Fin 5) :
     (ind σ).character (classRepA5 j) = ![5, -1, 1, 0, 0] j := by
-  sorry
+  classical
+  -- `σ` is `1` on every element of order dividing `2`.
+  have hP1 : ∀ z : ↥H, (z : A5) ^ 2 = 1 → σ.character z = 1 :=
+    fun z hz => nontriv_linear_one_on_invol H hH σ hdim z hz
+  have hone : σ.character (1 : ↥H) = 1 := hP1 1 (by simp)
+  have hcard : (Fintype.card ↥H : ℂ) = 12 := by rw [← Nat.card_eq_fintype_card, hH]; norm_num
+  -- The five class-rep values, each proven with a clean literal index.
+  have hj0 : (ind σ).character (classRepA5 0) = ![5, -1, 1, 0, 0] 0 := by
+    rw [ind_character_eq, hcard]
+    have hsum : (∑ x : A5, if h : x * classRepA5 0 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+        = ∑ x : A5, if x * classRepA5 0 * x⁻¹ ∈ H then (1 : ℂ) else 0 := by
+      apply Finset.sum_congr rfl
+      intro x _
+      by_cases hx : x * classRepA5 0 * x⁻¹ ∈ H
+      · rw [dif_pos hx, if_pos hx]
+        apply hP1
+        show (x * classRepA5 0 * x⁻¹) ^ 2 = 1
+        rw [show classRepA5 0 = 1 from rfl, mul_one, mul_inv_cancel, one_pow]
+      · rw [dif_neg hx, if_neg hx]
+    rw [hsum, Finset.sum_boole, countH_eq12 H hH, twisted_A4std]
+    norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+  have hj2 : (ind σ).character (classRepA5 2) = ![5, -1, 1, 0, 0] 2 := by
+    rw [ind_character_eq, hcard]
+    have hc2 : (classRepA5 2) ^ 2 = 1 := by
+      have := Etingof.Problem4_12_5.ord_cr2; rw [← this]; exact pow_orderOf_eq_one _
+    have hsum : (∑ x : A5, if h : x * classRepA5 2 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+        = ∑ x : A5, if x * classRepA5 2 * x⁻¹ ∈ H then (1 : ℂ) else 0 := by
+      apply Finset.sum_congr rfl
+      intro x _
+      by_cases hx : x * classRepA5 2 * x⁻¹ ∈ H
+      · rw [dif_pos hx, if_pos hx]
+        apply hP1
+        show (x * classRepA5 2 * x⁻¹) ^ 2 = 1
+        have heq : (x * classRepA5 2 * x⁻¹) ^ 2 = x * ((classRepA5 2) ^ 2) * x⁻¹ := by
+          rw [pow_two, pow_two]; group
+        rw [heq, hc2]; group
+      · rw [dif_neg hx, if_neg hx]
+    rw [hsum, Finset.sum_boole, countH_eq12 H hH, twisted_A4std]
+    norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+  have hj3 : (ind σ).character (classRepA5 3) = ![5, -1, 1, 0, 0] 3 := by
+    rw [ind_character_eq, hcard]
+    have hemp : ∀ x : A5, x * classRepA5 3 * x⁻¹ ∉ H := by
+      have hz : univ.filter (fun x : A5 => x * classRepA5 3 * x⁻¹ ∈ H) = ∅ := by
+        rw [← Finset.card_eq_zero, countH_eq12 H hH, twisted_A4std]; rfl
+      intro x; exact Finset.filter_eq_empty_iff.mp hz (mem_univ x)
+    rw [Finset.sum_eq_zero (fun x _ => dif_neg (hemp x))]
+    norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+  have hj4 : (ind σ).character (classRepA5 4) = ![5, -1, 1, 0, 0] 4 := by
+    rw [ind_character_eq, hcard]
+    have hemp : ∀ x : A5, x * classRepA5 4 * x⁻¹ ∉ H := by
+      have hz : univ.filter (fun x : A5 => x * classRepA5 4 * x⁻¹ ∈ H) = ∅ := by
+        rw [← Finset.card_eq_zero, countH_eq12 H hH, twisted_A4std]; rfl
+      intro x; exact Finset.filter_eq_empty_iff.mp hz (mem_univ x)
+    rw [Finset.sum_eq_zero (fun x _ => dif_neg (hemp x))]
+    norm_num [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_three, Matrix.cons_val_four, Matrix.head_cons, Matrix.tail_cons]
+  have hj1 : (ind σ).character (classRepA5 1) = ![5, -1, 1, 0, 0] 1 := by
+    rw [ind_character_eq, hcard]
+    obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+    -- Every element of `H` has order `1`, `2`, or `3`.
+    have hdich : ∀ z : ↥H, (z : A5) ^ 2 = 1 ∨ (z : A5) ^ 3 = 1 := by
+      intro z
+      rcases A4std_sq_or_cube _ ((hd (z : A5)).mp z.2) with h | h
+      · left
+        have heq : (d * (z : A5) * d⁻¹) ^ 2 = d * ((z : A5) ^ 2) * d⁻¹ := by
+          rw [pow_two, pow_two]; group
+        rw [heq] at h
+        have hb : (z : A5) ^ 2 = d⁻¹ * (d * ((z : A5) ^ 2) * d⁻¹) * d := by group
+        rw [h] at hb; rw [hb]; group
+      · right
+        have heq : (d * (z : A5) * d⁻¹) ^ 3 = d * ((z : A5) ^ 3) * d⁻¹ := by
+          rw [pow_three', pow_three']; group
+        rw [heq] at h
+        have hb : (z : A5) ^ 3 = d⁻¹ * (d * ((z : A5) ^ 3) * d⁻¹) * d := by group
+        rw [h] at hb; rw [hb]; group
+    -- `σ` is a multiplicative character.
+    have hscalar : ∀ g : ↥H, σ.ρ g = (σ.character g : ℂ) • LinearMap.id := by
+      intro g
+      obtain ⟨c, hc, -⟩ := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hdim (σ.ρ g)
+      have hcc : σ.character g = c := by
+        change LinearMap.trace ℂ _ (σ.ρ g) = c
+        rw [hc, map_smul, LinearMap.trace_id, hdim]; simp
+      rw [hcc]; exact hc
+    have hmul : ∀ g k : ↥H, σ.character (g * k) = σ.character g * σ.character k := by
+      intro g k
+      have key : (σ.character (g * k) : ℂ) • (LinearMap.id : (σ : Type) →ₗ[ℂ] (σ : Type))
+               = (σ.character g * σ.character k : ℂ) • LinearMap.id := by
+        rw [← hscalar (g * k), map_mul, hscalar g, hscalar k]
+        ext v
+        simp only [Module.End.mul_apply, LinearMap.smul_apply, LinearMap.id_coe, id_eq, smul_smul]
+      have htr := congrArg (LinearMap.trace ℂ (σ : Type)) key
+      rwa [map_smul, map_smul, LinearMap.trace_id, hdim, Nat.cast_one, smul_eq_mul, smul_eq_mul,
+        mul_one, mul_one] at htr
+    -- A nontrivial character sums to zero over the group.
+    have hF1 : ∑ z : ↥H, σ.character z = 0 := by
+      obtain ⟨h0, hh0⟩ := hntriv
+      have hbij : ∑ z : ↥H, σ.character (h0 * z) = ∑ z : ↥H, σ.character z := by
+        have h := Equiv.sum_comp (Equiv.mulLeft h0) (fun z : ↥H => σ.character z)
+        simpa using h
+      have hpull : ∑ z : ↥H, σ.character (h0 * z) = σ.character h0 * ∑ z : ↥H, σ.character z := by
+        rw [Finset.mul_sum]; exact Finset.sum_congr rfl (fun z _ => hmul h0 z)
+      rw [hbij] at hpull
+      have hzero : (σ.character h0 - 1) * ∑ z : ↥H, σ.character z = 0 := by
+        rw [sub_mul, one_mul, ← hpull]; ring
+      rcases mul_eq_zero.mp hzero with h | h
+      · exact absurd (sub_eq_zero.mp h) hh0
+      · exact h
+    -- The identity and the three involutions contribute `1` each: their `σ`-sum is `4`.
+    have hAsum : ∑ z : ↥H, (if (z : A5) ^ 2 = 1 then σ.character z else 0) = 4 := by
+      have hstep : ∑ z : ↥H, (if (z : A5) ^ 2 = 1 then σ.character z else 0)
+          = ∑ z : ↥H, (if (z : A5) ^ 2 = 1 then (1 : ℂ) else 0) := by
+        apply Finset.sum_congr rfl; intro z _
+        by_cases hz2 : (z : A5) ^ 2 = 1
+        · rw [if_pos hz2, if_pos hz2, hP1 z hz2]
+        · rw [if_neg hz2, if_neg hz2]
+      rw [hstep, Finset.sum_boole]
+      have hb1 : (univ.filter (fun z : ↥H => (z : A5) ^ 2 = 1)).card
+          = (univ.filter (fun g : A5 => g ∈ H ∧ g ^ 2 = 1)).card := by
+        apply Finset.card_bij (fun (z : ↥H) _ => (z : A5))
+        · intro z hz
+          simp only [mem_filter, mem_univ, true_and] at hz ⊢
+          exact ⟨z.2, hz⟩
+        · intro z1 _ z2 _ h; exact Subtype.ext h
+        · intro g hg
+          simp only [mem_filter, mem_univ, true_and] at hg
+          exact ⟨⟨g, hg.1⟩, by simp only [mem_filter, mem_univ, true_and]; exact hg.2, rfl⟩
+      have hb2 : (univ.filter (fun g : A5 => g ∈ H ∧ g ^ 2 = 1)).card
+          = (univ.filter (fun g : A5 => g ∈ A4std ∧ g ^ 2 = 1)).card := by
+        apply Finset.card_bij' (fun g _ => d * g * d⁻¹) (fun g _ => d⁻¹ * g * d)
+        · intro g hg
+          simp only [mem_filter, mem_univ, true_and] at hg ⊢
+          refine ⟨(hd g).mp hg.1, ?_⟩
+          have hp : (d * g * d⁻¹) ^ 2 = d * (g ^ 2) * d⁻¹ := by rw [pow_two, pow_two]; group
+          rw [hp, hg.2]; group
+        · intro g hg
+          simp only [mem_filter, mem_univ, true_and] at hg ⊢
+          refine ⟨?_, ?_⟩
+          · rw [hd, show d * (d⁻¹ * g * d) * d⁻¹ = g by group]; exact hg.1
+          · have hp : (d⁻¹ * g * d) ^ 2 = d⁻¹ * (g ^ 2) * d := by rw [pow_two, pow_two]; group
+            rw [hp, hg.2]; group
+        · intro g _; group
+        · intro g _; group
+      rw [hb1, hb2, A4std_invol_count]; norm_num
+    -- Reindex the twisted sum over `↥H`, weighted by conjugator counts.
+    have hkey : (∑ x : A5, if h : x * classRepA5 1 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+        = ∑ z : ↥H, σ.character z
+            * ((univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card : ℂ) := by
+      have hcast : ∀ z : ↥H,
+          ((univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card : ℂ)
+            = ∑ x : A5, if x * classRepA5 1 * x⁻¹ = (z : A5) then (1 : ℂ) else 0 := by
+        intro z; rw [Finset.sum_boole]
+      simp_rw [hcast, Finset.mul_sum]
+      rw [Finset.sum_comm]
+      apply Finset.sum_congr rfl
+      intro x _
+      by_cases hx : x * classRepA5 1 * x⁻¹ ∈ H
+      · rw [dif_pos hx, Finset.sum_eq_single (⟨x * classRepA5 1 * x⁻¹, hx⟩ : ↥H)
+            (fun z _ hz => by rw [if_neg (fun hzeq => hz (Subtype.ext hzeq.symm)), mul_zero])
+            (fun hnot => absurd (mem_univ _) hnot), if_pos rfl, mul_one]
+      · rw [dif_neg hx]
+        exact (Finset.sum_eq_zero (fun z _ => by
+          rw [if_neg (fun hzeq => hx (by rw [hzeq]; exact z.2)), mul_zero])).symm
+    -- The conjugator count is `3` on `3`-cycles and `0` elsewhere.
+    have hN : ∀ z : ↥H,
+        σ.character z * ((univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card : ℂ)
+          = if (z : A5) ^ 2 = 1 then 0 else 3 * σ.character z := by
+      intro z
+      by_cases hz2 : (z : A5) ^ 2 = 1
+      · rw [if_pos hz2]
+        have hc0 : (univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card = 0 := by
+          rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+          intro x _ hxeq
+          have hsc : SemiconjBy x (classRepA5 1) (x * classRepA5 1 * x⁻¹) := by
+            show x * classRepA5 1 = x * classRepA5 1 * x⁻¹ * x; group
+          have hord : orderOf (z : A5) = 3 := by
+            rw [← hxeq, ← SemiconjBy.orderOf_eq x hsc, Etingof.Problem4_12_5.ord_cr1]
+          have hdvd : orderOf (z : A5) ∣ 2 := orderOf_dvd_of_pow_eq_one hz2
+          rw [hord] at hdvd; omega
+        rw [hc0]; simp
+      · rw [if_neg hz2]
+        have hcube : (z : A5) ^ 3 = 1 := (hdich z).resolve_left hz2
+        have hzne : (z : A5) ≠ 1 := fun hh => hz2 (by rw [hh]; group)
+        have hconj : ∃ c : A5, c * classRepA5 1 * c⁻¹ = (z : A5) := by
+          obtain ⟨c, hc⟩ := classIdxA5_spec (z : A5)
+          rw [classIdx_of_order3 (z : A5) hcube hzne] at hc; exact ⟨c, hc⟩
+        have hcnt : (univ.filter (fun x : A5 => x * classRepA5 1 * x⁻¹ = (z : A5))).card = 3 := by
+          rw [conjCount_shift (classRepA5 1) (classRepA5 1) (z : A5) hconj]
+          have h := twisted_eq_cr1 1; simpa using h
+        rw [hcnt]; push_cast; ring
+    -- Assemble: twisted `3a` sum `= 3 · (∑ σ − ∑_{involutions} σ) = 3 · (0 − 4) = −12`.
+    have htw1 : (∑ x : A5, if h : x * classRepA5 1 * x⁻¹ ∈ H then σ.character ⟨_, h⟩ else 0)
+        = -12 := by
+      rw [hkey, Finset.sum_congr rfl (fun z _ => hN z)]
+      have hsplit : ∀ z : ↥H, (if (z : A5) ^ 2 = 1 then (0 : ℂ) else 3 * σ.character z)
+          = 3 * σ.character z - (if (z : A5) ^ 2 = 1 then 3 * σ.character z else 0) := by
+        intro z; by_cases hh : (z : A5) ^ 2 = 1 <;> simp [hh]
+      rw [Finset.sum_congr rfl (fun z _ => hsplit z), Finset.sum_sub_distrib,
+        ← Finset.mul_sum, hF1]
+      have hsecond : ∑ z : ↥H, (if (z : A5) ^ 2 = 1 then 3 * σ.character z else 0)
+          = 3 * ∑ z : ↥H, (if (z : A5) ^ 2 = 1 then σ.character z else 0) := by
+        rw [Finset.mul_sum]; apply Finset.sum_congr rfl
+        intro z _; by_cases hh : (z : A5) ^ 2 = 1 <;> simp [hh]
+      rw [hsecond, hAsum]; ring
+    rw [htw1]; norm_num
+  fin_cases j
+  · exact hj0
+  · exact hj1
+  · exact hj2
+  · exact hj3
+  · exact hj4
 
 /-- Arbitrary-`g` nontrivial-linear-character values, via the class-function property. -/
 lemma indA4_nontriv_linear_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)]
