@@ -329,11 +329,123 @@ theorem mckay_isAffineDynkin (hW : IsCompleteIrreps W) (hm : 1 ≤ m)
 
 /-! ## Part (c): positive semidefinite but not definite (explicit form) -/
 
-/-- **(c)** The McKay Cartan form is positive **semidefinite**. -/
+/-- **(c)** The McKay Cartan form is positive **semidefinite**. Following the book's hint, set
+`f = ∑ᵢ xᵢ χ_{Wᵢ}` and compute `((2 - χ_V) f, f) = (1/|G|) ∑_g (2 - χ_V(g)) |f(g)|²`. Each factor
+`2 - χ_V(g) ≥ 0` (the `SU(2)` trace bound `charV_re_le_two`, with `χ_V` real by `charV_im_zero`)
+and `|f(g)|² ≥ 0`, so the sum is `≥ 0`. Orthonormality of the irreducible characters
+(`FDRep.char_orthonormal`) and the multiplicity identity
+(`FDRep.scalar_product_char_eq_finrank_equivariant`) identify this Hermitian value with the Cartan
+form `xᵀ(2δ − r)x`. -/
 theorem mckayCartan_posSemidef (hW : IsCompleteIrreps W) (hne : Nontrivial G)
     (x : Fin m → ℤ) :
     0 ≤ dotProduct x ((Matrix.of (mckayCartan W)).mulVec x) := by
-  sorry
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  haveI : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  -- the class function `f = ∑ᵢ xᵢ χ_{Wᵢ}` and the target quadratic form `Q`
+  set f : G → ℂ := fun g => ∑ i, (x i : ℂ) * (W i).character g with hf
+  set Q : ℤ := dotProduct x ((Matrix.of (mckayCartan W)).mulVec x) with hQ
+  set R : ℂ := ∑ g : G, (2 - (V G).character g) * (f g * f g⁻¹) with hR
+  -- **Per-pair character identity** `∑_g (2 − χ_V) χ_{Wᵢ} χ_{Wⱼ}(·⁻¹) = |G| · (2δᵢⱼ − rᵢⱼ)`.
+  have key_ij : ∀ i j : Fin m,
+      (∑ g : G, (2 - (V G).character g) * (W i).character g * (W j).character g⁻¹)
+        = (Fintype.card G : ℂ) * (mckayCartan W i j : ℂ) := by
+    intro i j
+    -- orthonormality: `∑_g χ_{Wᵢ} χ_{Wⱼ}(·⁻¹) = |G| · δᵢⱼ`
+    have orth : (∑ g : G, (W i).character g * (W j).character g⁻¹)
+        = (Fintype.card G : ℂ) * (if i = j then (1 : ℂ) else 0) := by
+      haveI : Simple (W i) := hW.simple i
+      haveI : Simple (W j) := hW.simple j
+      have h := FDRep.char_orthonormal (W i) (W j)
+      rw [smul_eq_mul] at h
+      have hval : (if Nonempty (W i ≅ W j) then (1 : ℂ) else 0)
+          = (if i = j then (1 : ℂ) else 0) := by
+        by_cases hij : i = j
+        · rw [if_pos (⟨eqToIso (congrArg W hij)⟩ : Nonempty (W i ≅ W j)), if_pos hij]
+        · rw [if_neg (fun hh => hij (hW.distinct i j hh)), if_neg hij]
+      rw [← hval, ← h, ← mul_assoc, mul_invOf_self, one_mul]
+    -- multiplicity: `∑_g χ_V χ_{Wᵢ} χ_{Wⱼ}(·⁻¹) = |G| · rⱼᵢ`
+    have sca : (∑ g : G, (V G).character g * (W i).character g * (W j).character g⁻¹)
+        = (Fintype.card G : ℂ) * (mult W j i : ℂ) := by
+      have h := FDRep.scalar_product_char_eq_finrank_equivariant (W j) (V G ⊗ W i)
+      rw [smul_eq_mul] at h
+      have hs : (∑ g : G, (V G ⊗ W i).character g * (W j).character g⁻¹)
+          = ∑ g : G, (V G).character g * (W i).character g * (W j).character g⁻¹ := by
+        refine Finset.sum_congr rfl (fun g _ => ?_)
+        rw [FDRep.char_tensor, Pi.mul_apply]
+      rw [hs] at h
+      simp only [mult]
+      rw [← h, ← mul_assoc, mul_invOf_self, one_mul]
+    -- combine
+    calc (∑ g : G, (2 - (V G).character g) * (W i).character g * (W j).character g⁻¹)
+        = 2 * (∑ g : G, (W i).character g * (W j).character g⁻¹)
+            - (∑ g : G, (V G).character g * (W i).character g * (W j).character g⁻¹) := by
+          rw [Finset.mul_sum, ← Finset.sum_sub_distrib]
+          exact Finset.sum_congr rfl (fun g _ => by ring)
+      _ = 2 * ((Fintype.card G : ℂ) * (if i = j then (1 : ℂ) else 0))
+            - (Fintype.card G : ℂ) * (mult W j i : ℂ) := by rw [orth, sca]
+      _ = (Fintype.card G : ℂ) * (mckayCartan W i j : ℂ) := by
+          rw [mult_symm W hW j i]
+          simp only [mckayCartan]
+          split_ifs with h <;> push_cast <;> ring
+  -- **Algebraic identity** `R = |G| · Q`.
+  have hQcast : (Q : ℂ) = ∑ i, ∑ j, (x i : ℂ) * (mckayCartan W i j : ℂ) * (x j : ℂ) := by
+    rw [hQ]
+    simp only [dotProduct, Matrix.mulVec, Matrix.of_apply]
+    push_cast
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    rw [Finset.mul_sum]
+    exact Finset.sum_congr rfl (fun j _ => by ring)
+  have hexp : R = ∑ i, ∑ j, (x i : ℂ) * (x j : ℂ) *
+      (∑ g : G, (2 - (V G).character g) * (W i).character g * (W j).character g⁻¹) := by
+    rw [hR]
+    have hpg : ∀ g : G, (2 - (V G).character g) * (f g * f g⁻¹)
+        = ∑ i, ∑ j, (x i : ℂ) * (x j : ℂ) *
+            ((2 - (V G).character g) * (W i).character g * (W j).character g⁻¹) := by
+      intro g
+      simp only [hf]
+      rw [Finset.sum_mul_sum, Finset.mul_sum]
+      refine Finset.sum_congr rfl (fun i _ => ?_)
+      rw [Finset.mul_sum]
+      exact Finset.sum_congr rfl (fun j _ => by ring)
+    rw [Finset.sum_congr rfl (fun g _ => hpg g), Finset.sum_comm]
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl (fun j _ => ?_)
+    rw [← Finset.mul_sum]
+  have hA_identity : R = (Fintype.card G : ℂ) * (Q : ℂ) := by
+    rw [hexp, hQcast, Finset.mul_sum]
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    rw [Finset.mul_sum]
+    refine Finset.sum_congr rfl (fun j _ => ?_)
+    rw [key_ij i j]
+    ring
+  -- **Reality/nonnegativity** `R = ↑(∑_g (2 − Re χ_V(g)) · |f(g)|²)` with each summand `≥ 0`.
+  set S₀ : ℝ := ∑ g : G, (2 - ((V G).character g).re) * Complex.normSq (f g) with hS0
+  have hS0_nonneg : 0 ≤ S₀ := by
+    rw [hS0]
+    refine Finset.sum_nonneg (fun g _ => ?_)
+    exact mul_nonneg (by linarith [charV_re_le_two g]) (Complex.normSq_nonneg _)
+  have hB : R = (S₀ : ℂ) := by
+    rw [hR, hS0, Complex.ofReal_sum]
+    refine Finset.sum_congr rfl (fun g _ => ?_)
+    -- `f g⁻¹ = conj (f g)`
+    have hfconj : f g⁻¹ = (starRingEnd ℂ) (f g) := by
+      simp only [hf, map_sum]
+      refine Finset.sum_congr rfl (fun i _ => ?_)
+      rw [Etingof.char_inv_eq_conj (W i) g, map_mul, map_intCast]
+    -- `2 - χ_V g = ↑(2 - Re χ_V g)` since `χ_V g` is real
+    have hVreal : (2 : ℂ) - (V G).character g = ((2 - ((V G).character g).re : ℝ) : ℂ) := by
+      apply Complex.ext <;>
+        simp [Complex.sub_re, Complex.sub_im, charV_im_zero g]
+    rw [hfconj, Complex.mul_conj, hVreal, ← Complex.ofReal_mul]
+  -- **Assemble.** `|G| · Q = S₀ ≥ 0` and `|G| > 0`, so `Q ≥ 0`.
+  have hfinal : (Fintype.card G : ℂ) * (Q : ℂ) = (S₀ : ℂ) := by rw [← hA_identity, hB]
+  have hreal : (Fintype.card G : ℝ) * (Q : ℝ) = S₀ := by exact_mod_cast hfinal
+  have hcard_pos : 0 < (Fintype.card G : ℝ) := by exact_mod_cast Fintype.card_pos
+  have hQnonneg : 0 ≤ (Q : ℝ) := by nlinarith [hreal, hS0_nonneg, hcard_pos]
+  exact_mod_cast hQnonneg
 
 /-- **(c)** The McKay Cartan form is **not** positive definite: the vector of
 irreducible dimensions is a nonzero null vector. -/
