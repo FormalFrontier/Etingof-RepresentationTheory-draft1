@@ -51,7 +51,11 @@ To phrase (iii) and (iv) we build genuine second-argument infrastructure: `tenso
 `M`; a left `A`-module map `g : N → N'` induces a natural transformation of the tensor functors,
 and `NatTrans.leftDerived` supplies the missing second-argument functoriality of `Tor`.
 
-These are statement-level formalizations (spec-first): the proofs are deferred (`sorry`).
+All parts are proved here. The balancing theorem (iv) is proved by an elementary dimension shift
+(strong induction on the homological degree via projective presentations of the right module),
+using the two six-term windows (`Problem_8_2_6_v_tor` / `torBalancing_sixTerm`), the vanishing of
+higher `Tor` on projectives, and the naturality of the degree-`0` balancing isomorphism
+(`balancing_zero_naturality`).
 -/
 
 namespace Etingof
@@ -222,6 +226,85 @@ theorem torBalancing_sixTerm
     (tensorLeftNatTrans A S.f) (tensorLeftNatTrans A S.g) w
     (fun Y _ => tensorRightFunctor_map_shortExact A Y hS) (ModuleCat.of A N) n₀ n₁ h
 
+/-! ### Infrastructure for the dimension-shift proof of the balancing theorem (iv) -/
+
+section BalancingIV
+
+open CategoryTheory.Limits
+
+universe v₁ u₁
+
+/-- **Naturality of `fromLeftDerivedZero` in the functor variable.** For a natural transformation
+`α : F ⟶ G` of additive functors between abelian categories (`C` with enough projectives), the
+degree-`0` comparison maps `L₀F ⟶ F` and `L₀G ⟶ G` intertwine `NatTrans.leftDerived α 0` with `α`.
+This is the crux input to the naturality of the degree-`0` balancing isomorphism
+(`balancing_zero_naturality`), which the `n = 1` base of the dimension-shift proof needs. -/
+lemma fromLeftDerivedZero_natTrans_app
+    {C : Type u₁} [Category.{v₁} C] [Abelian C] [EnoughProjectives C]
+    {D : Type*} [Category D] [Abelian D]
+    {F G : C ⥤ D} [F.Additive] [G.Additive] (α : F ⟶ G) (X : C) :
+    (NatTrans.leftDerived α 0).app X ≫ G.fromLeftDerivedZero.app X
+      = F.fromLeftDerivedZero.app X ≫ α.app X := by
+  let P : ProjectiveResolution X := projectiveResolution X
+  rw [ProjectiveResolution.leftDerived_app_eq α P 0,
+    ProjectiveResolution.fromLeftDerivedZero_eq P G,
+    ProjectiveResolution.fromLeftDerivedZero_eq P F]
+  simp only [HomologicalComplex.homologyFunctor_map, Category.assoc, Iso.inv_hom_id_assoc]
+  rw [Iso.cancel_iso_hom_left, ← Iso.inv_comp_eq,
+    ChainComplex.isoHomologyι₀_inv_naturality_assoc, Iso.inv_hom_id_assoc]
+  refine (cancel_epi (HomologicalComplex.pOpcycles
+    ((F.mapHomologicalComplex (ComplexShape.down ℕ)).obj P.complex) 0)).1 ?_
+  rw [← Category.assoc, HomologicalComplex.p_opcyclesMap, Category.assoc,
+    ProjectiveResolution.pOpcycles_comp_fromLeftDerivedZero', ← Category.assoc,
+    ProjectiveResolution.pOpcycles_comp_fromLeftDerivedZero']
+  simp only [NatTrans.mapHomologicalComplex_app_f]
+  exact (α.naturality (P.π.f 0)).symm
+
+/-- In a six-term exact window with the two neighbours `obj 1` and `obj 4` of the central map
+`obj 2 ⟶ obj 3` both zero, that central map is an isomorphism, giving `obj 2 ≅ obj 3`. Used to
+collapse each six-term window `Tₙ(K) → Tₙ(P) → Tₙ(M) → Tₙ₋₁(K) → Tₙ₋₁(P) → Tₙ₋₁(M)` to
+`Tₙ(M) ≅ Tₙ₋₁(K)` when the projective terms vanish (degrees `≥ 2`). -/
+noncomputable def iso_of_sixTerm_exact
+    {D : Type*} [Category D] [Abelian D] {W : ComposableArrows D 5}
+    (hW : W.Exact) (h1 : IsZero (W.obj 1)) (h4 : IsZero (W.obj 4)) :
+    W.obj 2 ≅ W.obj 3 := by
+  haveI : Mono (W.map' 2 3) := (hW.exact' 1 2 3).mono_g (h1.eq_of_src _ _)
+  haveI : Epi (W.map' 2 3) := (hW.exact' 2 3 4).epi_f (h4.eq_of_tgt _ _)
+  let g : W.obj 2 ⟶ W.obj 3 := W.map' 2 3
+  haveI : IsIso g := isIso_of_mono_of_epi _
+  exact asIso g
+
+/-- **Naturality of the degree-0 balancing isomorphism** in the right module. For a map
+`f : M ⟶ M'` of right `A`-modules, the square relating `balancingIsoZero A N M` and
+`balancingIsoZero A N M'` commutes: the `Tor`-side functoriality `(TorFunctor A N 0).map f` and
+the balancing-side functoriality `NatTrans.leftDerived (tensorLeftNatTrans A f) 0` agree under
+`balancingIsoZero`. This lets the `n = 1` base of the dimension shift identify the two kernels. -/
+lemma balancing_zero_naturality
+    (A : Type u) [Ring A] (N : Type u) [AddCommGroup N] [Module A N]
+    {M M' : ModuleCat.{u} Aᵐᵒᵖ} (f : M ⟶ M') :
+    (TorFunctor A N 0).map f ≫ (balancingIsoZero A N M').hom
+      = (balancingIsoZero A N M).hom
+        ≫ (NatTrans.leftDerived (tensorLeftNatTrans A f) 0).app (ModuleCat.of A N) := by
+  have hmap : (tensorLeftNatTrans A f).app (ModuleCat.of A N)
+      = (tensorRightFunctor A N).map f := rfl
+  have hnat := fromLeftDerivedZero_natTrans_app (tensorLeftNatTrans A f) (ModuleCat.of A N)
+  rw [hmap] at hnat
+  have hα : (TorFunctor A N 0).map f
+        ≫ ((tensorRightFunctor A N).leftDerivedZeroIsoSelf.app M').hom
+      = ((tensorRightFunctor A N).leftDerivedZeroIsoSelf.app M).hom
+        ≫ (tensorRightFunctor A N).map f :=
+    (tensorRightFunctor A N).leftDerivedZeroIsoSelf.hom.naturality f
+  have hβ : (tensorRightFunctor A N).map f
+        ≫ ((tensorLeftFunctor A M').leftDerivedZeroIsoSelf.app (ModuleCat.of A N)).inv
+      = ((tensorLeftFunctor A M).leftDerivedZeroIsoSelf.app (ModuleCat.of A N)).inv
+        ≫ (NatTrans.leftDerived (tensorLeftNatTrans A f) 0).app (ModuleCat.of A N) := by
+    rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
+    exact hnat.symm
+  simp only [balancingIsoZero, Iso.trans_hom, Iso.symm_hom, Category.assoc]
+  rw [← Category.assoc, hα, Category.assoc, hβ]
+
+end BalancingIV
+
 /-- **Problem 8.2.6(iv), balancing.** `Torₙᴬ(M, N)` may be computed from a projective resolution
 of `N` tensored with `M`: the `n`-th left derived functor of `- ⊗_A N` evaluated at `M`
 (the definition `Etingof.Tor`) is canonically isomorphic to the `n`-th left derived functor of
@@ -232,7 +315,48 @@ theorem Problem_8_2_6_iv
     (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) :
     Nonempty (Etingof.Tor A N M n ≅
       (Functor.leftDerived (tensorLeftFunctor A M) n).obj (ModuleCat.of A N)) := by
-  sorry
+  induction n generalizing M with
+  | zero => exact ⟨balancingIsoZero A N M⟩
+  | succ k IH =>
+    obtain ⟨pp⟩ := CategoryTheory.EnoughProjectives.presentation M
+    set SC : ShortComplex (ModuleCat.{u} Aᵐᵒᵖ) :=
+      ShortComplex.mk (Limits.kernel.ι pp.f) pp.f (by simp) with hSC
+    have hSE : SC.ShortExact := { exact := ShortComplex.exact_kernel pp.f }
+    haveI : CategoryTheory.Projective SC.X₂ := pp.projective
+    obtain ⟨δT, hT⟩ :=
+      Etingof.Functor.leftDerived_sixTerm_exact (tensorRightFunctor A N) hSE k (k + 1) rfl
+    obtain ⟨δB, hB⟩ := torBalancing_sixTerm A N hSE k (k + 1) rfl
+    obtain _ | j := k
+    · -- `n = 1`: the dimension shift bottoms out at a kernel comparison
+      set a := (TorFunctor A N 0).map SC.f with ha
+      set b := (NatTrans.leftDerived (tensorLeftNatTrans A SC.f) 0).app (ModuleCat.of A N) with hb
+      have hcompT : δT ≫ a = 0 := hT.toIsComplex.zero' 2 3 4
+      have hcompB : δB ≫ b = 0 := hB.toIsComplex.zero' 2 3 4
+      haveI hmonoT : Mono δT := (hT.exact' 1 2 3).mono_g
+        ((Functor.isZero_leftDerived_obj_projective_succ
+          (tensorRightFunctor A N) 0 SC.X₂).eq_of_src _ _)
+      haveI hmonoB : Mono δB := (hB.exact' 1 2 3).mono_g
+        ((Etingof.isZero_tensorLeftFunctor_leftDerived_succ A SC.X₂ N 0).eq_of_src _ _)
+      let ST : ShortComplex AddCommGrpCat.{u} := ShortComplex.mk δT a hcompT
+      let SB : ShortComplex AddCommGrpCat.{u} := ShortComplex.mk δB b hcompB
+      have hExT : ST.Exact := hT.exact' 2 3 4
+      have hExB : SB.Exact := hB.exact' 2 3 4
+      haveI : Mono ST.f := hmonoT
+      haveI : Mono SB.f := hmonoB
+      have isoTor := Limits.IsLimit.conePointUniqueUpToIso hExT.fIsKernel (Limits.kernelIsKernel a)
+      have isoB := Limits.IsLimit.conePointUniqueUpToIso hExB.fIsKernel (Limits.kernelIsKernel b)
+      have hsq : a ≫ (balancingIsoZero A N SC.X₂).hom
+          = (balancingIsoZero A N SC.X₁).hom ≫ b := balancing_zero_naturality A N SC.f
+      exact ⟨isoTor.trans ((Limits.kernel.mapIso a b (balancingIsoZero A N SC.X₁)
+        (balancingIsoZero A N SC.X₂) hsq).trans isoB.symm)⟩
+    · -- `n ≥ 2`: both windows collapse to `Tₙ(M) ≅ Tₙ₋₁(K)`; compose with the induction hypothesis
+      exact ⟨(iso_of_sixTerm_exact hT
+          (Functor.isZero_leftDerived_obj_projective_succ (tensorRightFunctor A N) (j + 1) SC.X₂)
+          (Functor.isZero_leftDerived_obj_projective_succ (tensorRightFunctor A N) j SC.X₂)).trans
+        (((IH SC.X₁).some).trans
+          (iso_of_sixTerm_exact hB
+            (Etingof.isZero_tensorLeftFunctor_leftDerived_succ A SC.X₂ N (j + 1))
+            (Etingof.isZero_tensorLeftFunctor_leftDerived_succ A SC.X₂ N j)).symm)⟩
 
 /-! ### Part (v): long exact sequence in the first argument (`Ext` half) -/
 
