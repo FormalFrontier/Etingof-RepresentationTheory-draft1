@@ -155,6 +155,77 @@ theorem rearrangeAux_balanced (g : A₁ ⊗[k] A₂) (m : P₁ ⊗[k] P₂) (n :
               rw [hM, hN, rearrangeAux_tmul, rearrangeAux_tmul,
                 tensorOver_mk_op_smul, tensorOver_mk_op_smul]
 
+/-! ### The forward map `⟦(p₁ ⊗ p₂) ⊗ (n₁ ⊗ n₂)⟧ ↦ ⟦p₁ ⊗ n₁⟧ ⊗ₖ ⟦p₂ ⊗ n₂⟧` -/
+
+/-- The forward map before descending the balancing quotient: the additive lift of `rearrangeAux`
+along the comparison `TensorProduct ℤ _ _ → _ ⊗ₖ _`. -/
+noncomputable def fwdPre :
+    TensorProduct ℤ (P₁ ⊗[k] P₂) (N₁ ⊗[k] N₂) →ₗ[ℤ]
+      (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂) :=
+  TensorProduct.lift <| LinearMap.mk₂ ℤ
+    (fun x y => rearrangeAux k A₁ A₂ P₁ P₂ N₁ N₂ (x ⊗ₜ[k] y))
+    (fun x₁ x₂ y => by rw [add_tmul, map_add])
+    (fun c x y => by rw [← TensorProduct.smul_tmul', map_zsmul])
+    (fun x y₁ y₂ => by rw [tmul_add, map_add])
+    (fun c x y => by rw [TensorProduct.tmul_smul, map_zsmul])
+
+omit instM [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] instN in
+@[simp] theorem fwdPre_tmul (x : P₁ ⊗[k] P₂) (y : N₁ ⊗[k] N₂) :
+    fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ (x ⊗ₜ[ℤ] y)
+      = rearrangeAux k A₁ A₂ P₁ P₂ N₁ N₂ (x ⊗ₜ[k] y) :=
+  TensorProduct.lift.tmul _ _
+
+omit instM [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] instN in
+theorem fwdPre_smul (c : k) (w : TensorProduct ℤ (P₁ ⊗[k] P₂) (N₁ ⊗[k] N₂)) :
+    fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ (c • w) = c • fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ w := by
+  induction w using TensorProduct.induction_on with
+  | zero => simp
+  | add a b ha hb => simp only [smul_add, map_add, ha, hb]
+  | tmul x y =>
+      rw [TensorProduct.smul_tmul', fwdPre_tmul, fwdPre_tmul, ← TensorProduct.smul_tmul', map_smul]
+
+omit [SMulCommClass k (A₁ ⊗[k] A₂)ᵐᵒᵖ (P₁ ⊗[k] P₂)] in
+include hM hN in
+/-- `fwdPre` kills the external `A₁ ⊗ A₂`-balancing subgroup, hence descends to `tensorOver`. -/
+theorem fwdPre_mem_ker (w : TensorProduct ℤ (P₁ ⊗[k] P₂) (N₁ ⊗[k] N₂))
+    (hw : w ∈ balancedSubgroup (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)) :
+    fwdPre k A₁ A₂ P₁ P₂ N₁ N₂ w = 0 := by
+  have hle : balancedSubgroup (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂)
+      ≤ (fwdPre k A₁ A₂ P₁ P₂ N₁ N₂).toAddMonoidHom.ker := by
+    rw [balancedSubgroup, AddSubgroup.closure_le]
+    rintro x ⟨g, m, n, rfl⟩
+    simp only [SetLike.mem_coe, AddMonoidHom.mem_ker, LinearMap.toAddMonoidHom_coe, map_sub,
+      fwdPre_tmul, sub_eq_zero]
+    exact rearrangeAux_balanced k A₁ A₂ P₁ P₂ N₁ N₂ hM hN g m n
+  exact hle hw
+
+include hM hN in
+/-- **Milestone (a), forward direction.** The `k`-linear map
+`(P₁ ⊗ₖ P₂) ⊗_{A₁ ⊗ A₂} (N₁ ⊗ₖ N₂) → (P₁ ⊗_{A₁} N₁) ⊗ₖ (P₂ ⊗_{A₂} N₂)`. -/
+noncomputable def fwd :
+    tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (P₁ ⊗[k] P₂) →ₗ[k]
+      (tensorOver A₁ N₁ P₁) ⊗[k] (tensorOver A₂ N₂ P₂) where
+  toFun := QuotientAddGroup.lift _ (fwdPre k A₁ A₂ P₁ P₂ N₁ N₂).toAddMonoidHom
+    (fwdPre_mem_ker k A₁ A₂ P₁ P₂ N₁ N₂ hM hN)
+  map_add' x y := by
+    obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective x
+    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective y
+    rw [← QuotientAddGroup.mk_add]
+    simp only [QuotientAddGroup.lift_mk, map_add]
+  map_smul' c z := by
+    obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
+    rw [Etingof.smul_mk]
+    simp only [QuotientAddGroup.lift_mk, LinearMap.toAddMonoidHom_coe, RingHom.id_apply]
+    exact fwdPre_smul k A₁ A₂ P₁ P₂ N₁ N₂ c w
+
+@[simp] theorem fwd_mk_tmul (p₁ : P₁) (p₂ : P₂) (n₁ : N₁) (n₂ : N₂) :
+    fwd k A₁ A₂ P₁ P₂ N₁ N₂ hM hN
+        (QuotientAddGroup.mk ((p₁ ⊗ₜ[k] p₂) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)))
+      = (QuotientAddGroup.mk (p₁ ⊗ₜ[ℤ] n₁) : tensorOver A₁ N₁ P₁)
+          ⊗ₜ[k] (QuotientAddGroup.mk (p₂ ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ P₂) := by
+  simp only [fwd, LinearMap.coe_mk, AddHom.coe_mk, QuotientAddGroup.lift_mk,
+    LinearMap.toAddMonoidHom_coe, fwdPre_tmul, rearrangeAux_tmul]
+
 end Main
 
 end Etingof
