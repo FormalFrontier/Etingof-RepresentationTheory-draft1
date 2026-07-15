@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE
 import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
 import EtingofRepresentationTheory.Chapter4.Discussion_4_4
+import EtingofRepresentationTheory.Chapter5.AbelianFDRep
 
 /-!
 # Problem 6.1.6: The McKay graph of a finite subgroup of `SU(2)`
@@ -799,6 +800,115 @@ lemma mckay_marks_sum (hW : IsCompleteIrreps W) (i : Fin m) :
     Finset.sum_ite_eq Finset.univ i (fun j => 2 * (finrank ℂ (W j) : ℤ)),
     if_pos (Finset.mem_univ i)] at h
   linarith
+
+open Etingof.AbelianFDRep in
+/-- **Cyclic case, nontriviality.** For a finite **cyclic** `G ⊂ SU(2)` with `3 ≤ m`
+irreducibles, `G` is nontrivial. Since `G` is abelian, each irreducible `Wⱼ` is
+`1`-dimensional, hence isomorphic to `charFDRep ξⱼ` for a character `ξⱼ : G →* ℂˣ`; the `m`
+pairwise non-isomorphic `Wⱼ` give `m` distinct characters, so `m ≤ |G →* ℂˣ| = |G|`, and
+`3 ≤ m` forces `|G| ≥ 3 > 1`. -/
+lemma nontrivial_of_cyclic (hW : IsCompleteIrreps W) (hcyc : IsCyclic G) (hm : 3 ≤ m) :
+    Nontrivial G := by
+  classical
+  letI : CommGroup G := hcyc.commGroup
+  haveI : Fintype G := Fintype.ofFinite G
+  haveI : Fintype (G →* ℂˣ) := Fintype.ofFinite _
+  have hchar : ∀ j : Fin m, ∃ ξ : G →* ℂˣ, Nonempty (W j ≅ charFDRep ξ) := by
+    intro j
+    haveI := hW.simple j
+    exact exists_charFDRep_iso (W j)
+  choose ξ hξ using hchar
+  have hinj : Function.Injective ξ := by
+    intro a b hab
+    apply hW.distinct a b
+    obtain ⟨ea⟩ := hξ a
+    obtain ⟨eb⟩ := hξ b
+    exact ⟨ea ≪≫ eqToIso (congrArg charFDRep hab) ≪≫ eb.symm⟩
+  have hle : m ≤ Nat.card G := by
+    have h1 : Fintype.card (Fin m) ≤ Fintype.card (G →* ℂˣ) :=
+      Fintype.card_le_of_injective ξ hinj
+    rw [Fintype.card_fin, ← Nat.card_eq_fintype_card (α := G →* ℂˣ),
+      card_charFDRep_dual] at h1
+    exact h1
+  rw [← Finite.one_lt_card_iff_nontrivial]
+  omega
+
+/-- **Cyclic case, no invariants.** The tautological `2`-dimensional representation of a
+nontrivial `G ⊂ SU(2)` has no nonzero invariant vector. A vector fixed by all of `G` is in
+particular fixed by some `g ≠ 1`; then `1` is an eigenvalue of the `SU(2)`-matrix `A` of `g`,
+so `det (A - 1) = 0`, and the `2×2` identity `det (A - 1) = 2 - tr A` gives `χ_V(g) = tr A = 2`,
+whence `g = 1` by `taut_char_eq_two_imp_one` — a contradiction. -/
+lemma finrank_invariants_V_eq_zero (hne : Nontrivial G) :
+    Module.finrank ℂ (Representation.invariants (V G).ρ) = 0 := by
+  classical
+  have hbot : Representation.invariants (V G).ρ = ⊥ := by
+    rw [eq_bot_iff]
+    intro v hv
+    rw [Representation.mem_invariants] at hv
+    rw [Submodule.mem_bot]
+    by_contra hv0
+    obtain ⟨g, hg⟩ := exists_ne (1 : G)
+    set A : Matrix (Fin 2) (Fin 2) ℂ :=
+      ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hA
+    have hgv : A *ᵥ v = v := by
+      have h := hv g
+      simp only [V, FDRep.of_ρ'] at h
+      rw [show tautRep G g = Matrix.toLin' A from rfl, Matrix.toLin'_apply] at h
+      exact h
+    have hker : (A - 1) *ᵥ v = 0 := by
+      rw [Matrix.sub_mulVec, Matrix.one_mulVec, hgv, sub_self]
+    have hdet0 : (A - 1).det = 0 :=
+      Matrix.exists_mulVec_eq_zero_iff.mp ⟨v, hv0, hker⟩
+    have hdetA : A.det = 1 := (Matrix.mem_specialUnitaryGroup_iff.mp g.val.property).2
+    have hsum : A 0 0 + A 1 1 = 2 := by
+      rw [Matrix.det_fin_two] at hdetA
+      rw [Matrix.det_fin_two] at hdet0
+      simp only [Matrix.sub_apply, Matrix.one_apply, Fin.isValue,
+        show ((0 : Fin 2) = 1) = False from by simp,
+        show ((1 : Fin 2) = 0) = False from by simp, if_true, if_false,
+        eq_self_iff_true] at hdet0
+      linear_combination hdetA - hdet0
+    have hχ2 : (V G).character g = 2 := by
+      rw [charV_eq, ← hA, Matrix.trace_fin_two]; exact hsum
+    exact hg (taut_char_eq_two_imp_one g hχ2)
+  rw [hbot]
+  exact finrank_bot ℂ _
+
+open Etingof.AbelianFDRep in
+/-- **(c), cyclic case.** For a finite **cyclic** `G ⊂ SU(2)` with `3 ≤ m`, the McKay graph
+has no self-loops: `rᵢᵢ = 0`. Since `G` is abelian, `Wᵢ ≅ charFDRep ξ` is `1`-dimensional, so
+`χ_{Wᵢ}(g)·χ_{Wᵢ}(g⁻¹) = ξ(g)·ξ(g)⁻¹ = 1`; hence the character scalar product collapses to
+`rᵢᵢ = ⅟|G| ∑_g χ_V(g) = dim V^G = 0` (the tautological representation of the nontrivial `G`
+has no invariants). -/
+theorem mckayAdj_no_selfLoop_cyclic
+    (hW : IsCompleteIrreps W) (hcyc : IsCyclic G) (hm : 3 ≤ m) (i : Fin m) :
+    mckayAdj W i i = 0 := by
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  haveI : Invertible (Fintype.card G : ℂ) :=
+    invertibleOfNonzero (Nat.cast_ne_zero.mpr Fintype.card_ne_zero)
+  letI : CommGroup G := hcyc.commGroup
+  haveI := hW.simple i
+  obtain ⟨ξ, ⟨e⟩⟩ := exists_charFDRep_iso (W i)
+  have hchar_eq : (W i).character = (charFDRep ξ).character := FDRep.char_iso e
+  have hunit : ∀ g : G, (W i).character g * (W i).character g⁻¹ = 1 := by
+    intro g
+    rw [hchar_eq, charFDRep_character, charFDRep_character, map_inv]
+    exact Units.mul_inv (ξ g)
+  have hmult : (mult W i i : ℂ) = Module.finrank ℂ (Representation.invariants (V G).ρ) := by
+    have hsp := FDRep.scalar_product_char_eq_finrank_equivariant (W i) (V G ⊗ W i)
+    have havg := FDRep.average_char_eq_finrank_invariants (V G)
+    have key : (Module.finrank ℂ (W i ⟶ V G ⊗ W i) : ℂ)
+        = Module.finrank ℂ (Representation.invariants (V G).ρ) := by
+      rw [← hsp, ← havg]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro g _
+      rw [FDRep.char_tensor, Pi.mul_apply, mul_assoc, hunit g, mul_one]
+    simpa only [mult] using key
+  rw [finrank_invariants_V_eq_zero (nontrivial_of_cyclic W hW hcyc hm)] at hmult
+  have hmz : mult W i i = 0 := by exact_mod_cast hmult
+  simp [mckayAdj, hmz]
 
 /-! ### The central element `-Id ∈ SU(2)` (non-cyclic-case machinery)
 
