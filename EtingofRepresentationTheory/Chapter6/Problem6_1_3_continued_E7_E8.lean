@@ -70,24 +70,57 @@ theorem isDynkinDiagram_D (n : ℕ) (hn : 4 ≤ n) :
 
 /-! ## Part (b): determinants of `E₆, E₇, E₈`, and they are Dynkin diagrams -/
 
+/-- The two-stage tactic for an explicit sparse Cartan determinant. Stage 1
+expands the cofactor recursion (`det_succ_row_zero`) while keeping index
+arithmetic in symbolic `0`/`.succ` form via `succ_succAbove_succ`, so that the
+`0 * _` factors of zero entries prune the expansion before it reaches `n!`
+terms. Stage 2 (`norm_num` with `Fin.succAbove`/`Fin.lt_def`) evaluates the
+small residual `succAbove` indices numerically and finishes the arithmetic. -/
+macro "cartan_det" : tactic =>
+  `(tactic|
+    (simp only [Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.sum_univ_zero,
+        Matrix.det_fin_zero, Matrix.submatrix_apply, Fin.zero_succAbove,
+        Fin.succ_succAbove_zero, Fin.succ_succAbove_succ, Fin.val_zero, Fin.val_succ,
+        Matrix.cons_val_succ, Matrix.head_cons, Matrix.head_fin_const, mul_zero, zero_mul,
+        add_zero, zero_add, neg_zero, mul_neg, neg_neg, mul_one, one_mul, pow_zero, pow_succ]
+     <;>
+     norm_num [Fin.succAbove, Fin.lt_def, Fin.castSucc, Fin.castAdd, Fin.castLE,
+        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
+        Matrix.cons_val_four, Matrix.head_cons, Matrix.head_fin_const, Matrix.vecHead,
+        Matrix.vecTail]))
+
 /-- **(b)** `det A = 3` for `E₆`. -/
 theorem det_cartan_E6 : (cartan DynkinType.E6).det = 3 := by
-  sorry
+  have hC : cartan DynkinType.E6 =
+      !![2,-1,0,0,0,0; -1,2,-1,0,0,0; 0,-1,2,-1,0,-1;
+         0,0,-1,2,-1,0; 0,0,0,-1,2,0; 0,0,-1,0,0,2] := by
+    ext i j; fin_cases i <;> fin_cases j <;> decide
+  rw [hC]; cartan_det
 
 /-- **(b)** `det A = 2` for `E₇`. -/
 theorem det_cartan_E7 : (cartan DynkinType.E7).det = 2 := by
-  sorry
+  have hC : cartan DynkinType.E7 =
+      !![2,-1,0,0,0,0,0; -1,2,-1,0,0,0,0; 0,-1,2,-1,0,0,-1;
+         0,0,-1,2,-1,0,0; 0,0,0,-1,2,-1,0; 0,0,0,0,-1,2,0;
+         0,0,-1,0,0,0,2] := by
+    ext i j; fin_cases i <;> fin_cases j <;> decide
+  rw [hC]; cartan_det
 
 /-- **(b)** `det A = 1` for `E₈`. -/
 theorem det_cartan_E8 : (cartan DynkinType.E8).det = 1 := by
-  sorry
+  have hC : cartan DynkinType.E8 =
+      !![2,-1,0,0,0,0,0,0; -1,2,-1,0,0,0,0,0; 0,-1,2,-1,0,0,0,-1;
+         0,0,-1,2,-1,0,0,0; 0,0,0,-1,2,-1,0,0; 0,0,0,0,-1,2,-1,0;
+         0,0,0,0,0,-1,2,0; 0,0,-1,0,0,0,0,2] := by
+    ext i j; fin_cases i <;> fin_cases j <;> decide
+  rw [hC]; cartan_det
 
 /-- **(b)** `E₆, E₇, E₈` are Dynkin diagrams. -/
 theorem isDynkinDiagram_E :
     IsDynkinDiagram DynkinType.E6.rank DynkinType.E6.adj ∧
     IsDynkinDiagram DynkinType.E7.rank DynkinType.E7.adj ∧
-    IsDynkinDiagram DynkinType.E8.rank DynkinType.E8.adj := by
-  sorry
+    IsDynkinDiagram DynkinType.E8.rank DynkinType.E8.adj :=
+  ⟨isDynkinDiagram_of_type .E6, isDynkinDiagram_of_type .E7, isDynkinDiagram_of_type .E8⟩
 
 /-! ## Part (c): a Dynkin diagram is a tree (no cycles) -/
 
