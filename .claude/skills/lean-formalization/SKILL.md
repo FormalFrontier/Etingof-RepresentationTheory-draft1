@@ -5090,3 +5090,47 @@ obtained from a global `InjOn` via `.mono`); disjoint families combine with
 `inner`/Mathlib-`Inner` name clash the real (namespaced) file doesn't have. Worked example:
 `Chapter6/Problem6_9_2.lean` (`E8_root_count`/`E7_root_count`/`E6_root_count`, `intShape`,
 `halfShape`, `intVec'_injOn`).
+
+## `ComposableArrows.map'` / `sc'` autoParam bug in term position (six-term windows, #6611)
+
+The `ComposableArrows` API (`W.map' i j`, `W.sc' hc i j k`, `W.obj' i`) fills its index-bound
+side conditions with a `by valid` autoParam. In a **type-ascription / signature position** this
+works, but in a **term/value position** it fails with
+
+    could not synthesize default value for parameter 'hij' using tactics: No goals to be solved
+
+(both when left implicit and when you pass `(by omega)` explicitly). Symptoms: `asIso (W.map' 2 3)`,
+`have S := W.sc' hc 2 3 4`, `kernel (W.map' 3 4)` all break; but `haveI : Mono (W.map' 2 3) := …`
+and `lemma foo … : IsIso (W.map' 2 3)` are fine.
+
+**Workaround:** bind the arrow first, so `map'` sits in the `have`/`let` *type*, then use the bound
+name in term position:
+
+```lean
+haveI : IsIso (W.map' 2 3) := isIso_of_mono_of_epi _
+let g : W.obj 2 ⟶ W.obj 3 := W.map' 2 3   -- `let` (not `have`) so `IsIso g` stays defeq-linked
+exact asIso g
+```
+
+For the connecting-map short complex, avoid `sc'` entirely: build `ShortComplex.mk δ a hcomp`
+directly with `hcomp : δ ≫ a = 0 := hW.toIsComplex.zero' 2 3 4` (`zero'` returns a Prop and is safe
+in value position, unlike `sc'`), then transport `hW.exact' 2 3 4 : (W.sc' …).Exact` into
+`ST.Exact` by defeq (the two ShortComplexes differ only in the proof-irrelevant `zero` field).
+Worked example: `iso_of_sixTerm_exact` and the `n = 1` branch of `Problem_8_2_6_iv` in
+`Chapter8/Problem8_2_6.lean`.
+
+## Naturality of `Functor.fromLeftDerivedZero` in the functor variable (balancing theorem, #6611)
+
+For `α : F ⟶ G` of additive functors (`C` abelian with enough projectives), the square
+
+    (NatTrans.leftDerived α 0).app X ≫ G.fromLeftDerivedZero.app X
+      = F.fromLeftDerivedZero.app X ≫ α.app X
+
+is **not** in Mathlib but is provable in ~10 lines: pick `P := projectiveResolution X`, rewrite
+with `ProjectiveResolution.leftDerived_app_eq` and `ProjectiveResolution.fromLeftDerivedZero_eq`
+(twice), cancel the `isoLeftDerivedObj` isos, push through `ChainComplex.isoHomologyι₀`-naturality
+(`isoHomologyι₀_inv_naturality_assoc`) and `HomologicalComplex.p_opcyclesMap`, then finish with
+`α.naturality (P.π.f 0)`. This is the crux input for the degree-0 half of a balancing / derived-
+functor-symmetry argument (`balancing_zero_naturality` in `Chapter8/Problem8_2_6.lean`). The two
+degree-0 functoriality maps of a "Tor computed either way" pair coincide via
+`leftDerivedZeroIsoSelf` precisely because of this lemma.
