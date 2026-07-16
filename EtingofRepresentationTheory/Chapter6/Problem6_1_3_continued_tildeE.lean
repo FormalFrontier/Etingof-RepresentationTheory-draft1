@@ -1420,7 +1420,28 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
   -- The two neighbours of `f (k+1)` are exactly `f k` and `f (k+2)`.
   have hnbr_iff : ∀ k w, adj (f (k + 1)) w = 1 ↔ (w = f k ∨ w = f (k + 2)) := by
     intro k w
-    sorry
+    have hk_nbr : adj (f (k + 1)) (f k) = 1 := by rw [hsymm']; exact hadj k
+    have hk2_nbr : adj (f (k + 1)) (f (k + 2)) = 1 := hadj (k + 1)
+    have hne : f k ≠ f (k + 2) := fun h => hback k h.symm
+    have hsub : ({f k, f (k + 2)} : Finset (Fin n)) ⊆
+        univ.filter (fun j => adj (f (k + 1)) j = 1) := by
+      intro x hx
+      simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+      rcases hx with h | h <;> subst h <;> simp [hk_nbr, hk2_nbr]
+    have hcard2 : ({f k, f (k + 2)} : Finset (Fin n)).card = 2 := by
+      rw [Finset.card_insert_of_not_mem (by simp [hne]), Finset.card_singleton]
+    have heq : univ.filter (fun j => adj (f (k + 1)) j = 1) = {f k, f (k + 2)} :=
+      (Finset.eq_of_subset_of_card_le hsub
+        (le_of_eq (by rw [hdeg' (f (k + 1)), hcard2]))).symm
+    constructor
+    · intro hw
+      have hmem : w ∈ univ.filter (fun j => adj (f (k + 1)) j = 1) := by simp [hw]
+      rw [heq] at hmem
+      simpa [Finset.mem_insert, Finset.mem_singleton] using hmem
+    · intro hw
+      have hmem : w ∈ univ.filter (fun j => adj (f (k + 1)) j = 1) := by
+        rw [heq]; simpa [Finset.mem_insert, Finset.mem_singleton] using hw
+      simpa using (Finset.mem_filter.mp hmem).2
   -- `T` is a permutation, so `e0` is a periodic point.
   have hTinj : Function.Injective T := by
     rw [hT]; exact stepPair_injective hdeg'
@@ -1447,7 +1468,51 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
       (Set.mem_Iio.mpr hb) hpair
   -- Surjectivity: every vertex is visited.
   have hsurj : ∀ v : Fin n, ∃ k, k < p ∧ f k = v := by
-    sorry
+    -- Closure of the visited set under adjacency.
+    have hclosure : ∀ m w, adj (f m) w = 1 → ∃ j, f j = w := by
+      intro m w hw
+      have hmp : f m = f (m + p) := (hper m).symm
+      have h1 : (m + p - 1) + 1 = m + p := by omega
+      have hadjw : adj (f ((m + p - 1) + 1)) w = 1 := by rw [h1, ← hmp]; exact hw
+      rcases (hnbr_iff (m + p - 1) w).mp hadjw with h | h
+      · exact ⟨m + p - 1, h.symm⟩
+      · exact ⟨m + p - 1 + 2, h.symm⟩
+    have hclosed : ∀ a b, (∃ m, f m = a) → adj a b = 1 → ∃ j, f j = b := by
+      rintro a b ⟨m, rfl⟩ hab; exact hclosure m b hab
+    -- Periodic reduction to `[0, p)`.
+    have hpp : ∀ t k, f (k + p * t) = f k := by
+      intro t
+      induction t with
+      | zero => intro k; simp
+      | succ s ih =>
+          intro k
+          have hrw : k + p * (s + 1) = (k + p * s) + p := by ring
+          rw [hrw, hper, ih]
+    have hmod : ∀ m, f m = f (m % p) := by
+      intro m
+      conv_lhs => rw [← Nat.mod_add_div m p]
+      rw [hpp]
+    intro v
+    -- Reachability from the base vertex, in `ReflTransGen` form.
+    have hreach : Relation.ReflTransGen (AdjEdge adj) v0 v := by
+      obtain ⟨path, hhead, hlast, hpath⟩ := hconn v0 v
+      have hne : path ≠ [] := by rintro rfl; simp at hhead
+      have hchain : List.IsChain (fun a b => adj a b = 1) path := by
+        rw [List.isChain_iff_getElem]; intro k hk; exact hpath k hk
+      have hi : path.head hne = v0 :=
+        Option.some_inj.mp ((List.head?_eq_some_head hne).symm.trans hhead)
+      have hj : path.getLast hne = v := by
+        have := (List.getLast?_eq_getLast_of_ne_nil hne).symm.trans hlast
+        exact Option.some_inj.mp this
+      have hrtg := List.relationReflTransGen_of_exists_isChain path hchain hne
+      rw [hi, hj] at hrtg
+      exact hrtg
+    have hex : ∃ m, f m = v := by
+      induction hreach with
+      | refl => exact ⟨0, by simp [hf, he0]⟩
+      | tail _ hbc ih => exact hclosed _ _ ih hbc
+    obtain ⟨m, hm⟩ := hex
+    exact ⟨m % p, Nat.mod_lt _ hp_pos, by rw [← hmod m]; exact hm⟩
   -- Injectivity of `f` on `[0, p)` (minimal-gap induction).
   have hfinj : ∀ i j, i < p → j < p → f i = f j → i = j := by
     sorry
