@@ -17,7 +17,8 @@ If `A₁, A₂` are algebras over a field `k`, and `Mᵢ, Nᵢ` are `Aᵢ`-modul
 
 * `Torᵢ^{A₁ ⊗ A₂}(M₁ ⊗ M₂, N₁ ⊗ N₂) = ⨁_{j+m=i} Torⱼ^{A₁}(M₁, N₁) ⊗ₖ Torₘ^{A₂}(M₂, N₂)`,
 * `Extⁱ_{A₁ ⊗ A₂}(M₁ ⊗ M₂, N₁ ⊗ N₂) = ⨁_{j+m=i} Extʲ_{A₁}(M₁, N₁) ⊗ₖ Extᵐ_{A₂}(M₂, N₂)`
-  when the `Nᵢ` are finite dimensional.
+  when the `Aᵢ`, `Mᵢ` and `Nᵢ` are all finite dimensional over `k` (the `Mᵢ`-finiteness is what
+  lets the resolving `Pᵢ` be finitely generated projective; see `Problem_8_2_8_ext`).
 
 All tensor products of the factor `Tor`/`Ext` on the right-hand side are over the **field `k`**, as
 in the book: the objects are `k`-vector spaces and the Künneth summands are their `k`-linear tensor
@@ -127,22 +128,36 @@ section Ext
 
 variable (k : Type u) [Field k]
 variable (A₁ A₂ : Type u) [Ring A₁] [Ring A₂] [Algebra k A₁] [Algebra k A₂]
--- left `Aᵢ`-modules `Mᵢ`, `Nᵢ`; the `Nᵢ` are finite dimensional over `k`
+  [FiniteDimensional k A₁] [FiniteDimensional k A₂]
+-- left `Aᵢ`-modules `Mᵢ`, `Nᵢ`; the `Mᵢ` and `Nᵢ` are finite dimensional over `k`.
+-- Finite dimensionality of the `Mᵢ` is what lets their projective resolutions be chosen
+-- finitely generated projective, which is exactly what makes the crux degreewise Hom-tensor
+-- map an isomorphism (see #6814); the `Nᵢ` finiteness matches the book text.
 variable (M₁ M₂ : Type u)
-  [AddCommGroup M₁] [Module k M₁] [Module A₁ M₁]
-  [AddCommGroup M₂] [Module k M₂] [Module A₂ M₂]
+  [AddCommGroup M₁] [Module k M₁] [Module A₁ M₁] [FiniteDimensional k M₁]
+  [AddCommGroup M₂] [Module k M₂] [Module A₂ M₂] [FiniteDimensional k M₂]
 variable (N₁ N₂ : Type u)
   [AddCommGroup N₁] [Module k N₁] [Module A₁ N₁] [FiniteDimensional k N₁]
   [AddCommGroup N₂] [Module k N₂] [Module A₂ N₂] [FiniteDimensional k N₂]
 
-/-- **Problem 8.2.8, `Ext`.** For `k`-algebras `A₁, A₂`, left modules `M₁, M₂` and finite
-dimensional left modules `N₁, N₂`, the `Ext` of the external tensor products decomposes as a
-Künneth direct sum over the field `k`:
+/-- **Problem 8.2.8, `Ext`.** For finite dimensional `k`-algebras `A₁, A₂`, finite dimensional
+left modules `M₁, M₂` and finite dimensional left modules `N₁, N₂`, the `Ext` of the external
+tensor products decomposes as a Künneth direct sum over the field `k`:
 `Extⁱ_{A₁ ⊗ A₂}(M₁ ⊗ M₂, N₁ ⊗ N₂) ≅ ⨁_{j+m=i} Extʲ_{A₁}(M₁, N₁) ⊗ₖ Extᵐ_{A₂}(M₂, N₂)`.
 
 `instM` / `instN` are the left external tensor product module structures on `M₁ ⊗ₖ M₂` and
 `N₁ ⊗ₖ N₂`; `hM` / `hN` pin them to act componentwise on simple tensors. The summands are `k`-linear
-tensor products of the factor `Ext` groups, which are `k`-modules via `Linear k (ModuleCat Aᵢ)`. -/
+tensor products of the factor `Ext` groups, which are `k`-modules via `Linear k (ModuleCat Aᵢ)`.
+
+The iso is stated as a `k`-linear equivalence `≃ₗ[k]` (both sides are `k`-modules: the left via
+`Linear k (ModuleCat (A₁ ⊗ₖ A₂))`, the right as a direct sum of `k`-tensor products). This matches
+the strength of the `Tor` half `Problem_8_2_8_tor` (a `ModuleCat k` iso), and is strictly stronger
+than a bare additive equivalence. The finite dimensionality of the `Mᵢ` is essential: it lets the
+projective resolutions `Pᵢ` be chosen finitely generated projective, which is exactly the condition
+under which the crux degreewise map
+`Hom_{A₁}(P₁, N₁) ⊗ₖ Hom_{A₂}(P₂, N₂) → Hom_{A₁ ⊗ A₂}(P₁ ⊗ P₂, N₁ ⊗ N₂)` is an isomorphism. Without
+it the natural Künneth map fails to be surjective (already at `i = 0`, `A₁ = A₂ = k`: the canonical
+`M₁* ⊗ₖ M₂* → (M₁ ⊗ M₂)*` is not surjective for infinite dimensional `Mᵢ`). -/
 theorem Problem_8_2_8_ext (i : ℕ)
     [instM : Module (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂)]
     [instN : Module (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]
@@ -155,7 +170,7 @@ theorem Problem_8_2_8_ext (i : ℕ)
     Nonempty
       (Etingof.Ext (ModuleCat.of (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂))
           (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) i
-        ≃+ (⨁ p : {p : ℕ × ℕ // p.1 + p.2 = i},
+        ≃ₗ[k] (⨁ p : {p : ℕ × ℕ // p.1 + p.2 = i},
               TensorProduct k
                 (Etingof.Ext (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) p.1.1)
                 (Etingof.Ext (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2))) := by
