@@ -2048,6 +2048,107 @@ lemma affine_cyclic_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 �
     omega
   exact ⟨h3, two_regular_connected_iso_Atilde h3 adj hsymm hdiag h01 hconn hvd⟩
 
+/-! ### Tree case: the degree-`≤ 3` core
+
+The remaining branch of the ⟹ direction, after the cyclic case (`affine_cyclic_case`,
+which covers `∑ᵢ∑ⱼ adjᵢⱼ ≥ 2n`, i.e. a graph with at least `n` edges — a cycle) and the
+degree-`4` dichotomy (`affine_degree_four_dichotomy`, which peels off the degree-4 star `D̃₄`).
+
+What is left is an **acyclic** (tree: `∑ᵢ∑ⱼ adjᵢⱼ < 2n`, i.e. `n - 1` edges) connected
+affine Dynkin diagram in which every vertex has degree `≤ 3`. This is the degenerate-boundary
+analogue of the finite branch analysis in `Chapter6/Theorem_Dynkin_classification.lean`
+(`branch_classification`, `tree_branch_iso`, `arm_length_solutions`).
+
+The analysis is organised exactly as in the finite case:
+
+1. **Branch count** (`affine_tree_branch_count`): a connected acyclic affine diagram with all
+   degrees `≤ 3` has **one or two** degree-3 (branch) vertices. Zero branch vertices ⟹ a path ⟹
+   the finite type `Aₙ` (positive *definite*), contradicting degeneracy. Three or more ⟹ a proper
+   induced subgraph that is not finite Dynkin, contradicting `affine_properInduced_finiteDynkin`.
+2. **Two branch vertices ⟹ D̃ₙ** (`affine_tree_two_branch_iso`): a chain with a two-leaf fork at
+   each end; reindex onto `AffineType.Dtilde`. Mirrors the finite `tree_branch_iso`.
+3. **One branch vertex ⟹ Ẽ₆/Ẽ₇/Ẽ₈** (`affine_tree_one_branch_iso`): three arms of lengths
+   `(p, q, r)` meet at the branch vertex; the degeneracy forces the affine Diophantine identity
+   `1/(p+1) + 1/(q+1) + 1/(r+1) = 1`, whose only solutions are `(2,2,2) → Ẽ₆`, `(1,3,3) → Ẽ₇`,
+   `(1,2,5) → Ẽ₈` (arm lengths; equivalently marks `(3,3,3)/(2,4,4)/(2,3,6)`). Reindex onto the
+   corresponding `AffineType.E6tilde/E7tilde/E8tilde`. Mirrors the finite `branch_classification`
+   together with a new *equality* analogue of `arm_length_solutions`.
+
+The main lemma `affine_tree_degree_le_three_iso` dispatches on the branch count. The three pieces
+below are each substantial (the finite `branch_classification` alone is ~700 lines) and are tracked
+as separate sub-issues; their statements are fixed here so downstream work has stable interfaces. -/
+
+/-- **Branch count.** A connected acyclic affine Dynkin diagram with every vertex of degree `≤ 3`
+has exactly one or two degree-3 (branch) vertices.
+
+*Proof route.* Being a tree with maximum degree `3`, the leaf count equals the branch count plus
+`2`; degeneracy rules out a path (which would be the positive-definite `Aₙ`), giving at least one
+branch vertex, and minimality (`affine_properInduced_finiteDynkin`: every proper connected induced
+subgraph is finite Dynkin, so has at most one branch vertex via `dynkin_unique_degree_three`) rules
+out three or more. -/
+lemma affine_tree_branch_count {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3) :
+    (∃ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3 ∧
+        ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v)
+      ∨ (∃ v w, v ≠ w ∧
+        Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3 ∧
+        Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 ∧
+        ∀ u, Etingof.Problem6_1_3_E7E8.vertexDegree adj u = 3 → u = v ∨ u = w) := by
+  -- Sub-issue: tree + max-degree-3 ⟹ #leaves = #branches + 2; degeneracy ⟹ ≥ 1 branch;
+  -- minimality (`affine_properInduced_finiteDynkin` + `dynkin_unique_degree_three`) ⟹ ≤ 2.
+  sorry
+
+/-- **Two branch vertices ⟹ D̃ₙ.** A connected acyclic affine Dynkin diagram with all degrees `≤ 3`
+and exactly two branch (degree-3) vertices is graph-isomorphic to `AffineType.Dtilde n` for some
+`n ≥ 4` (a chain with a two-leaf fork at each end). Affine analogue of the finite
+`tree_branch_iso`. -/
+lemma affine_tree_two_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v w : Fin n) (hvw : v ≠ w)
+    (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (hw : Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3)
+    (huniq : ∀ u, Etingof.Problem6_1_3_E7E8.vertexDegree adj u = 3 → u = v ∨ u = w) :
+    ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  -- Sub-issue: two-fork reindexing onto `AffineType.Dtilde`, mirroring finite `tree_branch_iso`.
+  sorry
+
+/-- **One branch vertex ⟹ Ẽ₆/Ẽ₇/Ẽ₈.** A connected acyclic affine Dynkin diagram with all degrees
+`≤ 3` and exactly one branch (degree-3) vertex is graph-isomorphic to `AffineType.E6tilde`,
+`E7tilde`, or `E8tilde`. The three arms have lengths solving the affine Diophantine identity
+`1/(p+1) + 1/(q+1) + 1/(r+1) = 1`. Affine analogue of the finite `branch_classification`. -/
+lemma affine_tree_one_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  -- Sub-issue: arm-length Diophantine `1/(p+1)+1/(q+1)+1/(r+1) = 1` (equality analogue of
+  -- `arm_length_solutions`) + arm reindexing onto `AffineType.E6tilde/E7tilde/E8tilde`.
+  sorry
+
+/-- **(g), tree case, degree-`≤ 3` core.** A connected acyclic affine Dynkin diagram in which every
+vertex has degree `≤ 3` is graph-isomorphic to one of `D̃ₙ (n ≥ 5)`, `Ẽ₆`, `Ẽ₇`, `Ẽ₈`.
+
+Dispatches on the branch count (`affine_tree_branch_count`): one branch vertex gives an exceptional
+`Ẽ` type (`affine_tree_one_branch_iso`), two give `D̃ₙ` (`affine_tree_two_branch_iso`). -/
+lemma affine_tree_degree_le_three_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3) :
+    ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  rcases affine_tree_branch_count adj hn hD hacyc hdeg3 with
+    ⟨v, hv, huniq⟩ | ⟨v, w, hvw, hv, hw, huniq⟩
+  · exact affine_tree_one_branch_iso adj hn hD hacyc hdeg3 v hv huniq
+  · exact affine_tree_two_branch_iso adj hn hD hacyc hdeg3 v w hvw hv hw huniq
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
