@@ -5604,3 +5604,29 @@ matrices `2 • 1 - adj`) hits two recurring `omega` limitations that surface as
    equation compiler accepts the two-step recursion). Keep the smaller-index submatrix identities
    (`(C (m+1)).submatrix Fin.succ Fin.succ = C m`) as separate `ext … <;> split_ifs <;> omega`
    lemmas.
+
+**Chapter 6 Dynkin/graph files: a hand-written `Finset.univ.filter (fun j => adj v j = 1)` picks a
+different `DecidablePred` instance than `vertexDegree`'s under `classical`, so `exact hu_deg` fails
+with "type mismatch … `#{j | adj v j = 1}` vs `vertexDegree adj v`" even though they are defeq.** Cost
+~4 iterations in #6880 (`Problem6_1_3_continued_tildeE.lean`, `affine_tree_branch_count`); it recurs
+anywhere you relate a `SimpleGraph.degree`/`neighborFinset` or a fresh filter to the project's
+`vertexDegree` (and note two defeq `vertexDegree`s coexist: `Etingof.vertexDegree` in `DynkinForward`
+and `Etingof.Problem6_1_3_E7E8.vertexDegree` — bridge with `have hVD … := fun _ _ _ => rfl; simp only
+[hVD]`). **Fix:** never write the filter term yourself when you need it to match `vertexDegree`. Either
+(a) prove the bridging equality by `ext j; simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter,
+Finset.mem_univ, true_and]; exact Iff.rfl` (membership comparison is instance-blind), or (b) `unfold
+Etingof.vertexDegree` first and run `Finset.card_le_card`/`card_image` against the goal's *own* filter
+via `?_` holes, letting unification supply the term. Also: `rintro rfl` on `c = u` (two locals) may
+eliminate the *outer* variable, breaking later references — use `intro h; rw [h, …]` instead.
+
+**Deleting a single leaf beats a Steiner-tree induced subgraph for affine branch-count bounds.** In
+#6880 the "≤ 2 branch vertices" step looked like it needed a proper connected induced subgraph
+containing three branch vertices (hard to build). Instead delete one degree-1 vertex `u` (reindex
+survivors by `u.succAbove`, apply `affine_properInduced_isDynkin` +
+`SimpleGraph.Connected.induce_compl_singleton_of_degree_eq_one`): only `u`'s unique neighbour loses a
+degree, so any two branch vertices *not adjacent to `u`* keep degree 3 in the finite subdiagram and
+collide under `dynkin_unique_degree_three` (≤1 degree-3 vertex). Partitioning the branch set by
+adjacency to `u` gives `|S| ≤ |N(u)| + 1 = deg u + 1 = 2`. The dual "≥ 1 branch" comes from the affine
+handshake identity `∑ⱼ (deg j − 2)·wⱼ = 0` (`w` the strictly-positive kernel from
+`affineNullVector_pos`): no degree-3 vertex ⟹ every term ≤ 0 ⟹ all degrees `= 2` ⟹ `∑∑adj = 2n`,
+contradicting the acyclicity hypothesis — no path-ordering / transport-to-`Aₙ` needed.
