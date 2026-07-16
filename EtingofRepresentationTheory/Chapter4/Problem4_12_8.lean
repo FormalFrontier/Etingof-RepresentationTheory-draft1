@@ -109,7 +109,7 @@ point of `Circle`) is an injective group homomorphism.
 section CommonAxis
 
 open scoped RealInnerProductSpace
-open Matrix EuclideanSpace Submodule
+open Matrix EuclideanSpace Submodule WithLp
 
 /-- An orthogonal `3×3` real matrix acts on Euclidean space preserving the inner product. -/
 private lemma toEuclideanLin_inner_eq {M : Matrix (Fin 3) (Fin 3) ℝ} (hM : Mᵀ * M = 1)
@@ -134,6 +134,52 @@ private lemma toEuclideanLin_comp (M N : Matrix (Fin 3) (Fin 3) ℝ) :
 private lemma det_toEuclideanLin (M : Matrix (Fin 3) (Fin 3) ℝ) :
     LinearMap.det (toEuclideanLin M) = M.det := by
   rw [toEuclideanLin_eq_toLin, LinearMap.det_toLin]
+
+/-- The Euclidean linear map of the identity matrix is the identity. -/
+private lemma toEuclideanLin_one :
+    toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) = LinearMap.id := by
+  refine LinearMap.ext fun x => ?_
+  simp [toEuclideanLin_apply, one_mulVec]
+
+/-- The transpose is a two-sided inverse of an `SO(3)` matrix. -/
+private lemma so3_transpose_mul (g : specialOrthogonalGroup (Fin 3) ℝ) :
+    (g : Matrix (Fin 3) (Fin 3) ℝ)ᵀ * (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 :=
+  (mem_orthogonalGroup_iff' (Fin 3) ℝ).mp (mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)).1
+
+/-- Each element of `SO(3)` acts on Euclidean 3-space as a linear isometric equivalence. -/
+private noncomputable def euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) :
+    EuclideanSpace ℝ (Fin 3) ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 3) :=
+  LinearEquiv.isometryOfInner
+    (LinearEquiv.ofLinear (toEuclideanLin (↑g)) (toEuclideanLin (↑g)ᵀ)
+      (by rw [toEuclideanLin_comp,
+          show ((g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ)ᵀ) = 1 from
+            mul_eq_one_comm.mpr (so3_transpose_mul g), toEuclideanLin_one])
+      (by rw [toEuclideanLin_comp, so3_transpose_mul g, toEuclideanLin_one]))
+    (fun x y => toEuclideanLin_inner_eq (so3_transpose_mul g) x y)
+
+@[simp] private lemma euclideanIso_apply (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (x : EuclideanSpace ℝ (Fin 3)) : euclideanIso g x = toEuclideanLin (↑g) x := rfl
+
+/-- `euclideanIso g` fixes any vector fixed by the matrix of `g`. -/
+private lemma euclideanIso_fix (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (w : EuclideanSpace ℝ (Fin 3))
+    (hw : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ofLp w = ofLp w) : euclideanIso g w = w := by
+  apply WithLp.ofLp_injective
+  rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hw]
+
+/-- `euclideanIso` is a homomorphism: it turns products into compositions. -/
+private lemma euclideanIso_mul (g h : specialOrthogonalGroup (Fin 3) ℝ)
+    (x : EuclideanSpace ℝ (Fin 3)) :
+    euclideanIso (g * h) x = euclideanIso g (euclideanIso h x) := by
+  apply WithLp.ofLp_injective
+  simp only [euclideanIso_apply, ofLp_toEuclideanLin_apply, Submonoid.coe_mul, mulVec_mulVec]
+
+/-- `euclideanIso g` has determinant `1`. -/
+private lemma euclideanIso_det (g : specialOrthogonalGroup (Fin 3) ℝ) :
+    LinearMap.det (euclideanIso g).toLinearMap = 1 := by
+  have hEq : (euclideanIso g).toLinearMap = toEuclideanLin (↑g) := rfl
+  rw [hEq, det_toEuclideanLin]
+  exact (mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)).2
 
 end CommonAxis
 
