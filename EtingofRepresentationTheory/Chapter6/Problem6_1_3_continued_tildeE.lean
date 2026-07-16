@@ -1262,6 +1262,118 @@ lemma affine_properInduced_finiteDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) 
   (dynkin_classification m (adj.submatrix e e) hm).mp
     (affine_properInduced_isDynkin adj hn hD e he hv hconn)
 
+/-! ### Cyclic case: a connected `2`-regular graph is the cycle `Ãₙ`
+
+The remaining combinatorial content behind the cyclic branch of the ⟹ direction
+(#6792, #6847). We walk around the cycle: at a vertex `b` reached from `a`, the
+"other neighbour" `otherNbr adj b a` is the unique neighbour of `b` distinct from
+`a`. Iterating the pair-map `(a, b) ↦ (b, otherNbr adj b a)` traces the cycle;
+`Function.minimalPeriod` supplies the wrap-around, connectivity the surjectivity,
+and a minimal-gap induction the injectivity. -/
+
+open Classical in
+/-- The **other neighbour** of `b` relative to `a`: when `a` is a neighbour of `b`
+and `b` has exactly two neighbours, this is the unique neighbour of `b` other than
+`a`; otherwise it is `a`. Defined so that `a ↦ otherNbr adj b a` is the involution
+swapping `b`'s two neighbours (and fixing everything else). -/
+noncomputable def otherNbr {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (b a : Fin n) :
+    Fin n :=
+  if h : a ∈ univ.filter (fun j => adj b j = 1) ∧
+         ((univ.filter (fun j => adj b j = 1)).erase a).Nonempty
+  then h.2.choose else a
+
+variable {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+
+/-- If `a` is a neighbour of `b` with `b` of degree `2`, then `otherNbr adj b a`
+lies in the neighbour set with `a` deleted. -/
+private lemma otherNbr_mem_erase {b a : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : a ∈ univ.filter (fun j => adj b j = 1)) :
+    otherNbr adj b a ∈ (univ.filter (fun j => adj b j = 1)).erase a := by
+  have hne : ((univ.filter (fun j => adj b j = 1)).erase a).Nonempty := by
+    rw [← Finset.card_pos, Finset.card_erase_of_mem ha, hcard]; omega
+  rw [otherNbr, dif_pos ⟨ha, hne⟩]
+  exact hne.choose_spec
+
+/-- `otherNbr adj b a` is a neighbour of `b`. -/
+private lemma otherNbr_adj {b a : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : adj b a = 1) : adj b (otherNbr adj b a) = 1 := by
+  have ha' : a ∈ univ.filter (fun j => adj b j = 1) := by simp [ha]
+  have := otherNbr_mem_erase hcard ha'
+  rw [Finset.mem_erase, Finset.mem_filter] at this
+  exact this.2.2
+
+/-- `otherNbr adj b a ≠ a` when `a` is a neighbour of `b`. -/
+private lemma otherNbr_ne {b a : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : adj b a = 1) : otherNbr adj b a ≠ a := by
+  have ha' : a ∈ univ.filter (fun j => adj b j = 1) := by simp [ha]
+  have := otherNbr_mem_erase hcard ha'
+  rw [Finset.mem_erase] at this
+  exact this.1
+
+/-- The characterisation: the other neighbour is *the* neighbour distinct from `a`. -/
+private lemma otherNbr_eq {b a c : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : adj b a = 1) (hc : adj b c = 1) (hca : c ≠ a) :
+    otherNbr adj b c = a := by
+  have ha' : a ∈ univ.filter (fun j => adj b j = 1) := by simp [ha]
+  have hc' : c ∈ univ.filter (fun j => adj b j = 1) := by simp [hc]
+  -- `erase c` has card `1`; both `a` and `otherNbr adj b c` lie in it, hence equal.
+  have hcard1 : ((univ.filter (fun j => adj b j = 1)).erase c).card = 1 := by
+    rw [Finset.card_erase_of_mem hc', hcard]
+  have hle : ((univ.filter (fun j => adj b j = 1)).erase c).card ≤ 1 := by omega
+  have ha_erase : a ∈ (univ.filter (fun j => adj b j = 1)).erase c :=
+    Finset.mem_erase.mpr ⟨hca.symm, ha'⟩
+  have ho_erase := otherNbr_mem_erase hcard hc'
+  exact (Finset.card_le_one.mp hle _ ho_erase _ ha_erase)
+
+/-- Off the neighbour set, `otherNbr` is the identity. -/
+private lemma otherNbr_eq_self {b a : Fin n}
+    (ha : a ∉ univ.filter (fun j => adj b j = 1)) : otherNbr adj b a = a := by
+  rw [otherNbr, dif_neg]
+  rintro ⟨h, -⟩; exact ha h
+
+/-- `a ↦ otherNbr adj b a` is an involution (when every vertex has degree `2`). -/
+private lemma otherNbr_involutive
+    (hdeg : ∀ v, (univ.filter (fun j => adj v j = 1)).card = 2) (b a : Fin n) :
+    otherNbr adj b (otherNbr adj b a) = a := by
+  by_cases ha : a ∈ univ.filter (fun j => adj b j = 1)
+  · have ha1 : adj b a = 1 := by simpa using (Finset.mem_filter.mp ha).2
+    have hc1 : adj b (otherNbr adj b a) = 1 := otherNbr_adj (hdeg b) ha1
+    have hcne : otherNbr adj b a ≠ a := otherNbr_ne (hdeg b) ha1
+    exact otherNbr_eq (hdeg b) ha1 hc1 hcne
+  · rw [otherNbr_eq_self ha, otherNbr_eq_self ha]
+
+/-- The pair-map is injective (hence a permutation of the finite type). -/
+private lemma stepPair_injective
+    (hdeg : ∀ v, (univ.filter (fun j => adj v j = 1)).card = 2) :
+    Function.Injective (fun p : Fin n × Fin n => (p.2, otherNbr adj p.2 p.1)) := by
+  rintro ⟨a, b⟩ ⟨a', b'⟩ h
+  simp only [Prod.mk.injEq] at h
+  obtain ⟨hb, ho⟩ := h
+  subst hb
+  have haa : a = a' := by
+    have := congrArg (otherNbr adj b) ho
+    rwa [otherNbr_involutive hdeg, otherNbr_involutive hdeg] at this
+  simp [haa]
+
+/-- **(g), cyclic case.** A connected `2`-regular simply-laced graph on `Fin n`
+(`n ≥ 3`) is graph-isomorphic to the `n`-cycle `Ãₙ`. -/
+lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
+    (hdeg : ∀ v, vertexDegree adj v = 2) :
+    ∃ σ : Fin (AffineType.Atilde n hn).rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = (AffineType.Atilde n hn).adj i j := by
+  sorry
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
