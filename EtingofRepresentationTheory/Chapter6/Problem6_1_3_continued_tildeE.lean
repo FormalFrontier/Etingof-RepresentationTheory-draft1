@@ -541,7 +541,61 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
             rw [if_pos (Or.inl (Nat.mod_eq_of_lt hm))]
       exact (reflTransGen_symm (AffineType.adj_isSymm _) (reach i.val i.isLt)).trans
         (reach j.val j.isLt)
-  | Dtilde n hn => sorry
+  | Dtilde n hn =>
+      have hrank : (AffineType.Dtilde n hn).rank = n + 1 := rfl
+      -- An edge of `D̃ₙ` from the explicit adjacency condition.
+      have dEdge : ∀ (a b : ℕ) (ha : a < n + 1) (hb : b < n + 1),
+          (min a b = 0 ∧ max a b = 2 ∨ min a b = 1 ∧ max a b = 2 ∨
+           2 ≤ min a b ∧ max a b ≤ n - 2 ∧ min a b + 1 = max a b ∨
+           min a b = n - 2 ∧ max a b = n - 1 ∨ min a b = n - 2 ∧ max a b = n) →
+          (AffineType.Dtilde n hn).adj ⟨a, ha⟩ ⟨b, hb⟩ = 1 := by
+        intro a b ha hb hcond
+        simp only [AffineType.adj]
+        rw [if_pos hcond]
+      -- Reach along the central chain `2 — 3 — ⋯ — (n-2)`.
+      have chainReach : ∀ (m : ℕ) (_ : 2 ≤ m) (hmn : m ≤ n - 2),
+          Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
+            ⟨2, by omega⟩ ⟨m, by omega⟩ := by
+        intro m
+        induction m with
+        | zero => intro h _; omega
+        | succ p ih =>
+            intro hm2 hmn
+            rcases Nat.lt_or_ge p 2 with hp | hp
+            · have hp1 : p = 1 := by omega
+              subst hp1; exact .refl
+            · refine (ih hp (by omega)).tail ?_
+              exact dEdge p (p + 1) (by omega) (by omega)
+                (by right; right; left; exact ⟨by omega, by omega, by omega⟩)
+      -- The leaf `0` connects to the chain start `2`.
+      have e02 : Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
+          ⟨0, by omega⟩ ⟨2, by omega⟩ :=
+        .single (dEdge 0 2 (by omega) (by omega) (by left; exact ⟨by omega, by omega⟩))
+      -- Reach from `0` to any vertex, by cases on which class it belongs to.
+      have reachVal : ∀ (v : ℕ) (hv : v < n + 1),
+          Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
+            ⟨0, by omega⟩ ⟨v, hv⟩ := by
+        intro v hv
+        have hcl : v = 0 ∨ v = 1 ∨ (2 ≤ v ∧ v ≤ n - 2) ∨ v = n - 1 ∨ v = n := by omega
+        rcases hcl with h | h | ⟨h2, h3⟩ | h | h
+        · subst h; exact .refl
+        · subst h
+          exact e02.tail (dEdge 2 1 (by omega) (by omega)
+            (by right; left; exact ⟨by omega, by omega⟩))
+        · exact e02.trans (chainReach v h2 h3)
+        · subst h
+          exact (e02.trans (chainReach (n - 2) (by omega) (by omega))).tail
+            (dEdge (n - 2) (n - 1) (by omega) (by omega)
+              (by right; right; right; left; exact ⟨by omega, by omega⟩))
+        · have hvn : (⟨v, hv⟩ : Fin (AffineType.Dtilde n hn).rank) = ⟨n, by omega⟩ :=
+            Fin.ext (by omega)
+          rw [hvn]
+          exact (e02.trans (chainReach (n - 2) (by omega) (by omega))).tail
+            (dEdge (n - 2) n (by omega) (by omega)
+              (by right; right; right; right; exact ⟨by omega, by omega⟩))
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by omega⟩ ?_ i j
+      intro k
+      exact reachVal k.val k.isLt
   | E6tilde =>
       refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
       intro k
