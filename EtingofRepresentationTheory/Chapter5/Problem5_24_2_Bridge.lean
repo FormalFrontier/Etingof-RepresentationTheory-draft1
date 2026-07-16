@@ -1,6 +1,7 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter5.Problem5_24_2_Core
 import EtingofRepresentationTheory.Chapter5.Theorem5_18_4
+import EtingofRepresentationTheory.Chapter5.SchurWeylGLTransfer
 
 /-!
 # Problem 5.24.2, steps 1–2: the coordinate ↔ tensor bridge
@@ -260,20 +261,46 @@ theorem endTensorEval_conj (slot : Fin n → Fin k) (g : (Matrix (Fin N) (Fin N)
       ← Matrix.mul_assoc, ← Matrix.mul_assoc]
   rw [hlhs, hrhs]
 
-/-- **Range identification (statement).** Every fixed-multidegree conjugation-invariant polynomial
-lies in the image, under the evaluation pairing `endTensorEval slot`, of the `GL(V)`-invariant part
-of `End(V)^{⊗n}` — namely `symGroupImage ℂ V n`, the `ℂ`-span of the permutation operators.
+/-- **The GL-equivariant section (crux).** There is a section `σ` of the evaluation pairing
+`endTensorEval slot` on the multidegree-`d` part of the coordinate ring that is `GL(V)`-equivariant:
+it sends each `matrixWeight`-homogeneous polynomial `p` of multidegree `d` to an endomorphism `σ p`
+of `V^{⊗n}` with `endTensorEval slot (σ p) = p` (section property), and intertwines the
+simultaneous-conjugation automorphism `conjAlgHom g` on polynomials with conjugation by the diagonal
+operator `g^{⊗n}` on `End(V^{⊗n})` (equivariance).
 
-Here `slot : Fin n → Fin k` is any slot assignment compatible with the multidegree `d`, meaning slot
-`j` carries letter `i` for exactly `d i` slots (`hslot`); in particular `n = ∑ᵢ dᵢ` is the total
-degree.
+This is the reductivity heart of the First Fundamental Theorem (book step 2), obtained — following
+the single-matrix `PolynomialTensorBridge` — by an explicit block-symmetrization section rather than
+an abstract Reynolds operator. Its construction and the two properties are the deliverable of the
+section sub-issue; the assembly `weightedHomogeneous_invariant_mem_range_endTensorEval` below
+consumes it, turning `GL`-invariance of `p` into commutation of `σ p` with every diagonal operator
+and hence membership in `symGroupImage`. -/
+theorem exists_endTensorEval_equivariant_section
+    (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
+    (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i) :
+    ∃ σ : MatrixTupleRing k N → Module.End ℂ (TensorPower ℂ (BridgeV N) n),
+      (∀ p : MatrixTupleRing k N, IsWeightedHomogeneous (matrixWeight k N) p d →
+          endTensorEval k N n slot (σ p) = p) ∧
+      (∀ (g : (Matrix (Fin N) (Fin N) ℂ)ˣ) (p : MatrixTupleRing k N),
+          IsWeightedHomogeneous (matrixWeight k N) p d →
+          σ (conjAlgHom k N g p)
+            = PiTensorProduct.map
+                  (fun _ : Fin n => Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
+              * σ p
+              * PiTensorProduct.map
+                  (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ))) := by
+  sorry
 
-This is book step 2 of the Problem 5.24.2 hint: the degree-`d` invariants
-`⨂ᵢ Sᵈⁱ(V ⊗ V*)` are realized as `GL(V)`-invariant tensors in `(V ⊗ V*)^{⊗n} = End(V)^{⊗n}`. The
-deep content — surjectivity of `endTensorEval` from the invariant tensors onto the degree-`d`
-invariants, i.e. the First Fundamental Theorem via Schur–Weyl — is left as a `sorry` here; it is
-discharged in the assembly sub-issue by combining the Schur–Weyl permutation-spanning theorem
-(`Theorem5_18_4_centralizers`) with the tensor-trace ↔ trace-word identity. -/
+/-- **Range identification (assembly).** Every fixed-multidegree conjugation-invariant polynomial
+lies in the image, under `endTensorEval slot`, of `symGroupImage ℂ V n` — the `GL(V)`-invariant part
+of `End(V)^{⊗n}`. This is book step 2 of the FFT.
+
+Given the `GL`-equivariant section `σ` (`exists_endTensorEval_equivariant_section`), the lift is
+`M := σ p`. The section property gives `endTensorEval slot M = p`. For membership in
+`symGroupImage`, invariance `conjAlgHom g p = p` combined with equivariance shows `M` is fixed by
+conjugation by every diagonal unit operator `g^{⊗n}` (`M = (g^{⊗n})⁻¹ M g^{⊗n}`), i.e.
+`Commute (g^{⊗n}) M`. Since the
+`g^{⊗n}` generate `diagonalActionImage` (`adjoin_unitsTensorPow_eq_diagonalActionImage`) and
+`symGroupImage` is its centralizer (`Theorem5_18_4_centralizers`), `M ∈ symGroupImage`. -/
 theorem weightedHomogeneous_invariant_mem_range_endTensorEval
     (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
     (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i)
@@ -281,7 +308,70 @@ theorem weightedHomogeneous_invariant_mem_range_endTensorEval
     (hhom : IsWeightedHomogeneous (matrixWeight k N) p d)
     (hinv : p ∈ invariantSubalgebra k N) :
     ∃ M ∈ symGroupImage ℂ (BridgeV N) n, endTensorEval k N n slot M = p := by
-  sorry
+  classical
+  obtain ⟨σ, hsec, hequiv⟩ :=
+    exists_endTensorEval_equivariant_section k N n d slot hslot
+  refine ⟨σ p, ?_, hsec p hhom⟩
+  -- `σ p` commutes with every diagonal unit operator `g^{⊗n}`.
+  have key : ∀ g' : (Module.End ℂ (BridgeV N))ˣ,
+      Commute (PiTensorProduct.map (fun _ : Fin n => (g' : Module.End ℂ (BridgeV N)))) (σ p) := by
+    intro g'
+    -- The matrix unit `g` corresponding to `g'` under `End(ℂ^N) ≃ Matrix`.
+    set A : Matrix (Fin N) (Fin N) ℂ :=
+      LinearMap.toMatrix' (↑g' : Module.End ℂ (Fin N → ℂ)) with hA
+    set A' : Matrix (Fin N) (Fin N) ℂ :=
+      LinearMap.toMatrix' (↑g'⁻¹ : Module.End ℂ (Fin N → ℂ)) with hA'
+    have hAA' : A * A' = 1 := by
+      rw [hA, hA', ← LinearMap.toMatrix'_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one,
+        LinearMap.toMatrix'_one]
+    have hA'A : A' * A = 1 := by
+      rw [hA, hA', ← LinearMap.toMatrix'_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one,
+        LinearMap.toMatrix'_one]
+    set g : (Matrix (Fin N) (Fin N) ℂ)ˣ := ⟨A, A', hAA', hA'A⟩ with hg
+    have hP : Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ)
+        = (↑g' : Module.End ℂ (BridgeV N)) := by
+      change Matrix.mulVecLin A = _
+      rw [hA, ← Matrix.toLin'_apply', Matrix.toLin'_toMatrix']
+    have hPinv : Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ)
+        = (↑g'⁻¹ : Module.End ℂ (BridgeV N)) := by
+      change Matrix.mulVecLin A' = _
+      rw [hA', ← Matrix.toLin'_apply', Matrix.toLin'_toMatrix']
+    -- Invariance of `p` at this `g`.
+    have hpinv : conjAlgHom k N g p = p := by
+      rw [invariantSubalgebra, Algebra.mem_iInf] at hinv
+      have hg' := hinv g
+      rwa [AlgHom.mem_equalizer, AlgHom.id_apply] at hg'
+    -- Equivariance of the section, specialized and rewritten via invariance and `hP`, `hPinv`.
+    have heq := hequiv g p hhom
+    rw [hpinv] at heq
+    simp only [hP, hPinv] at heq
+    set P : Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
+      PiTensorProduct.map (fun _ : Fin n => (g' : Module.End ℂ (BridgeV N))) with hPdef
+    set Q : Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
+      PiTensorProduct.map (fun _ : Fin n => (↑g'⁻¹ : Module.End ℂ (BridgeV N))) with hQdef
+    -- `P` and `Q` are mutually inverse diagonal operators.
+    have hPQ : P * Q = 1 := by
+      rw [hPdef, hQdef, ← PiTensorProduct.map_mul]
+      have hid : (fun _ : Fin n =>
+            (↑g' : Module.End ℂ (BridgeV N)) * (↑g'⁻¹ : Module.End ℂ (BridgeV N)))
+          = fun _ : Fin n => (1 : Module.End ℂ (BridgeV N)) := by
+        funext _
+        rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+      rw [hid, PiTensorProduct.map_one]
+    -- `heq : σ p = Q * σ p * P` and `P * Q = 1` give `P * σ p = σ p * P`.
+    change Commute P (σ p)
+    rw [Commute, SemiconjBy]
+    nth_rewrite 1 [heq]
+    rw [← mul_assoc, ← mul_assoc, hPQ, one_mul]
+  -- Membership in `symGroupImage` via the Schur–Weyl centralizer identity.
+  rw [(Theorem5_18_4_centralizers ℂ (BridgeV N) n).1, Subalgebra.mem_centralizer_iff]
+  intro y hy
+  rw [← adjoin_unitsTensorPow_eq_diagonalActionImage (V := BridgeV N) ℂ n] at hy
+  have hcomm : Commute (σ p) y :=
+    Algebra.commute_of_mem_adjoin_of_forall_mem_commute hy (by
+      rintro _ ⟨g', rfl⟩
+      exact (key g').symm)
+  exact hcomm.symm
 
 /-! ### Surjectivity onto degree-`d` polynomials (the combinatorial core)
 
