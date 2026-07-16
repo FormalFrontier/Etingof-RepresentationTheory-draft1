@@ -685,6 +685,20 @@ and the summand API. Four gotchas, each cost multiple iterations:
   kill the dead one with `d₁/₂_eq_zero (by simp : ¬ Rel 0 (next 0))`, evaluate the live one with
   `d₁/₂_eq` (fully **named** args `(K₁:=…)(K₂:=…)(F:=…)(c:=…)(i₁:=…)…(h:=by simp)(h':=by simp)` — positional is unusable), sign `= 1` by `rfl`/`simp`, then naturality of `F.map πᵢ` + `← Functor.map_comp` + the `d≫π=0` fact + `F.map 0 = 0`.
 
+### `restrictScalars` homology/limit preservation FAILS to synthesize for noncommutative target rings — the `ChangeOfRingsExact` instances require *both* rings commutative (Ch8 external tensor resolution, #6735, `Chapter8/ExternalTensorResolution.lean`)
+
+`(ModuleCat.restrictScalars f).PreservesHomology` / `PreservesFiniteLimits` / `PreservesFiniteColimits` do **not** `inferInstance` when the target ring is noncommutative (e.g. `f = algebraMap k A₁ᵐᵒᵖ`, which is everywhere in this book). The `Mathlib/…/ChangeOfRingsExact.lean` exactness instances are declared under `variable {R} [CommRing R] {R'} [CommRing R']` — they only fire for commutative targets. Likewise `extendRestrictScalarsAdj` (which would make `restrictScalars` a *right* adjoint) needs `[CommRing R] [CommRing S]`. **Build it via the left adjoint instead** (`restrictScalars ⊣ coextendScalars`, general rings): `restrictScalars` preserves colimits, and it already has `PreservesMonomorphisms` + (via `Additive`) `PreservesZeroMorphisms`, so `preservesHomology_of_preservesMonos_and_cokernels` applies:
+```lean
+theorem restrictScalars_preservesHomology {R S : Type u} [Ring R] [Ring S] (f : R →+* S) :
+    (ModuleCat.restrictScalars.{u} f).PreservesHomology := by
+  haveI : Limits.PreservesColimits (ModuleCat.restrictScalars.{u} f) :=
+    (ModuleCat.restrictCoextendScalarsAdj f).leftAdjoint_preservesColimits
+  exact Functor.preservesHomology_of_preservesMonos_and_cokernels _
+```
+Then `homology (F(Q.complex)) (n+1)` for a `ProjectiveResolution Q` is zero via the mapped quasi-iso `(F.mapHomologicalComplex _).map Q.π` (`QuasiIsoAt` instance, auto from `[F.PreservesHomology]`) + `HomologicalComplex.singleMapHomologicalComplex F _ 0 |>.app N` + `isZero_single_obj_homology (down ℕ) 0 (F.obj N) (n+1) (by simp)` (note: `c`, `j` are **explicit** leading args of `isZero_single_obj_homology`). Two more snags: `ChainComplex.single₀` is an `abbrev` for `HomologicalComplex.single _ (down ℕ) 0`, so the `single`-lemmas apply directly; and a `res₁Complex`-style `abbrev` whose only `k`-dependence is in its return type leaves `k` a stuck `Algebra ?k A₁` metavariable — pin it with `res₁Complex (k := k) P₁`.
+
+**Also (definition-audit):** `extTensorProjectiveResolution` was declared over `[CommRing k]`, but its `quasiIso` field (tensor of resolutions is a resolution of the tensor) is *false* over a general `CommRing` — it is `Tor_{>0}^k(M₁,M₂)=0`, which fails for `k=ℤ`, `M₁=M₂=ℤ/2`. It needs `[Field k]`. Confirm a homological-algebra `quasiIso`/acyclicity obligation actually holds under the stated ring hypotheses (flatness ⟹ field) *before* attempting to fill it.
+
 ### An additive functor commutes with `mapBifunctor`/`total` — it's `PreservesCoproduct.iso`, not a hand-built descent (Ch8 #6743, `Chapter8/MapBifunctorPostcomp.lean`)
 
 To move an additive `G : D ⥤ D'` through the total complex — `(G.mapHomologicalComplex c).obj (mapBifunctor K₁ K₂ F c) ≅ mapBifunctor K₁ K₂ (F ⋙ (Functor.whiskeringRight _ _ _).obj G) c` (the shape #6727/#6738 need) — do **not** hand-build the colimit descent. Each degree is *definitionally* `∐ (…mapObjFun π j)` (`total.X j := toGradedObject.mapObj π j := ∐ …`, all `rfl`), and `((F ⋙ whiskG).obj X₁).obj X₂ = G.obj ((F.obj X₁).obj X₂)` is defeq, so:
