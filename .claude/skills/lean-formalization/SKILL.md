@@ -84,6 +84,22 @@ apply Sigma.hom_ext; intro b; rw [Sigma.ι_desc_assoc]; exact Projective.factorT
 lesson: when a Mathlib instance/lemma quietly uses full transparency, bypass it with an explicit
 term rather than fighting heartbeats.
 
+**The Chapter 8 `Tor` rearrangement stack carries a *second* `Module k` action on the same
+carrier — restriction-through-`Aᵐᵒᵖ` vs `TensorProduct`-diagonal — that is defeq-*false*.** Hit in
+#6742 (`Chapter8/RearrangeBifunctorNatIso.lean`). `tensorRightFunctorₖ.obj` equips `tensorOver A N M`
+with the `k`-action *restricted through* `algebraMap k Aᵐᵒᵖ` (its file's `instModuleKObj`), whereas
+`rearrangeBidegree`/`TensorOverModule` use the `TensorProduct`-diagonal `k`-action on `M`. On simple
+tensors both give `c • ⟦(x⊗y)⊗n⟧ = ⟦(c•x)⊗y⊗n⟧`, so they agree **propositionally but not
+definitionally** — `ModuleCat.of k (tensorOver …)` built the two ways are *not* `rfl`-equal, so
+`(…).toModuleIso` will not typecheck against `(F.obj X).obj Y`. Note the `(A₁⊗A₂)ᵐᵒᵖ`-*module* half
+of the diamond **is** dissolvable by defining your local `Module (A₁⊗A₂)ᵐᵒᵖ (X⊗Y)` as
+`inferInstanceAs (Module _ (extTensorFunctorObj … X Y))` (reuse the very instance the functor object
+carries); only the `k`-action still differs, and only on the `(A₁⊗A₂)` side (the `Aᵢ` factor sides
+match because `rearrangeBidegree` takes `Module k (Pᵢ)` from those same restriction instances).
+**Fix:** reconcile the one remaining `k`-action by proving the two `Module k` structures equal
+(`Module.ext` / smul-agreement over `QuotientAddGroup.mk_surjective` + `TensorProduct.induction_on`
+generators) and cross with `eqToIso`, rather than hunting for a `rfl`.
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
@@ -232,6 +248,7 @@ This saved 2+ sessions in Waves 47-49 by catching false statements early, an ent
 - **`rw` gotchas hit while landing PR #5741 (both cost a rebuild):** (1) rewriting a hypothesis of the form `⅟(card G) • S = …` with `card G = 60` fails **`motive is not type correct`** — the `⅟` carries an `Invertible (card G)` instance that can't be abstracted; fix by `rw [invOf_eq_inv, smul_eq_mul]` FIRST (drops the instance-dependence), then rewrite the cast freely. (2) A `rw [… , lam2_character 3]` chain can silently close the goal via its trailing `rfl` (the `![6,0,-2,1,1] 3` matrix index reduces to `1` definitionally), so a following `norm_num`/`rfl` throws **"no goals to be solved"** — either drop the trailing tactic, or make the closing step robust with `simpa using lam2_character 3` (simp's `Matrix.cons_val_*` evaluate the index either way).
 - **`motive is not type correct` in `Fin n`/`Nat.Partition`/`List`-index proofs (#6076, Problem 5.16.2; two variants, each cost a rebuild).** (1) With `hsum : la.sortedParts.sum = n`, doing `rw [← hsum]` to turn a goal `m < n` into `m < …sum` fails — `n` is the *type parameter* of `la : n.Partition`, so abstracting it breaks `la`'s type. Fix: never `rw [← hsum]`; use a term (`lt_of_lt_of_eq hmlt hsum : m < n`) or forward `rw [hsum]` in a goal that mentions only `…sum`. (2) `set r := rowOfPos … with hr` *before* establishing a `getElem` fact, then `rw [hr]` into the index of `la.sortedParts[r]`, fails (the `r < length` membership proof depends on `r`). Fix: state the raw `have`s (`rowOfPos_lt_length`, `colOfPos_lt_getElem`, `pos_decomp_list`) *first*, then `set r`/`set c` — `set` folds them automatically and no `rw`-into-`getElem` is needed. Also: `List.sum_take_succ l i h : (l.take (i+1)).sum = (l.take i).sum + l[i]` is cleaner than `take_succ_eq_append_getElem` + `simp`.
 - **Reusing earlier-chapter helpers that are `private` (#6076).** Much of the Young-tableau coefficient/counting machinery (`youngSymmetrizer_pq_coeff`, `youngSymmetrizer_support` in `PolytabloidBasis.lean`; `rowOfPos_lt_iff`, `rowOfPos_colOfPos_canonical`, `card_filter_val_lt`, `swap_mem_RowSubgroup`, … in `Lemma5_13_2.lean`) is `private`. `grep -n "private (theorem|lemma) <name>"` and remove the `private` keyword rather than reproving — de-privatizing is a one-word, regression-free change (verified by a full `lake build`), far cheaper than re-deriving ~80 lines of `MonoidAlgebra`/positional-induction proofs.
+- **`MonoidAlgebra.algHom_ext` hands you the goal on `single g 1`, not `of g` (#6750, `Chapter5/Problem5_24_1_b.lean`).** So `of`-based rewrite lemmas (e.g. a project `signTwist_of : φ (of g) = …`) silently fail to fire (`rw` "did not find pattern"; `simp only` leaves the goal unsolved and flags every downstream arg unused). `MonoidAlgebra.of ℂ G g` is *defeq* to `single g 1` but not syntactically equal — insert a `show φ (φ (MonoidAlgebra.of ℂ G g)) = MonoidAlgebra.of ℂ G g` (`show`/`change` uses defeq, unfolding `AlgHom.comp`/`AlgHom.id` too) *before* the `of`-lemma rewrites. For involution proofs (`sign(g)²=1`, group-algebra automorphisms), prove `(sign g : ℤˣ)` squares to `1` via `Int.units_mul_self` after `← Int.cast_mul, ← Units.val_mul` (the ℤ-level `↑u * ↑u` is NOT the ℤˣ `u * u` the lemma expects), then `DFunLike.congr_fun hcomp` + `Function.Involutive.bijective`. Also: no Mathlib lemma sums `YoungDiagram.rowLens` — `μ.rowLens.sum = μ.card` is `Finset.card_eq_sum_card_fiberwise` on `Prod.fst` (fibers are `row i`, `rowLen_eq_card`); `card_transpose` is `Equiv.finsetCongr`; the `(List.range n).map f).sum = ∑ i ∈ Finset.range n, f i` bridge is a 2-line `List.range_succ`/`Finset.sum_range_succ` induction.
 - **Extracting the golden-ratio characters `χ₊`/`χ₋` from the eigenspace split (#5781, PR #5843, landed as `repC3plus_character`/`repC3minus_character`).** Solve the 2×2 trace system `χ₊+χ₋ = χ_{Λ²}` and `μ⁺χ₊+μ⁻χ₋ = tr(z·ρ(g))` per class `j`: `LinearMap.trace_eq_sum_trace_restrict` over the `IsCompl` eigenspace pair `E±` of `zEnd` gives both equations (on `E±`, `z·ρ(g)` restricts to `μ±·(ρ(g)|E±)` — prove via `Module.End.mem_eigenspace_iff.mp (hf i x.2)`), then `mul_left_cancel₀ (muPlus_sub_muMinus ≠ 0)` + `linear_combination (±10)*sqrt5_sq`. **Two traps that cost ~7 rebuilds:**
   - **The trace-transport `repC3plus.character g = tr(ρ(g)|E⁺)` hits an `AddCommGroup` instance diamond.** `LinearMap.trace_conj'` (needed to move the trace across the intertwiner `e : E⁺ ≃ repC3plusSub.toSubmodule`) requires `[AddCommGroup ↥E⁺]`, but a **doubly-nested** subtype `↥E⁺` (`E⁺ : Submodule ℂ ↥lam2Sub.toSubmodule`) defaults to `Submodule.addCommMonoid`, so `e` records `E⁺.addCommMonoid` and you get *"Application type mismatch: argument `e` … `E.addCommMonoid` vs `AddCommGroup.toAddCommMonoid`"*. **Fix: `letI : AddCommGroup (↥E) := E.addCommGroup` as the first line of the proof** — the local high-priority instance makes every `↥E` (the equiv, both traces) resolve the `AddCommGroup`-derived `AddCommMonoid`, matching `trace_conj'`. Build the intertwiner with `LinearEquiv.ofBijective` of a corestricted `(lam2Sub.subtype ∘ₗ E.subtype).codRestrict …` (mirrors `Theorem5_25_2.lean`'s `evalMap`); `Submodule.equivMapOfInjective` hits the same diamond. The whole transport lemma needs `set_option synthInstance.maxHeartbeats 400000` + `maxHeartbeats 800000` (the nested subtype makes defeq slow, not wrong).
   - **`Q5toC` arithmetic: use `norm_num`, not `simp only`.** `simp only [Q5.ofNat_re, Q5.neg_re, …]` does **not** reduce `(3 : Q5).re`/`(-1 : Q5).im` (leaves opaque `re 3` in the goal); `norm_num [Q5toC, muPlus, muMinus, chiA5, Matrix.cons_val_*, Q5.mk_re, Q5.ofNat_re, …]` does, and outright closes the all-rational classes (incl. the all-zero class `1`) — leaving only the two 5-cycle classes for `linear_combination`. Never `decide` on `Q5` (the `1/60`/`ℚ`-normalisation stalls the kernel).
@@ -662,6 +679,14 @@ theorem restrictScalars_preservesHomology {R S : Type u} [Ring R] [Ring S] (f : 
 Then `homology (F(Q.complex)) (n+1)` for a `ProjectiveResolution Q` is zero via the mapped quasi-iso `(F.mapHomologicalComplex _).map Q.π` (`QuasiIsoAt` instance, auto from `[F.PreservesHomology]`) + `HomologicalComplex.singleMapHomologicalComplex F _ 0 |>.app N` + `isZero_single_obj_homology (down ℕ) 0 (F.obj N) (n+1) (by simp)` (note: `c`, `j` are **explicit** leading args of `isZero_single_obj_homology`). Two more snags: `ChainComplex.single₀` is an `abbrev` for `HomologicalComplex.single _ (down ℕ) 0`, so the `single`-lemmas apply directly; and a `res₁Complex`-style `abbrev` whose only `k`-dependence is in its return type leaves `k` a stuck `Algebra ?k A₁` metavariable — pin it with `res₁Complex (k := k) P₁`.
 
 **Also (definition-audit):** `extTensorProjectiveResolution` was declared over `[CommRing k]`, but its `quasiIso` field (tensor of resolutions is a resolution of the tensor) is *false* over a general `CommRing` — it is `Tor_{>0}^k(M₁,M₂)=0`, which fails for `k=ℤ`, `M₁=M₂=ℤ/2`. It needs `[Field k]`. Confirm a homological-algebra `quasiIso`/acyclicity obligation actually holds under the stated ring hypotheses (flatness ⟹ field) *before* attempting to fill it.
+
+### An additive functor commutes with `mapBifunctor`/`total` — it's `PreservesCoproduct.iso`, not a hand-built descent (Ch8 #6743, `Chapter8/MapBifunctorPostcomp.lean`)
+
+To move an additive `G : D ⥤ D'` through the total complex — `(G.mapHomologicalComplex c).obj (mapBifunctor K₁ K₂ F c) ≅ mapBifunctor K₁ K₂ (F ⋙ (Functor.whiskeringRight _ _ _).obj G) c` (the shape #6727/#6738 need) — do **not** hand-build the colimit descent. Each degree is *definitionally* `∐ (…mapObjFun π j)` (`total.X j := toGradedObject.mapObj π j := ∐ …`, all `rfl`), and `((F ⋙ whiskG).obj X₁).obj X₂ = G.obj ((F.obj X₁).obj X₂)` is defeq, so:
+- **Degreewise iso is literally `Limits.PreservesCoproduct.iso G (postcompFam …)`** — the `G.obj (∐ f) ≅ ∐ (G ∘ f)` iso lands with the target complex's degree type accepted by defeq, no transport. Instance needs: `[G.Additive]` (⇒ `preservesFiniteCoproductsOfAdditive`) + `[Finite (π ⁻¹' {j})]` (⇒ `PreservesColimit`), plus the RHS `HasCoproduct (fun i => G.obj (f i))` — supply it from `‹HasMapBifunctor K₁ K₂ (F ⋙ whiskG) c›` as a genuine `instance` so the *same* coproduct is used everywhere (else `PreservesCoproduct.inv_hom`'s `.inv = sigmaComparison` `rfl` fails across two subsingleton `HasColimit` instances).
+- **Summand compat** from `Limits.ι_comp_sigmaComparison` (inv form) + `PreservesCoproduct.inv_hom`; then the differential square via `HomologicalComplex.Hom.isoOfComponents`, reducing on each summand with `mapBifunctor.d_eq`/`ι_D₁`/`ι_D₂` and `d₁_eq'`/`d₂_eq'`. `G` passes the Koszul sign `ε₁/ε₂ : ℤˣ` by `Functor.map_units_smul` (additive ⇒ `Functor.intLinear : G.Linear ℤ`) + `Linear.units_smul_comp`; `d₁ = F.map d`, `d₂` pass through `G` by `rfl` (defeq).
+- **Pin the `ComplexShape` explicitly with `(c := c)` at every call site** of a helper whose `c` is inferable *only* from its return type (`postcompX`/`postcompFam`). TC resolution for the coproduct/`Finite`-fiber args fires before `c` unifies and dies with `typeclass instance problem is stuck … TotalComplexShape c₁ c₂ ?m`. Same fix as the `proj (A := A)` / `le_iSup ![…]` metavariable traps above.
+- `whiskeringRight` lives in `CategoryTheory.Functor`, so write **`Functor.whiskeringRight`** under `open CategoryTheory` (unqualified is `Unknown identifier`).
 
 ### Cochain-complex `Ext` crux: keep ℤ indices in ONE cast form, and hand-build the noncommutative tensor–hom adjunction (Ch8 Problem 8.2.6 ii, #6464)
 
@@ -3445,6 +3470,26 @@ If the concrete example fails, the statement has a convention bug. Fix the state
 ## Dependent Type Rewriting Patterns
 
 Direct `rw` on dependent types is a recurring friction point. These patterns work:
+
+### `omega` cannot do variable-modulus `% n` or unfold `if-then-else`
+`omega` supports `%`/`/` only by **numeral** divisors. For a *variable* modulus
+`n` (e.g. cyclic adjacency `(i+1) % n = j`, `Fin n` rotation), `omega` treats
+`(m+1) % n` as an opaque atom and fails even on trivial facts like
+`(i+1) % n = i+1` given `i+1 < n`. It also does **not** case-split on
+`if c then _ else _`. Recipe (used for `cycle_cartan_*`, #6745,
+`Chapter6/Problem6_1_3_continued_E7_E8.lean`): first rewrite every mod into an
+`if`-branch form with an explicit helper —
+`have hmod : ∀ m, m < n → (m+1) % n = if m+1 = n then 0 else m+1 := fun m hm => by
+  by_cases h : m+1 = n; · rw [if_pos h, h]; exact Nat.mod_self n;
+  · rw [if_neg h]; exact Nat.mod_eq_of_lt (by omega)` — then `rw [hmod …]` at each
+occurrence and finish with `split_ifs <;> omega` (now pure linear + `ite`
+eliminated). To count the two cyclic neighbours as a `Finset`, show
+`univ.filter P = {⟨(i+1)%n, _⟩, ⟨if i=0 then n-1 else i-1, _⟩}` (predecessor
+written *without* an outer mod so its `.val` stays a raw natural), then
+`Finset.sum_boole` + `Finset.card_pair hab`. Reuse `Fin.val_mk` in the `simp only`
+so `(⟨x,h⟩ : Fin n).val` reduces to `x` before `omega`/`split_ifs`. A nonzero
+kernel vector ⇒ `det = 0` is `Matrix.exists_mulVec_eq_zero_iff` (holds over any
+`[CommRing] [IsDomain]`, so ℤ directly — no need to map through ℚ).
 
 ### Pattern 1: `congrArg` with `Fin.ext` (for Fin-indexed access)
 When you need to rewrite a `Fin` value inside a dependent context (e.g., cycle access, list indexing):

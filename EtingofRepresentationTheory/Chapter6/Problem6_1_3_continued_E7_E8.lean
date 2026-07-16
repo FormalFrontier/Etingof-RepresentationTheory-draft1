@@ -134,13 +134,57 @@ each row of `2·Id - R` sums to `0` because every vertex of a cycle has degree `
 ("the sum of rows is `0`"). -/
 theorem cycle_cartan_mulVec_one_eq_zero (n : ℕ) (hn : 3 ≤ n) :
     (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - cycleAdj n).mulVec (fun _ => 1) = 0 := by
-  sorry
+  have hn0 : 0 < n := by omega
+  funext i
+  -- Every vertex of the `n`-cycle has exactly two neighbours (`i+1` and `i-1`,
+  -- distinct for `n ≥ 3`), so its degree — the row sum of `R` — is `2`.
+  have hdeg : ∑ j : Fin n, cycleAdj n i j = (2 : ℤ) := by
+    -- `omega` cannot reason about `% n` for a variable modulus, so first rewrite
+    -- each `(m+1) % n` (with `m < n`) into the elementary `if`-branch form.
+    have hmod : ∀ m : ℕ, m < n → (m + 1) % n = if m + 1 = n then 0 else m + 1 := by
+      intro m hm
+      by_cases h : m + 1 = n
+      · rw [if_pos h, h]; exact Nat.mod_self n
+      · rw [if_neg h]; exact Nat.mod_eq_of_lt (by omega)
+    have hlt1 : (i.val + 1) % n < n := Nat.mod_lt _ hn0
+    have hlt2 : (if i.val = 0 then n - 1 else i.val - 1) < n := by split <;> omega
+    have hfil : (Finset.univ.filter
+          (fun j : Fin n => (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val))
+        = {(⟨(i.val + 1) % n, hlt1⟩ : Fin n),
+            ⟨if i.val = 0 then n - 1 else i.val - 1, hlt2⟩} := by
+      ext j
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert,
+        Finset.mem_singleton, Fin.ext_iff, Fin.val_mk]
+      rw [hmod i.val i.isLt, hmod j.val j.isLt]
+      split_ifs <;> omega
+    have hab : (⟨(i.val + 1) % n, hlt1⟩ : Fin n)
+        ≠ ⟨if i.val = 0 then n - 1 else i.val - 1, hlt2⟩ := by
+      simp only [ne_eq, Fin.mk.injEq]
+      rw [hmod i.val i.isLt]
+      split_ifs <;> omega
+    have hsum : ∑ j : Fin n, cycleAdj n i j
+        = ∑ j : Fin n,
+            if (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val then (1 : ℤ) else 0 := by
+      simp only [cycleAdj]
+    rw [hsum, Finset.sum_boole, hfil, Finset.card_pair hab]
+    norm_num
+  -- The all-ones row sum of `2·Id - R` is `2 - deg = 0`.
+  have h1 : ∑ j : Fin n, (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = (2 : ℤ) := by
+    simp [Matrix.smul_apply, Matrix.one_apply, Finset.sum_ite_eq]
+  simp only [mulVec, dotProduct, mul_one, Matrix.sub_apply, Pi.zero_apply]
+  rw [Finset.sum_sub_distrib, h1, hdeg]
+  norm_num
 
 /-- **(c)** Consequently the Cartan matrix of a cycle is singular: `det A = 0`,
 so a cycle is never a Dynkin diagram. -/
 theorem cycle_cartan_det_zero (n : ℕ) (hn : 3 ≤ n) :
     (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - cycleAdj n).det = 0 := by
-  sorry
+  have hn0 : 0 < n := by omega
+  rw [← Matrix.exists_mulVec_eq_zero_iff]
+  refine ⟨fun _ => 1, ?_, cycle_cartan_mulVec_one_eq_zero n hn⟩
+  intro h
+  have := congrFun h ⟨0, hn0⟩
+  simp at this
 
 /-- **(c)** A Dynkin diagram is a **tree**: being connected (part of
 `IsDynkinDiagram`) and positive definite forces the number of edges to be

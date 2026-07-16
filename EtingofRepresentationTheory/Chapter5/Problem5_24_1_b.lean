@@ -38,13 +38,56 @@ namespace Etingof
 
 open scoped Classical
 
+/-! ### Young diagram cell-count helpers
+
+The `parts_sum` obligation for `conjugatePartition` reduces to the standard fact that a Young
+diagram, its transpose, and its list of row lengths all record the same number of cells. Mathlib
+does not package these directly, so we establish them here. -/
+
+/-- Summing a function over `List.range n` agrees with the corresponding `Finset.range` sum. -/
+private theorem sum_list_range_map (n : ℕ) (f : ℕ → ℕ) :
+    ((List.range n).map f).sum = ∑ i ∈ Finset.range n, f i := by
+  induction n with
+  | zero => simp
+  | succ k ih =>
+    rw [List.range_succ, List.map_append, List.sum_append, ih, Finset.sum_range_succ]; simp
+
+/-- The sum of the row lengths of a Young diagram is its number of cells: the rows partition the
+cells, and each row `i` has `rowLen i` cells. -/
+private theorem rowLens_sum_eq_card (μ : YoungDiagram) : μ.rowLens.sum = μ.card := by
+  rw [YoungDiagram.rowLens, sum_list_range_map]
+  show _ = μ.cells.card
+  rw [Finset.card_eq_sum_card_fiberwise (f := Prod.fst) (t := Finset.range (μ.colLen 0)) ?_]
+  · apply Finset.sum_congr rfl
+    intro i _
+    exact YoungDiagram.rowLen_eq_card μ
+  · intro c hc
+    obtain ⟨i, j⟩ := c
+    rw [Finset.mem_coe, Finset.mem_range]
+    rw [Finset.mem_coe, YoungDiagram.mem_cells, YoungDiagram.mem_iff_lt_colLen] at hc
+    exact lt_of_lt_of_le hc (μ.colLen_anti 0 j (Nat.zero_le _))
+
+/-- Transposing a Young diagram preserves the number of cells (it permutes the cells). -/
+private theorem card_transpose (μ : YoungDiagram) : μ.transpose.card = μ.card := by
+  show μ.transpose.cells.card = μ.cells.card
+  rw [YoungDiagram.transpose]
+  simp [Equiv.finsetCongr_apply]
+
+/-- The Young diagram of a partition of `n` has exactly `n` cells. -/
+private theorem card_toYoungDiagram {n : ℕ} (la : Nat.Partition n) :
+    la.toYoungDiagram.card = n := by
+  rw [← rowLens_sum_eq_card, Nat.Partition.toYoungDiagram,
+    YoungDiagram.rowLens_ofRowLens_eq_self (fun x hx => la.parts_pos (by
+      rw [Multiset.mem_sort] at hx; exact hx))]
+  rw [← Multiset.sum_coe, Multiset.sort_eq]
+  exact la.parts_sum
+
 /-! ### The conjugate partition `λ*` -/
 
 /-- The conjugate (transpose) partition `λ*`: reflect the Young diagram of `λ` across its
 main diagonal. Its parts are the row lengths of the transposed diagram. The `parts_sum`
 obligation is the standard fact that transposing a Young diagram preserves the number of
-cells; it is left as `sorry` (a proof obligation within the definition — the underlying
-data, the transposed row lengths, is genuine). -/
+cells (`card_transpose`), which equals `n` (`card_toYoungDiagram`). -/
 noncomputable def conjugatePartition {n : ℕ} (la : Nat.Partition n) : Nat.Partition n where
   parts := (la.toYoungDiagram.transpose.rowLens : Multiset ℕ)
   parts_pos := by
@@ -53,8 +96,8 @@ noncomputable def conjugatePartition {n : ℕ} (la : Nat.Partition n) : Nat.Part
     exact la.toYoungDiagram.transpose.pos_of_mem_rowLens i hi
   parts_sum := by
     -- `∑ (transpose λ).rowLens = (transpose λ).card = λ.card = n`; transposition is a
-    -- bijection on cells so it preserves the total. Standard; deferred for the statement pass.
-    sorry
+    -- bijection on cells so it preserves the total.
+    rw [Multiset.sum_coe, rowLens_sum_eq_card, card_transpose, card_toYoungDiagram]
 
 /-! ### The sign-twist automorphism `φ` -/
 
@@ -86,7 +129,18 @@ theorem signTwist_of (n : ℕ) (g : Equiv.Perm (Fin n)) :
 /-- `φ` is an involution: applying the sign twist twice is the identity (because
 `sign(g)^2 = 1`). In particular `φ` is bijective, i.e. an algebra automorphism. -/
 theorem signTwist_bijective (n : ℕ) : Function.Bijective (signTwist n) := by
-  sorry
+  have hcomp : (signTwist n).comp (signTwist n) = AlgHom.id ℂ (SymGroupAlgebra n) := by
+    apply MonoidAlgebra.algHom_ext
+    intro g
+    have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
+      rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
+    show signTwist n (signTwist n (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g))
+        = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
+    rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
+  have hinv : Function.Involutive (signTwist n) := fun a => by
+    have := DFunLike.congr_fun hcomp a
+    simpa using this
+  exact hinv.bijective
 
 /-- **`φ` maps `V` to `V ⊗ ℂ_-`.** For any `ℂ[S_n]`-module `V`, restricting the module
 structure along `φ` turns the `g`-action `v ↦ g • v` into `v ↦ sign(g) • (g • v)` — the
@@ -96,7 +150,7 @@ theorem signTwist_smul_of (n : ℕ) {V : Type*} [AddCommGroup V]
     (g : Equiv.Perm (Fin n)) (v : V) :
     (signTwist n (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g)) • v
       = ((Equiv.Perm.sign g : ℤ) : ℂ) • ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g) • v) := by
-  sorry
+  rw [signTwist_of, smul_assoc]
 
 /-- **`φ(ℂ[S_n] a) = ℂ[S_n] φ(a)`.** The sign twist carries the left ideal generated by `a`
 onto the left ideal generated by `φ(a)`. -/
