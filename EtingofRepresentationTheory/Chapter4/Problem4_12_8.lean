@@ -139,7 +139,7 @@ private lemma det_toEuclideanLin (M : Matrix (Fin 3) (Fin 3) ℝ) :
 private lemma toEuclideanLin_one :
     toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) = LinearMap.id := by
   refine LinearMap.ext fun x => ?_
-  simp [toEuclideanLin_apply, one_mulVec]
+  simp
 
 /-- The transpose is a two-sided inverse of an `SO(3)` matrix. -/
 private lemma so3_transpose_mul (g : specialOrthogonalGroup (Fin 3) ℝ) :
@@ -228,7 +228,7 @@ theorem isCyclic_of_common_fixed_vector
       ((ρ g y : W) : EuclideanSpace ℝ (Fin 3))
         = euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) (y : W) := by
     intro g y
-    show ((LinearIsometryEquiv.ofEq _ W (hWinv g)
+    change ((LinearIsometryEquiv.ofEq _ W (hWinv g)
       (LinearIsometryEquiv.submoduleMap W
         (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)) y) : W) :
         EuclideanSpace ℝ (Fin 3)) = _
@@ -308,11 +308,12 @@ theorem isCyclic_of_common_fixed_vector
   let φ : H →* Circle :=
     { toFun := fun g => (o.oangle x (ρ g x)).toCircle
       map_one' := by
-        have : ρ (1 : H) x = x := by
+        have h1 : ρ (1 : H) x = x := by
           apply Subtype.ext
           rw [coeρ]
-          simpa using euclideanIso_fix (1 : specialOrthogonalGroup (Fin 3) ℝ) x (by simp)
-        simp [this, o.oangle_self]
+          apply euclideanIso_fix
+          simp
+        rw [h1, o.oangle_self, Real.Angle.toCircle_zero]
       map_mul' := fun g h => by
         simp only [θmul g h, Real.Angle.toCircle_add] }
   -- `φ` is injective.
@@ -342,7 +343,7 @@ theorem isCyclic_of_common_fixed_vector
             show (euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap v₀
             = euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ) v₀ from rfl, hfixg g, hfixg h]
         · intro z hz
-          simp only [SetLike.mem_coe, LinearMap.mem_eqLocus]
+          simp only [LinearMap.mem_eqLocus]
           have := congrArg (fun e : W ≃ₗᵢ[ℝ] W => ((e ⟨z, hz⟩ : W) : EuclideanSpace ℝ (Fin 3))) hρeq
           simp only [coeρ] at this
           exact this
