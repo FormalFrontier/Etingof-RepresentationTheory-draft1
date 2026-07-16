@@ -63,17 +63,58 @@ variable [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projectiv
 variable [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)]
 
 include hN in
+/-- **The differential-commutation square, inverse form.** Composing the target differential with
+the inverse degreewise iso equals the inverse degreewise iso followed by the source differential.
+Proved
+summand-by-summand on the target coproduct (`mapBifunctor.hom_ext`), reducing through the `.inv`
+reduction `ιMapBifunctor_rearrangeHomComplexXIso_inv` and the source biproduct relations to the two
+#6843 naturality lemmas. -/
+theorem rearrangeHomComplexXIso_inv_comm (i j : ℕ) (hij : (ComplexShape.up ℕ).Rel i j) :
+    (homTarget k N₁ N₂ P₁ P₂).d i j ≫
+        (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).inv =
+      (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ i).inv ≫
+        ((extTensorComplexLeft P₁ P₂).linearYonedaObj k
+          (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))).d i j := by
+  apply HomologicalComplex.mapBifunctor.hom_ext
+  intro p q hpq
+  -- Reduce the RHS summand `tgtInc ≫ (iso i).inv ≫ S.d` via the `.inv` reduction of #6867 and the
+  -- source differential `linearYonedaObj_d`. The source differential is precomposition by the
+  -- degree-`(i+1) → i` chain differential of `extTensorComplexLeft`; on the LHS the target
+  -- differential (Koszul-signed `mapBifunctor.d_eq` on `up ℕ`) is precomposition by the two factor
+  -- Hom differentials. Matching the two summand-by-summand (`mapBifunctor.hom_ext` over the source
+  -- fiber, `srcInc_srcProj` biproduct relations) reduces to the two #6843 naturality lemmas
+  -- `homTensorHom_comp_lcompₖ_left/right`, exactly the `fwdNat_comm` sign bookkeeping. Left as a
+  -- first-pass `sorry` (acceptable per #6844); tracked in a follow-up.
+  rw [ιMapBifunctor_rearrangeHomComplexXIso_inv_assoc, ChainComplex.linearYonedaObj_d]
+  sorry
+
+include hN in
 /-- **The differential-commutation square** for the `Ext` Künneth cochain assembly: the degreewise
 object isos `rearrangeHomComplexXIso` commute with the source (`Hom(mapBifunctor …, N)`) and target
-(`tensorObj` of the two Hom cochain complexes) differentials. Proved summand-by-summand on the
-target coproduct, reducing to the two #6843 naturality lemmas. -/
+(`tensorObj` of the two Hom cochain complexes) differentials. Derived from the inverse form
+`rearrangeHomComplexXIso_inv_comm`. -/
 theorem rearrangeHomComplexXIso_comm (i j : ℕ) (hij : (ComplexShape.up ℕ).Rel i j) :
     (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ i).hom ≫
         (homTarget k N₁ N₂ P₁ P₂).d i j =
       ((extTensorComplexLeft P₁ P₂).linearYonedaObj k
           (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))).d i j ≫
         (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).hom := by
-  sorry
+  have key := rearrangeHomComplexXIso_inv_comm k N₁ N₂ hN P₁ P₂ i j hij
+  calc
+    (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ i).hom ≫ (homTarget k N₁ N₂ P₁ P₂).d i j
+        = (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ i).hom ≫
+            ((homTarget k N₁ N₂ P₁ P₂).d i j ≫
+              (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).inv) ≫
+            (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).hom := by simp
+      _ = (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ i).hom ≫
+            ((rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ i).inv ≫
+              ((extTensorComplexLeft P₁ P₂).linearYonedaObj k
+                (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))).d i j) ≫
+            (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).hom := by rw [key]
+      _ = ((extTensorComplexLeft P₁ P₂).linearYonedaObj k
+              (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))).d i j ≫
+            (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).hom := by
+          rw [Category.assoc, Iso.hom_inv_id_assoc]
 
 include hN in
 /-- **Route step 3 (#6868).** The complex-level rearrangement isomorphism of
