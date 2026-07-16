@@ -166,17 +166,44 @@ theorem homology_tensorObj_res_isZero_succ
 /-- The **external tensor product of two projective resolutions** `P•₁ ⊗_k P•₂` is a projective
 resolution of `M₁ ⊗[k] M₂` over `(A₁ ⊗[k] A₂)ᵐᵒᵖ`. The complex and augmentation are the total
 complex `extTensorComplex P₁ P₂` and its augmentation `extTensorπ P₁ P₂`; degreewise projectivity is
-`extTensorComplex_projective`. The `quasiIso` obligation (exactness of the resolution) is currently
-`sorry` — see the module docstring for the route. -/
+`extTensorComplex_projective`.
+
+Exactness of the resolution (`quasiIso`): restriction of scalars to `k` reflects `QuasiIso` (it
+preserves homology, `restrictScalars_preservesHomology`, and reflects isomorphisms), so it suffices
+to check the restricted map, which `extTensorComplex_restrictIso` (#6738) identifies with the
+augmentation of the `k`-tensor total complex `res₁Complex P₁ ⊗ res₂Complex P₂ → res₁ M₁ ⊗ res₂ M₂`.
+That is a quasi-isomorphism degreewise: positive degrees by the acyclicity
+`homology_tensorObj_res_isZero_succ`, and degree `0` by the tensor-cokernel isomorphism. -/
 noncomputable def extTensorProjectiveResolution
     (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
     ProjectiveResolution (ModuleCat.of (A₁ ⊗[k] A₂)ᵐᵒᵖ (M₁ ⊗[k] M₂)) where
   complex := extTensorComplex P₁ P₂
   projective := extTensorComplex_projective P₁ P₂
   π := extTensorπ P₁ P₂
-  -- Remaining: assemble `QuasiIso` from `homology_tensorObj_res_isZero_succ` (positive degrees)
-  -- and the degree-`0` augmentation isomorphism, transported by `extTensorComplex_restrictIso`
-  -- (#6738). Positive-degree acyclicity is proved above; see the module docstring for the route.
-  quasiIso := sorry
+  quasiIso := by
+    haveI : (resExt k A₁ A₂).PreservesHomology :=
+      restrictScalars_preservesHomology (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)
+    rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology (extTensorπ P₁ P₂)
+      (resExt k A₁ A₂)]
+    set sIso := extTensorComplex_restrictIso (k := k) P₁ P₂ with hsIso
+    set tIso := (HomologicalComplex.singleMapHomologicalComplex (resExt k A₁ A₂)
+        (ComplexShape.down ℕ) 0).app (extTensorFunctorObj k A₁ A₂ M₁ M₂) ≪≫
+      (ChainComplex.single₀ (ModuleCat.{u} k)).mapIso
+        (extRestrictObjIso (k := k) M₁ M₂) with htIso
+    set Φ := sIso.inv ≫ ((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).map
+      (extTensorπ P₁ P₂) ≫ tIso.hom with hΦ
+    suffices hQ : QuasiIso Φ by
+      have heq : ((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).map
+          (extTensorπ P₁ P₂) = sIso.hom ≫ Φ ≫ tIso.inv := by
+        rw [hΦ]; simp
+      rw [heq]; infer_instance
+    rw [quasiIso_iff]
+    rintro (_ | n)
+    · -- degree `0`: the tensor-cokernel augmentation isomorphism.
+      sorry
+    · -- positive degrees: source is acyclic, target is `single₀`.
+      rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _),
+        HomologicalComplex.exactAt_iff_isZero_homology]
+      exact homology_tensorObj_res_isZero_succ P₁ P₂ n
 
 end Etingof
