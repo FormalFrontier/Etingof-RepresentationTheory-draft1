@@ -193,6 +193,17 @@ Check that the plan's assumptions still hold:
   parent/dependency issue for a merged PR and re-fetch before concluding
   the issue is stale. (Seen with #6620: the `finrank_le_of_cyclic` stub
   and its sibling cases landed in PR #6621 which merged mid-session.)
+- **If the prerequisite is only in an *open* (unmerged) PR, not on
+  `origin/main`: `skip`, do not stack on it.** Issue bodies often say a
+  dependency "landed" when its PR is merely open (still building). After
+  `git fetch`, confirm on `origin/main` (`git ls-tree origin/main -- <file>`
+  or `git grep <lemma> origin/main`). If the file/lemma is absent, find the
+  open PR that adds it (`gh pr list --search <file>`). Do **not** base your
+  branch on that PR's branch: this repo squash-merges, so a shared file
+  means whichever PR merges second conflicts, and if *yours* merges first
+  you silently break theirs. `skip` with a "prereq only in open PR #N, not
+  on main" reason; it re-queues cleanly once #N merges. (Seen this session:
+  #6679's `ExternalTensorModule.lean` was only in open PR #6685.)
 - **Sanity-check the target statement is actually provable** before
   attempting the proof. A planner-written signature can be *false as
   stated* (hypotheses too weak, wrong quantifier, missing finiteness).
