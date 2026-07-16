@@ -23,6 +23,18 @@ the two restricted modules.
   in `ModuleCat k`. The underlying map is the identity on `X ⊗[k] Y`; it is `k`-linear because the
   external action of `algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ c` is scalar multiplication by `c` (the external
   representation `extTensorRep` is a `k`-algebra map, so it sends `algebraMap` to `algebraMap`).
+* `Etingof.extRestrictObjIso_naturality`: the identification is natural in `(X, Y)`.
+
+## Status
+
+This file currently delivers the **pointwise** bifunctor isomorphism and its naturality. The
+**complex-level** commutation still to be assembled on top of it —
+`(restrictScalars (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+(extTensorComplex P₁ P₂) ≅ HomologicalComplex.tensorObj C₁ C₂` where `C₁, C₂` are the restricted
+resolutions — requires transporting this pointwise iso through the `mapBifunctor` total complex,
+i.e. that `restrictScalars` (which preserves coproducts, `preservesColimit_restrictScalars`)
+commutes with the `GradedObject.mapObj` coproduct in each degree, matching the Koszul-signed
+differentials. That assembly is tracked as follow-up work.
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
