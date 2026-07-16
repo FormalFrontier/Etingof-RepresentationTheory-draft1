@@ -3103,7 +3103,7 @@
     "start_line": 5,
     "end_line": 2,
     "status": "statement_formalized",
-    "coverage_note": "Statement in EtingofRepresentationTheory/Chapter4/Problem4_12_8.lean: (a) every finite subgroup of SO(3) is cyclic, dihedral, A₄, S₄, or A₅ (disjunction of MulEquivs); (b) SU(2) double-cover relation |H| = |h(H)| or 2|h(H)| via SU(2)→SO(3). Sorry proofs, statement pass (#5944)."
+    "coverage_note": "Statement in Problem4_12_8.lean: (a) every finite subgroup of SO(3) is cyclic/dihedral/A4/S4/A5; (b) SU(2) double-cover relation (proved sorry-free). Part (a) decomposed via pole-counting scaffold (#6802): part (a) body sorry-free, delegating to so3_classification_aux; three concretely-typed milestone lemmas exists_fixed_vector, isCyclic_of_common_fixed_vector, pole_order_diophantine plus glue so3_classification_aux carry sorries, tracked by child issues #6833/#6834/#6835/#6836. No Mathlib support (no SO(3) eigenvalue-1, no MulAction on vectors, no MulEquiv targets)."
   },
   {
     "id": "Chapter4/Problem4.12.9",
