@@ -5386,3 +5386,42 @@ match+`split`.
 `eqToIso (congrArg (…).X (j' = -n)) ≪≫ isoNegExt … ≪≫ eqToIso (…)`. Prove `foo_neg : foo (-n) =
 isoNegExt n` by `rw [foo]; split; next m hm => obtain rfl := …; apply Iso.ext; simp`. Do **not**
 use `.get` for `n` (dependent-position `get` is unrewritable); the match binder gives a real `n`.
+
+## `omega` proves atoms, not `∨`/`∧` *goals*; matrix-entry `split_ifs <;> omega` traps (#6755)
+
+Computing entries / cofactor recursions of concrete matrices (e.g. tridiagonal Cartan
+matrices `2 • 1 - adj`) hits two recurring `omega` limitations that surface as the cryptic
+`omega could not prove the goal: No usable constraints found`:
+
+1. **`omega` cannot prove a disjunctive (`A ∨ B`) or conjunctive (`A ∧ B`) *goal*.** It only
+   closes a single (in)equality, `False`, or a *negation* `¬(…)` (including `¬(A ∨ B)`, which is
+   fine — that is a conjunction of refutable atoms). So a condition like an off-diagonal
+   `i.val + 1 = j.val ∨ j.val + 1 = i.val` must be handed the disjunct explicitly:
+   `Or.inl (by …)` / `Or.inr (by …)`; a conjunction `(eq ∧ le)` must be split
+   `⟨by …, by …⟩`. `by simp only [Fin.val_succ, Fin.val_zero]; omega` on such a goal fails.
+   Reflexive equality sub-goals (`0 + 1 = 0 + 1`) are closed by the `simp only` itself — do
+   **not** append `omega` there or you get "No goals to be solved".
+
+2. **Reduce single matrix entries with helper lemmas, not `split_ifs <;> omega`.** For a
+   `def M i j := if i.val = j.val then a else if <cond> then b else 0`, prove three helpers
+   (`M_diag`/`M_offdiag`/`M_far`) that take the resolved condition and finish with
+   `simp only [M, if_pos/if_neg …]`. Then each entry fact is
+   `M_far (by simp only [Fin.val_succ, Fin.val_zero]; omega) (by …; omega)` — omega only ever sees
+   clean ℕ atoms. `split_ifs <;> omega` directly on `M i j = c` is flaky (leftover `↑↑j` int
+   coercions, disjunctive branch hyps) even though it *works* on two-sided `ext` matrix-equality
+   goals where both sides carry the same `ite`s.
+
+3. **`2 • (1 : Matrix _ _ ℤ)` is invisible to `omega`.** The `2` is a `ℕ`-nsmul, so
+   `smul_eq_mul` does *not* fire and omega treats `2 • 1` as an opaque atom. In the `ext`+`omega`
+   proof relating a `cartan := 2 • 1 - adj` matrix to a bare `if`-matrix, add `two_nsmul`
+   (→ `x + x`) and `Matrix.add_apply` to the `simp only` set (drop `Matrix.smul_apply`) so the
+   diagonal `2` becomes `1 + 1` before `split_ifs <;> omega`.
+
+4. **Two-step (continuant) recursion + induction.** `det(C (n+2)) = 2·det(C (n+1)) − det(C n)`
+   via `Matrix.det_succ_row_zero` then `det_succ_column_zero`; peel the sum with
+   `Fin.sum_univ_succ` twice and kill the tail with a `∀ j, C 0 (succ (succ j)) = 0` hypothesis
+   fed to `simp only [hz, mul_zero, zero_mul, Finset.sum_const_zero, …]; ring`. Close with
+   `private lemma f : ∀ n, … | 0 => … | 1 => … | (n+2) => by rw [rec, f (n+1), f n]; …` (Lean's
+   equation compiler accepts the two-step recursion). Keep the smaller-index submatrix identities
+   (`(C (m+1)).submatrix Fin.succ Fin.succ = C m`) as separate `ext … <;> split_ifs <;> omega`
+   lemmas.
