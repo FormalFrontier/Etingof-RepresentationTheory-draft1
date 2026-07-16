@@ -7,6 +7,7 @@ import EtingofRepresentationTheory.Chapter4.Example4_9_1
 import EtingofRepresentationTheory.Chapter4.Problem4_12_5
 import EtingofRepresentationTheory.Chapter4.Exercise4_2_3
 import EtingofRepresentationTheory.Chapter4.Example4_3_FiniteAbelianGroups
+import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 
 /-!
 # Problem 5.11.1: induced representations of `A₅`
@@ -2388,7 +2389,118 @@ on the `3`-cycles. Tracked as a dedicated sub-issue. -/
 lemma charval_A4_threeDim (H : Subgroup A5) (hH : Nat.card H = 12)
     (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3) (h : ↥H) :
     σ.character h = (![3, 0, -1, 0, 0] : Fin 5 → ℂ) (classIdxA5 (h : A5)) := by
-  sorry
+  classical
+  haveI : Fintype ↥H := Fintype.ofFinite _
+  -- Coercion: `(h : A5) = 1 ↔ h = 1`.
+  have coe_one_iff : (h : A5) = 1 ↔ h = 1 :=
+    ⟨fun hc => Subtype.ext (hc.trans (Subgroup.coe_one H).symm), fun hc => by rw [hc]; rfl⟩
+  by_cases hh1 : h = 1
+  · -- Identity case: `χ(1) = 3`, `classIdxA5 1 = 0`, RHS `= 3`.
+    subst hh1
+    rw [Subgroup.coe_one, show (1 : A5) = classRepA5 0 from rfl, classIdxA5_classRepA5,
+      FDRep.char_one, hdim]
+    norm_num
+  · -- `h ≠ 1`: split on the order of `h` in `A₄`.
+    have hne5 : (h : A5) ≠ 1 := fun hc => hh1 (coe_one_iff.mp hc)
+    obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+    have hmemA : d * (h : A5) * d⁻¹ ∈ A4std := (hd _).mp h.2
+    have hdich : (h : A5) ^ 2 = 1 ∨ (h : A5) ^ 3 = 1 := by
+      rcases A4std_sq_or_cube _ hmemA with h2 | h3
+      · left
+        have e2 : d * ((h : A5) ^ 2) * d⁻¹ = 1 := by
+          rw [show d * ((h : A5) ^ 2) * d⁻¹ = (d * (h : A5) * d⁻¹) ^ 2 by
+            rw [pow_two, pow_two]; group]
+          exact h2
+        have : (h : A5) ^ 2 = d⁻¹ * 1 * d := by rw [← e2]; group
+        rw [this]; group
+      · right
+        have e3 : d * ((h : A5) ^ 3) * d⁻¹ = 1 := by
+          rw [show d * ((h : A5) ^ 3) * d⁻¹ = (d * (h : A5) * d⁻¹) ^ 3 by
+            rw [pow_three', pow_three']; group]
+          exact h3
+        have : (h : A5) ^ 3 = d⁻¹ * 1 * d := by rw [← e3]; group
+        rw [this]; group
+    rcases hdich with hsq | hcube
+    · -- Involution: `χ(h) = -1`, `classIdxA5 = 2`, RHS `= -1`.
+      have hh2 : h ^ 2 = 1 := by
+        have hc : ((h ^ 2 : ↥H) : A5) = 1 := by
+          rw [show ((h ^ 2 : ↥H) : A5) = (h : A5) ^ 2 by push_cast; rfl, hsq]
+        exact Subtype.ext (hc.trans (Subgroup.coe_one H).symm)
+      rw [charval_A4_involution H hH σ hdim h hh2 hh1,
+        Etingof.Problem4_12_5.classIdx_of_involution (h : A5) hsq hne5]
+      norm_num [Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
+    · -- Three-cycle: `classIdxA5 = 1`; `χ(h) = 0` via row orthonormality `⟨χ, χ⟩ = 1`.
+      rw [classIdx_of_order3 (h : A5) hcube hne5]
+      -- `h` is neither the identity nor an involution.
+      have hnsq : ¬ (h : A5) ^ 2 = 1 := by
+        intro hsq2
+        apply hne5
+        have : (h : A5) = (h : A5) ^ 3 * ((h : A5) ^ 2)⁻¹ := by group
+        rw [this, hcube, hsq2]; group
+      -- Row orthonormality: `⅟|H| • ∑_g χ(g)·χ(g⁻¹) = 1`.
+      have hcardH : Fintype.card ↥H = 12 := by rw [← Nat.card_eq_fintype_card, hH]
+      have hcardC : (Fintype.card ↥H : ℂ) = 12 := by rw [hcardH]; norm_num
+      haveI : Invertible (Fintype.card ↥H : ℂ) :=
+        invertibleOfNonzero (by rw [hcardC]; norm_num)
+      have horth := FDRep.char_orthonormal σ σ
+      rw [if_pos ⟨CategoryTheory.Iso.refl σ⟩] at horth
+      rw [smul_eq_mul, invOf_eq_inv] at horth
+      have hSeq : (∑ g : ↥H, σ.character g * σ.character g⁻¹) = (Fintype.card ↥H : ℂ) := by
+        have hne0 : (Fintype.card ↥H : ℂ) ≠ 0 := by rw [hcardC]; norm_num
+        field_simp [hne0] at horth
+        linear_combination horth
+      -- Each summand is the (real) norm-squared of the character value.
+      have hnorm : ∀ g : ↥H,
+          σ.character g * σ.character g⁻¹ = (Complex.normSq (σ.character g) : ℂ) := by
+        intro g; rw [Etingof.char_inv_eq_conj, Complex.mul_conj]
+      have hbig : (∑ g : ↥H, (Complex.normSq (σ.character g) : ℂ)) = (12 : ℂ) := by
+        rw [Finset.sum_congr rfl (fun g _ => (hnorm g).symm), hSeq, hcardC]
+      have hsumR : (∑ g : ↥H, Complex.normSq (σ.character g)) = (12 : ℝ) := by
+        rw [← Complex.ofReal_sum] at hbig; exact_mod_cast hbig
+      -- Split off the Klein four-group `{g : (g:A5)^2 = 1}` (the identity + 3 involutions).
+      set S1 : Finset ↥H := univ.filter (fun g : ↥H => (g : A5) ^ 2 = 1) with hS1
+      have hS1card : S1.card = 4 := by
+        have hcard4 : Fintype.card ↥(kleinV H hH) = 4 := by
+          rw [← Nat.card_eq_fintype_card]; exact kleinV_card H hH
+        have h1 : S1.card = Fintype.card {g : ↥H // (g : A5) ^ 2 = 1} := by
+          rw [hS1]; exact (Fintype.card_subtype _).symm
+        have h2 : Fintype.card {g : ↥H // (g : A5) ^ 2 = 1} = Fintype.card ↥(kleinV H hH) :=
+          Fintype.card_congr (Equiv.subtypeEquivRight (fun g => Iff.rfl))
+        rw [h1, h2, hcard4]
+      have h1memS1 : (1 : ↥H) ∈ S1 := by
+        rw [hS1, Finset.mem_filter]
+        exact ⟨Finset.mem_univ _, by rw [Subgroup.coe_one]; group⟩
+      -- Sum over `S1` equals `9 (identity) + 3·1 (involutions) = 12`.
+      have hS1sum : (∑ g ∈ S1, Complex.normSq (σ.character g)) = 12 := by
+        rw [← Finset.add_sum_erase _ _ h1memS1]
+        have hid : Complex.normSq (σ.character (1 : ↥H)) = 9 := by
+          rw [FDRep.char_one, hdim]; norm_num [Complex.normSq]
+        have herase : ∀ g ∈ S1.erase 1, Complex.normSq (σ.character g) = 1 := by
+          intro g hg
+          rw [Finset.mem_erase, hS1, Finset.mem_filter] at hg
+          obtain ⟨hgne, -, hg2⟩ := hg
+          rw [charval_A4_involution H hH σ hdim g (by
+            have hc : ((g ^ 2 : ↥H) : A5) = 1 := by
+              rw [show ((g ^ 2 : ↥H) : A5) = (g : A5) ^ 2 by push_cast; rfl, hg2]
+            exact Subtype.ext (hc.trans (Subgroup.coe_one H).symm)) hgne]
+          norm_num [Complex.normSq]
+        rw [hid, Finset.sum_congr rfl herase, Finset.sum_const, Finset.card_erase_of_mem h1memS1,
+          hS1card]
+        norm_num
+      -- Hence the complement sum vanishes; each nonnegative term is `0`.
+      have hcompl : (∑ g ∈ univ.filter (fun g : ↥H => ¬ (g : A5) ^ 2 = 1),
+          Complex.normSq (σ.character g)) = 0 := by
+        have hsplit := Finset.sum_filter_add_sum_filter_not univ
+          (fun g : ↥H => (g : A5) ^ 2 = 1) (fun g => Complex.normSq (σ.character g))
+        rw [← hS1] at hsplit
+        rw [hsumR, hS1sum] at hsplit
+        linarith [hsplit]
+      have hhmem : h ∈ univ.filter (fun g : ↥H => ¬ (g : A5) ^ 2 = 1) :=
+        Finset.mem_filter.mpr ⟨Finset.mem_univ _, hnsq⟩
+      have hzero : Complex.normSq (σ.character h) = 0 :=
+        (Finset.sum_eq_zero_iff_of_nonneg (fun g _ => Complex.normSq_nonneg _)).mp hcompl h hhmem
+      rw [Complex.normSq_eq_zero.mp hzero]
+      norm_num
 
 /-- **Target character, class-rep values** for `3 ⊕ 3' ⊕ 4 ⊕ 5`: `(15, 0, -1, 0, 0)` — the same
 target as the `ℤ₂ × ℤ₂` nontrivial case (`indV4_nontriv`). -/

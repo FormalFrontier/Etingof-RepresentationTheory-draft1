@@ -957,6 +957,17 @@ same numeral `5` as in `Fin 5`, which is baked into `a`'s *type*. So `rw [← ho
 tries to generalize *every* `5`, including the one inside `Fin 5`, and fails with
 `motive is not type correct` plus a spurious `Fintype (ToType {len := 4})` mismatch. The
 identical proof shape for order-`3`/order-`2` elements works precisely because `3`/`2 ≠ 5`.
+**Caveat — `4` collides too:** `Fin 5` normalizes to `Fin (4 + 1)`, so `rw [← h]` on a `4`
+numeral (e.g. `rw [← kleinV_card…]` turning the target cardinality `4` back into
+`Fintype.card ↥(kleinV …)` in a goal set over `A5 = alternatingGroup (Fin 5)`) hits the *same*
+`motive is not type correct` / `Fintype (ToType {len := 4})` failure — the `4` unifies with the
+one inside `Fin (4+1)`. So "safe because `≠ 5`" is wrong for `4`. **Fix:** rewrite *forward* only.
+Prove the chain of plain equalities as separate `have`s
+(`h1 : S.card = Fintype.card {g // p g}`, `h2 : Fintype.card {g // p g} = Fintype.card ↥K`,
+`hK : Fintype.card ↥K = 4`) and close with `rw [h1, h2, hK]` (each step rewrites an `Fintype.card`
+term forward, never the bare `4`). Relate `{g // p g}` to `↥K` with
+`Fintype.card_congr (Equiv.subtypeEquivRight (fun g => Iff.rfl))` when `K`'s carrier is `{g | p g}`.
+Worked example: `charval_A4_threeDim` in `Chapter5/Problem5_11_1.lean` (`hS1card`, #6707).
 **Fix:** never rewrite the numeral. Rewrite the `orderOf`/order term instead:
 - `have horda : orderOf a = 5 := by rw [ha_def]; exact (orderOf_injective H.subtype (Subgroup.subtype_injective H) a₀).trans horda₀` (compose, don't `← horda₀`).
 - `have ha5 : a ^ 5 = 1 := by have h := pow_orderOf_eq_one a; rwa [horda] at h` (rewrite `orderOf a ↦ 5`, forward, not the numeral).
