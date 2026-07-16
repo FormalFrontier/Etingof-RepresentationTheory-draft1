@@ -1258,7 +1258,21 @@ This needs the `SU(2)` subgroup infrastructure of Problem 4.12.8 (the central
 case), which is a separate, not-yet-formalized item. Tracked as a sub-issue. -/
 lemma mckayAdj_no_selfLoop (hW : IsCompleteIrreps W) (hm : 3 ≤ m) (hne : Nontrivial G)
     (i : Fin m) : mckayAdj W i i = 0 := by
-  sorry
+  -- Dichotomy (Problem 4.12.8): a finite `G ⊂ SU(2)` is cyclic or contains `-Id`.
+  rcases su2_finite_cyclic_or_contains_negId G with hcyc | hneg
+  · -- Cyclic case: `V ≅ χ ⊕ χ⁻¹` with `χ` nontrivial, so `V ⊗ Wᵢ` never returns `Wᵢ`.
+    exact mckayAdj_no_selfLoop_cyclic W hW hcyc hm i
+  · -- Non-cyclic case: the central `-Id ∈ G` acts as `-1` on `V`.
+    set z : G := ⟨negIdSU, hneg⟩ with hz
+    have hz_central : ∀ h : G, z * h = h * z := by
+      intro h
+      exact Subtype.ext (negIdSU_central h.val)
+    have hzval : (z.val : specialUnitaryGroup (Fin 2) ℂ) = negIdSU := rfl
+    have hzV : ∀ v, (V G).ρ z v = -v := by
+      intro v
+      have h := tautRep_negId z hzval v
+      simpa only [V, FDRep.of_ρ'] using h
+    exact mckayAdj_no_selfLoop_of_central_neg W hW z hz_central hzV i
 
 /-- **(c)** Off-diagonal multiplicities are at most `1` (single edges): for `i ≠ j`
 and `3 ≤ m`, `rᵢⱼ ≤ 1`.
