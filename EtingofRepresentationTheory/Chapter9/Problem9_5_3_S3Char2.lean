@@ -526,6 +526,66 @@ lemma psi_surjective : Function.Surjective (psi k) := by
   obtain ⟨x, hx⟩ := hle hmem
   exact ⟨x, hx⟩
 
+/-! ### The matrix factor `k[S₃] → M₂(k)` via the standard representation
+
+The standard `2`-dimensional representation gives an algebra map `k[S₃] → End_k(V) ≅ M₂(k)`. We
+coordinatize `V = {v : Fin 3 → k | ∑ vᵢ = 0}` by `v ↦ (v 0, v 2)` (the middle coordinate is
+forced: `v 1 = v 0 + v 2` in characteristic `2`), turning each group element into an explicit
+`2×2` matrix. The six matrices span `M₂(k)`, so the map is surjective. -/
+
+/-- Coordinatization `V ≃ k²`, `v ↦ (v 0, v 2)`. In characteristic `2`, `v 1 = v 0 + v 2` on the
+sum-zero subspace, so the inverse sends `(a, b) ↦ (a, a + b, b)`. -/
+def coordEquiv : (stdSubr k).toSubmodule ≃ₗ[k] (Fin 2 → k) where
+  toFun v := ![(v : Fin 3 → k) 0, (v : Fin 3 → k) 2]
+  map_add' a b := by
+    ext i; fin_cases i <;> simp [Submodule.coe_add]
+  map_smul' r a := by
+    ext i; fin_cases i <;> simp [Submodule.coe_smul]
+  invFun c := ⟨![c 0, c 0 + c 1, c 1], by
+    have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
+    simp only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
+      Matrix.tail_cons]
+    linear_combination (c 0 + c 1) * h2⟩
+  left_inv v := by
+    have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
+    have hv : (v : Fin 3 → k) 0 + (v : Fin 3 → k) 1 + (v : Fin 3 → k) 2 = 0 := by
+      have := v.2
+      simpa only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three] using this
+    apply Subtype.ext; funext i; fin_cases i
+    · rfl
+    · show (v : Fin 3 → k) 0 + (v : Fin 3 → k) 2 = (v : Fin 3 → k) 1
+      linear_combination hv - (v : Fin 3 → k) 1 * h2
+    · rfl
+  right_inv c := by
+    funext i; fin_cases i <;> rfl
+
+@[simp] lemma coordEquiv_apply_zero (v : (stdSubr k).toSubmodule) :
+    coordEquiv k v 0 = (v : Fin 3 → k) 0 := rfl
+
+@[simp] lemma coordEquiv_apply_one (v : (stdSubr k).toSubmodule) :
+    coordEquiv k v 1 = (v : Fin 3 → k) 2 := rfl
+
+/-- The coordinate basis of `V` induced by `coordEquiv`. -/
+noncomputable def bV : Module.Basis (Fin 2) k (stdSubr k).toSubmodule :=
+  Module.Basis.ofEquivFun (coordEquiv k)
+
+/-- The **matrix-factor map** `k[S₃] → M₂(k)`, the standard representation in coordinates. -/
+noncomputable def rhoStd : MonoidAlgebra k S3 →ₐ[k] Matrix (Fin 2) (Fin 2) k :=
+  (LinearMap.toMatrixAlgEquiv (bV k)).toAlgHom.comp (stdRepr k).asAlgebraHom
+
+lemma rhoStd_single (g : S3) :
+    rhoStd k (MonoidAlgebra.single g 1) = LinearMap.toMatrix (bV k) (bV k) (stdRepr k g) := by
+  rw [rhoStd, AlgHom.comp_apply, Representation.asAlgebraHom_single, one_smul]
+  rfl
+
+/-- Entry formula: `rhoStd (single g 1) i j = (g · bⱼ)` read in coordinate `i`. -/
+lemma rhoStd_entry (g : S3) (i j : Fin 2) :
+    rhoStd k (MonoidAlgebra.single g 1) i j
+      = coordEquiv k (stdRepr k g ((coordEquiv k).symm (Pi.single j 1))) i := by
+  rw [rhoStd_single, LinearMap.toMatrix_apply]
+  simp only [bV, Module.Basis.ofEquivFun_repr_apply, Module.Basis.coe_ofEquivFun]
+
 /-- **The block decomposition of `k[S₃]` in characteristic `2`:**
 `k[S₃] ≅ M₂(k) × k[t]/(t²)` as `k`-algebras. The matrix factor `M₂(k)` (dimension `4`) is the
 defect-`0` block carrying the standard simple; the local factor `k[t]/(t²)` (dimension `2`) is the
