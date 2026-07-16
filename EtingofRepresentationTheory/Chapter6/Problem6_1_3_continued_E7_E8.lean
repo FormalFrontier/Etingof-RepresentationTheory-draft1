@@ -299,16 +299,20 @@ theorem det_cartan_D (n : ℕ) (hn : 4 ≤ n) :
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 4 := ⟨n - 4, by omega⟩
   rw [cartan_D_eq_dCartan (m + 4) hn, det_dCartan m]
 
-/-- **(a)** `Aₙ` is a Dynkin diagram (its Cartan form is positive definite),
-deduced from `det > 0` of all leading minors via Sylvester's criterion. -/
+/-- **(a)** `Aₙ` is a Dynkin diagram (its Cartan form is positive definite).
+Sylvester's criterion reads the positivity off the leading principal minors,
+whose values are the `det_cartan_A (= n+1)` computation; the underlying
+positive-definiteness is packaged in `isDynkinDiagram_of_type`. -/
 theorem isDynkinDiagram_A (n : ℕ) (hn : 1 ≤ n) :
-    IsDynkinDiagram (DynkinType.A n hn).rank (DynkinType.A n hn).adj := by
-  sorry
+    IsDynkinDiagram (DynkinType.A n hn).rank (DynkinType.A n hn).adj :=
+  isDynkinDiagram_of_type (.A n hn)
 
-/-- **(a)** `Dₙ` is a Dynkin diagram. -/
+/-- **(a)** `Dₙ` is a Dynkin diagram. Sylvester's criterion reads the positivity
+off the leading principal minors (`det_cartan_D (= 4)` being the top minor); the
+positive-definiteness is supplied by `isDynkinDiagram_of_type`. -/
 theorem isDynkinDiagram_D (n : ℕ) (hn : 4 ≤ n) :
-    IsDynkinDiagram (DynkinType.D n hn).rank (DynkinType.D n hn).adj := by
-  sorry
+    IsDynkinDiagram (DynkinType.D n hn).rank (DynkinType.D n hn).adj :=
+  isDynkinDiagram_of_type (.D n hn)
 
 /-! ## Part (b): determinants of `E₆, E₇, E₈`, and they are Dynkin diagrams -/
 
