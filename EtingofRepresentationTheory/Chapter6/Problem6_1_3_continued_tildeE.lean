@@ -473,8 +473,9 @@ theorem AffineType.adj_zero_or_one (t : AffineType) (i j : Fin t.rank) :
     t.adj i j = 0 ∨ t.adj i j = 1 := by
   cases t <;> (simp only [AffineType.adj]; split_ifs <;> simp)
 
-/-- The edge relation of a `0/1` adjacency matrix. -/
-private def AdjEdge {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (a b : Fin n) : Prop :=
+/-- The edge relation of a `0/1` adjacency matrix. Reducible so `decide` can see
+through it on the finite exceptional diagrams. -/
+private abbrev AdjEdge {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (a b : Fin n) : Prop :=
   adj a b = 1
 
 /-- Convert reflexive-transitive `adj`-reachability into the explicit edge-path
@@ -522,7 +523,79 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
       ∀ k, (h : k + 1 < path.length) →
         t.adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1 := by
   apply clause_of_reflTransGen
-  sorry
+  cases t with
+  | Atilde n hn =>
+      have h0 : 0 < n := by omega
+      have reach : ∀ m (hm : m < n),
+          Relation.ReflTransGen (AdjEdge (AffineType.Atilde n hn).adj)
+            ⟨0, h0⟩ ⟨m, hm⟩ := by
+        intro m
+        induction m with
+        | zero => intro hm; exact .refl
+        | succ p ih =>
+            intro hm
+            have hp : p < n := by omega
+            refine (ih hp).tail ?_
+            change (AffineType.Atilde n hn).adj ⟨p, hp⟩ ⟨p + 1, hm⟩ = 1
+            simp only [AffineType.adj]
+            rw [if_pos (Or.inl (Nat.mod_eq_of_lt hm))]
+      exact (reflTransGen_symm (AffineType.adj_isSymm _) (reach i.val i.isLt)).trans
+        (reach j.val j.isLt)
+  | Dtilde n hn => sorry
+  | E6tilde =>
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
+      intro k
+      fin_cases k
+      · exact .refl
+      · refine .single ?_ <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
+      · refine .single ?_ <;> decide
+      · refine .head (b := ⟨3, by decide⟩) ?_ (.single ?_) <;> decide
+      · refine .single ?_ <;> decide
+      · refine .head (b := ⟨5, by decide⟩) ?_ (.single ?_) <;> decide
+  | E7tilde =>
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
+      intro k
+      fin_cases k
+      · exact .refl
+      · refine .single ?_ <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.single ?_)) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.single ?_))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.single ?_)))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.single ?_))) <;> decide
+  | E8tilde =>
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
+      intro k
+      fin_cases k
+      · exact .refl
+      · refine .single ?_ <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.single ?_)) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.single ?_))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.single ?_)))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.head (b := ⟨6, by decide⟩) ?_
+              (.single ?_)))))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
 
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
 diagram (its Cartan form is positive semidefinite but degenerate). -/
