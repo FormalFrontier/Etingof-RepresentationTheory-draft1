@@ -144,4 +144,28 @@ noncomputable def tensorRightFunctorₖ_forget₂ :
     simp only [Functor.comp_map, Iso.refl_hom, Category.comp_id, Category.id_comp]
     rfl)
 
+/-- The `k`-linear `n`-th `Tor` functor `Torₙᴬ(-, N) : (right A-modules) ⥤ ModuleCat k`, the `n`-th
+left derived functor of the `k`-linear `- ⊗_A N`. It refines `Etingof.TorFunctor A N n` (whose
+values are the underlying abelian groups, via `tensorRightFunctorₖ_forget₂`). -/
+noncomputable def TorFunctorₖ (n : ℕ) : ModuleCat.{u} Aᵐᵒᵖ ⥤ ModuleCat.{u} k :=
+  Functor.leftDerived (tensorRightFunctorₖ k A N) n
+
+/-- `Torₙᴬ(M, N)` as a `k`-vector space: the `n`-th left derived functor of the `k`-linear
+`- ⊗_A N` evaluated at the right `A`-module `M`. Its underlying abelian group is `Etingof.Tor A N M
+n` (via `tensorRightFunctorₖ_forget₂`), so this is the `k`-linear refinement of `Tor` used by the
+Künneth formula of Problem 8.2.8, which tensors the factor `Tor`s over the field `k`. -/
+noncomputable def Torₖ (M : ModuleCat.{u} Aᵐᵒᵖ) (n : ℕ) : ModuleCat.{u} k :=
+  (TorFunctorₖ k A N n).obj M
+
+/-- **`Torₖ` from a chosen projective resolution.** For any projective resolution `P•` of the right
+`A`-module `M`, `Torₙᴬ(M, N)` (as a `k`-vector space) is canonically isomorphic to the `n`-th
+homology of the `k`-linear complex `P• ⊗_A N`. The `k`-linear analogue of
+`Etingof.torIsoHomologyTensorRight`, obtained from `ProjectiveResolution.isoLeftDerivedObj`. -/
+noncomputable def torIsoHomologyTensorRightₖ (M : ModuleCat.{u} Aᵐᵒᵖ)
+    (P : ProjectiveResolution M) (n : ℕ) :
+    Torₖ k A N M n ≅
+      (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.down ℕ) n).obj
+        (((tensorRightFunctorₖ k A N).mapHomologicalComplex _).obj P.complex) :=
+  P.isoLeftDerivedObj (tensorRightFunctorₖ k A N) n
+
 end Etingof
