@@ -363,6 +363,60 @@ theorem isCyclic_of_common_fixed_vector
 
 end CommonAxis
 
+/-!
+## The sphere action and poles
+
+Following the book's hint we let `SO(3)` act on the unit sphere and record the *poles*: unit
+vectors fixed by a nontrivial group element. The action, the pole predicate and the pole set
+are genuine data; the geometric facts that a nontrivial element fixes exactly an antipodal
+pair (hence the pole set of a finite group is finite) are proved below.
+-/
+
+/-- Orthogonal matrices of `SO(3)` preserve the dot product:
+`(g *ᵥ a) ⬝ᵥ (g *ᵥ b) = a ⬝ᵥ b`. This is the norm preservation underlying the sphere action. -/
+lemma so3_mulVec_dotProduct (g : specialOrthogonalGroup (Fin 3) ℝ) (a b : Fin 3 → ℝ) :
+    ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ a) ⬝ᵥ ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ b) = a ⬝ᵥ b := by
+  rw [dotProduct_mulVec, ← mulVec_transpose, mulVec_mulVec, so3_transpose_mul g, one_mulVec]
+
+/-- The unit sphere in coordinate `3`-space, with the dot product as squared norm: the vectors
+`v : Fin 3 → ℝ` satisfying `v ⬝ᵥ v = 1`. -/
+def UnitSphere : Type := {v : Fin 3 → ℝ // v ⬝ᵥ v = 1}
+
+namespace UnitSphere
+
+@[ext] lemma ext {v w : UnitSphere} (h : v.1 = w.1) : v = w := Subtype.ext h
+
+/-- `SO(3)` acts on the unit sphere by `M *ᵥ v`; orthogonality keeps the result on the sphere. -/
+instance : MulAction (specialOrthogonalGroup (Fin 3) ℝ) UnitSphere where
+  smul g v := ⟨(g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1, by
+    rw [so3_mulVec_dotProduct]; exact v.2⟩
+  one_smul v := by
+    apply Subtype.ext
+    change ((1 : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1 = v.1
+    rw [Submonoid.coe_one, one_mulVec]
+  mul_smul g h v := by
+    apply Subtype.ext
+    change (((g * h) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1
+        = (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1)
+    rw [Submonoid.coe_mul, mulVec_mulVec]
+
+@[simp] lemma coe_smul (g : specialOrthogonalGroup (Fin 3) ℝ) (v : UnitSphere) :
+    (g • v).1 = (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v.1 := rfl
+
+end UnitSphere
+
+/-- The set of unit vectors fixed by a matrix `g` (viewed as an element of `SO(3)`). -/
+def fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ) : Set (Fin 3 → ℝ) :=
+  {v | v ⬝ᵥ v = 1 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v}
+
+/-- A unit vector `v` is a *pole* of `G` when some nontrivial element of `G` fixes it. -/
+def IsPole (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) (v : Fin 3 → ℝ) : Prop :=
+  v ⬝ᵥ v = 1 ∧ ∃ g ∈ G, g ≠ 1 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v
+
+/-- The set of poles of `G`: the unit vectors fixed by some nontrivial element. -/
+def poleSet (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) : Set (Fin 3 → ℝ) :=
+  {v | IsPole G v}
+
 /-- **Milestone (iii): the counting Diophantine identity.** After Burnside/orbit-counting, the
 pole orders `m₁, …, m_k` of a group of order `n ≥ 2` satisfy
 `2(1 - 1/n) = ∑ᵢ (1 - 1/mᵢ)` with each `mᵢ ≥ 2` and `mᵢ ∣ n`. This purely arithmetic lemma
