@@ -1672,6 +1672,27 @@ double transpositions of the Klein four subgroup `V`). -/
 lemma A4std_invol_count :
     (univ.filter (fun g : A5 => g ∈ A4std ∧ g ^ 2 = 1)).card = 4 := by decide
 
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- The involutions and identity of `A₄` (the elements of order dividing `2`) are closed under
+multiplication: they form the Klein four subgroup `V ⊴ A₄`. -/
+lemma A4std_invol_mul : ∀ a : A5, a ∈ A4std → a ^ 2 = 1 →
+    ∀ b : A5, b ∈ A4std → b ^ 2 = 1 → (a * b) ^ 2 = 1 := by decide
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- Every commutator of two elements of `A₄` lies in the Klein four subgroup `V` (`A₄' = V`), hence
+squares to `1`. -/
+lemma A4std_commutator_sq : ∀ a : A5, a ∈ A4std → ∀ b : A5, b ∈ A4std →
+    (a * b * a⁻¹ * b⁻¹) ^ 2 = 1 := by decide
+
+set_option maxRecDepth 12000 in
+set_option maxHeartbeats 4000000 in
+/-- All involutions of `A₄` are conjugate within `A₄` (they form the single class `2a`). -/
+lemma A4std_invol_conj : ∀ u : A5, u ∈ A4std → u ^ 2 = 1 → u ≠ 1 →
+    ∀ v : A5, v ∈ A4std → v ^ 2 = 1 → v ≠ 1 →
+      ∃ t : A5, t ∈ A4std ∧ t * u * t⁻¹ = v := by decide
+
 /-- **Nontrivial linear character, class-rep values.** For an order-`12` `H` and a nontrivial
 one-dimensional character `σ`, `(ind σ).character` on the five class reps is `(5, -1, 1, 0, 0)`.
 This is the character of the standard `5`-dimensional irrep of `A₅`. -/
@@ -2004,6 +2025,357 @@ lemma indA4_threeDim_char_all (H : Subgroup A5) [DecidablePred (· ∈ H)] (hH :
   conv_lhs => rw [← hc]
   rw [FDRep.char_conj]
   exact indA4_threeDim_value H hH σ hcharval (classIdxA5 g)
+
+/-! ### Character `-1` on involutions (crux of part (d))
+
+For the unique `3`-dimensional simple representation `σ` of an order-`12` subgroup `H ≅ A₄`, the
+value of `σ.character` on any involution is `-1`. Two projections onto invariant subspaces pin the
+value: the idempotent `(1 + ρ(h))/2` forces the character into `{-3,-1,1,3}` (integrality of a
+projection's trace), and averaging over the Klein four-group `V ⊴ H` forces it into `{-1,3}`.
+The value `3` is ruled out by Schur: it would put `V ⊆ ker σ`, making the image abelian, forcing
+every linear endomorphism to be scalar — impossible for `dim σ = 3`. -/
+
+section SchurScalar
+
+variable {G : Type*} [Group G] [Fintype G]
+
+/-- Simple `FDRep` objects have positive finrank. (Local copy of `Etingof.finrank_pos_of_simple`.) -/
+private lemma finrank_pos_of_simple' (V : FDRep ℂ G) [Simple V] : 0 < Module.finrank ℂ V := by
+  by_contra hcon
+  push_neg at hcon
+  have h0 : Module.finrank ℂ V = 0 := Nat.eq_zero_of_le_zero hcon
+  have hsub : Subsingleton (V : Type _) := Module.finrank_zero_iff.mp h0
+  have hsub2 : Subsingleton (V ⟶ V) := by
+    constructor; intro f g
+    exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
+  have hone : Module.finrank ℂ (V ⟶ V) = 1 := by
+    rw [FDRep.finrank_hom_simple_simple]; simp
+  have hzero : Module.finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
+  omega
+
+private lemma finrank_ne_zero_cx' (V : FDRep ℂ G) [Simple V] :
+    (Module.finrank ℂ V : ℂ) ≠ 0 := by
+  have := finrank_pos_of_simple' V
+  exact_mod_cast this.ne'
+
+/-- **Schur (scalar form).** A linear endomorphism of a simple `V : FDRep ℂ G` commuting with the
+action is a scalar multiple of the identity, the scalar being `trace T / dim V`. (Local copy of the
+private `Etingof.endo_scalar` from `Chapter4/Problem4_5_2.lean`.) -/
+private lemma endo_scalar' (V : FDRep ℂ G) [Simple V]
+    (T : V →ₗ[ℂ] V) (hT : ∀ g : G, T ∘ₗ V.ρ g = V.ρ g ∘ₗ T) :
+    ∃ c : ℂ, T = c • LinearMap.id ∧
+      LinearMap.trace ℂ V T = c * (Module.finrank ℂ V : ℂ) := by
+  have hmemT : T ∈ (Representation.linHom V.ρ V.ρ).invariants := by
+    intro g
+    rw [Representation.linHom_apply, hT g⁻¹, ← LinearMap.comp_assoc,
+      show V.ρ g ∘ₗ V.ρ g⁻¹ = LinearMap.id by
+        rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one,
+          Module.End.one_eq_id],
+      LinearMap.id_comp]
+  have h1dim : Module.finrank ℂ (Representation.linHom V.ρ V.ρ).invariants = 1 := by
+    rw [LinearEquiv.finrank_eq (Representation.linHom.invariantsEquivFDRepHom V V)]
+    exact CategoryTheory.finrank_endomorphism_simple_eq_one ℂ V
+  have hid_mem : (LinearMap.id : V →ₗ[ℂ] V) ∈ (Representation.linHom V.ρ V.ρ).invariants := by
+    intro g; ext v
+    simp only [Representation.linHom_apply, LinearMap.comp_apply, LinearMap.id_apply]
+    change (V.ρ g * V.ρ g⁻¹) v = v
+    rw [← map_mul, mul_inv_cancel, map_one]; rfl
+  have hid_ne : (⟨LinearMap.id, hid_mem⟩ : (Representation.linHom V.ρ V.ρ).invariants) ≠ 0 := by
+    simp only [ne_eq, Subtype.ext_iff, Submodule.coe_zero]
+    intro hz
+    have : (Module.finrank ℂ V : ℂ) = 0 := by
+      rw [← LinearMap.trace_id (R := ℂ) (M := V), hz, map_zero]
+    exact finrank_ne_zero_cx' V this
+  obtain ⟨c, hc⟩ := (finrank_eq_one_iff_of_nonzero'
+    (⟨LinearMap.id, hid_mem⟩ : (Representation.linHom V.ρ V.ρ).invariants) hid_ne).mp h1dim
+    ⟨T, hmemT⟩
+  have hTeq : T = c • LinearMap.id := by
+    have hval := congrArg Subtype.val hc
+    simpa using hval.symm
+  refine ⟨c, hTeq, ?_⟩
+  rw [hTeq, map_smul, LinearMap.trace_id, smul_eq_mul]
+
+end SchurScalar
+
+/-- The **Klein four-group `V ⊴ H`** of an order-`12` subgroup `H ≅ A₄ ≤ A₅`: the identity and the
+three involutions, i.e. the elements whose square is `1`. It is a subgroup because these are exactly
+the concrete point-stabilizer `A₄`'s Klein four Sylow-`2`, transported to `H` via `exists_conj_H12`
+(closure is `A4std_invol_mul`). -/
+def kleinV (H : Subgroup A5) (hH : Nat.card H = 12) : Subgroup ↥H where
+  carrier := {y : ↥H | (y : A5) ^ 2 = 1}
+  one_mem' := by simp
+  mul_mem' := by
+    intro a b ha hb
+    obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    have haA : d * (a : A5) * d⁻¹ ∈ A4std := (hd (a : A5)).mp a.2
+    have hbA : d * (b : A5) * d⁻¹ ∈ A4std := (hd (b : A5)).mp b.2
+    have ha2 : (d * (a : A5) * d⁻¹) ^ 2 = 1 := by
+      rw [show (d * (a : A5) * d⁻¹) ^ 2 = d * ((a : A5) ^ 2) * d⁻¹ by
+        rw [pow_two, pow_two]; group, ha]; group
+    have hb2 : (d * (b : A5) * d⁻¹) ^ 2 = 1 := by
+      rw [show (d * (b : A5) * d⁻¹) ^ 2 = d * ((b : A5) ^ 2) * d⁻¹ by
+        rw [pow_two, pow_two]; group, hb]; group
+    have hmul := A4std_invol_mul _ haA ha2 _ hbA hb2
+    have hcoe : ((a * b : ↥H) : A5) = (a : A5) * (b : A5) := by push_cast; rfl
+    rw [hcoe]
+    have key : (d * ((a : A5) * (b : A5)) * d⁻¹) ^ 2 = 1 := by
+      rw [show d * ((a : A5) * (b : A5)) * d⁻¹ = (d * (a : A5) * d⁻¹) * (d * (b : A5) * d⁻¹) by
+        group]; exact hmul
+    rw [show ((a : A5) * (b : A5)) ^ 2
+        = d⁻¹ * ((d * ((a : A5) * (b : A5)) * d⁻¹) ^ 2) * d by rw [pow_two, pow_two]; group,
+      key]; group
+  inv_mem' := by
+    intro a ha
+    simp only [Set.mem_setOf_eq] at ha ⊢
+    have hcoe : ((a⁻¹ : ↥H) : A5) = (a : A5)⁻¹ := by push_cast; rfl
+    rw [hcoe, show ((a : A5)⁻¹) ^ 2 = ((a : A5) ^ 2)⁻¹ by group, ha, inv_one]
+
+/-- The Klein four-group `V ⊴ H` has order `4`. Counted by transporting the involution set of the
+concrete `A₄` (`A4std_invol_count`) to `H`. -/
+lemma kleinV_card (H : Subgroup A5) (hH : Nat.card H = 12) :
+    Nat.card ↥(kleinV H hH) = 4 := by
+  classical
+  obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+  have fwd_mem : ∀ y : ↥(kleinV H hH), d * ((y : ↥H) : A5) * d⁻¹ ∈ A4std ∧
+      (d * ((y : ↥H) : A5) * d⁻¹) ^ 2 = 1 := by
+    intro y
+    refine ⟨(hd _).mp (y : ↥H).2, ?_⟩
+    rw [show (d * (((y : ↥H) : A5)) * d⁻¹) ^ 2 = d * ((((y : ↥H) : A5)) ^ 2) * d⁻¹ by
+      rw [pow_two, pow_two]; group, show (((y : ↥H) : A5)) ^ 2 = 1 from y.2]; group
+  have bwd_memH : ∀ z : {z : A5 // z ∈ A4std ∧ z ^ 2 = 1}, d⁻¹ * (z : A5) * d ∈ H := by
+    intro z
+    refine (hd _).mpr ?_
+    rw [show d * (d⁻¹ * (z : A5) * d) * d⁻¹ = (z : A5) by group]; exact z.2.1
+  have bwd_mem : ∀ z : {z : A5 // z ∈ A4std ∧ z ^ 2 = 1},
+      (⟨d⁻¹ * (z : A5) * d, bwd_memH z⟩ : ↥H) ∈ kleinV H hH := by
+    intro z
+    show (d⁻¹ * (z : A5) * d) ^ 2 = 1
+    rw [show (d⁻¹ * (z : A5) * d) ^ 2 = d⁻¹ * ((z : A5) ^ 2) * d by
+      rw [pow_two, pow_two]; group, z.2.2]; group
+  let e : ↥(kleinV H hH) ≃ {z : A5 // z ∈ A4std ∧ z ^ 2 = 1} :=
+    { toFun := fun y => ⟨d * ((y : ↥H) : A5) * d⁻¹, fwd_mem y⟩
+      invFun := fun z => ⟨⟨d⁻¹ * (z : A5) * d, bwd_memH z⟩, bwd_mem z⟩
+      left_inv := fun y => by
+        apply Subtype.ext; apply Subtype.ext
+        show d⁻¹ * (d * (((y : ↥H) : A5)) * d⁻¹) * d = (((y : ↥H) : A5)); group
+      right_inv := fun z => by
+        apply Subtype.ext
+        show d * (d⁻¹ * (z : A5) * d) * d⁻¹ = (z : A5); group }
+  rw [Nat.card_congr e, Nat.card_eq_fintype_card, Fintype.card_subtype]
+  exact A4std_invol_count
+
+/-- `σ.character` is constant on the involutions of `H ≅ A₄` (they form the single class `2a`):
+for any two involutions `y, h` of `H`, `σ.character y = σ.character h`. Proved by conjugating within
+`H` (transporting the `A4std`-conjugacy `A4std_invol_conj`) and `FDRep.char_conj`. -/
+lemma kleinV_char_const (H : Subgroup A5) (hH : Nat.card H = 12) (σ : FDRep ℂ ↥H)
+    (h : ↥H) (hh2 : (h : A5) ^ 2 = 1) (hh1 : h ≠ 1)
+    (y : ↥H) (hy2 : (y : A5) ^ 2 = 1) (hy1 : y ≠ 1) :
+    σ.character y = σ.character h := by
+  obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+  have conj_sq : ∀ w : A5, (d * w * d⁻¹) ^ 2 = d * (w ^ 2) * d⁻¹ := by
+    intro w; rw [pow_two, pow_two]; group
+  have conj_ne : ∀ w : ↥H, w ≠ 1 → d * (w : A5) * d⁻¹ ≠ 1 := by
+    intro w hw hc; apply hw
+    have hw1 : (w : A5) = 1 := by
+      rw [show (w : A5) = d⁻¹ * (d * (w : A5) * d⁻¹) * d by group, hc]; group
+    exact Subtype.ext hw1
+  have hyA : d * (y : A5) * d⁻¹ ∈ A4std := (hd (y : A5)).mp y.2
+  have hhA : d * (h : A5) * d⁻¹ ∈ A4std := (hd (h : A5)).mp h.2
+  have hyA2 : (d * (y : A5) * d⁻¹) ^ 2 = 1 := by rw [conj_sq, hy2]; group
+  have hhA2 : (d * (h : A5) * d⁻¹) ^ 2 = 1 := by rw [conj_sq, hh2]; group
+  obtain ⟨t, htA, htconj⟩ :=
+    A4std_invol_conj _ hyA hyA2 (conj_ne y hy1) _ hhA hhA2 (conj_ne h hh1)
+  have hsH : d⁻¹ * t * d ∈ H := by
+    rw [hd, show d * (d⁻¹ * t * d) * d⁻¹ = t by group]; exact htA
+  set s : ↥H := ⟨d⁻¹ * t * d, hsH⟩ with hs
+  have hsyconj : s * y * s⁻¹ = h := by
+    apply Subtype.ext
+    have hcoe : ((s * y * s⁻¹ : ↥H) : A5) = (d⁻¹ * t * d) * (y : A5) * (d⁻¹ * t * d)⁻¹ := by
+      push_cast; rfl
+    rw [hcoe, show (d⁻¹ * t * d) * (y : A5) * (d⁻¹ * t * d)⁻¹
+      = d⁻¹ * (t * (d * (y : A5) * d⁻¹) * t⁻¹) * d by group, htconj]; group
+  rw [← hsyconj, FDRep.char_conj]
+
+/-- Averaging `σ`'s character over a subgroup `K ≤ ↥H` gives the `ℂ`-dimension of the space of
+`K`-invariants (`FDRep.average_char_eq_finrank_invariants` for the restriction to `K`). -/
+lemma avg_char_subgroup {H : Subgroup A5} (σ : FDRep ℂ ↥H) (K : Subgroup ↥H)
+    [Fintype ↥K] [Invertible (Fintype.card ↥K : ℂ)] :
+    ⅟(Fintype.card ↥K : ℂ) • ∑ g : ↥K, σ.character (g : ↥H)
+      = (Module.finrank ℂ
+          (Representation.invariants (FDRep.ρ ((Action.res (FGModuleCat ℂ) K.subtype).obj σ))) : ℂ)
+          := by
+  rw [show (∑ g : ↥K, σ.character (g : ↥H))
+      = ∑ g : ↥K, FDRep.character ((Action.res (FGModuleCat ℂ) K.subtype).obj σ) g from
+    Finset.sum_congr rfl (fun g _ => rfl)]
+  exact FDRep.average_char_eq_finrank_invariants _
+
+/-- **Character `-1` on involutions (crux of part (d)).** The unique `3`-dimensional simple
+representation `σ` of an order-`12` subgroup `H ≅ A₄ ≤ A₅` takes the value `-1` on every
+involution. -/
+lemma charval_A4_involution (H : Subgroup A5) (hH : Nat.card H = 12)
+    (σ : FDRep ℂ ↥H) [Simple σ] (hdim : Module.finrank ℂ σ = 3)
+    (h : ↥H) (hh2 : h ^ 2 = 1) (hh1 : h ≠ 1) :
+    σ.character h = -1 := by
+  classical
+  haveI : Fintype ↥H := Fintype.ofFinite _
+  have hhA5 : (h : A5) ^ 2 = 1 := by
+    have hc : ((h ^ 2 : ↥H) : A5) = (h : A5) ^ 2 := by push_cast; rfl
+    rw [← hc, hh2]; rfl
+  set a : ℂ := σ.character h with ha_def
+  -- === Integrality via the idempotent `(1 + ρ(h))/2` : forces `a ∈ {-3,-1,1,3}` ===
+  set T : Module.End ℂ σ := σ.ρ h with hT_def
+  have htr_T : LinearMap.trace ℂ σ T = a := by rw [hT_def, ha_def]; rfl
+  have hρ2 : T * T = 1 := by rw [hT_def, ← map_mul, ← pow_two, hh2, map_one]
+  set p : Module.End ℂ σ := (2⁻¹ : ℂ) • (1 + T) with hp_def
+  have hp_idem : IsIdempotentElem p := by
+    show p * p = p
+    rw [hp_def, smul_mul_smul_comm,
+      show (1 + T) * (1 + T) = 1 + T + T + T * T by noncomm_ring, hρ2,
+      show (1 : Module.End ℂ σ) + T + T + 1 = (2 : ℂ) • (1 + T) by
+        rw [smul_add, two_smul, two_smul]; abel,
+      smul_smul, show (2⁻¹ * 2⁻¹ * 2 : ℂ) = 2⁻¹ by norm_num]
+  have htr_p : LinearMap.trace ℂ σ p = 2⁻¹ * (3 + a) := by
+    rw [hp_def, map_smul, map_add, htr_T,
+      show LinearMap.trace ℂ σ (1 : Module.End ℂ σ) = 3 by
+        rw [Module.End.one_eq_id, LinearMap.trace_id, hdim]; norm_num, smul_eq_mul]
+  obtain ⟨m, hm_eq, hm3⟩ :
+      ∃ m : ℕ, (m : ℂ) = 2⁻¹ * (3 + a) ∧ m ≤ 3 := by
+    refine ⟨Module.finrank ℂ (LinearMap.range p), ?_, ?_⟩
+    · rw [← htr_p, ((LinearMap.isProj_range_iff_isIdempotentElem p).mpr hp_idem).trace]
+    · calc Module.finrank ℂ (LinearMap.range p)
+          ≤ Module.finrank ℂ σ := Submodule.finrank_le _
+        _ = 3 := hdim
+  have hma : 3 + a = 2 * (m : ℂ) := by rw [hm_eq]; ring
+  -- === `/4` constraint + trivial action via averaging over the Klein four `V` ===
+  haveI : Fintype ↥(kleinV H hH) := Fintype.ofFinite _
+  have hcard4 : Fintype.card ↥(kleinV H hH) = 4 := by
+    rw [← Nat.card_eq_fintype_card]; exact kleinV_card H hH
+  have hcardC : (Fintype.card ↥(kleinV H hH) : ℂ) = 4 := by rw [hcard4]; norm_num
+  haveI : Invertible (Fintype.card ↥(kleinV H hH) : ℂ) :=
+    invertibleOfNonzero (by rw [hcardC]; norm_num)
+  have hone_term : σ.character (((1 : ↥(kleinV H hH)) : ↥H)) = 3 := by
+    rw [show ((1 : ↥(kleinV H hH)) : ↥H) = 1 from OneMemClass.coe_one _, FDRep.char_one, hdim]
+    norm_num
+  have hconst : ∀ g ∈ (Finset.univ.erase (1 : ↥(kleinV H hH))),
+      σ.character ((g : ↥H)) = a := by
+    intro g hg
+    rw [Finset.mem_erase] at hg
+    have hgH1 : (g : ↥H) ≠ 1 := fun hcon => hg.1 (Subtype.ext hcon)
+    have hgA5 : ((g : ↥H) : A5) ^ 2 = 1 := g.2
+    rw [ha_def]; exact kleinV_char_const H hH σ h hhA5 hh1 (g : ↥H) hgA5 hgH1
+  have hsum : ∑ g : ↥(kleinV H hH), σ.character ((g : ↥H)) = 3 + 3 * a := by
+    have h1 : ∑ g : ↥(kleinV H hH), σ.character ((g : ↥H))
+        = σ.character (((1 : ↥(kleinV H hH)) : ↥H))
+          + ∑ g ∈ Finset.univ.erase (1 : ↥(kleinV H hH)), σ.character ((g : ↥H)) :=
+      (Finset.add_sum_erase _ _ (Finset.mem_univ _)).symm
+    rw [h1, hone_term, Finset.sum_congr rfl hconst, Finset.sum_const,
+      Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, hcard4]
+    show (3 : ℂ) + (4 - 1) • a = 3 + 3 * a
+    rw [nsmul_eq_mul]; push_cast; ring
+  have havg := avg_char_subgroup σ (kleinV H hH)
+  rw [hsum] at havg
+  set N : ℕ := Module.finrank ℂ (Representation.invariants
+    (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ))) with hN_def
+  have hn_eq : 3 + 3 * a = 4 * (N : ℂ) := by
+    rw [smul_eq_mul, invOf_eq_inv, hcardC] at havg
+    have h4 : (4 : ℂ) * ((4 : ℂ)⁻¹ * (3 + 3 * a)) = 4 * (N : ℂ) := by rw [havg]
+    rwa [← mul_assoc, mul_inv_cancel₀ (by norm_num : (4 : ℂ) ≠ 0), one_mul] at h4
+  have hN3 : N ≤ 3 := by
+    rw [hN_def]
+    calc Module.finrank ℂ (Representation.invariants
+          (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ)))
+        ≤ Module.finrank ℂ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ) :=
+          Submodule.finrank_le _
+      _ = 3 := hdim
+  -- === Combine both integralities: `(m, N) ∈ {(1,0),(3,3)}`, so `a ∈ {-1, 3}` ===
+  have hkeyC : (6 : ℂ) * (m : ℂ) = 4 * (N : ℂ) + 6 := by linear_combination hn_eq - 3 * hma
+  have hkey : 6 * m = 4 * N + 6 := by exact_mod_cast hkeyC
+  interval_cases m
+  · exfalso; omega
+  · -- m = 1 : `a = -1`
+    have h1 : (3 : ℂ) + a = 2 * ((1 : ℕ) : ℂ) := hma
+    push_cast at h1; linear_combination h1
+  · exfalso; omega
+  · -- m = 3 : forces `N = 3` (`V ⊆ ker σ`), contradicting simplicity via Schur
+    exfalso
+    have hN3' : N = 3 := by omega
+    have hinv_top : Representation.invariants
+        (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ)) = ⊤ := by
+      apply Submodule.eq_top_of_finrank_eq
+      rw [← hN_def, hN3']; exact hdim.symm
+    -- every element of `V` acts as the identity
+    have hV4id : ∀ w : ↥H, (w : A5) ^ 2 = 1 → σ.ρ w = 1 := by
+      intro w hw
+      have hwV : w ∈ kleinV H hH := hw
+      ext x
+      have hx : x ∈ Representation.invariants
+          (FDRep.ρ ((Action.res (FGModuleCat ℂ) (kleinV H hH).subtype).obj σ)) := by
+        rw [hinv_top]; exact Submodule.mem_top
+      have hfix := (Representation.mem_invariants _ x).mp hx (⟨w, hwV⟩ : ↥(kleinV H hH))
+      show (σ.ρ w) x = x
+      exact hfix
+    -- commutators lie in `V ⊆ ker σ`, so the image is abelian
+    have hcomm : ∀ g k : ↥H, σ.ρ g * σ.ρ k = σ.ρ k * σ.ρ g := by
+      intro g k
+      obtain ⟨d, hd⟩ := exists_conj_H12 H hH
+      have hgA : d * (g : A5) * d⁻¹ ∈ A4std := (hd _).mp g.2
+      have hkA : d * (k : A5) * d⁻¹ ∈ A4std := (hd _).mp k.2
+      have hcs := A4std_commutator_sq _ hgA _ hkA
+      have hc : ((g * k * g⁻¹ * k⁻¹ : ↥H) : A5) ^ 2 = 1 := by
+        have hcoe : ((g * k * g⁻¹ * k⁻¹ : ↥H) : A5)
+            = (g : A5) * (k : A5) * (g : A5)⁻¹ * (k : A5)⁻¹ := by push_cast; rfl
+        rw [hcoe]
+        have key : (d * ((g : A5) * (k : A5) * (g : A5)⁻¹ * (k : A5)⁻¹) * d⁻¹) ^ 2 = 1 := by
+          rw [show d * ((g : A5) * (k : A5) * (g : A5)⁻¹ * (k : A5)⁻¹) * d⁻¹
+            = (d * (g : A5) * d⁻¹) * (d * (k : A5) * d⁻¹) * (d * (g : A5) * d⁻¹)⁻¹
+              * (d * (k : A5) * d⁻¹)⁻¹ by group]
+          exact hcs
+        rw [show ((g : A5) * (k : A5) * (g : A5)⁻¹ * (k : A5)⁻¹) ^ 2
+          = d⁻¹ * ((d * ((g : A5) * (k : A5) * (g : A5)⁻¹ * (k : A5)⁻¹) * d⁻¹) ^ 2) * d by
+            rw [pow_two, pow_two]; group, key]; group
+      have hρcomm : σ.ρ (g * k) = σ.ρ (k * g) := by
+        have hR : σ.ρ ((k * g)⁻¹) * σ.ρ (k * g) = 1 := by
+          rw [← map_mul, inv_mul_cancel, map_one]
+        have hPR : σ.ρ (g * k) * σ.ρ ((k * g)⁻¹) = 1 := by
+          rw [← map_mul, show (g * k) * (k * g)⁻¹ = g * k * g⁻¹ * k⁻¹ by group]
+          exact hV4id _ hc
+        calc σ.ρ (g * k)
+            = σ.ρ (g * k) * (σ.ρ ((k * g)⁻¹) * σ.ρ (k * g)) := by rw [hR, mul_one]
+          _ = (σ.ρ (g * k) * σ.ρ ((k * g)⁻¹)) * σ.ρ (k * g) := by rw [mul_assoc]
+          _ = σ.ρ (k * g) := by rw [hPR, one_mul]
+      rw [← map_mul, ← map_mul, hρcomm]
+    -- Schur: each `ρ(g)` commutes with the image, hence is a scalar
+    have hscalar : ∀ g : ↥H, ∃ c : ℂ, (σ.ρ g : σ →ₗ[ℂ] σ) = c • LinearMap.id := by
+      intro g
+      obtain ⟨c, hc, -⟩ := endo_scalar' σ (σ.ρ g)
+        (fun k => by rw [← Module.End.mul_eq_comp, ← Module.End.mul_eq_comp]; exact hcomm g k)
+      exact ⟨c, hc⟩
+    -- hence every linear endomorphism is a scalar
+    have hall : ∀ Tm : σ →ₗ[ℂ] σ, ∃ c : ℂ, Tm = c • LinearMap.id := by
+      intro Tm
+      obtain ⟨c, hc, -⟩ := endo_scalar' σ Tm (fun g => by
+        obtain ⟨cg, hcg⟩ := hscalar g
+        rw [hcg, LinearMap.comp_smul, LinearMap.smul_comp, LinearMap.comp_id, LinearMap.id_comp])
+      exact ⟨c, hc⟩
+    have hid_ne : (LinearMap.id : σ →ₗ[ℂ] σ) ≠ 0 := by
+      intro hcon
+      haveI : Subsingleton (σ : Type) := ⟨fun x y => by
+        have hx : x = 0 := by have := LinearMap.congr_fun hcon x; simpa using this
+        have hy : y = 0 := by have := LinearMap.congr_fun hcon y; simpa using this
+        rw [hx, hy]⟩
+      have hf0 : Module.finrank ℂ σ = 0 := Module.finrank_zero_of_subsingleton
+      rw [hdim] at hf0; norm_num at hf0
+    -- `End σ = span {id}` gives `finrank End = 1`, but `finrank End = 9` — contradiction
+    have hspan_top : (ℂ ∙ (LinearMap.id : σ →ₗ[ℂ] σ)) = ⊤ := by
+      refine le_antisymm le_top (fun Tm _ => ?_)
+      obtain ⟨c, hc⟩ := hall Tm
+      rw [hc]; exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+    have hfr1 : Module.finrank ℂ (σ →ₗ[ℂ] σ) = 1 := by
+      have hs := finrank_span_singleton (K := ℂ) hid_ne
+      rw [hspan_top, finrank_top] at hs; exact hs
+    rw [Module.finrank_linearMap, hdim] at hfr1
+    norm_num at hfr1
 
 /-- **Character of the `3`-dimensional simple `A₄`-representation.** The unique `3`-dimensional
 irreducible representation of an order-`12` (hence `A₄`-conjugate) subgroup `H ≤ A₅` has character
