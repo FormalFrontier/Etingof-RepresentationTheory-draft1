@@ -649,6 +649,14 @@ and the summand API. Four gotchas, each cost multiple iterations:
   kill the dead one with `d₁/₂_eq_zero (by simp : ¬ Rel 0 (next 0))`, evaluate the live one with
   `d₁/₂_eq` (fully **named** args `(K₁:=…)(K₂:=…)(F:=…)(c:=…)(i₁:=…)…(h:=by simp)(h':=by simp)` — positional is unusable), sign `= 1` by `rfl`/`simp`, then naturality of `F.map πᵢ` + `← Functor.map_comp` + the `d≫π=0` fact + `F.map 0 = 0`.
 
+### An additive functor commutes with `mapBifunctor`/`total` — it's `PreservesCoproduct.iso`, not a hand-built descent (Ch8 #6743, `Chapter8/MapBifunctorPostcomp.lean`)
+
+To move an additive `G : D ⥤ D'` through the total complex — `(G.mapHomologicalComplex c).obj (mapBifunctor K₁ K₂ F c) ≅ mapBifunctor K₁ K₂ (F ⋙ (Functor.whiskeringRight _ _ _).obj G) c` (the shape #6727/#6738 need) — do **not** hand-build the colimit descent. Each degree is *definitionally* `∐ (…mapObjFun π j)` (`total.X j := toGradedObject.mapObj π j := ∐ …`, all `rfl`), and `((F ⋙ whiskG).obj X₁).obj X₂ = G.obj ((F.obj X₁).obj X₂)` is defeq, so:
+- **Degreewise iso is literally `Limits.PreservesCoproduct.iso G (postcompFam …)`** — the `G.obj (∐ f) ≅ ∐ (G ∘ f)` iso lands with the target complex's degree type accepted by defeq, no transport. Instance needs: `[G.Additive]` (⇒ `preservesFiniteCoproductsOfAdditive`) + `[Finite (π ⁻¹' {j})]` (⇒ `PreservesColimit`), plus the RHS `HasCoproduct (fun i => G.obj (f i))` — supply it from `‹HasMapBifunctor K₁ K₂ (F ⋙ whiskG) c›` as a genuine `instance` so the *same* coproduct is used everywhere (else `PreservesCoproduct.inv_hom`'s `.inv = sigmaComparison` `rfl` fails across two subsingleton `HasColimit` instances).
+- **Summand compat** from `Limits.ι_comp_sigmaComparison` (inv form) + `PreservesCoproduct.inv_hom`; then the differential square via `HomologicalComplex.Hom.isoOfComponents`, reducing on each summand with `mapBifunctor.d_eq`/`ι_D₁`/`ι_D₂` and `d₁_eq'`/`d₂_eq'`. `G` passes the Koszul sign `ε₁/ε₂ : ℤˣ` by `Functor.map_units_smul` (additive ⇒ `Functor.intLinear : G.Linear ℤ`) + `Linear.units_smul_comp`; `d₁ = F.map d`, `d₂` pass through `G` by `rfl` (defeq).
+- **Pin the `ComplexShape` explicitly with `(c := c)` at every call site** of a helper whose `c` is inferable *only* from its return type (`postcompX`/`postcompFam`). TC resolution for the coproduct/`Finite`-fiber args fires before `c` unifies and dies with `typeclass instance problem is stuck … TotalComplexShape c₁ c₂ ?m`. Same fix as the `proj (A := A)` / `le_iSup ![…]` metavariable traps above.
+- `whiskeringRight` lives in `CategoryTheory.Functor`, so write **`Functor.whiskeringRight`** under `open CategoryTheory` (unqualified is `Unknown identifier`).
+
 ### Cochain-complex `Ext` crux: keep ℤ indices in ONE cast form, and hand-build the noncommutative tensor–hom adjunction (Ch8 Problem 8.2.6 ii, #6464)
 
 Computing `Ext¹` as `CohomologyClass (R.cochainComplex) (single V 0) 1` (via
