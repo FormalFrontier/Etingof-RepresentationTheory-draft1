@@ -7063,7 +7063,7 @@
     "start_line": 27,
     "end_line": 40,
     "status": "statement_formalized",
-    "coverage_note": "Tor half (`Problem_8_2_8_tor`) proved sorry-free and axiom-clean over ⊗_k (#6796, 2026-07-16), via tensor-of-resolutions + rearrangeComplex + kunnethChainComplexNat; RHS corrected from the false ⊗_ℤ to the k-linear ⊗_k. Ext half (`Problem_8_2_8_ext`) statement RHS likewise corrected to ⊗_k, proof still `sorry`."
+    "coverage_note": "Tor half (`Problem_8_2_8_tor`) proved sorry-free and axiom-clean over ⊗_k (#6796, 2026-07-16), via tensor-of-resolutions + rearrangeComplex + kunnethChainComplexNat; RHS corrected from the false ⊗_ℤ to the k-linear ⊗_k. Ext half (`Problem_8_2_8_ext`) spec corrected (#6814, 2026-07-16): added `[FiniteDimensional k Aᵢ]`/`[FiniteDimensional k Mᵢ]` hypotheses (needed so the `Pᵢ` are f.g. projective — the ill-posed original only asked `Nᵢ` finite-dim) and strengthened the conclusion from a bare `≃+` to a k-linear `≃ₗ[k]`, matching the `Tor` half's strength. Proof still `sorry` against the corrected signature; decomposed into sub-issues (left-module external-tensor stack; f.g.-projective Hom-tensor iso; cohomological Künneth; assembly)."
   },
   {
     "id": "Chapter8/Discussion_after_Problem8.2.8",
