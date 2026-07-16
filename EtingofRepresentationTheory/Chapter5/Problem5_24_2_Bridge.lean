@@ -261,118 +261,6 @@ theorem endTensorEval_conj (slot : Fin n → Fin k) (g : (Matrix (Fin N) (Fin N)
       ← Matrix.mul_assoc, ← Matrix.mul_assoc]
   rw [hlhs, hrhs]
 
-/-- **The GL-equivariant section (crux).** There is a section `σ` of the evaluation pairing
-`endTensorEval slot` on the multidegree-`d` part of the coordinate ring that is `GL(V)`-equivariant:
-it sends each `matrixWeight`-homogeneous polynomial `p` of multidegree `d` to an endomorphism `σ p`
-of `V^{⊗n}` with `endTensorEval slot (σ p) = p` (section property), and intertwines the
-simultaneous-conjugation automorphism `conjAlgHom g` on polynomials with conjugation by the diagonal
-operator `g^{⊗n}` on `End(V^{⊗n})` (equivariance).
-
-This is the reductivity heart of the First Fundamental Theorem (book step 2), obtained — following
-the single-matrix `PolynomialTensorBridge` — by an explicit block-symmetrization section rather than
-an abstract Reynolds operator. Its construction and the two properties are the deliverable of the
-section sub-issue; the assembly `weightedHomogeneous_invariant_mem_range_endTensorEval` below
-consumes it, turning `GL`-invariance of `p` into commutation of `σ p` with every diagonal operator
-and hence membership in `symGroupImage`. -/
-theorem exists_endTensorEval_equivariant_section
-    (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
-    (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i) :
-    ∃ σ : MatrixTupleRing k N → Module.End ℂ (TensorPower ℂ (BridgeV N) n),
-      (∀ p : MatrixTupleRing k N, IsWeightedHomogeneous (matrixWeight k N) p d →
-          endTensorEval k N n slot (σ p) = p) ∧
-      (∀ (g : (Matrix (Fin N) (Fin N) ℂ)ˣ) (p : MatrixTupleRing k N),
-          IsWeightedHomogeneous (matrixWeight k N) p d →
-          σ (conjAlgHom k N g p)
-            = PiTensorProduct.map
-                  (fun _ : Fin n => Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
-              * σ p
-              * PiTensorProduct.map
-                  (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ))) := by
-  sorry
-
-/-- **Range identification (assembly).** Every fixed-multidegree conjugation-invariant polynomial
-lies in the image, under `endTensorEval slot`, of `symGroupImage ℂ V n` — the `GL(V)`-invariant part
-of `End(V)^{⊗n}`. This is book step 2 of the FFT.
-
-Given the `GL`-equivariant section `σ` (`exists_endTensorEval_equivariant_section`), the lift is
-`M := σ p`. The section property gives `endTensorEval slot M = p`. For membership in
-`symGroupImage`, invariance `conjAlgHom g p = p` combined with equivariance shows `M` is fixed by
-conjugation by every diagonal unit operator `g^{⊗n}` (`M = (g^{⊗n})⁻¹ M g^{⊗n}`), i.e.
-`Commute (g^{⊗n}) M`. Since the
-`g^{⊗n}` generate `diagonalActionImage` (`adjoin_unitsTensorPow_eq_diagonalActionImage`) and
-`symGroupImage` is its centralizer (`Theorem5_18_4_centralizers`), `M ∈ symGroupImage`. -/
-theorem weightedHomogeneous_invariant_mem_range_endTensorEval
-    (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
-    (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i)
-    {p : MatrixTupleRing k N}
-    (hhom : IsWeightedHomogeneous (matrixWeight k N) p d)
-    (hinv : p ∈ invariantSubalgebra k N) :
-    ∃ M ∈ symGroupImage ℂ (BridgeV N) n, endTensorEval k N n slot M = p := by
-  classical
-  obtain ⟨σ, hsec, hequiv⟩ :=
-    exists_endTensorEval_equivariant_section k N n d slot hslot
-  refine ⟨σ p, ?_, hsec p hhom⟩
-  -- `σ p` commutes with every diagonal unit operator `g^{⊗n}`.
-  have key : ∀ g' : (Module.End ℂ (BridgeV N))ˣ,
-      Commute (PiTensorProduct.map (fun _ : Fin n => (g' : Module.End ℂ (BridgeV N)))) (σ p) := by
-    intro g'
-    -- The matrix unit `g` corresponding to `g'` under `End(ℂ^N) ≃ Matrix`.
-    set A : Matrix (Fin N) (Fin N) ℂ :=
-      LinearMap.toMatrix' (↑g' : Module.End ℂ (Fin N → ℂ)) with hA
-    set A' : Matrix (Fin N) (Fin N) ℂ :=
-      LinearMap.toMatrix' (↑g'⁻¹ : Module.End ℂ (Fin N → ℂ)) with hA'
-    have hAA' : A * A' = 1 := by
-      rw [hA, hA', ← LinearMap.toMatrix'_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one,
-        LinearMap.toMatrix'_one]
-    have hA'A : A' * A = 1 := by
-      rw [hA, hA', ← LinearMap.toMatrix'_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one,
-        LinearMap.toMatrix'_one]
-    set g : (Matrix (Fin N) (Fin N) ℂ)ˣ := ⟨A, A', hAA', hA'A⟩ with hg
-    have hP : Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ)
-        = (↑g' : Module.End ℂ (BridgeV N)) := by
-      change Matrix.mulVecLin A = _
-      rw [hA, ← Matrix.toLin'_apply', Matrix.toLin'_toMatrix']
-    have hPinv : Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ)
-        = (↑g'⁻¹ : Module.End ℂ (BridgeV N)) := by
-      change Matrix.mulVecLin A' = _
-      rw [hA', ← Matrix.toLin'_apply', Matrix.toLin'_toMatrix']
-    -- Invariance of `p` at this `g`.
-    have hpinv : conjAlgHom k N g p = p := by
-      rw [invariantSubalgebra, Algebra.mem_iInf] at hinv
-      have hg' := hinv g
-      rwa [AlgHom.mem_equalizer, AlgHom.id_apply] at hg'
-    -- Equivariance of the section, specialized and rewritten via invariance and `hP`, `hPinv`.
-    have heq := hequiv g p hhom
-    rw [hpinv] at heq
-    simp only [hP, hPinv] at heq
-    set P : Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
-      PiTensorProduct.map (fun _ : Fin n => (g' : Module.End ℂ (BridgeV N))) with hPdef
-    set Q : Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
-      PiTensorProduct.map (fun _ : Fin n => (↑g'⁻¹ : Module.End ℂ (BridgeV N))) with hQdef
-    -- `P` and `Q` are mutually inverse diagonal operators.
-    have hPQ : P * Q = 1 := by
-      rw [hPdef, hQdef, ← PiTensorProduct.map_mul]
-      have hid : (fun _ : Fin n =>
-            (↑g' : Module.End ℂ (BridgeV N)) * (↑g'⁻¹ : Module.End ℂ (BridgeV N)))
-          = fun _ : Fin n => (1 : Module.End ℂ (BridgeV N)) := by
-        funext _
-        rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
-      rw [hid, PiTensorProduct.map_one]
-    -- `heq : σ p = Q * σ p * P` and `P * Q = 1` give `P * σ p = σ p * P`.
-    change Commute P (σ p)
-    rw [Commute, SemiconjBy]
-    nth_rewrite 1 [heq]
-    rw [← mul_assoc, ← mul_assoc, hPQ, one_mul]
-  -- Membership in `symGroupImage` via the Schur–Weyl centralizer identity.
-  rw [(Theorem5_18_4_centralizers ℂ (BridgeV N) n).1, Subalgebra.mem_centralizer_iff]
-  intro y hy
-  rw [← adjoin_unitsTensorPow_eq_diagonalActionImage (V := BridgeV N) ℂ n] at hy
-  have hcomm : Commute (σ p) y :=
-    Algebra.commute_of_mem_adjoin_of_forall_mem_commute hy (by
-      rintro _ ⟨g', rfl⟩
-      exact (key g').symm)
-  exact hcomm.symm
-
 /-! ### Surjectivity onto degree-`d` polynomials (the combinatorial core)
 
 The remaining fact needed for the First Fundamental Theorem assembly (#6789) is that *every*
@@ -588,5 +476,421 @@ theorem weightedHomogeneous_mem_range_endTensorEval
       = MvPolynomial.coeff u p • MvPolynomial.monomial u (1 : ℂ) by
     rw [← LinearMap.map_smul, smul_eq_mul, mul_one]]
   exact Submodule.smul_mem _ _ hmem
+
+/-! ## Block-symmetrization: the Reynolds operator on `End(V^{⊗n})`
+
+The `GL`-equivariant section is built by block-symmetrization. The *block symmetric group* of a slot
+assignment `slot` is the set of permutations `τ` of the `n` tensor slots that preserve the letter
+carried by each slot (`slot ∘ τ = slot`). Averaging the conjugation `M ↦ P_τ · M · P_τ⁻¹` by the
+permutation operators `P_τ = symGroupAction τ` over this finite group is a `ℂ`-linear projection
+`reynolds` onto the block-symmetric endomorphisms. It has three key properties:
+
+* `endTensorEval_reynolds` — `endTensorEval slot` is unchanged by `reynolds` (the generic tensor is
+  block-symmetric);
+* `reynolds_conj` — `reynolds` commutes with the diagonal `GL`-conjugation `M ↦ g^{⊗n}⁻¹ M g^{⊗n}`
+  (permutation operators commute with diagonal operators, Schur–Weyl);
+* `reynolds_injective` — `endTensorEval slot` is injective on the image of `reynolds`.
+
+Together these let a *any* fibrewise section (chosen from the surjectivity B1
+`weightedHomogeneous_mem_range_endTensorEval`) be block-symmetrized into an equivariant one: the
+equivariance follows by injectivity from the trace identity `endTensorEval_conj`. -/
+
+open scoped Classical in
+/-- The block symmetric group of a slot assignment `slot`: the permutations of the `n` tensor slots
+that preserve the letter each slot carries (`slot ∘ τ = slot`). -/
+noncomputable def blockPerms (slot : Fin n → Fin k) : Finset (Equiv.Perm (Fin n)) :=
+  Finset.univ.filter fun τ => slot ∘ τ = slot
+
+/-- The identity permutation preserves every slot assignment, so `blockPerms` is nonempty; in
+particular its cardinality is nonzero, which is what makes the Reynolds average well-defined. -/
+theorem one_mem_blockPerms (slot : Fin n → Fin k) : (1 : Equiv.Perm (Fin n)) ∈ blockPerms k n slot := by
+  classical
+  rw [blockPerms, Finset.mem_filter]
+  exact ⟨Finset.mem_univ _, by ext j; rfl⟩
+
+theorem blockPerms_card_ne_zero (slot : Fin n → Fin k) : (blockPerms k n slot).card ≠ 0 := by
+  exact Finset.card_ne_zero.mpr ⟨1, one_mem_blockPerms k n slot⟩
+
+/-- The block-symmetrization Reynolds operator on `End(V^{⊗n})`: the average of the conjugations
+`P_τ · M · P_τ⁻¹` by the permutation operators `P_τ = symGroupAction τ` over the block symmetric
+group `blockPerms slot`. -/
+noncomputable def reynolds (slot : Fin n → Fin k)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) :
+    Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
+  ((blockPerms k n slot).card : ℂ)⁻¹ • ∑ τ ∈ blockPerms k n slot,
+    (symGroupAction ℂ (BridgeV N) n τ).toLinearMap * M
+      * (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap
+
+/-- The matrix, in the standard tensor basis, of the permutation operator `symGroupAction σ`: its
+`(p, q)` entry is `1` when `p = q ∘ σ⁻¹` and `0` otherwise. It is a permutation matrix on the index
+set `Fin n → Fin N`. -/
+theorem toMatrix_symGroupAction (σ : Equiv.Perm (Fin n)) (p q : Fin n → Fin N) :
+    LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+        (symGroupAction ℂ (BridgeV N) n σ).toLinearMap p q
+      = if p = q ∘ (σ⁻¹ : Equiv.Perm (Fin n)) then 1 else 0 := by
+  classical
+  rw [LinearMap.toMatrix_apply]
+  change (tensorBasis N n).repr
+      ((symGroupAction ℂ (BridgeV N) n σ) (tensorBasis N n q)) p = _
+  rw [tensorBasis, Basis.piTensorProduct_apply, symGroupAction, PiTensorProduct.reindex_tprod,
+    Basis.piTensorProduct_repr_tprod_apply]
+  simp only [Basis.repr_self, Finsupp.single_apply]
+  by_cases h : p = q ∘ (σ⁻¹ : Equiv.Perm (Fin n))
+  · rw [if_pos h]
+    refine Finset.prod_eq_one fun i _ => if_pos ?_
+    subst h; rfl
+  · rw [if_neg h]
+    obtain ⟨i, hi⟩ := Function.ne_iff.mp h
+    refine Finset.prod_eq_zero (Finset.mem_univ i) (if_neg fun heq => ?_)
+    exact hi heq.symm
+
+/-- **Block-invariance of the generic tensor matrix.** Conjugating the generic tensor matrix by the
+permutation matrices of a block permutation `τ` (`slot ∘ τ = slot`) leaves it unchanged: permuting
+slots within each letter block reorders the identical factors of `⨂ⱼ X_{slot j}`. -/
+theorem genericTensorMatrix_symConj (slot : Fin n → Fin k)
+    {τ : Equiv.Perm (Fin n)} (hτ : slot ∘ τ = slot) :
+    (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N))
+        * genericTensorMatrix k N n slot
+        * (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N))
+      = genericTensorMatrix k N n slot := by
+  classical
+  refine Matrix.ext fun e f => ?_
+  -- Entrywise values of the two permutation matrices (mapped to the coordinate ring).
+  have hpermL : ∀ a : Fin n → Fin N,
+      (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N)) a f
+        = if a = f ∘ (τ⁻¹ : Equiv.Perm (Fin n)) then (1 : MatrixTupleRing k N) else 0 := by
+    intro a
+    rw [Matrix.map_apply, toMatrix_symGroupAction]
+    by_cases h : a = f ∘ (τ⁻¹ : Equiv.Perm (Fin n)) <;> simp [h]
+  have hpermR : ∀ b : Fin n → Fin N,
+      (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N)) e b
+        = if e = b ∘ (τ : Equiv.Perm (Fin n)) then (1 : MatrixTupleRing k N) else 0 := by
+    intro b
+    rw [Matrix.map_apply, toMatrix_symGroupAction, inv_inv]
+    by_cases h : e = b ∘ (τ : Equiv.Perm (Fin n)) <;> simp [h]
+  rw [Matrix.mul_apply]
+  rw [Finset.sum_eq_single (f ∘ (τ⁻¹ : Equiv.Perm (Fin n)))]
+  · rw [Matrix.mul_apply, Finset.sum_eq_single (e ∘ (τ⁻¹ : Equiv.Perm (Fin n)))]
+    · rw [hpermR (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))), hpermL (f ∘ (τ⁻¹ : Equiv.Perm (Fin n))),
+        if_pos (show e = (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))) ∘ (τ : Equiv.Perm (Fin n)) by
+          funext j; simp),
+        if_pos rfl, one_mul, mul_one]
+      -- `gTM (e∘τ⁻¹) (f∘τ⁻¹) = gTM e f`: reindex the slot product by `τ`.
+      simp only [genericTensorMatrix]
+      rw [← Equiv.prod_comp τ (fun j => MvPolynomial.X
+        (slot j, (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))) j, (f ∘ (τ⁻¹ : Equiv.Perm (Fin n))) j))]
+      have hinv : ∀ x : Fin n, (τ⁻¹ : Equiv.Perm (Fin n)) (τ x) = x :=
+        fun x => Equiv.symm_apply_apply τ x
+      refine Finset.prod_congr rfl fun j _ => ?_
+      simp only [Function.comp_apply, hinv, show slot (τ j) = slot j from congrFun hτ j]
+    · intro b _ hbne
+      rw [hpermR b, if_neg (fun he => hbne (by
+        funext j; have := congrFun he ((τ⁻¹ : Equiv.Perm (Fin n)) j); simpa using this.symm)),
+        zero_mul]
+    · intro h; exact absurd (Finset.mem_univ _) h
+  · intro a _ hane
+    rw [hpermL a, if_neg hane, mul_zero]
+  · intro h; exact absurd (Finset.mem_univ _) h
+
+/-- **Block-invariance of the evaluation pairing.** Conjugating an endomorphism by a block
+permutation operator `P_τ` (`τ ∈ blockPerms slot`) leaves its evaluation unchanged: the generic
+tensor `⨂ⱼ X_{slot j}` is invariant under permuting slots within each letter block. -/
+theorem endTensorEval_symGroupConj (slot : Fin n → Fin k)
+    {τ : Equiv.Perm (Fin n)} (hτ : τ ∈ blockPerms k n slot)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) :
+    endTensorEval k N n slot
+        ((symGroupAction ℂ (BridgeV N) n τ).toLinearMap * M
+          * (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap)
+      = endTensorEval k N n slot M := by
+  classical
+  have hslotτ : slot ∘ τ = slot := by
+    rw [blockPerms, Finset.mem_filter] at hτ; exact hτ.2
+  rw [endTensorEval_eq_evalMatrix, endTensorEval_eq_evalMatrix,
+    LinearMap.toMatrix_mul, LinearMap.toMatrix_mul, evalMatrix_eq_trace, evalMatrix_eq_trace,
+    Matrix.map_mul, Matrix.map_mul]
+  set C := algebraMap ℂ (MatrixTupleRing k N)
+  set PL := (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+    (symGroupAction ℂ (BridgeV N) n τ).toLinearMap).map C with hPL
+  set PR := (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+    (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap).map C with hPR
+  set A := (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M).map C with hA
+  set G := genericTensorMatrix k N n slot with hG
+  -- `trace((PL A PR) G) = trace(A (PR G PL)) = trace(A G)` by cyclicity and block-invariance.
+  have key : PR * G * PL = G := genericTensorMatrix_symConj k N n slot hslotτ
+  have hassoc : PL * A * PR * G = PL * (A * PR * G) := by
+    rw [mul_assoc (PL * A) PR G, mul_assoc PL A (PR * G), ← mul_assoc A PR G]
+  rw [hassoc, Matrix.trace_mul_comm,
+    show A * PR * G * PL = A * (PR * G * PL) from by
+      rw [mul_assoc (A * PR) G PL, mul_assoc A PR (G * PL), ← mul_assoc PR G PL],
+    key]
+
+/-- **`endTensorEval` is unchanged by the Reynolds operator.** Each conjugate summand has the same
+evaluation (`endTensorEval_symGroupConj`), and the `(card)⁻¹` normalization cancels the count. -/
+theorem endTensorEval_reynolds (slot : Fin n → Fin k)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) :
+    endTensorEval k N n slot (reynolds k N n slot M) = endTensorEval k N n slot M := by
+  classical
+  rw [reynolds, map_smul, map_sum]
+  rw [Finset.sum_congr rfl fun τ hτ => endTensorEval_symGroupConj k N n slot hτ M]
+  rw [Finset.sum_const, ← Nat.cast_smul_eq_nsmul ℂ, smul_smul]
+  rw [inv_mul_cancel₀ (by exact_mod_cast blockPerms_card_ne_zero k n slot), one_smul]
+
+/-- **The Reynolds operator commutes with diagonal `GL`-conjugation.** Because each permutation
+operator `P_τ` commutes with the diagonal operator `g^{⊗n}` (Schur–Weyl,
+`symGroupAction_comm_diagonalAction`), averaging the conjugation-by-`P_τ` commutes with conjugating
+by `g^{⊗n}`. This makes the image of `reynolds` stable under the diagonal `GL`-action. -/
+theorem reynolds_conj (slot : Fin n → Fin k) (g : (Matrix (Fin N) (Fin N) ℂ)ˣ)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) :
+    reynolds k N n slot
+        (PiTensorProduct.map (fun _ : Fin n => Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
+          * M
+          * PiTensorProduct.map (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ)))
+      = PiTensorProduct.map (fun _ : Fin n => Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
+        * reynolds k N n slot M
+        * PiTensorProduct.map (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ)) := by
+  classical
+  set Q := PiTensorProduct.map (fun _ : Fin n => Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
+    with hQ
+  set P := PiTensorProduct.map (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ))
+    with hP
+  rw [reynolds, reynolds, mul_smul_comm, smul_mul_assoc, Finset.mul_sum, Finset.sum_mul]
+  congr 1
+  refine Finset.sum_congr rfl fun τ hτ => ?_
+  set Pτ := (symGroupAction ℂ (BridgeV N) n τ).toLinearMap with hPτ
+  set Pτ' := (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap with hPτ'
+  have hcQ : Commute Pτ Q := by
+    rw [Commute, SemiconjBy, hPτ, hQ, Module.End.mul_eq_comp, Module.End.mul_eq_comp]
+    exact symGroupAction_comm_diagonalAction ℂ (BridgeV N) n τ
+      (Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
+  have hcP' : Commute Pτ' P := by
+    rw [Commute, SemiconjBy, hPτ', hP, Module.End.mul_eq_comp, Module.End.mul_eq_comp]
+    exact symGroupAction_comm_diagonalAction ℂ (BridgeV N) n τ⁻¹
+      (Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ))
+  -- `Pτ (Q M P) Pτ' = Q (Pτ M Pτ') P` by sliding `Q` left past `Pτ` and `P` right past `Pτ'`.
+  simp only [mul_assoc]
+  rw [show P * Pτ' = Pτ' * P from hcP'.symm.eq, ← mul_assoc Pτ Q,
+    show Pτ * Q = Q * Pτ from hcQ.eq, mul_assoc Q Pτ]
+
+/-- **Injectivity of the evaluation pairing on block-symmetric endomorphisms.** Two endomorphisms in
+the image of the Reynolds operator with the same evaluation are equal: the block-symmetric
+endomorphisms are exactly the span of the uniform averages of matrix units over the fibres of
+`endTensorEval slot`, so distinct evaluations come from distinct block-symmetric endomorphisms. -/
+theorem reynolds_injective (slot : Fin n → Fin k)
+    (M M' : Module.End ℂ (TensorPower ℂ (BridgeV N) n))
+    (h : endTensorEval k N n slot (reynolds k N n slot M)
+          = endTensorEval k N n slot (reynolds k N n slot M')) :
+    reynolds k N n slot M = reynolds k N n slot M' := by
+  -- Roadmap (see issue for full detail). By linearity of `reynolds` and `endTensorEval` it suffices
+  -- to show: if `W` is block-symmetric (`W = reynolds W₀` for some `W₀`) and `endTensorEval W = 0`
+  -- then `W = 0`. Write `W_{a,b} := toMatrix W a b`. Two facts close this:
+  --   (1) `toMatrix (reynolds W₀) a b = (card)⁻¹ • ∑_{σ ∈ blockPerms} W₀_{a∘σ, b∘σ}` (from
+  --       `toMatrix_symGroupAction`, mirroring `genericTensorMatrix_symConj`), so `W_{a∘σ, b∘σ} =
+  --       W_{a,b}` for `σ ∈ blockPerms` — block-symmetry of `W`.
+  --   (2) The coefficient of `monomial u 1` in `endTensorEval W` is `∑_{(a,b) : u(b,a) = u} W_{a,b}`
+  --       where `u(b,a) = ∑ⱼ single (slot j, b j, a j) 1`; and the index set `{(a,b) : u(b,a) = u}`
+  --       is a *single* `blockPerms`-orbit under `(a,b) ↦ (a∘σ, b∘σ)` (multiset-matching, mirroring
+  --       `PolynomialTensorBridge.matchingPerm`). Block-symmetry makes `W` constant on that orbit,
+  --       so the coefficient is `(orbit card) • W_{a,b}`; `endTensorEval W = 0` forces every
+  --       coefficient to vanish (monomials are linearly independent), hence every `W_{a,b} = 0`.
+  sorry
+
+/-- **Conjugation preserves multidegree.** The simultaneous-conjugation automorphism `conjAlgHom g`
+of the coordinate ring preserves the `matrixWeight`-multidegree: it substitutes each variable
+`X (i, r, c)` (weight `single i 1`) by a `ℂ`-combination of variables `X (i, s, t)` with the same
+letter `i`, hence the same weight. -/
+theorem conjAlgHom_isWeightedHomogeneous (g : (Matrix (Fin N) (Fin N) ℂ)ˣ) (d : Fin k →₀ ℕ)
+    {p : MatrixTupleRing k N} (hp : IsWeightedHomogeneous (matrixWeight k N) p d) :
+    IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g p) d := by
+  classical
+  -- Each generator `X (i, r, c)` maps to a `ℂ`-combination of variables `X (i, s, t)` with the same
+  -- letter `i`, hence weight `matrixWeight (i, r, c) = single i 1` is preserved.
+  have hgen : ∀ v : Fin k × Fin N × Fin N,
+      IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (X v)) (matrixWeight k N v) := by
+    rintro ⟨i, r, c⟩
+    rw [conjAlgHom_X_sum]
+    refine IsWeightedHomogeneous.sum _ _ _ (fun s _ =>
+      IsWeightedHomogeneous.sum _ _ _ (fun t _ => ?_))
+    have hXst : IsWeightedHomogeneous (matrixWeight k N) (X (i, s, t) : MatrixTupleRing k N)
+        (matrixWeight k N (i, s, t)) := isWeightedHomogeneous_X ℂ (matrixWeight k N) (i, s, t)
+    have hw : matrixWeight k N (i, s, t) = matrixWeight k N (i, r, c) := rfl
+    rw [← hw, show algebraMap ℂ (MatrixTupleRing k N) ((↑g : Matrix (Fin N) (Fin N) ℂ) r s)
+          * X (i, s, t)
+          * algebraMap ℂ (MatrixTupleRing k N) ((↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ) t c)
+        = MvPolynomial.C ((↑g : Matrix (Fin N) (Fin N) ℂ) r s
+            * (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ) t c) * X (i, s, t) by
+      rw [map_mul, MvPolynomial.algebraMap_eq]; ring]
+    exact hXst.C_mul _
+  -- Powers of a weighted-homogeneous element scale the weight.
+  have hpow : ∀ (φ : MatrixTupleRing k N) (m : Fin k →₀ ℕ) (e : ℕ),
+      IsWeightedHomogeneous (matrixWeight k N) φ m →
+      IsWeightedHomogeneous (matrixWeight k N) (φ ^ e) (e • m) := by
+    intro φ m e hφ
+    induction e with
+    | zero => simpa using isWeightedHomogeneous_one ℂ (matrixWeight k N)
+    | succ e ih => rw [pow_succ, succ_nsmul]; exact ih.mul hφ
+  -- A monomial of weight `d` maps to a weighted-homogeneous polynomial of weight `d`.
+  have hmon : ∀ (u : (Fin k × Fin N × Fin N) →₀ ℕ) (c : ℂ),
+      Finsupp.weight (matrixWeight k N) u = d →
+      IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (monomial u c)) d := by
+    intro u c hwu
+    rw [MvPolynomial.monomial_eq, map_mul,
+      show conjAlgHom k N g (C c) = C c from by
+        rw [← MvPolynomial.algebraMap_eq]; exact AlgHom.commutes _ c]
+    simp only [Finsupp.prod, map_prod, map_pow]
+    have hdeg : ∑ v ∈ u.support, (u v) • matrixWeight k N v = d := by
+      rw [← hwu, Finsupp.weight_apply]; rfl
+    have hprod := IsWeightedHomogeneous.prod u.support
+      (fun v => conjAlgHom k N g (X v) ^ (u v))
+      (fun v => (u v) • matrixWeight k N v)
+      (fun v _ => hpow (conjAlgHom k N g (X v)) (matrixWeight k N v) (u v) (hgen v))
+    rw [hdeg] at hprod
+    exact hprod.C_mul c
+  rw [p.as_sum, map_sum]
+  exact IsWeightedHomogeneous.sum _ _ _ (fun u hu =>
+    hmon u _ (hp (MvPolynomial.mem_support_iff.mp hu)))
+
+/-- **The GL-equivariant section (crux).** There is a section `σ` of the evaluation pairing
+`endTensorEval slot` on the multidegree-`d` part of the coordinate ring that is `GL(V)`-equivariant:
+it sends each `matrixWeight`-homogeneous polynomial `p` of multidegree `d` to an endomorphism `σ p`
+of `V^{⊗n}` with `endTensorEval slot (σ p) = p` (section property), and intertwines the
+simultaneous-conjugation automorphism `conjAlgHom g` on polynomials with conjugation by the diagonal
+operator `g^{⊗n}` on `End(V^{⊗n})` (equivariance).
+
+This is the reductivity heart of the First Fundamental Theorem (book step 2), obtained — following
+the single-matrix `PolynomialTensorBridge` — by an explicit block-symmetrization section rather than
+an abstract Reynolds operator. Its construction and the two properties are the deliverable of the
+section sub-issue; the assembly `weightedHomogeneous_invariant_mem_range_endTensorEval` below
+consumes it, turning `GL`-invariance of `p` into commutation of `σ p` with every diagonal operator
+and hence membership in `symGroupImage`. -/
+theorem exists_endTensorEval_equivariant_section
+    (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
+    (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i) :
+    ∃ σ : MatrixTupleRing k N → Module.End ℂ (TensorPower ℂ (BridgeV N) n),
+      (∀ p : MatrixTupleRing k N, IsWeightedHomogeneous (matrixWeight k N) p d →
+          endTensorEval k N n slot (σ p) = p) ∧
+      (∀ (g : (Matrix (Fin N) (Fin N) ℂ)ˣ) (p : MatrixTupleRing k N),
+          IsWeightedHomogeneous (matrixWeight k N) p d →
+          σ (conjAlgHom k N g p)
+            = PiTensorProduct.map
+                  (fun _ : Fin n => Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ))
+              * σ p
+              * PiTensorProduct.map
+                  (fun _ : Fin n => Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ))) := by
+  classical
+  -- A fibrewise (not yet equivariant) section, chosen from the surjectivity B1.
+  obtain ⟨σ₀, hσ₀⟩ : ∃ σ₀ : MatrixTupleRing k N → Module.End ℂ (TensorPower ℂ (BridgeV N) n),
+      ∀ p : MatrixTupleRing k N, IsWeightedHomogeneous (matrixWeight k N) p d →
+        endTensorEval k N n slot (σ₀ p) = p := by
+    refine ⟨fun p => if h : IsWeightedHomogeneous (matrixWeight k N) p d
+      then (LinearMap.mem_range.mp
+        (weightedHomogeneous_mem_range_endTensorEval k N n d slot hslot h)).choose else 0, ?_⟩
+    intro p hp
+    simp only [dif_pos hp]
+    exact (LinearMap.mem_range.mp
+      (weightedHomogeneous_mem_range_endTensorEval k N n d slot hslot hp)).choose_spec
+  -- The equivariant section is the block-symmetrization of `σ₀`.
+  refine ⟨fun p => reynolds k N n slot (σ₀ p), ?_, ?_⟩
+  · -- Section property: `reynolds` preserves the evaluation, and `σ₀` is already a section.
+    intro p hp
+    rw [endTensorEval_reynolds]
+    exact hσ₀ p hp
+  · -- Equivariance: both sides are `reynolds` of endomorphisms with equal evaluation.
+    intro g p hp
+    rw [← reynolds_conj]
+    refine reynolds_injective k N n slot _ _ ?_
+    rw [endTensorEval_reynolds, endTensorEval_reynolds, endTensorEval_conj,
+      hσ₀ p hp, hσ₀ (conjAlgHom k N g p) (conjAlgHom_isWeightedHomogeneous k N g d hp)]
+
+/-- **Range identification (assembly).** Every fixed-multidegree conjugation-invariant polynomial
+lies in the image, under `endTensorEval slot`, of `symGroupImage ℂ V n` — the `GL(V)`-invariant part
+of `End(V)^{⊗n}`. This is book step 2 of the FFT.
+
+Given the `GL`-equivariant section `σ` (`exists_endTensorEval_equivariant_section`), the lift is
+`M := σ p`. The section property gives `endTensorEval slot M = p`. For membership in
+`symGroupImage`, invariance `conjAlgHom g p = p` combined with equivariance shows `M` is fixed by
+conjugation by every diagonal unit operator `g^{⊗n}` (`M = (g^{⊗n})⁻¹ M g^{⊗n}`), i.e.
+`Commute (g^{⊗n}) M`. Since the
+`g^{⊗n}` generate `diagonalActionImage` (`adjoin_unitsTensorPow_eq_diagonalActionImage`) and
+`symGroupImage` is its centralizer (`Theorem5_18_4_centralizers`), `M ∈ symGroupImage`. -/
+theorem weightedHomogeneous_invariant_mem_range_endTensorEval
+    (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
+    (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i)
+    {p : MatrixTupleRing k N}
+    (hhom : IsWeightedHomogeneous (matrixWeight k N) p d)
+    (hinv : p ∈ invariantSubalgebra k N) :
+    ∃ M ∈ symGroupImage ℂ (BridgeV N) n, endTensorEval k N n slot M = p := by
+  classical
+  obtain ⟨σ, hsec, hequiv⟩ :=
+    exists_endTensorEval_equivariant_section k N n d slot hslot
+  refine ⟨σ p, ?_, hsec p hhom⟩
+  -- `σ p` commutes with every diagonal unit operator `g^{⊗n}`.
+  have key : ∀ g' : (Module.End ℂ (BridgeV N))ˣ,
+      Commute (PiTensorProduct.map (fun _ : Fin n => (g' : Module.End ℂ (BridgeV N)))) (σ p) := by
+    intro g'
+    -- The matrix unit `g` corresponding to `g'` under `End(ℂ^N) ≃ Matrix`.
+    set A : Matrix (Fin N) (Fin N) ℂ :=
+      LinearMap.toMatrix' (↑g' : Module.End ℂ (Fin N → ℂ)) with hA
+    set A' : Matrix (Fin N) (Fin N) ℂ :=
+      LinearMap.toMatrix' (↑g'⁻¹ : Module.End ℂ (Fin N → ℂ)) with hA'
+    have hAA' : A * A' = 1 := by
+      rw [hA, hA', ← LinearMap.toMatrix'_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one,
+        LinearMap.toMatrix'_one]
+    have hA'A : A' * A = 1 := by
+      rw [hA, hA', ← LinearMap.toMatrix'_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one,
+        LinearMap.toMatrix'_one]
+    set g : (Matrix (Fin N) (Fin N) ℂ)ˣ := ⟨A, A', hAA', hA'A⟩ with hg
+    have hP : Matrix.mulVecLin (↑g : Matrix (Fin N) (Fin N) ℂ)
+        = (↑g' : Module.End ℂ (BridgeV N)) := by
+      change Matrix.mulVecLin A = _
+      rw [hA, ← Matrix.toLin'_apply', Matrix.toLin'_toMatrix']
+    have hPinv : Matrix.mulVecLin (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ)
+        = (↑g'⁻¹ : Module.End ℂ (BridgeV N)) := by
+      change Matrix.mulVecLin A' = _
+      rw [hA', ← Matrix.toLin'_apply', Matrix.toLin'_toMatrix']
+    -- Invariance of `p` at this `g`.
+    have hpinv : conjAlgHom k N g p = p := by
+      rw [invariantSubalgebra, Algebra.mem_iInf] at hinv
+      have hg' := hinv g
+      rwa [AlgHom.mem_equalizer, AlgHom.id_apply] at hg'
+    -- Equivariance of the section, specialized and rewritten via invariance and `hP`, `hPinv`.
+    have heq := hequiv g p hhom
+    rw [hpinv] at heq
+    simp only [hP, hPinv] at heq
+    set P : Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
+      PiTensorProduct.map (fun _ : Fin n => (g' : Module.End ℂ (BridgeV N))) with hPdef
+    set Q : Module.End ℂ (TensorPower ℂ (BridgeV N) n) :=
+      PiTensorProduct.map (fun _ : Fin n => (↑g'⁻¹ : Module.End ℂ (BridgeV N))) with hQdef
+    -- `P` and `Q` are mutually inverse diagonal operators.
+    have hPQ : P * Q = 1 := by
+      rw [hPdef, hQdef, ← PiTensorProduct.map_mul]
+      have hid : (fun _ : Fin n =>
+            (↑g' : Module.End ℂ (BridgeV N)) * (↑g'⁻¹ : Module.End ℂ (BridgeV N)))
+          = fun _ : Fin n => (1 : Module.End ℂ (BridgeV N)) := by
+        funext _
+        rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+      rw [hid, PiTensorProduct.map_one]
+    -- `heq : σ p = Q * σ p * P` and `P * Q = 1` give `P * σ p = σ p * P`.
+    change Commute P (σ p)
+    rw [Commute, SemiconjBy]
+    nth_rewrite 1 [heq]
+    rw [← mul_assoc, ← mul_assoc, hPQ, one_mul]
+  -- Membership in `symGroupImage` via the Schur–Weyl centralizer identity.
+  rw [(Theorem5_18_4_centralizers ℂ (BridgeV N) n).1, Subalgebra.mem_centralizer_iff]
+  intro y hy
+  rw [← adjoin_unitsTensorPow_eq_diagonalActionImage (V := BridgeV N) ℂ n] at hy
+  have hcomm : Commute (σ p) y :=
+    Algebra.commute_of_mem_adjoin_of_forall_mem_commute hy (by
+      rintro _ ⟨g', rfl⟩
+      exact (key g').symm)
+  exact hcomm.symm
+
 
 end Etingof
