@@ -120,15 +120,157 @@ abbrev kt2 : Type := Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) 
 
 /-! ## The classification (statement pass; proofs deferred) -/
 
+omit [CharP k 2] in
 /-- **The trivial module is simple.** In characteristic `2`, `triv = sign`, so the two char-`0`
 one-dimensional simples collapse to this single simple `k[S₃]`-module. -/
-theorem trivMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule := by
-  sorry
+theorem trivMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule :=
+  { toIsSimpleOrder := is_simple_module_of_finrank_eq_one (K := k)
+      (by rw [(trivRepr k).asModuleEquiv.finrank_eq, Module.finrank_self]) }
+
+omit [CharP k 2] in
+open Module in
+/-- The underlying vector of `stdRepr k g x` is `permRepr k g` applied to the underlying vector. -/
+private lemma stdRepr_val (g : S3) (x : ↥(stdSubr k).toSubmodule) :
+    ((stdRepr k g x : ↥(stdSubr k).toSubmodule) : Fin 3 → k) = permRepr k g (x : Fin 3 → k) :=
+  rfl
+
+open Module in
+/-- The standard representation is `2`-dimensional. -/
+private lemma finrank_stdSub : finrank k ↥(stdSubr k).toSubmodule = 2 := by
+  have h2 : (2 : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k 2
+  have hpi : finrank k (Fin 3 → k) = 3 := by
+    simp
+  have hrange : finrank k ↥(LinearMap.range (sumLM k)) = 1 := by
+    have hr : LinearMap.range (sumLM k) = ⊤ := by
+      rw [LinearMap.range_eq_top]
+      intro c
+      exact ⟨Pi.single 0 c, by simp [sumLM_apply, Finset.sum_pi_single']⟩
+    rw [hr, finrank_top, Module.finrank_self]
+  have hsum := LinearMap.finrank_range_add_finrank_ker (sumLM k)
+  rw [hrange, hpi] at hsum
+  -- `hsum : 1 + finrank ↥(ker (sumLM k)) = 3`
+  change finrank k ↥(LinearMap.ker (sumLM k)) = 2
+  omega
 
 /-- **The standard module is simple.** The `2`-dimensional standard representation stays
 irreducible in characteristic `2` because `3` is invertible. -/
 theorem stdMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).asModule := by
-  sorry
+  classical
+  have h2 : (2 : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k 2
+  set V := ↥(stdSubr k).toSubmodule with hV
+  have hdimV : Module.finrank k V = 2 := finrank_stdSub k
+  -- Nontriviality of the carrier: `![1,1,0]` is a nonzero sum-zero vector.
+  have hnt : Nontrivial V := by
+    refine ⟨⟨![1, 1, 0], ?_⟩, 0, ?_⟩
+    · have hmem : ![1, 1, 0] ∈ LinearMap.ker (sumLM k) := by
+        rw [LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three]
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+          Matrix.cons_val_two, Matrix.tail_cons, add_zero]
+        rw [one_add_one_eq_two, h2]
+      exact hmem
+    · intro h
+      have := congrArg (fun x : V => (x : Fin 3 → k) 0) h
+      simp only [Matrix.cons_val_zero, ZeroMemClass.coe_zero, Pi.zero_apply] at this
+      exact one_ne_zero this
+  haveI : Nontrivial V := hnt
+  -- reduce to `IsSimpleOrder` of the lattice of invariant submodules
+  suffices hSO : IsSimpleOrder (stdRepr k).invtSubmodule by
+    exact { toIsSimpleOrder := (stdRepr k).mapSubmodule.isSimpleOrder_iff.mp hSO }
+  refine ⟨fun a => ?_⟩
+  -- invariance of `a`
+  have hinv : ∀ (g : S3) (x : V), x ∈ (a : Submodule k V) → stdRepr k g x ∈ (a : Submodule k V) :=
+    fun g => (Module.End.mem_invtSubmodule_iff_forall_mem_of_mem (stdRepr k g)).mp
+      ((stdRepr k).mem_invtSubmodule.mp a.2 g)
+  rcases eq_or_ne (a : Submodule k V) ⊥ with hbot | hbot
+  · left; exact Subtype.ext (hbot.trans (Representation.invtSubmodule.coe_bot _).symm)
+  -- `a ≠ ⊥`: pick a nonzero `w ∈ a`
+  obtain ⟨w, hw_mem, hw_ne⟩ := (Submodule.ne_bot_iff _).mp hbot
+  right
+  refine Subtype.ext ?_
+  rw [Representation.invtSubmodule.coe_top]
+  -- Two independent vectors in `a` force `a = ⊤`.
+  have topOfIndep : ∀ u : V, u ∈ (a : Submodule k V) → u ∉ Submodule.span k {w} →
+      (a : Submodule k V) = ⊤ := by
+    intro u hu hunotin
+    by_contra htop
+    have hlt : (a : Submodule k V) < ⊤ := lt_of_le_of_ne le_top htop
+    have hfa : Module.finrank k ↥(a : Submodule k V) < 2 := by
+      have := Submodule.finrank_lt_finrank_of_lt hlt
+      rwa [finrank_top, hdimV] at this
+    have hwle : Submodule.span k {w} ≤ (a : Submodule k V) :=
+      (Submodule.span_singleton_le_iff_mem w _).mpr hw_mem
+    have h1 : Module.finrank k ↥(Submodule.span k {w}) = 1 := finrank_span_singleton hw_ne
+    have hmono := Submodule.finrank_mono hwle
+    rw [h1] at hmono
+    have hfa1 : Module.finrank k ↥(a : Submodule k V) = 1 := by omega
+    have hspaneq : Submodule.span k {w} = (a : Submodule k V) :=
+      Submodule.eq_of_le_of_finrank_eq hwle (by rw [h1, hfa1])
+    rw [← hspaneq] at hu
+    exact hunotin hu
+  -- For an involution `s`, if `stdRepr s w` lies on the line `k·w`, then it fixes `w`.
+  have key : ∀ (s : S3), s * s = 1 → stdRepr k s w ∈ Submodule.span k {w} →
+      stdRepr k s w = w := by
+    intro s hs hmem
+    obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.mp hmem
+    -- `stdRepr s (stdRepr s w) = w`
+    have hss : stdRepr k s (stdRepr k s w) = w := by
+      have hmm : stdRepr k (s * s) = stdRepr k s * stdRepr k s := map_mul _ _ _
+      rw [hs, map_one] at hmm
+      have := LinearMap.congr_fun hmm.symm w
+      simpa [Module.End.mul_apply] using this
+    -- `μ² • w = w`
+    have e1 : stdRepr k s (stdRepr k s w) = (μ * μ) • w := by
+      conv_lhs => rw [← hμ]
+      rw [map_smul, ← hμ, smul_smul]
+    rw [hss] at e1
+    -- `μ = 1` in characteristic `2`
+    have hmuw : (μ * μ) • w = w := e1.symm
+    have hmm : μ * μ = 1 := by
+      have hz : ((μ * μ) - 1) • w = 0 := by rw [sub_smul, one_smul, hmuw, sub_self]
+      rcases smul_eq_zero.mp hz with h | h
+      · exact sub_eq_zero.mp h
+      · exact absurd h hw_ne
+    have hsq : (μ - 1) * (μ - 1) = 0 := by linear_combination hmm + (1 - μ) * h2
+    have hμ1 : μ = 1 := sub_eq_zero.mp (mul_self_eq_zero.mp hsq)
+    rw [← hμ, hμ1, one_smul]
+  -- Case analysis on whether `swap 0 1` and `swap 1 2` move `w` off the line.
+  by_cases hτ : stdRepr k (Equiv.swap (0 : Fin 3) 1) w ∈ Submodule.span k {w}
+  · by_cases hτ' : stdRepr k (Equiv.swap (1 : Fin 3) 2) w ∈ Submodule.span k {w}
+    · -- both fix `w` ⟹ `w` is constant ⟹ `w = 0`, contradiction
+      exfalso
+      have hfτ : stdRepr k (Equiv.swap (0 : Fin 3) 1) w = w := key _ (by decide) hτ
+      have hfτ' : stdRepr k (Equiv.swap (1 : Fin 3) 2) w = w := key _ (by decide) hτ'
+      -- underlying vector equations
+      have e0 : permRepr k (Equiv.swap (0 : Fin 3) 1) (w : Fin 3 → k) = (w : Fin 3 → k) := by
+        rw [← stdRepr_val]; exact congrArg (fun x : V => (x : Fin 3 → k)) hfτ
+      have e1' : permRepr k (Equiv.swap (1 : Fin 3) 2) (w : Fin 3 → k) = (w : Fin 3 → k) := by
+        rw [← stdRepr_val]; exact congrArg (fun x : V => (x : Fin 3 → k)) hfτ'
+      have h01 : (w : Fin 3 → k) 1 = (w : Fin 3 → k) 0 := by
+        have := congr_fun e0 0
+        rwa [permRepr_apply, show (Equiv.swap (0 : Fin 3) 1)⁻¹ 0 = 1 from by decide] at this
+      have h12 : (w : Fin 3 → k) 2 = (w : Fin 3 → k) 1 := by
+        have := congr_fun e1' 1
+        rwa [permRepr_apply, show (Equiv.swap (1 : Fin 3) 2)⁻¹ 1 = 2 from by decide] at this
+      -- sum-zero forces `w = 0`
+      have hz : sumLM k (w : Fin 3 → k) = 0 := w.2
+      rw [sumLM_apply, Fin.sum_univ_three, h12, h01] at hz
+      -- `w 0 + w 0 + w 0 = w 0 = 0`
+      have hw0 : (w : Fin 3 → k) 0 = 0 := by
+        have hsum3 : (w : Fin 3 → k) 0 + (w : Fin 3 → k) 0 + (w : Fin 3 → k) 0 = 0 := hz
+        linear_combination hsum3 - (w : Fin 3 → k) 0 * h2
+      have hw1 : (w : Fin 3 → k) 1 = 0 := h01.trans hw0
+      have hw2 : (w : Fin 3 → k) 2 = 0 := h12.trans hw1
+      apply hw_ne
+      refine Subtype.ext ?_
+      rw [ZeroMemClass.coe_zero]
+      funext i
+      simp only [Pi.zero_apply]
+      fin_cases i
+      · exact hw0
+      · exact hw1
+      · exact hw2
+    · exact topOfIndep _ (hinv _ w hw_mem) hτ'
+  · exact topOfIndep _ (hinv _ w hw_mem) hτ
 
 /-- **Exactly two simples.** `S₃` has two `2`-regular classes (`{e}` and `{(123),(132)}`), so over
 a splitting field of characteristic `2` there are exactly two isomorphism classes of simple
