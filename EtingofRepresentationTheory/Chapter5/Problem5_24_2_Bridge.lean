@@ -521,6 +521,85 @@ noncomputable def reynolds (slot : Fin n → Fin k)
     (symGroupAction ℂ (BridgeV N) n τ).toLinearMap * M
       * (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap
 
+/-- The matrix, in the standard tensor basis, of the permutation operator `symGroupAction σ`: its
+`(p, q)` entry is `1` when `p = q ∘ σ⁻¹` and `0` otherwise. It is a permutation matrix on the index
+set `Fin n → Fin N`. -/
+theorem toMatrix_symGroupAction (σ : Equiv.Perm (Fin n)) (p q : Fin n → Fin N) :
+    LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+        (symGroupAction ℂ (BridgeV N) n σ).toLinearMap p q
+      = if p = q ∘ (σ⁻¹ : Equiv.Perm (Fin n)) then 1 else 0 := by
+  classical
+  rw [LinearMap.toMatrix_apply]
+  change (tensorBasis N n).repr
+      ((symGroupAction ℂ (BridgeV N) n σ) (tensorBasis N n q)) p = _
+  rw [tensorBasis, Basis.piTensorProduct_apply, symGroupAction, PiTensorProduct.reindex_tprod,
+    Basis.piTensorProduct_repr_tprod_apply]
+  simp only [Basis.repr_self, Finsupp.single_apply]
+  by_cases h : p = q ∘ (σ⁻¹ : Equiv.Perm (Fin n))
+  · rw [if_pos h]
+    refine Finset.prod_eq_one fun i _ => if_pos ?_
+    subst h; rfl
+  · rw [if_neg h]
+    obtain ⟨i, hi⟩ := Function.ne_iff.mp h
+    refine Finset.prod_eq_zero (Finset.mem_univ i) (if_neg fun heq => ?_)
+    exact hi heq.symm
+
+/-- **Block-invariance of the generic tensor matrix.** Conjugating the generic tensor matrix by the
+permutation matrices of a block permutation `τ` (`slot ∘ τ = slot`) leaves it unchanged: permuting
+slots within each letter block reorders the identical factors of `⨂ⱼ X_{slot j}`. -/
+theorem genericTensorMatrix_symConj (slot : Fin n → Fin k)
+    {τ : Equiv.Perm (Fin n)} (hτ : slot ∘ τ = slot) :
+    (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N))
+        * genericTensorMatrix k N n slot
+        * (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N))
+      = genericTensorMatrix k N n slot := by
+  classical
+  refine Matrix.ext fun e f => ?_
+  -- Entrywise values of the two permutation matrices (mapped to the coordinate ring).
+  have hpermL : ∀ a : Fin n → Fin N,
+      (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N)) a f
+        = if a = f ∘ (τ⁻¹ : Equiv.Perm (Fin n)) then (1 : MatrixTupleRing k N) else 0 := by
+    intro a
+    rw [Matrix.map_apply, toMatrix_symGroupAction]
+    by_cases h : a = f ∘ (τ⁻¹ : Equiv.Perm (Fin n)) <;> simp [h]
+  have hpermR : ∀ b : Fin n → Fin N,
+      (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap).map
+          (algebraMap ℂ (MatrixTupleRing k N)) e b
+        = if e = b ∘ (τ : Equiv.Perm (Fin n)) then (1 : MatrixTupleRing k N) else 0 := by
+    intro b
+    rw [Matrix.map_apply, toMatrix_symGroupAction, inv_inv]
+    by_cases h : e = b ∘ (τ : Equiv.Perm (Fin n)) <;> simp [h]
+  rw [Matrix.mul_apply]
+  rw [Finset.sum_eq_single (f ∘ (τ⁻¹ : Equiv.Perm (Fin n)))]
+  · rw [Matrix.mul_apply, Finset.sum_eq_single (e ∘ (τ⁻¹ : Equiv.Perm (Fin n)))]
+    · rw [hpermR (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))), hpermL (f ∘ (τ⁻¹ : Equiv.Perm (Fin n))),
+        if_pos (show e = (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))) ∘ (τ : Equiv.Perm (Fin n)) by
+          funext j; simp),
+        if_pos rfl, one_mul, mul_one]
+      -- `gTM (e∘τ⁻¹) (f∘τ⁻¹) = gTM e f`: reindex the slot product by `τ`.
+      simp only [genericTensorMatrix]
+      rw [← Equiv.prod_comp τ (fun j => MvPolynomial.X
+        (slot j, (e ∘ (τ⁻¹ : Equiv.Perm (Fin n))) j, (f ∘ (τ⁻¹ : Equiv.Perm (Fin n))) j))]
+      have hinv : ∀ x : Fin n, (τ⁻¹ : Equiv.Perm (Fin n)) (τ x) = x :=
+        fun x => Equiv.symm_apply_apply τ x
+      refine Finset.prod_congr rfl fun j _ => ?_
+      simp only [Function.comp_apply, hinv, show slot (τ j) = slot j from congrFun hτ j]
+    · intro b _ hbne
+      rw [hpermR b, if_neg (fun he => hbne (by
+        funext j; have := congrFun he ((τ⁻¹ : Equiv.Perm (Fin n)) j); simpa using this.symm)),
+        zero_mul]
+    · intro h; exact absurd (Finset.mem_univ _) h
+  · intro a _ hane
+    rw [hpermL a, if_neg hane, mul_zero]
+  · intro h; exact absurd (Finset.mem_univ _) h
+
 /-- **Block-invariance of the evaluation pairing.** Conjugating an endomorphism by a block
 permutation operator `P_τ` (`τ ∈ blockPerms slot`) leaves its evaluation unchanged: the generic
 tensor `⨂ⱼ X_{slot j}` is invariant under permuting slots within each letter block. -/
@@ -531,7 +610,27 @@ theorem endTensorEval_symGroupConj (slot : Fin n → Fin k)
         ((symGroupAction ℂ (BridgeV N) n τ).toLinearMap * M
           * (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap)
       = endTensorEval k N n slot M := by
-  sorry
+  classical
+  have hslotτ : slot ∘ τ = slot := by
+    rw [blockPerms, Finset.mem_filter] at hτ; exact hτ.2
+  rw [endTensorEval_eq_evalMatrix, endTensorEval_eq_evalMatrix,
+    LinearMap.toMatrix_mul, LinearMap.toMatrix_mul, evalMatrix_eq_trace, evalMatrix_eq_trace,
+    Matrix.map_mul, Matrix.map_mul]
+  set C := algebraMap ℂ (MatrixTupleRing k N)
+  set PL := (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+    (symGroupAction ℂ (BridgeV N) n τ).toLinearMap).map C with hPL
+  set PR := (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+    (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap).map C with hPR
+  set A := (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M).map C with hA
+  set G := genericTensorMatrix k N n slot with hG
+  -- `trace((PL A PR) G) = trace(A (PR G PL)) = trace(A G)` by cyclicity and block-invariance.
+  have key : PR * G * PL = G := genericTensorMatrix_symConj k N n slot hslotτ
+  have hassoc : PL * A * PR * G = PL * (A * PR * G) := by
+    rw [mul_assoc (PL * A) PR G, mul_assoc PL A (PR * G), ← mul_assoc A PR G]
+  rw [hassoc, Matrix.trace_mul_comm,
+    show A * PR * G * PL = A * (PR * G * PL) from by
+      rw [mul_assoc (A * PR) G PL, mul_assoc A PR (G * PL), ← mul_assoc PR G PL],
+    key]
 
 /-- **`endTensorEval` is unchanged by the Reynolds operator.** Each conjugate summand has the same
 evaluation (`endTensorEval_symGroupConj`), and the `(card)⁻¹` normalization cancels the count. -/
