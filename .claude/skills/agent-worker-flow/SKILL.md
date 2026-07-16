@@ -215,6 +215,18 @@ Check that the plan's assumptions still hold:
   post a comment with the counterexample and suggested fix, then `skip`
   for replan (Escalation ladder: "Ordering mistake in the plan → report,
   request replan").
+- **When the plan tells you to *use* a lemma from another file, check the
+  import direction before writing the proof.** The target theorem lives in
+  file `A`; if the named helper lives in file `B` and `B` imports `A`
+  (directly or transitively), using it is a circular import — the proof
+  won't compile no matter how correct the math is. Map the DAG quickly
+  (`grep -E '^import EtingofRepresentationTheory' <files>`) *before*
+  coding. Fixes: add an acyclic import of the file where the helper's own
+  dependencies live and inline the argument, or prove the target in a
+  third file that imports both. (Seen with #6789: the plan pointed at
+  `mem_symGroupImage_iff_commute_diag` in `Supporting.lean`, which imports
+  the target's `Bridge.lean`; resolved by importing `SchurWeylGLTransfer`
+  into `Bridge` and inlining the centralizer argument.)
 
 If stale:
 ```
