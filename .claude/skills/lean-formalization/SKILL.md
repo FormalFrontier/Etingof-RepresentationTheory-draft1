@@ -168,6 +168,30 @@ two **nested** `NatIso.ofComponents`, and make the inner (per-`X`) NatIso a **se
 with a `@[simp]` `_hom_app` lemma — otherwise the outer naturality `simp` tries to unfold the inner
 NatIso's large baked-in proof and hits `(deterministic) timeout at whnf`.
 
+**`Ext`-side mirror: the `k`-module on a Hom object `(Z ⟶ N)` differs between `linearYoneda` and
+`ModuleCat.of` when `N`'s carrier has an *external* `Module k`.** Hit in #6867
+(`Chapter8/RearrangeHomComplexX.lean`, the cohomological twin of the `Tor` carrier diamond above).
+The cochain-complex `.X` objects are `((linearYoneda k _).obj N).obj (op Z)`, whose `Module k (Z ⟶ N)`
+is the categorical `Linear.homModule`; the per-summand `summandIso` and the target tensor factors are
+spelled `ModuleCat.of k (Z ⟶ N)`, whose `Module k` is `ModuleCat.Hom.instModule` picking the *external*
+`Module k N` (`TensorProduct.instModule` on `N₁⊗N₂`, ambient `Module k Nᵢ` on each factor) — **not** the
+algebra-restricted one. So `(linearYoneda…).obj (op Z)` is **not defeq** to `ModuleCat.of k (Z ⟶ N)`,
+`ChainComplex.linearYonedaObj_X` is a non-`rfl` simp lemma, and `LY.map … ≫ summandIso.hom` won't
+typecheck. **Fix that worked (sorry-free):** prove the object equality as an `eqToIso`-able lemma —
+`by rw [ChainComplex.linearYonedaObj_X]; dsimp only [linearYoneda]; congr 1; refine Module.ext' _ _
+(fun r f => ?_); apply ModuleCat.hom_ext; apply LinearMap.ext; intro z; exact algebraMap_smul A r
+(f.hom z)` (the `congr 1` peels `ModuleCat.of`, `Module.ext'` reduces to smul equality, and
+`algebraMap_smul` is the scalar-tower reconciliation — one per algebra `A`/`A₁⊗A₂`). Then
+`fullSummandIso := eqToIso srcEq ≪≫ summandIso ≪≫ tensorIso (eqToIso …) (eqToIso …)` and the complex
+iso is `eqToIso (linearYonedaObj_X …) ≪≫ coreIso`. Cheaper than the `Tor` note's identity-carrier
+`LinearEquiv` when the two objects are literally `ModuleCat.of k (same carrier)` with different
+`Module k` args. Also: `Hom(-,N)` (`(linearYoneda k _).obj N`) is `Additive` (`linearYoneda_obj_additive`),
+so it sends the degreewise `mapBifunctor` coproduct to a biproduct — assemble the degreewise iso as a
+finite `∑` over `Finset.univ`/`Fintype` of the fiber with per-summand `ι`/`π` from `mapBifunctorDesc`
+(delta) and `ι_mapBifunctorDesc`, discharging the two composites via `Functor.map_sum` +
+`CategoryTheory.op_sum`. Beware `Functor.map_id`/`map_sum` name-clash with Lean's monad `Functor`: use
+`CategoryTheory.Functor.map_id`.
+
 **Distinct-but-defeq local `Module k` instances break `rw`/`simp` on imported lemmas — use `erw`
 or a `rfl`-restatement.** This file's own `instModuleK`/`instModuleKObj` and `ExternalTensorFunctor`'s
 *private* `restrictModule₁` are all `Module.compHom X (algebraMap k Bᵐᵒᵖ)` — defeq but **syntactically
