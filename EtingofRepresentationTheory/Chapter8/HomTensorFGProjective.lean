@@ -105,36 +105,65 @@ noncomputable def extMap
   map_add' := map_add _
   map_smul' c z := by
     -- `A₁ ⊗ A₂`-linearity from the pinning hypotheses; proved by induction on `c` and `z`.
-    sorry
+    simp only [RingHom.id_apply]
+    induction c using TensorProduct.induction_on generalizing z with
+    | zero => simp
+    | add c d hc hd => rw [add_smul, map_add, hc, hd, add_smul]
+    | tmul a₁ a₂ =>
+        induction z using TensorProduct.induction_on with
+        | zero => simp
+        | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
+        | tmul p₁ p₂ =>
+            rw [hP, TensorProduct.map_tmul, LinearMap.restrictScalars_apply,
+              LinearMap.restrictScalars_apply, LinearMap.map_smul, LinearMap.map_smul,
+              TensorProduct.map_tmul, LinearMap.restrictScalars_apply,
+              LinearMap.restrictScalars_apply, hN]
+
+variable (hP : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : P₁) (x₂ : P₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : P₁ ⊗[k] P₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂))
+  (hN : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : N₁) (x₂ : N₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : N₁ ⊗[k] N₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂))
+
+@[simp] theorem extMap_tmul (f₁ : P₁ →ₗ[A₁] N₁) (f₂ : P₂ →ₗ[A₂] N₂) (p₁ : P₁) (p₂ : P₂) :
+    extMap k A₁ A₂ P₁ P₂ N₁ N₂ hP hN f₁ f₂ (p₁ ⊗ₜ[k] p₂) = f₁ p₁ ⊗ₜ[k] f₂ p₂ :=
+  rfl
+
+/-- Two `A₁ ⊗ A₂`-linear maps out of `P₁ ⊗[k] P₂` agreeing on simple tensors are equal. -/
+theorem hom_ext {g h : (P₁ ⊗[k] P₂) →ₗ[A₁ ⊗[k] A₂] (N₁ ⊗[k] N₂)}
+    (H : ∀ (p₁ : P₁) (p₂ : P₂), g (p₁ ⊗ₜ[k] p₂) = h (p₁ ⊗ₜ[k] p₂)) : g = h := by
+  refine LinearMap.ext fun z => ?_
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | tmul p₁ p₂ => exact H p₁ p₂
+  | add x y hx hy => rw [map_add, map_add, hx, hy]
 
 /-- The canonical `k`-linear comparison map
 `Hom_{A₁}(P₁,N₁) ⊗ₖ Hom_{A₂}(P₂,N₂) → Hom_{A₁⊗A₂}(P₁⊗P₂, N₁⊗N₂)`,
 `f ⊗ g ↦ (p₁ ⊗ p₂ ↦ f p₁ ⊗ g p₂)`. -/
-noncomputable def homTensorHom
-    (hP : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : P₁) (x₂ : P₂),
-      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : P₁ ⊗[k] P₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂))
-    (hN : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : N₁) (x₂ : N₂),
-      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : N₁ ⊗[k] N₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂)) :
+noncomputable def homTensorHom :
     ((P₁ →ₗ[A₁] N₁) ⊗[k] (P₂ →ₗ[A₂] N₂)) →ₗ[k]
       ((P₁ ⊗[k] P₂) →ₗ[A₁ ⊗[k] A₂] (N₁ ⊗[k] N₂)) :=
   TensorProduct.lift
     { toFun := fun f₁ =>
         { toFun := fun f₂ => extMap k A₁ A₂ P₁ P₂ N₁ N₂ hP hN f₁ f₂
-          map_add' := by sorry
-          map_smul' := by sorry }
-      map_add' := by sorry
-      map_smul' := by sorry }
+          map_add' := fun f₂ f₂' => hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => by
+            simp [TensorProduct.tmul_add]
+          map_smul' := fun c f₂ => hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => by
+            simp [TensorProduct.tmul_smul] }
+      map_add' := fun f₁ f₁' => LinearMap.ext fun f₂ =>
+        hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => by simp [TensorProduct.add_tmul]
+      map_smul' := fun c f₁ => LinearMap.ext fun f₂ =>
+        hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => by
+          simp only [LinearMap.coe_mk, AddHom.coe_mk, LinearMap.smul_apply, extMap_tmul,
+            LinearMap.map_smul, TensorProduct.smul_tmul', RingHom.id_apply] }
 
 /-- Evaluation of `homTensorHom` on a simple tensor `f₁ ⊗ f₂` at a simple tensor `p₁ ⊗ p₂`. -/
-theorem homTensorHom_tmul_tmul
-    (hP : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : P₁) (x₂ : P₂),
-      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : P₁ ⊗[k] P₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂))
-    (hN : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : N₁) (x₂ : N₂),
-      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : N₁ ⊗[k] N₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂))
+@[simp] theorem homTensorHom_tmul_tmul
     (f₁ : P₁ →ₗ[A₁] N₁) (f₂ : P₂ →ₗ[A₂] N₂) (p₁ : P₁) (p₂ : P₂) :
     homTensorHom k A₁ A₂ P₁ P₂ N₁ N₂ hP hN (f₁ ⊗ₜ[k] f₂) (p₁ ⊗ₜ[k] p₂)
       = f₁ p₁ ⊗ₜ[k] f₂ p₂ := by
-  sorry
+  rw [homTensorHom, TensorProduct.lift.tmul]
+  rfl
 
 end HomTensorHom
 
