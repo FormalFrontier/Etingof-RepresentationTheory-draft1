@@ -196,6 +196,62 @@ noncomputable def homTensorHom :
 
 end HomTensorHom
 
+section FreeCaseAux
+
+/-- Uncurrying `Fin n → Fin m → X` to `Fin n × Fin m → X` as a `k`-linear equivalence. -/
+def piProdEquiv (X : Type u) [AddCommGroup X] [Module k X] (n m : ℕ) :
+    (Fin n → Fin m → X) ≃ₗ[k] (Fin n × Fin m → X) where
+  toFun f := fun p => f p.1 p.2
+  invFun g := fun i j => g (i, j)
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+  left_inv _ := rfl
+  right_inv g := by funext p; obtain ⟨i, j⟩ := p; rfl
+
+@[simp] theorem piProdEquiv_apply (X : Type u) [AddCommGroup X] [Module k X] (n m : ℕ)
+    (f : Fin n → Fin m → X) (i : Fin n) (j : Fin m) :
+    piProdEquiv k X n m f (i, j) = f i j := rfl
+
+/-- The tensor product of two finite free `k`-modules, distributed over the finite index sets:
+`(Fin n → M₁) ⊗[k] (Fin m → M₂) ≃ₗ[k] (Fin n × Fin m → M₁ ⊗[k] M₂)`. -/
+noncomputable def finTensorPiEquiv (M₁ M₂ : Type u)
+    [AddCommGroup M₁] [Module k M₁] [AddCommGroup M₂] [Module k M₂] (n m : ℕ) :
+    ((Fin n → M₁) ⊗[k] (Fin m → M₂)) ≃ₗ[k] (Fin n × Fin m → M₁ ⊗[k] M₂) :=
+  (TensorProduct.piLeft k (Fin m → M₂) (fun _ : Fin n => M₁)) ≪≫ₗ
+    (LinearEquiv.piCongrRight fun _ : Fin n =>
+      TensorProduct.piRight k k M₁ (fun _ : Fin m => M₂)) ≪≫ₗ
+    piProdEquiv k (M₁ ⊗[k] M₂) n m
+
+@[simp] theorem finTensorPiEquiv_tmul (M₁ M₂ : Type u)
+    [AddCommGroup M₁] [Module k M₁] [AddCommGroup M₂] [Module k M₂] (n m : ℕ)
+    (x₁ : Fin n → M₁) (x₂ : Fin m → M₂) (i : Fin n) (j : Fin m) :
+    finTensorPiEquiv k M₁ M₂ n m (x₁ ⊗ₜ[k] x₂) (i, j) = x₁ i ⊗ₜ[k] x₂ j := by
+  simp [finTensorPiEquiv]
+
+section Precomp
+
+variable {R : Type u} [Ring R] [Algebra k R] {X Y L : Type u}
+  [AddCommGroup X] [Module k X] [Module R X] [IsScalarTower k R X]
+  [AddCommGroup Y] [Module k Y] [Module R Y] [IsScalarTower k R Y]
+  [AddCommGroup L] [Module k L] [Module R L] [IsScalarTower k R L]
+
+/-- Precomposition by an `R`-linear equivalence `e : X ≃ₗ[R] Y`, packaged as the `k`-linear
+equivalence of Hom-spaces `(X →ₗ[R] L) ≃ₗ[k] (Y →ₗ[R] L)`, `φ ↦ φ ∘ₗ e.symm`. -/
+def precompEquiv (e : X ≃ₗ[R] Y) : (X →ₗ[R] L) ≃ₗ[k] (Y →ₗ[R] L) where
+  toFun φ := φ ∘ₗ (e.symm : Y →ₗ[R] X)
+  invFun ψ := ψ ∘ₗ (e : X →ₗ[R] Y)
+  map_add' a b := by ext y; simp
+  map_smul' c a := by ext y; simp
+  left_inv φ := by ext x; simp
+  right_inv ψ := by ext y; simp
+
+@[simp] theorem precompEquiv_apply (e : X ≃ₗ[R] Y) (φ : X →ₗ[R] L) (y : Y) :
+    precompEquiv k e φ y = φ (e.symm y) := rfl
+
+end Precomp
+
+end FreeCaseAux
+
 section Main
 
 variable (P₁ P₂ N₁ N₂ : Type u)
@@ -220,7 +276,89 @@ theorem homTensorHom_bijective_free (n m : ℕ)
       (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : N₁ ⊗[k] N₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂)) :
     Function.Bijective
       (homTensorHom k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ hF hN) := by
-  sorry
+  classical
+  set F := homTensorHom k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ hF hN with hFdef
+  -- Step 1: the external free-basis equivalence
+  -- `B : (A₁^n) ⊗ₖ (A₂^m) ≃ₗ[A₁⊗A₂] (A₁⊗A₂)^{n×m}`. Its underlying function is the purely
+  -- `k`-linear `finTensorPiEquiv`; the pinning `hF` upgrades it to `A₁ ⊗ A₂`-linearity.
+  let Bfwd : ((Fin n → A₁) ⊗[k] (Fin m → A₂)) →ₗ[A₁ ⊗[k] A₂]
+      (Fin n × Fin m → A₁ ⊗[k] A₂) :=
+    { toFun := finTensorPiEquiv k A₁ A₂ n m
+      map_add' := (finTensorPiEquiv k A₁ A₂ n m).map_add
+      map_smul' := by
+        intro c z
+        simp only [RingHom.id_apply]
+        induction c using TensorProduct.induction_on generalizing z with
+        | zero => simp
+        | add c d hc hd => rw [add_smul, map_add, hc, hd, add_smul]
+        | tmul a₁ a₂ =>
+            induction z using TensorProduct.induction_on with
+            | zero => simp
+            | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
+            | tmul x₁ x₂ =>
+                rw [hF]
+                funext p; obtain ⟨i, j⟩ := p
+                simp only [finTensorPiEquiv_tmul, Pi.smul_apply, smul_eq_mul,
+                  Algebra.TensorProduct.tmul_mul_tmul] }
+  have hBfwd_bij : Function.Bijective Bfwd := (finTensorPiEquiv k A₁ A₂ n m).bijective
+  let B : ((Fin n → A₁) ⊗[k] (Fin m → A₂)) ≃ₗ[A₁ ⊗[k] A₂]
+      (Fin n × Fin m → A₁ ⊗[k] A₂) := LinearEquiv.ofBijective Bfwd hBfwd_bij
+  have hB_tmul : ∀ (x₁ : Fin n → A₁) (x₂ : Fin m → A₂) (i : Fin n) (j : Fin m),
+      B (x₁ ⊗ₜ[k] x₂) (i, j) = x₁ i ⊗ₜ[k] x₂ j :=
+    fun x₁ x₂ i j => finTensorPiEquiv_tmul k A₁ A₂ n m x₁ x₂ i j
+  have hB_single : ∀ (i : Fin n) (j : Fin m),
+      B.symm (Pi.single (i, j) 1)
+        = (Pi.single i 1 : Fin n → A₁) ⊗ₜ[k] (Pi.single j 1 : Fin m → A₂) := by
+    intro i j
+    rw [LinearEquiv.symm_apply_eq]
+    funext p; obtain ⟨i', j'⟩ := p
+    rw [hB_tmul]
+    simp only [Pi.single_apply, Prod.mk.injEq]
+    by_cases hi : i' = i <;> by_cases hj : j' = j <;>
+      simp [hi, hj, Algebra.TensorProduct.one_def]
+  -- Step 2: coordinate equivalences on source, target and the middle matrix space.
+  let c₁ : ((Fin n → A₁) →ₗ[A₁] N₁) ≃ₗ[k] (Fin n → N₁) :=
+    ((Pi.basisFun A₁ (Fin n)).constr k).symm
+  let c₂ : ((Fin m → A₂) →ₗ[A₂] N₂) ≃ₗ[k] (Fin m → N₂) :=
+    ((Pi.basisFun A₂ (Fin m)).constr k).symm
+  let srcE := TensorProduct.congr c₁ c₂
+  let midE := finTensorPiEquiv k N₁ N₂ n m
+  let cT : ((Fin n × Fin m → A₁ ⊗[k] A₂) →ₗ[A₁ ⊗[k] A₂] (N₁ ⊗[k] N₂)) ≃ₗ[k]
+      (Fin n × Fin m → N₁ ⊗[k] N₂) :=
+    ((Pi.basisFun (A₁ ⊗[k] A₂) (Fin n × Fin m)).constr k).symm
+  let tgtE := (precompEquiv k B).trans cT
+  let E : (((Fin n → A₁) →ₗ[A₁] N₁) ⊗[k] ((Fin m → A₂) →ₗ[A₂] N₂)) ≃ₗ[k]
+      ((Fin n → A₁) ⊗[k] (Fin m → A₂) →ₗ[A₁ ⊗[k] A₂] (N₁ ⊗[k] N₂)) :=
+    srcE.trans (midE.trans tgtE.symm)
+  -- Step 3: `F` agrees with the equivalence `E`, hence is bijective.
+  have key : ∀ z, F z = E z := by
+    intro z
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | add x y hx hy => rw [map_add, map_add, hx, hy]
+    | tmul f₁ f₂ =>
+        have hEval : E (f₁ ⊗ₜ[k] f₂) = tgtE.symm (midE (srcE (f₁ ⊗ₜ[k] f₂))) := rfl
+        have hgen : tgtE (F (f₁ ⊗ₜ[k] f₂)) = midE (srcE (f₁ ⊗ₜ[k] f₂)) := by
+          funext p; obtain ⟨i, j⟩ := p
+          have hlhs : tgtE (F (f₁ ⊗ₜ[k] f₂)) (i, j)
+              = F (f₁ ⊗ₜ[k] f₂) (B.symm (Pi.single (i, j) 1)) := by
+            change ((Pi.basisFun (A₁ ⊗[k] A₂) (Fin n × Fin m)).constr k).symm
+                (precompEquiv k B (F (f₁ ⊗ₜ[k] f₂))) (i, j) = _
+            rw [Module.Basis.constr_symm_apply, precompEquiv_apply, Pi.basisFun_apply]
+          have hrhs : midE (srcE (f₁ ⊗ₜ[k] f₂)) (i, j)
+              = f₁ (Pi.single i 1) ⊗ₜ[k] f₂ (Pi.single j 1) := by
+            change finTensorPiEquiv k N₁ N₂ n m
+                (TensorProduct.congr c₁ c₂ (f₁ ⊗ₜ[k] f₂)) (i, j) = _
+            rw [TensorProduct.congr_tmul, finTensorPiEquiv_tmul]
+            change (((Pi.basisFun A₁ (Fin n)).constr k).symm f₁) i ⊗ₜ[k]
+                (((Pi.basisFun A₂ (Fin m)).constr k).symm f₂) j = _
+            rw [Module.Basis.constr_symm_apply, Module.Basis.constr_symm_apply,
+              Pi.basisFun_apply, Pi.basisFun_apply]
+          rw [hlhs, hB_single, hFdef, homTensorHom_tmul_tmul, hrhs]
+        rw [hEval, ← hgen, tgtE.symm_apply_apply]
+  have hFE : ⇑F = ⇑E := funext key
+  rw [hFE]
+  exact E.bijective
 
 /-- **The finite-generation Hom–tensor comparison isomorphism.** For `k`-algebras `A₁, A₂`, finitely
 generated projective left modules `P₁, P₂` and arbitrary left modules `N₁, N₂`, the canonical
