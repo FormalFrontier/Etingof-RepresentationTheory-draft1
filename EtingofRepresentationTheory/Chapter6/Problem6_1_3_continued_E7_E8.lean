@@ -616,11 +616,316 @@ theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) 
   have := hpos x hxne
   linarith
 
+/-- A raw list whose consecutive vertices are `G`-adjacent (an `IsChain`) witnesses
+reachability between its first and last vertices. This converts the raw `List`
+connectivity clause of `IsDynkinDiagram` into `SimpleGraph.Reachable`. -/
+private lemma reachable_of_isChain {n : ℕ} (G : SimpleGraph (Fin n)) :
+    ∀ {l : List (Fin n)} (hne : l ≠ []), l.IsChain G.Adj →
+      G.Reachable (l.head hne) (l.getLast hne)
+  | [_], _, _ => by simp
+  | (x :: y :: t), hne, h => by
+      rw [List.isChain_cons_cons] at h
+      have ih := reachable_of_isChain G (l := y :: t) (by simp) h.2
+      have hgl : (x :: y :: t).getLast hne = (y :: t).getLast (by simp) :=
+        List.getLast_cons (by simp)
+      rw [hgl]
+      exact h.1.reachable.trans ih
+
 /-- **(d)** A Dynkin diagram has at most one vertex of degree three (at most one
 branch point). -/
 theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v w : Fin n)
     (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by
-  sorry
+  classical
+  by_contra hvw
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a; rwa [Matrix.transpose_apply] at h
+  have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
+    rcases h01 a b with h | h <;> rw [h] <;> norm_num
+  -- The simple graph of the diagram.
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i (h : adj i i = 1) => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
+  letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  have hGadj : ∀ {i j}, G.Adj i j ↔ adj i j = 1 := Iff.rfl
+  -- `v` and `w` are reachable (connectivity of the diagram).
+  have hreach : G.Reachable v w := by
+    obtain ⟨l, hh, hl, hc⟩ := hconn v w
+    have hne : l ≠ [] := by rintro rfl; simp at hh
+    have hchain : l.IsChain G.Adj := by
+      rw [List.isChain_iff_getElem]
+      intro k hk; simpa [List.get_eq_getElem, hGadj] using hc k hk
+    have hR := reachable_of_isChain G hne hchain
+    have hhv : l.head hne = v := by
+      have h1 := List.head?_eq_some_head hne; rw [hh] at h1; exact (Option.some_inj.mp h1).symm
+    have hlw : l.getLast hne = w := by
+      have h1 := List.getLast?_eq_some_getLast hne
+      rw [hl] at h1; exact (Option.some_inj.mp h1).symm
+    rwa [hhv, hlw] at hR
+  -- A shortest path from `v` to `w`, of length `m = dist v w ≥ 1`.
+  obtain ⟨p, hpath, hlen⟩ := hreach.exists_path_of_dist
+  set m := G.dist v w with hmdef
+  have hm1 : 1 ≤ m := by
+    rw [Nat.one_le_iff_ne_zero]; intro h0
+    exact hvw (hreach.dist_eq_zero_iff.mp h0)
+  have hp0 : p.getVert 0 = v := p.getVert_zero
+  have hpm : p.getVert m = w := by rw [← hlen]; exact p.getVert_length
+  -- Consecutive path vertices are adjacent.
+  have hadjc : ∀ k, k < m → adj (p.getVert k) (p.getVert (k + 1)) = 1 := by
+    intro k hk
+    exact hGadj.mp (p.adj_getVert_succ (by rw [hlen]; exact hk))
+  -- Distinct path vertices (the path is simple).
+  have hinj : ∀ i j, i ≤ m → j ≤ m → p.getVert i = p.getVert j → i = j := by
+    intro i j hi hj he
+    exact hpath.getVert_injOn (by simp only [Set.mem_setOf_eq, hlen]; exact hi)
+      (by simp only [Set.mem_setOf_eq, hlen]; exact hj) he
+  -- Distance coordinate: `dist v pₖ = k` and `dist pₖ w = m - k` along a geodesic.
+  have hdistk : ∀ k, k ≤ m → G.dist v (p.getVert k) = k := by
+    intro k hk
+    have hle : G.dist v (p.getVert k) ≤ k :=
+      calc G.dist v (p.getVert k) ≤ (p.take k).length := G.dist_le _
+        _ = k ⊓ p.length := p.take_length k
+        _ = k := by rw [hlen]; exact inf_eq_left.mpr hk
+    have hdw : G.dist (p.getVert k) w ≤ m - k :=
+      calc G.dist (p.getVert k) w ≤ (p.drop k).length := G.dist_le _
+        _ = p.length - k := p.drop_length k
+        _ = m - k := by rw [hlen]
+    have htri := ((p.take k).reachable).dist_triangle_left w
+    omega
+  have hdistk2 : ∀ k, k ≤ m → G.dist (p.getVert k) w = m - k := by
+    intro k hk
+    have hdw : G.dist (p.getVert k) w ≤ m - k :=
+      calc G.dist (p.getVert k) w ≤ (p.drop k).length := G.dist_le _
+        _ = p.length - k := p.drop_length k
+        _ = m - k := by rw [hlen]
+    have hdk := hdistk k hk
+    have htri := ((p.take k).reachable).dist_triangle_left w
+    omega
+  -- The two path-neighbours `p₁` (next to `v`) and `p_{m-1}` (next to `w`).
+  set p1 := p.getVert 1 with hp1def
+  set pm1 := p.getVert (m - 1) with hpm1def
+  have hp1v : adj v p1 = 1 := by have := hadjc 0 hm1; rwa [hp0] at this
+  have hpm1w : adj w pm1 = 1 := by
+    have := hadjc (m - 1) (by omega)
+    rw [show m - 1 + 1 = m by omega, hpm] at this
+    rw [hsymm' w pm1]; exact this
+  -- Select the two extra neighbours (pendants) at `v` and at `w`.
+  have hp1mem : p1 ∈ univ.filter (fun j => adj v j = 1) := by
+    simp only [mem_filter, mem_univ, true_and]; exact hp1v
+  have hpm1mem : pm1 ∈ univ.filter (fun j => adj w j = 1) := by
+    simp only [mem_filter, mem_univ, true_and]; exact hpm1w
+  have hcardV : ((univ.filter (fun j => adj v j = 1)).erase p1).card = 2 := by
+    rw [Finset.card_erase_of_mem hp1mem]
+    have : (univ.filter (fun j => adj v j = 1)).card = 3 := hv
+    omega
+  have hcardW : ((univ.filter (fun j => adj w j = 1)).erase pm1).card = 2 := by
+    rw [Finset.card_erase_of_mem hpm1mem]
+    have : (univ.filter (fun j => adj w j = 1)).card = 3 := hw
+    omega
+  obtain ⟨a, b, hab, hVset⟩ := Finset.card_eq_two.mp hcardV
+  obtain ⟨c, d, hcd, hWset⟩ := Finset.card_eq_two.mp hcardW
+  have haE : a ∈ (univ.filter (fun j => adj v j = 1)).erase p1 := by rw [hVset]; simp
+  have hbE : b ∈ (univ.filter (fun j => adj v j = 1)).erase p1 := by rw [hVset]; simp
+  have hcE : c ∈ (univ.filter (fun j => adj w j = 1)).erase pm1 := by rw [hWset]; simp
+  have hdE : d ∈ (univ.filter (fun j => adj w j = 1)).erase pm1 := by rw [hWset]; simp
+  have hap1 : a ≠ p1 := (Finset.mem_erase.mp haE).1
+  have hbp1 : b ≠ p1 := (Finset.mem_erase.mp hbE).1
+  have hcpm1 : c ≠ pm1 := (Finset.mem_erase.mp hcE).1
+  have hdpm1 : d ≠ pm1 := (Finset.mem_erase.mp hdE).1
+  have hav : adj v a = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp haE).2).2; exact this
+  have hbv : adj v b = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp hbE).2).2; exact this
+  have hcw : adj w c = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp hcE).2).2; exact this
+  have hdw' : adj w d = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp hdE).2).2; exact this
+  -- Pendants of `v` lie off the path (else the shortest-path coordinate forces them to be `p₁`).
+  have hoff_v : ∀ e, adj v e = 1 → e ≠ p1 → ∀ k, k ≤ m → e ≠ p.getVert k := by
+    intro e hve hep1 k hk hcontra
+    have hd1 : G.dist v e = 1 := SimpleGraph.dist_eq_one_iff_adj.mpr (hGadj.mpr hve)
+    have hdk : G.dist v (p.getVert k) = k := hdistk k hk
+    rw [hcontra, hdk] at hd1
+    exact hep1 (by rw [hcontra, hd1])
+  have hoff_w : ∀ e, adj w e = 1 → e ≠ pm1 → ∀ k, k ≤ m → e ≠ p.getVert k := by
+    intro e hwe hepm1 k hk hcontra
+    have hd1 : G.dist e w = 1 := by
+      rw [SimpleGraph.dist_comm]; exact SimpleGraph.dist_eq_one_iff_adj.mpr (hGadj.mpr hwe)
+    have hdk : G.dist (p.getVert k) w = m - k := hdistk2 k hk
+    rw [hcontra, hdk] at hd1
+    exact hepm1 (by rw [hcontra, show k = m - 1 by omega])
+  -- Each pendant is off the path (support), as an explicit non-membership fact.
+  have hoffmem : ∀ e, (∀ k, k ≤ m → e ≠ p.getVert k) → e ∉ p.support := by
+    intro e he hmem
+    rw [SimpleGraph.Walk.mem_support_iff_exists_getVert] at hmem
+    obtain ⟨k, hk_eq, hk_le⟩ := hmem
+    exact he k (by rw [hlen] at hk_le; exact hk_le) hk_eq.symm
+  have ha_ns : a ∉ p.support := hoffmem a (hoff_v a hav hap1)
+  have hb_ns : b ∉ p.support := hoffmem b (hoff_v b hbv hbp1)
+  have hc_ns : c ∉ p.support := hoffmem c (hoff_w c hcw hcpm1)
+  have hd_ns : d ∉ p.support := hoffmem d (hoff_w d hdw' hdpm1)
+  -- The `D̃ₙ` singular test vector: weight `2` on the chain, `1` on the four pendants.
+  set x : Fin n → ℤ :=
+    fun i => (if i ∈ p.support then 2 else 0) +
+      (if i = a ∨ i = b ∨ i = c ∨ i = d then 1 else 0) with hxdef
+  have hxnn : ∀ i, 0 ≤ x i := by intro i; simp only [hxdef]; split_ifs <;> norm_num
+  -- Weights: `2` on the path, `1` on each pendant (pendants are off the path).
+  have hxpath : ∀ i, i ∈ p.support → x i = 2 := by
+    intro i hi
+    have hnotQ : ¬(i = a ∨ i = b ∨ i = c ∨ i = d) := by
+      rintro (h | h | h | h)
+      · exact ha_ns (h ▸ hi)
+      · exact hb_ns (h ▸ hi)
+      · exact hc_ns (h ▸ hi)
+      · exact hd_ns (h ▸ hi)
+    simp only [hxdef, if_pos hi, if_neg hnotQ, add_zero]
+  have hxpend : ∀ e, e ∉ p.support → (e = a ∨ e = b ∨ e = c ∨ e = d) → x e = 1 := by
+    intro e he hQ; simp only [hxdef, if_neg he, if_pos hQ, zero_add]
+  have hxa : x a = 1 := hxpend a ha_ns (Or.inl rfl)
+  have hxb : x b = 1 := hxpend b hb_ns (Or.inr (Or.inl rfl))
+  have hxc : x c = 1 := hxpend c hc_ns (Or.inr (Or.inr (Or.inl rfl)))
+  have hxd : x d = 1 := hxpend d hd_ns (Or.inr (Or.inr (Or.inr rfl)))
+  have hxv : x v = 2 := by rw [← hp0]; exact hxpath _ (p.getVert_mem_support 0)
+  have hxw : x w = 2 := by rw [← hpm]; exact hxpath _ (p.getVert_mem_support m)
+  have hxp1 : x p1 = 2 := hxpath _ (p.getVert_mem_support 1)
+  have hxpm1 : x pm1 = 2 := hxpath _ (p.getVert_mem_support (m - 1))
+  -- Lower bound: the adjacency row sum against `x` dominates the sum over any set of
+  -- distinct neighbours (all adjacency-weighted terms are nonnegative).
+  have hSbound : ∀ (i : Fin n) (T : Finset (Fin n)), (∀ j ∈ T, adj i j = 1) →
+      (∑ j ∈ T, x j) ≤ ∑ j, adj i j * x j := by
+    intro i T hT
+    calc ∑ j ∈ T, x j = ∑ j ∈ T, adj i j * x j :=
+          Finset.sum_congr rfl (fun j hj => by rw [hT j hj, one_mul])
+      _ ≤ ∑ j, adj i j * x j :=
+          Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ T)
+            (fun j _ _ => mul_nonneg (hnn i j) (hxnn j))
+  -- The subharmonic bound `2·xᵢ ≤ (adj·x)ᵢ` at every vertex.
+  have hkey : ∀ i, 2 * x i ≤ ∑ j, adj i j * x j := by
+    intro i
+    by_cases hiP : i ∈ p.support
+    · rw [hxpath i hiP]
+      obtain ⟨k, hk_eq, hk_le'⟩ := SimpleGraph.Walk.mem_support_iff_exists_getVert.mp hiP
+      have hk_le : k ≤ m := by rw [hlen] at hk_le'; exact hk_le'
+      by_cases hk0 : k = 0
+      · -- centre `v`: neighbours `p₁, a, b`
+        have hiv : i = v := by rw [hk0, hp0] at hk_eq; exact hk_eq.symm
+        subst hiv
+        have hp1_ns : p1 ∉ ({a, b} : Finset (Fin n)) := by
+          simp only [Finset.mem_insert, Finset.mem_singleton]
+          rintro (h | h)
+          · exact hap1 h.symm
+          · exact hbp1 h.symm
+        have hab_ns : a ∉ ({b} : Finset (Fin n)) := by simp [hab]
+        have hT : ∀ j ∈ ({p1, a, b} : Finset (Fin n)), adj i j = 1 := by
+          intro j hj
+          simp only [Finset.mem_insert, Finset.mem_singleton] at hj
+          rcases hj with h | h | h <;> subst h
+          · exact hp1v
+          · exact hav
+          · exact hbv
+        have hsum : ∑ j ∈ ({p1, a, b} : Finset (Fin n)), x j = 4 := by
+          rw [Finset.sum_insert hp1_ns, Finset.sum_insert hab_ns, Finset.sum_singleton,
+            hxp1, hxa, hxb]; norm_num
+        have := hSbound i {p1, a, b} hT
+        rw [hsum] at this; linarith
+      · by_cases hkm : k = m
+        · -- centre `w`: neighbours `p_{m-1}, c, d`
+          have hiw : i = w := by rw [hkm, hpm] at hk_eq; exact hk_eq.symm
+          subst hiw
+          have hpm1_ns : pm1 ∉ ({c, d} : Finset (Fin n)) := by
+            simp only [Finset.mem_insert, Finset.mem_singleton]
+            rintro (h | h)
+            · exact hcpm1 h.symm
+            · exact hdpm1 h.symm
+          have hcd_ns : c ∉ ({d} : Finset (Fin n)) := by simp [hcd]
+          have hT : ∀ j ∈ ({pm1, c, d} : Finset (Fin n)), adj i j = 1 := by
+            intro j hj
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hj
+            rcases hj with h | h | h <;> subst h
+            · exact hpm1w
+            · exact hcw
+            · exact hdw'
+          have hsum : ∑ j ∈ ({pm1, c, d} : Finset (Fin n)), x j = 4 := by
+            rw [Finset.sum_insert hpm1_ns, Finset.sum_insert hcd_ns, Finset.sum_singleton,
+              hxpm1, hxc, hxd]; norm_num
+          have := hSbound i {pm1, c, d} hT
+          rw [hsum] at this; linarith
+        · -- interior chain vertex: neighbours `p_{k-1}, p_{k+1}`
+          have hk1 : 1 ≤ k := Nat.one_le_iff_ne_zero.mpr hk0
+          have hkm' : k < m := lt_of_le_of_ne hk_le hkm
+          set j1 := p.getVert (k - 1) with hj1def
+          set j2 := p.getVert (k + 1) with hj2def
+          have hadj1 : adj i j1 = 1 := by
+            have h := hadjc (k - 1) (by omega)
+            rw [show k - 1 + 1 = k by omega, hk_eq] at h
+            rw [hsymm' i j1]; exact h
+          have hadj2 : adj i j2 = 1 := by
+            have h := hadjc k hkm'; rw [hk_eq] at h; exact h
+          have hj12 : j1 ≠ j2 := by
+            intro h; have := hinj (k - 1) (k + 1) (by omega) (by omega) h; omega
+          have hxj1 : x j1 = 2 := hxpath _ (p.getVert_mem_support (k - 1))
+          have hxj2 : x j2 = 2 := hxpath _ (p.getVert_mem_support (k + 1))
+          have hj1_ns : j1 ∉ ({j2} : Finset (Fin n)) := by simp [hj12]
+          have hT : ∀ j ∈ ({j1, j2} : Finset (Fin n)), adj i j = 1 := by
+            intro j hj
+            simp only [Finset.mem_insert, Finset.mem_singleton] at hj
+            rcases hj with h | h <;> subst h
+            · exact hadj1
+            · exact hadj2
+          have hsum : ∑ j ∈ ({j1, j2} : Finset (Fin n)), x j = 4 := by
+            rw [Finset.sum_insert hj1_ns, Finset.sum_singleton, hxj1, hxj2]; norm_num
+          have := hSbound i {j1, j2} hT
+          rw [hsum] at this; linarith
+    · by_cases hiQ : i = a ∨ i = b ∨ i = c ∨ i = d
+      · have hxi1 : x i = 1 := by simp only [hxdef, if_neg hiP, if_pos hiQ, zero_add]
+        rw [hxi1]
+        rcases hiQ with h | h | h | h
+        · have hiadj : adj i v = 1 := by rw [h, hsymm' a v]; exact hav
+          have hT : ∀ j ∈ ({v} : Finset (Fin n)), adj i j = 1 := by
+            intro j hj; rw [Finset.mem_singleton] at hj; rw [hj]; exact hiadj
+          have := hSbound i {v} hT; rw [Finset.sum_singleton, hxv] at this; linarith
+        · have hiadj : adj i v = 1 := by rw [h, hsymm' b v]; exact hbv
+          have hT : ∀ j ∈ ({v} : Finset (Fin n)), adj i j = 1 := by
+            intro j hj; rw [Finset.mem_singleton] at hj; rw [hj]; exact hiadj
+          have := hSbound i {v} hT; rw [Finset.sum_singleton, hxv] at this; linarith
+        · have hiadj : adj i w = 1 := by rw [h, hsymm' c w]; exact hcw
+          have hT : ∀ j ∈ ({w} : Finset (Fin n)), adj i j = 1 := by
+            intro j hj; rw [Finset.mem_singleton] at hj; rw [hj]; exact hiadj
+          have := hSbound i {w} hT; rw [Finset.sum_singleton, hxw] at this; linarith
+        · have hiadj : adj i w = 1 := by rw [h, hsymm' d w]; exact hdw'
+          have hT : ∀ j ∈ ({w} : Finset (Fin n)), adj i j = 1 := by
+            intro j hj; rw [Finset.mem_singleton] at hj; rw [hj]; exact hiadj
+          have := hSbound i {w} hT; rw [Finset.sum_singleton, hxw] at this; linarith
+      · have hxi0 : x i = 0 := by simp only [hxdef, if_neg hiP, if_neg hiQ, add_zero]
+        rw [hxi0]
+        have : (0 : ℤ) ≤ ∑ j, adj i j * x j :=
+          Finset.sum_nonneg (fun j _ => mul_nonneg (hnn i j) (hxnn j))
+        linarith
+  -- Assemble: `x ≠ 0` and `xᵀ A x ≤ 0`, contradicting positive definiteness.
+  set A := 2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj with hAdef
+  have hone : ∀ i j : Fin n,
+      (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = if i = j then 2 else 0 := by
+    intro i j
+    simp only [Matrix.smul_apply, Matrix.one_apply, two_nsmul]
+    split_ifs <;> norm_num
+  have hAx : ∀ i, (A.mulVec x) i = 2 * x i - ∑ j, adj i j * x j := by
+    intro i
+    have hentry : ∀ j, A i j * x j = (if i = j then 2 else 0) * x j - adj i j * x j := by
+      intro j; rw [hAdef, Matrix.sub_apply, hone, sub_mul]
+    simp only [Matrix.mulVec, dotProduct, hentry, Finset.sum_sub_distrib]
+    congr 1
+    simp only [ite_mul, zero_mul]
+    rw [Finset.sum_ite_eq]; simp
+  have hterm : ∀ i, x i * (A.mulVec x) i ≤ 0 := by
+    intro i; rw [hAx i]; nlinarith [hkey i, hxnn i]
+  have hnonpos : dotProduct x (A.mulVec x) ≤ 0 :=
+    Finset.sum_nonpos (fun i _ => hterm i)
+  have hxne : x ≠ 0 := by
+    intro h; have hv0 : x v = 0 := by rw [h]; rfl
+    rw [hxv] at hv0; norm_num at hv0
+  have := hpos x hxne
+  linarith
 
 end Etingof.Problem6_1_3_E7E8
