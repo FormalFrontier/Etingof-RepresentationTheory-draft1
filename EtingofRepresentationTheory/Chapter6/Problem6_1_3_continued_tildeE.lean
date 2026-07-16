@@ -1391,17 +1391,12 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
   set e0 : Fin n × Fin n := (v0, start1) with he0
   set f : ℕ → Fin n := fun k => (T^[k] e0).1 with hf
   -- The second coordinate is the next vertex.
-  have hf2 : ∀ k, (T^[k] e0).2 = f (k + 1) := by
-    intro k
-    have hrw : f (k + 1) = (T (T^[k] e0)).1 := by
-      simp only [hf, Function.iterate_succ_apply']
-    rw [hrw]; simp only [hT]
+  have hf2 : ∀ k, (T^[k] e0).2 = f (k + 1) := fun k => by
+    simp only [hf, Function.iterate_succ_apply', hT]
   -- The three-term recurrence.
-  have hstep : ∀ t, f (t + 2) = otherNbr adj (f (t + 1)) (f t) := by
-    intro t
-    have hA : f (t + 2) = (T (T (T^[t] e0))).1 := by
-      simp only [hf, Function.iterate_succ_apply']
-    rw [hA]; simp only [hT, hf2, hf]
+  have hstep : ∀ t, f (t + 2) = otherNbr adj (f (t + 1)) (f t) := fun t => by
+    rw [← hf2 (t + 1)]
+    simp only [hf, Function.iterate_succ_apply', hT]
   -- Consecutive vertices are adjacent.
   have hadj : ∀ k, adj (f k) (f (k + 1)) = 1 := by
     intro k
@@ -1428,8 +1423,7 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
       intro x hx
       simp only [Finset.mem_insert, Finset.mem_singleton] at hx
       rcases hx with h | h <;> subst h <;> simp [hk_nbr, hk2_nbr]
-    have hcard2 : ({f k, f (k + 2)} : Finset (Fin n)).card = 2 := by
-      rw [Finset.card_insert_of_not_mem (by simp [hne]), Finset.card_singleton]
+    have hcard2 : ({f k, f (k + 2)} : Finset (Fin n)).card = 2 := Finset.card_pair hne
     have heq : univ.filter (fun j => adj (f (k + 1)) j = 1) = {f k, f (k + 2)} :=
       (Finset.eq_of_subset_of_card_le hsub
         (le_of_eq (by rw [hdeg' (f (k + 1)), hcard2]))).symm
@@ -1450,13 +1444,31 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
   have hp_pos : 0 < p := Function.minimalPeriod_pos_of_mem_periodicPts hper_pt
   have hTp : T^[p] e0 = e0 := Function.iterate_minimalPeriod
   -- Wrap-around.
-  have hwrap0 : f p = f 0 := by simp only [hf, hTp, Function.iterate_zero_apply]
+  have hwrap0 : f p = f 0 := by
+    have h1 : f p = (T^[p] e0).1 := by simp only [hf]
+    have h2 : f 0 = e0.1 := by simp only [hf]; rfl
+    rw [h1, h2, hTp]
   have hwrap1 : f (p + 1) = f 1 := by
-    simp only [hf, Function.iterate_succ_apply', hTp]
+    have h1 : f (p + 1) = (T (T^[p] e0)).1 := by
+      simp only [hf, Function.iterate_succ_apply']
+    have h2 : f 1 = (T e0).1 := by simp only [hf]; rfl
+    rw [h1, h2, hTp]
   -- Full periodicity.
   have hper : ∀ k, f (k + p) = f k := by
     intro k
     simp only [hf, Function.iterate_add_apply, hTp]
+  have hpp : ∀ t k, f (k + p * t) = f k := by
+    intro t
+    induction t with
+    | zero => intro k; simp
+    | succ s ih =>
+        intro k
+        have hrw : k + p * (s + 1) = (k + p * s) + p := by ring
+        rw [hrw, hper, ih]
+  have hmod : ∀ m, f m = f (m % p) := by
+    intro m
+    conv_lhs => rw [← Nat.mod_add_div m p]
+    rw [hpp]
   -- Injectivity of the pair-walk on `[0, p)`.
   have hpairinj : ∀ a b, a < p → b < p → f a = f b → f (a + 1) = f (b + 1) → a = b := by
     intro a b ha hb hfab hfab1
@@ -1479,19 +1491,6 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
       · exact ⟨m + p - 1 + 2, h.symm⟩
     have hclosed : ∀ a b, (∃ m, f m = a) → adj a b = 1 → ∃ j, f j = b := by
       rintro a b ⟨m, rfl⟩ hab; exact hclosure m b hab
-    -- Periodic reduction to `[0, p)`.
-    have hpp : ∀ t k, f (k + p * t) = f k := by
-      intro t
-      induction t with
-      | zero => intro k; simp
-      | succ s ih =>
-          intro k
-          have hrw : k + p * (s + 1) = (k + p * s) + p := by ring
-          rw [hrw, hper, ih]
-    have hmod : ∀ m, f m = f (m % p) := by
-      intro m
-      conv_lhs => rw [← Nat.mod_add_div m p]
-      rw [hpp]
     intro v
     -- Reachability from the base vertex, in `ReflTransGen` form.
     have hreach : Relation.ReflTransGen (AdjEdge adj) v0 v := by
@@ -1513,14 +1512,137 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
       | tail _ hbc ih => exact hclosed _ _ ih hbc
     obtain ⟨m, hm⟩ := hex
     exact ⟨m % p, Nat.mod_lt _ hp_pos, by rw [← hmod m]; exact hm⟩
-  -- Injectivity of `f` on `[0, p)` (minimal-gap induction).
+  -- Injectivity of `f` on `[0, p)` (minimal-gap induction: a coincidence at gap
+  -- `d ≥ 3` produces one at gap `d - 2`, while gaps `1, 2` are ruled out directly).
+  have hgap : ∀ d i j, j = i + d → i < p → j < p → f i = f j → d = 0 := by
+    intro d
+    induction d using Nat.strong_induction_on with
+    | _ d ih =>
+      intro i j hj hi hjp hfij
+      rcases Nat.lt_or_ge d 3 with hd3 | hd3
+      · interval_cases d
+        · rfl
+        · -- gap 1: adjacency plus `f i = f (i+1)` forces a self-loop.
+          exfalso; subst hj
+          have h1 := hadj i
+          rw [← hfij, hdiag (f i)] at h1
+          norm_num at h1
+        · -- gap 2: contradicts the no-backtrack lemma.
+          exfalso; subst hj
+          exact hback i hfij.symm
+      · -- gap `d ≥ 3`: swap to the gap-`(d-2)` coincidence `f (i+1) = f (j-1)`.
+        exfalso
+        have hj1 : (j - 1) + 1 = j := by omega
+        have hj2 : (j - 1) + 2 = j + 1 := by omega
+        have hneigh : adj (f ((j - 1) + 1)) (f (i + 1)) = 1 := by
+          rw [hj1, ← hfij]; exact hadj i
+        have hor := (hnbr_iff (j - 1) (f (i + 1))).mp hneigh
+        rw [hj2] at hor
+        have hne_succ : f (i + 1) ≠ f (j + 1) := by
+          intro hcon
+          have : i = j := hpairinj i j hi hjp hfij hcon
+          omega
+        have hswap : f (i + 1) = f (j - 1) := by
+          rcases hor with h | h
+          · exact h
+          · exact absurd h hne_succ
+        have hz : d - 2 = 0 :=
+          ih (d - 2) (by omega) (i + 1) (j - 1) (by omega) (by omega) (by omega) hswap
+        omega
   have hfinj : ∀ i j, i < p → j < p → f i = f j → i = j := by
-    sorry
+    intro i j hi hj hfij
+    rcases le_total i j with hle | hle
+    · have hd := hgap (j - i) i j (by omega) hi hj hfij
+      omega
+    · have hd := hgap (i - j) j i (by omega) hj hi hfij.symm
+      omega
   -- Hence `p = n`.
+  have hφinj : Function.Injective (fun i : Fin p => f i.val) := fun a b hab =>
+    Fin.ext (hfinj a.val b.val a.isLt b.isLt hab)
+  have hφsurj : Function.Surjective (fun i : Fin p => f i.val) := by
+    intro v; obtain ⟨k, hk, hkv⟩ := hsurj v; exact ⟨⟨k, hk⟩, hkv⟩
   have hpn : p = n := by
-    sorry
+    have h1 : p ≤ n := by simpa using Fintype.card_le_of_injective _ hφinj
+    have h2 : n ≤ p := by simpa using Fintype.card_le_of_surjective _ hφsurj
+    omega
+  -- Adjacency in terms of the cyclic successor/predecessor.
+  have hcorr : ∀ a b, a < p → b < p →
+      (adj (f a) (f b) = 1 ↔ (b = (a + p - 1) % p ∨ b = (a + 1) % p)) := by
+    intro a b ha hb
+    have hap : (a + p - 1) + 1 = a + p := by omega
+    have hfa : f ((a + p - 1) + 1) = f a := by rw [hap]; exact hper a
+    have hidx : (a + p - 1) + 2 = (a + 1) + p := by omega
+    constructor
+    · intro hw
+      have hadjw : adj (f ((a + p - 1) + 1)) (f b) = 1 := by rw [hfa]; exact hw
+      rcases (hnbr_iff (a + p - 1) (f b)).mp hadjw with h | h
+      · exact Or.inl (hfinj b _ hb (Nat.mod_lt _ hp_pos) (h.trans (hmod (a + p - 1))))
+      · refine Or.inr (hfinj b _ hb (Nat.mod_lt _ hp_pos) ?_)
+        rw [h, hidx, hper (a + 1)]; exact hmod (a + 1)
+    · intro hb'
+      rcases hb' with h | h
+      · have hfb : f b = f (a + p - 1) := by rw [h]; exact (hmod (a + p - 1)).symm
+        have hn := (hnbr_iff (a + p - 1) (f (a + p - 1))).mpr (Or.inl rfl)
+        rw [hfa] at hn; rw [hfb]; exact hn
+      · have hfb : f b = f ((a + p - 1) + 2) := by
+          rw [h, hidx, hper (a + 1)]; exact (hmod (a + 1)).symm
+        have hn := (hnbr_iff (a + p - 1) (f ((a + p - 1) + 2))).mpr (Or.inr rfl)
+        rw [hfa] at hn; rw [hfb]; exact hn
+  -- The predecessor index, rewritten as a `+1` modular condition.
+  have hpred : ∀ a b, a < p → b < p → (b = (a + p - 1) % p ↔ (b + 1) % p = a) := by
+    intro a b ha hb
+    rcases Nat.eq_zero_or_pos a with ha0 | ha0
+    · subst ha0
+      rw [show (0 + p - 1) = p - 1 by omega, Nat.mod_eq_of_lt (by omega : p - 1 < p)]
+      constructor
+      · intro h; subst h; rw [show (p - 1) + 1 = p by omega, Nat.mod_self]
+      · intro h
+        by_contra hne
+        rw [Nat.mod_eq_of_lt (by omega : b + 1 < p)] at h; omega
+    · have hmod1 : (a + p - 1) % p = a - 1 := by
+        rw [show a + p - 1 = (a - 1) + p by omega, Nat.add_mod_right,
+          Nat.mod_eq_of_lt (by omega)]
+      rw [hmod1]
+      constructor
+      · intro h; subst h; rw [show (a - 1) + 1 = a by omega, Nat.mod_eq_of_lt ha]
+      · intro h
+        rcases (by omega : b + 1 < p ∨ b + 1 = p) with hlt | heq
+        · rw [Nat.mod_eq_of_lt hlt] at h; omega
+        · rw [heq, Nat.mod_self] at h; omega
+  have hstep_adj : ∀ a b, a < p → b < p →
+      (adj (f a) (f b) = 1 ↔ ((a + 1) % p = b ∨ (b + 1) % p = a)) := by
+    intro a b ha hb
+    rw [hcorr a b ha hb, hpred a b ha hb]
+    constructor
+    · rintro (h | h)
+      · exact Or.inr h
+      · exact Or.inl h.symm
+    · rintro (h | h)
+      · exact Or.inr h.symm
+      · exact Or.inl h
   -- Assemble the equivalence.
-  sorry
+  have hφ'bij : Function.Bijective (fun i : Fin n => f i.val) := by
+    apply Finite.injective_iff_bijective.mp
+    intro a b hab
+    exact Fin.ext (hfinj a.val b.val (by rw [hpn]; exact a.isLt)
+      (by rw [hpn]; exact b.isLt) hab)
+  refine ⟨Equiv.ofBijective (fun i : Fin n => f i.val) hφ'bij, ?_⟩
+  intro i j
+  simp only [Equiv.ofBijective_apply]
+  have hi : (i.val : ℕ) < p := by rw [hpn]; exact i.isLt
+  have hj : (j.val : ℕ) < p := by rw [hpn]; exact j.isLt
+  have hiff := hstep_adj i.val j.val hi hj
+  rw [hpn] at hiff
+  have hRHS : (AffineType.Atilde n hn).adj i j
+      = if (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val then (1 : ℤ) else 0 := by
+    simp only [AffineType.adj]
+  rw [hRHS]
+  by_cases hcond : (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val
+  · rw [if_pos hcond]; exact hiff.mpr hcond
+  · rw [if_neg hcond]
+    rcases h01 (f i.val) (f j.val) with h | h
+    · exact h
+    · exact absurd (hiff.mp h) hcond
 
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
