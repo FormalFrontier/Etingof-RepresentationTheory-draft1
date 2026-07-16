@@ -149,4 +149,21 @@ noncomputable def extRestrictComplexXIso (P₁ : ProjectiveResolution M₁)
       (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n)) ≪≫
   Limits.Sigma.mapIso (fun i => extRestrictObjIso (P₁.complex.X i.1.1) (P₂.complex.X i.1.2))
 
+/-- Summand behaviour of the inverse degreewise iso: the inclusion of the `(i₁, i₂)`-summand of
+the `k`-tensor total complex, followed by `(extRestrictComplexXIso).inv`, is the pointwise inverse
+iso followed by the restricted inclusion into the external tensor total complex. -/
+theorem ι_extRestrictComplexXIso_inv (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ n : ℕ)
+    (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (i₁, i₂) = n) :
+    ιMapBifunctor (res₁Complex P₁) (res₂Complex P₂) (curriedTensor (ModuleCat.{u} k))
+        (ComplexShape.down ℕ) i₁ i₂ n h ≫ (extRestrictComplexXIso P₁ P₂ n).inv =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).inv ≫ (resExt k A₁ A₂).map
+        (ιMapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂) (ComplexShape.down ℕ)
+          i₁ i₂ n h) := by
+  simp only [extRestrictComplexXIso, Iso.trans_inv, PreservesCoproduct.inv_hom,
+    HomologicalComplex.ιMapBifunctor, HomologicalComplex₂.ιTotal,
+    CategoryTheory.GradedObject.ιMapObj, Limits.Sigma.ι_mapIso_inv_assoc,
+    Limits.ι_comp_sigmaComparison]
+
 end Etingof
