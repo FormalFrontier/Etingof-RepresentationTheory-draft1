@@ -1349,6 +1349,41 @@ lemma affine_vertexDegree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     rw [hBxx, hsplit]; linarith [hi_term, hrest]
   linarith [hpos x, hneg]
 
+/-- **Hub connectivity.** If every vertex is either `c` or `sub`-adjacent to the
+hub `c` (both directions), then the `List`-path connectivity clause required by
+`affine_properInduced_isDynkin` holds: route every pair through `c`. -/
+private lemma star_hconn {m : ℕ} (sub : Matrix (Fin m) (Fin m) ℤ) (c : Fin m)
+    (hc : ∀ a, a ≠ c → sub c a = 1) (hc' : ∀ a, a ≠ c → sub a c = 1) :
+    ∀ i j : Fin m, ∃ path : List (Fin m),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        sub (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1 := by
+  intro i j
+  by_cases hij : i = j
+  · exact ⟨[i], by simp, by simp [hij], by intro k h; simp at h⟩
+  by_cases hic : i = c
+  · refine ⟨[i, j], by simp, by simp, ?_⟩
+    intro k h
+    simp only [List.length_cons, List.length_nil] at h
+    obtain rfl : k = 0 := by omega
+    simp only [List.get_cons_zero, List.get_cons_succ]
+    rw [hic]; exact hc j (fun hh => hij (hic.trans hh.symm))
+  by_cases hjc : j = c
+  · refine ⟨[i, c], by simp, by simp [hjc], ?_⟩
+    intro k h
+    simp only [List.length_cons, List.length_nil] at h
+    obtain rfl : k = 0 := by omega
+    simp only [List.get_cons_zero, List.get_cons_succ]
+    exact hc' i hic
+  · refine ⟨[i, c, j], by simp, by simp, ?_⟩
+    intro k h
+    simp only [List.length_cons, List.length_nil] at h
+    rcases (show k = 0 ∨ k = 1 by omega) with rfl | rfl
+    · simp only [List.get_cons_zero, List.get_cons_succ]
+      exact hc' i hic
+    · simp only [List.get_cons_zero, List.get_cons_succ]
+      exact hc j hjc
+
 /-- **Degree-4 dichotomy (tree case, step of `affine_dynkin_classification`).**
 For a connected affine Dynkin diagram `adj` on `Fin n`, **either** it is
 graph-isomorphic to the affine star `D̃₄` (`K_{1,4}`), **or** every vertex has
