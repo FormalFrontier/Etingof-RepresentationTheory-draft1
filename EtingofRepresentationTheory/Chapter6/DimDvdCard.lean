@@ -10,10 +10,10 @@ Problem 6.1.6(c) (`isCyclic_of_odd_card`): a group of odd order has no
 `2`-dimensional irreducible representation, because `2 ∤ |G|`.
 
 The development is top-down (see the project's `CLAUDE.md`): the headline
-theorem `finrank_dvd_card_of_irreducible` and the central-character step
-`isIntegral_classSum_scalar` are stated with `sorry` proofs, while the
+theorem `finrank_dvd_card_of_irreducible` is proved here in full, assuming the
+central-character step `isIntegral_classSum_scalar` (still `sorry`), while the
 self-contained "character values are algebraic integers" step
-(`FDRep.isIntegral_character`) is proved here in full.
+(`FDRep.isIntegral_character`) is also proved here in full.
 
 ## Main results
 
@@ -22,8 +22,9 @@ self-contained "character values are algebraic integers" step
 * `FDRep.isIntegral_character`: **character values are algebraic integers.**
   The eigenvalues of `ρ g` are roots of unity (`ρ g` has finite order), and the
   character `χ_V(g)` is their sum, hence integral over `ℤ`.
-* `finrank_dvd_card_of_irreducible` (`sorry`): the Frobenius divisibility
-  theorem itself.
+* `finrank_dvd_card_of_irreducible`: the Frobenius divisibility theorem itself
+  (assembled from `isIntegral_classSum_scalar` and `isIntegral_character` via
+  Schur orthogonality and integral closure of `ℤ` in `ℚ`).
 
 ## References
 
@@ -144,4 +145,118 @@ integer, so `|G| / d ∈ ℚ` is an algebraic integer, hence an integer
 (`ℤ` is integrally closed in `ℚ`); therefore `d ∣ |G|`. -/
 theorem finrank_dvd_card_of_irreducible {G : Type*} [Group G] [Fintype G]
     (V : FDRep ℂ G) [Simple V] : Module.finrank ℂ V ∣ Fintype.card G := by
-  sorry
+  classical
+  haveI : Nonempty G := ⟨1⟩
+  have hNne : (Fintype.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
+  haveI hinv : Invertible (Fintype.card G : ℂ) := invertibleOfNonzero hNne
+  set d : ℕ := Module.finrank ℂ V with hd_def
+  -- `V` is simple, hence a nonzero object, so `0 < d`.
+  have hd0 : 0 < d := by
+    rcases Nat.eq_zero_or_pos d with h0 | h0
+    · exfalso
+      have hsub : Subsingleton V := Module.finrank_zero_iff.mp h0
+      have hsub2 : Subsingleton (V ⟶ V) := by
+        refine ⟨fun f g => ?_⟩
+        exact Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext (fun x => hsub.elim _ _)))
+      have h1 : Module.finrank ℂ (V ⟶ V) = 1 := by rw [FDRep.finrank_hom_simple_simple]; simp
+      have h2 : Module.finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
+      omega
+    · exact h0
+  have hdℂ : (d : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hd0.ne'
+  -- Schur orthogonality gives `∑_g χ(g) χ(g⁻¹) = |G|`.
+  have hnorm : ∑ g : G, V.character g * V.character g⁻¹ = (Fintype.card G : ℂ) := by
+    have hco := FDRep.char_orthonormal V V
+    rw [if_pos ⟨Iso.refl V⟩] at hco
+    have h2 : (Fintype.card G : ℂ) * (⅟(Fintype.card G : ℂ) •
+        ∑ g : G, V.character g * V.character g⁻¹) = (Fintype.card G : ℂ) * (↑1 : ℂ) :=
+      congrArg _ hco
+    rw [smul_eq_mul, ← mul_assoc, mul_invOf_self, one_mul] at h2
+    rw [h2]; norm_num
+  -- The character is a class function, on `g` and on `g⁻¹`.
+  have hconj : ∀ {a b : G}, IsConj a b → V.character a = V.character b := by
+    intro a b hab
+    obtain ⟨c, hc⟩ := isConj_iff.mp hab
+    rw [← hc]; exact (FDRep.char_conj V a c).symm
+  have hconj_inv : ∀ {a b : G}, IsConj a b → IsConj a⁻¹ b⁻¹ := by
+    intro a b hab
+    obtain ⟨c, hc⟩ := isConj_iff.mp hab
+    exact isConj_iff.mpr ⟨c, by rw [← hc]; group⟩
+  -- Reindex the sum over `G` by conjugacy classes.
+  have hmaps : ∀ g ∈ (Finset.univ : Finset G),
+      ConjClasses.mk g ∈ (Finset.univ : Finset (ConjClasses G)) := fun g _ => Finset.mem_univ _
+  have hreindex :
+      ∑ g : G, V.character g * V.character g⁻¹
+        = ∑ C : ConjClasses G, ∑ g ∈ Finset.univ.filter (fun g => ConjClasses.mk g = C),
+            V.character g * V.character g⁻¹ :=
+    (Finset.sum_fiberwise_of_maps_to hmaps _).symm
+  -- Each conjugacy-class fiber sum is `|C| · χ(g_C) χ(g_C⁻¹)`.
+  have hinner : ∀ C : ConjClasses G,
+      ∑ g ∈ Finset.univ.filter (fun g => ConjClasses.mk g = C),
+        V.character g * V.character g⁻¹
+        = (Nat.card {x // IsConj (Quotient.out C) x} : ℂ) *
+            (V.character (Quotient.out C) * V.character (Quotient.out C)⁻¹) := by
+    intro C
+    haveI : DecidablePred (fun g : G => IsConj (Quotient.out C) g) := Classical.decPred _
+    have hmkout : ConjClasses.mk (Quotient.out C) = C := by
+      rw [← ConjClasses.quotient_mk_eq_mk]; exact Quotient.out_eq C
+    -- membership in the `mk`-fiber is the same as being conjugate to the representative
+    have hmem : ∀ g : G, ConjClasses.mk g = C ↔ IsConj (Quotient.out C) g := by
+      intro g
+      constructor
+      · intro hg
+        rw [← hmkout, ConjClasses.mk_eq_mk_iff_isConj] at hg
+        exact hg.symm
+      · intro hg
+        rw [← hmkout, ConjClasses.mk_eq_mk_iff_isConj]
+        exact hg.symm
+    -- the summand is constant on the fiber
+    have hconst : ∀ g ∈ Finset.univ.filter (fun g => ConjClasses.mk g = C),
+        V.character g * V.character g⁻¹
+          = V.character (Quotient.out C) * V.character (Quotient.out C)⁻¹ := by
+      intro g hg
+      rw [Finset.mem_filter] at hg
+      have hcg : IsConj (Quotient.out C) g := (hmem g).mp hg.2
+      rw [← hconj hcg, ← hconj (hconj_inv hcg)]
+    -- the fiber has cardinality equal to the size of the conjugacy class
+    have hcard : (Finset.univ.filter (fun g => ConjClasses.mk g = C)).card
+        = Nat.card {x // IsConj (Quotient.out C) x} := by
+      rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+      exact congrArg Finset.card (Finset.filter_congr (fun g _ => hmem g))
+    rw [Finset.sum_congr rfl hconst, Finset.sum_const, hcard, nsmul_eq_mul]
+  -- Collect: `|G| = ∑_C |C| · χ(g_C) χ(g_C⁻¹)`.
+  have hclasssum : (Fintype.card G : ℂ)
+      = ∑ C : ConjClasses G,
+          (Nat.card {x // IsConj (Quotient.out C) x} : ℂ) *
+            (V.character (Quotient.out C) * V.character (Quotient.out C)⁻¹) := by
+    rw [← hnorm, hreindex]
+    exact Finset.sum_congr rfl (fun C _ => hinner C)
+  -- `|G|/d = ∑_C ω_C · χ(g_C⁻¹)` is a sum of products of algebraic integers.
+  have hα_int : IsIntegral ℤ ((Fintype.card G : ℂ) / (d : ℂ)) := by
+    rw [hclasssum, Finset.sum_div]
+    apply IsIntegral.sum
+    intro C _
+    have hrw : (Nat.card {x // IsConj (Quotient.out C) x} : ℂ) *
+          (V.character (Quotient.out C) * V.character (Quotient.out C)⁻¹) / (d : ℂ)
+        = ((Nat.card {x // IsConj (Quotient.out C) x} : ℂ) * V.character (Quotient.out C)
+            / (d : ℂ)) * V.character (Quotient.out C)⁻¹ := by
+      rw [← mul_assoc, mul_div_right_comm]
+    rw [hrw]
+    exact (FDRep.isIntegral_classSum_scalar V (Quotient.out C)).mul
+      (FDRep.isIntegral_character V (Quotient.out C)⁻¹)
+  -- A rational algebraic integer is an integer (`ℤ` is integrally closed in `ℚ`).
+  have hqmap : (algebraMap ℚ ℂ) ((Fintype.card G : ℚ) / (d : ℚ))
+      = (Fintype.card G : ℂ) / (d : ℂ) := by
+    rw [map_div₀, map_natCast, map_natCast]
+  have hq_int : IsIntegral ℤ ((Fintype.card G : ℚ) / (d : ℚ)) := by
+    have hinj : Function.Injective (algebraMap ℚ ℂ) := (algebraMap ℚ ℂ).injective
+    apply (isIntegral_algebraMap_iff hinj).mp
+    rw [hqmap]; exact hα_int
+  obtain ⟨n, hn⟩ := IsIntegrallyClosed.isIntegral_iff.mp hq_int
+  -- `n = |G|/d` as rationals, so `n · d = |G|`, hence `d ∣ |G|`.
+  have hdℚ : (d : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr hd0.ne'
+  rw [eq_div_iff hdℚ] at hn
+  have hnn : (n : ℚ) * (d : ℚ) = (Fintype.card G : ℚ) := by
+    simpa using hn
+  have hZ : (n : ℤ) * (d : ℤ) = (Fintype.card G : ℤ) := by exact_mod_cast hnn
+  have hdvd : (d : ℤ) ∣ (Fintype.card G : ℤ) := ⟨n, by rw [← hZ]; ring⟩
+  exact Int.natCast_dvd_natCast.mp hdvd
