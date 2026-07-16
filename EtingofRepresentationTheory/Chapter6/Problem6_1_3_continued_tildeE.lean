@@ -2078,6 +2078,199 @@ The main lemma `affine_tree_degree_le_three_iso` dispatches on the branch count.
 below are each substantial (the finite `branch_classification` alone is ~700 lines) and are tracked
 as separate sub-issues; their statements are fixed here so downstream work has stable interfaces. -/
 
+/-- **Affine degree balance.** For an affine Dynkin diagram there is a strictly positive vector
+`w` (the marks) with `∑ⱼ (deg j − 2)·wⱼ = 0`. Sum the null equation `(2·Id − adj)·ᵥw = 0` over all
+rows and use `∑ₐ adjₐⱼ = deg j`. This is the affine analogue of the finite handshake identity and
+is the source of both the "at least one branch" and "leaf exists" facts below. -/
+lemma affine_degree_balance {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+    (hD : IsAffineDynkinDiagram n adj) :
+    ∃ w : Fin n → ℤ, (∀ i, 0 < w i) ∧
+      ∑ j, ((Etingof.vertexDegree adj j : ℤ) - 2) * w j = 0 := by
+  classical
+  have hsymm := hD.1
+  have h01 := hD.2.2.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  obtain ⟨w, hw_pos, hMw⟩ := affineNullVector_pos adj hn hD
+  refine ⟨w, hw_pos, ?_⟩
+  have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec w) a =
+      2 * w a - ∑ b, adj a b * w b := by
+    intro a; simp only [mulVec, dotProduct]
+    rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * w b =
+        ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * w b - adj a b * w b) from
+      Finset.sum_congr rfl (fun b _ => by
+        simp only [Matrix.sub_apply, Matrix.smul_apply, smul_eq_mul]; ring)]
+    rw [Finset.sum_sub_distrib]
+    congr 1
+    rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * w b =
+        ∑ b, if a = b then 2 * w b else 0 from
+      Finset.sum_congr rfl (fun b _ => by
+        simp only [Matrix.one_apply]; split_ifs <;> simp <;> ring)]
+    simp [Finset.sum_ite_eq']
+  have hrow0 : ∀ a, 2 * w a - ∑ b, adj a b * w b = 0 := by
+    intro a; rw [← mulVec_eq a]; simpa using congrFun hMw a
+  have hsum : ∑ a, (2 * w a - ∑ b, adj a b * w b) = 0 :=
+    Finset.sum_eq_zero (fun a _ => hrow0 a)
+  have e1 : ∑ a, (2 * w a - ∑ b, adj a b * w b)
+      = 2 * (∑ a, w a) - ∑ a, ∑ b, adj a b * w b := by
+    rw [Finset.sum_sub_distrib, Finset.mul_sum]
+  have e2 : ∑ a, ∑ b, adj a b * w b = ∑ b, (Etingof.vertexDegree adj b : ℤ) * w b := by
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl (fun b _ => ?_)
+    rw [← Finset.sum_mul]
+    congr 1
+    rw [show (∑ a, adj a b) = ∑ a, adj b a from Finset.sum_congr rfl (fun a _ => hsymm' a b)]
+    exact adj_sum_eq_degree h01 b
+  rw [e1, e2] at hsum
+  rw [show (∑ j, ((Etingof.vertexDegree adj j : ℤ) - 2) * w j)
+      = (∑ j, (Etingof.vertexDegree adj j : ℤ) * w j) - 2 * ∑ j, w j from by
+        rw [Finset.mul_sum, ← Finset.sum_sub_distrib]
+        exact Finset.sum_congr rfl (fun j _ => by ring)]
+  linarith
+
+/-- **Deleting a leaf leaves a finite Dynkin diagram.** Removing a degree-1 vertex `u` (indexing
+the survivors by `u.succAbove`) from an affine Dynkin diagram gives a proper connected induced
+subgraph, which is finite Dynkin by `affine_properInduced_isDynkin`. Connectivity is preserved
+because `u` is a leaf (`SimpleGraph.Connected.induce_compl_singleton_of_degree_eq_one`). -/
+lemma affine_delete_leaf_isDynkin {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
+    (hD : IsAffineDynkinDiagram (k + 1) adj) (u : Fin (k + 1))
+    (hu_deg : Etingof.vertexDegree adj u = 1) :
+    IsDynkinDiagram k (adj.submatrix u.succAbove u.succAbove) := by
+  classical
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  have hconn := hD.2.2.2.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  let G : SimpleGraph (Fin (k + 1)) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j (h : adj i j = 1) => by change adj j i = 1; rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  haveI : Nonempty (Fin (k + 1)) := ⟨u⟩
+  have hG_conn : G.Connected := ⟨fun a b => by
+    obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
+    exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
+  have hG_deg : G.degree u = 1 := by
+    have hdegeq : G.degree u = Etingof.vertexDegree adj u := by
+      rw [SimpleGraph.degree]
+      unfold Etingof.vertexDegree
+      congr 1
+      ext j
+      simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter, Finset.mem_univ, true_and]
+      exact Iff.rfl
+    rw [hdegeq]; exact hu_deg
+  have hG' := hG_conn.induce_compl_singleton_of_degree_eq_one hG_deg
+  refine affine_properInduced_isDynkin adj (by omega) hD u.succAbove
+    Fin.succAbove_right_injective (fun i => Fin.succAbove_ne u i) ?_
+  intro a b
+  have ha_ne : u.succAbove a ≠ u := Fin.succAbove_ne u a
+  have hb_ne : u.succAbove b ≠ u := Fin.succAbove_ne u b
+  have ha_mem : u.succAbove a ∈ ({u}ᶜ : Set (Fin (k + 1))) :=
+    Set.mem_compl_singleton_iff.mpr ha_ne
+  have hb_mem : u.succAbove b ∈ ({u}ᶜ : Set (Fin (k + 1))) :=
+    Set.mem_compl_singleton_iff.mpr hb_ne
+  obtain ⟨walk⟩ := hG'.preconnected ⟨u.succAbove a, ha_mem⟩ ⟨u.succAbove b, hb_mem⟩
+  let toFink : ↥({u}ᶜ : Set (Fin (k + 1))) → Fin k :=
+    fun ⟨x, hx⟩ => (Fin.exists_succAbove_eq (Set.mem_compl_singleton_iff.mp hx)).choose
+  have htoFink_spec : ∀ (x : ↥({u}ᶜ : Set (Fin (k + 1)))),
+      u.succAbove (toFink x) = x.val :=
+    fun ⟨x, hx⟩ => (Fin.exists_succAbove_eq (Set.mem_compl_singleton_iff.mp hx)).choose_spec
+  have htoFink_adj : ∀ (x y : ↥({u}ᶜ : Set (Fin (k + 1)))),
+      (G.induce ({u}ᶜ : Set _)).Adj x y →
+      (adj.submatrix u.succAbove u.succAbove) (toFink x) (toFink y) = 1 := by
+    intro x y hadj_xy
+    simp only [Matrix.submatrix_apply, SimpleGraph.induce_adj] at hadj_xy ⊢
+    rw [htoFink_spec x, htoFink_spec y]; exact hadj_xy
+  suffices h_walk : ∀ (a b : ↥({u}ᶜ : Set (Fin (k + 1))))
+      (w' : (G.induce ({u}ᶜ : Set _)).Walk a b),
+      ∃ path : List (Fin k),
+        path.head? = some (toFink a) ∧
+        path.getLast? = some (toFink b) ∧
+        ∀ m, (hm : m + 1 < path.length) →
+          (adj.submatrix u.succAbove u.succAbove)
+            (path.get ⟨m, by omega⟩) (path.get ⟨m + 1, hm⟩) = 1 by
+    obtain ⟨path, hhead, hlast, hedges⟩ := h_walk _ _ walk
+    refine ⟨path, ?_, ?_, hedges⟩
+    · convert hhead using 2
+      exact (Fin.succAbove_right_injective
+        (htoFink_spec ⟨u.succAbove a, ha_mem⟩)).symm
+    · convert hlast using 2
+      exact (Fin.succAbove_right_injective
+        (htoFink_spec ⟨u.succAbove b, hb_mem⟩)).symm
+  intro a b w'
+  induction w' with
+  | nil =>
+    exact ⟨[toFink _], rfl, rfl, fun m hm => absurd hm (by simp)⟩
+  | @cons c d _ hadj_edge rest ih =>
+    obtain ⟨path_rest, hhead_rest, hlast_rest, hedges_rest⟩ := ih
+    refine ⟨toFink c :: path_rest, by simp, ?_, ?_⟩
+    · cases path_rest with
+      | nil => simp at hhead_rest hlast_rest ⊢
+      | cons y ys => simp only [List.getLast?_cons_cons]; exact hlast_rest
+    · intro m hm
+      match m with
+      | 0 =>
+        simp only [List.get_eq_getElem, List.getElem_cons_zero, List.getElem_cons_succ]
+        have h0 : 0 < path_rest.length := by
+          simp only [List.length_cons] at hm; omega
+        have hd_eq : path_rest[0] = toFink d := by
+          cases path_rest with
+          | nil => simp at h0
+          | cons y ys =>
+            simp only [List.head?, Option.some.injEq] at hhead_rest
+            simp only [List.getElem_cons_zero]; exact hhead_rest
+        rw [hd_eq]; exact htoFink_adj c d hadj_edge
+      | m' + 1 =>
+        simp only [List.get_eq_getElem, List.getElem_cons_succ]
+        exact hedges_rest m' (by simp only [List.length_cons] at hm; omega)
+
+/-- **At least one branch.** An affine Dynkin diagram whose Cartan form is acyclic
+(`∑∑adj < 2n`) and has every degree `≤ 3` must contain a degree-3 vertex: otherwise the balance
+`∑ⱼ(deg j − 2)wⱼ = 0` with `wⱼ > 0` and every `deg j ≤ 2` forces all degrees `= 2`, whence
+`∑∑adj = 2n`, contradicting acyclicity. -/
+lemma affine_tree_exists_branch {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+    (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.vertexDegree adj v ≤ 3) :
+    ∃ v, Etingof.vertexDegree adj v = 3 := by
+  classical
+  have h01 := hD.2.2.1
+  obtain ⟨w, hw_pos, hbal⟩ := affine_degree_balance adj hn hD
+  by_contra hno
+  push_neg at hno
+  have hle2 : ∀ v, Etingof.vertexDegree adj v ≤ 2 := fun v => by
+    have h1 := hdeg3 v; have h2 := hno v; omega
+  have hterm_nonpos : ∀ v, ((Etingof.vertexDegree adj v : ℤ) - 2) * w v ≤ 0 := by
+    intro v
+    have hd2 : (Etingof.vertexDegree adj v : ℤ) ≤ 2 := by exact_mod_cast hle2 v
+    nlinarith [hw_pos v]
+  have hall2 : ∀ v, Etingof.vertexDegree adj v = 2 := by
+    intro v
+    have hz : ((Etingof.vertexDegree adj v : ℤ) - 2) * w v = 0 := by
+      by_contra hne
+      have hlt : ((Etingof.vertexDegree adj v : ℤ) - 2) * w v < 0 :=
+        lt_of_le_of_ne (hterm_nonpos v) hne
+      have hsum_lt : ∑ j, ((Etingof.vertexDegree adj j : ℤ) - 2) * w j
+          < ∑ _j : Fin n, (0 : ℤ) :=
+        Finset.sum_lt_sum (fun j _ => hterm_nonpos j) ⟨v, Finset.mem_univ v, by simpa using hlt⟩
+      rw [Finset.sum_const_zero] at hsum_lt
+      linarith [hbal]
+    have hwv := hw_pos v
+    rcases mul_eq_zero.mp hz with h | h
+    · have : (Etingof.vertexDegree adj v : ℤ) = 2 := by linarith
+      exact_mod_cast this
+    · exact absurd h (ne_of_gt hwv)
+  have hsumadj : (∑ i, ∑ j, adj i j) = 2 * (n : ℤ) := by
+    have hstep : (∑ i, ∑ j, adj i j) = ∑ _i : Fin n, (2 : ℤ) := by
+      refine Finset.sum_congr rfl (fun i _ => ?_)
+      rw [adj_sum_eq_degree h01 i, hall2 i]; norm_num
+    rw [hstep, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]; ring
+  linarith [hacyc, hsumadj]
+
 /-- **Branch count.** A connected acyclic affine Dynkin diagram with every vertex of degree `≤ 3`
 has exactly one or two degree-3 (branch) vertices.
 
