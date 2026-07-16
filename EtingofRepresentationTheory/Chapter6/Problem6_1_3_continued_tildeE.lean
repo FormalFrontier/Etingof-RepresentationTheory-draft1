@@ -324,6 +324,115 @@ theorem cartan_det_zero (t : AffineType) :
   rw [h0] at hp
   exact lt_irrefl 0 hp
 
+/-! ## A reusable positive-semidefiniteness criterion
+
+A symmetric integer matrix whose off-diagonal entries are all nonpositive and
+which annihilates a strictly positive vector is positive semidefinite. This is
+the weighted graph-Laplacian positivity fact underlying every affine Cartan form.
+-/
+
+/-- **Weighted-Laplacian positivity.** If a symmetric matrix `A` has nonpositive
+off-diagonal entries and `A · m = 0` for a *strictly positive* vector `m`, then
+the quadratic form `x ↦ xᵀ A x` is positive semidefinite. The proof is the
+sum-of-squares identity
+`2·(xᵀ A x) = ∑_{i,j} (-Aᵢⱼ) mᵢ mⱼ (xᵢ/mᵢ - xⱼ/mⱼ)²`,
+worked over `ℚ` (so we may divide by the marks) and cast back to `ℤ`. -/
+theorem posSemidef_of_nonpos_offDiag_kernel {n : ℕ}
+    (A : Matrix (Fin n) (Fin n) ℤ) (hsymm : A.IsSymm)
+    (hoff : ∀ i j, i ≠ j → A i j ≤ 0)
+    (m : Fin n → ℤ) (hm : ∀ i, 0 < m i) (hker : A.mulVec m = 0)
+    (x : Fin n → ℤ) :
+    0 ≤ dotProduct x (A.mulVec x) := by
+  suffices h : (0:ℚ) ≤ ((dotProduct x (A.mulVec x) : ℤ) : ℚ) by exact_mod_cast h
+  -- rational rescaled variables `y i = x i / m i`
+  set y : Fin n → ℚ := fun i => (x i : ℚ) / (m i : ℚ) with hy
+  have hm0 : ∀ i, (m i : ℚ) ≠ 0 := fun i => by exact_mod_cast (ne_of_gt (hm i))
+  have hmy : ∀ i, (m i : ℚ) * y i = (x i : ℚ) := fun i => by
+    have hmi := hm0 i
+    show (m i : ℚ) * ((x i : ℚ) / (m i : ℚ)) = (x i : ℚ)
+    field_simp
+  -- the quadratic form as an explicit double sum
+  have hq : ((dotProduct x (A.mulVec x) : ℤ) : ℚ)
+      = ∑ i, ∑ j, (A i j : ℚ) * (x i) * (x j) := by
+    simp only [dotProduct, Matrix.mulVec, Int.cast_sum, Int.cast_mul]
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _
+    push_cast; ring
+  -- each row of `A` is orthogonal to `m` over `ℚ`
+  have hrow : ∀ i, (∑ j, (A i j : ℚ) * (m j)) = 0 := by
+    intro i
+    have h1 : (∑ j, (A i j : ℚ) * (m j)) = (((A.mulVec m) i : ℤ) : ℚ) := by
+      simp only [Matrix.mulVec, dotProduct, Int.cast_sum, Int.cast_mul]
+    rw [h1, hker]; simp
+  -- each column of `A` is orthogonal to `m` (using symmetry)
+  have hcol : ∀ j, (∑ i, (A i j : ℚ) * (m i)) = 0 := by
+    intro j
+    have hsymm' : ∀ i, A i j = A j i := fun i => (hsymm.apply j i)
+    calc (∑ i, (A i j : ℚ) * (m i)) = ∑ i, (A j i : ℚ) * (m i) := by
+            apply Finset.sum_congr rfl; intro i _; rw [hsymm' i]
+      _ = 0 := hrow j
+  -- the sum-of-squares form
+  set S : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * (m i) * (m j) * (y i - y j)^2 with hS
+  have hSnonneg : 0 ≤ S := by
+    rw [hS]
+    apply Finset.sum_nonneg; intro i _
+    apply Finset.sum_nonneg; intro j _
+    rcases eq_or_ne i j with h | h
+    · subst h; simp
+    · have h1 : (0:ℚ) ≤ -(A i j : ℚ) := by
+        have := hoff i j h; exact_mod_cast neg_nonneg.mpr this
+      have h2 : (0:ℚ) ≤ (m i : ℚ) := le_of_lt (by exact_mod_cast hm i)
+      have h3 : (0:ℚ) ≤ (m j : ℚ) := le_of_lt (by exact_mod_cast hm j)
+      have h4 : (0:ℚ) ≤ (y i - y j)^2 := sq_nonneg _
+      positivity
+  -- split `S` into the three double sums
+  set A1 : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * (m i) * (m j) * (y i)^2 with hA1
+  set A3 : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * (m i) * (m j) * (y j)^2 with hA3
+  set A2 : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * ((m i) * (y i)) * ((m j) * (y j)) with hA2
+  have hSeq : S = A1 + A3 - 2 * A2 := by
+    have e1 : A1 + A3 = ∑ i, ∑ j,
+        ((-(A i j:ℚ))*(m i)*(m j)*(y i)^2 + (-(A i j:ℚ))*(m i)*(m j)*(y j)^2) := by
+      rw [hA1, hA3, ← Finset.sum_add_distrib]
+      apply Finset.sum_congr rfl; intro i _
+      rw [← Finset.sum_add_distrib]
+    have e2 : 2 * A2 = ∑ i, ∑ j,
+        2 * ((-(A i j:ℚ)) * ((m i)*(y i)) * ((m j)*(y j))) := by
+      rw [hA2, Finset.mul_sum]
+      apply Finset.sum_congr rfl; intro i _
+      rw [Finset.mul_sum]
+    rw [hS, e1, e2, ← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl; intro i _
+    rw [← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl; intro j _
+    ring
+  -- `A1 = 0` (rows orthogonal to `m`)
+  have hA1z : A1 = 0 := by
+    rw [hA1]; apply Finset.sum_eq_zero; intro i _
+    have : (∑ j, (-(A i j:ℚ))*(m i)*(m j)*(y i)^2)
+        = (-(m i:ℚ) * (y i)^2) * ∑ j, (A i j:ℚ) * (m j) := by
+      rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro j _; ring
+    rw [this, hrow, mul_zero]
+  -- `A3 = 0` (columns orthogonal to `m`)
+  have hA3z : A3 = 0 := by
+    rw [hA3, Finset.sum_comm]; apply Finset.sum_eq_zero; intro j _
+    have : (∑ i, (-(A i j:ℚ))*(m i)*(m j)*(y j)^2)
+        = (-(m j:ℚ) * (y j)^2) * ∑ i, (A i j:ℚ) * (m i) := by
+      rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro i _; ring
+    rw [this, hcol, mul_zero]
+  -- `A2 = -(xᵀ A x)` (undo the rescaling: `m i * y i = x i`)
+  have hA2eq : A2 = -(∑ i, ∑ j, (A i j : ℚ) * (x i) * (x j)) := by
+    rw [hA2, ← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl; intro i _
+    rw [← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl; intro j _
+    rw [hmy i, hmy j]; ring
+  -- assemble: `S = 2·(xᵀ A x) ≥ 0`
+  have hStwo : S = 2 * (∑ i, ∑ j, (A i j : ℚ) * (x i) * (x j)) := by
+    rw [hSeq, hA1z, hA3z, hA2eq]; ring
+  rw [hq]
+  linarith [hStwo ▸ hSnonneg]
+
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
 diagram (its Cartan form is positive semidefinite but degenerate). -/
 theorem isAffineDynkinDiagram_of_type (t : AffineType) :
