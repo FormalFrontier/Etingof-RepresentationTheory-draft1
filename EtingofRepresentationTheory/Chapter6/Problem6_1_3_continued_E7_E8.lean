@@ -526,11 +526,145 @@ theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) 
   have := hpos x hxne
   linarith
 
+/-- A raw list whose consecutive vertices are `G`-adjacent (an `IsChain`) witnesses
+reachability between its first and last vertices. This converts the raw `List`
+connectivity clause of `IsDynkinDiagram` into `SimpleGraph.Reachable`. -/
+private lemma reachable_of_isChain {n : ℕ} (G : SimpleGraph (Fin n)) :
+    ∀ {l : List (Fin n)} (hne : l ≠ []), l.IsChain G.Adj →
+      G.Reachable (l.head hne) (l.getLast hne)
+  | [_], _, _ => by simpa using SimpleGraph.Reachable.refl _
+  | (x :: y :: t), hne, h => by
+      rw [List.isChain_cons_cons] at h
+      have ih := reachable_of_isChain G (l := y :: t) (by simp) h.2
+      have hgl : (x :: y :: t).getLast hne = (y :: t).getLast (by simp) :=
+        List.getLast_cons (by simp)
+      rw [hgl]
+      exact h.1.reachable.trans ih
+
 /-- **(d)** A Dynkin diagram has at most one vertex of degree three (at most one
 branch point). -/
 theorem isDynkinDiagram_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v w : Fin n)
     (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by
+  classical
+  by_contra hvw
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a; rwa [Matrix.transpose_apply] at h
+  have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
+    rcases h01 a b with h | h <;> rw [h] <;> norm_num
+  -- The simple graph of the diagram.
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j (h : adj i j = 1) => by change adj j i = 1; rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i (h : adj i i = 1) => by change adj i i = 1 at h; linarith [hdiag i]⟩ }
+  letI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  have hGadj : ∀ {i j}, G.Adj i j ↔ adj i j = 1 := Iff.rfl
+  -- `v` and `w` are reachable (connectivity of the diagram).
+  have hreach : G.Reachable v w := by
+    obtain ⟨l, hh, hl, hc⟩ := hconn v w
+    have hne : l ≠ [] := by rintro rfl; simp at hh
+    have hchain : l.IsChain G.Adj := by
+      rw [List.isChain_iff_getElem]
+      intro k hk; simpa [List.get_eq_getElem, hGadj] using hc k hk
+    have hR := reachable_of_isChain G hne hchain
+    have hhv : l.head hne = v := by
+      have h1 := List.head?_eq_head hne; rw [hh] at h1; exact (Option.some_inj.mp h1).symm
+    have hlw : l.getLast hne = w := by
+      have h1 := List.getLast?_eq_getLast hne; rw [hl] at h1; exact (Option.some_inj.mp h1).symm
+    rwa [hhv, hlw] at hR
+  -- A shortest path from `v` to `w`, of length `m = dist v w ≥ 1`.
+  obtain ⟨p, hpath, hlen⟩ := hreach.exists_path_of_dist
+  set m := G.dist v w with hmdef
+  have hm1 : 1 ≤ m := by
+    rw [Nat.one_le_iff_ne_zero]; intro h0
+    exact hvw (hreach.dist_eq_zero_iff.mp h0)
+  have hp0 : p.getVert 0 = v := p.getVert_zero
+  have hpm : p.getVert m = w := by rw [← hlen]; exact p.getVert_length
+  -- Consecutive path vertices are adjacent.
+  have hadjc : ∀ k, k < m → adj (p.getVert k) (p.getVert (k + 1)) = 1 := by
+    intro k hk
+    exact hGadj.mp (p.adj_getVert_succ (by rw [hlen]; exact hk))
+  -- Distinct path vertices (the path is simple).
+  have hinj : ∀ i j, i ≤ m → j ≤ m → p.getVert i = p.getVert j → i = j := by
+    intro i j hi hj he
+    exact hpath.getVert_injOn (by simp only [Set.mem_setOf_eq, hlen]; exact hi)
+      (by simp only [Set.mem_setOf_eq, hlen]; exact hj) he
+  -- Distance coordinate: `dist v pₖ = k` and `dist pₖ w = m - k` along a geodesic.
+  have hdistk : ∀ k, k ≤ m → G.dist v (p.getVert k) = k := by
+    intro k hk
+    have hle : G.dist v (p.getVert k) ≤ k :=
+      calc G.dist v (p.getVert k) ≤ (p.take k).length := G.dist_le _
+        _ = k ⊓ p.length := p.take_length k
+        _ = k := by rw [hlen]; exact inf_eq_left.mpr hk
+    have hdw : G.dist (p.getVert k) w ≤ m - k :=
+      calc G.dist (p.getVert k) w ≤ (p.drop k).length := G.dist_le _
+        _ = p.length - k := p.drop_length k
+        _ = m - k := by rw [hlen]
+    have htri := ((p.take k).reachable).dist_triangle_left w
+    omega
+  have hdistk2 : ∀ k, k ≤ m → G.dist (p.getVert k) w = m - k := by
+    intro k hk
+    have hdw : G.dist (p.getVert k) w ≤ m - k :=
+      calc G.dist (p.getVert k) w ≤ (p.drop k).length := G.dist_le _
+        _ = p.length - k := p.drop_length k
+        _ = m - k := by rw [hlen]
+    have hdk := hdistk k hk
+    have htri := ((p.take k).reachable).dist_triangle_left w
+    omega
+  -- The two path-neighbours `p₁` (next to `v`) and `p_{m-1}` (next to `w`).
+  set p1 := p.getVert 1 with hp1def
+  set pm1 := p.getVert (m - 1) with hpm1def
+  have hp1v : adj v p1 = 1 := by have := hadjc 0 hm1; rwa [hp0] at this
+  have hpm1w : adj w pm1 = 1 := by
+    have := hadjc (m - 1) (by omega)
+    rw [show m - 1 + 1 = m by omega, hpm] at this
+    rw [hsymm' w pm1]; exact this
+  -- Select the two extra neighbours (pendants) at `v` and at `w`.
+  have hp1mem : p1 ∈ univ.filter (fun j => adj v j = 1) := by
+    simp only [mem_filter, mem_univ, true_and]; exact hp1v
+  have hpm1mem : pm1 ∈ univ.filter (fun j => adj w j = 1) := by
+    simp only [mem_filter, mem_univ, true_and]; exact hpm1w
+  have hcardV : ((univ.filter (fun j => adj v j = 1)).erase p1).card = 2 := by
+    rw [Finset.card_erase_of_mem hp1mem]
+    have : (univ.filter (fun j => adj v j = 1)).card = 3 := hv
+    omega
+  have hcardW : ((univ.filter (fun j => adj w j = 1)).erase pm1).card = 2 := by
+    rw [Finset.card_erase_of_mem hpm1mem]
+    have : (univ.filter (fun j => adj w j = 1)).card = 3 := hw
+    omega
+  obtain ⟨a, b, hab, hVset⟩ := Finset.card_eq_two.mp hcardV
+  obtain ⟨c, d, hcd, hWset⟩ := Finset.card_eq_two.mp hcardW
+  have haE : a ∈ (univ.filter (fun j => adj v j = 1)).erase p1 := by rw [hVset]; simp
+  have hbE : b ∈ (univ.filter (fun j => adj v j = 1)).erase p1 := by rw [hVset]; simp
+  have hcE : c ∈ (univ.filter (fun j => adj w j = 1)).erase pm1 := by rw [hWset]; simp
+  have hdE : d ∈ (univ.filter (fun j => adj w j = 1)).erase pm1 := by rw [hWset]; simp
+  have hap1 : a ≠ p1 := (Finset.mem_erase.mp haE).1
+  have hbp1 : b ≠ p1 := (Finset.mem_erase.mp hbE).1
+  have hcpm1 : c ≠ pm1 := (Finset.mem_erase.mp hcE).1
+  have hdpm1 : d ≠ pm1 := (Finset.mem_erase.mp hdE).1
+  have hav : adj v a = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp haE).2).2; exact this
+  have hbv : adj v b = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp hbE).2).2; exact this
+  have hcw : adj w c = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp hcE).2).2; exact this
+  have hdw' : adj w d = 1 := by
+    have := (mem_filter.mp (Finset.mem_erase.mp hdE).2).2; exact this
+  -- Pendants of `v` lie off the path (else the shortest-path coordinate forces them to be `p₁`).
+  have hoff_v : ∀ e, adj v e = 1 → e ≠ p1 → ∀ k, k ≤ m → e ≠ p.getVert k := by
+    intro e hve hep1 k hk hcontra
+    have hd1 : G.dist v e = 1 := SimpleGraph.dist_eq_one_iff_adj.mpr (hGadj.mpr hve)
+    have hdk : G.dist v (p.getVert k) = k := hdistk k hk
+    rw [hcontra, hdk] at hd1
+    exact hep1 (by rw [hcontra, hd1])
+  have hoff_w : ∀ e, adj w e = 1 → e ≠ pm1 → ∀ k, k ≤ m → e ≠ p.getVert k := by
+    intro e hwe hepm1 k hk hcontra
+    have hd1 : G.dist e w = 1 := by
+      rw [SimpleGraph.dist_comm]; exact SimpleGraph.dist_eq_one_iff_adj.mpr (hGadj.mpr hwe)
+    have hdk : G.dist (p.getVert k) w = m - k := hdistk2 k hk
+    rw [hcontra, hdk] at hd1
+    exact hepm1 (by rw [hcontra, show k = m - 1 by omega])
   sorry
 
 end Etingof.Problem6_1_3_E7E8
