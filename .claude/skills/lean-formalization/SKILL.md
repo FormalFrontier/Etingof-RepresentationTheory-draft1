@@ -96,9 +96,28 @@ of the diamond **is** dissolvable by defining your local `Module (A₁⊗A₂)�
 `inferInstanceAs (Module _ (extTensorFunctorObj … X Y))` (reuse the very instance the functor object
 carries); only the `k`-action still differs, and only on the `(A₁⊗A₂)` side (the `Aᵢ` factor sides
 match because `rearrangeBidegree` takes `Module k (Pᵢ)` from those same restriction instances).
-**Fix:** reconcile the one remaining `k`-action by proving the two `Module k` structures equal
-(`Module.ext` / smul-agreement over `QuotientAddGroup.mk_surjective` + `TensorProduct.induction_on`
-generators) and cross with `eqToIso`, rather than hunting for a `rfl`.
+**Fix (what actually worked, #6742 completed):** you do *not* need `Module.ext`/`eqToIso` on the
+instances. Build an identity-carrier `LinearEquiv` `((F.obj X).obj Y) ≃ₗ[k] ModuleCat.of k (tensorOver …)`
+(`toFun := fun z => z`); the two `ModuleCat` objects each pin their own `Module k`, so `map_smul'`
+becomes the honest `c •_restr z = c •_diag z`, dischargeable over `QuotientAddGroup.mk_surjective` +
+`TensorProduct.induction_on` + `smul_mk` + `TensorProduct.smul_tmul'`, bottoming out at
+`extModule_algebraMap_smul` (`algebraMap k (A₁⊗A₂)ᵐᵒᵖ c • z = c • z`, via `AlgHom.commutes`). Then
+`LinearEquiv.trans` with `rearrangeBidegree` and `.toModuleIso`. Assemble the bifunctor `NatIso` as
+two **nested** `NatIso.ofComponents`, and make the inner (per-`X`) NatIso a **separate named `def`**
+with a `@[simp]` `_hom_app` lemma — otherwise the outer naturality `simp` tries to unfold the inner
+NatIso's large baked-in proof and hits `(deterministic) timeout at whnf`.
+
+**Distinct-but-defeq local `Module k` instances break `rw`/`simp` on imported lemmas — use `erw`
+or a `rfl`-restatement.** This file's own `instModuleK`/`instModuleKObj` and `ExternalTensorFunctor`'s
+*private* `restrictModule₁` are all `Module.compHom X (algebraMap k Bᵐᵒᵖ)` — defeq but **syntactically
+distinct** (the private ones aren't importable, so you must redeclare). An imported `@[simp]` lemma
+like `extTensorFunctorMapHom_tmul` (whose `m₁ ⊗ₜ[k] m₂` is baked in `restrictModule₁`) then silently
+fails to fire on a goal whose `x ⊗ₜ[k] y` came from *your* induction context (`instModuleK`) — `rw`
+reports "did not find pattern", `simp only` lists it as "unused". Two robust escapes: (a) `erw [lemma]`
+(matches up to reducible defeq), or (b) restate the lemma with a `rfl` proof in your own instance
+context (`theorem extMapHom_tmul … := rfl`) so its LHS matches syntactically. Do **not** chain many
+`erw`s in one call — each does an expensive defeq search and the combined term blows up `whnf`; keep
+them on separate lines.
 
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
