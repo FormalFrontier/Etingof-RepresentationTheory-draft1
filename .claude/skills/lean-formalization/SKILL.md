@@ -596,6 +596,39 @@ Also `Fin.last 0 = (0 : Fin 1)` needs `Fin.ext rfl`, not `Subsingleton.elim` (`S
 doesn't synthesize). Separately, `tprod k (Fin.cons …)` is ambiguous with `_root_.tprod` (infinite products) —
 qualify as `PiTensorProduct.tprod k (Fin.cons …)`.
 
+### Total complex of two resolutions via `HomologicalComplex.mapBifunctor` + `toSingle₀Equiv` augmentation (Ch8 external tensor complex, #6680, `Chapter8/ExternalTensorComplex.lean`)
+
+To build `⨁_{j+m=i} (P₁)ⱼ ⊗ (P₂)ₘ` with Koszul-signed differential for a general bifunctor
+`F : ModuleCat A₁ᵐᵒᵖ ⥤ ModuleCat A₂ᵐᵒᵖ ⥤ ModuleCat (A₁⊗A₂)ᵐᵒᵖ`, use
+`HomologicalComplex.mapBifunctor P₁.complex P₂.complex F (ComplexShape.down ℕ)` — Mathlib supplies
+`d`, signs (`ε₂ (i₁,i₂) = c.ε i₁ = (-1)^{i₁}` from the diagonal `TotalComplexShape c c c`), `d_comp_d`,
+and the summand API. Four gotchas, each cost multiple iterations:
+- **`mapBifunctor` needs `[F.PreservesZeroMorphisms]` and `[∀ X, (F.obj X).PreservesZeroMorphisms]`.**
+  Not automatic. If `F`'s action is defined with `local instance`s in another file (e.g. `extModule`
+  in `ExternalTensorFunctor.lean`), **re-declare those same `local instance`s in your file** or a
+  `Module (A₁⊗A₂)ᵐᵒᵖ (X⊗Y)` diamond (`instSemiring` vs `instRing.toSemiring`) blocks LinearMap-level
+  rewrites against `F`'s map lemma. Prove `F.map 0 = 0` at the *LinearMap* level (native carriers, no
+  ModuleCat coercion), then lift via `ModuleCat.ofHom_zero`.
+- **`HasMapBifunctor`/`HasTotal` over `down ℕ` needs `Finite (ComplexShape.π (down ℕ)³ ⁻¹' {n})`.**
+  Mathlib's fiber-finiteness instance is keyed on `fun i => i.1+i.2`, which does *not* match
+  `ComplexShape.π` syntactically — add your own `instance (n) : Finite (…π… ⁻¹' {n})` (copy the
+  `Finite.of_injective … Fin (n+1) × Fin (n+1)` proof). Then coproducts resolve via
+  `hasColimitsOfShape_discrete`.
+- **Make the complex (and any `mapBifunctorDesc`-based map) an `abbrev`, not `def`.** A `def` wrapper
+  is defeq-but-not-syntactic to `mapBifunctor`, so `ι_mapBifunctorDesc`/`d_eq`/`ι_D₁`/`ι_D₂` silently
+  fail to fire through it.
+- **Dependent descent (`mapBifunctorDesc (fun i₁ i₂ h => …)`): use a structural `match`, never
+  `obtain ⟨rfl,rfl⟩`.** `obtain` on the opaque proof `h : π(i₁,i₂)=0` leaves a stuck `Eq.ndrec`
+  (no iota on a non-`rfl` proof) so `ι_mapBifunctorDesc` reduces to un-usable cruft. Instead
+  `match i₁,i₂,h with | 0,0,_ => aug00 | (_+1),_,h => absurd h (by simp) | 0,(_+1),h => absurd h (by simp)`.
+- **Augmentation to `single₀`:** build via `(ChainComplex.toSingle₀Equiv C M).symm ⟨f₀, hf⟩`. Extract
+  each resolution's degree-0 map as `((ChainComplex.toSingle₀Equiv Pᵢ.complex Mᵢ) Pᵢ.π).1` — this has
+  clean codomain `Mᵢ` (not `((single₀).obj Mᵢ).X 0`, which blocks `← Functor.map_comp` from combining
+  two `(F.obj Mᵢ).map` calls), and its `.2` field *is* the `d 1 0 ≫ π₀ = 0` fact you need for `hf`.
+  The `hf` proof: `mapBifunctor.hom_ext`, then `d_eq`+`ι_D₁/₂`, `obtain` the `(1,0)|(0,1)` summands,
+  kill the dead one with `d₁/₂_eq_zero (by simp : ¬ Rel 0 (next 0))`, evaluate the live one with
+  `d₁/₂_eq` (fully **named** args `(K₁:=…)(K₂:=…)(F:=…)(c:=…)(i₁:=…)…(h:=by simp)(h':=by simp)` — positional is unusable), sign `= 1` by `rfl`/`simp`, then naturality of `F.map πᵢ` + `← Functor.map_comp` + the `d≫π=0` fact + `F.map 0 = 0`.
+
 ### Cochain-complex `Ext` crux: keep ℤ indices in ONE cast form, and hand-build the noncommutative tensor–hom adjunction (Ch8 Problem 8.2.6 ii, #6464)
 
 Computing `Ext¹` as `CohomologyClass (R.cochainComplex) (single V 0) 1` (via
