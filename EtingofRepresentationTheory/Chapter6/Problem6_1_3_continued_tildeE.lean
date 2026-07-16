@@ -349,7 +349,7 @@ theorem posSemidef_of_nonpos_offDiag_kernel {n : ℕ}
   have hm0 : ∀ i, (m i : ℚ) ≠ 0 := fun i => by exact_mod_cast (ne_of_gt (hm i))
   have hmy : ∀ i, (m i : ℚ) * y i = (x i : ℚ) := fun i => by
     have hmi := hm0 i
-    show (m i : ℚ) * ((x i : ℚ) / (m i : ℚ)) = (x i : ℚ)
+    change (m i : ℚ) * ((x i : ℚ) / (m i : ℚ)) = (x i : ℚ)
     field_simp
   -- the quadratic form as an explicit double sum
   have hq : ((dotProduct x (A.mulVec x) : ℤ) : ℚ)
@@ -358,7 +358,7 @@ theorem posSemidef_of_nonpos_offDiag_kernel {n : ℕ}
     apply Finset.sum_congr rfl; intro i _
     rw [Finset.mul_sum]
     apply Finset.sum_congr rfl; intro j _
-    push_cast; ring
+    ring
   -- each row of `A` is orthogonal to `m` over `ℚ`
   have hrow : ∀ i, (∑ j, (A i j : ℚ) * (m j)) = 0 := by
     intro i
@@ -489,8 +489,8 @@ private theorem clause_of_reflTransGen {n : ℕ} {adj : Matrix (Fin n) (Fin n) �
   obtain ⟨l, hne, hchain, hhead, hlast⟩ :=
     List.exists_isChain_ne_nil_of_relationReflTransGen h
   refine ⟨l, ?_, ?_, ?_⟩
-  · rw [List.head?_eq_head hne, hhead]
-  · rw [List.getLast?_eq_getLast hne, hlast]
+  · rw [List.head?_eq_some_head hne, hhead]
+  · rw [List.getLast?_eq_some_getLast hne, hlast]
   · intro k hk
     have hget := List.isChain_iff_getElem.mp hchain k hk
     simpa [List.get_eq_getElem, AdjEdge] using hget
@@ -601,18 +601,18 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
       intro k
       fin_cases k
       · exact .refl
-      · refine .single ?_ <;> decide
+      · exact .single (by decide)
       · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
-      · refine .single ?_ <;> decide
+      · exact .single (by decide)
       · refine .head (b := ⟨3, by decide⟩) ?_ (.single ?_) <;> decide
-      · refine .single ?_ <;> decide
+      · exact .single (by decide)
       · refine .head (b := ⟨5, by decide⟩) ?_ (.single ?_) <;> decide
   | E7tilde =>
       refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
       intro k
       fin_cases k
       · exact .refl
-      · refine .single ?_ <;> decide
+      · exact .single (by decide)
       · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
       · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
           (.single ?_)) <;> decide
@@ -631,7 +631,7 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
       intro k
       fin_cases k
       · exact .refl
-      · refine .single ?_ <;> decide
+      · exact .single (by decide)
       · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
       · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
           (.single ?_)) <;> decide
