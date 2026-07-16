@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
+import EtingofRepresentationTheory.Chapter5.Problem5_24_1
 
 /-!
 # Problem 5.24.1(b): the sign twist sends `V_λ` to `V_{λ*}`
@@ -31,7 +32,9 @@ automorphism (`signTwist`).
 The conjugate partition `λ*` is `conjugatePartition`, built by transposing the Young
 diagram of `λ`.
 
-Statement pass: proofs are left as `sorry`.
+The main isomorphism is the composite `SpechtModule λ --φ--> ℂ[S_n]·φ(c_λ) --· of τ⁻¹-->
+rowColIdeal λ* --part (a)--> SpechtModule λ*`, where `τ` is the tableau-transposition
+permutation conjugating the row/column subgroups of `λ` to the column/row subgroups of `λ*`.
 -/
 
 namespace Etingof
@@ -523,45 +526,57 @@ private theorem signTwist_signTwist {n : ℕ} (z : SymGroupAlgebra n) :
     rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
   simpa using DFunLike.congr_fun hcomp z
 
-/-- `φ` restricted to a principal left ideal: a `ℂ`-linear equivalence
-`ℂ[S_n]·w ≃ ℂ[S_n]·φ(w)`. -/
-private noncomputable def signTwistSpanEquiv {n : ℕ} (w : SymGroupAlgebra n) :
-    ↥(Submodule.span (SymGroupAlgebra n) {w})
-      ≃ₗ[ℂ] ↥(Submodule.span (SymGroupAlgebra n) {signTwist n w}) where
-  toFun x := ⟨signTwist n x.val, signTwist_span_singleton_maps w x.val x.prop⟩
+/-- `φ` restricted to a principal left ideal: a `ℂ`-linear equivalence `p ≃ q` when
+`p = ℂ[S_n]·w` and `q = ℂ[S_n]·φ(w)`. Carrying `p`, `q` explicitly (rather than the raw
+`span`) lets the caller keep named ideals like `SpechtModule` as the boundary types. -/
+private noncomputable def signTwistSpanEquiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (w : SymGroupAlgebra n)
+    (hp : p = Submodule.span (SymGroupAlgebra n) {w})
+    (hq : q = Submodule.span (SymGroupAlgebra n) {signTwist n w}) :
+    ↥p ≃ₗ[ℂ] ↥q where
+  toFun x := ⟨signTwist n x.val, by
+    rw [hq]; exact signTwist_span_singleton_maps w x.val (by rw [← hp]; exact x.prop)⟩
   map_add' x y := by apply Subtype.ext; simp [map_add]
   map_smul' c x := by apply Subtype.ext; simp [map_smul]
   invFun y := ⟨signTwist n y.val, by
-    have := signTwist_span_singleton_maps (signTwist n w) y.val y.prop
+    rw [hp]
+    have := signTwist_span_singleton_maps (signTwist n w) y.val (by rw [← hq]; exact y.prop)
     rwa [signTwist_signTwist] at this⟩
   left_inv x := by apply Subtype.ext; simp [signTwist_signTwist]
   right_inv y := by apply Subtype.ext; simp [signTwist_signTwist]
 
-private theorem signTwistSpanEquiv_coe {n : ℕ} (w : SymGroupAlgebra n)
-    (x : ↥(Submodule.span (SymGroupAlgebra n) {w})) :
-    (signTwistSpanEquiv w x : SymGroupAlgebra n) = signTwist n (x : SymGroupAlgebra n) := rfl
+private theorem signTwistSpanEquiv_coe {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (w : SymGroupAlgebra n)
+    (hp hq) (x : ↥p) :
+    (signTwistSpanEquiv p q w hp hq x : SymGroupAlgebra n)
+      = signTwist n (x : SymGroupAlgebra n) := rfl
 
-private theorem signTwistSpanEquiv_equiv {n : ℕ} (w : SymGroupAlgebra n) (g : Equiv.Perm (Fin n))
-    (x : ↥(Submodule.span (SymGroupAlgebra n) {w})) :
-    signTwistSpanEquiv w (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • x)
+private theorem signTwistSpanEquiv_equiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (w : SymGroupAlgebra n)
+    (hp hq) (g : Equiv.Perm (Fin n)) (x : ↥p) :
+    signTwistSpanEquiv p q w hp hq (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • x)
       = ((Equiv.Perm.sign g : ℤ) : ℂ)
-        • (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • signTwistSpanEquiv w x) := by
+        • (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • signTwistSpanEquiv p q w hp hq x) := by
   apply Subtype.ext
   simp only [signTwistSpanEquiv_coe, SetLike.val_smul, Submodule.coe_smul_of_tower,
     smul_eq_mul, map_mul, signTwist_of, smul_mul_assoc]
 
 /-- Right multiplication by `of τ⁻¹`: a `ℂ`-linear equivalence between two principal left
-ideals related by conjugation, `ℂ[S_n]·v ≃ ℂ[S_n]·w` when `v · τ⁻¹ = τ⁻¹ · w`. -/
-private noncomputable def rightMulSpanEquiv {n : ℕ} (v w : SymGroupAlgebra n)
+ideals related by conjugation, `p ≃ q` when `p = ℂ[S_n]·v`, `q = ℂ[S_n]·w` and `v · τ⁻¹ = τ⁻¹ · w`.
+`p`, `q` are carried explicitly so named ideals stay the boundary types. -/
+private noncomputable def rightMulSpanEquiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (v w : SymGroupAlgebra n)
     (τ : Equiv.Perm (Fin n))
+    (hp : p = Submodule.span (SymGroupAlgebra n) {v})
+    (hq : q = Submodule.span (SymGroupAlgebra n) {w})
     (hvw : v * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
       = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ * w)
     (hwv : w * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ
       = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * v) :
-    ↥(Submodule.span (SymGroupAlgebra n) {v})
-      ≃ₗ[ℂ] ↥(Submodule.span (SymGroupAlgebra n) {w}) where
+    ↥p ≃ₗ[ℂ] ↥q where
   toFun y := ⟨y.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹, by
-    obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp y.prop
+    rw [hq]
+    obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp (by rw [← hp]; exact y.prop)
     rw [Submodule.mem_span_singleton]
     refine ⟨s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹, ?_⟩
     have : (s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹) * w
@@ -573,7 +588,8 @@ private noncomputable def rightMulSpanEquiv {n : ℕ} (v w : SymGroupAlgebra n)
   map_add' y y' := by apply Subtype.ext; simp [add_mul]
   map_smul' c y := by apply Subtype.ext; simp [smul_mul_assoc]
   invFun z := ⟨z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ, by
-    obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp z.prop
+    rw [hp]
+    obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp (by rw [← hq]; exact z.prop)
     rw [Submodule.mem_span_singleton]
     refine ⟨s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ, ?_⟩
     have : (s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ) * v
@@ -593,15 +609,18 @@ private noncomputable def rightMulSpanEquiv {n : ℕ} (v w : SymGroupAlgebra n)
       * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ = z.val
     rw [mul_assoc, ← map_mul, mul_inv_cancel, map_one, mul_one]
 
-private theorem rightMulSpanEquiv_coe {n : ℕ} (v w : SymGroupAlgebra n) (τ : Equiv.Perm (Fin n))
-    (hvw hwv) (y : ↥(Submodule.span (SymGroupAlgebra n) {v})) :
-    (rightMulSpanEquiv v w τ hvw hwv y : SymGroupAlgebra n)
+private theorem rightMulSpanEquiv_coe {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (v w : SymGroupAlgebra n)
+    (τ : Equiv.Perm (Fin n)) (hp hq hvw hwv) (y : ↥p) :
+    (rightMulSpanEquiv p q v w τ hp hq hvw hwv y : SymGroupAlgebra n)
       = (y : SymGroupAlgebra n) * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ := rfl
 
-private theorem rightMulSpanEquiv_equiv {n : ℕ} (v w : SymGroupAlgebra n) (τ : Equiv.Perm (Fin n))
-    (hvw hwv) (g : Equiv.Perm (Fin n)) (y : ↥(Submodule.span (SymGroupAlgebra n) {v})) :
-    rightMulSpanEquiv v w τ hvw hwv (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • y)
-      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • rightMulSpanEquiv v w τ hvw hwv y := by
+private theorem rightMulSpanEquiv_equiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (v w : SymGroupAlgebra n)
+    (τ : Equiv.Perm (Fin n)) (hp hq hvw hwv) (g : Equiv.Perm (Fin n)) (y : ↥p) :
+    rightMulSpanEquiv p q v w τ hp hq hvw hwv (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • y)
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
+        • rightMulSpanEquiv p q v w τ hp hq hvw hwv y := by
   apply Subtype.ext
   simp only [rightMulSpanEquiv_coe, SetLike.val_smul, smul_eq_mul, mul_assoc]
 
@@ -618,6 +637,40 @@ theorem spechtModule_signTwist_iso_conjugate (n : ℕ) (la : Nat.Partition n) :
         e ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g) • x)
           = ((Equiv.Perm.sign g : ℤ) : ℂ)
               • ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g) • e x) := by
-  sorry
+  classical
+  have hk := key_identity la
+  have hτiτ : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la) = 1 := by
+    rw [← map_mul, inv_mul_cancel, map_one]
+  -- `φ(c_λ) · τ⁻¹ = τ⁻¹ · (a_{λ*} b_{λ*})` and its mirror, from the key identity.
+  have hφτ : signTwist n (YoungSymmetrizer n la)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+        * (RowSymmetrizer n (conjugatePartition la)
+          * ColumnAntisymmetrizer n (conjugatePartition la)) := by
+    rw [← hk]
+    simp only [mul_assoc]
+    rw [← mul_assoc (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹)
+      (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)), hτiτ, one_mul]
+  have hφτ' : (RowSymmetrizer n (conjugatePartition la)
+        * ColumnAntisymmetrizer n (conjugatePartition la))
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * signTwist n (YoungSymmetrizer n la) := by
+    rw [← hk]
+    simp only [mul_assoc]
+    rw [hτiτ, mul_one]
+  -- Part (a): `ℂ[S_n]·(a_{λ*} b_{λ*}) ≅ SpechtModule λ*`.
+  obtain ⟨E3, hE3⟩ := rowColIdeal_iso_spechtModule n (conjugatePartition la)
+  refine ⟨(signTwistSpanEquiv (SpechtModule n la)
+      (Submodule.span (SymGroupAlgebra n) {signTwist n (YoungSymmetrizer n la)})
+      (YoungSymmetrizer n la) rfl rfl).trans
+    ((rightMulSpanEquiv (Submodule.span (SymGroupAlgebra n) {signTwist n (YoungSymmetrizer n la)})
+      (rowColIdeal n (conjugatePartition la))
+      (signTwist n (YoungSymmetrizer n la))
+      (RowSymmetrizer n (conjugatePartition la) * ColumnAntisymmetrizer n (conjugatePartition la))
+      (transposePerm la) rfl rfl hφτ hφτ').trans E3), fun g x => ?_⟩
+  simp only [LinearEquiv.trans_apply]
+  rw [signTwistSpanEquiv_equiv, map_smul, rightMulSpanEquiv_equiv, map_smul, hE3]
 
 end Etingof
