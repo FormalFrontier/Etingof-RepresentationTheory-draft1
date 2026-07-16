@@ -324,11 +324,367 @@ theorem cartan_det_zero (t : AffineType) :
   rw [h0] at hp
   exact lt_irrefl 0 hp
 
+/-! ## A reusable positive-semidefiniteness criterion
+
+A symmetric integer matrix whose off-diagonal entries are all nonpositive and
+which annihilates a strictly positive vector is positive semidefinite. This is
+the weighted graph-Laplacian positivity fact underlying every affine Cartan form.
+-/
+
+/-- **Weighted-Laplacian positivity.** If a symmetric matrix `A` has nonpositive
+off-diagonal entries and `A · m = 0` for a *strictly positive* vector `m`, then
+the quadratic form `x ↦ xᵀ A x` is positive semidefinite. The proof is the
+sum-of-squares identity
+`2·(xᵀ A x) = ∑_{i,j} (-Aᵢⱼ) mᵢ mⱼ (xᵢ/mᵢ - xⱼ/mⱼ)²`,
+worked over `ℚ` (so we may divide by the marks) and cast back to `ℤ`. -/
+theorem posSemidef_of_nonpos_offDiag_kernel {n : ℕ}
+    (A : Matrix (Fin n) (Fin n) ℤ) (hsymm : A.IsSymm)
+    (hoff : ∀ i j, i ≠ j → A i j ≤ 0)
+    (m : Fin n → ℤ) (hm : ∀ i, 0 < m i) (hker : A.mulVec m = 0)
+    (x : Fin n → ℤ) :
+    0 ≤ dotProduct x (A.mulVec x) := by
+  suffices h : (0:ℚ) ≤ ((dotProduct x (A.mulVec x) : ℤ) : ℚ) by exact_mod_cast h
+  -- rational rescaled variables `y i = x i / m i`
+  set y : Fin n → ℚ := fun i => (x i : ℚ) / (m i : ℚ) with hy
+  have hm0 : ∀ i, (m i : ℚ) ≠ 0 := fun i => by exact_mod_cast (ne_of_gt (hm i))
+  have hmy : ∀ i, (m i : ℚ) * y i = (x i : ℚ) := fun i => by
+    have hmi := hm0 i
+    change (m i : ℚ) * ((x i : ℚ) / (m i : ℚ)) = (x i : ℚ)
+    field_simp
+  -- the quadratic form as an explicit double sum
+  have hq : ((dotProduct x (A.mulVec x) : ℤ) : ℚ)
+      = ∑ i, ∑ j, (A i j : ℚ) * (x i) * (x j) := by
+    simp only [dotProduct, Matrix.mulVec, Int.cast_sum, Int.cast_mul]
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _
+    ring
+  -- each row of `A` is orthogonal to `m` over `ℚ`
+  have hrow : ∀ i, (∑ j, (A i j : ℚ) * (m j)) = 0 := by
+    intro i
+    have h1 : (∑ j, (A i j : ℚ) * (m j)) = (((A.mulVec m) i : ℤ) : ℚ) := by
+      simp only [Matrix.mulVec, dotProduct, Int.cast_sum, Int.cast_mul]
+    rw [h1, hker]; simp
+  -- each column of `A` is orthogonal to `m` (using symmetry)
+  have hcol : ∀ j, (∑ i, (A i j : ℚ) * (m i)) = 0 := by
+    intro j
+    have hsymm' : ∀ i, A i j = A j i := fun i => (hsymm.apply j i)
+    calc (∑ i, (A i j : ℚ) * (m i)) = ∑ i, (A j i : ℚ) * (m i) := by
+            apply Finset.sum_congr rfl; intro i _; rw [hsymm' i]
+      _ = 0 := hrow j
+  -- the sum-of-squares form
+  set S : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * (m i) * (m j) * (y i - y j)^2 with hS
+  have hSnonneg : 0 ≤ S := by
+    rw [hS]
+    apply Finset.sum_nonneg; intro i _
+    apply Finset.sum_nonneg; intro j _
+    rcases eq_or_ne i j with h | h
+    · subst h; simp
+    · have h1 : (0:ℚ) ≤ -(A i j : ℚ) := by
+        have := hoff i j h; exact_mod_cast neg_nonneg.mpr this
+      have h2 : (0:ℚ) ≤ (m i : ℚ) := le_of_lt (by exact_mod_cast hm i)
+      have h3 : (0:ℚ) ≤ (m j : ℚ) := le_of_lt (by exact_mod_cast hm j)
+      have h4 : (0:ℚ) ≤ (y i - y j)^2 := sq_nonneg _
+      positivity
+  -- split `S` into the three double sums
+  set A1 : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * (m i) * (m j) * (y i)^2 with hA1
+  set A3 : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * (m i) * (m j) * (y j)^2 with hA3
+  set A2 : ℚ := ∑ i, ∑ j, (-(A i j : ℚ)) * ((m i) * (y i)) * ((m j) * (y j)) with hA2
+  have hSeq : S = A1 + A3 - 2 * A2 := by
+    have e1 : A1 + A3 = ∑ i, ∑ j,
+        ((-(A i j:ℚ))*(m i)*(m j)*(y i)^2 + (-(A i j:ℚ))*(m i)*(m j)*(y j)^2) := by
+      rw [hA1, hA3, ← Finset.sum_add_distrib]
+      apply Finset.sum_congr rfl; intro i _
+      rw [← Finset.sum_add_distrib]
+    have e2 : 2 * A2 = ∑ i, ∑ j,
+        2 * ((-(A i j:ℚ)) * ((m i)*(y i)) * ((m j)*(y j))) := by
+      rw [hA2, Finset.mul_sum]
+      apply Finset.sum_congr rfl; intro i _
+      rw [Finset.mul_sum]
+    rw [hS, e1, e2, ← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl; intro i _
+    rw [← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl; intro j _
+    ring
+  -- `A1 = 0` (rows orthogonal to `m`)
+  have hA1z : A1 = 0 := by
+    rw [hA1]; apply Finset.sum_eq_zero; intro i _
+    have : (∑ j, (-(A i j:ℚ))*(m i)*(m j)*(y i)^2)
+        = (-(m i:ℚ) * (y i)^2) * ∑ j, (A i j:ℚ) * (m j) := by
+      rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro j _; ring
+    rw [this, hrow, mul_zero]
+  -- `A3 = 0` (columns orthogonal to `m`)
+  have hA3z : A3 = 0 := by
+    rw [hA3, Finset.sum_comm]; apply Finset.sum_eq_zero; intro j _
+    have : (∑ i, (-(A i j:ℚ))*(m i)*(m j)*(y j)^2)
+        = (-(m j:ℚ) * (y j)^2) * ∑ i, (A i j:ℚ) * (m i) := by
+      rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro i _; ring
+    rw [this, hcol, mul_zero]
+  -- `A2 = -(xᵀ A x)` (undo the rescaling: `m i * y i = x i`)
+  have hA2eq : A2 = -(∑ i, ∑ j, (A i j : ℚ) * (x i) * (x j)) := by
+    rw [hA2, ← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl; intro i _
+    rw [← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl; intro j _
+    rw [hmy i, hmy j]; ring
+  -- assemble: `S = 2·(xᵀ A x) ≥ 0`
+  have hStwo : S = 2 * (∑ i, ∑ j, (A i j : ℚ) * (x i) * (x j)) := by
+    rw [hSeq, hA1z, hA3z, hA2eq]; ring
+  rw [hq]
+  linarith [hStwo ▸ hSnonneg]
+
+/-! ## Structural clauses for the extended diagrams -/
+
+/-- Each extended adjacency matrix is symmetric. -/
+theorem AffineType.adj_isSymm (t : AffineType) : t.adj.IsSymm := by
+  apply Matrix.IsSymm.ext
+  intro i j
+  cases t with
+  | Atilde n hn =>
+      simp only [AffineType.adj]; split_ifs <;> first | rfl | tauto
+  | Dtilde n hn =>
+      simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+  | E6tilde => simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+  | E7tilde => simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+  | E8tilde => simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+
+/-- No extended diagram has a self-loop. -/
+theorem AffineType.adj_diag (t : AffineType) (i : Fin t.rank) : t.adj i i = 0 := by
+  cases t with
+  | Atilde n hn =>
+      have hlt : i.val < n := i.isLt
+      have hb : (i.val + 1) % n = if i.val + 1 = n then 0 else i.val + 1 := by
+        by_cases h : i.val + 1 = n
+        · rw [if_pos h, h, Nat.mod_self]
+        · rw [if_neg h, Nat.mod_eq_of_lt (by omega)]
+      have hmod : ¬ ((i.val + 1) % n = i.val) := by
+        rw [hb]; split_ifs <;> omega
+      simp only [AffineType.adj]
+      rw [if_neg (by tauto)]
+  | Dtilde n hn =>
+      simp only [AffineType.adj, min_self, max_self]
+      rw [if_neg (by omega)]
+  | E6tilde => fin_cases i <;> decide
+  | E7tilde => fin_cases i <;> decide
+  | E8tilde => fin_cases i <;> decide
+
+/-- Every extended adjacency entry is `0` or `1` (a simple graph). -/
+theorem AffineType.adj_zero_or_one (t : AffineType) (i j : Fin t.rank) :
+    t.adj i j = 0 ∨ t.adj i j = 1 := by
+  cases t <;> (simp only [AffineType.adj]; split_ifs <;> simp)
+
+/-- The edge relation of a `0/1` adjacency matrix. Reducible so `decide` can see
+through it on the finite exceptional diagrams. -/
+private abbrev AdjEdge {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (a b : Fin n) : Prop :=
+  adj a b = 1
+
+/-- Convert reflexive-transitive `adj`-reachability into the explicit edge-path
+required by `IsAffineDynkinDiagram`'s connectivity clause. -/
+private theorem clause_of_reflTransGen {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    {i j : Fin n} (h : Relation.ReflTransGen (AdjEdge adj) i j) :
+    ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (hk : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, hk⟩) = 1 := by
+  obtain ⟨l, hne, hchain, hhead, hlast⟩ :=
+    List.exists_isChain_ne_nil_of_relationReflTransGen h
+  refine ⟨l, ?_, ?_, ?_⟩
+  · rw [List.head?_eq_some_head hne, hhead]
+  · rw [List.getLast?_eq_some_getLast hne, hlast]
+  · intro k hk
+    have hget := List.isChain_iff_getElem.mp hchain k hk
+    simpa [List.get_eq_getElem, AdjEdge] using hget
+
+/-- `adj`-reachability is symmetric when the matrix is symmetric (so every edge
+can be traversed in both directions). -/
+private theorem reflTransGen_symm {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hsymm : adj.IsSymm) {i j : Fin n}
+    (h : Relation.ReflTransGen (AdjEdge adj) i j) :
+    Relation.ReflTransGen (AdjEdge adj) j i := by
+  induction h with
+  | refl => exact .refl
+  | tail _ hbc ih =>
+      refine Relation.ReflTransGen.head ?_ ih
+      change adj _ _ = 1
+      rw [hsymm.apply]; exact hbc
+
+/-- Reachability to any vertex, via a base point, gives full connectivity. -/
+private theorem connected_of_reach_base {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hsymm : adj.IsSymm) (b : Fin n)
+    (hreach : ∀ k, Relation.ReflTransGen (AdjEdge adj) b k) (i j : Fin n) :
+    Relation.ReflTransGen (AdjEdge adj) i j :=
+  (reflTransGen_symm hsymm (hreach i)).trans (hreach j)
+
+/-- Connectivity of each extended diagram: any two vertices are joined by an
+edge-path. -/
+theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
+    ∃ path : List (Fin t.rank),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        t.adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1 := by
+  apply clause_of_reflTransGen
+  cases t with
+  | Atilde n hn =>
+      have h0 : 0 < n := by omega
+      have reach : ∀ m (hm : m < n),
+          Relation.ReflTransGen (AdjEdge (AffineType.Atilde n hn).adj)
+            ⟨0, h0⟩ ⟨m, hm⟩ := by
+        intro m
+        induction m with
+        | zero => intro hm; exact .refl
+        | succ p ih =>
+            intro hm
+            have hp : p < n := by omega
+            refine (ih hp).tail ?_
+            change (AffineType.Atilde n hn).adj ⟨p, hp⟩ ⟨p + 1, hm⟩ = 1
+            simp only [AffineType.adj]
+            rw [if_pos (Or.inl (Nat.mod_eq_of_lt hm))]
+      exact (reflTransGen_symm (AffineType.adj_isSymm _) (reach i.val i.isLt)).trans
+        (reach j.val j.isLt)
+  | Dtilde n hn =>
+      have hrank : (AffineType.Dtilde n hn).rank = n + 1 := rfl
+      -- An edge of `D̃ₙ` from the explicit adjacency condition.
+      have dEdge : ∀ (a b : ℕ) (ha : a < n + 1) (hb : b < n + 1),
+          (min a b = 0 ∧ max a b = 2 ∨ min a b = 1 ∧ max a b = 2 ∨
+           2 ≤ min a b ∧ max a b ≤ n - 2 ∧ min a b + 1 = max a b ∨
+           min a b = n - 2 ∧ max a b = n - 1 ∨ min a b = n - 2 ∧ max a b = n) →
+          (AffineType.Dtilde n hn).adj ⟨a, ha⟩ ⟨b, hb⟩ = 1 := by
+        intro a b ha hb hcond
+        simp only [AffineType.adj]
+        rw [if_pos hcond]
+      -- Reach along the central chain `2 — 3 — ⋯ — (n-2)`.
+      have chainReach : ∀ (m : ℕ) (_ : 2 ≤ m) (hmn : m ≤ n - 2),
+          Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
+            ⟨2, by omega⟩ ⟨m, by omega⟩ := by
+        intro m
+        induction m with
+        | zero => intro h _; omega
+        | succ p ih =>
+            intro hm2 hmn
+            rcases Nat.lt_or_ge p 2 with hp | hp
+            · have hp1 : p = 1 := by omega
+              subst hp1; exact .refl
+            · refine (ih hp (by omega)).tail ?_
+              exact dEdge p (p + 1) (by omega) (by omega)
+                (by right; right; left; exact ⟨by omega, by omega, by omega⟩)
+      -- The leaf `0` connects to the chain start `2`.
+      have e02 : Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
+          ⟨0, by omega⟩ ⟨2, by omega⟩ :=
+        .single (dEdge 0 2 (by omega) (by omega) (by left; exact ⟨by omega, by omega⟩))
+      -- Reach from `0` to any vertex, by cases on which class it belongs to.
+      have reachVal : ∀ (v : ℕ) (hv : v < n + 1),
+          Relation.ReflTransGen (AdjEdge (AffineType.Dtilde n hn).adj)
+            ⟨0, by omega⟩ ⟨v, hv⟩ := by
+        intro v hv
+        have hcl : v = 0 ∨ v = 1 ∨ (2 ≤ v ∧ v ≤ n - 2) ∨ v = n - 1 ∨ v = n := by omega
+        rcases hcl with h | h | ⟨h2, h3⟩ | h | h
+        · subst h; exact .refl
+        · subst h
+          exact e02.tail (dEdge 2 1 (by omega) (by omega)
+            (by right; left; exact ⟨by omega, by omega⟩))
+        · exact e02.trans (chainReach v h2 h3)
+        · subst h
+          exact (e02.trans (chainReach (n - 2) (by omega) (by omega))).tail
+            (dEdge (n - 2) (n - 1) (by omega) (by omega)
+              (by right; right; right; left; exact ⟨by omega, by omega⟩))
+        · have hvn : (⟨v, hv⟩ : Fin (AffineType.Dtilde n hn).rank) = ⟨n, by omega⟩ :=
+            Fin.ext (by omega)
+          rw [hvn]
+          exact (e02.trans (chainReach (n - 2) (by omega) (by omega))).tail
+            (dEdge (n - 2) n (by omega) (by omega)
+              (by right; right; right; right; exact ⟨by omega, by omega⟩))
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by omega⟩ ?_ i j
+      intro k
+      exact reachVal k.val k.isLt
+  | E6tilde =>
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
+      intro k
+      fin_cases k
+      · exact .refl
+      · exact .single (by decide)
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
+      · exact .single (by decide)
+      · refine .head (b := ⟨3, by decide⟩) ?_ (.single ?_) <;> decide
+      · exact .single (by decide)
+      · refine .head (b := ⟨5, by decide⟩) ?_ (.single ?_) <;> decide
+  | E7tilde =>
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
+      intro k
+      fin_cases k
+      · exact .refl
+      · exact .single (by decide)
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.single ?_)) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.single ?_))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.single ?_)))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.single ?_))) <;> decide
+  | E8tilde =>
+      refine connected_of_reach_base (AffineType.adj_isSymm _) ⟨0, by decide⟩ ?_ i j
+      intro k
+      fin_cases k
+      · exact .refl
+      · exact .single (by decide)
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.single ?_) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.single ?_)) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.single ?_))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.single ?_)))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.head (b := ⟨6, by decide⟩) ?_
+              (.single ?_)))))) <;> decide
+      · refine .head (b := ⟨1, by decide⟩) ?_ (.head (b := ⟨2, by decide⟩) ?_
+          (.head (b := ⟨3, by decide⟩) ?_ (.head (b := ⟨4, by decide⟩) ?_
+            (.head (b := ⟨5, by decide⟩) ?_ (.single ?_))))) <;> decide
+
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
 diagram (its Cartan form is positive semidefinite but degenerate). -/
 theorem isAffineDynkinDiagram_of_type (t : AffineType) :
     IsAffineDynkinDiagram t.rank t.adj := by
-  sorry
+  have hsymm : t.adj.IsSymm := AffineType.adj_isSymm t
+  refine ⟨hsymm, AffineType.adj_diag t, AffineType.adj_zero_or_one t,
+    AffineType.adj_connected t, ?_, ?_⟩
+  · -- positive semidefinite via the weighted-Laplacian criterion
+    intro x
+    have cartan_symm :
+        (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj).IsSymm :=
+      (isSymm_one.smul 2).sub hsymm
+    have cartan_off : ∀ i j, i ≠ j →
+        (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj) i j ≤ 0 := by
+      intro i j hij
+      have h1 : (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) i j = 0 :=
+        Matrix.one_apply_ne hij
+      have hval : (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj) i j
+          = - t.adj i j := by
+        rw [Matrix.sub_apply, Matrix.smul_apply, h1, smul_zero, zero_sub]
+      rw [hval]
+      rcases AffineType.adj_zero_or_one t i j with h | h <;> rw [h] <;> omega
+    exact posSemidef_of_nonpos_offDiag_kernel _ cartan_symm cartan_off t.marks
+      (marks_pos t) (cartan_mulVec_marks_eq_zero t) x
+  · -- degenerate: the marks are a nonzero null vector of the Cartan form
+    refine ⟨t.marks, ?_, ?_⟩
+    · intro h
+      have hr : 0 < t.rank := by cases t <;> simp only [AffineType.rank] <;> omega
+      have h0 := congrFun h ⟨0, hr⟩
+      have hp := marks_pos t ⟨0, hr⟩
+      simp only [Pi.zero_apply] at h0
+      rw [h0] at hp
+      exact lt_irrefl 0 hp
+    · rw [cartan_mulVec_marks_eq_zero t, dotProduct_zero]
 
 /-! ## Part (f): the classification of Dynkin diagrams -/
 
