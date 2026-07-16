@@ -4943,8 +4943,8 @@
     "end_page": "135",
     "start_line": 3,
     "end_line": 14,
-    "status": "statement_formalized",
-    "coverage_note": "Part (a) PROVED sorry-free (rowColIdeal_iso_spechtModule, axiom-clean: propext/Classical.choice/Quot.sound). Chapter5/Problem5_24_1.lean gives the S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda via mutually-inverse right-multiplication maps f(x)=x·a, g(y)=y·b, using c_lambda²=α·c_lambda (Lemma5_13_3) and its mirror (Lemma5_13_1_dual). Part (b) still statement-only: Chapter5/Problem5_24_1_b.lean constructs the sign-twist algebra automorphism phi (signTwist, phi(g)=sign(g)·g) and the conjugate partition lambda* (conjugatePartition, via Young-diagram transpose), and states: phi twists the g-action to sign(g)·(g·-) i.e. maps V to V⊗C_- (signTwist_smul_of); phi(C[S_n]·a)=C[S_n]·phi(a) (signTwist_map_leftIdeal); and V_lambda⊗C_- ≅ V_{lambda*} (spechtModule_signTwist_iso_conjugate). All proofs sorry; conjugatePartition parts_sum obligation sorried."
+    "status": "proved",
+    "coverage_note": "BOTH PARTS PROVED sorry-free (axiom-clean: propext/Classical.choice/Quot.sound). Part (a) rowColIdeal_iso_spechtModule (Chapter5/Problem5_24_1.lean): S_n-equivariant iso C[S_n]·(a_lambda b_lambda) = V_lambda ≅ C[S_n]·(b_lambda a_lambda) = V'_lambda via mutually-inverse right-multiplication maps, using c_lambda²=α·c_lambda (Lemma5_13_3) + mirror (Lemma5_13_1_dual). Part (b) Chapter5/Problem5_24_1_b.lean: signTwist_smul_of (phi maps V to V⊗C_-), signTwist_map_leftIdeal (phi(C[S_n]·a)=C[S_n]·phi(a)), and spechtModule_signTwist_iso_conjugate (V_lambda⊗C_- ≅ V_{lambda*}). The last is the composite SpechtModule λ --phi--> C[S_n]·phi(c_λ) --·of τ⁻¹--> rowColIdeal λ* --part(a)--> SpechtModule λ*, where τ (transposePerm) is the tableau-transposition permutation conjugating the row/column subgroups of λ to the column/row subgroups of λ* (mem_rowSubgroup_conj/mem_columnSubgroup_conj); key algebraic identity of τ · phi(c_λ) · of τ⁻¹ = a_{λ*} b_{λ*} (key_identity). conjugatePartition parts_sum discharged (card_transpose)."
   },
   {
     "id": "Chapter5/Problem5.24.2",

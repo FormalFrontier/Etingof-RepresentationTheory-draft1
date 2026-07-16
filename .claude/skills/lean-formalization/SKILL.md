@@ -66,6 +66,19 @@ instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.
 /`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
 prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
 
+**When composing a chain of `LinearEquiv`s between principal ideals, parametrize each generic
+equiv by the *boundary submodule* plus a `hp : p = Submodule.span R {w}` proof — don't lean on
+defeq between a named ideal (`SpechtModule`, `rowColIdeal`) and its `Submodule.span` unfolding.**
+Cost real iterations in #6775 (`Chapter5/Problem5_24_1_b.lean`): a `def signTwistSpanEquiv (w) :
+↥(span{w}) ≃ₗ ↥(span{φ w})` applied to `x : ↥(SpechtModule n la)` type-checks (domains are defeq),
+but the SMul instance on `↥(SpechtModule)` is *syntactically* different from the one on
+`↥(span{w})`, so the equivariance `rw [signTwistSpanEquiv_equiv]` cannot match, and `erw` blows
+`whnf` past 1.6M heartbeats unifying the huge `MonoidAlgebra`/`Submodule` SMul instances. **Fix:**
+give the equiv signature explicit `(p q : Submodule R M) (hp : p = span{v}) (hq : q = span{w})` and
+instantiate `p := SpechtModule n la` (`hp := rfl`), `q := rowColIdeal n la*`, so the composite's
+endpoints are the *named* ideals and every equivariance `rw` matches syntactically; membership
+obligations inside then open with `rw [hp]`/`rw [hq]` to expose the span.
+
 **Heavy category-theory objects (total complexes / coproducts) make `isDefEq`, `whnf`, and
 typeclass search blow up — unfold *one step short* and finish by hand.** Cost real iterations in
 #6683 (`Chapter8/ExternalTensorResolution.lean`, `Projective ((mapBifunctor …).total.X n)`). Two

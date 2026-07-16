@@ -2,6 +2,7 @@ import Mathlib
 import EtingofRepresentationTheory.Chapter5.Definition5_12_1
 import EtingofRepresentationTheory.Chapter5.Theorem5_12_2_Irreducible
 import EtingofRepresentationTheory.Chapter5.Definition5_14_2
+import EtingofRepresentationTheory.Chapter5.Problem5_24_1
 
 /-!
 # Problem 5.24.1(b): the sign twist sends `V_λ` to `V_{λ*}`
@@ -31,7 +32,9 @@ automorphism (`signTwist`).
 The conjugate partition `λ*` is `conjugatePartition`, built by transposing the Young
 diagram of `λ`.
 
-Statement pass: proofs are left as `sorry`.
+The main isomorphism is the composite `SpechtModule λ --φ--> ℂ[S_n]·φ(c_λ) --· of τ⁻¹-->
+rowColIdeal λ* --part (a)--> SpechtModule λ*`, where `τ` is the tableau-transposition
+permutation conjugating the row/column subgroups of `λ` to the column/row subgroups of `λ*`.
 -/
 
 namespace Etingof
@@ -193,6 +196,434 @@ theorem signTwist_columnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
     rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
   rw [hsq, one_smul]
 
+/-! ### Combinatorial bridge: the conjugate partition transposes cells
+
+To identify `φ(V_λ)` with `V_{λ*}` we need the geometric fact that the canonical filling of
+`λ*` is the transpose of the canonical filling of `λ`. We work through Mathlib's `YoungDiagram`
+API: a cell `(r, c)` lies in `λ`'s diagram iff `c < λ.sortedParts.getD r 0`, and the conjugate
+partition's diagram is exactly the transpose. -/
+
+/-- The row-length membership condition unpacked to `getD`: `∃ h : r < w.length, c < w[r]`
+is equivalent to `c < w.getD r 0`. -/
+private theorem lt_getD_iff (w : List ℕ) (r c : ℕ) :
+    (∃ h : r < w.length, c < w[r]) ↔ c < w.getD r 0 := by
+  rw [List.getD_eq_getElem?_getD]
+  rcases lt_or_ge r w.length with hr | hr
+  · rw [List.getElem?_eq_getElem hr, Option.getD_some]
+    exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨hr, h⟩⟩
+  · rw [List.getElem?_eq_none hr, Option.getD_none]
+    exact ⟨fun ⟨h, _⟩ => absurd h (not_lt.mpr hr), fun h => absurd h (Nat.not_lt_zero c)⟩
+
+/-- A cell `(r, c)` belongs to the Young diagram of `la` iff `c` is below the `r`-th row
+length `la.sortedParts.getD r 0`. -/
+private theorem mem_toYoungDiagram_iff {n : ℕ} (la : Nat.Partition n) (r c : ℕ) :
+    (r, c) ∈ la.toYoungDiagram ↔ c < la.sortedParts.getD r 0 := by
+  rw [Nat.Partition.toYoungDiagram, YoungDiagram.mem_ofRowLens]
+  exact lt_getD_iff _ r c
+
+/-- Two `ofRowLens` diagrams built from equal lists are equal (the sortedness proof is
+irrelevant). -/
+private theorem ofRowLens_congr {w1 w2 : List ℕ} (h : w1 = w2)
+    (h1 : w1.SortedGE) (h2 : w2.SortedGE) :
+    YoungDiagram.ofRowLens w1 h1 = YoungDiagram.ofRowLens w2 h2 := by
+  subst h; rfl
+
+/-- The Young diagram of the conjugate partition `λ*` is the transpose of the Young diagram of
+`λ`. -/
+private theorem conjugate_toYoungDiagram {n : ℕ} (la : Nat.Partition n) :
+    (conjugatePartition la).toYoungDiagram = la.toYoungDiagram.transpose := by
+  have hlist : (conjugatePartition la).parts.sort (· ≥ ·)
+      = la.toYoungDiagram.transpose.rowLens := by
+    change (↑(la.toYoungDiagram.transpose.rowLens) : Multiset ℕ).sort (· ≥ ·) = _
+    rw [Multiset.coe_sort]
+    exact List.mergeSort_eq_self (r := (· ≥ ·))
+      (List.sortedGE_iff_pairwise.mp (YoungDiagram.rowLens_sorted _))
+  conv_rhs => rw [← YoungDiagram.ofRowLens_to_rowLens_eq_self (μ := la.toYoungDiagram.transpose)]
+  rw [Nat.Partition.toYoungDiagram]
+  exact ofRowLens_congr hlist _ _
+
+/-- **Transpose of cells.** A cell `(r, c)` fits under the conjugate partition's row lengths iff
+the transposed cell `(c, r)` fits under `λ`'s row lengths. -/
+private theorem transpose_cell_iff {n : ℕ} (la : Nat.Partition n) (r c : ℕ) :
+    c < (conjugatePartition la).sortedParts.getD r 0 ↔ r < la.sortedParts.getD c 0 := by
+  rw [← mem_toYoungDiagram_iff, conjugate_toYoungDiagram, YoungDiagram.mem_transpose,
+    Prod.swap_prod_mk, mem_toYoungDiagram_iff]
+
+/-! ### The tableau-transposition permutation `τ`
+
+`τ ∈ S_n` sends the canonical position of cell `(i, j)` in `λ` to the canonical position of the
+transposed cell `(j, i)` in `λ*`. It conjugates the row subgroup of `λ` to the column subgroup
+of `λ*` and vice versa. -/
+
+/-- The sum of the sorted parts of a partition of `n` is `n`. -/
+private theorem sortedParts_sum {n : ℕ} (la : Nat.Partition n) : la.sortedParts.sum = n := by
+  rw [Nat.Partition.sortedParts, ← Multiset.sum_coe, Multiset.sort_eq]
+  exact la.parts_sum
+
+/-- For each position `k` of `λ`, there is a position `m` of `λ*` at the transposed cell. -/
+private theorem transpose_cell_exists {n : ℕ} (la : Nat.Partition n) (k : Fin n) :
+    ∃ m : Fin n,
+      rowOfPos (conjugatePartition la).sortedParts m.val = colOfPos la.sortedParts k.val
+        ∧ colOfPos (conjugatePartition la).sortedParts m.val = rowOfPos la.sortedParts k.val := by
+  have hk : k.val < la.sortedParts.sum := by rw [sortedParts_sum]; exact k.isLt
+  have hcell : rowOfPos la.sortedParts k.val
+      < (conjugatePartition la).sortedParts.getD (colOfPos la.sortedParts k.val) 0 := by
+    rw [transpose_cell_iff]; exact colOfPos_lt_getD la.sortedParts k.val hk
+  obtain ⟨m, hm_lt, hrow, hcol⟩ := exists_pos_of_cell (conjugatePartition la).sortedParts
+    (colOfPos la.sortedParts k.val) (rowOfPos la.sortedParts k.val) hcell
+  rw [sortedParts_sum] at hm_lt
+  exact ⟨⟨m, hm_lt⟩, hrow, hcol⟩
+
+/-- The underlying position map of `τ`: `k ↦` position of the transposed cell in `λ*`. -/
+private noncomputable def transposePosFun {n : ℕ} (la : Nat.Partition n) (k : Fin n) : Fin n :=
+  (transpose_cell_exists la k).choose
+
+private theorem transposePosFun_row {n : ℕ} (la : Nat.Partition n) (k : Fin n) :
+    rowOfPos (conjugatePartition la).sortedParts (transposePosFun la k).val
+      = colOfPos la.sortedParts k.val :=
+  (transpose_cell_exists la k).choose_spec.1
+
+private theorem transposePosFun_col {n : ℕ} (la : Nat.Partition n) (k : Fin n) :
+    colOfPos (conjugatePartition la).sortedParts (transposePosFun la k).val
+      = rowOfPos la.sortedParts k.val :=
+  (transpose_cell_exists la k).choose_spec.2
+
+private theorem transposePosFun_injective {n : ℕ} (la : Nat.Partition n) :
+    Function.Injective (transposePosFun la) := by
+  intro k1 k2 h
+  have hrow := transposePosFun_row la k1
+  have hrow2 := transposePosFun_row la k2
+  have hcol := transposePosFun_col la k1
+  have hcol2 := transposePosFun_col la k2
+  rw [h] at hrow hcol
+  have hc : colOfPos la.sortedParts k1.val = colOfPos la.sortedParts k2.val := hrow.symm.trans hrow2
+  have hr : rowOfPos la.sortedParts k1.val = rowOfPos la.sortedParts k2.val := hcol.symm.trans hcol2
+  apply Fin.ext
+  exact rowOfPos_colOfPos_injective la.sortedParts k1.val k2.val
+    (by rw [sortedParts_sum]; exact k1.isLt) (by rw [sortedParts_sum]; exact k2.isLt) hr hc
+
+/-- The **tableau-transposition permutation** `τ ∈ S_n`. -/
+private noncomputable def transposePerm {n : ℕ} (la : Nat.Partition n) : Equiv.Perm (Fin n) :=
+  Equiv.ofBijective (transposePosFun la)
+    (Finite.injective_iff_bijective.mp (transposePosFun_injective la))
+
+private theorem transposePerm_row {n : ℕ} (la : Nat.Partition n) (x : Fin n) :
+    rowOfPos (conjugatePartition la).sortedParts ((transposePerm la) x).val
+      = colOfPos la.sortedParts x.val := by
+  rw [transposePerm, Equiv.ofBijective_apply]; exact transposePosFun_row la x
+
+private theorem transposePerm_col {n : ℕ} (la : Nat.Partition n) (x : Fin n) :
+    colOfPos (conjugatePartition la).sortedParts ((transposePerm la) x).val
+      = rowOfPos la.sortedParts x.val := by
+  rw [transposePerm, Equiv.ofBijective_apply]; exact transposePosFun_col la x
+
+private theorem mem_rowSubgroup_iff {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ RowSubgroup n la
+      ↔ ∀ k, rowOfPos la.sortedParts (σ k).val = rowOfPos la.sortedParts k.val := Iff.rfl
+
+private theorem mem_columnSubgroup_iff {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ ColumnSubgroup n la
+      ↔ ∀ k, colOfPos la.sortedParts (σ k).val = colOfPos la.sortedParts k.val := Iff.rfl
+
+/-- **`τ` conjugates the row subgroup of `λ*` to the column subgroup of `λ`.** -/
+private theorem mem_rowSubgroup_conj {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ RowSubgroup n (conjugatePartition la)
+      ↔ (transposePerm la)⁻¹ * σ * transposePerm la ∈ ColumnSubgroup n la := by
+  rw [mem_rowSubgroup_iff, mem_columnSubgroup_iff]
+  -- `colOfPos P (τ⁻¹ y) = rowOfPos P* y`
+  have e1 : ∀ y : Fin n, colOfPos la.sortedParts ((transposePerm la)⁻¹ y).val
+      = rowOfPos (conjugatePartition la).sortedParts y.val := by
+    intro y
+    have hself : (transposePerm la) ((transposePerm la)⁻¹ y) = y := by simp
+    have := transposePerm_row la ((transposePerm la)⁻¹ y)
+    rw [hself] at this
+    exact this.symm
+  have key : ∀ k : Fin n,
+      (colOfPos la.sortedParts (((transposePerm la)⁻¹ * σ * transposePerm la) k).val
+          = colOfPos la.sortedParts k.val)
+        ↔ (rowOfPos (conjugatePartition la).sortedParts (σ (transposePerm la k)).val
+            = rowOfPos (conjugatePartition la).sortedParts (transposePerm la k).val) := by
+    intro k
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, e1, ← transposePerm_row la k]
+  simp only [key]
+  constructor
+  · intro h k; exact h (transposePerm la k)
+  · intro h m; obtain ⟨k, rfl⟩ := (transposePerm la).surjective m; exact h k
+
+/-- **`τ` conjugates the column subgroup of `λ*` to the row subgroup of `λ`.** -/
+private theorem mem_columnSubgroup_conj {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ ColumnSubgroup n (conjugatePartition la)
+      ↔ (transposePerm la)⁻¹ * σ * transposePerm la ∈ RowSubgroup n la := by
+  rw [mem_columnSubgroup_iff, mem_rowSubgroup_iff]
+  have e1 : ∀ y : Fin n, rowOfPos la.sortedParts ((transposePerm la)⁻¹ y).val
+      = colOfPos (conjugatePartition la).sortedParts y.val := by
+    intro y
+    have hself : (transposePerm la) ((transposePerm la)⁻¹ y) = y := by simp
+    have := transposePerm_col la ((transposePerm la)⁻¹ y)
+    rw [hself] at this
+    exact this.symm
+  have key : ∀ k : Fin n,
+      (rowOfPos la.sortedParts (((transposePerm la)⁻¹ * σ * transposePerm la) k).val
+          = rowOfPos la.sortedParts k.val)
+        ↔ (colOfPos (conjugatePartition la).sortedParts (σ (transposePerm la k)).val
+            = colOfPos (conjugatePartition la).sortedParts (transposePerm la k).val) := by
+    intro k
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, e1, ← transposePerm_col la k]
+  simp only [key]
+  constructor
+  · intro h k; exact h (transposePerm la k)
+  · intro h m; obtain ⟨k, rfl⟩ := (transposePerm la).surjective m; exact h k
+
+/-! ### The key algebraic identity `τ · φ(c_λ) · τ⁻¹ = a_{λ*} b_{λ*}`
+
+Conjugating the sign-twisted Young symmetrizer by `τ` turns it into the generator
+`a_{λ*} b_{λ*}` of the book's `V_{λ*}`, because `τ` carries the row/column subgroups of `λ` to
+the column/row subgroups of `λ*`. -/
+
+/-- `τ`-conjugation as an equivalence `P_{λ*} ≃ Q_λ` between the row subgroup of `λ*` and the
+column subgroup of `λ`. -/
+private noncomputable def rowColConjEquiv {n : ℕ} (la : Nat.Partition n) :
+    ↥(RowSubgroup n (conjugatePartition la)) ≃ ↥(ColumnSubgroup n la) where
+  toFun h := ⟨(transposePerm la)⁻¹ * h.val * transposePerm la,
+    (mem_rowSubgroup_conj la h.val).mp h.prop⟩
+  invFun g := ⟨transposePerm la * g.val * (transposePerm la)⁻¹, by
+    rw [mem_rowSubgroup_conj]
+    have h : (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+        * transposePerm la = g.val := by group
+    rw [h]; exact g.prop⟩
+  left_inv h := by
+    apply Subtype.ext
+    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      * (transposePerm la)⁻¹ = h.val
+    group
+  right_inv g := by
+    apply Subtype.ext
+    show (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+      * transposePerm la = g.val
+    group
+
+/-- `τ`-conjugation as an equivalence `Q_{λ*} ≃ P_λ` between the column subgroup of `λ*` and the
+row subgroup of `λ`. -/
+private noncomputable def colRowConjEquiv {n : ℕ} (la : Nat.Partition n) :
+    ↥(ColumnSubgroup n (conjugatePartition la)) ≃ ↥(RowSubgroup n la) where
+  toFun h := ⟨(transposePerm la)⁻¹ * h.val * transposePerm la,
+    (mem_columnSubgroup_conj la h.val).mp h.prop⟩
+  invFun g := ⟨transposePerm la * g.val * (transposePerm la)⁻¹, by
+    rw [mem_columnSubgroup_conj]
+    have h : (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+        * transposePerm la = g.val := by group
+    rw [h]; exact g.prop⟩
+  left_inv h := by
+    apply Subtype.ext
+    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      * (transposePerm la)⁻¹ = h.val
+    group
+  right_inv g := by
+    apply Subtype.ext
+    show (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+      * transposePerm la = g.val
+    group
+
+/-- Conjugating the unsigned column sum by `τ` yields the row symmetrizer of `λ*`. -/
+private theorem conj_of_columnSum {n : ℕ} (la : Nat.Partition n) :
+    haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * (∑ g : (ColumnSubgroup n la), MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = RowSymmetrizer n (conjugatePartition la) := by
+  classical
+  rw [Finset.mul_sum, Finset.sum_mul, RowSymmetrizer,
+    ← Equiv.sum_comp (rowColConjEquiv la)
+      (fun g : ↥(ColumnSubgroup n la) => MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹)]
+  apply Finset.sum_congr rfl
+  intro h _
+  rw [← map_mul, ← map_mul]
+  congr 1
+  show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+    * (transposePerm la)⁻¹ = h.val
+  group
+
+/-- Conjugating the signed row sum by `τ` yields the column antisymmetrizer of `λ*`. -/
+private theorem conj_of_rowSignSum {n : ℕ} (la : Nat.Partition n) :
+    haveI : DecidablePred (· ∈ RowSubgroup n la) := Classical.decPred _
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * (∑ g : (RowSubgroup n la),
+            ((Equiv.Perm.sign g.val : ℤ) : ℂ) • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = ColumnAntisymmetrizer n (conjugatePartition la) := by
+  classical
+  rw [Finset.mul_sum, Finset.sum_mul, ColumnAntisymmetrizer,
+    ← Equiv.sum_comp (colRowConjEquiv la)
+      (fun g : ↥(RowSubgroup n la) => MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * (((Equiv.Perm.sign g.val : ℤ) : ℂ) • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹)]
+  apply Finset.sum_congr rfl
+  intro h _
+  have hperm : Equiv.Perm.sign (((colRowConjEquiv la) h).val) = Equiv.Perm.sign h.val := by
+    show Equiv.Perm.sign ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      = Equiv.Perm.sign h.val
+    rw [Equiv.Perm.sign_mul, Equiv.Perm.sign_mul, Equiv.Perm.sign_inv, mul_right_comm,
+      Int.units_mul_self, one_mul]
+  have hval : transposePerm la * ((colRowConjEquiv la) h).val * (transposePerm la)⁻¹ = h.val := by
+    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      * (transposePerm la)⁻¹ = h.val
+    group
+  rw [mul_smul_comm, smul_mul_assoc, ← map_mul, ← map_mul, hperm, hval]
+
+/-- Splitting a `τ`-conjugation of a product across the factors. -/
+private theorem conj_mul {n : ℕ} (τ : Equiv.Perm (Fin n)) (X Y : SymGroupAlgebra n) :
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * (X * Y)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+      = (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * X
+          * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹)
+        * (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * Y
+          * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹) := by
+  have h1 : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+      * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ = 1 := by
+    rw [← map_mul, inv_mul_cancel, map_one]
+  simp only [mul_assoc]
+  rw [← mul_assoc (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹)
+    (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ), h1, one_mul]
+
+/-- **Key identity.** Conjugating the sign-twisted Young symmetrizer `φ(c_λ) = φ(b_λ a_λ)` by
+`τ` gives the generator `a_{λ*} b_{λ*}` of the book's `V_{λ*}`. -/
+private theorem key_identity {n : ℕ} (la : Nat.Partition n) :
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * signTwist n (YoungSymmetrizer n la)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = RowSymmetrizer n (conjugatePartition la) * ColumnAntisymmetrizer n (conjugatePartition la)
+        := by
+  classical
+  rw [YoungSymmetrizer, map_mul, signTwist_columnAntisymmetrizer, signTwist_rowSymmetrizer,
+    conj_mul, conj_of_columnSum, conj_of_rowSignSum]
+
+/-! ### Assembling the isomorphism
+
+`V_λ ⊗ ℂ_- ≅ V_{λ*}` is the composite of three `ℂ`-linear equivalences:
+`SpechtModule λ --φ--> span{φ(c_λ)} --· of τ⁻¹--> rowColIdeal λ* --part (a)--> SpechtModule λ*`.
+The first is twisted-equivariant, the last two ordinary-equivariant. -/
+
+/-- `φ` maps the left ideal generated by `w` into the one generated by `φ(w)`. -/
+private theorem signTwist_span_singleton_maps {n : ℕ} (w z : SymGroupAlgebra n)
+    (hz : z ∈ Submodule.span (SymGroupAlgebra n) {w}) :
+    signTwist n z ∈ Submodule.span (SymGroupAlgebra n) {signTwist n w} := by
+  rw [Submodule.mem_span_singleton] at hz ⊢
+  obtain ⟨r, rfl⟩ := hz
+  refine ⟨signTwist n r, ?_⟩
+  rw [smul_eq_mul, smul_eq_mul, map_mul]
+
+/-- `φ` is an involution. -/
+private theorem signTwist_signTwist {n : ℕ} (z : SymGroupAlgebra n) :
+    signTwist n (signTwist n z) = z := by
+  have hcomp : (signTwist n).comp (signTwist n) = AlgHom.id ℂ (SymGroupAlgebra n) := by
+    apply MonoidAlgebra.algHom_ext
+    intro g
+    have hsq : ((Equiv.Perm.sign g : ℤ) : ℂ) * ((Equiv.Perm.sign g : ℤ) : ℂ) = 1 := by
+      rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
+    show signTwist n (signTwist n (MonoidAlgebra.of ℂ _ g)) = MonoidAlgebra.of ℂ _ g
+    rw [signTwist_of, map_smul, signTwist_of, smul_smul, hsq, one_smul]
+  simpa using DFunLike.congr_fun hcomp z
+
+/-- `φ` restricted to a principal left ideal: a `ℂ`-linear equivalence `p ≃ q` when
+`p = ℂ[S_n]·w` and `q = ℂ[S_n]·φ(w)`. Carrying `p`, `q` explicitly (rather than the raw
+`span`) lets the caller keep named ideals like `SpechtModule` as the boundary types. -/
+private noncomputable def signTwistSpanEquiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (w : SymGroupAlgebra n)
+    (hp : p = Submodule.span (SymGroupAlgebra n) {w})
+    (hq : q = Submodule.span (SymGroupAlgebra n) {signTwist n w}) :
+    ↥p ≃ₗ[ℂ] ↥q where
+  toFun x := ⟨signTwist n x.val, by
+    rw [hq]; exact signTwist_span_singleton_maps w x.val (by rw [← hp]; exact x.prop)⟩
+  map_add' x y := by apply Subtype.ext; simp [map_add]
+  map_smul' c x := by apply Subtype.ext; simp [map_smul]
+  invFun y := ⟨signTwist n y.val, by
+    rw [hp]
+    have := signTwist_span_singleton_maps (signTwist n w) y.val (by rw [← hq]; exact y.prop)
+    rwa [signTwist_signTwist] at this⟩
+  left_inv x := by apply Subtype.ext; simp [signTwist_signTwist]
+  right_inv y := by apply Subtype.ext; simp [signTwist_signTwist]
+
+private theorem signTwistSpanEquiv_coe {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (w : SymGroupAlgebra n)
+    (hp hq) (x : ↥p) :
+    (signTwistSpanEquiv p q w hp hq x : SymGroupAlgebra n)
+      = signTwist n (x : SymGroupAlgebra n) := rfl
+
+private theorem signTwistSpanEquiv_equiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (w : SymGroupAlgebra n)
+    (hp hq) (g : Equiv.Perm (Fin n)) (x : ↥p) :
+    signTwistSpanEquiv p q w hp hq (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • x)
+      = ((Equiv.Perm.sign g : ℤ) : ℂ)
+        • (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • signTwistSpanEquiv p q w hp hq x) := by
+  apply Subtype.ext
+  simp only [signTwistSpanEquiv_coe, SetLike.val_smul, Submodule.coe_smul_of_tower,
+    smul_eq_mul, map_mul, signTwist_of, smul_mul_assoc]
+
+/-- Right multiplication by `of τ⁻¹`: a `ℂ`-linear equivalence between two principal left
+ideals related by conjugation, `p ≃ q` when `p = ℂ[S_n]·v`, `q = ℂ[S_n]·w` and `v · τ⁻¹ = τ⁻¹ · w`.
+`p`, `q` are carried explicitly so named ideals stay the boundary types. -/
+private noncomputable def rightMulSpanEquiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (v w : SymGroupAlgebra n)
+    (τ : Equiv.Perm (Fin n))
+    (hp : p = Submodule.span (SymGroupAlgebra n) {v})
+    (hq : q = Submodule.span (SymGroupAlgebra n) {w})
+    (hvw : v * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ * w)
+    (hwv : w * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * v) :
+    ↥p ≃ₗ[ℂ] ↥q where
+  toFun y := ⟨y.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹, by
+    rw [hq]
+    obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp (by rw [← hp]; exact y.prop)
+    rw [Submodule.mem_span_singleton]
+    refine ⟨s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹, ?_⟩
+    have : (s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹) * w
+        = y.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ := by
+      rw [← hs, smul_eq_mul]
+      simp only [mul_assoc]
+      rw [hvw]
+    rwa [smul_eq_mul]⟩
+  map_add' y y' := by apply Subtype.ext; simp [add_mul]
+  map_smul' c y := by apply Subtype.ext; simp [smul_mul_assoc]
+  invFun z := ⟨z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ, by
+    rw [hp]
+    obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp (by rw [← hq]; exact z.prop)
+    rw [Submodule.mem_span_singleton]
+    refine ⟨s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ, ?_⟩
+    have : (s * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ) * v
+        = z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ := by
+      rw [← hs, smul_eq_mul]
+      simp only [mul_assoc]
+      rw [hwv]
+    rwa [smul_eq_mul]⟩
+  left_inv y := by
+    apply Subtype.ext
+    show y.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+      * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ = y.val
+    rw [mul_assoc, ← map_mul, inv_mul_cancel, map_one, mul_one]
+  right_inv z := by
+    apply Subtype.ext
+    show z.val * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ
+      * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ = z.val
+    rw [mul_assoc, ← map_mul, mul_inv_cancel, map_one, mul_one]
+
+private theorem rightMulSpanEquiv_coe {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (v w : SymGroupAlgebra n)
+    (τ : Equiv.Perm (Fin n)) (hp hq hvw hwv) (y : ↥p) :
+    (rightMulSpanEquiv p q v w τ hp hq hvw hwv y : SymGroupAlgebra n)
+      = (y : SymGroupAlgebra n) * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹ := rfl
+
+private theorem rightMulSpanEquiv_equiv {n : ℕ}
+    (p q : Submodule (SymGroupAlgebra n) (SymGroupAlgebra n)) (v w : SymGroupAlgebra n)
+    (τ : Equiv.Perm (Fin n)) (hp hq hvw hwv) (g : Equiv.Perm (Fin n)) (y : ↥p) :
+    rightMulSpanEquiv p q v w τ hp hq hvw hwv (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g • y)
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g
+        • rightMulSpanEquiv p q v w τ hp hq hvw hwv y := by
+  apply Subtype.ext
+  simp only [rightMulSpanEquiv_coe, SetLike.val_smul, smul_eq_mul, mul_assoc]
+
 /-! ### `V_λ ⊗ ℂ_- = V_{λ*}` -/
 
 /-- **Problem 5.24.1(b), main statement.** `V_λ ⊗ ℂ_- ≅ V_{λ*}`: the Specht module `V_λ`,
@@ -206,6 +637,40 @@ theorem spechtModule_signTwist_iso_conjugate (n : ℕ) (la : Nat.Partition n) :
         e ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g) • x)
           = ((Equiv.Perm.sign g : ℤ) : ℂ)
               • ((MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g) • e x) := by
-  sorry
+  classical
+  have hk := key_identity la
+  have hτiτ : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la) = 1 := by
+    rw [← map_mul, inv_mul_cancel, map_one]
+  -- `φ(c_λ) · τ⁻¹ = τ⁻¹ · (a_{λ*} b_{λ*})` and its mirror, from the key identity.
+  have hφτ : signTwist n (YoungSymmetrizer n la)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+        * (RowSymmetrizer n (conjugatePartition la)
+          * ColumnAntisymmetrizer n (conjugatePartition la)) := by
+    rw [← hk]
+    simp only [mul_assoc]
+    rw [← mul_assoc (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹)
+      (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)), hτiτ, one_mul]
+  have hφτ' : (RowSymmetrizer n (conjugatePartition la)
+        * ColumnAntisymmetrizer n (conjugatePartition la))
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+      = MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * signTwist n (YoungSymmetrizer n la) := by
+    rw [← hk]
+    simp only [mul_assoc]
+    rw [hτiτ, mul_one]
+  -- Part (a): `ℂ[S_n]·(a_{λ*} b_{λ*}) ≅ SpechtModule λ*`.
+  obtain ⟨E3, hE3⟩ := rowColIdeal_iso_spechtModule n (conjugatePartition la)
+  refine ⟨(signTwistSpanEquiv (SpechtModule n la)
+      (Submodule.span (SymGroupAlgebra n) {signTwist n (YoungSymmetrizer n la)})
+      (YoungSymmetrizer n la) rfl rfl).trans
+    ((rightMulSpanEquiv (Submodule.span (SymGroupAlgebra n) {signTwist n (YoungSymmetrizer n la)})
+      (rowColIdeal n (conjugatePartition la))
+      (signTwist n (YoungSymmetrizer n la))
+      (RowSymmetrizer n (conjugatePartition la) * ColumnAntisymmetrizer n (conjugatePartition la))
+      (transposePerm la) rfl rfl hφτ hφτ').trans E3), fun g x => ?_⟩
+  simp only [LinearEquiv.trans_apply]
+  rw [signTwistSpanEquiv_equiv, map_smul, rightMulSpanEquiv_equiv, map_smul, hE3]
 
 end Etingof
