@@ -3640,6 +3640,10 @@ Multiple sessions were wasted proving statements that turned out to be false due
 
 **Pattern:** If a proof fails at a fundamental level (not a tactic issue but a mathematical impossibility) after 1 serious attempt, **suspect a statement bug**. Check the book's hypotheses carefully before trying more proof strategies.
 
+### Universe mismatch: a `Type`-0 witness slot under a `variable (… : Type*)` (#6732)
+
+For an existence / `¬ ∀` statement whose witness you must *build*, one-line-typecheck that the intended witness fits the bound variable's **universe before constructing it** (`have := @H (Fin p → k) …` in a scratch `example`). A statement like `∀ (M : Type) [Module k M] …` with a file-level `variable (k : Type*)` is **unprovable**: the natural witness `Fin p → k : Type u` does not fit the `M : Type` (`Type 0`) slot, and `M : Type*` does not help (it is a *fresh* theorem-level universe independent of `k`'s). Worse, it is *false* for large `k` — with no `Type 0` module of positive dimension the inner `∀` is vacuous, so `¬∀` fails. This is a **planner-level** bug (the statement was written statement-only without a universe check). The fix is to bind field and witness to one universe (`universe u; variable (k : Type u)` + `∀ (M : Type u)`, or `variable (k : Type)` keeping `M : Type`); since it is a signature change, `coordination skip` to `replan` rather than editing the agreed spec. Related: the `ULift` down-cast does **not** exist (`ULift` only lifts up), so you cannot rescue a `Type 0` slot from a `Type u` witness.
+
 ## Sorry-to-Helper Extraction Pattern (Endgame)
 
 The dominant value-creation pattern in the endgame. Instead of trying to prove a hard sorry directly, extract it into a well-documented helper lemma.
