@@ -79,7 +79,36 @@ theorem extModule_smul_tmul (a₁ : A₁) (a₂ : A₂) (x₁ : X₁) (x₂ : X�
     Module.endTensorEndAlgHom_apply]
   rfl
 
+/-- The canonical external module structure is a `k`-scalar tower: `k` acts through the algebra map
+`k → A₁ ⊗ A₂` compatibly. -/
+theorem extModule_isScalarTower :
+    @IsScalarTower k (A₁ ⊗[k] A₂) (X₁ ⊗[k] X₂) _ (extModule k A₁ A₂ X₁ X₂).toSMul _ := by
+  letI := extModule k A₁ A₂ X₁ X₂
+  refine ⟨fun c s z => ?_⟩
+  change extRep k A₁ A₂ X₁ X₂ (c • s) z = c • extRep k A₁ A₂ X₁ X₂ s z
+  rw [map_smul]
+  rfl
+
 end ExtModule
+
+section Lcomp
+
+variable {R : Type u} [Ring R] [Algebra k R] {L M M' : Type u}
+  [AddCommGroup L] [Module k L] [Module R L] [IsScalarTower k R L]
+  [AddCommGroup M] [Module k M] [Module R M] [IsScalarTower k R M]
+  [AddCommGroup M'] [Module k M'] [Module R M'] [IsScalarTower k R M']
+
+/-- Precomposition `φ ↦ φ ∘ₗ s` by a fixed `R`-linear map `s`, as a `k`-linear operator on the
+`k`-modules of `R`-linear maps. -/
+def lcompₖ (s : M →ₗ[R] M') : (M' →ₗ[R] L) →ₗ[k] (M →ₗ[R] L) where
+  toFun φ := φ ∘ₗ s
+  map_add' a b := by ext x; simp
+  map_smul' c a := by ext x; simp
+
+@[simp] theorem lcompₖ_apply (s : M →ₗ[R] M') (φ : M' →ₗ[R] L) :
+    lcompₖ k s φ = φ ∘ₗ s := rfl
+
+end Lcomp
 
 section HomTensorHom
 
@@ -177,9 +206,29 @@ variable (P₁ P₂ N₁ N₂ : Type u)
   [instP : Module (A₁ ⊗[k] A₂) (P₁ ⊗[k] P₂)] [IsScalarTower k (A₁ ⊗[k] A₂) (P₁ ⊗[k] P₂)]
   [instN : Module (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)] [IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]
 
+/-- **Base case.** The comparison map is bijective when the source modules are the finite free
+modules `Fin n → A₁` and `Fin m → A₂`. Here `Hom_{Aᵢ}(Aᵢ^{nᵢ}, Nᵢ) ≅ Nᵢ^{nᵢ}` and
+`(A₁^{n} ⊗ A₂^{m})` is `A₁ ⊗ A₂`-free on `Fin n × Fin m`, so the map is a matching of finite
+products of `N₁ ⊗ N₂`. -/
+theorem homTensorHom_bijective_free (n m : ℕ)
+    [instF : Module (A₁ ⊗[k] A₂) ((Fin n → A₁) ⊗[k] (Fin m → A₂))]
+    [IsScalarTower k (A₁ ⊗[k] A₂) ((Fin n → A₁) ⊗[k] (Fin m → A₂))]
+    (hF : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : Fin n → A₁) (x₂ : Fin m → A₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : (Fin n → A₁) ⊗[k] (Fin m → A₂))
+        = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂))
+    (hN : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : N₁) (x₂ : N₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : N₁ ⊗[k] N₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂)) :
+    Function.Bijective
+      (homTensorHom k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ hF hN) := by
+  sorry
+
 /-- **The finite-generation Hom–tensor comparison isomorphism.** For `k`-algebras `A₁, A₂`, finitely
 generated projective left modules `P₁, P₂` and arbitrary left modules `N₁, N₂`, the canonical
-`k`-linear map `homTensorHom` is bijective. -/
+`k`-linear map `homTensorHom` is bijective.
+
+The projective case is reduced to `homTensorHom_bijective_free`: a f.g. projective module is a
+retract of a finite free one, `homTensorHom` is natural in the source, and a retract of an
+isomorphism is an isomorphism. -/
 theorem homTensorHom_bijective
     [Module.Finite A₁ P₁] [Module.Projective A₁ P₁]
     [Module.Finite A₂ P₂] [Module.Projective A₂ P₂]
@@ -188,7 +237,69 @@ theorem homTensorHom_bijective
     (hN : ∀ (a₁ : A₁) (a₂ : A₂) (x₁ : N₁) (x₂ : N₂),
       (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (x₁ ⊗ₜ[k] x₂ : N₁ ⊗[k] N₂) = (a₁ • x₁) ⊗ₜ[k] (a₂ • x₂)) :
     Function.Bijective (homTensorHom k A₁ A₂ P₁ P₂ N₁ N₂ hP hN) := by
-  sorry
+  obtain ⟨n, r₁, s₁, _, _, hrs₁⟩ := Module.Finite.exists_comp_eq_id_of_projective A₁ P₁
+  obtain ⟨m, r₂, s₂, _, _, hrs₂⟩ := Module.Finite.exists_comp_eq_id_of_projective A₂ P₂
+  -- `rᵢ : (Fin nᵢ → Aᵢ) →ₗ[Aᵢ] Pᵢ` is the retraction, `sᵢ : Pᵢ →ₗ[Aᵢ] (Fin nᵢ → Aᵢ)` the section,
+  -- and `rᵢ ∘ₗ sᵢ = id`.
+  letI iF := extModule k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
+  haveI := extModule_isScalarTower k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
+  have hF := extModule_smul_tmul k A₁ A₂ (Fin n → A₁) (Fin m → A₂)
+  have hfree := homTensorHom_bijective_free k A₁ A₂ N₁ N₂ n m hF hN
+  set Hfree := homTensorHom k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ hF hN with hHfree
+  set HP := homTensorHom k A₁ A₂ P₁ P₂ N₁ N₂ hP hN with hHP
+  set E := LinearEquiv.ofBijective Hfree hfree with hE
+  -- External `A₁ ⊗ A₂`-linear maps `Fin n → A₁) ⊗ (Fin m → A₂) ↔ P₁ ⊗ P₂`.
+  set t_r := extMap k A₁ A₂ (Fin n → A₁) (Fin m → A₂) P₁ P₂ hF hP r₁ r₂ with ht_r
+  set t_s := extMap k A₁ A₂ P₁ P₂ (Fin n → A₁) (Fin m → A₂) hP hF s₁ s₂ with ht_s
+  -- The `k`-linear retract maps on the `Hom ⊗ Hom` side.
+  set S := TensorProduct.map (lcompₖ (L := N₁) k s₁) (lcompₖ (L := N₂) k s₂) with hS
+  set R := TensorProduct.map (lcompₖ (L := N₁) k r₁) (lcompₖ (L := N₂) k r₂) with hR
+  -- Naturality of `homTensorHom` in the source.
+  have NAT1 : ∀ x, (HP x) ∘ₗ t_r = Hfree (R x) := by
+    intro x
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => rw [map_add, LinearMap.add_comp, ha, hb, map_add, map_add]
+    | tmul f g =>
+        refine hom_ext k A₁ A₂ (Fin n → A₁) (Fin m → A₂) N₁ N₂ fun x₁ x₂ => ?_
+        simp only [hHP, hHfree, ht_r, hR, LinearMap.comp_apply, TensorProduct.map_tmul,
+          lcompₖ_apply, extMap_tmul, homTensorHom_tmul_tmul]
+  have NAT2 : ∀ y, HP (S y) = (Hfree y) ∘ₗ t_s := by
+    intro y
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, LinearMap.add_comp]
+    | tmul f g =>
+        refine hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => ?_
+        simp only [hHP, hHfree, ht_s, hS, LinearMap.comp_apply, TensorProduct.map_tmul,
+          lcompₖ_apply, extMap_tmul, homTensorHom_tmul_tmul]
+  -- `S ∘ R = id` on the `Hom ⊗ Hom` side.
+  have RETR : ∀ x, S (R x) = x := by
+    intro x
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | add a b ha hb => rw [map_add, map_add, ha, hb]
+    | tmul f g =>
+        simp only [hS, hR, TensorProduct.map_tmul, lcompₖ_apply, LinearMap.comp_assoc, hrs₁,
+          hrs₂, LinearMap.comp_id]
+  -- `t_r ∘ₗ t_s = id` on `P₁ ⊗ P₂`.
+  have RETR' : t_r ∘ₗ t_s = LinearMap.id := by
+    refine hom_ext k A₁ A₂ P₁ P₂ P₁ P₂ fun p₁ p₂ => ?_
+    have e1 : r₁ (s₁ p₁) = p₁ := by rw [← LinearMap.comp_apply, hrs₁, LinearMap.id_apply]
+    have e2 : r₂ (s₂ p₂) = p₂ := by rw [← LinearMap.comp_apply, hrs₂, LinearMap.id_apply]
+    simp only [ht_r, ht_s, LinearMap.comp_apply, extMap_tmul, LinearMap.id_coe, id_eq, e1, e2]
+  -- Assemble the two-sided inverse.
+  rw [Function.bijective_iff_has_inverse]
+  refine ⟨fun Φ => S (E.symm (lcompₖ k t_r Φ)), fun x => ?_, fun Φ => ?_⟩
+  · -- left inverse
+    show S (E.symm (lcompₖ k t_r (HP x))) = x
+    rw [lcompₖ_apply, NAT1 x, show Hfree (R x) = E (R x) from rfl,
+      LinearEquiv.symm_apply_apply, RETR]
+  · -- right inverse
+    show HP (S (E.symm (lcompₖ k t_r Φ))) = Φ
+    rw [NAT2 (E.symm (lcompₖ k t_r Φ)),
+      show Hfree (E.symm (lcompₖ k t_r Φ)) = E (E.symm (lcompₖ k t_r Φ)) from rfl,
+      LinearEquiv.apply_symm_apply, lcompₖ_apply, LinearMap.comp_assoc, RETR', LinearMap.comp_id]
 
 /-- The finite-generation Hom–tensor comparison isomorphism, as a `k`-linear equivalence. -/
 noncomputable def homTensorHomEquiv
