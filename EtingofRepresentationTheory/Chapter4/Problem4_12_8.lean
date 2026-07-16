@@ -535,6 +535,50 @@ theorem pole_order_diophantine (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ)
       · right; right; right; left; exact hm_eq
       · right; right; right; right; exact hm_eq
 
+/-!
+## Sphere action and the pole set
+
+Foundation for the Burnside pole-counting reduction (#6862): the action of `SO(3)` on the unit
+sphere of `Fin 3 → ℝ`, the pole set, and the fact that each nontrivial element fixes exactly an
+antipodal pair of unit vectors (the "unique pair of opposite poles" of the book's hint).
+-/
+
+section Poles
+
+open Matrix
+
+/-- Orthogonal matrices preserve the dot product on `Fin 3 → ℝ`. -/
+private lemma so3_dotProduct_mulVec (g : specialOrthogonalGroup (Fin 3) ℝ) (v w : Fin 3 → ℝ) :
+    ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v) ⬝ᵥ ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ w) = v ⬝ᵥ w := by
+  rw [dotProduct_mulVec, ← mulVec_transpose, mulVec_mulVec, so3_transpose_mul g, one_mulVec]
+
+/-- Unit vectors of `ℝ³` (the sphere `S²`), on which `SO(3)` acts by `mulVec`. -/
+abbrev UnitVec : Type := {v : Fin 3 → ℝ // v ⬝ᵥ v = 1}
+
+/-- `SO(3)` acts on the unit sphere by the matrix–vector product; orthogonality
+(`so3_dotProduct_mulVec`) keeps the image on the sphere. -/
+instance : MulAction (specialOrthogonalGroup (Fin 3) ℝ) UnitVec where
+  smul g v := ⟨(g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (v : Fin 3 → ℝ),
+    by rw [so3_dotProduct_mulVec]; exact v.2⟩
+  one_smul v := Subtype.ext <| by
+    change ((1 : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (v : Fin 3 → ℝ)
+      = (v : Fin 3 → ℝ)
+    rw [OneMemClass.coe_one, one_mulVec]
+  mul_smul g h v := Subtype.ext <| by
+    change ((g * h : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
+        *ᵥ (v : Fin 3 → ℝ)
+      = (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ((h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (v : Fin 3 → ℝ))
+    rw [Submonoid.coe_mul, mulVec_mulVec]
+
+@[simp] lemma unitVec_smul_val (g : specialOrthogonalGroup (Fin 3) ℝ) (v : UnitVec) :
+    ((g • v : UnitVec) : Fin 3 → ℝ) = (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (v : Fin 3 → ℝ) := rfl
+
+/-- A **pole** of `G ≤ SO(3)`: a unit vector fixed by some *nontrivial* element of `G`. -/
+def IsPole (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) (v : UnitVec) : Prop :=
+  ∃ g : specialOrthogonalGroup (Fin 3) ℝ, g ∈ G ∧ g ≠ 1 ∧ g • v = v
+
+end Poles
+
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
 the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
