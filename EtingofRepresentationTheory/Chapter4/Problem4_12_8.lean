@@ -95,6 +95,92 @@ theorem exists_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_hg : g �
   rw [sub_mulVec, one_mulVec, sub_eq_zero] at hMv
   exact hMv
 
+/-!
+### Construction for milestone (ii)
+
+We realise a finite subgroup `H ≤ SO(3)` fixing a common nonzero vector `v` as a finite
+subgroup of `Circle` (unit complex numbers), then conclude cyclicity from
+`isCyclic_of_injective_ringHom`. The bridge is geometric: every `g ∈ H` acts on
+`E = EuclideanSpace ℝ (Fin 3)` as an isometry fixing `v`, hence preserving the plane
+`W = (ℝ ∙ v)ᗮ`, on which it is a rotation. Sending `g` to the oriented rotation angle (as a
+point of `Circle`) is an injective group homomorphism.
+-/
+
+section CommonAxis
+
+open scoped RealInnerProductSpace
+open Matrix EuclideanSpace Submodule WithLp Module
+
+/-- An orthogonal `3×3` real matrix acts on Euclidean space preserving the inner product. -/
+private lemma toEuclideanLin_inner_eq {M : Matrix (Fin 3) (Fin 3) ℝ} (hM : Mᵀ * M = 1)
+    (x y : EuclideanSpace ℝ (Fin 3)) :
+    ⟪toEuclideanLin M x, toEuclideanLin M y⟫ = ⟪x, y⟫ := by
+  have hdot : ∀ a b : Fin 3 → ℝ, (M *ᵥ a) ⬝ᵥ (M *ᵥ b) = a ⬝ᵥ b := by
+    intro a b
+    rw [dotProduct_mulVec, ← mulVec_transpose, mulVec_mulVec, hM, one_mulVec]
+  rw [EuclideanSpace.inner_eq_star_dotProduct, EuclideanSpace.inner_eq_star_dotProduct,
+    ofLp_toEuclideanLin_apply, ofLp_toEuclideanLin_apply]
+  simp only [star_trivial]
+  exact hdot _ _
+
+/-- Composition of `toEuclideanLin` corresponds to matrix multiplication. -/
+private lemma toEuclideanLin_comp (M N : Matrix (Fin 3) (Fin 3) ℝ) :
+    (toEuclideanLin M).comp (toEuclideanLin N) = toEuclideanLin (M * N) := by
+  refine LinearMap.ext fun x => ?_
+  rw [LinearMap.comp_apply, toEuclideanLin_apply M, ofLp_toEuclideanLin_apply, mulVec_mulVec,
+    toEuclideanLin_apply (M * N)]
+
+/-- The determinant of the Euclidean linear map of a matrix is the matrix determinant. -/
+private lemma det_toEuclideanLin (M : Matrix (Fin 3) (Fin 3) ℝ) :
+    LinearMap.det (toEuclideanLin M) = M.det := by
+  rw [toEuclideanLin_eq_toLin, LinearMap.det_toLin]
+
+/-- The Euclidean linear map of the identity matrix is the identity. -/
+private lemma toEuclideanLin_one :
+    toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) = LinearMap.id := by
+  refine LinearMap.ext fun x => ?_
+  simp
+
+/-- The transpose is a two-sided inverse of an `SO(3)` matrix. -/
+private lemma so3_transpose_mul (g : specialOrthogonalGroup (Fin 3) ℝ) :
+    (g : Matrix (Fin 3) (Fin 3) ℝ)ᵀ * (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 :=
+  (mem_orthogonalGroup_iff' (Fin 3) ℝ).mp (mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)).1
+
+/-- Each element of `SO(3)` acts on Euclidean 3-space as a linear isometric equivalence. -/
+private noncomputable def euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) :
+    EuclideanSpace ℝ (Fin 3) ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 3) :=
+  LinearEquiv.isometryOfInner
+    (LinearEquiv.ofLinear (toEuclideanLin (↑g)) (toEuclideanLin (↑g)ᵀ)
+      (by rw [toEuclideanLin_comp,
+          show ((g : Matrix (Fin 3) (Fin 3) ℝ) * (g : Matrix (Fin 3) (Fin 3) ℝ)ᵀ) = 1 from
+            mul_eq_one_comm.mpr (so3_transpose_mul g), toEuclideanLin_one])
+      (by rw [toEuclideanLin_comp, so3_transpose_mul g, toEuclideanLin_one]))
+    (fun x y => toEuclideanLin_inner_eq (so3_transpose_mul g) x y)
+
+@[simp] private lemma euclideanIso_apply (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (x : EuclideanSpace ℝ (Fin 3)) : euclideanIso g x = toEuclideanLin (↑g) x := rfl
+
+/-- `euclideanIso g` fixes any vector fixed by the matrix of `g`. -/
+private lemma euclideanIso_fix (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (w : EuclideanSpace ℝ (Fin 3))
+    (hw : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ ofLp w = ofLp w) : euclideanIso g w = w := by
+  apply WithLp.ofLp_injective
+  rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hw]
+
+/-- `euclideanIso` is a homomorphism: it turns products into compositions. -/
+private lemma euclideanIso_mul (g h : specialOrthogonalGroup (Fin 3) ℝ)
+    (x : EuclideanSpace ℝ (Fin 3)) :
+    euclideanIso (g * h) x = euclideanIso g (euclideanIso h x) := by
+  apply WithLp.ofLp_injective
+  simp only [euclideanIso_apply, ofLp_toEuclideanLin_apply, Submonoid.coe_mul, mulVec_mulVec]
+
+/-- `euclideanIso g` has determinant `1`. -/
+private lemma euclideanIso_det (g : specialOrthogonalGroup (Fin 3) ℝ) :
+    LinearMap.det (euclideanIso g).toLinearMap = 1 := by
+  have hEq : (euclideanIso g).toLinearMap = toEuclideanLin (↑g) := rfl
+  rw [hEq, det_toEuclideanLin]
+  exact (mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)).2
+
 /-- **Milestone (ii): common-axis groups are cyclic.** A finite subgroup of `SO(3)` all of
 whose elements fix a common nonzero vector `v` consists of rotations about the single axis
 `ℝ·v`, hence embeds into `SO(2)` and is cyclic. This is what makes the stabilizer of a pole
@@ -104,8 +190,178 @@ theorem isCyclic_of_common_fixed_vector
     (v : Fin 3 → ℝ) (hv : v ≠ 0)
     (hfix : ∀ g : H, ((g : specialOrthogonalGroup (Fin 3) ℝ) :
       Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v) :
-    IsCyclic H :=
-  sorry
+    IsCyclic H := by
+  classical
+  -- Reference vector for the axis, living in Euclidean 3-space.
+  set v₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 v with hv₀def
+  have hofLpv₀ : ofLp v₀ = v := rfl
+  have hv₀ : v₀ ≠ 0 := by
+    intro h; exact hv (by rw [← hofLpv₀, h, ofLp_zero])
+  -- The plane orthogonal to the axis, of dimension 2.
+  have hWfin : finrank ℝ (ℝ ∙ v₀)ᗮ = 2 := by
+    haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+      ⟨by norm_num [finrank_euclideanSpace_fin]⟩
+    exact Submodule.finrank_orthogonal_span_singleton (n := 2) hv₀
+  set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ v₀)ᗮ with hWdef
+  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  -- Basis, orientation, and a nonzero reference vector of the plane.
+  let bW : Basis (Fin 2) ℝ W := Module.finBasisOfFinrankEq ℝ W hWfin
+  let o : Orientation ℝ W (Fin 2) := bW.orientation
+  set x : W := bW 0 with hxdef
+  have hx0 : x ≠ 0 := bW.ne_zero 0
+  -- Each `g ∈ H` fixes `v₀`, hence preserves the plane `W`.
+  have hfixg : ∀ g : H, euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) v₀ = v₀ := fun g =>
+    euclideanIso_fix _ v₀ (by rw [hofLpv₀]; exact hfix g)
+  have hWinv : ∀ g : H,
+      W.map ((euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearEquiv :
+        EuclideanSpace ℝ (Fin 3) →ₗ[ℝ] EuclideanSpace ℝ (Fin 3)) = W := by
+    intro g
+    rw [hWdef, Submodule.map_orthogonal_equiv]
+    congr 1
+    rw [Submodule.map_span, Set.image_singleton, LinearEquiv.coe_coe,
+      LinearIsometryEquiv.coe_toLinearEquiv, hfixg g]
+  -- The induced isometry of the plane.
+  let ρ : H → (W ≃ₗᵢ[ℝ] W) := fun g =>
+    (LinearIsometryEquiv.submoduleMap W (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ))).trans
+      (LinearIsometryEquiv.ofEq _ W (hWinv g))
+  have coeρ : ∀ (g : H) (y : W),
+      ((ρ g y : W) : EuclideanSpace ℝ (Fin 3))
+        = euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) (y : W) := by
+    intro g y
+    change ((LinearIsometryEquiv.ofEq _ W (hWinv g)
+      (LinearIsometryEquiv.submoduleMap W
+        (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)) y) : W) :
+        EuclideanSpace ℝ (Fin 3)) = _
+    rw [LinearIsometryEquiv.coe_ofEq_apply, LinearIsometryEquiv.submoduleMap_apply_coe]
+  -- `ρ` is multiplicative.
+  have ρmul : ∀ (g h : H) (y : W), ρ (g * h) y = ρ g (ρ h y) := by
+    intro g h y
+    apply Subtype.ext
+    rw [coeρ, coeρ, coeρ, Subgroup.coe_mul, euclideanIso_mul]
+  -- `ρ g` has determinant one, so it is an oriented rotation.
+  have hdet : ∀ g : H, (0 : ℝ) < LinearMap.det ((ρ g).toLinearEquiv : W →ₗ[ℝ] W) := by
+    intro g
+    have hmaps : W ≤ W.comap (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap := by
+      intro y hy
+      have : (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearEquiv.toLinearMap
+          = (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap := rfl
+      have hmem : (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)) y ∈ W := by
+        have := hWinv g ▸ Submodule.mem_map_of_mem (f := (euclideanIso
+          (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearEquiv.toLinearMap) hy
+        simpa using this
+      exact hmem
+    -- the restriction to `W` is `ρ g`
+    have hrestrict :
+        (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap.restrict hmaps
+          = (ρ g).toLinearMap := by
+      refine LinearMap.ext fun y => ?_
+      apply Subtype.ext
+      rw [LinearMap.restrict_coe_apply]
+      exact (coeρ g y).symm
+    -- the induced map on the 1-dimensional quotient is the identity
+    have hquot : W.mapQ W (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap hmaps
+        = LinearMap.id := by
+      have hv₀W : v₀ ∉ W := by
+        rw [hWdef]
+        intro hmem
+        have h0 : ⟪v₀, v₀⟫ = (0 : ℝ) :=
+          (Submodule.mem_orthogonal _ _).mp hmem v₀ (Submodule.mem_span_singleton_self _)
+        exact hv₀ (inner_self_eq_zero.mp h0)
+      have hne : W.mkQ v₀ ≠ 0 := by
+        rw [Submodule.mkQ_apply, Ne, Submodule.Quotient.mk_eq_zero]; exact hv₀W
+      have hspan : Submodule.span ℝ {W.mkQ v₀} = ⊤ := by
+        apply Submodule.eq_top_of_finrank_eq
+        have hq : finrank ℝ (EuclideanSpace ℝ (Fin 3) ⧸ W) + finrank ℝ W
+            = finrank ℝ (EuclideanSpace ℝ (Fin 3)) := Submodule.finrank_quotient_add_finrank W
+        rw [hWfin, finrank_euclideanSpace_fin] at hq
+        rw [finrank_span_singleton hne]
+        omega
+      refine LinearMap.ext_on hspan ?_
+      intro z hz
+      simp only [Set.mem_singleton_iff] at hz
+      subst hz
+      rw [Submodule.mkQ_apply, Submodule.mapQ_apply, LinearMap.id_apply]
+      congr 1
+      exact hfixg g
+    have hE : LinearMap.det (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap = 1 :=
+      euclideanIso_det g
+    rw [LinearMap.det_eq_det_mul_det (W := W) _ hmaps, hrestrict, hquot,
+      LinearMap.det_id, mul_one] at hE
+    rw [show ((ρ g).toLinearEquiv : W →ₗ[ℝ] W) = (ρ g).toLinearMap from rfl, hE]
+    norm_num
+  -- Each `ρ g` is the oriented rotation by the angle `o.oangle x (ρ g x)`.
+  have hrot : ∀ g : H, ρ g = o.rotation (o.oangle x (ρ g x)) := by
+    intro g
+    obtain ⟨α, hα⟩ := o.exists_linearIsometryEquiv_eq_of_det_pos (hdet g)
+    have : o.oangle x (ρ g x) = α := by rw [hα, o.oangle_rotation_self_right hx0]
+    rw [this, hα]
+  -- Angles add under multiplication.
+  have θmul : ∀ g h : H,
+      o.oangle x (ρ (g * h) x) = o.oangle x (ρ g x) + o.oangle x (ρ h x) := by
+    intro g h
+    have hg := hrot g
+    have hh := hrot h
+    set a := o.oangle x (ρ g x)
+    set b := o.oangle x (ρ h x)
+    rw [ρmul, hh, hg, o.rotation_rotation, o.oangle_rotation_self_right hx0]
+  -- The angle-to-circle homomorphism.
+  let φ : H →* Circle :=
+    { toFun := fun g => (o.oangle x (ρ g x)).toCircle
+      map_one' := by
+        have h1 : ρ (1 : H) x = x := by
+          apply Subtype.ext
+          rw [coeρ]
+          apply euclideanIso_fix
+          simp
+        rw [h1, o.oangle_self, Real.Angle.toCircle_zero]
+      map_mul' := fun g h => by
+        simp only [θmul g h, Real.Angle.toCircle_add] }
+  -- `φ` is injective.
+  have hφinj : Function.Injective φ := by
+    intro g h hgh
+    have hθ : o.oangle x (ρ g x) = o.oangle x (ρ h x) := by
+      have := congrArg (fun c : Circle => (Complex.arg (c : ℂ) : Real.Angle)) hgh
+      simpa only [φ, MonoidHom.coe_mk, OneHom.coe_mk, Real.Angle.arg_toCircle] using this
+    have hρeq : ρ g = ρ h := by rw [hrot g, hrot h, hθ]
+    -- the two isometries of `E` agree on `W` and on the axis, hence everywhere
+    have hagree : (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap
+        = (euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap := by
+      have hle : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) ≤
+          LinearMap.eqLocus (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap
+            (euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap := by
+        have hsup : (ℝ ∙ v₀) ⊔ W = ⊤ := by
+          rw [hWdef]; exact Submodule.sup_orthogonal_of_hasOrthogonalProjection
+        rw [← hsup]
+        refine sup_le ?_ ?_
+        · rw [Submodule.span_le]
+          intro z hz
+          simp only [Set.mem_singleton_iff] at hz
+          subst hz
+          simp only [SetLike.mem_coe, LinearMap.mem_eqLocus]
+          rw [show (euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap v₀
+            = euclideanIso (g : specialOrthogonalGroup (Fin 3) ℝ) v₀ from rfl,
+            show (euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ)).toLinearMap v₀
+            = euclideanIso (h : specialOrthogonalGroup (Fin 3) ℝ) v₀ from rfl, hfixg g, hfixg h]
+        · intro z hz
+          simp only [LinearMap.mem_eqLocus]
+          have := congrArg (fun e : W ≃ₗᵢ[ℝ] W => ((e ⟨z, hz⟩ : W) : EuclideanSpace ℝ (Fin 3))) hρeq
+          simp only [coeρ] at this
+          exact this
+      have := (top_le_iff.mp hle)
+      exact LinearMap.ext fun z => (LinearMap.mem_eqLocus.mp (this ▸ Submodule.mem_top))
+    -- deduce equality of the underlying matrices, hence of the group elements
+    have hmat : ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
+        = ((h : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) := by
+      have : toEuclideanLin ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ)
+          = toEuclideanLin ((h : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) :=
+        hagree
+      exact toEuclideanLin.injective this
+    exact Subtype.ext (Subtype.ext hmat)
+  -- A finite group with an injective hom into `ℂ` is cyclic.
+  exact isCyclic_of_injective_ringHom (Circle.coeHom.comp φ)
+    (Circle.coe_injective.comp hφinj)
+
+end CommonAxis
 
 /-- **Milestone (iii): the counting Diophantine identity.** After Burnside/orbit-counting, the
 pole orders `m₁, …, m_k` of a group of order `n ≥ 2` satisfy
