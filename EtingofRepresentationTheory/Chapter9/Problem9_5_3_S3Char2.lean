@@ -122,8 +122,9 @@ abbrev kt2 : Type := Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) 
 
 /-- **The trivial module is simple.** In characteristic `2`, `triv = sign`, so the two char-`0`
 one-dimensional simples collapse to this single simple `k[S₃]`-module. -/
-theorem trivMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule := by
-  sorry
+theorem trivMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule :=
+  { toIsSimpleOrder := is_simple_module_of_finrank_eq_one (K := k)
+      (by rw [(trivRepr k).asModuleEquiv.finrank_eq, Module.finrank_self]) }
 
 /-- **The standard module is simple.** The `2`-dimensional standard representation stays
 irreducible in characteristic `2` because `3` is invertible. -/
