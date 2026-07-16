@@ -111,13 +111,173 @@ theorem isCyclic_of_common_fixed_vector
 pole orders `m₁, …, m_k` of a group of order `n ≥ 2` satisfy
 `2(1 - 1/n) = ∑ᵢ (1 - 1/mᵢ)` with each `mᵢ ≥ 2` and `mᵢ ∣ n`. This purely arithmetic lemma
 records that the only solution multisets are the five classical families: cyclic `{n, n}`,
-dihedral `{2, 2, n}`, tetrahedral `{2, 3, 3}`, octahedral `{2, 3, 4}`, and icosahedral
-`{2, 3, 5}`. It is independent of the geometry and can be proved on its own. -/
+dihedral `{2, 2, k}` with `n = 2k`, tetrahedral `{2, 3, 3}`, octahedral `{2, 3, 4}`, and
+icosahedral `{2, 3, 5}`. It is independent of the geometry and can be proved on its own. -/
 theorem pole_order_diophantine (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ)
     (hm2 : ∀ x ∈ m, 2 ≤ x) (hmdvd : ∀ x ∈ m, x ∣ n)
     (heq : 2 * (1 - (n : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum) :
-    m = {n, n} ∨ m = {2, 2, n} ∨ m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5} :=
-  sorry
+    m = {n, n} ∨ (∃ k, n = 2 * k ∧ m = {2, 2, k}) ∨
+    m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5} := by
+  -- Basic positivity facts about `n`.
+  have hnpos : 0 < n := by omega
+  have hnpQ : (0 : ℚ) < (n : ℚ) := by exact_mod_cast hnpos
+  have hnne : (n : ℚ) ≠ 0 := ne_of_gt hnpQ
+  have hnQ : (2 : ℚ) ≤ (n : ℚ) := by exact_mod_cast hn
+  -- Abbreviations for `1/n` and the summand function.
+  set N : ℚ := (n : ℚ)⁻¹ with hN
+  set f : ℕ → ℚ := fun x => 1 - (x : ℚ)⁻¹ with hf
+  have hNpos : 0 < N := by rw [hN]; positivity
+  have hNle : N ≤ 1 / 2 := by
+    rw [hN]
+    have : (n : ℚ)⁻¹ ≤ (2 : ℚ)⁻¹ := inv_anti₀ (by norm_num) hnQ
+    simpa using this
+  -- The summand elaborates over `m` coerced to `Multiset ℚ`; bridge it to `m.map f`.
+  simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def] at heq
+  -- The sum equals `2 - 2N`, and lies in `[1, 2)`.
+  have hS : (m.map f).sum = 2 - 2 * N := by rw [hf, ← heq]; ring
+  have hS1 : (1 : ℚ) ≤ (m.map f).sum := by rw [hS]; linarith
+  have hS2 : (m.map f).sum < 2 := by rw [hS]; linarith
+  -- Monotonicity of `x ↦ (x : ℚ)⁻¹` on the naturals.
+  have inv_mono : ∀ p q : ℕ, 0 < p → p ≤ q → (q : ℚ)⁻¹ ≤ (p : ℚ)⁻¹ := by
+    intro p q hp hpq
+    have hpQ : (0 : ℚ) < (p : ℚ) := by exact_mod_cast hp
+    have hqQ : (p : ℚ) ≤ (q : ℚ) := by exact_mod_cast hpq
+    exact inv_anti₀ hpQ hqQ
+  -- Each summand lies in `[1/2, 1)`; the lower bound forces `card ≤ 3`.
+  have hlo : ∀ y ∈ m.map f, (1 : ℚ) / 2 ≤ y := by
+    intro y hy
+    rw [Multiset.mem_map] at hy
+    obtain ⟨x, hx, rfl⟩ := hy
+    have hx2 : 2 ≤ x := hm2 x hx
+    have : (x : ℚ)⁻¹ ≤ 1 / 2 := by
+      have := inv_mono 2 x (by norm_num) hx2
+      simpa using this
+    rw [hf]; dsimp only; linarith
+  have hlb : (m.card : ℚ) * (1 / 2) ≤ (m.map f).sum := by
+    have := Multiset.card_nsmul_le_sum hlo
+    rwa [Multiset.card_map, nsmul_eq_mul] at this
+  have hcard3 : m.card ≤ 3 := by
+    have h4 : (m.card : ℚ) < 4 := by linarith
+    have : m.card < 4 := by exact_mod_cast h4
+    omega
+  -- `card ≠ 0` and `card ≠ 1`: the sum would drop below `1`.
+  have hc_ne0 : m.card ≠ 0 := by
+    rw [Ne, Multiset.card_eq_zero]
+    rintro rfl
+    simp only [Multiset.map_zero, Multiset.sum_zero] at hS1
+    linarith
+  have hc_ne1 : m.card ≠ 1 := by
+    rw [Ne, Multiset.card_eq_one]
+    rintro ⟨a, rfl⟩
+    simp only [Multiset.map_singleton, Multiset.sum_singleton, hf] at hS1
+    have ha2 : 2 ≤ a := hm2 a (by simp)
+    have hapos : (0 : ℚ) < (a : ℚ)⁻¹ := by
+      have : (0 : ℚ) < (a : ℚ) := by exact_mod_cast (show 0 < a by omega)
+      positivity
+    linarith
+  have hc23 : m.card = 2 ∨ m.card = 3 := by omega
+  rcases hc23 with h2 | h3
+  · -- Two poles: `1/a + 1/b = 2/n` with `a, b ∣ n` forces `a = b = n`.
+    rw [Multiset.card_eq_two] at h2
+    obtain ⟨a, b, rfl⟩ := h2
+    have hmem_a : a ∈ ({a, b} : Multiset ℕ) := by simp
+    have hmem_b : b ∈ ({a, b} : Multiset ℕ) := by simp
+    have ha2 : 2 ≤ a := hm2 a hmem_a
+    have hb2 : 2 ≤ b := hm2 b hmem_b
+    have hadvd : a ∣ n := hmdvd a hmem_a
+    have hbdvd : b ∣ n := hmdvd b hmem_b
+    simp only [Multiset.insert_eq_cons, Multiset.map_cons, Multiset.map_singleton,
+      Multiset.sum_cons, Multiset.sum_singleton, hf] at hS
+    have hsum2 : (a : ℚ)⁻¹ + (b : ℚ)⁻¹ = 2 * N := by linarith
+    have hAgeN : N ≤ (a : ℚ)⁻¹ := by
+      rw [hN]; exact inv_mono a n (by omega) (Nat.le_of_dvd hnpos hadvd)
+    have hBgeN : N ≤ (b : ℚ)⁻¹ := by
+      rw [hN]; exact inv_mono b n (by omega) (Nat.le_of_dvd hnpos hbdvd)
+    have hAeq : (a : ℚ)⁻¹ = N := by linarith
+    have hBeq : (b : ℚ)⁻¹ = N := by linarith
+    have ha_eq : a = n := by
+      have h := hAeq; rw [hN] at h
+      have : (a : ℚ) = (n : ℚ) := inv_injective h
+      exact_mod_cast this
+    have hb_eq : b = n := by
+      have h := hBeq; rw [hN] at h
+      have : (b : ℚ) = (n : ℚ) := inv_injective h
+      exact_mod_cast this
+    left; rw [ha_eq, hb_eq]
+  · -- Three poles: sort the multiset to argue on `a ≤ b ≤ c`.
+    have hl_len : (m.sort (· ≤ ·)).length = 3 := by rw [Multiset.length_sort]; exact h3
+    have hl_sorted : (m.sort (· ≤ ·)).Pairwise (· ≤ ·) := Multiset.pairwise_sort m (· ≤ ·)
+    have hl_coe : (↑(m.sort (· ≤ ·)) : Multiset ℕ) = m := Multiset.sort_eq m (· ≤ ·)
+    obtain ⟨a, b, c, hl⟩ := List.length_eq_three.mp hl_len
+    rw [hl] at hl_sorted hl_coe
+    rw [List.pairwise_cons] at hl_sorted
+    obtain ⟨ha_all, hl_sorted⟩ := hl_sorted
+    rw [List.pairwise_cons] at hl_sorted
+    obtain ⟨hb_all, _⟩ := hl_sorted
+    have hab : a ≤ b := ha_all b (by simp)
+    have hbc : b ≤ c := hb_all c (by simp)
+    have hm_eq : m = {a, b, c} := by rw [← hl_coe]; rfl
+    have hmem_a : a ∈ m := by rw [hm_eq]; simp
+    have hmem_b : b ∈ m := by rw [hm_eq]; simp
+    have hmem_c : c ∈ m := by rw [hm_eq]; simp
+    have ha2 : 2 ≤ a := hm2 a hmem_a
+    have hb2 : 2 ≤ b := hm2 b hmem_b
+    have hc2 : 2 ≤ c := hm2 c hmem_c
+    rw [hm_eq] at hS
+    simp only [Multiset.insert_eq_cons, Multiset.map_cons, Multiset.map_singleton,
+      Multiset.sum_cons, Multiset.sum_singleton, hf] at hS
+    have habc : (a : ℚ)⁻¹ + (b : ℚ)⁻¹ + (c : ℚ)⁻¹ = 1 + 2 * N := by linarith
+    -- The smallest pole order is `2`.
+    have ha_eq : a = 2 := by
+      by_contra hne
+      have ha3 : 3 ≤ a := by omega
+      have hb3 : 3 ≤ b := le_trans ha3 hab
+      have hc3 : 3 ≤ c := le_trans hb3 hbc
+      have hA : (a : ℚ)⁻¹ ≤ 1 / 3 :=
+        le_trans (inv_mono 3 a (by norm_num) ha3) (by norm_num)
+      have hB : (b : ℚ)⁻¹ ≤ 1 / 3 :=
+        le_trans (inv_mono 3 b (by norm_num) hb3) (by norm_num)
+      have hC : (c : ℚ)⁻¹ ≤ 1 / 3 :=
+        le_trans (inv_mono 3 c (by norm_num) hc3) (by norm_num)
+      linarith
+    subst ha_eq
+    have h2inv : ((2 : ℕ) : ℚ)⁻¹ = 1 / 2 := by norm_num
+    have hBC : (b : ℚ)⁻¹ + (c : ℚ)⁻¹ = 1 / 2 + 2 * N := by linarith [habc, h2inv]
+    -- The middle pole order is `2` or `3`.
+    have hb_lt : b < 4 := by
+      by_contra hbb
+      rw [not_lt] at hbb
+      have hc4 : 4 ≤ c := le_trans hbb hbc
+      have hB : (b : ℚ)⁻¹ ≤ 1 / 4 :=
+        le_trans (inv_mono 4 b (by norm_num) hbb) (by norm_num)
+      have hC : (c : ℚ)⁻¹ ≤ 1 / 4 :=
+        le_trans (inv_mono 4 c (by norm_num) hc4) (by norm_num)
+      linarith
+    interval_cases b
+    · -- Dihedral family: `1/c = 2/n`, i.e. `n = 2c`.
+      have hCval : (c : ℚ)⁻¹ = 2 * N := by linarith [hBC, h2inv]
+      have hcpos : (0 : ℚ) < (c : ℚ) := by exact_mod_cast (show 0 < c by omega)
+      have hcne : (c : ℚ) ≠ 0 := ne_of_gt hcpos
+      rw [hN] at hCval
+      have hnc : (n : ℚ) = 2 * c := by
+        field_simp at hCval
+        linarith [hCval]
+      have : n = 2 * c := by exact_mod_cast hnc
+      right; left; exact ⟨c, this, hm_eq⟩
+    · -- One degree-`3` pole: `1/c = 1/6 + 2/n`, giving `c ∈ {3,4,5}`.
+      have h3inv : ((3 : ℕ) : ℚ)⁻¹ = 1 / 3 := by norm_num
+      have hCval2 : (c : ℚ)⁻¹ = 1 / 6 + 2 * N := by linarith [hBC, h3inv]
+      have hc_ge : 3 ≤ c := by omega
+      have hc_lt : c < 6 := by
+        by_contra hcc
+        rw [not_lt] at hcc
+        have hC6 : (c : ℚ)⁻¹ ≤ 1 / 6 :=
+          le_trans (inv_mono 6 c (by norm_num) hcc) (by norm_num)
+        linarith
+      interval_cases c
+      · right; right; left; exact hm_eq
+      · right; right; right; left; exact hm_eq
+      · right; right; right; right; exact hm_eq
 
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
