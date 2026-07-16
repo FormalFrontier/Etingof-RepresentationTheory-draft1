@@ -90,6 +90,26 @@ instantiate `p := SpechtModule n la` (`hp := rfl`), `q := rowColIdeal n la*`, so
 endpoints are the *named* ideals and every equivariance `rw` matches syntactically; membership
 obligations inside then open with `rw [hp]`/`rw [hq]` to expose the span.
 
+**`Representation.asModule` is a non-reducible `def` wrapping the vector space `V`, so its
+elements do NOT auto-coerce (no `↑m : Fin 3 → k`, no `m.val`, no `m.2`) and instances like
+`Nontrivial`/`CharP` won't be found on it.** Cost real iterations in #6852
+(`Chapter9/Problem9_5_3_S3Char2.lean`, `eStd_smul_triv`/`eStd_smul_std`). Fixes: (a) to reach the
+underlying value/membership, type-ascribe to the concrete carrier — `set v : (subrep).toSubmodule
+:= m` (defeq via `set`), then `↑v`/`v.2` work; (b) note that `ρ g m` already has the *transparent*
+codomain type (the submodule, not `asModule`), so `(ρ g m : Fin 3 → k)` coerces fine — push the
+action through first; (c) for char-2 `m + m = 0` on an `asModule`, do it on the **scalar** side
+(`rw [← two_smul k m, CharTwo.two_eq_zero, zero_smul]`) rather than invoking
+`CharTwo.add_self_eq_zero` (which needs an `AddMonoidWithOne`/`CharP` instance on the opaque
+`asModule`); (d) `Representation.asModuleEquiv` is `LinearEquiv.refl`, so `asModuleEquiv m` is defeq
+`m` — a `have key : single g 1 • m = ρ g m := by rw [Representation.single_smul, one_smul]; rfl`
+bridges `single_smul` to the plain action.
+
+**`fin_cases i` (and `Fin.cases`) emit the literal as `⟨0, ⋯⟩` (`Fin.mk`), which `rw`/`simp` keyed
+on `(0 : Fin 3)` (an `OfNat`) cannot match** — "did not find pattern" even though they're defeq.
+Same #6852. Fix: open each branch with `change <goal with (0 : Fin 3)/(1 : Fin 3)/(2 : Fin 3)>` to
+restate at the `OfNat` literals (defeq, so `change` accepts), *then* `rw`/`decide`-facts match.
+Prefer `change` over `show` here (the linter flags `show` for non-readability goal changes).
+
 **Heavy category-theory objects (total complexes / coproducts) make `isDefEq`, `whnf`, and
 typeclass search blow up — unfold *one step short* and finish by hand.** Cost real iterations in
 #6683 (`Chapter8/ExternalTensorResolution.lean`, `Projective ((mapBifunctor …).total.X n)`). Two

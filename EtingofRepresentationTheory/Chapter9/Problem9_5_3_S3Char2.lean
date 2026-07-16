@@ -280,18 +280,174 @@ theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
     Nonempty (S ≅ trivMod k) ∨ Nonempty (S ≅ stdMod k) := by
   sorry
 
-/-- **The two blocks are distinct.** The trivial and standard simples are *not* linked, so they
-lie in different blocks — the principal block and a defect-`0` block respectively. This is exactly
-the statement that `k[S₃]` has (at least) two blocks. -/
+/-! ## Block separation via the `3`-cycle class sum
+
+The class sum `e = (123) + (132)` of the two `3`-cycles is a **central idempotent** of `k[S₃]` in
+characteristic `2`. It acts as `0` on the trivial simple (each group element acts as `1`, and
+`1 + 1 = 0`) and as the identity on the standard simple (on a sum-zero vector `v`,
+`ρ c · v + ρ c² · v = -v = v`). The two simples therefore have different central characters and lie
+in different blocks. -/
+
+/-- A fixed `3`-cycle of `S₃`, realized as `finRotate 3` (`0 ↦ 1 ↦ 2 ↦ 0`). -/
+def thc : S3 := finRotate 3
+
+/-- The class sum `e = (123) + (132)` of the two `3`-cycles, as an element of `k[S₃]`. -/
+noncomputable def eStd : MonoidAlgebra k S3 :=
+  MonoidAlgebra.single thc 1 + MonoidAlgebra.single (thc ^ 2) 1
+
+/-- `e` is idempotent: `e² = e`. The cross terms `c·c² = c²·c = 1` contribute `1 + 1 = 0`, while
+`c·c = c²` and `c²·c² = c` reproduce `e`. -/
+lemma eStd_isIdempotent : IsIdempotentElem (eStd k) := by
+  have p1 : (thc * thc : S3) = thc ^ 2 := by rw [← sq]
+  have p2 : (thc * thc ^ 2 : S3) = 1 := by decide
+  have p3 : (thc ^ 2 * thc : S3) = 1 := by decide
+  have p4 : (thc ^ 2 * thc ^ 2 : S3) = thc := by decide
+  have h0 : MonoidAlgebra.single (1 : S3) (1 : k) + MonoidAlgebra.single (1 : S3) 1 = 0 := by
+    rw [← MonoidAlgebra.single_add, CharTwo.add_self_eq_zero, MonoidAlgebra.single_zero]
+  change eStd k * eStd k = eStd k
+  have expand : eStd k * eStd k =
+      MonoidAlgebra.single (thc * thc) (1 : k) + MonoidAlgebra.single (thc * thc ^ 2) 1
+        + (MonoidAlgebra.single (thc ^ 2 * thc) 1
+          + MonoidAlgebra.single (thc ^ 2 * thc ^ 2) 1) := by
+    rw [eStd, add_mul, mul_add, mul_add, MonoidAlgebra.single_mul_single,
+      MonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single,
+      MonoidAlgebra.single_mul_single]
+    simp only [mul_one]
+  rw [expand, p1, p2, p3, p4, eStd]
+  calc MonoidAlgebra.single (thc ^ 2) (1 : k) + MonoidAlgebra.single 1 1
+          + (MonoidAlgebra.single 1 1 + MonoidAlgebra.single thc 1)
+        = MonoidAlgebra.single thc 1 + MonoidAlgebra.single (thc ^ 2) 1
+          + (MonoidAlgebra.single (1 : S3) 1 + MonoidAlgebra.single 1 1) := by abel
+    _ = MonoidAlgebra.single thc 1 + MonoidAlgebra.single (thc ^ 2) 1 + 0 := by rw [h0]
+    _ = MonoidAlgebra.single thc 1 + MonoidAlgebra.single (thc ^ 2) 1 := by rw [add_zero]
+
+omit [CharP k 2] in
+/-- `e` commutes with every `single g 1`: conjugation by `g` permutes the `3`-cycle class
+`{c, c²}`, so `e` is fixed. -/
+lemma eStd_comm_single (g : S3) :
+    eStd k * MonoidAlgebra.single g 1 = MonoidAlgebra.single g 1 * eStd k := by
+  have hcomm : ∀ g : S3,
+      (thc * g = g * thc ∧ thc ^ 2 * g = g * thc ^ 2) ∨
+      (thc * g = g * thc ^ 2 ∧ thc ^ 2 * g = g * thc) := by decide
+  rw [eStd, add_mul, mul_add, MonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single,
+    MonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single]
+  simp only [mul_one]
+  rcases hcomm g with ⟨h1, h2⟩ | ⟨h1, h2⟩
+  · rw [h1, h2]
+  · rw [h1, h2, add_comm]
+
+omit [CharP k 2] in
+/-- `e` is central in `k[S₃]`. -/
+lemma eStd_central (y : MonoidAlgebra k S3) : eStd k * y = y * eStd k := by
+  induction y using MonoidAlgebra.induction_on with
+  | hM g => rw [MonoidAlgebra.of_apply]; exact eStd_comm_single k g
+  | hadd a b ha hb => rw [mul_add, add_mul, ha, hb]
+  | hsmul r a ha => rw [mul_smul_comm, ha, smul_mul_assoc]
+
+/-- `e`, packaged as a central idempotent of `k[S₃]`. -/
+noncomputable def eStdCI : Etingof.Problem953.CentralIdempotent (MonoidAlgebra k S3) :=
+  ⟨eStd k, eStd_isIdempotent k, eStd_central k⟩
+
+/-- `e` acts as `0` on the trivial simple: each `g` acts as `1`, and `1 + 1 = 0` in char `2`. -/
+lemma eStd_smul_triv (m : (trivRepr k).asModule) : eStd k • m = 0 := by
+  have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
+  have hg : ∀ g : S3, MonoidAlgebra.single g (1 : k) • m = m := by
+    intro g
+    rw [Representation.single_smul, one_smul, trivRepr, Representation.trivial_apply]
+    rfl
+  rw [eStd, add_smul, hg, hg, ← two_smul k m, h2, zero_smul]
+
+/-- `e` acts as the identity on the standard simple: for a sum-zero vector `v`,
+`v (c⁻¹ i) + v (c⁻² i) = -v i = v i` at each coordinate. -/
+lemma eStd_smul_std (m : (stdRepr k).asModule) : eStd k • m = m := by
+  set v : (stdSubr k).toSubmodule := m with hv
+  have hsum : (v : Fin 3 → k) 0 + (v : Fin 3 → k) 1 + (v : Fin 3 → k) 2 = 0 := by
+    have hm := v.2
+    simpa only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three] using hm
+  have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
+  have key : ∀ g : S3, MonoidAlgebra.single g (1 : k) • m = stdRepr k g v := by
+    intro g; rw [Representation.single_smul, one_smul]; rfl
+  have coe_std : ∀ (g : S3) (i : Fin 3),
+      ((stdRepr k g v : (stdSubr k).toSubmodule) : Fin 3 → k) i
+        = (v : Fin 3 → k) (g⁻¹ i) := fun g i => rfl
+  obtain ⟨a0, a1, a2, b0, b1, b2⟩ :
+      thc⁻¹ (0 : Fin 3) = 2 ∧ thc⁻¹ (1 : Fin 3) = 0 ∧ thc⁻¹ (2 : Fin 3) = 1 ∧
+      (thc ^ 2)⁻¹ (0 : Fin 3) = 1 ∧ (thc ^ 2)⁻¹ (1 : Fin 3) = 2 ∧
+      (thc ^ 2)⁻¹ (2 : Fin 3) = 0 := by decide
+  rw [eStd, add_smul, key, key]
+  refine Subtype.ext (funext fun i => ?_)
+  rw [Submodule.coe_add, Pi.add_apply, coe_std, coe_std]
+  fin_cases i
+  · change (v : Fin 3 → k) (thc⁻¹ 0) + (v : Fin 3 → k) ((thc ^ 2)⁻¹ 0) = (v : Fin 3 → k) 0
+    rw [a0, b0]; linear_combination hsum - (v : Fin 3 → k) 0 * h2
+  · change (v : Fin 3 → k) (thc⁻¹ 1) + (v : Fin 3 → k) ((thc ^ 2)⁻¹ 1) = (v : Fin 3 → k) 1
+    rw [a1, b1]; linear_combination hsum - (v : Fin 3 → k) 1 * h2
+  · change (v : Fin 3 → k) (thc⁻¹ 2) + (v : Fin 3 → k) ((thc ^ 2)⁻¹ 2) = (v : Fin 3 → k) 2
+    rw [a2, b2]; linear_combination hsum - (v : Fin 3 → k) 2 * h2
+
 theorem not_areLinked_triv_std :
     ¬ Etingof.AreLinked (MonoidAlgebra k S3) (trivMod k) (stdMod k) := by
-  sorry
+  intro h
+  have key := Etingof.Problem953.actsAsId_iff_of_areLinked (MonoidAlgebra k S3) (eStdCI k) h
+  have hstd : ∀ m : (stdMod k : Type), (eStdCI k).1 • m = m := eStd_smul_std k
+  have htriv : ∀ m : (trivMod k : Type), (eStdCI k).1 • m = m := key.mpr hstd
+  haveI : Nontrivial (trivMod k : Type) := inferInstanceAs (Nontrivial k)
+  obtain ⟨x, hx⟩ := exists_ne (0 : (trivMod k : Type))
+  exact hx ((htriv x).symm.trans (eStd_smul_triv k x))
 
 /-- **`k[S₃]` has exactly two blocks** in characteristic `2`: the linkage classes of simple
 modules form a two-element set, represented by the trivial and standard simples. -/
 theorem block_card_eq_two :
     Nat.card (Etingof.Block.{0} (MonoidAlgebra k S3)) = 2 := by
-  sorry
+  classical
+  have htriv : IsSimpleModule (MonoidAlgebra k S3) (trivMod k) := trivMod_isSimpleModule k
+  have hstd : IsSimpleModule (MonoidAlgebra k S3) (stdMod k) := stdMod_isSimpleModule k
+  -- The two representatives have opposite central characters at `e = (123)+(132)`.
+  have cc_triv :
+      Etingof.Problem953.centralCharacter (MonoidAlgebra k S3) htriv (eStdCI k) = false := by
+    rw [Etingof.Problem953.centralCharacter_eq_false_iff]; exact eStd_smul_triv k
+  have cc_std :
+      Etingof.Problem953.centralCharacter (MonoidAlgebra k S3) hstd (eStdCI k) = true := by
+    rw [Etingof.Problem953.centralCharacter_eq_true_iff]; exact eStd_smul_std k
+  -- The central character is invariant under isomorphism of simples.
+  have cc_iso : ∀ {X Y : ModuleCat.{0} (MonoidAlgebra k S3)}
+      (hX : IsSimpleModule (MonoidAlgebra k S3) X) (hY : IsSimpleModule (MonoidAlgebra k S3) Y),
+      Nonempty (X ≅ Y) →
+      Etingof.Problem953.centralCharacter (MonoidAlgebra k S3) hX (eStdCI k)
+        = Etingof.Problem953.centralCharacter (MonoidAlgebra k S3) hY (eStdCI k) := by
+    rintro X Y hX hY ⟨e⟩
+    exact Etingof.Problem953.centralCharacter_eq_of_areLinked (MonoidAlgebra k S3) hX hY _
+      (Etingof.areLinked_of_iso (MonoidAlgebra k S3) hX hY e)
+  -- The invariant descends to blocks: `f ⟦S⟧ = centralCharacter S`.
+  set g : Etingof.SimpleObj.{0} (MonoidAlgebra k S3) → Bool := fun S =>
+    Etingof.Problem953.centralCharacter (MonoidAlgebra k S3) S.2 (eStdCI k) with hg_def
+  have hg : ∀ a b : Etingof.SimpleObj.{0} (MonoidAlgebra k S3),
+      (Etingof.blockSetoid (MonoidAlgebra k S3)).r a b → g a = g b :=
+    fun a b hab =>
+      Etingof.Problem953.centralCharacter_eq_of_areLinked (MonoidAlgebra k S3) a.2 b.2 _ hab
+  set f : Etingof.Block.{0} (MonoidAlgebra k S3) → Bool := Quotient.lift g hg with hf_def
+  -- `f` is a bijection onto `Bool`.
+  have hsurj : Function.Surjective f := by
+    intro b
+    cases b
+    · exact ⟨Quotient.mk _ ⟨trivMod k, htriv⟩, cc_triv⟩
+    · exact ⟨Quotient.mk _ ⟨stdMod k, hstd⟩, cc_std⟩
+  have hinj : Function.Injective f := by
+    intro x y hxy
+    obtain ⟨a, rfl⟩ := Quotient.exists_rep x
+    obtain ⟨b, rfl⟩ := Quotient.exists_rep y
+    refine Quotient.sound (show Etingof.AreLinked (MonoidAlgebra k S3) a.1 b.1 from ?_)
+    have hab' : g a = g b := hxy
+    rcases simple_iff_triv_or_std k a.1 a.2 with ha | ha <;>
+      rcases simple_iff_triv_or_std k b.1 b.2 with hb | hb
+    · exact Etingof.areLinked_of_iso _ a.2 b.2 (ha.some ≪≫ hb.some.symm)
+    · exact absurd (((cc_iso a.2 htriv ha).trans cc_triv).symm.trans
+        (hab'.trans ((cc_iso b.2 hstd hb).trans cc_std))) (by decide)
+    · exact absurd (((cc_iso a.2 hstd ha).trans cc_std).symm.trans
+        (hab'.trans ((cc_iso b.2 htriv hb).trans cc_triv))) (by decide)
+    · exact Etingof.areLinked_of_iso _ a.2 b.2 (ha.some ≪≫ hb.some.symm)
+  rw [Nat.card_congr (Equiv.ofBijective f ⟨hinj, hsurj⟩), Nat.card_eq_fintype_card,
+    Fintype.card_bool]
 
 /-- **The block decomposition of `k[S₃]` in characteristic `2`:**
 `k[S₃] ≅ M₂(k) × k[t]/(t²)` as `k`-algebras. The matrix factor `M₂(k)` (dimension `4`) is the
