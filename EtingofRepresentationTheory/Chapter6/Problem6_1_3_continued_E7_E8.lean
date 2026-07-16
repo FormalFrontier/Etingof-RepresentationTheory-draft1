@@ -420,10 +420,107 @@ theorem isDynkinDiagram_isTree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
 
 /-! ## Part (d): degree restrictions on a Dynkin diagram -/
 
-/-- **(d)** A Dynkin diagram has no vertex with four or more incident edges. -/
+/-- **(d)** A Dynkin diagram has no vertex with four or more incident edges.
+
+If `v` had degree `≥ 4`, pick four distinct neighbours `S` and test positive
+definiteness against the affine-star vector `x = 2·e_v + ∑_{j∈S} e_j`. For every
+vertex `i` the term `xᵢ·(A x)ᵢ` is nonpositive: it is `2·0 = 0` at the centre `v`
+(row sum `2·2 - 4 = 0`), and at each leaf `j ∈ S` it is `1·(2 - 2 - ∑ adjⱼ) ≤ 0`
+because the residual neighbour sum is nonnegative. Hence `xᵀA x ≤ 0`, contradicting
+`0 < xᵀA x`. The bound needs only that off-diagonal entries `-adj ≤ 0`, so no
+tree/no-cycle input is required. -/
 theorem isDynkinDiagram_degree_le_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v : Fin n) : vertexDegree adj v ≤ 3 := by
-  sorry
+  by_contra hdeg
+  push_neg at hdeg
+  simp only [vertexDegree] at hdeg
+  obtain ⟨hsymm, hdiag, h01, _hconn, hpos⟩ := hD
+  set N := univ.filter (fun j => adj v j = 1) with hN_def
+  have hNcard : 4 ≤ N.card := hdeg
+  obtain ⟨S, hSN, hScard⟩ := Finset.exists_subset_card_eq hNcard
+  -- Structural facts about the chosen neighbour set `S`.
+  have hvnotN : v ∉ N := by
+    rw [hN_def]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    rw [hdiag v]; norm_num
+  have hvnotS : v ∉ S := fun h => hvnotN (hSN h)
+  have hSadjv : ∀ j ∈ S, adj v j = 1 := by
+    intro j hj
+    have hjN := hSN hj
+    rw [hN_def, Finset.mem_filter] at hjN
+    exact hjN.2
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h
+    exact h
+  have hnn : ∀ a b, 0 ≤ adj a b := fun a b => by
+    rcases h01 a b with h | h <;> rw [h] <;> norm_num
+  -- The affine-star test vector.
+  set x : Fin n → ℤ := fun j => 2 * (if j = v then 1 else 0) + (if j ∈ S then 1 else 0)
+    with hx_def
+  have hxv : x v = 2 := by simp [hx_def, hvnotS]
+  have hxS : ∀ i ∈ S, x i = 1 := by
+    intro i hi
+    have hiv : i ≠ v := fun h => hvnotS (h ▸ hi)
+    simp [hx_def, hiv, hi]
+  set A := 2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj with hA_def
+  have hone : ∀ i j : Fin n, (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = if i = j then 2 else 0 := by
+    intro i j
+    simp only [Matrix.smul_apply, Matrix.one_apply, two_nsmul]
+    split_ifs <;> norm_num
+  -- Row sum of the adjacency matrix against `x`.
+  have hrow : ∀ i, ∑ j, adj i j * x j = 2 * adj i v + ∑ j ∈ S, adj i j := by
+    intro i
+    have expand : ∀ j, adj i j * x j
+        = 2 * (if j = v then adj i j else 0) + (if j ∈ S then adj i j else 0) := by
+      intro j
+      simp only [hx_def]
+      rw [mul_add]
+      congr 1
+      · split_ifs <;> ring
+      · split_ifs <;> ring
+    simp only [expand, Finset.sum_add_distrib]
+    congr 1
+    · rw [← Finset.mul_sum, Finset.sum_ite_eq']; simp
+    · rw [Finset.sum_ite_mem, Finset.univ_inter]
+  -- Row sum of the full Cartan matrix against `x`.
+  have hAx : ∀ i, (A.mulVec x) i = 2 * x i - ∑ j, adj i j * x j := by
+    intro i
+    have hentry : ∀ j, A i j * x j = (if i = j then 2 else 0) * x j - adj i j * x j := by
+      intro j; rw [hA_def, Matrix.sub_apply, hone, sub_mul]
+    simp only [Matrix.mulVec, dotProduct, hentry, Finset.sum_sub_distrib]
+    congr 1
+    simp only [ite_mul, zero_mul]
+    rw [Finset.sum_ite_eq]; simp
+  -- Every diagonal contribution `xᵢ · (A x)ᵢ` is nonpositive.
+  have hterm : ∀ i, x i * (A.mulVec x) i ≤ 0 := by
+    intro i
+    rw [hAx i, hrow i]
+    by_cases hiv : i = v
+    · subst hiv
+      rw [hxv, hdiag i]
+      have hsum : ∑ j ∈ S, adj i j = 4 := by
+        rw [Finset.sum_congr rfl hSadjv]
+        simp [Finset.sum_const, hScard]
+      rw [hsum]; norm_num
+    · by_cases hiS : i ∈ S
+      · rw [hxS i hiS]
+        have hiv1 : adj i v = 1 := by rw [hsymm' i v]; exact hSadjv i hiS
+        rw [hiv1]
+        have hnnsum : 0 ≤ ∑ j ∈ S, adj i j := Finset.sum_nonneg (fun j _ => hnn i j)
+        nlinarith [hnnsum]
+      · have hx0 : x i = 0 := by simp only [hx_def, if_neg hiv, if_neg hiS, mul_zero, add_zero]
+        rw [hx0]; simp
+  -- Assemble: `xᵀ A x ≤ 0`, contradicting positive definiteness.
+  have hnonpos : dotProduct x (A.mulVec x) ≤ 0 := by
+    simp only [dotProduct]
+    exact Finset.sum_nonpos (fun i _ => hterm i)
+  have hxne : x ≠ 0 := by
+    intro h
+    have hv0 : x v = 0 := by rw [h]; rfl
+    rw [hxv] at hv0; norm_num at hv0
+  have := hpos x hxne
+  linarith
 
 /-- **(d)** A Dynkin diagram has at most one vertex of degree three (at most one
 branch point). -/
