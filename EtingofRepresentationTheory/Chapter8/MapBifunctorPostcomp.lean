@@ -196,4 +196,28 @@ noncomputable def mapBifunctorPostcompIso :
 
 end Iso
 
+section Smoke
+
+open scoped TensorProduct
+open ComplexShape
+
+variable {k : Type u} [CommRing k]
+variable {A₁ A₂ : Type u} [Ring A₁] [Ring A₂] [Algebra k A₁] [Algebra k A₂]
+variable (N : Type u) [AddCommGroup N] [Module (A₁ ⊗[k] A₂) N]
+variable (K₁ : HomologicalComplex (ModuleCat.{u} A₁ᵐᵒᵖ) (down ℕ))
+  (K₂ : HomologicalComplex (ModuleCat.{u} A₂ᵐᵒᵖ) (down ℕ))
+
+/-- Smoke instantiation for Problem 8.2.8 (`Tor`), route step 3: the `k`-linear tensor-right functor
+`G = tensorRightFunctorₖ` commutes with the external-tensor total complex
+`mapBifunctor … (extTensorFunctor …) (down ℕ)`. Consumed directly by the four-fold rearrangement. -/
+noncomputable example :
+    ((tensorRightFunctorₖ k (A₁ ⊗[k] A₂) N).mapHomologicalComplex (down ℕ)).obj
+        (HomologicalComplex.mapBifunctor K₁ K₂ (extTensorFunctor k A₁ A₂) (down ℕ)) ≅
+      HomologicalComplex.mapBifunctor K₁ K₂
+        (postcompBifunctor (extTensorFunctor k A₁ A₂) (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) N))
+        (down ℕ) :=
+  mapBifunctorPostcompIso K₁ K₂ (extTensorFunctor k A₁ A₂) (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) N)
+
+end Smoke
+
 end Etingof
