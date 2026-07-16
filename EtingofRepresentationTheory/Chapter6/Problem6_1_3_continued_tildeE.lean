@@ -1262,6 +1262,93 @@ lemma affine_properInduced_finiteDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) 
   (dynkin_classification m (adj.submatrix e e) hm).mp
     (affine_properInduced_isDynkin adj hn hD e he hv hconn)
 
+/-- **Affine degree bound.** In an affine Dynkin diagram every vertex has degree
+at most `4`. This mirrors the finite `dynkin_degree_le_three`, but uses the
+*semidefinite* (rather than definite) form: the test vector `x = 2·eᵢ + Σ_{j∼i} eⱼ`
+gives `B(x, x) = 2·(4 − deg i)`, which must be `≥ 0`, so `deg i ≤ 4`. The extremal
+value `deg = 4` is realised only by the `D̃₄` star. -/
+lemma affine_vertexDegree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hD : IsAffineDynkinDiagram n adj) (i : Fin n) :
+    Etingof.Problem6_1_3_E7E8.vertexDegree adj i ≤ 4 := by
+  by_contra hge; rw [not_le] at hge
+  obtain ⟨hsymm, hdiag, h01, _, hpos, _⟩ := hD
+  -- Extract 5 neighbours of `i`.
+  set N := Finset.univ.filter (fun j => adj i j = 1) with hN_def
+  have hcard : 5 ≤ N.card := hge
+  obtain ⟨S, hSsub, hScard⟩ := Finset.exists_subset_card_eq hcard
+  have hi_not_S : i ∉ S := by
+    intro hi; have := (Finset.mem_filter.mp (hSsub hi)).2; linarith [hdiag i]
+  -- Test vector: `2` at `i`, `1` at the five neighbours, `0` elsewhere.
+  set x : Fin n → ℤ := fun j => if j = i then 2 else if j ∈ S then 1 else 0
+  have hx_val_i : x i = 2 := by simp [x]
+  have adj_x_nonneg : ∀ a b, 0 ≤ adj a b * x b := fun a b =>
+    mul_nonneg (by rcases h01 a b with h | h <;> omega)
+      (by simp only [x]; split_ifs <;> omega)
+  have adj_x_S : ∀ b, b ∈ S → adj i b * x b = 1 := by
+    intro b hb
+    have h1 : adj i b = 1 := (Finset.mem_filter.mp (hSsub hb)).2
+    have h2 : x b = 1 := by
+      have : b ≠ i := fun h => hi_not_S (h ▸ hb)
+      simp [x, this, hb]
+    rw [h1, h2, mul_one]
+  -- `Σ_b adj(i,b)·x(b) ≥ 5` (each of the five neighbours contributes `1`).
+  have sum_i_ge : (5 : ℤ) ≤ ∑ b, adj i b * x b := by
+    have hS_sum : ∑ b ∈ S, adj i b * x b = 5 := by
+      rw [show (5 : ℤ) = ∑ _b ∈ S, (1 : ℤ) from by simp [hScard]]
+      exact Finset.sum_congr rfl (fun b hb => adj_x_S b hb)
+    calc (5 : ℤ) = ∑ b ∈ S, adj i b * x b := hS_sum.symm
+      _ ≤ ∑ b, adj i b * x b :=
+          Finset.sum_le_univ_sum_of_nonneg (fun b => adj_x_nonneg i b)
+  -- For each neighbour `a ∈ S`, `Σ_b adj(a,b)·x(b) ≥ 2` (from `adj(a,i)·x(i) = 1·2`).
+  have sum_a_ge : ∀ a, a ∈ S → (2 : ℤ) ≤ ∑ b, adj a b * x b := by
+    intro a ha
+    have ha_adj_i : adj a i = 1 := by
+      have := (Finset.mem_filter.mp (hSsub ha)).2; exact hsymm.apply i a ▸ this
+    have hxi : x i = 2 := by simp [x]
+    have : adj a i * x i = 2 := by rw [ha_adj_i, hxi]; ring
+    calc (2 : ℤ) = adj a i * x i := this.symm
+      _ = ∑ b ∈ ({i} : Finset (Fin n)), adj a b * x b := by simp
+      _ ≤ ∑ b, adj a b * x b :=
+          Finset.sum_le_univ_sum_of_nonneg (fun b => adj_x_nonneg a b)
+  have mulVec_eq : ∀ a, ((2 • (1 : Matrix _ _ ℤ) - adj).mulVec x) a =
+      2 * x a - ∑ b, adj a b * x b := by
+    intro a; simp only [mulVec, dotProduct]
+    rw [show ∑ b, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) a b * x b =
+        ∑ b, (2 * (1 : Matrix _ _ ℤ) a b * x b - adj a b * x b) from
+      Finset.sum_congr rfl (fun b _ => by
+        simp only [Matrix.sub_apply, Matrix.smul_apply]; ring)]
+    rw [Finset.sum_sub_distrib]
+    congr 1
+    rw [show ∑ b, 2 * (1 : Matrix (Fin n) (Fin n) ℤ) a b * x b =
+        ∑ b, if a = b then 2 * x b else 0 from
+      Finset.sum_congr rfl (fun b _ => by
+        simp only [Matrix.one_apply]; split_ifs <;> simp)]
+    simp
+  -- `B(x,x) = Σ_a x(a)·(2·x(a) − Σ_b adj(a,b)·x(b))`.
+  have hBxx : dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x)
+      = ∑ a, x a * (2 * x a - ∑ b, adj a b * x b) := by
+    simp only [dotProduct]
+    exact Finset.sum_congr rfl (fun a _ => by rw [mulVec_eq])
+  -- Split off the centre term `a = i`.
+  have hsplit : (∑ a, x a * (2 * x a - ∑ b, adj a b * x b))
+      = x i * (2 * x i - ∑ b, adj i b * x b)
+        + ∑ a ∈ univ.erase i, x a * (2 * x a - ∑ b, adj a b * x b) :=
+    (Finset.add_sum_erase univ _ (Finset.mem_univ i)).symm
+  -- Centre term `≤ -2`; every other term `≤ 0`.
+  have hi_term : x i * (2 * x i - ∑ b, adj i b * x b) ≤ -2 := by
+    rw [hx_val_i]; nlinarith [sum_i_ge]
+  have hrest : ∑ a ∈ univ.erase i, x a * (2 * x a - ∑ b, adj a b * x b) ≤ 0 := by
+    apply Finset.sum_nonpos; intro a ha
+    rw [Finset.mem_erase] at ha
+    by_cases haS : a ∈ S
+    · have hxa : x a = 1 := by simp only [x]; rw [if_neg ha.1, if_pos haS]
+      rw [hxa]; nlinarith [sum_a_ge a haS]
+    · have hxa : x a = 0 := by simp [x, ha.1, haS]
+      rw [hxa]; simp
+  have hneg : dotProduct x ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec x) ≤ -2 := by
+    rw [hBxx, hsplit]; linarith [hi_term, hrest]
+  linarith [hpos x, hneg]
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
