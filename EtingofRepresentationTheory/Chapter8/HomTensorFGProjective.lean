@@ -184,7 +184,7 @@ noncomputable def homTensorHom :
       map_smul' := fun c f₁ => LinearMap.ext fun f₂ =>
         hom_ext k A₁ A₂ P₁ P₂ N₁ N₂ fun p₁ p₂ => by
           simp only [LinearMap.coe_mk, AddHom.coe_mk, LinearMap.smul_apply, extMap_tmul,
-            LinearMap.map_smul, TensorProduct.smul_tmul', RingHom.id_apply] }
+            TensorProduct.smul_tmul', RingHom.id_apply] }
 
 /-- Evaluation of `homTensorHom` on a simple tensor `f₁ ⊗ f₂` at a simple tensor `p₁ ⊗ p₂`. -/
 @[simp] theorem homTensorHom_tmul_tmul
@@ -292,11 +292,11 @@ theorem homTensorHom_bijective
   rw [Function.bijective_iff_has_inverse]
   refine ⟨fun Φ => S (E.symm (lcompₖ k t_r Φ)), fun x => ?_, fun Φ => ?_⟩
   · -- left inverse
-    show S (E.symm (lcompₖ k t_r (HP x))) = x
+    change S (E.symm (lcompₖ k t_r (HP x))) = x
     rw [lcompₖ_apply, NAT1 x, show Hfree (R x) = E (R x) from rfl,
       LinearEquiv.symm_apply_apply, RETR]
   · -- right inverse
-    show HP (S (E.symm (lcompₖ k t_r Φ))) = Φ
+    change HP (S (E.symm (lcompₖ k t_r Φ))) = Φ
     rw [NAT2 (E.symm (lcompₖ k t_r Φ)),
       show Hfree (E.symm (lcompₖ k t_r Φ)) = E (E.symm (lcompₖ k t_r Φ)) from rfl,
       LinearEquiv.apply_symm_apply, lcompₖ_apply, LinearMap.comp_assoc, RETR', LinearMap.comp_id]
