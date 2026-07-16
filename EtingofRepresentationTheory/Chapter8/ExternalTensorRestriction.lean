@@ -166,4 +166,19 @@ theorem ι_extRestrictComplexXIso_inv (P₁ : ProjectiveResolution M₁) (P₂ :
     CategoryTheory.GradedObject.ιMapObj, Limits.Sigma.ι_mapIso_inv_assoc,
     Limits.ι_comp_sigmaComparison]
 
+/-- Summand behaviour of the forward degreewise iso (the hom-direction companion of
+`ι_extRestrictComplexXIso_inv`). -/
+theorem ι_extRestrictComplexXIso_hom (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ n : ℕ)
+    (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (i₁, i₂) = n) :
+    (resExt k A₁ A₂).map (ιMapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
+        (ComplexShape.down ℕ) i₁ i₂ n h) ≫ (extRestrictComplexXIso P₁ P₂ n).hom =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        ιMapBifunctor (res₁Complex P₁) (res₂Complex P₂) (curriedTensor (ModuleCat.{u} k))
+          (ComplexShape.down ℕ) i₁ i₂ n h := by
+  rw [← cancel_mono (extRestrictComplexXIso P₁ P₂ n).inv, Category.assoc, Category.assoc,
+    Iso.hom_inv_id, Category.comp_id, ι_extRestrictComplexXIso_inv, ← Category.assoc,
+    Iso.hom_inv_id, Category.id_comp]
+
 end Etingof
