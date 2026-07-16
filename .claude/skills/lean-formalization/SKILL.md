@@ -3456,6 +3456,26 @@ If the concrete example fails, the statement has a convention bug. Fix the state
 
 Direct `rw` on dependent types is a recurring friction point. These patterns work:
 
+### `omega` cannot do variable-modulus `% n` or unfold `if-then-else`
+`omega` supports `%`/`/` only by **numeral** divisors. For a *variable* modulus
+`n` (e.g. cyclic adjacency `(i+1) % n = j`, `Fin n` rotation), `omega` treats
+`(m+1) % n` as an opaque atom and fails even on trivial facts like
+`(i+1) % n = i+1` given `i+1 < n`. It also does **not** case-split on
+`if c then _ else _`. Recipe (used for `cycle_cartan_*`, #6745,
+`Chapter6/Problem6_1_3_continued_E7_E8.lean`): first rewrite every mod into an
+`if`-branch form with an explicit helper —
+`have hmod : ∀ m, m < n → (m+1) % n = if m+1 = n then 0 else m+1 := fun m hm => by
+  by_cases h : m+1 = n; · rw [if_pos h, h]; exact Nat.mod_self n;
+  · rw [if_neg h]; exact Nat.mod_eq_of_lt (by omega)` — then `rw [hmod …]` at each
+occurrence and finish with `split_ifs <;> omega` (now pure linear + `ite`
+eliminated). To count the two cyclic neighbours as a `Finset`, show
+`univ.filter P = {⟨(i+1)%n, _⟩, ⟨if i=0 then n-1 else i-1, _⟩}` (predecessor
+written *without* an outer mod so its `.val` stays a raw natural), then
+`Finset.sum_boole` + `Finset.card_pair hab`. Reuse `Fin.val_mk` in the `simp only`
+so `(⟨x,h⟩ : Fin n).val` reduces to `x` before `omega`/`split_ifs`. A nonzero
+kernel vector ⇒ `det = 0` is `Matrix.exists_mulVec_eq_zero_iff` (holds over any
+`[CommRing] [IsDomain]`, so ℤ directly — no need to map through ℚ).
+
 ### Pattern 1: `congrArg` with `Fin.ext` (for Fin-indexed access)
 When you need to rewrite a `Fin` value inside a dependent context (e.g., cycle access, list indexing):
 ```lean
