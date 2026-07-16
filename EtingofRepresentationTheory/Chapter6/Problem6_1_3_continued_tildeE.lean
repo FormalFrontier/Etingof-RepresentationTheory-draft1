@@ -145,7 +145,8 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
   have adj_val : ∀ (a b : Fin (AffineType.Dtilde (m+6) hn).rank),
       (AffineType.Dtilde (m+6) hn).adj a b
         = if min a.val b.val = 0 ∧ max a.val b.val = 2 ∨ min a.val b.val = 1 ∧ max a.val b.val = 2 ∨
-             2 ≤ min a.val b.val ∧ max a.val b.val ≤ (m+6)-2 ∧ min a.val b.val + 1 = max a.val b.val ∨
+             2 ≤ min a.val b.val ∧ max a.val b.val ≤ (m+6)-2
+               ∧ min a.val b.val + 1 = max a.val b.val ∨
              min a.val b.val = (m+6)-2 ∧ max a.val b.val = (m+6)-1 ∨
              min a.val b.val = (m+6)-2 ∧ max a.val b.val = (m+6) then 1 else 0 := fun _ _ => rfl
   have mval : ∀ (j : Fin (AffineType.Dtilde (m+6) hn).rank),
@@ -160,9 +161,12 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
         (fun x _ hx => by rw [adj_val, if_neg]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by rw [mval, if_pos]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
     norm_num
   · -- v = 1 : nbr {2}
     have h2 : (2:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -170,9 +174,12 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
         (fun x _ hx => by rw [adj_val, if_neg]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by rw [mval, if_pos]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
     norm_num
   · -- v = 2 : nbrs {0,1,3}
     have h0 : (0:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -184,13 +191,20 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
                           · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_insert (by simp only [mem_insert, mem_singleton, Fin.ext_iff]; omega),
         Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨0,h0⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).adj i ⟨1,h1⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).adj i ⟨3,h3⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨0,h0⟩ = 1 from by rw [mval, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨1,h1⟩ = 1 from by rw [mval, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨3,h3⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by rw [mval, if_neg]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨0,h0⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨1,h1⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨3,h3⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨0,h0⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨1,h1⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨3,h3⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
+            rw [mval, if_neg]; omega]
     norm_num
   · -- interior : 3 ≤ v ≤ m+3, nbrs {v-1, v+1}
     have hp : (i.val - 1 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -199,11 +213,16 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
         (fun x _ hx => by rw [adj_val, if_neg]; · ring
                           · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val-1,hp⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val+1,hs⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨i.val-1,hp⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨i.val+1,hs⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by rw [mval, if_neg]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val-1,hp⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val+1,hs⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨i.val-1,hp⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨i.val+1,hs⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
+            rw [mval, if_neg]; omega]
     norm_num
   · -- v = m+4 : nbrs {m+3, m+5, m+6}
     have h3 : (m+3 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -215,13 +234,20 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
                           · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_insert (by simp only [mem_insert, mem_singleton, Fin.ext_iff]; omega),
         Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+3,h3⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).adj i ⟨m+5,h5⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).adj i ⟨m+6,h6⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨m+3,h3⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨m+5,h5⟩ = 1 from by rw [mval, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨m+6,h6⟩ = 1 from by rw [mval, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by rw [mval, if_neg]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+3,h3⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨m+5,h5⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨m+6,h6⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+3,h3⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+5,h5⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+6,h6⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
+            rw [mval, if_neg]; omega]
     norm_num
   · -- v = m+5 : nbr {m+4}
     have h4 : (m+4 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -229,9 +255,12 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
         (fun x _ hx => by rw [adj_val, if_neg]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by rw [mval, if_pos]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
     norm_num
   · -- v = m+6 : nbr {m+4}
     have h4 : (m+4 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
@@ -239,9 +268,12 @@ private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dti
         (fun x _ hx => by rw [adj_val, if_neg]; · ring
                           · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
         Finset.sum_singleton]
-    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by rw [adj_val, if_pos]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by rw [mval, if_neg]; (try dsimp only []); omega,
-        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by rw [mval, if_pos]; (try dsimp only []); omega]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
     norm_num
 
 /-- **(e)** The marks span the kernel of the Cartan matrix: `(2·Id - R)·marks = 0`
@@ -266,10 +298,12 @@ theorem cartan_mulVec_marks_eq_zero (t : AffineType) :
       | (m + 6), hn =>
           funext i
           have hrow : ((2 • (1 : Matrix (Fin (AffineType.Dtilde (m+6) hn).rank)
-                (Fin (AffineType.Dtilde (m+6) hn).rank) ℤ) - (AffineType.Dtilde (m+6) hn).adj).mulVec
+                (Fin (AffineType.Dtilde (m+6) hn).rank) ℤ)
+                - (AffineType.Dtilde (m+6) hn).adj).mulVec
               (AffineType.Dtilde (m+6) hn).marks) i
               = 2 * (AffineType.Dtilde (m+6) hn).marks i
-                - ∑ j, (AffineType.Dtilde (m+6) hn).adj i j * (AffineType.Dtilde (m+6) hn).marks j := by
+                - ∑ j, (AffineType.Dtilde (m+6) hn).adj i j
+                    * (AffineType.Dtilde (m+6) hn).marks j := by
             rw [sub_mulVec, smul_mulVec, Matrix.one_mulVec, Pi.sub_apply, Pi.smul_apply]
             simp only [Matrix.mulVec, dotProduct, two_smul, two_mul]
           rw [Pi.zero_apply, hrow, dtilde_key m hn i, sub_self]
