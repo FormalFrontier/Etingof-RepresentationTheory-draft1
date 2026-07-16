@@ -165,32 +165,68 @@ theorem extModuleK_algebraMap_smul (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : Module
   rw [AlgHom.commutes]
   simp [Module.algebraMap_end_apply]
 
-/-- The source-diamond reconciliation isomorphism. The functor object
-`((extTensorRightFunctor …).obj X).obj Y` and `rearrangeComponentIso`'s source share the carrier
-`tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X ⊗[k] Y)`; they differ only in the `Module k` structure (restricted
-through `(A₁⊗A₂)ᵐᵒᵖ` vs the `TensorProduct`-diagonal). The identity carrier map is the iso, `k`-linear
-because the two actions agree on the left factor by `extModuleK_algebraMap_smul`. -/
-noncomputable def rearrangeSourceIso (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+/-- The source-diamond reconciliation as a `k`-linear equivalence: the identity on the shared
+carrier `tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X ⊗[k] Y)`, from the functor object's `Module k` (restricted
+through `(A₁⊗A₂)ᵐᵒᵖ`) to the `TensorProduct`-diagonal `Module k` used by `rearrangeBidegree`. It is
+`k`-linear because the two actions agree on the left factor by `extModuleK_algebraMap_smul`. -/
+noncomputable def rearrangeSourceEquiv (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+    (((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).obj Y) ≃ₗ[k]
+      tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (X ⊗[k] Y) where
+  toFun z := z
+  map_add' _ _ := rfl
+  map_smul' c z := by
+    induction z using QuotientAddGroup.induction_on with
+    | _ x =>
+      simp only [RingHom.id_apply]
+      induction x using TensorProduct.induction_on with
+      | zero => simp
+      | tmul w n =>
+          simp only [smul_mk, TensorProduct.smul_tmul']
+          exact congrArg (fun v => (QuotientAddGroup.mk (v ⊗ₜ[ℤ] n) :
+            tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (X ⊗[k] Y)))
+            (extModuleK_algebraMap_smul k A₁ A₂ X Y c w)
+      | add a b ha hb =>
+          simp only [QuotientAddGroup.mk_add, smul_add, ha, hb]
+  invFun z := z
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+@[simp] theorem rearrangeSourceEquiv_apply (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ)
+    (z : ((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).obj Y) :
+    rearrangeSourceEquiv k A₁ A₂ N₁ N₂ X Y z = z := rfl
+
+/-! ### The bifunctor component isomorphism -/
+
+include hN in
+/-- The component of the bifunctor natural isomorphism at `(X, Y)`, as a `k`-linear equivalence
+between the actual functor objects: reconcile the source `k`-module diamond
+(`rearrangeSourceEquiv`), then apply milestone (a) `rearrangeBidegree`. The target already matches
+the functor object definitionally (the factor `k`-actions agree). -/
+noncomputable def rearrangeComponentLinEquiv (X : ModuleCat.{u} A₁ᵐᵒᵖ)
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+    (((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).obj Y) ≃ₗ[k]
+      (((factorTensorFunctor k A₁ A₂ N₁ N₂).obj X).obj Y) :=
+  (rearrangeSourceEquiv k A₁ A₂ N₁ N₂ X Y).trans
+    (rearrangeBidegree k A₁ A₂ X Y N₁ N₂ (extTensorFunctor_op_smul_tmul k A₁ A₂ X Y) hN)
+
+include hN in
+@[simp] theorem rearrangeComponentLinEquiv_mk (X : ModuleCat.{u} A₁ᵐᵒᵖ)
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) (x : X) (y : Y) (n₁ : N₁) (n₂ : N₂) :
+    rearrangeComponentLinEquiv k A₁ A₂ N₁ N₂ hN X Y
+        (QuotientAddGroup.mk ((x ⊗ₜ[k] y) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)))
+      = (QuotientAddGroup.mk (x ⊗ₜ[ℤ] n₁) : tensorOver A₁ N₁ X)
+          ⊗ₜ[k] (QuotientAddGroup.mk (y ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ Y) := by
+  rw [rearrangeComponentLinEquiv, LinearEquiv.trans_apply]
+  exact rearrangeBidegree_mk_tmul k A₁ A₂ X Y N₁ N₂
+    (extTensorFunctor_op_smul_tmul k A₁ A₂ X Y) hN x y n₁ n₂
+
+include hN in
+/-- The component of the bifunctor natural isomorphism at `(X, Y)`, as an iso in `ModuleCat k`
+between the actual functor objects. -/
+noncomputable def rearrangeBifunctorComponentIso (X : ModuleCat.{u} A₁ᵐᵒᵖ)
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
     ((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).obj Y ≅
-      ModuleCat.of k (tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (X ⊗[k] Y)) :=
-  LinearEquiv.toModuleIso
-    { toFun := fun z => z
-      map_add' := fun _ _ => rfl
-      map_smul' := fun c z => by
-        induction z using QuotientAddGroup.induction_on with
-        | _ x =>
-          simp only [RingHom.id_apply]
-          induction x using TensorProduct.induction_on with
-          | zero => simp
-          | tmul w n =>
-              simp only [smul_mk, TensorProduct.smul_tmul']
-              exact congrArg (fun v => (QuotientAddGroup.mk (v ⊗ₜ[ℤ] n) :
-                tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (X ⊗[k] Y)))
-                (extModuleK_algebraMap_smul k A₁ A₂ X Y c w)
-          | add a b ha hb =>
-              simp only [QuotientAddGroup.mk_add, smul_add, ha, hb]
-      invFun := fun z => z
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl }
+      ((factorTensorFunctor k A₁ A₂ N₁ N₂).obj X).obj Y :=
+  (rearrangeComponentLinEquiv k A₁ A₂ N₁ N₂ hN X Y).toModuleIso
 
 end Etingof
