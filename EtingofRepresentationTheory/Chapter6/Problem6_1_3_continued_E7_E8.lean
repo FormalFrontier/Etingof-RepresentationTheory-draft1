@@ -45,12 +45,115 @@ adjacency matrix `adj`. -/
 def vertexDegree {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (v : Fin n) : ℕ :=
   (univ.filter (fun j => adj v j = 1)).card
 
-/-! ## Part (a): determinants of `Aₙ` and `Dₙ`, and they are Dynkin diagrams -/
+/-! ## Part (a): determinants of `Aₙ` and `Dₙ`, and they are Dynkin diagrams
+
+The book strategy for `Aₙ` is "row decomposition + recursive equation". Concretely,
+the `Aₙ` Cartan matrix is the tridiagonal `(2, -1)` matrix, and expanding the cofactor
+along the first row (twice) gives the classical continuant recursion
+`det(Aₙ₊₂) = 2·det(Aₙ₊₁) − det(Aₙ)`, whose solution with `det(A₁) = 2`, `det(A₂) = 3`
+is `det(Aₙ) = n + 1`. For `Dₙ`, peeling the pendant fork vertex reduces to `Aₖ`
+determinants and yields the constant `4`.
+
+To run the induction without the `1 ≤ n` proof obligation cluttering the index
+arithmetic, we work with a bare tridiagonal matrix `pathCartan n` (defined for every
+`n`) and only relate it back to the `DynkinType.A` Cartan matrix at the very end.
+-/
+
+/-- The bare `Aₙ` Cartan matrix: the tridiagonal matrix with `2` on the diagonal and
+`-1` on the two off-diagonals, defined for every `n` with no `DynkinType` wrapper. -/
+private def pathCartan (n : ℕ) : Matrix (Fin n) (Fin n) ℤ :=
+  fun i j => if i.val = j.val then 2 else if i.val + 1 = j.val ∨ j.val + 1 = i.val then -1 else 0
+
+/-- Diagonal entry of `pathCartan`. -/
+private lemma pathCartan_diag {n : ℕ} {i j : Fin n} (h : i.val = j.val) :
+    pathCartan n i j = 2 := by simp only [pathCartan, if_pos h]
+
+/-- Off-diagonal (adjacent) entry of `pathCartan`. -/
+private lemma pathCartan_offdiag {n : ℕ} {i j : Fin n}
+    (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) : pathCartan n i j = -1 := by
+  have hne : ¬ (i.val = j.val) := by omega
+  simp only [pathCartan, if_neg hne, if_pos h]
+
+/-- Distant (non-adjacent, off-diagonal) entry of `pathCartan`. -/
+private lemma pathCartan_far {n : ℕ} {i j : Fin n} (h1 : ¬ (i.val = j.val))
+    (h2 : ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val)) : pathCartan n i j = 0 := by
+  simp only [pathCartan, if_neg h1, if_neg h2]
+
+/-- The `DynkinType.A` Cartan matrix is exactly the bare tridiagonal `pathCartan`. -/
+private lemma cartan_A_eq_pathCartan (n : ℕ) (hn : 1 ≤ n) :
+    cartan (DynkinType.A n hn) = pathCartan n := by
+  ext i j
+  simp only [cartan, pathCartan, DynkinType.adj, Matrix.sub_apply, two_nsmul,
+    Matrix.add_apply, Matrix.one_apply, Fin.ext_iff]
+  split_ifs <;> omega
+
+/-- Deleting the first row and column of `pathCartan (m+1)` returns `pathCartan m`:
+the tridiagonal structure only depends on index differences. -/
+private lemma pathCartan_submatrix_succ (m : ℕ) :
+    (pathCartan (m + 1)).submatrix Fin.succ Fin.succ = pathCartan m := by
+  ext i j
+  simp only [pathCartan, Matrix.submatrix_apply, Fin.val_succ]
+  split_ifs <;> omega
+
+/-- The second cofactor (the `j = 1` term of the row-`0` expansion): its column `0`
+has a single nonzero entry `-1`, and peeling it off leaves `pathCartan n`, so the
+minor's determinant is `-det(pathCartan n)`. -/
+private lemma det_pathCartan_minor_one (n : ℕ) :
+    ((pathCartan (n + 2)).submatrix Fin.succ (Fin.succ (0 : Fin (n + 1))).succAbove).det
+      = -(pathCartan n).det := by
+  have hz : ∀ i : Fin n,
+      ((pathCartan (n + 2)).submatrix Fin.succ (Fin.succ (0 : Fin (n + 1))).succAbove)
+        (Fin.succ i) 0 = 0 := by
+    intro i
+    rw [Matrix.submatrix_apply, Fin.succ_succAbove_zero]
+    exact pathCartan_far (by simp only [Fin.val_succ, Fin.val_zero]; omega)
+      (by simp only [Fin.val_succ, Fin.val_zero]; omega)
+  have e0 : ((pathCartan (n + 2)).submatrix Fin.succ (Fin.succ (0 : Fin (n + 1))).succAbove)
+      0 0 = -1 := by
+    rw [Matrix.submatrix_apply, Fin.succ_succAbove_zero]
+    exact pathCartan_offdiag (Or.inr (by simp only [Fin.val_succ, Fin.val_zero]))
+  have hsub : ((pathCartan (n + 2)).submatrix Fin.succ
+      (Fin.succ (0 : Fin (n + 1))).succAbove).submatrix Fin.succ Fin.succ = pathCartan n := by
+    ext i j
+    simp only [Matrix.submatrix_apply, Fin.succ_succAbove_succ, Fin.zero_succAbove, pathCartan,
+      Fin.val_succ]
+    split_ifs <;> omega
+  rw [Matrix.det_succ_column_zero, Fin.sum_univ_succ]
+  simp only [hz, mul_zero, zero_mul, Finset.sum_const_zero, add_zero, e0,
+    Fin.val_zero, pow_zero, one_mul, Fin.succAbove_zero, hsub]
+  ring
+
+/-- The continuant recursion `det(pathCartan (n+2)) = 2·det(pathCartan (n+1)) −
+det(pathCartan n)`, obtained by expanding the determinant along the first row. -/
+private lemma det_pathCartan_rec (n : ℕ) :
+    (pathCartan (n + 2)).det = 2 * (pathCartan (n + 1)).det - (pathCartan n).det := by
+  have hz : ∀ j : Fin n, pathCartan (n + 2) 0 (Fin.succ (Fin.succ j)) = 0 := fun j =>
+    pathCartan_far (by simp only [Fin.val_succ, Fin.val_zero]; omega)
+      (by simp only [Fin.val_succ, Fin.val_zero]; omega)
+  have e0 : pathCartan (n + 2) 0 0 = 2 := pathCartan_diag rfl
+  have e1 : pathCartan (n + 2) 0 (Fin.succ 0) = -1 :=
+    pathCartan_offdiag (Or.inl (by simp only [Fin.val_succ, Fin.val_zero]))
+  have hs0 : (pathCartan (n + 2)).submatrix Fin.succ (0 : Fin (n + 2)).succAbove
+      = pathCartan (n + 1) := by
+    rw [Fin.succAbove_zero]; exact pathCartan_submatrix_succ (n + 1)
+  rw [Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.sum_univ_succ]
+  simp only [hz, mul_zero, zero_mul, Finset.sum_const_zero, add_zero, e0, e1, hs0,
+    det_pathCartan_minor_one, Fin.val_zero, Fin.val_succ, zero_add, pow_zero, one_mul]
+  ring
+
+/-- The determinant of the bare tridiagonal `pathCartan n` is `n + 1`, by the
+two-step continuant recursion. -/
+private lemma det_pathCartan : ∀ n : ℕ, (pathCartan n).det = (n : ℤ) + 1
+  | 0 => by simp
+  | 1 => by rw [Matrix.det_fin_one]; norm_num [pathCartan]
+  | (n + 2) => by
+      rw [det_pathCartan_rec, det_pathCartan (n + 1), det_pathCartan n]
+      push_cast; ring
 
 /-- **(a)** `det A = n + 1` for the path graph `Aₙ`. -/
 theorem det_cartan_A (n : ℕ) (hn : 1 ≤ n) :
     (cartan (DynkinType.A n hn)).det = (n : ℤ) + 1 := by
-  sorry
+  rw [cartan_A_eq_pathCartan n hn, det_pathCartan n]
 
 /-- **(a)** `det A = 4` for `Dₙ`. -/
 theorem det_cartan_D (n : ℕ) (hn : 4 ≤ n) :
