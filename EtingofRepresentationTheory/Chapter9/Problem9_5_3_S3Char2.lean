@@ -586,6 +586,38 @@ lemma rhoStd_entry (g : S3) (i j : Fin 2) :
   rw [rhoStd_single, LinearMap.toMatrix_apply]
   simp only [bV, Module.Basis.ofEquivFun_repr_apply, Module.Basis.coe_ofEquivFun]
 
+@[simp] lemma coordEquiv_symm_val (c : Fin 2 → k) :
+    (((coordEquiv k).symm c : (stdSubr k).toSubmodule) : Fin 3 → k) = ![c 0, c 0 + c 1, c 1] := rfl
+
+lemma rhoStd_one : rhoStd k (MonoidAlgebra.single (1 : S3) 1) = 1 := by
+  ext i j
+  rw [rhoStd_entry, map_one, Module.End.one_apply, LinearEquiv.apply_symm_apply,
+    Pi.single_apply, Matrix.one_apply]
+
+lemma rhoStd_thc : rhoStd k (MonoidAlgebra.single thc 1) = !![0, 1; 1, 1] := by
+  have e0 : thc⁻¹ (0 : Fin 3) = 2 := by decide
+  have e2 : thc⁻¹ (2 : Fin 3) = 1 := by decide
+  ext i j
+  rw [rhoStd_entry]
+  fin_cases i <;> fin_cases j <;>
+    simp [stdRepr_val, e0, e2]
+
+lemma rhoStd_swap01 : rhoStd k (MonoidAlgebra.single (Equiv.swap 0 1) 1) = !![1, 1; 0, 1] := by
+  have e0 : (Equiv.swap (0 : Fin 3) 1) 0 = 1 := by decide
+  have e2 : (Equiv.swap (0 : Fin 3) 1) 2 = 2 := by decide
+  ext i j
+  rw [rhoStd_entry]
+  fin_cases i <;> fin_cases j <;>
+    simp [stdRepr_val, e0, e2]
+
+lemma rhoStd_swap02 : rhoStd k (MonoidAlgebra.single (Equiv.swap 0 2) 1) = !![0, 1; 1, 0] := by
+  have e0 : (Equiv.swap (0 : Fin 3) 2) 0 = 2 := by decide
+  have e2 : (Equiv.swap (0 : Fin 3) 2) 2 = 0 := by decide
+  ext i j
+  rw [rhoStd_entry]
+  fin_cases i <;> fin_cases j <;>
+    simp [stdRepr_val, e0, e2]
+
 /-- **The block decomposition of `k[S₃]` in characteristic `2`:**
 `k[S₃] ≅ M₂(k) × k[t]/(t²)` as `k`-algebras. The matrix factor `M₂(k)` (dimension `4`) is the
 defect-`0` block carrying the standard simple; the local factor `k[t]/(t²)` (dimension `2`) is the
