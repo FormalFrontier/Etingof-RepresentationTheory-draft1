@@ -283,4 +283,220 @@ theorem weightedHomogeneous_invariant_mem_range_endTensorEval
     ∃ M ∈ symGroupImage ℂ (BridgeV N) n, endTensorEval k N n slot M = p := by
   sorry
 
+/-! ### Surjectivity onto degree-`d` polynomials (the combinatorial core)
+
+The remaining fact needed for the First Fundamental Theorem assembly (#6789) is that *every*
+`matrixWeight`-homogeneous polynomial of multidegree `d` lies in the range of `endTensorEval slot`
+(before imposing `GL`-invariance): the generic-tensor monomials `∏ⱼ X_{slot j, gⱼ, fⱼ}` already
+exhaust the degree-`d` part of the coordinate ring. This is purely combinatorial — realizing each
+degree-`d` exponent vector `u` by a slot assignment `(f, g)` — and is proved here independently of
+Schur–Weyl. -/
+
+/-- **Per-fibre realizability.** Given a finite set `S` and a `ℕ`-valued `Finsupp` `m` whose total
+mass equals `S.card`, there is a function `h` on the index type with
+`∑_{j ∈ S} single (h j) 1 = m`: distribute the `m`-multiset over the `S.card` points of `S`.
+Proved by induction on `S`, peeling one support element of `m` for each new point of `S`. -/
+private lemma exists_fun_sum_single {ι β : Type*} [Nonempty β] (S : Finset ι) :
+    ∀ m : β →₀ ℕ, m.sum (fun _ x => x) = S.card →
+      ∃ h : ι → β, ∑ j ∈ S, Finsupp.single (h j) 1 = m := by
+  classical
+  induction S using Finset.induction_on with
+  | empty =>
+    intro m hm
+    rw [Finset.card_empty] at hm
+    refine ⟨fun _ => Classical.arbitrary β, ?_⟩
+    rw [Finset.sum_empty]
+    symm
+    rw [← Finsupp.support_eq_empty]
+    by_contra hne
+    obtain ⟨v, hv⟩ := Finset.nonempty_of_ne_empty hne
+    have hpos : 0 < m.sum (fun _ x => x) := by
+      rw [Finsupp.sum]
+      exact Finset.sum_pos' (fun i _ => Nat.zero_le _)
+        ⟨v, hv, Nat.pos_of_ne_zero (Finsupp.mem_support_iff.1 hv)⟩
+    omega
+  | insert a S' ha ih =>
+    intro m hm
+    rw [Finset.card_insert_of_notMem ha] at hm
+    have hm0 : m ≠ 0 := by
+      rintro rfl
+      rw [Finsupp.sum_zero_index] at hm
+      omega
+    obtain ⟨b, hb⟩ := Finsupp.support_nonempty_iff.mpr hm0
+    have hmb : 1 ≤ m b := Nat.one_le_iff_ne_zero.mpr (Finsupp.mem_support_iff.1 hb)
+    have hle : Finsupp.single b 1 ≤ m := by
+      rw [Finsupp.le_iff]
+      intro i hi
+      have hi' : i = b := Finset.mem_singleton.1 (Finsupp.support_single_subset hi)
+      subst hi'
+      rw [Finsupp.single_eq_same]
+      exact hmb
+    set m' := m - Finsupp.single b 1 with hm'def
+    have hsplit : m = Finsupp.single b 1 + m' := by
+      rw [hm'def, add_tsub_cancel_of_le hle]
+    have hm'sum : m'.sum (fun _ x => x) = S'.card := by
+      have hadd : m.sum (fun _ x => x)
+          = (Finsupp.single b 1).sum (fun _ x => x) + m'.sum (fun _ x => x) := by
+        conv_lhs => rw [hsplit]
+        rw [Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl)]
+      rw [Finsupp.sum_single_index rfl] at hadd
+      omega
+    obtain ⟨h', hh'⟩ := ih m' hm'sum
+    refine ⟨Function.update h' a b, ?_⟩
+    rw [Finset.sum_insert ha, Function.update_self]
+    have hcong : ∑ j ∈ S', Finsupp.single (Function.update h' a b j) 1
+        = ∑ j ∈ S', Finsupp.single (h' j) 1 := by
+      refine Finset.sum_congr rfl fun j hj => ?_
+      rw [Function.update_of_ne (by rintro rfl; exact ha hj)]
+    rw [hcong, hh']
+    exact hsplit.symm
+
+/-- The per-letter mass `∑_{v.1 = i} u v` of an exponent vector `u`, packaged as the total mass of
+the `i`-th curried slice `u.curry i`, equals the `i`-th component of its `matrixWeight`-weight. Both
+sides are additive in `u`, so this reduces to the single-variable case. -/
+private lemma curry_sum_eq_weight (u : (Fin k × Fin N × Fin N) →₀ ℕ) (i : Fin k) :
+    (u.curry i).sum (fun _ x => x) = (Finsupp.weight (matrixWeight k N) u) i := by
+  classical
+  induction u using Finsupp.induction_linear with
+  | zero =>
+    have hz : (0 : (Fin k × Fin N × Fin N) →₀ ℕ).curry = 0 := by
+      rw [← Finsupp.coe_curryAddEquiv]; exact map_zero _
+    rw [hz, Finsupp.zero_apply, Finsupp.sum_zero_index, map_zero, Finsupp.zero_apply]
+  | add x y ihx ihy =>
+    have hc : (x + y).curry i = x.curry i + y.curry i := by
+      have h := map_add Finsupp.curryAddEquiv x y
+      simp only [Finsupp.coe_curryAddEquiv] at h
+      rw [h, Finsupp.add_apply]
+    rw [hc, Finsupp.sum_add_index' (fun _ => rfl) (fun _ _ _ => rfl), ihx, ihy,
+      map_add, Finsupp.add_apply]
+  | single v c =>
+    rw [Finsupp.curry_single, Finsupp.weight_single]
+    simp only [matrixWeight]
+    by_cases h : v.1 = i
+    · rw [Finsupp.single_apply, if_pos h, Finsupp.sum_single_index rfl,
+        Finsupp.smul_apply, Finsupp.single_apply, if_pos h, smul_eq_mul, mul_one]
+    · rw [Finsupp.single_apply, if_neg h, Finsupp.sum_zero_index,
+        Finsupp.smul_apply, Finsupp.single_apply, if_neg h, smul_zero]
+
+/-- **Realizability.** If, for every letter `i`, the per-letter mass of `u` matches the number of
+slots carrying letter `i` (`hcard`), then `u` is the exponent vector of a generic-tensor monomial:
+there are `f g : Fin n → Fin N` with `∑ⱼ single (slot j, g j, f j) 1 = u`. Assemble a per-letter
+distribution (`exists_fun_sum_single`) fibrewise via `slot`, then reassemble through
+`Finsupp.curry`. -/
+private lemma exists_fg_realizes (slot : Fin n → Fin k) (u : (Fin k × Fin N × Fin N) →₀ ℕ)
+    (hcard : ∀ i : Fin k,
+      (u.curry i).sum (fun _ x => x) = (Finset.univ.filter fun j => slot j = i).card) :
+    ∃ f g : Fin n → Fin N, ∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1 = u := by
+  classical
+  rcases isEmpty_or_nonempty (Fin N × Fin N) with hE | hNE
+  · -- Empty letters: `u = 0` and there are no slots.
+    have hemptyProd : IsEmpty (Fin k × Fin N × Fin N) := ⟨fun p => hE.false p.2⟩
+    have hu0 : u = 0 := by ext v; exact (hemptyProd.false v).elim
+    have hn : IsEmpty (Fin n) := by
+      refine ⟨fun j => ?_⟩
+      have hmem : j ∈ Finset.univ.filter fun j' => slot j' = slot j := by simp
+      have hpos : 0 < (Finset.univ.filter fun j' => slot j' = slot j).card :=
+        Finset.card_pos.mpr ⟨j, hmem⟩
+      have hz : (u.curry (slot j)).sum (fun _ x => x) = 0 := by
+        have : u.curry (slot j) = 0 := by ext b; exact (hE.false b).elim
+        rw [this]; simp
+      rw [hcard (slot j)] at hz
+      omega
+    haveI := hn
+    exact ⟨fun j => (hn.false j).elim, fun j => (hn.false j).elim, by rw [hu0]; simp⟩
+  · haveI := hNE
+    have perfib : ∀ i : Fin k, ∃ h : Fin n → Fin N × Fin N,
+        ∑ j ∈ Finset.univ.filter (fun j => slot j = i), Finsupp.single (h j) 1 = u.curry i :=
+      fun i => exists_fun_sum_single _ _ (hcard i)
+    choose h hh using perfib
+    refine ⟨fun j => (h (slot j) j).2, fun j => (h (slot j) j).1, ?_⟩
+    have key : ∑ j : Fin n, Finsupp.single (slot j) (Finsupp.single (h (slot j) j) (1 : ℕ))
+        = u.curry := by
+      refine Finsupp.ext fun i => ?_
+      rw [Finsupp.finsetSum_apply]
+      simp only [Finsupp.single_apply]
+      rw [← Finset.sum_filter]
+      have hrw : ∑ j ∈ Finset.univ.filter (fun j => slot j = i),
+            Finsupp.single (h (slot j) j) 1
+          = ∑ j ∈ Finset.univ.filter (fun j => slot j = i), Finsupp.single (h i j) 1 := by
+        refine Finset.sum_congr rfl fun j hj => ?_
+        rw [Finset.mem_filter] at hj
+        rw [hj.2]
+      rw [hrw]
+      exact hh i
+    apply Finsupp.curryAddEquiv.injective
+    rw [map_sum]
+    simp only [Finsupp.coe_curryAddEquiv, Finsupp.curry_single]
+    exact key
+
+/-- A product of `monomial (single vⱼ 1) 1` is the monomial of the summed exponent vector: the map
+`e ↦ monomial e 1` turns sums of exponents into products of monomials. -/
+private lemma prod_monomial_single {ι : Type*} (s : Finset ι)
+    (v : ι → (Fin k × Fin N × Fin N)) :
+    (∏ j ∈ s, MvPolynomial.monomial (Finsupp.single (v j) 1) (1 : ℂ))
+      = MvPolynomial.monomial (∑ j ∈ s, Finsupp.single (v j) 1) (1 : ℂ) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty => rw [Finset.prod_empty, Finset.sum_empty]; exact MvPolynomial.one_def
+  | insert a s' ha ih =>
+    rw [Finset.prod_insert ha, ih, Finset.sum_insert ha, MvPolynomial.monomial_mul, one_mul]
+
+/-- **Surjectivity onto the degree-`d` part (FFT range identification, B1).** Every polynomial in
+the coordinate ring `MatrixTupleRing k N` that is `matrixWeight`-homogeneous of multidegree `d` lies
+in the range of the evaluation pairing `endTensorEval slot`, for any slot assignment `slot`
+compatible with `d` (slot `j` carries letter `i` for exactly `d i` slots).
+
+The range contains every generic-tensor monomial `∏ⱼ X_{slot j, gⱼ, fⱼ}` (it is the value of
+`endTensorEval slot` on the standard matrix unit, since only one term of the complete contraction
+survives). A degree-`d` polynomial is a `ℂ`-combination of such monomials — each exponent vector in
+its support is realizable by a slot assignment (`exists_fg_realizes`) — and the range is a
+submodule. -/
+theorem weightedHomogeneous_mem_range_endTensorEval
+    (d : Fin k →₀ ℕ) (slot : Fin n → Fin k)
+    (hslot : ∀ i : Fin k, (Finset.univ.filter fun j => slot j = i).card = d i)
+    {p : MatrixTupleRing k N}
+    (hhom : IsWeightedHomogeneous (matrixWeight k N) p d) :
+    p ∈ LinearMap.range (endTensorEval k N n slot) := by
+  classical
+  -- The range contains every generic-tensor monomial.
+  have hmono : ∀ f g : Fin n → Fin N,
+      (∏ j : Fin n, (MvPolynomial.X (slot j, g j, f j) : MatrixTupleRing k N))
+        ∈ LinearMap.range (endTensorEval k N n slot) := by
+    intro f g
+    refine ⟨(LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)).symm (Matrix.single f g 1), ?_⟩
+    rw [endTensorEval, LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
+    change ∑ a : Fin n → Fin N, ∑ b : Fin n → Fin N,
+        algebraMap ℂ (MatrixTupleRing k N) (Matrix.single f g 1 a b)
+          * genericTensorMatrix k N n slot b a
+      = ∏ j : Fin n, MvPolynomial.X (slot j, g j, f j)
+    rw [Finset.sum_eq_single_of_mem f (Finset.mem_univ f)]
+    · rw [Finset.sum_eq_single_of_mem g (Finset.mem_univ g)]
+      · rw [Matrix.single_apply_same, map_one, one_mul]
+        rfl
+      · intro b _ hb
+        rw [Matrix.single_apply_of_col_ne f f (Ne.symm hb) 1, map_zero, zero_mul]
+    · intro a _ ha
+      refine Finset.sum_eq_zero fun b _ => ?_
+      rw [Matrix.single_apply_of_row_ne (Ne.symm ha) g b 1, map_zero, zero_mul]
+  -- Reduce `p` to its monomials; each is realizable.
+  rw [← MvPolynomial.support_sum_monomial_coeff p]
+  refine Submodule.sum_mem _ fun u hu => ?_
+  have hwt : Finsupp.weight (matrixWeight k N) u = d := hhom (MvPolynomial.mem_support_iff.1 hu)
+  obtain ⟨f, g, hfg⟩ := exists_fg_realizes k N n slot u fun i => by
+    rw [curry_sum_eq_weight, hwt]; exact (hslot i).symm
+  have hmem : MvPolynomial.monomial u (1 : ℂ) ∈ LinearMap.range (endTensorEval k N n slot) := by
+    have hX : ∀ j : Fin n, (MvPolynomial.X (slot j, g j, f j) : MatrixTupleRing k N)
+        = MvPolynomial.monomial (Finsupp.single (slot j, g j, f j) 1) 1 := fun j => by
+      rw [← MvPolynomial.X_pow_eq_monomial, pow_one]
+    have hprod : (∏ j : Fin n, (MvPolynomial.X (slot j, g j, f j) : MatrixTupleRing k N))
+        = MvPolynomial.monomial u 1 := by
+      simp_rw [hX]
+      rw [prod_monomial_single, hfg]
+    rw [← hprod]
+    exact hmono f g
+  rw [show MvPolynomial.monomial u (MvPolynomial.coeff u p)
+      = MvPolynomial.coeff u p • MvPolynomial.monomial u (1 : ℂ) by
+    rw [← LinearMap.map_smul, smul_eq_mul, mul_one]]
+  exact Submodule.smul_mem _ _ hmem
+
 end Etingof
