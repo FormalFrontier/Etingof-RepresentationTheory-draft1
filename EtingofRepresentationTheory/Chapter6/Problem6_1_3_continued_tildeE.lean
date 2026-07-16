@@ -122,18 +122,207 @@ def AffineType.marks : (t : AffineType) → (Fin t.rank → ℤ)
 
 /-- The marks are (strictly) positive. -/
 theorem marks_pos (t : AffineType) (i : Fin t.rank) : 0 < t.marks i := by
-  sorry
+  cases t with
+  | Atilde n hn => simp [AffineType.marks]
+  | Dtilde n hn =>
+      simp only [AffineType.marks]
+      split <;> norm_num
+  | E6tilde => fin_cases i <;> simp [AffineType.marks]
+  | E7tilde => fin_cases i <;> simp [AffineType.marks]
+  | E8tilde => fin_cases i <;> simp [AffineType.marks]
+
+/-- The neighbour-sum identity `∑ⱼ adj i j · marks j = 2 · marks i` for the affine
+`D̃ₙ` type at `n = m + 6` (rank `m + 7`), where the two forks are well separated
+(`n ≥ 6`), so the vertex classes — the four leaves, the two forks, and the interior
+chain — are handled uniformly. This is the crux of `cartan_mulVec_marks_eq_zero` for
+`D̃ₙ`; the small cases `n = 4, 5` (where the forks coincide or are adjacent) are
+dispatched by `decide`. -/
+private theorem dtilde_key (m : ℕ) (hn : 4 ≤ m + 6) (i : Fin (AffineType.Dtilde (m+6) hn).rank) :
+    ∑ j, (AffineType.Dtilde (m+6) hn).adj i j * (AffineType.Dtilde (m+6) hn).marks j
+      = 2 * (AffineType.Dtilde (m+6) hn).marks i := by
+  have hrank : (AffineType.Dtilde (m+6) hn).rank = m + 7 := by simp [AffineType.rank]
+  have hlt : i.val < m + 7 := hrank ▸ i.isLt
+  have adj_val : ∀ (a b : Fin (AffineType.Dtilde (m+6) hn).rank),
+      (AffineType.Dtilde (m+6) hn).adj a b
+        = if min a.val b.val = 0 ∧ max a.val b.val = 2 ∨ min a.val b.val = 1 ∧ max a.val b.val = 2 ∨
+             2 ≤ min a.val b.val ∧ max a.val b.val ≤ (m+6)-2
+               ∧ min a.val b.val + 1 = max a.val b.val ∨
+             min a.val b.val = (m+6)-2 ∧ max a.val b.val = (m+6)-1 ∨
+             min a.val b.val = (m+6)-2 ∧ max a.val b.val = (m+6) then 1 else 0 := fun _ _ => rfl
+  have mval : ∀ (j : Fin (AffineType.Dtilde (m+6) hn).rank),
+      (AffineType.Dtilde (m+6) hn).marks j
+        = if j.val = 0 ∨ j.val = 1 ∨ j.val = m+5 ∨ j.val = m+6 then 1 else 2 := fun _ => rfl
+  have hclass : i.val = 0 ∨ i.val = 1 ∨ i.val = 2 ∨ (3 ≤ i.val ∧ i.val ≤ m+3) ∨
+      i.val = m+4 ∨ i.val = m+5 ∨ i.val = m+6 := by omega
+  rcases hclass with hi | hi | hi | ⟨hlo, hhi⟩ | hi | hi | hi
+  · -- v = 0 : nbr {2}
+    have h2 : (2:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ {(⟨2,h2⟩ : Fin _)})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
+    norm_num
+  · -- v = 1 : nbr {2}
+    have h2 : (2:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ {(⟨2,h2⟩ : Fin _)})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨2,h2⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨2,h2⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
+    norm_num
+  · -- v = 2 : nbrs {0,1,3}
+    have h0 : (0:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    have h1 : (1:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    have h3 : (3:ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ
+          {(⟨0,h0⟩ : Fin _), ⟨1,h1⟩, ⟨3,h3⟩})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_insert (by simp only [mem_insert, mem_singleton, Fin.ext_iff]; omega),
+        Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨0,h0⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨1,h1⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨3,h3⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨0,h0⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨1,h1⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨3,h3⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
+            rw [mval, if_neg]; omega]
+    norm_num
+  · -- interior : 3 ≤ v ≤ m+3, nbrs {v-1, v+1}
+    have hp : (i.val - 1 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    have hs : (i.val + 1 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ {(⟨i.val-1,hp⟩ : Fin _), ⟨i.val+1,hs⟩})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val-1,hp⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨i.val+1,hs⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨i.val-1,hp⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨i.val+1,hs⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
+            rw [mval, if_neg]; omega]
+    norm_num
+  · -- v = m+4 : nbrs {m+3, m+5, m+6}
+    have h3 : (m+3 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    have h5 : (m+5 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    have h6 : (m+6 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ
+          {(⟨m+3,h3⟩ : Fin _), ⟨m+5,h5⟩, ⟨m+6,h6⟩})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_insert, mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_insert (by simp only [mem_insert, mem_singleton, Fin.ext_iff]; omega),
+        Finset.sum_insert (by simp only [mem_singleton, Fin.ext_iff]; omega), Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+3,h3⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨m+5,h5⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).adj i ⟨m+6,h6⟩ = 1 from by
+            rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+3,h3⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+5,h5⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+6,h6⟩ = 1 from by
+            rw [mval, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 2 from by
+            rw [mval, if_neg]; omega]
+    norm_num
+  · -- v = m+5 : nbr {m+4}
+    have h4 : (m+4 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ {(⟨m+4,h4⟩ : Fin _)})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
+    norm_num
+  · -- v = m+6 : nbr {m+4}
+    have h4 : (m+4 : ℕ) < (AffineType.Dtilde (m+6) hn).rank := by omega
+    rw [← Finset.sum_subset (Finset.subset_univ {(⟨m+4,h4⟩ : Fin _)})
+        (fun x _ hx => by rw [adj_val, if_neg]; · ring
+                          · simp only [mem_singleton, Fin.ext_iff] at hx; omega),
+        Finset.sum_singleton]
+    rw [show (AffineType.Dtilde (m+6) hn).adj i ⟨m+4,h4⟩ = 1 from by
+        rw [adj_val, if_pos]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks ⟨m+4,h4⟩ = 2 from by
+            rw [mval, if_neg]; first | omega | (dsimp only []; omega),
+        show (AffineType.Dtilde (m+6) hn).marks i = 1 from by
+            rw [mval, if_pos]; omega]
+    norm_num
 
 /-- **(e)** The marks span the kernel of the Cartan matrix: `(2·Id - R)·marks = 0`
 ("the numbers labeling the vertices are the null vector"). -/
 theorem cartan_mulVec_marks_eq_zero (t : AffineType) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj).mulVec t.marks = 0 := by
-  sorry
+  cases t with
+  | Atilde n hn =>
+      exact Etingof.Problem6_1_3_E7E8.cycle_cartan_mulVec_one_eq_zero n hn
+  | Dtilde n hn =>
+      match n, hn with
+      | 4, _ =>
+          funext i
+          fin_cases i <;>
+            simp only [AffineType.adj, AffineType.marks, AffineType.rank, Pi.zero_apply] <;>
+            decide +revert
+      | 5, _ =>
+          funext i
+          fin_cases i <;>
+            simp only [AffineType.adj, AffineType.marks, AffineType.rank, Pi.zero_apply] <;>
+            decide +revert
+      | (m + 6), hn =>
+          funext i
+          have hrow : ((2 • (1 : Matrix (Fin (AffineType.Dtilde (m+6) hn).rank)
+                (Fin (AffineType.Dtilde (m+6) hn).rank) ℤ)
+                - (AffineType.Dtilde (m+6) hn).adj).mulVec
+              (AffineType.Dtilde (m+6) hn).marks) i
+              = 2 * (AffineType.Dtilde (m+6) hn).marks i
+                - ∑ j, (AffineType.Dtilde (m+6) hn).adj i j
+                    * (AffineType.Dtilde (m+6) hn).marks j := by
+            rw [sub_mulVec, smul_mulVec, Matrix.one_mulVec, Pi.sub_apply, Pi.smul_apply]
+            simp only [Matrix.mulVec, dotProduct, two_smul, two_mul]
+          rw [Pi.zero_apply, hrow, dtilde_key m hn i, sub_self]
+  | E6tilde => decide
+  | E7tilde => decide
+  | E8tilde => decide
 
 /-- **(e)** Consequently `det A = 0` for every extended diagram. -/
 theorem cartan_det_zero (t : AffineType) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj).det = 0 := by
-  sorry
+  have hr : 0 < t.rank := by cases t <;> simp only [AffineType.rank] <;> omega
+  rw [← Matrix.exists_mulVec_eq_zero_iff]
+  refine ⟨t.marks, ?_, cartan_mulVec_marks_eq_zero t⟩
+  intro h
+  have h0 := congrFun h ⟨0, hr⟩
+  have hp := marks_pos t ⟨0, hr⟩
+  simp only [Pi.zero_apply] at h0
+  rw [h0] at hp
+  exact lt_irrefl 0 hp
 
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
 diagram (its Cartan form is positive semidefinite but degenerate). -/
