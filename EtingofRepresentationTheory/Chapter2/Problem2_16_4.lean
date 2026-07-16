@@ -501,7 +501,157 @@ theorem irrep_isIrreducible (p : ℕ) [CharP k p] (hp2 : 2 < p) (d : ℕ) [NeZer
   | zero => exact e0_mem
   | succ j ih => exact step_up j hj (ih (by omega))
 
-/-! ## The classification statements -/
+/-! ## The dimension bound
+
+Every irreducible finite dimensional representation of `𝔰𝔩(2, k)` in characteristic `p > 2`
+has dimension at most `p`.
+
+The argument works with the three operators `E, F, H : End(M)` obtained from the standard basis
+via `LieModule.toEnd`, satisfying `[H,E] = 2E`, `[H,F] = -2F`, `[E,F] = H`. In characteristic
+`p` the powers `E^p` and `F^p` are *central* (they commute with `E, F, H`), so by Schur's lemma
+they act as scalars `α, β`. Then:
+
+* if `α = 0`, `E` is nilpotent, so there is a highest weight vector `v₀` with `E v₀ = 0`; the
+  span of `{F^j v₀ : j < p}` is a nonzero submodule, hence everything, and has dimension `≤ p`;
+* if `α ≠ 0`, `E` is injective; picking a joint eigenvector `v₀` of `H` and `F·E`, the span of
+  `{E^i v₀ : i < p}` is a nonzero submodule, hence everything, and has dimension `≤ p`.
+-/
+
+section DimensionBound
+
+/-! ### Bracket relations in `𝔰𝔩(2, k)` -/
+
+/-- `[h, e] = 2e` in `𝔰𝔩(2, k)`. -/
+theorem lie_sl2_h_e : ⁅sl2_h k, sl2_e k⁆ = (2 : k) • sl2_e k := by
+  apply Subtype.ext
+  simp only [sl2_h, sl2_e]
+  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket]
+  simp only [LieAlgebra.SpecialLinear.val_singleSubSingle,
+    LieAlgebra.SpecialLinear.val_single, SetLike.val_smul]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply,
+      Fin.sum_univ_two]
+
+/-- `[h, f] = -2f` in `𝔰𝔩(2, k)`. -/
+theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
+  apply Subtype.ext
+  simp only [sl2_h, sl2_f]
+  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket]
+  simp only [LieAlgebra.SpecialLinear.val_singleSubSingle,
+    LieAlgebra.SpecialLinear.val_single, SetLike.val_smul, NegMemClass.coe_neg]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.neg_apply,
+      Matrix.single_apply, Fin.sum_univ_two]
+
+/-- `[e, f] = h` in `𝔰𝔩(2, k)`. -/
+theorem lie_sl2_e_f : ⁅sl2_e k, sl2_f k⁆ = sl2_h k := by
+  apply Subtype.ext
+  simp only [sl2_h, sl2_e, sl2_f]
+  rw [LieSubalgebra.coe_bracket, LieRing.of_associative_ring_bracket]
+  simp only [LieAlgebra.SpecialLinear.val_singleSubSingle,
+    LieAlgebra.SpecialLinear.val_single]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.single_apply, Fin.sum_univ_two]
+
+/-- Every element of `𝔰𝔩(2, k)` is the combination `x₀₁·e + x₁₀·f + x₀₀·h` of the standard basis
+(using tracelessness for the `(1,1)`-entry). -/
+theorem sl2_decomp (x : sl2 k) :
+    x = x.val 0 1 • sl2_e k + x.val 1 0 • sl2_f k + x.val 0 0 • sl2_h k := by
+  apply Subtype.ext
+  have htr : x.val 1 1 = -x.val 0 0 := sl2_traceless k x
+  simp only [sl2_e, sl2_f, sl2_h, AddSubmonoid.coe_add, Submodule.coe_toAddSubmonoid,
+    SetLike.val_smul, LieAlgebra.SpecialLinear.val_single,
+    LieAlgebra.SpecialLinear.val_singleSubSingle]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply, Matrix.single_apply, htr]
+
+/-! ### Schur's lemma for the Lie module `M` -/
+
+section SchurHelpers
+
+variable (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (sl2 k) M]
+  [LieModule k (sl2 k) M]
+
+/-- A `k`-linear submodule of `M` that is closed under the `𝔰𝔩(2)`-action and contains a nonzero
+vector is everything, when `M` is irreducible. -/
+theorem eq_top_of_lie_closed [LieModule.IsIrreducible k (sl2 k) M]
+    (W : Submodule k M) (hlie : ∀ (x : sl2 k) (m : M), m ∈ W → ⁅x, m⁆ ∈ W)
+    (hne : ∃ v ∈ W, v ≠ 0) : W = ⊤ := by
+  let N : LieSubmodule k (sl2 k) M :=
+    { toSubmodule := W, lie_mem := fun {x m} h => hlie x m h }
+  have hNbot : N ≠ ⊥ := by
+    rw [ne_eq, LieSubmodule.eq_bot_iff]
+    push_neg
+    obtain ⟨v, hvW, hv0⟩ := hne
+    exact ⟨v, hvW, hv0⟩
+  have hNtop : N = ⊤ := (IsSimpleOrder.eq_bot_or_eq_top N).resolve_left hNbot
+  have hWtop : (N : Submodule k M) = ⊤ := by rw [LieSubmodule.toSubmodule_eq_top]; exact hNtop
+  exact hWtop
+
+/-- Closure of a `k`-submodule under the action of every `x ∈ 𝔰𝔩(2)` reduces to closure under the
+three generators `e, f, h`. -/
+theorem lie_closed_of_efh (W : Submodule k M)
+    (hE : ∀ m ∈ W, ⁅sl2_e k, m⁆ ∈ W)
+    (hF : ∀ m ∈ W, ⁅sl2_f k, m⁆ ∈ W)
+    (hH : ∀ m ∈ W, ⁅sl2_h k, m⁆ ∈ W) :
+    ∀ (x : sl2 k) (m : M), m ∈ W → ⁅x, m⁆ ∈ W := by
+  intro x m hm
+  rw [sl2_decomp x, add_lie, add_lie, smul_lie, smul_lie, smul_lie]
+  exact W.add_mem (W.add_mem (W.smul_mem _ (hE m hm)) (W.smul_mem _ (hF m hm)))
+    (W.smul_mem _ (hH m hm))
+
+/-- **Schur's lemma (Lie module form).** A `k`-linear endomorphism of a finite dimensional
+irreducible `𝔰𝔩(2)`-module over an algebraically closed field that commutes with the action is a
+scalar. -/
+theorem lie_schur [IsAlgClosed k] [FiniteDimensional k M]
+    [LieModule.IsIrreducible k (sl2 k) M]
+    (φ : Module.End k M) (hφ : ∀ (x : sl2 k) (m : M), φ ⁅x, m⁆ = ⁅x, φ m⁆) :
+    ∃ c : k, ∀ m : M, φ m = c • m := by
+  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
+  obtain ⟨μ, hμ⟩ := φ.exists_eigenvalue
+  refine ⟨μ, ?_⟩
+  have hclosed : ∀ (x : sl2 k) (m : M), m ∈ φ.eigenspace μ → ⁅x, m⁆ ∈ φ.eigenspace μ := by
+    intro x m hm
+    rw [Module.End.mem_eigenspace_iff] at hm ⊢
+    rw [← hφ, hm, lie_smul]
+  have hne : ∃ v ∈ φ.eigenspace μ, v ≠ 0 := by
+    obtain ⟨v, hv⟩ := hμ.exists_hasEigenvector
+    exact ⟨v, hv.1, hv.2⟩
+  have htop := eq_top_of_lie_closed M (φ.eigenspace μ) hclosed hne
+  intro m
+  have hm : m ∈ φ.eigenspace μ := by rw [htop]; trivial
+  rwa [Module.End.mem_eigenspace_iff] at hm
+
+/-- If a linear operator maps the generators of a span into the span, it maps the whole span into
+itself. -/
+theorem span_closed_of_gens (T : Module.End k M) (S : Set M)
+    (h : ∀ s ∈ S, T s ∈ Submodule.span k S) {m : M} (hm : m ∈ Submodule.span k S) :
+    T m ∈ Submodule.span k S := by
+  induction hm using Submodule.span_induction with
+  | mem s hs => exact h s hs
+  | zero => simp
+  | add x y _ _ hx hy => rw [map_add]; exact Submodule.add_mem _ hx hy
+  | smul a x _ hx => rw [map_smul]; exact Submodule.smul_mem _ _ hx
+
+/-- Dimension bound from a cyclic spanning set: if the span of `{g 0, …, g (p-1)}` is everything,
+then `finrank M ≤ p`. -/
+theorem finrank_le_of_orbit_top (p : ℕ) (g : ℕ → M)
+    (htop : Submodule.span k ((Finset.range p).image g : Set M) = ⊤) :
+    Module.finrank k M ≤ p := by
+  have h1 : Module.finrank k M =
+      Module.finrank k ↥(Submodule.span k ((Finset.range p).image g : Set M)) := by
+    rw [htop, finrank_top]
+  rw [h1]
+  refine le_trans (finrank_span_finset_le_card _) ?_
+  exact le_trans Finset.card_image_le (le_of_eq (Finset.card_range p))
+
+end SchurHelpers
+
+/-! ### The main bound -/
 
 /-- **Dimension bound.** Over an algebraically closed field of characteristic `p > 2`, every
 irreducible finite dimensional representation of `𝔰𝔩(2)` has dimension at most `p`. -/
@@ -509,8 +659,187 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
     (hp : 2 < p)
     (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (sl2 k) M] [LieModule k (sl2 k) M]
     [FiniteDimensional k M] [LieModule.IsIrreducible k (sl2 k) M] :
-    Module.finrank k M ≤ p :=
-  sorry
+    Module.finrank k M ≤ p := by
+  haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
+  -- The three standard operators on `M`.
+  set E := LieModule.toEnd k (sl2 k) M (sl2_e k) with hEdef
+  set F := LieModule.toEnd k (sl2 k) M (sl2_f k) with hFdef
+  set H := LieModule.toEnd k (sl2 k) M (sl2_h k) with hHdef
+  -- `⁅x, m⁆` is `toEnd x m`; for the basis this is `E`, `F`, `H`.
+  have hEe : ∀ m : M, ⁅sl2_e k, m⁆ = E m := fun _ => rfl
+  have hFf : ∀ m : M, ⁅sl2_f k, m⁆ = F m := fun _ => rfl
+  have hHh : ∀ m : M, ⁅sl2_h k, m⁆ = H m := fun _ => rfl
+  -- Operator relations, transported from the Lie algebra brackets.
+  have hHE : H * E = E * H + (2 : k) • E := by
+    have h1 : (⁅H, E⁆ : Module.End k M) = (2 : k) • E := by
+      rw [hHdef, hEdef, ← (LieModule.toEnd k (sl2 k) M).map_lie, lie_sl2_h_e, map_smul]
+    rw [LieRing.of_associative_ring_bracket, sub_eq_iff_eq_add] at h1
+    rw [h1, add_comm]
+  have hHF : H * F = F * H - (2 : k) • F := by
+    have h1 : (⁅H, F⁆ : Module.End k M) = -((2 : k) • F) := by
+      rw [hHdef, hFdef, ← (LieModule.toEnd k (sl2 k) M).map_lie, lie_sl2_h_f, map_neg, map_smul]
+    rw [LieRing.of_associative_ring_bracket, sub_eq_iff_eq_add] at h1
+    rw [h1]; abel
+  have hEF : E * F - F * E = H := by
+    have h1 : (⁅E, F⁆ : Module.End k M) = H := by
+      rw [hEdef, hFdef, ← (LieModule.toEnd k (sl2 k) M).map_lie, lie_sl2_e_f]
+    rwa [LieRing.of_associative_ring_bracket] at h1
+  -- `H · Eⁱ = Eⁱ · H + 2i · Eⁱ`.
+  have hHEpow : ∀ i : ℕ, H * E ^ i = E ^ i * H + ((2 * i : ℕ) : k) • E ^ i := by
+    intro i
+    induction i with
+    | zero => simp
+    | succ n ih =>
+      have hsc : ((2 : k) + ((2 * n : ℕ) : k)) = ((2 * (n + 1) : ℕ) : k) := by push_cast; ring
+      calc H * E ^ (n + 1)
+          = (H * E ^ n) * E := by rw [pow_succ, ← mul_assoc]
+        _ = (E ^ n * H + ((2 * n : ℕ) : k) • E ^ n) * E := by rw [ih]
+        _ = E ^ n * (H * E) + ((2 * n : ℕ) : k) • (E ^ n * E) := by
+              rw [add_mul, mul_assoc, smul_mul_assoc]
+        _ = E ^ n * (E * H + (2 : k) • E) + ((2 * n : ℕ) : k) • (E ^ n * E) := by rw [hHE]
+        _ = (E ^ n * E) * H + ((2 : k) + ((2 * n : ℕ) : k)) • (E ^ n * E) := by
+              rw [mul_add, ← mul_assoc, mul_smul_comm, add_assoc, ← add_smul]
+        _ = E ^ (n + 1) * H + ((2 * (n + 1) : ℕ) : k) • E ^ (n + 1) := by rw [hsc, ← pow_succ]
+  -- `F · Eⁿ⁺¹ - Eⁿ⁺¹ · F = -(n+1)·Eⁿ·H - (n+1)n·Eⁿ`.
+  have hrec : ∀ m : ℕ, F * E ^ (m + 1) - E ^ (m + 1) * F
+      = (F * E ^ m - E ^ m * F) * E - E ^ m * H := by
+    intro m
+    have hEFc : E * F = F * E + H := by rw [← hEF]; abel
+    calc F * E ^ (m + 1) - E ^ (m + 1) * F
+        = F * E ^ m * E - E ^ m * (E * F) := by rw [pow_succ]; noncomm_ring
+      _ = F * E ^ m * E - E ^ m * (F * E + H) := by rw [hEFc]
+      _ = F * E ^ m * E - E ^ m * (F * E) - E ^ m * H := by noncomm_ring
+      _ = (F * E ^ m - E ^ m * F) * E - E ^ m * H := by noncomm_ring
+  have hFEpow : ∀ n : ℕ, F * E ^ (n + 1) - E ^ (n + 1) * F
+      = -(((n + 1 : ℕ) : k)) • (E ^ n * H) - (((n + 1) * n : ℕ) : k) • E ^ n := by
+    intro n
+    induction n with
+    | zero =>
+      rw [hrec 0]
+      simp only [pow_zero, pow_one, one_mul, mul_one, Nat.cast_one, Nat.cast_zero, Nat.cast_mul,
+        zero_smul, sub_zero, one_smul, mul_zero]
+      rw [← hEF]; abel
+    | succ n ih =>
+      rw [hrec (n + 1), ih]
+      have hHErw : E ^ (n + 1) * H = E ^ n * (H * E) - (2 : k) • E ^ (n + 1) := by
+        rw [hHE]; noncomm_ring
+      -- expand and collect
+      have hsc1 : (((n + 1 : ℕ) : k) + 1) = (((n + 1) + 1 : ℕ) : k) := by push_cast; ring
+      have hsc2 : ((2 : k) * ((n + 1 : ℕ) : k) + (((n + 1) * n : ℕ) : k))
+          = ((((n + 1) + 1) * (n + 1) : ℕ) : k) := by push_cast; ring
+      rw [sub_mul, smul_mul_assoc, smul_mul_assoc, mul_assoc, hHE, mul_add, mul_smul_comm,
+        ← pow_succ]
+      -- goal now purely in `E^(n+1)*H`, `E^(n+1)`; finish with scalar algebra
+      rw [show (E ^ n * (E * H)) = E ^ (n + 1) * H from by rw [pow_succ]; noncomm_ring]
+      module
+  -- `E^p` and `F^p` are central, hence scalars.
+  have hcharp : ((p : ℕ) : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k p
+  have hcomm_to_schur : ∀ (φ : Module.End k M), φ * E = E * φ → φ * F = F * φ →
+      φ * H = H * φ → ∀ (x : sl2 k) (m : M), φ ⁅x, m⁆ = ⁅x, φ m⁆ := by
+    intro φ hcE hcF hcH x m
+    have hxdecomp : (LieModule.toEnd k (sl2 k) M x)
+        = x.val 0 1 • E + x.val 1 0 • F + x.val 0 0 • H := by
+      conv_lhs => rw [sl2_decomp x]
+      rw [map_add, map_add, map_smul, map_smul, map_smul, ← hEdef, ← hFdef, ← hHdef]
+    have hgen : φ * (LieModule.toEnd k (sl2 k) M x) = (LieModule.toEnd k (sl2 k) M x) * φ := by
+      rw [hxdecomp, mul_add, mul_add, mul_smul_comm, mul_smul_comm, mul_smul_comm, hcE, hcF, hcH,
+        ← smul_mul_assoc, ← smul_mul_assoc, ← smul_mul_assoc, ← add_mul, ← add_mul]
+    calc φ ⁅x, m⁆ = φ ((LieModule.toEnd k (sl2 k) M x) m) := rfl
+      _ = (φ * (LieModule.toEnd k (sl2 k) M x)) m := rfl
+      _ = ((LieModule.toEnd k (sl2 k) M x) * φ) m := by rw [hgen]
+      _ = ⁅x, φ m⁆ := rfl
+  -- `E^p` scalar
+  have hEpFcomm : E ^ p * F = F * E ^ p := by
+    have hp1 : p - 1 + 1 = p := by omega
+    have := hFEpow (p - 1)
+    rw [hp1] at this
+    have hz1 : (((p - 1 + 1 : ℕ) : k)) = 0 := by rw [hp1]; exact hcharp
+    have hz2 : ((((p - 1 + 1) * (p - 1) : ℕ) : k)) = 0 := by
+      rw [hp1]; push_cast [hcharp]; ring
+    rw [hz1, hz2] at this
+    simp only [neg_zero, zero_smul, sub_zero] at this
+    linear_combination -this
+  have hEpHcomm : E ^ p * H = H * E ^ p := by
+    have := hHEpow p
+    have hz : (((2 * p : ℕ) : k)) = 0 := by push_cast [hcharp]; ring
+    rw [hz, zero_smul, add_zero] at this
+    linear_combination -this
+  have hEpEcomm : E ^ p * E = E * E ^ p := by rw [← pow_succ, ← pow_succ']
+  obtain ⟨α, hα'⟩ := lie_schur M (E ^ p) (hcomm_to_schur (E ^ p) hEpEcomm hEpFcomm hEpHcomm)
+  have hα : E ^ p = α • 1 := by ext m; rw [hα' m]; simp
+  -- `F^p` scalar (symmetric)
+  have hFpEcomm : F ^ p * E = E * F ^ p := by
+    -- apply the `E`-lemmas with roles swapped `E ↔ F`, `H ↔ -H`
+    have hHF' : (-H) * F = F * (-H) + (2 : k) • F := by
+      rw [neg_mul, mul_neg, hHF]; abel
+    have hFE' : F * E - E * F = -H := by rw [← hEF]; abel
+    -- `F · Fⁿ⁺¹` commutator identity, char `p`
+    have hrec' : ∀ m : ℕ, E * F ^ (m + 1) - F ^ (m + 1) * E
+        = (E * F ^ m - F ^ m * E) * F - F ^ m * (-H) := by
+      intro m
+      have hFEc : F * E = E * F + (-H) := by rw [← hFE']; abel
+      calc E * F ^ (m + 1) - F ^ (m + 1) * E
+          = E * F ^ m * F - F ^ m * (F * E) := by rw [pow_succ]; noncomm_ring
+        _ = E * F ^ m * F - F ^ m * (E * F + (-H)) := by rw [hFEc]
+        _ = E * F ^ m * F - F ^ m * (E * F) - F ^ m * (-H) := by noncomm_ring
+        _ = (E * F ^ m - F ^ m * E) * F - F ^ m * (-H) := by noncomm_ring
+    have hFFpow : ∀ n : ℕ, E * F ^ (n + 1) - F ^ (n + 1) * E
+        = -(((n + 1 : ℕ) : k)) • (F ^ n * (-H)) - (((n + 1) * n : ℕ) : k) • F ^ n := by
+      intro n
+      induction n with
+      | zero =>
+        rw [hrec' 0]
+        simp only [pow_zero, pow_one, one_mul, mul_one, Nat.cast_one, Nat.cast_zero, Nat.cast_mul,
+          zero_smul, sub_zero, one_smul, mul_zero]
+        rw [← hFE']; abel
+      | succ n ih =>
+        rw [hrec' (n + 1), ih]
+        rw [sub_mul, smul_mul_assoc, smul_mul_assoc, mul_assoc, hHF', mul_add, mul_smul_comm,
+          ← pow_succ]
+        rw [show (F ^ n * ((-H) * F)) = F ^ (n + 1) * (-H) from by rw [pow_succ]; noncomm_ring]
+        module
+    have hp1 : p - 1 + 1 = p := by omega
+    have hh := hFFpow (p - 1)
+    rw [hp1] at hh
+    have hz1 : (((p - 1 + 1 : ℕ) : k)) = 0 := by rw [hp1]; exact hcharp
+    have hz2 : ((((p - 1 + 1) * (p - 1) : ℕ) : k)) = 0 := by rw [hp1]; push_cast [hcharp]; ring
+    rw [hz1, hz2] at hh
+    simp only [neg_zero, zero_smul, sub_zero] at hh
+    linear_combination -hh
+  have hFpHcomm : F ^ p * H = H * F ^ p := by
+    -- `H · Fⁿ = Fⁿ · H - 2n · Fⁿ`
+    have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
+      intro i
+      induction i with
+      | zero => simp
+      | succ n ih =>
+        have hsc : (((2 * (n + 1) : ℕ) : k)) = ((2 * n : ℕ) : k) + (2 : k) := by push_cast; ring
+        calc H * F ^ (n + 1)
+            = (H * F ^ n) * F := by rw [pow_succ, ← mul_assoc]
+          _ = (F ^ n * H - ((2 * n : ℕ) : k) • F ^ n) * F := by rw [ih]
+          _ = F ^ n * (H * F) - ((2 * n : ℕ) : k) • (F ^ n * F) := by
+                rw [sub_mul, mul_assoc, smul_mul_assoc]
+          _ = F ^ n * (F * H - (2 : k) • F) - ((2 * n : ℕ) : k) • (F ^ n * F) := by rw [hHF]
+          _ = F ^ (n + 1) * H - ((2 * (n + 1) : ℕ) : k) • F ^ (n + 1) := by
+                rw [mul_sub, ← mul_assoc, mul_smul_comm, ← pow_succ, hsc, add_smul]
+                abel
+    have := hHFpow p
+    have hz : (((2 * p : ℕ) : k)) = 0 := by push_cast [hcharp]; ring
+    rw [hz, zero_smul, sub_zero] at this
+    linear_combination -this
+  have hFpFcomm : F ^ p * F = F * F ^ p := by rw [← pow_succ, ← pow_succ']
+  obtain ⟨β, hβ'⟩ := lie_schur M (F ^ p) (hcomm_to_schur (F ^ p) hFpFcomm hFpHcomm hFpEcomm)
+  have hβ : F ^ p = β • 1 := by ext m; rw [hβ' m]; simp
+  -- Now split on whether `E` is invertible.
+  by_cases hα0 : α = 0
+  · -- `α = 0`: `E` is nilpotent, use a highest weight vector.
+    sorry
+  · -- `α ≠ 0`: `E` is injective, use a joint `H`, `FE`-eigenvector.
+    sorry
+
+end DimensionBound
+
+/-! ## The classification statements -/
 
 /-- **The bound is sharp.** There exist irreducible representations of dimension `p`: it is not the
 case that every irreducible finite dimensional representation has dimension `< p`. The witness is
