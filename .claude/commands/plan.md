@@ -110,6 +110,15 @@ Each issue body MUST be **self-contained**:
 **Sizing**: max 3 deliverables, ~2 files, ~200 lines. Over 300 lines → split.
 When in doubt, split. Each issue must have a single logical concern.
 
+**"Twin/dualise" issues**: when an issue mirrors an existing multi-file stack on a
+parallel side (e.g. the `Ext` twin of a `Tor` construction, a left-module twin of a
+right-module one), do **not** assume "just wire up the final assembly". Check that each
+intermediate layer of the analogue actually exists on the new side, not only the
+endpoints. If the source stack was, say, bidegree iso → bifunctor natural iso → complex
+assembly, the new side usually needs every layer rebuilt — a single "assembly" issue that
+names only the degreewise piece will be underscoped and get decomposed by the worker.
+Plan one issue per missing layer (in dependency order) instead.
+
 **Stage granularity**: If the project roadmap has "stages" or "phases", **never
 create an issue that spans multiple stages**. Each issue belongs to exactly one
 stage.
