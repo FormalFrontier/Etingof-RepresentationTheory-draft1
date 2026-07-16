@@ -33,15 +33,17 @@ simples are **not** `Etingof.AreLinked`.
 
 ## Status
 
-This is a faithful **statement pass**. All module and algebra *data* below are constructed
-genuinely (no `sorry` in any `def`): the trivial and standard representations are real objects,
-built over an arbitrary field of characteristic `2` by generalizing the char-`0` `S₃` catalogue in
-`Chapter4/Example4_3_S3.lean` off `ℂ`. The classification *theorems* — simplicity of the two
-modules, the non-linkage that separates the two blocks, the block count, and the algebra
-decomposition — are stated faithfully with `sorry` proofs; discharging them (in particular the
-algebra isomorphism `k[S₃] ≅ M₂(k) × k[t]/(t²)` via the two central idempotents) is left to a
-follow-up. See the block framework in `Definition9_5_1.lean` and `Problem9_5_3.lean` for the
-`Etingof.Block` / `Etingof.AreLinked` machinery reused here.
+All module and algebra *data* below are constructed genuinely (no `sorry` in any `def`): the
+trivial and standard representations are real objects, built over an arbitrary field of
+characteristic `2` by generalizing the char-`0` `S₃` catalogue in `Chapter4/Example4_3_S3.lean`
+off `ℂ`. Simplicity of the two modules, the non-linkage that separates the two blocks, the block
+count, and the **algebra decomposition** `k[S₃] ≅ M₂(k) × k[t]/(t²)` are all proven; the
+decomposition is realized as the algebra map `(rhoStd, psi) : k[S₃] → M₂(k) × k[t]/(t²)` — the
+standard representation in coordinates paired with the sign character — shown bijective by a
+`6 = 6` dimension count after surjectivity via the central idempotent `e = (123) + (132)`. The
+only remaining `sorry` is `simple_iff_triv_or_std` (there are exactly these two simples). See the
+block framework in `Definition9_5_1.lean` and `Problem9_5_3.lean` for the `Etingof.Block` /
+`Etingof.AreLinked` machinery reused here.
 -/
 
 open CategoryTheory
@@ -695,6 +697,39 @@ defect-`0` block carrying the standard simple; the local factor `k[t]/(t²)` (di
 principal block carrying the trivial simple. Dimensions check: `4 + 2 = 6 = |S₃|`. -/
 theorem algebra_decomposition :
     Nonempty (MonoidAlgebra k S3 ≃ₐ[k] Matrix (Fin 2) (Fin 2) k × kt2 k) := by
-  sorry
+  classical
+  have hne : (Polynomial.X : Polynomial k) ^ 2 ≠ 0 := pow_ne_zero 2 Polynomial.X_ne_zero
+  haveI hfinR : FiniteDimensional k (kt2 k) :=
+    Module.Finite.of_basis
+      (AdjoinRoot.powerBasis (f := (Polynomial.X : Polynomial k) ^ 2) hne).basis
+  set φ := (rhoStd k).prod (psi k) with hφ
+  -- Surjectivity: split any target through the central idempotent `e` and its complement `1 - e`.
+  have hsurj : Function.Surjective φ := by
+    rintro ⟨m, y⟩
+    obtain ⟨a, ha⟩ := rhoStd_surjective k m
+    obtain ⟨b, hb⟩ := psi_surjective k y
+    refine ⟨eStd k * a + (1 - eStd k) * b, ?_⟩
+    have hr : rhoStd k (eStd k * a + (1 - eStd k) * b) = m := by
+      simp only [map_add, map_mul, map_sub, map_one, rhoStd_eStd, one_mul, sub_self, zero_mul,
+        add_zero, ha]
+    have hp : psi k (eStd k * a + (1 - eStd k) * b) = y := by
+      simp only [map_add, map_mul, map_sub, map_one, psi_eStd, zero_mul, zero_add, sub_zero,
+        one_mul, hb]
+    rw [hφ, AlgHom.prod_apply, Prod.mk.injEq]
+    exact ⟨hr, hp⟩
+  -- Both algebras have `k`-dimension `6`, so surjectivity upgrades to bijectivity.
+  have hfL : Module.finrank k (MonoidAlgebra k S3) = 6 := by
+    show Module.finrank k (S3 →₀ k) = 6
+    rw [Module.finrank_finsupp_self]
+    decide
+  have hfR : Module.finrank k (Matrix (Fin 2) (Fin 2) k × kt2 k) = 6 := by
+    rw [Module.finrank_prod, Module.finrank_matrix, finrank_quotient_span_eq_natDegree,
+      Polynomial.natDegree_X_pow, Module.finrank_self, Fintype.card_fin]
+  have H : Module.finrank k (MonoidAlgebra k S3)
+      = Module.finrank k (Matrix (Fin 2) (Fin 2) k × kt2 k) := by rw [hfL, hfR]
+  have hsurj' : Function.Surjective φ.toLinearMap := hsurj
+  have hinj' : Function.Injective φ.toLinearMap :=
+    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank H).mpr hsurj'
+  exact ⟨AlgEquiv.ofBijective φ ⟨hinj', hsurj⟩⟩
 
 end Etingof.Problem953.S3Char2
