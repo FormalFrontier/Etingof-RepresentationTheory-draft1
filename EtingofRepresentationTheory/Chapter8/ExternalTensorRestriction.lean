@@ -181,4 +181,100 @@ theorem ι_extRestrictComplexXIso_hom (P₁ : ProjectiveResolution M₁) (P₂ :
     Iso.hom_inv_id, Category.comp_id, ι_extRestrictComplexXIso_inv, ← Category.assoc,
     Iso.hom_inv_id, Category.id_comp]
 
+/-- Compatibility of the degreewise iso with the first (Koszul-signed) differential: restricting the
+`d₁` of the external tensor total complex and transporting along `extRestrictComplexXIso` recovers
+the `d₁` of the `k`-tensor total complex. Reduces to `extRestrictObjIso_naturality` in the first
+variable. -/
+theorem resExt_map_d₁_comp (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ m : ℕ) :
+    (resExt k A₁ A₂).map (HomologicalComplex.mapBifunctor.d₁ P₁.complex P₂.complex
+        (extTensorFunctor k A₁ A₂) (ComplexShape.down ℕ) i₁ i₂ m) ≫
+        (extRestrictComplexXIso P₁ P₂ m).hom =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        HomologicalComplex.mapBifunctor.d₁ (res₁Complex P₁) (res₂Complex P₂)
+          (curriedTensor (ModuleCat.{u} k)) (ComplexShape.down ℕ) i₁ i₂ m := by
+  rcases i₁ with _ | i₁'
+  · rw [HomologicalComplex.mapBifunctor.d₁_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]),
+      HomologicalComplex.mapBifunctor.d₁_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel])]
+    simp
+  · by_cases h' : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (i₁', i₂) = m
+    · rw [HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ (by simp [ComplexShape.down_Rel]) _ _ h',
+        HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ (by simp [ComplexShape.down_Rel]) _ _ h',
+        Functor.map_units_smul, Linear.units_smul_comp, Linear.comp_units_smul]
+      congr 1
+      rw [Functor.map_comp, Category.assoc, ι_extRestrictComplexXIso_hom,
+        show ((extTensorFunctor k A₁ A₂).map (P₁.complex.d (i₁' + 1) i₁')).app
+          (P₂.complex.X i₂) = extTensorFunctorMap k (P₁.complex.d (i₁' + 1) i₁')
+            (𝟙 (P₂.complex.X i₂)) from rfl, ← Category.assoc,
+        extRestrictObjIso_naturality, Category.assoc]
+      congr 2
+    · rw [HomologicalComplex.mapBifunctor.d₁_eq_zero' _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₁' + 1) i₁') _ _ h',
+        HomologicalComplex.mapBifunctor.d₁_eq_zero' _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₁' + 1) i₁') _ _ h']
+      simp
+
+/-- Compatibility of the degreewise iso with the second differential. Reduces to
+`extRestrictObjIso_naturality` in the second variable. -/
+theorem resExt_map_d₂_comp (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ m : ℕ) :
+    (resExt k A₁ A₂).map (HomologicalComplex.mapBifunctor.d₂ P₁.complex P₂.complex
+        (extTensorFunctor k A₁ A₂) (ComplexShape.down ℕ) i₁ i₂ m) ≫
+        (extRestrictComplexXIso P₁ P₂ m).hom =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        HomologicalComplex.mapBifunctor.d₂ (res₁Complex P₁) (res₂Complex P₂)
+          (curriedTensor (ModuleCat.{u} k)) (ComplexShape.down ℕ) i₁ i₂ m := by
+  rcases i₂ with _ | i₂'
+  · rw [HomologicalComplex.mapBifunctor.d₂_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]),
+      HomologicalComplex.mapBifunctor.d₂_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel])]
+    simp
+  · by_cases h' : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (i₁, i₂') = m
+    · rw [HomologicalComplex.mapBifunctor.d₂_eq _ _ _ _ _ (by simp [ComplexShape.down_Rel]) _ h',
+        HomologicalComplex.mapBifunctor.d₂_eq _ _ _ _ _ (by simp [ComplexShape.down_Rel]) _ h',
+        Functor.map_units_smul, Linear.units_smul_comp, Linear.comp_units_smul]
+      congr 1
+      rw [Functor.map_comp, Category.assoc, ι_extRestrictComplexXIso_hom,
+        show ((extTensorFunctor k A₁ A₂).obj (P₁.complex.X i₁)).map (P₂.complex.d (i₂' + 1) i₂') =
+          extTensorFunctorMap k (𝟙 (P₁.complex.X i₁)) (P₂.complex.d (i₂' + 1) i₂') from rfl,
+        ← Category.assoc, extRestrictObjIso_naturality, Category.assoc]
+      congr 2
+    · rw [HomologicalComplex.mapBifunctor.d₂_eq_zero' _ _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₂' + 1) i₂') _ h',
+        HomologicalComplex.mapBifunctor.d₂_eq_zero' _ _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₂' + 1) i₂') _ h']
+      simp
+
+/-- **The complex-level commutation isomorphism.** Restricting the external tensor complex of two
+projective resolutions to `k` recovers the `k`-tensor total complex of the restricted resolutions.
+This is the remaining half of Problem 8.2.8's restriction-of-scalars commutation (#6738), consumed
+by the `quasiIso` assembly #6735. -/
+noncomputable def extTensorComplex_restrictIso (P₁ : ProjectiveResolution M₁)
+    (P₂ : ProjectiveResolution M₂) :
+    ((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj (extTensorComplex P₁ P₂) ≅
+      HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂) :=
+  HomologicalComplex.Hom.isoOfComponents (extRestrictComplexXIso P₁ P₂) <| by
+    intro n m hnm
+    rw [← cancel_epi (extRestrictComplexXIso P₁ P₂ n).inv, Iso.inv_hom_id_assoc]
+    apply HomologicalComplex.mapBifunctor.hom_ext
+    intro i₁ i₂ h
+    -- Left-hand side: expand the target differential into `d₁_T + d₂_T`.
+    rw [HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
+      HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂]
+    -- Right-hand side: pull the summand injection through `isoN.inv` and the restricted
+    -- differential, then expand into `resExt.map (d₁_ext + d₂_ext)`.
+    rw [← Category.assoc _ (extRestrictComplexXIso P₁ P₂ n).inv, ι_extRestrictComplexXIso_inv,
+      Category.assoc, Functor.mapHomologicalComplex_obj_d,
+      ← Functor.map_comp_assoc,
+      HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
+      HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂,
+      Functor.map_add, Preadditive.add_comp, Preadditive.comp_add,
+      resExt_map_d₁_comp, resExt_map_d₂_comp, ← Category.assoc, ← Category.assoc,
+      Iso.inv_hom_id, Category.id_comp, Category.id_comp]
+
 end Etingof
