@@ -104,6 +104,24 @@ action through first; (c) for char-2 `m + m = 0` on an `asModule`, do it on the 
 `m` — a `have key : single g 1 • m = ρ g m := by rw [Representation.single_smul, one_smul]; rfl`
 bridges `single_smul` to the plain action.
 
+**`MonoidAlgebra.single g 1` elaborates the coefficient `1` as `ℕ` (giving `ℕ[G]`) unless
+pinned** — the module/action can't back-propagate the base ring during elaboration, so
+`single g 1 • m` fails with `HSMul ℕ[G] M M`. Always write `single g (1 : k)`. Cost a full build
+cycle in #6859. Relatedly, a whole-group case split like `∀ g : Perm (Fin 3), P g` is
+`decide`-able, but only when stated with `g` universally quantified: `have : ∀ g, g = 1 ∨ … := by
+decide; … rcases this g` — `decide` on a hypothesis mentioning a *free* `g` errors with "expected
+type must not contain free variables".
+
+**To get `Module k ↥S` on an abstract `S : ModuleCat (k[G])` object** (needed for `k`-linear maps,
+`Basis`, `LinearMap.toSpanSingleton`, char-2 `x+x=0` via `two_smul`), install it locally:
+`letI : Module k ↥S := Module.compHom ↥S (algebraMap k (k[G]))`, then hand-prove
+`IsScalarTower k (k[G]) ↥S` and `SMulCommClass k (k[G]) ↥S` (both one-liners via `Algebra.smul_def`
+/ `Algebra.commutes` — the `k`-smul is defeq `algebraMap _ • ·`). With that, a nonzero `k`-linear
+`S₃`-intertwiner between two simple `asModule`s promotes to `k[G]`-linear by `MonoidAlgebra.induction_on`
+(base `of g` = generator equivariance, `hsmul` case closes by `smul_assoc` + the map's `map_smul`), then
+`LinearMap.bijective_of_ne_zero` (Schur) + `LinearEquiv.toModuleIso` gives the `ModuleCat` iso. Worked
+example: `simple_iff_triv_or_std` / `nonempty_iso_of_genEquivariant` (#6859, `Chapter9/Problem9_5_3_S3Char2.lean`).
+
 **`fin_cases i` (and `Fin.cases`) emit the literal as `⟨0, ⋯⟩` (`Fin.mk`), which `rw`/`simp` keyed
 on `(0 : Fin 3)` (an `OfNat`) cannot match** — "did not find pattern" even though they're defeq.
 Same #6852. Fix: open each branch with `change <goal with (0 : Fin 3)/(1 : Fin 3)/(2 : Fin 3)>` to
