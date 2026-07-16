@@ -5342,7 +5342,7 @@
     "start_line": 1,
     "end_line": 43,
     "status": "statement_formalized",
-    "coverage_note": "Faithful statements in Chapter6/Problem6_1_3_continued_E7_E8.lean, parts (a)-(d): det A for An/Dn/E6-8, Dynkin diagram claims, cycle det=0 (tree), degree bounds; sorry proofs. Part (e) extended-diagram det=0 lives in the tildeE file."
+    "coverage_note": "Faithful statements in Chapter6/Problem6_1_3_continued_E7_E8.lean, parts (a)-(d): det A for An/Dn/E6-8, Dynkin diagram claims, cycle det=0 (tree), degree bounds. Part (c) cycle lemmas cycle_cartan_mulVec_one_eq_zero and cycle_cartan_det_zero are proved (#6745); parts (a),(b),(d) and isDynkinDiagram_isTree remain sorry. Part (e) extended-diagram det=0 lives in the tildeE file."
   },
   {
     "id": "Chapter6/Problem6.1.3_continued_tildeE",
