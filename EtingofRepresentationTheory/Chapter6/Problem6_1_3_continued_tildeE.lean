@@ -698,6 +698,69 @@ theorem dynkin_classification (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn :
 
 /-! ## Part (g): the classification of affine Dynkin diagrams -/
 
+/-- **Graph-isomorphism invariance of the affine predicate.** If `adj'` is the
+image of `adj` under a graph isomorphism `σ`, and `adj` is an affine Dynkin
+diagram, then so is `adj'`. This is the affine analogue of
+`Etingof.isDynkinDiagram_of_graph_iso`: the six defining clauses (symmetry, zero
+diagonal, `0/1` entries, connectivity, positive-semidefiniteness, degeneracy) are
+each preserved by reindexing the quadratic form and the connectivity paths along
+`σ`; the null vector witnessing degeneracy is transported by `x ↦ x ∘ σ.symm`. -/
+lemma isAffineDynkinDiagram_of_graph_iso {n m : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    {adj' : Matrix (Fin m) (Fin m) ℤ} (σ : Fin n ≃ Fin m)
+    (hiso : ∀ i j, adj' (σ i) (σ j) = adj i j)
+    (hD : IsAffineDynkinDiagram n adj) : IsAffineDynkinDiagram m adj' := by
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos, hdeg⟩ := hD
+  have rw_adj' : ∀ i j : Fin m, adj' i j = adj (σ.symm i) (σ.symm j) := by
+    intro i j
+    conv_lhs => rw [show i = σ (σ.symm i) from (σ.apply_symm_apply i).symm,
+      show j = σ (σ.symm j) from (σ.apply_symm_apply j).symm]
+    exact hiso _ _
+  -- The quadratic form is invariant under reindexing by `σ`; used for both the
+  -- positive-semidefinite and the degeneracy clauses.
+  have hform : ∀ x : Fin m → ℤ,
+      dotProduct x ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj').mulVec x) =
+        dotProduct (x ∘ σ)
+          ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (x ∘ σ)) := by
+    intro x
+    simp only [dotProduct, mulVec, Matrix.sub_apply, Matrix.smul_apply,
+      Matrix.one_apply, Function.comp]
+    symm
+    apply Fintype.sum_equiv σ; intro i; congr 1
+    apply Fintype.sum_equiv σ; intro j
+    simp only [hiso, σ.injective.eq_iff]
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- Symmetry
+    exact Matrix.IsSymm.ext (fun i j => by rw [rw_adj', rw_adj']; exact hsymm.apply _ _)
+  · -- Zero diagonal
+    intro i; rw [rw_adj']; exact hdiag _
+  · -- 0-1 entries
+    intro i j; rw [rw_adj']; exact h01 _ _
+  · -- Connectivity
+    intro i j
+    obtain ⟨path, hhead, hlast, hedges⟩ := hconn (σ.symm i) (σ.symm j)
+    refine ⟨path.map σ, ?_, ?_, ?_⟩
+    · cases path with
+      | nil => exact absurd hhead (by simp)
+      | cons a _ =>
+        simp only [List.map, List.head?]; rw [List.head?] at hhead
+        exact congr_arg _ (Option.some.inj hhead ▸ σ.apply_symm_apply i)
+    · rw [List.getLast?_map, hlast]; simp [σ.apply_symm_apply]
+    · intro k hk
+      have hk' : k + 1 < path.length := by rwa [List.length_map] at hk
+      change adj' (path.map σ)[k] (path.map σ)[k + 1] = 1
+      rw [List.getElem_map, List.getElem_map, hiso]
+      exact hedges k hk'
+  · -- Positive semidefinite
+    intro x; rw [hform x]; exact hpos (x ∘ σ)
+  · -- Degenerate: transport the null vector by `x ∘ σ.symm`
+    obtain ⟨x, hx_ne, hx0⟩ := hdeg
+    refine ⟨x ∘ σ.symm, ?_, ?_⟩
+    · intro h; apply hx_ne; ext i
+      have := congr_fun h (σ i); simpa [Function.comp] using this
+    · rw [hform (x ∘ σ.symm)]
+      have hxx : (x ∘ σ.symm) ∘ σ = x := by ext i; simp [Function.comp]
+      rw [hxx]; exact hx0
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
@@ -705,6 +768,14 @@ extended diagrams of parts (c)–(e). -/
 theorem affine_dynkin_classification (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) :
     IsAffineDynkinDiagram n adj ↔
     ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n, ∀ i j, adj (σ i) (σ j) = t.adj i j := by
-  sorry
+  constructor
+  · -- (⟹) The classification proper: a positive-semidefinite-but-degenerate
+    -- connected simply-laced graph is graph-isomorphic to one of the five
+    -- extended types. This is the deep content (see the sub-issue).
+    sorry
+  · -- (⟸) Each extended type is an affine Dynkin diagram (`isAffineDynkinDiagram_of_type`),
+    -- transported along the graph isomorphism `σ`.
+    rintro ⟨t, σ, hσ⟩
+    exact isAffineDynkinDiagram_of_graph_iso σ hσ (isAffineDynkinDiagram_of_type t)
 
 end Etingof.Problem6_1_3_tildeE
