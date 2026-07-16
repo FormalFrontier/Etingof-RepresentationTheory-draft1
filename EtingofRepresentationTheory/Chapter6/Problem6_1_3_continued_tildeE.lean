@@ -761,6 +761,197 @@ lemma isAffineDynkinDiagram_of_graph_iso {n m : ℕ} {adj : Matrix (Fin n) (Fin 
       have hxx : (x ∘ σ.symm) ∘ σ = x := by ext i; simp [Function.comp]
       rw [hxx]; exact hx0
 
+/-- **Discrete Perron–Frobenius for an affine Dynkin diagram.** The Cartan form
+`A = 2·Id − adj` of an affine Dynkin diagram is positive semidefinite but
+degenerate, and — because the graph is connected (irreducibility) — its kernel is
+spanned by a *strictly positive* integer vector `w` (the marks). Concretely there
+is `w : Fin n → ℤ` with every `w i > 0` and `A ·ᵥ w = 0`.
+
+The proof is the standard sign-folding argument. From a degenerate null vector `x`
+(the form vanishes on it) the entrywise absolute value `w = |x|` still makes the
+form vanish: replacing `xᵢxⱼ` by `|xᵢ||xⱼ| ≥ xᵢxⱼ` can only *lower* the value
+`2∑xᵢ² − ∑adjᵢⱼxᵢxⱼ`, while positive-semidefiniteness bounds it below by `0`, so
+`A(w) = 0` too. Polarization at each basis vector `eₖ` (using that the quadratic
+coefficient `A(w) = 0` kills the `t²` term of `A(t·w + eₖ) ≥ 0`) forces
+`(A ·ᵥ w) k = 0`, i.e. `A ·ᵥ w = 0`. Finally the zero-set of `w` is closed under
+adjacency (`2wₚ = ∑ⱼ adjₚⱼ wⱼ` with `wₚ = 0` and all terms nonnegative forces every
+neighbour's weight to vanish); connectivity then propagates `w = 0` from any zero
+entry to the nonzero entry witnessing `x ≠ 0`, a contradiction. Hence `w > 0`. -/
+lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+    (hD : IsAffineDynkinDiagram n adj) :
+    ∃ w : Fin n → ℤ, (∀ i, 0 < w i) ∧
+      (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec w = 0 := by
+  classical
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos, hdeg⟩ := hD
+  obtain ⟨x, hx_ne, hx0⟩ := hdeg
+  set M := (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) with hM_def
+  -- Entries of the Cartan matrix.
+  have hMij : ∀ i j, M i j = (if i = j then 2 else 0) - adj i j := by
+    intro i j
+    rw [hM_def, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, nsmul_eq_mul]
+    split_ifs <;> norm_num
+  have hMsym_ij : ∀ i j, M i j = M j i := by
+    intro i j
+    have hsymm' : adj i j = adj j i := by
+      have h := congrFun (congrFun hsymm j) i
+      rw [Matrix.transpose_apply] at h; exact h
+    rw [hMij i j, hMij j i, hsymm']
+    rcases eq_or_ne i j with h | h
+    · rw [h]
+    · rw [if_neg h, if_neg (fun hji => h hji.symm)]
+  -- Bilinear form expansion `uᵀ M v = ∑ᵢ∑ⱼ uᵢ Mᵢⱼ vⱼ`.
+  have Bform : ∀ u v : Fin n → ℤ,
+      dotProduct u (M.mulVec v) = ∑ i, ∑ j, u i * M i j * v j := by
+    intro u v
+    simp only [dotProduct, Matrix.mulVec, Finset.mul_sum]
+    exact Finset.sum_congr rfl (fun i _ => Finset.sum_congr rfl (fun j _ => by ring))
+  -- Symmetry of the form.
+  have hdotcomm : ∀ u v : Fin n → ℤ,
+      dotProduct u (M.mulVec v) = dotProduct v (M.mulVec u) := by
+    intro u v
+    rw [Bform u v, Bform v u, Finset.sum_comm]
+    exact Finset.sum_congr rfl
+      (fun a _ => Finset.sum_congr rfl (fun b _ => by rw [hMsym_ij b a]; ring))
+  -- The nonnegative folded vector `w = |x|`.
+  set w : Fin n → ℤ := fun i => |x i| with hw
+  have hwi : ∀ i, w i = |x i| := by intro i; rw [hw]
+  have hw_nonneg : ∀ i, 0 ≤ w i := by intro i; rw [hwi i]; exact abs_nonneg _
+  -- Termwise the folded form dominates from below: `wᵢMᵢⱼwⱼ ≤ xᵢMᵢⱼxⱼ`.
+  have habs_le : ∀ a b : ℤ, a * b ≤ |a| * |b| := by
+    intro a b; rw [← abs_mul]; exact le_abs_self _
+  have hterm : ∀ i j, w i * M i j * w j ≤ x i * M i j * x j := by
+    intro i j
+    rw [hwi i, hwi j, hMij i j]
+    by_cases hij : i = j
+    · subst hij
+      rw [if_pos rfl, hdiag i]
+      nlinarith [abs_mul_abs_self (x i)]
+    · rw [if_neg hij]
+      have ha : 0 ≤ adj i j := by rcases h01 i j with h | h <;> omega
+      have hb : x i * x j ≤ |x i| * |x j| := habs_le (x i) (x j)
+      nlinarith [ha, hb, mul_nonneg ha (sub_nonneg.mpr hb)]
+  -- Hence `A(w) ≤ A(x) = 0`, and `A(w) ≥ 0`, so `A(w) = 0`.
+  have hle : dotProduct w (M.mulVec w) ≤ dotProduct x (M.mulVec x) := by
+    rw [Bform w w, Bform x x]
+    exact Finset.sum_le_sum (fun i _ => Finset.sum_le_sum (fun j _ => hterm i j))
+  have hQw0 : dotProduct w (M.mulVec w) = 0 :=
+    le_antisymm (hle.trans_eq hx0) (hpos w)
+  -- Polarization: `A(w) = 0` and semidefiniteness force `A ·ᵥ w = 0`.
+  have hsingle : ∀ (k : Fin n) (u : Fin n → ℤ),
+      dotProduct (Pi.single k (1:ℤ)) u = u k := by
+    intro k u
+    simp only [dotProduct]
+    rw [Finset.sum_eq_single k]
+    · rw [Pi.single_eq_same, one_mul]
+    · intro b _ hb; rw [Pi.single_eq_of_ne hb, zero_mul]
+    · intro h; exact absurd (Finset.mem_univ k) h
+  have hMkk : ∀ k : Fin n, (M.mulVec (Pi.single k (1:ℤ))) k = 2 := by
+    intro k
+    simp only [Matrix.mulVec, dotProduct]
+    rw [Finset.sum_eq_single k]
+    · rw [Pi.single_eq_same, mul_one, hMij, if_pos rfl, hdiag k, sub_zero]
+    · intro b _ hb; rw [Pi.single_eq_of_ne hb, mul_zero]
+    · intro h; exact absurd (Finset.mem_univ k) h
+  have hMw : M.mulVec w = 0 := by
+    funext k
+    have hbil : ∀ t : ℤ,
+        dotProduct (t • w + Pi.single k (1:ℤ)) (M.mulVec (t • w + Pi.single k (1:ℤ)))
+          = 2 * t * (M.mulVec w) k + 2 := by
+      intro t
+      have expand : dotProduct (t • w + Pi.single k (1:ℤ))
+            (M.mulVec (t • w + Pi.single k (1:ℤ)))
+          = t * (t * dotProduct w (M.mulVec w))
+            + t * dotProduct w (M.mulVec (Pi.single k (1:ℤ)))
+            + t * dotProduct (Pi.single k (1:ℤ)) (M.mulVec w)
+            + dotProduct (Pi.single k (1:ℤ)) (M.mulVec (Pi.single k (1:ℤ))) := by
+        rw [Matrix.mulVec_add, Matrix.mulVec_smul]
+        simp only [dotProduct_add, add_dotProduct, smul_dotProduct, dotProduct_smul,
+          smul_eq_mul]
+        ring
+      rw [expand, hQw0, hdotcomm w (Pi.single k (1:ℤ)),
+        hsingle k (M.mulVec w), hsingle k (M.mulVec (Pi.single k (1:ℤ))), hMkk k]
+      ring
+    have hge : ∀ t : ℤ, 0 ≤ 2 * t * (M.mulVec w) k + 2 := by
+      intro t; rw [← hbil t]; exact hpos _
+    have h1 := hge 2
+    have h2 := hge (-2)
+    have hzero : (M.mulVec w) k = 0 := by omega
+    simpa using hzero
+  -- Strict positivity via connectivity (irreducibility).
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+  have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
+  haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hpre : G.Preconnected := by
+    intro i j
+    obtain ⟨p, hhead, hlast, hpath⟩ := hconn i j
+    have hne : p ≠ [] := by rintro rfl; simp at hhead
+    have hchain : List.IsChain (fun a b => adj a b = 1) p := by
+      rw [List.isChain_iff_getElem]; intro k hk; exact hpath k hk
+    have hi : p.head hne = i :=
+      Option.some_inj.mp ((List.head?_eq_some_head hne).symm.trans hhead)
+    have hj : p.getLast hne = j := by
+      have := (List.getLast?_eq_getLast_of_ne_nil hne).symm.trans hlast
+      exact Option.some_inj.mp this
+    have hrtg := List.relationReflTransGen_of_exists_isChain p hchain hne
+    rw [hi, hj] at hrtg
+    exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
+      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) hrtg)
+  have hconn' : G.Connected := ⟨hpre⟩
+  -- Edge propagation of the zero-set: an edge out of a zero entry lands on a zero entry.
+  have hprop : ∀ p q, G.Adj p q → w p = 0 → w q = 0 := by
+    intro p q hpq hwp
+    have hpq' : adj p q = 1 := hpq
+    have h0 : (M.mulVec w) p = 0 := by rw [hMw]; rfl
+    have hrow : (M.mulVec w) p = ∑ j, ((if p = j then 2 else 0) - adj p j) * w j := by
+      simp only [Matrix.mulVec, dotProduct]
+      exact Finset.sum_congr rfl (fun j _ => by rw [hMij p j])
+    rw [hrow] at h0
+    have hsplit : ∑ j, ((if p = j then (2:ℤ) else 0) - adj p j) * w j
+        = (∑ j, (if p = j then (2:ℤ) else 0) * w j) - ∑ j, adj p j * w j := by
+      rw [← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl (fun j _ => by ring)
+    have hdiagsum : ∑ j, (if p = j then (2:ℤ) else 0) * w j = 0 := by
+      rw [Finset.sum_eq_single p
+        (fun b _ hb => by rw [if_neg (fun h => hb h.symm), zero_mul])
+        (fun h => absurd (Finset.mem_univ p) h)]
+      rw [if_pos rfl, hwp, mul_zero]
+    rw [hsplit, hdiagsum] at h0
+    have hsum0 : ∑ j, adj p j * w j = 0 := by linarith [h0]
+    have hnn : ∀ j, 0 ≤ adj p j * w j := by
+      intro j; rcases h01 p j with h | h
+      · rw [h, zero_mul]
+      · rw [h, one_mul]; exact hw_nonneg j
+    have hterm0 : adj p q * w q = 0 :=
+      (Finset.sum_eq_zero_iff_of_nonneg (fun j _ => hnn j)).mp hsum0 q (Finset.mem_univ q)
+    rw [hpq', one_mul] at hterm0
+    exact hterm0
+  -- `x ≠ 0` gives a strictly positive entry of `w`.
+  obtain ⟨m, hm⟩ : ∃ m, x m ≠ 0 := by
+    obtain ⟨m, hm⟩ := Function.ne_iff.mp hx_ne
+    exact ⟨m, by simpa using hm⟩
+  have hwm : 0 < w m := by rw [hwi m]; exact abs_pos.mpr hm
+  refine ⟨w, ?_, hMw⟩
+  intro i
+  rcases lt_or_eq_of_le (hw_nonneg i) with h | h
+  · exact h
+  · exfalso
+    have hzero : w i = 0 := h.symm
+    have hreach : Relation.ReflTransGen G.Adj i m :=
+      (SimpleGraph.reachable_iff_reflTransGen i m).mp (hconn'.preconnected i m)
+    have hprop_chain : ∀ v, Relation.ReflTransGen G.Adj i v → w v = 0 := by
+      intro v hv
+      induction hv with
+      | refl => exact hzero
+      | tail _ hadj ih => exact hprop _ _ hadj ih
+    rw [hprop_chain m hreach] at hwm
+    exact lt_irrefl 0 hwm
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
