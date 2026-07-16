@@ -114,4 +114,39 @@ theorem extRestrictObjIso_naturality {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y Y' 
   | add a b ha hb =>
     rw [map_add, map_add, ha, hb]
 
+/-! ## The complex-level commutation isomorphism -/
+
+variable {M₁ : ModuleCat.{u} A₁ᵐᵒᵖ} {M₂ : ModuleCat.{u} A₂ᵐᵒᵖ}
+
+/-- The chain complex `P₁` of `A₁ᵐᵒᵖ`-modules restricted to a chain complex of `k`-modules. -/
+noncomputable abbrev res₁Complex (P₁ : ProjectiveResolution M₁) :
+    ChainComplex (ModuleCat.{u} k) ℕ :=
+  ((res₁ k A₁).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₁.complex
+
+/-- The chain complex `P₂` of `A₂ᵐᵒᵖ`-modules restricted to a chain complex of `k`-modules. -/
+noncomputable abbrev res₂Complex (P₂ : ProjectiveResolution M₂) :
+    ChainComplex (ModuleCat.{u} k) ℕ :=
+  ((res₂ k A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₂.complex
+
+/-- The bicomplex `(i₁, i₂) ↦ (P₁.X i₁) ⊗[k] (P₂.X i₂)` (with the external
+`(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action) whose total complex is `extTensorComplex P₁ P₂`. -/
+noncomputable abbrev extBicomplex (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
+    HomologicalComplex₂ (ModuleCat.{u} (A₁ ⊗[k] A₂)ᵐᵒᵖ)
+      (ComplexShape.down ℕ) (ComplexShape.down ℕ) :=
+  (((extTensorFunctor k A₁ A₂).mapBifunctorHomologicalComplex
+    (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P₁.complex).obj P₂.complex
+
+/-- The degreewise comparison isomorphism. In degree `n`, restricting the external tensor total
+complex to `k` gives the `k`-tensor total complex of the restricted resolutions, because
+`resExt` preserves the degree-`n` coproduct and matches summands via `extRestrictObjIso`. -/
+noncomputable def extRestrictComplexXIso (P₁ : ProjectiveResolution M₁)
+    (P₂ : ProjectiveResolution M₂) (n : ℕ) :
+    (((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+        (extTensorComplex P₁ P₂)).X n ≅
+      (HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂)).X n :=
+  (PreservesCoproduct.iso (resExt k A₁ A₂)
+    ((extBicomplex P₁ P₂).toGradedObject.mapObjFun
+      (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n)) ≪≫
+  Limits.Sigma.mapIso (fun i => extRestrictObjIso (P₁.complex.X i.1.1) (P₂.complex.X i.1.2))
+
 end Etingof
