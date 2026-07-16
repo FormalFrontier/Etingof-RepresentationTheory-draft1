@@ -246,6 +246,131 @@ private theorem transpose_cell_iff {n : ℕ} (la : Nat.Partition n) (r c : ℕ) 
   rw [← mem_toYoungDiagram_iff, conjugate_toYoungDiagram, YoungDiagram.mem_transpose,
     Prod.swap_prod_mk, mem_toYoungDiagram_iff]
 
+/-! ### The tableau-transposition permutation `τ`
+
+`τ ∈ S_n` sends the canonical position of cell `(i, j)` in `λ` to the canonical position of the
+transposed cell `(j, i)` in `λ*`. It conjugates the row subgroup of `λ` to the column subgroup
+of `λ*` and vice versa. -/
+
+/-- The sum of the sorted parts of a partition of `n` is `n`. -/
+private theorem sortedParts_sum {n : ℕ} (la : Nat.Partition n) : la.sortedParts.sum = n := by
+  rw [Nat.Partition.sortedParts, ← Multiset.sum_coe, Multiset.sort_eq]
+  exact la.parts_sum
+
+/-- For each position `k` of `λ`, there is a position `m` of `λ*` at the transposed cell. -/
+private theorem transpose_cell_exists {n : ℕ} (la : Nat.Partition n) (k : Fin n) :
+    ∃ m : Fin n,
+      rowOfPos (conjugatePartition la).sortedParts m.val = colOfPos la.sortedParts k.val
+        ∧ colOfPos (conjugatePartition la).sortedParts m.val = rowOfPos la.sortedParts k.val := by
+  have hk : k.val < la.sortedParts.sum := by rw [sortedParts_sum]; exact k.isLt
+  have hcell : rowOfPos la.sortedParts k.val
+      < (conjugatePartition la).sortedParts.getD (colOfPos la.sortedParts k.val) 0 := by
+    rw [transpose_cell_iff]; exact colOfPos_lt_getD la.sortedParts k.val hk
+  obtain ⟨m, hm_lt, hrow, hcol⟩ := exists_pos_of_cell (conjugatePartition la).sortedParts
+    (colOfPos la.sortedParts k.val) (rowOfPos la.sortedParts k.val) hcell
+  rw [sortedParts_sum] at hm_lt
+  exact ⟨⟨m, hm_lt⟩, hrow, hcol⟩
+
+/-- The underlying position map of `τ`: `k ↦` position of the transposed cell in `λ*`. -/
+private noncomputable def transposePosFun {n : ℕ} (la : Nat.Partition n) (k : Fin n) : Fin n :=
+  (transpose_cell_exists la k).choose
+
+private theorem transposePosFun_row {n : ℕ} (la : Nat.Partition n) (k : Fin n) :
+    rowOfPos (conjugatePartition la).sortedParts (transposePosFun la k).val
+      = colOfPos la.sortedParts k.val :=
+  (transpose_cell_exists la k).choose_spec.1
+
+private theorem transposePosFun_col {n : ℕ} (la : Nat.Partition n) (k : Fin n) :
+    colOfPos (conjugatePartition la).sortedParts (transposePosFun la k).val
+      = rowOfPos la.sortedParts k.val :=
+  (transpose_cell_exists la k).choose_spec.2
+
+private theorem transposePosFun_injective {n : ℕ} (la : Nat.Partition n) :
+    Function.Injective (transposePosFun la) := by
+  intro k1 k2 h
+  have hrow := transposePosFun_row la k1
+  have hrow2 := transposePosFun_row la k2
+  have hcol := transposePosFun_col la k1
+  have hcol2 := transposePosFun_col la k2
+  rw [h] at hrow hcol
+  have hc : colOfPos la.sortedParts k1.val = colOfPos la.sortedParts k2.val := hrow.symm.trans hrow2
+  have hr : rowOfPos la.sortedParts k1.val = rowOfPos la.sortedParts k2.val := hcol.symm.trans hcol2
+  apply Fin.ext
+  exact rowOfPos_colOfPos_injective la.sortedParts k1.val k2.val
+    (by rw [sortedParts_sum]; exact k1.isLt) (by rw [sortedParts_sum]; exact k2.isLt) hr hc
+
+/-- The **tableau-transposition permutation** `τ ∈ S_n`. -/
+private noncomputable def transposePerm {n : ℕ} (la : Nat.Partition n) : Equiv.Perm (Fin n) :=
+  Equiv.ofBijective (transposePosFun la)
+    (Finite.injective_iff_bijective.mp (transposePosFun_injective la))
+
+private theorem transposePerm_row {n : ℕ} (la : Nat.Partition n) (x : Fin n) :
+    rowOfPos (conjugatePartition la).sortedParts ((transposePerm la) x).val
+      = colOfPos la.sortedParts x.val := by
+  rw [transposePerm, Equiv.ofBijective_apply]; exact transposePosFun_row la x
+
+private theorem transposePerm_col {n : ℕ} (la : Nat.Partition n) (x : Fin n) :
+    colOfPos (conjugatePartition la).sortedParts ((transposePerm la) x).val
+      = rowOfPos la.sortedParts x.val := by
+  rw [transposePerm, Equiv.ofBijective_apply]; exact transposePosFun_col la x
+
+private theorem mem_rowSubgroup_iff {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ RowSubgroup n la
+      ↔ ∀ k, rowOfPos la.sortedParts (σ k).val = rowOfPos la.sortedParts k.val := Iff.rfl
+
+private theorem mem_columnSubgroup_iff {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ ColumnSubgroup n la
+      ↔ ∀ k, colOfPos la.sortedParts (σ k).val = colOfPos la.sortedParts k.val := Iff.rfl
+
+/-- **`τ` conjugates the row subgroup of `λ*` to the column subgroup of `λ`.** -/
+private theorem mem_rowSubgroup_conj {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ RowSubgroup n (conjugatePartition la)
+      ↔ (transposePerm la)⁻¹ * σ * transposePerm la ∈ ColumnSubgroup n la := by
+  rw [mem_rowSubgroup_iff, mem_columnSubgroup_iff]
+  -- `colOfPos P (τ⁻¹ y) = rowOfPos P* y`
+  have e1 : ∀ y : Fin n, colOfPos la.sortedParts ((transposePerm la)⁻¹ y).val
+      = rowOfPos (conjugatePartition la).sortedParts y.val := by
+    intro y
+    have hself : (transposePerm la) ((transposePerm la)⁻¹ y) = y := by simp
+    have := transposePerm_row la ((transposePerm la)⁻¹ y)
+    rw [hself] at this
+    exact this.symm
+  have key : ∀ k : Fin n,
+      (colOfPos la.sortedParts (((transposePerm la)⁻¹ * σ * transposePerm la) k).val
+          = colOfPos la.sortedParts k.val)
+        ↔ (rowOfPos (conjugatePartition la).sortedParts (σ (transposePerm la k)).val
+            = rowOfPos (conjugatePartition la).sortedParts (transposePerm la k).val) := by
+    intro k
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, e1, ← transposePerm_row la k]
+  simp only [key]
+  constructor
+  · intro h k; exact h (transposePerm la k)
+  · intro h m; obtain ⟨k, rfl⟩ := (transposePerm la).surjective m; exact h k
+
+/-- **`τ` conjugates the column subgroup of `λ*` to the row subgroup of `λ`.** -/
+private theorem mem_columnSubgroup_conj {n : ℕ} (la : Nat.Partition n) (σ : Equiv.Perm (Fin n)) :
+    σ ∈ ColumnSubgroup n (conjugatePartition la)
+      ↔ (transposePerm la)⁻¹ * σ * transposePerm la ∈ RowSubgroup n la := by
+  rw [mem_columnSubgroup_iff, mem_rowSubgroup_iff]
+  have e1 : ∀ y : Fin n, rowOfPos la.sortedParts ((transposePerm la)⁻¹ y).val
+      = colOfPos (conjugatePartition la).sortedParts y.val := by
+    intro y
+    have hself : (transposePerm la) ((transposePerm la)⁻¹ y) = y := by simp
+    have := transposePerm_col la ((transposePerm la)⁻¹ y)
+    rw [hself] at this
+    exact this.symm
+  have key : ∀ k : Fin n,
+      (rowOfPos la.sortedParts (((transposePerm la)⁻¹ * σ * transposePerm la) k).val
+          = rowOfPos la.sortedParts k.val)
+        ↔ (colOfPos (conjugatePartition la).sortedParts (σ (transposePerm la k)).val
+            = colOfPos (conjugatePartition la).sortedParts (transposePerm la k).val) := by
+    intro k
+    rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, e1, ← transposePerm_col la k]
+  simp only [key]
+  constructor
+  · intro h k; exact h (transposePerm la k)
+  · intro h m; obtain ⟨k, rfl⟩ := (transposePerm la).surjective m; exact h k
+
 /-! ### `V_λ ⊗ ℂ_- = V_{λ*}` -/
 
 /-- **Problem 5.24.1(b), main statement.** `V_λ ⊗ ℂ_- ≅ V_{λ*}`: the Specht module `V_λ`,
