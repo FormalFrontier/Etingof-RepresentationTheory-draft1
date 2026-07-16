@@ -417,6 +417,269 @@ def IsPole (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) (v : Fin 3 → �
 def poleSet (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) : Set (Fin 3 → ℝ) :=
   {v | IsPole G v}
 
+section Poles
+open scoped RealInnerProductSpace
+open Matrix EuclideanSpace Submodule WithLp Module
+
+/-- Dot product of coordinate vectors is the Euclidean inner product of their `EuclideanSpace`
+images. -/
+private lemma inner_toLp (a b : Fin 3 → ℝ) :
+    ⟪(toLp 2 a : EuclideanSpace ℝ (Fin 3)), toLp 2 b⟫ = a ⬝ᵥ b := by
+  rw [EuclideanSpace.inner_toLp_toLp]
+  simp only [star_trivial]
+  exact dotProduct_comm b a
+
+/-- **Antipodal-pair core.** For `g ≠ 1` in `SO(3)` with a chosen nonzero fixed vector `u₀` in
+Euclidean `3`-space, every vector fixed by `euclideanIso g` lies on the axis line `ℝ ∙ u₀`.
+This is the "unique rotation axis" fact: on the orthogonal plane `g` is a rotation by a nonzero
+angle, which fixes no nonzero vector. -/
+private lemma euclidean_fixed_mem_axis
+    (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1)
+    (u₀ : EuclideanSpace ℝ (Fin 3)) (hu₀unit : ⟪u₀, u₀⟫ = 1)
+    (hfix₀ : euclideanIso g u₀ = u₀)
+    {x : EuclideanSpace ℝ (Fin 3)} (hx : euclideanIso g x = x) :
+    x ∈ ℝ ∙ u₀ := by
+  classical
+  have hu₀ : u₀ ≠ 0 := fun h => by simp [h] at hu₀unit
+  -- The plane orthogonal to the axis, of dimension `2`.
+  have hWfin : finrank ℝ (ℝ ∙ u₀)ᗮ = 2 := by
+    haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
+      ⟨by norm_num [finrank_euclideanSpace_fin]⟩
+    exact Submodule.finrank_orthogonal_span_singleton (n := 2) hu₀
+  set W : Submodule ℝ (EuclideanSpace ℝ (Fin 3)) := (ℝ ∙ u₀)ᗮ with hWdef
+  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  let bW : Basis (Fin 2) ℝ W := Module.finBasisOfFinrankEq ℝ W hWfin
+  let o : Orientation ℝ W (Fin 2) := bW.orientation
+  -- `g` preserves `W` (it fixes `u₀` and is an isometry).
+  have hWinv : W.map ((euclideanIso g).toLinearEquiv :
+      EuclideanSpace ℝ (Fin 3) →ₗ[ℝ] EuclideanSpace ℝ (Fin 3)) = W := by
+    rw [hWdef, Submodule.map_orthogonal_equiv]
+    congr 1
+    rw [Submodule.map_span, Set.image_singleton, LinearEquiv.coe_coe,
+      LinearIsometryEquiv.coe_toLinearEquiv, hfix₀]
+  -- The induced isometry `ρ` of the plane.
+  let ρ : W ≃ₗᵢ[ℝ] W :=
+    (LinearIsometryEquiv.submoduleMap W (euclideanIso g)).trans
+      (LinearIsometryEquiv.ofEq _ W hWinv)
+  have coeρ : ∀ y : W, ((ρ y : W) : EuclideanSpace ℝ (Fin 3)) = euclideanIso g (y : W) := by
+    intro y
+    change ((LinearIsometryEquiv.ofEq _ W hWinv
+      (LinearIsometryEquiv.submoduleMap W (euclideanIso g) y) : W) :
+        EuclideanSpace ℝ (Fin 3)) = _
+    rw [LinearIsometryEquiv.coe_ofEq_apply, LinearIsometryEquiv.submoduleMap_apply_coe]
+  -- `ρ` has positive determinant, so it is an oriented rotation.
+  have hdet : (0 : ℝ) < LinearMap.det (ρ.toLinearEquiv : W →ₗ[ℝ] W) := by
+    have hmaps : W ≤ W.comap (euclideanIso g).toLinearMap := by
+      intro y hy
+      have hmem : (euclideanIso g) y ∈ W := by
+        have := hWinv ▸ Submodule.mem_map_of_mem
+          (f := (euclideanIso g).toLinearEquiv.toLinearMap) hy
+        simpa using this
+      exact hmem
+    have hrestrict :
+        (euclideanIso g).toLinearMap.restrict hmaps = ρ.toLinearMap := by
+      refine LinearMap.ext fun y => ?_
+      apply Subtype.ext
+      rw [LinearMap.restrict_coe_apply]
+      exact (coeρ y).symm
+    have hquot : W.mapQ W (euclideanIso g).toLinearMap hmaps = LinearMap.id := by
+      have hu₀W : u₀ ∉ W := by
+        rw [hWdef]
+        intro hmem
+        have h0 : ⟪u₀, u₀⟫ = (0 : ℝ) :=
+          (Submodule.mem_orthogonal _ _).mp hmem u₀ (Submodule.mem_span_singleton_self _)
+        exact hu₀ (inner_self_eq_zero.mp h0)
+      have hne : W.mkQ u₀ ≠ 0 := by
+        rw [Submodule.mkQ_apply, Ne, Submodule.Quotient.mk_eq_zero]; exact hu₀W
+      have hspan : Submodule.span ℝ {W.mkQ u₀} = ⊤ := by
+        apply Submodule.eq_top_of_finrank_eq
+        have hq : finrank ℝ (EuclideanSpace ℝ (Fin 3) ⧸ W) + finrank ℝ W
+            = finrank ℝ (EuclideanSpace ℝ (Fin 3)) := Submodule.finrank_quotient_add_finrank W
+        rw [hWfin, finrank_euclideanSpace_fin] at hq
+        rw [finrank_span_singleton hne]
+        omega
+      refine LinearMap.ext_on hspan ?_
+      intro z hz
+      simp only [Set.mem_singleton_iff] at hz
+      subst hz
+      rw [Submodule.mkQ_apply, Submodule.mapQ_apply, LinearMap.id_apply,
+        show (euclideanIso g).toLinearMap u₀ = u₀ from hfix₀]
+    have hE : LinearMap.det (euclideanIso g).toLinearMap = 1 := euclideanIso_det g
+    rw [LinearMap.det_eq_det_mul_det (W := W) _ hmaps, hrestrict, hquot,
+      LinearMap.det_id, mul_one] at hE
+    rw [show (ρ.toLinearEquiv : W →ₗ[ℝ] W) = ρ.toLinearMap from rfl, hE]
+    norm_num
+  obtain ⟨α, hα⟩ := o.exists_linearIsometryEquiv_eq_of_det_pos hdet
+  -- `ρ` fixes no nonzero vector: otherwise the rotation angle is `0`, forcing `g = 1`.
+  have key : ∀ w : W, ρ w = w → w = 0 := by
+    intro w hw
+    by_contra hw0
+    -- the angle is `0`
+    have hangle : o.oangle w (ρ w) = α := by rw [hα, o.oangle_rotation_self_right hw0]
+    rw [hw, o.oangle_self] at hangle
+    -- hence `ρ = refl`, so `euclideanIso g` is the identity and `g = 1`
+    have hρrefl : ρ = LinearIsometryEquiv.refl ℝ W := by
+      rw [hα, ← hangle, o.rotation_zero]
+    have hallfix : (euclideanIso g).toLinearMap = LinearMap.id := by
+      have hle : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) ≤
+          LinearMap.eqLocus (euclideanIso g).toLinearMap LinearMap.id := by
+        have hsup : (ℝ ∙ u₀) ⊔ W = ⊤ := by
+          rw [hWdef]; exact Submodule.sup_orthogonal_of_hasOrthogonalProjection
+        rw [← hsup]
+        refine sup_le ?_ ?_
+        · rw [Submodule.span_le]
+          intro z hz
+          simp only [Set.mem_singleton_iff] at hz
+          subst hz
+          simp only [SetLike.mem_coe, LinearMap.mem_eqLocus, LinearMap.id_coe, id_eq]
+          exact hfix₀
+        · intro z hz
+          simp only [LinearMap.mem_eqLocus, LinearMap.id_coe, id_eq]
+          have hz' := coeρ ⟨z, hz⟩
+          rw [hρrefl] at hz'
+          simpa using hz'.symm
+      have htop := top_le_iff.mp hle
+      exact LinearMap.ext fun z => (LinearMap.mem_eqLocus.mp (htop ▸ Submodule.mem_top))
+    -- deduce the underlying matrix is `1`, hence `g = 1`
+    have hmat : (g : Matrix (Fin 3) (Fin 3) ℝ) = 1 := by
+      have hlin : toEuclideanLin (g : Matrix (Fin 3) (Fin 3) ℝ)
+          = toEuclideanLin (1 : Matrix (Fin 3) (Fin 3) ℝ) := by
+        rw [toEuclideanLin_one]; exact hallfix
+      exact toEuclideanLin.injective hlin
+    exact hg (Subtype.ext (hmat.trans (Submonoid.coe_one _).symm))
+  -- Decompose `x = p + w` along the axis and the plane, and show the plane part vanishes.
+  set p : EuclideanSpace ℝ (Fin 3) := (⟪u₀, x⟫) • u₀ with hpdef
+  set w : EuclideanSpace ℝ (Fin 3) := x - p with hwdef
+  have hpmem : p ∈ ℝ ∙ u₀ := Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self u₀)
+  have hwW : w ∈ W := by
+    rw [hWdef, Submodule.mem_orthogonal]
+    intro z hz
+    obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hz
+    rw [hwdef, hpdef, inner_sub_right, real_inner_smul_left, real_inner_smul_left,
+      real_inner_smul_right, hu₀unit]
+    ring
+  -- `euclideanIso g` fixes `p` (on the axis) and `x`, hence fixes `w`.
+  have hgp : euclideanIso g p = p := by
+    rw [hpdef, map_smul, hfix₀]
+  have hgw : euclideanIso g w = w := by
+    rw [hwdef, map_sub, hx, hgp]
+  have hρw : ρ ⟨w, hwW⟩ = ⟨w, hwW⟩ := by
+    apply Subtype.ext
+    rw [coeρ]
+    exact hgw
+  have hw0 : w = 0 := congrArg (Subtype.val) (key ⟨w, hwW⟩ hρw)
+  have hxp : x = p := by
+    have : x - p = 0 := hwdef ▸ hw0
+    exact sub_eq_zero.mp this
+  rw [hxp]; exact hpmem
+
+/-- **Antipodal pair.** For a nontrivial `g ∈ SO(3)`, the set of unit vectors it fixes is
+exactly a pair of opposite unit vectors `{v₀, -v₀}`. This is the book's "every nontrivial
+element fixes a unique pair of opposite poles". -/
+theorem nontrivial_fixed_unit_vectors (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
+    ∃ v₀ : Fin 3 → ℝ, v₀ ⬝ᵥ v₀ = 1 ∧ fixedUnitVectors g = {v₀, -v₀} := by
+  classical
+  -- A nonzero fixed vector, normalized to a unit fixed vector.
+  obtain ⟨v, hv0, hvfix⟩ := exists_fixed_vector g hg
+  have hvpos : 0 < v ⬝ᵥ v := by
+    have hne : (toLp 2 v : EuclideanSpace ℝ (Fin 3)) ≠ 0 := by
+      intro h; exact hv0 (by have := congrArg ofLp h; simpa using this)
+    have hself := real_inner_self_eq_norm_sq (toLp 2 v : EuclideanSpace ℝ (Fin 3))
+    rw [inner_toLp] at hself
+    rw [hself]
+    exact pow_pos (norm_pos_iff.2 hne) 2
+  set c : ℝ := Real.sqrt (v ⬝ᵥ v) with hc
+  have hcpos : 0 < c := by rw [hc]; exact Real.sqrt_pos.2 hvpos
+  have hcsq : c * c = v ⬝ᵥ v := by rw [hc]; exact Real.mul_self_sqrt (le_of_lt hvpos)
+  set v₀ : Fin 3 → ℝ := c⁻¹ • v with hv₀def
+  have hcne : c ≠ 0 := ne_of_gt hcpos
+  have hv₀unit : v₀ ⬝ᵥ v₀ = 1 := by
+    have h : v₀ ⬝ᵥ v₀ = (c⁻¹ * c⁻¹) * (v ⬝ᵥ v) := by
+      rw [hv₀def, smul_dotProduct, dotProduct_smul, smul_eq_mul, smul_eq_mul]; ring
+    rw [h, ← hcsq]; field_simp
+  have hv₀fix : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v₀ = v₀ := by
+    rw [hv₀def, mulVec_smul, hvfix]
+  refine ⟨v₀, hv₀unit, ?_⟩
+  -- Euclidean-space axis vector.
+  set u₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 v₀ with hu₀def
+  have hofLpu₀ : ofLp u₀ = v₀ := rfl
+  have hu₀ne : u₀ ≠ 0 := by
+    intro h
+    apply hv0
+    have : v₀ = 0 := by rw [← hofLpu₀, h, ofLp_zero]
+    rw [hv₀def] at this
+    have := smul_eq_zero.1 this
+    rcases this with h1 | h1
+    · exact absurd (inv_eq_zero.1 h1) hcne
+    · exact h1
+  have hfixu₀ : euclideanIso g u₀ = u₀ :=
+    euclideanIso_fix g u₀ (by rw [hofLpu₀]; exact hv₀fix)
+  have hu₀norm : ‖u₀‖ = 1 := by
+    have : ⟪u₀, u₀⟫ = 1 := by rw [hu₀def, inner_toLp]; exact hv₀unit
+    have h2 : ‖u₀‖ ^ 2 = 1 := by rw [← real_inner_self_eq_norm_sq]; exact this
+    nlinarith [norm_nonneg u₀]
+  -- The set equality.
+  ext y
+  simp only [fixedUnitVectors, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  constructor
+  · rintro ⟨hyunit, hyfix⟩
+    -- translate to Euclidean space
+    set u : EuclideanSpace ℝ (Fin 3) := toLp 2 y with hudef
+    have hofLpu : ofLp u = y := rfl
+    have hfixu : euclideanIso g u = u := euclideanIso_fix g u (by rw [hofLpu]; exact hyfix)
+    have humem : u ∈ ℝ ∙ u₀ :=
+      euclidean_fixed_mem_axis g hg u₀ (by rw [hu₀def, inner_toLp]; exact hv₀unit) hfixu₀ hfixu
+    obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.mp humem
+    -- `‖u‖ = 1`
+    have hunorm : ‖u‖ = 1 := by
+      have : ⟪u, u⟫ = 1 := by rw [hudef, inner_toLp]; exact hyunit
+      have h2 : ‖u‖ ^ 2 = 1 := by rw [← real_inner_self_eq_norm_sq]; exact this
+      nlinarith [norm_nonneg u]
+    -- `‖u‖ = |t|`, so `t = ±1`
+    have htnorm : |t| = 1 := by
+      have : ‖u‖ = |t| * ‖u₀‖ := by rw [← ht, norm_smul, Real.norm_eq_abs]
+      rw [hunorm, hu₀norm, mul_one] at this
+      exact this.symm
+    have htpm : t = 1 ∨ t = -1 := abs_eq (by norm_num) |>.mp htnorm
+    -- translate back to coordinates
+    have hyeq : y = t • v₀ := by
+      rw [← hofLpu, ← ht, ← hofLpu₀]
+      rfl
+    rcases htpm with h1 | h1
+    · left; rw [hyeq, h1, one_smul]
+    · right; rw [hyeq, h1, neg_one_smul]
+  · rintro (rfl | rfl)
+    · exact ⟨hv₀unit, hv₀fix⟩
+    · refine ⟨?_, ?_⟩
+      · rw [dotProduct_neg, neg_dotProduct, neg_neg]; exact hv₀unit
+      · rw [mulVec_neg, hv₀fix]
+
+/-- The unit vectors fixed by a nontrivial `g` form a finite set (the antipodal pair). -/
+theorem finite_fixedUnitVectors (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
+    (fixedUnitVectors g).Finite := by
+  obtain ⟨v₀, _, hset⟩ := nontrivial_fixed_unit_vectors g hg
+  rw [hset]
+  exact (Set.finite_singleton _).insert _
+
+/-- **Finiteness of the pole set.** For a finite subgroup `G ≤ SO(3)`, the set of poles is
+finite: it is the union, over the finitely many nontrivial `g ∈ G`, of the antipodal pairs each
+one fixes. -/
+theorem finite_poleSet (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
+    (poleSet G).Finite := by
+  classical
+  -- The finitely many nontrivial elements of `G`.
+  have hidx : {g : specialOrthogonalGroup (Fin 3) ℝ | g ∈ G ∧ g ≠ 1}.Finite :=
+    (Set.toFinite (G : Set (specialOrthogonalGroup (Fin 3) ℝ))).subset
+      (fun g hg => hg.1)
+  -- `poleSet G` is contained in the union of the antipodal pairs.
+  refine Set.Finite.subset (hidx.biUnion (fun g hg => finite_fixedUnitVectors g hg.2)) ?_
+  intro v hv
+  obtain ⟨hunit, g, hgG, hgne, hgfix⟩ := hv
+  exact Set.mem_biUnion (show g ∈ {g | g ∈ G ∧ g ≠ 1} from ⟨hgG, hgne⟩)
+    (show v ∈ fixedUnitVectors g from ⟨hunit, hgfix⟩)
+
+end Poles
+
 /-- **Milestone (iii): the counting Diophantine identity.** After Burnside/orbit-counting, the
 pole orders `m₁, …, m_k` of a group of order `n ≥ 2` satisfy
 `2(1 - 1/n) = ∑ᵢ (1 - 1/mᵢ)` with each `mᵢ ≥ 2` and `mᵢ ∣ n`. This purely arithmetic lemma
