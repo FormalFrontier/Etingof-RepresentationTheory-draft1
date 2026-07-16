@@ -473,6 +473,47 @@ theorem AffineType.adj_zero_or_one (t : AffineType) (i j : Fin t.rank) :
     t.adj i j = 0 ∨ t.adj i j = 1 := by
   cases t <;> (simp only [AffineType.adj]; split_ifs <;> simp)
 
+/-- The edge relation of a `0/1` adjacency matrix. -/
+private def AdjEdge {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (a b : Fin n) : Prop :=
+  adj a b = 1
+
+/-- Convert reflexive-transitive `adj`-reachability into the explicit edge-path
+required by `IsAffineDynkinDiagram`'s connectivity clause. -/
+private theorem clause_of_reflTransGen {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    {i j : Fin n} (h : Relation.ReflTransGen (AdjEdge adj) i j) :
+    ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (hk : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, hk⟩) = 1 := by
+  obtain ⟨l, hne, hchain, hhead, hlast⟩ :=
+    List.exists_isChain_ne_nil_of_relationReflTransGen h
+  refine ⟨l, ?_, ?_, ?_⟩
+  · rw [List.head?_eq_head hne, hhead]
+  · rw [List.getLast?_eq_getLast hne, hlast]
+  · intro k hk
+    have hget := List.isChain_iff_getElem.mp hchain k hk
+    simpa [List.get_eq_getElem, AdjEdge] using hget
+
+/-- `adj`-reachability is symmetric when the matrix is symmetric (so every edge
+can be traversed in both directions). -/
+private theorem reflTransGen_symm {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hsymm : adj.IsSymm) {i j : Fin n}
+    (h : Relation.ReflTransGen (AdjEdge adj) i j) :
+    Relation.ReflTransGen (AdjEdge adj) j i := by
+  induction h with
+  | refl => exact .refl
+  | tail _ hbc ih =>
+      refine Relation.ReflTransGen.head ?_ ih
+      change adj _ _ = 1
+      rw [hsymm.apply]; exact hbc
+
+/-- Reachability to any vertex, via a base point, gives full connectivity. -/
+private theorem connected_of_reach_base {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+    (hsymm : adj.IsSymm) (b : Fin n)
+    (hreach : ∀ k, Relation.ReflTransGen (AdjEdge adj) b k) (i j : Fin n) :
+    Relation.ReflTransGen (AdjEdge adj) i j :=
+  (reflTransGen_symm hsymm (hreach i)).trans (hreach j)
+
 /-- Connectivity of each extended diagram: any two vertices are joined by an
 edge-path. -/
 theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
@@ -480,6 +521,7 @@ theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
       path.head? = some i ∧ path.getLast? = some j ∧
       ∀ k, (h : k + 1 < path.length) →
         t.adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1 := by
+  apply clause_of_reflTransGen
   sorry
 
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
