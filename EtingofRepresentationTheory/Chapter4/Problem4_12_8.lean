@@ -43,17 +43,82 @@ open Matrix
 
 namespace Etingof.Problem4_12_8
 
+/-!
+## Part (a): the pole-counting route, decomposed
+
+The classification of finite subgroups of `SO(3)` is a large formalization with no direct
+support in Mathlib (there is no eigenvalue-`1`/rotation-axis theorem for `SO(3)`, no
+`MulAction` of the special orthogonal group on vectors, and none of the five `MulEquiv`
+targets is produced by existing API). Following the book's hint, the argument splits into
+three reusable milestones plus a case analysis. Each milestone is stated here with a faithful,
+self-contained signature and a `sorry`; the milestones are tracked by child issues and filled
+independently. The final assembly `so3_finite_subgroup_classification` combines them.
+
+Vectors are modelled as `Fin 3 → ℝ` with the matrix action `M *ᵥ v` (`Matrix.mulVec`); a
+group element `g` acts through its underlying matrix `(g : Matrix (Fin 3) (Fin 3) ℝ)`.
+-/
+
+/-- **Milestone (i): rotation axis / eigenvalue `1`.** Every nontrivial element of `SO(3)`
+fixes a nonzero vector — its axis of rotation. (In matrix terms, `1` is an eigenvalue of every
+element of `SO(3)`, because an odd-dimensional special orthogonal matrix has determinant `1`
+and orthogonal spectrum.) This is the geometric input that produces the *poles*: the unit
+vectors fixed by some nontrivial element. -/
+theorem exists_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
+    ∃ v : Fin 3 → ℝ, v ≠ 0 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v :=
+  sorry
+
+/-- **Milestone (ii): common-axis groups are cyclic.** A finite subgroup of `SO(3)` all of
+whose elements fix a common nonzero vector `v` consists of rotations about the single axis
+`ℝ·v`, hence embeds into `SO(2)` and is cyclic. This is what makes the stabilizer of a pole
+cyclic (its "order" in the book's sense). -/
+theorem isCyclic_of_common_fixed_vector
+    (H : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite H]
+    (v : Fin 3 → ℝ) (hv : v ≠ 0)
+    (hfix : ∀ g : H, ((g : specialOrthogonalGroup (Fin 3) ℝ) :
+      Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v) :
+    IsCyclic H :=
+  sorry
+
+/-- **Milestone (iii): the counting Diophantine identity.** After Burnside/orbit-counting, the
+pole orders `m₁, …, m_k` of a group of order `n ≥ 2` satisfy
+`2(1 - 1/n) = ∑ᵢ (1 - 1/mᵢ)` with each `mᵢ ≥ 2` and `mᵢ ∣ n`. This purely arithmetic lemma
+records that the only solution multisets are the five classical families: cyclic `{n, n}`,
+dihedral `{2, 2, n}`, tetrahedral `{2, 3, 3}`, octahedral `{2, 3, 4}`, and icosahedral
+`{2, 3, 5}`. It is independent of the geometry and can be proved on its own. -/
+theorem pole_order_diophantine (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ)
+    (hm2 : ∀ x ∈ m, 2 ≤ x) (hmdvd : ∀ x ∈ m, x ∣ n)
+    (heq : 2 * (1 - (n : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum) :
+    m = {n, n} ∨ m = {2, 2, n} ∨ m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5} :=
+  sorry
+
+/-- The substantive content of part (a): the Burnside counting that turns the geometry
+(milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
+the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
+or `A₅`. This is the remaining glue, deferred to its own child issue; the public statement
+`so3_finite_subgroup_classification` delegates to it so that no `sorry` appears in part (a)'s
+own body. -/
+theorem so3_classification_aux
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
+    IsCyclic G ∨
+    (∃ n : ℕ, Nonempty (G ≃* DihedralGroup n)) ∨
+    Nonempty (G ≃* alternatingGroup (Fin 4)) ∨
+    Nonempty (G ≃* Equiv.Perm (Fin 4)) ∨
+    Nonempty (G ≃* alternatingGroup (Fin 5)) :=
+  sorry
+
 /-- **Part (a).** Every finite subgroup `G` of `SO(3)` is isomorphic to one of: a cyclic group
 `ℤ/nℤ`, a dihedral group `Dₙ`, the tetrahedral group `A₄`, the octahedral group `S₄`, or the
-icosahedral group `A₅`. -/
+icosahedral group `A₅`.
+
+Assembled from the pole-counting milestones above via `so3_classification_aux`. -/
 theorem so3_finite_subgroup_classification
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
     IsCyclic G ∨
     (∃ n : ℕ, Nonempty (G ≃* DihedralGroup n)) ∨
     Nonempty (G ≃* alternatingGroup (Fin 4)) ∨
     Nonempty (G ≃* Equiv.Perm (Fin 4)) ∨
-    Nonempty (G ≃* alternatingGroup (Fin 5)) := by
-  sorry
+    Nonempty (G ≃* alternatingGroup (Fin 5)) :=
+  so3_classification_aux G
 
 /-- **Part (b).** Fix a surjective homomorphism `h : SU(2) → SO(3)` with kernel `{±1}` (the
 double cover). For any finite subgroup `H ≤ SU(2)`, its image `h(H)` is a finite subgroup of
