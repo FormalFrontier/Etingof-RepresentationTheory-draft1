@@ -36,7 +36,8 @@ Since `extend C` is supported on `ℤ≤0`, the only nonzero summands have `a = 
 `(C ⊗ D)_n = ⨁_{p+q=n} C_p ⊗ D_q = (extend (C ⊗ D))_{-n}`. Both sides vanish for `j' > 0`. The
 categorical work is to assemble this degreewise identification into an isomorphism of complexes,
 matching the `ιTensorObj` injections and the Koszul-signed total differential (`d₁` and `d₂`
-summands). This is stated below as `nonempty_tensorObj_extend_iso` (Prop-valued, `sorry`).
+summands). This is `nonempty_tensorObj_extend_iso` below, constructed via
+`TensorExtend.tensorObjExtendIso` (milestones (a)–(c), issue #6694).
 
 Note `extend C ⊗ extend D` is itself supported on `ℤ≤0`, i.e. on the image of the embedding, so
 this iso can equivalently be read as "the `ℤ`-tensor of the extends is the extension of the
@@ -54,7 +55,7 @@ PR https://github.com/.../pull/6673). The reindex of the coproduct is not a bare
 the `ℤ`-side sum `⨁_{a+b=-i}` ranges over all of `ℤ × ℤ`, and the extra summands vanish only via
 `homology_extend_isZero`.
 
-The main deliverable `kunnethChainComplexNat` is stated below (Prop-valued, `sorry`), pinning the
+The main deliverable `kunnethChainComplexNat` is stated below (Prop-valued `Nonempty`), pinning the
 API that the Problem 8.2.8 assembler (#6657) consumes.
 -/
 
@@ -339,6 +340,141 @@ lemma extendXIso_inv_tensorExtendXIso_inv (n : ℕ) :
   simp only [Iso.trans_inv, Iso.symm_inv, Iso.inv_hom_id_assoc]
   rfl
 
+/-!
+## Milestone (b): differential compatibility
+
+The degreewise isos `tensorExtendXIso` (milestone (a)) are packaged, via `fwdNeg_comm`, into an
+honest isomorphism of chain complexes `tensorObjExtendIso`, discharging the crux
+`nonempty_tensorObj_extend_iso`. The only non-mechanical step is the Koszul sign match
+`negOnePow_neg_natCast`.
+-/
+
+/-- **Koszul sign identity.** Under the reindex `a = -p`, the `up ℤ` vertical sign `a.negOnePow`
+agrees with the `down ℕ` vertical sign `(-1)^p`. -/
+lemma negOnePow_neg_natCast (p : ℕ) : Int.negOnePow (-(p : ℤ)) = (-1 : ℤˣ) ^ p := by
+  rw [Int.negOnePow_neg]
+  simp [Int.negOnePow, zpow_natCast]
+
+/-- **Milestone (b): differential compatibility of the coproduct forward maps.** The degree-`-n`
+isos `fwdNeg` commute with the (Koszul-signed) total differentials: `fwdNeg (n+1)` followed by the
+`down ℕ` differential of `C ⊗ D` equals the `up ℤ` differential of `extend C ⊗ extend D` followed
+by `fwdNeg n`. Proved summand-by-summand via `mapBifunctor.hom_ext`; the `d₁` summands carry sign
+`1` on both sides, and the `d₂` summands match through `negOnePow_neg_natCast`. -/
+@[reassoc]
+lemma fwdNeg_comm (n : ℕ) :
+    fwdNeg C D (n + 1) ≫ (HomologicalComplex.tensorObj C D).d (n + 1) n =
+      (HomologicalComplex.tensorObj (C.extend e) (D.extend e)).d (-(↑(n + 1) : ℤ)) (-(n : ℤ)) ≫
+        fwdNeg C D n := by
+  apply HomologicalComplex.mapBifunctor.hom_ext
+  intro a b hab
+  rcases ha : e.r a with _ | p
+  · exact (isZero_tensorObj_left (C.isZero_extend_X' e a ha)).eq_of_src _ _
+  rcases hb : e.r b with _ | q
+  · exact (isZero_tensorObj_right (D.isZero_extend_X' e b hb)).eq_of_src _ _
+  obtain rfl : a = -(p : ℤ) := by
+    have := e.f_eq_of_r_eq_some ha
+    simp only [ComplexShape.embeddingDownNat_f] at this; omega
+  obtain rfl : b = -(q : ℤ) := by
+    have := e.f_eq_of_r_eq_some hb
+    simp only [ComplexShape.embeddingDownNat_f] at this; omega
+  have hpq : p + q = n + 1 := by
+    have h2 : (-(p : ℤ)) + (-(q : ℤ)) = -(↑(n + 1) : ℤ) := hab
+    omega
+  rw [← Category.assoc, ιZ_fwdNeg C D (n + 1) (-(p : ℤ)) (-(q : ℤ)) hab,
+      phiFwd_some C D (n + 1) hab (r_negNat p) (r_negNat q) hpq, Category.assoc]
+  simp only [mapBifunctor.d_eq, Preadditive.comp_add, Preadditive.add_comp,
+    mapBifunctor.ι_D₁, mapBifunctor.ι_D₂, mapBifunctor.ι_D₁_assoc, mapBifunctor.ι_D₂_assoc]
+  refine congr_arg₂ (· + ·) ?_ ?_
+  · -- d₁ part (factor 1 differential)
+    rcases p with _ | p
+    · -- p = 0: both sides vanish (no `down ℕ` relation resp. zero extended differential)
+      have h0 : (C.extend e).d 0 1 = 0 :=
+        (C.isZero_extend_X e 1
+          (fun i => by simp only [ComplexShape.embeddingDownNat_f]; omega)).eq_of_tgt _ _
+      rw [mapBifunctor.d₁_eq_zero C D _ (ComplexShape.down ℕ) 0 q n
+            (by intro h; rw [ComplexShape.down_Rel] at h; omega), comp_zero,
+          show (-(↑(0 : ℕ)) : ℤ) = 0 by simp,
+          mapBifunctor.d₁_eq (C.extend e) (D.extend e) _ (ComplexShape.up ℤ)
+            (show (ComplexShape.up ℤ).Rel 0 1 by simp) (-(q : ℤ)) (-(n : ℤ))
+            (by omega : (1 : ℤ) + (-(q : ℤ)) = -(n : ℤ))]
+      simp [h0]
+    · -- p = p' + 1
+      have hpn : p + q = n := by omega
+      rw [mapBifunctor.d₁_eq C D _ (ComplexShape.down ℕ)
+            (show (ComplexShape.down ℕ).Rel (p + 1) p by rw [ComplexShape.down_Rel]) q n hpn,
+          mapBifunctor.d₁_eq (C.extend e) (D.extend e) _ (ComplexShape.up ℤ)
+            (show (ComplexShape.up ℤ).Rel (-(↑(p + 1) : ℤ)) (-(p : ℤ)) by
+              rw [ComplexShape.up_Rel]; push_cast; ring) (-(q : ℤ)) (-(n : ℤ))
+            (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
+          extend_d_eq C e (show e.f (p + 1) = -(↑(p + 1) : ℤ) by simp)
+            (show e.f p = -(p : ℤ) by simp)]
+      dsimp
+      simp only [one_smul, Category.assoc]
+      rw [ιZ_fwdNeg C D n (-(p : ℤ)) (-(q : ℤ))
+            (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
+          phiFwd_some C D n _ (r_negNat p) (r_negNat q) hpn]
+      simp only [Functor.map_comp, NatTrans.comp_app, curriedTensor_map_app,
+        Category.assoc, MonoidalCategory.tensorHom_def, whisker_exchange_assoc,
+        ← MonoidalCategory.comp_whiskerRight_assoc, Iso.inv_hom_id,
+        MonoidalCategory.id_whiskerRight, Category.id_comp]
+  · -- d₂ part (factor 2 differential)
+    rcases q with _ | q
+    · -- q = 0: both sides vanish
+      have h0 : (D.extend e).d 0 1 = 0 :=
+        (D.isZero_extend_X e 1
+          (fun i => by simp only [ComplexShape.embeddingDownNat_f]; omega)).eq_of_tgt _ _
+      rw [mapBifunctor.d₂_eq_zero C D _ (ComplexShape.down ℕ) p 0 n
+            (by intro h; rw [ComplexShape.down_Rel] at h; omega), comp_zero,
+          show (-(↑(0 : ℕ)) : ℤ) = 0 by simp,
+          mapBifunctor.d₂_eq (C.extend e) (D.extend e) _ (ComplexShape.up ℤ) (-(p : ℤ))
+            (show (ComplexShape.up ℤ).Rel 0 1 by simp) (-(n : ℤ))
+            (by omega : (-(p : ℤ)) + (1 : ℤ) = -(n : ℤ))]
+      simp [h0]
+    · -- q = q' + 1
+      have hpn : p + q = n := by omega
+      rw [mapBifunctor.d₂_eq C D _ (ComplexShape.down ℕ) p
+            (show (ComplexShape.down ℕ).Rel (q + 1) q by rw [ComplexShape.down_Rel]) n hpn,
+          mapBifunctor.d₂_eq (C.extend e) (D.extend e) _ (ComplexShape.up ℤ) (-(p : ℤ))
+            (show (ComplexShape.up ℤ).Rel (-(↑(q + 1) : ℤ)) (-(q : ℤ)) by
+              rw [ComplexShape.up_Rel]; push_cast; ring) (-(n : ℤ))
+            (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
+          extend_d_eq D e (show e.f (q + 1) = -(↑(q + 1) : ℤ) by simp)
+            (show e.f q = -(q : ℤ) by simp)]
+      dsimp
+      simp only [Linear.units_smul_comp, Linear.comp_units_smul, Category.assoc]
+      rw [ιZ_fwdNeg C D n (-(p : ℤ)) (-(q : ℤ))
+            (by omega : (-(p : ℤ)) + (-(q : ℤ)) = -(n : ℤ)),
+          phiFwd_some C D n _ (r_negNat p) (r_negNat q) hpn, negOnePow_neg_natCast]
+      congr 1
+      simp only [curriedTensor_obj_map, Category.assoc,
+        MonoidalCategory.tensorHom_def, ← whisker_exchange_assoc,
+        ← MonoidalCategory.whiskerLeft_comp_assoc, Iso.inv_hom_id, Category.comp_id]
+
+/-- **Milestone (c): the complex isomorphism.** Assemble the degreewise isos `tensorExtendXIso`
+into an isomorphism of `ℤ`-cochain complexes `extend C ⊗ extend D ≅ extend (C ⊗ D)`, using
+`fwdNeg_comm` for differential compatibility on the nonzero degrees `j = -n` and vanishing of the
+target on positive degrees. -/
+noncomputable def tensorObjExtendIso :
+    HomologicalComplex.tensorObj (C.extend e) (D.extend e) ≅
+      (HomologicalComplex.tensorObj C D).extend e :=
+  HomologicalComplex.Hom.isoOfComponents (fun j' => tensorExtendXIso C D j') (by
+    intro i j hij
+    by_cases hj : 0 < j
+    · exact (HomologicalComplex.isZero_extend_X _ e j
+        (fun m => by simp only [ComplexShape.embeddingDownNat_f]; omega)).eq_of_tgt _ _
+    · rw [not_lt] at hj
+      obtain ⟨n, rfl⟩ : ∃ n : ℕ, j = -(n : ℤ) := ⟨(-j).toNat, by omega⟩
+      obtain rfl : i = -(↑(n + 1) : ℤ) := by
+        have : i + 1 = -(n : ℤ) := hij
+        push_cast; omega
+      rw [HomologicalComplex.extend_d_eq (HomologicalComplex.tensorObj C D) e
+            (ef_eq_neg (n + 1)) (ef_eq_neg n),
+          ← Category.assoc, tensorExtendXIso_hom_extendXIso C D (n + 1),
+          fwdNeg_comm_assoc C D n]
+      congr 1
+      rw [← tensorExtendXIso_hom_extendXIso C D n, Category.assoc, Iso.hom_inv_id,
+        Category.comp_id])
+
 end TensorExtend
 
 section CoproductSupport
@@ -408,13 +544,13 @@ of the `ℕ`-tensor:
 
 Degreewise both sides are `⨁_{p+q=n} C_p ⊗ D_q` at `-n` and zero at positive degrees; the content
 is matching the `ιTensorObj` injections and the Koszul-signed total differential. Universe-general
-and independent of Chapter 7. Stated Prop-valued (`Nonempty`) so the missing construction is a
-`sorry` rather than a sorried definition. -/
+and independent of Chapter 7. Constructed via `TensorExtend.tensorObjExtendIso` (milestones (a)–(c),
+issue #6694). -/
 theorem nonempty_tensorObj_extend_iso (C D : ChainComplex (ModuleCat.{u} k) ℕ) :
     Nonempty (HomologicalComplex.tensorObj (C.extend ComplexShape.embeddingDownNat)
         (D.extend ComplexShape.embeddingDownNat) ≅
       (HomologicalComplex.tensorObj C D).extend ComplexShape.embeddingDownNat) :=
-  ⟨sorry⟩
+  ⟨TensorExtend.tensorObjExtendIso C D⟩
 
 /-- **Künneth for `ℕ`-indexed chain complexes.** For chain complexes `C, D` of `k`-vector spaces
 indexed over `ℕ`, the homology of the tensor product decomposes as a direct sum:
