@@ -122,6 +122,78 @@ lemma ιMapBifunctor_comp_postcompX_hom (i₁ : I₁) (i₂ : I₂) (j : J)
   rw [← ιMapBifunctor_postcomp_comp_postcompX_inv K₁ K₂ F G i₁ i₂ j h, Category.assoc,
     Iso.inv_hom_id, Category.comp_id]
 
+/-- Summand compatibility for the "or zero" inclusion. -/
+lemma ιMapBifunctorOrZero_comp_postcompX_hom (i₁ : I₁) (i₂ : I₂) (j : J) :
+    G.map (ιMapBifunctorOrZero K₁ K₂ F c i₁ i₂ j) ≫ (postcompX (c := c) K₁ K₂ F G j).hom =
+      ιMapBifunctorOrZero K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j := by
+  by_cases h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j
+  · rw [ιMapBifunctorOrZero_eq K₁ K₂ F c i₁ i₂ j h,
+      ιMapBifunctorOrZero_eq K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j h,
+      ιMapBifunctor_comp_postcompX_hom]
+  · rw [ιMapBifunctorOrZero_eq_zero K₁ K₂ F c i₁ i₂ j h,
+      ιMapBifunctorOrZero_eq_zero K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j h,
+      Functor.map_zero, Limits.zero_comp]
+
+/-- `G` intertwines the first partial differential of the total complex. -/
+lemma d₁_postcompX (i₁ : I₁) (i₂ : I₂) (j : J) :
+    G.map (mapBifunctor.d₁ K₁ K₂ F c i₁ i₂ j) ≫ (postcompX (c := c) K₁ K₂ F G j).hom =
+      mapBifunctor.d₁ K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j := by
+  by_cases h : c₁.Rel i₁ (c₁.next i₁)
+  · rw [mapBifunctor.d₁_eq' K₁ K₂ F c h i₂ j,
+      mapBifunctor.d₁_eq' K₁ K₂ (postcompBifunctor F G) c h i₂ j,
+      Functor.map_units_smul, Functor.map_comp, Linear.units_smul_comp, Category.assoc,
+      ιMapBifunctorOrZero_comp_postcompX_hom]
+    rfl
+  · rw [mapBifunctor.d₁_eq_zero K₁ K₂ F c i₁ i₂ j h,
+      mapBifunctor.d₁_eq_zero K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j h,
+      Functor.map_zero, Limits.zero_comp]
+
+/-- `G` intertwines the second partial differential of the total complex. -/
+lemma d₂_postcompX (i₁ : I₁) (i₂ : I₂) (j : J) :
+    G.map (mapBifunctor.d₂ K₁ K₂ F c i₁ i₂ j) ≫ (postcompX (c := c) K₁ K₂ F G j).hom =
+      mapBifunctor.d₂ K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j := by
+  by_cases h : c₂.Rel i₂ (c₂.next i₂)
+  · rw [mapBifunctor.d₂_eq' K₁ K₂ F c i₁ h j,
+      mapBifunctor.d₂_eq' K₁ K₂ (postcompBifunctor F G) c i₁ h j,
+      Functor.map_units_smul, Functor.map_comp, Linear.units_smul_comp, Category.assoc,
+      ιMapBifunctorOrZero_comp_postcompX_hom]
+    rfl
+  · rw [mapBifunctor.d₂_eq_zero K₁ K₂ F c i₁ i₂ j h,
+      mapBifunctor.d₂_eq_zero K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j h,
+      Functor.map_zero, Limits.zero_comp]
+
+/-- Extensionality for maps out of `G (∐ summands)`: an additive functor preserves the coproduct,
+so it suffices to check on `G`-images of the summand inclusions. -/
+lemma postcompX_hom_ext {A : D'} {i : J}
+    (f g : G.obj ((mapBifunctor K₁ K₂ F c).X i) ⟶ A)
+    (hfg : ∀ (i₁ : I₁) (i₂ : I₂) (h : ComplexShape.π c₁ c₂ c (i₁, i₂) = i),
+      G.map (ιMapBifunctor K₁ K₂ F c i₁ i₂ i h) ≫ f =
+        G.map (ιMapBifunctor K₁ K₂ F c i₁ i₂ i h) ≫ g) : f = g :=
+  Cofan.IsColimit.hom_ext
+    (isColimitOfHasCoproductOfPreservesColimit G (postcompFam (c := c) K₁ K₂ F i)) f g
+    (fun ⟨⟨i₁, i₂⟩, h⟩ => hfg i₁ i₂ h)
+
+/-- The degreewise isos `postcompX` commute with the differentials. -/
+lemma postcompX_comm (i j : J) :
+    (postcompX (c := c) K₁ K₂ F G i).hom ≫ (mapBifunctor K₁ K₂ (postcompBifunctor F G) c).d i j =
+      ((G.mapHomologicalComplex c).obj (mapBifunctor K₁ K₂ F c)).d i j ≫
+        (postcompX (c := c) K₁ K₂ F G j).hom := by
+  rw [Functor.mapHomologicalComplex_obj_d]
+  apply postcompX_hom_ext K₁ K₂ F G
+  intro i₁ i₂ h
+  rw [← Category.assoc, ιMapBifunctor_comp_postcompX_hom, ← Category.assoc, ← G.map_comp]
+  simp only [mapBifunctor.d_eq, Preadditive.comp_add, mapBifunctor.ι_D₁, mapBifunctor.ι_D₂,
+    G.map_add, Preadditive.add_comp, d₁_postcompX, d₂_postcompX]
+
+/-- **An additive functor commutes with the total complex `mapBifunctor`.** For an additive
+`G : D ⥤ D'` and a `TotalComplexShape` with finite fibers, applying `G` degreewise to the total
+complex `mapBifunctor K₁ K₂ F c` is isomorphic to the total complex of the postcomposed bifunctor. -/
+noncomputable def mapBifunctorPostcompIso :
+    (G.mapHomologicalComplex c).obj (mapBifunctor K₁ K₂ F c) ≅
+      mapBifunctor K₁ K₂ (postcompBifunctor F G) c :=
+  HomologicalComplex.Hom.isoOfComponents (postcompX (c := c) K₁ K₂ F G)
+    (fun i j _ => postcompX_comm K₁ K₂ F G i j)
+
 end Iso
 
 end Etingof
