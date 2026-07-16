@@ -122,18 +122,39 @@ def AffineType.marks : (t : AffineType) → (Fin t.rank → ℤ)
 
 /-- The marks are (strictly) positive. -/
 theorem marks_pos (t : AffineType) (i : Fin t.rank) : 0 < t.marks i := by
-  sorry
+  cases t with
+  | Atilde n hn => simp [AffineType.marks]
+  | Dtilde n hn =>
+      simp only [AffineType.marks]
+      split <;> norm_num
+  | E6tilde => fin_cases i <;> simp [AffineType.marks]
+  | E7tilde => fin_cases i <;> simp [AffineType.marks]
+  | E8tilde => fin_cases i <;> simp [AffineType.marks]
 
 /-- **(e)** The marks span the kernel of the Cartan matrix: `(2·Id - R)·marks = 0`
 ("the numbers labeling the vertices are the null vector"). -/
 theorem cartan_mulVec_marks_eq_zero (t : AffineType) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj).mulVec t.marks = 0 := by
-  sorry
+  cases t with
+  | Atilde n hn =>
+      exact Etingof.Problem6_1_3_E7E8.cycle_cartan_mulVec_one_eq_zero n hn
+  | Dtilde n hn => sorry
+  | E6tilde => decide
+  | E7tilde => decide
+  | E8tilde => decide
 
 /-- **(e)** Consequently `det A = 0` for every extended diagram. -/
 theorem cartan_det_zero (t : AffineType) :
     (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj).det = 0 := by
-  sorry
+  have hr : 0 < t.rank := by cases t <;> simp only [AffineType.rank] <;> omega
+  rw [← Matrix.exists_mulVec_eq_zero_iff]
+  refine ⟨t.marks, ?_, cartan_mulVec_marks_eq_zero t⟩
+  intro h
+  have h0 := congrFun h ⟨0, hr⟩
+  have hp := marks_pos t ⟨0, hr⟩
+  simp only [Pi.zero_apply] at h0
+  rw [h0] at hp
+  exact lt_irrefl 0 hp
 
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
 diagram (its Cartan form is positive semidefinite but degenerate). -/
