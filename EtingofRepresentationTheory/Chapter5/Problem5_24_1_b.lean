@@ -193,6 +193,59 @@ theorem signTwist_columnAntisymmetrizer (n : ℕ) (la : Nat.Partition n) :
     rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
   rw [hsq, one_smul]
 
+/-! ### Combinatorial bridge: the conjugate partition transposes cells
+
+To identify `φ(V_λ)` with `V_{λ*}` we need the geometric fact that the canonical filling of
+`λ*` is the transpose of the canonical filling of `λ`. We work through Mathlib's `YoungDiagram`
+API: a cell `(r, c)` lies in `λ`'s diagram iff `c < λ.sortedParts.getD r 0`, and the conjugate
+partition's diagram is exactly the transpose. -/
+
+/-- The row-length membership condition unpacked to `getD`: `∃ h : r < w.length, c < w[r]`
+is equivalent to `c < w.getD r 0`. -/
+private theorem lt_getD_iff (w : List ℕ) (r c : ℕ) :
+    (∃ h : r < w.length, c < w[r]) ↔ c < w.getD r 0 := by
+  rw [List.getD_eq_getElem?_getD]
+  rcases lt_or_ge r w.length with hr | hr
+  · rw [List.getElem?_eq_getElem hr, Option.getD_some]
+    exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨hr, h⟩⟩
+  · rw [List.getElem?_eq_none hr, Option.getD_none]
+    exact ⟨fun ⟨h, _⟩ => absurd h (not_lt.mpr hr), fun h => absurd h (Nat.not_lt_zero c)⟩
+
+/-- A cell `(r, c)` belongs to the Young diagram of `la` iff `c` is below the `r`-th row
+length `la.sortedParts.getD r 0`. -/
+private theorem mem_toYoungDiagram_iff {n : ℕ} (la : Nat.Partition n) (r c : ℕ) :
+    (r, c) ∈ la.toYoungDiagram ↔ c < la.sortedParts.getD r 0 := by
+  rw [Nat.Partition.toYoungDiagram, YoungDiagram.mem_ofRowLens]
+  exact lt_getD_iff _ r c
+
+/-- Two `ofRowLens` diagrams built from equal lists are equal (the sortedness proof is
+irrelevant). -/
+private theorem ofRowLens_congr {w1 w2 : List ℕ} (h : w1 = w2)
+    (h1 : w1.SortedGE) (h2 : w2.SortedGE) :
+    YoungDiagram.ofRowLens w1 h1 = YoungDiagram.ofRowLens w2 h2 := by
+  subst h; rfl
+
+/-- The Young diagram of the conjugate partition `λ*` is the transpose of the Young diagram of
+`λ`. -/
+private theorem conjugate_toYoungDiagram {n : ℕ} (la : Nat.Partition n) :
+    (conjugatePartition la).toYoungDiagram = la.toYoungDiagram.transpose := by
+  have hlist : (conjugatePartition la).parts.sort (· ≥ ·)
+      = la.toYoungDiagram.transpose.rowLens := by
+    change (↑(la.toYoungDiagram.transpose.rowLens) : Multiset ℕ).sort (· ≥ ·) = _
+    rw [Multiset.coe_sort]
+    exact List.mergeSort_eq_self (r := (· ≥ ·))
+      (List.sortedGE_iff_pairwise.mp (YoungDiagram.rowLens_sorted _))
+  conv_rhs => rw [← YoungDiagram.ofRowLens_to_rowLens_eq_self (μ := la.toYoungDiagram.transpose)]
+  rw [Nat.Partition.toYoungDiagram]
+  exact ofRowLens_congr hlist _ _
+
+/-- **Transpose of cells.** A cell `(r, c)` fits under the conjugate partition's row lengths iff
+the transposed cell `(c, r)` fits under `λ`'s row lengths. -/
+private theorem transpose_cell_iff {n : ℕ} (la : Nat.Partition n) (r c : ℕ) :
+    c < (conjugatePartition la).sortedParts.getD r 0 ↔ r < la.sortedParts.getD c 0 := by
+  rw [← mem_toYoungDiagram_iff, conjugate_toYoungDiagram, YoungDiagram.mem_transpose,
+    Prod.swap_prod_mk, mem_toYoungDiagram_iff]
+
 /-! ### `V_λ ⊗ ℂ_- = V_{λ*}` -/
 
 /-- **Problem 5.24.1(b), main statement.** `V_λ ⊗ ℂ_- ≅ V_{λ*}`: the Specht module `V_λ`,
