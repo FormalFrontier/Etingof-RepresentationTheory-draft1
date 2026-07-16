@@ -1,6 +1,7 @@
 import Mathlib
 import Batteries.Util.ProofWanted
 import EtingofRepresentationTheory.Chapter5.Theorem5_23_2Core
+import EtingofRepresentationTheory.Chapter5.Proposition5_22_2
 
 /-!
 # Remark 5.23.3: Extension of the GL(V) theory to 𝔰𝔩(V) and SL(V)
@@ -27,15 +28,16 @@ simultaneous constant shift**. We make this precise on `Etingof.DominantWeight`:
   parametrizes the irreducible `SL_N`-representations. This is exactly Etingof's "`λ₁ ≥ ⋯ ≥ λ_N` up
   to a simultaneous shift by a constant".
 
-The remaining two assertions are recorded with `proof_wanted` (no `sorry`, no axiom), because they
-are either disavowed by the book or require representation-theoretic structure on the `L_λ` that
-this development does not build:
+The dimension-level shadow of the `SL(V)` isomorphism is a proved `theorem`; the remaining
+assertion is recorded with `proof_wanted` (no `sorry`, no axiom), because it is disavowed by the
+book:
 
-* `Etingof.algIrrepGL_finrank_constShift`: the dimension-level shadow of `L_λ ≅ L_{λ + c·1ᴺ}`.
-  Twisting by a power of the (one-dimensional) determinant character does not change the underlying
-  dimension, so `dim L_λ = dim L_{λ + c·1ᴺ}`. This is the statable consequence of the `SL(V)`
-  isomorphism at the current infrastructure level: an honest `SL_N`-equivariant isomorphism would
-  require an `SL_N`-action on `AlgIrrepGL`, which is not constructed here.
+* `Etingof.algIrrepGL_finrank_constShift`: the dimension-level shadow of `L_λ ≅ L_{λ + c·1ᴺ}`,
+  now a proved `theorem`. Twisting by a power of the (one-dimensional) determinant character does
+  not change the underlying dimension, so `dim L_λ = dim L_{λ + c·1ᴺ}` (proved via the `+1`
+  det-twist identity of Proposition 5.22.2, iterated). This is the statable consequence of the
+  `SL(V)` isomorphism at the current infrastructure level: an honest `SL_N`-equivariant isomorphism
+  would require an `SL_N`-action on `AlgIrrepGL`, which is not constructed here.
 * `Etingof.sl_finiteDimensional_completely_reducible`: complete reducibility of an arbitrary
   finite-dimensional `𝔰𝔩(V)`-module, stated in the same "every submodule has a complement" form as
   the `𝔰𝔩(2)` case `Etingof.Sl2Irrep.complete_reducibility` (Problem 2.15.1). Etingof explicitly
@@ -100,18 +102,96 @@ lemma specialLinear_det_eq_one {n : ℕ} {k : Type*} [CommRing k]
     (g : Matrix (Fin n) (Fin n) k).det = 1 :=
   g.property
 
+/-- The non-negative weight `λ.toNatWeight` recovers `λ` up to its shift:
+`(λ.toNatWeight i : ℤ) = λ_i + shift`. The shift is chosen (as the negative of the minimal
+entry) so that `λ_i + shift ≥ 0`, hence the `Int.toNat` in `toNatWeight` is exact. -/
+private lemma toNatWeight_cast {n : ℕ} (lam : DominantWeight n) (i : Fin n) :
+    (lam.toNatWeight i : ℤ) = lam.val i + (lam.shift : ℤ) := by
+  have hnonneg : (0 : ℤ) ≤ lam.val i + (lam.shift : ℤ) := by
+    obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, (Nat.succ_pred_eq_of_pos (Fin.pos i)).symm⟩
+    have hlast : lam.val (Fin.last m) ≤ lam.val i := lam.property (Fin.le_last i)
+    change (0 : ℤ) ≤ lam.val i + (((-(lam.val (Fin.last m))).toNat : ℕ) : ℤ)
+    omega
+  change (((lam.val i + (lam.shift : ℤ)).toNat : ℕ) : ℤ) = lam.val i + (lam.shift : ℤ)
+  rw [Int.toNat_of_nonneg hnonneg]
+
+/-- `λ.toNatWeight` is antitone: shifting an antitone integer weight by a constant and clamping
+at `0` (which never triggers, by `toNatWeight_cast`'s nonnegativity) preserves the order. -/
+private lemma toNatWeight_antitone {n : ℕ} (lam : DominantWeight n) :
+    Antitone lam.toNatWeight := by
+  intro i j hij
+  simp only [DominantWeight.toNatWeight]
+  exact Int.toNat_le_toNat (by have := lam.property hij; omega)
+
+/-- **Single `+1` step (dimension shadow of Proposition 5.22.2).** For an antitone `ℕ`-weight `μ`,
+tensoring the Schur module `L_μ` by the one-dimensional determinant character gives `L_{μ + 1ᴺ}`
+without changing the underlying vector space, so the two Schur modules have equal dimension. This
+is the dimension consequence of `schurModule_shift_iso_detTwist`. -/
+private lemma finrank_schurModuleSubmodule_succ {N : ℕ} {k : Type} [Field k] [IsAlgClosed k]
+    [CharZero k] (μ : Fin N → ℕ) (hμ : Antitone μ) :
+    Module.finrank k (SchurModuleSubmodule k N (fun i => μ i + 1))
+      = Module.finrank k (SchurModuleSubmodule k N μ) := by
+  obtain ⟨e⟩ := schurModule_shift_iso_detTwist k N μ hμ
+  exact (FDRep.isoToLinearEquiv e).finrank_eq
+
+/-- **Constant `+m` shift preserves the Schur-module dimension.** Iterating the single-step
+`+1` identity (`finrank_schurModuleSubmodule_succ`): for an antitone `ℕ`-weight `μ` and any
+`m : ℕ`, `dim L_{μ + m·1ᴺ} = dim L_μ`. -/
+private lemma finrank_schurModuleSubmodule_add_const {N : ℕ} {k : Type} [Field k] [IsAlgClosed k]
+    [CharZero k] (μ : Fin N → ℕ) (hμ : Antitone μ) (m : ℕ) :
+    Module.finrank k (SchurModuleSubmodule k N (fun i => μ i + m))
+      = Module.finrank k (SchurModuleSubmodule k N μ) := by
+  induction m with
+  | zero => simp
+  | succ m ih =>
+    have key : Module.finrank k (SchurModuleSubmodule k N (fun i => μ i + (m + 1)))
+        = Module.finrank k (SchurModuleSubmodule k N (fun i => μ i + m)) := by
+      have hidx : (fun i => μ i + (m + 1)) = (fun i => (μ i + m) + 1) := by
+        funext i; omega
+      rw [hidx]
+      exact finrank_schurModuleSubmodule_succ (fun j => μ j + m)
+        (fun a b h => Nat.add_le_add_right (hμ h) m)
+    rw [key, ih]
+
 /-- **Dimension-level statement of `L_λ ≅ L_{λ + c·1ᴺ}` (Remark 5.23.3).** Tensoring `L_λ` with the
 `c`-th power of the one-dimensional determinant character does not change the underlying dimension,
 so `dim L_λ = dim L_{λ + c·1ᴺ}`. On `SL(V)` (where `det = 1`, `specialLinear_det_eq_one`) this
 common dimension reflects an actual isomorphism of `SL_N`-representations; capturing that
 isomorphism `SL_N`-equivariantly would require an `SL_N`-action on `AlgIrrepGL`, which this
 development does not build, so we record the statable dimension identity.
+
+The two `AlgIrrepGL` carriers are `SchurModuleSubmodule k n (·).toNatWeight` at the two dominant
+weights; `constShift c` adds the same integer `c` to every entry, so the two `ℕ`-valued weights
+`(lam.constShift c).toNatWeight` and `lam.toNatWeight` differ by a single constant `Δ` (whichever
+is pointwise larger equals the other plus `|Δ|`). The identity then follows from
+`finrank_schurModuleSubmodule_add_const`. As with the rest of the Schur–Weyl / character theory in
+this chapter, this lives over an algebraically closed field of characteristic zero.
 (Etingof Remark 5.23.3) -/
-proof_wanted algIrrepGL_finrank_constShift
-    {n : ℕ} {k : Type*} [Field k] [IsAlgClosed k]
+theorem algIrrepGL_finrank_constShift
+    {n : ℕ} {k : Type} [Field k] [IsAlgClosed k] [CharZero k]
     (lam : DominantWeight n) (c : ℤ) :
     Module.finrank k (AlgIrrepGL n (lam.constShift c) k)
-      = Module.finrank k (AlgIrrepGL n lam k)
+      = Module.finrank k (AlgIrrepGL n lam k) := by
+  change Module.finrank k (SchurModuleSubmodule k n (lam.constShift c).toNatWeight)
+    = Module.finrank k (SchurModuleSubmodule k n lam.toNatWeight)
+  have ha_anti : Antitone lam.toNatWeight := toNatWeight_antitone lam
+  have hb_anti : Antitone (lam.constShift c).toNatWeight := toNatWeight_antitone (lam.constShift c)
+  set Δ : ℤ := c + ((lam.constShift c).shift : ℤ) - (lam.shift : ℤ) with hΔdef
+  have hrel : ∀ i, ((lam.constShift c).toNatWeight i : ℤ) = (lam.toNatWeight i : ℤ) + Δ := by
+    intro i
+    rw [toNatWeight_cast (lam.constShift c) i, toNatWeight_cast lam i,
+      DominantWeight.constShift_val, hΔdef]
+    ring
+  rcases le_total 0 Δ with hΔ | hΔ
+  · have hbrw : (lam.constShift c).toNatWeight = (fun i => lam.toNatWeight i + Δ.toNat) := by
+      funext i; have := hrel i; omega
+    rw [hbrw]
+    exact finrank_schurModuleSubmodule_add_const lam.toNatWeight ha_anti Δ.toNat
+  · have harw : lam.toNatWeight = (fun i => (lam.constShift c).toNatWeight i + (-Δ).toNat) := by
+      funext i; have := hrel i; omega
+    rw [harw]
+    exact (finrank_schurModuleSubmodule_add_const (lam.constShift c).toNatWeight hb_anti
+      (-Δ).toNat).symm
 
 open LieAlgebra in
 /-- **Complete reducibility of finite-dimensional `𝔰𝔩(V)`-representations (Remark 5.23.3).** Every
