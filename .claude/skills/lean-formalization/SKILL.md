@@ -5463,6 +5463,27 @@ match+`split`.
 isoNegExt n` by `rw [foo]; split; next m hm => obtain rfl := …; apply Iso.ext; simp`. Do **not**
 use `.get` for `n` (dependent-position `get` is unrewritable); the match binder gives a real `n`.
 
+**Mirroring the chain (`down ℕ`) Künneth to the cochain (`up ℕ`) case (`embeddingUpNat`, #6825,
+`Chapter7/KunnethCochainComplexNat.lean`).** Two extra traps the `-n` chain version dodges:
+- Mathlib ships `TensorSigns (up ℤ)` and `TensorSigns (down ℕ)` but **not** `TensorSigns (up ℕ)`;
+  `HomologicalComplex.tensorObj` won't elaborate on `up ℕ` until you add it (`ε n = (-1)^n`, copy
+  the `down ℕ` instance, flip only the `Rel` direction: `rel_add`/`add_rel` by
+  `simp only [ComplexShape.up_Rel]; omega`, `ε'_succ` by `change (-1:ℤˣ)^(p+1) = -(-1:ℤˣ)^p`).
+- **Cast-spelling war `↑(n+1)` vs `↑n+1`.** The upward differential targets degree `n+1`, and
+  `fwdNat (n+1)` / `r_nat (n+1)` are locked to `↑(n+1)`, but a plain **`dsimp` silently rewrites
+  `↑(n+1)` to `↑n+1`**, after which `rw [ιZ_fwdNat …]` / `phiFwd_some` fail "did not find pattern".
+  The chain case never hits this (its downward differential targets `-↑n`, no `+1`). Fixes: (1)
+  never let `dsimp` touch the goal here — reduce the Koszul signs with explicit rewrites instead,
+  `show ComplexShape.ε₁ (up ℕ) (up ℕ) (up ℕ) (p,q) = (1:ℤˣ) from rfl` (then `one_smul`) and
+  `show ComplexShape.ε₂ … (p,q) = Int.negOnePow ↑p from (negOnePow_natCast p).symm` (then `congr 1`);
+  (2) spell every shifted index as `((p+1 : ℕ) : ℤ)` (not `(p:ℤ)+1`) in the `mapBifunctor.d₁_eq`/
+  `d₂_eq` `Rel` proofs, `extend_d_eq` via `ef_eq (p+1)`, and the `ιZ_fwdNat`/`r_nat` calls, so all
+  four agree. Sign lemma is the simpler `negOnePow_natCast` (`Int.negOnePow ↑n = (-1)^n`); the
+  up-differential `C.d p (p+1)` never vanishes, so there are **no** `p=0`/`q=0` boundary sub-cases.
+- Importing the chain twin to reuse `sigmaIsoOfInjOfIsZeroCompl` also pulls its `Etingof.`-namespaced
+  `homology_extend_iso`/`homology_extend_isZero` into scope — rename your parallel helpers
+  (`…_up`) or you get "already declared".
+
 ## `omega` proves atoms, not `∨`/`∧` *goals*; matrix-entry `split_ifs <;> omega` traps (#6755)
 
 Computing entries / cofactor recursions of concrete matrices (e.g. tridiagonal Cartan
