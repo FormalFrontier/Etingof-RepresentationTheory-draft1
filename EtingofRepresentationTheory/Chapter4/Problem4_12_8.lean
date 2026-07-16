@@ -577,6 +577,71 @@ instance : MulAction (specialOrthogonalGroup (Fin 3) ℝ) UnitVec where
 def IsPole (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) (v : UnitVec) : Prop :=
   ∃ g : specialOrthogonalGroup (Fin 3) ℝ, g ∈ G ∧ g ≠ 1 ∧ g • v = v
 
+/-- The antipode `-v` of a unit vector is again a unit vector. -/
+def UnitVec.neg (v : UnitVec) : UnitVec :=
+  ⟨-(v : Fin 3 → ℝ), by rw [neg_dotProduct, dotProduct_neg, neg_neg]; exact v.2⟩
+
+@[simp] lemma UnitVec.neg_val (v : UnitVec) :
+    (v.neg : Fin 3 → ℝ) = -(v : Fin 3 → ℝ) := rfl
+
+/-- A unit vector is distinct from its antipode (it is nonzero). -/
+lemma UnitVec.neg_ne_self (v : UnitVec) : v.neg ≠ v := by
+  intro h
+  have hval : (-(v : Fin 3 → ℝ)) = (v : Fin 3 → ℝ) := by
+    have := congrArg Subtype.val h
+    rwa [UnitVec.neg_val] at this
+  have hzero : (v : Fin 3 → ℝ) = 0 := by
+    funext i
+    have hi := congrFun hval i
+    simp only [Pi.neg_apply] at hi
+    simp only [Pi.zero_apply]
+    linarith
+  have hd : (v : Fin 3 → ℝ) ⬝ᵥ (v : Fin 3 → ℝ) = 0 := by rw [hzero]; simp
+  rw [v.2] at hd; exact one_ne_zero hd
+
+/-- The unit vectors fixed by a single element `g`. -/
+def fixedUnitVecs (g : specialOrthogonalGroup (Fin 3) ℝ) : Set UnitVec := {v | g • v = v}
+
+/-- The pole set of `G`: the unit vectors fixed by some nontrivial element of `G`. -/
+def poleSet (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) : Set UnitVec := {v | IsPole G v}
+
+/-- **Antipodal pair (geometric core).** A nontrivial element of `SO(3)` fixes exactly the two
+unit vectors `±v₀` on its rotation axis. This is the "unique pair of opposite poles" of the book's
+hint: the fixed subspace `ker (g - 1)` of `g ≠ 1` is the `1`-dimensional axis line, whose unit
+vectors are `v₀` and its antipode `-v₀`. -/
+theorem exists_fixedUnitVecs_eq_pair (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
+    ∃ v : UnitVec, fixedUnitVecs g = {v, v.neg} :=
+  -- TODO (#6861): the fixed subspace of `g ≠ 1` is `1`-dimensional (a nontrivial rotation fixes
+  -- only its axis line). Reuse the `CommonAxis` machinery: on the axis-orthogonal plane `g` acts
+  -- as a nonzero-angle rotation, so it fixes no nonzero vector there; hence the fixed space is the
+  -- axis line, with unit vectors `±v₀`.
+  sorry
+
+/-- Each nontrivial element of `SO(3)` fixes only finitely many unit vectors. -/
+theorem fixedUnitVecs_finite (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
+    (fixedUnitVecs g).Finite := by
+  obtain ⟨v, hv⟩ := exists_fixedUnitVecs_eq_pair g hg
+  rw [hv]
+  exact (Set.finite_singleton _).insert _
+
+/-- Each nontrivial element of `SO(3)` fixes exactly two unit vectors. -/
+theorem fixedUnitVecs_ncard (g : specialOrthogonalGroup (Fin 3) ℝ) (hg : g ≠ 1) :
+    (fixedUnitVecs g).ncard = 2 := by
+  obtain ⟨v, hv⟩ := exists_fixedUnitVecs_eq_pair g hg
+  rw [hv, Set.ncard_pair (Ne.symm v.neg_ne_self)]
+
+/-- **Pole-set finiteness.** For a finite subgroup `G ≤ SO(3)`, the pole set is finite: it is the
+finite union, over the finitely many nontrivial elements of `G`, of the two-element fixed sets. -/
+theorem poleSet_finite (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] :
+    (poleSet G).Finite := by
+  have hsub : poleSet G ⊆
+      ⋃ g ∈ {g : specialOrthogonalGroup (Fin 3) ℝ | g ∈ G ∧ g ≠ 1}, fixedUnitVecs g := by
+    rintro v ⟨g, hgG, hg1, hgv⟩
+    exact Set.mem_biUnion (by exact ⟨hgG, hg1⟩) hgv
+  refine Set.Finite.subset (Set.Finite.biUnion ?_ ?_) hsub
+  · exact (G : Set (specialOrthogonalGroup (Fin 3) ℝ)).toFinite.subset fun g hg => hg.1
+  · exact fun g hg => fixedUnitVecs_finite g hg.2
+
 end Poles
 
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
