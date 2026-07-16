@@ -598,7 +598,53 @@ letter `i`, hence the same weight. -/
 theorem conjAlgHom_isWeightedHomogeneous (g : (Matrix (Fin N) (Fin N) ℂ)ˣ) (d : Fin k →₀ ℕ)
     {p : MatrixTupleRing k N} (hp : IsWeightedHomogeneous (matrixWeight k N) p d) :
     IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g p) d := by
-  sorry
+  classical
+  -- Each generator `X (i, r, c)` maps to a `ℂ`-combination of variables `X (i, s, t)` with the same
+  -- letter `i`, hence weight `matrixWeight (i, r, c) = single i 1` is preserved.
+  have hgen : ∀ v : Fin k × Fin N × Fin N,
+      IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (X v)) (matrixWeight k N v) := by
+    rintro ⟨i, r, c⟩
+    rw [conjAlgHom_X_sum]
+    refine IsWeightedHomogeneous.sum _ _ _ (fun s _ =>
+      IsWeightedHomogeneous.sum _ _ _ (fun t _ => ?_))
+    have hXst : IsWeightedHomogeneous (matrixWeight k N) (X (i, s, t) : MatrixTupleRing k N)
+        (matrixWeight k N (i, s, t)) := isWeightedHomogeneous_X ℂ (matrixWeight k N) (i, s, t)
+    have hw : matrixWeight k N (i, s, t) = matrixWeight k N (i, r, c) := rfl
+    rw [← hw, show algebraMap ℂ (MatrixTupleRing k N) ((↑g : Matrix (Fin N) (Fin N) ℂ) r s)
+          * X (i, s, t)
+          * algebraMap ℂ (MatrixTupleRing k N) ((↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ) t c)
+        = MvPolynomial.C ((↑g : Matrix (Fin N) (Fin N) ℂ) r s
+            * (↑g⁻¹ : Matrix (Fin N) (Fin N) ℂ) t c) * X (i, s, t) by
+      rw [map_mul, MvPolynomial.algebraMap_eq]; ring]
+    exact hXst.C_mul _
+  -- Powers of a weighted-homogeneous element scale the weight.
+  have hpow : ∀ (φ : MatrixTupleRing k N) (m : Fin k →₀ ℕ) (e : ℕ),
+      IsWeightedHomogeneous (matrixWeight k N) φ m →
+      IsWeightedHomogeneous (matrixWeight k N) (φ ^ e) (e • m) := by
+    intro φ m e hφ
+    induction e with
+    | zero => simpa using isWeightedHomogeneous_one ℂ (matrixWeight k N)
+    | succ e ih => rw [pow_succ, succ_nsmul]; exact ih.mul hφ
+  -- A monomial of weight `d` maps to a weighted-homogeneous polynomial of weight `d`.
+  have hmon : ∀ (u : (Fin k × Fin N × Fin N) →₀ ℕ) (c : ℂ),
+      Finsupp.weight (matrixWeight k N) u = d →
+      IsWeightedHomogeneous (matrixWeight k N) (conjAlgHom k N g (monomial u c)) d := by
+    intro u c hwu
+    rw [MvPolynomial.monomial_eq, map_mul,
+      show conjAlgHom k N g (C c) = C c from by
+        rw [← MvPolynomial.algebraMap_eq]; exact AlgHom.commutes _ c]
+    simp only [Finsupp.prod, map_prod, map_pow]
+    have hdeg : ∑ v ∈ u.support, (u v) • matrixWeight k N v = d := by
+      rw [← hwu, Finsupp.weight_apply]; rfl
+    have hprod := IsWeightedHomogeneous.prod u.support
+      (fun v => conjAlgHom k N g (X v) ^ (u v))
+      (fun v => (u v) • matrixWeight k N v)
+      (fun v _ => hpow (conjAlgHom k N g (X v)) (matrixWeight k N v) (u v) (hgen v))
+    rw [hdeg] at hprod
+    exact hprod.C_mul c
+  rw [p.as_sum, map_sum]
+  exact IsWeightedHomogeneous.sum _ _ _ (fun u hu =>
+    hmon u _ (hp (MvPolynomial.mem_support_iff.mp hu)))
 
 /-- **The GL-equivariant section (crux).** There is a section `σ` of the evaluation pairing
 `endTensorEval slot` on the multidegree-`d` part of the coordinate ring that is `GL(V)`-equivariant:
