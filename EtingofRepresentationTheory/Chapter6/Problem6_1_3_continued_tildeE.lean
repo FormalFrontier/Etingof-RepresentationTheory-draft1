@@ -433,11 +433,89 @@ theorem posSemidef_of_nonpos_offDiag_kernel {n : ℕ}
   rw [hq]
   linarith [hStwo ▸ hSnonneg]
 
+/-! ## Structural clauses for the extended diagrams -/
+
+/-- Each extended adjacency matrix is symmetric. -/
+theorem AffineType.adj_isSymm (t : AffineType) : t.adj.IsSymm := by
+  apply Matrix.IsSymm.ext
+  intro i j
+  cases t with
+  | Atilde n hn =>
+      simp only [AffineType.adj]; split_ifs <;> first | rfl | tauto
+  | Dtilde n hn =>
+      simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+  | E6tilde => simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+  | E7tilde => simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+  | E8tilde => simp only [AffineType.adj, min_comm i.val j.val, max_comm i.val j.val]
+
+/-- No extended diagram has a self-loop. -/
+theorem AffineType.adj_diag (t : AffineType) (i : Fin t.rank) : t.adj i i = 0 := by
+  cases t with
+  | Atilde n hn =>
+      have hlt : i.val < n := i.isLt
+      have hb : (i.val + 1) % n = if i.val + 1 = n then 0 else i.val + 1 := by
+        by_cases h : i.val + 1 = n
+        · rw [if_pos h, h, Nat.mod_self]
+        · rw [if_neg h, Nat.mod_eq_of_lt (by omega)]
+      have hmod : ¬ ((i.val + 1) % n = i.val) := by
+        rw [hb]; split_ifs <;> omega
+      simp only [AffineType.adj]
+      rw [if_neg (by tauto)]
+  | Dtilde n hn =>
+      simp only [AffineType.adj, min_self, max_self]
+      rw [if_neg (by omega)]
+  | E6tilde => fin_cases i <;> decide
+  | E7tilde => fin_cases i <;> decide
+  | E8tilde => fin_cases i <;> decide
+
+/-- Every extended adjacency entry is `0` or `1` (a simple graph). -/
+theorem AffineType.adj_zero_or_one (t : AffineType) (i j : Fin t.rank) :
+    t.adj i j = 0 ∨ t.adj i j = 1 := by
+  cases t <;> (simp only [AffineType.adj]; split_ifs <;> simp)
+
+/-- Connectivity of each extended diagram: any two vertices are joined by an
+edge-path. -/
+theorem AffineType.adj_connected (t : AffineType) (i j : Fin t.rank) :
+    ∃ path : List (Fin t.rank),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        t.adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1 := by
+  sorry
+
 /-- **(g, one direction)** Each extended diagram really is an affine Dynkin
 diagram (its Cartan form is positive semidefinite but degenerate). -/
 theorem isAffineDynkinDiagram_of_type (t : AffineType) :
     IsAffineDynkinDiagram t.rank t.adj := by
-  sorry
+  have hsymm : t.adj.IsSymm := AffineType.adj_isSymm t
+  refine ⟨hsymm, AffineType.adj_diag t, AffineType.adj_zero_or_one t,
+    AffineType.adj_connected t, ?_, ?_⟩
+  · -- positive semidefinite via the weighted-Laplacian criterion
+    intro x
+    have cartan_symm :
+        (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj).IsSymm :=
+      (isSymm_one.smul 2).sub hsymm
+    have cartan_off : ∀ i j, i ≠ j →
+        (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj) i j ≤ 0 := by
+      intro i j hij
+      have h1 : (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) i j = 0 :=
+        Matrix.one_apply_ne hij
+      have hval : (2 • (1 : Matrix (Fin t.rank) (Fin t.rank) ℤ) - t.adj) i j
+          = - t.adj i j := by
+        rw [Matrix.sub_apply, Matrix.smul_apply, h1, smul_zero, zero_sub]
+      rw [hval]
+      rcases AffineType.adj_zero_or_one t i j with h | h <;> rw [h] <;> omega
+    exact posSemidef_of_nonpos_offDiag_kernel _ cartan_symm cartan_off t.marks
+      (marks_pos t) (cartan_mulVec_marks_eq_zero t) x
+  · -- degenerate: the marks are a nonzero null vector of the Cartan form
+    refine ⟨t.marks, ?_, ?_⟩
+    · intro h
+      have hr : 0 < t.rank := by cases t <;> simp only [AffineType.rank] <;> omega
+      have h0 := congrFun h ⟨0, hr⟩
+      have hp := marks_pos t ⟨0, hr⟩
+      simp only [Pi.zero_apply] at h0
+      rw [h0] at hp
+      exact lt_irrefl 0 hp
+    · rw [cartan_mulVec_marks_eq_zero t, dotProduct_zero]
 
 /-! ## Part (f): the classification of Dynkin diagrams -/
 
