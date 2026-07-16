@@ -371,6 +371,131 @@ private theorem mem_columnSubgroup_conj {n : ℕ} (la : Nat.Partition n) (σ : E
   · intro h k; exact h (transposePerm la k)
   · intro h m; obtain ⟨k, rfl⟩ := (transposePerm la).surjective m; exact h k
 
+/-! ### The key algebraic identity `τ · φ(c_λ) · τ⁻¹ = a_{λ*} b_{λ*}`
+
+Conjugating the sign-twisted Young symmetrizer by `τ` turns it into the generator
+`a_{λ*} b_{λ*}` of the book's `V_{λ*}`, because `τ` carries the row/column subgroups of `λ` to
+the column/row subgroups of `λ*`. -/
+
+/-- `τ`-conjugation as an equivalence `P_{λ*} ≃ Q_λ` between the row subgroup of `λ*` and the
+column subgroup of `λ`. -/
+private noncomputable def rowColConjEquiv {n : ℕ} (la : Nat.Partition n) :
+    ↥(RowSubgroup n (conjugatePartition la)) ≃ ↥(ColumnSubgroup n la) where
+  toFun h := ⟨(transposePerm la)⁻¹ * h.val * transposePerm la,
+    (mem_rowSubgroup_conj la h.val).mp h.prop⟩
+  invFun g := ⟨transposePerm la * g.val * (transposePerm la)⁻¹, by
+    rw [mem_rowSubgroup_conj]
+    have h : (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+        * transposePerm la = g.val := by group
+    rw [h]; exact g.prop⟩
+  left_inv h := by
+    apply Subtype.ext
+    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      * (transposePerm la)⁻¹ = h.val
+    group
+  right_inv g := by
+    apply Subtype.ext
+    show (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+      * transposePerm la = g.val
+    group
+
+/-- `τ`-conjugation as an equivalence `Q_{λ*} ≃ P_λ` between the column subgroup of `λ*` and the
+row subgroup of `λ`. -/
+private noncomputable def colRowConjEquiv {n : ℕ} (la : Nat.Partition n) :
+    ↥(ColumnSubgroup n (conjugatePartition la)) ≃ ↥(RowSubgroup n la) where
+  toFun h := ⟨(transposePerm la)⁻¹ * h.val * transposePerm la,
+    (mem_columnSubgroup_conj la h.val).mp h.prop⟩
+  invFun g := ⟨transposePerm la * g.val * (transposePerm la)⁻¹, by
+    rw [mem_columnSubgroup_conj]
+    have h : (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+        * transposePerm la = g.val := by group
+    rw [h]; exact g.prop⟩
+  left_inv h := by
+    apply Subtype.ext
+    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      * (transposePerm la)⁻¹ = h.val
+    group
+  right_inv g := by
+    apply Subtype.ext
+    show (transposePerm la)⁻¹ * (transposePerm la * g.val * (transposePerm la)⁻¹)
+      * transposePerm la = g.val
+    group
+
+/-- Conjugating the unsigned column sum by `τ` yields the row symmetrizer of `λ*`. -/
+private theorem conj_of_columnSum {n : ℕ} (la : Nat.Partition n) :
+    haveI : DecidablePred (· ∈ ColumnSubgroup n la) := Classical.decPred _
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * (∑ g : (ColumnSubgroup n la), MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = RowSymmetrizer n (conjugatePartition la) := by
+  classical
+  rw [Finset.mul_sum, Finset.sum_mul, RowSymmetrizer,
+    ← Equiv.sum_comp (rowColConjEquiv la)
+      (fun g : ↥(ColumnSubgroup n la) => MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹)]
+  apply Finset.sum_congr rfl
+  intro h _
+  rw [← map_mul, ← map_mul]
+  congr 1
+  show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+    * (transposePerm la)⁻¹ = h.val
+  group
+
+/-- Conjugating the signed row sum by `τ` yields the column antisymmetrizer of `λ*`. -/
+private theorem conj_of_rowSignSum {n : ℕ} (la : Nat.Partition n) :
+    haveI : DecidablePred (· ∈ RowSubgroup n la) := Classical.decPred _
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * (∑ g : (RowSubgroup n la),
+            ((Equiv.Perm.sign g.val : ℤ) : ℂ) • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = ColumnAntisymmetrizer n (conjugatePartition la) := by
+  classical
+  rw [Finset.mul_sum, Finset.sum_mul, ColumnAntisymmetrizer,
+    ← Equiv.sum_comp (colRowConjEquiv la)
+      (fun g : ↥(RowSubgroup n la) => MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * (((Equiv.Perm.sign g.val : ℤ) : ℂ) • MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) g.val)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹)]
+  apply Finset.sum_congr rfl
+  intro h _
+  have hperm : Equiv.Perm.sign (((colRowConjEquiv la) h).val) = Equiv.Perm.sign h.val := by
+    show Equiv.Perm.sign ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      = Equiv.Perm.sign h.val
+    rw [Equiv.Perm.sign_mul, Equiv.Perm.sign_mul, Equiv.Perm.sign_inv, mul_right_comm,
+      Int.units_mul_self, one_mul]
+  have hval : transposePerm la * ((colRowConjEquiv la) h).val * (transposePerm la)⁻¹ = h.val := by
+    show transposePerm la * ((transposePerm la)⁻¹ * h.val * transposePerm la)
+      * (transposePerm la)⁻¹ = h.val
+    group
+  rw [mul_smul_comm, smul_mul_assoc, ← map_mul, ← map_mul, hperm, hval]
+
+/-- Splitting a `τ`-conjugation of a product across the factors. -/
+private theorem conj_mul {n : ℕ} (τ : Equiv.Perm (Fin n)) (X Y : SymGroupAlgebra n) :
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * (X * Y)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+      = (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * X
+          * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹)
+        * (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ * Y
+          * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹) := by
+  have h1 : MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹
+      * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ = 1 := by
+    rw [← map_mul, inv_mul_cancel, map_one]
+  simp only [mul_assoc]
+  rw [← mul_assoc (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ⁻¹)
+    (MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) τ), h1, one_mul]
+
+/-- **Key identity.** Conjugating the sign-twisted Young symmetrizer `φ(c_λ) = φ(b_λ a_λ)` by
+`τ` gives the generator `a_{λ*} b_{λ*}` of the book's `V_{λ*}`. -/
+private theorem key_identity {n : ℕ} (la : Nat.Partition n) :
+    MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)
+        * signTwist n (YoungSymmetrizer n la)
+        * MonoidAlgebra.of ℂ (Equiv.Perm (Fin n)) (transposePerm la)⁻¹
+      = RowSymmetrizer n (conjugatePartition la) * ColumnAntisymmetrizer n (conjugatePartition la)
+        := by
+  classical
+  rw [YoungSymmetrizer, map_mul, signTwist_columnAntisymmetrizer, signTwist_rowSymmetrizer,
+    conj_mul, conj_of_columnSum, conj_of_rowSignSum]
+
 /-! ### `V_λ ⊗ ℂ_- = V_{λ*}` -/
 
 /-- **Problem 5.24.1(b), main statement.** `V_λ ⊗ ℂ_- ≅ V_{λ*}`: the Specht module `V_λ`,
