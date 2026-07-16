@@ -82,4 +82,24 @@ noncomputable def extRestrictObjIso (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : Modul
       ((res₁ k A₁).obj X) ⊗ ((res₂ k A₂).obj Y) :=
   (extRestrictObjEquiv X Y).toModuleIso
 
+@[simp] theorem extRestrictObjIso_hom_tmul (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ)
+    (x : X) (y : Y) :
+    (extRestrictObjIso X Y).hom (x ⊗ₜ[k] y) = x ⊗ₜ[k] y := rfl
+
+/-- **Naturality of the pointwise iso.** The identification `extRestrictObjIso` intertwines the
+restricted external-tensor functorial map `resExt (extTensorFunctorMap f g)` with the plain
+`k`-tensor of the restricted maps `res₁ f ⊗ res₂ g`. Both underlying maps are `TensorProduct.map`
+of the same `k`-linear factors, so the square commutes on simple tensors. -/
+theorem extRestrictObjIso_naturality {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y Y' : ModuleCat.{u} A₂ᵐᵒᵖ}
+    (f : X ⟶ X') (g : Y ⟶ Y') :
+    (resExt k A₁ A₂).map (extTensorFunctorMap k f g) ≫ (extRestrictObjIso X' Y').hom =
+      (extRestrictObjIso X Y).hom ≫
+        MonoidalCategory.tensorHom ((res₁ k A₁).map f) ((res₂ k A₂).map g) := by
+  ext z
+  induction z using TensorProduct.induction_on with
+  | zero => simp
+  | tmul x y => rfl
+  | add a b ha hb =>
+    rw [map_add, map_add, ha, hb]
+
 end Etingof
