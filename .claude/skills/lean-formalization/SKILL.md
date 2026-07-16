@@ -66,6 +66,24 @@ instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.
 /`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
 prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
 
+**Heavy category-theory objects (total complexes / coproducts) make `isDefEq`, `whnf`, and
+typeclass search blow up — unfold *one step short* and finish by hand.** Cost real iterations in
+#6683 (`Chapter8/ExternalTensorResolution.lean`, `Projective ((mapBifunctor …).total.X n)`). Two
+compounding traps: (a) forcing the goal defeq all the way to the coproduct — e.g.
+`show Projective (∐ g)` or `exact inferInstanceAs (Projective (∐ g))` against a total-complex
+`.X n` — times out `whnf`/`isDefEq` even at 1–2M heartbeats, because normalizing `∐` over the
+bifunctor summands explodes. **Fix:** stop at the `mapObj` level with a cheap `rfl` helper
+(`(K.total c).X n = K.toGradedObject.mapObj p n := rfl`; note `@[simps -isSimp d]` on `total`
+generates only `total_d`, *not* `total_X`), `rw` it, then `show Projective (∐ g)` — now a single
+`mapObj` unfold, cheap. (b) Even with the goal literally `∐ g` and `∀ b, Projective (g b)` in
+context, the coproduct-`Projective` instance (`Preadditive/Projective/Basic.lean`) is declared
+`set_option backward.isDefEq.respectTransparency false`, so its full-transparency defeq does **not
+terminate** on heavy summands. **Fix:** build the lifting property by hand —
+`refine ⟨fun {E X} f e he => ⟨Sigma.desc fun b => Projective.factorThru (Sigma.ι g b ≫ f) e, ?_⟩⟩;
+apply Sigma.hom_ext; intro b; rw [Sigma.ι_desc_assoc]; exact Projective.factorThru_comp _ e`. General
+lesson: when a Mathlib instance/lemma quietly uses full transparency, bypass it with an explicit
+term rather than fighting heartbeats.
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
