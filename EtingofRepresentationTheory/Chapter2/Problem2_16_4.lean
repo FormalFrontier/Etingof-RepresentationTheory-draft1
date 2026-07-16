@@ -7,6 +7,7 @@ import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.LinearAlgebra.StdBasis
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.LinearAlgebra.Dimension.Finite
+import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 
 /-!
 # Problem 2.16.4: Irreducible representations of `𝔰𝔩(2)` in characteristic `p > 2`
@@ -519,6 +520,8 @@ they act as scalars `α, β`. Then:
 
 section DimensionBound
 
+variable {k}
+
 /-! ### Bracket relations in `𝔰𝔩(2, k)` -/
 
 /-- `[h, e] = 2e` in `𝔰𝔩(2, k)`. -/
@@ -531,7 +534,7 @@ theorem lie_sl2_h_e : ⁅sl2_h k, sl2_e k⁆ = (2 : k) • sl2_e k := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.single_apply,
-      Fin.sum_univ_two]
+      Fin.sum_univ_two] <;> ring
 
 /-- `[h, f] = -2f` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
@@ -543,7 +546,7 @@ theorem lie_sl2_h_f : ⁅sl2_h k, sl2_f k⁆ = -((2 : k) • sl2_f k) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.neg_apply,
-      Matrix.single_apply, Fin.sum_univ_two]
+      Matrix.single_apply, Fin.sum_univ_two] <;> ring
 
 /-- `[e, f] = h` in `𝔰𝔩(2, k)`. -/
 theorem lie_sl2_e_f : ⁅sl2_e k, sl2_f k⁆ = sl2_h k := by
@@ -573,7 +576,7 @@ theorem sl2_decomp (x : sl2 k) :
 
 section SchurHelpers
 
-variable (M : Type*) [AddCommGroup M] [Module k M] [LieRingModule (sl2 k) M]
+variable {M : Type*} [AddCommGroup M] [Module k M] [LieRingModule (sl2 k) M]
   [LieModule k (sl2 k) M]
 
 /-- A `k`-linear submodule of `M` that is closed under the `𝔰𝔩(2)`-action and contains a nonzero
@@ -600,7 +603,14 @@ theorem lie_closed_of_efh (W : Submodule k M)
     (hH : ∀ m ∈ W, ⁅sl2_h k, m⁆ ∈ W) :
     ∀ (x : sl2 k) (m : M), m ∈ W → ⁅x, m⁆ ∈ W := by
   intro x m hm
-  rw [sl2_decomp x, add_lie, add_lie, smul_lie, smul_lie, smul_lie]
+  have e1 : ∀ y : sl2 k, ⁅y, m⁆ = (LieModule.toEnd k (sl2 k) M y) m := fun _ => rfl
+  have key : ⁅x, m⁆ = x.val 0 1 • ⁅sl2_e k, m⁆ + x.val 1 0 • ⁅sl2_f k, m⁆
+      + x.val 0 0 • ⁅sl2_h k, m⁆ := by
+    conv_lhs => rw [e1 x, sl2_decomp x, map_add, map_add, map_smul, map_smul, map_smul,
+      LinearMap.add_apply, LinearMap.add_apply, LinearMap.smul_apply, LinearMap.smul_apply,
+      LinearMap.smul_apply]
+    rw [e1 (sl2_e k), e1 (sl2_f k), e1 (sl2_h k)]
+  rw [key]
   exact W.add_mem (W.add_mem (W.smul_mem _ (hE m hm)) (W.smul_mem _ (hF m hm)))
     (W.smul_mem _ (hH m hm))
 
@@ -612,16 +622,16 @@ theorem lie_schur [IsAlgClosed k] [FiniteDimensional k M]
     (φ : Module.End k M) (hφ : ∀ (x : sl2 k) (m : M), φ ⁅x, m⁆ = ⁅x, φ m⁆) :
     ∃ c : k, ∀ m : M, φ m = c • m := by
   haveI : Nontrivial M := LieModule.nontrivial_of_isIrreducible k (sl2 k) M
-  obtain ⟨μ, hμ⟩ := φ.exists_eigenvalue
+  obtain ⟨μ, hμ⟩ := Module.End.exists_eigenvalue φ
   refine ⟨μ, ?_⟩
   have hclosed : ∀ (x : sl2 k) (m : M), m ∈ φ.eigenspace μ → ⁅x, m⁆ ∈ φ.eigenspace μ := by
     intro x m hm
     rw [Module.End.mem_eigenspace_iff] at hm ⊢
-    rw [← hφ, hm, lie_smul]
+    rw [hφ, hm, lie_smul]
   have hne : ∃ v ∈ φ.eigenspace μ, v ≠ 0 := by
     obtain ⟨v, hv⟩ := hμ.exists_hasEigenvector
     exact ⟨v, hv.1, hv.2⟩
-  have htop := eq_top_of_lie_closed M (φ.eigenspace μ) hclosed hne
+  have htop := eq_top_of_lie_closed (φ.eigenspace μ) hclosed hne
   intro m
   have hm : m ∈ φ.eigenspace μ := by rw [htop]; trivial
   rwa [Module.End.mem_eigenspace_iff] at hm
@@ -640,18 +650,16 @@ theorem span_closed_of_gens (T : Module.End k M) (S : Set M)
 /-- Dimension bound from a cyclic spanning set: if the span of `{g 0, …, g (p-1)}` is everything,
 then `finrank M ≤ p`. -/
 theorem finrank_le_of_orbit_top (p : ℕ) (g : ℕ → M)
-    (htop : Submodule.span k ((Finset.range p).image g : Set M) = ⊤) :
+    (htop : Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) = ⊤) :
     Module.finrank k M ≤ p := by
-  have h1 : Module.finrank k M =
-      Module.finrank k ↥(Submodule.span k ((Finset.range p).image g : Set M)) := by
-    rw [htop, finrank_top]
-  rw [h1]
-  refine le_trans (finrank_span_finset_le_card _) ?_
-  exact le_trans Finset.card_image_le (le_of_eq (Finset.card_range p))
+  have := finrank_le_of_span_eq_top htop
+  simpa using this
 
 end SchurHelpers
 
 /-! ### The main bound -/
+
+variable (k)
 
 /-- **Dimension bound.** Over an algebraically closed field of characteristic `p > 2`, every
 irreducible finite dimensional representation of `𝔰𝔩(2)` has dimension at most `p`. -/
@@ -715,10 +723,11 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
     intro n
     induction n with
     | zero =>
-      rw [hrec 0]
-      simp only [pow_zero, pow_one, one_mul, mul_one, Nat.cast_one, Nat.cast_zero, Nat.cast_mul,
-        zero_smul, sub_zero, one_smul, mul_zero]
-      rw [← hEF]; abel
+      have hlhs : F * E ^ (0 + 1) - E ^ (0 + 1) * F = -H := by
+        rw [zero_add, pow_one, ← hEF]; abel
+      have hrhs : -(((0 + 1 : ℕ) : k)) • (E ^ 0 * H) - (((0 + 1) * 0 : ℕ) : k) • E ^ 0 = -H := by
+        simp
+      rw [hlhs, hrhs]
     | succ n ih =>
       rw [hrec (n + 1), ih]
       have hHErw : E ^ (n + 1) * H = E ^ n * (H * E) - (2 : k) • E ^ (n + 1) := by
@@ -751,21 +760,21 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
   -- `E^p` scalar
   have hEpFcomm : E ^ p * F = F * E ^ p := by
     have hp1 : p - 1 + 1 = p := by omega
-    have := hFEpow (p - 1)
-    rw [hp1] at this
+    have h := hFEpow (p - 1)
     have hz1 : (((p - 1 + 1 : ℕ) : k)) = 0 := by rw [hp1]; exact hcharp
     have hz2 : ((((p - 1 + 1) * (p - 1) : ℕ) : k)) = 0 := by
       rw [hp1]; push_cast [hcharp]; ring
-    rw [hz1, hz2] at this
-    simp only [neg_zero, zero_smul, sub_zero] at this
-    linear_combination -this
+    rw [hz1, hz2] at h
+    simp only [neg_zero, zero_smul, sub_zero] at h
+    rw [hp1] at h
+    exact (sub_eq_zero.mp h).symm
   have hEpHcomm : E ^ p * H = H * E ^ p := by
-    have := hHEpow p
+    have h := hHEpow p
     have hz : (((2 * p : ℕ) : k)) = 0 := by push_cast [hcharp]; ring
-    rw [hz, zero_smul, add_zero] at this
-    linear_combination -this
+    rw [hz, zero_smul, add_zero] at h
+    exact h.symm
   have hEpEcomm : E ^ p * E = E * E ^ p := by rw [← pow_succ, ← pow_succ']
-  obtain ⟨α, hα'⟩ := lie_schur M (E ^ p) (hcomm_to_schur (E ^ p) hEpEcomm hEpFcomm hEpHcomm)
+  obtain ⟨α, hα'⟩ := lie_schur (E ^ p) (hcomm_to_schur (E ^ p) hEpEcomm hEpFcomm hEpHcomm)
   have hα : E ^ p = α • 1 := by ext m; rw [hα' m]; simp
   -- `F^p` scalar (symmetric)
   have hFpEcomm : F ^ p * E = E * F ^ p := by
@@ -788,24 +797,25 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
       intro n
       induction n with
       | zero =>
-        rw [hrec' 0]
-        simp only [pow_zero, pow_one, one_mul, mul_one, Nat.cast_one, Nat.cast_zero, Nat.cast_mul,
-          zero_smul, sub_zero, one_smul, mul_zero]
-        rw [← hFE']; abel
+        have hlhs : E * F ^ (0 + 1) - F ^ (0 + 1) * E = -(-H) := by
+          rw [zero_add, pow_one, ← hFE']; abel
+        have hrhs : -(((0 + 1 : ℕ) : k)) • (F ^ 0 * (-H)) - (((0 + 1) * 0 : ℕ) : k) • F ^ 0
+            = -(-H) := by simp
+        rw [hlhs, hrhs]
       | succ n ih =>
         rw [hrec' (n + 1), ih]
         rw [sub_mul, smul_mul_assoc, smul_mul_assoc, mul_assoc, hHF', mul_add, mul_smul_comm,
           ← pow_succ]
-        rw [show (F ^ n * ((-H) * F)) = F ^ (n + 1) * (-H) from by rw [pow_succ]; noncomm_ring]
+        rw [show (F ^ n * (F * (-H))) = F ^ (n + 1) * (-H) from by rw [pow_succ]; noncomm_ring]
         module
     have hp1 : p - 1 + 1 = p := by omega
     have hh := hFFpow (p - 1)
-    rw [hp1] at hh
     have hz1 : (((p - 1 + 1 : ℕ) : k)) = 0 := by rw [hp1]; exact hcharp
     have hz2 : ((((p - 1 + 1) * (p - 1) : ℕ) : k)) = 0 := by rw [hp1]; push_cast [hcharp]; ring
     rw [hz1, hz2] at hh
     simp only [neg_zero, zero_smul, sub_zero] at hh
-    linear_combination -hh
+    rw [hp1] at hh
+    exact (sub_eq_zero.mp hh).symm
   have hFpHcomm : F ^ p * H = H * F ^ p := by
     -- `H · Fⁿ = Fⁿ · H - 2n · Fⁿ`
     have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
@@ -823,19 +833,247 @@ theorem finrank_irreducible_le_char [IsAlgClosed k] (p : ℕ) [Fact p.Prime] [Ch
           _ = F ^ (n + 1) * H - ((2 * (n + 1) : ℕ) : k) • F ^ (n + 1) := by
                 rw [mul_sub, ← mul_assoc, mul_smul_comm, ← pow_succ, hsc, add_smul]
                 abel
-    have := hHFpow p
+    have h := hHFpow p
     have hz : (((2 * p : ℕ) : k)) = 0 := by push_cast [hcharp]; ring
-    rw [hz, zero_smul, sub_zero] at this
-    linear_combination -this
+    rw [hz, zero_smul, sub_zero] at h
+    exact h.symm
   have hFpFcomm : F ^ p * F = F * F ^ p := by rw [← pow_succ, ← pow_succ']
-  obtain ⟨β, hβ'⟩ := lie_schur M (F ^ p) (hcomm_to_schur (F ^ p) hFpFcomm hFpHcomm hFpEcomm)
+  obtain ⟨β, hβ'⟩ := lie_schur (F ^ p) (hcomm_to_schur (F ^ p) hFpEcomm hFpFcomm hFpHcomm)
   have hβ : F ^ p = β • 1 := by ext m; rw [hβ' m]; simp
   -- Now split on whether `E` is invertible.
+  -- `H · Fⁱ = Fⁱ · H - 2i · Fⁱ`.
+  have hHFpow : ∀ i : ℕ, H * F ^ i = F ^ i * H - ((2 * i : ℕ) : k) • F ^ i := by
+    intro i
+    induction i with
+    | zero => simp
+    | succ n ih =>
+      have hsc : (((2 * (n + 1) : ℕ) : k)) = ((2 * n : ℕ) : k) + (2 : k) := by push_cast; ring
+      calc H * F ^ (n + 1)
+          = (H * F ^ n) * F := by rw [pow_succ, ← mul_assoc]
+        _ = (F ^ n * H - ((2 * n : ℕ) : k) • F ^ n) * F := by rw [ih]
+        _ = F ^ n * (H * F) - ((2 * n : ℕ) : k) • (F ^ n * F) := by
+              rw [sub_mul, mul_assoc, smul_mul_assoc]
+        _ = F ^ n * (F * H - (2 : k) • F) - ((2 * n : ℕ) : k) • (F ^ n * F) := by rw [hHF]
+        _ = F ^ (n + 1) * H - ((2 * (n + 1) : ℕ) : k) • F ^ (n + 1) := by
+              rw [mul_sub, ← mul_assoc, mul_smul_comm, ← pow_succ, hsc, add_smul]
+              abel
   by_cases hα0 : α = 0
   · -- `α = 0`: `E` is nilpotent, use a highest weight vector.
-    sorry
-  · -- `α ≠ 0`: `E` is injective, use a joint `H`, `FE`-eigenvector.
-    sorry
+    have hEnil : E ^ p = 0 := by rw [hα, hα0, zero_smul]
+    -- `ker E ≠ ⊥`: otherwise `E`, hence `E^p`, would be injective, impossible since `E^p = 0`.
+    have hKne : LinearMap.ker E ≠ ⊥ := by
+      rw [Ne, LinearMap.ker_eq_bot]
+      intro hEinj
+      have hEpinj : Function.Injective (E ^ p) := by
+        rw [Module.End.coe_pow]; exact hEinj.iterate p
+      rw [hEnil] at hEpinj
+      obtain ⟨a, b, hab⟩ := exists_pair_ne M
+      exact hab (hEpinj (by simp))
+    -- `ker E` is `H`-invariant.
+    have hHK : ∀ v ∈ LinearMap.ker E, H v ∈ LinearMap.ker E := by
+      intro v hv
+      rw [LinearMap.mem_ker] at hv ⊢
+      have hEH : E * H = H * E - (2 : k) • E := by rw [hHE]; abel
+      have hEHv : E (H v) = (E * H) v := rfl
+      rw [hEHv, hEH]
+      simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hv]
+      simp
+    -- Highest weight vector: an `H`-eigenvector inside `ker E`.
+    haveI : Nontrivial (LinearMap.ker E) := (Submodule.nontrivial_iff_ne_bot).mpr hKne
+    obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue (H.restrict hHK)
+    obtain ⟨w, hw⟩ := hlam.exists_hasEigenvector
+    set v0 : M := (w : M) with hv0def
+    have hv0ne : v0 ≠ 0 := by rw [hv0def, Ne, Submodule.coe_eq_zero]; exact hw.2
+    have hEv0 : E v0 = 0 := LinearMap.mem_ker.mp w.2
+    have hHv0 : H v0 = lam • v0 := by
+      have h1 : (H.restrict hHK) w = lam • w := (Module.End.mem_eigenspace_iff).mp hw.1
+      have := congrArg (Subtype.val) h1
+      simpa [LinearMap.restrict_apply, hv0def, Submodule.coe_smul] using this
+    -- The `F`-orbit of `v0` spans `W`.
+    set g : ℕ → M := fun j => (F ^ j) v0 with hgdef
+    set W : Submodule k M := Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) with hWdef
+    have hg0 : g 0 = v0 := by simp [hgdef]
+    have hmemgen : ∀ j : ℕ, j < p → g j ∈ W := fun j hj =>
+      Submodule.subset_span ⟨⟨j, hj⟩, rfl⟩
+    -- `F`-closure.
+    have hFW : ∀ w ∈ W, F w ∈ W := by
+      refine fun w hw => span_closed_of_gens F _ ?_ hw
+      rintro s ⟨i, rfl⟩
+      have hFg : F (g (i : ℕ)) = g ((i : ℕ) + 1) := by
+        simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
+      rw [hFg]
+      by_cases hip : (i : ℕ) + 1 < p
+      · exact hmemgen _ hip
+      · have hip1 : (i : ℕ) + 1 = p := by omega
+        have hval : g ((i : ℕ) + 1) = β • v0 := by
+          simp only [hgdef, hip1, hβ, LinearMap.smul_apply, Module.End.one_apply]
+        rw [hval]
+        exact W.smul_mem β (hg0 ▸ hmemgen 0 (by omega))
+    have hgW : ∀ j, g j ∈ W := by
+      intro j
+      induction j with
+      | zero => exact hg0 ▸ hmemgen 0 (by omega)
+      | succ j ih =>
+        have hFg : g (j + 1) = F (g j) := by
+          simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
+        rw [hFg]; exact hFW _ ih
+    -- `H`-closure.
+    have hHW : ∀ w ∈ W, H w ∈ W := by
+      refine fun w hw => span_closed_of_gens H _ ?_ hw
+      rintro s ⟨i, rfl⟩
+      have hval : H (g (i : ℕ)) = lam • g (i : ℕ) - ((2 * (i : ℕ) : ℕ) : k) • g (i : ℕ) := by
+        simp only [hgdef]
+        rw [← Module.End.mul_apply, hHFpow (i : ℕ)]
+        simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.mul_apply, hHv0, map_smul]
+      rw [hval]
+      exact W.sub_mem (W.smul_mem _ (hmemgen _ i.isLt)) (W.smul_mem _ (hmemgen _ i.isLt))
+    -- `E`-closure.
+    have hEW : ∀ w ∈ W, E w ∈ W := by
+      have hEorbit : ∀ j : ℕ, E (g j) ∈ W := by
+        intro j
+        induction j with
+        | zero =>
+          have hz : E (g 0) = 0 := by rw [hg0]; exact hEv0
+          rw [hz]; exact W.zero_mem
+        | succ j ih =>
+          have hEF' : E * F = F * E + H := by rw [← hEF]; abel
+          have hstep : E (g (j + 1)) = F (E (g j)) + H (g j) := by
+            have hFg : g (j + 1) = F (g j) := by
+              simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
+            rw [hFg, ← Module.End.mul_apply, hEF']
+            simp only [LinearMap.add_apply, Module.End.mul_apply]
+          rw [hstep]
+          exact W.add_mem (hFW _ ih) (hHW _ (hgW j))
+      refine fun w hw => span_closed_of_gens E _ ?_ hw
+      rintro s ⟨i, rfl⟩
+      exact hEorbit (i : ℕ)
+    -- `W` is a nonzero `𝔰𝔩(2)`-submodule, hence everything; conclude the dimension bound.
+    have hlie := lie_closed_of_efh W
+      (fun m hm => by rw [hEe]; exact hEW m hm)
+      (fun m hm => by rw [hFf]; exact hFW m hm)
+      (fun m hm => by rw [hHh]; exact hHW m hm)
+    have htop : W = ⊤ := eq_top_of_lie_closed W hlie ⟨v0, hg0 ▸ hgW 0, hv0ne⟩
+    exact finrank_le_of_orbit_top p g htop
+  · -- `α ≠ 0`: `E` is injective, use a joint `H`, `F·E`-eigenvector.
+    have hEinj : Function.Injective E := by
+      have hEpinj : Function.Injective (E ^ p) := by
+        rw [hα]
+        intro a b hab
+        simp only [LinearMap.smul_apply, Module.End.one_apply] at hab
+        exact smul_right_injective M hα0 hab
+      intro a b hab
+      apply hEpinj
+      have hsplit : E ^ p = E ^ (p - 1) * E := by rw [← pow_succ]; congr 1; omega
+      rw [hsplit, Module.End.mul_apply, Module.End.mul_apply, hab]
+    obtain ⟨lam, hlam⟩ := Module.End.exists_eigenvalue H
+    -- `F·E` commutes with `H`, so preserves the `lam`-eigenspace of `H`.
+    have hFEmaps : ∀ v ∈ H.eigenspace lam, (F * E) v ∈ H.eigenspace lam := by
+      intro v hv
+      rw [Module.End.mem_eigenspace_iff] at hv ⊢
+      have hcomm : H * (F * E) = (F * E) * H := by
+        calc H * (F * E) = (H * F) * E := by rw [mul_assoc]
+          _ = (F * H - (2 : k) • F) * E := by rw [hHF]
+          _ = F * (H * E) - (2 : k) • (F * E) := by rw [sub_mul, mul_assoc, smul_mul_assoc]
+          _ = F * (E * H + (2 : k) • E) - (2 : k) • (F * E) := by rw [hHE]
+          _ = (F * E) * H := by rw [mul_add, mul_smul_comm, ← mul_assoc]; abel
+      calc H ((F * E) v) = (H * (F * E)) v := rfl
+        _ = ((F * E) * H) v := by rw [hcomm]
+        _ = (F * E) (H v) := rfl
+        _ = (F * E) (lam • v) := by rw [hv]
+        _ = lam • (F * E) v := by rw [map_smul]
+    haveI : Nontrivial (H.eigenspace lam) := (Submodule.nontrivial_iff_ne_bot).mpr hlam
+    obtain ⟨c, hc⟩ := Module.End.exists_eigenvalue ((F * E).restrict hFEmaps)
+    obtain ⟨w, hw⟩ := hc.exists_hasEigenvector
+    set v0 : M := (w : M) with hv0def
+    have hv0ne : v0 ≠ 0 := by rw [hv0def, Ne, Submodule.coe_eq_zero]; exact hw.2
+    have hHv0 : H v0 = lam • v0 := by
+      have hmem := w.2
+      rw [Module.End.mem_eigenspace_iff] at hmem
+      exact hmem
+    have hFEv0 : (F * E) v0 = c • v0 := by
+      have h1 : ((F * E).restrict hFEmaps) w = c • w := (Module.End.mem_eigenspace_iff).mp hw.1
+      have h2 := congrArg (Subtype.val) h1
+      simpa [LinearMap.restrict_apply, hv0def, Submodule.coe_smul] using h2
+    -- `E (F v₀) = (c + lam) • v₀`.
+    have hEFv0 : E (F v0) = (c + lam) • v0 := by
+      have hEF' : E * F = F * E + H := by rw [← hEF]; abel
+      have he : E (F v0) = (E * F) v0 := rfl
+      rw [he, hEF', LinearMap.add_apply, hFEv0, hHv0, ← add_smul]
+    -- Hence `F v₀ = (c + lam)·α⁻¹·E^{p-1} v₀ ∈ W`, using injectivity of `E`.
+    have hFv0 : F v0 = (c + lam) • α⁻¹ • (E ^ (p - 1)) v0 := by
+      apply hEinj
+      rw [hEFv0, map_smul, map_smul]
+      have hEp : E ((E ^ (p - 1)) v0) = α • v0 := by
+        have hmul : E * E ^ (p - 1) = E ^ p := by rw [← pow_succ']; congr 1; omega
+        rw [← Module.End.mul_apply, hmul, hα, LinearMap.smul_apply, Module.End.one_apply]
+      rw [hEp, smul_smul α⁻¹ α v0, inv_mul_cancel₀ hα0, one_smul]
+    -- The `E`-orbit of `v0` spans `W`.
+    set g : ℕ → M := fun j => (E ^ j) v0 with hgdef
+    set W : Submodule k M := Submodule.span k (Set.range (fun i : Fin p => g (i : ℕ))) with hWdef
+    have hg0 : g 0 = v0 := by simp [hgdef]
+    have hmemgen : ∀ j : ℕ, j < p → g j ∈ W := fun j hj =>
+      Submodule.subset_span ⟨⟨j, hj⟩, rfl⟩
+    -- `E`-closure.
+    have hEW : ∀ w ∈ W, E w ∈ W := by
+      refine fun w hw => span_closed_of_gens E _ ?_ hw
+      rintro s ⟨i, rfl⟩
+      have hEg : E (g (i : ℕ)) = g ((i : ℕ) + 1) := by
+        simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
+      rw [hEg]
+      by_cases hip : (i : ℕ) + 1 < p
+      · exact hmemgen _ hip
+      · have hip1 : (i : ℕ) + 1 = p := by omega
+        have hval : g ((i : ℕ) + 1) = α • v0 := by
+          simp only [hgdef, hip1, hα, LinearMap.smul_apply, Module.End.one_apply]
+        rw [hval]
+        exact W.smul_mem α (hg0 ▸ hmemgen 0 (by omega))
+    have hgW : ∀ j, g j ∈ W := by
+      intro j
+      induction j with
+      | zero => exact hg0 ▸ hmemgen 0 (by omega)
+      | succ j ih =>
+        have hEg : g (j + 1) = E (g j) := by
+          simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
+        rw [hEg]; exact hEW _ ih
+    -- `H`-closure.
+    have hHW : ∀ w ∈ W, H w ∈ W := by
+      refine fun w hw => span_closed_of_gens H _ ?_ hw
+      rintro s ⟨i, rfl⟩
+      have hval : H (g (i : ℕ)) = lam • g (i : ℕ) + ((2 * (i : ℕ) : ℕ) : k) • g (i : ℕ) := by
+        simp only [hgdef]
+        rw [← Module.End.mul_apply, hHEpow (i : ℕ)]
+        simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.mul_apply, hHv0, map_smul]
+      rw [hval]
+      exact W.add_mem (W.smul_mem _ (hmemgen _ i.isLt)) (W.smul_mem _ (hmemgen _ i.isLt))
+    -- `F`-closure.
+    have hFW : ∀ w ∈ W, F w ∈ W := by
+      have hForbit : ∀ j : ℕ, F (g j) ∈ W := by
+        intro j
+        induction j with
+        | zero =>
+          rw [hg0, hFv0]
+          have hEp1 : (E ^ (p - 1)) v0 = g (p - 1) := by simp only [hgdef]
+          rw [hEp1, smul_smul]
+          exact W.smul_mem _ (hmemgen (p - 1) (by omega))
+        | succ j ih =>
+          have hFE' : F * E = E * F - H := by rw [← hEF]; abel
+          have hstep : F (g (j + 1)) = E (F (g j)) - H (g j) := by
+            have hEg : g (j + 1) = E (g j) := by
+              simp only [hgdef]; rw [← Module.End.mul_apply, ← pow_succ']
+            rw [hEg, ← Module.End.mul_apply, hFE']
+            simp only [LinearMap.sub_apply, Module.End.mul_apply]
+          rw [hstep]
+          exact W.sub_mem (hEW _ ih) (hHW _ (hgW j))
+      refine fun w hw => span_closed_of_gens F _ ?_ hw
+      rintro s ⟨i, rfl⟩
+      exact hForbit (i : ℕ)
+    -- `W` is a nonzero `𝔰𝔩(2)`-submodule, hence everything; conclude the dimension bound.
+    have hlie := lie_closed_of_efh W
+      (fun m hm => by rw [hEe]; exact hEW m hm)
+      (fun m hm => by rw [hFf]; exact hFW m hm)
+      (fun m hm => by rw [hHh]; exact hHW m hm)
+    have htop : W = ⊤ := eq_top_of_lie_closed W hlie ⟨v0, hg0 ▸ hgW 0, hv0ne⟩
+    exact finrank_le_of_orbit_top p g htop
 
 end DimensionBound
 
