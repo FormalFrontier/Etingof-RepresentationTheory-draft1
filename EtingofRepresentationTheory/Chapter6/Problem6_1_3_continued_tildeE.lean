@@ -1262,6 +1262,388 @@ lemma affine_properInduced_finiteDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) 
   (dynkin_classification m (adj.submatrix e e) hm).mp
     (affine_properInduced_isDynkin adj hn hD e he hv hconn)
 
+/-! ### Cyclic case: a connected `2`-regular graph is the cycle `Ãₙ`
+
+The remaining combinatorial content behind the cyclic branch of the ⟹ direction
+(#6792, #6847). We walk around the cycle: at a vertex `b` reached from `a`, the
+"other neighbour" `otherNbr adj b a` is the unique neighbour of `b` distinct from
+`a`. Iterating the pair-map `(a, b) ↦ (b, otherNbr adj b a)` traces the cycle;
+`Function.minimalPeriod` supplies the wrap-around, connectivity the surjectivity,
+and a minimal-gap induction the injectivity. -/
+
+open Classical in
+/-- The **other neighbour** of `b` relative to `a`: when `a` is a neighbour of `b`
+and `b` has exactly two neighbours, this is the unique neighbour of `b` other than
+`a`; otherwise it is `a`. Defined so that `a ↦ otherNbr adj b a` is the involution
+swapping `b`'s two neighbours (and fixing everything else). -/
+noncomputable def otherNbr {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (b a : Fin n) :
+    Fin n :=
+  if h : a ∈ univ.filter (fun j => adj b j = 1) ∧
+         ((univ.filter (fun j => adj b j = 1)).erase a).Nonempty
+  then h.2.choose else a
+
+variable {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+
+/-- If `a` is a neighbour of `b` with `b` of degree `2`, then `otherNbr adj b a`
+lies in the neighbour set with `a` deleted. -/
+private lemma otherNbr_mem_erase {b a : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : a ∈ univ.filter (fun j => adj b j = 1)) :
+    otherNbr adj b a ∈ (univ.filter (fun j => adj b j = 1)).erase a := by
+  have hne : ((univ.filter (fun j => adj b j = 1)).erase a).Nonempty := by
+    rw [← Finset.card_pos, Finset.card_erase_of_mem ha, hcard]; omega
+  rw [otherNbr, dif_pos ⟨ha, hne⟩]
+  exact hne.choose_spec
+
+/-- `otherNbr adj b a` is a neighbour of `b`. -/
+private lemma otherNbr_adj {b a : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : adj b a = 1) : adj b (otherNbr adj b a) = 1 := by
+  have ha' : a ∈ univ.filter (fun j => adj b j = 1) := by simp [ha]
+  have := otherNbr_mem_erase hcard ha'
+  rw [Finset.mem_erase, Finset.mem_filter] at this
+  exact this.2.2
+
+/-- `otherNbr adj b a ≠ a` when `a` is a neighbour of `b`. -/
+private lemma otherNbr_ne {b a : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : adj b a = 1) : otherNbr adj b a ≠ a := by
+  have ha' : a ∈ univ.filter (fun j => adj b j = 1) := by simp [ha]
+  have := otherNbr_mem_erase hcard ha'
+  rw [Finset.mem_erase] at this
+  exact this.1
+
+/-- The characterisation: the other neighbour is *the* neighbour distinct from `a`. -/
+private lemma otherNbr_eq {b a c : Fin n}
+    (hcard : (univ.filter (fun j => adj b j = 1)).card = 2)
+    (ha : adj b a = 1) (hc : adj b c = 1) (hca : c ≠ a) :
+    otherNbr adj b c = a := by
+  have ha' : a ∈ univ.filter (fun j => adj b j = 1) := by simp [ha]
+  have hc' : c ∈ univ.filter (fun j => adj b j = 1) := by simp [hc]
+  -- `erase c` has card `1`; both `a` and `otherNbr adj b c` lie in it, hence equal.
+  have hcard1 : ((univ.filter (fun j => adj b j = 1)).erase c).card = 1 := by
+    rw [Finset.card_erase_of_mem hc', hcard]
+  have hle : ((univ.filter (fun j => adj b j = 1)).erase c).card ≤ 1 := by omega
+  have ha_erase : a ∈ (univ.filter (fun j => adj b j = 1)).erase c :=
+    Finset.mem_erase.mpr ⟨hca.symm, ha'⟩
+  have ho_erase := otherNbr_mem_erase hcard hc'
+  exact (Finset.card_le_one.mp hle _ ho_erase _ ha_erase)
+
+/-- Off the neighbour set, `otherNbr` is the identity. -/
+private lemma otherNbr_eq_self {b a : Fin n}
+    (ha : a ∉ univ.filter (fun j => adj b j = 1)) : otherNbr adj b a = a := by
+  rw [otherNbr, dif_neg]
+  rintro ⟨h, -⟩; exact ha h
+
+/-- `a ↦ otherNbr adj b a` is an involution (when every vertex has degree `2`). -/
+private lemma otherNbr_involutive
+    (hdeg : ∀ v, (univ.filter (fun j => adj v j = 1)).card = 2) (b a : Fin n) :
+    otherNbr adj b (otherNbr adj b a) = a := by
+  by_cases ha : a ∈ univ.filter (fun j => adj b j = 1)
+  · have ha1 : adj b a = 1 := by simpa using (Finset.mem_filter.mp ha).2
+    have hc1 : adj b (otherNbr adj b a) = 1 := otherNbr_adj (hdeg b) ha1
+    have hcne : otherNbr adj b a ≠ a := otherNbr_ne (hdeg b) ha1
+    exact otherNbr_eq (hdeg b) ha1 hc1 hcne
+  · rw [otherNbr_eq_self ha, otherNbr_eq_self ha]
+
+/-- The pair-map is injective (hence a permutation of the finite type). -/
+private lemma stepPair_injective
+    (hdeg : ∀ v, (univ.filter (fun j => adj v j = 1)).card = 2) :
+    Function.Injective (fun p : Fin n × Fin n => (p.2, otherNbr adj p.2 p.1)) := by
+  rintro ⟨a, b⟩ ⟨a', b'⟩ h
+  simp only [Prod.mk.injEq] at h
+  obtain ⟨hb, ho⟩ := h
+  subst hb
+  have haa : a = a' := by
+    have := congrArg (otherNbr adj b) ho
+    rwa [otherNbr_involutive hdeg, otherNbr_involutive hdeg] at this
+  simp [haa]
+
+/-- **(g), cyclic case.** A connected `2`-regular simply-laced graph on `Fin n`
+(`n ≥ 3`) is graph-isomorphic to the `n`-cycle `Ãₙ`. -/
+lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
+    (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hconn : ∀ i j : Fin n, ∃ path : List (Fin n),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        adj (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1)
+    (hdeg : ∀ v, vertexDegree adj v = 2) :
+    ∃ σ : Fin (AffineType.Atilde n hn).rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = (AffineType.Atilde n hn).adj i j := by
+  classical
+  -- Degree hypothesis in `Finset`-card form, and `adj` symmetry as a plain equation.
+  have hdeg' : ∀ v, (univ.filter (fun j => adj v j = 1)).card = 2 := hdeg
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- Base vertex `0` and a chosen neighbour `start1`.
+  have h0lt : 0 < n := by omega
+  set v0 : Fin n := ⟨0, h0lt⟩ with hv0def
+  have hv0 : (univ.filter (fun j => adj v0 j = 1)).Nonempty := by
+    rw [← Finset.card_pos, hdeg' v0]; omega
+  set start1 : Fin n := hv0.choose with hstart1def
+  have hstart1 : adj v0 start1 = 1 := by
+    have := hv0.choose_spec; simpa using (Finset.mem_filter.mp this).2
+  -- The pair-step map and the walk `f k = (Tᵏ e0).1`.
+  set T : Fin n × Fin n → Fin n × Fin n := fun p => (p.2, otherNbr adj p.2 p.1) with hT
+  set e0 : Fin n × Fin n := (v0, start1) with he0
+  set f : ℕ → Fin n := fun k => (T^[k] e0).1 with hf
+  -- The second coordinate is the next vertex.
+  have hf2 : ∀ k, (T^[k] e0).2 = f (k + 1) := fun k => by
+    simp only [hf, Function.iterate_succ_apply', hT]
+  -- The three-term recurrence.
+  have hstep : ∀ t, f (t + 2) = otherNbr adj (f (t + 1)) (f t) := fun t => by
+    rw [← hf2 (t + 1)]
+    simp only [hf, Function.iterate_succ_apply', hT]
+  -- Consecutive vertices are adjacent.
+  have hadj : ∀ k, adj (f k) (f (k + 1)) = 1 := by
+    intro k
+    induction k with
+    | zero => simpa [hf, he0] using hstart1
+    | succ t ih =>
+        rw [hstep t]
+        have hft : adj (f (t + 1)) (f t) = 1 := by rw [hsymm']; exact ih
+        exact otherNbr_adj (hdeg' _) hft
+  -- No immediate backtrack.
+  have hback : ∀ k, f (k + 2) ≠ f k := by
+    intro k
+    rw [hstep k]
+    have hft : adj (f (k + 1)) (f k) = 1 := by rw [hsymm']; exact hadj k
+    exact otherNbr_ne (hdeg' _) hft
+  -- The two neighbours of `f (k+1)` are exactly `f k` and `f (k+2)`.
+  have hnbr_iff : ∀ k w, adj (f (k + 1)) w = 1 ↔ (w = f k ∨ w = f (k + 2)) := by
+    intro k w
+    have hk_nbr : adj (f (k + 1)) (f k) = 1 := by rw [hsymm']; exact hadj k
+    have hk2_nbr : adj (f (k + 1)) (f (k + 2)) = 1 := hadj (k + 1)
+    have hne : f k ≠ f (k + 2) := fun h => hback k h.symm
+    have hsub : ({f k, f (k + 2)} : Finset (Fin n)) ⊆
+        univ.filter (fun j => adj (f (k + 1)) j = 1) := by
+      intro x hx
+      simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+      rcases hx with h | h <;> subst h <;> simp [hk_nbr, hk2_nbr]
+    have hcard2 : ({f k, f (k + 2)} : Finset (Fin n)).card = 2 := Finset.card_pair hne
+    have heq : univ.filter (fun j => adj (f (k + 1)) j = 1) = {f k, f (k + 2)} :=
+      (Finset.eq_of_subset_of_card_le hsub
+        (le_of_eq (by rw [hdeg' (f (k + 1)), hcard2]))).symm
+    constructor
+    · intro hw
+      have hmem : w ∈ univ.filter (fun j => adj (f (k + 1)) j = 1) := by simp [hw]
+      rw [heq] at hmem
+      simpa [Finset.mem_insert, Finset.mem_singleton] using hmem
+    · intro hw
+      have hmem : w ∈ univ.filter (fun j => adj (f (k + 1)) j = 1) := by
+        rw [heq]; simpa [Finset.mem_insert, Finset.mem_singleton] using hw
+      simpa using (Finset.mem_filter.mp hmem).2
+  -- `T` is a permutation, so `e0` is a periodic point.
+  have hTinj : Function.Injective T := by
+    rw [hT]; exact stepPair_injective hdeg'
+  have hper_pt : e0 ∈ Function.periodicPts T := hTinj.mem_periodicPts e0
+  set p : ℕ := Function.minimalPeriod T e0 with hpdef
+  have hp_pos : 0 < p := Function.minimalPeriod_pos_of_mem_periodicPts hper_pt
+  have hTp : T^[p] e0 = e0 := Function.iterate_minimalPeriod
+  -- Wrap-around.
+  have hwrap0 : f p = f 0 := by
+    have h1 : f p = (T^[p] e0).1 := by simp only [hf]
+    have h2 : f 0 = e0.1 := by simp only [hf]; rfl
+    rw [h1, h2, hTp]
+  have hwrap1 : f (p + 1) = f 1 := by
+    have h1 : f (p + 1) = (T (T^[p] e0)).1 := by
+      simp only [hf, Function.iterate_succ_apply']
+    have h2 : f 1 = (T e0).1 := by simp only [hf]; rfl
+    rw [h1, h2, hTp]
+  -- Full periodicity.
+  have hper : ∀ k, f (k + p) = f k := by
+    intro k
+    simp only [hf, Function.iterate_add_apply, hTp]
+  have hpp : ∀ t k, f (k + p * t) = f k := by
+    intro t
+    induction t with
+    | zero => intro k; simp
+    | succ s ih =>
+        intro k
+        have hrw : k + p * (s + 1) = (k + p * s) + p := by ring
+        rw [hrw, hper, ih]
+  have hmod : ∀ m, f m = f (m % p) := by
+    intro m
+    conv_lhs => rw [← Nat.mod_add_div m p]
+    rw [hpp]
+  -- Injectivity of the pair-walk on `[0, p)`.
+  have hpairinj : ∀ a b, a < p → b < p → f a = f b → f (a + 1) = f (b + 1) → a = b := by
+    intro a b ha hb hfab hfab1
+    have hpair : T^[a] e0 = T^[b] e0 := by
+      apply Prod.ext
+      · exact hfab
+      · rw [hf2 a, hf2 b]; exact hfab1
+    exact Function.iterate_injOn_Iio_minimalPeriod (Set.mem_Iio.mpr ha)
+      (Set.mem_Iio.mpr hb) hpair
+  -- Surjectivity: every vertex is visited.
+  have hsurj : ∀ v : Fin n, ∃ k, k < p ∧ f k = v := by
+    -- Closure of the visited set under adjacency.
+    have hclosure : ∀ m w, adj (f m) w = 1 → ∃ j, f j = w := by
+      intro m w hw
+      have hmp : f m = f (m + p) := (hper m).symm
+      have h1 : (m + p - 1) + 1 = m + p := by omega
+      have hadjw : adj (f ((m + p - 1) + 1)) w = 1 := by rw [h1, ← hmp]; exact hw
+      rcases (hnbr_iff (m + p - 1) w).mp hadjw with h | h
+      · exact ⟨m + p - 1, h.symm⟩
+      · exact ⟨m + p - 1 + 2, h.symm⟩
+    have hclosed : ∀ a b, (∃ m, f m = a) → adj a b = 1 → ∃ j, f j = b := by
+      rintro a b ⟨m, rfl⟩ hab; exact hclosure m b hab
+    intro v
+    -- Reachability from the base vertex, in `ReflTransGen` form.
+    have hreach : Relation.ReflTransGen (AdjEdge adj) v0 v := by
+      obtain ⟨path, hhead, hlast, hpath⟩ := hconn v0 v
+      have hne : path ≠ [] := by rintro rfl; simp at hhead
+      have hchain : List.IsChain (fun a b => adj a b = 1) path := by
+        rw [List.isChain_iff_getElem]; intro k hk; exact hpath k hk
+      have hi : path.head hne = v0 :=
+        Option.some_inj.mp ((List.head?_eq_some_head hne).symm.trans hhead)
+      have hj : path.getLast hne = v := by
+        have := (List.getLast?_eq_getLast_of_ne_nil hne).symm.trans hlast
+        exact Option.some_inj.mp this
+      have hrtg := List.relationReflTransGen_of_exists_isChain path hchain hne
+      rw [hi, hj] at hrtg
+      exact hrtg
+    have hex : ∃ m, f m = v := by
+      induction hreach with
+      | refl => exact ⟨0, by simp [hf, he0]⟩
+      | tail _ hbc ih => exact hclosed _ _ ih hbc
+    obtain ⟨m, hm⟩ := hex
+    exact ⟨m % p, Nat.mod_lt _ hp_pos, by rw [← hmod m]; exact hm⟩
+  -- Injectivity of `f` on `[0, p)` (minimal-gap induction: a coincidence at gap
+  -- `d ≥ 3` produces one at gap `d - 2`, while gaps `1, 2` are ruled out directly).
+  have hgap : ∀ d i j, j = i + d → i < p → j < p → f i = f j → d = 0 := by
+    intro d
+    induction d using Nat.strong_induction_on with
+    | _ d ih =>
+      intro i j hj hi hjp hfij
+      rcases Nat.lt_or_ge d 3 with hd3 | hd3
+      · interval_cases d
+        · rfl
+        · -- gap 1: adjacency plus `f i = f (i+1)` forces a self-loop.
+          exfalso; subst hj
+          have h1 := hadj i
+          rw [← hfij, hdiag (f i)] at h1
+          norm_num at h1
+        · -- gap 2: contradicts the no-backtrack lemma.
+          exfalso; subst hj
+          exact hback i hfij.symm
+      · -- gap `d ≥ 3`: swap to the gap-`(d-2)` coincidence `f (i+1) = f (j-1)`.
+        exfalso
+        have hj1 : (j - 1) + 1 = j := by omega
+        have hj2 : (j - 1) + 2 = j + 1 := by omega
+        have hneigh : adj (f ((j - 1) + 1)) (f (i + 1)) = 1 := by
+          rw [hj1, ← hfij]; exact hadj i
+        have hor := (hnbr_iff (j - 1) (f (i + 1))).mp hneigh
+        rw [hj2] at hor
+        have hne_succ : f (i + 1) ≠ f (j + 1) := by
+          intro hcon
+          have : i = j := hpairinj i j hi hjp hfij hcon
+          omega
+        have hswap : f (i + 1) = f (j - 1) := by
+          rcases hor with h | h
+          · exact h
+          · exact absurd h hne_succ
+        have hz : d - 2 = 0 :=
+          ih (d - 2) (by omega) (i + 1) (j - 1) (by omega) (by omega) (by omega) hswap
+        omega
+  have hfinj : ∀ i j, i < p → j < p → f i = f j → i = j := by
+    intro i j hi hj hfij
+    rcases le_total i j with hle | hle
+    · have hd := hgap (j - i) i j (by omega) hi hj hfij
+      omega
+    · have hd := hgap (i - j) j i (by omega) hj hi hfij.symm
+      omega
+  -- Hence `p = n`.
+  have hφinj : Function.Injective (fun i : Fin p => f i.val) := fun a b hab =>
+    Fin.ext (hfinj a.val b.val a.isLt b.isLt hab)
+  have hφsurj : Function.Surjective (fun i : Fin p => f i.val) := by
+    intro v; obtain ⟨k, hk, hkv⟩ := hsurj v; exact ⟨⟨k, hk⟩, hkv⟩
+  have hpn : p = n := by
+    have h1 : p ≤ n := by simpa using Fintype.card_le_of_injective _ hφinj
+    have h2 : n ≤ p := by simpa using Fintype.card_le_of_surjective _ hφsurj
+    omega
+  -- Adjacency in terms of the cyclic successor/predecessor.
+  have hcorr : ∀ a b, a < p → b < p →
+      (adj (f a) (f b) = 1 ↔ (b = (a + p - 1) % p ∨ b = (a + 1) % p)) := by
+    intro a b ha hb
+    have hap : (a + p - 1) + 1 = a + p := by omega
+    have hfa : f ((a + p - 1) + 1) = f a := by rw [hap]; exact hper a
+    have hidx : (a + p - 1) + 2 = (a + 1) + p := by omega
+    constructor
+    · intro hw
+      have hadjw : adj (f ((a + p - 1) + 1)) (f b) = 1 := by rw [hfa]; exact hw
+      rcases (hnbr_iff (a + p - 1) (f b)).mp hadjw with h | h
+      · exact Or.inl (hfinj b _ hb (Nat.mod_lt _ hp_pos) (h.trans (hmod (a + p - 1))))
+      · refine Or.inr (hfinj b _ hb (Nat.mod_lt _ hp_pos) ?_)
+        rw [h, hidx, hper (a + 1)]; exact hmod (a + 1)
+    · intro hb'
+      rcases hb' with h | h
+      · have hfb : f b = f (a + p - 1) := by rw [h]; exact (hmod (a + p - 1)).symm
+        have hn := (hnbr_iff (a + p - 1) (f (a + p - 1))).mpr (Or.inl rfl)
+        rw [hfa] at hn; rw [hfb]; exact hn
+      · have hfb : f b = f ((a + p - 1) + 2) := by
+          rw [h, hidx, hper (a + 1)]; exact (hmod (a + 1)).symm
+        have hn := (hnbr_iff (a + p - 1) (f ((a + p - 1) + 2))).mpr (Or.inr rfl)
+        rw [hfa] at hn; rw [hfb]; exact hn
+  -- The predecessor index, rewritten as a `+1` modular condition.
+  have hpred : ∀ a b, a < p → b < p → (b = (a + p - 1) % p ↔ (b + 1) % p = a) := by
+    intro a b ha hb
+    rcases Nat.eq_zero_or_pos a with ha0 | ha0
+    · subst ha0
+      rw [show (0 + p - 1) = p - 1 by omega, Nat.mod_eq_of_lt (by omega : p - 1 < p)]
+      constructor
+      · intro h; subst h; rw [show (p - 1) + 1 = p by omega, Nat.mod_self]
+      · intro h
+        by_contra hne
+        rw [Nat.mod_eq_of_lt (by omega : b + 1 < p)] at h; omega
+    · have hmod1 : (a + p - 1) % p = a - 1 := by
+        rw [show a + p - 1 = (a - 1) + p by omega, Nat.add_mod_right,
+          Nat.mod_eq_of_lt (by omega)]
+      rw [hmod1]
+      constructor
+      · intro h; subst h; rw [show (a - 1) + 1 = a by omega, Nat.mod_eq_of_lt ha]
+      · intro h
+        rcases (by omega : b + 1 < p ∨ b + 1 = p) with hlt | heq
+        · rw [Nat.mod_eq_of_lt hlt] at h; omega
+        · rw [heq, Nat.mod_self] at h; omega
+  have hstep_adj : ∀ a b, a < p → b < p →
+      (adj (f a) (f b) = 1 ↔ ((a + 1) % p = b ∨ (b + 1) % p = a)) := by
+    intro a b ha hb
+    rw [hcorr a b ha hb, hpred a b ha hb]
+    constructor
+    · rintro (h | h)
+      · exact Or.inr h
+      · exact Or.inl h.symm
+    · rintro (h | h)
+      · exact Or.inr h.symm
+      · exact Or.inl h
+  -- Assemble the equivalence.
+  have hφ'bij : Function.Bijective (fun i : Fin n => f i.val) := by
+    apply Finite.injective_iff_bijective.mp
+    intro a b hab
+    exact Fin.ext (hfinj a.val b.val (by rw [hpn]; exact a.isLt)
+      (by rw [hpn]; exact b.isLt) hab)
+  refine ⟨Equiv.ofBijective (fun i : Fin n => f i.val) hφ'bij, ?_⟩
+  intro i j
+  simp only [Equiv.ofBijective_apply]
+  have hi : (i.val : ℕ) < p := by rw [hpn]; exact i.isLt
+  have hj : (j.val : ℕ) < p := by rw [hpn]; exact j.isLt
+  have hiff := hstep_adj i.val j.val hi hj
+  rw [hpn] at hiff
+  have hRHS : (AffineType.Atilde n hn).adj i j
+      = if (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val then (1 : ℤ) else 0 := by
+    simp only [AffineType.adj]
+  rw [hRHS]
+  by_cases hcond : (i.val + 1) % n = j.val ∨ (j.val + 1) % n = i.val
+  · rw [if_pos hcond]; exact hiff.mpr hcond
+  · rw [if_neg hcond]
+    rcases h01 (f i.val) (f j.val) with h | h
+    · exact h
+    · exact absurd (hiff.mp h) hcond
+
 /-- **Affine degree bound.** In an affine Dynkin diagram every vertex has degree
 at most `4`. This mirrors the finite `dynkin_degree_le_three`, but uses the
 *semidefinite* (rather than definite) form: the test vector `x = 2·eᵢ + Σ_{j∼i} eⱼ`
