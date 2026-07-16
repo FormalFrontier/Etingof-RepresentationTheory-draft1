@@ -26,17 +26,22 @@ tensor on `ModuleCat k`.
 Downstream (route step 3, the final assembly of the `ChainComplex (ModuleCat k) ℕ` rearrangement
 iso) transports this natural iso through `HomologicalComplex.mapBifunctor`.
 
-## Status (partial — see #6742)
+## Contents
 
-This file lands the reusable scaffolding: the restriction-of-scalars `local instance`s on the
-`ModuleCat` carriers, the two bifunctors `extTensorRightFunctor` / `factorTensorFunctor`, the bridge
-lemma `tensorRightMapₖ_eq_tensorOverMapₖ`, and the component iso `rearrangeComponentIso` (milestone
-(a) as a `ModuleCat k` iso). The remaining glue to the full bifunctor `NatIso` is a `Module k`
-instance diamond on the `tensorOver` carriers: `tensorRightFunctorₖ` uses the `k`-action restricted
-through `(A₁⊗A₂)ᵐᵒᵖ`, while `rearrangeBidegree` uses the `TensorProduct`-diagonal `k`-action. These
-agree propositionally but not definitionally; reconciling them (only the `(A₁⊗A₂)`-side differs, the
-factor sides already match) and then discharging naturality from `rearrangeBidegree_naturality` via
-`tensorRightMapₖ_eq_tensorOverMapₖ` completes `rearrangeBifunctorNatIso`.
+* `extTensorRightFunctor`, `factorTensorFunctor` — the two bifunctors (with the
+  restriction-of-scalars `local instance`s on the `ModuleCat` carriers).
+* `extModuleK_algebraMap_smul`, `rearrangeSourceEquiv` — the source-diamond reconciliation. The two
+  bifunctor objects share the carrier `tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X ⊗[k] Y)` but
+  `tensorRightFunctorₖ` equips it with the `k`-action restricted through `(A₁⊗A₂)ᵐᵒᵖ`, whereas
+  `rearrangeBidegree` uses the `TensorProduct`-diagonal `k`-action. These agree propositionally (the
+  external action of `algebraMap k (A₁⊗A₂)ᵐᵒᵖ c` is `c • ·`), and the identity carrier map bridges
+  the diamond; the target factor `k`-actions already match definitionally.
+* `rearrangeBifunctorComponentIso` — milestone (a) `rearrangeBidegree`, retyped to the functor
+  objects.
+* `rearrangeBifunctorNatIso` — the full bifunctor natural isomorphism, assembled by two nested
+  `NatIso.ofComponents`; both naturality squares are the generator computation underlying
+  `rearrangeBidegree_naturality` (each factor map is `tensorRightMapₖ`, identified with the
+  `tensorOver`-functoriality by `tensorRightMapₖ_eq_tensorOverMapₖ`).
 -/
 
 open CategoryTheory MonoidalCategory TensorProduct MulOpposite
@@ -191,6 +196,7 @@ noncomputable def rearrangeSourceEquiv (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : Mo
   left_inv _ := rfl
   right_inv _ := rfl
 
+omit [Module A₁ N₁] [IsScalarTower k A₁ N₁] [Module A₂ N₂] [IsScalarTower k A₂ N₂] in
 @[simp] theorem rearrangeSourceEquiv_apply (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ)
     (z : ((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).obj Y) :
     rearrangeSourceEquiv k A₁ A₂ N₁ N₂ X Y z = z := rfl
@@ -228,5 +234,145 @@ noncomputable def rearrangeBifunctorComponentIso (X : ModuleCat.{u} A₁ᵐᵒ�
     ((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).obj Y ≅
       ((factorTensorFunctor k A₁ A₂ N₁ N₂).obj X).obj Y :=
   (rearrangeComponentLinEquiv k A₁ A₂ N₁ N₂ hN X Y).toModuleIso
+
+include hN in
+@[simp] theorem rearrangeBifunctorComponentIso_hom_apply (X : ModuleCat.{u} A₁ᵐᵒᵖ)
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) (x : X) (y : Y) (n₁ : N₁) (n₂ : N₂) :
+    (rearrangeBifunctorComponentIso k A₁ A₂ N₁ N₂ hN X Y).hom
+        (QuotientAddGroup.mk ((x ⊗ₜ[k] y) ⊗ₜ[ℤ] (n₁ ⊗ₜ[k] n₂)))
+      = (QuotientAddGroup.mk (x ⊗ₜ[ℤ] n₁) : tensorOver A₁ N₁ X)
+          ⊗ₜ[k] (QuotientAddGroup.mk (y ⊗ₜ[ℤ] n₂) : tensorOver A₂ N₂ Y) :=
+  rearrangeComponentLinEquiv_mk k A₁ A₂ N₁ N₂ hN X Y x y n₁ n₂
+
+omit [Module A₁ N₁] [IsScalarTower k A₁ N₁] [Module A₂ N₂] [IsScalarTower k A₂ N₂] in
+theorem extTensorRightFunctor_obj_map (X : ModuleCat.{u} A₁ᵐᵒᵖ) {Y Y' : ModuleCat.{u} A₂ᵐᵒᵖ}
+    (g : Y ⟶ Y') :
+    ((extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X).map g =
+      (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)).map (extTensorFunctorMap k (𝟙 X) g) :=
+  rfl
+
+omit [Module k N₁] [IsScalarTower k A₁ N₁] [Module k N₂] [IsScalarTower k A₂ N₂] instN in
+theorem factorTensorFunctor_obj_map (X : ModuleCat.{u} A₁ᵐᵒᵖ) {Y Y' : ModuleCat.{u} A₂ᵐᵒᵖ}
+    (g : Y ⟶ Y') :
+    ((factorTensorFunctor k A₁ A₂ N₁ N₂).obj X).map g =
+      MonoidalCategory.whiskerLeft ((tensorRightFunctorₖ k A₁ N₁).obj X)
+        ((tensorRightFunctorₖ k A₂ N₂).map g) :=
+  rfl
+
+/-- `rfl` restatement of `extTensorFunctorMapHom_tmul` in this file's instance context (the
+`Module k` on the carriers is `instModuleK`, syntactically distinct from `ExternalTensorFunctor`'s
+private `restrictModule₁`, so the imported simp lemma does not fire). -/
+theorem extMapHom_tmul {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y Y' : ModuleCat.{u} A₂ᵐᵒᵖ}
+    (f : X ⟶ X') (g : Y ⟶ Y') (x : X) (y : Y) :
+    extTensorFunctorMapHom k f g (x ⊗ₜ[k] y) = f.hom x ⊗ₜ[k] g.hom y :=
+  rfl
+
+omit [Module A₁ N₁] [IsScalarTower k A₁ N₁] [Module A₂ N₂] [IsScalarTower k A₂ N₂] in
+theorem extTensorRightFunctor_map_app {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} (f : X ⟶ X')
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+    ((extTensorRightFunctor k A₁ A₂ N₁ N₂).map f).app Y =
+      (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)).map (extTensorFunctorMap k f (𝟙 Y)) :=
+  rfl
+
+omit [Module k N₁] [IsScalarTower k A₁ N₁] [Module k N₂] [IsScalarTower k A₂ N₂] instN in
+theorem factorTensorFunctor_map_app {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} (f : X ⟶ X')
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+    ((factorTensorFunctor k A₁ A₂ N₁ N₂).map f).app Y =
+      MonoidalCategory.whiskerRight ((tensorRightFunctorₖ k A₁ N₁).map f)
+        ((tensorRightFunctorₖ k A₂ N₂).obj Y) :=
+  rfl
+
+/-! ### The bifunctor natural isomorphism -/
+
+include hN in
+/-- The natural isomorphism of functors
+`(extTensorRightFunctor).obj X ≅ (factorTensorFunctor).obj X` (naturality in the second variable
+`Y`), for a fixed first variable `X`. Kept as a named `def` so the large naturality proof stays
+opaque to the outer naturality assembly. -/
+noncomputable def rearrangeBifunctorNatIsoApp (X : ModuleCat.{u} A₁ᵐᵒᵖ) :
+    (extTensorRightFunctor k A₁ A₂ N₁ N₂).obj X ≅ (factorTensorFunctor k A₁ A₂ N₁ N₂).obj X :=
+  NatIso.ofComponents
+    (fun Y => rearrangeBifunctorComponentIso k A₁ A₂ N₁ N₂ hN X Y)
+    (by
+      intro Y Y' g
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro z
+      obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
+      induction w using TensorProduct.induction_on with
+      | zero => simp
+      | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
+      | tmul p q =>
+          induction p using TensorProduct.induction_on with
+          | zero => simp
+          | add a b ha hb =>
+              simp only [add_tmul, QuotientAddGroup.mk_add, map_add, ha, hb]
+          | tmul x y =>
+              induction q using TensorProduct.induction_on with
+              | zero => simp
+              | add a b ha hb =>
+                  simp only [tmul_add, QuotientAddGroup.mk_add, map_add, ha, hb]
+              | tmul n₁ n₂ =>
+                  simp only [extTensorRightFunctor_obj_map, factorTensorFunctor_obj_map,
+                    ModuleCat.comp_apply]
+                  erw [tensorRightFunctorₖ_map_mk]
+                  erw [extTensorFunctorMap_hom, extMapHom_tmul]
+                  simp only [ModuleCat.hom_id, LinearMap.id_coe, id_eq]
+                  rw [rearrangeBifunctorComponentIso_hom_apply,
+                    rearrangeBifunctorComponentIso_hom_apply]
+                  erw [ModuleCat.MonoidalCategory.whiskerLeft_apply]
+                  rw [tensorRightFunctorₖ_map_mk])
+
+include hN in
+@[simp] theorem rearrangeBifunctorNatIsoApp_hom_app (X : ModuleCat.{u} A₁ᵐᵒᵖ)
+    (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+    (rearrangeBifunctorNatIsoApp k A₁ A₂ N₁ N₂ hN X).hom.app Y =
+      (rearrangeBifunctorComponentIso k A₁ A₂ N₁ N₂ hN X Y).hom :=
+  rfl
+
+include hN in
+/-- **Route step 2 (#6742).** The natural isomorphism of bifunctors
+`extTensorRightFunctor ≅ factorTensorFunctor`, i.e.
+`(X, Y) ↦ (X ⊗ₖ Y) ⊗_{A₁⊗A₂} (N₁ ⊗ₖ N₂)` is naturally isomorphic to
+`(X, Y) ↦ (X ⊗_{A₁} N₁) ⊗ₖ (Y ⊗_{A₂} N₂)`. The components are `rearrangeBifunctorComponentIso`
+(milestone (a) `rearrangeBidegree` after reconciling the source `Module k` diamond); naturality in
+each variable is the generator computation underlying `rearrangeBidegree_naturality`. -/
+noncomputable def rearrangeBifunctorNatIso :
+    extTensorRightFunctor k A₁ A₂ N₁ N₂ ≅ factorTensorFunctor k A₁ A₂ N₁ N₂ :=
+  NatIso.ofComponents
+    (fun X => rearrangeBifunctorNatIsoApp k A₁ A₂ N₁ N₂ hN X)
+    (by
+      intro X X' f
+      apply NatTrans.ext
+      apply funext
+      intro Y
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro z
+      obtain ⟨w, rfl⟩ := QuotientAddGroup.mk_surjective z
+      induction w using TensorProduct.induction_on with
+      | zero => simp
+      | add a b ha hb => simp only [QuotientAddGroup.mk_add, map_add, ha, hb]
+      | tmul p q =>
+          induction p using TensorProduct.induction_on with
+          | zero => simp
+          | add a b ha hb =>
+              simp only [add_tmul, QuotientAddGroup.mk_add, map_add, ha, hb]
+          | tmul x y =>
+              induction q using TensorProduct.induction_on with
+              | zero => simp
+              | add a b ha hb =>
+                  simp only [tmul_add, QuotientAddGroup.mk_add, map_add, ha, hb]
+              | tmul n₁ n₂ =>
+                  simp only [NatTrans.comp_app, rearrangeBifunctorNatIsoApp_hom_app,
+                    extTensorRightFunctor_map_app, factorTensorFunctor_map_app,
+                    ModuleCat.comp_apply]
+                  erw [tensorRightFunctorₖ_map_mk]
+                  erw [extTensorFunctorMap_hom, extMapHom_tmul]
+                  simp only [ModuleCat.hom_id, LinearMap.id_coe, id_eq]
+                  rw [rearrangeBifunctorComponentIso_hom_apply,
+                    rearrangeBifunctorComponentIso_hom_apply]
+                  erw [ModuleCat.MonoidalCategory.whiskerRight_apply]
+                  rw [tensorRightFunctorₖ_map_mk])
 
 end Etingof
