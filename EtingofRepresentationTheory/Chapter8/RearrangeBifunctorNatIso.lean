@@ -25,6 +25,18 @@ tensor on `ModuleCat k`.
 
 Downstream (route step 3, the final assembly of the `ChainComplex (ModuleCat k) ℕ` rearrangement
 iso) transports this natural iso through `HomologicalComplex.mapBifunctor`.
+
+## Status (partial — see #6742)
+
+This file lands the reusable scaffolding: the restriction-of-scalars `local instance`s on the
+`ModuleCat` carriers, the two bifunctors `extTensorRightFunctor` / `factorTensorFunctor`, the bridge
+lemma `tensorRightMapₖ_eq_tensorOverMapₖ`, and the component iso `rearrangeComponentIso` (milestone
+(a) as a `ModuleCat k` iso). The remaining glue to the full bifunctor `NatIso` is a `Module k`
+instance diamond on the `tensorOver` carriers: `tensorRightFunctorₖ` uses the `k`-action restricted
+through `(A₁⊗A₂)ᵐᵒᵖ`, while `rearrangeBidegree` uses the `TensorProduct`-diagonal `k`-action. These
+agree propositionally but not definitionally; reconciling them (only the `(A₁⊗A₂)`-side differs, the
+factor sides already match) and then discharging naturality from `rearrangeBidegree_naturality` via
+`tensorRightMapₖ_eq_tensorOverMapₖ` completes `rearrangeBifunctorNatIso`.
 -/
 
 open CategoryTheory MonoidalCategory TensorProduct MulOpposite
@@ -49,33 +61,31 @@ variable
 The same `local instance`s as `ExternalTensorFunctor.lean` / `TensorRightFunctorK.lean`, brought
 into scope so that `(tensorRightFunctorₖ k (A₁⊗A₂) (N₁⊗ₖN₂)).obj (extTensorFunctorObj X Y)` is the
 `ModuleCat k` on `tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X⊗ₖY)` with the external action expected by
-`rearrangeBidegree`. -/
+`rearrangeBidegree`. Stated generically in a `k`-algebra `B` so they cover `A₁`, `A₂` and
+`A₁ ⊗[k] A₂` at once. -/
 
-noncomputable local instance instModuleK₁ (X : ModuleCat.{u} A₁ᵐᵒᵖ) : Module k X :=
-  Module.compHom X (algebraMap k A₁ᵐᵒᵖ)
+noncomputable local instance instModuleK {B : Type u} [Ring B] [Algebra k B]
+    (X : ModuleCat.{u} Bᵐᵒᵖ) : Module k X :=
+  Module.compHom X (algebraMap k Bᵐᵒᵖ)
 
-noncomputable local instance instModuleK₂ (Y : ModuleCat.{u} A₂ᵐᵒᵖ) : Module k Y :=
-  Module.compHom Y (algebraMap k A₂ᵐᵒᵖ)
-
-local instance instTower₁ (X : ModuleCat.{u} A₁ᵐᵒᵖ) : IsScalarTower k A₁ᵐᵒᵖ X :=
+local instance instTower {B : Type u} [Ring B] [Algebra k B] (X : ModuleCat.{u} Bᵐᵒᵖ) :
+    IsScalarTower k Bᵐᵒᵖ X :=
   { smul_assoc := fun a b x => by rw [Algebra.smul_def]; exact mul_smul _ _ _ }
 
-local instance instTower₂ (Y : ModuleCat.{u} A₂ᵐᵒᵖ) : IsScalarTower k A₂ᵐᵒᵖ Y :=
-  { smul_assoc := fun a b x => by rw [Algebra.smul_def]; exact mul_smul _ _ _ }
-
-local instance instComm₁ (X : ModuleCat.{u} A₁ᵐᵒᵖ) : SMulCommClass k A₁ᵐᵒᵖ X where
+local instance instComm {B : Type u} [Ring B] [Algebra k B] (X : ModuleCat.{u} Bᵐᵒᵖ) :
+    SMulCommClass k Bᵐᵒᵖ X where
   smul_comm c a m := by
-    change (algebraMap k A₁ᵐᵒᵖ c) • (a • m) = a • ((algebraMap k A₁ᵐᵒᵖ c) • m)
+    change (algebraMap k Bᵐᵒᵖ c) • (a • m) = a • ((algebraMap k Bᵐᵒᵖ c) • m)
     rw [← mul_smul, ← mul_smul, Algebra.commutes]
 
-local instance instComm₂ (Y : ModuleCat.{u} A₂ᵐᵒᵖ) : SMulCommClass k A₂ᵐᵒᵖ Y where
-  smul_comm c a m := by
-    change (algebraMap k A₂ᵐᵒᵖ c) • (a • m) = a • ((algebraMap k A₂ᵐᵒᵖ c) • m)
-    rw [← mul_smul, ← mul_smul, Algebra.commutes]
-
-/-- The external `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action on `X ⊗[k] Y`, matching `ExternalTensorFunctor.lean`. -/
+/-- The external `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action on `X ⊗[k] Y`. Defined as *the very instance*
+`extTensorFunctorObj` carries (its carrier is defeq to `X ⊗[k] Y`), so that
+`(tensorRightFunctorₖ …).obj (extTensorFunctorObj X Y)` and
+`tensorOver (A₁⊗A₂) (N₁⊗ₖN₂) (X ⊗[k] Y)` share the `(A₁⊗A₂)ᵐᵒᵖ`-action definitionally, dissolving
+that half of the `Module`-instance diamond. -/
 noncomputable local instance instExtModule (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
-    Module (A₁ ⊗[k] A₂)ᵐᵒᵖ (X ⊗[k] Y) := extTensorModule k A₁ A₂ X Y
+    Module (A₁ ⊗[k] A₂)ᵐᵒᵖ (X ⊗[k] Y) :=
+  inferInstanceAs (Module (A₁ ⊗[k] A₂)ᵐᵒᵖ (extTensorFunctorObj k A₁ A₂ X Y))
 
 /-- `k` commutes with the external `(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action, because the action is realised by a
 `k`-algebra map into `Module.End k (X ⊗[k] Y)`, whose values are `k`-linear endomorphisms. -/
@@ -84,5 +94,61 @@ local instance instCommExt (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} 
   smul_comm c r m := by
     change c • (extTensorRep k A₁ A₂ X Y r m) = extTensorRep k A₁ A₂ X Y r (c • m)
     rw [map_smul]
+
+/-! ### Bridging `tensorRightMapₖ` with `tensorOverMapₖ ∘ restrictK`
+
+`Etingof.tensorRightFunctorₖ.map f` (for a `ModuleCat Bᵐᵒᵖ`-morphism `f`) and the `k`-linear
+functoriality `Etingof.tensorOverMapₖ` used to state milestone (b) both send `⟦m ⊗ n⟧ ↦ ⟦f m ⊗ n⟧`.
+This identifies them, letting the NatIso's naturality reduce to `rearrangeBidegree_naturality`. -/
+
+theorem tensorRightMapₖ_eq_tensorOverMapₖ {B : Type u} [Ring B] [Algebra k B]
+    (N : Type u) [AddCommGroup N] [Module B N] {M M' : ModuleCat.{u} Bᵐᵒᵖ} (f : M ⟶ M') :
+    tensorRightMapₖ k B N f
+      = tensorOverMapₖ k B M M' N (restrictK k B M M' f.hom)
+          (restrictK_op_smul k B M M' f.hom) := by
+  apply LinearMap.ext
+  intro z
+  obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective z
+  induction y with
+  | zero => simp
+  | tmul m n => rw [tensorRightMapₖ_mk, tensorOverMapₖ_mk, restrictK_apply]
+  | add a b ha hb => rw [QuotientAddGroup.mk_add, map_add, map_add, ha, hb]
+
+/-! ### The two bifunctors -/
+
+/-- The left bifunctor `(X, Y) ↦ (X ⊗ₖ Y) ⊗_{A₁⊗A₂} (N₁ ⊗ₖ N₂)`: the external tensor bifunctor
+post-composed with `tensorRightFunctorₖ k (A₁⊗A₂) (N₁⊗ₖN₂)`. -/
+noncomputable def extTensorRightFunctor :
+    ModuleCat.{u} A₁ᵐᵒᵖ ⥤ ModuleCat.{u} A₂ᵐᵒᵖ ⥤ ModuleCat.{u} k :=
+  extTensorFunctor k A₁ A₂ ⋙
+    (Functor.whiskeringRight (ModuleCat.{u} A₂ᵐᵒᵖ) (ModuleCat.{u} (A₁ ⊗[k] A₂)ᵐᵒᵖ)
+      (ModuleCat.{u} k)).obj (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))
+
+/-- The right bifunctor `(X, Y) ↦ (X ⊗_{A₁} N₁) ⊗ₖ (Y ⊗_{A₂} N₂)`: the two factor functors
+`tensorRightFunctorₖ` combined through the monoidal tensor of `ModuleCat k`. -/
+noncomputable def factorTensorFunctor :
+    ModuleCat.{u} A₁ᵐᵒᵖ ⥤ ModuleCat.{u} A₂ᵐᵒᵖ ⥤ ModuleCat.{u} k :=
+  (tensorRightFunctorₖ k A₁ N₁ ⋙ curriedTensor (ModuleCat.{u} k)) ⋙
+    (Functor.whiskeringLeft (ModuleCat.{u} A₂ᵐᵒᵖ) (ModuleCat.{u} k) (ModuleCat.{u} k)).obj
+      (tensorRightFunctorₖ k A₂ N₂)
+
+/-! ### The component isomorphism -/
+
+include hN in
+/-- The component of the natural iso at `(X, Y)`: milestone (a) `rearrangeBidegree`, packaged as an
+iso in `ModuleCat k` between the concrete carriers.
+
+The two bifunctor objects `((extTensorRightFunctor …).obj X).obj Y` and
+`((factorTensorFunctor …).obj X).obj Y` reduce (by `rfl` at the `Functor.obj` level) to these two
+`ModuleCat.of k (tensorOver …)`, **except** that `tensorRightFunctorₖ` equips its `tensorOver` with
+the `k`-action restricted through `(A₁⊗A₂)ᵐᵒᵖ` (resp. `Aᵢᵐᵒᵖ`), whereas `rearrangeBidegree` uses the
+`TensorProduct`-diagonal `k`-action. These agree propositionally but not definitionally; reconciling
+them (an `IsScalarTower` uniqueness / `eqToIso` argument) and then assembling the full bifunctor
+`NatIso` with naturality from `rearrangeBidegree_naturality` is the remaining work of #6742. -/
+noncomputable def rearrangeComponentIso (X : ModuleCat.{u} A₁ᵐᵒᵖ) (Y : ModuleCat.{u} A₂ᵐᵒᵖ) :
+    ModuleCat.of k (tensorOver (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) (X ⊗[k] Y))
+      ≅ ModuleCat.of k (tensorOver A₁ N₁ X ⊗[k] tensorOver A₂ N₂ Y) :=
+  (rearrangeBidegree k A₁ A₂ X Y N₁ N₂
+    (extTensorFunctor_op_smul_tmul k A₁ A₂ X Y) hN).toModuleIso
 
 end Etingof
