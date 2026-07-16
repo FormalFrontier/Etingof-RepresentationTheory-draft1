@@ -125,4 +125,33 @@ noncomputable def rearrangeComplex :
     HomologicalComplex₂.total.mapIso (rearrangeComplexBicomplexIso k A₁ A₂ N₁ N₂ hN P₁ P₂)
       (ComplexShape.down ℕ)
 
+/-- The rearrangement iso pinned on a summand: postcomposing the `G`-image of the `(i₁, i₂)` summand
+inclusion of the external tensor complex with `rearrangeComplex` lands, via milestone (a)
+`rearrangeBifunctorComponentIso`, on the corresponding `(i₁, i₂)` summand of the target tensor
+complex `tensorObj C₁ C₂`. This is the rewrite the Künneth `Tor` assembler (#6657) uses. -/
+@[reassoc]
+theorem rearrangeComplex_hom_f_ιMapBifunctor (i₁ i₂ j : ℕ)
+    (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (i₁, i₂) = j) :
+    (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)).map
+          (HomologicalComplex.ιMapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
+            (ComplexShape.down ℕ) i₁ i₂ j h) ≫
+        (rearrangeComplex k A₁ A₂ N₁ N₂ hN P₁ P₂).hom.f j =
+      (rearrangeBifunctorComponentIso k A₁ A₂ N₁ N₂ hN
+            (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        HomologicalComplex.ιMapBifunctor
+          (((tensorRightFunctorₖ k A₁ N₁).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+            P₁.complex)
+          (((tensorRightFunctorₖ k A₂ N₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+            P₂.complex)
+          (curriedTensor (ModuleCat.{u} k)) (ComplexShape.down ℕ) i₁ i₂ j h := by
+  rw [rearrangeComplex, Iso.trans_hom, HomologicalComplex.comp_f, ← Category.assoc]
+  rw [show (mapBifunctorPostcompIso P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
+        (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))).hom.f j =
+      (postcompX P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
+        (tensorRightFunctorₖ k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) j).hom from rfl,
+    ιMapBifunctor_comp_postcompX_hom, HomologicalComplex₂.total.mapIso_hom,
+    HomologicalComplex₂.ιTotal_map]
+  rfl
+
 end Etingof
