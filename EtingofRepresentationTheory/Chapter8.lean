@@ -28,6 +28,7 @@ import EtingofRepresentationTheory.Chapter8.ExternalTensorComplex
 import EtingofRepresentationTheory.Chapter8.Problem8_2_8
 import EtingofRepresentationTheory.Chapter8.RearrangeBidegree
 import EtingofRepresentationTheory.Chapter8.RearrangeBidegreeNat
+import EtingofRepresentationTheory.Chapter8.TensorRightFunctorK
 import EtingofRepresentationTheory.Chapter8.Exercise8_2_9
 import EtingofRepresentationTheory.Chapter8.BarResolution
 
