@@ -27,14 +27,18 @@ the two restricted modules.
 
 ## Status
 
-This file currently delivers the **pointwise** bifunctor isomorphism and its naturality. The
-**complex-level** commutation still to be assembled on top of it —
-`(restrictScalars (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
-(extTensorComplex P₁ P₂) ≅ HomologicalComplex.tensorObj C₁ C₂` where `C₁, C₂` are the restricted
-resolutions — requires transporting this pointwise iso through the `mapBifunctor` total complex,
-i.e. that `restrictScalars` (which preserves coproducts, `preservesColimit_restrictScalars`)
-commutes with the `GradedObject.mapObj` coproduct in each degree, matching the Koszul-signed
-differentials. That assembly is tracked as follow-up work.
+Building on the **pointwise** bifunctor isomorphism `extRestrictObjIso` and its naturality, this
+file assembles the **complex-level** commutation isomorphism
+`Etingof.extTensorComplex_restrictIso`:
+`((restrictScalars (algebraMap k (A₁ ⊗[k] A₂)ᵐᵒᵖ)).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+(extTensorComplex P₁ P₂) ≅ HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂)` where
+`res₁Complex P₁, res₂Complex P₂` are the restricted resolutions. The pointwise iso is transported
+through the `mapBifunctor` total complex degreewise via `PreservesCoproduct.iso` (`restrictScalars`
+preserves the degree-`n` coproduct, `preservesColimit_restrictScalars`) and `Sigma.mapIso`; the
+Koszul-signed differential compatibility (`resExt_map_d₁_comp`, `resExt_map_d₂_comp`) reduces to
+`extRestrictObjIso_naturality`. The degree-0 `π`-compatibility `ι_extRestrictComplexXIso_aug₀`
+(the restricted augmentation corresponds to `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀`) is the map-level `i = 0`
+square consumed by the `quasiIso` assembly (#6735).
 -/
 
 open CategoryTheory Limits MonoidalCategory HomologicalComplex TensorProduct MulOpposite
@@ -113,5 +117,200 @@ theorem extRestrictObjIso_naturality {X X' : ModuleCat.{u} A₁ᵐᵒᵖ} {Y Y' 
   | tmul x y => rfl
   | add a b ha hb =>
     rw [map_add, map_add, ha, hb]
+
+/-! ## The complex-level commutation isomorphism -/
+
+variable {M₁ : ModuleCat.{u} A₁ᵐᵒᵖ} {M₂ : ModuleCat.{u} A₂ᵐᵒᵖ}
+
+/-- The chain complex `P₁` of `A₁ᵐᵒᵖ`-modules restricted to a chain complex of `k`-modules. -/
+noncomputable abbrev res₁Complex (P₁ : ProjectiveResolution M₁) :
+    ChainComplex (ModuleCat.{u} k) ℕ :=
+  ((res₁ k A₁).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₁.complex
+
+/-- The chain complex `P₂` of `A₂ᵐᵒᵖ`-modules restricted to a chain complex of `k`-modules. -/
+noncomputable abbrev res₂Complex (P₂ : ProjectiveResolution M₂) :
+    ChainComplex (ModuleCat.{u} k) ℕ :=
+  ((res₂ k A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj P₂.complex
+
+/-- The bicomplex `(i₁, i₂) ↦ (P₁.X i₁) ⊗[k] (P₂.X i₂)` (with the external
+`(A₁ ⊗[k] A₂)ᵐᵒᵖ`-action) whose total complex is `extTensorComplex P₁ P₂`. -/
+noncomputable abbrev extBicomplex (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂) :
+    HomologicalComplex₂ (ModuleCat.{u} (A₁ ⊗[k] A₂)ᵐᵒᵖ)
+      (ComplexShape.down ℕ) (ComplexShape.down ℕ) :=
+  (((extTensorFunctor k A₁ A₂).mapBifunctorHomologicalComplex
+    (ComplexShape.down ℕ) (ComplexShape.down ℕ)).obj P₁.complex).obj P₂.complex
+
+/-- The degreewise comparison isomorphism. In degree `n`, restricting the external tensor total
+complex to `k` gives the `k`-tensor total complex of the restricted resolutions, because
+`resExt` preserves the degree-`n` coproduct and matches summands via `extRestrictObjIso`. -/
+noncomputable def extRestrictComplexXIso (P₁ : ProjectiveResolution M₁)
+    (P₂ : ProjectiveResolution M₂) (n : ℕ) :
+    (((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj
+        (extTensorComplex P₁ P₂)).X n ≅
+      (HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂)).X n :=
+  (PreservesCoproduct.iso (resExt k A₁ A₂)
+    ((extBicomplex P₁ P₂).toGradedObject.mapObjFun
+      (ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)) n)) ≪≫
+  Limits.Sigma.mapIso (fun i => extRestrictObjIso (P₁.complex.X i.1.1) (P₂.complex.X i.1.2))
+
+/-- Summand behaviour of the inverse degreewise iso: the inclusion of the `(i₁, i₂)`-summand of
+the `k`-tensor total complex, followed by `(extRestrictComplexXIso).inv`, is the pointwise inverse
+iso followed by the restricted inclusion into the external tensor total complex. -/
+theorem ι_extRestrictComplexXIso_inv (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ n : ℕ)
+    (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (i₁, i₂) = n) :
+    ιMapBifunctor (res₁Complex P₁) (res₂Complex P₂) (curriedTensor (ModuleCat.{u} k))
+        (ComplexShape.down ℕ) i₁ i₂ n h ≫ (extRestrictComplexXIso P₁ P₂ n).inv =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).inv ≫ (resExt k A₁ A₂).map
+        (ιMapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂) (ComplexShape.down ℕ)
+          i₁ i₂ n h) := by
+  simp only [extRestrictComplexXIso, Iso.trans_inv, PreservesCoproduct.inv_hom,
+    HomologicalComplex.ιMapBifunctor, HomologicalComplex₂.ιTotal,
+    CategoryTheory.GradedObject.ιMapObj, Limits.Sigma.ι_mapIso_inv_assoc,
+    Limits.ι_comp_sigmaComparison]
+
+/-- Summand behaviour of the forward degreewise iso (the hom-direction companion of
+`ι_extRestrictComplexXIso_inv`). -/
+theorem ι_extRestrictComplexXIso_hom (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ n : ℕ)
+    (h : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (i₁, i₂) = n) :
+    (resExt k A₁ A₂).map (ιMapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
+        (ComplexShape.down ℕ) i₁ i₂ n h) ≫ (extRestrictComplexXIso P₁ P₂ n).hom =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        ιMapBifunctor (res₁Complex P₁) (res₂Complex P₂) (curriedTensor (ModuleCat.{u} k))
+          (ComplexShape.down ℕ) i₁ i₂ n h := by
+  rw [← cancel_mono (extRestrictComplexXIso P₁ P₂ n).inv, Category.assoc, Category.assoc,
+    Iso.hom_inv_id, Category.comp_id, ι_extRestrictComplexXIso_inv, ← Category.assoc,
+    Iso.hom_inv_id, Category.id_comp]
+
+/-- Compatibility of the degreewise iso with the first (Koszul-signed) differential: restricting the
+`d₁` of the external tensor total complex and transporting along `extRestrictComplexXIso` recovers
+the `d₁` of the `k`-tensor total complex. Reduces to `extRestrictObjIso_naturality` in the first
+variable. -/
+theorem resExt_map_d₁_comp (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ m : ℕ) :
+    (resExt k A₁ A₂).map (HomologicalComplex.mapBifunctor.d₁ P₁.complex P₂.complex
+        (extTensorFunctor k A₁ A₂) (ComplexShape.down ℕ) i₁ i₂ m) ≫
+        (extRestrictComplexXIso P₁ P₂ m).hom =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        HomologicalComplex.mapBifunctor.d₁ (res₁Complex P₁) (res₂Complex P₂)
+          (curriedTensor (ModuleCat.{u} k)) (ComplexShape.down ℕ) i₁ i₂ m := by
+  rcases i₁ with _ | i₁'
+  · rw [HomologicalComplex.mapBifunctor.d₁_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]),
+      HomologicalComplex.mapBifunctor.d₁_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel])]
+    simp
+  · by_cases h' : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (i₁', i₂) = m
+    · rw [HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ (by simp [ComplexShape.down_Rel]) _ _ h',
+        HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ (by simp [ComplexShape.down_Rel]) _ _ h',
+        Functor.map_units_smul, Linear.units_smul_comp, Linear.comp_units_smul]
+      congr 1
+      rw [Functor.map_comp, Category.assoc, ι_extRestrictComplexXIso_hom,
+        show ((extTensorFunctor k A₁ A₂).map (P₁.complex.d (i₁' + 1) i₁')).app
+          (P₂.complex.X i₂) = extTensorFunctorMap k (P₁.complex.d (i₁' + 1) i₁')
+            (𝟙 (P₂.complex.X i₂)) from rfl, ← Category.assoc,
+        extRestrictObjIso_naturality, Category.assoc]
+      congr 2
+    · rw [HomologicalComplex.mapBifunctor.d₁_eq_zero' _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₁' + 1) i₁') _ _ h',
+        HomologicalComplex.mapBifunctor.d₁_eq_zero' _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₁' + 1) i₁') _ _ h']
+      simp
+
+/-- Compatibility of the degreewise iso with the second differential. Reduces to
+`extRestrictObjIso_naturality` in the second variable. -/
+theorem resExt_map_d₂_comp (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
+    (i₁ i₂ m : ℕ) :
+    (resExt k A₁ A₂).map (HomologicalComplex.mapBifunctor.d₂ P₁.complex P₂.complex
+        (extTensorFunctor k A₁ A₂) (ComplexShape.down ℕ) i₁ i₂ m) ≫
+        (extRestrictComplexXIso P₁ P₂ m).hom =
+      (extRestrictObjIso (P₁.complex.X i₁) (P₂.complex.X i₂)).hom ≫
+        HomologicalComplex.mapBifunctor.d₂ (res₁Complex P₁) (res₂Complex P₂)
+          (curriedTensor (ModuleCat.{u} k)) (ComplexShape.down ℕ) i₁ i₂ m := by
+  rcases i₂ with _ | i₂'
+  · rw [HomologicalComplex.mapBifunctor.d₂_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]),
+      HomologicalComplex.mapBifunctor.d₂_eq_zero _ _ _ _ _ _ _
+        (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel])]
+    simp
+  · by_cases h' : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (ComplexShape.down ℕ) (i₁, i₂') = m
+    · rw [HomologicalComplex.mapBifunctor.d₂_eq _ _ _ _ _ (by simp [ComplexShape.down_Rel]) _ h',
+        HomologicalComplex.mapBifunctor.d₂_eq _ _ _ _ _ (by simp [ComplexShape.down_Rel]) _ h',
+        Functor.map_units_smul, Linear.units_smul_comp, Linear.comp_units_smul]
+      congr 1
+      rw [Functor.map_comp, Category.assoc, ι_extRestrictComplexXIso_hom,
+        show ((extTensorFunctor k A₁ A₂).obj (P₁.complex.X i₁)).map (P₂.complex.d (i₂' + 1) i₂') =
+          extTensorFunctorMap k (𝟙 (P₁.complex.X i₁)) (P₂.complex.d (i₂' + 1) i₂') from rfl,
+        ← Category.assoc, extRestrictObjIso_naturality, Category.assoc]
+      congr 2
+    · rw [HomologicalComplex.mapBifunctor.d₂_eq_zero' _ _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₂' + 1) i₂') _ h',
+        HomologicalComplex.mapBifunctor.d₂_eq_zero' _ _ _ _ _
+        (by simp [ComplexShape.down_Rel] : (ComplexShape.down ℕ).Rel (i₂' + 1) i₂') _ h']
+      simp
+
+/-- **The complex-level commutation isomorphism.** Restricting the external tensor complex of two
+projective resolutions to `k` recovers the `k`-tensor total complex of the restricted resolutions.
+This is the remaining half of Problem 8.2.8's restriction-of-scalars commutation (#6738), consumed
+by the `quasiIso` assembly #6735. -/
+noncomputable def extTensorComplex_restrictIso (P₁ : ProjectiveResolution M₁)
+    (P₂ : ProjectiveResolution M₂) :
+    ((resExt k A₁ A₂).mapHomologicalComplex (ComplexShape.down ℕ)).obj (extTensorComplex P₁ P₂) ≅
+      HomologicalComplex.tensorObj (res₁Complex P₁) (res₂Complex P₂) :=
+  HomologicalComplex.Hom.isoOfComponents (extRestrictComplexXIso P₁ P₂) <| by
+    intro n m hnm
+    rw [← cancel_epi (extRestrictComplexXIso P₁ P₂ n).inv, Iso.inv_hom_id_assoc]
+    apply HomologicalComplex.mapBifunctor.hom_ext
+    intro i₁ i₂ h
+    -- Left-hand side: expand the target differential into `d₁_T + d₂_T`.
+    rw [HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
+      HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂]
+    -- Right-hand side: pull the summand injection through `isoN.inv` and the restricted
+    -- differential, then expand into `resExt.map (d₁_ext + d₂_ext)`.
+    rw [← Category.assoc _ (extRestrictComplexXIso P₁ P₂ n).inv, ι_extRestrictComplexXIso_inv,
+      Category.assoc, Functor.mapHomologicalComplex_obj_d,
+      ← Functor.map_comp_assoc,
+      HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
+      HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂,
+      Functor.map_add, Preadditive.add_comp, Preadditive.comp_add,
+      resExt_map_d₁_comp, resExt_map_d₂_comp, ← Category.assoc, ← Category.assoc,
+      Iso.inv_hom_id, Category.id_comp, Category.id_comp]
+
+/-- **π-compatibility, degree 0.** On the only summand `(0, 0)` of degree 0, the restricted
+augmentation `resExt (extTensorAug₀ P₁ P₂)`, transported along `extRestrictObjIso M₁ M₂`, is the
+`k`-tensor `res₁ (P₁.π)₀ ⊗ res₂ (P₂.π)₀` of the restricted degree-0 augmentations. This is the
+map-level `i = 0` square consumed by the quasiIso assembly (#6735). Reduces to
+`extRestrictObjIso_naturality` (and functoriality of `extTensorFunctorMap`). -/
+theorem ι_extRestrictComplexXIso_aug₀ (P₁ : ProjectiveResolution M₁)
+    (P₂ : ProjectiveResolution M₂)
+    (h₀ : ComplexShape.π (ComplexShape.down ℕ) (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+      (0, 0) = 0) :
+    (resExt k A₁ A₂).map (ιMapBifunctor P₁.complex P₂.complex (extTensorFunctor k A₁ A₂)
+        (ComplexShape.down ℕ) 0 0 0 h₀) ≫
+        (resExt k A₁ A₂).map (extTensorAug₀ P₁ P₂) ≫ (extRestrictObjIso M₁ M₂).hom =
+      (extRestrictObjIso (P₁.complex.X 0) (P₂.complex.X 0)).hom ≫ MonoidalCategory.tensorHom
+        ((res₁ k A₁).map ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1)
+        ((res₂ k A₂).map ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1) := by
+  rw [← Functor.map_comp_assoc, HomologicalComplex.ι_mapBifunctorDesc,
+    show ((extTensorFunctor k A₁ A₂).map ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1).app
+          (P₂.complex.X 0) ≫
+        ((extTensorFunctor k A₁ A₂).obj M₁).map ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1
+      = extTensorFunctorMap k ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1
+          ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1 from by
+        rw [show ((extTensorFunctor k A₁ A₂).map
+              ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1).app (P₂.complex.X 0)
+            = extTensorFunctorMap k ((ChainComplex.toSingle₀Equiv P₁.complex M₁) P₁.π).1
+                (𝟙 (P₂.complex.X 0)) from rfl,
+          show ((extTensorFunctor k A₁ A₂).obj M₁).map
+              ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1
+            = extTensorFunctorMap k (𝟙 M₁) ((ChainComplex.toSingle₀Equiv P₂.complex M₂) P₂.π).1
+                from rfl,
+          ← extTensorFunctorMap_comp, Category.comp_id, Category.id_comp],
+    extRestrictObjIso_naturality]
 
 end Etingof
