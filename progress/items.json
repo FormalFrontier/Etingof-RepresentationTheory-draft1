@@ -1580,7 +1580,7 @@
     "end_page": "40",
     "start_line": 13,
     "end_line": 13,
-    "status": "statement_formalized"
+    "status": "sorry_free"
   },
   {
     "id": "Chapter2/Problem2.16.5",
@@ -4954,7 +4954,7 @@
     "end_page": "135",
     "start_line": 15,
     "end_line": 18,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_note": "Statement pass: Chapter5/Problem5_24_2.lean states R_{k,N} (invariant subalgebra of MvPolynomial on k-tuples of N x N matrices under simultaneous conjugation, via infimum of AlgHom equalizers) equals Algebra.adjoin of the trace-of-word functions T_w = Tr(w(X_1..X_k)). Sorry proof."
   },
   {
