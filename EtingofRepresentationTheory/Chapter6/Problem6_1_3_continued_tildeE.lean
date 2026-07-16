@@ -1407,6 +1407,72 @@ lemma affine_degree_four_dichotomy {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   by_cases hex : ∃ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 4
   · left
     obtain ⟨v, hv4⟩ := hex
+    have hdiag : ∀ i, adj i i = 0 := hD.2.1
+    have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+      have h := congrFun (congrFun hD.1 b) a
+      rwa [Matrix.transpose_apply] at h
+    -- The 4 neighbours of `v`, enumerated by `g : Fin 4 → Fin n`.
+    set N := univ.filter (fun j => adj v j = 1) with hN
+    have hNcard : N.card = 4 := hv4
+    set eN := N.equivFinOfCardEq hNcard with heN
+    set g : Fin 4 → Fin n := fun i => (eN.symm i : Fin n) with hg
+    have hg_mem : ∀ i, g i ∈ N := fun i => (eN.symm i).2
+    have hg_adj : ∀ i, adj v (g i) = 1 := fun i => (Finset.mem_filter.mp (hg_mem i)).2
+    have hg_inj : Function.Injective g := fun a b hab =>
+      eN.symm.injective (Subtype.ext hab)
+    have hv_notin_N : v ∉ N := fun h => by
+      have := (Finset.mem_filter.mp h).2; rw [hdiag v] at this; exact absurd this (by norm_num)
+    -- The star `e : Fin 5 → Fin n` with hub `e 0 = v`, leaves `e (i.succ) = g i`.
+    set e : Fin 5 → Fin n := Fin.cons v g with he_def
+    have he0 : e 0 = v := Fin.cons_zero _ _
+    have hesucc : ∀ i, e i.succ = g i := fun i => Fin.cons_succ _ _ _
+    have he : Function.Injective e := by
+      rw [he_def, Fin.cons_injective_iff]
+      exact ⟨fun ⟨i, hi⟩ => hv_notin_N (hi ▸ hg_mem i), hg_inj⟩
+    -- The submatrix (induced subgraph on the star) and its hub connectivity.
+    set sub := adj.submatrix e e with hsub
+    have hhub0 : ∀ a : Fin 5, a ≠ 0 → adj v (e a) = 1 := by
+      intro a ha
+      induction a using Fin.cases with
+      | zero => exact absurd rfl ha
+      | succ i => rw [hesucc]; exact hg_adj i
+    have hc : ∀ a : Fin 5, a ≠ 0 → sub 0 a = 1 := by
+      intro a ha; rw [hsub, Matrix.submatrix_apply, he0]; exact hhub0 a ha
+    have hc' : ∀ a : Fin 5, a ≠ 0 → sub a 0 = 1 := by
+      intro a ha; rw [hsub, Matrix.submatrix_apply, he0, hsymm' (e a) v]; exact hhub0 a ha
+    have hconn := star_hconn sub 0 hc hc'
+    -- Degree of the hub `0` in the star submatrix is `4`.
+    have hdeg4 : Etingof.vertexDegree sub 0 = 4 := by
+      unfold Etingof.vertexDegree
+      have hset : (univ.filter (fun j : Fin 5 => sub 0 j = 1)) = univ.erase 0 := by
+        ext j
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_erase, and_true]
+        rw [hsub, Matrix.submatrix_apply, he0]
+        induction j using Fin.cases with
+        | zero => simp [he0, hdiag]
+        | succ i => simp [hesucc, hg_adj i, Fin.succ_ne_zero]
+      rw [hset, Finset.card_erase_of_mem (Finset.mem_univ 0), Finset.card_univ,
+        Fintype.card_fin]
+    -- `5 ≤ n` from the injective star, `n ≤ 5` from affine minimality.
+    have h5le : 5 ≤ n := by
+      have := Fintype.card_le_of_injective e he; simpa using this
+    have hnle : n ≤ 5 := by
+      by_contra hgt
+      have hgt' : 5 < n := not_le.mp hgt
+      obtain ⟨w, hw⟩ : ∃ w, w ∉ Finset.univ.image e := by
+        have hcard : (Finset.univ.image e).card = 5 := by
+          rw [Finset.card_image_of_injective _ he, Finset.card_univ, Fintype.card_fin]
+        by_contra hcon
+        have himg : Finset.univ.image e = Finset.univ := by
+          rw [Finset.eq_univ_iff_forall]; intro x; by_contra hx; exact hcon ⟨x, hx⟩
+        rw [himg, Finset.card_univ, Fintype.card_fin] at hcard; omega
+      have hv_w : ∀ i, e i ≠ w := fun i hi =>
+        hw (Finset.mem_image.mpr ⟨i, Finset.mem_univ i, hi⟩)
+      have hDsub : Etingof.IsDynkinDiagram 5 sub :=
+        affine_properInduced_isDynkin adj hn hD e he hv_w hconn
+      have hdeg3 := Etingof.dynkin_degree_le_three hDsub 0
+      omega
+    have hn5 : n = 5 := le_antisymm hnle h5le
     sorry
   · right
     intro v
