@@ -1958,6 +1958,96 @@ lemma affine_degree_four_dichotomy {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     have hne : Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≠ 4 := fun h => hex ⟨v, h⟩
     omega
 
+/-- **(g), cyclic case.** An affine Dynkin diagram whose associated graph contains
+a cycle — encoded as having at least `n` edges, `2·n ≤ ∑ᵢ∑ⱼ adjᵢⱼ` (a connected
+graph is a tree, i.e. acyclic, exactly when it has `n − 1` edges; having `≥ n`
+edges is the complementary "contains a cycle" condition) — is `2`-regular with
+`n ≥ 3`, hence graph-isomorphic to the cycle `Ãₙ`.
+
+Testing positive semidefiniteness against the all-ones vector gives
+`0 ≤ 1ᵀ(2·Id − adj)1 = 2n − ∑ᵢ∑ⱼadjᵢⱼ`; combined with `hcyc` this forces the
+affine form to vanish on `1`, so the radical-equals-kernel lemma
+`affine_cartan_mulVec_eq_zero_of_form_zero` gives `(2·Id − adj)·ᵥ1 = 0`. Reading
+off row `i`, `2 − ∑ⱼ adjᵢⱼ = 0`, i.e. every vertex has degree `2`. The
+combinatorial core `two_regular_connected_iso_Atilde` (#6847) then produces the
+graph isomorphism onto `Ãₙ`. This is the cyclic branch of the ⟹ direction of
+`affine_dynkin_classification` (#6792); the tree case (#6793) handles the
+complementary `∑ᵢ∑ⱼ adjᵢⱼ = 2(n − 1)`. -/
+lemma affine_cyclic_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+    (hD : IsAffineDynkinDiagram n adj)
+    (hcyc : 2 * (n : ℤ) ≤ ∑ i, ∑ j, adj i j) :
+    ∃ (h3 : 3 ≤ n) (σ : Fin (AffineType.Atilde n h3).rank ≃ Fin n),
+      ∀ i j, adj (σ i) (σ j) = (AffineType.Atilde n h3).adj i j := by
+  classical
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  have hconn := hD.2.2.2.1
+  have hpos := hD.2.2.2.2.1
+  -- Row sums of `2·Id − adj` against the all-ones vector (as in `isDynkinDiagram_isTree`).
+  have hone : ∀ i j : Fin n,
+      (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = if i = j then 2 else 0 := by
+    intro i j; simp only [Matrix.smul_apply, Matrix.one_apply, two_nsmul]
+    split_ifs <;> norm_num
+  have hrow : ∀ i : Fin n,
+      ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1)) i
+        = 2 - ∑ j, adj i j := by
+    intro i
+    simp only [Matrix.mulVec, dotProduct, Matrix.sub_apply, hone, mul_one,
+      Finset.sum_sub_distrib]
+    rw [Finset.sum_ite_eq univ i (fun _ => (2 : ℤ))]; simp
+  -- Value of the affine form on the all-ones vector: `2n − ∑ᵢ∑ⱼ adjᵢⱼ`.
+  have hval : dotProduct (fun _ : Fin n => (1 : ℤ))
+      ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1))
+      = 2 * (n : ℤ) - ∑ i, ∑ j, adj i j := by
+    simp only [dotProduct, hrow, one_mul, Finset.sum_sub_distrib]
+    rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+    ring
+  -- Semidefiniteness bounds the form below by `0`, `hcyc` bounds it above by `0`:
+  -- the form vanishes on the all-ones vector.
+  have hform0 : dotProduct (fun _ : Fin n => (1 : ℤ))
+      ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1)) = 0 := by
+    have hge := hpos (fun _ => 1)
+    rw [hval] at hge ⊢
+    linarith
+  -- Radical = kernel: the all-ones vector lies in the kernel of the Cartan matrix.
+  have hker : (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1) = 0 :=
+    affine_cartan_mulVec_eq_zero_of_form_zero adj hD hform0
+  -- Hence every row sum of `adj` is `2`.
+  have hrowsum : ∀ v : Fin n, (∑ j, adj v j) = 2 := by
+    intro v
+    have h := congrFun hker v
+    rw [hrow v] at h
+    have h0 : (2 : ℤ) - ∑ j, adj v j = 0 := h
+    omega
+  -- Translate the row sum into the `Finset`-card degree used by the combinatorial core.
+  have hvd : ∀ v : Fin n, vertexDegree adj v = 2 := by
+    intro v
+    have hsum : (∑ j, adj v j)
+        = ((univ.filter (fun j => adj v j = 1)).card : ℤ) := by
+      rw [← Finset.sum_boole]
+      exact Finset.sum_congr rfl (fun j _ => by rcases h01 v j with h | h <;> simp [h])
+    have hz : ((vertexDegree adj v : ℤ)) = 2 := by
+      simp only [vertexDegree]; rw [← hsum]; exact hrowsum v
+    exact_mod_cast hz
+  -- `n ≥ 3`: vertex `0` has two distinct neighbours, none equal to itself.
+  have h3 : 3 ≤ n := by
+    set v : Fin n := ⟨0, by omega⟩ with hv_def
+    have hcard : (univ.filter (fun j => adj v j = 1)).card = 2 := hvd v
+    have hvmem : v ∈ (univ : Finset (Fin n)) := Finset.mem_univ _
+    have hsub : univ.filter (fun j => adj v j = 1) ⊆ univ.erase v := by
+      intro j hj
+      rw [Finset.mem_filter] at hj
+      rw [Finset.mem_erase]
+      refine ⟨?_, Finset.mem_univ _⟩
+      rintro rfl
+      rw [hdiag v] at hj
+      exact absurd hj.2 (by norm_num)
+    have hle := Finset.card_le_card hsub
+    rw [hcard, Finset.card_erase_of_mem hvmem, Finset.card_univ, Fintype.card_fin] at hle
+    omega
+  exact ⟨h3, two_regular_connected_iso_Atilde h3 adj hsymm hdiag h01 hconn hvd⟩
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
