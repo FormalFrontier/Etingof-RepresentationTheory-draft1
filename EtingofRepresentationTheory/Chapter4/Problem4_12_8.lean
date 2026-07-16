@@ -852,6 +852,234 @@ theorem pole_order_diophantine (n : ℕ) (hn : 2 ≤ n) (m : Multiset ℕ)
       · right; right; right; left; exact hm_eq
       · right; right; right; right; exact hm_eq
 
+section PoleCounting
+open Matrix MulAction
+
+/-- **Pole-set invariance.** If `g ∈ G` and `v` is a pole of `G`, then the rotated vector
+`g • v` is again a pole of `G`: it is fixed by the nontrivial conjugate `g·h·g⁻¹ ∈ G`, where
+`h` is a nontrivial element fixing `v`. -/
+lemma isPole_smul {G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)}
+    {g : specialOrthogonalGroup (Fin 3) ℝ} (hg : g ∈ G) {v : Fin 3 → ℝ} (hv : IsPole G v) :
+    IsPole G ((g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v) := by
+  obtain ⟨hunit, h, hhG, hhne, hhfix⟩ := hv
+  refine ⟨by rw [so3_mulVec_dotProduct]; exact hunit, g * h * g⁻¹,
+    G.mul_mem (G.mul_mem hg hhG) (G.inv_mem hg), ?_, ?_⟩
+  · -- `g h g⁻¹ = 1` would force `h = 1`.
+    intro hcontra
+    apply hhne
+    calc h = g⁻¹ * (g * h * g⁻¹) * g := by group
+      _ = g⁻¹ * 1 * g := by rw [hcontra]
+      _ = 1 := by group
+  · -- `(g h g⁻¹) *ᵥ (g *ᵥ v) = g *ᵥ v`, since `(g h g⁻¹) g = g h` and `h *ᵥ v = v`.
+    rw [mulVec_mulVec, ← Submonoid.coe_mul, show g * h * g⁻¹ * g = g * h from by group,
+      Submonoid.coe_mul, ← mulVec_mulVec, hhfix]
+
+/-- `G` acts on its pole set by the matrix action on unit vectors. -/
+instance poleSetMulAction (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) :
+    MulAction (↥G) (↥(poleSet G)) where
+  smul x P := ⟨((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1,
+    isPole_smul x.2 P.2⟩
+  one_smul P := by
+    apply Subtype.ext
+    show (((1 : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1 = P.1
+    simp
+  mul_smul x y P := by
+    apply Subtype.ext
+    show (((x * y : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1
+        = ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+          (((y : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1)
+    rw [show ((x * y : ↥G) : specialOrthogonalGroup (Fin 3) ℝ)
+        = (x : specialOrthogonalGroup (Fin 3) ℝ) * (y : specialOrthogonalGroup (Fin 3) ℝ) from rfl,
+      Submonoid.coe_mul, mulVec_mulVec]
+
+@[simp] lemma poleSet_coe_smul {G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)}
+    (x : ↥G) (P : ↥(poleSet G)) :
+    ((x • P : ↥(poleSet G)) : Fin 3 → ℝ)
+      = ((x : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ P.1 := rfl
+
+/-- **Burnside pole-counting reduction.** For a finite subgroup `G ≤ SO(3)` of order `n ≥ 2`,
+there is a multiset `m` of pole-orbit orders (the stabilizer orders `mᵢ`, one per orbit of `G`
+on its pole set) with every `mᵢ ≥ 2`, every `mᵢ ∣ n`, and satisfying the counting identity
+`2(1 - 1/n) = ∑ᵢ (1 - 1/mᵢ)`. Applying `pole_order_diophantine` pins `m` to one of the five
+classical solution families: cyclic `{n, n}`, dihedral `{2, 2, k}` with `n = 2k`, tetrahedral
+`{2, 3, 3}`, octahedral `{2, 3, 4}`, and icosahedral `{2, 3, 5}`.
+
+The identity is a two-way count: Burnside gives `∑_g |Fix g| = k·n` (`k` = number of orbits),
+while each nontrivial `g` fixes exactly two poles (`nontrivial_fixed_unit_vectors`) and the
+identity `1` fixes all `|poleSet|` of them, so `∑_g |Fix g| = |poleSet| + 2(n-1)`; combined with
+the class formula `|poleSet| = ∑ᵢ n/mᵢ` this rearranges to the stated equation. -/
+theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (hn : 2 ≤ Nat.card G) :
+    ∃ m : Multiset ℕ,
+      (∀ x ∈ m, 2 ≤ x) ∧ (∀ x ∈ m, x ∣ Nat.card G) ∧
+      2 * (1 - (Nat.card G : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum ∧
+      (m = {Nat.card G, Nat.card G} ∨
+       (∃ k, Nat.card G = 2 * k ∧ m = {2, 2, k}) ∨
+       m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5}) := by
+  classical
+  haveI : Finite ↥(poleSet G) := (finite_poleSet G).to_subtype
+  haveI hFG : Fintype ↥G := Fintype.ofFinite _
+  haveI : Fintype ↥(poleSet G) := Fintype.ofFinite _
+  haveI : Fintype (orbitRel.Quotient ↥G ↥(poleSet G)) := Fintype.ofFinite _
+  haveI : ∀ b : ↥(poleSet G), Fintype (stabilizer ↥G b) := fun _ => Fintype.ofFinite _
+  haveI : ∀ b : ↥(poleSet G), Fintype (orbit ↥G b) := fun _ => Fintype.ofFinite _
+  haveI : ∀ g : ↥G, Fintype (fixedBy ↥(poleSet G) g) := fun _ => Fintype.ofFinite _
+  set Ω := orbitRel.Quotient ↥G ↥(poleSet G) with hΩ
+  -- Abbreviations. `n` is the group order; `mω`/`oω` are stabilizer orders / orbit sizes.
+  set n : ℕ := Fintype.card ↥G with hn_fc
+  set mω : Ω → ℕ := fun ω => Fintype.card (stabilizer ↥G ω.out) with hmω
+  set oω : Ω → ℕ := fun ω => Fintype.card (orbit ↥G ω.out) with hoω
+  have hnpos : 0 < n := by rw [hn_fc]; exact Fintype.card_pos
+  have hNn : Nat.card G = n := by rw [hn_fc, Nat.card_eq_fintype_card]
+  rw [hNn] at hn
+  -- Orbit-stabilizer: `oω · mω = n`.
+  have horbstab : ∀ ω : Ω, oω ω * mω ω = n := fun ω =>
+    card_orbit_mul_card_stabilizer_eq_card_group ↥G ω.out
+  -- Each stabilizer order divides `n` (Lagrange).
+  have hmdvd : ∀ ω : Ω, mω ω ∣ n := by
+    intro ω
+    have h := Subgroup.card_subgroup_dvd_card (stabilizer ↥G ω.out)
+    rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at h
+    exact h
+  -- Each stabilizer order is at least `2`: the orbit representative is a genuine pole.
+  have hm2 : ∀ ω : Ω, 2 ≤ mω ω := by
+    intro ω
+    show 2 ≤ Fintype.card ↥(stabilizer ↥G ω.out)
+    obtain ⟨_, h, hhG, hhne, hhfix⟩ := ω.out.2
+    have hstab : (⟨h, hhG⟩ : ↥G) ∈ stabilizer ↥G ω.out := by
+      rw [mem_stabilizer_iff]
+      apply Subtype.ext
+      show (h : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ (ω.out : ↥(poleSet G)).1 = (ω.out : ↥(poleSet G)).1
+      exact hhfix
+    have hne : (⟨⟨h, hhG⟩, hstab⟩ : stabilizer ↥G ω.out) ≠ (1 : stabilizer ↥G ω.out) := by
+      intro hcon
+      apply hhne
+      have h1 : (((⟨⟨h, hhG⟩, hstab⟩ : stabilizer ↥G ω.out) : ↥G) :
+          specialOrthogonalGroup (Fin 3) ℝ)
+          = (((1 : stabilizer ↥G ω.out) : ↥G) : specialOrthogonalGroup (Fin 3) ℝ) := by
+        rw [hcon]
+      simpa using h1
+    have h1 : 1 < Fintype.card ↥(stabilizer ↥G ω.out) :=
+      Fintype.one_lt_card_iff_nontrivial.mpr (nontrivial_of_ne _ _ hne)
+    omega
+  -- `|Fix 1| = |poleSet|`: the identity fixes every pole.
+  have hFix1 : Fintype.card ↥(fixedBy ↥(poleSet G) (1 : ↥G)) = Fintype.card ↥(poleSet G) :=
+    Fintype.card_congr
+      (Equiv.subtypeUnivEquiv (fun x => mem_fixedBy.mpr (one_smul (↥G) x)))
+  -- For nontrivial `g`, `|Fix g| = 2`: `g` fixes exactly the two poles `{v₀, -v₀}`.
+  have hFix2 : ∀ g : ↥G, g ≠ 1 → Fintype.card ↥(fixedBy ↥(poleSet G) g) = 2 := by
+    intro g hg
+    have hg0 : (g : specialOrthogonalGroup (Fin 3) ℝ) ≠ 1 := by
+      intro h; exact hg (Subtype.ext (by simpa using h))
+    obtain ⟨v₀, hv₀unit, hset⟩ := nontrivial_fixed_unit_vectors (g : _) hg0
+    have hv₀ne : v₀ ≠ -v₀ := by
+      intro h
+      have hd : v₀ ⬝ᵥ v₀ = -(v₀ ⬝ᵥ v₀) := by
+        nth_rewrite 1 [h]
+        rw [neg_dotProduct]
+      rw [hv₀unit] at hd
+      norm_num at hd
+    set f : ↥(fixedBy ↥(poleSet G) g) → (Fin 3 → ℝ) := fun x => x.1.1 with hf
+    have hfinj : Function.Injective f := fun a b hab => Subtype.ext (Subtype.ext hab)
+    have hrange : Set.range f = fixedUnitVectors (g : _) := by
+      ext y
+      constructor
+      · rintro ⟨⟨⟨v, hvpole⟩, hvfix⟩, rfl⟩
+        refine ⟨hvpole.1, ?_⟩
+        have := mem_fixedBy.mp hvfix
+        have h2 := congrArg (fun z => (z : ↥(poleSet G)).1) this
+        simpa using h2
+      · rintro ⟨hyunit, hyfix⟩
+        have hypole : IsPole G y :=
+          ⟨hyunit, (g : _), g.2, hg0, hyfix⟩
+        refine ⟨⟨⟨y, hypole⟩, ?_⟩, rfl⟩
+        rw [mem_fixedBy]
+        apply Subtype.ext
+        show (g : specialOrthogonalGroup (Fin 3) ℝ).1 *ᵥ y = y
+        exact hyfix
+    have e := Equiv.ofInjective f hfinj
+    rw [hrange, hset] at e
+    rw [← Nat.card_eq_fintype_card, Nat.card_congr e, Nat.card_coe_set_eq, Set.ncard_pair hv₀ne]
+  -- Burnside: `∑_g |Fix g| = k · n`.
+  have hburnside : (∑ g : ↥G, Fintype.card ↥(fixedBy ↥(poleSet G) g)) = Fintype.card Ω * n :=
+    sum_card_fixedBy_eq_card_orbits_mul_card_group ↥G ↥(poleSet G)
+  -- The same sum equals `|poleSet| + 2(n-1)` by the pointwise counts.
+  have hsplit : (∑ g : ↥G, Fintype.card ↥(fixedBy ↥(poleSet G) g))
+      = Fintype.card ↥(poleSet G) + 2 * (n - 1) := by
+    rw [← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : ↥G)), hFix1,
+      Finset.sum_congr rfl (fun g hg => hFix2 g (Finset.ne_of_mem_erase hg)),
+      Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
+      ← hn_fc, smul_eq_mul]
+    ring
+  -- Class formula: `|poleSet| = ∑_ω n / mω`.
+  have hPsum : Fintype.card ↥(poleSet G) = ∑ ω : Ω, n / mω ω :=
+    card_eq_sum_card_group_div_card_stabilizer ↥G ↥(poleSet G)
+  -- Combine into `k · n = (∑_ω n/mω) + 2(n-1)`.
+  have hIII : Fintype.card Ω * n = (∑ ω : Ω, n / mω ω) + 2 * (n - 1) := by
+    rw [← hburnside, hsplit, hPsum]
+  -- Rational key identity `2(1 - 1/n) = ∑_ω (1 - 1/mω)`.
+  have hnQ : (n : ℚ) ≠ 0 := by exact_mod_cast hnpos.ne'
+  -- Orbit size in `ℚ`: `oω = n / mω` and `n · (mω)⁻¹ = oω`.
+  have hoval : ∀ ω : Ω, (oω ω : ℚ) = (n : ℚ) * (mω ω : ℚ)⁻¹ := by
+    intro ω
+    have hprod : (oω ω : ℚ) * (mω ω : ℚ) = (n : ℚ) := by exact_mod_cast horbstab ω
+    have hmpos : (mω ω : ℚ) ≠ 0 := by
+      have : 0 < mω ω := lt_of_lt_of_le (by norm_num) (hm2 ω)
+      exact_mod_cast this.ne'
+    field_simp
+    linarith [hprod]
+  -- `n/mω` (nat division) casts to `oω`.
+  have hdivval : ∀ ω : Ω, ((n / mω ω : ℕ) : ℚ) = (oω ω : ℚ) := by
+    intro ω
+    rw [Nat.cast_div (hmdvd ω)]
+    · rw [hoval ω]; ring
+    · have : 0 < mω ω := lt_of_lt_of_le (by norm_num) (hm2 ω)
+      exact_mod_cast this.ne'
+  -- Per-term: `1 - 1/mω = (n - oω)/n`.
+  have hterm : ∀ ω : Ω, (1 : ℚ) - (mω ω : ℚ)⁻¹ = ((n : ℚ) - (oω ω : ℚ)) / (n : ℚ) := by
+    intro ω
+    rw [hoval ω]
+    field_simp
+  -- The sum identity.
+  have hsum : (∑ ω : Ω, ((1 : ℚ) - (mω ω : ℚ)⁻¹)) = 2 * (1 - (n : ℚ)⁻¹) := by
+    have hcast : (Fintype.card Ω : ℚ) * (n : ℚ)
+        = (∑ ω : Ω, ((n / mω ω : ℕ) : ℚ)) + 2 * ((n : ℚ) - 1) := by
+      have := congrArg (fun z : ℕ => (z : ℚ)) hIII
+      push_cast [Nat.cast_sub hnpos] at this ⊢
+      convert this using 2
+    calc (∑ ω : Ω, ((1 : ℚ) - (mω ω : ℚ)⁻¹))
+        = ∑ ω : Ω, ((n : ℚ) - (oω ω : ℚ)) / (n : ℚ) := by
+          exact Finset.sum_congr rfl (fun ω _ => hterm ω)
+      _ = (∑ ω : Ω, ((n : ℚ) - (oω ω : ℚ))) / (n : ℚ) := by rw [← Finset.sum_div]
+      _ = ((Fintype.card Ω : ℚ) * (n : ℚ) - ∑ ω : Ω, (oω ω : ℚ)) / (n : ℚ) := by
+          rw [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+      _ = 2 * (1 - (n : ℚ)⁻¹) := by
+          rw [hcast, Finset.sum_congr rfl (fun ω _ => (hdivval ω).symm)]
+          field_simp
+          ring
+  -- Build the multiset and apply the arithmetic classification.
+  refine ⟨(Finset.univ : Finset Ω).val.map mω, ?_, ?_, ?_, ?_⟩
+  · intro x hx
+    rw [Multiset.mem_map] at hx
+    obtain ⟨ω, _, rfl⟩ := hx
+    exact hm2 ω
+  · intro x hx
+    rw [Multiset.mem_map] at hx
+    obtain ⟨ω, _, rfl⟩ := hx
+    rw [hNn]; exact hmdvd ω
+  · rw [hNn]
+    simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def]
+    exact hsum.symm
+  · rw [hNn]
+    exact pole_order_diophantine n hn ((Finset.univ : Finset Ω).val.map mω)
+      (by intro x hx; rw [Multiset.mem_map] at hx; obtain ⟨ω, _, rfl⟩ := hx; exact hm2 ω)
+      (by intro x hx; rw [Multiset.mem_map] at hx; obtain ⟨ω, _, rfl⟩ := hx; exact hmdvd ω)
+      (by
+        simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def]
+        exact hsum.symm)
+
+end PoleCounting
+
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
 the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
