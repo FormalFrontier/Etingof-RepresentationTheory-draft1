@@ -10,7 +10,7 @@ open Matrix Finset
     Proof: if v ≠ w both have degree 3, define x on Fin n by putting 2 on all vertices
     of the unique v-to-w path and 1 on the extra neighbors of v and w (not on the path).
     Then B(x,x) = 0, contradicting positive definiteness. -/
-private lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v w : Fin n)
     (hv : vertexDegree adj v = 3) (hw : vertexDegree adj w = 3) : v = w := by
   obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
