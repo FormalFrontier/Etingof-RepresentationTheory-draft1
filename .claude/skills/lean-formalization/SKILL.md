@@ -84,6 +84,23 @@ apply Sigma.hom_ext; intro b; rw [Sigma.ι_desc_assoc]; exact Projective.factorT
 lesson: when a Mathlib instance/lemma quietly uses full transparency, bypass it with an explicit
 term rather than fighting heartbeats.
 
+**When an inline proof over huge *concrete* terms times out heartbeats, lift the heavy structural
+argument into a standalone helper `def`/lemma whose hypotheses are the *abstract* objects.** Hit in
+#6767 (`Chapter8/ExternalTensorResolution.lean`): the degree-0 `quasiIso` goal assembled a cokernel
+of `(tensorObj (res₁Complex P₁) (res₂Complex P₂)).d 1 0` via `Cofork.IsColimit.mk` +
+`mapBifunctor.hom_ext` + `Cofork.IsColimit.π_desc`; inline these tactics run their `isDefEq`/`whnf`
+on the enormous restricted-external-tensor complexes and blow 200k heartbeats. **Fix:** extract
+`isColimitCokernelCofork_tensorObj_augmentation {C₁ C₂ : ChainComplex (ModuleCat k) ℕ} … : IsColimit
+(CokernelCofork.ofπ q _)` taking `C₁ C₂ q p₁ p₂` and the cofork/`ιTensorObj`-identity hypotheses as
+*variables* — the colimit bookkeeping now elaborates on symbols (fast), and the concrete call site
+is a single `exact`. (`IsColimit` is `Type`, not `Prop`, so the helper is a `noncomputable def`, not
+a `theorem`.) Two `Cofork` gotchas from that proof: `CokernelCofork.tensor c₁ c₂` is *definitionally*
+a `CokernelCofork.ofπ`, so a bare `rw [CokernelCofork.π_ofπ]` will collapse `Cofork.π (tensor …)` —
+rewrite it via your own `hππ : Cofork.π (tensor …) = p₁ ⊗ₘ p₂` *before* any `π_ofπ` fires; and
+`s.condition` on a `CokernelCofork s` resolves to the general `Cofork.condition` (`f ≫ π = 0 ≫ π`,
+leaving a `0 ≫ π`), so use `CokernelCofork.condition s` (`f ≫ π = 0`) instead. For a functor-category
+iso `α : F ≅ G`, the simp lemma for `(α.app X).hom` is `Iso.app_hom` (not `NatIso.app_hom`).
+
 **The Chapter 8 `Tor` rearrangement stack carries a *second* `Module k` action on the same
 carrier — restriction-through-`Aᵐᵒᵖ` vs `TensorProduct`-diagonal — that is defeq-*false*.** Hit in
 #6742 (`Chapter8/RearrangeBifunctorNatIso.lean`). `tensorRightFunctorₖ.obj` equips `tensorOver A N M`
