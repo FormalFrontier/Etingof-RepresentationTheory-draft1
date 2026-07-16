@@ -69,4 +69,59 @@ instance (X₁ : C₁) : ((postcompBifunctor F G).obj X₁).PreservesZeroMorphis
 
 end Instances
 
+section Iso
+
+open HomologicalComplex
+
+variable (K₁ : HomologicalComplex C₁ c₁) (K₂ : HomologicalComplex C₂ c₂)
+  (F : C₁ ⥤ C₂ ⥤ D) [F.PreservesZeroMorphisms] [∀ X₁, (F.obj X₁).PreservesZeroMorphisms]
+  (G : D ⥤ D') [G.Additive]
+  [HasMapBifunctor K₁ K₂ F c] [HasMapBifunctor K₁ K₂ (postcompBifunctor F G) c]
+  [∀ (n : J), Finite (ComplexShape.π c₁ c₂ c ⁻¹' {n} : Set (I₁ × I₂))]
+
+/-- The family of summands `(F.obj (K₁.X i₁)).obj (K₂.X i₂)` with `π (i₁, i₂) = j`, whose coproduct
+is degree `j` of `mapBifunctor K₁ K₂ F c`. -/
+abbrev postcompFam (j : J) : (ComplexShape.π c₁ c₂ c ⁻¹' {j} : Set (I₁ × I₂)) → D :=
+  (((F.mapBifunctorHomologicalComplex c₁ c₂).obj K₁).obj K₂).toGradedObject.mapObjFun
+    (ComplexShape.π c₁ c₂ c) j
+
+/-- The coproduct of the `G`-images of the summands exists: it is the corresponding degree of the
+postcomposed total complex. -/
+instance hasCoproduct_postcompFam (j : J) :
+    HasCoproduct (fun i => G.obj (postcompFam (c := c) K₁ K₂ F j i)) :=
+  (‹HasMapBifunctor K₁ K₂ (postcompBifunctor F G) c› : _) j
+
+/-- The degreewise isomorphism `G (∐ summands) ≅ ∐ (G summands)`: an additive functor commutes with
+the finite coproduct defining a degree of the total complex. -/
+noncomputable def postcompX (j : J) :
+    ((G.mapHomologicalComplex c).obj (mapBifunctor K₁ K₂ F c)).X j ≅
+      (mapBifunctor K₁ K₂ (postcompBifunctor F G) c).X j :=
+  PreservesCoproduct.iso G (postcompFam (c := c) K₁ K₂ F j)
+
+@[simp]
+lemma postcompX_inv (j : J) :
+    (postcompX (c := c) K₁ K₂ F G j).inv = Limits.sigmaComparison G (postcompFam (c := c) K₁ K₂ F j) :=
+  PreservesCoproduct.inv_hom G _
+
+/-- Summand compatibility (inverse form): the `j`-summand inclusion of the postcomposed total
+complex, followed by `(postcompX j).inv`, is `G` applied to the corresponding inclusion. -/
+@[reassoc]
+lemma ιMapBifunctor_postcomp_comp_postcompX_inv (i₁ : I₁) (i₂ : I₂) (j : J)
+    (h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j) :
+    ιMapBifunctor K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j h ≫ (postcompX (c := c) K₁ K₂ F G j).inv =
+      G.map (ιMapBifunctor K₁ K₂ F c i₁ i₂ j h) := by
+  rw [postcompX_inv]
+  exact Limits.ι_comp_sigmaComparison G (postcompFam (c := c) K₁ K₂ F j) ⟨(i₁, i₂), h⟩
+
+/-- Summand compatibility (forward form). -/
+@[reassoc]
+lemma ιMapBifunctor_comp_postcompX_hom (i₁ : I₁) (i₂ : I₂) (j : J)
+    (h : ComplexShape.π c₁ c₂ c (i₁, i₂) = j) :
+    G.map (ιMapBifunctor K₁ K₂ F c i₁ i₂ j h) ≫ (postcompX (c := c) K₁ K₂ F G j).hom =
+      ιMapBifunctor K₁ K₂ (postcompBifunctor F G) c i₁ i₂ j h := by
+  rw [← ιMapBifunctor_postcomp_comp_postcompX_inv K₁ K₂ F G i₁ i₂ j h, Category.assoc,
+    Iso.inv_hom_id, Category.comp_id]
+
+end Iso
+
 end Etingof
