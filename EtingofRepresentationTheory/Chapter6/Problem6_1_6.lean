@@ -1,5 +1,6 @@
 import Mathlib
 import EtingofRepresentationTheory.Chapter6.Problem6_1_3_continued_tildeE
+import EtingofRepresentationTheory.Chapter6.DimDvdCard
 import EtingofRepresentationTheory.Chapter4.Theorem4_2_1
 import EtingofRepresentationTheory.Chapter4.Discussion_4_4
 import EtingofRepresentationTheory.Chapter5.AbelianFDRep
@@ -1044,20 +1045,167 @@ lemma even_card_contains_negId {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} 
   rw [← hxval]
   exact x.property
 
+/-- **Eigenvalue character from reducibility.** If the tautological representation `V G`
+is *not* simple, then `G` carries a character `χ : G →* ℂˣ` reading off the eigenvalue on a
+`G`-invariant line, and `χ_V(g) = χ(g) + χ(g)⁻¹`.
+
+Reducibility gives a proper nonzero `G`-invariant subspace of `ℂ²`, necessarily a line
+`ℂ · v₀`; each `g` acts on it by a scalar `χ(g) ∈ ℂˣ` (multiplicative and nonzero because
+`ρ` is a representation into invertibles). Since `g ∈ SU(2)` has `det = 1`, the matrix `A` of
+`g` satisfies `det (A - χ(g)·I) = 0`, i.e. `χ(g)` is a root of `t² - χ_V(g)·t + 1`, giving
+`χ_V(g) = χ(g) + χ(g)⁻¹`. -/
+private lemma exists_eigen_character_of_not_simple
+    {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G] (hns : ¬ Simple (V G)) :
+    ∃ χ : G →* ℂˣ, ∀ g : G, (V G).character g = (χ g : ℂ) + ((χ g : ℂ))⁻¹ := by
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  -- `V G = FDRep.of (tautRep G)` reducible ⟹ its `ℂ[G]`-module is not simple.
+  have hnsm : ¬ IsSimpleModule (MonoidAlgebra ℂ G) (Representation.asModule (tautRep G)) := by
+    intro h
+    exact hns (by haveI := h; exact Etingof.simple_fdRepOf_of_isSimpleModule (tautRep G))
+  -- the module is nontrivial (`ℂ²`), so non-simplicity yields a proper nonzero submodule.
+  have hnt : Nontrivial (Representation.asModule (tautRep G)) := by
+    let e := Representation.asModuleEquiv (tautRep G)
+    refine ⟨e.symm 0, e.symm 1, fun h => ?_⟩
+    exact zero_ne_one (e.symm.injective h)
+  obtain ⟨N, hNb, hNt⟩ :
+      ∃ N : Submodule (MonoidAlgebra ℂ G) (Representation.asModule (tautRep G)),
+        N ≠ ⊥ ∧ N ≠ ⊤ := by
+    by_contra hcon
+    push_neg at hcon
+    haveI : Nontrivial (Representation.asModule (tautRep G)) := hnt
+    exact hnsm { eq_bot_or_eq_top := fun N => (em (N = ⊥)).imp id (hcon N) }
+  -- transport `N` to a `G`-invariant subspace `P` of `ℂ²`.
+  set S : Subrepresentation (tautRep G) := Subrepresentation.ofSubmodule' N with hS
+  set P : Submodule ℂ (Fin 2 → ℂ) := S.toSubmodule with hP
+  have hPbot : P ≠ ⊥ := by
+    obtain ⟨w, hwN, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hNb
+    intro hbot
+    have hwP : w ∈ P := (Subrepresentation.mem_ofSubmodule'_iff).mpr hwN
+    rw [hbot, Submodule.mem_bot] at hwP
+    exact hw0 hwP
+  obtain ⟨v₀, hv0P, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hPbot
+  have hPtop : P ≠ ⊤ := by
+    intro htop
+    apply hNt
+    rw [eq_top_iff]
+    intro u _
+    have huP : u ∈ P := by rw [htop]; exact Submodule.mem_top
+    exact (Subrepresentation.mem_ofSubmodule'_iff).mp huP
+  -- `P` is one-dimensional: proper (`≠ ⊤`) and nonzero (`v₀`) in the `2`-dimensional `ℂ²`.
+  have hspanle : Submodule.span ℂ {v₀} ≤ P := by
+    rw [Submodule.span_le, Set.singleton_subset_iff]; exact hv0P
+  have hfr2 : Module.finrank ℂ (Fin 2 → ℂ) = 2 := by
+    simp [Module.finrank_fintype_fun_eq_card]
+  have hfrspan : Module.finrank ℂ (Submodule.span ℂ {v₀}) = 1 := finrank_span_singleton hv0
+  have hfrP_lt : Module.finrank ℂ P < 2 := by
+    have h := Submodule.finrank_lt hPtop
+    rwa [hfr2] at h
+  have hPspan : Submodule.span ℂ {v₀} = P :=
+    Submodule.eq_of_le_of_finrank_le hspanle (by rw [hfrspan]; omega)
+  -- the eigenvalue of `g` on the line `ℂ · v₀`.
+  have heig : ∀ g : G, ∃ c : ℂ, (tautRep G) g v₀ = c • v₀ := by
+    intro g
+    have hmem : (tautRep G) g v₀ ∈ P := S.apply_mem_toSubmodule g hv0P
+    rw [← hPspan, Submodule.mem_span_singleton] at hmem
+    obtain ⟨c, hc⟩ := hmem
+    exact ⟨c, hc.symm⟩
+  -- scalars on the line are determined (as `v₀ ≠ 0`), so the eigenvalue is multiplicative.
+  have hscal : ∀ a b : ℂ, a • v₀ = b • v₀ → a = b := by
+    intro a b hab
+    have hz : (a - b) • v₀ = 0 := by rw [sub_smul, hab, sub_self]
+    rcases smul_eq_zero.mp hz with h | h
+    · exact sub_eq_zero.mp h
+    · exact absurd h hv0
+  set cf : G → ℂ := fun g => (heig g).choose with hcfdef
+  have hcf : ∀ g, (tautRep G) g v₀ = cf g • v₀ := fun g => (heig g).choose_spec
+  have hcf1 : cf 1 = 1 := by
+    have h := hcf 1
+    rw [map_one, Module.End.one_apply] at h
+    exact (hscal 1 (cf 1) (by rw [one_smul]; exact h)).symm
+  have hcfmul : ∀ g h : G, cf (g * h) = cf g * cf h := by
+    intro g h
+    have e2 : (tautRep G) (g * h) v₀ = (cf g * cf h) • v₀ := by
+      rw [map_mul, Module.End.mul_apply, hcf h, map_smul, hcf g, smul_smul, mul_comm]
+    exact hscal _ _ ((hcf (g * h)).symm.trans e2)
+  have hcfne : ∀ g : G, cf g ≠ 0 := by
+    intro g hg0
+    have h1 : cf g * cf g⁻¹ = cf 1 := by rw [← hcfmul, mul_inv_cancel]
+    rw [hg0, zero_mul, hcf1] at h1
+    exact one_ne_zero h1.symm
+  let χ : G →* ℂˣ :=
+    { toFun := fun g => Units.mk0 (cf g) (hcfne g)
+      map_one' := Units.ext (by simp [hcf1])
+      map_mul' := fun g h => Units.ext (by simp [hcfmul g h]) }
+  refine ⟨χ, fun g => ?_⟩
+  -- the eigenvalue reads off `χ_V(g) = χ(g) + χ(g)⁻¹` via `det = 1` on `SU(2)`.
+  set A : Matrix (Fin 2) (Fin 2) ℂ :=
+    ((g.val : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) with hA
+  have hgv : A *ᵥ v₀ = cf g • v₀ := by
+    have h := hcf g
+    rw [show (tautRep G) g = Matrix.toLin' A from rfl, Matrix.toLin'_apply] at h
+    exact h
+  have hker : (A - cf g • (1 : Matrix (Fin 2) (Fin 2) ℂ)) *ᵥ v₀ = 0 := by
+    rw [Matrix.sub_mulVec, hgv, Matrix.smul_mulVec, Matrix.one_mulVec, sub_self]
+  have hdet0 : (A - cf g • 1).det = 0 :=
+    Matrix.exists_mulVec_eq_zero_iff.mp ⟨v₀, hv0, hker⟩
+  have hdetA : A.det = 1 := (Matrix.mem_specialUnitaryGroup_iff.mp g.val.property).2
+  rw [Matrix.det_fin_two] at hdet0 hdetA
+  simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, Fin.isValue,
+    show ((0 : Fin 2) = 1) = False from by simp,
+    show ((1 : Fin 2) = 0) = False from by simp, if_true, if_false, smul_eq_mul, mul_one,
+    mul_zero, sub_zero] at hdet0
+  have key : cf g * (A 0 0 + A 1 1) = cf g * cf g + 1 := by linear_combination hdetA - hdet0
+  have hchar : (V G).character g = A 0 0 + A 1 1 := by
+    rw [charV_eq, hA, Matrix.trace_fin_two]
+  have hcval : ((χ g : ℂˣ) : ℂ) = cf g := rfl
+  rw [hchar, hcval]
+  have hcne : cf g ≠ 0 := hcfne g
+  field_simp
+  linear_combination key
+
 /-- **Crux (odd-order case).** A finite subgroup of `SU(2)` of odd order is cyclic.
 
-Route (self-contained, no `SO(3)` classification): `|G|` odd ⇒ `G` has no order-2
-element ⇒ the tautological `2`-dimensional representation `V` is reducible (an
-odd-order group has no even-dimensional irreducible — `2 ∤ |G|`), so `V ≅ χ ⊕ χ⁻¹`
-splits; the injective character `χ : G ↪ ℂˣ` (its kernel is trivial since `χ · χ⁻¹`
-is the faithful `V`) exhibits `G` as a finite subgroup of `ℂˣ`, hence cyclic by
-`isCyclic_of_injective_ringHom`.
-
-The reducibility step needs "the dimension of a complex irreducible representation
-divides the group order", which is **not yet in Mathlib**. Tracked as a sub-issue. -/
+Route (self-contained, no `SO(3)` classification): `|G|` odd ⇒ the tautological
+`2`-dimensional representation `V` is reducible (an odd-order group has no even-dimensional
+irreducible, since `dim ∣ |G|` — `finrank_dvd_card_of_irreducible` — would force `2 ∣ |G|`),
+so `V` splits off a `G`-invariant line. The eigenvalue character `χ : G → ℂˣ`
+(`exists_eigen_character_of_not_simple`) satisfies `χ_V(g) = χ(g) + χ(g)⁻¹`; when `χ(g) = 1`
+this gives `χ_V(g) = 2`, so `g = 1` by faithfulness (`taut_char_eq_two_imp_one`). Thus `χ`
+is injective and exhibits `G` as a finite subgroup of `ℂˣ`, hence cyclic by
+`isCyclic_of_injective_ringHom`. -/
 lemma isCyclic_of_odd_card {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G]
     (hodd : Odd (Nat.card G)) : IsCyclic G := by
-  sorry
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  -- `V G` is reducible: a `2`-dimensional irreducible would force `2 ∣ |G|`.
+  have hns : ¬ Simple (V G) := by
+    intro hS
+    haveI := hS
+    have hdvd : Module.finrank ℂ (V G) ∣ Fintype.card G := finrank_dvd_card_of_irreducible (V G)
+    have hfr : Module.finrank ℂ (V G) = 2 := by
+      have h1 : (Module.finrank ℂ (V G) : ℂ) = 2 := by
+        rw [← FDRep.char_one (V G), charV_eq]
+        have hone : (((1 : G).val : specialUnitaryGroup (Fin 2) ℂ) :
+            Matrix (Fin 2) (Fin 2) ℂ) = 1 := by simp
+        rw [hone, Matrix.trace_one]; simp
+      exact_mod_cast h1
+    rw [hfr] at hdvd
+    rw [Nat.card_eq_fintype_card] at hodd
+    obtain ⟨j, hj⟩ := hdvd
+    obtain ⟨t, ht⟩ := hodd
+    omega
+  -- read off the eigenvalue character and use faithfulness for injectivity.
+  obtain ⟨χ, hχ⟩ := exists_eigen_character_of_not_simple hns
+  have hinj : Function.Injective χ := by
+    rw [injective_iff_map_eq_one]
+    intro g hg
+    have h2 : (V G).character g = 2 := by
+      rw [hχ g, hg]; simp only [Units.val_one, inv_one]; norm_num
+    exact taut_char_eq_two_imp_one g h2
+  -- a finite subgroup of the units of the field `ℂ` is cyclic.
+  exact isCyclic_of_injective_ringHom ((Units.coeHom ℂ).comp χ)
+    (Units.val_injective.comp hinj)
 
 /-- **The cyclic-vs-`-Id` dichotomy** (Problem 4.12.8 (b), the ingredient the book's
 part-(c) hint invokes): a finite subgroup `G ⊂ SU(2)` is cyclic or contains `-Id`. -/
