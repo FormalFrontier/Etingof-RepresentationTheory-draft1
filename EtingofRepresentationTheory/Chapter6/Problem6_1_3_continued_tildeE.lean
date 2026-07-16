@@ -1349,6 +1349,36 @@ lemma affine_vertexDegree_le_four {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     rw [hBxx, hsplit]; linarith [hi_term, hrest]
   linarith [hpos x, hneg]
 
+/-- **Degree-4 dichotomy (tree case, step of `affine_dynkin_classification`).**
+For a connected affine Dynkin diagram `adj` on `Fin n`, **either** it is
+graph-isomorphic to the affine star `D̃₄` (`K_{1,4}`), **or** every vertex has
+degree `≤ 3`.
+
+The argument uses only the affine minimality lemma
+(`affine_properInduced_finiteDynkin`), so no separate acyclicity hypothesis is
+needed: if some vertex `v` has degree `4` (the maximum, by
+`affine_vertexDegree_le_four`), the star `{v} ∪ N(v)` on `5` vertices would be a
+*proper* connected induced subgraph whenever `n > 5`, hence a finite Dynkin
+diagram — impossible, since it has a degree-`4` vertex while every finite Dynkin
+diagram has all degrees `≤ 3` (`dynkin_degree_le_three`). So `n = 5`, and any
+edge between two neighbours of `v` would give a triangle (a proper connected
+induced subgraph that is not a tree, contradicting minimality via
+`isDynkinDiagram_isTree`); thus `adj` is exactly the `D̃₄` star. -/
+lemma affine_degree_four_dichotomy {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj) :
+    (∃ σ : Fin (AffineType.Dtilde 4 (by norm_num)).rank ≃ Fin n,
+        ∀ i j, adj (σ i) (σ j) = (AffineType.Dtilde 4 (by norm_num)).adj i j)
+    ∨ (∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3) := by
+  by_cases hex : ∃ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 4
+  · left
+    obtain ⟨v, hv4⟩ := hex
+    sorry
+  · right
+    intro v
+    have hle := affine_vertexDegree_le_four adj hD v
+    have hne : Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≠ 4 := fun h => hex ⟨v, h⟩
+    omega
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
