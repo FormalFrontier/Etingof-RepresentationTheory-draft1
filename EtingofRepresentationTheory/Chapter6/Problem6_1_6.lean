@@ -956,6 +956,118 @@ lemma charV_negId (z : G)
   simp only [Matrix.neg_apply, Matrix.one_apply_eq]
   norm_num
 
+/-! ### The cyclic-vs-`-Id` dichotomy for finite subgroups of `SU(2)`
+
+The book's part-(c) argument (Problem 4.12.8 material) rests on: a finite subgroup
+`G ⊂ SU(2)` is either cyclic or contains the central `-Id`. The elementary route:
+
+* `-Id` is the **unique** order-2 element of `SU(2)` (`eq_negIdSU_of_sq_eq_one`): via
+  Cayley–Hamilton, `g² = 1` with `det g = 1` forces `(tr g) • g = 2 • 1`, so `tr g = ±2`
+  and `g = ±Id`.
+* If `|G|` is **even**, Cauchy gives an order-2 element, which must be `-Id`
+  (`even_card_contains_negId`).
+* If `|G|` is **odd**, `G` is cyclic (`isCyclic_of_odd_card`, the hard half). -/
+
+open Matrix in
+/-- The **unique order-2 element** of `SU(2)` is `-Id`: any `g ∈ SU(2)` with `g² = 1`
+and `g ≠ 1` equals `negIdSU`. Proof by Cayley–Hamilton on the `2 × 2` matrix `A = g`:
+with `det A = 1` and `A * A = 1` the identity `A * A = (tr A) • A - (det A) • 1`
+gives `(tr A) • A = 2 • 1`; taking determinants forces `(tr A)² = 4`, so `tr A = ±2`
+and correspondingly `A = 1` (excluded) or `A = -1`. -/
+lemma eq_negIdSU_of_sq_eq_one {g : specialUnitaryGroup (Fin 2) ℂ}
+    (hsq : g ^ 2 = 1) (hne : g ≠ 1) : g = negIdSU := by
+  set A : Matrix (Fin 2) (Fin 2) ℂ := (g : Matrix (Fin 2) (Fin 2) ℂ) with hAdef
+  have hdet : A.det = 1 := (Matrix.mem_specialUnitaryGroup_iff.mp g.property).2
+  -- `A * A = 1` from `g² = 1`.
+  have hAA : A * A = 1 := by
+    have h1 : ((g ^ 2 : specialUnitaryGroup (Fin 2) ℂ) : Matrix (Fin 2) (Fin 2) ℂ) = 1 := by
+      rw [hsq]; rfl
+    rw [pow_two, Submonoid.coe_mul] at h1
+    exact h1
+  -- Cayley–Hamilton for `2 × 2`: `A * A = (tr A) • A - (det A) • 1`.
+  have hCH : A * A = A.trace • A - A.det • (1 : Matrix (Fin 2) (Fin 2) ℂ) := by
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.sub_apply, Matrix.smul_apply,
+        Matrix.trace_fin_two, Matrix.det_fin_two, Matrix.one_apply, smul_eq_mul] <;> ring
+  -- Hence `(tr A) • A = 2 • 1`.
+  have hT : A.trace • A = (2 : ℂ) • (1 : Matrix (Fin 2) (Fin 2) ℂ) := by
+    have h := hCH
+    rw [hAA, hdet, one_smul] at h
+    -- `h : 1 = A.trace • A - 1`
+    linear_combination (norm := module) -h
+  -- Determinant of `hT`: `(tr A)² = 4`.
+  have hdisc : A.trace ^ 2 = 4 := by
+    have hd := congrArg Matrix.det hT
+    rw [Matrix.det_smul, Matrix.det_smul, Fintype.card_fin, hdet, Matrix.det_one] at hd
+    linear_combination hd
+  -- So `tr A = 2` or `tr A = -2`.
+  have hpm : A.trace = 2 ∨ A.trace = -2 := by
+    have hfac : (A.trace - 2) * (A.trace + 2) = 0 := by linear_combination hdisc
+    rcases mul_eq_zero.mp hfac with h | h
+    · exact Or.inl (by linear_combination h)
+    · exact Or.inr (by linear_combination h)
+  -- `A = -1`, then `g = negIdSU`.
+  have hAeq : A = -1 := by
+    rcases hpm with h2 | h2
+    · -- `tr A = 2` ⇒ `A = 1` ⇒ `g = 1`, contradicting `hne`.
+      rw [h2] at hT
+      have hA1 : A = 1 := (smul_right_inj (two_ne_zero)).mp hT
+      exact absurd (Subtype.ext (show (g : Matrix (Fin 2) (Fin 2) ℂ) = 1 by
+        rw [← hAdef, hA1])) hne
+    · -- `tr A = -2` ⇒ `A = -1`.
+      rw [h2] at hT
+      have hne2 : (-2 : ℂ) ≠ 0 := by norm_num
+      have hgoal : (-2 : ℂ) • A = (-2 : ℂ) • (-1 : Matrix (Fin 2) (Fin 2) ℂ) := by
+        rw [hT]; module
+      exact (smul_right_inj hne2).mp hgoal
+  exact Subtype.ext (by rw [← hAdef, hAeq, negIdSU_coe])
+
+/-- If `|G|` is **even**, the central `-Id ∈ SU(2)` lies in `G`: Cauchy provides an
+order-2 element, which is `-Id` by `eq_negIdSU_of_sq_eq_one`. -/
+lemma even_card_contains_negId {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G]
+    (hev : Even (Nat.card G)) : negIdSU ∈ G := by
+  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hdvd : 2 ∣ Nat.card G := hev.two_dvd
+  obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := G) 2 hdvd
+  -- `x : ↥G` has order 2: `x² = 1`, `x ≠ 1`.
+  have hxsq : x ^ 2 = 1 := by have h := pow_orderOf_eq_one x; rwa [hx] at h
+  have hxne : x ≠ 1 := by
+    intro h; rw [h, orderOf_one] at hx; norm_num at hx
+  -- Push to the matrix group.
+  have hvalsq : (x : specialUnitaryGroup (Fin 2) ℂ) ^ 2 = 1 := by
+    rw [← Subgroup.coe_pow, hxsq, Subgroup.coe_one]
+  have hvalne : (x : specialUnitaryGroup (Fin 2) ℂ) ≠ 1 := by
+    intro h; exact hxne (Subtype.ext h)
+  have hxval : (x : specialUnitaryGroup (Fin 2) ℂ) = negIdSU :=
+    eq_negIdSU_of_sq_eq_one hvalsq hvalne
+  rw [← hxval]
+  exact x.property
+
+/-- **Crux (odd-order case).** A finite subgroup of `SU(2)` of odd order is cyclic.
+
+Route (self-contained, no `SO(3)` classification): `|G|` odd ⇒ `G` has no order-2
+element ⇒ the tautological `2`-dimensional representation `V` is reducible (an
+odd-order group has no even-dimensional irreducible — `2 ∤ |G|`), so `V ≅ χ ⊕ χ⁻¹`
+splits; the injective character `χ : G ↪ ℂˣ` (its kernel is trivial since `χ · χ⁻¹`
+is the faithful `V`) exhibits `G` as a finite subgroup of `ℂˣ`, hence cyclic by
+`isCyclic_of_injective_ringHom`.
+
+The reducibility step needs "the dimension of a complex irreducible representation
+divides the group order", which is **not yet in Mathlib**. Tracked as a sub-issue. -/
+lemma isCyclic_of_odd_card {G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)} [Finite G]
+    (hodd : Odd (Nat.card G)) : IsCyclic G := by
+  sorry
+
+/-- **The cyclic-vs-`-Id` dichotomy** (Problem 4.12.8 (b), the ingredient the book's
+part-(c) hint invokes): a finite subgroup `G ⊂ SU(2)` is cyclic or contains `-Id`. -/
+theorem su2_finite_cyclic_or_contains_negId
+    (G : Subgroup (specialUnitaryGroup (Fin 2) ℂ)) [Finite G] :
+    IsCyclic G ∨ (negIdSU ∈ G) := by
+  rcases Nat.even_or_odd (Nat.card G) with hev | hodd
+  · exact Or.inr (even_card_contains_negId hev)
+  · exact Or.inl (isCyclic_of_odd_card hodd)
+
 /-! ### Schur scalar helper and the non-cyclic case of no self-loops
 
 The book's part-(c) argument for `rᵢᵢ = 0` in the **non-cyclic** case uses the central
