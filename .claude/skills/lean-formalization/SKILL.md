@@ -459,6 +459,10 @@ Multiple files define `private abbrev GL2 = ...` / `private abbrev GL2' = ...` f
 - Use `change` instead of `show` when the target uses a different abbreviation
 - For sorry'd lemmas that need `[Fintype F] [DecidableEq F]` instances (needed by callers and the sorry body): wrap in a `section` with `set_option linter.unusedFintypeInType false` / `set_option linter.unusedDecidableInType false`. The `set_option ... in` syntax doesn't work before `private`.
 
+### Greek-capital notation chars (`Π`, `Σ`, `λ`) can't be identifiers
+
+Greek *lowercase* (`σ`, `τ`, `π`) work fine as identifiers, but the capitals `Π`/`Σ` are reserved notation (Pi/Sigma types), so `set Π := …`, `let Σ := …`, or even embedding them in a name like `hΠ`/`hΣ` fails to tokenize (`unexpected token 'Π'; expected '_' or identifier`, sometimes cascading into confusing downstream parse errors). Use ASCII names for permutation/projection matrices etc. (`PL`, `PR`, `permMat`), and `hperm…` not `hΠ`. Cost two build cycles in #6807.
+
 ### `open MvPolynomial` inside `namespace Etingof` opens the wrong namespace
 
 Several Ch5 files declare `namespace MvPolynomial` *inside* `namespace Etingof`
