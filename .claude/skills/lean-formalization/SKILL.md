@@ -66,6 +66,17 @@ instead of `rw`. For subalgebra/subtype coercions specifically, the `Subalgebra.
 /`coe_zero` lemmas are `rfl`, so `rw` on them is brittle — prefer `Subtype.ext (R-level eq)` to
 prove a `↥S`-level equation and `congrArg S.val (↥S-level eq)` to prove an `R`-level one.
 
+**Cast lifted out of a `Multiset`/`Finset` map inside a hypothesis.** A statement summand like
+`(m.map (fun x => 1 - (x : ℚ)⁻¹)).sum` (with `m : Multiset ℕ`) elaborates with the coercion
+lifted OFF the function and ONTO `m`: the hypothesis becomes
+`(Multiset.map (fun x : ℚ => 1 - x⁻¹) (Nat.cast <$> m)).sum` — a `do`-block / `<$>` over `m`
+coerced to `Multiset ℚ`. A cleanly-defined `f : ℕ → ℚ := fun x => 1 - (x:ℚ)⁻¹` then does NOT
+match, so `rw [← heq]` reports "did not find pattern". Bridge it once at the top with
+`simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def] at heq`
+(this rewrites `x >>= pure ∘ ↑` → `↑ <$> m` → `m.map ↑` → `m.map (g ∘ ↑)`), after which the
+hypothesis is `(m.map (fun a => 1 - (↑a)⁻¹)).sum` and folds to your `f`. Do this before building
+any per-element case analysis on the sum.
+
 **When composing a chain of `LinearEquiv`s between principal ideals, parametrize each generic
 equiv by the *boundary submodule* plus a `hp : p = Submodule.span R {w}` proof — don't lean on
 defeq between a named ideal (`SpechtModule`, `rowColIdeal`) and its `Submodule.span` unfolding.**
