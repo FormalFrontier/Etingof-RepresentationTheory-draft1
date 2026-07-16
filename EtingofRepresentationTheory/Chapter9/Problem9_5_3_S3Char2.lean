@@ -272,13 +272,6 @@ theorem stdMod_isSimpleModule : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).
     · exact topOfIndep _ (hinv _ w hw_mem) hτ'
   · exact topOfIndep _ (hinv _ w hw_mem) hτ
 
-/-- **Exactly two simples.** `S₃` has two `2`-regular classes (`{e}` and `{(123),(132)}`), so over
-a splitting field of characteristic `2` there are exactly two isomorphism classes of simple
-`k[S₃]`-modules: the trivial one and the standard one, and every simple is one of these. -/
-theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
-    (hS : IsSimpleModule (MonoidAlgebra k S3) S) :
-    Nonempty (S ≅ trivMod k) ∨ Nonempty (S ≅ stdMod k) := by
-  sorry
 
 /-! ## Block separation via the `3`-cycle class sum
 
@@ -394,6 +387,310 @@ theorem not_areLinked_triv_std :
   haveI : Nontrivial (trivMod k : Type) := inferInstanceAs (Nontrivial k)
   obtain ⟨x, hx⟩ := exists_ne (0 : (trivMod k : Type))
   exact hx ((htriv x).symm.trans (eStd_smul_triv k x))
+
+/-- The transposition `(0 1)` of `S₃`, generating `S₃` together with the `3`-cycle `thc`. -/
+def tsw : S3 := Equiv.swap 0 1
+
+omit [CharP k 2] in
+/-- **Schur-style transfer.** A nonzero `k`-linear map `f₀ : V → S` that intertwines the `S₃`-action
+of the two generators `thc` and `tsw` is automatically `k[S₃]`-linear (the intertwining property
+propagates from generators to all of `S₃`), hence an isomorphism between the simple modules `V`
+and `S`. This packages the "build a nonzero intertwiner, invoke Schur" step used for both the
+trivial and standard cases below. -/
+private lemma nonempty_iso_of_genEquivariant
+    {V : Type} [AddCommGroup V] [Module k V]
+    [Module (MonoidAlgebra k S3) V] [IsScalarTower k (MonoidAlgebra k S3) V]
+    [IsSimpleModule (MonoidAlgebra k S3) V]
+    {S : ModuleCat.{0} (MonoidAlgebra k S3)}
+    [IsSimpleModule (MonoidAlgebra k S3) (S : Type)]
+    [Module k (S : Type)] [IsScalarTower k (MonoidAlgebra k S3) (S : Type)]
+    (f₀ : V →ₗ[k] (S : Type)) (hne : f₀ ≠ 0)
+    (hc : ∀ x : V, f₀ (MonoidAlgebra.single thc (1 : k) • x)
+        = MonoidAlgebra.single thc (1 : k) • f₀ x)
+    (ht : ∀ x : V, f₀ (MonoidAlgebra.single (tsw) (1 : k) • x)
+        = MonoidAlgebra.single (tsw) (1 : k) • f₀ x) :
+    Nonempty (S ≅ ModuleCat.of (MonoidAlgebra k S3) V) := by
+  classical
+  -- Equivariance under a single group element `g`.
+  set Q : S3 → Prop := fun g => ∀ x : V,
+    f₀ (MonoidAlgebra.single g (1 : k) • x) = MonoidAlgebra.single g (1 : k) • f₀ x with hQ
+  have Qone : Q 1 := by
+    intro x; simp only [← MonoidAlgebra.one_def, one_smul]
+  have Qmul : ∀ g h : S3, Q g → Q h → Q (g * h) := by
+    intro g h Qg Qh x
+    have hsplit : MonoidAlgebra.single (g * h) (1 : k)
+        = MonoidAlgebra.single g (1 : k) * MonoidAlgebra.single h 1 := by
+      rw [MonoidAlgebra.single_mul_single, mul_one]
+    rw [hsplit, mul_smul, Qg (MonoidAlgebra.single h (1 : k) • x), Qh x, ← mul_smul]
+  have Qsq : Q (thc ^ 2) := by
+    have := Qmul thc thc hc hc
+    rwa [show thc * thc = thc ^ 2 from by decide] at this
+  have Qall : ∀ g : S3, Q g := by
+    have henum : ∀ g : S3, g = 1 ∨ g = thc ∨ g = thc ^ 2 ∨ g = tsw ∨
+        g = thc * tsw ∨ g = thc ^ 2 * tsw := by decide
+    intro g
+    rcases henum g with h | h | h | h | h | h <;> subst h
+    · exact Qone
+    · exact hc
+    · exact Qsq
+    · exact ht
+    · exact Qmul thc tsw hc ht
+    · exact Qmul (thc ^ 2) tsw Qsq ht
+  -- Promote the `k`-linear intertwiner to a `k[S₃]`-linear map.
+  let F : V →ₗ[MonoidAlgebra k S3] (S : Type) :=
+    { toFun := f₀
+      map_add' := f₀.map_add
+      map_smul' := by
+        intro r x
+        induction r using MonoidAlgebra.induction_on with
+        | hM g => simpa [MonoidAlgebra.of_apply] using Qall g x
+        | hadd a b ha hb =>
+            simp only [add_smul, map_add, RingHom.id_apply] at ha hb ⊢
+            rw [ha, hb]
+        | hsmul c a ha =>
+            simp only [RingHom.id_apply] at ha ⊢
+            rw [smul_assoc, map_smul, ha, smul_assoc] }
+  have hFapp : ∀ x, F x = f₀ x := fun _ => rfl
+  have hFne : F ≠ 0 := by
+    intro h; apply hne; ext x
+    have := LinearMap.congr_fun h x
+    rwa [hFapp, LinearMap.zero_apply] at this
+  have hbij := LinearMap.bijective_of_ne_zero (M := V) (N := (S : Type)) hFne
+  exact ⟨((LinearEquiv.ofBijective F hbij).toModuleIso).symm⟩
+
+/-- **Exactly two simples.** `S₃` has two `2`-regular classes (`{e}` and `{(123),(132)}`), so over
+a splitting field of characteristic `2` there are exactly two isomorphism classes of simple
+`k[S₃]`-modules: the trivial one and the standard one, and every simple is one of these.
+
+The proof is elementary. The class sum `e = (123) + (132)` is a central idempotent, so by Schur it
+acts on the simple `S` as `0` or as the identity. If `e` acts as `0`, the `3`-cycle acts trivially
+and a `tsw`-fixed vector generates a trivial line, giving `S ≅ trivMod`. If `e` acts as the
+identity, then `c² + c + 1 = 0` on `S`; a nonzero `tsw`-fixed vector `u` yields the intertwiner
+`![1,1,0] ↦ u`, `![0,1,1] ↦ c·u`, giving `S ≅ stdMod`. -/
+theorem simple_iff_triv_or_std (S : ModuleCat.{0} (MonoidAlgebra k S3))
+    (hS : IsSimpleModule (MonoidAlgebra k S3) S) :
+    Nonempty (S ≅ trivMod k) ∨ Nonempty (S ≅ stdMod k) := by
+  classical
+  haveI := hS
+  haveI : Nontrivial (S : Type) := IsSimpleModule.nontrivial (MonoidAlgebra k S3) (S : Type)
+  -- Equip the carrier of `S` with the restricted `k`-module structure.
+  letI : Module k (S : Type) :=
+    Module.compHom (S : Type) (algebraMap k (MonoidAlgebra k S3))
+  haveI htower : IsScalarTower k (MonoidAlgebra k S3) (S : Type) := by
+    refine ⟨fun c a m => ?_⟩
+    have hc : (c • a) • m = (algebraMap k (MonoidAlgebra k S3) c * a) • m := by
+      rw [Algebra.smul_def]
+    rw [hc, mul_smul]; rfl
+  haveI hcomm : SMulCommClass k (MonoidAlgebra k S3) (S : Type) := by
+    refine ⟨fun c a m => ?_⟩
+    have h1 : (c • a • m : (S : Type)) = (algebraMap k (MonoidAlgebra k S3) c) • a • m := rfl
+    have h2 : (c • m : (S : Type)) = (algebraMap k (MonoidAlgebra k S3) c) • m := rfl
+    rw [h1, h2, smul_smul, smul_smul, Algebra.commutes]
+  -- Characteristic two on the carrier.
+  have hchar2S : ∀ x : (S : Type), x + x = 0 := by
+    intro x
+    have h2 : (2 : k) • x = x + x := two_smul k x
+    rw [← h2, show (2 : k) = 0 from by exact_mod_cast CharP.cast_eq_zero k 2, zero_smul]
+  -- `tsw` acts as an involution, so it has a nonzero fixed vector.
+  have hTr2 : ∀ m : (S : Type),
+      MonoidAlgebra.single tsw (1 : k) • (MonoidAlgebra.single tsw (1 : k) • m) = m := by
+    intro m
+    rw [smul_smul, MonoidAlgebra.single_mul_single, mul_one, show tsw * tsw = 1 from by decide,
+      ← MonoidAlgebra.one_def, one_smul]
+  have smul_single : ∀ a b : S3,
+      MonoidAlgebra.single a (1 : k) * MonoidAlgebra.single b 1
+        = MonoidAlgebra.single (a * b) 1 := by
+    intro a b; rw [MonoidAlgebra.single_mul_single, mul_one]
+  obtain ⟨w, hw⟩ := exists_ne (0 : (S : Type))
+  obtain ⟨u, hu_ne, hTu⟩ : ∃ u : (S : Type), u ≠ 0 ∧ MonoidAlgebra.single tsw (1 : k) • u = u := by
+    by_cases hwfix : MonoidAlgebra.single tsw (1 : k) • w = w
+    · exact ⟨w, hw, hwfix⟩
+    · refine ⟨w + MonoidAlgebra.single tsw (1 : k) • w, ?_, ?_⟩
+      · intro h
+        apply hwfix
+        have h1 : -w = MonoidAlgebra.single tsw (1 : k) • w := add_eq_zero_iff_neg_eq.mp h
+        have h2 : -w = w := neg_eq_of_add_eq_zero_left (hchar2S w)
+        exact h1.symm.trans h2
+      · rw [smul_add, hTr2 w]; abel
+  -- The central idempotent `e = (123)+(132)` acts as `0` or as the identity (Schur).
+  rcases centralIdempotent_smul_simple (MonoidAlgebra k S3) (M := (S : Type))
+      (eStd_isIdempotent k) (eStd_central k) with h0 | h1
+  · -- `e` acts as `0`: the trivial module.
+    left
+    -- The `3`-cycle acts as the identity.
+    have hCall : ∀ m : (S : Type), MonoidAlgebra.single thc (1 : k) • m = m := by
+      intro m
+      have hN : (1 + eStd k) • m = m := by
+        rw [add_smul, one_smul, h0 m, add_zero]
+      have e1 : MonoidAlgebra.single thc (1 : k) * MonoidAlgebra.single thc (1 : k)
+          = MonoidAlgebra.single (thc ^ 2) 1 := by
+        rw [MonoidAlgebra.single_mul_single, mul_one, show thc * thc = thc ^ 2 from by decide]
+      have e2 : MonoidAlgebra.single thc (1 : k) * MonoidAlgebra.single (thc ^ 2) (1 : k) = 1 := by
+        rw [MonoidAlgebra.single_mul_single, mul_one, show thc * thc ^ 2 = 1 from by decide,
+          ← MonoidAlgebra.one_def]
+      have hCN : MonoidAlgebra.single thc (1 : k) * (1 + eStd k) = 1 + eStd k := by
+        rw [eStd, mul_add, mul_add, mul_one, e1, e2]; abel
+      calc MonoidAlgebra.single thc (1 : k) • m
+            = MonoidAlgebra.single thc (1 : k) • ((1 + eStd k) • m) := by rw [hN]
+        _ = (MonoidAlgebra.single thc (1 : k) * (1 + eStd k)) • m := by rw [mul_smul]
+        _ = (1 + eStd k) • m := by rw [hCN]
+        _ = m := hN
+    have hCu : MonoidAlgebra.single thc (1 : k) • u = u := hCall u
+    -- Intertwiner `trivMod → S`, `t ↦ t • u`.
+    haveI : IsSimpleModule (MonoidAlgebra k S3) (trivRepr k).asModule :=
+      trivMod_isSimpleModule k
+    let f₀ : (trivRepr k).asModule →ₗ[k] (S : Type) :=
+      (LinearMap.toSpanSingleton k (S : Type) u).comp (trivRepr k).asModuleEquiv.toLinearMap
+    have hf₀ : ∀ x, f₀ x = ((trivRepr k).asModuleEquiv x) • u := fun _ => rfl
+    have hgen : ∀ (g : S3), MonoidAlgebra.single g (1 : k) • u = u := by
+      have henum : ∀ g : S3, g = 1 ∨ g = thc ∨ g = thc ^ 2 ∨ g = tsw ∨
+          g = thc * tsw ∨ g = thc ^ 2 * tsw := by decide
+      have hCu2 : MonoidAlgebra.single (thc ^ 2) (1 : k) • u = u := by
+        rw [show (thc : S3) ^ 2 = thc * thc from by decide, ← smul_single, mul_smul, hCu, hCu]
+      intro g
+      rcases henum g with h | h | h | h | h | h <;> subst h
+      · rw [← MonoidAlgebra.one_def, one_smul]
+      · exact hCu
+      · exact hCu2
+      · exact hTu
+      · rw [← smul_single thc tsw, mul_smul, hTu, hCu]
+      · rw [← smul_single (thc ^ 2) tsw, mul_smul, hTu, hCu2]
+    have hequiv : ∀ (g : S3) (x : (trivRepr k).asModule),
+        f₀ (MonoidAlgebra.single g (1 : k) • x)
+        = MonoidAlgebra.single g (1 : k) • f₀ x := by
+      intro g x
+      rw [hf₀, hf₀, Representation.single_smul, trivRepr, Representation.trivial_apply, one_smul,
+        smul_comm]
+      congr 1
+      rw [hgen g]
+    have hne : f₀ ≠ 0 := by
+      intro h
+      apply hu_ne
+      have hval := LinearMap.congr_fun h ((trivRepr k).asModuleEquiv.symm 1)
+      rw [hf₀, LinearMap.zero_apply, LinearEquiv.apply_symm_apply, one_smul] at hval
+      exact hval
+    have hiso := nonempty_iso_of_genEquivariant k f₀ hne (hequiv thc) (hequiv tsw)
+    exact ⟨hiso.some⟩
+  · -- `e` acts as the identity: the standard module.
+    right
+    -- `c² • u = u + c • u` from `(c + c²) • u = u`.
+    -- `c² • u = u + c • u`, in single- and double-smul form.
+    have hCC : MonoidAlgebra.single thc (1 : k) • (MonoidAlgebra.single thc (1 : k) • u)
+        = MonoidAlgebra.single (thc ^ 2) (1 : k) • u := by
+      rw [smul_smul, MonoidAlgebra.single_mul_single, mul_one,
+        show thc * thc = thc ^ 2 from by decide]
+    have hCsq2 : MonoidAlgebra.single (thc ^ 2) (1 : k) • u
+        = u + MonoidAlgebra.single thc (1 : k) • u := by
+      have hE : (MonoidAlgebra.single thc (1 : k) + MonoidAlgebra.single (thc ^ 2) (1 : k)) • u
+          = u := by have := h1 u; rwa [eStd] at this
+      have hsum : MonoidAlgebra.single thc (1 : k) • u
+          + MonoidAlgebra.single (thc ^ 2) (1 : k) • u = u := by rw [← add_smul]; exact hE
+      have hstep : (MonoidAlgebra.single thc (1 : k) • u
+          + MonoidAlgebra.single (thc ^ 2) (1 : k) • u)
+          + MonoidAlgebra.single thc (1 : k) • u = MonoidAlgebra.single (thc ^ 2) (1 : k) • u := by
+        rw [add_right_comm, hchar2S, zero_add]
+      rw [hsum] at hstep
+      exact hstep.symm
+    have hCsq : MonoidAlgebra.single thc (1 : k) • (MonoidAlgebra.single thc (1 : k) • u)
+        = u + MonoidAlgebra.single thc (1 : k) • u := hCC.trans hCsq2
+    have hTC : MonoidAlgebra.single tsw (1 : k) • (MonoidAlgebra.single thc (1 : k) • u)
+        = u + MonoidAlgebra.single thc (1 : k) • u := by
+      rw [smul_smul, smul_single tsw thc, show tsw * thc = thc ^ 2 * tsw from by decide,
+        ← smul_single (thc ^ 2) tsw, mul_smul, hTu, hCsq2]
+    haveI : IsSimpleModule (MonoidAlgebra k S3) (stdRepr k).asModule :=
+      stdMod_isSimpleModule k
+    -- Intertwiner `stdMod → S` on the sum-zero coordinates `(v 0, v 2)`.
+    let g₀ : ↥(stdSubr k).toSubmodule →ₗ[k] (S : Type) :=
+      { toFun := fun v => ((v : Fin 3 → k) 0) • u + ((v : Fin 3 → k) 2)
+          • (MonoidAlgebra.single thc (1 : k) • u)
+        map_add' := by
+          intro v w
+          simp only [Submodule.coe_add, Pi.add_apply, add_smul]
+          abel
+        map_smul' := by
+          intro c v
+          simp only [SetLike.val_smul, Pi.smul_apply, smul_eq_mul, mul_smul, RingHom.id_apply,
+            smul_add] }
+    let f₀ : (stdRepr k).asModule →ₗ[k] (S : Type) :=
+      g₀.comp (stdRepr k).asModuleEquiv.toLinearMap
+    have hf₀ : ∀ x, f₀ x = (((stdRepr k).asModuleEquiv x : Fin 3 → k) 0) • u
+        + (((stdRepr k).asModuleEquiv x : Fin 3 → k) 2) • (MonoidAlgebra.single thc (1 : k) • u) :=
+      fun _ => rfl
+    -- Coordinate description of the group action.
+    have coord : ∀ (g : S3) (v : ↥(stdSubr k).toSubmodule) (i : Fin 3),
+        ((stdRepr k g v : ↥(stdSubr k).toSubmodule) : Fin 3 → k) i = (v : Fin 3 → k) (g⁻¹ i) := by
+      intro g v i; rw [stdRepr_val, permRepr_apply]
+    have hc : ∀ x : (stdRepr k).asModule,
+        f₀ (MonoidAlgebra.single thc (1 : k) • x)
+        = MonoidAlgebra.single thc (1 : k) • f₀ x := by
+      intro x
+      set v : ↥(stdSubr k).toSubmodule := (stdRepr k).asModuleEquiv x with hv
+      have hvsum : (v : Fin 3 → k) 0 + (v : Fin 3 → k) 1 + (v : Fin 3 → k) 2 = 0 := by
+        have hm := v.2
+        simpa only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three] using hm
+      rw [hf₀, hf₀]
+      have hEq : ((stdRepr k).asModuleEquiv (MonoidAlgebra.single thc (1 : k) • x))
+          = stdRepr k thc v := by
+        rw [(stdRepr k).asModuleEquiv_map_smul, Representation.asAlgebraHom_single_one, ← hv]
+      rw [hEq]
+      -- underlying-coordinate values under `c`
+      have c0 : ((stdRepr k thc v : ↥(stdSubr k).toSubmodule) : Fin 3 → k) 0
+          = (v : Fin 3 → k) 2 := by
+        rw [coord]; norm_num [show (thc : S3)⁻¹ 0 = 2 from by decide]
+      have c2 : ((stdRepr k thc v : ↥(stdSubr k).toSubmodule) : Fin 3 → k) 2
+          = (v : Fin 3 → k) 1 := by
+        rw [coord]; norm_num [show (thc : S3)⁻¹ 2 = 1 from by decide]
+      rw [c0, c2, smul_add, smul_comm (MonoidAlgebra.single thc (1 : k)) ((v : Fin 3 → k) 0),
+        smul_comm (MonoidAlgebra.single thc (1 : k)) ((v : Fin 3 → k) 2), hCsq]
+      -- RHS = (v0) • (c•u) + (v2) • (u + c•u); LHS = (v2)•u + (v1)•(c•u)
+      have hv1 : (v : Fin 3 → k) 1 = (v : Fin 3 → k) 0 + (v : Fin 3 → k) 2 := by
+        have : (v : Fin 3 → k) 0 + (v : Fin 3 → k) 1 + (v : Fin 3 → k) 2 = 0 := hvsum
+        have h2 : (2 : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k 2
+        linear_combination this - ((v : Fin 3 → k) 0 + (v : Fin 3 → k) 2) * h2
+      rw [hv1, smul_add, add_smul]
+      abel
+    have ht : ∀ x : (stdRepr k).asModule,
+        f₀ (MonoidAlgebra.single tsw (1 : k) • x)
+        = MonoidAlgebra.single tsw (1 : k) • f₀ x := by
+      intro x
+      set v : ↥(stdSubr k).toSubmodule := (stdRepr k).asModuleEquiv x with hv
+      have hvsum : (v : Fin 3 → k) 0 + (v : Fin 3 → k) 1 + (v : Fin 3 → k) 2 = 0 := by
+        have hm := v.2
+        simpa only [stdSubr, LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three] using hm
+      rw [hf₀, hf₀]
+      have hEq : ((stdRepr k).asModuleEquiv (MonoidAlgebra.single tsw (1 : k) • x))
+          = stdRepr k tsw v := by
+        rw [(stdRepr k).asModuleEquiv_map_smul, Representation.asAlgebraHom_single_one, ← hv]
+      rw [hEq]
+      have t0 : ((stdRepr k tsw v : ↥(stdSubr k).toSubmodule) : Fin 3 → k) 0
+          = (v : Fin 3 → k) 1 := by
+        rw [coord]; norm_num [show (tsw : S3)⁻¹ 0 = 1 from by decide]
+      have t2 : ((stdRepr k tsw v : ↥(stdSubr k).toSubmodule) : Fin 3 → k) 2
+          = (v : Fin 3 → k) 2 := by
+        rw [coord]; norm_num [show (tsw : S3)⁻¹ 2 = 2 from by decide]
+      rw [t0, t2, smul_add, smul_comm (MonoidAlgebra.single tsw (1 : k)) ((v : Fin 3 → k) 0),
+        smul_comm (MonoidAlgebra.single tsw (1 : k)) ((v : Fin 3 → k) 2), hTu, hTC]
+      have hv1 : (v : Fin 3 → k) 1 = (v : Fin 3 → k) 0 + (v : Fin 3 → k) 2 := by
+        have h2 : (2 : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k 2
+        linear_combination hvsum - ((v : Fin 3 → k) 0 + (v : Fin 3 → k) 2) * h2
+      rw [hv1, add_smul, smul_add]
+      abel
+    have hne : f₀ ≠ 0 := by
+      intro h
+      apply hu_ne
+      -- evaluate at `![1,1,0]`, a sum-zero vector with coord 0 = 1, coord 2 = 0
+      have hmem : (![1, 1, 0] : Fin 3 → k) ∈ LinearMap.ker (sumLM k) := by
+        rw [LinearMap.mem_ker, sumLM_apply, Fin.sum_univ_three]
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+          Matrix.cons_val_two, Matrix.tail_cons, add_zero]
+        rw [one_add_one_eq_two, show (2 : k) = 0 from by exact_mod_cast CharP.cast_eq_zero k 2]
+      have hval := LinearMap.congr_fun h ((stdRepr k).asModuleEquiv.symm ⟨![1, 1, 0], hmem⟩)
+      rw [LinearMap.zero_apply, hf₀, LinearEquiv.apply_symm_apply] at hval
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons,
+        one_smul, zero_smul, add_zero] at hval
+      exact hval
+    have hiso := nonempty_iso_of_genEquivariant k f₀ hne hc ht
+    exact ⟨hiso.some⟩
 
 /-- **`k[S₃]` has exactly two blocks** in characteristic `2`: the linkage classes of simple
 modules form a two-element set, represented by the trivial and standard simples. -/
