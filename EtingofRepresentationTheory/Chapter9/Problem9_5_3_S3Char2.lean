@@ -618,6 +618,77 @@ lemma rhoStd_swap02 : rhoStd k (MonoidAlgebra.single (Equiv.swap 0 2) 1) = !![0,
   fin_cases i <;> fin_cases j <;>
     simp [stdRepr_val, e0, e2]
 
+/-- The six group matrices span `M₂(k)`, so `rhoStd` is **surjective**. The four matrix units are
+`k`-combinations of `ρ(1), ρ((123)), ρ((01)), ρ((02))` (in characteristic `2`, using `-1 = 1`). -/
+lemma rhoStd_surjective : Function.Surjective (rhoStd k) := by
+  have m1 : (1 : Matrix (Fin 2) (Fin 2) k) ∈ (rhoStd k).range :=
+    rhoStd_one k ▸ (rhoStd k).mem_range_self _
+  have mA : (!![0, 1; 1, 1] : Matrix (Fin 2) (Fin 2) k) ∈ (rhoStd k).range :=
+    rhoStd_thc k ▸ (rhoStd k).mem_range_self _
+  have mC : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) k) ∈ (rhoStd k).range :=
+    rhoStd_swap01 k ▸ (rhoStd k).mem_range_self _
+  have mE : (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) k) ∈ (rhoStd k).range :=
+    rhoStd_swap02 k ▸ (rhoStd k).mem_range_self _
+  have u00 : Matrix.single (0 : Fin 2) (0 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
+    have h : Matrix.single (0 : Fin 2) (0 : Fin 2) (1 : k)
+        = 1 + !![0, 1; 1, 1] + !![0, 1; 1, 0] := by
+      ext a b; fin_cases a <;> fin_cases b <;>
+        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    rw [h]; exact add_mem (add_mem m1 mA) mE
+  have u01 : Matrix.single (0 : Fin 2) (1 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
+    have h : Matrix.single (0 : Fin 2) (1 : Fin 2) (1 : k) = !![1, 1; 0, 1] + 1 := by
+      ext a b; fin_cases a <;> fin_cases b <;>
+        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    rw [h]; exact add_mem mC m1
+  have u10 : Matrix.single (1 : Fin 2) (0 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
+    have h : Matrix.single (1 : Fin 2) (0 : Fin 2) (1 : k)
+        = !![0, 1; 1, 0] + !![1, 1; 0, 1] + 1 := by
+      ext a b; fin_cases a <;> fin_cases b <;>
+        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    rw [h]; exact add_mem (add_mem mE mC) m1
+  have u11 : Matrix.single (1 : Fin 2) (1 : Fin 2) (1 : k) ∈ (rhoStd k).range := by
+    have h : Matrix.single (1 : Fin 2) (1 : Fin 2) (1 : k) = !![0, 1; 1, 1] + !![0, 1; 1, 0] := by
+      ext a b; fin_cases a <;> fin_cases b <;>
+        simp [Matrix.single_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    rw [h]; exact add_mem mA mE
+  have huniv : ∀ (i j : Fin 2) (x : k), Matrix.single i j x ∈ (rhoStd k).range := by
+    intro i j x
+    have hsmul : Matrix.single i j x = x • Matrix.single i j (1 : k) := by
+      ext a b; simp [Matrix.single_apply, Matrix.smul_apply, mul_ite, mul_one, mul_zero]
+    rw [hsmul]
+    refine Subalgebra.smul_mem _ ?_ x
+    fin_cases i <;> fin_cases j <;> assumption
+  intro m
+  refine (rhoStd k).mem_range.mp ?_
+  rw [Matrix.matrix_eq_sum_single m]
+  exact sum_mem fun i _ => sum_mem fun j _ => huniv i j (m i j)
+
+lemma rhoStd_thc_sq : rhoStd k (MonoidAlgebra.single (thc ^ 2) 1) = !![1, 1; 1, 0] := by
+  have e0 : (thc ^ 2)⁻¹ (0 : Fin 3) = 1 := by decide
+  have e2 : (thc ^ 2)⁻¹ (2 : Fin 3) = 0 := by decide
+  ext i j
+  rw [rhoStd_entry]
+  fin_cases i <;> fin_cases j <;>
+    simp [stdRepr_val, e0, e2, -map_pow]
+
+/-! ### Compatibilities of the two factors with the central idempotent -/
+
+/-- `rhoStd` sends the central idempotent `e = (123) + (132)` to the identity matrix (both
+`3`-cycle matrices sum to the identity in characteristic `2`). -/
+lemma rhoStd_eStd : rhoStd k (eStd k) = 1 := by
+  rw [eStd]
+  simp only [map_add, rhoStd_thc, rhoStd_thc_sq]
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [Matrix.add_apply, Matrix.one_apply, CharTwo.add_self_eq_zero]
+
+/-- `psi` sends `e = (123) + (132)` to `0` (both `3`-cycles are even). -/
+lemma psi_eStd : psi k (eStd k) = 0 := by
+  have hs1 : Equiv.Perm.sign thc = 1 := by decide
+  have hs2 : Equiv.Perm.sign (thc ^ 2) = 1 := by decide
+  rw [eStd]
+  simp only [map_add, psi_single, hs1, hs2, uHom_one]
+  exact one_add_one_kt2 k
+
 /-- **The block decomposition of `k[S₃]` in characteristic `2`:**
 `k[S₃] ≅ M₂(k) × k[t]/(t²)` as `k`-algebras. The matrix factor `M₂(k)` (dimension `4`) is the
 defect-`0` block carrying the standard simple; the local factor `k[t]/(t²)` (dimension `2`) is the
