@@ -84,6 +84,22 @@ apply Sigma.hom_ext; intro b; rw [Sigma.ι_desc_assoc]; exact Projective.factorT
 lesson: when a Mathlib instance/lemma quietly uses full transparency, bypass it with an explicit
 term rather than fighting heartbeats.
 
+**The Chapter 8 `Tor` rearrangement stack carries a *second* `Module k` action on the same
+carrier — restriction-through-`Aᵐᵒᵖ` vs `TensorProduct`-diagonal — that is defeq-*false*.** Hit in
+#6742 (`Chapter8/RearrangeBifunctorNatIso.lean`). `tensorRightFunctorₖ.obj` equips `tensorOver A N M`
+with the `k`-action *restricted through* `algebraMap k Aᵐᵒᵖ` (its file's `instModuleKObj`), whereas
+`rearrangeBidegree`/`TensorOverModule` use the `TensorProduct`-diagonal `k`-action on `M`. On simple
+tensors both give `c • ⟦(x⊗y)⊗n⟧ = ⟦(c•x)⊗y⊗n⟧`, so they agree **propositionally but not
+definitionally** — `ModuleCat.of k (tensorOver …)` built the two ways are *not* `rfl`-equal, so
+`(…).toModuleIso` will not typecheck against `(F.obj X).obj Y`. Note the `(A₁⊗A₂)ᵐᵒᵖ`-*module* half
+of the diamond **is** dissolvable by defining your local `Module (A₁⊗A₂)ᵐᵒᵖ (X⊗Y)` as
+`inferInstanceAs (Module _ (extTensorFunctorObj … X Y))` (reuse the very instance the functor object
+carries); only the `k`-action still differs, and only on the `(A₁⊗A₂)` side (the `Aᵢ` factor sides
+match because `rearrangeBidegree` takes `Module k (Pᵢ)` from those same restriction instances).
+**Fix:** reconcile the one remaining `k`-action by proving the two `Module k` structures equal
+(`Module.ext` / smul-agreement over `QuotientAddGroup.mk_surjective` + `TensorProduct.induction_on`
+generators) and cross with `eqToIso`, rather than hunting for a `rfl`.
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
