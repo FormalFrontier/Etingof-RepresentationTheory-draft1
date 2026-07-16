@@ -952,6 +952,316 @@ lemma affineNullVector_pos {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 
     rw [hprop_chain m hreach] at hwm
     exact lt_irrefl 0 hwm
 
+/-! ## Minimality: proper connected induced subgraphs are finite Dynkin
+
+Step 2 of the ⟹ direction of `affine_dynkin_classification`. Deleting any single
+vertex `v` from an affine Dynkin diagram turns its (positive-semidefinite,
+degenerate) Cartan form into a positive-*definite* one on the surviving vertices:
+the strictly-positive null vector `w` (`affineNullVector_pos`) spans the whole
+kernel, and it has `w v > 0`, so no nonzero vector supported off `v` can lie in
+the kernel. Hence every proper connected induced subgraph is a finite Dynkin
+diagram, classified by `dynkin_classification`. -/
+
+/-- **Radical = kernel.** For the Cartan form `A = 2·Id − adj` of an affine Dynkin
+diagram (positive semidefinite, symmetric, zero diagonal so `A_{kk} = 2`), a vector
+on which the quadratic form vanishes lies in the kernel: `yᵀ A y = 0 → A ·ᵥ y = 0`.
+Polarization: `A(t·y + eₖ) = 2t·(A ·ᵥ y)_k + 2 ≥ 0` for all `t` forces `(A ·ᵥ y)_k = 0`. -/
+lemma affine_cartan_mulVec_eq_zero_of_form_zero {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ) (hD : IsAffineDynkinDiagram n adj)
+    {y : Fin n → ℤ}
+    (hy : dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y) = 0) :
+    (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y = 0 := by
+  classical
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos, hdeg⟩ := hD
+  set M := (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) with hM_def
+  have hMij : ∀ i j, M i j = (if i = j then 2 else 0) - adj i j := by
+    intro i j
+    rw [hM_def, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, nsmul_eq_mul]
+    split_ifs <;> norm_num
+  have hMsym_ij : ∀ i j, M i j = M j i := by
+    intro i j
+    have hsymm' : adj i j = adj j i := by
+      have h := congrFun (congrFun hsymm j) i
+      rw [Matrix.transpose_apply] at h; exact h
+    rw [hMij i j, hMij j i, hsymm']
+    rcases eq_or_ne i j with h | h
+    · rw [h]
+    · rw [if_neg h, if_neg (fun hji => h hji.symm)]
+  have Bform : ∀ u v : Fin n → ℤ,
+      dotProduct u (M.mulVec v) = ∑ i, ∑ j, u i * M i j * v j := by
+    intro u v
+    simp only [dotProduct, Matrix.mulVec, Finset.mul_sum]
+    exact Finset.sum_congr rfl (fun i _ => Finset.sum_congr rfl (fun j _ => by ring))
+  have hdotcomm : ∀ u v : Fin n → ℤ,
+      dotProduct u (M.mulVec v) = dotProduct v (M.mulVec u) := by
+    intro u v
+    rw [Bform u v, Bform v u, Finset.sum_comm]
+    exact Finset.sum_congr rfl
+      (fun a _ => Finset.sum_congr rfl (fun b _ => by rw [hMsym_ij b a]; ring))
+  have hsingle : ∀ (k : Fin n) (u : Fin n → ℤ),
+      dotProduct (Pi.single k (1:ℤ)) u = u k := by
+    intro k u
+    simp only [dotProduct]
+    rw [Finset.sum_eq_single k]
+    · rw [Pi.single_eq_same, one_mul]
+    · intro b _ hb; rw [Pi.single_eq_of_ne hb, zero_mul]
+    · intro h; exact absurd (Finset.mem_univ k) h
+  have hMkk : ∀ k : Fin n, (M.mulVec (Pi.single k (1:ℤ))) k = 2 := by
+    intro k
+    simp only [Matrix.mulVec, dotProduct]
+    rw [Finset.sum_eq_single k]
+    · rw [Pi.single_eq_same, mul_one, hMij, if_pos rfl, hdiag k, sub_zero]
+    · intro b _ hb; rw [Pi.single_eq_of_ne hb, mul_zero]
+    · intro h; exact absurd (Finset.mem_univ k) h
+  funext k
+  have hbil : ∀ t : ℤ,
+      dotProduct (t • y + Pi.single k (1:ℤ)) (M.mulVec (t • y + Pi.single k (1:ℤ)))
+        = 2 * t * (M.mulVec y) k + 2 := by
+    intro t
+    have expand : dotProduct (t • y + Pi.single k (1:ℤ))
+          (M.mulVec (t • y + Pi.single k (1:ℤ)))
+        = t * (t * dotProduct y (M.mulVec y))
+          + t * dotProduct y (M.mulVec (Pi.single k (1:ℤ)))
+          + t * dotProduct (Pi.single k (1:ℤ)) (M.mulVec y)
+          + dotProduct (Pi.single k (1:ℤ)) (M.mulVec (Pi.single k (1:ℤ))) := by
+      rw [Matrix.mulVec_add, Matrix.mulVec_smul]
+      simp only [dotProduct_add, add_dotProduct, smul_dotProduct, dotProduct_smul,
+        smul_eq_mul]
+      ring
+    rw [expand, hy, hdotcomm y (Pi.single k (1:ℤ)),
+      hsingle k (M.mulVec y), hsingle k (M.mulVec (Pi.single k (1:ℤ))), hMkk k]
+    ring
+  have hge : ∀ t : ℤ, 0 ≤ 2 * t * (M.mulVec y) k + 2 := by
+    intro t; rw [← hbil t]; exact hpos _
+  have h1 := hge 2
+  have h2 := hge (-2)
+  have hzero : (M.mulVec y) k = 0 := by omega
+  simpa using hzero
+
+/-- **Kernel is a line.** If the affine Cartan form vanishes on an integer vector
+`y` which is zero at some vertex `v`, then `y = 0`. Indeed `A ·ᵥ y = 0`
+(`affine_cartan_mulVec_eq_zero_of_form_zero`); with the strictly-positive kernel
+vector `w` from `affineNullVector_pos`, take `p` minimizing `yₚ/wₚ` so that
+`z := wₚ·y − yₚ·w ≥ 0` is a nonnegative kernel vector with `zₚ = 0`; edge
+propagation along the connected graph forces `z = 0`, i.e. `y` is proportional to
+`w`. Since `w v > 0` and `y v = 0`, the proportionality constant is `0`, so `y = 0`. -/
+lemma affine_kernel_off_vertex_eq_zero {n : ℕ}
+    (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    {y : Fin n → ℤ}
+    (hy : dotProduct y ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y) = 0)
+    {v : Fin n} (hyv : y v = 0) : y = 0 := by
+  classical
+  obtain ⟨w, hw_pos, hMw⟩ := affineNullVector_pos adj hn hD
+  have hMy : (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec y = 0 :=
+    affine_cartan_mulVec_eq_zero_of_form_zero adj hD hy
+  obtain ⟨hsymm, hdiag, h01, hconn, _, _⟩ := hD
+  set M := (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) with hM_def
+  have hMij : ∀ i j, M i j = (if i = j then 2 else 0) - adj i j := by
+    intro i j
+    rw [hM_def, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, nsmul_eq_mul]
+    split_ifs <;> norm_num
+  -- Choose `p` minimizing the ratio `yᵢ / wᵢ` over `ℚ`.
+  have hwq : ∀ i, (0:ℚ) < (w i : ℚ) := fun i => by exact_mod_cast hw_pos i
+  obtain ⟨p, -, hp⟩ := Finset.exists_min_image Finset.univ
+      (fun i => (y i : ℚ) / (w i : ℚ)) ⟨⟨0, by omega⟩, Finset.mem_univ _⟩
+  -- The integer vector `z i = wₚ·yᵢ − yₚ·wᵢ`.
+  set z : Fin n → ℤ := fun i => w p * y i - y p * w i with hz_def
+  have hzp : z p = 0 := by simp only [hz_def]; ring
+  have hz_nonneg : ∀ i, 0 ≤ z i := by
+    intro i
+    have hpi := hp i (Finset.mem_univ i)
+    rw [div_le_div_iff₀ (hwq p) (hwq i)] at hpi
+    have hcast : (y p : ℤ) * w i ≤ y i * w p := by exact_mod_cast hpi
+    simp only [hz_def]; linarith
+  have hz_eq : z = w p • y - y p • w := by
+    funext i; simp only [hz_def, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
+  have hMz : M.mulVec z = 0 := by
+    rw [hz_eq, Matrix.mulVec_sub, Matrix.mulVec_smul, Matrix.mulVec_smul, hMy, hMw,
+      smul_zero, smul_zero, sub_zero]
+  -- Edge propagation of the zero-set of `z` along the connected graph.
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+  have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
+  haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hpre : G.Preconnected := by
+    intro i j
+    obtain ⟨q, hhead, hlast, hpath⟩ := hconn i j
+    have hne : q ≠ [] := by rintro rfl; simp at hhead
+    have hchain : List.IsChain (fun a b => adj a b = 1) q := by
+      rw [List.isChain_iff_getElem]; intro k hk; exact hpath k hk
+    have hi : q.head hne = i :=
+      Option.some_inj.mp ((List.head?_eq_some_head hne).symm.trans hhead)
+    have hj : q.getLast hne = j := by
+      have := (List.getLast?_eq_getLast_of_ne_nil hne).symm.trans hlast
+      exact Option.some_inj.mp this
+    have hrtg := List.relationReflTransGen_of_exists_isChain q hchain hne
+    rw [hi, hj] at hrtg
+    exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
+      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) hrtg)
+  have hconn' : G.Connected := ⟨hpre⟩
+  have hprop : ∀ a b, G.Adj a b → z a = 0 → z b = 0 := by
+    intro a b hab hza
+    have hab' : adj a b = 1 := hab
+    have h0 : (M.mulVec z) a = 0 := by rw [hMz]; rfl
+    have hrow : (M.mulVec z) a = ∑ j, ((if a = j then 2 else 0) - adj a j) * z j := by
+      simp only [Matrix.mulVec, dotProduct]
+      exact Finset.sum_congr rfl (fun j _ => by rw [hMij a j])
+    rw [hrow] at h0
+    have hsplit : ∑ j, ((if a = j then (2:ℤ) else 0) - adj a j) * z j
+        = (∑ j, (if a = j then (2:ℤ) else 0) * z j) - ∑ j, adj a j * z j := by
+      rw [← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl (fun j _ => by ring)
+    have hdiagsum : ∑ j, (if a = j then (2:ℤ) else 0) * z j = 0 := by
+      rw [Finset.sum_eq_single a
+        (fun b _ hb => by rw [if_neg (fun h => hb h.symm), zero_mul])
+        (fun h => absurd (Finset.mem_univ a) h)]
+      rw [if_pos rfl, hza, mul_zero]
+    rw [hsplit, hdiagsum] at h0
+    have hsum0 : ∑ j, adj a j * z j = 0 := by linarith [h0]
+    have hnn : ∀ j, 0 ≤ adj a j * z j := by
+      intro j; rcases h01 a j with h | h
+      · rw [h, zero_mul]
+      · rw [h, one_mul]; exact hz_nonneg j
+    have hterm0 : adj a b * z b = 0 :=
+      (Finset.sum_eq_zero_iff_of_nonneg (fun j _ => hnn j)).mp hsum0 b (Finset.mem_univ b)
+    rw [hab', one_mul] at hterm0
+    exact hterm0
+  have hz0 : ∀ i, z i = 0 := by
+    have hchainprop : ∀ i, Relation.ReflTransGen G.Adj p i → z i = 0 := by
+      intro i hv
+      induction hv with
+      | refl => exact hzp
+      | tail _ hadj ih => exact hprop _ _ hadj ih
+    intro i
+    exact hchainprop i
+      ((SimpleGraph.reachable_iff_reflTransGen p i).mp (hconn'.preconnected p i))
+  -- `z = 0` means `wₚ·y = yₚ·w`; specialize at `v` and use `w > 0`.
+  have key : ∀ i, w p * y i = y p * w i := by
+    intro i; have hzi := hz0 i; simp only [hz_def] at hzi; linarith
+  have hyp0 : y p = 0 := by
+    have hv := key v
+    rw [hyv, mul_zero] at hv
+    rcases mul_eq_zero.mp hv.symm with h | h
+    · exact h
+    · exact absurd h (ne_of_gt (hw_pos v))
+  funext i
+  have hi := key i
+  rw [hyp0, zero_mul] at hi
+  rcases mul_eq_zero.mp hi with h | h
+  · exact absurd h (ne_of_gt (hw_pos p))
+  · simpa using h
+
+/-- **Restricted positive-definiteness.** Along any injection `e : Fin m ↪ Fin n`
+that misses some vertex `v`, the induced Cartan form `2·Id − adj∘(e,e)` is
+positive *definite*: the extension-by-zero `x̂` of a nonzero `x` is a nonzero
+vector supported off `v` on which the affine form would have to vanish, impossible
+by `affine_kernel_off_vertex_eq_zero`. -/
+lemma affine_restrict_posDef {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (hn : 1 ≤ n)
+    (hD : IsAffineDynkinDiagram n adj) {m : ℕ} (e : Fin m → Fin n)
+    (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v) :
+    ∀ x : Fin m → ℤ, x ≠ 0 →
+      0 < dotProduct x
+        ((2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj.submatrix e e).mulVec x) := by
+  classical
+  intro x hx
+  set N := (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) with hN
+  set Nsub := (2 • (1 : Matrix (Fin m) (Fin m) ℤ) - adj.submatrix e e) with hNsub_def
+  set xhat : Fin n → ℤ := Function.extend e x 0 with hxhat
+  have hxe : ∀ i, xhat (e i) = x i := by
+    intro i; rw [hxhat]; exact he.extend_apply x 0 i
+  have hxv : xhat v = 0 := by
+    rw [hxhat, Function.extend_apply' x (0 : Fin n → ℤ) v
+      (by rintro ⟨i, rfl⟩; exact hv i rfl)]; rfl
+  have hNsub : ∀ i j, Nsub i j = N (e i) (e j) := by
+    intro i j
+    simp only [hNsub_def, hN, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply,
+      Matrix.submatrix_apply, he.eq_iff]
+  -- Reindex: sums against `xhat` collapse to sums over `e`.
+  have hreindex : ∀ F : Fin n → ℤ, (∑ k, xhat k * F k) = ∑ i, x i * F (e i) := by
+    intro F
+    rw [← Finset.sum_subset (Finset.subset_univ (Finset.univ.map ⟨e, he⟩))
+          (fun k _ hk => by
+            have hk' : ¬ ∃ i, e i = k := by
+              simpa [Finset.mem_map] using hk
+            rw [hxhat, Function.extend_apply' x (0 : Fin n → ℤ) k hk']; simp)]
+    rw [Finset.sum_map]
+    exact Finset.sum_congr rfl (fun i _ => by
+      simp only [Function.Embedding.coeFn_mk]; rw [hxe i])
+  have hform : dotProduct xhat (N.mulVec xhat) = dotProduct x (Nsub.mulVec x) := by
+    calc dotProduct xhat (N.mulVec xhat)
+        = ∑ k, xhat k * (∑ l, N k l * xhat l) := by
+              simp only [dotProduct, Matrix.mulVec]
+      _ = ∑ i, x i * (∑ l, N (e i) l * xhat l) := hreindex _
+      _ = ∑ i, x i * (∑ j, x j * N (e i) (e j)) := by
+              refine Finset.sum_congr rfl (fun i _ => ?_)
+              congr 1
+              rw [show (∑ l, N (e i) l * xhat l) = ∑ l, xhat l * N (e i) l from
+                Finset.sum_congr rfl (fun l _ => mul_comm _ _)]
+              exact hreindex (fun l => N (e i) l)
+      _ = ∑ i, x i * (∑ j, Nsub i j * x j) := by
+              refine Finset.sum_congr rfl (fun i _ => ?_)
+              congr 1
+              exact Finset.sum_congr rfl (fun j _ => by rw [hNsub i j]; ring)
+      _ = dotProduct x (Nsub.mulVec x) := by simp only [dotProduct, Matrix.mulVec]
+  have hpos := hD.2.2.2.2.1
+  have hge : 0 ≤ dotProduct xhat (N.mulVec xhat) := hpos xhat
+  rw [hform] at hge
+  rcases lt_or_eq_of_le hge with h | h
+  · exact h
+  · exfalso
+    have hxhat0form : dotProduct xhat (N.mulVec xhat) = 0 := by rw [hform]; exact h.symm
+    have hxhat0 : xhat = 0 :=
+      affine_kernel_off_vertex_eq_zero adj hn hD hxhat0form hxv
+    obtain ⟨i, hi⟩ := Function.ne_iff.mp hx
+    exact hi (by rw [← hxe i, hxhat0]; rfl)
+
+/-- **Minimality (finite-Dynkin restriction).** Any *proper* connected induced
+subgraph of an affine Dynkin diagram is a finite Dynkin diagram: along an
+injection `e` missing a vertex `v`, if the induced adjacency `adj∘(e,e)` is itself
+connected, then it satisfies `IsDynkinDiagram`. This is the key exported fact for
+the cyclic/tree case analyses (#6792, #6793). -/
+lemma affine_properInduced_isDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj) {m : ℕ} (e : Fin m → Fin n)
+    (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v)
+    (hconn : ∀ i j : Fin m, ∃ path : List (Fin m),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        (adj.submatrix e e) (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1) :
+    IsDynkinDiagram m (adj.submatrix e e) := by
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  refine ⟨?_, ?_, ?_, hconn, ?_⟩
+  · ext i j
+    simp only [Matrix.transpose_apply, Matrix.submatrix_apply]
+    exact hsymm' (e j) (e i)
+  · intro i; simp only [Matrix.submatrix_apply]; exact hdiag (e i)
+  · intro i j; simp only [Matrix.submatrix_apply]; exact h01 (e i) (e j)
+  · exact affine_restrict_posDef adj hn hD e he hv
+
+/-- **Minimality, classified form.** A proper connected induced subgraph of an
+affine Dynkin diagram is graph-isomorphic to one of the finite types
+`Aₖ, Dₖ, E₆, E₇, E₈` (via `dynkin_classification`). -/
+lemma affine_properInduced_finiteDynkin {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj) {m : ℕ} (hm : 1 ≤ m)
+    (e : Fin m → Fin n) (he : Function.Injective e) {v : Fin n} (hv : ∀ i, e i ≠ v)
+    (hconn : ∀ i j : Fin m, ∃ path : List (Fin m),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        (adj.submatrix e e) (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1) :
+    ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin m,
+      ∀ i j, (adj.submatrix e e) (σ i) (σ j) = t.adj i j :=
+  (dynkin_classification m (adj.submatrix e e) hm).mp
+    (affine_properInduced_isDynkin adj hn hD e he hv hconn)
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
