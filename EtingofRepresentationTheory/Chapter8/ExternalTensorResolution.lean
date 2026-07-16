@@ -163,6 +163,44 @@ theorem homology_tensorObj_res_isZero_succ
   · exact TensorExtend.isZero_tensorObj_left
       (homology_mapHomologicalComplex_projective_isZero_succ P₁ (res₁ k A₁) p')
 
+/-- **Reverse of `ProjectiveResolution.isColimitCokernelCofork`.** If a chain map
+`φ : K ⟶ single₀ N` (over an abelian category) has its degree-`0` component `φ.f 0` exhibiting `N`
+as the cokernel of `K.d 1 0`, then `φ` is a quasi-isomorphism at degree `0`. The homology at `0`
+of a chain complex is its degree-`0` opcycles (`isoHomologyι₀`), and both `K.pOpcycles 0` and
+`φ.f 0` are cokernels of `K.d 1 0`, so the comparison of the two cokernels shows `opcyclesMap φ 0`
+is an isomorphism. -/
+theorem quasiIsoAt_zero_of_isColimitCokernelCofork {V : Type*} [Category V] [Abelian V]
+    {K : ChainComplex V ℕ} {N : V} (φ : K ⟶ (ChainComplex.single₀ V).obj N)
+    (hc : IsColimit (CokernelCofork.ofπ (φ.f 0)
+      (show K.d 1 0 ≫ φ.f 0 = 0 by
+        rw [← φ.comm 1 0, HomologicalComplex.single_obj_d, comp_zero]))) :
+    QuasiIsoAt φ 0 := by
+  rw [quasiIsoAt_iff_isIso_homologyMap]
+  -- The comparison isomorphism between the two cokernels of `K.d 1 0`.
+  have hcompare : K.pOpcycles 0 ≫
+      (IsColimit.coconePointUniqueUpToIso (K.opcyclesIsCokernel 1 0 (by simp)) hc).hom = φ.f 0 := by
+    have := IsColimit.comp_coconePointUniqueUpToIso_hom
+      (K.opcyclesIsCokernel 1 0 (by simp)) hc WalkingParallelPair.one
+    simpa only [Cofork.app_one_eq_π, CokernelCofork.π_ofπ] using this
+  -- `L.pOpcycles 0` is an isomorphism since `L = single₀ N` has `L.d 1 0 = 0`.
+  haveI : IsIso (((ChainComplex.single₀ V).obj N).pOpcycles 0) :=
+    ((ChainComplex.single₀ V).obj N).isIso_pOpcycles 1 0 (by simp)
+      (by rw [HomologicalComplex.single_obj_d])
+  -- Hence `opcyclesMap φ 0 = e.hom ≫ L.pOpcycles 0` is an isomorphism.
+  haveI : IsIso (HomologicalComplex.opcyclesMap φ 0) := by
+    have hmap : HomologicalComplex.opcyclesMap φ 0 =
+        (IsColimit.coconePointUniqueUpToIso (K.opcyclesIsCokernel 1 0 (by simp)) hc).hom ≫
+          ((ChainComplex.single₀ V).obj N).pOpcycles 0 := by
+      rw [← cancel_epi (K.pOpcycles 0), HomologicalComplex.p_opcyclesMap, ← Category.assoc,
+        hcompare]
+    rw [hmap]; infer_instance
+  -- Transport back to `homologyMap` via `isoHomologyι₀`.
+  have key : HomologicalComplex.homologyMap φ 0 =
+      K.isoHomologyι₀.hom ≫ HomologicalComplex.opcyclesMap φ 0 ≫
+        ((ChainComplex.single₀ V).obj N).isoHomologyι₀.inv := by
+    rw [← ChainComplex.isoHomologyι₀_inv_naturality, Iso.hom_inv_id_assoc]
+  rw [key]; infer_instance
+
 /-- The **external tensor product of two projective resolutions** `P•₁ ⊗_k P•₂` is a projective
 resolution of `M₁ ⊗[k] M₂` over `(A₁ ⊗[k] A₂)ᵐᵒᵖ`. The complex and augmentation are the total
 complex `extTensorComplex P₁ P₂` and its augmentation `extTensorπ P₁ P₂`; degreewise projectivity is
