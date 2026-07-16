@@ -416,11 +416,101 @@ theorem cycle_cartan_det_zero (n : ℕ) (hn : 3 ≤ n) :
 /-- **(c)** A Dynkin diagram is a **tree**: being connected (part of
 `IsDynkinDiagram`) and positive definite forces the number of edges to be
 `n - 1` (equivalently, `Γ` has no cycle). We record the tree condition as
-"the total number of ordered adjacent pairs is `2·(n-1)`". -/
+"the total number of ordered adjacent pairs is `2·(n-1)`".
+
+The proof splits the tree edge-count `e = n - 1` into two inequalities.
+
+* **Upper bound `e ≤ n - 1` (no cycles).** Testing positive definiteness against
+  the all-ones vector `x = (1, …, 1)` gives `0 < xᵀ A x = 2n - ∑ᵢ∑ⱼ adjᵢⱼ`, i.e.
+  `∑ᵢ∑ⱼ adjᵢⱼ = 2e < 2n`, so `e < n`. (A connected graph with a cycle would have
+  `e ≥ n`, so this is exactly the book's "`Γ` has no cycle".)
+* **Lower bound `e ≥ n - 1` (connectivity).** The connectivity clause of
+  `IsDynkinDiagram` makes the associated `SimpleGraph` connected, and a connected
+  graph on `n` vertices has at least `n - 1` edges
+  (`SimpleGraph.Connected.card_vert_le_card_edgeSet_add_one`).
+
+The `1 ≤ n` hypothesis is essential: at `n = 0` the RHS is `-2` while the empty
+diagram vacuously satisfies `IsDynkinDiagram`, so the statement is false there
+(the all-ones test vector degenerates to `0`, and a tree needs at least one
+vertex for the `n - 1` edge count to make sense). -/
 theorem isDynkinDiagram_isTree {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
-    (hD : IsDynkinDiagram n adj) :
+    (hn : 1 ≤ n) (hD : IsDynkinDiagram n adj) :
     (∑ i, ∑ j, adj i j) = 2 * ((n : ℤ) - 1) := by
-  sorry
+  classical
+  obtain ⟨hsymm, hdiag, h01, hconn, hpos⟩ := hD
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- The simple graph of the diagram: `i — j` iff `adjᵢⱼ = 1`.
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j h => by rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i h => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+  have hGadj : ∀ a b, adj a b = 1 → G.Adj a b := fun _ _ h => h
+  haveI hNe : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  -- Connectivity: transport the `List`-path clause into `SimpleGraph.Connected`.
+  have hpre : G.Preconnected := by
+    intro i j
+    obtain ⟨p, hhead, hlast, hpath⟩ := hconn i j
+    have hne : p ≠ [] := by rintro rfl; simp at hhead
+    have hchain : List.IsChain (fun a b => adj a b = 1) p := by
+      rw [List.isChain_iff_getElem]; intro k hk; exact hpath k hk
+    have hi : p.head hne = i :=
+      Option.some_inj.mp ((List.head?_eq_some_head hne).symm.trans hhead)
+    have hj : p.getLast hne = j := by
+      have := (List.getLast?_eq_getLast_of_ne_nil hne).symm.trans hlast
+      exact Option.some_inj.mp this
+    have hrtg := List.relationReflTransGen_of_exists_isChain p hchain hne
+    rw [hi, hj] at hrtg
+    exact (SimpleGraph.reachable_iff_reflTransGen i j).mpr
+      (Relation.ReflTransGen.mono (fun a b h => hGadj a b h) hrtg)
+  have hconn' : G.Connected := ⟨hpre⟩
+  -- Edge-count translation: `∑ᵢ∑ⱼ adjᵢⱼ = 2 · #edges`.
+  have hcount : (∑ i, ∑ j, adj i j) = 2 * (#G.edgeFinset : ℤ) := by
+    have hterm : ∀ p : Fin n × Fin n,
+        adj p.1 p.2 = (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) := by
+      intro p; rcases h01 p.1 p.2 with h | h <;> simp [h]
+    calc (∑ i, ∑ j, adj i j)
+        = ∑ p : Fin n × Fin n, adj p.1 p.2 := (Fintype.sum_prod_type' adj).symm
+      _ = ∑ p : Fin n × Fin n, (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) :=
+            Finset.sum_congr rfl (fun p _ => hterm p)
+      _ = ((univ.filter fun p : Fin n × Fin n => adj p.1 p.2 = 1).card : ℤ) := by
+            rw [Finset.sum_boole]
+      _ = ((2 * #G.edgeFinset : ℕ) : ℤ) := by rw [G.two_mul_card_edgeFinset]
+      _ = 2 * (#G.edgeFinset : ℤ) := by push_cast; ring
+  -- Lower bound: a connected graph has at least `n - 1` edges.
+  have hlb : n ≤ #G.edgeFinset + 1 := by
+    have h := hconn'.card_vert_le_card_edgeSet_add_one
+    rwa [Nat.card_fin, Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card] at h
+  -- Upper bound: positive definiteness against the all-ones vector.
+  have hub : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ) := by
+    have hxne : (fun _ : Fin n => (1 : ℤ)) ≠ 0 := by
+      intro h; have := congrFun h ⟨0, by omega⟩; simp at this
+    have hp := hpos (fun _ => 1) hxne
+    have hone : ∀ i j : Fin n,
+        (2 • (1 : Matrix (Fin n) (Fin n) ℤ)) i j = if i = j then 2 else 0 := by
+      intro i j; simp only [Matrix.smul_apply, Matrix.one_apply, two_nsmul]
+      split_ifs <;> norm_num
+    have hrow : ∀ i : Fin n,
+        ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1)) i
+          = 2 - ∑ j, adj i j := by
+      intro i
+      simp only [Matrix.mulVec, dotProduct, Matrix.sub_apply, hone, mul_one,
+        Finset.sum_sub_distrib]
+      rw [Finset.sum_ite_eq univ i (fun _ => (2 : ℤ))]; simp
+    have hval : dotProduct (fun _ : Fin n => (1 : ℤ))
+        ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec (fun _ => 1))
+        = 2 * (n : ℤ) - ∑ i, ∑ j, adj i j := by
+      simp only [dotProduct, hrow, one_mul, Finset.sum_sub_distrib]
+      rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+      ring
+    rw [hval] at hp; linarith
+  -- Combine: `e = n - 1`, hence `∑ᵢ∑ⱼ adjᵢⱼ = 2(n - 1)`.
+  have hcard_ub : #G.edgeFinset < n := by
+    have : 2 * (#G.edgeFinset : ℤ) < 2 * (n : ℤ) := by rw [← hcount]; exact hub
+    exact_mod_cast (by linarith : (#G.edgeFinset : ℤ) < (n : ℤ))
+  have hcard_eq : #G.edgeFinset = n - 1 := by omega
+  rw [hcount, hcard_eq, Nat.cast_sub hn]; push_cast; ring
 
 /-! ## Part (d): degree restrictions on a Dynkin diagram -/
 
