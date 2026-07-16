@@ -46,28 +46,8 @@ Write an updated progress document that:
 ## Constraints
 
 - Do NOT modify any code or implementation files
-- Commit ONLY the progress document (and `progress/items.json` if you reconcile statuses)
+- Commit ONLY the progress document changes
 - The progress entry should note what changed and why
-
-## Reconciling `progress/items.json` (if you correct statuses)
-
-- **Preserve the file's exact formatting.** It is `json.dump(..., indent=2,
-  ensure_ascii=False)` with literal unicode and **no trailing newline**. A
-  round-trip with any other indent (e.g. `indent=1`) or `ensure_ascii=True`
-  reformats all ~592 entries into a 15k-line diff. Dump with
-  `json.dumps(d, indent=2, ensure_ascii=False)` and `open(path,'w').write(s)`
-  (no extra newline), then `git diff --stat` to confirm only your status lines
-  changed.
-- **A sorry-free file is not proof that an item is done.** Statements recorded
-  via `proof_wanted` (e.g. `Remark2_9_3.lean` — Ado's theorem) are genuinely
-  unproved yet carry 0 `sorry` tactics. Before promoting to `sorry_free`,
-  require: status signals an *incomplete proof* (`statement_formalized` /
-  `proof_partial`); **all** covering files have 0 genuine sorries; **no**
-  covering file uses `proof_wanted`; **no** sibling file for the same problem
-  (e.g. `Problem5_24_1_b.lean`) carries a sorry. Leave terminal-vocab
-  (`proved`/`proof_complete`/`formalized`) and coverage-partial
-  (`partially_proved`/`accepted`) statuses alone and document them as audit
-  candidates rather than guessing their intent.
 
 ## Reflect
 
