@@ -134,27 +134,8 @@ open PR on it first (`gh pr list --head agent/<id>`). If a PR exists, create
 a new branch with a suffix (`agent/<id>-v2`). If no PR exists, reset it to
 master: `git checkout agent/<id> && git reset --hard origin/master`.
 
-**Before that `reset --hard`, run `git status --short` first.** A reused
-worktree may carry uncommitted working-tree edits left by a prior session
-(e.g. half-finished skill/command tweaks) — `reset --hard` discards these
-unrecoverably. If you see any, `git diff` them: they are almost always
-disposable cruft the reset is meant to clear, but confirm they are not
-unpushed work before discarding. If they look worth keeping, commit them to
-a throwaway branch (`git stash` is banned in the home repo but fine here) so
-the next session can recover them.
-
 Record any project-specific quality metrics (e.g. sorry count, test coverage)
 as described in the project's CLAUDE.md.
-
-**Editing `progress/items.json` (any session, especially review/fidelity
-audits that bulk-update `fidelity`/`status` fields):** edit surgically —
-`grep -n` the item id, Read those ~15 lines, `Edit` just the field value, and
-drop any now-stale `fidelity_note`. Never `json.load`+`json.dump` the whole
-file: the reserializer reflows indentation/key-order/unicode into a
-multi-thousand-line diff against the shared 13k-line file (it only stays clean
-by luck if your dump params happen to match). When flipping a `gap` back to
-`verified`, also remove its `fidelity_issue` and confirm the linked repair
-issue actually merged. (Full rationale in the `lean-formalization` skill.)
 
 ## Step 3: Codebase Orientation
 
@@ -168,65 +149,6 @@ Check that the plan's assumptions still hold:
 - Quality metrics match what the issue says
 - Files mentioned in the issue still exist and haven't been restructured
 - No recently merged PR invalidates the plan
-- **For "infra"/"helper" issues, check the deliverable does not already
-  exist** — possibly under a different name or in a differently-named file.
-  Planners write these without full codebase knowledge, and this repo has
-  many overlapping per-chapter files. Before writing any code, grep for the
-  target lemma name *and* its mathematical content (key symbols in the
-  statement, e.g. `character.*Nonempty.*≅`). An equivalent (or more general)
-  sorry-free lemma already present means the issue is redundant: point to it
-  in a comment and `skip` for the planner to close. Do not re-prove it under
-  a new name. (Seen with #6425, whose deliverable was already
-  `Etingof.charEq_iso` from an earlier PR.)
-- **For "final assembly" issues that consume prerequisites**: verify the
-  infrastructure it depends on actually exists sorry-free. `check-blocked`
-  unblocks an issue when its `depends-on` deps *close* — but a dep closed
-  as `replan` (decomposed) means its real work moved to still-open
-  sub-issues, so the assembly is not actually ready. Confirm the named
-  lemmas/defs exist in the Lean files before working; if not, re-add
-  `depends-on` on the real open sub-issues and `skip`. **But first
-  re-`git fetch origin main` and re-`reset --hard origin/main`**: in a
-  busy pod the prerequisite PR can merge in the seconds between your
-  initial fetch and this check, so the scaffolding the issue describes
-  ("stub at line N", "cases X, Y already landed") is on `main` but not yet
-  in your worktree. If the described state is missing, check the linked
-  parent/dependency issue for a merged PR and re-fetch before concluding
-  the issue is stale. (Seen with #6620: the `finrank_le_of_cyclic` stub
-  and its sibling cases landed in PR #6621 which merged mid-session.)
-- **If the prerequisite is only in an *open* (unmerged) PR, not on
-  `origin/main`: `skip`, do not stack on it.** Issue bodies often say a
-  dependency "landed" when its PR is merely open (still building). After
-  `git fetch`, confirm on `origin/main` (`git ls-tree origin/main -- <file>`
-  or `git grep <lemma> origin/main`). If the file/lemma is absent, find the
-  open PR that adds it (`gh pr list --search <file>`). Do **not** base your
-  branch on that PR's branch: this repo squash-merges, so a shared file
-  means whichever PR merges second conflicts, and if *yours* merges first
-  you silently break theirs. `skip` with a "prereq only in open PR #N, not
-  on main" reason; it re-queues cleanly once #N merges. (Seen this session:
-  #6679's `ExternalTensorModule.lean` was only in open PR #6685.)
-- **Sanity-check the target statement is actually provable** before
-  attempting the proof. A planner-written signature can be *false as
-  stated* (hypotheses too weak, wrong quantifier, missing finiteness).
-  Spend a moment trying to break it: do the hypotheses actually pin down
-  the conclusion, or can you build a counterexample? (E.g. "M has one
-  composition factor" does **not** imply finite length — `R=ℤ, M=ℤ` is
-  indecomposable with unlinked factors ℤ/2, ℤ/3.) If the statement is
-  unprovable, do **not** attempt it or silently strengthen the signature:
-  post a comment with the counterexample and suggested fix, then `skip`
-  for replan (Escalation ladder: "Ordering mistake in the plan → report,
-  request replan").
-- **When the plan tells you to *use* a lemma from another file, check the
-  import direction before writing the proof.** The target theorem lives in
-  file `A`; if the named helper lives in file `B` and `B` imports `A`
-  (directly or transitively), using it is a circular import — the proof
-  won't compile no matter how correct the math is. Map the DAG quickly
-  (`grep -E '^import EtingofRepresentationTheory' <files>`) *before*
-  coding. Fixes: add an acyclic import of the file where the helper's own
-  dependencies live and inline the argument, or prove the target in a
-  third file that imports both. (Seen with #6789: the plan pointed at
-  `mem_symGroupImage_iff_commute_diag` in `Supporting.lean`, which imports
-  the target's `Bridge.lean`; resolved by importing `SchurWeylGLTransfer`
-  into `Bridge` and inlining the centralizer argument.)
 
 If stale:
 ```
@@ -261,26 +183,13 @@ You may decompose when any of these is true:
 - you can write self-contained successor issues without further investigation.
 
 ```bash
-# 0. FIRST search for an existing continuation issue before creating one. A
-#    planner may have already pre-split your claimed issue into a follow-up,
-#    and that follow-up will NOT appear in `coordination list-unclaimed` if it
-#    carries `replan`/`blocked`. Search ALL open issues by item ID / theorem
-#    name, not just the unclaimed queue:
-#      gh issue list --state open --search "<ItemID or theorem> in:title" \
-#        --json number,title,labels
-#    If a suitable continuation already exists, reuse it (point your breadcrumb
-#    at it) instead of creating a duplicate.
-#
-# 1. Otherwise create self-contained sub-issues. Use `coordination plan`
-#    exactly as a planner would — same body template (Current state /
-#    Deliverables / Context / Verification), same label. Note: `coordination
-#    plan` does only best-effort title-keyword overlap warnings; it does not
-#    hold the planner lock and cannot atomically dedupe against concurrent
-#    creators. If you see open issues that look related, link or coordinate
+# 1. Create self-contained sub-issues. Use `coordination plan` exactly as a
+#    planner would — same body template (Current state / Deliverables /
+#    Context / Verification), same label. Note: `coordination plan` does
+#    only best-effort title-keyword overlap warnings; it does not hold the
+#    planner lock and cannot atomically dedupe against concurrent creators.
+#    If you see open issues that look related, link or coordinate
 #    explicitly in the sub-issue body rather than relying on the warning.
-#    Do NOT write a literal `depends-on: #N` token in prose (even to say it is
-#    NOT needed): `coordination plan` parses that string and auto-applies the
-#    `blocked` label. Phrase such notes without the literal token.
 echo "body..." | coordination plan --label feature "Sub-task 1: ..."
 echo "body..." | coordination plan --label feature "Sub-task 2: ..."
 
@@ -316,13 +225,6 @@ After decomposing, you have two options:
    was just two work items glued together.
 2. **Stop and exit**: if you've used most of your session orienting, write a
    brief progress entry and exit. The next worker will claim a sub-issue.
-   The next agent onboards from `progress/` on `main`, so a progress entry
-   committed only to your unmerged branch is lost. If your handoff carries
-   design analysis worth preserving (exact reusable lemmas found, route
-   chosen, subtleties), land it as a small progress-handoff PR: commit just
-   the `progress/` file, push, `gh pr create`, `gh pr merge <N> --auto
-   --squash`. The durable design detail should also live in the sub-issue
-   bodies you created — those persist regardless of any PR.
 
 If you've already done a coherent subset of the parent's work *before*
 deciding to decompose, prefer the partial-PR path:
@@ -338,18 +240,6 @@ coordination create-pr <parent> --partial "feat: <what landed>"
 The next planner sees the breadcrumb on the parent and closes it with a
 forward link to the sub-issues.
 
-**Assembler issues that must stay open.** Some issues explicitly say to
-keep the parent open as the assembler and *not* replan it (a proof-level
-dependency on a sorried sub-issue is not a blocker). Both release paths
-force `replan` onto the parent (`skip`, and `create-pr --partial`), which
-contradicts that. Honour the instruction like this: create the sub-issues,
-`coordination add-dep <parent> <sub>` for each (this parks the parent
-`blocked` and out of the queue, auto-returning via `check-blocked` when the
-subs close), land any coherent subset with `create-pr <parent> --partial`
-(this uses `Refs #N`, so it does *not* close the parent), then strip the
-`replan` label the partial path added (`gh issue edit <parent> --remove-label
-replan`) so only `blocked` remains. Leave a comment explaining the parking.
-
 ## Step 5: Execute
 
 After each coherent chunk of changes:
@@ -357,13 +247,6 @@ After each coherent chunk of changes:
 - Commit with conventional prefixes: `feat:`, `fix:`, `refactor:`, `test:`, `doc:`, `chore:`
 
 Each commit must compile. One logical change per commit.
-
-**Stage explicit paths, not `git add -A`.** Reused worktrees often start with
-unrelated uncommitted edits from a prior session (e.g. `.claude/` skill/command
-files). `git add -A` sweeps those into your commit, violating PR scope and
-risking `create-pr` rejection. Stage only the files you changed
-(`git add <path> ...`), and check `git diff --name-only origin/main..HEAD`
-before pushing.
 
 **Commit early, create PRs early.** Sessions can terminate at any time.
 Pushed-but-not-PR'd work is effectively lost — nobody will find it.
@@ -409,23 +292,6 @@ Write a progress entry to `progress/<UTC-timestamp>_<UUID-prefix>.md`:
 git push -u origin <branch>
 coordination create-pr <issue-number>
 ```
-
-For a long session, `origin/main` may have advanced (other agents merged PRs)
-since you branched. Before `create-pr`, sync so your branch builds against and
-diffs cleanly against current main:
-```bash
-git fetch origin main
-git merge origin/main --no-edit   # resolve any conflicts, then rebuild
-git diff --stat origin/main..HEAD # sanity check: only YOUR files should appear
-```
-If unrelated files show up as deleted, your branch is stale — merge first.
-
-**Posting prose (review verdicts, PR/issue bodies): always use `--body-file`,
-never inline `--body '...'`.** Formalization prose is full of backticks and Lean
-identifiers with apostrophes (`map_one'`, `sorry'd`, `book's`). An apostrophe
-closes the shell's single-quoted string, so `gh issue comment --body '...'`
-silently truncates the comment at the first `'` and leaks the tail to the shell.
-Write the text to a file and pass `--body-file /tmp/x.md`.
 
 **Once the PR is created, exit.** Do not poll CI, wait for the merge, or
 otherwise spin on the PR. Another session will pick up any follow-up work

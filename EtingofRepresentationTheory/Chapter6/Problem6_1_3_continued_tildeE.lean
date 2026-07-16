@@ -1372,6 +1372,89 @@ lemma two_regular_connected_iso_Atilde {n : ℕ} (hn : 3 ≤ n)
     (hdeg : ∀ v, vertexDegree adj v = 2) :
     ∃ σ : Fin (AffineType.Atilde n hn).rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = (AffineType.Atilde n hn).adj i j := by
+  classical
+  -- Degree hypothesis in `Finset`-card form, and `adj` symmetry as a plain equation.
+  have hdeg' : ∀ v, (univ.filter (fun j => adj v j = 1)).card = 2 := hdeg
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- Base vertex `0` and a chosen neighbour `start1`.
+  have h0lt : 0 < n := by omega
+  set v0 : Fin n := ⟨0, h0lt⟩ with hv0def
+  have hv0 : (univ.filter (fun j => adj v0 j = 1)).Nonempty := by
+    rw [← Finset.card_pos, hdeg' v0]; omega
+  set start1 : Fin n := hv0.choose with hstart1def
+  have hstart1 : adj v0 start1 = 1 := by
+    have := hv0.choose_spec; simpa using (Finset.mem_filter.mp this).2
+  -- The pair-step map and the walk `f k = (Tᵏ e0).1`.
+  set T : Fin n × Fin n → Fin n × Fin n := fun p => (p.2, otherNbr adj p.2 p.1) with hT
+  set e0 : Fin n × Fin n := (v0, start1) with he0
+  set f : ℕ → Fin n := fun k => (T^[k] e0).1 with hf
+  -- The second coordinate is the next vertex.
+  have hf2 : ∀ k, (T^[k] e0).2 = f (k + 1) := by
+    intro k
+    have hrw : f (k + 1) = (T (T^[k] e0)).1 := by
+      simp only [hf, Function.iterate_succ_apply']
+    rw [hrw]; simp only [hT]
+  -- The three-term recurrence.
+  have hstep : ∀ t, f (t + 2) = otherNbr adj (f (t + 1)) (f t) := by
+    intro t
+    have hA : f (t + 2) = (T (T (T^[t] e0))).1 := by
+      simp only [hf, Function.iterate_succ_apply']
+    rw [hA]; simp only [hT, hf2, hf]
+  -- Consecutive vertices are adjacent.
+  have hadj : ∀ k, adj (f k) (f (k + 1)) = 1 := by
+    intro k
+    induction k with
+    | zero => simpa [hf, he0] using hstart1
+    | succ t ih =>
+        rw [hstep t]
+        have hft : adj (f (t + 1)) (f t) = 1 := by rw [hsymm']; exact ih
+        exact otherNbr_adj (hdeg' _) hft
+  -- No immediate backtrack.
+  have hback : ∀ k, f (k + 2) ≠ f k := by
+    intro k
+    rw [hstep k]
+    have hft : adj (f (k + 1)) (f k) = 1 := by rw [hsymm']; exact hadj k
+    exact otherNbr_ne (hdeg' _) hft
+  -- The two neighbours of `f (k+1)` are exactly `f k` and `f (k+2)`.
+  have hnbr_iff : ∀ k w, adj (f (k + 1)) w = 1 ↔ (w = f k ∨ w = f (k + 2)) := by
+    intro k w
+    sorry
+  -- `T` is a permutation, so `e0` is a periodic point.
+  have hTinj : Function.Injective T := by
+    rw [hT]; exact stepPair_injective hdeg'
+  have hper_pt : e0 ∈ Function.periodicPts T := hTinj.mem_periodicPts e0
+  set p : ℕ := Function.minimalPeriod T e0 with hpdef
+  have hp_pos : 0 < p := Function.minimalPeriod_pos_of_mem_periodicPts hper_pt
+  have hTp : T^[p] e0 = e0 := Function.iterate_minimalPeriod
+  -- Wrap-around.
+  have hwrap0 : f p = f 0 := by simp only [hf, hTp, Function.iterate_zero_apply]
+  have hwrap1 : f (p + 1) = f 1 := by
+    simp only [hf, Function.iterate_succ_apply', hTp]
+  -- Full periodicity.
+  have hper : ∀ k, f (k + p) = f k := by
+    intro k
+    simp only [hf, Function.iterate_add_apply, hTp]
+  -- Injectivity of the pair-walk on `[0, p)`.
+  have hpairinj : ∀ a b, a < p → b < p → f a = f b → f (a + 1) = f (b + 1) → a = b := by
+    intro a b ha hb hfab hfab1
+    have hpair : T^[a] e0 = T^[b] e0 := by
+      apply Prod.ext
+      · exact hfab
+      · rw [hf2 a, hf2 b]; exact hfab1
+    exact Function.iterate_injOn_Iio_minimalPeriod (Set.mem_Iio.mpr ha)
+      (Set.mem_Iio.mpr hb) hpair
+  -- Surjectivity: every vertex is visited.
+  have hsurj : ∀ v : Fin n, ∃ k, k < p ∧ f k = v := by
+    sorry
+  -- Injectivity of `f` on `[0, p)` (minimal-gap induction).
+  have hfinj : ∀ i j, i < p → j < p → f i = f j → i = j := by
+    sorry
+  -- Hence `p = n`.
+  have hpn : p = n := by
+    sorry
+  -- Assemble the equivalence.
   sorry
 
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
