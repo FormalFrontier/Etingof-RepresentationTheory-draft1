@@ -1101,6 +1101,29 @@ Same trap bites `Real.sqrt 5` vector literals: `![12, 0, 0, (-1 + Real.sqrt 5)/2
 `: ℂ` character elaborates the vector as `Fin 5 → ℝ` and inserts a `↑(…)` coercion, so it won't
 `rfl`-match a `ℂ`-side value with `↑√5`. Force `ℂ` by writing `(Real.sqrt 5 : ℂ)` inside the entries.
 
+### Three cheap `rw`/`congr` traps when averaging/reindexing over `Fin n → Fin N` (#6829, Ch5 `Problem5_24_2_Bridge.lean`)
+
+Proving `reynolds_injective` (block-symmetrization Reynolds operator on `End(V^{⊗n})`) surfaced three
+recurring, easily-fixed pitfalls:
+
+- **`congr 1` on `c • (big sum) = c • (big sum)` blows 200k heartbeats.** Stripping the scalar off a
+  `((…).card : ℂ)⁻¹ • ∑ τ ∈ blockPerms, toMatrix M (a∘τ) (b∘τ)` equality via `congr 1` runs
+  `isDefEq` on the full sums (index type `Fin n → Fin N`) and times out — *nondeterministically*, so
+  it may pass one build and fail the next. **Fix:** prove the inner `∑ = ∑` as its own `have hsum`
+  (e.g. by `Finset.sum_nbij'` reindexing) and finish with `rw [toMatrix_reynolds, toMatrix_reynolds,
+  hsum]`. Never `congr 1` across a large `Finset.sum`.
+- **`rw [← h]` with `h : BIG = 0` rewrites the *first* `0`, usually an inner `else 0`.** In a goal
+  `∑ f, ∑ g, (if P then W f₀ g₀ else 0) = 0`, `rw [← h]` (meaning to expand the RHS `0`) instead
+  hits the `else 0` inside the summand and corrupts the term. **Fix:** never `rw [← h]` to touch a
+  bare `0`; rewrite *forward* with an explicit `rw [show LHS = LHS' from Finset.sum_congr …]` then
+  `exact h`.
+- **`congrFun hσ j` on `hσ : f ∘ g = f` yields `(f ∘ g) j`, which won't `rw` into a goal written as
+  `f (g j)`.** `rw [congrFun hσ.2 j]` fails with "did not find `(slot ∘ ⇑σ) j`" against a target
+  `slot (σ j) = slot j` (defeq but not syntactic). **Fix:** bind an explicitly-typed intermediate
+  `have h2 : slot (σ j) = slot j := congrFun hσ.2 j` (defeq-tolerant `:=`), then `rw [h2]`. Same for
+  `ρ (ρ⁻¹ j) = j`: use `Equiv.apply_symm_apply ρ j` (there is no `Equiv.Perm.apply_inv_self`; `ρ⁻¹`
+  is defeq `ρ.symm`).
+
 ### Graph connectivity ("∃ edge-path" clauses) via `Relation.ReflTransGen`, and Fin-bound `omega` gotchas (#6762, Ch6 affine Dynkin `Problem6_1_3_continued_tildeE.lean`)
 
 Connectivity clauses of the shape `∀ i j, ∃ path : List (Fin n), path.head? = some i ∧ path.getLast? = some j ∧ ∀ k (h : k+1 < path.length), adj (path.get ⟨k,_⟩) (path.get ⟨k+1,h⟩) = 1` are painful to build as raw lists. **Recipe:** work with `Relation.ReflTransGen (fun a b => adj a b = 1)` (built-in `.refl`/`.single`/`.head`/`.tail`/`.trans`), and convert *once* with a helper: `obtain ⟨l, hne, hchain, hhead, hlast⟩ := List.exists_isChain_ne_nil_of_relationReflTransGen h; refine ⟨l, ?_, ?_, ?_⟩` closing head/last by `rw [List.head?_eq_some_head hne, hhead]` / `List.getLast?_eq_some_getLast`, and the `get`-condition by `simpa [List.get_eq_getElem] using List.isChain_iff_getElem.mp hchain k hk`. Reduce full connectivity to reach-from-a-base: `symm` of `ReflTransGen` holds when `adj.IsSymm` (induct, flipping each edge via `hsymm.apply`), so `(reach i).symm.trans (reach j)`. For variable-rank families (cycle `Ãₙ`, chain `D̃ₙ`) prove `reach` by `induction` on the vertex index; for finite exceptional diagrams enumerate with `fin_cases`.

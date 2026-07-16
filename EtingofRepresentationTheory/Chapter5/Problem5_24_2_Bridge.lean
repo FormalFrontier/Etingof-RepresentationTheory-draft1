@@ -679,6 +679,349 @@ theorem reynolds_conj (slot : Fin n → Fin k) (g : (Matrix (Fin N) (Fin N) ℂ)
   rw [show P * Pτ' = Pτ' * P from hcP'.symm.eq, ← mul_assoc Pτ Q,
     show Pτ * Q = Q * Pτ from hcQ.eq, mul_assoc Q Pτ]
 
+/-- `reynolds` is `ℂ`-linear, so it commutes with subtraction. -/
+private theorem reynolds_sub (slot : Fin n → Fin k)
+    (M M' : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) :
+    reynolds k N n slot (M - M') = reynolds k N n slot M - reynolds k N n slot M' := by
+  classical
+  rw [reynolds, reynolds, reynolds, ← smul_sub, ← Finset.sum_sub_distrib]
+  congr 1
+  refine Finset.sum_congr rfl fun τ _ => ?_
+  rw [mul_sub, sub_mul]
+
+/-- **Matrix of a Reynolds summand.** Conjugating `M` by the permutation operators of `τ` and `τ⁻¹`
+reindexes its matrix by `τ`: the `(a, b)` entry of `P_τ · M · P_{τ⁻¹}` is `M_{a∘τ, b∘τ}`. -/
+private theorem toMatrix_reynolds_summand (slot : Fin n → Fin k)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) (τ : Equiv.Perm (Fin n))
+    (a b : Fin n → Fin N) :
+    LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+        ((symGroupAction ℂ (BridgeV N) n τ).toLinearMap * M
+          * (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap) a b
+      = LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M (a ∘ τ) (b ∘ τ) := by
+  classical
+  rw [LinearMap.toMatrix_mul, LinearMap.toMatrix_mul]
+  set A := LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M with hA
+  have hPLval : ∀ p : Fin n → Fin N,
+      LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ).toLinearMap a p
+        = if a = p ∘ (τ⁻¹ : Equiv.Perm (Fin n)) then (1 : ℂ) else 0 := by
+    intro p; rw [toMatrix_symGroupAction]
+  have hPRval : ∀ q : Fin n → Fin N,
+      LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
+          (symGroupAction ℂ (BridgeV N) n τ⁻¹).toLinearMap q b
+        = if q = b ∘ (τ : Equiv.Perm (Fin n)) then (1 : ℂ) else 0 := by
+    intro q; rw [toMatrix_symGroupAction, inv_inv]
+  rw [Matrix.mul_apply, Finset.sum_eq_single (b ∘ (τ : Equiv.Perm (Fin n)))]
+  · rw [hPRval, if_pos rfl, mul_one, Matrix.mul_apply,
+      Finset.sum_eq_single (a ∘ (τ : Equiv.Perm (Fin n)))]
+    · rw [hPLval, if_pos (show a = (a ∘ (τ : Equiv.Perm (Fin n))) ∘ (τ⁻¹ : Equiv.Perm (Fin n)) by
+          funext j; simp), one_mul]
+    · intro p _ hp
+      rw [hPLval, if_neg (fun he => hp (by
+        funext j; have := congrFun he ((τ : Equiv.Perm (Fin n)) j); simpa using this.symm)),
+        zero_mul]
+    · intro h; exact absurd (Finset.mem_univ _) h
+  · intro q _ hq
+    rw [hPRval, if_neg hq, mul_zero]
+  · intro h; exact absurd (Finset.mem_univ _) h
+
+/-- **Matrix of the Reynolds operator.** Its `(a, b)` entry is the block average of the reindexed
+entries `M_{a∘τ, b∘τ}` of `M` over the block symmetric group. -/
+private theorem toMatrix_reynolds (slot : Fin n → Fin k)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) (a b : Fin n → Fin N) :
+    LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) (reynolds k N n slot M) a b
+      = ((blockPerms k n slot).card : ℂ)⁻¹
+        • ∑ τ ∈ blockPerms k n slot,
+            LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M (a ∘ τ) (b ∘ τ) := by
+  classical
+  rw [reynolds, map_smul, map_sum, Matrix.smul_apply, Matrix.sum_apply]
+  congr 1
+  refine Finset.sum_congr rfl fun τ _ => ?_
+  exact toMatrix_reynolds_summand k N n slot M τ a b
+
+/-- **Block symmetry of the Reynolds operator.** Its matrix is invariant under reindexing rows and
+columns by a block permutation `ρ` (`ρ ∈ blockPerms slot`): the block average absorbs the extra
+translation. -/
+private theorem reynolds_block_symmetric (slot : Fin n → Fin k)
+    (M : Module.End ℂ (TensorPower ℂ (BridgeV N) n)) {ρ : Equiv.Perm (Fin n)}
+    (hρ : ρ ∈ blockPerms k n slot) (a b : Fin n → Fin N) :
+    LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) (reynolds k N n slot M)
+        (a ∘ ρ) (b ∘ ρ)
+      = LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) (reynolds k N n slot M) a b := by
+  classical
+  have hslotρ : slot ∘ ρ = slot := by rw [blockPerms, Finset.mem_filter] at hρ; exact hρ.2
+  have hmem : ∀ σ : Equiv.Perm (Fin n), σ ∈ blockPerms k n slot →
+      ρ * σ ∈ blockPerms k n slot := by
+    intro σ hσ
+    rw [blockPerms, Finset.mem_filter] at hσ ⊢
+    refine ⟨Finset.mem_univ _, ?_⟩
+    funext j
+    show slot (ρ (σ j)) = slot j
+    have h1 : slot (ρ (σ j)) = slot (σ j) := congrFun hslotρ (σ j)
+    have h2 : slot (σ j) = slot j := congrFun hσ.2 j
+    rw [h1, h2]
+  have hslotρinv : slot ∘ (ρ⁻¹ : Equiv.Perm (Fin n)) = slot := by
+    funext j
+    have h1 : slot (ρ (ρ⁻¹ j)) = slot (ρ⁻¹ j) := congrFun hslotρ (ρ⁻¹ j)
+    have hρρ : ρ (ρ⁻¹ j) = j := Equiv.apply_symm_apply ρ j
+    rw [hρρ] at h1
+    exact h1.symm
+  have hmemInv : ∀ σ : Equiv.Perm (Fin n), σ ∈ blockPerms k n slot →
+      ρ⁻¹ * σ ∈ blockPerms k n slot := by
+    intro σ hσ
+    rw [blockPerms, Finset.mem_filter] at hσ ⊢
+    refine ⟨Finset.mem_univ _, ?_⟩
+    funext j
+    show slot (ρ⁻¹ (σ j)) = slot j
+    have h1 : slot (ρ⁻¹ (σ j)) = slot (σ j) := congrFun hslotρinv (σ j)
+    have h2 : slot (σ j) = slot j := congrFun hσ.2 j
+    rw [h1, h2]
+  have hsum : (∑ τ ∈ blockPerms k n slot,
+        LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M ((a ∘ ρ) ∘ τ) ((b ∘ ρ) ∘ τ))
+      = ∑ τ ∈ blockPerms k n slot,
+        LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) M (a ∘ τ) (b ∘ τ) := by
+    refine Finset.sum_nbij' (fun τ => ρ * τ) (fun τ => ρ⁻¹ * τ) ?_ ?_ ?_ ?_ ?_
+    · intro σ hσ; exact hmem σ hσ
+    · intro σ hσ; exact hmemInv σ hσ
+    · intro σ _; rw [← mul_assoc, inv_mul_cancel, one_mul]
+    · intro σ _; rw [← mul_assoc, mul_inv_cancel, one_mul]
+    · intro σ _
+      congr 1 <;>
+        · funext j; simp only [Function.comp_apply, Equiv.Perm.mul_apply]
+  rw [toMatrix_reynolds, toMatrix_reynolds, hsum]
+
+/-- The generic tensor matrix entry `(g, f)` is the monomial of the exponent vector realized by the
+slot assignment `(f, g)`. -/
+private theorem genericTensorMatrix_eq_monomial (slot : Fin n → Fin k) (g f : Fin n → Fin N) :
+    genericTensorMatrix k N n slot g f
+      = MvPolynomial.monomial (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) (1 : ℂ) := by
+  classical
+  rw [genericTensorMatrix]
+  have hX : ∀ j : Fin n, (MvPolynomial.X (slot j, g j, f j) : MatrixTupleRing k N)
+      = MvPolynomial.monomial (Finsupp.single (slot j, g j, f j) 1) 1 := fun j => by
+    rw [← MvPolynomial.X_pow_eq_monomial, pow_one]
+  simp_rw [hX]
+  rw [prod_monomial_single]
+
+/-- Given two sequences `f g : Fin m → α` with equal underlying multiset, an explicit permutation
+`σ` matching them (`g = f ∘ σ`). Peel the head of `g` and match it against an element of `f`'s
+domain. -/
+private noncomputable def matchingPerm {α : Type*} [DecidableEq α] :
+    ∀ {m : ℕ} (f g : Fin m → α),
+      Multiset.map f (Finset.univ : Finset (Fin m)).val =
+        Multiset.map g (Finset.univ : Finset (Fin m)).val →
+      {σ : Equiv.Perm (Fin m) // g = f ∘ σ}
+  | 0, _, g, _ => ⟨Equiv.refl _, funext fun i => i.elim0⟩
+  | m + 1, f, g, h =>
+      let hg0_mem : g 0 ∈ Multiset.map f (Finset.univ : Finset (Fin (m+1))).val := by
+        rw [h]; exact Multiset.mem_map.mpr ⟨0, Finset.mem_univ_val _, rfl⟩
+      let l₀ : Fin (m+1) := Classical.choose (Multiset.mem_map.mp hg0_mem)
+      let l₀_spec :
+        l₀ ∈ (Finset.univ : Finset (Fin (m+1))).val ∧ f l₀ = g 0 :=
+        Classical.choose_spec (Multiset.mem_map.mp hg0_mem)
+      let hl₀ : f l₀ = g 0 := l₀_spec.2
+      let f' : Fin m → α := f ∘ l₀.succAbove
+      let g' : Fin m → α := g ∘ Fin.succ
+      let hpeel_f : Multiset.map f (Finset.univ : Finset (Fin (m+1))).val =
+          f l₀ ::ₘ Multiset.map f' (Finset.univ : Finset (Fin m)).val := by
+        conv_lhs => rw [Fin.univ_succAbove m l₀]
+        simp only [Finset.cons_val, Multiset.map_cons, Finset.map_val,
+          Multiset.map_map, Fin.coe_succAboveEmb]
+        rfl
+      let hpeel_g : Multiset.map g (Finset.univ : Finset (Fin (m+1))).val =
+          g 0 ::ₘ Multiset.map g' (Finset.univ : Finset (Fin m)).val := by
+        conv_lhs => rw [Fin.univ_succAbove m 0]
+        simp only [Finset.cons_val, Multiset.map_cons, Finset.map_val,
+          Multiset.map_map, Fin.coe_succAboveEmb, Fin.succAbove_zero]
+        rfl
+      let hms : Multiset.map f' (Finset.univ : Finset (Fin m)).val =
+          Multiset.map g' (Finset.univ : Finset (Fin m)).val := by
+        have hh : f l₀ ::ₘ Multiset.map f' (Finset.univ : Finset (Fin m)).val =
+            f l₀ ::ₘ Multiset.map g' (Finset.univ : Finset (Fin m)).val := by
+          rw [← hpeel_f, h, hpeel_g, hl₀]
+        exact (Multiset.cons_inj_right _).mp hh
+      let σ'_pkg := matchingPerm f' g' hms
+      let σ' : Equiv.Perm (Fin m) := σ'_pkg.1
+      let hσ' : g' = f' ∘ σ' := σ'_pkg.2
+      let σ_fn : Fin (m+1) → Fin (m+1) :=
+        Fin.cases l₀ (fun j => l₀.succAbove (σ' j))
+      let hinj : Function.Injective σ_fn := by
+        intro i j hij
+        induction i using Fin.cases with
+        | zero =>
+          induction j using Fin.cases with
+          | zero => rfl
+          | succ b =>
+            exfalso
+            change l₀ = l₀.succAbove (σ' b) at hij
+            exact (Fin.succAbove_ne l₀ (σ' b)) hij.symm
+        | succ a =>
+          induction j using Fin.cases with
+          | zero =>
+            exfalso
+            change l₀.succAbove (σ' a) = l₀ at hij
+            exact (Fin.succAbove_ne l₀ (σ' a)) hij
+          | succ b =>
+            change l₀.succAbove (σ' a) = l₀.succAbove (σ' b) at hij
+            have h1 : σ' a = σ' b := l₀.succAbove_right_injective hij
+            have h2 : a = b := σ'.injective h1
+            exact congrArg Fin.succ h2
+      let hbij : Function.Bijective σ_fn :=
+        Finite.injective_iff_bijective.mp hinj
+      ⟨Equiv.ofBijective σ_fn hbij, by
+        funext i
+        induction i using Fin.cases with
+        | zero =>
+          show g 0 = f (σ_fn 0)
+          change g 0 = f l₀
+          exact hl₀.symm
+        | succ j =>
+          show g (Fin.succ j) = f (σ_fn (Fin.succ j))
+          change g (Fin.succ j) = f (l₀.succAbove (σ' j))
+          have := congrFun hσ' j
+          show g' j = f' (σ' j)
+          exact this⟩
+
+/-- For any sequence `g : Fin n → α`, the multiset of values equals
+`Finsupp.toMultiset (∑ l, single (g l) 1)`. -/
+private theorem toMultiset_sum_single_fn {α : Type*} [DecidableEq α] (g : Fin n → α) :
+    Finsupp.toMultiset (∑ l : Fin n, Finsupp.single (g l) (1 : ℕ)) =
+      Multiset.map g (Finset.univ : Finset (Fin n)).val := by
+  classical
+  rw [Finsupp.toMultiset_sum]
+  simp only [Finsupp.toMultiset_single, one_smul]
+  induction (Finset.univ : Finset (Fin n)) using Finset.induction_on with
+  | empty => simp
+  | insert a s ha ih =>
+    rw [Finset.sum_insert ha, ih, Finset.insert_val, Multiset.ndinsert_of_notMem ha,
+      Multiset.map_cons, Multiset.singleton_add]
+
+/-- **Single-orbit realizability.** If a slot-assignment pair `(f, g)` realizes the same exponent
+vector as `(f₀, g₀)`, then it is obtained from `(f₀, g₀)` by a block permutation `σ`: matching the
+common multiset of triples `(slot j, · j, · j)` produces a slot-preserving `σ` with `f = f₀ ∘ σ`,
+`g = g₀ ∘ σ`. -/
+private theorem exists_blockPerm_of_sum_single_eq (slot : Fin n → Fin k)
+    (f g f₀ g₀ : Fin n → Fin N)
+    (h : ∑ j : Fin n, Finsupp.single (slot j, g j, f j) (1 : ℕ)
+        = ∑ j : Fin n, Finsupp.single (slot j, g₀ j, f₀ j) (1 : ℕ)) :
+    ∃ σ ∈ blockPerms k n slot, f = f₀ ∘ σ ∧ g = g₀ ∘ σ := by
+  classical
+  have hmulti : Multiset.map (fun j => ((slot j, g₀ j, f₀ j) : Fin k × Fin N × Fin N))
+        (Finset.univ : Finset (Fin n)).val
+      = Multiset.map (fun j => ((slot j, g j, f j) : Fin k × Fin N × Fin N))
+        (Finset.univ : Finset (Fin n)).val := by
+    rw [← toMultiset_sum_single_fn, ← toMultiset_sum_single_fn, h]
+  obtain ⟨σ, hσ⟩ := matchingPerm
+    (fun j => ((slot j, g₀ j, f₀ j) : Fin k × Fin N × Fin N))
+    (fun j => ((slot j, g j, f j) : Fin k × Fin N × Fin N)) hmulti
+  refine ⟨σ, ?_, ?_, ?_⟩
+  · rw [blockPerms, Finset.mem_filter]
+    refine ⟨Finset.mem_univ _, ?_⟩
+    funext j
+    have hj := congrFun hσ j
+    simp only [Function.comp_apply, Prod.mk.injEq] at hj
+    show slot (σ j) = slot j
+    exact hj.1.symm
+  · funext j
+    have hj := congrFun hσ j
+    simp only [Function.comp_apply, Prod.mk.injEq] at hj
+    exact hj.2.2
+  · funext j
+    have hj := congrFun hσ j
+    simp only [Function.comp_apply, Prod.mk.injEq] at hj
+    exact hj.2.1
+
+/-- **Injectivity core.** A block-symmetric endomorphism (in the image of `reynolds`) whose
+evaluation vanishes is zero: reading off the coefficient of each monomial, the block symmetry makes
+the matrix constant on each single realizability orbit, and the positive orbit count over `ℂ` forces
+every matrix entry to zero. -/
+private theorem reynolds_eq_zero_of_endTensorEval_zero (slot : Fin n → Fin k)
+    (W₀ : Module.End ℂ (TensorPower ℂ (BridgeV N) n))
+    (hW : endTensorEval k N n slot (reynolds k N n slot W₀) = 0) :
+    reynolds k N n slot W₀ = 0 := by
+  classical
+  set W := reynolds k N n slot W₀ with hWdef
+  suffices hzero : ∀ f g : Fin n → Fin N,
+      LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f g = 0 by
+    have hmat : LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W = 0 := by
+      ext f g; exact hzero f g
+    have hsymm : (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)).symm
+          (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W)
+        = (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)).symm 0 := by rw [hmat]
+    rwa [LinearEquiv.symm_apply_apply, map_zero] at hsymm
+  intro f₀ g₀
+  set u₀ : (Fin k × Fin N × Fin N) →₀ ℕ :=
+    ∑ j : Fin n, Finsupp.single (slot j, g₀ j, f₀ j) 1 with hu₀
+  -- `endTensorEval W` is a sum of monomials, one per pair `(f, g)`.
+  have hEval : endTensorEval k N n slot W
+      = ∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
+          MvPolynomial.monomial (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1)
+            (LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f g) := by
+    rw [endTensorEval_apply]
+    refine Finset.sum_congr rfl fun f _ => Finset.sum_congr rfl fun g _ => ?_
+    rw [genericTensorMatrix_eq_monomial, MvPolynomial.algebraMap_eq, MvPolynomial.C_mul_monomial,
+      mul_one]
+  -- The coefficient of `monomial u₀` vanishes.
+  have hcoeff : (∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
+      (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+          LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f g else 0)) = 0 := by
+    have hc : MvPolynomial.coeff u₀ (endTensorEval k N n slot W) = 0 := by
+      rw [hW, MvPolynomial.coeff_zero]
+    rw [hEval] at hc
+    simp_rw [MvPolynomial.coeff_sum, MvPolynomial.coeff_monomial] at hc
+    exact hc
+  -- Block symmetry makes the surviving entries all equal to the `(f₀, g₀)` entry.
+  have hconst : ∀ f g : Fin n → Fin N,
+      (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+          LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f g else 0)
+        = (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+          LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0) := by
+    intro f g
+    by_cases hfg : (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀
+    · rw [if_pos hfg, if_pos hfg]
+      obtain ⟨σ, hσbp, hfσ, hgσ⟩ :=
+        exists_blockPerm_of_sum_single_eq k N n slot f g f₀ g₀ (by rw [hfg, hu₀])
+      have hbs := reynolds_block_symmetric k N n slot W₀ hσbp f₀ g₀
+      rw [← hWdef] at hbs
+      rw [hfσ, hgσ]
+      exact hbs
+    · rw [if_neg hfg, if_neg hfg]
+  have hcoeff2 : (∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
+      (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+          LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0)) = 0 := by
+    rw [show (∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
+          (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+            LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0))
+        = ∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
+          (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+            LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f g else 0) from
+      Finset.sum_congr rfl fun f _ =>
+        Finset.sum_congr rfl fun g _ => (hconst f g).symm]
+    exact hcoeff
+  -- Fold the double sum into a cardinality times the `(f₀, g₀)` entry.
+  have hcombine : (∑ p : (Fin n → Fin N) × (Fin n → Fin N),
+        (if (∑ j : Fin n, Finsupp.single (slot j, p.2 j, p.1 j) 1) = u₀ then
+          LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0))
+      = ∑ f : Fin n → Fin N, ∑ g : Fin n → Fin N,
+          (if (∑ j : Fin n, Finsupp.single (slot j, g j, f j) 1) = u₀ then
+            LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0) :=
+    Fintype.sum_prod_type _
+  have hpc : (∑ p : (Fin n → Fin N) × (Fin n → Fin N),
+        (if (∑ j : Fin n, Finsupp.single (slot j, p.2 j, p.1 j) 1) = u₀ then
+          LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n) W f₀ g₀ else 0)) = 0 := by
+    rw [hcombine]; exact hcoeff2
+  rw [← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul] at hpc
+  have hmemfilter : (f₀, g₀) ∈
+      (Finset.univ.filter fun p : (Fin n → Fin N) × (Fin n → Fin N) =>
+        (∑ j : Fin n, Finsupp.single (slot j, p.2 j, p.1 j) 1) = u₀) := by
+    rw [Finset.mem_filter]
+    exact ⟨Finset.mem_univ _, hu₀.symm⟩
+  have hcard_ne : ((Finset.univ.filter fun p : (Fin n → Fin N) × (Fin n → Fin N) =>
+        (∑ j : Fin n, Finsupp.single (slot j, p.2 j, p.1 j) 1) = u₀).card : ℂ) ≠ 0 := by
+    rw [Ne, Nat.cast_eq_zero, Finset.card_eq_zero]
+    exact Finset.nonempty_iff_ne_empty.mp ⟨(f₀, g₀), hmemfilter⟩
+  exact (mul_eq_zero.mp hpc).resolve_left hcard_ne
+
 /-- **Injectivity of the evaluation pairing on block-symmetric endomorphisms.** Two endomorphisms in
 the image of the Reynolds operator with the same evaluation are equal: the block-symmetric
 endomorphisms are exactly the span of the uniform averages of matrix units over the fibres of
@@ -700,7 +1043,13 @@ theorem reynolds_injective (slot : Fin n → Fin k)
   --       `PolynomialTensorBridge.matchingPerm`). Block-symmetry makes `W` constant on that orbit,
   --       so the coefficient is `(orbit card) • W_{a,b}`; `endTensorEval W = 0` forces every
   --       coefficient to vanish (monomials are linearly independent), hence every `W_{a,b} = 0`.
-  sorry
+  classical
+  have hz : endTensorEval k N n slot (reynolds k N n slot (M - M')) = 0 := by
+    rw [reynolds_sub, map_sub, h, sub_self]
+  have hzero : reynolds k N n slot (M - M') = 0 :=
+    reynolds_eq_zero_of_endTensorEval_zero k N n slot (M - M') hz
+  rw [reynolds_sub, sub_eq_zero] at hzero
+  exact hzero
 
 /-- **Conjugation preserves multidegree.** The simultaneous-conjugation automorphism `conjAlgHom g`
 of the coordinate ring preserves the `matrixWeight`-multidegree: it substitutes each variable

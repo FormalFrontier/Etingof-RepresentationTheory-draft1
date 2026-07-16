@@ -52,30 +52,6 @@ variable (k N : ℕ)
 
 /-! ## Tensor-trace ↔ trace-word: the value on a permutation operator -/
 
-/-- The matrix of the permutation operator `symGroupAction σ` in the standard tensor basis is the
-`{0,1}`-permutation matrix `f = g ∘ σ⁻¹`: `reindex σ` sends the basis vector `⨂ᵢ eᵢ` indexed by
-`g` to the one indexed by `g ∘ σ⁻¹`. -/
-theorem toMatrix_symGroupAction (n : ℕ) (σ : Equiv.Perm (Fin n))
-    (f g : Fin n → Fin N) :
-    LinearMap.toMatrix (tensorBasis N n) (tensorBasis N n)
-        (symGroupAction ℂ (BridgeV N) n σ).toLinearMap f g
-      = if f = g ∘ σ.symm then 1 else 0 := by
-  rw [LinearMap.toMatrix_apply]
-  -- The permutation operator sends the basis vector indexed by `g` to the one indexed by `g ∘ σ⁻¹`.
-  have hval : (symGroupAction ℂ (BridgeV N) n σ).toLinearMap (tensorBasis N n g)
-      = tensorBasis N n (g ∘ σ.symm) := by
-    have h1 : tensorBasis N n g = ⨂ₜ[ℂ] i, (Pi.basisFun ℂ (Fin N)) (g i) :=
-      Basis.piTensorProduct_apply _ g
-    have h2 : tensorBasis N n (g ∘ σ.symm)
-        = ⨂ₜ[ℂ] i, (Pi.basisFun ℂ (Fin N)) ((g ∘ σ.symm) i) :=
-      Basis.piTensorProduct_apply _ (g ∘ σ.symm)
-    rw [h1, h2]
-    show symGroupAction ℂ (BridgeV N) n σ (⨂ₜ[ℂ] i, (Pi.basisFun ℂ (Fin N)) (g i)) = _
-    rw [symGroupAction, PiTensorProduct.reindex_tprod]
-    rfl
-  rw [hval, Basis.repr_self, Finsupp.single_apply]
-  exact if_congr eq_comm rfl rfl
-
 /-- The per-orbit factor `trace (matrixCycleProd σ (X_{letter ·}) r)` of the cycle-trace identity is
 a trace-of-word function: the ordered matrix product around the orbit of `r`,
 `X_{letter r} · X_{letter (σ⁻¹ r)} · …`, is the word product `w = [letter r, letter (σ⁻¹ r), …]`
@@ -120,7 +96,8 @@ theorem endTensorEval_symGroupAction_mem_adjoin (n : ℕ) (slot : Fin n → Fin 
               * genericTensorMatrix k N n slot g f
             = if f = g ∘ σ.symm then genericTensorMatrix k N n slot g f else 0 := by
         intro f
-        rw [toMatrix_symGroupAction, apply_ite (algebraMap ℂ (MatrixTupleRing k N)),
+        rw [toMatrix_symGroupAction, Equiv.Perm.inv_def,
+          apply_ite (algebraMap ℂ (MatrixTupleRing k N)),
           map_one, map_zero, ite_mul, one_mul, zero_mul]
       simp_rw [hterm]
       rw [Finset.sum_ite_eq' Finset.univ (g ∘ σ.symm)
