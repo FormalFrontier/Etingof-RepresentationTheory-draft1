@@ -1366,22 +1366,22 @@ private lemma star_hconn {m : ℕ} (sub : Matrix (Fin m) (Fin m) ℤ) (c : Fin m
     intro k h
     simp only [List.length_cons, List.length_nil] at h
     obtain rfl : k = 0 := by omega
-    simp only [List.get_cons_zero, List.get_cons_succ]
+    simp only [List.get_cons_succ]
     rw [hic]; exact hc j (fun hh => hij (hic.trans hh.symm))
   by_cases hjc : j = c
   · refine ⟨[i, c], by simp, by simp [hjc], ?_⟩
     intro k h
     simp only [List.length_cons, List.length_nil] at h
     obtain rfl : k = 0 := by omega
-    simp only [List.get_cons_zero, List.get_cons_succ]
+    simp only [List.get_cons_succ]
     exact hc' i hic
   · refine ⟨[i, c, j], by simp, by simp, ?_⟩
     intro k h
     simp only [List.length_cons, List.length_nil] at h
     rcases (show k = 0 ∨ k = 1 by omega) with rfl | rfl
-    · simp only [List.get_cons_zero, List.get_cons_succ]
+    · simp only [List.get_cons_succ]
       exact hc' i hic
-    · simp only [List.get_cons_zero, List.get_cons_succ]
+    · simp only [List.get_cons_succ]
       exact hc j hjc
 
 /-- **Degree-4 dichotomy (tree case, step of `affine_dynkin_classification`).**
@@ -1473,7 +1473,103 @@ lemma affine_degree_four_dichotomy {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       have hdeg3 := Etingof.dynkin_degree_le_three hDsub 0
       omega
     have hn5 : n = 5 := le_antisymm hnle h5le
-    sorry
+    subst hn5
+    -- `e` is now a self-map of `Fin 5`, hence a bijection.
+    have hebij : Function.Bijective e := (Finite.injective_iff_bijective).mp he
+    set eEquiv := Equiv.ofBijective e hebij with heE
+    -- No edges between two distinct neighbours: a triangle `{v, eₐ, e_b}` would be a
+    -- proper connected induced subgraph, hence a finite Dynkin diagram, yet it has
+    -- `6` half-edges while a tree on `3` vertices has `2·(3−1) = 4`.
+    have he_mem : ∀ a : Fin 5, a ≠ 0 → e a ∈ N := by
+      intro a ha
+      induction a using Fin.cases with
+      | zero => exact absurd rfl ha
+      | succ i => rw [hesucc]; exact hg_mem i
+    have hnoedge : ∀ a b : Fin 5, a ≠ 0 → b ≠ 0 → a ≠ b → sub a b = 0 := by
+      intro a b ha hb hab
+      rcases hD.2.2.1 (e a) (e b) with h0 | h1
+      · rw [hsub, Matrix.submatrix_apply]; exact h0
+      · exfalso
+        -- The triangle `{v, eₐ, e_b}`.
+        set e3 : Fin 3 → Fin 5 := ![v, e a, e b] with he3
+        have hva : v ≠ e a := fun h => hv_notin_N (h.symm ▸ he_mem a ha)
+        have hvb : v ≠ e b := fun h => hv_notin_N (h.symm ▸ he_mem b hb)
+        have heab : e a ≠ e b := fun h => hab (he h)
+        have e30 : e3 0 = v := by simp [he3]
+        have e31 : e3 1 = e a := by simp [he3]
+        have e32 : e3 2 = e b := by simp [he3]
+        have he3inj : Function.Injective e3 := by
+          have h1inj : Function.Injective (![e a, e b] : Fin 2 → Fin 5) := by
+            rw [show (![e a, e b] : Fin 2 → Fin 5) = Fin.cons (e a) ![e b] from rfl,
+              Fin.cons_injective_iff]
+            refine ⟨?_, ?_⟩
+            · rintro ⟨i, hi⟩; fin_cases i; exact heab hi.symm
+            · intro x y _; exact Subsingleton.elim x y
+          rw [he3, show (![v, e a, e b] : Fin 3 → Fin 5) = Fin.cons v ![e a, e b] from rfl,
+            Fin.cons_injective_iff]
+          refine ⟨?_, h1inj⟩
+          rintro ⟨i, hi⟩
+          fin_cases i
+          · exact hva hi.symm
+          · exact hvb hi.symm
+        obtain ⟨w3, hw3⟩ : ∃ w, w ∉ Finset.univ.image e3 := by
+          have hc3 : (Finset.univ.image e3).card = 3 := by
+            rw [Finset.card_image_of_injective _ he3inj, Finset.card_univ, Fintype.card_fin]
+          by_contra hcon
+          have himg : Finset.univ.image e3 = Finset.univ := by
+            rw [Finset.eq_univ_iff_forall]; intro x; by_contra hx; exact hcon ⟨x, hx⟩
+          rw [himg, Finset.card_univ, Fintype.card_fin] at hc3; omega
+        have hv_w3 : ∀ i, e3 i ≠ w3 := fun i hi =>
+          hw3 (Finset.mem_image.mpr ⟨i, Finset.mem_univ i, hi⟩)
+        have a1 : adj v (e a) = 1 := hhub0 a ha
+        have a2 : adj v (e b) = 1 := hhub0 b hb
+        have a3 : adj (e a) v = 1 := by rw [hsymm']; exact a1
+        have a4 : adj (e b) v = 1 := by rw [hsymm']; exact a2
+        have a6 : adj (e b) (e a) = 1 := by rw [hsymm']; exact h1
+        have hc3 : ∀ x : Fin 3, x ≠ 0 → (adj.submatrix e3 e3) 0 x = 1 := by
+          intro x hx
+          fin_cases x
+          · exact absurd rfl hx
+          · simpa [Matrix.submatrix_apply, he3] using a1
+          · simpa [Matrix.submatrix_apply, he3] using a2
+        have hc3' : ∀ x : Fin 3, x ≠ 0 → (adj.submatrix e3 e3) x 0 = 1 := by
+          intro x hx
+          fin_cases x
+          · exact absurd rfl hx
+          · simpa [Matrix.submatrix_apply, he3] using a3
+          · simpa [Matrix.submatrix_apply, he3] using a4
+        have hconn3 := star_hconn (adj.submatrix e3 e3) 0 hc3 hc3'
+        have hDsub3 : Etingof.IsDynkinDiagram 3 (adj.submatrix e3 e3) :=
+          affine_properInduced_isDynkin adj hn hD e3 he3inj hv_w3 hconn3
+        have htree := Etingof.Problem6_1_3_E7E8.isDynkinDiagram_isTree
+          (by norm_num : (1 : ℕ) ≤ 3) hDsub3
+        have hsum6 : (∑ i, ∑ j, (adj.submatrix e3 e3) i j) = 6 := by
+          simp only [Fin.sum_univ_three, Matrix.submatrix_apply, e30, e31, e32, hdiag,
+            a1, a2, a3, a4, h1, a6]
+          norm_num
+        rw [htree] at hsum6; norm_num at hsum6
+    -- Full description of the star submatrix.
+    have hsubval : ∀ a b : Fin 5,
+        sub a b = if a = b then 0 else if a = 0 ∨ b = 0 then 1 else 0 := by
+      intro a b
+      by_cases hab : a = b
+      · subst hab; rw [if_pos rfl, hsub, Matrix.submatrix_apply]; exact hdiag (e a)
+      · rw [if_neg hab]
+        by_cases ha0 : a = 0
+        · subst ha0; rw [if_pos (Or.inl rfl)]; exact hc b (fun h => hab h.symm)
+        · by_cases hb0 : b = 0
+          · subst hb0; rw [if_pos (Or.inr rfl)]; exact hc' a ha0
+          · rw [if_neg (by tauto)]; exact hnoedge a b ha0 hb0 hab
+    -- Reindexing permutation: `D̃₄` center `2 ↦` hub `0`, leaves `{0,1,3,4} ↦ {1,2,3,4}`.
+    let ρf : Fin 5 → Fin 5 := ![1, 2, 0, 3, 4]
+    let ρg : Fin 5 → Fin 5 := ![2, 0, 1, 3, 4]
+    let ρ : Fin 5 ≃ Fin 5 := ⟨ρf, ρg, by decide, by decide⟩
+    refine ⟨ρ.trans eEquiv, ?_⟩
+    intro i j
+    change adj (e (ρf i)) (e (ρf j)) = (AffineType.Dtilde 4 (by norm_num)).adj i j
+    rw [show adj (e (ρf i)) (e (ρf j)) = sub (ρf i) (ρf j) from by
+        rw [hsub, Matrix.submatrix_apply], hsubval]
+    fin_cases i <;> fin_cases j <;> decide
   · right
     intro v
     have hle := affine_vertexDegree_le_four adj hD v
