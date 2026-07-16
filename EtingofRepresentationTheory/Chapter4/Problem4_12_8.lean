@@ -95,6 +95,48 @@ theorem exists_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_hg : g �
   rw [sub_mulVec, one_mulVec, sub_eq_zero] at hMv
   exact hMv
 
+/-!
+### Construction for milestone (ii)
+
+We realise a finite subgroup `H ≤ SO(3)` fixing a common nonzero vector `v` as a finite
+subgroup of `Circle` (unit complex numbers), then conclude cyclicity from
+`isCyclic_of_injective_ringHom`. The bridge is geometric: every `g ∈ H` acts on
+`E = EuclideanSpace ℝ (Fin 3)` as an isometry fixing `v`, hence preserving the plane
+`W = (ℝ ∙ v)ᗮ`, on which it is a rotation. Sending `g` to the oriented rotation angle (as a
+point of `Circle`) is an injective group homomorphism.
+-/
+
+section CommonAxis
+
+open scoped RealInnerProductSpace
+open Matrix EuclideanSpace Submodule
+
+/-- An orthogonal `3×3` real matrix acts on Euclidean space preserving the inner product. -/
+private lemma toEuclideanLin_inner_eq {M : Matrix (Fin 3) (Fin 3) ℝ} (hM : Mᵀ * M = 1)
+    (x y : EuclideanSpace ℝ (Fin 3)) :
+    ⟪toEuclideanLin M x, toEuclideanLin M y⟫ = ⟪x, y⟫ := by
+  have hdot : ∀ a b : Fin 3 → ℝ, (M *ᵥ a) ⬝ᵥ (M *ᵥ b) = a ⬝ᵥ b := by
+    intro a b
+    rw [dotProduct_mulVec, ← mulVec_transpose, mulVec_mulVec, hM, one_mulVec]
+  rw [EuclideanSpace.inner_eq_star_dotProduct, EuclideanSpace.inner_eq_star_dotProduct,
+    ofLp_toEuclideanLin_apply, ofLp_toEuclideanLin_apply]
+  simp only [star_trivial]
+  exact hdot _ _
+
+/-- Composition of `toEuclideanLin` corresponds to matrix multiplication. -/
+private lemma toEuclideanLin_comp (M N : Matrix (Fin 3) (Fin 3) ℝ) :
+    (toEuclideanLin M).comp (toEuclideanLin N) = toEuclideanLin (M * N) := by
+  refine LinearMap.ext fun x => ?_
+  rw [LinearMap.comp_apply, toEuclideanLin_apply M, ofLp_toEuclideanLin_apply, mulVec_mulVec,
+    toEuclideanLin_apply (M * N)]
+
+/-- The determinant of the Euclidean linear map of a matrix is the matrix determinant. -/
+private lemma det_toEuclideanLin (M : Matrix (Fin 3) (Fin 3) ℝ) :
+    LinearMap.det (toEuclideanLin M) = M.det := by
+  rw [toEuclideanLin_eq_toLin, LinearMap.det_toLin]
+
+end CommonAxis
+
 /-- **Milestone (ii): common-axis groups are cyclic.** A finite subgroup of `SO(3)` all of
 whose elements fix a common nonzero vector `v` consists of rotations about the single axis
 `ℝ·v`, hence embeds into `SO(2)` and is cyclic. This is what makes the stabilizer of a pole
