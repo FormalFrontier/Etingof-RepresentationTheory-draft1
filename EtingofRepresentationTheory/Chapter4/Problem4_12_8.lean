@@ -43,6 +43,42 @@ open Matrix
 
 namespace Etingof.Problem4_12_8
 
+/-- **Rotation axis (part (a), step i).** Every element `g` of `SO(3)` fixes a nonzero vector —
+the axis of rotation, i.e. `1` is an eigenvalue of `g`.
+
+The proof is the elementary `det(g - 1) = 0` computation, needing no eigenvalue theory: from
+orthogonality (`gᵀ g = 1`) and `det g = 1`,
+`det(g - 1) = det gᵀ · det(g - 1) = det(gᵀ (g - 1)) = det(1 - gᵀ) = det((1 - g)ᵀ) = det(1 - g)
+= (-1)³ det(g - 1) = -det(g - 1)`, hence `det(g - 1) = 0`, so `g - 1` is singular and has a
+nonzero kernel vector `v` with `g *ᵥ v = v`. -/
+theorem exists_fixed_vector (g : specialOrthogonalGroup (Fin 3) ℝ) (_hg : g ≠ 1) :
+    ∃ v : Fin 3 → ℝ, v ≠ 0 ∧ (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ v = v := by
+  set M : Matrix (Fin 3) (Fin 3) ℝ := (g : Matrix (Fin 3) (Fin 3) ℝ) with hM
+  obtain ⟨hortho, hdet⟩ := mem_specialOrthogonalGroup_iff.mp (SetLike.coe_mem g)
+  have hMtM : Mᵀ * M = 1 := (mem_orthogonalGroup_iff' (Fin 3) ℝ).mp hortho
+  have hdetT : Mᵀ.det = 1 := by rw [det_transpose]; exact hdet
+  -- `det (M - 1) = 0`, obtained from `M - 1 = -(1 - M)` and orthogonality.
+  have hkey : (M - 1).det = 0 := by
+    have e1 : (M - 1).det = (1 - Mᵀ).det := by
+      have hprod : Mᵀ * (M - 1) = 1 - Mᵀ := by rw [mul_sub, mul_one, hMtM]
+      calc (M - 1).det = Mᵀ.det * (M - 1).det := by rw [hdetT, one_mul]
+        _ = (Mᵀ * (M - 1)).det := (det_mul _ _).symm
+        _ = (1 - Mᵀ).det := by rw [hprod]
+    have e2 : (1 - Mᵀ).det = (1 - M).det := by
+      rw [show (1 : Matrix (Fin 3) (Fin 3) ℝ) - Mᵀ = (1 - M)ᵀ by
+        rw [transpose_sub, transpose_one], det_transpose]
+    have e3 : (1 - M).det = -((M - 1).det) := by
+      rw [show (1 : Matrix (Fin 3) (Fin 3) ℝ) - M = -(M - 1) by abel, det_neg,
+        Fintype.card_fin]
+      ring
+    have hself : (M - 1).det = -((M - 1).det) := e1.trans (e2.trans e3)
+    linarith
+  -- A singular matrix has a nonzero vector in its kernel.
+  obtain ⟨v, hv0, hMv⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hkey
+  refine ⟨v, hv0, ?_⟩
+  rw [sub_mulVec, one_mulVec, sub_eq_zero] at hMv
+  exact hMv
+
 /-- **Part (a).** Every finite subgroup `G` of `SO(3)` is isomorphic to one of: a cyclic group
 `ℤ/nℤ`, a dihedral group `Dₙ`, the tetrahedral group `A₄`, the octahedral group `S₄`, or the
 icosahedral group `A₅`. -/
