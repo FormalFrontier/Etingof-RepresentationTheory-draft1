@@ -1080,6 +1080,105 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
 
 end PoleCounting
 
+/-!
+## Dihedral recognition
+
+Algebraic core of the dihedral disjunct of `so3_classification_aux`. In the `{2, 2, k}`
+pole-order family the group has order `n = 2k`, a rotation `ρ` of order `k` about the
+principal axis (a generator of the order-`k` pole stabilizer), and an order-`2` element `s`
+(a `π`-rotation swapping the two principal poles) that inverts `ρ`, with `s` not itself a
+rotation about the principal axis (`s ∉ ⟨ρ⟩`). These relations determine `G ≃* DihedralGroup k`.
+
+The lemma is pure group theory — it takes the generators and their relations as hypotheses,
+so the geometric extraction of `ρ` and `s` from the pole data can feed it separately. -/
+theorem mulEquiv_dihedralGroup_of_conj_inv
+    {G : Type*} [Group G] [Finite G] (k : ℕ) [NeZero k]
+    (ρ s : G) (hρ : orderOf ρ = k) (hs : orderOf s = 2)
+    (hconj : s * ρ * s⁻¹ = ρ⁻¹) (hsnotin : s ∉ Subgroup.zpowers ρ)
+    (hcard : Nat.card G = 2 * k) :
+    Nonempty (G ≃* DihedralGroup k) := by
+  classical
+  -- `ρz i := ρ ^ i.val` realises the rotation part `ℤ/kℤ ≅ ⟨ρ⟩`.
+  set ρz : ZMod k → G := fun i => ρ ^ i.val with hρz
+  have hρz_add : ∀ i j : ZMod k, ρz (i + j) = ρz i * ρz j := by
+    intro i j
+    show ρ ^ (i + j).val = ρ ^ i.val * ρ ^ j.val
+    rw [← pow_add]
+    apply pow_eq_pow_iff_modEq.mpr
+    rw [hρ, ZMod.val_add]
+    exact Nat.mod_modEq _ _
+  have hρz_zero : ρz 0 = 1 := by
+    show ρ ^ (0 : ZMod k).val = 1
+    rw [ZMod.val_zero, pow_zero]
+  have hρz_neg : ∀ i : ZMod k, ρz (-i) = (ρz i)⁻¹ := by
+    intro i
+    rw [eq_inv_iff_mul_eq_one, ← hρz_add, neg_add_cancel, hρz_zero]
+  -- `s` is an involution inverting every power of `ρ`.
+  have hs2 : s * s = 1 := by
+    have h : s ^ 2 = 1 := by rw [← hs]; exact pow_orderOf_eq_one s
+    rwa [pow_two] at h
+  have hsinv : s⁻¹ = s := inv_eq_of_mul_eq_one_right hs2
+  have hconj_pow : ∀ i : ZMod k, s * ρz i * s⁻¹ = (ρz i)⁻¹ := by
+    intro i
+    show s * ρ ^ i.val * s⁻¹ = (ρ ^ i.val)⁻¹
+    have hsc : SemiconjBy s ρ ρ⁻¹ := by
+      show s * ρ = ρ⁻¹ * s
+      rw [← hconj, mul_assoc, inv_mul_cancel, mul_one]
+    have hp := hsc.pow_right i.val
+    rw [SemiconjBy, inv_pow] at hp
+    rw [hp, mul_assoc, mul_inv_cancel, mul_one]
+  -- Consequently `ρz i` slides past `s`, turning into its inverse.
+  have hcomm : ∀ i : ZMod k, ρz i * s = s * (ρz i)⁻¹ := by
+    intro i
+    have h := hconj_pow i
+    rw [hsinv] at h
+    calc ρz i * s = s * (s * ρz i * s) := by
+            rw [← mul_assoc, ← mul_assoc, hs2, one_mul]
+      _ = s * (ρz i)⁻¹ := by rw [h]
+  -- The realisation map `DihedralGroup k → G`, and its multiplicativity.
+  let F : DihedralGroup k → G := fun x =>
+    match x with
+    | DihedralGroup.r i => ρz i
+    | DihedralGroup.sr i => s * ρz i
+  have hmul : ∀ a b : DihedralGroup k, F (a * b) = F a * F b := by
+    rintro (i | i) (j | j)
+    · show ρz (i + j) = ρz i * ρz j
+      exact hρz_add i j
+    · show s * ρz (j - i) = ρz i * (s * ρz j)
+      have e1 : ρz i * (s * ρz j) = ρz i * s * ρz j := by group
+      rw [e1, hcomm i]
+      have e2 : s * (ρz i)⁻¹ * ρz j = s * ((ρz i)⁻¹ * ρz j) := by group
+      rw [e2, ← hρz_neg, ← hρz_add, neg_add_eq_sub]
+    · show s * ρz (i + j) = s * ρz i * ρz j
+      rw [hρz_add, mul_assoc]
+    · show ρz (j - i) = s * ρz i * (s * ρz j)
+      have e1 : s * ρz i * (s * ρz j) = s * (ρz i * s) * ρz j := by group
+      rw [e1, hcomm i]
+      have e2 : s * (s * (ρz i)⁻¹) * ρz j = (s * s) * ((ρz i)⁻¹ * ρz j) := by group
+      rw [e2, hs2, one_mul, ← hρz_neg, ← hρz_add, neg_add_eq_sub]
+  let φ : DihedralGroup k →* G := MonoidHom.mk' F hmul
+  -- `φ` is injective: rotations land in `⟨ρ⟩`, reflections would force `s ∈ ⟨ρ⟩`.
+  have hinj : Function.Injective φ := by
+    rw [injective_iff_map_eq_one]
+    rintro (i | i) hi
+    · have hpow : ρ ^ i.val = 1 := hi
+      have hdvd : orderOf ρ ∣ i.val := orderOf_dvd_of_pow_eq_one hpow
+      rw [hρ] at hdvd
+      have hval : i.val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt i)
+      rw [show (DihedralGroup.r i : DihedralGroup k) = DihedralGroup.r 0 by
+        rw [(ZMod.val_eq_zero i).mp hval], DihedralGroup.r_zero]
+    · exfalso
+      have hsval : s * ρ ^ i.val = 1 := hi
+      have hs_eq : s = (ρ ^ i.val)⁻¹ := eq_inv_iff_mul_eq_one.mpr hsval
+      exact hsnotin (by
+        rw [hs_eq]; exact inv_mem (Subgroup.npow_mem_zpowers ρ i.val))
+  -- Injective + matching order `2k` gives the isomorphism.
+  haveI : Fintype G := Fintype.ofFinite G
+  have hcardeq : Fintype.card (DihedralGroup k) = Fintype.card G := by
+    rw [DihedralGroup.card, ← Nat.card_eq_fintype_card, hcard]
+  exact ⟨(MulEquiv.ofBijective φ
+    ((Fintype.bijective_iff_injective_and_card φ).mpr ⟨hinj, hcardeq⟩)).symm⟩
+
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
 the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
