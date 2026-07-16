@@ -1078,6 +1078,39 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
         simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def]
         exact hsum.symm)
 
+/-- **Milestone (ii): pole stabilizers are cyclic.** For a finite subgroup `G ≤ SO(3)` and a
+pole `b`, every element of the stabilizer of `b` fixes the underlying unit vector `b.1 ≠ 0`, so
+the stabilizer embeds (via `isCyclic_of_common_fixed_vector`) into the oriented rotations of the
+plane orthogonal to `b.1` and is therefore cyclic. This is the second milestone of the book's
+hint: "the subgroup of `G` fixing a particular pole `P` is cyclic, of some order `m`". -/
+theorem isCyclic_stabilizer_pole
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (b : ↥(poleSet G)) :
+    IsCyclic (stabilizer (↥G) b) := by
+  classical
+  -- The two subtype coercions assemble into a homomorphism `stabilizer → SO(3)`.
+  let φ : stabilizer (↥G) b →* specialOrthogonalGroup (Fin 3) ℝ :=
+    (G.subtype).comp ((stabilizer (↥G) b).subtype)
+  have hφinj : Function.Injective φ := fun x y hxy => Subtype.ext (Subtype.ext hxy)
+  -- The underlying unit vector is nonzero.
+  have hbunit : (b : ↥(poleSet G)).1 ⬝ᵥ (b : ↥(poleSet G)).1 = 1 := b.2.1
+  have hv0 : (b : ↥(poleSet G)).1 ≠ 0 := by
+    intro h; rw [h] at hbunit; simp at hbunit
+  -- Every element of the range fixes `b.1`.
+  have hfix : ∀ g : φ.range,
+      ((g : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ
+        (b : ↥(poleSet G)).1 = (b : ↥(poleSet G)).1 := by
+    rintro ⟨g, x, rfl⟩
+    have hx := (mem_stabilizer_iff).mp x.2
+    have hval := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) hx
+    rwa [poleSet_coe_smul] at hval
+  -- Finiteness of the range, then cyclicity via the common fixed vector, transported back.
+  haveI : Finite (stabilizer (↥G) b) := inferInstance
+  haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  haveI : IsCyclic φ.range :=
+    isCyclic_of_common_fixed_vector φ.range (b : ↥(poleSet G)).1 hv0 hfix
+  exact (MulEquiv.isCyclic (MonoidHom.ofInjective hφinj)).mpr inferInstance
+
 end PoleCounting
 
 /-!
