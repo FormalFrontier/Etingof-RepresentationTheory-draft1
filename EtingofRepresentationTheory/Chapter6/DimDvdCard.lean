@@ -10,10 +10,9 @@ Problem 6.1.6(c) (`isCyclic_of_odd_card`): a group of odd order has no
 `2`-dimensional irreducible representation, because `2 ∤ |G|`.
 
 The development is top-down (see the project's `CLAUDE.md`): the headline
-theorem `finrank_dvd_card_of_irreducible` and the central-character step
-`isIntegral_classSum_scalar` are stated with `sorry` proofs, while the
-self-contained "character values are algebraic integers" step
-(`FDRep.isIntegral_character`) is proved here in full.
+theorem `finrank_dvd_card_of_irreducible` is stated with a `sorry` proof, while
+the two central-character ingredients (`FDRep.isIntegral_character` and
+`FDRep.isIntegral_classSum_scalar`) are proved here in full.
 
 ## Main results
 
@@ -22,6 +21,8 @@ self-contained "character values are algebraic integers" step
 * `FDRep.isIntegral_character`: **character values are algebraic integers.**
   The eigenvalues of `ρ g` are roots of unity (`ρ g` has finite order), and the
   character `χ_V(g)` is their sum, hence integral over `ℤ`.
+* `FDRep.isIntegral_classSum_scalar`: **the central-character value on a class
+  sum is an algebraic integer.**
 * `finrank_dvd_card_of_irreducible` (`sorry`): the Frobenius divisibility
   theorem itself.
 
@@ -120,15 +121,108 @@ theorem isIntegral_character (V : FDRep ℂ G) (g : G) : IsIntegral ℤ (V.chara
 
 For an irreducible `V` and a conjugacy class with representative `g₀` and size
 `c`, the scalar `ω = c · χ_V(g₀) / d` by which the class sum acts on `V` is
-integral over `ℤ`. The class sums form a `ℤ`-basis of the center of the integral
-group ring `ℤ[G]`, a ring module-finite over `ℤ`, so every element is integral
-over `ℤ` (`Algebra.IsIntegral.of_finite`); the central character is a ring hom
-to `ℂ`, and ring homs preserve integrality.
+integral over `ℤ`.
 
-TODO (#6714): build the integral group ring center / class-sum machinery. -/
+Proof: let `z = ∑_{x ∼ g₀} x` be the class sum inside the integral group ring
+`ℤ[G]`. Since `G` is finite, `ℤ[G]` is module-finite over `ℤ`, so `z` is integral
+over `ℤ` (`IsIntegral.of_finite`). Let `Φ : ℤ[G] →ₐ[ℤ] End ℂ V` extend the
+representation. As conjugation permutes the class, `Φ z = ∑_{x ∼ g₀} ρ x` commutes
+with every `ρ g`, hence is a `V`-endomorphism; by Schur's lemma over the
+algebraically closed field `ℂ` it is a scalar `Φ z = c • id`. Taking traces,
+`c · d = tr(Φ z) = ∑_{x ∼ g₀} χ_V(x) = |C| · χ_V(g₀)`, so `c = ω`. Finally `Φ z`
+is integral over `ℤ` (`IsIntegral.map`), and `Φ z = c • id = algebraMap ℂ ω`,
+so `ω` is integral over `ℤ` (`isIntegral_algebraMap_iff`, the algebra map being
+injective on the nonzero space `V`). -/
 theorem isIntegral_classSum_scalar (V : FDRep ℂ G) [Simple V] (g₀ : G) :
     IsIntegral ℤ ((Nat.card {x // IsConj g₀ x} : ℂ) * V.character g₀ / (finrank ℂ V : ℂ)) := by
-  sorry
+  classical
+  haveI : Fintype G := Fintype.ofFinite G
+  -- `V` is nonzero, hence has positive dimension and a nonzero-scalar-faithful action.
+  have hpos : 0 < finrank ℂ V := by
+    by_contra h
+    have h0 : finrank ℂ V = 0 := by omega
+    have hsub : Subsingleton (V : Type) := Module.finrank_zero_iff.mp h0
+    have hsub2 : Subsingleton (V ⟶ V) :=
+      ⟨fun f g => Action.Hom.ext (FGModuleCat.hom_ext (LinearMap.ext fun x => hsub.elim _ _))⟩
+    have hSS : finrank ℂ (V ⟶ V) = 1 := by rw [FDRep.finrank_hom_simple_simple]; simp
+    have : finrank ℂ (V ⟶ V) = 0 := Module.finrank_zero_of_subsingleton
+    omega
+  haveI : Nontrivial (V : Type) := (finrank_pos_iff (R := ℂ)).mp hpos
+  have hfr0 : (finrank ℂ V : ℂ) ≠ 0 := by exact_mod_cast hpos.ne'
+  -- The conjugacy class of `g₀`, as a finset, and its class sum in `ℤ[G]`.
+  set C : Finset G := Finset.univ.filter (fun x => IsConj g₀ x) with hC
+  set z : MonoidAlgebra ℤ G := ∑ x ∈ C, MonoidAlgebra.single x 1 with hz
+  -- The algebra hom `ℤ[G] →ₐ[ℤ] End ℂ V` extending the representation.
+  set Φ : MonoidAlgebra ℤ G →ₐ[ℤ] Module.End ℂ (V : Type) :=
+    MonoidAlgebra.lift ℤ (Module.End ℂ V) G V.ρ with hΦ
+  have hΦz : Φ z = ∑ x ∈ C, V.ρ x := by
+    rw [hz, map_sum]
+    refine Finset.sum_congr rfl fun x _ => ?_
+    rw [hΦ, MonoidAlgebra.lift_single, one_smul]
+  -- `Φ z` commutes with every `V.ρ g`: conjugation permutes the class.
+  have hcomm : ∀ g : G, V.ρ g * Φ z = Φ z * V.ρ g := by
+    intro g
+    rw [hΦz, Finset.mul_sum, Finset.sum_mul]
+    refine Finset.sum_nbij' (fun x => g * x * g⁻¹) (fun x => g⁻¹ * x * g) ?_ ?_ ?_ ?_ ?_
+    · intro a ha
+      simp only [hC, Finset.mem_filter, Finset.mem_univ, true_and] at ha ⊢
+      exact ha.trans (isConj_iff.mpr ⟨g, rfl⟩)
+    · intro a ha
+      simp only [hC, Finset.mem_filter, Finset.mem_univ, true_and] at ha ⊢
+      exact ha.trans (isConj_iff.mpr ⟨g⁻¹, by group⟩)
+    · intro a _; group
+    · intro a _; group
+    · intro a _
+      simp only [← MonoidHom.map_mul]
+      congr 1
+      group
+  -- Package `Φ z` as an endomorphism of `V` in `FDRep ℂ G`, then apply Schur's lemma.
+  have hf : ∀ g : G, (Φ z) ∘ₗ V.ρ g = V.ρ g ∘ₗ (Φ z) := fun g => (hcomm g).symm
+  let φ : V ⟶ V :=
+    { hom := FGModuleCat.ofHom (Φ z)
+      comm := fun g => by ext v; exact LinearMap.congr_fun (hf g) v }
+  obtain ⟨c, hc⟩ := CategoryTheory.endomorphism_simple_eq_smul_id ℂ φ
+  -- Extract the underlying scalar identity `Φ z = c • id`.
+  have hΦz_scalar : Φ z = c • LinearMap.id := by
+    have key : (FGModuleCat.ofHom (Φ z)).hom.hom = (c • 𝟙 V).hom.hom.hom :=
+      congrArg (fun ψ : V ⟶ V => ψ.hom.hom.hom) hc.symm
+    rw [show (FGModuleCat.ofHom (Φ z)).hom.hom = Φ z from rfl] at key
+    rw [key, Action.smul_hom, Action.id_hom]
+    rfl
+  -- Compute the scalar via the trace: `tr (Φ z) = |C| · χ(g₀)` and `tr (c • id) = c · d`.
+  have htr : LinearMap.trace ℂ (V : Type) (Φ z) = (C.card : ℂ) * V.character g₀ := by
+    rw [hΦz, map_sum]
+    have hconst : ∀ x ∈ C, LinearMap.trace ℂ (V : Type) (V.ρ x) = V.character g₀ := by
+      intro x hx
+      simp only [hC, Finset.mem_filter, Finset.mem_univ, true_and] at hx
+      obtain ⟨h, rfl⟩ := isConj_iff.mp hx
+      exact V.char_conj g₀ h
+    rw [Finset.sum_congr rfl hconst, Finset.sum_const, nsmul_eq_mul]
+  have htr2 : LinearMap.trace ℂ (V : Type) (Φ z) = c * (finrank ℂ V : ℂ) := by
+    rw [hΦz_scalar, map_smul, LinearMap.trace_id, smul_eq_mul]
+  have hcd : (C.card : ℂ) * V.character g₀ = c * (finrank ℂ V : ℂ) := htr.symm.trans htr2
+  -- Identify the target scalar with `c`.
+  have hcard : Nat.card {x // IsConj g₀ x} = C.card := by
+    rw [Nat.card_eq_fintype_card, hC, Fintype.card_subtype]
+  have hω : (Nat.card {x // IsConj g₀ x} : ℂ) * V.character g₀ / (finrank ℂ V : ℂ) = c := by
+    rw [show ((Nat.card {x // IsConj g₀ x} : ℕ) : ℂ) = (C.card : ℂ) by rw [hcard]]
+    rw [hcd, mul_div_assoc, div_self hfr0, mul_one]
+  rw [hω]
+  -- `z` is integral over `ℤ` (`ℤ[G]` is module-finite over `ℤ`), so `Φ z = c • id` is too.
+  have hz_int : IsIntegral ℤ z := by
+    haveI : Module.Finite ℤ (MonoidAlgebra ℤ G) := Module.Finite.of_basis Finsupp.basisSingleOne
+    exact IsIntegral.of_finite ℤ z
+  have hΦz_int : IsIntegral ℤ (Φ z) := IsIntegral.map Φ hz_int
+  rw [hΦz_scalar, ← Module.algebraMap_end_eq_smul_id] at hΦz_int
+  -- Descend integrality of `c • id = algebraMap c` to integrality of `c`.
+  have hinj : Function.Injective (algebraMap ℂ (Module.End ℂ (V : Type))) := by
+    rw [injective_iff_map_eq_zero]
+    intro r hr
+    by_contra hr0
+    have hk := Module.ker_algebraMap_end ℂ (V : Type) r hr0
+    rw [hr, LinearMap.ker_zero] at hk
+    exact absurd hk top_ne_bot
+  exact (isIntegral_algebraMap_iff hinj).mp hΦz_int
 
 end FDRep
 
