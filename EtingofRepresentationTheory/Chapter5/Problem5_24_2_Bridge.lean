@@ -688,6 +688,18 @@ theorem reynolds_injective (slot : Fin n → Fin k)
     (h : endTensorEval k N n slot (reynolds k N n slot M)
           = endTensorEval k N n slot (reynolds k N n slot M')) :
     reynolds k N n slot M = reynolds k N n slot M' := by
+  -- Roadmap (see issue for full detail). By linearity of `reynolds` and `endTensorEval` it suffices
+  -- to show: if `W` is block-symmetric (`W = reynolds W₀` for some `W₀`) and `endTensorEval W = 0`
+  -- then `W = 0`. Write `W_{a,b} := toMatrix W a b`. Two facts close this:
+  --   (1) `toMatrix (reynolds W₀) a b = (card)⁻¹ • ∑_{σ ∈ blockPerms} W₀_{a∘σ, b∘σ}` (from
+  --       `toMatrix_symGroupAction`, mirroring `genericTensorMatrix_symConj`), so `W_{a∘σ, b∘σ} =
+  --       W_{a,b}` for `σ ∈ blockPerms` — block-symmetry of `W`.
+  --   (2) The coefficient of `monomial u 1` in `endTensorEval W` is `∑_{(a,b) : u(b,a) = u} W_{a,b}`
+  --       where `u(b,a) = ∑ⱼ single (slot j, b j, a j) 1`; and the index set `{(a,b) : u(b,a) = u}`
+  --       is a *single* `blockPerms`-orbit under `(a,b) ↦ (a∘σ, b∘σ)` (multiset-matching, mirroring
+  --       `PolynomialTensorBridge.matchingPerm`). Block-symmetry makes `W` constant on that orbit,
+  --       so the coefficient is `(orbit card) • W_{a,b}`; `endTensorEval W = 0` forces every
+  --       coefficient to vanish (monomials are linearly independent), hence every `W_{a,b} = 0`.
   sorry
 
 /-- **Conjugation preserves multidegree.** The simultaneous-conjugation automorphism `conjAlgHom g`
