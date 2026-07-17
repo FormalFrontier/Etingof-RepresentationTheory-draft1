@@ -3452,8 +3452,212 @@ lemma affine_one_branch_arm_layout {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
       (σ.symm v).val = p ∧
       (∀ i j, adj (σ i) (σ j) = 1 ↔ armAdjIdx p q r i.val j.val) := by
-  -- Sub-issue: three-arm walk + reindexing onto the `armAdjIdx` layout. See the doc comment.
-  sorry
+  classical
+  -- The three arms `g 0, g 1, g 2` of lengths `L 0, L 1, L 2` from the hub `v`.
+  obtain ⟨L, g, hL1, hn3, hgv, hgdist, _hgsurj, hghub, hgedge⟩ :=
+    affine_one_branch_three_arms adj hn hD hacyc hdeg3 v hv huniq
+  have hdiag := hD.2.1
+  have hsymm := hD.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- Sort the three arm lengths so that `p ≤ q ≤ r`.
+  have hmono : Monotone (L ∘ Tuple.sort L) := Tuple.monotone_sort L
+  set π := Tuple.sort L with hπ_def
+  obtain ⟨p, q, r, hp_def, hq_def, hr_def⟩ :
+      ∃ p q r, p = L (π 0) ∧ q = L (π 1) ∧ r = L (π 2) := ⟨_, _, _, rfl, rfl, rfl⟩
+  have hp1 : 1 ≤ p := by rw [hp_def]; exact hL1 (π 0)
+  have hpq : p ≤ q := by rw [hp_def, hq_def]; exact hmono (by decide)
+  have hqr : q ≤ r := by rw [hq_def, hr_def]; exact hmono (by decide)
+  have hsum : L (π 0) + L (π 1) + L (π 2) = L 0 + L 1 + L 2 := by
+    have h := Equiv.sum_comp π L
+    rw [Fin.sum_univ_three, Fin.sum_univ_three] at h; exact h
+  have hn_eq : n = 1 + p + q + r := by rw [hn3]; omega
+  have hπ01 : π 0 ≠ π 1 := fun h => absurd (π.injective h) (by decide)
+  have hπ02 : π 0 ≠ π 2 := fun h => absurd (π.injective h) (by decide)
+  have hπ12 : π 1 ≠ π 2 := fun h => absurd (π.injective h) (by decide)
+  -- The layout function: `p`-arm reversed on `[0,p)`, hub at `p`, `q`-arm on `(p,p+q]`,
+  -- `r`-arm on `(p+q, p+q+r]`.
+  set b : Fin n → Fin n := fun i =>
+    if h1 : i.val < p then g (π 0) (p - 1 - i.val)
+    else if h2 : i.val = p then v
+    else if h3 : i.val ≤ p + q then g (π 1) (i.val - p - 1)
+    else g (π 2) (i.val - p - q - 1) with hb_def
+  have hbP : ∀ x : Fin n, x.val < p → b x = g (π 0) (p - 1 - x.val) := by
+    intro x hx; rw [hb_def]; simp only [dif_pos hx]
+  have hbH : ∀ x : Fin n, x.val = p → b x = v := by
+    intro x hx; rw [hb_def]
+    simp only [dif_neg (show ¬ x.val < p by omega), dif_pos hx]
+  have hbQ : ∀ x : Fin n, p < x.val → x.val ≤ p + q → b x = g (π 1) (x.val - p - 1) := by
+    intro x hx1 hx2; rw [hb_def]
+    simp only [dif_neg (show ¬ x.val < p by omega), dif_neg (show ¬ x.val = p by omega),
+               dif_pos hx2]
+  have hbR : ∀ x : Fin n, p + q < x.val → b x = g (π 2) (x.val - p - q - 1) := by
+    intro x hx; rw [hb_def]
+    simp only [dif_neg (show ¬ x.val < p by omega), dif_neg (show ¬ x.val = p by omega),
+               dif_neg (show ¬ x.val ≤ p + q by omega)]
+  -- `b` is injective.
+  have hb_inj : Function.Injective b := by
+    intro i j hij
+    have hin := i.isLt
+    have hjn := j.isLt
+    rcases (show i.val < p ∨ i.val = p ∨ (p < i.val ∧ i.val ≤ p + q) ∨ p + q < i.val by omega)
+      with hi | hi | ⟨hi1, hi2⟩ | hi
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbP i hi, hbP j hj] at hij
+        obtain ⟨_, heq⟩ := (hgdist (π 0) (π 0) (p - 1 - i.val) (p - 1 - j.val)
+          (by omega) (by omega)).mp hij
+        exact Fin.ext (by omega)
+      · rw [hbP i hi, hbH j hj] at hij
+        exact absurd hij (hgv (π 0) (p - 1 - i.val) (by omega))
+      · rw [hbP i hi, hbQ j hj1 hj2] at hij
+        obtain ⟨he, _⟩ := (hgdist (π 0) (π 1) (p - 1 - i.val) (j.val - p - 1)
+          (by omega) (by omega)).mp hij
+        exact absurd he hπ01
+      · rw [hbP i hi, hbR j hj] at hij
+        obtain ⟨he, _⟩ := (hgdist (π 0) (π 2) (p - 1 - i.val) (j.val - p - q - 1)
+          (by omega) (by omega)).mp hij
+        exact absurd he hπ02
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbH i hi, hbP j hj] at hij
+        exact absurd hij.symm (hgv (π 0) (p - 1 - j.val) (by omega))
+      · exact Fin.ext (by omega)
+      · rw [hbH i hi, hbQ j hj1 hj2] at hij
+        exact absurd hij.symm (hgv (π 1) (j.val - p - 1) (by omega))
+      · rw [hbH i hi, hbR j hj] at hij
+        exact absurd hij.symm (hgv (π 2) (j.val - p - q - 1) (by omega))
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbQ i hi1 hi2, hbP j hj] at hij
+        obtain ⟨he, _⟩ := (hgdist (π 1) (π 0) (i.val - p - 1) (p - 1 - j.val)
+          (by omega) (by omega)).mp hij
+        exact absurd he (Ne.symm hπ01)
+      · rw [hbQ i hi1 hi2, hbH j hj] at hij
+        exact absurd hij (hgv (π 1) (i.val - p - 1) (by omega))
+      · rw [hbQ i hi1 hi2, hbQ j hj1 hj2] at hij
+        obtain ⟨_, heq⟩ := (hgdist (π 1) (π 1) (i.val - p - 1) (j.val - p - 1)
+          (by omega) (by omega)).mp hij
+        exact Fin.ext (by omega)
+      · rw [hbQ i hi1 hi2, hbR j hj] at hij
+        obtain ⟨he, _⟩ := (hgdist (π 1) (π 2) (i.val - p - 1) (j.val - p - q - 1)
+          (by omega) (by omega)).mp hij
+        exact absurd he hπ12
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbR i hi, hbP j hj] at hij
+        obtain ⟨he, _⟩ := (hgdist (π 2) (π 0) (i.val - p - q - 1) (p - 1 - j.val)
+          (by omega) (by omega)).mp hij
+        exact absurd he (Ne.symm hπ02)
+      · rw [hbR i hi, hbH j hj] at hij
+        exact absurd hij (hgv (π 2) (i.val - p - q - 1) (by omega))
+      · rw [hbR i hi, hbQ j hj1 hj2] at hij
+        obtain ⟨he, _⟩ := (hgdist (π 2) (π 1) (i.val - p - q - 1) (j.val - p - 1)
+          (by omega) (by omega)).mp hij
+        exact absurd he (Ne.symm hπ12)
+      · rw [hbR i hi, hbR j hj] at hij
+        obtain ⟨_, heq⟩ := (hgdist (π 2) (π 2) (i.val - p - q - 1) (j.val - p - q - 1)
+          (by omega) (by omega)).mp hij
+        exact Fin.ext (by omega)
+  have hb_bij : Function.Bijective b := by
+    rw [Fintype.bijective_iff_injective_and_card]; exact ⟨hb_inj, rfl⟩
+  -- The adjacency pattern of `b` matches `armAdjIdx`.
+  have hb_adj : ∀ i j : Fin n, adj (b i) (b j) = 1 ↔ armAdjIdx p q r i.val j.val := by
+    intro i j
+    have hin := i.isLt
+    have hjn := j.isLt
+    rcases (show i.val < p ∨ i.val = p ∨ (p < i.val ∧ i.val ≤ p + q) ∨ p + q < i.val by omega)
+      with hi | hi | ⟨hi1, hi2⟩ | hi
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbP i hi, hbP j hj,
+            hgedge (π 0) (π 0) (p - 1 - i.val) (p - 1 - j.val) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨_, h⟩; omega
+        · intro h; exact ⟨trivial, by omega⟩
+      · rw [hbP i hi, hbH j hj, hsymm' (g (π 0) (p - 1 - i.val)) v,
+            hghub (π 0) (p - 1 - i.val) (by omega)]
+        simp only [armAdjIdx]; omega
+      · rw [hbP i hi, hbQ j hj1 hj2,
+            hgedge (π 0) (π 1) (p - 1 - i.val) (j.val - p - 1) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨he, _⟩; exact absurd he hπ01
+        · intro h; exfalso; omega
+      · rw [hbP i hi, hbR j hj,
+            hgedge (π 0) (π 2) (p - 1 - i.val) (j.val - p - q - 1) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨he, _⟩; exact absurd he hπ02
+        · intro h; exfalso; omega
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbH i hi, hbP j hj, hghub (π 0) (p - 1 - j.val) (by omega)]
+        simp only [armAdjIdx]; omega
+      · rw [hbH i hi, hbH j hj, hdiag v]
+        simp only [armAdjIdx]
+        refine ⟨fun h => absurd h (by norm_num), fun h => ?_⟩
+        exfalso; omega
+      · rw [hbH i hi, hbQ j hj1 hj2, hghub (π 1) (j.val - p - 1) (by omega)]
+        simp only [armAdjIdx]; omega
+      · rw [hbH i hi, hbR j hj, hghub (π 2) (j.val - p - q - 1) (by omega)]
+        simp only [armAdjIdx]; omega
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbQ i hi1 hi2, hbP j hj,
+            hgedge (π 1) (π 0) (i.val - p - 1) (p - 1 - j.val) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨he, _⟩; exact absurd he (Ne.symm hπ01)
+        · intro h; exfalso; omega
+      · rw [hbQ i hi1 hi2, hbH j hj, hsymm' (g (π 1) (i.val - p - 1)) v,
+            hghub (π 1) (i.val - p - 1) (by omega)]
+        simp only [armAdjIdx]; omega
+      · rw [hbQ i hi1 hi2, hbQ j hj1 hj2,
+            hgedge (π 1) (π 1) (i.val - p - 1) (j.val - p - 1) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨_, h⟩; omega
+        · intro h; exact ⟨trivial, by omega⟩
+      · rw [hbQ i hi1 hi2, hbR j hj,
+            hgedge (π 1) (π 2) (i.val - p - 1) (j.val - p - q - 1) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨he, _⟩; exact absurd he hπ12
+        · intro h; exfalso; omega
+    · rcases (show j.val < p ∨ j.val = p ∨ (p < j.val ∧ j.val ≤ p + q) ∨ p + q < j.val by omega)
+        with hj | hj | ⟨hj1, hj2⟩ | hj
+      · rw [hbR i hi, hbP j hj,
+            hgedge (π 2) (π 0) (i.val - p - q - 1) (p - 1 - j.val) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨he, _⟩; exact absurd he (Ne.symm hπ02)
+        · intro h; exfalso; omega
+      · rw [hbR i hi, hbH j hj, hsymm' (g (π 2) (i.val - p - q - 1)) v,
+            hghub (π 2) (i.val - p - q - 1) (by omega)]
+        simp only [armAdjIdx]; omega
+      · rw [hbR i hi, hbQ j hj1 hj2,
+            hgedge (π 2) (π 1) (i.val - p - q - 1) (j.val - p - 1) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨he, _⟩; exact absurd he (Ne.symm hπ12)
+        · intro h; exfalso; omega
+      · rw [hbR i hi, hbR j hj,
+            hgedge (π 2) (π 2) (i.val - p - q - 1) (j.val - p - q - 1) (by omega) (by omega)]
+        simp only [armAdjIdx]
+        constructor
+        · rintro ⟨_, h⟩; omega
+        · intro h; exact ⟨trivial, by omega⟩
+  -- Assemble the equivalence and discharge the goals.
+  refine ⟨p, q, r, Equiv.ofBijective b hb_bij, hp1, hpq, hqr, hn_eq, ?_, ?_⟩
+  · have hbp : b ⟨p, by omega⟩ = v := hbH ⟨p, by omega⟩ rfl
+    have hpre : (Equiv.ofBijective b hb_bij).symm v = ⟨p, by omega⟩ := by
+      apply (Equiv.ofBijective b hb_bij).injective
+      rw [Equiv.apply_symm_apply]; exact hbp.symm
+    rw [hpre]
+  · intro i j; exact hb_adj i j
 
 /-- **Three arms from the single branch vertex + the reciprocal equality (piece (b) of Ẽ₆/Ẽ₇/Ẽ₈).**
 From a connected acyclic affine Dynkin diagram with all degrees `≤ 3` and a *unique* branch
