@@ -2712,6 +2712,47 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
     rw [dtilde_eval p q]
     split_ifs with h1 <;> first | rfl | (exfalso; omega)
 
+/-- **Per-type leaf discriminator.** A `DynkinType` whose adjacency has a degree-3 vertex `x`
+adjacent to two *distinct* leaf-neighbours `ℓ₁ ≠ ℓ₂` must be of the `D` family. The `A`-types have
+no degree-3 vertex (a path has max degree `2`); the exceptional `E₆/E₇/E₈` have their unique branch
+vertex (index `2`) adjacent to a *single* leaf (the branch tip). Only `Dₙ`'s branch vertex `n-3`
+carries two leaf-neighbours (`n-2` and `n-1`). Consumed by `affine_two_branch_deleted_isD` to rule
+out the E-types after `branch_classification`. -/
+lemma dynkinType_eq_D_of_branch_two_leaves (t : DynkinType)
+    (x ℓ₁ ℓ₂ : Fin t.rank) (hℓ : ℓ₁ ≠ ℓ₂)
+    (hxdeg : Etingof.Problem6_1_3_E7E8.vertexDegree t.adj x = 3)
+    (hx1 : t.adj x ℓ₁ = 1) (hx2 : t.adj x ℓ₂ = 1)
+    (hℓ1 : Etingof.Problem6_1_3_E7E8.vertexDegree t.adj ℓ₁ = 1)
+    (hℓ2 : Etingof.Problem6_1_3_E7E8.vertexDegree t.adj ℓ₂ = 1) :
+    ∃ (n : ℕ) (hn : 4 ≤ n), t = DynkinType.D n hn := by
+  cases t with
+  | A n hn =>
+      exfalso
+      -- A path has all degrees ≤ 2, contradicting `deg x = 3`: the neighbours of `x` inject (via
+      -- `Fin.val`) into the two-element set `{x-1, x+1}`.
+      have hle : Etingof.Problem6_1_3_E7E8.vertexDegree (DynkinType.A n hn).adj x ≤ 2 := by
+        unfold Etingof.Problem6_1_3_E7E8.vertexDegree
+        rw [← Finset.card_image_of_injective
+          (univ.filter (fun j => (DynkinType.A n hn).adj x j = 1)) Fin.val_injective]
+        refine le_trans (Finset.card_le_card ?_)
+          (le_trans (Finset.card_insert_le _ _) (by simp) :
+            ({x.val - 1, x.val + 1} : Finset ℕ).card ≤ 2)
+        intro m hm
+        simp only [Finset.mem_image, Finset.mem_filter] at hm
+        obtain ⟨j, ⟨_, hj1⟩, rfl⟩ := hm
+        simp only [DynkinType.adj] at hj1
+        split_ifs at hj1 with hc
+        · simp only [Finset.mem_insert, Finset.mem_singleton]
+          rcases hc with h | h
+          · right; omega
+          · left; omega
+        · exact absurd hj1 (by norm_num)
+      omega
+  | D n hn => exact ⟨n, hn, rfl⟩
+  | E6 => exfalso; revert hℓ hxdeg hx1 hx2 hℓ1 hℓ2; revert x ℓ₁ ℓ₂; decide
+  | E7 => exfalso; revert hℓ hxdeg hx1 hx2 hℓ1 hℓ2; revert x ℓ₁ ℓ₂; decide
+  | E8 => exfalso; revert hℓ hxdeg hx1 hx2 hℓ1 hℓ2; revert x ℓ₁ ℓ₂; decide
+
 /-- **Leaf-deleted two-branch affine diagram is a finite `Dₖ`, with the reattach point one step
 in from the far leaf.** This is the *classification crux* of `affine_tree_two_branch_iso`: given a
 connected acyclic affine Dynkin diagram on `Fin (k+1)` with all degrees `≤ 3` and exactly two branch
