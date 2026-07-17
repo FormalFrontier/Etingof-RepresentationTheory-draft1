@@ -2589,10 +2589,58 @@ lemma affine_tree_two_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   -- Sub-issue: two-fork reindexing onto `AffineType.Dtilde`, mirroring finite `tree_branch_iso`.
   sorry
 
+/-- **Affine arm-length Diophantine.** The equality analogue of the finite
+`Etingof.Problem6_1_3_E7E8.arm_length_solutions` (`DynkinForward.lean`): the only solutions of
+`1/(p+1) + 1/(q+1) + 1/(r+1) = 1` with `1 ≤ p ≤ q ≤ r` are `(2,2,2)`, `(1,3,3)`, `(1,2,5)` —
+the arm lengths of `Ẽ₆`, `Ẽ₇`, `Ẽ₈` respectively. The reciprocal identity is presented in the
+cleared-denominator form `(q+1)(r+1) + (p+1)(r+1) + (p+1)(q+1) = (p+1)(q+1)(r+1)`.
+
+Unlike the finite case (a strict inequality `> 1` with an infinite family `(1,1,r)`), the affine
+equality has exactly these three solutions: the degeneracy of the Cartan form pins the reciprocal
+sum to `1` on the nose. Note `p ≥ 1` here, since `p = 0` would make the branch vertex degree `≤ 2`.
+-/
+lemma affine_arm_length_solutions (p q r : ℕ) (hp : 1 ≤ p) (hpq : p ≤ q) (hqr : q ≤ r)
+    (hrecip : (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1) =
+              (p + 1) * (q + 1) * (r + 1)) :
+    (p = 2 ∧ q = 2 ∧ r = 2) ∨ (p = 1 ∧ q = 3 ∧ r = 3) ∨
+    (p = 1 ∧ q = 2 ∧ r = 5) := by
+  -- Upper bound `p ≤ 2`: if `p ≥ 3` then `p+1, q+1, r+1 ≥ 4`, so `3·(p+1)(q+1)(r+1) ≥ 4·(sum of
+  -- pairwise products)`, forcing the reciprocal sum `≤ 3/4 < 1`, contradicting the equality.
+  have hp_le : p ≤ 2 := by
+    by_contra hp_big
+    have hr3 : 3 ≤ r := by omega
+    have hq3 : 3 ≤ q := by omega
+    have h1 : 4 * ((q + 1) * (r + 1)) ≤ (p + 1) * ((q + 1) * (r + 1)) := by gcongr; omega
+    have h2 : 4 * ((p + 1) * (r + 1)) ≤ (q + 1) * ((p + 1) * (r + 1)) := by gcongr; omega
+    have h3 : 4 * ((p + 1) * (q + 1)) ≤ (r + 1) * ((p + 1) * (q + 1)) := by gcongr; omega
+    have hpos : 1 ≤ (q + 1) * (r + 1) := Nat.one_le_iff_ne_zero.mpr (by positivity)
+    nlinarith [h1, h2, h3, hpos]
+  interval_cases p
+  · -- `p = 1`: bound `q ≤ 3` (if `q ≥ 4` then `1/2 + 1/5 + 1/5 = 9/10 < 1`), then the equality
+    -- pins `r` linearly in each remaining case.
+    have hq_le : q ≤ 3 := by
+      by_contra hq_big
+      have hr4 : 4 ≤ r := le_trans (by omega) hqr
+      have h2 : 5 * (r + 1) ≤ (q + 1) * (r + 1) := by gcongr; omega
+      nlinarith [h2]
+    interval_cases q
+    · exfalso; omega          -- `q = 1`: `1/2 + 1/2 + 1/(r+1) = 1` has no solution.
+    · right; right; exact ⟨rfl, rfl, by omega⟩   -- `q = 2` ⟹ `r = 5` (`Ẽ₈`).
+    · right; left; exact ⟨rfl, rfl, by omega⟩    -- `q = 3` ⟹ `r = 3` (`Ẽ₇`).
+  · -- `p = 2`: bound `q ≤ 2` (if `q ≥ 3` then `1/3 + 1/4 + 1/4 = 5/6 < 1`), giving `q = 2, r = 2`.
+    have hq_le : q ≤ 2 := by
+      by_contra hq_big
+      have hr3 : 3 ≤ r := le_trans (by omega) hqr
+      have h2 : 4 * (r + 1) ≤ (q + 1) * (r + 1) := by gcongr; omega
+      nlinarith [h2]
+    interval_cases q
+    · left; exact ⟨rfl, rfl, by omega⟩          -- `q = 2` ⟹ `r = 2` (`Ẽ₆`).
+
 /-- **One branch vertex ⟹ Ẽ₆/Ẽ₇/Ẽ₈.** A connected acyclic affine Dynkin diagram with all degrees
 `≤ 3` and exactly one branch (degree-3) vertex is graph-isomorphic to `AffineType.E6tilde`,
 `E7tilde`, or `E8tilde`. The three arms have lengths solving the affine Diophantine identity
-`1/(p+1) + 1/(q+1) + 1/(r+1) = 1`. Affine analogue of the finite `branch_classification`. -/
+`1/(p+1) + 1/(q+1) + 1/(r+1) = 1` (the solutions are enumerated in `affine_arm_length_solutions`).
+Affine analogue of the finite `branch_classification`. -/
 lemma affine_tree_one_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
