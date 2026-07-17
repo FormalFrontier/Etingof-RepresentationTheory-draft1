@@ -2991,8 +2991,17 @@ theorem affine_dynkin_classification (n : ℕ) (adj : Matrix (Fin n) (Fin n) ℤ
   constructor
   · -- (⟹) The classification proper: a positive-semidefinite-but-degenerate
     -- connected simply-laced graph is graph-isomorphic to one of the five
-    -- extended types. This is the deep content (see the sub-issue).
-    sorry
+    -- extended types. Case split on whether the diagram contains a cycle,
+    -- measured by the edge count `∑ᵢ∑ⱼ adjᵢⱼ`: a connected graph is a tree
+    -- (acyclic) exactly when it has `n − 1` edges (`∑ᵢ∑ⱼ adjᵢⱼ = 2(n−1)`),
+    -- so `2n ≤ ∑ᵢ∑ⱼ adjᵢⱼ` is the "contains a cycle" branch.
+    intro hD
+    rcases le_or_gt (2 * (n : ℤ)) (∑ i, ∑ j, adj i j) with hcyc | hacyc
+    · -- Cyclic branch: graph-iso to the cycle `Ãₙ` (#6792).
+      obtain ⟨h3, σ, hσ⟩ := affine_cyclic_case adj hn hD hcyc
+      exact ⟨AffineType.Atilde n h3, σ, hσ⟩
+    · -- Tree branch: graph-iso to `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈` (#6793).
+      exact affine_tree_case adj hn hD hacyc
   · -- (⟸) Each extended type is an affine Dynkin diagram (`isAffineDynkinDiagram_of_type`),
     -- transported along the graph isomorphism `σ`.
     rintro ⟨t, σ, hσ⟩
