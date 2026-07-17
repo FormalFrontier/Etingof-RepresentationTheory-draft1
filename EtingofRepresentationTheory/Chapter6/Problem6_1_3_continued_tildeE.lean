@@ -2636,6 +2636,45 @@ lemma affine_arm_length_solutions (p q r : ℕ) (hp : 1 ≤ p) (hpq : p ≤ q) (
     interval_cases q
     · left; exact ⟨rfl, rfl, by omega⟩          -- `q = 2` ⟹ `r = 2` (`Ẽ₆`).
 
+/-- **Arm-layout adjacency pattern.** With `n = 1 + p + q + r`, a one-branch tree is laid out along
+`Fin n` as follows: the `p`-arm on indices `0 … p-1` (tip → hub-neighbour), the hub at index `p`,
+the `q`-arm on `p+1 … p+q` (hub-neighbour → tip), and the `r`-arm on `p+q+1 … p+q+r`
+(hub-neighbour → tip) attached to the hub. This predicate is the resulting edge relation on indices:
+the two arms `p, q` join through the hub into a single path `0 … p+q`, and the `r`-arm hangs off the
+hub (index `p`) starting at index `p+q+1`. -/
+def armAdjIdx (p q r i j : ℕ) : Prop :=
+  ((i + 1 = j ∨ j + 1 = i) ∧ max i j ≤ p + q) ∨
+  ((i = p ∧ j = p + q + 1) ∨ (j = p ∧ i = p + q + 1)) ∨
+  ((i + 1 = j ∨ j + 1 = i) ∧ p + q + 1 ≤ min i j)
+
+instance (p q r i j : ℕ) : Decidable (armAdjIdx p q r i j) := by
+  unfold armAdjIdx; infer_instance
+
+/-- **Three arms from the single branch vertex + the reciprocal equality (piece (b) of Ẽ₆/Ẽ₇/Ẽ₈).**
+From a connected acyclic affine Dynkin diagram with all degrees `≤ 3` and a *unique* branch
+(degree-3) vertex `v`, extract the three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from `v`, laid
+out along a re-indexing `σ` in the `armAdjIdx` pattern (hub at index `p`), with `n = 1 + p + q + r`.
+Testing the (degenerate) Cartan form against its strictly-positive null vector
+(`affineNullVector_pos`) — which is linear along each arm — pins the reciprocal sum to `1` on the
+nose, giving the cleared-denominator equality
+`(q+1)(r+1) + (p+1)(r+1) + (p+1)(q+1) = (p+1)(q+1)(r+1)`.
+
+The arm-length triple is then classified by `affine_arm_length_solutions` and reindexed onto
+`Ẽ₆/Ẽ₇/Ẽ₈` in `affine_tree_one_branch_iso` (piece (c)). -/
+lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
+      1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
+      (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1)
+          = (p + 1) * (q + 1) * (r + 1) ∧
+      (σ.symm v).val = p ∧
+      (∀ i j, adj (σ i) (σ j) = 1 ↔ armAdjIdx p q r i.val j.val) := by
+  sorry
+
 /-- **One branch vertex ⟹ Ẽ₆/Ẽ₇/Ẽ₈.** A connected acyclic affine Dynkin diagram with all degrees
 `≤ 3` and exactly one branch (degree-3) vertex is graph-isomorphic to `AffineType.E6tilde`,
 `E7tilde`, or `E8tilde`. The three arms have lengths solving the affine Diophantine identity
