@@ -71,9 +71,9 @@ between `ModuleCat.of k T` objects sharing the *same carrier* `T`, the resulting
 private lemma eqToHom_moduleCat_apply {X Y : ModuleCat.{u} k} (h : X = Y) (x : X) :
     (eqToHom h) x = h ▸ x := by cases h; rfl
 
-/-- Applying a `ModuleCat k` `eqToHom` to an element yields a heterogeneously-equal element. When the
-two objects share a carrier (the `srcSummandEq`/`linYonedaXEq` bridges of `fullSummandIso`), this
-upgrades to an honest equation via `eq_of_heq`. -/
+/-- Applying a `ModuleCat k` `eqToHom` to an element yields a heterogeneously-equal element. When
+the two objects share a carrier (the `srcSummandEq`/`linYonedaXEq` bridges of `fullSummandIso`),
+this upgrades to an honest equation via `eq_of_heq`. -/
 private lemma eqToHom_hom_apply_heq {X Y : ModuleCat.{u} k} (h : X = Y) (w : X) :
     HEq (ModuleCat.Hom.hom (eqToHom h) w) w := by subst h; rfl
 
@@ -110,17 +110,15 @@ private lemma fullSummandIso_inv_tmul_apply (j m : ℕ)
     LinearMap.comp_apply, ModuleCat.hom_tensorHom, e0]
   erw [TensorProduct.map_tmul]
   rw [e1, e2]
-  simp only [summandIso, rearrangeHomComponentIso, Iso.trans_inv, Iso.symm_inv,
-    LinearEquiv.toModuleIso_inv, ModuleCat.hom_comp, LinearMap.comp_apply]
   rfl
 
 set_option maxHeartbeats 1000000 in
 include hN in
 /-- **Naturality of `fullSummandIso.inv` in the first (contravariant) variable.** Composing the
-degree-`p → p+1` source differential of the first `Hom` cochain factor (via `curriedTensor`) with the
-per-summand inverse iso equals the per-summand inverse iso followed by precomposition by the
-external-tensor map of the chain differential `P₁.d (p+1) p`. Bridges `fullSummandIso.inv` to the
-#6843 naturality lemma `homTensorHom_comp_lcompₖ_left`. -/
+degree-`p → p+1` source differential of the first `Hom` cochain factor (via `curriedTensor`) with
+the per-summand inverse iso equals the per-summand inverse iso followed by precomposition by the
+external-tensor map of the chain differential `P₁.d (p+1) p`. Reduces pointwise through
+`fullSummandIso_inv_tmul_apply` to `homTensorHom_comp_lcompₖ_left` (#6843). -/
 theorem fullSummandIso_inv_natLeft (p q : ℕ) :
     ((curriedTensor (ModuleCat.{u} k)).map
           ((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).d p (p + 1))).app
@@ -154,7 +152,19 @@ theorem fullSummandIso_inv_natRight (p q : ℕ) :
       (fullSummandIso k N₁ N₂ hN P₁ P₂ p q).inv ≫
         (homYoneda k N₁ N₂).map
           (extTensorFunctorLeftMap k (𝟙 (P₁.complex.X p)) (P₂.complex.d (q + 1) q)).op := by
-  sorry
+  apply ModuleCat.hom_ext
+  refine TensorProduct.ext' fun φ₁ φ₂ => ?_
+  simp only [ModuleCat.hom_comp, LinearMap.comp_apply, curriedTensor_obj_map,
+    ChainComplex.linearYonedaObj_d, ModuleCat.hom_whiskerLeft, ModuleCat.hom_ofHom,
+    linearYoneda_obj_map]
+  erw [LinearMap.lTensor_tmul]
+  apply ModuleCat.hom_ext
+  refine HomTensorFGProj.hom_ext k A₁ A₂ _ _ N₁ N₂ (fun x₁ x₂ => ?_)
+  refine (fullSummandIso_inv_tmul_apply k N₁ N₂ hN P₁ P₂ p (q + 1)
+      φ₁ (Linear.leftComp k (ModuleCat.of A₂ N₂) (P₂.complex.d (q + 1) q) φ₂) x₁ x₂).trans
+    (Eq.trans ?_ (fullSummandIso_inv_tmul_apply k N₁ N₂ hN P₁ P₂ p q φ₁ φ₂
+      x₁ ((P₂.complex.d (q + 1) q).hom x₂)).symm)
+  rfl
 
 include hN in
 /-- **The differential-commutation square, inverse form.** Composing the target differential with
