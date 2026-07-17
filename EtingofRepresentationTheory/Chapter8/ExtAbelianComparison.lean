@@ -61,4 +61,26 @@ noncomputable def extAbelianAddEquivExtₖ (n : ℕ) :
     ((homComplexHomologyAddEquivₖ k N P n).trans
       (extIsoCohomologyHomₖ k A M N P n).symm.toLinearEquiv.toAddEquiv)
 
+/-- **The comparison isomorphism `Ext ≃ₗ[k] Extₖ`.** The `k`-linear upgrade of
+`extAbelianAddEquivExtₖ`: for a projective resolution `P` of `M`, the derived-category `Ext` group
+`Abelian.Ext M N n` is `k`-linearly isomorphic to the left-derived-functor `Extₖ k A M N n`. The
+underlying additive equivalence is the sorry-free four-step chain `extAbelianAddEquivExtₖ`; this is
+the version consumed by `Problem_8_2_8_ext` (#6898) to transport the `Extₖ` Künneth isomorphism to
+the `Etingof.Ext` statement.
+
+The scalar action on `Abelian.Ext M N n` is postcomposition with `r • 𝟙 N`
+(`CategoryTheory.Abelian.Ext.smul_eq_comp_mk₀`); on `Extₖ k A M N n : ModuleCat k` it is the module
+scalar. Each of the four steps intertwines these actions (step 4 is a `ModuleCat k` iso, hence
+`k`-linear; steps 1–3 are the `k`-linear `Hom(P•, N)` structure viewed additively), so the composite
+`map_smul'` holds. Discharging it requires naturality-in-`N` of `extAddEquivCohomologyClass`,
+`homologyAddEquiv`, and `homComplexHomologyAddEquivₖ` under the endomorphism `r • 𝟙 N`, tracked as
+the follow-up to #6901. -/
+noncomputable def extAbelianIsoExtₖ (n : ℕ) :
+    Etingof.Ext M N n ≃ₗ[k] Etingof.Extₖ k A M N n where
+  __ := extAbelianAddEquivExtₖ k N P n
+  map_smul' := by
+    -- `k`-linearity of the four-step comparison chain. The underlying data (the additive
+    -- equivalence `extAbelianAddEquivExtₖ`) is real; this is the residual proof obligation.
+    sorry
+
 end Etingof
