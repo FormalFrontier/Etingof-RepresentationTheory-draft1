@@ -232,14 +232,16 @@ theorem Problem_8_2_8_ext (i : ℕ)
   -- decomposes `Extₖ k (A₁⊗A₂) (M₁⊗M₂) (N₁⊗N₂) i` as the categorical coproduct
   -- `∐_{j+m=i} Extₖ k A₁ M₁ N₁ j ⊗ Extₖ k A₂ M₂ N₂ m` in `ModuleCat k`. Reducing this statement to
   -- it requires the following residual wiring (each a self-contained follow-up):
-  --   1. **Finitely generated projective resolutions.** Produce `P₁ P₂` of `ModuleCat.of Aᵢ Mᵢ`
-  --      whose terms carry `Module.Finite`/`Module.Projective` instances, from the finite
-  --      dimensionality of the `Mᵢ` over the finite dimensional `Aᵢ` (e.g. the bar resolution, or a
-  --      minimal projective resolution). These feed `Problem_8_2_8_extₖ`.
-  --   2. **Module-structure reconciliation.** Identify the statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)`
-  --      / `(N₁⊗N₂)` (with `instM`/`instN` pinned by `hM`/`hN`) with the canonical external
-  --      `extTensorFunctorLeftObj` used by `Problem_8_2_8_extₖ`; both act componentwise, so `hM`/`hN`
-  --      make them equal.
+  --   1. **Finitely generated projective resolutions.** *(Available.)* `Etingof.barResolution`
+  --      (`Chapter8/BarResolution.lean`) is a `ProjectiveResolution (ModuleCat.of Aᵢ Mᵢ)` whose
+  --      terms carry `Module.Projective` and — for finite dimensional `Mᵢ` over finite dimensional
+  --      `Aᵢ`, via `instFiniteBarResolutionComplexX` — `Module.Finite` instances. It needs
+  --      `IsScalarTower k Aᵢ Mᵢ` (add it to the `Ext` section variables when wiring). These feed
+  --      `Problem_8_2_8_extₖ`.
+  --   2. **Module-structure reconciliation.** Identify the statement's
+  --      `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` / `(N₁⊗N₂)` (with `instM`/`instN` pinned by `hM`/`hN`) with
+  --      the canonical external `extTensorFunctorLeftObj` used by `Problem_8_2_8_extₖ`; both act
+  --      componentwise, so `hM`/`hN` make them equal.
   --   3. **The comparison isomorphism `Etingof.Ext ≃ₗ[k] Extₖ`.** The statement uses the
   --      derived-category `Etingof.Ext = CategoryTheory.Abelian.Ext` (AddCommGroup-valued), whereas
   --      `Problem_8_2_8_extₖ` uses the `ModuleCat k`-valued left-derived-functor `Extₖ`
