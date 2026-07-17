@@ -3106,6 +3106,30 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         rw [show (⟨l + 1, ha⟩ : Fin m) = ⟨k, hk⟩ from Fin.ext (by omega)] at hedge
         rw [hNsymm]; exact hedge
 
+/-- **Three arms of a one-branch affine tree.** A connected acyclic affine Dynkin diagram with all
+degrees `≤ 3` and a *unique* degree-3 (branch) vertex `v` decomposes, after deleting `v`, into
+exactly three connected components. `affine_arm_walk` linearises each component into a rooted arm
+`g t 0 = nb t, g t 1, …` of length `L t`, giving `n = 1 + L 0 + L 1 + L 2`, cross-arm distinctness,
+the hub-adjacency clause (`adj v (g t k) = 1 ↔ k = 0`), and the consecutive-only edge structure
+within each arm (and no edges across arms). This is the tree-partition graph-theory core consumed by
+`affine_one_branch_arm_layout`. -/
+lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ (L : Fin 3 → ℕ) (g : Fin 3 → ℕ → Fin n),
+      (∀ t, 1 ≤ L t) ∧
+      n = 1 + L 0 + L 1 + L 2 ∧
+      (∀ t k, k < L t → g t k ≠ v) ∧
+      (∀ (t s : Fin 3) k l, k < L t → l < L s → (g t k = g s l ↔ (t = s ∧ k = l))) ∧
+      (∀ w, w ≠ v → ∃ t k, k < L t ∧ g t k = w) ∧
+      (∀ t k, k < L t → (adj v (g t k) = 1 ↔ k = 0)) ∧
+      (∀ (t s : Fin 3) k l, k < L t → l < L s →
+          (adj (g t k) (g s l) = 1 ↔ (t = s ∧ (k + 1 = l ∨ l + 1 = k)))) := by
+  sorry
+
 /-- **Arm layout of a one-branch affine tree (structural extraction).** A connected acyclic affine
 Dynkin diagram with all degrees `≤ 3` and a *unique* degree-3 vertex `v` is, up to re-indexing `σ`,
 laid out in the `armAdjIdx` pattern: three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from the hub
