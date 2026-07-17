@@ -2447,6 +2447,148 @@ lemma affine_tree_branch_count {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     have hwmem : w ∈ S := (hmemS w).mpr hw
     rw [hSab, Finset.mem_insert, Finset.mem_singleton] at hwmem; exact hwmem
 
+/-- **Leaf at a branch vertex (two-branch case).** In a connected acyclic affine Dynkin diagram
+with all degrees `≤ 3` and exactly two branch (degree-3) vertices `v, w`, some leaf (degree-1
+vertex) `ℓ` is adjacent to `v` or to `w`.
+
+*Proof.* A tree has a leaf `u`; deleting it yields a **finite** Dynkin diagram
+(`affine_delete_leaf_isDynkin`). Were `u` adjacent to neither `v` nor `w`, both would retain
+degree 3 in the deletion (`hsubdeg`), giving two distinct degree-3 vertices in a finite Dynkin
+diagram — impossible by `dynkin_unique_degree_three`. Hence `u` neighbours `v` or `w`.
+
+This is the affine-specific structural input to the two-branch reindexing
+`affine_tree_two_branch_iso`: the leaf it produces is the one deleted in the delete-leaf →
+finite `branch_classification` → reattach reduction. -/
+lemma affine_two_branch_has_leaf {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v w : Fin n) (hvw : v ≠ w)
+    (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (hw : Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3)
+    (huniq : ∀ u, Etingof.Problem6_1_3_E7E8.vertexDegree adj u = 3 → u = v ∨ u = w) :
+    ∃ ℓ, Etingof.vertexDegree adj ℓ = 1 ∧ (adj v ℓ = 1 ∨ adj w ℓ = 1) := by
+  classical
+  -- The two `vertexDegree` definitions are definitionally equal; work with `Etingof.vertexDegree`.
+  have hVD : ∀ (m : ℕ) (M : Matrix (Fin m) (Fin m) ℤ) (x : Fin m),
+      Etingof.Problem6_1_3_E7E8.vertexDegree M x = Etingof.vertexDegree M x := fun _ _ _ => rfl
+  simp only [hVD] at hdeg3 hv hw
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  have hconn := hD.2.2.2.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- Reindex `n = k + 1` for the leaf-deletion machinery.
+  obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
+  -- **A leaf `u` (degree 1) exists**, via the tree structure.
+  obtain ⟨u, hu_deg⟩ : ∃ u, Etingof.vertexDegree adj u = 1 := by
+    let G : SimpleGraph (Fin (k + 1)) :=
+      { Adj := fun i j => adj i j = 1
+        symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
+        loopless := ⟨fun i (h : adj i i = 1) => by
+          rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+    haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+    haveI : Nonempty (Fin (k + 1)) := ⟨⟨0, by omega⟩⟩
+    have hG_conn : G.Connected := ⟨fun a b => by
+      obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
+      exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
+    have hcount : (∑ i, ∑ j, adj i j) = 2 * (#G.edgeFinset : ℤ) := by
+      have hterm : ∀ p : Fin (k + 1) × Fin (k + 1),
+          adj p.1 p.2 = (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) := by
+        intro p; rcases h01 p.1 p.2 with h | h <;> simp [h]
+      calc (∑ i, ∑ j, adj i j)
+          = ∑ p : Fin (k + 1) × Fin (k + 1), adj p.1 p.2 := (Fintype.sum_prod_type' adj).symm
+        _ = ∑ p : Fin (k + 1) × Fin (k + 1), (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) :=
+              Finset.sum_congr rfl (fun p _ => hterm p)
+        _ = ((univ.filter fun p : Fin (k + 1) × Fin (k + 1) => adj p.1 p.2 = 1).card : ℤ) := by
+              rw [Finset.sum_boole]
+        _ = ((2 * #G.edgeFinset : ℕ) : ℤ) := by rw [G.two_mul_card_edgeFinset]
+        _ = 2 * (#G.edgeFinset : ℤ) := by push_cast; ring
+    have hlb : k + 1 ≤ #G.edgeFinset + 1 := by
+      have h := hG_conn.card_vert_le_card_edgeSet_add_one
+      rwa [Nat.card_fin, Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card] at h
+    have hub : (#G.edgeFinset : ℤ) < (k + 1 : ℤ) := by
+      have h2 : 2 * (#G.edgeFinset : ℤ) < 2 * ((k + 1 : ℕ) : ℤ) := by
+        rw [← hcount]; exact hacyc
+      push_cast at h2; linarith
+    have hub' : #G.edgeFinset < k + 1 := by exact_mod_cast hub
+    have hedge_eq : #G.edgeFinset = k := by omega
+    have hTree : G.IsTree := by
+      rw [SimpleGraph.isTree_iff_connected_and_card]
+      refine ⟨hG_conn, ?_⟩
+      have hNatEdge : Nat.card G.edgeSet = k := by
+        rw [Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card, hedge_eq]
+      rw [hNatEdge, Nat.card_fin]
+    -- ≥ 4 vertices, so `Fin (k+1)` is nontrivial.
+    have hk3 : 3 ≤ k := by
+      have hcnt : Etingof.vertexDegree adj v ≤ (Finset.univ.erase v).card := by
+        unfold Etingof.vertexDegree
+        apply Finset.card_le_card
+        intro x hx
+        simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx
+        refine Finset.mem_erase.mpr ⟨fun h' => ?_, Finset.mem_univ _⟩
+        subst h'; rw [hdiag x] at hx; exact absurd hx (by norm_num)
+      rw [Finset.card_erase_of_mem (Finset.mem_univ v), Finset.card_univ,
+        Fintype.card_fin] at hcnt
+      rw [hv] at hcnt; omega
+    haveI : Nontrivial (Fin (k + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    obtain ⟨u, hu⟩ := hTree.exists_vert_degree_one_of_nontrivial
+    refine ⟨u, ?_⟩
+    have hdegeq : G.degree u = Etingof.vertexDegree adj u := by
+      rw [SimpleGraph.degree]
+      unfold Etingof.vertexDegree
+      congr 1
+      ext j
+      simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter, Finset.mem_univ, true_and]
+      exact Iff.rfl
+    rw [hdegeq] at hu; exact hu
+  -- Delete the leaf: a finite Dynkin diagram on the survivors.
+  have hDsub : IsDynkinDiagram k (adj.submatrix u.succAbove u.succAbove) :=
+    affine_delete_leaf_isDynkin adj hD u hu_deg
+  -- A branch vertex not adjacent to `u` keeps degree 3 in the subdiagram.
+  have hsubdeg : ∀ (x : Fin (k + 1)) (x' : Fin k), u.succAbove x' = x →
+      Etingof.vertexDegree adj x = 3 → ¬ adj u x = 1 →
+      Etingof.vertexDegree (adj.submatrix u.succAbove u.succAbove) x' = 3 := by
+    intro x x' hx hx3 hxu
+    have himg : (Finset.univ.filter
+          (fun j : Fin k => (adj.submatrix u.succAbove u.succAbove) x' j = 1)).image u.succAbove
+        = Finset.univ.filter (fun c => adj x c = 1) := by
+      ext c
+      simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and,
+        Matrix.submatrix_apply, hx]
+      constructor
+      · rintro ⟨j, hj, rfl⟩; exact hj
+      · intro hc
+        have hcu : c ≠ u := by
+          intro hcu_eq; rw [hcu_eq, hsymm' x u] at hc; exact hxu hc
+        obtain ⟨j, hj⟩ := Fin.exists_succAbove_eq hcu
+        exact ⟨j, by rw [hj]; exact hc, hj⟩
+    have hcardN : (Finset.univ.filter (fun c => adj x c = 1)).card = 3 := hx3
+    change (Finset.univ.filter
+      (fun j : Fin k => (adj.submatrix u.succAbove u.succAbove) x' j = 1)).card = 3
+    rw [← Finset.card_image_of_injective _ Fin.succAbove_right_injective, himg, hcardN]
+  -- `v, w ≠ u` since `u` is a leaf but `v, w` are branch vertices.
+  have hvu : v ≠ u := by rintro rfl; rw [hu_deg] at hv; omega
+  have hwu : w ≠ u := by rintro rfl; rw [hu_deg] at hw; omega
+  -- `u` is adjacent to `v` or `w`: otherwise both survive as degree-3 vertices in the finite
+  -- deletion, contradicting `dynkin_unique_degree_three`.
+  have hadj_vw : adj u v = 1 ∨ adj u w = 1 := by
+    by_contra hcon
+    push_neg at hcon
+    obtain ⟨hvU, hwU⟩ := hcon
+    obtain ⟨v', hv'⟩ := Fin.exists_succAbove_eq hvu
+    obtain ⟨w', hw'⟩ := Fin.exists_succAbove_eq hwu
+    have hdv' := hsubdeg v v' hv' hv hvU
+    have hdw' := hsubdeg w w' hw' hw hwU
+    have hveqw : v' = w' := dynkin_unique_degree_three hDsub v' w' hdv' hdw'
+    exact hvw (by rw [← hv', ← hw', hveqw])
+  refine ⟨u, hu_deg, ?_⟩
+  rcases hadj_vw with h | h
+  · exact Or.inl (by rw [hsymm' v u]; exact h)
+  · exact Or.inr (by rw [hsymm' w u]; exact h)
+
 /-- **Two branch vertices ⟹ D̃ₙ.** A connected acyclic affine Dynkin diagram with all degrees `≤ 3`
 and exactly two branch (degree-3) vertices is graph-isomorphic to `AffineType.Dtilde n` for some
 `n ≥ 4` (a chain with a two-leaf fork at each end). Affine analogue of the finite
