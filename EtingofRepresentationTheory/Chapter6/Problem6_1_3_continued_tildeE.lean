@@ -2712,10 +2712,52 @@ lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
     rw [dtilde_eval p q]
     split_ifs with h1 <;> first | rfl | (exfalso; omega)
 
+/-- **Leaf-deleted two-branch affine diagram is a finite `Dₖ`, with the reattach point one step
+in from the far leaf.** This is the *classification crux* of `affine_tree_two_branch_iso`: given a
+connected acyclic affine Dynkin diagram on `Fin (k+1)` with all degrees `≤ 3` and exactly two branch
+(degree-3) vertices `v, w`, and a leaf `ℓ` attached to `v`, deleting `ℓ` yields a finite Dynkin
+diagram on `Fin k` (`affine_delete_leaf_isDynkin`) whose classification (`branch_classification`) is
+forced to be the **`Dₖ`** family — the E-types `E₆/E₇/E₈` are *ruled out* — and the reattach point
+`v'` (the survivor index of `v`) sits at `Dₖ`-position `1`, one step in from the far single-leaf
+end (index `0`).
+
+Ruling out the E-types is the affine-degeneracy step: because `w` is untouched by the deletion it
+keeps degree 3, so the survivor has a unique branch vertex and is `Dₖ`, `E₆`, `E₇`, or `E₈`; the
+positive-semidefinite-but-degenerate Cartan form of the affine diagram pins the two fork-arms at
+`w` to length `1` each (equivalently, `w`'s branch vertex in the survivor has *two* leaf-neighbours,
+true only for `Dₖ`, not for any E branch vertex). Formalizing that discriminator requires the
+two-branch analogue of the one-branch arm-length machinery (`affine_arm_length_solutions`,
+`affine_tree_one_arm_reciprocal`) and is split off as its own sub-issue; the surrounding scaffolding
+(leaf extraction, deletion, and the reindexing engine `affine_two_fork_reindex`) is complete.
+
+`sorry`-tracked: see the sub-issue for the E-ruling-out + reattach-point localization. -/
+lemma affine_two_branch_deleted_isD {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
+    (hD : IsAffineDynkinDiagram (k + 1) adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * ((k + 1 : ℕ) : ℤ))
+    (hdeg3 : ∀ x, Etingof.Problem6_1_3_E7E8.vertexDegree adj x ≤ 3)
+    (v w : Fin (k + 1)) (hvw : v ≠ w)
+    (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (hw : Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3)
+    (huniq : ∀ u, Etingof.Problem6_1_3_E7E8.vertexDegree adj u = 3 → u = v ∨ u = w)
+    (ℓ : Fin (k + 1)) (hℓdeg : Etingof.Problem6_1_3_E7E8.vertexDegree adj ℓ = 1)
+    (hℓv : adj v ℓ = 1) :
+    ∃ (hk : 4 ≤ k) (v' : Fin k), ℓ.succAbove v' = v ∧
+      ∃ σ' : Fin (DynkinType.D k hk).rank ≃ Fin k,
+        (∀ i j, (adj.submatrix ℓ.succAbove ℓ.succAbove) (σ' i) (σ' j)
+                  = (DynkinType.D k hk).adj i j) ∧
+        σ'.symm v' = ⟨1, by have h : (DynkinType.D k hk).rank = k := rfl; omega⟩ := by
+  sorry
+
 /-- **Two branch vertices ⟹ D̃ₙ.** A connected acyclic affine Dynkin diagram with all degrees `≤ 3`
 and exactly two branch (degree-3) vertices is graph-isomorphic to `AffineType.Dtilde n` for some
 `n ≥ 4` (a chain with a two-leaf fork at each end). Affine analogue of the finite
-`tree_branch_iso`. -/
+`tree_branch_iso`.
+
+*Proof.* A leaf `ℓ` sits at one of the two branch vertices (`affine_two_branch_has_leaf`); call that
+one `v`. Deleting `ℓ` and classifying the survivor pins it to the finite `Dₖ` with `v` reattached
+one step in from the far leaf (`affine_two_branch_deleted_isD`); the reindexing engine
+`affine_two_fork_reindex` then reattaches `ℓ` to rebuild `AffineType.Dtilde k`. The leaf sitting at
+`w` instead of `v` is the same argument with `v, w` swapped. -/
 lemma affine_tree_two_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
@@ -2726,8 +2768,48 @@ lemma affine_tree_two_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (huniq : ∀ u, Etingof.Problem6_1_3_E7E8.vertexDegree adj u = 3 → u = v ∨ u = w) :
     ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adj i j := by
-  -- Sub-issue: two-fork reindexing onto `AffineType.Dtilde`, mirroring finite `tree_branch_iso`.
-  sorry
+  classical
+  -- Reindex `n = k + 1` for the leaf-deletion machinery.
+  obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hD.1 b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- A leaf `ℓ` is adjacent to one of the two branch vertices `v, w`.
+  obtain ⟨ℓ, hℓdeg, hℓadj⟩ := affine_two_branch_has_leaf adj hn hD hacyc hdeg3 v w hvw hv hw
+  -- A degree-1 vertex has a unique neighbour.
+  have huniqueN : ∀ (t : Fin (k + 1)), adj ℓ t = 1 → ∀ w', adj ℓ w' = 1 → w' = t := by
+    intro t ht w' hw'
+    have hcard : (univ.filter (fun j => adj ℓ j = 1)).card = 1 := hℓdeg
+    obtain ⟨a, ha⟩ := Finset.card_eq_one.mp hcard
+    have htmem : t ∈ univ.filter (fun j => adj ℓ j = 1) :=
+      Finset.mem_filter.mpr ⟨mem_univ _, ht⟩
+    have hw'mem : w' ∈ univ.filter (fun j => adj ℓ j = 1) :=
+      Finset.mem_filter.mpr ⟨mem_univ _, hw'⟩
+    rw [ha, Finset.mem_singleton] at htmem hw'mem
+    rw [hw'mem, htmem]
+  -- WLOG the leaf is attached to the vertex we call `v`.
+  rcases hℓadj with hℓv | hℓw
+  · -- Leaf attached to `v`.
+    have hℓv' : adj ℓ v = 1 := by rw [hsymm']; exact hℓv
+    obtain ⟨hk, v', hv'eq, σ', hσ', hv'pos⟩ :=
+      affine_two_branch_deleted_isD adj hD hacyc hdeg3 v w hvw hv hw huniq ℓ hℓdeg hℓv
+    have hu_adj : adj ℓ (ℓ.succAbove v') = 1 := by rw [hv'eq]; exact hℓv'
+    have hu_unique : ∀ w', adj ℓ w' = 1 → w' = ℓ.succAbove v' := by
+      intro w' hw'; rw [hv'eq]; exact huniqueN v hℓv' w' hw'
+    obtain ⟨σ, hσ⟩ :=
+      affine_two_fork_reindex hk adj hD.1 hD.2.1 hD.2.2.1 ℓ v' hu_adj hu_unique σ' hσ' hv'pos
+    exact ⟨AffineType.Dtilde k hk, σ, hσ⟩
+  · -- Leaf attached to `w`: same argument with the two branch vertices swapped.
+    have hℓw' : adj ℓ w = 1 := by rw [hsymm']; exact hℓw
+    obtain ⟨hk, v', hv'eq, σ', hσ', hv'pos⟩ :=
+      affine_two_branch_deleted_isD adj hD hacyc hdeg3 w v (Ne.symm hvw) hw hv
+        (fun u hu => (huniq u hu).symm) ℓ hℓdeg hℓw
+    have hu_adj : adj ℓ (ℓ.succAbove v') = 1 := by rw [hv'eq]; exact hℓw'
+    have hu_unique : ∀ w', adj ℓ w' = 1 → w' = ℓ.succAbove v' := by
+      intro w' hw'; rw [hv'eq]; exact huniqueN w hℓw' w' hw'
+    obtain ⟨σ, hσ⟩ :=
+      affine_two_fork_reindex hk adj hD.1 hD.2.1 hD.2.2.1 ℓ v' hu_adj hu_unique σ' hσ' hv'pos
+    exact ⟨AffineType.Dtilde k hk, σ, hσ⟩
 
 /-- **Affine arm-length Diophantine.** The equality analogue of the finite
 `Etingof.Problem6_1_3_E7E8.arm_length_solutions` (`DynkinForward.lean`): the only solutions of
