@@ -1212,6 +1212,21 @@ theorem mulEquiv_dihedralGroup_of_conj_inv
   exact ⟨(MulEquiv.ofBijective φ
     ((Fintype.bijective_iff_injective_and_card φ).mpr ⟨hinj, hcardeq⟩)).symm⟩
 
+/-- **Cyclic disjunct — geometric bridge.** A finite `G ≤ SO(3)` possessing a pole `b` fixed by
+*every* element of `G` is cyclic: all of `G` then shares the common axis `ℝ·b.1`, so
+`isCyclic_of_common_fixed_vector` applies. This is the content of the `{n, n}` (cyclic) family of
+`so3_classification_aux`, once the family is shown to contain a `G`-fixed pole. -/
+theorem so3_cyclic_of_globally_fixed_pole
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (b : ↥(poleSet G)) (hb : ∀ g : ↥G, g • b = b) :
+    IsCyclic G := by
+  have hunit : (b : ↥(poleSet G)).1 ⬝ᵥ (b : ↥(poleSet G)).1 = 1 := b.2.1
+  have hv0 : (b : ↥(poleSet G)).1 ≠ 0 := by
+    intro h; rw [h] at hunit; simp at hunit
+  refine isCyclic_of_common_fixed_vector G (b : ↥(poleSet G)).1 hv0 (fun g => ?_)
+  have hg := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) (hb g)
+  rwa [poleSet_coe_smul] at hg
+
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
 the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
