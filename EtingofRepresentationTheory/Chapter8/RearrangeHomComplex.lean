@@ -56,7 +56,7 @@ variable
     (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (n₁ ⊗ₜ[k] n₂ : N₁ ⊗[k] N₂)
       = (a₁ • n₁) ⊗ₜ[k] (a₂ • n₂))
 
-attribute [local instance] restrictModule₁L restrictModule₂L tower₁L tower₂L extModuleL
+attribute [local instance] restrictModule₁L restrictModule₂L tower₁L tower₂L extModuleL towerExtL
 
 variable {A₁ A₂}
 variable {M₁ : ModuleCat.{u} A₁} {M₂ : ModuleCat.{u} A₂}
@@ -101,7 +101,7 @@ private lemma fullSummandIso_inv_tmul_apply (j m : ℕ)
     (ψ₁ : ↥((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).X j))
     (ψ₂ : ↥((P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)).X m))
     (y₁ : P₁.complex.X j) (y₂ : P₂.complex.X m) :
-    (ModuleCat.Hom.hom ((fullSummandIso k N₁ N₂ hN P₁ P₂ j m).inv (ψ₁ ⊗ₜ[k] ψ₂)))
+    (ModuleCat.Hom.hom (ModuleCat.Hom.hom (fullSummandIso k N₁ N₂ hN P₁ P₂ j m).inv (ψ₁ ⊗ₜ[k] ψ₂)))
         (y₁ ⊗ₜ[k] y₂) = ψ₁.hom y₁ ⊗ₜ[k] ψ₂.hom y₂ := by
   have e0 := fun w => eq_of_heq (eqToHom_hom_apply_heq k (srcSummandEq k N₁ N₂ hN P₁ P₂ j m).symm w)
   have e1 := fun w => eq_of_heq (eqToHom_hom_apply_heq k (linYonedaXEq k A₁ N₁ P₁.complex j) w)
@@ -114,6 +114,7 @@ private lemma fullSummandIso_inv_tmul_apply (j m : ℕ)
     LinearEquiv.toModuleIso_inv, ModuleCat.hom_comp, LinearMap.comp_apply]
   rfl
 
+set_option maxHeartbeats 1000000 in
 include hN in
 /-- **Naturality of `fullSummandIso.inv` in the first (contravariant) variable.** Composing the
 degree-`p → p+1` source differential of the first `Hom` cochain factor (via `curriedTensor`) with the
@@ -128,7 +129,19 @@ theorem fullSummandIso_inv_natLeft (p q : ℕ) :
       (fullSummandIso k N₁ N₂ hN P₁ P₂ p q).inv ≫
         (homYoneda k N₁ N₂).map
           (extTensorFunctorLeftMap k (P₁.complex.d (p + 1) p) (𝟙 (P₂.complex.X q))).op := by
-  sorry
+  apply ModuleCat.hom_ext
+  refine TensorProduct.ext' fun φ₁ φ₂ => ?_
+  simp only [ModuleCat.hom_comp, LinearMap.comp_apply, curriedTensor_map_app,
+    ChainComplex.linearYonedaObj_d, ModuleCat.hom_whiskerRight, ModuleCat.hom_ofHom,
+    linearYoneda_obj_map]
+  erw [LinearMap.rTensor_tmul]
+  apply ModuleCat.hom_ext
+  refine HomTensorFGProj.hom_ext k A₁ A₂ _ _ N₁ N₂ (fun x₁ x₂ => ?_)
+  refine (fullSummandIso_inv_tmul_apply k N₁ N₂ hN P₁ P₂ (p + 1) q
+      (Linear.leftComp k (ModuleCat.of A₁ N₁) (P₁.complex.d (p + 1) p) φ₁) φ₂ x₁ x₂).trans
+    (Eq.trans ?_ (fullSummandIso_inv_tmul_apply k N₁ N₂ hN P₁ P₂ p q φ₁ φ₂
+      ((P₁.complex.d (p + 1) p).hom x₁) x₂).symm)
+  rfl
 
 include hN in
 /-- **Naturality of `fullSummandIso.inv` in the second (contravariant) variable.** The mirror of
