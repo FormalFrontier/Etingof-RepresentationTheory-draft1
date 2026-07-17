@@ -107,4 +107,36 @@ lemma homDegEquiv_δ (i : ℕ)
   -- RHS: `negOnePow • (d ≫ xiso.inv ≫ g)`. Move the sign out and cancel `xiso'.inv ≫ xiso'.hom`.
   simp only [Units.smul_def, Preadditive.comp_zsmul, Category.assoc, Iso.inv_hom_id_assoc]
 
+/-!
+## Remaining assembly (follow-up)
+
+The target of this file is the additive isomorphism
+
+```
+homComplexHomologyAddEquivₖ (n : ℕ) :
+    (homCochainComplex N P).homology (n : ℤ) ≃+ (P.complex.linearYonedaObj k N).homology n
+```
+
+Write `L := homCochainComplex N P : CochainComplex AddCommGrp ℤ`,
+`R := P.complex.linearYonedaObj k N : CochainComplex (ModuleCat k) ℕ`, and
+`F := forget₂ (ModuleCat k) AddCommGrp` (which has `PreservesHomology`, from
+`Mathlib.Algebra.Homology.ShortComplex.ModuleCat`). The reduction from the degreewise data above is:
+
+* For `n = m + 1`: `homDegEquiv N P (m), homDegEquiv N P (m+1), homDegEquiv N P (m+2)` are the three
+  vertical isomorphisms of a `ShortComplex.isoMk` between `L.sc (↑(m+1))` and `(R.sc (m+1)).map F`;
+  the two commutativity squares are exactly `homDegEquiv_δ` (the sign is a unit, and precomposition
+  with a unit does not change the square up to the isomorphisms). `R.d` on the target side is the
+  unsigned precomposition `ChainComplex.linearYonedaObj_d`. Then
+  `ShortComplex.homologyMapIso` + `ShortComplex.mapHomologyIso F (R.sc (m+1))` give
+  `L.homology ↑(m+1) ≅ F.obj (R.homology (m+1))`.
+* For `n = 0`: the incoming differentials vanish on both sides (`L.X (-1) ≅ 0`, and the source of
+  `R.d` is `(ComplexShape.up ℕ).prev 0 = 0` with `R.d 0 0 = 0`), so both homologies are the kernel
+  via `HomologicalComplex.isoHomologyπ`; `homDegEquiv N P 0` and `homDegEquiv N P 1` conjugate the
+  two kernels (`homDegEquiv_δ` again, with the sign an isomorphism of the kernels).
+* Finally `F.obj (R.homology n)` has the same underlying additive group as `R.homology n`
+  (`ModuleCat`'s `forget₂` is the identity on carriers), giving the `≃+`.
+
+This assembly is tracked as follow-up issue #6904.
+-/
+
 end Etingof
