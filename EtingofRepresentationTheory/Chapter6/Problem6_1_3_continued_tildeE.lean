@@ -2650,6 +2650,47 @@ def armAdjIdx (p q r i j : ℕ) : Prop :=
 instance (p q r i j : ℕ) : Decidable (armAdjIdx p q r i j) := by
   unfold armAdjIdx; infer_instance
 
+/-- **Linearity of a harmonic arm.** If `f 0, f 1, …, f L` is a sequence with `2·f 0 = f 1` (leaf
+condition) and `2·f i = f (i-1) + f (i+1)` at every interior index `1 ≤ i ≤ L-1`, then
+`f i = (i+1)·f 0`. Applied to the strictly-positive null vector restricted to an arm: the null-vector
+harmonic relation makes it linear from the tip to the hub. -/
+private lemma arm_linear (f : ℕ → ℤ) (L : ℕ) (hleaf : 2 * f 0 = f 1)
+    (hint : ∀ i, 1 ≤ i → i + 1 ≤ L → 2 * f i = f (i - 1) + f (i + 1)) :
+    ∀ i, i ≤ L → f i = (i + 1 : ℤ) * f 0 := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    match i with
+    | 0 => simp
+    | 1 => push_cast; linarith [hleaf]
+    | (k + 2) =>
+      have e1 := ih (k + 1) (by omega) (by omega)
+      have e0 := ih k (by omega) (by omega)
+      have hrec : 2 * f (k + 1) = f k + f (k + 2) := by
+        have h := hint (k + 1) (by omega) (by omega)
+        simpa using h
+      have hval : f (k + 2) = 2 * f (k + 1) - f k := by linarith [hrec]
+      rw [hval, e1, e0]; push_cast; ring
+
+/-- **Arm-length reciprocal from the null vector.** Pure arithmetic: if the strictly-positive hub
+value `W` factors as `(p+1)·a = (q+1)·b = (r+1)·c` (arm linearity: `W` is `arm-length + 1` times the
+tip value on each of the three arms) and the three tip values sum to `W` (hub harmonicity), then the
+cleared-denominator reciprocal equality holds. -/
+private lemma reciprocal_of_arm_data (p q r : ℕ) (W a b c : ℤ) (hW : 0 < W)
+    (hpa : W = (p + 1) * a) (hqb : W = (q + 1) * b) (hrc : W = (r + 1) * c)
+    (hsum : a + b + c = W) :
+    (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1)
+      = (p + 1) * (q + 1) * (r + 1) := by
+  have key : (((q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1) : ℕ) : ℤ) * W
+      = (((p + 1) * (q + 1) * (r + 1) : ℕ) : ℤ) * W := by
+    push_cast
+    linear_combination (((p : ℤ) + 1) * (q + 1) * (r + 1)) * hsum
+      + ((q : ℤ) + 1) * (r + 1) * hpa + ((p : ℤ) + 1) * (r + 1) * hqb
+      + ((p : ℤ) + 1) * (q + 1) * hrc
+  have := mul_right_cancel₀ (ne_of_gt hW) key
+  exact_mod_cast this
+
 /-- **Three arms from the single branch vertex + the reciprocal equality (piece (b) of Ẽ₆/Ẽ₇/Ẽ₈).**
 From a connected acyclic affine Dynkin diagram with all degrees `≤ 3` and a *unique* branch
 (degree-3) vertex `v`, extract the three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from `v`, laid
