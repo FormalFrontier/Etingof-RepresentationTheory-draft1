@@ -2572,6 +2572,146 @@ lemma affine_two_branch_has_leaf {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
   have hv'w' : v' = w' := dynkin_unique_degree_three hDsub v' w' hdv' hdw'
   exact hvw (by rw [← hv', ← hw', hv'w'])
 
+/-- **Fork-shift adjacency identity.** Deleting the fork-leaf `0` from `D̃ₖ` and shifting every
+surviving index down by one turns the survivor graph into the finite `Dₖ`. Pointwise: for indices
+`x, y` of `D̃ₖ` with `x = a + 1`, `y = b + 1` (so `a, b` survive as vertices of `Dₖ`),
+`Dₖ.adj a b = D̃ₖ.adj x y`. This is a pure identity between the two standard adjacency matrices; it
+carries no geometry and is the reindexing engine's arithmetic core. -/
+private lemma dtilde_shift_adj' {k : ℕ} (hk : 4 ≤ k)
+    (x y : Fin (AffineType.Dtilde k hk).rank) (a b : Fin (DynkinType.D k hk).rank)
+    (hxa : x.val = a.val + 1) (hyb : y.val = b.val + 1) :
+    (DynkinType.D k hk).adj a b = (AffineType.Dtilde k hk).adj x y := by
+  show (if ((a.val + 1 = b.val ∧ b.val ≤ k - 2) ∨ (b.val + 1 = a.val ∧ a.val ≤ k - 2)) ∨
+           ((a.val = k - 3 ∧ b.val = k - 1) ∨ (b.val = k - 3 ∧ a.val = k - 1)) then (1 : ℤ) else 0)
+     = (if (min x.val y.val = 0 ∧ max x.val y.val = 2) ∨
+           (min x.val y.val = 1 ∧ max x.val y.val = 2) ∨
+           (2 ≤ min x.val y.val ∧ max x.val y.val ≤ k - 2 ∧ min x.val y.val + 1 = max x.val y.val) ∨
+           (min x.val y.val = k - 2 ∧ max x.val y.val = k - 1) ∨
+           (min x.val y.val = k - 2 ∧ max x.val y.val = k) then (1 : ℤ) else 0)
+  split_ifs with h1 h2 <;> first | rfl | (exfalso; omega)
+
+/-- **Reindexing engine for the two-fork (D̃ₖ) case.** Degeneracy-independent: it takes the finite
+classification of the leaf-deleted diagram as explicit hypotheses. Given a symmetric `0/1` graph
+`adj` on `Fin (k+1)`, a fork-leaf `u` attached at `u.succAbove v'`, and a graph isomorphism `σ'`
+identifying the survivors `adj.submatrix u.succAbove u.succAbove` with the finite `Dₖ` in which the
+reattach point `v'` sits one step in from the far single-leaf end (`σ'.symm v' = 1`), it reattaches
+`u` to rebuild the affine `D̃ₖ`, producing a graph isomorphism onto `AffineType.Dtilde k`.
+
+This is the affine analogue of the finite `Etingof.tree_branch_iso`; the reattached fork-leaf lands
+at `D̃ₖ`-index `0`, and every survivor `p ≥ 1` maps through `σ'` after the index shift `p ↦ p - 1`
+(`dtilde_shift_adj'`). -/
+lemma affine_two_fork_reindex {k : ℕ} (hk : 4 ≤ k)
+    (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
+    (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (u : Fin (k + 1)) (v' : Fin k)
+    (hu_adj : adj u (u.succAbove v') = 1)
+    (hu_unique : ∀ w, adj u w = 1 → w = u.succAbove v')
+    (σ' : Fin (DynkinType.D k hk).rank ≃ Fin k)
+    (hσ' : ∀ i j, (adj.submatrix u.succAbove u.succAbove) (σ' i) (σ' j)
+                    = (DynkinType.D k hk).adj i j)
+    (hv'pos : σ'.symm v' = ⟨1, by have h : (DynkinType.D k hk).rank = k := rfl; omega⟩) :
+    ∃ σ : Fin (AffineType.Dtilde k hk).rank ≃ Fin (k + 1),
+      ∀ i j, adj (σ i) (σ j) = (AffineType.Dtilde k hk).adj i j := by
+  classical
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- Index bound for the down-shift `p ↦ p - 1` into `Fin (Dₖ).rank = Fin k`.
+  have hidx : ∀ (p : Fin (AffineType.Dtilde k hk).rank), p.val - 1 < (DynkinType.D k hk).rank := by
+    intro p
+    have h4 : (DynkinType.D k hk).rank = k := rfl
+    have h5 : (AffineType.Dtilde k hk).rank = k + 1 := rfl
+    have := p.isLt
+    omega
+  -- Evaluate the target `D̃ₖ` adjacency in decidable arithmetic form.
+  have dtilde_eval : ∀ x y : Fin (AffineType.Dtilde k hk).rank,
+      (AffineType.Dtilde k hk).adj x y
+        = if (min x.val y.val = 0 ∧ max x.val y.val = 2) ∨
+             (min x.val y.val = 1 ∧ max x.val y.val = 2) ∨
+             (2 ≤ min x.val y.val ∧ max x.val y.val ≤ k - 2 ∧
+                min x.val y.val + 1 = max x.val y.val) ∨
+             (min x.val y.val = k - 2 ∧ max x.val y.val = k - 1) ∨
+             (min x.val y.val = k - 2 ∧ max x.val y.val = k) then (1 : ℤ) else 0 :=
+    fun _ _ => rfl
+  -- Forward map: `D̃ₖ`-index `0 ↦ u` (the reattached fork-leaf); index `p ≥ 1 ↦ u.succAbove (σ' (p-1))`.
+  let fwd : Fin (AffineType.Dtilde k hk).rank → Fin (k + 1) := fun p =>
+    if _ : 0 < p.val then u.succAbove (σ' ⟨p.val - 1, hidx p⟩) else u
+  have fwd_inj : Function.Injective fwd := by
+    intro p q hpq
+    simp only [fwd] at hpq
+    by_cases hp : 0 < p.val <;> by_cases hq : 0 < q.val
+    · rw [dif_pos hp, dif_pos hq] at hpq
+      have h1 := Fin.succAbove_right_injective hpq
+      have h2 := σ'.injective h1
+      rw [Fin.mk.injEq] at h2
+      exact Fin.ext (by omega)
+    · rw [dif_pos hp, dif_neg hq] at hpq
+      exact absurd hpq (Fin.succAbove_ne u _)
+    · rw [dif_neg hp, dif_pos hq] at hpq
+      exact absurd hpq.symm (Fin.succAbove_ne u _)
+    · exact Fin.ext (by omega)
+  refine ⟨Equiv.ofBijective fwd ((Finite.injective_iff_bijective).mp fwd_inj), fun p q => ?_⟩
+  change adj (fwd p) (fwd q) = (AffineType.Dtilde k hk).adj p q
+  simp only [fwd]
+  by_cases hp : 0 < p.val <;> by_cases hq : 0 < q.val
+  · -- Both survivors: reduce to `Dₖ` via `σ'`, then the shift identity.
+    rw [dif_pos hp, dif_pos hq]
+    have hsub := hσ' ⟨p.val - 1, hidx p⟩ ⟨q.val - 1, hidx q⟩
+    rw [Matrix.submatrix_apply] at hsub
+    rw [hsub]
+    exact dtilde_shift_adj' hk p q ⟨p.val - 1, hidx p⟩ ⟨q.val - 1, hidx q⟩
+      (by show p.val = p.val - 1 + 1; omega) (by show q.val = q.val - 1 + 1; omega)
+  · -- `p` survivor, `q = 0` (the reattached leaf).
+    rw [dif_pos hp, dif_neg hq]
+    have hq0 : q.val = 0 := by omega
+    have hLHS : adj (u.succAbove (σ' ⟨p.val - 1, hidx p⟩)) u = if p.val = 2 then (1 : ℤ) else 0 := by
+      by_cases hp2 : p.val = 2
+      · rw [if_pos hp2]
+        have hidxp : (⟨p.val - 1, hidx p⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
+          rw [hv'pos]; apply Fin.ext; show p.val - 1 = 1; omega
+        rw [hidxp, σ'.apply_symm_apply, hsymm' (u.succAbove v') u, hu_adj]
+      · rw [if_neg hp2]
+        have hne : σ' ⟨p.val - 1, hidx p⟩ ≠ v' := by
+          intro heq
+          have hsv : (⟨p.val - 1, hidx p⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
+            rw [← heq, σ'.symm_apply_apply]
+          rw [hv'pos, Fin.mk.injEq] at hsv
+          omega
+        rcases h01 (u.succAbove (σ' ⟨p.val - 1, hidx p⟩)) u with h0 | h1
+        · exact h0
+        · rw [hsymm' _ u] at h1
+          exact absurd (hu_unique _ h1) (fun h => hne (Fin.succAbove_right_injective h))
+    rw [hLHS, dtilde_eval p q]
+    split_ifs with h1 h2 <;> first | rfl | (exfalso; omega)
+  · -- `p = 0` (the reattached leaf), `q` survivor.
+    rw [dif_neg hp, dif_pos hq]
+    have hp0 : p.val = 0 := by omega
+    have hLHS : adj u (u.succAbove (σ' ⟨q.val - 1, hidx q⟩)) = if q.val = 2 then (1 : ℤ) else 0 := by
+      by_cases hq2 : q.val = 2
+      · rw [if_pos hq2]
+        have hidxq : (⟨q.val - 1, hidx q⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
+          rw [hv'pos]; apply Fin.ext; show q.val - 1 = 1; omega
+        rw [hidxq, σ'.apply_symm_apply, hu_adj]
+      · rw [if_neg hq2]
+        have hne : σ' ⟨q.val - 1, hidx q⟩ ≠ v' := by
+          intro heq
+          have hsv : (⟨q.val - 1, hidx q⟩ : Fin (DynkinType.D k hk).rank) = σ'.symm v' := by
+            rw [← heq, σ'.symm_apply_apply]
+          rw [hv'pos, Fin.mk.injEq] at hsv
+          omega
+        rcases h01 u (u.succAbove (σ' ⟨q.val - 1, hidx q⟩)) with h0 | h1
+        · exact h0
+        · exact absurd (hu_unique _ h1) (fun h => hne (Fin.succAbove_right_injective h))
+    rw [hLHS, dtilde_eval p q]
+    split_ifs with h1 h2 <;> first | rfl | (exfalso; omega)
+  · -- Both `= 0`: the reattached leaf against itself.
+    rw [dif_neg hp, dif_neg hq, hdiag u]
+    have hp0 : p.val = 0 := by omega
+    have hq0 : q.val = 0 := by omega
+    rw [dtilde_eval p q]
+    split_ifs with h1 <;> first | rfl | (exfalso; omega)
+
 /-- **Two branch vertices ⟹ D̃ₙ.** A connected acyclic affine Dynkin diagram with all degrees `≤ 3`
 and exactly two branch (degree-3) vertices is graph-isomorphic to `AffineType.Dtilde n` for some
 `n ≥ 4` (a chain with a two-leaf fork at each end). Affine analogue of the finite
