@@ -915,7 +915,8 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
       2 * (1 - (Nat.card G : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum ∧
       (m = {Nat.card G, Nat.card G} ∨
        (∃ k, Nat.card G = 2 * k ∧ m = {2, 2, k}) ∨
-       m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5}) := by
+       m = {2, 3, 3} ∨ m = {2, 3, 4} ∨ m = {2, 3, 5}) ∧
+      (∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (stabilizer (↥G) b) = x) := by
   classical
   haveI : Finite ↥(poleSet G) := (finite_poleSet G).to_subtype
   haveI hFG : Fintype ↥G := Fintype.ofFinite _
@@ -1058,7 +1059,7 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
           field_simp
           ring
   -- Build the multiset and apply the arithmetic classification.
-  refine ⟨(Finset.univ : Finset Ω).val.map mω, ?_, ?_, ?_, ?_⟩
+  refine ⟨(Finset.univ : Finset Ω).val.map mω, ?_, ?_, ?_, ?_, ?_⟩
   · intro x hx
     rw [Multiset.mem_map] at hx
     obtain ⟨ω, _, rfl⟩ := hx
@@ -1077,6 +1078,11 @@ theorem pole_order_data (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Fin
       (by
         simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def]
         exact hsum.symm)
+  · -- Each stabilizer-order in the multiset is realized by the orbit representative `ω.out`.
+    intro x hx
+    rw [Multiset.mem_map] at hx
+    obtain ⟨ω, _, rfl⟩ := hx
+    exact ⟨ω.out, by rw [Nat.card_eq_fintype_card, hmω]⟩
 
 /-- **Milestone (ii): pole stabilizers are cyclic.** For a finite subgroup `G ≤ SO(3)` and a
 pole `b`, every element of the stabilizer of `b` fixes the underlying unit vector `b.1 ≠ 0`, so
@@ -1211,6 +1217,46 @@ theorem mulEquiv_dihedralGroup_of_conj_inv
     rw [DihedralGroup.card, ← Nat.card_eq_fintype_card, hcard]
   exact ⟨(MulEquiv.ofBijective φ
     ((Fintype.bijective_iff_injective_and_card φ).mpr ⟨hinj, hcardeq⟩)).symm⟩
+
+/-- **Cyclic disjunct — geometric bridge.** A finite `G ≤ SO(3)` possessing a pole `b` fixed by
+*every* element of `G` is cyclic: all of `G` then shares the common axis `ℝ·b.1`, so
+`isCyclic_of_common_fixed_vector` applies. This is the content of the `{n, n}` (cyclic) family of
+`so3_classification_aux`, once the family is shown to contain a `G`-fixed pole. -/
+theorem so3_cyclic_of_globally_fixed_pole
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (b : ↥(poleSet G)) (hb : ∀ g : ↥G, g • b = b) :
+    IsCyclic G := by
+  have hunit : (b : ↥(poleSet G)).1 ⬝ᵥ (b : ↥(poleSet G)).1 = 1 := b.2.1
+  have hv0 : (b : ↥(poleSet G)).1 ≠ 0 := by
+    intro h; rw [h] at hunit; simp at hunit
+  refine isCyclic_of_common_fixed_vector G (b : ↥(poleSet G)).1 hv0 (fun g => ?_)
+  have hg := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) (hb g)
+  rwa [poleSet_coe_smul] at hg
+
+/-- **Cyclic disjunct — full-stabilizer extraction.** If some pole `b` has stabilizer of order the
+full group order `Nat.card G`, then that stabilizer is all of `G`, so `b` is fixed by every element
+of `G` and `so3_cyclic_of_globally_fixed_pole` gives `IsCyclic G`. In the `{n, n}` pole family the
+two principal poles are exactly such fixed poles (orbit size `1`, stabilizer order `n`). -/
+theorem so3_cyclic_of_full_stabilizer_pole
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (b : ↥(poleSet G)) (hb : Nat.card (MulAction.stabilizer (↥G) b) = Nat.card (↥G)) :
+    IsCyclic G := by
+  have htop : MulAction.stabilizer (↥G) b = ⊤ := Subgroup.eq_top_of_card_eq _ hb
+  refine so3_cyclic_of_globally_fixed_pole G b (fun g => ?_)
+  exact (MulAction.mem_stabilizer_iff).mp (htop ▸ Subgroup.mem_top g)
+
+/-- **Cyclic disjunct of `so3_classification_aux`.** From the cyclic pole family `m = {n, n}`
+(`n = Nat.card G`) together with the pole-realization data of `pole_order_data` (each stabilizer
+order in `m` is achieved by an actual pole), extract the principal pole `b` with
+`Nat.card (stabilizer G b) = n` and conclude `IsCyclic G`. This is the first disjunct;
+`m` and `hpole` are supplied verbatim by `pole_order_data`. -/
+theorem so3_cyclic_of_poleData
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {Nat.card (↥G), Nat.card (↥G)})
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    IsCyclic G := by
+  obtain ⟨b, hb⟩ := hpole (Nat.card (↥G)) (by rw [hclass]; simp)
+  exact so3_cyclic_of_full_stabilizer_pole G b hb
 
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
