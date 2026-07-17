@@ -101,11 +101,13 @@ the `Etingof.Ext` statement.
 
 The scalar action on `Abelian.Ext M N n` is postcomposition with `r • 𝟙 N`
 (`CategoryTheory.Abelian.Ext.smul_eq_comp_mk₀`); on `Extₖ k A M N n : ModuleCat k` it is the module
-scalar. Each of the four steps intertwines these actions (step 4 is a `ModuleCat k` iso, hence
-`k`-linear; steps 1–3 are the `k`-linear `Hom(P•, N)` structure viewed additively), so the composite
-`map_smul'` holds. Discharging it requires naturality-in-`N` of `extAddEquivCohomologyClass`,
-`homologyAddEquiv`, and `homComplexHomologyAddEquivₖ` under the endomorphism `r • 𝟙 N`, tracked as
-the follow-up to #6901. -/
+scalar. Step 4 is a `ModuleCat k` iso, hence `k`-linear, and is factored out; via `smul_homology_eq`
+(fact 1) the residual `map_smul'` becomes the single purely categorical naturality statement `hnat`:
+that the steps-1–3 composite `e123` intertwines the source scalar (postcomposition with
+`mk₀ (r • 𝟙 N)`) with `homologyMap (r • 𝟙)` on the `linearYonedaObj` homology. Discharging `hnat`
+needs naturality-in-`N` of `extAddEquivCohomologyClass`, `homologyAddEquiv`, and
+`homComplexHomologyAddEquivₖ` under the endomorphism `r • 𝟙 N` (none packaged in Mathlib for the
+middle/top steps); tracked as the follow-up to #6935. -/
 noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     Etingof.Ext M N n ≃ₗ[k] Etingof.Extₖ k A M N n where
   __ := extAbelianAddEquivExtₖ k N P n
