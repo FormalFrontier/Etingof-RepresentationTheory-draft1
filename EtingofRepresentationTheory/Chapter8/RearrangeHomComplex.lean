@@ -119,6 +119,7 @@ degree-`p → p+1` source differential of the first `Hom` cochain factor (via `c
 the per-summand inverse iso equals the per-summand inverse iso followed by precomposition by the
 external-tensor map of the chain differential `P₁.d (p+1) p`. Reduces pointwise through
 `fullSummandIso_inv_tmul_apply` to `homTensorHom_comp_lcompₖ_left` (#6843). -/
+@[reassoc]
 theorem fullSummandIso_inv_natLeft (p q : ℕ) :
     ((curriedTensor (ModuleCat.{u} k)).map
           ((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).d p (p + 1))).app
@@ -144,6 +145,7 @@ theorem fullSummandIso_inv_natLeft (p q : ℕ) :
 include hN in
 /-- **Naturality of `fullSummandIso.inv` in the second (contravariant) variable.** The mirror of
 `fullSummandIso_inv_natLeft`, bridging to `homTensorHom_comp_lcompₖ_right`. -/
+@[reassoc]
 theorem fullSummandIso_inv_natRight (p q : ℕ) :
     ((curriedTensor (ModuleCat.{u} k)).obj
           ((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).X p)).map
@@ -166,13 +168,84 @@ theorem fullSummandIso_inv_natRight (p q : ℕ) :
       x₁ ((P₂.complex.d (q + 1) q).hom x₂)).symm)
   rfl
 
+omit [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projective A₁ (P₁.complex.X j)]
+  [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)] in
+/-- **Source `ι`/`π` reduction (bare `ιMapBifunctor` form).** Composing the `(x, y)` genuine summand
+inclusion of the external tensor complex with the `(p, q)` projection is the Kronecker delta. This
+is `srcInc_srcProj` restated with `ιMapBifunctor` in place of the `srcInc` abbreviation, so it
+rewrites against the raw inclusions produced by `mapBifunctor.hom_ext` and `d₁_eq`/`d₂_eq`. -/
+theorem ιMapBifunctor_srcProj (i x y p q : ℕ) (hx : x + y = i) (hpq : p + q = i) :
+    ιMapBifunctor P₁.complex P₂.complex (extTensorFunctorLeft k A₁ A₂)
+        (ComplexShape.down ℕ) x y i hx ≫ srcProj k P₁ P₂ i p q hpq =
+      if h : x = p ∧ y = q then eqToHom (by rw [h.1, h.2]) else 0 := by
+  simp only [srcProj, ι_mapBifunctorDesc]
+
+omit [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projective A₁ (P₁.complex.X j)]
+  [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)] in
+/-- **The source-complex sign-bookkeeping identity.** The pure source-side statement underlying the
+inverse differential-commutation square: the two factor differentials of the external tensor complex
+(with the Koszul sign `(-1)^p` on the second) precomposed with the `(p, q)` projection match the
+total differential of `extTensorComplexLeft` precomposed with the same projection. Proved
+summand-by-summand on the domain (`mapBifunctor.hom_ext`), reducing both sides to Kronecker deltas
+via `ιMapBifunctor_srcProj` and the `down ℕ` `d₁_eq`/`d₂_eq` expansion. -/
+theorem srcProj_comm (i p q : ℕ) (hpq : p + q = i) :
+    srcProj k P₁ P₂ (i + 1) (p + 1) q (by omega) ≫
+        ((extTensorFunctorLeft k A₁ A₂).map (P₁.complex.d (p + 1) p)).app (P₂.complex.X q) +
+      (-1 : ℤˣ) ^ p • (srcProj k P₁ P₂ (i + 1) p (q + 1) (by omega) ≫
+        ((extTensorFunctorLeft k A₁ A₂).obj (P₁.complex.X p)).map (P₂.complex.d (q + 1) q)) =
+      (extTensorComplexLeft P₁ P₂).d (i + 1) i ≫ srcProj k P₁ P₂ i p q hpq := by
+  apply HomologicalComplex.mapBifunctor.hom_ext
+  intro a b hab
+  have hab' : a + b = i + 1 := hab
+  rw [Preadditive.comp_add, Linear.comp_units_smul, ← Category.assoc, ← Category.assoc,
+    ιMapBifunctor_srcProj, ιMapBifunctor_srcProj, mapBifunctor.d_eq, Preadditive.add_comp,
+    Preadditive.comp_add, mapBifunctor.ι_D₁_assoc, mapBifunctor.ι_D₂_assoc]
+  refine congr_arg₂ (· + ·) ?_ ?_
+  · -- d₁ term: first-factor differential, sign 1
+    rcases a with _ | a'
+    · rw [mapBifunctor.d₁_eq_zero (K₁ := P₁.complex) (K₂ := P₂.complex)
+          (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ) 0 b i
+          (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]), zero_comp,
+        dif_neg (by rintro ⟨hcon, _⟩; exact Nat.succ_ne_zero p hcon.symm), zero_comp]
+    · rw [mapBifunctor.d₁_eq (K₁ := P₁.complex) (K₂ := P₂.complex)
+          (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ)
+          (show (ComplexShape.down ℕ).Rel (a' + 1) a' by simp [ComplexShape.down_Rel]) b i
+          (show a' + b = i by omega), Linear.units_smul_comp, Category.assoc, ιMapBifunctor_srcProj,
+        show ComplexShape.ε₁ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+          (ComplexShape.down ℕ) (a' + 1, b) = 1 from rfl, one_smul]
+      by_cases hc : a' = p ∧ b = q
+      · obtain ⟨rfl, rfl⟩ := hc
+        rw [dif_pos ⟨rfl, rfl⟩, dif_pos ⟨rfl, rfl⟩]
+        simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      · rw [dif_neg (fun hcon => hc ⟨by omega, hcon.2⟩), dif_neg hc, comp_zero, zero_comp]
+  · -- d₂ term: second-factor differential, sign (-1)^p
+    rcases b with _ | b'
+    · rw [mapBifunctor.d₂_eq_zero (K₁ := P₁.complex) (K₂ := P₂.complex)
+          (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ) a 0 i
+          (by rw [ChainComplex.next_nat_zero]; simp [ComplexShape.down_Rel]), zero_comp,
+        dif_neg (by rintro ⟨_, hcon⟩; exact Nat.succ_ne_zero q hcon.symm), zero_comp, smul_zero]
+    · rw [mapBifunctor.d₂_eq (K₁ := P₁.complex) (K₂ := P₂.complex)
+          (F := extTensorFunctorLeft k A₁ A₂) (c := ComplexShape.down ℕ) a
+          (show (ComplexShape.down ℕ).Rel (b' + 1) b' by simp [ComplexShape.down_Rel]) i
+          (show a + b' = i by omega), Linear.units_smul_comp, Category.assoc, ιMapBifunctor_srcProj]
+      by_cases hc : a = p ∧ b' = q
+      · obtain ⟨rfl, rfl⟩ := hc
+        rw [dif_pos ⟨rfl, rfl⟩, dif_pos ⟨rfl, rfl⟩,
+          show ComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
+            (ComplexShape.down ℕ) (a, b' + 1) = (-1 : ℤˣ) ^ a from rfl]
+        simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      · rw [dif_neg (fun hcon => hc ⟨hcon.1, by omega⟩), dif_neg hc]
+        simp only [zero_comp, comp_zero, smul_zero]
+
 include hN in
 /-- **The differential-commutation square, inverse form.** Composing the target differential with
 the inverse degreewise iso equals the inverse degreewise iso followed by the source differential.
-Proved
-summand-by-summand on the target coproduct (`mapBifunctor.hom_ext`), reducing through the `.inv`
-reduction `ιMapBifunctor_rearrangeHomComplexXIso_inv` and the source biproduct relations to the two
-#6843 naturality lemmas. -/
+Proved summand-by-summand on the target coproduct (`mapBifunctor.hom_ext`): the `up ℕ` target
+differential expands via `mapBifunctor.d₁_eq`/`d₂_eq`, the target `ι`/inv reduction
+`ιMapBifunctor_rearrangeHomComplexXIso_inv` and the two #6888 naturality lemmas
+`fullSummandIso_inv_natLeft/natRight` factor out `fullSummandIso p q .inv`, `homYoneda`
+functoriality collapses the two `homYoneda.map`s per summand, and the residual source-complex
+identity `srcProj_comm` (the Koszul sign bookkeeping) closes the goal. -/
 theorem rearrangeHomComplexXIso_inv_comm (i j : ℕ) (hij : (ComplexShape.up ℕ).Rel i j) :
     (homTarget k N₁ N₂ P₁ P₂).d i j ≫
         (rearrangeHomComplexXIso k N₁ N₂ hN P₁ P₂ j).inv =
@@ -181,16 +254,49 @@ theorem rearrangeHomComplexXIso_inv_comm (i j : ℕ) (hij : (ComplexShape.up ℕ
           (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))).d i j := by
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q hpq
-  -- Reduce the RHS summand `tgtInc ≫ (iso i).inv ≫ S.d` via the `.inv` reduction of #6867 and the
-  -- source differential `linearYonedaObj_d`. The source differential is precomposition by the
-  -- degree-`(i+1) → i` chain differential of `extTensorComplexLeft`; on the LHS the target
-  -- differential (Koszul-signed `mapBifunctor.d_eq` on `up ℕ`) is precomposition by the two factor
-  -- Hom differentials. Matching the two summand-by-summand (`mapBifunctor.hom_ext` over the source
-  -- fiber, `srcInc_srcProj` biproduct relations) reduces to the two #6843 naturality lemmas
-  -- `homTensorHom_comp_lcompₖ_left/right`, exactly the `fwdNat_comm` sign bookkeeping. Left as a
-  -- first-pass `sorry` (acceptable per #6844); tracked in a follow-up.
+  obtain rfl : j = i + 1 := by rw [ComplexShape.up_Rel] at hij; omega
+  have hpq' : p + q = i := hpq
   rw [ιMapBifunctor_rearrangeHomComplexXIso_inv_assoc, ChainComplex.linearYonedaObj_d]
-  sorry
+  simp only [mapBifunctor.d_eq, Preadditive.comp_add, Preadditive.add_comp,
+    mapBifunctor.ι_D₁_assoc, mapBifunctor.ι_D₂_assoc]
+  rw [mapBifunctor.d₁_eq (K₁ := P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁))
+        (K₂ := P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂))
+        (F := curriedTensor (ModuleCat.{u} k)) (c := ComplexShape.up ℕ)
+        (show (ComplexShape.up ℕ).Rel p (p + 1) by simp [ComplexShape.up_Rel]) q (i + 1)
+        (show p + 1 + q = i + 1 by omega),
+      mapBifunctor.d₂_eq (K₁ := P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁))
+        (K₂ := P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂))
+        (F := curriedTensor (ModuleCat.{u} k)) (c := ComplexShape.up ℕ) p
+        (show (ComplexShape.up ℕ).Rel q (q + 1) by simp [ComplexShape.up_Rel]) (i + 1)
+        (show p + (q + 1) = i + 1 by omega),
+      Linear.units_smul_comp, Linear.units_smul_comp, Category.assoc, Category.assoc,
+      ιMapBifunctor_rearrangeHomComplexXIso_inv, ιMapBifunctor_rearrangeHomComplexXIso_inv,
+      fullSummandIso_inv_natLeft_assoc, fullSummandIso_inv_natRight_assoc,
+      show extTensorFunctorLeftMap k (P₁.complex.d (p + 1) p) (𝟙 (P₂.complex.X q))
+          = ((extTensorFunctorLeft k A₁ A₂).map (P₁.complex.d (p + 1) p)).app (P₂.complex.X q)
+        from rfl,
+      show extTensorFunctorLeftMap k (𝟙 (P₁.complex.X p)) (P₂.complex.d (q + 1) q)
+          = ((extTensorFunctorLeft k A₁ A₂).obj (P₁.complex.X p)).map (P₂.complex.d (q + 1) q)
+        from rfl]
+  rw [← Functor.map_comp_assoc, ← Functor.map_comp_assoc, ← op_comp, ← op_comp,
+      show ComplexShape.ε₁ (ComplexShape.up ℕ) (ComplexShape.up ℕ) (ComplexShape.up ℕ) (p, q) = 1
+        from rfl, one_smul,
+      show ComplexShape.ε₂ (ComplexShape.up ℕ) (ComplexShape.up ℕ) (ComplexShape.up ℕ) (p, q)
+        = (-1 : ℤˣ) ^ p from TensorExtendUp.negOnePow_natCast p]
+  rw [← Linear.comp_units_smul, ← Preadditive.comp_add]
+  congr 1
+  rw [← Linear.units_smul_comp, ← Preadditive.add_comp]
+  have key : (homYoneda k N₁ N₂).map (srcProj k P₁ P₂ (i + 1) (p + 1) q (by omega) ≫
+        ((extTensorFunctorLeft k A₁ A₂).map (P₁.complex.d (p + 1) p)).app (P₂.complex.X q)).op +
+      (-1 : ℤˣ) ^ p • (homYoneda k N₁ N₂).map (srcProj k P₁ P₂ (i + 1) p (q + 1) (by omega) ≫
+        ((extTensorFunctorLeft k A₁ A₂).obj (P₁.complex.X p)).map (P₂.complex.d (q + 1) q)).op =
+      (homYoneda k N₁ N₂).map (srcProj k P₁ P₂ i p q hpq).op ≫
+        (homYoneda k N₁ N₂).map ((extTensorComplexLeft P₁ P₂).d (i + 1) i).op := by
+    rw [← Functor.map_comp, ← op_comp, ← srcProj_comm k P₁ P₂ i p q hpq', op_add, Functor.map_add]
+    congr 1
+    simp only [Units.smul_def, op_zsmul, Functor.map_zsmul]
+  rw [key, Category.assoc]
+  congr 1
 
 include hN in
 /-- **The differential-commutation square** for the `Ext` Künneth cochain assembly: the degreewise
