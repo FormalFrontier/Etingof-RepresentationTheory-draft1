@@ -2977,27 +2977,33 @@ private lemma affine_two_branch_pinch
     have : (Q : ℤ) = 1 := by linarith
     exact_mod_cast this
 
-/-- **Linearise a single arm (component of the hub-deleted tree).** Given the vertex set `S` of one
-connected component of the graph with the hub `v` removed — supplied as a nonempty, `v`-avoiding,
-internally-connected finset whose unique vertex adjacent to `v` is the hub-neighbour `nb` — this
-produces the arm as a linear list `g 0, g 1, …, g (L-1)` of length `L = S.card`, rooted at `nb`
-(`g 0 = nb`) and running away from the hub. The output records that `g` bijects `range L` onto `S`,
-that the only arm vertex adjacent to `v` is the root `g 0`, and that the only edges inside the arm
-are between consecutive indices. This is the reusable engine behind the three-arm decomposition:
-apply `Etingof.path_walk_construction` to the induced Dynkin path (`affine_properInduced_isDynkin`),
-using that every non-hub vertex has degree `≤ 2` and that the root `nb` loses its hub-edge inside the
-arm (so it is a leaf of the arm). -/
-lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+/-- **Linearise a single arm (degree-bounded form).** The generalisation of `affine_arm_walk` whose
+degree hypothesis is *local* to the component `S` (`hSdeg : ∀ x ∈ S, vertexDegree adj x ≤ 2`) rather
+than derived from a global uniqueness clause `∀ w, deg w = 3 → w = v`. This is what the two-branch
+`D̃ₙ` layout needs: deleting one branch vertex `w` leaves a component containing the *other* branch
+vertex `v` (degree 3), so no global uniqueness holds, but each pendant component avoiding `v` still
+has all degrees `≤ 2` and linearises into a rooted arm.
+
+Given the vertex set `S` of one connected component of the graph with the hub `v` removed — supplied
+as a nonempty, `v`-avoiding, internally-connected finset whose unique vertex adjacent to `v` is the
+hub-neighbour `nb`, and with every vertex of `S` of degree `≤ 2` — this produces the arm as a linear
+list `g 0, g 1, …, g (L-1)` of length `L = S.card`, rooted at `nb` (`g 0 = nb`) and running away from
+the hub. The output records that `g` bijects `range L` onto `S`, that the only arm vertex adjacent to
+`v` is the root `g 0`, and that the only edges inside the arm are between consecutive indices. Apply
+`Etingof.path_walk_construction` to the induced Dynkin path (`affine_properInduced_isDynkin`), using
+that every arm vertex has degree `≤ 2` (from `hSdeg`) and that the root `nb` loses its hub-edge inside
+the arm (so it is a leaf of the arm). -/
+lemma affine_arm_walk' {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
-    (hdeg3 : ∀ w, Etingof.vertexDegree adj w ≤ 3)
-    (v : Fin n) (huniq : ∀ w, Etingof.vertexDegree adj w = 3 → w = v)
+    (v : Fin n)
     (S : Finset (Fin n)) (hvS : v ∉ S) (hSne : S.Nonempty)
     (hSconn : ∀ a ∈ S, ∀ b ∈ S, ∃ p : List (Fin n),
         p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ S) ∧
         ∀ k, (h : k + 1 < p.length) →
           adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, h⟩) = 1)
     (nb : Fin n) (hnbS : nb ∈ S) (hnbv : adj v nb = 1)
-    (hnb_uniq : ∀ a ∈ S, adj v a = 1 → a = nb) :
+    (hnb_uniq : ∀ a ∈ S, adj v a = 1 → a = nb)
+    (hSdeg : ∀ x ∈ S, Etingof.vertexDegree adj x ≤ 2) :
     ∃ (L : ℕ) (g : ℕ → Fin n),
       1 ≤ L ∧ g 0 = nb ∧
       (∀ k, k < L → g k ∈ S) ∧
@@ -3067,8 +3073,7 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         have hjj : Nsub i j = 1 := hj
         rwa [hNsub, Matrix.submatrix_apply] at hjj
       · intro a _ b _ hab; exact e_inj hab
-    have h3 := hdeg3 (e i)
-    have hne : Etingof.vertexDegree adj (e i) ≠ 3 := fun h => e_ne_v i (huniq _ h)
+    have h2 := hSdeg (e i) (e_mem i)
     omega
   -- The root `nb` is a leaf of the arm (its only remaining neighbour is off `S`, if any).
   obtain ⟨i₀, hi₀⟩ : ∃ i₀ : Fin m, e i₀ = nb := ⟨finv nb, e_finv _ hnbS⟩
@@ -3077,7 +3082,6 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     have h := congrFun (congrFun hsymm b) a
     rw [Matrix.transpose_apply] at h; exact h
   have hv₀ : Etingof.vertexDegree Nsub i₀ ≤ 1 := by
-    have hnbne : nb ≠ v := fun h => hvS (h ▸ hnbS)
     -- Neighbours of `nb` inside the arm inject into `N(nb) \ {v}`.
     have hdle : Etingof.vertexDegree Nsub i₀ ≤
         ((univ.filter (fun c => adj nb c = 1)).erase v).card := by
@@ -3099,9 +3103,8 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       have hd : 1 ≤ (univ.filter (fun c => adj nb c = 1)).card := Finset.card_pos.mpr ⟨v, hvmem⟩
       omega
     have hdegnb : (univ.filter (fun c => adj nb c = 1)).card ≤ 2 := by
-      have h3 := hdeg3 nb
-      have hne : Etingof.vertexDegree adj nb ≠ 3 := fun h => hnbne (huniq _ h)
-      exact by change Etingof.vertexDegree adj nb ≤ 2; omega
+      have h2 := hSdeg nb hnbS
+      change Etingof.vertexDegree adj nb ≤ 2; exact h2
     omega
   -- Walk construction on the arm.
   obtain ⟨σ, hσ0, hσadj, hσonly⟩ :=
@@ -3169,6 +3172,37 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         have hedge := hσadj ⟨l, hl⟩ ha
         rw [show (⟨l + 1, ha⟩ : Fin m) = ⟨k, hk⟩ from Fin.ext (by omega)] at hedge
         rw [hNsymm]; exact hedge
+
+/-- **Linearise a single arm (component of the hub-deleted tree).** The one-branch specialisation of
+`affine_arm_walk'`: when the hub `v` is the *unique* degree-3 vertex, every `v`-avoiding component
+has all degrees `≤ 2` automatically, so the local degree bound `hSdeg` is discharged from the global
+`hdeg3`/`huniq` pair. Given the vertex set `S` of one connected component of the graph with the hub
+`v` removed — supplied as a nonempty, `v`-avoiding, internally-connected finset whose unique vertex
+adjacent to `v` is the hub-neighbour `nb` — this produces the arm as a linear list `g 0, g 1, …,
+g (L-1)` of length `L = S.card`, rooted at `nb` (`g 0 = nb`) and running away from the hub. -/
+lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hdeg3 : ∀ w, Etingof.vertexDegree adj w ≤ 3)
+    (v : Fin n) (huniq : ∀ w, Etingof.vertexDegree adj w = 3 → w = v)
+    (S : Finset (Fin n)) (hvS : v ∉ S) (hSne : S.Nonempty)
+    (hSconn : ∀ a ∈ S, ∀ b ∈ S, ∃ p : List (Fin n),
+        p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ S) ∧
+        ∀ k, (h : k + 1 < p.length) →
+          adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, h⟩) = 1)
+    (nb : Fin n) (hnbS : nb ∈ S) (hnbv : adj v nb = 1)
+    (hnb_uniq : ∀ a ∈ S, adj v a = 1 → a = nb) :
+    ∃ (L : ℕ) (g : ℕ → Fin n),
+      1 ≤ L ∧ g 0 = nb ∧
+      (∀ k, k < L → g k ∈ S) ∧
+      S = (Finset.range L).image g ∧
+      (∀ k l, k < L → l < L → (g k = g l ↔ k = l)) ∧
+      (∀ k, k < L → (adj v (g k) = 1 ↔ k = 0)) ∧
+      (∀ k l, k < L → l < L → (adj (g k) (g l) = 1 ↔ (k + 1 = l ∨ l + 1 = k))) :=
+  affine_arm_walk' adj hn hD v S hvS hSne hSconn nb hnbS hnbv hnb_uniq
+    (fun x hx => by
+      have hne : Etingof.vertexDegree adj x ≠ 3 := fun h => hvS (huniq x h ▸ hx)
+      have h3 := hdeg3 x
+      omega)
 
 /-- **Three arms of a one-branch affine tree.** A connected acyclic affine Dynkin diagram with all
 degrees `≤ 3` and a *unique* degree-3 (branch) vertex `v` decomposes, after deleting `v`, into
