@@ -2831,6 +2831,199 @@ private lemma reciprocal_of_arm_data (p q r : ℕ) (W a b c : ℤ) (hW : 0 < W)
   have := mul_right_cancel₀ (ne_of_gt hW) key
   exact_mod_cast this
 
+/-- **Linearise a single arm (component of the hub-deleted tree).** Given the vertex set `S` of one
+connected component of the graph with the hub `v` removed — supplied as a nonempty, `v`-avoiding,
+internally-connected finset whose unique vertex adjacent to `v` is the hub-neighbour `nb` — this
+produces the arm as a linear list `g 0, g 1, …, g (L-1)` of length `L = S.card`, rooted at `nb`
+(`g 0 = nb`) and running away from the hub. The output records that `g` bijects `range L` onto `S`,
+that the only arm vertex adjacent to `v` is the root `g 0`, and that the only edges inside the arm
+are between consecutive indices. This is the reusable engine behind the three-arm decomposition:
+apply `Etingof.path_walk_construction` to the induced Dynkin path (`affine_properInduced_isDynkin`),
+using that every non-hub vertex has degree `≤ 2` and that the root `nb` loses its hub-edge inside the
+arm (so it is a leaf of the arm). -/
+private lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hdeg3 : ∀ w, Etingof.vertexDegree adj w ≤ 3)
+    (v : Fin n) (huniq : ∀ w, Etingof.vertexDegree adj w = 3 → w = v)
+    (S : Finset (Fin n)) (hvS : v ∉ S) (hSne : S.Nonempty)
+    (hSconn : ∀ a ∈ S, ∀ b ∈ S, ∃ p : List (Fin n),
+        p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ S) ∧
+        ∀ k, (h : k + 1 < p.length) →
+          adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, h⟩) = 1)
+    (nb : Fin n) (hnbS : nb ∈ S) (hnbv : adj v nb = 1)
+    (hnb_uniq : ∀ a ∈ S, adj v a = 1 → a = nb) :
+    ∃ (L : ℕ) (g : ℕ → Fin n),
+      1 ≤ L ∧ g 0 = nb ∧
+      (∀ k, k < L → g k ∈ S) ∧
+      S = (Finset.range L).image g ∧
+      (∀ k l, k < L → l < L → (g k = g l ↔ k = l)) ∧
+      (∀ k, k < L → (adj v (g k) = 1 ↔ k = 0)) ∧
+      (∀ k l, k < L → l < L → (adj (g k) (g l) = 1 ↔ (k + 1 = l ∨ l + 1 = k))) := by
+  classical
+  set m := S.card with hm
+  have hm1 : 1 ≤ m := Finset.card_pos.mpr hSne
+  -- Order-isomorphism `Fin m ≃o S`; `e` is its underlying embedding into `Fin n`.
+  let iso : Fin m ≃o S := S.orderIsoOfFin (rfl : S.card = m)
+  let e : Fin m → Fin n := fun i => (iso i : Fin n)
+  have e_mem : ∀ i, e i ∈ S := fun i => (iso i).2
+  have e_ne_v : ∀ i, e i ≠ v := fun i h => hvS (h ▸ e_mem i)
+  have e_inj : Function.Injective e := by
+    intro a b hab
+    apply iso.injective
+    exact Subtype.ext hab
+  -- Total inverse of `e`, defined on all of `Fin n` (default value off `S`).
+  let finv : Fin n → Fin m := fun x =>
+    if h : x ∈ S then iso.symm ⟨x, h⟩ else ⟨0, by omega⟩
+  have e_finv : ∀ x, x ∈ S → e (finv x) = x := by
+    intro x hx
+    simp only [finv, dif_pos hx, e]
+    rw [iso.apply_symm_apply]
+  have finv_e : ∀ i, finv (e i) = i := by
+    intro i
+    have hmem : e i ∈ S := e_mem i
+    simp only [finv, dif_pos hmem, e]
+    rw [show (⟨(iso i : Fin n), hmem⟩ : S) = iso i from Subtype.ext rfl, iso.symm_apply_apply]
+  set Nsub : Matrix (Fin m) (Fin m) ℤ := adj.submatrix e e with hNsub
+  -- The induced subgraph on `S` is a finite Dynkin diagram.
+  have hconn_sub : ∀ i j : Fin m, ∃ path : List (Fin m),
+      path.head? = some i ∧ path.getLast? = some j ∧
+      ∀ k, (h : k + 1 < path.length) →
+        Nsub (path.get ⟨k, by omega⟩) (path.get ⟨k + 1, h⟩) = 1 := by
+    intro i j
+    obtain ⟨p, hh, hl, hall, hedges⟩ := hSconn (e i) (e_mem i) (e j) (e_mem j)
+    refine ⟨p.map finv, ?_, ?_, ?_⟩
+    · rw [List.head?_map, hh]; simp only [Option.map_some, finv_e]
+    · rw [List.getLast?_map, hl]; simp only [Option.map_some, finv_e]
+    · intro k hk
+      rw [List.length_map] at hk
+      have hkk : k < p.length := by omega
+      have hk1 : k + 1 < p.length := hk
+      have hmemk : p.get ⟨k, by omega⟩ ∈ S := hall _ (List.get_mem _ _)
+      have hmemk1 : p.get ⟨k + 1, hk1⟩ ∈ S := hall _ (List.get_mem _ _)
+      have he := hedges k hk1
+      have hgetk : (p.map finv).get ⟨k, by rw [List.length_map]; omega⟩ = finv (p.get ⟨k, by omega⟩) :=
+        by simp only [List.get_eq_getElem, List.getElem_map]
+      have hgetk1 : (p.map finv).get ⟨k + 1, by rw [List.length_map]; omega⟩ = finv (p.get ⟨k + 1, hk1⟩) :=
+        by simp only [List.get_eq_getElem, List.getElem_map]
+      rw [hgetk, hgetk1, hNsub, Matrix.submatrix_apply, e_finv _ hmemk, e_finv _ hmemk1]
+      exact he
+  have hDsub : IsDynkinDiagram m Nsub :=
+    affine_properInduced_isDynkin adj hn hD e e_inj e_ne_v hconn_sub
+  -- Every arm vertex has degree `≤ 2` inside the arm.
+  have hpath : ∀ i : Fin m, Etingof.vertexDegree Nsub i ≤ 2 := by
+    intro i
+    have hdle : Etingof.vertexDegree Nsub i ≤ Etingof.vertexDegree adj (e i) := by
+      show (univ.filter (fun j => Nsub i j = 1)).card
+        ≤ (univ.filter (fun c => adj (e i) c = 1)).card
+      apply Finset.card_le_card_of_injOn (fun j => e j)
+      · intro j hj
+        simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and] at hj ⊢
+        have hjj : Nsub i j = 1 := hj
+        rwa [hNsub, Matrix.submatrix_apply] at hjj
+      · intro a _ b _ hab; exact e_inj hab
+    have h3 := hdeg3 (e i)
+    have hne : Etingof.vertexDegree adj (e i) ≠ 3 := fun h => e_ne_v i (huniq _ h)
+    omega
+  -- The root `nb` is a leaf of the arm (its only remaining neighbour is off `S`, if any).
+  obtain ⟨i₀, hi₀⟩ : ∃ i₀ : Fin m, e i₀ = nb := ⟨finv nb, e_finv _ hnbS⟩
+  have hsymm := hD.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  have hv₀ : Etingof.vertexDegree Nsub i₀ ≤ 1 := by
+    have hnbne : nb ≠ v := fun h => hvS (h ▸ hnbS)
+    -- Neighbours of `nb` inside the arm inject into `N(nb) \ {v}`.
+    have hdle : Etingof.vertexDegree Nsub i₀ ≤
+        ((univ.filter (fun c => adj nb c = 1)).erase v).card := by
+      show (univ.filter (fun j => Nsub i₀ j = 1)).card ≤ _
+      apply Finset.card_le_card_of_injOn (fun j => e j)
+      · intro j hj
+        simp only [Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and] at hj
+        have hjj : Nsub i₀ j = 1 := hj
+        rw [hNsub, Matrix.submatrix_apply, hi₀] at hjj
+        rw [Finset.mem_coe, Finset.mem_erase]
+        exact ⟨e_ne_v j, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hjj⟩⟩
+      · intro a _ b _ hab; exact e_inj hab
+    have hvmem : v ∈ univ.filter (fun c => adj nb c = 1) := by
+      rw [Finset.mem_filter]
+      exact ⟨Finset.mem_univ _, by rw [hsymm' nb v]; exact hnbv⟩
+    have hverase : ((univ.filter (fun c => adj nb c = 1)).erase v).card + 1 =
+        (univ.filter (fun c => adj nb c = 1)).card := by
+      rw [Finset.card_erase_of_mem hvmem]
+      have hd : 1 ≤ (univ.filter (fun c => adj nb c = 1)).card := Finset.card_pos.mpr ⟨v, hvmem⟩
+      omega
+    have hdegnb : (univ.filter (fun c => adj nb c = 1)).card ≤ 2 := by
+      have h3 := hdeg3 nb
+      have hne : Etingof.vertexDegree adj nb ≠ 3 := fun h => hnbne (huniq _ h)
+      exact by change Etingof.vertexDegree adj nb ≤ 2; omega
+    omega
+  -- Walk construction on the arm.
+  obtain ⟨σ, hσ0, hσadj, hσonly⟩ :=
+    Etingof.path_walk_construction hDsub (by omega) hpath i₀ hv₀
+  refine ⟨m, fun k => if h : k < m then e (σ ⟨k, h⟩) else nb, hm1, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · -- g 0 = nb
+    have h0 : (0 : ℕ) < m := by omega
+    simp only [dif_pos h0]
+    rw [show (⟨0, h0⟩ : Fin m) = ⟨0, by omega⟩ from rfl, hσ0, hi₀]
+  · -- ∀ k < m, g k ∈ S
+    intro k hk; simp only [dif_pos hk]; exact e_mem _
+  · -- S = image of g over range m
+    ext x
+    simp only [Finset.mem_image, Finset.mem_range]
+    constructor
+    · intro hx
+      obtain ⟨i, hi⟩ : ∃ i : Fin m, e i = x := ⟨finv x, e_finv _ hx⟩
+      refine ⟨(σ.symm i).val, (σ.symm i).isLt, ?_⟩
+      simp only [dif_pos (σ.symm i).isLt]
+      rw [show (⟨(σ.symm i).val, (σ.symm i).isLt⟩ : Fin m) = σ.symm i from Fin.ext rfl,
+        σ.apply_symm_apply, hi]
+    · rintro ⟨k, hk, rfl⟩; simp only [dif_pos hk]; exact e_mem _
+  · -- injectivity of g on range m
+    intro k l hk hl
+    simp only [dif_pos hk, dif_pos hl]
+    constructor
+    · intro hgg
+      have := σ.injective (e_inj hgg)
+      exact congrArg Fin.val this
+    · rintro rfl; rfl
+  · -- adj v (g k) = 1 ↔ k = 0
+    intro k hk
+    simp only [dif_pos hk]
+    constructor
+    · intro hadjv
+      have hgS : e (σ ⟨k, hk⟩) ∈ S := e_mem _
+      have hgnb : e (σ ⟨k, hk⟩) = nb := hnb_uniq _ hgS hadjv
+      -- so index k equals 0 by injectivity
+      have h0 : (0 : ℕ) < m := by omega
+      have hg0 : e (σ ⟨0, h0⟩) = nb := by
+        rw [show (⟨0, h0⟩ : Fin m) = ⟨0, by omega⟩ from rfl, hσ0, hi₀]
+      have hidx := σ.injective (e_inj (hgnb.trans hg0.symm))
+      exact congrArg Fin.val hidx
+    · rintro rfl
+      have h0 : (0 : ℕ) < m := by omega
+      rw [show (⟨0, hk⟩ : Fin m) = ⟨0, by omega⟩ from rfl, hσ0, hi₀]; exact hnbv
+  · -- consecutive-only edges inside the arm
+    intro k l hk hl
+    simp only [dif_pos hk, dif_pos hl]
+    have hNadj : adj (e (σ ⟨k, hk⟩)) (e (σ ⟨l, hl⟩)) = Nsub (σ ⟨k, hk⟩) (σ ⟨l, hl⟩) := by
+      rw [hNsub, Matrix.submatrix_apply]
+    have hNsymm : ∀ a b : Fin m, Nsub a b = Nsub b a := fun a b => by
+      have h := congrFun (congrFun hDsub.1 b) a
+      rw [Matrix.transpose_apply] at h; exact h
+    rw [hNadj]
+    constructor
+    · intro hedge
+      exact hσonly ⟨k, hk⟩ ⟨l, hl⟩ hedge
+    · intro hcons
+      rcases hcons with hkl | hlk
+      · have ha : k + 1 < m := by omega
+        have := hσadj ⟨k, hk⟩ ha
+        rwa [show (⟨k + 1, ha⟩ : Fin m) = ⟨l, hl⟩ from Fin.ext (by omega)] at this
+      · have ha : l + 1 < m := by omega
+        have hedge := hσadj ⟨l, hl⟩ ha
+        rw [show (⟨l + 1, ha⟩ : Fin m) = ⟨k, hk⟩ from Fin.ext (by omega)] at hedge
+        rw [hNsymm]; exact hedge
+
 /-- **Arm layout of a one-branch affine tree (structural extraction).** A connected acyclic affine
 Dynkin diagram with all degrees `≤ 3` and a *unique* degree-3 vertex `v` is, up to re-indexing `σ`,
 laid out in the `armAdjIdx` pattern: three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from the hub
