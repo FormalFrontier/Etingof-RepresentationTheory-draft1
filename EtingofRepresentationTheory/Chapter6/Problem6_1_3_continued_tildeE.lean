@@ -2691,6 +2691,29 @@ private lemma reciprocal_of_arm_data (p q r : ℕ) (W a b c : ℤ) (hW : 0 < W)
   have := mul_right_cancel₀ (ne_of_gt hW) key
   exact_mod_cast this
 
+/-- **Arm layout of a one-branch affine tree (structural extraction).** A connected acyclic affine
+Dynkin diagram with all degrees `≤ 3` and a *unique* degree-3 vertex `v` is, up to re-indexing `σ`,
+laid out in the `armAdjIdx` pattern: three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from the hub
+(at index `p`), with `n = 1 + p + q + r`. The two shorter arms `p, q` join through the hub into a
+single path `0 … p+q`; the arm `r` hangs off the hub (index `p`) starting at index `p+q+1`.
+
+This is the pure graph-combinatorial core: walk each arm from the hub via the degree-`≤ 2`
+neighbour structure (cf. `path_walk_construction`, `two_regular_connected_iso_Atilde`, `otherNbr`),
+order the three arm lengths, and assemble the re-indexing. The reciprocal equality is *not* proved
+here — that is `affine_tree_one_arm_reciprocal`, which consumes this layout and the null vector. -/
+lemma affine_one_branch_arm_layout {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
+      1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
+      (σ.symm v).val = p ∧
+      (∀ i j, adj (σ i) (σ j) = 1 ↔ armAdjIdx p q r i.val j.val) := by
+  -- Sub-issue: three-arm walk + reindexing onto the `armAdjIdx` layout. See the doc comment.
+  sorry
+
 /-- **Three arms from the single branch vertex + the reciprocal equality (piece (b) of Ẽ₆/Ẽ₇/Ẽ₈).**
 From a connected acyclic affine Dynkin diagram with all degrees `≤ 3` and a *unique* branch
 (degree-3) vertex `v`, extract the three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from `v`, laid
@@ -2717,13 +2740,9 @@ lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ
   classical
   -- Strictly-positive null vector of the (degenerate) Cartan form.
   obtain ⟨w, hw_pos, hw_ker⟩ := affineNullVector_pos adj hn hD
-  -- **Arm layout** (structural extraction, proved separately): the three arms laid out along `σ`.
-  obtain ⟨p, q, r, σ, hp, hpq, hqr, hn_eq, hhub, hadj_iff⟩ :
-      ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
-        1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
-        (σ.symm v).val = p ∧
-        (∀ i j, adj (σ i) (σ j) = 1 ↔ armAdjIdx p q r i.val j.val) := by
-    sorry
+  -- **Arm layout** (structural extraction): the three arms laid out along `σ`.
+  obtain ⟨p, q, r, σ, hp, hpq, hqr, hn_eq, hhub, hadj_iff⟩ :=
+    affine_one_branch_arm_layout adj hn hD hacyc hdeg3 v hv huniq
   refine ⟨p, q, r, σ, hp, hpq, hqr, hn_eq, ?_, hhub, hadj_iff⟩
   -- === Reciprocal equality from harmonicity of the positive null vector ===
   have h01 := hD.2.2.1
