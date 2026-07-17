@@ -3078,9 +3078,78 @@ lemma affine_tree_one_branch_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
     ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n,
       ∀ i j, adj (σ i) (σ j) = t.adj i j := by
-  -- Sub-issue: arm-length Diophantine `1/(p+1)+1/(q+1)+1/(r+1) = 1` (equality analogue of
-  -- `arm_length_solutions`) + arm reindexing onto `AffineType.E6tilde/E7tilde/E8tilde`.
-  sorry
+  classical
+  -- Extract the three arms (lengths `1 ≤ p ≤ q ≤ r`) from the unique degree-3 vertex, together with
+  -- the `armAdjIdx` re-indexing `σ` and the cleared-denominator reciprocal equality.
+  obtain ⟨p, q, r, σ, hp, hpq, hqr, hn_eq, hrecip, hhub, hadj_iff⟩ :=
+    affine_tree_one_arm_reciprocal adj hn hD hacyc hdeg3 v hv huniq
+  have h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1 := hD.2.2.1
+  -- The reciprocal equality pins `(p,q,r)` to one of the three affine triples.
+  rcases affine_arm_length_solutions p q r hp hpq hqr hrecip with
+    ⟨hp2, hq2, hr2⟩ | ⟨hp1, hq3, hr3⟩ | ⟨hp1, hq2, hr5⟩
+  · -- `(2,2,2)` ⟹ `Ẽ₆`: hub at `armAdjIdx` index `2`, three length-2 arms.
+    subst hp2 hq2 hr2
+    have hn7 : n = 7 := by omega
+    have hval : ∀ x y : Fin n,
+        adj (σ x) (σ y) = if armAdjIdx 2 2 2 x.val y.val then 1 else 0 := by
+      intro x y
+      by_cases h : armAdjIdx 2 2 2 x.val y.val
+      · rw [if_pos h]; exact (hadj_iff x y).mpr h
+      · rw [if_neg h]
+        rcases h01 (σ x) (σ y) with h0 | h1
+        · exact h0
+        · exact absurd ((hadj_iff x y).mp h1) h
+    have hcast : ∀ a : Fin 7, ((finCongr hn7.symm a).val : ℕ) = a.val := fun a => rfl
+    refine ⟨AffineType.E6tilde,
+      (Equiv.ofBijective (![2, 1, 0, 3, 4, 5, 6] : Fin 7 → Fin 7) (by decide)).trans
+        ((finCongr hn7.symm).trans σ), ?_⟩
+    intro i j
+    simp only [Equiv.trans_apply]
+    rw [hval]
+    simp only [hcast]
+    revert i j; decide
+  · -- `(1,3,3)` ⟹ `Ẽ₇`: hub at `armAdjIdx` index `1`, arms of lengths `1,3,3`.
+    subst hp1 hq3 hr3
+    have hn8 : n = 8 := by omega
+    have hval : ∀ x y : Fin n,
+        adj (σ x) (σ y) = if armAdjIdx 1 3 3 x.val y.val then 1 else 0 := by
+      intro x y
+      by_cases h : armAdjIdx 1 3 3 x.val y.val
+      · rw [if_pos h]; exact (hadj_iff x y).mpr h
+      · rw [if_neg h]
+        rcases h01 (σ x) (σ y) with h0 | h1
+        · exact h0
+        · exact absurd ((hadj_iff x y).mp h1) h
+    have hcast : ∀ a : Fin 8, ((finCongr hn8.symm a).val : ℕ) = a.val := fun a => rfl
+    refine ⟨AffineType.E7tilde,
+      (Equiv.ofBijective (![4, 3, 2, 1, 5, 6, 7, 0] : Fin 8 → Fin 8) (by decide)).trans
+        ((finCongr hn8.symm).trans σ), ?_⟩
+    intro i j
+    simp only [Equiv.trans_apply]
+    rw [hval]
+    simp only [hcast]
+    revert i j; decide
+  · -- `(1,2,5)` ⟹ `Ẽ₈`: hub at `armAdjIdx` index `1`, arms of lengths `1,2,5`.
+    subst hp1 hq2 hr5
+    have hn9 : n = 9 := by omega
+    have hval : ∀ x y : Fin n,
+        adj (σ x) (σ y) = if armAdjIdx 1 2 5 x.val y.val then 1 else 0 := by
+      intro x y
+      by_cases h : armAdjIdx 1 2 5 x.val y.val
+      · rw [if_pos h]; exact (hadj_iff x y).mpr h
+      · rw [if_neg h]
+        rcases h01 (σ x) (σ y) with h0 | h1
+        · exact h0
+        · exact absurd ((hadj_iff x y).mp h1) h
+    have hcast : ∀ a : Fin 9, ((finCongr hn9.symm a).val : ℕ) = a.val := fun a => rfl
+    refine ⟨AffineType.E8tilde,
+      (Equiv.ofBijective (![8, 7, 6, 5, 4, 1, 2, 3, 0] : Fin 9 → Fin 9) (by decide)).trans
+        ((finCongr hn9.symm).trans σ), ?_⟩
+    intro i j
+    simp only [Equiv.trans_apply]
+    rw [hval]
+    simp only [hcast]
+    revert i j; decide
 
 /-- **(g), tree case, degree-`≤ 3` core.** A connected acyclic affine Dynkin diagram in which every
 vertex has degree `≤ 3` is graph-isomorphic to one of `D̃ₙ (n ≥ 5)`, `Ẽ₆`, `Ẽ₇`, `Ẽ₈`.
