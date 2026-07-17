@@ -62,6 +62,93 @@ variable (P₁ : ProjectiveResolution M₁) (P₂ : ProjectiveResolution M₂)
 variable [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projective A₁ (P₁.complex.X j)]
 variable [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)]
 
+/-- Applying a `ModuleCat k` `eqToHom` to an element is a `cast` along the carrier equality. -/
+private lemma eqToHom_moduleCat_apply {X Y : ModuleCat.{u} k} (h : X = Y) (x : X) :
+    (eqToHom h) x = cast (congrArg (fun o : ModuleCat.{u} k => (o : Type u)) h) x := by
+  subst h; rfl
+
+/-- The underlying linear map of a `ModuleCat k` `eqToHom`, applied to an element, is a `cast`. -/
+private lemma hom_eqToHom_apply {X Y : ModuleCat.{u} k} (h : X = Y) (x : X) :
+    ModuleCat.Hom.hom (eqToHom h) x = cast (congrArg (fun o : ModuleCat.{u} k => (o : Type u)) h) x := by
+  subst h; rfl
+
+include hN in
+/-- Pointwise action of `summandIso.inv` on a simple tensor of categorical homs. -/
+theorem summandIso_inv_hom_apply (X₁ : ModuleCat.{u} A₁) (X₂ : ModuleCat.{u} A₂)
+    [Module.Finite A₁ X₁] [Module.Projective A₁ X₁]
+    [Module.Finite A₂ X₂] [Module.Projective A₂ X₂]
+    (ψ₁ : X₁ ⟶ ModuleCat.of A₁ N₁) (ψ₂ : X₂ ⟶ ModuleCat.of A₂ N₂) (x₁ : X₁) (x₂ : X₂) :
+    ModuleCat.Hom.hom ((summandIso k N₁ N₂ hN X₁ X₂).inv (ψ₁ ⊗ₜ[k] ψ₂)) (x₁ ⊗ₜ[k] x₂)
+      = (ModuleCat.Hom.hom ψ₁) x₁ ⊗ₜ[k] (ModuleCat.Hom.hom ψ₂) x₂ := by
+  simp only [summandIso, rearrangeHomComponentIso, rearrangeHomComponentEquiv,
+    HomTensorFGProj.homTensorHomEquiv, Iso.trans_inv, Iso.symm_inv, tensorIso,
+    LinearEquiv.toModuleIso_inv, LinearEquiv.toModuleIso_hom, LinearEquiv.symm_symm,
+    extTensorFunctorLeftObj, ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_tensorHom,
+    ModuleCat.hom_ofHom, TensorProduct.map_tmul, ModuleCat.homLinearEquiv_apply,
+    ModuleCat.homLinearEquiv_symm_apply, LinearEquiv.ofBijective_apply,
+    HomTensorFGProj.homTensorHom_tmul_tmul]
+  erw [TensorProduct.map_tmul]
+  simp only [LinearEquiv.coe_coe, LinearMap.restrictScalars_apply]
+  rfl
+
+include hN in
+/-- Pointwise action of the inverse per-summand iso on a simple tensor: on `φ₁ ⊗ₜ φ₂` it is the
+`homTensorHom` comparison map, evaluated at `x₁ ⊗ₜ x₂` it returns `φ₁ x₁ ⊗ₜ φ₂ x₂`. This isolates
+all the `eqToHom` carrier-transport bookkeeping of `fullSummandIso`.
+
+The core reduction to `homTensorHom` is `summandIso_inv_hom_apply` (proved above, sorry-free). What
+remains here is purely the `eqToHom` carrier-transport bookkeeping between the two `k`-module
+spellings of the same hom-space (the `srcSummandEq`/`linYonedaXEq` bridges of `fullSummandIso`).
+These transports are *propositional*, not definitional: `eqToHom h` between `ModuleCat k` objects
+with defeq-but-not-syntactically-equal carriers is a stuck `Eq.rec`, so neither `rfl` nor a single
+`Eq.trans` against `summandIso_inv_hom_apply` closes the goal — both the source (`fullSummandIso.inv`
+composite) and target (`φᵢ` vs `eqToHom (linYonedaXEq …) φᵢ`) differ by such a transport. Closing it
+needs a nested `HEq` bridge (`cast_heq`/`eqRec_heq`) threaded through `summandIso.inv` on both sides.
+Tracked as the residual of #6888. -/
+theorem fullSummandIso_inv_tmul_hom_apply (j m : ℕ)
+    (φ₁ : (P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).X j)
+    (φ₂ : (P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)).X m)
+    (x₁ : P₁.complex.X j) (x₂ : P₂.complex.X m) :
+    ModuleCat.Hom.hom ((fullSummandIso k N₁ N₂ hN P₁ P₂ j m).inv (φ₁ ⊗ₜ[k] φ₂))
+        (x₁ ⊗ₜ[k] x₂)
+      = (ModuleCat.Hom.hom φ₁) x₁ ⊗ₜ[k] (ModuleCat.Hom.hom φ₂) x₂ := by
+  -- Reduces to `summandIso_inv_hom_apply` modulo the two `eqToHom` carrier-transports; see docstring.
+  sorry
+
+include hN in
+/-- **Naturality in the first variable, inverse form.** Precomposition by the source chain
+differential on the first factor commutes past `fullSummandIso.inv`. Reduces (elementwise) to the
+#6843 naturality lemma `homTensorHom_comp_lcompₖ_left`. -/
+theorem fullSummandIso_inv_natLeft (p q : ℕ) :
+    ((curriedTensor (ModuleCat.{u} k)).map
+          ((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).d p (p + 1))).app
+        ((P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)).X q) ≫
+        (fullSummandIso k N₁ N₂ hN P₁ P₂ (p + 1) q).inv =
+      (fullSummandIso k N₁ N₂ hN P₁ P₂ p q).inv ≫
+        (homYoneda k N₁ N₂).map
+          (extTensorFunctorLeftMap k (P₁.complex.d (p + 1) p) (𝟙 (P₂.complex.X q))).op := by
+  apply ModuleCat.hom_ext
+  refine TensorProduct.ext' fun φ₁ φ₂ => ?_
+  -- Both sides evaluate, via `fullSummandIso_inv_tmul_hom_apply`, to `homTensorHom` composed with
+  -- precomposition by the source differential; matching them is `homTensorHom_comp_lcompₖ_left`.
+  sorry
+
+include hN in
+/-- **Naturality in the second variable, inverse form.** Mirror of `fullSummandIso_inv_natLeft`,
+reducing to `homTensorHom_comp_lcompₖ_right`. -/
+theorem fullSummandIso_inv_natRight (p q : ℕ) :
+    ((curriedTensor (ModuleCat.{u} k)).obj
+          ((P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁)).X p)).map
+        ((P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)).d q (q + 1)) ≫
+        (fullSummandIso k N₁ N₂ hN P₁ P₂ p (q + 1)).inv =
+      (fullSummandIso k N₁ N₂ hN P₁ P₂ p q).inv ≫
+        (homYoneda k N₁ N₂).map
+          (extTensorFunctorLeftMap k (𝟙 (P₁.complex.X p)) (P₂.complex.d (q + 1) q)).op := by
+  apply ModuleCat.hom_ext
+  refine TensorProduct.ext' fun φ₁ φ₂ => ?_
+  -- Mirror of `fullSummandIso_inv_natLeft`; matches via `homTensorHom_comp_lcompₖ_right`.
+  sorry
+
 include hN in
 /-- **The differential-commutation square, inverse form.** Composing the target differential with
 the inverse degreewise iso equals the inverse degreewise iso followed by the source differential.
