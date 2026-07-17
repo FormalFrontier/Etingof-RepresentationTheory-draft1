@@ -1227,6 +1227,18 @@ theorem so3_cyclic_of_globally_fixed_pole
   have hg := congrArg (fun P : ↥(poleSet G) => (P : Fin 3 → ℝ)) (hb g)
   rwa [poleSet_coe_smul] at hg
 
+/-- **Cyclic disjunct — full-stabilizer extraction.** If some pole `b` has stabilizer of order the
+full group order `Nat.card G`, then that stabilizer is all of `G`, so `b` is fixed by every element
+of `G` and `so3_cyclic_of_globally_fixed_pole` gives `IsCyclic G`. In the `{n, n}` pole family the
+two principal poles are exactly such fixed poles (orbit size `1`, stabilizer order `n`). -/
+theorem so3_cyclic_of_full_stabilizer_pole
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G]
+    (b : ↥(poleSet G)) (hb : Nat.card (MulAction.stabilizer (↥G) b) = Nat.card (↥G)) :
+    IsCyclic G := by
+  have htop : MulAction.stabilizer (↥G) b = ⊤ := Subgroup.eq_top_of_card_eq _ hb
+  refine so3_cyclic_of_globally_fixed_pole G b (fun g => ?_)
+  exact (MulAction.mem_stabilizer_iff).mp (htop ▸ Subgroup.mem_top g)
+
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset, the application of milestone (iii), and
 the five `MulEquiv` constructions realizing each solution family as `ℤ/nℤ`, `Dₙ`, `A₄`, `S₄`,
