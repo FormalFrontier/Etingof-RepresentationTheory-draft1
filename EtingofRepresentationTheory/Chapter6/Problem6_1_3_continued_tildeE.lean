@@ -2636,6 +2636,295 @@ lemma affine_arm_length_solutions (p q r : ℕ) (hp : 1 ≤ p) (hpq : p ≤ q) (
     interval_cases q
     · left; exact ⟨rfl, rfl, by omega⟩          -- `q = 2` ⟹ `r = 2` (`Ẽ₆`).
 
+/-- **Arm-layout adjacency pattern.** With `n = 1 + p + q + r`, a one-branch tree is laid out along
+`Fin n` as follows: the `p`-arm on indices `0 … p-1` (tip → hub-neighbour), the hub at index `p`,
+the `q`-arm on `p+1 … p+q` (hub-neighbour → tip), and the `r`-arm on `p+q+1 … p+q+r`
+(hub-neighbour → tip) attached to the hub. This predicate is the resulting edge relation on indices:
+the two arms `p, q` join through the hub into a single path `0 … p+q`, and the `r`-arm hangs off the
+hub (index `p`) starting at index `p+q+1`. -/
+def armAdjIdx (p q r i j : ℕ) : Prop :=
+  ((i + 1 = j ∨ j + 1 = i) ∧ i ≤ p + q ∧ j ≤ p + q) ∨
+  ((i = p ∧ j = p + q + 1) ∨ (j = p ∧ i = p + q + 1)) ∨
+  ((i + 1 = j ∨ j + 1 = i) ∧ p + q + 1 ≤ i ∧ p + q + 1 ≤ j)
+
+instance (p q r i j : ℕ) : Decidable (armAdjIdx p q r i j) := by
+  unfold armAdjIdx; infer_instance
+
+/-- **Linearity of a harmonic arm.** If `f 0, f 1, …, f L` is a sequence with `2·f 0 = f 1` (leaf
+condition) and `2·f i = f (i-1) + f (i+1)` at every interior index `1 ≤ i ≤ L-1`, then
+`f i = (i+1)·f 0`. Applied to the strictly-positive null vector restricted to an arm: the null-vector
+harmonic relation makes it linear from the tip to the hub. -/
+private lemma arm_linear (f : ℕ → ℤ) (L : ℕ) (hleaf : 2 * f 0 = f 1)
+    (hint : ∀ i, 1 ≤ i → i + 1 ≤ L → 2 * f i = f (i - 1) + f (i + 1)) :
+    ∀ i, i ≤ L → f i = (i + 1 : ℤ) * f 0 := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    match i with
+    | 0 => simp
+    | 1 => push_cast; linarith [hleaf]
+    | (k + 2) =>
+      have e1 := ih (k + 1) (by omega) (by omega)
+      have e0 := ih k (by omega) (by omega)
+      have hrec : 2 * f (k + 1) = f k + f (k + 2) := by
+        have h := hint (k + 1) (by omega) (by omega)
+        simpa using h
+      have hval : f (k + 2) = 2 * f (k + 1) - f k := by linarith [hrec]
+      rw [hval, e1, e0]; push_cast; ring
+
+/-- **Arm-length reciprocal from the null vector.** Pure arithmetic: if the strictly-positive hub
+value `W` factors as `(p+1)·a = (q+1)·b = (r+1)·c` (arm linearity: `W` is `arm-length + 1` times the
+tip value on each of the three arms) and the three tip values sum to `W` (hub harmonicity), then the
+cleared-denominator reciprocal equality holds. -/
+private lemma reciprocal_of_arm_data (p q r : ℕ) (W a b c : ℤ) (hW : 0 < W)
+    (hpa : W = (p + 1) * a) (hqb : W = (q + 1) * b) (hrc : W = (r + 1) * c)
+    (hsum : a + b + c = W) :
+    (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1)
+      = (p + 1) * (q + 1) * (r + 1) := by
+  have key : (((q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1) : ℕ) : ℤ) * W
+      = (((p + 1) * (q + 1) * (r + 1) : ℕ) : ℤ) * W := by
+    push_cast
+    linear_combination (((p : ℤ) + 1) * (q + 1) * (r + 1)) * hsum
+      + ((q : ℤ) + 1) * (r + 1) * hpa + ((p : ℤ) + 1) * (r + 1) * hqb
+      + ((p : ℤ) + 1) * (q + 1) * hrc
+  have := mul_right_cancel₀ (ne_of_gt hW) key
+  exact_mod_cast this
+
+/-- **Arm layout of a one-branch affine tree (structural extraction).** A connected acyclic affine
+Dynkin diagram with all degrees `≤ 3` and a *unique* degree-3 vertex `v` is, up to re-indexing `σ`,
+laid out in the `armAdjIdx` pattern: three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from the hub
+(at index `p`), with `n = 1 + p + q + r`. The two shorter arms `p, q` join through the hub into a
+single path `0 … p+q`; the arm `r` hangs off the hub (index `p`) starting at index `p+q+1`.
+
+This is the pure graph-combinatorial core: walk each arm from the hub via the degree-`≤ 2`
+neighbour structure (cf. `path_walk_construction`, `two_regular_connected_iso_Atilde`, `otherNbr`),
+order the three arm lengths, and assemble the re-indexing. The reciprocal equality is *not* proved
+here — that is `affine_tree_one_arm_reciprocal`, which consumes this layout and the null vector. -/
+lemma affine_one_branch_arm_layout {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
+      1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
+      (σ.symm v).val = p ∧
+      (∀ i j, adj (σ i) (σ j) = 1 ↔ armAdjIdx p q r i.val j.val) := by
+  -- Sub-issue: three-arm walk + reindexing onto the `armAdjIdx` layout. See the doc comment.
+  sorry
+
+/-- **Three arms from the single branch vertex + the reciprocal equality (piece (b) of Ẽ₆/Ẽ₇/Ẽ₈).**
+From a connected acyclic affine Dynkin diagram with all degrees `≤ 3` and a *unique* branch
+(degree-3) vertex `v`, extract the three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from `v`, laid
+out along a re-indexing `σ` in the `armAdjIdx` pattern (hub at index `p`), with `n = 1 + p + q + r`.
+Testing the (degenerate) Cartan form against its strictly-positive null vector
+(`affineNullVector_pos`) — which is linear along each arm — pins the reciprocal sum to `1` on the
+nose, giving the cleared-denominator equality
+`(q+1)(r+1) + (p+1)(r+1) + (p+1)(q+1) = (p+1)(q+1)(r+1)`.
+
+The arm-length triple is then classified by `affine_arm_length_solutions` and reindexed onto
+`Ẽ₆/Ẽ₇/Ẽ₈` in `affine_tree_one_branch_iso` (piece (c)). -/
+lemma affine_tree_one_arm_reciprocal {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ (p q r : ℕ) (σ : Fin n ≃ Fin n),
+      1 ≤ p ∧ p ≤ q ∧ q ≤ r ∧ n = 1 + p + q + r ∧
+      (q + 1) * (r + 1) + (p + 1) * (r + 1) + (p + 1) * (q + 1)
+          = (p + 1) * (q + 1) * (r + 1) ∧
+      (σ.symm v).val = p ∧
+      (∀ i j, adj (σ i) (σ j) = 1 ↔ armAdjIdx p q r i.val j.val) := by
+  classical
+  -- Strictly-positive null vector of the (degenerate) Cartan form.
+  obtain ⟨w, hw_pos, hw_ker⟩ := affineNullVector_pos adj hn hD
+  -- **Arm layout** (structural extraction): the three arms laid out along `σ`.
+  obtain ⟨p, q, r, σ, hp, hpq, hqr, hn_eq, hhub, hadj_iff⟩ :=
+    affine_one_branch_arm_layout adj hn hD hacyc hdeg3 v hv huniq
+  refine ⟨p, q, r, σ, hp, hpq, hqr, hn_eq, ?_, hhub, hadj_iff⟩
+  -- === Reciprocal equality from harmonicity of the positive null vector ===
+  have h01 := hD.2.2.1
+  -- Full adjacency in the arm layout.
+  have hadj_val : ∀ i j : Fin n,
+      adj (σ i) (σ j) = if armAdjIdx p q r i.val j.val then 1 else 0 := by
+    intro i j
+    by_cases h : armAdjIdx p q r i.val j.val
+    · rw [if_pos h]; exact (hadj_iff i j).mpr h
+    · rw [if_neg h]
+      rcases h01 (σ i) (σ j) with h0 | h1
+      · exact h0
+      · exact absurd ((hadj_iff i j).mp h1) h
+  -- The null-vector row (harmonic) equation `2 wₓ = ∑ⱼ adjₓⱼ wⱼ`.
+  have hker : ∀ x : Fin n, 2 * w x = ∑ j, adj x j * w j := by
+    intro x
+    have hx := congrFun hw_ker x
+    simp only [Pi.zero_apply] at hx
+    have hMij : ∀ j, (2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj) x j
+        = (if x = j then (2:ℤ) else 0) - adj x j := by
+      intro j
+      rw [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply, nsmul_eq_mul]
+      split_ifs <;> norm_num
+    have hrow_eq : ((2 • (1 : Matrix (Fin n) (Fin n) ℤ) - adj).mulVec w) x
+        = ∑ j, ((if x = j then (2:ℤ) else 0) - adj x j) * w j := by
+      simp only [Matrix.mulVec, dotProduct]
+      exact Finset.sum_congr rfl (fun j _ => by rw [hMij j])
+    rw [hrow_eq] at hx
+    have hsplit : ∑ j, ((if x = j then (2:ℤ) else 0) - adj x j) * w j
+        = (∑ j, (if x = j then (2:ℤ) else 0) * w j) - ∑ j, adj x j * w j := by
+      rw [← Finset.sum_sub_distrib]
+      exact Finset.sum_congr rfl (fun j _ => by ring)
+    have hdiagsum : ∑ j, (if x = j then (2:ℤ) else 0) * w j = 2 * w x := by
+      rw [Finset.sum_eq_single x]
+      · rw [if_pos rfl]
+      · intro b _ hb; rw [if_neg (fun h => hb h.symm), zero_mul]
+      · intro h; exact absurd (Finset.mem_univ x) h
+    rw [hsplit, hdiagsum] at hx
+    linarith [hx]
+  -- Reindexed harmonic equation along `σ`, in terms of the `armAdjIdx` neighbour pattern.
+  have hlap : ∀ m : Fin n,
+      2 * w (σ m) = ∑ j, (if armAdjIdx p q r m.val j.val then w (σ j) else 0) := by
+    intro m
+    have h := hker (σ m)
+    rw [← Equiv.sum_comp σ (fun j => adj (σ m) j * w j)] at h
+    rw [h]
+    refine Finset.sum_congr rfl (fun j _ => ?_)
+    rw [hadj_val m j]
+    split_ifs with hh <;> simp
+  -- Null vector as a function of the (natural-number) arm index.
+  set wσ : ℕ → ℤ := fun t => if h : t < n then w (σ ⟨t, h⟩) else 0 with hwσ_def
+  have hwσ : ∀ t (h : t < n), wσ t = w (σ ⟨t, h⟩) := by
+    intro t h; simp only [hwσ_def]; rw [dif_pos h]
+  -- Neighbour-sum reduction: a vertex's harmonic sum equals the sum over its explicit neighbours.
+  have hlap' : ∀ (m : ℕ) (hm : m < n) (S : Finset (Fin n)),
+      (∀ j : Fin n, armAdjIdx p q r m j.val ↔ j ∈ S) →
+      2 * wσ m = ∑ j ∈ S, w (σ j) := by
+    intro m hm S hS
+    rw [hwσ m hm, hlap ⟨m, hm⟩, ← Finset.sum_filter]
+    congr 1
+    ext j; simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact hS j
+  have hlap_one : ∀ (m a : ℕ), m < n → (ha : a < n) →
+      (∀ J, J < n → (armAdjIdx p q r m J ↔ J = a)) → 2 * wσ m = wσ a := by
+    intro m a hm ha hiff
+    have hS : ∀ j : Fin n, armAdjIdx p q r m j.val ↔ j ∈ ({⟨a, ha⟩} : Finset (Fin n)) := by
+      intro j; rw [Finset.mem_singleton, Fin.ext_iff]; exact hiff j.val j.isLt
+    have hsum := hlap' m hm _ hS
+    rw [Finset.sum_singleton] at hsum
+    rw [hsum, hwσ a ha]
+  have hlap_two : ∀ (m a b : ℕ), m < n → (ha : a < n) → (hb : b < n) → a ≠ b →
+      (∀ J, J < n → (armAdjIdx p q r m J ↔ J = a ∨ J = b)) →
+      2 * wσ m = wσ a + wσ b := by
+    intro m a b hm ha hb hab hiff
+    have hS : ∀ j : Fin n, armAdjIdx p q r m j.val
+        ↔ j ∈ ({⟨a, ha⟩, ⟨b, hb⟩} : Finset (Fin n)) := by
+      intro j; simp only [Finset.mem_insert, Finset.mem_singleton, Fin.ext_iff]
+      exact hiff j.val j.isLt
+    have hsum := hlap' m hm _ hS
+    rw [Finset.sum_insert (by simp only [Finset.mem_singleton, Fin.ext_iff]; exact hab),
+        Finset.sum_singleton] at hsum
+    rw [hwσ a ha, hwσ b hb]; exact hsum
+  have hlap_three : ∀ (m a b c : ℕ), m < n → (ha : a < n) → (hb : b < n) → (hc : c < n) →
+      a ≠ b → a ≠ c → b ≠ c →
+      (∀ J, J < n → (armAdjIdx p q r m J ↔ J = a ∨ J = b ∨ J = c)) →
+      2 * wσ m = wσ a + wσ b + wσ c := by
+    intro m a b c hm ha hb hc hab hac hbc hiff
+    have hS : ∀ j : Fin n, armAdjIdx p q r m j.val
+        ↔ j ∈ ({⟨a, ha⟩, ⟨b, hb⟩, ⟨c, hc⟩} : Finset (Fin n)) := by
+      intro j; simp only [Finset.mem_insert, Finset.mem_singleton, Fin.ext_iff]
+      exact hiff j.val j.isLt
+    have hsum := hlap' m hm _ hS
+    rw [Finset.sum_insert (by simp only [Finset.mem_insert, Finset.mem_singleton, Fin.ext_iff]; omega),
+        Finset.sum_insert (by simp only [Finset.mem_singleton, Fin.ext_iff]; omega),
+        Finset.sum_singleton] at hsum
+    rw [hwσ a ha, hwσ b hb, hwσ c hc]; linarith [hsum]
+  -- The hub is at index `p`, with value `W = w v`.
+  have hplt : p < n := by omega
+  have hhub_eq : σ ⟨p, hplt⟩ = v := by
+    rw [show (⟨p, hplt⟩ : Fin n) = σ.symm v from Fin.ext hhub.symm, Equiv.apply_symm_apply]
+  have hWp : wσ p = w v := by rw [hwσ p hplt, hhub_eq]
+  -- === Arm P (indices 0 … p, tip → hub): linearity of `wσ`. ===
+  have hleafP : 2 * wσ 0 = wσ 1 :=
+    hlap_one 0 1 (by omega) (by omega) (fun J hJ => by simp only [armAdjIdx]; omega)
+  have hlinP := arm_linear wσ p hleafP (fun i hi1 hip =>
+    hlap_two i (i - 1) (i + 1) (by omega) (by omega) (by omega) (by omega)
+      (fun J hJ => by simp only [armAdjIdx]; omega))
+  have hpa : w v = ((p : ℤ) + 1) * wσ 0 := by
+    have h := hlinP p (le_refl p); rw [hWp] at h; exact h
+  have hPnbr : wσ (p - 1) = (p : ℤ) * wσ 0 := by
+    rw [hlinP (p - 1) (by omega)]; congr 1; omega
+  -- === Arm Q (indices p … p+q via `p+q-j`, tip → hub): linearity. ===
+  have hleafQ : 2 * wσ (p + q) = wσ (p + q - 1) :=
+    hlap_one (p + q) (p + q - 1) (by omega) (by omega) (fun J hJ => by simp only [armAdjIdx]; omega)
+  have hlinQ := arm_linear (fun j => wσ (p + q - j)) q (by simpa using hleafQ)
+    (fun i hi1 hiq => by
+      show 2 * wσ (p + q - i) = wσ (p + q - (i - 1)) + wσ (p + q - (i + 1))
+      rw [show p + q - (i - 1) = (p + q - i) + 1 from by omega,
+          show p + q - (i + 1) = (p + q - i) - 1 from by omega]
+      exact hlap_two (p + q - i) ((p + q - i) + 1) ((p + q - i) - 1)
+        (by omega) (by omega) (by omega) (by omega)
+        (fun J hJ => by simp only [armAdjIdx]; omega))
+  have hqb : w v = ((q : ℤ) + 1) * wσ (p + q) := by
+    have h := hlinQ q (le_refl q)
+    rw [show p + q - q = p from by omega, Nat.sub_zero, hWp] at h
+    exact h
+  have hQnbr : wσ (p + 1) = (q : ℤ) * wσ (p + q) := by
+    have h := hlinQ (q - 1) (by omega)
+    rw [show p + q - (q - 1) = p + 1 from by omega, Nat.sub_zero] at h
+    rw [h]; congr 1; omega
+  -- === Arm R (indices p+q+1 … p+q+r, tip → hub-neighbour; hub plugged as `wσ p`): linearity. ===
+  have hlinR := arm_linear (fun j => if j < r then wσ (p + q + r - j) else wσ p) r
+    (by
+      show 2 * (if (0 : ℕ) < r then wσ (p + q + r - 0) else wσ p)
+         = (if (1 : ℕ) < r then wσ (p + q + r - 1) else wσ p)
+      rw [if_pos (show (0 : ℕ) < r by omega), Nat.sub_zero]
+      by_cases hr1 : 1 < r
+      · rw [if_pos hr1]
+        exact hlap_one (p + q + r) (p + q + r - 1) (by omega) (by omega)
+          (fun J hJ => by simp only [armAdjIdx]; omega)
+      · rw [if_neg hr1]
+        exact hlap_one (p + q + r) p (by omega) (by omega)
+          (fun J hJ => by simp only [armAdjIdx]; omega))
+    (by
+      intro i hi1 hir
+      show 2 * (if i < r then wσ (p + q + r - i) else wσ p)
+         = (if i - 1 < r then wσ (p + q + r - (i - 1)) else wσ p)
+         + (if i + 1 < r then wσ (p + q + r - (i + 1)) else wσ p)
+      rw [if_pos (show i < r by omega), if_pos (show i - 1 < r by omega),
+          show p + q + r - (i - 1) = (p + q + r - i) + 1 from by omega]
+      by_cases hir2 : i + 1 < r
+      · rw [if_pos hir2, show p + q + r - (i + 1) = (p + q + r - i) - 1 from by omega]
+        exact hlap_two (p + q + r - i) ((p + q + r - i) + 1) ((p + q + r - i) - 1)
+          (by omega) (by omega) (by omega) (by omega)
+          (fun J hJ => by simp only [armAdjIdx]; omega)
+      · rw [if_neg hir2, show p + q + r - i = p + q + 1 from by omega]
+        exact hlap_two (p + q + 1) ((p + q + 1) + 1) p
+          (by omega) (by omega) (by omega) (by omega)
+          (fun J hJ => by unfold armAdjIdx; omega))
+  have hrc : w v = ((r : ℤ) + 1) * wσ (p + q + r) := by
+    have h := hlinR r (le_refl r)
+    rw [if_neg (show ¬ r < r by omega), if_pos (show (0 : ℕ) < r by omega), Nat.sub_zero, hWp] at h
+    exact h
+  have hRnbr : wσ (p + q + 1) = (r : ℤ) * wσ (p + q + r) := by
+    have h := hlinR (r - 1) (by omega)
+    rw [if_pos (show r - 1 < r by omega), if_pos (show (0 : ℕ) < r by omega), Nat.sub_zero,
+        show p + q + r - (r - 1) = p + q + 1 from by omega] at h
+    rw [h]; congr 1; omega
+  -- === Hub harmonicity: the three tip values sum to `W`. ===
+  have hHub0 : 2 * wσ p = wσ (p - 1) + wσ (p + 1) + wσ (p + q + 1) :=
+    hlap_three p (p - 1) (p + 1) (p + q + 1) (by omega) (by omega) (by omega) (by omega)
+      (by omega) (by omega) (by omega) (fun J hJ => by unfold armAdjIdx; omega)
+  have e1 : (p : ℤ) * wσ 0 = w v - wσ 0 := by rw [hpa]; ring
+  have e2 : (q : ℤ) * wσ (p + q) = w v - wσ (p + q) := by rw [hqb]; ring
+  have e3 : (r : ℤ) * wσ (p + q + r) = w v - wσ (p + q + r) := by rw [hrc]; ring
+  have hsum : wσ 0 + wσ (p + q) + wσ (p + q + r) = w v := by
+    have hH := hHub0
+    rw [hWp] at hH
+    rw [hPnbr, hQnbr, hRnbr, e1, e2, e3] at hH
+    linarith [hH]
+  exact reciprocal_of_arm_data p q r (w v) (wσ 0) (wσ (p + q)) (wσ (p + q + r))
+    (hw_pos v) hpa hqb hrc hsum
+
 /-- **One branch vertex ⟹ Ẽ₆/Ẽ₇/Ẽ₈.** A connected acyclic affine Dynkin diagram with all degrees
 `≤ 3` and exactly one branch (degree-3) vertex is graph-isomorphic to `AffineType.E6tilde`,
 `E7tilde`, or `E8tilde`. The three arms have lengths solving the affine Diophantine identity
