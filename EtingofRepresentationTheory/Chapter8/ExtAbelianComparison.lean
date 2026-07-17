@@ -93,8 +93,8 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     -- `k`-linearity of the composite reduces to `k`-linearity of `e123`, since step 4 is linear.
     have key123 : ∀ y, e123 (r • y) = r • e123 y := by
       sorry
-    show extAbelianAddEquivExtₖ k N P n (r • x) = r • extAbelianAddEquivExtₖ k N P n x
-    have hfactor : ∀ y, extAbelianAddEquivExtₖ k N P n y = step4 (e123 y) := fun y => rfl
+    have hfactor : ∀ y, extAbelianAddEquivExtₖ k N P n y = step4 (e123 y) := fun _ => rfl
+    change extAbelianAddEquivExtₖ k N P n (r • x) = r • extAbelianAddEquivExtₖ k N P n x
     rw [hfactor, hfactor, key123, map_smul]
 
 end Etingof
