@@ -1,8 +1,12 @@
 import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import EtingofRepresentationTheory.Chapter8.RearrangeComplex
+import EtingofRepresentationTheory.Chapter8.RearrangeHomComplex
 import EtingofRepresentationTheory.Chapter8.ExternalTensorResolution
+import EtingofRepresentationTheory.Chapter8.ExternalTensorResolutionLeft
+import EtingofRepresentationTheory.Chapter8.ExtCohomologyHomK
 import EtingofRepresentationTheory.Chapter8.TensorRightFunctorK
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
+import EtingofRepresentationTheory.Chapter7.KunnethCochainComplexNat
 import Mathlib.RingTheory.TensorProduct.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Opposite
 import Mathlib.Algebra.DirectSum.Basic
@@ -140,6 +144,56 @@ variable (N₁ N₂ : Type u)
   [AddCommGroup N₁] [Module k N₁] [Module A₁ N₁] [FiniteDimensional k N₁]
   [AddCommGroup N₂] [Module k N₂] [Module A₂ N₂] [FiniteDimensional k N₂]
 
+/-- **Problem 8.2.8, `Ext` — the `k`-linear (`Extₖ`) Künneth isomorphism.** The cohomological
+mirror of `Problem_8_2_8_tor`, phrased with the `ModuleCat k`-valued left-derived-functor `Extₖ`
+and consuming finitely generated projective resolutions `P₁, P₂` of the two left factor modules.
+
+The proof is the four-step book route dualised through `Hom`:
+1. `Extⁱ_{A₁⊗A₂}(M₁⊗M₂, N₁⊗N₂) ≅ Hⁱ(Hom_{A₁⊗A₂}(P•₁ ⊗ₖ P•₂, N₁⊗N₂))` via `extIsoCohomologyHomₖ`
+   with `P•₁ ⊗ₖ P•₂ = extTensorProjectiveResolutionLeft P₁ P₂`;
+2. rearrange the Hom cochain complex to `Hom_{A₁}(P•₁, N₁) ⊗ₖ Hom_{A₂}(P•₂, N₂)`
+   (`rearrangeHomComplex`, needs the `Pᵢ` finitely generated projective), then take `Hⁱ`;
+3. cochain Künneth over `k` (`kunnethCochainComplexNat`);
+4. identify the factor cohomologies as `Extⱼ^{A₁}` / `Extₘ^{A₂}` (`extIsoCohomologyHomₖ` again).
+
+The finite-generation of the `Pᵢ` (an `∀ j, Module.Finite Aᵢ (Pᵢ.complex.X j)` hypothesis) is what
+makes the degreewise Hom-tensor map an isomorphism; it holds for finite dimensional `Mᵢ` over the
+finite dimensional `Aᵢ`. Wiring this `Extₖ` iso into the derived-category `Etingof.Ext` statement
+`Problem_8_2_8_ext` is deferred to a comparison isomorphism `Etingof.Ext ≃ Extₖ`. -/
+theorem Problem_8_2_8_extₖ (i : ℕ)
+    (P₁ : ProjectiveResolution (ModuleCat.of A₁ M₁))
+    (P₂ : ProjectiveResolution (ModuleCat.of A₂ M₂))
+    [∀ j, Module.Finite A₁ (P₁.complex.X j)] [∀ j, Module.Projective A₁ (P₁.complex.X j)]
+    [∀ m, Module.Finite A₂ (P₂.complex.X m)] [∀ m, Module.Projective A₂ (P₂.complex.X m)]
+    [IsScalarTower k A₁ N₁] [IsScalarTower k A₂ N₂]
+    [instN : Module (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]
+    [IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)]
+    (hN : ∀ (a₁ : A₁) (a₂ : A₂) (n₁ : N₁) (n₂ : N₂),
+      (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (n₁ ⊗ₜ[k] n₂ : N₁ ⊗[k] N₂)
+        = (a₁ • n₁) ⊗ₜ[k] (a₂ • n₂)) :
+    Nonempty
+      (Extₖ k (A₁ ⊗[k] A₂)
+          (extTensorFunctorLeftObj k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂))
+          (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) i
+        ≅ ∐ fun p : {p : ℕ × ℕ // p.1 + p.2 = i} =>
+            Extₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) p.1.1
+              ⊗ Extₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2) := by
+  refine ⟨
+    -- Step 1: `Extⁱ` of the external tensor = `Hⁱ` of `Hom_{A₁⊗A₂}(P•₁ ⊗ₖ P•₂, N₁⊗ₖN₂)`.
+    extIsoCohomologyHomₖ k (A₁ ⊗[k] A₂) _
+        (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂)) (extTensorProjectiveResolutionLeft P₁ P₂) i ≪≫
+    -- Step 2 & 3: rearrange to `Hom_{A₁}(P•₁,N₁) ⊗ₖ Hom_{A₂}(P•₂,N₂)`, then take `Hⁱ`.
+    (HomologicalComplex.homologyFunctor (ModuleCat.{u} k) (ComplexShape.up ℕ) i).mapIso
+        (rearrangeHomComplex k N₁ N₂ hN P₁ P₂) ≪≫
+    -- Step 4a: cochain Künneth over the field for the tensor of the two Hom complexes.
+    (kunnethCochainComplexNat
+        (P₁.complex.linearYonedaObj k (ModuleCat.of A₁ N₁))
+        (P₂.complex.linearYonedaObj k (ModuleCat.of A₂ N₂)) i).some ≪≫
+    -- Step 4b: identify the factor cohomologies as `Extⱼ^{A₁}` / `Extₘ^{A₂}`.
+    Sigma.mapIso (fun p => tensorIso
+      (extIsoCohomologyHomₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) P₁ p.1.1).symm
+      (extIsoCohomologyHomₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) P₂ p.1.2).symm)⟩
+
 /-- **Problem 8.2.8, `Ext`.** For finite dimensional `k`-algebras `A₁, A₂`, finite dimensional
 left modules `M₁, M₂` and finite dimensional left modules `N₁, N₂`, the `Ext` of the external
 tensor products decomposes as a Künneth direct sum over the field `k`:
@@ -174,6 +228,27 @@ theorem Problem_8_2_8_ext (i : ℕ)
               TensorProduct k
                 (Etingof.Ext (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) p.1.1)
                 (Etingof.Ext (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2))) := by
+  -- The `k`-linear Künneth isomorphism `Problem_8_2_8_extₖ` above is the mathematical core: it
+  -- decomposes `Extₖ k (A₁⊗A₂) (M₁⊗M₂) (N₁⊗N₂) i` as the categorical coproduct
+  -- `∐_{j+m=i} Extₖ k A₁ M₁ N₁ j ⊗ Extₖ k A₂ M₂ N₂ m` in `ModuleCat k`. Reducing this statement to
+  -- it requires the following residual wiring (each a self-contained follow-up):
+  --   1. **Finitely generated projective resolutions.** Produce `P₁ P₂` of `ModuleCat.of Aᵢ Mᵢ`
+  --      whose terms carry `Module.Finite`/`Module.Projective` instances, from the finite
+  --      dimensionality of the `Mᵢ` over the finite dimensional `Aᵢ` (e.g. the bar resolution, or a
+  --      minimal projective resolution). These feed `Problem_8_2_8_extₖ`.
+  --   2. **Module-structure reconciliation.** Identify the statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)`
+  --      / `(N₁⊗N₂)` (with `instM`/`instN` pinned by `hM`/`hN`) with the canonical external
+  --      `extTensorFunctorLeftObj` used by `Problem_8_2_8_extₖ`; both act componentwise, so `hM`/`hN`
+  --      make them equal.
+  --   3. **The comparison isomorphism `Etingof.Ext ≃ₗ[k] Extₖ`.** The statement uses the
+  --      derived-category `Etingof.Ext = CategoryTheory.Abelian.Ext` (AddCommGroup-valued), whereas
+  --      `Problem_8_2_8_extₖ` uses the `ModuleCat k`-valued left-derived-functor `Extₖ`
+  --      (`CategoryTheory.Ext k (ModuleCat A) n`). The two agree; a `k`-linear comparison iso
+  --      `Etingof.Ext M N n ≃ₗ[k] Extₖ k A M N n` transports the whole statement. This is the
+  --      substantial missing piece (no such bridge exists in Mathlib yet).
+  --   4. **`∐`/`⊗` → `⨁`/`TensorProduct k`.** Convert the categorical coproduct of monoidal tensor
+  --      products in `ModuleCat k` on the right-hand side to the `DirectSum` of `TensorProduct k`
+  --      used in the stated signature.
   sorry
 
 end Ext
