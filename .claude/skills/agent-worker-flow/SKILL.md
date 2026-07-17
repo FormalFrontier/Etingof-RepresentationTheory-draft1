@@ -71,6 +71,17 @@ open. `check-blocked` (run by `pod` each loop) removes `blocked` when
 all dependencies close. Blocked issues are excluded from
 `list-unclaimed` and `queue-depth`.
 
+**Dependency code that lives only in an unmerged PR**: a dependency issue
+can be *closed* while the def/lemma it produced is still in an open PR
+(residual assembly, split work), so it is absent from `main`. If the code
+you need to build on is in such a PR, do NOT wait or skip — `git fetch`
+that PR's head branch and base your branch on it
+(`git reset --hard origin/<pr-head>`). Then in your PR body add an
+ordering note ("based on #<pr>, merge it first; rebase onto `main` after
+it squash-merges to drop the duplicate commit") so a repair/planner agent
+sequences the merges. Confirm the dependency file actually builds on that
+base before writing new code.
+
 **Branch naming**: `agent/<first-8-chars-of-UUID>`
 **Plan files**: `plans/<UUID-prefix>.md`
 **Progress files**: `progress/<UTC-timestamp>_<UUID-prefix>.md`
