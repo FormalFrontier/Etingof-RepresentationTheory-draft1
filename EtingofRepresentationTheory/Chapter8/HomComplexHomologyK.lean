@@ -4,6 +4,7 @@ import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexSingle
 import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexCohomology
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.PreservesHomology
+import Mathlib.Algebra.Category.Grp.Zero
 
 /-!
 # Identifying the two `Hⁿ Hom(P•, N)` presentations
@@ -108,35 +109,161 @@ lemma homDegEquiv_δ (i : ℕ)
   simp only [Units.smul_def, Preadditive.comp_zsmul, Category.assoc, Iso.inv_hom_id_assoc]
 
 /-!
-## Remaining assembly (follow-up)
+## Assembly of the homology comparison
 
-The target of this file is the additive isomorphism
+We now assemble the additive isomorphism `homComplexHomologyAddEquivₖ`. Throughout, write
+`L := homCochainComplex N P` (an `AddCommGrpCat`-valued cochain complex over `ℤ`),
+`R := P.complex.linearYonedaObj k N` (a `ModuleCat k`-valued cochain complex over `ℕ`), and
+`Ff := forget₂ (ModuleCat k) AddCommGrpCat` (which has `PreservesHomology`).
 
-```
-homComplexHomologyAddEquivₖ (n : ℕ) :
-    (homCochainComplex N P).homology (n : ℤ) ≃+ (P.complex.linearYonedaObj k N).homology n
-```
+The degreewise `homDegEquiv` identifies `L.X ↑i` with `Ff.obj (R.X i)`, and `homDegEquiv_δ` records
+the degreewise sign twist. Folding a unit sign into each degreewise identification (`sIso`) turns
+the sign twist into a strictly commuting square (`sqGen`); assembling three of these into a
+`ShortComplex.isoMk` and transporting through `ShortComplex.homologyMapIso`,
+`ShortComplex.mapHomologyIso`, and the reindexing `isoSc'` gives
+`L.homology ↑(m+1) ≅ Ff.obj (R.homology (m+1))` (`homologyIsoSucc`).
 
-Write `L := homCochainComplex N P : CochainComplex AddCommGrp ℤ`,
-`R := P.complex.linearYonedaObj k N : CochainComplex (ModuleCat k) ℕ`, and
-`F := forget₂ (ModuleCat k) AddCommGrp` (which has `PreservesHomology`, from
-`Mathlib.Algebra.Homology.ShortComplex.ModuleCat`). The reduction from the degreewise data above is:
-
-* For `n = m + 1`: `homDegEquiv N P (m), homDegEquiv N P (m+1), homDegEquiv N P (m+2)` are the three
-  vertical isomorphisms of a `ShortComplex.isoMk` between `L.sc (↑(m+1))` and `(R.sc (m+1)).map F`;
-  the two commutativity squares are exactly `homDegEquiv_δ` (the sign is a unit, and precomposition
-  with a unit does not change the square up to the isomorphisms). `R.d` on the target side is the
-  unsigned precomposition `ChainComplex.linearYonedaObj_d`. Then
-  `ShortComplex.homologyMapIso` + `ShortComplex.mapHomologyIso F (R.sc (m+1))` give
-  `L.homology ↑(m+1) ≅ F.obj (R.homology (m+1))`.
-* For `n = 0`: the incoming differentials vanish on both sides (`L.X (-1) ≅ 0`, and the source of
-  `R.d` is `(ComplexShape.up ℕ).prev 0 = 0` with `R.d 0 0 = 0`), so both homologies are the kernel
-  via `HomologicalComplex.isoHomologyπ`; `homDegEquiv N P 0` and `homDegEquiv N P 1` conjugate the
-  two kernels (`homDegEquiv_δ` again, with the sign an isomorphism of the kernels).
-* Finally `F.obj (R.homology n)` has the same underlying additive group as `R.homology n`
-  (`ModuleCat`'s `forget₂` is the identity on carriers), giving the `≃+`.
-
-This assembly is tracked as follow-up issue #6904.
+For `n = 0` the incoming differentials both vanish (`L.X (-1)` is a zero object,
+`isZeroLXneg1`, and `R.d 0 0 = 0`), so the epi/iso/mono criterion
+`isIso_homologyMap_of_epi_of_isIso_of_mono` applied to the short-complex morphism `scHom0` yields
+the homology isomorphism `homologyIsoZero`.
 -/
+
+/-- The forgetful functor `ModuleCat k ⥤ AddCommGrpCat`, which preserves homology; used to compare
+the `AddCommGrpCat`-valued `HomComplex` with the `ModuleCat k`-valued `linearYonedaObj`. -/
+noncomputable abbrev Ff : ModuleCat.{u} k ⥤ AddCommGrpCat.{u} :=
+  forget₂ (ModuleCat.{u} k) AddCommGrpCat
+
+/-- The identification `homDegEquiv` twisted by a unit sign `u : ℤˣ`, as an `AddEquiv`. -/
+noncomputable def sDegEquiv (i : ℕ) (u : ℤˣ) :
+    Cochain P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) (i : ℤ)
+      ≃+ (P.complex.X i ⟶ N) := (homDegEquiv N P i).trans (DistribMulAction.toAddEquiv _ u)
+
+/-- The sign-twisted degreewise isomorphism `L.X ↑i ≅ Ff.obj (R.X i)`. The unit sign `u` is chosen,
+per short complex, to absorb the sign twist of `homDegEquiv_δ` into a strictly commuting square. -/
+noncomputable def sIso (i : ℕ) (u : ℤˣ) :
+    (homCochainComplex N P).X (i : ℤ) ≅ (Ff k).obj ((P.complex.linearYonedaObj k N).X i) :=
+  (sDegEquiv N P i u).toAddCommGrpIso
+
+@[simp] lemma sIso_hom_apply (i : ℕ) (u : ℤˣ) (z : (homCochainComplex N P).X (i : ℤ)) :
+    (sIso k N P i u).hom z = (u : ℤ) • (homDegEquiv N P i z) := by
+  simp only [sIso, AddEquiv.toAddCommGrpIso_hom]; rfl
+
+/-- The degreewise commuting square: `sIso` at degree `i` with left sign `u`, and at degree `i+1`
+with right sign `u * (i+1).negOnePow`, intertwines the `HomComplex` differential with the (unsigned)
+`linearYonedaObj` differential. This is the sign-twist `homDegEquiv_δ` rewritten as a strict square,
+the unit sign in `homDegEquiv_δ` being absorbed by the choice of right sign. -/
+lemma sqGen (m : ℕ) (u : ℤˣ) :
+    (sIso k N P m u).hom ≫ (Ff k).map ((P.complex.linearYonedaObj k N).d m (m+1))
+      = (homCochainComplex N P).d ↑m ↑(m+1)
+        ≫ (sIso k N P (m+1) (u * (↑(m+1):ℤ).negOnePow)).hom := by
+  ext z
+  rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply, sIso_hom_apply, sIso_hom_apply]
+  rw [show (ConcreteCategory.hom ((homCochainComplex N P).d (↑m) (↑(m+1)))) z
+        = δ (↑m : ℤ) (↑(m+1)) z from rfl, homDegEquiv_δ N P m z]
+  rw [← Units.smul_def, ← Units.smul_def, smul_smul, mul_assoc, Int.units_mul_self, mul_one]
+  simp only [ChainComplex.linearYonedaObj_d, ModuleCat.forget₂_map, ConcreteCategory.hom_ofHom]
+  rfl
+
+/-- The degree-`(m+1)` homology short complexes of `L` and `Ff.obj R` are isomorphic, via the three
+sign-twisted degreewise identifications and the two commuting squares `sqGen`. -/
+noncomputable def scIso (m : ℕ) :
+    (homCochainComplex N P).sc' (↑m) (↑(m+1)) (↑(m+2))
+      ≅ ((P.complex.linearYonedaObj k N).sc' m (m+1) (m+2)).map (Ff k) :=
+  ShortComplex.isoMk (sIso k N P m 1) (sIso k N P (m+1) (1 * (↑(m+1):ℤ).negOnePow))
+    (sIso k N P (m+2) (1 * (↑(m+1):ℤ).negOnePow * (↑(m+2):ℤ).negOnePow))
+    (sqGen k N P m 1) (sqGen k N P (m+1) (1 * (↑(m+1):ℤ).negOnePow))
+
+/-- The degree-`(m+1)` homology isomorphism `L.homology ↑(m+1) ≅ Ff.obj (R.homology (m+1))`,
+obtained from `scIso` by transporting through `homologyMapIso`, `mapHomologyIso`, and the reindexing
+`isoSc'` on both sides. -/
+noncomputable def homologyIsoSucc (m : ℕ) :
+    (homCochainComplex N P).homology (↑(m+1))
+      ≅ (Ff k).obj ((P.complex.linearYonedaObj k N).homology (m+1)) := by
+  have hprevL : (ComplexShape.up ℤ).prev (↑(m+1)) = ↑m := by simp
+  have hnextL : (ComplexShape.up ℤ).next (↑(m+1)) = ↑(m+2) := by
+    have h : (ComplexShape.up ℤ).Rel (↑(m+1)) (↑(m+2)) := by
+      simp only [ComplexShape.up_Rel]; omega
+    rw [ComplexShape.next_eq' _ h]
+  have hprevR : (ComplexShape.up ℕ).prev (m+1) = m := by simp
+  have hnextR : (ComplexShape.up ℕ).next (m+1) = m+2 := by simp
+  exact ShortComplex.homologyMapIso
+      ((homCochainComplex N P).isoSc' (↑m) (↑(m+1)) (↑(m+2)) hprevL hnextL) ≪≫
+    ShortComplex.homologyMapIso (scIso k N P m) ≪≫
+    ((P.complex.linearYonedaObj k N).sc' m (m+1) (m+2)).mapHomologyIso (Ff k) ≪≫
+    (Ff k).mapIso (ShortComplex.homologyMapIso
+      ((P.complex.linearYonedaObj k N).isoSc' m (m+1) (m+2) hprevR hnextR)).symm
+
+/-- The degree-`(-1)` term of `L` is a zero object: a `(-1)`-cochain into `N[0]` is a map out of
+`P.cochainComplex.X 1`, which vanishes since `P.cochainComplex` is supported in degrees `≤ 0`. -/
+lemma isZeroLXneg1 : IsZero ((homCochainComplex N P).X (-1)) := by
+  have hz1 : IsZero (P.cochainComplex.X 1) :=
+    P.cochainComplex.isZero_of_isStrictlyLE 0 1 (by norm_num)
+  have e := (Cochain.toSingleEquiv (K := P.cochainComplex) (X := N)
+    (p := (1:ℤ)) (q := 0) (n := -1) (by ring))
+  haveI : Subsingleton (P.cochainComplex.X 1 ⟶ N) := ⟨fun f g => (hz1.eq_of_src f g)⟩
+  haveI : Subsingleton ↑((homCochainComplex N P).X (-1)) := e.toEquiv.subsingleton
+  exact AddCommGrpCat.isZero_of_subsingleton _
+
+/-- The short-complex morphism at degree `0`, from `Ff.obj (R.sc' 0 0 1)` to `L.sc' (-1) 0 1`. The
+degree-`(-1)` component is the (necessarily epimorphic) zero map into the zero object `L.X (-1)`;
+the middle and top components are the sign-twisted degreewise isomorphisms. The lower square
+commutes as both differentials into `X₂` vanish; the upper square is `sqGen` at `m = 0`. -/
+noncomputable def scHom0 :
+    ((P.complex.linearYonedaObj k N).sc' 0 0 (0+1)).map (Ff k)
+      ⟶ (homCochainComplex N P).sc' (-1) (↑(0:ℕ)) (↑(0+1:ℕ)) where
+  τ₁ := 0
+  τ₂ := (sIso k N P 0 1).inv
+  τ₃ := (sIso k N P (0+1) (1 * (↑(0+1):ℤ).negOnePow)).inv
+  comm₁₂ := by
+    have hf : (((P.complex.linearYonedaObj k N).sc' 0 0 (0+1)).map (Ff k)).f = 0 := by
+      change (Ff k).map ((P.complex.linearYonedaObj k N).d 0 0) = 0
+      rw [(P.complex.linearYonedaObj k N).shape 0 0 (by simp), Functor.map_zero]
+    rw [hf, zero_comp, zero_comp]
+  comm₂₃ := by
+    simp only [ShortComplex.map_g, HomologicalComplex.shortComplexFunctor'_obj_g]
+    refine (Iso.inv_comp_eq _).mpr ?_
+    rw [← Category.assoc]
+    exact (Iso.eq_comp_inv _).mpr (sqGen k N P 0 1).symm
+
+/-- The degree-`0` homology isomorphism `L.homology 0 ≅ Ff.obj (R.homology 0)`, obtained from
+`scHom0` by the epi/iso/mono criterion for `homologyMap` and the reindexing `isoSc'`. -/
+noncomputable def homologyIsoZero :
+    (homCochainComplex N P).homology (↑(0:ℕ))
+      ≅ (Ff k).obj ((P.complex.linearYonedaObj k N).homology 0) := by
+  have hprevL : (ComplexShape.up ℤ).prev (↑(0:ℕ)) = -1 := by simp
+  have hnextL : (ComplexShape.up ℤ).next (↑(0:ℕ)) = ↑(0+1:ℕ) := by
+    have h : (ComplexShape.up ℤ).Rel (↑(0:ℕ)) (↑(0+1:ℕ)) := by
+      simp only [ComplexShape.up_Rel]; omega
+    rw [ComplexShape.next_eq' _ h]
+  have hprevR : (ComplexShape.up ℕ).prev 0 = 0 := by simp
+  have hnextR : (ComplexShape.up ℕ).next 0 = 0+1 := by simp
+  haveI : Epi (scHom0 k N P).τ₁ := (isZeroLXneg1 N P).epi _
+  haveI : IsIso (scHom0 k N P).τ₂ := inferInstanceAs (IsIso (sIso k N P 0 1).inv)
+  haveI : Mono (scHom0 k N P).τ₃ :=
+    inferInstanceAs (Mono (sIso k N P (0+1) (1 * (↑(0+1):ℤ).negOnePow)).inv)
+  exact ShortComplex.homologyMapIso
+      ((homCochainComplex N P).isoSc' (-1) (↑(0:ℕ)) (↑(0+1:ℕ)) hprevL hnextL) ≪≫
+    (asIso (ShortComplex.homologyMap (scHom0 k N P))).symm ≪≫
+    ((P.complex.linearYonedaObj k N).sc' 0 0 (0+1)).mapHomologyIso (Ff k) ≪≫
+    (Ff k).mapIso (ShortComplex.homologyMapIso
+      ((P.complex.linearYonedaObj k N).isoSc' 0 0 (0+1) hprevR hnextR)).symm
+
+/-- The degree-`n` homology isomorphism `L.homology ↑n ≅ Ff.obj (R.homology n)`, cased on `n`. -/
+noncomputable def homIso (n : ℕ) :
+    (homCochainComplex N P).homology (↑n)
+      ≅ (Ff k).obj ((P.complex.linearYonedaObj k N).homology n) := by
+  cases n with
+  | zero => exact homologyIsoZero k N P
+  | succ m => exact homologyIsoSucc k N P m
+
+/-- The additive isomorphism of the degree-`n` homologies of the two `Hom(P•, N)` presentations:
+the `AddCommGrpCat`-valued `HomComplex` (feeding the derived-category `Ext`) and the `ModuleCat k`-
+valued `linearYonedaObj` (feeding `Etingof.Extₖ`). This is the crux of the `Ext ≃ₗ[k] Extₖ`
+comparison (#6897). -/
+noncomputable def homComplexHomologyAddEquivₖ (n : ℕ) :
+    (homCochainComplex N P).homology (↑n)
+      ≃+ (P.complex.linearYonedaObj k N).homology n :=
+  (homIso k N P n).addCommGroupIsoToAddEquiv
 
 end Etingof
