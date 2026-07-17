@@ -222,6 +222,15 @@ context (`theorem extMapHom_tmul … := rfl`) so its LHS matches syntactically. 
 `erw`s in one call — each does an expensive defeq search and the combined term blows up `whnf`; keep
 them on separate lines.
 
+**Discharging an `↔`/membership goal over a `Prop` def with `omega`: use `unfold theDef; omega`, not
+`simp only [theDef]; omega`.** For a decidable `Prop` def built from `∨`/`∧`/`=`/`≤` over `ℕ` (e.g. an
+explicit graph adjacency pattern like `armAdjIdx` in `Chapter6/Problem6_1_3_continued_tildeE.lean`),
+`simp only [theDef]` may partially rewrite the unfolded body (collapsing a clause, reordering) into a
+shape `omega` no longer recognizes — it then reports a bogus counterexample (tell-tale sign: the
+counterexample omits variables that appear in the def, e.g. no `q` when the def mentions `p+q+1`). A
+plain `unfold theDef; omega` hands `omega` the raw disjunction and closes it. Also prefer explicit
+`i ≤ p+q ∧ j ≤ p+q` over `max i j ≤ p+q` in such defs — equivalent, and cheaper for `omega`.
+
 **When `erw` *itself* times out (`whnf` heartbeat blow-up on a big `ModuleCat`/iso term), close by
 explicit-term `refine`, not a rewrite.** For a two-sided goal `LHS = RHS` where a pointwise helper
 `h : … = …` applies to each side but `rw`/`simp` "did not find pattern" and `erw` blows `whnf` even
