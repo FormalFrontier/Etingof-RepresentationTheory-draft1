@@ -232,7 +232,7 @@ lemma dynkin_unique_degree_three {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     neighbors is a leaf (degree 1). Proof: if all 3 neighbors had degree ≥ 2,
     the graph would contain T_{2,2,2} as a subgraph, whose Cartan form has
     the null vector (3,2,2,2,1,1,1), contradicting positive definiteness. -/
-private lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+lemma branch_has_leaf_neighbor {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (v : Fin n) (hv : vertexDegree adj v = 3) :
     ∃ u, adj v u = 1 ∧ vertexDegree adj u = 1 := by
   obtain ⟨hsymm, hdiag, h01, _, hpos⟩ := hD
@@ -611,7 +611,7 @@ private lemma branch_classification_n4 {adj : Matrix (Fin 4) (Fin 4) ℤ}
     - path edges: consecutive indices i, i+1 for i < k-1 among the first k vertices
     - branch edge: vertex b_std connected to vertex k
     The isomorphism handles both direct (b = b_std) and reversed (b = k-1-b_std) cases. -/
-private lemma tree_branch_iso {k : ℕ} {adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ}
+lemma tree_branch_iso {k : ℕ} {adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ}
     (hsymm : adj.IsSymm) (hdiag : ∀ i, adj i i = 0)
     (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
     (u : Fin (k + 1)) (v' : Fin k)
@@ -779,7 +779,7 @@ set_option maxHeartbeats 400000 in
     three arms of lengths p ≤ q ≤ r with n = p + q + r + 1, and is uniquely determined
     (up to graph isomorphism) by its arm lengths. Given the arm-length constraint from
     positive definiteness, the graph must be isomorphic to D_n, E₆, E₇, or E₈. -/
-private lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
+lemma branch_classification {n : ℕ} {adj : Matrix (Fin n) (Fin n) ℤ}
     (hD : IsDynkinDiagram n adj) (hn : 1 ≤ n)
     (hbranch : ∃ i, vertexDegree adj i = 3) :
     ∃ t : DynkinType, ∃ σ : Fin t.rank ≃ Fin n,
