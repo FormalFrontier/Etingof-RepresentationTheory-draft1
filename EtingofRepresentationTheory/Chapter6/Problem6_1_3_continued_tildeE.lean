@@ -2913,6 +2913,70 @@ private lemma reciprocal_of_arm_data (p q r : ℕ) (W a b c : ℤ) (hW : 0 < W)
   have := mul_right_cancel₀ (ne_of_gt hW) key
   exact_mod_cast this
 
+/-- **Two-branch fork pinch (arithmetic core of the `D̃ₙ` discriminator).** The two-branch analogue of
+`reciprocal_of_arm_data`. Suppose the strictly-positive null vector of a connected acyclic affine
+diagram with exactly two branch vertices `v, w` has value `Ww` at `w` and `Wv` at `v`, with two outer
+arms of lengths `L, M` at `w` (tip values `a₁, a₂`, so arm linearity gives `Ww = (L+1)·a₁ = (M+1)·a₂`)
+and two outer arms of lengths `P, Q` at `v` (tip values `b₁, b₂`, `Wv = (P+1)·b₁ = (Q+1)·b₂`). Hub
+harmonicity at each branch vertex reads `2·Ww = L·a₁ + M·a₂ + sw` and `2·Wv = P·b₁ + Q·b₂ + sv`, where
+`sw`, `sv` are the null values at the spine-neighbours of `w`, `v`. Linearity of the null vector along
+the `v–w` spine gives the identity `sw + sv = Ww + Wv` (the spine slope is constant, so the increment
+at each end agrees). Then all four outer arms have length `1`: `L = M = P = Q = 1`.
+
+This is exactly the affine degeneracy that forces the two-branch shape to be `D̃ₙ` (a two-leaf fork at
+each end), ruling out the E-types — whose unique branch vertex has arms `(1,2,·)` with only one
+leaf-neighbour. Consumed by `affine_two_branch_fork_leaves` once the structural spine/arm layout is
+supplied. -/
+private lemma affine_two_branch_pinch
+    (L M P Q : ℕ) (Ww Wv a₁ a₂ b₁ b₂ sw sv : ℤ)
+    (hL : 1 ≤ L) (hM : 1 ≤ M) (hP : 1 ≤ P) (hQ : 1 ≤ Q)
+    (ha₁ : 0 < a₁) (ha₂ : 0 < a₂) (hb₁ : 0 < b₁) (hb₂ : 0 < b₂)
+    (hWwL : Ww = (L + 1) * a₁) (hWwM : Ww = (M + 1) * a₂)
+    (hWvP : Wv = (P + 1) * b₁) (hWvQ : Wv = (Q + 1) * b₂)
+    (hubw : 2 * Ww = L * a₁ + M * a₂ + sw)
+    (hubv : 2 * Wv = P * b₁ + Q * b₂ + sv)
+    (hspine : sw + sv = Ww + Wv) :
+    L = 1 ∧ M = 1 ∧ P = 1 ∧ Q = 1 := by
+  -- Adding the two hub equations and the spine identity, and re-expanding `Ww, Wv` through the arm
+  -- factorisations, collapses everything to a single vanishing sum of four non-negative terms.
+  have key : ((L : ℤ) - 1) * a₁ + ((M : ℤ) - 1) * a₂ + ((P : ℤ) - 1) * b₁ + ((Q : ℤ) - 1) * b₂ = 0 := by
+    linear_combination hWwL + hWwM + hWvP + hWvQ - 2 * hubw - 2 * hubv - 2 * hspine
+  -- Each length `≥ 1` and each tip value `> 0`, so each summand is non-negative.
+  have hLpos : (0 : ℤ) ≤ (L : ℤ) - 1 := by
+    have : (1 : ℤ) ≤ (L : ℤ) := by exact_mod_cast hL
+    linarith
+  have hMpos : (0 : ℤ) ≤ (M : ℤ) - 1 := by
+    have : (1 : ℤ) ≤ (M : ℤ) := by exact_mod_cast hM
+    linarith
+  have hPpos : (0 : ℤ) ≤ (P : ℤ) - 1 := by
+    have : (1 : ℤ) ≤ (P : ℤ) := by exact_mod_cast hP
+    linarith
+  have hQpos : (0 : ℤ) ≤ (Q : ℤ) - 1 := by
+    have : (1 : ℤ) ≤ (Q : ℤ) := by exact_mod_cast hQ
+    linarith
+  have tL : (0 : ℤ) ≤ ((L : ℤ) - 1) * a₁ := mul_nonneg hLpos (le_of_lt ha₁)
+  have tM : (0 : ℤ) ≤ ((M : ℤ) - 1) * a₂ := mul_nonneg hMpos (le_of_lt ha₂)
+  have tP : (0 : ℤ) ≤ ((P : ℤ) - 1) * b₁ := mul_nonneg hPpos (le_of_lt hb₁)
+  have tQ : (0 : ℤ) ≤ ((Q : ℤ) - 1) * b₂ := mul_nonneg hQpos (le_of_lt hb₂)
+  -- A vanishing sum of non-negatives forces each term, hence each length increment, to vanish.
+  have zL : ((L : ℤ) - 1) * a₁ = 0 := by linarith
+  have zM : ((M : ℤ) - 1) * a₂ = 0 := by linarith
+  have zP : ((P : ℤ) - 1) * b₁ = 0 := by linarith
+  have zQ : ((Q : ℤ) - 1) * b₂ = 0 := by linarith
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · have h : (L : ℤ) - 1 = 0 := (mul_eq_zero.mp zL).resolve_right (ne_of_gt ha₁)
+    have : (L : ℤ) = 1 := by linarith
+    exact_mod_cast this
+  · have h : (M : ℤ) - 1 = 0 := (mul_eq_zero.mp zM).resolve_right (ne_of_gt ha₂)
+    have : (M : ℤ) = 1 := by linarith
+    exact_mod_cast this
+  · have h : (P : ℤ) - 1 = 0 := (mul_eq_zero.mp zP).resolve_right (ne_of_gt hb₁)
+    have : (P : ℤ) = 1 := by linarith
+    exact_mod_cast this
+  · have h : (Q : ℤ) - 1 = 0 := (mul_eq_zero.mp zQ).resolve_right (ne_of_gt hb₂)
+    have : (Q : ℤ) = 1 := by linarith
+    exact_mod_cast this
+
 /-- **Linearise a single arm (component of the hub-deleted tree).** Given the vertex set `S` of one
 connected component of the graph with the hub `v` removed — supplied as a nonempty, `v`-avoiding,
 internally-connected finset whose unique vertex adjacent to `v` is the hub-neighbour `nb` — this
