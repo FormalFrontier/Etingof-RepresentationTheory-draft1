@@ -79,8 +79,22 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     Etingof.Ext M N n ≃ₗ[k] Etingof.Extₖ k A M N n where
   __ := extAbelianAddEquivExtₖ k N P n
   map_smul' := by
-    -- `k`-linearity of the four-step comparison chain. The underlying data (the additive
-    -- equivalence `extAbelianAddEquivExtₖ`) is real; this is the residual proof obligation.
-    sorry
+    intro r x
+    -- Steps 1–3 of the chain, landing in the `ModuleCat k` homology of `linearYonedaObj`.
+    set e123 : Etingof.Ext M N n ≃+ (P.complex.linearYonedaObj k N).homology n :=
+      (P.extAddEquivCohomologyClass.trans
+        (CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+          ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N)
+            (n : ℤ)).symm).trans
+        (homComplexHomologyAddEquivₖ k N P n) with he123
+    -- Step 4 as a `k`-linear equivalence `Hⁿ(Hom(P•,N)) ≃ₗ[k] Extₖ`.
+    set step4 : (P.complex.linearYonedaObj k N).homology n ≃ₗ[k] Etingof.Extₖ k A M N n :=
+      (extIsoCohomologyHomₖ k A M N P n).symm.toLinearEquiv with hstep4
+    -- `k`-linearity of the composite reduces to `k`-linearity of `e123`, since step 4 is linear.
+    have key123 : ∀ y, e123 (r • y) = r • e123 y := by
+      sorry
+    have hfactor : ∀ y, extAbelianAddEquivExtₖ k N P n y = step4 (e123 y) := fun _ => rfl
+    change extAbelianAddEquivExtₖ k N P n (r • x) = r • extAbelianAddEquivExtₖ k N P n x
+    rw [hfactor, hfactor, key123, map_smul]
 
 end Etingof
