@@ -43,6 +43,8 @@ import EtingofRepresentationTheory.Chapter8.RearrangeBifunctorNatIso
 import EtingofRepresentationTheory.Chapter8.RearrangeHomBifunctorNatIso
 import EtingofRepresentationTheory.Chapter8.Exercise8_2_9
 import EtingofRepresentationTheory.Chapter8.BarResolution
+import EtingofRepresentationTheory.Chapter8.HomComplexHomologyK
+import EtingofRepresentationTheory.Chapter8.ExtAbelianComparison
 
 /-!
 # Chapter 8: Homological Algebra
