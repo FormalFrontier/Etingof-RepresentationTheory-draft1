@@ -3106,6 +3106,332 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
         rw [show (⟨l + 1, ha⟩ : Fin m) = ⟨k, hk⟩ from Fin.ext (by omega)] at hedge
         rw [hNsymm]; exact hedge
 
+/-- **Three arms of a one-branch affine tree.** A connected acyclic affine Dynkin diagram with all
+degrees `≤ 3` and a *unique* degree-3 (branch) vertex `v` decomposes, after deleting `v`, into
+exactly three connected components. `affine_arm_walk` linearises each component into a rooted arm
+`g t 0 = nb t, g t 1, …` of length `L t`, giving `n = 1 + L 0 + L 1 + L 2`, cross-arm distinctness,
+the hub-adjacency clause (`adj v (g t k) = 1 ↔ k = 0`), and the consecutive-only edge structure
+within each arm (and no edges across arms). This is the tree-partition graph-theory core consumed by
+`affine_one_branch_arm_layout`. -/
+lemma affine_one_branch_three_arms {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ))
+    (hdeg3 : ∀ v, Etingof.Problem6_1_3_E7E8.vertexDegree adj v ≤ 3)
+    (v : Fin n) (hv : Etingof.Problem6_1_3_E7E8.vertexDegree adj v = 3)
+    (huniq : ∀ w, Etingof.Problem6_1_3_E7E8.vertexDegree adj w = 3 → w = v) :
+    ∃ (L : Fin 3 → ℕ) (g : Fin 3 → ℕ → Fin n),
+      (∀ t, 1 ≤ L t) ∧
+      n = 1 + L 0 + L 1 + L 2 ∧
+      (∀ t k, k < L t → g t k ≠ v) ∧
+      (∀ (t s : Fin 3) k l, k < L t → l < L s → (g t k = g s l ↔ (t = s ∧ k = l))) ∧
+      (∀ w, w ≠ v → ∃ t k, k < L t ∧ g t k = w) ∧
+      (∀ t k, k < L t → (adj v (g t k) = 1 ↔ k = 0)) ∧
+      (∀ (t s : Fin 3) k l, k < L t → l < L s →
+          (adj (g t k) (g s l) = 1 ↔ (t = s ∧ (k + 1 = l ∨ l + 1 = k)))) := by
+  classical
+  -- The two `vertexDegree` spellings are definitionally equal.
+  have hdeg3' : ∀ w, Etingof.vertexDegree adj w ≤ 3 := fun w => hdeg3 w
+  have huniq' : ∀ w, Etingof.vertexDegree adj w = 3 → w = v := fun w => huniq w
+  have hsymm := hD.1
+  have hdiag := hD.2.1
+  have h01 := hD.2.2.1
+  have hconn := hD.2.2.2.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have h := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at h; exact h
+  -- The `SimpleGraph` of the adjacency matrix.
+  let G : SimpleGraph (Fin n) :=
+    { Adj := fun i j => adj i j = 1
+      symm := ⟨fun i j (h : adj i j = 1) => by rw [hsymm' j i]; exact h⟩
+      loopless := ⟨fun i (h : adj i i = 1) => by rw [hdiag i] at h; exact absurd h (by norm_num)⟩ }
+  haveI : DecidableRel G.Adj := fun i j => decEq (adj i j) 1
+  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have hG_conn : G.Connected := ⟨fun a b => by
+    obtain ⟨path, hhead, hlast, hedges⟩ := hconn a b
+    exact list_path_reachable G path a b hhead hlast (fun m hm => hedges m hm)⟩
+  -- `G` is a tree (connected acyclic), from the acyclicity bound `hacyc`.
+  have hcount : (∑ i, ∑ j, adj i j) = 2 * (#G.edgeFinset : ℤ) := by
+    have hterm : ∀ p : Fin n × Fin n,
+        adj p.1 p.2 = (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) := by
+      intro p; rcases h01 p.1 p.2 with h | h <;> simp [h]
+    calc (∑ i, ∑ j, adj i j)
+        = ∑ p : Fin n × Fin n, adj p.1 p.2 := (Fintype.sum_prod_type' adj).symm
+      _ = ∑ p : Fin n × Fin n, (if adj p.1 p.2 = 1 then (1 : ℤ) else 0) :=
+            Finset.sum_congr rfl (fun p _ => hterm p)
+      _ = ((univ.filter fun p : Fin n × Fin n => adj p.1 p.2 = 1).card : ℤ) := by
+            rw [Finset.sum_boole]
+      _ = ((2 * #G.edgeFinset : ℕ) : ℤ) := by rw [G.two_mul_card_edgeFinset]
+      _ = 2 * (#G.edgeFinset : ℤ) := by push_cast; ring
+  have hlb : n ≤ #G.edgeFinset + 1 := by
+    have h := hG_conn.card_vert_le_card_edgeSet_add_one
+    rwa [Nat.card_fin, Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card] at h
+  have hub : (#G.edgeFinset : ℤ) < (n : ℤ) := by
+    have h2 : 2 * (#G.edgeFinset : ℤ) < 2 * ((n : ℕ) : ℤ) := by
+      rw [← hcount]; exact_mod_cast hacyc
+    push_cast at h2; linarith
+  have hub' : #G.edgeFinset < n := by exact_mod_cast hub
+  have hedge_eq : #G.edgeFinset = n - 1 := by omega
+  have hTree : G.IsTree := by
+    rw [SimpleGraph.isTree_iff_connected_and_card]
+    refine ⟨hG_conn, ?_⟩
+    have hNatEdge : Nat.card G.edgeSet = n - 1 := by
+      rw [Nat.card_eq_fintype_card, ← SimpleGraph.edgeFinset_card, hedge_eq]
+    rw [hNatEdge, Nat.card_fin]; omega
+  have hAcyc : G.IsAcyclic := hTree.isAcyclic
+  -- Degree of a vertex in `G` equals the matrix vertex degree.
+  have hdeg_eq : ∀ w, G.degree w = Etingof.vertexDegree adj w := by
+    intro w
+    rw [← SimpleGraph.card_neighborFinset_eq_degree]
+    unfold Etingof.vertexDegree
+    congr 1
+    ext j
+    simp only [SimpleGraph.mem_neighborFinset, Finset.mem_filter, Finset.mem_univ, true_and]
+    exact Iff.rfl
+  have hdegGv : G.degree v = 3 := by rw [hdeg_eq]; exact hv
+  -- The three neighbours of `v`.
+  have hcard3 : (G.neighborFinset v).card = 3 := by
+    rw [SimpleGraph.card_neighborFinset_eq_degree]; exact hdegGv
+  let iso3 : Fin 3 ≃o (G.neighborFinset v) := (G.neighborFinset v).orderIsoOfFin hcard3
+  let nb : Fin 3 → Fin n := fun t => (iso3 t : Fin n)
+  have nb_mem : ∀ t, nb t ∈ G.neighborFinset v := fun t => (iso3 t).2
+  have nb_adj : ∀ t, G.Adj v (nb t) := fun t => (SimpleGraph.mem_neighborFinset _ _ _).mp (nb_mem t)
+  have nb_ne : ∀ t, nb t ≠ v := fun t => (nb_adj t).ne'
+  have nb_inj : Function.Injective nb := by
+    intro a b hab
+    apply iso3.injective
+    exact Subtype.ext hab
+  have nb_surj : ∀ c, G.Adj v c → ∃ t, nb t = c := by
+    intro c hc
+    have hcmem : c ∈ G.neighborFinset v := (SimpleGraph.mem_neighborFinset _ _ _).mpr hc
+    refine ⟨iso3.symm ⟨c, hcmem⟩, ?_⟩
+    show (iso3 (iso3.symm ⟨c, hcmem⟩) : Fin n) = c
+    rw [iso3.apply_symm_apply]
+  -- The `v`-avoiding component sets.
+  let S : Fin 3 → Finset (Fin n) :=
+    fun t => Finset.univ.filter (fun w => ∃ p : G.Walk (nb t) w, v ∉ p.support)
+  have hSmem : ∀ (t : Fin 3) (w : Fin n),
+      w ∈ S t ↔ ∃ p : G.Walk (nb t) w, v ∉ p.support := by
+    intro t w
+    show w ∈ Finset.univ.filter (fun w => ∃ p : G.Walk (nb t) w, v ∉ p.support) ↔ _
+    rw [Finset.mem_filter]; simp only [Finset.mem_univ, true_and]
+  -- `nb t` lies in its own component.
+  have hnbS : ∀ t, nb t ∈ S t := by
+    intro t
+    rw [hSmem]
+    refine ⟨SimpleGraph.Walk.nil, ?_⟩
+    simp only [SimpleGraph.Walk.support_nil, List.mem_singleton]
+    exact fun h => nb_ne t h.symm
+  -- `v` is in no component.
+  have hvS : ∀ t, v ∉ S t := by
+    intro t hmem
+    rw [hSmem] at hmem
+    obtain ⟨p, hp⟩ := hmem
+    exact hp p.end_mem_support
+  -- A neighbour of `v` reachable-avoiding-`v` from `nb t` must be `nb t`.
+  have neighbour_comp_eq : ∀ (t : Fin 3) (a : Fin n),
+      (∃ p : G.Walk (nb t) a, v ∉ p.support) → G.Adj v a → a = nb t := by
+    intro t a hcomp hadj
+    obtain ⟨p, hp⟩ := hcomp
+    set pv : G.Walk (nb t) a := (p.toPath : G.Walk (nb t) a) with hpv
+    have hpvpath : pv.IsPath := p.toPath.2
+    have hpvsub : pv.support ⊆ p.support := SimpleGraph.Walk.support_toPath_subset_support p
+    have hv_notin : v ∉ pv.support := fun hh => hp (hpvsub hh)
+    have hpathV : (pv.concat (hadj.symm : G.Adj a v)).IsPath := hpvpath.concat hv_notin hadj.symm
+    have hedge : G.Adj (nb t) v := (nb_adj t).symm
+    have hpathE : (SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil).IsPath := by
+      rw [SimpleGraph.Walk.cons_isPath_iff]
+      refine ⟨SimpleGraph.Walk.IsPath.nil, ?_⟩
+      simp only [SimpleGraph.Walk.support_nil, List.mem_singleton]
+      exact fun h => nb_ne t h
+    have huniqp := SimpleGraph.isAcyclic_iff_path_unique.mp hAcyc
+      (⟨pv.concat (hadj.symm : G.Adj a v), hpathV⟩ : G.Path (nb t) v)
+      (⟨SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil, hpathE⟩ : G.Path (nb t) v)
+    have hval := congrArg Subtype.val huniqp
+    have hlen := congrArg SimpleGraph.Walk.length hval
+    rw [SimpleGraph.Walk.length_concat] at hlen
+    simp only [SimpleGraph.Walk.length_cons, SimpleGraph.Walk.length_nil] at hlen
+    have hpv0 : pv.length = 0 := by omega
+    have : nb t = a := SimpleGraph.Walk.eq_of_length_eq_zero hpv0
+    exact this.symm
+  -- Distinct components are disjoint.
+  have Sdisj : ∀ t s, t ≠ s → Disjoint (S t) (S s) := by
+    intro t s hts
+    rw [Finset.disjoint_left]
+    intro w hwt hws
+    rw [hSmem] at hwt hws
+    obtain ⟨pt, hpt⟩ := hwt
+    obtain ⟨ps, hps⟩ := hws
+    have hcomp : ∃ p : G.Walk (nb t) (nb s), v ∉ p.support := by
+      refine ⟨pt.append ps.reverse, ?_⟩
+      rw [SimpleGraph.Walk.support_append]
+      intro hmem
+      rw [List.mem_append] at hmem
+      rcases hmem with h | h
+      · exact hpt h
+      · have hv2 : v ∈ ps.reverse.support := List.mem_of_mem_tail h
+        rw [SimpleGraph.Walk.support_reverse, List.mem_reverse] at hv2
+        exact hps hv2
+    have hnbs := neighbour_comp_eq t (nb s) hcomp (nb_adj s)
+    exact hts (nb_inj hnbs).symm
+  -- Membership determines the component index uniquely.
+  have Sunique : ∀ (w : Fin n) (t s : Fin 3), w ∈ S t → w ∈ S s → t = s := by
+    intro w t s hwt hws
+    by_contra hts
+    exact (Finset.disjoint_left.mp (Sdisj t s hts) hwt) hws
+  -- An edge from a component vertex to a non-`v` vertex stays in the component.
+  have Comp_edge : ∀ (t : Fin 3) (x y : Fin n), x ∈ S t → adj x y = 1 → y ≠ v → y ∈ S t := by
+    intro t x y hx hxy hyv
+    rw [hSmem] at hx ⊢
+    obtain ⟨p, hp⟩ := hx
+    refine ⟨p.append (SimpleGraph.Walk.cons (show G.Adj x y from hxy) SimpleGraph.Walk.nil), ?_⟩
+    rw [SimpleGraph.Walk.support_append]
+    intro hmem
+    rw [List.mem_append] at hmem
+    rcases hmem with h | h
+    · exact hp h
+    · simp only [SimpleGraph.Walk.support_cons, SimpleGraph.Walk.support_nil, List.tail_cons,
+        List.mem_singleton] at h
+      exact hyv h.symm
+  -- Internal connectivity of each component (in the `List`-form of `affine_arm_walk`).
+  have hSconn : ∀ (t : Fin 3), ∀ a ∈ S t, ∀ b ∈ S t, ∃ p : List (Fin n),
+      p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ S t) ∧
+      ∀ k, (h : k + 1 < p.length) →
+        adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, h⟩) = 1 := by
+    intro t a ha b hb
+    rw [hSmem] at ha hb
+    obtain ⟨pa, hpa⟩ := ha
+    obtain ⟨pb, hpb⟩ := hb
+    let W : G.Walk a b := pa.reverse.append pb
+    refine ⟨W.support, ?_, ?_, ?_, ?_⟩
+    · rw [W.support_eq_cons]; rfl
+    · rw [List.getLast?_eq_getLast_of_ne_nil W.support_ne_nil]
+      exact congrArg some W.getLast_support
+    · intro x hx
+      rw [hSmem]
+      rw [show W = pa.reverse.append pb from rfl, SimpleGraph.Walk.support_append,
+        List.mem_append] at hx
+      rcases hx with hx | hx
+      · rw [SimpleGraph.Walk.support_reverse, List.mem_reverse] at hx
+        exact ⟨pa.takeUntil x hx,
+          fun hmem => hpa (SimpleGraph.Walk.support_takeUntil_subset_support pa hx hmem)⟩
+      · have hx' : x ∈ pb.support := List.mem_of_mem_tail hx
+        exact ⟨pb.takeUntil x hx',
+          fun hmem => hpb (SimpleGraph.Walk.support_takeUntil_subset_support pb hx' hmem)⟩
+    · intro k hk
+      have hchain : List.IsChain G.Adj W.support := W.isChain_adj_support
+      have hedge := (List.isChain_iff_getElem.mp hchain) k hk
+      simpa only [List.get_eq_getElem] using hedge
+  -- Run `affine_arm_walk` on each component.
+  have harm : ∀ t : Fin 3, ∃ (L : ℕ) (g : ℕ → Fin n),
+      1 ≤ L ∧ g 0 = nb t ∧
+      (∀ k, k < L → g k ∈ S t) ∧
+      S t = (Finset.range L).image g ∧
+      (∀ k l, k < L → l < L → (g k = g l ↔ k = l)) ∧
+      (∀ k, k < L → (adj v (g k) = 1 ↔ k = 0)) ∧
+      (∀ k l, k < L → l < L → (adj (g k) (g l) = 1 ↔ (k + 1 = l ∨ l + 1 = k))) := by
+    intro t
+    have hnb_uniq : ∀ a ∈ S t, adj v a = 1 → a = nb t := by
+      intro a ha hav
+      exact neighbour_comp_eq t a ((hSmem t a).mp ha) hav
+    exact affine_arm_walk adj hn hD hdeg3' v huniq' (S t) (hvS t) ⟨nb t, hnbS t⟩
+      (hSconn t) (nb t) (hnbS t) (nb_adj t) hnb_uniq
+  choose L g h1 hg0 hmemS himg hinj hhub hcons using harm
+  -- Cover: every non-`v` vertex lies in some component.
+  have cover : ∀ w, w ≠ v → ∃ t, w ∈ S t := by
+    intro w hwv
+    obtain ⟨q0, hh, hl, hed⟩ := hconn v w
+    have hreach : G.Reachable v w := list_path_reachable G q0 v w hh hl (fun m hm => hed m hm)
+    let q : G.Walk v w := hreach.some.toPath
+    have hqpath : q.IsPath := hreach.some.toPath.2
+    have hqnn : ¬ q.Nil := SimpleGraph.Walk.not_nil_of_ne (Ne.symm hwv)
+    have hcadj : G.Adj v q.snd := q.adj_snd hqnn
+    have hvnotin : v ∉ q.tail.support := by
+      rw [q.support_tail_of_not_nil hqnn]
+      have hnd : q.support.Nodup := hqpath.support_nodup
+      rw [q.support_eq_cons, List.nodup_cons] at hnd
+      exact hnd.1
+    obtain ⟨t, hnbt⟩ := nb_surj q.snd hcadj
+    refine ⟨t, ?_⟩
+    rw [hSmem, hnbt]
+    exact ⟨q.tail, hvnotin⟩
+  -- Component cardinalities.
+  have hScard : ∀ t, (S t).card = L t := by
+    intro t
+    have hInj : Set.InjOn (g t) ↑(Finset.range (L t)) := by
+      intro a ha b hb hab
+      exact (hinj t a b (Finset.mem_range.mp ha) (Finset.mem_range.mp hb)).mp hab
+    rw [himg t, Finset.card_image_of_injOn hInj, Finset.card_range]
+  -- `n = 1 + L 0 + L 1 + L 2` from the partition.
+  have hcard_n : n = 1 + L 0 + L 1 + L 2 := by
+    have hcov : (Finset.univ : Finset (Fin n)) = insert v (S 0 ∪ S 1 ∪ S 2) := by
+      apply Finset.ext
+      intro w
+      simp only [Finset.mem_univ, Finset.mem_insert, Finset.mem_union, true_iff]
+      by_cases hwv : w = v
+      · exact Or.inl hwv
+      · obtain ⟨t, ht⟩ := cover w hwv
+        refine Or.inr ?_
+        fin_cases t
+        · exact Or.inl (Or.inl ht)
+        · exact Or.inl (Or.inr ht)
+        · exact Or.inr ht
+    have hvnotin : v ∉ (S 0 ∪ S 1 ∪ S 2) := by
+      simp only [Finset.mem_union, not_or]
+      exact ⟨⟨hvS 0, hvS 1⟩, hvS 2⟩
+    have hd01 : Disjoint (S 0) (S 1) := Sdisj 0 1 (by decide)
+    have hd2 : Disjoint (S 0 ∪ S 1) (S 2) := by
+      rw [Finset.disjoint_union_left]
+      exact ⟨Sdisj 0 2 (by decide), Sdisj 1 2 (by decide)⟩
+    have hcard_univ : (Finset.univ : Finset (Fin n)).card = n := by
+      rw [Finset.card_univ, Fintype.card_fin]
+    rw [← hcard_univ, hcov, Finset.card_insert_of_notMem hvnotin,
+      Finset.card_union_of_disjoint hd2, Finset.card_union_of_disjoint hd01,
+      hScard, hScard, hScard]
+    ring
+  -- Assemble the final structure.
+  refine ⟨L, g, h1, hcard_n, ?_, ?_, ?_, ?_, ?_⟩
+  · -- g t k ≠ v
+    intro t k hk h
+    exact hvS t (h ▸ hmemS t k hk)
+  · -- cross-arm distinctness
+    intro t s k l hk hl
+    constructor
+    · intro heq
+      by_cases hts : t = s
+      · subst hts; exact ⟨rfl, (hinj t k l hk hl).mp heq⟩
+      · exfalso
+        have hx : g t k ∈ S t := hmemS t k hk
+        have hy : g s l ∈ S s := hmemS s l hl
+        rw [heq] at hx
+        exact (Finset.disjoint_left.mp (Sdisj t s hts) hx) hy
+    · rintro ⟨hts, hkl⟩; subst hts; subst hkl; rfl
+  · -- cover
+    intro w hwv
+    obtain ⟨t, ht⟩ := cover w hwv
+    rw [himg t, Finset.mem_image] at ht
+    obtain ⟨k, hk, hgk⟩ := ht
+    exact ⟨t, k, Finset.mem_range.mp hk, hgk⟩
+  · -- hub-adjacency
+    intro t k hk
+    exact hhub t k hk
+  · -- consecutive-only edges (within and across arms)
+    intro t s k l hk hl
+    by_cases hts : t = s
+    · subst hts
+      rw [hcons t k l hk hl]
+      constructor
+      · intro h; exact ⟨rfl, h⟩
+      · rintro ⟨_, h⟩; exact h
+    · constructor
+      · intro hedge
+        exfalso
+        have hx : g t k ∈ S t := hmemS t k hk
+        have hy : g s l ∈ S s := hmemS s l hl
+        have hyv : g s l ≠ v := fun h => hvS s (h ▸ hy)
+        have hin : g s l ∈ S t := Comp_edge t (g t k) (g s l) hx hedge hyv
+        exact hts (Sunique (g s l) t s hin hy)
+      · rintro ⟨hts', _⟩; exact absurd hts' hts
+
 /-- **Arm layout of a one-branch affine tree (structural extraction).** A connected acyclic affine
 Dynkin diagram with all degrees `≤ 3` and a *unique* degree-3 vertex `v` is, up to re-indexing `σ`,
 laid out in the `armAdjIdx` pattern: three arms of lengths `1 ≤ p ≤ q ≤ r` emanating from the hub
