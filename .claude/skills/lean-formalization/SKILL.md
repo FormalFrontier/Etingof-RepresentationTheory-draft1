@@ -222,6 +222,21 @@ context (`theorem extMapHom_tmul … := rfl`) so its LHS matches syntactically. 
 `erw`s in one call — each does an expensive defeq search and the combined term blows up `whnf`; keep
 them on separate lines.
 
+**When `erw` *itself* times out (`whnf` heartbeat blow-up on a big `ModuleCat`/iso term), close by
+explicit-term `refine`, not a rewrite.** For a two-sided goal `LHS = RHS` where a pointwise helper
+`h : … = …` applies to each side but `rw`/`simp` "did not find pattern" and `erw` blows `whnf` even
+at `maxHeartbeats 1000000`: apply the helper as a *fully-applied term* (all section args explicit,
+no metavars) inside `refine (h_left …).trans (Eq.trans ?_ (h_right …).symm)` and let `refine`'s
+defeq unification match each side; discharge the residual middle goal (the two helpers' RHS, equal
+by definitional differential/whisker reductions) with `rfl`. This sidesteps both syntactic `rw`
+matching and `erw`'s runaway `whnf`. Pointwise `ModuleCat` helpers also need the *inner*
+application spelled in the same coercion form as the goal (state the LHS as
+`ModuleCat.Hom.hom (ModuleCat.Hom.hom f.inv (a ⊗ₜ b)) (y ⊗ₜ z)`, not the bare-coe
+`f.inv (a ⊗ₜ b)`, which elaborates to `ConcreteCategory.hom` and won't match a `hom_comp`-reduced
+goal). The `eqToHom`-on-elements bridge between same-carrier `ModuleCat` objects (different
+`Module k` instance) is `HEq (ModuleCat.Hom.hom (eqToHom h) w) w := by subst h; rfl`, upgraded per
+site with `eq_of_heq`.
+
 **Reading background-build results: grep the teed log for `error:`, do not trust a
 wrapper's exit code or `tail`.** `lake build` prints Lean errors *before* the final
 `Build completed` / `✖` summary, so `... | tee log | tail -40` can hide them, and a
