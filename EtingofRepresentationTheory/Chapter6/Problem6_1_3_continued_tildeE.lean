@@ -2841,7 +2841,7 @@ are between consecutive indices. This is the reusable engine behind the three-ar
 apply `Etingof.path_walk_construction` to the induced Dynkin path (`affine_properInduced_isDynkin`),
 using that every non-hub vertex has degree `≤ 2` and that the root `nb` loses its hub-edge inside the
 arm (so it is a leaf of the arm). -/
-private lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
     (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
     (hdeg3 : ∀ w, Etingof.vertexDegree adj w ≤ 3)
     (v : Fin n) (huniq : ∀ w, Etingof.vertexDegree adj w = 3 → w = v)
