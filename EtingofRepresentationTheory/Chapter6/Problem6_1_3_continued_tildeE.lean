@@ -2621,6 +2621,29 @@ lemma affine_tree_degree_le_three_iso {n : ℕ} (adj : Matrix (Fin n) (Fin n) �
   · exact affine_tree_one_branch_iso adj hn hD hacyc hdeg3 v hv huniq
   · exact affine_tree_two_branch_iso adj hn hD hacyc hdeg3 v w hvw hv hw huniq
 
+/-- **(g), tree case.** A connected *acyclic* affine Dynkin diagram on `Fin n` is
+graph-isomorphic to one of `D̃ₙ (n ≥ 4)`, `Ẽ₆`, `Ẽ₇`, `Ẽ₈`. Acyclicity is expressed
+via the edge-sum bound `∑ᵢ∑ⱼ adjᵢⱼ < 2n`, complementary to the cyclic case
+`affine_cyclic_case` (`2n ≤ ∑ᵢ∑ⱼ adjᵢⱼ`).
+
+The proof is a case split on the degree-4 dichotomy
+(`affine_degree_four_dichotomy`): a degree-4 vertex forces `D̃₄` directly (`D̃₄` is
+`D̃ₙ` at `n = 4`); otherwise every vertex has degree `≤ 3` and
+`affine_tree_degree_le_three_iso` classifies the diagram as `D̃ₙ/Ẽ₆/Ẽ₇/Ẽ₈`.
+
+This is the tree branch of the ⟹ direction of `affine_dynkin_classification`,
+consumed by the final assembly (#6785 step 5). -/
+lemma affine_tree_case {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (hacyc : (∑ i, ∑ j, adj i j) < 2 * (n : ℤ)) :
+    ∃ t : AffineType, ∃ σ : Fin t.rank ≃ Fin n,
+      ∀ i j, adj (σ i) (σ j) = t.adj i j := by
+  rcases affine_degree_four_dichotomy adj hn hD with ⟨σ, hσ⟩ | hdeg3
+  · -- Degree-4 vertex: the dichotomy hands us a `D̃₄` isomorphism directly.
+    exact ⟨_, σ, hσ⟩
+  · -- All degrees `≤ 3`: the arm-length core classifies the tree.
+    exact affine_tree_degree_le_three_iso adj hn hD hacyc hdeg3
+
 /-- **(g)** **Classification of affine Dynkin diagrams.** A connected simply-laced
 graph on `n ≥ 1` vertices is an affine Dynkin diagram iff it is
 (graph-isomorphic to) one of `Ãₙ, D̃ₙ, Ẽ₆, Ẽ₇, Ẽ₈` — exactly the "forbidden"
