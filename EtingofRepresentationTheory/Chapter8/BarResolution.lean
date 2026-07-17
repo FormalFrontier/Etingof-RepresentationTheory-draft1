@@ -70,12 +70,33 @@ instance instFreeBarModule (n : ℕ) : Module.Free A (barModule k A W n) :=
 instance instProjectiveBarModule (n : ℕ) : Module.Projective A (barModule k A W n) :=
   inferInstance
 
+/-- When `A` and `W` are finite dimensional over `k`, each bar coefficient module
+`A^{⊗n} ⊗_k W` is finite dimensional over `k` (a tensor product of finite dimensional factors,
+the tensor power `⨂[k]^n A` being finite over `k` by `PiTensorProduct.finite`). -/
+instance instFiniteBarCoeff (n : ℕ) [FiniteDimensional k A] [FiniteDimensional k W] :
+    Module.Finite k (barCoeff k A W n) :=
+  inferInstanceAs (Module.Finite k ((⨂[k]^n A) ⊗[k] W))
+
+/-- When `A` and `W` are finite dimensional over `k`, each bar term `Pₙ = A ⊗_k (A^{⊗n} ⊗_k W)` is
+a finitely generated `A`-module: it is `A ⊗_k X` with `X` finite over `k`, so it is finite over `A`
+by base change (`Module.Finite.base_change`). This finite generation is exactly the hypothesis
+`Problem_8_2_8_extₖ` requires of its resolving complexes. -/
+instance instFiniteBarModule (n : ℕ) [FiniteDimensional k A] [FiniteDimensional k W] :
+    Module.Finite A (barModule k A W n) :=
+  inferInstanceAs (Module.Finite A (A ⊗[k] barCoeff k A W n))
+
 /-- The `n`-th bar term packaged as an object of `ModuleCat A`. -/
 noncomputable def barObj (n : ℕ) : ModuleCat.{u} A := ModuleCat.of A (barModule k A W n)
 
 /-- Each bar term is projective as an object of `ModuleCat A`. -/
 instance instProjectiveBarObj (n : ℕ) : Projective (barObj k A W n) :=
   inferInstanceAs (Projective (ModuleCat.of A (barModule k A W n)))
+
+/-- When `A` and `W` are finite dimensional over `k`, each bar term is finitely generated as an
+`A`-module (as an object of `ModuleCat A`). -/
+instance instFiniteBarObj (n : ℕ) [FiniteDimensional k A] [FiniteDimensional k W] :
+    Module.Finite A (barObj k A W n) :=
+  inferInstanceAs (Module.Finite A (barModule k A W n))
 
 /-- The canonical `k`-linear identification `barCoeff k A W 0 = A^{⊗0} ⊗_k W ≃ₗ[k] W`
 (the empty tensor power is `k`, and `k ⊗_k W ≃ W`). -/
@@ -1056,6 +1077,17 @@ noncomputable def _root_.Etingof.barResolution :
   π := barπChainMap k A W
   projective n := instProjectiveBarObj k A W n
   quasiIso := barπChainMap_quasiIso k A W
+
+/-- When `A` and `W` are finite dimensional over `k`, every term of the bar resolution complex is a
+finitely generated `A`-module. Together with the `Projective` instances
+(`barResolution.projective`), this exhibits `Etingof.barResolution` as a *finitely generated
+projective* resolution of `ModuleCat.of A W` — exactly the input `Etingof.Problem_8_2_8_extₖ`
+consumes, the finite generation being what makes the degreewise `Hom`-tensor comparison an
+isomorphism. -/
+instance instFiniteBarResolutionComplexX (n : ℕ)
+    [FiniteDimensional k A] [FiniteDimensional k W] :
+    Module.Finite A ((Etingof.barResolution k A W).complex.X n) :=
+  inferInstanceAs (Module.Finite A (barModule k A W n))
 
 end Resolution
 
