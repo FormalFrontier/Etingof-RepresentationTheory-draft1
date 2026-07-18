@@ -11,6 +11,7 @@ import EtingofRepresentationTheory.Chapter9.PathAlgebraLowerBound
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionReduction
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionRingEquiv
 import EtingofRepresentationTheory.Chapter9.HomologicalDimensionUlift
+import EtingofRepresentationTheory.Chapter9.PathAlgebraProjectiveCover
 
 /-!
 # Problem 9.4.6: Homological dimension and Cartan matrix of path algebras
@@ -379,7 +380,7 @@ theorem cartanMatrix_pathAlgebra_eq_pathCount
     {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
     (hacyclic : ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil)
     [∀ i j : Q, Finite (Quiver.Path i j)]
-    (P : Q → Type u) [∀ i, AddCommGroup (P i)]
+    (P : Q → Type*) [∀ i, AddCommGroup (P i)]
     [∀ i, Module (Etingof.PathAlgebra k Q) (P i)] [∀ i, Module k (P i)]
     [∀ i, SMulCommClass (Etingof.PathAlgebra k Q) k (P i)]
     (hcover : ∀ i j : Q,
@@ -390,5 +391,23 @@ theorem cartanMatrix_pathAlgebra_eq_pathCount
   have : Fintype (Quiver.Path i j) := Fintype.ofFinite _
   simp only [Etingof.algebraCartanMatrix, pathCountMatrix, Matrix.of_apply]
   rw [e.finrank_eq, Module.finrank_finsupp_self, Nat.card_eq_fintype_card]
+
+/-- **Problem 9.4.6 (ii), unconditional.** For a finite acyclic quiver `Q`, the Cartan matrix of
+the path algebra `P_Q`, computed with the concrete indecomposable projective covers
+`Pᵢ = A · eᵢ` (`Etingof.PathAlgebra.pathAlgebraProj`), equals the path-counting matrix.
+
+This discharges the `hcover` hypothesis of `cartanMatrix_pathAlgebra_eq_pathCount` by supplying the
+Hom-space identification `Etingof.PathAlgebra.pathAlgebraHomEquiv`,
+`Hom_A(A·eᵢ, A·eⱼ) ≃ₗ[k] (paths i → j) →₀ k`, making the result unconditional for the natural
+projective family. Acyclicity plus finiteness of `Q` make each `Quiver.Path i j` finite (carried
+here as the `[∀ i j, Finite (Quiver.Path i j)]` instance), so `Nat.card` is the honest count. -/
+theorem cartanMatrix_pathAlgebra_eq_pathCount'
+    {k : Type u} [Field k] {Q : Type u} [Quiver.{u + 1} Q] [Fintype Q] [DecidableEq Q]
+    (hacyclic : ∀ (i : Q) (p : Quiver.Path i i), p = Quiver.Path.nil)
+    [∀ i j : Q, Finite (Quiver.Path i j)] :
+    Etingof.algebraCartanMatrix (k := k) (A := Etingof.PathAlgebra k Q)
+        (Etingof.PathAlgebra.pathAlgebraProj k Q) = pathCountMatrix Q :=
+  cartanMatrix_pathAlgebra_eq_pathCount hacyclic (Etingof.PathAlgebra.pathAlgebraProj k Q)
+    (fun i j => ⟨Etingof.PathAlgebra.pathAlgebraHomEquiv k Q i j⟩)
 
 end Etingof.Problem946

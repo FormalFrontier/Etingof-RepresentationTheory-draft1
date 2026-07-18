@@ -85,11 +85,11 @@ theorem coeff_eIdem_mul (i : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
       rw [Finsupp.smul_single, smul_eq_mul, mul_one]
       by_cases hx : x = (⟨i, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [coeff_single]
-      · simp [coeff_single, hx, Ne.symm hx]
+      · simp [coeff_single, Ne.symm hx]
     · rw [if_neg his, smul_zero, coeff_zero]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [coeff_single, Ne.symm his]
-      · simp [coeff_single, hx, Ne.symm hx]
+      · simp [coeff_single, Ne.symm hx]
 
 /-- Coefficient of `a * eⱼ` at an index `x`: it keeps the paths whose *target* is `j` and kills
 the others. -/
@@ -109,14 +109,15 @@ theorem coeff_mul_eIdem (j : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
       rw [Finsupp.smul_single, smul_eq_mul, mul_one]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [coeff_single]
-      · simp [coeff_single, hx, Ne.symm hx]
+      · simp [coeff_single, Ne.symm hx]
     · rw [if_neg htj, smul_zero, coeff_zero]
       by_cases hx : x = (⟨s, t, p⟩ : QuiverPathIndex Q)
       · subst hx; simp [coeff_single, htj]
-      · simp [coeff_single, hx, Ne.symm hx]
+      · simp [coeff_single, Ne.symm hx]
 
 /-- Coefficient of `eᵢ * a * eⱼ` at an index `x = ⟨s, t, p⟩`: it keeps the paths from `i` to `j`
-and kills the others. This is the combinatorial heart of the identification `eᵢ A eⱼ ≅ paths i→j`. -/
+and kills the others. This is the combinatorial heart of the identification
+`eᵢ A eⱼ ≅ paths i → j`. -/
 theorem coeff_eIdem_mul_eIdem (i j : Q) (a : PathAlgebra k Q) (x : QuiverPathIndex Q) :
     coeff (eIdem i * a * eIdem j) x = if x.1 = i ∧ x.2.1 = j then coeff a x else 0 := by
   rw [coeff_mul_eIdem, coeff_eIdem_mul]
@@ -184,11 +185,12 @@ theorem eIdem_mul_hom_val {i j : Q} (f : pathAlgebraProj k Q i →ₗ[PathAlgebr
       = ((f (eIdemMem k Q i) : pathAlgebraProj k Q j) : PathAlgebra k Q) := by
   have hfix : (eIdem (k := k) i • eIdemMem k Q i : pathAlgebraProj k Q i) = eIdemMem k Q i := by
     apply Subtype.ext
-    show eIdem i * eIdem i = eIdem i
+    change eIdem i * eIdem i = eIdem i
     exact eIdem_mul_self i
   have hms : f (eIdem (k := k) i • eIdemMem k Q i) = eIdem (k := k) i • f (eIdemMem k Q i) :=
     f.map_smul (eIdem i) (eIdemMem k Q i)
-  have key : (eIdem (k := k) i • f (eIdemMem k Q i) : pathAlgebraProj k Q j) = f (eIdemMem k Q i) := by
+  have key : (eIdem (k := k) i • f (eIdemMem k Q i) : pathAlgebraProj k Q j)
+      = f (eIdemMem k Q i) := by
     rw [← hms, hfix]
   exact congrArg Subtype.val key
 
