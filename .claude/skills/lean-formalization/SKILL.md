@@ -616,6 +616,37 @@ Building `∃ M : ℕ → Type, … ∀ k l, Nonempty (M k ≃ₗ[A] M l) → k 
 
 **Fix: distinct carriers.** `def Cyc (n k : ℕ) : Type := Fin d → 𝕜` (index by *everything* the action depends on), with `instance … : AddCommGroup (Cyc n k) := inferInstanceAs …`, same for `Module 𝕜`, `Nontrivial`, and a **registered** `noncomputable instance : Module A (Cyc n k) := Module.compHom (Cyc n k) (rep n k).toRingHom`. Now every `Cyc n k` has a canonical instance: `map_smul φ` works across the distinct types `Cyc n k`/`Cyc n l`, and `Submodule`/`IsIndecomposable` resolve with no `letI`/`show`. Bonus: `Module.compHom`'s smul is defeq to the underlying hom application, so `r • x = rep n k r x` holds by `rfl` (state action lemmas via `rep`, then `r • x` in `map_smul` output rewrites to them for free). Costs: (a) `Pi.smul_apply`/`Pi.add_apply` do NOT fire under the `Cyc` head — per-component goals need `show w j = c • v j` (defeq via Pi's pointwise smul) before `simp`; (b) reuse raw operators on `Fin d → 𝕜` (e.g. `nilOpR : End 𝕜 (Fin d → 𝕜)`) and define `nilOp n k : End 𝕜 (Cyc n k) := nilOpR` — the End types are defeq so lemmas like `nilOp_sq := nilOpR_sq` transfer by defeq. Diagnosed across ~6 build/probe cycles.
 
+### Proving TWO `Module` instances on ONE carrier are EQUAL (`Module.ext'`): rewrite the target smul into its `compHom` representation, don't `rw`/`simp` (Ch8 #6898, `Problem8_2_8.lean`)
+
+Module-structure *reconciliation* — showing an abstract `[instM : Module R M]` (pinned by a
+simple-tensor hypothesis `hM`) equals a canonical construction like `Etingof.extTensorModuleLeft` —
+is a recurring `Ext`/`Tor` deliverable. `Module.ext'` reduces `instM = E` to `∀ r x, r • x = r • x`
+where the **two sides use different `Module` instances** (source `instM`, target `E`). The trap:
+`rw` and `simp only [add_smul, smul_add, zero_smul, …]` synthesize their `[Module R M]` argument
+**once, via typeclass resolution**, so they only rewrite the `instM`-side occurrence and silently
+leave the `E`-side `(r+r') • x` untouched — you get a stuck goal like `r•x + r'•x = (r+r')•x`.
+**Fix:** when `E := Module.compHom M φ.toRingHom` (the standard external/representation pattern),
+its smul is *definitionally* `φ r` applied to `x`. Rewrite the goal into that form and the second
+instance disappears:
+```
+refine Module.ext' instM E fun r x => ?_
+show (haveI := instM; r • x) = φ r x        -- φ = extTensorRepLeft …, defeq to E's smul
+induction r using TensorProduct.induction_on with
+| zero => rw [zero_smul, map_zero, LinearMap.zero_apply]
+| tmul a₁ a₂ => induction x using TensorProduct.induction_on with
+    | zero => rw [smul_zero, map_zero]
+    | tmul m₁ m₂ => rw [hM …]; exact (E_smul_tmul …).symm   -- E_smul_tmul is defeq to φ-application
+    | add x y hx hy => rw [smul_add, map_add, hx, hy]
+| add r r' hr hr' => rw [add_smul, map_add, LinearMap.add_apply, hr, hr']
+```
+Now the `instM` side uses `add_smul`/`smul_add`/`zero_smul`/`smul_zero` (plain `rw`, single
+instance) and the `φ` side uses `map_add`/`map_zero`/`LinearMap.add_apply`/`LinearMap.zero_apply`.
+Caveat: object-level `ModuleCat.of R M [instM] = extTensorFunctorLeftObj …` is NOT free even after
+this — the canonical object also carries the `algebraMap`-restricted `k`-structure on the factors
+(`Module.compHom (algebraMap k Aᵢ)`), a different instance from the ambient `Module k Mᵢ` (they
+agree only via `IsScalarTower`); reconcile that too or route through a `ModuleCat`-iso / `≃ₗ[k]`
+transport instead of a strict `=` of objects.
+
 ### `MonoidAlgebra` Ext: Don't Use `Finsupp.lhom_ext`
 
 `MonoidAlgebra k G` is `def`-equal to `G →₀ k`, so `Finsupp.lhom_ext` *applies* to a goal `F = 0` for `F : MonoidAlgebra k G →ₗ[k] N` — but it unifies the domain with the bare `G →₀ k`, which pries the type open and breaks instance search for everything registered on `MonoidAlgebra` (`failed to synthesize Ring (G →₀ ℂ)` / `Algebra ℂ (G →₀ ℂ)` / `Module (G →₀ ℂ) (M i)`). **To show a linear functional on `MonoidAlgebra k G` vanishes**, keep the type intact: prove `∀ a, F a = 0` by `induction a using MonoidAlgebra.induction_on` (base case `of k G g` — exactly the group-element evaluation you have a bridge lemma for; `hadd`/`hsmul` close by `simp only [map_add, …]` / `simp only [map_smul, …]`), then package via `LinearMap.ext`. (#4908)
