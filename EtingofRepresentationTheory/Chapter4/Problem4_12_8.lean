@@ -1719,6 +1719,31 @@ theorem so3_tetrahedral_of_poleData
     Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
   exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
+/-- **Octahedral realization — the faithful diagonal action (geometric core).** For the
+octahedral pole family `m = {2, 3, 4}` (so `Nat.card G = 24`), the group `G` acts faithfully on
+the four *body diagonals* of the cube, giving an injective homomorphism `G →* Equiv.Perm (Fin 4)`
+onto all of `S₄`.
+
+The four diagonals are the antipodal pairs `{w, -w}` of the `8` order-`3` poles (a single orbit
+of size `8`; the antipodal map `w ↦ -w` preserves the order-`3` pole set and commutes with the
+`G`-action, so it descends to a free `ℤ/2` action whose quotient has `4` elements). Faithfulness
+is the substantive geometric content: a kernel element `g ≠ 1` fixes every diagonal setwise, so
+`g·w = ±w` for each order-`3` pole `w`; then `g²` fixes all `8` poles, forcing `g² = 1` and
+`ord g = 2`; since `ord g = 2 ∤ 3 = |stabilizer of an order-3 pole|`, `g·w = w` is impossible, so
+`g·w = -w` for all `8` poles. That places every order-`3` pole in the `(-1)`-eigenplane of `g`,
+i.e. all order-`3` poles are coplanar — which is refuted by `isCyclic_of_common_fixed_vector`
+(the normal line to that plane is `G`-invariant, so a subgroup of index `≤ 2` fixes it and is
+cyclic of order `≥ 12`, giving a pole of order `≥ 12`, contradicting the maximal pole order `4`).
+
+This geometric core is deferred to its own child sub-issue (the octahedral case of #6864). -/
+theorem exists_octahedral_faithful_hom
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 4})
+    (hcard : Nat.card (↥G) = 24)
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    ∃ φ : ↥G →* Equiv.Perm (Fin 4), Function.Injective φ := by
+  sorry
+
 /-- **Octahedral disjunct of `so3_classification_aux`.** From the octahedral pole family
 `m = {2, 3, 4}` (which forces `Nat.card G = 24`) together with the pole-realization data of
 `pole_order_data`, produce `G ≃* Equiv.Perm (Fin 4)`. `G` acts on the four body diagonals of
@@ -1726,14 +1751,36 @@ the cube (equivalently the three pairs of order-`4` poles); the action gives all
 an isomorphism by a cardinality argument (`|G| = 24 = |S₄|`). `m`, `heq`, and `hpole` are
 supplied verbatim by `pole_order_data`.
 
-The realization is deferred to its own child sub-issue (the octahedral case of #6864). -/
+The counting identity forces `|G| = 24` (`RHS = 1/2 + 2/3 + 3/4 = 23/12`, so `2(1 - 1/n) = 23/12`
+gives `n = 24`); the faithful `G →* S₄` is supplied by `exists_octahedral_faithful_hom`, and
+`|G| = 24 = |S₄|` upgrades injectivity to a bijection via `Fintype.bijective_iff_injective_and_card`. -/
 theorem so3_octahedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 4})
     (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum)
     (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* Equiv.Perm (Fin 4)) := by
-  sorry
+  classical
+  -- **Step 1.** The counting identity on `{2, 3, 4}` forces `|G| = 24`.
+  have hcard : Nat.card (↥G) = 24 := by
+    have hne : (Nat.card (↥G) : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (by have := Nat.card_pos (α := ↥G); omega)
+    rw [hclass] at heq
+    have hsum : (({2, 3, 4} : Multiset ℕ).map (fun x => 1 - (x : ℚ)⁻¹)).sum = 23 / 12 := by
+      simp only [Multiset.insert_eq_cons]
+      norm_num
+    rw [hsum] at heq
+    have hq : (Nat.card (↥G) : ℚ) = 24 := by
+      field_simp [hne] at heq
+      linarith
+    exact_mod_cast hq
+  -- **Step 2.** The faithful action on the four body diagonals gives `G ↪ S₄`.
+  obtain ⟨φ, hφinj⟩ := exists_octahedral_faithful_hom G m hclass hcard hpole
+  -- **Step 3.** `|G| = 24 = |S₄|` upgrades injectivity to a bijection, hence an isomorphism.
+  haveI : Fintype ↥G := Fintype.ofFinite _
+  have hcardeq : Fintype.card ↥G = Fintype.card (Equiv.Perm (Fin 4)) := by
+    rw [← Nat.card_eq_fintype_card, hcard, Fintype.card_perm, Fintype.card_fin]; decide
+  exact ⟨MulEquiv.ofBijective φ
+    ((Fintype.bijective_iff_injective_and_card φ).mpr ⟨hφinj, hcardeq⟩)⟩
 
 /-- **Icosahedral disjunct of `so3_classification_aux`.** From the icosahedral pole family
 `m = {2, 3, 5}` (which forces `Nat.card G = 60`) together with the pole-realization data of
