@@ -4,6 +4,8 @@ import EtingofRepresentationTheory.Chapter8.RearrangeHomComplex
 import EtingofRepresentationTheory.Chapter8.ExternalTensorResolution
 import EtingofRepresentationTheory.Chapter8.ExternalTensorResolutionLeft
 import EtingofRepresentationTheory.Chapter8.ExtCohomologyHomK
+import EtingofRepresentationTheory.Chapter8.ExtAbelianComparison
+import EtingofRepresentationTheory.Chapter8.BarResolution
 import EtingofRepresentationTheory.Chapter8.TensorRightFunctorK
 import EtingofRepresentationTheory.Chapter7.KunnethChainComplexNat
 import EtingofRepresentationTheory.Chapter7.KunnethCochainComplexNat
@@ -12,6 +14,9 @@ import Mathlib.LinearAlgebra.TensorProduct.Opposite
 import Mathlib.Algebra.DirectSum.Basic
 import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 import Mathlib.Algebra.Category.ModuleCat.Algebra
+import Mathlib.Algebra.Category.ModuleCat.Products
+import Mathlib.Algebra.DirectSum.Module
+import Mathlib.LinearAlgebra.TensorProduct.Map
 import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 
 /-!
@@ -30,8 +35,12 @@ products, not the (much larger) group-level `⊗_ℤ`.
 
 ## What is formalized here
 
-The `Tor` statement is proved sorry-free below; the `Ext` statement is stated (spec-first, `sorry`
-proof).
+The `Tor` statement is proved sorry-free below. The `Ext` statement (`Problem_8_2_8_ext`) is
+fully assembled from its `k`-linear core `Problem_8_2_8_extₖ`, the comparison bridge
+`extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`), the finitely generated projective `barResolution`,
+and the coproduct-to-direct-sum identification (`ModuleCat.coprodIsoDirectSum`); the sole remaining
+`sorry` is the `hXM` object identification (a factor `k`-module-diamond reconciliation, see the
+comment there).
 
 ### The external tensor product module structures
 
@@ -181,6 +190,38 @@ theorem instModule_eq_extTensorModuleLeft
     | add x y hx hy => rw [smul_add, map_add, hx, hy]
   | add r r' hr hr' => rw [add_smul, map_add, LinearMap.add_apply, hr, hr']
 
+/-- **`k`-`(A₁ ⊗ A₂)`-scalar tower for a componentwise external module (deliverable 1/2 helper).** An
+abstract left `A₁ ⊗[k] A₂`-module structure `instM` on `M₁ ⊗[k] M₂` acting componentwise on simple
+tensors (`hM`) is automatically a `k`-scalar tower: `(c • r) • x = c • (r • x)`. Both sides are
+additive in `r` and `x`, so it reduces to simple tensors, where `c • (a₁ ⊗ a₂) = (c • a₁) ⊗ a₂`
+(`TensorProduct.smul_tmul'`) and the factor scalar towers `IsScalarTower k Aᵢ Mᵢ` finish it. This
+supplies the `IsScalarTower k (A₁ ⊗ A₂) (M₁ ⊗ M₂)` / `(N₁ ⊗ N₂)` instances that `barResolution` and
+`Problem_8_2_8_extₖ` demand of the statement's pinned `instM` / `instN` in `Problem_8_2_8_ext`. -/
+theorem isScalarTower_extTensor
+    {k : Type u} [Field k] {A₁ A₂ : Type u} [Ring A₁] [Ring A₂] [Algebra k A₁] [Algebra k A₂]
+    {M₁ M₂ : Type u}
+    [AddCommGroup M₁] [Module k M₁] [Module A₁ M₁] [IsScalarTower k A₁ M₁]
+    [AddCommGroup M₂] [Module k M₂] [Module A₂ M₂] [IsScalarTower k A₂ M₂]
+    (instM : Module (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂))
+    (hM : ∀ (a₁ : A₁) (a₂ : A₂) (m₁ : M₁) (m₂ : M₂),
+      (haveI := instM; (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (m₁ ⊗ₜ[k] m₂ : M₁ ⊗[k] M₂))
+        = (a₁ • m₁) ⊗ₜ[k] (a₂ • m₂)) :
+    letI := instM
+    IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := by
+  letI := instM
+  refine ⟨fun c r m => ?_⟩
+  induction r using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a₁ a₂ =>
+    induction m using TensorProduct.induction_on with
+    | zero => simp
+    | tmul m₁ m₂ =>
+      rw [show (c • (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂)) = (c • a₁) ⊗ₜ[k] a₂ from
+            TensorProduct.smul_tmul' c a₁ a₂,
+          hM, hM, smul_assoc, TensorProduct.smul_tmul' c (a₁ • m₁) (a₂ • m₂)]
+    | add x y hx hy => simp only [smul_add, hx, hy]
+  | add r r' hr hr' => simp only [add_smul, smul_add, hr, hr']
+
 /-- **Problem 8.2.8, `Ext` — the `k`-linear (`Extₖ`) Künneth isomorphism.** The cohomological
 mirror of `Problem_8_2_8_tor`, phrased with the `ModuleCat k`-valued left-derived-functor `Extₖ`
 and consuming finitely generated projective resolutions `P₁, P₂` of the two left factor modules.
@@ -231,6 +272,12 @@ theorem Problem_8_2_8_extₖ (i : ℕ)
       (extIsoCohomologyHomₖ k A₁ (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) P₁ p.1.1).symm
       (extIsoCohomologyHomₖ k A₂ (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) P₂ p.1.2).symm)⟩
 
+-- The factor `k`-scalar towers on `Mᵢ` / `Nᵢ`: needed to form the finitely generated projective
+-- `Etingof.barResolution` (deliverable 1) and consumed by `Problem_8_2_8_extₖ`. They only attach to
+-- `Problem_8_2_8_ext` below (not to `Problem_8_2_8_extₖ`, which lists its `Nᵢ` towers explicitly).
+variable [IsScalarTower k A₁ M₁] [IsScalarTower k A₂ M₂]
+  [IsScalarTower k A₁ N₁] [IsScalarTower k A₂ N₂]
+
 /-- **Problem 8.2.8, `Ext`.** For finite dimensional `k`-algebras `A₁, A₂`, finite dimensional
 left modules `M₁, M₂` and finite dimensional left modules `N₁, N₂`, the `Ext` of the external
 tensor products decomposes as a Künneth direct sum over the field `k`:
@@ -265,30 +312,47 @@ theorem Problem_8_2_8_ext (i : ℕ)
               TensorProduct k
                 (Etingof.Ext (ModuleCat.of A₁ M₁) (ModuleCat.of A₁ N₁) p.1.1)
                 (Etingof.Ext (ModuleCat.of A₂ M₂) (ModuleCat.of A₂ N₂) p.1.2))) := by
-  -- The `k`-linear Künneth isomorphism `Problem_8_2_8_extₖ` above is the mathematical core: it
-  -- decomposes `Extₖ k (A₁⊗A₂) (M₁⊗M₂) (N₁⊗N₂) i` as the categorical coproduct
-  -- `∐_{j+m=i} Extₖ k A₁ M₁ N₁ j ⊗ Extₖ k A₂ M₂ N₂ m` in `ModuleCat k`. Reducing this statement to
-  -- it requires the following residual wiring (each a self-contained follow-up):
-  --   1. **Finitely generated projective resolutions.** *(Available.)* `Etingof.barResolution`
-  --      (`Chapter8/BarResolution.lean`) is a `ProjectiveResolution (ModuleCat.of Aᵢ Mᵢ)` whose
-  --      terms carry `Module.Projective` and — for finite dimensional `Mᵢ` over finite dimensional
-  --      `Aᵢ`, via `instFiniteBarResolutionComplexX` — `Module.Finite` instances. It needs
-  --      `IsScalarTower k Aᵢ Mᵢ` (add it to the `Ext` section variables when wiring). These feed
-  --      `Problem_8_2_8_extₖ`.
-  --   2. **Module-structure reconciliation.** Identify the statement's
-  --      `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` / `(N₁⊗N₂)` (with `instM`/`instN` pinned by `hM`/`hN`) with
-  --      the canonical external `extTensorFunctorLeftObj` used by `Problem_8_2_8_extₖ`; both act
-  --      componentwise, so `hM`/`hN` make them equal.
-  --   3. **The comparison isomorphism `Etingof.Ext ≃ₗ[k] Extₖ`.** The statement uses the
-  --      derived-category `Etingof.Ext = CategoryTheory.Abelian.Ext` (AddCommGroup-valued), whereas
-  --      `Problem_8_2_8_extₖ` uses the `ModuleCat k`-valued left-derived-functor `Extₖ`
-  --      (`CategoryTheory.Ext k (ModuleCat A) n`). The two agree; a `k`-linear comparison iso
-  --      `Etingof.Ext M N n ≃ₗ[k] Extₖ k A M N n` transports the whole statement. This is the
-  --      substantial missing piece (no such bridge exists in Mathlib yet).
-  --   4. **`∐`/`⊗` → `⨁`/`TensorProduct k`.** Convert the categorical coproduct of monoidal tensor
-  --      products in `ModuleCat k` on the right-hand side to the `DirectSum` of `TensorProduct k`
-  --      used in the stated signature.
-  sorry
+  -- The `k`-linear Künneth isomorphism `Problem_8_2_8_extₖ` is the mathematical core: it decomposes
+  -- `Extₖ k (A₁⊗A₂) (extTensorFunctorLeftObj…) (N₁⊗N₂) i` as the categorical coproduct
+  -- `∐_{j+m=i} Extₖ k A₁ M₁ N₁ j ⊗ Extₖ k A₂ M₂ N₂ m` in `ModuleCat k`. The assembly wires it in via:
+  --   1. `Etingof.barResolution` (finitely generated projective, `instFiniteBarResolutionComplexX`
+  --      + `instProjectiveBarModule`) resolves each `Mᵢ` and the external `M₁⊗M₂`; the tensor scalar
+  --      towers come from `isScalarTower_extTensor`.
+  --   2. `instModule_eq_extTensorModuleLeft` identifies the statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)`
+  --      (pinned by `hM`) with the canonical `extTensorFunctorLeftObj` (`hXM`); `instN`/`hN` feed
+  --      `Problem_8_2_8_extₖ` directly on the `N` side.
+  --   3. the comparison `extAbelianIsoExtₖ` (`Etingof.Ext ≃ₗ[k] Extₖ`) transports the big `Ext` and,
+  --      backwards under `TensorProduct.congr`, each factor `Extₖ` summand.
+  --   4. `ModuleCat.coprodIsoDirectSum` turns `∐` into `⨁`; the monoidal `⊗` in `ModuleCat k` is
+  --      definitionally `TensorProduct k`, so `DirectSum.congrLinearEquiv` finishes.
+  haveI : IsScalarTower k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) := isScalarTower_extTensor instM hM
+  haveI : IsScalarTower k (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂) := isScalarTower_extTensor instN hN
+  have hXM : (ModuleCat.of (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂) : ModuleCat.{u} (A₁ ⊗[k] A₂))
+      = extTensorFunctorLeftObj k A₁ A₂ (ModuleCat.of A₁ M₁) (ModuleCat.of A₂ M₂) := by
+    -- **Deliverable 2 residual (object identification).** The two objects have carrier `M₁ ⊗[k] M₂`
+    -- and both act componentwise, but they are not *definitionally* equal: `extTensorFunctorLeftObj`
+    -- bakes in `restrictModule₂L` (the `k`-structure on each factor obtained by restricting the
+    -- `Aᵢ`-action along `k → Aᵢ`), whereas the statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)` carries the
+    -- ambient `Module k Mᵢ`. These agree by `IsScalarTower k Aᵢ Mᵢ` (so the objects are equal), but
+    -- reconciling the two `k`-structures — hence the `AddCommMonoid`/`Module k` instances threaded
+    -- through `extTensorModuleLeft` / `extTensorRepLeft` — is a self-contained module-reconciliation
+    -- step. `instModule_eq_extTensorModuleLeft` handles the `A₁⊗A₂`-action agreement; the residual is
+    -- the factor `k`-structure identification (`restrictModule₁L`/`restrictModule₂L`
+    -- `= Module.compHom _ (algebraMap k Aᵢ)` vs the ambient `Module k Mᵢ`, equal by
+    -- `IsScalarTower.algebraMap_smul`). The same `k`-module *diamond* is reconciled elsewhere in this
+    -- development (`Chapter8/RearrangeBifunctorNatIso.lean`: `extModuleK_algebraMap_smul`,
+    -- `rearrangeSourceEquiv`) — reuse that pattern. Tracked as a follow-up sub-issue.
+    sorry
+  refine ⟨?_⟩
+  refine (extAbelianIsoExtₖ k (ModuleCat.of (A₁ ⊗[k] A₂) (N₁ ⊗[k] N₂))
+      (barResolution k (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂)) i) ≪≫ₗ ?_
+  rw [hXM]
+  refine (Problem_8_2_8_extₖ k A₁ A₂ M₁ M₂ N₁ N₂ i
+      (barResolution k A₁ M₁) (barResolution k A₂ M₂) hN).some.toLinearEquiv ≪≫ₗ ?_
+  refine (ModuleCat.coprodIsoDirectSum _).toLinearEquiv ≪≫ₗ ?_
+  exact DirectSum.congrLinearEquiv (fun p => TensorProduct.congr
+    (extAbelianIsoExtₖ k (ModuleCat.of A₁ N₁) (barResolution k A₁ M₁) p.1.1).symm
+    (extAbelianIsoExtₖ k (ModuleCat.of A₂ N₂) (barResolution k A₂ M₂) p.1.2).symm)
 
 end Ext
 
