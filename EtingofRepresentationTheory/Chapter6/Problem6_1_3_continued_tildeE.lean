@@ -3245,6 +3245,92 @@ lemma affine_arm_walk {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
       have h3 := hdeg3 x
       omega)
 
+/-- **Harmonic implies linear along a path.** If `g 0, g 1, …, g k` satisfies the interior harmonic
+relation `2·g i = g (i-1) + g (i+1)` for `1 ≤ i ≤ k-1`, then `g` is an affine function of the index:
+`g i = g 0 + i·(g 1 - g 0)`. This is the spine-linearity core (no leaf condition, unlike
+`arm_linear`). -/
+private lemma linear_of_harmonic (g : ℕ → ℤ) (k : ℕ)
+    (hint : ∀ i, 1 ≤ i → i + 1 ≤ k → 2 * g i = g (i - 1) + g (i + 1)) :
+    ∀ i, i ≤ k → g i = g 0 + (i : ℤ) * (g 1 - g 0) := by
+  intro i
+  induction i using Nat.strong_induction_on with
+  | _ i ih =>
+    intro hi
+    match i with
+    | 0 => simp
+    | 1 => push_cast; ring
+    | (j + 2) =>
+      have e1 := ih (j + 1) (by omega) (by omega)
+      have e0 := ih j (by omega) (by omega)
+      have hrec : 2 * g (j + 1) = g j + g (j + 2) := by
+        have h := hint (j + 1) (by omega) (by omega)
+        simpa using h
+      have hval : g (j + 2) = 2 * g (j + 1) - g j := by linarith [hrec]
+      rw [hval, e1, e0]; push_cast; ring
+
+/-- **Spine endpoint identity.** For a harmonic sequence `g 0 … g k` (`k ≥ 1`) the two inner
+endpoint values satisfy `g 1 + g (k-1) = g 0 + g k` — the affine slope is constant, so the
+increment at each end agrees. This is exactly the `hspine` hypothesis of `affine_two_branch_pinch`. -/
+private lemma spine_endpoint_sum (g : ℕ → ℤ) (k : ℕ) (hk : 1 ≤ k)
+    (hint : ∀ i, 1 ≤ i → i + 1 ≤ k → 2 * g i = g (i - 1) + g (i + 1)) :
+    g 1 + g (k - 1) = g 0 + g k := by
+  have hlin := linear_of_harmonic g k hint
+  have h1 : g 1 = g 0 + (1 : ℤ) * (g 1 - g 0) := hlin 1 hk
+  have hk1 : g (k - 1) = g 0 + ((k - 1 : ℕ) : ℤ) * (g 1 - g 0) := hlin (k - 1) (by omega)
+  have hkk : g k = g 0 + (k : ℤ) * (g 1 - g 0) := hlin k (le_refl k)
+  have hcast : ((k - 1 : ℕ) : ℤ) = (k : ℤ) - 1 := by
+    have : 1 ≤ k := hk; push_cast [Nat.cast_sub this]; ring
+  rw [h1, hk1, hkk, hcast]; ring
+
+/-- **Neighbour-sum of a null vector.** Reduce the harmonic sum `2·f x = ∑ⱼ adjₓⱼ fⱼ` to a sum over
+the explicit neighbour finset `T = {y | adj x y = 1}`. -/
+private lemma harm_neighbor_finset {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x : Fin n) (T : Finset (Fin n)) (hN : ∀ y, adj x y = 1 ↔ y ∈ T) :
+    2 * f x = ∑ y ∈ T, f y := by
+  have hterm : ∀ y, adj x y * f y = if y ∈ T then f y else 0 := by
+    intro y
+    by_cases hy : y ∈ T
+    · rw [if_pos hy, (hN y).mpr hy, one_mul]
+    · rw [if_neg hy]
+      rcases h01 x y with h0 | h1
+      · rw [h0, zero_mul]
+      · exact absurd ((hN y).mp h1) hy
+  rw [hharm x, Finset.sum_congr rfl (fun y _ => hterm y), Finset.sum_ite_mem, Finset.univ_inter]
+
+/-- Neighbour-sum specialised to a single neighbour. -/
+private lemma harm_one {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x a : Fin n) (hN : ∀ y, adj x y = 1 ↔ y = a) : 2 * f x = f a := by
+  have h := harm_neighbor_finset adj f h01 hharm x {a}
+    (fun y => by rw [Finset.mem_singleton]; exact hN y)
+  rwa [Finset.sum_singleton] at h
+
+/-- Neighbour-sum specialised to two distinct neighbours. -/
+private lemma harm_two {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x a b : Fin n) (hab : a ≠ b) (hN : ∀ y, adj x y = 1 ↔ y = a ∨ y = b) :
+    2 * f x = f a + f b := by
+  have h := harm_neighbor_finset adj f h01 hharm x {a, b}
+    (fun y => by rw [Finset.mem_insert, Finset.mem_singleton]; exact hN y)
+  rwa [Finset.sum_insert (by rwa [Finset.mem_singleton]), Finset.sum_singleton] at h
+
+/-- Neighbour-sum specialised to three distinct neighbours. -/
+private lemma harm_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n → ℤ)
+    (h01 : ∀ i j, adj i j = 0 ∨ adj i j = 1)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (x a b c : Fin n) (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
+    (hN : ∀ y, adj x y = 1 ↔ y = a ∨ y = b ∨ y = c) :
+    2 * f x = f a + f b + f c := by
+  have h := harm_neighbor_finset adj f h01 hharm x {a, b, c}
+    (fun y => by simp only [Finset.mem_insert, Finset.mem_singleton]; exact hN y)
+  rw [Finset.sum_insert (by simp only [Finset.mem_insert, Finset.mem_singleton]; tauto),
+      Finset.sum_insert (by rwa [Finset.mem_singleton]), Finset.sum_singleton] at h
+  linarith [h]
+
 /-- **Three arms of a one-branch affine tree.** A connected acyclic affine Dynkin diagram with all
 degrees `≤ 3` and a *unique* degree-3 (branch) vertex `v` decomposes, after deleting `v`, into
 exactly three connected components. `affine_arm_walk` linearises each component into a rooted arm
