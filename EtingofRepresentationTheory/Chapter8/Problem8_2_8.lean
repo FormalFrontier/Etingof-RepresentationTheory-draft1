@@ -144,6 +144,43 @@ variable (N₁ N₂ : Type u)
   [AddCommGroup N₁] [Module k N₁] [Module A₁ N₁] [FiniteDimensional k N₁]
   [AddCommGroup N₂] [Module k N₂] [Module A₂ N₂] [FiniteDimensional k N₂]
 
+/-- **Module-structure reconciliation (deliverable 2 of `Problem_8_2_8_ext`).** An abstract left
+`A₁ ⊗[k] A₂`-module structure `instM` on `M₁ ⊗[k] M₂` that acts componentwise on simple tensors
+(`hM`) *is* the canonical external structure `Etingof.extTensorModuleLeft`. Both actions are additive
+in each argument and simple tensors span `A₁ ⊗[k] A₂` and `M₁ ⊗[k] M₂`, so agreeing on
+`(a₁ ⊗ a₂) • (m₁ ⊗ m₂)` forces them equal as `Module` structures (via `Module.ext'`).
+
+This is what lets `Problem_8_2_8_ext` identify its statement's `ModuleCat.of (A₁⊗A₂)(M₁⊗M₂)`
+(carrying `instM`, pinned by `hM`) with the `extTensorFunctorLeftObj` consumed by
+`Problem_8_2_8_extₖ`. -/
+theorem instModule_eq_extTensorModuleLeft
+    {k : Type u} [Field k] {A₁ A₂ : Type u} [Ring A₁] [Ring A₂] [Algebra k A₁] [Algebra k A₂]
+    {M₁ M₂ : Type u}
+    [AddCommGroup M₁] [Module k M₁] [Module A₁ M₁] [IsScalarTower k A₁ M₁]
+    [AddCommGroup M₂] [Module k M₂] [Module A₂ M₂] [IsScalarTower k A₂ M₂]
+    (instM : Module (A₁ ⊗[k] A₂) (M₁ ⊗[k] M₂))
+    (hM : ∀ (a₁ : A₁) (a₂ : A₂) (m₁ : M₁) (m₂ : M₂),
+      (haveI := instM; (a₁ ⊗ₜ[k] a₂ : A₁ ⊗[k] A₂) • (m₁ ⊗ₜ[k] m₂ : M₁ ⊗[k] M₂))
+        = (a₁ • m₁) ⊗ₜ[k] (a₂ • m₂)) :
+    instM = extTensorModuleLeft k A₁ A₂ M₁ M₂ := by
+  refine Module.ext' instM (extTensorModuleLeft k A₁ A₂ M₁ M₂) fun r x => ?_
+  -- The target smul `(extTensorModuleLeft …).smul r x` is *definitionally* the representation
+  -- `extTensorRepLeft … r` applied to `x` (the canonical structure is `Module.compHom` of that
+  -- algebra map). Rewriting the goal into that explicit-linear-map form removes the second
+  -- `Module` instance, so plain `rw` on the source `instM` side and `map_add`/`map_zero` on the
+  -- representation side suffice.
+  show (haveI := instM; r • x) = extTensorRepLeft k A₁ A₂ M₁ M₂ r x
+  induction r using TensorProduct.induction_on with
+  | zero => rw [zero_smul, map_zero, LinearMap.zero_apply]
+  | tmul a₁ a₂ =>
+    induction x using TensorProduct.induction_on with
+    | zero => rw [smul_zero, map_zero]
+    | tmul m₁ m₂ =>
+      rw [hM a₁ a₂ m₁ m₂]
+      exact (extTensorModuleLeft_smul_tmul k A₁ A₂ M₁ M₂ a₁ a₂ m₁ m₂).symm
+    | add x y hx hy => rw [smul_add, map_add, hx, hy]
+  | add r r' hr hr' => rw [add_smul, map_add, LinearMap.add_apply, hr, hr']
+
 /-- **Problem 8.2.8, `Ext` — the `k`-linear (`Extₖ`) Künneth isomorphism.** The cohomological
 mirror of `Problem_8_2_8_tor`, phrased with the `ModuleCat k`-valued left-derived-functor `Extₖ`
 and consuming finitely generated projective resolutions `P₁, P₂` of the two left factor modules.
