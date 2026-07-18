@@ -1735,22 +1735,81 @@ theorem so3_octahedral_of_poleData
     Nonempty (G ≃* Equiv.Perm (Fin 4)) := by
   sorry
 
+/-- **Counting step of the icosahedral disjunct.** The pole-order identity on `{2, 3, 5}`
+(`RHS sum 1/2 + 2/3 + 4/5 = 59/30`) forces `Nat.card G = 60`. Mirrors the analogous step of
+`so3_tetrahedral_of_poleData`. -/
+theorem so3_icosahedral_card
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 5})
+    (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum) :
+    Nat.card (↥G) = 60 := by
+  have hpos : 0 < Nat.card (↥G) := Nat.card_pos
+  have hne : (Nat.card (↥G) : ℚ) ≠ 0 := Nat.cast_ne_zero.mpr (by omega)
+  rw [hclass] at heq
+  have hsum : (({2, 3, 5} : Multiset ℕ).map (fun x => 1 - (x : ℚ)⁻¹)).sum = 59 / 30 := by
+    simp only [Multiset.insert_eq_cons]
+    norm_num
+  rw [hsum] at heq
+  have hq : (Nat.card (↥G) : ℚ) = 60 := by
+    field_simp [hne] at heq
+    linarith
+  exact_mod_cast hq
+
+/-- **Realization crux of the icosahedral disjunct.** An order-`60` finite subgroup `G ≤ SO(3)`
+with the icosahedral pole data acts faithfully on a `5`-element set — geometrically, the five
+inscribed tetrahedra (equivalently the five "Kepler cubes") of the dodecahedron/icosahedron —
+yielding an injective `G →* Equiv.Perm (Fin 5)`.
+
+This is the genuine geometric content of the icosahedral case and is the ONLY remaining `sorry`:
+constructing the `5`-element `G`-set and its faithful action. Everything downstream
+(`|image| = 60 = |A₅|`, hence index `2` in `S₅`, hence `= A₅`) is discharged sorry-free by
+`so3_icosahedral_of_poleData`. Unlike the tetrahedral (`4` order-`3` poles) and octahedral
+(`4` cube diagonals = antipodal pairs of order-`3` poles) cases, the icosahedral `5`-element set
+is NOT a single pole orbit nor a set of antipodal pairs of one; it is the compound of `5`
+tetrahedra, a derived combinatorial structure on the poles. See the child sub-issue of #6864
+(icosahedral realization) for the construction. -/
+theorem so3_icosahedral_exists_faithful_perm5
+    (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
+    (hclass : m = {2, 3, 5})
+    (hcard : Nat.card (↥G) = 60)
+    (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
+    ∃ φ : ↥G →* Equiv.Perm (Fin 5), Function.Injective φ := by
+  sorry
+
 /-- **Icosahedral disjunct of `so3_classification_aux`.** From the icosahedral pole family
 `m = {2, 3, 5}` (which forces `Nat.card G = 60`) together with the pole-realization data of
-`pole_order_data`, produce `G ≃* alternatingGroup (Fin 5)`. `G` acts on the five inscribed
-tetrahedra (equivalently the six order-`5` axes) of the icosahedron; the action lands in `A₅`
-and is an isomorphism by a cardinality argument (`|G| = 60 = |A₅|`). `m`, `heq`, and `hpole`
-are supplied verbatim by `pole_order_data`.
+`pole_order_data`, produce `G ≃* alternatingGroup (Fin 5)`. `G` acts faithfully on the five
+inscribed tetrahedra of the dodecahedron/icosahedron (`so3_icosahedral_exists_faithful_perm5`);
+the resulting injective `G →* S₅` has image of order `60`, hence index `2` in `S₅`
+(`|S₅| = 120`), hence equal to `A₅`. `m`, `heq`, and `hpole` are supplied verbatim by
+`pole_order_data`.
 
-The realization is deferred to its own child sub-issue (the icosahedral case of #6864); this is
-the hardest of the three and may warrant its own multi-step decomposition. -/
+The counting (`so3_icosahedral_card`) and the `A₅`-landing assembly here are sorry-free; the
+sole remaining `sorry` is the geometric `5`-point action `so3_icosahedral_exists_faithful_perm5`,
+tracked by the icosahedral child sub-issue of #6864. -/
 theorem so3_icosahedral_of_poleData
     (G : Subgroup (specialOrthogonalGroup (Fin 3) ℝ)) [Finite G] (m : Multiset ℕ)
     (hclass : m = {2, 3, 5})
     (heq : 2 * (1 - (Nat.card (↥G) : ℚ)⁻¹) = (m.map (fun x => 1 - (x : ℚ)⁻¹)).sum)
     (hpole : ∀ x ∈ m, ∃ b : ↥(poleSet G), Nat.card (MulAction.stabilizer (↥G) b) = x) :
     Nonempty (G ≃* alternatingGroup (Fin 5)) := by
-  sorry
+  classical
+  -- **Step 1.** The counting identity on `{2, 3, 5}` forces `|G| = 60`.
+  have hcard : Nat.card (↥G) = 60 := so3_icosahedral_card G m hclass heq
+  -- **Step 2.** `G` acts faithfully on the five inscribed tetrahedra (the geometric crux).
+  obtain ⟨φ, hφinj⟩ := so3_icosahedral_exists_faithful_perm5 G m hclass hcard hpole
+  -- **Step 3.** The image `H ≤ S₅` has order `60`, so index `2`, hence `H = A₅`.
+  let H := φ.range
+  have hGH : ↥G ≃* ↥H := MonoidHom.ofInjective hφinj
+  have hHcard : Nat.card (↥H) = 60 := by rw [← Nat.card_congr hGH.toEquiv, hcard]
+  have hindex : H.index = 2 := by
+    have hmul : H.index * Nat.card (↥H) = Nat.card (Equiv.Perm (Fin 5)) := Subgroup.index_mul_card H
+    have hperm : Nat.card (Equiv.Perm (Fin 5)) = 120 := by rw [Nat.card_perm, Nat.card_fin]; decide
+    rw [hHcard, hperm] at hmul
+    omega
+  have hHeq : H = alternatingGroup (Fin 5) :=
+    Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
+  exact ⟨hGH.trans (MulEquiv.subgroupCongr hHeq)⟩
 
 /-- The substantive content of part (a): the Burnside counting that turns the geometry
 (milestones (i), (ii)) into the pole-order multiset (`pole_order_data`), the application of
