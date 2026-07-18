@@ -1273,7 +1273,8 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
       (f : W ≃ₗᵢ[ℝ] W),
       (ℝ ∙ β₀) ⊔ W = ⊤ ∧ β₀ ∉ W ∧
       (∀ y : W, ((f y : W) : EuclideanSpace ℝ (Fin 3)) = euclideanIso g (y : W)) ∧
-      LinearMap.det (f.toLinearEquiv : W →ₗ[ℝ] W) < 0 := by
+      LinearMap.det (f.toLinearEquiv : W →ₗ[ℝ] W) < 0 ∧
+      (∀ y : W, f (f y) = y) := by
   have hβ₀ : β₀ ≠ 0 := fun h => by simp [h] at hβ₀unit
   have hWfin : finrank ℝ (ℝ ∙ β₀)ᗮ = 2 := by
     haveI : Fact (finrank ℝ (EuclideanSpace ℝ (Fin 3)) = 2 + 1) :=
@@ -1349,26 +1350,10 @@ private lemma so3_swap_induced_plane (g : specialOrthogonalGroup (Fin 3) ℝ)
   have hdetf : LinearMap.det (f.toLinearEquiv : W →ₗ[ℝ] W) < 0 := by
     have : LinearMap.det f.toLinearMap = -1 := by linarith [hE]
     rw [show (f.toLinearEquiv : W →ₗ[ℝ] W) = f.toLinearMap from rfl, this]; norm_num
-  exact ⟨W, hWfin, f, hsup, hβ₀W, coef, hdetf⟩
-
-private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
-    (β : Fin 3 → ℝ) (hβ : β ⬝ᵥ β = 1)
-    (hswap : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β) :
-    g * g = 1 := by
-  classical
-  set β₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 β with hβ₀def
-  have hofLp : ofLp β₀ = β := rfl
-  have hβ₀unit : ⟪β₀, β₀⟫ = (1 : ℝ) := by rw [inner_toLp]; exact hβ
-  have hswap₀ : euclideanIso g β₀ = -β₀ := by
-    apply WithLp.ofLp_injective
-    rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hofLp, hswap, ofLp_neg, hofLp]
-  obtain ⟨W, hWfin, f, hsup, hβ₀W, coef, hdetf⟩ := so3_swap_induced_plane g β₀ hβ₀unit hswap₀
-  haveI : Fact (finrank ℝ W = 2) := ⟨hWfin⟩
+  -- The induced plane isometry reverses orientation, hence is a reflection (`f² = id`).
   let o : Orientation ℝ W (Fin 2) := (Module.finBasisOfFinrankEq ℝ W hWfin).orientation
-  -- The induced plane isometry reverses orientation.
   have hmapo : Orientation.map (Fin 2) f.toLinearEquiv o = -o :=
     (o.map_eq_neg_iff_det_neg f.toLinearEquiv (by rw [Fintype.card_fin, hWfin])).mpr hdetf
-  -- A reflection squares to the identity: `f (f y) = y`.
   have hf2 : ∀ y : W, f (f y) = y := by
     intro y
     rcases eq_or_ne y 0 with hy | hy
@@ -1387,7 +1372,22 @@ private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
       rw [step2, o.rotation_zero] at hrot
       simp only [LinearIsometryEquiv.coe_refl, id_eq] at hrot
       exact hrot.symm
-  -- Lift to `euclideanIso g ∘ euclideanIso g = id` on all of Euclidean 3-space.
+  exact ⟨W, hWfin, f, hsup, hβ₀W, coef, hdetf, hf2⟩
+
+private lemma so3_sq_of_swap (g : specialOrthogonalGroup (Fin 3) ℝ)
+    (β : Fin 3 → ℝ) (hβ : β ⬝ᵥ β = 1)
+    (hswap : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β) :
+    g * g = 1 := by
+  classical
+  set β₀ : EuclideanSpace ℝ (Fin 3) := toLp 2 β with hβ₀def
+  have hofLp : ofLp β₀ = β := rfl
+  have hβ₀unit : ⟪β₀, β₀⟫ = (1 : ℝ) := by rw [inner_toLp]; exact hβ
+  have hswap₀ : euclideanIso g β₀ = -β₀ := by
+    apply WithLp.ofLp_injective
+    rw [euclideanIso_apply, ofLp_toEuclideanLin_apply, hofLp, hswap, ofLp_neg, hofLp]
+  obtain ⟨W, _hWfin, f, hsup, _hβ₀W, coef, _hdetf, hf2⟩ :=
+    so3_swap_induced_plane g β₀ hβ₀unit hswap₀
+  -- Lift `f² = id` to `euclideanIso g ∘ euclideanIso g = id` on all of Euclidean 3-space.
   have hgg2 : (euclideanIso g).toLinearMap.comp (euclideanIso g).toLinearMap = LinearMap.id := by
     have hle : (⊤ : Submodule ℝ (EuclideanSpace ℝ (Fin 3))) ≤
         LinearMap.eqLocus ((euclideanIso g).toLinearMap.comp (euclideanIso g).toLinearMap)
@@ -1431,8 +1431,18 @@ private lemma so3_conj_of_swap (g ρ : specialOrthogonalGroup (Fin 3) ℝ)
     (hswap : (g : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = -β)
     (hρfix : (ρ : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β = β) :
     g * ρ * g⁻¹ = ρ⁻¹ := by
-  -- Geometric crux (orientation-reversal on the plane conjugates rotation to its inverse).
-  sorry
+  -- `g` is an involution (pole-swaps are `π`-rotations).
+  have hgg : g * g = 1 := so3_sq_of_swap g β hβ hswap
+  have hginv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hgg
+  -- `g * ρ` also swaps `β ↦ -β`, so it too is an involution: `(gρ)² = 1`.
+  have hswap' : ((g * ρ : specialOrthogonalGroup (Fin 3) ℝ) : Matrix (Fin 3) (Fin 3) ℝ) *ᵥ β
+      = -β := by
+    rw [Submonoid.coe_mul, ← mulVec_mulVec, hρfix, hswap]
+  have hgρ : (g * ρ) * (g * ρ) = 1 := so3_sq_of_swap (g * ρ) β hβ hswap'
+  -- `gρgρ = 1` gives `gρg = ρ⁻¹`, and `g⁻¹ = g` finishes.
+  rw [hginv]
+  have h1 : g * ρ * g * ρ = 1 := by rw [mul_assoc (g * ρ) g ρ]; exact hgρ
+  exact mul_eq_one_iff_eq_inv.mp h1
 
 end DihedralGeom
 
