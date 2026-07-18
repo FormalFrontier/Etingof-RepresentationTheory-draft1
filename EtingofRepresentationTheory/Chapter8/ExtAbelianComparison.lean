@@ -3,6 +3,8 @@ import EtingofRepresentationTheory.Chapter8.Definition8_2_4
 import Mathlib.CategoryTheory.Abelian.Projective.Ext
 import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.Linear
+import Mathlib.Algebra.Homology.Linear
+import Mathlib.Algebra.Homology.ShortComplex.Linear
 
 /-!
 # The comparison isomorphism `Ext ≃ₗ[k] Extₖ`
@@ -41,6 +43,24 @@ generators by tracking the scalar action, which on `Abelian.Ext` is postcomposit
 
 open CategoryTheory Limits CochainComplex CochainComplex.HomComplex
 
+namespace HomologicalComplex
+
+variable {R : Type*} [Semiring R] {C : Type*} [Category C] [Preadditive C]
+  [CategoryTheory.Linear R C] {ι : Type*} {c : ComplexShape ι}
+  {K L : HomologicalComplex C c}
+
+set_option backward.isDefEq.respectTransparency false in
+/-- `homologyMap` is `R`-linear in the morphism: `homologyMap (r • φ) = r • homologyMap φ`. The
+`R`-scalar analogue of `HomologicalComplex.homologyMap_add`, mirroring
+`ShortComplex.homologyMap_smul` (Mathlib records this as a TODO in `Algebra/Homology/Linear`). -/
+lemma homologyMap_smul (r : R) (φ : K ⟶ L) (i : ι) [K.HasHomology i] [L.HasHomology i] :
+    homologyMap (r • φ) i = r • homologyMap φ i := by
+  dsimp [homologyMap]
+  rw [← ShortComplex.homologyMap_smul]
+  rfl
+
+end HomologicalComplex
+
 namespace Etingof
 
 universe u
@@ -61,6 +81,17 @@ noncomputable def extAbelianAddEquivExtₖ (n : ℕ) :
     ((homComplexHomologyAddEquivₖ k N P n).trans
       (extIsoCohomologyHomₖ k A M N P n).symm.toLinearEquiv.toAddEquiv)
 
+/-- **Fact 1 (the "clean half").** On the `ModuleCat k`-valued homology
+`(P.complex.linearYonedaObj k N).homology n`, the module scalar `r • v` coincides with applying
+`homologyMap` of the degreewise scalar endomorphism `r • 𝟙` of the complex. This packages the
+`k`-linearity of the `linearYonedaObj` homology for the `map_smul'` proof of `extAbelianIsoExtₖ`. -/
+lemma smul_homology_eq (r : k) (n : ℕ)
+    (v : (P.complex.linearYonedaObj k N).homology n) :
+    r • v = (HomologicalComplex.homologyMap (r • 𝟙 (P.complex.linearYonedaObj k N)) n).hom v := by
+  rw [HomologicalComplex.homologyMap_smul, HomologicalComplex.homologyMap_id,
+    ← ModuleCat.lsmul_eq_smul_id]
+  rfl
+
 /-- **The comparison isomorphism `Ext ≃ₗ[k] Extₖ`.** The `k`-linear upgrade of
 `extAbelianAddEquivExtₖ`: for a projective resolution `P` of `M`, the derived-category `Ext` group
 `Abelian.Ext M N n` is `k`-linearly isomorphic to the left-derived-functor `Extₖ k A M N n`. The
@@ -70,11 +101,13 @@ the `Etingof.Ext` statement.
 
 The scalar action on `Abelian.Ext M N n` is postcomposition with `r • 𝟙 N`
 (`CategoryTheory.Abelian.Ext.smul_eq_comp_mk₀`); on `Extₖ k A M N n : ModuleCat k` it is the module
-scalar. Each of the four steps intertwines these actions (step 4 is a `ModuleCat k` iso, hence
-`k`-linear; steps 1–3 are the `k`-linear `Hom(P•, N)` structure viewed additively), so the composite
-`map_smul'` holds. Discharging it requires naturality-in-`N` of `extAddEquivCohomologyClass`,
-`homologyAddEquiv`, and `homComplexHomologyAddEquivₖ` under the endomorphism `r • 𝟙 N`, tracked as
-the follow-up to #6901. -/
+scalar. Step 4 is a `ModuleCat k` iso, hence `k`-linear, and is factored out; via `smul_homology_eq`
+(fact 1) the residual `map_smul'` becomes the single purely categorical naturality statement `hnat`:
+that the steps-1–3 composite `e123` intertwines the source scalar (postcomposition with
+`mk₀ (r • 𝟙 N)`) with `homologyMap (r • 𝟙)` on the `linearYonedaObj` homology. Discharging `hnat`
+needs naturality-in-`N` of `extAddEquivCohomologyClass`, `homologyAddEquiv`, and
+`homComplexHomologyAddEquivₖ` under the endomorphism `r • 𝟙 N` (none packaged in Mathlib for the
+middle/top steps); tracked as the follow-up to #6935. -/
 noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     Etingof.Ext M N n ≃ₗ[k] Etingof.Extₖ k A M N n where
   __ := extAbelianAddEquivExtₖ k N P n
@@ -91,8 +124,19 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     set step4 : (P.complex.linearYonedaObj k N).homology n ≃ₗ[k] Etingof.Extₖ k A M N n :=
       (extIsoCohomologyHomₖ k A M N P n).symm.toLinearEquiv with hstep4
     -- `k`-linearity of the composite reduces to `k`-linearity of `e123`, since step 4 is linear.
-    have key123 : ∀ y, e123 (r • y) = r • e123 y := by
+    -- By `smul_homology_eq` (fact 1) the target module scalar `r • e123 y` is
+    -- `homologyMap (r • 𝟙) n` applied to `e123 y`, so what remains is the purely categorical
+    -- naturality of `e123` in `N` under the endomorphism `r • 𝟙 N`: it must intertwine the source
+    -- scalar (postcomposition with `mk₀ (r • 𝟙 N)`, `Ext.smul_eq_comp_mk₀`) with `homologyMap` of
+    -- the degreewise scalar `r • 𝟙` on `linearYonedaObj`. Residual tracing through the three chain
+    -- steps (`extAddEquivCohomologyClass`, `homologyAddEquiv`, `homComplexHomologyAddEquivₖ`);
+    -- follow-up to #6935.
+    have hnat : ∀ y, e123 (r • y)
+        = (HomologicalComplex.homologyMap (r • 𝟙 (P.complex.linearYonedaObj k N)) n).hom
+            (e123 y) := by
       sorry
+    have key123 : ∀ y, e123 (r • y) = r • e123 y := fun y => by
+      rw [hnat y, smul_homology_eq k N P r n (e123 y)]
     have hfactor : ∀ y, extAbelianAddEquivExtₖ k N P n y = step4 (e123 y) := fun _ => rfl
     change extAbelianAddEquivExtₖ k N P n (r • x) = r • extAbelianAddEquivExtₖ k N P n x
     rw [hfactor, hfactor, key123, map_smul]
