@@ -461,4 +461,49 @@ lemma homologyAddEquiv_symm_mk_postcomp (n : ℤ)
   rw [AddEquiv.symm_apply_eq, homologyAddEquiv_homologyMap, AddEquiv.apply_symm_apply,
     cohomologyClassPostcompHom_mk]
 
+/-!
+## Tower naturality of `homComplexHomologyAddEquivₖ` under the scalar endomorphism
+
+For the scalar endomorphism `g = r • 𝟙 N`, the postcomposition chain map
+`homCochainComplexPostcomp N P g` corresponds, degreewise under `homDegEquiv` (hence `sIso`), to the
+`linearYonedaObj`-side scalar `r • 𝟙` (`homDegEquiv_homCochainComplexPostcomp`,
+`sIso_hom_homCochainComplexPostcomp_smul`). Assembling the degreewise squares into `ShortComplex`
+morphisms (`scIso`/`scHom0` naturality) and transporting through `homIso` upgrades
+`homComplexHomologyAddEquivₖ` to intertwine the `HomComplex`-side postcomposition `homologyMap` with
+the `linearYonedaObj`-side scalar `homologyMap (r • 𝟙)`. This tower naturality
+(`homComplexHomologyAddEquivₖ_homologyMap_postcomp`) is the last ingredient of the `k`-homogeneity
+crux of #6951.
+-/
+
+/-- **Degreewise postcomposition compatibility of `homDegEquiv`.** Under the degreewise
+identification `homDegEquiv`, the degree-`i` component of the postcomposition chain map
+`homCochainComplexPostcomp N P g` is postcomposition `- ≫ g` on the categorical hom
+`P.complex.X i ⟶ N`. -/
+lemma homDegEquiv_homCochainComplexPostcomp (g : N ⟶ N') (i : ℕ)
+    (z : (homCochainComplex N P).X (i : ℤ)) :
+    homDegEquiv N' P i ((homCochainComplexPostcomp N P g).f (i : ℤ) z)
+      = homDegEquiv N P i z ≫ g := by
+  rw [homCochainComplexPostcomp_f_apply, homDegEquiv_apply, homDegEquiv_apply, Category.assoc]
+  congr 1
+  obtain ⟨f, rfl⟩ := Cochain.toSingleMk_surjective z (-(i : ℤ)) (by ring)
+  rw [← Cochain.toSingleMk_postcomp, Cochain.toSingleEquiv_toSingleMk,
+    Cochain.toSingleEquiv_toSingleMk]
+
+/-- Underlying-map computation: `Ff.map (r • 𝟙 X)` acts as the scalar `r` on elements. -/
+lemma Ff_map_smul_id (r : k) (X : ModuleCat.{u} k) (w : X) :
+    (Ff k).map (r • 𝟙 X) w = r • w := by
+  rw [ModuleCat.forget₂_map]
+  simp only [ModuleCat.hom_smul, ModuleCat.hom_id]
+  rfl
+
+/-- **Specialized degreewise square (deliverable of #6953).** For the scalar endomorphism
+`g = r • 𝟙 N`, the sign-twisted degreewise iso `sIso` intertwines the postcomposition chain map
+`homCochainComplexPostcomp N P (r • 𝟙 N)` with the `linearYonedaObj`-side scalar `r • 𝟙`. -/
+lemma sIso_hom_homCochainComplexPostcomp_smul (r : k) (i : ℕ) (u : ℤˣ)
+    (z : (homCochainComplex N P).X (i : ℤ)) :
+    (sIso k N P i u).hom ((homCochainComplexPostcomp N P (r • 𝟙 N)).f (i : ℤ) z)
+      = (Ff k).map (r • 𝟙 ((P.complex.linearYonedaObj k N).X i)) ((sIso k N P i u).hom z) := by
+  rw [sIso_hom_apply, sIso_hom_apply, Ff_map_smul_id,
+    homDegEquiv_homCochainComplexPostcomp, Linear.comp_smul, Category.comp_id, smul_comm]
+
 end Etingof
