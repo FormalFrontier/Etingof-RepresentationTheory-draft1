@@ -266,4 +266,43 @@ noncomputable def homComplexHomologyAddEquivₖ (n : ℕ) :
       ≃+ (P.complex.linearYonedaObj k N).homology n :=
   (homIso k N P n).addCommGroupIsoToAddEquiv
 
+/-!
+## Postcomposition functoriality of `homCochainComplex` in `N`
+
+Mathlib does not package the whole-complex map `HomComplex K L ⟶ HomComplex K L'` induced by a
+morphism `L ⟶ L'`. We build the special case we need: a morphism `g : N ⟶ N'` induces a chain map
+`homCochainComplex N P ⟶ homCochainComplex N' P` by degreewise postcomposition of cochains with
+`(singleFunctor _ 0).map g`. The chain-map condition is `δ_comp_ofHom` (postcomposition by an
+honest morphism commutes with the `HomComplex` differential `δ`). This feeds the scalar-endomorphism
+naturality that upgrades `homComplexHomologyAddEquivₖ` to `k`-linear (crux of #6951).
+-/
+
+variable {N' : ModuleCat.{u} A}
+
+/-- Degreewise postcomposition of `i`-cochains into `N[0]` with `(singleFunctor _ 0).map g`, as an
+additive homomorphism `Cochain P.cochainComplex N[0] i →+ Cochain P.cochainComplex N'[0] i`. -/
+noncomputable def cochainPostcompHom (g : N ⟶ N') (i : ℤ) :
+    Cochain P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) i →+
+      Cochain P.cochainComplex ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N') i where
+  toFun z := z.comp (Cochain.ofHom ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g))
+    (add_zero i)
+  map_zero' := Cochain.zero_comp _ _
+  map_add' z z' := Cochain.add_comp z z' _ _
+
+/-- The chain map `homCochainComplex N P ⟶ homCochainComplex N' P` induced by `g : N ⟶ N'`, given
+degreewise by `cochainPostcompHom`. The chain-map square is `δ_comp_ofHom`. -/
+noncomputable def homCochainComplexPostcomp (g : N ⟶ N') :
+    homCochainComplex N P ⟶ homCochainComplex N' P where
+  f i := AddCommGrpCat.ofHom (cochainPostcompHom N P g i)
+  comm' i j _ := by
+    ext z
+    rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply]
+    exact CochainComplex.HomComplex.δ_comp_ofHom z _ j
+
+@[simp] lemma homCochainComplexPostcomp_f_apply (g : N ⟶ N') (i : ℤ)
+    (z : (homCochainComplex N P).X i) :
+    (homCochainComplexPostcomp N P g).f i z =
+      z.comp (Cochain.ofHom ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).map g))
+        (add_zero i) := rfl
+
 end Etingof
