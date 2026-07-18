@@ -89,7 +89,12 @@ match, so `rw [← heq]` reports "did not find pattern". Bridge it once at the t
 `simp only [bind_pure_comp, Multiset.fmap_def, Multiset.map_map, Function.comp_def] at heq`
 (this rewrites `x >>= pure ∘ ↑` → `↑ <$> m` → `m.map ↑` → `m.map (g ∘ ↑)`), after which the
 hypothesis is `(m.map (fun a => 1 - (↑a)⁻¹)).sum` and folds to your `f`. Do this before building
-any per-element case analysis on the sum.
+any per-element case analysis on the sum. **If instead you just need the NUMERIC value of a
+concrete literal sum** (e.g. `(({2,3,3} : Multiset ℕ).map (fun x => 1 - (x:ℚ)⁻¹)).sum = 11/6`,
+as when deriving `|G|` from the SO(3) pole-counting identity for the `{2,3,3}`/`{2,3,4}`/`{2,3,5}`
+families in `Problem4_12_8.lean`), skip the fold: `simp only [Multiset.insert_eq_cons]; norm_num`
+proves it outright — `norm_num` evaluates through the `do`-block/`<$>` on its own. Then
+`rw [that_sum] at heq; field_simp [hcard_ne_zero] at heq; linarith` closes `(Nat.card G : ℚ) = N`.
 
 **When composing a chain of `LinearEquiv`s between principal ideals, parametrize each generic
 equiv by the *boundary submodule* plus a `hp : p = Submodule.span R {w}` proof — don't lean on
