@@ -685,6 +685,19 @@ in #5987, `Chapter2/Definition2_8_4.lean`):
   goal: it re-elaborates the inner `Finsupp.single` and reintroduces the wrong `Zero` instance —
   keep the whole computation in one `rw […]` chain (`Finsupp.smul_single, ofPath, Finsupp.smul_single,
   smul_eq_mul, mul_one`) so instances stay consistent.
+- **`•` on a submodule of `Foo` stalls on `Field ?m` when the scalar's implicit `k` is unpinned**
+  (#6975, `Chapter9/PathAlgebraProjectiveCover.lean`). Writing a bare `eIdem i • v` where
+  `eIdem : {k Q} … → Q → Foo` leaves `k` a metavar (nothing in `i : Q` determines it), and `binop%`
+  smul elaboration then trips the `Field ?k` instance search and aborts with "typeclass instance
+  problem is stuck / `Field ?m`" — even though `inferInstance : SMul Foo (submodule)` resolves fine on
+  its own. **Fix:** pin the scalar's implicit, `eIdem (k := k) i • v` (also inside `f.map_smul (eIdem i) v`
+  and any `have`/type-ascription mentioning the smul). Same trap for any polymorphic constant whose
+  ground universe/field can't be inferred from its explicit args.
+- **`Foo = ι →₀ k` with `Quiver.{u+1}` lands in `Type (u+1)`, not `Type u`** — `Quiver.Path`, hence
+  `QuiverPathIndex`, hence `PathAlgebra k Q`, are one universe above `Q : Type u`. A principal submodule
+  `A · eᵢ` therefore lives in `Type (u+1)`; a theorem quantifying its projective family as `P : Q → Type u`
+  cannot be instantiated with it. Relax such a hypothesis to `P : Q → Type*` (the finrank/equiv proof is
+  universe-agnostic) rather than fighting the universe (#6975).
 
 ### Induced rep `Ind_H^G ℂ ≅ k[G]·a` as `Representation.Equiv`, and the MonoidAlgebra/Finsupp instance wall (#5171)
 
