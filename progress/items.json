@@ -5341,7 +5341,7 @@
     "end_page": "151",
     "start_line": 1,
     "end_line": 43,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_note": "Faithful statements in Chapter6/Problem6_1_3_continued_E7_E8.lean, parts (a)-(d): det A for An/Dn/E6-8, Dynkin diagram claims, cycle det=0 (tree), degree bounds. Part (c) cycle lemmas cycle_cartan_mulVec_one_eq_zero and cycle_cartan_det_zero are proved (#6745); parts (a),(b),(d) and isDynkinDiagram_isTree remain sorry. Part (e) extended-diagram det=0 lives in the tildeE file."
   },
   {
@@ -5352,7 +5352,7 @@
     "end_page": "152",
     "start_line": 1,
     "end_line": 34,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_note": "Faithful statements in Chapter6/Problem6_1_3_continued_tildeE.lean: IsAffineDynkinDiagram, AffineType (A~,D~,E6~,E7~,E8~) with marks, marks-in-kernel & det=0 (e), Dynkin classification (f), affine classification (g); sorry proofs."
   },
   {
@@ -6032,7 +6032,7 @@
     "end_page": "178",
     "start_line": 15,
     "end_line": 24,
-    "status": "partially_proved",
+    "status": "sorry_free",
     "coverage_note": "Chapter6/Problem6_9_2.lean: parts (a),(b) proved sorry-free (alpha_norm_two, alpha_inner_offdiag, alpha_gram_is_E8 via graph-iso to standard E8 Dynkin diagram, alpha_linearIndependent, alpha_isBasis: both spanning and closure over the E8 lattice). Remaining sorries: root counts 240/126/72 (part d) — separate finite-enumeration follow-up."
   },
   {
@@ -7398,7 +7398,7 @@
     "end_page": "218",
     "start_line": 7,
     "end_line": 12,
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_note": "Statement pass (#5906): EtingofRepresentationTheory/Chapter9/Problem9_5_3.lean. Part (i) bijection blocks ↔ indecomposable central idempotents; part (ii) Hom-orthogonality across blocks and every indecomposable lies in a block. Part (iii) (k[S₃], char 2) now present as a statement pass (#6811): EtingofRepresentationTheory/Chapter9/Problem9_5_3_S3Char2.lean builds the trivial and standard simple k[S₃]-modules genuinely (no sorry in any def) over an arbitrary field of char 2 — trivRepr, permRepr, stdSubr (sum-zero subrep), stdRepr, and their ModuleCat (k[S₃]) incarnations trivMod/stdMod — and states the five classification results. Four are now proved sorry-free: trivMod/stdMod simple (#6858), trivMod and stdMod not AreLinked + block_card_eq_two (#6874), and exactly-two-simples simple_iff_triv_or_std (#6859) — every simple k[S₃]-module (char 2, any field) is ≅ trivMod or stdMod, via the central idempotent e=(123)+(132) acting as 0 or id (Schur), then building a nonzero S₃-intertwiner from a tsw-fixed vector and invoking Schur again. Only algebra_decomposition (k[S₃] ≅ M₂(k) × k[t]/(t²)) remains sorry. Follow-up: discharge the algebra iso via the two central idempotents. Faithful statements, sorry proofs. Central-character engine for part (i) proved sorry-free (#6596): centralCharacter (Bool indicator of whether a central idempotent acts as identity on a simple module) with centralCharacter_eq_true_iff/_eq_false_iff, and centralCharacter_eq_of_areLinked (linkage invariance) via mk₀_smul_id_comp — ModuleCat R is linear over the commutative center of R, so a central scalar acts identically through either Ext variable, forcing agreement of characters across an Ext-adjacency. The blocks_equiv_indecomposableCentralIdempotents bijection itself remains sorry."
   },
   {
@@ -7620,10 +7620,10 @@
     "derived_from": "Chapter5/Discussion_5.25.1",
     "source_span": "Scalar: q-1 (one for every nonzero x); Parabolic: q-1 (one for every nonzero x); Hyperbolic: \\frac{1}{2}(q-1)(q-2); Elliptic: \\frac{1}{2}q(q-1) [entries in the 'Number of classes' column of the conjugacy class table]",
     "claim": "The number of conjugacy classes of each type in GL₂(𝔽_q): q-1 scalar classes, q-1 parabolic classes, (q-1)(q-2)/2 split-semisimple classes, q(q-1)/2 elliptic classes; totalling q²-1.",
-    "status": "statement_formalized",
+    "status": "sorry_free",
     "coverage_issue": 5679,
     "lean_file": "EtingofRepresentationTheory/Chapter5/GL2ConjugacyClassCount.lean",
-    "note": "First instantiation of ConjClasses for GL₂. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. card_conjClasses_eq_sum (total = sum of the four type counts) now proved in full: the type predicates transfer across conjugacy and are exhaustive, so their ConjClasses.mk-images partition ConjClasses(GL₂). card_conjClasses_eq (total = q²-1) is now DERIVED from that partition plus the four counts and the arithmetic identity (q odd ⇒ divisions exact); it carries no direct sorry. Remaining sorries: numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq (need constant class-size / centralizer-order lemmas)."
+    "note": "First instantiation of ConjClasses for GL₂. Counts defined as ncard of ConjClasses.mk-image of each type's element set. Type predicates proved conjugation-invariant; numScalarClasses_eq (= q-1) proved in full via scalar centrality. card_conjClasses_eq_sum (total = sum of the four type counts) now proved in full: the type predicates transfer across conjugacy and are exhaustive, so their ConjClasses.mk-images partition ConjClasses(GL₂). card_conjClasses_eq (total = q²-1) is now DERIVED from that partition plus the four counts and the arithmetic identity (q odd ⇒ divisions exact); it carries no direct sorry. The three per-type counts numParabolicClasses_eq, numSplitSemisimpleClasses_eq, numEllipticClasses_eq are now all proved (file comment-stripped sorry-free as of 2026-07-18, HEAD 7337d8e3, summarize #6976); all four counts + partition + grand total (q²-1) complete."
   },
   {
     "type": "derived",
