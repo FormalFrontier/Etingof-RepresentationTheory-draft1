@@ -3944,6 +3944,65 @@ private lemma neighborFinset_delete {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (
     obtain ⟨j, hj⟩ := Fin.exists_succAbove_eq hcℓ
     exact ⟨j, by rw [hj]; exact hc, hj⟩
 
+/-- **Degree of a `Dₖ` vertex as a range filter.** Rewrites the vertex degree of the standard
+finite `Dₖ` adjacency matrix at `i` as the cardinality of the set of `J < k` adjacent to `i.val`,
+turning the count into pure `ℕ`-arithmetic. -/
+private lemma Dk_deg_eq_filter_range {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
+    Etingof.vertexDegree (DynkinType.D k hk).adj i
+      = ((Finset.range k).filter (fun J =>
+          ((i.val + 1 = J ∧ J ≤ k - 2) ∨ (J + 1 = i.val ∧ i.val ≤ k - 2)) ∨
+          ((i.val = k - 3 ∧ J = k - 1) ∨ (J = k - 3 ∧ i.val = k - 1)))).card := by
+  unfold Etingof.vertexDegree
+  rw [← Finset.card_image_of_injective _ Fin.val_injective]
+  congr 1
+  ext J
+  simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_range]
+  constructor
+  · rintro ⟨j, hj, rfl⟩
+    refine ⟨j.isLt, ?_⟩
+    simp only [DynkinType.adj] at hj
+    split_ifs at hj with h
+    · exact h
+    · exact absurd hj (by norm_num)
+  · rintro ⟨hJk, hQ⟩
+    refine ⟨⟨J, hJk⟩, ?_, rfl⟩
+    simp only [DynkinType.adj]
+    rw [if_pos hQ]
+
+/-- **Closed-form degree of a `Dₖ` vertex.** In the standard finite `Dₖ` layout (path
+`0—1—…—(k-2)` with a fork `(k-3)—(k-1)`), the branch vertex `k-3` has degree `3`, the three leaves
+`0, k-2, k-1` have degree `1`, and every other vertex has degree `2`. -/
+private lemma Dk_vertexDegree {k : ℕ} (hk : 4 ≤ k) (i : Fin k) :
+    Etingof.vertexDegree (DynkinType.D k hk).adj i =
+      if i.val = k - 3 then 3 else if i.val = 0 ∨ i.val = k - 2 ∨ i.val = k - 1 then 1 else 2 := by
+  have hik : i.val < k := i.isLt
+  rw [Dk_deg_eq_filter_range hk i]
+  split_ifs with hbr hlf
+  · rw [Finset.card_eq_three]
+    refine ⟨k - 4, k - 2, k - 1, by omega, by omega, by omega, ?_⟩
+    ext J
+    simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_insert, Finset.mem_singleton]
+    omega
+  · rw [Finset.card_eq_one]
+    rcases hlf with h | h | h
+    · refine ⟨1, ?_⟩
+      ext J
+      simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_singleton]
+      omega
+    · refine ⟨k - 3, ?_⟩
+      ext J
+      simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_singleton]
+      omega
+    · refine ⟨k - 3, ?_⟩
+      ext J
+      simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_singleton]
+      omega
+  · rw [Finset.card_eq_two]
+    refine ⟨i.val - 1, i.val + 1, by omega, ?_⟩
+    ext J
+    simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_insert, Finset.mem_singleton]
+    omega
+
 /-- **Leaf-deleted two-branch affine diagram is a finite `Dₖ`, with the reattach point one step
 in from the far leaf.** This is the *classification crux* of `affine_tree_two_branch_iso`: given a
 connected acyclic affine Dynkin diagram on `Fin (k+1)` with all degrees `≤ 3` and exactly two branch
@@ -3954,15 +4013,12 @@ forced to be the **`Dₖ`** family — the E-types `E₆/E₇/E₈` are *ruled o
 end (index `0`).
 
 Ruling out the E-types is the affine-degeneracy step: because `w` is untouched by the deletion it
-keeps degree 3, so the survivor has a unique branch vertex and is `Dₖ`, `E₆`, `E₇`, or `E₈`; the
-positive-semidefinite-but-degenerate Cartan form of the affine diagram pins the two fork-arms at
-`w` to length `1` each (equivalently, `w`'s branch vertex in the survivor has *two* leaf-neighbours,
-true only for `Dₖ`, not for any E branch vertex). Formalizing that discriminator requires the
-two-branch analogue of the one-branch arm-length machinery (`affine_arm_length_solutions`,
-`affine_tree_one_arm_reciprocal`) and is split off as its own sub-issue; the surrounding scaffolding
-(leaf extraction, deletion, and the reindexing engine `affine_two_fork_reindex`) is complete.
-
-`sorry`-tracked: see the sub-issue for the E-ruling-out + reattach-point localization. -/
+keeps degree 3, so the survivor has a unique branch vertex and is `Dₖ`, `E₆`, `E₇`, or `E₈`. The
+untouched branch vertex `w` carries *two* distinct leaf-neighbours (`affine_two_branch_fork_leaves`),
+which survive the deletion; `dynkinType_eq_D_of_branch_two_leaves` then forces the `Dₖ` family, since
+no E branch vertex has two leaf-neighbours. Finally the reattach point `v'` — the survivor of `v`,
+adjacent to `v`'s *other* leaf and hence a degree-2 vertex adjacent to a `Dₖ` leaf — is pinned to
+`Dₖ`-position `1` (`Dk_vertexDegree`: the only such vertex is index `1`). -/
 lemma affine_two_branch_deleted_isD {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (k + 1)) ℤ)
     (hD : IsAffineDynkinDiagram (k + 1) adj)
     (hacyc : (∑ i, ∑ j, adj i j) < 2 * ((k + 1 : ℕ) : ℤ))
@@ -4086,10 +4142,61 @@ lemma affine_two_branch_deleted_isD {k : ℕ} (adj : Matrix (Fin (k + 1)) (Fin (
     have hc := Fintype.card_congr σ
     simp only [Fintype.card_fin] at hc
     exact hc
-  subst hn'k
+  subst n'
   refine ⟨hn', v', hv'eq, σ, fun i j => hσ i j, ?_⟩
   -- STEP 5: the reattach point `v'` sits at `Dₖ`-position `1`.
-  sorry
+  -- `v`'s other leaf `m ≠ ℓ`, which survives adjacent to `v'`.
+  obtain ⟨m₁, m₂, hm12, hvm1, hvm2, hm1deg, hm2deg⟩ :=
+    affine_two_branch_fork_leaves adj (by omega) hD hacyc hdeg3 w v (Ne.symm hvw) hw hv
+      (fun u hu => (huniq u hu).symm)
+  obtain ⟨m, hvm, hmdeg, hmℓ⟩ :
+      ∃ m, adj v m = 1 ∧ Etingof.vertexDegree adj m = 1 ∧ m ≠ ℓ := by
+    by_cases h : m₁ = ℓ
+    · exact ⟨m₂, hvm2, hm2deg, fun h2 => hm12 (h.trans h2.symm)⟩
+    · exact ⟨m₁, hvm1, hm1deg, h⟩
+  obtain ⟨m', hm'eq⟩ := Fin.exists_succAbove_eq hmℓ
+  have hmv' : adj m v = 1 := by rw [hsymm']; exact hvm
+  have hv'm' : (adj.submatrix ℓ.succAbove ℓ.succAbove) v' m' = 1 := by
+    simp only [Matrix.submatrix_apply]; rw [hv'eq, hm'eq]; exact hvm
+  have hm'deg : Etingof.vertexDegree (adj.submatrix ℓ.succAbove ℓ.succAbove) m' = 1 :=
+    hleafDel m m' hm'eq hmdeg (fun c hc => by rw [degOneUniq m v hmdeg hmv' c hc]; exact hvℓ)
+  -- `v'` has degree `2` (it lost the deleted leaf `ℓ`, keeping `m'` and the spine).
+  have hv'deg : Etingof.vertexDegree (adj.submatrix ℓ.succAbove ℓ.succAbove) v' = 2 := by
+    rw [hdeg_del v', hv'eq]
+    have hset : (univ.filter (fun c => adj v c = 1 ∧ c ≠ ℓ))
+        = (univ.filter (fun c => adj v c = 1)).erase ℓ := by
+      ext c; simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_erase]; tauto
+    have hℓmem : ℓ ∈ univ.filter (fun c => adj v c = 1) := by
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact hℓv
+    have hvcard : (univ.filter (fun c => adj v c = 1)).card = 3 := hv
+    rw [hset, Finset.card_erase_of_mem hℓmem, hvcard]
+  -- Transport degrees and the `v'–m'` adjacency through `σ`.
+  have hadeg2 : Etingof.vertexDegree (DynkinType.D k hn').adj (σ.symm v') = 2 := by
+    have h := vertexDegree_map_equiv (DynkinType.D k hn').adj
+      (adj.submatrix ℓ.succAbove ℓ.succAbove) σ hσ (σ.symm v')
+    rw [σ.apply_symm_apply] at h; rw [← h]; exact hv'deg
+  have hbdeg1 : Etingof.vertexDegree (DynkinType.D k hn').adj (σ.symm m') = 1 := by
+    have h := vertexDegree_map_equiv (DynkinType.D k hn').adj
+      (adj.submatrix ℓ.succAbove ℓ.succAbove) σ hσ (σ.symm m')
+    rw [σ.apply_symm_apply] at h; rw [← h]; exact hm'deg
+  have habD : (DynkinType.D k hn').adj (σ.symm v') (σ.symm m') = 1 := by
+    have h := hσ (σ.symm v') (σ.symm m')
+    rw [σ.apply_symm_apply, σ.apply_symm_apply] at h; rw [← h]; exact hv'm'
+  -- `v'` is not the branch vertex (degree `2 ≠ 3`); `m'` is a leaf (`∈ {0, k-2, k-1}`).
+  have ha_ne : (σ.symm v').val ≠ k - 3 := by
+    intro hh; rw [Dk_vertexDegree hn', if_pos hh] at hadeg2; omega
+  have hb_leaf : (σ.symm m').val = 0 ∨ (σ.symm m').val = k - 2 ∨ (σ.symm m').val = k - 1 := by
+    by_contra hh; rw [Dk_vertexDegree hn' (σ.symm m')] at hbdeg1; split_ifs at hbdeg1 <;> omega
+  -- The only `Dₖ` leaf whose neighbour has degree `2` is `0`, forcing `v' = 1`.
+  have hAval : (σ.symm v').val = 1 := by
+    simp only [DynkinType.adj] at habD
+    have hab := (σ.symm v').isLt
+    have hbb := (σ.symm m').isLt
+    split_ifs at habD with hc
+    · rcases hb_leaf with hB | hB | hB <;>
+        rcases hc with (⟨h1, h2⟩ | ⟨h1, h2⟩) | (⟨h1, h2⟩ | ⟨h1, h2⟩) <;> omega
+    · exact absurd habD (by norm_num)
+  exact Fin.ext hAval
 
 /-- **Two branch vertices ⟹ D̃ₙ.** A connected acyclic affine Dynkin diagram with all degrees `≤ 3`
 and exactly two branch (degree-3) vertices is graph-isomorphic to `AffineType.Dtilde n` for some
