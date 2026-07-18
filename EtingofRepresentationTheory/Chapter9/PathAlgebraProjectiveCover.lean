@@ -247,4 +247,83 @@ noncomputable def homCutEquiv (i j : Q) :
       rw [hy, map_smul, Submodule.coe_smul, Submodule.coe_smul, eIdemMem_val, smul_eq_mul,
         smul_eq_mul, mul_assoc, eIdem_mul_hom_val])
 
+/-! ## Step 2: `eᵢ · A · eⱼ ≅ (paths i → j) →₀ k` -/
+
+/-- The embedding of the `i → j` paths into all oriented paths, `p ↦ ⟨i, j, p⟩`. -/
+def pathEmb (i j : Q) : Quiver.Path i j ↪ QuiverPathIndex Q where
+  toFun p := ⟨i, j, p⟩
+  inj' p q h := by simpa using h
+
+@[simp] theorem pathEmb_apply (i j : Q) (p : Quiver.Path i j) :
+    pathEmb i j p = (⟨i, j, p⟩ : QuiverPathIndex Q) := rfl
+
+/-- An index is in the range of `pathEmb i j` iff its source is `i` and target is `j`. -/
+theorem mem_range_pathEmb_iff {i j : Q} {y : QuiverPathIndex Q} :
+    y ∈ Set.range (pathEmb i j) ↔ y.1 = i ∧ y.2.1 = j := by
+  constructor
+  · rintro ⟨p, rfl⟩; exact ⟨rfl, rfl⟩
+  · obtain ⟨a, b, p⟩ := y
+    rintro ⟨rfl, rfl⟩
+    exact ⟨p, rfl⟩
+
+/-- Coefficients of a cut element vanish off the `i → j` paths. -/
+theorem coeff_eq_zero_of_mem_eCut {i j : Q} {x : PathAlgebra k Q} (hx : x ∈ eCut k Q i j)
+    {y : QuiverPathIndex Q} (hy : ¬ (y.1 = i ∧ y.2.1 = j)) : coeff x y = 0 := by
+  obtain ⟨a, rfl⟩ := mem_eCut_iff.mp hx
+  rw [coeff_eIdem_mul_eIdem, if_neg hy]
+
+/-- The `embDomain` of any `i → j` finsupp lands in the cut `eᵢ · A · eⱼ`. -/
+theorem embDomain_mem_eCut {i j : Q} (c : Quiver.Path i j →₀ k) :
+    (Finsupp.embDomain (pathEmb i j) c : PathAlgebra k Q) ∈ eCut k Q i j := by
+  refine mem_eCut_iff.mpr ⟨Finsupp.embDomain (pathEmb i j) c, coeff_ext fun y => ?_⟩
+  rw [coeff_eIdem_mul_eIdem]
+  by_cases hy : y.1 = i ∧ y.2.1 = j
+  · rw [if_pos hy]
+  · rw [if_neg hy]
+    exact (Finsupp.embDomain_notin_range _ _ _
+      (fun h => hy (mem_range_pathEmb_iff.mp h))).symm
+
+/-- **Step 2.** The identification `eᵢ · A · eⱼ ≃ₗ[k] (paths i → j) →₀ k`: restrict a cut element's
+support to the `i → j` paths (forward) and `embDomain` back (inverse). -/
+noncomputable def cutPathEquiv (i j : Q) :
+    ↥(eCut k Q i j) ≃ₗ[k] (Quiver.Path i j →₀ k) where
+  toFun x := Finsupp.comapDomain (pathEmb i j) (x : PathAlgebra k Q)
+    ((pathEmb i j).injective.injOn)
+  map_add' x y := by
+    refine Finsupp.ext fun p => ?_
+    rw [Finsupp.comapDomain_apply, Finsupp.add_apply, Finsupp.comapDomain_apply,
+      Finsupp.comapDomain_apply]
+    exact congrFun (congrArg _ (Submodule.coe_add x y)) _
+  map_smul' c x := by
+    refine Finsupp.ext fun p => ?_
+    rw [RingHom.id_apply, Finsupp.comapDomain_apply, Finsupp.smul_apply,
+      Finsupp.comapDomain_apply]
+    exact congrFun (congrArg _ (Submodule.coe_smul c x)) _
+  invFun c := ⟨Finsupp.embDomain (pathEmb i j) c, embDomain_mem_eCut c⟩
+  left_inv x := by
+    refine Subtype.ext (coeff_ext fun y => ?_)
+    simp only [coeff]
+    by_cases hy : ∃ p, pathEmb i j p = y
+    · obtain ⟨p, rfl⟩ := hy
+      rw [Finsupp.embDomain_apply_self, Finsupp.comapDomain_apply]
+    · have hnotin : y ∉ Set.range (pathEmb i j) := fun h => hy (Set.mem_range.mp h)
+      rw [Finsupp.embDomain_notin_range _ _ _ hnotin]
+      exact (coeff_eq_zero_of_mem_eCut x.2
+        (fun h => hnotin (mem_range_pathEmb_iff.mpr h))).symm
+  right_inv c := by
+    refine Finsupp.ext fun p => ?_
+    rw [Finsupp.comapDomain_apply]
+    exact Finsupp.embDomain_apply_self _ _ _
+
+/-! ## Assembly: `Hom_A(A·eᵢ, A·eⱼ) ≅ (paths i → j) →₀ k` -/
+
+variable (k Q) in
+/-- **The Hom-space identification (Problem 9.4.6 (ii) crux).**
+`Hom_A(A·eᵢ, A·eⱼ) ≃ₗ[k] (Quiver.Path i j →₀ k)`, composing the idempotent Hom identification
+`homCutEquiv` with the cut/paths identification `cutPathEquiv`. -/
+noncomputable def pathAlgebraHomEquiv (i j : Q) :
+    (pathAlgebraProj k Q i →ₗ[PathAlgebra k Q] pathAlgebraProj k Q j) ≃ₗ[k]
+      (Quiver.Path i j →₀ k) :=
+  (homCutEquiv i j).trans (cutPathEquiv i j)
+
 end Etingof.PathAlgebra
