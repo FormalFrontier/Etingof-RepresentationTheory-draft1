@@ -3331,6 +3331,176 @@ private lemma harm_three {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ) (f : Fin n
       Finset.sum_insert (by rwa [Finset.mem_singleton]), Finset.sum_singleton] at h
   linarith [h]
 
+/-- **Linearise one outer arm of a null vector.** An outer-arm component `S` at hub `h` (nonempty,
+`h`-avoiding, internally connected, all vertices of degree `≤ 2`, closed under adjacency inside
+`S ∪ {h}`, with unique `h`-neighbour `nb`) carries the strictly-positive null vector `f` as a linear
+function from the far tip inward: writing `a > 0` for the tip value, `f h = (L+1)·a` (hub value) and
+`f nb = L·a` (root value), where `L = S.card` is the arm length. When `L = 1` the root `nb` is itself
+a leaf. This is the per-arm ingredient feeding the two-branch fork pinch. -/
+private lemma outer_arm_linear {n : ℕ} (adj : Matrix (Fin n) (Fin n) ℤ)
+    (hn : 1 ≤ n) (hD : IsAffineDynkinDiagram n adj)
+    (f : Fin n → ℤ) (hf_pos : ∀ i, 0 < f i)
+    (hharm : ∀ x, 2 * f x = ∑ y, adj x y * f y)
+    (h : Fin n)
+    (S : Finset (Fin n)) (hhS : h ∉ S) (hSne : S.Nonempty)
+    (hSconn : ∀ a ∈ S, ∀ b ∈ S, ∃ p : List (Fin n),
+        p.head? = some a ∧ p.getLast? = some b ∧ (∀ x ∈ p, x ∈ S) ∧
+        ∀ k, (hk : k + 1 < p.length) →
+          adj (p.get ⟨k, by omega⟩) (p.get ⟨k + 1, hk⟩) = 1)
+    (nb : Fin n) (hnbS : nb ∈ S) (hnbh : adj h nb = 1)
+    (hnb_uniq : ∀ a ∈ S, adj h a = 1 → a = nb)
+    (hSdeg : ∀ x ∈ S, Etingof.vertexDegree adj x ≤ 2)
+    (hClosed : ∀ x ∈ S, ∀ y, adj x y = 1 → y = h ∨ y ∈ S) :
+    ∃ (L : ℕ) (a : ℤ), 1 ≤ L ∧ 0 < a ∧ f h = (L + 1) * a ∧ f nb = L * a ∧
+      (L = 1 → Etingof.vertexDegree adj nb = 1) := by
+  classical
+  have h01 := hD.2.2.1
+  have hsymm := hD.1
+  have hsymm' : ∀ a b, adj a b = adj b a := fun a b => by
+    have hh := congrFun (congrFun hsymm b) a
+    rw [Matrix.transpose_apply] at hh; exact hh
+  -- Walk the arm: `g 0 = nb` (root, `h`-neighbour) … `g (L-1)` (far tip).
+  obtain ⟨L, g, hL1, hg0, hmemS, himg, hginj, hghub, hgedge⟩ :=
+    affine_arm_walk' adj hn hD h S hhS hSne hSconn nb hnbS hnbh hnb_uniq hSdeg
+  -- Every `S`-vertex is some `g m`.
+  have hmemg : ∀ y, y ∈ S → ∃ m, m < L ∧ g m = y := by
+    intro y hy; rw [himg, Finset.mem_image] at hy
+    obtain ⟨m, hm, hgm⟩ := hy; exact ⟨m, Finset.mem_range.mp hm, hgm⟩
+  -- Neighbours of an arm vertex land in `{h} ∪ (g '' range L)`.
+  have hclose' : ∀ k y, k < L → adj (g k) y = 1 → y = h ∨ ∃ m, m < L ∧ g m = y := by
+    intro k y hk hy
+    rcases hClosed (g k) (hmemS k hk) y hy with hh | hh
+    · exact Or.inl hh
+    · exact Or.inr (hmemg y hh)
+  -- `h` is not in the arm image.
+  have hne_h : ∀ m, m < L → g m ≠ h := fun m hm hgm => hhS (hgm ▸ hmemS m hm)
+  -- Only the root `g 0` is adjacent to the hub `h`.
+  have hnoh : ∀ k, k < L → adj (g k) h = 1 → k = 0 := by
+    intro k hk hkh
+    rw [hsymm' (g k) h] at hkh
+    exact (hghub k hk).mp hkh
+  -- The null vector along the arm, indexed from the far tip: `seq i = f (g (L-1-i))`, `seq L = f h`.
+  set seq : ℕ → ℤ := fun i => if hi : i < L then f (g (L - 1 - i)) else f h with hseq_def
+  have hseqlt : ∀ i, i < L → seq i = f (g (L - 1 - i)) := by
+    intro i hi; simp only [hseq_def, dif_pos hi]
+  have hseqL : seq L = f h := by simp only [hseq_def, dif_neg (lt_irrefl L)]
+  -- Leaf condition: the tip `g (L-1)` has a unique neighbour, giving `2·seq 0 = seq 1`.
+  have hleaf : 2 * seq 0 = seq 1 := by
+    have htip : seq 0 = f (g (L - 1)) := by
+      rw [hseqlt 0 hL1, show L - 1 - 0 = L - 1 from Nat.sub_zero _]
+    rcases Nat.lt_or_ge 1 L with hL2 | hL1'
+    · -- `L ≥ 2`: unique neighbour is `g (L-2)`.
+      have hs1 : seq 1 = f (g (L - 2)) := by
+        rw [hseqlt 1 hL2, show L - 1 - 1 = L - 2 from by omega]
+      have hN : ∀ y, adj (g (L - 1)) y = 1 ↔ y = g (L - 2) := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' (L - 1) y (by omega) hy with hh | ⟨m, hm, hgm⟩
+          · exfalso; rw [hh] at hy; have := hnoh (L - 1) (by omega) hy; omega
+          · rw [← hgm]; congr 1
+            have := (hgedge (L - 1) m (by omega) hm).mp (hgm ▸ hy)
+            omega
+        · intro hy; rw [hy, hgedge (L - 1) (L - 2) (by omega) (by omega)]; omega
+      rw [htip, hs1]; exact harm_one adj f h01 hharm _ _ hN
+    · -- `L = 1`: the root `nb = g 0` is the tip, unique neighbour is `h`.
+      have hLeq : L = 1 := le_antisymm hL1' hL1
+      have hs1 : seq 1 = f h := by rw [← hseqL, hLeq]
+      have hN : ∀ y, adj (g (L - 1)) y = 1 ↔ y = h := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' (L - 1) y (by omega) hy with hh | ⟨m, hm, hgm⟩
+          · exact hh
+          · exfalso
+            have := (hgedge (L - 1) m (by omega) hm).mp (hgm ▸ hy); omega
+        · intro hy; rw [hy, hsymm' (g (L-1)) h]
+          have : (L - 1 : ℕ) = 0 := by omega
+          rw [this, hg0]; exact hnbh
+      rw [htip, hs1]; exact harm_one adj f h01 hharm _ _ hN
+  -- Interior harmonic condition for `seq`.
+  have hintr : ∀ i, 1 ≤ i → i + 1 ≤ L → 2 * seq i = seq (i - 1) + seq (i + 1) := by
+    intro i hi1 hiL
+    -- `seq i = f (g j)` with `j = L-1-i`.
+    have hjlt : L - 1 - i < L := by omega
+    have hsi : seq i = f (g (L - 1 - i)) := hseqlt i (by omega)
+    have hsim : seq (i - 1) = f (g (L - i)) := by
+      rw [hseqlt (i - 1) (by omega)]; congr 2; omega
+    rcases Nat.lt_or_ge (i + 1) L with hlt | hge
+    · -- interior of the arm: neighbours `g (L-i)` and `g (L-2-i)`.
+      have hsip : seq (i + 1) = f (g (L - 2 - i)) := by
+        rw [hseqlt (i + 1) hlt]; congr 2; omega
+      have hab : g (L - i) ≠ g (L - 2 - i) := by
+        intro heq; have := (hginj (L - i) (L - 2 - i) (by omega) (by omega)).mp heq; omega
+      have hN : ∀ y, adj (g (L - 1 - i)) y = 1 ↔ y = g (L - i) ∨ y = g (L - 2 - i) := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' (L - 1 - i) y hjlt hy with hh | ⟨m, hm, hgm⟩
+          · exfalso; rw [hh] at hy; have := hnoh (L - 1 - i) hjlt hy; omega
+          · have := (hgedge (L - 1 - i) m hjlt hm).mp (hgm ▸ hy)
+            rcases this with h | h
+            · left; rw [← hgm]; congr 1; omega
+            · right; rw [← hgm]; congr 1; omega
+        · rintro (hy | hy)
+          · rw [hy, hgedge (L - 1 - i) (L - i) hjlt (by omega)]; omega
+          · rw [hy, hgedge (L - 1 - i) (L - 2 - i) hjlt (by omega)]; omega
+      rw [hsi, hsim, hsip]; exact harm_two adj f h01 hharm _ _ _ hab hN
+    · -- root of the arm (`i = L-1`, `j = 0`): neighbours `g 1` and the hub `h`.
+      have hiL1 : i = L - 1 := by omega
+      have hsip : seq (i + 1) = f h := by
+        have : i + 1 = L := by omega
+        rw [this]; exact hseqL
+      have hj0 : L - 1 - i = 0 := by omega
+      have hLi1 : L - i = 1 := by omega
+      have hab : g 1 ≠ h := hne_h 1 (by omega)
+      have hN : ∀ y, adj (g 0) y = 1 ↔ y = g 1 ∨ y = h := by
+        intro y; constructor
+        · intro hy
+          rcases hclose' 0 y (by omega) hy with hh | ⟨m, hm, hgm⟩
+          · exact Or.inr hh
+          · left; rw [← hgm]; congr 1
+            have := (hgedge 0 m (by omega) hm).mp (hgm ▸ hy); omega
+        · rintro (hy | hy)
+          · rw [hy, hgedge 0 1 (by omega) (by omega)]; omega
+          · rw [hy, hsymm' (g 0) h, hg0]; exact hnbh
+      rw [hsi, hj0, hsim, hLi1, hsip]
+      have := harm_two adj f h01 hharm (g 0) (g 1) h hab hN
+      linarith [this]
+  -- Linearity of `seq`: `seq i = (i+1)·seq 0`.
+  have hlin := arm_linear seq L hleaf hintr
+  -- Tip value `a = seq 0 = f (g (L-1)) > 0`.
+  refine ⟨L, seq 0, hL1, ?_, ?_, ?_, ?_⟩
+  · rw [hseqlt 0 hL1]; exact hf_pos _
+  · -- `f h = (L+1)·a`.
+    have := hlin L (le_refl L); rw [hseqL] at this; push_cast at this ⊢; linarith [this]
+  · -- `f nb = L·a`, since `nb = g 0 = g (L-1-(L-1))` i.e. `seq (L-1) = f nb`.
+    have hnbseq : seq (L - 1) = f nb := by
+      rw [hseqlt (L - 1) (by omega)]
+      have : L - 1 - (L - 1) = 0 := by omega
+      rw [this, hg0]
+    have := hlin (L - 1) (by omega)
+    rw [hnbseq] at this
+    have hcast : ((L - 1 : ℕ) : ℤ) + 1 = (L : ℤ) := by
+      have : 1 ≤ L := hL1; push_cast [Nat.cast_sub this]; ring
+    rw [this, hcast]
+  · -- `L = 1 → nb` is a leaf.
+    intro hLeq
+    have hN : (univ.filter (fun j => adj nb j = 1)) = {h} := by
+      apply Finset.ext; intro y
+      rw [Finset.mem_filter, Finset.mem_singleton]
+      constructor
+      · rintro ⟨_, hy⟩
+        rcases hClosed nb hnbS y hy with hh | hh
+        · exact hh
+        · exfalso
+          obtain ⟨m, hm, hgm⟩ := hmemg y hh
+          rw [hLeq] at hm
+          have hm0 : m = 0 := by omega
+          rw [hm0, hg0] at hgm
+          rw [← hgm] at hy
+          rw [hD.2.1 nb] at hy; exact absurd hy (by norm_num)
+      · intro hy; rw [hy]; exact ⟨mem_univ _, by rw [hsymm' nb h]; exact hnbh⟩
+    show (univ.filter (fun j => adj nb j = 1)).card = 1
+    rw [hN, Finset.card_singleton]
+
 /-- **Three arms of a one-branch affine tree.** A connected acyclic affine Dynkin diagram with all
 degrees `≤ 3` and a *unique* degree-3 (branch) vertex `v` decomposes, after deleting `v`, into
 exactly three connected components. `affine_arm_walk` linearises each component into a rooted arm
