@@ -104,10 +104,11 @@ The scalar action on `Abelian.Ext M N n` is postcomposition with `r • 𝟙 N`
 scalar. Step 4 is a `ModuleCat k` iso, hence `k`-linear, and is factored out; via `smul_homology_eq`
 (fact 1) the residual `map_smul'` becomes the single purely categorical naturality statement `hnat`:
 that the steps-1–3 composite `e123` intertwines the source scalar (postcomposition with
-`mk₀ (r • 𝟙 N)`) with `homologyMap (r • 𝟙)` on the `linearYonedaObj` homology. Discharging `hnat`
-needs naturality-in-`N` of `extAddEquivCohomologyClass`, `homologyAddEquiv`, and
-`homComplexHomologyAddEquivₖ` under the endomorphism `r • 𝟙 N` (none packaged in Mathlib for the
-middle/top steps); tracked as the follow-up to #6935. -/
+`mk₀ (r • 𝟙 N)`) with `homologyMap (r • 𝟙)` on the `linearYonedaObj` homology. This is discharged
+on generators (`crux`) by naturality-in-`N` of `extAddEquivCohomologyClass`
+(`extEquivCohomologyClass_extMk` + `Cocycle.toSingleMk_postcomp`), of `homologyAddEquiv`
+(`homologyAddEquiv_homologyMap`), and the tower naturality of `homComplexHomologyAddEquivₖ`
+(`homComplexHomologyAddEquivₖ_homologyMap_postcomp`) under `r • 𝟙 N`. Now sorry-free. -/
 noncomputable def extAbelianIsoExtₖ (n : ℕ) :
     Etingof.Ext M N n ≃ₗ[k] Etingof.Extₖ k A M N n where
   __ := extAbelianAddEquivExtₖ k N P n
@@ -142,7 +143,40 @@ noncomputable def extAbelianIsoExtₖ (n : ℕ) :
         e123 (P.extMk (r • f) (n + 1) rfl
               (by rw [Linear.comp_smul, hf, smul_zero]))
           = r • e123 (P.extMk f (n + 1) rfl hf) := by
-      sorry
+      intro f hf
+      -- The scalar `r • f` is postcomposition of `f` with the endomorphism `g = r • 𝟙 N`.
+      have hfg : P.complex.d (n + 1) n ≫ (f ≫ (r • 𝟙 N)) = 0 := by
+        rw [← Category.assoc, hf, zero_comp]
+      have hExtRw : P.extMk (r • f) (n + 1) rfl (by rw [Linear.comp_smul, hf, smul_zero])
+          = P.extMk (f ≫ (r • 𝟙 N)) (n + 1) rfl hfg := by
+        congr 1
+      -- Step 1: on cohomology classes, `extAddEquivCohomologyClass ∘ extMk (- ≫ g)` is
+      -- postcomposition `cohomologyClassPostcompHom` (via `toSingleMk_postcomp`).
+      have step : P.extAddEquivCohomologyClass (P.extMk (f ≫ (r • 𝟙 N)) (n + 1) rfl hfg)
+          = cohomologyClassPostcompHom N P (r • 𝟙 N) (↑n)
+              (P.extAddEquivCohomologyClass (P.extMk f (n + 1) rfl hf)) := by
+        rw [ProjectiveResolution.extAddEquivCohomologyClass_apply,
+            ProjectiveResolution.extEquivCohomologyClass_extMk,
+            ProjectiveResolution.extAddEquivCohomologyClass_apply,
+            ProjectiveResolution.extEquivCohomologyClass_extMk,
+            cohomologyClassPostcompHom_mk]
+        congr 1
+        rw [← Cocycle.toSingleMk_postcomp]
+        congr 1
+      -- Unfold `e123` into the three-step composite and rewrite through steps 1–3.
+      simp only [he123, AddEquiv.trans_apply]
+      rw [hExtRw, step,
+        show (CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+              ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) (↑n : ℤ)).symm
+              (cohomologyClassPostcompHom N P (r • 𝟙 N) (↑n)
+                (P.extAddEquivCohomologyClass (P.extMk f (n + 1) rfl hf)))
+            = HomologicalComplex.homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N)) (↑n)
+                ((CochainComplex.HomComplex.homologyAddEquiv P.cochainComplex
+                  ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj N) (↑n : ℤ)).symm
+                  (P.extAddEquivCohomologyClass (P.extMk f (n + 1) rfl hf)))
+          from by rw [AddEquiv.symm_apply_eq, homologyAddEquiv_homologyMap,
+            AddEquiv.apply_symm_apply],
+        homComplexHomologyAddEquivₖ_homologyMap_postcomp, ← smul_homology_eq]
     have hnat : ∀ y, e123 (r • y)
         = (HomologicalComplex.homologyMap (r • 𝟙 (P.complex.linearYonedaObj k N)) n).hom
             (e123 y) := by

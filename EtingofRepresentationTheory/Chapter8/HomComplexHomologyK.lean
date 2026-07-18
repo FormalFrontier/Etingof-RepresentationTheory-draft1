@@ -461,4 +461,263 @@ lemma homologyAddEquiv_symm_mk_postcomp (n : ℤ)
   rw [AddEquiv.symm_apply_eq, homologyAddEquiv_homologyMap, AddEquiv.apply_symm_apply,
     cohomologyClassPostcompHom_mk]
 
+/-!
+## Tower naturality of `homComplexHomologyAddEquivₖ` under the scalar endomorphism
+
+For the scalar endomorphism `g = r • 𝟙 N`, the postcomposition chain map
+`homCochainComplexPostcomp N P g` corresponds, degreewise under `homDegEquiv` (hence `sIso`), to the
+`linearYonedaObj`-side scalar `r • 𝟙` (`homDegEquiv_homCochainComplexPostcomp`,
+`sIso_hom_homCochainComplexPostcomp_smul`). Assembling the degreewise squares into `ShortComplex`
+morphisms (`scIso`/`scHom0` naturality) and transporting through `homIso` upgrades
+`homComplexHomologyAddEquivₖ` to intertwine the `HomComplex`-side postcomposition `homologyMap` with
+the `linearYonedaObj`-side scalar `homologyMap (r • 𝟙)`. This tower naturality
+(`homComplexHomologyAddEquivₖ_homologyMap_postcomp`) is the last ingredient of the `k`-homogeneity
+crux of #6951.
+-/
+
+/-- **Degreewise postcomposition compatibility of `homDegEquiv`.** Under the degreewise
+identification `homDegEquiv`, the degree-`i` component of the postcomposition chain map
+`homCochainComplexPostcomp N P g` is postcomposition `- ≫ g` on the categorical hom
+`P.complex.X i ⟶ N`. -/
+lemma homDegEquiv_homCochainComplexPostcomp (g : N ⟶ N') (i : ℕ)
+    (z : (homCochainComplex N P).X (i : ℤ)) :
+    homDegEquiv N' P i ((homCochainComplexPostcomp N P g).f (i : ℤ) z)
+      = homDegEquiv N P i z ≫ g := by
+  rw [homCochainComplexPostcomp_f_apply, homDegEquiv_apply, homDegEquiv_apply, Category.assoc]
+  congr 1
+  obtain ⟨f, rfl⟩ := Cochain.toSingleMk_surjective z (-(i : ℤ)) (by ring)
+  rw [← Cochain.toSingleMk_postcomp, Cochain.toSingleEquiv_toSingleMk,
+    Cochain.toSingleEquiv_toSingleMk]
+
+/-- Underlying-map computation: `Ff.map (r • 𝟙 X)` acts as the scalar `r` on elements. -/
+lemma Ff_map_smul_id (r : k) (X : ModuleCat.{u} k) (w : X) :
+    (Ff k).map (r • 𝟙 X) w = r • w := by
+  rw [ModuleCat.forget₂_map]
+  simp only [ModuleCat.hom_smul, ModuleCat.hom_id]
+  rfl
+
+/-- **Specialized degreewise square (deliverable of #6953).** For the scalar endomorphism
+`g = r • 𝟙 N`, the sign-twisted degreewise iso `sIso` intertwines the postcomposition chain map
+`homCochainComplexPostcomp N P (r • 𝟙 N)` with the `linearYonedaObj`-side scalar `r • 𝟙`. -/
+lemma sIso_hom_homCochainComplexPostcomp_smul (r : k) (i : ℕ) (u : ℤˣ)
+    (z : (homCochainComplex N P).X (i : ℤ)) :
+    (sIso k N P i u).hom ((homCochainComplexPostcomp N P (r • 𝟙 N)).f (i : ℤ) z)
+      = (Ff k).map (r • 𝟙 ((P.complex.linearYonedaObj k N).X i)) ((sIso k N P i u).hom z) := by
+  rw [sIso_hom_apply, sIso_hom_apply, Ff_map_smul_id,
+    homDegEquiv_homCochainComplexPostcomp, Linear.comp_smul, Category.comp_id, smul_comm]
+
+/-- **Reindexing naturality square.** For an endomorphism `α : K ⟶ K` of a homological complex,
+`HomologicalComplex.homologyMap α j` conjugates, via `ShortComplex.homologyMapIso (K.isoSc' i j l)`,
+to the `ShortComplex.homologyMap` of the reindexed short-complex morphism. This is the naturality of
+`natIsoSc'`. Reused for both the `L`-side (before the crossing) and the `R`-side (after). -/
+lemma homologyMap_homologyMapIso_isoSc'
+    {C : Type*} [Category C] [Preadditive C] {ι : Type*} {c : ComplexShape ι}
+    [CategoryWithHomology C] {K : HomologicalComplex C c} (α : K ⟶ K) (i j l : ι)
+    (hi : c.prev j = i) (hl : c.next j = l) :
+    HomologicalComplex.homologyMap α j
+        ≫ (ShortComplex.homologyMapIso (K.isoSc' i j l hi hl)).hom
+      = (ShortComplex.homologyMapIso (K.isoSc' i j l hi hl)).hom
+          ≫ ShortComplex.homologyMap
+              ((HomologicalComplex.shortComplexFunctor' C c i j l).map α) := by
+  simp only [ShortComplex.homologyMapIso_hom]
+  rw [show HomologicalComplex.homologyMap α j
+        = ShortComplex.homologyMap ((HomologicalComplex.shortComplexFunctor C c j).map α) from rfl,
+    ← ShortComplex.homologyMap_comp, ← ShortComplex.homologyMap_comp]
+  congr 1
+  exact (HomologicalComplex.natIsoSc' C c i j l hi hl).hom.naturality α
+
+/-- Morphism-level degreewise square: `sIso` intertwines the postcomposition endomorphism
+`homCochainComplexPostcomp N P (r • 𝟙 N)` with the `linearYonedaObj` scalar `r • 𝟙`. -/
+lemma sIso_hom_naturality_component (r : k) (i : ℕ) (u : ℤˣ) :
+    (homCochainComplexPostcomp N P (r • 𝟙 N)).f (i : ℤ) ≫ (sIso k N P i u).hom
+      = (sIso k N P i u).hom ≫ (Ff k).map (r • 𝟙 ((P.complex.linearYonedaObj k N).X i)) := by
+  ext z
+  rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply]
+  exact sIso_hom_homCochainComplexPostcomp_smul k N P r i u z
+
+/-- **`scIso` naturality square (succ case).** The reindexed short-complex morphism of the
+postcomposition chain map corresponds, under `scIso`, to `Ff` of the reindexed scalar
+`r • 𝟙`-morphism. Componentwise this is `sIso_hom_naturality_component`. -/
+lemma scIso_hom_naturality_succ (r : k) (m : ℕ) :
+    (HomologicalComplex.shortComplexFunctor' AddCommGrpCat.{u} (ComplexShape.up ℤ)
+        ↑m ↑(m+1) ↑(m+2)).map (homCochainComplexPostcomp N P (r • 𝟙 N))
+        ≫ (scIso k N P m).hom
+      = (scIso k N P m).hom
+          ≫ (Ff k).mapShortComplex.map
+              ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+                  m (m+1) (m+2)).map (r • 𝟙 (P.complex.linearYonedaObj k N))) := by
+  refine ShortComplex.hom_ext _ _ ?_ ?_ ?_
+  · exact sIso_hom_naturality_component k N P r m 1
+  · exact sIso_hom_naturality_component k N P r (m+1) (1 * (↑(m+1):ℤ).negOnePow)
+  · exact sIso_hom_naturality_component k N P r (m+2)
+      (1 * (↑(m+1):ℤ).negOnePow * (↑(m+2):ℤ).negOnePow)
+
+/-- **Tower naturality (succ case).** `homologyIsoSucc` intertwines the postcomposition
+`homologyMap` with `Ff` of the `linearYonedaObj`-side scalar `homologyMap`. The four naturality
+squares: `L`-reindex (`homologyMap_homologyMapIso_isoSc'`), the crossing (`scIso` square),
+`mapHomologyIso` (`ShortComplex.mapHomologyIso_hom_naturality`), and `Ff` of the `R`-reindex. -/
+lemma homologyIsoSucc_hom_naturality (r : k) (m : ℕ) :
+    HomologicalComplex.homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N)) (↑(m+1))
+        ≫ (homologyIsoSucc k N P m).hom
+      = (homologyIsoSucc k N P m).hom
+          ≫ (Ff k).map (HomologicalComplex.homologyMap
+              (r • 𝟙 (P.complex.linearYonedaObj k N)) (m+1)) := by
+  set φ := homCochainComplexPostcomp N P (r • 𝟙 N) with hφ
+  set ψ := r • 𝟙 (P.complex.linearYonedaObj k N) with hψ
+  have hprevL : (ComplexShape.up ℤ).prev (↑(m+1)) = ↑m := by simp
+  have hnextL : (ComplexShape.up ℤ).next (↑(m+1)) = ↑(m+2) := by
+    rw [ComplexShape.next_eq' _ (by simp only [ComplexShape.up_Rel]; omega :
+      (ComplexShape.up ℤ).Rel (↑(m+1)) (↑(m+2)))]
+  have hprevR : (ComplexShape.up ℕ).prev (m+1) = m := by simp
+  have hnextR : (ComplexShape.up ℕ).next (m+1) = m+2 := by simp
+  have hA := homologyMap_homologyMapIso_isoSc' φ (↑m) (↑(m+1)) (↑(m+2)) hprevL hnextL
+  have hB : ShortComplex.homologyMap
+        ((HomologicalComplex.shortComplexFunctor' AddCommGrpCat.{u} (ComplexShape.up ℤ)
+          ↑m ↑(m+1) ↑(m+2)).map φ)
+        ≫ (ShortComplex.homologyMapIso (scIso k N P m)).hom
+      = (ShortComplex.homologyMapIso (scIso k N P m)).hom
+          ≫ ShortComplex.homologyMap ((Ff k).mapShortComplex.map
+              ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+                  m (m+1) (m+2)).map ψ)) := by
+    rw [ShortComplex.homologyMapIso_hom,
+      ← ShortComplex.homologyMap_comp, ← ShortComplex.homologyMap_comp,
+      scIso_hom_naturality_succ]
+  have hC := ShortComplex.mapHomologyIso_hom_naturality (F := Ff k)
+    (φ := (HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+      m (m+1) (m+2)).map ψ)
+  have hR := homologyMap_homologyMapIso_isoSc' ψ m (m+1) (m+2) hprevR hnextR
+  have hDinner : ShortComplex.homologyMap
+        ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+          m (m+1) (m+2)).map ψ)
+        ≫ (ShortComplex.homologyMapIso
+            ((P.complex.linearYonedaObj k N).isoSc' m (m+1) (m+2) hprevR hnextR)).inv
+      = (ShortComplex.homologyMapIso
+          ((P.complex.linearYonedaObj k N).isoSc' m (m+1) (m+2) hprevR hnextR)).inv
+          ≫ HomologicalComplex.homologyMap ψ (m+1) := by
+    rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
+    exact hR.symm
+  have hD : (Ff k).map (ShortComplex.homologyMap
+        ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+          m (m+1) (m+2)).map ψ))
+        ≫ (Ff k).map (ShortComplex.homologyMapIso
+            ((P.complex.linearYonedaObj k N).isoSc' m (m+1) (m+2) hprevR hnextR)).inv
+      = (Ff k).map (ShortComplex.homologyMapIso
+          ((P.complex.linearYonedaObj k N).isoSc' m (m+1) (m+2) hprevR hnextR)).inv
+          ≫ (Ff k).map (HomologicalComplex.homologyMap ψ (m+1)) := by
+    rw [← Functor.map_comp, ← Functor.map_comp, hDinner]
+  simp only [homologyIsoSucc, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom]
+  rw [reassoc_of% hA, reassoc_of% hB, reassoc_of% hC, hD]
+  simp only [Category.assoc]
+
+/-- Inverse form of the degreewise square, for the `n = 0` crossing built from `sIso.inv`. -/
+lemma sIso_inv_naturality_component (r : k) (i : ℕ) (u : ℤˣ) :
+    (Ff k).map (r • 𝟙 ((P.complex.linearYonedaObj k N).X i)) ≫ (sIso k N P i u).inv
+      = (sIso k N P i u).inv ≫ (homCochainComplexPostcomp N P (r • 𝟙 N)).f (i : ℤ) := by
+  rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp, sIso_hom_naturality_component]
+
+/-- **`scHom0` naturality square (zero case).** The degree-`0` short-complex morphism `scHom0`
+intertwines `Ff` of the `linearYonedaObj`-side scalar `r • 𝟙`-morphism with the postcomposition
+chain map. The `τ₁` component is `0 = 0` (into the zero object `L.X (-1)`), the `τ₂`/`τ₃` components
+are the inverse degreewise squares. -/
+lemma scHom0_naturality (r : k) :
+    (Ff k).mapShortComplex.map
+        ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+          0 0 (0+1)).map (r • 𝟙 (P.complex.linearYonedaObj k N)))
+        ≫ scHom0 k N P
+      = scHom0 k N P
+          ≫ (HomologicalComplex.shortComplexFunctor' AddCommGrpCat.{u} (ComplexShape.up ℤ)
+              (-1) (↑(0:ℕ)) (↑(0+1:ℕ))).map (homCochainComplexPostcomp N P (r • 𝟙 N)) := by
+  refine ShortComplex.hom_ext _ _ ?_ ?_ ?_
+  · simp only [scHom0, ShortComplex.comp_τ₁, comp_zero, zero_comp]
+  · exact sIso_inv_naturality_component k N P r 0 1
+  · exact sIso_inv_naturality_component k N P r (0+1) (1 * (↑(0+1):ℤ).negOnePow)
+
+/-- **Tower naturality (zero case).** `homologyIsoZero` intertwines the postcomposition
+`homologyMap` with `Ff` of the `linearYonedaObj`-side scalar `homologyMap`. Same four squares as the
+succ case, with the crossing built from `inv (homologyMap scHom0)` (via `scHom0_naturality`). -/
+lemma homologyIsoZero_hom_naturality (r : k) :
+    HomologicalComplex.homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N)) (↑(0:ℕ))
+        ≫ (homologyIsoZero k N P).hom
+      = (homologyIsoZero k N P).hom
+          ≫ (Ff k).map (HomologicalComplex.homologyMap
+              (r • 𝟙 (P.complex.linearYonedaObj k N)) 0) := by
+  set φ := homCochainComplexPostcomp N P (r • 𝟙 N) with hφ
+  set ψ := r • 𝟙 (P.complex.linearYonedaObj k N) with hψ
+  have hprevL : (ComplexShape.up ℤ).prev (↑(0:ℕ)) = -1 := by simp
+  have hnextL : (ComplexShape.up ℤ).next (↑(0:ℕ)) = ↑(0+1:ℕ) := by
+    rw [ComplexShape.next_eq' _ (by simp only [ComplexShape.up_Rel]; omega :
+      (ComplexShape.up ℤ).Rel (↑(0:ℕ)) (↑(0+1:ℕ)))]
+  have hprevR : (ComplexShape.up ℕ).prev 0 = 0 := by simp
+  have hnextR : (ComplexShape.up ℕ).next 0 = 0+1 := by simp
+  haveI : Epi (scHom0 k N P).τ₁ := (isZeroLXneg1 N P).epi _
+  haveI : IsIso (scHom0 k N P).τ₂ := inferInstanceAs (IsIso (sIso k N P 0 1).inv)
+  haveI : Mono (scHom0 k N P).τ₃ :=
+    inferInstanceAs (Mono (sIso k N P (0+1) (1 * (↑(0+1):ℤ).negOnePow)).inv)
+  have hA := homologyMap_homologyMapIso_isoSc' φ (-1) (↑(0:ℕ)) (↑(0+1:ℕ)) hprevL hnextL
+  have hSmap : ShortComplex.homologyMap ((Ff k).mapShortComplex.map
+        ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+          0 0 (0+1)).map ψ)) ≫ ShortComplex.homologyMap (scHom0 k N P)
+      = ShortComplex.homologyMap (scHom0 k N P) ≫ ShortComplex.homologyMap
+          ((HomologicalComplex.shortComplexFunctor' AddCommGrpCat.{u} (ComplexShape.up ℤ)
+            (-1) (↑(0:ℕ)) (↑(0+1:ℕ))).map φ) := by
+    rw [← ShortComplex.homologyMap_comp, ← ShortComplex.homologyMap_comp, scHom0_naturality]
+  have hB : ShortComplex.homologyMap
+        ((HomologicalComplex.shortComplexFunctor' AddCommGrpCat.{u} (ComplexShape.up ℤ)
+          (-1) (↑(0:ℕ)) (↑(0+1:ℕ))).map φ) ≫ inv (ShortComplex.homologyMap (scHom0 k N P))
+      = inv (ShortComplex.homologyMap (scHom0 k N P))
+          ≫ ShortComplex.homologyMap ((Ff k).mapShortComplex.map
+          ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+            0 0 (0+1)).map ψ)) := by
+    rw [IsIso.comp_inv_eq, Category.assoc, IsIso.eq_inv_comp]
+    exact hSmap.symm
+  have hC := ShortComplex.mapHomologyIso_hom_naturality (F := Ff k)
+    (φ := (HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+      0 0 (0+1)).map ψ)
+  have hR := homologyMap_homologyMapIso_isoSc' ψ 0 0 (0+1) hprevR hnextR
+  have hDinner : ShortComplex.homologyMap
+        ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+          0 0 (0+1)).map ψ)
+        ≫ (ShortComplex.homologyMapIso
+            ((P.complex.linearYonedaObj k N).isoSc' 0 0 (0+1) hprevR hnextR)).inv
+      = (ShortComplex.homologyMapIso
+          ((P.complex.linearYonedaObj k N).isoSc' 0 0 (0+1) hprevR hnextR)).inv
+          ≫ HomologicalComplex.homologyMap ψ 0 := by
+    rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
+    exact hR.symm
+  have hD : (Ff k).map (ShortComplex.homologyMap
+        ((HomologicalComplex.shortComplexFunctor' (ModuleCat.{u} k) (ComplexShape.up ℕ)
+          0 0 (0+1)).map ψ))
+        ≫ (Ff k).map (ShortComplex.homologyMapIso
+            ((P.complex.linearYonedaObj k N).isoSc' 0 0 (0+1) hprevR hnextR)).inv
+      = (Ff k).map (ShortComplex.homologyMapIso
+          ((P.complex.linearYonedaObj k N).isoSc' 0 0 (0+1) hprevR hnextR)).inv
+          ≫ (Ff k).map (HomologicalComplex.homologyMap ψ 0) := by
+    rw [← Functor.map_comp, ← Functor.map_comp, hDinner]
+  simp only [homologyIsoZero, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, asIso_inv]
+  rw [reassoc_of% hA, reassoc_of% hB, reassoc_of% hC, hD]
+  simp only [Category.assoc]
+
+/-- **Tower naturality of `homComplexHomologyAddEquivₖ` (crux ingredient of #6951).** For the scalar
+endomorphism `r • 𝟙 N`, the additive comparison `homComplexHomologyAddEquivₖ` intertwines the
+`HomComplex`-side postcomposition `homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N))` with the
+`linearYonedaObj`-side scalar `homologyMap (r • 𝟙)`. Cased on `n` via `homologyIsoZero`/
+`homologyIsoSucc` naturality. -/
+lemma homComplexHomologyAddEquivₖ_homologyMap_postcomp (r : k) (n : ℕ)
+    (z : (homCochainComplex N P).homology (↑n)) :
+    homComplexHomologyAddEquivₖ k N P n
+        (HomologicalComplex.homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N)) (↑n) z)
+      = (HomologicalComplex.homologyMap
+            (r • 𝟙 (P.complex.linearYonedaObj k N)) n).hom
+          (homComplexHomologyAddEquivₖ k N P n z) := by
+  have hmor : HomologicalComplex.homologyMap (homCochainComplexPostcomp N P (r • 𝟙 N)) (↑n)
+        ≫ (homIso k N P n).hom
+      = (homIso k N P n).hom ≫ (Ff k).map (HomologicalComplex.homologyMap
+          (r • 𝟙 (P.complex.linearYonedaObj k N)) n) := by
+    cases n with
+    | zero => exact homologyIsoZero_hom_naturality k N P r
+    | succ m => exact homologyIsoSucc_hom_naturality k N P r m
+  have key := ConcreteCategory.congr_hom hmor z
+  rw [AddCommGrpCat.comp_apply, AddCommGrpCat.comp_apply] at key
+  exact key
+
 end Etingof
